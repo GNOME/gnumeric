@@ -1089,11 +1089,11 @@ test_random_randnorm (int N)
 	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
 		ok = FALSE;
 
-	if (adtest < 0.05) {
+	if (adtest < 0.01) {
 		g_printerr ("Anderson Darling Test rejected [%.10" GNM_FORMAT_g "]\n", adtest);
 		ok = FALSE;
 	}
-	if (cvmtest < 0.05) {
+	if (cvmtest < 0.01) {
 		g_printerr ("Cramér-von Mises Test rejected [%.10" GNM_FORMAT_g "]\n", cvmtest);
 		ok = FALSE;
 	}
@@ -1102,7 +1102,7 @@ test_random_randnorm (int N)
 			    lkstest);
 		ok = FALSE;
 	}
-	if (sftest < 0.05) {
+	if (sftest < 0.01) {
 		g_printerr ("Shapiro-Francia Test rejected [%.10" GNM_FORMAT_g "]\n", sftest);
 		ok = FALSE;
 	}
