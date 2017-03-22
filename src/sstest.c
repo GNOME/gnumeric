@@ -780,6 +780,10 @@ static void
 test_random_rand (int N)
 {
 	gnm_float mean, var, skew, kurt;
+	gnm_float mean_target = 0.5;
+	gnm_float var_target = 1.0 / 12;
+	gnm_float skew_target = 0;
+	gnm_float kurt_target = -6.0 / 5;
 	gnm_float *vals;
 	int i;
 	gboolean ok;
@@ -798,22 +802,22 @@ test_random_rand (int N)
 		}
 	}
 
-	T = 0.5;
-	if (gnm_abs (mean - T) > 0.01) {
-		g_printerr ("Mean failure [%.10" GNM_FORMAT_g "]\n", T);
+	T = mean_target;
+	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
-	T = 1.0 / 12;
+	T = var_target;
 	if (gnm_abs (var - T) > 0.01) {
 		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
-	T = 0;
+	T = skew_target;
 	if (gnm_abs (skew - T) > 0.05) {
 		g_printerr ("Skew failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
-	T = -6.0 / 5;
+	T = kurt_target;
 	if (gnm_abs (kurt - T) > 0.05) {
 		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
@@ -871,7 +875,7 @@ test_random_randuniform (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -917,12 +921,16 @@ test_random_randuniform (int N)
 static void
 test_random_randbernoulli (int N)
 {
+	gnm_float p = 0.3;
+	gnm_float q = 1 - p;
 	gnm_float mean, var, skew, kurt;
+	gnm_float mean_target = p;
+	gnm_float var_target = p * (1 - p);
+	gnm_float skew_target = (q - p) / gnm_sqrt (p * q);
+	gnm_float kurt_target = (1 - 6 * p * q) / (p * q);
 	gnm_float *vals;
 	int i;
 	gboolean ok;
-	gnm_float p = 0.3;
-	gnm_float q = 1 - p;
 	char *expr;
 	gnm_float T;
 
@@ -940,28 +948,28 @@ test_random_randbernoulli (int N)
 		}
 	}
 
-	T = p;
+	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (mean - p) > 0.01) {
-		g_printerr ("Mean failure [%.10" GNM_FORMAT_g "]\n", T);
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
-	T = p * (1 - p);
+	T = var_target;
 	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (var - T) > 0.01) {
 		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
 
-	T = (q - p) / gnm_sqrt (p * q);
+	T = skew_target;
 	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (skew - T) > 0.05) {
 		g_printerr ("Skew failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
 
-	T = (1 - 6 * p * q) / (p * q);
+	T = kurt_target;
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (kurt - T) > 0.10) {
 		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
@@ -1007,7 +1015,7 @@ test_random_randdiscrete (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -1074,7 +1082,7 @@ test_random_randnorm (int N)
 
 	T = mean_target;
 	if (gnm_abs (mean - T) > 0.02) {
-		g_printerr ("Mean failure [%.10" GNM_FORMAT_g "]\n", T);
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 	T = var_target;
@@ -1147,7 +1155,7 @@ test_random_randsnorm (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (mean - T) > 0.01) {
-		g_printerr ("Mean failure [%.10" GNM_FORMAT_g "]\n", T);
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -1216,7 +1224,7 @@ test_random_randexp (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -1294,7 +1302,7 @@ test_random_randgamma (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -1375,7 +1383,7 @@ test_random_randbeta (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -1452,7 +1460,7 @@ test_random_randtdist (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_finite (var_target) && !(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -1533,7 +1541,7 @@ test_random_randfdist (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_finite (var_target) && !(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -1610,7 +1618,7 @@ test_random_randchisq (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_finite (var_target) && !(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -1692,7 +1700,7 @@ test_random_randcauchy (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_finite (var_target) && !(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -1770,7 +1778,7 @@ test_random_randbinom (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -1851,7 +1859,7 @@ test_random_randnegbinom (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -1936,7 +1944,7 @@ test_random_randhyperg (int N)
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_finite (var_target) &&
 	    !(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -2016,7 +2024,7 @@ test_random_randbetween (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -2087,7 +2095,7 @@ test_random_randpoisson (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -2169,7 +2177,7 @@ test_random_randgeom (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -2257,7 +2265,7 @@ test_random_randlog (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -2336,7 +2344,7 @@ test_random_randweibull (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -2416,7 +2424,7 @@ test_random_randlognorm (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
@@ -2494,7 +2502,7 @@ test_random_randrayleigh (int N)
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
 	if (!(gnm_abs (mean - T) <= 3 * gnm_sqrt (var_target / N))) {
-		g_printerr ("Mean failure.\n");
+		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
