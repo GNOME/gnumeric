@@ -809,17 +809,17 @@ test_random_rand (int N)
 	}
 	T = var_target;
 	if (gnm_abs (var - T) > 0.01) {
-		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
+		g_printerr ("Var failure.\n");
 		ok = FALSE;
 	}
 	T = skew_target;
 	if (gnm_abs (skew - T) > 0.05) {
-		g_printerr ("Skew failure [%.10" GNM_FORMAT_g "]\n", T);
+		g_printerr ("Skew failure.\n");
 		ok = FALSE;
 	}
 	T = kurt_target;
 	if (gnm_abs (kurt - T) > 0.05) {
-		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
+		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
 	}
 
@@ -958,21 +958,21 @@ test_random_randbernoulli (int N)
 	T = var_target;
 	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (var - T) > 0.01) {
-		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
+		g_printerr ("Var failure.\n");
 		ok = FALSE;
 	}
 
 	T = skew_target;
 	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
-	if (gnm_abs (skew - T) > 0.05) {
-		g_printerr ("Skew failure [%.10" GNM_FORMAT_g "]\n", T);
+	if (!(gnm_abs (skew - T) <= 0.10 * gnm_abs (T))) {
+		g_printerr ("Skew failure.\n");
 		ok = FALSE;
 	}
 
 	T = kurt_target;
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
-	if (gnm_abs (kurt - T) > 0.10) {
-		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
+	if (!(gnm_abs (kurt - T) <= 0.15 * gnm_abs (T))) {
+		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
 	}
 	if (ok)
@@ -1087,7 +1087,7 @@ test_random_randnorm (int N)
 	}
 	T = var_target;
 	if (gnm_abs (var - T) > 0.02) {
-		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
+		g_printerr ("Var failure.\n");
 		ok = FALSE;
 	}
 
@@ -1162,7 +1162,7 @@ test_random_randsnorm (int N)
 	T = var_target;
 	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (var - T) > 0.01) {
-		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
+		g_printerr ("Var failure.\n");
 		ok = FALSE;
 	}
 
@@ -1170,14 +1170,14 @@ test_random_randsnorm (int N)
 	T = T*T*T*(4-M_PIgnum)/2;
 	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (skew - T) > 0.05) {
-		g_printerr ("Skew failure [%.10" GNM_FORMAT_g "]\n", T);
+		g_printerr ("Skew failure.\n");
 		ok = FALSE;
 	}
 
 	T = 2*(M_PIgnum - 3)*mean_target*mean_target*mean_target*mean_target/(var_target*var_target);
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
 	if (gnm_abs (kurt - T) > 0.15) {
-		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
+		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
 	}
 
