@@ -633,7 +633,7 @@ rand_fractile_test (gnm_float const *vals, int N, int nf,
 
 	for (i = 1; i <= nf; i++) {
 		gnm_float T = expected[i];
-		if (!(gnm_abs (fractilecount[i] - T) <= 3 * gnm_sqrt (T))) {
+		if (!(gnm_abs (fractilecount[i] - T) <= 4 * gnm_sqrt (T))) {
 			g_printerr ("Fractile test failure for bin %d.\n", i);
 			ok = FALSE;
 		}
@@ -1343,7 +1343,8 @@ test_random_randbeta (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_a = gnm_floor (1 / (0.0001 + gnm_pow (random_01 (), 6)));	gnm_float param_b = gnm_floor (1 / (0.0001 + gnm_pow (random_01 (), 6)));
+	gnm_float param_a = 1 / (0.0001 + gnm_pow (random_01 (), 6));
+	gnm_float param_b = 1 / (0.0001 + gnm_pow (random_01 (), 6));
 	gnm_float s = param_a + param_b;
 	gnm_float mean_target = param_a / s;
 	gnm_float var_target = mean_target * param_b / (s * (s + 1));
@@ -1423,7 +1424,7 @@ test_random_randtdist (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_df = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
+	gnm_float param_df = 1 + gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
 	gnm_float mean_target = 0;
 	gnm_float var_target = param_df > 2 ? param_df / (param_df - 2) : gnm_nan;
 	gnm_float skew_target = param_df > 3 ? 0 : gnm_nan;
@@ -1500,8 +1501,8 @@ test_random_randfdist (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_df1 = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
-	gnm_float param_df2 = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
+	gnm_float param_df1 = 1 + gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
+	gnm_float param_df2 = 1 + gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
 	gnm_float mean_target = param_df2 > 2 ? param_df2 / (param_df2 - 2) : gnm_nan;
 	gnm_float var_target = param_df2 > 4
 		? (2 * param_df2 * param_df2 * (param_df1 + param_df2 - 2) /
@@ -1581,7 +1582,7 @@ test_random_randchisq (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_df = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
+	gnm_float param_df = 1 + gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
 	gnm_float mean_target = param_df;
 	gnm_float var_target = param_df * 2;
 	gnm_float skew_target = gnm_sqrt (8 / param_df);

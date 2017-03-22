@@ -1,3 +1,12 @@
+2017-03-21  Morten Welinder  <terra@gnome.org>
+
+	* src/sstest.c (rand_fractile_test): Allow 4*sqrt(expected)
+	deviation for each bin.
+	(test_random_randchisq, test_random_randtdist)
+	(test_random_randfdist): Don't allow df=0.
+	(test_random_randbeta): Don't floor the parameters thus avoiding
+	zero.
+
 2017-03-20  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
