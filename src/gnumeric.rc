@@ -21,7 +21,7 @@ VS_VERSION_INFO VERSIONINFO
 	VALUE "CompanyName", "The Gnumeric Team"
 	VALUE "FileDescription", "Gnumeric"
 	VALUE "FileVersion", xstr(VERSION)
-	VALUE "LegalCopyright", "Copyright 2010 by The Gnumeric Team and others"
+	VALUE "LegalCopyright", "Copyright 2010-2017 by The Gnumeric Team and others"
 	VALUE "ProductName", "Gnumeric"
 	VALUE "ProductVersion", xstr(VERSION)
       END
