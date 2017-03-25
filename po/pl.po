@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-08 09:43+0100\n"
-"PO-Revision-Date: 2017-01-08 09:44+0100\n"
+"POT-Creation-Date: 2017-03-25 22:00+0100\n"
+"PO-Revision-Date: 2017-03-25 22:01+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -112,30 +112,30 @@ msgstr "Importuje arkusze w wersjach 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7222
-#: ../plugins/openoffice/openoffice-read.c:13638 ../src/xml-sax-read.c:3473
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7221
+#: ../plugins/openoffice/openoffice-read.c:13728 ../src/xml-sax-read.c:3471
 msgid "Reading file..."
 msgstr "Odczytywanie pliku…"
 
 #: ../plugins/dif/dif.c:174
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
-msgstr "Błąd składniowy w wierszu %d. Ignorowanie."
+msgstr "Błąd składniowy w %d. wierszu. Ignorowanie."
 
 #: ../plugins/dif/dif.c:196
 #, c-format
 msgid "Unknown value type '%s' at line %d. Ignoring."
-msgstr "Nieznany typ wartości „%s” w wierszu %d. Ignorowanie."
+msgstr "Nieznany typ wartości „%s” w %d. wierszu. Ignorowanie."
 
 #: ../plugins/dif/dif.c:235
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr "Nieznana wartość znacznika danych „%s” w wierszu %d. Ignorowanie."
+msgstr "Nieznana wartość znacznika danych „%s” w %d. wierszu. Ignorowanie."
 
 #: ../plugins/dif/dif.c:242
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
-msgstr "Nieznany typ wartości %d w wierszu %d. Ignorowanie."
+msgstr "Nieznany typ wartości %d w %d. wierszu. Ignorowanie."
 
 #: ../plugins/dif/dif.c:251
 #, c-format
@@ -222,7 +222,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Nieprawidłowa zawartość elementu ss:data, otrzymano „%s”"
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:13802 ../src/xml-sax-read.c:3490
+#: ../plugins/openoffice/openoffice-read.c:13892 ../src/xml-sax-read.c:3488
 msgid "XML document not well formed!"
 msgstr "Niepoprawna składnia dokumentu XML."
 
@@ -279,50 +279,50 @@ msgstr ""
 "Dowiązania OLE nie są jeszcze obsługiwane.\n"
 "Nazwa „%s” zostanie utracona.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6347
+#: ../plugins/excel/ms-excel-read.c:6346
 msgid "external references"
 msgstr "zewnętrzne odwołania"
 
-#: ../plugins/excel/ms-excel-read.c:6386
+#: ../plugins/excel/ms-excel-read.c:6385
 msgid "No password supplied"
 msgstr "Nie podano hasła"
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:6139 ../src/print-info.c:670
+#: ../plugins/openoffice/openoffice-read.c:6196 ../src/print-info.c:670
 msgid "TAB"
 msgstr "TAB"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:6185 ../src/print-info.c:671
+#: ../plugins/openoffice/openoffice-read.c:6242 ../src/print-info.c:671
 msgid "PAGE"
 msgstr "STRONA"
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:6192 ../src/print-info.c:672
+#: ../plugins/openoffice/openoffice-read.c:6249 ../src/print-info.c:672
 msgid "PAGES"
 msgstr "STRONY"
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:6171 ../src/print-info.c:673
+#: ../plugins/openoffice/openoffice-read.c:6228 ../src/print-info.c:673
 msgid "DATE"
 msgstr "DATA"
 
 #: ../plugins/excel/ms-excel-util.c:703
-#: ../plugins/openoffice/openoffice-read.c:6178 ../src/print-info.c:674
+#: ../plugins/openoffice/openoffice-read.c:6235 ../src/print-info.c:674
 msgid "TIME"
 msgstr "CZAS"
 
 #: ../plugins/excel/ms-excel-util.c:704
-#: ../plugins/openoffice/openoffice-read.c:6219
-#: ../plugins/openoffice/openoffice-read.c:6226 ../src/main-application.c:80
+#: ../plugins/openoffice/openoffice-read.c:6276
+#: ../plugins/openoffice/openoffice-read.c:6283 ../src/main-application.c:80
 #: ../src/main-application.c:86 ../src/main-application.c:92
 #: ../src/main-application.c:98 ../src/print-info.c:675 ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "PLIK"
 
 #: ../plugins/excel/ms-excel-util.c:705
-#: ../plugins/openoffice/openoffice-read.c:6217
-#: ../plugins/openoffice/openoffice-read.c:6222 ../src/print-info.c:676
+#: ../plugins/openoffice/openoffice-read.c:6274
+#: ../plugins/openoffice/openoffice-read.c:6279 ../src/print-info.c:676
 msgid "PATH"
 msgstr "ŚCIEŻKA"
 
@@ -332,7 +332,7 @@ msgstr "KOMÓRKA"
 
 #. ???
 #: ../plugins/excel/ms-excel-util.c:708
-#: ../plugins/openoffice/openoffice-read.c:6270 ../src/print-info.c:678
+#: ../plugins/openoffice/openoffice-read.c:6327 ../src/print-info.c:678
 msgid "TITLE"
 msgstr "TYTUŁ"
 
@@ -372,11 +372,11 @@ msgstr[2] ""
 "Część zawartości zostanie utracona podczas zapisywania. Ten format obsługuje "
 "tylko %u rzędów, a ten zeszyt ma %d"
 
-#: ../plugins/excel/ms-excel-write.c:6575
+#: ../plugins/excel/ms-excel-write.c:6578
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nie można otworzyć potoku „Książka” do zapisania\n"
 
-#: ../plugins/excel/ms-excel-write.c:6597
+#: ../plugins/excel/ms-excel-write.c:6600
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nie można otworzyć potoku „Zeszyt” do zapisania\n"
 
@@ -456,21 +456,21 @@ msgstr "Odczytywanie rozszerzonych właściwości…"
 msgid "Reading custom properties..."
 msgstr "Odczytywanie niestandardowych właściwości…"
 
-#: ../plugins/excel/xlsx-read-drawing.c:359
+#: ../plugins/excel/xlsx-read-drawing.c:373
 #, c-format
 msgid "Invalid number '%s' for node %s"
 msgstr "Nieprawidłowa liczba „%s” dla węzła %s"
 
-#: ../plugins/excel/xlsx-read-drawing.c:474
+#: ../plugins/excel/xlsx-read-drawing.c:485
 #, c-format
 msgid "Unknown color '%s'"
 msgstr "Nieznany kolor „%s”"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3161
+#: ../plugins/excel/xlsx-read-drawing.c:3182
 msgid "Dropping missing object"
 msgstr "Opuszczenie brakującego obiektu"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3164
+#: ../plugins/excel/xlsx-read-drawing.c:3185
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Opuszczenie obiektu z niepełnym zakotwiczeniem %2x"
@@ -487,191 +487,191 @@ msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
 "Pomijanie nieprawidłowego pola przestawnego grupy dla pola „%s”, ponieważ: %s"
 
-#: ../plugins/excel/xlsx-read.c:362
+#: ../plugins/excel/xlsx-read.c:379
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "„%s” jest uszkodzone."
 
-#: ../plugins/excel/xlsx-read.c:454
+#: ../plugins/excel/xlsx-read.c:471
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "Nieznana wartość wyliczeniowa „%s” dla atrybutu %s"
 
-#: ../plugins/excel/xlsx-read.c:497 ../plugins/excel/xlsx-read.c:556
-#: ../plugins/excel/xlsx-read.c:647
+#: ../plugins/excel/xlsx-read.c:514 ../plugins/excel/xlsx-read.c:573
+#: ../plugins/excel/xlsx-read.c:664
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "Liczba całkowita „%s” jest poza zakresem dla atrybutu %s"
 
-#: ../plugins/excel/xlsx-read.c:501 ../plugins/excel/xlsx-read.c:560
-#: ../plugins/excel/xlsx-read.c:655
+#: ../plugins/excel/xlsx-read.c:518 ../plugins/excel/xlsx-read.c:577
+#: ../plugins/excel/xlsx-read.c:672
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "Nieprawidłowa liczba całkowita „%s” dla atrybutu %s"
 
-#: ../plugins/excel/xlsx-read.c:526
+#: ../plugins/excel/xlsx-read.c:543
 #, c-format
 msgid "Unsigned integer '%s' is out of range, for attribute %s"
 msgstr "Liczba całkowita bez znaku „%s” jest poza zakresem dla atrybutu %s"
 
-#: ../plugins/excel/xlsx-read.c:530
+#: ../plugins/excel/xlsx-read.c:547
 #, c-format
 msgid "Invalid unsigned integer '%s' for attribute %s"
 msgstr "Nieprawidłowa liczba całkowita bez znaku „%s” dla atrybutu %s"
 
-#: ../plugins/excel/xlsx-read.c:586
+#: ../plugins/excel/xlsx-read.c:603
 #, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
 msgstr "Nieprawidłowy kolor RRGGBB „%s” dla atrybutu %s"
 
-#: ../plugins/excel/xlsx-read.c:617
+#: ../plugins/excel/xlsx-read.c:634
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Nieprawidłowa liczba „%s” dla atrybutu %s"
 
-#: ../plugins/excel/xlsx-read.c:681
+#: ../plugins/excel/xlsx-read.c:698
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "Nieprawidłowa pozycja komórki „%s” dla atrybutu %s"
 
-#: ../plugins/excel/xlsx-read.c:704
+#: ../plugins/excel/xlsx-read.c:721
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Nieprawidłowy zakres „%s” dla atrybutu %s"
 
-#: ../plugins/excel/xlsx-read.c:778
-#: ../plugins/openoffice/openoffice-read.c:1287
-#: ../plugins/openoffice/openoffice-read.c:1365
+#: ../plugins/excel/xlsx-read.c:795
+#: ../plugins/openoffice/openoffice-read.c:1286
+#: ../plugins/openoffice/openoffice-read.c:1364
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Nieprawidłowy atrybut „%s”, nieznana jednostka „%s”"
 
-#: ../plugins/excel/xlsx-read.c:783 ../plugins/excel/xlsx-read.c:790
-#: ../plugins/openoffice/openoffice-read.c:1292
+#: ../plugins/excel/xlsx-read.c:800 ../plugins/excel/xlsx-read.c:807
+#: ../plugins/openoffice/openoffice-read.c:1291
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Nieprawidłowy atrybut „%s”, oczekiwano dystans, otrzymano „%s”"
 
-#: ../plugins/excel/xlsx-read.c:983
+#: ../plugins/excel/xlsx-read.c:1032
 #, c-format
 msgid "Unknown theme color %d"
 msgstr "Nieznany kolor motywu %d"
 
-#: ../plugins/excel/xlsx-read.c:1129
+#: ../plugins/excel/xlsx-read.c:1178
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Nieokreślony identyfikator formatu liczby „%s”"
 
-#: ../plugins/excel/xlsx-read.c:1223 ../plugins/excel/xlsx-read.c:3314
+#: ../plugins/excel/xlsx-read.c:1272 ../plugins/excel/xlsx-read.c:3368
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Nieprawidłowy kolor „%s” dla atrybutu rgb"
 
-#: ../plugins/excel/xlsx-read.c:1253 ../plugins/excel/xlsx-read.c:1262
+#: ../plugins/excel/xlsx-read.c:1302 ../plugins/excel/xlsx-read.c:1311
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Nieokreślony styl rekordu „%d”"
 
-#: ../plugins/excel/xlsx-read.c:1271
+#: ../plugins/excel/xlsx-read.c:1320
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Nieokreślony częściowy styl rekordu „%d”"
 
-#: ../plugins/excel/xlsx-read.c:1300
+#: ../plugins/excel/xlsx-read.c:1349
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Nieprawidłowe odniesienie sst „%s”"
 
-#: ../plugins/excel/xlsx-read.c:1467
+#: ../plugins/excel/xlsx-read.c:1516
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Nieprawidłowa komórka %s"
 
-#: ../plugins/excel/xlsx-read.c:1601
+#: ../plugins/excel/xlsx-read.c:1650
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 "Ignorowanie informacji kolumny, która nie określa pierwszego lub ostatniego."
 
-#: ../plugins/excel/xlsx-read.c:1738
+#: ../plugins/excel/xlsx-read.c:1787
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
-msgstr "Papier z pliku XLSX: %i⨉%i pt"
+msgstr "Papier z pliku XLSX: %i⨉%i pt"
 
-#: ../plugins/excel/xlsx-read.c:1742
+#: ../plugins/excel/xlsx-read.c:1791
 #, c-format
 msgid "Paper from XLSX file, #%i"
 msgstr "Papier z pliku XLSX, #%i"
 
-#: ../plugins/excel/xlsx-read.c:2203
-#: ../plugins/openoffice/openoffice-read.c:2841
+#: ../plugins/excel/xlsx-read.c:2252
+#: ../plugins/openoffice/openoffice-read.c:2884
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorowanie nieprawidłowej walidacji danych, ponieważ: %s"
 
-#: ../plugins/excel/xlsx-read.c:2726
+#: ../plugins/excel/xlsx-read.c:2775
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorowanie nieobsługiwanego formatu warunkowego typu „%s”"
 
-#: ../plugins/excel/xlsx-read.c:3131
+#: ../plugins/excel/xlsx-read.c:3185
 msgid "Unknown type of hyperlink"
 msgstr "Nieznany typ odnośnika"
 
-#: ../plugins/excel/xlsx-read.c:3174
+#: ../plugins/excel/xlsx-read.c:3228
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr ""
 "Wystąpiło nieinterpretowalne rozszerzenie „ext” w przestrzeni nazw „%s”"
 
-#: ../plugins/excel/xlsx-read.c:3183
+#: ../plugins/excel/xlsx-read.c:3237
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr ""
 "Wystąpiło nieinterpretowalne rozszerzenie „ext” z brakującą przestrzenią nazw"
 
-#: ../plugins/excel/xlsx-read.c:3645
+#: ../plugins/excel/xlsx-read.c:3699
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorowanie arkusza bez nazwy"
 
-#: ../plugins/excel/xlsx-read.c:3717
+#: ../plugins/excel/xlsx-read.c:3771
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Określenie nazwy się nie powiodło: %s"
 
-#: ../plugins/excel/xlsx-read.c:3779
+#: ../plugins/excel/xlsx-read.c:3833
 msgid "Unable to resolve external relationship"
 msgstr "Nie można rozwiązać zewnętrznych zależności"
 
-#: ../plugins/excel/xlsx-read.c:3973
+#: ../plugins/excel/xlsx-read.c:4027
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Brak części identyfikatora dla arkusza „%s”"
 
-#: ../plugins/excel/xlsx-read.c:3998
+#: ../plugins/excel/xlsx-read.c:4052
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Odczytywanie arkusza „%s”…"
 
-#: ../plugins/excel/xlsx-read.c:4006
+#: ../plugins/excel/xlsx-read.c:4060
 msgid "Reading comments..."
 msgstr "Odczytywanie komentarzy…"
 
-#: ../plugins/excel/xlsx-read.c:5146
+#: ../plugins/excel/xlsx-read.c:5201
 msgid "Reading shared strings..."
 msgstr "Odczytywanie wspólnych ciągów…"
 
-#: ../plugins/excel/xlsx-read.c:5155
+#: ../plugins/excel/xlsx-read.c:5210
 msgid "Reading theme..."
 msgstr "Odczytywanie motywu…"
 
-#: ../plugins/excel/xlsx-read.c:5164
+#: ../plugins/excel/xlsx-read.c:5219
 msgid "Reading styles..."
 msgstr "Odczytywanie stylów…"
 
-#: ../plugins/excel/xlsx-read.c:5169
+#: ../plugins/excel/xlsx-read.c:5224
 msgid "Reading workbook..."
 msgstr "Odczytywanie zeszytu…"
 
-#: ../plugins/excel/xlsx-read.c:5179
+#: ../plugins/excel/xlsx-read.c:5234
 msgid "No workbook stream found."
 msgstr "Nie odnaleziono potoku zeszytu."
 
@@ -1149,17 +1149,17 @@ msgstr "Zapisywanie pliku GLPK…"
 msgid "The GLPK exporter is not available."
 msgstr "Eksporter plików GLPK jest niedostępny."
 
-#: ../plugins/glpk/gnm-glpk.c:371
+#: ../plugins/glpk/gnm-glpk.c:512
 #, c-format
 msgid "Failed to create file for solution"
 msgstr "Utworzenie pliku dla rozwiązania się nie powiodło"
 
-#: ../plugins/glpk/gnm-glpk.c:380
+#: ../plugins/glpk/gnm-glpk.c:521
 #, c-format
 msgid "Failed to create file for sensitivity report"
 msgstr "Utworzenie pliku dla raportu wrażliwości się nie powiodło"
 
-#: ../plugins/glpk/gnm-glpk.c:438 ../plugins/lpsolve/gnm-lpsolve.c:427
+#: ../plugins/glpk/gnm-glpk.c:579 ../plugins/lpsolve/gnm-lpsolve.c:427
 #, c-format
 msgid ""
 "The %s program was not found.  You can either install it or use another "
@@ -1440,133 +1440,133 @@ msgstr "Importuje dokumenty programu GNU Oleo"
 msgid "GNU Oleo (*.oleo)"
 msgstr "GNU Oleo (*.oleo)"
 
-#: ../plugins/openoffice/openoffice-read.c:624
+#: ../plugins/openoffice/openoffice-read.c:623
 msgid "General ODF error"
 msgstr "Ogólny błąd ODF"
 
-#: ../plugins/openoffice/openoffice-read.c:678
+#: ../plugins/openoffice/openoffice-read.c:677
 #, c-format
 msgid "Invalid integer '%s', for '%s'"
 msgstr "Nieprawidłowa liczba całkowita „%s”, dla „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:693
+#: ../plugins/openoffice/openoffice-read.c:692
 #, c-format
 msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Prawdopodobnie uszkodzona liczba całkowita „%s” dla „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:737
+#: ../plugins/openoffice/openoffice-read.c:736
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr "Nieprawidłowy atrybut „%s”, oczekiwano liczby, otrzymano „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:761
+#: ../plugins/openoffice/openoffice-read.c:760
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr "Nieprawidłowy atrybut „%s”, oczekiwano procentu, otrzymano „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:783
+#: ../plugins/openoffice/openoffice-read.c:782
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Nieprawidłowy atrybut „%s”, oczekiwano koloru, otrzymano „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:1061
+#: ../plugins/openoffice/openoffice-read.c:1060
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Wystąpiła nieznana nazwa kreski „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:1069
+#: ../plugins/openoffice/openoffice-read.c:1068
 msgid "Hatch fill without hatch name encountered!"
 msgstr "Wystąpiło wypełnienie kreski bez nazwy kreski."
 
-#: ../plugins/openoffice/openoffice-read.c:1077
+#: ../plugins/openoffice/openoffice-read.c:1076
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Wystąpiła nieznana nazwa gradientu „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:1090
+#: ../plugins/openoffice/openoffice-read.c:1089
 msgid "Gradient fill without gradient name encountered!"
 msgstr "Wystąpiło wypełnienie gradientu bez nazwy gradientu."
 
-#: ../plugins/openoffice/openoffice-read.c:1098
+#: ../plugins/openoffice/openoffice-read.c:1097
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Wystąpiła nieznana nazwa wypełniania obrazu „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:1108
+#: ../plugins/openoffice/openoffice-read.c:1107
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr "Wystąpiła nieprawidłowa bezwzględna specyfikacja pliku „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:1121
+#: ../plugins/openoffice/openoffice-read.c:1120
 #, c-format
 msgid "Unable to open '%s'."
 msgstr "Nie można otworzyć „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:1131
-#: ../plugins/openoffice/openoffice-read.c:8453
+#: ../plugins/openoffice/openoffice-read.c:1130
+#: ../plugins/openoffice/openoffice-read.c:8533
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Nie można wczytać pliku „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:1140
+#: ../plugins/openoffice/openoffice-read.c:1139
 msgid "Image fill without image name encountered!"
 msgstr "Wystąpiło wypełnienie obrazu bez nazwy obrazu."
 
-#: ../plugins/openoffice/openoffice-read.c:1370
+#: ../plugins/openoffice/openoffice-read.c:1369
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Nieprawidłowy atrybut „%s”, oczekiwano kąta, otrzymano „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:1436
+#: ../plugins/openoffice/openoffice-read.c:1435
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Nieprawidłowy atrybut „%s”, nieznana wartość wyliczeniowa „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:1631
+#: ../plugins/openoffice/openoffice-read.c:1630
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Ignorowanie odniesienia do nieznanego zewnętrznego zeszytu „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:1853
+#: ../plugins/openoffice/openoffice-read.c:1852
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Wystąpił nieznany styl tekstu o nazwie „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:2242
+#: ../plugins/openoffice/openoffice-read.c:2285
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "Nie można przetworzyć „%s” („%s”)"
 
-#: ../plugins/openoffice/openoffice-read.c:2340
-#: ../plugins/openoffice/openoffice-read.c:3855
+#: ../plugins/openoffice/openoffice-read.c:2383
+#: ../plugins/openoffice/openoffice-read.c:3898
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Wystąpił nieobsługiwany typ formuły: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2346
-#: ../plugins/openoffice/openoffice-read.c:3862
+#: ../plugins/openoffice/openoffice-read.c:2389
+#: ../plugins/openoffice/openoffice-read.c:3905
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Wyrażenie „%s” nie zaczyna się od rozpoznanego znaku"
 
-#: ../plugins/openoffice/openoffice-read.c:2385
-#: ../plugins/openoffice/openoffice-write.c:5216
-#: ../plugins/openoffice/openoffice-write.c:5228 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-read.c:2428
+#: ../plugins/openoffice/openoffice-write.c:5249
+#: ../plugins/openoffice/openoffice-write.c:5261 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "komórka"
 
-#: ../plugins/openoffice/openoffice-read.c:2775
+#: ../plugins/openoffice/openoffice-read.c:2818
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr "Warunek walidacji „%s” nie jest obsługiwany. Został zmieniony na „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:2824
+#: ../plugins/openoffice/openoffice-read.c:2867
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Wystąpił nieokreślony styl walidacji: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2850
+#: ../plugins/openoffice/openoffice-read.c:2893
 #, c-format
 msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: \"%s"
@@ -1574,120 +1574,111 @@ msgid ""
 msgstr ""
 "Wystąpił nieobsługiwany warunek walidacji: „%s” z adresem bazowym: „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:3516
+#: ../plugins/openoffice/openoffice-read.c:3559
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Wystąpił nieznany warunek „%s”, ignorowanie."
 
-#: ../plugins/openoffice/openoffice-read.c:3598
+#: ../plugins/openoffice/openoffice-read.c:3641
 #, c-format
 msgid "Ignoring column information beyond column %i"
-msgstr "Ignorowanie informacji kolumny poza kolumną %i"
+msgstr "Ignorowanie informacji kolumny poza %i. kolumną"
 
-#: ../plugins/openoffice/openoffice-read.c:3702
-#: ../plugins/openoffice/openoffice-read.c:4096
+#: ../plugins/openoffice/openoffice-read.c:3745
+#: ../plugins/openoffice/openoffice-read.c:4139
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Zawartość przekroczyła maksymalną liczbę obsługiwanych rzędów (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3847
-#: ../plugins/openoffice/openoffice-read.c:6253
+#: ../plugins/openoffice/openoffice-read.c:3890
+#: ../plugins/openoffice/openoffice-read.c:6310
 msgid "Missing expression"
 msgstr "Brak wyrażenia"
 
-#: ../plugins/openoffice/openoffice-read.c:4074
+#: ../plugins/openoffice/openoffice-read.c:4117
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Nieprawidłowe wyrażenie tablicowe nie określa liczby kolumn."
 
-#: ../plugins/openoffice/openoffice-read.c:4077
+#: ../plugins/openoffice/openoffice-read.c:4120
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Nieprawidłowe wyrażenie tablicowe nie określa liczby rzędów."
 
-#: ../plugins/openoffice/openoffice-read.c:4088
+#: ../plugins/openoffice/openoffice-read.c:4131
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "Zawartość przekroczyła maksymalną liczbę obsługiwanych kolumn (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:4271
-#: ../src/dialogs/dialog-hyperlink.c:83
-msgid ""
-"Left click once to follow this link.\n"
-"Middle click once to select this cell"
-msgstr ""
-"Kliknięcie lewym przyciskiem myszy podąży za odnośnikiem.\n"
-"Jedno kliknięcie środkowym przyciskiem myszy wybierze tę komórkę"
-
-#: ../plugins/openoffice/openoffice-read.c:4404
+#: ../plugins/openoffice/openoffice-read.c:4461
 msgid "Unnamed dash style encountered."
 msgstr "Wystąpił nienazwany styl myślnika."
 
-#: ../plugins/openoffice/openoffice-read.c:4422
+#: ../plugins/openoffice/openoffice-read.c:4479
 msgid "Unnamed image fill style encountered."
 msgstr "Wystąpił nienazwany styl wypełnienia obrazu."
 
-#: ../plugins/openoffice/openoffice-read.c:4424
+#: ../plugins/openoffice/openoffice-read.c:4481
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "Styl wypełnienia obrazu „%s” nie ma załączonego obrazu."
 
-#: ../plugins/openoffice/openoffice-read.c:4461
-#: ../plugins/openoffice/openoffice-read.c:4467
+#: ../plugins/openoffice/openoffice-read.c:4518
+#: ../plugins/openoffice/openoffice-read.c:4524
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Nie można przetworzyć koloru gradientu: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4487
+#: ../plugins/openoffice/openoffice-read.c:4544
 msgid "Unnamed gradient style encountered."
 msgstr "Wystąpił nienazwany styl gradientu."
 
-#: ../plugins/openoffice/openoffice-read.c:4508
+#: ../plugins/openoffice/openoffice-read.c:4565
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Nie można przetworzyć koloru kreski: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4582
+#: ../plugins/openoffice/openoffice-read.c:4639
 msgid "Unnamed hatch encountered!"
 msgstr "Wystąpiła nienazwana kreska."
 
-#: ../plugins/openoffice/openoffice-read.c:4723
+#: ../plugins/openoffice/openoffice-read.c:4780
 msgid "Duplicate default column style encountered."
 msgstr "Wystąpił podwójny domyślny styl kolumny."
 
-#: ../plugins/openoffice/openoffice-read.c:4739
+#: ../plugins/openoffice/openoffice-read.c:4796
 msgid "Duplicate default row style encountered."
 msgstr "Wystąpił podwójny domyślny styl rzędu."
 
-#: ../plugins/openoffice/openoffice-read.c:4774
+#: ../plugins/openoffice/openoffice-read.c:4831
 msgid "Duplicate default chart/graphics style encountered."
 msgstr "Wystąpił podwójny domyślny styl wykresu/grafiki."
 
-#: ../plugins/openoffice/openoffice-read.c:5241
+#: ../plugins/openoffice/openoffice-read.c:5298
 msgid "Unnamed date style ignored."
 msgstr "Zignorowano nienazwany styl daty."
 
-#: ../plugins/openoffice/openoffice-read.c:5629
+#: ../plugins/openoffice/openoffice-read.c:5686
 #, c-format
 msgid "Corrupted file: invalid number format condition [%s]."
 msgstr "Uszkodzony plik: nieprawidłowy warunek formatu liczby [%s]."
 
-#: ../plugins/openoffice/openoffice-read.c:5647
+#: ../plugins/openoffice/openoffice-read.c:5704
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Uszkodzony plik: zignorowano nienazwany styl liczby."
 
-#: ../plugins/openoffice/openoffice-read.c:5669
+#: ../plugins/openoffice/openoffice-read.c:5726
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Ten plik jest uszkodzony, brak wymaganych formatów."
 
-#: ../plugins/openoffice/openoffice-read.c:5738
+#: ../plugins/openoffice/openoffice-read.c:5795
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
-msgstr "Papier z pliku ODF: %i⨉%i pt"
+msgstr "Papier z pliku ODF: %i⨉%i pt"
 
-#: ../plugins/openoffice/openoffice-read.c:5950
+#: ../plugins/openoffice/openoffice-read.c:6007
 msgid "Missing page layout identifier"
 msgstr "Brak identyfikatora układu strony"
 
-#: ../plugins/openoffice/openoffice-read.c:5977
+#: ../plugins/openoffice/openoffice-read.c:6034
 msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
@@ -1696,35 +1687,35 @@ msgstr ""
 "ignorowany."
 
 #. For OOO_VER_1 this may be acceptable
-#: ../plugins/openoffice/openoffice-read.c:6002
+#: ../plugins/openoffice/openoffice-read.c:6059
 msgid "Master page style without page layout encountered!"
 msgstr "Wystąpił styl strony głównej bez układu strony."
 
-#: ../plugins/openoffice/openoffice-read.c:6008
+#: ../plugins/openoffice/openoffice-read.c:6065
 msgid "Master page style without name encountered!"
 msgstr "Wystąpił styl strony głównej bez nazwy."
 
-#: ../plugins/openoffice/openoffice-read.c:6301
+#: ../plugins/openoffice/openoffice-read.c:6358
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Wystąpił nieznany styl granicy programu Gnumeric „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:6640
+#: ../plugins/openoffice/openoffice-read.c:6697
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Nieznany typ podziału „%s”, domyślnie BRAK"
 
-#: ../plugins/openoffice/openoffice-read.c:6725
+#: ../plugins/openoffice/openoffice-read.c:6782
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Nie można przetworzyć koloru karty „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:6736
+#: ../plugins/openoffice/openoffice-read.c:6793
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Nie można przetworzyć koloru tekstu karty „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:7257
+#: ../plugins/openoffice/openoffice-read.c:7314
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1733,36 +1724,36 @@ msgstr ""
 "Wystąpił nieznany typ interpolacji: „%s”, użycie krzywej sześciennej Beziera "
 "zamiast tego."
 
-#: ../plugins/openoffice/openoffice-read.c:7266
+#: ../plugins/openoffice/openoffice-read.c:7323
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Wystąpił nieznany typ interpolacji: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:7771
+#: ../plugins/openoffice/openoffice-read.c:7839
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "wyrażenie „%s” @ „%s” nie jest „cellref”"
 
-#: ../plugins/openoffice/openoffice-read.c:7787
+#: ../plugins/openoffice/openoffice-read.c:7855
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Wyrażenie „%s” ma nieznaną przestrzeń nazw"
 
-#: ../plugins/openoffice/openoffice-read.c:7850
+#: ../plugins/openoffice/openoffice-read.c:7930
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Nieprawidłowy zakres bazy danych „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:7884
+#: ../plugins/openoffice/openoffice-read.c:7964
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
 msgstr "Gnumeric nie obsługuje warunków automatycznego wypełniania „lub”."
 
-#: ../plugins/openoffice/openoffice-read.c:8081
+#: ../plugins/openoffice/openoffice-read.c:8161
 #, c-format
 msgid "Moving sheet object from column %i and row %i"
 msgstr "Przenoszenie obiektu arkusza z %i. kolumny i %i. rzędu"
 
-#: ../plugins/openoffice/openoffice-read.c:8146
+#: ../plugins/openoffice/openoffice-read.c:8226
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1771,14 +1762,14 @@ msgstr ""
 "Wiersze obiektu arkusza programu Gnumeric nie obsługują dołączonego tekstu. "
 "Tekst „%s” został odrzucony."
 
-#: ../plugins/openoffice/openoffice-read.c:8180
-#: ../plugins/openoffice/openoffice-read.c:8219
+#: ../plugins/openoffice/openoffice-read.c:8260
+#: ../plugins/openoffice/openoffice-read.c:8299
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr ""
 "Nieprawidłowy atrybut „forma:wartość”, oczekiwana liczby, otrzymano „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:8185
+#: ../plugins/openoffice/openoffice-read.c:8265
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1787,16 +1778,16 @@ msgstr ""
 "Nieprawidłowy typ wartości „%s” anonsowany dla atrybutu „forma:wartość” "
 "w elemencie „forma:zakres wartości”."
 
-#: ../plugins/openoffice/openoffice-read.c:8638
+#: ../plugins/openoffice/openoffice-read.c:8718
 msgid "Unable to determine manual position for a chart component!"
 msgstr "Nie można ustalić ręcznej pozycji dla części wykresu."
 
-#: ../plugins/openoffice/openoffice-read.c:8900
+#: ../plugins/openoffice/openoffice-read.c:8980
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr "Za mało danych w dostarczonym zakresie (%s) dla wszystkich żądań"
 
-#: ../plugins/openoffice/openoffice-read.c:9573
+#: ../plugins/openoffice/openoffice-read.c:9653
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1804,51 +1795,51 @@ msgstr ""
 "Gnumeric nie obsługuje nieautomatycznych równań regresji. Używanie "
 "automatycznego równania zamiast tego."
 
-#: ../plugins/openoffice/openoffice-read.c:9592
+#: ../plugins/openoffice/openoffice-read.c:9672
 #, c-format
 msgid "The chart style \"%s\" is not defined!"
 msgstr "Styl wykresu „%s” jest nieokreślony."
 
-#: ../plugins/openoffice/openoffice-read.c:9760
+#: ../plugins/openoffice/openoffice-read.c:9840
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Wystąpiły linie rzutu w wykresie ich nieobsługującym."
 
-#: ../plugins/openoffice/openoffice-read.c:9888
+#: ../plugins/openoffice/openoffice-read.c:9968
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr "Wystąpił nieznany typ wykresu, próba utworzenia wykresu liniowego."
 
-#: ../plugins/openoffice/openoffice-read.c:9943
-#: ../plugins/openoffice/openoffice-read.c:9984
-#: ../plugins/openoffice/openoffice-read.c:10014
-#: ../plugins/openoffice/openoffice-read.c:10046
+#: ../plugins/openoffice/openoffice-read.c:10023
+#: ../plugins/openoffice/openoffice-read.c:10064
+#: ../plugins/openoffice/openoffice-read.c:10094
+#: ../plugins/openoffice/openoffice-read.c:10126
 #, c-format
 msgid "Chart style with name '%s' is missing."
 msgstr "Brak stylu wykresu o nazwie „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:10164
+#: ../plugins/openoffice/openoffice-read.c:10244
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr "Wystąpił nieobsługiwany podpis, skonwertowano na prostokątny tekst."
 
-#: ../plugins/openoffice/openoffice-read.c:10237
+#: ../plugins/openoffice/openoffice-read.c:10317
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr ""
 "Wystąpiła niekończona pętla podczas przetwarzania formuły „%s” o nazwie „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:10440
+#: ../plugins/openoffice/openoffice-read.c:10520
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Nie można obliczyć formuły „%s” („%s”) o nazwie „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:10445
+#: ../plugins/openoffice/openoffice-read.c:10525
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Nie można przetworzyć formuły „%s” („%s”) o nazwie „%s”"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:10529
-#: ../plugins/openoffice/openoffice-read.c:10532
+#: ../plugins/openoffice/openoffice-read.c:10609
+#: ../plugins/openoffice/openoffice-read.c:10612
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
@@ -1857,18 +1848,18 @@ msgstr ""
 "Wystąpił nieobsługiwany niestandardowy kształt typu „%s”, skonwertowano na "
 "prostokąt."
 
-#: ../plugins/openoffice/openoffice-read.c:10535
+#: ../plugins/openoffice/openoffice-read.c:10615
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
 "Wystąpił nieobsługiwany niestandardowy kształt, skonwertowano na prostokąt."
 
-#: ../plugins/openoffice/openoffice-read.c:10877
+#: ../plugins/openoffice/openoffice-read.c:10957
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Atrybut „%s” ma nieobsługiwaną wartość „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:11519
+#: ../plugins/openoffice/openoffice-read.c:11564
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
@@ -1877,12 +1868,12 @@ msgstr ""
 "Rozmiar arkusza %i kolumn i %i rzędów użyty w tym pliku przekracza "
 "maksymalny obsługiwany rozmiar arkusza programu Gnumeric"
 
-#: ../plugins/openoffice/openoffice-read.c:11552
+#: ../plugins/openoffice/openoffice-read.c:11595
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_W_USZKODZONYM_PLIKU"
 
-#: ../plugins/openoffice/openoffice-read.c:11557
+#: ../plugins/openoffice/openoffice-read.c:11600
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1890,78 +1881,78 @@ msgid ""
 msgstr ""
 "Plik jest uszkodzony z podwójną nazwą arkusza „%s”, zmienioną teraz na „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:11567
+#: ../plugins/openoffice/openoffice-read.c:11610
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "ARKUSZ_W_USZKODZONYM_PLIKU"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:11573
+#: ../plugins/openoffice/openoffice-read.c:11616
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr "Plik jest uszkodzony z nienazwanym arkuszem, teraz nazwanym „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:13486
+#: ../plugins/openoffice/openoffice-read.c:13576
 msgid "Unknown mimetype for openoffice file."
 msgstr "Nieznany typ MIME dla pliku OpenOffice."
 
-#: ../plugins/openoffice/openoffice-read.c:13496
+#: ../plugins/openoffice/openoffice-read.c:13586
 msgid "No stream named content.xml found."
 msgstr "Nie odnaleziono potoku o nazwie content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:13504
+#: ../plugins/openoffice/openoffice-read.c:13594
 msgid "No stream named styles.xml found."
 msgstr "Nie odnaleziono potoku o nazwie styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:13648
+#: ../plugins/openoffice/openoffice-read.c:13738
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Nieprawidłowe metadane „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:13711
+#: ../plugins/openoffice/openoffice-read.c:13801
 msgid "settings.xml stream is malformed!"
 msgstr "Potok settings.xml jest błędnie sformatowany."
 
-#: ../plugins/openoffice/openoffice-write.c:5209
-#: ../plugins/openoffice/openoffice-write.c:5221
+#: ../plugins/openoffice/openoffice-write.c:5242
+#: ../plugins/openoffice/openoffice-write.c:5254
 msgid "tab"
 msgstr "karta"
 
-#: ../plugins/openoffice/openoffice-write.c:5210
-#: ../plugins/openoffice/openoffice-write.c:5222
+#: ../plugins/openoffice/openoffice-write.c:5243
+#: ../plugins/openoffice/openoffice-write.c:5255
 msgid "page"
 msgstr "strona"
 
-#: ../plugins/openoffice/openoffice-write.c:5211
-#: ../plugins/openoffice/openoffice-write.c:5223
+#: ../plugins/openoffice/openoffice-write.c:5244
+#: ../plugins/openoffice/openoffice-write.c:5256
 msgid "pages"
 msgstr "strony"
 
-#: ../plugins/openoffice/openoffice-write.c:5212
-#: ../plugins/openoffice/openoffice-write.c:5224
+#: ../plugins/openoffice/openoffice-write.c:5245
+#: ../plugins/openoffice/openoffice-write.c:5257
 msgid "date"
 msgstr "data"
 
-#: ../plugins/openoffice/openoffice-write.c:5213
-#: ../plugins/openoffice/openoffice-write.c:5225
+#: ../plugins/openoffice/openoffice-write.c:5246
+#: ../plugins/openoffice/openoffice-write.c:5258
 msgid "time"
 msgstr "czas"
 
-#: ../plugins/openoffice/openoffice-write.c:5214
-#: ../plugins/openoffice/openoffice-write.c:5226 ../src/ssconvert.c:104
+#: ../plugins/openoffice/openoffice-write.c:5247
+#: ../plugins/openoffice/openoffice-write.c:5259 ../src/ssconvert.c:104
 #: ../src/ssdiff.c:57
 msgid "file"
 msgstr "plik"
 
-#: ../plugins/openoffice/openoffice-write.c:5215
-#: ../plugins/openoffice/openoffice-write.c:5227
+#: ../plugins/openoffice/openoffice-write.c:5248
+#: ../plugins/openoffice/openoffice-write.c:5260
 msgid "path"
 msgstr "ścieżka"
 
-#: ../plugins/openoffice/openoffice-write.c:8931
+#: ../plugins/openoffice/openoffice-write.c:8964
 msgid "Writing Sheets..."
 msgstr "Zapisywanie arkuszy…"
 
-#: ../plugins/openoffice/openoffice-write.c:8972
+#: ../plugins/openoffice/openoffice-write.c:9005
 msgid "Writing Sheet Objects..."
 msgstr "Zapisywanie obiektów arkusza…"
 
@@ -2054,7 +2045,7 @@ msgstr "Specyfikacji pola brakuje rozmiaru kolumny."
 #, c-format
 msgid ""
 "The remainder '%s' of the specification for field %d is being disregarded."
-msgstr "Pozostałe „%s” specyfikacji pola %d nie jest brane pod uwagę."
+msgstr "Pozostałe „%s” specyfikacji %d. pola nie jest brane pod uwagę."
 
 #: ../plugins/paradox/paradox.c:476
 msgid "Could not create output file."
@@ -2074,21 +2065,21 @@ msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
-"Pole %d w wierszu %d zostało prawdopodobnie wycięte. Dane mają %d znak."
+"%d. pole w %d. wierszu zostało prawdopodobnie wycięte. Dane mają %d znak."
 msgstr[1] ""
-"Pole %d w wierszu %d zostało prawdopodobnie wycięte. Dane mają %d znaki."
+"%d. pole w %d. wierszu zostało prawdopodobnie wycięte. Dane mają %d znaki."
 msgstr[2] ""
-"Pole %d w wierszu %d zostało prawdopodobnie wycięte. Dane mają %d znaków."
+"%d. pole w %d. wierszu zostało prawdopodobnie wycięte. Dane mają %d znaków."
 
 #: ../plugins/paradox/paradox.c:550
 #, c-format
 msgid "Field %d in row %d could not be written."
-msgstr "Nie można zapisać pola %d w rzędzie %d."
+msgstr "Nie można zapisać %d. pola w %d. rzędzie."
 
 #: ../plugins/paradox/paradox.c:587
 #, c-format
 msgid "Could not write record number %d."
-msgstr "Nie można zapisać numeru rekordu %d."
+msgstr "Nie można zapisać %d. rekordu."
 
 #: ../plugins/paradox/plugin.xml.in.h:1
 msgid "Paradox"
@@ -2122,13 +2113,13 @@ msgstr "Perl"
 
 #: ../plugins/perl-loader/perl-loader.c:76
 msgid "Perl error: "
-msgstr "Błąd języka Perla: "
+msgstr "Błąd języka Perl: "
 
 #: ../plugins/perl-loader/perl-loader.c:221
 #: ../plugins/perl-loader/perl-loader.c:240
 #, c-format
 msgid "Perl error: %s\n"
-msgstr "Błąd języka Perla: %s\n"
+msgstr "Błąd języka Perl: %s\n"
 
 #: ../plugins/perl-loader/perl-loader.c:280
 msgid "Module name not given."
@@ -4115,15 +4106,15 @@ msgid ""
 "them with the 'Format→Column→Unhide' menu item."
 msgstr ""
 "Na pewno ukryć wszystkie kolumny? Można je potem odkryć za pomocą menu "
-"„Format→Kolumna→Odkryj”."
+"„Format → Kolumna → Odkryj”."
 
 #: ../src/commands.c:2358
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
 msgstr ""
-"Na pewno ukryć wszystkie rzędy? Można je potem odkryć za pomocą menu "
-"„Format→Rząd→Odkryj”."
+"Na pewno ukryć wszystkie rzędy? Można je potem odkryć za pomocą menu „Format "
+"→ Rząd → Odkryj”."
 
 #: ../src/commands.c:2378
 msgid "Unhide columns"
@@ -4276,12 +4267,12 @@ msgstr "Znajdź i zastąp"
 #: ../src/commands.c:4503
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
-msgstr "Ustawianie domyślnej szerokości kolumn na %.2f punktów"
+msgstr "Ustawianie domyślnej szerokości kolumn na %.2f pt"
 
 #: ../src/commands.c:4504
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
-msgstr "Ustawianie domyślnej wysokości rzędów na %.2f punktów"
+msgstr "Ustawianie domyślnej wysokości rzędów na %.2f pt"
 
 #: ../src/commands.c:4615
 #, c-format
@@ -6403,56 +6394,64 @@ msgstr "Komórka"
 msgid "Could not create the goto dialog."
 msgstr "Nie można utworzyć okna przejścia do danego miejsca."
 
-#: ../src/dialogs/dialog-hyperlink.c:189
+#: ../src/dialogs/dialog-hyperlink.c:85
+msgid ""
+"Left click once to follow this link.\n"
+"Middle click once to select this cell"
+msgstr ""
+"Kliknięcie lewym przyciskiem myszy podąży za odnośnikiem.\n"
+"Jedno kliknięcie środkowym przyciskiem myszy wybierze tę komórkę"
+
+#: ../src/dialogs/dialog-hyperlink.c:187
 msgid "Not a range or name"
 msgstr "To nie jest zakres ani nazwa"
 
-#: ../src/dialogs/dialog-hyperlink.c:306
+#: ../src/dialogs/dialog-hyperlink.c:304
 msgid "Internal Link"
 msgstr "Wewnętrzny odnośnik"
 
-#: ../src/dialogs/dialog-hyperlink.c:308
+#: ../src/dialogs/dialog-hyperlink.c:306
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
 "Przechodzi do podanych komórek lub nazwanego zakresu w bieżącym zeszycie"
 
-#: ../src/dialogs/dialog-hyperlink.c:312
+#: ../src/dialogs/dialog-hyperlink.c:310
 msgid "External Link"
 msgstr "Zewnętrzny odnośnik"
 
-#: ../src/dialogs/dialog-hyperlink.c:314
+#: ../src/dialogs/dialog-hyperlink.c:312
 msgid "Open an external file with the specified name"
 msgstr "Otwiera zewnętrzny plik o podanej nazwie"
 
-#: ../src/dialogs/dialog-hyperlink.c:317
+#: ../src/dialogs/dialog-hyperlink.c:315
 msgid "Email Link"
 msgstr "Odnośnik e-mail"
 
-#: ../src/dialogs/dialog-hyperlink.c:319
+#: ../src/dialogs/dialog-hyperlink.c:317
 msgid "Prepare an email"
 msgstr "Tworzy wiadomość e-mail"
 
-#: ../src/dialogs/dialog-hyperlink.c:322
+#: ../src/dialogs/dialog-hyperlink.c:320
 msgid "Web Link"
 msgstr "Odnośnik WWW"
 
-#: ../src/dialogs/dialog-hyperlink.c:324
+#: ../src/dialogs/dialog-hyperlink.c:322
 msgid "Browse to the specified URL"
 msgstr "Przechodzi do podanego adresu URL"
 
-#: ../src/dialogs/dialog-hyperlink.c:399
+#: ../src/dialogs/dialog-hyperlink.c:398
 msgid "Add Hyperlink"
 msgstr "Dodaj odnośnik"
 
-#: ../src/dialogs/dialog-hyperlink.c:404
+#: ../src/dialogs/dialog-hyperlink.c:403
 msgid "Edit Hyperlink"
 msgstr "Modyfikuj odnośnik"
 
-#: ../src/dialogs/dialog-hyperlink.c:413
+#: ../src/dialogs/dialog-hyperlink.c:412
 msgid "Remove Hyperlink"
 msgstr "Usuń odnośnik"
 
-#: ../src/dialogs/dialog-hyperlink.c:619
+#: ../src/dialogs/dialog-hyperlink.c:622
 msgid "Could not create the hyperlink dialog."
 msgstr "Nie można utworzyć okna odnośników."
 
@@ -6790,12 +6789,12 @@ msgstr "%.0f punktów szerokości i %.0f punktów wysokości"
 #: ../src/dialogs/dialog-printer-setup.c:2395
 #, c-format
 msgid "%.1f in wide by %.1f in tall"
-msgstr "%.1f szerokości i %.1f wysokości"
+msgstr "%.1f cali szerokości i %.1f cali wysokości"
 
 #: ../src/dialogs/dialog-printer-setup.c:2398
 #, c-format
 msgid "%.0f mm wide by %.0f mm tall"
-msgstr "%.0f mm szerokości i %.0f mm wysokości"
+msgstr "%.0f mm szerokości i %.0f mm wysokości"
 
 #: ../src/dialogs/dialog-printer-setup.c:2401
 #, c-format
@@ -7103,7 +7102,7 @@ msgstr "%H∶%M"
 #.
 #: ../src/dialogs/dialog-recent.c:216
 msgid "%l:%M %P"
-msgstr "%l∶%M %P"
+msgstr "%l∶%M %P"
 
 #: ../src/dialogs/dialog-row-height.c:228
 msgid "Set standard/default row height"
@@ -7864,11 +7863,11 @@ msgstr "jest mniejsze niż lub równe"
 
 #: ../src/dialogs/autofilter-expression.ui.h:11
 msgid "begins with"
-msgstr "rozpoczyna się od"
+msgstr "zaczyna się od"
 
 #: ../src/dialogs/autofilter-expression.ui.h:12
 msgid "does not begin with"
-msgstr "nie rozpoczyna się od"
+msgstr "nie zaczyna się od"
 
 #: ../src/dialogs/autofilter-expression.ui.h:13
 msgid "ends with"
@@ -10068,11 +10067,11 @@ msgstr "Wariancjami _populacji są:"
 
 #: ../src/dialogs/mean-tests.ui.h:9
 msgid "Variable _1 population variance:"
-msgstr "Wariancja populacja _1. zmiennej:"
+msgstr "Wariancja populacji _1. zmiennej:"
 
 #: ../src/dialogs/mean-tests.ui.h:10
 msgid "Variable _2 population variance:"
-msgstr "Wariancja populacja _2. zmiennych:"
+msgstr "Wariancja populacji _2. zmiennej:"
 
 #: ../src/dialogs/mean-tests.ui.h:11
 msgid "_Paired"
@@ -11840,12 +11839,12 @@ msgstr ""
 msgid "'%s' has a circular reference"
 msgstr "„%s” zawiera zapętlone odwołanie"
 
-#: ../src/expr-name.c:754 ../src/expr-name.c:1001
+#: ../src/expr-name.c:755 ../src/expr-name.c:1002
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "Już określono „%s” w arkuszu"
 
-#: ../src/expr-name.c:755 ../src/expr-name.c:1002
+#: ../src/expr-name.c:756 ../src/expr-name.c:1003
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "Już określono „%s” w zeszycie"
@@ -12321,20 +12320,16 @@ msgctxt "Stock label"
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/hlink.c:171 ../src/hlink.c:187
+#: ../src/hlink.c:279
 msgid "Link target"
 msgstr "Cel odnośnika"
 
-#: ../src/hlink.c:171
-msgid "(none)"
-msgstr "(brak)"
-
-#: ../src/hlink.c:237
+#: ../src/hlink.c:482
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Nie można aktywować adresu URL „%s”"
 
-#: ../src/hlink.c:294
+#: ../src/hlink.c:539
 #, c-format
 msgid "Unable to open '%s'"
 msgstr "Nie można otworzyć „%s”"
@@ -12360,18 +12355,18 @@ msgstr[2] "(%d pikseli)"
 #: ../src/item-bar.c:869
 #, c-format
 msgid "%d.00 pt"
-msgstr "%d.00 pt"
+msgstr "%d,00 pt"
 
 #: ../src/item-bar.c:869
 #, c-format
 msgid "%d.00 pts"
-msgstr "%d.00 pt"
+msgstr "%d,00 pt"
 
 #. xgettext: The number of points here is always a fractional number, ie. not an integer.
 #: ../src/item-bar.c:873
 #, c-format
 msgid "%.2f pts"
-msgstr "%.2f pt"
+msgstr "%.2f pt"
 
 #: ../src/item-cursor.c:821
 msgid "_Move"
@@ -12494,7 +12489,7 @@ msgstr "Kończy działanie natychmiast po wczytaniu wybranych zeszytów"
 msgid "[FILE ...]"
 msgstr "[PLIK…]"
 
-#: ../src/main-application.c:170 ../src/ssconvert.c:897 ../src/ssdiff.c:1108
+#: ../src/main-application.c:170 ../src/ssconvert.c:903 ../src/ssdiff.c:1143
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -12525,88 +12520,88 @@ msgstr "Utworzone zakresy wykorzystują proste odwołania"
 msgid "All entries in the set must be references"
 msgstr "Wszystkie elementy w zbiorze muszą być odwołaniami"
 
-#: ../src/parser.y:499
-#, c-format
-msgid "Name '%s' does not exist"
-msgstr "Nazwa „%s” nie istnieje"
-
-#: ../src/parser.y:513
-#, c-format
-msgid "'%s' cannot be used as a name"
-msgstr "„%s” nie może być użyte jako nazwa"
-
-#: ../src/parser.y:550
-#, c-format
-msgid "Unknown sheet '%s'"
-msgstr "Nieznany arkusz „%s”"
-
-#: ../src/parser.y:655
-#, c-format
-msgid "() is an invalid expression"
-msgstr "() to nieprawidłowe wyrażenie"
-
-#: ../src/parser.y:687
+#: ../src/parser.y:497
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "Nazwa „%s” nie istnieje w arkuszu „%s”"
 
-#: ../src/parser.y:709
+#: ../src/parser.y:500
+#, c-format
+msgid "Name '%s' does not exist"
+msgstr "Nazwa „%s” nie istnieje"
+
+#: ../src/parser.y:514
+#, c-format
+msgid "'%s' cannot be used as a name"
+msgstr "„%s” nie może być użyte jako nazwa"
+
+#: ../src/parser.y:572
+#, c-format
+msgid "Unknown sheet '%s'"
+msgstr "Nieznany arkusz „%s”"
+
+#: ../src/parser.y:677
+#, c-format
+msgid "() is an invalid expression"
+msgstr "() to nieprawidłowe wyrażenie"
+
+#: ../src/parser.y:724
 #, c-format
 msgid "Name '%s' does not exist in workbook"
 msgstr "Nazwa „%s” nie istnieje w zeszycie"
 
-#: ../src/parser.y:766
+#: ../src/parser.y:781
 #, c-format
 msgid "Unknown workbook '%s'"
 msgstr "Nieznany zeszyt „%s”"
 
-#: ../src/parser.y:783
+#: ../src/parser.y:798
 #, c-format
 msgid "Unknown workbook"
 msgstr "Nieznany zeszyt"
 
-#: ../src/parser.y:1089 ../src/parser.y:1369
+#: ../src/parser.y:1104 ../src/parser.y:1384
 #, c-format
 msgid "Could not find matching closing quote"
 msgstr ""
 "Nie można odnaleźć odpowiadającego zamykającego cudzysłowu lub apostrofu"
 
-#: ../src/parser.y:1229
+#: ../src/parser.y:1244
 #, c-format
 msgid "Sheet name is required"
 msgstr "Wymagana jest nazwa arkusza"
 
-#: ../src/parser.y:1284 ../src/parser.y:1293 ../src/parser.y:1317
+#: ../src/parser.y:1299 ../src/parser.y:1308 ../src/parser.y:1332
 #, c-format
 msgid "The number is out of range"
 msgstr "Liczba jest poza zakresem"
 
-#: ../src/parser.y:1351
+#: ../src/parser.y:1366
 #, c-format
 msgid "Improperly formatted error token"
 msgstr "Niewłaściwie sformatowany token błędu"
 
-#: ../src/parser.y:1608
+#: ../src/parser.y:1623
 #, c-format
 msgid "Multiple expressions are not supported in this context"
 msgstr "W tym kontekście wiele wyrażeń nie jest obsługiwanych"
 
-#: ../src/parser.y:1631
+#: ../src/parser.y:1646
 #, c-format
 msgid "Could not find matching opening parenthesis"
 msgstr "Nie można odnaleźć odpowiadającego nawiasu otwierającego"
 
-#: ../src/parser.y:1635
+#: ../src/parser.y:1650
 #, c-format
 msgid "Could not find matching closing parenthesis"
 msgstr "Nie można odnaleźć odpowiadającego nawiasu zamykającego"
 
-#: ../src/parser.y:1639
+#: ../src/parser.y:1654
 #, c-format
 msgid "Invalid expression"
 msgstr "Nieprawidłowe wyrażenie"
 
-#: ../src/parser.y:1643
+#: ../src/parser.y:1658
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Nieoczekiwany token %c"
@@ -12614,11 +12609,11 @@ msgstr "Nieoczekiwany token %c"
 #: ../src/print-info.c:230 ../src/print-info.c:233 ../src/print-info.c:234
 #: ../src/print-info.c:347
 msgid "Page &[PAGE]"
-msgstr "Strona &[PAGE]"
+msgstr "&[PAGE]. strona"
 
 #: ../src/print-info.c:231 ../src/print-info.c:236
 msgid "Page &[PAGE] of &[PAGES]"
-msgstr "Strona &[PAGE] z &[PAGES]"
+msgstr "&[PAGE]. strona z &[PAGES]"
 
 #: ../src/print-info.c:232 ../src/print-info.c:233 ../src/print-info.c:234
 #: ../src/print-info.c:236 ../src/print-info.c:340
@@ -12703,17 +12698,17 @@ msgstr "Drukowanie %3d. strony"
 #, c-format
 msgid "Creating preview of page %3d of %3d page"
 msgid_plural "Creating preview of page %3d of %3d pages"
-msgstr[0] "Tworzenie podglądu strony %3d z %3d strony"
-msgstr[1] "Tworzenie podglądu strony %3d z %3d stron"
-msgstr[2] "Tworzenie podglądu strony %3d z %3d stron"
+msgstr[0] "Tworzenie podglądu %3d. strony z %3d strony"
+msgstr[1] "Tworzenie podglądu %3d. strony z %3d stron"
+msgstr[2] "Tworzenie podglądu %3d. strony z %3d stron"
 
 #: ../src/print.c:1431
 #, c-format
 msgid "Printing page %3d of %3d page"
 msgid_plural "Printing page %3d of %3d pages"
-msgstr[0] "Drukowanie strony %3d z %3d strony"
-msgstr[1] "Drukowanie strony %3d z %3d stron"
-msgstr[2] "Drukowanie strony %3d z %3d stron"
+msgstr[0] "Drukowanie %3d. strony z %3d strony"
+msgstr[1] "Drukowanie %3d. strony z %3d stron"
+msgstr[2] "Drukowanie %3d. strony z %3d stron"
 
 #: ../src/print.c:1497
 msgid "_All workbook sheets"
@@ -13408,17 +13403,17 @@ msgstr ""
 msgid "Failed to create solver"
 msgstr "Utworzenie solvera się nie powiodło"
 
-#: ../src/ssconvert.c:555
+#: ../src/ssconvert.c:561
 #, c-format
 msgid "Solver ran, but failed"
 msgstr "Solver został uruchomiony, ale się nie powiódł"
 
-#: ../src/ssconvert.c:567
+#: ../src/ssconvert.c:573
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Solver: %s\n"
 
-#: ../src/ssconvert.c:676
+#: ../src/ssconvert.c:682
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13427,7 +13422,7 @@ msgstr ""
 "Nieznany eksporter „%s”.\n"
 "„--list-exporters” wyświetli listę możliwych eksporterów.\n"
 
-#: ../src/ssconvert.c:696
+#: ../src/ssconvert.c:702
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13436,7 +13431,7 @@ msgstr ""
 "Nie można odgadnąć, którego eksportera użyć dla „%s”.\n"
 "„--list-exporters” wyświetli listę możliwych eksporterów.\n"
 
-#: ../src/ssconvert.c:708
+#: ../src/ssconvert.c:714
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13445,7 +13440,7 @@ msgstr ""
 "Wymagana jest nazwa pliku wyjściowego lub podanie typu eksportu.\n"
 "„--list-exporters” wyświetli listę możliwych eksporterów.\n"
 
-#: ../src/ssconvert.c:718
+#: ../src/ssconvert.c:724
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13454,12 +13449,12 @@ msgstr ""
 "Nieznany importer „%s”.\n"
 "„--list-importers” wyświetli listę możliwych importerów.\n"
 
-#: ../src/ssconvert.c:742
+#: ../src/ssconvert.c:748
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Wczytanie %s się nie powiodło\n"
 
-#: ../src/ssconvert.c:856
+#: ../src/ssconvert.c:862
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13471,11 +13466,11 @@ msgstr ""
 "Tylko bieżący arkusz zostanie zapisany. „-S” umożliwia obejście tego "
 "ograniczenia.\n"
 
-#: ../src/ssconvert.c:885 ../src/ssconvert.c:936
+#: ../src/ssconvert.c:891 ../src/ssconvert.c:942
 msgid "INFILE [OUTFILE]"
 msgstr "PLIK-WEJŚCIOWY [PLIK-WYJŚCIOWY]"
 
-#: ../src/ssconvert.c:904
+#: ../src/ssconvert.c:910
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13486,7 +13481,7 @@ msgstr ""
 "Katalog z danymi := „%s”\n"
 "Katalog z bibliotekami := „%s”\n"
 
-#: ../src/ssconvert.c:934 ../src/ssdiff.c:1165 ../src/ssindex.c:268
+#: ../src/ssconvert.c:940 ../src/ssdiff.c:1200 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Użycie: %s [OPCJA…] %s\n"
@@ -13503,65 +13498,65 @@ msgstr "Wyświetla kopię wyróżniając zmiany"
 msgid "Output in xml format"
 msgstr "Wyjście w formacie XML"
 
-#: ../src/ssdiff.c:195
+#: ../src/ssdiff.c:197
 #, c-format
 msgid "%s: Failed to read %s: %s\n"
 msgstr "%s: odczytanie %s się nie powiodło: %s\n"
 
-#: ../src/ssdiff.c:242
+#: ../src/ssdiff.c:244
 #, c-format
 msgid "Differences for sheet %s:\n"
 msgstr "Różnice dla arkusza %s:\n"
 
-#: ../src/ssdiff.c:244
+#: ../src/ssdiff.c:246
 #, c-format
 msgid "Sheet %s removed.\n"
 msgstr "Usunięto arkusz %s.\n"
 
-#: ../src/ssdiff.c:246
+#: ../src/ssdiff.c:248
 #, c-format
 msgid "Sheet %s added.\n"
 msgstr "Dodano arkusz %s.\n"
 
-#: ../src/ssdiff.c:254
+#: ../src/ssdiff.c:256
 msgid "Sheet order changed.\n"
 msgstr "Zmieniono kolejność arkuszy.\n"
 
-#: ../src/ssdiff.c:261
+#: ../src/ssdiff.c:263
 #, c-format
 msgid "Sheet attribute %s changed.\n"
 msgstr "Zmieniono atrybut arkusza %s.\n"
 
-#: ../src/ssdiff.c:269
+#: ../src/ssdiff.c:271
 #, c-format
 msgid "Cell %s changed.\n"
 msgstr "Zmieniono komórkę %s.\n"
 
-#: ../src/ssdiff.c:271
+#: ../src/ssdiff.c:273
 #, c-format
 msgid "Cell %s removed.\n"
 msgstr "Usunięto komórkę %s.\n"
 
-#: ../src/ssdiff.c:273
+#: ../src/ssdiff.c:275
 #, c-format
 msgid "Cell %s added.\n"
 msgstr "Dodano komórkę %s.\n"
 
-#: ../src/ssdiff.c:285
+#: ../src/ssdiff.c:287
 #, c-format
 msgid "Style of %s was changed.\n"
 msgstr "Zmieniono styl %s.\n"
 
-#: ../src/ssdiff.c:735
+#: ../src/ssdiff.c:731
 #, c-format
 msgid "%s: Unable to guess exporter to use for %s.\n"
 msgstr "%s: nie można odgadnąć eksportera do użycia dla %s.\n"
 
-#: ../src/ssdiff.c:1101 ../src/ssdiff.c:1167
+#: ../src/ssdiff.c:1136 ../src/ssdiff.c:1202
 msgid "OLDFILE NEWFILE"
 msgstr "POPRZEDNI-PLIK NOWY-PLIK"
 
-#: ../src/ssdiff.c:1115
+#: ../src/ssdiff.c:1150
 #, c-format
 msgid ""
 "ssdiff version '%s'\n"
@@ -13572,12 +13567,12 @@ msgstr ""
 "Katalog z danymi := „%s”\n"
 "Katalog z bibliotekami := „%s”\n"
 
-#: ../src/ssdiff.c:1121
+#: ../src/ssdiff.c:1156
 #, c-format
 msgid "%s: Only one output format may be specified.\n"
 msgstr "%s: można podać tylko jeden format wyjściowy.\n"
 
-#: ../src/ssdiff.c:1140
+#: ../src/ssdiff.c:1175
 #, c-format
 msgid "%s: Failed to create output file: %s\n"
 msgstr "%s: utworzenie pliku wyjściowego się nie powiodło: %s\n"
@@ -13733,7 +13728,7 @@ msgstr ""
 "zignorowane."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1373
+#: ../src/stf-parse.c:1374
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -15077,56 +15072,56 @@ msgstr "Większe niż lub równe"
 msgid "Less than or Equal"
 msgstr "Mniejsze niż lub równe"
 
-#: ../src/validation.c:438
+#: ../src/validation.c:473
 #, c-format
 msgid "Missing formula for validation"
 msgstr "Brak formuły dla sprawdzania poprawności"
 
-#: ../src/validation.c:441
+#: ../src/validation.c:476
 #, c-format
 msgid "Extra formula for validation"
 msgstr "Dodatkowa formuła dla sprawdzania poprawności"
 
-#: ../src/validation.c:452
+#: ../src/validation.c:487
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: sprawdzanie poprawności"
 
-#: ../src/validation.c:515
+#: ../src/validation.c:550
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Komórka %s nie może być pusta"
 
-#: ../src/validation.c:523
+#: ../src/validation.c:558
 #, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "Komórka %s nie może zawierać wartości błędu"
 
-#: ../src/validation.c:534
+#: ../src/validation.c:569
 #, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "Komórka %s nie może zawierać ciągów"
 
-#: ../src/validation.c:550
+#: ../src/validation.c:585
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "„%s” nie jest liczbą całkowitą"
 
-#: ../src/validation.c:560
+#: ../src/validation.c:595
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "„%s” nie jest prawidłową datą"
 
-#: ../src/validation.c:584
+#: ../src/validation.c:619
 #, c-format
 msgid "%s does not contain the new value."
 msgstr "%s nie zawiera nowej wartości."
 
-#: ../src/validation.c:620
+#: ../src/validation.c:655
 #, c-format
 msgid "%s is not true."
 msgstr "%s nie jest prawdziwe."
 
-#: ../src/validation.c:659
+#: ../src/validation.c:694
 #, c-format
 msgid "%s is out of permitted range"
 msgstr "%s jest poza dozwolonym zakresem"
@@ -17965,34 +17960,34 @@ msgstr "atrybut widoku zeszytu jest niepełny"
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Plik ma niespójny element „SheetNameIndex”."
 
-#: ../src/xml-sax-read.c:2291
+#: ../src/xml-sax-read.c:2289
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Nieznany operator filtra „%s”"
 
-#: ../src/xml-sax-read.c:2332
+#: ../src/xml-sax-read.c:2330
 msgid "Missing filter type"
 msgstr "Brak typu filtra"
 
-#: ../src/xml-sax-read.c:2345
+#: ../src/xml-sax-read.c:2343
 msgid "Malformed sheet filter condition"
 msgstr "Błędny warunek filtru arkusza"
 
-#: ../src/xml-sax-read.c:2359
+#: ../src/xml-sax-read.c:2357
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Nieznany typ filtra „%s”"
 
-#: ../src/xml-sax-read.c:2380
+#: ../src/xml-sax-read.c:2378
 msgid "Invalid filter, missing Area"
 msgstr "Nieprawidłowy filtr, brak obszaru"
 
-#: ../src/xml-sax-read.c:2445
+#: ../src/xml-sax-read.c:2443
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Nieobsługiwany typ obiektu „%s”"
 
-#: ../src/xml-sax-read.c:3757 ../src/xml-sax-write.c:1698
+#: ../src/xml-sax-read.c:3755 ../src/xml-sax-write.c:1698
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "XML programu Gnumeric (*.gnumeric)"
 
