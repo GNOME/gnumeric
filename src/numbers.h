@@ -91,6 +91,7 @@ typedef long double gnm_float;
 #define gnm_cos cosl
 #define gnm_tan tanl
 #endif
+#define gnm_yn ynl
 
 #define GNM_FORMAT_e	"Le"
 #define GNM_FORMAT_E	"LE"
@@ -206,6 +207,7 @@ typedef double gnm_float;
 #define gnm_cos cos
 #define gnm_tan tan
 #endif
+#define gnm_yn yn
 
 #define GNM_FORMAT_e	"e"
 #define GNM_FORMAT_E	"E"

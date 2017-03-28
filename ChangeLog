@@ -1,3 +1,9 @@
+2017-03-28  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-bessel.c (y_via_j_series): Use gnm_yn if we can.
+	(hankel1_A1): Use gnm_yn if we can.  Near integer order, center
+	around the integer with odd count when we can.
+
 2017-03-21  Morten Welinder  <terra@gnome.org>
 
 	* src/sstest.c (rand_fractile_test): Allow 4*sqrt(expected)

@@ -2212,12 +2212,20 @@ static gnm_float
 y_via_j_series (gnm_float nu, const gnm_float *args)
 {
 	gnm_float x = args[0];
-	gnm_float c = gnm_cospi (nu);
-	gnm_float s = gnm_sinpi (nu);
-	gnm_float c_Jnu = c == 0 ? 0 : c * bessel_ij_series (x, nu, TRUE);
-	gnm_float Jmnu = bessel_ij_series (x, -nu, TRUE);
-	gnm_float Ynu = (c_Jnu - Jmnu) / s;
-	if (0) g_printerr ("via: %.20g %.20g %.20g %.20g %.20g\n", x, nu, c_Jnu, Jmnu, Ynu);
+	gnm_float Ynu;
+	if (nu == gnm_floor (nu) && gnm_abs (nu) < G_MAXINT) {
+		Ynu = gnm_yn ((int)nu, x);
+		if (0) g_printerr ("via: %.20g %.20g %.20g\n", x, nu, Ynu);
+	} else {
+		gnm_float c = gnm_cospi (nu);
+		gnm_float s = gnm_sinpi (nu);
+		gnm_float c_Jnu = c == 0
+			? 0
+			: c * bessel_ij_series (x, nu, TRUE);
+		gnm_float Jmnu = bessel_ij_series (x, -nu, TRUE);
+		Ynu = (c_Jnu - Jmnu) / s;
+		if (0) g_printerr ("via: %.20g %.20g %.20g %.20g %.20g\n", x, nu, c_Jnu, Jmnu, Ynu);
+	}
 	return Ynu;
 }
 
@@ -2241,20 +2249,26 @@ hankel1_B2 (gnm_float x, gnm_float nu, size_t N)
 static gnm_complex
 hankel1_A1 (gnm_float x, gnm_float nu)
 {
-	gnm_float rnu = gnm_floor (nu + 0.5);
+	gnm_float rnu = gnm_floor (nu + 0.49); // Close enough
 	gnm_float Jnu = bessel_ij_series (x, nu, TRUE);
 	gnm_float Ynu;
+	gboolean use_yn = (gnm_abs (rnu) < G_MAXINT - 1);
 
 	if (gnm_abs (nu - rnu) > 5e-4) {
 		gnm_float Jmnu = bessel_ij_series (x, -nu, TRUE);
 		gnm_float c = gnm_cospi (nu);
 		gnm_float s = gnm_sinpi (nu);
 		Ynu = ((c == 0 ? 0 : Jnu * c) - Jmnu) / s;
+	} else if (use_yn && nu == rnu) {
+		Ynu = gnm_yn ((int)rnu, x);
 	} else {
 		size_t N = 6;
 		gnm_float dnu = 1e-3;
 		gnm_float args[1] = { x };
-		Ynu = chebyshev_interpolant (N, rnu - dnu, rnu + dnu, nu,
+		gnm_float nul = rnu - dnu, nur = rnu + dnu;
+		if (use_yn)
+			N |= 1; // Odd, so we use rnu
+		Ynu = chebyshev_interpolant (N, nul, nur, nu,
 					     y_via_j_series, args);
 	}
 
