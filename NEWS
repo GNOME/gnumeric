@@ -3,6 +3,7 @@ Gnumeric 1.12.35
 Morten:
 	* Test suite improvements.
 	* Minor BESSELY improvements.
+	* New function REDUCEPI.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.34

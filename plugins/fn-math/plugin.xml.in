@@ -83,6 +83,7 @@
 				<function name="power"/>
 				<function name="quotient"/>
 				<function name="radians"/>
+				<function name="reducepi"/>
 				<function name="roman"/>
 				<function name="round"/>
 				<function name="rounddown"/>

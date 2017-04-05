@@ -1,3 +1,8 @@
+2017-04-05  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-trig.c (gnm_reduce_pi): Rename from reduce_pi_half.
+	Generalize to Pi/2^e and make public.
+
 2017-03-28  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-bessel.c (y_via_j_series): Use gnm_yn if we can.

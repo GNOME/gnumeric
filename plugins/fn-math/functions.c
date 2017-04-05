@@ -1522,6 +1522,36 @@ gnumeric_radians (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_reducepi[] = {
+	{ GNM_FUNC_HELP_NAME, F_("REDUCEPI:reduce modulo Pi divided by a power of 2")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_ARG, F_("e:scale")},
+	{ GNM_FUNC_HELP_ARG, F_("q:get lower bits of quotient, defaults to FALSE")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=REDUCEPI(10,1)" },
+	{ GNM_FUNC_HELP_NOTE, F_("This function returns a value, xr, such that @{x}=xr+j*Pi/2^@{e} where j is an integer and the absolute value of xr does not exceed Pi/2^(@{e}+1).  If optional argument @{q} is TRUE, returns instead the @e+1 lower bits of j.  The reduction is performed as-if using an exact value of Pi.")},
+	{ GNM_FUNC_HELP_NOTE, F_("The lowest valid @{e} is -1 representing reduction modulo 2*Pi; the highest is 7 representing reduction modulo Pi/256.")},
+	{ GNM_FUNC_HELP_SEEALSO, "PI"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_reducepi (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float x = value_get_as_float (argv[0]);
+	int e = value_get_as_int (argv[1]);
+	gboolean q = argv[2] ? value_get_as_checked_bool (argv[2]) : FALSE;
+	int j;
+	gnm_float xr;
+
+	if (e < -1 || e > 7)
+		return value_new_error_VALUE (ei->pos);
+
+	xr = gnm_reduce_pi (x, (int)e, &j);
+	return q ? value_new_int (j) : value_new_float (xr);
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_sin[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SIN:the sine of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
@@ -3573,6 +3603,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "radians", "f",     help_radians,
 	  gnumeric_radians, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	{ "reducepi", "ff|f",   help_reducepi,
+	  gnumeric_reducepi, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "roman",      "f|f",  help_roman,
 	  gnumeric_roman, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
