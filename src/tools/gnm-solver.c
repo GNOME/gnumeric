@@ -227,7 +227,7 @@ gnm_solver_constraint_valid (GnmSolverConstraint const *c,
 		GnmSheetRange sr_input, sr_c;
 
 		if (!vinput)
-			break; /* No need to blame contraint.  */
+			break; /* No need to blame constraint.  */
 
 		gnm_sheet_range_from_value (&sr_input, vinput);
 		gnm_sheet_range_from_value (&sr_c, lhs);

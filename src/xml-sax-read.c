@@ -2532,7 +2532,7 @@ xml_sax_object_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static GnmValue *
-parse_contraint_side (const char *s, const GnmParsePos *pp)
+parse_constraint_side (const char *s, const GnmParsePos *pp)
 {
 	GODateConventions const *date_conv =
 		workbook_date_conv (pp->sheet->workbook);
@@ -2573,12 +2573,12 @@ xml_sax_solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_int (attrs, "Type", &type))
 			; /* Nothing */
 		else if (attr_eq (attrs[0], "lhs")) {
-			GnmValue *v = parse_contraint_side (CXML2C (attrs[1]),
-							    &pp);
+			GnmValue *v = parse_constraint_side (CXML2C (attrs[1]),
+							     &pp);
 			gnm_solver_constraint_set_lhs (c, v);
 		} else if (attr_eq (attrs[0], "rhs")) {
-			GnmValue *v = parse_contraint_side (CXML2C (attrs[1]),
-							    &pp);
+			GnmValue *v = parse_constraint_side (CXML2C (attrs[1]),
+							     &pp);
 			gnm_solver_constraint_set_rhs (c, v);
 		}
 	}
