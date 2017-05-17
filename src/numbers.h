@@ -119,6 +119,7 @@ typedef long double gnm_float;
 #define gnm_quad_end go_quad_endl
 #define gnm_quad_exp go_quad_expl
 #define gnm_quad_expm1 go_quad_expm1l
+#define gnm_quad_floor go_quad_floorl
 #define gnm_quad_init go_quad_initl
 #define gnm_quad_ln2 go_quad_ln2l
 #define gnm_quad_log go_quad_logl
@@ -235,6 +236,7 @@ typedef double gnm_float;
 #define gnm_quad_end go_quad_end
 #define gnm_quad_exp go_quad_exp
 #define gnm_quad_expm1 go_quad_expm1
+#define gnm_quad_floor go_quad_floor
 #define gnm_quad_init go_quad_init
 #define gnm_quad_ln2 go_quad_ln2
 #define gnm_quad_log go_quad_log

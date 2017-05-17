@@ -1811,10 +1811,17 @@ static gnm_float
 debye_33 (gnm_float x, gnm_float nu, gnm_float eta2, size_t N)
 {
 	gnm_float sqdiff = nu * nu - x * x;
-	gnm_float f = - gnm_sqrt (2 / M_PIgnum) * gnm_exp (eta2) /
-		gnm_pow (sqdiff, 0.25);
+	gnm_float f;
 	gnm_float res;
 	gnm_complex sum;
+	gnm_float c = gnm_sqrt (2 / M_PIgnum);
+
+	if (eta2 < gnm_log (GNM_MAX) - 0.01)
+		f = - c * gnm_exp (eta2) / gnm_pow (sqdiff, 0.25);
+	else {
+		// Near-overflow panic
+		f = - gnm_exp (gnm_log (c) + eta2 - 0.25 * gnm_log (sqdiff));
+	}
 
 	sum = debye_u_sum (x, nu, N, TRUE, FALSE);
 	res = f * sum.re;
@@ -2375,6 +2382,252 @@ hankel1 (gnm_float x, gnm_float nu)
 
 /* ------------------------------------------------------------------------ */
 
+static gboolean
+bessel_jy_phase_domain (gnm_float x, gnm_float nu)
+{
+	gnm_float anu = gnm_abs (nu);
+	gnm_float ax = gnm_abs (x);
+
+	if (anu < 2)
+		return ax > 1000000;
+
+	if (anu < ax / 2)
+		return ax > 1;
+
+	if (ax < 10)
+		return FALSE;
+	if (ax < 100)
+		return anu < ax / 1.5;
+	if (ax < 250)
+		return anu < ax / 1.2;
+
+	return anu < ax / 1.1;
+}
+
+
+static gnm_float
+gnm_bessel_M (gnm_float z, gnm_float nu)
+{
+	gnm_float s = 1;
+	gnm_float tn_z2n = 1;
+	gnm_float z2 = z * z;
+	gnm_float nu2 = nu * nu;
+	int n, NMAX = 400;
+
+	// log2(1.1^400) = 55.00
+
+	for (n = 1; n < NMAX; n++) {
+		gnm_float nmh = n - 0.5;
+		gnm_float f = (nu2 - nmh * nmh) * (nmh / n);
+		gnm_float r = f / z2;
+		if (gnm_abs (r) > 1)
+			break;
+		tn_z2n *= r;
+		s += tn_z2n;
+		if (0) g_printerr ("%d: %g (%g)\n", n, s, tn_z2n);
+		if (gnm_abs (tn_z2n) < GNM_EPSILON * gnm_abs (s))
+			break;
+	}
+
+	return gnm_sqrt (s / (z * (M_PIgnum / 2)));
+}
+
+
+static void
+gnm_quad_reduce_pi (GnmQuad *res, GnmQuad const *a, int p, int *pk)
+{
+	gnm_float k;
+	GnmQuad qk, qa, qb;
+	unsigned ui;
+	static const GnmQuad qh = { 0.5, 0 };
+	static const gnm_float pi_parts[] = {
+		+0x1.921fb54442d18p+1,
+		+0x1.1a62633145c04p-53,
+		+0x1.707344a40938p-104,
+		+0x1.114cf98e80414p-155,
+		+0x1.bea63b139b224p-206,
+		+0x1.14a08798e3404p-258,
+		+0x1.bbdf2a33679a4p-311,
+		+0x1.a431b302b0a6cp-362,
+		+0x1.f25f14374fe1p-414,
+		+0x1.ab6b6a8e122fp-465
+	};
+
+	if (a->h < 0) {
+		GnmQuad ma;
+		ma.h = -a->h;
+		ma.l = -a->l;
+		gnm_quad_reduce_pi (res, &ma, p, pk);
+		res->h = -res->h;
+		res->l = -res->l;
+		*pk = (p >= 0) ? (-*pk) & ((1 << (p + 1)) - 1) : 0;
+		return;
+	}
+
+	if (a->h > gnm_ldexp (1.0, GNM_MANT_DIG))
+		g_warning ("Reduced accuracy for very large trigonometric arguments");
+
+	gnm_quad_div (&qk, a, &gnm_quad_pi);
+	qk.h = gnm_ldexp (qk.h, p);
+	qk.l = gnm_ldexp (qk.l, p);
+
+	gnm_quad_add (&qk, &qk, &qh);
+	gnm_quad_floor (&qk, &qk);
+
+	k = gnm_quad_value (&qk);
+	*pk = (int)(gnm_fmod (k, 1 << (1 + p)));
+
+	k = gnm_ldexp (k, -p);
+	qa = *a;
+	for (ui = 0; ui < G_N_ELEMENTS(pi_parts); ui++) {
+		gnm_quad_mul12 (&qb, pi_parts[ui], k);
+		gnm_quad_sub (&qa, &qa, &qb);
+	}
+
+	*res = qa;
+}
+
+
+static gnm_float
+gnm_bessel_phi (gnm_float z, gnm_float nu, int *n_pi_4)
+{
+	void *state = gnm_quad_start ();
+	GnmQuad qs = gnm_quad_zero;
+	GnmQuad tn_z2n[400], sn_z2n[400];
+	GnmQuad qz, qnu, qzm2, qnu2, nuh, qrz;
+	int n, N, NMAX = 400, j, dk;
+	gnm_float rnu;
+	gnm_float ld = 0;
+
+	go_quad_init (&qz, z);
+	go_quad_init (&qnu, nu);
+
+	// qzm2 = 1 / (z * z)
+	go_quad_mul12 (&qzm2, z, z);
+	go_quad_div (&qzm2, &gnm_quad_one, &qzm2);
+
+	// qnu2 = nu * nu
+	go_quad_mul12 (&qnu2, nu, nu);
+
+	(void)gnm_frexp (z / nu, &N);
+	N = GNM_MANT_DIG / N + 1;
+	N = MIN (N, (int)G_N_ELEMENTS (tn_z2n));
+
+	tn_z2n[0] = sn_z2n[0] = gnm_quad_one;
+
+	for (n = 1; n < NMAX; n++) {
+		GnmQuad qnmh, qnmh2, qf, qd, qn;
+
+		gnm_quad_init (&qn, n);
+
+		// qnmh = n - 0.5
+		gnm_quad_init (&qnmh, n - 0.5);
+
+		// qnmh2 = (n - 0.5)^2
+		gnm_quad_mul (&qnmh2, &qnmh, &qnmh);
+
+		// qf = (nu^2 - (n - 0.5)^2) * (n - 0.5) / n
+		gnm_quad_sub (&qf, &qnu2, &qnmh2);
+		gnm_quad_mul (&qf, &qf, &qnmh);
+		gnm_quad_div (&qf, &qf, &qn);
+
+		// tn_z2n[n] = tn_z2n[n-1] * f / z^2
+		gnm_quad_mul (&tn_z2n[n], &tn_z2n[n - 1], &qf);
+		gnm_quad_mul (&tn_z2n[n], &tn_z2n[n], &qzm2);
+
+		sn_z2n[n] = gnm_quad_zero;
+		for (j = 1; j <= n; j++) {
+			GnmQuad qp;
+
+			gnm_quad_mul (&qp, &tn_z2n[j], &sn_z2n[n - j]);
+			gnm_quad_sub (&sn_z2n[n], &sn_z2n[n], &qp);
+		}
+
+		gnm_quad_init (&qd, 1 - 2 * n);
+		gnm_quad_div (&qd, &sn_z2n[n], &qd);
+		if (0) g_printerr ("%d: %g (%g)\n", n, gnm_quad_value (&qs), gnm_quad_value (&qd));
+
+		if (n > 1 && gnm_abs (gnm_quad_value (&qd)) > ld)
+			break;
+		ld = gnm_abs (gnm_quad_value (&qd));
+
+		gnm_quad_add (&qs, &qs, &qd);
+
+		if (gnm_abs (gnm_quad_value (&qd)) < GNM_EPSILON * GNM_EPSILON * gnm_abs (gnm_quad_value (&qs)))
+			break;
+	}
+	gnm_quad_mul (&qs, &qz, &qs);
+
+	// Add z
+	gnm_quad_reduce_pi (&qrz, &qz, 2, n_pi_4);
+	gnm_quad_add (&qs, &qs, &qrz);
+
+	// Subtract Pi/4
+	(*n_pi_4)--;
+
+	// Subtract nu/2
+	rnu = rint (-2 * nu);
+	*n_pi_4 += (int)fmod (rnu, 8);
+	gnm_quad_init (&nuh, (-2 * nu - rnu) / 4);
+	gnm_quad_mul (&nuh, &nuh, &gnm_quad_pi);
+	gnm_quad_add (&qs, &qs, &nuh);
+
+	gnm_quad_reduce_pi (&qs, &qs, 2, &dk);
+	*n_pi_4 += dk;
+
+	*n_pi_4 &= 7;
+
+	gnm_quad_end (state);
+
+	return gnm_quad_value (&qs);
+}
+
+/* ------------------------------------------------------------------------ */
+
+static gnm_float
+cos_x_plus_n_pi_4 (gnm_float x, int n_pi_4)
+{
+	static const gnm_float SQH = M_SQRT2gnum / 2;
+
+	switch (n_pi_4 & 7) {
+	case 0: return gnm_cos (x);
+	case 1: return (gnm_cos (x) - gnm_sin (x)) * SQH;
+	case 2: return -gnm_sin (x);
+	case 3: return (gnm_cos (x) + gnm_sin (x)) * -SQH;
+	case 4: return -gnm_cos (x);
+	case 5: return (gnm_sin (x) - gnm_cos (x)) * SQH;
+	case 6: return gnm_sin (x);
+	case 7: return (gnm_cos (x) + gnm_sin (x)) * SQH;
+	default: g_assert_not_reached ();
+	}
+}
+
+/* ------------------------------------------------------------------------ */
+
+static gnm_float
+gnm_bessel_j_phase (gnm_float x, gnm_float nu)
+{
+	int n_pi_4;
+	gnm_float M = gnm_bessel_M (x, nu);
+	gnm_float phi = gnm_bessel_phi (x, nu, &n_pi_4);
+
+	if (0) g_printerr ("M=%g  phi=%.20g + %d * Pi/4\n", M, phi, n_pi_4);
+
+	return M * cos_x_plus_n_pi_4 (phi, n_pi_4);
+}
+
+static gnm_float
+gnm_bessel_y_phase (gnm_float x, gnm_float nu)
+{
+	int n_pi_4;
+	gnm_float M = gnm_bessel_M (x, nu);
+	gnm_float phi = gnm_bessel_phi (x, nu, &n_pi_4);
+	// Adding 6 means we get sin instead.
+	return M * cos_x_plus_n_pi_4 (phi, n_pi_4 + 6);
+}
+
+/* ------------------------------------------------------------------------ */
+
 gnm_float
 gnm_bessel_i (gnm_float x, gnm_float alpha)
 {
@@ -2408,6 +2661,8 @@ gnm_bessel_j (gnm_float x, gnm_float alpha)
 		return gnm_fmod (alpha, 2) == 0
 			? gnm_bessel_j (-x, alpha)  /* Even for even alpha */
 			: 0 - gnm_bessel_j (-x, alpha);  /* Odd for odd alpha */
+	} else if (bessel_jy_phase_domain (x, alpha)) {
+		return gnm_bessel_j_phase (x, alpha);
 	} else {
 		return GNM_CRE (hankel1 (x, alpha));
 	}
@@ -2432,6 +2687,8 @@ gnm_bessel_y (gnm_float x, gnm_float alpha)
 		return gnm_fmod (alpha, 2) == 0
 			? gnm_bessel_y (-x, alpha)  /* Even for even alpha */
 			: 0 - gnm_bessel_y (-x, alpha);  /* Odd for odd alpha */
+	} else if (bessel_jy_phase_domain (x, alpha)) {
+		return gnm_bessel_y_phase (x, alpha);
 	} else {
 		return GNM_CIM (hankel1 (x, alpha));
 	}

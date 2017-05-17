@@ -1,5 +1,9 @@
 2017-05-16  Morten Welinder  <terra@gnome.org>
 
+	* src/sf-bessel.c (debye_33): Handle near-overflow better.
+	(gnm_bessel_j, gnm_bessel_y): Use modulus/phase method when
+	appropriate.
+
 	* src/gutils.c (gnm_utf8_strto): Handle denormals better.
 
 	* src/value.c (value_new_from_string): Handle denormals betters.
