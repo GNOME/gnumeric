@@ -206,8 +206,10 @@ gnm_utf8_strto (const char *s, char **end)
 	gnm_float res;
 	int save_errno;
 
-	if (all_ascii (s))
-		return gnm_strto (s, end);
+	if (all_ascii (s)) {
+		res = gnm_strto (s, end);
+		goto handle_denormal;
+	}
 
 	ascii = g_string_sized_new (100);
 
@@ -271,6 +273,14 @@ gnm_utf8_strto (const char *s, char **end)
 	g_string_free (ascii, TRUE);
 
 	errno = save_errno;
+
+handle_denormal:
+	save_errno = errno;
+	if (res != 0 && gnm_abs (res) < GNM_MIN)
+		errno = 0;
+	else
+		errno = save_errno;
+
 	return res;
 }
 

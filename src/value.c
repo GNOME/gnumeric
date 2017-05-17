@@ -510,6 +510,9 @@ value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 		gnm_float d;
 
 		d = gnm_strto (str, &end);
+		if (d != 0 && d > -GNM_MIN && d < GNM_MIN)
+			errno = 0;
+
 		if (str != end && *end == '\0' && errno != ERANGE)
 			res = value_new_float (d);
 		break;
