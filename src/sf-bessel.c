@@ -1184,7 +1184,7 @@ bessel_ij_series_domain (gnm_float x, gnm_float v)
 }
 
 
-static gnm_float
+static GnmQuad
 bessel_ij_series (gnm_float x, gnm_float v, gboolean qj)
 {
 	GnmQuad qv, qxh, qfv, qs, qt;
@@ -1243,7 +1243,7 @@ bessel_ij_series (gnm_float x, gnm_float v, gboolean qj)
 			gnm_quad_add (&qs, &qs, &qt);
 			s = gnm_quad_value (&qs);
 			if (k >= mink &&
-			    gnm_abs (t) <= GNM_EPSILON / 1024 * gnm_abs (s))
+			    gnm_abs (t) <= GNM_EPSILON / (1 << 20) * gnm_abs (s))
 				break;
 		}
 	}
@@ -1253,11 +1253,12 @@ bessel_ij_series (gnm_float x, gnm_float v, gboolean qj)
 
 	// Clamp won't affect whether we get 0 or inf.
 	e = CLAMP (e, G_MININT, G_MAXINT);
-	s = gnm_ldexp (s, (int)e);
+	qs.h = gnm_ldexp (qs.h, (int)e);
+	qs.l = gnm_ldexp (qs.l, (int)e);
 
 	gnm_quad_end (state);
 
-	return s;
+	return qs;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -2215,23 +2216,43 @@ integral_127 (gnm_float x, gnm_float nu)
 	return GNM_CMUL (I, GNM_CMAKE (0, -1 / M_PIgnum));
 }
 
+static void
+jy_via_j_series (gnm_float x, gnm_float nu, gnm_float *pj, gnm_float *py)
+{
+	void *state = gnm_quad_start ();
+	GnmQuad qnu, qJnu, qJmnu, qYnu, qCos, qSin, qInvSin;
+
+	gnm_quad_init (&qnu, nu);
+	gnm_quad_cospi (&qCos, &qnu);
+	gnm_quad_sinpi (&qSin, &qnu);
+	gnm_quad_div (&qInvSin, &gnm_quad_one, &qSin);
+
+	qJnu = bessel_ij_series (x, nu, TRUE);
+	*pj = gnm_quad_value (&qJnu);
+
+	qJmnu = bessel_ij_series (x, -nu, TRUE);
+
+	gnm_quad_mul (&qYnu, &qJnu, &qCos);
+	gnm_quad_sub (&qYnu, &qYnu, &qJmnu);
+	gnm_quad_mul (&qYnu, &qYnu, &qInvSin);
+
+	*py = gnm_quad_value (&qYnu);
+
+	gnm_quad_end (state);
+}
+
+
 static gnm_float
-y_via_j_series (gnm_float nu, const gnm_float *args)
+cb_y_helper (gnm_float nu, const gnm_float *args)
 {
 	gnm_float x = args[0];
 	gnm_float Ynu;
-	if (nu == gnm_floor (nu) && gnm_abs (nu) < G_MAXINT) {
+	if (nu == gnm_floor (nu)) {
+		g_return_val_if_fail (gnm_abs (nu) < G_MAXINT, gnm_nan);
 		Ynu = gnm_yn ((int)nu, x);
-		if (0) g_printerr ("via: %.20g %.20g %.20g\n", x, nu, Ynu);
 	} else {
-		gnm_float c = gnm_cospi (nu);
-		gnm_float s = gnm_sinpi (nu);
-		gnm_float c_Jnu = c == 0
-			? 0
-			: c * bessel_ij_series (x, nu, TRUE);
-		gnm_float Jmnu = bessel_ij_series (x, -nu, TRUE);
-		Ynu = (c_Jnu - Jmnu) / s;
-		if (0) g_printerr ("via: %.20g %.20g %.20g %.20g %.20g\n", x, nu, c_Jnu, Jmnu, Ynu);
+		gnm_float Jnu;
+		jy_via_j_series (x, nu, &Jnu, &Ynu);
 	}
 	return Ynu;
 }
@@ -2257,18 +2278,16 @@ static gnm_complex
 hankel1_A1 (gnm_float x, gnm_float nu)
 {
 	gnm_float rnu = gnm_floor (nu + 0.49); // Close enough
-	gnm_float Jnu = bessel_ij_series (x, nu, TRUE);
-	gnm_float Ynu;
-	gboolean use_yn = (gnm_abs (rnu) < G_MAXINT - 1);
+	gnm_float Jnu, Ynu;
+	gboolean use_yn = (gnm_abs (rnu) < 100000 - 1);
 
 	if (gnm_abs (nu - rnu) > 5e-4) {
-		gnm_float Jmnu = bessel_ij_series (x, -nu, TRUE);
-		gnm_float c = gnm_cospi (nu);
-		gnm_float s = gnm_sinpi (nu);
-		Ynu = ((c == 0 ? 0 : Jnu * c) - Jmnu) / s;
+		jy_via_j_series (x, nu, &Jnu, &Ynu);
 	} else if (use_yn && nu == rnu) {
+		Jnu = gnm_jn ((int)rnu, x);
 		Ynu = gnm_yn ((int)rnu, x);
 	} else {
+		GnmQuad qJnu = bessel_ij_series (x, nu, TRUE);
 		size_t N = 6;
 		gnm_float dnu = 1e-3;
 		gnm_float args[1] = { x };
@@ -2276,7 +2295,9 @@ hankel1_A1 (gnm_float x, gnm_float nu)
 		if (use_yn)
 			N |= 1; // Odd, so we use rnu
 		Ynu = chebyshev_interpolant (N, nul, nur, nu,
-					     y_via_j_series, args);
+					     cb_y_helper, args);
+
+		Jnu = gnm_quad_value (&qJnu);
 	}
 
 	return GNM_CMAKE (Jnu, Ynu);
@@ -2391,11 +2412,10 @@ bessel_jy_phase_domain (gnm_float x, gnm_float nu)
 	if (anu < 2)
 		return ax > 1000000;
 
-	if (anu < ax / 2)
-		return ax > 1;
-
-	if (ax < 10)
-		return FALSE;
+	if (ax < 30)
+		return anu < ax / 3;
+	if (ax < 50)
+		return anu < ax / 2;
 	if (ax < 100)
 		return anu < ax / 1.5;
 	if (ax < 250)
@@ -2413,6 +2433,9 @@ gnm_bessel_M (gnm_float z, gnm_float nu)
 	gnm_float z2 = z * z;
 	gnm_float nu2 = nu * nu;
 	int n, NMAX = 400;
+	gboolean debug = FALSE;
+
+	if (debug) g_printerr ("M[%g,%g]\n", nu, z);
 
 	// log2(1.1^400) = 55.00
 
@@ -2420,13 +2443,17 @@ gnm_bessel_M (gnm_float z, gnm_float nu)
 		gnm_float nmh = n - 0.5;
 		gnm_float f = (nu2 - nmh * nmh) * (nmh / n);
 		gnm_float r = f / z2;
-		if (gnm_abs (r) > 1)
+		if (gnm_abs (r) > 1) {
+			if (debug) g_printerr ("Ratio %g\n", r);
 			break;
+		}
 		tn_z2n *= r;
 		s += tn_z2n;
-		if (0) g_printerr ("%d: %g (%g)\n", n, s, tn_z2n);
-		if (gnm_abs (tn_z2n) < GNM_EPSILON * gnm_abs (s))
+		if (debug) g_printerr ("Step %d: %g (%g)\n", n, s, tn_z2n);
+		if (gnm_abs (tn_z2n) < GNM_EPSILON * gnm_abs (s)) {
+			if (debug) g_printerr ("Precision ok\n");
 			break;
+		}
 	}
 
 	return gnm_sqrt (s / (z * (M_PIgnum / 2)));
@@ -2497,7 +2524,10 @@ gnm_bessel_phi (gnm_float z, gnm_float nu, int *n_pi_4)
 	GnmQuad qz, qnu, qzm2, qnu2, nuh, qrz;
 	int n, N, NMAX = 400, j, dk;
 	gnm_float rnu;
-	gnm_float ld = 0;
+	gnm_float lt = GNM_MAX;
+	gboolean debug = FALSE;
+
+	if (debug) g_printerr ("Phi[%g,%g]\n", nu, z);
 
 	go_quad_init (&qz, z);
 	go_quad_init (&qnu, nu);
@@ -2517,6 +2547,7 @@ gnm_bessel_phi (gnm_float z, gnm_float nu, int *n_pi_4)
 
 	for (n = 1; n < NMAX; n++) {
 		GnmQuad qnmh, qnmh2, qf, qd, qn;
+		gnm_float lt2;
 
 		gnm_quad_init (&qn, n);
 
@@ -2545,16 +2576,23 @@ gnm_bessel_phi (gnm_float z, gnm_float nu, int *n_pi_4)
 
 		gnm_quad_init (&qd, 1 - 2 * n);
 		gnm_quad_div (&qd, &sn_z2n[n], &qd);
-		if (0) g_printerr ("%d: %g (%g)\n", n, gnm_quad_value (&qs), gnm_quad_value (&qd));
 
-		if (n > 1 && gnm_abs (gnm_quad_value (&qd)) > ld)
+		// Break out when the tn ratios go the wrong way.  The
+		// sn ratios can have hickups.
+		lt2 = gnm_abs (gnm_quad_value (&tn_z2n[n]));
+		if (lt2 > lt) {
+			if (debug) g_printerr ("t_n ratio %g\n", lt2 / lt);
 			break;
-		ld = gnm_abs (gnm_quad_value (&qd));
+		}
+		lt = lt2;
 
 		gnm_quad_add (&qs, &qs, &qd);
+		if (debug) g_printerr ("Step %d: %g (%g)\n", n, gnm_quad_value (&qs), gnm_quad_value (&qd));
 
-		if (gnm_abs (gnm_quad_value (&qd)) < GNM_EPSILON * GNM_EPSILON * gnm_abs (gnm_quad_value (&qs)))
+		if (gnm_abs (gnm_quad_value (&qd)) < GNM_EPSILON * GNM_EPSILON * gnm_abs (gnm_quad_value (&qs))) {
+			if (debug) g_printerr ("Precision ok\n");
 			break;
+		}
 	}
 	gnm_quad_mul (&qs, &qz, &qs);
 
@@ -2634,8 +2672,10 @@ gnm_bessel_i (gnm_float x, gnm_float alpha)
 	if (gnm_isnan (x) || gnm_isnan (alpha))
 		return x + alpha;
 
-	if (bessel_ij_series_domain (x, alpha))
-		return bessel_ij_series (x, alpha, FALSE);
+	if (bessel_ij_series_domain (x, alpha)) {
+		GnmQuad qi = bessel_ij_series (x, alpha, FALSE);
+		return gnm_quad_value (&qi);
+	}
 
 	if (x < 0) {
 		if (alpha != gnm_floor (alpha))

@@ -64,6 +64,7 @@ typedef long double gnm_float;
 #define gnm_frexp frexpl
 #define gnm_hypot hypotl
 #define gnm_isnan isnanl
+#define gnm_jn jnl
 #define gnm_ldexp ldexpl
 #define gnm_lgamma lgammal
 #define gnm_lgamma_r lgammal_r
@@ -181,6 +182,7 @@ typedef double gnm_float;
 #define gnm_frexp frexp
 #define gnm_hypot hypot
 #define gnm_isnan isnan
+#define gnm_jn jn
 #define gnm_ldexp ldexp
 #define gnm_lgamma lgamma
 #define gnm_lgamma_r lgamma_r

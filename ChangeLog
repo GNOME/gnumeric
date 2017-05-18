@@ -1,3 +1,11 @@
+2017-05-18  Morten Welinder  <terra@gnome.org>
+
+	* src/sf-bessel.c (hankel1_A1): Use also libc's jn for smallish
+	integer orders.
+	(jy_via_j_series): Rename from y_via_j_series and supply both J
+	and Y results.  Use the full J result accuracy.
+	(gnm_bessel_phi): Improve divergence check.
+
 2017-05-16  Morten Welinder  <terra@gnome.org>
 
 	* src/sf-bessel.c (debye_33): Handle near-overflow better.
