@@ -4,6 +4,7 @@ Morten:
 	* Test suite improvements.
 	* Improve relative accuracy of BESSELJ and BESSELY.
 	* New function REDUCEPI.
+	* Fix further fallout from glpk format change.  [#783077]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.34

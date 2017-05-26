@@ -141,27 +141,14 @@ static gboolean
 gnm_glpk_read_solution_457 (GnmGlpk *lp,
 			    GsfInputTextline *tl,
 			    GnmSolverResult *result,
-			    GnmSolverSensitivity *sensitivity)
+			    GnmSolverSensitivity *sensitivity,
+			    gboolean has_integer)
 {
 	GnmSubSolver *subsol = lp->parent;
-	GnmSolver *sol = GNM_SOLVER (subsol);
 	const char *line;
 	unsigned cols, rows, c, r;
-	gboolean has_integer;
-	GSList *l;
 	int pstat, dstat;
 	gnm_float val;
-
-	/*
-	 * glpsol's output format is different if there are any integer
-	 * constraint.  Go figure.
-	 */
-	has_integer = sol->params->options.assume_discrete;
-	for (l = sol->params->constraints; !has_integer && l; l = l->next) {
-		GnmSolverConstraint *c = l->data;
-		has_integer = (c->type == GNM_SOLVER_INTEGER ||
-			       c->type == GNM_SOLVER_BOOLEAN);
-	}
 
 	if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
 		goto fail;
@@ -239,13 +226,19 @@ fail:
 	return TRUE;
 }
 
-#define READ_LINE(tl,line) do { line = gsf_input_textline_utf8_gets (tl); if (!line) goto fail; } while (line[0] == 'c' && (line[1] == 0 || line[1] == ' '))
+#define READ_LINE(tl,line) do {					\
+	line = gsf_input_textline_utf8_gets (tl);		\
+        if (!line) goto fail;					\
+	if (gnm_solver_debug ())				\
+		g_printerr ("%s\n", line);			\
+} while (line[0] == 'c' && (line[1] == 0 || line[1] == ' '))
 
 static gboolean
 gnm_glpk_read_solution_458 (GnmGlpk *lp,
 			    GsfInputTextline *tl,
 			    GnmSolverResult *result,
-			    GnmSolverSensitivity *sensitivity)
+			    GnmSolverSensitivity *sensitivity,
+			    gboolean has_integer)
 {
 	GnmSubSolver *subsol = lp->parent;
 	const char *line;
@@ -255,16 +248,25 @@ gnm_glpk_read_solution_458 (GnmGlpk *lp,
 
 	READ_LINE (tl, line);
 
-	if (sscanf (line, "s %*s %u %u %c %c %" GNM_SCANF_g,
-		    &rows, &cols, &pstat, &dstat, &val) != 5)
-		goto fail;
+	if (has_integer) {
+		if (sscanf (line, "s %*s %u %u %c %" GNM_SCANF_g,
+			    &rows, &cols, &pstat, &val) != 4)
+			goto fail;
+	} else {
+		if (sscanf (line, "s %*s %u %u %c %c %" GNM_SCANF_g,
+			    &rows, &cols, &pstat, &dstat, &val) != 5)
+			goto fail;
+	}
 	if (cols != g_hash_table_size (subsol->cell_from_name))
 		goto fail;
 
 	result->value = val;
 	switch (pstat) {
-	case 'f':
+	case 'o':
 		result->quality = GNM_SOLVER_RESULT_OPTIMAL;
+		break;
+	case 'f':
+		result->quality = GNM_SOLVER_RESULT_FEASIBLE;
 		break;
 	case 'u':
 	case 'i':
@@ -282,8 +284,11 @@ gnm_glpk_read_solution_458 (GnmGlpk *lp,
 
 		READ_LINE (tl, line);
 
-		if (sscanf (line, "i %d %c %" GNM_SCANF_g " %" GNM_SCANF_g,
-			    &r1, &rstat, &pval, &dval) != 4 ||
+		if ((has_integer
+		     ? sscanf (line, "i %d %" GNM_SCANF_g,
+			       &r1, &dval) != 2
+		     : sscanf (line, "i %d %c %" GNM_SCANF_g " %" GNM_SCANF_g,
+			       &r1, &rstat, &pval, &dval) != 4) ||
 		    r1 != cidx + 1)
 			goto fail;
 		// rstat?
@@ -298,8 +303,11 @@ gnm_glpk_read_solution_458 (GnmGlpk *lp,
 
 		READ_LINE (tl, line);
 
-		if (sscanf (line, "j %d %c %" GNM_SCANF_g " %" GNM_SCANF_g,
-			    &c1, &cstat, &pval, &dval) != 4 ||
+		if ((has_integer
+		     ? sscanf (line, "j %d %" GNM_SCANF_g,
+			       &c1, &pval) != 2
+		     : sscanf (line, "j %d %c %" GNM_SCANF_g " %" GNM_SCANF_g,
+			       &c1, &cstat, &pval, &dval) != 4) ||
 		    c1 != cidx + 1)
 			goto fail;
 		// cstat?
@@ -325,6 +333,8 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 	GnmSolverResult *result = NULL;
 	GnmSolverSensitivity *sensitivity = NULL;
 	enum { SEC_UNKNOWN, SEC_ROWS, SEC_COLUMNS } state;
+	gboolean has_integer;
+	GSList *l;
 
 	input = gsf_input_stdio_new (lp->result_filename, NULL);
 	if (!input)
@@ -337,13 +347,26 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 
 	sensitivity = gnm_solver_sensitivity_new (sol);
 
+	/*
+	 * glpsol's output format is different if there are any integer
+	 * constraint.  Go figure.
+	 */
+	has_integer = sol->params->options.assume_discrete;
+	for (l = sol->params->constraints; !has_integer && l; l = l->next) {
+		GnmSolverConstraint *c = l->data;
+		has_integer = (c->type == GNM_SOLVER_INTEGER ||
+			       c->type == GNM_SOLVER_BOOLEAN);
+	}
+
 	switch (gnm_glpk_detect_version (lp, tl)) {
 	case GLPK_457:
-		if (gnm_glpk_read_solution_457 (lp, tl, result, sensitivity))
+		if (gnm_glpk_read_solution_457 (lp, tl, result, sensitivity,
+						has_integer))
 			goto fail;
 		break;
 	case GLPK_458:
-		if (gnm_glpk_read_solution_458 (lp, tl, result, sensitivity))
+		if (gnm_glpk_read_solution_458 (lp, tl, result, sensitivity,
+						has_integer))
 			goto fail;
 		break;
 	default:

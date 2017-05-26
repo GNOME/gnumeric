@@ -1,3 +1,8 @@
+2017-05-26  Morten Welinder  <terra@gnome.org>
+
+	* gnm-glpk.c (gnm_glpk_read_solution_458): Format is different
+	when integer variables are present.  *Sigh*
+
 2017-03-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.34
