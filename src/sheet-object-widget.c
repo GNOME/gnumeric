@@ -2171,9 +2171,9 @@ sheet_widget_slider_horizontal_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_ROUND);
 
 	cairo_new_path (cr);
-	cairo_move_to (cr, fraction * (width - 8. - 20. - 5. - 5. + 2.5 + 2.5)
+	cairo_move_to (cr, fraction * (width - 8. - 1. - 5. - 5. + 2.5 + 2.5)
 		       - 10. + 10. + 4. + 5. - 2.5, height/2);
-	cairo_rel_line_to (cr, 20, 0);
+	cairo_rel_line_to (cr, 1, 0);
 	cairo_stroke (cr);
 
 	cairo_new_path (cr);
