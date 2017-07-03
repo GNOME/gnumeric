@@ -1,5 +1,8 @@
 Gnumeric 1.12.35
 
+Jean:
+	* Fix cell border style selectors with recent gdk-pixbuf. [#781988]
+
 Morten:
 	* Test suite improvements.
 	* Improve relative accuracy of BESSELJ and BESSELY.

@@ -315,9 +315,17 @@ setup_pattern_button (GdkScreen *screen,
 		GtkButton *button = GTK_BUTTON (tmp);
 		if (do_image) {
 			char *res = g_strconcat ("/org/gnumeric/gnumeric/images/", name, ".xpm", NULL);
-			GtkWidget *image = from_icon
-				? gtk_image_new_from_icon_name (name, GTK_ICON_SIZE_DIALOG)
-				: gtk_image_new_from_resource (res);
+			GtkWidget *image;
+			if (from_icon)
+				image = gtk_image_new_from_icon_name (name, GTK_ICON_SIZE_DIALOG);
+			else {
+				/* gtk_image_new_from_resource() is unable to load pixdata with gdk-pixbuf >= 2.36.1
+				 * because it uses the gdk_pixbuf_loader API and the pixdata module has been removed
+				 * because of a security issue. See #776004. */
+				GdkPixbuf *pixbuf = gdk_pixbuf_new_from_resource (res, NULL);
+				image = gtk_image_new_from_pixbuf (pixbuf);
+				g_object_unref (pixbuf);
+			}
 			g_free (res);
 			gtk_widget_show (image);
 			gtk_container_add (GTK_CONTAINER (tmp), image);

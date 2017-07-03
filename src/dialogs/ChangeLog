@@ -1,3 +1,8 @@
+2017-07-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-cell-format.c (setup_pattern_button): fix pixdata loading
+	when gdk-pixbuf is >= 2.36.1. [#781988]
+
 2017-03-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.34
