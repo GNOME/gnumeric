@@ -1,3 +1,7 @@
+2017-07-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.35
+
 2017-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (sheet_widget_slider_horizontal_draw_cairo): use
