@@ -2412,6 +2412,8 @@ bessel_jy_phase_domain (gnm_float x, gnm_float nu)
 	if (anu < 2)
 		return ax > 1000000;
 
+	if (ax < 20)
+		return anu < ax / 5;
 	if (ax < 30)
 		return anu < ax / 3;
 	if (ax < 50)
