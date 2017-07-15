@@ -510,24 +510,24 @@ uninstall-hook:
 # what the build
 EXTRA_DIST =						\
 	gnm.gresource.xml				\
-	pixmaps/line_pattern_dash_dot.xpm		\
-	pixmaps/line_pattern_dash_dot_dot.xpm		\
-	pixmaps/line_pattern_dashed.xpm			\
-	pixmaps/line_pattern_dotted.xpm			\
-	pixmaps/line_pattern_double.xpm			\
-	pixmaps/line_pattern_hair.xpm			\
-	pixmaps/line_pattern_medium.xpm			\
-	pixmaps/line_pattern_medium_dash.xpm		\
-	pixmaps/line_pattern_medium_dash_dot.xpm	\
-	pixmaps/line_pattern_medium_dash_dot_dot.xpm	\
-	pixmaps/line_pattern_slant.xpm			\
-	pixmaps/line_pattern_thick.xpm			\
-	pixmaps/line_pattern_thin.xpm			\
-        pixmaps/right-down.png				\
+	pixmaps/line_pattern_dash_dot.png		\
+	pixmaps/line_pattern_dash_dot_dot.png		\
+	pixmaps/line_pattern_dashed.png			\
+	pixmaps/line_pattern_dotted.png			\
+	pixmaps/line_pattern_double.png			\
+	pixmaps/line_pattern_hair.png			\
+	pixmaps/line_pattern_medium.png			\
+	pixmaps/line_pattern_medium_dash.png		\
+	pixmaps/line_pattern_medium_dash_dot.png	\
+	pixmaps/line_pattern_medium_dash_dot_dot.png	\
+	pixmaps/line_pattern_slant.png			\
+	pixmaps/line_pattern_thick.png			\
+	pixmaps/line_pattern_thin.png			\
+	pixmaps/right-down.png				\
 	pixmaps/down-right.png				\
 	pixmaps/gnumeric_splash_1.4.png			\
 	pixmaps/unknown_image.png			\
-	pixmaps/sheet_move_marker.xpm			\
+	pixmaps/sheet_move_marker.png			\
 	gnumeric.css					\
 	gnm-marshalers.list				\
 	README.gnm_float				\

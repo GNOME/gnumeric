@@ -5,6 +5,6 @@ internalicons = \
 	gnumeric-format-valign-distributed.png \
 	gnumeric-format-valign-justify.png \
 	gnumeric-format-valign-top.png \
-	cursor-cross.xpm
+	cursor-cross.png
 
 EXTRA_DIST = $(internalicons)

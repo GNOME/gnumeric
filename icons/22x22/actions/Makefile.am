@@ -1,29 +1,29 @@
 internalicons =					\
 	gnumeric-brush.png			\
-	gnumeric-format-border-inside-horiz.xpm	\
-	gnumeric-pattern-125grey.xpm		\
-	gnumeric-pattern-25grey.xpm		\
-	gnumeric-pattern-50grey.xpm		\
-	gnumeric-pattern-625grey.xpm		\
-	gnumeric-pattern-75grey.xpm		\
-	gnumeric-pattern-bricks.xpm		\
-	gnumeric-pattern-diag-cross.xpm		\
-	gnumeric-pattern-diag.xpm		\
-	gnumeric-pattern-foreground-solid.xpm	\
-	gnumeric-pattern-horiz.xpm		\
-	gnumeric-pattern-large-circles.xpm	\
-	gnumeric-pattern-rev-diag.xpm		\
-	gnumeric-pattern-semi-circle.xpm	\
-	gnumeric-pattern-small-circle.xpm	\
-	gnumeric-pattern-solid.xpm		\
-	gnumeric-pattern-thatch.xpm		\
-	gnumeric-pattern-thick-diag-cross.xpm	\
-	gnumeric-pattern-thin-diag-cross.xpm	\
-	gnumeric-pattern-thin-diag.xpm		\
-	gnumeric-pattern-thin-horiz-cross.xpm	\
-	gnumeric-pattern-thin-horiz.xpm		\
-	gnumeric-pattern-thin-rev-diag.xpm	\
-	gnumeric-pattern-thin-vert.xpm		\
-	gnumeric-pattern-vert.xpm
+	gnumeric-format-border-inside-horiz.png	\
+	gnumeric-pattern-125grey.png		\
+	gnumeric-pattern-25grey.png		\
+	gnumeric-pattern-50grey.png		\
+	gnumeric-pattern-625grey.png		\
+	gnumeric-pattern-75grey.png		\
+	gnumeric-pattern-bricks.png		\
+	gnumeric-pattern-diag-cross.png		\
+	gnumeric-pattern-diag.png		\
+	gnumeric-pattern-foreground-solid.png	\
+	gnumeric-pattern-horiz.png		\
+	gnumeric-pattern-large-circles.png	\
+	gnumeric-pattern-rev-diag.png		\
+	gnumeric-pattern-semi-circle.png	\
+	gnumeric-pattern-small-circle.png	\
+	gnumeric-pattern-solid.png		\
+	gnumeric-pattern-thatch.png		\
+	gnumeric-pattern-thick-diag-cross.png	\
+	gnumeric-pattern-thin-diag-cross.png	\
+	gnumeric-pattern-thin-diag.png		\
+	gnumeric-pattern-thin-horiz-cross.png	\
+	gnumeric-pattern-thin-horiz.png		\
+	gnumeric-pattern-thin-rev-diag.png	\
+	gnumeric-pattern-thin-vert.png		\
+	gnumeric-pattern-vert.png
 
 EXTRA_DIST = $(internalicons)

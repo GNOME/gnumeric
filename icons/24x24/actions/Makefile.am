@@ -1,49 +1,49 @@
 internalicons =						\
 	gnumeric-autofilter-delete.png			\
 	gnumeric-autofilter.png				\
-	gnumeric-autosum.xpm				\
-	gnumeric-bucket.xpm				\
-	gnumeric-cells-merge.xpm			\
-	gnumeric-cells-split.xpm			\
-	gnumeric-center-across-selection.xpm		\
-	gnumeric-column-add.xpm				\
-	gnumeric-column-delete.xpm			\
-	gnumeric-column-hide.xpm			\
-	gnumeric-column-size.xpm			\
-	gnumeric-column-unhide.xpm			\
-	gnumeric-component-insert-shaped.xpm		\
-	gnumeric-component-insert.xpm			\
+	gnumeric-autosum.png				\
+	gnumeric-bucket.png				\
+	gnumeric-cells-merge.png			\
+	gnumeric-cells-split.png			\
+	gnumeric-center-across-selection.png		\
+	gnumeric-column-add.png				\
+	gnumeric-column-delete.png			\
+	gnumeric-column-hide.png			\
+	gnumeric-column-size.png			\
+	gnumeric-column-unhide.png			\
+	gnumeric-component-insert-shaped.png		\
+	gnumeric-component-insert.png			\
 	gnumeric-data-slicer.png			\
-	gnumeric-detail-hide.xpm			\
-	gnumeric-detail-show.xpm			\
-	gnumeric-equal.xpm				\
-	gnumeric-font.xpm				\
+	gnumeric-detail-hide.png			\
+	gnumeric-detail-show.png			\
+	gnumeric-equal.png				\
+	gnumeric-font.png				\
 	gnumeric-format-accounting.png			\
-	gnumeric-format-border-all.xpm			\
-	gnumeric-format-border-bottom.xpm		\
-	gnumeric-format-border-double-bottom.xpm	\
-	gnumeric-format-border-inside-vert.xpm		\
-	gnumeric-format-border-inside.xpm		\
-	gnumeric-format-border-left.xpm			\
-	gnumeric-format-border-none.xpm			\
-	gnumeric-format-border-no.xpm			\
-	gnumeric-format-border-outline.xpm		\
-	gnumeric-format-border-outside.xpm		\
-	gnumeric-format-border-right.xpm		\
-	gnumeric-format-border-thick-bottom.xpm		\
-	gnumeric-format-border-thick-outside.xpm	\
-	gnumeric-format-border-top-n-bottom.xpm		\
-	gnumeric-format-border-top-n-double-bottom.xpm	\
-	gnumeric-format-border-top-n-thick-bottom.xpm	\
+	gnumeric-format-border-all.png			\
+	gnumeric-format-border-bottom.png		\
+	gnumeric-format-border-double-bottom.png	\
+	gnumeric-format-border-inside-vert.png		\
+	gnumeric-format-border-inside.png		\
+	gnumeric-format-border-left.png			\
+	gnumeric-format-border-none.png			\
+	gnumeric-format-border-no.png			\
+	gnumeric-format-border-outline.png		\
+	gnumeric-format-border-outside.png		\
+	gnumeric-format-border-right.png		\
+	gnumeric-format-border-thick-bottom.png		\
+	gnumeric-format-border-thick-outside.png	\
+	gnumeric-format-border-top-n-bottom.png		\
+	gnumeric-format-border-top-n-double-bottom.png	\
+	gnumeric-format-border-top-n-thick-bottom.png	\
 	gnumeric-format-halign-fill.png			\
 	gnumeric-format-halign-general.png		\
 	gnumeric-format-percentage.png			\
 	gnumeric-format-precision-decrease.png		\
 	gnumeric-format-precision-increase.png		\
-	gnumeric-format-thousand-separator.xpm		\
+	gnumeric-format-thousand-separator.png		\
 	gnumeric-formulaguru.png			\
-	gnumeric-graphguru.xpm				\
-	gnumeric-group.xpm				\
+	gnumeric-graphguru.png				\
+	gnumeric-group.png				\
 	gnumeric-link-add.png				\
 	gnumeric-link-email.png				\
 	gnumeric-link-external.png			\
@@ -69,13 +69,13 @@ internalicons =						\
 	gnumeric-pivottable.png				\
 	gnumeric-protection-no.png			\
 	gnumeric-protection-yes.png			\
-	gnumeric-row-add.xpm				\
-	gnumeric-row-delete.xpm				\
-	gnumeric-row-hide.xpm				\
-	gnumeric-row-size.xpm				\
-	gnumeric-row-unhide.xpm				\
+	gnumeric-row-add.png				\
+	gnumeric-row-delete.png				\
+	gnumeric-row-hide.png				\
+	gnumeric-row-size.png				\
+	gnumeric-row-unhide.png				\
 	gnumeric-subscript.png				\
 	gnumeric-superscript.png			\
-	gnumeric-ungroup.xpm
+	gnumeric-ungroup.png
 
 EXTRA_DIST = $(internalicons)

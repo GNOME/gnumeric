@@ -314,7 +314,7 @@ setup_pattern_button (GdkScreen *screen,
 	if (tmp != NULL) {
 		GtkButton *button = GTK_BUTTON (tmp);
 		if (do_image) {
-			char *res = g_strconcat ("/org/gnumeric/gnumeric/images/", name, ".xpm", NULL);
+			char *res = g_strconcat ("/org/gnumeric/gnumeric/images/", name, ".png", NULL);
 			GtkWidget *image;
 			if (from_icon)
 				image = gtk_image_new_from_icon_name (name, GTK_ICON_SIZE_DIALOG);
