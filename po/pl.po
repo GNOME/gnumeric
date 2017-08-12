@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-25 22:00+0100\n"
-"PO-Revision-Date: 2017-03-25 22:01+0100\n"
+"POT-Creation-Date: 2017-08-12 02:37+0200\n"
+"PO-Revision-Date: 2017-08-12 02:38+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -950,9 +950,9 @@ msgstr "Nieznana wersja"
 msgid "%s version %s"
 msgstr "%s w wersji %s"
 
-#: ../plugins/fn-info/functions.c:1406 ../src/dialogs/dialog-cell-format.c:876
-#: ../src/dialogs/dialog-cell-format.c:2350
-#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3801
+#: ../plugins/fn-info/functions.c:1406 ../src/dialogs/dialog-cell-format.c:884
+#: ../src/dialogs/dialog-cell-format.c:2358
+#: ../src/dialogs/dialog-cell-format.c:2366 ../src/wbc-gtk-actions.c:3801
 msgid "Automatic"
 msgstr "Automatycznie"
 
@@ -1149,17 +1149,17 @@ msgstr "Zapisywanie pliku GLPK…"
 msgid "The GLPK exporter is not available."
 msgstr "Eksporter plików GLPK jest niedostępny."
 
-#: ../plugins/glpk/gnm-glpk.c:512
+#: ../plugins/glpk/gnm-glpk.c:535
 #, c-format
 msgid "Failed to create file for solution"
 msgstr "Utworzenie pliku dla rozwiązania się nie powiodło"
 
-#: ../plugins/glpk/gnm-glpk.c:521
+#: ../plugins/glpk/gnm-glpk.c:544
 #, c-format
 msgid "Failed to create file for sensitivity report"
 msgstr "Utworzenie pliku dla raportu wrażliwości się nie powiodło"
 
-#: ../plugins/glpk/gnm-glpk.c:579 ../plugins/lpsolve/gnm-lpsolve.c:427
+#: ../plugins/glpk/gnm-glpk.c:602 ../plugins/lpsolve/gnm-lpsolve.c:427
 #, c-format
 msgid ""
 "The %s program was not found.  You can either install it or use another "
@@ -5651,106 +5651,106 @@ msgstr "Nowy komentarz komórki (%s)"
 
 #. xgettext: This refers to a "none underline"
 #: ../src/dialogs/dialog-cell-format.c:73
-#: ../src/dialogs/dialog-cell-format.c:863
+#: ../src/dialogs/dialog-cell-format.c:871
 msgctxt "underline"
 msgid "None"
 msgstr "Brak"
 
 #: ../src/dialogs/dialog-cell-format.c:74
-#: ../src/dialogs/dialog-cell-format.c:864
+#: ../src/dialogs/dialog-cell-format.c:872
 msgctxt "underline"
 msgid "Single"
 msgstr "Pojedyncze"
 
 #: ../src/dialogs/dialog-cell-format.c:75
-#: ../src/dialogs/dialog-cell-format.c:865
+#: ../src/dialogs/dialog-cell-format.c:873
 msgctxt "underline"
 msgid "Double"
 msgstr "Podwójne"
 
 #. xgettext: This refers to a "single low underline"
 #: ../src/dialogs/dialog-cell-format.c:77
-#: ../src/dialogs/dialog-cell-format.c:866
+#: ../src/dialogs/dialog-cell-format.c:874
 msgctxt "underline"
 msgid "Single Low"
 msgstr "Pojedyncze niskie"
 
 #. xgettext: This refers to a "double low underline"
 #: ../src/dialogs/dialog-cell-format.c:79
-#: ../src/dialogs/dialog-cell-format.c:867
+#: ../src/dialogs/dialog-cell-format.c:875
 msgctxt "underline"
 msgid "Double Low"
 msgstr "Podwójne niskie"
 
-#: ../src/dialogs/dialog-cell-format.c:464 ../src/dialogs/dialog-search.c:155
+#: ../src/dialogs/dialog-cell-format.c:472 ../src/dialogs/dialog-search.c:155
 #: ../src/func.c:1705 ../src/wbc-gtk-actions.c:3417
 msgid "Number"
 msgstr "Liczba"
 
-#: ../src/dialogs/dialog-cell-format.c:1670
+#: ../src/dialogs/dialog-cell-format.c:1678
 msgid "None          (silently accept invalid input)"
 msgstr "Brak        (ciche przyjmowanie nieprawidłowych danych)"
 
-#: ../src/dialogs/dialog-cell-format.c:1674
+#: ../src/dialogs/dialog-cell-format.c:1682
 msgid "Stop            (never allow invalid input)"
 msgstr "Zatrzymanie (bez zezwolenia na wprowadzenie nieprawidłowych danych)"
 
-#: ../src/dialogs/dialog-cell-format.c:1678
+#: ../src/dialogs/dialog-cell-format.c:1686
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Ostrzeżenie (przyjmowanie/odrzucanie nieprawidłowych danych)"
 
-#: ../src/dialogs/dialog-cell-format.c:1682
+#: ../src/dialogs/dialog-cell-format.c:1690
 msgid "Information (allow invalid input)"
 msgstr "Informacje  (zezwolenie na nieprawidłowe dane)"
 
-#: ../src/dialogs/dialog-cell-format.c:1722 ../src/dialogs/data-slicer.ui.h:2
+#: ../src/dialogs/dialog-cell-format.c:1730 ../src/dialogs/data-slicer.ui.h:2
 msgid "Source"
 msgstr "Źródło"
 
-#: ../src/dialogs/dialog-cell-format.c:1723
+#: ../src/dialogs/dialog-cell-format.c:1731
 msgid "Criteria"
 msgstr "Kryteria"
 
-#: ../src/dialogs/dialog-cell-format.c:1738
-#: ../src/dialogs/dialog-cell-format.c:1747 ../src/dialogs/so-scrollbar.ui.h:4
+#: ../src/dialogs/dialog-cell-format.c:1746
+#: ../src/dialogs/dialog-cell-format.c:1755 ../src/dialogs/so-scrollbar.ui.h:4
 msgid "Min:"
 msgstr "Minimum:"
 
-#: ../src/dialogs/dialog-cell-format.c:1739
-#: ../src/dialogs/dialog-cell-format.c:1751 ../src/dialogs/so-scrollbar.ui.h:5
+#: ../src/dialogs/dialog-cell-format.c:1747
+#: ../src/dialogs/dialog-cell-format.c:1759 ../src/dialogs/so-scrollbar.ui.h:5
 msgid "Max:"
 msgstr "Maksimum:"
 
-#: ../src/dialogs/dialog-cell-format.c:1743
+#: ../src/dialogs/dialog-cell-format.c:1751
 #: ../src/dialogs/doc-meta-data.ui.h:34 ../src/dialogs/so-radiobutton.ui.h:4
 msgid "Value:"
 msgstr "Wartość:"
 
-#: ../src/dialogs/dialog-cell-format.c:2081
+#: ../src/dialogs/dialog-cell-format.c:2089
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 "Kryteria poprawności są bezużyteczne. Wyłączyć sprawdzanie poprawności?"
 
-#: ../src/dialogs/dialog-cell-format.c:2287 ../src/dialogs/cell-format.ui.h:17
+#: ../src/dialogs/dialog-cell-format.c:2295 ../src/dialogs/cell-format.ui.h:17
 msgid "Format Cells"
 msgstr "Formatuj komórki"
 
-#: ../src/dialogs/dialog-cell-format.c:2350
+#: ../src/dialogs/dialog-cell-format.c:2358
 #: ../src/dialogs/cell-format-cond.ui.h:8 ../src/dialogs/cell-format.ui.h:57
 msgid "Border"
 msgstr "Krawędź"
 
-#: ../src/dialogs/dialog-cell-format.c:2354 ../src/wbc-gtk-actions.c:3847
+#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3847
 msgid "Clear Background"
 msgstr "Wyczyść tło"
 
-#: ../src/dialogs/dialog-cell-format.c:2354
+#: ../src/dialogs/dialog-cell-format.c:2362
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:90
 #: ../src/wbc-gtk-actions.c:3849 ../src/wbc-gtk-actions.c:3850
 msgid "Background"
 msgstr "Tło"
 
-#: ../src/dialogs/dialog-cell-format.c:2358
+#: ../src/dialogs/dialog-cell-format.c:2366
 msgid "Pattern"
 msgstr "Deseń"
 
@@ -12783,7 +12783,7 @@ msgstr "%s nie obsługuje wielu zakresów"
 #: ../src/sheet-autofill.c:62
 #, c-format
 msgid "%dQ"
-msgstr "%dQ"
+msgstr "%d kw. "
 
 #: ../src/sheet-autofill.c:914
 msgid "(empty)"
