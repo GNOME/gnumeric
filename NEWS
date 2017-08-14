@@ -3,6 +3,7 @@ Gnumeric 1.12.36
 Morten:
 	* Convert all xpm files to png.
 	* Avoid to-pixdata options for resources.  It's going away.
+	* Minor CORREL improvement.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.35

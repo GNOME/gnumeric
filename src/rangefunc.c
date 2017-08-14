@@ -383,14 +383,21 @@ gnm_range_covar_est (gnm_float const *xs, const gnm_float *ys, int n, gnm_float 
 int
 gnm_range_correl_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res)
 {
-	gnm_float sx, sy, vxy;
+	gnm_float sx, sy, vxy, c;
 
 	if (gnm_range_stddev_pop (xs, n, &sx) || sx == 0 ||
 	    gnm_range_stddev_pop (ys, n, &sy) || sy == 0 ||
 	    gnm_range_covar_pop (xs, ys, n, &vxy))
 		return 1;
 
-	*res = vxy / (sx * sy);
+	c = vxy / (sx * sy);
+
+	// Rounding errors can push us beyond [-1,+1].  Avoid that.
+	// This isn't a great solution, but it'll have to do until
+	// someone comes up with a better approach.
+	c = CLAMP (c, -1.0, +1.0);
+
+	*res = c;
 	return 0;
 }
 
