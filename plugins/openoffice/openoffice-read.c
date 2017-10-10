@@ -9548,7 +9548,8 @@ oo_series_domain (GsfXMLIn *xin, xmlChar const **attrs)
 		name = (state->chart.domain_count == 0) ? "Y" : "X";
 		break;
 	case OO_PLOT_CONTOUR:
-		dim = (state->chart.domain_count == 0) ? -1 : GOG_MS_DIM_CATEGORIES;
+		/* y-values first, then x-values */
+		dim = (state->chart.domain_count == 0) ? GOG_MS_DIM_CATEGORIES : -1;
 		break;
 	default:
 		dim = GOG_MS_DIM_CATEGORIES;

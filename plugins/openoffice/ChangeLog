@@ -1,3 +1,7 @@
+2017-01-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_series_domain): fix series order #788728
+
 2017-07-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.35
@@ -33,10 +37,7 @@
 	* openoffice-write.c (odf_write_named_expression): Don't write
 	range-usable-as attribute.
 
-2017-01-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_cell_content_link) local links may be
-	prefixed with #
 	* openoffice-write.c (odf_write_objects) prefix local links with #
 
 2017-03-06  Morten Welinder  <terra@gnome.org>
