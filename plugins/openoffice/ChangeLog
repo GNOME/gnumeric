@@ -1,4 +1,11 @@
-2017-01-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2017-10-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_chart_axis): handle PSEUDO_3D axis and colormap
+	(oo_chart): read theme name
+	* openoffice-write.c (odf_write_axis_full): write color map for PSEUDO_3D axis
+	(odf_write_plot): write PSEUDO_3D axis
+
+2017-10-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_series_domain): fix series order #788728
 

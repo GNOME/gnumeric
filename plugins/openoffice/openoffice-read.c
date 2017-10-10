@@ -8757,6 +8757,12 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "z",	GOG_AXIS_Z },
 		{ NULL,	0 },
 	};
+	static OOEnum const types_contour[] = {
+		{ "x",	GOG_AXIS_X },
+		{ "y",	GOG_AXIS_Y },
+		{ "z",	GOG_AXIS_PSEUDO_3D },
+		{ NULL,	0 },
+	};
 	static OOEnum const types_radar[] = {
 		{ "x",	GOG_AXIS_CIRCULAR },
 		{ "y",	GOG_AXIS_RADIAL },
@@ -8768,6 +8774,7 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	OOChartStyle *style = NULL;
 	gchar const *style_name = NULL;
 	gchar const *chart_name = NULL;
+	gchar const *color_map_name = NULL;
 	GogAxisType  axis_type;
 	int tmp;
 	int gnm_id = 0;
@@ -8788,6 +8795,12 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_CIRCLE:
 	case OO_PLOT_RING:
 		return;
+	case OO_PLOT_CONTOUR:
+		if (oo_style_has_property (state->chart.i_plot_styles, "multi-series", FALSE) 
+		    || oo_style_has_property (state->chart.i_plot_styles, "three-dimensional", FALSE))
+			axes_types = types;
+		else axes_types = types_contour;
+		break;
 	default:
 		axes_types = types;
 		break;
@@ -8803,6 +8816,8 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 			axis_type = tmp;
 		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "id", &gnm_id, 1, INT_MAX))
 		 	;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "color-map-name"))
+			color_map_name = CXML2C (attrs[1]);
 
 	if (gnm_id == 0) {
 		switch (axis_type) {
@@ -8877,6 +8892,8 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		g_hash_table_replace (state->chart.named_axes,
 				      g_strdup (chart_name),
 				      state->chart.axis);
+	if (NULL != color_map_name && NULL != state->chart.axis) 
+		g_object_set (G_OBJECT(state->chart.axis), "color-map-name", color_map_name, NULL);
 }
 
 static void
@@ -9909,7 +9926,7 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	int tmp;
 	OOPlotType type = OO_PLOT_UNKNOWN;
-	OOChartStyle	*style = NULL;
+	OOChartStyle	*style = NULL;	
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "class", odf_chart_classes, &tmp))
@@ -9918,6 +9935,15 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 					     OO_NS_CHART, "style-name"))
 			style = g_hash_table_lookup
 				(state->chart.graph_styles, CXML2C (attrs[1]));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_GNUM_NS_EXT, "theme-name")) {
+			GValue *val = g_value_init (g_new0 (GValue, 1), G_TYPE_STRING);
+			g_value_set_string (val, CXML2C (attrs[0]));
+			g_object_set_property (G_OBJECT (state->chart.graph), "theme-name", val);
+			g_value_unset (val);
+			g_free (val);			
+		} 
+			
 	state->chart.plot_type = type;
 	state->chart.chart = GOG_CHART (gog_object_add_by_name (
 		GOG_OBJECT (state->chart.graph), "Chart", NULL));

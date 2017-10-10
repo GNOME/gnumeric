@@ -7983,6 +7983,14 @@ odf_write_axis_full (GnmOOExport *state,
 			if (name != NULL)
 				gsf_xml_out_add_cstr (state->xml, CHART "style-name", name);
 			g_free (name);
+       			if (state->with_extension && 0 == strcmp (axis_role,"Pseudo-3D-Axis")) {
+				char *color_map_name = NULL;
+				g_object_get (G_OBJECT (axis), "color-map-name", &color_map_name, NULL);
+				if (color_map_name) {
+					gsf_xml_out_add_cstr (state->xml, GNMSTYLE "color-map-name", color_map_name);
+					g_free (color_map_name);
+				}
+			}
 			odf_write_label (state, axis);
 			if (include_cats)
 				odf_write_axis_categories (state, series);
@@ -8129,9 +8137,9 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 		  odf_write_standard_series,
 		  odf_write_axis, odf_write_axis, odf_write_axis},
 		{ "GogContourPlot", CHART "surface", ODF_SURF,
-		  20., "X-Axis", "Y-Axis", NULL,
+		  20., "X-Axis", "Y-Axis", "Pseudo-3D-Axis",
 		  odf_write_bubble_series,
-		  odf_write_axis, odf_write_axis, odf_write_axis},
+		  odf_write_axis, odf_write_axis, odf_write_axis_no_cats},
 		{ "GogXYZContourPlot", GNMSTYLE "xyz-surface", ODF_XYZ_SURF,
 		  20., "X-Axis", "Y-Axis", NULL,
 		  odf_write_bubble_series,
