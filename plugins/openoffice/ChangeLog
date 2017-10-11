@@ -1,5 +1,11 @@
 2017-10-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_color_scaleo): new
+	(opendoc_content_dtd): connect the above
+	* openoffice-write.c (odf_write_plot): write color-scale
+
+2017-10-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_chart_axis): handle PSEUDO_3D axis and colormap
 	(oo_chart): read theme name
 	* openoffice-write.c (odf_write_axis_full): write color map for PSEUDO_3D axis

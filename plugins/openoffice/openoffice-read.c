@@ -9997,6 +9997,13 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+oo_color_scale (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gog_object_add_by_name ((GogObject *)state->chart.chart, "Color-Scale", NULL);
+}
+
+static void
 oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static OOEnum const positions [] = {
@@ -12235,6 +12242,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_LEGEND, OO_NS_CHART, "legend", GSF_XML_NO_CONTENT, &oo_legend, NULL),
 	        GSF_XML_IN_NODE (CHART_LEGEND, CHART_LEGEND_TITLE, OO_GNUM_NS_EXT, "title", GSF_XML_NO_CONTENT, &oo_chart_title, &oo_chart_title_end),
 		  GSF_XML_IN_NODE (CHART_LEGEND_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
+	      GSF_XML_IN_NODE (CHART_CHART, CHART_COLOR_SCALE, OO_GNUM_NS_EXT, "color-scale", GSF_XML_NO_CONTENT, &oo_color_scale, NULL),
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_PLOT_AREA, OO_NS_CHART, "plot-area", GSF_XML_NO_CONTENT, &oo_plot_area, &oo_plot_area_end),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_SERIES, OO_NS_CHART, "series", GSF_XML_NO_CONTENT, &oo_plot_series, &oo_plot_series_end),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DOMAIN, OO_NS_CHART, "domain", GSF_XML_NO_CONTENT, &oo_series_domain, NULL),

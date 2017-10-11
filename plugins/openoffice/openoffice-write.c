@@ -8051,6 +8051,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 	GSList const *series, *l;
 	GogObject const *wall = gog_object_get_child_by_name (chart, "Backplane");
 	GogObject const *legend = gog_object_get_child_by_name (chart, "Legend");
+	GogObject const *color_scale = gog_object_get_child_by_name (chart, "Color-Scale");
 	GogObjectRole const *trole = gog_object_find_role_by_name (graph, "Title");
 	GSList *titles = gog_object_get_children (graph, trole);
 	GogObjectRole const *trole2 = gog_object_find_role_by_name (chart, "Title");
@@ -8432,6 +8433,10 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 		g_free (name);
 	}
 	gsf_xml_out_end_element (state->xml); /* </chart:plot_area> */
+
+	if (color_scale != NULL && state->with_extension)
+		gsf_xml_out_simple_element (state->xml, GNMSTYLE "color-scale", NULL);
+
 	gsf_xml_out_end_element (state->xml); /* </chart:chart> */
 	gsf_xml_out_end_element (state->xml); /* </office:chart> */
 	gsf_xml_out_end_element (state->xml); /* </office:body> */
