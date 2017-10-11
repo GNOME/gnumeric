@@ -3740,31 +3740,43 @@ xlsx_wb_name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	Sheet *sheet = state->defined_name_sheet;
 	GnmNamedExpr *nexpr;
 	char *error_msg = NULL;
+	const char *thename = state->defined_name;
+	const char *thevalue = xin->content->str;
+	gboolean bogus = FALSE;
 
-	g_return_if_fail (state->defined_name != NULL);
+	g_return_if_fail (thename != NULL);
 
 	parse_pos_init (&pp, state->wb, sheet, 0, 0);
 
-	if (g_str_has_prefix (state->defined_name, "_xlnm.")) {
-		gboolean editable = (0 == strcmp (state->defined_name + 6, "Sheet_Title"));
-		nexpr = expr_name_add (&pp, state->defined_name + 6,
-				       gnm_expr_top_new_constant (value_new_empty ()),
-				       &error_msg, TRUE, NULL);
+	if (g_str_has_prefix (thename, "_xlnm.")) {
+		gboolean editable;
+
+		thename += 6;
+		editable = g_str_equal (thename, "Sheet_Title");
+		bogus = g_str_equal (thename, "Print_Area") &&
+			g_str_equal (thevalue, "!#REF!");
+		nexpr = bogus
+			? NULL
+			: expr_name_add (&pp, thename,
+					 gnm_expr_top_new_constant (value_new_empty ()),
+					 &error_msg, TRUE, NULL);
 		if (nexpr) {
 			nexpr->is_permanent = TRUE;
 			nexpr->is_editable = editable;
 		}
 	} else
-		nexpr = expr_name_add (&pp, state->defined_name,
+		nexpr = expr_name_add (&pp, thename,
 				       gnm_expr_top_new_constant (value_new_empty ()),
 				       &error_msg, TRUE, NULL);
 
-	if (nexpr) {
+	if (bogus) {
+		/* Silently ignore */
+	} else if (nexpr) {
 		state->delayed_names =
 			g_list_prepend (state->delayed_names, sheet);
 		state->delayed_names =
 			g_list_prepend (state->delayed_names,
-					g_strdup (xin->content->str));
+					g_strdup (thevalue));
 		state->delayed_names =
 			g_list_prepend (state->delayed_names, nexpr);
 	} else {
