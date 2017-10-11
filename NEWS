@@ -2,6 +2,7 @@ Gnumeric 1.12.36
 
 Andreas:
 	* Improve contour plot export/import to/from ODF. [#788728]
+	* Improve contour plot import of Excel generated ODF. [#788801]
 
 Morten:
 	* Convert all xpm files to png.

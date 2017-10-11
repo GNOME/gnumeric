@@ -243,6 +243,8 @@ typedef struct {
 	gboolean         src_abscissa_set;
 	GnmRange	 src_label;
 	gboolean         src_label_set;
+	gboolean         surface_series_extension;
+	GnmSheetRange    surface_range;
 
 	GogSeries	*series;
 	unsigned	 series_count;	/* reset for each plotarea */
@@ -9234,6 +9236,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.src_in_rows = TRUE;
 	state->chart.src_abscissa_set = FALSE;
 	state->chart.src_label_set = FALSE;
+	state->chart.surface_series_extension = FALSE;
 	state->chart.series = NULL;
 	state->chart.series_count = 0;
 	state->chart.x_axis_count = 0;
@@ -9431,7 +9434,15 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 			attached_axis = g_hash_table_lookup (state->chart.named_axes, CXML2C (attrs[1]));
 	}
 
-	if (plot_type_set)
+	/* ODF allows for contour plots to have the data spread over several series. Gnumeric does not do that. */
+	
+	general_expression = (NULL != cell_range_expression);
+	if (state->chart.series_count == 1 && !general_expression)
+		state->chart.surface_series_extension = ((state->chart.plot_type_default == OO_PLOT_CONTOUR || 
+							  state->chart.plot_type_default == OO_PLOT_SURFACE) && 
+							 (plot_type == OO_PLOT_CONTOUR || plot_type == OO_PLOT_SURFACE));
+
+	if (plot_type_set && !state->chart.surface_series_extension)
 		plot = odf_create_plot (state, &plot_type);
 	else
 		plot = state->chart.plot;
@@ -9461,7 +9472,7 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL != attached_axis && NULL != plot)
 		gog_plot_set_axis (plot, GOG_AXIS (attached_axis));
 
-	if ((general_expression = (NULL != cell_range_expression)))
+	if (general_expression)
 		cell_range_address = cell_range_expression;
 
 	if (NULL != cell_range_address) {
@@ -9475,10 +9486,40 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 			{
 				GnmExprTop const *texpr;
 				texpr = odf_parse_range_address_or_expr (xin, cell_range_address);
-				if (NULL != texpr)
+				if (NULL != texpr) {
+					if (state->chart.surface_series_extension) {
+						GnmValue *val = gnm_expr_top_get_range (texpr);
+						if (val == NULL)
+							state->chart.surface_series_extension = FALSE;
+						else {
+							GnmSheetRange r;
+							gnm_sheet_range_from_value (&r, val);
+							value_release (val);
+							if (state->chart.series_count == 1) {
+								if ((range_width (&r.range) == 1) || 
+								    (range_height (&r.range) == 1)) {
+									state->chart.surface_range = r;
+								} else 
+									state->chart.surface_series_extension = FALSE;
+							} else {
+								state->chart.surface_range.range
+									= range_union (&state->chart.surface_range.range,
+										       &r.range);
+							}
+						}	
+					}
+					if (state->chart.surface_series_extension) {
+						GnmValue *val = value_new_cellrange_r 
+							(state->chart.surface_range.sheet,
+							 &state->chart.surface_range.range);
+						gnm_expr_top_unref (texpr);
+						texpr = gnm_expr_top_new_constant (val);
+					}
 					gog_series_set_dim (state->chart.series, 2,
 							    gnm_go_data_matrix_new_expr
 							    (state->pos.sheet, texpr), NULL);
+				} else 
+					state->chart.surface_series_extension = FALSE;
 			}
 			break;
 		case OO_PLOT_GANTT:
@@ -12349,6 +12390,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_IMAGE, OO_NS_DRAW, "image", GSF_XML_NO_CONTENT, &od_draw_image, NULL),
 	              GSF_XML_IN_NODE (DRAW_IMAGE, DRAW_IMAGE_TEXT,OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, SVG_DESC, OO_NS_SVG, "desc", GSF_XML_NO_CONTENT, NULL, NULL),
+		    GSF_XML_IN_NODE (DRAW_FRAME, SVG_TITLE, OO_NS_SVG, "title", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_TEXT_BOX, OO_NS_DRAW, "text-box", GSF_XML_NO_CONTENT, &od_draw_text_box, od_draw_text_frame_end),
 	            GSF_XML_IN_NODE (DRAW_TEXT_BOX, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_CELL, CELL_ANNOTATION, OO_NS_OFFICE, "annotation", GSF_XML_NO_CONTENT, &odf_annotation_start, &odf_annotation_end),
