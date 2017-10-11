@@ -980,6 +980,11 @@ xlsx_create_axis_object (XLSXReadState *state)
 		g_object_get (G_OBJECT (plot), "horizontal", &inverted, NULL);
 		break;
 
+	case XLSX_PT_GOGCONTOURPLOT:
+		if (state->axis.type == XLSX_AXIS_SER)
+			role = "Pseudo-3D-Axis";
+		break;
+
 	default:
 		break;
 	}
@@ -1287,6 +1292,13 @@ static void
 xlsx_chart_bubble (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	xlsx_chart_add_plot (xin, "GogBubblePlot");
+}
+
+static void
+xlsx_chart_contour (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	// This is called "surfaceChart" in xlsx.
+	xlsx_chart_add_plot (xin, "GogContourPlot");
 }
 
 static void
@@ -2740,6 +2752,9 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
               GSF_XML_IN_NODE (SERIES_ERR_BARS_PLUS, NUM_LIT, XL_NS_CHART, "numLit", GSF_XML_2ND, NULL, NULL),
 	    GSF_XML_IN_NODE (SERIES_ERR_BARS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_2ND, NULL, NULL),
 
+        GSF_XML_IN_NODE (SERIES, EXTLST_S, XL_NS_CHART, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (EXTLST_S, EXTITEM_S, XL_NS_CHART, "ext", GSF_XML_NO_CONTENT, &xlsx_ext_begin, &xlsx_ext_end),
+
       GSF_XML_IN_NODE (PLOTAREA, BUBBLE, XL_NS_CHART,	"bubbleChart", GSF_XML_NO_CONTENT, &xlsx_chart_bubble, &xlsx_plot_end),
         GSF_XML_IN_NODE (BUBBLE, PLOT_AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_2ND, NULL, NULL),
         GSF_XML_IN_NODE (BUBBLE, SERIES, XL_NS_CHART,		"ser", GSF_XML_2ND, NULL, NULL),
@@ -2748,6 +2763,10 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (BUBBLE, BUBBLE_SIZE_REP, XL_NS_CHART,	"sizeRepresents", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (BUBBLE, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_2ND, NULL, NULL),
 	GSF_XML_IN_NODE (BUBBLE, PLOT_DLBLS,    XL_NS_CHART, "dLbls", GSF_XML_2ND, NULL, NULL),
+
+      GSF_XML_IN_NODE (PLOTAREA, SURFACE, XL_NS_CHART,	"surfaceChart", GSF_XML_NO_CONTENT, &xlsx_chart_contour, &xlsx_plot_end),
+        GSF_XML_IN_NODE (SURFACE, PLOT_AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_2ND, NULL, NULL),
+        GSF_XML_IN_NODE (SURFACE, SERIES, XL_NS_CHART,		"ser", GSF_XML_2ND, NULL, NULL),
 
       GSF_XML_IN_NODE (PLOTAREA, BARCOL, XL_NS_CHART,	"barChart", GSF_XML_NO_CONTENT, &xlsx_chart_bar, &xlsx_plot_end),
         GSF_XML_IN_NODE (BARCOL, VARY_COLORS, XL_NS_CHART, "varyColors", GSF_XML_2ND, NULL, NULL),
