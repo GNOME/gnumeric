@@ -7396,9 +7396,6 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "three-dimensional", &btmp))
 			style->other_props = g_slist_prepend (style->other_props,
 				oo_prop_new_bool ("three-dimensional", btmp));
-		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "multi-series", &btmp))
-			style->other_props = g_slist_prepend (style->other_props,
-				oo_prop_new_bool ("multi-series", btmp));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "fill"))
 			style->style_props = g_slist_prepend
 				(style->style_props,
@@ -8804,9 +8801,9 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_CIRCLE:
 	case OO_PLOT_RING:
 		return;
+	case OO_PLOT_XL_CONTOUR:
 	case OO_PLOT_CONTOUR:
-		if (oo_style_has_property (state->chart.i_plot_styles, "multi-series", FALSE) 
-		    || oo_style_has_property (state->chart.i_plot_styles, "three-dimensional", FALSE))
+		if (oo_style_has_property (state->chart.i_plot_styles, "three-dimensional", FALSE))
 			axes_types = types;
 		else axes_types = types_contour;
 		break;
@@ -9126,16 +9123,7 @@ static gchar const
 	case OO_PLOT_SCATTER:	return "GogXYPlot";	break;
 	case OO_PLOT_STOCK:	return "GogMinMaxPlot";	break;  /* This is not quite right! */
 	case OO_PLOT_CONTOUR:
-		if (oo_style_has_property (state->chart.i_plot_styles, "multi-series", TRUE)) {
-			if (oo_style_has_property (state->chart.i_plot_styles,
-						   "three-dimensional", FALSE)) {
-				*oo_type = OO_PLOT_XL_SURFACE;
-				return "XLSurfacePlot";
-			} else {
-				*oo_type = OO_PLOT_XL_CONTOUR;
-				return "XLContourPlot";
-			}
-		} else if (oo_style_has_property (state->chart.i_plot_styles,
+		if (oo_style_has_property (state->chart.i_plot_styles,
 						   "three-dimensional", FALSE)) {
 			*oo_type = OO_PLOT_SURFACE;
 			return "GogSurfacePlot";
@@ -9458,6 +9446,38 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	else
 		plot = state->chart.plot;
 
+	general_expression = (NULL != cell_range_expression);
+
+	if (ignore_type_change && !general_expression && state->chart.series_count == 1 && NULL != cell_range_address) {
+		/* We need to check whether this is type 2  of the contour/surface plots. */
+		GnmExprTop const *texpr;
+		texpr = odf_parse_range_address_or_expr (xin, cell_range_address);
+		if (NULL != texpr) {
+			GnmValue *val = gnm_expr_top_get_range (texpr);
+			if (val != NULL) { 
+				GnmSheetRange r;
+				gnm_sheet_range_from_value (&r, val);
+				value_release (val);
+				if ((range_width (&r.range) == 1) || (range_height (&r.range) == 1)) {
+					if (state->chart.plot_type == OO_PLOT_SURFACE) 
+						plot_type = state->chart.plot_type_default = state->chart.plot_type
+							= OO_PLOT_XL_SURFACE;
+					else
+						plot_type = state->chart.plot_type_default = state->chart.plot_type
+							= OO_PLOT_XL_CONTOUR;
+					/* We need to get rid of the original state->chart.plot */
+					plot = state->chart.plot;
+					state->chart.plot= odf_create_plot (state, &state->chart.plot_type);
+					gog_object_clear_parent (GOG_OBJECT (plot));
+					g_object_unref (G_OBJECT (plot));
+					plot = state->chart.plot;
+					plot_type_set = TRUE;
+				}
+			}
+			gnm_expr_top_unref (texpr);
+		}
+	}
+
 	/* Create the series */
 	switch (plot_type) {
 	case OO_PLOT_STOCK: /* We need to construct the series later. */
@@ -9488,7 +9508,7 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL != attached_axis && NULL != plot)
 		gog_plot_set_axis (plot, GOG_AXIS (attached_axis));
 
-	if ((general_expression = (NULL != cell_range_expression)))
+	if (general_expression)
 		cell_range_address = cell_range_expression;
 
 	if (NULL != cell_range_address) {
