@@ -164,6 +164,7 @@ typedef enum {
 	OO_PLOT_XYZ_SURFACE,
 	OO_PLOT_SURFACE,
 	OO_PLOT_XL_SURFACE,
+	OO_PLOT_XL_CONTOUR,
 	OO_PLOT_BOX,
 	OO_PLOT_UNKNOWN
 } OOPlotType;
@@ -243,8 +244,6 @@ typedef struct {
 	gboolean         src_abscissa_set;
 	GnmRange	 src_label;
 	gboolean         src_label_set;
-	gboolean         surface_series_extension;
-	GnmSheetRange    surface_range;
 
 	GogSeries	*series;
 	unsigned	 series_count;	/* reset for each plotarea */
@@ -9119,9 +9118,15 @@ static gchar const
 	case OO_PLOT_SCATTER:	return "GogXYPlot";	break;
 	case OO_PLOT_STOCK:	return "GogMinMaxPlot";	break;  /* This is not quite right! */
 	case OO_PLOT_CONTOUR:
-		if (oo_style_has_property (state->chart.i_plot_styles, "multi-series", FALSE)) {
-			*oo_type = OO_PLOT_XL_SURFACE;
-			return "XLSurfacePlot";
+		if (oo_style_has_property (state->chart.i_plot_styles, "multi-series", TRUE)) {
+			if (oo_style_has_property (state->chart.i_plot_styles,
+						   "three-dimensional", FALSE)) {
+				*oo_type = OO_PLOT_XL_SURFACE;
+				return "XLSurfacePlot";
+			} else {
+				*oo_type = OO_PLOT_XL_CONTOUR;
+				return "XLContourPlot";
+			}
 		} else if (oo_style_has_property (state->chart.i_plot_styles,
 						   "three-dimensional", FALSE)) {
 			*oo_type = OO_PLOT_SURFACE;
@@ -9142,6 +9147,7 @@ static gchar const
 	case OO_PLOT_SURFACE: return "GogSurfacePlot"; break;
 	case OO_PLOT_SCATTER_COLOUR: return "GogXYColorPlot";	break;
 	case OO_PLOT_XL_SURFACE: return "XLSurfacePlot";	break;
+	case OO_PLOT_XL_CONTOUR: return "XLContourPlot";	break;
 	case OO_PLOT_BOX: return "GogBoxPlot";	break;
 	case OO_PLOT_UNKNOWN:
 	default:
@@ -9236,7 +9242,6 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.src_in_rows = TRUE;
 	state->chart.src_abscissa_set = FALSE;
 	state->chart.src_label_set = FALSE;
-	state->chart.surface_series_extension = FALSE;
 	state->chart.series = NULL;
 	state->chart.series_count = 0;
 	state->chart.x_axis_count = 0;
@@ -9395,6 +9400,10 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	xmlChar const *label = NULL;
 	OOPlotType plot_type = state->chart.plot_type;
+	gboolean ignore_type_change = (state->chart.plot_type == OO_PLOT_SURFACE || 
+				       state->chart.plot_type == OO_PLOT_CONTOUR ||
+				       state->chart.plot_type == OO_PLOT_XL_SURFACE || 
+				       state->chart.plot_type == OO_PLOT_XL_CONTOUR);
 	gboolean plot_type_set = FALSE;
 	int tmp;
 	GogPlot *plot;
@@ -9414,8 +9423,10 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	/* Now check the attributes */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "class", odf_chart_classes, &tmp)) {
-			state->chart.plot_type = plot_type = tmp;
-			plot_type_set = TRUE;
+			if (!ignore_type_change) {
+				state->chart.plot_type = plot_type = tmp;
+				plot_type_set = TRUE;
+			}
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address"))
 			cell_range_address = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "values-cell-range-expression"))
@@ -9434,15 +9445,7 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 			attached_axis = g_hash_table_lookup (state->chart.named_axes, CXML2C (attrs[1]));
 	}
 
-	/* ODF allows for contour plots to have the data spread over several series. Gnumeric does not do that. */
-	
-	general_expression = (NULL != cell_range_expression);
-	if (state->chart.series_count == 1 && !general_expression)
-		state->chart.surface_series_extension = ((state->chart.plot_type_default == OO_PLOT_CONTOUR || 
-							  state->chart.plot_type_default == OO_PLOT_SURFACE) && 
-							 (plot_type == OO_PLOT_CONTOUR || plot_type == OO_PLOT_SURFACE));
-
-	if (plot_type_set && !state->chart.surface_series_extension)
+	if (plot_type_set)
 		plot = odf_create_plot (state, &plot_type);
 	else
 		plot = state->chart.plot;
@@ -9454,6 +9457,11 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_SURFACE:
 	case OO_PLOT_CONTOUR:
 		if (state->chart.series == NULL)
+			state->chart.series = gog_plot_new_series (plot);
+		break;
+	case OO_PLOT_XL_SURFACE:
+	case OO_PLOT_XL_CONTOUR:
+		/*		if (state->chart.series == NULL) */
 			state->chart.series = gog_plot_new_series (plot);
 		break;
 	default:
@@ -9472,7 +9480,7 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL != attached_axis && NULL != plot)
 		gog_plot_set_axis (plot, GOG_AXIS (attached_axis));
 
-	if (general_expression)
+	if ((general_expression = (NULL != cell_range_expression)))
 		cell_range_address = cell_range_expression;
 
 	if (NULL != cell_range_address) {
@@ -9486,40 +9494,22 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 			{
 				GnmExprTop const *texpr;
 				texpr = odf_parse_range_address_or_expr (xin, cell_range_address);
-				if (NULL != texpr) {
-					if (state->chart.surface_series_extension) {
-						GnmValue *val = gnm_expr_top_get_range (texpr);
-						if (val == NULL)
-							state->chart.surface_series_extension = FALSE;
-						else {
-							GnmSheetRange r;
-							gnm_sheet_range_from_value (&r, val);
-							value_release (val);
-							if (state->chart.series_count == 1) {
-								if ((range_width (&r.range) == 1) || 
-								    (range_height (&r.range) == 1)) {
-									state->chart.surface_range = r;
-								} else 
-									state->chart.surface_series_extension = FALSE;
-							} else {
-								state->chart.surface_range.range
-									= range_union (&state->chart.surface_range.range,
-										       &r.range);
-							}
-						}	
-					}
-					if (state->chart.surface_series_extension) {
-						GnmValue *val = value_new_cellrange_r 
-							(state->chart.surface_range.sheet,
-							 &state->chart.surface_range.range);
-						gnm_expr_top_unref (texpr);
-						texpr = gnm_expr_top_new_constant (val);
-					}
+				if (NULL != texpr)
 					gog_series_set_dim (state->chart.series, 2,
 							    gnm_go_data_matrix_new_expr
 							    (state->pos.sheet, texpr), NULL);
-				} else 
-					state->chart.surface_series_extension = FALSE;
+			}
+			break;
+		case OO_PLOT_XL_SURFACE:
+		case OO_PLOT_XL_CONTOUR:
+			{
+				GnmExprTop const *texpr;
+				texpr = odf_parse_range_address_or_expr (xin, cell_range_address);
+				if (NULL != texpr)
+					gog_series_set_XL_dim (state->chart.series,
+							       GOG_MS_DIM_VALUES,
+							       gnm_go_data_vector_new_expr (state->pos.sheet, texpr),
+							       NULL);
 			}
 			break;
 		case OO_PLOT_GANTT:
