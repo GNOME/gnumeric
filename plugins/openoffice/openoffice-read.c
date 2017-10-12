@@ -7807,15 +7807,23 @@ oo_named_expr_common (GsfXMLIn *xin, xmlChar const **attrs, gboolean preparse)
 			scope = CXML2C (attrs[1]);
 
 #if 0
-	g_printerr ("%s: %s [sheet=%s]\n",
+	g_printerr ("%s: %s [sheet=%s] [%s]\n",
 		    (preparse ? "preparse" : "parse"),
 		    name,
-		    state->pos.sheet ? state->pos.sheet->name_unquoted : "-");
+		    state->pos.sheet ? state->pos.sheet->name_unquoted : "-",
+		    expr_str);
 #endif
 
 	if (preparse) {
 		expr_str = "of:=#REF!";
 		base_str = NULL;
+	}
+
+	if (name && expr_str &&
+	    g_str_equal (name, "Print_Area") &&
+	    g_str_equal (expr_str, "of:=[.#REF!]")) {
+		// Deal with XL nonsense
+		expr_str = NULL;
 	}
 
 	if (name != NULL && expr_str != NULL) {
