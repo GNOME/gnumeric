@@ -1,3 +1,10 @@
+2017-10-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_expr_func_handler): write CONCATENATE
+	as COM.MICROSOFT.CONCAT
+	* openoffice-read.c (oo_func_map_in): import CONCATENATE as 
+	ODF.CONCATENATE
+
 2017-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_axis_categories): add dim argument

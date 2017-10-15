@@ -2300,7 +2300,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "COMBINA","COMBINA" },
 		{ "COMPLEX","COMPLEX" },
 		{ "CONCAT","COM.MICROSOFT.CONCAT" },
-		{ "CONCATENATE","CONCATENATE" },
+		{ "CONCATENATE","COM.MICROSOFT.CONCAT" },
 		{ "CONFIDENCE","CONFIDENCE" },
 		{ "CONVERT","CONVERT" },
 		{ "CORREL","CORREL" },
