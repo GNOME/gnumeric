@@ -1,8 +1,13 @@
+2017-10-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_func_map_in): import some instances of CONCATENATE as
+	concatenate instead of ODF.CONCATENATE
+
 2017-10-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_expr_func_handler): write CONCATENATE
 	as COM.MICROSOFT.CONCAT
-	* openoffice-read.c (oo_func_map_in): import CONCATENATE as 
+	* openoffice-read.c (oo_func_map_in): import CONCATENATE as
 	ODF.CONCATENATE
 
 2017-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>

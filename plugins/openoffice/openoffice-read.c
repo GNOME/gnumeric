@@ -12948,6 +12948,32 @@ odf_func_norm_s_dist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_
 	return NULL;
 }
 
+static void
+odf_func_concatenate_handler_cb (gpointer data, gpointer user_data)
+{
+	GnmExpr const *expr = data;
+	gboolean *check =  (gboolean *)(user_data);
+
+	if (gnm_expr_is_rangeref (expr))
+		(*check) = (*check) || (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_CELLREF);
+}
+
+static GnmExpr const *
+odf_func_concatenate_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
+{
+	gboolean has_range = FALSE;
+	GnmFunc  *fd;
+
+	g_slist_foreach ((GSList *) args, odf_func_concatenate_handler_cb, (gpointer) &has_range);
+
+	if (has_range)
+		return NULL;
+	
+	fd = gnm_func_lookup_or_add_placeholder ("CONCATENATE");
+	
+	return gnm_expr_new_funcall (fd, args);
+}
+
 static GnmExpr const *
 odf_func_t_dist_tail_handler (GnmExprList *args, int tails)
 {
@@ -13034,6 +13060,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{"GAUSS", odf_func_gauss_handler},
 		{"TRUE", odf_func_true_handler},
 		{"FALSE", odf_func_false_handler},
+		{"CONCATENATE", odf_func_concatenate_handler},
 		{"COM.MICROSOFT.F.DIST", odf_func_f_dist_handler},
 		{"COM.MICROSOFT.LOGNORM.DIST", odf_func_lognorm_dist_handler},
 		{"COM.MICROSOFT.NEGBINOM.DIST", odf_func_negbinom_dist_handler},
