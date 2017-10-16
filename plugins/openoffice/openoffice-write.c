@@ -7276,7 +7276,7 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 						gsf_xml_out_add_float
 							(state->xml,
 							 CHART "interval-minor-divisor",
-							 val/val_minor, 0);
+							 gnm_floor(val_minor + 1.5), 0);
 				}
 			}
 		}

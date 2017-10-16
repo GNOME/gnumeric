@@ -6977,12 +6977,11 @@ oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
 			(state->chart.src_sheet, gnm_expr_top_new_constant
 			 (value_new_float(interval_major)));
 		gog_dataset_set_dim (GOG_DATASET (obj), 2, data, NULL);
-		if (interval_minor_divisor > 0) {
+		if (interval_minor_divisor > 1) {
 			data = gnm_go_data_scalar_new_expr
 				(state->chart.src_sheet,
 				 gnm_expr_top_new_constant
-				 (value_new_float (interval_major/
-						   interval_minor_divisor)));
+				 (value_new_float (interval_minor_divisor - 1)));
 			gog_dataset_set_dim (GOG_DATASET (obj), 3, data, NULL);
 		}
 	}
