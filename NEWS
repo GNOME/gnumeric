@@ -5,7 +5,7 @@ Andreas:
 	* Improve contour plot import of Excel generated ODF. [#788801]
 	* Improve surface plot export to ODF. [#788447]
 	* Fix export/import of CONCATENATE to and from ODF.
-	* Fix export/import of CONCATENATEminoraxis divisors to and from ODF.
+	* Fix export/import of minoraxis divisors to and from ODF.
 
 Morten:
 	* Convert all xpm files to png.
