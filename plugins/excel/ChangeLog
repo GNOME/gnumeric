@@ -1,3 +1,9 @@
+2017-10-21  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (dtd): Add stubs for floor, sidewall, and
+	backwall.
+	(xlsx_chart_contour): Use XLContourPlot object.
+
 2017-10-11  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_wb_name_end): Ignore bogus Print_Area names.
