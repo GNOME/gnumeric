@@ -981,6 +981,7 @@ xlsx_create_axis_object (XLSXReadState *state)
 		break;
 
 	case XLSX_PT_GOGCONTOURPLOT:
+	case XLSX_PT_XLCONTOURPLOT:
 		if (state->axis.type == XLSX_AXIS_SER)
 			role = "Pseudo-3D-Axis";
 		break;
