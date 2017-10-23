@@ -1003,6 +1003,7 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 
 	case XLSX_PT_GOGCONTOURPLOT:
 	case XLSX_PT_XLCONTOURPLOT:
+		axis_type[2] = GOG_AXIS_PSEUDO_3D;
 		gsf_xml_out_start_element (xml, "c:surfaceChart");
 		break;
 	}
