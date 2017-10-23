@@ -1802,8 +1802,11 @@ gnm_func_convert_markup_to_pango (char const *desc, GtkWidget *target)
 	size_t span_text_len;
 
 	gtk_widget_style_get (target, "link-color", &link_color, NULL);
-	link_color_text = gdk_color_to_string (link_color);
-	gdk_color_free (link_color);
+	if (link_color) {
+		link_color_text = gdk_color_to_string (link_color);
+		gdk_color_free (link_color);
+	} else
+		link_color_text = g_strdup ("blue");
 	span_text = g_strdup_printf ("<span foreground=\"%s\">",
 				     link_color_text);
 	span_text_len = strlen (span_text);

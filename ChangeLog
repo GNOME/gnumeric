@@ -1,3 +1,8 @@
+2017-10-23  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (gnm_func_convert_markup_to_pango): Avoid dead kitten
+	criticals.
+
 2017-07-06  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
@@ -8,8 +13,9 @@
 
 2017-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/sheet-object-widget.c (sheet_widget_slider_horizontal_draw_cairo): use
-	narrower slider button
+	* src/sheet-object-widget.c
+	(sheet_widget_slider_horizontal_draw_cairo): use narrower slider
+	button
 
 2017-05-18  Morten Welinder  <terra@gnome.org>
 
