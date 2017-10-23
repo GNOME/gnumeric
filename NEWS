@@ -12,6 +12,7 @@ Morten:
 	* Avoid to-pixdata options for resources.  It's going away.
 	* Minor CORREL improvement.
 	* Fix error on xlsx files with bogus Print_Area.
+	* xlsx import improvements for contour graphs.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.35
