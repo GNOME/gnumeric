@@ -2,6 +2,7 @@
 
 	* xlsx-write-drawing.c (xlsx_write_axis): Write a pseudo-3d axis
 	as a serAx.
+	(xlsx_write_one_plot): Start work on surface charts.
 
 2017-10-23  Morten Welinder  <terra@gnome.org>
 

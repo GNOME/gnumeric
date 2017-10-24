@@ -724,7 +724,9 @@ xlsx_plottype_from_type_name (const char *type_name)
 		"GogBubblePlot",
 		"GogXYPlot",
 		"GogContourPlot",
-		"XLContourPlot"
+		"XLContourPlot",
+		"GogSurfacePlot",
+		"XLSurfacePlot"
 	};
 	unsigned plot_type;
 

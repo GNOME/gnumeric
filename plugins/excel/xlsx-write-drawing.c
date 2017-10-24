@@ -1010,6 +1010,12 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 		axis_type[2] = GOG_AXIS_PSEUDO_3D;
 		gsf_xml_out_start_element (xml, "c:surfaceChart");
 		break;
+
+	case XLSX_PT_GOGSURFACEPLOT:
+	case XLSX_PT_XLSURFACEPLOT:
+		axis_type[2] = GOG_AXIS_Z;
+		gsf_xml_out_start_element (xml, "c:surface3DChart");
+		break;
 	}
 
 	for (series = gog_plot_get_series (GOG_PLOT (plot));
