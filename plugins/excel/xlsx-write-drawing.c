@@ -738,6 +738,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 	double d;
 	gboolean user_defined;
 	char *map_name;
+	const char *axis_tag;
 
 #ifdef DEBUG_AXIS
 	g_printerr ("Writing axis %s [id=%d].  (discrete = %d)\n",
@@ -751,10 +752,13 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 		      "map-name", &map_name,
 		      NULL);
 
-	if (gog_axis_is_discrete (axis))
-		gsf_xml_out_start_element (xml, "c:catAx");
+	if (gog_axis_get_atype (axis) == GOG_AXIS_PSEUDO_3D)
+		axis_tag = "c:serAx";
+	else if (gog_axis_is_discrete (axis))
+		axis_tag = "c:catAx";
 	else
-		gsf_xml_out_start_element (xml, "c:valAx");
+		axis_tag = "c:valAx";
+	gsf_xml_out_start_element (xml, axis_tag);
 	xlsx_write_chart_uint (xml, "c:axId", xlsx_get_axid (state, axis));
 
 	gsf_xml_out_start_element (xml, "c:scaling");

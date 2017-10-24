@@ -1,3 +1,8 @@
+2017-10-24  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_axis): Write a pseudo-3d axis
+	as a serAx.
+
 2017-10-23  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_one_plot): Recognize the third
