@@ -1118,7 +1118,6 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 			g_free (name);
 			xlsx_write_go_style (xml, state, go_styled_object_get_style (GO_STYLED_OBJECT (trend)));
 			xlsx_write_chart_cstr_unchecked (xml, "c:trendlineType", trend_type);
-			gsf_xml_out_end_element (xml); /* </c:trendline> */
 
 			eq = gog_object_get_child_by_name (trend, "Equation");
 			if (eq) {
@@ -1129,6 +1128,8 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 				if (has_eq)
 					xlsx_write_chart_bool (xml, "c:dispEq", TRUE);
 			}
+
+			gsf_xml_out_end_element (xml); /* </c:trendline> */
 		}
 		g_slist_free (children);
 

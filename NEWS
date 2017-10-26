@@ -14,6 +14,7 @@ Morten:
 	* Fix error on xlsx files with bogus Print_Area.
 	* xlsx import improvements for contour graphs.
 	* xlsx export improvements for contour graphs.
+	* Fix xlsx export of trend line equation.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.35

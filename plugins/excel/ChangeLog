@@ -3,6 +3,7 @@
 	* xlsx-write-drawing.c (xlsx_write_axis): Make axis tag for
 	contour charts match what XL wants.  Even if it isn't obvious why.
 	(xlsx_write_one_chart): Save a view3D for contour charts.
+	(xlsx_write_one_plot): Fix writing trendline equation.
 
 2017-10-24  Morten Welinder  <terra@gnome.org>
 
