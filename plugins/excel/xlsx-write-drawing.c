@@ -1233,14 +1233,13 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 }
 
 static void
-xlsx_write_plots (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart, int *ser_count)
+xlsx_write_plots (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart,
+		  GSList *plots, int *ser_count)
 {
-	GSList *plots, *l;
-	GogObjectRole const *role = gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot");
+	GSList *l;
 	GHashTable *axis_to_plot = g_hash_table_new (NULL, NULL);
 	GSList *axes = NULL;
 
-	plots = gog_object_get_children (GOG_OBJECT (chart), role);
 	for (l = plots; l; l = l->next) {
 		GogPlot *plot = l->data;
 		GSList *plot_axes, *al;
@@ -1255,7 +1254,6 @@ xlsx_write_plots (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart,
 		}
 		g_slist_free (plot_axes);
 	}
-	g_slist_free (plots);
 
 	for (l = axes; l; l = l->next) {
 		GogAxis *axis = l->data;
@@ -1273,6 +1271,9 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 {
 	GogObject const *obj;
 	int ser_count = 0;
+	GogObjectRole const *role;
+	GSList *plots, *l;
+	gboolean done;
 
 	gsf_xml_out_start_element (xml, "c:chart");
 
@@ -1286,10 +1287,32 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 		}
 	}
 
+	role = gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot");
+	plots = gog_object_get_children (GOG_OBJECT (chart), role);
+
+	for (l = plots, done = FALSE; l && !done; l = l->next) {
+		GogPlot *plot = l->data;
+		const char *plot_type_name = G_OBJECT_TYPE_NAME (plot);
+		XLSXPlotType plot_type = xlsx_plottype_from_type_name (plot_type_name);
+		switch (plot_type) {
+		case XLSX_PT_GOGCONTOURPLOT:
+		case XLSX_PT_XLCONTOURPLOT:
+			// XL wants a 3D view for a 2D chart
+			gsf_xml_out_start_element (xml, "c:view3D");
+			xlsx_write_chart_float (xml, "c:rotX", 90);
+			xlsx_write_chart_float (xml, "c:rotY", 0);
+			xlsx_write_chart_float (xml, "c:rAngAx", 0);
+			xlsx_write_chart_float (xml, "c:perspective", 0);
+			gsf_xml_out_end_element (xml);
+			done = TRUE;
+			break;
+		}
+	}
+
 	gsf_xml_out_start_element (xml, "c:plotArea");
 	/* save grid style here */
 
-	xlsx_write_plots (state, xml, chart, &ser_count);
+	xlsx_write_plots (state, xml, chart, plots, &ser_count);
 
 	obj = gog_object_get_child_by_name (GOG_OBJECT (chart), "Backplane");
 	if (obj) {
@@ -1302,6 +1325,7 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 	}
 
 	gsf_xml_out_end_element (xml); /* </c:plotArea> */
+	g_slist_free (plots);
 
 	if ((obj = gog_object_get_child_by_name (chart, "Legend"))) {
 		char const *str;
