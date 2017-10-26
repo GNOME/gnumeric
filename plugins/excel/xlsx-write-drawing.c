@@ -727,7 +727,8 @@ xlsx_get_axid (XLSXWriteState *state, GogAxis *axis)
 
 
 static void
-xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *axis)
+xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml,
+		 GogPlot *plot, XLSXPlotType plot_type, GogAxis *axis)
 {
 	GogAxisType at = gog_axis_get_atype (axis);
 	GogAxis *crossed = gog_axis_base_get_crossed_axis_for_plot (GOG_AXIS_BASE (axis), plot);
@@ -738,7 +739,7 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 	double d;
 	gboolean user_defined;
 	char *map_name;
-	const char *axis_tag;
+	const char *axis_tag = NULL;
 
 #ifdef DEBUG_AXIS
 	g_printerr ("Writing axis %s [id=%d].  (discrete = %d)\n",
@@ -752,12 +753,25 @@ xlsx_write_axis (XLSXWriteState *state, GsfXMLOut *xml, GogPlot *plot, GogAxis *
 		      "map-name", &map_name,
 		      NULL);
 
-	if (gog_axis_get_atype (axis) == GOG_AXIS_PSEUDO_3D)
-		axis_tag = "c:serAx";
-	else if (gog_axis_is_discrete (axis))
-		axis_tag = "c:catAx";
-	else
-		axis_tag = "c:valAx";
+	switch (plot_type) {
+	case XLSX_PT_GOGCONTOURPLOT:
+	case XLSX_PT_XLCONTOURPLOT:
+		// Both X and Y axes are discrete, but XL wants valAx for the
+		// X axis.
+		switch (at) {
+		case GOG_AXIS_X: axis_tag = "c:valAx"; break;
+		case GOG_AXIS_Y: axis_tag = "c:catAx"; break;
+		case GOG_AXIS_PSEUDO_3D: axis_tag = "c:serAx"; break;
+		default: g_assert_not_reached ();
+		}
+		break;
+	default:
+		break;
+	}
+
+	if (!axis_tag)
+		axis_tag = gog_axis_is_discrete (axis) ? "c:catAx" : "c:valAx";
+
 	gsf_xml_out_start_element (xml, axis_tag);
 	xlsx_write_chart_uint (xml, "c:axId", xlsx_get_axid (state, axis));
 
@@ -1246,7 +1260,9 @@ xlsx_write_plots (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart,
 	for (l = axes; l; l = l->next) {
 		GogAxis *axis = l->data;
 		GogPlot *plot = g_hash_table_lookup (axis_to_plot, axis);
-		xlsx_write_axis (state, xml, plot, axis);
+		const char *plot_type_name = G_OBJECT_TYPE_NAME (plot);
+		XLSXPlotType plot_type = xlsx_plottype_from_type_name (plot_type_name);
+		xlsx_write_axis (state, xml, plot, plot_type, axis);
 	}
 	g_slist_free (axes);
 	g_hash_table_destroy (axis_to_plot);

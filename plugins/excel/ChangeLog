@@ -1,3 +1,8 @@
+2017-10-26  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write-drawing.c (xlsx_write_axis): Make axis tag for
+	surface charts match what XL wants.  Even if it isn't obvious why.
+
 2017-10-24  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_axis): Write a pseudo-3d axis
