@@ -1409,6 +1409,19 @@ xlsx_get_trend_eq (XLSXReadState *state)
 
 
 static void
+xlsx_ser_trendline_intercept (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gnm_float intercept = 1;
+
+	(void)simple_float (xin, attrs, &intercept);
+	// We don't have _writeable_ yet.
+	if (gnm_object_has_readable_prop (state->cur_obj, "affine", G_TYPE_BOOLEAN, NULL)) {
+		g_object_set (state->cur_obj, "affine", intercept != 0, NULL);
+	}
+}
+
+static void
 xlsx_ser_trendline_disprsqr (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -2671,6 +2684,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_NAME, XL_NS_CHART, "name", GSF_XML_CONTENT, NULL, &xlsx_ser_trendline_name),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_2ND, NULL, NULL),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_TYPE, XL_NS_CHART,	"trendlineType", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_type, NULL),
+            GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_INTERCEPT, XL_NS_CHART,	"intercept", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_intercept, NULL),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_RSQR, XL_NS_CHART,	"dispRSqr", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_disprsqr, NULL),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_EQ, XL_NS_CHART,	"dispEq", GSF_XML_NO_CONTENT, &xlsx_ser_trendline_dispeq, NULL),
             GSF_XML_IN_NODE (SERIES_TRENDLINE, SERIES_TRENDLINE_LABEL, XL_NS_CHART,	"trendlineLbl", GSF_XML_NO_CONTENT, NULL, NULL),

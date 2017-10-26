@@ -1090,15 +1090,18 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 			GogObject *eq;
 			GOData *dat;
 			char *name;
+			double intercept = gnm_nan;
 
 			if (!GOG_IS_TREND_LINE (trend))
 				continue;
 
 			if (strcmp (trend_type_name, "GogExpRegCurve") == 0)
 				trend_type = "exp";
-			else if (strcmp (trend_type_name, "GogLinRegCurve") == 0)
+			else if (strcmp (trend_type_name, "GogLinRegCurve") == 0) {
 				trend_type = "linear";
-			else if (strcmp (trend_type_name, "GogLogRegCurve") == 0)
+				if (!gnm_object_get_bool (trend, "affine"))
+					intercept = 0;
+			} else if (strcmp (trend_type_name, "GogLogRegCurve") == 0)
 				trend_type = "log";
 			else if (strcmp (trend_type_name, "GogMovingAvg") == 0)
 				trend_type = "movingAvg";
@@ -1120,6 +1123,9 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 			}
 			xlsx_write_go_style (xml, state, go_styled_object_get_style (GO_STYLED_OBJECT (trend)));
 			xlsx_write_chart_cstr_unchecked (xml, "c:trendlineType", trend_type);
+
+			if (!gnm_isnan (intercept))
+				xlsx_write_chart_float (xml, "c:intercept", intercept);
 
 			eq = gog_object_get_child_by_name (trend, "Equation");
 			if (eq) {
