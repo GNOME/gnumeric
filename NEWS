@@ -15,6 +15,7 @@ Morten:
 	* xlsx import improvements for contour graphs.
 	* xlsx export improvements for contour graphs.
 	* Fix xlsx export of trend line equation.
+	* Avoid critical on exporting unnamed xlsx trend line.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.35
