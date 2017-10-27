@@ -1,7 +1,9 @@
 2017-10-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (od_style_prop_chart): correct property name and
-	handle LO trendline intercept extension
+	* openoffice-read.c (oo_prop_list_apply_to_axis): convert interval_minor_divisor
+	based on map-name
+	* openoffice-write.c (odf_write_axis_style): convert minor tick info into
+	interval_minor_divisor
 
 2017-10-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

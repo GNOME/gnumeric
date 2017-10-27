@@ -6945,6 +6945,7 @@ oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
 	double interval_minor_divisor = 0.;
 	gchar const *minimum_expression = NULL;
 	gchar const *maximum_expression = NULL;
+	gboolean logarithmic = FALSE;
 
 
 	oo_prop_list_apply_to_axisline (xin, props, obj);
@@ -6964,6 +6965,8 @@ oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
 			minimum_expression = g_value_get_string (&prop->value);
 		else if (0 == strcmp ("maximum-expression", prop->name))
 			maximum_expression = g_value_get_string (&prop->value);
+		else if (0 == strcmp ("map-name", prop->name))
+			logarithmic = (0 == strcmp (g_value_get_string (&prop->value), "Log"));
 	}
 
 	gog_axis_set_bounds (GOG_AXIS (obj), minimum, maximum);
@@ -6978,10 +6981,16 @@ oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
 			 (value_new_float(interval_major)));
 		gog_dataset_set_dim (GOG_DATASET (obj), 2, data, NULL);
 		if (interval_minor_divisor > 1) {
-			data = gnm_go_data_scalar_new_expr
-				(state->chart.src_sheet,
-				 gnm_expr_top_new_constant
-				 (value_new_float (interval_minor_divisor - 1)));
+			if (logarithmic)
+				data = gnm_go_data_scalar_new_expr
+					(state->chart.src_sheet,
+					 gnm_expr_top_new_constant
+					 (value_new_float (interval_minor_divisor - 1)));
+			else
+				data = gnm_go_data_scalar_new_expr
+					(state->chart.src_sheet,
+					 gnm_expr_top_new_constant
+					 (value_new_float (interval_major/interval_minor_divisor)));
 			gog_dataset_set_dim (GOG_DATASET (obj), 3, data, NULL);
 		}
 	}

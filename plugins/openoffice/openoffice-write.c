@@ -7230,12 +7230,13 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 	double tmp;
 	GOData const *interval;
 	gboolean user_defined;
+	gboolean logarithmic = FALSE;
 	char *map_name_str = NULL;
 
 	if (gnm_object_has_readable_prop (axis, "map-name",
 					  G_TYPE_STRING, &map_name_str)) {
-		odf_add_bool (state->xml, CHART "logarithmic",
-			      0 != strcmp (map_name_str, "Linear"));
+		logarithmic = (0 != strcmp (map_name_str, "Linear"));
+		odf_add_bool (state->xml, CHART "logarithmic", logarithmic);
 		g_free (map_name_str);
 	}
 
@@ -7272,11 +7273,15 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 				    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT) {
 					double val_minor = value_get_as_float
 						(texpr->expr->constant.value);
-					if (val_minor > 0)
+					if (val_minor > 0) {
+						if (logarithmic)
+							val_minor = gnm_floor(val_minor + 1.5);
+						else
+							val_minor = gnm_floor(val/val_minor + 0.5);
 						gsf_xml_out_add_float
-							(state->xml,
-							 CHART "interval-minor-divisor",
-							 gnm_floor(val_minor + 1.5), 0);
+							(state->xml, CHART "interval-minor-divisor",
+							 val_minor, 0);
+					}
 				}
 			}
 		}
