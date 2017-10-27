@@ -7113,6 +7113,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean stacked_unset = FALSE;
 	gboolean overlap_set = FALSE;
 	gboolean percentage_set = FALSE;
+	gboolean regression_force_intercept_set = FALSE;
+	gboolean regression_force_intercept = FALSE;
+	gnm_float regression_force_intercept_value = 0.;
 	char const *interpolation = NULL;
 	gboolean local_style = FALSE;
 
@@ -7516,11 +7519,19 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->other_props = g_slist_prepend
 				(style->other_props,
 				 oo_prop_new_int ("lo-dims", tmp));
+		else if (oo_attr_bool (xin, attrs, OO_NS_LOCALC_EXT, "regression-force-intercept",
+				       &regression_force_intercept))
+			{
+				regression_force_intercept_set = TRUE;
+			}
+		else if (oo_attr_float (xin, attrs, OO_NS_LOCALC_EXT,
+					  "regression-intercept-value", &ftmp))
+			regression_force_intercept_value = ftmp;
 #endif
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "regression-affine",
 				       &btmp))
 			style->other_props = g_slist_prepend (style->other_props,
-				oo_prop_new_bool ("regression-affine", btmp));
+				oo_prop_new_bool ("affine", btmp));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT,
 					     "regression-name"))
 			style->other_props = g_slist_prepend
@@ -7612,6 +7623,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "display-label", &btmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_bool ("major-tick-labeled", btmp));
+	}
+
+	if (regression_force_intercept_set) {
+		btmp = regression_force_intercept && (regression_force_intercept_value == 0);
+		style->other_props = g_slist_prepend (style->other_props,
+				oo_prop_new_bool ("affine", btmp));
 	}
 
 	if ((stacked_set && !overlap_set) ||
