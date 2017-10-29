@@ -28,6 +28,10 @@ GtkBin.auto-expr {
   border-width: 0;
 }
 
+GnmItemGrid:selected {
+  background-color: lavender;
+}
+
 /* Function markers are enabled from View->View Properties->Cell Markers */
 GnmItemGrid function-marker {
   color: #80ff80;

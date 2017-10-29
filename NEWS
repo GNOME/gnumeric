@@ -8,6 +8,9 @@ Andreas:
 	* Fix export/import of minor axis divisors to and from ODF.
 	* Fix import of affice trendline from ODF. [#789538]
 
+Jean:
+	* Fix background of multiple selection. [#789411]
+
 Morten:
 	* Convert all xpm files to png.
 	* Avoid to-pixdata options for resources.  It's going away.
