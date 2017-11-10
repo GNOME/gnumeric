@@ -10,6 +10,7 @@ Andreas:
 
 Jean:
 	* Fix background of multiple selection. [#789411]
+	* Workaround for gtk scroll bar bug.  [#789412]
 
 Morten:
 	* Convert all xpm files to png.

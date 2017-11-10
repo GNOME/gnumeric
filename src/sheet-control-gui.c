@@ -472,8 +472,8 @@ scg_resize_virt (SheetControl *sc, gboolean force_scroll)
  * 3) It only uses pane-0 because that is the only one that can scroll in both
  * dimensions.  The others are of fixed size.
  */
-static void
-scg_scrollbar_config (SheetControl const *sc)
+static gboolean
+scg_scrollbar_config_real (SheetControl const *sc)
 {
 	SheetControlGUI *scg = GNM_SCG (sc);
 	GtkAdjustment *va = scg->va;
@@ -514,6 +514,17 @@ scg_scrollbar_config (SheetControl const *sc)
 			 MAX (gtk_adjustment_get_page_size (ha) - 3.0, 1.0),
 			 last_col - pane->first.col + 1);
 	}
+	return FALSE;
+}
+
+
+static void
+scg_scrollbar_config (SheetControl const *sc)
+{
+	// See bug 789412
+	g_timeout_add (10,
+		       (GSourceFunc) scg_scrollbar_config_real,
+		       (gpointer)sc);
 }
 
 void
