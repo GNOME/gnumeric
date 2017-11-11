@@ -79,9 +79,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-02 13:23-0500\n"
-"PO-Revision-Date: 2014-12-19 14:05-0500\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gnumeric&keywords=I18N+L10N&component=General\n"
+"POT-Creation-Date: 2017-03-10 13:36+0000\n"
+"PO-Revision-Date: 2017-11-11 14:40+0100\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -91,7 +92,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
-#: ../src/func-builtin.c:470
+#: ../src/func-builtin.c:501
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -114,16 +115,29 @@ msgid "Spreadsheet;"
 msgstr "Regneark"
 
 #: ../gnumeric.appdata.xml.in.h:1
+#, fuzzy
+msgid "The Gnumeric Spreadsheet"
+msgstr "Gnumeric Regneark"
+
+#: ../gnumeric.appdata.xml.in.h:2
 msgid ""
 "Gnumeric is a spreadsheet application for interactive manipulation of data."
 msgstr ""
 
-#: ../gnumeric.appdata.xml.in.h:2
+#: ../gnumeric.appdata.xml.in.h:3
 msgid ""
 "Gnumeric aims to provide high-accuracy computations, expressive graphs, and "
 "a wide selection of statistical analysis tools. Gnumeric can share files "
 "with Microsoft Excel and programs supporting the ODS standard."
 msgstr ""
+
+#: ../gnumeric.appdata.xml.in.h:4
+msgid "A High-Precision Spreadsheet Program"
+msgstr ""
+
+#: ../gnumeric.appdata.xml.in.h:5
+msgid "The Gnumeric Team"
+msgstr "Gnumericholdet"
 
 #: ../plugins/applix/applix-read.c:124
 msgid "Parse error while reading Applix file."
@@ -162,10 +176,10 @@ msgstr "Importerer version 4.[234] regneark"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7197
-#: ../plugins/openoffice/openoffice-read.c:13635 ../src/xml-sax-read.c:3466
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7221
+#: ../plugins/openoffice/openoffice-read.c:13635 ../src/xml-sax-read.c:3471
 msgid "Reading file..."
-msgstr "Læser fil..."
+msgstr "Læser fil …"
 
 #: ../plugins/dif/dif.c:174
 #, c-format
@@ -180,7 +194,7 @@ msgstr "Ukendt værditype '%s' i linje %d. Ignorerer."
 #: ../plugins/dif/dif.c:235
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr "Ukendt dataværdi \"%s\" ved linje %d. Ignorerer."
+msgstr "Ukendt dataværdi “%s” ved linje %d. Ignorerer."
 
 #: ../plugins/dif/dif.c:242
 #, c-format
@@ -247,11 +261,11 @@ msgstr "Ingen bøger eller arbejdsbogsstrømme fundet."
 
 #: ../plugins/excel/boot.c:287
 msgid "Preparing to save..."
-msgstr "Forbereder gemning..."
+msgstr "Forbereder gemning …"
 
 #: ../plugins/excel/boot.c:299
 msgid "Saving file..."
-msgstr "Gemmer fil..."
+msgstr "Gemmer fil …"
 
 #: ../plugins/excel/excel-xml-read.c:133 ../src/xml-sax-read.c:455
 #, c-format
@@ -269,46 +283,46 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr ""
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:13799 ../src/xml-sax-read.c:3483
+#: ../plugins/openoffice/openoffice-read.c:13799 ../src/xml-sax-read.c:3488
 msgid "XML document not well formed!"
 msgstr "XML-dokument er ikke korrekt udformet!"
 
-#: ../plugins/excel/ms-excel-read.c:1374 ../src/value.c:67
+#: ../plugins/excel/ms-excel-read.c:1384 ../src/value.c:67
 msgid "#UNKNOWN!"
 msgstr "#UKENDT!"
 
-#: ../plugins/excel/ms-excel-read.c:1474 ../plugins/excel/ms-excel-read.c:1485
+#: ../plugins/excel/ms-excel-read.c:1484 ../plugins/excel/ms-excel-read.c:1495
 #: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:544
 #, c-format
 msgid "Sheet%d"
 msgstr "Ark%d"
 
-#: ../plugins/excel/ms-excel-read.c:1489
+#: ../plugins/excel/ms-excel-read.c:1499
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: ../plugins/excel/ms-excel-read.c:1493
+#: ../plugins/excel/ms-excel-read.c:1503
 #, c-format
 msgid "Chart%d"
 msgstr "Graf%d"
 
-#: ../plugins/excel/ms-excel-read.c:1496
+#: ../plugins/excel/ms-excel-read.c:1506
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: ../plugins/excel/ms-excel-read.c:3676
+#: ../plugins/excel/ms-excel-read.c:3700
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Fejl ved fortolkning af navn '%s'"
 
-#: ../plugins/excel/ms-excel-read.c:3837
+#: ../plugins/excel/ms-excel-read.c:3861
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Ukorrekt udtryk for navn '%s': Indhold vil gå tabt.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3842
+#: ../plugins/excel/ms-excel-read.c:3866
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -317,7 +331,7 @@ msgstr ""
 "DDE-henvisninger er endnu ikke understøttet.\n"
 "Navn '%s' vil gå tabt.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3846
+#: ../plugins/excel/ms-excel-read.c:3870
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -326,50 +340,50 @@ msgstr ""
 "OLE-henvisninger er endnu ikke understøttet.\n"
 "Navn '%s' vil gå tabt.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6322
+#: ../plugins/excel/ms-excel-read.c:6346
 msgid "external references"
 msgstr "eksterne referencer"
 
-#: ../plugins/excel/ms-excel-read.c:6361
+#: ../plugins/excel/ms-excel-read.c:6385
 msgid "No password supplied"
 msgstr "Password ikke angivet"
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:6139 ../src/print-info.c:670
+#: ../plugins/openoffice/openoffice-read.c:6141 ../src/print-info.c:670
 msgid "TAB"
 msgstr "TAB"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:6185 ../src/print-info.c:671
+#: ../plugins/openoffice/openoffice-read.c:6187 ../src/print-info.c:671
 msgid "PAGE"
 msgstr "SIDE"
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:6192 ../src/print-info.c:672
+#: ../plugins/openoffice/openoffice-read.c:6194 ../src/print-info.c:672
 msgid "PAGES"
 msgstr "SIDER"
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:6171 ../src/print-info.c:673
+#: ../plugins/openoffice/openoffice-read.c:6173 ../src/print-info.c:673
 msgid "DATE"
 msgstr "DATO"
 
 #: ../plugins/excel/ms-excel-util.c:703
-#: ../plugins/openoffice/openoffice-read.c:6178 ../src/print-info.c:674
+#: ../plugins/openoffice/openoffice-read.c:6180 ../src/print-info.c:674
 msgid "TIME"
 msgstr "TIDSPUNKT"
 
 #: ../plugins/excel/ms-excel-util.c:704
-#: ../plugins/openoffice/openoffice-read.c:6219
-#: ../plugins/openoffice/openoffice-read.c:6226 ../src/main-application.c:80
+#: ../plugins/openoffice/openoffice-read.c:6221
+#: ../plugins/openoffice/openoffice-read.c:6228 ../src/main-application.c:80
 #: ../src/main-application.c:86 ../src/main-application.c:92
 #: ../src/main-application.c:98 ../src/print-info.c:675 ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "FIL"
 
 #: ../plugins/excel/ms-excel-util.c:705
-#: ../plugins/openoffice/openoffice-read.c:6217
-#: ../plugins/openoffice/openoffice-read.c:6222 ../src/print-info.c:676
+#: ../plugins/openoffice/openoffice-read.c:6219
+#: ../plugins/openoffice/openoffice-read.c:6224 ../src/print-info.c:676
 msgid "PATH"
 msgstr "STI"
 
@@ -377,8 +391,9 @@ msgstr "STI"
 msgid "CELL"
 msgstr "CELLE"
 
+#. ???
 #: ../plugins/excel/ms-excel-util.c:708
-#: ../plugins/openoffice/openoffice-read.c:6270 ../src/print-info.c:678
+#: ../plugins/openoffice/openoffice-read.c:6272 ../src/print-info.c:678
 msgid "TITLE"
 msgstr "TITEL"
 
@@ -412,11 +427,11 @@ msgstr[1] ""
 "Indhold vil gå tabt, når der gemmes. Dette format understøtter kun %u "
 "rækker, og denne arbejdsbog har %d"
 
-#: ../plugins/excel/ms-excel-write.c:6575
+#: ../plugins/excel/ms-excel-write.c:6578
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kunne ikke åbne strøm 'Book' for at skrive\n"
 
-#: ../plugins/excel/ms-excel-write.c:6597
+#: ../plugins/excel/ms-excel-write.c:6600
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kunne ikke åbne strøm 'Workbook' for at skrive\n"
 
@@ -494,23 +509,23 @@ msgstr "Ændring af arkegenskaber"
 #: ../plugins/excel/xlsx-read-docprops.c:292
 #, fuzzy
 msgid "Reading custom properties..."
-msgstr "_Egenskaber..."
+msgstr "_Egenskaber …"
 
-#: ../plugins/excel/xlsx-read-drawing.c:356
+#: ../plugins/excel/xlsx-read-drawing.c:373
 #, c-format
 msgid "Invalid number '%s' for node %s"
 msgstr "Ugyldigt tal '%s' for attribut %s"
 
-#: ../plugins/excel/xlsx-read-drawing.c:471
+#: ../plugins/excel/xlsx-read-drawing.c:485
 #, c-format
 msgid "Unknown color '%s'"
 msgstr "Ukendt farve '%s'"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3151
+#: ../plugins/excel/xlsx-read-drawing.c:3174
 msgid "Dropping missing object"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read-drawing.c:3154
+#: ../plugins/excel/xlsx-read-drawing.c:3177
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr ""
@@ -526,190 +541,190 @@ msgstr ""
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:362
+#: ../plugins/excel/xlsx-read.c:379
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "'%s' er ødelagt!"
 
-#: ../plugins/excel/xlsx-read.c:454
+#: ../plugins/excel/xlsx-read.c:471
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:497 ../plugins/excel/xlsx-read.c:556
-#: ../plugins/excel/xlsx-read.c:647
+#: ../plugins/excel/xlsx-read.c:514 ../plugins/excel/xlsx-read.c:573
+#: ../plugins/excel/xlsx-read.c:664
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "Heltal '%s' er uden for interval, for attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:501 ../plugins/excel/xlsx-read.c:560
-#: ../plugins/excel/xlsx-read.c:655
+#: ../plugins/excel/xlsx-read.c:518 ../plugins/excel/xlsx-read.c:577
+#: ../plugins/excel/xlsx-read.c:672
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "Ugyldigt heltal '%s' for attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:526
+#: ../plugins/excel/xlsx-read.c:543
 #, fuzzy, c-format
 msgid "Unsigned integer '%s' is out of range, for attribute %s"
 msgstr "Heltal '%s' er uden for interval, for attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:530
+#: ../plugins/excel/xlsx-read.c:547
 #, fuzzy, c-format
 msgid "Invalid unsigned integer '%s' for attribute %s"
 msgstr "Ugyldigt heltal '%s' for attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:586
+#: ../plugins/excel/xlsx-read.c:603
 #, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
 msgstr "Ugyldig RRGGBB-farve '%s' for attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:617
+#: ../plugins/excel/xlsx-read.c:634
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Ugyldigt tal '%s' for attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:681
+#: ../plugins/excel/xlsx-read.c:698
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "Ugyldig celleplacering '%s' for attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:704
+#: ../plugins/excel/xlsx-read.c:721
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Ugyldigt interval '%s' for attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:778
-#: ../plugins/openoffice/openoffice-read.c:1287
-#: ../plugins/openoffice/openoffice-read.c:1365
+#: ../plugins/excel/xlsx-read.c:795
+#: ../plugins/openoffice/openoffice-read.c:1286
+#: ../plugins/openoffice/openoffice-read.c:1364
 #, fuzzy, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Ugyldigt heltal '%s' for attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:783 ../plugins/excel/xlsx-read.c:790
-#: ../plugins/openoffice/openoffice-read.c:1292
+#: ../plugins/excel/xlsx-read.c:800 ../plugins/excel/xlsx-read.c:807
+#: ../plugins/openoffice/openoffice-read.c:1291
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:983
+#: ../plugins/excel/xlsx-read.c:1032
 #, c-format
 msgid "Unknown theme color %d"
 msgstr "Ukendt temafarve %d"
 
-#: ../plugins/excel/xlsx-read.c:1129
+#: ../plugins/excel/xlsx-read.c:1178
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Udefineret talformat-id '%s'"
 
-#: ../plugins/excel/xlsx-read.c:1223 ../plugins/excel/xlsx-read.c:3311
+#: ../plugins/excel/xlsx-read.c:1272 ../plugins/excel/xlsx-read.c:3368
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Ugyldig farve '%s' for attribut rgb"
 
-#: ../plugins/excel/xlsx-read.c:1253 ../plugins/excel/xlsx-read.c:1262
+#: ../plugins/excel/xlsx-read.c:1302 ../plugins/excel/xlsx-read.c:1311
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1271
+#: ../plugins/excel/xlsx-read.c:1320
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1300
+#: ../plugins/excel/xlsx-read.c:1349
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Ugyldig sst-reference '%s'"
 
-#: ../plugins/excel/xlsx-read.c:1467
+#: ../plugins/excel/xlsx-read.c:1516
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Ugyldig celle %s"
 
-#: ../plugins/excel/xlsx-read.c:1601
+#: ../plugins/excel/xlsx-read.c:1650
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1738
+#: ../plugins/excel/xlsx-read.c:1787
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1742
+#: ../plugins/excel/xlsx-read.c:1791
 #, c-format
 msgid "Paper from XLSX file, #%i"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2200
-#: ../plugins/openoffice/openoffice-read.c:2841
+#: ../plugins/excel/xlsx-read.c:2252
+#: ../plugins/openoffice/openoffice-read.c:2840
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorerer ugyldig datavalidering da: %s"
 
-#: ../plugins/excel/xlsx-read.c:2723
+#: ../plugins/excel/xlsx-read.c:2775
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorerer uhåndteret betinget formattype '%s'"
 
-#: ../plugins/excel/xlsx-read.c:3128
+#: ../plugins/excel/xlsx-read.c:3185
 #, fuzzy
 msgid "Unknown type of hyperlink"
 msgstr "Ukendt udvidelsesmodulnavn."
 
-#: ../plugins/excel/xlsx-read.c:3171
+#: ../plugins/excel/xlsx-read.c:3228
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:3180
+#: ../plugins/excel/xlsx-read.c:3237
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:3642
+#: ../plugins/excel/xlsx-read.c:3699
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorerer et ark uden et navn"
 
-#: ../plugins/excel/xlsx-read.c:3714
+#: ../plugins/excel/xlsx-read.c:3771
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Fejl ved definering af: '%s'"
 
-#: ../plugins/excel/xlsx-read.c:3776
+#: ../plugins/excel/xlsx-read.c:3833
 #, fuzzy
 msgid "Unable to resolve external relationship"
 msgstr "Kan ikke indsætte i markering"
 
-#: ../plugins/excel/xlsx-read.c:3970
+#: ../plugins/excel/xlsx-read.c:4027
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Mangler del-id for ark '%s'"
 
-#: ../plugins/excel/xlsx-read.c:3995
+#: ../plugins/excel/xlsx-read.c:4052
 #, c-format
 msgid "Reading sheet '%s'..."
-msgstr "Læser ark '%s'..."
+msgstr "Læser ark '%s' …"
 
-#: ../plugins/excel/xlsx-read.c:4003
+#: ../plugins/excel/xlsx-read.c:4060
 msgid "Reading comments..."
-msgstr "Læser kommentarer..."
+msgstr "Læser kommentarer …"
 
-#: ../plugins/excel/xlsx-read.c:5139
+#: ../plugins/excel/xlsx-read.c:5201
 msgid "Reading shared strings..."
-msgstr "Læser fælles strenge..."
+msgstr "Læser fælles strenge …"
 
-#: ../plugins/excel/xlsx-read.c:5148
+#: ../plugins/excel/xlsx-read.c:5210
 msgid "Reading theme..."
-msgstr "Læser tema..."
+msgstr "Læser tema …"
 
-#: ../plugins/excel/xlsx-read.c:5157
+#: ../plugins/excel/xlsx-read.c:5219
 msgid "Reading styles..."
-msgstr "Læser stilformer..."
+msgstr "Læser stilformer …"
 
-#: ../plugins/excel/xlsx-read.c:5162
+#: ../plugins/excel/xlsx-read.c:5224
 msgid "Reading workbook..."
-msgstr "Læser fil..."
+msgstr "Læser fil …"
 
-#: ../plugins/excel/xlsx-read.c:5172
+#: ../plugins/excel/xlsx-read.c:5234
 msgid "No workbook stream found."
 msgstr "Ingen arbejdsbogsstrøm fundet."
 
@@ -739,7 +754,7 @@ msgstr ""
 #: ../plugins/excelplugins/excelplugins.c:645
 #, c-format
 msgid "Failed to find function \"%s\" in XLL/DLL/SO %s .\n"
-msgstr "Kunne ikke finde funktion \"%s\" i XLL/DLL/SO %s.\n"
+msgstr "Kunne ikke finde funktion “%s” i XLL/DLL/SO %s.\n"
 
 #: ../plugins/excelplugins/excelplugins.c:695
 #, c-format
@@ -763,25 +778,25 @@ msgstr ""
 #: ../plugins/excelplugins/excelplugins.c:943
 #, c-format
 msgid "Unable to open module file \"%s\"."
-msgstr "Kan ikke åbne modulfilen \"%s\"."
+msgstr "Kan ikke åbne modulfilen “%s”."
 
 #: ../plugins/excelplugins/excelplugins.c:948
 #, c-format
 msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
-msgstr "Modul \"%s\" indeholder ikke (symbolet \"register_actual_excel4v\")."
+msgstr "Modul “%s” indeholder ikke (symbolet “register_actual_excel4v”)."
 
 #: ../plugins/excelplugins/excelplugins.c:992
 #, fuzzy, c-format
 msgid "No loadable worksheet functions found in XLL/DLL/SO file %s."
-msgstr "Kunne ikke finde funktion \"%s\" i XLL/DLL/SO %s.\n"
+msgstr "Kunne ikke finde funktion “%s” i XLL/DLL/SO %s.\n"
 
 #. xgettext : %lu gives the number of functions. This is input to ngettext.
 #: ../plugins/excelplugins/excelplugins.c:996
 #, fuzzy, c-format
 msgid "Loaded %lu function from XLL/DLL/SO %s."
 msgid_plural "Loaded %lu functions from XLL/DLL/SO %s."
-msgstr[0] "Kunne ikke finde funktion \"%s\" i XLL/DLL/SO %s.\n"
-msgstr[1] "Kunne ikke finde funktion \"%s\" i XLL/DLL/SO %s.\n"
+msgstr[0] "Kunne ikke finde funktion “%s” i XLL/DLL/SO %s.\n"
+msgstr[1] "Kunne ikke finde funktion “%s” i XLL/DLL/SO %s.\n"
 
 #. *************************************************************************
 #: ../plugins/excelplugins/plugin.xml.in.h:1
@@ -1022,7 +1037,7 @@ msgstr "Logiske funktioner"
 msgid "Functions for manipulating truth values"
 msgstr "Funktioner til manipulation of sandhedsværdier"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:478
+#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:509
 msgid "Logic"
 msgstr "Logik"
 
@@ -1046,7 +1061,7 @@ msgstr "Matematikfunktioner"
 msgid "Mathematical Functions"
 msgstr "Matematiske funktioner"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:465
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:496
 msgid "Mathematics"
 msgstr "Matematik"
 
@@ -1105,8 +1120,8 @@ msgid "Functions for manipulating strings"
 msgstr "Funktioner til manipulation af tekst"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
-#: ../src/dialogs/dialog-doc-metadata.c:1863
-#: ../src/dialogs/dialog-search.c:153 ../src/func.c:1707
+#: ../src/dialogs/dialog-doc-metadata.c:1863 ../src/dialogs/dialog-search.c:153
+#: ../src/func.c:1707
 msgid "String"
 msgstr "Tekst"
 
@@ -1159,28 +1174,33 @@ msgstr "Databasefunktioner der tillader modtagelse af data fra en database."
 
 #: ../plugins/gda/plugin.xml.in.h:3 ../plugins/gnome-db/plugin.xml.in.h:3
 msgid "Data Bases..."
-msgstr "Databaser..."
+msgstr "Databaser …"
 
-#: ../plugins/glpk/glpk-write.c:143 ../plugins/lpsolve/lpsolve-write.c:145
+#: ../plugins/glpk/glpk-write.c:145 ../plugins/lpsolve/lpsolve-write.c:145
 #, c-format
 msgid "Only linear programs are handled."
 msgstr "Kun linære programmer kan håndteres."
 
-#: ../plugins/glpk/glpk-write.c:329
+#: ../plugins/glpk/glpk-write.c:356
 msgid "Writing glpk file..."
-msgstr "Skriver glpk-fil..."
+msgstr "Skriver glpk-fil …"
 
-#: ../plugins/glpk/gnm-glpk.c:54
+#: ../plugins/glpk/gnm-glpk.c:60
 #, c-format
 msgid "The GLPK exporter is not available."
 msgstr "GLPK-eksportøren er ikke tilgængelig."
 
-#: ../plugins/glpk/gnm-glpk.c:231
+#: ../plugins/glpk/gnm-glpk.c:512
 #, c-format
 msgid "Failed to create file for solution"
 msgstr "Kan ikke oprette midlertidig fil til løsning"
 
-#: ../plugins/glpk/gnm-glpk.c:285 ../plugins/lpsolve/gnm-lpsolve.c:282
+#: ../plugins/glpk/gnm-glpk.c:521
+#, fuzzy, c-format
+msgid "Failed to create file for sensitivity report"
+msgstr "Kan ikke oprette midlertidig fil til løsning"
+
+#: ../plugins/glpk/gnm-glpk.c:579 ../plugins/lpsolve/gnm-lpsolve.c:427
 #, c-format
 msgid ""
 "The %s program was not found.  You can either install it or use another "
@@ -1310,14 +1330,14 @@ msgstr "Importerer en Lotus 123-fil"
 msgid "Lotus 123 (*.wk1, *.wks, *.123)"
 msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
 
-#: ../plugins/lpsolve/gnm-lpsolve.c:50
+#: ../plugins/lpsolve/gnm-lpsolve.c:58
 #, c-format
 msgid "The LPSolve exporter is not available."
 msgstr "LPSolve er ikke tilgængelig."
 
-#: ../plugins/lpsolve/lpsolve-write.c:314
+#: ../plugins/lpsolve/lpsolve-write.c:330
 msgid "Writing lpsolve file..."
-msgstr "Skriver lpsolve-fil..."
+msgstr "Skriver lpsolve-fil …"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:1
 msgid "LPSolve Linear Program Solver Interface"
@@ -1387,23 +1407,23 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr ""
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:592
+#: ../plugins/mps/mps.c:592 ../src/tools/gnm-solver.c:1799
 msgid "Constraint"
 msgstr "Begrænsning"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1510
-#: ../src/tools/gnm-solver.c:1555 ../src/tools/gnm-solver.c:1599
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1575
+#: ../src/tools/gnm-solver.c:1620 ../src/tools/gnm-solver.c:1664
 msgid "Value"
 msgstr "Værdi"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:898
-#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1511
+#: ../src/dialogs/dialog-search.c:442 ../src/tools/gnm-solver.c:1576
 msgid "Type"
 msgstr "Type"
 
-#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1600
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1665
 msgid "Limit"
 msgstr "Grænse"
 
@@ -1432,12 +1452,12 @@ msgstr "Læser LP-programmer gemt i MPS-formatet (*.mps)"
 msgid "Linear and integer program (*.mps) file format"
 msgstr "Lineær og heltals-program (*.mps) filformat"
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:100
+#: ../plugins/nlsolve/gnm-nlsolve.c:104
 #, fuzzy, c-format
 msgid "This solver does not handle discrete variables."
 msgstr "Importerer Psion 5 seriens Sheet-filer"
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:107
+#: ../plugins/nlsolve/gnm-nlsolve.c:111
 #, fuzzy, c-format
 msgid "This solver does not handle equality constraints."
 msgstr "Importerer Psion 5 seriens Sheet-filer"
@@ -1464,446 +1484,445 @@ msgstr "Importerer Gnu Oleo-dokumenter"
 msgid "GNU Oleo (*.oleo)"
 msgstr "Gnu Oleo (*.oleo)"
 
-#: ../plugins/openoffice/openoffice-read.c:624
+#: ../plugins/openoffice/openoffice-read.c:623
 msgid "General ODF error"
 msgstr "Generel ODF-fejl"
 
-#: ../plugins/openoffice/openoffice-read.c:678
+#: ../plugins/openoffice/openoffice-read.c:677
 #, c-format
 msgid "Invalid integer '%s', for '%s'"
 msgstr "Ugyldigt heltal '%s' for '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:693
+#: ../plugins/openoffice/openoffice-read.c:692
 #, c-format
 msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Muligvis ødelagt heltal '%s' for '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:737
+#: ../plugins/openoffice/openoffice-read.c:736
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:761
+#: ../plugins/openoffice/openoffice-read.c:760
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:783
+#: ../plugins/openoffice/openoffice-read.c:782
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1061
+#: ../plugins/openoffice/openoffice-read.c:1060
 #, fuzzy, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:1069
+#: ../plugins/openoffice/openoffice-read.c:1068
 msgid "Hatch fill without hatch name encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1077
+#: ../plugins/openoffice/openoffice-read.c:1076
 #, fuzzy, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:1090
+#: ../plugins/openoffice/openoffice-read.c:1089
 msgid "Gradient fill without gradient name encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1098
+#: ../plugins/openoffice/openoffice-read.c:1097
 #, fuzzy, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:1108
+#: ../plugins/openoffice/openoffice-read.c:1107
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1121
+#: ../plugins/openoffice/openoffice-read.c:1120
 #, fuzzy, c-format
 msgid "Unable to open '%s'."
 msgstr "kan ikke åbne filen '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1131
-#: ../plugins/openoffice/openoffice-read.c:8453
+#: ../plugins/openoffice/openoffice-read.c:1130
+#: ../plugins/openoffice/openoffice-read.c:8471
 #, fuzzy, c-format
 msgid "Unable to load the file '%s'."
 msgstr "kan ikke åbne filen '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1140
+#: ../plugins/openoffice/openoffice-read.c:1139
 msgid "Image fill without image name encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1370
+#: ../plugins/openoffice/openoffice-read.c:1369
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1436
+#: ../plugins/openoffice/openoffice-read.c:1435
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1631
+#: ../plugins/openoffice/openoffice-read.c:1630
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1853
+#: ../plugins/openoffice/openoffice-read.c:1852
 #, fuzzy, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:2242
+#: ../plugins/openoffice/openoffice-read.c:2241
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "Kan ikke fortolke '%s' ('%s')"
 
-#: ../plugins/openoffice/openoffice-read.c:2340
-#: ../plugins/openoffice/openoffice-read.c:3855
+#: ../plugins/openoffice/openoffice-read.c:2339
+#: ../plugins/openoffice/openoffice-read.c:3854
 #, fuzzy, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:2346
-#: ../plugins/openoffice/openoffice-read.c:3862
+#: ../plugins/openoffice/openoffice-read.c:2345
+#: ../plugins/openoffice/openoffice-read.c:3861
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Udtryk '%s' starter ikke med et genkendt tegn"
 
-#: ../plugins/openoffice/openoffice-read.c:2385
-#: ../plugins/openoffice/openoffice-write.c:5210
-#: ../plugins/openoffice/openoffice-write.c:5222 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-read.c:2384
+#: ../plugins/openoffice/openoffice-write.c:5234
+#: ../plugins/openoffice/openoffice-write.c:5246 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "celle"
 
-#: ../plugins/openoffice/openoffice-read.c:2775
+#: ../plugins/openoffice/openoffice-read.c:2774
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2824
+#: ../plugins/openoffice/openoffice-read.c:2823
 #, fuzzy, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:2850
+#: ../plugins/openoffice/openoffice-read.c:2849
 #, c-format
 msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: \"%s"
 "\""
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:3516
+#: ../plugins/openoffice/openoffice-read.c:3515
 #, fuzzy, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:3598
+#: ../plugins/openoffice/openoffice-read.c:3597
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:3702
-#: ../plugins/openoffice/openoffice-read.c:4096
+#: ../plugins/openoffice/openoffice-read.c:3701
+#: ../plugins/openoffice/openoffice-read.c:4095
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:3847
-#: ../plugins/openoffice/openoffice-read.c:6253
+#: ../plugins/openoffice/openoffice-read.c:3846
+#: ../plugins/openoffice/openoffice-read.c:6255
 msgid "Missing expression"
 msgstr "Manglende udtryk"
 
-#: ../plugins/openoffice/openoffice-read.c:4074
+#: ../plugins/openoffice/openoffice-read.c:4073
 msgid "Invalid array expression does not specify number of columns."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4077
+#: ../plugins/openoffice/openoffice-read.c:4076
 msgid "Invalid array expression does not specify number of rows."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4088
+#: ../plugins/openoffice/openoffice-read.c:4087
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4271
+#: ../plugins/openoffice/openoffice-read.c:4270
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
 "Middle click once to select this cell"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4404
+#: ../plugins/openoffice/openoffice-read.c:4406
 msgid "Unnamed dash style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4422
+#: ../plugins/openoffice/openoffice-read.c:4424
 msgid "Unnamed image fill style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4424
+#: ../plugins/openoffice/openoffice-read.c:4426
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4461
-#: ../plugins/openoffice/openoffice-read.c:4467
+#: ../plugins/openoffice/openoffice-read.c:4463
+#: ../plugins/openoffice/openoffice-read.c:4469
 #, fuzzy, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Kan ikke indsætte i markering"
 
-#: ../plugins/openoffice/openoffice-read.c:4487
+#: ../plugins/openoffice/openoffice-read.c:4489
 msgid "Unnamed gradient style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4508
+#: ../plugins/openoffice/openoffice-read.c:4510
 #, fuzzy, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Kan ikke fortolke html'en."
 
-#: ../plugins/openoffice/openoffice-read.c:4582
+#: ../plugins/openoffice/openoffice-read.c:4584
 msgid "Unnamed hatch encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4723
+#: ../plugins/openoffice/openoffice-read.c:4725
 msgid "Duplicate default column style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4739
+#: ../plugins/openoffice/openoffice-read.c:4741
 msgid "Duplicate default row style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4774
+#: ../plugins/openoffice/openoffice-read.c:4776
 msgid "Duplicate default chart/graphics style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:5241
+#: ../plugins/openoffice/openoffice-read.c:5243
 msgid "Unnamed date style ignored."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:5629
+#: ../plugins/openoffice/openoffice-read.c:5631
 #, fuzzy, c-format
 msgid "Corrupted file: invalid number format condition [%s]."
 msgstr "Ødelagt fil: Unavngivet nummerstil ignoreret."
 
-#: ../plugins/openoffice/openoffice-read.c:5647
+#: ../plugins/openoffice/openoffice-read.c:5649
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Ødelagt fil: Unavngivet nummerstil ignoreret."
 
 # fremstår, synes, lader til at være
-#: ../plugins/openoffice/openoffice-read.c:5669
+#: ../plugins/openoffice/openoffice-read.c:5671
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Denne fil lader til at være ødelagt, krævede formater mangler."
 
-#: ../plugins/openoffice/openoffice-read.c:5738
+#: ../plugins/openoffice/openoffice-read.c:5740
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:5950
+#: ../plugins/openoffice/openoffice-read.c:5952
 msgid "Missing page layout identifier"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:5977
+#: ../plugins/openoffice/openoffice-read.c:5979
 msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
 msgstr ""
 
 #. For OOO_VER_1 this may be acceptable
-#: ../plugins/openoffice/openoffice-read.c:6002
+#: ../plugins/openoffice/openoffice-read.c:6004
 msgid "Master page style without page layout encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6008
+#: ../plugins/openoffice/openoffice-read.c:6010
 msgid "Master page style without name encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6301
+#: ../plugins/openoffice/openoffice-read.c:6303
 #, fuzzy, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:6640
+#: ../plugins/openoffice/openoffice-read.c:6642
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6725
+#: ../plugins/openoffice/openoffice-read.c:6727
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Kan ikke fortolke tabulatorfarve '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:6736
+#: ../plugins/openoffice/openoffice-read.c:6738
 #, fuzzy, c-format
 msgid "Unable to parse tab text color '%s'"
-msgstr "Kan ikke oprette et objekt af typen \"%s\""
+msgstr "Kan ikke oprette et objekt af typen “%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:7257
+#: ../plugins/openoffice/openoffice-read.c:7259
 #, fuzzy, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
 "instead."
 msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:7266
+#: ../plugins/openoffice/openoffice-read.c:7268
 #, fuzzy, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
 
-#: ../plugins/openoffice/openoffice-read.c:7771
+#: ../plugins/openoffice/openoffice-read.c:7777
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:7787
+#: ../plugins/openoffice/openoffice-read.c:7793
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:7850
+#: ../plugins/openoffice/openoffice-read.c:7868
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Ugyldig DB-interval '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:7884
+#: ../plugins/openoffice/openoffice-read.c:7902
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8081
+#: ../plugins/openoffice/openoffice-read.c:8099
 #, c-format
 msgid "Moving sheet object from column %i and row %i"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8146
+#: ../plugins/openoffice/openoffice-read.c:8164
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
 "has been dropped."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8180
-#: ../plugins/openoffice/openoffice-read.c:8219
+#: ../plugins/openoffice/openoffice-read.c:8198
+#: ../plugins/openoffice/openoffice-read.c:8237
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8185
+#: ../plugins/openoffice/openoffice-read.c:8203
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
 "range' element."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8638
+#: ../plugins/openoffice/openoffice-read.c:8656
 msgid "Unable to determine manual position for a chart component!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8900
+#: ../plugins/openoffice/openoffice-read.c:8918
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9573
+#: ../plugins/openoffice/openoffice-read.c:9591
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9592
+#: ../plugins/openoffice/openoffice-read.c:9610
 #, c-format
 msgid "The chart style \"%s\" is not defined!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9760
+#: ../plugins/openoffice/openoffice-read.c:9778
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9888
+#: ../plugins/openoffice/openoffice-read.c:9906
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9943
-#: ../plugins/openoffice/openoffice-read.c:9984
-#: ../plugins/openoffice/openoffice-read.c:10014
-#: ../plugins/openoffice/openoffice-read.c:10046
+#: ../plugins/openoffice/openoffice-read.c:9961
+#: ../plugins/openoffice/openoffice-read.c:10002
+#: ../plugins/openoffice/openoffice-read.c:10032
+#: ../plugins/openoffice/openoffice-read.c:10064
 #, c-format
 msgid "Chart style with name '%s' is missing."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10164
+#: ../plugins/openoffice/openoffice-read.c:10182
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10237
+#: ../plugins/openoffice/openoffice-read.c:10255
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10440
+#: ../plugins/openoffice/openoffice-read.c:10458
 #, fuzzy, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Kan ikke fortolke '%s' ('%s')"
 
-#: ../plugins/openoffice/openoffice-read.c:10445
+#: ../plugins/openoffice/openoffice-read.c:10463
 #, fuzzy, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Kan ikke fortolke '%s' ('%s')"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:10529
-#: ../plugins/openoffice/openoffice-read.c:10532
+#: ../plugins/openoffice/openoffice-read.c:10547
+#: ../plugins/openoffice/openoffice-read.c:10550
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
 "rectangle."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10535
+#: ../plugins/openoffice/openoffice-read.c:10553
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10877
+#: ../plugins/openoffice/openoffice-read.c:10895
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:11519
+#: ../plugins/openoffice/openoffice-read.c:11524
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
 "Gnumeric's maximum supported sheet size"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:11552
+#: ../plugins/openoffice/openoffice-read.c:11560
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_I_ØDELAGT_FIL"
 
-#: ../plugins/openoffice/openoffice-read.c:11557
+#: ../plugins/openoffice/openoffice-read.c:11565
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
 "\"%s\"."
-msgstr ""
-"Denne fil er ødelagt med et duplikat arknavn \"%s\", nu omdøbt til \"%s\"."
+msgstr "Denne fil er ødelagt med et duplikat arknavn “%s”, nu omdøbt til “%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:11567
+#: ../plugins/openoffice/openoffice-read.c:11575
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "ARK_I_ØDELAGT_FIL"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:11573
+#: ../plugins/openoffice/openoffice-read.c:11581
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
-msgstr "Denne fil er ødelagt med et unavngivet ark nu navngivet \"%s\"."
+msgstr "Denne fil er ødelagt med et unavngivet ark nu navngivet “%s”."
 
 #: ../plugins/openoffice/openoffice-read.c:13483
 msgid "Unknown mimetype for openoffice file."
@@ -1926,48 +1945,48 @@ msgstr "Ugyldige metadata '%s'"
 msgid "settings.xml stream is malformed!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-write.c:5203
-#: ../plugins/openoffice/openoffice-write.c:5215
+#: ../plugins/openoffice/openoffice-write.c:5227
+#: ../plugins/openoffice/openoffice-write.c:5239
 msgid "tab"
 msgstr "tab"
 
-#: ../plugins/openoffice/openoffice-write.c:5204
-#: ../plugins/openoffice/openoffice-write.c:5216
+#: ../plugins/openoffice/openoffice-write.c:5228
+#: ../plugins/openoffice/openoffice-write.c:5240
 msgid "page"
 msgstr "side"
 
-#: ../plugins/openoffice/openoffice-write.c:5205
-#: ../plugins/openoffice/openoffice-write.c:5217
+#: ../plugins/openoffice/openoffice-write.c:5229
+#: ../plugins/openoffice/openoffice-write.c:5241
 msgid "pages"
 msgstr "sider"
 
-#: ../plugins/openoffice/openoffice-write.c:5206
-#: ../plugins/openoffice/openoffice-write.c:5218
+#: ../plugins/openoffice/openoffice-write.c:5230
+#: ../plugins/openoffice/openoffice-write.c:5242
 msgid "date"
 msgstr "dato"
 
-#: ../plugins/openoffice/openoffice-write.c:5207
-#: ../plugins/openoffice/openoffice-write.c:5219
+#: ../plugins/openoffice/openoffice-write.c:5231
+#: ../plugins/openoffice/openoffice-write.c:5243
 msgid "time"
 msgstr "tid"
 
-#: ../plugins/openoffice/openoffice-write.c:5208
-#: ../plugins/openoffice/openoffice-write.c:5220 ../src/ssconvert.c:104
+#: ../plugins/openoffice/openoffice-write.c:5232
+#: ../plugins/openoffice/openoffice-write.c:5244 ../src/ssconvert.c:104
 #: ../src/ssdiff.c:57
 msgid "file"
 msgstr "fil"
 
-#: ../plugins/openoffice/openoffice-write.c:5209
-#: ../plugins/openoffice/openoffice-write.c:5221
+#: ../plugins/openoffice/openoffice-write.c:5233
+#: ../plugins/openoffice/openoffice-write.c:5245
 msgid "path"
 msgstr "sti"
 
-#: ../plugins/openoffice/openoffice-write.c:8925
+#: ../plugins/openoffice/openoffice-write.c:8949
 #, fuzzy
 msgid "Writing Sheets..."
-msgstr "Omrokér _ark..."
+msgstr "Omrokér _ark …"
 
-#: ../plugins/openoffice/openoffice-write.c:8966
+#: ../plugins/openoffice/openoffice-write.c:8990
 msgid "Writing Sheet Objects..."
 msgstr ""
 
@@ -2284,12 +2303,12 @@ msgstr "Navn på Python-modulfil ikke angivet."
 #: ../plugins/python-loader/python-loader.c:89
 #, c-format
 msgid "Error while opening file \"%s\" for writing."
-msgstr "Fejl ved åbning af filen \"%s\" til skrivning."
+msgstr "Fejl ved åbning af filen “%s” til skrivning."
 
 #: ../plugins/python-loader/python-loader.c:93
 #, c-format
 msgid "Error while opening file \"%s\" for reading."
-msgstr "Fejl ved åbning af filen \"%s\" til læsning."
+msgstr "Fejl ved åbning af filen “%s” til læsning."
 
 #: ../plugins/python-loader/python-loader.c:124
 msgid "Cannot create new Python interpreter."
@@ -2321,19 +2340,19 @@ msgstr "Pythonmodulfilen '%s' har et ugyldigt format."
 #: ../plugins/python-loader/python-loader.c:436
 #, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr "Filen indeholder ikke en \"%s\"-funktion."
+msgstr "Filen indeholder ikke en “%s”-funktion."
 
 #: ../plugins/python-loader/python-loader.c:745
 #: ../plugins/python-loader/python-loader.c:857
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
-msgstr "Filen indeholder ikke en \"%s\"-ordbog."
+msgstr "Filen indeholder ikke en “%s”-ordbog."
 
 #: ../plugins/python-loader/python-loader.c:750
 #: ../plugins/python-loader/python-loader.c:862
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
-msgstr "Objektet \"%s\" er ikke en ordbog."
+msgstr "Objektet “%s” er ikke en ordbog."
 
 #: ../plugins/python-loader/python-loader.c:800 ../src/gnm-plugin.c:839
 #, c-format
@@ -2381,7 +2400,7 @@ msgstr ""
 #: ../plugins/sample_datasource/plugin.xml.in.h:1
 #, fuzzy
 msgid "Sample DataSource"
-msgstr "Data..."
+msgstr "Data …"
 
 #: ../plugins/sample_datasource/plugin.xml.in.h:2
 msgid "A proof of concept external data source"
@@ -2608,7 +2627,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:23
 #, fuzzy
 msgid "This list contains all plugin file states."
-msgstr "Filen indeholder ikke \"plugin_fil_struct\"-symbolet."
+msgstr "Filen indeholder ikke “plugin_fil_struct”-symbolet."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:24
 msgid "List of Extra Plugin Directories."
@@ -3296,7 +3315,7 @@ msgstr "Antal _stikprøver:"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:22
 msgid ""
 "The number of rows in each sheet. This setting will be used only in a new "
-"gnumeric session."
+"Gnumeric session."
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:23
@@ -3307,7 +3326,7 @@ msgstr "Antal _stikprøver:"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:24
 msgid ""
 "The number of columns in each sheet. This setting will be used only in a new "
-"gnumeric session."
+"Gnumeric session."
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:25
@@ -3362,7 +3381,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:35
 #, fuzzy
 msgid "Format toolbar visible"
-msgstr "_Værktøjslinjer..."
+msgstr "_Værktøjslinjer …"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:36
 msgid ""
@@ -3373,7 +3392,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:37
 #, fuzzy
 msgid "Format toolbar position"
-msgstr "_Værktøjslinjer..."
+msgstr "_Værktøjslinjer …"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:38
 msgid ""
@@ -3478,10 +3497,10 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
 msgid ""
-"If `lag' is 0, gnumeric recalculates all auto expressions immediately after "
-"every change. Non-zero values of `lag' allow gnumeric to accumulate more "
+"If `lag' is 0, Gnumeric recalculates all auto expressions immediately after "
+"every change. Non-zero values of `lag' allow Gnumeric to accumulate more "
 "changes before each recalculation. If `lag' is positive, then whenever a "
-"change appears, gnumeric waits `lag' milliseconds and then recalculates; if "
+"change appears, Gnumeric waits `lag' milliseconds and then recalculates; if "
 "more changes appear during that period, they are also processed at that "
 "time. If `lag' is negative, then recalculation happens only after a quiet "
 "period of |lag| milliseconds."
@@ -3562,7 +3581,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
 msgid ""
-"Before an existing file is being overwritten, gnumeric will present a "
+"Before an existing file is being overwritten, Gnumeric will present a "
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
@@ -3676,7 +3695,7 @@ msgstr "_Standardafvigelser"
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:2
 #, fuzzy
 msgid "FormatToolbar"
-msgstr "_Værktøjslinjer..."
+msgstr "_Værktøjslinjer …"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:3
 #, fuzzy
@@ -3811,7 +3830,7 @@ msgstr "Redigering af udseende i %s"
 #: ../src/commands.c:983
 #, fuzzy, c-format
 msgid "Typing \"%s\" in %s"
-msgstr "Indtastning af \"%s%s\" i %s"
+msgstr "Indtastning af “%s%s” i %s"
 
 #: ../src/commands.c:1129 ../src/wbc-gtk-edit.c:164 ../src/wbc-gtk-edit.c:174
 #: ../src/wbc-gtk-edit.c:190 ../src/wbc-gtk-edit.c:211
@@ -4006,7 +4025,7 @@ msgstr "Automatisk tilpasning af række %s"
 msgid "Autofitting height of %s"
 msgstr "Automatisk tilpasning af række %s"
 
-#: ../src/commands.c:2169 ../src/dialogs/dialog-preferences.c:1226
+#: ../src/commands.c:2169 ../src/dialogs/dialog-preferences.c:1227
 msgid "Sorting"
 msgstr "Sortering"
 
@@ -4015,106 +4034,106 @@ msgstr "Sortering"
 msgid "Sorting %s"
 msgstr "Sortering af %s"
 
-#: ../src/commands.c:2352
+#: ../src/commands.c:2354
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
 msgstr ""
 
-#: ../src/commands.c:2356
+#: ../src/commands.c:2358
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
 msgstr ""
 
-#: ../src/commands.c:2376
+#: ../src/commands.c:2378
 msgid "Unhide columns"
 msgstr "Visning af kolonner igen"
 
-#: ../src/commands.c:2376
+#: ../src/commands.c:2378
 msgid "Hide columns"
 msgstr "Skjulning af kolonner"
 
-#: ../src/commands.c:2377
+#: ../src/commands.c:2379
 msgid "Unhide rows"
 msgstr "Visning af rækker igen"
 
-#: ../src/commands.c:2377
+#: ../src/commands.c:2379
 msgid "Hide rows"
 msgstr "Skjulning af rækker"
 
-#: ../src/commands.c:2457
+#: ../src/commands.c:2459
 msgid "Expand columns"
 msgstr "Udfoldelse af kolonner"
 
-#: ../src/commands.c:2457
+#: ../src/commands.c:2459
 msgid "Collapse columns"
 msgstr "Sammenfoldning af kolonner"
 
-#: ../src/commands.c:2458
+#: ../src/commands.c:2460
 msgid "Expand rows"
 msgstr "Udfoldelse af rækker"
 
-#: ../src/commands.c:2458
+#: ../src/commands.c:2460
 msgid "Collapse rows"
 msgstr "Sammenfoldning af rækker"
 
-#: ../src/commands.c:2482
+#: ../src/commands.c:2484
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: ../src/commands.c:2482
+#: ../src/commands.c:2484
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: ../src/commands.c:2551
+#: ../src/commands.c:2553
 msgid "Those columns are already grouped"
 msgstr "Disse kolonner er allerede grupperet"
 
-#: ../src/commands.c:2552
+#: ../src/commands.c:2554
 msgid "Those rows are already grouped"
 msgstr "Disse rækker er allerede grupperet"
 
-#: ../src/commands.c:2575
+#: ../src/commands.c:2577
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Disse kolonner er ikke grupperet, du kan ikke afgruppere dem"
 
-#: ../src/commands.c:2576
+#: ../src/commands.c:2578
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Disse rækker er ikke grupperet, du kan ikke afgruppere dem"
 
-#: ../src/commands.c:2589
+#: ../src/commands.c:2591
 #, c-format
 msgid "Group columns %s"
 msgstr "Gruppering af kolonnerne %s"
 
-#: ../src/commands.c:2589
+#: ../src/commands.c:2591
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Afgruppering kolonnerne %s"
 
-#: ../src/commands.c:2591
+#: ../src/commands.c:2593
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Gruppering af rækkerne %d:%d"
 
-#: ../src/commands.c:2591
+#: ../src/commands.c:2593
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Afgruppering rækkerne %d:%d"
 
-#: ../src/commands.c:2820
+#: ../src/commands.c:2822
 #, c-format
 msgid "Moving %s"
 msgstr "Flytning af %s"
 
-#: ../src/commands.c:2830 ../src/commands.c:3230
+#: ../src/commands.c:2832 ../src/commands.c:3232
 msgid "is beyond sheet boundaries"
 msgstr "går ud over arkets kant"
 
-#: ../src/commands.c:2888
+#: ../src/commands.c:2890
 #, c-format
 msgid ""
 "Copying between files with different date conventions.\n"
@@ -4122,333 +4141,332 @@ msgid ""
 "incorrectly."
 msgstr ""
 
-#: ../src/commands.c:2922
+#: ../src/commands.c:2924
 msgid "Paste Copy"
 msgstr "Indsæt"
 
-#: ../src/commands.c:3122
+#: ../src/commands.c:3124
 #, c-format
 msgid "Pasting into %s"
 msgstr "Indsætning i %s"
 
-#: ../src/commands.c:3216
+#: ../src/commands.c:3218
 #, c-format
 msgid "Do you really want to paste %s copies?"
 msgstr "Vil du virkelig indsætte %s kopier?"
 
 #. Check arrays or merged regions in src or target regions
-#: ../src/commands.c:3273 ../src/commands.c:3429 ../src/commands.c:3430
-#: ../src/item-cursor.c:1029 ../src/wbc-gtk-actions.c:582
+#: ../src/commands.c:3275 ../src/commands.c:3431 ../src/commands.c:3432
+#: ../src/item-cursor.c:1026 ../src/wbc-gtk-actions.c:582
 msgid "Autofill"
 msgstr "Automatisk udfyldning"
 
 #. Changed in initial redo.
-#: ../src/commands.c:3452
+#: ../src/commands.c:3454
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatisk udfyldning af %s"
 
-#: ../src/commands.c:3752
+#: ../src/commands.c:3754
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatisk formatering af %s"
 
-#: ../src/commands.c:3871
+#: ../src/commands.c:3873
 #, c-format
 msgid "Unmerging %s"
 msgstr "Affletning af %s"
 
-#: ../src/commands.c:4040
+#: ../src/commands.c:4042
 #, fuzzy, c-format
 msgid "Merge and Center %s"
 msgstr "Fletning af %s"
 
-#: ../src/commands.c:4040
+#: ../src/commands.c:4042
 #, c-format
 msgid "Merging %s"
 msgstr "Fletning af %s"
 
 #. Corrected below.
-#: ../src/commands.c:4408 ../src/dialogs/search-replace.ui.h:5
+#: ../src/commands.c:4410 ../src/dialogs/search-replace.ui.h:5
 msgid "Search and Replace"
 msgstr "Søg og erstat"
 
-#: ../src/commands.c:4501
+#: ../src/commands.c:4503
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Sætning af den automatiske bredde af kolonnerne til %.2f punkter"
 
-#: ../src/commands.c:4502
+#: ../src/commands.c:4504
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Sætning af den automatiske højde af rækkerne til %.2f punkter"
 
-#: ../src/commands.c:4613
+#: ../src/commands.c:4615
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom ind på %s til %.0f%%"
 
-#: ../src/commands.c:4716
+#: ../src/commands.c:4718
 msgid "Delete Object"
 msgstr "Sletning af objekt"
 
-#: ../src/commands.c:4857 ../src/commands.c:5923
+#: ../src/commands.c:4859 ../src/commands.c:5925
 #: ../src/dialogs/dialog-doc-metadata.c:1912
 #: ../src/dialogs/dialog-formula-guru.c:894
 #: ../src/dialogs/dialog-function-select.c:1253
-#: ../src/dialogs/dialog-scenarios.c:523
-#: ../src/dialogs/dialog-simulation.c:216 ../src/dialogs/dialog-zoom.c:196
-#: ../src/format-template.c:218
+#: ../src/dialogs/dialog-scenarios.c:523 ../src/dialogs/dialog-simulation.c:216
+#: ../src/dialogs/dialog-zoom.c:196 ../src/format-template.c:218
 msgid "Name"
 msgstr "Navn"
 
-#: ../src/commands.c:4857
+#: ../src/commands.c:4859
 msgid "Sheet names must be non-empty."
 msgstr "Et arks navn må ikke være tomt."
 
-#: ../src/commands.c:4864
+#: ../src/commands.c:4866
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "Der må ikke være to ark med samme navn."
 
-#: ../src/commands.c:4961
+#: ../src/commands.c:4963
 msgid "Resizing sheet"
 msgstr "Ændring af størrelse af ark"
 
-#: ../src/commands.c:5114
+#: ../src/commands.c:5116
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Slet bemærkning i %s"
 
-#: ../src/commands.c:5115
+#: ../src/commands.c:5117
 #, fuzzy, c-format
 msgid "Setting comment of %s"
 msgstr "Indsætning af dags dato i %s"
 
-#: ../src/commands.c:5549
+#: ../src/commands.c:5551
 #, c-format
 msgid "Merging data into %s"
 msgstr "Fletning af data til %s"
 
-#: ../src/commands.c:5646
+#: ../src/commands.c:5648
 #, c-format
 msgid "Changing workbook properties"
 msgstr "Ændring af arbejdsbogsegenskaber"
 
-#: ../src/commands.c:5720
+#: ../src/commands.c:5722
 #, fuzzy
 msgid "Pull Object to the Front"
 msgstr "Givet begrænsningerne:"
 
-#: ../src/commands.c:5723
+#: ../src/commands.c:5725
 #, fuzzy
 msgid "Pull Object Forward"
 msgstr "Værdi af mål"
 
-#: ../src/commands.c:5726
+#: ../src/commands.c:5728
 msgid "Push Object Backward"
 msgstr ""
 
-#: ../src/commands.c:5729
+#: ../src/commands.c:5731
 #, fuzzy
 msgid "Push Object to the Back"
 msgstr "Givet begrænsningerne:"
 
-#: ../src/commands.c:5859
+#: ../src/commands.c:5861
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Printeropsætning for %s"
 
-#: ../src/commands.c:5861
+#: ../src/commands.c:5863
 msgid "Page Setup For All Sheets"
 msgstr "Printeropsætning for all ark"
 
-#: ../src/commands.c:5985 ../src/commands.c:5996
+#: ../src/commands.c:5987 ../src/commands.c:5998
 #, fuzzy
 msgid "Defined Name"
 msgstr "Definér navn"
 
-#: ../src/commands.c:5986
+#: ../src/commands.c:5988
 #, fuzzy
 msgid "An empty string is not allowed as defined name."
 msgstr "er ikke tilladt som defineret navn"
 
-#: ../src/commands.c:5994
+#: ../src/commands.c:5996
 #, fuzzy, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr "er ikke tilladt som defineret navn"
 
-#: ../src/commands.c:6004
+#: ../src/commands.c:6006
 msgid "has a circular reference"
 msgstr "har en cirkulær henvisning"
 
-#: ../src/commands.c:6038
+#: ../src/commands.c:6040
 #, c-format
 msgid "Define Name %s"
 msgstr "Definér navn %s"
 
-#: ../src/commands.c:6041
+#: ../src/commands.c:6043
 #, c-format
 msgid "Update Name %s"
 msgstr "Opdater navn %s"
 
-#: ../src/commands.c:6134
+#: ../src/commands.c:6136
 #, c-format
 msgid "Remove Name %s"
 msgstr "Slet navn %s"
 
-#: ../src/commands.c:6165
+#: ../src/commands.c:6167
 msgid "Change Scope of Name"
 msgstr "Ændr virkefelt for navn"
 
-#: ../src/commands.c:6213
+#: ../src/commands.c:6215
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr "Ændr virkefelt for navn %s"
 
-#: ../src/commands.c:6271
+#: ../src/commands.c:6273
 msgid "Add scenario"
 msgstr "Nyt scenarie"
 
-#: ../src/commands.c:6335
+#: ../src/commands.c:6337
 msgid "Scenario Show"
 msgstr "Vis scenarie"
 
-#: ../src/commands.c:6393
+#: ../src/commands.c:6395
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: ../src/commands.c:6497
+#: ../src/commands.c:6499
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Tekst (%s) til kolonner (%s)"
 
-#: ../src/commands.c:6655
+#: ../src/commands.c:6657
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Målsøgning (%s)"
 
-#: ../src/commands.c:6821
+#: ../src/commands.c:6823
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Tabulatorafhængigheder"
 
-#: ../src/commands.c:6895
+#: ../src/commands.c:6897
 msgid "Reconfigure Graph"
 msgstr "Rekonfigurér graf"
 
-#: ../src/commands.c:6965
+#: ../src/commands.c:6967
 #, fuzzy
 msgid "Reconfigure Object"
 msgstr "Ændre størrelse på objekt"
 
-#: ../src/commands.c:7009
+#: ../src/commands.c:7011
 msgid "Left to Right"
 msgstr "Venstre mod højre"
 
-#: ../src/commands.c:7009
+#: ../src/commands.c:7011
 msgid "Right to Left"
 msgstr "Højre mod venstre"
 
-#: ../src/commands.c:7171
+#: ../src/commands.c:7173
 #, fuzzy
 msgid "Changing Hyperlink"
 msgstr "Redigér udtryk"
 
-#: ../src/commands.c:7262
+#: ../src/commands.c:7264
 #, fuzzy, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Ændring af formatering af %s"
 
-#: ../src/commands.c:7347
+#: ../src/commands.c:7349
 #, fuzzy
 msgid "Configure List"
 msgstr "Antal"
 
-#: ../src/commands.c:7418
+#: ../src/commands.c:7420
 #, fuzzy
 msgid "Set Frame Label"
 msgstr "Opret etiket"
 
-#: ../src/commands.c:7489
+#: ../src/commands.c:7491
 msgid "Configure Button"
 msgstr "Konfigurer knap"
 
-#: ../src/commands.c:7570
+#: ../src/commands.c:7572
 #, fuzzy
 msgid "Configure Radio Button"
 msgstr "Opret knap"
 
-#: ../src/commands.c:7646
+#: ../src/commands.c:7648
 msgid "Configure Checkbox"
 msgstr "Konfigurer afkrydsningsfelt"
 
-#: ../src/commands.c:7753 ../src/sheet-object-widget.c:1776
+#: ../src/commands.c:7755 ../src/sheet-object-widget.c:1780
 #, fuzzy
 msgid "Configure Adjustment"
 msgstr "Antal"
 
-#: ../src/commands.c:7784
+#: ../src/commands.c:7786
 msgid "Add Filter"
 msgstr "Tilføj filter"
 
-#: ../src/commands.c:7800 ../src/wbc-gtk.c:1632
+#: ../src/commands.c:7802 ../src/wbc-gtk.c:1632
 #, fuzzy, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Tilføj automatisk filter"
 
-#: ../src/commands.c:7805 ../src/commands.c:7832 ../src/commands.c:7841
+#: ../src/commands.c:7807 ../src/commands.c:7834 ../src/commands.c:7843
 #, fuzzy
 msgid "AutoFilter"
 msgstr "Avanceret filtrering"
 
-#: ../src/commands.c:7833
+#: ../src/commands.c:7835
 msgid "Requires more than 1 row"
 msgstr "Kræver mere end 1 række"
 
-#: ../src/commands.c:7842
+#: ../src/commands.c:7844
 #, fuzzy
 msgid "Unable to create Autofilter"
 msgstr "Kan ikke indsætte"
 
-#: ../src/commands.c:7865
+#: ../src/commands.c:7867
 #, fuzzy, c-format
 msgid "Add Autofilter to %s"
 msgstr "Tilføj automatisk filter"
 
-#: ../src/commands.c:7866
+#: ../src/commands.c:7868
 #, fuzzy, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Tilføj automatisk filter"
 
-#: ../src/commands.c:7879
+#: ../src/commands.c:7881
 #, fuzzy, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Fjern kanter"
 
-#: ../src/commands.c:7909
+#: ../src/commands.c:7911
 #, c-format
 msgid "Change filter condition for %s"
 msgstr ""
 
-#: ../src/commands.c:7978 ../src/wbc-gtk-actions.c:2394
+#: ../src/commands.c:7980 ../src/wbc-gtk-actions.c:2394
 msgid "Clear All Page Breaks"
 msgstr "Fjern all sidebrud"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1567
+#: ../src/commands.c:8007 ../src/wbc-gtk.c:1567
 msgid "Remove Column Page Break"
 msgstr "Fjern kolonnesidebrud"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1577
+#: ../src/commands.c:8007 ../src/wbc-gtk.c:1577
 msgid "Remove Row Page Break"
 msgstr "Fjern rækkesidebrud"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1570
+#: ../src/commands.c:8010 ../src/wbc-gtk.c:1570
 msgid "Add Column Page Break"
 msgstr "Indsæt kolonnesidebrud"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1580
+#: ../src/commands.c:8010 ../src/wbc-gtk.c:1580
 msgid "Add Row Page Break"
 msgstr "Indsæt rækkesidebrud"
 
@@ -4921,7 +4939,7 @@ msgstr "Gå til Gnumeric's hjemmeside"
 
 #: ../src/dialogs/dialog-about.c:547
 #, fuzzy
-msgid "Copyright © 1998-2015"
+msgid "Copyright © 1998-2017"
 msgstr "Ophavsret 1998-2010"
 
 #: ../src/dialogs/dialog-about.c:548
@@ -4941,12 +4959,12 @@ msgstr "Kriteriumintervallet er ugyldigt."
 msgid "The output range is invalid."
 msgstr "Uddataintervallet er ugyldigt."
 
-#: ../src/dialogs/dialog-advanced-filter.c:164 ../src/tools/filter.c:249
+#: ../src/dialogs/dialog-advanced-filter.c:164 ../src/tools/filter.c:250
 #, fuzzy
 msgid "The given criteria are invalid."
 msgstr "Værdien givet i 'Til værdi:' er ikke gyldig."
 
-#: ../src/dialogs/dialog-advanced-filter.c:170 ../src/tools/filter.c:247
+#: ../src/dialogs/dialog-advanced-filter.c:170 ../src/tools/filter.c:248
 msgid "No matching records were found."
 msgstr ""
 
@@ -4954,7 +4972,7 @@ msgstr ""
 #: ../src/dialogs/dialog-analysis-tools.c:670
 #: ../src/dialogs/dialog-analysis-tools.c:790
 #: ../src/dialogs/dialog-analysis-tools.c:2214
-#: ../src/dialogs/dialog-analysis-tools.c:3683 ../src/tools/filter.c:252
+#: ../src/dialogs/dialog-analysis-tools.c:3683 ../src/tools/filter.c:253
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "En uventet fejl opstod: %d."
@@ -5336,14 +5354,12 @@ msgstr "_Y-variabel:"
 msgid "_X variable:"
 msgstr "_X-variabler:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2387
-#: ../src/dialogs/regression.ui.h:5
+#: ../src/dialogs/dialog-analysis-tools.c:2387 ../src/dialogs/regression.ui.h:5
 #, fuzzy
 msgid "_X variables:"
 msgstr "_X-variabler:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2389
-#: ../src/dialogs/regression.ui.h:6
+#: ../src/dialogs/dialog-analysis-tools.c:2389 ../src/dialogs/regression.ui.h:6
 msgid "_Y variable:"
 msgstr "_Y-variabel:"
 
@@ -5527,11 +5543,10 @@ msgstr "Antal"
 #: ../src/dialogs/dialog-autofilter.c:351
 #, c-format
 msgid "Column %s (\"%s\")"
-msgstr "Kolonne %s (\"%s\")"
+msgstr "Kolonne %s (“%s”)"
 
 #: ../src/dialogs/dialog-autofilter.c:393
-#: ../src/dialogs/dialog-autofilter.c:493
-#: ../src/dialogs/dialog-cell-sort.c:137
+#: ../src/dialogs/dialog-autofilter.c:493 ../src/dialogs/dialog-cell-sort.c:137
 #, c-format
 msgid "Column %s"
 msgstr "Kolonne %s"
@@ -5802,7 +5817,7 @@ msgstr ""
 #: ../src/dialogs/dialog-cell-format-cond.c:578
 #, fuzzy
 msgid "Cell does not contain whitespace."
-msgstr "Filen indeholder ikke \"%s\"-tabellen."
+msgstr "Filen indeholder ikke “%s”-tabellen."
 
 #. with one expression
 #: ../src/dialogs/dialog-cell-format-cond.c:580
@@ -6073,14 +6088,14 @@ msgstr "_Filtrér"
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2307
-#: ../src/tools/analysis-tools.c:223 ../src/tools/analysis-tools.c:2885
+#: ../src/tools/analysis-tools.c:222 ../src/tools/analysis-tools.c:2891
 msgid "Row"
 msgstr "Række"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2299
-#: ../src/tools/analysis-tools.c:223 ../src/tools/analysis-tools.c:2886
+#: ../src/tools/analysis-tools.c:222 ../src/tools/analysis-tools.c:2892
 msgid "Column"
 msgstr "Kolonne"
 
@@ -6383,7 +6398,7 @@ msgstr "Du skal angive et gyldigt cellenavn i 'Ved at ændre celle:'!"
 
 #: ../src/dialogs/dialog-goal-seek.c:369
 msgid "The cell named in 'By changing cell' must not contain a formula."
-msgstr "Cellen angivet i \"Ved at ændre celle\" må ikke indeholde en formel."
+msgstr "Cellen angivet i “Ved at ændre celle” må ikke indeholde en formel."
 
 #: ../src/dialogs/dialog-goal-seek.c:382
 msgid "The value given in 'To Value:' is not valid."
@@ -6416,8 +6431,8 @@ msgstr "Ark"
 
 #: ../src/dialogs/dialog-goto-cell.c:390 ../src/dialogs/dialog-search.c:441
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1509
-#: ../src/tools/gnm-solver.c:1554
+#: ../src/sheet-control-gui.c:2288 ../src/tools/gnm-solver.c:1574
+#: ../src/tools/gnm-solver.c:1619 ../src/tools/gnm-solver.c:1764
 msgid "Cell"
 msgstr "Celle"
 
@@ -6464,22 +6479,22 @@ msgstr "Indsæt kæde"
 msgid "Browse to the specified URL"
 msgstr ""
 
-#: ../src/dialogs/dialog-hyperlink.c:399
+#: ../src/dialogs/dialog-hyperlink.c:400
 #, fuzzy
 msgid "Add Hyperlink"
 msgstr "Redigér udtryk"
 
-#: ../src/dialogs/dialog-hyperlink.c:404
+#: ../src/dialogs/dialog-hyperlink.c:405
 #, fuzzy
 msgid "Edit Hyperlink"
 msgstr "Redigér udtryk"
 
-#: ../src/dialogs/dialog-hyperlink.c:413
+#: ../src/dialogs/dialog-hyperlink.c:414
 #, fuzzy
 msgid "Remove Hyperlink"
 msgstr "Fj_ern nuværende"
 
-#: ../src/dialogs/dialog-hyperlink.c:619
+#: ../src/dialogs/dialog-hyperlink.c:622
 #, fuzzy
 msgid "Could not create the hyperlink dialog."
 msgstr "Kunne ikke oprette målsøgnings-dialogen."
@@ -6531,7 +6546,8 @@ msgstr ""
 "før de kan åbnes."
 
 #: ../src/dialogs/dialog-password.c:60
-msgid "Password :"
+#, fuzzy
+msgid "Password:"
 msgstr "Adgangskode :"
 
 #: ../src/dialogs/dialog-plugin-manager.c:270
@@ -6574,7 +6590,7 @@ msgstr ""
 #: ../src/dialogs/dialog-plugin-manager.c:593
 #, fuzzy, c-format
 msgid "Unknown plugin with id=\"%s\"\n"
-msgstr "Ingen indlæser defineret for udvidelsesmodulet med id=\"%s\"."
+msgstr "Ingen indlæser defineret for udvidelsesmodulet med id=“%s”."
 
 #: ../src/dialogs/dialog-plugin-manager.c:600
 msgid ""
@@ -6648,74 +6664,75 @@ msgstr ""
 msgid "Enter _Moves Selection"
 msgstr "_Centrér hen over markering"
 
-#: ../src/dialogs/dialog-preferences.c:1115
+#. xgettext : see https://en.wikipedia.org/wiki/X_Window_selection#Clipboard
+#: ../src/dialogs/dialog-preferences.c:1116
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
 msgstr ""
 
-#: ../src/dialogs/dialog-preferences.c:1140
+#: ../src/dialogs/dialog-preferences.c:1141
 msgid "Capitalize _names of days"
 msgstr "_Navne på dage med stort"
 
-#: ../src/dialogs/dialog-preferences.c:1163
+#: ../src/dialogs/dialog-preferences.c:1164
 #, fuzzy
 msgid "Correct _TWo INitial CApitals"
 msgstr "_STore BEgyndelsesbogstaver"
 
-#: ../src/dialogs/dialog-preferences.c:1167
+#: ../src/dialogs/dialog-preferences.c:1168
 msgid "Do _not correct:"
 msgstr "Ret _ikke:"
 
-#: ../src/dialogs/dialog-preferences.c:1190
+#: ../src/dialogs/dialog-preferences.c:1191
 msgid "Capitalize _first letter of sentence"
 msgstr "_Første bogstav i en sætning med stort"
 
-#: ../src/dialogs/dialog-preferences.c:1194
+#: ../src/dialogs/dialog-preferences.c:1195
 msgid "Do _not capitalize after:"
 msgstr "Lav _ikke stort bogstav efter:"
 
-#: ../src/dialogs/dialog-preferences.c:1216
+#: ../src/dialogs/dialog-preferences.c:1217
 msgid "Auto Correct"
 msgstr "Automatiske rettelser"
 
-#: ../src/dialogs/dialog-preferences.c:1217
+#: ../src/dialogs/dialog-preferences.c:1218
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
 #: ../src/widgets/gnm-fontbutton.c:1158
 msgid "Font"
 msgstr "Skrifttype"
 
-#: ../src/dialogs/dialog-preferences.c:1218
+#: ../src/dialogs/dialog-preferences.c:1219
 msgid "Files"
 msgstr "Filer"
 
-#: ../src/dialogs/dialog-preferences.c:1219
+#: ../src/dialogs/dialog-preferences.c:1220
 msgid "Tools"
 msgstr "Værktøjer"
 
-#: ../src/dialogs/dialog-preferences.c:1220
+#: ../src/dialogs/dialog-preferences.c:1221
 msgid "Undo"
 msgstr "Fortryd"
 
-#: ../src/dialogs/dialog-preferences.c:1221
+#: ../src/dialogs/dialog-preferences.c:1222
 msgid "Windows"
 msgstr "Vinduer"
 
-#: ../src/dialogs/dialog-preferences.c:1222
+#: ../src/dialogs/dialog-preferences.c:1223
 msgid "Header/Footer"
 msgstr "Sidehoved/sidefod"
 
-#: ../src/dialogs/dialog-preferences.c:1224
+#: ../src/dialogs/dialog-preferences.c:1225
 msgid "Copy and Paste"
 msgstr "Kopier og indsæt"
 
-#: ../src/dialogs/dialog-preferences.c:1227
+#: ../src/dialogs/dialog-preferences.c:1228
 msgid "Screen"
 msgstr "Skærm"
 
-#: ../src/dialogs/dialog-preferences.c:1228
+#: ../src/dialogs/dialog-preferences.c:1229
 msgid "INitial CApitals"
 msgstr "_STore BEgyndelsesbogstaver"
 
-#: ../src/dialogs/dialog-preferences.c:1229
+#: ../src/dialogs/dialog-preferences.c:1230
 msgid "First Letter"
 msgstr "_Første bogstav"
 
@@ -7288,7 +7305,7 @@ msgstr "Nyt navn"
 #: ../src/dialogs/dialog-sheet-order.c:1119
 #, c-format
 msgid "You may not call more than one sheet \"%s\"."
-msgstr "Du må ikke navngive mere end et ark \"%s\"."
+msgstr "Du må ikke navngive mere end et ark “%s”."
 
 #: ../src/dialogs/dialog-sheet-order.c:1455
 msgid "Another view is already managing sheets"
@@ -7314,17 +7331,17 @@ msgstr "Angiv objektnavn"
 #: ../src/dialogs/dialog-sheetobject-size.c:268
 #, fuzzy
 msgid "Set Object Print Property"
-msgstr "_Egenskaber..."
+msgstr "_Egenskaber …"
 
 #: ../src/dialogs/dialog-sheetobject-size.c:276
 #, fuzzy
 msgid "Set Object Anchor Mode"
-msgstr "_Egenskaber..."
+msgstr "_Egenskaber …"
 
 #: ../src/dialogs/dialog-sheetobject-size.c:282
 #, fuzzy
 msgid "Set Object Properties"
-msgstr "_Egenskaber..."
+msgstr "_Egenskaber …"
 
 #: ../src/dialogs/dialog-shuffle.c:153
 #, fuzzy
@@ -7367,16 +7384,16 @@ msgid "Run on"
 msgstr ""
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4053
+#: ../src/wbc-gtk.c:4065
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4055
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4067
 msgid "Average"
 msgstr "Gennemsnit"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:4054
+#: ../src/wbc-gtk.c:4066
 msgid "Max"
 msgstr "Maks"
 
@@ -7420,83 +7437,88 @@ msgid ""
 "solver for Gnumeric?"
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:456
+#: ../src/dialogs/dialog-solver.c:457
 #, fuzzy
 msgid "Changing solver parameters"
 msgstr "Ændring af formatering af %s"
 
-#: ../src/dialogs/dialog-solver.c:550 ../src/tools/gnm-solver.c:1536
+#: ../src/dialogs/dialog-solver.c:551 ../src/tools/gnm-solver.c:1601
 #, fuzzy
 msgid "Feasible"
 msgstr "Mulig"
 
-#: ../src/dialogs/dialog-solver.c:554 ../src/tools/gnm-solver.c:1539
+#: ../src/dialogs/dialog-solver.c:555 ../src/tools/gnm-solver.c:1604
 msgid "Optimal"
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:558
+#: ../src/dialogs/dialog-solver.c:559
 #, fuzzy
 msgid "Infeasible"
 msgstr "Mulig"
 
-#: ../src/dialogs/dialog-solver.c:562
+#: ../src/dialogs/dialog-solver.c:563
 #, fuzzy
 msgid "Unbounded"
 msgstr "Fortryd"
 
-#: ../src/dialogs/dialog-solver.c:592
+#: ../src/dialogs/dialog-solver.c:593
 #, fuzzy
 msgid "Ready"
 msgstr "Reelt"
 
-#: ../src/dialogs/dialog-solver.c:595
+#: ../src/dialogs/dialog-solver.c:596
 #, fuzzy
 msgid "Preparing"
 msgstr "Erstatter"
 
 # engelsk original er kryptisk
-#: ../src/dialogs/dialog-solver.c:598
+#: ../src/dialogs/dialog-solver.c:599
 #, fuzzy
 msgid "Prepared"
 msgstr "_Adskilt af tegn"
 
-#: ../src/dialogs/dialog-solver.c:601
+#: ../src/dialogs/dialog-solver.c:602
 msgid "Running"
 msgstr "Kører"
 
-#: ../src/dialogs/dialog-solver.c:605
+#: ../src/dialogs/dialog-solver.c:606
 msgid "Done"
 msgstr "Færdig"
 
-#: ../src/dialogs/dialog-solver.c:609 ../src/gui-util.c:1050
+#: ../src/dialogs/dialog-solver.c:610 ../src/gui-util.c:1050
 msgid "Error"
 msgstr "Fejl"
 
-#: ../src/dialogs/dialog-solver.c:612
+#: ../src/dialogs/dialog-solver.c:613
 msgid "Cancelled"
 msgstr "Afbrudt"
 
-#: ../src/dialogs/dialog-solver.c:711
+#: ../src/dialogs/dialog-solver.c:686
+#, fuzzy, c-format
+msgid "%s %%s Report"
+msgstr "Rapport"
+
+#: ../src/dialogs/dialog-solver.c:712
 msgid "The chosen solver is not functional."
 msgstr "Den valgte løsningsalgoritme fungerer ikke."
 
-#: ../src/dialogs/dialog-solver.c:800
+#: ../src/dialogs/dialog-solver.c:798
 msgid "Running solver"
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:837
+#: ../src/dialogs/dialog-solver.c:835
 msgid "Optimal solution created by solver.\n"
 msgstr "Optimal løsning fundet af løsningsalgoritme.\n"
 
-#: ../src/dialogs/dialog-solver.c:841
+#: ../src/dialogs/dialog-solver.c:839
 msgid "Feasible solution created by solver.\n"
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:1110
+#: ../src/dialogs/dialog-solver.c:1108
 msgid "Subject to the Constraints:"
 msgstr "Givet begrænsningerne:"
 
-#: ../src/dialogs/dialog-solver.c:1268
+#: ../src/dialogs/dialog-solver.c:1267
 msgid "Could not create the Solver dialog."
 msgstr "Kunne ikke oprette målsøgnings-dialogen."
 
@@ -7551,37 +7573,37 @@ msgid_plural "A maximum of %d columns can be imported."
 msgstr[0] "Der kan maksimalt importeres %d kolonne."
 msgstr[1] "Der kan maksimalt importeres %d kolonner."
 
-#: ../src/dialogs/dialog-stf-format-page.c:205
+#: ../src/dialogs/dialog-stf-format-page.c:204
 #, fuzzy
 msgid "Format Selector"
 msgstr "Flytning af objekt"
 
-#: ../src/dialogs/dialog-stf-format-page.c:387
+#: ../src/dialogs/dialog-stf-format-page.c:385
 msgid "Ignore all columns on right"
 msgstr "Ignorer alle kolonner til højre"
 
-#: ../src/dialogs/dialog-stf-format-page.c:388
+#: ../src/dialogs/dialog-stf-format-page.c:386
 msgid "Ignore all columns on left"
 msgstr "Ignorer alle kolonner til venstre"
 
-#: ../src/dialogs/dialog-stf-format-page.c:389
+#: ../src/dialogs/dialog-stf-format-page.c:387
 msgid "Import all columns on right"
 msgstr "Importer alle kolonner til højre"
 
-#: ../src/dialogs/dialog-stf-format-page.c:390
+#: ../src/dialogs/dialog-stf-format-page.c:388
 msgid "Import all columns on left"
 msgstr "Importer alle kolonner til venstre"
 
-#: ../src/dialogs/dialog-stf-format-page.c:391
+#: ../src/dialogs/dialog-stf-format-page.c:389
 msgid "Copy format to right"
 msgstr "Kopier format til højre"
 
-#: ../src/dialogs/dialog-stf-format-page.c:593
+#: ../src/dialogs/dialog-stf-format-page.c:591
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr "Et maksimum på %d kolonner kan importeres."
 
-#: ../src/dialogs/dialog-stf-format-page.c:604
+#: ../src/dialogs/dialog-stf-format-page.c:602
 msgid "Auto fit"
 msgstr "Automatisk tilpasning"
 
@@ -7600,15 +7622,15 @@ msgstr ""
 "Hvis dette afkrydsningsfelt er valgt, vil bredden af kolonnen blive justeret "
 "til det længste indhold."
 
-#: ../src/dialogs/dialog-stf-format-page.c:757
+#: ../src/dialogs/dialog-stf-format-page.c:758
 #: ../src/dialogs/dialog-stf-preview.h:25
-#: ../src/tools/analysis-exp-smoothing.c:153
-#: ../src/tools/analysis-exp-smoothing.c:329
-#: ../src/tools/analysis-exp-smoothing.c:517
-#: ../src/tools/analysis-exp-smoothing.c:781
-#: ../src/tools/analysis-exp-smoothing.c:1103
+#: ../src/tools/analysis-exp-smoothing.c:157
+#: ../src/tools/analysis-exp-smoothing.c:336
+#: ../src/tools/analysis-exp-smoothing.c:527
+#: ../src/tools/analysis-exp-smoothing.c:793
+#: ../src/tools/analysis-exp-smoothing.c:1118
 #: ../src/tools/analysis-frequency.c:149 ../src/tools/analysis-histogram.c:323
-#: ../src/tools/analysis-tools.c:1220 ../src/tools/analysis-tools.c:3742
+#: ../src/tools/analysis-tools.c:1222 ../src/tools/analysis-tools.c:3751
 #, c-format
 msgid "Column %d"
 msgstr "Kolonne: %d"
@@ -7714,8 +7736,8 @@ msgstr "Autofuldførelse"
 msgid "Cell Markers"
 msgstr "Cellemarkører"
 
-#: ../src/dialogs/advanced-filter.ui.h:1 ../src/tools/filter.c:287
-#: ../src/tools/filter.c:290
+#: ../src/dialogs/advanced-filter.ui.h:1 ../src/tools/filter.c:288
+#: ../src/tools/filter.c:291
 msgid "Advanced Filter"
 msgstr "Avanceret filtrering"
 
@@ -8153,8 +8175,8 @@ msgid "Date"
 msgstr "Dato"
 
 #: ../src/dialogs/cell-format.ui.h:6 ../src/dialogs/hf-config.ui.h:10
-#: ../src/tools/analysis-exp-smoothing.c:728
-#: ../src/tools/analysis-exp-smoothing.c:1048
+#: ../src/tools/analysis-exp-smoothing.c:737
+#: ../src/tools/analysis-exp-smoothing.c:1060
 #: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:3454
 msgid "Time"
 msgstr "Tid"
@@ -8504,7 +8526,7 @@ msgstr "Indtastningsmeddelelse"
 
 #: ../src/dialogs/cell-sort.ui.h:1
 msgid "Sort..."
-msgstr "Sortering..."
+msgstr "Sortering …"
 
 #: ../src/dialogs/cell-sort.ui.h:2
 msgid "<span weight=\"bold\">Sort Options</span>"
@@ -8742,13 +8764,13 @@ msgstr ""
 msgid "VARP"
 msgstr ""
 
-#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:695
-#: ../src/tools/analysis-tools.c:698
+#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:694
+#: ../src/tools/analysis-tools.c:697
 msgid "Correlation"
 msgstr "Korrelation"
 
-#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:750
-#: ../src/tools/analysis-tools.c:753 ../src/wbc-gtk-actions.c:2945
+#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:749
+#: ../src/tools/analysis-tools.c:752 ../src/wbc-gtk-actions.c:2945
 msgid "Covariance"
 msgstr "Kovarians"
 
@@ -8834,7 +8856,7 @@ msgstr "Operation"
 #: ../src/dialogs/data-slicer.ui.h:6
 #, fuzzy
 msgid "_Layout"
-msgstr "_Om dette program..."
+msgstr "_Om dette program …"
 
 #: ../src/dialogs/data-slicer.ui.h:7 ../src/dialogs/dialog-stf.ui.h:60
 msgid "Format"
@@ -8842,12 +8864,13 @@ msgstr "Format"
 
 #: ../src/dialogs/data-table.ui.h:2
 #, fuzzy
-msgid "_Row Input :"
+msgid "_Row Input:"
 msgstr "_Inddata"
 
 #: ../src/dialogs/data-table.ui.h:3
-msgid "Co_lumn Input :"
-msgstr ""
+#, fuzzy
+msgid "Co_lumn Input:"
+msgstr "Kolonner"
 
 #: ../src/dialogs/define-name.ui.h:1
 #, fuzzy
@@ -8885,8 +8908,8 @@ msgstr "Slet _rækker"
 msgid "Delete _column(s)"
 msgstr "Slet _kolonner"
 
-#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1140
-#: ../src/tools/analysis-tools.c:1143
+#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1139
+#: ../src/tools/analysis-tools.c:1142
 msgid "Descriptive Statistics"
 msgstr "Beskrivende statistikker"
 
@@ -9583,12 +9606,12 @@ msgstr "side 6"
 
 #: ../src/dialogs/exp-smoothing.ui.h:1
 #: ../src/tools/analysis-exp-smoothing.c:113
-#: ../src/tools/analysis-exp-smoothing.c:289
-#: ../src/tools/analysis-exp-smoothing.c:472
-#: ../src/tools/analysis-exp-smoothing.c:713
-#: ../src/tools/analysis-exp-smoothing.c:1033
-#: ../src/tools/analysis-exp-smoothing.c:1397
-#: ../src/tools/analysis-exp-smoothing.c:1400
+#: ../src/tools/analysis-exp-smoothing.c:292
+#: ../src/tools/analysis-exp-smoothing.c:478
+#: ../src/tools/analysis-exp-smoothing.c:722
+#: ../src/tools/analysis-exp-smoothing.c:1045
+#: ../src/tools/analysis-exp-smoothing.c:1412
+#: ../src/tools/analysis-exp-smoothing.c:1415
 msgid "Exponential Smoothing"
 msgstr "Eksponentiel udjævning"
 
@@ -9892,7 +9915,7 @@ msgstr "Løsning:"
 
 #: ../src/dialogs/goto.ui.h:1
 msgid "Go To..."
-msgstr "Gå til..."
+msgstr "Gå til …"
 
 #: ../src/dialogs/goto.ui.h:2
 #, fuzzy
@@ -10091,7 +10114,7 @@ msgstr "Adresse"
 #: ../src/dialogs/hyperlink.ui.h:5
 #, fuzzy
 msgid "_Subject:"
-msgstr "_Objekt..."
+msgstr "_Objekt …"
 
 #: ../src/dialogs/hyperlink.ui.h:6
 #, fuzzy
@@ -10311,8 +10334,8 @@ msgstr "Flet"
 msgid "Merge _Range:"
 msgstr "_Listeinterval:"
 
-#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3988
-#: ../src/tools/analysis-tools.c:3991
+#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3997
+#: ../src/tools/analysis-tools.c:4000
 msgid "Moving Average"
 msgstr "Rullende gennemsnit"
 
@@ -10329,7 +10352,7 @@ msgstr "Akk_umuleret procent"
 #: ../src/dialogs/moving-averages.ui.h:11
 #, fuzzy
 msgid "Weighted moving average"
-msgstr "Rullende gennemsnit..."
+msgstr "Rullende gennemsnit …"
 
 #: ../src/dialogs/moving-averages.ui.h:12
 msgid "Spencer's 15-point moving average"
@@ -10561,8 +10584,8 @@ msgid "Gnumeric Preferences"
 msgstr "Indsæt et nyt regneark"
 
 #: ../src/dialogs/principal-components.ui.h:1
-#: ../src/tools/analysis-principal-components.c:223
-#: ../src/tools/analysis-principal-components.c:226
+#: ../src/tools/analysis-principal-components.c:227
+#: ../src/tools/analysis-principal-components.c:230
 #: ../src/wbc-gtk-actions.c:2982
 msgid "Principal Components Analysis"
 msgstr ""
@@ -10570,7 +10593,7 @@ msgstr ""
 #: ../src/dialogs/print.ui.h:1
 #, fuzzy
 msgid "Page Setup"
-msgstr "Print_eropsætning..."
+msgstr "Print_eropsætning …"
 
 #: ../src/dialogs/print.ui.h:2
 #, fuzzy
@@ -10959,8 +10982,8 @@ msgstr "Gem dokument"
 msgid "Last Used"
 msgstr ""
 
-#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3598
-#: ../src/tools/analysis-tools.c:3601
+#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3604
+#: ../src/tools/analysis-tools.c:3607
 msgid "Regression"
 msgstr "Regression"
 
@@ -11368,11 +11391,11 @@ msgstr "Opret et fejludtryk"
 #: ../src/dialogs/search-replace.ui.h:59
 #, fuzzy
 msgid "Create =ERROR(&quot;...&quot;)"
-msgstr "Opret =ERROR(\"...\")"
+msgstr "Opret =ERROR(“…”)"
 
 #: ../src/dialogs/search-replace.ui.h:60
 msgid "Create =ERROR(\"...\")"
-msgstr "Opret =ERROR(\"...\")"
+msgstr "Opret =ERROR(“…”)"
 
 #: ../src/dialogs/search-replace.ui.h:61
 #, fuzzy
@@ -11590,13 +11613,13 @@ msgstr "Nyt navn:"
 msgid "Resize Sheet"
 msgstr "Ændring af størrelse på ark"
 
-#. Number of 'Columns' in sheet
+#. Number of
 #: ../src/dialogs/sheet-resize.ui.h:3
 msgctxt "sheetsize"
 msgid "Columns"
 msgstr "Kolonner"
 
-#. Number of 'Rows' in sheet
+#. Number of
 #: ../src/dialogs/sheet-resize.ui.h:5
 msgctxt "sheetsize"
 msgid "Rows"
@@ -11690,7 +11713,8 @@ msgstr "Inddatavariabler:"
 msgid "Output variables:"
 msgstr "Inddata-_mærkater"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1552
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1617
+#: ../src/tools/gnm-solver.c:1762
 msgid "Variables"
 msgstr "Variabler"
 
@@ -11778,7 +11802,8 @@ msgid "List Properties"
 msgstr "Listeegenskaber"
 
 #: ../src/dialogs/so-list.ui.h:2
-msgid "_Link :"
+#, fuzzy
+msgid "_Link:"
 msgstr "_Henvisning:"
 
 #: ../src/dialogs/so-list.ui.h:3
@@ -11791,7 +11816,8 @@ msgid "As index"
 msgstr ""
 
 #: ../src/dialogs/so-list.ui.h:5
-msgid "_Content :"
+#, fuzzy
+msgid "_Content:"
 msgstr "_Indhold:"
 
 #: ../src/dialogs/solver.ui.h:1
@@ -11806,12 +11832,14 @@ msgstr ""
 msgid "="
 msgstr ""
 
-#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:386
+#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:388
+#: ../src/tools/gnm-solver.c:414
 #, fuzzy
 msgid "Int"
 msgstr "Inddata"
 
-#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:387
+#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:389
+#: ../src/tools/gnm-solver.c:415
 #, fuzzy
 msgid "Bool"
 msgstr "Fed"
@@ -11899,7 +11927,8 @@ msgid "Re_place"
 msgstr "_Erstat"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1595
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1660
+#: ../src/tools/gnm-solver.c:1796
 msgid "Constraints"
 msgstr "Begrænsninger"
 
@@ -11940,45 +11969,50 @@ msgid "P_rogram"
 msgstr "_Program"
 
 #: ../src/dialogs/solver.ui.h:36
+#, fuzzy
+msgid "_Sensitivity"
+msgstr "Skeln mellem store og små bogstaver"
+
+#: ../src/dialogs/solver.ui.h:37
 msgid "Reports"
 msgstr "Rapporter"
 
-#: ../src/dialogs/solver.ui.h:37
+#: ../src/dialogs/solver.ui.h:38
 msgid "_Do not create scenarios"
 msgstr "_Opret ikke scenarier"
 
-#: ../src/dialogs/solver.ui.h:38
+#: ../src/dialogs/solver.ui.h:39
 msgid "_Create a scenario if the optimal solution is found"
 msgstr "_Opret et scenarie hvis den optimale løsning findes"
 
-#: ../src/dialogs/solver.ui.h:39
+#: ../src/dialogs/solver.ui.h:40
 msgid "_Name: "
 msgstr "_Navn: "
 
-#: ../src/dialogs/solver.ui.h:40
+#: ../src/dialogs/solver.ui.h:41
 msgid "Scenarios"
 msgstr "Scenarier"
 
-#: ../src/dialogs/solver.ui.h:41
+#: ../src/dialogs/solver.ui.h:42
 msgid "Solver Status:"
 msgstr "Status for løsningsalgoritme:"
 
-#: ../src/dialogs/solver.ui.h:42
+#: ../src/dialogs/solver.ui.h:43
 msgid "Problem Status:"
 msgstr "Status for problem:"
 
 # Optimeret (funktions)værdi:
 # Jeg kan se på dansk wiki at de kalder det en "formålsfunktion", men
 # det begreb tror jeg ikke bruges almindeligvis
-#: ../src/dialogs/solver.ui.h:43
+#: ../src/dialogs/solver.ui.h:44
 msgid "Objective Value:"
 msgstr "Optimeret værdi:"
 
-#: ../src/dialogs/solver.ui.h:44
+#: ../src/dialogs/solver.ui.h:45
 msgid "Elapsed Time:"
 msgstr "Forløbet tid:"
 
-#: ../src/dialogs/solver.ui.h:45
+#: ../src/dialogs/solver.ui.h:46
 #, fuzzy
 msgid "Results"
 msgstr "_Resultater"
@@ -11986,9 +12020,9 @@ msgstr "_Resultater"
 #: ../src/dialogs/so-radiobutton.ui.h:1
 #, fuzzy
 msgid "Radiobutton Properties"
-msgstr "_Egenskaber..."
+msgstr "_Egenskaber …"
 
-#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1928
+#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1932
 msgid "Scrollbar Properties"
 msgstr "Rullebjælkeegenskaber"
 
@@ -12095,7 +12129,7 @@ msgstr "Ændr ikke"
 #: ../src/dialogs/wbcg.ui.h:4
 #, fuzzy
 msgid "Enter formula..."
-msgstr "A_utoformatér..."
+msgstr "A_utoformatér …"
 
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:1
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:138
@@ -12107,7 +12141,7 @@ msgstr ""
 #: ../src/dialogs/workbook-attr.ui.h:1
 #, fuzzy
 msgid "View Properties"
-msgstr "_Egenskaber..."
+msgstr "_Egenskaber …"
 
 #: ../src/dialogs/workbook-attr.ui.h:2
 msgid "Notebook _Tabs for Sheets"
@@ -12163,12 +12197,12 @@ msgstr ""
 msgid "'%s' has a circular reference"
 msgstr "'%s' har en cirkulær henvisning"
 
-#: ../src/expr-name.c:754 ../src/expr-name.c:1001
+#: ../src/expr-name.c:755 ../src/expr-name.c:1002
 #, fuzzy, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "allerede defineret i arket"
 
-#: ../src/expr-name.c:755 ../src/expr-name.c:1002
+#: ../src/expr-name.c:756 ../src/expr-name.c:1003
 #, fuzzy, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "allerede defineret i arbejdsbog"
@@ -12227,84 +12261,84 @@ msgstr[0] "Målområdet er for småt. Det skal mindst være %d rækker højt"
 msgstr[1] "Målområdet er for småt. Det skal mindst være %d rækker højt"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:44
+#: ../src/func-builtin.c:45
 msgid "SUM:sum of the given values"
 msgstr "SUM:Sum over de givne værdier"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:46
+#: ../src/func-builtin.c:47
 msgid "values:a list of values to add"
 msgstr ""
 
-#: ../src/func-builtin.c:47
+#: ../src/func-builtin.c:48
 msgid ""
 "SUM computes the sum of all the values and cells referenced in the argument "
 "list."
 msgstr ""
 
-#: ../src/func-builtin.c:48 ../src/func-builtin.c:75
+#: ../src/func-builtin.c:49 ../src/func-builtin.c:106
 msgid "This function is Excel compatible."
 msgstr "Denne funktion er Excelkompatibel."
 
-#: ../src/func-builtin.c:49 ../src/func-builtin.c:76
+#: ../src/func-builtin.c:50 ../src/func-builtin.c:107
 msgid "This function is OpenFormula compatible."
 msgstr "Denne funktion er OpenFormula-kompatibel."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:70
+#: ../src/func-builtin.c:101
 #, fuzzy
 msgid "PRODUCT:product of the given values"
 msgstr "PRODUKT:produktet af de givne værdier"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:72
+#: ../src/func-builtin.c:103
 msgid "values:a list of values to multiply"
 msgstr ""
 
-#: ../src/func-builtin.c:73
+#: ../src/func-builtin.c:104
 msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
 msgstr ""
 
-#: ../src/func-builtin.c:74
+#: ../src/func-builtin.c:105
 msgid "If all cells are empty, the result will be 0."
 msgstr ""
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:107
+#: ../src/func-builtin.c:138
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr "GNUMERIC_VERSION:den aktuelle version af Gnumeric"
 
-#: ../src/func-builtin.c:108
+#: ../src/func-builtin.c:139
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
 msgstr ""
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:300
+#: ../src/func-builtin.c:331
 #, fuzzy
 msgid "IF:conditional expression"
 msgstr "Ugyldigt udtryk"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:302
+#: ../src/func-builtin.c:333
 #, fuzzy
 msgid "cond:condition"
 msgstr "b:betingelse"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:304
+#: ../src/func-builtin.c:335
 #, fuzzy
 msgid "trueval:value to use if condition is true"
 msgstr "sand:værdi, hvis @{b} er sand"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:306
+#: ../src/func-builtin.c:337
 #, fuzzy
 msgid "falseval:value to use if condition is false"
 msgstr "falsk:værdi, hvis @{b} er falsk"
 
-#: ../src/func-builtin.c:307
+#: ../src/func-builtin.c:338
 msgid ""
 "This function first evaluates the condition.  If the result is true, it will "
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
@@ -12432,7 +12466,7 @@ msgstr "Manglende filnavn."
 #: ../src/gnm-plugin.c:484
 #, fuzzy, c-format
 msgid "Cannot read UI description from %s: %s"
-msgstr "Kan ikke læse modulinfofil (\"%s\")."
+msgstr "Kan ikke læse modulinfofil (“%s”)."
 
 #. xgettext : %d gives the number of actions. This is input to ngettext.
 #: ../src/gnm-plugin.c:513
@@ -12459,27 +12493,27 @@ msgstr ""
 #: ../src/gnm-plugin.c:795 ../src/gnm-plugin.c:867 ../src/gnm-plugin.c:913
 #, c-format
 msgid "Module file \"%s\" has invalid format."
-msgstr "Modulfilen \"%s\" har et ugyldigt format."
+msgstr "Modulfilen “%s” har et ugyldigt format."
 
 #: ../src/gnm-plugin.c:799 ../src/gnm-plugin.c:870
 #, c-format
 msgid "File doesn't contain \"%s\" array."
-msgstr "Filen indeholder ikke \"%s\"-tabellen."
+msgstr "Filen indeholder ikke “%s”-tabellen."
 
 #: ../src/gnm-so-filled.c:176 ../src/gnm-so-path.c:200
 #, fuzzy
 msgid "Filled Object Properties"
-msgstr "_Egenskaber..."
+msgstr "_Egenskaber …"
 
 #: ../src/gnm-so-line.c:124
 #, fuzzy
 msgid "Line/Arrow Properties"
-msgstr "_Egenskaber..."
+msgstr "_Egenskaber …"
 
 #: ../src/gnm-so-polygon.c:161
 #, fuzzy
 msgid "Polygon Properties"
-msgstr "_Egenskaber..."
+msgstr "_Egenskaber …"
 
 #: ../src/gui-clipboard.c:183
 #, fuzzy
@@ -12648,38 +12682,33 @@ msgctxt "Stock label"
 msgid "_OK"
 msgstr "O.k."
 
-#: ../src/hlink.c:171 ../src/hlink.c:187
+#: ../src/hlink.c:255
 #, fuzzy
 msgid "Link target"
 msgstr "Forminds_k for at passe"
 
-#: ../src/hlink.c:171
-#, fuzzy
-msgid "(none)"
-msgstr "Ingen"
-
-#: ../src/hlink.c:237
+#: ../src/hlink.c:462
 #, fuzzy, c-format
 msgid "Unable to activate the url '%s'"
-msgstr "Kan ikke oprette et objekt af typen \"%s\""
+msgstr "Kan ikke oprette et objekt af typen “%s”"
 
-#: ../src/hlink.c:294
+#: ../src/hlink.c:519
 #, fuzzy, c-format
 msgid "Unable to open '%s'"
 msgstr "kan ikke åbne filen '%s'"
 
-#: ../src/item-bar.c:845
+#: ../src/item-bar.c:859
 #, fuzzy
 msgid "Width:"
 msgstr "Tilpas bredde"
 
-#: ../src/item-bar.c:845
+#: ../src/item-bar.c:859
 #, fuzzy
 msgid "Height"
 msgstr "Rækkehøjde"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
-#: ../src/item-bar.c:850
+#: ../src/item-bar.c:864
 #, c-format
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
@@ -12687,85 +12716,85 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. xgettext: This is input to ngettext based on the integer number of points.
-#: ../src/item-bar.c:855
+#: ../src/item-bar.c:869
 #, c-format
 msgid "%d.00 pt"
 msgstr ""
 
-#: ../src/item-bar.c:855
+#: ../src/item-bar.c:869
 #, c-format
 msgid "%d.00 pts"
 msgstr ""
 
 #. xgettext: The number of points here is always a fractional number, ie. not an integer.
-#: ../src/item-bar.c:859
+#: ../src/item-bar.c:873
 #, c-format
 msgid "%.2f pts"
 msgstr ""
 
-#: ../src/item-cursor.c:824
+#: ../src/item-cursor.c:821
 msgid "_Move"
 msgstr "_Flyt"
 
-#: ../src/item-cursor.c:827 ../src/sheet-control-gui.c:2202
+#: ../src/item-cursor.c:824 ../src/sheet-control-gui.c:2202
 #: ../src/sheet-object.c:258 ../src/sheet-object.c:277
 #: ../src/wbc-gtk-actions.c:2085
 msgid "_Copy"
 msgstr "_Kopiér"
 
-#: ../src/item-cursor.c:830
+#: ../src/item-cursor.c:827
 msgid "Copy _Formats"
 msgstr "Kopiér _formater"
 
-#: ../src/item-cursor.c:832
+#: ../src/item-cursor.c:829
 msgid "Copy _Values"
 msgstr "Kopiér _værdier"
 
-#: ../src/item-cursor.c:837
+#: ../src/item-cursor.c:834
 msgid "Shift _Down and Copy"
 msgstr "Ryk celler ne_d og kopiér"
 
-#: ../src/item-cursor.c:839
+#: ../src/item-cursor.c:836
 msgid "Shift _Right and Copy"
 msgstr "Ryk celler til _højre og kopiér"
 
-#: ../src/item-cursor.c:841
+#: ../src/item-cursor.c:838
 msgid "Shift Dow_n and Move"
 msgstr "Ryk celler _ned og flyt"
 
-#: ../src/item-cursor.c:843
+#: ../src/item-cursor.c:840
 msgid "Shift Righ_t and Move"
 msgstr "Ryk celler til hø_jre og flyt"
 
-#: ../src/item-cursor.c:848
+#: ../src/item-cursor.c:845
 msgid "C_ancel"
 msgstr "_Annullér"
 
-#: ../src/item-cursor.c:1107
+#: ../src/item-cursor.c:1104
 msgid "Drag to autofill"
 msgstr ""
 
-#: ../src/item-cursor.c:1110
+#: ../src/item-cursor.c:1107
 msgid "Drag to move"
 msgstr ""
 
-#: ../src/libgnumeric.c:142
+#: ../src/libgnumeric.c:143
 msgid "Display Gnumeric's version"
 msgstr "Vis Gnumerics versionsnummer"
 
-#: ../src/libgnumeric.c:151
+#: ../src/libgnumeric.c:152
 msgid "Set the root library directory"
 msgstr "Sæt rodkataloget for biblioteker"
 
-#: ../src/libgnumeric.c:152 ../src/libgnumeric.c:158
+#: ../src/libgnumeric.c:153 ../src/libgnumeric.c:159
 msgid "DIR"
 msgstr ""
 
-#: ../src/libgnumeric.c:157
+#: ../src/libgnumeric.c:158
 msgid "Adjust the root data directory"
 msgstr "Ændr rodkataloget for data"
 
-#: ../src/libgnumeric.c:174
+#: ../src/libgnumeric.c:175
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12776,12 +12805,12 @@ msgstr ""
 "datakatalog := %s\n"
 "bibkatalog := %s\n"
 
-#: ../src/libgnumeric.c:198
+#: ../src/libgnumeric.c:199
 #, fuzzy
 msgid "Gnumeric Options"
 msgstr "Gnumeric: Datagyldighedskontrol"
 
-#: ../src/libgnumeric.c:198
+#: ../src/libgnumeric.c:199
 #, fuzzy
 msgid "Show Gnumeric Options"
 msgstr "Gnumeric: Datagyldighedskontrol"
@@ -12829,7 +12858,7 @@ msgstr ""
 msgid "[FILE ...]"
 msgstr "FIL"
 
-#: ../src/main-application.c:170 ../src/ssconvert.c:882 ../src/ssdiff.c:1108
+#: ../src/main-application.c:170 ../src/ssconvert.c:903 ../src/ssdiff.c:1108
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -12857,87 +12886,87 @@ msgstr ""
 msgid "All entries in the set must be references"
 msgstr ""
 
-#: ../src/parser.y:499
-#, c-format
-msgid "Name '%s' does not exist"
-msgstr "Navnet '%s' eksisterer ikke"
-
-#: ../src/parser.y:513
-#, fuzzy, c-format
-msgid "'%s' cannot be used as a name"
-msgstr "er ikke tilladt som defineret navn"
-
-#: ../src/parser.y:550
-#, c-format
-msgid "Unknown sheet '%s'"
-msgstr "Ukendt ark '%s'"
-
-#: ../src/parser.y:655
-#, c-format
-msgid "() is an invalid expression"
-msgstr "() er et ugyldigt udtryk"
-
-#: ../src/parser.y:687
+#: ../src/parser.y:497
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "Navnet '%s' eksisterer ikke på arket '%s'"
 
-#: ../src/parser.y:709
+#: ../src/parser.y:500
+#, c-format
+msgid "Name '%s' does not exist"
+msgstr "Navnet '%s' eksisterer ikke"
+
+#: ../src/parser.y:514
+#, fuzzy, c-format
+msgid "'%s' cannot be used as a name"
+msgstr "er ikke tilladt som defineret navn"
+
+#: ../src/parser.y:572
+#, c-format
+msgid "Unknown sheet '%s'"
+msgstr "Ukendt ark '%s'"
+
+#: ../src/parser.y:677
+#, c-format
+msgid "() is an invalid expression"
+msgstr "() er et ugyldigt udtryk"
+
+#: ../src/parser.y:724
 #, c-format
 msgid "Name '%s' does not exist in workbook"
 msgstr "Navnet '%s' eksisterer ikke i arbejdsbog"
 
-#: ../src/parser.y:766
+#: ../src/parser.y:781
 #, c-format
 msgid "Unknown workbook '%s'"
 msgstr "Ukendt arbejdsbog '%s'"
 
-#: ../src/parser.y:783
+#: ../src/parser.y:798
 #, c-format
 msgid "Unknown workbook"
 msgstr "Ukendt arbejdsbog"
 
-#: ../src/parser.y:1089 ../src/parser.y:1367
+#: ../src/parser.y:1104 ../src/parser.y:1384
 #, c-format
 msgid "Could not find matching closing quote"
 msgstr "Kunne ikke finde modsvarende afsluttende anførselstegn"
 
-#: ../src/parser.y:1229
+#: ../src/parser.y:1244
 #, c-format
 msgid "Sheet name is required"
 msgstr "Navn på ark er nødvendigt."
 
-#: ../src/parser.y:1282 ../src/parser.y:1291 ../src/parser.y:1315
+#: ../src/parser.y:1299 ../src/parser.y:1308 ../src/parser.y:1332
 #, c-format
 msgid "The number is out of range"
 msgstr "Tallet er uden for det gyldige interval"
 
-#: ../src/parser.y:1349
+#: ../src/parser.y:1366
 #, c-format
 msgid "Improperly formatted error token"
 msgstr ""
 
-#: ../src/parser.y:1606
+#: ../src/parser.y:1623
 #, c-format
 msgid "Multiple expressions are not supported in this context"
 msgstr "Mere end ét udtryk understøttes ikke i denne sammenhæng"
 
-#: ../src/parser.y:1629
+#: ../src/parser.y:1646
 #, c-format
 msgid "Could not find matching opening parenthesis"
 msgstr "Kunne ikke finde modsvarende indledende parantes"
 
-#: ../src/parser.y:1633
+#: ../src/parser.y:1650
 #, c-format
 msgid "Could not find matching closing parenthesis"
 msgstr "Kunne ikke finde modsvarende afsluttende parantes"
 
-#: ../src/parser.y:1637
+#: ../src/parser.y:1654
 #, c-format
 msgid "Invalid expression"
 msgstr "Ugyldigt udtryk"
 
-#: ../src/parser.y:1641
+#: ../src/parser.y:1658
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Uventet symbol %c"
@@ -13020,7 +13049,7 @@ msgstr "Vis udskrift"
 #: ../src/print.c:1333
 #, fuzzy
 msgid "Preparing to print"
-msgstr "Forbereder gemning..."
+msgstr "Forbereder gemning …"
 
 #: ../src/print.c:1423
 #, c-format
@@ -13155,11 +13184,11 @@ msgstr "_Avanceret indsætning"
 
 #: ../src/sheet-control-gui.c:2211
 msgid "_Insert Cells..."
-msgstr "Indsæt celler..."
+msgstr "Indsæt celler …"
 
 #: ../src/sheet-control-gui.c:2214
 msgid "_Delete Cells..."
-msgstr "Slet celler..."
+msgstr "Slet celler …"
 
 #: ../src/sheet-control-gui.c:2217
 msgid "_Insert Column(s)"
@@ -13183,11 +13212,11 @@ msgstr "Ryd i_ndhold"
 
 #: ../src/sheet-control-gui.c:2239
 msgid "Add _Comment..."
-msgstr "Tilføj kommentar..."
+msgstr "Tilføj kommentar …"
 
 #: ../src/sheet-control-gui.c:2241
 msgid "Edit Co_mment..."
-msgstr "Ret kommentar..."
+msgstr "Ret kommentar …"
 
 #: ../src/sheet-control-gui.c:2243
 msgid "_Remove Comments"
@@ -13211,7 +13240,7 @@ msgstr "Fj_ern nuværende"
 #: ../src/sheet-control-gui.c:2258
 #, fuzzy
 msgid "_Edit DataSlicer"
-msgstr "_Gyldighedskontrol..."
+msgstr "_Gyldighedskontrol …"
 
 #: ../src/sheet-control-gui.c:2261
 #, fuzzy
@@ -13236,11 +13265,11 @@ msgstr "_Kendt"
 #: ../src/sheet-control-gui.c:2284
 #, fuzzy
 msgid "_Format All Cells..."
-msgstr "_Formatér celler..."
+msgstr "_Formatér celler …"
 
 #: ../src/sheet-control-gui.c:2286
 msgid "C_onditional Formatting..."
-msgstr "Betinget formatering..."
+msgstr "Betinget formatering …"
 
 #: ../src/sheet-control-gui.c:2291
 msgid "_Unmerge"
@@ -13257,7 +13286,7 @@ msgstr "Tilpas højde automatisk"
 #. start sub menu
 #: ../src/sheet-control-gui.c:2300 ../src/wbc-gtk-actions.c:2818
 msgid "_Width..."
-msgstr "_Bredde..."
+msgstr "_Bredde …"
 
 #: ../src/sheet-control-gui.c:2301 ../src/wbc-gtk-actions.c:2824
 msgid "_Auto Fit Width"
@@ -13276,7 +13305,7 @@ msgstr "_Vis igen"
 #. start sub menu
 #: ../src/sheet-control-gui.c:2308
 msgid "Hei_ght..."
-msgstr "_Højde ..."
+msgstr "_Højde …"
 
 #: ../src/sheet-control-gui.c:2309 ../src/wbc-gtk-actions.c:2858
 msgid "_Auto Fit Height"
@@ -13302,15 +13331,15 @@ msgstr[1] "_Fjern %d kommentarer"
 #, c-format
 msgid "_Insert %d Cell..."
 msgid_plural "_Insert %d Cells..."
-msgstr[0] "_Indsæt %d celle ..."
-msgstr[1] "_Indsæt %d celler ..."
+msgstr[0] "_Indsæt %d celle …"
+msgstr[1] "_Indsæt %d celler …"
 
 #: ../src/sheet-control-gui.c:2454
 #, c-format
 msgid "_Delete %d Cell..."
 msgid_plural "_Delete %d Cells..."
-msgstr[0] "_Slet %d celle ..."
-msgstr[1] "_Slet %d celler ..."
+msgstr[0] "_Slet %d celle …"
+msgstr[1] "_Slet %d celler …"
 
 #: ../src/sheet-control-gui.c:2460
 #, c-format
@@ -13359,8 +13388,8 @@ msgstr[1] "_Formater %d rækker"
 #, c-format
 msgid "_Format %d Cell..."
 msgid_plural "_Format %d Cells"
-msgstr[0] "_Formater %d celle ..."
-msgstr[1] "_Formater %d celler ..."
+msgstr[0] "_Formater %d celle …"
+msgstr[1] "_Formater %d celler …"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
 #: ../src/sheet-control-gui.c:2931
@@ -13428,7 +13457,7 @@ msgstr "_Tilpas til gitter"
 #: ../src/sheet-object.c:269
 #, fuzzy
 msgid "_Order"
-msgstr "_Omrokér..."
+msgstr "_Omrokér …"
 
 #: ../src/sheet-object.c:270
 msgid "Pul_l to Front"
@@ -13509,74 +13538,74 @@ msgstr ""
 msgid "Frame"
 msgstr "Ramme"
 
-#: ../src/sheet-object-widget.c:896 ../src/wbc-gtk-actions.c:3385
+#: ../src/sheet-object-widget.c:900 ../src/wbc-gtk-actions.c:3385
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:1
 msgid "Button"
 msgstr "Knap"
 
-#: ../src/sheet-object-widget.c:926
+#: ../src/sheet-object-widget.c:930
 #, fuzzy
 msgid "Pressed Button"
 msgstr "Opret knap"
 
-#: ../src/sheet-object-widget.c:941
+#: ../src/sheet-object-widget.c:945
 msgid "Released Button"
 msgstr "Udløst knap"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1440
+#: ../src/sheet-object-widget.c:1444
 msgid "Change widget"
 msgstr "Ændr kontrol"
 
-#: ../src/sheet-object-widget.c:1777
+#: ../src/sheet-object-widget.c:1781
 msgid "Adjustment Properties"
 msgstr "Justeringsegenskaber"
 
-#: ../src/sheet-object-widget.c:1927
+#: ../src/sheet-object-widget.c:1931
 msgid "Configure Scrollbar"
 msgstr "Konfigurer rullebjælke"
 
-#: ../src/sheet-object-widget.c:2033
+#: ../src/sheet-object-widget.c:2037
 #, fuzzy
 msgid "Configure Spinbutton"
 msgstr "Opret knap"
 
-#: ../src/sheet-object-widget.c:2034
+#: ../src/sheet-object-widget.c:2038
 #, fuzzy
 msgid "Spinbutton Properties"
-msgstr "_Egenskaber..."
+msgstr "_Egenskaber …"
 
-#: ../src/sheet-object-widget.c:2140
+#: ../src/sheet-object-widget.c:2144
 #, fuzzy
 msgid "Configure Slider"
 msgstr "Antal"
 
-#: ../src/sheet-object-widget.c:2141
+#: ../src/sheet-object-widget.c:2145
 #, fuzzy
 msgid "Slider Properties"
-msgstr "_Egenskaber..."
+msgstr "_Egenskaber …"
 
-#: ../src/sheet-object-widget.c:2343
+#: ../src/sheet-object-widget.c:2347
 #, c-format
 msgid "CheckBox %d"
 msgstr "Afkrydsningsfelt %d"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:2388
+#: ../src/sheet-object-widget.c:2392
 msgid "Clicking checkbox"
 msgstr "Klikker afkrydsningsfelt"
 
-#: ../src/sheet-object-widget.c:2937 ../src/wbc-gtk-actions.c:3391
+#: ../src/sheet-object-widget.c:2941 ../src/wbc-gtk-actions.c:3391
 msgid "RadioButton"
 msgstr "Radioknap"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:2984
+#: ../src/sheet-object-widget.c:2988
 #, fuzzy
 msgid "Clicking radiobutton"
 msgstr "Opret radioknap"
 
-#: ../src/sheet-object-widget.c:3478
+#: ../src/sheet-object-widget.c:3482
 #, fuzzy
 msgid "Clicking in list"
 msgstr "Rydning af %s i %s"
@@ -13728,7 +13757,7 @@ msgstr "Kan ikke fortolke eksportindstillinger."
 #: ../src/ssconvert.c:236
 #, fuzzy, c-format
 msgid "The file saver does not take options\n"
-msgstr "Filgemmer med id=\"%s\" har ingen beskrivelse"
+msgstr "Filgemmer med id=“%s” har ingen beskrivelse"
 
 #. FIXME: && nexpr2-is-not-the-same-as-nexpr
 #: ../src/ssconvert.c:393
@@ -13743,52 +13772,52 @@ msgstr ""
 msgid "Failed to create solver"
 msgstr "Kan ikke oprette løsningsalgoritme"
 
-#: ../src/ssconvert.c:555
+#: ../src/ssconvert.c:561
 #, c-format
 msgid "Solver ran, but failed"
 msgstr "Løsningsalgoritme kørte, men fejlede"
 
-#: ../src/ssconvert.c:565
+#: ../src/ssconvert.c:573
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Løsningsalgoritme: %s\n"
 
-#: ../src/ssconvert.c:661
+#: ../src/ssconvert.c:682
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
-"Ukendt eksportør \"%s\".\n"
+"Ukendt eksportør “%s”.\n"
 "Prøv --list-exporters for at se en liste over muligheder.\n"
 
-#: ../src/ssconvert.c:681
+#: ../src/ssconvert.c:702
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:693
+#: ../src/ssconvert.c:714
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:703
+#: ../src/ssconvert.c:724
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
 "Try --list-importers to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:727
+#: ../src/ssconvert.c:748
 #, fuzzy, c-format
 msgid "Loading %s failed\n"
-msgstr "Læser fil..."
+msgstr "Læser fil …"
 
-#: ../src/ssconvert.c:841
+#: ../src/ssconvert.c:862
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13796,11 +13825,11 @@ msgid ""
 "S.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:870 ../src/ssconvert.c:921
+#: ../src/ssconvert.c:891 ../src/ssconvert.c:942
 msgid "INFILE [OUTFILE]"
 msgstr "INDDATA [UDDATA]"
 
-#: ../src/ssconvert.c:889
+#: ../src/ssconvert.c:910
 #, fuzzy, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13811,10 +13840,10 @@ msgstr ""
 "datakatalog := %s\n"
 "bibkatalog := %s\n"
 
-#: ../src/ssconvert.c:919 ../src/ssdiff.c:1165 ../src/ssindex.c:268
+#: ../src/ssconvert.c:940 ../src/ssdiff.c:1165 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
-msgstr "Brug: %s [TILVALG ...] %s\n"
+msgstr "Brug: %s [TILVALG …] %s\n"
 
 #: ../src/ssdiff.c:56
 msgid "Send output to file"
@@ -13983,7 +14012,7 @@ msgstr "kommentar"
 
 #: ../src/ssgrep.c:427
 msgid "PATTERN INFILE..."
-msgstr "MØNSTER INDFIL ..."
+msgstr "MØNSTER INDFIL …"
 
 #: ../src/ssgrep.c:441
 #, fuzzy, c-format
@@ -14016,7 +14045,7 @@ msgstr "Indekser de angivne filer"
 
 #: ../src/ssindex.c:250 ../src/ssindex.c:270
 msgid "INFILE..."
-msgstr "INDFIL ..."
+msgstr "INDFIL …"
 
 #: ../src/ssindex.c:264
 #, fuzzy, c-format
@@ -14040,7 +14069,7 @@ msgstr "eol (linjeafslutning) skal være enten unix, mac eller windows"
 #: ../src/stf-export.c:749
 #, c-format
 msgid "Invalid value for option %s: \"%s\""
-msgstr "Ugyldig værdi for indstilling %s: \"%s\""
+msgstr "Ugyldig værdi for indstilling %s: “%s”"
 
 #: ../src/stf-export.c:751
 msgid "Invalid option for stf exporter"
@@ -14051,7 +14080,7 @@ msgid "Text (configurable)"
 msgstr "Tekst (brugerdefineret)"
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1318
+#: ../src/stf-parse.c:1350
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -14060,7 +14089,7 @@ msgstr ""
 "blive ignoreret."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1340
+#: ../src/stf-parse.c:1374
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -14072,30 +14101,30 @@ msgstr ""
 msgid "Error while trying to read file"
 msgstr "Fejl ved forsøg på at læse filen"
 
-#: ../src/stf.c:229
+#: ../src/stf.c:195
 msgid "This importer can only be used with a GUI."
 msgstr ""
 
-#: ../src/stf.c:323 ../src/stf.c:358
+#: ../src/stf.c:289 ../src/stf.c:324
 msgid "Text to Columns"
 msgstr "Tekst til kolonner"
 
-#: ../src/stf.c:328
+#: ../src/stf.c:294
 #, c-format
 msgid "Only one column of input data can be parsed at a time"
 msgstr "Kun en kolonne af inddata kan fortolkes ad gangen"
 
-#: ../src/stf.c:353
+#: ../src/stf.c:319
 msgid "There is no data to convert"
 msgstr "Der er ingen data at konvertere"
 
 # forhåbentligt korrekt, mærkelig original
-#: ../src/stf.c:373
+#: ../src/stf.c:339
 #, fuzzy
 msgid "Error while trying to parse data into sheet"
 msgstr "Fortolkningsfejl ved førsøg på at indlæse data i et ark"
 
-#: ../src/stf.c:401
+#: ../src/stf.c:367
 #, c-format
 msgid "The file contains %d NULL character. It has been changed to a space."
 msgid_plural ""
@@ -14103,37 +14132,37 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/stf.c:413
+#: ../src/stf.c:379
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
 msgstr ""
 
-#: ../src/stf.c:459
+#: ../src/stf.c:425
 msgid "That file is not in the given encoding."
 msgstr "Den fil er ikke i den angivne kodning."
 
-#: ../src/stf.c:504
+#: ../src/stf.c:470
 msgid "Some data did not fit on the sheet and was dropped."
 msgstr "Nogle af dataene passede ikke ind i arket og blev droppet."
 
 # forhåbentligt korrekt, mærkelig original
-#: ../src/stf.c:516
+#: ../src/stf.c:482
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Fortolkningsfejl ved førsøg på at indlæse data i et ark"
 
-#: ../src/stf.c:551
+#: ../src/stf.c:517
 msgid "Error while trying to write CSV file"
 msgstr "Fejl ved forsøg på at skrive csv-filen"
 
-#: ../src/stf.c:649
+#: ../src/stf.c:615
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Komma eller tabulatoradskilte værdier (CSV/TSV)"
 
-#: ../src/stf.c:657
+#: ../src/stf.c:623
 msgid "Text import (configurable)"
 msgstr "Tekstimport (brugerdefineret)"
 
-#: ../src/stf.c:671
+#: ../src/stf.c:637
 msgid "Comma separated values (CSV)"
 msgstr "Kommaadskilte værdier (CSV)"
 
@@ -14146,12 +14175,12 @@ msgstr "Anova: tofaktor uden replikering"
 msgid "/Summary/Count/Sum/Average/Variance"
 msgstr "/Sammendrag/Antal/Sum/Gennemsnit/Varians"
 
-#: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:179
+#: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:178
 #, c-format
 msgid "Row %i"
 msgstr "Række: %i"
 
-#: ../src/tools/analysis-anova.c:189 ../src/tools/analysis-tools.c:182
+#: ../src/tools/analysis-anova.c:189 ../src/tools/analysis-tools.c:181
 #, c-format
 msgid "Column %i"
 msgstr "Kolonne %i"
@@ -14166,7 +14195,7 @@ msgid "/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Kilde til variation/Rækker/Kolonner/Fejl/Total"
 
 #: ../src/tools/analysis-anova.c:250 ../src/tools/analysis-anova.c:609
-#: ../src/tools/analysis-tools.c:4263
+#: ../src/tools/analysis-tools.c:4272
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/fg/MS/F/P-værdi/F kritisk værdi"
 
@@ -14271,74 +14300,74 @@ msgid "Test of Homogeneity"
 msgstr ""
 
 #: ../src/tools/analysis-exp-smoothing.c:114
-#: ../src/tools/analysis-exp-smoothing.c:290
-#: ../src/tools/analysis-exp-smoothing.c:474
-#: ../src/tools/analysis-exp-smoothing.c:715
-#: ../src/tools/analysis-exp-smoothing.c:1035
+#: ../src/tools/analysis-exp-smoothing.c:293
+#: ../src/tools/analysis-exp-smoothing.c:480
+#: ../src/tools/analysis-exp-smoothing.c:724
+#: ../src/tools/analysis-exp-smoothing.c:1047
 msgid "\"α =\" * 0.000"
 msgstr ""
 
-#: ../src/tools/analysis-exp-smoothing.c:153
-#: ../src/tools/analysis-exp-smoothing.c:329
-#: ../src/tools/analysis-exp-smoothing.c:517
-#: ../src/tools/analysis-exp-smoothing.c:781
-#: ../src/tools/analysis-exp-smoothing.c:1103
+#: ../src/tools/analysis-exp-smoothing.c:157
+#: ../src/tools/analysis-exp-smoothing.c:336
+#: ../src/tools/analysis-exp-smoothing.c:527
+#: ../src/tools/analysis-exp-smoothing.c:793
+#: ../src/tools/analysis-exp-smoothing.c:1118
 #: ../src/tools/analysis-frequency.c:146 ../src/tools/analysis-histogram.c:320
-#: ../src/tools/analysis-tools.c:1217 ../src/tools/analysis-tools.c:3739
+#: ../src/tools/analysis-tools.c:1219 ../src/tools/analysis-tools.c:3748
 #, c-format
 msgid "Row %d"
 msgstr "Række %d"
 
-#: ../src/tools/analysis-exp-smoothing.c:205
-#: ../src/tools/analysis-exp-smoothing.c:386
-#: ../src/tools/analysis-exp-smoothing.c:603
-#: ../src/tools/analysis-exp-smoothing.c:922
-#: ../src/tools/analysis-exp-smoothing.c:1286
-#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3914
+#: ../src/tools/analysis-exp-smoothing.c:208
+#: ../src/tools/analysis-exp-smoothing.c:392
+#: ../src/tools/analysis-exp-smoothing.c:612
+#: ../src/tools/analysis-exp-smoothing.c:934
+#: ../src/tools/analysis-exp-smoothing.c:1301
+#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3923
 msgid "Standard Error"
 msgstr "Standardafvigelse"
 
-#: ../src/tools/analysis-exp-smoothing.c:478
-#: ../src/tools/analysis-exp-smoothing.c:719
-#: ../src/tools/analysis-exp-smoothing.c:1039
+#: ../src/tools/analysis-exp-smoothing.c:484
+#: ../src/tools/analysis-exp-smoothing.c:728
+#: ../src/tools/analysis-exp-smoothing.c:1051
 msgid "\"γ =\" * 0.000"
 msgstr ""
 
-#: ../src/tools/analysis-exp-smoothing.c:639
-#: ../src/tools/analysis-exp-smoothing.c:642
+#: ../src/tools/analysis-exp-smoothing.c:648
+#: ../src/tools/analysis-exp-smoothing.c:651
 msgid ""
 "Holt's trend corrected exponential\n"
 "smoothing requires at least 2\n"
 "output columns for each data set."
 msgstr ""
 
-#: ../src/tools/analysis-exp-smoothing.c:723
-#: ../src/tools/analysis-exp-smoothing.c:1043
+#: ../src/tools/analysis-exp-smoothing.c:732
+#: ../src/tools/analysis-exp-smoothing.c:1055
 msgid "\"δ =\" * 0.000"
 msgstr ""
 
-#: ../src/tools/analysis-exp-smoothing.c:758
-#: ../src/tools/analysis-exp-smoothing.c:1080
+#: ../src/tools/analysis-exp-smoothing.c:770
+#: ../src/tools/analysis-exp-smoothing.c:1095
 msgid "/Level/Trend/Seasonal Adjustment"
 msgstr ""
 
-#: ../src/tools/analysis-exp-smoothing.c:953
-#: ../src/tools/analysis-exp-smoothing.c:956
+#: ../src/tools/analysis-exp-smoothing.c:965
+#: ../src/tools/analysis-exp-smoothing.c:968
 msgid ""
 "The additive Holt-Winters exponential\n"
 "smoothing method requires at least 4\n"
 "output columns for each data set."
 msgstr ""
 
-#: ../src/tools/analysis-exp-smoothing.c:1324
-#: ../src/tools/analysis-exp-smoothing.c:1327
+#: ../src/tools/analysis-exp-smoothing.c:1339
+#: ../src/tools/analysis-exp-smoothing.c:1342
 msgid ""
 "The multiplicative Holt-Winters exponential\n"
 "smoothing method requires at least 4\n"
 "output columns for each data set."
 msgstr ""
 
-#: ../src/tools/analysis-exp-smoothing.c:1369
+#: ../src/tools/analysis-exp-smoothing.c:1384
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Eksponentiel udjævning (%s)"
@@ -14348,7 +14377,7 @@ msgid "/Frequency Table/Category"
 msgstr "/Frekvenstabel/Kategori"
 
 #: ../src/tools/analysis-frequency.c:152 ../src/tools/analysis-histogram.c:326
-#: ../src/tools/analysis-tools.c:1223
+#: ../src/tools/analysis-tools.c:1225
 #, c-format
 msgid "Area %d"
 msgstr "Areal %d"
@@ -14507,33 +14536,33 @@ msgstr "t-test"
 msgid "Student-t Test"
 msgstr "Sæt tekst"
 
-#: ../src/tools/analysis-principal-components.c:67
+#: ../src/tools/analysis-principal-components.c:68
 msgid "Principal components analysis has insufficient space."
 msgstr ""
 
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
-#: ../src/tools/analysis-principal-components.c:98
+#: ../src/tools/analysis-principal-components.c:99
 msgid ""
 "\"Principal Components Analysis\";[Red]\"Principal Components Analysis is "
 "invalid.\""
 msgstr ""
 
-#: ../src/tools/analysis-principal-components.c:104
-#: ../src/tools/analysis-tools.c:722
+#: ../src/tools/analysis-principal-components.c:105
+#: ../src/tools/analysis-tools.c:721
 msgid "Covariances"
 msgstr "Kovarianser"
 
-#: ../src/tools/analysis-principal-components.c:128
+#: ../src/tools/analysis-principal-components.c:132
 msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr ""
 
-#: ../src/tools/analysis-principal-components.c:133
+#: ../src/tools/analysis-principal-components.c:137
 #, fuzzy
 msgid "Percent of Trace"
 msgstr "Procentdel"
 
-#: ../src/tools/analysis-principal-components.c:211
+#: ../src/tools/analysis-principal-components.c:215
 #, c-format
 msgid "Principal Components Analysis (%s)"
 msgstr ""
@@ -14581,31 +14610,31 @@ msgstr ""
 msgid "Wilcoxon Signed Rank Test (%s)"
 msgstr "z-test"
 
-#: ../src/tools/analysis-tools.c:185
+#: ../src/tools/analysis-tools.c:184
 #, c-format
 msgid "Bin %i"
 msgstr "Bin %i"
 
-#: ../src/tools/analysis-tools.c:189
+#: ../src/tools/analysis-tools.c:188
 #, c-format
 msgid "Area %i"
 msgstr "Areal %i"
 
-#: ../src/tools/analysis-tools.c:274
+#: ../src/tools/analysis-tools.c:273
 #, c-format
 msgid "Variable %i"
 msgstr "Variabel %i"
 
-#: ../src/tools/analysis-tools.c:667
+#: ../src/tools/analysis-tools.c:666
 msgid "Correlations"
 msgstr "Korrelationer"
 
-#: ../src/tools/analysis-tools.c:679
+#: ../src/tools/analysis-tools.c:678
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Korrelation (%s)"
 
-#: ../src/tools/analysis-tools.c:734
+#: ../src/tools/analysis-tools.c:733
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Kovarians (%s)"
@@ -14617,7 +14646,7 @@ msgstr "Kovarians (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:836
+#: ../src/tools/analysis-tools.c:835
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -14629,37 +14658,37 @@ msgstr ""
 # konfidensinterval
 # http://da.wikipedia.org/wiki/Konfidensinterval
 # http://en.wikipedia.org/wiki/Confidence_interval
-#: ../src/tools/analysis-tools.c:970
+#: ../src/tools/analysis-tools.c:969
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% konfidensinterval for middelværdien fra/til"
 
-#: ../src/tools/analysis-tools.c:1101
+#: ../src/tools/analysis-tools.c:1100
 #, c-format
 msgid "Largest (%d)"
 msgstr "Største (%d)"
 
-#: ../src/tools/analysis-tools.c:1108
+#: ../src/tools/analysis-tools.c:1107
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Mindste (%d)"
 
-#: ../src/tools/analysis-tools.c:1125
+#: ../src/tools/analysis-tools.c:1124
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Beskrivende statistikker (%s)"
 
-#: ../src/tools/analysis-tools.c:1320
+#: ../src/tools/analysis-tools.c:1322
 #, fuzzy, c-format
 msgid "Sampling (%s)"
 msgstr "Stikprøveudtagning"
 
 # stikprøve kolliderer med at det bruges i betydningen "et eksempel"
-#: ../src/tools/analysis-tools.c:1354 ../src/tools/analysis-tools.c:1357
+#: ../src/tools/analysis-tools.c:1360 ../src/tools/analysis-tools.c:1363
 msgid "Sample"
 msgstr "Prøve"
 
-#: ../src/tools/analysis-tools.c:1398
+#: ../src/tools/analysis-tools.c:1404
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -14669,16 +14698,16 @@ msgstr ""
 "middelforskel/z/P(Z<=z) ensidet/z kritisk værdi ensidet/P(Z<=z) tosidet/z "
 "kritisk værdi tosidet"
 
-#: ../src/tools/analysis-tools.c:1585
+#: ../src/tools/analysis-tools.c:1591
 #, fuzzy, c-format
 msgid "z-Test (%s)"
 msgstr "z-test"
 
-#: ../src/tools/analysis-tools.c:1595 ../src/tools/analysis-tools.c:1598
+#: ../src/tools/analysis-tools.c:1601 ../src/tools/analysis-tools.c:1604
 msgid "z-Test"
 msgstr "z-test"
 
-#: ../src/tools/analysis-tools.c:1649
+#: ../src/tools/analysis-tools.c:1655
 #, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
@@ -14689,18 +14718,18 @@ msgstr ""
 "Observeret middelforskel/fg/t værdi/P(T<=t) ensidet/t kritisk værdi ensidet/"
 "P(T<=t) tosidet/t kritisk tosidet"
 
-#: ../src/tools/analysis-tools.c:1877
+#: ../src/tools/analysis-tools.c:1883
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1887 ../src/tools/analysis-tools.c:1890
-#: ../src/tools/analysis-tools.c:2187 ../src/tools/analysis-tools.c:2190
-#: ../src/tools/analysis-tools.c:2480 ../src/tools/analysis-tools.c:2483
+#: ../src/tools/analysis-tools.c:1893 ../src/tools/analysis-tools.c:1896
+#: ../src/tools/analysis-tools.c:2193 ../src/tools/analysis-tools.c:2196
+#: ../src/tools/analysis-tools.c:2486 ../src/tools/analysis-tools.c:2489
 msgid "t-Test"
 msgstr "t-test"
 
-#: ../src/tools/analysis-tools.c:1928
+#: ../src/tools/analysis-tools.c:1934
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -14710,12 +14739,12 @@ msgstr ""
 "Observeret middelforskel/fg/t værdi/P(T<=t) ensidet/t kritisk værdi ensidet/"
 "P(T<=t) tosidet/t kritisk tosidet"
 
-#: ../src/tools/analysis-tools.c:2177 ../src/tools/analysis-tools.c:2470
+#: ../src/tools/analysis-tools.c:2183 ../src/tools/analysis-tools.c:2476
 #, fuzzy, c-format
 msgid "t-Test (%s)"
 msgstr "t-test"
 
-#: ../src/tools/analysis-tools.c:2225
+#: ../src/tools/analysis-tools.c:2231
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -14725,12 +14754,12 @@ msgstr ""
 "middelforskel/fg/t værdi/P(T<=t) ensidet/t kritisk værdi ensidet/P(T<=t) "
 "tosidet/t kritisk tosidet"
 
-#: ../src/tools/analysis-tools.c:2519 ../src/tools/analysis-tools.c:2768
-#: ../src/tools/analysis-tools.c:2771
+#: ../src/tools/analysis-tools.c:2525 ../src/tools/analysis-tools.c:2774
+#: ../src/tools/analysis-tools.c:2777
 msgid "F-Test"
 msgstr "F-test"
 
-#: ../src/tools/analysis-tools.c:2520
+#: ../src/tools/analysis-tools.c:2526
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -14738,12 +14767,12 @@ msgstr ""
 "/Middel/Varians/Observationer/fg/F/P(F<=f) højresidet/F kritisk højresidet/"
 "P(F<=f) venstresidet/F kritisk venstresidet/P tosidet/F kritisk tosidet"
 
-#: ../src/tools/analysis-tools.c:2758
+#: ../src/tools/analysis-tools.c:2764
 #, c-format
 msgid "F-Test (%s)"
 msgstr "F-test (%s)"
 
-#: ../src/tools/analysis-tools.c:2903
+#: ../src/tools/analysis-tools.c:2909
 #, fuzzy
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
@@ -14752,32 +14781,32 @@ msgstr ""
 "/SAMMENDRAGS UDDATA//Regressionsstatistik/Multipel R/R²/Justeret R²/"
 "Standardafvigelse/Observationer//ANOVA//Regression/Residual/Total///Skæring"
 
-#: ../src/tools/analysis-tools.c:2922
+#: ../src/tools/analysis-tools.c:2928
 msgid "Response Variable"
 msgstr "Svarvariabel:"
 
-#: ../src/tools/analysis-tools.c:2956
+#: ../src/tools/analysis-tools.c:2962
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/fg/SS/MS/F/Signifikans for F"
 
-#: ../src/tools/analysis-tools.c:2963
+#: ../src/tools/analysis-tools.c:2969
 #, fuzzy
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr ""
 "/Koefficienter/Standardafvigelse/t-værdi/P-værdi/nedre %0.0f%%/Øvre %0.0f%%"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2969
+#: ../src/tools/analysis-tools.c:2975
 #, fuzzy
 msgid "\"Lower\" 0%"
 msgstr "Indlæser"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2971
+#: ../src/tools/analysis-tools.c:2977
 msgid "\"Upper\" 0%"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2980
+#: ../src/tools/analysis-tools.c:2986
 msgid ""
 "Probability of observing a t-statistic\n"
 "whose absolute value is at least as large\n"
@@ -14786,7 +14815,7 @@ msgid ""
 "hypothesis is in fact true."
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2987
+#: ../src/tools/analysis-tools.c:2993
 msgid ""
 "This value is not the square of R\n"
 "but the uncentered version of the\n"
@@ -14795,118 +14824,118 @@ msgid ""
 "squares explained by the model."
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3295
+#: ../src/tools/analysis-tools.c:3301
 #, fuzzy
 msgid "Constant"
 msgstr "Begrænsning"
 
-#: ../src/tools/analysis-tools.c:3300
+#: ../src/tools/analysis-tools.c:3306
 msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3462
+#: ../src/tools/analysis-tools.c:3468
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3467
+#: ../src/tools/analysis-tools.c:3473
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3473
+#: ../src/tools/analysis-tools.c:3479
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3479
+#: ../src/tools/analysis-tools.c:3485
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3560
+#: ../src/tools/analysis-tools.c:3566
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regression (%s)"
 
-#: ../src/tools/analysis-tools.c:3975
+#: ../src/tools/analysis-tools.c:3984
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Rullende gennemsnit (%s)"
 
-#: ../src/tools/analysis-tools.c:4033
+#: ../src/tools/analysis-tools.c:4042
 msgid "Ranks & Percentiles"
 msgstr "Rang og percentiler"
 
-#: ../src/tools/analysis-tools.c:4044
+#: ../src/tools/analysis-tools.c:4053
 msgid "Point"
 msgstr "Point"
 
-#: ../src/tools/analysis-tools.c:4045
+#: ../src/tools/analysis-tools.c:4054
 msgid "Rank"
 msgstr "Rang"
 
-#: ../src/tools/analysis-tools.c:4046
+#: ../src/tools/analysis-tools.c:4055
 msgid "Percentile Rank"
 msgstr "Percentilrang"
 
-#: ../src/tools/analysis-tools.c:4138
+#: ../src/tools/analysis-tools.c:4147
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Rang (%s)"
 
-#: ../src/tools/analysis-tools.c:4150 ../src/tools/analysis-tools.c:4153
+#: ../src/tools/analysis-tools.c:4159 ../src/tools/analysis-tools.c:4162
 msgid "Ranks"
 msgstr "Rang"
 
-#: ../src/tools/analysis-tools.c:4185
+#: ../src/tools/analysis-tools.c:4194
 msgid "Anova: Single Factor"
 msgstr "Anova: enkelfaktor"
 
-#: ../src/tools/analysis-tools.c:4186 ../src/tools/simulation.c:336
+#: ../src/tools/analysis-tools.c:4195 ../src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "OVERSIGT"
 
-#: ../src/tools/analysis-tools.c:4189
+#: ../src/tools/analysis-tools.c:4198
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupper/Antal/Sum/Gennemsnit/Varians"
 
-#: ../src/tools/analysis-tools.c:4257
+#: ../src/tools/analysis-tools.c:4266
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Kilde til variation/Mellem grupper/Indenfor grupper/Total"
 
-#: ../src/tools/analysis-tools.c:4475
+#: ../src/tools/analysis-tools.c:4484
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4486
+#: ../src/tools/analysis-tools.c:4495
 msgid "Anova"
 msgstr "Anova"
 
-#: ../src/tools/analysis-tools.c:4489
+#: ../src/tools/analysis-tools.c:4498
 #, fuzzy
 msgid "Single Factor ANOVA"
 msgstr "Anova: enkelfaktor"
 
-#: ../src/tools/analysis-tools.c:4521
+#: ../src/tools/analysis-tools.c:4530
 msgid "Inverse Fourier Transform"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4522
+#: ../src/tools/analysis-tools.c:4531
 #, fuzzy
 msgid "Fourier Transform"
 msgstr "Fourier-analyse"
 
-#: ../src/tools/analysis-tools.c:4530
+#: ../src/tools/analysis-tools.c:4539
 #, fuzzy
 msgid "/Real/Imaginary"
 msgstr "Imaginært"
 
-#: ../src/tools/analysis-tools.c:4578
+#: ../src/tools/analysis-tools.c:4587
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Fourierrækker (%s)"
 
-#: ../src/tools/analysis-tools.c:4590 ../src/tools/analysis-tools.c:4593
+#: ../src/tools/analysis-tools.c:4599 ../src/tools/analysis-tools.c:4602
 msgid "Fourier Series"
 msgstr "Fourierrækker"
 
@@ -14937,23 +14966,23 @@ msgstr ""
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
 msgstr "Normalitetstest (%s)"
 
-#: ../src/tools/dao.c:182
+#: ../src/tools/dao.c:183
 msgid "New Sheet"
 msgstr "Nyt ark"
 
-#: ../src/tools/dao.c:185
+#: ../src/tools/dao.c:186
 msgid "New Workbook"
 msgstr "Ny arbejdsbog"
 
-#: ../src/tools/dao.c:1005
+#: ../src/tools/dao.c:1004
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: ../src/tools/dao.c:1011
+#: ../src/tools/dao.c:1010
 msgid "Worksheet:"
 msgstr "Arbejdsark:"
 
-#: ../src/tools/dao.c:1018
+#: ../src/tools/dao.c:1017
 msgid "Report Created: "
 msgstr "Rapport oprettet: "
 
@@ -14967,133 +14996,185 @@ msgstr "Dataindsamlingmetode:"
 msgid "Fill Series (%s)"
 msgstr "Udfyld rækker (%s)"
 
-#: ../src/tools/filter.c:137
+#: ../src/tools/filter.c:138
 msgid "Filtered"
 msgstr "Filtreret"
 
-#: ../src/tools/filter.c:199
+#: ../src/tools/filter.c:200
 msgid "/Advanced Filter:/Source Range:/Criteria Range:"
 msgstr ""
 
-#: ../src/tools/filter.c:269
+#: ../src/tools/filter.c:270
 #, c-format
 msgid "Advanced Filter (%s)"
 msgstr "Avanceret filter (%s)"
 
-#: ../src/tools/gnm-solver.c:590
+#: ../src/tools/gnm-solver.c:626
 #, fuzzy, c-format
 msgid "Invalid solver target"
 msgstr "Ugyldigt antal parametre"
 
-#: ../src/tools/gnm-solver.c:602
+#: ../src/tools/gnm-solver.c:638
 #, fuzzy, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr "Målcellen bør indholde et udtryk"
 
-#: ../src/tools/gnm-solver.c:612
+#: ../src/tools/gnm-solver.c:648
 #, fuzzy, c-format
 msgid "Invalid solver input range"
 msgstr "Ugyldigt scenarienavn"
 
-#: ../src/tools/gnm-solver.c:623
+#: ../src/tools/gnm-solver.c:659
 #, fuzzy, c-format
 msgid "Input cell %s contains a formula"
 msgstr "Målcellen bør indholde et udtryk"
 
-#: ../src/tools/gnm-solver.c:638
+#: ../src/tools/gnm-solver.c:674
 #, fuzzy, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "Søgeintervallet er ugyldigt."
 
-#: ../src/tools/gnm-solver.c:1022
+#: ../src/tools/gnm-solver.c:1087
 msgid "Timeout"
 msgstr "Tidsudløb"
 
-#: ../src/tools/gnm-solver.c:1231
+#: ../src/tools/gnm-solver.c:1296
 #, fuzzy, c-format
 msgid "Failed to create file for linear program"
 msgstr "Kan ikke oprette midlertidig fil."
 
-#: ../src/tools/gnm-solver.c:1240
+#: ../src/tools/gnm-solver.c:1305
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Kunne ikke oprette lineær programfil"
 
-#: ../src/tools/gnm-solver.c:1260
+#: ../src/tools/gnm-solver.c:1325
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Kunne ikke gemme lineært program"
 
-#: ../src/tools/gnm-solver.c:1508
+#: ../src/tools/gnm-solver.c:1573
 #, fuzzy
 msgid "Target"
 msgstr "_Listeinterval:"
 
-#: ../src/tools/gnm-solver.c:1512
+#: ../src/tools/gnm-solver.c:1577
 #, fuzzy
 msgid "Status"
 msgstr "status"
 
-#: ../src/tools/gnm-solver.c:1525
+#: ../src/tools/gnm-solver.c:1590
 #, fuzzy
 msgid "Minimize"
 msgstr "Minimum"
 
-#: ../src/tools/gnm-solver.c:1528
+#: ../src/tools/gnm-solver.c:1593
 #, fuzzy
 msgid "Maximize"
 msgstr "Maksimum"
 
-#: ../src/tools/gnm-solver.c:1556
+#: ../src/tools/gnm-solver.c:1621
 #, fuzzy
 msgid "Lower"
 msgstr "Indlæser"
 
-#: ../src/tools/gnm-solver.c:1557
+#: ../src/tools/gnm-solver.c:1622
 msgid "Upper"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1558 ../src/tools/gnm-solver.c:1601
+#: ../src/tools/gnm-solver.c:1623 ../src/tools/gnm-solver.c:1666
 #, fuzzy
 msgid "Slack"
 msgstr "Sort"
 
-#: ../src/tools/gnm-solver.c:1580
+#: ../src/tools/gnm-solver.c:1645
 #, fuzzy
 msgid "At limit"
 msgstr "Grænse"
 
-#: ../src/tools/gnm-solver.c:1583
+#: ../src/tools/gnm-solver.c:1648
 #, fuzzy
 msgid "Outside bounds"
 msgstr "Kanter udenom"
 
-#: ../src/tools/gnm-solver.c:1598
+#: ../src/tools/gnm-solver.c:1663
 #, fuzzy
 msgid "Condition"
 msgstr "Betingelse:"
 
-#: ../src/tools/gnm-solver.c:1603
+#: ../src/tools/gnm-solver.c:1668 ../src/tools/gnm-solver.c:1808
 #, fuzzy
 msgid "No constraints"
 msgstr "Begrænsninger"
 
-#: ../src/tools/gnm-solver.c:1691
-#, c-format
-msgid "Neighborhood for %s\n"
+#: ../src/tools/gnm-solver.c:1765
+#, fuzzy
+msgid ""
+"Final\n"
+"Value"
+msgstr "Værdi"
+
+#: ../src/tools/gnm-solver.c:1766
+msgid ""
+"Reduced\n"
+"Cost"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:2157
+#: ../src/tools/gnm-solver.c:1767 ../src/tools/gnm-solver.c:1803
+#, fuzzy
+msgid ""
+"Lower\n"
+"Limit"
+msgstr "Nedre grænse (95 %)"
+
+#: ../src/tools/gnm-solver.c:1768 ../src/tools/gnm-solver.c:1804
+#, fuzzy
+msgid ""
+"Upper\n"
+"Limit"
+msgstr "Øvre grænse (95 %)"
+
+#: ../src/tools/gnm-solver.c:1800
+msgid ""
+"Shadow\n"
+"Price"
+msgstr ""
+
+#: ../src/tools/gnm-solver.c:1801
+#, fuzzy
+msgid ""
+"Constraint\n"
+"LHS"
+msgstr "Begrænsning"
+
+#: ../src/tools/gnm-solver.c:1802
+#, fuzzy
+msgid ""
+"Constraint\n"
+"RHS"
+msgstr "Begrænsning"
+
+#: ../src/tools/gnm-solver.c:1870
+#, fuzzy
+msgid "Program"
+msgstr "_Program"
+
+#: ../src/tools/gnm-solver.c:1876
+#, fuzzy
+msgid "Sensitivity"
+msgstr "Skeln mellem store og små bogstaver"
+
+#: ../src/tools/gnm-solver.c:2479
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:2165
+#: ../src/tools/gnm-solver.c:2487
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:2576
+#: ../src/tools/gnm-solver.c:3071
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -15102,12 +15183,12 @@ msgid ""
 "Would you like to locate it yourself?"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:2580
+#: ../src/tools/gnm-solver.c:3075
 #, fuzzy, c-format
 msgid "Unable to locate %s"
 msgstr "kan ikke åbne filen '%s'"
 
-#: ../src/tools/gnm-solver.c:2596
+#: ../src/tools/gnm-solver.c:3091
 #, c-format
 msgid "Locate the %s program"
 msgstr ""
@@ -15115,12 +15196,12 @@ msgstr ""
 # Jeg bryder mig ikke om "opfylde begrænsninger". Jeg synes,
 # "tilfredsstille begrænsninger" er bedre, og kunne godt forestille mig
 # matematiklærere siger sådan.
-#: ../src/tools/gnm-solver.c:2987
+#: ../src/tools/gnm-solver.c:3482
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "De oprindelige værdier tilfredsstiller ikke begrænsningerne."
 
-#: ../src/tools/gnm-solver.c:3078
+#: ../src/tools/gnm-solver.c:3573
 msgid "Iteration limit exceeded"
 msgstr ""
 
@@ -15228,7 +15309,7 @@ msgstr ""
 msgid "Range"
 msgstr "Område"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4056
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4068
 msgid "Count"
 msgstr "Antal"
 
@@ -15590,7 +15671,7 @@ msgstr "Gem den aktuelle fil under et andet navn"
 
 #: ../src/wbc-gtk-actions.c:2016
 msgid "Sen_d To..."
-msgstr "Send til..."
+msgstr "Send til …"
 
 #: ../src/wbc-gtk-actions.c:2017
 msgid "Send the current file via email"
@@ -15598,7 +15679,7 @@ msgstr "Send den aktuelle fil med et ebrev"
 
 #: ../src/wbc-gtk-actions.c:2022
 msgid "Page Set_up..."
-msgstr "Side_opsætning..."
+msgstr "Side_opsætning …"
 
 #: ../src/wbc-gtk-actions.c:2023
 msgid "Setup the page settings for your current printer"
@@ -15622,7 +15703,7 @@ msgstr "Udskriftsområde og sidebrud"
 
 #: ../src/wbc-gtk-actions.c:2043
 msgid "Full _History..."
-msgstr "Filhistorie..."
+msgstr "Filhistorie …"
 
 #: ../src/wbc-gtk-actions.c:2044
 msgid "Access previously used file"
@@ -15696,7 +15777,7 @@ msgstr "Funktionsvælger"
 
 #: ../src/wbc-gtk-actions.c:2117
 msgid "_Name..."
-msgstr "_Navn ..."
+msgstr "_Navn …"
 
 #: ../src/wbc-gtk-actions.c:2119
 msgid "Insert a defined name"
@@ -15822,7 +15903,7 @@ msgstr "_Eksporter data"
 #: ../src/wbc-gtk-actions.c:2214
 #, fuzzy
 msgid "Data S_licer"
-msgstr "_Gyldighedskontrol..."
+msgstr "_Gyldighedskontrol …"
 
 #: ../src/wbc-gtk-actions.c:2218
 msgid "_Help"
@@ -15886,7 +15967,7 @@ msgstr "Indsæt fra klippebordet"
 
 #: ../src/wbc-gtk-actions.c:2280
 msgid "_Manage Sheets..."
-msgstr "Omrokér _ark..."
+msgstr "Omrokér _ark …"
 
 #: ../src/wbc-gtk-actions.c:2281
 msgid "Manage the sheets in this workbook"
@@ -15922,7 +16003,7 @@ msgstr "Fjern uigenkaldeligt et helt ark"
 
 #: ../src/wbc-gtk-actions.c:2311
 msgid "Re_name..."
-msgstr "_Omdøb..."
+msgstr "_Omdøb …"
 
 #: ../src/wbc-gtk-actions.c:2312
 msgid "Rename the current sheet"
@@ -15930,7 +16011,7 @@ msgstr "Omdøb det aktive ark"
 
 #: ../src/wbc-gtk-actions.c:2316 ../src/wbc-gtk.c:524
 msgid "Resize..."
-msgstr "Størrelse..."
+msgstr "Størrelse …"
 
 #: ../src/wbc-gtk-actions.c:2317
 msgid "Change the size of the current sheet"
@@ -15938,7 +16019,7 @@ msgstr "Ændr størrelsen af det aktive ark"
 
 #: ../src/wbc-gtk-actions.c:2324
 msgid "_New View..."
-msgstr "_Nyt vindue..."
+msgstr "_Nyt vindue …"
 
 #: ../src/wbc-gtk-actions.c:2325
 msgid "Create a new view of the workbook"
@@ -15946,7 +16027,7 @@ msgstr "Opret et nyt vindue for arbejdsbogen"
 
 #: ../src/wbc-gtk-actions.c:2332
 msgid "View _Properties..."
-msgstr "Vis _egenskaber..."
+msgstr "Vis _egenskaber …"
 
 #: ../src/wbc-gtk-actions.c:2333
 #, fuzzy
@@ -15971,7 +16052,7 @@ msgstr "Skift mellem fuldskærm or vindue"
 
 #: ../src/wbc-gtk-actions.c:2362
 msgid "Document Proper_ties..."
-msgstr "Dokument_egenskaber..."
+msgstr "Dokument_egenskaber …"
 
 #: ../src/wbc-gtk-actions.c:2363
 msgid "Edit document properties"
@@ -16095,7 +16176,7 @@ msgstr "Slet kolonnerne der indeholder de markerede celler"
 #: ../src/wbc-gtk-actions.c:2463 ../src/wbc-gtk-actions.c:2476
 #: ../src/wbc-gtk-actions.c:2668 ../src/wbc-gtk-actions.c:2675
 msgid "C_ells..."
-msgstr "C_eller..."
+msgstr "C_eller …"
 
 #: ../src/wbc-gtk-actions.c:2465 ../src/wbc-gtk-actions.c:2478
 msgid "Delete the selected cells, shifting others into their place"
@@ -16157,7 +16238,7 @@ msgstr "Næste _objekt"
 msgid "Select the next sheet object"
 msgstr "Vælg det næste arkobjekt"
 
-#: ../src/wbc-gtk-actions.c:2536 ../src/wbc-gtk.c:2743
+#: ../src/wbc-gtk-actions.c:2536 ../src/wbc-gtk.c:2772
 msgid "Go to Top"
 msgstr "Gå til toppen"
 
@@ -16165,7 +16246,7 @@ msgstr "Gå til toppen"
 msgid "Go to the top of the data"
 msgstr "Gå til toppen af dataene"
 
-#: ../src/wbc-gtk-actions.c:2542 ../src/wbc-gtk.c:2744
+#: ../src/wbc-gtk-actions.c:2542 ../src/wbc-gtk.c:2773
 msgid "Go to Bottom"
 msgstr "Gå til bunden"
 
@@ -16173,7 +16254,7 @@ msgstr "Gå til bunden"
 msgid "Go to the bottom of the data"
 msgstr "Gå til bunden af dataene"
 
-#: ../src/wbc-gtk-actions.c:2548 ../src/wbc-gtk.c:2745
+#: ../src/wbc-gtk-actions.c:2548 ../src/wbc-gtk.c:2774
 msgid "Go to First"
 msgstr ""
 
@@ -16181,7 +16262,7 @@ msgstr ""
 msgid "Go to the first data cell"
 msgstr "Gå til den første datacelle"
 
-#: ../src/wbc-gtk-actions.c:2554 ../src/wbc-gtk.c:2746
+#: ../src/wbc-gtk-actions.c:2554 ../src/wbc-gtk.c:2775
 msgid "Go to Last"
 msgstr ""
 
@@ -16192,7 +16273,7 @@ msgstr "Gå til den sidste datacelle"
 #: ../src/wbc-gtk-actions.c:2560
 #, fuzzy
 msgid "_Go to Cell..."
-msgstr "Gå _til celle..."
+msgstr "Gå _til celle …"
 
 #: ../src/wbc-gtk-actions.c:2562
 msgid "Jump to a specified cell"
@@ -16212,7 +16293,7 @@ msgstr "Gentag den sidste handling"
 
 #: ../src/wbc-gtk-actions.c:2583
 msgid "P_aste Special..."
-msgstr "Indsæt med ændringer..."
+msgstr "Indsæt med ændringer …"
 
 #: ../src/wbc-gtk-actions.c:2585
 msgid "Paste with optional filters and transformations"
@@ -16220,7 +16301,7 @@ msgstr "Indsæt med valgbare filtre og transformationer"
 
 #: ../src/wbc-gtk-actions.c:2591 ../src/wbc-gtk-actions.c:2722
 msgid "Co_mment..."
-msgstr "K_ommentar..."
+msgstr "K_ommentar …"
 
 #: ../src/wbc-gtk-actions.c:2592
 msgid "Edit the selected cell's comment"
@@ -16238,7 +16319,7 @@ msgstr "Redigér den valgte celles kommentar"
 
 #: ../src/wbc-gtk-actions.c:2604
 msgid "_Auto generate names..."
-msgstr "_Autogenerér navne..."
+msgstr "_Autogenerér navne …"
 
 #: ../src/wbc-gtk-actions.c:2605
 msgid "Use the current selection to create names"
@@ -16246,7 +16327,7 @@ msgstr "Brug den nuværende markering til at generere navne"
 
 #: ../src/wbc-gtk-actions.c:2612
 msgid "S_earch..."
-msgstr "Søg..."
+msgstr "Søg …"
 
 #: ../src/wbc-gtk-actions.c:2614
 msgid "Search for something"
@@ -16254,7 +16335,7 @@ msgstr "Søg efter noget tekst"
 
 #: ../src/wbc-gtk-actions.c:2619
 msgid "Search _& Replace..."
-msgstr "Søg og erstat..."
+msgstr "Søg og erstat …"
 
 #: ../src/wbc-gtk-actions.c:2621
 msgid "Search for something and replace it with something else"
@@ -16271,7 +16352,7 @@ msgstr "Beregner celleværdierne i regnearket igen"
 
 #: ../src/wbc-gtk-actions.c:2634
 msgid "Preferences..."
-msgstr "Egenskaber..."
+msgstr "Egenskaber …"
 
 #: ../src/wbc-gtk-actions.c:2635
 msgid "Change Gnumeric Preferences"
@@ -16279,7 +16360,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2641 ../src/wbc-gtk.c:1602
 msgid "_Freeze Panes"
-msgstr "Frys _paneler..."
+msgstr "Frys _paneler …"
 
 #: ../src/wbc-gtk-actions.c:2642 ../src/wbc-gtk.c:1605
 msgid "Freeze the top left of the sheet"
@@ -16288,7 +16369,7 @@ msgstr "Frys den øverste venstre del af arket"
 #. dubious
 #: ../src/wbc-gtk-actions.c:2647
 msgid "_Zoom..."
-msgstr "_Zoom..."
+msgstr "_Zoom …"
 
 #: ../src/wbc-gtk-actions.c:2648
 msgid "Zoom the spreadsheet in or out"
@@ -16325,7 +16406,7 @@ msgstr "Indsæt nye rækker"
 
 #: ../src/wbc-gtk-actions.c:2697
 msgid "C_hart..."
-msgstr "_Graf..."
+msgstr "_Graf …"
 
 #: ../src/wbc-gtk-actions.c:2698
 msgid "Insert a Chart"
@@ -16353,7 +16434,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2715
 msgid "_Image..."
-msgstr "_Billede..."
+msgstr "_Billede …"
 
 #: ../src/wbc-gtk-actions.c:2716
 msgid "Insert an image"
@@ -16411,7 +16492,7 @@ msgstr "Indsæt dags dato og det nuværende tidspunkt i de markerede celler"
 
 #: ../src/wbc-gtk-actions.c:2770
 msgid "_Names..."
-msgstr "_Navne..."
+msgstr "_Navne …"
 
 #: ../src/wbc-gtk-actions.c:2772
 msgid "Edit defined names for expressions"
@@ -16419,7 +16500,7 @@ msgstr "Ret definerede navne for udtryk"
 
 #: ../src/wbc-gtk-actions.c:2778
 msgid "_Autoformat..."
-msgstr "_Autoformat..."
+msgstr "_Autoformat …"
 
 #: ../src/wbc-gtk-actions.c:2779
 msgid "Format a region of cells according to a pre-defined template"
@@ -16492,7 +16573,7 @@ msgstr "Ændr standardbredden på kolonnerne"
 
 #: ../src/wbc-gtk-actions.c:2852
 msgid "H_eight..."
-msgstr "Hø_jde..."
+msgstr "Hø_jde …"
 
 #: ../src/wbc-gtk-actions.c:2853
 msgid "Change height of the selected rows"
@@ -16522,7 +16603,7 @@ msgstr "Ændr standardhøjden på rækkerne"
 
 #: ../src/wbc-gtk-actions.c:2885
 msgid "_Plug-ins..."
-msgstr "_Udvidelsesmoduler..."
+msgstr "_Udvidelsesmoduler …"
 
 #: ../src/wbc-gtk-actions.c:2886
 msgid "Manage available plugin modules"
@@ -16530,7 +16611,7 @@ msgstr "Administrér tilgængelige udvidelsesmoduler"
 
 #: ../src/wbc-gtk-actions.c:2890
 msgid "Auto _Correct..."
-msgstr "Auto_korrektion..."
+msgstr "Auto_korrektion …"
 
 #: ../src/wbc-gtk-actions.c:2891
 msgid "Automatically perform simple spell checking"
@@ -16538,7 +16619,7 @@ msgstr "Udfør automatisk simpel stavekontrol"
 
 #: ../src/wbc-gtk-actions.c:2895
 msgid "_Auto Save..."
-msgstr "_Autogem..."
+msgstr "_Autogem …"
 
 #: ../src/wbc-gtk-actions.c:2896
 msgid "Automatically save the current document at regular intervals"
@@ -16546,7 +16627,7 @@ msgstr "Gem automatisk det aktuelle dokument med regelmæssige intervaller"
 
 #: ../src/wbc-gtk-actions.c:2900
 msgid "_Goal Seek..."
-msgstr "_Målsøgning..."
+msgstr "_Målsøgning …"
 
 #: ../src/wbc-gtk-actions.c:2901
 msgid "Iteratively recalculate to find a target value"
@@ -16554,7 +16635,7 @@ msgstr "Udfører en beregning igen og igen for at opnå en bestemt målværdi"
 
 #: ../src/wbc-gtk-actions.c:2905
 msgid "_Solver..."
-msgstr "_Optimeringsproblemløser..."
+msgstr "_Optimeringsproblemløser …"
 
 #: ../src/wbc-gtk-actions.c:2906
 msgid "Iteratively recalculate with constraints to approach a target value"
@@ -16575,7 +16656,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2918
 #, fuzzy
 msgid "_View..."
-msgstr "_Ny..."
+msgstr "_Ny …"
 
 #: ../src/wbc-gtk-actions.c:2919
 msgid "View, delete and report different scenarios"
@@ -16593,7 +16674,7 @@ msgstr "Indsæt ny kolonne"
 
 #: ../src/wbc-gtk-actions.c:2931
 msgid "_Sampling..."
-msgstr "_Stikprøveudtagning..."
+msgstr "_Stikprøveudtagning …"
 
 #: ../src/wbc-gtk-actions.c:2932
 msgid "Periodic and random samples"
@@ -16610,7 +16691,7 @@ msgstr "Korrelation"
 
 #: ../src/wbc-gtk-actions.c:2944
 msgid "Co_variance..."
-msgstr "Ko_varians..."
+msgstr "Ko_varians …"
 
 #: ../src/wbc-gtk-actions.c:2949
 #, fuzzy
@@ -16625,7 +16706,7 @@ msgstr "Sammendragsstatistikker"
 #: ../src/wbc-gtk-actions.c:2957
 #, fuzzy
 msgid "Fre_quency Tables..."
-msgstr "Egenskaber..."
+msgstr "Egenskaber …"
 
 #: ../src/wbc-gtk-actions.c:2958
 #, fuzzy
@@ -16634,7 +16715,7 @@ msgstr "Det givne inddatainterval indeholder data der ikke er tal."
 
 #: ../src/wbc-gtk-actions.c:2962
 msgid "_Histogram..."
-msgstr "_Histogram..."
+msgstr "_Histogram …"
 
 #: ../src/wbc-gtk-actions.c:2963
 msgid "Various frequency tables for numeric data"
@@ -16642,7 +16723,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2967
 msgid "Ranks And _Percentiles..."
-msgstr "Rang og _percentiler..."
+msgstr "Rang og _percentiler …"
 
 #: ../src/wbc-gtk-actions.c:2968
 #, fuzzy
@@ -16651,7 +16732,7 @@ msgstr "Rang, xxx og percentil"
 
 #: ../src/wbc-gtk-actions.c:2975
 msgid "_Fourier Analysis..."
-msgstr "_Fourier-analyse..."
+msgstr "_Fourier-analyse …"
 
 #: ../src/wbc-gtk-actions.c:2981
 msgid "Principal Components Analysis..."
@@ -16673,11 +16754,11 @@ msgstr "Rullende gennemsnit"
 
 #: ../src/wbc-gtk-actions.c:2994
 msgid "Moving average..."
-msgstr "Rullende gennemsnit..."
+msgstr "Rullende gennemsnit …"
 
 #: ../src/wbc-gtk-actions.c:2998
 msgid "_Regression..."
-msgstr "_Regression..."
+msgstr "_Regression …"
 
 #: ../src/wbc-gtk-actions.c:2999
 msgid "Regression Analysis"
@@ -16694,7 +16775,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:3011
 #, fuzzy
 msgid "_Normality Tests..."
-msgstr "_Formatér celler..."
+msgstr "_Formatér celler …"
 
 #: ../src/wbc-gtk-actions.c:3012
 msgid "Testing a sample for normality"
@@ -16824,7 +16905,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3117
 msgid "_Sort..."
-msgstr "_Sortér..."
+msgstr "_Sortér …"
 
 #: ../src/wbc-gtk-actions.c:3118
 msgid "Sort the selected region"
@@ -16832,7 +16913,7 @@ msgstr "Sorterer det markerede område"
 
 #: ../src/wbc-gtk-actions.c:3122
 msgid "Sh_uffle..."
-msgstr "Bland..."
+msgstr "Bland …"
 
 #: ../src/wbc-gtk-actions.c:3123
 msgid "Shuffle cells, rows or columns"
@@ -16840,7 +16921,7 @@ msgstr "Bland celler, rækker eller kolonner"
 
 #: ../src/wbc-gtk-actions.c:3127
 msgid "_Validate..."
-msgstr "_Gyldighedskontrol..."
+msgstr "_Gyldighedskontrol …"
 
 # RETMIG: måske indtastning i stedet for dataene
 #: ../src/wbc-gtk-actions.c:3128
@@ -16857,7 +16938,7 @@ msgstr "Ombryd teksten i de valgte celler"
 
 #: ../src/wbc-gtk-actions.c:3137
 msgid "_Consolidate..."
-msgstr "F_oren data..."
+msgstr "F_oren data …"
 
 #: ../src/wbc-gtk-actions.c:3138
 msgid "Consolidate regions using a function"
@@ -16865,7 +16946,7 @@ msgstr "Foren områder vha. en funktion"
 
 #: ../src/wbc-gtk-actions.c:3142
 msgid "_Table..."
-msgstr "_Tabel..."
+msgstr "_Tabel …"
 
 #: ../src/wbc-gtk-actions.c:3143
 msgid "Create a Data Table to evaluate a function with multiple inputs"
@@ -16922,7 +17003,7 @@ msgstr "Udfyld automatisk de aktuelt markerede celler"
 
 #: ../src/wbc-gtk-actions.c:3175
 msgid "_Merge..."
-msgstr "_Flet..."
+msgstr "_Flet …"
 
 #: ../src/wbc-gtk-actions.c:3176
 msgid ""
@@ -16931,7 +17012,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3180
 msgid "_Tabulate Dependency..."
-msgstr "_Tabellér afhængighed..."
+msgstr "_Tabellér afhængighed …"
 
 #: ../src/wbc-gtk-actions.c:3181
 msgid "Make a table of a cell's value as a function of other cells"
@@ -16939,7 +17020,7 @@ msgstr "Lav en tabel over en celles værdi som en funktion af andre celler"
 
 #: ../src/wbc-gtk-actions.c:3185
 msgid "_Series..."
-msgstr "_Rækker..."
+msgstr "_Rækker …"
 
 #: ../src/wbc-gtk-actions.c:3186
 msgid "Fill according to a linear or exponential series"
@@ -16974,7 +17055,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:3206
 #, fuzzy
 msgid "Fill to Right"
-msgstr "Hø_jde..."
+msgstr "Hø_jde …"
 
 #: ../src/wbc-gtk-actions.c:3208
 msgid "Copy the content from the left column to the cells on the right"
@@ -16999,7 +17080,7 @@ msgstr "Udfold en omridsgruppe"
 # udsagnsord, bydemåde
 #: ../src/wbc-gtk-actions.c:3228
 msgid "_Group..."
-msgstr "_Gruppér..."
+msgstr "_Gruppér …"
 
 #: ../src/wbc-gtk-actions.c:3230
 msgid "Add an outline group"
@@ -17007,7 +17088,7 @@ msgstr "Tilføj en omridsgruppe"
 
 #: ../src/wbc-gtk-actions.c:3235
 msgid "_Ungroup..."
-msgstr "_Afgruppér..."
+msgstr "_Afgruppér …"
 
 #: ../src/wbc-gtk-actions.c:3237
 msgid "Remove an outline group"
@@ -17032,7 +17113,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3254
 msgid "Advanced _Filter..."
-msgstr "Avanceret _filtrering..."
+msgstr "Avanceret _filtrering …"
 
 #: ../src/wbc-gtk-actions.c:3255
 msgid "Filter data with given criteria"
@@ -17060,7 +17141,7 @@ msgstr "Importerer tekst fra en fil"
 #: ../src/wbc-gtk-actions.c:3273
 #, fuzzy
 msgid "Add _Data Slicer"
-msgstr "_Gyldighedskontrol..."
+msgstr "_Gyldighedskontrol …"
 
 #: ../src/wbc-gtk-actions.c:3274
 #, fuzzy
@@ -17078,14 +17159,14 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:3283
 #, fuzzy
 msgid "_Edit Data Slicer..."
-msgstr "_Gyldighedskontrol..."
+msgstr "_Gyldighedskontrol …"
 
 #: ../src/wbc-gtk-actions.c:3284
 #, fuzzy
 msgid "Adjust a data slicer"
 msgstr "Ændr rodkataloget for data"
 
-#: ../src/wbc-gtk-actions.c:3291 ../src/wbc-gtk.c:4052
+#: ../src/wbc-gtk-actions.c:3291 ../src/wbc-gtk.c:4064
 #: ../src/workbook-view.c:1033
 msgid "Sum"
 msgstr "Sum"
@@ -17096,7 +17177,7 @@ msgstr "Summér til den aktuelle celle."
 
 #: ../src/wbc-gtk-actions.c:3298
 msgid "_Function..."
-msgstr "_Funktion..."
+msgstr "_Funktion …"
 
 #: ../src/wbc-gtk-actions.c:3299
 msgid "Edit a function in the current cell"
@@ -17698,7 +17779,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:517
 msgid "Manage Sheets..."
-msgstr "Omrokér _ark..."
+msgstr "Omrokér _ark …"
 
 #: ../src/wbc-gtk.c:520
 msgid "Append"
@@ -17861,27 +17942,27 @@ msgstr "Søg kun i det angivne interval"
 msgid "Enter in selected ranges as array"
 msgstr "Søg kun i det angivne interval"
 
-#: ../src/wbc-gtk.c:2479
+#: ../src/wbc-gtk.c:2508
 msgid "END"
 msgstr ""
 
-#: ../src/wbc-gtk.c:2748
+#: ../src/wbc-gtk.c:2777
 msgid "Go to Cell..."
-msgstr "Gå _til celle..."
+msgstr "Gå _til celle …"
 
-#: ../src/wbc-gtk.c:2810
+#: ../src/wbc-gtk.c:2839
 msgid "Accept change in multiple cells"
 msgstr ""
 
-#: ../src/wbc-gtk.c:2881 ../src/wbc-gtk.c:2901
+#: ../src/wbc-gtk.c:2911 ../src/wbc-gtk.c:2931
 msgid "_Re-Edit"
 msgstr "_Ret igen"
 
-#: ../src/wbc-gtk.c:2883 ../src/wbc-gtk.c:2890
+#: ../src/wbc-gtk.c:2913 ../src/wbc-gtk.c:2920
 msgid "_Discard"
 msgstr "_Forkast"
 
-#: ../src/wbc-gtk.c:2888 ../src/wbc-gtk.c:2903
+#: ../src/wbc-gtk.c:2918 ../src/wbc-gtk.c:2933
 msgid "_Accept"
 msgstr "_Acceptér"
 
@@ -17891,64 +17972,64 @@ msgstr "_Acceptér"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3263
+#: ../src/wbc-gtk.c:3293
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
 
-#: ../src/wbc-gtk.c:3586
+#: ../src/wbc-gtk.c:3595
 msgid "Display above sheets"
 msgstr "Vis over arkene"
 
-#: ../src/wbc-gtk.c:3587
+#: ../src/wbc-gtk.c:3596
 msgid "Display to the left of sheets"
 msgstr "Vis til venstre for arkene"
 
-#: ../src/wbc-gtk.c:3588
+#: ../src/wbc-gtk.c:3597
 msgid "Display to the right of sheets"
 msgstr "Vis til højre for arkene"
 
-#: ../src/wbc-gtk.c:3617
+#: ../src/wbc-gtk.c:3626
 msgid "Hide"
 msgstr "Skjul"
 
-#: ../src/wbc-gtk.c:3683
+#: ../src/wbc-gtk.c:3692
 msgid "Standard Toolbar"
 msgstr "Standardværktøjslinje"
 
-#: ../src/wbc-gtk.c:3684
+#: ../src/wbc-gtk.c:3693
 msgid "Format Toolbar"
 msgstr "Formateringsværktøjslinje"
 
-#: ../src/wbc-gtk.c:3685
+#: ../src/wbc-gtk.c:3694
 msgid "Object Toolbar"
 msgstr "Objektværktøjslinje"
 
-#: ../src/wbc-gtk.c:3699
+#: ../src/wbc-gtk.c:3708
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Vis/skjul værktøjslinjen %s"
 
-#: ../src/wbc-gtk.c:4113
+#: ../src/wbc-gtk.c:4125
 #, c-format
 msgid "Content of %s"
 msgstr "Indhold af %s"
 
-#: ../src/wbc-gtk.c:4128
+#: ../src/wbc-gtk.c:4140
 msgid "Use Maximum Precision"
 msgstr "Brug maximal præcision"
 
-#: ../src/wbc-gtk.c:4140
+#: ../src/wbc-gtk.c:4152
 #, fuzzy
 msgid "Insert Formula Below"
-msgstr "A_utoformatér..."
+msgstr "A_utoformatér …"
 
-#: ../src/wbc-gtk.c:4146
+#: ../src/wbc-gtk.c:4158
 #, fuzzy
 msgid "Insert Formula to Side"
-msgstr "A_utoformatér..."
+msgstr "A_utoformatér …"
 
-#: ../src/wbc-gtk.c:4229
+#: ../src/wbc-gtk.c:4241
 #, c-format
 msgid "Open %s"
 msgstr "Åbn %s"
@@ -17959,11 +18040,11 @@ msgstr "(Alle)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:175
 msgid "(Top 10...)"
-msgstr "(Top 10...)"
+msgstr "(Top 10 …)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:182
 msgid "(Custom...)"
-msgstr "(Tilpasset...)"
+msgstr "(Tilpasset …)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:261
 msgid "(Blanks...)"
@@ -18324,34 +18405,38 @@ msgstr ""
 msgid "File has inconsistent SheetNameIndex element."
 msgstr ""
 
-#: ../src/xml-sax-read.c:2291
+#: ../src/xml-sax-read.c:2289
 #, c-format
 msgid "Unknown filter operator \"%s\""
-msgstr "Ukendt filteroperator \"%s\""
+msgstr "Ukendt filteroperator “%s”"
 
-#: ../src/xml-sax-read.c:2331
+#: ../src/xml-sax-read.c:2330
 msgid "Missing filter type"
 msgstr "Manglende filtertype"
 
-#: ../src/xml-sax-read.c:2353
+#: ../src/xml-sax-read.c:2343
+msgid "Malformed sheet filter condition"
+msgstr ""
+
+#: ../src/xml-sax-read.c:2357
 #, c-format
 msgid "Unknown filter type \"%s\""
-msgstr "Ukendt filtertype \"%s\""
+msgstr "Ukendt filtertype “%s”"
 
-#: ../src/xml-sax-read.c:2374
+#: ../src/xml-sax-read.c:2378
 msgid "Invalid filter, missing Area"
 msgstr "Ugyldigt filter, manglende område"
 
-#: ../src/xml-sax-read.c:2439
+#: ../src/xml-sax-read.c:2443
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Objekttype '%s' er ikke understøttet"
 
-#: ../src/xml-sax-read.c:3750 ../src/xml-sax-write.c:1696
+#: ../src/xml-sax-read.c:3755 ../src/xml-sax-write.c:1698
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-sax-write.c:1708
+#: ../src/xml-sax-write.c:1710
 #, fuzzy
 msgid "Gnumeric XML uncompressed (*.xml)"
 msgstr "Gnumeric XML (*.gnumeric)"
@@ -18384,9 +18469,6 @@ msgstr "En knaplignende skabelon"
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:3
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
 msgid "Gnumeric Team"
-msgstr "Gnumericholdet"
-
-msgid "The Gnumeric Team"
 msgstr "Gnumericholdet"
 
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:2
@@ -18553,3 +18635,7 @@ msgstr "Navn på skabelon"
 #, fuzzy
 msgid "A simple list template"
 msgstr "Navn på skabelon"
+
+#, fuzzy
+#~ msgid "(none)"
+#~ msgstr "Ingen"
