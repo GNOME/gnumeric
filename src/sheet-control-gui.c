@@ -521,8 +521,8 @@ scg_scrollbar_config_real (SheetControl const *sc)
 static void
 scg_scrollbar_config (SheetControl const *sc)
 {
-	// See bug 789412
-	g_timeout_add (10,
+	/* See bug 789412 */
+	g_timeout_add (1,
 		       (GSourceFunc) scg_scrollbar_config_real,
 		       (gpointer)sc);
 }
