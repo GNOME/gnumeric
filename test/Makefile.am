@@ -53,6 +53,7 @@ TESTS =	t1000-statfuns.pl			\
 	t1103-sumif.pl				\
 	t1104-linest.pl				\
 	t1105-gamma.pl				\
+	t1106-vdb.pl				\
 	t1800-operators.pl			\
 	t1900-array.pl				\
 	t1901-regress.pl			\
