@@ -205,6 +205,7 @@ my @full_corpus =
      "$samples/ftest.xls",
      "$samples/ttest.xls",
      "$samples/chitest.xls",
+     "$samples/vdb.gnumeric",
      "$samples/numbermatch.gnumeric",
      "$samples/solver/afiro.mps",
      "$samples/solver/blend.mps",

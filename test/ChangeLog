@@ -1,3 +1,9 @@
+2017-11-13  Morten Welinder  <terra@gnome.org>
+
+	* GnumericTest.pm (corpus): Add vdb test file.
+
+	* t1106-vdb.pl: New test.
+
 2017-07-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.35
