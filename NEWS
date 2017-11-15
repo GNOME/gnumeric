@@ -22,6 +22,7 @@ Morten:
 	* Fix xlsx export of trend line equation.
 	* Fix xlsx import and export of trend line affine flag.
 	* Avoid critical on exporting unnamed xlsx trend line.
+	* Fix VDB for partial periods.  [#790299]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.35

@@ -386,13 +386,18 @@ get_vdb (gnm_float cost, gnm_float salvage, gnm_float life,
 	gnm_float fVdb;
 	gnm_float fIntStart = gnm_floor (start_period);
 	gnm_float fIntEnd   = gnm_ceil (end_period);
-	int        i;
-	int        nLoopStart = (int) fIntStart;
-	int        nLoopEnd   = (int) fIntEnd;
 
 	fVdb      = 0.0;
 
 	if ( flag ) {
+		int i, nLoopStart, nLoopEnd;
+
+		if (fIntEnd > G_MAXINT ||
+		    fIntEnd - fIntStart > 10000 /* arbitrary */)
+			return value_new_error_VALUE (NULL);
+
+		nLoopStart = (int) fIntStart;
+		nLoopEnd   = (int) fIntEnd;
 		for (i = nLoopStart + 1; i <= nLoopEnd; i++) {
 			gnm_float fTerm;
 
@@ -405,23 +410,36 @@ get_vdb (gnm_float cost, gnm_float salvage, gnm_float life,
 			fVdb += fTerm;
 		}
 	} else {
-		gnm_float life1 = life;
-		gnm_float fPart;
+		gnm_float fPart = 0;
+		double fIntEnd = gnm_ceil (end_period);
 
-		if ( start_period != gnm_floor (start_period) )
-			if (factor > 1) {
-				if (start_period >= life / 2) {
-					fPart        = start_period - life / 2;
-					start_period = life / 2;
-					end_period  -= fPart;
-					life1       += 1;
-				}
-			}
+		if (start_period > fIntStart) {
+                        // First period is partial.  Calculate the excess as
+			// the pro-rata value of the first period as-if it
+			// was not partial.
+                        double tempcost = cost -
+				ScInterVDB( cost, salvage, life, life, fIntStart, factor);
+                        fPart += (start_period - fIntStart) *
+				ScInterVDB( tempcost, salvage, life, life - fIntStart,
+					    1, factor);
+		}
 
-		cost -= ScInterVDB (cost, salvage, life, life1, start_period,
-				    factor);
-		fVdb = ScInterVDB (cost, salvage, life, life - start_period,
-				   end_period - start_period, factor);
+		if (end_period < fIntEnd) {
+                        // Last period is partial.  Calculate the excess as
+			// the pro-rata value of the last period as-if it
+			// was not partial.
+                        double em1 = fIntEnd - 1; // Start of last period
+                        double tempcost = cost -
+                            ScInterVDB (cost, salvage, life, life, em1, factor);
+                        fPart += (fIntEnd - end_period) *
+                            ScInterVDB (tempcost, salvage, life, life - em1,
+					1, factor);
+		}
+
+		cost -= ScInterVDB (cost, salvage, life, life, fIntStart, factor);
+		fVdb = ScInterVDB (cost, salvage, life, life - fIntStart,
+				   fIntEnd - fIntStart, factor);
+		fVdb -= fPart;
 	}
 	return value_new_float (fVdb);
 }
