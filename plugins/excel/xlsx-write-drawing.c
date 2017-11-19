@@ -1023,12 +1023,14 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 	case XLSX_PT_XLCONTOURPLOT:
 		axis_type[2] = GOG_AXIS_PSEUDO_3D;
 		gsf_xml_out_start_element (xml, "c:surfaceChart");
+		xlsx_write_chart_bool (xml, "c:wireframe", FALSE);
 		break;
 
 	case XLSX_PT_GOGSURFACEPLOT:
 	case XLSX_PT_XLSURFACEPLOT:
 		axis_type[2] = GOG_AXIS_Z;
 		gsf_xml_out_start_element (xml, "c:surface3DChart");
+		xlsx_write_chart_bool (xml, "c:wireframe", FALSE);
 		break;
 	}
 
@@ -1089,7 +1091,6 @@ xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml,
 			const char *trend_type;
 			GogObject *eq;
 			GOData *dat;
-			char *name;
 			double intercept = gnm_nan;
 
 			if (!GOG_IS_TREND_LINE (trend))
@@ -1315,6 +1316,8 @@ xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *ch
 			gsf_xml_out_end_element (xml);
 			done = TRUE;
 			break;
+		default:
+			; // Nothing
 		}
 	}
 
