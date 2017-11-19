@@ -207,6 +207,7 @@ my @full_corpus =
      "$samples/chitest.xls",
      "$samples/vdb.gnumeric",
      "$samples/numbermatch.gnumeric",
+     "$samples/numtheory.gnumeric",
      "$samples/solver/afiro.mps",
      "$samples/solver/blend.mps",
      "$samples/auto-filter-tests.gnumeric",
