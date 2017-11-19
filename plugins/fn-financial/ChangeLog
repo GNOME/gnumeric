@@ -1,3 +1,7 @@
+2017-11-18  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.36
+
 2017-11-13  Morten Welinder  <terra@gnome.org>
 
 	* sc-fin.c (get_vdb): Fix handling of partial periods.  Protect
