@@ -3848,6 +3848,16 @@ QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},@{denom
 @SEEALSO=PI,DEGREES
 
 @CATEGORY=Mathematics
+@FUNCTION=REDUCEPI
+@SHORTDESC=reduce modulo Pi divided by a power of 2
+@SYNTAX=REDUCEPI(x,e,q)
+@ARGUMENTDESCRIPTION=@{x}: number
+@{e}: scale
+@{q}: get lower bits of quotient, defaults to FALSE
+@NOTE=This function returns a value, xr, such that @{x}=xr+j*Pi/2^@{e} where j is an integer and the absolute value of xr does not exceed Pi/2^(@{e}+1).  If optional argument @{q} is TRUE, returns instead the @e+1 lower bits of j.  The reduction is performed as-if using an exact value of Pi. The lowest valid @{e} is -1 representing reduction modulo 2*Pi; the highest is 7 representing reduction modulo Pi/256.
+@SEEALSO=PI
+
+@CATEGORY=Mathematics
 @FUNCTION=ROMAN
 @SHORTDESC=@{n} as a roman numeral text
 @SYNTAX=ROMAN(n,type)

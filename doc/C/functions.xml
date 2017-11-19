@@ -12821,6 +12821,39 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-REDUCEPI">
+      <refmeta>
+        <refentrytitle>
+          <function>REDUCEPI</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>REDUCEPI</function>
+        </refname>
+        <refpurpose>
+        reduce modulo Pi divided by a power of 2
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>REDUCEPI</function>(<parameter>x</parameter>,<parameter>e</parameter>,<parameter>q</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: number</para>
+        <para><parameter>e</parameter>: scale</para>
+        <para><parameter>q</parameter>: get lower bits of quotient, defaults to FALSE</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>This function returns a value, xr, such that <parameter>x</parameter>=xr+j*Pi/2^<parameter>e</parameter> where j is an integer and the absolute value of xr does not exceed Pi/2^(<parameter>e</parameter>+1).  If optional argument <parameter>q</parameter> is TRUE, returns instead the <parameter>e</parameter>+1 lower bits of j.  The reduction is performed as-if using an exact value of Pi. The lowest valid <parameter>e</parameter> is -1 representing reduction modulo 2*Pi; the highest is 7 representing reduction modulo Pi/256.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-PI"><function>PI</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-ROMAN">
       <refmeta>
         <refentrytitle>
