@@ -13,12 +13,13 @@ $| = 1;
                            test_csv_format_guessing
 			   test_ssindex sstest test_command message subtest
                            test_tool
-			   $ssconvert $sstest $ssdiff $topsrc $top_builddir
+			   $ssconvert $sstest $ssdiff $gnumeric
+                           $topsrc $top_builddir
 			   $subtests $samples corpus $PERL);
 @GnumericTest::EXPORT_OK = qw(junkfile);
 
 use vars qw($topsrc $top_builddir $samples $default_subtests $default_corpus $PERL $verbose);
-use vars qw($ssconvert $ssindex $sstest $ssdiff);
+use vars qw($ssconvert $ssindex $sstest $ssdiff $gnumeric);
 use vars qw($normalize_gnumeric);
 
 $PERL = $Config{'perlpath'};
@@ -34,6 +35,7 @@ $ssconvert = "$top_builddir/src/ssconvert";
 $ssindex = "$top_builddir/src/ssindex";
 $sstest = "$top_builddir/src/sstest";
 $ssdiff = "$top_builddir/src/ssdiff";
+$gnumeric = "$top_builddir/src/gnumeric";
 $normalize_gnumeric = "$PERL $topsrc/test/normalize-gnumeric";
 $verbose = 0;
 $default_subtests = '*';
