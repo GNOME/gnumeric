@@ -390,7 +390,7 @@ cb_canvas_button_press (GocCanvas *canvas,
 	GSList *ptr;
 	int index = 0;
 
-	while (canvas != state->canvas[index] && index < NUM_PREVIEWS)
+	while (index < NUM_PREVIEWS && canvas != state->canvas[index])
 		index++;
 
 	g_return_val_if_fail (index < NUM_PREVIEWS, FALSE);
