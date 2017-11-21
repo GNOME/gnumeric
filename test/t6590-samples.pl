@@ -74,9 +74,14 @@ if (&subtest ("biff8")) {
 
 if (&subtest ("xlsx")) {
     &message ("Check documentation samples xlsx roundtrip.");
+
+    # Don't care about cum argument being required in XL.
+    my $hypgeom_filter = "$PERL -p -e 'if (/\\bhypgeomdist\\b/) { s{,FALSE\\)}{)}'}";
+
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_Excel:xlsx',
 		     'ext' => "xlsx",
 		     'resize' => '1048576x16384',
+		     'filter' => $hypgeom_filter,
 		     'ignore_failure' => 1);
 }
