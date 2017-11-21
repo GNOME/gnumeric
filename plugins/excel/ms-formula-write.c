@@ -231,7 +231,7 @@ xl_map_char_to_type (char t)
 		return XL_ARRAY;
 	if (t == 'v')
 		return XL_ROOT;
-	g_warning ("unknown op class '%c' assuming val", t);
+	g_warning ("unknown op class '%c' assuming val", t ? t : '-');
 	return XL_VAL;
 }
 
@@ -553,7 +553,9 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 		min_args = ef->efunc->min_args;
 		max_args = ef->efunc->max_args;
 		func_idx = ef->efunc->idx;
-		func_type = xl_map_char_to_type (ef->efunc->type);
+		func_type = ef->efunc->type
+			? xl_map_char_to_type (ef->efunc->type)
+			: XL_VAL; // Assumption
 		arg_types = ef->efunc->known_args;
 	} else {
 		min_args = max_args = expr->func.argc;

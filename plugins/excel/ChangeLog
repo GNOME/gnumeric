@@ -1,3 +1,9 @@
+2017-11-20  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-write.c (xl_map_char_to_type): Improve debug output.
+	(write_funcall): Avoid a critical for ERROR function.  This might
+	not be right -- need to check what XL wants for this.
+
 2017-11-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.36
