@@ -41,9 +41,14 @@ if (&subtest ("gnumeric")) {
 
 if (&subtest ("ods")) {
     &message ("Check documentation samples ods roundtrip.");
+
+    # Replace calls to boolean functions with constants
+    my $bool_func_filter = "$PERL -p -e 's{\\b(true|false)\\(\\)}{uc(\$1)}e'";
+
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_OpenCalc:odf',
 		     'ext' => "ods",
+		     'filter0' => "$bool_func_filter",
 		     'filter2' => 'std:drop_generator',
 		     'ignore_failure' => 1);
 }
