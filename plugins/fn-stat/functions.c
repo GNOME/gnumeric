@@ -716,6 +716,7 @@ gnumeric_mode_mult (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			i = 0;
 			for (l = keys; l != NULL; l = l->next)
 				value_array_set (result, 0, i++, value_new_float (*((gnm_float *)(l->data))));
+			g_list_free (keys);
 		}
 
 		g_hash_table_destroy (h);
