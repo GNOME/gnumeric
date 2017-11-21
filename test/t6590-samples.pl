@@ -44,11 +44,12 @@ if (&subtest ("ods")) {
 
     # Replace calls to boolean functions with constants
     my $bool_func_filter = "$PERL -p -e 's{\\b(true|false)\\(\\)}{uc(\$1)}e'";
+    my $concat_filter = "$PERL -p -e 's{\\bconcatenate\\b}{concat} and s{\\baa\\b}{bb}'";
 
     &test_roundtrip ($file,
 		     'format' => 'Gnumeric_OpenCalc:odf',
 		     'ext' => "ods",
-		     'filter0' => "$bool_func_filter",
+		     'filter0' => "$bool_func_filter | $concat_filter",
 		     'filter2' => 'std:drop_generator',
 		     'ignore_failure' => 1);
 }
