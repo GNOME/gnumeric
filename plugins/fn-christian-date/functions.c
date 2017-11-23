@@ -42,13 +42,6 @@ GNM_PLUGIN_MODULE_HEADER;
 
 #define DATE_CONV(ep)		workbook_date_conv ((ep)->sheet->workbook)
 
-static GnmValue *
-make_date (GnmValue *res)
-{
-	value_set_fmt (res, go_format_default_date ());
-	return res;
-}
-
 static void
 eastersunday_calc_for_year (int year, GDate *date)
 {
@@ -130,7 +123,7 @@ eastersunday_calc (GnmValue const *val, GnmFuncEvalInfo *ei, int diff)
 		serial--;
 	}
 
-	return make_date (value_new_int (serial));
+	return value_new_int (serial);
 }
 
 /***************************************************************************/

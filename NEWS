@@ -2,6 +2,7 @@ Gnumeric 1.12.37
 
 Morten:
 	* Test suite improvements.
+	* Improve format guessing for newly entered formulas.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.36

@@ -1,3 +1,8 @@
+2017-11-22  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (math_functions): Mark COUNTIF, COUNTIFS, COMBIN,
+	and COMBINA as unitless.
+
 2017-11-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.36

@@ -1,3 +1,9 @@
+2017-11-22  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (make_date): Eliminate.  auto-format already give
+	the cells a date format, so no need to tag a specific date format
+	onto the value.
+
 2017-11-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.36

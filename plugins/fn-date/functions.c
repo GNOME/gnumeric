@@ -448,7 +448,7 @@ gnumeric_time (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	time = (hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS;
 	time -= gnm_fake_floor (time);
 
-	return make_date (value_new_float (time));
+	return value_new_float (time);
 }
 
 /***************************************************************************/
