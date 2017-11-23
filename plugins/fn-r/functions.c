@@ -22,6 +22,7 @@ static GnmFuncHelp const help_r_dbeta[] = {
 	{ GNM_FUNC_HELP_ARG, F_("b:the second scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the beta distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dbeta(0.4,1,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PBETA,R.QBETA" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -47,6 +48,7 @@ static GnmFuncHelp const help_r_pbeta[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the beta distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pbeta(0.4,1,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DBETA,R.QBETA" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -73,6 +75,7 @@ static GnmFuncHelp const help_r_qbeta[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the beta distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qbeta(0.3,1,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DBETA,R.PBETA" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -98,6 +101,7 @@ static GnmFuncHelp const help_r_dbinom[] = {
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the binomial distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dbinom(4,10,0.4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PBINOM,R.QBINOM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -123,6 +127,7 @@ static GnmFuncHelp const help_r_pbinom[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the binomial distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pbinom(4,10,0.4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DBINOM,R.QBINOM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -149,6 +154,7 @@ static GnmFuncHelp const help_r_qbinom[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the binomial distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qbinom(0.3,10,0.4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DBINOM,R.PBINOM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -174,6 +180,7 @@ static GnmFuncHelp const help_r_dcauchy[] = {
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the Cauchy distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dcauchy(1.5,1,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PCAUCHY,R.QCAUCHY" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -199,6 +206,7 @@ static GnmFuncHelp const help_r_pcauchy[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the Cauchy distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pcauchy(1.5,1,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DCAUCHY,R.QCAUCHY" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -225,6 +233,7 @@ static GnmFuncHelp const help_r_qcauchy[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Cauchy distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qcauchy(0.3,1,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DCAUCHY,R.PCAUCHY" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -250,6 +259,7 @@ static GnmFuncHelp const help_r_dchisq[] = {
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the chi-square distribution.") },
 	{ GNM_FUNC_HELP_ODF, F_("A two argument invocation R.DCHISQ(@{x},@{df}) is exported to OpenFormula as CHISQDIST(@{x},@{df},FALSE()).") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dchisq(2.5,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PCHISQ,R.QCHISQ" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -274,6 +284,7 @@ static GnmFuncHelp const help_r_pchisq[] = {
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the chi-square distribution.") },
 	{ GNM_FUNC_HELP_ODF, F_("A two argument invocation R.PCHISQ(@{x},@{df}) is exported to OpenFormula as CHISQDIST(@{x},@{df}).") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pchisq(2.5,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DCHISQ,R.QCHISQ" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -299,6 +310,7 @@ static GnmFuncHelp const help_r_qchisq[] = {
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the chi-square distribution.") },
 	{ GNM_FUNC_HELP_ODF, F_("A two argument invocation R.QCHISQ(@{p},@{df}) is exported to OpenFormula as CHISQINV(@{p},@{df}).") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qchisq(0.3,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DCHISQ,R.PCHISQ" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -322,6 +334,7 @@ static GnmFuncHelp const help_r_dexp[] = {
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the exponential distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dexp(1.5,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PEXP,R.QEXP" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -345,6 +358,7 @@ static GnmFuncHelp const help_r_pexp[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the exponential distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pexp(1.5,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DEXP,R.QEXP" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -369,6 +383,7 @@ static GnmFuncHelp const help_r_qexp[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the exponential distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qexp(0.3,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DEXP,R.PEXP" },
 	{ GNM_FUNC_HELP_END }
 };

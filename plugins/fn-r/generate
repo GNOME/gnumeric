@@ -51,7 +51,9 @@ my %defaults;
 	 'beta',
 	 ({ 'a' => "the first shape parameter $of",
 	    'b' => "the second scale parameter $of",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 0.4, 'a' => 1, 'b' => 4 } ],
+	];
 
     $funcs{'dt'} = $funcs{'pt'} = $funcs{'qt'} =
 	[\&distribution,
@@ -70,7 +72,9 @@ my %defaults;
 	[\&distribution,
 	 'chi-square',
 	 ({ 'df' => "the number of degrees of freedom $of",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 2.5, 'df' => 4 } ],
+	];
 
     $funcs{'dweibull'} = $funcs{'pweibull'} = $funcs{'qweibull'} =
 	[\&distribution,
@@ -86,14 +90,18 @@ my %defaults;
     $funcs{'dexp'} = $funcs{'pexp'} = $funcs{'qexp'} =
 	[\&distribution,
 	 'exponential',
-	 ({ @common })];
+	 ({ @common }),
+	 [ { 'x' => 1.5, 'scale' => 4 } ],
+	];
 
     $funcs{'dbinom'} = $funcs{'pbinom'} = $funcs{'qbinom'} =
 	[\&distribution,
 	 'binomial',
 	 ({ 'n' => 'the number of trials',
 	    'psuc' => "the probability of success in each trial",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 4, 'n' => 10, 'psuc' => 0.4 } ],
+	];
 
     $funcs{'dnbinom'} = $funcs{'pnbinom'} = $funcs{'qnbinom'} =
 	[\&distribution,
@@ -115,7 +123,9 @@ my %defaults;
 	[\&distribution,
 	 'Cauchy',
 	 ({ 'location' => "the center $of",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 1.5, 'location' => 1, 'scale' => 4 } ],
+	];
 
     $funcs{'dgeom'} = $funcs{'pgeom'} = $funcs{'qgeom'} =
 	[\&distribution,
@@ -279,7 +289,7 @@ sub cfileorder {
 # -----------------------------------------------------------------------------
 
 sub distribution {
-    my ($func,$restype,$proto,$distname,$argdescs) = @_;
+    my ($func,$restype,$proto,$distname,$argdescs,$psamples) = @_;
 
     my $args = $proto;
     $args =~ s/^.*\((.*)\)\s*;$/$1/;
@@ -328,6 +338,32 @@ sub distribution {
     my $odf = $odf_note{$func};
     if ($odf) {
 	&emit ("\t{ GNM_FUNC_HELP_ODF, F_(\"$odf\") },\n");
+    }
+
+    my $sdef = { 'p' => 0.3,
+		 'give_log' => undef,
+		 'lower_tail' => undef};
+
+    if ($psamples) {
+      SAMPLE:
+	foreach my $s (@$psamples) {
+	    my @sample_args = ();
+	  ARG:
+	    foreach (@args) {
+		my ($type,$name) = @{ $_ };
+		if (exists $s->{$name}) {
+		    my $a = $s->{$name};
+		    push @sample_args, $a;
+		} elsif (exists $sdef->{$name}) {
+		    my $a = $sdef->{$name};
+		    last ARG unless defined $a;
+		    push @sample_args, $a;
+		} else {
+		    next SAMPLE;
+		}
+	    }
+	    &emit ("\t{ GNM_FUNC_HELP_EXAMPLES, \"=r.$func(" . join (",", @sample_args) . ")\" },\n");
+	}
     }
 
     my $seealso = "";
