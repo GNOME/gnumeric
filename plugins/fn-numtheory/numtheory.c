@@ -169,7 +169,7 @@ compute_nt_pi (guint64 n)
 
 	while (p < n) {
 		lower = upper;
-		upper *= 2;
+		upper = MAX (upper + 1, (MIN (upper * 2, ITHPRIME_LIMIT)));
 		if (ithprime (upper, &p))
 			return -1;
 	}

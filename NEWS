@@ -4,6 +4,7 @@ Morten:
 	* Test suite improvements.
 	* Improve format guessing for newly entered formulas.
 	* Improve PERMUTATIONA for unusual arguments.  [#790742]
+	* Extend range of NT_PI.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.36

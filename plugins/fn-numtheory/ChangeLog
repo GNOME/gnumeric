@@ -1,3 +1,9 @@
+2017-11-23  Morten Welinder  <terra@gnome.org>
+
+	* numtheory.c (compute_nt_pi): When searching for an upper bound,
+	stay below ithprime's limit when possible.  This extends the range
+	for which nt_pi actually works.
+
 2017-11-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.36
