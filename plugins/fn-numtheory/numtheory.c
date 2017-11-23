@@ -114,7 +114,7 @@ ithprime (int i, guint64 *res)
 }
 
 /*
- * A function useful for computing multiplicative arithmethic functions.
+ * A function useful for computing multiplicative arithmetic functions.
  * Returns TRUE on error.
  */
 static gboolean
