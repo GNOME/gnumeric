@@ -32,19 +32,27 @@ my %defaults;
 	 'normal',
 	 ({ 'mu' => "mean $of",
 	    'sigma' => "standard deviation $of",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 1, 'mu' => 0, 'sigma' => 1 },
+	   { 'x' => 2, 'mu' => 0, 'sigma' => 1 },
+	   { 'x' => 3, 'mu' => 0, 'sigma' => 1 } ],
+	];
 
     $funcs{'dlnorm'} = $funcs{'plnorm'} = $funcs{'qlnorm'} =
 	[\&distribution,
 	 'log-normal',
 	 ({ 'logmean' => "mean of the underlying normal distribution",
 	    'logsd' => "standard deviation of the underlying normal distribution",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 2.5, 'logmean' => 1, 'logsd' => 2 } ],
+	];
 
     $funcs{'dgamma'} = $funcs{'pgamma'} = $funcs{'qgamma'} =
 	[\&distribution,
 	 'gamma',
-	 ({ @common })];
+	 ({ @common }),
+	 [ { 'x' => 3, 'shape' => 5, 'scale' => 1 } ],
+	];
 
     $funcs{'dbeta'} = $funcs{'pbeta'} = $funcs{'qbeta'} =
 	[\&distribution,
@@ -59,14 +67,18 @@ my %defaults;
 	[\&distribution,
 	 'Student t',
 	 ({ 'n' => "the number of degrees of freedom $of",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 1.5, 'n' => 5 } ],
+	];
 
     $funcs{'df'} = $funcs{'pf'} = $funcs{'qf'} =
 	[\&distribution,
 	 'F',
 	 ({ 'n1' => "the first number of degrees of freedom $of",
 	    'n2' => "the second number of degrees of freedom $of",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 1.5, 'n1' => 2, 'n2' => 3 } ],
+	 ];
 
     $funcs{'dchisq'} = $funcs{'pchisq'} = $funcs{'qchisq'} =
 	[\&distribution,
@@ -79,13 +91,17 @@ my %defaults;
     $funcs{'dweibull'} = $funcs{'pweibull'} = $funcs{'qweibull'} =
 	[\&distribution,
 	 'Weibull',
-	 ({ @common })];
+	 ({ @common }),
+	 [ { 'x' => 2.1, 'shape' => 1.5, 'scale' => 1 } ],
+	];
 
     $funcs{'dpois'} = $funcs{'ppois'} = $funcs{'qpois'} =
 	[\&distribution,
 	 'Poisson',
 	 ({ 'lambda' => "the mean $of",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 4, 'lambda' => 4 } ],
+	];
 
     $funcs{'dexp'} = $funcs{'pexp'} = $funcs{'qexp'} =
 	[\&distribution,
@@ -109,7 +125,9 @@ my %defaults;
 	 ({ 'n' => 'required number of successes',
 	    'psuc' => "the probability of success in each trial",
 	    @common,
-	    'x' => 'observation (number of failures)' })];
+	    'x' => 'observation (number of failures)' }),
+	 [ { 'x' => 8, 'n' => 10, 'psuc' => 0.45 } ],
+	];
 
     $funcs{'dhyper'} = $funcs{'phyper'} = $funcs{'qhyper'} =
 	[\&distribution,
@@ -117,7 +135,9 @@ my %defaults;
 	 ({ 'r' => "the number of red balls",
 	    'b' => "the number of black balls",
 	    'n' => "the number of balls drawn",	    
-	    @common })];
+	    @common }),
+	 [ { 'x' => 12, 'r' => 50, 'b' => 450, 'n' => 100 } ],
+	];
 
     $funcs{'dcauchy'} = $funcs{'pcauchy'} = $funcs{'qcauchy'} =
 	[\&distribution,
@@ -131,19 +151,25 @@ my %defaults;
 	[\&distribution,
 	 'geometric',
 	 ({ 'psuc' => "the probability of success in each trial",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 3, 'psuc' => 0.2 } ],
+	];
 
     $funcs{'dsnorm'} =  $funcs{'psnorm'} =  $funcs{'qsnorm'} =
 	[\&distribution,
 	 'skew-normal',
 	 ({ 'location' => "the location parameter $of",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 3, 'shape' => 2, 'location' => 0, 'scale' => 1 } ],
+	];
 
     $funcs{'dst'} = $funcs{'pst'} = $funcs{'qst'} =
 	[\&distribution,
 	 'skew-t',
 	 ({ 'n' => "the number of degrees of freedom $of",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 2, 'n' => 5, 'shape' => 2 } ],
+	];
 
     $funcs{'ptukey'} = $funcs{'qtukey'} =
 	[\&distribution,
@@ -151,7 +177,8 @@ my %defaults;
 	 ({ 'nranges' => "the number of ranges; default is 1",
 	    'nmeans' => "the number of means",
 	    'df' => "the number of degrees of freedom $of",
-	    @common })];
+	    @common }),
+	];
     $defaults{'ptukey:nranges'} = $defaults{'qtukey:nranges'} = 1;
 
     $funcs{'dgumbel'} = $funcs{'pgumbel'} = $funcs{'qgumbel'} =
@@ -159,12 +186,16 @@ my %defaults;
 	 'Gumbel',
 	 ({ 'mu' => "the location parameter of freedom $of",
 	    'beta' => "the scale parameter of freedom $of",
-	    @common })];
+	    @common }),
+	 [ { 'x' => 2.5, 'mu' => 2, 'beta' => 1 } ],
+	];
 
     $funcs{'drayleigh'} = $funcs{'prayleigh'} = $funcs{'qrayleigh'} =
 	[\&distribution,
 	 'Rayleigh',
-	 ({ @common })];
+	 ({ @common }),
+	 [ { 'x' => 2, 'scale' => 1 } ],
+	];
 }
 
 

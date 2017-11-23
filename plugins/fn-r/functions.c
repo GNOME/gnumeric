@@ -408,6 +408,7 @@ static GnmFuncHelp const help_r_df[] = {
 	{ GNM_FUNC_HELP_ARG, F_("n2:the second number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the F distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.df(1.5,2,3)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PF,R.QF" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -433,6 +434,7 @@ static GnmFuncHelp const help_r_pf[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the F distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pf(1.5,2,3)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DF,R.QF" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -459,6 +461,7 @@ static GnmFuncHelp const help_r_qf[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the F distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qf(0.3,2,3)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DF,R.PF" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -484,6 +487,7 @@ static GnmFuncHelp const help_r_dgamma[] = {
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the gamma distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dgamma(3,5,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PGAMMA,R.QGAMMA" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -509,6 +513,7 @@ static GnmFuncHelp const help_r_pgamma[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the gamma distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pgamma(3,5,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DGAMMA,R.QGAMMA" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -535,6 +540,7 @@ static GnmFuncHelp const help_r_qgamma[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the gamma distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qgamma(0.3,5,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DGAMMA,R.PGAMMA" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -559,6 +565,7 @@ static GnmFuncHelp const help_r_dgeom[] = {
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the geometric distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dgeom(3,0.2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PGEOM,R.QGEOM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -582,6 +589,7 @@ static GnmFuncHelp const help_r_pgeom[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the geometric distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pgeom(3,0.2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DGEOM,R.QGEOM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -606,6 +614,7 @@ static GnmFuncHelp const help_r_qgeom[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the geometric distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qgeom(0.3,0.2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DGEOM,R.PGEOM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -630,6 +639,7 @@ static GnmFuncHelp const help_r_dgumbel[] = {
 	{ GNM_FUNC_HELP_ARG, F_("beta:the scale parameter of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the Gumbel distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dgumbel(2.5,2,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PGUMBEL,R.QGUMBEL" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -655,6 +665,7 @@ static GnmFuncHelp const help_r_pgumbel[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the Gumbel distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pgumbel(2.5,2,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DGUMBEL,R.QGUMBEL" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -681,6 +692,7 @@ static GnmFuncHelp const help_r_qgumbel[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Gumbel distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qgumbel(0.3,2,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DGUMBEL,R.PGUMBEL" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -707,6 +719,7 @@ static GnmFuncHelp const help_r_dhyper[] = {
 	{ GNM_FUNC_HELP_ARG, F_("n:the number of balls drawn") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the hypergeometric distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dhyper(12,50,450,100)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PHYPER,R.QHYPER" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -734,6 +747,7 @@ static GnmFuncHelp const help_r_phyper[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the hypergeometric distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.phyper(12,50,450,100)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DHYPER,R.QHYPER" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -762,6 +776,7 @@ static GnmFuncHelp const help_r_qhyper[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the hypergeometric distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qhyper(0.3,50,450,100)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DHYPER,R.PHYPER" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -788,6 +803,7 @@ static GnmFuncHelp const help_r_dlnorm[] = {
 	{ GNM_FUNC_HELP_ARG, F_("logsd:standard deviation of the underlying normal distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the log-normal distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dlnorm(2.5,1,2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PLNORM,R.QLNORM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -813,6 +829,7 @@ static GnmFuncHelp const help_r_plnorm[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the log-normal distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.plnorm(2.5,1,2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DLNORM,R.QLNORM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -839,6 +856,7 @@ static GnmFuncHelp const help_r_qlnorm[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the log-normal distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qlnorm(0.3,1,2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DLNORM,R.PLNORM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -864,6 +882,7 @@ static GnmFuncHelp const help_r_dnbinom[] = {
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the negative binomial distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dnbinom(8,10,0.45)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PNBINOM,R.QNBINOM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -889,6 +908,7 @@ static GnmFuncHelp const help_r_pnbinom[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the negative binomial distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pnbinom(8,10,0.45)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DNBINOM,R.QNBINOM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -915,6 +935,7 @@ static GnmFuncHelp const help_r_qnbinom[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the negative binomial distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qnbinom(0.3,10,0.45)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DNBINOM,R.PNBINOM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -940,6 +961,9 @@ static GnmFuncHelp const help_r_dnorm[] = {
 	{ GNM_FUNC_HELP_ARG, F_("sigma:standard deviation of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the normal distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dnorm(1,0,1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dnorm(2,0,1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dnorm(3,0,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PNORM,R.QNORM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -965,6 +989,9 @@ static GnmFuncHelp const help_r_pnorm[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the normal distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pnorm(1,0,1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pnorm(2,0,1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pnorm(3,0,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DNORM,R.QNORM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -991,6 +1018,9 @@ static GnmFuncHelp const help_r_qnorm[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the normal distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qnorm(0.3,0,1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qnorm(0.3,0,1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qnorm(0.3,0,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DNORM,R.PNORM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1015,6 +1045,7 @@ static GnmFuncHelp const help_r_dpois[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lambda:the mean of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the Poisson distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dpois(4,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PPOIS,R.QPOIS" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1038,6 +1069,7 @@ static GnmFuncHelp const help_r_ppois[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the Poisson distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.ppois(4,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DPOIS,R.QPOIS" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1062,6 +1094,7 @@ static GnmFuncHelp const help_r_qpois[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Poisson distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qpois(0.3,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DPOIS,R.PPOIS" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1085,6 +1118,7 @@ static GnmFuncHelp const help_r_drayleigh[] = {
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the Rayleigh distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.drayleigh(2,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PRAYLEIGH,R.QRAYLEIGH" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1108,6 +1142,7 @@ static GnmFuncHelp const help_r_prayleigh[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the Rayleigh distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.prayleigh(2,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DRAYLEIGH,R.QRAYLEIGH" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1132,6 +1167,7 @@ static GnmFuncHelp const help_r_qrayleigh[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Rayleigh distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qrayleigh(0.3,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DRAYLEIGH,R.PRAYLEIGH" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1157,6 +1193,7 @@ static GnmFuncHelp const help_r_dsnorm[] = {
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the skew-normal distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dsnorm(3,2,0,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PSNORM,R.QSNORM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1184,6 +1221,7 @@ static GnmFuncHelp const help_r_psnorm[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the skew-normal distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.psnorm(3,2,0,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DSNORM,R.QSNORM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1212,6 +1250,7 @@ static GnmFuncHelp const help_r_qsnorm[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the skew-normal distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qsnorm(0.3,2,0,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DSNORM,R.PSNORM" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1238,6 +1277,7 @@ static GnmFuncHelp const help_r_dst[] = {
 	{ GNM_FUNC_HELP_ARG, F_("shape:the shape parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the skew-t distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dst(2,5,2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PST,R.QST" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1263,6 +1303,7 @@ static GnmFuncHelp const help_r_pst[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the skew-t distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pst(2,5,2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DST,R.QST" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1289,6 +1330,7 @@ static GnmFuncHelp const help_r_qst[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the skew-t distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qst(0.3,5,2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DST,R.PST" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1313,6 +1355,7 @@ static GnmFuncHelp const help_r_dt[] = {
 	{ GNM_FUNC_HELP_ARG, F_("n:the number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the Student t distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dt(1.5,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PT,R.QT" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1336,6 +1379,7 @@ static GnmFuncHelp const help_r_pt[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the Student t distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pt(1.5,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DT,R.QT" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1360,6 +1404,7 @@ static GnmFuncHelp const help_r_qt[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Student t distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qt(0.3,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DT,R.PT" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1440,6 +1485,7 @@ static GnmFuncHelp const help_r_dweibull[] = {
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the Weibull distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.dweibull(2.1,1.5,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PWEIBULL,R.QWEIBULL" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1465,6 +1511,7 @@ static GnmFuncHelp const help_r_pweibull[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the Weibull distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.pweibull(2.1,1.5,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DWEIBULL,R.QWEIBULL" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1491,6 +1538,7 @@ static GnmFuncHelp const help_r_qweibull[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Weibull distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qweibull(0.3,1.5,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DWEIBULL,R.PWEIBULL" },
 	{ GNM_FUNC_HELP_END }
 };
