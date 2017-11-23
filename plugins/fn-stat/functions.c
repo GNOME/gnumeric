@@ -4977,17 +4977,15 @@ static GnmFuncHelp const help_permutationa[] = {
 static GnmValue *
 gnumeric_permutationa (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x = value_get_as_float (argv[0]);
-	gnm_float y = value_get_as_float (argv[1]);
-	int ix = (int) x;
-	int iy = (int) y;
+	gnm_float x = gnm_fake_floor (value_get_as_float (argv[0]));
+	gnm_float y = gnm_fake_floor (value_get_as_float (argv[1]));
 
-	if (ix < 0 || iy < 0)
+	if (x < 0 || y < 0)
 		return value_new_error_NUM (ei->pos);
-	else if (ix == 0 && iy == 0)
+	else if (y == 0)
 		return value_new_float (1);
 	else
-		return value_new_float (gnm_pow (ix, iy));
+		return value_new_float (gnm_pow (x, y));
 }
 
 /***************************************************************************/

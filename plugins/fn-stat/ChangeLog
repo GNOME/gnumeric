@@ -2,6 +2,8 @@
 
 	* functions.c (math_functions): Mark COUNT, COUNTA, PERMUT, and
 	PERMUTATIONA as unitless.
+	(gnumeric_permutationa): Be more compatible and about overflow
+	where possible.
 
 2017-11-20  Morten Welinder  <terra@gnome.org>
 
