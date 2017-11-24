@@ -3322,6 +3322,7 @@ static GnmFuncHelp const help_eigen[] = {
 	{ GNM_FUNC_HELP_ARG, F_("matrix:a symmetric matrix")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} is not symmetric, matching off-diagonal cells will be averaged on the assumption that the non-symmetry is caused by unimportant rounding errors.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} does not contain an equal number of columns and rows, EIGEN returns #VALUE!") },
+	// { GNM_FUNC_HELP_EXAMPLES, "=EIGEN({1,2;3,2})" },
 	{ GNM_FUNC_HELP_END}
 };
 

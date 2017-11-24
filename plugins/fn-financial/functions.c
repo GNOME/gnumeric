@@ -387,6 +387,7 @@ static GnmFuncHelp const help_accrint[] = {
 				 " and @{settlement}.") },
 	FREQ_HELP,
 	GNM_DATE_BASIS_HELP
+	{ GNM_FUNC_HELP_EXAMPLES, "=ACCRINT(DATE(2008,3,1),DATE(2008,8,31),DATE(2008,5,1),10%,1000,2,0)" },
         { GNM_FUNC_HELP_SEEALSO, "ACCRINTM"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -454,6 +455,7 @@ static GnmFuncHelp const help_accrintm[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ACCRINTM calculates the accrued interest from @{issue} to @{maturity}.") },
 	{ GNM_FUNC_HELP_NOTE, F_("@{par} defaults to $1000.") },
 	GNM_DATE_BASIS_HELP
+	{ GNM_FUNC_HELP_EXAMPLES, "=ACCRINTM(DATE(2008,4,1),DATE(2008,6,15),10%,1000,3)" },
         { GNM_FUNC_HELP_SEEALSO, "ACCRINT"},
 	{ GNM_FUNC_HELP_END }
 };
