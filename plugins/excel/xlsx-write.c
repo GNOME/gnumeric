@@ -2771,7 +2771,7 @@ xlsx_write_comments (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objec
 		/* Save text as rich text */
 		g_object_get (ptr->data, "text", &name, "markup", &attrs, NULL);
 		if (name && *name)
-			xlsx_write_rich_text (xml, name, attrs, FALSE);
+			xlsx_write_rich_text (xml, name, attrs, TRUE);
 		g_free (name);
 		pango_attr_list_unref (attrs);
 		gsf_xml_out_end_element (xml); /* </text> */
@@ -2824,9 +2824,10 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 
 		g_hash_table_insert (zorder, so, GINT_TO_POINTER (z));
 
-		if (GNM_IS_CELL_COMMENT (so))
+		if (GNM_IS_CELL_COMMENT (so)) {
 			comments = g_slist_prepend (comments, so);
-		else if (GNM_IS_SO_GRAPH (so) ||
+			legacy_drawing_objs = g_slist_prepend (legacy_drawing_objs, so);
+		} else if (GNM_IS_SO_GRAPH (so) ||
 			 GNM_IS_SO_LINE (so) ||
 			 GNM_IS_SO_FILLED (so) ||
 			 GNM_IS_SO_IMAGE (so))

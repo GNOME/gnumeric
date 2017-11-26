@@ -1776,6 +1776,7 @@ xlsx_write_legacy_object (XLSXWriteState *state, GsfXMLOut *xml, SheetObject *so
 	GnmExprTop const *tlink = NULL;
 	GnmExprTop const *trange = NULL;
 	double res_pts[4] = {0.,0.,0.,0.};
+	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
 	GtkAdjustment *adj = NULL;
 	int horiz = -1;
 	int checked = -1;
@@ -1787,38 +1788,18 @@ xlsx_write_legacy_object (XLSXWriteState *state, GsfXMLOut *xml, SheetObject *so
 	GnmParsePos pp0;
 	const char *shapetype = "#_x0000_t201";
 	gboolean firstbutton = FALSE;
+	gboolean movewithcells = FALSE;
+	gboolean sizewithcells = FALSE;
+	gboolean rowandcolumn = FALSE;
+	gboolean hidden = FALSE;
+	int autofill = -1;
+	char *anchor_text = NULL;
+	const char *fillcolor = NULL;
 
 	parse_pos_init_sheet (&pp0, state->sheet);
 
 	sheet_object_position_pts_get (so, res_pts);
 
-	gsf_xml_out_start_element (xml, "v:shape");
-	gsf_xml_out_add_cstr (xml, "type", shapetype);
-	{
-		int z = GPOINTER_TO_INT (g_hash_table_lookup (zorder, so));
-		GString *str = g_string_new (NULL);
-		g_string_append (str, "position:absolute;");
-		g_string_append_printf (str, "margin-left:%.2fpt;", res_pts[0]);
-		g_string_append_printf (str, "margin-top:%.2fpt;", res_pts[1]);
-		g_string_append_printf (str, "width:%.2fpt;", res_pts[2] - res_pts[0]);
-		g_string_append_printf (str, "height:%.2fpt;", res_pts[3] - res_pts[1]);
-		g_string_append_printf (str, "z-index:%d;", z);
-		gsf_xml_out_add_cstr (xml, "style", str->str);
-		g_string_free (str, TRUE);
-	}
-
-	if (has_text_prop)
-		g_object_get (so, "text", &text, NULL);
-	if (text) {
-		gsf_xml_out_start_element (xml, "v:textbox");
-		gsf_xml_out_start_element (xml, "div");
-		gsf_xml_out_add_cstr (xml, NULL, text);
-		gsf_xml_out_end_element (xml);  /* </div> */
-		gsf_xml_out_end_element (xml);  /* </v:textbox> */
-		g_free (text);
-	}
-
-	gsf_xml_out_start_element (xml, "x:ClientData");
 	if (GNM_IS_SOW_SCROLLBAR (so) || GNM_IS_SOW_SLIDER (so)) {
 		otype = "Scroll";
 		tlink = sheet_widget_adjustment_get_link (so);
@@ -1861,12 +1842,73 @@ xlsx_write_legacy_object (XLSXWriteState *state, GsfXMLOut *xml, SheetObject *so
 		adj = sheet_widget_list_base_get_adjustment (so);
 		// selected = ;
 		seltype = "Single";
+	} else if (GNM_IS_CELL_COMMENT (so)) {
+		int LeftColumn, LeftOffset, TopRow, TopOffset;
+		int RightColumn, RightOffset, BottomRow, BottomOffset;
+
+		otype = "Note";
+		shapetype = "#_x0000_t202";
+		movewithcells = TRUE;
+		sizewithcells = TRUE;
+		rowandcolumn = TRUE;
+		has_text_prop = FALSE; // We have it, but need to inhibit it
+		autofill = FALSE;
+		hidden = TRUE;
+		fillcolor = "#ffffc0"; // Not a great place to put this
+
+		LeftColumn = anchor->cell_bound.start.col + 1;
+		LeftOffset = 15;
+		TopRow = MAX (0, anchor->cell_bound.start.row - 1);
+		TopOffset = 10;
+		RightColumn = LeftColumn + 2;
+		RightOffset = 15;
+		BottomRow = TopRow + 4;
+		BottomOffset = 4;
+
+		anchor_text = g_strdup_printf ("%d, %d, %d, %d, %d, %d, %d, %d",
+					       LeftColumn, LeftOffset,
+					       TopRow, TopOffset,
+					       RightColumn, RightOffset,
+					       BottomRow, BottomOffset);
 	} else {
 		g_assert_not_reached ();
 	}
+
+	gsf_xml_out_start_element (xml, "v:shape");
+	gsf_xml_out_add_cstr (xml, "type", shapetype);
+	if (fillcolor)
+		gsf_xml_out_add_cstr (xml, "fillcolor", fillcolor);
+
+	{
+		int z = GPOINTER_TO_INT (g_hash_table_lookup (zorder, so));
+		GString *str = g_string_new (NULL);
+		g_string_append (str, "position:absolute;");
+		g_string_append_printf (str, "margin-left:%.2fpt;", res_pts[0]);
+		g_string_append_printf (str, "margin-top:%.2fpt;", res_pts[1]);
+		g_string_append_printf (str, "width:%.2fpt;", res_pts[2] - res_pts[0]);
+		g_string_append_printf (str, "height:%.2fpt;", res_pts[3] - res_pts[1]);
+		g_string_append_printf (str, "z-index:%d;", z);
+		if (hidden)
+			g_string_append (str, "visibility:hidden;");
+		gsf_xml_out_add_cstr (xml, "style", str->str);
+		g_string_free (str, TRUE);
+	}
+
+	if (has_text_prop)
+		g_object_get (so, "text", &text, NULL);
+	if (text) {
+		gsf_xml_out_start_element (xml, "v:textbox");
+		gsf_xml_out_start_element (xml, "div");
+		gsf_xml_out_add_cstr (xml, NULL, text);
+		gsf_xml_out_end_element (xml);  /* </div> */
+		gsf_xml_out_end_element (xml);  /* </v:textbox> */
+		g_free (text);
+	}
+
+	gsf_xml_out_start_element (xml, "x:ClientData");
 	gsf_xml_out_add_cstr_unchecked (xml, "ObjectType", otype);
-	gsf_xml_out_start_element (xml, "x:Anchor");
-	gsf_xml_out_end_element (xml);  /* </x:Anchor> */
+	gsf_xml_out_simple_element (xml, "x:Anchor", anchor_text);
+	g_free (anchor_text);
 	if (checked != -1)
 		gsf_xml_out_simple_int_element (xml, "x:Checked", checked);
 	if (tlink) {
@@ -1904,6 +1946,19 @@ xlsx_write_legacy_object (XLSXWriteState *state, GsfXMLOut *xml, SheetObject *so
 		gsf_xml_out_simple_element (xml, "x:SelType", seltype);
 	if (horiz >= 0)
 		gsf_xml_out_simple_element (xml, "x:Horiz", horiz ? "t" : "f");
+
+	if (movewithcells)
+		gsf_xml_out_simple_element (xml, "x:MoveWithCells", NULL);
+	if (sizewithcells)
+		gsf_xml_out_simple_element (xml, "x:SizeWithCells", NULL);
+
+	if (autofill >= 0)
+		gsf_xml_out_simple_element (xml, "x:AutoFill", autofill ? "True" : "False");
+
+	if (rowandcolumn) {
+		gsf_xml_out_simple_int_element (xml, "x:Row", anchor->cell_bound.start.row);
+		gsf_xml_out_simple_int_element (xml, "x:Column", anchor->cell_bound.start.col);
+	}
 
 	gsf_xml_out_end_element (xml);  /* </x:ClientData> */
 

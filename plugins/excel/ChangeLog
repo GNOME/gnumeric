@@ -1,3 +1,13 @@
+2017-11-26  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_sheet): Add comments to legacy drawing
+	requirements.  (So much for "legacy").
+
+	* xlsx-write-drawing.c (xlsx_write_legacy_object): Extend to
+	handle cell comment objects.
+
+	* xlsx-write.c (xlsx_write_comments): Preserve spaces in comments.
+
 2017-11-20  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (xl_map_char_to_type): Improve debug output.

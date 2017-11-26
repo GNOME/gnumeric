@@ -5,6 +5,7 @@ Morten:
 	* Improve format guessing for newly entered formulas.
 	* Improve PERMUTATIONA for unusual arguments.  [#790742]
 	* Extend range of NT_PI.
+	* Improve xlsx export of cell comments.  [#790756]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.36
