@@ -123,7 +123,7 @@ sub dump_indented {
 }
 
 sub find_program {
-    my ($p) = @_;
+    my ($p, $nofail) = @_;
 
     if ($p =~ m{/}) {
 	return $p if -x $p;
@@ -135,6 +135,8 @@ sub find_program {
 	    return $tentative if -x $tentative;
 	}
     }
+
+    return undef if $nofail;
 
     &report_skip ("$p is missing");
 }
@@ -867,6 +869,15 @@ sub test_tool {
 	die "Fail\n";
     }
 }
+
+# -----------------------------------------------------------------------------
+
+sub has_linear_solver {
+    return (defined (&find_program ('lp_solve', 1)) ||
+	    defined (&find_program ('glpsol', 1)));
+}
+
+# -----------------------------------------------------------------------------
 
 sub quotearg {
     return join (' ', map { &quotearg1 ($_) } @_);

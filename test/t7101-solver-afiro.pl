@@ -5,6 +5,9 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
+&GnumericTest::report_skip ("No linear solver found")
+    unless &GnumericTest::has_linear_solver ();
+
 my $file = "afiro.mps";
 my $answer = -464.753216;
 # lp_solve:  -464.753216;
