@@ -93,26 +93,33 @@ foreach my $src (@sources) {
     my @check_members = (['xl/workbook.xml',0] , ['xl/styles.xml', 0]);
     push @check_members, ['xl/sharedStrings.xml',0] if $members{'xl/sharedStrings.xml'};
     foreach my $member (sort keys %members) {
-	push @check_members, [$member,0] if $member =~ m{^xl/worksheets/sheet\d+\.xml$};
-	if ($member =~ m{^xl/comments\d+\.xml$}) {
+	if ($member =~ m{^xl/worksheets/sheet\d+\.xml$}) {
+	    push @check_members, [$member,0] 
+	} elsif ($member =~ m{^xl/comments\d+\.xml$}) {
 	    if ($sml_schema_patched_for_comments) {
 		push @check_members, [$member,0];
 	    } else {
 		if (!$sml_schema_patched_for_comments_warned) {
 		    $sml_schema_patched_for_comments_warned = 1;
-		    &message ("Comment checking requires a patched schema, see bug 790756.")
+		    &message ("Comment checking requires a patched schema, see bug 790756.");
 		}
 		push @check_members, [$member,-1];
 	    }
+	} elsif ($member =~ m{^xl/charts/chart\d+\.xml$}) {
+	    push @check_members, [$member,1];
+	} elsif ($member =~ m{^xl/drawings/drawing\d+\.xml$}) {
+	    push @check_members, [$member,2];
+	} elsif ($member =~ m{^[-a-zA-Z0-0_/.]+\.xml$}) {
+	    push @check_members, [$member,-1];
+	} elsif ($member =~ m{^[-a-zA-Z0-0_/.]+\.rels$}) {
+	    push @check_members, [$member,-1];
 	}
-	push @check_members, [$member,1] if $member =~ m{^xl/charts/chart\d+\.xml$};
-	push @check_members, [$member,2] if $member =~ m{^xl/drawings/drawing\d+\.xml$};
     }
 
     for (@check_members) {
 	my ($member,$typ) = @$_;
 	my $this_checker = $checkers{$typ};
-	my $cmd = "$unzip -p $tmp $member | $this_checker";
+	my $cmd = "$unzip -p $tmp '$member' | $this_checker";
 	print STDERR "# $cmd\n" if $GnumericTest::verbose;
 	my $out = `$cmd - 2>&1`;
 	if ($out ne '' && $out !~ /validates$/) {
