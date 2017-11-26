@@ -62,7 +62,7 @@ my %checkers = ( 0 => $checker,
 my @sources = &GnumericTest::corpus();
 # xmllint hangs on these files.  (Well, amath finishes but takes too
 # long.)
-@sources = grep { !m{(^|/)(amath|crlibm|gamma)\.gnumeric$} } @sources;
+@sources = grep { !m{(^|/)(amath|crlibm|gamma|numtheory)\.gnumeric$} } @sources;
 
 my $nskipped = 0;
 my $ngood = 0;
