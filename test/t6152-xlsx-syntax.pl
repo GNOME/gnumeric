@@ -26,6 +26,12 @@ if (!-r $drawing_schema) {
     $drawing_schema = undef;
 }
 
+my $sml_schema_patched_for_comments = undef;
+my $sml_schema_patched_for_comments_warned = 0;
+if ($schema) {
+    system ("grep", "-q", "-w", "CT_Text", $schema);
+    $sml_schema_patched_for_comments = ($? == 0);
+}
 
 my $xmllint = &GnumericTest::find_program ("xmllint");
 my $unzip = &GnumericTest::find_program ("unzip");
@@ -42,9 +48,12 @@ my $nbad = 0;
 my $checker = "$xmllint --noout" . ($schema ? " --schema $schema" : "");
 my $chart_checker = "$xmllint --noout" . ($chart_schema ? " --schema $chart_schema" : "");
 my $drawing_checker = "$xmllint --noout" . ($drawing_schema ? " --schema $drawing_schema" : "");
+my $basic_checker = "$xmllint --noout";
+
 my %checkers = ( 0 => $checker,
 		 1 => $chart_checker,
-		 2 => $drawing_checker);
+		 2 => $drawing_checker,
+		 -1 => $basic_checker);
 
 foreach my $src (@sources) {
     if (!-r $src) {
@@ -85,7 +94,17 @@ foreach my $src (@sources) {
     push @check_members, ['xl/sharedStrings.xml',0] if $members{'xl/sharedStrings.xml'};
     foreach my $member (sort keys %members) {
 	push @check_members, [$member,0] if $member =~ m{^xl/worksheets/sheet\d+\.xml$};
-	push @check_members, [$member,0] if $member =~ m{^xl/comments\d+\.xml$};
+	if ($member =~ m{^xl/comments\d+\.xml$}) {
+	    if ($sml_schema_patched_for_comments) {
+		push @check_members, [$member,0];
+	    } else {
+		if (!$sml_schema_patched_for_comments_warned) {
+		    $sml_schema_patched_for_comments_warned = 1;
+		    &message ("Comment checking requires a patched schema, see bug 790756.")
+		}
+		push @check_members, [$member,-1];
+	    }
+	}
 	push @check_members, [$member,1] if $member =~ m{^xl/charts/chart\d+\.xml$};
 	push @check_members, [$member,2] if $member =~ m{^xl/drawings/drawing\d+\.xml$};
     }
