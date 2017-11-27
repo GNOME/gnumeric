@@ -8,6 +8,7 @@ Morten:
 	* Improve xlsx export of cell comments.  [#790756]
 	* Plug leaks.
 	* Fix potential crash on exit.
+	* Speed-up number theory functions.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.36

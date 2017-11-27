@@ -64,56 +64,55 @@ intpow (int p, int v)
 #define ITHPRIME_LIMIT 10000000
 static guint *prime_table = NULL;
 
-/* Calculate the i-th prime.  Returns TRUE on error.  */
+// Bit-field macros for sieve.  Note that only odd indices are used.
+#define SIEVE_ITEM(u_) s[(u_) >> 4]
+#define SIEVE_BIT(u_) (1u << (((u_) >> 1) & 7))
+
+/* Calculate the i-th prime.  Returns TRUE on too-big-to-handle error.  */
 static gboolean
 ithprime (int i, guint64 *res)
 {
-	static guint computed = 0;
-	static guint allocated = 0;
-
 	if (i < 1 || (guint)i > ITHPRIME_LIMIT)
 		return TRUE;
 
-	if ((guint)i > computed) {
-		static guint candidate, jlim;
+	if (!prime_table) {
+		// Compute an upper bound of the largest prime we need.
+		// See https://en.wikipedia.org/wiki/Prime_number_theorem
+		guint ub = (guint)
+			(ITHPRIME_LIMIT *
+			 (log (ITHPRIME_LIMIT) + log (log (ITHPRIME_LIMIT))));
+		guint8 *s = g_new0 (guint8, (ub >> 4) + 1);
+		guint N = 0, c;
+		guint L = (int)sqrt (ub);
 
-		if ((guint)i > allocated) {
-			allocated = MAX ((guint)i, 2 * allocated + 100);
-			allocated = MIN (allocated, ITHPRIME_LIMIT);
-			prime_table = g_renew (guint, prime_table, allocated);
-			if (computed == 0) {
-				prime_table[computed++] = 2;
-				candidate = prime_table[computed++] = 3;
-				jlim = 1;
-				g_assert (candidate < prime_table[jlim] * prime_table[jlim]);
-			}
+		prime_table = g_new (guint, ITHPRIME_LIMIT);
+		prime_table[N++] = 2;
+
+		for (c = 3; N < ITHPRIME_LIMIT; c += 2) {
+			guint d;
+
+			if (SIEVE_ITEM (c) & SIEVE_BIT (c))
+				continue;
+
+			prime_table[N++] = c;
+			if (c > L)
+				continue; // Prevents square overflow
+
+			// Tag all odd multiples starting with c^2
+			for (d = c * c; d <= ub; d += 2 * c)
+				SIEVE_ITEM (d) |= SIEVE_BIT (d);
 		}
 
-		while ((guint)i > computed) {
-			gboolean prime = TRUE;
-			guint j;
-
-			candidate += 2;  /* Skip even candidates.  */
-
-			// We at most need to consider one extra candidate
-			if (candidate >= prime_table[jlim] * prime_table[jlim])
-				jlim++;
-
-			for (j = 1; j < jlim; j++) {
-				if (candidate % prime_table[j] == 0) {
-					prime = FALSE;
-					break;
-				}
-			}
-
-			if (prime)
-				prime_table[computed++] = candidate;
-		}
+		g_free (s);
 	}
 
 	*res = prime_table[i - 1];
 	return FALSE;
 }
+
+#undef SIEVE_ITEM
+#undef SIEVE_BIT
+
 
 /*
  * A function useful for computing multiplicative arithmetic functions.
