@@ -61,50 +61,88 @@ intpow (int p, int v)
 	return (v % 2) ? temp * p : temp;
 }
 
-#define ITHPRIME_LIMIT 10000000
+#define ITHPRIME_LIMIT 100000000
 static guint *prime_table = NULL;
+static guint prime_table_size = 0;
 
 // Bit-field macros for sieve.  Note that only odd indices are used.
-#define SIEVE_ITEM(u_) s[(u_) >> 4]
-#define SIEVE_BIT(u_) (1u << (((u_) >> 1) & 7))
+#define SIEVE_ITEM(u_) sieve[((u_) - base) >> 4]
+#define SIEVE_BIT(u_) (1u << ((((u_) - base) >> 1) & 7))
 
 /* Calculate the i-th prime.  Returns TRUE on too-big-to-handle error.  */
 static gboolean
 ithprime (int i, guint64 *res)
 {
-	if (i < 1 || (guint)i > ITHPRIME_LIMIT)
+	gboolean debug = FALSE;
+	static const guint chunk = 1000000;
+
+	if (i < 1 || i > ITHPRIME_LIMIT)
 		return TRUE;
 
-	if (!prime_table) {
+	if ((guint)i > prime_table_size) {
+		guint base, ub, L, c;
+		guint newsize = MIN (ITHPRIME_LIMIT,
+				     (i + chunk - 1) / chunk * chunk);
+		guint N = prime_table_size;
+		guint ui;
+		guint8 *sieve;
+
+		base = N ? prime_table[N - 1] + 1 : 0;
 		// Compute an upper bound of the largest prime we need.
 		// See https://en.wikipedia.org/wiki/Prime_number_theorem
-		guint ub = (guint)
-			(ITHPRIME_LIMIT *
-			 (log (ITHPRIME_LIMIT) + log (log (ITHPRIME_LIMIT))));
-		guint8 *s = g_new0 (guint8, (ub >> 4) + 1);
-		guint N = 0, c;
-		guint L = (int)sqrt (ub);
+		ub = (guint)
+			(newsize * (log (newsize) + log (log (newsize))));
+		// Largest candidate that needs sieving.  Note that this
+		// number can be squared without overflow.
+		L = (guint)sqrt (ub);
 
-		prime_table = g_new (guint, ITHPRIME_LIMIT);
-		prime_table[N++] = 2;
+		// Extend the table; fill with 2 if empty
+		prime_table = g_renew (guint, prime_table, newsize);
+		if (!N)
+			prime_table[N++] = 2;
 
-		for (c = 3; N < ITHPRIME_LIMIT; c += 2) {
-			guint d;
+		// Allocate the sieve
+		sieve = g_new0 (guint8, ((ub - base) >> 4) + 1);
 
-			if (SIEVE_ITEM (c) & SIEVE_BIT (c))
-				continue;
-
-			prime_table[N++] = c;
+		// Tag odd multiples of primes already in prime_table
+		for (ui = 1; ui < N; ui++) {
+			guint c = prime_table[ui], d;
 			if (c > L)
-				continue; // Prevents square overflow
+				break;
 
-			// Tag all odd multiples starting with c^2
-			for (d = c * c; d <= ub; d += 2 * c)
+			d = c * c;
+			if (d < base) {
+				// Skip to first odd multiple larger than base
+				d = base - base % c + c;
+				if (d % 2 == 0)
+					d += c;
+			}
+
+			for (; d <= ub; d += 2 * c)
 				SIEVE_ITEM (d) |= SIEVE_BIT (d);
 		}
 
-		g_free (s);
+		// Now look at new candidates until we have enough primes
+		for (c = (base ? base + 1 : 3); N < newsize; c += 2) {
+			if (SIEVE_ITEM (c) & SIEVE_BIT (c))
+				continue;
+			prime_table[N++] = c;
+			if (c <= L) {
+				// Tag odd multiples of c starting at c^2
+				guint d = c * c;
+				for (; d <= ub; d += 2 * c)
+					SIEVE_ITEM (d) |= SIEVE_BIT (d);
+			}
+		}
+
+		if (debug)
+			g_printerr ("New size of prime table is %d\n", N);
+		prime_table_size = N;
+		g_free (sieve);
 	}
+
+	if (debug)
+		g_printerr ("%dth prime is %d\n", i, prime_table[i - 1]);
 
 	*res = prime_table[i - 1];
 	return FALSE;
