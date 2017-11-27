@@ -130,6 +130,7 @@ workbook_dispose (GObject *wb_object)
 {
 	Workbook *wb = WORKBOOK (wb_object);
 	GSList *sheets, *ptr;
+	GSList *controls = NULL;
 
 	wb->during_destruction = TRUE;
 
@@ -139,8 +140,11 @@ workbook_dispose (GObject *wb_object)
 		workbook_set_saveinfo (wb, GO_FILE_FL_WRITE_ONLY, NULL);
 	workbook_set_last_export_uri (wb, NULL);
 
-	/* Remove all the sheet controls to avoid displaying while we exit */
+	// Remove all the sheet controls to avoid displaying while we exit
+	// However, hold on to a ref for each -- dialogs like to refer
+	// to ->wbcg during destruction
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
+		controls = g_slist_prepend (controls, g_object_ref (control));
 		wb_control_sheet_remove_all (control););
 
 	/* Get rid of all the views */
@@ -177,6 +181,9 @@ workbook_dispose (GObject *wb_object)
 		workbook_sheet_delete (sheet);
 	}
 	g_slist_free (sheets);
+
+	// Now get rid of the control refs
+	g_slist_free_full (controls, g_object_unref);
 
 	workbook_parent_class->dispose (wb_object);
 }
