@@ -1,3 +1,8 @@
+2017-11-27  Morten Welinder  <terra@gnome.org>
+
+	* numtheory.c (ithprime): For each new candidate we at most need
+	to consider one extra prime divisor.
+
 2017-11-23  Morten Welinder  <terra@gnome.org>
 
 	* numtheory.c (compute_nt_pi): When searching for an upper bound,

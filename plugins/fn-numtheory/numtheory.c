@@ -75,8 +75,7 @@ ithprime (int i, guint64 *res)
 		return TRUE;
 
 	if ((guint)i > computed) {
-		static guint candidate = 3;
-		static guint jlim = 1;
+		static guint candidate, jlim;
 
 		if ((guint)i > allocated) {
 			allocated = MAX ((guint)i, 2 * allocated + 100);
@@ -84,7 +83,9 @@ ithprime (int i, guint64 *res)
 			prime_table = g_renew (guint, prime_table, allocated);
 			if (computed == 0) {
 				prime_table[computed++] = 2;
-				prime_table[computed++] = 3;
+				candidate = prime_table[computed++] = 3;
+				jlim = 1;
+				g_assert (candidate < prime_table[jlim] * prime_table[jlim]);
 			}
 		}
 
@@ -94,7 +95,8 @@ ithprime (int i, guint64 *res)
 
 			candidate += 2;  /* Skip even candidates.  */
 
-			while (candidate >= prime_table[jlim] * prime_table[jlim])
+			// We at most need to consider one extra candidate
+			if (candidate >= prime_table[jlim] * prime_table[jlim])
 				jlim++;
 
 			for (j = 1; j < jlim; j++) {
