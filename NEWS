@@ -6,6 +6,7 @@ Morten:
 	* Improve PERMUTATIONA for unusual arguments.  [#790742]
 	* Extend range of NT_PI.
 	* Improve xlsx export of cell comments.  [#790756]
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.36

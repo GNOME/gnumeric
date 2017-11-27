@@ -171,11 +171,11 @@ cb_dialog_function_select_search_all (GtkTreeModel *model,
 
 		g_free (text_n);
 		g_free (text_cf);
-
-
-		g_free (name);
-		g_free (desc);
 	}
+
+	g_free (name);
+	g_free (desc);
+
 	if (visible != was_visible)
 		gtk_list_store_set (GTK_LIST_STORE (model), iter,
 				    FUNCTION_VISIBLE, visible,
@@ -474,6 +474,7 @@ cb_dialog_function_select_load_cb (GtkTreeModel *model,
 	dialog_function_select_load_cb_t *specs = data;
 	gchar *name;
 	gpointer ptr;
+	gboolean res;
 
 	gtk_tree_model_get (model, iter,
 			    CAT_NAME, &name,
@@ -482,12 +483,16 @@ cb_dialog_function_select_load_cb (GtkTreeModel *model,
 
 	if (ptr == NULL || ptr == GINT_TO_POINTER(-1)
 	    || ptr == GINT_TO_POINTER(-2))
-		return FALSE;
-	if (go_utf8_collate_casefold (specs->name, name) < 0) {
+		res = FALSE;
+	else if (go_utf8_collate_casefold (specs->name, name) < 0) {
 		specs->iter = gtk_tree_iter_copy (iter);
-		return TRUE;
-	}
-	return FALSE;
+		res = TRUE;
+	} else
+		res = FALSE;
+
+	g_free (name);
+
+	return res;
 }
 
 static void

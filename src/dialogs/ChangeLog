@@ -1,3 +1,9 @@
+2017-11-26  Morten Welinder  <terra@gnome.org>
+
+	* dialog-function-select.c (cb_dialog_function_select_search_all):
+	Plug leak.
+	(cb_dialog_function_select_load_cb): Plug leak.
+
 2017-11-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.36
