@@ -36,6 +36,7 @@
 
 static gboolean sstest_show_version = FALSE;
 static gboolean sstest_fast = FALSE;
+static gchar *samples_file = NULL;
 
 static GOptionEntry const sstest_options [] = {
 	{
@@ -43,6 +44,13 @@ static GOptionEntry const sstest_options [] = {
 		0, G_OPTION_ARG_NONE, &sstest_fast,
 		N_("Run fewer iterations"),
 		NULL
+	},
+
+	{
+		"samples-file", 0,
+		0, G_OPTION_ARG_FILENAME, &samples_file,
+		N_("Dumps list of samples in function help"),
+		N_("FILE")
 	},
 
 	{
@@ -2656,6 +2664,9 @@ main (int argc, char const **argv)
 		/* FIXME: What do we want to do here? */
 		go_error_info_free (plugin_errs);
 	}
+
+	if (samples_file)
+		return gnm_dump_func_defs (samples_file, 5);
 
 	testname = argv[1];
 	if (!testname) testname = "all";

@@ -9,7 +9,7 @@ $GnumericTest::default_subtests = '*,-biff7';
 my $csvfile = "samples.csv";
 &GnumericTest::junkfile ($csvfile);
 {
-    my $cmd = "$gnumeric --samples-file=$csvfile";
+    my $cmd = "$sstest --samples-file=$csvfile";
     print STDERR "# $cmd\n" if $GnumericTest::verbose;
     system ($cmd);
     if (!-r $csvfile) {
