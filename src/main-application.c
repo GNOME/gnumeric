@@ -103,16 +103,7 @@ static void
 gnumeric_arg_parse (int argc, char **argv)
 {
 	GOptionContext *ocontext;
-	int i;
-	gboolean funcdump = FALSE;
 	GError *error = NULL;
-
-	/* no need to init gtk when dumping function info */
-	for (i = 0 ; argv[i] ; i++)
-		if (0 == strncmp ("--dump-func", argv[i], 11)) {
-			funcdump = TRUE;
-			break;
-		}
 
 	ocontext = g_option_context_new (_("[FILE ...]"));
 	g_option_context_add_main_entries (ocontext, gnumeric_options, GETTEXT_PACKAGE);
@@ -124,8 +115,7 @@ gnumeric_arg_parse (int argc, char **argv)
 	g_option_context_set_delocalize   (ocontext, FALSE);
 #endif
 
-	if (!funcdump)
-		g_option_context_add_group (ocontext, gtk_get_option_group (TRUE));
+	g_option_context_add_group (ocontext, gtk_get_option_group (TRUE));
 	g_option_context_parse (ocontext, &argc, &argv, &error);
 
 	if (ocontext)
@@ -138,9 +128,7 @@ gnumeric_arg_parse (int argc, char **argv)
 		exit (1);
 	}
 
-	if (!funcdump) {
-		gtk_init (&argc, &argv);
-	}
+	gtk_init (&argc, &argv);
 }
 
 /*

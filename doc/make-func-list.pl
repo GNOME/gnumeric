@@ -2,7 +2,7 @@
 # Task: convert gnumeric's function documentation into a valid DocBook XML
 # fragment.
 
-# Input format: as produced by gnumeric --dump-func-defs=file, i.e.
+# Input format: as produced by "sstest --dump-func-defs=file", i.e.
 # a series of chunks documenting functions. The chunks consist of a number
 # of lines. Lines are either
 # - @KEYWORD=value
