@@ -49,7 +49,6 @@
 static gboolean immediate_exit_flag = FALSE;
 static gboolean gnumeric_no_splash = FALSE;
 static gboolean gnumeric_no_warnings = FALSE;
-static gchar  *func_state_file = NULL;
 static gchar  *geometry = NULL;
 static gchar **startup_files;
 
@@ -69,12 +68,6 @@ static const GOptionEntry gnumeric_options [] = {
 
 	/*********************************
 	 * Hidden Actions */
-	{
-		"dump-func-state", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_FILENAME, &func_state_file,
-		N_("Dumps the function definitions"),
-		N_("FILE")
-	},
 	{
 		"quit", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &immediate_exit_flag,
@@ -204,7 +197,6 @@ int
 main (int argc, char const **argv)
 {
 	gboolean opened_workbook = FALSE;
-	gboolean with_gui;
 	GOIOContext *ioc;
 	WorkbookView *wbv;
 	GSList *wbcgs_to_kill = NULL;
@@ -249,34 +241,19 @@ main (int argc, char const **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	bind_textdomain_codeset (GETTEXT_PACKAGE "-functions", "UTF-8");
 
-	with_gui = !func_state_file;
-
-	if (with_gui) {
-		gnm_session_init (argv[0]);
-	}
+	gnm_session_init (argv[0]);
 
 	gnm_init ();
 
-	/* These are useful for the build process only.  */
-	if (func_state_file)
-		return gnm_dump_func_defs (func_state_file, 0);
-
-	if (with_gui) {
-		go_component_set_default_command_context (cc = gnm_cmd_context_stderr_new ());
-		g_object_unref (cc);
-		cc = g_object_new (GNM_TYPE_IO_CONTEXT_GTK,
-				   "show-splash", !gnumeric_no_splash,
-				   "show-warnings", !gnumeric_no_warnings,
-				   NULL);
-		ioc = GO_IO_CONTEXT (g_object_ref (cc));
-		handle_paint_events ();
-		pathetic_qt_workaround ();
-	} else {
-		/* TODO: Make this inconsistency go away */
-		cc = gnm_cmd_context_stderr_new ();
-		ioc = go_io_context_new (cc);
-		go_component_set_default_command_context (cc);
-	}
+	go_component_set_default_command_context (cc = gnm_cmd_context_stderr_new ());
+	g_object_unref (cc);
+	cc = g_object_new (GNM_TYPE_IO_CONTEXT_GTK,
+			   "show-splash", !gnumeric_no_splash,
+			   "show-warnings", !gnumeric_no_warnings,
+			   NULL);
+	ioc = GO_IO_CONTEXT (g_object_ref (cc));
+	handle_paint_events ();
+	pathetic_qt_workaround ();
 
 	/* Keep in sync with .desktop file */
 	g_set_application_name (_("Gnumeric Spreadsheet"));
@@ -388,7 +365,7 @@ main (int argc, char const **argv)
 	 * This helps finding leaks.  We might want it in developent
 	 * only.
 	 */
-	if (with_gui && gnm_debug_flag ("close-displays")) {
+	if (gnm_debug_flag ("close-displays")) {
 		GSList *displays;
 
 		gdk_flush();
