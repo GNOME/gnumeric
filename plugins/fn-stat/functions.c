@@ -2190,6 +2190,7 @@ static GnmFuncHelp const help_pearson[] = {
 	{ GNM_FUNC_HELP_ARG, F_("array2:second component values")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=PEARSON({1,2,3},{3,4,4})" },
 	{ GNM_FUNC_HELP_SEEALSO, "INTERCEPT,LINEST,RSQ,SLOPE,STEYX"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -2209,6 +2210,7 @@ static GnmFuncHelp const help_rsq[] = {
 	{ GNM_FUNC_HELP_ARG, F_("array2:second component values")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=RSQ({1,2,3},{3,4,4})" },
 	{ GNM_FUNC_HELP_SEEALSO, ("CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND")},
 	{ GNM_FUNC_HELP_END }
 };
@@ -4294,6 +4296,7 @@ static GnmFuncHelp const help_growth[] = {
 					"growth by using this curve.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("GROWTH returns an array having one column and a row for each "
 					"data point in @{new_xs}.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=GROWTH({1,2,3},{3,4,4},{6})" },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{known_ys} and @{known_xs} have unequal number of data points, "
 				 "this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_SEEALSO, "LOGEST,GROWTH,TREND"},
