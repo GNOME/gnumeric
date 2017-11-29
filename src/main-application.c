@@ -49,7 +49,6 @@
 static gboolean immediate_exit_flag = FALSE;
 static gboolean gnumeric_no_splash = FALSE;
 static gboolean gnumeric_no_warnings = FALSE;
-static gchar  *func_def_file = NULL;
 static gchar  *func_state_file = NULL;
 static gchar  *geometry = NULL;
 static gchar **startup_files;
@@ -70,12 +69,6 @@ static const GOptionEntry gnumeric_options [] = {
 
 	/*********************************
 	 * Hidden Actions */
-	{
-		"dump-func-defs", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_FILENAME, &func_def_file,
-		N_("Dumps the function definitions"),
-		N_("FILE")
-	},
 	{
 		"dump-func-state", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_FILENAME, &func_state_file,
@@ -256,7 +249,7 @@ main (int argc, char const **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	bind_textdomain_codeset (GETTEXT_PACKAGE "-functions", "UTF-8");
 
-	with_gui = !func_def_file && !func_state_file;
+	with_gui = !func_state_file;
 
 	if (with_gui) {
 		gnm_session_init (argv[0]);
@@ -267,8 +260,6 @@ main (int argc, char const **argv)
 	/* These are useful for the build process only.  */
 	if (func_state_file)
 		return gnm_dump_func_defs (func_state_file, 0);
-	if (func_def_file)
-		return gnm_dump_func_defs (func_def_file, 1);
 
 	if (with_gui) {
 		go_component_set_default_command_context (cc = gnm_cmd_context_stderr_new ());

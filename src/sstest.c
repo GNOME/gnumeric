@@ -36,6 +36,7 @@
 
 static gboolean sstest_show_version = FALSE;
 static gboolean sstest_fast = FALSE;
+static gchar *func_def_file = NULL;
 static gchar *ext_refs_file = NULL;
 static gchar *samples_file = NULL;
 
@@ -45,6 +46,13 @@ static GOptionEntry const sstest_options [] = {
 		0, G_OPTION_ARG_NONE, &sstest_fast,
 		N_("Run fewer iterations"),
 		NULL
+	},
+
+	{
+		"dump-func-defs", 0,
+		0, G_OPTION_ARG_FILENAME, &func_def_file,
+		N_("Dumps the function definitions"),
+		N_("FILE")
 	},
 
 	{
@@ -2673,6 +2681,8 @@ main (int argc, char const **argv)
 		go_error_info_free (plugin_errs);
 	}
 
+	if (func_def_file)
+		return gnm_dump_func_defs (func_def_file, 1);
 	if (ext_refs_file)
 		return gnm_dump_func_defs (ext_refs_file, 4);
 	if (samples_file)
