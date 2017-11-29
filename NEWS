@@ -9,6 +9,7 @@ Morten:
 	* Plug leaks.
 	* Fix potential crash on exit.
 	* Speed-up number theory functions.
+	* Fix combo object icon.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.36
