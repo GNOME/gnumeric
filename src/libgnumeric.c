@@ -351,6 +351,8 @@ gnm_dump_func_defs (char const* filename, int dump_type)
 	if ((retval = gnm_cmd_context_stderr_get_status (GNM_CMD_CONTEXT_STDERR (cc))) == 0)
 		function_dump_defs (filename, dump_type);
 
+	g_object_unref (cc);
+
 	return retval;
 }
 
