@@ -36,6 +36,7 @@
 
 static gboolean sstest_show_version = FALSE;
 static gboolean sstest_fast = FALSE;
+static gchar *ext_refs_file = NULL;
 static gchar *samples_file = NULL;
 
 static GOptionEntry const sstest_options [] = {
@@ -44,6 +45,13 @@ static GOptionEntry const sstest_options [] = {
 		0, G_OPTION_ARG_NONE, &sstest_fast,
 		N_("Run fewer iterations"),
 		NULL
+	},
+
+	{
+		"ext-refs-file", 0,
+		0, G_OPTION_ARG_FILENAME, &ext_refs_file,
+		N_("Dumps web page for function help"),
+		N_("FILE")
 	},
 
 	{
@@ -2665,6 +2673,8 @@ main (int argc, char const **argv)
 		go_error_info_free (plugin_errs);
 	}
 
+	if (ext_refs_file)
+		return gnm_dump_func_defs (ext_refs_file, 4);
 	if (samples_file)
 		return gnm_dump_func_defs (samples_file, 5);
 

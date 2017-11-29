@@ -52,7 +52,6 @@ static gboolean gnumeric_no_splash = FALSE;
 static gboolean gnumeric_no_warnings = FALSE;
 static gchar  *func_def_file = NULL;
 static gchar  *func_state_file = NULL;
-static gchar  *ext_refs_file = NULL;
 static gchar  *geometry = NULL;
 static gchar **startup_files;
 
@@ -82,12 +81,6 @@ static const GOptionEntry gnumeric_options [] = {
 		"dump-func-state", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_FILENAME, &func_state_file,
 		N_("Dumps the function definitions"),
-		N_("FILE")
-	},
-	{
-		"ext-refs-file", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_FILENAME, &ext_refs_file,
-		N_("Dumps web page for function help"),
 		N_("FILE")
 	},
 	{
@@ -285,8 +278,6 @@ main (int argc, char const **argv)
 		return gnm_dump_func_defs (func_def_file, 1);
 	if (split_funcdocs)
 		return gnm_dump_func_defs (NULL, 2);
-	if (ext_refs_file)
-		return gnm_dump_func_defs (ext_refs_file, 4);
 
 	if (with_gui) {
 		go_component_set_default_command_context (cc = gnm_cmd_context_stderr_new ());
