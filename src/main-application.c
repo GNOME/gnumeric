@@ -46,7 +46,6 @@
 #include <string.h>
 #include <locale.h>
 
-static gboolean split_funcdocs = FALSE;
 static gboolean immediate_exit_flag = FALSE;
 static gboolean gnumeric_no_splash = FALSE;
 static gboolean gnumeric_no_warnings = FALSE;
@@ -82,12 +81,6 @@ static const GOptionEntry gnumeric_options [] = {
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_FILENAME, &func_state_file,
 		N_("Dumps the function definitions"),
 		N_("FILE")
-	},
-	{
-		"split-func", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &split_funcdocs,
-		N_("Generate new help and po files"),
-		NULL
 	},
 	{
 		"quit", 0,
@@ -263,7 +256,7 @@ main (int argc, char const **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	bind_textdomain_codeset (GETTEXT_PACKAGE "-functions", "UTF-8");
 
-	with_gui = !func_def_file && !func_state_file && !split_funcdocs;
+	with_gui = !func_def_file && !func_state_file;
 
 	if (with_gui) {
 		gnm_session_init (argv[0]);
@@ -276,8 +269,6 @@ main (int argc, char const **argv)
 		return gnm_dump_func_defs (func_state_file, 0);
 	if (func_def_file)
 		return gnm_dump_func_defs (func_def_file, 1);
-	if (split_funcdocs)
-		return gnm_dump_func_defs (NULL, 2);
 
 	if (with_gui) {
 		go_component_set_default_command_context (cc = gnm_cmd_context_stderr_new ());

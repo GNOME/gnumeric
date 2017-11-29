@@ -288,7 +288,7 @@ dump_samples (GPtrArray *defs, FILE *out)
  * Right now
  * 0 : www.gnumeric.org's function.shtml page
  * 1 :
- * 2 : generate_po
+ * 2 : (obsolete)
  * 3 : dump function usage count
  * 4 : external refs
  * 5 : all sample expressions
@@ -302,10 +302,6 @@ function_dump_defs (char const *filename, int dump_type)
 	GPtrArray *ordered;
 	GnmFuncGroup const *group = NULL;
 
-	if (dump_type == 2) {
-		g_printerr ("generate po is obsolete.\n");
-		return;
-	}
 	g_return_if_fail (filename != NULL);
 
 	if ((output_file = g_fopen (filename, "w")) == NULL){
