@@ -165,26 +165,6 @@ cb_kill_wbcg (WBCGtk *wbcg)
 	return FALSE;
 }
 
-static gboolean
-pathetic_qt_workaround (void)
-{
-	/*
-	 * When using with the Qt theme, the qt library will be initialized
-	 * somewhere around the time the first widget is created or maybe
-	 * realized.  That code literally does
-	 *
-	 *        setlocale( LC_NUMERIC, "C" );	// make sprintf()/scanf() work
-	 *
-	 * I am not kidding.  It seems like we can fix this by re-setting the
-	 * proper locale when the gui comes up.
-	 *
-	 * See bug 512752, for example.
-	 */
-	setlocale (LC_ALL, "");
-	return FALSE;
-}
-
-
 static void
 cb_workbook_removed (void)
 {
@@ -245,30 +225,27 @@ main (int argc, char const **argv)
 
 	gnm_init ();
 
-	go_component_set_default_command_context (cc = gnm_cmd_context_stderr_new ());
+	cc = gnm_cmd_context_stderr_new ();
+	go_component_set_default_command_context (cc);
 	g_object_unref (cc);
+
 	cc = g_object_new (GNM_TYPE_IO_CONTEXT_GTK,
 			   "show-splash", !gnumeric_no_splash,
 			   "show-warnings", !gnumeric_no_warnings,
 			   NULL);
 	ioc = GO_IO_CONTEXT (g_object_ref (cc));
 	handle_paint_events ();
-	pathetic_qt_workaround ();
 
 	/* Keep in sync with .desktop file */
 	g_set_application_name (_("Gnumeric Spreadsheet"));
 	gnm_plugins_init (GO_CMD_CONTEXT (ioc));
 
 	if (startup_files) {
-		int i;
+		int i, N;
 
-		for (i = 0; startup_files [i]; i++)
-			;
-
-		go_io_context_set_num_files (ioc, i);
-		for (i = 0;
-		     startup_files [i] && !initial_workbook_open_complete;
-		     i++) {
+		N = g_strv_length (startup_files);
+		go_io_context_set_num_files (ioc, N);
+		for (i = 0; i < N && !initial_workbook_open_complete; i++) {
 			char *uri = go_shell_arg_to_uri (startup_files[i]);
 
 			if (uri == NULL) {
@@ -338,7 +315,6 @@ main (int argc, char const **argv)
 		gnm_io_context_gtk_discharge_splash (GNM_IO_CONTEXT_GTK (ioc));
 		g_object_unref (ioc);
 
-		g_idle_add ((GSourceFunc)pathetic_qt_workaround, NULL);
 		gtk_main ();
 	} else {
 		g_object_unref (ioc);

@@ -1,5 +1,8 @@
 2017-11-29  Morten Welinder  <terra@gnome.org>
 
+	* src/main-application.c (pathetic_qt_workaround): Not needed
+	anymore.
+
 	* (gnumeric-object-combo.png): redo based on list combo.  This avoids
 	looking strange when insensitive and also is a consistent size.
 
