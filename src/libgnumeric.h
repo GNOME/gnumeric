@@ -27,9 +27,6 @@ GOptionGroup *gnm_get_option_group (void);
 
 GNM_VAR_DECL gboolean	initial_workbook_open_complete;
 
-/* Internal */
-int gnm_dump_func_defs (char const* filename, int dump_type); /* changes as needed */
-
 G_END_DECLS
 
 #endif /* _GNM_LIBGNUMERIC_H_ */

@@ -1,7 +1,7 @@
 /*
  * sstest.c: Test code for Gnumeric
  *
- * Copyright (C) 2009 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2009,2017 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -86,6 +86,8 @@ static GOptionEntry const sstest_options [] = {
 
 	{ NULL }
 };
+
+/* ------------------------------------------------------------------------- */
 
 static void
 mark_test_start (const char *name)
@@ -278,7 +280,7 @@ test_insdel_rowcol_names (void)
 	mark_test_end (test_name);
 }
 
-/*-------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 static void
 test_insert_delete (void)
@@ -346,7 +348,7 @@ test_insert_delete (void)
 	mark_test_end (test_name);
 }
 
-/*-------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 static void
 test_func_help (void)
@@ -362,7 +364,7 @@ test_func_help (void)
 	mark_test_end (test_name);
 }
 
-/*-------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 static int
 test_strtol_ok (const char *s, long l, size_t expected_len)
@@ -562,7 +564,7 @@ test_nonascii_numbers (void)
 	mark_test_end (test_name);
 }
 
-/*-------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 static char *random_summary = NULL;
 
@@ -2643,7 +2645,7 @@ test_random (void)
 	mark_test_end (test_name);
 }
 
-/*-------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 #define MAYBE_DO(name) if (strcmp (testname, "all") != 0 && strcmp (testname, (name)) != 0) { } else
 
@@ -2689,14 +2691,22 @@ main (int argc, char const **argv)
 		go_error_info_free (plugin_errs);
 	}
 
-	if (func_state_file)
-		return gnm_dump_func_defs (func_state_file, 0);
-	if (func_def_file)
-		return gnm_dump_func_defs (func_def_file, 1);
-	if (ext_refs_file)
-		return gnm_dump_func_defs (ext_refs_file, 4);
-	if (samples_file)
-		return gnm_dump_func_defs (samples_file, 5);
+	if (func_state_file) {
+		function_dump_defs (func_state_file, 0);
+		return 0;
+	}
+	if (func_def_file) {
+		function_dump_defs (func_def_file, 1);
+		return 0;
+	}
+	if (ext_refs_file) {
+		function_dump_defs (ext_refs_file, 4);
+		return 0;
+	}
+	if (samples_file) {
+		function_dump_defs (samples_file, 5);
+		return 0;
+	}
 
 	testname = argv[1];
 	if (!testname) testname = "all";

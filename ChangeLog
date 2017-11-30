@@ -1,5 +1,7 @@
 2017-11-29  Morten Welinder  <terra@gnome.org>
 
+	* src/libgnumeric.c (gnm_dump_func_defs): Not needed anymore.
+
 	* src/main-application.c (pathetic_qt_workaround): Not needed
 	anymore.
 
