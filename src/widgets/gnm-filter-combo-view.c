@@ -218,9 +218,7 @@ fcombo_create_list (SheetObject *so,
 			(CellIterFunc)&cb_collect_content, &uc);
 
 	g_hash_table_foreach (uc.hash, (GHFunc)cb_hash_domain, sorted);
-	qsort (&g_ptr_array_index (sorted, 0),
-	       sorted->len, sizeof (char *),
-	       &value_cmp);
+	g_ptr_array_sort (sorted, value_cmp);
 
 	if (fcombo->cond != NULL &&
 	    fcombo->cond->op[0] == GNM_FILTER_OP_EQUAL &&

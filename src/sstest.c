@@ -293,10 +293,7 @@ enumerate_functions (gboolean filter)
 		gnm_func_load_if_stub (fd);
 	}
 
-	if (res->len > 0)
-		qsort (&g_ptr_array_index (res, 0),
-		       res->len, sizeof (gpointer),
-		       func_def_cmp);
+	g_ptr_array_sort (res, func_def_cmp);
 
 	return res;
 }

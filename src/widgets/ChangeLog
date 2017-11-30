@@ -1,3 +1,10 @@
+2017-11-29  Morten Welinder  <terra@gnome.org>
+
+	* gnm-validation-combo-view.c (vcombo_create_list): Use
+	g_ptr_array_sort for simplicity.
+
+	* gnm-filter-combo-view.c (fcombo_create_list): Ditto.
+
 2017-11-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.36

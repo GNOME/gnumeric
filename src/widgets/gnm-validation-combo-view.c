@@ -127,9 +127,7 @@ vcombo_create_list (SheetObject *so,
 
 	sorted = g_ptr_array_new ();
 	g_hash_table_foreach (uc.hash, (GHFunc)cb_hash_domain, sorted);
-	qsort (&g_ptr_array_index (sorted, 0),
-	       sorted->len, sizeof (char *),
-	       &value_cmp);
+	g_ptr_array_sort (sorted, value_cmp);
 
 	model = gtk_list_store_new (3,
 		G_TYPE_STRING, G_TYPE_STRING, gnm_value_get_type ());
