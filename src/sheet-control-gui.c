@@ -514,17 +514,21 @@ scg_scrollbar_config_real (SheetControl const *sc)
 			 MAX (gtk_adjustment_get_page_size (ha) - 3.0, 1.0),
 			 last_col - pane->first.col + 1);
 	}
+
+	scg->scroll_bar_timer = 0;
 	return FALSE;
 }
 
 
 static void
-scg_scrollbar_config (SheetControl const *sc)
+scg_scrollbar_config (SheetControlGUI *scg)
 {
 	/* See bug 789412 */
-	g_timeout_add (1,
-		       (GSourceFunc) scg_scrollbar_config_real,
-		       (gpointer)sc);
+	if (!scg->scroll_bar_timer)
+		scg->scroll_bar_timer =
+			g_timeout_add (1,
+				       (GSourceFunc) scg_scrollbar_config_real,
+				       scg);
 }
 
 void
@@ -1842,6 +1846,11 @@ scg_finalize (GObject *object)
 	if (scg->pane_drag_handler) {
 		g_source_remove (scg->pane_drag_handler);
 		scg->pane_drag_handler = 0;
+	}
+
+	if (scg->scroll_bar_timer) {
+		g_source_remove (scg->scroll_bar_timer);
+		scg->scroll_bar_timer = 0;
 	}
 
 	scg_comment_timer_clear (scg);

@@ -36,6 +36,7 @@ struct _SheetControlGUI {
 	int              vpos, hpos;    /* Handle positions */
 	guint		 pane_drag_handler;
 	int              screen_width, screen_height;
+	guint            scroll_bar_timer;
 
 	/* SheetObject support */
 	GHashTable	 *selected_objects;

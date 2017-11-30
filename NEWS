@@ -11,6 +11,7 @@ Morten:
 	* Speed-up number theory functions.
 	* Fix combo object icon.
 	* Code cleanups for main binary.
+	* Fix potential crash in gtk scroll bar bug workaround.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.36
