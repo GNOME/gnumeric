@@ -1,3 +1,8 @@
+2017-11-30  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (sheet_style_find_conflicts): Use heap, not
+	stack, allocation.
+
 2017-11-29  Morten Welinder  <terra@gnome.org>
 
 	* src/sstest.c (enumerate_functions): Make sure function is loaded.

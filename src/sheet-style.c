@@ -2004,6 +2004,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 {
 	int n, col, row, start_col, end_col;
 	GnmStyleRow sr;
+	gpointer *sr_array_data;
 	GnmStyleBorderLocation i;
 	gboolean known[GNM_STYLE_BORDER_EDGE_MAX];
 	GnmBorder const *none = gnm_style_border_none ();
@@ -2050,15 +2051,15 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 
 	/* allocate then alias the arrays for easy access */
 	n = end_col - start_col + 2;
-	sr.vertical	 = (GnmBorder const **)g_alloca (n *
-			    (3 * sizeof (GnmBorder const *) +
-			     sizeof (GnmStyle const *)));
-	sr.top	      = sr.vertical + n;
-	sr.bottom     = sr.top + n;
-	sr.styles     = ((GnmStyle const **) (sr.bottom + n));
-	sr.vertical  -= start_col; sr.top     -= start_col;
-	sr.bottom    -= start_col; sr.styles  -= start_col;
-	sr.start_col  = start_col; sr.end_col  = end_col;
+	g_assert (sizeof (GnmBorder *) == sizeof (gpointer));
+	g_assert (sizeof (GnmStyle *) == sizeof (gpointer));
+	sr_array_data = g_new (gpointer, n * 4);
+	sr.vertical = (GnmBorder const **)(sr_array_data - start_col);
+	sr.top      = (GnmBorder const **)(sr_array_data + n - start_col);
+	sr.bottom   = (GnmBorder const **)(sr_array_data + 2 * n - start_col);
+	sr.styles   = (GnmStyle const **) (sr_array_data + 3 * n - start_col);
+	sr.start_col  = start_col;
+	sr.end_col  = end_col;
 	sr.hide_grid  = sheet->hide_grid;
 
 	/* pretend the previous bottom had no borders */
@@ -2109,6 +2110,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 	border_mask_vec (known, borders, sr.top, r->start.col, r->end.col,
 			 GNM_STYLE_BORDER_BOTTOM);
 
+	g_free (sr_array_data);
 	return user.conflicts;
 }
 
