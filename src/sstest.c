@@ -273,22 +273,23 @@ static GPtrArray *
 enumerate_functions (gboolean filter)
 {
 	GPtrArray *res = gnm_func_enumerate ();
+	unsigned ui;
 
-	if (filter) {
-		unsigned ui;
-		for (ui = 0; ui < res->len; ui++) {
-			GnmFunc *fd = g_ptr_array_index (res, ui);
+	for (ui = 0; ui < res->len; ui++) {
+		GnmFunc *fd = g_ptr_array_index (res, ui);
 
-			if (fd->name == NULL ||
-			    strcmp (fd->name, "perl_adder") == 0 ||
-			    strcmp (fd->name, "perl_date") == 0 ||
-			    strcmp (fd->name, "perl_sed") == 0 ||
-			    strcmp (fd->name, "py_capwords") == 0 ||
-			    strcmp (fd->name, "py_printf") == 0 ||
-			    strcmp (fd->name, "py_bitand") == 0) {
-				g_ptr_array_remove_index_fast (res, ui);
-				ui--;
-			}
+		gnm_func_load_if_stub (fd);
+
+		if (filter &&
+		    (fd->name == NULL ||
+		     strcmp (fd->name, "perl_adder") == 0 ||
+		     strcmp (fd->name, "perl_date") == 0 ||
+		     strcmp (fd->name, "perl_sed") == 0 ||
+		     strcmp (fd->name, "py_capwords") == 0 ||
+		     strcmp (fd->name, "py_printf") == 0 ||
+		     strcmp (fd->name, "py_bitand") == 0)) {
+			g_ptr_array_remove_index_fast (res, ui);
+			ui--;
 		}
 	}
 
@@ -3495,6 +3496,8 @@ main (int argc, char const **argv)
 		/* FIXME: What do we want to do here? */
 		go_error_info_free (plugin_errs);
 	}
+	g_object_unref (cc);
+	cc = NULL;
 
 	if (func_state_file) {
 		function_dump_defs (func_state_file, 0);
@@ -3526,7 +3529,6 @@ main (int argc, char const **argv)
 
 	/* ---------------------------------------- */
 
-	g_object_unref (cc);
 	gnm_shutdown ();
 	gnm_pre_parse_shutdown ();
 

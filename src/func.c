@@ -78,6 +78,11 @@ functions_shutdown (void)
 	functions_by_localized_name = NULL;
 }
 
+/**
+ * gnm_func_enumerate:
+ *
+ * Return value: (element-type GnmFunc) (transfer container):
+ */
 GPtrArray *
 gnm_func_enumerate (void)
 {

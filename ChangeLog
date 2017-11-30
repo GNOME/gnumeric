@@ -1,5 +1,11 @@
 2017-11-29  Morten Welinder  <terra@gnome.org>
 
+	* src/sstest.c (enumerate_functions): Make sure function is loaded.
+
+	* src/func-builtin.c (help_table): Add help text for TABLE.
+
+	* src/func.c (gnm_func_enumerate): Introspection annotation.
+
 	* src/sstest.c (function_dump_defs): Move from func.c with all
 	support code.
 	(gnm_func_sanity_check): Ditto.

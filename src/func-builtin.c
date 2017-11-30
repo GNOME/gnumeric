@@ -149,6 +149,14 @@ gnumeric_version (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_table[] = {
+	{ GNM_FUNC_HELP_NAME, N_("TABLE:internal function for data tables")},
+	{ GNM_FUNC_HELP_DESCRIPTION, N_("This function should not be called directly.")},
+	{ GNM_FUNC_HELP_SEEALSO, ""},
+	{ GNM_FUNC_HELP_END }
+};
+
+
 static GnmDependentFlags
 gnumeric_table_link (GnmFuncEvalInfo *ei, gboolean qlink)
 {
@@ -470,7 +478,7 @@ func_builtin_init (void)
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 		},
 		{	"table",	"",
-			NULL,		NULL,	gnumeric_table,
+			help_table,		NULL,	gnumeric_table,
 			gnumeric_table_link,
 			NULL, GNM_FUNC_SIMPLE + GNM_FUNC_INTERNAL,
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
