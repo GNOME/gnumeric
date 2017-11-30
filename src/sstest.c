@@ -278,8 +278,6 @@ enumerate_functions (gboolean filter)
 	for (ui = 0; ui < res->len; ui++) {
 		GnmFunc *fd = g_ptr_array_index (res, ui);
 
-		gnm_func_load_if_stub (fd);
-
 		if (filter &&
 		    (fd->name == NULL ||
 		     strcmp (fd->name, "perl_adder") == 0 ||
@@ -291,6 +289,8 @@ enumerate_functions (gboolean filter)
 			g_ptr_array_remove_index_fast (res, ui);
 			ui--;
 		}
+
+		gnm_func_load_if_stub (fd);
 	}
 
 	if (res->len > 0)
