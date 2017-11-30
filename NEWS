@@ -12,6 +12,7 @@ Morten:
 	* Fix combo object icon.
 	* Code cleanups for main binary.
 	* Fix potential crash in gtk scroll bar bug workaround.
+	* Avoid large stack use here and there.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.36

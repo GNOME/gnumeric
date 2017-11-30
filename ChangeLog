@@ -1,5 +1,8 @@
 2017-11-30  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-filter.c (gnm_filter_combo_apply): Use heap, not
+	stack, allocation.
+
 	* src/sheet-style.c (sheet_style_find_conflicts): Use heap, not
 	stack, allocation.
 

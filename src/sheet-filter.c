@@ -510,7 +510,7 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 				data.count  = 0.5 + cond->count * (end_row - start_row + 1) /100.;
 				if (data.count < 1)
 					data.count = 1;
-				data.vals   = g_alloca (sizeof (GnmValue *) * data.count);
+				data.vals   = g_new (GnmValue const *, data.count);
 				sheet_foreach_cell_in_range (filter->sheet,
 							     CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
 							     col, start_row, col, end_row,
@@ -520,6 +520,7 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 							     CELL_ITER_IGNORE_HIDDEN,
 							     col, start_row, col, end_row,
 							     (CellIterFunc) cb_hide_unwanted_items, &data);
+				g_free (data.vals);
 			} else {
 				FilterPercentage data;
 				gnm_float	 offset;
@@ -544,7 +545,8 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 			data.find_max = (cond->op[0] & 0x1) ? FALSE : TRUE;
 			data.elements    = 0;
 			data.count  = cond->count;
-			data.vals   = g_alloca (sizeof (GnmValue *) * data.count);
+			data.vals   = g_new (GnmValue const *, data.count);
+
 			sheet_foreach_cell_in_range (filter->sheet,
 				CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
 				col, start_row, col, end_row,
@@ -554,6 +556,7 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 				CELL_ITER_IGNORE_HIDDEN,
 				col, start_row, col, end_row,
 				(CellIterFunc) cb_hide_unwanted_items, &data);
+			g_free (data.vals);
 		}
 	} else
 		g_warning ("Invalid operator %d", cond->op[0]);
