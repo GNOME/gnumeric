@@ -240,10 +240,8 @@ gnm_search_collect_cells (GnmSearchReplace *sr)
 	}
 
 	/* Sort our cells.  */
-	qsort (&g_ptr_array_index (cells, 0),
-	       cells->len,
-	       sizeof (gpointer),
-	       sr->by_row ? cb_order_sheet_row_col : cb_order_sheet_col_row);
+	g_ptr_array_sort (cells,
+			  sr->by_row ? cb_order_sheet_row_col : cb_order_sheet_col_row);
 
 	return cells;
 }
