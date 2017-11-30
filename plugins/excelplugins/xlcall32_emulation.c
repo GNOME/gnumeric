@@ -58,14 +58,16 @@ G_MODULE_EXPORT int far pascal Excel4v(int xlfn, void* operRes, int count, void*
 }
 
 G_MODULE_EXPORT int far _cdecl Excel4(int xlfn, void* operRes, int count, ...) {
-	void **opers=(void**)alloca(count*sizeof(void*));
+	void **opers=g_new(void *, MAX(1,count));
 	va_list arg_list;
-	int i;
+	int i, res;
         va_start(arg_list,count);
 	for (i=0;i<count;++i)
 		opers[i]=va_arg(arg_list,void*);
 	va_end(arg_list);
-	return Excel4v(xlfn,operRes,count,(void**)opers);
+	res = Excel4v(xlfn,operRes,count,opers);
+	g_free (opers);
+	return res;
 }
 
 int far pascal XLCallVer(void){
