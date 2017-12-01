@@ -241,10 +241,9 @@ applix_sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb)
 		return start;
 	}
 
-	name = g_alloca (1 + end - begin);
-	strncpy (name, begin, end-begin);
-	name [end-begin] = '\0';
+	name = g_strndup (begin, end - begin);
 	*sheet = workbook_sheet_by_name (wb, name);
+	g_free (name);
 	return *sheet != NULL ? end : start;
 }
 

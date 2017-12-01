@@ -461,6 +461,7 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr,
 	GnmBorder const **borders, **prev_vert;
 	GnmBorder const *none =
 		sheet->hide_grid ? NULL : gnm_style_border_none ();
+	gpointer *sr_array_data;
 
 	GnmRange     view;
 	GSList	 *merged_active, *merged_active_seen,
@@ -547,15 +548,16 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr,
 	 * Note that this means that in some cases array [-1] is legal.
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
+	sr_array_data = g_new (gpointer, n * 8);
 	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,
-			g_alloca (n * 8 * sizeof (gpointer)), sheet->hide_grid);
+			sr_array_data, sheet->hide_grid);
 
 	/* load up the styles for the first row */
 	next_sr.row = sr.row = row = start_row;
 	sheet_style_get_row (sheet, &sr);
 
 	/* Collect the column widths */
-	colwidths = g_alloca (n * sizeof (int));
+	colwidths = g_new (int, n);
 	colwidths -= start_col;
 	for (col = start_col; col <= end_col; col++) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, col);
@@ -853,6 +855,8 @@ plain_draw : /* a quick hack to deal with 142267 */
 	g_slist_free (merged_used);	   /* merges with bottom in view */
 	g_slist_free (merged_active_seen); /* merges with bottom the view */
 	g_slist_free (merged_unused);	   /* merges in hidden rows */
+	g_free (sr_array_data);
+	g_free (colwidths + start_col); // Offset reverts -= from above
 	g_return_val_if_fail (merged_active == NULL, TRUE);
 	return TRUE;
 }

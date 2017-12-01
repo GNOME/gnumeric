@@ -1110,7 +1110,7 @@ yylex (void)
 				goto double_quote_loop;
 			}
 
-			s = string = (char *) g_alloca (1 + state->ptr - p);
+			s = string = g_malloc (1 + state->ptr - p);
 			while (p != state->ptr) {
 				if (*p == '&') {
 					if (!strncmp (p, "&amp;", 5)) {
@@ -1145,7 +1145,7 @@ yylex (void)
 			*s = 0;
 			state->ptr += 6;
 
-			v = value_new_string (string);
+			v = value_new_string_nocopy (string);
 			yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
 			return QUOTED_STRING;
 		}

@@ -1,5 +1,13 @@
 2017-11-30  Morten Welinder  <terra@gnome.org>
 
+	* src/print-cell.c (gnm_gtk_print_cell_range): Eliminate g_alloca
+	usage.
+	* src/parse-util.c (wbref_parse): Ditto.
+	* src/preview-grid.c (preview_grid_draw_region): Ditto.
+	* src/item-grid.c (item_grid_draw_region): Ditto.
+	* src/parser.y (yylex): Ditto.
+	* src/criteria.c (parse_database_criteria): Ditto.
+
 	* src/sheet-filter.c (gnm_filter_combo_apply): Use heap, not
 	stack, allocation.
 

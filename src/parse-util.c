@@ -923,15 +923,15 @@ wbref_parse (GnmConventions const *convs,
 		if (*end != ']')
 			return start;
 
-		/* might be too big if quoted (remember leading [' */
-		name = g_alloca (1 + end - start - 2);
-		if (num_escapes < 0) {
-			strncpy (name, start+1, end-start-1);
-			name [end-start-1] = '\0';
-		} else
+		if (num_escapes < 0)
+			name = g_strndup (start + 1, end - start - 1);
+		else {
+			name = g_malloc (1 + end - start - 2);
 			unquote (name, start+2, end-start-2);
+		}
 
 		tmp_wb = (*convs->input.external_wb) (convs, ref_wb, name);
+		g_free (name);
 		if (tmp_wb == NULL)
 			return NULL;
 

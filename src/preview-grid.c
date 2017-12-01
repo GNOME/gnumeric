@@ -222,6 +222,7 @@ preview_grid_draw_region (GocItem const *item, cairo_t *cr,
 	GnmStyle const **styles;
 	GnmBorder const **borders, **prev_vert;
 	GnmBorder const *none = pg->gridlines ? gnm_style_border_none () : NULL;
+	gpointer *sr_array_data;
 
 	int *colwidths = NULL;
 
@@ -233,15 +234,16 @@ preview_grid_draw_region (GocItem const *item, cairo_t *cr,
 	 *	- 2 arrays of n GnmStyle const *
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
+	sr_array_data = g_new (gpointer, n * 8);
 	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,
-			g_alloca (n * 8 * sizeof (gpointer)), !pg->gridlines);
+			sr_array_data, !pg->gridlines);
 
 	/* load up the styles for the first row */
 	next_sr.row = sr.row = row = start_row;
 	pg_style_get_row (pg, &sr);
 
 	/* Collect the column widths */
-	colwidths = g_alloca (n * sizeof (int));
+	colwidths = g_new (int, n);
 	colwidths -= start_col;
 	for (col = start_col; col <= end_col; col++)
 		colwidths[col] = pg->defaults.col_width;
@@ -288,6 +290,9 @@ preview_grid_draw_region (GocItem const *item, cairo_t *cr,
 
 		y += row_height;
 	}
+
+	g_free (sr_array_data);
+	g_free (colwidths + start_col); // Offset reverts -= from above
 	return TRUE;
 }
 

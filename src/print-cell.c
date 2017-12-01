@@ -302,6 +302,7 @@ gnm_gtk_print_cell_range (cairo_t *context,
 	GnmStyle const **styles;
 	GnmBorder const **borders, **prev_vert;
 	GnmBorder const *none;
+	gpointer *sr_array_data;
 
 	int n, col, row;
 	double x, y, offset;
@@ -353,8 +354,9 @@ gnm_gtk_print_cell_range (cairo_t *context,
 	 * Note that this means that in some cases array [-1] is legal.
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
+	sr_array_data = g_new (gpointer, n * 8);
 	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,
-			g_alloca (n * 8 * sizeof (gpointer)), hide_grid);
+			sr_array_data, hide_grid);
 
 	/* load up the styles for the first row */
 	next_sr.row = sr.row = row = start_row;
@@ -610,6 +612,7 @@ gnm_gtk_print_cell_range (cairo_t *context,
 	g_slist_free (merged_used);	   /* merges with bottom in view */
 	g_slist_free (merged_active_seen); /* merges with bottom the view */
 	g_slist_free (merged_unused);	   /* merges in hidden rows */
+	g_free (sr_array_data);
 	g_return_if_fail (merged_active == NULL);
 }
 

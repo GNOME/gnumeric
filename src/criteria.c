@@ -448,6 +448,7 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
         int   i;
 	int   b_col, b_row, e_col, e_row;
 	int   *field_ind;
+	GSList *res;
 
 	g_return_val_if_fail (VALUE_IS_CELLRANGE (criteria), NULL);
 
@@ -464,7 +465,7 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
 	}
 
 	/* Find the index numbers for the columns of criterias */
-	field_ind = g_alloca (sizeof (int) * (e_col - b_col + 1));
+	field_ind = g_new (int, e_col - b_col + 1);
 	for (i = b_col; i <= e_col; i++) {
 		cell = sheet_cell_get (sheet, i, b_row);
 		if (cell == NULL)
@@ -474,13 +475,17 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
 			continue;
 		field_ind[i - b_col] =
 			find_column_of_field (ep, database, cell->value);
-		if (field_ind[i - b_col] == -1)
+		if (field_ind[i - b_col] == -1) {
+			g_free (field_ind);
 			return NULL;
+		}
 	}
 
-	return parse_criteria_range (sheet, b_col, b_row + 1,
-				     e_col, e_row, field_ind,
-				     FALSE);
+	res = parse_criteria_range (sheet, b_col, b_row + 1,
+				    e_col, e_row, field_ind,
+				    FALSE);
+	g_free (field_ind);
+	return res;
 }
 
 /**
