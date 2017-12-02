@@ -150,6 +150,8 @@ typedef struct {
 
 } DialogDocMetaData;
 
+#define trim_string(s_) g_strstrip (g_strdup ((s_)))
+
 static gchar *dialog_doc_metadata_get_prop_val (DialogDocMetaData *state, char const *prop_name,
 						GValue *prop_value);
 
@@ -1411,7 +1413,7 @@ cb_dialog_doc_metadata_add_clicked (G_GNUC_UNUSED GtkWidget *w,
 {
 	const gchar *name = gtk_entry_get_text (state->ppt_name);
 	const gchar *value = gtk_entry_get_text (state->ppt_value);
-	gchar *name_trimmed = pango_trim_string (name);
+	gchar *name_trimmed = trim_string (name);
 	GType t;
 	GtkTreeIter filter_iter;
 
@@ -1744,7 +1746,7 @@ cb_dialog_doc_metadata_ppt_changed (G_GNUC_UNUSED GtkEntry          *entry,
 
 	name = gtk_entry_get_text (state->ppt_name);
 	value = gtk_entry_get_text (state->ppt_value);
-	name_trimmed = pango_trim_string (name);
+	name_trimmed = trim_string (name);
 
 	enable = strlen (name_trimmed) > 0 && strlen (value) > 0;
 
@@ -1786,7 +1788,7 @@ cb_dialog_doc_metadata_ppt_name_changed (G_GNUC_UNUSED GtkEntry          *entry,
 	gchar *str = NULL;
 
 	name = gtk_entry_get_text (state->ppt_name);
-	name_trimmed = pango_trim_string (name);
+	name_trimmed = trim_string (name);
 
 	enable = strlen (name_trimmed) > 0;
 

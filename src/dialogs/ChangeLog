@@ -1,3 +1,8 @@
+2017-12-02  Morten Welinder  <terra@gnome.org>
+
+	* dialog-doc-metadata.c (trim_string): trivial replacement for
+	pango_trim_string.
+
 2017-12-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.37
