@@ -2,6 +2,7 @@ Gnumeric 1.12.38
 
 Morten:
 	* Avoid large stack use here and there.
+	* Test suite improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.37
