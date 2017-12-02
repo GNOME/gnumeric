@@ -900,6 +900,7 @@ qpro_read_workbook (QProReadState *state, GsfInput *input)
 			if (validate (QPRO_BEGINNING_OF_FILE, 2)) {
 				guint16 version;
 				version = GSF_LE_GET_GUINT16 (data);
+				(void)version;
 			}
 			break;
 		case QPRO_BEGINNING_OF_PAGE:

@@ -1,3 +1,7 @@
+2017-12-02  Morten Welinder  <terra@gnome.org>
+
+	* qpro-read.c (qpro_read_workbook): Kill warning.
+
 2017-12-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.37
