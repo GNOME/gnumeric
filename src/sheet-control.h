@@ -32,7 +32,7 @@ void sc_redraw_headers		(SheetControl *sc,
 void sc_ant			(SheetControl *sc);
 void sc_unant			(SheetControl *sc);
 
-void sc_scrollbar_config	(SheetControl const *sc);
+void sc_scrollbar_config	(SheetControl *sc);
 
 void sc_mode_edit		(SheetControl *sc);
 

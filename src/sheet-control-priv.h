@@ -24,7 +24,7 @@ typedef struct {
 					 GnmRange const * r);
 	void (*ant)			(SheetControl *sc);
 	void (*unant)			(SheetControl *sc);
-	void (*scrollbar_config)	(SheetControl const *sc);
+	void (*scrollbar_config)	(SheetControl *sc);
 	void (*mode_edit)		(SheetControl *sc);
 	void (*set_top_left)		(SheetControl *sc, int col, int row);
 	void (*recompute_visible_region)(SheetControl *sc,

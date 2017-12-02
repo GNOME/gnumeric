@@ -521,8 +521,9 @@ scg_scrollbar_config_real (SheetControl const *sc)
 
 
 static void
-scg_scrollbar_config (SheetControlGUI *scg)
+scg_scrollbar_config (SheetControl *sc)
 {
+	SheetControlGUI *scg = GNM_SCG (sc);
 	/* See bug 789412 */
 	if (!scg->scroll_bar_timer)
 		scg->scroll_bar_timer =
