@@ -105,24 +105,28 @@ static gboolean
 dif_parse_header (DifInputContext *ctxt)
 {
 	while (1) {
-		gchar *topic, *num_line, *str_line;
+		gchar *topic = NULL, *num_line = NULL, *str_line = NULL;
 		size_t str_line_len;
+		int res = -1;
 
-		if (!dif_get_line (ctxt))
-			return FALSE;
-		topic = g_alloca (strlen (ctxt->line) + 1);
-		strcpy (topic, ctxt->line);
+		if (!dif_get_line (ctxt)) {
+			res = FALSE;
+			goto out;
+		}
+		topic = g_strdup (ctxt->line);
 
-		if (!dif_get_line (ctxt))
-			return FALSE;
-		num_line = g_alloca (strlen (ctxt->line) + 1);
-		strcpy (num_line, ctxt->line);
+		if (!dif_get_line (ctxt)) {
+			res = FALSE;
+			goto out;
+		}
+		num_line = g_strdup (ctxt->line);
 
-		if (!dif_get_line (ctxt))
-			return FALSE;
-		str_line_len = strlen (ctxt->line);
-		str_line = g_alloca (str_line_len + 1);
-		strcpy (str_line, ctxt->line);
+		if (!dif_get_line (ctxt)) {
+			res = FALSE;
+			goto out;
+		}
+		str_line = g_strdup (ctxt->line);
+		str_line_len = strlen (str_line);
 
 		if (strcmp (topic, "TABLE") == 0) {
 			gchar *name;
@@ -137,7 +141,7 @@ dif_parse_header (DifInputContext *ctxt)
 				/* FIXME - rename the sheet */
 			}
 		} else if (strcmp (topic, "DATA") == 0) {
-			break;
+			res = TRUE;
 		}
 
 		/*
@@ -145,9 +149,14 @@ dif_parse_header (DifInputContext *ctxt)
 		 * SIZE, LABEL, UNITS, TUPLES, VECTORS, COMMENT, MINORSTART,
 		 * TRUELENGTH, PERIODICITY, DISPLAYUNITS
 		 */
-	}
 
-	return TRUE;
+	out:
+		g_free (topic);
+		g_free (num_line);
+		g_free (str_line);
+		if (res >= 0)
+			return res;
+	}
 }
 
 /*

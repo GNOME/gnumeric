@@ -1,5 +1,8 @@
 Gnumeric 1.12.38
 
+Morten:
+	* Avoid large stack use here and there.
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.37
 
