@@ -1501,6 +1501,7 @@ gnm_style_context_from_selector (GtkStyleContext *parent,
 
   return create_context_for_path (path, parent);
 #else
+  g_return_val_if_fail (selector != NULL, NULL);
   (void)parent;
   (void)selector;
   g_assert_not_reached ();
