@@ -459,8 +459,9 @@ sub test_exporter {
     &report_skip ("file $file does not exist") unless -r $file;
 
     my $tmp = fileparse ($file);
-    $tmp =~ s/\.([a-zA-Z0-9]+)$// or die "Must have extension for export test.";
+    $tmp =~ s/\.([a-zA-Z0-9]+)$//;
     $ext = $1 unless defined $ext;
+    $ext or die "Must have extension for export test.";
     my $code;
     my $keep = 0;
 

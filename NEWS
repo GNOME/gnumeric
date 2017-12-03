@@ -4,6 +4,7 @@ Morten:
 	* Avoid large stack use here and there.
 	* Test suite improvements.
 	* Improve sylk writer.  Don't ask.
+	* Teach ssdiff about column/row sizes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.37

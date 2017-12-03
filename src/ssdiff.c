@@ -105,6 +105,12 @@ typedef struct {
 
 	/* ------------------------------ */
 
+	void (*colrow_changed) (GnmDiffState *state,
+				ColRowInfo const *oc, ColRowInfo const *nc,
+				gboolean is_cols, int i);
+
+	/* ------------------------------ */
+
 	/* A cell was changed/added/removed.  */
 	void (*cell_changed) (GnmDiffState *state,
 			      GnmCell const *oc, GnmCell const *nc);
@@ -134,8 +140,7 @@ struct GnmDiffState_ {
 
 	/* The following for xml mode.  */
 	GsfXMLOut *xml;
-	gboolean cells_open;
-	gboolean styles_open;
+	const char *open_section;
 	GnmConventions *convs;
 
 	/* The following for highlight mode.  */
@@ -265,6 +270,16 @@ def_sheet_attr_int_changed (GnmDiffState *state, const char *name,
 }
 
 static void
+def_colrow_changed (GnmDiffState *state, ColRowInfo const *oc, ColRowInfo const *nc,
+		    gboolean is_cols, int i)
+{
+	if (is_cols)
+		gsf_output_printf (state->output, _("Width of column %d changed.\n"), i);
+	else
+		gsf_output_printf (state->output, _("Width of row %d changed.\n"), i);
+}
+
+static void
 def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 {
 	if (oc && nc)
@@ -295,6 +310,7 @@ static const GnmDiffActions default_actions = {
 	null_sheet_end,
 	def_sheet_order_changed,
 	def_sheet_attr_int_changed,
+	def_colrow_changed,
 	def_cell_changed,
 	def_style_changed,
 };
@@ -332,28 +348,27 @@ xml_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
 }
 
 static void
-xml_close_cells (GnmDiffState *state)
+xml_close_section (GnmDiffState *state)
 {
-	if (state->cells_open) {
-		gsf_xml_out_end_element (state->xml); /* </Cells> */
-		state->cells_open = FALSE;
+	if (state->open_section) {
+		gsf_xml_out_end_element (state->xml);
+		state->open_section = NULL;
 	}
 }
 
 static void
-xml_close_styles (GnmDiffState *state)
+xml_open_section (GnmDiffState *state, const char *section)
 {
-	if (state->styles_open) {
-		gsf_xml_out_end_element (state->xml); /* </Styles> */
-		state->styles_open = FALSE;
-	}
+
+	xml_close_section (state);
+	gsf_xml_out_start_element (state->xml, section);
+	state->open_section = section;
 }
 
 static void
 xml_sheet_end (GnmDiffState *state)
 {
-	xml_close_cells (state);
-	xml_close_styles (state);
+	xml_close_section (state);
 	gsf_xml_out_end_element (state->xml); /* </Sheet> */
 }
 
@@ -404,14 +419,44 @@ output_cell (GnmDiffState *state, GnmCell const *cell,
 }
 
 static void
+xml_colrow_changed (GnmDiffState *state, ColRowInfo const *oc, ColRowInfo const *nc,
+		    gboolean is_cols, int i)
+{
+	xml_open_section (state, is_cols ? DIFF "Cols" : DIFF "Rows");
+
+	gsf_xml_out_start_element (state->xml, is_cols ? DIFF "ColInfo" : DIFF "RowInfo");
+	if (i >= 0) gsf_xml_out_add_int (state->xml, "No", i);
+
+	if (oc->size_pts != nc->size_pts) {
+		gsf_xml_out_add_float (state->xml, "OldUnit", oc->size_pts, 4);
+		gsf_xml_out_add_float (state->xml, "NewUnit", nc->size_pts, 4);
+	}
+	if (oc->hard_size != nc->hard_size) {
+		gsf_xml_out_add_bool (state->xml, "OldHardSize", oc->hard_size);
+		gsf_xml_out_add_bool (state->xml, "NewHardSize", nc->hard_size);
+	}
+	if (oc->visible != nc->visible) {
+		gsf_xml_out_add_bool (state->xml, "OldHidden", !oc->visible);
+		gsf_xml_out_add_bool (state->xml, "NewHidden", !nc->visible);
+	}
+	if (oc->is_collapsed != nc->is_collapsed) {
+		gsf_xml_out_add_bool (state->xml, "OldCollapsed", oc->is_collapsed);
+		gsf_xml_out_add_bool (state->xml, "NewCollapsed", nc->is_collapsed);
+	}
+	if (oc->outline_level != nc->outline_level) {
+		gsf_xml_out_add_int (state->xml, "OldOutlineLevel", oc->outline_level);
+		gsf_xml_out_add_int (state->xml, "NewOutlineLevel", nc->outline_level);
+	}
+
+	gsf_xml_out_end_element (state->xml); /* </ColInfo> or </RowInfo> */
+}
+
+static void
 xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 {
 	const GnmCellPos *pos;
 
-	if (!state->cells_open) {
-		gsf_xml_out_start_element (state->xml, DIFF "Cells");
-		state->cells_open = TRUE;
-	}
+	xml_open_section (state, DIFF "Cells");
 
 	gsf_xml_out_start_element (state->xml, DIFF "Cell");
 
@@ -490,12 +535,7 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 	unsigned int conflicts;
 	GnmStyleElement e;
 
-	xml_close_cells (state);
-
-	if (!state->styles_open) {
-		gsf_xml_out_start_element (state->xml, DIFF "Styles");
-		state->styles_open = TRUE;
-	}
+	xml_open_section (state, DIFF "Styles");
 
 	gsf_xml_out_start_element (state->xml, DIFF "StyleRegion");
 	gsf_xml_out_add_uint (state->xml, "startCol", r->start.col);
@@ -715,6 +755,7 @@ static const GnmDiffActions xml_actions = {
 	xml_sheet_end,
 	null_sheet_order_changed,
 	xml_sheet_attr_int_changed,
+	xml_colrow_changed,
 	xml_cell_changed,
 	xml_style_changed,
 };
@@ -771,6 +812,13 @@ highlight_apply (GnmDiffState *state, const char *sheetname,
 }
 
 static void
+highlight_colrow_changed (GnmDiffState *state, ColRowInfo const *oc, ColRowInfo const *nc,
+			  gboolean is_cols, int i)
+{
+	// What?
+}
+
+static void
 highlight_cell_changed (GnmDiffState *state,
 			GnmCell const *oc, GnmCell const *nc)
 {
@@ -798,6 +846,7 @@ static const GnmDiffActions highlight_actions = {
 	null_sheet_end,
 	null_sheet_order_changed,
 	null_sheet_attr_int_changed,
+	highlight_colrow_changed,
 	highlight_cell_changed,
 	highlight_style_changed,
 };
@@ -916,6 +965,31 @@ diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 	g_ptr_array_free (new_cells, TRUE);
 }
 
+static void
+diff_sheets_colrow (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet, gboolean is_cols)
+{
+	ColRowInfo const *old_def = sheet_colrow_get_default (old_sheet, is_cols);
+	ColRowInfo const *new_def = sheet_colrow_get_default (new_sheet, is_cols);
+	int i, N;
+
+	if (!colrow_equal (old_def, new_def))
+		state->actions->colrow_changed (state, old_def, new_def, is_cols, -1);
+
+	N = MIN (colrow_max (is_cols, old_sheet), colrow_max (is_cols, new_sheet));
+	for (i = 0; i < N; i++) {
+		ColRowInfo const *ocr = sheet_colrow_get (old_sheet, i, is_cols);
+		ColRowInfo const *ncr = sheet_colrow_get (new_sheet, i, is_cols);
+
+		if (ocr == ncr)
+			continue; // Considered equal, even if defaults are different
+		if (!ocr) ocr = old_def;
+		if (!ncr) ncr = new_def;
+		if (!colrow_equal (ocr, ncr))
+			state->actions->colrow_changed (state, ocr, ncr, is_cols, i);
+	}
+}
+
+
 #define DO_INT(field,attr)						\
 	do {								\
 		if (old_sheet->field != new_sheet->field) {		\
@@ -1019,7 +1093,8 @@ static void
 diff_sheets (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 {
 	diff_sheets_attrs (state, old_sheet, new_sheet);
-	/* Compare row/column attributes.  */
+	diff_sheets_colrow (state, old_sheet, new_sheet, TRUE);
+	diff_sheets_colrow (state, old_sheet, new_sheet, FALSE);
 	diff_sheets_cells (state, old_sheet, new_sheet);
 	diff_sheets_styles (state, old_sheet, new_sheet);
 }

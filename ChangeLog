@@ -1,3 +1,8 @@
+2017-12-03  Morten Welinder  <terra@gnome.org>
+
+	* src/ssdiff.c (diff_sheets_colrow): New function to compare
+	row/column sizes.
+
 2017-12-01  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
