@@ -819,13 +819,7 @@ sylk_file_open (GOFileOpener const *fo,
 
 	state.pp.wb = wb_view_get_workbook (wb_view);
 
-	if (NULL == (input_name = gsf_input_name (input)) ||
-	    NULL == (name = g_path_get_basename (input_name)) ||
-	    '\0' == *name) {
-		g_free (name);
-		name = g_strdup ("Sheet");
-	}
-
+	name = workbook_sheet_get_free_name (state.pp.wb, _("Sheet"), TRUE, FALSE);
 	state.pp.sheet = sheet_new (state.pp.wb, name, 256, 65536);
 	workbook_sheet_attach (state.pp.wb, state.pp.sheet);
 	g_free (name);
