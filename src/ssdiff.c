@@ -185,6 +185,13 @@ null_sheet_attr_int_changed (G_GNUC_UNUSED GnmDiffState *state,
 {
 }
 
+static void
+null_colrow_changed (G_GNUC_UNUSED GnmDiffState *state,
+		     G_GNUC_UNUSED ColRowInfo const *oc, G_GNUC_UNUSED ColRowInfo const *nc,
+		     G_GNUC_UNUSED gboolean is_cols, G_GNUC_UNUSED int i)
+{
+}
+
 /* -------------------------------------------------------------------------- */
 
 static gboolean
@@ -812,13 +819,6 @@ highlight_apply (GnmDiffState *state, const char *sheetname,
 }
 
 static void
-highlight_colrow_changed (GnmDiffState *state, ColRowInfo const *oc, ColRowInfo const *nc,
-			  gboolean is_cols, int i)
-{
-	// What?
-}
-
-static void
 highlight_cell_changed (GnmDiffState *state,
 			GnmCell const *oc, GnmCell const *nc)
 {
@@ -850,7 +850,7 @@ static const GnmDiffActions highlight_actions = {
 	null_sheet_end,
 	null_sheet_order_changed,
 	null_sheet_attr_int_changed,
-	highlight_colrow_changed,
+	null_colrow_changed,
 	highlight_cell_changed,
 	highlight_style_changed,
 };
