@@ -454,13 +454,13 @@ sub test_importer {
 # -----------------------------------------------------------------------------
 
 sub test_exporter {
-    my ($file) = @_;
+    my ($file,$ext) = @_;
 
     &report_skip ("file $file does not exist") unless -r $file;
 
     my $tmp = fileparse ($file);
     $tmp =~ s/\.([a-zA-Z0-9]+)$// or die "Must have extension for export test.";
-    my $ext = $1;
+    $ext = $1 unless defined $ext;
     my $code;
     my $keep = 0;
 
@@ -493,12 +493,12 @@ sub test_exporter {
 
     my $tmp4 = "$tmp.xml";
     &junkfile ($tmp4) unless $keep;
-    $code = system (&quotearg ("zcat", "-f", $tmp1) . " >" . &quotearg ($tmp4));
+    $code = system (&quotearg ("zcat", "-f", $tmp1) . "| $normalize_gnumeric >" . &quotearg ($tmp4));
     &system_failure ('zcat', $code) if $code;
 
     my $tmp5 = "$tmp-new.xml";
     &junkfile ($tmp5) unless $keep;
-    $code = system (&quotearg ("zcat" , "-f", $tmp3) . " >" . &quotearg ($tmp5));
+    $code = system (&quotearg ("zcat" , "-f", $tmp3) . " | $normalize_gnumeric >" . &quotearg ($tmp5));
     &system_failure ('zcat', $code) if $code;
 
     $code = system ('diff', '-u', $tmp4, $tmp5);
