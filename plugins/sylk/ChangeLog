@@ -1,3 +1,7 @@
+2017-12-03  Morten Welinder  <terra@gnome.org>
+
+	* sylk-write.c (sylk_write_sheet): Fix extent; write column/row sizes.
+
 2017-12-02  Morten Welinder  <terra@gnome.org>
 
 	* sylk-write.c (sylk_write_sheet): Beef this up a bit.

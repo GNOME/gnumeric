@@ -34,6 +34,7 @@
 #include "gutils.h"
 #include "parse-util.h"
 #include "style-border.h"
+#include "ranges.h"
 
 #include <goffice/goffice.h>
 
@@ -174,18 +175,14 @@ sylk_get_border (GnmStyle const *style, GnmStyleElement border)
 	return b && b->line_type > GNM_STYLE_BORDER_NONE;
 }
 
-
-static GnmValue *
-cb_sylk_write_cell_style (GnmCellIter const *iter, SylkWriter *state)
+static void
+sylk_write_style (SylkWriter *state, GnmStyle const *style)
 {
-	GnmStyle const *style;
 	GOFormat const *fmt;
 	unsigned n;
 	GnmHAlign halign;
 
 	gsf_output_printf (state->output, "F");
-
-	style = sheet_style_get (state->sheet, iter->pp.eval.col, iter->pp.eval.row);
 
 	halign = gnm_style_get_align_h (style);
 	switch (halign) {
@@ -196,8 +193,7 @@ cb_sylk_write_cell_style (GnmCellIter const *iter, SylkWriter *state)
 	default:
 		; // Nothing
 	}
-		
-	
+
 	fmt = gnm_style_get_format (style);
 	n = GPOINTER_TO_UINT (g_hash_table_lookup (state->format_hash, (gpointer)fmt));
 	gsf_output_printf (state->output, ";P%d", n);
@@ -220,11 +216,26 @@ cb_sylk_write_cell_style (GnmCellIter const *iter, SylkWriter *state)
 	if (sylk_get_border (style, MSTYLE_BORDER_RIGHT))
 		gsf_output_printf (state->output, ";SR");
 
-	if (iter->pp.eval.row != state->cur_row)
-		gsf_output_printf (state->output, ";Y%d",
-				   (state->cur_row = iter->pp.eval.row) + 1);
-	gsf_output_printf (state->output, ";X%d\r\n",
-			   iter->pp.eval.col + 1);
+	// Line not terminated
+}
+
+static void
+sylk_write_pos (SylkWriter *state, int col, int row)
+{
+	if (row != state->cur_row) {
+		state->cur_row = row;
+		gsf_output_printf (state->output, ";Y%d", row + 1);
+	}
+	gsf_output_printf (state->output, ";X%d\r\n", col + 1);
+}
+
+static GnmValue *
+cb_sylk_write_cell_style (GnmCellIter const *iter, SylkWriter *state)
+{
+	GnmStyle const *style = sheet_style_get (state->sheet, iter->pp.eval.col, iter->pp.eval.row);
+
+	sylk_write_style (state, style);
+	sylk_write_pos (state, iter->pp.eval.col, iter->pp.eval.row);
 
 	return NULL;
 }
@@ -259,15 +270,23 @@ cb_sylk_collect_cell_styles (G_GNUC_UNUSED gpointer unused,
 static void
 sylk_write_sheet (SylkWriter *state)
 {
+	Sheet *sheet = state->sheet;
 	GnmRange extent;
 	unsigned ui;
+	GnmRange whole_sheet;
+	GnmStyle **col_defs;
+	ColRowInfo const *cr_def;
+	int col, row;
 
-/* collect style and font info */
-	extent = sheet_get_extent (state->sheet, FALSE, TRUE);
+	/* collect style and font info */
+	range_init_full_sheet (&whole_sheet, sheet);
+	extent = sheet_get_extent (sheet, FALSE, TRUE);
+	col_defs = sheet_style_most_common (sheet, TRUE);
+	sheet_style_get_nondefault_extent (sheet, &extent, &whole_sheet, col_defs);
 
-	sheet_style_foreach (state->sheet,
+	sheet_style_foreach (sheet,
 			     (GFunc)cb_sylk_collect_styles, state);
-	sheet_cell_foreach (state->sheet,
+	sheet_cell_foreach (sheet,
 			    (GHFunc)cb_sylk_collect_cell_styles, state);
 
 	for (ui = 0; ui < state->formats->len; ui++) {
@@ -281,19 +300,40 @@ sylk_write_sheet (SylkWriter *state)
 				   gnm_style_get_font_name (s),
 				   (int)(gnm_style_get_font_size (s) * 20 + 0.5));
 	}
-	
+
+	// Column styles.
+	for (col = extent.start.col; col <= extent.end.col; col++) {
+		sylk_write_style (state, col_defs[col]);
+		gsf_output_printf (state->output, ";C%d\r\n", col + 1);
+	}
+
+	// Cell styles
 	state->cur_row = -1;
-	sheet_foreach_cell_in_range (state->sheet, 0,
+	sheet_foreach_cell_in_range (sheet, 0,
 		extent.start.col, extent.start.row,
 		extent.end.col,   extent.end.row,
 		(CellIterFunc) cb_sylk_write_cell_style, state);
 
-	/*
-	 * 1) formats P;P.....
-	 * 2.1) ??	fonts   P;F....
-	 * 2.2) indexed fonts   P;E....
-	 * 3) global formats F;
-	 */
+	// Column widths
+	cr_def = sheet_colrow_get_default (sheet, TRUE);
+	for (col = extent.start.col; col <= extent.end.col; col++) {
+		ColRowInfo *cr = sheet_col_get (sheet, col);
+		if (!cr || cr->size_pts == cr_def->size_pts)
+			continue;
+		gsf_output_printf (state->output, "F;W%d %d %d\r\n",
+				   col + 1, col + 1, (int)(cr->size_pts / 7.45 + 0.5));
+	}
+
+	// Row heights
+	cr_def = sheet_colrow_get_default (sheet, FALSE);
+	for (row = extent.start.row; row <= extent.end.row; row++) {
+		ColRowInfo *cr = sheet_row_get (sheet, row);
+		if (!cr || cr->size_pts == cr_def->size_pts)
+			continue;
+		gsf_output_printf (state->output, "F;M%d;R%d\r\n",
+				   (int)(cr->size_pts * 20 + 0.5),
+				   row + 1);
+	}
 
 /* Global Formatting */
 	/* F;P0;DG0G10;SM0;Z;M280;N3 10 */
@@ -308,22 +348,24 @@ sylk_write_sheet (SylkWriter *state)
 		(state->wb->iteration.enabled ? 'A' : 'G'),
 		state->wb->iteration.max_number,
 		state->wb->iteration.tolerance);
-	if (!state->sheet->convs->r1c1_addresses)
+	if (!sheet->convs->r1c1_addresses)
 		gsf_output_puts (state->output, ";L");
 	if (!state->wb->recalc_auto)
 		gsf_output_puts (state->output, ";M");
 	gsf_output_printf (state->output, ";V%d",
 		workbook_date_conv (state->wb)->use_1904 ? 4 : 0);
-	if (state->sheet->hide_zero)
+	if (sheet->hide_zero)
 		gsf_output_puts (state->output, ";Z");
 	gsf_output_write (state->output, 2, "\r\n");
 
 /* dump content */
 	state->cur_row = -1;
-	sheet_foreach_cell_in_range (state->sheet, CELL_ITER_IGNORE_BLANK,
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
 		extent.start.col, extent.start.row,
 		extent.end.col,   extent.end.row,
 		(CellIterFunc) cb_sylk_write_cell, state);
+
+	g_free (col_defs);
 }
 
 static GnmConventions *
