@@ -823,9 +823,13 @@ highlight_cell_changed (GnmDiffState *state,
 			GnmCell const *oc, GnmCell const *nc)
 {
 	GnmRange r;
-	r.start = nc->pos;
-	r.end = nc->pos;
-	highlight_apply (state, nc->base.sheet->name_unquoted, &r);
+	const char *sheetname;
+
+	r.start = nc ? nc->pos : oc->pos;
+	r.end = r.start;
+
+	sheetname = nc ? nc->base.sheet->name_unquoted : oc->base.sheet->name_unquoted;
+	highlight_apply (state, sheetname, &r);
 }
 
 static void
