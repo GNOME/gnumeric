@@ -30,8 +30,10 @@
 #include "expr-impl.h"
 #include "value.h"
 #include "cell.h"
+#include "mstyle.h"
 #include "gutils.h"
 #include "parse-util.h"
+#include "style-border.h"
 
 #include <goffice/goffice.h>
 
@@ -40,6 +42,26 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <gmodule.h>
+
+static int
+font_equal (gconstpointer a_, gconstpointer b_)
+{
+	GnmStyle const *a = a_;
+	GnmStyle const *b = b_;
+
+	return g_str_equal (gnm_style_get_font_name (a), gnm_style_get_font_name (b)) &&
+		gnm_style_get_font_size (a) == gnm_style_get_font_size (b);
+}
+
+static guint
+font_hash (gconstpointer s_)
+{
+	GnmStyle const *s = s_;
+
+	return g_str_hash (gnm_style_get_font_name (s)) ^
+		(guint)(gnm_style_get_font_size (s));
+}
+
 
 typedef struct {
 	GsfOutput *output;
@@ -50,6 +72,12 @@ typedef struct {
 	Sheet	 *sheet;
 
 	int cur_row;
+
+	GPtrArray *formats;
+	GHashTable *format_hash;
+
+	GPtrArray *fonts;
+	GHashTable *font_hash;
 } SylkWriter;
 
 static void
@@ -72,7 +100,7 @@ sylk_write (SylkWriter *state, char const *str)
 			gsf_output_write (state->output, 1, "?");
 			str = next;
 		}
-#warning handle the magic ascii escaping
+#warning "handle the magic ascii escaping"
 	}
 	gsf_output_write (state->output, p - str, str);
 }
@@ -139,9 +167,87 @@ cb_sylk_write_cell (GnmCellIter const *iter, SylkWriter *state)
 	return NULL;
 }
 
+static gboolean
+sylk_get_border (GnmStyle const *style, GnmStyleElement border)
+{
+	GnmBorder *b = gnm_style_get_border (style, border);
+	return b && b->line_type > GNM_STYLE_BORDER_NONE;
+}
+
+
+static GnmValue *
+cb_sylk_write_cell_style (GnmCellIter const *iter, SylkWriter *state)
+{
+	GnmStyle const *style;
+	GOFormat const *fmt;
+	unsigned n;
+	GnmHAlign halign;
+
+	gsf_output_printf (state->output, "F");
+
+	style = sheet_style_get (state->sheet, iter->pp.eval.col, iter->pp.eval.row);
+
+	halign = gnm_style_get_align_h (style);
+	switch (halign) {
+	case GNM_HALIGN_LEFT: gsf_output_printf (state->output, ";FD0L"); break;
+	case GNM_HALIGN_RIGHT: gsf_output_printf (state->output, ";FD0R"); break;
+	case GNM_HALIGN_CENTER: gsf_output_printf (state->output, ";FD0C"); break;
+	case GNM_HALIGN_FILL: gsf_output_printf (state->output, ";FD0X"); break;
+	default:
+		; // Nothing
+	}
+		
+	
+	fmt = gnm_style_get_format (style);
+	n = GPOINTER_TO_UINT (g_hash_table_lookup (state->format_hash, (gpointer)fmt));
+	gsf_output_printf (state->output, ";P%d", n);
+
+	n = GPOINTER_TO_UINT (g_hash_table_lookup (state->font_hash, style));
+	gsf_output_printf (state->output, ";SM%d", n + 1);
+
+	if (gnm_style_get_font_bold (style))
+		gsf_output_printf (state->output, ";SD");
+	if (gnm_style_get_font_italic (style))
+		gsf_output_printf (state->output, ";SI");
+	if (gnm_style_get_pattern (style) == 5)
+		gsf_output_printf (state->output, ";SS");
+	if (sylk_get_border (style, MSTYLE_BORDER_TOP))
+		gsf_output_printf (state->output, ";ST");
+	if (sylk_get_border (style, MSTYLE_BORDER_BOTTOM))
+		gsf_output_printf (state->output, ";SB");
+	if (sylk_get_border (style, MSTYLE_BORDER_LEFT))
+		gsf_output_printf (state->output, ";SL");
+	if (sylk_get_border (style, MSTYLE_BORDER_RIGHT))
+		gsf_output_printf (state->output, ";SR");
+
+	if (iter->pp.eval.row != state->cur_row)
+		gsf_output_printf (state->output, ";Y%d",
+				   (state->cur_row = iter->pp.eval.row) + 1);
+	gsf_output_printf (state->output, ";X%d\r\n",
+			   iter->pp.eval.col + 1);
+
+	return NULL;
+}
+
+
 static void
 cb_sylk_collect_styles (GnmStyle const *st, SylkWriter *state)
 {
+	GOFormat const *fmt;
+
+	fmt = gnm_style_get_format (st);
+	if (!g_hash_table_lookup_extended (state->format_hash, fmt, NULL, NULL)) {
+		unsigned n = state->formats->len;
+		g_hash_table_insert (state->format_hash, (gpointer)fmt, GUINT_TO_POINTER (n));
+		g_ptr_array_add (state->formats, (gpointer)fmt);
+	}
+
+	if (!g_hash_table_lookup_extended (state->font_hash, st, NULL, NULL)) {
+		unsigned n = state->fonts->len;
+		g_hash_table_insert (state->font_hash, (gpointer)st, GUINT_TO_POINTER (n));
+		g_ptr_array_add (state->fonts, (gpointer)st);
+	}
+
 }
 
 static void
@@ -154,13 +260,33 @@ static void
 sylk_write_sheet (SylkWriter *state)
 {
 	GnmRange extent;
+	unsigned ui;
 
 /* collect style and font info */
 	extent = sheet_get_extent (state->sheet, FALSE, TRUE);
+
 	sheet_style_foreach (state->sheet,
 			     (GFunc)cb_sylk_collect_styles, state);
 	sheet_cell_foreach (state->sheet,
 			    (GHFunc)cb_sylk_collect_cell_styles, state);
+
+	for (ui = 0; ui < state->formats->len; ui++) {
+		GOFormat const *fmt = g_ptr_array_index (state->formats, ui);
+		gsf_output_printf (state->output, "P;P%s\r\n",
+				   go_format_as_XL (fmt));
+	}
+	for (ui = 0; ui < state->fonts->len; ui++) {
+		GnmStyle const *s = g_ptr_array_index (state->fonts, ui);
+		gsf_output_printf (state->output, "P;E%s;M%d\r\n",
+				   gnm_style_get_font_name (s),
+				   (int)(gnm_style_get_font_size (s) * 20 + 0.5));
+	}
+	
+	state->cur_row = -1;
+	sheet_foreach_cell_in_range (state->sheet, 0,
+		extent.start.col, extent.start.row,
+		extent.end.col,   extent.end.row,
+		(CellIterFunc) cb_sylk_write_cell_style, state);
 
 	/*
 	 * 1) formats P;P.....
@@ -229,15 +355,24 @@ sylk_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	state.output = output;
 	state.convs  = sylk_conventions_new ();
 
-	if (NULL == state.sheet) {
-		go_io_error_string (io_context, _("Cannot get default sheet."));
-		return;
-	}
+	state.formats = g_ptr_array_new ();
+	state.format_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	state.fonts = g_ptr_array_new ();
+	state.font_hash = g_hash_table_new (font_hash, font_equal);
 
 	locale = gnm_push_C_locale ();
 	gsf_output_puts (output, "ID;PGnumeric;N;E\r\n");
+
 	sylk_write_sheet (&state);
+
 	gsf_output_puts (output, "E\r\n");
 	gnm_pop_C_locale (locale);
 	gnm_conventions_unref (state.convs);
+
+	g_hash_table_destroy (state.font_hash);
+	g_ptr_array_free (state.fonts, TRUE);
+
+	g_hash_table_destroy (state.format_hash);
+	g_ptr_array_free (state.formats, TRUE);
 }
