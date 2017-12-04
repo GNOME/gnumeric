@@ -5,23 +5,29 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
-&message ("Check ssdiff on identical files");
+&message ("Check ssdiff's xml mode");
+
+my $xmllint = &GnumericTest::find_program ("xmllint");
 
 my @sources = &GnumericTest::corpus();
 
+my $nskipped = 0;
+my @pairs = ();
+@sources = grep { -r $_ ? 1 : ($nskipped++, 0) } @sources;
+while (@sources >= 2) {
+    my $first = shift @sources;
+    my $second = shift @sources;
+    push @pairs, [$first,$second];
+}
+
 my $ngood = 0;
 my $nbad = 0;
-my $nskipped = 0;
+for my $p (@pairs) {
+    my ($first,$second) = @$p;
 
-for my $src (@sources) {
-    if (!-r $src) {
-	$nskipped += 2;
-	next;
-    }
+    print STDERR "$first vs $second...\n";
 
-    print STDERR "$src...\n";
-
-    my $cmd = "$ssdiff --xml $src $src";
+    my $cmd = "$ssdiff --xml $first $second | xmllint -noout - 2>&1";
     my $output = `$cmd 2>&1`;
     my $err = $?;
     if ($err) {
@@ -29,10 +35,7 @@ for my $src (@sources) {
         $nbad++;
 	die "Failed command: $cmd [$err]\n" if $err > (1 << 8);
     } else {
-        if ($output =~ m'<\?xml version="1\.0" encoding="UTF-8"\?>
-<s:Diff xmlns:s=".*">
-(  <s:Sheet Name=".*" Old="\d+" New="\d+"/>
-)*</s:Diff>') {
+        if ($output eq '') {
             $ngood++;
         } else {
             &GnumericTest::dump_indented ($output);

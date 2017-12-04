@@ -543,11 +543,12 @@ gnm_style_find_conflicts (GnmStyle *accum, GnmStyle const *overlay,
 
 #define GNM_INPUT_MSG_EQUAL3(a,b,r) (gnm_input_msg_equal (a,b))
 
-#define RELAX_CHECK(op_,field_,checker_) do {				\
+#define RELAX_CHECK(op_,field_,checker_) do {			\
 	if (diffs & (1u << (op_)) &&				\
 	    elem_is_set (a, (op_)) &&				\
 	    elem_is_set (b, (op_)) &&				\
-	    checker_ (a->field_, b->field_, relax_sheet))	\
+	    ((a->field_ == NULL) != (b->field_ == NULL) ||	\
+	     checker_ (a->field_, b->field_, relax_sheet)))	\
 		diffs &= ~(1u << (op_));			\
 	} while (0)
 

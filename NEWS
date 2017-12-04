@@ -5,6 +5,7 @@ Morten:
 	* Test suite improvements.
 	* Improve sylk writer.  Don't ask.
 	* Teach ssdiff about column/row sizes.
+	* Fix a few ssdiff crashes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.37

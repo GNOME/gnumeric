@@ -34,8 +34,8 @@
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-input.h>
 
-/* FIXME: Namespace?  */
-#define DIFF "ssdiff:"
+#define DIFF "s:"
+#define SSDIFF_DTD "http://www.gnumeric.org/ssdiff.dtd" // No such file yet
 
 static gboolean ssdiff_show_version = FALSE;
 static gboolean ssdiff_highlight = FALSE;
@@ -327,10 +327,16 @@ static const GnmDiffActions default_actions = {
 static gboolean
 xml_diff_start (GnmDiffState *state)
 {
+	char *attr;
+
 	state->xml = gsf_xml_out_new (state->output);
 	state->convs = gnm_xml_io_conventions ();
 
 	gsf_xml_out_start_element (state->xml, DIFF "Diff");
+	attr = g_strdup ("xmlns:" DIFF);
+	attr[strlen (attr) - 1] = 0;
+	gsf_xml_out_add_cstr (state->xml, attr, SSDIFF_DTD);
+	g_free (attr);
 
 	return FALSE;
 }
