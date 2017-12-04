@@ -780,11 +780,18 @@ highlight_diff_start (GnmDiffState *state)
 {
 	const char *dst = state->new.url;
 
-	state->highlight_fs = go_file_saver_for_file_name (dst);
+	if (!ssdiff_output) {
+		g_printerr (_("%s: Must specify an output file for highlighting.\n"),
+			    g_get_prgname ());
+
+		return TRUE;
+	}
+	
+	state->highlight_fs = go_file_saver_for_file_name (ssdiff_output);
 	if (!state->highlight_fs) {
 		g_printerr (_("%s: Unable to guess exporter to use for %s.\n"),
 			    g_get_prgname (),
-			    dst);
+			    ssdiff_output);
 
 		return TRUE;
 	}
@@ -1148,6 +1155,8 @@ diff (char const *oldfilename, char const *newfilename,
 		Sheet *old_sheet = workbook_sheet_by_index (state.old.wb, i);
 		Sheet *new_sheet = workbook_sheet_by_name (state.new.wb,
 							   old_sheet->name_unquoted);
+		if (!new_sheet)
+			state.diff_found = TRUE;
 		state.actions->sheet_start (&state, old_sheet, new_sheet);
 
 		if (new_sheet) {
@@ -1169,6 +1178,7 @@ diff (char const *oldfilename, char const *newfilename,
 		if (old_sheet)
 			; /* Nothing -- already done above. */
 		else {
+			state.diff_found = TRUE;
 			state.actions->sheet_start (&state, NULL, new_sheet);
 			state.actions->sheet_end (&state);
 		}

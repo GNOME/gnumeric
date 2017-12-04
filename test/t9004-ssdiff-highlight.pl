@@ -5,9 +5,10 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
-&message ("Check ssdiff's xml mode");
+&message ("Check ssdiff's highlight mode");
 
-my $xmllint = &GnumericTest::find_program ("xmllint");
+my $tmp = "junk.gnumeric";
+&GnumericTest::junkfile ($tmp);
 
 my @sources = &GnumericTest::corpus();
 
@@ -27,21 +28,17 @@ for my $p (@pairs) {
 
     print STDERR "$first vs $second...\n";
 
-    my $cmd = "$ssdiff --xml $first $second | xmllint -noout - 2>&1";
+    my $cmd = "$ssdiff --highlight --output=$tmp $first $second";
     print STDERR "$cmd\n" if $GnumericTest::verbose;
     my $output = `$cmd 2>&1`;
-    my $err = $?; # from xmllint
-    if ($err) {
+    my $err = $?;
+    if ($err == (1 << 8)) {
+	&GnumericTest::dump_indented ($output);
+	$ngood++;
+    } else {
         &GnumericTest::dump_indented ($output || '(no output)');
         $nbad++;
 	die "Failed command: $cmd [$err]\n" if $err > (1 << 8);
-    } else {
-        if ($output eq '') {
-            $ngood++;
-        } else {
-            &GnumericTest::dump_indented ($output);
-            $nbad++;
-        }
     }
 }
 

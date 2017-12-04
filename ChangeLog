@@ -1,6 +1,7 @@
 2017-12-03  Morten Welinder  <terra@gnome.org>
 
 	* src/ssdiff.c (SSDIFF_DTD): Add proper xmlns definition.
+	(diff): Missing or extra sheet counts as a difference.
 
 	* src/mstyle.c (gnm_style_find_differences): Don't crash when
 	hlink/validation/inputmsg/conditions is NULL in one and not the other.
