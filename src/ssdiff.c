@@ -81,55 +81,61 @@ static const GOptionEntry ssdiff_options [] = {
 typedef struct GnmDiffState_ GnmDiffState;
 
 typedef struct {
-	/* Start comparison of two workbooks.  */
+	// Start comparison of two workbooks.
 	gboolean (*diff_start) (GnmDiffState *state);
 
-	/* Finish comparison started with above.  */
+	// Finish comparison started with above.
 	void (*diff_end) (GnmDiffState *state);
+
+	// Clean up allocations
+	void (*dtor) (GnmDiffState *state);
 
 	/* ------------------------------ */
 
-	/* Start looking at a sheet.  Either sheet might be NULL.  */
+	// Start looking at a sheet.  Either sheet might be NULL.
 	void (*sheet_start) (GnmDiffState *state,
 			     Sheet const *os, Sheet const *ns);
 
-	/* Finish sheet started with above.  */
+	// Finish sheet started with above.
 	void (*sheet_end) (GnmDiffState *state);
 
-	/* The order of sheets has changed.  */
+	// The order of sheets has changed.
 	void (*sheet_order_changed) (GnmDiffState *state);
 
-	/* An integer attribute of the sheet has changed.  */
+	// An integer attribute of the sheet has changed.
 	void (*sheet_attr_int_changed) (GnmDiffState *state, const char *name,
 					int o, int n);
 
 	/* ------------------------------ */
 
+	// Column or Row information changed
 	void (*colrow_changed) (GnmDiffState *state,
 				ColRowInfo const *oc, ColRowInfo const *nc,
 				gboolean is_cols, int i);
 
 	/* ------------------------------ */
 
-	/* A cell was changed/added/removed.  */
+	// A cell was changed/added/removed.
 	void (*cell_changed) (GnmDiffState *state,
 			      GnmCell const *oc, GnmCell const *nc);
 
 	/* ------------------------------ */
 
-	/* The style of an area was changed.  */
+	// The style of an area was changed.
 	void (*style_changed) (GnmDiffState *state, GnmRange const *r,
 			       GnmStyle const *os, GnmStyle const *ns);
 } GnmDiffActions;
 
+typedef struct {
+	char *url;
+	GsfInput *input;
+	Workbook *wb;
+	WorkbookView *wbv;
+}  GnmDiffStateFile;
+
 struct GnmDiffState_ {
 	GOIOContext *ioc;
-	struct GnmDiffStateFile_ {
-		char *url;
-		GsfInput *input;
-		Workbook *wb;
-		WorkbookView *wbv;
-	} old, new;
+	GnmDiffStateFile old, new;
 
 	const GnmDiffActions *actions;
 
@@ -139,14 +145,15 @@ struct GnmDiffState_ {
 
 	// Valid when comparing sheets
 	Sheet *old_sheet, *new_sheet;
+	GnmRange common_range;
 
 	/* The following for xml mode.  */
 	GsfXMLOut *xml;
-	const char *open_section;
-	GnmConventions *convs;
+	const char *xml_section;
+	GnmConventions *xml_convs;
 
 	/* The following for highlight mode.  */
-	struct GnmDiffStateFile_ highlight;
+	GnmDiffStateFile highlight;
 	GOFileSaver const *highlight_fs;
 	GnmStyle *highlight_style;
 };
@@ -159,6 +166,11 @@ null_diff_start (G_GNUC_UNUSED GnmDiffState *state)
 
 static void
 null_diff_end (G_GNUC_UNUSED GnmDiffState *state)
+{
+}
+
+static void
+null_dtor (G_GNUC_UNUSED GnmDiffState *state)
 {
 }
 
@@ -197,8 +209,7 @@ null_colrow_changed (G_GNUC_UNUSED GnmDiffState *state,
 /* -------------------------------------------------------------------------- */
 
 static gboolean
-read_file (struct GnmDiffStateFile_ *dsf, const char *filename,
-	   GOIOContext *ioc)
+read_file (GnmDiffStateFile *dsf, const char *filename, GOIOContext *ioc)
 {
 	GError *err = NULL;
 
@@ -228,9 +239,10 @@ read_file (struct GnmDiffStateFile_ *dsf, const char *filename,
 }
 
 static void
-clear_file_state (struct GnmDiffStateFile_ *dsf)
+clear_file_state (GnmDiffStateFile *dsf)
 {
 	g_free (dsf->url);
+	dsf->url = NULL;
 	g_clear_object (&dsf->wb);
 	g_clear_object (&dsf->input);
 }
@@ -315,6 +327,7 @@ def_style_changed (GnmDiffState *state, GnmRange const *r,
 static const GnmDiffActions default_actions = {
 	null_diff_start,
 	null_diff_end,
+	null_dtor,
 	def_sheet_start,
 	null_sheet_end,
 	def_sheet_order_changed,
@@ -332,7 +345,7 @@ xml_diff_start (GnmDiffState *state)
 	char *attr;
 
 	state->xml = gsf_xml_out_new (state->output);
-	state->convs = gnm_xml_io_conventions ();
+	state->xml_convs = gnm_xml_io_conventions ();
 
 	gsf_xml_out_start_element (state->xml, DIFF "Diff");
 	attr = g_strdup ("xmlns:" DIFF);
@@ -347,6 +360,17 @@ static void
 xml_diff_end (GnmDiffState *state)
 {
 	gsf_xml_out_end_element (state->xml); /* </Diff> */
+}
+
+static void
+xml_dtor (GnmDiffState *state)
+{
+	g_clear_object (&state->xml);
+
+	if (state->xml_convs) {
+		gnm_conventions_unref (state->xml_convs);
+		state->xml_convs = NULL;
+	}
 }
 
 static void
@@ -365,21 +389,21 @@ xml_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
 static void
 xml_close_section (GnmDiffState *state)
 {
-	if (state->open_section) {
+	if (state->xml_section) {
 		gsf_xml_out_end_element (state->xml);
-		state->open_section = NULL;
+		state->xml_section = NULL;
 	}
 }
 
 static void
-xml_open_section (GnmDiffState *state, const char *section)
+xml_xml_section (GnmDiffState *state, const char *section)
 {
-	if (state->open_section && g_str_equal (section, state->open_section))
+	if (state->xml_section && g_str_equal (section, state->xml_section))
 		return;
 
 	xml_close_section (state);
 	gsf_xml_out_start_element (state->xml, section);
-	state->open_section = section;
+	state->xml_section = section;
 }
 
 static void
@@ -419,13 +443,13 @@ output_cell (GnmDiffState *state, GnmCell const *cell,
 
 		out.accum = str;
 		out.pp    = parse_pos_init_cell (&pp, cell);
-		out.convs = state->convs;
+		out.convs = state->xml_convs;
 
 		g_string_append_c (str, '=');
 		gnm_expr_top_as_gstring (cell->base.texpr, &out);
 	} else {
 		GnmValue const *v = cell->value;
-		value_get_as_gstring (v, str, state->convs);
+		value_get_as_gstring (v, str, state->xml_convs);
 		gsf_xml_out_add_int (state->xml, valtag, v->v_any.type);
 		if (VALUE_FMT (v))
 			gsf_xml_out_add_cstr (state->xml, fmttag, go_format_as_XL (VALUE_FMT (v)));
@@ -439,7 +463,7 @@ static void
 xml_colrow_changed (GnmDiffState *state, ColRowInfo const *oc, ColRowInfo const *nc,
 		    gboolean is_cols, int i)
 {
-	xml_open_section (state, is_cols ? DIFF "Cols" : DIFF "Rows");
+	xml_xml_section (state, is_cols ? DIFF "Cols" : DIFF "Rows");
 
 	gsf_xml_out_start_element (state->xml, is_cols ? DIFF "ColInfo" : DIFF "RowInfo");
 	if (i >= 0) gsf_xml_out_add_int (state->xml, "No", i);
@@ -473,7 +497,7 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 {
 	const GnmCellPos *pos;
 
-	xml_open_section (state, DIFF "Cells");
+	xml_xml_section (state, DIFF "Cells");
 
 	gsf_xml_out_start_element (state->xml, DIFF "Cell");
 
@@ -550,7 +574,7 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 	unsigned int conflicts;
 	GnmStyleElement e;
 
-	xml_open_section (state, DIFF "Styles");
+	xml_xml_section (state, DIFF "Styles");
 
 	gsf_xml_out_start_element (state->xml, DIFF "StyleRegion");
 	gsf_xml_out_add_uint (state->xml, "startCol", r->start.col);
@@ -762,10 +786,13 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 }
 
 #undef DO_INT
+#undef DO_INTS
+#undef DO_STRINGS
 
 static const GnmDiffActions xml_actions = {
 	xml_diff_start,
 	xml_diff_end,
+	xml_dtor,
 	xml_sheet_start,
 	xml_sheet_end,
 	null_sheet_order_changed,
@@ -782,13 +809,6 @@ highlight_diff_start (GnmDiffState *state)
 {
 	const char *dst = state->new.url;
 
-	if (!ssdiff_output) {
-		g_printerr (_("%s: Must specify an output file for highlighting.\n"),
-			    g_get_prgname ());
-
-		return TRUE;
-	}
-	
 	state->highlight_fs = go_file_saver_for_file_name (ssdiff_output);
 	if (!state->highlight_fs) {
 		g_printerr (_("%s: Unable to guess exporter to use for %s.\n"),
@@ -821,13 +841,22 @@ highlight_diff_end (GnmDiffState *state)
 }
 
 static void
-highlight_apply (GnmDiffState *state, const char *sheetname,
-		 const GnmRange *r)
+highlight_dtor (GnmDiffState *state)
 {
-	Sheet *sheet = workbook_sheet_by_name (state->highlight.wb,
-					       sheetname);
-	if (!sheet)
-		return;
+	clear_file_state (&state->highlight);
+	if (state->highlight_style) {
+		gnm_style_unref (state->highlight_style);
+		state->highlight_style = NULL;
+	}
+}
+
+static void
+highlight_apply (GnmDiffState *state, const GnmRange *r)
+{
+	// We want the highlight sheet corresponding to new_sheet.
+	Sheet *sheet = workbook_sheet_by_index (state->highlight.wb,
+						state->new_sheet->index_in_wb);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	gnm_style_ref (state->highlight_style);
 	sheet_style_apply_range (sheet, r, state->highlight_style);
@@ -838,10 +867,7 @@ highlight_cell_changed (GnmDiffState *state,
 			GnmCell const *oc, GnmCell const *nc)
 {
 	GnmRange r;
-	r.start = nc ? nc->pos : oc->pos;
-	r.end = r.start;
-
-	highlight_apply (state, state->new_sheet->name_unquoted, &r);
+	highlight_apply (state, range_init_cellpos (&r, &(nc ? nc : oc)->pos));
 }
 
 static void
@@ -849,13 +875,14 @@ highlight_style_changed (GnmDiffState *state, GnmRange const *r,
 			 G_GNUC_UNUSED GnmStyle const *os,
 			 G_GNUC_UNUSED GnmStyle const *ns)
 {
-	highlight_apply (state, state->new_sheet->name_unquoted, r);
+	highlight_apply (state, r);
 }
 
 
 static const GnmDiffActions highlight_actions = {
 	highlight_diff_start,
 	highlight_diff_end,
+	highlight_dtor,
 	null_sheet_start,
 	null_sheet_end,
 	null_sheet_order_changed,
@@ -986,16 +1013,17 @@ diff_sheets_colrow (GnmDiffState *state, gboolean is_cols)
 		sheet_colrow_get_default (state->old_sheet, is_cols);
 	ColRowInfo const *new_def =
 		sheet_colrow_get_default (state->new_sheet, is_cols);
-	int i, N;
+	int i, U;
 
 	if (!colrow_equal (old_def, new_def)) {
 		state->diff_found = TRUE;
 		state->actions->colrow_changed (state, old_def, new_def, is_cols, -1);
 	}
 
-	N = MIN (colrow_max (is_cols, state->old_sheet),
-		 colrow_max (is_cols, state->new_sheet));
-	for (i = 0; i < N; i++) {
+	U = is_cols
+		? state->common_range.end.col
+		: state->common_range.end.row;
+	for (i = 0; i <= U; i++) {
 		ColRowInfo const *ocr =
 			sheet_colrow_get (state->old_sheet, i, is_cols);
 		ColRowInfo const *ncr =
@@ -1014,13 +1042,13 @@ diff_sheets_colrow (GnmDiffState *state, gboolean is_cols)
 
 
 #define DO_INT(field,attr)						\
-	do {								\
-		if (state->old_sheet->field != state->new_sheet->field) { \
-			state->diff_found = TRUE;			\
-			state->actions->sheet_attr_int_changed		\
-				(state, attr, state->old_sheet->field, state->new_sheet->field); \
-		}							\
-} while (0)
+  do {									\
+	  if (state->old_sheet->field != state->new_sheet->field) {	\
+		  state->diff_found = TRUE;				\
+		  state->actions->sheet_attr_int_changed		\
+			  (state, attr, state->old_sheet->field, state->new_sheet->field); \
+	  }								\
+  } while (0)
 
 static void
 diff_sheets_attrs (GnmDiffState *state)
@@ -1072,8 +1100,7 @@ cb_diff_sheets_styles_2 (G_GNUC_UNUSED gpointer key,
 
 	state->diff_found = TRUE;
 
-	state->actions->style_changed (state, &r,
-				       data->old_style, sr->style);
+	state->actions->style_changed (state, &r, data->old_style, sr->style);
 }
 
 static void
@@ -1093,18 +1120,10 @@ cb_diff_sheets_styles_1 (G_GNUC_UNUSED gpointer key,
 static void
 diff_sheets_styles (GnmDiffState *state)
 {
-	GnmSheetSize const *os = gnm_sheet_get_size (state->old_sheet);
-	GnmSheetSize const *ns = gnm_sheet_get_size (state->new_sheet);
-	GnmRange r;
 	struct cb_diff_sheets_styles data;
 
-	/* Compare largest common area only.  */
-	range_init (&r, 0, 0,
-		    MIN (os->max_cols, ns->max_cols) - 1,
-		    MIN (os->max_rows, ns->max_rows) - 1);
-
 	data.state = state;
-	sheet_style_range_foreach (state->old_sheet, &r,
+	sheet_style_range_foreach (state->old_sheet, &state->common_range,
 				   cb_diff_sheets_styles_1,
 				   &data);
 }
@@ -1112,8 +1131,14 @@ diff_sheets_styles (GnmDiffState *state)
 static void
 diff_sheets (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 {
+	GnmRange or, nr;
+
 	state->old_sheet = old_sheet;
 	state->new_sheet = new_sheet;
+
+	range_init_full_sheet (&or, old_sheet);
+	range_init_full_sheet (&nr, new_sheet);
+	range_intersection (&state->common_range, &or, &nr);
 
 	diff_sheets_attrs (state);
 	diff_sheets_colrow (state, TRUE);
@@ -1163,8 +1188,6 @@ diff (char const *oldfilename, char const *newfilename,
 		Sheet *old_sheet = workbook_sheet_by_index (state.old.wb, i);
 		Sheet *new_sheet = workbook_sheet_by_name (state.new.wb,
 							   old_sheet->name_unquoted);
-		if (!new_sheet)
-			state.diff_found = TRUE;
 		state.actions->sheet_start (&state, old_sheet, new_sheet);
 
 		if (new_sheet) {
@@ -1173,7 +1196,8 @@ diff (char const *oldfilename, char const *newfilename,
 			last_index = new_sheet->index_in_wb;
 
 			diff_sheets (&state, old_sheet, new_sheet);
-		}
+		} else
+			state.diff_found = TRUE;
 
 		state.actions->sheet_end (&state);
 	}
@@ -1187,7 +1211,7 @@ diff (char const *oldfilename, char const *newfilename,
 			; /* Nothing -- already done above. */
 		else {
 			state.diff_found = TRUE;
-			state.actions->sheet_start (&state, NULL, new_sheet);
+			state.actions->sheet_start (&state, old_sheet, new_sheet);
 			state.actions->sheet_end (&state);
 		}
 	}
@@ -1202,12 +1226,7 @@ diff (char const *oldfilename, char const *newfilename,
 out:
 	clear_file_state (&state.old);
 	clear_file_state (&state.new);
-	clear_file_state (&state.highlight);
-	g_clear_object (&state.xml);
-	if (state.convs)
-		gnm_conventions_unref (state.convs);
-	if (state.highlight_style)
-		gnm_style_unref (state.highlight_style);
+	state.actions->dtor (&state);
 
 	gnm_pop_C_locale (locale);
 
