@@ -119,7 +119,6 @@ typedef struct {
 
 	/* The style of an area was changed.  */
 	void (*style_changed) (GnmDiffState *state, GnmRange const *r,
-			       Sheet const *osh, Sheet const *nsh,
 			       GnmStyle const *os, GnmStyle const *ns);
 } GnmDiffActions;
 
@@ -137,6 +136,9 @@ struct GnmDiffState_ {
 	gboolean diff_found;
 
 	GsfOutput *output;
+
+	// Valid when comparing sheets
+	Sheet *old_sheet, *new_sheet;
 
 	/* The following for xml mode.  */
 	GsfXMLOut *xml;
@@ -281,9 +283,11 @@ def_colrow_changed (GnmDiffState *state, ColRowInfo const *oc, ColRowInfo const 
 		    gboolean is_cols, int i)
 {
 	if (is_cols)
-		gsf_output_printf (state->output, _("Width of column %d changed.\n"), i);
+		gsf_output_printf (state->output, _("Column %s changed.\n"),
+				   col_name (i));
 	else
-		gsf_output_printf (state->output, _("Width of row %d changed.\n"), i);
+		gsf_output_printf (state->output, _("Row %d changed.\n"),
+				   i + 1);
 }
 
 static void
@@ -301,8 +305,6 @@ def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 
 static void
 def_style_changed (GnmDiffState *state, GnmRange const *r,
-		   G_GNUC_UNUSED Sheet const *osh,
-		   G_GNUC_UNUSED Sheet const *nsh,
 		   G_GNUC_UNUSED GnmStyle const *os,
 		   G_GNUC_UNUSED GnmStyle const *ns)
 {
@@ -543,8 +545,6 @@ cb_validation_use_dropdown (GnmValidation const *v)
 
 static void
 xml_style_changed (GnmDiffState *state, GnmRange const *r,
-		   G_GNUC_UNUSED Sheet const *osh,
-		   G_GNUC_UNUSED Sheet const *nsh,
 		   GnmStyle const *os, GnmStyle const *ns)
 {
 	unsigned int conflicts;
@@ -838,23 +838,18 @@ highlight_cell_changed (GnmDiffState *state,
 			GnmCell const *oc, GnmCell const *nc)
 {
 	GnmRange r;
-	const char *sheetname;
-
 	r.start = nc ? nc->pos : oc->pos;
 	r.end = r.start;
 
-	sheetname = nc ? nc->base.sheet->name_unquoted : oc->base.sheet->name_unquoted;
-	highlight_apply (state, sheetname, &r);
+	highlight_apply (state, state->new_sheet->name_unquoted, &r);
 }
 
 static void
 highlight_style_changed (GnmDiffState *state, GnmRange const *r,
-			 G_GNUC_UNUSED Sheet const *osh,
-			 Sheet const *nsh,
 			 G_GNUC_UNUSED GnmStyle const *os,
 			 G_GNUC_UNUSED GnmStyle const *ns)
 {
-	highlight_apply (state, nsh->name_unquoted, r);
+	highlight_apply (state, state->new_sheet->name_unquoted, r);
 }
 
 
@@ -931,10 +926,10 @@ ignore_cell (GnmCell const *cell)
 }
 
 static void
-diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
+diff_sheets_cells (GnmDiffState *state)
 {
-	GPtrArray *old_cells = sheet_cells (old_sheet, NULL);
-	GPtrArray *new_cells = sheet_cells (new_sheet, NULL);
+	GPtrArray *old_cells = sheet_cells (state->old_sheet, NULL);
+	GPtrArray *new_cells = sheet_cells (state->new_sheet, NULL);
 	size_t io = 0, in = 0;
 
 	/* Make code below simpler.  */
@@ -985,10 +980,12 @@ diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 }
 
 static void
-diff_sheets_colrow (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet, gboolean is_cols)
+diff_sheets_colrow (GnmDiffState *state, gboolean is_cols)
 {
-	ColRowInfo const *old_def = sheet_colrow_get_default (old_sheet, is_cols);
-	ColRowInfo const *new_def = sheet_colrow_get_default (new_sheet, is_cols);
+	ColRowInfo const *old_def =
+		sheet_colrow_get_default (state->old_sheet, is_cols);
+	ColRowInfo const *new_def =
+		sheet_colrow_get_default (state->new_sheet, is_cols);
 	int i, N;
 
 	if (!colrow_equal (old_def, new_def)) {
@@ -996,10 +993,13 @@ diff_sheets_colrow (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet, gbo
 		state->actions->colrow_changed (state, old_def, new_def, is_cols, -1);
 	}
 
-	N = MIN (colrow_max (is_cols, old_sheet), colrow_max (is_cols, new_sheet));
+	N = MIN (colrow_max (is_cols, state->old_sheet),
+		 colrow_max (is_cols, state->new_sheet));
 	for (i = 0; i < N; i++) {
-		ColRowInfo const *ocr = sheet_colrow_get (old_sheet, i, is_cols);
-		ColRowInfo const *ncr = sheet_colrow_get (new_sheet, i, is_cols);
+		ColRowInfo const *ocr =
+			sheet_colrow_get (state->old_sheet, i, is_cols);
+		ColRowInfo const *ncr =
+			sheet_colrow_get (state->new_sheet, i, is_cols);
 
 		if (ocr == ncr)
 			continue; // Considered equal, even if defaults are different
@@ -1015,18 +1015,18 @@ diff_sheets_colrow (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet, gbo
 
 #define DO_INT(field,attr)						\
 	do {								\
-		if (old_sheet->field != new_sheet->field) {		\
+		if (state->old_sheet->field != state->new_sheet->field) { \
 			state->diff_found = TRUE;			\
 			state->actions->sheet_attr_int_changed		\
-				(state, attr, old_sheet->field, new_sheet->field); \
+				(state, attr, state->old_sheet->field, state->new_sheet->field); \
 		}							\
 } while (0)
 
 static void
-diff_sheets_attrs (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
+diff_sheets_attrs (GnmDiffState *state)
 {
-	GnmSheetSize const *os = gnm_sheet_get_size (old_sheet);
-	GnmSheetSize const *ns = gnm_sheet_get_size (new_sheet);
+	GnmSheetSize const *os = gnm_sheet_get_size (state->old_sheet);
+	GnmSheetSize const *ns = gnm_sheet_get_size (state->new_sheet);
 
 	if (os->max_cols != ns->max_cols) {
 		state->diff_found = TRUE;
@@ -1055,8 +1055,6 @@ diff_sheets_attrs (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 
 struct cb_diff_sheets_styles {
 	GnmDiffState *state;
-	Sheet const *old_sheet;
-	Sheet const *new_sheet;
 	GnmStyle *old_style;
 };
 
@@ -1066,16 +1064,16 @@ cb_diff_sheets_styles_2 (G_GNUC_UNUSED gpointer key,
 {
 	GnmStyleRegion *sr = sr_;
 	struct cb_diff_sheets_styles *data = user_data;
+	GnmDiffState *state = data->state;
 	GnmRange r = sr->range;
 
 	if (gnm_style_find_differences (data->old_style, sr->style, TRUE) == 0)
 		return;
 
-	data->state->diff_found = TRUE;
+	state->diff_found = TRUE;
 
-	data->state->actions->style_changed (data->state, &r,
-					     data->old_sheet, data->new_sheet,
-					     data->old_style, sr->style);
+	state->actions->style_changed (state, &r,
+				       data->old_style, sr->style);
 }
 
 static void
@@ -1084,18 +1082,19 @@ cb_diff_sheets_styles_1 (G_GNUC_UNUSED gpointer key,
 {
 	GnmStyleRegion *sr = sr_;
 	struct cb_diff_sheets_styles *data = user_data;
+	GnmDiffState *state = data->state;
 
 	data->old_style = sr->style;
-	sheet_style_range_foreach (data->new_sheet, &sr->range,
+	sheet_style_range_foreach (state->new_sheet, &sr->range,
 				   cb_diff_sheets_styles_2,
 				   data);
 }
 
 static void
-diff_sheets_styles (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
+diff_sheets_styles (GnmDiffState *state)
 {
-	GnmSheetSize const *os = gnm_sheet_get_size (old_sheet);
-	GnmSheetSize const *ns = gnm_sheet_get_size (new_sheet);
+	GnmSheetSize const *os = gnm_sheet_get_size (state->old_sheet);
+	GnmSheetSize const *ns = gnm_sheet_get_size (state->new_sheet);
 	GnmRange r;
 	struct cb_diff_sheets_styles data;
 
@@ -1105,9 +1104,7 @@ diff_sheets_styles (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 		    MIN (os->max_rows, ns->max_rows) - 1);
 
 	data.state = state;
-	data.old_sheet = old_sheet;
-	data.new_sheet = new_sheet;
-	sheet_style_range_foreach (old_sheet, &r,
+	sheet_style_range_foreach (state->old_sheet, &r,
 				   cb_diff_sheets_styles_1,
 				   &data);
 }
@@ -1115,11 +1112,16 @@ diff_sheets_styles (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 static void
 diff_sheets (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 {
-	diff_sheets_attrs (state, old_sheet, new_sheet);
-	diff_sheets_colrow (state, old_sheet, new_sheet, TRUE);
-	diff_sheets_colrow (state, old_sheet, new_sheet, FALSE);
-	diff_sheets_cells (state, old_sheet, new_sheet);
-	diff_sheets_styles (state, old_sheet, new_sheet);
+	state->old_sheet = old_sheet;
+	state->new_sheet = new_sheet;
+
+	diff_sheets_attrs (state);
+	diff_sheets_colrow (state, TRUE);
+	diff_sheets_colrow (state, FALSE);
+	diff_sheets_cells (state);
+	diff_sheets_styles (state);
+
+	state->old_sheet = state->new_sheet = NULL;
 }
 
 static int
