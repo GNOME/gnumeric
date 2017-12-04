@@ -989,8 +989,10 @@ diff_sheets_colrow (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet, gbo
 	ColRowInfo const *new_def = sheet_colrow_get_default (new_sheet, is_cols);
 	int i, N;
 
-	if (!colrow_equal (old_def, new_def))
+	if (!colrow_equal (old_def, new_def)) {
+		state->diff_found = TRUE;
 		state->actions->colrow_changed (state, old_def, new_def, is_cols, -1);
+	}
 
 	N = MIN (colrow_max (is_cols, old_sheet), colrow_max (is_cols, new_sheet));
 	for (i = 0; i < N; i++) {
@@ -1001,8 +1003,10 @@ diff_sheets_colrow (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet, gbo
 			continue; // Considered equal, even if defaults are different
 		if (!ocr) ocr = old_def;
 		if (!ncr) ncr = new_def;
-		if (!colrow_equal (ocr, ncr))
+		if (!colrow_equal (ocr, ncr)) {
+			state->diff_found = TRUE;
 			state->actions->colrow_changed (state, ocr, ncr, is_cols, i);
+		}
 	}
 }
 
