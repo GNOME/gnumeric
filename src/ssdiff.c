@@ -372,6 +372,8 @@ xml_close_section (GnmDiffState *state)
 static void
 xml_open_section (GnmDiffState *state, const char *section)
 {
+	if (state->open_section && g_str_equal (section, state->open_section))
+		return;
 
 	xml_close_section (state);
 	gsf_xml_out_start_element (state->xml, section);
