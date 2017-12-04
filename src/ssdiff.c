@@ -489,7 +489,7 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 
 #define DO_INT(what,fun)					\
   do {								\
-	  gsf_xml_out_start_element (state->xml, (what));	\
+	  gsf_xml_out_start_element (state->xml, DIFF what);	\
 	  gsf_xml_out_add_int (state->xml, "Old", (fun) (os));	\
 	  gsf_xml_out_add_int (state->xml, "New", (fun) (ns));	\
 	  gsf_xml_out_end_element (state->xml);			\
@@ -497,10 +497,10 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 
 #define DO_INTS(what,fun,oobj,nobj)					\
   do {									\
-  	  int oi = (oobj) ? (fun) (oobj) : 0;			\
-	  int ni = (nobj) ? (fun) (nobj) : 0;			\
+	  int oi = (oobj) ? (fun) (oobj) : 0;				\
+	  int ni = (nobj) ? (fun) (nobj) : 0;				\
 	  if (oi != ni || !(oobj) != !(nobj)) {				\
-		  gsf_xml_out_start_element (state->xml, (what));	\
+		  gsf_xml_out_start_element (state->xml, DIFF what);	\
 		  if (oobj) gsf_xml_out_add_int (state->xml, "Old", oi); \
 		  if (nobj) gsf_xml_out_add_int (state->xml, "New", ni); \
 		  gsf_xml_out_end_element (state->xml);			\
@@ -512,7 +512,7 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 	  const char *ostr = (oobj) ? (fun) (oobj) : NULL;		\
 	  const char *nstr = (nobj) ? (fun) (nobj) : NULL;		\
 	  if (g_strcmp0 (ostr, nstr)) {					\
-		  gsf_xml_out_start_element (state->xml, (what));	\
+		  gsf_xml_out_start_element (state->xml, DIFF what);	\
 		  if (ostr) gsf_xml_out_add_cstr (state->xml, "Old", ostr); \
 		  if (nstr) gsf_xml_out_add_cstr (state->xml, "New", nstr); \
 		  gsf_xml_out_end_element (state->xml);			\
@@ -567,7 +567,7 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 			GnmColor *oc = gnm_style_get_back_color (os);
 			GnmColor *nc = gnm_style_get_back_color (ns);
 
-			gsf_xml_out_start_element (state->xml, "BackColor");
+			gsf_xml_out_start_element (state->xml, DIFF "BackColor");
 			gnm_xml_out_add_gocolor (state->xml, "Old", oc->go_color);
 			gnm_xml_out_add_gocolor (state->xml, "New", nc->go_color);
 			if (oc->is_auto != nc->is_auto) {
@@ -579,7 +579,7 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 		}
 
 		case MSTYLE_COLOR_PATTERN:
-			gsf_xml_out_start_element (state->xml, "PatternColor");
+			gsf_xml_out_start_element (state->xml, DIFF "PatternColor");
 			gnm_xml_out_add_gocolor (state->xml, "Old", gnm_style_get_pattern_color (os)->go_color);
 			gnm_xml_out_add_gocolor (state->xml, "New", gnm_style_get_pattern_color (ns)->go_color);
 			gsf_xml_out_end_element (state->xml);
@@ -600,7 +600,7 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 				"Diagonal"
 			};
 
-			char *tag = g_strconcat ("Border",
+			char *tag = g_strconcat (DIFF "Border",
 						 border_names[e - MSTYLE_BORDER_TOP],
 						 NULL);
 			GnmBorder const *ob = gnm_style_get_border (os, e);
@@ -622,14 +622,14 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 			break;
 
 		case MSTYLE_FONT_COLOR:
-			gsf_xml_out_start_element (state->xml, "FontColor");
+			gsf_xml_out_start_element (state->xml, DIFF "FontColor");
 			gnm_xml_out_add_gocolor (state->xml, "Old", gnm_style_get_font_color (os)->go_color);
 			gnm_xml_out_add_gocolor (state->xml, "New", gnm_style_get_font_color (ns)->go_color);
 			gsf_xml_out_end_element (state->xml);
 			break;
 
 		case MSTYLE_FONT_NAME:
-			gsf_xml_out_start_element (state->xml, "FontName");
+			gsf_xml_out_start_element (state->xml, DIFF "FontName");
 			gsf_xml_out_add_cstr (state->xml, "Old", gnm_style_get_font_name (os));
 			gsf_xml_out_add_cstr (state->xml, "New", gnm_style_get_font_name (ns));
 			gsf_xml_out_end_element (state->xml);
@@ -656,14 +656,14 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 			break;
 
 		case MSTYLE_FONT_SIZE:
-			gsf_xml_out_start_element (state->xml, "FontSize");
+			gsf_xml_out_start_element (state->xml, DIFF "FontSize");
 			gsf_xml_out_add_float (state->xml, "Old", gnm_style_get_font_size (os), 4);
 			gsf_xml_out_add_float (state->xml, "New", gnm_style_get_font_size (ns), 4);
 			gsf_xml_out_end_element (state->xml);
 			break;
 
 		case MSTYLE_FORMAT:
-			gsf_xml_out_start_element (state->xml, "Format");
+			gsf_xml_out_start_element (state->xml, DIFF "Format");
 			gsf_xml_out_add_cstr (state->xml, "Old", go_format_as_XL (gnm_style_get_format (os)));
 			gsf_xml_out_add_cstr (state->xml, "New", go_format_as_XL (gnm_style_get_format (ns)));
 			gsf_xml_out_end_element (state->xml);
@@ -709,7 +709,7 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 			GnmHLink const *ol = gnm_style_get_hlink (os);
 			GnmHLink const *nl = gnm_style_get_hlink (ns);
 
-			gsf_xml_out_start_element (state->xml, "HLink");
+			gsf_xml_out_start_element (state->xml, DIFF "HLink");
 			if (ol) {
 				gsf_xml_out_add_cstr (state->xml, "OldTarget", gnm_hlink_get_target (ol));
 				gsf_xml_out_add_cstr (state->xml, "OldTip", gnm_hlink_get_tip (ol));
@@ -726,7 +726,7 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 		case MSTYLE_VALIDATION: {
 			GnmValidation const *ov = gnm_style_get_validation (os);
 			GnmValidation const *nv = gnm_style_get_validation (ns);
-			gsf_xml_out_start_element (state->xml, "Validation");
+			gsf_xml_out_start_element (state->xml, DIFF "Validation");
 			DO_STRINGS ("Message", cb_validation_message, ov, nv);
 			DO_STRINGS ("Title", cb_validation_title, ov, nv);
 			DO_INTS ("AllowBlank", cb_validation_allow_blank, ov, nv);
@@ -739,7 +739,7 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 			GnmInputMsg const *om = gnm_style_get_input_msg (os);
 			GnmInputMsg const *nm = gnm_style_get_input_msg (ns);
 
-			gsf_xml_out_start_element (state->xml, "InputMessage");
+			gsf_xml_out_start_element (state->xml, DIFF "InputMessage");
 			DO_STRINGS ("Message", gnm_input_msg_get_msg, om, nm);
 			DO_STRINGS ("Title", gnm_input_msg_get_title, om, nm);
 			gsf_xml_out_end_element (state->xml); /* </InputMessage> */
@@ -747,12 +747,12 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 		}
 
 		case MSTYLE_CONDITIONS:
-			gsf_xml_out_start_element (state->xml, "Conditions");
+			gsf_xml_out_start_element (state->xml, DIFF "Conditions");
 			gsf_xml_out_end_element (state->xml); /* </Conditions> */
 			break;
 
 		default:
-			gsf_xml_out_start_element (state->xml, "Other");
+			gsf_xml_out_start_element (state->xml, DIFF "Other");
 			gsf_xml_out_end_element (state->xml); /* </Other> */
 			break;
 		}
