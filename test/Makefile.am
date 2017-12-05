@@ -170,6 +170,7 @@ TESTS =	t1000-statfuns.pl			\
 	t9002-ssdiff-self.pl			\
 	t9003-ssdiff-xml.pl			\
 	t9004-ssdiff-highlight.pl		\
+	t9010-ssgrep.pl				\
 	t9100-number-match.pl			\
 	t9999-epilogue.pl
 
