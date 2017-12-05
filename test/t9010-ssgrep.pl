@@ -8,9 +8,10 @@ use GnumericTest;
 my $src1 = "$samples/excel/statfuns.xls";
 my $src2 = "$samples/excel/mathfuns.xls";
 my $src3 = "$samples/excel/engfuns.xls";
+my $src4 = "$samples/auto-filter-tests.gnumeric";
 
 &GnumericTest::report_skip ("Missing source files")
-    unless -r $src1 && -r $src2 && -r $src3;
+    unless -r $src1 && -r $src2 && -r $src3 && -r $src4;
 
 
 my %expected;
@@ -43,6 +44,15 @@ my $nbad = 0;
 
 &message ("Checking ssgrep with proper regexp.");
 &check ("$ssgrep 'SUM[IS]' $src2", 'TEST6A', 0);
+
+&message ("Checking ssgrep with hits on multiple sheets.");
+&check ("$ssgrep -T -H -n wbc-gtk-actions $src4", 'TEST7A', 0);
+
+&message ("Checking ssgrep -i.");
+&check ("$ssgrep -h -i SUMIF $src1 $src2 $src3", 'TEST8A', 0);
+
+&message ("Checking ssgrep -w.");
+&check ("$ssgrep -h -i -w COUNT $src1 $src2 $src3", 'TEST9A', 0);
 
 # -----------------------------------------------------------------------------
 
@@ -157,4 +167,18 @@ IMSUM
 *** TEST6A ***
 SUMIF
 SUMSQ
+*** TEST7A ***
+$samples/auto-filter-tests.gnumeric:cell:Sheet1!G4:wbc-gtk-actions.c
+$samples/auto-filter-tests.gnumeric:cell:Sheet2!G4:wbc-gtk-actions.c
+$samples/auto-filter-tests.gnumeric:cell:Sheet3!G4:wbc-gtk-actions.c
+*** TEST8A ***
+SUMIF
+=sumif(A14:A17,H14)
+=sumif(B14:B17,H15)
+=sumif(A14:A17,H15,C14:C17)
+*** TEST9A ***
+COUNT
+=count(A14:A17)
+=count(G14:G17)
+=count(B14:B18)
 *** END ***
