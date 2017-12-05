@@ -30,6 +30,8 @@
 #include "xml-sax.h"
 #include "hlink.h"
 #include "input-msg.h"
+#include "expr-name.h"
+#include "workbook-priv.h"
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-input.h>
@@ -124,6 +126,12 @@ typedef struct {
 	// The style of an area was changed.
 	void (*style_changed) (GnmDiffState *state, GnmRange const *r,
 			       GnmStyle const *os, GnmStyle const *ns);
+
+	/* ------------------------------ */
+
+	// A defined name was changed
+	void (*name_changed) (GnmDiffState *state,
+			      GnmNamedExpr const *on, GnmNamedExpr const *nn);
 } GnmDiffActions;
 
 typedef struct {
@@ -147,12 +155,12 @@ struct GnmDiffState_ {
 	Sheet *old_sheet, *new_sheet;
 	GnmRange common_range;
 
-	/* The following for xml mode.  */
+	// The following for xml mode.
 	GsfXMLOut *xml;
 	const char *xml_section;
 	GnmConventions *xml_convs;
 
-	/* The following for highlight mode.  */
+	// The following for highlight mode.
 	GnmDiffStateFile highlight;
 	GOFileSaver const *highlight_fs;
 	GnmStyle *highlight_style;
@@ -203,6 +211,12 @@ static void
 null_colrow_changed (G_GNUC_UNUSED GnmDiffState *state,
 		     G_GNUC_UNUSED ColRowInfo const *oc, G_GNUC_UNUSED ColRowInfo const *nc,
 		     G_GNUC_UNUSED gboolean is_cols, G_GNUC_UNUSED int i)
+{
+}
+
+static void
+null_name_changed (G_GNUC_UNUSED GnmDiffState *state,
+		   G_GNUC_UNUSED GnmNamedExpr const *on, G_GNUC_UNUSED GnmNamedExpr const *nn)
 {
 }
 
@@ -324,6 +338,20 @@ def_style_changed (GnmDiffState *state, GnmRange const *r,
 			   range_as_string (r));
 }
 
+static void
+def_name_changed (GnmDiffState *state,
+		  GnmNamedExpr const *on, GnmNamedExpr const *nn)
+{
+	if (on && nn)
+		gsf_output_printf (state->output, _("Name %s changed.\n"), expr_name_name (on));
+	else if (on)
+		gsf_output_printf (state->output, _("Name %s removed.\n"), expr_name_name (on));
+	else if (nn)
+		gsf_output_printf (state->output, _("Name %s added.\n"), expr_name_name (nn));
+	else
+		g_assert_not_reached ();
+}
+
 static const GnmDiffActions default_actions = {
 	null_diff_start,
 	null_diff_end,
@@ -335,6 +363,7 @@ static const GnmDiffActions default_actions = {
 	def_colrow_changed,
 	def_cell_changed,
 	def_style_changed,
+	def_name_changed,
 };
 
 /* -------------------------------------------------------------------------- */
@@ -374,19 +403,6 @@ xml_dtor (GnmDiffState *state)
 }
 
 static void
-xml_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
-{
-	Sheet const *sheet = os ? os : ns;
-
-	gsf_xml_out_start_element (state->xml, DIFF "Sheet");
-	gsf_xml_out_add_cstr (state->xml, "Name", sheet->name_unquoted);
-	if (os)
-		gsf_xml_out_add_int (state->xml, "Old", os->index_in_wb);
-	if (ns)
-		gsf_xml_out_add_int (state->xml, "New", ns->index_in_wb);
-}
-
-static void
 xml_close_section (GnmDiffState *state)
 {
 	if (state->xml_section) {
@@ -396,7 +412,7 @@ xml_close_section (GnmDiffState *state)
 }
 
 static void
-xml_xml_section (GnmDiffState *state, const char *section)
+xml_open_section (GnmDiffState *state, const char *section)
 {
 	if (state->xml_section && g_str_equal (section, state->xml_section))
 		return;
@@ -404,6 +420,22 @@ xml_xml_section (GnmDiffState *state, const char *section)
 	xml_close_section (state);
 	gsf_xml_out_start_element (state->xml, section);
 	state->xml_section = section;
+}
+
+static void
+xml_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
+{
+	Sheet const *sheet = os ? os : ns;
+
+	// We might have an open section for global names
+	xml_close_section (state);
+
+	gsf_xml_out_start_element (state->xml, DIFF "Sheet");
+	gsf_xml_out_add_cstr (state->xml, "Name", sheet->name_unquoted);
+	if (os)
+		gsf_xml_out_add_int (state->xml, "Old", os->index_in_wb);
+	if (ns)
+		gsf_xml_out_add_int (state->xml, "New", ns->index_in_wb);
 }
 
 static void
@@ -428,42 +460,51 @@ xml_sheet_attr_int_changed (GnmDiffState *state, const char *name,
 }
 
 static void
-output_cell (GnmDiffState *state, GnmCell const *cell,
-	     const char *tag, const char *valtag, const char *fmttag)
+xml_output_texpr (GnmDiffState *state, GnmExprTop const *texpr, GnmParsePos const *pos,
+		  const char *tag)
 {
+	GnmConventionsOut out;
 	GString *str;
 
-	if (!cell)
-		return;
+	out.accum = str = g_string_sized_new (100);
+	out.pp    = pos;
+	out.convs = state->xml_convs;
 
-	str = g_string_sized_new (100);
-	if (gnm_cell_has_expr (cell)) {
-		GnmConventionsOut out;
-		GnmParsePos pp;
-
-		out.accum = str;
-		out.pp    = parse_pos_init_cell (&pp, cell);
-		out.convs = state->xml_convs;
-
-		g_string_append_c (str, '=');
-		gnm_expr_top_as_gstring (cell->base.texpr, &out);
-	} else {
-		GnmValue const *v = cell->value;
-		value_get_as_gstring (v, str, state->xml_convs);
-		gsf_xml_out_add_int (state->xml, valtag, v->v_any.type);
-		if (VALUE_FMT (v))
-			gsf_xml_out_add_cstr (state->xml, fmttag, go_format_as_XL (VALUE_FMT (v)));
-	}
+	g_string_append_c (str, '=');
+	gnm_expr_top_as_gstring (texpr, &out);
 
 	gsf_xml_out_add_cstr (state->xml, tag, str->str);
 	g_string_free (str, TRUE);
 }
 
 static void
+xml_output_cell (GnmDiffState *state, GnmCell const *cell,
+		 const char *tag, const char *valtag, const char *fmttag)
+{
+	if (!cell)
+		return;
+
+	if (gnm_cell_has_expr (cell)) {
+		GnmParsePos pp;
+		parse_pos_init_cell (&pp, cell);
+		xml_output_texpr (state, cell->base.texpr, &pp, tag);
+	} else {
+		GnmValue const *v = cell->value;
+		GString *str = g_string_sized_new (100);
+		value_get_as_gstring (v, str, state->xml_convs);
+		gsf_xml_out_add_cstr (state->xml, tag, str->str);
+		g_string_free (str, TRUE);
+		gsf_xml_out_add_int (state->xml, valtag, v->v_any.type);
+		if (VALUE_FMT (v))
+			gsf_xml_out_add_cstr (state->xml, fmttag, go_format_as_XL (VALUE_FMT (v)));
+	}
+}
+
+static void
 xml_colrow_changed (GnmDiffState *state, ColRowInfo const *oc, ColRowInfo const *nc,
 		    gboolean is_cols, int i)
 {
-	xml_xml_section (state, is_cols ? DIFF "Cols" : DIFF "Rows");
+	xml_open_section (state, is_cols ? DIFF "Cols" : DIFF "Rows");
 
 	gsf_xml_out_start_element (state->xml, is_cols ? DIFF "ColInfo" : DIFF "RowInfo");
 	if (i >= 0) gsf_xml_out_add_int (state->xml, "No", i);
@@ -497,7 +538,7 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 {
 	const GnmCellPos *pos;
 
-	xml_xml_section (state, DIFF "Cells");
+	xml_open_section (state, DIFF "Cells");
 
 	gsf_xml_out_start_element (state->xml, DIFF "Cell");
 
@@ -505,8 +546,8 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 	gsf_xml_out_add_int (state->xml, "Row", pos->row);
 	gsf_xml_out_add_int (state->xml, "Col", pos->col);
 
-	output_cell (state, oc, "Old", "OldValueType", "OldValueFormat");
-	output_cell (state, nc, "New", "NewValueType", "NewValueFormat");
+	xml_output_cell (state, oc, "Old", "OldValueType", "OldValueFormat");
+	xml_output_cell (state, nc, "New", "NewValueType", "NewValueFormat");
 
 	gsf_xml_out_end_element (state->xml); /* </Cell> */
 }
@@ -574,7 +615,7 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 	unsigned int conflicts;
 	GnmStyleElement e;
 
-	xml_xml_section (state, DIFF "Styles");
+	xml_open_section (state, DIFF "Styles");
 
 	gsf_xml_out_start_element (state->xml, DIFF "StyleRegion");
 	gsf_xml_out_add_uint (state->xml, "startCol", r->start.col);
@@ -789,6 +830,21 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 #undef DO_INTS
 #undef DO_STRINGS
 
+static void
+xml_name_changed (GnmDiffState *state,
+		  GnmNamedExpr const *on, GnmNamedExpr const *nn)
+{
+	xml_open_section (state, DIFF "Names");
+
+	gsf_xml_out_start_element (state->xml, DIFF "Name");
+	gsf_xml_out_add_cstr (state->xml, "Name", expr_name_name (on ? on : nn));
+	if (on)
+		xml_output_texpr (state, on->texpr, &on->pos, "Old");
+	if (nn)
+		xml_output_texpr (state, nn->texpr, &nn->pos, "New");
+	gsf_xml_out_end_element (state->xml); /* </Name> */
+}
+
 static const GnmDiffActions xml_actions = {
 	xml_diff_start,
 	xml_diff_end,
@@ -800,6 +856,7 @@ static const GnmDiffActions xml_actions = {
 	xml_colrow_changed,
 	xml_cell_changed,
 	xml_style_changed,
+	xml_name_changed,
 };
 
 /* -------------------------------------------------------------------------- */
@@ -818,13 +875,13 @@ highlight_diff_start (GnmDiffState *state)
 		return TRUE;
 	}
 
-	/* We need a copy of one of the files.  Rereading is easy.  */
+	// We need a copy of one of the files.  Rereading is easy.
 	g_object_ref ((state->highlight.input = state->new.input));
 	gsf_input_seek (state->highlight.input, 0, G_SEEK_SET);
 	if (read_file (&state->highlight, dst, state->ioc))
 		return TRUE;
 
-	/* We apply a solid #F3F315 to changed cells.  */
+	// We apply a solid #F3F315 to changed cells.
 	state->highlight_style = gnm_style_new ();
 	gnm_style_set_back_color (state->highlight_style,
 				  gnm_color_new_rgb8 (0xf3, 0xf3, 0x15));
@@ -890,9 +947,35 @@ static const GnmDiffActions highlight_actions = {
 	null_colrow_changed,
 	highlight_cell_changed,
 	highlight_style_changed,
+	null_name_changed,
 };
 
 /* -------------------------------------------------------------------------- */
+
+static gboolean
+compare_texpr_equal (GnmExprTop const *oe, GnmParsePos const *opp,
+		     GnmExprTop const *ne, GnmParsePos const *npp,
+		     GnmConventions const *convs)
+{
+	char *so, *sn;
+	gboolean eq;
+
+	if (gnm_expr_top_equal (oe, ne))
+		return TRUE;
+
+	// Not equal, but with references to sheets, that is not
+	// necessary.  Compare as strings.
+
+	so = gnm_expr_top_as_string (oe, opp, convs);
+	sn = gnm_expr_top_as_string (ne, npp, convs);
+
+	eq = g_strcmp0 (so, sn) == 0;
+
+	g_free (so);
+	g_free (sn);
+
+	return eq;
+}
 
 static gboolean
 compare_corresponding_cells (GnmCell const *co, GnmCell const *cn)
@@ -903,28 +986,12 @@ compare_corresponding_cells (GnmCell const *co, GnmCell const *cn)
 	if (has_expr != gnm_cell_has_expr (cn))
 		return TRUE;
 	if (has_expr) {
-		char *so, *sn;
-		GnmParsePos ppo, ppn;
-		gboolean eq;
-
-		if (gnm_expr_top_equal (co->base.texpr, cn->base.texpr))
-			return FALSE;
-
-		// Not equal, but with references to sheets, that is not
-		// necessary.  Compare as strings.
-
-		parse_pos_init_cell (&ppo, co);
-		so = gnm_expr_top_as_string (co->base.texpr, &ppo, sheet_get_conventions (co->base.sheet));
-
-		parse_pos_init_cell (&ppn, cn);
-		sn = gnm_expr_top_as_string (cn->base.texpr, &ppn, sheet_get_conventions (cn->base.sheet));
-
-		eq = g_strcmp0 (so, sn) == 0;
-
-		g_free (so);
-		g_free (sn);
-
-		return !eq;
+		GnmParsePos opp, npp;
+		parse_pos_init_cell (&opp, co);
+		parse_pos_init_cell (&npp, cn);
+		return !compare_texpr_equal (co->base.texpr, &opp,
+					     cn->base.texpr, &npp,
+					     sheet_get_conventions (cn->base.sheet));
 	}
 
 	if (has_value != (cn->value != NULL))
@@ -959,7 +1026,7 @@ diff_sheets_cells (GnmDiffState *state)
 	GPtrArray *new_cells = sheet_cells (state->new_sheet, NULL);
 	size_t io = 0, in = 0;
 
-	/* Make code below simpler.  */
+	// Make code below simpler.
 	g_ptr_array_add (old_cells, NULL);
 	g_ptr_array_add (new_cells, NULL);
 
@@ -1039,7 +1106,6 @@ diff_sheets_colrow (GnmDiffState *state, gboolean is_cols)
 		}
 	}
 }
-
 
 #define DO_INT(field,attr)						\
   do {									\
@@ -1128,6 +1194,68 @@ diff_sheets_styles (GnmDiffState *state)
 				   &data);
 }
 
+static int
+cb_expr_name_by_name (GnmNamedExpr const *a, GnmNamedExpr const *b)
+{
+	return g_strcmp0 (expr_name_name (a), expr_name_name (b));
+}
+
+static void
+diff_names (GnmDiffState *state,
+	    GnmNamedExprCollection const *onames, GnmNamedExprCollection const *nnames)
+{
+	GSList *old_names = gnm_named_expr_collection_list (onames);
+	GSList *new_names = gnm_named_expr_collection_list (nnames);
+	GSList *lo, *ln;
+	GnmConventions const *convs;
+
+	if (state->new_sheet)
+		convs = sheet_get_conventions (state->new_sheet);
+	else
+		// Hmm...  It's not terribly important where we get them
+		convs = sheet_get_conventions (workbook_sheet_by_index (state->new.wb, 0));
+		
+	old_names = g_slist_sort (old_names, (GCompareFunc)cb_expr_name_by_name);
+	new_names = g_slist_sort (new_names, (GCompareFunc)cb_expr_name_by_name);
+
+	lo = old_names;
+	ln = new_names;
+	while (lo || ln) {
+		GnmNamedExpr const *on = lo ? lo->data : NULL;
+		GnmNamedExpr const *nn = ln ? ln->data : NULL;
+
+		if (!nn || (on && cb_expr_name_by_name (on, nn)) < 0) {
+			// Old name got removed
+			state->diff_found = TRUE;
+			state->actions->name_changed (state, on, nn);
+			lo = lo->next;
+			continue;
+		}
+
+		if (!on || (nn && cb_expr_name_by_name (on, nn)) > 0) {
+			// New name got added
+			state->diff_found = TRUE;
+			state->actions->name_changed (state, on, nn);
+			ln = ln->next;
+			continue;
+		}
+
+		if (!compare_texpr_equal (on->texpr, &on->pos,
+					  nn->texpr, &nn->pos,
+					  convs)) {
+			state->diff_found = TRUE;
+			state->actions->name_changed (state, on, nn);
+		}
+
+		lo = lo->next;
+		ln = ln->next;
+	}
+
+	g_slist_free (old_names);
+	g_slist_free (new_names);
+}
+
+
 static void
 diff_sheets (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 {
@@ -1141,6 +1269,7 @@ diff_sheets (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 	range_intersection (&state->common_range, &or, &nr);
 
 	diff_sheets_attrs (state);
+	diff_names (state, state->old_sheet->names, state->new_sheet->names);
 	diff_sheets_colrow (state, TRUE);
 	diff_sheets_colrow (state, FALSE);
 	diff_sheets_cells (state);
@@ -1178,11 +1307,10 @@ diff (char const *oldfilename, char const *newfilename,
 	if (state.actions->diff_start (&state))
 		goto error;
 
-	/*
-	 * This doesn't handle sheet renames very well, but simply considers
-	 * that a sheet deletion and a sheet insert.
-	 */
+	diff_names (&state, state.old.wb->names, state.new.wb->names);
 
+	// This doesn't handle sheet renames very well, but simply considers
+	// that a sheet deletion and a sheet insert.
 	count = workbook_sheet_count (state.old.wb);
 	for (i = 0; i < count; i++) {
 		Sheet *old_sheet = workbook_sheet_by_index (state.old.wb, i);
@@ -1208,7 +1336,7 @@ diff (char const *oldfilename, char const *newfilename,
 		Sheet *old_sheet = workbook_sheet_by_name (state.old.wb,
 							   new_sheet->name_unquoted);
 		if (old_sheet)
-			; /* Nothing -- already done above. */
+			; // Nothing -- already done above.
 		else {
 			state.diff_found = TRUE;
 			state.actions->sheet_start (&state, old_sheet, new_sheet);
@@ -1252,7 +1380,7 @@ main (int argc, char const **argv)
 	char *output_uri;
 	GsfOutput *output;
 
-	/* No code before here, we need to init threads */
+	// No code before here, we need to init threads
 	argv = gnm_pre_parse_init (argc, argv);
 
 	ocontext = g_option_context_new (_("OLDFILE NEWFILE"));
@@ -1309,7 +1437,7 @@ main (int argc, char const **argv)
 	go_plugin_db_activate_plugin_list (
 		go_plugins_get_available_plugins (), &plugin_errs);
 	if (plugin_errs) {
-		/* FIXME: What do we want to do here? */
+		// FIXME: What do we want to do here?
 		go_error_info_free (plugin_errs);
 	}
 	go_component_set_default_command_context (cc);
@@ -1325,7 +1453,7 @@ main (int argc, char const **argv)
 		res = 2;
 	}
 
-	/* Release cached string. */
+	// Release cached string.
 	def_cell_name (NULL);
 	g_object_unref (output);
 

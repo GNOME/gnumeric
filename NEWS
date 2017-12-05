@@ -5,6 +5,7 @@ Morten:
 	* Test suite improvements.
 	* Improve sylk writer.  Don't ask.
 	* Teach ssdiff about column/row sizes.
+	* Teach ssdiff about defined names.
 	* Fix a few ssdiff crashes.
 
 --------------------------------------------------------------------------

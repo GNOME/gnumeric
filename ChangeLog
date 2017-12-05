@@ -2,6 +2,7 @@
 
 	* src/ssdiff.c (GnmDiffState): Store old_sheet and new_sheet here
 	instead of passing them all over the place.
+	(diff): Compare names too.
 
 2017-12-03  Morten Welinder  <terra@gnome.org>
 
