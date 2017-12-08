@@ -805,7 +805,6 @@ sylk_file_open (GOFileOpener const *fo,
 		GsfInput	*input)
 {
 	SylkReader state;
-	char const *input_name;
 	char *name = NULL;
 	int i;
 	GnmLocale *locale;
