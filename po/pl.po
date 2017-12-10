@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-03 18:50+0100\n"
-"PO-Revision-Date: 2017-12-03 18:52+0100\n"
+"POT-Creation-Date: 2017-12-10 16:09+0100\n"
+"PO-Revision-Date: 2017-12-10 16:10+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -1937,7 +1937,7 @@ msgstr "czas"
 
 #: ../plugins/openoffice/openoffice-write.c:5247
 #: ../plugins/openoffice/openoffice-write.c:5259 ../src/ssconvert.c:104
-#: ../src/ssdiff.c:57
+#: ../src/ssdiff.c:59
 msgid "file"
 msgstr "plik"
 
@@ -2449,6 +2449,13 @@ msgstr "Wiele wyrażeń w tej samej komórce"
 #: ../plugins/sylk/sylk.c:798
 msgid "Missing closing 'E'"
 msgstr "Brak zamykające „E”"
+
+#: ../plugins/sylk/sylk.c:821 ../src/dialogs/dialog-goto-cell.c:383
+#: ../src/dialogs/dialog-search.c:439 ../src/dialogs/dialog-stf-export.c:596
+#: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
+#: ../src/print-info.c:573 ../src/workbook.c:1037 ../src/workbook.c:1069
+msgid "Sheet"
+msgstr "Arkusz"
 
 #: ../plugins/uihello/plugin.xml.in.h:1
 msgid "UI Hello"
@@ -6373,13 +6380,6 @@ msgstr "Nie można utworzyć okna poszukiwania celu."
 #: ../src/dialogs/dialog-goto-cell.c:229
 msgid "Workbook Level"
 msgstr "Poziom zeszytu"
-
-#: ../src/dialogs/dialog-goto-cell.c:383 ../src/dialogs/dialog-search.c:439
-#: ../src/dialogs/dialog-stf-export.c:596 ../src/dialogs/hf-config.ui.h:16
-#: ../src/dialogs/print.ui.h:53 ../src/print-info.c:573 ../src/workbook.c:1037
-#: ../src/workbook.c:1069
-msgid "Sheet"
-msgstr "Arkusz"
 
 #: ../src/dialogs/dialog-goto-cell.c:389 ../src/dialogs/dialog-search.c:440
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
@@ -12474,7 +12474,7 @@ msgstr "Kończy działanie natychmiast po wczytaniu wybranych zeszytów"
 msgid "[FILE ...]"
 msgstr "[PLIK…]"
 
-#: ../src/main-application.c:125 ../src/ssconvert.c:903 ../src/ssdiff.c:1143
+#: ../src/main-application.c:125 ../src/ssconvert.c:903 ../src/ssdiff.c:1393
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -13288,7 +13288,7 @@ msgstr "Wstaw rzędy"
 msgid "Delete Rows"
 msgstr "Usuń rzędy"
 
-#: ../src/ssconvert.c:64 ../src/ssdiff.c:49 ../src/ssgrep.c:158
+#: ../src/ssconvert.c:64 ../src/ssdiff.c:51 ../src/ssgrep.c:158
 #: ../src/ssindex.c:45
 msgid "Display program version"
 msgstr "Wyświetla wersję programu"
@@ -13466,82 +13466,107 @@ msgstr ""
 "Katalog z danymi := „%s”\n"
 "Katalog z bibliotekami := „%s”\n"
 
-#: ../src/ssconvert.c:940 ../src/ssdiff.c:1200 ../src/ssindex.c:268
+#: ../src/ssconvert.c:940 ../src/ssdiff.c:1450 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Użycie: %s [OPCJA…] %s\n"
 
-#: ../src/ssdiff.c:56
+#: ../src/ssdiff.c:58
 msgid "Send output to file"
 msgstr "Wysyła wyjście do pliku"
 
-#: ../src/ssdiff.c:63
+#: ../src/ssdiff.c:65
 msgid "Output copy highlighting differences"
 msgstr "Wyświetla kopię wyróżniając zmiany"
 
-#: ../src/ssdiff.c:70
+#: ../src/ssdiff.c:72
 msgid "Output in xml format"
 msgstr "Wyjście w formacie XML"
 
-#: ../src/ssdiff.c:197
+#: ../src/ssdiff.c:236
 #, c-format
 msgid "%s: Failed to read %s: %s\n"
 msgstr "%s: odczytanie %s się nie powiodło: %s\n"
 
-#: ../src/ssdiff.c:244
+#: ../src/ssdiff.c:284
 #, c-format
 msgid "Differences for sheet %s:\n"
 msgstr "Różnice dla arkusza %s:\n"
 
-#: ../src/ssdiff.c:246
+#: ../src/ssdiff.c:286
 #, c-format
 msgid "Sheet %s removed.\n"
 msgstr "Usunięto arkusz %s.\n"
 
-#: ../src/ssdiff.c:248
+#: ../src/ssdiff.c:288
 #, c-format
 msgid "Sheet %s added.\n"
 msgstr "Dodano arkusz %s.\n"
 
-#: ../src/ssdiff.c:256
+#: ../src/ssdiff.c:296
 msgid "Sheet order changed.\n"
 msgstr "Zmieniono kolejność arkuszy.\n"
 
-#: ../src/ssdiff.c:263
+#: ../src/ssdiff.c:303
 #, c-format
 msgid "Sheet attribute %s changed.\n"
 msgstr "Zmieniono atrybut arkusza %s.\n"
 
-#: ../src/ssdiff.c:271
+#: ../src/ssdiff.c:312
+#, c-format
+msgid "Column %s changed.\n"
+msgstr "Zmieniono kolumnę %s.\n"
+
+#: ../src/ssdiff.c:315
+#, c-format
+msgid "Row %d changed.\n"
+msgstr "Zmieniono rząd %d.\n"
+
+#: ../src/ssdiff.c:323
 #, c-format
 msgid "Cell %s changed.\n"
 msgstr "Zmieniono komórkę %s.\n"
 
-#: ../src/ssdiff.c:273
+#: ../src/ssdiff.c:325
 #, c-format
 msgid "Cell %s removed.\n"
 msgstr "Usunięto komórkę %s.\n"
 
-#: ../src/ssdiff.c:275
+#: ../src/ssdiff.c:327
 #, c-format
 msgid "Cell %s added.\n"
 msgstr "Dodano komórkę %s.\n"
 
-#: ../src/ssdiff.c:287
+#: ../src/ssdiff.c:337
 #, c-format
 msgid "Style of %s was changed.\n"
 msgstr "Zmieniono styl %s.\n"
 
-#: ../src/ssdiff.c:731
+#: ../src/ssdiff.c:346
+#, c-format
+msgid "Name %s changed.\n"
+msgstr "Zmieniono nazwę %s.\n"
+
+#: ../src/ssdiff.c:348
+#, c-format
+msgid "Name %s removed.\n"
+msgstr "Usunięto nazwę %s.\n"
+
+#: ../src/ssdiff.c:350
+#, c-format
+msgid "Name %s added.\n"
+msgstr "Dodano nazwę %s.\n"
+
+#: ../src/ssdiff.c:871
 #, c-format
 msgid "%s: Unable to guess exporter to use for %s.\n"
 msgstr "%s: nie można odgadnąć eksportera do użycia dla %s.\n"
 
-#: ../src/ssdiff.c:1136 ../src/ssdiff.c:1202
+#: ../src/ssdiff.c:1386 ../src/ssdiff.c:1452
 msgid "OLDFILE NEWFILE"
 msgstr "POPRZEDNI-PLIK NOWY-PLIK"
 
-#: ../src/ssdiff.c:1150
+#: ../src/ssdiff.c:1400
 #, c-format
 msgid ""
 "ssdiff version '%s'\n"
@@ -13552,12 +13577,12 @@ msgstr ""
 "Katalog z danymi := „%s”\n"
 "Katalog z bibliotekami := „%s”\n"
 
-#: ../src/ssdiff.c:1156
+#: ../src/ssdiff.c:1406
 #, c-format
 msgid "%s: Only one output format may be specified.\n"
 msgstr "%s: można podać tylko jeden format wyjściowy.\n"
 
-#: ../src/ssdiff.c:1175
+#: ../src/ssdiff.c:1425
 #, c-format
 msgid "%s: Failed to create output file: %s\n"
 msgstr "%s: utworzenie pliku wyjściowego się nie powiodło: %s\n"
