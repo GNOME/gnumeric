@@ -155,7 +155,7 @@ ib_reload_sizing_style (GnmItemBar *ib)
 
 		g_clear_object (&ib->styles[ui]);
 #if GTK_CHECK_VERSION(3,20,0)
-		context = gnm_style_context_from_selector (NULL, selection_styles[ui]);
+		context = go_style_context_from_selector (NULL, selection_styles[ui]);
 #else
 		context = g_object_ref (goc_item_get_style_context (item));
 #endif
