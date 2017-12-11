@@ -180,7 +180,7 @@ gtv_build_toggle_button (GtkWidget *tb,  GnmTextView *gtv,
 
 	gtk_toolbar_insert (GTK_TOOLBAR (tb), tb_button, -1);
 	g_signal_connect (G_OBJECT (tb_button), "toggled", cb, gtv);
-	return g_object_ref (tb_button);
+	return GTK_TOGGLE_TOOL_BUTTON (g_object_ref (tb_button));
 }
 
 static void
