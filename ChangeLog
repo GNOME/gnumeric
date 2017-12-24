@@ -1,3 +1,7 @@
+2017-12-23  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_sheet): Fix crash on text important.
+
 2017-12-04  Morten Welinder  <terra@gnome.org>
 
 	* src/ssdiff.c (GnmDiffState): Store old_sheet and new_sheet here

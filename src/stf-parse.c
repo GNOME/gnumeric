@@ -1298,6 +1298,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	gboolean result = TRUE;
 	int col;
 	unsigned int lcol;
+	size_t nformats;
 
 	SETUP_LOCALE_SWITCH;
 
@@ -1314,7 +1315,8 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 		result = FALSE;
 
 	col = start_col;
-	for (lcol = 0; lcol < parseoptions->formats->len; lcol++) {
+	nformats = parseoptions->formats->len;
+	for (lcol = 0; lcol < nformats; lcol++) {
 		GOFormat const *fmt = g_ptr_array_index (parseoptions->formats, lcol);
 		GnmStyle *mstyle;
 		gboolean want_col =
@@ -1358,7 +1360,9 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 		line = g_ptr_array_index (lines, lrow);
 
 		for (lcol = 0; lcol < line->len; lcol++) {
-			GOFormat const *fmt = g_ptr_array_index (parseoptions->formats, lcol);
+			GOFormat const *fmt = lcol < nformats
+				? g_ptr_array_index (parseoptions->formats, lcol)
+				: go_format_general ();
 			char const *text = g_ptr_array_index (line, lcol);
 			gboolean want_col =
 				(parseoptions->col_import_array == NULL ||

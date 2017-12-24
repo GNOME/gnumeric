@@ -7,6 +7,7 @@ Morten:
 	* Teach ssdiff about column/row sizes.
 	* Teach ssdiff about defined names.
 	* Fix a few ssdiff crashes.
+	* Fix crash on text import.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.37
