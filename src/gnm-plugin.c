@@ -41,7 +41,7 @@ struct GnmPluginServiceFunctionGroup_ {
 
 	GnmFuncGroup *func_group;
 	GnmPluginServiceFunctionGroupCallbacks cbs;
-	char *textdomain;
+	char *tdomain;
 };
 
 static void
@@ -59,8 +59,8 @@ plugin_service_function_group_finalize (GObject *obj)
 	g_slist_free_full (sfg->function_name_list, g_free);
 	sfg->function_name_list = NULL;
 
-	g_free (sfg->textdomain);
-	sfg->textdomain = NULL;
+	g_free (sfg->tdomain);
+	sfg->tdomain = NULL;
 
 	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
 	parent_class->finalize (obj);
@@ -72,7 +72,7 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 	xmlNode *category_node, *translated_category_node, *functions_node;
 	gchar *category_name, *translated_category_name;
 	GSList *function_name_list = NULL;
-	gchar *textdomain = NULL;
+	gchar *tdomain = NULL;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	category_node = go_xml_get_child_by_name_no_lang (tree, "category");
@@ -99,7 +99,7 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 	if (functions_node != NULL) {
 		xmlNode *node;
 
-		textdomain = xml2c (go_xml_node_get_cstr (functions_node, "textdomain"));
+		tdomain = xml2c (go_xml_node_get_cstr (functions_node, "textdomain"));
 
 		for (node = functions_node->xmlChildrenNode; node != NULL; node = node->next) {
 			gchar *func_name;
@@ -121,7 +121,7 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 		sfg->category_name = category_name;
 		sfg->translated_category_name = translated_category_name;
 		sfg->function_name_list = function_name_list;
-		sfg->textdomain = textdomain;
+		sfg->tdomain = tdomain;
 	} else {
 		GSList *error_list = NULL;
 
@@ -140,7 +140,7 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 		g_free (translated_category_name);
 		g_slist_free_full (function_name_list, g_free);
 
-		g_free (textdomain);
+		g_free (tdomain);
 	}
 }
 
@@ -223,7 +223,7 @@ plugin_service_function_group_activate (GOPluginService *service, GOErrorInfo **
 			 gnm_func_set_user_data (fd, service);
 			 gnm_func_upgrade_placeholder
 				 (fd, sfg->func_group,
-				  sfg->textdomain,
+				  sfg->tdomain,
 				  plugin_service_function_group_func_desc_load,
 				  plugin_service_function_group_func_ref_notify);
 			 if (fd->usage_count > 0)
@@ -280,7 +280,7 @@ plugin_service_function_group_init (GnmPluginServiceFunctionGroup *s)
 	s->translated_category_name = NULL;
 	s->function_name_list = NULL;
 	s->func_group = NULL;
-	s->textdomain = NULL;
+	s->tdomain = NULL;
 }
 
 static void
@@ -433,7 +433,7 @@ plugin_service_ui_activate (GOPluginService *service, GOErrorInfo **ret_error)
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 	const char *uifile = service_ui->file_name;
 	char *xml_ui, *group_name;
-	char const *textdomain;
+	char const *tdomain;
 	GError *error = NULL;
 	GsfInput *src;
 	size_t len;
@@ -468,11 +468,11 @@ plugin_service_ui_activate (GOPluginService *service, GOErrorInfo **ret_error)
 	if (!xml_ui)
 		goto err;
 
-	textdomain = go_plugin_get_textdomain (service->plugin);
+	tdomain = go_plugin_get_textdomain (service->plugin);
 	group_name = g_strconcat (go_plugin_get_id (service->plugin), service->id, NULL);
 	service_ui->layout_id = gnm_app_add_extra_ui (group_name,
 		service_ui->actions,
-		xml_ui, textdomain, service);
+		xml_ui, tdomain, service);
 	g_free (group_name);
 	g_free (xml_ui);
 	g_object_unref (src);

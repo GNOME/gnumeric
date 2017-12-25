@@ -453,7 +453,7 @@ void
 func_builtin_init (void)
 {
 	const char *gname;
-	const char *textdomain = GETTEXT_PACKAGE;
+	const char *tdomain = GETTEXT_PACKAGE;
 	int i = 0;
 
 	static GnmFuncDescriptor const builtins [] = {
@@ -502,20 +502,20 @@ func_builtin_init (void)
 
 	gname = N_("Mathematics");
 	math_group = gnm_func_group_fetch (gname, _(gname));
-	gnm_func_add (math_group, builtins + i++, textdomain);
-	gnm_func_add (math_group, builtins + i++, textdomain);
+	gnm_func_add (math_group, builtins + i++, tdomain);
+	gnm_func_add (math_group, builtins + i++, tdomain);
 
 	gname = N_("Gnumeric");
 	gnumeric_group = gnm_func_group_fetch (gname, _(gname));
-	gnm_func_add (gnumeric_group, builtins + i++, textdomain);
-	gnm_func_add (gnumeric_group, builtins + i++, textdomain);
+	gnm_func_add (gnumeric_group, builtins + i++, tdomain);
+	gnm_func_add (gnumeric_group, builtins + i++, tdomain);
 	if (gnm_debug_flag ("testsuite"))
-		gnm_func_add (gnumeric_group, builtins + i, textdomain);
+		gnm_func_add (gnumeric_group, builtins + i, tdomain);
 	i++;
 
 	gname = N_("Logic");
 	logic_group = gnm_func_group_fetch (gname, _(gname));
-	gnm_func_add (logic_group, builtins + i++, textdomain);
+	gnm_func_add (logic_group, builtins + i++, tdomain);
 
 	gnm_expr_deriv_install_handler (gnm_func_lookup ("sum", NULL),
 					gnumeric_sum_deriv,

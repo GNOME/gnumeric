@@ -1,3 +1,8 @@
+2017-12-25  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-plugin.c: Avoid using "textdomain" as a variable.
+	* src/func-builtin.c (func_builtin_init): Ditto.
+
 2017-12-23  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_sheet): Fix crash on text important.
