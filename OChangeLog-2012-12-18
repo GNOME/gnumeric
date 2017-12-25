@@ -6178,7 +6178,7 @@
 	Extract textdomain from xml.
 
 	* src/func.c (gnm_func_add, gnm_func_add_stub): Add new
-	"textdomain" paramter.  All callers changed.
+	"textdomain" parameter.  All callers changed.
 
 	* src/gnumeric-gconf.c: Transparently watch all configuration
 	options of types int, bool, double, and string.
@@ -13662,7 +13662,7 @@
 	* src/sheet-autofill.c (sheet_autofill_hint): New function.
 	(sheet_autofill_internal): Split out from sheet_autofill.
 	(afm_teach_cell): Deduce dateconv here instead of as an init
-	paramter.
+	parameter.
 	(afa_teach_cell): Deduce dateconv here.
 	(afa_set_cell): Set format correctly.
 

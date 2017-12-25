@@ -29,14 +29,14 @@ function.
 
 [ NB. there are several types of function; more of this later ]
 
-This defines our function, the paramters in order are:
+This defines our function, the parameters in order are:
 
 'cat'          The category handle obtained earlier
 'add2numbers'  The function name ( as used in gnumeric )
 'ff'           The argument token type string, this tells gnumeric that
                we are expecting two floating point arguments.
 'number1,...'  Symbolic names for the arguments (in case our function
-               supports them, this allows users to specify named paramters)
+               supports them, this allows users to specify named parameters)
 'help_add2..'  This links in the help text
 'add2numbers'  This is the name of the function that gnumeric will call
                to evaluate the function.

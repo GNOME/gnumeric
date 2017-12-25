@@ -2302,7 +2302,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/workbook.c: Added Autosave tool.
 
-	* src/workbook.h: Added autosave paramters to the Workbook struct.
+	* src/workbook.h: Added autosave parameters to the Workbook struct.
 
 	* src/dialog-solver: Fixed a constraint delete bug.
 
@@ -7351,7 +7351,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialogs/dialogs.h: Change prototype.
 
 	* src/print.c (workbook_print): Implemented PRINT_ACTIVE_SHEETS,
-	added default_range paramter: use for now; renamed (sheet_print)
+	added default_range parameter: use for now; renamed (sheet_print)
 	(print_sheet): preconditions (sheet_print_selection): renamed.
 
 	* src/print.h (workbook_print): Move PrintRange enum here & re-name.
