@@ -35,7 +35,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define F2(func,s) dgettext ((func)->textdomain->str, (s))
+#define F2(func,s) dgettext ((func)->tdomain->str, (s))
 
 static GList	    *categories;
 static GnmFuncGroup *unknown_cat;
@@ -370,8 +370,8 @@ gnm_func_free (GnmFunc *func)
 
 	g_free ((char *)func->name);
 
-	if (func->textdomain)
-		go_string_unref (func->textdomain);
+	if (func->tdomain)
+		go_string_unref (func->tdomain);
 
 	gnm_func_clear_arg_names (func);
 
@@ -483,7 +483,7 @@ gnm_func_lookup_prefix (char const *prefix, Workbook *scope, gboolean trans)
 GnmFunc *
 gnm_func_add (GnmFuncGroup *fn_group,
 	      GnmFuncDescriptor const *desc,
-	      const char *textdomain)
+	      const char *tdomain)
 {
 	static char const valid_tokens[] = "fsbraAES?|";
 	GnmFunc *func;
@@ -494,12 +494,12 @@ gnm_func_add (GnmFuncGroup *fn_group,
 
 	func = g_new (GnmFunc, 1);
 
-	if (!textdomain)
-		textdomain = GETTEXT_PACKAGE;
+	if (!tdomain)
+		tdomain = GETTEXT_PACKAGE;
 
 	func->name		= g_strdup (desc->name);
 	func->help		= desc->help ? desc->help : NULL;
-	func->textdomain        = go_string_new (textdomain);
+	func->tdomain        = go_string_new (tdomain);
 	func->linker		= desc->linker;
 	func->usage_notify	= desc->usage_notify;
 	func->flags		= desc->flags;
@@ -560,14 +560,14 @@ unknownFunctionHandler (GnmFuncEvalInfo *ei,
  * gnm_func_upgrade_placeholder:
  * @fd:
  * @fn_group:
- * @textdomain:
+ * @tdomain:
  * @load_desc: (scope async):
  * @opt_usage_notify: (scope async):
  **/
 void
 gnm_func_upgrade_placeholder (GnmFunc *fd,
 			      GnmFuncGroup *fn_group,
-			      const char *textdomain,
+			      const char *tdomain,
 			      GnmFuncLoadDesc load_desc,
 			      GnmFuncUsageNotify opt_usage_notify)
 {
@@ -575,8 +575,8 @@ gnm_func_upgrade_placeholder (GnmFunc *fd,
 	g_return_if_fail (fd->flags & GNM_FUNC_IS_PLACEHOLDER);
 	g_return_if_fail (fn_group != NULL);
 
-	if (!textdomain)
-		textdomain = GETTEXT_PACKAGE;
+	if (!tdomain)
+		tdomain = GETTEXT_PACKAGE;
 
 	/* Remove from unknown_cat */
 	gnm_func_group_remove_func (fd->fn_group, fd);
@@ -585,8 +585,8 @@ gnm_func_upgrade_placeholder (GnmFunc *fd,
 	fd->fn.load_desc = load_desc;
 	fd->usage_notify = opt_usage_notify;
 
-	go_string_unref (fd->textdomain);
-	fd->textdomain = go_string_new (textdomain);
+	go_string_unref (fd->tdomain);
+	fd->tdomain = go_string_new (tdomain);
 
 	/* Clear localized_name so we can deduce the proper name.  */
 	gnm_func_set_localized_name (fd, NULL);

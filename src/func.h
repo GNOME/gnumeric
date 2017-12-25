@@ -190,7 +190,7 @@ struct _GnmFunc {
 	char const *name;
 	GPtrArray  *arg_names_p;
 	GnmFuncHelp const *help;
-	GOString *textdomain;
+	GOString *tdomain;
 	char *localized_name;
 	GnmFuncType fn_type;
 	union {
@@ -236,7 +236,7 @@ GSList	   *gnm_func_lookup_prefix   (char const *prefix, Workbook *scope,
 				      gboolean trans);
 GnmFunc    *gnm_func_add	     (GnmFuncGroup *group,
 				      GnmFuncDescriptor const *descriptor,
-				      const char *textdomain);
+				      const char *tdomain);
 GnmFunc    *gnm_func_add_placeholder (Workbook *optional_scope,
 				      char const *name,
 				      char const *type);
@@ -245,7 +245,7 @@ GnmFunc	   *gnm_func_lookup_or_add_placeholder (char const *name);
 void        gnm_func_upgrade_placeholder
 				      (GnmFunc *fd,
 				       GnmFuncGroup *fn_group,
-				       const char *textdomain,
+				       const char *tdomain,
 				       GnmFuncLoadDesc load_desc,
 				       GnmFuncUsageNotify opt_usage_notify);
 

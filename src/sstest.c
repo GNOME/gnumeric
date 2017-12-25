@@ -91,7 +91,7 @@ static GOptionEntry const sstest_options [] = {
 /* ------------------------------------------------------------------------- */
 
 #define UNICODE_ELLIPSIS "\xe2\x80\xa6"
-#define F2(func,s) dgettext ((func)->textdomain->str, (s))
+#define F2(func,s) dgettext ((func)->tdomain->str, (s))
 
 static char *
 split_at_colon (char const *s, char **rest)

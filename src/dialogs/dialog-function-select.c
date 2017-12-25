@@ -46,7 +46,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
-#define F2(func,s) dgettext ((func)->textdomain->str, (s))
+#define F2(func,s) dgettext ((func)->tdomain->str, (s))
 
 #define FUNCTION_SELECT_KEY "function-selector-dialog"
 #define FUNCTION_SELECT_HELP_KEY "function-selector-dialog-help-mode"
