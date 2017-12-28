@@ -17,11 +17,11 @@ my $tmp = "regress-resize.gnumeric";
 	       sub {
 		   $_ eq <<DIFF
 <?xml version="1.0" encoding="UTF-8"?>
-<ssdiff:Diff>
-  <ssdiff:Sheet Name="Sheet1" Old="0" New="0">
-    <ssdiff:Rows Old="65536" New="8192"/>
-  </ssdiff:Sheet>
-</ssdiff:Diff>
+<s:Diff xmlns:s="http://www.gnumeric.org/ssdiff.dtd">
+  <s:Sheet Name="Sheet1" Old="0" New="0">
+    <s:Rows Old="65536" New="8192"/>
+  </s:Sheet>
+</s:Diff>
 DIFF
 	       });
 
@@ -31,11 +31,11 @@ DIFF
 	       sub {
 		   $_ eq <<DIFF
 <?xml version="1.0" encoding="UTF-8"?>
-<ssdiff:Diff>
-  <ssdiff:Sheet Name="Sheet1" Old="0" New="0">
-    <ssdiff:Cols Old="256" New="128"/>
-  </ssdiff:Sheet>
-</ssdiff:Diff>
+<s:Diff xmlns:s="http://www.gnumeric.org/ssdiff.dtd">
+  <s:Sheet Name="Sheet1" Old="0" New="0">
+    <s:Cols Old="256" New="128"/>
+  </s:Sheet>
+</s:Diff>
 DIFF
 	       });
 
@@ -45,12 +45,12 @@ DIFF
 	       sub {
 		   $_ eq <<DIFF
 <?xml version="1.0" encoding="UTF-8"?>
-<ssdiff:Diff>
-  <ssdiff:Sheet Name="Sheet1" Old="0" New="0">
-    <ssdiff:Cols Old="256" New="128"/>
-    <ssdiff:Rows Old="65536" New="8192"/>
-  </ssdiff:Sheet>
-</ssdiff:Diff>
+<s:Diff xmlns:s="http://www.gnumeric.org/ssdiff.dtd">
+  <s:Sheet Name="Sheet1" Old="0" New="0">
+    <s:Cols Old="256" New="128"/>
+    <s:Rows Old="65536" New="8192"/>
+  </s:Sheet>
+</s:Diff>
 DIFF
 	       });
 
@@ -60,11 +60,11 @@ DIFF
 	       sub {
 		   $_ eq <<DIFF
 <?xml version="1.0" encoding="UTF-8"?>
-<ssdiff:Diff>
-  <ssdiff:Sheet Name="Sheet1" Old="0" New="0">
-    <ssdiff:Rows Old="65536" New="1048576"/>
-  </ssdiff:Sheet>
-</ssdiff:Diff>
+<s:Diff xmlns:s="http://www.gnumeric.org/ssdiff.dtd">
+  <s:Sheet Name="Sheet1" Old="0" New="0">
+    <s:Rows Old="65536" New="1048576"/>
+  </s:Sheet>
+</s:Diff>
 DIFF
 	       });
 
@@ -74,11 +74,11 @@ DIFF
 	       sub {
 		   $_ eq <<DIFF
 <?xml version="1.0" encoding="UTF-8"?>
-<ssdiff:Diff>
-  <ssdiff:Sheet Name="Sheet1" Old="0" New="0">
-    <ssdiff:Cols Old="256" New="512"/>
-  </ssdiff:Sheet>
-</ssdiff:Diff>
+<s:Diff xmlns:s="http://www.gnumeric.org/ssdiff.dtd">
+  <s:Sheet Name="Sheet1" Old="0" New="0">
+    <s:Cols Old="256" New="512"/>
+  </s:Sheet>
+</s:Diff>
 DIFF
 	       });
 
@@ -88,11 +88,11 @@ DIFF
 	       sub {
 		   $_ eq <<DIFF
 <?xml version="1.0" encoding="UTF-8"?>
-<ssdiff:Diff>
-  <ssdiff:Sheet Name="Sheet1" Old="0" New="0">
-    <ssdiff:Cols Old="256" New="16384"/>
-    <ssdiff:Rows Old="65536" New="1048576"/>
-  </ssdiff:Sheet>
-</ssdiff:Diff>
+<s:Diff xmlns:s="http://www.gnumeric.org/ssdiff.dtd">
+  <s:Sheet Name="Sheet1" Old="0" New="0">
+    <s:Cols Old="256" New="16384"/>
+    <s:Rows Old="65536" New="1048576"/>
+  </s:Sheet>
+</s:Diff>
 DIFF
 	       });
