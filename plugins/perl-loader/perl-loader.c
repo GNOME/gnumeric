@@ -15,7 +15,6 @@
 #include <sheet.h>
 #include <value.h>
 #include <expr.h>
-#include <expr-impl.h>
 #include <gnm-plugin.h>
 
 #include <goffice/goffice.h>
@@ -53,7 +52,7 @@ call_perl_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	GnmValue* result;
 	dSP;
 
-	fndef = ei->func_call->func;
+	fndef = gnm_expr_get_func_def ((GnmExpr *)(ei->func_call));
 	perl_func = g_strconcat ("func_", fndef->name, NULL);
 
 	function_def_count_args (fndef, &min_n_args, &max_n_args);
@@ -294,7 +293,7 @@ gplp_load_base (GOPluginLoader *loader, GOErrorInfo **ret_error)
 	argc = 2;
 
 	if (g_file_test (argv[2], G_FILE_TEST_EXISTS)) {
-		PERL_SYS_INIT3 (&argc, &argv, NULL);
+		PERL_SYS_INIT3 (&argc, (char ***)&argv, NULL);
 		gnm_perl_interp = perl_alloc ();
 		perl_construct (gnm_perl_interp);
 		perl_parse (gnm_perl_interp, xs_init, 3, argv, NULL);

@@ -21,6 +21,12 @@ perl_loader_la_SOURCES = \
 nodist_perl_loader_la_SOURCES = \
 	xsinit.c
 
+# Auto dep tracking is off here.  Add a few deps by hand
+boot.lo: $(srcdir)/../../gnumeric-config.h $(srcdir)/../../src/gnumeric.h $(srcdir)/../../src/gnm-plugin.h 
+perl-loader.lo: $(srcdir)/../../gnumeric-config.h $(srcdir)/../../src/gnumeric.h $(srcdir)/../../src/expr.h $(srcdir)/../../src/value.h $(srcdir)/../../src/sheet.h
+perl-gnumeric.lo: $(srcdir)/../../gnumeric-config.h $(srcdir)/../../src/gnumeric.h $(srcdir)/../../src/expr.h $(srcdir)/../../src/value.h $(srcdir)/../../src/func.h
+
+
 # Use the right compiler.  This is not 100% correct: we use GNUMERIC_CFLAGS
 # here which might contain stuff we don't like.  It looks good enough,
 # though.

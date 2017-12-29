@@ -1,3 +1,9 @@
+2017-12-29  Morten Welinder  <terra@gnome.org>
+
+	* perl-loader.c: Don't depend on expr-impl.h
+
+	* Makefile.am (perl-gnumeric.lo): Add a few deps by hand.
+
 2017-12-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.38
