@@ -33,7 +33,6 @@
 #include <gutils.h>
 #include <value.h>
 #include <expr.h>
-#include <expr-impl.h>
 #include <gnm-i18n.h>
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
@@ -4664,27 +4663,14 @@ function_marshal_arg (GnmFuncEvalInfo *ei,
 		      GnmExpr const *t,
 		      GnmValue **type_mismatch)
 {
-	GnmValue *v;
+	GnmValue *v = gnm_expr_eval (t, ei->pos,
+				     GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+				     GNM_EXPR_EVAL_WANT_REF);
 
-	*type_mismatch = NULL;
-
-	if (GNM_EXPR_GET_OPER (t) == GNM_EXPR_OP_CELLREF)
-		v = value_new_cellrange (&t->cellref.ref, &t->cellref.ref,
-					 ei->pos->eval.col,
-					 ei->pos->eval.row);
-	else
-		v = gnm_expr_eval (t, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
-
-	if (!VALUE_IS_ARRAY (v) && !VALUE_IS_CELLRANGE (v)) {
+	if (!VALUE_IS_ARRAY (v) && !VALUE_IS_CELLRANGE (v))
 		*type_mismatch = value_new_error_VALUE (ei->pos);
-	}
-
-	if (VALUE_IS_CELLRANGE (v)) {
-		gnm_cellref_make_abs (&v->v_range.cell.a, &v->v_range.cell.a,
-			ei->pos);
-		gnm_cellref_make_abs (&v->v_range.cell.b, &v->v_range.cell.b,
-			ei->pos);
-	}
+	else
+		*type_mismatch = NULL;
 
 	return v;
 }

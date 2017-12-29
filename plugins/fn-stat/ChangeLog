@@ -1,3 +1,7 @@
+2017-12-29  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (function_marshal_arg): Simplify.
+
 2017-12-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.38
