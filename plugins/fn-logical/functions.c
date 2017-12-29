@@ -28,7 +28,6 @@
 #include <parse-util.h>
 #include <cell.h>
 #include <expr.h>
-#include <expr-impl.h>
 #include <value.h>
 #include <gnm-i18n.h>
 
