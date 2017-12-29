@@ -42,7 +42,6 @@
 #include <style-font.h>
 #include <value.h>
 #include <expr.h>
-#include <expr-impl.h>
 #include <workbook.h>
 #include <sheet-style.h>
 #include <number-match.h>
@@ -1687,11 +1686,20 @@ static GnmFuncHelp const help_isref[] = {
 static GnmValue *
 gnumeric_isref (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
+	GnmValue *v;
+	gboolean res;
+
 	if (argc != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
-	return value_new_bool (GNM_EXPR_GET_OPER (argv[0]) == GNM_EXPR_OP_CELLREF);
+	v = gnm_expr_eval (argv[0], ei->pos,
+			   GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+			   GNM_EXPR_EVAL_WANT_REF);
+	res = VALUE_IS_CELLRANGE (v);
+	value_release (v);
+
+	return value_new_bool (res);
 }
 
 /***************************************************************************/
