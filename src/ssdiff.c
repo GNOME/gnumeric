@@ -1224,7 +1224,7 @@ diff_names (GnmDiffState *state,
 		GnmNamedExpr const *on = lo ? lo->data : NULL;
 		GnmNamedExpr const *nn = ln ? ln->data : NULL;
 
-		if (!nn || (on && cb_expr_name_by_name (on, nn)) < 0) {
+		if (!nn || (on && cb_expr_name_by_name (on, nn) < 0)) {
 			// Old name got removed
 			state->diff_found = TRUE;
 			state->actions->name_changed (state, on, nn);
@@ -1232,7 +1232,7 @@ diff_names (GnmDiffState *state,
 			continue;
 		}
 
-		if (!on || (nn && cb_expr_name_by_name (on, nn)) > 0) {
+		if (!on || (nn && cb_expr_name_by_name (on, nn) > 0)) {
 			// New name got added
 			state->diff_found = TRUE;
 			state->actions->name_changed (state, on, nn);
