@@ -1,3 +1,7 @@
+2017-12-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.38
+
 2017-12-25  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-plugin.c: Avoid using "textdomain" as a variable.
