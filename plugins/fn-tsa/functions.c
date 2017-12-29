@@ -41,7 +41,6 @@
 #include <number-match.h>
 #include <value.h>
 #include <expr.h>
-#include <expr-impl.h>
 #include <func-builtin.h>
 #include <gnm-i18n.h>
 #include <goffice/goffice.h>
