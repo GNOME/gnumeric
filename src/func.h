@@ -220,6 +220,10 @@ struct _GnmFuncEvalInfo {
 	GnmExprEvalFlags flags;
 };
 
+GnmFunc const *gnm_eval_info_get_func (GnmFuncEvalInfo const *ei);
+int gnm_eval_info_get_arg_count (GnmFuncEvalInfo const *ei);
+
+
 GType       gnm_func_get_type        (void);
 void	    gnm_func_free	     (GnmFunc *func);
 GnmFunc	   *gnm_func_ref	     (GnmFunc *func);

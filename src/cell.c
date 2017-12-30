@@ -15,7 +15,6 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "expr.h"
-#include "expr-impl.h"
 #include "rendered-value.h"
 #include "value.h"
 #include "style.h"
@@ -461,8 +460,8 @@ gboolean
 gnm_cell_array_bound (GnmCell const *cell, GnmRange *res)
 {
 	GnmExprTop const *texpr;
-	GnmExprArrayCorner const *array;
 	int x, y;
+	int cols, rows;
 
 	if (NULL == cell || !gnm_cell_has_expr (cell))
 		return FALSE;
@@ -479,22 +478,15 @@ gnm_cell_array_bound (GnmCell const *cell, GnmRange *res)
 		texpr = cell->base.texpr;
 	}
 
-	array = gnm_expr_top_get_array_corner (texpr);
-	if (!array)
+	if (!gnm_expr_top_is_array_corner (texpr))
 		return FALSE;
 
-	range_init (res, cell->pos.col, cell->pos.row,
-		cell->pos.col + array->cols - 1,
-		cell->pos.row + array->rows - 1);
-	return TRUE;
-}
+	gnm_expr_top_get_array_size (texpr, &cols, &rows);
 
-GnmExprArrayCorner const *
-gnm_cell_is_array_corner (GnmCell const *cell)
-{
-	return cell && gnm_cell_has_expr (cell)
-		? gnm_expr_top_get_array_corner (cell->base.texpr)
-		: NULL;
+	range_init (res, cell->pos.col, cell->pos.row,
+		cell->pos.col + cols - 1,
+		cell->pos.row + rows - 1);
+	return TRUE;
 }
 
 /**
@@ -520,15 +512,18 @@ gnm_cell_is_array (GnmCell const *cell)
 gboolean
 gnm_cell_is_nonsingleton_array (GnmCell const *cell)
 {
-	GnmExprArrayCorner const *corner;
+	int cols, rows;
 
 	if ((cell == NULL) || !gnm_cell_has_expr (cell))
 		return FALSE;
 	if (gnm_expr_top_is_array_elem (cell->base.texpr, NULL, NULL))
 		return TRUE;
 
-	corner 	= gnm_expr_top_get_array_corner (cell->base.texpr);
-	return corner && (corner->cols > 1 || corner->rows > 1);
+	if (!gnm_expr_top_is_array_corner (cell->base.texpr))
+		return FALSE;
+
+	gnm_expr_top_get_array_size (cell->base.texpr, &cols, &rows);
+	return cols > 1 || rows > 1;
 }
 
 /***************************************************************************/
@@ -1021,7 +1016,7 @@ cb_set_array_value (GnmCellIter const *iter, gpointer user)
 void
 gnm_cell_convert_expr_to_value (GnmCell *cell)
 {
-	GnmExprArrayCorner const *array;
+	GnmExprTop const *texpr;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (gnm_cell_has_expr (cell));
@@ -1030,19 +1025,23 @@ gnm_cell_convert_expr_to_value (GnmCell *cell)
 	if (gnm_cell_expr_is_linked (cell))
 		dependent_unlink (GNM_CELL_TO_DEP (cell));
 
-	array = gnm_expr_top_get_array_corner (cell->base.texpr);
-	if (array) {
+	texpr = cell->base.texpr;
+	if (gnm_expr_top_is_array_corner (texpr)) {
+		int rows, cols;
+
+		gnm_expr_top_get_array_size (texpr, &cols, &rows);
+
 		sheet_foreach_cell_in_range (cell->base.sheet, CELL_ITER_ALL,
 					     cell->pos.col, cell->pos.row,
-					     cell->pos.col + array->cols - 1,
-					     cell->pos.row + array->rows - 1,
+					     cell->pos.col + cols - 1,
+					     cell->pos.row + rows - 1,
 					     cb_set_array_value,
-					     array->value);
+					     gnm_expr_top_get_array_value (texpr));
 	} else {
 		g_return_if_fail (!gnm_cell_is_array (cell));
 	}
 
-	gnm_expr_top_unref (cell->base.texpr);
+	gnm_expr_top_unref (texpr);
 	cell->base.texpr = NULL;
 }
 

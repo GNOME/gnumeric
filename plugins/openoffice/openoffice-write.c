@@ -3505,16 +3505,16 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			GnmParsePos pp;
 
 			if (gnm_cell_is_array (cell)) {
-				GnmExprArrayCorner const *ac;
+				if (gnm_expr_top_is_array_corner (cell->base.texpr)) {
+					int cols, rows;
 
-				ac = gnm_expr_top_get_array_corner (cell->base.texpr);
-				if (ac != NULL) {
+					gnm_expr_top_get_array_size (cell->base.texpr, &cols, &rows);
 					gsf_xml_out_add_uint (state->xml,
 							      TABLE "number-matrix-columns-spanned",
-							      (unsigned int)(ac->cols));
+							      (unsigned int)cols);
 					gsf_xml_out_add_uint (state->xml,
 							      TABLE "number-matrix-rows-spanned",
-							      (unsigned int)(ac->rows));
+							      (unsigned int)rows);
 				}
 			}
 

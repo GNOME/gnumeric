@@ -40,7 +40,6 @@
 #include <workbook.h>
 #include <sheet.h>
 #include <cell.h>
-#include <expr-impl.h>
 #include <string.h>
 
 #ifdef WIN32
@@ -490,17 +489,17 @@ genericXLLFunction (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmValue *g = NULL;
 	guint i,m;
 	const XLLFunctionInfo*info = NULL;
+	GnmFunc const *gfunc = gnm_eval_info_get_func (ei);
+
 	g_assert (NULL != xll_function_info_map);
-	info=g_tree_lookup (xll_function_info_map,ei->func_call->func->name);
+	info=g_tree_lookup (xll_function_info_map, gfunc->name);
 	g_assert (NULL != info);
-	m=ei->func_call->argc;
-	if ( m > MAXIMUM_NUMBER_OF_EXCEL_FUNCTION_ARGUMENTS )
-		m = MAXIMUM_NUMBER_OF_EXCEL_FUNCTION_ARGUMENTS;
+	m = gnm_eval_info_get_arg_count (ei);
+	m = MAX (m, MAXIMUM_NUMBER_OF_EXCEL_FUNCTION_ARGUMENTS);
 	for (i = 0; i < m; ++i)
 		copy_construct_xloper_from_gnm_value (x+i,argv[i],ei);
 	m = info->number_of_arguments;
-	if ( m > MAXIMUM_NUMBER_OF_EXCEL_FUNCTION_ARGUMENTS )
-		m = MAXIMUM_NUMBER_OF_EXCEL_FUNCTION_ARGUMENTS;
+	m = MAX (m, MAXIMUM_NUMBER_OF_EXCEL_FUNCTION_ARGUMENTS);
 	for (; i < m; ++i)
 		x[i].xltype=xltypeMissing;
 	func = (XLLFunctionWithVarArgs)info->xll_function;

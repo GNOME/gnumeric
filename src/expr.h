@@ -96,6 +96,8 @@ gboolean  gnm_expr_is_empty          (GnmExpr const *expr);
 
 GnmValue const *gnm_expr_get_constant	(GnmExpr const *expr);
 
+GnmCellRef const*gnm_expr_get_cellref	(GnmExpr const *expr);
+
 void	  gnm_expr_as_gstring	     (GnmExpr const *expr,
 				      GnmConventionsOut *out);
 char	 *gnm_expr_as_string	     (GnmExpr const *expr, GnmParsePos const *pp,
@@ -158,8 +160,10 @@ gboolean	gnm_expr_top_is_err		(GnmExprTop const *texpr, GnmStdError e);
 gboolean	gnm_expr_top_is_rangeref	(GnmExprTop const *texpr);
 gboolean	gnm_expr_top_is_array_elem	(GnmExprTop const *texpr, int *x, int *y);
 gboolean	gnm_expr_top_is_array_corner	(GnmExprTop const *texpr);
-GnmExprArrayCorner const *gnm_expr_top_get_array_corner (GnmExprTop const *texpr);
 gboolean	gnm_expr_top_is_array		(GnmExprTop const *texpr);
+void		gnm_expr_top_get_array_size	(GnmExprTop const *texpr, int *cols, int *rows);
+GnmValue       *gnm_expr_top_get_array_value	(GnmExprTop const *texpr);
+GnmExpr const  *gnm_expr_top_get_array_expr	(GnmExprTop const *texpr);
 GnmValue       *gnm_expr_top_get_range		(GnmExprTop const *texpr);
 GSList	       *gnm_expr_top_get_ranges		(GnmExprTop const *texpr);
 GnmValue const *gnm_expr_top_get_constant	(GnmExprTop const *texpr);

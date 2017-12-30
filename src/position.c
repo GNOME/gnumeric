@@ -96,8 +96,8 @@ eval_pos_init (GnmEvalPos *ep, Sheet *sheet, int col, int row)
 	ep->eval.col = col;
 	ep->eval.row = row;
 	ep->sheet = sheet;
-	ep->dep   = NULL;
-	ep->array = NULL;
+	ep->dep = NULL;
+	ep->array_texpr = NULL;
 
 	return ep;
 }
@@ -117,10 +117,10 @@ eval_pos_init_pos (GnmEvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (pos != NULL, NULL);
 
-	ep->eval  = *pos;
+	ep->eval = *pos;
 	ep->sheet = sheet;
-	ep->dep   = NULL;
-	ep->array = NULL;
+	ep->dep = NULL;
+	ep->array_texpr = NULL;
 
 	return ep;
 }
@@ -141,7 +141,7 @@ eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
 	ep->eval = *dependent_pos (dep);
 	ep->sheet = dep->sheet;
 	ep->dep = (GnmDependent *)dep;
-	ep->array = NULL;
+	ep->array_texpr = NULL;
 
 	return ep;
 }
@@ -180,10 +180,10 @@ eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (cell != NULL, NULL);
 
-	ep->eval  = cell->pos;
+	ep->eval = cell->pos;
 	ep->sheet = cell->base.sheet;
-	ep->dep   = (GnmDependent *)GNM_CELL_TO_DEP (cell);
-	ep->array = NULL;
+	ep->dep = (GnmDependent *)GNM_CELL_TO_DEP (cell);
+	ep->array_texpr = NULL;
 
 	return ep;
 }
@@ -205,10 +205,16 @@ eval_pos_init_sheet (GnmEvalPos *ep, Sheet const *sheet)
 
 	ep->eval.col = ep->eval.row = 0;
 	ep->sheet = (Sheet *)sheet;
-	ep->dep   = NULL;
-	ep->array = NULL;
+	ep->dep = NULL;
+	ep->array_texpr = NULL;
 
 	return ep;
+}
+
+gboolean
+eval_pos_is_array_context (GnmEvalPos const *ep)
+{
+	return ep->array_texpr != NULL;
 }
 
 

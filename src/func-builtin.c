@@ -29,8 +29,8 @@
 #include <value.h>
 #include <selection.h>
 #include <expr.h>
-#include <expr-deriv.h>
 #include <expr-impl.h>
+#include <expr-deriv.h>
 #include <sheet.h>
 #include <cell.h>
 #include <application.h>
@@ -162,12 +162,15 @@ gnumeric_table_link (GnmFuncEvalInfo *ei, gboolean qlink)
 {
 	GnmDependent *dep = ei->pos->dep;
 	GnmRangeRef rr;
+	int cols, rows;
 
 	if (!qlink)
 		return DEPENDENT_NO_FLAG;
 
 	if (!eval_pos_is_array_context (ei->pos))
 		return DEPENDENT_IGNORE_ARGS;
+
+	gnm_expr_top_get_array_size (ei->pos->array_texpr, &cols, &rows);
 
 	rr.a.col_relative = rr.a.row_relative =
 	rr.b.col_relative = rr.b.row_relative = FALSE;
@@ -176,13 +179,13 @@ gnumeric_table_link (GnmFuncEvalInfo *ei, gboolean qlink)
 	g_return_val_if_fail (ei->pos->eval.col > 0, DEPENDENT_IGNORE_ARGS);
 	rr.a.col = rr.b.col = ei->pos->eval.col - 1;
 	rr.a.row = ei->pos->eval.row;
-	rr.b.row = rr.a.row + ei->pos->array->rows - 1;
+	rr.b.row = rr.a.row + rows - 1;
 	dependent_add_dynamic_dep (dep, &rr);
 
 	g_return_val_if_fail (ei->pos->eval.row > 0, DEPENDENT_IGNORE_ARGS);
 	rr.a.row = rr.b.row = ei->pos->eval.row - 1;
 	rr.a.col = ei->pos->eval.col;
-	rr.b.col = rr.a.col + ei->pos->array->cols - 1;
+	rr.b.col = rr.a.col + cols - 1;
 	dependent_add_dynamic_dep (dep, &rr);
 
 	return DEPENDENT_IGNORE_ARGS;
@@ -196,6 +199,7 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	GnmCellPos     pos;
 	GnmEvalPos const *ep = ei->pos;
 	int x, y;
+	int cols, rows;
 
 	/* evaluation clears the dynamic deps */
 	gnumeric_table_link (ei, TRUE);
@@ -208,12 +212,12 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	for (x = 0; x < 2 ; x++) {
 		GnmExpr const *arg = argv[x];
+		GnmCellRef const *cr = arg ? gnm_expr_get_cellref (arg) : NULL;
 		in[x] = NULL;
 		val[x] = NULL;
 
-		if (arg && GNM_EXPR_GET_OPER (arg) == GNM_EXPR_OP_CELLREF) {
-			gnm_cellpos_init_cellref (&pos,	&arg->cellref.ref,
-						  &ep->eval, ep->sheet);
+		if (cr) {
+			gnm_cellpos_init_cellref (&pos,	cr, &ep->eval, ep->sheet);
 			in[x] = sheet_cell_get (ep->sheet, pos.col, pos.row);
 			if (NULL == in[x])
 				in[x] = sheet_cell_fetch (ep->sheet, pos.col, pos.row);
@@ -238,8 +242,10 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			val[2] = value_dup (in[2]->value);
 	}
 
-	res = value_new_array (ep->array->cols, ep->array->rows);
-	for (x = ep->array->cols ; x-- > 0 ; ) {
+	gnm_expr_top_get_array_size (ei->pos->array_texpr, &cols, &rows);
+
+	res = value_new_array (cols, rows);
+	for (x = cols ; x-- > 0 ; ) {
 		x_iter = sheet_cell_get (ep->sheet,
 			x + ep->eval.col, ep->eval.row-1);
 		if (NULL == x_iter)
@@ -256,7 +262,7 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			val[0] = value_dup (x_iter->value);
 		}
 
-		for (y = ep->array->rows ; y-- > 0 ; ) {
+		for (y = rows ; y-- > 0 ; ) {
 			g_signal_emit_by_name (gnm_app_get_app (), "recalc-finished");
 			y_iter = sheet_cell_get (ep->sheet,
 				ep->eval.col-1, y + ep->eval.row);

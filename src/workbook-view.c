@@ -34,7 +34,6 @@
 #include "func.h"
 #include "expr.h"
 #include "expr-name.h"
-#include "expr-impl.h"
 #include "value.h"
 #include "ranges.h"
 #include "selection.h"
@@ -469,14 +468,15 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 				}
 
 				if (corner) {
-					GnmExprArrayCorner const *ac = gnm_cell_is_array_corner (corner);
+					int cols, rows;
+					char *tmp;
 
-					char *tmp = g_strdup_printf
+					gnm_expr_top_get_array_size (corner->base.texpr, &cols, &rows);
+
+					tmp = g_strdup_printf
 						("{%s}(%d%c%d)[%d][%d]",
 						 text,
-						 ac->cols,
-						 go_locale_get_arg_sep (),
-						 ac->rows,
+						 cols, go_locale_get_arg_sep (), rows,
 						 x, y);
 					g_free (text);
 					text = tmp;

@@ -32,12 +32,12 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "func.h"
-#include <expr-impl.h>
 #include "gnm-format.h"
 #include <goffice/goffice.h>
 #include <glib-object.h>
 #include <string.h>
 #include <expr.h>
+#include <expr-impl.h>
 #include <value.h>
 
 typedef struct {
@@ -170,7 +170,8 @@ static void
 xlsx_func_map_out (GnmConventionsOut *out, GnmExprFunction const *func)
 {
 	XLSXExprConventions const *xconv = (XLSXExprConventions const *)(out->convs);
-	char const *name = gnm_func_get_name (func->func, FALSE);
+	GnmFunc const *gfunc = gnm_expr_get_func_def ((GnmExpr *)func);
+	char const *name = gnm_func_get_name (gfunc, FALSE);
 	gboolean (*handler) (GnmConventionsOut *out, GnmExprFunction const *func);
 
 	handler = g_hash_table_lookup (xconv->xlfn_handler_map, name);
@@ -182,7 +183,7 @@ xlsx_func_map_out (GnmConventionsOut *out, GnmExprFunction const *func)
 		if (new_name == NULL) {
 				char *new_u_name;
 				new_u_name = g_ascii_strup (name, -1);
-				if (func->func->impl_status ==
+				if (gfunc->impl_status ==
 				    GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC)
 					g_string_append (target, "_xlfngnumeric.");
 				/* LO & friends use _xlfnodf */

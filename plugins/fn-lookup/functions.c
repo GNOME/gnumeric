@@ -1470,7 +1470,7 @@ gnumeric_column (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	if (ref == NULL) {
 		col   = ei->pos->eval.col + 1; /* user visible counts from 0 */
 		if (eval_pos_is_array_context (ei->pos))
-			width = ei->pos->array->cols;
+			gnm_expr_top_get_array_size (ei->pos->array_texpr, &width, NULL);
 		else
 			return value_new_int (col);
 	} else if (VALUE_IS_CELLRANGE (ref)) {
@@ -1620,8 +1620,8 @@ gnumeric_row (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 	if (ref == NULL) {
 		row   = ei->pos->eval.row + 1; /* user visible counts from 0 */
-		if (ei->pos->array != NULL)
-			n = ei->pos->array->rows;
+		if (eval_pos_is_array_context (ei->pos))
+			gnm_expr_top_get_array_size (ei->pos->array_texpr, NULL, &n);
 		else
 			return value_new_int (row);
 	} else if (VALUE_IS_CELLRANGE (ref)) {

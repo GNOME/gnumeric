@@ -46,8 +46,6 @@ gboolean    gnm_cell_is_zero	  (GnmCell const *cell);
 
 gboolean    gnm_cell_is_array	  (GnmCell const *cell);
 gboolean    gnm_cell_is_nonsingleton_array (GnmCell const *cell);
-GnmExprArrayCorner const *
-	    gnm_cell_is_array_corner  (GnmCell const *cell);
 gboolean    gnm_cell_array_bound	  (GnmCell const *cell, GnmRange *res);
 
 /*

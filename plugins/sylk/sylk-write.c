@@ -27,7 +27,6 @@
 #include "sheet.h"
 #include "sheet-style.h"
 #include "expr.h"
-#include "expr-impl.h"
 #include "value.h"
 #include "cell.h"
 #include "mstyle.h"
@@ -119,7 +118,6 @@ cb_sylk_write_cell (GnmCellIter const *iter, SylkWriter *state)
 {
 	GnmValue const *v;
 	GnmExprTop const *texpr;
-	GnmExprArrayCorner const *array;
 
 	if (iter->pp.eval.row != state->cur_row)
 		gsf_output_printf (state->output, "C;Y%d;X%d",
@@ -129,7 +127,8 @@ cb_sylk_write_cell (GnmCellIter const *iter, SylkWriter *state)
 		gsf_output_printf (state->output, "C;X%d",
 			iter->pp.eval.col + 1);
 
-	if (NULL != (v = iter->cell->value)) {
+	v = iter->cell->value;
+	if (v) {
 		if (VALUE_IS_STRING (v)) {
 			gsf_output_write (state->output, 3, ";K\"");
 			sylk_write (state, v->v_str.val->str);
@@ -143,11 +142,15 @@ cb_sylk_write_cell (GnmCellIter const *iter, SylkWriter *state)
 		} /* ignore the rest */
 	}
 
-	if (NULL != (texpr = iter->cell->base.texpr)) {
-		if (NULL != (array = gnm_expr_top_get_array_corner (texpr))) {
+	texpr = iter->cell->base.texpr;
+	if (texpr) {
+		if (gnm_expr_top_is_array_corner (texpr)) {
+			int cols, rows;
+			gnm_expr_top_get_array_size (texpr, &cols, &rows);
+
 			gsf_output_printf (state->output, ";R%d;C%d;M",
-				iter->pp.eval.row + array->rows,
-				iter->pp.eval.col + array->cols);
+					   iter->pp.eval.row + rows,
+					   iter->pp.eval.col + cols);
 		} else if (gnm_expr_top_is_array_elem (texpr, NULL, NULL)) {
 			gsf_output_write (state->output, 2, ";I");
 			texpr = NULL;

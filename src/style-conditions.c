@@ -369,13 +369,10 @@ gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond)
 static gboolean
 isself (GnmExpr const *expr)
 {
-	GnmCellRef const *cr;
+	GnmCellRef const *cr = gnm_expr_get_cellref (expr);
 
-	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_CELLREF)
-		return FALSE;
-	cr = &expr->cellref.ref;
-
-	return (cr->sheet == NULL &&
+	return (cr &&
+		cr->sheet == NULL &&
 		cr->col == 0 && cr->row == 0 &&
 		cr->col_relative && cr->row_relative);
 }

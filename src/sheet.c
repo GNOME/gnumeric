@@ -52,7 +52,6 @@
 #include "sheet-private.h"
 #include "expr-name.h"
 #include "expr.h"
-#include "expr-impl.h"
 #include "rendered-value.h"
 #include "gnumeric-conf.h"
 #include "sheet-object-impl.h"
@@ -5911,7 +5910,6 @@ cb_sheet_cell_copy (G_GNUC_UNUSED gpointer unused, gpointer key, gpointer new_sh
 	GnmCell const *cell = key;
 	Sheet *dst = new_sheet_param;
 	Sheet *src;
-	GnmExprArrayCorner const *array;
 	GnmExprTop const *texpr;
 
 	g_return_if_fail (dst != NULL);
@@ -5919,17 +5917,18 @@ cb_sheet_cell_copy (G_GNUC_UNUSED gpointer unused, gpointer key, gpointer new_sh
 
 	src = cell->base.sheet;
 	texpr = cell->base.texpr;
-	array = gnm_cell_is_array_corner (cell);
 
-	if (array) {
+	if (texpr && gnm_expr_top_is_array_corner (texpr)) {
+		int cols, rows;
+
 		texpr = gnm_expr_top_relocate_sheet (texpr, src, dst);
-		array = gnm_expr_top_get_array_corner (texpr);
+		gnm_expr_top_get_array_size (texpr, &cols, &rows);
 
 		gnm_cell_set_array_formula (dst,
 			cell->pos.col, cell->pos.row,
-			cell->pos.col + array->cols-1,
-			cell->pos.row + array->rows-1,
-			gnm_expr_top_new (gnm_expr_copy (array->expr)));
+			cell->pos.col + cols - 1,
+			cell->pos.row + rows - 1,
+			gnm_expr_top_new (gnm_expr_copy (gnm_expr_top_get_array_expr (texpr))));
 
 		gnm_expr_top_unref (texpr);
 	} else if (texpr && gnm_expr_top_is_array_elem (texpr, NULL, NULL)) {

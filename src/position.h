@@ -9,10 +9,10 @@ G_BEGIN_DECLS
 GType gnm_cell_pos_get_type (void); /* boxed type */
 
 struct _GnmEvalPos {
-	GnmCellPos		  eval;
-	Sheet			 *sheet;
-	GnmDependent		 *dep;	 /* optionally NULL */
-	GnmExprArrayCorner const *array; /* non-NULL if top level is array */
+	GnmCellPos eval;
+	Sheet *sheet;
+	GnmDependent *dep;	 /* optionally NULL */
+	GnmExprTop const *array_texpr; /* non-NULL if top level is array */
 };
 
 struct _GnmParsePos {
@@ -35,7 +35,7 @@ GnmEvalPos  *eval_pos_init_dep	   (GnmEvalPos *ep, GnmDependent const *dep);
 GnmEvalPos  *eval_pos_init_cell	   (GnmEvalPos *ep, GnmCell const *cell);
 GnmEvalPos  *eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv);
 GnmEvalPos  *eval_pos_init_sheet   (GnmEvalPos *ep, Sheet const *sheet);
-#define      eval_pos_is_array_context(ep) ((ep)->array != NULL)
+gboolean     eval_pos_is_array_context (GnmEvalPos const *ep);
 
 /* Initialization routines for Parse Positions */
 GType        gnm_parse_pos_get_type (void); /* Boxed type */

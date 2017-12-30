@@ -18,7 +18,6 @@
 #include "workbook.h"
 #include "sheet-style.h"
 #include "expr.h"
-#include "expr-impl.h"
 #include "gnm-datetime.h"
 #include "mstyle.h"
 #include "ranges.h"
@@ -836,8 +835,6 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 		GnmExprRelocateInfo rinfo;
 		GnmExprTop const *texpr;
 		GnmExprTop const *src_texpr = src->base.texpr;
-		GnmExprArrayCorner const *array =
-			gnm_expr_top_get_array_corner (src_texpr);
 		Sheet *sheet = src->base.sheet;
 
 		/* Arrays are always assigned fully at the corner.  */
@@ -854,18 +851,21 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 		texpr = gnm_expr_top_relocate (src_texpr, &rinfo, FALSE);
 
 		/* Clip arrays that are only partially copied.  */
-		if (array) {
+		if (gnm_expr_top_is_array_corner (src_texpr)) {
                         GnmExpr const *aexpr;
-			guint limit_x = afe->last.col - pos->col + 1;
-			guint limit_y = afe->last.row - pos->row + 1;
-                        unsigned cols = MIN (limit_x, array->cols);
-                        unsigned rows = MIN (limit_y, array->rows);
+			int limit_x = afe->last.col - pos->col + 1;
+			int limit_y = afe->last.row - pos->row + 1;
+                        int cols, rows;
+
+			gnm_expr_top_get_array_size (texpr, &cols, &rows);
+                        cols = MIN (limit_x, cols);
+                        rows = MIN (limit_y, rows);
 
                         if (texpr) {
-                                aexpr = gnm_expr_copy (texpr->expr->array_corner.expr);
+                                aexpr = gnm_expr_copy (gnm_expr_top_get_array_expr (texpr));
                                 gnm_expr_top_unref (texpr);
                         } else
-                                aexpr = gnm_expr_copy (array->expr);
+                                aexpr = gnm_expr_copy (gnm_expr_top_get_array_expr (src_texpr));
 
 			if (doit)
 				gnm_cell_set_array_formula

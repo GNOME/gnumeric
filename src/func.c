@@ -1592,8 +1592,7 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 			val = gnm_expr_eval (expr, ep,
 				GNM_EXPR_EVAL_PERMIT_EMPTY | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 		else
-			val = gnm_expr_eval (expr, ep,
-				GNM_EXPR_EVAL_PERMIT_EMPTY);
+			val = gnm_expr_eval (expr, ep, GNM_EXPR_EVAL_PERMIT_EMPTY);
 
 		if (val == NULL)
 			continue;
@@ -1608,4 +1607,17 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 		value_release (val);
 	}
 	return result;
+}
+
+
+GnmFunc const *
+gnm_eval_info_get_func (GnmFuncEvalInfo const *ei)
+{
+	return ei->func_call->func;
+}
+
+int
+gnm_eval_info_get_arg_count (GnmFuncEvalInfo const *ei)
+{
+	return ei->func_call->argc;
 }

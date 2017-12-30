@@ -3,6 +3,7 @@ Gnumeric 1.12.39
 Morten:
 	* Fix ssdiff problem.  [#792038]
 	* Fix ISREF.
+	* Some internal array formula code cleanups.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.38

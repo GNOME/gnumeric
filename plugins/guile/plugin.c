@@ -35,7 +35,6 @@
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
 #include "expr.h"
-#include "expr-impl.h"
 #include "gutils.h"
 #include "func.h"
 #include "cell.h"
@@ -144,10 +143,8 @@ func_marshal_func (GnmFuncEvalInfo *ei, GnmValue *argv[])
 	int i, min, max;
 
 	g_return_val_if_fail (ei != NULL, NULL);
-	g_return_val_if_fail (ei->func_call != NULL, NULL);
-	g_return_val_if_fail (ei->func_call->func != NULL, NULL);
 
-	fndef = ei->func_call->func;
+	fndef = gnm_eval_info_get_func (ei);
 	function_def_count_args (fndef, &min, &max);
 
 	function = (SCM) gnm_func_get_user_data (fndef);

@@ -41,7 +41,6 @@
 #include "value.h"
 #include "cell.h"
 #include "expr.h"
-#include "expr-impl.h"
 #include "func.h"
 #include "style-color.h"
 #include "validation.h"
@@ -1540,7 +1539,6 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 	char *content;
 	GnmParsePos pp;
 	GnmExprTop const *texpr;
-	GnmExprArrayCorner const *array;
 	char *cheesy_span = g_strdup_printf ("%d:%d", extent->start.col+1, extent->end.col+1);
 	Sheet *sheet = (Sheet *)state->sheet;
 	GPtrArray *all_cells = sheet_cells (sheet, extent);
@@ -1693,11 +1691,13 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 					if (!gnm_expr_top_is_array_elem (texpr, NULL, NULL)) {
 						gsf_xml_out_start_element (xml, "f");
 
-						array = gnm_expr_top_get_array_corner (texpr);
-						if (NULL != array) {
+						if (gnm_expr_top_is_array_corner (texpr)) {
 							GnmRange r;
+							int cols, rows;
+
+							gnm_expr_top_get_array_size (texpr, &cols, &rows);
 							range_init_cellpos_size (&r, &cell->pos,
-								array->cols, array->rows);
+								cols, rows);
 							gsf_xml_out_add_cstr_unchecked (xml, "t", "array");
 							xlsx_add_range (xml, "ref", &r);
 						}

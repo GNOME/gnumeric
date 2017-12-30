@@ -3507,7 +3507,6 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 	gint     col, row;
 	GnmValue   *v;
 	GnmExprTop const *texpr;
-	GnmExprArrayCorner const *corner;
 
 	g_return_if_fail (ewb);
 	g_return_if_fail (cell);
@@ -3575,16 +3574,19 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 
 	ms_biff_put_commit (ewb->bp);
 
-	corner = gnm_expr_top_get_array_corner (texpr);
-	if (corner) {
+	if (gnm_expr_top_is_array_corner (texpr)) {
 		GnmCellPos c_in, r_in;
-		if (gnm_expr_is_data_table (corner->expr, &c_in, &r_in)) {
+		int cols, rows;
+
+		gnm_expr_top_get_array_size (texpr, &cols, &rows);
+
+		if (gnm_expr_is_data_table (gnm_expr_top_get_array_expr (texpr), &c_in, &r_in)) {
 			guint16 flags = 0;
 			guint8 *data = ms_biff_put_len_next (ewb->bp, BIFF_TABLE_v2, 16);
 			GSF_LE_SET_GUINT16 (data + 0, cell->pos.row);
-			GSF_LE_SET_GUINT16 (data + 2, cell->pos.row + corner->rows-1);
+			GSF_LE_SET_GUINT16 (data + 2, cell->pos.row + rows-1);
 			GSF_LE_SET_GUINT16 (data + 4, cell->pos.col);
-			GSF_LE_SET_GUINT16 (data + 5, cell->pos.col + corner->cols-1);
+			GSF_LE_SET_GUINT16 (data + 5, cell->pos.col + cols-1);
 
 			if ((c_in.col != 0 || c_in.row != 0) &&
 			    (r_in.col != 0 || r_in.row != 0)) {
@@ -3614,14 +3616,14 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 		} else {
 			ms_biff_put_var_next (ewb->bp, BIFF_ARRAY_v2);
 			GSF_LE_SET_GUINT16 (data+0, cell->pos.row);
-			GSF_LE_SET_GUINT16 (data+2, cell->pos.row + corner->rows-1);
+			GSF_LE_SET_GUINT16 (data+2, cell->pos.row + rows-1);
 			GSF_LE_SET_GUINT16 (data+4, cell->pos.col);
-			GSF_LE_SET_GUINT16 (data+5, cell->pos.col + corner->cols-1);
+			GSF_LE_SET_GUINT16 (data+5, cell->pos.col + cols-1);
 			GSF_LE_SET_GUINT16 (data+6, 0x0); /* alwaysCalc & calcOnLoad */
 			GSF_LE_SET_GUINT32 (data+8, 0);
 			GSF_LE_SET_GUINT16 (data+12, 0); /* bogus len, fill in later */
 			ms_biff_put_var_write (ewb->bp, data, 14);
-			len = excel_write_array_formula (ewb, corner,
+			len = excel_write_array_formula (ewb, gnm_expr_top_get_array_expr (texpr),
 							 esheet->gnum_sheet, col, row);
 
 			ms_biff_put_var_seekto (ewb->bp, 12);

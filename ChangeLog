@@ -1,3 +1,13 @@
+2017-12-30  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_top_get_array_corner): Remove.  All callers
+	changed.
+	(gnm_expr_top_get_array_size, gnm_expr_top_get_array_value)
+	(gnm_expr_top_get_array_expr): New functions.
+
+	* src/cell.c (gnm_cell_is_array_corner): Remove.  All callers
+	changed.
+
 2017-12-29  Morten Welinder  <terra@gnome.org>
 
 	* src/ssdiff.c (diff_names): Fix checks for inserted or removed

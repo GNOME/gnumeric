@@ -29,7 +29,7 @@ guint32 excel_write_formula    (ExcelWriteState *ewb,
 				Sheet *sheet, int fn_col, int fn_row,
 				ExcelFuncContext context);
 guint32 excel_write_array_formula (ExcelWriteState *ewb,
-				   GnmExprArrayCorner const *array,
+				   GnmExpr const *array_expr,
 				   Sheet *sheet, int fn_col, int fn_row);
 
 void excel_write_prep_expressions (ExcelWriteState *ewb);

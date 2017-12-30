@@ -871,10 +871,11 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 
 		ptg = FORMULA_PTG_EXPR;
 		if (pd->sheet != NULL) {
-			GnmExprArrayCorner const *corner = gnm_cell_is_array_corner (
-				sheet_cell_get (pd->sheet, pd->col - x, pd->row - y));
-			if (NULL != corner &&
-			    gnm_expr_is_data_table (corner->expr, NULL, NULL))
+			GnmCell const *ccell =
+				sheet_cell_get (pd->sheet, pd->col - x, pd->row - y);
+			if (ccell &&
+			    gnm_expr_top_is_array_corner (ccell->base.texpr) &&
+			    gnm_expr_is_data_table (gnm_expr_top_get_array_expr (ccell->base.texpr), NULL, NULL))
 				ptg = FORMULA_PTG_TBL;
 		}
 
@@ -980,7 +981,7 @@ write_arrays (PolishData *pd)
 
 guint32
 excel_write_array_formula (ExcelWriteState *ewb,
-			   GnmExprArrayCorner const *array,
+			   GnmExpr const *array_expr,
 			   Sheet *sheet, int fn_col, int fn_row)
 {
 	PolishData pd;
@@ -988,7 +989,7 @@ excel_write_array_formula (ExcelWriteState *ewb,
 	guint32 len;
 
 	g_return_val_if_fail (ewb, 0);
-	g_return_val_if_fail (array, 0);
+	g_return_val_if_fail (array_expr, 0);
 
 	pd.col     = fn_col;
 	pd.row     = fn_row;
@@ -1000,7 +1001,7 @@ excel_write_array_formula (ExcelWriteState *ewb,
 	pd.allow_sheetless_ref = TRUE;
 
 	start = ewb->bp->curpos;
-	write_node (&pd, array->expr, 0, XL_ROOT);
+	write_node (&pd, array_expr, 0, XL_ROOT);
 	len = ewb->bp->curpos - start;
 
 	write_arrays (&pd);

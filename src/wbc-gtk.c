@@ -44,7 +44,6 @@
 #include "style-font.h"
 #include "gnm-format.h"
 #include "expr.h"
-#include "expr-impl.h"
 #include "style-color.h"
 #include "style-border.h"
 #include "gnumeric-conf.h"
@@ -2233,10 +2232,7 @@ cb_workbook_debug_info (WBCGtk *wbcg)
 
 	if (gnm_debug_flag ("expr-sharer")) {
 		GnmExprSharer *es = workbook_share_expressions (wb, FALSE);
-
-		g_printerr ("Expression sharer results:\n"
-			    "Nodes in: %d, nodes stored: %d, nodes killed: %d.\n",
-			    es->nodes_in, es->nodes_stored, es->nodes_killed);
+		gnm_expr_sharer_report (es);
 		gnm_expr_sharer_destroy (es);
 	}
 

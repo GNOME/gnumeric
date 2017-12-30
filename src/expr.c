@@ -506,7 +506,10 @@ gnm_expr_free (GnmExpr const *expr)
 
 	case GNM_EXPR_OP_ARRAY_CORNER:
 		value_release (expr->array_corner.value);
-		gnm_expr_free (expr->array_corner.expr);
+		// A proper corner will not have NULL here, but we explicitly allow it
+		// during construction, so allow it here too.
+		if (expr->array_corner.expr)
+			gnm_expr_free (expr->array_corner.expr);
 		CHUNK_FREE (expression_pool_big, (gpointer)expr);
 		break;
 
@@ -1518,67 +1521,11 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		}
 		return handle_empty (res, flags);
 
-	case GNM_EXPR_OP_ARRAY_CORNER: {
-		GnmEvalPos range_pos = *pos;
-		range_pos.array = &expr->array_corner;
+	case GNM_EXPR_OP_ARRAY_CORNER:
+	case GNM_EXPR_OP_ARRAY_ELEM:
+		g_warning ("Unexpected array expressions encountered");
+		return value_new_error_VALUE (pos);
 
-		a = gnm_expr_eval (expr->array_corner.expr, &range_pos,
-			flags | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
-
-		value_release (expr->array_corner.value);
-
-		/* Store real result (cast away const)*/
-		((GnmExpr*)expr)->array_corner.value = a;
-
-		if (a != NULL &&
-		    (VALUE_IS_CELLRANGE (a) || VALUE_IS_ARRAY (a))) {
-			if (value_area_get_width (a, pos) <= 0 ||
-			    value_area_get_height (a, pos) <= 0)
-				return value_new_error_NA (pos);
-			a = (GnmValue *)value_area_get_x_y (a, 0, 0, pos);
-		}
-		return handle_empty ((a != NULL) ? value_dup (a) : NULL, flags);
-	}
-
-	case GNM_EXPR_OP_ARRAY_ELEM: {
-		/* The upper left corner manages the recalc of the expr */
-		GnmCell *corner = array_elem_get_corner (&expr->array_elem,
-			pos->sheet, &pos->eval);
-		if (!corner ||
-		    !gnm_expr_top_is_array_corner (corner->base.texpr)) {
-			g_warning ("Funky array setup.");
-			return handle_empty (NULL, flags);
-		}
-
-		gnm_cell_eval (corner);
-		a = corner->base.texpr->expr->array_corner.value;
-		if (a == NULL)
-			return handle_empty (NULL, flags);
-
-		if ((VALUE_IS_CELLRANGE (a) || VALUE_IS_ARRAY (a))) {
-			int const num_x = value_area_get_width (a, pos);
-			int const num_y = value_area_get_height (a, pos);
-			int x = expr->array_elem.x;
-			int y = expr->array_elem.y;
-
-			/* Evaluate relative to the upper left corner */
-			GnmEvalPos tmp_ep = *pos;
-			tmp_ep.eval.col -= x;
-			tmp_ep.eval.row -= y;
-
-			/* If the src array is 1 element wide or tall we wrap */
-			if (x >= 1 && num_x == 1)
-				x = 0;
-			if (y >= 1 && num_y == 1)
-				y = 0;
-			if (x >= num_x || y >= num_y)
-				return value_new_error_NA (pos);
-
-			a = (GnmValue *)value_area_get_x_y (a, x, y, &tmp_ep);
-		}
-
-		return handle_empty ((a != NULL) ? value_dup (a) : NULL, flags);
-	}
 	case GNM_EXPR_OP_SET:
 		if (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) {
 			int i;
@@ -1890,6 +1837,21 @@ gnm_expr_get_constant (GnmExpr const *expr)
 		return NULL;
 
 	return expr->constant.value;
+}
+
+/**
+ * gnm_expr_get_cellref:
+ * @expr:
+ *
+ * If this expression consists of just a cell reference, return it.
+ */
+GnmCellRef const *
+gnm_expr_get_cellref (GnmExpr const *expr)
+{
+	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_CELLREF)
+		return NULL;
+
+	return &expr->cellref.ref;
 }
 
 
@@ -3110,28 +3072,109 @@ gnm_expr_top_is_volatile (GnmExprTop const *texpr)
 }
 
 
+static GnmValue *
+gnm_expr_top_eval_array_corner (GnmExprTop const *texpr,
+				GnmEvalPos const *pos,
+				GnmExprEvalFlags flags)
+{
+	GnmExpr const *expr = texpr->expr;
+	GnmEvalPos pos2;
+	GnmValue *a;
+
+	pos2 = *pos;
+	pos2.array_texpr = texpr;
+	a = gnm_expr_eval (expr->array_corner.expr, &pos2,
+				     flags | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+
+	value_release (expr->array_corner.value);
+
+	/* Store real result (cast away const)*/
+	((GnmExpr*)expr)->array_corner.value = a;
+
+	if (a != NULL &&
+	    (VALUE_IS_CELLRANGE (a) || VALUE_IS_ARRAY (a))) {
+		if (value_area_get_width (a, pos) <= 0 ||
+		    value_area_get_height (a, pos) <= 0)
+			return value_new_error_NA (pos);
+		a = (GnmValue *)value_area_get_x_y (a, 0, 0, pos);
+	}
+	return handle_empty ((a != NULL) ? value_dup (a) : NULL, flags);
+}
+
+static GnmValue *
+gnm_expr_top_eval_array_elem (GnmExprTop const *texpr,
+			      GnmEvalPos const *pos,
+			      GnmExprEvalFlags flags)
+{
+	GnmExpr const *expr = texpr->expr;
+	/* The upper left corner manages the recalc of the expr */
+	GnmCell *corner = array_elem_get_corner (&expr->array_elem,
+						 pos->sheet, &pos->eval);
+	GnmValue *a;
+
+	if (!corner ||
+	    !gnm_expr_top_is_array_corner (corner->base.texpr)) {
+		g_warning ("Funky array setup.");
+		return handle_empty (NULL, flags);
+	}
+
+	gnm_cell_eval (corner);
+	a = gnm_expr_top_get_array_value (corner->base.texpr);
+	if (a == NULL)
+		return handle_empty (NULL, flags);
+
+	if ((VALUE_IS_CELLRANGE (a) || VALUE_IS_ARRAY (a))) {
+		int const num_x = value_area_get_width (a, pos);
+		int const num_y = value_area_get_height (a, pos);
+		int x = expr->array_elem.x;
+		int y = expr->array_elem.y;
+
+		/* Evaluate relative to the upper left corner */
+		GnmEvalPos tmp_ep = *pos;
+		tmp_ep.eval.col -= x;
+		tmp_ep.eval.row -= y;
+
+		/* If the src array is 1 element wide or tall we wrap */
+		if (x >= 1 && num_x == 1)
+			x = 0;
+		if (y >= 1 && num_y == 1)
+			y = 0;
+		if (x >= num_x || y >= num_y)
+			return value_new_error_NA (pos);
+
+		a = (GnmValue *)value_area_get_x_y (a, x, y, &tmp_ep);
+	}
+
+	return handle_empty ((a != NULL) ? value_dup (a) : NULL, flags);
+}
+
 GnmValue *
 gnm_expr_top_eval (GnmExprTop const *texpr,
 		   GnmEvalPos const *pos,
 		   GnmExprEvalFlags flags)
 {
 	GnmValue *res;
-	GnmEvalPos ep;
-	GnmExprArrayCorner array;
 
 	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 
 	gnm_app_recalc_start ();
-	if ((flags & GNM_EXPR_EVAL_ARRAY_CONTEXT) && !pos->array) {
-		array.oper = GNM_EXPR_OP_ARRAY_CORNER;
-		array.cols = array.rows = 1;
-		array.value = NULL;
-		array.expr = texpr->expr;
-		ep = *pos;
-		ep.array = &array;
-		pos = &ep;
-	}
-	res = gnm_expr_eval (texpr->expr, pos, flags);
+
+	if (gnm_expr_top_is_array_corner (texpr))
+		res = gnm_expr_top_eval_array_corner (texpr, pos, flags);
+	else if (gnm_expr_top_is_array_elem (texpr, NULL, NULL))
+		res = gnm_expr_top_eval_array_elem (texpr, pos, flags);
+	else if ((flags & GNM_EXPR_EVAL_ARRAY_CONTEXT) && !eval_pos_is_array_context (pos)) {
+		// Array context out of the blue.  Fake it.
+		GnmEvalPos pos2;
+		GnmExprTop const *fake = gnm_expr_top_new_array_corner (1, 1, NULL);
+		((GnmExpr *)(fake->expr))->array_corner.expr = texpr->expr; // Patch in our expr
+		pos2 = *pos;
+		pos2.array_texpr = fake;
+		res = gnm_expr_eval (texpr->expr, &pos2, flags);
+		((GnmExpr *)(fake->expr))->array_corner.expr = NULL;
+		gnm_expr_top_unref (fake);
+	} else
+		res = gnm_expr_eval (texpr->expr, pos, flags);
 	gnm_app_recalc_finish ();
 
 	return res;
@@ -3217,11 +3260,7 @@ GnmCellRef const *
 gnm_expr_top_get_cellref (GnmExprTop const *texpr)
 {
 	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
-
-	if (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_CELLREF)
-		return NULL;
-
-	return &texpr->expr->cellref.ref;
+	return gnm_expr_get_cellref (texpr->expr);
 }
 
 static GnmExpr const *
@@ -3311,26 +3350,39 @@ gnm_expr_top_is_rangeref (GnmExprTop const *texpr)
 	return gnm_expr_is_rangeref (texpr->expr);
 }
 
-/**
- * gnm_expr_top_new_array_corner:
- * @expr: #GnmExprTop
- *
- * Returns: (transfer none): the #GnmExprArrayCorner or %NULL.
- **/
-GnmExprArrayCorner const *
-gnm_expr_top_get_array_corner (GnmExprTop const *texpr)
-{
-	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
-	return GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER
-		? &texpr->expr->array_corner
-		: NULL;
-}
-
 gboolean
 gnm_expr_top_is_array_corner (GnmExprTop const *texpr)
 {
 	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), FALSE);
 	return GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER;
+}
+
+void
+gnm_expr_top_get_array_size (GnmExprTop const *texpr, int *cols, int *rows)
+{
+	g_return_if_fail (GNM_IS_EXPR_TOP (texpr));
+	g_return_if_fail (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER);
+
+	if (cols)
+		*cols = texpr->expr->array_corner.cols;
+	if (rows)
+		*rows = texpr->expr->array_corner.rows;
+}
+
+GnmValue *
+gnm_expr_top_get_array_value (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER, NULL);
+	return texpr->expr->array_corner.value;
+}
+
+GnmExpr const *
+gnm_expr_top_get_array_expr (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER, NULL);
+	return texpr->expr->array_corner.expr;
 }
 
 gboolean

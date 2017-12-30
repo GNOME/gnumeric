@@ -1140,9 +1140,8 @@ link_unlink_expr_dep (GnmEvalPos *ep, GnmExpr const *tree, gboolean qlink)
 		/* Non-corner cells depend on the corner */
 		GnmCellRef a;
 		GnmCellPos const *pos = dependent_pos (ep->dep);
-		/* We cannot support array expressions unless
-		 * we have a position.
-		 */
+		// We cannot support array expressions unless we have
+		// a position.
 		g_return_val_if_fail (pos != NULL, DEPENDENT_NO_FLAG);
 
 		a.col_relative = a.row_relative = FALSE;
@@ -1154,8 +1153,11 @@ link_unlink_expr_dep (GnmEvalPos *ep, GnmExpr const *tree, gboolean qlink)
 	}
 
 	case GNM_EXPR_OP_ARRAY_CORNER: {
+		// It's mildly unclean to do this here.  We need the texpr, so get the cell.
+		GnmCellPos const *cpos = dependent_pos (ep->dep);
+		GnmCell const *cell = sheet_cell_get (ep->dep->sheet, cpos->col, cpos->row);
 		GnmEvalPos pos = *ep;
-		pos.array = &tree->array_corner;
+		pos.array_texpr = cell->base.texpr;
 		/* Corner cell depends on the contents of the expr */
 		return link_unlink_expr_dep (&pos, tree->array_corner.expr, qlink);
 	}
@@ -2039,15 +2041,16 @@ dependents_unrelocate (GSList *info)
 				 * is not really relevant.  eg when undoing a pasted
 				 * cut that was relocated but also saved to a buffer */
 				if (cell != NULL) {
-					GnmExprArrayCorner const *corner =
-						gnm_expr_top_get_array_corner (tmp->oldtree);
-					if (corner) {
+					if (gnm_expr_top_is_array_corner (tmp->oldtree)) {
+						int cols, rows;
+
+						gnm_expr_top_get_array_size (tmp->oldtree, &cols, &rows);
 						gnm_cell_set_array_formula (tmp->u.pos.sheet,
 									    tmp->u.pos.eval.col,
 									    tmp->u.pos.eval.row,
-									    tmp->u.pos.eval.col + corner->cols - 1,
-									    tmp->u.pos.eval.row + corner->rows - 1,
-									    gnm_expr_top_new (gnm_expr_copy (corner->expr)));
+									    tmp->u.pos.eval.col + cols - 1,
+									    tmp->u.pos.eval.row + rows - 1,
+									    gnm_expr_top_new (gnm_expr_copy (gnm_expr_top_get_array_expr (tmp->oldtree))));
 						cell_queue_recalc (cell);
 						sheet_flag_status_update_cell (cell);
 					} else
