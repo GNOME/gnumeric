@@ -39,7 +39,6 @@
 #include <style-color.h>
 #include <style-conditions.h>
 #include <expr.h>
-#include <expr-impl.h>
 #include <expr-name.h>
 #include <value.h>
 #include <ranges.h>
@@ -864,8 +863,10 @@ xml_write_cell_and_position (GnmOutputXML *state,
 	/* As of version 0.53 we save the size of the array as attributes */
 	/* As of version 0.57 the attributes are in the Cell not the Content */
 	if (texpr && gnm_expr_top_is_array_corner (texpr)) {
-		gsf_xml_out_add_int (state->output, "Rows", texpr->expr->array_corner.rows);
-		gsf_xml_out_add_int (state->output, "Cols", texpr->expr->array_corner.cols);
+		int cols, rows;
+		gnm_expr_top_get_array_size (texpr, &cols, &rows);
+		gsf_xml_out_add_int (state->output, "Rows", rows);
+		gsf_xml_out_add_int (state->output, "Cols", cols);
 	}
 
 	if (write_contents) {
