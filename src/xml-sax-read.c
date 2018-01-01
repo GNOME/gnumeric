@@ -45,7 +45,6 @@
 #include "cell.h"
 #include "position.h"
 #include "expr.h"
-#include "expr-impl.h"
 #include "expr-name.h"
 #include "print-info.h"
 #include "value.h"
@@ -1754,9 +1753,9 @@ xml_sax_condition_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 /*
- * We have saving expressions relative to A1.  This means that we read
- * see a relative reference to a cell above as R[65535]C.  This function
- * patches that to R[-1]C.
+ * We have been saving expressions relative to A1.  This means that when we
+ * read, we see a relative reference to a cell above as R[65535]C.  This
+ * function patches that to R[-1]C.
  *
  * We ought to fix the format, but then old Gnumerics couldn't read new
  * files.  In fact, if we just added a "Position" attribute then we would
@@ -1767,12 +1766,13 @@ cond_patchup (GnmExpr const *expr, GnmExprWalk *data)
 {
 	XMLSaxParseState *state = data->user;
 	GnmCellPos const *pos = &state->style_range.start;
-	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CELLREF) {
+	GnmCellRef const *oref = gnm_expr_get_cellref (expr);
+	GnmValue const *ocst = gnm_expr_get_constant (expr);
+
+	if (oref) {
 		GnmCellPos tpos;
-		GnmCellRef const *oref = &expr->cellref.ref;
 		GnmCellRef tref = *oref;
-		gnm_cellpos_init_cellref (&tpos, &expr->cellref.ref,
-					  pos, state->sheet);
+		gnm_cellpos_init_cellref (&tpos, oref, pos, state->sheet);
 		if (tref.col_relative)
 			tref.col = tpos.col - pos->col;
 		if (tref.row_relative)
@@ -1780,9 +1780,10 @@ cond_patchup (GnmExpr const *expr, GnmExprWalk *data)
 		if (gnm_cellref_equal (&tref, oref))
 			return NULL;
 		return gnm_expr_new_cellref (&tref);
-	} else if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT &&
-		   VALUE_IS_CELLRANGE (expr->constant.value)) {
-		GnmRangeRef const *oref = value_get_rangeref (expr->constant.value);
+	}
+
+	if (ocst && VALUE_IS_CELLRANGE (ocst)) {
+		GnmRangeRef const *oref = value_get_rangeref (ocst);
 		GnmRangeRef tref = *oref;
 		GnmRange trange;
 		Sheet *start_sheet, *end_sheet;

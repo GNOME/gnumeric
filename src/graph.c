@@ -535,7 +535,9 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 	if (vec->val == NULL && vec->dep.texpr != NULL) {
 		GSList *l = NULL;
 		if (GNM_EXPR_GET_OPER (vec->dep.texpr->expr) == GNM_EXPR_OP_SET &&
-		    gnm_expr_is_rangeref (vec->dep.texpr->expr) && ((l = gnm_expr_top_get_ranges (vec->dep.texpr))) && l->next != NULL) {
+		    gnm_expr_is_rangeref (vec->dep.texpr->expr) &&
+		    ((l = gnm_expr_top_get_ranges (vec->dep.texpr))) &&
+		    l->next != NULL) {
 			unsigned len = g_slist_length (l);
 			GSList *cur = l;
 			unsigned i;

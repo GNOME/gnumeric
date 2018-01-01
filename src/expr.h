@@ -96,6 +96,8 @@ gboolean  gnm_expr_is_empty          (GnmExpr const *expr);
 
 GnmValue const *gnm_expr_get_constant	(GnmExpr const *expr);
 
+GnmNamedExpr const *gnm_expr_get_name	(GnmExpr const *expr);
+
 GnmCellRef const*gnm_expr_get_cellref	(GnmExpr const *expr);
 
 void	  gnm_expr_as_gstring	     (GnmExpr const *expr,

@@ -36,7 +36,6 @@
 #include "position.h"
 #include "expr-name.h"
 #include "expr.h"
-#include "expr-impl.h"
 #include "value.h"
 #include "mstyle.h"
 
@@ -320,7 +319,7 @@ gnm_hlink_cur_wb_set_target (GnmHLink *lnk, const char *target)
 
 		if (texpr == NULL || gnm_expr_top_is_err (texpr, GNM_ERROR_REF)) {
 			// Nothing, error
-		} else if (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_NAME) {
+		} else if (gnm_expr_get_name (texpr->expr)) {
 			// Nothing, we're good
 		} else {
 			// Allow only ranges and normalize

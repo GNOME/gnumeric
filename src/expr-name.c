@@ -19,7 +19,6 @@
 #include "value.h"
 #include "workbook-priv.h"
 #include "expr.h"
-#include "expr-impl.h"
 #include "sheet.h"
 #include "ranges.h"
 #include "gutils.h"
@@ -632,8 +631,8 @@ cb_name_loop_check (GnmExpr const *expr, GnmExprWalk *data)
 {
 	struct cb_name_loop_check *args = data->user;
 
-	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_NAME) {
-		GnmNamedExpr const *nexpr2 = expr->name.name;
+	GnmNamedExpr const *nexpr2 = gnm_expr_get_name (expr);
+	if (nexpr2) {
 		if ((args->name && !strcmp (nexpr2->name->str, args->name)) ||
 		    args->nexpr == nexpr2 ||
 		    (!args->stop_at_name && nexpr2->texpr &&

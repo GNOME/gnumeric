@@ -194,6 +194,7 @@ typedef struct {
 
 	/* Accumulator for storing arrays after the expression */
 	GSList		*arrays;
+	GnmExprTop const *array_texpr;
 } PolishData;
 
 static void write_node (PolishData *pd, GnmExpr const *expr,
@@ -863,10 +864,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		guint8 data[5];
 		int x, y, ptg;
 
-		if (GNM_EXPR_OP_ARRAY_ELEM == op) {
-			x = expr->array_elem.x;
-			y = expr->array_elem.y;
-		} else
+		if (!gnm_expr_top_is_array_elem (pd->array_texpr, &x, &y))
 			x = y = 0;
 
 		ptg = FORMULA_PTG_EXPR;
@@ -981,7 +979,7 @@ write_arrays (PolishData *pd)
 
 guint32
 excel_write_array_formula (ExcelWriteState *ewb,
-			   GnmExpr const *array_expr,
+			   GnmExprTop const *texpr,
 			   Sheet *sheet, int fn_col, int fn_row)
 {
 	PolishData pd;
@@ -989,19 +987,20 @@ excel_write_array_formula (ExcelWriteState *ewb,
 	guint32 len;
 
 	g_return_val_if_fail (ewb, 0);
-	g_return_val_if_fail (array_expr, 0);
+	g_return_val_if_fail (texpr, 0);
 
 	pd.col     = fn_col;
 	pd.row     = fn_row;
 	pd.sheet   = sheet;
 	pd.ewb     = ewb;
 	pd.arrays  = NULL;
+	pd.array_texpr = texpr;
 	pd.context = CTXT_ARRAY;
 	pd.use_name_variant = FALSE;
 	pd.allow_sheetless_ref = TRUE;
 
 	start = ewb->bp->curpos;
-	write_node (&pd, array_expr, 0, XL_ROOT);
+	write_node (&pd, gnm_expr_top_get_array_expr (texpr), 0, XL_ROOT);
 	len = ewb->bp->curpos - start;
 
 	write_arrays (&pd);
@@ -1032,6 +1031,12 @@ excel_write_formula (ExcelWriteState *ewb, GnmExprTop const *texpr,
 	pd.ewb     = ewb;
 	pd.arrays  = NULL;
 	pd.allow_sheetless_ref = TRUE;
+
+	if (gnm_expr_top_is_array_corner (texpr) ||
+	    gnm_expr_top_is_array_elem (texpr, NULL, NULL))
+		pd.array_texpr = texpr;
+	else
+		pd.array_texpr = NULL;
 
 	switch (context) {
 	case EXCEL_CALLED_FROM_CELL:

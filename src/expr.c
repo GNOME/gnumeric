@@ -1840,6 +1840,22 @@ gnm_expr_get_constant (GnmExpr const *expr)
 }
 
 /**
+ * gnm_expr_get_name:
+ * @expr:
+ *
+ * If this expression consists of just a name, return it.
+ */
+GnmNamedExpr const *
+gnm_expr_get_name (GnmExpr const *expr)
+{
+	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_NAME)
+		return NULL;
+
+	return expr->name.name;
+}
+
+
+/**
  * gnm_expr_get_cellref:
  * @expr:
  *

@@ -3623,7 +3623,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 			GSF_LE_SET_GUINT32 (data+8, 0);
 			GSF_LE_SET_GUINT16 (data+12, 0); /* bogus len, fill in later */
 			ms_biff_put_var_write (ewb->bp, data, 14);
-			len = excel_write_array_formula (ewb, gnm_expr_top_get_array_expr (texpr),
+			len = excel_write_array_formula (ewb, texpr,
 							 esheet->gnum_sheet, col, row);
 
 			ms_biff_put_var_seekto (ewb->bp, 12);

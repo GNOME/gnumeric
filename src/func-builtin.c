@@ -29,7 +29,6 @@
 #include <value.h>
 #include <selection.h>
 #include <expr.h>
-#include <expr-impl.h>
 #include <expr-deriv.h>
 #include <sheet.h>
 #include <cell.h>
@@ -363,7 +362,7 @@ gnumeric_if (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	if (args[res])
 		return value_dup (args[res]);
 
-	if (ei->func_call->argc < res + 1)
+	if (gnm_eval_info_get_arg_count (ei) < res + 1)
 		/* arg-not-there: default to TRUE/FALSE.  */
 		return value_new_bool (res == 1);
 	else
