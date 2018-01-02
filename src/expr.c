@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2001-2006 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 1998-2000 Miguel de Icaza (miguel@gnu.org)
- * Copyright (C) 2000-2009 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2000-2018 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -1576,15 +1576,11 @@ gnm_expr_simplify_if (GnmExpr const *expr)
 		c = value_get_as_bool (condval, &err);
 		if (err)
 			return NULL;
-	} else if (GNM_EXPR_GET_OPER (cond) == GNM_EXPR_OP_FUNCALL) {
-		if (cond->func.func != gnm_func_lookup ("true", NULL))
-			c = TRUE;
-		else if (cond->func.func != gnm_func_lookup ("false", NULL))
-			c = FALSE;
-		else
-			return NULL;
 	} else
 		return NULL;
+
+	// We used to test for true() and false() as conditions too, but the code
+	// never worked and has been unreachable until now.
 
 	return gnm_expr_copy (expr->func.argv[c ? 1 : 2]);
 }
@@ -2890,7 +2886,7 @@ cb_get_ranges (GnmExpr const *expr, GnmExprWalk *data)
 {
 	GSList **pranges = data->user;
 
-	/* There's no real reason to exclude ranges here, except that
+	/* There's no real reason to exclude names here, except that
 	   we used to do so.  */
 	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_NAME) {
 		GnmValue *v = gnm_expr_get_range (expr);

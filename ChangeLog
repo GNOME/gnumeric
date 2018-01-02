@@ -1,3 +1,8 @@
+2018-01-01  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_simplify_if): Remove non-working,
+	non-reachable code relating to true() and false() conditions.
+
 2017-12-30  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_top_get_array_corner): Remove.  All callers
