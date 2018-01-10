@@ -4,6 +4,7 @@ Morten:
 	* Fix ssdiff problem.  [#792038]
 	* Fix ISREF.
 	* Some internal array formula code cleanups.
+	* Fix problem with stopping a glpk solver.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.38

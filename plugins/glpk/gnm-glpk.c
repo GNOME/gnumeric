@@ -612,7 +612,7 @@ gnm_glpk_start (GnmSolver *sol, WorkbookControl *wbc, GError **err,
 static gboolean
 gnm_glpk_stop (GnmSolver *sol, GError *err, GnmGlpk *lp)
 {
-	g_return_val_if_fail (sol->status != GNM_SOLVER_STATUS_RUNNING, FALSE);
+	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_RUNNING, FALSE);
 
 	gnm_glpk_cleanup (lp);
 
