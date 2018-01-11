@@ -455,6 +455,32 @@ scg_resize_virt (SheetControl *sc, gboolean force_scroll)
 	scg_resize ((SheetControlGUI *)sc, force_scroll);
 }
 
+static void
+gnm_adjustment_configure (GtkAdjustment *adjustment,
+                          gdouble        value,
+                          gdouble        lower,
+                          gdouble        upper,
+                          gdouble        step_increment,
+                          gdouble        page_increment,
+                          gdouble        page_size)
+{
+	g_object_freeze_notify (G_OBJECT (adjustment));
+
+	// These do nothing if value isn't changed
+	gtk_adjustment_set_lower (adjustment, lower);
+	gtk_adjustment_set_upper (adjustment, upper);
+	gtk_adjustment_set_step_increment (adjustment, step_increment);
+	gtk_adjustment_set_page_increment (adjustment, page_increment);
+	gtk_adjustment_set_page_size (adjustment, page_size);
+
+	g_object_thaw_notify (G_OBJECT (adjustment));
+
+	// These fire signals if nothing changes, so check by hand
+	if (!(gtk_adjustment_get_value (adjustment) == value))
+		gtk_adjustment_set_value (adjustment, value);
+
+}
+
 /**
  * scg_scrollbar_config :
  * @sc:
@@ -492,7 +518,7 @@ scg_scrollbar_config_real (SheetControl const *sc)
 			max_row = sheet->rows.max_used;
 		if (max_row < sheet->max_object_extent.row)
 			max_row = sheet->max_object_extent.row;
-		gtk_adjustment_configure
+		gnm_adjustment_configure
 			(va,
 			 pane->first.row,
 			 sv_is_frozen (sv) ? sv->unfrozen_top_left.row : 0,
@@ -505,7 +531,7 @@ scg_scrollbar_config_real (SheetControl const *sc)
 			max_col = sheet->cols.max_used;
 		if (max_col < sheet->max_object_extent.col)
 			max_col = sheet->max_object_extent.col;
-		gtk_adjustment_configure
+		gnm_adjustment_configure
 			(ha,
 			 pane->first.col,
 			 sv_is_frozen (sv) ? sv->unfrozen_top_left.col : 0,

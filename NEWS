@@ -5,6 +5,7 @@ Morten:
 	* Fix ISREF.
 	* Some internal array formula code cleanups.
 	* Fix problem with stopping a glpk solver.
+	* Improve workaround for gtk+ scrollbar bug.  [#792417]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.38

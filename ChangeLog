@@ -1,3 +1,9 @@
+2018-01-11  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-control-gui.c (scg_scrollbar_config_real): Be careful
+	not to trigger an update storm when nothing changes.  Fixes
+	#792417.
+
 2018-01-01  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_simplify_if): Remove non-working,
