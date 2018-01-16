@@ -384,7 +384,7 @@ static GnmFuncHelp const help_correl[] = {
 	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then CORREL(A1:A5,B1:B5) equals 0.996124788.") },
 	{ GNM_FUNC_HELP_SEEALSO, "COVAR,FISHER,FISHERINV"},
-	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:CorrelationCoefficient.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:CorrelationCoefficient.html") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Covariance.html") },
 	{ GNM_FUNC_HELP_END }
 };
