@@ -1,3 +1,8 @@
+2018-01-17  Morten Welinder  <terra@gnome.org>
+
+	* src/sstest.c (function_dump_defs): Drop internal function TABLE
+	as well as demo function ATL_LAST.
+
 2018-01-11  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-gui.c (scg_scrollbar_config_real): Be careful

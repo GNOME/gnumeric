@@ -439,6 +439,15 @@ function_dump_defs (char const *filename, int dump_type)
 
 	for (i = 0; i < ordered->len; i++) {
 		GnmFunc const *fd = g_ptr_array_index (ordered, i);
+
+		// Skip internal-use function
+		if (g_ascii_strcasecmp (fd->name, "TABLE") == 0)
+			continue;
+
+		// Skip demo function
+		if (g_ascii_strcasecmp (fd->name, "ATL_LAST") == 0)
+			continue;
+
 		if (dump_type == 1) {
 			int i;
 			gboolean first_arg = TRUE;
