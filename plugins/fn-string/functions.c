@@ -331,7 +331,7 @@ gnumeric_left (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_leftb[] = {
-	{ GNM_FUNC_HELP_NAME, F_("LEFTB:the first characters  of the string @{s} comprising at most @{num_bytes} bytes")},
+	{ GNM_FUNC_HELP_NAME, F_("LEFTB:the first characters of the string @{s} comprising at most @{num_bytes} bytes")},
 	{ GNM_FUNC_HELP_ARG, F_("s:the string")},
 	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},
 	{ GNM_FUNC_HELP_NOTE, F_("The semantics of this function is subject to change as various applications implement it.")},
@@ -1515,7 +1515,7 @@ gnumeric_searchb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_asc[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ASC:text with full-width katakana and ASCII characters converted to half-width")},
 	{ GNM_FUNC_HELP_ARG, F_("text:string")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others. ")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("For most strings, this function has the same effect as in Excel.")},
 	{ GNM_FUNC_HELP_NOTE, F_("While in obsolete encodings ASC used to translate between 2-byte and 1-byte characters, this is not the case in UTF-8.")},
@@ -1643,7 +1643,7 @@ static GnmFuncHelp const help_jis[] = {
 	{ GNM_FUNC_HELP_NAME, F_("JIS:text with half-width katakana and ASCII characters converted to full-width")},
 	{ GNM_FUNC_HELP_ARG, F_("text:original text")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("JIS converts half-width katakana and ASCII characters "
-					"to full-width equivalent characters, copying all others. ")},
+					"to full-width equivalent characters, copying all others.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The distinction between half-width and full-width characters "
 					"is described in http://www.unicode.org/reports/tr11/.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("For most strings, this function has the same effect as in Excel.")},

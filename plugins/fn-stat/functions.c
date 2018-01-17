@@ -981,7 +981,7 @@ static GnmFuncHelp const help_expondist[] = {
 	{ GNM_FUNC_HELP_ARG, F_("y:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{cumulative} is false it will return:\t"
-	   "@{y} * exp (-@{y}*@{x}),otherwise it will return\t"
+	   "@{y} * exp (-@{y}*@{x}), otherwise it will return\t"
 	   "1 - exp (-@{y}*@{x}).")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 or @{y} <= 0 this will return an error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -1935,7 +1935,7 @@ static GnmFuncHelp const help_weibull[] = {
 	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If the @{cumulative} boolean is true it will return: "
-           "1 - exp (-(@{x}/@{beta})^@{alpha}),otherwise it will return "
+           "1 - exp (-(@{x}/@{beta})^@{alpha}), otherwise it will return "
            "(@{alpha}/@{beta}^@{alpha}) * @{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha})).") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error.")},
@@ -2369,7 +2369,7 @@ static GnmFuncHelp const help_large[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then LARGE(A1:A5,2) equals 25.9."
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then LARGE(A1:A5,2) equals 25.9. "
 				     "LARGE(A1:A5,4) equals 17.3.") },
 	{ GNM_FUNC_HELP_SEEALSO, "PERCENTILE,PERCENTRANK,QUARTILE,SMALL"},
 	{ GNM_FUNC_HELP_END }
@@ -2412,7 +2412,7 @@ static GnmFuncHelp const help_small[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SMALL(A1:A5,2) equals 17.3."
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SMALL(A1:A5,2) equals 17.3. "
 				     "SMALL(A1:A5,4) equals 25.9.") },
 	{ GNM_FUNC_HELP_SEEALSO, "PERCENTILE,PERCENTRANK,QUARTILE,LARGE"},
 	{ GNM_FUNC_HELP_END }
@@ -2841,7 +2841,7 @@ static GnmFuncHelp const help_percentrank[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{significance} is less than one, this function returns a #NUM! "
 				 "error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} exceeds the largest value or is less than the smallest "
-				 "value in @{array}, this function returns an #N/A! error.") },
+				 "value in @{array}, this function returns an #N/A error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} does not match any of the values in @{array} or @{x} matches "
 				 "more than once, this function interpolates the returned value.") },
 	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"},
@@ -2945,7 +2945,7 @@ static GnmFuncHelp const help_percentrank_exc[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{significance} is less than one, this function returns a #NUM! "
 				 "error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} exceeds the largest value or is less than the smallest "
-				 "value in @{array}, this function returns an #N/A! error.") },
+				 "value in @{array}, this function returns an #N/A error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} does not match any of the values in @{array} or @{x} matches "
 				 "more than once, this function interpolates the returned value.") },
 	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,PERCENTILE.EXC,QUARTILE,QUARTILE.EXC,SMALL"},
@@ -3287,9 +3287,9 @@ static GnmFuncHelp const help_ttest[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
 				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619."
-				     "TTEST(A1:A5,B1:B5,2,1) equals 0.006255239."
-				     "TTEST(A1:A5,B1:B5,1,2) equals 0.111804322."
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619. "
+				     "TTEST(A1:A5,B1:B5,2,1) equals 0.006255239. "
+				     "TTEST(A1:A5,B1:B5,1,2) equals 0.111804322. "
 				     "TTEST(A1:A5,B1:B5,1,3) equals 0.113821797.") },
 	{ GNM_FUNC_HELP_SEEALSO, "FDIST,FINV"},
 	{ GNM_FUNC_HELP_END }
@@ -3730,7 +3730,7 @@ static GnmFuncHelp const help_linest[] = {
 					"coefficients for the independent variables "
 					"x_m, x_(m-1),\xe2\x80\xa6,x_2, x_1 followed by the y-intercept if @{affine} is true.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{stats} is true, the second row contains the corresponding standard "
-					"errors of the regression coefficients."
+					"errors of the regression coefficients. "
 					"In this case, the third row contains the R^2 value and the standard error "
 					"for the predicted value. "
 					"The fourth row contains the observed F value and its degrees of freedom. "
@@ -3839,7 +3839,7 @@ static GnmFuncHelp const help_logreg[] = {
 					"y = m * ln(x) + b "
 					"to y's and x's. "
 					"LOGREG returns an array having two columns and one row. "
-					"m is given in the first column and b in the second. ") },
+					"m is given in the first column and b in the second.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Any extra statistical information is written below m and b in the "
 					"result array.  This extra statistical information consists of four "
 					"rows of data:  In the first row the standard error values for the "
@@ -3847,7 +3847,7 @@ static GnmFuncHelp const help_logreg[] = {
 					"contains the square of R and the standard error for the y "
 					"estimate. The third row contains the F-observed value and the "
 					"degrees of freedom.  The last row contains the regression sum "
-					"of squares and the residual sum of squares."
+					"of squares and the residual sum of squares. "
 					"The default of @{stat} is FALSE.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{known_ys} and @{known_xs} have unequal number of data points, "
 				 "this function returns a #NUM! error.") },
@@ -4568,10 +4568,10 @@ static GnmFuncHelp const help_subtotal[] = {
 	{ GNM_FUNC_HELP_ARG, F_("ref2:second value")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SUBTOTAL(1,A1:A5) equals 30."
-				     "SUBTOTAL(6,A1:A5) equals 22378356."
-				     "SUBTOTAL(7,A1:A5) equals 6.164414003."
-				     "SUBTOTAL(9,A1:A5) equals 150."
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SUBTOTAL(1,A1:A5) equals 30. "
+				     "SUBTOTAL(6,A1:A5) equals 22378356. "
+				     "SUBTOTAL(7,A1:A5) equals 6.164414003. "
+				     "SUBTOTAL(9,A1:A5) equals 150. "
 				     "SUBTOTAL(11,A1:A5) equals 30.4.") },
 	{ GNM_FUNC_HELP_SEEALSO, "COUNT,SUM"},
 	{ GNM_FUNC_HELP_END }

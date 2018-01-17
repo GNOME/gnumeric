@@ -1123,7 +1123,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(<parameter>a</parameter>).</para>
+        <para>The regularized incomplete gamma function is the unregularized incomplete gamma function divided by GAMMA(<parameter>a</parameter>).</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -3439,7 +3439,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>The <function>WEEKDAY</function> function returns the day-of-week of <parameter>date</parameter>.  The value of <parameter>method</parameter> determines how days are numbered; it defaults to 1. </para>
+        <para>The <function>WEEKDAY</function> function returns the day-of-week of <parameter>date</parameter>.  The value of <parameter>method</parameter> determines how days are numbered; it defaults to 1.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -5046,7 +5046,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>AMORLINC</function> calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account. </para>
+        <para><function>AMORLINC</function> calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -8612,7 +8612,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If a variable called <parameter>name</parameter> does not exist, #N/A! will be returned. Variable names are case sensitive.</para>
+        <para>If a variable called <parameter>name</parameter> does not exist, #N/A will be returned. Variable names are case sensitive.</para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-function-INFO">
@@ -9276,7 +9276,7 @@
           <function>IFNA</function>
         </refname>
         <refpurpose>
-        test for #NA! error
+        test for #N/A error
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -9284,12 +9284,12 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: value to test for #NA! error</para>
+        <para><parameter>x</parameter>: value to test for #N/A error</para>
         <para><parameter>y</parameter>: alternate value</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>This function returns the first value, unless that is #NA!, in which case it returns the second.</para>
+        <para>This function returns the first value, unless that is #N/A, in which case it returns the second.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -9324,7 +9324,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>This function returns the value after the first true contional.  If no conditional is true, #VALUE! is returned.</para>
+        <para>This function returns the value after the first true conditional.  If no conditional is true, #VALUE! is returned.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -9443,7 +9443,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>This function compares the reference value, <parameter>ref</parameter>, against the choice values, <parameter>choice1</parameter> etc., and returns the corresponding result value when it finds a match.  The choices may be followed by a default value to use.  If there are no choices that match and no default value, #NA! is return.</para>
+        <para>This function compares the reference value, <parameter>ref</parameter>, against the choice values, <parameter>choice1</parameter> etc., and returns the corresponding result value when it finds a match.  The choices may be followed by a default value to use.  If there are no choices that match and no default value, #N/A is return.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -9975,7 +9975,7 @@
         <title>Arguments</title>
         <para><parameter>seek</parameter>: value to find</para>
         <para><parameter>vector</parameter>: n by 1 or 1 by n range to be searched</para>
-        <para><parameter>type</parameter>: +1 (the default) to find the largest value ≤ <parameter>seek</parameter>, 0 to find the first value = <parameter>seek</parameter>, or-1 to find the smallest value ≥ <parameter>seek</parameter></para>
+        <para><parameter>type</parameter>: +1 (the default) to find the largest value ≤ <parameter>seek</parameter>, 0 to find the first value = <parameter>seek</parameter>, or -1 to find the smallest value ≥ <parameter>seek</parameter></para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -9983,7 +9983,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para> For <parameter>type</parameter> = -1 the data must be sorted in descending order; for <parameter>type</parameter> = +1 the data must be sorted in ascending order. If <parameter>seek</parameter> could not be found, #N/A is returned. If <parameter>vector</parameter> is neither n by 1 nor 1 by n, #N/A is returned.</para>
+        <para>For <parameter>type</parameter> = -1 the data must be sorted in descending order; for <parameter>type</parameter> = +1 the data must be sorted in ascending order. If <parameter>seek</parameter> could not be found, #N/A is returned. If <parameter>vector</parameter> is neither n by 1 nor 1 by n, #N/A is returned.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -11894,7 +11894,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(<parameter>a</parameter>) This is a real valued function as long as neither <parameter>a</parameter> nor <parameter>z</parameter> are negative.</para>
+        <para>The regularized incomplete gamma function is the unregularized incomplete gamma function divided by GAMMA(<parameter>a</parameter>) This is a real valued function as long as neither <parameter>a</parameter> nor <parameter>z</parameter> are negative.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -15148,7 +15148,7 @@
       <refsect1>
         <title>Description</title>
         <para><function>SIMTABLE</function> returns one of the values in the given argument list depending on the round number of the simulation tool. When the simulation tool is not activated, <function>SIMTABLE</function> returns <parameter>d1</parameter>.</para>
-        <para>With the simulation tool and the <function>SIMTABLE</function> function you can test given decision variables. Each <function>SIMTABLE</function> function contains the possible values of a simulation variable. In most valid simulation models you should have the same number of values <parameter>dN</parameter> for all decision variables.  If the simulation is run more rounds than there are values defined, <function>SIMTABLE</function> returns #N/A! error (e.g. if A1 contains `=<function>SIMTABLE</function>(1)' and A2 `=<function>SIMTABLE</function>(1,2)', A1 yields #N/A! error on the second round).</para>
+        <para>With the simulation tool and the <function>SIMTABLE</function> function you can test given decision variables. Each <function>SIMTABLE</function> function contains the possible values of a simulation variable. In most valid simulation models you should have the same number of values <parameter>dN</parameter> for all decision variables.  If the simulation is run more rounds than there are values defined, <function>SIMTABLE</function> returns #N/A error (e.g. if A1 contains `=<function>SIMTABLE</function>(1)' and A2 `=<function>SIMTABLE</function>(1,2)', A1 yields #N/A error on the second round).</para>
         <para>The successive use of the simulation tool also requires that you give to the tool at least one input variable having RAND() or any other RAND&lt;distribution name&gt;() function in it. On each round, the simulation tool iterates for the given number of rounds over all the input variables to reevaluate them. On each iteration, the values of the output variables are stored, and when the round is completed, descriptive statistical information is created according to the values.</para>
       </refsect1>
     </refentry>
@@ -16110,7 +16110,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>If <parameter>cumulative</parameter> is false it will return:	<parameter>y</parameter> * exp (-<parameter>y</parameter>*<parameter>x</parameter>),otherwise it will return	1 - exp (-<parameter>y</parameter>*<parameter>x</parameter>).</para>
+        <para>If <parameter>cumulative</parameter> is false it will return:	<parameter>y</parameter> * exp (-<parameter>y</parameter>*<parameter>x</parameter>), otherwise it will return	1 - exp (-<parameter>y</parameter>*<parameter>x</parameter>).</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -16966,7 +16966,7 @@
       <refsect1>
         <title>Description</title>
         <para>This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),…,x_2, x_1 followed by the y-intercept if <parameter>affine</parameter> is true.</para>
-        <para>If <parameter>stats</parameter> is true, the second row contains the corresponding standard errors of the regression coefficients.In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.</para>
+        <para>If <parameter>stats</parameter> is true, the second row contains the corresponding standard errors of the regression coefficients. In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.</para>
         <para>If <parameter>affine</parameter> is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model.</para>
       </refsect1>
       <refsect1>
@@ -17229,8 +17229,8 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>LOGREG</function> function transforms your x's to z=ln(x) and applies the “least squares” method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. <function>LOGREG</function> returns an array having two columns and one row. m is given in the first column and b in the second. </para>
-        <para>Any extra statistical information is written below m and b in the result array.  This extra statistical information consists of four rows of data:  In the first row the standard error values for the coefficients m, b are given.  The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.The default of <parameter>stat</parameter> is FALSE.</para>
+        <para><function>LOGREG</function> function transforms your x's to z=ln(x) and applies the “least squares” method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. <function>LOGREG</function> returns an array having two columns and one row. m is given in the first column and b in the second.</para>
+        <para>Any extra statistical information is written below m and b in the result array.  This extra statistical information consists of four rows of data:  In the first row the standard error values for the coefficients m, b are given.  The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares. The default of <parameter>stat</parameter> is FALSE.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -17903,7 +17903,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>array</parameter> contains no data points, this function returns a #NUM! error. If <parameter>significance</parameter> is less than one, this function returns a #NUM! error. If <parameter>x</parameter> exceeds the largest value or is less than the smallest value in <parameter>array</parameter>, this function returns an #N/A! error. If <parameter>x</parameter> does not match any of the values in <parameter>array</parameter> or <parameter>x</parameter> matches more than once, this function interpolates the returned value.</para>
+        <para>If <parameter>array</parameter> contains no data points, this function returns a #NUM! error. If <parameter>significance</parameter> is less than one, this function returns a #NUM! error. If <parameter>x</parameter> exceeds the largest value or is less than the smallest value in <parameter>array</parameter>, this function returns an #N/A error. If <parameter>x</parameter> does not match any of the values in <parameter>array</parameter> or <parameter>x</parameter> matches more than once, this function interpolates the returned value.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17942,7 +17942,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>array</parameter> contains no data points, this function returns a #NUM! error. If <parameter>significance</parameter> is less than one, this function returns a #NUM! error. If <parameter>x</parameter> exceeds the largest value or is less than the smallest value in <parameter>array</parameter>, this function returns an #N/A! error. If <parameter>x</parameter> does not match any of the values in <parameter>array</parameter> or <parameter>x</parameter> matches more than once, this function interpolates the returned value.</para>
+        <para>If <parameter>array</parameter> contains no data points, this function returns a #NUM! error. If <parameter>significance</parameter> is less than one, this function returns a #NUM! error. If <parameter>x</parameter> exceeds the largest value or is less than the smallest value in <parameter>array</parameter>, this function returns an #N/A error. If <parameter>x</parameter> does not match any of the values in <parameter>array</parameter> or <parameter>x</parameter> matches more than once, this function interpolates the returned value.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -21405,7 +21405,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>If the <parameter>cumulative</parameter> boolean is true it will return: 1 - exp (-(<parameter>x</parameter>/<parameter>beta</parameter>)^<parameter>alpha</parameter>),otherwise it will return (<parameter>alpha</parameter>/<parameter>beta</parameter>^<parameter>alpha</parameter>) * <parameter>x</parameter>^(<parameter>alpha</parameter>-1) * exp(-(<parameter>x</parameter>/<parameter>beta</parameter>^<parameter>alpha</parameter>)).</para>
+        <para>If the <parameter>cumulative</parameter> boolean is true it will return: 1 - exp (-(<parameter>x</parameter>/<parameter>beta</parameter>)^<parameter>alpha</parameter>), otherwise it will return (<parameter>alpha</parameter>/<parameter>beta</parameter>^<parameter>alpha</parameter>) * <parameter>x</parameter>^(<parameter>alpha</parameter>-1) * exp(-(<parameter>x</parameter>/<parameter>beta</parameter>^<parameter>alpha</parameter>)).</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -21497,7 +21497,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>ASC</function> converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others. </para>
+        <para><function>ASC</function> converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others.</para>
         <para>The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.</para>
       </refsect1>
       <refsect1>
@@ -21909,7 +21909,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>JIS</function> converts half-width katakana and ASCII characters to full-width equivalent characters, copying all others. </para>
+        <para><function>JIS</function> converts half-width katakana and ASCII characters to full-width equivalent characters, copying all others.</para>
         <para>The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.</para>
       </refsect1>
       <refsect1>
@@ -21986,7 +21986,7 @@
           <function>LEFTB</function>
         </refname>
         <refpurpose>
-        the first characters  of the string <parameter>s</parameter> comprising at most <parameter>num_bytes</parameter> bytes
+        the first characters of the string <parameter>s</parameter> comprising at most <parameter>num_bytes</parameter> bytes
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -22994,7 +22994,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>ordinates</parameter>: ordinates of the given data</para>
-        <para><parameter>filter</parameter>: windowing function to  be used, defaults to no filter</para>
+        <para><parameter>filter</parameter>: windowing function to be used, defaults to no filter</para>
         <para><parameter>abscissae</parameter>: abscissae of the given data, defaults to regularly spaced abscissae</para>
         <para><parameter>interpolation</parameter>: method of interpolation, defaults to none</para>
         <para><parameter>number</parameter>: number of interpolated data points</para>

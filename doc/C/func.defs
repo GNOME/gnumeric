@@ -286,7 +286,7 @@
 @{z}: a complex number
 @{lower}: if true (the default), the lower incomplete gamma function, otherwise the upper incomplete gamma function
 @{regularize}: if true (the default), the regularized version of the incomplete gamma function
-@NOTE=The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(@{a}).
+@NOTE=The regularized incomplete gamma function is the unregularized incomplete gamma function divided by GAMMA(@{a}).
 @SEEALSO=GAMMA,IMIGAMMA
 
 @CATEGORY=Complex
@@ -933,7 +933,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SYNTAX=WEEKDAY(date,method)
 @ARGUMENTDESCRIPTION=@{date}: date serial value
 @{method}: numbering system, defaults to 1
-@DESCRIPTION=The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered; it defaults to 1. 
+@DESCRIPTION=The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered; it defaults to 1.
 @NOTE=If @{method} is 1, then Sunday is 1, Monday is 2, etc. If @{method} is 2, then Monday is 1, Tuesday is 2, etc. If @{method} is 3, then Monday is 0, Tuesday is 1, etc. If @{method} is 11, then Monday is 1, Tuesday is 2, etc. If @{method} is 12, then Tuesday is 1, Wednesday is 2, etc. If @{method} is 13, then Wednesday is 1, Thursday is 2, etc. If @{method} is 14, then Thursday is 1, Friday is 2, etc. If @{method} is 15, then Friday is 1, Saturday is 2, etc. If @{method} is 16, then Saturday is 1, Sunday is 2, etc. If @{method} is 17, then Sunday is 1, Monday is 2, etc.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=DATE,ISOWEEKNUM
@@ -1527,7 +1527,7 @@ The depreciation coefficient used is:
 @{period}: subject period
 @{rate}: depreciation rate
 @{basis}: calendar basis
-@DESCRIPTION=AMORLINC calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account. 
+@DESCRIPTION=AMORLINC calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account.
 @NOTE=Named for AMORtissement LINeaire Comptabilite. If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=AMORDEGRC
 
@@ -2730,7 +2730,7 @@ The depreciation coefficient used is:
 @SHORTDESC=the value of execution environment variable @{name}
 @SYNTAX=GETENV(name)
 @ARGUMENTDESCRIPTION=@{name}: the name of the environment variable
-@NOTE=If a variable called @{name} does not exist, #N/A! will be returned. Variable names are case sensitive.
+@NOTE=If a variable called @{name} does not exist, #N/A will be returned. Variable names are case sensitive.
 
 @CATEGORY=Information
 @FUNCTION=INFO
@@ -2913,11 +2913,11 @@ The depreciation coefficient used is:
 
 @CATEGORY=Logic
 @FUNCTION=IFNA
-@SHORTDESC=test for #NA! error
+@SHORTDESC=test for #N/A error
 @SYNTAX=IFNA(x,y)
-@ARGUMENTDESCRIPTION=@{x}: value to test for #NA! error
+@ARGUMENTDESCRIPTION=@{x}: value to test for #N/A error
 @{y}: alternate value
-@DESCRIPTION=This function returns the first value, unless that is #NA!, in which case it returns the second.
+@DESCRIPTION=This function returns the first value, unless that is #N/A, in which case it returns the second.
 @SEEALSO=IF,ISERROR
 
 @CATEGORY=Logic
@@ -2928,7 +2928,7 @@ The depreciation coefficient used is:
 @{value1}: value if @{condition1} is true
 @{cond2}: condition
 @{value2}: value if @{condition2} is true
-@DESCRIPTION=This function returns the value after the first true contional.  If no conditional is true, #VALUE! is returned.
+@DESCRIPTION=This function returns the value after the first true conditional.  If no conditional is true, #VALUE! is returned.
 @SEEALSO=IF
 
 @CATEGORY=Logic
@@ -2961,7 +2961,7 @@ The depreciation coefficient used is:
 @{value1}: first result value
 @{choice2}: second choice value
 @{value2}: second result value
-@DESCRIPTION=This function compares the reference value, @{ref}, against the choice values, @{choice1} etc., and returns the corresponding result value when it finds a match.  The choices may be followed by a default value to use.  If there are no choices that match and no default value, #NA! is return.
+@DESCRIPTION=This function compares the reference value, @{ref}, against the choice values, @{choice1} etc., and returns the corresponding result value when it finds a match.  The choices may be followed by a default value to use.  If there are no choices that match and no default value, #N/A is return.
 @SEEALSO=IF,IFS
 
 @CATEGORY=Logic
@@ -3110,9 +3110,9 @@ The depreciation coefficient used is:
 @SYNTAX=MATCH(seek,vector,type)
 @ARGUMENTDESCRIPTION=@{seek}: value to find
 @{vector}: n by 1 or 1 by n range to be searched
-@{type}: +1 (the default) to find the largest value ≤ @{seek}, 0 to find the first value = @{seek}, or-1 to find the smallest value ≥ @{seek}
+@{type}: +1 (the default) to find the largest value ≤ @{seek}, 0 to find the first value = @{seek}, or -1 to find the smallest value ≥ @{seek}
 @DESCRIPTION=MATCH searches @{vector} for @{seek} and returns the 1-based index.
-@NOTE= For @{type} = -1 the data must be sorted in descending order; for @{type} = +1 the data must be sorted in ascending order. If @{seek} could not be found, #N/A is returned. If @{vector} is neither n by 1 nor 1 by n, #N/A is returned.
+@NOTE=For @{type} = -1 the data must be sorted in descending order; for @{type} = +1 the data must be sorted in ascending order. If @{seek} could not be found, #N/A is returned. If @{vector} is neither n by 1 nor 1 by n, #N/A is returned.
 @SEEALSO=LOOKUP
 
 @CATEGORY=Lookup
@@ -3603,7 +3603,7 @@ The depreciation coefficient used is:
 @{lower}: if true (the default), the lower incomplete gamma function, otherwise the upper incomplete gamma function
 @{regularize}: if true (the default), the regularized version of the incomplete gamma function
 @{real}: if true (the default), the real part of the result, otherwise the imaginary part
-@NOTE=The regularized incomplete gamma function is the unregularized incomplete gamma function divided by gamma(@{a}) This is a real valued function as long as neither @{a} nor @{z} are negative.
+@NOTE=The regularized incomplete gamma function is the unregularized incomplete gamma function divided by GAMMA(@{a}) This is a real valued function as long as neither @{a} nor @{z} are negative.
 @SEEALSO=GAMMA,IMIGAMMA
 
 @CATEGORY=Mathematics
@@ -4467,7 +4467,7 @@ For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal distributio
 @ARGUMENTDESCRIPTION=@{d1}: first value
 @{d2}: second value
 @DESCRIPTION=SIMTABLE returns one of the values in the given argument list depending on the round number of the simulation tool. When the simulation tool is not activated, SIMTABLE returns @{d1}.
-With the simulation tool and the SIMTABLE function you can test given decision variables. Each SIMTABLE function contains the possible values of a simulation variable. In most valid simulation models you should have the same number of values @{dN} for all decision variables.  If the simulation is run more rounds than there are values defined, SIMTABLE returns #N/A! error (e.g. if A1 contains `=SIMTABLE(1)' and A2 `=SIMTABLE(1,2)', A1 yields #N/A! error on the second round).
+With the simulation tool and the SIMTABLE function you can test given decision variables. Each SIMTABLE function contains the possible values of a simulation variable. In most valid simulation models you should have the same number of values @{dN} for all decision variables.  If the simulation is run more rounds than there are values defined, SIMTABLE returns #N/A error (e.g. if A1 contains `=SIMTABLE(1)' and A2 `=SIMTABLE(1,2)', A1 yields #N/A error on the second round).
 The successive use of the simulation tool also requires that you give to the tool at least one input variable having RAND() or any other RAND<distribution name>() function in it. On each round, the simulation tool iterates for the given number of rounds over all the input variables to reevaluate them. On each iteration, the values of the output variables are stored, and when the round is completed, descriptive statistical information is created according to the values.
 
 @CATEGORY=Statistics
@@ -4740,7 +4740,7 @@ The successive use of the simulation tool also requires that you give to the too
 @ARGUMENTDESCRIPTION=@{x}: number
 @{y}: scale parameter
 @{cumulative}: whether to evaluate the density function or the cumulative distribution function
-@DESCRIPTION=If @{cumulative} is false it will return:	@{y} * exp (-@{y}*@{x}),otherwise it will return	1 - exp (-@{y}*@{x}).
+@DESCRIPTION=If @{cumulative} is false it will return:	@{y} * exp (-@{y}*@{x}), otherwise it will return	1 - exp (-@{y}*@{x}).
 @NOTE=If @{x} < 0 or @{y} <= 0 this will return an error.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=POISSON
@@ -4982,7 +4982,7 @@ GROWTH returns an array having one column and a row for each data point in @{new
 @{affine}: if true, the model contains a constant term, defaults to true
 @{stats}: if true, some additional statistics are provided, defaults to false
 @DESCRIPTION=This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),…,x_2, x_1 followed by the y-intercept if @{affine} is true.
-If @{stats} is true, the second row contains the corresponding standard errors of the regression coefficients.In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.
+If @{stats} is true, the second row contains the corresponding standard errors of the regression coefficients. In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.
 If @{affine} is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model.
 @NOTE=If the length of @{known_ys} does not match the corresponding length of @{known_xs}, this function returns a #NUM! error.
 @SEEALSO=LOGEST,TREND
@@ -5058,8 +5058,8 @@ LOGFIT returns an array having five columns and one row. `Sign' is given in the 
 @{known_xs}: known x-values; defaults to the array {1, 2, 3, …}
 @{affine}: if true, the model contains a constant term, defaults to true
 @{stat}: if true, extra statistical information will be returned; defaults to FALSE
-@DESCRIPTION=LOGREG function transforms your x's to z=ln(x) and applies the “least squares” method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. LOGREG returns an array having two columns and one row. m is given in the first column and b in the second. 
-Any extra statistical information is written below m and b in the result array.  This extra statistical information consists of four rows of data:  In the first row the standard error values for the coefficients m, b are given.  The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.The default of @{stat} is FALSE.
+@DESCRIPTION=LOGREG function transforms your x's to z=ln(x) and applies the “least squares” method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. LOGREG returns an array having two columns and one row. m is given in the first column and b in the second.
+Any extra statistical information is written below m and b in the result array.  This extra statistical information consists of four rows of data:  In the first row the standard error values for the coefficients m, b are given.  The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares. The default of @{stat} is FALSE.
 @NOTE=If @{known_ys} and @{known_xs} have unequal number of data points, this function returns a #NUM! error.
 @SEEALSO=LOGFIT,LINEST,LOGEST
 
@@ -5241,7 +5241,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @ARGUMENTDESCRIPTION=@{array}: range of numeric values
 @{x}: data point to be ranked
 @{significance}: number of significant digits, defaults to 3
-@NOTE=If @{array} contains no data points, this function returns a #NUM! error. If @{significance} is less than one, this function returns a #NUM! error. If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns an #N/A! error. If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value.
+@NOTE=If @{array} contains no data points, this function returns a #NUM! error. If @{significance} is less than one, this function returns a #NUM! error. If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns an #N/A error. If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value.
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL
 
 @CATEGORY=Statistics
@@ -5251,7 +5251,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @ARGUMENTDESCRIPTION=@{array}: range of numeric values
 @{x}: data point to be ranked
 @{significance}: number of significant digits, defaults to 3
-@NOTE=If @{array} contains no data points, this function returns a #NUM! error. If @{significance} is less than one, this function returns a #NUM! error. If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns an #N/A! error. If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value.
+@NOTE=If @{array} contains no data points, this function returns a #NUM! error. If @{significance} is less than one, this function returns a #NUM! error. If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns an #N/A error. If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value.
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,PERCENTILE.EXC,QUARTILE,QUARTILE.EXC,SMALL
 
 @CATEGORY=Statistics
@@ -6318,7 +6318,7 @@ Numbers, text and logical values are included in the calculation too. If the cel
 @{alpha}: scale parameter
 @{beta}: scale parameter
 @{cumulative}: whether to evaluate the density function or the cumulative distribution function
-@DESCRIPTION=If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/@{beta})^@{alpha}),otherwise it will return (@{alpha}/@{beta}^@{alpha}) * @{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha})).
+@DESCRIPTION=If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/@{beta})^@{alpha}), otherwise it will return (@{alpha}/@{beta}^@{alpha}) * @{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha})).
 @NOTE=If @{x} < 0 this function returns a #NUM! error. If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=POISSON
@@ -6341,7 +6341,7 @@ Numbers, text and logical values are included in the calculation too. If the cel
 @SHORTDESC=text with full-width katakana and ASCII characters converted to half-width
 @SYNTAX=ASC(text)
 @ARGUMENTDESCRIPTION=@{text}: string
-@DESCRIPTION=ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others. 
+@DESCRIPTION=ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others.
 The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.
 @NOTE=While in obsolete encodings ASC used to translate between 2-byte and 1-byte characters, this is not the case in UTF-8.
 @EXCEL=For most strings, this function has the same effect as in Excel.
@@ -6456,7 +6456,7 @@ This function is Excel compatible.
 @SHORTDESC=text with half-width katakana and ASCII characters converted to full-width
 @SYNTAX=JIS(text)
 @ARGUMENTDESCRIPTION=@{text}: original text
-@DESCRIPTION=JIS converts half-width katakana and ASCII characters to full-width equivalent characters, copying all others. 
+@DESCRIPTION=JIS converts half-width katakana and ASCII characters to full-width equivalent characters, copying all others.
 The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.
 @NOTE=While in obsolete encodings JIS used to translate between 1-byte and 2-byte characters, this is not the case in UTF-8.
 @EXCEL=For most strings, this function has the same effect as in Excel.
@@ -6476,7 +6476,7 @@ The distinction between half-width and full-width characters is described in htt
 
 @CATEGORY=String
 @FUNCTION=LEFTB
-@SHORTDESC=the first characters  of the string @{s} comprising at most @{num_bytes} bytes
+@SHORTDESC=the first characters of the string @{s} comprising at most @{num_bytes} bytes
 @SYNTAX=LEFTB(s,num_bytes)
 @ARGUMENTDESCRIPTION=@{s}: the string
 @{num_bytes}: the maximum number of bytes to return (defaults to 1)
@@ -6754,7 +6754,7 @@ Possible interpolation methods are:
 @SHORTDESC=periodogram of the given data
 @SYNTAX=PERIODOGRAM(ordinates,filter,abscissae,interpolation,number)
 @ARGUMENTDESCRIPTION=@{ordinates}: ordinates of the given data
-@{filter}: windowing function to  be used, defaults to no filter
+@{filter}: windowing function to be used, defaults to no filter
 @{abscissae}: abscissae of the given data, defaults to regularly spaced abscissae
 @{interpolation}: method of interpolation, defaults to none
 @{number}: number of interpolated data points

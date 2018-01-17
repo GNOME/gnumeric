@@ -207,8 +207,8 @@ static GnmFuncHelp const help_base[] = {
         { GNM_FUNC_HELP_ARG, F_("n:integer") },
         { GNM_FUNC_HELP_ARG, F_("b:base (2 \xe2\x89\xa4 @{b} \xe2\x89\xa4 36)") },
         { GNM_FUNC_HELP_ARG, F_("length:minimum length of the resulting string") },
-        { GNM_FUNC_HELP_DESCRIPTION, F_("BASE converts @{n} to its string representation in base @{b}."
-					" Leading zeroes will be added to reach the minimum length given by @{length}.") },
+        { GNM_FUNC_HELP_DESCRIPTION, F_("BASE converts @{n} to its string representation in base @{b}. "
+					"Leading zeroes will be added to reach the minimum length given by @{length}.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BASE(255,16,4)" },
         { GNM_FUNC_HELP_SEEALSO, "DECIMAL" },

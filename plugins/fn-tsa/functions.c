@@ -561,7 +561,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_periodogram[] = {
 	{ GNM_FUNC_HELP_NAME, F_("PERIODOGRAM:periodogram of the given data") },
 	{ GNM_FUNC_HELP_ARG, F_("ordinates:ordinates of the given data") },
-	{ GNM_FUNC_HELP_ARG, F_("filter:windowing function to  be used, defaults to no filter") },
+	{ GNM_FUNC_HELP_ARG, F_("filter:windowing function to be used, defaults to no filter") },
 	{ GNM_FUNC_HELP_ARG, F_("abscissae:abscissae of the given data, defaults to regularly spaced abscissae") },
 	{ GNM_FUNC_HELP_ARG, F_("interpolation:method of interpolation, defaults to none") },
 	{ GNM_FUNC_HELP_ARG, F_("number:number of interpolated data points") },

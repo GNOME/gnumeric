@@ -243,10 +243,10 @@ gnumeric_iferror (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ifna[] = {
-	{ GNM_FUNC_HELP_NAME, F_("IFNA:test for #NA! error") },
-	{ GNM_FUNC_HELP_ARG, F_("x:value to test for #NA! error") },
+	{ GNM_FUNC_HELP_NAME, F_("IFNA:test for #N/A error") },
+	{ GNM_FUNC_HELP_ARG, F_("x:value to test for #N/A error") },
 	{ GNM_FUNC_HELP_ARG, F_("y:alternate value") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the first value, unless that is #NA!, in which case it returns the second.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the first value, unless that is #N/A, in which case it returns the second.") },
         { GNM_FUNC_HELP_EXAMPLES, "=IFNA(12,14)" },
         { GNM_FUNC_HELP_EXAMPLES, "=IFNA(1/0,14)" },
         { GNM_FUNC_HELP_EXAMPLES, "=IFNA(NA(),14)" },
@@ -268,7 +268,7 @@ static GnmFuncHelp const help_ifs[] = {
 	{ GNM_FUNC_HELP_ARG, F_("value1:value if @{condition1} is true") },
 	{ GNM_FUNC_HELP_ARG, F_("cond2:condition") },
 	{ GNM_FUNC_HELP_ARG, F_("value2:value if @{condition2} is true") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the value after the first true contional.  If no conditional is true, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the value after the first true conditional.  If no conditional is true, #VALUE! is returned.") },
         { GNM_FUNC_HELP_EXAMPLES, "=IFS(false,1/0,true,42)" },
 	{ GNM_FUNC_HELP_SEEALSO, "IF" },
 	{ GNM_FUNC_HELP_END }
@@ -313,7 +313,7 @@ static GnmFuncHelp const help_switch[] = {
 	{ GNM_FUNC_HELP_ARG, F_("value1:first result value") },
 	{ GNM_FUNC_HELP_ARG, F_("choice2:second choice value") },
 	{ GNM_FUNC_HELP_ARG, F_("value2:second result value") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function compares the reference value, @{ref}, against the choice values, @{choice1} etc., and returns the corresponding result value when it finds a match.  The choices may be followed by a default value to use.  If there are no choices that match and no default value, #NA! is return.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function compares the reference value, @{ref}, against the choice values, @{choice1} etc., and returns the corresponding result value when it finds a match.  The choices may be followed by a default value to use.  If there are no choices that match and no default value, #N/A is return.") },
         { GNM_FUNC_HELP_EXAMPLES, "=SWITCH(WEEKDAY(TODAY()),0,\"Sunday\",1,\"Saturday\",\"not weekend\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IF,IFS" },
 	{ GNM_FUNC_HELP_END }

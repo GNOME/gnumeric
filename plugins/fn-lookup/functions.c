@@ -1260,7 +1260,7 @@ static GnmFuncHelp const help_match[] = {
 				"0 to find the first value = @{seek}, or "
 				"-1 to find the smallest value \xe2\x89\xa5 @{seek}")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("MATCH searches @{vector} for @{seek} and returns the 1-based index.")},
-	{ GNM_FUNC_HELP_NOTE, F_(" For @{type} = -1 the data must be sorted in descending order; "
+	{ GNM_FUNC_HELP_NOTE, F_("For @{type} = -1 the data must be sorted in descending order; "
 				 "for @{type} = +1 the data must be sorted in ascending order.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{seek} could not be found, #N/A is returned.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{vector} is neither n by 1 nor 1 by n, #N/A is returned.")},

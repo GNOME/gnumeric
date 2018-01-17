@@ -7,6 +7,9 @@ Morten:
 	* Fix problem with stopping a glpk solver.
 	* Improve workaround for gtk+ scrollbar bug.  [#792417]
 
+Rafael Fontenelle:
+        * Doc fixes.  [#792556] [#792592]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.38
 
