@@ -1377,8 +1377,8 @@ gnumeric_info (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		 * window, based on the current scrolling position.
 		 */
 		return value_new_error (ei->pos, _("Unimplemented"));
-#ifdef HAVE_UNAME
 	} else if (!g_ascii_strcasecmp (info_type, "osversion")) {
+#ifdef HAVE_UNAME
 		/* Current operating system version, as text.  */
 		struct utsname unamedata;
 
@@ -1391,11 +1391,11 @@ gnumeric_info (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 						     unamedata.release);
 			return value_new_string_nocopy (tmp);
 		}
+#elif defined(G_OS_WIN32)
+		/* fake XP */
+		return value_new_string ("Windows (32-bit) NT 5.01");
 #else
-#ifdef G_OS_WIN32
-	} else if (!g_ascii_strcasecmp (info_type, "osversion")) {
-		return value_new_string ("Windows (32-bit) NT 5.01");	/* fake XP */
-#endif
+		// Nothing -- go to catch-all
 #endif
 	} else if (!g_ascii_strcasecmp (info_type, "recalc")) {
 		/* Current recalculation mode; returns "Automatic" or "Manual".  */
@@ -1405,8 +1405,8 @@ gnumeric_info (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	} else if (!g_ascii_strcasecmp (info_type, "release")) {
 		/* Version of Gnumeric (Well, Microsoft Excel), as text.  */
 		return value_new_string (GNM_VERSION_FULL);
-#ifdef HAVE_UNAME
 	} else if (!g_ascii_strcasecmp (info_type, "system")) {
+#ifdef HAVE_UNAME
 		/* Name of the operating environment.  */
 		struct utsname unamedata;
 
@@ -1414,11 +1414,10 @@ gnumeric_info (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			return value_new_error (ei->pos, _("Unknown system"));
 		else
 			return value_new_string (unamedata.sysname);
-#else
-#ifdef G_OS_WIN32
-	} else if (!g_ascii_strcasecmp (info_type, "system")) {
+#elif defined(G_OS_WIN32)
 		return value_new_string ("pcdos");	/* seems constant */
-#endif
+#else
+		// Nothing -- go to catch-all
 #endif
 	} else if (!g_ascii_strcasecmp (info_type, "totmem")) {
 		/* Total memory available, including memory already in use, in
@@ -1808,9 +1807,9 @@ static GnmValue *
 gnumeric_getenv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *var = value_peek_string (argv[0]);
-	char const *val = getenv (var);
+	char const *val = g_getenv (var);
 
-	if (val)
+	if (val && g_utf8_validate (val, -1, NULL))
 		return value_new_string (val);
 	else
 		return value_new_error_NA (ei->pos);
