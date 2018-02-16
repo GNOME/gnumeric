@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-08 14:27+0100\n"
-"PO-Revision-Date: 2018-01-08 14:28+0100\n"
+"POT-Creation-Date: 2018-02-16 02:10+0100\n"
+"PO-Revision-Date: 2018-02-16 02:11+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -962,11 +962,11 @@ msgstr "Ręcznie"
 msgid "Unknown system"
 msgstr "Nieznany system"
 
-#: ../plugins/fn-info/functions.c:1430
+#: ../plugins/fn-info/functions.c:1429
 msgid "Unknown info_type"
 msgstr "Nieznane „info_type”"
 
-#: ../plugins/fn-info/functions.c:1694
+#: ../plugins/fn-info/functions.c:1693
 msgid "Invalid number of arguments"
 msgstr "Nieprawidłowa liczba parametrów"
 
@@ -6066,14 +6066,14 @@ msgstr "Filtr"
 
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2328
+#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2354
 #: ../src/tools/analysis-tools.c:221 ../src/tools/analysis-tools.c:2890
 msgid "Row"
 msgstr "Rząd"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2320
+#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2346
 #: ../src/tools/analysis-tools.c:221 ../src/tools/analysis-tools.c:2891
 msgid "Column"
 msgstr "Kolumna"
@@ -6383,7 +6383,7 @@ msgstr "Poziom zeszytu"
 
 #: ../src/dialogs/dialog-goto-cell.c:389 ../src/dialogs/dialog-search.c:440
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2309 ../src/tools/gnm-solver.c:1574
+#: ../src/sheet-control-gui.c:2335 ../src/tools/gnm-solver.c:1574
 #: ../src/tools/gnm-solver.c:1619 ../src/tools/gnm-solver.c:1764
 msgid "Cell"
 msgstr "Komórka"
@@ -7100,7 +7100,7 @@ msgstr "%H∶%M"
 #.
 #: ../src/dialogs/dialog-recent.c:215
 msgid "%l:%M %P"
-msgstr "%l∶%M %P"
+msgstr "%-l∶%M %P"
 
 #: ../src/dialogs/dialog-row-height.c:227
 msgid "Set standard/default row height"
@@ -8202,12 +8202,12 @@ msgid "Diagonal"
 msgstr "Ukośna"
 
 #. start sub menu
-#: ../src/dialogs/cell-format.ui.h:42 ../src/sheet-control-gui.c:2289
+#: ../src/dialogs/cell-format.ui.h:42 ../src/sheet-control-gui.c:2315
 #: ../src/wbc-gtk-actions.c:3862
 msgid "Left"
 msgstr "Lewa"
 
-#: ../src/dialogs/cell-format.ui.h:43 ../src/sheet-control-gui.c:2292
+#: ../src/dialogs/cell-format.ui.h:43 ../src/sheet-control-gui.c:2318
 #: ../src/wbc-gtk-actions.c:3864
 msgid "Right"
 msgstr "Prawa"
@@ -10116,7 +10116,7 @@ msgid "Merge..."
 msgstr "Scal…"
 
 #. start sub menu
-#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2310
+#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2336
 msgid "_Merge"
 msgstr "_Scal"
 
@@ -12373,7 +12373,7 @@ msgstr "%.2f pt"
 msgid "_Move"
 msgstr "_Przenieś"
 
-#: ../src/item-cursor.c:824 ../src/sheet-control-gui.c:2223
+#: ../src/item-cursor.c:824 ../src/sheet-control-gui.c:2249
 #: ../src/sheet-object.c:258 ../src/sheet-object.c:277
 #: ../src/wbc-gtk-actions.c:2085
 msgid "_Copy"
@@ -12774,7 +12774,7 @@ msgstr "%d kw. "
 msgid "(empty)"
 msgstr "(puste)"
 
-#: ../src/sheet-control-gui.c:2135 ../src/wbc-gtk-actions.c:380
+#: ../src/sheet-control-gui.c:2161 ../src/wbc-gtk-actions.c:380
 #, c-format
 msgid "Remove %d Link"
 msgid_plural "Remove %d Links"
@@ -12782,142 +12782,142 @@ msgstr[0] "Usuń %d odnośnik"
 msgstr[1] "Usuń %d odnośniki"
 msgstr[2] "Usuń %d odnośników"
 
-#: ../src/sheet-control-gui.c:2221 ../src/sheet-object.c:276
+#: ../src/sheet-control-gui.c:2247 ../src/sheet-object.c:276
 #: ../src/wbc-gtk-actions.c:2261
 msgid "Cu_t"
 msgstr "_Wytnij"
 
-#: ../src/sheet-control-gui.c:2225 ../src/wbc-gtk-actions.c:2268
+#: ../src/sheet-control-gui.c:2251 ../src/wbc-gtk-actions.c:2268
 msgid "_Paste"
 msgstr "Wk_lej"
 
-#: ../src/sheet-control-gui.c:2227
+#: ../src/sheet-control-gui.c:2253
 msgid "Paste _Special"
 msgstr "Wklej sp_ecjalnie"
 
-#: ../src/sheet-control-gui.c:2232
+#: ../src/sheet-control-gui.c:2258
 msgid "_Insert Cells..."
 msgstr "W_staw Komórki…"
 
-#: ../src/sheet-control-gui.c:2235
+#: ../src/sheet-control-gui.c:2261
 msgid "_Delete Cells..."
 msgstr "_Usuń komórki…"
 
-#: ../src/sheet-control-gui.c:2238
+#: ../src/sheet-control-gui.c:2264
 msgid "_Insert Column(s)"
 msgstr "W_staw kolumny"
 
-#: ../src/sheet-control-gui.c:2242
+#: ../src/sheet-control-gui.c:2268
 msgid "_Delete Column(s)"
 msgstr "_Usuń kolumny"
 
-#: ../src/sheet-control-gui.c:2246
+#: ../src/sheet-control-gui.c:2272
 msgid "_Insert Row(s)"
 msgstr "W_staw rzędy"
 
-#: ../src/sheet-control-gui.c:2250
+#: ../src/sheet-control-gui.c:2276
 msgid "_Delete Row(s)"
 msgstr "_Usuń rzędy"
 
-#: ../src/sheet-control-gui.c:2255
+#: ../src/sheet-control-gui.c:2281
 msgid "Clear Co_ntents"
 msgstr "Wy_czyść zawartość"
 
-#: ../src/sheet-control-gui.c:2260
+#: ../src/sheet-control-gui.c:2286
 msgid "Add _Comment..."
 msgstr "Dodaj _komentarz…"
 
-#: ../src/sheet-control-gui.c:2262
+#: ../src/sheet-control-gui.c:2288
 msgid "Edit Co_mment..."
 msgstr "Modyfikuj k_omentarz…"
 
-#: ../src/sheet-control-gui.c:2264
+#: ../src/sheet-control-gui.c:2290
 msgid "_Remove Comments"
 msgstr "_Usuń komentarze"
 
-#: ../src/sheet-control-gui.c:2267
+#: ../src/sheet-control-gui.c:2293
 msgid "Add _Hyperlink..."
 msgstr "Dodaj _odnośnik…"
 
-#: ../src/sheet-control-gui.c:2270
+#: ../src/sheet-control-gui.c:2296
 msgid "Edit _Hyperlink..."
 msgstr "Modyfikuj _odnośnik…"
 
-#: ../src/sheet-control-gui.c:2273
+#: ../src/sheet-control-gui.c:2299
 msgid "_Remove Hyperlink"
 msgstr "_Usuń odnośnik"
 
-#: ../src/sheet-control-gui.c:2279
+#: ../src/sheet-control-gui.c:2305
 msgid "_Edit DataSlicer"
 msgstr "_Modyfikuj fragmentatora danych"
 
-#: ../src/sheet-control-gui.c:2282
+#: ../src/sheet-control-gui.c:2308
 msgid "_Refresh DataSlicer"
 msgstr "_Odśwież fragmentator danych"
 
-#: ../src/sheet-control-gui.c:2286
+#: ../src/sheet-control-gui.c:2312
 msgid "DataSlicer Field _Order "
 msgstr "_Kolejność pól fragmentatora danych "
 
-#: ../src/sheet-control-gui.c:2295
+#: ../src/sheet-control-gui.c:2321
 msgid "Up"
 msgstr "W górę"
 
-#: ../src/sheet-control-gui.c:2298
+#: ../src/sheet-control-gui.c:2324
 msgid "Down"
 msgstr "W dół"
 
 #. end sub menu
-#: ../src/sheet-control-gui.c:2305
+#: ../src/sheet-control-gui.c:2331
 msgid "_Format All Cells..."
 msgstr "_Formatuj wszystkie komórki…"
 
-#: ../src/sheet-control-gui.c:2307
+#: ../src/sheet-control-gui.c:2333
 msgid "C_onditional Formatting..."
 msgstr "Formatowanie w_arunkowe…"
 
-#: ../src/sheet-control-gui.c:2312
+#: ../src/sheet-control-gui.c:2338
 msgid "_Unmerge"
 msgstr "_Odłącz"
 
-#: ../src/sheet-control-gui.c:2314 ../src/wbc-gtk-actions.c:2809
+#: ../src/sheet-control-gui.c:2340 ../src/wbc-gtk-actions.c:2809
 msgid "Auto Fit _Width"
 msgstr "Automatyczne dopasowanie _szerokości"
 
-#: ../src/sheet-control-gui.c:2315 ../src/wbc-gtk-actions.c:2803
+#: ../src/sheet-control-gui.c:2341 ../src/wbc-gtk-actions.c:2803
 msgid "Auto Fit _Height"
 msgstr "Automatyczne dopasowanie _wysokości"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2321 ../src/wbc-gtk-actions.c:2818
+#: ../src/sheet-control-gui.c:2347 ../src/wbc-gtk-actions.c:2818
 msgid "_Width..."
 msgstr "_Szerokość…"
 
-#: ../src/sheet-control-gui.c:2322 ../src/wbc-gtk-actions.c:2824
+#: ../src/sheet-control-gui.c:2348 ../src/wbc-gtk-actions.c:2824
 msgid "_Auto Fit Width"
 msgstr "_Automatyczne dopasowanie szerokości"
 
-#: ../src/sheet-control-gui.c:2323 ../src/sheet-control-gui.c:2331
+#: ../src/sheet-control-gui.c:2349 ../src/sheet-control-gui.c:2357
 #: ../src/wbc-gtk-actions.c:2830 ../src/wbc-gtk-actions.c:2864
 msgid "_Hide"
 msgstr "Uk_ryj"
 
-#: ../src/sheet-control-gui.c:2324 ../src/sheet-control-gui.c:2332
+#: ../src/sheet-control-gui.c:2350 ../src/sheet-control-gui.c:2358
 #: ../src/wbc-gtk-actions.c:2837 ../src/wbc-gtk-actions.c:2871
 msgid "_Unhide"
 msgstr "_Odkryj"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2329
+#: ../src/sheet-control-gui.c:2355
 msgid "Hei_ght..."
 msgstr "Wys_okość…"
 
-#: ../src/sheet-control-gui.c:2330 ../src/wbc-gtk-actions.c:2858
+#: ../src/sheet-control-gui.c:2356 ../src/wbc-gtk-actions.c:2858
 msgid "_Auto Fit Height"
 msgstr "A_utomatyczne dopasowanie wysokości"
 
 #. xgettext : %d gives the number of links. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2465
+#: ../src/sheet-control-gui.c:2491
 #, c-format
 msgid "_Remove %d Link"
 msgid_plural "_Remove %d Links"
@@ -12926,7 +12926,7 @@ msgstr[1] "_Usuń %d odnośniki"
 msgstr[2] "_Usuń %d odnośników"
 
 #. xgettext : %d gives the number of comments. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2470
+#: ../src/sheet-control-gui.c:2496
 #, c-format
 msgid "_Remove %d Comment"
 msgid_plural "_Remove %d Comments"
@@ -12934,7 +12934,7 @@ msgstr[0] "_Usuń %d komentarz"
 msgstr[1] "_Usuń %d komentarze"
 msgstr[2] "_Usuń %d komentarzy"
 
-#: ../src/sheet-control-gui.c:2473
+#: ../src/sheet-control-gui.c:2499
 #, c-format
 msgid "_Insert %d Cell..."
 msgid_plural "_Insert %d Cells..."
@@ -12942,7 +12942,7 @@ msgstr[0] "W_staw %d komórkę…"
 msgstr[1] "W_staw %d komórki…"
 msgstr[2] "W_staw %d komórek…"
 
-#: ../src/sheet-control-gui.c:2475
+#: ../src/sheet-control-gui.c:2501
 #, c-format
 msgid "_Delete %d Cell..."
 msgid_plural "_Delete %d Cells..."
@@ -12950,7 +12950,7 @@ msgstr[0] "_Usuń %d komórkę…"
 msgstr[1] "_Usuń %d komórki…"
 msgstr[2] "_Usuń %d komórek…"
 
-#: ../src/sheet-control-gui.c:2481
+#: ../src/sheet-control-gui.c:2507
 #, c-format
 msgid "_Insert %d Column"
 msgid_plural "_Insert %d Columns"
@@ -12958,7 +12958,7 @@ msgstr[0] "W_staw %d kolumnę"
 msgstr[1] "W_staw %d kolumny"
 msgstr[2] "W_staw %d kolumn"
 
-#: ../src/sheet-control-gui.c:2483
+#: ../src/sheet-control-gui.c:2509
 #, c-format
 msgid "_Delete %d Column"
 msgid_plural "_Delete %d Columns"
@@ -12966,7 +12966,7 @@ msgstr[0] "_Usuń %d kolumnę"
 msgstr[1] "_Usuń %d kolumny"
 msgstr[2] "_Usuń %d kolumn"
 
-#: ../src/sheet-control-gui.c:2486
+#: ../src/sheet-control-gui.c:2512
 #, c-format
 msgid "_Format %d Column"
 msgid_plural "_Format %d Columns"
@@ -12974,7 +12974,7 @@ msgstr[0] "_Formatuj %d kolumnę"
 msgstr[1] "_Formatuj %d kolumny"
 msgstr[2] "_Formatuj %d kolumn"
 
-#: ../src/sheet-control-gui.c:2493
+#: ../src/sheet-control-gui.c:2519
 #, c-format
 msgid "_Insert %d Row"
 msgid_plural "_Insert %d Rows"
@@ -12982,7 +12982,7 @@ msgstr[0] "W_staw %d rząd"
 msgstr[1] "W_staw %d rzędy"
 msgstr[2] "W_staw %d rzędów"
 
-#: ../src/sheet-control-gui.c:2495
+#: ../src/sheet-control-gui.c:2521
 #, c-format
 msgid "_Delete %d Row"
 msgid_plural "_Delete %d Rows"
@@ -12990,7 +12990,7 @@ msgstr[0] "_Usuń %d rząd"
 msgstr[1] "_Usuń %d rzędy"
 msgstr[2] "_Usuń %d rzędów"
 
-#: ../src/sheet-control-gui.c:2499
+#: ../src/sheet-control-gui.c:2525
 #, c-format
 msgid "_Format %d Row"
 msgid_plural "_Format %d Rows"
@@ -12998,7 +12998,7 @@ msgstr[0] "_Formatuj %d rząd"
 msgstr[1] "_Formatuj %d rzędy"
 msgstr[2] "_Formatuj %d rzędów"
 
-#: ../src/sheet-control-gui.c:2506
+#: ../src/sheet-control-gui.c:2532
 #, c-format
 msgid "_Format %d Cell..."
 msgid_plural "_Format %d Cells"
@@ -13007,7 +13007,7 @@ msgstr[1] "_Formatuj %d komórki…"
 msgstr[2] "_Formatuj %d komórek…"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2952
+#: ../src/sheet-control-gui.c:2978
 #, c-format
 msgid "Duplicate %d Object"
 msgid_plural "Duplicate %d Objects"
@@ -13016,7 +13016,7 @@ msgstr[1] "Powiel %d obiekty"
 msgstr[2] "Powiel %d obiektów"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2955
+#: ../src/sheet-control-gui.c:2981
 #, c-format
 msgid "Insert %d Object"
 msgid_plural "Insert %d Objects"
@@ -13025,7 +13025,7 @@ msgstr[1] "Wstaw %d obiekty"
 msgstr[2] "Wstaw %d obiektów"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2959
+#: ../src/sheet-control-gui.c:2985
 #, c-format
 msgid "Move %d Object"
 msgid_plural "Move %d Objects"
@@ -13034,7 +13034,7 @@ msgstr[1] "Przenieś %d obiekty"
 msgstr[2] "Przenieś %d obiektów"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2962
+#: ../src/sheet-control-gui.c:2988
 #, c-format
 msgid "Resize %d Object"
 msgid_plural "Resize %d Objects"
@@ -13043,7 +13043,7 @@ msgstr[1] "Zmień rozmiar %d obiektów"
 msgstr[2] "Zmień rozmiar %d obiektów"
 
 #. xgettext: this is a by-line for cell comments
-#: ../src/sheet-control-gui.c:3201
+#: ../src/sheet-control-gui.c:3227
 #, c-format
 msgid "By %s:"
 msgstr "Według %s:"
