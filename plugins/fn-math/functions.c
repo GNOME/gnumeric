@@ -2996,7 +2996,7 @@ gnumeric_munit (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gint c, ni;
 	GnmValue *res;
 
-	if (n <= 0)
+	if (n < 1)
 		return value_new_error_NUM (ei->pos);
 
 	/*

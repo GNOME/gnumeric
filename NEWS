@@ -6,6 +6,7 @@ Morten:
 	* Some internal array formula code cleanups.
 	* Fix problem with stopping a glpk solver.
 	* Improve workaround for gtk+ scrollbar bug.  [#792417]
+	* Fix minor issue for MUNIT.
 
 Rafael Fontenelle:
         * Doc fixes.  [#792556] [#792592]
