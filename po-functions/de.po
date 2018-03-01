@@ -71,7 +71,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=General\n"
 "POT-Creation-Date: 2018-01-17 14:22+0000\n"
-"PO-Revision-Date: 2018-02-28 16:11+0100\n"
+"PO-Revision-Date: 2018-03-01 12:47+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -4042,7 +4042,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1941
 msgid "G_DURATION is the OpenFormula function PDURATION."
-msgstr ""
+msgstr "G_DURATION ist die OpenFormula-Funktion PDURATION."
 
 #: ../plugins/fn-financial/functions.c:1970
 msgid "FVSCHEDULE:future value"
@@ -4311,7 +4311,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2920
 msgid "Named for AMORtissement DEGRessif Comptabilite."
-msgstr ""
+msgstr "Benannt nach AMORtissement DEGRessif Comptabilite."
 
 #: ../plugins/fn-financial/functions.c:2956
 msgid "AMORLINC:depreciation of an asset using French accounting conventions"
@@ -4445,7 +4445,7 @@ msgstr "VDB: Abschreibung eines Vermögenswerts"
 
 #: ../plugins/fn-financial/functions.c:3292
 msgid "no_switch:do not switch to straight-line depreciation"
-msgstr ""
+msgstr "no_switch:nicht zu linearer Abschreibung wechseln"
 
 #: ../plugins/fn-financial/functions.c:3293
 msgid ""
@@ -4862,11 +4862,9 @@ msgid "name:the name of the environment variable"
 msgstr "name:Der Name der Umgebungsvariable"
 
 #: ../plugins/fn-info/functions.c:1801
-#, fuzzy
-#| msgid "If a variable called @{name} does not exist, #N/A! will be returned."
 msgid "If a variable called @{name} does not exist, #N/A will be returned."
 msgstr ""
-"Falls eine Variable namens @{name} nicht existiert, wird #N/A! zurückgegeben."
+"Falls eine Variable namens @{name} nicht existiert, wird #N/A zurückgegeben."
 
 #: ../plugins/fn-info/functions.c:1802
 msgid "Variable names are case sensitive."
@@ -5010,25 +5008,19 @@ msgstr ""
 "In diesem Fall wird der zweite Wert zurückgegeben."
 
 #: ../plugins/fn-logical/functions.c:246
-#, fuzzy
-#| msgid "IFNA:test for #NA! error"
 msgid "IFNA:test for #N/A error"
-msgstr "IFERROR:Test auf einen #N/A-Fehler."
+msgstr "IFNA:Test auf einen #N/A-Fehler"
 
 #: ../plugins/fn-logical/functions.c:247
 msgid "x:value to test for #N/A error"
 msgstr "x:Wert zum Testen auf #N/A-Fehler"
 
 #: ../plugins/fn-logical/functions.c:249
-#, fuzzy
-#| msgid ""
-#| "This function returns the first value, unless that is #NA!, in which case "
-#| "it returns the second."
 msgid ""
 "This function returns the first value, unless that is #N/A, in which case it "
 "returns the second."
 msgstr ""
-"Diese Funktion gibt den ersten Wert zurück, es sei denn, es ist #NA!. In "
+"Diese Funktion gibt den ersten Wert zurück, es sei denn, es ist #N/A. In "
 "diesem Fall wird der zweite Wert zurückgegeben."
 
 #: ../plugins/fn-logical/functions.c:266
@@ -5077,10 +5069,8 @@ msgid "choice1:first choice value"
 msgstr "choice1:erster Auswahlwert"
 
 #: ../plugins/fn-logical/functions.c:313
-#, fuzzy
-#| msgid "value1:first value"
 msgid "value1:first result value"
-msgstr "value1:Erster Wert"
+msgstr "value1:Erster Ergebniswert"
 
 #: ../plugins/fn-logical/functions.c:314
 #| msgid "ref2:second value"
@@ -5088,10 +5078,8 @@ msgid "choice2:second choice value"
 msgstr "choice2:zweiter Auswahlwert"
 
 #: ../plugins/fn-logical/functions.c:315
-#, fuzzy
-#| msgid "value2:second value"
 msgid "value2:second result value"
-msgstr "value2:Zweiter Wert"
+msgstr "value2:Zweiter Ergebniswert"
 
 #: ../plugins/fn-logical/functions.c:316
 msgid ""
@@ -5264,15 +5252,13 @@ msgid "row:1-based row offset indicating the return values "
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1094
-#, fuzzy
 msgid ""
 "as_index:if true, the 0-based column offset is returned; defaults to FALSE"
 msgstr ""
-"as_index: Falls wahr, so wird die ? Spaltenverschiebung zurück gegeben; "
-"Vorgabe ist FALSCH"
+"as_index: Falls wahr, so wird die 0-basierte Spaltenverschiebung zurück "
+"gegeben; Vorgabe ist FALSCH"
 
 #: ../plugins/fn-lookup/functions.c:1096
-#, fuzzy
 msgid ""
 "HLOOKUP function finds the row in @{range} that has a first cell similar to "
 "@{value}.  If @{approximate} is not true it finds the column with an exact "
@@ -5284,8 +5270,8 @@ msgstr ""
 "@{value} ähnliche Zelle enthält. Wenn @{approximate} nicht WAHR ist, so wird "
 "die Zeile mit einer exakten Übereinstimmung gesucht. Wenn @{approximate} "
 "WAHR ist, so wird die letzte Zeile mit dem ersten Wert kleiner oder gleich "
-"@{value} gesucht. Wenn @{as_index} Wahr ist, so wird ??? the 0-based row "
-"offset is returned."
+"@{value} gesucht. Wenn @{as_index} Wahr ist, so wird der 0-basierte "
+"Spaltenversatz zurückgegeben."
 
 #: ../plugins/fn-lookup/functions.c:1105
 msgid "HLOOKUP returns #REF! if @{row} falls outside @{range}."
@@ -5359,10 +5345,6 @@ msgid "vector:n by 1 or 1 by n range to be searched"
 msgstr "vector:Zu durchsuchender n-mal-1 oder 1-mal-n Bereich"
 
 #: ../plugins/fn-lookup/functions.c:1259
-#, fuzzy
-#| msgid ""
-#| "type:+1 (the default) to find the largest value ≤ @{seek}, 0 to find the "
-#| "first value = @{seek}, or-1 to find the smallest value ≥ @{seek}"
 msgid ""
 "type:+1 (the default) to find the largest value ≤ @{seek}, 0 to find the "
 "first value = @{seek}, or -1 to find the smallest value ≥ @{seek}"
@@ -5376,17 +5358,12 @@ msgid "MATCH searches @{vector} for @{seek} and returns the 1-based index."
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1263
-#, fuzzy
-#| msgid ""
-#| " For @{type} = -1 the data must be sorted in descending order; for "
-#| "@{type} = +1 the data must be sorted in ascending order."
 msgid ""
 "For @{type} = -1 the data must be sorted in descending order; for @{type} = "
 "+1 the data must be sorted in ascending order."
 msgstr ""
-" Für @{type} = -1 müssen die Daten in absteigender Reihenfolge geordnet "
-"sein; für @{type} = +1 müssen die Daten in aufsteigender Reihenfolge "
-"geordnet sein."
+"Für @{type} = -1 müssen die Daten in absteigender Reihenfolge geordnet sein; "
+"für @{type} = +1 müssen die Daten in aufsteigender Reihenfolge geordnet sein."
 
 #: ../plugins/fn-lookup/functions.c:1265
 msgid "If @{seek} could not be found, #N/A is returned."
@@ -6005,16 +5982,12 @@ msgid "criteria:condition for a cell to be included"
 msgstr "criteria:Bedingung für eine einzuschließende Zelle"
 
 #: ../plugins/fn-math/functions.c:737
-#, fuzzy
-#| msgid ""
-#| "AVERAGEIF:average of the cells in @{actual range} for which the "
-#| "corresponding cells in the range meet the given @{criteria}"
 msgid ""
 "AVERAGEIFS:average of the cells in @{actual_range} for which the "
 "corresponding cells in the range meet the given criteria"
 msgstr ""
-"AVERAGEIF:arithmetisches Mittel der Zellen in @{actual range}, für die die "
-"zugehörige Zelle in Bereich das Kriterium @{criteria} erfüllt."
+"AVERAGEIFS:arithmetisches Mittel der Zellen in @{actual range}, für die die "
+"zugehörigen Zellen dem angegebenen Kriterium entsprechen"
 
 #: ../plugins/fn-math/functions.c:757
 #, fuzzy
@@ -7875,10 +7848,8 @@ msgstr ""
 "Verteilungsfunktion, der geometrischen Verteilung zurück."
 
 #: ../plugins/fn-r/functions.c:636
-#, fuzzy
-#| msgid "R.DBETA:probability density function of the beta distribution"
 msgid "R.DGUMBEL:probability density function of the Gumbel distribution"
-msgstr "R.DBETA:Wahrscheinlichkeitsdichtefunktion der Beta-Verteilung"
+msgstr "R.DGUMBEL:Wahrscheinlichkeitsdichtefunktion der Gumbel-Verteilung"
 
 #: ../plugins/fn-r/functions.c:638 ../plugins/fn-r/functions.c:663
 #: ../plugins/fn-r/functions.c:690
