@@ -1308,7 +1308,7 @@ workbook_view_new_from_input (GsfInput *input,
 /**
  * workbook_view_new_from_uri:
  * @uri: URI for file
- * @optional_format: Optional GOFileOpener
+ * @optional_format: (allow-none): Optional GOFileOpener
  * @io_context: Optional context to display errors.
  * @optional_encoding: Optional encoding for GOFileOpener that understand it
  *
