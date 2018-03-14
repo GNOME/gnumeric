@@ -1,3 +1,7 @@
+2018-03-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.39
+
 2017-12-29  Morten Welinder  <terra@gnome.org>
 
 	* perl-loader.c: Don't depend on expr-impl.h
