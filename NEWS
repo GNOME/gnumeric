@@ -1,5 +1,8 @@
 Gnumeric 1.12.40
 
+Morten:
+	* Add floating-point environment sanity check.  [#794515]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.39
 

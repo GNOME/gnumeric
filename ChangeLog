@@ -1,3 +1,7 @@
+2018-03-23  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (cpu_sanity_check): New function.
+
 2018-03-13  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

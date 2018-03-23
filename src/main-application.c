@@ -46,6 +46,10 @@
 #include <string.h>
 #include <locale.h>
 
+#ifdef HAVE_FPU_CONTROL_H
+#include <fpu_control.h>
+#endif
+
 static gboolean immediate_exit_flag = FALSE;
 static gboolean gnumeric_no_splash = FALSE;
 static gboolean gnumeric_no_warnings = FALSE;
@@ -161,6 +165,27 @@ cb_workbook_removed (void)
 	}
 }
 
+static void
+cpu_sanity_check (void)
+{
+#if (defined(i386) || defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64)) && HAVE_FPU_CONTROL_H
+	fpu_control_t state;
+	const fpu_control_t mask = _FPU_EXTENDED | _FPU_DOUBLE | _FPU_SINGLE;
+
+	_FPU_GETCW (state);
+	if ((state & mask) != _FPU_EXTENDED) {
+		// Evidently currentlly happinging when Windows runs Linux
+		// binaries.  See bug 794515.
+		g_warning ("Sanity check failed!  The cpu is not in \"extended\" mode as it should be.  Attempting to fix, but expect trouble.");
+		state = (state & ~mask) | _FPU_EXTENDED;
+		_FPU_SETCW (state);
+	}
+#else
+	// Hope for the best
+#endif
+}
+
+
 int
 main (int argc, char const **argv)
 {
@@ -176,6 +201,8 @@ main (int argc, char const **argv)
 
 	/* No code before here, we need to init threads */
 	argv = gnm_pre_parse_init (argc, argv);
+
+	cpu_sanity_check ();
 
 	/*
 	 * Attempt to disable Ubuntu's funky, non-working scroll

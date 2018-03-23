@@ -543,6 +543,9 @@ AC_CHECK_HEADERS(langinfo.h)
 dnl check for rlimit
 AC_CHECK_HEADERS(sys/resource.h)
 
+dnl we need to check fpu mode
+AC_CHECK_HEADERS(fpu_control.h)
+
 SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $GNUMERIC_CFLAGS"
