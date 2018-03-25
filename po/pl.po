@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-16 02:10+0100\n"
-"PO-Revision-Date: 2018-02-16 02:11+0100\n"
+"POT-Creation-Date: 2018-03-26 01:24+0200\n"
+"PO-Revision-Date: 2018-03-26 01:25+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -33,7 +33,7 @@ msgid "Spreadsheet"
 msgstr "Arkusz kalkulacyjny"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:3 ../src/main-application.c:228
+#: ../gnumeric.desktop.in.h:3 ../src/main-application.c:255
 msgid "Gnumeric Spreadsheet"
 msgstr "Arkusz kalkulacyjny Gnumeric"
 
@@ -2453,7 +2453,7 @@ msgstr "Brak zamykające „E”"
 #: ../plugins/sylk/sylk.c:821 ../src/dialogs/dialog-goto-cell.c:383
 #: ../src/dialogs/dialog-search.c:439 ../src/dialogs/dialog-stf-export.c:596
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
-#: ../src/print-info.c:573 ../src/workbook.c:1037 ../src/workbook.c:1069
+#: ../src/print-info.c:573 ../src/workbook.c:1038 ../src/workbook.c:1070
 msgid "Sheet"
 msgstr "Arkusz"
 
@@ -6508,7 +6508,7 @@ msgstr "Hasło:"
 msgid "Select Directory"
 msgstr "Wybierz katalog"
 
-#: ../src/dialogs/dialog-plugin-manager.c:275
+#: ../src/dialogs/dialog-plugin-manager.c:275 ../src/gui-file.c:786
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -12247,7 +12247,34 @@ msgstr ""
 "Podane rozszerzenie pliku nie odpowiada wybranemu typowi pliku. Użyć tej "
 "nazwy mimo to?"
 
-#: ../src/gui-file.c:791
+#: ../src/gui-file.c:771
+msgid "%F %T"
+msgstr "%F %T"
+
+#: ../src/gui-file.c:779
+#, c-format
+msgid ""
+"The file you are about to save has changed on disk. If you continue, you "
+"will overwrite someone else's changes.\n"
+"\n"
+"File: <b>%s</b>\n"
+"Location: %s\n"
+"\n"
+"Last modified: <b>%s</b>\n"
+msgstr ""
+"Zapisywany plik został zmieniony na dysku. Kontynuacja zastąpi zmiany kogoś "
+"innego.\n"
+"\n"
+"Plik: <b>%s</b>\n"
+"Położenie: %s\n"
+"\n"
+"Ostatnia modyfikacja: <b>%s</b>\n"
+
+#: ../src/gui-file.c:785
+msgid "Overwrite"
+msgstr "Zastąp"
+
+#: ../src/gui-file.c:866
 #, c-format
 msgid ""
 "Do you want to export the <b>current sheet</b> of this workbook to the "
@@ -12256,7 +12283,7 @@ msgstr ""
 "Wyeksportować <b>bieżący arkusz</b> tego zeszytu do położenia „<b>%s</b>” za "
 "pomocą eksportera „<b>%s</b>”?"
 
-#: ../src/gui-file.c:795
+#: ../src/gui-file.c:870
 #, c-format
 msgid ""
 "Do you want to export this workbook to the location '<b>%s</b>' using the "
@@ -12265,7 +12292,7 @@ msgstr ""
 "Wyeksportować ten zeszyt do położenia „<b>%s</b>” za pomocą eksportera „<b>"
 "%s</b>”?"
 
-#: ../src/gui-file.c:822
+#: ../src/gui-file.c:897
 msgid ""
 "Unable to repeat export since no previous export information has been saved "
 "in this session."
@@ -12450,31 +12477,31 @@ msgstr "Opcje programu Gnumeric"
 msgid "Show Gnumeric Options"
 msgstr "Wyświetla opcje programu Gnumeric"
 
-#: ../src/main-application.c:59
+#: ../src/main-application.c:63
 msgid "Specify the size and location of the initial window"
 msgstr "Określa rozmiar i położenie pierwszego okna"
 
-#: ../src/main-application.c:60
+#: ../src/main-application.c:64
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "SZEROKOŚĆxWYSOKOŚĆ+POZX+POZY"
 
-#: ../src/main-application.c:63
+#: ../src/main-application.c:67
 msgid "Don't show splash screen"
 msgstr "Bez wyświetlania ekranu powitalnego"
 
-#: ../src/main-application.c:65
+#: ../src/main-application.c:69
 msgid "Don't display warning dialogs when importing"
 msgstr "Bez wyświetlania okien ostrzeżeń podczas importowania"
 
-#: ../src/main-application.c:74
+#: ../src/main-application.c:78
 msgid "Exit immediately after loading the selected books"
 msgstr "Kończy działanie natychmiast po wczytaniu wybranych zeszytów"
 
-#: ../src/main-application.c:108
+#: ../src/main-application.c:112
 msgid "[FILE ...]"
 msgstr "[PLIK…]"
 
-#: ../src/main-application.c:125 ../src/ssconvert.c:903 ../src/ssdiff.c:1393
+#: ../src/main-application.c:129 ../src/ssconvert.c:903 ../src/ssdiff.c:1393
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -15164,7 +15191,7 @@ msgstr "#LICZBA!"
 msgid "#N/A"
 msgstr "#N/D"
 
-#: ../src/wbc-gtk-actions.c:185 ../src/workbook-view.c:1185
+#: ../src/wbc-gtk-actions.c:185 ../src/workbook-view.c:1220
 msgid "Default file saver is not available."
 msgstr "Domyślny moduł zapisywania plików jest niedostępny."
 
@@ -17882,11 +17909,11 @@ msgstr "Nie można otworzyć „%s” do zapisania: %s"
 msgid "Can't open '%s' for writing"
 msgstr "Nie można otworzyć „%s” do zapisania"
 
-#: ../src/workbook-view.c:1303
+#: ../src/workbook-view.c:1351
 msgid "Unsupported file format."
 msgstr "Nieobsługiwany format pliku."
 
-#: ../src/workbook-view.c:1351
+#: ../src/workbook-view.c:1399
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Wystąpił nierozpoznany błąd podczas otwierania %s"
@@ -17896,11 +17923,11 @@ msgstr "Wystąpił nierozpoznany błąd podczas otwierania %s"
 msgid "Book%d.%s"
 msgstr "Zeszyt%d.%s"
 
-#: ../src/workbook.c:1069
+#: ../src/workbook.c:1070
 msgid "Graph"
 msgstr "Wykres"
 
-#: ../src/workbook.c:1592
+#: ../src/workbook.c:1593
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
@@ -17908,7 +17935,7 @@ msgstr[0] "Zmienianie nazwy arkusza"
 msgstr[1] "Zmienianie nazwy %d arkuszy"
 msgstr[2] "Zmienianie nazwy %d arkuszy"
 
-#: ../src/workbook.c:1594
+#: ../src/workbook.c:1595
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -17920,7 +17947,7 @@ msgstr[2] "Dodawanie %d arkuszy"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1600
+#: ../src/workbook.c:1601
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
@@ -17928,11 +17955,11 @@ msgstr[0] "Wstawianie arkusza"
 msgstr[1] "Wstawianie %d arkuszy"
 msgstr[2] "Wstawianie %d arkuszy"
 
-#: ../src/workbook.c:1602
+#: ../src/workbook.c:1603
 msgid "Changing sheet tab colors"
 msgstr "Zmienianie kolorów kart arkusza"
 
-#: ../src/workbook.c:1604
+#: ../src/workbook.c:1605
 msgid "Changing sheet properties"
 msgstr "Zmienianie właściwości arkusza"
 
@@ -17940,7 +17967,7 @@ msgstr "Zmienianie właściwości arkusza"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1611
+#: ../src/workbook.c:1612
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
@@ -17948,11 +17975,11 @@ msgstr[0] "Usuwanie arkusza"
 msgstr[1] "Usuwanie %d arkuszy"
 msgstr[2] "Usuwanie %d arkuszy"
 
-#: ../src/workbook.c:1613
+#: ../src/workbook.c:1614
 msgid "Changing sheet order"
 msgstr "Zmienianie kolejności arkuszy"
 
-#: ../src/workbook.c:1615
+#: ../src/workbook.c:1616
 msgid "Reorganizing Sheets"
 msgstr "Reorganizowanie arkuszy"
 
