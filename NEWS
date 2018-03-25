@@ -2,6 +2,7 @@ Gnumeric 1.12.40
 
 Morten:
 	* Add floating-point environment sanity check.  [#794515]
+	* Before saving, verify that files hasn't changed on disk.  [#334024]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.39

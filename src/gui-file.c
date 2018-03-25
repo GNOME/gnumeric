@@ -742,6 +742,61 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, GnmFileSaveAsStyle type,
 	return success;
 }
 
+static gboolean
+warn_about_overwrite (WBCGtk *wbcg,
+		      GDateTime *modtime,
+		      GDateTime *known_modtime)
+{
+	GtkWidget *dialog;
+	int response;
+	char *shortname, *filename, *longname, *duri, *modtxt;
+	Workbook *wb = wb_control_get_workbook (GNM_WBC (wbcg));
+	const char *uri;
+	GDateTime *modtime_local;
+
+	uri = go_doc_get_uri (GO_DOC (wb));
+	filename = go_filename_from_uri (uri);
+	if (filename) {
+		shortname = g_filename_display_basename (filename);
+	} else {
+		shortname = g_filename_display_basename (uri);
+	}
+
+	duri = g_uri_unescape_string (uri, NULL);
+	longname = duri
+		? g_filename_display_name (duri)
+		: g_strdup (uri);
+
+	modtime_local = g_date_time_to_local (modtime);
+	modtxt = g_date_time_format (modtime_local, _("%F %T"));
+	g_date_time_unref (modtime_local);
+
+	dialog = gtk_message_dialog_new_with_markup
+		(wbcg_toplevel (wbcg),
+		 GTK_DIALOG_DESTROY_WITH_PARENT,
+		 GTK_MESSAGE_WARNING,
+		 GTK_BUTTONS_NONE,
+		 _("The file you are about to save has changed on disk. If you continue, you will overwrite someone else's changes.\n\n"
+		   "File: <b>%s</b>\n"
+		   "Location: %s\n\n"
+		   "Last modified: <b>%s</b>\n"),
+		 shortname, longname, modtxt);
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+				_("Overwrite"), GTK_RESPONSE_YES,
+				_("Cancel"), GTK_RESPONSE_NO,
+				NULL);
+	g_free (shortname);
+	g_free (longname);
+	g_free (duri);
+	g_free (filename);
+	g_free (modtxt);
+
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_NO);
+	response = go_gtk_dialog_run (GTK_DIALOG (dialog),
+				      wbcg_toplevel (wbcg));
+	return response == GTK_RESPONSE_YES;
+}
+
 gboolean
 gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 {
@@ -760,17 +815,37 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 		return gui_file_save_as (wbcg, wb_view,
 					 GNM_FILE_SAVE_AS_STYLE_SAVE, NULL);
 	else {
-		gboolean ok;
+		gboolean ok = TRUE;
+		const char *uri = go_doc_get_uri (GO_DOC (wb));
+		GDateTime *known_modtime = go_doc_get_modtime (GO_DOC (wb));
+		GDateTime *modtime = go_file_get_modtime (uri);
+		gboolean debug_modtime = gnm_debug_flag ("modtime");
 
 		/* We need a ref because a Ctrl-Q at the wrong time will
 		   cause the workbook to disappear at the end of the
 		   save.  */
 		g_object_ref (wb);
 
-		ok = wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
+		if (modtime && known_modtime) {
+			if (g_date_time_equal (known_modtime, modtime)) {
+				if (debug_modtime)
+					g_printerr ("Modtime match\n");
+			} else {
+				if (debug_modtime)
+					g_printerr ("Modtime mismatch\n");
+				ok = warn_about_overwrite (wbcg, modtime, known_modtime);
+			}
+		}
+
+		if (ok)
+			ok = wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
 		if (ok)
 			workbook_update_history (wb, GNM_FILE_SAVE_AS_STYLE_SAVE);
 		g_object_unref (wb);
+
+		if (modtime)
+			g_date_time_unref (modtime);
+
 		return ok;
 	}
 }

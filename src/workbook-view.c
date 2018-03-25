@@ -1095,6 +1095,31 @@ wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 	}
 }
 
+static GDateTime *
+get_uri_modtime (GsfInput *input, const char *uri)
+{
+	GDateTime *modtime = NULL;
+
+	if (input) {
+		modtime = gsf_input_get_modtime (input);
+		if (modtime)
+			g_date_time_ref (modtime);
+	}
+
+	if (!modtime)
+		modtime = go_file_get_modtime (uri);
+
+	if (gnm_debug_flag ("modtime")) {
+		char *s = modtime
+			? g_date_time_format (modtime, "%F %T")
+			: g_strdup ("?");
+		g_printerr ("Modtime of %s is %s\n", uri, s);
+		g_free (s);
+	}
+
+	return modtime;
+}
+
 /**
  * wb_view_save_as:
  * @wbv: Workbook View
@@ -1132,12 +1157,20 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	has_error   = go_io_error_occurred (io_context);
 	has_warning = go_io_warning_occurred (io_context);
 	if (!has_error) {
-		if (workbook_set_saveinfo
-		    (wb, go_file_saver_get_format_level (fs), fs)) {
+		GOFileFormatLevel fl = go_file_saver_get_format_level (fs);
+		if (workbook_set_saveinfo (wb, fl, fs)) {
 			if (go_doc_set_uri (GO_DOC (wb), uri)) {
+				GDateTime *modtime;
+
 				go_doc_set_dirty (GO_DOC (wb), FALSE);
 				/* See 634792.  */
 				go_doc_set_pristine (GO_DOC (wb), FALSE);
+
+				modtime = get_uri_modtime (NULL, uri);
+				go_doc_set_modtime (GO_DOC (wb), modtime);
+				if (gnm_debug_flag ("modtime"))
+					g_printerr ("Modtime set\n");
+				g_date_time_unref (modtime);
 			}
 		} else
 			workbook_set_last_export_uri (wb, uri);
@@ -1168,12 +1201,14 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	Workbook	*wb;
 	GOFileSaver	*fs;
 	gboolean has_error, has_warning;
+	char const *uri;
 
 	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (GO_IS_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_get_workbook (wbv);
 	g_object_ref (wb);
+	uri = go_doc_get_uri (GO_DOC (wb));
 
 	fs = workbook_get_file_saver (wb);
 	if (fs == NULL)
@@ -1190,8 +1225,14 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 
 	has_error   = go_io_error_occurred (io_context);
 	has_warning = go_io_warning_occurred (io_context);
-	if (!has_error)
+	if (!has_error) {
+		GDateTime *modtime = get_uri_modtime (NULL, uri);
+		go_doc_set_modtime (GO_DOC (wb), modtime);
+		if (gnm_debug_flag ("modtime"))
+			g_printerr ("Modtime set\n");
+		g_date_time_unref (modtime);
 		go_doc_set_dirty (GO_DOC (wb), FALSE);
+	}
 	if (has_error || has_warning)
 		go_io_error_display (io_context);
 
@@ -1267,11 +1308,18 @@ workbook_view_new_from_input (GsfInput *input,
 	if (optional_fmt != NULL) {
 		Workbook *new_wb;
 		gboolean old;
+		GDateTime *modtime;
 
 		new_wbv = workbook_view_new (NULL);
 		new_wb = wb_view_get_workbook (new_wbv);
 		if (optional_uri)
 			go_doc_set_uri (GO_DOC (new_wb), optional_uri);
+
+		// Grab the modtime before we actually do the reading
+		modtime = get_uri_modtime (input, optional_uri);
+		go_doc_set_modtime (GO_DOC (new_wb), modtime);
+		if (modtime)
+			g_date_time_unref (modtime);
 
 		/* disable recursive dirtying while loading */
 		old = workbook_enable_recursive_dirty (new_wb, FALSE);
