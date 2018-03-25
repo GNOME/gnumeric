@@ -1140,7 +1140,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 				go_doc_set_pristine (GO_DOC (wb), FALSE);
 			}
 		} else
-			workbook_set_last_export_uri (wb, g_strdup (uri));
+			workbook_set_last_export_uri (wb, uri);
 	}
 	if (has_error || has_warning)
 		go_io_error_display (io_context);
@@ -1296,7 +1296,7 @@ workbook_view_new_from_input (GsfInput *input,
 			go_doc_set_dirty (GO_DOC (new_wb), FALSE);
 			if (optional_uri && workbook_get_file_exporter (new_wb))
 				workbook_set_last_export_uri
-					(new_wb, g_strdup (optional_uri));
+					(new_wb, optional_uri);
 		}
 	} else
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),

@@ -55,7 +55,7 @@ GOFileSaver *workbook_get_file_saver	(Workbook *wb);
 GOFileSaver *workbook_get_file_exporter	(Workbook *wb);
 gchar const *workbook_get_last_export_uri (Workbook *wb);
 void         workbook_set_file_exporter	  (Workbook *wb, GOFileSaver *fs);
-void         workbook_set_last_export_uri (Workbook *wb, gchar *uri);
+void         workbook_set_last_export_uri (Workbook *wb, const gchar *uri);
 
 /* See also sheet_foreach_cell_in_range */
 GnmValue   *workbook_foreach_cell_in_range (GnmEvalPos const  *pos,

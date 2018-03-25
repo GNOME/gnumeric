@@ -528,10 +528,11 @@ workbook_set_file_exporter (Workbook *wb, GOFileSaver *fs)
 }
 
 void
-workbook_set_last_export_uri (Workbook *wb, gchar *uri)
+workbook_set_last_export_uri (Workbook *wb, const gchar *uri)
 {
+	char *s = g_strdup (uri);
 	g_free (wb->last_export_uri);
-	wb->last_export_uri = uri;
+	wb->last_export_uri = s;
 	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc,
 				  wb_control_menu_state_update (wbc, MS_FILE_EXPORT_IMPORT););
 }
