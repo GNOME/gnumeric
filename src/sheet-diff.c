@@ -35,70 +35,8 @@
 
 /* ------------------------------------------------------------------------- */
 
-static gboolean
-null_diff_start (G_GNUC_UNUSED gpointer user)
-{
-	return FALSE;
-}
-
-static void
-null_diff_end (G_GNUC_UNUSED gpointer user)
-{
-}
-
-static void
-null_sheet_start (G_GNUC_UNUSED gpointer user,
-		  G_GNUC_UNUSED Sheet const *os,
-		  G_GNUC_UNUSED Sheet const *ns)
-{
-}
-
-static void
-null_sheet_end (G_GNUC_UNUSED gpointer user)
-{
-}
-
-static void
-null_sheet_order_changed (G_GNUC_UNUSED gpointer user)
-{
-}
-
-static void
-null_sheet_attr_int_changed (G_GNUC_UNUSED gpointer user,
-			     G_GNUC_UNUSED const char *name,
-			     G_GNUC_UNUSED int o,
-			     G_GNUC_UNUSED int n)
-{
-}
-
-static void
-null_colrow_changed (G_GNUC_UNUSED gpointer user,
-		     G_GNUC_UNUSED ColRowInfo const *oc, G_GNUC_UNUSED ColRowInfo const *nc,
-		     G_GNUC_UNUSED gboolean is_cols, G_GNUC_UNUSED int i)
-{
-}
-
-static void
-null_cell_changed (G_GNUC_UNUSED gpointer user,
-		   G_GNUC_UNUSED GnmCell const *oc, GnmCell const *nc)
-{
-}
-
-static void
-null_style_changed (G_GNUC_UNUSED gpointer user,
-		    G_GNUC_UNUSED GnmRange const *r,
-		    G_GNUC_UNUSED GnmStyle const *os, G_GNUC_UNUSED GnmStyle const *ns)
-{
-}
-
-static void
-null_name_changed (G_GNUC_UNUSED gpointer user,
-		   G_GNUC_UNUSED GnmNamedExpr const *on, G_GNUC_UNUSED GnmNamedExpr const *nn)
-{
-
-}
-
-#define DISPATCH(method) (istate->actions->method ? istate->actions->method : null_ ## method)
+#define DISPATCH(method) if (istate->actions->method == NULL) { } else (istate->actions->method)
+#define DISPATCH_VAL(method,def) (istate->actions->method == NULL) ? (def) : (istate->actions->method)
 
 /* ------------------------------------------------------------------------- */
 
@@ -470,7 +408,7 @@ real_diff_workbooks (GnmDiffIState *istate,
 	istate->old_wb = old_wb;
 	istate->new_wb = new_wb;
 
-	if (DISPATCH(diff_start) (istate->user)) {
+	if (DISPATCH_VAL(diff_start,FALSE) (istate->user)) {
 		istate->error = TRUE;
 		return;
 	}
