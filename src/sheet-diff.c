@@ -330,7 +330,7 @@ diff_names (GnmDiffIState *istate,
 		if (!nn || (on && cb_expr_name_by_name (on, nn) < 0)) {
 			// Old name got removed
 			istate->diff_found = TRUE;
-			DISPATCH(name_changed) (istate->user, on, nn);
+			DISPATCH(name_changed) (istate->user, on, NULL);
 			lo = lo->next;
 			continue;
 		}
@@ -338,7 +338,7 @@ diff_names (GnmDiffIState *istate,
 		if (!on || (nn && cb_expr_name_by_name (on, nn) > 0)) {
 			// New name got added
 			istate->diff_found = TRUE;
-			DISPATCH(name_changed) (istate->user, on, nn);
+			DISPATCH(name_changed) (istate->user, NULL, nn);
 			ln = ln->next;
 			continue;
 		}

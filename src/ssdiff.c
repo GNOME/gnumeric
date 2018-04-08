@@ -895,7 +895,8 @@ diff (char const *oldfilename, char const *newfilename,
 out:
 	clear_file_state (&state.old);
 	clear_file_state (&state.new);
-	actions->dtor (&state);
+	if (actions->dtor)
+		actions->dtor (&state);
 
 	gnm_pop_C_locale (locale);
 
