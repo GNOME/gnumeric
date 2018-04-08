@@ -36,35 +36,35 @@
 /* ------------------------------------------------------------------------- */
 
 static gboolean
-null_diff_start (G_GNUC_UNUSED GnmDiffState *state)
+null_diff_start (G_GNUC_UNUSED gpointer user)
 {
 	return FALSE;
 }
 
 static void
-null_diff_end (G_GNUC_UNUSED GnmDiffState *state)
+null_diff_end (G_GNUC_UNUSED gpointer user)
 {
 }
 
 static void
-null_sheet_start (G_GNUC_UNUSED GnmDiffState *state,
+null_sheet_start (G_GNUC_UNUSED gpointer user,
 		  G_GNUC_UNUSED Sheet const *os,
 		  G_GNUC_UNUSED Sheet const *ns)
 {
 }
 
 static void
-null_sheet_end (G_GNUC_UNUSED GnmDiffState *state)
+null_sheet_end (G_GNUC_UNUSED gpointer user)
 {
 }
 
 static void
-null_sheet_order_changed (G_GNUC_UNUSED GnmDiffState *state)
+null_sheet_order_changed (G_GNUC_UNUSED gpointer user)
 {
 }
 
 static void
-null_sheet_attr_int_changed (G_GNUC_UNUSED GnmDiffState *state,
+null_sheet_attr_int_changed (G_GNUC_UNUSED gpointer user,
 			     G_GNUC_UNUSED const char *name,
 			     G_GNUC_UNUSED int o,
 			     G_GNUC_UNUSED int n)
@@ -72,27 +72,27 @@ null_sheet_attr_int_changed (G_GNUC_UNUSED GnmDiffState *state,
 }
 
 static void
-null_colrow_changed (G_GNUC_UNUSED GnmDiffState *state,
+null_colrow_changed (G_GNUC_UNUSED gpointer user,
 		     G_GNUC_UNUSED ColRowInfo const *oc, G_GNUC_UNUSED ColRowInfo const *nc,
 		     G_GNUC_UNUSED gboolean is_cols, G_GNUC_UNUSED int i)
 {
 }
 
 static void
-null_cell_changed (G_GNUC_UNUSED GnmDiffState *state,
+null_cell_changed (G_GNUC_UNUSED gpointer user,
 		   G_GNUC_UNUSED GnmCell const *oc, GnmCell const *nc)
 {
 }
 
 static void
-null_style_changed (G_GNUC_UNUSED GnmDiffState *state,
+null_style_changed (G_GNUC_UNUSED gpointer user,
 		    G_GNUC_UNUSED GnmRange const *r,
 		    G_GNUC_UNUSED GnmStyle const *os, G_GNUC_UNUSED GnmStyle const *ns)
 {
 }
 
 static void
-null_name_changed (G_GNUC_UNUSED GnmDiffState *state,
+null_name_changed (G_GNUC_UNUSED gpointer user,
 		   G_GNUC_UNUSED GnmNamedExpr const *on, G_GNUC_UNUSED GnmNamedExpr const *nn)
 {
 
@@ -103,7 +103,7 @@ null_name_changed (G_GNUC_UNUSED GnmDiffState *state,
 /* ------------------------------------------------------------------------- */
 
 typedef struct {
-	GnmDiffState *ustate;
+	gpointer user;
 
 	const GnmDiffActions *actions;
 	gboolean diff_found;
@@ -215,7 +215,7 @@ diff_sheets_cells (GnmDiffIState *istate)
 			else {
 				if (compare_corresponding_cells (co, cn)) {
 					istate->diff_found = TRUE;
-					DISPATCH(cell_changed) (istate->ustate, co, cn);
+					DISPATCH(cell_changed) (istate->user, co, cn);
 				}
 				io++, in++;
 				continue;
@@ -224,11 +224,11 @@ diff_sheets_cells (GnmDiffIState *istate)
 
 		if (co) {
 			istate->diff_found = TRUE;
-			DISPATCH(cell_changed) (istate->ustate, co, NULL);
+			DISPATCH(cell_changed) (istate->user, co, NULL);
 			io++;
 		} else if (cn) {
 			istate->diff_found = TRUE;
-			DISPATCH(cell_changed) (istate->ustate, NULL, cn);
+			DISPATCH(cell_changed) (istate->user, NULL, cn);
 			in++;
 		} else
 			break;
@@ -249,7 +249,7 @@ diff_sheets_colrow (GnmDiffIState *istate, gboolean is_cols)
 
 	if (!colrow_equal (old_def, new_def)) {
 		istate->diff_found = TRUE;
-		DISPATCH(colrow_changed) (istate->ustate, old_def, new_def, is_cols, -1);
+		DISPATCH(colrow_changed) (istate->user, old_def, new_def, is_cols, -1);
 	}
 
 	U = is_cols
@@ -267,7 +267,7 @@ diff_sheets_colrow (GnmDiffIState *istate, gboolean is_cols)
 		if (!ncr) ncr = new_def;
 		if (!colrow_equal (ocr, ncr)) {
 			istate->diff_found = TRUE;
-			DISPATCH(colrow_changed) (istate->ustate, ocr, ncr, is_cols, i);
+			DISPATCH(colrow_changed) (istate->user, ocr, ncr, is_cols, i);
 		}
 	}
 }
@@ -277,7 +277,7 @@ diff_sheets_colrow (GnmDiffIState *istate, gboolean is_cols)
 	  if (istate->old_sheet->field != istate->new_sheet->field) {	\
 		  istate->diff_found = TRUE;				\
 		  DISPATCH(sheet_attr_int_changed)			\
-			  (istate->ustate, attr, istate->old_sheet->field, istate->new_sheet->field); \
+			  (istate->user, attr, istate->old_sheet->field, istate->new_sheet->field); \
 	  }								\
   } while (0)
 
@@ -290,12 +290,12 @@ diff_sheets_attrs (GnmDiffIState *istate)
 	if (os->max_cols != ns->max_cols) {
 		istate->diff_found = TRUE;
 		DISPATCH(sheet_attr_int_changed)
-			(istate->ustate, "Cols", os->max_cols, ns->max_cols);
+			(istate->user, "Cols", os->max_cols, ns->max_cols);
 	}
 	if (os->max_rows != ns->max_rows) {
 		istate->diff_found = TRUE;
 		DISPATCH(sheet_attr_int_changed)
-			(istate->ustate, "Rows", os->max_rows, ns->max_rows);
+			(istate->user, "Rows", os->max_rows, ns->max_rows);
 	}
 
 	DO_INT (display_formulas, "DisplayFormulas");
@@ -331,7 +331,7 @@ cb_diff_sheets_styles_2 (G_GNUC_UNUSED gpointer key,
 
 	istate->diff_found = TRUE;
 
-	DISPATCH(style_changed) (istate->ustate, &r, data->old_style, sr->style);
+	DISPATCH(style_changed) (istate->user, &r, data->old_style, sr->style);
 }
 
 static void
@@ -392,7 +392,7 @@ diff_names (GnmDiffIState *istate,
 		if (!nn || (on && cb_expr_name_by_name (on, nn) < 0)) {
 			// Old name got removed
 			istate->diff_found = TRUE;
-			DISPATCH(name_changed) (istate->ustate, on, nn);
+			DISPATCH(name_changed) (istate->user, on, nn);
 			lo = lo->next;
 			continue;
 		}
@@ -400,7 +400,7 @@ diff_names (GnmDiffIState *istate,
 		if (!on || (nn && cb_expr_name_by_name (on, nn) > 0)) {
 			// New name got added
 			istate->diff_found = TRUE;
-			DISPATCH(name_changed) (istate->ustate, on, nn);
+			DISPATCH(name_changed) (istate->user, on, nn);
 			ln = ln->next;
 			continue;
 		}
@@ -409,7 +409,7 @@ diff_names (GnmDiffIState *istate,
 					  nn->texpr, &nn->pos,
 					  convs)) {
 			istate->diff_found = TRUE;
-			DISPATCH(name_changed) (istate->ustate, on, nn);
+			DISPATCH(name_changed) (istate->user, on, nn);
 		}
 
 		lo = lo->next;
@@ -443,13 +443,13 @@ real_diff_sheets (GnmDiffIState *istate, Sheet *old_sheet, Sheet *new_sheet)
 }
 
 gboolean
-gnm_diff_sheets (const GnmDiffActions *actions, GnmDiffState *state,
+gnm_diff_sheets (const GnmDiffActions *actions, gpointer user,
 		 Sheet *old_sheet, Sheet *new_sheet)
 {
 	GnmDiffIState istate;
 
 	memset (&istate, 0, sizeof (istate));
-	istate.ustate = state;
+	istate.user = user;
 	istate.actions = actions;
 	istate.diff_found = FALSE;
 	istate.error = FALSE;
@@ -470,7 +470,7 @@ real_diff_workbooks (GnmDiffIState *istate,
 	istate->old_wb = old_wb;
 	istate->new_wb = new_wb;
 
-	if (DISPATCH(diff_start) (istate->ustate)) {
+	if (DISPATCH(diff_start) (istate->user)) {
 		istate->error = TRUE;
 		return;
 	}
@@ -484,7 +484,7 @@ real_diff_workbooks (GnmDiffIState *istate,
 		Sheet *old_sheet = workbook_sheet_by_index (old_wb, i);
 		Sheet *new_sheet = workbook_sheet_by_name (new_wb,
 							   old_sheet->name_unquoted);
-		DISPATCH(sheet_start) (istate->ustate, old_sheet, new_sheet);
+		DISPATCH(sheet_start) (istate->user, old_sheet, new_sheet);
 
 		if (new_sheet) {
 			if (new_sheet->index_in_wb < last_index)
@@ -495,7 +495,7 @@ real_diff_workbooks (GnmDiffIState *istate,
 		} else
 			istate->diff_found = TRUE;
 
-		DISPATCH(sheet_end) (istate->ustate);
+		DISPATCH(sheet_end) (istate->user);
 	}
 
 	count = workbook_sheet_count (new_wb);
@@ -507,27 +507,27 @@ real_diff_workbooks (GnmDiffIState *istate,
 			; // Nothing -- already done above.
 		else {
 			istate->diff_found = TRUE;
-			DISPATCH(sheet_start) (istate->ustate, old_sheet, new_sheet);
-			DISPATCH(sheet_end) (istate->ustate);
+			DISPATCH(sheet_start) (istate->user, old_sheet, new_sheet);
+			DISPATCH(sheet_end) (istate->user);
 		}
 	}
 
 	if (sheet_order_changed) {
 		istate->diff_found = TRUE;
-		DISPATCH(sheet_order_changed) (istate->ustate);
+		DISPATCH(sheet_order_changed) (istate->user);
 	}
 
-	DISPATCH(diff_end) (istate->ustate);
+	DISPATCH(diff_end) (istate->user);
 }
 
 int
-gnm_diff_workbooks (const GnmDiffActions *actions, GnmDiffState *state,
+gnm_diff_workbooks (const GnmDiffActions *actions, gpointer user,
 		    Workbook *old_wb, Workbook *new_wb)
 {
 	GnmDiffIState istate;
 
 	memset (&istate, 0, sizeof (istate));
-	istate.ustate = state;
+	istate.user = user;
 	istate.actions = actions;
 	istate.diff_found = FALSE;
 	istate.error = FALSE;

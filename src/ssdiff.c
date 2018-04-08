@@ -85,9 +85,9 @@ typedef struct {
 	GsfInput *input;
 	Workbook *wb;
 	WorkbookView *wbv;
-}  GnmDiffStateFile;
+} GnmDiffStateFile;
 
-struct GnmDiffState_ {
+typedef struct {
 	GOIOContext *ioc;
 	GnmDiffStateFile old, new;
 
@@ -103,7 +103,7 @@ struct GnmDiffState_ {
 	GnmDiffStateFile highlight;
 	GOFileSaver const *highlight_fs;
 	GnmStyle *highlight_style;
-};
+} DiffState;
 
 /* -------------------------------------------------------------------------- */
 
@@ -163,8 +163,9 @@ def_cell_name (GnmCell const *oc)
 }
 
 static void
-def_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
+def_sheet_start (gpointer user, Sheet const *os, Sheet const *ns)
 {
+	DiffState *state = user;
 	if (os && ns)
 		gsf_output_printf (state->output, _("Differences for sheet %s:\n"), os->name_quoted);
 	else if (os)
@@ -176,23 +177,26 @@ def_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
 }
 
 static void
-def_sheet_order_changed (GnmDiffState *state)
+def_sheet_order_changed (gpointer user)
 {
+	DiffState *state = user;
 	gsf_output_printf (state->output, _("Sheet order changed.\n"));
 }
 
 static void
-def_sheet_attr_int_changed (GnmDiffState *state, const char *name,
+def_sheet_attr_int_changed (gpointer user, const char *name,
 			    G_GNUC_UNUSED int o, G_GNUC_UNUSED int n)
 {
+	DiffState *state = user;
 	gsf_output_printf (state->output, _("Sheet attribute %s changed.\n"),
 			   name);
 }
 
 static void
-def_colrow_changed (GnmDiffState *state, ColRowInfo const *oc, ColRowInfo const *nc,
+def_colrow_changed (gpointer user, ColRowInfo const *oc, ColRowInfo const *nc,
 		    gboolean is_cols, int i)
 {
+	DiffState *state = user;
 	if (is_cols)
 		gsf_output_printf (state->output, _("Column %s changed.\n"),
 				   col_name (i));
@@ -202,8 +206,9 @@ def_colrow_changed (GnmDiffState *state, ColRowInfo const *oc, ColRowInfo const 
 }
 
 static void
-def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
+def_cell_changed (gpointer user, GnmCell const *oc, GnmCell const *nc)
 {
+	DiffState *state = user;
 	if (oc && nc)
 		gsf_output_printf (state->output, _("Cell %s changed.\n"), def_cell_name (oc));
 	else if (oc)
@@ -215,18 +220,20 @@ def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 }
 
 static void
-def_style_changed (GnmDiffState *state, GnmRange const *r,
+def_style_changed (gpointer user, GnmRange const *r,
 		   G_GNUC_UNUSED GnmStyle const *os,
 		   G_GNUC_UNUSED GnmStyle const *ns)
 {
+	DiffState *state = user;
 	gsf_output_printf (state->output, _("Style of %s was changed.\n"),
 			   range_as_string (r));
 }
 
 static void
-def_name_changed (GnmDiffState *state,
+def_name_changed (gpointer user,
 		  GnmNamedExpr const *on, GnmNamedExpr const *nn)
 {
+	DiffState *state = user;
 	if (on && nn)
 		gsf_output_printf (state->output, _("Name %s changed.\n"), expr_name_name (on));
 	else if (on)
@@ -250,8 +257,9 @@ static const GnmDiffActions default_actions = {
 /* -------------------------------------------------------------------------- */
 
 static gboolean
-xml_diff_start (GnmDiffState *state)
+xml_diff_start (gpointer user)
 {
+	DiffState *state = user;
 	char *attr;
 
 	state->xml = gsf_xml_out_new (state->output);
@@ -267,14 +275,16 @@ xml_diff_start (GnmDiffState *state)
 }
 
 static void
-xml_diff_end (GnmDiffState *state)
+xml_diff_end (gpointer user)
 {
+	DiffState *state = user;
 	gsf_xml_out_end_element (state->xml); /* </Diff> */
 }
 
 static void
-xml_dtor (GnmDiffState *state)
+xml_dtor (gpointer user)
 {
+	DiffState *state = user;
 	g_clear_object (&state->xml);
 
 	if (state->xml_convs) {
@@ -284,7 +294,7 @@ xml_dtor (GnmDiffState *state)
 }
 
 static void
-xml_close_section (GnmDiffState *state)
+xml_close_section (DiffState *state)
 {
 	if (state->xml_section) {
 		gsf_xml_out_end_element (state->xml);
@@ -293,7 +303,7 @@ xml_close_section (GnmDiffState *state)
 }
 
 static void
-xml_open_section (GnmDiffState *state, const char *section)
+xml_open_section (DiffState *state, const char *section)
 {
 	if (state->xml_section && g_str_equal (section, state->xml_section))
 		return;
@@ -304,8 +314,9 @@ xml_open_section (GnmDiffState *state, const char *section)
 }
 
 static void
-xml_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
+xml_sheet_start (gpointer user, Sheet const *os, Sheet const *ns)
 {
+	DiffState *state = user;
 	Sheet const *sheet = os ? os : ns;
 
 	// We might have an open section for global names
@@ -320,16 +331,18 @@ xml_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
 }
 
 static void
-xml_sheet_end (GnmDiffState *state)
+xml_sheet_end (gpointer user)
 {
+	DiffState *state = user;
 	xml_close_section (state);
 	gsf_xml_out_end_element (state->xml); /* </Sheet> */
 }
 
 static void
-xml_sheet_attr_int_changed (GnmDiffState *state, const char *name,
+xml_sheet_attr_int_changed (gpointer user, const char *name,
 			    int o, int n)
 {
+	DiffState *state = user;
 	char *elem;
 
 	elem = g_strconcat (DIFF, name, NULL);
@@ -341,7 +354,7 @@ xml_sheet_attr_int_changed (GnmDiffState *state, const char *name,
 }
 
 static void
-xml_output_texpr (GnmDiffState *state, GnmExprTop const *texpr, GnmParsePos const *pos,
+xml_output_texpr (DiffState *state, GnmExprTop const *texpr, GnmParsePos const *pos,
 		  const char *tag)
 {
 	GnmConventionsOut out;
@@ -359,7 +372,7 @@ xml_output_texpr (GnmDiffState *state, GnmExprTop const *texpr, GnmParsePos cons
 }
 
 static void
-xml_output_cell (GnmDiffState *state, GnmCell const *cell,
+xml_output_cell (DiffState *state, GnmCell const *cell,
 		 const char *tag, const char *valtag, const char *fmttag)
 {
 	if (!cell)
@@ -382,9 +395,10 @@ xml_output_cell (GnmDiffState *state, GnmCell const *cell,
 }
 
 static void
-xml_colrow_changed (GnmDiffState *state, ColRowInfo const *oc, ColRowInfo const *nc,
+xml_colrow_changed (gpointer user, ColRowInfo const *oc, ColRowInfo const *nc,
 		    gboolean is_cols, int i)
 {
+	DiffState *state = user;
 	xml_open_section (state, is_cols ? DIFF "Cols" : DIFF "Rows");
 
 	gsf_xml_out_start_element (state->xml, is_cols ? DIFF "ColInfo" : DIFF "RowInfo");
@@ -415,8 +429,9 @@ xml_colrow_changed (GnmDiffState *state, ColRowInfo const *oc, ColRowInfo const 
 }
 
 static void
-xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
+xml_cell_changed (gpointer user, GnmCell const *oc, GnmCell const *nc)
 {
+	DiffState *state = user;
 	const GnmCellPos *pos;
 
 	xml_open_section (state, DIFF "Cells");
@@ -490,9 +505,10 @@ cb_validation_use_dropdown (GnmValidation const *v)
 }
 
 static void
-xml_style_changed (GnmDiffState *state, GnmRange const *r,
+xml_style_changed (gpointer user, GnmRange const *r,
 		   GnmStyle const *os, GnmStyle const *ns)
 {
+	DiffState *state = user;
 	unsigned int conflicts;
 	GnmStyleElement e;
 
@@ -712,9 +728,10 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 #undef DO_STRINGS
 
 static void
-xml_name_changed (GnmDiffState *state,
+xml_name_changed (gpointer user,
 		  GnmNamedExpr const *on, GnmNamedExpr const *nn)
 {
+	DiffState *state = user;
 	xml_open_section (state, DIFF "Names");
 
 	gsf_xml_out_start_element (state->xml, DIFF "Name");
@@ -742,8 +759,9 @@ static const GnmDiffActions xml_actions = {
 /* -------------------------------------------------------------------------- */
 
 static gboolean
-highlight_diff_start (GnmDiffState *state)
+highlight_diff_start (gpointer user)
 {
+	DiffState *state = user;
 	const char *dst = state->new.url;
 
 	state->highlight_fs = go_file_saver_for_file_name (ssdiff_output);
@@ -771,15 +789,17 @@ highlight_diff_start (GnmDiffState *state)
 }
 
 static void
-highlight_diff_end (GnmDiffState *state)
+highlight_diff_end (gpointer user)
 {
+	DiffState *state = user;
 	wbv_save_to_output (state->highlight.wbv, state->highlight_fs,
 			    state->output, state->ioc);
 }
 
 static void
-highlight_dtor (GnmDiffState *state)
+highlight_dtor (gpointer user)
 {
+	DiffState *state = user;
 	clear_file_state (&state->highlight);
 	if (state->highlight_style) {
 		gnm_style_unref (state->highlight_style);
@@ -788,9 +808,11 @@ highlight_dtor (GnmDiffState *state)
 }
 
 static void
-highlight_sheet_start (GnmDiffState *state,
+highlight_sheet_start (gpointer user,
 		       G_GNUC_UNUSED Sheet const *os, Sheet const *ns)
 {
+	DiffState *state = user;
+
 	// We want the highlight sheet corresponding to new_sheet.
 	state->highlight_sheet = ns
 		? workbook_sheet_by_index (state->highlight.wb, ns->index_in_wb)
@@ -798,13 +820,14 @@ highlight_sheet_start (GnmDiffState *state,
 }
 
 static void
-highlight_sheet_end (GnmDiffState *state)
+highlight_sheet_end (gpointer user)
 {
+	DiffState *state = user;
 	state->highlight_sheet = NULL;
 }
 
 static void
-highlight_apply (GnmDiffState *state, const GnmRange *r)
+highlight_apply (DiffState *state, const GnmRange *r)
 {
 	Sheet *sheet = state->highlight_sheet;
 
@@ -815,18 +838,20 @@ highlight_apply (GnmDiffState *state, const GnmRange *r)
 }
 
 static void
-highlight_cell_changed (GnmDiffState *state,
+highlight_cell_changed (gpointer user,
 			GnmCell const *oc, GnmCell const *nc)
 {
+	DiffState *state = user;
 	GnmRange r;
 	highlight_apply (state, range_init_cellpos (&r, &(nc ? nc : oc)->pos));
 }
 
 static void
-highlight_style_changed (GnmDiffState *state, GnmRange const *r,
+highlight_style_changed (gpointer user, GnmRange const *r,
 			 G_GNUC_UNUSED GnmStyle const *os,
 			 G_GNUC_UNUSED GnmStyle const *ns)
 {
+	DiffState *state = user;
 	highlight_apply (state, r);
 }
 
@@ -848,7 +873,7 @@ diff (char const *oldfilename, char const *newfilename,
       GOIOContext *ioc,
       GnmDiffActions const *actions, GsfOutput *output)
 {
-	GnmDiffState state;
+	DiffState state;
 	int res = 0;
 	GnmLocale *locale;
 
