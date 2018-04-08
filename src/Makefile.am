@@ -104,44 +104,50 @@ libspreadsheet_la_SOURCES =			\
 	gnm-marshalers.c			\
 	application.c				\
 	auto-format.c				\
-	cell.c					\
 	cell-draw.c				\
+	cell.c					\
 	cellspan.c				\
 	clipboard.c				\
-	criteria.c				\
 	cmd-edit.c				\
 	collect.c				\
 	colrow.c				\
-	command-context.c			\
 	command-context-stderr.c		\
+	command-context.c			\
 	commands.c				\
-	complete.c				\
 	complete-sheet.c			\
+	complete.c				\
 	complex.c				\
 	consolidate.c				\
+	criteria.c				\
 	dependent.c				\
-	expr.c					\
 	expr-deriv.c				\
 	expr-name.c				\
+	expr.c					\
 	file-autoft.c				\
 	format-template.c			\
-	func.c					\
 	func-builtin.c				\
+	func.c					\
 	gnm-commands-slicer.c			\
 	gnm-datetime.c				\
 	gnm-format.c				\
 	gnm-graph-window.c			\
-	gnm-pane.c				\
 	gnm-pane-impl.h				\
+	gnm-pane.c				\
+	gnm-plugin.c				\
 	gnm-random.c				\
+	gnm-so-filled.c				\
+	gnm-so-line.c				\
+	gnm-so-path.c				\
+	gnm-so-polygon.c			\
+	gnumeric-conf.c				\
 	gnumeric-simple-canvas.c		\
 	graph.c					\
-	gutils.c				\
 	gui-clipboard.c				\
 	gui-file.c				\
 	gui-util.c				\
-	hlink.c					\
+	gutils.c				\
 	history.c				\
+	hlink.c					\
 	input-msg.c				\
 	item-bar.c				\
 	item-cursor.c				\
@@ -152,15 +158,17 @@ libspreadsheet_la_SOURCES =			\
 	mstyle.c				\
 	number-match.c				\
 	outoflinedocs.c				\
-	parser.y				\
 	parse-util.c				\
+	parser.y				\
 	pattern.c				\
 	position.c				\
-	preview-grid.c				\
 	preview-grid-impl.h			\
+	preview-grid.c				\
+	print-cell.c				\
 	print-info.c				\
-	rangefunc.c				\
+	print.c					\
 	rangefunc-strings.c			\
+	rangefunc.c				\
 	ranges.c				\
 	rendered-value.c			\
 	search.c				\
@@ -170,50 +178,43 @@ libspreadsheet_la_SOURCES =			\
 	sf-dpq.c				\
 	sf-gamma.c				\
 	sf-trig.c				\
-	sheet.c					\
-	sheet-view.c		  		\
-	sheet-control.c		  		\
-	sheet-control-gui.c			\
-	sheet-merge.c				\
 	sheet-autofill.c			\
+	sheet-control-gui.c			\
+	sheet-control.c		  		\
+	sheet-diff.c		  		\
 	sheet-filter.c				\
-	sheet-utils.c				\
-	sheet-object.c				\
+	sheet-merge.c				\
 	sheet-object-cell-comment.c		\
-	gnm-so-filled.c				\
-	gnm-so-line.c				\
-	gnm-so-path.c				\
-	gnm-so-polygon.c			\
 	sheet-object-component.c		\
 	sheet-object-graph.c			\
 	sheet-object-image.c			\
 	sheet-object-widget.c			\
+	sheet-object.c				\
 	sheet-style.c				\
-	gnm-plugin.c				\
+	sheet-utils.c				\
+	sheet-view.c		  		\
+	sheet.c					\
 	sort.c					\
-	stf.c					\
 	stf-export.c				\
 	stf-parse.c				\
-	style.c					\
+	stf.c					\
 	style-border.c				\
 	style-color.c				\
 	style-conditions.c			\
+	style.c					\
 	undo.c					\
 	validation.c				\
-	value.c					\
 	value-sheet.c				\
-	workbook.c				\
-	workbook-cmd-format.c			\
-	workbook-view.c				\
-	workbook-control.c 			\
-	wbc-gtk.c				\
+	value.c					\
 	wbc-gtk-actions.c			\
 	wbc-gtk-edit.c				\
+	wbc-gtk.c				\
+	workbook-cmd-format.c			\
+	workbook-control.c 			\
+	workbook-view.c				\
+	workbook.c				\
 	xml-sax-read.c				\
-	xml-sax-write.c				\
-	gnumeric-conf.c				\
-	print.c					\
-	print-cell.c
+	xml-sax-write.c
 
 nodist_libspreadsheet_la_SOURCES = gnmresources.c gnmresources.h
 
@@ -224,30 +225,30 @@ libspreadsheet_includedir = $(includedir)/libspreadsheet-@GNUMERIC_API_VER@/spre
 libspreadsheet_include_HEADERS = 	\
 	application.h				\
 	auto-format.h				\
-	cell.h					\
 	cell-draw.h				\
+	cell.h					\
 	cellspan.h				\
 	clipboard.h				\
 	cmd-edit.h				\
 	collect.h				\
 	colrow.h				\
-	command-context.h			\
 	command-context-stderr.h		\
+	command-context.h			\
 	commands.h				\
-	complete.h				\
 	complete-sheet.h			\
+	complete.h				\
 	complex.h				\
 	consolidate.h				\
 	criteria.h				\
 	dependent.h				\
-	expr.h					\
 	expr-deriv.h				\
 	expr-impl.h				\
 	expr-name.h				\
+	expr.h					\
 	file-autoft.h				\
 	format-template.h			\
-	func.h					\
 	func-builtin.h				\
+	func.h					\
 	gnm-command-impl.h			\
 	gnm-commands-slicer.h			\
 	gnm-data-cache-source.h			\
@@ -255,26 +256,32 @@ libspreadsheet_include_HEADERS = 	\
 	gnm-format.h				\
 	gnm-graph-window.h			\
 	gnm-pane.h				\
+	gnm-plugin.h				\
 	gnm-random.h				\
 	gnm-sheet-slicer.h			\
+	gnm-so-filled.h				\
+	gnm-so-line.h				\
+	gnm-so-path.h				\
+	gnm-so-polygon.h			\
 	gnm-style-impl.h			\
-	gnumeric.h				\
+	gnumeric-conf.h				\
 	gnumeric-fwd.h				\
 	gnumeric-simple-canvas.h		\
+	gnumeric.h				\
+	go-data-cache-field.h 			\
 	go-data-cache-source.h 			\
 	go-data-cache.h 			\
-	go-data-cache-field.h 			\
-	go-data-slicer.h			\
 	go-data-slicer-field.h			\
+	go-data-slicer.h			\
 	go-val.h				\
 	graph.h					\
-	gutils.h				\
 	gui-clipboard.h				\
 	gui-file.h				\
 	gui-util.h				\
-	hlink.h					\
-	hlink-impl.h				\
+	gutils.h				\
 	history.h				\
+	hlink-impl.h				\
+	hlink.h					\
 	input-msg.h				\
 	item-bar.h				\
 	item-cursor.h				\
@@ -289,9 +296,11 @@ libspreadsheet_include_HEADERS = 	\
 	pattern.h				\
 	position.h				\
 	preview-grid.h				\
+	print-cell.h				\
 	print-info.h				\
-	rangefunc.h				\
+	print.h					\
 	rangefunc-strings.h			\
+	rangefunc.h				\
 	ranges.h				\
 	regression.h				\
 	rendered-value.h			\
@@ -302,58 +311,51 @@ libspreadsheet_include_HEADERS = 	\
 	sf-dpq.h				\
 	sf-gamma.h				\
 	sf-trig.h				\
-	sheet.h					\
-	sheet-view.h    			\
-	sheet-control.h    			\
-	sheet-control-priv.h 			\
-	sheet-control-gui.h			\
-	sheet-control-gui-priv.h		\
-	sheet-merge.h				\
-	sheet-private.h				\
 	sheet-autofill.h			\
-	sheet-filter.h				\
-	sheet-utils.h				\
+	sheet-control-gui-priv.h		\
+	sheet-control-gui.h			\
+	sheet-control-priv.h 			\
+	sheet-control.h    			\
+	sheet-diff.h    			\
 	sheet-filter-combo.h			\
-	sheet-object.h				\
-	sheet-object-impl.h			\
+	sheet-filter.h				\
+	sheet-merge.h				\
 	sheet-object-cell-comment.h		\
-	sheet-object-widget-impl.h		\
-	gnm-so-filled.h				\
-	gnm-so-line.h				\
-	gnm-so-path.h				\
-	gnm-so-polygon.h			\
 	sheet-object-component.h		\
 	sheet-object-graph.h			\
 	sheet-object-image.h			\
+	sheet-object-impl.h			\
+	sheet-object-widget-impl.h		\
 	sheet-object-widget.h			\
+	sheet-object.h				\
+	sheet-private.h				\
 	sheet-style.h				\
-	gnm-plugin.h				\
+	sheet-utils.h				\
+	sheet-view.h    			\
+	sheet.h					\
 	sort.h					\
-	stf.h					\
 	stf-export.h				\
 	stf-parse.h				\
-	style.h					\
+	stf.h					\
 	style-border.h				\
 	style-color.h				\
 	style-conditions.h			\
 	style-font.h				\
+	style.h					\
 	undo.h					\
-	validation.h				\
 	validation-combo.h			\
+	validation.h				\
 	value.h					\
-	workbook.h				\
-	workbook-priv.h				\
-	workbook-cmd-format.h			\
-	workbook-view.h				\
-	workbook-control.h 			\
-	workbook-control-priv.h 		\
-	wbc-gtk.h				\
 	wbc-gtk-impl.h				\
+	wbc-gtk.h				\
+	workbook-cmd-format.h			\
+	workbook-control-priv.h 		\
+	workbook-control.h 			\
+	workbook-priv.h				\
+	workbook-view.h				\
+	workbook.h				\
 	xml-io-version.h			\
-	xml-sax.h				\
-	gnumeric-conf.h				\
-	print.h					\
-	print-cell.h
+	xml-sax.h
 
 gnumeric_SOURCES =				\
 	io-context-gtk.c			\
