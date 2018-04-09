@@ -32,6 +32,8 @@
 #include <ranges.h>
 #include <cell.h>
 #include <sheet-style.h>
+#include <application.h>
+#include <widgets/gnm-sheet-sel.h>
 #include <widgets/gnm-workbook-sel.h>
 
 #define SHEET_COMPARE_KEY          "sheet-compare-dialog"
@@ -108,64 +110,36 @@ cb_cancel_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	    gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
-static void
-reset_sheet_menu (GtkWidget *sheet_sel, Workbook *wb, int def_sheet)
-{
-	GOOptionMenu *om = GO_OPTION_MENU (sheet_sel);
-	GtkMenu *menu;
-	GtkWidget *act = NULL;
-
-	if (wb == g_object_get_data (G_OBJECT (om), "wb"))
-		return;
-	g_object_set_data (G_OBJECT (om), "wb", wb);
-
-	menu = GTK_MENU (gtk_menu_new ());
-	WORKBOOK_FOREACH_SHEET (wb, sheet, {
-		GtkWidget *item =
-			gtk_check_menu_item_new_with_label
-			(sheet->name_unquoted);
-		gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (item), TRUE);
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), FALSE);
-		g_object_set_data (G_OBJECT (item), "sheet", sheet);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-		if (def_sheet-- == 0)
-			act = item;
-	});
-
-	gtk_widget_show_all (GTK_WIDGET (menu));
-	go_option_menu_set_menu (om, GTK_WIDGET (menu));
-
-	if (act)
-		go_option_menu_select_item (om, GTK_MENU_ITEM (act));
-}
-
 static GtkWidget *
-create_sheet_selector (gboolean qnew)
-{
-	GtkWidget *w = go_option_menu_new ();
-	g_object_set_data (G_OBJECT (w), "qnew", GUINT_TO_POINTER (qnew));
-	return w;
-}
-
-
-static void
-cb_wb_changed (GOOptionMenu *om, SheetCompare *state)
-{
-	GtkWidget *item = go_option_menu_get_history (om);
-	Workbook *wb = g_object_get_data (G_OBJECT (item), "wb");
-	GtkWidget *sheet_sel = g_object_get_data (G_OBJECT (om), "sheet_sel");
-
-	if (wb)
-		reset_sheet_menu (sheet_sel, wb, -1);
-}
-
-static GtkWidget *
-create_wb_selector (SheetCompare *state, GtkWidget *sheet_sel,
-		    Workbook *wb0, gboolean qnew)
+create_wb_selector (SheetCompare *state, GtkWidget *sheet_sel)
 {
 	GtkWidget *res = gnm_workbook_sel_new ();
-	gnm_workbook_sel_set_workbook (GNM_WORKBOOK_SEL (res), wb0);
+	gnm_sheet_sel_link (GNM_SHEET_SEL (sheet_sel),
+			    GNM_WORKBOOK_SEL (res));
 	return res;
+}
+
+static void
+select_default_sheets (SheetCompare *state)
+{
+	Workbook *wb = wb_control_get_workbook (GNM_WBC (state->wbcg));
+	GList *wb_list = gnm_app_workbook_list ();
+
+	if (g_list_length (wb_list) > 1) {
+		// Multiple workbooks
+
+		gnm_workbook_sel_set_workbook
+			(GNM_WORKBOOK_SEL (state->wb_sel_A), wb);
+		gnm_workbook_sel_set_workbook
+			(GNM_WORKBOOK_SEL (state->wb_sel_B),
+			 wb == wb_list->data ? wb_list->next->data : wb_list->data);
+	} else if (workbook_sheet_count (wb) > 1) {
+		// One workbook, multiple sheets
+		gnm_sheet_sel_set_sheet (GNM_SHEET_SEL (state->sheet_sel_B),
+					 workbook_sheet_by_index (wb, 1));
+	} else {
+		// One workbook, one sheet
+	}
 }
 
 /* ------------------------------------------------------------------------- */
@@ -308,19 +282,29 @@ do_color (GnmColor const *gcolor)
 {
 	GOColor color = gcolor->go_color;
 	unsigned r, g, b, a;
-	char coltxt[16];
+	char buf[16];
+	const char *coltxt = NULL;
+	int n;
+	GONamedColor nc;
 
 	GO_COLOR_TO_RGBA (color, &r, &g, &b, &a);
 	if (a == 0xff)
-		snprintf (coltxt, sizeof (coltxt), "#%02X%02X%02X", r, g, b);
+		snprintf (buf, sizeof (coltxt), "#%02X%02X%02X", r, g, b);
 	else
-		snprintf (coltxt, sizeof (coltxt), "#%02X%02X%02X%02X", r, g, b, a);
+		snprintf (buf, sizeof (coltxt), "#%02X%02X%02X%02X", r, g, b, a);
+
+	for (n = 0; go_color_palette_query (n, &nc); n++) {
+		if (nc.color == color) {
+			coltxt = nc.name;
+			break;
+		}
+	}
 
 	return g_strdup_printf
-		("%s %s(<span bgcolor=\"%s\">   </span>)",
-		 coltxt,
-		 gcolor->is_auto ? "auto " : "",
-		 coltxt);
+		("%s%s (<span bgcolor=\"%s\">   </span>)",
+		 gcolor->is_auto ? "Auto " : "",
+		 coltxt ? coltxt : buf,
+		 buf);
 }
 
 static char *
@@ -634,7 +618,6 @@ cb_compare_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		 gnm_rangeref_get_type (),
 		 gnm_rangeref_get_type (),
 		 G_TYPE_INT); // GnmStyleElement
-	GtkWidget *w;
 	Sheet *sheet_A, *sheet_B;
 
 	if (gtk_tree_view_get_n_columns (tv) == 0) {
@@ -679,10 +662,8 @@ cb_compare_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	state->has_cell_section = FALSE;
 	state->has_style_section = FALSE;
 
-	w = go_option_menu_get_history (GO_OPTION_MENU (state->sheet_sel_A));
-	sheet_A = w ? g_object_get_data (G_OBJECT (w), "sheet") : NULL;
-	w = go_option_menu_get_history (GO_OPTION_MENU (state->sheet_sel_B));
-	sheet_B = w ? g_object_get_data (G_OBJECT (w), "sheet") : NULL;
+	sheet_A = gnm_sheet_sel_get_sheet (GNM_SHEET_SEL (state->sheet_sel_A));
+	sheet_B = gnm_sheet_sel_get_sheet (GNM_SHEET_SEL (state->sheet_sel_B));
 
 	if (sheet_A && sheet_B) {
 		state->results = ts;
@@ -738,21 +719,21 @@ dialog_sheet_compare (WBCGtk *wbcg)
 				     width / 4 * 40,
 				     height * 10);
 
-	state->sheet_sel_A = create_sheet_selector (FALSE);
-	state->wb_sel_A = create_wb_selector (state, state->sheet_sel_A,
-					      wb, FALSE);
+	state->sheet_sel_A = gnm_sheet_sel_new ();
+	state->wb_sel_A = create_wb_selector (state, state->sheet_sel_A);
 	go_gtk_widget_replace (go_gtk_builder_get_widget (gui, "sheet_selector_A"),
 			       state->sheet_sel_A);
 	go_gtk_widget_replace (go_gtk_builder_get_widget (gui, "wb_selector_A"),
 			       state->wb_sel_A);
 
-	state->sheet_sel_B = create_sheet_selector (TRUE);
-	state->wb_sel_B = create_wb_selector (state, state->sheet_sel_B,
-					      wb, TRUE);
+	state->sheet_sel_B = gnm_sheet_sel_new ();
+	state->wb_sel_B = create_wb_selector (state, state->sheet_sel_B);
 	go_gtk_widget_replace (go_gtk_builder_get_widget (gui, "sheet_selector_B"),
 			       state->sheet_sel_B);
 	go_gtk_widget_replace (go_gtk_builder_get_widget (gui, "wb_selector_B"),
 			       state->wb_sel_B);
+
+	select_default_sheets (state);
 
 #define CONNECT(o,s,c) g_signal_connect(G_OBJECT(o),s,G_CALLBACK(c),state)
 	CONNECT (state->cancel_btn, "clicked", cb_cancel_clicked);
