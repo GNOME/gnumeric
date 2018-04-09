@@ -90,6 +90,15 @@ cb_changed (GOOptionMenu *om, GnmWorkbookSel *wbs)
 	gnm_workbook_sel_set_workbook (wbs, wb);
 }
 
+static gint
+doc_order (gconstpointer a_, gconstpointer b_)
+{
+	GODoc *a = (GODoc *)a_;
+	GODoc *b = (GODoc *)b_;
+
+	return go_str_compare (go_doc_get_uri (a), go_doc_get_uri (b));
+}
+
 static void
 gnm_workbook_sel_init (GnmWorkbookSel *wbs)
 {
@@ -98,7 +107,9 @@ gnm_workbook_sel_init (GnmWorkbookSel *wbs)
 
         menu = GTK_MENU (gtk_menu_new ());
 
-	wb_list = gnm_app_workbook_list ();
+	wb_list = g_list_copy (gnm_app_workbook_list ());
+	wb_list = g_list_sort (wb_list, doc_order);
+
 	for (l = wb_list; l; l = l->next) {
 		Workbook *wb = l->data;
 		GtkWidget *item, *child;
@@ -139,6 +150,8 @@ gnm_workbook_sel_init (GnmWorkbookSel *wbs)
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		g_object_set_data (G_OBJECT (item), WB_KEY, wb);
 	}
+
+	g_list_free (wb_list);
 
 	gtk_widget_show_all (GTK_WIDGET (menu));
 	go_option_menu_set_menu (&wbs->parent, GTK_WIDGET (menu));
