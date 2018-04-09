@@ -51,7 +51,7 @@ enum {
 	SOURCE_COLUMN,
 	PIXMAP_COLUMN,
 	IS_EDITABLE_COLUMN,
-	NUM_COLMNS
+	NUM_COLUMNS
 };
 
 typedef struct {
@@ -412,7 +412,7 @@ setup_widgets (ConsolidateState *state, GtkBuilder *gui)
 						(gui,
 						 "source_treeview"));
 	state->source_areas = GTK_TREE_MODEL(gtk_list_store_new
-						 (NUM_COLMNS,
+						 (NUM_COLUMNS,
 						  G_TYPE_STRING,
 						  GDK_TYPE_PIXBUF,
 						  G_TYPE_INT));

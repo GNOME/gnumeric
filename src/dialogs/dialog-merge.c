@@ -65,7 +65,7 @@ typedef struct {
 enum {
 	DATA_RANGE,
 	FIELD_LOCATION,
-	NUM_COLMNS
+	NUM_COLUMNS
 };
 
 static void
@@ -369,7 +369,7 @@ dialog_merge (WBCGtk *wbcg)
 	gtk_grid_attach (grid, GTK_WIDGET (state->field), 1, 5, 1, 1);
 
 	scrolled = go_gtk_builder_get_widget (state->gui, "scrolled");
-	state->model = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_STRING);
+	state->model = gtk_list_store_new (NUM_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
 	state->list = GTK_TREE_VIEW (gtk_tree_view_new_with_model
 					   (GTK_TREE_MODEL (state->model)));
 	selection = gtk_tree_view_get_selection (state->list);

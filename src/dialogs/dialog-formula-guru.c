@@ -99,7 +99,7 @@ enum {
 	MAX_ARG,
 	FUNCTION,
         ARG_TOOLTIP,
-	NUM_COLMNS
+	NUM_COLUMNS
 };
 
 static void dialog_formula_guru_update_parent (GtkTreeIter *child, FormulaGuruState *state,
@@ -876,7 +876,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 
 	/* Set-up treeview */
 	scrolled = go_gtk_builder_get_widget (state->gui, "scrolled");
-	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_BOOLEAN,
+	state->model = gtk_tree_store_new (NUM_COLUMNS, G_TYPE_STRING, G_TYPE_BOOLEAN,
 					   G_TYPE_STRING, G_TYPE_STRING,
 					   G_TYPE_INT, G_TYPE_INT, G_TYPE_POINTER,
 					   G_TYPE_STRING);

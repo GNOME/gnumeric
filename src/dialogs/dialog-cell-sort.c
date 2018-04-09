@@ -100,7 +100,7 @@ enum {
 	ITEM_SORT_BY_VALUE,
 	ITEM_MOVE_FORMAT,
 	ITEM_NUMBER,
-	NUM_COLMNS
+	NUM_COLUMNS
 };
 
 static const gint MAX_MENU_SIZE = 20;
@@ -990,7 +990,7 @@ dialog_init (SortFlowState *state)
 
 	/* Set-up tree view */
 	scrolled = go_gtk_builder_get_widget (state->gui, "scrolled_cell_sort_list");
-	state->model = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING,
+	state->model = gtk_list_store_new (NUM_COLUMNS, G_TYPE_STRING,
 					   G_TYPE_STRING, G_TYPE_BOOLEAN,
 					   GDK_TYPE_PIXBUF, G_TYPE_BOOLEAN,
 					   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,

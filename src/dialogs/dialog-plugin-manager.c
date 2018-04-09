@@ -73,17 +73,17 @@ enum {
 	PLUGIN_ACTIVE,
 	PLUGIN_SWITCHABLE,
 	PLUGIN_POINTER,
-	NUM_COLMNS
+	NUM_COLUMNS
 };
 enum {
 	DIR_NAME,
 	DIR_IS_SYSTEM,
-	DIR_NUM_COLMNS
+	DIR_NUM_COLUMNS
 };
 enum {
 	DETAILS_DESC,
 	DETAILS_ID,
-	DETAILS_NUM_COLMNS
+	DETAILS_NUM_COLUMNS
 };
 
 
@@ -672,7 +672,7 @@ dialog_plugin_manager (WBCGtk *wbcg)
 							    (gui, "checkbutton_install_new"));
 
 	pm_gui->model_plugins = gtk_list_store_new (
-		NUM_COLMNS, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_POINTER);
+		NUM_COLUMNS, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_POINTER);
 	pm_gui->list_plugins = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_plugins)));
 	pm_gui->selection = gtk_tree_view_get_selection (pm_gui->list_plugins);
@@ -705,7 +705,7 @@ dialog_plugin_manager (WBCGtk *wbcg)
 	pm_gui->entry_directory = GTK_ENTRY (go_gtk_builder_get_widget (gui, "entry_directory"));
 
 	pm_gui->model_details = gtk_tree_store_new (
-		DETAILS_NUM_COLMNS, G_TYPE_STRING, G_TYPE_STRING);
+		DETAILS_NUM_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
 	pm_gui->view_details = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_details)));
 	column = gtk_tree_view_column_new_with_attributes (
@@ -726,7 +726,7 @@ dialog_plugin_manager (WBCGtk *wbcg)
 
 	/* Set-up directories page */
 
-	pm_gui->model_directories = gtk_list_store_new (DIR_NUM_COLMNS, G_TYPE_STRING,
+	pm_gui->model_directories = gtk_list_store_new (DIR_NUM_COLUMNS, G_TYPE_STRING,
 							G_TYPE_BOOLEAN);
 	pm_gui->list_directories = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_directories)));

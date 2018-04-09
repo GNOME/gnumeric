@@ -96,7 +96,7 @@ enum {
 	CAT_NAME,
 	CATEGORY,
 	CAT_SEPARATOR,
-	NUM_COLMNS
+	NUM_COLUMNS
 };
 enum {
 	FUN_NAME,
@@ -1200,7 +1200,7 @@ dialog_function_select_init (FunctionSelectState *state)
 	state->cb = GTK_COMBO_BOX
 		(go_gtk_builder_get_widget (state->gui, "category-box"));
 	state->model = gtk_list_store_new
-		(NUM_COLMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
+		(NUM_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
 
 	gtk_combo_box_set_model (state->cb, GTK_TREE_MODEL (state->model));
 	g_object_unref (state->model);

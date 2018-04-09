@@ -92,7 +92,7 @@ enum {
 	ITEM_PASTABLE,
 	ITEM_PASTE_IMAGE,
 	ITEM_VISIBLE,
-	NUM_COLMNS
+	NUM_COLUMNS
 };
 
 typedef enum {
@@ -1073,7 +1073,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 					   state->wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 	state->model	 = gtk_tree_store_new
-		(NUM_COLMNS,
+		(NUM_COLUMNS,
 		 G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING,
 		 G_TYPE_INT, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
 		 GDK_TYPE_PIXBUF, GDK_TYPE_PIXBUF,
