@@ -32,7 +32,7 @@
 #include <ranges.h>
 #include <cell.h>
 #include <sheet-style.h>
-#include <application.h>
+#include <widgets/gnm-workbook-sel.h>
 
 #define SHEET_COMPARE_KEY          "sheet-compare-dialog"
 
@@ -163,72 +163,9 @@ static GtkWidget *
 create_wb_selector (SheetCompare *state, GtkWidget *sheet_sel,
 		    Workbook *wb0, gboolean qnew)
 {
-	GtkMenu *menu;
-	GOOptionMenu *om;
-	GList *l, *wbs;
-	GtkWidget *act = NULL;
-
-	om = GO_OPTION_MENU (go_option_menu_new ());
-        menu = GTK_MENU (gtk_menu_new ());
-
-	wbs = gnm_app_workbook_list ();
-	for (l = wbs; l; l = l->next) {
-		Workbook *wb = l->data;
-		GtkWidget *item, *child;
-		const char *uri;
-		char *markup, *shortname, *filename, *dirname, *longname, *duri;
-
-		uri = go_doc_get_uri (GO_DOC (wb));
-		filename = go_filename_from_uri (uri);
-		if (filename) {
-			shortname = g_filename_display_basename (filename);
-		} else {
-			shortname = g_filename_display_basename (uri);
-		}
-
-		dirname = g_path_get_dirname (filename);
-		duri = g_uri_unescape_string (dirname, NULL);
-		longname = duri
-			? g_filename_display_name (duri)
-			: g_strdup (uri);
-
-		markup = g_markup_printf_escaped
-			(_("%s\n<small>%s</small>"),
-			 shortname, longname);
-
-		item = gtk_menu_item_new_with_label ("");
-		child = gtk_bin_get_child (GTK_BIN (item));
-		gtk_label_set_markup (GTK_LABEL (child), markup);
-		gtk_label_set_ellipsize (GTK_LABEL (child), PANGO_ELLIPSIZE_MIDDLE);
-
-		g_free (markup);
-		g_free (shortname);
-		g_free (dirname);
-		g_free (longname);
-		g_free (duri);
-		g_free (filename);
-
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-		g_object_set_data (G_OBJECT (item), "wb", wb);
-		if (wb == wb0)
-			act = item;
-	}
-
-	gtk_widget_show_all (GTK_WIDGET (menu));
-	go_option_menu_set_menu (om, GTK_WIDGET (menu));
-
-	if (act)
-		go_option_menu_select_item (om, GTK_MENU_ITEM (act));
-
-	reset_sheet_menu (sheet_sel, WORKBOOK (wbs->data),
-			  qnew ? 1 : 0);
-
-	g_object_set_data (G_OBJECT (om), "sheet_sel", sheet_sel);
-
-	g_signal_connect (G_OBJECT (om), "changed",
-                          G_CALLBACK (cb_wb_changed), state);
-
-	return GTK_WIDGET (om);
+	GtkWidget *res = gnm_workbook_sel_new ();
+	gnm_workbook_sel_set_workbook (GNM_WORKBOOK_SEL (res), wb0);
+	return res;
 }
 
 /* ------------------------------------------------------------------------- */

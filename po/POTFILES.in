@@ -389,6 +389,7 @@ src/widgets/gnm-fontbutton.c
 src/widgets/gnm-format-sel.c
 src/widgets/gnm-sheet-slicer-combo-view.c
 src/widgets/gnm-so-anchor-mode-chooser.c
+src/widgets/gnm-workbook-sel.c
 src/widgets/gnumeric-cell-renderer-expr-entry.c
 src/widgets/gnumeric-cell-renderer-text.c
 src/widgets/gnumeric-cell-renderer-toggle.c

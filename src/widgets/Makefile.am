@@ -29,6 +29,8 @@ libwidgets_la_SOURCES =				\
 	gnm-sheet-slicer-combo-view.h		\
 	gnm-so-anchor-mode-chooser.c		\
 	gnm-so-anchor-mode-chooser.h		\
+	gnm-workbook-sel.c			\
+	gnm-workbook-sel.h			\
 	gnumeric-cell-renderer-text.c		\
 	gnumeric-cell-renderer-text.h		\
 	gnumeric-cell-renderer-expr-entry.c	\
