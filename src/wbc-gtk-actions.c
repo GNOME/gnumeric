@@ -914,6 +914,7 @@ static GNM_ACTION_DEF (cb_tools_solver)         { dialog_solver (wbcg, wbcg_cur_
 static GNM_ACTION_DEF (cb_tools_scenario_add)	{ dialog_scenario_add (wbcg); }
 static GNM_ACTION_DEF (cb_tools_scenarios)	{ dialog_scenarios (wbcg); }
 static GNM_ACTION_DEF (cb_tools_simulation)	{ dialog_simulation (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_compare)	{ dialog_sheet_compare (wbcg); }
 static GNM_ACTION_DEF (cb_tools_anova_one_factor) { dialog_anova_single_factor_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_anova_two_factor) { dialog_anova_two_factor_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_chi_square_independence) { dialog_chi_square_tool (wbcg, wbcg_cur_sheet (wbcg), TRUE); }
@@ -2911,6 +2912,11 @@ static GnmActionEntry const actions[] = {
 	  .tooltip = N_("Test decision alternatives by using Monte Carlo "
 		   "simulation to find out probable outputs and risks related to them"),
 	  .callback = G_CALLBACK (cb_tools_simulation)
+	},
+	{ .name = "ToolsCompare",
+	  .label = N_("Compare Sheets..."),
+	  .tooltip = N_("Find differences between two sheets"),
+	  .callback = G_CALLBACK (cb_tools_compare)
 	},
 
 /* Tools -> Scenarios */

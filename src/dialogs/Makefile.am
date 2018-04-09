@@ -64,6 +64,7 @@ libdialogs_la_SOURCES =					\
 	dialog-scenarios.c				\
 	dialog-search.c					\
 	dialog-search-replace.c				\
+	dialog-sheet-compare.c				\
 	dialog-sheet-order.c				\
 	dialog-sheet-rename.c				\
 	dialog-sheet-resize.c				\
@@ -160,6 +161,7 @@ embedded_uis =					\
 	scenario-manager.ui			\
 	search-replace.ui			\
 	search.ui				\
+	sheet-compare.ui			\
 	sheet-order.ui				\
 	sheet-rename.ui				\
 	sheet-resize.ui				\

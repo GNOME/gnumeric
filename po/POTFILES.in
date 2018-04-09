@@ -182,6 +182,7 @@ src/dialogs/dialog-row-height.c
 src/dialogs/dialog-scenarios.c
 src/dialogs/dialog-search-replace.c
 src/dialogs/dialog-search.c
+src/dialogs/dialog-sheet-compare.c
 src/dialogs/dialog-sheet-order.c
 src/dialogs/dialog-sheetobject-size.c
 src/dialogs/dialog-shuffle.c
@@ -265,6 +266,7 @@ src/dialogs/dialog-zoom.c
 [type: gettext/glade]src/dialogs/search-replace.ui
 [type: gettext/glade]src/dialogs/search.ui
 [type: gettext/glade]src/dialogs/sheetobject-size.ui
+[type: gettext/glade]src/dialogs/sheet-compare.ui
 [type: gettext/glade]src/dialogs/sheet-order.ui
 [type: gettext/glade]src/dialogs/sheet-rename.ui
 [type: gettext/glade]src/dialogs/sheet-resize.ui

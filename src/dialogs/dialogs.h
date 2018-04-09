@@ -57,6 +57,7 @@ void	 dialog_autosave	(WBCGtk *wbcg);
 gboolean dialog_autosave_prompt	(WBCGtk *wbcg);
 void     dialog_autoformat	(WBCGtk *wbcg);
 void     dialog_consolidate	(WBCGtk *wbcg);
+void     dialog_sheet_compare   (WBCGtk *wbcg);
 void     dialog_sheet_order	(WBCGtk *wbcg);
 void     dialog_sheet_resize    (WBCGtk *wbcg);
 void     dialog_sheet_rename    (WBCGtk *wbcg, Sheet *sheet);
