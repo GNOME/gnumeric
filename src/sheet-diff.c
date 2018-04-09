@@ -366,6 +366,8 @@ real_diff_sheets (GnmDiffIState *istate, Sheet *old_sheet, Sheet *new_sheet)
 	istate->old_sheet = old_sheet;
 	istate->new_sheet = new_sheet;
 
+	DISPATCH(sheet_start) (istate->user, old_sheet, new_sheet);
+
 	range_init_full_sheet (&or, old_sheet);
 	range_init_full_sheet (&nr, new_sheet);
 	range_intersection (&istate->common_range, &or, &nr);
@@ -376,6 +378,8 @@ real_diff_sheets (GnmDiffIState *istate, Sheet *old_sheet, Sheet *new_sheet)
 	diff_sheets_colrow (istate, FALSE);
 	diff_sheets_cells (istate);
 	diff_sheets_styles (istate);
+
+	DISPATCH(sheet_end) (istate->user);
 
 	istate->old_sheet = istate->new_sheet = NULL;
 }
@@ -422,18 +426,18 @@ real_diff_workbooks (GnmDiffIState *istate,
 		Sheet *old_sheet = workbook_sheet_by_index (old_wb, i);
 		Sheet *new_sheet = workbook_sheet_by_name (new_wb,
 							   old_sheet->name_unquoted);
-		DISPATCH(sheet_start) (istate->user, old_sheet, new_sheet);
-
 		if (new_sheet) {
 			if (new_sheet->index_in_wb < last_index)
 				sheet_order_changed = TRUE;
 			last_index = new_sheet->index_in_wb;
 
 			real_diff_sheets (istate, old_sheet, new_sheet);
-		} else
+		} else {
 			istate->diff_found = TRUE;
+			DISPATCH(sheet_start) (istate->user, old_sheet, new_sheet);
+			DISPATCH(sheet_end) (istate->user);
+		}
 
-		DISPATCH(sheet_end) (istate->user);
 	}
 
 	count = workbook_sheet_count (new_wb);
