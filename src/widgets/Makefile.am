@@ -25,6 +25,8 @@ libwidgets_la_SOURCES =				\
 	gnm-filter-combo-view.h			\
 	gnm-validation-combo-view.c		\
 	gnm-validation-combo-view.h		\
+	gnm-sheet-sel.c				\
+	gnm-sheet-sel.h				\
 	gnm-sheet-slicer-combo-view.c		\
 	gnm-sheet-slicer-combo-view.h		\
 	gnm-so-anchor-mode-chooser.c		\

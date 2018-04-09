@@ -49,7 +49,7 @@ gnm_workbook_sel_set_workbook (GnmWorkbookSel *wbs, Workbook *wb)
 
 	g_return_if_fail (GNM_IS_WORKBOOK_SEL (wbs));
 
-	if (wb == wbs->wb);
+	if (wb == wbs->wb)
 		return;
 
 	menu = go_option_menu_get_menu (&wbs->parent);
@@ -151,13 +151,13 @@ gnm_workbook_sel_init (GnmWorkbookSel *wbs)
 		g_object_set_data (G_OBJECT (item), WB_KEY, wb);
 	}
 
-	g_list_free (wb_list);
-
 	gtk_widget_show_all (GTK_WIDGET (menu));
 	go_option_menu_set_menu (&wbs->parent, GTK_WIDGET (menu));
 
 	if (wb_list)
 		gnm_workbook_sel_set_workbook (wbs, wb_list->data);
+
+	g_list_free (wb_list);
 
 	g_signal_connect (G_OBJECT (&wbs->parent), "changed",
                           G_CALLBACK (cb_changed), wbs);
