@@ -30,13 +30,30 @@
 #include <workbook.h>
 #include <sheet.h>
 #include <ranges.h>
+#include <cell.h>
 #include <application.h>
 
 #define SHEET_COMPARE_KEY          "sheet-compare-dialog"
 
 enum {
-	ITEM_DESC,
-	NUM_COLMNS
+	ITEM_SECTION,
+	ITEM_DIRECTION,
+	ITEM_OLD_LOC,
+	ITEM_NEW_LOC,
+	NUM_COLUMNS
+};
+
+enum {
+	SEC_CELLS,
+	SEC_STYLE
+};
+
+enum {
+	DIR_NA,
+	DIR_ADDED,
+	DIR_REMOVED,
+	DIR_CHANGED,
+	DIR_QUIET // Like CHANGED, but for always-changed context
 };
 
 
@@ -54,6 +71,7 @@ typedef struct {
 	GtkWidget *sheet_sel_B;
 	GtkWidget *wb_sel_A;
 	GtkWidget *wb_sel_B;
+	GtkWidget *results_window;
 
 	GtkTreeView *results_view;
 	GtkTreeStore *results;
@@ -63,6 +81,9 @@ typedef struct {
 
 	gboolean has_style_section;
 	GtkTreeIter style_section_iter;
+
+	Sheet *old_sheet;
+	Sheet *new_sheet;
 } SheetCompare;
 
 
@@ -211,40 +232,193 @@ create_wb_selector (SheetCompare *state, GtkWidget *sheet_sel,
 /* ------------------------------------------------------------------------- */
 
 static void
+setup_section (SheetCompare *state, gboolean *phas, GtkTreeIter *iter,
+	       int section)
+{
+	if (!*phas) {
+		gtk_tree_store_insert (state->results, iter, NULL, -1);
+		gtk_tree_store_set (state->results, iter,
+				    ITEM_SECTION, section,
+				    ITEM_DIRECTION, DIR_NA,
+				    -1);
+		*phas = TRUE;
+	}
+}
+
+static void
+extract_range (GnmRangeRef const *rr, GnmRange *r, Sheet **psheet)
+{
+	*psheet = rr->a.sheet;
+	r->start.col = rr->a.col;
+	r->start.row = rr->a.row;
+	r->end.col = rr->b.col;
+	r->end.row = rr->b.row;
+}
+
+static void
+section_renderer_func (GtkTreeViewColumn *tree_column,
+		       GtkCellRenderer   *cell,
+		       GtkTreeModel      *model,
+		       GtkTreeIter       *iter,
+		       gpointer           user_data)
+{
+	int section, dir;
+	const char *text = "?";
+
+	gtk_tree_model_get (model, iter,
+			    ITEM_SECTION, &section,
+			    ITEM_DIRECTION, &dir,
+			    -1);
+	switch (dir) {
+	case DIR_NA:
+		switch (section) {
+		case SEC_CELLS: text = _("Cells"); break;
+		case SEC_STYLE: text = _("Formatting"); break;
+		}
+		break;
+	case DIR_QUIET: text = ""; break;
+	case DIR_ADDED: text = _("Added"); break;
+	case DIR_REMOVED: text = _("Removed"); break;
+	case DIR_CHANGED: text = _("Changed"); break;
+	}
+
+	g_object_set (cell, "text", text, NULL);
+}
+
+static void
+location_renderer_func (GtkTreeViewColumn *tree_column,
+			GtkCellRenderer   *cell,
+			GtkTreeModel      *model,
+			GtkTreeIter       *iter,
+			gpointer           user_data)
+{
+	GnmRangeRef *loc_old = NULL;
+	GnmRangeRef *loc_new = NULL;
+	GnmRangeRef *loc;
+
+	gtk_tree_model_get (model, iter,
+			    ITEM_OLD_LOC, &loc_new,
+			    ITEM_NEW_LOC, &loc_old,
+			    -1);
+
+	loc = loc_old ? loc_old : loc_new;
+	if (loc) {
+		GnmRange r;
+		Sheet *sheet;
+		extract_range (loc, &r, &sheet);
+		g_object_set (cell, "text", range_as_string (&r), NULL);
+	} else
+		g_object_set (cell, "text", "", NULL);
+
+	g_free (loc_old);
+	g_free (loc_new);
+}
+
+static void
+oldnew_renderer_func (GtkTreeViewColumn *tree_column,
+		      GtkCellRenderer   *cell,
+		      GtkTreeModel      *model,
+		      GtkTreeIter       *iter,
+		      gpointer           user_data)
+{
+	gboolean qnew = GPOINTER_TO_UINT (user_data);
+
+	GnmRangeRef *loc = NULL;
+	int section, dir;
+	char *text = NULL;
+
+	gtk_tree_model_get (model, iter,
+			    ITEM_SECTION, &section,
+			    ITEM_DIRECTION, &dir,
+			    (qnew ? ITEM_NEW_LOC : ITEM_OLD_LOC), &loc,
+			    -1);
+	if (dir == DIR_NA)
+		goto done;
+
+	if (section == SEC_CELLS) {
+		GnmCell const *cell;
+
+		if (!loc)
+			goto done;
+		cell = sheet_cell_get (loc->a.sheet, loc->a.col, loc->a.row);
+		if (!cell)
+			goto error;
+		text = gnm_cell_get_entered_text (cell);
+	} else if (section == SEC_STYLE) {
+		// TBD
+	}
+
+done:
+	g_object_set (cell, "text", (text ? text : ""), NULL);
+	g_free (text);
+
+	g_free (loc);
+	return;
+
+error:
+	text = g_strdup ("?");
+	goto done;
+}
+
+static void
+dsc_sheet_start (gpointer user, Sheet const *os, Sheet const *ns)
+{
+	SheetCompare *state = user;
+	state->old_sheet = (Sheet *)os;
+	state->new_sheet = (Sheet *)ns;
+}
+
+static void
+dsc_sheet_end (gpointer user)
+{
+	SheetCompare *state = user;
+	state->old_sheet = NULL;
+	state->new_sheet = NULL;
+}
+
+static void
 dsc_cell_changed (gpointer user, GnmCell const *oc, GnmCell const *nc)
 {
 	SheetCompare *state = user;
 	GtkTreeIter iter;
-	char *text;
-	const char *loc;
+	int dir;
 
-	if (!state->has_cell_section) {
-		gtk_tree_store_insert (state->results,
-				       &state->cell_section_iter,
-				       NULL, -1);
-		gtk_tree_store_set (state->results,
-				    &state->cell_section_iter,
-				    ITEM_DESC, _("Cells"),
-				    -1);
-		state->has_cell_section = TRUE;
-	}
+	setup_section (state,
+		       &state->has_cell_section,
+		       &state->cell_section_iter,
+		       SEC_CELLS);
 
-	loc = cell_name (oc ? oc : nc);
-	if (oc && nc)
-		text = g_strdup_printf (_("Cell %s changed"), loc);
-	else if (oc)
-		text = g_strdup_printf (_("Cell %s removed."), loc);
-	else if (nc)
-		text = g_strdup_printf (_("Cell %s added."), loc);
-	else
-		g_assert_not_reached ();
+	dir = (oc ? (nc ? DIR_CHANGED : DIR_REMOVED) : DIR_ADDED);
+
 	gtk_tree_store_insert (state->results, &iter,
 			       &state->cell_section_iter,
 			       -1);
 	gtk_tree_store_set (state->results, &iter,
-			    ITEM_DESC, text,
+			    ITEM_SECTION, SEC_CELLS,
+			    ITEM_DIRECTION, dir,
 			    -1);
-	g_free (text);
+
+	if (oc) {
+		GnmRangeRef loc;
+		gnm_cellref_init (&loc.a, oc->base.sheet,
+				  oc->pos.col, oc->pos.row,
+				  FALSE);
+		loc.b = loc.a;
+		gtk_tree_store_set (state->results, &iter,
+				    ITEM_OLD_LOC, &loc,
+				    -1);
+	}
+
+	if (nc) {
+		GnmRangeRef loc;
+		gnm_cellref_init (&loc.a, nc->base.sheet,
+				  nc->pos.col, nc->pos.row,
+				  FALSE);
+		loc.b = loc.a;
+		gtk_tree_store_set (state->results, &iter,
+				    ITEM_NEW_LOC, &loc,
+				    -1);
+	}
 }
 
 static void
@@ -254,31 +428,36 @@ dsc_style_changed (gpointer user, GnmRange const *r,
 {
 	SheetCompare *state = user;
 	GtkTreeIter iter;
-	char *text;
+	GnmRangeRef loc_old, loc_new;
 
-	if (!state->has_style_section) {
-		gtk_tree_store_insert (state->results,
-				       &state->style_section_iter,
-				       NULL, -1);
-		gtk_tree_store_set (state->results,
-				    &state->style_section_iter,
-				    ITEM_DESC, _("Formatting"),
-				    -1);
-		state->has_style_section = TRUE;
-	}
+	setup_section (state,
+		       &state->has_style_section,
+		       &state->style_section_iter,
+		       SEC_STYLE);
 
-	text = g_strdup_printf (_("Style for range %s changed"),
-				range_as_string (r));
+	gnm_cellref_init (&loc_old.a, state->old_sheet,
+			  r->start.col, r->start.row,
+			  FALSE);
+	gnm_cellref_init (&loc_old.b, state->old_sheet,
+			  r->end.col, r->end.row,
+			  FALSE);
+	loc_new = loc_old;
+	loc_new.a.sheet = loc_new.b.sheet = state->new_sheet;
+
 	gtk_tree_store_insert (state->results, &iter,
 			       &state->style_section_iter,
 			       -1);
 	gtk_tree_store_set (state->results, &iter,
-			    ITEM_DESC, text,
+			    ITEM_SECTION, SEC_STYLE,
+			    ITEM_DIRECTION, DIR_QUIET,
+			    ITEM_OLD_LOC, &loc_old,
+			    ITEM_NEW_LOC, &loc_new,
 			    -1);
-	g_free (text);
 }
 
 static const GnmDiffActions dsc_actions = {
+	.sheet_start = dsc_sheet_start,
+	.sheet_end = dsc_sheet_end,
 	.cell_changed = dsc_cell_changed,
 	.style_changed = dsc_style_changed,
 };
@@ -288,17 +467,51 @@ cb_compare_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		    SheetCompare *state)
 {
 	GtkTreeView *tv = state->results_view;
-	GtkTreeStore *ts = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING);
+	GtkTreeStore *ts = gtk_tree_store_new
+		(NUM_COLUMNS,
+		 G_TYPE_INT, // Enum, really
+		 G_TYPE_INT, // Enum, really
+		 gnm_rangeref_get_type (),
+		 gnm_rangeref_get_type ());
 	GtkWidget *w;
 	Sheet *sheet_A, *sheet_B;
 
 	if (gtk_tree_view_get_n_columns (tv) == 0) {
 		GtkTreeViewColumn *tvc;
+		GtkCellRenderer *cr;
 
-		tvc = gtk_tree_view_column_new_with_attributes
-			(_("Description"),
-			 gtk_cell_renderer_text_new (),
-			 "text", ITEM_DESC, NULL);
+		tvc = gtk_tree_view_column_new ();
+		cr = gtk_cell_renderer_text_new ();
+		gtk_tree_view_column_set_title (tvc, _("Description"));
+		gtk_tree_view_column_set_cell_data_func
+			(tvc, cr, section_renderer_func, NULL, NULL);
+		gtk_tree_view_column_pack_start (tvc, cr, TRUE);
+		gtk_tree_view_append_column (tv, tvc);
+
+		tvc = gtk_tree_view_column_new ();
+		cr = gtk_cell_renderer_text_new ();
+		gtk_tree_view_column_set_title (tvc, _("Location"));
+		gtk_tree_view_column_set_cell_data_func
+			(tvc, cr, location_renderer_func, NULL, NULL);
+		gtk_tree_view_column_pack_start (tvc, cr, TRUE);
+		gtk_tree_view_append_column (tv, tvc);
+
+		tvc = gtk_tree_view_column_new ();
+		cr = gtk_cell_renderer_text_new ();
+		gtk_tree_view_column_set_title (tvc, _("Old"));
+		gtk_tree_view_column_set_cell_data_func
+			(tvc, cr, oldnew_renderer_func,
+			 GUINT_TO_POINTER (FALSE), NULL);
+		gtk_tree_view_column_pack_start (tvc, cr, TRUE);
+		gtk_tree_view_append_column (tv, tvc);
+
+		tvc = gtk_tree_view_column_new ();
+		cr = gtk_cell_renderer_text_new ();
+		gtk_tree_view_column_set_title (tvc, _("New"));
+		gtk_tree_view_column_set_cell_data_func
+			(tvc, cr, oldnew_renderer_func,
+			 GUINT_TO_POINTER (TRUE), NULL);
+		gtk_tree_view_column_pack_start (tvc, cr, TRUE);
 		gtk_tree_view_append_column (tv, tvc);
 	}
 
@@ -327,6 +540,8 @@ dialog_sheet_compare (WBCGtk *wbcg)
 	SheetCompare *state;
 	GtkBuilder *gui;
 	Workbook *wb;
+	PangoLayout *layout;
+	int height, width;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -340,6 +555,9 @@ dialog_sheet_compare (WBCGtk *wbcg)
 	if (gnm_dialog_raise_if_exists (wbcg, SHEET_COMPARE_KEY))
 		return;
 
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (wbcg_toplevel (wbcg)), "Mg19");
+	pango_layout_get_pixel_size (layout, &width, &height);
+	g_object_unref (layout);
 
 	g_object_set_data (G_OBJECT (wb), SHEET_COMPARE_KEY, (gpointer) gui);
 	state = g_new0 (SheetCompare, 1);
@@ -349,7 +567,12 @@ dialog_sheet_compare (WBCGtk *wbcg)
 	state->notebook = go_gtk_builder_get_widget (gui, "notebook");
 	state->cancel_btn = go_gtk_builder_get_widget (gui, "cancel_button");
 	state->compare_btn = go_gtk_builder_get_widget (gui, "compare_button");
+	state->results_window = go_gtk_builder_get_widget (gui, "results_window");
 	state->results_view = GTK_TREE_VIEW (go_gtk_builder_get_widget (gui, "results_treeview"));
+
+	gtk_widget_set_size_request (state->results_window,
+				     width / 4 * 40,
+				     height * 10);
 
 	state->sheet_sel_A = create_sheet_selector (FALSE);
 	state->wb_sel_A = create_wb_selector (state, state->sheet_sel_A,
