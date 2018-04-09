@@ -43,13 +43,15 @@ enum {
 	ITEM_DIRECTION,
 	ITEM_OLD_LOC,
 	ITEM_NEW_LOC,
-	ITEM_MSTYLE_ELEM,
+	ITEM_NO,
+	ITEM_QCOLS,
 	NUM_COLUMNS
 };
 
 enum {
 	SEC_CELLS,
-	SEC_STYLE
+	SEC_STYLE,
+	SEC_COLROW
 };
 
 enum {
@@ -85,6 +87,9 @@ typedef struct {
 
 	gboolean has_style_section;
 	GtkTreeIter style_section_iter;
+
+	gboolean has_colrow_section;
+	GtkTreeIter colrow_section_iter;
 
 	Sheet *old_sheet;
 	Sheet *new_sheet;
@@ -168,6 +173,17 @@ extract_range (GnmRangeRef const *rr, GnmRange *r, Sheet **psheet)
 	r->end.row = rr->b.row;
 }
 
+static void
+loc_from_range (GnmRangeRef *loc, Sheet *sheet, GnmRange const *r)
+{
+	gnm_cellref_init (&loc->a, sheet,
+			  r->start.col, r->start.row,
+			  FALSE);
+	gnm_cellref_init (&loc->b, sheet,
+			  r->end.col, r->end.row,
+			  FALSE);
+}
+
 static const char *
 get_mstyle_name (int e)
 {
@@ -211,7 +227,7 @@ get_mstyle_name (int e)
 	case MSTYLE_CONDITIONS: return _("Conditional format");
 	default: return "?";
 	}
-};
+}
 
 
 static void
@@ -228,17 +244,27 @@ section_renderer_func (GtkTreeViewColumn *tree_column,
 	gtk_tree_model_get (model, iter,
 			    ITEM_SECTION, &section,
 			    ITEM_DIRECTION, &dir,
-			    ITEM_MSTYLE_ELEM, &e,
+			    ITEM_NO, &e,
 			    -1);
 	switch (dir) {
 	case DIR_NA:
 		switch (section) {
 		case SEC_CELLS: text = _("Cells"); break;
 		case SEC_STYLE: text = _("Formatting"); break;
+		case SEC_COLROW: text = _("Columns/Rows"); break;
 		}
 		break;
 	case DIR_QUIET:
-		text = (e == -1) ? _("Various") : get_mstyle_name (e);
+		switch (section) {
+		case SEC_STYLE:
+			text = (e == -1) ? _("Various") : get_mstyle_name (e);
+			break;
+		case SEC_COLROW:
+			text = _("Size");
+			break;
+		default:
+			text = "";
+		}
 		break;
 	case DIR_ADDED: text = _("Added"); break;
 	case DIR_REMOVED: text = _("Removed"); break;
@@ -268,8 +294,24 @@ location_renderer_func (GtkTreeViewColumn *tree_column,
 	if (loc) {
 		GnmRange r;
 		Sheet *sheet;
+		char *str = NULL;
+		const char *text;
+
 		extract_range (loc, &r, &sheet);
-		g_object_set (cell, "text", range_as_string (&r), NULL);
+
+		if (range_is_full (&r, sheet, TRUE) &&
+		    r.start.row == r.end.row)
+			text = str = g_strdup_printf
+				(_("Row %s"), row_name (r.start.row));
+		else if (range_is_full (&r, sheet, FALSE) &&
+			 r.start.col == r.end.col)
+			text = str = g_strdup_printf
+				(_("Column %s"), col_name (r.start.col));
+		else
+			text = range_as_string (&r);
+
+		g_object_set (cell, "text", text, NULL);
+		g_free (str);
 	} else
 		g_object_set (cell, "text", "", NULL);
 
@@ -382,6 +424,7 @@ oldnew_renderer_func (GtkTreeViewColumn *tree_column,
 	gboolean qnew = GPOINTER_TO_UINT (user_data);
 	GnmRangeRef *loc = NULL;
 	int section, dir, e;
+	gboolean is_cols;
 	char *text = NULL;
 	gboolean qmarkup = FALSE;
 
@@ -389,7 +432,8 @@ oldnew_renderer_func (GtkTreeViewColumn *tree_column,
 			    ITEM_SECTION, &section,
 			    ITEM_DIRECTION, &dir,
 			    (qnew ? ITEM_NEW_LOC : ITEM_OLD_LOC), &loc,
-			    ITEM_MSTYLE_ELEM, &e,
+			    ITEM_NO, &e,
+			    ITEM_QCOLS, &is_cols,
 			    -1);
 	if (dir == DIR_NA || !loc || !loc->a.sheet)
 		goto done;
@@ -475,7 +519,9 @@ oldnew_renderer_func (GtkTreeViewColumn *tree_column,
 		default:
 			text = g_strdup (_("Unavailable"));
 		}
-
+	} else if (section == SEC_COLROW) {
+		ColRowInfo *cr = sheet_colrow_get (loc->a.sheet, e, is_cols);
+		text = g_strdup_printf ("%d pixels", cr->size_pixels);
 	}
 
 done:
@@ -570,14 +616,8 @@ dsc_style_changed (gpointer user, GnmRange const *r,
 		       &state->style_section_iter,
 		       SEC_STYLE);
 
-	gnm_cellref_init (&loc_old.a, state->old_sheet,
-			  r->start.col, r->start.row,
-			  FALSE);
-	gnm_cellref_init (&loc_old.b, state->old_sheet,
-			  r->end.col, r->end.row,
-			  FALSE);
-	loc_new = loc_old;
-	loc_new.a.sheet = loc_new.b.sheet = state->new_sheet;
+	loc_from_range (&loc_old, state->old_sheet, r);
+	loc_from_range (&loc_new, state->new_sheet, r);
 
 	piter = state->style_section_iter;
 	estart = ((conflicts & (conflicts - 1)) == 0 ? 0 : -1);
@@ -594,9 +634,44 @@ dsc_style_changed (gpointer user, GnmRange const *r,
 				    ITEM_DIRECTION, DIR_QUIET,
 				    ITEM_OLD_LOC, &loc_old,
 				    ITEM_NEW_LOC, &loc_new,
-				    ITEM_MSTYLE_ELEM, e,
+				    ITEM_NO, e,
 				    -1);
 	}
+}
+
+static void
+dsc_colrow_changed (gpointer user, ColRowInfo const *oc, ColRowInfo const *nc,
+		    gboolean is_cols, int i)
+{
+	SheetCompare *state = user;
+	GtkTreeIter iter;
+	GnmRangeRef loc_old, loc_new;
+	GnmRange rold, rnew;
+
+	(is_cols ? range_init_cols : range_init_rows)
+		(&rold, state->old_sheet, i, i);
+	loc_from_range (&loc_old, state->old_sheet, &rold);
+
+	(is_cols ? range_init_cols : range_init_rows)
+		(&rnew, state->new_sheet, i, i);
+	loc_from_range (&loc_new, state->new_sheet, &rnew);
+
+	setup_section (state,
+		       &state->has_colrow_section,
+		       &state->colrow_section_iter,
+		       SEC_COLROW);
+
+	gtk_tree_store_insert (state->results,
+			       &iter, &state->colrow_section_iter, -1);
+
+	gtk_tree_store_set (state->results, &iter,
+			    ITEM_SECTION, SEC_COLROW,
+			    ITEM_DIRECTION, DIR_QUIET,
+			    ITEM_OLD_LOC, &loc_old,
+			    ITEM_NEW_LOC, &loc_new,
+			    ITEM_NO, i,
+			    ITEM_QCOLS, is_cols,
+			    -1);
 }
 
 static const GnmDiffActions dsc_actions = {
@@ -604,6 +679,7 @@ static const GnmDiffActions dsc_actions = {
 	.sheet_end = dsc_sheet_end,
 	.cell_changed = dsc_cell_changed,
 	.style_changed = dsc_style_changed,
+	.colrow_changed = dsc_colrow_changed,
 };
 
 static void
@@ -617,7 +693,8 @@ cb_compare_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		 G_TYPE_INT, // Enum, really
 		 gnm_rangeref_get_type (),
 		 gnm_rangeref_get_type (),
-		 G_TYPE_INT); // GnmStyleElement
+		 G_TYPE_INT,
+		 G_TYPE_BOOLEAN);
 	Sheet *sheet_A, *sheet_B;
 
 	if (gtk_tree_view_get_n_columns (tv) == 0) {
@@ -661,6 +738,7 @@ cb_compare_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 
 	state->has_cell_section = FALSE;
 	state->has_style_section = FALSE;
+	state->has_colrow_section = FALSE;
 
 	sheet_A = gnm_sheet_sel_get_sheet (GNM_SHEET_SEL (state->sheet_sel_A));
 	sheet_B = gnm_sheet_sel_get_sheet (GNM_SHEET_SEL (state->sheet_sel_B));
