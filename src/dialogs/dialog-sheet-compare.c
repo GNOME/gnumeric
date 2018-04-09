@@ -31,6 +31,7 @@
 #include <sheet.h>
 #include <ranges.h>
 #include <cell.h>
+#include <sheet-style.h>
 #include <application.h>
 
 #define SHEET_COMPARE_KEY          "sheet-compare-dialog"
@@ -40,6 +41,7 @@ enum {
 	ITEM_DIRECTION,
 	ITEM_OLD_LOC,
 	ITEM_NEW_LOC,
+	ITEM_MSTYLE_ELEM,
 	NUM_COLUMNS
 };
 
@@ -255,6 +257,52 @@ extract_range (GnmRangeRef const *rr, GnmRange *r, Sheet **psheet)
 	r->end.row = rr->b.row;
 }
 
+static const char *
+get_mstyle_name (int e)
+{
+	switch (e) {
+	case MSTYLE_COLOR_BACK: return _("Background color");
+	case MSTYLE_COLOR_PATTERN: return _("Pattern color");
+
+	case MSTYLE_BORDER_TOP: return _("Top border");
+	case MSTYLE_BORDER_BOTTOM: return _("Bottom border");
+	case MSTYLE_BORDER_LEFT: return _("Left border");
+	case MSTYLE_BORDER_RIGHT: return _("Right border");
+	case MSTYLE_BORDER_REV_DIAGONAL: return _("Reverse diagonal border");
+	case MSTYLE_BORDER_DIAGONAL: return _("Diagonal border");
+	case MSTYLE_PATTERN: return _("Pattern");
+
+	case MSTYLE_FONT_COLOR: return _("Color");
+	case MSTYLE_FONT_NAME: return _("Font");
+	case MSTYLE_FONT_BOLD: return _("Bold");
+	case MSTYLE_FONT_ITALIC: return _("Italic");
+	case MSTYLE_FONT_UNDERLINE: return _("Underline");
+	case MSTYLE_FONT_STRIKETHROUGH: return _("Strikethrough");
+	case MSTYLE_FONT_SCRIPT: return _("Script");
+	case MSTYLE_FONT_SIZE: return _("Size");
+
+	case MSTYLE_FORMAT: return _("Format");
+
+	case MSTYLE_ALIGN_V: return _("Vertical alignment");
+	case MSTYLE_ALIGN_H: return _("Horizontal alignment");
+	case MSTYLE_INDENT: return _("Indentation");
+	case MSTYLE_ROTATION: return _("Rotation");
+	case MSTYLE_TEXT_DIR: return _("Direction");
+	case MSTYLE_WRAP_TEXT: return _("Wrap");
+	case MSTYLE_SHRINK_TO_FIT: return _("Shrink-to-fit");
+
+	case MSTYLE_CONTENTS_LOCKED: return _("Locked");
+	case MSTYLE_CONTENTS_HIDDEN: return _("Hidden");
+
+	case MSTYLE_VALIDATION: return _("Validation");
+	case MSTYLE_HLINK: return _("Hyperlink");
+	case MSTYLE_INPUT_MSG: return _("Input message");
+	case MSTYLE_CONDITIONS: return _("Conditional format");
+	default: return "?";
+	}
+};
+
+
 static void
 section_renderer_func (GtkTreeViewColumn *tree_column,
 		       GtkCellRenderer   *cell,
@@ -264,10 +312,12 @@ section_renderer_func (GtkTreeViewColumn *tree_column,
 {
 	int section, dir;
 	const char *text = "?";
+	int e;
 
 	gtk_tree_model_get (model, iter,
 			    ITEM_SECTION, &section,
 			    ITEM_DIRECTION, &dir,
+			    ITEM_MSTYLE_ELEM, &e,
 			    -1);
 	switch (dir) {
 	case DIR_NA:
@@ -276,7 +326,9 @@ section_renderer_func (GtkTreeViewColumn *tree_column,
 		case SEC_STYLE: text = _("Formatting"); break;
 		}
 		break;
-	case DIR_QUIET: text = ""; break;
+	case DIR_QUIET:
+		text = (e == -1) ? _("Various") : get_mstyle_name (e);
+		break;
 	case DIR_ADDED: text = _("Added"); break;
 	case DIR_REMOVED: text = _("Removed"); break;
 	case DIR_CHANGED: text = _("Changed"); break;
@@ -314,6 +366,91 @@ location_renderer_func (GtkTreeViewColumn *tree_column,
 	g_free (loc_new);
 }
 
+static char *
+do_color (GnmColor const *gcolor)
+{
+	GOColor color = gcolor->go_color;
+	unsigned r, g, b, a;
+	char coltxt[16];
+
+	GO_COLOR_TO_RGBA (color, &r, &g, &b, &a);
+	if (a == 0xff)
+		snprintf (coltxt, sizeof (coltxt), "#%02X%02X%02X", r, g, b);
+	else
+		snprintf (coltxt, sizeof (coltxt), "#%02X%02X%02X%02X", r, g, b, a);
+
+	return g_strdup_printf
+		("%s %s(<span bgcolor=\"%s\">   </span>)",
+		 coltxt,
+		 gcolor->is_auto ? "auto " : "",
+		 coltxt);
+}
+
+static char *
+do_bool (gboolean b)
+{
+	return g_strdup (b ? _("Yes") : _("No"));
+}
+
+static char *
+do_int (int i)
+{
+	return g_strdup_printf ("%d", i);
+}
+
+static char *
+do_double (double d)
+{
+	return g_strdup_printf ("%g", d);
+}
+
+static char *
+do_halign (GnmHAlign h)
+{
+	switch (h) {
+	case GNM_HALIGN_GENERAL: return g_strdup (_("General"));
+	case GNM_HALIGN_LEFT: return g_strdup (_("Left"));
+	case GNM_HALIGN_RIGHT: return g_strdup (_("Right"));
+	case GNM_HALIGN_CENTER: return g_strdup (_("Center"));
+	case GNM_HALIGN_FILL: return g_strdup (_("Fill"));
+	case GNM_HALIGN_JUSTIFY: return g_strdup (_("Justify"));
+	case GNM_HALIGN_CENTER_ACROSS_SELECTION: return g_strdup (_("Center across selection"));
+	case GNM_HALIGN_DISTRIBUTED: return g_strdup (_("Distributed"));
+	default: return g_strdup ("?");
+	}
+}
+
+static char *
+do_valign (GnmVAlign v)
+{
+	switch (v) {
+	case GNM_VALIGN_TOP: return g_strdup (_("Top"));
+	case GNM_VALIGN_BOTTOM: return g_strdup (_("Bottom"));
+	case GNM_VALIGN_CENTER: return g_strdup (_("Center"));
+	case GNM_VALIGN_JUSTIFY: return g_strdup (_("Justify"));
+	case GNM_VALIGN_DISTRIBUTED: return g_strdup (_("Distributed"));
+	default: return g_strdup ("?");
+	}
+}
+
+static const char *underlines[] = {
+	N_("None"), N_("Single"), N_("Double"),
+	N_("Single low"), N_("Double low"), NULL
+};
+
+static const char *textdirs[] = {
+	N_("Right-to-left"), N_("Auto"), N_("Left-to-rightDouble"), NULL
+};
+
+static char *
+do_enum (int i, const char *const choices[])
+{
+	if (i < 0 || i >= (int)g_strv_length ((gchar **)choices))
+		return g_strdup ("?");
+	return g_strdup (_(choices[i]));
+}
+
+
 static void
 oldnew_renderer_func (GtkTreeViewColumn *tree_column,
 		      GtkCellRenderer   *cell,
@@ -322,34 +459,108 @@ oldnew_renderer_func (GtkTreeViewColumn *tree_column,
 		      gpointer           user_data)
 {
 	gboolean qnew = GPOINTER_TO_UINT (user_data);
-
 	GnmRangeRef *loc = NULL;
-	int section, dir;
+	int section, dir, e;
 	char *text = NULL;
+	gboolean qmarkup = FALSE;
 
 	gtk_tree_model_get (model, iter,
 			    ITEM_SECTION, &section,
 			    ITEM_DIRECTION, &dir,
 			    (qnew ? ITEM_NEW_LOC : ITEM_OLD_LOC), &loc,
+			    ITEM_MSTYLE_ELEM, &e,
 			    -1);
-	if (dir == DIR_NA)
+	if (dir == DIR_NA || !loc || !loc->a.sheet)
 		goto done;
 
 	if (section == SEC_CELLS) {
-		GnmCell const *cell;
-
-		if (!loc)
-			goto done;
-		cell = sheet_cell_get (loc->a.sheet, loc->a.col, loc->a.row);
+		GnmCell const *cell =
+			sheet_cell_get (loc->a.sheet, loc->a.col, loc->a.row);
 		if (!cell)
 			goto error;
 		text = gnm_cell_get_entered_text (cell);
 	} else if (section == SEC_STYLE) {
-		// TBD
+		GnmStyle const *style;
+		if (e == -1)
+			goto done;
+
+		style = sheet_style_get (loc->a.sheet, loc->a.col, loc->a.row);
+
+		switch (e) {
+		case MSTYLE_COLOR_BACK:
+			text = do_color (gnm_style_get_back_color (style));
+			qmarkup = TRUE;
+			break;
+		case MSTYLE_COLOR_PATTERN:
+			text = do_color (gnm_style_get_pattern_color (style));
+			qmarkup = TRUE;
+			break;
+		case MSTYLE_FONT_COLOR:
+			text = do_color (gnm_style_get_font_color (style));
+			qmarkup = TRUE;
+			break;
+		case MSTYLE_PATTERN:
+			// TODO: Add api to get pattern name from goffice
+			text = do_int (gnm_style_get_pattern (style));
+			break;
+
+		case MSTYLE_FONT_BOLD:
+			text = do_bool (gnm_style_get_font_bold (style));
+			break;
+		case MSTYLE_FONT_ITALIC:
+			text = do_bool (gnm_style_get_font_italic (style));
+			break;
+		case MSTYLE_FONT_UNDERLINE:
+			text = do_enum (gnm_style_get_font_uline (style),
+					underlines);
+			break;
+		case MSTYLE_FONT_STRIKETHROUGH:
+			text = do_bool (gnm_style_get_font_strike (style));
+			break;
+		case MSTYLE_FONT_SCRIPT:
+			text = do_int (gnm_style_get_font_script (style));
+			break;
+		case MSTYLE_FONT_SIZE:
+			text = do_double (gnm_style_get_font_size (style));
+			break;
+		case MSTYLE_ROTATION:
+			text = do_int (gnm_style_get_rotation (style));
+			break;
+		case MSTYLE_INDENT:
+			text = do_int (gnm_style_get_indent (style));
+			break;
+
+		case MSTYLE_FORMAT:
+			text = g_strdup (go_format_as_XL (gnm_style_get_format (style)));
+			break;
+
+		case MSTYLE_TEXT_DIR:
+			text = do_enum (1 + gnm_style_get_text_dir (style),
+					textdirs);
+			break;
+		case MSTYLE_ALIGN_H:
+			text = do_halign (gnm_style_get_align_h (style));
+			break;
+		case MSTYLE_ALIGN_V:
+			text = do_valign (gnm_style_get_align_v (style));
+			break;
+		case MSTYLE_CONTENTS_LOCKED:
+			text = do_bool (gnm_style_get_contents_locked (style));
+			break;
+		case MSTYLE_CONTENTS_HIDDEN:
+			text = do_bool (gnm_style_get_contents_hidden (style));
+			break;
+
+		default:
+			text = g_strdup (_("Unavailable"));
+		}
+
 	}
 
 done:
-	g_object_set (cell, "text", (text ? text : ""), NULL);
+	g_object_set (cell,
+		      (qmarkup ? "markup" : "text"),
+		      (text ? text : ""), NULL);
 	g_free (text);
 
 	g_free (loc);
@@ -423,12 +634,15 @@ dsc_cell_changed (gpointer user, GnmCell const *oc, GnmCell const *nc)
 
 static void
 dsc_style_changed (gpointer user, GnmRange const *r,
-		   G_GNUC_UNUSED GnmStyle const *os,
-		   G_GNUC_UNUSED GnmStyle const *ns)
+		   GnmStyle const *os, GnmStyle const *ns)
 {
 	SheetCompare *state = user;
-	GtkTreeIter iter;
+	GtkTreeIter iter, piter;
 	GnmRangeRef loc_old, loc_new;
+	unsigned int conflicts;
+	int e, estart;
+
+	conflicts = gnm_style_find_differences (os, ns, TRUE);
 
 	setup_section (state,
 		       &state->has_style_section,
@@ -444,15 +658,24 @@ dsc_style_changed (gpointer user, GnmRange const *r,
 	loc_new = loc_old;
 	loc_new.a.sheet = loc_new.b.sheet = state->new_sheet;
 
-	gtk_tree_store_insert (state->results, &iter,
-			       &state->style_section_iter,
-			       -1);
-	gtk_tree_store_set (state->results, &iter,
-			    ITEM_SECTION, SEC_STYLE,
-			    ITEM_DIRECTION, DIR_QUIET,
-			    ITEM_OLD_LOC, &loc_old,
-			    ITEM_NEW_LOC, &loc_new,
-			    -1);
+	piter = state->style_section_iter;
+	estart = ((conflicts & (conflicts - 1)) == 0 ? 0 : -1);
+	for (e = estart; e < MSTYLE_ELEMENT_MAX; e++) {
+		gboolean qhead = (e == -1);
+		if (!qhead && (conflicts & (1u << e)) == 0)
+			continue;
+
+		gtk_tree_store_insert (state->results, &iter, &piter, -1);
+		if (qhead) piter = iter;
+
+		gtk_tree_store_set (state->results, &iter,
+				    ITEM_SECTION, SEC_STYLE,
+				    ITEM_DIRECTION, DIR_QUIET,
+				    ITEM_OLD_LOC, &loc_old,
+				    ITEM_NEW_LOC, &loc_new,
+				    ITEM_MSTYLE_ELEM, e,
+				    -1);
+	}
 }
 
 static const GnmDiffActions dsc_actions = {
@@ -472,7 +695,8 @@ cb_compare_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		 G_TYPE_INT, // Enum, really
 		 G_TYPE_INT, // Enum, really
 		 gnm_rangeref_get_type (),
-		 gnm_rangeref_get_type ());
+		 gnm_rangeref_get_type (),
+		 G_TYPE_INT); // GnmStyleElement
 	GtkWidget *w;
 	Sheet *sheet_A, *sheet_B;
 
@@ -514,6 +738,9 @@ cb_compare_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		gtk_tree_view_column_pack_start (tvc, cr, TRUE);
 		gtk_tree_view_append_column (tv, tvc);
 	}
+
+	state->has_cell_section = FALSE;
+	state->has_style_section = FALSE;
 
 	w = go_option_menu_get_history (GO_OPTION_MENU (state->sheet_sel_A));
 	sheet_A = w ? g_object_get_data (G_OBJECT (w), "sheet") : NULL;
