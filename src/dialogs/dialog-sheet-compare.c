@@ -199,7 +199,7 @@ get_mstyle_name (int e)
 	case MSTYLE_BORDER_DIAGONAL: return _("Diagonal border");
 	case MSTYLE_PATTERN: return _("Pattern");
 
-	case MSTYLE_FONT_COLOR: return _("Color");
+	case MSTYLE_FONT_COLOR: return _("Font color");
 	case MSTYLE_FONT_NAME: return _("Font");
 	case MSTYLE_FONT_BOLD: return _("Bold");
 	case MSTYLE_FONT_ITALIC: return _("Italic");
@@ -469,6 +469,9 @@ oldnew_renderer_func (GtkTreeViewColumn *tree_column,
 			text = do_int (gnm_style_get_pattern (style));
 			break;
 
+		case MSTYLE_FONT_NAME:
+			text = g_strdup (gnm_style_get_font_name (style));
+			break;
 		case MSTYLE_FONT_BOLD:
 			text = do_bool (gnm_style_get_font_bold (style));
 			break;
@@ -520,7 +523,8 @@ oldnew_renderer_func (GtkTreeViewColumn *tree_column,
 			text = g_strdup (_("Unavailable"));
 		}
 	} else if (section == SEC_COLROW) {
-		ColRowInfo *cr = sheet_colrow_get (loc->a.sheet, e, is_cols);
+		ColRowInfo const *cr =
+			sheet_colrow_get_info (loc->a.sheet, e, is_cols);
 		text = g_strdup_printf ("%d pixels", cr->size_pixels);
 	}
 
@@ -719,6 +723,7 @@ cb_compare_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 
 		tvc = gtk_tree_view_column_new ();
 		cr = gtk_cell_renderer_text_new ();
+		g_object_set (G_OBJECT (cr), "max-width-chars", 30, NULL);
 		gtk_tree_view_column_set_title (tvc, _("Old"));
 		gtk_tree_view_column_set_cell_data_func
 			(tvc, cr, oldnew_renderer_func,
@@ -728,6 +733,7 @@ cb_compare_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 
 		tvc = gtk_tree_view_column_new ();
 		cr = gtk_cell_renderer_text_new ();
+		g_object_set (G_OBJECT (cr), "max-width-chars", 30, NULL);
 		gtk_tree_view_column_set_title (tvc, _("New"));
 		gtk_tree_view_column_set_cell_data_func
 			(tvc, cr, oldnew_renderer_func,
