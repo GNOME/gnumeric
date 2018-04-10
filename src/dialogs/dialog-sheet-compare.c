@@ -28,11 +28,14 @@
 #include <wbc-gtk.h>
 #include <workbook-view.h>
 #include <workbook.h>
+#include <workbook-priv.h>
 #include <sheet.h>
 #include <ranges.h>
 #include <cell.h>
 #include <sheet-style.h>
 #include <application.h>
+#include <selection.h>
+#include <sheet-view.h>
 #include <widgets/gnm-sheet-sel.h>
 #include <widgets/gnm-workbook-sel.h>
 
@@ -761,6 +764,71 @@ cb_compare_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (state->notebook), 1);
 }
 
+static SheetView *
+find_and_focus (GnmRangeRef const *loc, SheetView *avoid)
+{
+	Workbook *wb;
+	GnmRange r;
+	Sheet *loc_sheet;
+
+	if (!loc)
+		return NULL;
+	extract_range (loc, &r, &loc_sheet);
+	wb = loc_sheet->workbook;
+
+	WORKBOOK_FOREACH_VIEW(wb, view, {
+		SheetView *sv;
+		int col = r.start.col;
+		int row = r.start.row;
+
+		sv = wb_view_cur_sheet_view (view);
+
+		if (sv == avoid)
+			continue;
+		if (wb_view_cur_sheet (view) != loc_sheet)
+			continue;
+
+		sv_set_edit_pos (sv, &r.start);
+		sv_selection_set (sv, &r.start, col, row, col, row);
+		sv_make_cell_visible (sv, col, row, FALSE);
+		sv_update (sv);
+		return sv;
+		});
+	return NULL;
+}
+
+static void
+cb_cursor_changed (GtkTreeView *tree_view, SheetCompare *state)
+{
+	GtkTreePath *path;
+	gboolean ok;
+	GnmRangeRef *loc_old = NULL;
+	GnmRangeRef *loc_new = NULL;
+	GtkTreeModel *model = gtk_tree_view_get_model (tree_view);
+	SheetView *sv;
+	GtkTreeIter iter;
+
+	gtk_tree_view_get_cursor (tree_view, &path, NULL);
+	if (!path)
+		return;
+
+	ok = gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_path_free (path);
+	if (!ok)
+		return;
+
+	gtk_tree_model_get (model, &iter,
+			    ITEM_OLD_LOC, &loc_new,
+			    ITEM_NEW_LOC, &loc_old,
+			    -1);
+
+	sv = find_and_focus (loc_old, NULL);
+	(void)find_and_focus (loc_new, sv);
+
+	g_free (loc_old);
+	g_free (loc_new);
+}
+
 /* ------------------------------------------------------------------------- */
 
 void
@@ -822,6 +890,7 @@ dialog_sheet_compare (WBCGtk *wbcg)
 #define CONNECT(o,s,c) g_signal_connect(G_OBJECT(o),s,G_CALLBACK(c),state)
 	CONNECT (state->cancel_btn, "clicked", cb_cancel_clicked);
 	CONNECT (state->compare_btn, "clicked", cb_compare_clicked);
+	CONNECT (state->results_view, "cursor-changed", cb_cursor_changed);
 #undef CONNECT
 
 	/* a candidate for merging into attach guru */
