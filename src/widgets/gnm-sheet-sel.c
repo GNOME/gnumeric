@@ -100,7 +100,7 @@ gnm_sheet_sel_init (GnmSheetSel *ss)
 
 static void
 gnm_sheet_sel_set_property (GObject *object, guint property_id,
-			       const GValue *value, GParamSpec *pspec)
+			    const GValue *value, GParamSpec *pspec)
 {
 	GnmSheetSel *ss = (GnmSheetSel *)object;
 
@@ -116,7 +116,7 @@ gnm_sheet_sel_set_property (GObject *object, guint property_id,
 
 static void
 gnm_sheet_sel_get_property (GObject *object, guint property_id,
-			       GValue *value, GParamSpec *pspec)
+			    GValue *value, GParamSpec *pspec)
 {
 	GnmSheetSel *ss = (GnmSheetSel *)object;
 
@@ -164,6 +164,8 @@ gnm_sheet_sel_set_sheets (GnmSheetSel *ss, GSList *sheets)
 	GtkMenu *menu;
 	GSList *l;
 
+	g_return_if_fail (GNM_IS_SHEET_SEL (ss));
+
         menu = GTK_MENU (gtk_menu_new ());
 
 	for (l = sheets; l; l = l->next) {
@@ -201,6 +203,9 @@ cb_wb_changed (GnmWorkbookSel *wbs,
 void
 gnm_sheet_sel_link (GnmSheetSel *ss, GnmWorkbookSel *wbs)
 {
+	g_return_if_fail (GNM_IS_SHEET_SEL (ss));
+	g_return_if_fail (GNM_IS_WORKBOOK_SEL (wbs));
+
 	g_signal_connect_object
 		(wbs,
 		 "notify::workbook", G_CALLBACK (cb_wb_changed),
