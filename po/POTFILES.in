@@ -387,6 +387,7 @@ src/widgets/gnm-dao.c
 src/widgets/gnm-filter-combo-view.c
 src/widgets/gnm-fontbutton.c
 src/widgets/gnm-format-sel.c
+src/widgets/gnm-sheet-sel.c
 src/widgets/gnm-sheet-slicer-combo-view.c
 src/widgets/gnm-so-anchor-mode-chooser.c
 src/widgets/gnm-workbook-sel.c
