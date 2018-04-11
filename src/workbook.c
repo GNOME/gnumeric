@@ -56,7 +56,7 @@
 
 enum {
 	PROP_0,
-	RECALC_MODE
+	PROP_RECALC_MODE
 };
 enum {
 	SHEET_ORDER_CHANGED,
@@ -64,7 +64,7 @@ enum {
 	SHEET_DELETED,
 	LAST_SIGNAL
 };
-static guint signals [LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL] = { 0 };
 static GObjectClass *workbook_parent_class;
 
 static void
@@ -256,7 +256,7 @@ workbook_get_property (GObject *object, guint property_id,
 	Workbook *wb = (Workbook *)object;
 
 	switch (property_id) {
-	case RECALC_MODE :
+	case PROP_RECALC_MODE:
 		g_value_set_boolean (value, wb->recalc_auto);
 		break;
 	default:
@@ -272,7 +272,7 @@ workbook_set_property (GObject *object, guint property_id,
 	Workbook *wb = (Workbook *)object;
 
 	switch (property_id) {
-	case RECALC_MODE :
+	case PROP_RECALC_MODE:
 		workbook_set_recalcmode (wb, g_value_get_boolean (value));
 		break;
 	default:
@@ -281,73 +281,26 @@ workbook_set_property (GObject *object, guint property_id,
 	}
 }
 
-static void
-workbook_class_init (GObjectClass *gobject_class)
+static GObject *
+workbook_constructor (GType type,
+		      guint n_construct_properties,
+		      GObjectConstructParam *construct_params)
 {
-	workbook_parent_class = g_type_class_peek_parent (gobject_class);
-
-	gobject_class->set_property = workbook_set_property;
-	gobject_class->get_property = workbook_get_property;
-	gobject_class->finalize	    = workbook_finalize;
-	gobject_class->dispose	    = workbook_dispose;
-
-        g_object_class_install_property (gobject_class, RECALC_MODE,
-		 g_param_spec_boolean ("recalc-mode",
-				       P_("Recalc mode"),
-				       P_("Enable automatic recalculation."),
-				       TRUE,
-				       GSF_PARAM_STATIC |
-				       G_PARAM_READWRITE));
-
-	signals [SHEET_ORDER_CHANGED] = g_signal_new ("sheet_order_changed",
-		GNM_WORKBOOK_TYPE,
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (WorkbookClass, sheet_order_changed),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE,
-		0, G_TYPE_NONE);
-
-	signals [SHEET_ADDED] = g_signal_new ("sheet_added",
-		GNM_WORKBOOK_TYPE,
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (WorkbookClass, sheet_added),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE,
-		0, G_TYPE_NONE);
-
-	signals [SHEET_DELETED] = g_signal_new ("sheet_deleted",
-		GNM_WORKBOOK_TYPE,
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (WorkbookClass, sheet_deleted),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE,
-		0, G_TYPE_NONE);
-}
-
-/**
- * workbook_new:
- *
- * Creates a new empty Workbook
- * and assigns a unique name.
- **/
-Workbook *
-workbook_new (void)
-{
+	GObject *obj;
+	Workbook *wb;
 	static int count = 0;
 	gboolean is_unique;
-	Workbook  *wb;
 	GOFileSaver *def_save = go_file_saver_get_default ();
 	char const *extension = NULL;
+
+	obj = workbook_parent_class->constructor
+		(type, n_construct_properties, construct_params);
+	wb = WORKBOOK (obj);
 
 	if (def_save != NULL)
 		extension = go_file_saver_get_extension (def_save);
 	if (extension == NULL)
 		extension = "gnumeric";
-
-	wb = g_object_new (GNM_WORKBOOK_TYPE, NULL);
 
 	/* Assign a default name */
 	do {
@@ -367,8 +320,68 @@ workbook_new (void)
 		g_free (name);
 		g_free (nameutf8);
 	} while (!is_unique);
+
 	gnm_insert_meta_date (GO_DOC (wb), GSF_META_NAME_DATE_CREATED);
-	return wb;
+
+	return obj;
+}
+
+static void
+workbook_class_init (GObjectClass *gobject_class)
+{
+	workbook_parent_class = g_type_class_peek_parent (gobject_class);
+
+	gobject_class->constructor  = workbook_constructor;
+	gobject_class->set_property = workbook_set_property;
+	gobject_class->get_property = workbook_get_property;
+	gobject_class->finalize	    = workbook_finalize;
+	gobject_class->dispose	    = workbook_dispose;
+
+        g_object_class_install_property (gobject_class, PROP_RECALC_MODE,
+		 g_param_spec_boolean ("recalc-mode",
+				       P_("Recalc mode"),
+				       P_("Enable automatic recalculation."),
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+
+	signals[SHEET_ORDER_CHANGED] = g_signal_new ("sheet_order_changed",
+		GNM_WORKBOOK_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (WorkbookClass, sheet_order_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
+
+	signals[SHEET_ADDED] = g_signal_new ("sheet_added",
+		GNM_WORKBOOK_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (WorkbookClass, sheet_added),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
+
+	signals[SHEET_DELETED] = g_signal_new ("sheet_deleted",
+		GNM_WORKBOOK_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (WorkbookClass, sheet_deleted),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
+}
+
+/**
+ * workbook_new:
+ *
+ * Returns: A new empty #Workbook with a unique name.
+ **/
+Workbook *
+workbook_new (void)
+{
+	return g_object_new (GNM_WORKBOOK_TYPE, NULL);
 }
 
 /**
@@ -413,7 +426,7 @@ workbook_sheet_name_strip_number (char *name, unsigned int *number)
  * workbook_new_with_sheets:
  * @sheet_count: initial number of sheets to create.
  *
- * Returns a Workbook with @sheet_count allocated
+ * Returns: a #Workbook with @sheet_count allocated
  * sheets on it
  */
 Workbook *
@@ -427,7 +440,7 @@ workbook_new_with_sheets (int sheet_count)
 	while (sheet_count-- > 0)
 		workbook_sheet_add (wb, -1, cols, rows);
 	go_doc_set_dirty (GO_DOC (wb), FALSE);
-	GO_DOC (wb)->pristine = TRUE;
+	go_doc_set_pristine (GO_DOC (wb), TRUE);
 	return wb;
 }
 
@@ -435,11 +448,11 @@ workbook_new_with_sheets (int sheet_count)
  * workbook_set_saveinfo:
  * @wb: the workbook to modify
  * @lev: the file format level
- * @saver: the file saver.
+ * @saver: (nullable) the file saver.
  *
- * If level is sufficiently advanced assign the info.
+ * If level is sufficiently advanced, assign the info.
  *
- * Returns: TRUE if save info was set and history may require updating
+ * Returns: %TRUE if save info was set and history may require updating
  *
  * FIXME : Add a check to ensure the name is unique.
  */
@@ -610,7 +623,7 @@ workbook_foreach_cell_in_range (GnmEvalPos const *pos,
  * Collects a GPtrArray of GnmEvalPos pointers for all cells in a workbook.
  * No particular order should be assumed.
  *
- * Returns: (element-type GnmEvalPos) (transfer full): the cells array
+ * Returns: (element-type GnmEvalPos) (transfer container): the cells array
  */
 GPtrArray *
 workbook_cells (Workbook *wb, gboolean comments, GnmSheetVisibility vis)
@@ -620,7 +633,7 @@ workbook_cells (Workbook *wb, gboolean comments, GnmSheetVisibility vis)
 	g_return_val_if_fail (wb != NULL, cells);
 
 	WORKBOOK_FOREACH_SHEET (wb, sheet, {
-		int oldlen = cells->len;
+		size_t oldlen = cells->len;
 		GPtrArray *scells;
 
 		if (sheet->visibility > vis)
@@ -714,7 +727,13 @@ void
 workbook_set_recalcmode (Workbook *wb, gboolean is_auto)
 {
 	g_return_if_fail (GNM_IS_WORKBOOK (wb));
+
+	is_auto = !!is_auto;
+	if (is_auto == wb->recalc_auto)
+		return;
+
 	wb->recalc_auto = is_auto;
+	g_object_notify (G_OBJECT (wb), "recalc-mode");
 }
 
 gboolean
@@ -788,7 +807,7 @@ workbook_detach_view (WorkbookView *wbv)
  * @wb: #Workbook
  *
  * Get an ordered list of the sheets in the workbook
- * The caller is required to free the list.
+ *
  * Returns: (element-type Sheet) (transfer container): the sheets list.
  */
 GSList *
@@ -844,7 +863,7 @@ post_sheet_index_change (Workbook *wb)
 	if (wb->during_destruction)
 		return;
 
-	g_signal_emit (G_OBJECT (wb), signals [SHEET_ORDER_CHANGED], 0);
+	g_signal_emit (G_OBJECT (wb), signals[SHEET_ORDER_CHANGED], 0);
 }
 
 static void
@@ -863,7 +882,7 @@ workbook_sheet_index_update (Workbook *wb, int start)
  * @wb: workbook to lookup the sheet on
  * @i: the sheet index we are looking for.
  *
- * Return value: (transfer none) (nullable): a pointer to a #Sheet
+ * Return value: (transfer none) (nullable): A #Sheet
  */
 Sheet *
 workbook_sheet_by_index (Workbook const *wb, int i)
@@ -881,9 +900,9 @@ workbook_sheet_by_index (Workbook const *wb, int i)
 /**
  * workbook_sheet_by_name:
  * @wb: workbook to lookup the sheet on
- * @sheet_name: the sheet name we are looking for.
+ * @sheet_name: the sheet name we are looking for.  This is case insensitive.
  *
- * Return value: (transfer none) (nullable): a pointer to a #Sheet
+ * Return value: (transfer none) (nullable): A #Sheet
  */
 Sheet *
 workbook_sheet_by_name (Workbook const *wb, char const *name)
@@ -936,9 +955,9 @@ workbook_focus_other_sheet (Workbook *wb, Sheet *sheet)
  * @wb: #Workbook
  * @sheet: #Sheet
  *
- * Remove the visible SheetControls of a sheet and shut them down politely.
+ * Remove the visible #SheetControls of a sheet and shut them down politely.
  *
- * Returns TRUE if there are any remaining sheets visible
+ * Returns %TRUE if there are any remaining sheets visible
  **/
 static gboolean
 workbook_sheet_remove_controls (Workbook *wb, Sheet *sheet)
@@ -967,12 +986,11 @@ workbook_sheet_remove_controls (Workbook *wb, Sheet *sheet)
 
 /**
  * workbook_sheet_attach_at_pos:
- * @wb:
- * @new_sheet:
- * @pos;
+ * @wb: A #Workbook
+ * @new_sheet: A #Sheet
+ * @pos: position to attach @new_sheet at, -1 meaning at the end
  *
- * Add @new_sheet to @wb, placing it at @pos.  This will add a ref to
- * the sheet.
+ * Add @new_sheet to @wb, placing it at @pos.
  */
 void
 workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
@@ -980,7 +998,10 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 	g_return_if_fail (IS_SHEET (new_sheet));
 	g_return_if_fail (new_sheet->workbook == wb);
-	g_return_if_fail (pos >= 0 && pos <= (int)wb->sheets->len);
+	g_return_if_fail (pos >= -1 && pos <= (int)wb->sheets->len);
+
+	if (pos == -1)
+		pos = wb->sheets->len;
 
 	pre_sheet_index_change (wb);
 
@@ -1002,8 +1023,8 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 
 /**
  * workbook_sheet_attach:
- * @wb:
- * @new_sheet:
+ * @wb: A #Workbook
+ * @new_sheet: (transfer full): A #Sheet to attach
  *
  * Add @new_sheet to @wb, placing it at the end.  SURPRISE: This assumes
  * a ref to the sheet.
@@ -1011,15 +1032,15 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 void
 workbook_sheet_attach (Workbook *wb, Sheet *new_sheet)
 {
-	workbook_sheet_attach_at_pos (wb, new_sheet, wb->sheets->len);
+	workbook_sheet_attach_at_pos (wb, new_sheet, -1);
 	/* Balance the ref added by the above call.  */
 	g_object_unref (new_sheet);
 }
 
 /**
  * workbook_sheet_add:
- * @wb: a workbook.
- * @pos: position to add, -1 meaning append.
+ * @wb: a #Workbook.
+ * @pos: position to add, -1 meaning at end.
  * @columns: the sheet columns number.
  * @rows: the sheet rows number.
  *
@@ -1035,12 +1056,10 @@ workbook_sheet_add (Workbook *wb, int pos, int columns, int rows)
 	Sheet *new_sheet = sheet_new (wb, name, columns, rows);
 	g_free (name);
 
-	if (pos == -1)
-		pos = wb->sheets->len;
 	workbook_sheet_attach_at_pos (wb, new_sheet, pos);
 
 	/* FIXME: Why here?  */
-	g_signal_emit (G_OBJECT (wb), signals [SHEET_ADDED], 0);
+	g_signal_emit (G_OBJECT (wb), signals[SHEET_ADDED], 0);
 
 	g_object_unref (new_sheet);
 
@@ -1067,12 +1086,10 @@ workbook_sheet_add_with_type (Workbook *wb, GnmSheetType sheet_type, int pos, in
 	Sheet *new_sheet = sheet_new_with_type (wb, name, sheet_type, columns, rows);
 	g_free (name);
 
-	if (pos == -1)
-		pos = wb->sheets->len;
 	workbook_sheet_attach_at_pos (wb, new_sheet, pos);
 
 	/* FIXME: Why here?  */
-	g_signal_emit (G_OBJECT (wb), signals [SHEET_ADDED], 0);
+	g_signal_emit (G_OBJECT (wb), signals[SHEET_ADDED], 0);
 
 	g_object_unref (new_sheet);
 
@@ -1081,7 +1098,7 @@ workbook_sheet_add_with_type (Workbook *wb, GnmSheetType sheet_type, int pos, in
 
 /**
  * workbook_sheet_delete:
- * @sheet: the sheet that we want to delete from its workbook
+ * @sheet: the #Sheet that we want to delete from its workbook
  *
  * This function detaches the given sheet from its parent workbook and
  * invalidates all references to the deleted sheet from other sheets and
@@ -1137,6 +1154,9 @@ workbook_sheet_delete (Sheet *sheet)
 
 /**
  * workbook_sheet_move:
+ * @sheet: #Sheet to move
+ * @direction: number of spots to move, positive for right and negative
+ * for left.
  *
  * Moves the sheet up or down @direction spots in the sheet list
  * If @direction is negative, move left. If positive, move right.
@@ -1175,7 +1195,7 @@ workbook_sheet_move (Sheet *sheet, int direction)
 
 /**
  * workbook_sheet_get_free_name:
- * @wb:   workbook to look for
+ * @wb: #Workbook for which the new name can be used
  * @base: base for the name, e. g. "Sheet"
  * @always_suffix: if true, add suffix even if the name "base" is not in use.
  * @handle_counter: strip counter if necessary
@@ -1183,7 +1203,7 @@ workbook_sheet_move (Sheet *sheet, int direction)
  * Gets a new unquoted name for a sheets such that it does not exist on the
  * workbook.
  *
- * Returns the name assigned to the sheet.
+ * Returns: (transfer full): a unique sheet name
  **/
 char *
 workbook_sheet_get_free_name (Workbook *wb,
@@ -1230,14 +1250,14 @@ workbook_sheet_get_free_name (Workbook *wb,
 
 /**
  * workbook_sheet_rename:
- * @wb:          workbook to look for
+ * @wb: #Workbook in which to rename sheets
  * @sheet_indices: (element-type void):  list of sheet indices (ignore -1)
  * @new_names: (element-type char):  list of new names
  *
  * Adjusts the names of the sheets. We assume that everything is
  * valid. If in doubt call workbook_sheet_reorder_check first.
  *
- * Returns: FALSE when it was successful
+ * Returns: %FALSE when it was successful
  **/
 gboolean
 workbook_sheet_rename (Workbook *wb,
@@ -1249,10 +1269,10 @@ workbook_sheet_rename (Workbook *wb,
 	GSList *new_name = new_names;
 
 	while (new_name && sheet_index) {
-		if (-1 != GPOINTER_TO_INT (sheet_index->data)) {
-			g_hash_table_remove (wb->sheet_hash_private,
-					     new_name->data);
-		}
+		int ix = GPOINTER_TO_INT (sheet_index->data);
+		const char *name = new_name->data;
+		if (ix != -1)
+			g_hash_table_remove (wb->sheet_hash_private, name);
 		sheet_index = sheet_index->next;
 		new_name = new_name->next;
 	}
@@ -1260,10 +1280,11 @@ workbook_sheet_rename (Workbook *wb,
 	sheet_index = sheet_indices;
 	new_name = new_names;
 	while (new_name && sheet_index) {
-		if (-1 != GPOINTER_TO_INT (sheet_index->data)) {
-			Sheet *sheet = workbook_sheet_by_index
-				(wb, GPOINTER_TO_INT (sheet_index->data));
-			g_object_set (sheet, "name", new_name->data, NULL);
+		int ix = GPOINTER_TO_INT (sheet_index->data);
+		const char *name = new_name->data;
+		if (ix != -1) {
+			Sheet *sheet = workbook_sheet_by_index (wb, ix);
+			g_object_set (sheet, "name", name, NULL);
 		}
 		sheet_index = sheet_index->next;
 		new_name = new_name->next;
@@ -1279,6 +1300,7 @@ workbook_sheet_rename (Workbook *wb,
  * @cmd: command
  *
  * Returns: the 1 based index of the @key command, or 0 if it is not found
+ * (which would be a programmer error).
  **/
 unsigned
 workbook_find_command (Workbook *wb, gboolean is_undo, gpointer cmd)
@@ -1298,12 +1320,12 @@ workbook_find_command (Workbook *wb, gboolean is_undo, gpointer cmd)
 
 /**
  * workbook_sheet_reorder:
- * @wb:          workbook to look for
- * @new_order: (element-type Sheet):  list of sheets
+ * @wb: workbook to reorder
+ * @new_order: (element-type Sheet): list of #Sheet
  *
  * Adjusts the order of the sheets.
  *
- * Returns FALSE when it was successful
+ * Returns %FALSE when it was successful
  **/
 gboolean
 workbook_sheet_reorder (Workbook *wb, GSList *new_order)

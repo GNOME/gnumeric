@@ -1,5 +1,8 @@
 2018-04-11  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook.c: Make Workbook a more proper object by adding a
+	constructor to setup the object correctly.  Introspection fixes.
+
 	(workbook_view_class_init): Make this a more proper object by
 	adding a constructor and init function to setup the object
 	correctly.
