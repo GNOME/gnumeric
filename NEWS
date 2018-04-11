@@ -9,6 +9,7 @@ Morten:
 	* Add GUI for comparing sheets.
 	* Introspection fixes.
 	* Clean up workbook view construction.
+	* Test suite improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.39

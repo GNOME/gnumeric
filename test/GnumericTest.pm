@@ -13,14 +13,17 @@ $| = 1;
                            test_csv_format_guessing
 			   test_ssindex sstest test_command message subtest
                            test_tool
+                           setup_python_environment
 			   $ssconvert $sstest $ssdiff $ssgrep $gnumeric
                            $topsrc $top_builddir
-			   $subtests $samples corpus $PERL);
+			   $subtests $samples corpus $PERL $PYTHON);
 @GnumericTest::EXPORT_OK = qw(junkfile);
 
-use vars qw($topsrc $top_builddir $samples $default_subtests $default_corpus $PERL $verbose);
+use vars qw($topsrc $top_builddir $samples $default_subtests $default_corpus $PERL $PYTHON $verbose);
 use vars qw($ssconvert $ssindex $sstest $ssdiff $ssgrep $gnumeric);
 use vars qw($normalize_gnumeric);
+
+$PYTHON = undef;
 
 $PERL = $Config{'perlpath'};
 $PERL .= $Config{'_exe'} if $^O ne 'VMS' && $PERL !~ m/$Config{'_exe'}$/i;
@@ -880,6 +883,16 @@ sub has_linear_solver {
 }
 
 # -----------------------------------------------------------------------------
+
+sub setup_python_environment {
+    $PYTHON = '/usr/bin/python';
+    &report_skip ("Missing $PYTHON") unless -x $PYTHON;
+
+    # Make sure we load introspection preferentially from build directory
+    my $v = 'GI_TYPELIB_PATH';
+    my $dir = "$top_builddir/src";
+    $ENV{$v} = ($ENV{$v} || '') eq '' ? $dir : $dir . ':' . $ENV{$v};
+}
 
 sub quotearg {
     return join (' ', map { &quotearg1 ($_) } @_);

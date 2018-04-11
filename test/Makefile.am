@@ -8,6 +8,8 @@
 #
 # 2xxx: Internal sstest
 #
+# 3xxx: Introspection tests
+#
 # 5xxx: Importers
 # 5800:   csv
 # 59xx:   Minor formats with import-db
@@ -177,10 +179,24 @@ TESTS =	t1000-statfuns.pl			\
 
 SUPPS = common.supp gui.supp t8003-valgrind-pdf.supp
 
+INTROSPECTION_TSTS = \
+	t3000-introspection-basic.pl
+INTROSPECTION_SUPPS = \
+	$(INTROSPECTION_TSTS:.pl=.py)
+if HAVE_INTROSPECTION
+  TESTS += $(INTROSPECTION_TSTS)
+  SUPPS += $(INTROSPECTION_SUPPS)
+endif
+
+
 import-db:
 	for t in $(srcdir)/t59[0-9][0-9]-*.pl; do echo "*** $$t ***"; $(PERL) $$t create-db; done
 
+EXTRA_DIST = GnumericTest.pm \
+	$(SUPPS) $(TESTS) \
+	$(INTROSPECTION_SUPPS) $(INTROSPECTION_TSTS) \
+	normalize-gnumeric \
+	ods-ext-schema.patch 
 
-EXTRA_DIST = GnumericTest.pm $(SUPPS) normalize-gnumeric ods-ext-schema.patch $(TESTS)
-.PHONY: import-db $(TESTS)
+.PHONY: import-db
 .NOTPARALLEL:
