@@ -448,7 +448,7 @@ workbook_new_with_sheets (int sheet_count)
  * workbook_set_saveinfo:
  * @wb: the workbook to modify
  * @lev: the file format level
- * @saver: (nullable) the file saver.
+ * @saver: (nullable): the file saver.
  *
  * If level is sufficiently advanced, assign the info.
  *

@@ -3022,9 +3022,9 @@ sheet_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
 /**
  * sheet_cell_set_value:
  * @cell: #GnmCell
- * @v: #GnmValue
+ * @v: (transfer full): #GnmValue
  *
- * Stores (WITHOUT COPYING) the supplied value.  It marks the
+ * Stores, without copying, the supplied value.  It marks the
  * sheet as dirty.
  *
  * The value is rendered, spans are calculated, and the rendered string
