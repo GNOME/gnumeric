@@ -1042,8 +1042,7 @@ undo_range_list_name (Sheet const *sheet, GSList const *ranges)
  * Parses a list of ranges, relative to the @sheet and returns a list with the
  * results.
  *
- * Returns: (element-type GnmValue) (transfer full): a GSList containing
- * Values of type VALUE_CELLRANGE, or NULL on failure
+ * Returns: (element-type GnmValue) (transfer full): a #GSList of #GnmValue.
  **/
 GSList *
 global_range_list_parse (Sheet *sheet, char const *str)

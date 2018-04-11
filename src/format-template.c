@@ -519,7 +519,7 @@ GSF_XML_IN_NODE (START, TEMPLATE, GMR, "FormatTemplate", GSF_XML_NO_CONTENT, NUL
  * Create a new GnmFT and load a template file
  * into it.
  *
- * Return value: (transfer full): a new GnmFT (or NULL on error)
+ * Return value: (transfer full): a new GnmFT (or %NULL on error)
  **/
 GnmFT *
 gnm_ft_new_from_file (char const *filename, GOCmdContext *cc)

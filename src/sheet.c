@@ -2051,8 +2051,7 @@ sheet_update (Sheet const *sheet)
  * @col:    the cell column
  * @row:    the cell row
  *
- * Return value: a (GnmCell *) containing the GnmCell, or NULL if
- * the cell does not exist
+ * Return value: (nullable): a #GnmCell, or %NULL if the cell does not exist
  **/
 GnmCell *
 sheet_cell_get (Sheet const *sheet, int col, int row)
@@ -3729,42 +3728,45 @@ sheet_colrow_optimize (Sheet *sheet)
 
 /**
  * sheet_col_get:
+ * @col: column number
  *
- * Returns: (transfer none): an allocated column:  either an existing one,
- * or NULL
+ * Returns: (transfer none) (nullable): A #ColRowInfo for the column, or %NULL
+ * if none has been allocated yet.
  */
 ColRowInfo *
-sheet_col_get (Sheet const *sheet, int pos)
+sheet_col_get (Sheet const *sheet, int col)
 {
 	ColRowSegment *segment;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (pos < gnm_sheet_get_max_cols (sheet), NULL);
-	g_return_val_if_fail (pos >= 0, NULL);
+	g_return_val_if_fail (col < gnm_sheet_get_max_cols (sheet), NULL);
+	g_return_val_if_fail (col >= 0, NULL);
 
-	segment = COLROW_GET_SEGMENT (&(sheet->cols), pos);
+	segment = COLROW_GET_SEGMENT (&(sheet->cols), col);
 	if (segment != NULL)
-		return segment->info[COLROW_SUB_INDEX (pos)];
+		return segment->info[COLROW_SUB_INDEX (col)];
 	return NULL;
 }
 
 /**
  * sheet_row_get:
+ * @row: row number
  *
- * Returns an allocated row:  either an existing one, or NULL
+ * Returns: (transfer none) (nullable): A #ColRowInfo for the row, or %NULL
+ * if none has been allocated yet.
  */
 ColRowInfo *
-sheet_row_get (Sheet const *sheet, int pos)
+sheet_row_get (Sheet const *sheet, int row)
 {
 	ColRowSegment *segment;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (pos < gnm_sheet_get_max_rows (sheet), NULL);
-	g_return_val_if_fail (pos >= 0, NULL);
+	g_return_val_if_fail (row < gnm_sheet_get_max_rows (sheet), NULL);
+	g_return_val_if_fail (row >= 0, NULL);
 
-	segment = COLROW_GET_SEGMENT (&(sheet->rows), pos);
+	segment = COLROW_GET_SEGMENT (&(sheet->rows), row);
 	if (segment != NULL)
-		return segment->info[COLROW_SUB_INDEX (pos)];
+		return segment->info[COLROW_SUB_INDEX (row)];
 	return NULL;
 }
 

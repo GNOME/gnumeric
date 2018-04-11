@@ -863,19 +863,16 @@ workbook_sheet_index_update (Workbook *wb, int start)
  * @wb: workbook to lookup the sheet on
  * @i: the sheet index we are looking for.
  *
- * Return value: (transfer none): a pointer to a Sheet or NULL if the sheet
- * was not found.
+ * Return value: (transfer none) (nullable): a pointer to a #Sheet
  */
 Sheet *
 workbook_sheet_by_index (Workbook const *wb, int i)
 {
 	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), NULL);
-	g_return_val_if_fail (i < (int)wb->sheets->len, NULL);
 	g_return_val_if_fail (i >= -1, NULL);
 
-	/* i = -1 is special, return NULL */
-
-	if (i == -1)
+	// i = -1 is special, return NULL
+	if (i == -1 || i >= (int)wb->sheets->len)
 		return NULL;
 
 	return g_ptr_array_index (wb->sheets, i);
@@ -886,8 +883,7 @@ workbook_sheet_by_index (Workbook const *wb, int i)
  * @wb: workbook to lookup the sheet on
  * @sheet_name: the sheet name we are looking for.
  *
- * Return value: (transfer none): a pointer to a Sheet or NULL if the sheet
- * was not found.
+ * Return value: (transfer none) (nullable): a pointer to a #Sheet
  */
 Sheet *
 workbook_sheet_by_name (Workbook const *wb, char const *name)

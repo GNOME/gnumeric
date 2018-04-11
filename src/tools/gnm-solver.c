@@ -2413,7 +2413,7 @@ gnm_solver_pick_lp_coords (GnmSolver *sol,
  * @x2: second coordinate value
  * @err: error location
  *
- * Returns: (transfer full): coordinates, or NULL in case of error.
+ * Returns: (transfer full) (nullable): coordinates, or %NULL in case of error.
  * Note: this function is not affected by the flip-sign property, even
  * if @ycell happens to coindice with the solver target cell.
  */
