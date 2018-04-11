@@ -367,9 +367,20 @@ wb_view_menus_update (WorkbookView *wbv)
 	}
 }
 
+/**
+ * wb_view_selection_desc:
+ * @wbv: The view
+ * @use_pos: 
+ * @wbc: (allow-none): A #WorkbookControl
+ *
+ * Load the edit line with the value of the cell in sheet's edit_pos.
+ *
+ * Calculate what to display on the edit line then display it either in the
+ * control @wbc, or if that is %NULL, in all controls.
+ */
 void
 wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
-			WorkbookControl *optional_wbc)
+			WorkbookControl *wbc)
 {
 	SheetView *sv;
 
@@ -411,26 +422,26 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 					  rows, cols);
 		}
 
-		if (optional_wbc == NULL) {
+		if (wbc == NULL) {
 			WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
 				wb_control_selection_descr_set (wbc, sel_descr););
 		} else
-			wb_control_selection_descr_set (optional_wbc, sel_descr);
+			wb_control_selection_descr_set (wbc, sel_descr);
 	}
 }
 
 /**
  * wb_view_edit_line_set:
  * @wbv: The view
- * @optional_wbc: An Optional control
+ * @wbc: (allow-none): A #WorkbookControl
  *
  * Load the edit line with the value of the cell in @sheet's edit_pos.
  *
  * Calculate what to display on the edit line then display it either in the
- * control @wbc,  or if that is NULL, in all controls.
+ * control @wbc, or if that is %NULL, in all controls.
  */
 void
-wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
+wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *wbc)
 {
 	SheetView *sv;
 
@@ -485,11 +496,11 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 		} else
 			text = g_strdup ("");
 
-		if (optional_wbc == NULL) {
+		if (wbc == NULL) {
 			WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 				wb_control_edit_line_set (control, text););
 		} else
-			wb_control_edit_line_set (optional_wbc, text);
+			wb_control_edit_line_set (wbc, text);
 
 		g_free (text);
 	}
@@ -1131,7 +1142,7 @@ get_uri_modtime (GsfInput *input, const char *uri)
  * @fs file saver.  If the format sufficiently advanced make it the saver
  * and update the uri.
  *
- * Return value: TRUE if file was successfully saved and FALSE otherwise.
+ * Return value: %TRUE if file was successfully saved and %FALSE otherwise.
  */
 gboolean
 wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
@@ -1192,7 +1203,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
  * workbook using workbook's file saver. If the workbook has no file
  * saver assigned to it, default file saver is used instead.
  *
- * Return value: TRUE if file was successfully saved and FALSE otherwise.
+ * Return value: %TRUE if file was successfully saved and %FALSE otherwise.
  */
 gboolean
 wb_view_save (WorkbookView *wbv, GOCmdContext *context)
@@ -1245,41 +1256,42 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 /**
  * workbook_view_new_from_input:
  * @input: #GsfInput to read data from.
- * @optional_format: Optional GOFileOpener
- * @io_context: Optional context to display errors.
- * @optional_encoding: Optional encoding for GOFileOpener that understand it
+ * @uri: (allow-none): URI
+ * @file_opener: (allow-none): #GOFileOpener
+ * @io_context: (allow-none): Context to display errors.
+ * @encoding: (allow-none): Encoding for @file_opener that understand it
  *
- * Reads @uri file using given file opener @optional_fmt, or probes for a valid
- * possibility if @optional_fmt is NULL.  Reports problems to @io_context.
+ * Reads @uri file using given file opener @file_opener, or probes for a valid
+ * possibility if @file_opener is NULL.  Reports problems to @io_context.
  *
  * Return value: (transfer full): the newly allocated WorkbookView or %NULL
  * on error.
  **/
 WorkbookView *
 workbook_view_new_from_input (GsfInput *input,
-                              const char *optional_uri,
-                              GOFileOpener const *optional_fmt,
+                              const char *uri,
+                              GOFileOpener const *file_opener,
                               GOIOContext *io_context,
-                              char const *optional_enc)
+                              char const *encoding)
 {
 	WorkbookView *new_wbv = NULL;
 
 	g_return_val_if_fail (GSF_IS_INPUT(input), NULL);
-	g_return_val_if_fail (optional_fmt == NULL ||
-			      GO_IS_FILE_OPENER (optional_fmt), NULL);
+	g_return_val_if_fail (file_opener == NULL ||
+			      GO_IS_FILE_OPENER (file_opener), NULL);
 
 	/* NOTE : we could support gzipped anything here if we wanted to
 	 * by adding a wrapper, but there is no framework for remembering that
-	 * the file was gzipped so lets not just yet.
+	 * the file was gzipped so let's not just yet.
 	 */
 
 	/* Search for an applicable opener */
-	if (optional_fmt == NULL) {
+	if (file_opener == NULL) {
 		GOFileProbeLevel pl;
 		GList *l;
 		int input_refs = G_OBJECT (input)->ref_count;
 
-		for (pl = GO_FILE_PROBE_FILE_NAME; pl < GO_FILE_PROBE_LAST && optional_fmt == NULL; pl++) {
+		for (pl = GO_FILE_PROBE_FILE_NAME; pl < GO_FILE_PROBE_LAST && file_opener == NULL; pl++) {
 			for (l = go_get_file_openers (); l != NULL; l = l->next) {
 				GOFileOpener const *tmp_fo = GO_FILE_OPENER (l->data);
 				int new_input_refs;
@@ -1288,7 +1300,7 @@ workbook_view_new_from_input (GsfInput *input,
 				    (pl == GO_FILE_PROBE_CONTENT ||
 				     !go_file_opener_can_probe	(tmp_fo, GO_FILE_PROBE_CONTENT) ||
 				     go_file_opener_probe (tmp_fo, input, GO_FILE_PROBE_CONTENT)))
-					optional_fmt = tmp_fo;
+					file_opener = tmp_fo;
 
 				new_input_refs = G_OBJECT (input)->ref_count;
 				if (new_input_refs != input_refs) {
@@ -1299,31 +1311,31 @@ workbook_view_new_from_input (GsfInput *input,
 					input_refs = new_input_refs;
 				}
 
-				if (optional_fmt)
+				if (file_opener)
 					break;
 			}
 		}
 	}
 
-	if (optional_fmt != NULL) {
+	if (file_opener != NULL) {
 		Workbook *new_wb;
 		gboolean old;
 		GDateTime *modtime;
 
 		new_wbv = workbook_view_new (NULL);
 		new_wb = wb_view_get_workbook (new_wbv);
-		if (optional_uri)
-			go_doc_set_uri (GO_DOC (new_wb), optional_uri);
+		if (uri)
+			go_doc_set_uri (GO_DOC (new_wb), uri);
 
 		// Grab the modtime before we actually do the reading
-		modtime = get_uri_modtime (input, optional_uri);
+		modtime = get_uri_modtime (input, uri);
 		go_doc_set_modtime (GO_DOC (new_wb), modtime);
 		if (modtime)
 			g_date_time_unref (modtime);
 
 		/* disable recursive dirtying while loading */
 		old = workbook_enable_recursive_dirty (new_wb, FALSE);
-		go_file_opener_open (optional_fmt, optional_enc, io_context,
+		go_file_opener_open (file_opener, encoding, io_context,
 		                     GO_VIEW (new_wbv), input);
 		workbook_enable_recursive_dirty (new_wb, old);
 
@@ -1342,13 +1354,16 @@ workbook_view_new_from_input (GsfInput *input,
 			workbook_recalc (new_wb);
 			workbook_update_graphs (new_wb);
 			go_doc_set_dirty (GO_DOC (new_wb), FALSE);
-			if (optional_uri && workbook_get_file_exporter (new_wb))
+			if (uri && workbook_get_file_exporter (new_wb))
 				workbook_set_last_export_uri
-					(new_wb, optional_uri);
+					(new_wb, uri);
 		}
-	} else
-		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
-			_("Unsupported file format."));
+	} else {
+		if (io_context)
+			go_cmd_context_error_import
+				(GO_CMD_CONTEXT (io_context),
+				 _("Unsupported file format."));
+	}
 
 	return new_wbv;
 }
@@ -1356,21 +1371,21 @@ workbook_view_new_from_input (GsfInput *input,
 /**
  * workbook_view_new_from_uri:
  * @uri: URI for file
- * @optional_format: (allow-none): Optional GOFileOpener
- * @io_context: Optional context to display errors.
- * @optional_encoding: Optional encoding for GOFileOpener that understand it
+ * @file_opener: (allow-none): #GOFileOpener
+ * @io_context: (allow-none): Context to display errors.
+ * @encoding: (allow-none): Encoding for @file_opener that understands it
  *
- * Reads @uri file using given file opener @optional_fmt, or probes for a valid
- * possibility if @optional_fmt is NULL.  Reports problems to @io_context.
+ * Reads @uri file using given file opener @file_opener, or probes for a valid
+ * possibility if @file_opener is %NULL.  Reports problems to @io_context.
  *
  * Return value: (transfer full): the newly allocated WorkbookView or %NULL
  * on error.
  **/
 WorkbookView *
 workbook_view_new_from_uri (char const *uri,
-		      GOFileOpener const *optional_fmt,
-		      GOIOContext *io_context,
-		      char const *optional_enc)
+			    GOFileOpener const *file_opener,
+			    GOIOContext *io_context,
+			    char const *encoding)
 {
 	char *msg = NULL;
 	GError *err = NULL;
@@ -1383,8 +1398,8 @@ workbook_view_new_from_uri (char const *uri,
 		WorkbookView *res;
 
 		res = workbook_view_new_from_input (input, uri,
-					      optional_fmt, io_context,
-					      optional_enc);
+						    file_opener, io_context,
+						    encoding);
 		g_object_unref (input);
 		return res;
 	}
@@ -1399,7 +1414,8 @@ workbook_view_new_from_uri (char const *uri,
 		msg = g_strdup_printf (_("An unexplained error happened while opening %s"),
 				       uri);
 
-	go_cmd_context_error_import (GO_CMD_CONTEXT (io_context), msg);
+	if (io_context)
+		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context), msg);
 	g_free (msg);
 
 	return NULL;

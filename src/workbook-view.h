@@ -58,7 +58,7 @@ typedef struct {
 
 /* Lifecycle */
 GType		 workbook_view_get_type	  (void);
-WorkbookView	*workbook_view_new	  (Workbook *optional_workbook);
+WorkbookView	*workbook_view_new	  (Workbook *wb);
 void		 wb_view_attach_control	  (WorkbookView *wbv, WorkbookControl *wbc);
 void		 wb_view_detach_control	  (WorkbookControl *wbc);
 void             wb_view_detach_from_workbook (WorkbookView *wbv);
@@ -81,9 +81,9 @@ void		 wb_view_preferred_size	  (WorkbookView *wbv,
 void		 wb_view_style_feedback   (WorkbookView *wbv);
 void             wb_view_menus_update     (WorkbookView *wbv);
 void		 wb_view_selection_desc   (WorkbookView *wbv, gboolean use_pos,
-					   WorkbookControl *optional_wbc);
+					   WorkbookControl *wbc);
 void		 wb_view_edit_line_set	  (WorkbookView *wbv,
-					   WorkbookControl *optional_wbc);
+					   WorkbookControl *wbc);
 void		 wb_view_auto_expr_recalc (WorkbookView *wbv);
 
 /* I/O routines */
@@ -96,14 +96,14 @@ void     wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 			      char const *uri, GOIOContext *io_context);
 
 WorkbookView *workbook_view_new_from_input (GsfInput *input,
-                                            const char *optional_uri,
-                                            GOFileOpener const *optional_format,
+                                            const char *uri,
+                                            GOFileOpener const *file_opener,
                                             GOIOContext *io_context,
-                                            gchar const *optional_encoding);
+                                            gchar const *encoding);
 WorkbookView *workbook_view_new_from_uri  (char const *uri,
-                                           GOFileOpener const *optional_format,
+                                           GOFileOpener const *file_opener,
                                            GOIOContext *io_context,
-                                           gchar const *optional_encoding);
+                                           gchar const *encoding);
 
 #define WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control, code)			\
 do {										\

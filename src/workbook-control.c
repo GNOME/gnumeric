@@ -65,7 +65,7 @@ void wb_control_ ## func arglist				\
  * @wbc: #WorkbookControl
  * @wbv: #WorkbookView
  * @wb: #Workbook
- * @extra:
+ * @extra: (allow-none):
  *
  * Returns: (transfer full): the newly allocated #WorkbookControl.
  **/

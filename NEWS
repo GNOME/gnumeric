@@ -1,9 +1,13 @@
 Gnumeric 1.12.40
 
+Dean McCarron:
+	* Introspection fixes.
+
 Morten:
 	* Add floating-point environment sanity check.  [#794515]
 	* Before saving, verify that files hasn't changed on disk.  [#334024]
 	* Add GUI for comparing sheets.
+	* Introspection fixes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.39
