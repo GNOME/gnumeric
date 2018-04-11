@@ -8,6 +8,7 @@ Morten:
 	* Before saving, verify that files hasn't changed on disk.  [#334024]
 	* Add GUI for comparing sheets.
 	* Introspection fixes.
+	* Clean up workbook view construction.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.39

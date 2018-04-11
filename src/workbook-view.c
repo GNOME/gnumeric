@@ -85,7 +85,8 @@ enum {
 	PROP_DO_AUTO_COMPLETION,
 	PROP_PROTECTED,
 	PROP_PREFERRED_WIDTH,
-	PROP_PREFERRED_HEIGHT
+	PROP_PREFERRED_HEIGHT,
+	PROP_WORKBOOK
 };
 
 /* WorkbookView signals */
@@ -753,6 +754,9 @@ wb_view_set_property (GObject *object, guint property_id,
 	case PROP_PREFERRED_HEIGHT:
 		wbv->preferred_height = g_value_get_int (value);
 		break;
+	case PROP_WORKBOOK:
+		wbv->wb = g_value_dup_object (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -805,6 +809,9 @@ wb_view_get_property (GObject *object, guint property_id,
 	case PROP_PREFERRED_HEIGHT:
 		g_value_set_int (value, wbv->preferred_height);
 		break;
+	case PROP_WORKBOOK:
+		g_value_set_object (value, wbv->wb);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -821,6 +828,35 @@ wb_view_detach_from_workbook (WorkbookView *wbv)
 		wbv->wb = NULL;
 		wbv->current_sheet = NULL;
 	}
+}
+
+static GObject *
+wb_view_constructor (GType type,
+		     guint n_construct_properties,
+		     GObjectConstructParam *construct_params)
+{
+	GObject *obj;
+	WorkbookView *wbv;
+	int i;
+
+	obj = parent_class->constructor
+		(type, n_construct_properties, construct_params);
+	wbv = GNM_WORKBOOK_VIEW (obj);
+
+	if (wbv->wb == NULL)
+		wbv->wb = workbook_new ();
+
+	workbook_attach_view (wbv);
+
+	for (i = 0 ; i < workbook_sheet_count (wbv->wb); i++)
+		wb_view_sheet_add (wbv, workbook_sheet_by_index (wbv->wb, i));
+
+	if (wbv->auto_expr.func == NULL) {
+		wb_view_auto_expr_func (wbv, gnm_func_lookup ("sum", NULL));
+		wb_view_auto_expr_descr (wbv, _("Sum"));
+	}
+
+	return obj;
 }
 
 static void
@@ -865,6 +901,7 @@ workbook_view_class_init (GObjectClass *gobject_class)
 {
 	parent_class = g_type_class_peek_parent (gobject_class);
 
+	gobject_class->constructor = wb_view_constructor;
 	gobject_class->set_property = wb_view_set_property;
 	gobject_class->get_property = wb_view_get_property;
 	gobject_class->dispose = wb_view_dispose;
@@ -994,55 +1031,52 @@ workbook_view_class_init (GObjectClass *gobject_class)
 				   1, G_MAXINT, 768,
 				   GSF_PARAM_STATIC |
 				   G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_WORKBOOK,
+		 g_param_spec_object ("workbook",
+				      P_("Workbook"),
+				      P_("Workbook"),
+				      GNM_WORKBOOK_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_CONSTRUCT_ONLY |
+				      G_PARAM_READWRITE));
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
 
-GSF_CLASS (WorkbookView, workbook_view,
-	   workbook_view_class_init, NULL, GO_TYPE_VIEW)
+static void
+workbook_view_init (WorkbookView *wbv)
+{
+	wbv->show_horizontal_scrollbar = TRUE;
+	wbv->show_vertical_scrollbar = TRUE;
+	wbv->show_notebook_tabs = TRUE;
+	wbv->show_function_cell_markers =
+		gnm_conf_get_core_gui_cells_function_markers ();
+	wbv->show_extension_markers =
+		gnm_conf_get_core_gui_cells_extension_markers ();
+	wbv->do_auto_completion =
+		gnm_conf_get_core_gui_editing_autocomplete ();
+	wbv->is_protected = FALSE;
 
+	dependent_managed_init (&wbv->auto_expr.dep, NULL);
+}
+
+GSF_CLASS (WorkbookView, workbook_view,
+	   workbook_view_class_init, workbook_view_init, GO_TYPE_VIEW)
+
+/**
+ * workbook_view_new:
+ * @wb: (allow-none) (transfer full): #Workbook
+ *
+ * Returns: A new #WorkbookView for @wb (or a fresh one if that is %NULL).
+ **/
 WorkbookView *
 workbook_view_new (Workbook *wb)
 {
-	WorkbookView *wbv;
-	int i;
-
-	if (wb == NULL)
-		wb = workbook_new ();
-
-	g_return_val_if_fail (wb != NULL, NULL);
-
-	wbv = g_object_new
-		(GNM_WORKBOOK_VIEW_TYPE,
-		 "show-horizontal-scrollbar", TRUE,
-		 "show-vertical-scrollbar", TRUE,
-		 "show-notebook-tabs", TRUE,
-		 "show-function-cell-markers", gnm_conf_get_core_gui_cells_function_markers (),
-		 "show-extension-markers", gnm_conf_get_core_gui_cells_extension_markers (),
-		 "do-auto-completion", gnm_conf_get_core_gui_editing_autocomplete (),
-		 "protected", FALSE,
-		 "auto-expr-value", NULL,
-		 "auto-expr-max-precision", FALSE,
-		 NULL);
-
-	wbv->wb = wb;
-	workbook_attach_view (wbv);
-
-	wbv->current_style      = NULL;
-	wbv->in_cell_combo      = NULL;
-
-	wbv->current_sheet      = NULL;
-	wbv->current_sheet_view = NULL;
-
-	dependent_managed_init (&wbv->auto_expr.dep, NULL);
-
-	for (i = 0 ; i < workbook_sheet_count (wb); i++)
-		wb_view_sheet_add (wbv, workbook_sheet_by_index (wb, i));
-
-	g_object_set (G_OBJECT (wbv),
-		      "auto-expr-func", gnm_func_lookup ("sum", NULL),
-		      "auto-expr-descr", _("Sum"),
-		      NULL);
+	WorkbookView *wbv =
+		g_object_new (GNM_WORKBOOK_VIEW_TYPE, "workbook", wb, NULL);
+	if (wb) g_object_unref (wb);
 
 	return wbv;
 }
