@@ -25,9 +25,12 @@ sheet.cell_set_text(0,4,"zzz")
 sheet.cell_set_value(0,5,Gnm.Value.new_string("abc"))
 sheet.cell_set_value(0,6,Gnm.Value.new_bool(1))
 
+# Make A1:A2 bold
 st = Gnm.Style.new()
 st.set_font_bold(1)
-# FIXME: Apply somewhere
+r = Gnm.Range()
+r.init(0,0,0,1)
+sheet.style_apply_range(r,st)
 
 # Recalculate all cells that need it
 wb.recalc()
@@ -42,4 +45,6 @@ for i in range(7):
 
 print "\nList of cells in sheet:"
 for c in sheet.cells(None):
-    print c.name()
+    st = sheet.style_get (c.pos.col,c.pos.row)
+    bold = st.get_font_bold()
+    print("{}: {}".format(c.name(), ("[bold]" if bold else "")))

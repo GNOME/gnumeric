@@ -1491,11 +1491,11 @@ sheet_style_default (Sheet const *sheet)
 /**
  * sheet_style_get:
  * @sheet: #Sheet
- * @col:
- * @row:
+ * @col: column number
+ * @row: row number
  *
- * Find the fully qualified style applicable to the specified cellpos.
- * Does _not_ add a reference.
+ * Returns: (transfer none): find the fully qualified style applicable to
+ * the specified cell position
  **/
 GnmStyle const *
 sheet_style_get (Sheet const *sheet, int col, int row)
@@ -1747,9 +1747,9 @@ style_row_init (GnmBorder const * * *prev_vert,
 
 /**
  * sheet_style_apply_range:
- * @sheet:
- * @range:
- * @pstyle:
+ * @sheet: #Sheet
+ * @range: #GnmRange to apply over
+ * @pstyle: (transfer full): A partial style to apply
  *
  * Apply a partial style to a region.
  * The routine absorbs a reference to the partial style.

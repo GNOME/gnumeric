@@ -10,7 +10,6 @@ be useful in this setting and actually work.
 
 This is incomplete.  In particular, I'll have to look at
 * Expressions other than via text
-* Applying style information
 * File i/o
 * Copy and paste
 * Installing a gi override module for more pythony structure handling
@@ -41,6 +40,8 @@ Sheet: [GObject]
   cells(range)
   cells_count()
   is_cell_empty(col,row)
+  style_apply_range(range,style)
+  style_get(col,row)
   props.name
   props.workbook
   props.rtl
@@ -80,7 +81,7 @@ Sheet: [GObject]
 GnmCell: [Boxed structure] [2]
   name()
   get_value()
-
+  pos
 
 GnmSheetSize: [Simple structure]
   max_cols
