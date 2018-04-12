@@ -13,7 +13,7 @@ char const *col_parse (char const *str, GnmSheetSize const *ss,
 		       int *res, unsigned char *relative);
 
 char const *row_name  (int row);
-char const *rows_name (int start_row, int end_col);
+char const *rows_name (int start_row, int end_row);
 char const *row_parse (char const *str, GnmSheetSize const *ss,
 		       int *res, unsigned char *relative);
 

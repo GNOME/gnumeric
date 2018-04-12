@@ -51,9 +51,7 @@
 static GnmLexerItem *
 gnm_lexer_item_copy (GnmLexerItem *li)
 {
-	GnmLexerItem *res = g_new (GnmLexerItem, 1);
-	*res = *li;
-	return res;
+	return g_memdup (li, sizeof (*li));
 }
 
 GType
@@ -101,6 +99,12 @@ col_name_internal (GString *target, int col)
 	}
 }
 
+/**
+ * col_name: (skip)
+ * @col: column number
+ *
+ * Returns: (transfer none): A string representation of @col
+ */
 char const *
 col_name (int col)
 {
@@ -114,6 +118,14 @@ col_name (int col)
 	return buffer->str;
 }
 
+/**
+ * cols_name: (skip)
+ * @start_col: column number
+ * @end_col: column number
+ *
+ * Returns: (transfer none): A string representation of the columns from
+ * @start_col to @end_col.
+ */
 char const *
 cols_name (int start_col, int end_col)
 {
@@ -131,6 +143,11 @@ cols_name (int start_col, int end_col)
 	return buffer->str;
 }
 
+/**
+ * col_parse: (skip)
+ *
+ * Returns: (transfer none):
+ */
 char const *
 col_parse (char const *str, GnmSheetSize const *ss,
 	   int *res, unsigned char *relative)
@@ -163,6 +180,12 @@ row_name_internal (GString *target, int row)
 	g_string_append_printf (target, "%d", row + 1);
 }
 
+/**
+ * row_name: (skip)
+ * @row: row number
+ *
+ * Returns: (transfer none): A string representation of @row
+ */
 char const *
 row_name (int row)
 {
@@ -176,6 +199,14 @@ row_name (int row)
 	return buffer->str;
 }
 
+/**
+ * rows_name: (skip)
+ * @start_row: row number
+ * @end_row: row number
+ *
+ * Returns: (transfer none): A string representation of the rows from
+ * @start_row to @end_row.
+ */
 char const *
 rows_name (int start_row, int end_row)
 {
@@ -193,6 +224,11 @@ rows_name (int start_row, int end_row)
 	return buffer->str;
 }
 
+/**
+ * row_parse: (skip)
+ *
+ * Returns: (transfer none):
+ */
 char const *
 row_parse (char const *str, GnmSheetSize const *ss,
 	   int *res, unsigned char *relative)
@@ -253,14 +289,14 @@ wb_rel_uri (Workbook *wb, Workbook *ref_wb)
 }
 
 /**
- * cellref_as_string :
+ * cellref_as_string: (skip)
  * @out: #GnmConventionsOut
  * @cell_ref:
- * @no_sheetname:
+ * @no_sheetname: If %TRUE, suppress sheet name
  *
- * Returns a string that the caller needs to free containing the A1 format
- * representation of @ref as evaluated at @pp.  @no_sheetname can be used to
- * suppress the addition of the sheetname for non-local references.
+ * Emits a string containing representation of @ref as evaluated at @pp.
+ * @no_sheetname can be used to suppress the addition of the sheetname
+ * for non-local references.
  **/
 void
 cellref_as_string (GnmConventionsOut *out,
@@ -310,7 +346,7 @@ cellref_as_string (GnmConventionsOut *out,
 }
 
 /**
- * rangeref_as_string :
+ * rangeref_as_string: (skip)
  * @out: #GnmConventionsOut
  * @ref: #GnmRangeRef
  *
@@ -419,7 +455,7 @@ rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 }
 
 /**
- * gnm_1_0_rangeref_as_string :
+ * gnm_1_0_rangeref_as_string: (skip)
  * @out: #GnmConventionsOut
  * @ref: #GnmRangeRef
  *
@@ -585,16 +621,17 @@ cellref_r1c1_get (GnmCellRef *out, GnmSheetSize const *ss,
 }
 
 /**
- * cellref_parse:
- * @out: destination GnmCellRef
- * @in: reference description text, no leading
- *      whitespace allowed.
- * @pos:
+ * cellref_parse: (skip)
+ * @out: (out): destination GnmCellRef
+ * @ss: size of the sheet where parsing is being done
+ * @in: reference description text, no leading whitespace allowed.
+ * @pos: position parsing is being done at
  *
- * Converts the char * representation of a Cell reference into
+ * Converts the string representation of a #GnmCellRef into
  * an internal representation.
  *
- * Return value: a pointer to the character following the cellref.
+ * Returns: (transfer none): a pointer to the character following the
+ * cellref.
  **/
 char const *
 cellref_parse (GnmCellRef *out, GnmSheetSize const *ss,
@@ -633,12 +670,25 @@ cell_coord_name2 (int col, int row, gboolean r1c1)
 	return buffer->str;
 }
 
+/**
+ * cell_coord_name: (skip)
+ * @col: column number
+ * @row: row number
+ *
+ * Returns: (transfer none): a string representation of the cell at (@col,@row)
+ */
 char const *
 cell_coord_name (int col, int row)
 {
 	return cell_coord_name2 (col, row, FALSE);
 }
 
+/**
+ * cellpos_as_string: (skip)
+ * @pos: A #GnmCellPos
+ *
+ * Returns: (transfer none): a string representation of the cell at @pos
+ */
 char const *
 cellpos_as_string (GnmCellPos const *pos)
 {
@@ -674,7 +724,7 @@ cell_name (GnmCell const *cell)
 }
 
 /**
- * cellpos_parse:
+ * cellpos_parse: (skip)
  * @cell_str:   a string representation of a cell name.
  * @ss:          #GnmSheetSize
  * @res:         result
@@ -682,8 +732,8 @@ cell_name (GnmCell const *cell)
  *               otherwise an attempt is made to return cell names with
  *               trailing garbage.
  *
- * Return value: pointer to following char on success, NULL on failure.
- * (In the strict case, that would be a pointer to the \0 or NULL.)
+ * Returns: (transfer none): pointer to following char on success, %NULL on
+ * failure.  (In the strict case, that would be a pointer to the \0 or %NULL.)
  */
 char const *
 cellpos_parse (char const *cell_str, GnmSheetSize const *ss,
@@ -706,7 +756,8 @@ cellpos_parse (char const *cell_str, GnmSheetSize const *ss,
 }
 
 /**
- * gnm_expr_char_start_p:
+ * gnm_expr_char_start_p: (skip)
+ * @c: string
  *
  * Can the supplied string be an expression ?  It does not guarantee that it is,
  * however, it is possible.  If it is possible it strips off any header
@@ -757,13 +808,13 @@ gnm_expr_char_start_p (char const * c)
  * parse_text_value_or_expr:
  * @pos: If the string looks like an expression parse it at this location.
  * @text: The text to be parsed.
- * @val: Returns a GnmValue* if the text was a value, otherwise NULL.
- * @texpr: Returns a GnmExprTop* if the text was an expression, otherwise NULL.
+ * @val: (out): Returns a GnmValue* if the text was a value, otherwise NULL.
+ * @texpr: (out): Returns a GnmExprTop* if the text was an expression, otherwise NULL.
  *
  * Utility routine to parse a string and convert it into an expression or value.
  *
- * If there is a parse failure for an expression an error GnmValue with the syntax
- * error is returned.
+ * If there is a parse failure for an expression an error GnmValue with
+ * the syntax error is returned in @val.
  */
 void
 parse_text_value_or_expr (GnmParsePos const *pos, char const *text,
@@ -949,17 +1000,17 @@ wbref_parse (GnmConventions const *convs,
 }
 
 /**
- * sheetref_parse :
- * @convs:
+ * sheetref_parse: (skip)
+ * @convs: #GnmConventions
  * @start:
- * @sheet:
- * @wb:
+ * @sheet: (out)
+ * @wb: A #Workbook
  * @allow_3d:
  *
- * Returns : NULL if there is a valid sheet name but it is unknown.
- *           If the string is a valid sheet name it returns a pointer
- *           the end of the name.
- *           Otherwise returns @start and does not modify @sheet.
+ * Returns: (transfer none): %NULL if there is a valid sheet name but it
+ * is unknown.  If the string is a valid sheet name it returns a pointer
+ * the end of the name.  Otherwise returns @start and does not
+ * modify @sheet.
  **/
 static char const *
 sheetref_parse (GnmConventions const *convs,
@@ -1111,13 +1162,13 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 }
 
 /**
- * rangeref_parse :
- * @res: where to store the result
+ * rangeref_parse: (skip)
+ * @res: (out): #GnmRangeRef
  * @start: the start of the string to parse
  * @pp: the location to parse relative to
  * @convs: #GnmConventions
  *
- * Returns a pointer to the first invalid character.
+ * Returns: (transfer none): a pointer to the first invalid character.
  * If the result != @start then @res is valid.
  **/
 char const *
@@ -1450,13 +1501,12 @@ std_string_parser (char const *in, GString *target,
 }
 
 /**
- * gnm_conventions_new_full :
+ * gnm_conventions_new_full:
  * @size:
  *
  * Construct a GnmConventions of @size.
  *
- * Returns a GnmConventions with default values.  Caller is responsible for
- * freeing the result.
+ * Returns: (transfer full): A #GnmConventions with default values.
  **/
 GnmConventions *
 gnm_conventions_new_full (unsigned size)
@@ -1495,13 +1545,12 @@ gnm_conventions_new_full (unsigned size)
 }
 
 /**
- * gnm_conventions_new :
+ * gnm_conventions_new:
  *
  * A convenience wrapper around gnm_conventions_new_full
  * that constructs a GnmConventions of std size.
  *
- * Returns a GnmConventions with default values.  Caller is responsible for
- * freeing the result.
+ * Returns: (transfer full): A #GnmConventions with default values.
  **/
 GnmConventions *
 gnm_conventions_new (void)
@@ -1510,10 +1559,10 @@ gnm_conventions_new (void)
 }
 
 /**
- * gnm_conventions_unref :
- * @c: #GnmConventions
+ * gnm_conventions_unref: (skip)
+ * @c: (transfer full): #GnmConventions
  *
- * Release a convention
+ * Release a reference to a #GnmConvention
  **/
 void
 gnm_conventions_unref (GnmConventions *c)
@@ -1530,6 +1579,12 @@ gnm_conventions_unref (GnmConventions *c)
 	g_free (c);
 }
 
+/**
+ * gnm_conventions_ref: (skip)
+ * @c: (transfer none): #GnmConventions
+ *
+ * Returns: (transfer full): a new reference to @c
+ **/
 GnmConventions *
 gnm_conventions_ref (GnmConventions *c)
 {
@@ -1590,10 +1645,8 @@ parse_util_shutdown (void)
  * @convs: #GnmConventions
  * @str: string to quote
  *
- * Quotes @str according to the convention @convs if necessary.
- * or returns a literal copy of @str if no quoting was needed.
- *
- * Return value: caller is responsible for the resulting GString
+ * Returns: (transfer full): A quoted string according to @convs.  If no
+ * quoting is necessary, a literal copy of @str will be returned.
  **/
 GString *
 gnm_expr_conv_quote (GnmConventions const *convs,
