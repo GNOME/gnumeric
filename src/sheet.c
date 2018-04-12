@@ -2911,8 +2911,7 @@ sheet_range_set_markup_undo (GnmSheetRange *sr, PangoAttrList *markup)
  * @col: Source column
  * @row: Source row
  *
- * Retrieve the value of a cell. The returned value must
- * NOT be freed or tampered with.
+ * Returns: (transfer none) (nullable): the cell's current value.
  **/
 GnmValue const *
 sheet_cell_get_value (Sheet *sheet, int const col, int const row)
@@ -2998,6 +2997,23 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 
 	sheet_flag_status_update_cell (cell);
 }
+
+/**
+ * sheet_cell_set_text_gi: (rename-to sheet_cell_set_text)
+ * @sheet: #Sheet
+ * @col: column number
+ * @row: row number
+ * @str: the text to set.
+ *
+ * Sets the contents of a cell.
+ */
+void
+sheet_cell_set_text_gi (Sheet *sheet, int col, int row, char const *str)
+{
+	sheet_cell_set_text (sheet_cell_fetch (sheet, col, row), str, NULL);
+}
+
+
 
 /**
  * sheet_cell_set_expr:

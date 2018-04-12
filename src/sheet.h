@@ -388,7 +388,7 @@ SheetView *sheet_get_view (Sheet const *sheet, WorkbookView const *wbv);
 
 // Introspection support
 void sheet_cell_set_value_gi (Sheet *sheet, int col, int row, GnmValue *v);
-
+void sheet_cell_set_text_gi  (Sheet *sheet, int col, int row, char const *str);
 
 
 #define SHEET_FOREACH_VIEW(sheet, view, code)					\

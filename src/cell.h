@@ -43,6 +43,7 @@ gboolean    gnm_cell_is_blank	  (GnmCell const *cell); /* empty, or "" */
 GnmValue   *gnm_cell_is_error	  (GnmCell const *cell);
 gboolean    gnm_cell_is_number	  (GnmCell const *cell);
 gboolean    gnm_cell_is_zero	  (GnmCell const *cell);
+GnmValue   *gnm_cell_get_value    (GnmCell const *cell);
 
 gboolean    gnm_cell_is_array	  (GnmCell const *cell);
 gboolean    gnm_cell_is_nonsingleton_array (GnmCell const *cell);

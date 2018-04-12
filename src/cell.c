@@ -499,6 +499,19 @@ gnm_cell_is_zero (GnmCell const *cell)
 }
 
 /**
+ * gnm_cell_get_value:
+ * @cell: #GnmCell
+ *
+ * Returns: (transfer none): @cell's value
+ **/
+GnmValue *
+gnm_cell_get_value (GnmCell const *cell)
+{
+	g_return_val_if_fail (cell != NULL, NULL);
+	return cell->value;
+}
+
+/**
  * gnm_cell_array_bound:
  * @cell: (nullable): #GnmCell
  * @res: (out): The range containing an array cell
