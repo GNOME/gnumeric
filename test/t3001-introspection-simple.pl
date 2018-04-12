@@ -14,7 +14,10 @@ my $ref = join("",<DATA>);
 	       sub { $_ eq $ref });
 
 __DATA__
-Peek:
+Number of columns: 256
+Number of rows: 65536
+
+As string:
 10
 101.25
 111.25
@@ -31,3 +34,12 @@ As int:
 0
 0
 1
+
+List of cells in sheet:
+A1
+A2
+A3
+A4
+A5
+A6
+A7

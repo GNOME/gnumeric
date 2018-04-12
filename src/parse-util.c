@@ -657,6 +657,12 @@ parsepos_as_string (GnmParsePos const *pp)
 				 pp->sheet && pp->sheet->convs->r1c1_addresses);
 }
 
+/**
+ * cell_name:
+ * @cell: #GnmCell
+ *
+ * Returns: (transfer none): the name of @cell, like "B11"
+ */
 char const *
 cell_name (GnmCell const *cell)
 {

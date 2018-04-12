@@ -3891,7 +3891,7 @@ cell_ordering (gconstpointer a_, gconstpointer b_)
 /**
  * sheet_cells:
  * @sheet: a #Sheet
- * @r: a #GnmRange
+ * @r: (nullable): a #GnmRange
  *
  * Retrieves an array of all cells inside @r.
  * Returns: (element-type GnmCell) (transfer container): the cells array.
