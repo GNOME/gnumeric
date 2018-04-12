@@ -3014,7 +3014,6 @@ sheet_cell_set_text_gi (Sheet *sheet, int col, int row, char const *str)
 }
 
 
-
 /**
  * sheet_cell_set_expr:
  *

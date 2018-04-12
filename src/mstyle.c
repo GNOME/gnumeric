@@ -611,11 +611,9 @@ gnm_style_clear_font (GnmStyle *style)
 }
 
 /**
- * gnm_style_new :
+ * gnm_style_new:
  *
- * Caller is responsible for unrefing the result.
- *
- * Returns a new style with _no_ elements set.
+ * Returns: (transfer full): a new style with _no_ elements set.
  **/
 GnmStyle *
 gnm_style_new (void)
@@ -643,9 +641,7 @@ gnm_style_new (void)
 /**
  * gnm_style_new_default:
  *
- * Caller is responsible for unrefing the result.
- *
- * Return value: a new style initialized to the default state.
+ * Returns: (transfer full): a new style initialized to the default state.
  **/
 GnmStyle *
 gnm_style_new_default (void)
@@ -748,6 +744,12 @@ gnm_style_new_merged (GnmStyle const *base, GnmStyle const *overlay)
 	return new_style;
 }
 
+/**
+ * gnm_style_ref: (skip)
+ * @style: #GnmStyle
+ *
+ * Adds a reference to @style.
+ */
 void
 gnm_style_ref (GnmStyle const *style)
 {
@@ -759,7 +761,7 @@ gnm_style_ref (GnmStyle const *style)
 }
 
 /**
- * gnm_style_unref :
+ * gnm_style_unref: (skip)
  * @style: #GnmStyle const
  *
  * Unrefs and _potentially frees_ @style.

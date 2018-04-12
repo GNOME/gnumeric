@@ -13,14 +13,22 @@ This is incomplete.  In particular, I'll have to look at
 * Style information
 * File i/o
 * Copy and paste
+* Installing a gi override module for more pythony structure handling
 
 -----------------------------------------------------------------------------
+Note: the Python version of type names excludes the Gnm prefix.
 
 Workbook: [GObject]
   new_with_sheets(count)
   sheet_by_index(no)
   sheet_by_name(string)
-  props.name
+  recalc()
+  recalc_all()
+  cells(qcomments,visibility)
+  props.recalc_mode
+  props.uri
+  props.dirty
+  props.pristine
 
 
 Sheet: [GObject]
@@ -33,6 +41,40 @@ Sheet: [GObject]
   cells(range)
   cells_count()
   is_cell_empty(col,row)
+  props.name
+  props.workbook
+  props.rtl
+  props.visibility
+  props.display_formulas
+  props.display_zeros
+  props.display_grid
+  props.display_column_header
+  props.display_row_header
+  props.display_outlines
+  props.display_outlines_below
+  props.display_outlines_right
+  props.protected
+  props.protected_allow_edit_objects
+  props.protected_allow_edit_scenarios
+  props.protected_allow_cell_formatting
+  props.protected_allow_column_formatting
+  props.protected_allow_row_formatting
+  props.protected_allow_insert_columns
+  props.protected_allow_insert_rows
+  props.protected_allow_insert_hyperlinks
+  props.protected_allow_delete_columns
+  props.protected_allow_delete_rows
+  props.protected_allow_select_locked_cells
+  props.protected_allow_sort_ranges
+  props.protected_allow_edit_auto_filters
+  props.protected_allow_edit_pivottable
+  props.protected_allow_select_unlocked_cells
+  props.use_r1c1
+  props.tab_foreground
+  props.tab_background
+  props.zoom_factor
+  props.columns
+  props.rows
 
 
 GnmCell: [Structure] [2]
@@ -55,9 +97,10 @@ GnmValue: [Structure]
   get_as_int()
   get_as_float()
   type_of()
+  hash()
 
 
-ValueType: [Enum]
+GnmValueType: [Enum]
   EMPTY
   BOOLEAN
   FLOAT
@@ -68,10 +111,10 @@ ValueType: [Enum]
 
 
 GnmRange: [Simple structure]
-  init(int,int,int,int)
+  init(col,row,col,row)
   init_full_sheet(sheet)
-  init_cols(sheet,int,int)
-  init_rows(sheet,int,int)
+  init_cols(sheet,start,end)
+  init_rows(sheet,start,end)
   init_cellpos(sheet,cellpos)
   as_string()
   start
@@ -81,6 +124,13 @@ GnmRange: [Simple structure]
 GnmCellPos: [Simple structure]
   col
   row
+
+
+GnmSheetVisibility: [Enum]
+  VISIBLE
+  HIDDEN
+  VERY_HIDDEN
+
 
 
 Footnotes:
