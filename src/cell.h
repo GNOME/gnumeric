@@ -51,13 +51,13 @@ gboolean    gnm_cell_array_bound	  (GnmCell const *cell, GnmRange *res);
 /*
  * Utilities to assign the contents of a cell
  */
-void gnm_cell_set_text		(GnmCell *c, char const *text);
-void gnm_cell_assign_value	(GnmCell *c, GnmValue *v);
+void gnm_cell_set_text		(GnmCell *cell, char const *text);
+void gnm_cell_assign_value	(GnmCell *cell, GnmValue *v);
 void gnm_cell_set_value		(GnmCell *c, GnmValue *v);
-void gnm_cell_set_expr_and_value(GnmCell *c,
+void gnm_cell_set_expr_and_value(GnmCell *cell,
 				 GnmExprTop const *texpr, GnmValue *v,
 				 gboolean link_expr);
-void gnm_cell_set_expr		(GnmCell *c, GnmExprTop const *texpr);
+void gnm_cell_set_expr		(GnmCell *cell, GnmExprTop const *texpr);
 void gnm_cell_set_expr_unsafe	(GnmCell *cell, GnmExprTop const *texpr);
 void gnm_cell_set_array_formula	(Sheet *sheet,
 				 int cola, int rowa, int colb, int rowb,
@@ -90,7 +90,7 @@ int	gnm_cell_rendered_width		(GnmCell const * cell);	/* excludes offset */
 int	gnm_cell_rendered_offset	(GnmCell const * cell);
 GOColor gnm_cell_get_render_color	(GnmCell const * cell);
 char *	gnm_cell_get_entered_text	(GnmCell const * cell);
-char *	gnm_cell_get_text_for_editing	(GnmCell const * cell, Sheet *sheet,
+char *	gnm_cell_get_text_for_editing	(GnmCell const * cell,
 					 gboolean *quoted, int *cursor_pos);
 char *  gnm_cell_get_rendered_text	(GnmCell *cell);
 

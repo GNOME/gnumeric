@@ -3027,11 +3027,8 @@ sheet_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
  * Stores, without copying, the supplied value.  It marks the
  * sheet as dirty.
  *
- * The value is rendered, spans are calculated, and the rendered string
- * is stored as if that is what the user had entered.  It queues a redraw
+ * The value is rendered and spans are calculated.  It queues a redraw
  * and checks to see if the edit region or selection content changed.
- *
- * If an optional format is supplied it is stored for later use.
  *
  * NOTE : This DOES check for array partitioning.
  */
@@ -3043,6 +3040,25 @@ sheet_cell_set_value (GnmCell *cell, GnmValue *v)
 	sheet_cell_calc_span (cell, GNM_SPANCALC_RESIZE | GNM_SPANCALC_RENDER);
 	cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);
+}
+
+/**
+ * sheet_cell_set_value_gi: (rename-to sheet_cell_set_value)
+ * @sheet: #Sheet
+ * @col: column number
+ * @row: row number
+ * @v: (transfer full): #GnmValue
+ *
+ * Stores, without copying, the supplied value.  It marks the
+ * sheet as dirty.
+ *
+ * The value is rendered and spans are calculated.  It queues a redraw
+ * and checks to see if the edit region or selection content changed.
+ */
+void
+sheet_cell_set_value_gi (Sheet *sheet, int col, int row, GnmValue *v)
+{
+	sheet_cell_set_value (sheet_cell_fetch (sheet, col, row), v);
 }
 
 /****************************************************************************/

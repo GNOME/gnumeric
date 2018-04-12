@@ -774,7 +774,7 @@ cmd_set_text_full_check_text (GnmCellIter const *iter, char *text)
 	if (text == NULL || text[0] == '\0')
 		return VALUE_TERMINATE;
 
-	old_text = gnm_cell_get_text_for_editing (iter->cell, iter->pp.sheet, NULL, &quoted);
+	old_text = gnm_cell_get_text_for_editing (iter->cell, NULL, &quoted);
 	same = g_strcmp0 (old_text, text) == 0;
 
 	if (!same && !quoted && iter->cell->value && VALUE_IS_STRING (iter->cell->value)

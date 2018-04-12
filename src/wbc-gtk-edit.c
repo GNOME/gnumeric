@@ -936,7 +936,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 	else if (cell != NULL) {
 		gboolean quoted = FALSE;
 
-		text = gnm_cell_get_text_for_editing (cell, sv->sheet, &quoted, &cursor_pos);
+		text = gnm_cell_get_text_for_editing (cell, &quoted, &cursor_pos);
 
 		if (text)
 			gtk_entry_set_text (wbcg_get_entry (wbcg), text);

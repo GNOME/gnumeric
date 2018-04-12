@@ -27,7 +27,9 @@
 #include <goffice/goffice.h>
 
 /**
- * gnm_cell_cleanout:
+ * gnm_cell_cleanout: (skip)
+ * @cell: The #GnmCell
+ *
  *      Empty a cell's
  *		- value.
  *		- rendered_value.
@@ -68,8 +70,12 @@ gnm_cell_cleanout (GnmCell *cell)
 
 /****************************************************************************/
 
-/*
- * gnm_cell_set_text: Parses the supplied text for storage as a value or
+/**
+ * gnm_cell_set_text: (skip)
+ * @cell: #GnmCell
+ * @text: New contents of cell
+ *
+ * Parses the supplied text for storage as a value or
  *		expression.  It marks the sheet as dirty.
  *
  * If the text is an expression it IS queued for recalc.
@@ -105,8 +111,12 @@ gnm_cell_set_text (GnmCell *cell, char const *text)
 	}
 }
 
-/*
- * gnm_cell_assign_value: Stores (WITHOUT COPYING) the supplied value.
+/**
+ * gnm_cell_assign_value: (skip)
+ * @cell: #GnmCell
+ * @v: (transfer full): #GnmValue
+ *
+ * Stores, without copying, the supplied value.
  *    no changes are made to the expression or entered text.  This
  *    is for use by routines that wish to store values directly such
  *    as expression calculation or import for array formulas.
@@ -131,11 +141,9 @@ gnm_cell_assign_value (GnmCell *cell, GnmValue *v)
 }
 
 /**
- * gnm_cell_set_value:
+ * gnm_cell_set_value: (skip)
  * @c: #GnmCell
- * @v: #GnmValue
- * Stores (WITHOUT COPYING) the supplied value.  It marks the
- *          sheet as dirty.
+ * @v: (transfer full): #GnmValue
  *
  * WARNING : This is an internal routine that does not
  *	- queue redraws,
@@ -159,8 +167,14 @@ gnm_cell_set_value (GnmCell *cell, GnmValue *v)
 	cell->value = v;
 }
 
-/*
- * gnm_cell_set_expr_and_value: Stores (WITHOUT COPYING) the supplied value, and
+/**
+ * gnm_cell_set_expr_and_value: (skip)
+ * @cell: The #GnmCell
+ * @texpr: The #GnmExprTop
+ * @v: (transfer full): The #GnmValue.
+ * @link_expr: If %TRUE, link the expression.
+ *
+ * Stores, without copying, the supplied value, and
  *        references the supplied expression and links it into the expression
  *        list.  It marks the sheet as dirty. It is intended for use by import
  *        routines or operations that do bulk assignment.
@@ -172,8 +186,8 @@ gnm_cell_set_value (GnmCell *cell, GnmValue *v)
  * NOTE : This DOES check for array partitioning.
  */
 void
-gnm_cell_set_expr_and_value (GnmCell *cell, GnmExprTop const *texpr, GnmValue *v,
-			     gboolean link_expr)
+gnm_cell_set_expr_and_value (GnmCell *cell, GnmExprTop const *texpr,
+			     GnmValue *v, gboolean link_expr)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (texpr != NULL);
@@ -194,7 +208,7 @@ gnm_cell_set_expr_and_value (GnmCell *cell, GnmExprTop const *texpr, GnmValue *v
 }
 
 /**
- * cell_set_expr_internal:
+ * cell_set_expr_internal: (skip)
  * @cell: the cell to set the expr for
  * @expr: an expression
  *
@@ -222,8 +236,12 @@ cell_set_expr_internal (GnmCell *cell, GnmExprTop const *texpr)
 	cell->value = save_value;
 }
 
-/*
- * gnm_cell_set_expr_unsafe: Stores and references the supplied expression.  It
+/**
+ * gnm_cell_set_expr_unsafe: (skip)
+ * @cell: The #GnmCell
+ * @texpr: The #GnmExprTop
+ *
+ * Stores and references the supplied expression.  It
  *         marks the sheet as dirty.  Intented for use by import routines that
  *         do bulk assignment.  The resulting cell is NOT linked into the
  *         dependent list.  Nor marked for recalc.
@@ -242,8 +260,12 @@ gnm_cell_set_expr_unsafe (GnmCell *cell, GnmExprTop const *texpr)
 	cell_set_expr_internal (cell, texpr);
 }
 
-/*
- * gnm_cell_set_expr:  Stores and references the supplied expression
+/**
+ * gnm_cell_set_expr: (skip)
+ * @cell: The #GnmCell
+ * @texpr: The #GnmExprTop
+ *
+ * Stores and references the supplied expression
  *         marks the sheet as dirty.  Intented for use by import routines that
  *         do bulk assignment.  The resulting cell _is_ linked into the
  *         dependent list, but NOT marked for recalc.
@@ -264,7 +286,7 @@ gnm_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
 }
 
 /**
- * gnm_cell_set_array_formula:
+ * gnm_cell_set_array_formula: (skip)
  * @sheet:   The sheet to set the expr in.
  * @cola:   The left column in the destination region.
  * @rowa:   The top row in the destination region.
@@ -331,7 +353,7 @@ gnm_cell_set_array_formula (Sheet *sheet,
 }
 
 static void
-gnm_cell_set_array_formula_cb (GnmSheetRange const *sr, GnmExprTop const  *texpr)
+gnm_cell_set_array_formula_cb (GnmSheetRange const *sr, GnmExprTop const *texpr)
 {
 	sheet_region_queue_recalc (sr->sheet, &sr->range);
 	gnm_expr_top_ref (texpr);
@@ -352,7 +374,7 @@ gnm_cell_set_array_formula_cb (GnmSheetRange const *sr, GnmExprTop const  *texpr
  * Returns: (transfer full): the newly allocated #GOUndo.
  **/
 GOUndo *
-gnm_cell_set_array_formula_undo (GnmSheetRange *sr, GnmExprTop const  *texpr)
+gnm_cell_set_array_formula_undo (GnmSheetRange *sr, GnmExprTop const *texpr)
 {
 	gnm_expr_top_ref (texpr);
 	return go_undo_binary_new (sr, (gpointer)texpr,
@@ -372,7 +394,7 @@ gnm_cell_set_array_formula_undo (GnmSheetRange *sr, GnmExprTop const  *texpr)
  * 'array-formula'.  The supplied expression is wrapped in an array
  * operator for each cell in the range and scheduled for recalc.
  *
- * Returns: TRUE if the operation succeded.
+ * Returns: %TRUE if the operation succeded.
  *
  * NOTE : This adds a reference to the expression.
  *
@@ -407,21 +429,22 @@ gnm_cell_set_array (Sheet *sheet,
 
 /**
  * gnm_cell_is_empty:
- * @cell: #GnmCell
+ * @cell: (nullable): #GnmCell
  *
- * If the cell has not been created, or has VALUE_EMPTY.
+ * Returns: %TRUE, If the cell has not been created, or has VALUE_EMPTY.
  **/
 gboolean
-gnm_cell_is_empty (GnmCell const * cell)
+gnm_cell_is_empty (GnmCell const *cell)
 {
 	return cell == NULL || VALUE_IS_EMPTY (cell->value);
 }
 
 /**
  * gnm_cell_is_blank:
- * @cell: #GnmCell
+ * @cell: (nullable): #GnmCell
  *
- * If the cell has not been created, has VALUE_EMPTY, or has a VALUE_STRING == ""
+ * Returns: %TRUE, if the cell has not been created, has VALUE_EMPTY,
+ * or has an empty VALUE_STRING.
  **/
 gboolean
 gnm_cell_is_blank (GnmCell const * cell)
@@ -431,8 +454,15 @@ gnm_cell_is_blank (GnmCell const * cell)
 		 *value_peek_string (cell->value) == '\0');
 }
 
+/**
+ * gnm_cell_is_error:
+ * @cell: #GnmCell
+ *
+ * Returns: (nullable) (transfer none): @cell's value if it is an error,
+ * or %NULL.
+ **/
 GnmValue *
-gnm_cell_is_error (GnmCell const * cell)
+gnm_cell_is_error (GnmCell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->value != NULL, NULL);
@@ -442,6 +472,12 @@ gnm_cell_is_error (GnmCell const * cell)
 	return NULL;
 }
 
+/**
+ * gnm_cell_is_number:
+ * @cell: #GnmCell
+ *
+ * Returns: %TRUE, if the cell contains a number.
+ **/
 gboolean
 gnm_cell_is_number (GnmCell const *cell)
 {
@@ -449,6 +485,12 @@ gnm_cell_is_number (GnmCell const *cell)
 	return (cell->value && VALUE_IS_NUMBER (cell->value));
 }
 
+/**
+ * gnm_cell_is_zero:
+ * @cell: #GnmCell
+ *
+ * Returns: %TRUE, if the cell contains zero.
+ **/
 gboolean
 gnm_cell_is_zero (GnmCell const *cell)
 {
@@ -456,12 +498,21 @@ gnm_cell_is_zero (GnmCell const *cell)
 	return v && VALUE_IS_NUMBER (v) && gnm_abs (value_get_as_float (v)) < 64 * GNM_EPSILON;
 }
 
+/**
+ * gnm_cell_array_bound:
+ * @cell: (nullable): #GnmCell
+ * @res: (out): The range containing an array cell
+ *
+ * Returns: %TRUE, if the cell is an array cell
+ **/
 gboolean
 gnm_cell_array_bound (GnmCell const *cell, GnmRange *res)
 {
 	GnmExprTop const *texpr;
 	int x, y;
 	int cols, rows;
+
+	range_init (res, 0, 0, 0, 0);
 
 	if (NULL == cell || !gnm_cell_has_expr (cell))
 		return FALSE;
@@ -491,9 +542,9 @@ gnm_cell_array_bound (GnmCell const *cell, GnmRange *res)
 
 /**
  * gnm_cell_is_array:
- * @cell: #GnmCell const *
+ * @cell: #GnmCell
  *
- * Return TRUE is @cell is part of an array
+ * Returns %TRUE is @cell is part of an array
  **/
 gboolean
 gnm_cell_is_array (GnmCell const *cell)
@@ -505,9 +556,9 @@ gnm_cell_is_array (GnmCell const *cell)
 
 /**
  * gnm_cell_is_nonsingleton_array:
- * @cell: #GnmCell const *
+ * @cell: #GnmCell
  *
- * Return TRUE is @cell is part of an array larger than 1x1
+ * Returns: %TRUE is @cell is part of an array larger than 1x1
  **/
 gboolean
 gnm_cell_is_nonsingleton_array (GnmCell const *cell)
@@ -532,7 +583,7 @@ gnm_cell_is_nonsingleton_array (GnmCell const *cell)
  * gnm_cell_get_rendered_value: (skip)
  * @cell: #GnmCell
  *
- * Returns:
+ * Returns: (transfer none): The #GnmRenderedValue for the cell.
  **/
 GnmRenderedValue *
 gnm_cell_get_rendered_value (GnmCell const *cell)
@@ -573,6 +624,8 @@ gnm_cell_unrender (GnmCell const *cell)
  * gnm_cell_render_value: (skip)
  * @cell: The cell whose value needs to be rendered
  * @allow_variable_width: Allow format to depend on column width.
+ *
+ * Returns: (transfer none): The newly #GnmRenderedValue.
  */
 GnmRenderedValue *
 gnm_cell_render_value (GnmCell const *cell, gboolean allow_variable_width)
@@ -638,8 +691,8 @@ gnm_cell_get_render_color (GnmCell const *cell)
  * This returns a g_malloc()ed region of memory with a text representation
  * of the cell contents.
  *
- * This will return a text expression if the cell contains a formula, or
- * a string representation of the value.
+ * Returns: (transfer full): a text expression if the cell contains a
+ * formula, or a string representation of the value.
  */
 char *
 gnm_cell_get_entered_text (GnmCell const *cell)
@@ -743,29 +796,29 @@ guess_time_format (const char *prefix, gnm_float f)
 /**
  * gnm_cell_get_text_for_editing:
  * @cell: the cell from which we want to pull the content from
+ * @quoted: (out) (optional): Whether a single quote was used to force
+ * string interpretation
+ * @cursor_pos: (out) (optional): Desired initial cursor position
  *
- * The returned value should be g_free'd
+ * Returns: (transfer full): A string suitable for editing
  *
  * Primary user of this function is the formula entry.
  * This function should return the value most appropriate for
  * editing
- *
  */
-
 char *
-gnm_cell_get_text_for_editing (GnmCell const * cell, Sheet *sheet,
+gnm_cell_get_text_for_editing (GnmCell const * cell,
 			       gboolean *quoted, int *cursor_pos)
 {
 	GODateConventions const *date_conv;
 	gchar *text = NULL;
 
 	g_return_val_if_fail (cell != NULL, NULL);
-	g_return_val_if_fail (sheet != NULL, NULL);
 
 	if (quoted)
 		*quoted = FALSE;
 
-	date_conv = workbook_date_conv (sheet->workbook);
+	date_conv = workbook_date_conv (cell->base.sheet->workbook);
 
 	if (!gnm_cell_is_array (cell) &&
 	    !gnm_cell_has_expr (cell) && VALUE_IS_FLOAT (cell->value)) {

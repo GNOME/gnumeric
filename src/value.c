@@ -98,6 +98,7 @@ value_new_float (gnm_float f)
 		*((GnmValueType *)&(v->type)) = VALUE_FLOAT;
 		v->fmt = NULL;
 		v->val = f;
+
 		return (GnmValue *)v;
 	} else {
 		/* FIXME: bogus ep sent here.  What to do?  */

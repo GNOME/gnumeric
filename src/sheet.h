@@ -386,6 +386,11 @@ GOUndo *sheet_clear_region_undo (GnmSheetRange *sr,
 
 SheetView *sheet_get_view (Sheet const *sheet, WorkbookView const *wbv);
 
+// Introspection support
+void sheet_cell_set_value_gi (Sheet *sheet, int col, int row, GnmValue *v);
+
+
+
 #define SHEET_FOREACH_VIEW(sheet, view, code)					\
 do {										\
 	int InD;								\
