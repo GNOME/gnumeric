@@ -892,7 +892,14 @@ sub setup_python_environment {
     my $v = 'GI_TYPELIB_PATH';
     my $dir = "$top_builddir/src";
     $ENV{$v} = ($ENV{$v} || '') eq '' ? $dir : $dir . ':' . $ENV{$v};
+
+    # Ditto for shared libraries
+    $v = 'LD_LIBRARY_PATH';
+    $dir = "$top_builddir/src/.libs";
+    $ENV{$v} = ($ENV{$v} || '') eq '' ? $dir : $dir . ':' . $ENV{$v};
 }
+
+# -----------------------------------------------------------------------------
 
 sub quotearg {
     return join (' ', map { &quotearg1 ($_) } @_);

@@ -98,7 +98,6 @@ value_new_float (gnm_float f)
 		*((GnmValueType *)&(v->type)) = VALUE_FLOAT;
 		v->fmt = NULL;
 		v->val = f;
-
 		return (GnmValue *)v;
 	} else {
 		/* FIXME: bogus ep sent here.  What to do?  */
@@ -1013,10 +1012,15 @@ value_get_as_string (GnmValue const *v)
 	return g_string_free (res, FALSE);
 }
 
-/*
- * Result will stay valid until (a) the value is disposed of, or (b) two
- * further calls to this function are made.
+/**
+ * value_peek_string:
+ * @v: a #GnmValue
+ *
+ * Returns: (transfer none): A string representation of the value.  The
+ * result will stay valid until either (a) the value is disposed of, or
+ * (b) two further calls to this function are made.
  */
+// NOTE: "(transfer none)" papers over an introspection bug
 char const *
 value_peek_string (GnmValue const *v)
 {

@@ -180,7 +180,9 @@ TESTS =	t1000-statfuns.pl			\
 SUPPS = common.supp gui.supp t8003-valgrind-pdf.supp
 
 INTROSPECTION_TSTS = \
-	t3000-introspection-basic.pl
+	t3000-introspection-basic.pl		\
+	t3001-introspection-simple.pl
+
 INTROSPECTION_SUPPS = \
 	$(INTROSPECTION_TSTS:.pl=.py)
 if HAVE_INTROSPECTION
