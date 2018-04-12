@@ -25,6 +25,10 @@ sheet.cell_set_text(0,4,"zzz")
 sheet.cell_set_value(0,5,Gnm.Value.new_string("abc"))
 sheet.cell_set_value(0,6,Gnm.Value.new_bool(1))
 
+st = Gnm.Style.new()
+st.set_font_bold(1)
+# FIXME: Apply somewhere
+
 # Recalculate all cells that need it
 wb.recalc()
 

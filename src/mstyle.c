@@ -1476,6 +1476,12 @@ gnm_style_set_font_name (GnmStyle *style, char const *name)
 	gnm_style_clear_pango (style);
 }
 
+/**
+ * gnm_style_set_font_name:
+ * @style: the style to query
+ *
+ * Returns: (transfer none): the currently set font name
+ */
 char const *
 gnm_style_get_font_name (GnmStyle const *style)
 {

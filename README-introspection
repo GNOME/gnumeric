@@ -10,7 +10,7 @@ be useful in this setting and actually work.
 
 This is incomplete.  In particular, I'll have to look at
 * Expressions other than via text
-* Style information
+* Applying style information
 * File i/o
 * Copy and paste
 * Installing a gi override module for more pythony structure handling
@@ -77,7 +77,7 @@ Sheet: [GObject]
   props.rows
 
 
-GnmCell: [Structure] [2]
+GnmCell: [Boxed structure] [2]
   name()
   get_value()
 
@@ -87,7 +87,7 @@ GnmSheetSize: [Simple structure]
   max_rows
 
 
-GnmValue: [Structure]
+GnmValue: [Boxed union]
   new_int(int)
   new_bool(bool)
   new_float(double)
@@ -130,6 +130,53 @@ GnmSheetVisibility: [Enum]
   VISIBLE
   HIDDEN
   VERY_HIDDEN
+
+
+GnmStyle: [Boxed structure]
+  new()
+  new_default()
+  is_complete()
+  is_element_set()
+  unset_element()
+  set_pattern(int)
+  get_pattern()
+  set_font_name(string)
+  get_font_name()
+  set_font_bold(bool)
+  get_font_bold()
+  set_font_italic(bool)
+  get_font_italic()
+  set_font_uline(uline)
+  get_font_uline()
+  set_font_strike(bool)
+  get_font_strike()
+  set_font_script(script)
+  get_font_script()
+  set_font_size(pts)
+  get_font_size()
+  set_format(fmt)
+  set_format_text(fmtstring)
+  get_format()
+  set_align_h(halign)
+  get_align_h()
+  set_align_v(valign)
+  get_align_v()
+  set_indent(int)
+  get_indent()
+  set_rotation(degs)
+  get_rotation()
+  set_text_dir(dir)
+  get_text_dir()
+  set_text_wrap(bool)
+  get_text_wrap()
+  set_shrink_to_fit(bool)
+  get_shrink_to_fit()
+  set_contents_locked(bool)
+  get_contents_locked()
+  set_contents_hidden(bool)
+  get_contents_hidden()
+  get_effective_text_wrap()
+  visible_in_blank()
 
 
 
