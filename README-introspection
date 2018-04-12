@@ -1,0 +1,90 @@
+Today is 20180412.  If that seems a long time ago, this document might
+be outdated.
+
+test/t3001-introspection-simple.py shows a sample of using introspection
+to work with a spreadsheet.  Note: you must either "make install" first
+or else run it the corresponding *.pl file.
+
+The following is a list of types and the API that is expected to both
+be useful in this setting and actually work.
+
+This is incomplete.  In particular, I'll have to look at
+* Expressions other than via text
+* Style information
+* File i/o
+* Copy and paste
+
+-----------------------------------------------------------------------------
+
+Workbook: [GObject]
+  new_with_sheets(count)
+  sheet_by_index(no)
+  sheet_by_name(string)
+  props.name
+
+
+Sheet: [GObject]
+  get_size()
+  cell_set_value(col,row,value)      [1]
+  cell_set_text(col,row,string)      [1]
+  cell_get_value(col,row)
+  cell_get(col,row)
+  cell_fetch(col,row)
+  cells(range)
+  cells_count()
+  is_cell_empty(col,row)
+
+
+GnmCell: [Structure] [2]
+  name()
+  get_value()
+
+
+GnmSheetSize: [Simple structure]
+  max_cols
+  max_rows
+
+
+GnmValue: [Structure]
+  new_int(int)
+  new_bool(bool)
+  new_float(double)
+  new_string(string)
+  new_empty()
+  get_as_string()
+  get_as_int()
+  get_as_float()
+  type_of()
+
+
+ValueType: [Enum]
+  EMPTY
+  BOOLEAN
+  FLOAT
+  ERROR
+  STRING
+  CELLRANGE
+  ARRAY
+
+
+GnmRange: [Simple structure]
+  init(int,int,int,int)
+  init_full_sheet(sheet)
+  init_cols(sheet,int,int)
+  init_rows(sheet,int,int)
+  init_cellpos(sheet,cellpos)
+  as_string()
+  start
+  end
+
+
+GnmCellPos: [Simple structure]
+  col
+  row
+
+
+Footnotes:
+[1] This function is not calling the obvious C function, but uses
+    introspection's rename-to feature to present a better API.
+[2] Cells are owned by the sheet.  GnmCell's boxed type uses no-op
+    copying and freeing.

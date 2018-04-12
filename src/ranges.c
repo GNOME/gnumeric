@@ -34,6 +34,15 @@
 #undef RANGE_DEBUG
 #define UNICODE_ELLIPSIS "\xe2\x80\xa6"
 
+/**
+ * range_init_full_sheet:
+ * @r: #GnmRange
+ * @sheet: #Sheet
+ *
+ * Updates @r to fill @sheet in its entirety.
+ *
+ * Returns: (transfer none): @r
+ */
 GnmRange *
 range_init_full_sheet (GnmRange *r, Sheet const *sheet)
 {
@@ -44,6 +53,17 @@ range_init_full_sheet (GnmRange *r, Sheet const *sheet)
 	return r;
 }
 
+/**
+ * range_init_cols:
+ * @r: #GnmRange
+ * @sheet: #Sheet
+ * @start_col: Starting column
+ * @end_col: Ending column
+ *
+ * Updates @r to span full columns @start_col through @end_col completely.
+ *
+ * Returns: (transfer none): @r
+ */
 GnmRange *
 range_init_cols (GnmRange *r, Sheet const *sheet, int start_col, int end_col)
 {
@@ -54,16 +74,17 @@ range_init_cols (GnmRange *r, Sheet const *sheet, int start_col, int end_col)
 	return r;
 }
 
-GnmRange *
-range_init_invalid (GnmRange *r)
-{
-	r->start.col = -1;
-	r->start.row = -1;
-	r->end.col = -2;
-	r->end.row = -2;
-	return r;
-}
-
+/**
+ * range_init_rows:
+ * @r: #GnmRange
+ * @sheet: #Sheet
+ * @start_row: Starting row
+ * @end_row: Ending row
+ *
+ * Updates @r to span full rows @start_row through @end_row completely.
+ *
+ * Returns: (transfer none): @r
+ */
 GnmRange *
 range_init_rows (GnmRange *r, Sheet const *sheet, int start_row, int end_row)
 {
@@ -74,6 +95,33 @@ range_init_rows (GnmRange *r, Sheet const *sheet, int start_row, int end_row)
 	return r;
 }
 
+/**
+ * range_init_invalid: (skip)
+ * @r: #GnmRange
+ *
+ * Updates @r to a meaningless range
+ *
+ * Returns: (transfer none): @r
+ */
+GnmRange *
+range_init_invalid (GnmRange *r)
+{
+	r->start.col = -1;
+	r->start.row = -1;
+	r->end.col = -2;
+	r->end.row = -2;
+	return r;
+}
+
+/**
+ * range_init_rangeref:
+ * @r: #GnmRange
+ * @rr: #GnmRangeRef
+ *
+ * Updates @r to be the same as the range part of @rr.
+ *
+ * Returns: (transfer none): @r
+ */
 GnmRange *
 range_init_rangeref (GnmRange *range, GnmRangeRef const *rr)
 {
@@ -87,6 +135,15 @@ range_init_rangeref (GnmRange *range, GnmRangeRef const *rr)
 }
 
 
+/**
+ * range_init_value:
+ * @r: A #GnmRange to change
+ * @v: A #GnmValue containing a cell range
+ *
+ * Updates @r to be the same as the cell range of @v.
+ *
+ * Returns: (transfer none) (nullable): @r
+ */
 GnmRange *
 range_init_value (GnmRange *range, GnmValue const *v)
 {
@@ -96,6 +153,15 @@ range_init_value (GnmRange *range, GnmValue const *v)
 	return range_init_rangeref (range, &v->v_range.cell);
 }
 
+/**
+ * range_init_cellpos:
+ * @r: A #GnmRange to change
+ * @pos: A #GnmCellPos
+ *
+ * Updates @r to be the singleton range of @pos
+ *
+ * Returns: (transfer none): @r
+ */
 GnmRange *
 range_init_cellpos (GnmRange *r, GnmCellPos const *pos)
 {
@@ -104,6 +170,18 @@ range_init_cellpos (GnmRange *r, GnmCellPos const *pos)
 
 	return r;
 }
+
+/**
+ * range_init_cellpos_size:
+ * @r: A #GnmRange to change
+ * @start: A #GnmCellPos for the upper left corner of the desired range
+ * @cols: number of columns
+ * @rows: number of rows
+ *
+ * Updates @r to start at @start and spanning @cols columns and @rows rows.
+ *
+ * Returns: (transfer none): @r
+ */
 GnmRange *
 range_init_cellpos_size (GnmRange *r,
 			 GnmCellPos const *start, int cols, int rows)
@@ -115,6 +193,19 @@ range_init_cellpos_size (GnmRange *r,
 	return r;
 }
 
+/**
+ * range_init:
+ * @r: A #GnmRange to change
+ * @start_col: Column
+ * @start_row: Row
+ * @end_col: Column
+ * @end_row: Row
+ *
+ * Updates @r to start at (@start_col,@start_row) and end
+ * at (@end_col,@end_row).
+ *
+ * Returns: (transfer none): @r
+ */
 GnmRange *
 range_init (GnmRange *r, int start_col, int start_row,
 	    int end_col, int end_row)
@@ -179,19 +270,25 @@ range_list_destroy (GSList *ranges)
 }
 
 
+/**
+ * range_as_string:
+ * @r: A #GnmRange
+ *
+ * Returns: (transfer none): a string repesentation of @src
+ **/
 char const *
-range_as_string (GnmRange const *src)
+range_as_string (GnmRange const *r)
 {
 	static char buffer[(6 + 4 * sizeof (long)) * 2 + 1];
 
-	g_return_val_if_fail (src != NULL, "");
+	g_return_val_if_fail (r != NULL, "");
 
 	sprintf (buffer, "%s%s",
-		 col_name (src->start.col), row_name (src->start.row));
+		 col_name (r->start.col), row_name (r->start.row));
 
-	if (src->start.col != src->end.col || src->start.row != src->end.row)
+	if (r->start.col != r->end.col || r->start.row != r->end.row)
 		sprintf (buffer + strlen(buffer), ":%s%s",
-			 col_name (src->end.col), row_name (src->end.row));
+			 col_name (r->end.col), row_name (r->end.row));
 
 	return buffer;
 }

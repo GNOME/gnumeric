@@ -826,6 +826,13 @@ value_hash (GnmValue const *v)
 }
 
 
+GnmValueType
+value_type_of (const GnmValue *v)
+{
+	return v->v_any.type;
+}
+
+
 gboolean
 value_get_as_bool (GnmValue const *v, gboolean *err)
 {

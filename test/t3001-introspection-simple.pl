@@ -14,6 +14,7 @@ my $ref = join("",<DATA>);
 	       sub { $_ eq $ref });
 
 __DATA__
+Name: Sheet1
 Number of columns: 256
 Number of rows: 65536
 

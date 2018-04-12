@@ -150,6 +150,7 @@ char       *value_get_as_string	   (GnmValue const *v);
 void        value_get_as_gstring   (GnmValue const *v, GString *target,
 				    GnmConventions const *conv);
 
+GnmValueType value_type_of         (GnmValue const *v);
 int         value_get_as_int	   (GnmValue const *v);
 gnm_float   value_get_as_float	   (GnmValue const *v);
 gboolean    value_is_zero	   (GnmValue const *v);

@@ -11,6 +11,7 @@ wb = Gnm.Workbook.new_with_sheets(1)
 
 # Get sheet.  Index starts at 0
 sheet = wb.sheet_by_index(0)
+print "Name:",sheet.props.name
 print "Number of columns:", sheet.get_size().max_cols
 print "Number of rows:", sheet.get_size().max_rows
 
