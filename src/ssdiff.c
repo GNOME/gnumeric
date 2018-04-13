@@ -833,8 +833,7 @@ highlight_apply (DiffState *state, const GnmRange *r)
 
 	g_return_if_fail (IS_SHEET (sheet));
 
-	gnm_style_ref (state->highlight_style);
-	sheet_style_apply_range (sheet, r, state->highlight_style);
+	sheet_style_apply_range2 (sheet, r, state->highlight_style);
 }
 
 static void

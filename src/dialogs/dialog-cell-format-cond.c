@@ -43,7 +43,6 @@
 #include <commands.h>
 #include <mathfunc.h>
 #include <style-conditions.h>
-#include <gnm-style-impl.h>
 
 #include <gtk/gtk.h>
 
@@ -463,6 +462,8 @@ cb_c_fmt_dialog_copy_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
 			GtkTreeIter iter;
 			GnmParsePos pp;
 			GnmStyle   *style;
+			GnmStyleConditions *conds;
+
 			/* Set the condition op */
 			if (gtk_tree_model_get_iter_first
 			    (GTK_TREE_MODEL (state->editor.typestore), &iter)) {
@@ -497,10 +498,12 @@ cb_c_fmt_dialog_copy_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
 				gnm_expr_entry_load_from_text (GNM_EXPR_ENTRY (state->editor.expr_y),
 							       "");
 			/* Set the style */
-			if (state->style && state->style->cond_styles)
+			conds = state->style
+				? gnm_style_get_conditions (state->style)
+				: NULL;
+			if (conds)
 				style = gnm_style_dup
-					(g_ptr_array_index (state->style->cond_styles,
-							    ind));
+					(gnm_style_get_cond_style (state->style, ind));
 			else {
 				style = gnm_style_new_default ();
 				gnm_style_merge (style, gsc->overlay);

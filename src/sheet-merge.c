@@ -65,7 +65,6 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 	GSList *test;
 	GnmRange  *r_copy;
 	GnmCell   *cell;
-	GnmStyle *style;
 	GnmComment *comment;
 	GnmRange r2;
 
@@ -92,6 +91,7 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 
 	if (clear) {
 		int i;
+		GnmStyle *style;
 
 		sheet_redraw_range (sheet, &r2);
 

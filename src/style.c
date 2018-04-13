@@ -11,7 +11,6 @@
 #include "gnumeric.h"
 #include "style.h"
 #include "style-font.h"
-#include "gnm-style-impl.h"
 
 #include "gnm-format.h"
 #include "style-color.h"

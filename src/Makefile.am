@@ -263,7 +263,6 @@ libspreadsheet_include_HEADERS = 	\
 	gnm-so-line.h				\
 	gnm-so-path.h				\
 	gnm-so-polygon.h			\
-	gnm-style-impl.h			\
 	gnumeric-conf.h				\
 	gnumeric-fwd.h				\
 	gnumeric-simple-canvas.h		\

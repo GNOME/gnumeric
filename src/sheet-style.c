@@ -23,7 +23,6 @@
 
 #include <gnumeric-config.h>
 #include "sheet-style.h"
-#include "gnm-style-impl.h"
 #include "ranges.h"
 #include "sheet.h"
 #include "expr.h"
@@ -213,8 +212,7 @@ sheet_style_find (Sheet const *sheet, GnmStyle *s)
 		 * gnm_style_unlink as that would call sheet_style_unlink
 		 * and thus remove "res" from the hash.
 		 */
-		s->link_count = 0;
-		s->linked_sheet = NULL;
+		gnm_style_abandon_link (s);
 		gnm_style_unref (s);
 
 		return res;
@@ -737,10 +735,8 @@ sheet_style_resize (Sheet *sheet, int cols, int rows)
 		GnmRange const *r = &sr->range;
 		GnmStyle *style = sr->style;
 		GnmRange newr;
-		if (range_intersection (&newr, r, &new_full)) {
-			gnm_style_ref (style);
-			sheet_style_apply_range (sheet, &newr, style);
-		}
+		if (range_intersection (&newr, r, &new_full))
+			sheet_style_apply_range2 (sheet, &newr, style);
 	}
 
 	style_list_free	(styles);
@@ -1542,20 +1538,27 @@ sheet_style_get (Sheet const *sheet, int col, int row)
 #define border_null(b)	((b) == none || (b) == NULL)
 
 static void
-style_row (GnmStyle *style, int start_col, int end_col, GnmStyleRow *sr, gboolean accept_conditions)
+style_row (GnmStyle const *style, int start_col, int end_col,
+	   GnmStyleRow *sr, gboolean accept_conditions)
 {
 	GnmBorder const *top, *bottom, *none = gnm_style_border_none ();
 	GnmBorder const *left, *right, *v;
 	int const end = MIN (end_col, sr->end_col);
 	int i = MAX (start_col, sr->start_col);
+	GnmStyleConditions *conds;
 
-	if (accept_conditions && style->conditions) {
+	conds = accept_conditions
+		? gnm_style_get_conditions (style)
+		: NULL;
+	if (conds) {
 		GnmEvalPos ep;
 		int res;
 
 		for (eval_pos_init (&ep, (Sheet *)sr->sheet, i, sr->row); ep.eval.col <= end ; ep.eval.col++) {
-			res = gnm_style_conditions_eval (style->conditions, &ep);
-			style_row (res >= 0 ? g_ptr_array_index (style->cond_styles, res) : style,
+			res = gnm_style_conditions_eval (conds, &ep);
+			style_row (res >= 0
+				   ? gnm_style_get_cond_style (style, res)
+				   : style,
 				   ep.eval.col, ep.eval.col, sr, FALSE);
 		}
 		return;

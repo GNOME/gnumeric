@@ -75,6 +75,7 @@ GnmStyle   *gnm_style_link_sheet    (GnmStyle *style, Sheet *sheet);
 void        gnm_style_link          (GnmStyle *style);
 void        gnm_style_link_multiple (GnmStyle *style, int count);
 void        gnm_style_unlink        (GnmStyle *style);
+void        gnm_style_abandon_link  (GnmStyle *style);
 
 gboolean    gnm_style_eq            (GnmStyle const *a, GnmStyle const *b);
 gboolean    gnm_style_equal         (GnmStyle const *a, GnmStyle const *b);
@@ -163,6 +164,7 @@ GnmInputMsg	*gnm_style_get_input_msg	(GnmStyle const *style);
 
 void		 gnm_style_set_conditions	(GnmStyle *style, GnmStyleConditions *sc);
 GnmStyleConditions *gnm_style_get_conditions	(GnmStyle const *style);
+GnmStyle const * gnm_style_get_cond_style       (GnmStyle const *style, int ix);
 
 void             gnm_style_link_dependents      (GnmStyle *style,
 						 GnmRange const *r);

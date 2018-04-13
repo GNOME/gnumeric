@@ -23,7 +23,6 @@
 #include "gnumeric.h"
 #include "style-conditions.h"
 #include "mstyle.h"
-#include "gnm-style-impl.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "cell.h"
@@ -950,10 +949,10 @@ gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 		GnmStyle const *overlay = cond->overlay;
 		GnmStyle *merge = gnm_style_new_merged (base, overlay);
 		/* We only draw a background colour if the pattern != 0 */
-		if (merge->pattern == 0 &&
-		     elem_is_set (overlay, MSTYLE_COLOR_BACK) &&
-		    !elem_is_set (overlay, MSTYLE_PATTERN))
-			merge->pattern = 1;
+		if (gnm_style_get_pattern (merge) == 0 &&
+		    gnm_style_is_element_set (overlay, MSTYLE_COLOR_BACK) &&
+		    !gnm_style_is_element_set (overlay, MSTYLE_PATTERN))
+			gnm_style_set_pattern (merge, 1);
 		g_ptr_array_add (res, merge);
 	}
 	return res;

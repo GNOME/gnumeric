@@ -33,7 +33,6 @@
 #include "style-font.h"
 #include "style-border.h"
 #include "style-conditions.h"
-#include "gnm-style-impl.h"
 #include "sheet.h"
 #include "sheet-merge.h"
 #include "gnm-format.h"
@@ -245,6 +244,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 	PangoDirection dir;
 	char const *text;
 	gboolean debug = debug_rv ();
+	GnmStyleConditions *conds;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
@@ -271,14 +271,15 @@ gnm_rendered_value_new (GnmCell const *cell,
 
 	mstyle = gnm_cell_get_style (cell);
 
-	if (mstyle->conditions) {
+	conds = gnm_style_get_conditions (mstyle);
+	if (conds) {
 		GnmEvalPos ep;
 		int res;
 		eval_pos_init_cell (&ep, cell);
 
-		res = gnm_style_conditions_eval (mstyle->conditions, &ep);
+		res = gnm_style_conditions_eval (conds, &ep);
 		if (res >= 0)
-			mstyle = g_ptr_array_index (mstyle->cond_styles, res);
+			mstyle = gnm_style_get_cond_style (mstyle, res);
 	}
 
 	rotation = gnm_style_get_rotation (mstyle);

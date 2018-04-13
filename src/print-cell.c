@@ -22,7 +22,6 @@
 #include "value.h"
 #include "style-border.h"
 #include "style-conditions.h"
-#include "gnm-style-impl.h"
 #include "pattern.h"
 #include "cellspan.h"
 #include "ranges.h"
@@ -217,6 +216,7 @@ print_merged_range_gtk (cairo_t *context,
 	int last;
 	GnmCell  const *cell = sheet_cell_get (sheet, range->start.col, range->start.row);
 	int const dir = sheet->text_is_rtl ? -1 : 1;
+	GnmStyleConditions *conds;
 
 	/* load style from corner which may not be visible */
 	GnmStyle const *style = sheet_style_get (sheet, range->start.col, range->start.row);
@@ -240,12 +240,13 @@ print_merged_range_gtk (cairo_t *context,
 	if (l == r || t == b)
 		return;
 
-	if (style->conditions) {
+	conds = gnm_style_get_conditions (style);
+	if (style) {
 		GnmEvalPos ep;
 		int res;
 		eval_pos_init (&ep, (Sheet *)sheet, range->start.col, range->start.row);
-		if ((res = gnm_style_conditions_eval (style->conditions, &ep)) >= 0)
-			style = g_ptr_array_index (style->cond_styles, res);
+		if ((res = gnm_style_conditions_eval (conds, &ep)) >= 0)
+			style = gnm_style_get_cond_style (style, res);
 	}
 
 	if (gnm_pattern_background_set (style, context, FALSE, NULL))

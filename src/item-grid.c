@@ -31,7 +31,6 @@
 #include "parse-util.h"
 #include "mstyle.h"
 #include "style-conditions.h"
-#include "gnm-style-impl.h"	/* cheesy */
 #include "position.h"		/* to eval conditions */
 #include "style-border.h"
 #include "style-color.h"
@@ -283,6 +282,7 @@ item_grid_draw_merged_range (cairo_t *cr, GnmItemGrid *ig,
 	Sheet const *sheet  = sv->sheet;
 	GnmCell const *cell = sheet_cell_get (sheet, range->start.col, range->start.row);
 	int const dir = sheet->text_is_rtl ? -1 : 1;
+	GnmStyleConditions *conds;
 
 	/* load style from corner which may not be visible */
 	GnmStyle const *style = sheet_style_get (sheet, range->start.col, range->start.row);
@@ -311,12 +311,13 @@ item_grid_draw_merged_range (cairo_t *cr, GnmItemGrid *ig,
 	if (l == r || t == b)
 		return;
 
-	if (style->conditions) {
+	conds = gnm_style_get_conditions (style);
+	if (conds) {
 		GnmEvalPos ep;
 		int res;
 		eval_pos_init (&ep, (Sheet *)sheet, range->start.col, range->start.row);
-		if ((res = gnm_style_conditions_eval (style->conditions, &ep)) >= 0)
-			style = g_ptr_array_index (style->cond_styles, res);
+		if ((res = gnm_style_conditions_eval (conds, &ep)) >= 0)
+			style = gnm_style_get_cond_style (style, res);
 	}
 
 	/* Check for background THEN selection */

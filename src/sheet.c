@@ -1709,12 +1709,10 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
  * sheet_apply_style:
  * @sheet: the sheet in which can be found
  * @range: the range to which should be applied
- * @mstyle: the style
+ * @mstyle: (transfer full): A #GnmStyle partial style
  *
  * A mid level routine that applies the supplied partial style @style to the
  * target @range and performs the necessary respanning and redrawing.
- *
- * It absorbs the style reference.
  **/
 void
 sheet_apply_style (Sheet       *sheet,
@@ -3072,6 +3070,8 @@ sheet_cell_set_value (GnmCell *cell, GnmValue *v)
 void
 sheet_cell_set_value_gi (Sheet *sheet, int col, int row, GnmValue *v)
 {
+	// This version exists because not all versions of pygobject
+	// understand transfer-full parameters
 	sheet_cell_set_value (sheet_cell_fetch (sheet, col, row),
 			      value_dup (v));
 }

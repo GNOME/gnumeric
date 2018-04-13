@@ -1,6 +1,5 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gnm-style.c: Storing a style
+ * mstyle.c: Storing a style
  *
  * Authors:
  *   Michael Meeks <mmeeks@gnu.org>
@@ -12,9 +11,13 @@
 #include "gnumeric.h"
 #include "style.h"
 
-#include "gnm-style-impl.h"
 #include "sheet-style.h"
+#include "style-border.h"
+#include "style-font.h"
+#include "style-color.h"
 #include "style-conditions.h"
+#include "validation.h"
+#include "pattern.h"
 #include "hlink.h"
 #include "input-msg.h"
 #include "application.h"
@@ -43,6 +46,77 @@ static GOMemChunk *gnm_style_pool;
 #define CHUNK_ALLOC0(T,c) g_new0 (T,1)
 #define CHUNK_FREE(p,v) g_free ((v))
 #endif
+
+
+struct _GnmStyle {
+	unsigned int	changed;
+	unsigned int	set;
+
+	unsigned int    hash_key;
+	unsigned int    hash_key_xl;
+	unsigned int    ref_count;
+	unsigned int    link_count;
+	Sheet	       *linked_sheet;
+
+	PangoAttrList *pango_attrs;
+	double         pango_attrs_zoom;
+	int            pango_attrs_height;
+
+	GnmFont       *font;
+	PangoContext  *font_context;
+
+/* public */
+	struct _GnmStyleColor {
+		GnmColor *font;
+		GnmColor *back;
+		GnmColor *pattern;
+	} color;
+	GnmBorder	*borders[MSTYLE_BORDER_DIAGONAL - MSTYLE_BORDER_TOP + 1];
+	guint32          pattern;
+
+	/* FIXME: TODO use GOFont */
+	struct _GnmStyleFontDetails {
+		GOString	*name;
+		gboolean	bold;
+		gboolean	italic;
+		GnmUnderline	underline;
+		gboolean	strikethrough;
+		GOFontScript	script;
+		double		size;
+	} font_detail;
+
+	GOFormat const *format;
+	GnmHAlign	 h_align;
+	GnmVAlign	 v_align;
+	int		 indent;
+	int		 rotation;
+	int		 text_dir;
+	gboolean         wrap_text;
+	gboolean         shrink_to_fit;
+	gboolean         contents_locked;
+	gboolean         contents_hidden;
+
+	GnmValidation		*validation;
+	GnmHLink		*hlink;
+	GnmInputMsg		*input_msg;
+	GnmStyleConditions	*conditions;
+	GPtrArray		*cond_styles;
+
+	GPtrArray *deps;
+};
+
+#define elem_changed(style, elem) do { (style)->changed |= (1u << (elem)); } while(0)
+#define elem_set(style, elem)	  do { (style)->set |=  (1u << (elem)); } while(0)
+#define elem_unset(style, elem)	  do { (style)->set &= ~(1u << (elem)); } while(0)
+#define elem_is_set(style, elem)  (((style)->set & (1u << (elem))) != 0)
+
+#define MSTYLE_ANY_BORDER            MSTYLE_BORDER_TOP: \
+				case MSTYLE_BORDER_BOTTOM: \
+				case MSTYLE_BORDER_LEFT: \
+				case MSTYLE_BORDER_RIGHT: \
+				case MSTYLE_BORDER_DIAGONAL: \
+				case MSTYLE_BORDER_REV_DIAGONAL
+
 
 #define UNROLLED_FOR(init_,cond_,step_,code_)			\
 do {								\
@@ -1003,6 +1077,14 @@ gnm_style_unlink (GnmStyle *style)
 		style->linked_sheet = NULL;
 		gnm_style_unref (style);
 	}
+}
+
+// Internal function for sheet-style.c use only
+void
+gnm_style_abandon_link (GnmStyle *style)
+{
+	style->link_count = 0;
+	style->linked_sheet = NULL;
 }
 
 gboolean
@@ -1985,6 +2067,28 @@ gnm_style_get_conditions (GnmStyle const *style)
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_CONDITIONS), NULL);
 	return style->conditions;
 }
+
+/**
+ * gnm_style_get_cond_style:
+ * @style: #GnmStyle
+ * @ix: The index of the condition for which style is desired
+ *
+ * Returns: (transfer none): the resulting style from applying the condition's
+ * style overlay onto @style.
+ **/
+GnmStyle const *
+gnm_style_get_cond_style (GnmStyle const *style, int ix)
+{
+	g_return_val_if_fail (style != NULL, NULL);
+	g_return_val_if_fail (elem_is_set (style, MSTYLE_CONDITIONS), NULL);
+	g_return_val_if_fail (style->cond_styles != NULL, NULL);
+
+	g_return_val_if_fail (ix < 0 || (unsigned)ix > style->cond_styles->len, NULL);
+
+	return g_ptr_array_index (style->cond_styles, ix);
+}
+
+
 
 static gboolean
 debug_style_deps (void)

@@ -689,7 +689,7 @@ dao_autofit_rows (data_analysis_output_t *dao)
  * @row1:
  * @col2:
  * @row2:
- * @style:
+ * @style: (transfer full):
  *
  * Applies a partial style to the given region.
  *

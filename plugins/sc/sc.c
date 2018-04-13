@@ -42,7 +42,7 @@
 #include "sheet-view.h"
 #include "selection.h"
 #include "rendered-value.h"
-#include "gnm-style-impl.h"
+#include "style-font.h"
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-textline.h>
