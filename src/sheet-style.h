@@ -30,6 +30,8 @@ void	 sheet_style_apply_border	(Sheet *sheet, GnmRange const *range,
 					 GnmBorder **borders);
 void	 sheet_style_apply_range	(Sheet *sheet, GnmRange const *range,
 					 GnmStyle *pstyle);
+void	 sheet_style_apply_range2	(Sheet *sheet, GnmRange const *range,
+					 GnmStyle *pstyle);
 void	 sheet_style_set_range		(Sheet  *sheet, GnmRange const *range,
 					 GnmStyle *style);
 void	 sheet_style_apply_col		(Sheet  *sheet, int col,

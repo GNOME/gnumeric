@@ -1746,7 +1746,7 @@ style_row_init (GnmBorder const * * *prev_vert,
 }
 
 /**
- * sheet_style_apply_range:
+ * sheet_style_apply_range: (skip)
  * @sheet: #Sheet
  * @range: #GnmRange to apply over
  * @pstyle: (transfer full): A partial style to apply
@@ -1778,6 +1778,22 @@ sheet_style_apply_range (Sheet *sheet, GnmRange const *range, GnmStyle *pstyle)
 			 &r, &rs);
 	rstyle_dtor (&rs);
 }
+
+/**
+ * sheet_style_apply_range2: (rename-to sheet_style_apply_range)
+ * @sheet: #Sheet
+ * @range: #GnmRange to apply over
+ * @pstyle: A partial style to apply
+ *
+ * Apply a partial style to a region.
+ */
+void
+sheet_style_apply_range2 (Sheet *sheet, GnmRange const *range, GnmStyle *pstyle)
+{
+	gnm_style_ref (pstyle);
+	sheet_style_apply_range (sheet, range, pstyle);
+}
+
 
 static void
 apply_border (Sheet *sheet, GnmRange const *r,

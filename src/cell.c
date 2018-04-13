@@ -968,6 +968,12 @@ gnm_cell_rendered_offset (GnmCell const * cell)
 		: 0;
 }
 
+/**
+ * gnm_cell_get_style:
+ * @cell: #GnmCell to query
+ *
+ * Returns: (transfer none): the fully qualified style for @cell.
+ */
 GnmStyle const *
 gnm_cell_get_style (GnmCell const *cell)
 {
@@ -978,12 +984,12 @@ gnm_cell_get_style (GnmCell const *cell)
 }
 
 /**
- * gnm_cell_get_format_given_style:
- * @cell:
- * @style:
+ * gnm_cell_get_format_given_style: (skip)
+ * @cell: #GnmCell to query
+ * @style: (nullable): #GnmStyle for @cell.
  *
- * Get the display format.  If the assigned format is General,
- * the format of the value will be used.
+ * Returns: (transfer none): the effective format for the cell, i.e., @style's
+ * format unless that is General and the cell value has a format.
  **/
 GOFormat const *
 gnm_cell_get_format_given_style (GnmCell const *cell, GnmStyle const *style)
@@ -1008,39 +1014,15 @@ gnm_cell_get_format_given_style (GnmCell const *cell, GnmStyle const *style)
 
 /**
  * gnm_cell_get_format:
- * @cell:
+ * @cell: #GnmCell to query
  *
- * Get the display format.  If the assigned format is General,
- * the format of the value will be used.
+ * Returns: (transfer none): the effective format for the cell, i.e., the
+ * cell style's format unless that is General and the cell value has a format.
  **/
 GOFormat const *
 gnm_cell_get_format (GnmCell const *cell)
 {
 	return gnm_cell_get_format_given_style (cell, NULL);
-}
-
-/*
- * gnm_cell_set_format:
- *
- * Changes the format for CELL to be FORMAT.  FORMAT should be
- * a number display format as specified on the manual
- *
- * Does not render, redraw, or respan.
- */
-void
-gnm_cell_set_format (GnmCell *cell, char const *format)
-{
-	GnmRange r;
-	GnmStyle *mstyle;
-
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (format != NULL);
-
-	mstyle = gnm_style_new ();
-	gnm_style_set_format_text (mstyle, format);
-
-	r.start = r.end = cell->pos;
-	sheet_style_apply_range (cell->base.sheet, &r, mstyle);
 }
 
 static GnmValue *

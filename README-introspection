@@ -16,7 +16,7 @@ This is incomplete.  In particular, I'll have to look at
 -----------------------------------------------------------------------------
 Note: the Python version of type names excludes the Gnm prefix.
 
-Workbook: [GObject]
+Workbook: [GObject, derived from GODoc]
   new_with_sheets(count)
   sheet_by_index(no)
   sheet_by_name(string)
@@ -24,6 +24,9 @@ Workbook: [GObject]
   recalc_all()
   cells(qcomments,visibility)
   props.recalc_mode
+
+
+GODoc: [GObject]
   props.uri
   props.dirty
   props.pristine
@@ -81,6 +84,7 @@ GnmCell: [Boxed structure] [2]
   name()
   get_value()
   get_entered_text()
+  get_format()
   pos
 
 

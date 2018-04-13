@@ -1460,6 +1460,12 @@ gnm_style_get_font (GnmStyle const *style, PangoContext *context)
 	return style->font;
 }
 
+/**
+ * gnm_style_set_font_name:
+ * @style: the style to change
+ * @name: the font name as a string
+ *
+ */
 void
 gnm_style_set_font_name (GnmStyle *style, char const *name)
 {
@@ -1477,7 +1483,7 @@ gnm_style_set_font_name (GnmStyle *style, char const *name)
 }
 
 /**
- * gnm_style_set_font_name:
+ * gnm_style_get_font_name:
  * @style: the style to query
  *
  * Returns: (transfer none): the currently set font name
@@ -1503,6 +1509,12 @@ gnm_style_set_font_bold (GnmStyle *style, gboolean bold)
 	gnm_style_clear_pango (style);
 }
 
+/**
+ * gnm_style_get_font_bold:
+ * @style: #GnmStyle to query
+ *
+ * Returns: %TRUE if the style has a bold font.
+ */
 gboolean
 gnm_style_get_font_bold (GnmStyle const *style)
 {

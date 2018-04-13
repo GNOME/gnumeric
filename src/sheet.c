@@ -2074,7 +2074,7 @@ sheet_cell_get (Sheet const *sheet, int col, int row)
  * @col:    the cell column
  * @row:    the cell row
  *
- * Return value: a (GnmCell *) containing the GnmCell at col, row.
+ * Return value: a #GnmCell containing at (@col,@row).
  * If no cell existed at that location before, it is created.
  **/
 GnmCell *
@@ -3035,7 +3035,7 @@ sheet_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
 }
 
 /**
- * sheet_cell_set_value:
+ * sheet_cell_set_value: (skip)
  * @cell: #GnmCell
  * @v: (transfer full): #GnmValue
  *
@@ -3062,10 +3062,9 @@ sheet_cell_set_value (GnmCell *cell, GnmValue *v)
  * @sheet: #Sheet
  * @col: column number
  * @row: row number
- * @v: (transfer full): #GnmValue
+ * @v: #GnmValue
  *
- * Stores, without copying, the supplied value.  It marks the
- * sheet as dirty.
+ * Set the the value of the cell at (@col,@row) to @v.
  *
  * The value is rendered and spans are calculated.  It queues a redraw
  * and checks to see if the edit region or selection content changed.
@@ -3073,7 +3072,8 @@ sheet_cell_set_value (GnmCell *cell, GnmValue *v)
 void
 sheet_cell_set_value_gi (Sheet *sheet, int col, int row, GnmValue *v)
 {
-	sheet_cell_set_value (sheet_cell_fetch (sheet, col, row), v);
+	sheet_cell_set_value (sheet_cell_fetch (sheet, col, row),
+			      value_dup (v));
 }
 
 /****************************************************************************/
