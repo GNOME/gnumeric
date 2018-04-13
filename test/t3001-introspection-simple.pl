@@ -37,10 +37,17 @@ As int:
 1
 
 List of cells in sheet:
-A1
-A2
-A3
-A4
-A5
-A6
-A7
+A1: 10 [bold]
+C1: 10 
+A2: 101.25 [bold]
+C2: 101.25 
+A3: =A1+A2 
+C3: =C1+C2 
+A4: '01 
+C4: '01 
+A5: zzz 
+C5: zzz 
+A6: abc 
+C6: abc 
+A7: TRUE 
+C7: TRUE 

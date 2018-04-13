@@ -3487,9 +3487,9 @@ cb_check_array_vertical (GnmColRowIter const *iter, ArrayCheckData *data)
  * sheet_range_splits_array:
  * @sheet: The sheet.
  * @r: The range to check
- * @ignore: an optionally NULL range in which it is ok to have an array.
- * @cc: an optional place to report an error.
- * @cmd: an optional cmd name used with @cc.
+ * @ignore: (nullable): a range in which it is ok to have an array.
+ * @cc: (nullable): place to report an error.
+ * @cmd: (nullable): cmd name used with @cc.
  *
  * Check the outer edges of range @sheet!@r to ensure that if an array is
  * within it then the entire array is within the range.  @ignore is useful when
@@ -4727,7 +4727,7 @@ cb_empty_cell (GnmCellIter const *iter, gpointer user)
  * @end_col:
  * @end_row:
  * @clear_flags: If this is TRUE then styles are erased.
- * @cc:
+ * @cc: (nullable):
  *
  * Clears are region of cells
  *
@@ -4793,7 +4793,7 @@ sheet_clear_region (Sheet *sheet,
 		GSList *merged, *ptr;
 		merged = gnm_sheet_merge_get_overlap (sheet, &r);
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
-			gnm_sheet_merge_remove (sheet, ptr->data, cc);
+			gnm_sheet_merge_remove (sheet, ptr->data);
 		g_slist_free (merged);
 	}
 

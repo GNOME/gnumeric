@@ -52,7 +52,7 @@ range_row_cmp (GnmRange const *a, GnmRange const *b)
  * @r: The region to merge
  * @clear: should the non-corner content of the region be cleared and the
  *          style from the corner applied.
- * @cc: the calling context
+ * @cc: (nullable): the calling context
  *
  * Add a range to the list of merge targets.  Checks for array spliting returns
  * %TRUE if there was an error.  Queues a respan.  Only queus a redraw if @clear
@@ -159,7 +159,6 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
  * gnm_sheet_merge_remove:
  * @sheet: the sheet which will contain the region
  * @r: The region
- * @cc: the calling context
  *
  * Remove a merged range.
  * Queues a redraw.
@@ -167,7 +166,7 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
  * Returns: %TRUE if there was an error.
  **/
 gboolean
-gnm_sheet_merge_remove (Sheet *sheet, GnmRange const *r, GOCmdContext *cc)
+gnm_sheet_merge_remove (Sheet *sheet, GnmRange const *r)
 {
 	GnmRange   *r_copy;
 	GnmCell    *cell;
@@ -317,7 +316,7 @@ cb_restore_merge (Sheet *sheet, GSList *restore)
 		// the old state, so we'll have to remove the merge and
 		// create a new.
 		if (r2)
-			gnm_sheet_merge_remove (sheet, r2, NULL);
+			gnm_sheet_merge_remove (sheet, r2);
 
 		gnm_sheet_merge_add (sheet, r, FALSE, NULL);
 	}
@@ -356,7 +355,7 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri, GOUndo **pundo)
 		for (ptr = copy; ptr != NULL ; ptr = ptr->next) {
 			GnmRange const *r = ptr->data;
 			if (range_contains (&dest, r->start.col, r->start.row))
-				gnm_sheet_merge_remove (ri->target_sheet, r, NULL);
+				gnm_sheet_merge_remove (ri->target_sheet, r);
 		}
 		g_slist_free (copy);
 	}
@@ -374,7 +373,7 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri, GOUndo **pundo)
 					 ri->col_offset, ri->row_offset);
 			range_ensure_sanity (&r2, ri->target_sheet);
 
-			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
+			gnm_sheet_merge_remove (ri->origin_sheet, r);
 			if (range_is_singleton (&r2))
 				needs_restore = TRUE;
 			else if (r2.start.col <= r2.end.col &&
@@ -388,12 +387,12 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri, GOUndo **pundo)
 			r2.end.col += ri->col_offset;
 			r2.end.row += ri->row_offset;
 			range_ensure_sanity (&r2, ri->target_sheet);
-			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
+			gnm_sheet_merge_remove (ri->origin_sheet, r);
 			needs_restore = TRUE;
 			needs_reapply = !range_is_singleton (&r2);
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row))
-			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
+			gnm_sheet_merge_remove (ri->origin_sheet, r);
 
 		if (needs_reapply)
 			reapply = g_slist_prepend (reapply,

@@ -12,8 +12,7 @@ gboolean     gnm_sheet_merge_add		(Sheet *sheet,
 						 gboolean clear,
 						 GOCmdContext *cc);
 gboolean     gnm_sheet_merge_remove		(Sheet *sheet,
-						 GnmRange const *r,
-						 GOCmdContext *cc);
+						 GnmRange const *r);
 GSList      *gnm_sheet_merge_get_overlap	(Sheet const *sheet, GnmRange const *r);
 GnmRange const *gnm_sheet_merge_contains_pos	(Sheet const *sheet, GnmCellPos const *pos);
 GnmRange const *gnm_sheet_merge_is_corner	(Sheet const *sheet, GnmCellPos const *pos);

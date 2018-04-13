@@ -4906,8 +4906,7 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 			/* Do this early because the _remove can kill r2.  */
 			r = range_union (&r, r2);
 
-			gnm_sheet_merge_remove (esheet->sheet, r2,
-						GO_CMD_CONTEXT (esheet->container.importer->context));
+			gnm_sheet_merge_remove (esheet->sheet, r2);
 			g_slist_free (overlap);
 		}
 		gnm_sheet_merge_add (esheet->sheet, &r, FALSE,

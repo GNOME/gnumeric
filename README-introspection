@@ -11,7 +11,6 @@ be useful in this setting and actually work.
 This is incomplete.  In particular, I'll have to look at
 * Expressions other than via text
 * File i/o
-* Copy and paste
 * Installing a gi override module for more pythony structure handling
 
 -----------------------------------------------------------------------------
@@ -81,7 +80,9 @@ Sheet: [GObject]
 GnmCell: [Boxed structure] [2]
   name()
   get_value()
+  get_entered_text()
   pos
+
 
 GnmSheetSize: [Simple structure]
   max_cols
@@ -133,6 +134,30 @@ GnmSheetVisibility: [Enum]
   VERY_HIDDEN
 
 
+PasteFlags: [Enum]
+  CONTENTS
+  AS_VALUES
+  FORMATS
+  COMMENTS
+  OBJECTS
+  OPER_ADD
+  OPER_SUB
+  OPER_MULT
+  OPER_DIV
+  TRANSPOSE
+  LINK
+  SKIP_BLANKS
+  DONT_MERGE
+  IGNORE_COMMENTS_AT_ORIGIN
+  UPDATE_ROW_HEIGHT
+  EXPR_LOCAL_RELOCATE
+  NO_RECALC
+  FLIP_H
+  FLIP_V
+  ALL_TYPES
+  DEFAULT
+
+
 GnmStyle: [Boxed structure]
   new()
   new_default()
@@ -178,6 +203,10 @@ GnmStyle: [Boxed structure]
   get_contents_hidden()
   get_effective_text_wrap()
   visible_in_blank()
+
+Gnm (i.e., not in a class):
+  clipboard_copy_range(sheet,range)
+
 
 
 

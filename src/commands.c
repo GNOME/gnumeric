@@ -3820,8 +3820,7 @@ cmd_unmerge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			GnmRange const *pr = ptr->data;
 			GnmRange const tmp = *pr;
 			g_array_append_val (me->unmerged_regions, tmp);
-			gnm_sheet_merge_remove (me->cmd.sheet, &tmp,
-						GO_CMD_CONTEXT (wbc));
+			gnm_sheet_merge_remove (me->cmd.sheet, &tmp);
 			sheet_range_calc_spans (me->cmd.sheet, &tmp,
 						GNM_SPANCALC_RE_RENDER);
 		}
@@ -3928,7 +3927,7 @@ cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	for (i = 0 ; i < me->ranges->len ; ++i) {
 		GnmRange const *r = &(g_array_index (me->ranges, GnmRange, i));
-		gnm_sheet_merge_remove (me->cmd.sheet, r, GO_CMD_CONTEXT (wbc));
+		gnm_sheet_merge_remove (me->cmd.sheet, r);
 	}
 
 	/* Avoid pasting comments that are at 0,0.  Redo copies the target
@@ -3980,7 +3979,7 @@ cmd_merge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		me->old_contents = g_slist_prepend (me->old_contents,
 			clipboard_copy_range (sheet, r));
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
-			gnm_sheet_merge_remove (sheet, ptr->data, GO_CMD_CONTEXT (wbc));
+			gnm_sheet_merge_remove (sheet, ptr->data);
 		g_slist_free (merged);
 
 		gnm_sheet_merge_add (sheet, r, TRUE, GO_CMD_CONTEXT (wbc));

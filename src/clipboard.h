@@ -7,7 +7,7 @@
 
 G_BEGIN_DECLS
 
-enum {
+typedef enum {
 	PASTE_CONTENTS		= 1 << 0, /* either CONTENTS or AS_VALUES */
 	PASTE_AS_VALUES		= 1 << 1, /*  can be applied, not both */
 	PASTE_FORMATS		= 1 << 2,
@@ -45,11 +45,12 @@ enum {
 
 	/* Whether the paste flips or not */
 	PASTE_FLIP_H         = 1 << 17,
-	PASTE_FLIP_V         = 1 << 18
-};
+	PASTE_FLIP_V         = 1 << 18,
 
-#define PASTE_ALL_TYPES (PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS | PASTE_OBJECTS)
-#define PASTE_DEFAULT   PASTE_ALL_TYPES
+	PASTE_ALL_TYPES = (PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS | PASTE_OBJECTS),
+	PASTE_DEFAULT = PASTE_ALL_TYPES
+} GnmPasteFlags;
+
 #define PASTE_OPER_MASK (PASTE_OPER_ADD | PASTE_OPER_SUB | PASTE_OPER_MULT | PASTE_OPER_DIV)
 
 typedef struct {
@@ -78,10 +79,12 @@ struct _GnmCellRegion {
 struct _GnmPasteTarget {
 	Sheet      *sheet;
 	GnmRange    range;
-	int         paste_flags;
+	GnmPasteFlags paste_flags;
 };
 
 GType gnm_paste_target_get_type (void);
+
+GnmPasteTarget *gnm_paste_target_new (Sheet *sheet, GnmRange *r, GnmPasteFlags flags);
 
 GnmCellRegion  *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
 GOUndo         *clipboard_copy_range_undo (Sheet *sheet, GnmRange const *r);
@@ -92,7 +95,7 @@ gboolean        clipboard_paste_region (GnmCellRegion const *cr,
 					GOCmdContext *cc);
 GnmPasteTarget *paste_target_init      (GnmPasteTarget *pt,
 					Sheet *sheet, GnmRange const *r,
-					int flags);
+					GnmPasteFlags flags);
 
 GType          gnm_cell_region_get_type (void);
 GnmCellRegion *gnm_cell_region_new	(Sheet *origin_sheet);

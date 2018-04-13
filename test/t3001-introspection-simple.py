@@ -25,6 +25,16 @@ sheet.cell_set_text(0,4,"zzz")
 sheet.cell_set_value(0,5,Gnm.Value.new_string("abc"))
 sheet.cell_set_value(0,6,Gnm.Value.new_bool(1))
 
+# Copy A1:A7, paste to C1:C7
+src = Gnm.Range()
+src.init(0,0,0,6)
+cr = Gnm.clipboard_copy_range(sheet,src)
+dst = Gnm.Range()
+dst.init(2,0,2,6)
+pt = Gnm.PasteTarget.new (sheet,dst,Gnm.PasteFlags.DEFAULT)
+Gnm.clipboard_paste_region(cr,pt,None)
+
+
 # Make A1:A2 bold
 st = Gnm.Style.new()
 st.set_font_bold(1)
@@ -47,4 +57,4 @@ print "\nList of cells in sheet:"
 for c in sheet.cells(None):
     st = sheet.style_get (c.pos.col,c.pos.row)
     bold = st.get_font_bold()
-    print("{}: {}".format(c.name(), ("[bold]" if bold else "")))
+    print("{}: {} {}".format(c.name(), c.get_entered_text(), ("[bold]" if bold else "")))
