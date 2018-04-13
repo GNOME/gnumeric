@@ -268,7 +268,7 @@ find_column_of_field (GnmEvalPos const *ep,
 }
 
 void
-free_criteria (GnmCriteria *criteria)
+gnm_criteria_unref (GnmCriteria *criteria)
 {
 	if (!criteria || criteria->ref_count-- > 1)
 		return;
@@ -293,7 +293,7 @@ gnm_criteria_get_type (void)
 	if (t == 0) {
 		t = g_boxed_type_register_static ("GnmCriteria",
 			 (GBoxedCopyFunc)gnm_criteria_ref,
-			 (GBoxedFreeFunc)free_criteria);
+			 (GBoxedFreeFunc)gnm_criteria_unref);
 	}
 	return t;
 }
@@ -312,7 +312,7 @@ free_criterias (GSList *criterias)
         while (criterias != NULL) {
 		GnmDBCriteria *criteria = criterias->data;
 		g_slist_free_full (criteria->conditions,
-				      (GFreeFunc)free_criteria);
+				      (GFreeFunc)gnm_criteria_unref);
 		g_free (criteria);
 		criterias = criterias->next;
 	}

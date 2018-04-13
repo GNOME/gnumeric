@@ -248,10 +248,10 @@ gnm_font_new (PangoContext *context,
 	abort ();
 }
 
-void
+GnmFont *
 gnm_font_ref (GnmFont *sf)
 {
-	g_return_if_fail (sf != NULL);
+	g_return_val_if_fail (sf != NULL, NULL);
 
 	sf->ref_count++;
 #ifdef DEBUG_REF_COUNT
@@ -261,6 +261,8 @@ gnm_font_ref (GnmFont *sf)
 		 sf->is_italic ? " italic" : "",
 		 sf->ref_count);
 #endif
+
+	return sf;
 }
 
 void

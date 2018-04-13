@@ -1581,9 +1581,9 @@ gnm_conventions_unref (GnmConventions *c)
 
 /**
  * gnm_conventions_ref: (skip)
- * @c: (transfer none): #GnmConventions
+ * @c: (transfer none) (nullable): #GnmConventions
  *
- * Returns: (transfer full): a new reference to @c
+ * Returns: (transfer full) (nullable): a new reference to @c
  **/
 GnmConventions *
 gnm_conventions_ref (GnmConventions *c)

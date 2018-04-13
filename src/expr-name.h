@@ -34,7 +34,7 @@ void expr_name_perm_add        (Sheet *sheet,
 				char const *name,
 				GnmExprTop const *texpr,
 				gboolean is_editable);
-void	 expr_name_ref	      (GnmNamedExpr *nexpr);
+GnmNamedExpr *expr_name_ref   (GnmNamedExpr *nexpr);
 void	 expr_name_unref      (GnmNamedExpr *nexpr);
 void     expr_name_remove     (GnmNamedExpr *nexpr);
 GnmValue*expr_name_eval       (GnmNamedExpr const *ne, GnmEvalPos const *ep,

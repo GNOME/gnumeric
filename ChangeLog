@@ -1,5 +1,22 @@
 2018-04-13  Morten Welinder  <terra@gnome.org>
 
+	* src/validation.c (gnm_validation_ref): Must return a value to be
+	used as a boxed copy function.
+
+	* src/expr.c (gnm_expr_top_ref): Must return a value to be used
+	as a boxed copy function.
+
+	* src/expr-name.c (expr_name_ref): Must return a value to be used
+	as a boxed copy function.
+
+	* src/mstyle.c (gnm_style_ref): Must return a value to be used
+	as a boxed copy function.
+
+	* src/clipboard.c (cellregion_ref): Must return a value to be used
+	as a boxed copy function.
+
+	* src/criteria.c (gnm_criteria_unref): Rename from free_criteria.
+
 	* src/mstyle.c: Hide internals.
 	src/gnm-style-impl.h: Remove.
 

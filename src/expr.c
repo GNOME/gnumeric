@@ -2827,12 +2827,12 @@ gnm_expr_top_new_constant (GnmValue *v)
 	return gnm_expr_top_new (gnm_expr_new_constant (v));
 }
 
-void
+GnmExprTop const *
 gnm_expr_top_ref (GnmExprTop const *texpr)
 {
 	g_return_if_fail (GNM_IS_EXPR_TOP (texpr));
-
 	((GnmExprTop *)texpr)->refcount++;
+	return texpr;
 }
 
 void

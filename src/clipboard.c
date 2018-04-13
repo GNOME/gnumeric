@@ -883,11 +883,12 @@ gnm_cell_region_new (Sheet *origin_sheet)
 	return cr;
 }
 
-void
+GnmCellRegion *
 cellregion_ref (GnmCellRegion *cr)
 {
-	g_return_if_fail (cr != NULL);
+	g_return_val_if_fail (cr != NULL, NULL);
 	cr->ref_count++;
+	return cr;
 }
 
 void

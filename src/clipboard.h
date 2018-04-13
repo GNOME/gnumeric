@@ -99,7 +99,7 @@ GnmPasteTarget *paste_target_init      (GnmPasteTarget *pt,
 
 GType          gnm_cell_region_get_type (void);
 GnmCellRegion *gnm_cell_region_new	(Sheet *origin_sheet);
-void           cellregion_ref		(GnmCellRegion *cr);
+GnmCellRegion *cellregion_ref		(GnmCellRegion *cr);
 void           cellregion_unref		(GnmCellRegion *cr);
 GString	      *cellregion_to_string	(GnmCellRegion const *cr,
 					 gboolean only_visible,

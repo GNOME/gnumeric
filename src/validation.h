@@ -79,7 +79,7 @@ gboolean    gnm_validation_equal    (GnmValidation const *a,
 				     GnmValidation const *b,
 				     gboolean relax_sheet);
 
-void        gnm_validation_ref      (GnmValidation const *v);
+GnmValidation *gnm_validation_ref      (GnmValidation const *v);
 void        gnm_validation_unref    (GnmValidation const *v);
 
 void	    gnm_validation_set_expr (GnmValidation *v,

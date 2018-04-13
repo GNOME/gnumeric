@@ -786,12 +786,12 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 	return nexpr;
 }
 
-void
+GnmNamedExpr *
 expr_name_ref (GnmNamedExpr *nexpr)
 {
-	g_return_if_fail (nexpr != NULL);
-
+	g_return_val_if_fail (nexpr != NULL, NULL);
 	nexpr->ref_count++;
+	return nexpr;
 }
 
 void

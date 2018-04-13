@@ -909,6 +909,14 @@ gnm_action_get_type (void)
 static GnmAppExtraUI *
 gnm_app_extra_ui_ref (GnmAppExtraUI *ui)
 {
+	// Nothing
+	return ui;
+}
+
+static GnmAppExtraUI *
+gnm_app_extra_ui_unref (GnmAppExtraUI *ui)
+{
+	// Nothing
 	return ui;
 }
 
@@ -920,7 +928,7 @@ gnm_app_extra_ui_get_type (void)
 	if (t == 0) {
 		t = g_boxed_type_register_static ("GnmAppExtraUI",
 			 (GBoxedCopyFunc)gnm_app_extra_ui_ref,
-			 (GBoxedFreeFunc)gnm_app_extra_ui_ref);
+			 (GBoxedFreeFunc)gnm_app_extra_ui_unref);
 	}
 	return t;
 }

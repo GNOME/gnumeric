@@ -10,6 +10,7 @@ Morten:
 	* Introspection fixes.
 	* Clean up workbook view construction.
 	* Test suite improvements.
+	* Fix problems with boxed types.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.39

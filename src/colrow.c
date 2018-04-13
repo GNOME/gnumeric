@@ -40,7 +40,7 @@
  * functions for copy and free, and  crossing fingers.
  */
 static ColRowInfo *
-col_row_info_copy (ColRowInfo *cri)
+col_row_info_fake_copy (ColRowInfo *cri)
 {
 	return cri;
 }
@@ -52,8 +52,8 @@ col_row_info_get_type (void)
 
 	if (t == 0) {
 		t = g_boxed_type_register_static ("ColRowInfo",
-			 (GBoxedCopyFunc)col_row_info_copy,
-			 (GBoxedFreeFunc)col_row_info_copy);
+			 (GBoxedCopyFunc)col_row_info_fake_copy,
+			 (GBoxedFreeFunc)col_row_info_fake_copy);
 	}
 	return t;
 }

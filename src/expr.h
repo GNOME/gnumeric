@@ -153,7 +153,7 @@ GnmExprTop const *gnm_expr_top_new_array_corner (int cols, int rows, GnmExpr con
 GnmExprTop const *gnm_expr_top_new_array_elem	(int x, int y);
 
 GType		gnm_expr_top_get_type (void);
-void		gnm_expr_top_ref		(GnmExprTop const *texpr);
+GnmExprTop const *gnm_expr_top_ref		(GnmExprTop const *texpr);
 void		gnm_expr_top_unref		(GnmExprTop const *texpr);
 gboolean	gnm_expr_top_equal		(GnmExprTop const *te1, GnmExprTop const *te2);
 guint           gnm_expr_top_hash               (GnmExprTop const *texpr);

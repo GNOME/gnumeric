@@ -39,7 +39,7 @@ typedef struct {
 GnmCriteria *parse_criteria (GnmValue const *crit_val,
 			     GODateConventions const *date_conv,
 			     gboolean anchor_end);
-void	free_criteria		(GnmCriteria *criteria);
+void	gnm_criteria_unref	(GnmCriteria *criteria);
 void	free_criterias		(GSList *criterias);
 GSList *find_rows_that_match	(Sheet *sheet, int first_col,
 				 int first_row, int last_col, int last_row,

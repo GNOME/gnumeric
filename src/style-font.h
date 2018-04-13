@@ -26,7 +26,7 @@ GType    gnm_font_get_type (void);
 GnmFont *gnm_font_new   (PangoContext *context,
 			 char const *font_name,
 			 double size_pts, gboolean bold, gboolean italic);
-void     gnm_font_ref   (GnmFont *gfont);
+GnmFont *gnm_font_ref   (GnmFont *gfont);
 void     gnm_font_unref (GnmFont *gfont);
 guint    gnm_font_hash  (gconstpointer v);
 gint     gnm_font_equal (gconstpointer v, gconstpointer v2);

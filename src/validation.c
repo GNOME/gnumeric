@@ -360,11 +360,12 @@ gnm_validation_equal (GnmValidation const *a, GnmValidation const *b,
 }
 
 
-void
+GnmValidation *
 gnm_validation_ref (GnmValidation const *v)
 {
 	g_return_if_fail (v != NULL);
 	((GnmValidation *)v)->ref_count++;
+	return ((GnmValidation *)v);
 }
 
 void
