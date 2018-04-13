@@ -822,16 +822,18 @@ gnm_style_new_merged (GnmStyle const *base, GnmStyle const *overlay)
  * gnm_style_ref: (skip)
  * @style: #GnmStyle
  *
- * Adds a reference to @style.
+ * Returns: (transfer full): A new reference to @style.
  */
-void
+GnmStyle *
 gnm_style_ref (GnmStyle const *style)
 {
-	g_return_if_fail (style != NULL);
-	g_return_if_fail (style->ref_count > 0);
+	g_return_val_if_fail (style != NULL, NULL);
+	g_return_val_if_fail (style->ref_count > 0, NULL);
 
 	((GnmStyle *)style)->ref_count++;
 	d(("ref %p = %d\n", style, style->ref_count));
+
+	return ((GnmStyle *)style);
 }
 
 /**
