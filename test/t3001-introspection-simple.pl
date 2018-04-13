@@ -36,10 +36,13 @@ As int:
 0
 1
 
+Formatted value:
+Value: 101.25  Format: 0.0000  Rendered: 101.2500
+
 List of cells in sheet:
 A1: 10 [bold]
 C1: 10 
-A2: 101.25 [bold]
+A2: 101.2500 [bold]
 C2: 101.25 
 A3: =A1+A2 
 C3: =C1+C2 

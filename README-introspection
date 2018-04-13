@@ -42,7 +42,7 @@ Sheet: [GObject]
   cells(range)
   cells_count()
   is_cell_empty(col,row)
-  style_apply_range(range,style)
+  apply_style(range,style)           [1]
   style_get(col,row)
   props.name
   props.workbook
@@ -207,6 +207,34 @@ GnmStyle: [Boxed structure]
   get_contents_hidden()
   get_effective_text_wrap()
   visible_in_blank()
+
+
+GOFormat: [Boxed structure]
+  new_from_XL(string)
+  as_XL()
+  general
+  empty
+  default_date
+  default_time
+  default_date_time
+  default_percentage
+  default_money
+  default_accounting
+  is_invalid
+  is_general
+  is_markup
+  is_text
+  is_var_width
+  is_date
+  is_time
+  month_before_day
+  has_hour
+  has_minute
+  inc_precision
+  dec_precision
+  toggle_1000sep
+
+
 
 Gnm (i.e., not in a class):
   clipboard_copy_range(sheet,range)

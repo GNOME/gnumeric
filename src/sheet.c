@@ -1706,7 +1706,7 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 }
 
 /**
- * sheet_apply_style:
+ * sheet_apply_style: (skip)
  * @sheet: the sheet in which can be found
  * @range: the range to which should be applied
  * @mstyle: (transfer full): A #GnmStyle partial style
@@ -1720,6 +1720,25 @@ sheet_apply_style (Sheet       *sheet,
 		   GnmStyle      *style)
 {
 	GnmSpanCalcFlags spanflags = gnm_style_required_spanflags (style);
+	sheet_style_apply_range (sheet, range, style);
+	/* This also redraws the range: */
+	sheet_range_calc_spans (sheet, range, spanflags);
+}
+
+/**
+ * sheet_apply_style_gi: (rename-to sheet_apply_style)
+ * @sheet: the sheet in which can be found
+ * @range: the range to which should be applied
+ * @mstyle: A #GnmStyle partial style
+ *
+ * A mid level routine that applies the supplied partial style @style to the
+ * target @range and performs the necessary respanning and redrawing.
+ **/
+void
+sheet_apply_style_gi (Sheet *sheet, GnmRange const *range, GnmStyle *style)
+{
+	GnmSpanCalcFlags spanflags = gnm_style_required_spanflags (style);
+	gnm_style_ref (style);
 	sheet_style_apply_range (sheet, range, style);
 	/* This also redraws the range: */
 	sheet_range_calc_spans (sheet, range, spanflags);

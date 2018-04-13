@@ -1783,7 +1783,7 @@ sheet_style_apply_range (Sheet *sheet, GnmRange const *range, GnmStyle *pstyle)
 }
 
 /**
- * sheet_style_apply_range2: (rename-to sheet_style_apply_range)
+ * sheet_style_apply_range2: (skip)
  * @sheet: #Sheet
  * @range: #GnmRange to apply over
  * @pstyle: A partial style to apply

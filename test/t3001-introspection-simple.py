@@ -11,9 +11,9 @@ wb = Gnm.Workbook.new_with_sheets(1)
 
 # Get sheet.  Index starts at 0
 sheet = wb.sheet_by_index(0)
-print("Name:", sheet.props.name)
-print("Number of columns:", sheet.props.columns)
-print("Number of rows:", sheet.props.rows)
+print("Name: {}".format(sheet.props.name))
+print("Number of columns: {}".format (sheet.props.columns))
+print("Number of rows: {}".format (sheet.props.rows))
 
 # Store values and expressions is some cells.  Coordinates are (col,row)
 # both starting at 0.  (So what the gui sees as row 1 is 0 here.)
@@ -40,7 +40,14 @@ st = Gnm.Style.new()
 st.set_font_bold(1)
 r = Gnm.Range()
 r.init(0,0,0,1)
-sheet.style_apply_range(r,st)
+sheet.apply_style(r,st)
+
+# Set a format for A2
+st = Gnm.Style.new()
+st.set_format_text("0.0000")
+r = Gnm.Range()
+r.init(0,1,0,1)
+sheet.apply_style(r,st)
 
 # Recalculate all cells that need it
 wb.recalc()
@@ -52,6 +59,13 @@ for i in range(7):
 print("\nAs int:")
 for i in range(7):
     print(sheet.cell_get_value(0,i).get_as_int())
+
+print("\nFormatted value:")
+c = sheet.cell_fetch(0,1)
+print("Value: {}  Format: {}  Rendered: {}".format (c.get_value().get_as_string(),
+                                                    c.get_format().as_XL(),
+                                                    c.get_rendered_text()))
+
 
 print("\nList of cells in sheet:")
 for c in sheet.cells(None):
