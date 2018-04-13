@@ -1049,14 +1049,14 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 		g_param_spec_boxed ("tab-foreground",
 				    P_("Tab Foreground"),
 				    P_("The foreground color of the tab."),
-				    GNM_STYLE_COLOR_TYPE,
+				    GNM_COLOR_TYPE,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_TAB_BACKGROUND,
 		g_param_spec_boxed ("tab-background",
 				    P_("Tab Background"),
 				    P_("The background color of the tab."),
-				    GNM_STYLE_COLOR_TYPE,
+				    GNM_COLOR_TYPE,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
 
@@ -1709,7 +1709,7 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
  * sheet_apply_style: (skip)
  * @sheet: the sheet in which can be found
  * @range: the range to which should be applied
- * @mstyle: (transfer full): A #GnmStyle partial style
+ * @style: (transfer full): A #GnmStyle partial style
  *
  * A mid level routine that applies the supplied partial style @style to the
  * target @range and performs the necessary respanning and redrawing.

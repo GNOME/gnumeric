@@ -9,15 +9,13 @@
 
 G_BEGIN_DECLS
 
-#define GNM_STYLE_COLOR_TYPE                 (gnm_style_color_get_type ())
-GType gnm_style_color_get_type (void);
-
 struct _GnmColor {
 	GOColor	 go_color;
 	int      ref_count;
 	gboolean is_auto;
 };
 
+#define GNM_COLOR_TYPE (gnm_color_get_type ())
 GType     gnm_color_get_type    (void);
 GnmColor *gnm_color_new_go    (GOColor c);
 GnmColor *gnm_color_new_rgba16(guint16 red, guint16 green, guint16 blue, guint16 alpha);

@@ -1,5 +1,8 @@
 2018-04-13  Morten Welinder  <terra@gnome.org>
 
+	* src/style-color.c (gnm_style_color_get_type): Duplicate of
+	gnm_color_get_type, more or less.
+
 	* src/validation.c (gnm_validation_ref): Must return a value to be
 	used as a boxed copy function.
 

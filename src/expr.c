@@ -2830,7 +2830,7 @@ gnm_expr_top_new_constant (GnmValue *v)
 GnmExprTop const *
 gnm_expr_top_ref (GnmExprTop const *texpr)
 {
-	g_return_if_fail (GNM_IS_EXPR_TOP (texpr));
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
 	((GnmExprTop *)texpr)->refcount++;
 	return texpr;
 }
