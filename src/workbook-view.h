@@ -87,9 +87,9 @@ void		 wb_view_edit_line_set	  (WorkbookView *wbv,
 void		 wb_view_auto_expr_recalc (WorkbookView *wbv);
 
 /* I/O routines */
-gboolean wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs,
-			  char const *uri, GOCmdContext *cc);
-gboolean wb_view_save	 (WorkbookView *wbv, GOCmdContext *cc);
+gboolean workbook_view_save_as (WorkbookView *wbv, GOFileSaver *fs,
+				char const *uri, GOCmdContext *cc);
+gboolean workbook_view_save	 (WorkbookView *wbv, GOCmdContext *cc);
 void	 workbook_view_save_to_output (WorkbookView *wbv,
 				       GOFileSaver const *fs,
 				       GsfOutput *output,

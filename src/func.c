@@ -750,19 +750,19 @@ gnm_func_set_user_data (GnmFunc *func, gpointer user_data)
 /**
  * gnm_func_get_name:
  * @func: #GnmFunc to query
- * @localized_function_names: if %TRUE, use localized name
+ * @localized: if %TRUE, use localized name
  *
  * Returns: (transfer none): @func's name
  */
 char const *
-gnm_func_get_name (GnmFunc const *func, gboolean localized_function_names)
+gnm_func_get_name (GnmFunc const *func, gboolean localized)
 {
 	int i;
 	GnmFunc *fd = (GnmFunc *)func;
 
 	g_return_val_if_fail (func != NULL, NULL);
 
-	if (!localized_function_names)
+	if (!localized)
 		return func->name;
 
 	if (func->localized_name)

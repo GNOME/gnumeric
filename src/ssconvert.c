@@ -848,7 +848,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				workbook_sheet_move (sheet, -oldn);
 				wb_view_sheet_focus (wbv, sheet);
 
-				res = !wb_view_save_as (wbv, fs, tmpfile, cc);
+				res = !workbook_view_save_as (wbv, fs, tmpfile, cc);
 				workbook_sheet_move (sheet, +oldn);
 				g_free (tmpfile);
 				if (res)
@@ -863,7 +863,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				      "Only the current sheet will be saved.  To get around this limitation, use -S.\n"),
 				    go_file_saver_get_id (fs));
 	}
-	res = !wb_view_save_as (wbv, fs, outfile, cc);
+	res = !workbook_view_save_as (wbv, fs, outfile, cc);
 
  out:
 	if (wb)

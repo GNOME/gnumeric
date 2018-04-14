@@ -1174,11 +1174,11 @@ get_uri_modtime (GsfInput *input, const char *uri)
 }
 
 /**
- * wb_view_save_as:
+ * workbook_view_save_as:
  * @wbv: Workbook View
  * @fs: GOFileSaver object
  * @uri: URI to save as.
- * @cc:
+ * @cc: The #GOCmdContext that invoked the operation
  *
  * Saves @wbv and workbook it's attached to into @uri file using
  * @fs file saver.  If the format sufficiently advanced make it the saver
@@ -1187,8 +1187,8 @@ get_uri_modtime (GsfInput *input, const char *uri)
  * Return value: %TRUE if file was successfully saved and %FALSE otherwise.
  */
 gboolean
-wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
-		 GOCmdContext *cc)
+workbook_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
+		       GOCmdContext *cc)
 {
 	GOIOContext *io_context;
 	Workbook  *wb;
@@ -1237,9 +1237,9 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 }
 
 /**
- * wb_view_save:
+ * workbook_view_save:
  * @wbv: The view to save.
- * @cc: The context that invoked the operation
+ * @cc: The #GOCmdContext that invoked the operation
  *
  * Saves @wbv and workbook it's attached to into file assigned to the
  * workbook using workbook's file saver. If the workbook has no file
@@ -1248,7 +1248,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
  * Return value: %TRUE if file was successfully saved and %FALSE otherwise.
  */
 gboolean
-wb_view_save (WorkbookView *wbv, GOCmdContext *context)
+workbook_view_save (WorkbookView *wbv, GOCmdContext *context)
 {
 	GOIOContext	*io_context;
 	Workbook	*wb;
@@ -1304,10 +1304,10 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
  * @encoding: (allow-none): Encoding for @file_opener that understand it
  *
  * Reads @uri file using given file opener @file_opener, or probes for a valid
- * possibility if @file_opener is NULL.  Reports problems to @io_context.
+ * possibility if @file_opener is %NULL.  Reports problems to @io_context.
  *
- * Return value: (transfer full): the newly allocated WorkbookView or %NULL
- * on error.
+ * Return value: (transfer full) (nullable): the newly allocated WorkbookView
+ * or %NULL on error.
  **/
 WorkbookView *
 workbook_view_new_from_input (GsfInput *input,
@@ -1420,8 +1420,8 @@ workbook_view_new_from_input (GsfInput *input,
  * Reads @uri file using given file opener @file_opener, or probes for a valid
  * possibility if @file_opener is %NULL.  Reports problems to @io_context.
  *
- * Return value: (transfer full): the newly allocated WorkbookView or %NULL
- * on error.
+ * Return value: (transfer full) (nullable): the newly allocated WorkbookView
+ * or %NULL on error.
  **/
 WorkbookView *
 workbook_view_new_from_uri (char const *uri,

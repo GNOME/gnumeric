@@ -728,7 +728,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, GnmFileSaveAsStyle type,
 		/* Destroy early so no-one can repress the Save button.  */
 		gtk_widget_destroy (GTK_WIDGET (fsel));
 		fsel = NULL;
-		if (wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg)))
+		if (workbook_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg)))
 			workbook_update_history (wb, type);
 	}
 
@@ -838,7 +838,7 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 		}
 
 		if (ok)
-			ok = wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
+			ok = workbook_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
 		if (ok)
 			workbook_update_history (wb, GNM_FILE_SAVE_AS_STYLE_SAVE);
 		g_object_unref (wb);
@@ -884,7 +884,7 @@ gui_file_export_repeat (WBCGtk *wbcg)
 		    go_gtk_dialog_run (GTK_DIALOG (dialog), wbcg_toplevel (wbcg))) {
 			/* We need to copy wb->last_export_uri since it will be reset during saving */
 			gchar *uri = g_strdup (last_uri);
-			if(wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg))) {
+			if(workbook_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg))) {
 				workbook_update_history (wb, GNM_FILE_SAVE_AS_STYLE_EXPORT);
 				g_free (uri);
 				return TRUE;

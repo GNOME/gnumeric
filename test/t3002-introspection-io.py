@@ -28,8 +28,11 @@ print("Loaded {}".format(wb.props.uri))
 
 # Save a file
 fs = GOffice.FileSaver.for_file_name (dst_uri)
-wbv.save_to_uri (fs, dst_uri, ioc)
-print("Saved {}".format(dst_uri))
+if wbv.save_as (fs, dst_uri, cc):
+    print("Saved {}".format(wb.props.uri))
+else:
+    print("Failed to save to {}".format(dst_uri))
+
 
 # Remove our references to the objects
 wb = None

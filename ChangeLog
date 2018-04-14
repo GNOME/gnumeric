@@ -1,3 +1,9 @@
+2018-04-14  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (workbook_view_save_as): Rename from
+	wb_view_save_as for introspection.
+	(workbook_view_save): Rename from wb_view_save for introspection.
+
 2018-04-13  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (workboook_view_save_to_uri): Renamed from

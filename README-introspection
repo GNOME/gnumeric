@@ -39,7 +39,8 @@ GODoc: [GObject]
 
 WorkbookView: [GObject]
   new_from_uri(uri,opener,iocontext,encoding)
-  save_to_uri(uri,saver,iocontext)
+  save(cmdctx)
+  save_as(uri,saver,cmdctx)
   props.workbook
   props.preferred_width
   props.preferred_height
@@ -249,7 +250,7 @@ GOFormat: [Boxed structure]
 
 
 GOIOContext: [GObject]
-  new(cmdtxt)
+  new(cmdctx)
 
 
 GnmCmdContextStderr: [GObject]
