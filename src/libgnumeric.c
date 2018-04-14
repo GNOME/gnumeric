@@ -289,6 +289,9 @@ gnm_init (void)
 		return;
 	inited = TRUE;
 
+	// Might be duplicate call, but that's ok
+	gutils_init ();
+
 	libgoffice_init ();
 	_gnm_register_resource ();
 	if (gdk_screen_get_default ()) {

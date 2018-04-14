@@ -6,6 +6,14 @@ gi.require_version('Gnm', '1.12')
 from gi.repository import Gnm
 Gnm.init()
 
+# A context for reporting errors to stderr
+cc = Gnm.CmdContextStderr.new()
+
+# Load plugins
+Gnm.plugins_init(cc)
+
+# -----------------------------------------------------------------------------
+
 # Create a workbook with one sheet
 wb = Gnm.Workbook.new_with_sheets(1)
 

@@ -261,13 +261,43 @@ GOFileSaver: [GObject]
   for_file_name(filename_or_uri)
   for_mime_type(mimetype)
   for_id(saverid)
+  props.id,
+  props.mime_type
+  props.extension
+  props.description
+  props.overwrite
+  props.interactive_only
+  props.format_level
+  props.scope
+
+
+GOFileOpener: [GObject]
+  get_suffixes()
+  get_mimes()
+  props.id,
+  props.description
+  props.interactive_only
+
+
+GOFileFormatLevel: [Enum]
+  NONE
+  WRITE_ONLY
+  NEW
+  MANUAL
+  MANUAL_REMEMBER
+  AUTO
+  LAST
+
 
 Gnm (i.e., not in a class):
   clipboard_copy_range(sheet,range)
+  plugins_init(cmdctx)
+
 
 GOffice (i.e., not in a class):
   filename_to_uri(filename)
-
+  get_file_savers()
+  get_file_openers()
 
 
 

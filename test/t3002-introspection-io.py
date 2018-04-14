@@ -12,7 +12,14 @@ import sys
 src_uri = GOffice.filename_to_uri (sys.argv[1])
 dst_uri = GOffice.filename_to_uri (sys.argv[2])
 
-ioc = GOffice.IOContext.new (Gnm.CmdContextStderr.new ())
+# A context for reporting errors to stderr
+cc = Gnm.CmdContextStderr.new()
+
+# Load plugins
+Gnm.plugins_init(cc)
+
+# A context for io operations
+ioc = GOffice.IOContext.new (cc)
 
 # Read a file
 wbv = Gnm.WorkbookView.new_from_uri (src_uri, None, ioc, None)

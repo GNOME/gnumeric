@@ -68,10 +68,19 @@ running_in_tree (void)
 	return FALSE;
 }
 
+static gboolean gutils_inited = FALSE;
+
 void
 gutils_init (void)
 {
 	char const *home_dir;
+
+	// This function will end up being called twice in normal operation:
+	// once from gnm_pre_parse_init and once from gnm_init.  Introspection
+	// will not get the first.
+	if (gutils_inited)
+		return;
+
 #ifdef G_OS_WIN32
 	gchar *dir = g_win32_get_package_installation_directory_of_module (NULL);
 	gnumeric_lib_dir = g_build_filename (dir, "lib",
@@ -114,6 +123,8 @@ gutils_init (void)
 	gnumeric_usr_dir = gnumeric_usr_dir_unversioned
 		? g_build_filename (gnumeric_usr_dir_unversioned, GNM_VERSION_FULL, NULL)
 		: NULL;
+
+	gutils_inited = TRUE;
 }
 
 void
