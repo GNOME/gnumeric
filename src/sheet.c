@@ -1729,7 +1729,7 @@ sheet_apply_style (Sheet       *sheet,
  * sheet_apply_style_gi: (rename-to sheet_apply_style)
  * @sheet: the sheet in which can be found
  * @range: the range to which should be applied
- * @mstyle: A #GnmStyle partial style
+ * @style: A #GnmStyle partial style
  *
  * A mid level routine that applies the supplied partial style @style to the
  * target @range and performs the necessary respanning and redrawing.

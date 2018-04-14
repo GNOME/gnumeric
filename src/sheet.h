@@ -340,7 +340,7 @@ GOUndo *     sheet_range_set_expr_undo (GnmSheetRange *sr,
 					GnmExprTop const  *texpr);
 GOUndo *     sheet_range_set_markup_undo (GnmSheetRange *sr,
 					  PangoAttrList *markup);
-void	     sheet_apply_style	    (Sheet  *sheet, GnmRange const *range, GnmStyle *mstyle);
+void	     sheet_apply_style	    (Sheet  *sheet, GnmRange const *range, GnmStyle *style);
 GOUndo *     sheet_apply_style_undo (GnmSheetRange *sr,
 				     GnmStyle      *style);
 void	     sheet_apply_border	    (Sheet  *sheet, GnmRange const *range, GnmBorder **borders);

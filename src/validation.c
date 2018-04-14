@@ -363,7 +363,7 @@ gnm_validation_equal (GnmValidation const *a, GnmValidation const *b,
 GnmValidation *
 gnm_validation_ref (GnmValidation const *v)
 {
-	g_return_if_fail (v != NULL);
+	g_return_val_if_fail (v != NULL, NULL);
 	((GnmValidation *)v)->ref_count++;
 	return ((GnmValidation *)v);
 }

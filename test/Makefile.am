@@ -181,7 +181,8 @@ SUPPS = common.supp gui.supp t8003-valgrind-pdf.supp
 
 INTROSPECTION_TSTS = \
 	t3000-introspection-basic.pl		\
-	t3001-introspection-simple.pl
+	t3001-introspection-simple.pl		\
+	t3002-introspection-io.pl
 
 INTROSPECTION_SUPPS = \
 	$(INTROSPECTION_TSTS:.pl=.py)

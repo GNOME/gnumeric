@@ -792,8 +792,9 @@ static void
 highlight_diff_end (gpointer user)
 {
 	DiffState *state = user;
-	wbv_save_to_output (state->highlight.wbv, state->highlight_fs,
-			    state->output, state->ioc);
+	workbook_view_save_to_output (state->highlight.wbv,
+				      state->highlight_fs,
+				      state->output, state->ioc);
 }
 
 static void

@@ -95,7 +95,8 @@ go_gnm_component_get_data (GOComponent *component, gpointer *data, int *length,
 		GOFileSaver *gfs = workbook_get_file_saver (gognm->wb);
 		if (gfs == NULL)
 			gfs = go_file_saver_get_default ();
-		wbv_save_to_output (gognm->wv, gfs, output, io_context);
+		workbook_view_save_to_output (gognm->wv, gfs, output,
+					      io_context);
 		*data = (gpointer) gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output));
 		*length = gsf_output_size (output);
 		*clearfunc = g_object_unref;

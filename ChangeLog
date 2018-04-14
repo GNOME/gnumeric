@@ -1,5 +1,10 @@
 2018-04-13  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-view.c (workboook_view_save_to_uri): Renamed from
+	wb_view_save_to_uri for introspection.
+	(workbook_view_save_to_output): Renamed from
+	wb_view_save_to_output for introspection.
+
 	* src/style-color.c (gnm_style_color_get_type): Duplicate of
 	gnm_color_get_type, more or less.
 

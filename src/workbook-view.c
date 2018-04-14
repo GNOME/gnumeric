@@ -1082,7 +1082,7 @@ workbook_view_new (Workbook *wb)
 }
 
 /**
- * wbv_save_to_output:
+ * workbook_view_save_to_output:
  * @wbv: #WorkbookView
  * @fs: #GOFileSaver
  * @output: #GsfOutput
@@ -1091,8 +1091,8 @@ workbook_view_new (Workbook *wb)
  * NOTE : Temporary api until we get the new output framework.
  **/
 void
-wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
-		    GsfOutput *output, GOIOContext *io_context)
+workbook_view_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
+			      GsfOutput *output, GOIOContext *io_context)
 {
 	GError const *err;
 	char const   *msg;
@@ -1116,9 +1116,17 @@ wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
 		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), msg);
 }
 
+/**
+ * workbook_view_save_to_uri:
+ * @wbv: #WorkbookView
+ * @fs: #GOFileSaver
+ * @uri: destination URI
+ * @io_context: #GOIOContext
+ *
+ **/
 void
-wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
-		     char const *uri, GOIOContext *io_context)
+workbook_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
+			   char const *uri, GOIOContext *io_context)
 {
 	char   *msg = NULL;
 	GError *err = NULL;
@@ -1135,7 +1143,7 @@ wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), msg);
 		g_free (msg);
 	} else {
-		wbv_save_to_output (wbv, fs, output, io_context);
+		workbook_view_save_to_output (wbv, fs, output, io_context);
 		g_object_unref (output);
 	}
 }
@@ -1196,7 +1204,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	io_context = go_io_context_new (cc);
 
 	go_cmd_context_set_sensitive (cc, FALSE);
-	wb_view_save_to_uri (wbv, fs, uri, io_context);
+	workbook_view_save_to_uri (wbv, fs, uri, io_context);
 	go_cmd_context_set_sensitive (cc, TRUE);
 
 	has_error   = go_io_error_occurred (io_context);
@@ -1265,7 +1273,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 			_("Default file saver is not available."));
 	else {
 		char const *uri = go_doc_get_uri (GO_DOC (wb));
-		wb_view_save_to_uri (wbv, fs, uri, io_context);
+		workbook_view_save_to_uri (wbv, fs, uri, io_context);
 	}
 
 	has_error   = go_io_error_occurred (io_context);
@@ -1406,7 +1414,7 @@ workbook_view_new_from_input (GsfInput *input,
  * workbook_view_new_from_uri:
  * @uri: URI for file
  * @file_opener: (allow-none): #GOFileOpener
- * @io_context: (allow-none): Context to display errors.
+ * @io_context: Context to display errors.
  * @encoding: (allow-none): Encoding for @file_opener that understands it
  *
  * Reads @uri file using given file opener @file_opener, or probes for a valid

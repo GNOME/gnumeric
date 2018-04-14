@@ -1313,7 +1313,7 @@ gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 
 	output = gsf_output_stdio_new_FILE (*filename, file, TRUE);
 	io_context = go_io_context_new (GO_CMD_CONTEXT (wbc));
-	wbv_save_to_output (wbv, fs, output, io_context);
+	workbook_view_save_to_output (wbv, fs, output, io_context);
 	ok = !go_io_error_occurred (io_context);
 	g_object_unref (io_context);
 	g_object_unref (output);

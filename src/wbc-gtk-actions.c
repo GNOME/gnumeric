@@ -142,7 +142,7 @@ static GNM_ACTION_DEF (cb_file_sendto) {
 		g_free (basename);
 		uri = go_filename_to_uri (full_name);
 
-		wb_view_save_to_uri (wbv, fs, uri, io_context);
+		workbook_view_save_to_uri (wbv, fs, uri, io_context);
 
 		if (go_io_error_occurred (io_context) ||
 		    go_io_warning_occurred (io_context))

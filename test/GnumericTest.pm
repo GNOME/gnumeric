@@ -272,6 +272,7 @@ sub corpus {
 sub test_command {
     my ($cmd,$test) = @_;
 
+    print STDERR "# $cmd\n" if $verbose;
     my $output = `$cmd 2>&1`;
     my $err = $?;
     die "Failed command: $cmd\n" if $err;
