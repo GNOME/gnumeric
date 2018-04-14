@@ -747,6 +747,13 @@ gnm_func_set_user_data (GnmFunc *func, gpointer user_data)
 	func->user_data = user_data;
 }
 
+/**
+ * gnm_func_get_name:
+ * @func: #GnmFunc to query
+ * @localized_function_names: if %TRUE, use localized name
+ *
+ * Returns: (transfer none): @func's name
+ */
 char const *
 gnm_func_get_name (GnmFunc const *func, gboolean localized_function_names)
 {

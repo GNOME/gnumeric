@@ -39,3 +39,13 @@ for fo in GOffice.get_file_openers():
 print("")
 
 # -----------------------------------------------------------------------------
+
+print("Plot families: " + ", ".join (sorted(GOffice.GraphPlot.families())))
+print("")
+
+# -----------------------------------------------------------------------------
+
+print("Functions: " + ", ".join (sorted([f.get_name(0) for f in Gnm.Func.enumerate()])))
+print("")
+
+# -----------------------------------------------------------------------------

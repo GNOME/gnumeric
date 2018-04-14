@@ -18,5 +18,16 @@ $python_script =~ s/\.pl$/.py/;
 			   /^Saver ID: Gnumeric_pdf:pdf_assistant$/m &&
 			   # A few important loaders
 			   /^Loader ID: Gnumeric_Excel:xlsx$/m &&
-			   /^Loader ID: Gnumeric_OpenCalc:openoffice$/m);
+			   /^Loader ID: Gnumeric_OpenCalc:openoffice$/m &&
+			   # A few important plot types
+			   /^Plot families: .*\bLine\b/m &&
+			   /^Plot families: .*\bBar\b/m &&
+			   /^Plot families: .*\bXY\b/m &&
+			   # A few functions
+			   /^Functions: .*\bsin\b/m &&
+			   /^Functions: .*\bvar\b/m &&
+			   /^Functions: .*\brandnorm\b/m &&
+			   /^Functions: .*\bweekday\b/m &&
+			   /^Functions: .*\bimsin\b/m
+		       );
 	       });
