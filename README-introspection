@@ -1,16 +1,21 @@
 Today is 20180412.  If that seems a long time ago, this document might
 be outdated.
 
+Note: For tests you must either "make install" first or else run the
+python script via the corresponding *.pl file.
+
 test/t3001-introspection-simple.py shows a sample of using introspection
-to work with a spreadsheet.  Note: you must either "make install" first
-or else run it the corresponding *.pl file.
+to work with a spreadsheet.
+
+test/t3002-introspection-io.py shows a sample of using introspection
+to load and save files.
+
 
 The following is a list of types and the API that is expected to both
 be useful in this setting and actually work.
 
 This is incomplete.  In particular, I'll have to look at
 * Expressions other than via text
-* File i/o
 * Installing a gi override module for more pythony structure handling
 
 -----------------------------------------------------------------------------
@@ -30,6 +35,14 @@ GODoc: [GObject]
   props.uri
   props.dirty
   props.pristine
+
+
+WorkbookView: [GObject]
+  new_from_uri(uri,opener,iocontext,encoding)
+  save_to_uri(uri,saver,iocontext)
+  props.workbook
+  props.preferred_width
+  props.preferred_height
 
 
 Sheet: [GObject]
@@ -235,9 +248,25 @@ GOFormat: [Boxed structure]
   toggle_1000sep
 
 
+GOIOContext: [GObject]
+  new(cmdtxt)
+
+
+GnmCmdContextStderr: [GObject]
+  new()
+
+
+GOFileSaver: [GObject]
+  get_default()
+  for_file_name(filename_or_uri)
+  for_mime_type(mimetype)
+  for_id(saverid)
 
 Gnm (i.e., not in a class):
   clipboard_copy_range(sheet,range)
+
+GOffice (i.e., not in a class):
+  filename_to_uri(filename)
 
 
 

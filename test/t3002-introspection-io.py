@@ -10,15 +10,22 @@ Gnm.init()
 
 import sys
 src_uri = GOffice.filename_to_uri (sys.argv[1])
-print(src_uri)
 dst_uri = GOffice.filename_to_uri (sys.argv[2])
-print(dst_uri)
 
 ioc = GOffice.IOContext.new (Gnm.CmdContextStderr.new ())
-wbv =  Gnm.WorkbookView.new_from_uri (src_uri, None, ioc, None)
 
+# Read a file
+wbv = Gnm.WorkbookView.new_from_uri (src_uri, None, ioc, None)
+wb = wbv.props.workbook
+print("Loaded {}".format(wb.props.uri))
+
+# Save a file
 fs = GOffice.FileSaver.for_file_name (dst_uri)
 wbv.save_to_uri (fs, dst_uri, ioc)
+print("Saved {}".format(dst_uri))
 
+# Remove our references to the objects
+wb = None
+wbv = None
 ioc = None
 wbv = None
