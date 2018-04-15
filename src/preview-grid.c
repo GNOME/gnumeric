@@ -320,21 +320,18 @@ preview_grid_set_property (GObject *obj, guint param_id,
 	case PREVIEW_GRID_PROP_DEFAULT_ROW_HEIGHT :
 		pg->defaults.row_height = g_value_get_uint (value);
 		break;
-	case PREVIEW_GRID_PROP_DEFAULT_STYLE : { /* add a  ref */
-		GnmStyle *style = g_value_get_pointer (value);
+	case PREVIEW_GRID_PROP_DEFAULT_STYLE : {
+		GnmStyle *style = g_value_dup_boxed (value);
 		g_return_if_fail (style != NULL);
-		gnm_style_ref (style);
 		gnm_style_unref (pg->defaults.style);
 		pg->defaults.style = style;
 		break;
 	}
-	case PREVIEW_GRID_PROP_DEFAULT_VALUE : { /* steal ownership */
-		GnmValue *val = g_value_get_pointer (value);
+	case PREVIEW_GRID_PROP_DEFAULT_VALUE: {
+		GnmValue *val = g_value_dup_boxed (value);
 		g_return_if_fail (val != NULL);
-		if (pg->defaults.value != val) {
-			value_release (pg->defaults.value);
-			pg->defaults.value = val;
-		}
+		value_release (pg->defaults.value);
+		pg->defaults.value = val;
 		break;
 	}
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -384,24 +381,31 @@ gnm_preview_grid_class_init (GObjectClass *gobject_klass)
 
 	gobject_klass->set_property = preview_grid_set_property;
 	gobject_klass->dispose = preview_grid_dispose;
-	g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_RENDER_GRIDLINES,
-		g_param_spec_boolean ("render-gridlines", NULL, NULL,
-			FALSE,
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
-        g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_DEFAULT_COL_WIDTH,
+	g_object_class_install_property
+		(gobject_klass, PREVIEW_GRID_PROP_RENDER_GRIDLINES,
+		 g_param_spec_boolean ("render-gridlines", NULL, NULL,
+				       FALSE,
+				       GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+        g_object_class_install_property
+		(gobject_klass, PREVIEW_GRID_PROP_DEFAULT_COL_WIDTH,
                  g_param_spec_uint ("default-col-width", NULL, NULL,
-			0, G_MAXUINT, 0,
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
-        g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_DEFAULT_ROW_HEIGHT,
+				    0, G_MAXUINT, 0,
+				    GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+        g_object_class_install_property
+		(gobject_klass, PREVIEW_GRID_PROP_DEFAULT_ROW_HEIGHT,
                  g_param_spec_uint ("default-row-height", NULL, NULL,
-			0, G_MAXUINT, 0,
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
-        g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_DEFAULT_STYLE,
-                 g_param_spec_pointer ("default-style", NULL, NULL,
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
-        g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_DEFAULT_VALUE,
-                 g_param_spec_pointer ("default-value", NULL, NULL,
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+				    0, G_MAXUINT, 0,
+				    GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+        g_object_class_install_property
+		(gobject_klass, PREVIEW_GRID_PROP_DEFAULT_STYLE,
+                 g_param_spec_boxed ("default-style", NULL, NULL,
+				      gnm_style_get_type (),
+				      GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+        g_object_class_install_property
+		(gobject_klass, PREVIEW_GRID_PROP_DEFAULT_VALUE,
+                 g_param_spec_boxed ("default-value", NULL, NULL,
+				     gnm_value_get_type (),
+				     GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
 	item_klass->update_bounds = preview_grid_update_bounds;
 	item_klass->draw_region = preview_grid_draw_region;

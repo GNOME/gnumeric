@@ -709,7 +709,7 @@ wb_view_set_property (GObject *object, guint property_id,
 
 	switch (property_id) {
 	case PROP_AUTO_EXPR_FUNC:
-		wb_view_auto_expr_func (wbv, g_value_get_pointer (value));
+		wb_view_auto_expr_func (wbv, g_value_get_boxed (value));
 		break;
 	case PROP_AUTO_EXPR_DESCR:
 		wb_view_auto_expr_descr (wbv, g_value_get_string (value));
@@ -721,7 +721,7 @@ wb_view_set_property (GObject *object, guint property_id,
 		wb_view_auto_expr_value (wbv, g_value_get_boxed (value));
 		break;
 	case PROP_AUTO_EXPR_EVAL_POS:
-		wb_view_auto_expr_eval_pos (wbv, g_value_get_pointer (value));
+		wb_view_auto_expr_eval_pos (wbv, g_value_get_boxed (value));
 		break;
 	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
 		wbv->show_horizontal_scrollbar = !!g_value_get_boolean (value);
@@ -771,7 +771,7 @@ wb_view_get_property (GObject *object, guint property_id,
 
 	switch (property_id) {
 	case PROP_AUTO_EXPR_FUNC:
-		g_value_set_pointer (value, wbv->auto_expr.func);
+		g_value_set_boxed (value, wbv->auto_expr.func);
 		break;
 	case PROP_AUTO_EXPR_DESCR:
 		g_value_set_string (value, wbv->auto_expr.descr);
@@ -910,11 +910,12 @@ workbook_view_class_init (GObjectClass *gobject_class)
         g_object_class_install_property
 		(gobject_class,
 		 PROP_AUTO_EXPR_FUNC,
-		 g_param_spec_pointer ("auto-expr-func",
-				       P_("Auto-expression function"),
-				       P_("The automatically computed sheet function."),
-				       GSF_PARAM_STATIC |
-				       G_PARAM_READWRITE));
+		 g_param_spec_boxed ("auto-expr-func",
+				     P_("Auto-expression function"),
+				     P_("The automatically computed sheet function."),
+				     gnm_func_get_type (),
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
 		 PROP_AUTO_EXPR_DESCR,
@@ -945,11 +946,12 @@ workbook_view_class_init (GObjectClass *gobject_class)
         g_object_class_install_property
 		(gobject_class,
 		 PROP_AUTO_EXPR_EVAL_POS,
-		 g_param_spec_pointer ("auto-expr-eval-pos",
-				       P_("Auto-expression position"),
-				       P_("The cell position to track."),
-				       GSF_PARAM_STATIC |
-				       G_PARAM_WRITABLE));
+		 g_param_spec_boxed ("auto-expr-eval-pos",
+				     P_("Auto-expression position"),
+				     P_("The cell position to track."),
+				     gnm_eval_pos_get_type (),
+				     GSF_PARAM_STATIC |
+				     G_PARAM_WRITABLE));
         g_object_class_install_property
 		(gobject_class,
 		 PROP_SHOW_HORIZONTAL_SCROLLBAR,

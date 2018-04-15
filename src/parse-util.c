@@ -1586,11 +1586,12 @@ gnm_conventions_unref (GnmConventions *c)
  * Returns: (transfer full) (nullable): a new reference to @c
  **/
 GnmConventions *
-gnm_conventions_ref (GnmConventions *c)
+gnm_conventions_ref (GnmConventions const *c)
 {
-	if (c)
-		c->ref_count++;
-	return c;
+	GnmConventions *uc = (GnmConventions *)c;
+	if (uc)
+		uc->ref_count++;
+	return uc;
 }
 
 GType

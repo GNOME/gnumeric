@@ -4014,9 +4014,10 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	specs->func = NULL;
 	g_object_get (G_OBJECT (wb_control_view (GNM_WBC (wbcg))),
 		      "auto-expr-func", &(specs->func), NULL);
-	if (specs->func == NULL)
+	if (specs->func == NULL) {
 		specs->func =  gnm_func_lookup_or_add_placeholder ("sum");
-	gnm_func_ref (specs->func);
+		gnm_func_ref (specs->func);
+	}
 
 	cmd_analysis_tool (GNM_WBC (wbcg), scg_sheet (scg),
 			   dao, specs, analysis_tool_auto_expression_engine,

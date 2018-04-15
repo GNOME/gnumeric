@@ -11,6 +11,7 @@ Morten:
 	* Clean up workbook view construction.
 	* Test suite improvements.
 	* Fix problems with boxed types.
+	* Avoid most punting for object properties.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.39

@@ -511,7 +511,7 @@ gee_set_property (GObject      *object,
 		gee->wbcg = WBC_GTK (g_value_get_object (value));
 		break;
 	case PROP_CONSTANT_FORMAT:
-		gee_set_format (gee, g_value_get_pointer (value));
+		gee_set_format (gee, g_value_get_boxed (value));
 		break;
 	case PROP_EDITING_CANCELED:
 		gee->editing_canceled = g_value_get_boolean (value);
@@ -547,7 +547,7 @@ gee_get_property (GObject      *object,
 		g_value_set_object (value, G_OBJECT (gee->wbcg));
 		break;
 	case PROP_CONSTANT_FORMAT:
-		g_value_set_pointer (value, (gpointer)gee->constant_format);
+		g_value_set_boxed (value, (gpointer)gee->constant_format);
 		break;
 	case PROP_EDITING_CANCELED:
 		g_value_set_boolean (value, gee->editing_canceled);
@@ -1742,10 +1742,11 @@ gee_class_init (GObjectClass *gobject_class)
 
 	g_object_class_install_property
 		(gobject_class, PROP_CONSTANT_FORMAT,
-		 g_param_spec_pointer ("constant-format",
-				       P_("Constant Format"),
-				       P_("Format for constants"),
-				       GSF_PARAM_STATIC | G_PARAM_READWRITE));
+		 g_param_spec_boxed ("constant-format",
+				     P_("Constant Format"),
+				     P_("Format for constants"),
+				     go_format_get_type (),
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	gee_debug = gnm_debug_flag ("gee");
 }

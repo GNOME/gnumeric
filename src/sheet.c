@@ -205,7 +205,8 @@ sheet_set_conventions (Sheet *sheet, GnmConventions const *convs)
 {
 	if (sheet->convs == convs)
 		return;
-	sheet->convs = convs;
+	gnm_conventions_unref (sheet->convs);
+	sheet->convs = gnm_conventions_ref (convs);
 	if (sheet->display_formulas)
 		re_render_formulas (sheet);
 	SHEET_FOREACH_VIEW (sheet, sv,
@@ -505,7 +506,7 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 		break;
 
 	case PROP_CONVENTIONS:
-		sheet_set_conventions (sheet, g_value_get_pointer (value));
+		sheet_set_conventions (sheet, g_value_get_boxed (value));
 		break;
 	case PROP_USE_R1C1: /* convenience api */
 		sheet_set_conventions (sheet, !!g_value_get_boolean (value)
@@ -640,7 +641,7 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 		break;
 
 	case PROP_CONVENTIONS:
-		g_value_set_pointer (value, (gpointer)sheet->convs);
+		g_value_set_boxed (value, sheet->convs);
 		break;
 	case PROP_USE_R1C1: /* convenience api */
 		g_value_set_boolean (value, sheet->convs->r1c1_addresses);
@@ -817,7 +818,7 @@ gnm_sheet_init (Sheet *sheet)
 					     (GCompareFunc)&cell_set_equal);
 
 	/* Init preferences */
-	sheet->convs = gnm_conventions_default;
+	sheet->convs = gnm_conventions_ref (gnm_conventions_default);
 
 	/* FIXME: probably not here.  */
 	/* See also gtk_widget_create_pango_context ().  */
@@ -1031,12 +1032,14 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				      P_("Allow the user to select unlocked cells while a sheet is protected"),
 				      TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
-	g_object_class_install_property (gobject_class, PROP_CONVENTIONS,
-		g_param_spec_pointer ("conventions",
-				      P_("Display convention for expressions (default Gnumeric A1)"),
-				      P_("How to format displayed expressions, (A1 vs R1C1, function names, ...)"),
-				      GSF_PARAM_STATIC |
-				      G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class, PROP_CONVENTIONS,
+		 g_param_spec_boxed ("conventions",
+				     P_("Display convention for expressions (default Gnumeric A1)"),
+				     P_("How to format displayed expressions, (A1 vs R1C1, function names, ...)"),
+				     gnm_conventions_get_type (),
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_USE_R1C1, /* convenience wrapper to CONVENTIONS */
 		g_param_spec_boolean ("use-r1c1",
 				      P_("Display convention for expressions as XLS_R1C1 vs default"),
@@ -4674,6 +4677,9 @@ gnm_sheet_finalize (GObject *obj)
 	sheet_destroy (sheet);
 
 	g_clear_object (&sheet->solver_parameters);
+
+	gnm_conventions_unref (sheet->convs);
+	sheet->convs = NULL;
 
 	g_list_free_full (sheet->scenarios, g_object_unref);
 	sheet->scenarios = NULL;

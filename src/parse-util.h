@@ -208,7 +208,7 @@ GType           gnm_conventions_get_type (void);
 GnmConventions *gnm_conventions_new	 (void);
 GnmConventions *gnm_conventions_new_full (unsigned size);
 
-GnmConventions *gnm_conventions_ref	 (GnmConventions *c);
+GnmConventions *gnm_conventions_ref	 (GnmConventions const *c);
 void		gnm_conventions_unref	 (GnmConventions *c);
 
 

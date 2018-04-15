@@ -58,7 +58,7 @@ struct _Sheet {
 	GnmCellPos   max_object_extent;
 
 	/* Sheet level preferences */
-	GnmConventions const *convs;
+	GnmConventions *convs;
 	gboolean    display_formulas;
 	gboolean    hide_zero;
 	gboolean    hide_grid;
