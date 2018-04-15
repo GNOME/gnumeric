@@ -255,13 +255,13 @@ void        gnm_func_upgrade_placeholder
 
 /* TODO */
 char const *gnm_func_get_description (GnmFunc const *fn_def);
-void        function_def_count_args    (GnmFunc const *fn_def,
+void        gnm_func_count_args    (GnmFunc const *fn_def,
                                         gint *min, int *max);
-char        function_def_get_arg_type  (GnmFunc const *fn_def,
+char        gnm_func_get_arg_type  (GnmFunc const *fn_def,
                                         gint arg_idx);
-char const *function_def_get_arg_type_string  (GnmFunc const *fn_def,
+char const *gnm_func_get_arg_type_string  (GnmFunc const *fn_def,
                                         gint arg_idx);
-char       *function_def_get_arg_name  (GnmFunc const *fn_def,
+char       *gnm_func_get_arg_name  (GnmFunc const *fn_def,
                                         guint arg_idx);
 char const *gnm_func_get_arg_description (GnmFunc const *fn_def,
                                         guint arg_idx);

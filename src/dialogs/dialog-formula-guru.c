@@ -320,7 +320,7 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 					    MAX_ARG, 0,
 					    -1);
 		}
-		arg_name = function_def_get_arg_name (fd, i);
+		arg_name = gnm_func_get_arg_name (fd, i);
 		if (i >= min_arg && arg_name != NULL) {
 			char *mod_name = g_strdup_printf (_("[%s]"), arg_name);
 			g_free (arg_name);
@@ -330,7 +330,7 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 		gtk_tree_store_set (state->model, &iter,
 				    ARG_NAME, arg_name,
 				    ARG_TOOLTIP, gnm_func_get_arg_description (fd, i),
-				    ARG_TYPE, function_def_get_arg_type_string (fd, i),
+				    ARG_TYPE, gnm_func_get_arg_type_string (fd, i),
 				    -1);
 		g_free (arg_name);
 	}
@@ -408,7 +408,7 @@ dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc *fd,
 		gtk_tree_path_free (new_path);
 	}
 
-	function_def_count_args (fd, &min_arg, &max_arg);
+	gnm_func_count_args (fd, &min_arg, &max_arg);
 
 	gtk_tree_store_set (state->model, &iter,
 			    FUN_ARG_ENTRY, "",

@@ -145,7 +145,7 @@ func_marshal_func (GnmFuncEvalInfo *ei, GnmValue *argv[])
 	g_return_val_if_fail (ei != NULL, NULL);
 
 	fndef = gnm_eval_info_get_func (ei);
-	function_def_count_args (fndef, &min, &max);
+	gnm_func_count_args (fndef, &min, &max);
 
 	function = (SCM) gnm_func_get_user_data (fndef);
 

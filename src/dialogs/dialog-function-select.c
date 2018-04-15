@@ -698,7 +698,7 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 			if (at != NULL) { ADD_BOLD_TEXT(t, at - t); t = at + 1; } else {ADD_TEXT (t); break;}}}
 #define FINISH_ARGS if (seen_args && !args_finished) {\
 	gint min, max; \
-	function_def_count_args (func, &min, &max);\
+	gnm_func_count_args (func, &min, &max);\
 		if (max == G_MAXINT) {	\
 			ADD_BOLD_TEXT(UNICODE_ELLIPSIS, strlen(UNICODE_ELLIPSIS)); \
 			ADD_LTEXT("\n",1);				\

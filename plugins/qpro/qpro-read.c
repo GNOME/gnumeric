@@ -358,7 +358,7 @@ dump_missing_functions (void)
 				continue;
 			}
 
-			function_def_count_args (f, &dummy, &dummy);
+			gnm_func_count_args (f, &dummy, &dummy);
 
 			g_warning ("Function %s has args %s.",
 				   name, f->arg_names ? f->arg_names : "?");

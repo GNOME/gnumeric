@@ -479,7 +479,7 @@ call_python_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	                                      (gchar *) gnm_func_get_name (fndef, FALSE));
 	g_assert (fn_info_tuple != NULL);
 	python_fn = PyTuple_GetItem (fn_info_tuple, 2);
-	function_def_count_args (fndef, &min_n_args, &max_n_args);
+	gnm_func_count_args (fndef, &min_n_args, &max_n_args);
 	for (n_args = min_n_args; n_args < max_n_args && args[n_args] != NULL; n_args++) {
 		;
 	}

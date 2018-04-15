@@ -55,7 +55,7 @@ call_perl_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	fndef = gnm_expr_get_func_def ((GnmExpr *)(ei->func_call));
 	perl_func = g_strconcat ("func_", fndef->name, NULL);
 
-	function_def_count_args (fndef, &min_n_args, &max_n_args);
+	gnm_func_count_args (fndef, &min_n_args, &max_n_args);
 	for (n_args = min_n_args; n_args < max_n_args && args[n_args] != NULL; n_args++);
 
 	ENTER;

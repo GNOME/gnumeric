@@ -64,7 +64,7 @@ marshal_func (GnmFuncEvalInfo *ei, GnmValue *argv[])
     SAVETMPS;
 
     PUSHMARK(sp);
-    function_def_count_args (func, &min, &max);
+    gnm_func_count_args (func, &min, &max);
 
     for (i = 0; i < max && argv[i] != NULL; i++) {
 	XPUSHs(sv_2mortal(value2perl(argv[i])));

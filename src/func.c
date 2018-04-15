@@ -243,12 +243,12 @@ extract_arg_types (GnmFunc *def)
 {
 	int i;
 
-	function_def_count_args (def,
-				 &def->fn.args.min_args,
-				 &def->fn.args.max_args);
+	gnm_func_count_args (def,
+			     &def->fn.args.min_args,
+			     &def->fn.args.max_args);
 	def->fn.args.arg_types = g_malloc (def->fn.args.max_args + 1);
 	for (i = 0; i < def->fn.args.max_args; i++)
-		def->fn.args.arg_types[i] = function_def_get_arg_type (def, i);
+		def->fn.args.arg_types[i] = gnm_func_get_arg_type (def, i);
 	def->fn.args.arg_types[i] = 0;
 }
 
@@ -810,8 +810,7 @@ gnm_func_get_name (GnmFunc const *func, gboolean localized)
  * gnm_func_get_description:
  * @fn_def: the fn defintion
  *
- * Return value: the description of the function
- *
+ * Returns: (transfer none): the description of the function
  **/
 char const*
 gnm_func_get_description (GnmFunc const *fn_def)
@@ -836,21 +835,16 @@ gnm_func_get_description (GnmFunc const *fn_def)
 }
 
 /**
- * function_def_count_args:
+ * gnm_func_count_args:
  * @fn_def: pointer to function definition
- * @min: pointer to min. args
- * @max: pointer to max. args
+ * @min: (out): location for mininum args
+ * @max: (out): location for mininum args
  *
- * This calculates the max and min args that
- * can be passed; NB max can be G_MAXINT for
- * a vararg function.
- * NB. this data is not authoratitive for a
- * 'nodes' function.
- *
+ * This calculates the maximum and minimum number of args tha can be passed.
+ * For a vararg function, the maximum will be set to G_MAXINT.
  **/
 void
-function_def_count_args (GnmFunc const *fn_def,
-                         int *min, int *max)
+gnm_func_count_args (GnmFunc const *fn_def, int *min, int *max)
 {
 	char const *ptr;
 	int   i;
@@ -889,14 +883,14 @@ function_def_count_args (GnmFunc const *fn_def,
 }
 
 /**
- * function_def_get_arg_type:
+ * gnm_func_get_arg_type:
  * @fn_def: the fn defintion
  * @arg_idx: zero based argument offset
  *
- * Return value: the type of the argument
+ * Returns: the type of the argument
  **/
 char
-function_def_get_arg_type (GnmFunc const *fn_def, int arg_idx)
+gnm_func_get_arg_type (GnmFunc const *fn_def, int arg_idx)
 {
 	char const *ptr;
 
@@ -928,17 +922,17 @@ function_def_get_arg_type (GnmFunc const *fn_def, int arg_idx)
 }
 
 /**
- * function_def_get_arg_type_string:
+ * gnm_func_get_arg_type_string:
  * @fn_def: the fn defintion
  * @arg_idx: zero based argument offset
  *
- * Return value: the type of the argument as a string
+ * Return value: (transfer none): the type of the argument as a string
  **/
 char const *
-function_def_get_arg_type_string (GnmFunc const *fn_def,
+gnm_func_get_arg_type_string (GnmFunc const *fn_def,
 				  int arg_idx)
 {
-	switch (function_def_get_arg_type (fn_def, arg_idx)) {
+	switch (gnm_func_get_arg_type (fn_def, arg_idx)) {
 	case 'f':
 		return _("Number");
 	case 's':
@@ -964,14 +958,14 @@ function_def_get_arg_type_string (GnmFunc const *fn_def,
 }
 
 /**
- * function_def_get_arg_name:
+ * gnm_func_get_arg_name:
  * @fn_def: the fn defintion
  * @arg_idx: zero based argument offset
  *
- * Return value: the name of the argument (must be freed)
+ * Returns: (transfer full): the name of the argument
  **/
 char *
-function_def_get_arg_name (GnmFunc const *fn_def, guint arg_idx)
+gnm_func_get_arg_name (GnmFunc const *fn_def, guint arg_idx)
 {
 	g_return_val_if_fail (fn_def != NULL, NULL);
 
@@ -989,7 +983,7 @@ function_def_get_arg_name (GnmFunc const *fn_def, guint arg_idx)
  * @fn_def: the fn defintion
  * @arg_idx: zero based argument offset
  *
- * Return value: the namedescription of the argument
+ * Returns: (transfer none): the description of the argument
  **/
 char const*
 gnm_func_get_arg_description (GnmFunc const *fn_def, guint arg_idx)

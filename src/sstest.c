@@ -533,7 +533,7 @@ function_dump_defs (char const *filename, int dump_type)
 				}
 			}
 
-			function_def_count_args (fd, &min, &max);
+			gnm_func_count_args (fd, &min, &max);
 			if (max == G_MAXINT)
 				fprintf (output_file,
 					 "@SYNTAX=%s," UNICODE_ELLIPSIS ")\n",
@@ -961,7 +961,7 @@ check_argument_refs (const char *text, GnmFunc const *fd)
 		argname = g_strndup (at + 2, text - at - 2);
 
 		for (i = 0; TRUE; i++) {
-			char *thisarg = function_def_get_arg_name (fd, i);
+			char *thisarg = gnm_func_get_arg_name (fd, i);
 			gboolean found;
 			if (!thisarg) {
 				g_free (argname);

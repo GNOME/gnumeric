@@ -1,5 +1,12 @@
 2018-04-14  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (gnm_func_count_args): Rename from
+	function_def_count_args for introspection.
+	(gnm_func_get_arg_type): Rename from function_def_get_arg_type
+	for introspection.
+	(gnm_func_get_arg_type_sring): Rename from
+	function_def_get_arg_type_string for introspection.
+
 	* src/workbook-view.c (workbook_view_save_as): Rename from
 	wb_view_save_as for introspection.
 	(workbook_view_save): Rename from wb_view_save for introspection.
