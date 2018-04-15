@@ -231,6 +231,9 @@ PKG_CHECK_MODULES(GNUMERIC, $gnumeric_reqs)
 AC_SUBST(GNUMERIC_LIBS)
 AC_SUBST(GNUMERIC_CFLAGS)
 
+# We don't attempt to track gtk+4, so disable the very noise warnings
+CFLAGS="$CFLAGS -DGDK_DISABLE_DEPRECATION_WARNINGS -DGTK_DISABLE_DEPRECATION_WARNINGS"
+
 with_native_win32=no
 case $host_os in
 mingw* | pw32*)
