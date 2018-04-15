@@ -855,13 +855,31 @@ If you want to specify a path to your Python executable, use:
 	$srcdir/configure PYTHON=/path/to/your/python ...]);;
 esac
 if test "x$with_python" != xno; then
-    AC_CHECK_PROGS(PYTHON, python python2 python2.5 python2.4 python2.3 python2.2 python2.1 python2.0)
+    AC_PATH_PROGS(PYTHON, python python2 python2.7)
     if test "x$PYTHON" = x; then
 	python_msg="could not find python"
     fi
 else
     python_msg="Disabled by request"
 fi
+
+# A bit of a mess.  We really ought to separate the Python interpreter
+# and the Python plugin
+have_python=no
+have_python_gi=no
+if test "x$PYTHON" != x; then
+    AC_DEFINE_UNQUOTED(PYTHON_INTERPRETER, ["$PYTHON"],
+		       [The Python interpreter to use])
+    have_python=yes
+
+    AC_MSG_CHECKING([for python module gi])
+    if $PYTHON -c 'import gi' 2>/dev/null; then
+        have_python_gi=yes
+    fi
+    AC_MSG_RESULT($have_python_gi)
+fi
+AM_CONDITIONAL(HAVE_PYTHON_GI, test "x$have_python_gi" = "xyes")
+
 
 if test "x$python_msg" = xyes; then
     BIG_CHECKING([for python = 2.x])
@@ -1098,6 +1116,7 @@ AC_ARG_WITH([typelib-dir],
 	[TYPELIBDIR=$INTROSPECTION_TYPELIBDIR]
 )
 AC_SUBST(TYPELIBDIR)
+
 
 dnl **************************************************
 dnl * Config defaults

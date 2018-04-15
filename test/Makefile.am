@@ -187,9 +187,13 @@ INTROSPECTION_TSTS = \
 
 INTROSPECTION_SUPPS = \
 	$(INTROSPECTION_TSTS:.pl=.py)
+
+# Activate only when we have both introspection and the "gi" module
 if HAVE_INTROSPECTION
+if HAVE_PYTHON_GI
   TESTS += $(INTROSPECTION_TSTS)
   SUPPS += $(INTROSPECTION_SUPPS)
+endif
 endif
 
 

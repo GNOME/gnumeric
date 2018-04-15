@@ -886,8 +886,10 @@ sub has_linear_solver {
 # -----------------------------------------------------------------------------
 
 sub setup_python_environment {
-    $PYTHON = '/usr/bin/python';
-    &report_skip ("Missing $PYTHON") unless -x $PYTHON;
+    $PYTHON = `grep '^#define PYTHON_INTERPRETER ' $top_builddir/gnumeric-config.h 2>&1`;
+    chomp $PYTHON;
+    $PYTHON =~ s/^[^"]*"(.*)"\s*$/$1/;
+    &report_skip ("Missing python interpreter") unless -x $PYTHON;
 
     # Make sure we load introspection preferentially from build directory
     my $v = 'GI_TYPELIB_PATH';
