@@ -16,6 +16,7 @@ while (@ARGV > 0) {
 	# Nothing -- this is now the default
     } elsif ($ARGV[0] =~ /^--test/) {
 	$doit = 0;
+	scalar shift @ARGV;
     } else {
 	last;
     }
