@@ -3830,8 +3830,10 @@ sheet_colrow_get (Sheet const *sheet, int colrow, gboolean is_cols)
 
 /**
  * sheet_col_fetch:
+ * @col: column number
  *
- * Returns an allocated column:  either an existing one, or a fresh copy
+ * Returns: (transfer none): The #ColRowInfo for column @col.  This result
+ * will not be the default #ColRowInfo and may be changed.
  */
 ColRowInfo *
 sheet_col_fetch (Sheet *sheet, int pos)
@@ -3844,8 +3846,10 @@ sheet_col_fetch (Sheet *sheet, int pos)
 
 /**
  * sheet_row_fetch:
+ * @row: row number
  *
- * Returns an allocated row:  either an existing one, or a fresh copy
+ * Returns: (transfer none): The #ColRowInfo for row @row.  This result
+ * will not be the default #ColRowInfo and may be changed.
  */
 ColRowInfo *
 sheet_row_fetch (Sheet *sheet, int pos)
@@ -3864,6 +3868,13 @@ sheet_colrow_fetch (Sheet *sheet, int colrow, gboolean is_cols)
 	return sheet_row_fetch (sheet, colrow);
 }
 
+/**
+ * sheet_col_get_info:
+ * @col: column number
+ *
+ * Returns: (transfer none): The #ColRowInfo for column @col.  The may be
+ * the default #ColRowInfo for columns and should not be changed.
+ */
 ColRowInfo const *
 sheet_col_get_info (Sheet const *sheet, int col)
 {
@@ -3874,6 +3885,13 @@ sheet_col_get_info (Sheet const *sheet, int col)
 	return &sheet->cols.default_style;
 }
 
+/**
+ * sheet_row_get_info:
+ * @row: column number
+ *
+ * Returns: (transfer none): The #ColRowInfo for row @row.  The may be
+ * the default #ColRowInfo for rows and should not be changed.
+ */
 ColRowInfo const *
 sheet_row_get_info (Sheet const *sheet, int row)
 {

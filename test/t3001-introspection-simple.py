@@ -60,6 +60,10 @@ sheet.apply_style(r,st)
 # Recalculate all cells that need it
 wb.recalc()
 
+# Resize column A to fit values in it
+pixels = sheet.col_size_fit_pixels(0,0,sheet.props.rows-1,1)
+sheet.col_set_size_pixels(0,pixels)
+
 print("\nAs string:")
 for i in range(7):
     print(sheet.cell_get_value(0,i).get_as_string())

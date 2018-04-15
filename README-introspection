@@ -17,7 +17,6 @@ be useful in this setting and actually work.
 This is incomplete.  In particular, I'll have to look at
 * Expressions other than via text
 * Installing a gi override module for more pythony structure handling
-* Column/Row size manipulation
 
 -----------------------------------------------------------------------------
 Note: the Python version of type names excludes the Gnm prefix.
@@ -59,6 +58,16 @@ Sheet: [GObject]
   is_cell_empty(col,row)
   apply_style(range,style)           [1]
   style_get(col,row)
+  col_is_hidden(col)
+  row_is_hidden(row)
+  col_get_info(col)
+  row_get_info(row)
+  col_set_size_pts(col,pts)
+  row_set_size_pts(row,pts)
+  col_set_size_pixels(col,pix)
+  row_set_size_pixels(row,pix)
+  col_size_fit_pixels(col,startrow,endrow,ignorestrings)
+  row_size_fit_pixels(row,startcol,endcol,ignorestrings)
   props.name
   props.workbook
   props.rtl
