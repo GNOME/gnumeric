@@ -2,6 +2,9 @@
 
 	* src/gui-clipboard.c (gnm_x_claim_clipboard): Plug leak.  Debug
 	improvements.
+	(table_cellregion_read): Improve paste-range heuristic for
+	clipboard formats that lack that information, notably
+	LibreOffice's.
 
 	* src/workbook-view.c (get_uri_modtime): Fix criticals on paste
 	from LibreOffice.  (Which sends a zipfile over the clipboard.)

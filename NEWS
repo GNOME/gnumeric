@@ -12,6 +12,7 @@ Morten:
 	* Test suite improvements.
 	* Fix problems with boxed types.
 	* Avoid most punting for object properties.
+	* Fix paste from LibreOffice.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.39

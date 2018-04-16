@@ -327,10 +327,21 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 		if (rp) {
 			r = *rp;
 		} else {
-			r.start.col = 0;
-			r.start.row = 0;
-			r.end.col = tmpsheet->cols.max_used;
-			r.end.row = tmpsheet->rows.max_used;
+			// File format didn't tell us the range being
+			// pasted.  Looking at you, LibreOffice!
+			// Make a guess.
+
+			GnmRange fullr;
+			GnmStyle **col_defaults =
+				sheet_style_most_common (tmpsheet, TRUE);
+
+			range_init_full_sheet (&fullr, tmpsheet);
+
+			r = sheet_get_cells_extent (tmpsheet);
+			sheet_style_get_nondefault_extent
+				(tmpsheet, &r, &fullr, col_defaults);
+
+			g_free (col_defaults);
 		}
 		ret = clipboard_copy_range (tmpsheet, &r);
 	}
