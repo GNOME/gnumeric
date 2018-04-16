@@ -342,6 +342,11 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 				(tmpsheet, &r, &fullr, col_defaults);
 
 			g_free (col_defaults);
+
+			// Just in case there was absolutely nothing in
+			// tmpsheet:
+			if (r.start.col > r.end.col)
+				range_init (&r, 0, 0, 0, 0);
 		}
 		ret = clipboard_copy_range (tmpsheet, &r);
 	}
