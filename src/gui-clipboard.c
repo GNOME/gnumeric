@@ -1080,6 +1080,7 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 	GnmCellRegion *content = gnm_app_clipboard_contents_get ();
 	SheetObject *imageable = NULL, *exportable = NULL;
 	GtkTargetEntry *targets = NULL;
+	gboolean free_targets = FALSE;
 	int n_targets;
 	gboolean ret;
 	GObject *app = gnm_app_get_app ();
@@ -1115,14 +1116,18 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 		gtk_target_list_add_table (tl, table_targets, 1);
 		targets = gtk_target_table_new_from_list (tl, &n_targets);
 		gtk_target_list_unref (tl);
+		free_targets = TRUE;
 	}
 	if (imageable) {
 		GtkTargetList *tl =
 			sheet_object_get_target_list (imageable);
 		/* _add_table prepends to target_list */
 		gtk_target_list_add_table (tl, targets, (exportable)? n_targets: 1);
+		if (free_targets)
+			gtk_target_table_free (targets, n_targets);
 		targets = gtk_target_table_new_from_list (tl, &n_targets);
 		gtk_target_list_unref (tl);
+		free_targets = TRUE;
 	}
 	/* Register a x_clipboard_clear_cb only for CLIPBOARD, not for
 	 * PRIMARY */
@@ -1133,8 +1138,17 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 		(GtkClipboardClearFunc) x_clipboard_clear_cb,
 		app);
 	if (ret) {
-		if (debug_clipboard ())
+		if (debug_clipboard ()) {
+			int i;
 			g_printerr ("Clipboard successfully claimed.\n");
+			g_printerr ("Clipboard targets offered: ");
+			for (i = 0; i < n_targets; i++) {
+				g_printerr ("%s%s",
+					    (i ? ", " : ""),
+					    targets[i].target);
+			}
+			g_printerr ("\n");
+		}
 
 		g_object_set_data_full (app, APP_CLIP_DISP_KEY,
 					g_slist_prepend (g_object_steal_data (app, APP_CLIP_DISP_KEY),
@@ -1154,7 +1168,7 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 		if (debug_clipboard ())
 			g_printerr ("Failed to claim clipboard.\n");
 	}
-	if (exportable || imageable)
+	if (free_targets)
 		gtk_target_table_free (targets, n_targets);
 
 	return ret;

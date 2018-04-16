@@ -1161,7 +1161,7 @@ get_uri_modtime (GsfInput *input, const char *uri)
 			g_date_time_ref (modtime);
 	}
 
-	if (!modtime)
+	if (!modtime && uri)
 		modtime = go_file_get_modtime (uri);
 
 	if (gnm_debug_flag ("modtime")) {

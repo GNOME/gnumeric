@@ -1,3 +1,11 @@
+2018-04-16  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-clipboard.c (gnm_x_claim_clipboard): Plug leak.  Debug
+	improvements.
+
+	* src/workbook-view.c (get_uri_modtime): Fix criticals on paste
+	from LibreOffice.  (Which sends a zipfile over the clipboard.)
+
 2018-04-14  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (gnm_func_count_args): Rename from
