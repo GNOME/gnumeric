@@ -83,6 +83,7 @@ typedef struct {
 /* From MS Excel */
 #define BIFF8_ATOM_NAME	"Biff8"
 #define BIFF8_ATOM_NAME_CITRIX "_CITRIX_Biff8"
+#define BIFF8_ATOM_NAME_OO "application/x-openoffice-biff-8;windows_formatname=\"Biff8\""
 #define BIFF5_ATOM_NAME	"Biff5"
 #define BIFF4_ATOM_NAME	"Biff4"
 #define BIFF3_ATOM_NAME	"Biff3"
@@ -773,7 +774,8 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 			}
 		}
 	}
-	gsf_output_close (output);
+	if (!gsf_output_is_closed (output))
+		gsf_output_close (output);
 	g_object_unref (wb_view);
 	g_object_unref (wb);
 	g_object_unref (ioc);
@@ -948,14 +950,16 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 					target, 8,
 					buffer, buffer_size);
 		g_free (buffer);
-	} else if (target == gdk_atom_intern (OOO11_ATOM_NAME, FALSE)) {
-		const char *saver_id = "Gnumeric_OpenCalc:odf";
+	} else if (target == gdk_atom_intern (BIFF8_ATOM_NAME, FALSE) ||
+		   target == gdk_atom_intern (BIFF8_ATOM_NAME_CITRIX, FALSE) ||
+		   target == gdk_atom_intern (BIFF8_ATOM_NAME_OO, FALSE)) {
+		const char *saver_id = "Gnumeric_Excel:excel_biff8";
 		int buffer_size;
 		guchar *buffer = table_cellregion_write (ctx, clipboard,
 							 saver_id,
 							 &buffer_size);
 		if (debug_clipboard ())
-			g_message ("clipboard ods of %d bytes",
+			g_message ("clipboard biff8 of %d bytes",
 				    buffer_size);
 		gtk_selection_data_set (selection_data,
 					target, 8,
@@ -1092,7 +1096,7 @@ set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, guint n_targets)
 {
 	static GtkTargetEntry clipman_whitelist[] = {
 		{ (char *) GNUMERIC_ATOM_NAME, 0, GNUMERIC_ATOM_INFO },
-		{ (char *) OOO11_ATOM_NAME, 0, 0 },
+		{ (char *) BIFF8_ATOM_NAME_OO, 0, 0 },
 		{ (char *) HTML_ATOM_NAME, 0, 0 },
 		{ (char *)"UTF8_STRING", 0, 0 },
 		{ (char *)"application/x-goffice-graph", 0, 0 },
@@ -1143,12 +1147,11 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 	GObject *app = gnm_app_get_app ();
 
 	static GtkTargetEntry const table_targets[] = {
-		{ (char *) GNUMERIC_ATOM_NAME, 0, GNUMERIC_ATOM_INFO },
-#if 1
-		// Doesn't yet work
-		{ (char *) OOO11_ATOM_NAME, 0, 0 },
-#endif
-		{ (char *) HTML_ATOM_NAME, 0, 0 },
+		{ (char *)GNUMERIC_ATOM_NAME, 0, GNUMERIC_ATOM_INFO },
+		{ (char *)BIFF8_ATOM_NAME, 0, 0 },
+		{ (char *)BIFF8_ATOM_NAME_CITRIX, 0, 0 },
+		{ (char *)BIFF8_ATOM_NAME_OO, 0, 0 },
+		{ (char *)HTML_ATOM_NAME, 0, 0 },
 		{ (char *)"UTF8_STRING", 0, 0 },
 		{ (char *)"COMPOUND_TEXT", 0, 0 },
 		{ (char *)"STRING", 0, 0 },
@@ -1168,7 +1171,7 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 				imageable = candidate;
 		}
 		/* Currently, we can't render sheet objects as text or html */
-		// Also cuts ods
+		// Also cuts biff8
 		n_targets = 1;
 	}
 	if (exportable) {
