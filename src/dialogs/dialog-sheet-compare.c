@@ -405,7 +405,7 @@ static const char *underlines[] = {
 };
 
 static const char *textdirs[] = {
-	N_("Right-to-left"), N_("Auto"), N_("Left-to-rightDouble"), NULL
+	N_("Right-to-left"), N_("Auto"), N_("Left-to-right"), NULL
 };
 
 static char *
