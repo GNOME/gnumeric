@@ -106,6 +106,11 @@ free_watcher (struct cb_watch_generic *watcher)
 
 /* ---------------------------------------- */
 
+/**
+ * gnm_conf_get_root:
+ *
+ * Returns: (transfer none): the root config node.
+ */
 GOConfNode *
 gnm_conf_get_root (void)
 {
@@ -132,6 +137,12 @@ get_watch_node (gpointer watch_)
 	return get_node (watch->key, watch);
 }
 
+/**
+ * gnm_conf_get_short_desc:
+ * @node: #GOConfNode
+ *
+ * Returns: (transfer none) (nullable): a brief description of @node.
+ */
 char const *
 gnm_conf_get_short_desc (GOConfNode *node)
 {
@@ -141,6 +152,12 @@ gnm_conf_get_short_desc (GOConfNode *node)
 	return desc ? _(desc) : NULL;
 }
 
+/**
+ * gnm_conf_get_long_desc:
+ * @node: #GOConfNode
+ *
+ * Returns: (transfer none) (nullable): a description of @node.
+ */
 char const *
 gnm_conf_get_long_desc (GOConfNode *node)
 {
@@ -442,6 +459,9 @@ cb_free_string_list (GSList *l)
 	g_slist_free_full (l, g_free);
 }
 
+/**
+ * gnm_conf_init: (skip)
+ */
 void
 gnm_conf_init (void)
 {
@@ -466,6 +486,9 @@ gnm_conf_init (void)
 	g_hash_table_insert (node_pool, (gpointer)"/", root);
 }
 
+/**
+ * gnm_conf_shutdown: (skip)
+ */
 void
 gnm_conf_shutdown (void)
 {
@@ -555,6 +578,12 @@ gnm_conf_set_page_setup (GtkPageSetup *setup)
 		(gtk_page_setup_get_right_margin (setup, GTK_UNIT_POINTS));
 }
 
+/**
+ * gnm_conf_get_printer_decoration_font:
+ *
+ * Returns: (transfer full): a style appropriate for for headers and
+ * footers.
+ */
 GnmStyle *
 gnm_conf_get_printer_decoration_font (void)
 {

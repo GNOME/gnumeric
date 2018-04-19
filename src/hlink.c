@@ -557,6 +557,9 @@ GSF_CLASS (GnmHLinkExternal, gnm_hlink_external,
 	   gnm_hlink_external_class_init, NULL,
 	   GNM_HLINK_TYPE)
 
+/**
+ * _gnm_hlink_init: (skip)
+ */
 void
 _gnm_hlink_init (void)
 {

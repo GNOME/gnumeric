@@ -1859,6 +1859,9 @@ sheet_object_move_do (GSList *objects, GSList *anchors,
 
 /*****************************************************************************/
 
+/**
+ * sheet_objects_init: (skip)
+ */
 void
 sheet_objects_init (void)
 {
