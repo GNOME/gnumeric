@@ -2543,6 +2543,9 @@ gnm_style_dump (GnmStyle const *style)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_style_init: (skip)
+ */
 void
 gnm_style_init (void)
 {
@@ -2564,6 +2567,9 @@ cb_gnm_style_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 }
 #endif
 
+/**
+ * gnm_style_shutdown: (skip)
+ */
 void
 gnm_style_shutdown (void)
 {

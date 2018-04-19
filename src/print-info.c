@@ -973,6 +973,9 @@ pdf_set_export_options (G_GNUC_UNUSED GOFileSaver *fs,
 	return go_parse_key_value (options, err, cb_set_pdf_option, doc);
 }
 
+/**
+ * print_init: (skip)
+ */
 void
 print_init (void)
 {
@@ -990,6 +993,9 @@ print_init (void)
 	load_formats ();
 }
 
+/**
+ * print_shutdown: (skip)
+ */
 void
 print_shutdown (void)
 {

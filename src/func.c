@@ -43,6 +43,9 @@ static GnmFuncGroup *unknown_cat;
 static GHashTable *functions_by_name;
 static GHashTable *functions_by_localized_name;
 
+/**
+ * functions_init: (skip)
+ */
 void
 functions_init (void)
 {
@@ -56,6 +59,9 @@ functions_init (void)
 	func_builtin_init ();
 }
 
+/**
+ * functions_shutdown: (skip)
+ */
 void
 functions_shutdown (void)
 {

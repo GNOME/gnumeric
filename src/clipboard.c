@@ -1185,6 +1185,9 @@ gnm_cell_copy_new (GnmCellRegion *cr, int col_offset, int row_offset)
 	return res;
 }
 
+/**
+ * clipboard_init: (skip)
+ */
 void
 clipboard_init (void)
 {
@@ -1205,6 +1208,9 @@ cb_cell_copy_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 }
 #endif
 
+/**
+ * clipboard_shutdown: (skip)
+ */
 void
 clipboard_shutdown (void)
 {

@@ -216,6 +216,9 @@ color_hash (gconstpointer v)
 	return k->go_color ^ k->is_auto;
 }
 
+/**
+ * gnm_color_init: (skip)
+ */
 void
 gnm_color_init (void)
 {
@@ -233,6 +236,9 @@ cb_color_leak (gpointer key, gpointer value, gpointer user_data)
 		    color->go_color);
 }
 
+/**
+ * gnm_color_shutdown: (skip)
+ */
 void
 gnm_color_shutdown (void)
 {

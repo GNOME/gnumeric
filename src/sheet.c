@@ -4334,6 +4334,9 @@ cell_free (GnmCell *cell)
 #endif
 }
 
+/**
+ * gnm_sheet_cell_init: (skip)
+ */
 void
 gnm_sheet_cell_init (void)
 {
@@ -4353,6 +4356,9 @@ cb_cell_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 }
 #endif
 
+/**
+ * gnm_sheet_cell_shutdown: (skip)
+ */
 void
 gnm_sheet_cell_shutdown (void)
 {

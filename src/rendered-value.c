@@ -680,6 +680,9 @@ gnm_rvc_remove (GnmRenderedValueCollection *rvc, GnmCell const *cell)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_rendered_value_init: (skip)
+ */
 void
 gnm_rendered_value_init (void)
 {
@@ -705,6 +708,9 @@ cb_rendered_value_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 }
 #endif
 
+/**
+ * gnm_rendered_value_shutdown: (skip)
+ */
 void
 gnm_rendered_value_shutdown (void)
 {

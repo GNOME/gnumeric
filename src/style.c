@@ -418,6 +418,9 @@ gnm_pango_context_get (void)
 	return g_object_ref (context);
 }
 
+/**
+ * gnm_font_init: (skip)
+ */
 void
 gnm_font_init (void)
 {
@@ -486,7 +489,7 @@ list_cached_fonts (GnmFont *font, G_GNUC_UNUSED gpointer value, GSList **lp)
 }
 
 /**
- * gnm_font_shutdown:
+ * gnm_font_shutdown: (skip)
  *
  * Release all resources allocated by gnm_font_init.
  **/

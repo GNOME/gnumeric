@@ -3458,6 +3458,9 @@ typedef union {
 } GnmExprBig;
 #endif
 
+/**
+ * _gnm_expr_init: (skip)
+ */
 void
 _gnm_expr_init (void)
 {
@@ -3508,6 +3511,9 @@ cb_expression_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 }
 #endif
 
+/**
+ * _gnm_expr_shutdown: (skip)
+ */
 void
 _gnm_expr_shutdown (void)
 {
