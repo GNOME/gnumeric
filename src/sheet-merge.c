@@ -204,7 +204,6 @@ gnm_sheet_merge_remove (Sheet *sheet, GnmRange const *r)
  * Returns: (element-type GnmRange) (transfer container): a list of the merged
  * regions that overlap the target region.
  * The list is ordered from top to bottom and RIGHT TO LEFT (by start coord).
- * Caller is responsible for freeing the list, but not the content.
  */
 GSList *
 gnm_sheet_merge_get_overlap (Sheet const *sheet, GnmRange const *range)
@@ -226,9 +225,11 @@ gnm_sheet_merge_get_overlap (Sheet const *sheet, GnmRange const *range)
 
 /**
  * gnm_sheet_merge_contains_pos:
+ * @sheet: #Sheet to query
+ * @pos: Position to look for a merged range.
  *
- * If the GnmCellPos is contained in a merged region return the range.
- * The GnmRange should NOT be freed.
+ * Returns: (transfer none) (nullable): the merged range covering @pos, or
+ * %NULL if @pos is not within a merged region.
  */
 GnmRange const *
 gnm_sheet_merge_contains_pos (Sheet const *sheet, GnmCellPos const *pos)
@@ -285,11 +286,11 @@ gnm_sheet_merge_get_adjacent (Sheet const *sheet, GnmCellPos const *pos,
 
 /**
  * gnm_sheet_merge_is_corner:
- * @sheet:
+ * @sheet: #Sheet to query
  * @pos: cellpos if top left corner
  *
- * Returns a GnmRange pointer if the @pos is the topleft of a merged region.
- * The pointer should NOT be freed by the caller.
+ * Returns: (transfer none): a merged #GnmRange covering @pos if is the
+ * top-left corner of a merged region.
  */
 GnmRange const *
 gnm_sheet_merge_is_corner (Sheet const *sheet, GnmCellPos const *pos)
@@ -331,6 +332,7 @@ cb_restore_list_free (GSList *restore)
 /**
  * gnm_sheet_merge_relocate:
  * @ri: Descriptor of what is moving.
+ * @pundo: (out) (optional) (transfer full): Undo information.
  *
  * Shifts merged regions that need to move.
  */
@@ -422,12 +424,14 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri, GOUndo **pundo)
 }
 
 /**
- * gnm_sheet_merge_find_container:
+ * gnm_sheet_merge_find_bounding_box:
  * @sheet: sheet
- * @r: the range to test
+ * @r: the range to exten
+ *
+ * Extends @r such that no merged range is split by its boundary.
  */
 void
-gnm_sheet_merge_find_container (Sheet const *sheet, GnmRange *target)
+gnm_sheet_merge_find_bounding_box (Sheet const *sheet, GnmRange *target)
 {
 	gboolean changed;
 	GSList *merged, *ptr;

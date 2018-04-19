@@ -489,7 +489,7 @@ sheet_selection_set_internal (SheetView *sv,
 	g_return_if_fail (range_is_sane (&new_sel));
 
 	if (sv->sheet != NULL) /* beware initialization */
-		gnm_sheet_merge_find_container (sv->sheet, &new_sel);
+		gnm_sheet_merge_find_bounding_box (sv->sheet, &new_sel);
 	ss = (GnmRange *)sv->selections->data;
 	if (!just_add_it && range_equal (ss, &new_sel))
 		return;

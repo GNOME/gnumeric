@@ -324,13 +324,14 @@ stf_parse_options_set_trim_spaces (StfParseOptions_t *parseoptions, StfTrimType_
  * stf_parse_options_csv_set_separators:
  * @parseoptions: #StfParseOptions_t
  * @character:
- * @string: (element-type char):
+ * @seps: (element-type utf8): the separators to be used
  *
  * A copy is made of the parameters.
  **/
 void
-stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions, char const *character,
-				      GSList const *string)
+stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions,
+				      char const *character,
+				      GSList const *seps)
 {
 	g_return_if_fail (parseoptions != NULL);
 
@@ -338,7 +339,7 @@ stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions, char cons
 	parseoptions->sep.chr = g_strdup (character);
 
 	g_slist_free_full (parseoptions->sep.str, g_free);
-	parseoptions->sep.str = go_slist_map (string, (GOMapFunc)g_strdup);
+	parseoptions->sep.str = go_slist_map (seps, (GOMapFunc)g_strdup);
 }
 
 void

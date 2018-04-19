@@ -82,7 +82,7 @@ void stf_parse_options_add_line_terminator             (StfParseOptions_t *parse
 void stf_parse_options_set_trim_spaces                 (StfParseOptions_t *parseoptions,
 							StfTrimType_t const trim_spaces);
 void stf_parse_options_csv_set_separators              (StfParseOptions_t *parseoptions,
-							char const *character, GSList const *string);
+							char const *character, GSList const *seps);
 void stf_parse_options_csv_set_stringindicator         (StfParseOptions_t *parseoptions,
 							gunichar const stringindicator);
 void stf_parse_options_csv_set_indicator_2x_is_single  (StfParseOptions_t *parseoptions,

@@ -603,7 +603,7 @@ compare_mru (GtkRecentInfo *a, GtkRecentInfo *b)
  *
  * creating it if necessary.
  *
- * Return value: (element-type char) (transfer full): the list, which must be
+ * Return value: (element-type utf8) (transfer full): the list, which must be
  * freed along with the strings in it.
  **/
 GSList *

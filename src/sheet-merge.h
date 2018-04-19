@@ -18,7 +18,7 @@ GnmRange const *gnm_sheet_merge_contains_pos	(Sheet const *sheet, GnmCellPos con
 GnmRange const *gnm_sheet_merge_is_corner	(Sheet const *sheet, GnmCellPos const *pos);
 void	     gnm_sheet_merge_relocate		(GnmExprRelocateInfo const *ri,
 						 GOUndo **pundo);
-void	     gnm_sheet_merge_find_container	(Sheet const *sheet,
+void	     gnm_sheet_merge_find_bounding_box	(Sheet const *sheet,
 						 GnmRange *r);
 void	     gnm_sheet_merge_get_adjacent	(Sheet const *sheet,
 						 GnmCellPos const *pos,
