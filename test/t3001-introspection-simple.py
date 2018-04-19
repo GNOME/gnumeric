@@ -62,7 +62,7 @@ wb.recalc()
 
 # Resize column A to fit values in it
 pixels = sheet.col_size_fit_pixels(0,0,sheet.props.rows-1,1)
-sheet.col_set_size_pixels(0,pixels)
+sheet.col_set_size_pixels(0,pixels,1)
 
 print("\nAs string:")
 for i in range(7):
