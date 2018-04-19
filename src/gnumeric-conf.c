@@ -741,6 +741,11 @@ gnm_conf_set_autocorrect_first_letter (gboolean x)
 	set_bool (&watch_autocorrect_first_letter, x);
 }
 
+/**
+ * gnm_conf_get_autocorrect_first_letter_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_autocorrect_first_letter_node (void)
 {
@@ -756,7 +761,7 @@ static struct cb_watch_string_list watch_autocorrect_first_letter_list = {
 /**
  * gnm_conf_get_autocorrect_first_letter_list:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_autocorrect_first_letter_list (void)
@@ -768,7 +773,7 @@ gnm_conf_get_autocorrect_first_letter_list (void)
 
 /**
  * gnm_conf_set_autocorrect_first_letter_list:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -779,6 +784,11 @@ gnm_conf_set_autocorrect_first_letter_list (GSList *x)
 	set_string_list (&watch_autocorrect_first_letter_list, x);
 }
 
+/**
+ * gnm_conf_get_autocorrect_first_letter_list_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_autocorrect_first_letter_list_node (void)
 {
@@ -808,6 +818,11 @@ gnm_conf_set_autocorrect_init_caps (gboolean x)
 	set_bool (&watch_autocorrect_init_caps, x);
 }
 
+/**
+ * gnm_conf_get_autocorrect_init_caps_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_autocorrect_init_caps_node (void)
 {
@@ -823,7 +838,7 @@ static struct cb_watch_string_list watch_autocorrect_init_caps_list = {
 /**
  * gnm_conf_get_autocorrect_init_caps_list:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_autocorrect_init_caps_list (void)
@@ -835,7 +850,7 @@ gnm_conf_get_autocorrect_init_caps_list (void)
 
 /**
  * gnm_conf_set_autocorrect_init_caps_list:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -846,6 +861,11 @@ gnm_conf_set_autocorrect_init_caps_list (GSList *x)
 	set_string_list (&watch_autocorrect_init_caps_list, x);
 }
 
+/**
+ * gnm_conf_get_autocorrect_init_caps_list_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_autocorrect_init_caps_list_node (void)
 {
@@ -875,6 +895,11 @@ gnm_conf_set_autocorrect_names_of_days (gboolean x)
 	set_bool (&watch_autocorrect_names_of_days, x);
 }
 
+/**
+ * gnm_conf_get_autocorrect_names_of_days_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_autocorrect_names_of_days_node (void)
 {
@@ -904,6 +929,11 @@ gnm_conf_set_autocorrect_replace (gboolean x)
 	set_bool (&watch_autocorrect_replace, x);
 }
 
+/**
+ * gnm_conf_get_autocorrect_replace_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_autocorrect_replace_node (void)
 {
@@ -919,7 +949,7 @@ static struct cb_watch_string_list watch_autoformat_extra_dirs = {
 /**
  * gnm_conf_get_autoformat_extra_dirs:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_autoformat_extra_dirs (void)
@@ -931,7 +961,7 @@ gnm_conf_get_autoformat_extra_dirs (void)
 
 /**
  * gnm_conf_set_autoformat_extra_dirs:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -942,6 +972,11 @@ gnm_conf_set_autoformat_extra_dirs (GSList *x)
 	set_string_list (&watch_autoformat_extra_dirs, x);
 }
 
+/**
+ * gnm_conf_get_autoformat_extra_dirs_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_autoformat_extra_dirs_node (void)
 {
@@ -972,6 +1007,11 @@ gnm_conf_set_autoformat_sys_dir (const char *x)
 	set_string (&watch_autoformat_sys_dir, x);
 }
 
+/**
+ * gnm_conf_get_autoformat_sys_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_autoformat_sys_dir_node (void)
 {
@@ -1002,6 +1042,11 @@ gnm_conf_set_autoformat_usr_dir (const char *x)
 	set_string (&watch_autoformat_usr_dir, x);
 }
 
+/**
+ * gnm_conf_get_autoformat_usr_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_autoformat_usr_dir_node (void)
 {
@@ -1031,6 +1076,11 @@ gnm_conf_set_core_defaultfont_bold (gboolean x)
 	set_bool (&watch_core_defaultfont_bold, x);
 }
 
+/**
+ * gnm_conf_get_core_defaultfont_bold_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_defaultfont_bold_node (void)
 {
@@ -1060,6 +1110,11 @@ gnm_conf_set_core_defaultfont_italic (gboolean x)
 	set_bool (&watch_core_defaultfont_italic, x);
 }
 
+/**
+ * gnm_conf_get_core_defaultfont_italic_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_defaultfont_italic_node (void)
 {
@@ -1090,6 +1145,11 @@ gnm_conf_set_core_defaultfont_name (const char *x)
 	set_string (&watch_core_defaultfont_name, x);
 }
 
+/**
+ * gnm_conf_get_core_defaultfont_name_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_defaultfont_name_node (void)
 {
@@ -1119,6 +1179,11 @@ gnm_conf_set_core_defaultfont_size (double x)
 	set_double (&watch_core_defaultfont_size, x);
 }
 
+/**
+ * gnm_conf_get_core_defaultfont_size_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_defaultfont_size_node (void)
 {
@@ -1148,6 +1213,11 @@ gnm_conf_set_core_file_save_def_overwrite (gboolean x)
 	set_bool (&watch_core_file_save_def_overwrite, x);
 }
 
+/**
+ * gnm_conf_get_core_file_save_def_overwrite_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_file_save_def_overwrite_node (void)
 {
@@ -1163,7 +1233,7 @@ static struct cb_watch_string_list watch_core_file_save_extension_check_disabled
 /**
  * gnm_conf_get_core_file_save_extension_check_disabled:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_core_file_save_extension_check_disabled (void)
@@ -1175,7 +1245,7 @@ gnm_conf_get_core_file_save_extension_check_disabled (void)
 
 /**
  * gnm_conf_set_core_file_save_extension_check_disabled:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -1186,6 +1256,11 @@ gnm_conf_set_core_file_save_extension_check_disabled (GSList *x)
 	set_string_list (&watch_core_file_save_extension_check_disabled, x);
 }
 
+/**
+ * gnm_conf_get_core_file_save_extension_check_disabled_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_file_save_extension_check_disabled_node (void)
 {
@@ -1215,6 +1290,11 @@ gnm_conf_set_core_file_save_single_sheet (gboolean x)
 	set_bool (&watch_core_file_save_single_sheet, x);
 }
 
+/**
+ * gnm_conf_get_core_file_save_single_sheet_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_file_save_single_sheet_node (void)
 {
@@ -1244,6 +1324,11 @@ gnm_conf_set_core_gui_cells_extension_markers (gboolean x)
 	set_bool (&watch_core_gui_cells_extension_markers, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_cells_extension_markers_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_cells_extension_markers_node (void)
 {
@@ -1273,6 +1358,11 @@ gnm_conf_set_core_gui_cells_function_markers (gboolean x)
 	set_bool (&watch_core_gui_cells_function_markers, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_cells_function_markers_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_cells_function_markers_node (void)
 {
@@ -1302,6 +1392,11 @@ gnm_conf_set_core_gui_editing_autocomplete (gboolean x)
 	set_bool (&watch_core_gui_editing_autocomplete, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_editing_autocomplete_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_editing_autocomplete_node (void)
 {
@@ -1331,6 +1426,11 @@ gnm_conf_set_core_gui_editing_autocomplete_min_chars (int x)
 	set_int (&watch_core_gui_editing_autocomplete_min_chars, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_editing_autocomplete_min_chars_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_editing_autocomplete_min_chars_node (void)
 {
@@ -1360,6 +1460,11 @@ gnm_conf_set_core_gui_editing_enter_moves_dir (GODirection x)
 	set_enum (&watch_core_gui_editing_enter_moves_dir, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_editing_enter_moves_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_editing_enter_moves_dir_node (void)
 {
@@ -1389,6 +1494,11 @@ gnm_conf_set_core_gui_editing_function_argument_tooltips (gboolean x)
 	set_bool (&watch_core_gui_editing_function_argument_tooltips, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_editing_function_argument_tooltips_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_editing_function_argument_tooltips_node (void)
 {
@@ -1418,6 +1528,11 @@ gnm_conf_set_core_gui_editing_function_name_tooltips (gboolean x)
 	set_bool (&watch_core_gui_editing_function_name_tooltips, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_editing_function_name_tooltips_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_editing_function_name_tooltips_node (void)
 {
@@ -1447,6 +1562,11 @@ gnm_conf_set_core_gui_editing_recalclag (int x)
 	set_int (&watch_core_gui_editing_recalclag, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_editing_recalclag_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_editing_recalclag_node (void)
 {
@@ -1476,6 +1596,11 @@ gnm_conf_set_core_gui_editing_transitionkeys (gboolean x)
 	set_bool (&watch_core_gui_editing_transitionkeys, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_editing_transitionkeys_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_editing_transitionkeys_node (void)
 {
@@ -1505,6 +1630,11 @@ gnm_conf_set_core_gui_screen_horizontaldpi (double x)
 	set_double (&watch_core_gui_screen_horizontaldpi, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_screen_horizontaldpi_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_screen_horizontaldpi_node (void)
 {
@@ -1534,6 +1664,11 @@ gnm_conf_set_core_gui_screen_verticaldpi (double x)
 	set_double (&watch_core_gui_screen_verticaldpi, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_screen_verticaldpi_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_screen_verticaldpi_node (void)
 {
@@ -1563,6 +1698,11 @@ gnm_conf_set_core_gui_toolbars_format_position (GtkPositionType x)
 	set_int (&watch_core_gui_toolbars_format_position, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_toolbars_format_position_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_format_position_node (void)
 {
@@ -1592,6 +1732,11 @@ gnm_conf_set_core_gui_toolbars_format_visible (gboolean x)
 	set_bool (&watch_core_gui_toolbars_format_visible, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_toolbars_format_visible_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_format_visible_node (void)
 {
@@ -1621,6 +1766,11 @@ gnm_conf_set_core_gui_toolbars_object_position (GtkPositionType x)
 	set_int (&watch_core_gui_toolbars_object_position, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_toolbars_object_position_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_object_position_node (void)
 {
@@ -1650,6 +1800,11 @@ gnm_conf_set_core_gui_toolbars_object_visible (gboolean x)
 	set_bool (&watch_core_gui_toolbars_object_visible, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_toolbars_object_visible_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_object_visible_node (void)
 {
@@ -1679,6 +1834,11 @@ gnm_conf_set_core_gui_toolbars_standard_position (GtkPositionType x)
 	set_int (&watch_core_gui_toolbars_standard_position, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_toolbars_standard_position_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_standard_position_node (void)
 {
@@ -1708,6 +1868,11 @@ gnm_conf_set_core_gui_toolbars_standard_visible (gboolean x)
 	set_bool (&watch_core_gui_toolbars_standard_visible, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_toolbars_standard_visible_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_standard_visible_node (void)
 {
@@ -1737,6 +1902,11 @@ gnm_conf_set_core_gui_window_x (double x)
 	set_double (&watch_core_gui_window_x, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_window_x_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_window_x_node (void)
 {
@@ -1766,6 +1936,11 @@ gnm_conf_set_core_gui_window_y (double x)
 	set_double (&watch_core_gui_window_y, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_window_y_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_window_y_node (void)
 {
@@ -1795,6 +1970,11 @@ gnm_conf_set_core_gui_window_zoom (double x)
 	set_double (&watch_core_gui_window_zoom, x);
 }
 
+/**
+ * gnm_conf_get_core_gui_window_zoom_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_window_zoom_node (void)
 {
@@ -1824,6 +2004,11 @@ gnm_conf_set_core_sort_default_ascending (gboolean x)
 	set_bool (&watch_core_sort_default_ascending, x);
 }
 
+/**
+ * gnm_conf_get_core_sort_default_ascending_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_sort_default_ascending_node (void)
 {
@@ -1853,6 +2038,11 @@ gnm_conf_set_core_sort_default_by_case (gboolean x)
 	set_bool (&watch_core_sort_default_by_case, x);
 }
 
+/**
+ * gnm_conf_get_core_sort_default_by_case_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_sort_default_by_case_node (void)
 {
@@ -1882,6 +2072,11 @@ gnm_conf_set_core_sort_default_retain_formats (gboolean x)
 	set_bool (&watch_core_sort_default_retain_formats, x);
 }
 
+/**
+ * gnm_conf_get_core_sort_default_retain_formats_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_sort_default_retain_formats_node (void)
 {
@@ -1911,6 +2106,11 @@ gnm_conf_set_core_sort_dialog_max_initial_clauses (int x)
 	set_int (&watch_core_sort_dialog_max_initial_clauses, x);
 }
 
+/**
+ * gnm_conf_get_core_sort_dialog_max_initial_clauses_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_sort_dialog_max_initial_clauses_node (void)
 {
@@ -1940,6 +2140,11 @@ gnm_conf_set_core_workbook_autosave_time (int x)
 	set_int (&watch_core_workbook_autosave_time, x);
 }
 
+/**
+ * gnm_conf_get_core_workbook_autosave_time_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_workbook_autosave_time_node (void)
 {
@@ -1969,6 +2174,11 @@ gnm_conf_set_core_workbook_n_cols (int x)
 	set_int (&watch_core_workbook_n_cols, x);
 }
 
+/**
+ * gnm_conf_get_core_workbook_n_cols_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_workbook_n_cols_node (void)
 {
@@ -1998,6 +2208,11 @@ gnm_conf_set_core_workbook_n_rows (int x)
 	set_int (&watch_core_workbook_n_rows, x);
 }
 
+/**
+ * gnm_conf_get_core_workbook_n_rows_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_workbook_n_rows_node (void)
 {
@@ -2027,6 +2242,11 @@ gnm_conf_set_core_workbook_n_sheet (int x)
 	set_int (&watch_core_workbook_n_sheet, x);
 }
 
+/**
+ * gnm_conf_get_core_workbook_n_sheet_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_workbook_n_sheet_node (void)
 {
@@ -2056,6 +2276,11 @@ gnm_conf_set_core_xml_compression_level (int x)
 	set_int (&watch_core_xml_compression_level, x);
 }
 
+/**
+ * gnm_conf_get_core_xml_compression_level_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_xml_compression_level_node (void)
 {
@@ -2085,6 +2310,11 @@ gnm_conf_set_cut_and_paste_prefer_clipboard (gboolean x)
 	set_bool (&watch_cut_and_paste_prefer_clipboard, x);
 }
 
+/**
+ * gnm_conf_get_cut_and_paste_prefer_clipboard_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_cut_and_paste_prefer_clipboard_node (void)
 {
@@ -2114,6 +2344,11 @@ gnm_conf_set_dialogs_rs_unfocused (gboolean x)
 	set_bool (&watch_dialogs_rs_unfocused, x);
 }
 
+/**
+ * gnm_conf_get_dialogs_rs_unfocused_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_dialogs_rs_unfocused_node (void)
 {
@@ -2143,6 +2378,11 @@ gnm_conf_set_functionselector_num_of_recent (int x)
 	set_int (&watch_functionselector_num_of_recent, x);
 }
 
+/**
+ * gnm_conf_get_functionselector_num_of_recent_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_functionselector_num_of_recent_node (void)
 {
@@ -2158,7 +2398,7 @@ static struct cb_watch_string_list watch_functionselector_recentfunctions = {
 /**
  * gnm_conf_get_functionselector_recentfunctions:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_functionselector_recentfunctions (void)
@@ -2170,7 +2410,7 @@ gnm_conf_get_functionselector_recentfunctions (void)
 
 /**
  * gnm_conf_set_functionselector_recentfunctions:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -2181,6 +2421,11 @@ gnm_conf_set_functionselector_recentfunctions (GSList *x)
 	set_string_list (&watch_functionselector_recentfunctions, x);
 }
 
+/**
+ * gnm_conf_get_functionselector_recentfunctions_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_functionselector_recentfunctions_node (void)
 {
@@ -2211,6 +2456,11 @@ gnm_conf_set_plugin_glpk_glpsol_path (const char *x)
 	set_string (&watch_plugin_glpk_glpsol_path, x);
 }
 
+/**
+ * gnm_conf_get_plugin_glpk_glpsol_path_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_plugin_glpk_glpsol_path_node (void)
 {
@@ -2240,6 +2490,11 @@ gnm_conf_set_plugin_latex_use_utf8 (gboolean x)
 	set_bool (&watch_plugin_latex_use_utf8, x);
 }
 
+/**
+ * gnm_conf_get_plugin_latex_use_utf8_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_plugin_latex_use_utf8_node (void)
 {
@@ -2270,6 +2525,11 @@ gnm_conf_set_plugin_lpsolve_lpsolve_path (const char *x)
 	set_string (&watch_plugin_lpsolve_lpsolve_path, x);
 }
 
+/**
+ * gnm_conf_get_plugin_lpsolve_lpsolve_path_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_plugin_lpsolve_lpsolve_path_node (void)
 {
@@ -2299,6 +2559,11 @@ gnm_conf_set_plugins_activate_newplugins (gboolean x)
 	set_bool (&watch_plugins_activate_newplugins, x);
 }
 
+/**
+ * gnm_conf_get_plugins_activate_newplugins_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_plugins_activate_newplugins_node (void)
 {
@@ -2314,7 +2579,7 @@ static struct cb_watch_string_list watch_plugins_active = {
 /**
  * gnm_conf_get_plugins_active:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_plugins_active (void)
@@ -2326,7 +2591,7 @@ gnm_conf_get_plugins_active (void)
 
 /**
  * gnm_conf_set_plugins_active:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -2337,6 +2602,11 @@ gnm_conf_set_plugins_active (GSList *x)
 	set_string_list (&watch_plugins_active, x);
 }
 
+/**
+ * gnm_conf_get_plugins_active_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_plugins_active_node (void)
 {
@@ -2352,7 +2622,7 @@ static struct cb_watch_string_list watch_plugins_extra_dirs = {
 /**
  * gnm_conf_get_plugins_extra_dirs:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_plugins_extra_dirs (void)
@@ -2364,7 +2634,7 @@ gnm_conf_get_plugins_extra_dirs (void)
 
 /**
  * gnm_conf_set_plugins_extra_dirs:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -2375,6 +2645,11 @@ gnm_conf_set_plugins_extra_dirs (GSList *x)
 	set_string_list (&watch_plugins_extra_dirs, x);
 }
 
+/**
+ * gnm_conf_get_plugins_extra_dirs_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_plugins_extra_dirs_node (void)
 {
@@ -2390,7 +2665,7 @@ static struct cb_watch_string_list watch_plugins_file_states = {
 /**
  * gnm_conf_get_plugins_file_states:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_plugins_file_states (void)
@@ -2402,7 +2677,7 @@ gnm_conf_get_plugins_file_states (void)
 
 /**
  * gnm_conf_set_plugins_file_states:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -2413,6 +2688,11 @@ gnm_conf_set_plugins_file_states (GSList *x)
 	set_string_list (&watch_plugins_file_states, x);
 }
 
+/**
+ * gnm_conf_get_plugins_file_states_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_plugins_file_states_node (void)
 {
@@ -2428,7 +2708,7 @@ static struct cb_watch_string_list watch_plugins_known = {
 /**
  * gnm_conf_get_plugins_known:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_plugins_known (void)
@@ -2440,7 +2720,7 @@ gnm_conf_get_plugins_known (void)
 
 /**
  * gnm_conf_set_plugins_known:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -2451,6 +2731,11 @@ gnm_conf_set_plugins_known (GSList *x)
 	set_string_list (&watch_plugins_known, x);
 }
 
+/**
+ * gnm_conf_get_plugins_known_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_plugins_known_node (void)
 {
@@ -2480,6 +2765,11 @@ gnm_conf_set_printsetup_across_then_down (gboolean x)
 	set_bool (&watch_printsetup_across_then_down, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_across_then_down_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_across_then_down_node (void)
 {
@@ -2509,6 +2799,11 @@ gnm_conf_set_printsetup_all_sheets (gboolean x)
 	set_bool (&watch_printsetup_all_sheets, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_all_sheets_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_all_sheets_node (void)
 {
@@ -2538,6 +2833,11 @@ gnm_conf_set_printsetup_center_horizontally (gboolean x)
 	set_bool (&watch_printsetup_center_horizontally, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_center_horizontally_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_center_horizontally_node (void)
 {
@@ -2567,6 +2867,11 @@ gnm_conf_set_printsetup_center_vertically (gboolean x)
 	set_bool (&watch_printsetup_center_vertically, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_center_vertically_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_center_vertically_node (void)
 {
@@ -2582,7 +2887,7 @@ static struct cb_watch_string_list watch_printsetup_footer = {
 /**
  * gnm_conf_get_printsetup_footer:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_printsetup_footer (void)
@@ -2594,7 +2899,7 @@ gnm_conf_get_printsetup_footer (void)
 
 /**
  * gnm_conf_set_printsetup_footer:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -2605,6 +2910,11 @@ gnm_conf_set_printsetup_footer (GSList *x)
 	set_string_list (&watch_printsetup_footer, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_footer_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_footer_node (void)
 {
@@ -2620,7 +2930,7 @@ static struct cb_watch_string_list watch_printsetup_gtk_setting = {
 /**
  * gnm_conf_get_printsetup_gtk_setting:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_printsetup_gtk_setting (void)
@@ -2632,7 +2942,7 @@ gnm_conf_get_printsetup_gtk_setting (void)
 
 /**
  * gnm_conf_set_printsetup_gtk_setting:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -2643,6 +2953,11 @@ gnm_conf_set_printsetup_gtk_setting (GSList *x)
 	set_string_list (&watch_printsetup_gtk_setting, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_gtk_setting_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_gtk_setting_node (void)
 {
@@ -2658,7 +2973,7 @@ static struct cb_watch_string_list watch_printsetup_header = {
 /**
  * gnm_conf_get_printsetup_header:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_printsetup_header (void)
@@ -2670,7 +2985,7 @@ gnm_conf_get_printsetup_header (void)
 
 /**
  * gnm_conf_set_printsetup_header:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -2681,6 +2996,11 @@ gnm_conf_set_printsetup_header (GSList *x)
 	set_string_list (&watch_printsetup_header, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_header_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_header_node (void)
 {
@@ -2710,6 +3030,11 @@ gnm_conf_set_printsetup_hf_font_bold (gboolean x)
 	set_bool (&watch_printsetup_hf_font_bold, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_hf_font_bold_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_hf_font_bold_node (void)
 {
@@ -2739,6 +3064,11 @@ gnm_conf_set_printsetup_hf_font_italic (gboolean x)
 	set_bool (&watch_printsetup_hf_font_italic, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_hf_font_italic_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_hf_font_italic_node (void)
 {
@@ -2769,6 +3099,11 @@ gnm_conf_set_printsetup_hf_font_name (const char *x)
 	set_string (&watch_printsetup_hf_font_name, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_hf_font_name_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_hf_font_name_node (void)
 {
@@ -2798,6 +3133,11 @@ gnm_conf_set_printsetup_hf_font_size (double x)
 	set_double (&watch_printsetup_hf_font_size, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_hf_font_size_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_hf_font_size_node (void)
 {
@@ -2813,7 +3153,7 @@ static struct cb_watch_string_list watch_printsetup_hf_left = {
 /**
  * gnm_conf_get_printsetup_hf_left:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_printsetup_hf_left (void)
@@ -2825,7 +3165,7 @@ gnm_conf_get_printsetup_hf_left (void)
 
 /**
  * gnm_conf_set_printsetup_hf_left:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -2836,6 +3176,11 @@ gnm_conf_set_printsetup_hf_left (GSList *x)
 	set_string_list (&watch_printsetup_hf_left, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_hf_left_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_hf_left_node (void)
 {
@@ -2851,7 +3196,7 @@ static struct cb_watch_string_list watch_printsetup_hf_middle = {
 /**
  * gnm_conf_get_printsetup_hf_middle:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_printsetup_hf_middle (void)
@@ -2863,7 +3208,7 @@ gnm_conf_get_printsetup_hf_middle (void)
 
 /**
  * gnm_conf_set_printsetup_hf_middle:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -2874,6 +3219,11 @@ gnm_conf_set_printsetup_hf_middle (GSList *x)
 	set_string_list (&watch_printsetup_hf_middle, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_hf_middle_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_hf_middle_node (void)
 {
@@ -2889,7 +3239,7 @@ static struct cb_watch_string_list watch_printsetup_hf_right = {
 /**
  * gnm_conf_get_printsetup_hf_right:
  *
- * Returns: (element-type char) (transfer none):
+ * Returns: (element-type utf8) (transfer none):
  **/
 GSList *
 gnm_conf_get_printsetup_hf_right (void)
@@ -2901,7 +3251,7 @@ gnm_conf_get_printsetup_hf_right (void)
 
 /**
  * gnm_conf_set_printsetup_hf_right:
- * @x: (element-type char): list of strings
+ * @x: (element-type utf8): list of strings
  *
  **/
 void
@@ -2912,6 +3262,11 @@ gnm_conf_set_printsetup_hf_right (GSList *x)
 	set_string_list (&watch_printsetup_hf_right, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_hf_right_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_hf_right_node (void)
 {
@@ -2941,6 +3296,11 @@ gnm_conf_set_printsetup_margin_bottom (double x)
 	set_double (&watch_printsetup_margin_bottom, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_margin_bottom_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_margin_bottom_node (void)
 {
@@ -2970,6 +3330,11 @@ gnm_conf_set_printsetup_margin_gtk_bottom (double x)
 	set_double (&watch_printsetup_margin_gtk_bottom, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_margin_gtk_bottom_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_margin_gtk_bottom_node (void)
 {
@@ -2999,6 +3364,11 @@ gnm_conf_set_printsetup_margin_gtk_left (double x)
 	set_double (&watch_printsetup_margin_gtk_left, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_margin_gtk_left_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_margin_gtk_left_node (void)
 {
@@ -3028,6 +3398,11 @@ gnm_conf_set_printsetup_margin_gtk_right (double x)
 	set_double (&watch_printsetup_margin_gtk_right, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_margin_gtk_right_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_margin_gtk_right_node (void)
 {
@@ -3057,6 +3432,11 @@ gnm_conf_set_printsetup_margin_gtk_top (double x)
 	set_double (&watch_printsetup_margin_gtk_top, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_margin_gtk_top_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_margin_gtk_top_node (void)
 {
@@ -3086,6 +3466,11 @@ gnm_conf_set_printsetup_margin_top (double x)
 	set_double (&watch_printsetup_margin_top, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_margin_top_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_margin_top_node (void)
 {
@@ -3116,6 +3501,11 @@ gnm_conf_set_printsetup_paper (const char *x)
 	set_string (&watch_printsetup_paper, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_paper_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_paper_node (void)
 {
@@ -3145,6 +3535,11 @@ gnm_conf_set_printsetup_paper_orientation (int x)
 	set_int (&watch_printsetup_paper_orientation, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_paper_orientation_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_paper_orientation_node (void)
 {
@@ -3174,6 +3569,11 @@ gnm_conf_set_printsetup_preferred_unit (GtkUnit x)
 	set_enum (&watch_printsetup_preferred_unit, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_preferred_unit_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_preferred_unit_node (void)
 {
@@ -3203,6 +3603,11 @@ gnm_conf_set_printsetup_print_black_n_white (gboolean x)
 	set_bool (&watch_printsetup_print_black_n_white, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_print_black_n_white_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_print_black_n_white_node (void)
 {
@@ -3232,6 +3637,11 @@ gnm_conf_set_printsetup_print_even_if_only_styles (gboolean x)
 	set_bool (&watch_printsetup_print_even_if_only_styles, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_print_even_if_only_styles_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_print_even_if_only_styles_node (void)
 {
@@ -3261,6 +3671,11 @@ gnm_conf_set_printsetup_print_grid_lines (gboolean x)
 	set_bool (&watch_printsetup_print_grid_lines, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_print_grid_lines_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_print_grid_lines_node (void)
 {
@@ -3290,6 +3705,11 @@ gnm_conf_set_printsetup_print_titles (gboolean x)
 	set_bool (&watch_printsetup_print_titles, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_print_titles_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_print_titles_node (void)
 {
@@ -3320,6 +3740,11 @@ gnm_conf_set_printsetup_repeat_left (const char *x)
 	set_string (&watch_printsetup_repeat_left, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_repeat_left_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_repeat_left_node (void)
 {
@@ -3350,6 +3775,11 @@ gnm_conf_set_printsetup_repeat_top (const char *x)
 	set_string (&watch_printsetup_repeat_top, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_repeat_top_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_repeat_top_node (void)
 {
@@ -3379,6 +3809,11 @@ gnm_conf_set_printsetup_scale_height (int x)
 	set_int (&watch_printsetup_scale_height, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_scale_height_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_scale_height_node (void)
 {
@@ -3408,6 +3843,11 @@ gnm_conf_set_printsetup_scale_percentage (gboolean x)
 	set_bool (&watch_printsetup_scale_percentage, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_scale_percentage_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_scale_percentage_node (void)
 {
@@ -3437,6 +3877,11 @@ gnm_conf_set_printsetup_scale_percentage_value (double x)
 	set_double (&watch_printsetup_scale_percentage_value, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_scale_percentage_value_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_scale_percentage_value_node (void)
 {
@@ -3466,6 +3911,11 @@ gnm_conf_set_printsetup_scale_width (int x)
 	set_int (&watch_printsetup_scale_width, x);
 }
 
+/**
+ * gnm_conf_get_printsetup_scale_width_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_scale_width_node (void)
 {
@@ -3495,6 +3945,11 @@ gnm_conf_set_searchreplace_change_cell_expressions (gboolean x)
 	set_bool (&watch_searchreplace_change_cell_expressions, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_change_cell_expressions_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_change_cell_expressions_node (void)
 {
@@ -3524,6 +3979,11 @@ gnm_conf_set_searchreplace_change_cell_other (gboolean x)
 	set_bool (&watch_searchreplace_change_cell_other, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_change_cell_other_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_change_cell_other_node (void)
 {
@@ -3553,6 +4013,11 @@ gnm_conf_set_searchreplace_change_cell_strings (gboolean x)
 	set_bool (&watch_searchreplace_change_cell_strings, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_change_cell_strings_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_change_cell_strings_node (void)
 {
@@ -3582,6 +4047,11 @@ gnm_conf_set_searchreplace_change_comments (gboolean x)
 	set_bool (&watch_searchreplace_change_comments, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_change_comments_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_change_comments_node (void)
 {
@@ -3611,6 +4081,11 @@ gnm_conf_set_searchreplace_columnmajor (gboolean x)
 	set_bool (&watch_searchreplace_columnmajor, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_columnmajor_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_columnmajor_node (void)
 {
@@ -3640,6 +4115,11 @@ gnm_conf_set_searchreplace_error_behaviour (int x)
 	set_int (&watch_searchreplace_error_behaviour, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_error_behaviour_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_error_behaviour_node (void)
 {
@@ -3669,6 +4149,11 @@ gnm_conf_set_searchreplace_ignore_case (gboolean x)
 	set_bool (&watch_searchreplace_ignore_case, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_ignore_case_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_ignore_case_node (void)
 {
@@ -3698,6 +4183,11 @@ gnm_conf_set_searchreplace_keep_strings (gboolean x)
 	set_bool (&watch_searchreplace_keep_strings, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_keep_strings_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_keep_strings_node (void)
 {
@@ -3727,6 +4217,11 @@ gnm_conf_set_searchreplace_preserve_case (gboolean x)
 	set_bool (&watch_searchreplace_preserve_case, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_preserve_case_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_preserve_case_node (void)
 {
@@ -3756,6 +4251,11 @@ gnm_conf_set_searchreplace_query (gboolean x)
 	set_bool (&watch_searchreplace_query, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_query_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_query_node (void)
 {
@@ -3785,6 +4285,11 @@ gnm_conf_set_searchreplace_regex (int x)
 	set_int (&watch_searchreplace_regex, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_regex_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_regex_node (void)
 {
@@ -3814,6 +4319,11 @@ gnm_conf_set_searchreplace_scope (int x)
 	set_int (&watch_searchreplace_scope, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_scope_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_scope_node (void)
 {
@@ -3843,6 +4353,11 @@ gnm_conf_set_searchreplace_search_results (gboolean x)
 	set_bool (&watch_searchreplace_search_results, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_search_results_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_search_results_node (void)
 {
@@ -3872,6 +4387,11 @@ gnm_conf_set_searchreplace_whole_words_only (gboolean x)
 	set_bool (&watch_searchreplace_whole_words_only, x);
 }
 
+/**
+ * gnm_conf_get_searchreplace_whole_words_only_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_whole_words_only_node (void)
 {
@@ -3902,6 +4422,11 @@ gnm_conf_set_stf_export_encoding (const char *x)
 	set_string (&watch_stf_export_encoding, x);
 }
 
+/**
+ * gnm_conf_get_stf_export_encoding_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_stf_export_encoding_node (void)
 {
@@ -3931,6 +4456,11 @@ gnm_conf_set_stf_export_format (GnmStfFormatMode x)
 	set_enum (&watch_stf_export_format, x);
 }
 
+/**
+ * gnm_conf_get_stf_export_format_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_stf_export_format_node (void)
 {
@@ -3961,6 +4491,11 @@ gnm_conf_set_stf_export_locale (const char *x)
 	set_string (&watch_stf_export_locale, x);
 }
 
+/**
+ * gnm_conf_get_stf_export_locale_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_stf_export_locale_node (void)
 {
@@ -3990,6 +4525,11 @@ gnm_conf_set_stf_export_quoting (GsfOutputCsvQuotingMode x)
 	set_enum (&watch_stf_export_quoting, x);
 }
 
+/**
+ * gnm_conf_get_stf_export_quoting_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_stf_export_quoting_node (void)
 {
@@ -4020,6 +4560,11 @@ gnm_conf_set_stf_export_separator (const char *x)
 	set_string (&watch_stf_export_separator, x);
 }
 
+/**
+ * gnm_conf_get_stf_export_separator_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_stf_export_separator_node (void)
 {
@@ -4050,6 +4595,11 @@ gnm_conf_set_stf_export_stringindicator (const char *x)
 	set_string (&watch_stf_export_stringindicator, x);
 }
 
+/**
+ * gnm_conf_get_stf_export_stringindicator_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_stf_export_stringindicator_node (void)
 {
@@ -4080,6 +4630,11 @@ gnm_conf_set_stf_export_terminator (const char *x)
 	set_string (&watch_stf_export_terminator, x);
 }
 
+/**
+ * gnm_conf_get_stf_export_terminator_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_stf_export_terminator_node (void)
 {
@@ -4109,6 +4664,11 @@ gnm_conf_set_stf_export_transliteration (gboolean x)
 	set_bool (&watch_stf_export_transliteration, x);
 }
 
+/**
+ * gnm_conf_get_stf_export_transliteration_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_stf_export_transliteration_node (void)
 {
@@ -4161,6 +4721,11 @@ gnm_conf_set_undo_max_descriptor_width (int x)
 	set_int (&watch_undo_max_descriptor_width, x);
 }
 
+/**
+ * gnm_conf_get_undo_max_descriptor_width_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_undo_max_descriptor_width_node (void)
 {
@@ -4190,6 +4755,11 @@ gnm_conf_set_undo_maxnum (int x)
 	set_int (&watch_undo_maxnum, x);
 }
 
+/**
+ * gnm_conf_get_undo_maxnum_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_undo_maxnum_node (void)
 {
@@ -4219,6 +4789,11 @@ gnm_conf_set_undo_show_sheet_name (gboolean x)
 	set_bool (&watch_undo_show_sheet_name, x);
 }
 
+/**
+ * gnm_conf_get_undo_show_sheet_name_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_undo_show_sheet_name_node (void)
 {
@@ -4248,156 +4823,286 @@ gnm_conf_set_undo_size (int x)
 	set_int (&watch_undo_size, x);
 }
 
+/**
+ * gnm_conf_get_undo_size_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_undo_size_node (void)
 {
 	return get_watch_node (&watch_undo_size);
 }
 
+/**
+ * gnm_conf_get_autocorrect_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_autocorrect_dir_node (void)
 {
 	return get_node ("autocorrect", NULL);
 }
 
+/**
+ * gnm_conf_get_autoformat_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_autoformat_dir_node (void)
 {
 	return get_node ("autoformat", NULL);
 }
 
+/**
+ * gnm_conf_get_core_defaultfont_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_defaultfont_dir_node (void)
 {
 	return get_node ("core/defaultfont", NULL);
 }
 
+/**
+ * gnm_conf_get_core_file_save_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_file_save_dir_node (void)
 {
 	return get_node ("core/file/save", NULL);
 }
 
+/**
+ * gnm_conf_get_core_gui_cells_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_cells_dir_node (void)
 {
 	return get_node ("core/gui/cells", NULL);
 }
 
+/**
+ * gnm_conf_get_core_gui_editing_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_editing_dir_node (void)
 {
 	return get_node ("core/gui/editing", NULL);
 }
 
+/**
+ * gnm_conf_get_core_gui_screen_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_screen_dir_node (void)
 {
 	return get_node ("core/gui/screen", NULL);
 }
 
+/**
+ * gnm_conf_get_core_gui_toolbars_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_dir_node (void)
 {
 	return get_node ("core/gui/toolbars", NULL);
 }
 
+/**
+ * gnm_conf_get_core_gui_window_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_gui_window_dir_node (void)
 {
 	return get_node ("core/gui/window", NULL);
 }
 
+/**
+ * gnm_conf_get_core_sort_default_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_sort_default_dir_node (void)
 {
 	return get_node ("core/sort/default", NULL);
 }
 
+/**
+ * gnm_conf_get_core_sort_dialog_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_sort_dialog_dir_node (void)
 {
 	return get_node ("core/sort/dialog", NULL);
 }
 
+/**
+ * gnm_conf_get_core_workbook_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_workbook_dir_node (void)
 {
 	return get_node ("core/workbook", NULL);
 }
 
+/**
+ * gnm_conf_get_core_xml_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_core_xml_dir_node (void)
 {
 	return get_node ("core/xml", NULL);
 }
 
+/**
+ * gnm_conf_get_cut_and_paste_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_cut_and_paste_dir_node (void)
 {
 	return get_node ("cut-and-paste", NULL);
 }
 
+/**
+ * gnm_conf_get_dialogs_rs_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_dialogs_rs_dir_node (void)
 {
 	return get_node ("dialogs/rs", NULL);
 }
 
+/**
+ * gnm_conf_get_functionselector_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_functionselector_dir_node (void)
 {
 	return get_node ("functionselector", NULL);
 }
 
+/**
+ * gnm_conf_get_plugin_glpk_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_plugin_glpk_dir_node (void)
 {
 	return get_node ("plugin/glpk", NULL);
 }
 
+/**
+ * gnm_conf_get_plugin_latex_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_plugin_latex_dir_node (void)
 {
 	return get_node ("plugin/latex", NULL);
 }
 
+/**
+ * gnm_conf_get_plugin_lpsolve_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_plugin_lpsolve_dir_node (void)
 {
 	return get_node ("plugin/lpsolve", NULL);
 }
 
+/**
+ * gnm_conf_get_plugins_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_plugins_dir_node (void)
 {
 	return get_node ("plugins", NULL);
 }
 
+/**
+ * gnm_conf_get_printsetup_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_printsetup_dir_node (void)
 {
 	return get_node ("printsetup", NULL);
 }
 
+/**
+ * gnm_conf_get_searchreplace_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_searchreplace_dir_node (void)
 {
 	return get_node ("searchreplace", NULL);
 }
 
+/**
+ * gnm_conf_get_stf_export_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_stf_export_dir_node (void)
 {
 	return get_node ("stf/export", NULL);
 }
 
+/**
+ * gnm_conf_get_toolbar_style_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_toolbar_style_dir_node (void)
 {
 	return get_node ("toolbar-style", NULL);
 }
 
+/**
+ * gnm_conf_get_undo_dir_node:
+ *
+ * Returns: (transfer none): A #GOConfNode
+ */
 GOConfNode *
 gnm_conf_get_undo_dir_node (void)
 {

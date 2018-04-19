@@ -471,6 +471,11 @@ sub create_hcfile {
 
 	    $hfile .= "GOConfNode *$id (void);\n";
 
+	    $get_conf_code .= "/**\n";
+	    $get_conf_code .= " * $id:\n";
+	    $get_conf_code .= " *\n";
+	    $get_conf_code .= " * Returns: (transfer none): A #GOConfNode\n";
+	    $get_conf_code .= " */\n";
 	    $get_conf_code .= "GOConfNode *\n";
 	    $get_conf_code .= "$id (void)\n";
 	    $get_conf_code .= "{\n";
@@ -587,7 +592,7 @@ sub create_hcfile {
 	    $cfile .= "};\n\n";
 
 	    $cfile .= "/**\n * gnm_conf_get_$var:\n *\n";
-	    $cfile .= " * Returns: (element-type char) (transfer none):\n **/\n";
+	    $cfile .= " * Returns: (element-type utf8) (transfer none):\n **/\n";
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
 	    $cfile .= "\tif (!$watch_name.handler)\n";
@@ -596,7 +601,7 @@ sub create_hcfile {
 	    $cfile .= "}\n\n";
 
 	    $cfile .= "/**\n * gnm_conf_set_$var:\n";
-	    $cfile .= " * \@x: (element-type char): list of strings\n *\n **/\n";
+	    $cfile .= " * \@x: (element-type utf8): list of strings\n *\n **/\n";
 	    $cfile .= "$set_head\n";
 	    $cfile .= "{\n";
 	    $cfile .= "\tif (!$watch_name.handler)\n";
@@ -618,6 +623,11 @@ sub create_hcfile {
 
 	$hfile .= "GOConfNode *$id (void);\n";
 
+	$cfile .= "/**\n";
+	$cfile .= " * $id:\n";
+	$cfile .= " *\n";
+	$cfile .= " * Returns: (transfer none): A #GOConfNode\n";
+	$cfile .= " */\n";
 	$cfile .= "GOConfNode *\n";
 	$cfile .= "$id (void)\n";
 	$cfile .= "{\n";
