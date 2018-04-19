@@ -587,9 +587,15 @@ filter_row:
  * @fun: (scope call): function to evaluate on filtered data
  * @err: error value in case @fun fails.
  * @ep: evaluation position
- * @flags:
+ * @flags: #CollectFlags flags describing the collection and interpretation
+ * of values from @data.
+ *
+ * This implements a Gnumeric sheet database function of the "*IFS" type
+ * This function collects the arguments and uses @fun to do
+ * the actual computation.
+ *
+ * Returns: (transfer full): Function result or error value.
  */
-
 GnmValue *
 gnm_ifs_func (GPtrArray *data, GPtrArray *crits, GnmValue const *vals,
 	      float_range_function_t fun, GnmStdError err,
