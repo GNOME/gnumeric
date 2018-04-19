@@ -741,10 +741,10 @@ xml_write_colrow_info (GnmColRowIter const *iter, closure_write_colrow *closure)
 					  closure->is_column);
 
 	closure->rle_count++;
-	if (NULL != iter && colrow_equal (prev, iter->cri))
+	if (NULL != iter && col_row_info_equal (prev, iter->cri))
 		return FALSE;
 
-	if (prev != NULL && !colrow_equal (prev, def)) {
+	if (prev != NULL && !col_row_info_equal (prev, def)) {
 		if (closure->is_column)
 			gsf_xml_out_start_element (output, GNM "ColInfo");
 		else
@@ -787,7 +787,7 @@ xml_write_cols_rows (GnmOutputXML *state)
 	closure.prev = NULL;
 	closure.prev_pos = -1;
 	closure.rle_count = 0;
-	colrow_foreach (&state->sheet->cols, 0, gnm_sheet_get_last_col (state->sheet),
+	col_row_collection_foreach (&state->sheet->cols, 0, gnm_sheet_get_last_col (state->sheet),
 		(ColRowHandler)&xml_write_colrow_info, &closure);
 	xml_write_colrow_info (NULL, &closure); /* flush */
 	gsf_xml_out_end_element (state->output); /* </gnm:Cols> */
@@ -800,7 +800,7 @@ xml_write_cols_rows (GnmOutputXML *state)
 	closure.prev = NULL;
 	closure.prev_pos = -1;
 	closure.rle_count = 0;
-	colrow_foreach (&state->sheet->rows, 0, gnm_sheet_get_last_row (state->sheet),
+	col_row_collection_foreach (&state->sheet->rows, 0, gnm_sheet_get_last_row (state->sheet),
 		(ColRowHandler)&xml_write_colrow_info, &closure);
 	xml_write_colrow_info (NULL, &closure); /* flush */
 	gsf_xml_out_end_element (state->output); /* </gnm:Rows> */

@@ -228,7 +228,7 @@ gnm_undo_filter_set_condition_undo (GOUndo *u, G_GNUC_UNUSED gpointer data)
 				  gnm_filter_condition_dup (ua->cond), TRUE);
 	sheet_update (ua->filter->sheet);
 
-	colrow_foreach (&ua->filter->sheet->rows,
+	col_row_collection_foreach (&ua->filter->sheet->rows,
 			ua->filter->r.start.row + 1,
 			ua->filter->r.end.row,
 			(ColRowHandler) cb_filter_set_condition_undo,

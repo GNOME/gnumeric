@@ -112,6 +112,10 @@ GnmCell: [Boxed structure] [2]
   pos
 
 
+ColRowInfo: [Boxed structure]
+  is_default()
+  is_empty()
+
 GnmSheetSize: [Simple structure]
   max_cols
   max_rows

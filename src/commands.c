@@ -1582,7 +1582,7 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 			filter = gnm_sheet_filter_intersect_rows
 				(sheet, data.r->start.row, data.r->end.row);
 			if (filter) {
-				colrow_foreach (&sheet->rows, data.r->start.row, data.r->end.row,
+				col_row_collection_foreach (&sheet->rows, data.r->start.row, data.r->end.row,
 						(ColRowHandler) cmd_selection_clear_row_handler, &data);
 				g_free (ranges->data);
 				ranges->data = NULL;

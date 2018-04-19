@@ -1691,7 +1691,7 @@ odf_compare_ci (gconstpointer a, gconstpointer b)
 	col_row_styles_t const *old_style = a;
 	ColRowInfo const *new_style = b;
 
-	return !colrow_equal (new_style, old_style->ci);
+	return !col_row_info_equal (new_style, old_style->ci);
 }
 
 static void
@@ -2020,7 +2020,7 @@ odf_write_column_styles (GnmOOExport *state)
 
 		for (i = 1; i < max_cols; i++) {
 			ColRowInfo const *this_ci = sheet_col_get (sheet, i);
-			if (!colrow_equal (last_ci, this_ci))
+			if (!col_row_info_equal (last_ci, this_ci))
 				odf_find_col_style (state, (last_ci = this_ci), TRUE);
 		}
 	}
@@ -2051,7 +2051,7 @@ odf_write_row_styles (GnmOOExport *state)
 
 		for (i = 1; i < max_rows; i++) {
 			ColRowInfo const *this_ci = sheet_row_get (sheet, i);
-			if (!colrow_equal (last_ci, this_ci))
+			if (!col_row_info_equal (last_ci, this_ci))
 				odf_find_row_style (state, (last_ci = this_ci), TRUE);
 		}
 	}
@@ -3704,7 +3704,7 @@ odf_write_formatted_columns (GnmOOExport *state, Sheet const *sheet, GnmStyle **
 		GnmStyle *this_col_style = filter_style (state->default_style_region->style, col_styles[i]);
 		ColRowInfo const *this_ci = sheet_col_get (sheet, i);
 
-		if ((this_col_style == last_col_style) && colrow_equal (last_ci, this_ci))
+		if ((this_col_style == last_col_style) && col_row_info_equal (last_ci, this_ci))
 			number_cols_rep++;
 		else {
 			if (number_cols_rep > 1)

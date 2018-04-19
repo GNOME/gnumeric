@@ -364,7 +364,7 @@ sheet_scale_changed (Sheet *sheet, gboolean cols_rescaled, gboolean rows_rescale
 
 		colrow_compute_pixels_from_pts (&sheet->cols.default_style,
 						sheet, TRUE, closure.scale);
-		colrow_foreach (&sheet->cols, 0, gnm_sheet_get_last_col (sheet),
+		col_row_collection_foreach (&sheet->cols, 0, gnm_sheet_get_last_col (sheet),
 			(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
 	}
 	if (rows_rescaled) {
@@ -376,7 +376,7 @@ sheet_scale_changed (Sheet *sheet, gboolean cols_rescaled, gboolean rows_rescale
 
 		colrow_compute_pixels_from_pts (&sheet->rows.default_style,
 						sheet, FALSE, closure.scale);
-		colrow_foreach (&sheet->rows, 0, gnm_sheet_get_last_row (sheet),
+		col_row_collection_foreach (&sheet->rows, 0, gnm_sheet_get_last_row (sheet),
 			(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
 	}
 
@@ -679,8 +679,8 @@ gnm_sheet_constructed (GObject *obj)
 	/* Now sheet_type, max_cols, and max_rows have been set.  */
 	sheet->being_constructed = FALSE;
 
-	colrow_resize (&sheet->cols, sheet->size.max_cols);
-	colrow_resize (&sheet->rows, sheet->size.max_rows);
+	col_row_collection_resize (&sheet->cols, sheet->size.max_cols);
+	col_row_collection_resize (&sheet->rows, sheet->size.max_rows);
 
 	sheet->priv->reposition_objects.col = sheet->size.max_cols;
 	sheet->priv->reposition_objects.row = sheet->size.max_rows;
@@ -1288,8 +1288,8 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	/* ---------------------------------------- */
 	/* Resize column and row containers.  */
 
-	colrow_resize (&sheet->cols, cols);
-	colrow_resize (&sheet->rows, rows);
+	col_row_collection_resize (&sheet->cols, cols);
+	col_row_collection_resize (&sheet->rows, rows);
 
 	/* ---------------------------------------- */
 	/* Resize the dependency containers.  */
@@ -1932,7 +1932,7 @@ static int
 sheet_colrow_fit_gutter (Sheet const *sheet, gboolean is_cols)
 {
 	int outline_level = 0;
-	colrow_foreach (is_cols ? &sheet->cols : &sheet->rows,
+	col_row_collection_foreach (is_cols ? &sheet->cols : &sheet->rows,
 			0, colrow_max (is_cols, sheet) - 1,
 		(ColRowHandler)cb_outline_level, &outline_level);
 	return outline_level;
@@ -2176,7 +2176,7 @@ sheet_colrow_group_ungroup (Sheet *sheet, GnmRange const *r,
 		int const new_level = cri->outline_level + step;
 
 		if (new_level >= 0) {
-			colrow_set_outline (cri, new_level, FALSE);
+			col_row_info_set_outline (cri, new_level, FALSE);
 			if (new_max < new_level)
 				new_max = new_level;
 		}
@@ -2649,7 +2649,7 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 	closure.sheet = sheet;
 	closure.col = col;
 
-	colrow_foreach (&sheet->rows, 0, gnm_sheet_get_last_row (sheet),
+	col_row_collection_foreach (&sheet->rows, 0, gnm_sheet_get_last_row (sheet),
 			&cb_recalc_spans_in_col, &closure);
 }
 
@@ -3546,7 +3546,7 @@ sheet_range_splits_array (Sheet const *sheet,
 		closure.flags = CHECK_AND_LOAD_START;
 
 	if (closure.flags &&
-	    colrow_foreach (&sheet->cols, r->start.col, r->end.col,
+	    col_row_collection_foreach (&sheet->cols, r->start.col, r->end.col,
 			    (ColRowHandler) cb_check_array_horizontal, &closure)) {
 		if (cc)
 			gnm_cmd_context_error_splits_array (cc,
@@ -3568,7 +3568,7 @@ sheet_range_splits_array (Sheet const *sheet,
 		closure.flags = CHECK_AND_LOAD_START;
 
 	if (closure.flags &&
-	    colrow_foreach (&sheet->rows, r->start.row, r->end.row,
+	    col_row_collection_foreach (&sheet->rows, r->start.row, r->end.row,
 			    (ColRowHandler) cb_check_array_vertical, &closure)) {
 		if (cc)
 			gnm_cmd_context_error_splits_array (cc,
@@ -3743,7 +3743,7 @@ sheet_colrow_optimize1 (int max, int max_used, ColRowCollection *collection)
 			if (!info)
 				continue;
 			if (i + j >= first_unused &&
-			    colrow_equal (&collection->default_style, info)) {
+			    col_row_info_equal (&collection->default_style, info)) {
 				colrow_free (info);
 				segment->info[j] = NULL;
 			} else {
@@ -4629,11 +4629,11 @@ sheet_destroy_contents (Sheet *sheet)
 		sheet_row_destroy (sheet, i, FALSE);
 
 	/* Free segments too */
-	colrow_resize (&sheet->cols, 0);
+	col_row_collection_resize (&sheet->cols, 0);
 	g_ptr_array_free (sheet->cols.info, TRUE);
 	sheet->cols.info = NULL;
 
-	colrow_resize (&sheet->rows, 0);
+	col_row_collection_resize (&sheet->rows, 0);
 	g_ptr_array_free (sheet->rows.info, TRUE);
 	sheet->rows.info = NULL;
 
@@ -5502,7 +5502,7 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (from >= 0, 1.);
 	g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sheet), 1.);
 
-	/* Do not use colrow_foreach, it ignores empties */
+	/* Do not use col_row_collection_foreach, it ignores empties */
 	dflt =  sheet->cols.default_style.size_pts;
 	for (i = from ; i < to ; ++i) {
 		if (NULL == (ci = sheet_col_get (sheet, i)))
@@ -5542,7 +5542,7 @@ sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (from >= 0, 1);
 	g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sheet), 1);
 
-	/* Do not use colrow_foreach, it ignores empties */
+	/* Do not use col_row_collection_foreach, it ignores empties */
 	dflt =  sheet_col_get_default_size_pixels (sheet);
 	for (i = from ; i < to ; ++i) {
 		if (NULL == (ci = sheet_col_get (sheet, i)))
@@ -5685,7 +5685,7 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (from >= 0, 1.);
 	g_return_val_if_fail (to <= gnm_sheet_get_max_rows (sheet), 1.);
 
-	/* Do not use colrow_foreach, it ignores empties.
+	/* Do not use col_row_collection_foreach, it ignores empties.
 	 * Optimize this so that long jumps are not quite so horrific
 	 * for performance.
 	 */
@@ -5735,7 +5735,7 @@ sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (from >= 0, 1);
 	g_return_val_if_fail (to <= gnm_sheet_get_max_rows (sheet), 1);
 
-	/* Do not use colrow_foreach, it ignores empties */
+	/* Do not use col_row_collection_foreach, it ignores empties */
 	dflt =  sheet_row_get_default_size_pixels (sheet);
 	for (i = from ; i < to ; ++i) {
 		if (NULL == (ci = sheet_row_get (sheet, i)))
@@ -5878,7 +5878,7 @@ sheet_clone_colrow_info_item (GnmColRowIter const *iter, void *user_data)
 	closure_clone_colrow const *closure = user_data;
 	ColRowInfo *new_colrow = sheet_colrow_fetch (closure->sheet,
 		iter->pos, closure->is_column);
-	colrow_copy (new_colrow, iter->cri);
+	col_row_info_copy (new_colrow, iter->cri);
 	return FALSE;
 }
 
@@ -5891,10 +5891,10 @@ sheet_dup_colrows (Sheet const *src, Sheet *dst)
 
 	closure.sheet = dst;
 	closure.is_column = TRUE;
-	colrow_foreach (&src->cols, 0, max_col - 1,
+	col_row_collection_foreach (&src->cols, 0, max_col - 1,
 			&sheet_clone_colrow_info_item, &closure);
 	closure.is_column = FALSE;
-	colrow_foreach (&src->rows, 0, max_row - 1,
+	col_row_collection_foreach (&src->rows, 0, max_row - 1,
 			&sheet_clone_colrow_info_item, &closure);
 
 	sheet_col_set_default_size_pixels (dst,
@@ -6171,7 +6171,7 @@ cb_queue_respan (GnmColRowIter const *iter, void *user_data)
 void
 sheet_queue_respan (Sheet const *sheet, int start_row, int end_row)
 {
-	colrow_foreach (&sheet->rows, start_row, end_row,
+	col_row_collection_foreach (&sheet->rows, start_row, end_row,
 		cb_queue_respan, NULL);
 }
 

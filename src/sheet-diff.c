@@ -185,7 +185,7 @@ diff_sheets_colrow (GnmDiffIState *istate, gboolean is_cols)
 		sheet_colrow_get_default (istate->new_sheet, is_cols);
 	int i, U;
 
-	if (!colrow_equal (old_def, new_def)) {
+	if (!col_row_info_equal (old_def, new_def)) {
 		istate->diff_found = TRUE;
 		DISPATCH(colrow_changed) (istate->user, old_def, new_def, is_cols, -1);
 	}
@@ -203,7 +203,7 @@ diff_sheets_colrow (GnmDiffIState *istate, gboolean is_cols)
 			continue; // Considered equal, even if defaults are different
 		if (!ocr) ocr = old_def;
 		if (!ncr) ncr = new_def;
-		if (!colrow_equal (ocr, ncr)) {
+		if (!col_row_info_equal (ocr, ncr)) {
 			istate->diff_found = TRUE;
 			DISPATCH(colrow_changed) (istate->user, ocr, ncr, is_cols, i);
 		}

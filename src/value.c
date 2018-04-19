@@ -177,6 +177,13 @@ value_new_error_NA (GnmEvalPos const *pos)
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NA].locale_name_str);
 }
 
+/**
+ * value_error_name:
+ * @err: #GnmStdError
+ * @translated: If %TRUE, use localized name.
+ *
+ * Returns: (transfer none): the name of @err, possibly localized.
+ */
 char const *
 value_error_name (GnmStdError err, gboolean translated)
 {
@@ -195,6 +202,8 @@ value_error_name (GnmStdError err, gboolean translated)
  * @pos:
  *
  * Change the position of a ValueError.
+ *
+ * Returns: (transfer none): @err as a #GnmValue.
  */
 GnmValue *
 value_error_set_pos (GnmValueErr *err, G_GNUC_UNUSED GnmEvalPos const *pos)
@@ -624,9 +633,9 @@ value_release (GnmValue *value)
 
 /**
  * value_dup:
- * @v: #GnmValue
+ * @v: (nullable): #GnmValue
  *
- * Returns a copy of @v.  @v == NULL will return NULL
+ * Returns: (transfer full) (nullable): a copy of @v.
  **/
 GnmValue *
 value_dup (GnmValue const *src)
@@ -1005,11 +1014,11 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 
 /**
  * value_get_as_string:
- * @v:
+ * @v: #GnmValue
  *
- * simplistic value rendering
+ * Simplistic value rendering
  *
- * Returns a string that must be freed.
+ * Returns: (transfer full): a string rendering of @v.
  **/
 char *
 value_get_as_string (GnmValue const *v)
@@ -1049,8 +1058,11 @@ value_peek_string (GnmValue const *v)
 	}
 }
 
-/*
- * FIXME FIXME FIXME : Support errors
+/**
+ * value_get_as_int:
+ * @v: (nullable): a #GnmValue
+ *
+ * Returns: @v interpreted as an integer.
  */
 int
 value_get_as_int (GnmValue const *v)
@@ -1087,8 +1099,11 @@ value_get_as_int (GnmValue const *v)
 	return 0;
 }
 
-/*
- * FIXME FIXME FIXME : Support errors
+/**
+ * value_get_as_float:
+ * @v: (nullable): a #GnmValue
+ *
+ * Returns: @v interpreted as a floating point value.
  */
 gnm_float
 value_get_as_float (GnmValue const *v)
@@ -1481,6 +1496,13 @@ value_compare_no_cache (GnmValue const *a, GnmValue const *b,
 	return value_compare_real (a, b, case_sensitive, FALSE);
 }
 
+/**
+ * value_set_format:
+ * @v: #GnmValue
+ * @fmt: (nullable): #GOFormat
+ *
+ * Sets @v's format.
+ */
 void
 value_set_fmt (GnmValue *v, GOFormat const *fmt)
 {
@@ -1513,6 +1535,9 @@ GnmValueErr const value_terminate_err = { VALUE_ERROR, NULL, NULL };
 static GnmValueFloat const the_value_zero = { VALUE_FLOAT, NULL, 0 };
 GnmValue const *value_zero = (GnmValue const *)&the_value_zero;
 
+/**
+ * value_init: (skip)
+ */
 void
 value_init (void)
 {
@@ -1552,6 +1577,9 @@ value_init (void)
 #endif
 }
 
+/**
+ * value_shutdown: (skip)
+ */
 void
 value_shutdown (void)
 {

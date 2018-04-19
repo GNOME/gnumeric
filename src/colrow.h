@@ -75,10 +75,10 @@ void	colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
 void	colrow_compute_pts_from_pixels (ColRowInfo *cri, Sheet const *sheet,
 					gboolean horizontal, double scale);
 
-gboolean colrow_is_default (ColRowInfo const *cri);
-gboolean colrow_is_empty   (ColRowInfo const *cri);
-gboolean colrow_equal	   (ColRowInfo const *a, ColRowInfo const *b);
-void     colrow_copy	   (ColRowInfo *dst, ColRowInfo const *src);
+gboolean col_row_info_is_default (ColRowInfo const *cri);
+gboolean col_row_info_is_empty   (ColRowInfo const *cri);
+gboolean col_row_info_equal	   (ColRowInfo const *a, ColRowInfo const *b);
+void     col_row_info_copy	   (ColRowInfo *dst, ColRowInfo const *src);
 ColRowInfo *col_row_info_new (void);
 void colrow_free (ColRowInfo *cri);
 
@@ -88,12 +88,12 @@ typedef struct {
 } GnmColRowIter;
 
 typedef gboolean (*ColRowHandler)(GnmColRowIter const *iter, gpointer user_data);
-gboolean colrow_foreach	   (ColRowCollection const *infos,
-			    int first, int last,
-			    ColRowHandler callback,
-			    gpointer user_data);
+gboolean col_row_collection_foreach	   (ColRowCollection const *infos,
+					    int first, int last,
+					    ColRowHandler callback,
+					    gpointer user_data);
 
-void colrow_resize (ColRowCollection *infos, int size);
+void col_row_collection_resize (ColRowCollection *infos, int size);
 
 #define colrow_index_list_destroy(l) g_list_free_full ((l), g_free)
 
@@ -122,7 +122,7 @@ void		   colrow_restore_state_group	(Sheet *sheet, gboolean is_cols,
 						 ColRowStateGroup *saved_state);
 
 /* Support for Col/Row visibility */
-void             colrow_set_outline             (ColRowInfo *cri, int outline_level,
+void             col_row_info_set_outline             (ColRowInfo *cri, int outline_level,
 						 gboolean is_collapsed);
 int		 colrow_find_outline_bound	(Sheet const *sheet, gboolean is_cols,
 						 int index, int depth, gboolean inc);

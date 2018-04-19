@@ -37,7 +37,7 @@
 #include <goffice/goffice.h>
 
 /* Making ColRowInfo a boxed type to make introspection happy. using no-op
- * functions for copy and free, and  crossing fingers.
+ * functions for copy and free, and crossing fingers.
  */
 static ColRowInfo *
 col_row_info_fake_copy (ColRowInfo *cri)
@@ -100,21 +100,27 @@ colrow_compute_pts_from_pixels (ColRowInfo *cri, Sheet const *sheet,
 #endif
 }
 
+/**
+ * col_row_info_is_default:
+ * @cri: #ColRowInfo
+ *
+ * %TRUE if @cri is the default style for columns or rows.
+ **/
 gboolean
-colrow_is_default (ColRowInfo const *cri)
+col_row_info_is_default (ColRowInfo const *cri)
 {
 	g_return_val_if_fail (cri != NULL, FALSE);
 	return cri->is_default;
 }
 
 /**
- * colrow_is_empty :
+ * col_row_info_is_empty:
  * @cri: #ColRowInfo
  *
- * TRUE if there is no information in col/row @cri.
+ * %TRUE if there is no information in col/row @cri.
  **/
 gboolean
-colrow_is_empty (ColRowInfo const *cri)
+col_row_info_is_empty (ColRowInfo const *cri)
 {
 	if (cri == NULL)
 		return TRUE;
@@ -125,14 +131,14 @@ colrow_is_empty (ColRowInfo const *cri)
 }
 
 /**
- * colrow_equal :
- * @a: ColRowInfo #1
- * @b: ColRowInfo #2
+ * col_row_info_equal:
+ * @a: First #ColRowInfo
+ * @b: Second #ColRowInfo
  *
- * Returns true if the infos are equivalent.
+ * Returns %TRUE if the infos are equivalent.
  **/
 gboolean
-colrow_equal (ColRowInfo const *a, ColRowInfo const *b)
+col_row_info_equal (ColRowInfo const *a, ColRowInfo const *b)
 {
 	if (a == NULL)
 		return b == NULL;
@@ -147,14 +153,14 @@ colrow_equal (ColRowInfo const *a, ColRowInfo const *b)
 }
 
 /**
- * colrow_copy :
- * @dst:
- * @src:
+ * col_row_info_copy:
+ * @dst: Destination #ColRowInfo
+ * @src: Source #ColRowInfo
  *
- * Assign all content, except the position of @src to @dst
+ * Copy all content, except the position of @src to @dst.
  */
 void
-colrow_copy (ColRowInfo *dst, ColRowInfo const *src)
+col_row_info_copy (ColRowInfo *dst, ColRowInfo const *src)
 {
 	dst->size_pts      = src->size_pts;
 	dst->size_pixels   = src->size_pixels;
@@ -177,21 +183,21 @@ colrow_free (ColRowInfo *cri)
 }
 
 /**
- * colrow_foreach:
+ * col_row_collection_foreach:
  * @infos:	The Row or Column collection.
  * @first:	start position (inclusive)
  * @last:	stop column (inclusive)
- * @callback: (scope call): A callback function which should return TRUE to stop
+ * @callback: (scope call): A callback function which should return %TRUE to stop
  *              the iteration.
  * @user_data:	A bagage pointer.
  *
  * Iterates through the existing rows or columns within the range supplied.
  * Currently only support left -> right iteration.  If a callback returns
- * TRUE iteration stops.
+ * %TRUE iteration stops.
  **/
 gboolean
-colrow_foreach (ColRowCollection const *infos, int first, int last,
-		ColRowHandler callback, gpointer user_data)
+col_row_collection_foreach (ColRowCollection const *infos, int first, int last,
+			    ColRowHandler callback, gpointer user_data)
 {
 	GnmColRowIter iter;
 	ColRowSegment const *segment;
@@ -250,7 +256,7 @@ colrow_vis_list_length (ColRowVisList *list)
  * colrow_state_group_destroy:
  * @set: (transfer full): the group to destroy.
  *
- * Returns: (transfer none): %NULL.
+ * Returns: (transfer none) (nullable): %NULL.
  **/
 ColRowStateGroup *
 colrow_state_group_destroy (ColRowStateGroup *group)
@@ -275,7 +281,7 @@ colrow_index_compare (ColRowIndex const * a, ColRowIndex const * b)
  *
  * @list: The list
  * @is_cols: Column index list or row index list?
- * @is_single: If non-null this will be set to TRUE if there's only a single col/row involved.
+ * @is_single: If non-null this will be set to %TRUE if there's only a single col/row involved.
  */
 GString *
 colrow_index_list_to_string (ColRowIndexList *list, gboolean is_cols, gboolean *is_single)
@@ -379,7 +385,7 @@ colrow_set_single_state (ColRowState *state,
 			 Sheet *sheet, int i, gboolean is_cols)
 {
 	ColRowInfo const *info = sheet_colrow_get_info (sheet, i, is_cols);
-	state->is_default = colrow_is_default (info);
+	state->is_default = col_row_info_is_default (info);
 	state->size_pts	= info->size_pts;
 	state->outline_level = info->outline_level;
 	state->is_collapsed = info->is_collapsed;
@@ -554,7 +560,7 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 		res = g_slist_prepend (res, colrow_get_states (sheet, is_cols,
 			index->first, index->last));
 
-		/* FIXME :
+		/* FIXME:
 		 * If we are changing the size of more than half of the rows/col to
 		 * something specific (not autosize) we should change the default
 		 * row/col size instead.  However, it is unclear how to handle
@@ -576,12 +582,12 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 			if (is_cols) {
 				rles->state.size_pts = sheet_col_get_default_size_pts (sheet);
 				sheet_col_set_default_size_pixels (sheet, new_size);
-				colrow_foreach (&sheet->cols, 0, gnm_sheet_get_last_col (sheet),
+				col_row_collection_foreach (&sheet->cols, 0, gnm_sheet_get_last_col (sheet),
 					&cb_set_colrow_size, &closure);
 			} else {
 				rles->state.size_pts = sheet_row_get_default_size_pts (sheet);
 				sheet_row_set_default_size_pixels (sheet, new_size);
-				colrow_foreach (&sheet->rows, 0, gnm_sheet_get_last_row (sheet),
+				col_row_collection_foreach (&sheet->rows, 0, gnm_sheet_get_last_row (sheet),
 					&cb_set_colrow_size, &closure);
 			}
 
@@ -689,7 +695,7 @@ colrow_set_states (Sheet *sheet, gboolean is_cols,
 				cri->hard_size = state->hard_size;
 				cri->size_pts = state->size_pts;
 				colrow_compute_pixels_from_pts (cri, sheet, is_cols, scale);
-				colrow_set_outline (cri, state->outline_level,
+				col_row_info_set_outline (cri, state->outline_level,
 					state->is_collapsed);
 			}
 		}
@@ -843,7 +849,7 @@ cb_autofit_row (GnmColRowIter const *iter, gpointer data_)
  * colrow_autofit:
  * @sheet: the sheet to change
  * @range: the range to consider
- * @is_cols: TRUE for columns, FALSE for rows.
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  * @ignore_strings: Don't consider cells with string values.
  * @min_current: Don't shrink below current size.
  * @min_default: Don't shrink below default size.
@@ -894,7 +900,7 @@ colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
 	   stuff that caches sub-computations see the whole thing instead
 	   of clearing between cells.  */
 	gnm_app_recalc_start ();
-	colrow_foreach (crs, a, b, handler, &data);
+	col_row_collection_foreach (crs, a, b, handler, &data);
 	gnm_app_recalc_finish ();
 }
 
@@ -1052,7 +1058,7 @@ colrow_get_visiblity_toggle (SheetView *sv, gboolean is_cols,
 }
 
 /*
- * colrow_set_visibility_list :
+ * colrow_set_visibility_list:
  *
  * This is the high level command that is wrapped by undo and redo.
  * It should not be called by other commands.
@@ -1080,24 +1086,24 @@ colrow_set_visibility_list (Sheet *sheet, gboolean is_cols,
 }
 
 /**
- * colrow_set_outline :
- * @cri: the col/row to tweak
+ * col_row_info_set_outline:
+ * @cri: #ColRowInfo to tweak
  * @outline_level:
  * @is_collapsed:
  *
  * Adjust the outline state of a col/row
  */
 void
-colrow_set_outline (ColRowInfo *cri, int outline_level, gboolean is_collapsed)
+col_row_info_set_outline (ColRowInfo *cri, int outline_level, gboolean is_collapsed)
 {
 	g_return_if_fail (outline_level >= 0);
 
-	cri->is_collapsed = (is_collapsed != 0);  /* be anal */
+	cri->is_collapsed = !!is_collapsed;
 	cri->outline_level = outline_level;
 }
 
 /**
- * colrow_find_outline_bound :
+ * colrow_find_outline_bound:
  *
  * find the next/prev col/row at the designated depth starting from the
  * supplied @index.
@@ -1226,7 +1232,7 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 }
 
 /**
- * colrow_get_global_outline :
+ * colrow_get_global_outline:
  * @sheet:
  * @is_cols:
  * @depth:
@@ -1293,7 +1299,7 @@ colrow_get_global_outline (Sheet const *sheet, gboolean is_cols, int depth,
 }
 
 void
-colrow_resize (ColRowCollection *infos, int size)
+col_row_collection_resize (ColRowCollection *infos, int size)
 {
 	int end_idx = COLROW_SEGMENT_INDEX (size);
 	int i = infos->info->len - 1;

@@ -248,13 +248,13 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 
 	/* include collapsed or hidden rows */
 	for (i = maxrows ; i-- > extent->end.row ; )
-		if (!colrow_is_empty (sheet_row_get (sheet, i))) {
+		if (!col_row_info_is_empty (sheet_row_get (sheet, i))) {
 			extent->end.row = i;
 			break;
 		}
 	/* include collapsed or hidden rows */
 	for (i = maxcols ; i-- > extent->end.col ; )
-		if (!colrow_is_empty (sheet_col_get (sheet, i))) {
+		if (!col_row_info_is_empty (sheet_col_get (sheet, i))) {
 			extent->end.col = i;
 			break;
 		}
@@ -3984,7 +3984,7 @@ excel_write_colinfos (BiffPut *bp, ExcelWriteSheet *esheet)
 	for (i = 1; i < cols; i++) {
 		ci = sheet_col_get (esheet->gnum_sheet, i);
 		new_xf = esheet->col_xf [i];
-		if (xf != new_xf || !colrow_equal (info, ci)) {
+		if (xf != new_xf || !col_row_info_equal (info, ci)) {
 			excel_write_COLINFO (bp, esheet, info, first_col, i-1, xf);
 			info	  = ci;
 			xf	  = new_xf;
