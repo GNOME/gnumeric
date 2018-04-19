@@ -2085,7 +2085,7 @@ gnm_style_get_cond_style (GnmStyle const *style, int ix)
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_CONDITIONS), NULL);
 	g_return_val_if_fail (style->cond_styles != NULL, NULL);
 
-	g_return_val_if_fail (ix < 0 || (unsigned)ix > style->cond_styles->len, NULL);
+	g_return_val_if_fail (ix >= 0 && (unsigned)ix < style->cond_styles->len, NULL);
 
 	return g_ptr_array_index (style->cond_styles, ix);
 }

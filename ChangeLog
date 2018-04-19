@@ -1,5 +1,8 @@
 2018-04-18  Morten Welinder  <terra@gnome.org>
 
+	* src/mstyle.c (gnm_style_get_cond_style): Flip reversed
+	pre-condition.
+
 	* src/gui-clipboard.c (gnm_x_claim_clipboard): Offer biff8,
 	including LO's weird name for that.  The don't seem to take
 	"Biff8" and they don't seem to take Citrix' variant either.
