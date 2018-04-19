@@ -76,7 +76,7 @@ expr_name_validate_a1 (const char *name)
  * expr_name_validate:
  * @name: tentative name
  *
- * returns TRUE if the given name is valid, FALSE otherwise.
+ * returns %TRUE if the given name is valid, %FALSE otherwise.
  */
 gboolean
 expr_name_validate (const char *name)
@@ -203,7 +203,7 @@ struct _GnmNamedExprCollection {
 /**
  * gnm_named_expr_collection_new:
  *
- * Returns: (transfer full): the newly allocated #GnmNamedExprCollection/
+ * Returns: (transfer full): the newly allocated #GnmNamedExprCollection.
  **/
 GnmNamedExprCollection *
 gnm_named_expr_collection_new (void)
@@ -560,10 +560,11 @@ expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 
 /**
  * expr_name_lookup:
- * @pos:
- * @name:
+ * @pos: #GnmParsePos identifying a #Sheet or a #Workbook.
+ * @name: name of #GnmNamedExpr to look up.
  *
- * lookup but do not reference a named expression.
+ * Return: (transfer none) (nullable): #GnmNamedExpr named @name in the scope
+ * given by @pos; %NULL if no such #GnmNamedExpr exists.
  */
 GnmNamedExpr *
 expr_name_lookup (GnmParsePos const *pp, char const *name)
@@ -646,9 +647,16 @@ cb_name_loop_check (GnmExpr const *expr, GnmExprWalk *data)
 	return NULL;
 }
 
-/*
- * NB. if we already have a circular reference in addition
- * to this one we are checking we will come to serious grief.
+/**
+ * expr_name_check_for_loop:
+ * @name: tentative name
+ * @texpr: tentative expression
+ *
+ * Returns: %TRUE if defining the tentative name would cause a circular
+ * name reference.
+ *
+ * NOTE: if we already have a circular reference beforehand, we will come
+ * to serious grief.
  */
 gboolean
 expr_name_check_for_loop (char const *name, GnmExprTop const *texpr)
@@ -840,7 +848,7 @@ gnm_named_expr_get_type (void)
 }
 
 /**
- * expr_name_remove :
+ * expr_name_remove:
  * @nexpr:
  *
  * Remove a @nexpr from its container and deactivate it.
@@ -872,7 +880,7 @@ expr_name_name (GnmNamedExpr const *nexpr)
 }
 
 /**
- * expr_name_set_name :
+ * expr_name_set_name:
  * @nexpr: the named expression
  * @new_name: the new name of the expression
  *
@@ -927,11 +935,12 @@ expr_name_set_name (GnmNamedExpr *nexpr,
 
 
 /**
- * expr_name_as_string :
- * @nexpr:
- * @pp: optionally null.
+ * expr_name_as_string:
+ * @nexpr: A #GnmNamedExpr
+ * @pp: (nullable): Position where name was defined.
+ * @fmt: #GnmConventions describing how to render @nexpr
  *
- * returns a string that the caller needs to free.
+ * Returns: (transfer full): The rendering of @nexpr given convention @fmt.
  */
 char *
 expr_name_as_string (GnmNamedExpr const *nexpr, GnmParsePos const *pp,
@@ -942,6 +951,14 @@ expr_name_as_string (GnmNamedExpr const *nexpr, GnmParsePos const *pp,
 	return gnm_expr_top_as_string (nexpr->texpr, pp, fmt);
 }
 
+/**
+ * expr_name_eval:
+ * @nexpr: A #GnmNamedExpr
+ * @pos: Position where evaluation takes place
+ * @flags: #GnmExprEvalFlags flags describing context.
+ *
+ * Returns: (transfer full): The resulting value.
+ */
 GnmValue *
 expr_name_eval (GnmNamedExpr const *nexpr, GnmEvalPos const *pos,
 		GnmExprEvalFlags flags)
@@ -1014,11 +1031,11 @@ expr_name_set_pos (GnmNamedExpr *nexpr, GnmParsePos const *pp)
 }
 
 /**
- * expr_name_set_expr :
- * @nexpr: the named expression
- * @texpr: the new content
+ * expr_name_set_expr:
+ * @nexpr: #GnmNamedExpr to change
+ * @texpr: (transfer full) (nullable): the new contents
  *
- * Unrefs the current content of @nexpr and absorbs a ref to @new_expr.
+ * Set the content of @nexpr to @texpr.
  **/
 void
 expr_name_set_expr (GnmNamedExpr *nexpr, GnmExprTop const *texpr)
@@ -1084,7 +1101,7 @@ expr_name_remove_dep (GnmNamedExpr *nexpr, GnmDependent *dep)
 }
 
 /**
- * expr_name_is_placeholder :
+ * expr_name_is_placeholder:
  * @ne:
  *
  * Returns TRUE if @ne is a placeholder for an unknown name
@@ -1147,7 +1164,7 @@ cb_expr_name_in_use (G_GNUC_UNUSED gconstpointer key,
 }
 
 /**
- * expr_name_in_use :
+ * expr_name_in_use:
  * @nexpr: A named expression.
  *
  * Returns: TRUE, if the named expression appears to be in use.  This is an
@@ -1201,11 +1218,13 @@ expr_name_cmp_by_name (GnmNamedExpr const *a, GnmNamedExpr const *b)
 }
 
 /**
- * sheet_names_check :
- * @sheet:
- * @r:
+ * sheet_names_check:
+ * @sheet: #Sheet
+ * @r: #GnmRange
  *
- * Returns a constant string if @sheet!@r is the target of a named range.
+ * Returns: (transfer none) (nullable): The name of a #GnmNamedExpr if
+ * @sheet!@r is the target of a named range.
+ *
  * Preference is given to workbook scope over sheet.
  **/
 char const *

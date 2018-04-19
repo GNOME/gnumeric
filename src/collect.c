@@ -602,14 +602,19 @@ collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
 
 /**
  * float_range_function:
- * @argc:
- * @argv:
- * @ei:
- * @func: (scope call):
- * @flags:
- * @func_error:
+ * @argc: number of arguments
+ * @argv: (in) (array length=argc): function arguments
+ * @ei: #GnmFuncEvalInfo describing evaluation context
+ * @func: (scope call): implementation function
+ * @flags: #CollectFlags flags describing the collection and interpretation
+ * of values from @argv.
+ * @func_error: A #GnmStdError to use to @func indicates an error.
  *
- * Returns: (transfer full):
+ * This implements a Gnumeric sheet function that operates on a list of
+ * numbers.  This function collects the arguments and uses @func to do
+ * the actual computation.
+ *
+ * Returns: (transfer full): Function result or error value.
  **/
 GnmValue *
 float_range_function (int argc, GnmExprConstPtr const *argv,
@@ -641,17 +646,14 @@ float_range_function (int argc, GnmExprConstPtr const *argv,
 
 /**
  * gnm_slist_sort_merge:
- * @list_1: (element-type void): a sorted list of ints with no duplicates
- * @list_2: (element-type void): another one
+ * @list_1: (element-type void) (transfer container): a sorted list of
+ * unsigned integers with no duplicates.
+ * @list_2: (element-type void) (transfer container): another one
  *
- * gnm_slist_sort_merge returns a new sorted list with all elements
- * from both @list_1 and @list_2. Duplicates are destroyed. @list1 and @list2
- * are not anymore valid afterwards since their elements are in the new list
- * or have been destroyed, in case of duplicates.
+ * gnm_slist_sort_merge merges two lists of unsigned integers.
  *
- * Returns: (element-type void) (transfer container): the new list.
+ * Returns: (element-type void) (transfer container): the mergedlist.
  **/
-
 GSList *
 gnm_slist_sort_merge (GSList *l1,
 		      GSList *l2)
@@ -684,9 +686,13 @@ gnm_slist_sort_merge (GSList *l1,
 
 /**
  * gnm_strip_missing:
- * @data:
- * @missing: (element-type void):
+ * @data: (inout) (array length=n): Array
+ * @n: (inout): Number of elements in @data.
+ * @missing: (element-type void): indices of elements to remove in increasing
+ * order.
  *
+ * This removes the data elements from @data whose indices are given by
+ * @missing.  @n is the number of elements and it updated upon return.
  **/
 void
 gnm_strip_missing (gnm_float *data, int *n, GSList *missing)
@@ -756,21 +762,25 @@ collect_float_pairs_ce (GnmValue const *vx, GnmValue const *vy,
 }
 
 /**
- * collect_float_pairs:
+ * collect_float_pairs: (skip)
  * @v0: value describing first data range
  * @v1: value describing second data range
  * @ep: evaluation position
  * @flags: flags describing how to handle value types
- * @xs0: return location for first data vector
- * @xs1: return location for second data vector
- * @n: return location for number of data points
- * @constp: optional return location for an indicator of the return vectors
- * being owned by this function as opposed to the normal copy owned by the
- * caller.
+ * @xs0: (out) (array length=n): return location for first data vector
+ * @xs1: (out) (array length=n): return location for second data vector
+ * @n: (out): return location for number of data points
+ * @constp: (out) (optional): Return location for a flag describing who own
+ * the vectors returned in @xs0 and @xs1.  If present and %TRUE, the
+ * resulting data vectors in @xs0 and @xs1 are not owned by the caller.
+ * If not-present or %FALSE, the callers owns and must free the result.
  *
  * If @n is not positive upon return, no data has been allocated.
- * If @n is negative upon return, the two ranges had different
- * sizes.
+ * If @n is negative upon return, the two ranges had different sizes.
+ *
+ * Note: introspection cannot handle this functions parameter mix.
+ *
+ * Returns: (transfer full) (nullable): Error value.
  */
 GnmValue *
 collect_float_pairs (GnmValue const *vx, GnmValue const *vy,
@@ -866,14 +876,20 @@ collect_float_pairs (GnmValue const *vx, GnmValue const *vy,
 
 /**
  * float_range_function2d:
- * @val0:
- * @val1:
- * @ei:
- * @func: (scope call):
- * @flags:
- * @func_error:
+ * @val0: First range
+ * @val1: Second range
+ * @ei: #GnmFuncEvalInfo describing evaluation context
+ * @func: (scope call): implementation function
+ * @flags: #CollectFlags flags describing the collection and interpretation
+ * of values from @val0 and @val1.
+ * @func_error: A #GnmStdError to use to @func indicates an error.
+ * @data: user data for @func
  *
- * Returns: (transfer full):
+ * This implements a Gnumeric sheet function that operates on a matched
+ * pair of ranges.  This function collects the arguments and uses @func to do
+ * the actual computation.
+ *
+ * Returns: (transfer full): Function result or error value.
  **/
 GnmValue *
 float_range_function2d (GnmValue const *val0, GnmValue const *val1,
@@ -911,14 +927,19 @@ float_range_function2d (GnmValue const *val0, GnmValue const *val1,
 
 /**
  * float_range_function2:
- * @val0:
- * @val1:
- * @ei:
- * @func: (scope call):
- * @flags:
- * @func_error:
+ * @val0: First range
+ * @val1: Second range
+ * @ei: #GnmFuncEvalInfo describing evaluation context
+ * @func: (scope call): implementation function
+ * @flags: #CollectFlags flags describing the collection and interpretation
+ * of values from @val0 and @val1.
+ * @func_error: A #GnmStdError to use to @func indicates an error.
  *
- * Returns: (transfer full):
+ * This implements a Gnumeric sheet function that operates on a matched
+ * pair of ranges.  This function collects the arguments and uses @func to do
+ * the actual computation.
+ *
+ * Returns: (transfer full): Function result or error value.
  **/
 GnmValue *
 float_range_function2 (GnmValue const *val0, GnmValue const *val1,
@@ -970,21 +991,20 @@ collect_strings_free (GPtrArray *data)
 	g_ptr_array_free (data, TRUE);
 }
 
-/*
+/**
  * collect_strings:
+ * @argc: number of arguments
+ * @argv: (in) (array length=argc): function arguments
+ * @ep: Evaluation position
+ * @flags: #CollectFlags flags describing the collection and interpretation
+ * of values from @argv.
+ * @error: (out): Error return value
  *
- * exprlist:       List of expressions to evaluate.
- * ep:             Current location (for resolving relative cells).
- * flags:          0 or COLLECT_IGNORE_BLANKS
- *
- * Return value:
- *   NULL in case of error, error will be set
- *   Non-NULL in case of success.
- *
- * Evaluate a list of expressions and return the result as a GPtrArray of
+ * Evaluate a list of expressions and return the result as a #GPtrArray of
  * strings.
+ *
+ * Returns: (transfer full) (nullable) (element-type utf8): array of strings.
  */
-
 static GPtrArray *
 collect_strings (int argc, GnmExprConstPtr const *argv,
 		 GnmEvalPos const *ep, CollectFlags flags,
@@ -1023,14 +1043,19 @@ collect_strings (int argc, GnmExprConstPtr const *argv,
 
 /**
  * string_range_function:
- * @argc:
- * @argv:
- * @ei:
- * @func: (scope call):
- * @flags:
- * @func_error:
+ * @argc: number of arguments
+ * @argv: (in) (array length=argc): function arguments
+ * @ei: #GnmFuncEvalInfo describing evaluation context
+ * @func: (scope call): implementation function
+ * @flags: #CollectFlags flags describing the collection and interpretation
+ * of values from @argv.
+ * @func_error: A #GnmStdError to use to @func indicates an error.
  *
- * Returns: (transfer full):
+ * This implements a Gnumeric sheet function that operates on a list of
+ * strings.  This function collects the arguments and uses @func to do
+ * the actual computation.
+ *
+ * Returns: (transfer full): Function result or error value.
  **/
 GnmValue *
 string_range_function (int argc, GnmExprConstPtr const *argv,
