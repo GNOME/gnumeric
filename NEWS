@@ -15,6 +15,7 @@ Morten:
 	* Fix paste from LibreOffice.
 	* Fix paste to LibreOffice -- use Biff8.  [#795280]
 	* Allow inter-process paste-special.  [#346630]
+	* Fix ssconvert --merge-to problem with names.  [#795408]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.39

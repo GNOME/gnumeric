@@ -343,21 +343,14 @@ suggest_size (GSList *wbs, int *csuggest, int *rsuggest)
 }
 
 static void
-cb_fixup_name_wb (G_GNUC_UNUSED gconstpointer key,
+cb_collect_names (G_GNUC_UNUSED gconstpointer key,
 		  GnmNamedExpr *nexpr,
-		  Workbook *wb)
+		  GSList **plist)
 {
-	GnmParsePos newpos = nexpr->pos;
-
 	if (!expr_name_is_active (nexpr))
 		return;
-
-	if (nexpr->pos.wb) {
-		newpos.wb = wb;
-		expr_name_set_pos (nexpr, &newpos);
-	}
+	*plist = g_slist_prepend (*plist, expr_name_ref (nexpr));
 }
-
 
 /* Append the sheets of workbook wb2 to workbook wb.  Resize sheets
    if necessary.  Fix workbook links in sheet if necessary.
@@ -409,13 +402,25 @@ merge_single (Workbook *wb, Workbook *wb2,
 		GOUndo *undo;
 		char *sheet_name;
 		gboolean err;
+		GSList *names = NULL;
 
 		g_object_ref (sheet);
 		workbook_sheet_delete (sheet);
 		sheet->workbook = wb;
 
 		/* Fix names that reference the old workbook */
-		gnm_sheet_foreach_name (sheet, (GHFunc)cb_fixup_name_wb, wb);
+		gnm_sheet_foreach_name (sheet, (GHFunc)cb_collect_names, &names);
+		while (names) {
+			GnmNamedExpr *nexpr = names->data;
+			names = g_slist_delete_link (names, names);
+
+			if (nexpr->pos.wb) {
+				GnmParsePos newpos = nexpr->pos;
+				newpos.wb = wb;
+				expr_name_set_pos (nexpr, &newpos);
+			}
+			expr_name_unref (nexpr);
+		}
 
 		undo = gnm_sheet_resize (sheet, cmax, rmax, cc, &err);
 		if (undo)

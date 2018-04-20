@@ -1,5 +1,8 @@
 2018-04-20  Morten Welinder  <terra@gnome.org>
 
+	* src/ssconvert.c (merge_single): Avoid a
+	hash-changed-while-iterating problem.  [#795408]
+
 	* src/xml-sax-write.c (xml_write_cell_and_position): In the
 	clipboard case, write result values too.
 
