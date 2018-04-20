@@ -299,6 +299,13 @@ xml_sax_attr_range (xmlChar const * const *attrs, GnmRange *res)
 
 /*****************************************************************************/
 
+typedef enum {
+	READ_FULL_FILE,
+	READ_CLIPBOARD,
+	READ_STYLE
+} ReadFileWhat;
+
+
 typedef struct {
 	GsfXMLIn base;
 
@@ -349,6 +356,7 @@ typedef struct {
 	int expr_id, array_rows, array_cols;
 	int value_type;
 	GOFormat *value_fmt;
+	char *value_result;
 
 	GnmScenario *scenario;
 	GnmValue *scenario_range;
@@ -1946,6 +1954,7 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	int value_type = -1;
 	GOFormat *value_fmt = NULL;
 	int expr_id = -1;
+	const char *value_result = NULL;
 
 	g_return_if_fail (state->cell.row == -1);
 	g_return_if_fail (state->cell.col == -1);
@@ -1953,6 +1962,7 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->array_cols == -1);
 	g_return_if_fail (state->expr_id == -1);
 	g_return_if_fail (state->value_type == -1);
+	g_return_if_fail (state->value_result == NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_int (attrs, "Col", &col)) ;
@@ -1961,11 +1971,18 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_int (attrs, "Rows", &rows)) ;
 		else if (gnm_xml_attr_int (attrs, "ExprID", &expr_id)) ;
 		else if (gnm_xml_attr_int (attrs, "ValueType", &value_type)) ;
-		else if (attr_eq (attrs[0], "ValueFormat"))
+		else if (attr_eq (attrs[0], "Value"))
+			value_result = CXML2C (attrs[1]);
+		else if (attr_eq (attrs[0], "ValueFormat")) {
+			if (value_fmt) go_format_unref (value_fmt);
 			value_fmt = make_format (CXML2C (attrs[1]));
-		else
+		} else
 			unknown_attr (xin, attrs);
 	}
+
+	// Ignore value_result absent a type
+	if (value_type == -1)
+		value_result = NULL;
 
 	XML_CHECK2 (col >= 0 && col < gnm_sheet_get_max_cols (sheet),
 		    go_format_unref (value_fmt));
@@ -1986,6 +2003,7 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	state->expr_id = expr_id;
 	state->value_type = value_type;
 	state->value_fmt = value_fmt;
+	state->value_result = g_strdup (value_result);
 }
 
 /*
@@ -2087,6 +2105,11 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmCell *cell = NULL; /* Regular case */
 	GnmCellCopy *cc = NULL; /* Clipboard case */
 	GnmCellRegion *cr = state->clipboard;
+	GnmExprTop const *texpr = NULL;
+	GnmValue *v = NULL;
+	char const *content = xin->content->str;
+	gboolean has_contents = (xin->content->len > 0);
+	const char *expr_start = gnm_expr_char_start_p (content);
 
 	int const col = state->cell.col;
 	int const row = state->cell.row;
@@ -2096,6 +2119,7 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	int const value_type = state->value_type;
 	gboolean const seen_contents = state->seen_cell_contents;
 	GOFormat *value_fmt = state->value_fmt;
+	char *value_result = state->value_result;
 
 	/* Clean out the state before any error checking */
 	state->cell.row = state->cell.col = -1;
@@ -2103,6 +2127,7 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->expr_id = -1;
 	state->value_type = -1;
 	state->value_fmt = NULL;
+	state->value_result = NULL;
 	state->seen_cell_contents = strcmp (xin->node->id, "CELL_CONTENT") == 0;
 
 	if (seen_contents)
@@ -2129,87 +2154,31 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		parse_pos_init_cell (&pos, cell);
 	}
 
+	// ----------------------------------------
+
 	is_post_52_array = (array_cols > 0) && (array_rows > 0);
+	if (is_post_52_array && has_contents) {
+		// Array formula
+		g_return_if_fail (content[0] == '=');
+		xml_cell_set_array_expr (state, cell, cc, content + 1,
+					 array_cols, array_rows);
+		goto done;
+	}
 
-	if (xin->content->len > 0) {
-		char const * content = xin->content->str;
+	// ----------------------------------------
 
-		if (is_post_52_array) {
-			g_return_if_fail (content[0] == '=');
+	if (has_contents && state->version < GNM_XML_V3 &&
+	    !xml_not_used_old_array_spec (state, cell, cc, content)) {
+		// Very old array syntax -- irrelevant
+		goto done;
+	}
 
-			xml_cell_set_array_expr (state, cell, cc, content+1,
-						 array_cols, array_rows);
-		} else if (state->version >= GNM_XML_V3 ||
-			   xml_not_used_old_array_spec (state, cell, cc, content)) {
-			if (value_type > 0) {
-				GnmValue *v = value_new_from_string (value_type, content, value_fmt, FALSE);
-				if (v == NULL) {
-					char *msg = g_strdup_printf
-						("Parsing \"%s\" as type 0x%x",
-						 content, value_type);
-					xml_sax_barf (G_STRFUNC, msg);
-					g_free (msg);
-					v = value_new_string (content);
-				}
-				if (cell)
-					gnm_cell_set_value (cell, v);
-				else
-					cc->val = v;
-			} else {
-				const char *expr_start = gnm_expr_char_start_p (content);
-				if (expr_start && *expr_start) {
-					GnmParseError perr;
-					GnmExprTop const *texpr;
+	// ----------------------------------------
 
-					parse_error_init (&perr);
-					texpr = gnm_expr_parse_str (expr_start,
-								    &pos,
-								    GNM_EXPR_PARSE_DEFAULT,
-								    state->convs,
-								    &perr);
-					if (!texpr) {
-						g_warning ("Unparsable expression for %s: %s (%s)\n",
-							   cell ? cell_name (cell) : "-",
-							   content,
-							   perr.err->message);
-						texpr = gnm_expr_top_new_constant (value_new_string (expr_start));
-					}
-					if (cell) {
-						gnm_cell_set_expr (cell, texpr);
-						gnm_expr_top_unref (texpr);
-					} else if (texpr)
-						cc->texpr = texpr;
-					parse_error_free (&perr);
-				} else if (cell)
-					gnm_cell_set_text (cell, content);
-				else
-					cc->val = value_new_string (content);
-			}
-		}
-
-		if (expr_id > 0) {
-			gpointer id = GINT_TO_POINTER (expr_id);
-			GnmExprTop const *texpr =
-				g_hash_table_lookup (state->expr_map, id);
-			if (texpr == NULL) {
-				if (cc)
-					texpr = cc->texpr;
-				else if (gnm_cell_has_expr (cell)) {
-					texpr = cell->base.texpr;
-				} else
-					g_warning ("XML-IO : Shared expression with no expression ??");
-				if (texpr) {
-					gnm_expr_top_ref (texpr);
-					g_hash_table_insert (state->expr_map,
-							     id,
-							     (gpointer)texpr);
-				}
-			} else if (!is_post_52_array)
-				g_warning ("XML-IO : Duplicate shared expression");
-		}
-	} else if (expr_id > 0) {
-		GnmExprTop const *texpr = g_hash_table_lookup (state->expr_map,
-			GINT_TO_POINTER (expr_id));
+	if (!has_contents && expr_id > 0) {
+		// Re-use of expression id
+		texpr = g_hash_table_lookup (state->expr_map,
+					     GINT_TO_POINTER (expr_id));
 
 		if (!texpr) {
 			char *msg = g_strdup_printf
@@ -2224,33 +2193,91 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					     GINT_TO_POINTER (expr_id),
 					     (gpointer)texpr);
 		}
-
-		if (cell)
-			gnm_cell_set_expr (cell, texpr);
-		else {
-			cc->texpr = texpr;
-			gnm_expr_top_ref (texpr);
-		}
-	} else if (is_new_cell) {
-		GnmValue *v;
-
-		/*
-		 * Only set to empty if this is a new cell.
-		 * If it was created by a previous array
-		 * we do not want to erase it.
-		 */
-		v = value_new_from_string (value_type, "", NULL, FALSE);
-		if (!v) {
-			xml_sax_barf (G_STRFUNC, "v != NULL");
-			v = value_new_empty ();
-		}
-
-		gnm_cell_set_value (cell, v);
-	} else if (cr) {
-		cc->val = value_new_empty ();
+		gnm_expr_top_ref (texpr);
+		goto assign_and_done;
 	}
 
+	// ----------------------------------------
+
+	if (value_type > 0) {
+		// Cell value
+		gboolean from_content = (value_result == NULL);
+		const char *txt = from_content ? content : value_result;
+		v = value_new_from_string (value_type, txt, value_fmt, FALSE);
+		if (v == NULL) {
+			char *msg = g_strdup_printf
+				("Parsing \"%s\" as type 0x%x",
+				 txt, value_type);
+			xml_sax_barf (G_STRFUNC, msg);
+			g_free (msg);
+			v = value_new_string (txt);
+		}
+
+		// If we consumed the contents as a value, then it's not
+		// an expression.
+		if (from_content)
+			expr_start = NULL;
+		else {
+			if (value_fmt)
+				value_set_fmt (v, value_fmt);
+		}
+	}
+
+	// ----------------------------------------
+
+	if (expr_start && *expr_start) {
+		GnmParseError perr;
+
+		parse_error_init (&perr);
+		texpr = gnm_expr_parse_str (expr_start,
+					    &pos,
+					    GNM_EXPR_PARSE_DEFAULT,
+					    state->convs,
+					    &perr);
+		// Don't warn in the clipboard case.
+		// It's probably an unknown sheet ref
+		if (!texpr && !cr)
+			g_warning ("Unparsable expression for %s: %s (%s)\n",
+				   cell ? cell_name (cell) : "-",
+				   content,
+				   perr.err->message);
+		if (!texpr)
+			texpr = gnm_expr_top_new_constant (value_new_string (expr_start));
+		parse_error_free (&perr);
+
+		if (expr_id > 0) {
+			gpointer id = GINT_TO_POINTER (expr_id);
+			GnmExprTop const *texpr0 =
+				g_hash_table_lookup (state->expr_map, id);
+			if (!texpr0) {
+				gnm_expr_top_ref (texpr);
+				g_hash_table_insert (state->expr_map,
+						     id,
+						     (gpointer)texpr);
+			} else if (!is_post_52_array)
+				g_warning ("XML-IO : Duplicate shared expression");
+		}
+	}
+
+assign_and_done:
+	if (!v)
+		v = value_new_empty ();
+	if (cell) {
+		// Regular case
+		if (texpr) {
+			gnm_cell_set_expr_and_value (cell, texpr, v, TRUE);
+			gnm_expr_top_unref (texpr);
+		} else
+			gnm_cell_set_value (cell, v);
+	} else {
+		// Clipboard case
+		cc->texpr = texpr;
+		cc->val = v;
+	}
+
+done:
 	go_format_unref (value_fmt);
+	g_free (value_result);
 }
 
 static void
@@ -3354,6 +3381,7 @@ read_file_init_state (XMLSaxParseState *state,
 	state->expr_id = -1;
 	state->value_type = -1;
 	state->value_fmt = NULL;
+	state->value_result = NULL;
 	state->scenario = NULL;
 	state->scenario_range = NULL;
 	state->filter = NULL;
@@ -3410,11 +3438,6 @@ read_file_free_state (XMLSaxParseState *state, gboolean self)
 	if (self)
 		g_free (state);
 }
-
-typedef enum {
-	READ_FULL_FILE,
-	READ_CLIPBOARD
-} ReadFileWhat;
 
 static gboolean
 read_file_common (ReadFileWhat what, XMLSaxParseState *state,

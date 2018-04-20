@@ -72,6 +72,9 @@ typedef struct {
 	GHashTable	   *expr_map;
 	GString		   *cell_str;   /* Scratch pad.  */
 
+	// Do we write result values?  For now this is clipboard only
+	gboolean            write_value_result;
+
 	GsfXMLOut *output;
 } GnmOutputXML;
 
@@ -870,11 +873,12 @@ xml_write_cell_and_position (GnmOutputXML *state,
 	}
 
 	if (write_contents) {
+		gboolean write_value = !texpr || state->write_value_result;
 		GString *str = state->cell_str;
 
 		g_string_truncate (str, 0);
 
-		if (!texpr) {
+		if (write_value) {
 			if (val != NULL) {
 				gsf_xml_out_add_int (state->output, "ValueType", val->v_any.type);
 				if (VALUE_FMT (val) != NULL) {
@@ -882,10 +886,16 @@ xml_write_cell_and_position (GnmOutputXML *state,
 					gsf_xml_out_add_cstr (state->output, "ValueFormat", fmt);
 				}
 				value_get_as_gstring (val, str, state->convs);
+				if (texpr) {
+					gsf_xml_out_add_cstr (state->output, "Value", str->str);
+					g_string_truncate (str, 0);
+				}
 			} else {
 				g_warning ("%s has no value ?", cellpos_as_string (&pp->eval));
 			}
-		} else {
+		}
+
+		if (texpr) {
 			GnmConventionsOut out;
 			out.accum = str;
 			out.pp    = pp;
@@ -1489,6 +1499,7 @@ gnm_xml_file_save_full (G_GNUC_UNUSED GOFileSaver const *fs,
 	state.convs	= gnm_xml_io_conventions ();
 	state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state.cell_str  = g_string_new (NULL);
+	state.write_value_result = FALSE;
 	go_doc_init_write (GO_DOC (state.wb), state.output);
 
 	locale = gnm_push_C_locale ();
@@ -1588,8 +1599,7 @@ cb_xml_write_cell_region_cells (GnmCellCopy *cc,
  * gnm_cellregion_to_xml:
  * @cr: the content to store.
  *
- * Caller is responsible for free-ing the result.
- * Returns: (transfer full): NULL on error
+ * Returns: (transfer full): %NULL on error
  **/
 GsfOutputMemory *
 gnm_cellregion_to_xml (GnmCellRegion const *cr)
@@ -1611,6 +1621,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	state.state.convs = gnm_xml_io_conventions ();
 	state.state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state.state.cell_str = g_string_new (NULL);
+	state.state.write_value_result = TRUE;
 
 	locale = gnm_push_C_locale ();
 	if (cr->origin_sheet) {

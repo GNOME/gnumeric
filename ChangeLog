@@ -1,3 +1,11 @@
+2018-04-20  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_cell_and_position): In the
+	clipboard case, write result values too.
+
+	* src/xml-sax-read.c (xml_sax_cell_content): Rework this rat's
+	nest of conditionals.  Accept values for expressions.
+
 2018-04-18  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (gnm_style_get_cond_style): Flip reversed
