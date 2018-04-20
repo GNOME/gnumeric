@@ -927,12 +927,17 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		GsfOutputMemory *output  = gnm_cellregion_to_xml (clipboard);
 		if (output) {
 			gsf_off_t size = gsf_output_size (GSF_OUTPUT (output));
+			gconstpointer data = gsf_output_memory_get_bytes (output);
+			if (gnm_debug_flag ("clipboard-dump")) {
+				g_file_set_contents ("paste-from-gnumeric.dat",
+						     data, size, NULL);
+			}
 			if (debug_clipboard ())
 				g_printerr ("clipboard .gnumeric of %d bytes\n",
 					   (int)size);
 			gtk_selection_data_set
 				(selection_data, target, 8,
-				 gsf_output_memory_get_bytes (output),
+				 data,
 				 size);
 			g_object_unref (output);
 			to_gnumeric = TRUE;
