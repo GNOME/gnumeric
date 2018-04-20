@@ -290,7 +290,7 @@ paste_cell (int target_col, int target_row,
 						 value_dup (src->val), TRUE);
 			if (NULL != relo)
 				gnm_expr_top_unref (relo);
-		} else {
+		} else if (src->val) {
 			GnmValue *newval = NULL;
 			GnmValue const *oldval = src->val;
 

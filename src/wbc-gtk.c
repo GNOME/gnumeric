@@ -1532,7 +1532,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	}
 	if (MS_PASTE_SPECIAL & flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "EditPasteSpecial",
-			!gnm_app_clipboard_is_empty () &&
+			// Inter-process paste special is now allowed
 			!gnm_app_clipboard_is_cut () &&
 			!edit_object);
 	if (MS_PRINT_SETUP & flags)

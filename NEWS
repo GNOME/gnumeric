@@ -14,6 +14,7 @@ Morten:
 	* Avoid most punting for object properties.
 	* Fix paste from LibreOffice.
 	* Fix paste to LibreOffice -- use Biff8.  [#795280]
+	* Allow inter-process paste-special.  [#346630]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.39
