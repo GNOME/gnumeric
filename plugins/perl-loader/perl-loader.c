@@ -125,9 +125,10 @@ static const GnmFuncHelp help_template[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static GnmFuncHelp *default_gnm_help(const char *name)
+static GnmFuncHelp *
+default_gnm_help(const char *name)
 {
-	GnmFuncHelp *help = g_new (GnmFuncHelp, 3);
+	GnmFuncHelp *help = g_new0 (GnmFuncHelp, 3);
 	if (help) {
 		int i;
 		for (i = 0; i < 3; i++)
@@ -141,12 +142,11 @@ static GnmFuncHelp *default_gnm_help(const char *name)
 static GnmFuncHelp *
 make_gnm_help (const char *name, int count, SV **SP)
 {
-	gchar *help_perl_func = g_strconcat ("help_", name, NULL);
 	GnmFuncHelp *help = NULL;
 	/* We assume that the description is a Perl array of the form
 	   (key, text, key, text, ...). */
 	int n = count / 2, m = 0, k, type = GNM_FUNC_HELP_END;
-	GnmFuncHelp *helptmp = g_new (GnmFuncHelp, n + 1);
+	GnmFuncHelp *helptmp = g_new0 (GnmFuncHelp, n + 1);
 	if (count % 2) POPs, count--;
 	for (k = n; k-- > 0; ) {
 		SV *sv = POPs;
@@ -175,9 +175,9 @@ make_gnm_help (const char *name, int count, SV **SP)
 		g_free (helptmp);
 	} else {
 		/* Collect all valid entries in a new array. */
-		if (n == m)
+		if (n == m) {
 			help = helptmp;
-		else {
+		} else {
 			int i;
 			help = g_new (GnmFuncHelp, m+1);
 			for (i = 0, k = 0; k < n; k++)
@@ -191,6 +191,10 @@ make_gnm_help (const char *name, int count, SV **SP)
 	}
 	if (!help) /* Provide a reasonable default. */
 		help = default_gnm_help (name);
+
+	gnm_perl_loader_free_later (help);
+	for (n = 0; help[n].type != GNM_FUNC_HELP_END; n++)
+		gnm_perl_loader_free_later (help[n].text);
 
 	return help;
 }
@@ -220,7 +224,7 @@ gplp_func_desc_load (GOPluginService *service,
 		g_print ( _("Perl error: %s\n"), SvPV (ERRSV, n_a));
 		while (count-- > 0) POPs;
 	} else {
-	  help = make_gnm_help(name, count, SP);
+		help = make_gnm_help(name, count, SP);
 	}
 
 	PUTBACK;
@@ -240,6 +244,7 @@ gplp_func_desc_load (GOPluginService *service,
 		POPs;
 	} else {
 		arg_spec = g_strdup (POPp);
+		gnm_perl_loader_free_later (arg_spec);
 	}
 
         PUTBACK;

@@ -36,6 +36,10 @@ while (@ARGV) {
     }
 }
 
+# Uncomment to force debug information
+# push @cmd, '-g';
+
+# print STDERR "# ", join (" ", @cmd), "\n";
 system (@cmd);
 
 my $code = $?;

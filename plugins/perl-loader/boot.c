@@ -11,7 +11,15 @@
 
 #include "perl-loader.h"
 
+static GSList *stuff_to_free;
+
 GNM_PLUGIN_MODULE_HEADER;
+
+void
+gnm_perl_loader_free_later (gconstpointer data)
+{
+	stuff_to_free = g_slist_prepend (stuff_to_free, (gpointer)data);
+}
 
 GType perl_get_loader_type (GOErrorInfo **ret_error);
 
@@ -25,6 +33,8 @@ perl_get_loader_type (GOErrorInfo **ret_error)
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
+	g_slist_free_full (stuff_to_free, g_free);
+	stuff_to_free = NULL;
 }
 
 G_MODULE_EXPORT void
