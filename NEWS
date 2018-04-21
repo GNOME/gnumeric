@@ -17,6 +17,7 @@ Morten:
 	* Allow inter-process paste-special.  [#346630]
 	* Fix ssconvert --merge-to problem with names.  [#795408]
 	* Fix problem with image pasting.
+	* Allow pasting an image into Gnumeric.  [#366816]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.39

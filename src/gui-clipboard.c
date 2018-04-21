@@ -90,6 +90,10 @@ enum {
 	ATOM_IMAGE_JPEG,
 	ATOM_IMAGE_BMP,
 	// ----------
+	ATOM_TEXT_URI_LIST,
+	ATOM_GNOME_COPIED_FILES,
+	ATOM_KDE_CUT_FILES,
+	// ----------
 	ATOM_SAVE_TARGETS,
 };
 
@@ -119,6 +123,10 @@ static const char *const atom_names[] = {
 	"image/png",
 	"image/jpeg",
 	"image/bmp",
+	// ----------
+	"text/uri-list",
+	"x-special/gnome-copied-files",
+	"application/x-kde-cutselection",
 	// ----------
 	"SAVE_TARGETS",
 };
@@ -498,6 +506,49 @@ image_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 }
 
 static void
+urilist_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
+			  gpointer closure)
+{
+	GnmGtkClipboardCtxt *ctxt = closure;
+	WBCGtk *wbcg = ctxt->wbcg;
+	GnmPasteTarget *pt = ctxt->paste_target;
+	int sel_len = gtk_selection_data_get_length (sel);
+
+	paste_to_gnumeric (sel, "urilist");
+
+	if (sel_len > 0) {
+		char *text = g_strndup (gtk_selection_data_get_data (sel), sel_len);
+		GSList *uris = go_file_split_urls (text);
+		GSList *l;
+		g_free (text);
+
+		for (l = uris; l; l = l->next) {
+			const char *uri = l->data;
+			GsfInput *input;
+			gsf_off_t size;
+			gconstpointer data;
+
+			if (g_str_equal (uri, "copy"))
+				continue;
+			input = go_file_open (uri, NULL);
+			if (!input)
+				continue;
+			size = gsf_input_size (input);
+			data = gsf_input_read (input, size, NULL);
+			if (data)
+				scg_paste_image (wbcg_cur_scg (wbcg), &pt->range,
+						 data, size);
+			g_object_unref (input);
+		}
+
+		g_slist_free_full (uris, g_free);
+
+	}
+
+	gnm_gtk_clipboard_context_free (ctxt);
+}
+
+static void
 parse_ms_headers (const char *data, size_t length, size_t *start, size_t *end)
 {
 	GHashTable *headers = g_hash_table_new_full
@@ -690,6 +741,13 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 	};
 
 	// In order of preference
+	static const int uri_list_fmts[] = {
+		ATOM_TEXT_URI_LIST,
+		ATOM_GNOME_COPIED_FILES,
+		ATOM_KDE_CUT_FILES,
+	};
+
+	// In order of preference
 	static const int string_fmts[] = {
 		ATOM_UTF8_STRING,
 		ATOM_STRING,
@@ -733,6 +791,17 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 		if (gtk_target_list_find (image_targets, atom, NULL)) {
 			gtk_clipboard_request_contents (clipboard, atom,
 							image_content_received,
+							ctxt);
+			return;
+		}
+	}
+
+	// Try a uri list format
+	for (ui = 0; ui < G_N_ELEMENTS (uri_list_fmts); ui++) {
+		GdkAtom atom = atoms[uri_list_fmts[ui]];
+		if (find_in_table (targets, n_targets, atom)) {
+			gtk_clipboard_request_contents (clipboard, atom,
+							urilist_content_received,
 							ctxt);
 			return;
 		}
