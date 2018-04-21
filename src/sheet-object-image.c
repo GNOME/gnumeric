@@ -263,15 +263,32 @@ gnm_soi_write_image (SheetObject const *so, char const *format,
 	gboolean res;
 	gsize length;
 	guint8 const *data;
+	GOImage *image = NULL;
+	GOImageFormatInfo const *src_info;
+	GOImageFormatInfo const *dst_info;
 
 	g_return_if_fail (soi->image != NULL);
 
-	data = go_image_get_data (soi->image, &length);
+	src_info = go_image_get_info (soi->image);
+	dst_info = format
+		? go_image_get_format_info (go_image_get_format_from_name (format))
+		: src_info;
+
+	if (src_info != dst_info) {
+		GdkPixbuf *pixbuf = go_image_get_pixbuf (soi->image);
+		image = go_pixbuf_new_from_pixbuf (pixbuf);
+		g_object_set (image, "image-type", format, NULL);
+		g_object_unref (pixbuf);
+	}
+
+	data = go_image_get_data (image ? image : soi->image, &length);
 	res  = gsf_output_write (output, length, data);
 
 	if (!res && err && *err == NULL)
 		*err = g_error_new (gsf_output_error_id (), 0,
 				   _("Unknown failure while saving image"));
+
+	if (image) g_object_unref (image);
 }
 
 static void

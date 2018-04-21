@@ -1,3 +1,8 @@
+2018-04-21  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-image.c (gnm_soi_write_image): If the format
+	doesn't match what is requested, convert.
+
 2018-04-20  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (merge_single): Avoid a

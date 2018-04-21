@@ -128,7 +128,6 @@ typedef enum {
 	INFO_HTML,
 	INFO_OBJECT,
 	INFO_IMAGE,
-	INFO_STRING
 } AtomInfoType;
 
 static GtkTargetList *generic_text_targets;
@@ -552,7 +551,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		}
 	}
 
-	if (gnm_debug_flag ("clipboard-dump")) {
+	if (debug_clipboard_dump) {
 		g_file_set_contents ("paste-to-gnumeric.dat",
 				     buffer, sel_len < 0 ? 0 : sel_len, NULL);
 	}
@@ -727,7 +726,7 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 	GnmPasteTarget pt;
 	GnmRange r;
 
-	if (gnm_debug_flag ("clipboard-undump")) {
+	if (debug_clipboard_undump) {
 		gsize siz;
 		gchar *contents;
 		if (g_file_get_contents ("paste-from-gnumeric.dat", &contents,
@@ -774,11 +773,6 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 			GsfOutputMemory *omem = GSF_OUTPUT_MEMORY (output);
 			gsf_off_t osize = gsf_output_size (output);
 			const guint8 *data = gsf_output_memory_get_bytes (omem);
-
-			if (gnm_debug_flag ("clipboard-dump")) {
-				g_file_set_contents ("paste-from-gnumeric.dat",
-						     data, osize, NULL);
-			}
 
 			*size = osize;
 			if (*size == osize) {
@@ -831,9 +825,9 @@ image_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 	format = go_mime_to_image_format (mime_type);
 	if (!format) {
 		g_warning ("No image format for %s\n", mime_type);
-		g_free (format);
 		return ret;
 	}
+
 	output = gsf_output_memory_new ();
 	omem   = GSF_OUTPUT_MEMORY (output);
 	sheet_object_write_image (so, format, 150.0, output, NULL);
@@ -896,6 +890,29 @@ object_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 	return ret;
 }
 
+static void
+paste_from_gnumeric (GtkSelectionData *selection_data, GdkAtom target,
+		     gconstpointer data, gssize size)
+{
+	if (size < 0)
+		size = 0;
+
+	if (debug_clipboard_dump) {
+		g_file_set_contents ("paste-from-gnumeric.dat",
+				     data, size, NULL);
+	}
+
+	if (debug_clipboard) {
+		char *target_name = gdk_atom_name (target);
+		g_printerr ("clipboard %s of %d bytes\n",
+			    target_name, (int)size);
+		g_free (target_name);
+	}
+
+	gtk_selection_data_set (selection_data, target, 8, data, size);
+}
+
+
 /*
  * x_clipboard_get_cb
  *
@@ -943,74 +960,44 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		if (output) {
 			gsf_off_t size = gsf_output_size (GSF_OUTPUT (output));
 			gconstpointer data = gsf_output_memory_get_bytes (output);
-			if (gnm_debug_flag ("clipboard-dump")) {
-				g_file_set_contents ("paste-from-gnumeric.dat",
-						     data, size, NULL);
-			}
-			if (debug_clipboard)
-				g_printerr ("clipboard .gnumeric of %d bytes\n",
-					   (int)size);
-			gtk_selection_data_set
-				(selection_data, target, 8,
-				 data,
-				 size);
+
+			paste_from_gnumeric (selection_data, target,
+					     data, size);
 			g_object_unref (output);
 			to_gnumeric = TRUE;
 		}
 	} else if (info == INFO_HTML) {
 		const char *saver_id = "Gnumeric_html:xhtml_range";
-		int buffer_size;
+		int size;
 		guchar *buffer = table_cellregion_write (ctx, clipboard,
 							 saver_id,
-							 &buffer_size);
-		if (debug_clipboard)
-			g_message ("clipboard html of %d bytes",
-				    buffer_size);
-		gtk_selection_data_set (selection_data,
-					target, 8,
-					buffer, buffer_size);
+							 &size);
+		paste_from_gnumeric (selection_data, target, buffer, size);
 		g_free (buffer);
 	} else if (info == INFO_EXCEL) {
 		const char *saver_id = "Gnumeric_Excel:excel_biff8";
-		int buffer_size;
+		int size;
 		guchar *buffer = table_cellregion_write (ctx, clipboard,
 							 saver_id,
-							 &buffer_size);
-		if (debug_clipboard)
-			g_message ("clipboard biff8 of %d bytes",
-				    buffer_size);
-		gtk_selection_data_set (selection_data,
-					target, 8,
-					buffer, buffer_size);
+							 &size);
+		paste_from_gnumeric (selection_data, target, buffer, size);
 		g_free (buffer);
 	} else if (target == atoms[ATOM_GOFFICE_GRAPH] ||
 	           g_slist_find_custom (go_components_get_mime_types (), target_name, (GCompareFunc) strcmp) != NULL) {
-		int buffer_size;
-		guchar *buffer = object_write (clipboard, target_name,
-					      &buffer_size);
-		if (debug_clipboard)
-			g_message ("clipboard graph of %d bytes",
-				   buffer_size);
-		gtk_selection_data_set (selection_data,
-					target, 8,
-					buffer, buffer_size);
+		int size;
+		guchar *buffer = object_write (clipboard, target_name, &size);
+		paste_from_gnumeric (selection_data, target, buffer, size);
 		g_free (buffer);
 	} else if (info == INFO_IMAGE) {
-		int buffer_size;
-		guchar *buffer = image_write (clipboard, target_name,
-					      &buffer_size);
-		if (debug_clipboard)
-			g_message ("clipboard image of %d bytes",
-				    buffer_size);
-		gtk_selection_data_set (selection_data,
-					target, 8,
-					buffer, buffer_size);
+		int size;
+		guchar *buffer = image_write (clipboard, target_name, &size);
+		paste_from_gnumeric (selection_data, target, buffer, size);
 		g_free (buffer);
 	} else if (target == atoms[ATOM_SAVE_TARGETS]) {
 		/* We implicitly registered this when calling
 		 * gtk_clipboard_set_can_store. We're supposed to
 		 * ignore it. */
-	} else if (info == INFO_STRING) {
+	} else if (info == INFO_GENERIC_TEXT) {
 		Workbook *wb = clipboard->origin_sheet->workbook;
 		GString *res = cellregion_to_string (clipboard,
 			TRUE, workbook_date_conv (wb));
@@ -1101,9 +1088,22 @@ gnm_x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt)
 				       x_targets_received, ctxt);
 }
 
-/* Restrict the	set of formats offered to clipboard manager. */
-/* We include bmp in the whitelist because that's the only image format
- * we share with OOo over clipboard (!) */
+static void
+cb_clear_target_entry (gpointer te_)
+{
+	GtkTargetEntry *te = te_;
+	g_free (te->target);
+}
+
+static void
+add_target (GArray *targets, const char *target, int flags, AtomInfoType info)
+{
+	GtkTargetEntry t;
+	t.target = g_strdup (target);
+	t.flags = flags;
+	t.info = info;
+	g_array_append_val (targets, t);
+}
 
 static gboolean
 is_clipman_target (const char *target)
@@ -1117,20 +1117,22 @@ is_clipman_target (const char *target)
 		g_str_equal (target, atom_names[ATOM_IMAGE_XWMF]) ||
 		g_str_equal (target, atom_names[ATOM_IMAGE_XEMF]) ||
 		g_str_equal (target, atom_names[ATOM_IMAGE_PNG]) ||
-		g_str_equal (target, atom_names[ATOM_IMAGE_JPEG]) ||
-		g_str_equal (target, atom_names[ATOM_IMAGE_BMP]));
+		g_str_equal (target, atom_names[ATOM_IMAGE_JPEG]));
 }
 
+/* Restrict the	set of formats offered to clipboard manager. */
 static void
 set_clipman_targets (GdkDisplay *disp, GArray *targets)
 {
 	GArray *allowed = g_array_new (FALSE, FALSE, sizeof (GtkTargetEntry));
 	unsigned ui;
 
+	g_array_set_clear_func (allowed, cb_clear_target_entry);
+
 	for (ui = 0; ui < targets->len; ui++) {
 		GtkTargetEntry *te = &g_array_index (targets, GtkTargetEntry, ui);
 		if (is_clipman_target (te->target))
-			g_array_append_val (allowed, *te);
+			add_target (allowed, te->target, te->flags, te->info);
 	}
 
 	gtk_clipboard_set_can_store
@@ -1143,27 +1145,17 @@ set_clipman_targets (GdkDisplay *disp, GArray *targets)
 }
 
 static void
-add_target (GArray *targets, const char *target, int flags, AtomInfoType info)
-{
-	GtkTargetEntry t;
-	t.target = (char *)target;
-	t.flags = flags;
-	t.info = info;
-	g_array_append_val (targets, t);
-}
-
-
-static void
 add_target_list (GArray *targets, GtkTargetList *src, AtomInfoType info)
 {
-	int n;
+	int i, n;
 	GtkTargetEntry *entries = gtk_target_table_new_from_list (src, &n);
-	unsigned ui = targets->len;
-	g_array_append_vals (targets, entries, n);
-	if (info != INFO_UNKNOWN) {
-		for (; ui < targets->len; ui++)
-			g_array_index (targets, GtkTargetEntry, ui).info = info;
+
+	for (i = 0; i < n; i++) {
+		GtkTargetEntry *te = entries + i;
+		add_target (targets, te->target, te->flags,
+			    info == INFO_UNKNOWN ? te->info : info);
 	}
+
 	gtk_target_table_free (entries, n);
 }
 
@@ -1176,6 +1168,8 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 	gboolean ret;
 	GObject *app = gnm_app_get_app ();
 	gboolean no_cells = (!content) || (content->cols <= 0 || content->rows <= 0);
+
+	g_array_set_clear_func (targets, cb_clear_target_entry);
 
 	if (no_cells) {
 		GSList *ptr = content ? content->objects : NULL;
@@ -1199,9 +1193,9 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 #else
 		add_target (targets, atom_names[ATOM_TEXT_HTML], 0, INFO_HTML);
 #endif
-		add_target (targets, atom_names[ATOM_UTF8_STRING], 0, INFO_STRING);
-		add_target (targets, atom_names[ATOM_COMPOUND_TEXT], 0, INFO_STRING);
-		add_target (targets, atom_names[ATOM_STRING], 0, INFO_STRING);
+		add_target (targets, atom_names[ATOM_UTF8_STRING], 0, INFO_GENERIC_TEXT);
+		add_target (targets, atom_names[ATOM_COMPOUND_TEXT], 0, INFO_GENERIC_TEXT);
+		add_target (targets, atom_names[ATOM_STRING], 0, INFO_GENERIC_TEXT);
 	}
 
 	if (exportable) {
@@ -1329,7 +1323,7 @@ gui_clipboard_init (void)
 		atoms[ui] = gdk_atom_intern_static_string (atom_names[ui]);
 
 	generic_text_targets = gtk_target_list_new (NULL, 0);
-	gtk_target_list_add_text_targets (generic_text_targets, INFO_STRING);
+	gtk_target_list_add_text_targets (generic_text_targets, INFO_GENERIC_TEXT);
 
 	image_targets = gtk_target_list_new (NULL, 0);
 	gtk_target_list_add_image_targets (image_targets, 0, FALSE);
