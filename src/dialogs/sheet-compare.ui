@@ -125,7 +125,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="wb_selector_A">
-                    <property name="label" translatable="yes">button</property>
+                    <property name="label">button</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -137,7 +137,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="wb_selector_B">
-                    <property name="label" translatable="yes">button</property>
+                    <property name="label">button</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -149,7 +149,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="sheet_selector_A">
-                    <property name="label" translatable="yes">button</property>
+                    <property name="label">button</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -161,7 +161,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="sheet_selector_B">
-                    <property name="label" translatable="yes">button</property>
+                    <property name="label">button</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
