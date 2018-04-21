@@ -152,6 +152,58 @@ gnm_gtk_clipboard_context_free (GnmGtkClipboardCtxt *ctxt)
  * (x-get-selection-internal 'CLIPBOARD 'TARGETS)
  */
 
+static void
+paste_from_gnumeric (GtkSelectionData *selection_data, GdkAtom target,
+		     gconstpointer data, gssize size)
+{
+	if (size < 0)
+		size = 0;
+
+	if (debug_clipboard_dump) {
+		g_file_set_contents ("paste-from-gnumeric.dat",
+				     data, size, NULL);
+	}
+
+	if (debug_clipboard) {
+		char *target_name = gdk_atom_name (target);
+		g_printerr ("clipboard %s of %d bytes\n",
+			    target_name, (int)size);
+		g_free (target_name);
+	}
+
+	gtk_selection_data_set (selection_data, target, 8, data, size);
+}
+
+static void
+paste_to_gnumeric (GtkSelectionData *sel, const char *typ)
+{
+	GdkAtom target = gtk_selection_data_get_target (sel);
+	gconstpointer buffer = gtk_selection_data_get_data (sel);
+	int sel_len = gtk_selection_data_get_length (sel);
+
+	if (sel_len < 0)
+		sel_len = 0;
+
+	if (debug_clipboard) {
+		int maxlen = 1024;
+		char *name = gdk_atom_name (target);
+		g_printerr ("Received %d bytes of %s for target %s\n",
+			    sel_len, typ, name);
+		g_free (name);
+		if (sel_len > 0) {
+			gsf_mem_dump (buffer, MIN (sel_len, maxlen));
+			if (sel_len > maxlen)
+				g_printerr ("...\n");
+		}
+	}
+
+	if (debug_clipboard_dump) {
+		g_file_set_contents ("paste-to-gnumeric.dat",
+				     buffer, sel_len, NULL);
+	}
+}
+
+
 /* See if this is a "single line + line end", a "multiline" or a "tab separated"
  * string. If this is _not_ the case we won't invoke the STF, it is
  * unlikely that the user will actually need it in this case. */
@@ -257,18 +309,7 @@ text_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	GdkAtom target = gtk_selection_data_get_target (sel);
 	int sel_len = gtk_selection_data_get_length (sel);
 
-	if (debug_clipboard) {
-		int maxlen = 1024;
-		char *name = gdk_atom_name (gtk_selection_data_get_target (sel));
-		g_printerr ("Received %d bytes of text for target %s\n",
-			    sel_len, name);
-		g_free (name);
-		if (sel_len > 0) {
-			gsf_mem_dump (gtk_selection_data_get_data (sel), MIN (sel_len, maxlen));
-			if (sel_len > maxlen)
-				g_printerr ("...\n");
-		}
-	}
+	paste_to_gnumeric (sel, "text");
 
 	/* Nothing on clipboard? */
 	if (sel_len < 0) {
@@ -304,7 +345,7 @@ text_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 }
 
 static void
-utf8_content_received (GtkClipboard *clipboard,  const gchar *text,
+utf8_content_received (GtkClipboard *clipboard, const gchar *text,
 		       gpointer closure)
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
@@ -426,19 +467,7 @@ image_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	GnmPasteTarget *pt = ctxt->paste_target;
 	int sel_len = gtk_selection_data_get_length (sel);
 
-	if (debug_clipboard) {
-		int maxlen = 1024;
-		char *name = gdk_atom_name (gtk_selection_data_get_target (sel));
-		g_printerr ("Received %d bytes of image for target %s\n",
-			    sel_len,
-			    name);
-		g_free (name);
-		if (sel_len > 0) {
-			gsf_mem_dump (gtk_selection_data_get_data (sel), MIN (sel_len, maxlen));
-			if (sel_len > maxlen)
-				g_printerr ("...\n");
-		}
-	}
+	paste_to_gnumeric (sel, "image");
 
 	if (sel_len > 0) {
 		scg_paste_image (wbcg_cur_scg (wbcg), &pt->range,
@@ -524,7 +553,6 @@ parse_ms_headers (const char *data, size_t length, size_t *start, size_t *end)
 	g_hash_table_destroy (headers);
 }
 
-
 static void
 table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			gpointer closure)
@@ -538,23 +566,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	const guint8 *buffer = gtk_selection_data_get_data (sel);
 	int sel_len = gtk_selection_data_get_length (sel);
 
-	if (debug_clipboard) {
-		int maxlen = 1024;
-		char *name = gdk_atom_name (gtk_selection_data_get_target (sel));
-		g_printerr ("Received %d bytes of table for target %s\n",
-			    sel_len, name);
-		g_free (name);
-		if (sel_len > 0) {
-			gsf_mem_dump (buffer, MIN (sel_len, maxlen));
-			if (sel_len > maxlen)
-				g_printerr ("...\n");
-		}
-	}
-
-	if (debug_clipboard_dump) {
-		g_file_set_contents ("paste-to-gnumeric.dat",
-				     buffer, sel_len < 0 ? 0 : sel_len, NULL);
-	}
+	paste_to_gnumeric (sel, "table");
 
 	/* Nothing on clipboard? */
 	if (sel_len < 0) {
@@ -889,29 +901,6 @@ object_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 
 	return ret;
 }
-
-static void
-paste_from_gnumeric (GtkSelectionData *selection_data, GdkAtom target,
-		     gconstpointer data, gssize size)
-{
-	if (size < 0)
-		size = 0;
-
-	if (debug_clipboard_dump) {
-		g_file_set_contents ("paste-from-gnumeric.dat",
-				     data, size, NULL);
-	}
-
-	if (debug_clipboard) {
-		char *target_name = gdk_atom_name (target);
-		g_printerr ("clipboard %s of %d bytes\n",
-			    target_name, (int)size);
-		g_free (target_name);
-	}
-
-	gtk_selection_data_set (selection_data, target, 8, data, size);
-}
-
 
 /*
  * x_clipboard_get_cb
