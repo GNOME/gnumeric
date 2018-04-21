@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2018-04-10 00:32+0000\n"
+"POT-Creation-Date: 2018-04-21 17:01+0000\n"
 "PO-Revision-Date: 2018-04-21 18:40+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
@@ -115,8 +115,8 @@ msgstr "Import tabulek verzí 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7221
-#: ../plugins/openoffice/openoffice-read.c:13875 ../src/xml-sax-read.c:3472
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7220
+#: ../plugins/openoffice/openoffice-read.c:13875 ../src/xml-sax-read.c:3495
 msgid "Reading file..."
 msgstr "Načítá se soubor…"
 
@@ -207,7 +207,7 @@ msgstr "Připravuje se ukládání…"
 msgid "Saving file..."
 msgstr "Ukládá se soubor…"
 
-#: ../plugins/excel/excel-xml-read.c:133 ../src/xml-sax-read.c:454
+#: ../plugins/excel/excel-xml-read.c:133 ../src/xml-sax-read.c:462
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Neočekávaný atribut %s::%s == „%s“."
@@ -223,7 +223,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Neplatný obsah prvku ss:data, obdrženo „%s“"
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:14039 ../src/xml-sax-read.c:3489
+#: ../plugins/openoffice/openoffice-read.c:14039 ../src/xml-sax-read.c:3512
 msgid "XML document not well formed!"
 msgstr "Dokument XML není syntakticky správný!"
 
@@ -280,11 +280,11 @@ msgstr ""
 "Odkazy OLE nejsou zatím podporovány.\n"
 "Název „%s“ bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6346
+#: ../plugins/excel/ms-excel-read.c:6345
 msgid "external references"
 msgstr "externí odkazy"
 
-#: ../plugins/excel/ms-excel-read.c:6385
+#: ../plugins/excel/ms-excel-read.c:6384
 msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
@@ -1078,7 +1078,7 @@ msgstr "Funkce pro práci s textem"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 #: ../src/dialogs/dialog-doc-metadata.c:1865 ../src/dialogs/dialog-search.c:152
-#: ../src/func.c:938
+#: ../src/func.c:945
 msgid "String"
 msgstr "Text"
 
@@ -2107,17 +2107,17 @@ msgstr "Perl"
 msgid "Perl error: "
 msgstr "Chyba Perlu: "
 
-#: ../plugins/perl-loader/perl-loader.c:220
-#: ../plugins/perl-loader/perl-loader.c:239
+#: ../plugins/perl-loader/perl-loader.c:224
+#: ../plugins/perl-loader/perl-loader.c:243
 #, c-format
 msgid "Perl error: %s\n"
 msgstr "Chyba Perlu: %s\n"
 
-#: ../plugins/perl-loader/perl-loader.c:279
+#: ../plugins/perl-loader/perl-loader.c:284
 msgid "Module name not given."
 msgstr "Není zadán název modulu."
 
-#: ../plugins/perl-loader/perl-loader.c:307
+#: ../plugins/perl-loader/perl-loader.c:312
 msgid "perl_func.pl doesn't exist."
 msgstr "perl_func.pl neexistuje."
 
@@ -2446,7 +2446,7 @@ msgstr "Schází uzavírací „E“"
 #: ../src/dialogs/dialog-search.c:439 ../src/dialogs/dialog-stf-export.c:596
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
 #: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:573
-#: ../src/workbook.c:1038 ../src/workbook.c:1070
+#: ../src/workbook.c:1055 ../src/workbook.c:1085
 msgid "Sheet"
 msgstr "List"
 
@@ -3763,16 +3763,16 @@ msgstr "Nástrojová lišta Objekt"
 msgid "Cut Object"
 msgstr "Vyjmout objekt"
 
-#: ../src/clipboard.c:480 ../src/clipboard.c:492 ../src/clipboard.c:503
-#: ../src/clipboard.c:511
+#: ../src/clipboard.c:489 ../src/clipboard.c:502 ../src/clipboard.c:514
+#: ../src/clipboard.c:524
 msgid "Unable to paste"
 msgstr "Nelze vložit"
 
-#: ../src/clipboard.c:481
+#: ../src/clipboard.c:490
 msgid "Contents can only be pasted by value or by link."
 msgstr "Obsah je možné vložit pouze jako hodnotu nebo jako odkaz."
 
-#: ../src/clipboard.c:489
+#: ../src/clipboard.c:498
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -3783,7 +3783,7 @@ msgstr ""
 "\n"
 "Zkuste vybrat jedinou buňku nebo oblast stejného tvaru a velikosti."
 
-#: ../src/clipboard.c:500
+#: ../src/clipboard.c:510
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -3794,7 +3794,7 @@ msgstr ""
 "\n"
 "Zkuste vybrat jedinou buňku nebo oblast stejného tvaru a velikosti."
 
-#: ../src/clipboard.c:512
+#: ../src/clipboard.c:525
 msgid "result passes the sheet boundary"
 msgstr "výsledek přesahuje hranice listu"
 
@@ -3977,7 +3977,7 @@ msgstr "Odstranit řádky %s"
 msgid "Deleting row %s"
 msgstr "Odstranit řádek %s"
 
-#: ../src/commands.c:1597 ../src/commands.c:1598 ../src/sheet.c:4723
+#: ../src/commands.c:1597 ../src/commands.c:1598 ../src/sheet.c:4805
 msgid "Clear"
 msgstr "Vymazat"
 
@@ -4251,46 +4251,46 @@ msgstr "Automaticky vyplnit %s"
 msgid "Autoformatting %s"
 msgstr "Automaticky formátovat %s"
 
-#: ../src/commands.c:3873
+#: ../src/commands.c:3872
 #, c-format
 msgid "Unmerging %s"
 msgstr "Rozpojit %s"
 
-#: ../src/commands.c:4042
+#: ../src/commands.c:4041
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Spojit a vystředit %s"
 
-#: ../src/commands.c:4042
+#: ../src/commands.c:4041
 #, c-format
 msgid "Merging %s"
 msgstr "Spojit %s"
 
 #. Corrected below.
-#: ../src/commands.c:4410 ../src/dialogs/search-replace.ui.h:5
+#: ../src/commands.c:4409 ../src/dialogs/search-replace.ui.h:5
 msgid "Search and Replace"
 msgstr "Hledat a nahradit"
 
-#: ../src/commands.c:4503
+#: ../src/commands.c:4502
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Nastavit výchozí šířky sloupců na %.2f bodů"
 
-#: ../src/commands.c:4504
+#: ../src/commands.c:4503
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Nastavit výchozí výšky řádků na %.2f bodů"
 
-#: ../src/commands.c:4615
+#: ../src/commands.c:4614
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Přiblížit %s na %.0f %%"
 
-#: ../src/commands.c:4718
+#: ../src/commands.c:4717
 msgid "Delete Object"
 msgstr "Odstranit objekt"
 
-#: ../src/commands.c:4859 ../src/commands.c:5925
+#: ../src/commands.c:4858 ../src/commands.c:5924
 #: ../src/dialogs/dialog-doc-metadata.c:1914
 #: ../src/dialogs/dialog-formula-guru.c:894
 #: ../src/dialogs/dialog-function-select.c:1257
@@ -4299,240 +4299,240 @@ msgstr "Odstranit objekt"
 msgid "Name"
 msgstr "Název"
 
-#: ../src/commands.c:4859
+#: ../src/commands.c:4858
 msgid "Sheet names must be non-empty."
 msgstr "Názvy listů nesmí být prázdné."
 
-#: ../src/commands.c:4866
+#: ../src/commands.c:4865
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "Sešit nemůže mít dva listy se stejným názvem."
 
-#: ../src/commands.c:4963
+#: ../src/commands.c:4962
 msgid "Resizing sheet"
 msgstr "Změnit velikosti listu"
 
-#: ../src/commands.c:5116
+#: ../src/commands.c:5115
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Smazat komentář %s"
 
-#: ../src/commands.c:5117
+#: ../src/commands.c:5116
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Nastavit komentář %s"
 
-#: ../src/commands.c:5551
+#: ../src/commands.c:5550
 #, c-format
 msgid "Merging data into %s"
 msgstr "Spojit data do %s"
 
-#: ../src/commands.c:5648
+#: ../src/commands.c:5647
 #, c-format
 msgid "Changing workbook properties"
 msgstr "Změnit vlastnosti sešitu"
 
-#: ../src/commands.c:5722
+#: ../src/commands.c:5721
 msgid "Pull Object to the Front"
 msgstr "Vyzvednout objekt do popředí"
 
-#: ../src/commands.c:5725
+#: ../src/commands.c:5724
 msgid "Pull Object Forward"
 msgstr "Vyzvednout objekt vpřed"
 
-#: ../src/commands.c:5728
+#: ../src/commands.c:5727
 msgid "Push Object Backward"
 msgstr "Odsunout objekt vzad"
 
-#: ../src/commands.c:5731
+#: ../src/commands.c:5730
 msgid "Push Object to the Back"
 msgstr "Odsunout objekt do pozadí"
 
-#: ../src/commands.c:5861
+#: ../src/commands.c:5860
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavit stránku pro %s"
 
-#: ../src/commands.c:5863
+#: ../src/commands.c:5862
 msgid "Page Setup For All Sheets"
 msgstr "Nastavit stránku pro všechny listy"
 
-#: ../src/commands.c:5987 ../src/commands.c:5998
+#: ../src/commands.c:5986 ../src/commands.c:5997
 msgid "Defined Name"
 msgstr "Definovat název"
 
-#: ../src/commands.c:5988
+#: ../src/commands.c:5987
 msgid "An empty string is not allowed as defined name."
 msgstr "Prázdný řetězec nelze použít k definici názvu."
 
-#: ../src/commands.c:5996
+#: ../src/commands.c:5995
 #, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr "„%s“ nelze použít k definici názvu."
 
-#: ../src/commands.c:6006
+#: ../src/commands.c:6005
 msgid "has a circular reference"
 msgstr "obsahuje cyklický odkaz"
 
-#: ../src/commands.c:6040
+#: ../src/commands.c:6039
 #, c-format
 msgid "Define Name %s"
 msgstr "Definovat název %s"
 
-#: ../src/commands.c:6043
+#: ../src/commands.c:6042
 #, c-format
 msgid "Update Name %s"
 msgstr "Aktualizovat název %s"
 
-#: ../src/commands.c:6136
+#: ../src/commands.c:6135
 #, c-format
 msgid "Remove Name %s"
 msgstr "Odstranit název %s"
 
-#: ../src/commands.c:6167
+#: ../src/commands.c:6166
 msgid "Change Scope of Name"
 msgstr "Změnit působnost názvu"
 
-#: ../src/commands.c:6215
+#: ../src/commands.c:6214
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr "Změnit působnost názvu %s"
 
-#: ../src/commands.c:6273
+#: ../src/commands.c:6272
 msgid "Add scenario"
 msgstr "Přidat scénář"
 
-#: ../src/commands.c:6337
+#: ../src/commands.c:6336
 msgid "Scenario Show"
 msgstr "Zobrazit scénář"
 
-#: ../src/commands.c:6395
+#: ../src/commands.c:6394
 msgid "Shuffle Data"
 msgstr "Zamíchat data"
 
 #. FIXME?
-#: ../src/commands.c:6499
+#: ../src/commands.c:6498
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) do sloupců (%s)"
 
-#: ../src/commands.c:6657
+#: ../src/commands.c:6656
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Hledat cíl (%s)"
 
-#: ../src/commands.c:6823
+#: ../src/commands.c:6822
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Tabulka závislostí"
 
-#: ../src/commands.c:6897
+#: ../src/commands.c:6896
 msgid "Reconfigure Graph"
 msgstr "Přenastavit graf"
 
-#: ../src/commands.c:6967
+#: ../src/commands.c:6966
 msgid "Reconfigure Object"
 msgstr "Přenastavit objekt"
 
-#: ../src/commands.c:7011
+#: ../src/commands.c:7010
 msgid "Left to Right"
 msgstr "Zleva doprava"
 
-#: ../src/commands.c:7011
+#: ../src/commands.c:7010
 msgid "Right to Left"
 msgstr "Zprava doleva"
 
-#: ../src/commands.c:7173
+#: ../src/commands.c:7172
 msgid "Changing Hyperlink"
 msgstr "Změnit hypertextový odkaz"
 
-#: ../src/commands.c:7264
+#: ../src/commands.c:7263
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Změnit hypertextový odkaz %s"
 
-#: ../src/commands.c:7349
+#: ../src/commands.c:7348
 msgid "Configure List"
 msgstr "Nastavit seznam"
 
-#: ../src/commands.c:7420
+#: ../src/commands.c:7419
 msgid "Set Frame Label"
 msgstr "Nastavit popisu rámu"
 
-#: ../src/commands.c:7491
+#: ../src/commands.c:7490
 msgid "Configure Button"
 msgstr "Nastavit tlačítko"
 
-#: ../src/commands.c:7572
+#: ../src/commands.c:7571
 msgid "Configure Radio Button"
 msgstr "Nastavit skupinový přepínač"
 
-#: ../src/commands.c:7648
+#: ../src/commands.c:7647
 msgid "Configure Checkbox"
 msgstr "Nastavit zaškrtávací políčko"
 
-#: ../src/commands.c:7755 ../src/sheet-object-widget.c:1780
+#: ../src/commands.c:7754 ../src/sheet-object-widget.c:1780
 msgid "Configure Adjustment"
 msgstr "Nastavit vyrovnání"
 
-#: ../src/commands.c:7786
+#: ../src/commands.c:7785
 msgid "Add Filter"
 msgstr "Přidat filtr"
 
-#: ../src/commands.c:7802 ../src/wbc-gtk.c:1631
+#: ../src/commands.c:7801 ../src/wbc-gtk.c:1631
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Automatický filtr blokovaný %s"
 
-#: ../src/commands.c:7807 ../src/commands.c:7834 ../src/commands.c:7843
+#: ../src/commands.c:7806 ../src/commands.c:7833 ../src/commands.c:7842
 msgid "AutoFilter"
 msgstr "Automatický filtr"
 
-#: ../src/commands.c:7835
+#: ../src/commands.c:7834
 msgid "Requires more than 1 row"
 msgstr "Vyžaduje více než 1 řádek"
 
-#: ../src/commands.c:7844
+#: ../src/commands.c:7843
 msgid "Unable to create Autofilter"
 msgstr "Nelze vytvořit automatický filtr"
 
-#: ../src/commands.c:7867
+#: ../src/commands.c:7866
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr "Přidat automatický filtr do %s"
 
-#: ../src/commands.c:7868
+#: ../src/commands.c:7867
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Rozšířit automatický filtr do %s"
 
-#: ../src/commands.c:7881
+#: ../src/commands.c:7880
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Odstranit automatický filtru z %s"
 
-#: ../src/commands.c:7911
+#: ../src/commands.c:7910
 #, c-format
 msgid "Change filter condition for %s"
 msgstr "Změnit podmínky filtru %s"
 
-#: ../src/commands.c:7980 ../src/wbc-gtk-actions.c:2395
+#: ../src/commands.c:7979 ../src/wbc-gtk-actions.c:2395
 msgid "Clear All Page Breaks"
 msgstr "Smazat všechna zalomení stránky"
 
-#: ../src/commands.c:8007 ../src/wbc-gtk.c:1566
+#: ../src/commands.c:8006 ../src/wbc-gtk.c:1566
 msgid "Remove Column Page Break"
 msgstr "Odstranit zalomení stránky ve sloupci"
 
-#: ../src/commands.c:8007 ../src/wbc-gtk.c:1576
+#: ../src/commands.c:8006 ../src/wbc-gtk.c:1576
 msgid "Remove Row Page Break"
 msgstr "Odstranit zalomení stránky v řádku"
 
-#: ../src/commands.c:8010 ../src/wbc-gtk.c:1569
+#: ../src/commands.c:8009 ../src/wbc-gtk.c:1569
 msgid "Add Column Page Break"
 msgstr "Přidat zalomení stránky ve sloupci"
 
-#: ../src/commands.c:8010 ../src/wbc-gtk.c:1579
+#: ../src/commands.c:8009 ../src/wbc-gtk.c:1579
 msgid "Add Row Page Break"
 msgstr "Přidat zalomení stránky v řádku"
 
@@ -5528,7 +5528,7 @@ msgstr "Sloupec %s („%s“)"
 
 #: ../src/dialogs/dialog-autofilter.c:393
 #: ../src/dialogs/dialog-autofilter.c:493 ../src/dialogs/dialog-cell-sort.c:136
-#: ../src/dialogs/dialog-sheet-compare.c:309
+#: ../src/dialogs/dialog-sheet-compare.c:312
 #, c-format
 msgid "Column %s"
 msgstr "Sloupec %s"
@@ -5689,7 +5689,7 @@ msgid "Double Low"
 msgstr "Dvojité dolní"
 
 #: ../src/dialogs/dialog-cell-format.c:471 ../src/dialogs/dialog-search.c:154
-#: ../src/func.c:936 ../src/wbc-gtk-actions.c:3423
+#: ../src/func.c:943 ../src/wbc-gtk-actions.c:3423
 msgid "Number"
 msgstr "Číslo"
 
@@ -5756,11 +5756,11 @@ msgid "Background"
 msgstr "Pozadí"
 
 #: ../src/dialogs/dialog-cell-format.c:2365
-#: ../src/dialogs/dialog-sheet-compare.c:200
+#: ../src/dialogs/dialog-sheet-compare.c:203
 msgid "Pattern"
 msgstr "Vzorek"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:121
+#: ../src/dialogs/dialog-cell-format-cond.c:120
 msgid ""
 "You did not add the defined conditional format. Do you really want to close "
 "the conditional formatting dialog?"
@@ -5768,220 +5768,220 @@ msgstr ""
 "Nepřidali jste definici podmíněného formátu. Opravdu chcete dialogové okno "
 "podmíněného formátu zavřít?"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:241
+#: ../src/dialogs/dialog-cell-format-cond.c:240
 msgid "(defined)"
 msgstr "(definován)"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:241
-#: ../src/dialogs/dialog-cell-format-cond.c:1194
+#: ../src/dialogs/dialog-cell-format-cond.c:240
+#: ../src/dialogs/dialog-cell-format-cond.c:1197
 msgid "(undefined)"
 msgstr "(nedefinován)"
 
 #. without any expression
-#: ../src/dialogs/dialog-cell-format-cond.c:574
+#: ../src/dialogs/dialog-cell-format-cond.c:577
 msgid "Cell contains an error value."
 msgstr "Buňka obsahuje chybovou hodnotu."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:575
+#: ../src/dialogs/dialog-cell-format-cond.c:578
 msgid "Cell does not contain an error value."
 msgstr "Buňka neobsahuje chybovou hodnotu."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:576
+#: ../src/dialogs/dialog-cell-format-cond.c:579
 msgid "Cell contains whitespace."
 msgstr "Buňka obsahuje bílé znaky."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:577
+#: ../src/dialogs/dialog-cell-format-cond.c:580
 msgid "Cell does not contain whitespace."
 msgstr "Buňka neobsahuje bílé znaky."
 
 #. with one expression
-#: ../src/dialogs/dialog-cell-format-cond.c:579
+#: ../src/dialogs/dialog-cell-format-cond.c:582
 msgid "Cell value is = x."
 msgstr "Hodnota buňky je = x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:580
+#: ../src/dialogs/dialog-cell-format-cond.c:583
 msgid "Cell value is ≠ x."
 msgstr "Hodnota buňky je ≠ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:581
+#: ../src/dialogs/dialog-cell-format-cond.c:584
 msgid "Cell value is > x."
 msgstr "Hodnota buňky je > x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:582
+#: ../src/dialogs/dialog-cell-format-cond.c:585
 msgid "Cell value is < x."
 msgstr "Hodnota buňky je < x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:583
+#: ../src/dialogs/dialog-cell-format-cond.c:586
 msgid "Cell value is ≧ x."
 msgstr "Hodnota buňky je ≧ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:584
+#: ../src/dialogs/dialog-cell-format-cond.c:587
 msgid "Cell value is ≦ x."
 msgstr "Hodnota buňky je ≦ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:585
+#: ../src/dialogs/dialog-cell-format-cond.c:588
 msgid "Expression x evaluates to TRUE."
 msgstr "Výraz x se vyhodnotí jako PRAVDA."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:586
+#: ../src/dialogs/dialog-cell-format-cond.c:589
 msgid "Cell contains the string x."
 msgstr "Buňka obsahuje řetězec x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:587
+#: ../src/dialogs/dialog-cell-format-cond.c:590
 msgid "Cell does not contain the string x."
 msgstr "Buňka neobsahuje řetězec x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:588
+#: ../src/dialogs/dialog-cell-format-cond.c:591
 msgid "Cell value begins with the string x."
 msgstr "Buňka začíná řetězcem x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:589
+#: ../src/dialogs/dialog-cell-format-cond.c:592
 msgid "Cell value does not begin with the string x."
 msgstr "Buňka nezačíná řetězcem x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:590
+#: ../src/dialogs/dialog-cell-format-cond.c:593
 msgid "Cell value ends with the string x."
 msgstr "Buňka končí řetězcem x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:591
+#: ../src/dialogs/dialog-cell-format-cond.c:594
 msgid "Cell value does not end with the string x."
 msgstr "Buňka nekončí řetězcem x."
 
 #. with two expressions
-#: ../src/dialogs/dialog-cell-format-cond.c:593
+#: ../src/dialogs/dialog-cell-format-cond.c:596
 msgid "Cell value is between x and y (incl.)."
 msgstr "Hodnota buňky je v rozmezí x a y (včetně)."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:594
+#: ../src/dialogs/dialog-cell-format-cond.c:597
 msgid "Cell value is not between x and y (incl.)."
 msgstr "Hodnota buňky není v rozmezí x a y."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:731
+#: ../src/dialogs/dialog-cell-format-cond.c:734
 msgid "Set conditional formatting"
 msgstr "Nastavit podmíněný formát"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:747
+#: ../src/dialogs/dialog-cell-format-cond.c:750
 msgid "Clear conditional formatting"
 msgstr "Smazat podmíněný formát"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:779
+#: ../src/dialogs/dialog-cell-format-cond.c:782
 msgid "Remove condition from conditional formatting"
 msgstr "Odebrat podmínku z podmíněného formátu"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:811
+#: ../src/dialogs/dialog-cell-format-cond.c:814
 msgid "Expand conditional formatting"
 msgstr "Rozšířit podmíněný formát"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:860
+#: ../src/dialogs/dialog-cell-format-cond.c:863
 msgid ""
 "If the cell content is between these two values, a special style is used."
 msgstr ""
 "Když je obsah buňky v rozmezí těchto dvou hodnot, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:868
+#: ../src/dialogs/dialog-cell-format-cond.c:871
 msgid ""
 "If the cell content is not between these two values, a special style is used."
 msgstr ""
 "Když je obsah buňky mimo rozmezí těchto dvou hodnot, použije se speciální "
 "styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:876
+#: ../src/dialogs/dialog-cell-format-cond.c:879
 msgid "If the cell content is equal to this value, a special style is used."
 msgstr "Když je obsah buňky roven této hodnotě, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:884
+#: ../src/dialogs/dialog-cell-format-cond.c:887
 msgid ""
 "If the cell content is not equal to this value, a special style is used."
 msgstr "Když není obsah buňky roven této hodnotě, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:892
+#: ../src/dialogs/dialog-cell-format-cond.c:895
 msgid "If the cell content is > this value, a special style is used."
 msgstr "Když je obsah buňky větší než tato hodnota, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:899
+#: ../src/dialogs/dialog-cell-format-cond.c:902
 msgid "If the cell content is < this value, a special style is used."
 msgstr "Když je obsah buňky menší než tato hodnota, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:907
+#: ../src/dialogs/dialog-cell-format-cond.c:910
 msgid "If the cell content is ≧ this value, a special style is used."
 msgstr ""
 "Když je obsah buňky větší roven této hodnotě, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:916
+#: ../src/dialogs/dialog-cell-format-cond.c:919
 msgid "If the cell content is ≦ this value, a special style is used."
 msgstr ""
 "Když je obsah buňky menší roven této hodnotě, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:925
+#: ../src/dialogs/dialog-cell-format-cond.c:928
 msgid "If this formula evaluates to TRUE, a special style is used."
 msgstr "Když se vzorec vyhodnotí jako PRAVDA, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:932
+#: ../src/dialogs/dialog-cell-format-cond.c:935
 msgid "If the cell content contains this string, a special style is used."
 msgstr "Když buňky obsahuje tento text, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:940
+#: ../src/dialogs/dialog-cell-format-cond.c:943
 msgid ""
 "If the cell content does not contain this string, a special style is used."
 msgstr "Když buňky neobsahuje tento text, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:948
+#: ../src/dialogs/dialog-cell-format-cond.c:951
 msgid "If the cell content begins with this string, a special style is used."
 msgstr "Když obsah buňky začíná tímto textem, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:956
+#: ../src/dialogs/dialog-cell-format-cond.c:959
 msgid ""
 "If the cell content does not begin with this string, a special style is used."
 msgstr "Když obsah buňky nezačíná tímto textem, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:963
+#: ../src/dialogs/dialog-cell-format-cond.c:966
 msgid "If the cell content ends with this string, a special style is used."
 msgstr "Když obsah buňky končí tímto textem, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:971
+#: ../src/dialogs/dialog-cell-format-cond.c:974
 msgid ""
 "If the cell content does not end  with this string, a special style is used."
 msgstr "Když obsah buňky nekončí tímto textem, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:979
+#: ../src/dialogs/dialog-cell-format-cond.c:982
 msgid "If the cell contains an error value, a special style is used."
 msgstr "Když buňky obsahuje chybovou hodnotu, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:985
+#: ../src/dialogs/dialog-cell-format-cond.c:988
 msgid "If the cell does not contain an error value, a special style is used."
 msgstr "Když buňky neobsahuje chybovou hodnotu, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:992
+#: ../src/dialogs/dialog-cell-format-cond.c:995
 msgid "If the cell content contains blanks, a special style is used."
 msgstr "Když je obsah buňky prázdný, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:999
+#: ../src/dialogs/dialog-cell-format-cond.c:1002
 msgid "If the cell content does not contain blanks, a special style is used."
 msgstr "Když není obsah buňky prázdný, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1006
+#: ../src/dialogs/dialog-cell-format-cond.c:1009
 msgid "This is an unknown condition type."
 msgstr "Jde o neznámý typ podmínky."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1114
+#: ../src/dialogs/dialog-cell-format-cond.c:1117
 msgid "The selection is homogeneous with respect to conditions."
 msgstr "Výběr vyhovuje podmínkám."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1122
+#: ../src/dialogs/dialog-cell-format-cond.c:1125
 msgid "The selection is <b>not</b> homogeneous with respect to conditions!"
 msgstr "Výběr <b>nevyhovuje</b> podmínkám!"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1270
+#: ../src/dialogs/dialog-cell-format-cond.c:1273
 msgid "Editing conditional formatting: "
 msgstr "Úprava podmíněného formátu: "
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1317
+#: ../src/dialogs/dialog-cell-format-cond.c:1320
 #: ../src/dialogs/cell-format-cond.ui.h:1
 msgid "Conditional Cell Formatting"
 msgstr "Podmíněný formát buňky"
 
 #: ../src/dialogs/dialog-cell-sort.c:138
-#: ../src/dialogs/dialog-sheet-compare.c:305
+#: ../src/dialogs/dialog-sheet-compare.c:308
 #, c-format
 msgid "Row %s"
 msgstr "Řádek %s"
@@ -6239,7 +6239,7 @@ msgstr "Vlastnosti"
 #: ../src/dialogs/dialog-doc-metadata.c:2245
 #: ../src/dialogs/dialog-function-select.c:1262
 #: ../src/dialogs/dialog-plugin-manager.c:712
-#: ../src/dialogs/dialog-sheet-compare.c:710
+#: ../src/dialogs/dialog-sheet-compare.c:713
 #: ../src/dialogs/doc-meta-data.ui.h:29
 msgid "Description"
 msgstr "Popis"
@@ -6635,7 +6635,7 @@ msgid "Auto Correct"
 msgstr "Automatické opravy"
 
 #: ../src/dialogs/dialog-preferences.c:1217
-#: ../src/dialogs/dialog-sheet-compare.c:203
+#: ../src/dialogs/dialog-sheet-compare.c:206
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
 #: ../src/widgets/gnm-fontbutton.c:1158
 msgid "Font"
@@ -7180,269 +7180,272 @@ msgstr "Jiná hodnota"
 msgid "Content"
 msgstr "Obsah"
 
-#: ../src/dialogs/dialog-sheet-compare.c:191
+#: ../src/dialogs/dialog-sheet-compare.c:194
 msgid "Background color"
 msgstr "Barva pozadí"
 
-#: ../src/dialogs/dialog-sheet-compare.c:192
+#: ../src/dialogs/dialog-sheet-compare.c:195
 msgid "Pattern color"
 msgstr "Barva vzorku"
 
-#: ../src/dialogs/dialog-sheet-compare.c:194
+#: ../src/dialogs/dialog-sheet-compare.c:197
 msgid "Top border"
 msgstr "Horní ohraničení"
 
-#: ../src/dialogs/dialog-sheet-compare.c:195
+#: ../src/dialogs/dialog-sheet-compare.c:198
 msgid "Bottom border"
 msgstr "Dolní ohraničení"
 
-#: ../src/dialogs/dialog-sheet-compare.c:196
+#: ../src/dialogs/dialog-sheet-compare.c:199
 msgid "Left border"
 msgstr "Levé ohraničení"
 
-#: ../src/dialogs/dialog-sheet-compare.c:197
+#: ../src/dialogs/dialog-sheet-compare.c:200
 msgid "Right border"
 msgstr "Pravé ohraničení"
 
-#: ../src/dialogs/dialog-sheet-compare.c:198
+#: ../src/dialogs/dialog-sheet-compare.c:201
 msgid "Reverse diagonal border"
 msgstr "Uhlopříčka zprava doleva"
 
-#: ../src/dialogs/dialog-sheet-compare.c:199
+#: ../src/dialogs/dialog-sheet-compare.c:202
 msgid "Diagonal border"
 msgstr "Uhlopříčka zleva doprava"
 
-#: ../src/dialogs/dialog-sheet-compare.c:202
+#: ../src/dialogs/dialog-sheet-compare.c:205
 msgid "Font color"
 msgstr "Barva fontu"
 
 #. ALSO "<control>2"
-#: ../src/dialogs/dialog-sheet-compare.c:204 ../src/wbc-gtk-actions.c:3638
+#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3638
 #: ../src/widgets/gnumeric-text-view.c:330
 msgid "Bold"
 msgstr "Tučný"
 
 #. ALSO "<control>3"
-#: ../src/dialogs/dialog-sheet-compare.c:205 ../src/wbc-gtk-actions.c:3646
+#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3646
 msgid "Italic"
 msgstr "Kurzíva"
 
 #. ALSO "<control>4"
-#: ../src/dialogs/dialog-sheet-compare.c:206 ../src/wbc-gtk-actions.c:3654
+#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3654
 msgid "Underline"
 msgstr "Podtržení"
 
-#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3683
+#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3683
 msgid "Strikethrough"
 msgstr "Přeškrtnuté"
 
-#: ../src/dialogs/dialog-sheet-compare.c:208
+#: ../src/dialogs/dialog-sheet-compare.c:211
 msgid "Script"
 msgstr "Písmo"
 
-#: ../src/dialogs/dialog-sheet-compare.c:209
-#: ../src/dialogs/dialog-sheet-compare.c:263
+#: ../src/dialogs/dialog-sheet-compare.c:212
+#: ../src/dialogs/dialog-sheet-compare.c:266
 msgid "Size"
 msgstr "Velikost"
 
-#: ../src/dialogs/dialog-sheet-compare.c:211 ../src/dialogs/data-slicer.ui.h:7
+#: ../src/dialogs/dialog-sheet-compare.c:214 ../src/dialogs/data-slicer.ui.h:7
 #: ../src/dialogs/dialog-stf.ui.h:60
 msgid "Format"
 msgstr "Formát"
 
-#: ../src/dialogs/dialog-sheet-compare.c:213
+#: ../src/dialogs/dialog-sheet-compare.c:216
 msgid "Vertical alignment"
 msgstr "Svislé zarovnání"
 
-#: ../src/dialogs/dialog-sheet-compare.c:214
+#: ../src/dialogs/dialog-sheet-compare.c:217
 msgid "Horizontal alignment"
 msgstr "Vodorovné zarovnání"
 
-#: ../src/dialogs/dialog-sheet-compare.c:215
+#: ../src/dialogs/dialog-sheet-compare.c:218
 msgid "Indentation"
 msgstr "Odsazení"
 
-#: ../src/dialogs/dialog-sheet-compare.c:216
+#: ../src/dialogs/dialog-sheet-compare.c:219
 msgid "Rotation"
 msgstr "Otočení"
 
-#: ../src/dialogs/dialog-sheet-compare.c:217 ../src/wbc-gtk-actions.c:2785
+#: ../src/dialogs/dialog-sheet-compare.c:220 ../src/wbc-gtk-actions.c:2785
 msgid "Direction"
 msgstr "Směr"
 
-#: ../src/dialogs/dialog-sheet-compare.c:218
+#: ../src/dialogs/dialog-sheet-compare.c:221
 msgid "Wrap"
 msgstr "Zalomení"
 
-#: ../src/dialogs/dialog-sheet-compare.c:219
-#| msgid "Shrin_k to fit"
+#: ../src/dialogs/dialog-sheet-compare.c:222
 msgid "Shrink-to-fit"
 msgstr "rozprostřené"
 
-#: ../src/dialogs/dialog-sheet-compare.c:221
-#| msgid "Lock"
+#: ../src/dialogs/dialog-sheet-compare.c:224
 msgid "Locked"
 msgstr "Zamknuté"
 
-#: ../src/dialogs/dialog-sheet-compare.c:222
+#: ../src/dialogs/dialog-sheet-compare.c:225
 msgid "Hidden"
 msgstr "Skryté"
 
-#: ../src/dialogs/dialog-sheet-compare.c:224
+#: ../src/dialogs/dialog-sheet-compare.c:227
 #: ../src/dialogs/cell-format-cond.ui.h:11 ../src/dialogs/cell-format.ui.h:105
 msgid "Validation"
 msgstr "Ověřování"
 
-#: ../src/dialogs/dialog-sheet-compare.c:225
+#: ../src/dialogs/dialog-sheet-compare.c:228
 msgid "Hyperlink"
 msgstr "Hypertextový odkaz"
 
-#: ../src/dialogs/dialog-sheet-compare.c:226
+#: ../src/dialogs/dialog-sheet-compare.c:229
 msgid "Input message"
 msgstr "Vstupní zpráva"
 
-#: ../src/dialogs/dialog-sheet-compare.c:227
+#: ../src/dialogs/dialog-sheet-compare.c:230
 msgid "Conditional format"
 msgstr "Podmíněný formát"
 
-#: ../src/dialogs/dialog-sheet-compare.c:252
+#: ../src/dialogs/dialog-sheet-compare.c:255
 msgid "Cells"
 msgstr "Buňky"
 
-#: ../src/dialogs/dialog-sheet-compare.c:253
+#: ../src/dialogs/dialog-sheet-compare.c:256
 msgid "Formatting"
 msgstr "Formátování"
 
-#: ../src/dialogs/dialog-sheet-compare.c:254
+#: ../src/dialogs/dialog-sheet-compare.c:257
 msgid "Columns/Rows"
 msgstr "Sloupce/řádky"
 
-#: ../src/dialogs/dialog-sheet-compare.c:260
-#| msgid "Variables"
+#: ../src/dialogs/dialog-sheet-compare.c:263
 msgid "Various"
 msgstr "Různé"
 
-#: ../src/dialogs/dialog-sheet-compare.c:269
+#: ../src/dialogs/dialog-sheet-compare.c:272
 msgid "Added"
 msgstr "Přidáno"
 
-#: ../src/dialogs/dialog-sheet-compare.c:270
-#| msgid "Remove"
+#: ../src/dialogs/dialog-sheet-compare.c:273
 msgid "Removed"
 msgstr "Odstraněno"
 
-#: ../src/dialogs/dialog-sheet-compare.c:271
-#| msgid "Change widget"
+#: ../src/dialogs/dialog-sheet-compare.c:274
 msgid "Changed"
 msgstr "Změněno"
 
-#: ../src/dialogs/dialog-sheet-compare.c:355
+#: ../src/dialogs/dialog-sheet-compare.c:358
 msgid "Yes"
 msgstr "ano"
 
-#: ../src/dialogs/dialog-sheet-compare.c:355
+#: ../src/dialogs/dialog-sheet-compare.c:358
 msgid "No"
 msgstr "ne"
 
-#: ../src/dialogs/dialog-sheet-compare.c:374 ../src/wbc-gtk-actions.c:3417
+#: ../src/dialogs/dialog-sheet-compare.c:377 ../src/wbc-gtk-actions.c:3417
 msgid "General"
 msgstr "Obecné"
 
 #. start sub menu
-#: ../src/dialogs/dialog-sheet-compare.c:375 ../src/dialogs/cell-format.ui.h:42
+#: ../src/dialogs/dialog-sheet-compare.c:378 ../src/dialogs/cell-format.ui.h:42
 #: ../src/sheet-control-gui.c:2315 ../src/wbc-gtk-actions.c:3868
 msgid "Left"
 msgstr "Vlevo"
 
-#: ../src/dialogs/dialog-sheet-compare.c:376 ../src/dialogs/cell-format.ui.h:43
+#: ../src/dialogs/dialog-sheet-compare.c:379 ../src/dialogs/cell-format.ui.h:43
 #: ../src/sheet-control-gui.c:2318 ../src/wbc-gtk-actions.c:3870
 msgid "Right"
 msgstr "Vpravo"
 
-#: ../src/dialogs/dialog-sheet-compare.c:377
-#: ../src/dialogs/dialog-sheet-compare.c:392
+#: ../src/dialogs/dialog-sheet-compare.c:380
+#: ../src/dialogs/dialog-sheet-compare.c:395
 msgid "Center"
 msgstr "Na střed"
 
-#: ../src/dialogs/dialog-sheet-compare.c:378
+#: ../src/dialogs/dialog-sheet-compare.c:381
 msgid "Fill"
 msgstr "Vyplnit"
 
-#: ../src/dialogs/dialog-sheet-compare.c:379
-#: ../src/dialogs/dialog-sheet-compare.c:393 ../src/wbc-gtk-actions.c:3722
+#: ../src/dialogs/dialog-sheet-compare.c:382
+#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3722
 msgid "Justify"
 msgstr "Zarovnat"
 
-#: ../src/dialogs/dialog-sheet-compare.c:380
+#: ../src/dialogs/dialog-sheet-compare.c:383
 msgid "Center across selection"
 msgstr "Na střed výběru"
 
-#: ../src/dialogs/dialog-sheet-compare.c:381
-#: ../src/dialogs/dialog-sheet-compare.c:394 ../src/wbc-gtk-actions.c:3711
+#: ../src/dialogs/dialog-sheet-compare.c:384
+#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3711
 msgid "Distributed"
 msgstr "Rozprostřít"
 
-#: ../src/dialogs/dialog-sheet-compare.c:390
+#: ../src/dialogs/dialog-sheet-compare.c:393
 #: ../src/dialogs/autofilter-top10.ui.h:3 ../src/dialogs/cell-format.ui.h:40
 msgid "Top"
 msgstr "Nahoře"
 
-#: ../src/dialogs/dialog-sheet-compare.c:391
+#: ../src/dialogs/dialog-sheet-compare.c:394
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:44
 #: ../src/wbc-gtk-actions.c:3876
 msgid "Bottom"
 msgstr "Dole"
 
-#: ../src/dialogs/dialog-sheet-compare.c:400 ../src/dialogs/cell-format.ui.h:45
+#: ../src/dialogs/dialog-sheet-compare.c:403 ../src/dialogs/cell-format.ui.h:45
 #: ../src/widgets/gnumeric-text-view.c:282
 msgid "None"
 msgstr "Nic"
 
-#: ../src/dialogs/dialog-sheet-compare.c:400
+#: ../src/dialogs/dialog-sheet-compare.c:403
 #: ../src/widgets/gnumeric-text-view.c:283
 msgid "Single"
 msgstr "Jednoduché"
 
-#: ../src/dialogs/dialog-sheet-compare.c:400
+#: ../src/dialogs/dialog-sheet-compare.c:403
 #: ../src/widgets/gnumeric-text-view.c:284
 msgid "Double"
 msgstr "Dvojité"
 
-#: ../src/dialogs/dialog-sheet-compare.c:401
+#: ../src/dialogs/dialog-sheet-compare.c:404
 msgid "Single low"
 msgstr "Jednoduché dolní"
 
-#: ../src/dialogs/dialog-sheet-compare.c:401
+#: ../src/dialogs/dialog-sheet-compare.c:404
 msgid "Double low"
 msgstr "Dvojité dolní"
 
-#: ../src/dialogs/dialog-sheet-compare.c:405
+#: ../src/dialogs/dialog-sheet-compare.c:408
 msgid "Right-to-left"
 msgstr "Zprava doleva"
 
-#: ../src/dialogs/dialog-sheet-compare.c:405
+#: ../src/dialogs/dialog-sheet-compare.c:408
 #: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:770
 msgid "Auto"
 msgstr "Automaticky"
 
-#: ../src/dialogs/dialog-sheet-compare.c:405
+#: ../src/dialogs/dialog-sheet-compare.c:408
 msgid "Left-to-right"
 msgstr "Zleva doprava"
 
-#: ../src/dialogs/dialog-sheet-compare.c:523
+#: ../src/dialogs/dialog-sheet-compare.c:526
 msgid "Unavailable"
 msgstr "nedostupné"
 
-#: ../src/dialogs/dialog-sheet-compare.c:718
+#: ../src/dialogs/dialog-sheet-compare.c:531
+#, c-format
+msgid "%d pixel"
+msgid_plural "%d pixels"
+msgstr[0] "%d pixel"
+msgstr[1] "%d pixely"
+msgstr[2] "%d pixelů"
+
+#: ../src/dialogs/dialog-sheet-compare.c:721
 #: ../src/dialogs/search-replace.ui.h:6
 msgid "Location"
 msgstr "Místo"
 
-#: ../src/dialogs/dialog-sheet-compare.c:727
+#: ../src/dialogs/dialog-sheet-compare.c:730
 msgid "Old"
 msgstr "Původně"
 
-#: ../src/dialogs/dialog-sheet-compare.c:737
+#: ../src/dialogs/dialog-sheet-compare.c:740
 msgid "New"
 msgstr "Nově"
 
@@ -7564,16 +7567,16 @@ msgid "Run on"
 msgstr "Běžela v"
 
 #: ../src/dialogs/dialog-simulation.c:236 ../src/tools/simulation.c:246
-#: ../src/wbc-gtk.c:4061
+#: ../src/wbc-gtk.c:4062
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:236 ../src/wbc-gtk.c:4063
+#: ../src/dialogs/dialog-simulation.c:236 ../src/wbc-gtk.c:4064
 msgid "Average"
 msgstr "Průměr"
 
 #: ../src/dialogs/dialog-simulation.c:236 ../src/tools/simulation.c:248
-#: ../src/wbc-gtk.c:4062
+#: ../src/wbc-gtk.c:4063
 msgid "Max"
 msgstr "Max"
 
@@ -8045,7 +8048,7 @@ msgstr "_Alfa:"
 #: ../src/dialogs/moving-averages.ui.h:25
 #: ../src/dialogs/random-generation-cor.ui.h:7
 #: ../src/dialogs/random-generation.ui.h:7 ../src/dialogs/rank.ui.h:14
-#: ../src/dialogs/scenario-manager.ui.h:11 ../src/dialogs/sheet-compare.ui.h:7
+#: ../src/dialogs/scenario-manager.ui.h:11 ../src/dialogs/sheet-compare.ui.h:6
 #: ../src/dialogs/simulation.ui.h:11 ../src/dialogs/solver.ui.h:34
 msgid "Options"
 msgstr "Volby"
@@ -11453,24 +11456,18 @@ msgid "y-Offset in points:"
 msgstr "Posun ve směru _y v bodech:"
 
 #: ../src/dialogs/sheet-compare.ui.h:1
-#| msgid "Complex"
 msgid "Compare"
 msgstr "Porovnat"
 
 #: ../src/dialogs/sheet-compare.ui.h:4
-#| msgid "Button"
-msgid "button"
-msgstr ""
-
-#: ../src/dialogs/sheet-compare.ui.h:5
 msgid "First Sheet"
 msgstr "První list"
 
-#: ../src/dialogs/sheet-compare.ui.h:6
+#: ../src/dialogs/sheet-compare.ui.h:5
 msgid "Second Sheet"
 msgstr "Druhý list"
 
-#: ../src/dialogs/sheet-compare.ui.h:8 ../src/dialogs/solver.ui.h:46
+#: ../src/dialogs/sheet-compare.ui.h:7 ../src/dialogs/solver.ui.h:46
 msgid "Results"
 msgstr "Výsledky"
 
@@ -12060,17 +12057,17 @@ msgstr ""
 "Toto zaškrtávací políčko určuje, zda je oříznutý obsah signalizován malou "
 "červenou šipkou v příslušném směru."
 
-#: ../src/expr-name.c:725
+#: ../src/expr-name.c:733
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "„%s“ obsahuje cyklický odkaz"
 
-#: ../src/expr-name.c:754 ../src/expr-name.c:1001
+#: ../src/expr-name.c:762 ../src/expr-name.c:1018
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "„%s“ je již v listě definován"
 
-#: ../src/expr-name.c:755 ../src/expr-name.c:1002
+#: ../src/expr-name.c:763 ../src/expr-name.c:1019
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "„%s“ je již v sešitě definován"
@@ -12225,42 +12222,42 @@ msgstr ""
 "vyhodnocen a vrácen druhý argument. V opačném případě je vyhodnocen a vrácen "
 "poslední argument."
 
-#: ../src/func.c:260
+#: ../src/func.c:266
 msgid "Function implementation not available."
 msgstr "Implementace funkce není k dispozici."
 
-#: ../src/func.c:622
+#: ../src/func.c:628
 msgid "Unknown Function"
 msgstr "Neznámá funkce"
 
 #. xgettext: This represents a made-up translated function name.
-#: ../src/func.c:646
+#: ../src/func.c:652
 #, c-format
 msgid "unknown%d"
 msgstr "neznámá%d"
 
-#: ../src/func.c:940
+#: ../src/func.c:947
 msgid "Boolean"
 msgstr "Pravdivostní hodnota"
 
-#: ../src/func.c:942
+#: ../src/func.c:949
 msgid "Cell Range"
 msgstr "Oblast buněk"
 
-#: ../src/func.c:944
+#: ../src/func.c:951
 msgid "Area"
 msgstr "Oblast"
 
-#: ../src/func.c:946
+#: ../src/func.c:953
 msgid "Scalar, Blank, or Error"
 msgstr "Skalár, prázdné nebo chyba"
 
-#: ../src/func.c:948
+#: ../src/func.c:955
 msgid "Scalar"
 msgstr "Skalár"
 
 #. Missing values will be NULL.
-#: ../src/func.c:951
+#: ../src/func.c:958
 msgid "Any"
 msgstr "Cokoli"
 
@@ -12387,11 +12384,11 @@ msgstr "Vlastnosti čáry/šipky"
 msgid "Polygon Properties"
 msgstr "Vlastnosti mnohoúhelníku"
 
-#: ../src/gui-clipboard.c:183
+#: ../src/gui-clipboard.c:232
 msgid "clipboard"
 msgstr "schránka"
 
-#: ../src/gui-clipboard.c:976
+#: ../src/gui-clipboard.c:1054
 #, c-format
 msgid "Cut of %s"
 msgstr "Vyjmout %s"
@@ -12664,23 +12661,23 @@ msgstr "Táhnout pro automatické vyplnění"
 msgid "Drag to move"
 msgstr "Táhnout pro přesunutí"
 
-#: ../src/libgnumeric.c:143
+#: ../src/libgnumeric.c:144
 msgid "Display Gnumeric's version"
 msgstr "Zobrazit verzi aplikace Gnumeric"
 
-#: ../src/libgnumeric.c:152
+#: ../src/libgnumeric.c:153
 msgid "Set the root library directory"
 msgstr "Nastavit kořenovou složku knihoven"
 
-#: ../src/libgnumeric.c:153 ../src/libgnumeric.c:159
+#: ../src/libgnumeric.c:154 ../src/libgnumeric.c:160
 msgid "DIR"
 msgstr "SLOŽKA"
 
-#: ../src/libgnumeric.c:158
+#: ../src/libgnumeric.c:159
 msgid "Adjust the root data directory"
 msgstr "Upravit kořenovou složku dat"
 
-#: ../src/libgnumeric.c:175
+#: ../src/libgnumeric.c:176
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12691,11 +12688,11 @@ msgstr ""
 "datadir := „%s“\n"
 "libdir := „%s“\n"
 
-#: ../src/libgnumeric.c:199
+#: ../src/libgnumeric.c:200
 msgid "Gnumeric Options"
 msgstr "Volby aplikace Gnumeric"
 
-#: ../src/libgnumeric.c:199
+#: ../src/libgnumeric.c:200
 msgid "Show Gnumeric Options"
 msgstr "Zobrazit volby aplikace Gnumeric"
 
@@ -12723,7 +12720,7 @@ msgstr "Skončit hned po načtení vybraných sešitů"
 msgid "[FILE ...]"
 msgstr "[SOUBOR…]"
 
-#: ../src/main-application.c:129 ../src/ssconvert.c:903 ../src/ssdiff.c:932
+#: ../src/main-application.c:129 ../src/ssconvert.c:908 ../src/ssdiff.c:932
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -12889,7 +12886,7 @@ msgstr "Neznámá velikost papíru"
 msgid "Invalid option for pdf exporter"
 msgstr "Neznámá volba pro export PDF"
 
-#: ../src/print-info.c:982
+#: ../src/print-info.c:985
 msgid "PDF export"
 msgstr "Export PDF"
 
@@ -13296,11 +13293,11 @@ msgstr[2] "Změnit velikost %d objektů"
 msgid "By %s:"
 msgstr "Od %s:"
 
-#: ../src/sheet-merge.c:80 ../src/wbc-gtk-actions.c:3405
+#: ../src/sheet-merge.c:79 ../src/wbc-gtk-actions.c:3405
 msgid "Merge"
 msgstr "Sloučit"
 
-#: ../src/sheet-merge.c:87
+#: ../src/sheet-merge.c:86
 #, c-format
 msgid ""
 "There is already a merged region that intersects\n"
@@ -13465,7 +13462,7 @@ msgstr "Skupinový přepínač"
 msgid "Clicking radiobutton"
 msgstr "Klikatelný skupinový přepínač"
 
-#: ../src/sheet-object-widget.c:3482
+#: ../src/sheet-object-widget.c:3483
 msgid "Clicking in list"
 msgstr "Klikání v seznamu"
 
@@ -13478,7 +13475,7 @@ msgid "Cut"
 msgstr "Vyjmout"
 
 #. Oh, yeah?
-#: ../src/sheet.c:846
+#: ../src/sheet.c:847
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13490,47 +13487,47 @@ msgstr ""
 "s názvem TRUE může kolidovat s konstantou stejného názvu.\n"
 "Očekávejte podivné chování."
 
-#: ../src/sheet.c:906
+#: ../src/sheet.c:907
 msgid "Display Zeros"
 msgstr "Zobrazovat nuly"
 
-#: ../src/sheet.c:907
+#: ../src/sheet.c:908
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Řídí, zda se nuly zobrazují nebo ne."
 
-#: ../src/sheet.c:912
+#: ../src/sheet.c:913
 msgid "Display Grid"
 msgstr "Zobrazovat mřížku"
 
-#: ../src/sheet.c:913
+#: ../src/sheet.c:914
 msgid "Control whether the grid is shown."
 msgstr "Řídí, zda se zobrazuje mřížka."
 
-#: ../src/sheet.c:3569
+#: ../src/sheet.c:3621
 msgid "Target region contains merged cells"
 msgstr "Cílová oblast obsahuje sloučené buňky"
 
-#: ../src/sheet.c:3635
+#: ../src/sheet.c:3687
 msgid "cannot operate on merged cells"
 msgstr "nelze vykonat na sloučených buňkách"
 
-#: ../src/sheet.c:3649
+#: ../src/sheet.c:3701
 msgid "cannot operate on array formulæ"
 msgstr "nelze vykonat na poli vzorců"
 
-#: ../src/sheet.c:5146
+#: ../src/sheet.c:5228
 msgid "Insert Columns"
 msgstr "Vložit sloupce"
 
-#: ../src/sheet.c:5164
+#: ../src/sheet.c:5246
 msgid "Delete Columns"
 msgstr "Odstranit sloupce"
 
-#: ../src/sheet.c:5182
+#: ../src/sheet.c:5264
 msgid "Insert Rows"
 msgstr "Vložit řádky"
 
-#: ../src/sheet.c:5200
+#: ../src/sheet.c:5282
 msgid "Delete Rows"
 msgstr "Odstranit řádky"
 
@@ -13622,28 +13619,28 @@ msgid "The file saver does not take options\n"
 msgstr "Program pro ukládání nemá takovouto volbu\n"
 
 #. FIXME: && nexpr2-is-not-the-same-as-nexpr
-#: ../src/ssconvert.c:393
+#: ../src/ssconvert.c:386
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 "Konflikt názvů při slučování: „%s“ se v rámci sešitu objevuje dvakrát.\n"
 
-#: ../src/ssconvert.c:542
+#: ../src/ssconvert.c:547
 #, c-format
 msgid "Failed to create solver"
 msgstr "Nelze vytvořit řešitele"
 
-#: ../src/ssconvert.c:561
+#: ../src/ssconvert.c:566
 #, c-format
 msgid "Solver ran, but failed"
 msgstr "Řešitel běžel, ale selhal"
 
-#: ../src/ssconvert.c:573
+#: ../src/ssconvert.c:578
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Řešitel: %s\n"
 
-#: ../src/ssconvert.c:682
+#: ../src/ssconvert.c:687
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13652,7 +13649,7 @@ msgstr ""
 "Neznámý export „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:702
+#: ../src/ssconvert.c:707
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13661,7 +13658,7 @@ msgstr ""
 "Není možné odhadnout export, který se má použít pro „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:714
+#: ../src/ssconvert.c:719
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13670,7 +13667,7 @@ msgstr ""
 "Je vyžadován název výstupního souboru nebo explicitní typ exportu.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:724
+#: ../src/ssconvert.c:729
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13679,12 +13676,12 @@ msgstr ""
 "Neznámý import „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-importers.\n"
 
-#: ../src/ssconvert.c:748
+#: ../src/ssconvert.c:753
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Načtení %s selhalo\n"
 
-#: ../src/ssconvert.c:862
+#: ../src/ssconvert.c:867
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13694,11 +13691,11 @@ msgstr ""
 "Zvolený export (%s) nepodporuje ukládání více listů do jednoho souboru.\n"
 "Bude uložen jen aktuální list. Pro obejití tohoto omezení použijte -S.\n"
 
-#: ../src/ssconvert.c:891 ../src/ssconvert.c:942
+#: ../src/ssconvert.c:896 ../src/ssconvert.c:947
 msgid "INFILE [OUTFILE]"
 msgstr "VSTUPNÍ_SOUBOR [VÝSTUPNÍ_SOUBOR]"
 
-#: ../src/ssconvert.c:910
+#: ../src/ssconvert.c:915
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13709,7 +13706,7 @@ msgstr ""
 "datadir := „%s“\n"
 "libdir := „%s“\n"
 
-#: ../src/ssconvert.c:940 ../src/ssdiff.c:989 ../src/ssindex.c:268
+#: ../src/ssconvert.c:945 ../src/ssdiff.c:989 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Použití: %s [PŘEPÍNAČ…] %s\n"
@@ -13972,7 +13969,7 @@ msgid "Text (configurable)"
 msgstr "Text (nastavitelný)"
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1351
+#: ../src/stf-parse.c:1352
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -13981,7 +13978,7 @@ msgstr ""
 "ignorovány."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1377
+#: ../src/stf-parse.c:1378
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -15238,7 +15235,7 @@ msgstr "Špičatost"
 msgid "Range"
 msgstr "Interval"
 
-#: ../src/tools/simulation.c:256 ../src/wbc-gtk.c:4064
+#: ../src/tools/simulation.c:256 ../src/wbc-gtk.c:4065
 msgid "Count"
 msgstr "Počet"
 
@@ -15332,56 +15329,56 @@ msgstr "Větší nebo rovno"
 msgid "Less than or Equal"
 msgstr "Menší nebo rovno"
 
-#: ../src/validation.c:472
+#: ../src/validation.c:473
 #, c-format
 msgid "Missing formula for validation"
 msgstr "Schází vzorec pro ověření"
 
-#: ../src/validation.c:475
+#: ../src/validation.c:476
 #, c-format
 msgid "Extra formula for validation"
 msgstr "Dodatečný vzorec pro ověření"
 
-#: ../src/validation.c:486
+#: ../src/validation.c:487
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: Ověření"
 
-#: ../src/validation.c:549
+#: ../src/validation.c:550
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Buňka %s nesmí být prázdná"
 
-#: ../src/validation.c:557
+#: ../src/validation.c:558
 #, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "Buňka %s nesmí obsahovat chybovou hodnotu"
 
-#: ../src/validation.c:568
+#: ../src/validation.c:569
 #, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "Buňka %s nesmí obsahovat text"
 
-#: ../src/validation.c:584
+#: ../src/validation.c:585
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "„%s“ není celé číslo"
 
-#: ../src/validation.c:594
+#: ../src/validation.c:595
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "„%s“ není platné datum"
 
-#: ../src/validation.c:618
+#: ../src/validation.c:619
 #, c-format
 msgid "%s does not contain the new value."
 msgstr "%s neobsahuje novou hodnotu."
 
-#: ../src/validation.c:654
+#: ../src/validation.c:655
 #, c-format
 msgid "%s is not true."
 msgstr "%s není pravda."
 
-#: ../src/validation.c:693
+#: ../src/validation.c:694
 #, c-format
 msgid "%s is out of permitted range"
 msgstr "%s je mimo povolený rozsah"
@@ -15414,7 +15411,7 @@ msgstr "#ČÍSLO!"
 msgid "#N/A"
 msgstr "#N/A"
 
-#: ../src/wbc-gtk-actions.c:185 ../src/workbook-view.c:1220
+#: ../src/wbc-gtk-actions.c:185 ../src/workbook-view.c:1275
 msgid "Default file saver is not available."
 msgstr "Výchozí ukládání souboru není k dispozici."
 
@@ -16541,7 +16538,6 @@ msgid "Compare Sheets..."
 msgstr "Porovnat listy…"
 
 #: ../src/wbc-gtk-actions.c:2918
-#| msgid "Differences for sheet %s:\n"
 msgid "Find differences between two sheets"
 msgstr "Najít rozdíly mezi dvěma listy"
 
@@ -17018,8 +17014,8 @@ msgstr "_Upravit datový průřez…"
 msgid "Adjust a data slicer"
 msgstr "Přizpůsobit datový průřez"
 
-#: ../src/wbc-gtk-actions.c:3297 ../src/wbc-gtk.c:4060
-#: ../src/workbook-view.c:1033
+#: ../src/wbc-gtk-actions.c:3297 ../src/wbc-gtk.c:4061
+#: ../src/workbook-view.c:856
 msgid "Sum"
 msgstr "Součet"
 
@@ -17806,24 +17802,24 @@ msgstr "Nástrojová lišta Objekt"
 msgid "Show/Hide toolbar %s"
 msgstr "Zobrazit/skrýt nástrojovou lištu %s"
 
-#: ../src/wbc-gtk.c:4121
+#: ../src/wbc-gtk.c:4122
 #, c-format
 msgid "Content of %s"
 msgstr "Obsah buňky %s"
 
-#: ../src/wbc-gtk.c:4136
+#: ../src/wbc-gtk.c:4137
 msgid "Use Maximum Precision"
 msgstr "Používat maximální přesnost"
 
-#: ../src/wbc-gtk.c:4148
+#: ../src/wbc-gtk.c:4149
 msgid "Insert Formula Below"
 msgstr "Vložit vzorec pod."
 
-#: ../src/wbc-gtk.c:4154
+#: ../src/wbc-gtk.c:4155
 msgid "Insert Formula to Side"
 msgstr "Vložit vzorec vedle."
 
-#: ../src/wbc-gtk.c:4237
+#: ../src/wbc-gtk.c:4238
 #, c-format
 msgid "Open %s"
 msgstr "Otevřít %s"
@@ -17984,7 +17980,7 @@ msgstr ""
 "\n"
 "\t<i>⇧F4 vybere</i>"
 
-#: ../src/widgets/gnumeric-expr-entry.c:2644
+#: ../src/widgets/gnumeric-expr-entry.c:2645
 #, c-format
 msgid "Expecting a single range"
 msgstr "Očekává se jedna oblast"
@@ -18072,56 +18068,56 @@ msgid "Address"
 msgstr "Adresa"
 
 #. Translators: "%dC" is a very short format to indicate the number of full columns
-#: ../src/workbook-view.c:404
+#: ../src/workbook-view.c:416
 #, c-format
 msgid "%dC"
 msgstr "%dS"
 
 #. Translators: "%dR" is a very short format to indicate the number of full rows
-#: ../src/workbook-view.c:407
+#: ../src/workbook-view.c:419
 #, c-format
 msgid "%dR"
 msgstr "%dŘ"
 
 #. Translators: "%dR x %dC" is a very short format to indicate the number of rows and columns
-#: ../src/workbook-view.c:410
+#: ../src/workbook-view.c:422
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dŘ × %dS"
 
-#: ../src/workbook-view.c:1068
+#: ../src/workbook-view.c:1115
 msgid "An unexplained error happened while saving."
 msgstr "Nastala nevysvětlená chyba při ukládání."
 
-#: ../src/workbook-view.c:1084
+#: ../src/workbook-view.c:1139
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Nelze otevřít „%s“ pro zápis: %s"
 
-#: ../src/workbook-view.c:1088
+#: ../src/workbook-view.c:1143
 #, c-format
 msgid "Can't open '%s' for writing"
 msgstr "Nelze otevřít „%s“ pro zápis"
 
-#: ../src/workbook-view.c:1351
+#: ../src/workbook-view.c:1409
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát souboru."
 
-#: ../src/workbook-view.c:1399
+#: ../src/workbook-view.c:1458
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Nastala nevysvětlitelná chyba při otevírání %s"
 
-#: ../src/workbook.c:357
+#: ../src/workbook.c:310
 #, c-format
 msgid "Book%d.%s"
 msgstr "Sešit%d.%s"
 
-#: ../src/workbook.c:1070
+#: ../src/workbook.c:1085
 msgid "Graph"
 msgstr "Graf"
 
-#: ../src/workbook.c:1593
+#: ../src/workbook.c:1611
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
@@ -18129,7 +18125,7 @@ msgstr[0] "Přejmenovat list"
 msgstr[1] "Přejmenovat %d listy"
 msgstr[2] "Přejmenovat %d listů"
 
-#: ../src/workbook.c:1595
+#: ../src/workbook.c:1613
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -18141,7 +18137,7 @@ msgstr[2] "Přidat %d listů"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1601
+#: ../src/workbook.c:1619
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
@@ -18149,11 +18145,11 @@ msgstr[0] "Vložit list"
 msgstr[1] "Vložit %d listy"
 msgstr[2] "Vložit %d listů"
 
-#: ../src/workbook.c:1603
+#: ../src/workbook.c:1621
 msgid "Changing sheet tab colors"
 msgstr "Změnit barvu karet listů"
 
-#: ../src/workbook.c:1605
+#: ../src/workbook.c:1623
 msgid "Changing sheet properties"
 msgstr "Změnit vlastnosti listu"
 
@@ -18161,7 +18157,7 @@ msgstr "Změnit vlastnosti listu"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1612
+#: ../src/workbook.c:1630
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
@@ -18169,59 +18165,59 @@ msgstr[0] "Odstranit list"
 msgstr[1] "Odstranit %d listy"
 msgstr[2] "Odstranit %d listů"
 
-#: ../src/workbook.c:1614
+#: ../src/workbook.c:1632
 msgid "Changing sheet order"
 msgstr "Změnit pořadí listů"
 
-#: ../src/workbook.c:1616
+#: ../src/workbook.c:1634
 msgid "Reorganizing Sheets"
 msgstr "Reorganizovat listy"
 
-#: ../src/xml-sax-read.c:499
+#: ../src/xml-sax-read.c:507
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Vícenásobná specifikace verzí. Předpokládá se %d"
 
-#: ../src/xml-sax-read.c:672
+#: ../src/xml-sax-read.c:680
 msgid "workbook view attribute is incomplete"
 msgstr "atribut zobrazení sešitu je neúplný"
 
-#: ../src/xml-sax-read.c:821
+#: ../src/xml-sax-read.c:829
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Soubor má nekonzistentní element SheetNameIndex."
 
-#: ../src/xml-sax-read.c:2290
+#: ../src/xml-sax-read.c:2317
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Neznámý operátor filtru „%s“"
 
-#: ../src/xml-sax-read.c:2331
+#: ../src/xml-sax-read.c:2358
 msgid "Missing filter type"
 msgstr "Schází typ filtru"
 
-#: ../src/xml-sax-read.c:2344
+#: ../src/xml-sax-read.c:2371
 msgid "Malformed sheet filter condition"
 msgstr "Chybná podmínka sešitového filtru"
 
-#: ../src/xml-sax-read.c:2358
+#: ../src/xml-sax-read.c:2385
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Neznámý typ filtru „%s“"
 
-#: ../src/xml-sax-read.c:2379
+#: ../src/xml-sax-read.c:2406
 msgid "Invalid filter, missing Area"
 msgstr "Neplatný filtr, schází oblast"
 
-#: ../src/xml-sax-read.c:2444
+#: ../src/xml-sax-read.c:2471
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Nepodporovaný typ objektu „%s“"
 
-#: ../src/xml-sax-read.c:3756 ../src/xml-sax-write.c:1699
+#: ../src/xml-sax-read.c:3779 ../src/xml-sax-write.c:1710
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-sax-write.c:1711
+#: ../src/xml-sax-write.c:1722
 msgid "Gnumeric XML uncompressed (*.xml)"
 msgstr "Gnumeric XML nekomprimovaný (*.xml)"
 
