@@ -48,6 +48,7 @@
 #include "sheet-private.h"
 #include "xml-sax.h"
 #include "clipboard.h"
+#include "gui-clipboard.h"
 #include "value.h"
 #include "expr.h"
 #include "expr-deriv.h"
@@ -321,6 +322,7 @@ gnm_init (void)
 	_gnm_expr_init ();
 	gnm_sheet_cell_init ();
 	clipboard_init ();
+	gui_clipboard_init ();
 	dependent_types_init ();
 	gnm_rendered_value_init ();
 	functions_init ();
@@ -363,6 +365,7 @@ gnm_shutdown (void)
 
 	gnm_rendered_value_shutdown ();
 	dependent_types_shutdown ();
+	gui_clipboard_shutdown ();
 	clipboard_shutdown ();
 	gnm_sheet_cell_shutdown ();
 	_gnm_expr_deriv_shutdown ();

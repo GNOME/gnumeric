@@ -49,65 +49,113 @@
 
 #define APP_CLIP_DISP_KEY "clipboard-displays"
 
-static gboolean
-debug_clipboard (void)
-{
-	static gboolean d_clipboard;
-	static gboolean inited = FALSE;
+// ----------------------------------------------------------------------------
 
-	if (!inited) {
-		inited = TRUE;
-		d_clipboard = gnm_debug_flag ("clipboard");
-	}
+static gboolean debug_clipboard;
+static gboolean debug_clipboard_dump;
+static gboolean debug_clipboard_undump;
 
-	return d_clipboard;
-}
+// ----------------------------------------------------------------------------
+
+enum {
+	ATOM_GNUMERIC,
+	ATOM_GOFFICE_GRAPH,
+	// ----------
+	ATOM_UTF8_STRING,
+	ATOM_STRING,
+	ATOM_COMPOUND_TEXT,
+	ATOM_TEXT_HTML,
+	ATOM_TEXT_HTML_WINDOWS,
+	// ----------
+	ATOM_BIFF8,
+	ATOM_BIFF8_OO,
+	ATOM_BIFF8_CITRIX,
+	ATOM_BIFF5,
+	ATOM_BIFF,
+	// ----------
+	ATOM_OOO,
+	ATOM_OOO_WINDOWS,
+	ATOM_OOO11,
+	// ----------
+	ATOM_IMAGE_SVGXML,
+	ATOM_IMAGE_XWMF,
+	ATOM_IMAGE_XEMF,
+	ATOM_IMAGE_PNG,
+	ATOM_IMAGE_JPEG,
+	ATOM_IMAGE_BMP,
+	// ----------
+	ATOM_SAVE_TARGETS,
+};
+
+static const char *const atom_names[] = {
+	"application/x-gnumeric",
+	"application/x-goffice-graph",
+	// ----------
+	"UTF8_STRING",
+	"STRING",
+	"COMPOUND_TEXT",
+	"text/html",
+	"HTML Format",
+	// ----------
+	"Biff8",
+	"application/x-openoffice-biff-8;windows_formatname=\"Biff8\"",
+	"_CITRIX_Biff8",
+	"Biff5",
+	"Biff",
+	// ----------
+	"application/x-openoffice;windows_formatname=\"Star Embed Source (XML)\"",
+	"Star Embed Source (XML)",
+	"application/x-openoffice-embed-source-xml;windows_formatname=\"Star Embed Source (XML)\"",
+	// ----------
+	"image/svg+xml",
+	"image/x-wmf",
+	"image/x-emf",
+	"image/png",
+	"image/jpeg",
+	"image/bmp",
+	// ----------
+	"SAVE_TARGETS",
+};
+
+static GdkAtom atoms[G_N_ELEMENTS(atom_names)];
+
+typedef enum {
+	INFO_UNKNOWN,
+	INFO_GNUMERIC,
+	INFO_EXCEL,
+	INFO_OOO,
+	INFO_GENERIC_TEXT,
+	INFO_HTML,
+	INFO_OBJECT,
+	INFO_IMAGE,
+	INFO_STRING
+} AtomInfoType;
+
+static GtkTargetList *generic_text_targets;
+static GtkTargetList *image_targets;
+
+// ----------------------------------------------------------------------------
 
 typedef struct {
 	WBCGtk *wbcg;
-	GnmPasteTarget        *paste_target;
-	GdkAtom            image_atom;
-	GdkAtom            string_atom;
+	GnmPasteTarget *paste_target;
 } GnmGtkClipboardCtxt;
 
-/* The name of our clipboard atom and the 'magic' info number */
-#define GNUMERIC_ATOM_NAME "application/x-gnumeric"
-#define GNUMERIC_ATOM_INFO 2001
-#define GOFFICE_GRAPH_ATOM_NAME "application/x-goffice-graph"
+static void
+gnm_gtk_clipboard_context_free (GnmGtkClipboardCtxt *ctxt)
+{
+	g_free (ctxt->paste_target);
+	g_free (ctxt);
+}
 
 /*
  * Emacs hack:
  * (x-get-selection-internal 'CLIPBOARD 'TARGETS)
  */
 
-/* From MS Excel */
-#define BIFF8_ATOM_NAME	"Biff8"
-#define BIFF8_ATOM_NAME_CITRIX "_CITRIX_Biff8"
-#define BIFF8_ATOM_NAME_OO "application/x-openoffice-biff-8;windows_formatname=\"Biff8\""
-#define BIFF5_ATOM_NAME	"Biff5"
-#define BIFF4_ATOM_NAME	"Biff4"
-#define BIFF3_ATOM_NAME	"Biff3"
-#define BIFF_ATOM_NAME	"Biff"
-
-#define HTML_ATOM_NAME_UNIX "text/html"
-#define HTML_ATOM_NAME_WINDOWS "HTML Format"
-#ifdef G_OS_WIN32
-#define HTML_ATOM_NAME HTML_ATOM_NAME_WINDOWS
-#else
-#define HTML_ATOM_NAME HTML_ATOM_NAME_UNIX
-#endif
-
-#define OOO_ATOM_NAME "application/x-openoffice;windows_formatname=\"Star Embed Source (XML)\""
-#define OOO11_ATOM_NAME "application/x-openoffice-embed-source-xml;windows_formatname=\"Star Embed Source (XML)\""
-#define OOO_ATOM_NAME_WINDOWS "Star Embed Source (XML)"
-
-#define UTF8_ATOM_NAME "UTF8_STRING"
-#define CTEXT_ATOM_NAME "COMPOUND_TEXT"
-#define STRING_ATOM_NAME "STRING"
-
-	/* See if this is a "single line + line end", a "multiline" or a "tab separated"
-	 * string. If this is _not_ the case we won't invoke the STF, it is
-	 * unlikely that the user will actually need it in this case. */
+/* See if this is a "single line + line end", a "multiline" or a "tab separated"
+ * string. If this is _not_ the case we won't invoke the STF, it is
+ * unlikely that the user will actually need it in this case. */
 static gboolean
 text_is_single_cell (gchar const *data, int data_len)
 {
@@ -199,7 +247,7 @@ text_to_cell_region (WBCGtk *wbcg,
 }
 
 static void
-text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
+text_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		       gpointer closure)
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
@@ -210,12 +258,11 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 	GdkAtom target = gtk_selection_data_get_target (sel);
 	int sel_len = gtk_selection_data_get_length (sel);
 
-	if (debug_clipboard ()) {
+	if (debug_clipboard) {
 		int maxlen = 1024;
 		char *name = gdk_atom_name (gtk_selection_data_get_target (sel));
 		g_printerr ("Received %d bytes of text for target %s\n",
-			    sel_len,
-			    name);
+			    sel_len, name);
 		g_free (name);
 		if (sel_len > 0) {
 			gsf_mem_dump (gtk_selection_data_get_data (sel), MIN (sel_len, maxlen));
@@ -227,15 +274,15 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 	/* Nothing on clipboard? */
 	if (sel_len < 0) {
 		;
-	} else if (target == gdk_atom_intern (UTF8_ATOM_NAME, FALSE)) {
+	} else if (target == atoms[ATOM_UTF8_STRING]) {
 		content = text_to_cell_region (wbcg, (const char *)gtk_selection_data_get_data (sel),
 					       sel_len, "UTF-8", TRUE);
-	} else if (target == gdk_atom_intern (CTEXT_ATOM_NAME, FALSE)) {
+	} else if (target == atoms[ATOM_COMPOUND_TEXT]) {
 		/* COMPOUND_TEXT is icky.  Just let GTK+ do the work.  */
 		char *data_utf8 = (char *)gtk_selection_data_get_text (sel);
 		content = text_to_cell_region (wbcg, data_utf8, strlen (data_utf8), "UTF-8", TRUE);
 		g_free (data_utf8);
-	} else if (target == gdk_atom_intern (STRING_ATOM_NAME, FALSE)) {
+	} else if (target == atoms[ATOM_STRING]) {
 		char const *locale_encoding;
 		g_get_charset (&locale_encoding);
 
@@ -253,8 +300,8 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 		/* Release the resources we used */
 		cellregion_unref (content);
 	}
-	g_free (ctxt->paste_target);
-	g_free (ctxt);
+
+	gnm_gtk_clipboard_context_free (ctxt);
 }
 
 static void
@@ -284,8 +331,8 @@ utf8_content_received (GtkClipboard *clipboard,  const gchar *text,
 		/* Release the resources we used */
 		cellregion_unref (content);
 	}
-	g_free (ctxt->paste_target);
-	g_free (ctxt);
+
+	gnm_gtk_clipboard_context_free (ctxt);
 }
 
 /*
@@ -380,7 +427,7 @@ image_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	GnmPasteTarget *pt = ctxt->paste_target;
 	int sel_len = gtk_selection_data_get_length (sel);
 
-	if (debug_clipboard ()) {
+	if (debug_clipboard) {
 		int maxlen = 1024;
 		char *name = gdk_atom_name (gtk_selection_data_get_target (sel));
 		g_printerr ("Received %d bytes of image for target %s\n",
@@ -397,15 +444,9 @@ image_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	if (sel_len > 0) {
 		scg_paste_image (wbcg_cur_scg (wbcg), &pt->range,
 				 gtk_selection_data_get_data (sel), sel_len);
-		g_free (ctxt->paste_target);
-		g_free (ctxt);
-	} else  if (ctxt->string_atom != GDK_NONE) {
-		gtk_clipboard_request_contents (clipboard, ctxt->string_atom,
-						text_content_received, ctxt);
-	} else {
-		g_free (ctxt->paste_target);
-		g_free (ctxt);
 	}
+
+	gnm_gtk_clipboard_context_free (ctxt);
 }
 
 static void
@@ -448,7 +489,7 @@ parse_ms_headers (const char *data, size_t length, size_t *start, size_t *end)
 
 		i = k;
 
-		if (debug_clipboard ())
+		if (debug_clipboard)
 			g_printerr ("MS HTML Header [%s] => [%s]\n", key, value);
 
 		if (strcmp (key, "StartHTML") == 0) {
@@ -498,7 +539,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	const guint8 *buffer = gtk_selection_data_get_data (sel);
 	int sel_len = gtk_selection_data_get_length (sel);
 
-	if (debug_clipboard ()) {
+	if (debug_clipboard) {
 		int maxlen = 1024;
 		char *name = gdk_atom_name (gtk_selection_data_get_target (sel));
 		g_printerr ("Received %d bytes of table for target %s\n",
@@ -519,7 +560,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	/* Nothing on clipboard? */
 	if (sel_len < 0) {
 		;
-	} else if (target == gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE)) {
+	} else if (target == atoms[ATOM_GNUMERIC]) {
 		/* The data is the gnumeric specific XML interchange format */
 		GOIOContext *io_context =
 			go_io_context_new (GO_CMD_CONTEXT (wbcg));
@@ -528,17 +569,17 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			 pt->sheet,
 			 (const char *)buffer, sel_len);
 		g_object_unref (io_context);
-	} else if (target == gdk_atom_intern (OOO_ATOM_NAME, FALSE) ||
-		   target == gdk_atom_intern (OOO_ATOM_NAME_WINDOWS, FALSE) ||
-		   target == gdk_atom_intern (OOO11_ATOM_NAME, FALSE)) {
+	} else if (target == atoms[ATOM_OOO] ||
+		   target == atoms[ATOM_OOO_WINDOWS] ||
+		   target == atoms[ATOM_OOO11]) {
 		content = table_cellregion_read (wbc, "Gnumeric_OpenCalc:openoffice",
 						 pt, buffer,
 						 sel_len);
-	} else if (target == gdk_atom_intern (HTML_ATOM_NAME_UNIX, FALSE) ||
-		   target == gdk_atom_intern (HTML_ATOM_NAME_WINDOWS, FALSE)) {
+	} else if (target == atoms[ATOM_TEXT_HTML] ||
+		   target == atoms[ATOM_TEXT_HTML_WINDOWS]) {
 		size_t start = 0, end = sel_len;
 
-		if (target == gdk_atom_intern (HTML_ATOM_NAME_WINDOWS, FALSE)) {
+		if (target == atoms[ATOM_TEXT_HTML_WINDOWS]) {
 			/* See bug 143084 */
 			parse_ms_headers (buffer, sel_len, &start, &end);
 		}
@@ -547,12 +588,11 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 						 pt,
 						 buffer + start,
 						 end - start);
-	} else if ((target == gdk_atom_intern ( BIFF8_ATOM_NAME, FALSE)) ||
-		   (target == gdk_atom_intern ( BIFF8_ATOM_NAME_CITRIX, FALSE)) ||
-		   (target == gdk_atom_intern ( BIFF5_ATOM_NAME, FALSE)) ||
-		   (target == gdk_atom_intern ( BIFF4_ATOM_NAME, FALSE)) ||
-		   (target == gdk_atom_intern ( BIFF3_ATOM_NAME, FALSE)) ||
-		   (target == gdk_atom_intern ( BIFF_ATOM_NAME,  FALSE))) {
+	} else if (target == atoms[ATOM_BIFF8] ||
+		   target == atoms[ATOM_BIFF8_CITRIX] ||
+		   target == atoms[ATOM_BIFF8_OO] ||
+		   target == atoms[ATOM_BIFF5] ||
+		   target == atoms[ATOM_BIFF]) {
 		content = table_cellregion_read (wbc, "Gnumeric_Excel:excel",
 						 pt, buffer,
 						 sel_len);
@@ -568,18 +608,19 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 
 		/* Release the resources we used */
 		cellregion_unref (content);
-		g_free (ctxt->paste_target);
-		g_free (ctxt);
-	} else if (ctxt->image_atom != GDK_NONE) {
-		gtk_clipboard_request_contents (clipboard, ctxt->image_atom,
-						image_content_received, ctxt);
-	} else if (ctxt->string_atom != GDK_NONE) {
-		gtk_clipboard_request_contents (clipboard, ctxt->string_atom,
-						text_content_received, ctxt);
-	} else {
-		g_free (ctxt->paste_target);
-		g_free (ctxt);
 	}
+
+	gnm_gtk_clipboard_context_free (ctxt);
+}
+
+static gboolean
+find_in_table (GdkAtom *targets, int n, GdkAtom a)
+{
+	int i;
+	for (i = 0; i < n; i++)
+		if (targets[i] == a)
+			return TRUE;
+	return FALSE;
 }
 
 /**
@@ -597,105 +638,78 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 		    gint n_targets, gpointer closure)
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
-	GdkAtom table_atom = GDK_NONE;
-	gint i, j;
+	int i;
+	unsigned ui;
 
-	/* in order of preference */
-	static char const *table_fmts [] = {
-		GNUMERIC_ATOM_NAME,
-
-		BIFF8_ATOM_NAME,
-		BIFF8_ATOM_NAME_CITRIX,
-		BIFF5_ATOM_NAME,
-		BIFF4_ATOM_NAME,
-		BIFF3_ATOM_NAME,
-		BIFF_ATOM_NAME,
-
-		OOO_ATOM_NAME,
-		OOO11_ATOM_NAME,
-		OOO_ATOM_NAME_WINDOWS,
-
-		HTML_ATOM_NAME_UNIX,
-		HTML_ATOM_NAME_WINDOWS,
-		NULL
-	};
-	static char const *string_fmts [] = {
-		UTF8_ATOM_NAME,
-		STRING_ATOM_NAME,
-		CTEXT_ATOM_NAME,
-		NULL
+	// In order of preference
+	static const int table_fmts[] = {
+		ATOM_GNUMERIC,
+		ATOM_BIFF8, ATOM_BIFF8_CITRIX,
+		ATOM_OOO, ATOM_OOO11, ATOM_OOO_WINDOWS,
+		ATOM_BIFF5, ATOM_BIFF,
+		ATOM_TEXT_HTML,	ATOM_TEXT_HTML_WINDOWS,
 	};
 
-	/* Nothing on clipboard? */
+	// In order of preference
+	static const int string_fmts[] = {
+		ATOM_UTF8_STRING,
+		ATOM_STRING,
+		ATOM_COMPOUND_TEXT
+	};
+
+	// Nothing on clipboard?  Try text.
 	if (targets == NULL || n_targets == 0) {
 		gtk_clipboard_request_text (clipboard, utf8_content_received,
 					    ctxt);
 		return;
 	}
 
-	if (debug_clipboard ()) {
+	if (debug_clipboard) {
 		int j;
 
-		for (j = 0; j < n_targets; j++)
+		for (j = 0; j < n_targets; j++) {
+			char *name = gdk_atom_name (targets[j]);
 			g_printerr ("Clipboard target %d is %s\n",
-				    j, gdk_atom_name (targets[j]));
-	}
-
-	/* The data is a list of atoms */
-	/* Find the best table format offered */
-	for (i = 0 ; table_fmts[i] && table_atom == GDK_NONE ; i++) {
-		/* Look for one we can use */
-		GdkAtom atom = gdk_atom_intern (table_fmts[i], FALSE);
-		/* is it on offer? */
-		for (j = 0; j < n_targets && table_atom == GDK_NONE; j++) {
-			if (targets [j] == atom)
-				table_atom = atom;
+				    j, name);
+			g_free (name);
 		}
 	}
 
-	if (table_atom == GDK_NONE) {
-		GtkTargetList *tl = gtk_target_list_new (NULL, 0);
-		gboolean found = FALSE;
-
-		gtk_target_list_add_image_targets (tl, 0, FALSE);
-
-		/* Find an image format */
-		for (i = 0 ; i < n_targets && !found; i++) {
-			if (gtk_target_list_find (tl, targets[i], NULL)) {
-				ctxt->image_atom = targets[i];
-				found = TRUE;
-			}
+	// First look for anything that can be considered a spreadsheet
+	for (ui = 0; ui < G_N_ELEMENTS(table_fmts); ui++) {
+		GdkAtom atom = atoms[table_fmts[ui]];
+		if (find_in_table (targets, n_targets, atom)) {
+			gtk_clipboard_request_contents (clipboard, atom,
+							table_content_received,
+							ctxt);
+			return;
 		}
-		gtk_target_list_unref (tl);
 	}
 
-	/* Find a string format to fall back to */
-	for (i = 0 ; string_fmts[i] && ctxt->string_atom == GDK_NONE ; i++) {
-		/* Look for one we can use */
-		GdkAtom atom = gdk_atom_intern (string_fmts[i],	FALSE);
-		/* is it on offer? */
-		for (j = 0; j < n_targets && ctxt->string_atom == GDK_NONE;
-		     j++) {
-			if (targets [j] == atom)
-				ctxt->string_atom = atom;
+	// Try an image format
+	for (i = 0; i < n_targets; i++) {
+		GdkAtom atom = targets[i];
+		if (gtk_target_list_find (image_targets, atom, NULL)) {
+			gtk_clipboard_request_contents (clipboard, atom,
+							image_content_received,
+							ctxt);
+			return;
 		}
-		if (ctxt->string_atom != GDK_NONE)
-			break;
 	}
 
-	if (table_atom != GDK_NONE)
-		gtk_clipboard_request_contents (clipboard, table_atom,
-						table_content_received, ctxt);
-	else if (ctxt->image_atom != GDK_NONE)
-		gtk_clipboard_request_contents (clipboard, ctxt->image_atom,
-						image_content_received, ctxt);
-	else if (ctxt->string_atom != GDK_NONE)
-		gtk_clipboard_request_contents (clipboard, ctxt->string_atom,
-						text_content_received, ctxt);
-	else {
-		g_free (ctxt->paste_target);
-		g_free (ctxt);
+	// Try a string format
+	for (ui = 0; ui < G_N_ELEMENTS (string_fmts); ui++) {
+		GdkAtom atom = atoms[string_fmts[ui]];
+		if (find_in_table (targets, n_targets, atom)) {
+			gtk_clipboard_request_contents (clipboard, atom,
+							text_content_received,
+							ctxt);
+			return;
+		}
 	}
+
+	// Give up
+	gnm_gtk_clipboard_context_free (ctxt);
 }
 
 /* Cheezy implementation: paste into a temporary workbook, save that. */
@@ -889,7 +903,7 @@ object_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
  */
 static void
 x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
-		    guint info, GObject *app)
+		    guint info_, gpointer app)
 {
 	gboolean to_gnumeric = FALSE, content_needs_free = FALSE;
 	GnmCellRegion *clipboard = gnm_app_clipboard_contents_get ();
@@ -897,18 +911,19 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	GnmRange const *a = gnm_app_clipboard_area_get ();
 	GOCmdContext *ctx = gnm_cmd_context_stderr_new ();
 	GdkAtom target = gtk_selection_data_get_target (selection_data);
+	AtomInfoType info = info_;
 	gchar *target_name = gdk_atom_name (target);
 
-	if (debug_clipboard ())
-		g_printerr ("clipboard target=%s\n", target_name);
+	if (debug_clipboard)
+		g_printerr ("clipboard requested, target=%s\n", target_name);
 
 	/*
 	 * There are 4 cases. What variables are valid depends on case:
 	 * source is
-	 *   a cut: clipboard NULL, sheet, area non NULL.
-         *   a copy: clipboard, sheet, area all non NULL.
+	 *   a cut: clipboard NULL, sheet, area non-NULL.
+         *   a copy: clipboard, sheet, area all non-NULL.
 	 *   a cut, source closed: clipboard, sheet, area all NULL.
-	 *   a copy, source closed: clipboard non NULL, sheet, area non NULL.
+	 *   a copy, source closed: clipboard non-NULL, sheet, area non-NULL.
 	 *
 	 * If the source is a cut, we copy it for pasting.  We
 	 * postpone clearing it until after the selection has been
@@ -923,7 +938,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		goto out;
 
 	/* What format does the other application want? */
-	if (target == gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE)) {
+	if (target == atoms[ATOM_GNUMERIC]) {
 		GsfOutputMemory *output  = gnm_cellregion_to_xml (clipboard);
 		if (output) {
 			gsf_off_t size = gsf_output_size (GSF_OUTPUT (output));
@@ -932,7 +947,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 				g_file_set_contents ("paste-from-gnumeric.dat",
 						     data, size, NULL);
 			}
-			if (debug_clipboard ())
+			if (debug_clipboard)
 				g_printerr ("clipboard .gnumeric of %d bytes\n",
 					   (int)size);
 			gtk_selection_data_set
@@ -942,74 +957,72 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 			g_object_unref (output);
 			to_gnumeric = TRUE;
 		}
-	} else if (target == gdk_atom_intern (HTML_ATOM_NAME, FALSE)) {
+	} else if (info == INFO_HTML) {
 		const char *saver_id = "Gnumeric_html:xhtml_range";
 		int buffer_size;
 		guchar *buffer = table_cellregion_write (ctx, clipboard,
 							 saver_id,
 							 &buffer_size);
-		if (debug_clipboard ())
+		if (debug_clipboard)
 			g_message ("clipboard html of %d bytes",
 				    buffer_size);
 		gtk_selection_data_set (selection_data,
 					target, 8,
 					buffer, buffer_size);
 		g_free (buffer);
-	} else if (target == gdk_atom_intern (BIFF8_ATOM_NAME, FALSE) ||
-		   target == gdk_atom_intern (BIFF8_ATOM_NAME_CITRIX, FALSE) ||
-		   target == gdk_atom_intern (BIFF8_ATOM_NAME_OO, FALSE)) {
+	} else if (info == INFO_EXCEL) {
 		const char *saver_id = "Gnumeric_Excel:excel_biff8";
 		int buffer_size;
 		guchar *buffer = table_cellregion_write (ctx, clipboard,
 							 saver_id,
 							 &buffer_size);
-		if (debug_clipboard ())
+		if (debug_clipboard)
 			g_message ("clipboard biff8 of %d bytes",
 				    buffer_size);
 		gtk_selection_data_set (selection_data,
 					target, 8,
 					buffer, buffer_size);
 		g_free (buffer);
-	} else if (strcmp (target_name, "application/x-goffice-graph") == 0 ||
+	} else if (target == atoms[ATOM_GOFFICE_GRAPH] ||
 	           g_slist_find_custom (go_components_get_mime_types (), target_name, (GCompareFunc) strcmp) != NULL) {
 		int buffer_size;
 		guchar *buffer = object_write (clipboard, target_name,
 					      &buffer_size);
-		if (debug_clipboard ())
+		if (debug_clipboard)
 			g_message ("clipboard graph of %d bytes",
 				   buffer_size);
 		gtk_selection_data_set (selection_data,
 					target, 8,
 					buffer, buffer_size);
 		g_free (buffer);
-	} else if (strncmp (target_name, "image/", 6) == 0) {
+	} else if (info == INFO_IMAGE) {
 		int buffer_size;
 		guchar *buffer = image_write (clipboard, target_name,
 					      &buffer_size);
-		if (debug_clipboard ())
+		if (debug_clipboard)
 			g_message ("clipboard image of %d bytes",
 				    buffer_size);
 		gtk_selection_data_set (selection_data,
 					target, 8,
 					buffer, buffer_size);
 		g_free (buffer);
-	} else if (strcmp (target_name, "SAVE_TARGETS") == 0) {
+	} else if (target == atoms[ATOM_SAVE_TARGETS]) {
 		/* We implicitly registered this when calling
 		 * gtk_clipboard_set_can_store. We're supposed to
 		 * ignore it. */
-	} else if (clipboard->origin_sheet) {
+	} else if (info == INFO_STRING) {
 		Workbook *wb = clipboard->origin_sheet->workbook;
 		GString *res = cellregion_to_string (clipboard,
 			TRUE, workbook_date_conv (wb));
 		if (res != NULL) {
-			if (debug_clipboard ())
+			if (debug_clipboard)
 				g_message ("clipboard text of %d bytes",
 					   (int)res->len);
 			gtk_selection_data_set_text (selection_data,
 						     res->str, res->len);
 			g_string_free (res, TRUE);
 		} else {
-			if (debug_clipboard ())
+			if (debug_clipboard)
 				g_message ("clipboard empty text");
 			gtk_selection_data_set_text (selection_data, "", 0);
 		}
@@ -1057,16 +1070,13 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
  *
  * Callback for the "we lost the X selection" signal.
  */
-static gint
-x_clipboard_clear_cb (GtkClipboard *clipboard,
-		      GObject *obj)
+static void
+x_clipboard_clear_cb (GtkClipboard *clipboard, gpointer app_)
 {
-	if (debug_clipboard ())
+	if (debug_clipboard)
 		g_printerr ("Lost clipboard ownership.\n");
 
 	gnm_app_clipboard_clear (FALSE);
-
-	return TRUE;
 }
 
 void
@@ -1085,8 +1095,6 @@ gnm_x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt)
 	ctxt->wbcg = wbcg;
 	ctxt->paste_target = g_new (GnmPasteTarget, 1);
 	*ctxt->paste_target = *pt;
-	ctxt->image_atom = GDK_NONE;
-	ctxt->string_atom = GDK_NONE;
 
 	/* Query the formats, This will callback x_targets_received */
 	gtk_clipboard_request_targets (clipboard,
@@ -1096,48 +1104,67 @@ gnm_x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt)
 /* Restrict the	set of formats offered to clipboard manager. */
 /* We include bmp in the whitelist because that's the only image format
  * we share with OOo over clipboard (!) */
-static void
-set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, guint n_targets)
-{
-	static GtkTargetEntry clipman_whitelist[] = {
-		{ (char *) GNUMERIC_ATOM_NAME, 0, GNUMERIC_ATOM_INFO },
-		{ (char *) BIFF8_ATOM_NAME_OO, 0, 0 },
-		{ (char *) HTML_ATOM_NAME, 0, 0 },
-		{ (char *)"UTF8_STRING", 0, 0 },
-		{ (char *)"application/x-goffice-graph", 0, 0 },
-		{ (char *)"image/svg+xml", 0, 0 },
-		{ (char *)"image/x-wmf", 0, 0 },
-		{ (char *)"image/x-emf", 0, 0 },
-		{ (char *)"image/png", 0, 0 },
-		{ (char *)"image/jpeg", 0, 0 },
-		{ (char *)"image/bmp", 0, 0 },
-	};
-	guint n_whitelist = G_N_ELEMENTS (clipman_whitelist);
-	int n_allowed;
-	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
-	GtkTargetEntry *t, *wt, *t_allowed;
 
-	for (t = targets; t < targets + n_targets; t++) {
-		for (wt = clipman_whitelist;
-		     wt < clipman_whitelist + n_whitelist; wt++) {
-			if (strcmp(t->target, wt->target) == 0) {
-				gtk_target_list_add
-					(tl, gdk_atom_intern (t->target, FALSE),
-					 t->flags, t->info);
-				break;
-			}
-		}
+static gboolean
+is_clipman_target (const char *target)
+{
+	return (g_str_equal (target, atom_names[ATOM_GNUMERIC]) ||
+		g_str_equal (target, atom_names[ATOM_GOFFICE_GRAPH]) ||
+		g_str_equal (target, atom_names[ATOM_TEXT_HTML]) ||
+		g_str_equal (target, atom_names[ATOM_UTF8_STRING]) ||
+		g_str_equal (target, atom_names[ATOM_BIFF8_OO]) ||
+		g_str_equal (target, atom_names[ATOM_IMAGE_SVGXML]) ||
+		g_str_equal (target, atom_names[ATOM_IMAGE_XWMF]) ||
+		g_str_equal (target, atom_names[ATOM_IMAGE_XEMF]) ||
+		g_str_equal (target, atom_names[ATOM_IMAGE_PNG]) ||
+		g_str_equal (target, atom_names[ATOM_IMAGE_JPEG]) ||
+		g_str_equal (target, atom_names[ATOM_IMAGE_BMP]));
+}
+
+static void
+set_clipman_targets (GdkDisplay *disp, GArray *targets)
+{
+	GArray *allowed = g_array_new (FALSE, FALSE, sizeof (GtkTargetEntry));
+	unsigned ui;
+
+	for (ui = 0; ui < targets->len; ui++) {
+		GtkTargetEntry *te = &g_array_index (targets, GtkTargetEntry, ui);
+		if (is_clipman_target (te->target))
+			g_array_append_val (allowed, *te);
 	}
 
-	t_allowed = gtk_target_table_new_from_list (tl, &n_allowed);
-	gtk_target_list_unref (tl);
+	gtk_clipboard_set_can_store
+		(gtk_clipboard_get_for_display
+		 (disp, GDK_SELECTION_CLIPBOARD),
+		 &g_array_index (allowed, GtkTargetEntry, 0),
+		 allowed->len);
 
-	gtk_clipboard_set_can_store (
-			gtk_clipboard_get_for_display (
-				disp, GDK_SELECTION_CLIPBOARD),
-				t_allowed, n_allowed);
-	gtk_target_table_free (t_allowed, n_allowed);
-	t_allowed = NULL;
+	g_array_free (allowed, TRUE);
+}
+
+static void
+add_target (GArray *targets, const char *target, int flags, AtomInfoType info)
+{
+	GtkTargetEntry t;
+	t.target = (char *)target;
+	t.flags = flags;
+	t.info = info;
+	g_array_append_val (targets, t);
+}
+
+
+static void
+add_target_list (GArray *targets, GtkTargetList *src, AtomInfoType info)
+{
+	int n;
+	GtkTargetEntry *entries = gtk_target_table_new_from_list (src, &n);
+	unsigned ui = targets->len;
+	g_array_append_vals (targets, entries, n);
+	if (info != INFO_UNKNOWN) {
+		for (; ui < targets->len; ui++)
+			g_array_index (targets, GtkTargetEntry, ui).info = info;
+	}
+	gtk_target_table_free (entries, n);
 }
 
 gboolean
@@ -1145,77 +1172,69 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 {
 	GnmCellRegion *content = gnm_app_clipboard_contents_get ();
 	SheetObject *imageable = NULL, *exportable = NULL;
-	GtkTargetEntry *targets = NULL;
-	gboolean free_targets = FALSE;
-	int n_targets;
+	GArray *targets = g_array_new (FALSE, FALSE, sizeof (GtkTargetEntry));
 	gboolean ret;
 	GObject *app = gnm_app_get_app ();
+	gboolean no_cells = (!content) || (content->cols <= 0 || content->rows <= 0);
 
-	static GtkTargetEntry const table_targets[] = {
-		{ (char *)GNUMERIC_ATOM_NAME, 0, GNUMERIC_ATOM_INFO },
-		{ (char *)BIFF8_ATOM_NAME, 0, 0 },
-		{ (char *)BIFF8_ATOM_NAME_CITRIX, 0, 0 },
-		{ (char *)BIFF8_ATOM_NAME_OO, 0, 0 },
-		{ (char *)HTML_ATOM_NAME, 0, 0 },
-		{ (char *)"UTF8_STRING", 0, 0 },
-		{ (char *)"COMPOUND_TEXT", 0, 0 },
-		{ (char *)"STRING", 0, 0 },
-	};
+	if (no_cells) {
+		GSList *ptr = content ? content->objects : NULL;
 
-	targets = (GtkTargetEntry *) table_targets;
-	n_targets = G_N_ELEMENTS (table_targets);
-	if (content &&
-	    (content->cols <= 0 || content->rows <= 0)) {
-		GSList *ptr;
-		for (ptr = content->objects; ptr != NULL;
-		     ptr = ptr->next) {
+		add_target (targets, atom_names[ATOM_GNUMERIC], 0, INFO_GNUMERIC);
+
+		for (; ptr != NULL; ptr = ptr->next) {
 			SheetObject *candidate = GNM_SO (ptr->data);
 			if (exportable == NULL && GNM_IS_SO_EXPORTABLE (candidate))
 				exportable = candidate;
 			if (imageable == NULL && GNM_IS_SO_IMAGEABLE (candidate))
 				imageable = candidate;
 		}
-		/* Currently, we can't render sheet objects as text or html */
-		// Also cuts biff8
-		n_targets = 1;
+	} else {
+		add_target (targets, atom_names[ATOM_GNUMERIC], 0, INFO_GNUMERIC);
+		add_target (targets, atom_names[ATOM_BIFF8], 0, INFO_EXCEL);
+		add_target (targets, atom_names[ATOM_BIFF8_CITRIX], 0, INFO_EXCEL);
+		add_target (targets, atom_names[ATOM_BIFF8_OO], 0, INFO_EXCEL);
+#ifdef G_OS_WIN32
+		add_target (targets, atom_names[ATOM_TEXT_HTML_WINDOWS], 0, INFO_HTML);
+#else
+		add_target (targets, atom_names[ATOM_TEXT_HTML], 0, INFO_HTML);
+#endif
+		add_target (targets, atom_names[ATOM_UTF8_STRING], 0, INFO_STRING);
+		add_target (targets, atom_names[ATOM_COMPOUND_TEXT], 0, INFO_STRING);
+		add_target (targets, atom_names[ATOM_STRING], 0, INFO_STRING);
 	}
+
 	if (exportable) {
 		GtkTargetList *tl =
 			sheet_object_exportable_get_target_list (exportable);
-		/* _add_table prepends to target_list */
-		gtk_target_list_add_table (tl, table_targets, 1);
-		targets = gtk_target_table_new_from_list (tl, &n_targets);
+		add_target_list (targets, tl, INFO_OBJECT);
 		gtk_target_list_unref (tl);
-		free_targets = TRUE;
 	}
+
 	if (imageable) {
 		GtkTargetList *tl =
 			sheet_object_get_target_list (imageable);
-		/* _add_table prepends to target_list */
-		gtk_target_list_add_table (tl, targets, (exportable)? n_targets: 1);
-		if (free_targets)
-			gtk_target_table_free (targets, n_targets);
-		targets = gtk_target_table_new_from_list (tl, &n_targets);
+		add_target_list (targets, tl, INFO_IMAGE);
 		gtk_target_list_unref (tl);
-		free_targets = TRUE;
 	}
+
 	/* Register a x_clipboard_clear_cb only for CLIPBOARD, not for
 	 * PRIMARY */
 	ret = gtk_clipboard_set_with_owner (
 		gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD),
-		targets, n_targets,
-		(GtkClipboardGetFunc) x_clipboard_get_cb,
-		(GtkClipboardClearFunc) x_clipboard_clear_cb,
+		&g_array_index(targets,GtkTargetEntry,0), targets->len,
+		x_clipboard_get_cb,
+		x_clipboard_clear_cb,
 		app);
 	if (ret) {
-		if (debug_clipboard ()) {
-			int i;
+		if (debug_clipboard) {
+			unsigned ui;
 			g_printerr ("Clipboard successfully claimed.\n");
 			g_printerr ("Clipboard targets offered: ");
-			for (i = 0; i < n_targets; i++) {
+			for (ui = 0; ui < targets->len; ui++) {
 				g_printerr ("%s%s",
-					    (i ? ", " : ""),
-					    targets[i].target);
+					    (ui ? ", " : ""),
+					    g_array_index(targets,GtkTargetEntry,ui).target);
 			}
 			g_printerr ("\n");
 		}
@@ -1225,21 +1244,20 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 							 display),
 					(GDestroyNotify)g_slist_free);
 
-
-		set_clipman_targets (display, targets, n_targets);
+		set_clipman_targets (display, targets);
 		(void)gtk_clipboard_set_with_owner (
 			gtk_clipboard_get_for_display (display,
 						       GDK_SELECTION_PRIMARY),
-			targets, n_targets,
-			(GtkClipboardGetFunc) x_clipboard_get_cb,
+			&g_array_index(targets,GtkTargetEntry,0), targets->len,
+			x_clipboard_get_cb,
 			NULL,
 			app);
 	} else {
-		if (debug_clipboard ())
+		if (debug_clipboard)
 			g_printerr ("Failed to claim clipboard.\n");
 	}
-	if (free_targets)
-		gtk_target_table_free (targets, n_targets);
+
+	g_array_free (targets, TRUE);
 
 	return ret;
 }
@@ -1287,10 +1305,42 @@ gnm_x_store_clipboard_if_needed (Workbook *wb)
 				 (GTK_WIDGET (wbcg_toplevel (wbcg))),
 				 GDK_SELECTION_CLIPBOARD);
 			if (gtk_clipboard_get_owner (clip) == gnm_app_get_app ()) {
-				if (debug_clipboard ())
+				if (debug_clipboard)
 					g_printerr ("Handing off clipboard\n");
 				gtk_clipboard_store (clip);
 			}
 		}
 	}
+}
+
+/**
+ * gui_clipboard_init: (skip)
+ */
+void
+gui_clipboard_init (void)
+{
+	unsigned ui;
+
+	debug_clipboard = gnm_debug_flag ("clipboard");
+	debug_clipboard_dump = gnm_debug_flag ("clipboard-dump");
+	debug_clipboard_undump = gnm_debug_flag ("clipboard-undump");
+
+	for (ui = 0; ui < G_N_ELEMENTS (atoms); ui++)
+		atoms[ui] = gdk_atom_intern_static_string (atom_names[ui]);
+
+	generic_text_targets = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add_text_targets (generic_text_targets, INFO_STRING);
+
+	image_targets = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add_image_targets (image_targets, 0, FALSE);
+}
+
+/**
+ * gui_clipboard_shutdown: (skip)
+ */
+void
+gui_clipboard_shutdown (void)
+{
+	gtk_target_list_unref (generic_text_targets);
+	gtk_target_list_unref (image_targets);
 }
