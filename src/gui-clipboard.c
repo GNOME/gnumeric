@@ -527,9 +527,17 @@ urilist_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			GsfInput *input;
 			gsf_off_t size;
 			gconstpointer data;
+			char *mime;
+			gboolean qimage;
 
 			if (g_str_equal (uri, "copy"))
 				continue;
+			mime = go_get_mime_type (uri);
+			qimage = (strncmp (mime, "image/", 6) == 0);
+			g_free (mime);
+			if (!qimage)
+				continue;
+
 			input = go_file_open (uri, NULL);
 			if (!input)
 				continue;
