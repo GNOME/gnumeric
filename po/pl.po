@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-15 11:04+0200\n"
-"PO-Revision-Date: 2018-04-15 11:05+0200\n"
+"POT-Creation-Date: 2018-04-22 15:42+0200\n"
+"PO-Revision-Date: 2018-04-22 15:43+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -113,7 +113,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7220
-#: ../plugins/openoffice/openoffice-read.c:13875 ../src/xml-sax-read.c:3472
+#: ../plugins/openoffice/openoffice-read.c:13875 ../src/xml-sax-read.c:3495
 msgid "Reading file..."
 msgstr "Odczytywanie pliku…"
 
@@ -204,7 +204,7 @@ msgstr "Przygotowywanie do zapisu…"
 msgid "Saving file..."
 msgstr "Zapisywanie pliku…"
 
-#: ../plugins/excel/excel-xml-read.c:133 ../src/xml-sax-read.c:454
+#: ../plugins/excel/excel-xml-read.c:133 ../src/xml-sax-read.c:462
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Nieoczekiwany atrybut %s::%s == '%s'."
@@ -221,7 +221,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Nieprawidłowa zawartość elementu ss:data, otrzymano „%s”"
 
 #: ../plugins/excel/excel-xml-read.c:1100
-#: ../plugins/openoffice/openoffice-read.c:14039 ../src/xml-sax-read.c:3489
+#: ../plugins/openoffice/openoffice-read.c:14039 ../src/xml-sax-read.c:3512
 msgid "XML document not well formed!"
 msgstr "Niepoprawna składnia dokumentu XML."
 
@@ -1078,7 +1078,7 @@ msgstr "Funkcje do wykonywania działań na ciągach"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 #: ../src/dialogs/dialog-doc-metadata.c:1865 ../src/dialogs/dialog-search.c:152
-#: ../src/func.c:939
+#: ../src/func.c:945
 msgid "String"
 msgstr "Ciąg"
 
@@ -2113,17 +2113,17 @@ msgstr "Perl"
 msgid "Perl error: "
 msgstr "Błąd języka Perl: "
 
-#: ../plugins/perl-loader/perl-loader.c:220
-#: ../plugins/perl-loader/perl-loader.c:239
+#: ../plugins/perl-loader/perl-loader.c:224
+#: ../plugins/perl-loader/perl-loader.c:243
 #, c-format
 msgid "Perl error: %s\n"
 msgstr "Błąd języka Perl: %s\n"
 
-#: ../plugins/perl-loader/perl-loader.c:279
+#: ../plugins/perl-loader/perl-loader.c:284
 msgid "Module name not given."
 msgstr "Nie podano nazwy modułu."
 
-#: ../plugins/perl-loader/perl-loader.c:307
+#: ../plugins/perl-loader/perl-loader.c:312
 msgid "perl_func.pl doesn't exist."
 msgstr "Plik „perl_func.pl” nie istnieje."
 
@@ -3976,7 +3976,7 @@ msgstr "Usuwanie rzędów %s"
 msgid "Deleting row %s"
 msgstr "Usuwanie rzędu %s"
 
-#: ../src/commands.c:1597 ../src/commands.c:1598 ../src/sheet.c:4775
+#: ../src/commands.c:1597 ../src/commands.c:1598 ../src/sheet.c:4805
 msgid "Clear"
 msgstr "Wyczyść"
 
@@ -4292,7 +4292,7 @@ msgstr "Usuń obiekt"
 #: ../src/commands.c:4858 ../src/commands.c:5924
 #: ../src/dialogs/dialog-doc-metadata.c:1914
 #: ../src/dialogs/dialog-formula-guru.c:894
-#: ../src/dialogs/dialog-function-select.c:1257
+#: ../src/dialogs/dialog-function-select.c:1284
 #: ../src/dialogs/dialog-scenarios.c:522 ../src/dialogs/dialog-simulation.c:215
 #: ../src/dialogs/dialog-zoom.c:196 ../src/format-template.c:217
 msgid "Name"
@@ -5690,7 +5690,7 @@ msgid "Double Low"
 msgstr "Podwójne niskie"
 
 #: ../src/dialogs/dialog-cell-format.c:471 ../src/dialogs/dialog-search.c:154
-#: ../src/func.c:937 ../src/wbc-gtk-actions.c:3423
+#: ../src/func.c:943 ../src/wbc-gtk-actions.c:3423
 msgid "Number"
 msgstr "Liczba"
 
@@ -6253,7 +6253,7 @@ msgid "Properties"
 msgstr "Właściwości"
 
 #: ../src/dialogs/dialog-doc-metadata.c:2245
-#: ../src/dialogs/dialog-function-select.c:1262
+#: ../src/dialogs/dialog-function-select.c:1289
 #: ../src/dialogs/dialog-plugin-manager.c:712
 #: ../src/dialogs/dialog-sheet-compare.c:713
 #: ../src/dialogs/doc-meta-data.ui.h:29
@@ -6298,53 +6298,53 @@ msgstr "Ostatnio używane"
 msgid "In Use"
 msgstr "W użytku"
 
-#: ../src/dialogs/dialog-function-select.c:678
+#: ../src/dialogs/dialog-function-select.c:696
 #, c-format
 msgid "%s evaluates to %s."
 msgstr "%s zwraca %s."
 
-#: ../src/dialogs/dialog-function-select.c:749
+#: ../src/dialogs/dialog-function-select.c:773
 msgid "Arguments:"
 msgstr "Parametry:"
 
-#: ../src/dialogs/dialog-function-select.c:771
+#: ../src/dialogs/dialog-function-select.c:795
 msgid "Note: "
 msgstr "Uwaga: "
 
-#: ../src/dialogs/dialog-function-select.c:784
+#: ../src/dialogs/dialog-function-select.c:808
 msgid "Examples:"
 msgstr "Przykłady:"
 
 #. Not translated
-#: ../src/dialogs/dialog-function-select.c:800
+#: ../src/dialogs/dialog-function-select.c:827
 msgid "See also: "
 msgstr "Zobacz też: "
 
-#: ../src/dialogs/dialog-function-select.c:817
+#: ../src/dialogs/dialog-function-select.c:844
 msgid ", "
 msgstr ", "
 
-#: ../src/dialogs/dialog-function-select.c:850
+#: ../src/dialogs/dialog-function-select.c:877
 msgid "Further information: "
 msgstr "Więcej informacji: "
 
-#: ../src/dialogs/dialog-function-select.c:852
+#: ../src/dialogs/dialog-function-select.c:879
 msgid "online descriptions"
 msgstr "opisy online"
 
-#: ../src/dialogs/dialog-function-select.c:864
+#: ../src/dialogs/dialog-function-select.c:891
 msgid "Microsoft Excel: "
 msgstr "Microsoft Excel: "
 
-#: ../src/dialogs/dialog-function-select.c:873
+#: ../src/dialogs/dialog-function-select.c:900
 msgid "ODF (OpenFormula): "
 msgstr "ODF (OpenFormula): "
 
-#: ../src/dialogs/dialog-function-select.c:1362
+#: ../src/dialogs/dialog-function-select.c:1389
 msgid "Gnumeric Function Help Browser"
 msgstr "Przeglądarka pomocy funkcji programu Gnumeric"
 
-#: ../src/dialogs/dialog-function-select.c:1366
+#: ../src/dialogs/dialog-function-select.c:1393
 msgid "Paste Function Name dialog"
 msgstr "Okno wklejania nazwy funkcji"
 
@@ -7438,12 +7438,20 @@ msgid "Auto"
 msgstr "Automatycznie"
 
 #: ../src/dialogs/dialog-sheet-compare.c:408
-msgid "Left-to-rightDouble"
-msgstr "Od lewej do prawejPodwójny"
+msgid "Left-to-right"
+msgstr "Od lewej do prawej"
 
 #: ../src/dialogs/dialog-sheet-compare.c:526
 msgid "Unavailable"
 msgstr "Niedostępne"
+
+#: ../src/dialogs/dialog-sheet-compare.c:531
+#, c-format
+msgid "%d pixel"
+msgid_plural "%d pixels"
+msgstr[0] "%d piksel"
+msgstr[1] "%d piksele"
+msgstr[2] "%d pikseli"
 
 #: ../src/dialogs/dialog-sheet-compare.c:721
 #: ../src/dialogs/search-replace.ui.h:6
@@ -7576,16 +7584,16 @@ msgid "Run on"
 msgstr "Działa"
 
 #: ../src/dialogs/dialog-simulation.c:236 ../src/tools/simulation.c:246
-#: ../src/wbc-gtk.c:4061
+#: ../src/wbc-gtk.c:4062
 msgid "Min"
 msgstr "Minimum"
 
-#: ../src/dialogs/dialog-simulation.c:236 ../src/wbc-gtk.c:4063
+#: ../src/dialogs/dialog-simulation.c:236 ../src/wbc-gtk.c:4064
 msgid "Average"
 msgstr "Średnia"
 
 #: ../src/dialogs/dialog-simulation.c:236 ../src/tools/simulation.c:248
-#: ../src/wbc-gtk.c:4062
+#: ../src/wbc-gtk.c:4063
 msgid "Max"
 msgstr "Maksimum"
 
@@ -8059,7 +8067,7 @@ msgstr "_Alfa:"
 #: ../src/dialogs/moving-averages.ui.h:25
 #: ../src/dialogs/random-generation-cor.ui.h:7
 #: ../src/dialogs/random-generation.ui.h:7 ../src/dialogs/rank.ui.h:14
-#: ../src/dialogs/scenario-manager.ui.h:11 ../src/dialogs/sheet-compare.ui.h:7
+#: ../src/dialogs/scenario-manager.ui.h:11 ../src/dialogs/sheet-compare.ui.h:6
 #: ../src/dialogs/simulation.ui.h:11 ../src/dialogs/solver.ui.h:34
 msgid "Options"
 msgstr "Opcje"
@@ -11475,18 +11483,14 @@ msgid "Compare"
 msgstr "Porównaj"
 
 #: ../src/dialogs/sheet-compare.ui.h:4
-msgid "button"
-msgstr "przycisk"
-
-#: ../src/dialogs/sheet-compare.ui.h:5
 msgid "First Sheet"
 msgstr "Pierwszy arkusz"
 
-#: ../src/dialogs/sheet-compare.ui.h:6
+#: ../src/dialogs/sheet-compare.ui.h:5
 msgid "Second Sheet"
 msgstr "Drugi arkusz"
 
-#: ../src/dialogs/sheet-compare.ui.h:8 ../src/dialogs/solver.ui.h:46
+#: ../src/dialogs/sheet-compare.ui.h:7 ../src/dialogs/solver.ui.h:46
 msgid "Results"
 msgstr "Wyniki"
 
@@ -12075,17 +12079,17 @@ msgstr ""
 "To pole wyboru określa, czy małe czerwone strzałki wskazują, że zawartość "
 "została obcięta w danym kierunku."
 
-#: ../src/expr-name.c:725
+#: ../src/expr-name.c:733
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "„%s” zawiera zapętlone odwołanie"
 
-#: ../src/expr-name.c:754 ../src/expr-name.c:1001
+#: ../src/expr-name.c:762 ../src/expr-name.c:1018
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "Już określono „%s” w arkuszu"
 
-#: ../src/expr-name.c:755 ../src/expr-name.c:1002
+#: ../src/expr-name.c:763 ../src/expr-name.c:1019
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "Już określono „%s” w zeszycie"
@@ -12244,42 +12248,42 @@ msgstr ""
 "Ta funkcja zwraca warunek. Jeśli wynikiem jest prawda, to oceni i zwróci "
 "drugi parametr. W przeciwnym przypadku oceni i zwróci ostatni parametr."
 
-#: ../src/func.c:260
+#: ../src/func.c:266
 msgid "Function implementation not available."
 msgstr "Implementacja funkcji jest niedostępna."
 
-#: ../src/func.c:622
+#: ../src/func.c:628
 msgid "Unknown Function"
 msgstr "Nieznana funkcja"
 
 #. xgettext: This represents a made-up translated function name.
-#: ../src/func.c:646
+#: ../src/func.c:652
 #, c-format
 msgid "unknown%d"
 msgstr "nieznane%d"
 
-#: ../src/func.c:941
+#: ../src/func.c:947
 msgid "Boolean"
 msgstr "Logiczne"
 
-#: ../src/func.c:943
+#: ../src/func.c:949
 msgid "Cell Range"
 msgstr "Zakres komórek"
 
-#: ../src/func.c:945
+#: ../src/func.c:951
 msgid "Area"
 msgstr "Obszar"
 
-#: ../src/func.c:947
+#: ../src/func.c:953
 msgid "Scalar, Blank, or Error"
 msgstr "Skalar, puste lub błąd"
 
-#: ../src/func.c:949
+#: ../src/func.c:955
 msgid "Scalar"
 msgstr "Skalar"
 
 #. Missing values will be NULL.
-#: ../src/func.c:952
+#: ../src/func.c:958
 msgid "Any"
 msgstr "Dowolne"
 
@@ -12406,11 +12410,11 @@ msgstr "Właściwości linii/strzałki"
 msgid "Polygon Properties"
 msgstr "Właściwości wielokąta"
 
-#: ../src/gui-clipboard.c:183
+#: ../src/gui-clipboard.c:311
 msgid "clipboard"
 msgstr "schowek"
 
-#: ../src/gui-clipboard.c:976
+#: ../src/gui-clipboard.c:1133
 #, c-format
 msgid "Cut of %s"
 msgstr "Wycięcie %s"
@@ -12685,23 +12689,23 @@ msgstr "Przeciągnij, aby wypełnić automatycznie"
 msgid "Drag to move"
 msgstr "Przeciągnij, aby przenieść"
 
-#: ../src/libgnumeric.c:143
+#: ../src/libgnumeric.c:144
 msgid "Display Gnumeric's version"
 msgstr "Wyświetla wersję programu Gnumeric"
 
-#: ../src/libgnumeric.c:152
+#: ../src/libgnumeric.c:153
 msgid "Set the root library directory"
 msgstr "Ustawia główny katalog bibliotek"
 
-#: ../src/libgnumeric.c:153 ../src/libgnumeric.c:159
+#: ../src/libgnumeric.c:154 ../src/libgnumeric.c:160
 msgid "DIR"
 msgstr "KATALOG"
 
-#: ../src/libgnumeric.c:158
+#: ../src/libgnumeric.c:159
 msgid "Adjust the root data directory"
 msgstr "Ustawia główny katalog danych"
 
-#: ../src/libgnumeric.c:175
+#: ../src/libgnumeric.c:176
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12712,11 +12716,11 @@ msgstr ""
 "Katalog z danymi := „%s”\n"
 "Katalog z bibliotekami := „%s”\n"
 
-#: ../src/libgnumeric.c:199
+#: ../src/libgnumeric.c:200
 msgid "Gnumeric Options"
 msgstr "Opcje programu Gnumeric"
 
-#: ../src/libgnumeric.c:199
+#: ../src/libgnumeric.c:200
 msgid "Show Gnumeric Options"
 msgstr "Wyświetla opcje programu Gnumeric"
 
@@ -12744,7 +12748,7 @@ msgstr "Kończy działanie natychmiast po wczytaniu wybranych zeszytów"
 msgid "[FILE ...]"
 msgstr "[PLIK…]"
 
-#: ../src/main-application.c:129 ../src/ssconvert.c:903 ../src/ssdiff.c:932
+#: ../src/main-application.c:129 ../src/ssconvert.c:908 ../src/ssdiff.c:932
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -12911,7 +12915,7 @@ msgstr "Nieznany rozmiar papieru"
 msgid "Invalid option for pdf exporter"
 msgstr "Nieprawidłowa opcja dla eksportera PDF"
 
-#: ../src/print-info.c:982
+#: ../src/print-info.c:985
 msgid "PDF export"
 msgstr "Eksport PDF"
 
@@ -13372,7 +13376,7 @@ msgid "Print"
 msgstr "Wydrukuj"
 
 #: ../src/sheet-object-component.c:183 ../src/sheet-object-graph.c:289
-#: ../src/sheet-object-image.c:274
+#: ../src/sheet-object-image.c:289
 #, c-format
 msgid "Unknown failure while saving image"
 msgstr "Nieznane niepowodzenie podczas zapisywania obrazu"
@@ -13382,7 +13386,7 @@ msgid "Save as"
 msgstr "Zapisz jako"
 
 #: ../src/sheet-object-component.c:269 ../src/sheet-object-graph.c:400
-#: ../src/sheet-object-image.c:329
+#: ../src/sheet-object-image.c:346
 msgid "_Save As Image"
 msgstr "_Zapisz jako obraz"
 
@@ -13489,7 +13493,7 @@ msgstr "Przycisk pojedynczego wyboru"
 msgid "Clicking radiobutton"
 msgstr "Kliknięcie przycisku pojedynczego wyboru"
 
-#: ../src/sheet-object-widget.c:3482
+#: ../src/sheet-object-widget.c:3483
 msgid "Clicking in list"
 msgstr "Kliknięcie na liście"
 
@@ -13502,7 +13506,7 @@ msgid "Cut"
 msgstr "Wytnij"
 
 #. Oh, yeah?
-#: ../src/sheet.c:846
+#: ../src/sheet.c:847
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13514,47 +13518,47 @@ msgstr ""
 "kolumn o nazwie TRUE może kolidować ze stałą o tej samej nazwie.\n"
 "Należy spodziewać się dziwnych rzeczy."
 
-#: ../src/sheet.c:906
+#: ../src/sheet.c:907
 msgid "Display Zeros"
 msgstr "Wyświetlanie zer"
 
-#: ../src/sheet.c:907
+#: ../src/sheet.c:908
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Kontrola, czy zera są wyświetlane jako wymazane."
 
-#: ../src/sheet.c:912
+#: ../src/sheet.c:913
 msgid "Display Grid"
 msgstr "Wyświetlenie siatki"
 
-#: ../src/sheet.c:913
+#: ../src/sheet.c:914
 msgid "Control whether the grid is shown."
 msgstr "Kontrola, czy siatka jest wyświetlana."
 
-#: ../src/sheet.c:3618
+#: ../src/sheet.c:3621
 msgid "Target region contains merged cells"
 msgstr "Obszar docelowy zawiera scalone komórki"
 
-#: ../src/sheet.c:3684
+#: ../src/sheet.c:3687
 msgid "cannot operate on merged cells"
 msgstr "nie można działać na scalonych komórkach"
 
-#: ../src/sheet.c:3698
+#: ../src/sheet.c:3701
 msgid "cannot operate on array formulæ"
 msgstr "nie można działać na wyrażeniach tablicowych"
 
-#: ../src/sheet.c:5198
+#: ../src/sheet.c:5228
 msgid "Insert Columns"
 msgstr "Wstaw kolumny"
 
-#: ../src/sheet.c:5216
+#: ../src/sheet.c:5246
 msgid "Delete Columns"
 msgstr "Usuń kolumny"
 
-#: ../src/sheet.c:5234
+#: ../src/sheet.c:5264
 msgid "Insert Rows"
 msgstr "Wstaw rzędy"
 
-#: ../src/sheet.c:5252
+#: ../src/sheet.c:5282
 msgid "Delete Rows"
 msgstr "Usuń rzędy"
 
@@ -13646,29 +13650,29 @@ msgid "The file saver does not take options\n"
 msgstr "Moduł zapisywania plików nie przyjmuje opcji\n"
 
 #. FIXME: && nexpr2-is-not-the-same-as-nexpr
-#: ../src/ssconvert.c:393
+#: ../src/ssconvert.c:386
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 "Konflikt nazwy podczas scalania: „%s” pojawia się dwa razy w zakresie "
 "zeszytu.\n"
 
-#: ../src/ssconvert.c:542
+#: ../src/ssconvert.c:547
 #, c-format
 msgid "Failed to create solver"
 msgstr "Utworzenie solvera się nie powiodło"
 
-#: ../src/ssconvert.c:561
+#: ../src/ssconvert.c:566
 #, c-format
 msgid "Solver ran, but failed"
 msgstr "Solver został uruchomiony, ale się nie powiódł"
 
-#: ../src/ssconvert.c:573
+#: ../src/ssconvert.c:578
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Solver: %s\n"
 
-#: ../src/ssconvert.c:682
+#: ../src/ssconvert.c:687
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13677,7 +13681,7 @@ msgstr ""
 "Nieznany eksporter „%s”.\n"
 "„--list-exporters” wyświetli listę możliwych eksporterów.\n"
 
-#: ../src/ssconvert.c:702
+#: ../src/ssconvert.c:707
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13686,7 +13690,7 @@ msgstr ""
 "Nie można odgadnąć, którego eksportera użyć dla „%s”.\n"
 "„--list-exporters” wyświetli listę możliwych eksporterów.\n"
 
-#: ../src/ssconvert.c:714
+#: ../src/ssconvert.c:719
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13695,7 +13699,7 @@ msgstr ""
 "Wymagana jest nazwa pliku wyjściowego lub podanie typu eksportu.\n"
 "„--list-exporters” wyświetli listę możliwych eksporterów.\n"
 
-#: ../src/ssconvert.c:724
+#: ../src/ssconvert.c:729
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13704,12 +13708,12 @@ msgstr ""
 "Nieznany importer „%s”.\n"
 "„--list-importers” wyświetli listę możliwych importerów.\n"
 
-#: ../src/ssconvert.c:748
+#: ../src/ssconvert.c:753
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Wczytanie %s się nie powiodło\n"
 
-#: ../src/ssconvert.c:862
+#: ../src/ssconvert.c:867
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13721,11 +13725,11 @@ msgstr ""
 "Tylko bieżący arkusz zostanie zapisany. „-S” umożliwia obejście tego "
 "ograniczenia.\n"
 
-#: ../src/ssconvert.c:891 ../src/ssconvert.c:942
+#: ../src/ssconvert.c:896 ../src/ssconvert.c:947
 msgid "INFILE [OUTFILE]"
 msgstr "PLIK-WEJŚCIOWY [PLIK-WYJŚCIOWY]"
 
-#: ../src/ssconvert.c:910
+#: ../src/ssconvert.c:915
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13736,7 +13740,7 @@ msgstr ""
 "Katalog z danymi := „%s”\n"
 "Katalog z bibliotekami := „%s”\n"
 
-#: ../src/ssconvert.c:940 ../src/ssdiff.c:989 ../src/ssindex.c:268
+#: ../src/ssconvert.c:945 ../src/ssdiff.c:989 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Użycie: %s [OPCJA…] %s\n"
@@ -13999,7 +14003,7 @@ msgid "Text (configurable)"
 msgstr "Tekst (konfigurowalny)"
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1351
+#: ../src/stf-parse.c:1352
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -14008,7 +14012,7 @@ msgstr ""
 "zignorowane."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1377
+#: ../src/stf-parse.c:1378
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -15258,7 +15262,7 @@ msgstr "Kurtoza"
 msgid "Range"
 msgstr "Zakres"
 
-#: ../src/tools/simulation.c:256 ../src/wbc-gtk.c:4064
+#: ../src/tools/simulation.c:256 ../src/wbc-gtk.c:4065
 msgid "Count"
 msgstr "Liczba"
 
@@ -15434,7 +15438,7 @@ msgstr "#LICZBA!"
 msgid "#N/A"
 msgstr "#N/D"
 
-#: ../src/wbc-gtk-actions.c:185 ../src/workbook-view.c:1273
+#: ../src/wbc-gtk-actions.c:185 ../src/workbook-view.c:1275
 msgid "Default file saver is not available."
 msgstr "Domyślny moduł zapisywania plików jest niedostępny."
 
@@ -17039,7 +17043,7 @@ msgstr "_Modyfikuj fragmentatora danych…"
 msgid "Adjust a data slicer"
 msgstr "Dostosowuje fragmentatora danych"
 
-#: ../src/wbc-gtk-actions.c:3297 ../src/wbc-gtk.c:4060
+#: ../src/wbc-gtk-actions.c:3297 ../src/wbc-gtk.c:4061
 #: ../src/workbook-view.c:856
 msgid "Sum"
 msgstr "Suma"
@@ -17828,24 +17832,24 @@ msgstr "Pasek narzędziowy obiektów"
 msgid "Show/Hide toolbar %s"
 msgstr "Wyświetl/ukryj pasek narzędziowy %s"
 
-#: ../src/wbc-gtk.c:4121
+#: ../src/wbc-gtk.c:4122
 #, c-format
 msgid "Content of %s"
 msgstr "Zawartość %s"
 
-#: ../src/wbc-gtk.c:4136
+#: ../src/wbc-gtk.c:4137
 msgid "Use Maximum Precision"
 msgstr "Użyj maksymalnej dokładności"
 
-#: ../src/wbc-gtk.c:4148
+#: ../src/wbc-gtk.c:4149
 msgid "Insert Formula Below"
 msgstr "Wstaw formułę poniżej"
 
-#: ../src/wbc-gtk.c:4154
+#: ../src/wbc-gtk.c:4155
 msgid "Insert Formula to Side"
 msgstr "Wstaw formułę na stronie"
 
-#: ../src/wbc-gtk.c:4237
+#: ../src/wbc-gtk.c:4238
 #, c-format
 msgid "Open %s"
 msgstr "Otwórz %s"
@@ -18007,7 +18011,7 @@ msgstr ""
 "\n"
 "\t<i>⇧F4 wybierze</i>"
 
-#: ../src/widgets/gnumeric-expr-entry.c:2644
+#: ../src/widgets/gnumeric-expr-entry.c:2645
 #, c-format
 msgid "Expecting a single range"
 msgstr "Oczekiwany jest pojedynczy zakres"
@@ -18112,25 +18116,25 @@ msgstr "%dR"
 msgid "%dR x %dC"
 msgstr "%dR×%dK"
 
-#: ../src/workbook-view.c:1113
+#: ../src/workbook-view.c:1115
 msgid "An unexplained error happened while saving."
 msgstr "Wystąpił nierozpoznany błąd podczas zapisywania."
 
-#: ../src/workbook-view.c:1137
+#: ../src/workbook-view.c:1139
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Nie można otworzyć „%s” do zapisania: %s"
 
-#: ../src/workbook-view.c:1141
+#: ../src/workbook-view.c:1143
 #, c-format
 msgid "Can't open '%s' for writing"
 msgstr "Nie można otworzyć „%s” do zapisania"
 
-#: ../src/workbook-view.c:1407
+#: ../src/workbook-view.c:1409
 msgid "Unsupported file format."
 msgstr "Nieobsługiwany format pliku."
 
-#: ../src/workbook-view.c:1456
+#: ../src/workbook-view.c:1458
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Wystąpił nierozpoznany błąd podczas otwierania %s"
@@ -18200,51 +18204,51 @@ msgstr "Zmienianie kolejności arkuszy"
 msgid "Reorganizing Sheets"
 msgstr "Reorganizowanie arkuszy"
 
-#: ../src/xml-sax-read.c:499
+#: ../src/xml-sax-read.c:507
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Wiele specyfikacji wersji. Przyjmowanie %d"
 
-#: ../src/xml-sax-read.c:672
+#: ../src/xml-sax-read.c:680
 msgid "workbook view attribute is incomplete"
 msgstr "atrybut widoku zeszytu jest niepełny"
 
-#: ../src/xml-sax-read.c:821
+#: ../src/xml-sax-read.c:829
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Plik ma niespójny element „SheetNameIndex”."
 
-#: ../src/xml-sax-read.c:2290
+#: ../src/xml-sax-read.c:2317
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Nieznany operator filtra „%s”"
 
-#: ../src/xml-sax-read.c:2331
+#: ../src/xml-sax-read.c:2358
 msgid "Missing filter type"
 msgstr "Brak typu filtra"
 
-#: ../src/xml-sax-read.c:2344
+#: ../src/xml-sax-read.c:2371
 msgid "Malformed sheet filter condition"
 msgstr "Błędny warunek filtru arkusza"
 
-#: ../src/xml-sax-read.c:2358
+#: ../src/xml-sax-read.c:2385
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Nieznany typ filtra „%s”"
 
-#: ../src/xml-sax-read.c:2379
+#: ../src/xml-sax-read.c:2406
 msgid "Invalid filter, missing Area"
 msgstr "Nieprawidłowy filtr, brak obszaru"
 
-#: ../src/xml-sax-read.c:2444
+#: ../src/xml-sax-read.c:2471
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Nieobsługiwany typ obiektu „%s”"
 
-#: ../src/xml-sax-read.c:3756 ../src/xml-sax-write.c:1699
+#: ../src/xml-sax-read.c:3779 ../src/xml-sax-write.c:1710
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "XML programu Gnumeric (*.gnumeric)"
 
-#: ../src/xml-sax-write.c:1711
+#: ../src/xml-sax-write.c:1722
 msgid "Gnumeric XML uncompressed (*.xml)"
 msgstr "Nieskompresowany XML programu Gnumeric (*.xml)"
 
@@ -18436,6 +18440,3 @@ msgstr "Liliowy szablon listy"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "A simple list template"
 msgstr "Prosty szablon listy"
-
-msgid "Left-to-right"
-msgstr "Od lewej do prawej"
