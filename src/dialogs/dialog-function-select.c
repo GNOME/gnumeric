@@ -641,7 +641,8 @@ cb_link_event (GtkTextTag *link, G_GNUC_UNUSED GObject *trigger,
 }
 
 static char *
-make_expr_example (Sheet *sheet, const char *text, gboolean localized)
+make_expr_example (Sheet *sheet, const char *text,
+		   gboolean localized, gboolean consider_format)
 {
 	GnmLocale *oldlocale = NULL;
 	GnmExprTop const *texpr;
@@ -649,6 +650,22 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 	GnmParsePos pp;
 	GnmEvalPos ep;
 	GnmConventions const *convs = gnm_conventions_default;
+	char *tmp_text = NULL;
+	GOFormat const *fmt = NULL;
+
+	if (consider_format &&
+	    g_ascii_strncasecmp (text, "TEXT(", 5) == 0 &&
+	    text[strlen(text) - 1] == ')') {
+		char *p;
+		tmp_text = g_strdup (text + 5);
+		p = tmp_text + strlen (tmp_text) - 1;
+		while (p >= tmp_text && p[0] != '"') p--;
+		p[0] = 0;
+		while (p >= tmp_text && p[0] != '"') p--;
+		fmt = go_format_new_from_XL (p + 1);
+		while (p >= tmp_text && p[0] != ',') p--;
+		*p = 0;
+	}
 
 	eval_pos_init_sheet (&ep, sheet);
 	parse_pos_init_evalpos (&pp, &ep);
@@ -666,12 +683,13 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 		char *etxt = gnm_expr_top_as_string (texpr, &pp, convs);
 		GnmValue *val = gnm_expr_top_eval
 			(texpr, &ep, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
-		GOFormat const *format = gnm_auto_style_format_suggest (texpr, &ep);
-		char *vtxt = format_value (format, val, -1,
-					   workbook_date_conv
-					   (sheet->workbook));
+		char *vtxt;
 
-		go_format_unref (format);
+		if (!fmt)
+			fmt = gnm_auto_style_format_suggest (texpr, &ep);
+		vtxt = format_value (fmt, val, -1,
+				     workbook_date_conv (sheet->workbook));
+
 		gnm_expr_top_unref (texpr);
 		value_release (val);
 
@@ -683,6 +701,10 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 		g_warning ("Failed to parse [%s]", text);
 		res = g_strdup ("");
 	}
+
+	g_free (tmp_text);
+	if (fmt)
+		go_format_unref (fmt);
 
 	return res;
 }
@@ -722,6 +744,8 @@ describe_new_style (GtkTextBuffer *description,
 	gboolean args_finished = FALSE;
 	gboolean seen_examples = FALSE;
 	gboolean seen_extref = FALSE;
+	gboolean is_TEXT =
+		g_ascii_strcasecmp (gnm_func_get_name (func, FALSE), "TEXT") == 0;
 
 	gtk_text_buffer_get_end_iter (description, &ti);
 
@@ -786,7 +810,10 @@ describe_new_style (GtkTextBuffer *description,
 			}
 
 			if (text[0] == '=') {
-				char *example = make_expr_example (sheet, text + 1, was_translated);
+				char *example =
+					make_expr_example (sheet, text + 1,
+							   was_translated,
+							   !is_TEXT);
 				ADD_TEXT (example);
 				g_free (example);
 			} else {

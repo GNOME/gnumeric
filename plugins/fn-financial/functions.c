@@ -935,7 +935,7 @@ static GnmFuncHelp const help_dollarde[] = {
         { GNM_FUNC_HELP_ARG, F_("fractional_dollar:amount to convert")},
         { GNM_FUNC_HELP_ARG, F_("fraction:denominator")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("DOLLARDE converts a fractional dollar amount into a decimal amount.  This is the inverse of the DOLLARFR function.") },
-	{ GNM_FUNC_HELP_EXAMPLES, "=DOLLARDE(0.03,16)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=TEXT(DOLLARDE(0.03,16),\"0.0000\")" },
         { GNM_FUNC_HELP_SEEALSO, "DOLLARFR" },
 	{ GNM_FUNC_HELP_END }
 };
