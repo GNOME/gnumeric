@@ -18,6 +18,7 @@ Morten:
 	* Fix ssconvert --merge-to problem with names.  [#795408]
 	* Fix problem with image pasting.
 	* Allow pasting an image into Gnumeric.  [#366816]
+	* Full-column paste includes column width.  [#121722]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.39

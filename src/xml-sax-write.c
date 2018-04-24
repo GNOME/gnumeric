@@ -729,15 +729,16 @@ xml_write_styles (GnmOutputXML *state)
 
 typedef struct {
 	GnmOutputXML *state;
-	gboolean	is_column;
-	ColRowInfo const *prev;
+	gboolean is_column;
+	ColRowInfo prev;
 	int prev_pos, rle_count;
+	GnmCellRegion const *cr;
 } closure_write_colrow;
 
 static gboolean
 xml_write_colrow_info (GnmColRowIter const *iter, closure_write_colrow *closure)
 {
-	ColRowInfo const *prev = closure->prev;
+	ColRowInfo const *prev = &closure->prev;
 	GsfXMLOut *output = closure->state->output;
 	ColRowInfo const *def =
 		sheet_colrow_get_default (closure->state->sheet,
@@ -747,7 +748,7 @@ xml_write_colrow_info (GnmColRowIter const *iter, closure_write_colrow *closure)
 	if (NULL != iter && col_row_info_equal (prev, iter->cri))
 		return FALSE;
 
-	if (prev != NULL && !col_row_info_equal (prev, def)) {
+	if (closure->prev_pos != -1 && !col_row_info_equal (prev, def)) {
 		if (closure->is_column)
 			gsf_xml_out_start_element (output, GNM "ColInfo");
 		else
@@ -771,7 +772,7 @@ xml_write_colrow_info (GnmColRowIter const *iter, closure_write_colrow *closure)
 
 	closure->rle_count = 0;
 	if (NULL != iter) {
-		closure->prev = iter->cri;
+		closure->prev = *iter->cri;
 		closure->prev_pos = iter->pos;
 	}
 
@@ -779,34 +780,45 @@ xml_write_colrow_info (GnmColRowIter const *iter, closure_write_colrow *closure)
 }
 
 static void
-xml_write_cols_rows (GnmOutputXML *state)
+xml_write_cols_rows (GnmOutputXML *state, GnmCellRegion const *cr)
 {
-	closure_write_colrow closure;
-	gsf_xml_out_start_element (state->output, GNM "Cols");
-	xml_out_add_points (state->output, "DefaultSizePts",
-		sheet_col_get_default_size_pts (state->sheet));
-	closure.state = state;
-	closure.is_column = TRUE;
-	closure.prev = NULL;
-	closure.prev_pos = -1;
-	closure.rle_count = 0;
-	col_row_collection_foreach (&state->sheet->cols, 0, gnm_sheet_get_last_col (state->sheet),
-		(ColRowHandler)&xml_write_colrow_info, &closure);
-	xml_write_colrow_info (NULL, &closure); /* flush */
-	gsf_xml_out_end_element (state->output); /* </gnm:Cols> */
+	const Sheet *sheet = state->sheet;
+	int i;
 
-	gsf_xml_out_start_element (state->output, GNM "Rows");
-	xml_out_add_points (state->output, "DefaultSizePts",
-		sheet_row_get_default_size_pts (state->sheet));
-	closure.state = state;
-	closure.is_column = FALSE;
-	closure.prev = NULL;
-	closure.prev_pos = -1;
-	closure.rle_count = 0;
-	col_row_collection_foreach (&state->sheet->rows, 0, gnm_sheet_get_last_row (state->sheet),
-		(ColRowHandler)&xml_write_colrow_info, &closure);
-	xml_write_colrow_info (NULL, &closure); /* flush */
-	gsf_xml_out_end_element (state->output); /* </gnm:Rows> */
+	for (i = 0; i < 2; i++) {
+		closure_write_colrow closure;
+		gboolean is_cols = (i == 0);
+
+		gsf_xml_out_start_element (state->output,
+					   is_cols ? GNM "Cols" : GNM "Rows");
+
+		if (sheet)
+			xml_out_add_points
+				(state->output, "DefaultSizePts",
+				 sheet_colrow_get_default (sheet, is_cols)->size_pts);
+
+		closure.state = state;
+		closure.cr = cr;
+		closure.is_column = is_cols;
+		memset (&closure.prev, 0, sizeof (closure.prev));
+		closure.prev_pos = -1;
+		closure.rle_count = 0;
+		if (cr)
+			colrow_state_list_foreach
+				(is_cols ? cr->col_state : cr->row_state,
+				 sheet, is_cols,
+				 is_cols ? cr->base.col : cr->base.row,
+				 (ColRowHandler)&xml_write_colrow_info,
+				 &closure);
+		else
+			col_row_collection_foreach
+				(is_cols ? &sheet->cols : &sheet->rows,
+				 0, colrow_max(is_cols, sheet) - 1,
+				 (ColRowHandler)&xml_write_colrow_info,
+				 &closure);
+		xml_write_colrow_info (NULL, &closure); /* flush */
+		gsf_xml_out_end_element (state->output); /* </gnm:Cols> */
+	}
 }
 
 static void
@@ -1379,7 +1391,7 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 	xml_write_named_expressions (state, sheet->names);
 	xml_write_print_info (state, sheet->print_info);
 	xml_write_styles (state);
-	xml_write_cols_rows (state);
+	xml_write_cols_rows (state, NULL);
 	xml_write_selection_info (state);
 	xml_write_objects (state, sheet->sheet_objects);
 	xml_write_cells (state);
@@ -1650,6 +1662,8 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	xml_write_number_system (&state.state);
 	if (cr->not_as_contents)
 		gsf_xml_out_add_bool (state.state.output, "NotAsContent", TRUE);
+
+	xml_write_cols_rows (&state.state, cr);
 
 	if (cr->styles != NULL) {
 		gsf_xml_out_start_element (state.state.output, GNM "Styles");

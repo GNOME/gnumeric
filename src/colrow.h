@@ -110,6 +110,12 @@ ColRowStateList	*colrow_get_states	     (Sheet *sheet, gboolean is_cols,
 					      int first, int last);
 void		 colrow_set_states	     (Sheet *sheet, gboolean is_cols,
 					      int first, ColRowStateList *states);
+gboolean colrow_state_list_foreach	     (ColRowStateList *list,
+					      Sheet const *sheet,
+					      gboolean is_cols,
+					      int base,
+					      ColRowHandler callback,
+					      gpointer user_data);
 
 ColRowStateGroup  *colrow_state_group_destroy	(ColRowStateGroup *set);
 ColRowStateGroup  *colrow_set_sizes		(Sheet *sheet, gboolean is_cols,

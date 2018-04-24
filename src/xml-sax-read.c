@@ -3468,6 +3468,12 @@ read_file_common (ReadFileWhat what, XMLSaxParseState *state,
 					   "SHEET_STYLES",
 					   "CLIPBOARDRANGE");
 		gnm_xml_in_doc_add_subset (doc, gnumeric_1_0_dtd,
+					   "SHEET_COLS",
+					   "CLIPBOARDRANGE");
+		gnm_xml_in_doc_add_subset (doc, gnumeric_1_0_dtd,
+					   "SHEET_ROWS",
+					   "CLIPBOARDRANGE");
+		gnm_xml_in_doc_add_subset (doc, gnumeric_1_0_dtd,
 					   "SHEET_CELLS",
 					   "CLIPBOARDRANGE");
 		gnm_xml_in_doc_add_subset (doc, gnumeric_1_0_dtd,

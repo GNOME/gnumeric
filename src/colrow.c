@@ -35,6 +35,7 @@
 #include "cellspan.h"
 #include "rendered-value.h"
 #include <goffice/goffice.h>
+#include <string.h>
 
 /* Making ColRowInfo a boxed type to make introspection happy. using no-op
  * functions for copy and free, and crossing fingers.
@@ -61,7 +62,7 @@ col_row_info_get_type (void)
 double
 colrow_compute_pixel_scale (Sheet const *sheet, gboolean horizontal)
 {
-	return sheet->last_zoom_factor_used *
+	return (sheet ? sheet->last_zoom_factor_used : 1.0) *
 		gnm_app_display_dpi_get (horizontal) / 72.;
 }
 
@@ -74,7 +75,7 @@ colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
 	if (scale == -1)
 		scale = colrow_compute_pixel_scale (sheet, horizontal);
 
-	if (horizontal && sheet->display_formulas)
+	if (horizontal && sheet && sheet->display_formulas)
 		scale *= 2;
 
 	cri->size_pixels = (int)(cri->size_pts * scale + 0.5);
@@ -189,7 +190,7 @@ colrow_free (ColRowInfo *cri)
  * @last:	stop column (inclusive)
  * @callback: (scope call): A callback function which should return %TRUE to stop
  *              the iteration.
- * @user_data:	A bagage pointer.
+ * @user_data:	A baggage pointer.
  *
  * Iterates through the existing rows or columns within the range supplied.
  * Currently only support left -> right iteration.  If a callback returns
@@ -227,6 +228,60 @@ col_row_collection_foreach (ColRowCollection const *infos, int first, int last,
 	}
 	return FALSE;
 }
+
+
+/**
+ * colrow_state_list_foreach:
+ * @list: The #ColRowStateList to iterate.
+ * @sheet: (nullable): Origin #Sheet.
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ * @base: index of first column or row.
+ * @callback: (scope call): A callback function which should
+ *   return %TRUE to stop the iteration.
+ * @user_data:	A baggage pointer.
+ *
+ * Iterates through the existing rows or columns within the range supplied.
+ * Currently only support left -> right iteration.  If a callback returns
+ * %TRUE iteration stops.
+ **/
+gboolean
+colrow_state_list_foreach (ColRowStateList *list,
+			   Sheet const *sheet, gboolean is_cols,
+			   int base,
+			   ColRowHandler callback,
+			   gpointer user_data)
+{
+	GnmColRowIter iter;
+	int i = base;
+	ColRowStateList *l;
+	ColRowInfo cri;
+	double scale = colrow_compute_pixel_scale (sheet, is_cols);
+
+	// This sets various fields we do not have
+	memset (&cri, 0, sizeof (cri));
+
+	iter.cri = &cri;
+	for (l = list; l; l = l->next) {
+		ColRowRLEState *rle = l->data;
+		ColRowState const *state = &rle->state;
+		int l;
+
+		cri.size_pts = state->size_pts;
+		cri.outline_level = state->outline_level;
+		cri.is_collapsed = state->is_collapsed;
+		cri.hard_size = state->hard_size;
+		cri.visible = state->visible;
+		colrow_compute_pixels_from_pts (&cri, sheet, is_cols, scale);
+
+		for (l = 0; l < rle->length; l++) {
+			iter.pos = i++;
+			if (iter.cri && (*callback)(&iter, user_data))
+				return TRUE;
+		}
+	}
+	return FALSE;
+}
+
 
 /*****************************************************************************/
 
