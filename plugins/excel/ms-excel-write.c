@@ -1955,7 +1955,7 @@ excel_write_BOUNDSHEET (BiffPut *bp, Sheet *sheet)
 
 	GSF_LE_SET_GUINT32 (data, 0xdeadbeef); /* To be stream start pos */
 
-	/* NOTE : MS Docs appear wrong.  It is visiblity _then_ type */
+	/* NOTE : MS Docs appear wrong.  It is visibility _then_ type */
 	GSF_LE_SET_GUINT8 (data+4, sheet->visibility);
 
 	switch (sheet->sheet_type) {

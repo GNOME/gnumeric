@@ -8521,7 +8521,7 @@
 
 	* src/colrow.c (cb_colrow_visibility) : selections are now part of
 	  sheetview.
-	(colrow_get_visiblity_toggle) : ditto.
+	(colrow_get_visibility_toggle) : ditto.
 
 	* src/cmd-edit.c (cmd_select_cur_row) : convert to sheetview.
 	(cmd_select_cur_col) : ditto.

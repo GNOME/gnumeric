@@ -3997,7 +3997,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 {
 	GnmValue *cont;
 	GnmCellIter iter;
-	gboolean const visiblity_matters = (flags & CELL_ITER_IGNORE_HIDDEN) != 0;
+	gboolean const visibility_matters = (flags & CELL_ITER_IGNORE_HIDDEN) != 0;
 	gboolean const ignore_filtered = (flags & CELL_ITER_IGNORE_FILTERED) != 0;
 	gboolean const only_existing = (flags & CELL_ITER_IGNORE_NONEXISTENT) != 0;
 	gboolean const ignore_empty = (flags & CELL_ITER_IGNORE_EMPTY) != 0;
@@ -4054,7 +4054,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 				last_row = iter.pp.eval.row;
 				iter.ri = sheet_row_get (iter.pp.sheet, last_row);
 			}
-			if (visiblity_matters && !iter.ri->visible)
+			if (visibility_matters && !iter.ri->visible)
 				continue;
 			if (ignore_filtered && iter.ri->in_filter && !iter.ri->visible)
 				continue;
@@ -4063,7 +4063,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 				last_col = iter.pp.eval.col;
 				iter.ci = sheet_col_get (iter.pp.sheet, last_col);
 			}
-			if (visiblity_matters && !iter.ci->visible)
+			if (visibility_matters && !iter.ci->visible)
 				continue;
 
 			ignore = (ignore_empty &&
@@ -4086,7 +4086,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 	     ++iter.pp.eval.row) {
 		iter.ri = sheet_row_get (iter.pp.sheet, iter.pp.eval.row);
 
-		/* no need to check visiblity, that would require a colinfo to exist */
+		/* no need to check visibility, that would require a colinfo to exist */
 		if (iter.ri == NULL) {
 			if (only_existing) {
 				/* skip segments with no cells */
@@ -4108,7 +4108,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 			continue;
 		}
 
-		if (visiblity_matters && !iter.ri->visible)
+		if (visibility_matters && !iter.ri->visible)
 			continue;
 		if (ignore_filtered && iter.ri->in_filter && !iter.ri->visible)
 			continue;
@@ -4116,7 +4116,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 		for (iter.pp.eval.col = start_col; iter.pp.eval.col <= end_col; ++iter.pp.eval.col) {
 			iter.ci = sheet_col_get (sheet, iter.pp.eval.col);
 			if (iter.ci != NULL) {
-				if (visiblity_matters && !iter.ci->visible)
+				if (visibility_matters && !iter.ci->visible)
 					continue;
 				iter.cell = sheet_cell_get (sheet,
 					iter.pp.eval.col, iter.pp.eval.row);

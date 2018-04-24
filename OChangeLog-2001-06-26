@@ -2545,7 +2545,7 @@
 	  adaptive precision but I am lazy.
 	(format_number) : add fractions.
 
-	* src/commands.c (cmd_autofill_redo) : changing visiblity can triger a
+	* src/commands.c (cmd_autofill_redo) : changing visibility can triger a
 	  draw which requiresthat things be rendered and spanned.  Be sure to
 	  complete the action BEFORE changing visibility.
 

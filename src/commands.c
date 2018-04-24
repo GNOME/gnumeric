@@ -2323,9 +2323,9 @@ cmd_selection_colrow_hide (WorkbookControl *wbc,
 	GSList *show = NULL, *hide = NULL;
 
 	if (visible)
-		show = colrow_get_visiblity_toggle (sv, is_cols, TRUE);
+		show = colrow_get_visibility_toggle (sv, is_cols, TRUE);
 	else
-		hide = colrow_get_visiblity_toggle (sv, is_cols, FALSE);
+		hide = colrow_get_visibility_toggle (sv, is_cols, FALSE);
 	n = colrow_vis_list_length (hide) + colrow_vis_list_length (show);
 	sheet = sv_sheet (sv);
 

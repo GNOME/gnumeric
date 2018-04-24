@@ -1657,7 +1657,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/gnumeric-sheet.h (GnumericSheet) : Remove unused member item_bar_col.
 
-	* src/colrow.c (col_row_set_visiblity) : Use sheet_redraw_headers
+	* src/colrow.c (col_row_set_visibility) : Use sheet_redraw_headers
 	  in place of sheet_redraw_{cols,row}.
 	* src/selection.c (sheet_selection_append_range) : Ditto.
 	(sheet_select_all) : Ditto.

@@ -1005,7 +1005,7 @@ typedef struct
 {
 	gboolean is_cols, visible;
 	ColRowVisList *elements;
-} ColRowVisiblity;
+} ColRowVisibility;
 
 static gint
 colrow_index_cmp (ColRowIndex const *a, ColRowIndex const *b)
@@ -1015,7 +1015,7 @@ colrow_index_cmp (ColRowIndex const *a, ColRowIndex const *b)
 }
 
 static void
-colrow_visibility (Sheet const *sheet, ColRowVisiblity * const dat,
+colrow_visibility (Sheet const *sheet, ColRowVisibility * const dat,
 		   int first, int last)
 {
 	int i;
@@ -1080,7 +1080,7 @@ ColRowVisList *
 colrow_get_outline_toggle (Sheet const *sheet, gboolean is_cols, gboolean visible,
 			   int first, int last)
 {
-	ColRowVisiblity closure;
+	ColRowVisibility closure;
 	closure.is_cols = is_cols;
 	closure.visible = visible;
 	closure.elements = NULL;
@@ -1092,7 +1092,7 @@ colrow_get_outline_toggle (Sheet const *sheet, gboolean is_cols, gboolean visibl
 static void
 cb_colrow_visibility (SheetView *sv, GnmRange const *r, gpointer closure)
 {
-	ColRowVisiblity * const dat = (ColRowVisiblity *)closure;
+	ColRowVisibility * const dat = (ColRowVisibility *)closure;
 	int first, last;
 
 	if (dat->is_cols) {
@@ -1106,7 +1106,7 @@ cb_colrow_visibility (SheetView *sv, GnmRange const *r, gpointer closure)
 }
 
 /**
- * colrow_get_visiblity_toggle: (skip)
+ * colrow_get_visibility_toggle: (skip)
  * @sv: The sheet view whose selection we are interested in.
  * @is_cols: %TRUE for columns, %FALSE for rows.
  * @visible: Should we unhide or hide the cols/rows.
@@ -1117,10 +1117,10 @@ cb_colrow_visibility (SheetView *sv, GnmRange const *r, gpointer closure)
  * Returns: (transfer full): the list.
  */
 ColRowVisList *
-colrow_get_visiblity_toggle (SheetView *sv, gboolean is_cols,
+colrow_get_visibility_toggle (SheetView *sv, gboolean is_cols,
 			     gboolean visible)
 {
-	ColRowVisiblity closure;
+	ColRowVisibility closure;
 	closure.is_cols = is_cols;
 	closure.visible = visible;
 	closure.elements = NULL;
@@ -1307,7 +1307,9 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 	}
 }
 
-/**
+// Introspection scanner crashes if the following "hide" is removed.
+
+/*hide*
  * colrow_get_global_outline: (skip)
  * @sheet:
  * @is_cols: %TRUE for columns, %FALSE for rows.
@@ -1315,8 +1317,8 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
  * @show: (out):
  * @hide: (out):
  *
- * Collect the set of visiblity changes required to change the visiblity of
- * all outlined columns such tach those > @depth are visible.
+ * Collect the set of visibility changes required to change the visibility of
+ * all outlined columns such that those > @depth are visible.
  **/
 void
 colrow_get_global_outline (Sheet const *sheet, gboolean is_cols, int depth,
@@ -1341,7 +1343,7 @@ colrow_get_global_outline (Sheet const *sheet, gboolean is_cols, int depth,
 
 		/* see what sort of changes are necessary and do simple run
 		 * length encoding.  Do not be too efficent, we need to change
-		 * the visiblity per outline level or the collapse state
+		 * the visibility per outline level or the collapse state
 		 * change in colrow_set_visibility is missed. */
 		if (cri->outline_level < depth) {
 			if (cri->visible)

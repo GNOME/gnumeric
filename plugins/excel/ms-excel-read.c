@@ -1489,7 +1489,7 @@ excel_read_BOUNDSHEET (BiffQuery *q, GnmXLImporter *importer)
 			g_printerr ("Unknown BIFF Boundsheet spec. Assuming same as Biff7 FIXME\n");
 		bs->streamStartPos = GSF_LE_GET_GUINT32 (q->non_decrypted_data);
 
-		/* NOTE : MS Docs appear wrong.  It is visiblity _then_ type */
+		/* NOTE : MS Docs appear wrong.  It is visibility _then_ type */
 		switch (GSF_LE_GET_GUINT8 (q->data + 5)) {
 		case 0: bs->type = MS_BIFF_TYPE_Worksheet;
 			default_name = _("Sheet%d");
