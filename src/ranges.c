@@ -221,14 +221,15 @@ range_init (GnmRange *r, int start_col, int start_row,
 }
 
 /**
- * range_parse :
+ * range_parse:
  * @r: #GnmRange
- * @text:
+ * @text: text to parse
+ * @ss: #GnmSheetSize describing the size of the sheet in which @r lives.
  *
  * Parse a simple range (no abs/rel refs, no sheet refs)
- * Store the result in @res.
+ * Store the result in @r.
  *
- * Returns TRUE on success.
+ * Returns: %TRUE on success.
  **/
 gboolean
 range_parse (GnmRange *r, char const *text, GnmSheetSize const *ss)
@@ -251,7 +252,7 @@ range_parse (GnmRange *r, char const *text, GnmSheetSize const *ss)
 
 /**
  * range_list_destroy:
- * @ranges: (element-type GnmValue) (transfer full):  a list of value ranges
+ * @ranges: (element-type GnmValue) (transfer full): a list of value ranges
  * to destroy.
  *
  * Destroys a list of ranges returned from parse_cell_range_list
@@ -537,8 +538,8 @@ gnm_range_dup (GnmRange const *a)
 
 /**
  * range_fragment:
- * @a: GnmRange a
- * @b: GnmRange b
+ * @a: #GnmRange a
+ * @b: #GnmRange b
  *
  * Fragments the ranges into totaly non-overlapping regions,
  *
@@ -576,13 +577,15 @@ range_fragment (GnmRange const *a, GnmRange const *b)
  *
  * NB. totally commutative
  *
- * Return value: True if the ranges intersect, false otherwise
+ * Return value: %TRUE if the ranges intersect, %FALSE otherwise
  **/
 gboolean
 range_intersection (GnmRange *r, GnmRange const *a, GnmRange const *b)
 {
-	if (!range_overlap (a, b))
+	if (!range_overlap (a, b)) {
+		*r = *a; // Something
 		return FALSE;
+	}
 
 	r->start.col = MAX (a->start.col, b->start.col);
 	r->start.row = MAX (a->start.row, b->start.row);
@@ -657,6 +660,12 @@ range_union (GnmRange const *a, GnmRange const *b)
 	return ans;
 }
 
+/**
+ * range_is_singleton:
+ * @r: the range.
+ *
+ * Returns: %TRUE if @r is a single-cell range.
+ */
 gboolean
 range_is_singleton (GnmRange const *r)
 {
@@ -664,15 +673,15 @@ range_is_singleton (GnmRange const *r)
 }
 
 /**
- * range_is_full :
+ * range_is_full:
  * @r: the range.
  * @sheet: the sheet in which @r lives
- * @horiz: TRUE to check for a horizontal full ref (_cols_ [0..MAX))
+ * @horiz: %TRUE to check for a horizontal full ref (_cols_ [0..MAX))
  *
  * This determines whether @r completely spans a sheet
  * in the dimension specified by @horiz.
  *
- * Return value: TRUE if it is infinite else FALSE
+ * Return value: %TRUE if it is infinite else %FALSE.
  **/
 gboolean
 range_is_full (GnmRange const *r, Sheet const *sheet, gboolean horiz)
@@ -686,7 +695,7 @@ range_is_full (GnmRange const *r, Sheet const *sheet, gboolean horiz)
 }
 
 /**
- * range_clip_to_finite :
+ * range_clip_to_finite:
  * @range:
  * @sheet: the sheet in which @range lives
  *
@@ -764,7 +773,7 @@ range_translate (GnmRange *range, Sheet const *sheet, int col_offset, int row_of
 }
 
 /**
- * range_ensure_sanity :
+ * range_ensure_sanity:
  * @range: the range to check
  * @sheet: the sheet in which @range lives
  *
@@ -782,7 +791,7 @@ range_ensure_sanity (GnmRange *range, Sheet const *sheet)
 }
 
 /**
- * range_is_sane :
+ * range_is_sane:
  * @range: the range to check
  *
  * Generate warnings if the range is out of bounds or inverted.
@@ -807,7 +816,7 @@ range_is_sane (GnmRange const *range)
  * @sheet: the sheet in which @range lives
  * @origin: The box to transpose inside
  *
- *   Effectively mirrors the ranges in 'boundary' around a
+ * Effectively mirrors the ranges in 'boundary' around a
  * leading diagonal projected from offset.
  *
  * Return value: whether we clipped the range.
@@ -926,11 +935,13 @@ gnm_sheet_range_dup (GnmSheetRange const *sr)
 }
 
 /**
- * gnm_sheet_range_from_value :
- * @r:
- * @v:
+ * gnm_sheet_range_from_value:
+ * @r: #GnmSheetRange to change
+ * @v: #GnmValue containing a cell range.
  *
- * Convert @v into a GnmSheetRange and return in @r
+ * Convert @v into a GnmSheetRange.
+ *
+ * Returns: %TRUE
  **/
 gboolean
 gnm_sheet_range_from_value (GnmSheetRange *r, GnmValue const *v)

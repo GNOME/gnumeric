@@ -150,6 +150,9 @@ GnmRange: [Simple structure]
   init_cols(sheet,start,end)
   init_rows(sheet,start,end)
   init_cellpos(sheet,cellpos)
+  is_singleton()
+  is_full(sheet,horiz)
+  contained(other)
   as_string()
   start
   end

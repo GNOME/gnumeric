@@ -125,7 +125,7 @@ ColRowStateGroup  *colrow_get_sizes		(Sheet *sheet, gboolean is_cols,
 						 ColRowIndexList *src, int new_size);
 void		   colrow_restore_state_group	(Sheet *sheet, gboolean is_cols,
 						 ColRowIndexList *selection,
-						 ColRowStateGroup *saved_state);
+						 ColRowStateGroup *state_groups);
 
 /* Support for Col/Row visibility */
 void             col_row_info_set_outline             (ColRowInfo *cri, int outline_level,

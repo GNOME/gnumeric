@@ -364,7 +364,8 @@ sheet_scale_changed (Sheet *sheet, gboolean cols_rescaled, gboolean rows_rescale
 
 		colrow_compute_pixels_from_pts (&sheet->cols.default_style,
 						sheet, TRUE, closure.scale);
-		col_row_collection_foreach (&sheet->cols, 0, gnm_sheet_get_last_col (sheet),
+		col_row_collection_foreach (&sheet->cols,
+					    0, gnm_sheet_get_last_col (sheet),
 			(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
 	}
 	if (rows_rescaled) {
@@ -456,52 +457,52 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 		sheet->outline_symbols_right = !!g_value_get_boolean (value);
 		break;
 
-	case PROP_PROTECTED :
+	case PROP_PROTECTED:
 		sheet->is_protected = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_EDIT_OBJECTS :
+	case PROP_PROTECTED_ALLOW_EDIT_OBJECTS:
 		sheet->protected_allow.edit_objects = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_EDIT_SCENARIOS :
+	case PROP_PROTECTED_ALLOW_EDIT_SCENARIOS:
 		sheet->protected_allow.edit_scenarios = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_CELL_FORMATTING :
+	case PROP_PROTECTED_ALLOW_CELL_FORMATTING:
 		sheet->protected_allow.cell_formatting = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_COLUMN_FORMATTING :
+	case PROP_PROTECTED_ALLOW_COLUMN_FORMATTING:
 		sheet->protected_allow.column_formatting = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_ROW_FORMATTING :
+	case PROP_PROTECTED_ALLOW_ROW_FORMATTING:
 		sheet->protected_allow.row_formatting = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_INSERT_COLUMNS :
+	case PROP_PROTECTED_ALLOW_INSERT_COLUMNS:
 		sheet->protected_allow.insert_columns = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_INSERT_ROWS :
+	case PROP_PROTECTED_ALLOW_INSERT_ROWS:
 		sheet->protected_allow.insert_rows = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_INSERT_HYPERLINKS :
+	case PROP_PROTECTED_ALLOW_INSERT_HYPERLINKS:
 		sheet->protected_allow.insert_hyperlinks = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_DELETE_COLUMNS :
+	case PROP_PROTECTED_ALLOW_DELETE_COLUMNS:
 		sheet->protected_allow.delete_columns = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_DELETE_ROWS :
+	case PROP_PROTECTED_ALLOW_DELETE_ROWS:
 		sheet->protected_allow.delete_rows = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_SELECT_LOCKED_CELLS :
+	case PROP_PROTECTED_ALLOW_SELECT_LOCKED_CELLS:
 		sheet->protected_allow.select_locked_cells = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_SORT_RANGES :
+	case PROP_PROTECTED_ALLOW_SORT_RANGES:
 		sheet->protected_allow.sort_ranges = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_EDIT_AUTO_FILTERS :
+	case PROP_PROTECTED_ALLOW_EDIT_AUTO_FILTERS:
 		sheet->protected_allow.edit_auto_filters = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_EDIT_PIVOTTABLE :
+	case PROP_PROTECTED_ALLOW_EDIT_PIVOTTABLE:
 		sheet->protected_allow.edit_pivottable = !!g_value_get_boolean (value);
 		break;
-	case PROP_PROTECTED_ALLOW_SELECT_UNLOCKED_CELLS :
+	case PROP_PROTECTED_ALLOW_SELECT_UNLOCKED_CELLS:
 		sheet->protected_allow.select_unlocked_cells = !!g_value_get_boolean (value);
 		break;
 
@@ -591,52 +592,52 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 		g_value_set_boolean (value, sheet->outline_symbols_right);
 		break;
 
-	case PROP_PROTECTED :
+	case PROP_PROTECTED:
 		g_value_set_boolean (value, sheet->is_protected);
 		break;
-	case PROP_PROTECTED_ALLOW_EDIT_OBJECTS :
+	case PROP_PROTECTED_ALLOW_EDIT_OBJECTS:
 		g_value_set_boolean (value, sheet->protected_allow.edit_objects);
 		break;
-	case PROP_PROTECTED_ALLOW_EDIT_SCENARIOS :
+	case PROP_PROTECTED_ALLOW_EDIT_SCENARIOS:
 		g_value_set_boolean (value, sheet->protected_allow.edit_scenarios);
 		break;
-	case PROP_PROTECTED_ALLOW_CELL_FORMATTING :
+	case PROP_PROTECTED_ALLOW_CELL_FORMATTING:
 		g_value_set_boolean (value, sheet->protected_allow.cell_formatting);
 		break;
-	case PROP_PROTECTED_ALLOW_COLUMN_FORMATTING :
+	case PROP_PROTECTED_ALLOW_COLUMN_FORMATTING:
 		g_value_set_boolean (value, sheet->protected_allow.column_formatting);
 		break;
-	case PROP_PROTECTED_ALLOW_ROW_FORMATTING :
+	case PROP_PROTECTED_ALLOW_ROW_FORMATTING:
 		g_value_set_boolean (value, sheet->protected_allow.row_formatting);
 		break;
-	case PROP_PROTECTED_ALLOW_INSERT_COLUMNS :
+	case PROP_PROTECTED_ALLOW_INSERT_COLUMNS:
 		g_value_set_boolean (value, sheet->protected_allow.insert_columns);
 		break;
-	case PROP_PROTECTED_ALLOW_INSERT_ROWS :
+	case PROP_PROTECTED_ALLOW_INSERT_ROWS:
 		g_value_set_boolean (value, sheet->protected_allow.insert_rows);
 		break;
-	case PROP_PROTECTED_ALLOW_INSERT_HYPERLINKS :
+	case PROP_PROTECTED_ALLOW_INSERT_HYPERLINKS:
 		g_value_set_boolean (value, sheet->protected_allow.insert_hyperlinks);
 		break;
-	case PROP_PROTECTED_ALLOW_DELETE_COLUMNS :
+	case PROP_PROTECTED_ALLOW_DELETE_COLUMNS:
 		g_value_set_boolean (value, sheet->protected_allow.delete_columns);
 		break;
-	case PROP_PROTECTED_ALLOW_DELETE_ROWS :
+	case PROP_PROTECTED_ALLOW_DELETE_ROWS:
 		g_value_set_boolean (value, sheet->protected_allow.delete_rows);
 		break;
-	case PROP_PROTECTED_ALLOW_SELECT_LOCKED_CELLS :
+	case PROP_PROTECTED_ALLOW_SELECT_LOCKED_CELLS:
 		g_value_set_boolean (value, sheet->protected_allow.select_locked_cells);
 		break;
-	case PROP_PROTECTED_ALLOW_SORT_RANGES :
+	case PROP_PROTECTED_ALLOW_SORT_RANGES:
 		g_value_set_boolean (value, sheet->protected_allow.sort_ranges);
 		break;
-	case PROP_PROTECTED_ALLOW_EDIT_AUTO_FILTERS :
+	case PROP_PROTECTED_ALLOW_EDIT_AUTO_FILTERS:
 		g_value_set_boolean (value, sheet->protected_allow.edit_auto_filters);
 		break;
-	case PROP_PROTECTED_ALLOW_EDIT_PIVOTTABLE :
+	case PROP_PROTECTED_ALLOW_EDIT_PIVOTTABLE:
 		g_value_set_boolean (value, sheet->protected_allow.edit_pivottable);
 		break;
-	case PROP_PROTECTED_ALLOW_SELECT_UNLOCKED_CELLS :
+	case PROP_PROTECTED_ALLOW_SELECT_UNLOCKED_CELLS:
 		g_value_set_boolean (value, sheet->protected_allow.select_unlocked_cells);
 		break;
 
@@ -3974,7 +3975,7 @@ sheet_cells (Sheet *sheet, const GnmRange *r)
  *
  * Note: this function does not honour the CELL_ITER_IGNORE_SUBTOTAL flag.
  *
- * Returns: (transfer none): the value returned by the callback, which can be :
+ * Returns: (transfer none): the value returned by the callback, which can be:
  *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
  *    to stop (by returning non-NULL).
  *
@@ -4274,7 +4275,7 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 	g_return_if_fail (cell->pos.row < gnm_sheet_get_max_rows (sheet));
 
 	cell->base.flags |= GNM_CELL_IN_SHEET_LIST;
-	/* NOTE :
+	/* NOTE:
 	 *   fetching the col/row here serve 3 functions
 	 *   1) obsolete: we used to store the pointer in the cell
 	 *   2) Expanding col/row.max_used

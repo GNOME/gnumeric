@@ -717,7 +717,7 @@ value_cmp (void const *ptr_a, void const *ptr_b)
 	case IS_EQUAL :   return  0;
 	case IS_LESS :    return -1;
 	case IS_GREATER : return  1;
-	default :
+	default:
 		break;
 	}
 	return a->v_any.type - b->v_any.type;
@@ -1270,30 +1270,30 @@ value_diff (GnmValue const *a, GnmValue const *b)
 	if (ta == VALUE_STRING) {
 		switch (tb) {
 		/* Strings are > (empty, or number) */
-		case VALUE_EMPTY :
+		case VALUE_EMPTY:
 			if (*a->v_str.val->str == '\0')
 				return 0.;
 			return DBL_MAX;
 
 		/* If both are strings compare as string */
-		case VALUE_STRING :
+		case VALUE_STRING:
 			if (go_string_equal (a->v_str.val, b->v_str.val))
 				return 0.;
 
 		case VALUE_FLOAT: case VALUE_BOOLEAN:
-		default :
+		default:
 			return DBL_MAX;
 		}
 
 	} else if (tb == VALUE_STRING) {
 		switch (ta) {
 		/* (empty, or number) < String */
-		case VALUE_EMPTY :
+		case VALUE_EMPTY:
 			if (*b->v_str.val->str == '\0')
 				return 0.;
 
-		case VALUE_FLOAT : case VALUE_BOOLEAN :
-		default :
+		case VALUE_FLOAT : case VALUE_BOOLEAN:
+		default:
 			return DBL_MAX;
 		}
 	}

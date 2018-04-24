@@ -68,7 +68,7 @@ static GOMemChunk *expression_pool_small, *expression_pool_big;
 /***************************************************************************/
 
 /**
- * gnm_expr_new_constant :
+ * gnm_expr_new_constant:
  * @v:
  *
  * Absorbs the value.
@@ -273,7 +273,7 @@ gnm_expr_is_array (GnmExpr const *expr)
 }
 
 /**
- * gnm_expr_new_array_corner :
+ * gnm_expr_new_array_corner:
  * @cols:
  * @rows:
  * @expr: optionally NULL.
@@ -686,7 +686,7 @@ gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 		return failed;
 	}
 
-	case GNM_EXPR_OP_CELLREF :
+	case GNM_EXPR_OP_CELLREF:
 		res->a = expr->cellref.ref;
 		res->b = expr->cellref.ref;
 		return FALSE;
@@ -705,7 +705,7 @@ gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 			return TRUE;
 		return gnm_expr_extract_ref (res, expr->name.name->texpr->expr,
 					     pos, flags);
-	default :
+	default:
 		break;
 	}
 	return TRUE;
@@ -727,7 +727,7 @@ handle_empty (GnmValue *res, GnmExprEvalFlags flags)
 }
 
 /**
- * value_intersection :
+ * value_intersection:
  * @v: a VALUE_CELLRANGE or VALUE_ARRAY
  * @pos:
  *
@@ -1219,7 +1219,7 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
 }
 
 /**
- * gnm_expr_eval :
+ * gnm_expr_eval:
  * @expr:
  * @pos:
  * @flags:
@@ -2303,7 +2303,7 @@ cb_contains_subtotal (GnmExpr const *expr, GnmExprWalk *data)
 }
 
 /**
- * gnm_expr_containts_subtotal :
+ * gnm_expr_containts_subtotal:
  * @expr:
  *
  * return TRUE if the expression calls the SUBTOTAL function
@@ -2371,7 +2371,7 @@ gnm_insert_unique_value (GSList *list, GnmValue *data)
 }
 
 /**
- * gnm_expr_is_rangeref :
+ * gnm_expr_is_rangeref:
  * @expr:
  *
  * Returns TRUE if the expression can generate a reference.
@@ -2407,7 +2407,7 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 
 	case GNM_EXPR_OP_ARRAY_CORNER: /* I don't think this is possible */
 	case GNM_EXPR_OP_ARRAY_ELEM:
-	default :
+	default:
 		return FALSE;
 	}
 }
@@ -2975,13 +2975,13 @@ gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2)
 }
 
 /*
- * gnm_expr_top_relocate :
+ * gnm_expr_top_relocate:
  * @texpr: #GnmExprTop to fixup
  * @rinfo: #GnmExprRelocateInfo details of relocation
  * @ignore_rel: Do not adjust relative refs (for internal use when
  *		  relocating named expressions.   Most callers will want FALSE.
  *
- * GNM_EXPR_RELOCATE_INVALIDATE_SHEET :
+ * GNM_EXPR_RELOCATE_INVALIDATE_SHEET:
  *	Convert any references to  sheets marked being_invalidated into #REF!
  * GNM_EXPR_RELOCATE_MOVE_RANGE,
  *	Find any references to the specified area and adjust them by the
@@ -3287,7 +3287,7 @@ cb_first_funcall (GnmExpr const *expr, GnmExprWalk *data)
 }
 
 /**
- * gnm_expr_top_first_funcall :
+ * gnm_expr_top_first_funcall:
  * @texpr:
  *
  */
@@ -3334,7 +3334,7 @@ cb_get_boundingbox (GnmExpr const *expr, GnmExprWalk *data)
 }
 
 /**
- * gnm_expr_top_get_boundingbox :
+ * gnm_expr_top_get_boundingbox:
  *
  * Returns the range of cells in which the expression can be used without going
  * out of bounds.

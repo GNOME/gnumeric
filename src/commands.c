@@ -100,7 +100,7 @@
  *
  * That way undo redo just become applications of the old or the new styles.
  *
- * Design thoughts :
+ * Design thoughts:
  * 1) redo : this should be renamed 'exec' and should be the place that the
  *    the actual command executes.  This avoid duplicating the code for
  *    application and re-application.
@@ -508,7 +508,7 @@ command_repeat (WorkbookControl *wbc)
 }
 
 /**
- * command_setup_combos :
+ * command_setup_combos:
  * @wbc:
  *
  * Initialize the combos to correspond to the current undo/redo state.
@@ -2228,7 +2228,7 @@ cmd_colrow_hide_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 MAKE_GNM_COMMAND (CmdColRowHide, cmd_colrow_hide, cmd_colrow_hide_repeat)
 
 /**
- * cmd_colrow_hide_correct_selection :
+ * cmd_colrow_hide_correct_selection:
  *
  * Try to ensure that the selection/cursor is set to a visible row/col
  *
@@ -2622,7 +2622,7 @@ typedef struct {
 } PasteContent;
 
 /**
- * cmd_paste_cut_update :
+ * cmd_paste_cut_update:
  *
  * Utility routine to update things when we are transfering between sheets and
  * workbooks.
@@ -5928,7 +5928,7 @@ cmd_define_name_finalize (GObject *cmd)
 }
 
 /**
- * cmd_define_name :
+ * cmd_define_name:
  * @wbc:
  * @name:
  * @pp:
@@ -6083,7 +6083,7 @@ cmd_remove_name_finalize (GObject *cmd)
 }
 
 /**
- * cmd_remove_name :
+ * cmd_remove_name:
  * @wbc:
  * @nexpr: name to remove.
  *
@@ -6162,7 +6162,7 @@ cmd_rescope_name_finalize (GObject *cmd)
 }
 
 /**
- * cmd_rescope_name :
+ * cmd_rescope_name:
  * @wbc:
  * @nexpr: name to rescope.
  *
@@ -6680,7 +6680,7 @@ cmd_freeze_panes_finalize (GObject *cmd)
 }
 
 /**
- * cmd_freeze_panes :
+ * cmd_freeze_panes:
  * @wbc: where to report errors
  * @sv: the view to freeze
  * @frozen:

@@ -335,7 +335,7 @@ colrow_index_compare (ColRowIndex const * a, ColRowIndex const * b)
  *                              It will be something like : A-B, F-G
  *
  * @list: The list
- * @is_cols: Column index list or row index list?
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  * @is_single: If non-null this will be set to %TRUE if there's only a single col/row involved.
  */
 GString *
@@ -462,11 +462,11 @@ colrow_state_list_destroy (ColRowStateList *list)
 }
 
 /**
- * colrow_get_states:
+ * colrow_get_states: (skip)
  * @sheet: #Sheet
- * @is_cols: %TRUE if columns.
- * @first:
- * @last:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ * @first: first column or row.
+ * @last: last column or row.
  *
  * Returns: (transfer full):
  **/
@@ -550,9 +550,9 @@ cb_clear_variable_width_content (GnmCellIter const *iter,
 }
 
 /**
- * colrow_get_sizes:
+ * colrow_get_sizes: (skip)
  * @sheet: #Sheet
- * @is_cols: %TRUE if columns.
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  * @src:
  * @new_size:
  *
@@ -590,9 +590,9 @@ colrow_get_sizes (Sheet *sheet, gboolean is_cols,
 }
 
 /**
- * colrow_set_sizes:
+ * colrow_set_sizes: (skip)
  * @sheet: #Sheet
- * @is_cols:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  * @src:
  * @new_size:
  * @from:
@@ -704,14 +704,15 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 	return res;
 }
 
-/*
- * NOTE : this is a low level routine it does not redraw or
- *        reposition objects
+/**
+ * colrow_set_states: (skip)
+ * @sheet: #Sheet
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ * @first: first column or row
+ * @states: saved state to restore.
  *
- * NOTE : this does not delete states any longer since it may be used
- *        for several sheets.
+ * This is a low level routine it does not redraw or reposition objects
  */
-
 void
 colrow_set_states (Sheet *sheet, gboolean is_cols,
 		   int first, ColRowStateList *states)
@@ -779,6 +780,14 @@ colrow_set_states (Sheet *sheet, gboolean is_cols,
 	sheet_colrow_gutter (sheet, is_cols, max_outline);
 }
 
+/**
+ * colrow_restore_state_group: (skip)
+ * @sheet: #Sheet
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ * @selection:
+ * @state_groups:
+ *
+ **/
 void
 colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
 			    ColRowIndexList *selection,
@@ -820,15 +829,15 @@ colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
  * rows_height_update:
  * @sheet:  The sheet,
  * @range:  The range whose rows should be resized.
- * @shrink: If set to FALSE, rows will never shrink!
+ * @shrink: If set to %FALSE, rows will never shrink!
  *
- * Use this function having changed the font size to auto
- * resize the row heights to make the text fit nicely.
+ * Use this function having changed the font size to auto-resize the row
+ * heights to make the text fit nicely.
  **/
 void
-rows_height_update (Sheet *sheet, GnmRange const * range, gboolean shrink)
+rows_height_update (Sheet *sheet, GnmRange const *range, gboolean shrink)
 {
-	/* FIXME : this needs to check font sizes and contents rather than
+	/* FIXME: this needs to check font sizes and contents rather than
 	 * just contents.  Empty cells will cause resize also */
 	colrow_autofit (sheet, range, FALSE, FALSE,
 			FALSE, !shrink,
@@ -902,14 +911,16 @@ cb_autofit_row (GnmColRowIter const *iter, gpointer data_)
 
 /*
  * colrow_autofit:
- * @sheet: the sheet to change
+ * @sheet: the #Sheet to change
  * @range: the range to consider
  * @is_cols: %TRUE for columns, %FALSE for rows.
  * @ignore_strings: Don't consider cells with string values.
  * @min_current: Don't shrink below current size.
  * @min_default: Don't shrink below default size.
- * @indices: (nullable): indices appropriate for colrow_restore_state_group.
- * @sizes: (nullable): old sizes appropriate for colrow_restore_state_group.
+ * @indices: (out) (optional): indices appropriate for
+ *     colrow_restore_state_group.
+ * @sizes: (out) (optional): old sizes appropriate for
+ *     colrow_restore_state_group.
  *
  * This function autofits columns or rows in @range as specified by
  * @is_cols.  Only cells in @range are considered for the sizing
@@ -959,6 +970,11 @@ colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
 	gnm_app_recalc_finish ();
 }
 
+/**
+ * colrow_autofit_col:
+ * @sheet: the #Sheet to change
+ * @r: the range to consider
+ */
 void
 colrow_autofit_col (Sheet *sheet, GnmRange *r)
 {
@@ -971,6 +987,11 @@ colrow_autofit_col (Sheet *sheet, GnmRange *r)
 				     NULL);
 }
 
+/**
+ * colrow_autofit_row:
+ * @sheet: the #Sheet to change
+ * @r: the range to consider
+ */
 void
 colrow_autofit_row (Sheet *sheet, GnmRange *r)
 {
@@ -1046,9 +1067,9 @@ colrow_visibility (Sheet const *sheet, ColRowVisiblity * const dat,
 }
 
 /**
- * colrow_get_outline_toggle:
+ * colrow_get_outline_toggle: (skip)
  * @sheet: #Sheet
- * @is_cols:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  * @visible:
  * @first:
  * @last:
@@ -1085,16 +1106,13 @@ cb_colrow_visibility (SheetView *sv, GnmRange const *r, gpointer closure)
 }
 
 /**
- * colrow_get_visiblity_toggle:
+ * colrow_get_visiblity_toggle: (skip)
  * @sv: The sheet view whose selection we are interested in.
- * @is_cols: A flag indicating whether this it is a column or a row.
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  * @visible: Should we unhide or hide the cols/rows.
  *
  * Searches the selection list and generates a list of index,count
  * pairs of row/col ranges that need to be hidden or unhiden.
- *
- * NOTE : leave sheet non-const until we have a const version of
- *        sv_selection_apply.
  *
  * Returns: (transfer full): the list.
  */
@@ -1112,8 +1130,11 @@ colrow_get_visiblity_toggle (SheetView *sv, gboolean is_cols,
 	return closure.elements;
 }
 
-/*
+/**
  * colrow_set_visibility_list:
+ * @sheet: The #Sheet to change
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ * @visible: Should we unhide or hide the cols/rows.
  *
  * This is the high level command that is wrapped by undo and redo.
  * It should not be called by other commands.
@@ -1189,8 +1210,8 @@ colrow_find_outline_bound (Sheet const *sheet, gboolean is_cols,
 
 /**
  * colrow_set_visibility:
- * @sheet: the sheet
- * @is_cols: Are we dealing with rows or columns.
+ * @sheet: the #Sheet
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  * @visible: Make things visible or invisible.
  * @first: The index of the first row/col (inclusive)
  * @last: The index of the last row/col (inclusive)
@@ -1287,12 +1308,12 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 }
 
 /**
- * colrow_get_global_outline:
+ * colrow_get_global_outline: (skip)
  * @sheet:
- * @is_cols:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  * @depth:
- * @show:
- * @hide:
+ * @show: (out):
+ * @hide: (out):
  *
  * Collect the set of visiblity changes required to change the visiblity of
  * all outlined columns such tach those > @depth are visible.

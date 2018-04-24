@@ -583,7 +583,7 @@ elem_clear_contents (GnmStyle *style, GnmStyleElement elem)
 }
 
 /**
- * gnm_style_find_conflicts :
+ * gnm_style_find_conflicts:
  * @accum: accumulator #GnmStyle
  * @overlay: #GnmStyle
  * @conflicts: flags
@@ -788,7 +788,7 @@ gnm_style_dup (GnmStyle const *src)
 }
 
 /**
- * gnm_style_new_merged :
+ * gnm_style_new_merged:
  * @base: #GnmStyle
  * @overlay: #GnmStyle
  *
@@ -1004,7 +1004,7 @@ gnm_style_linked_sheet_changed (GnmStyle *style)
 }
 
 /**
- * gnm_style_link_sheet :
+ * gnm_style_link_sheet:
  * @style:
  * @sheet:
  *
@@ -1255,7 +1255,7 @@ gnm_style_cmp (GnmStyle const *a, GnmStyle const *b)
 
 
 /**
- * gnm_style_equal_header :
+ * gnm_style_equal_header:
  * @a: #GnmStyle
  * @b: #GnmStyle
  * @top: is this a header vertically or horizontally
@@ -1289,7 +1289,7 @@ gnm_style_is_element_set (GnmStyle const *style, GnmStyleElement elem)
 }
 
 /**
- * gnm_style_is_complete :
+ * gnm_style_is_complete:
  * @style: #GnmStyle
  *
  * Returns TRUE if all elements are set.
@@ -1315,7 +1315,7 @@ gnm_style_unset_element (GnmStyle *style, GnmStyleElement elem)
 }
 
 /**
- * gnm_style_merge :
+ * gnm_style_merge:
  * @base: #GnmStyle
  * @overlay: #GnmStyle
  *
@@ -1377,7 +1377,7 @@ gnm_style_set_font_color (GnmStyle *style, GnmColor *col)
 }
 
 /**
- * gnm_style_set_back_color :
+ * gnm_style_set_back_color:
  * @style: #GnmStyle
  * @col: #GnmColor
  *
@@ -2242,7 +2242,7 @@ add_attr (PangoAttrList *attrs, PangoAttribute *attr)
 }
 
 /**
- * gnm_style_get_pango_attrs :
+ * gnm_style_get_pango_attrs:
  * @style: #GnmStyle
  **/
 PangoAttrList *
@@ -2285,13 +2285,13 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 
 	/* Handle script. */
 	switch (gnm_style_get_font_script (style)) {
-	default :
-	case GO_FONT_SCRIPT_STANDARD :
+	default:
+	case GO_FONT_SCRIPT_STANDARD:
 		break;
-	case GO_FONT_SCRIPT_SUB :
+	case GO_FONT_SCRIPT_SUB:
 		add_attr (l, go_pango_attr_subscript_new (TRUE));
 		break;
-	case GO_FONT_SCRIPT_SUPER :
+	case GO_FONT_SCRIPT_SUPER:
 		add_attr (l, go_pango_attr_superscript_new (TRUE));
 		break;
 	}
@@ -2373,31 +2373,31 @@ void
 gnm_style_set_from_pango_attribute (GnmStyle *style, PangoAttribute const *attr)
 {
 	switch (attr->klass->type) {
-	case PANGO_ATTR_FAMILY :
+	case PANGO_ATTR_FAMILY:
 		gnm_style_set_font_name (style, ((PangoAttrString *)attr)->value);
 		break;
-	case PANGO_ATTR_SIZE :
+	case PANGO_ATTR_SIZE:
 		gnm_style_set_font_size (style,
 					 ((PangoAttrInt *)attr)->value / (double)PANGO_SCALE);
 		break;
-	case PANGO_ATTR_STYLE :
+	case PANGO_ATTR_STYLE:
 		gnm_style_set_font_italic (style,
 			((PangoAttrInt *)attr)->value == PANGO_STYLE_ITALIC);
 		break;
-	case PANGO_ATTR_WEIGHT :
+	case PANGO_ATTR_WEIGHT:
 		gnm_style_set_font_bold (style,
 			((PangoAttrInt *)attr)->value >= PANGO_WEIGHT_BOLD);
 		break;
-	case PANGO_ATTR_FOREGROUND :
+	case PANGO_ATTR_FOREGROUND:
 		gnm_style_set_font_color (style, gnm_color_new_pango (
 			&((PangoAttrColor *)attr)->color));
 		break;
-	case PANGO_ATTR_UNDERLINE :
+	case PANGO_ATTR_UNDERLINE:
 		gnm_style_set_font_uline
 			(style, gnm_translate_underline_from_pango
 			 (((PangoAttrInt *)attr)->value));
 		break;
-	case PANGO_ATTR_STRIKETHROUGH :
+	case PANGO_ATTR_STRIKETHROUGH:
 		gnm_style_set_font_strike (style,
 			((PangoAttrInt *)attr)->value != 0);
 		break;
@@ -2487,24 +2487,24 @@ gnm_style_dump (GnmStyle const *style)
 		g_printerr (style->font_detail.italic ? "\titalic\n" : "\tnot italic\n");
 	if (elem_is_set (style, MSTYLE_FONT_UNDERLINE))
 		switch (style->font_detail.underline) {
-		default :
-		case UNDERLINE_NONE :
+		default:
+		case UNDERLINE_NONE:
 			g_printerr ("\tno underline\n"); break;
-		case UNDERLINE_SINGLE :
+		case UNDERLINE_SINGLE:
 			g_printerr ("\tsingle underline\n"); break;
-		case UNDERLINE_DOUBLE :
+		case UNDERLINE_DOUBLE:
 			g_printerr ("\tdouble underline\n"); break;
 		}
 	if (elem_is_set (style, MSTYLE_FONT_STRIKETHROUGH))
 		g_printerr (style->font_detail.strikethrough ? "\tstrikethrough\n" : "\tno strikethrough\n");
 	if (elem_is_set (style, MSTYLE_FONT_SCRIPT))
 		switch (style->font_detail.script) {
-		case GO_FONT_SCRIPT_SUB :
+		case GO_FONT_SCRIPT_SUB:
 			g_printerr ("\tsubscript\n"); break;
-		default :
-		case GO_FONT_SCRIPT_STANDARD :
+		default:
+		case GO_FONT_SCRIPT_STANDARD:
 			g_printerr ("\tno super or sub\n"); break;
-		case GO_FONT_SCRIPT_SUPER :
+		case GO_FONT_SCRIPT_SUPER:
 			g_printerr ("\tsuperscript\n"); break;
 		}
 	if (elem_is_set (style, MSTYLE_FONT_SIZE))
