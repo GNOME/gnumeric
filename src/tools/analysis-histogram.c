@@ -197,14 +197,15 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		GnmExpr const *expr_min;
 		GnmExpr const *expr_max;
 
-		switch (info->base.group_by) {
-		case GROUPED_BY_ROW:
-			val->v_range.cell.a.col++;
-			break;
-		default:
-			val->v_range.cell.a.row++;
-			break;
-		}
+		if (info->base.labels)
+			switch (info->base.group_by) {
+			case GROUPED_BY_ROW:
+				val->v_range.cell.a.col++;
+				break;
+			default:
+				val->v_range.cell.a.row++;
+				break;
+			}
 
 		if (info->min_given)
 			dao_set_cell_float (dao, to_col, i_start, info->min);

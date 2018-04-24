@@ -1,5 +1,8 @@
 Gnumeric 1.12.40
 
+Andreas:
+	* Fix histogram tool for the case of no labels. [#795475]
+
 Dean McCarron:
 	* Introspection fixes.
 

@@ -1,3 +1,8 @@
+2018-04-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): shorten the source only
+	in the presence of labels
+
 2018-03-13  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.39
