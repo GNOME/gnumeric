@@ -482,7 +482,7 @@ gnm_adjustment_configure (GtkAdjustment *adjustment,
 }
 
 /**
- * scg_scrollbar_config :
+ * scg_scrollbar_config:
  * @sc:
  *
  * Manages the scrollbar dimensions and paging parameters.
@@ -786,7 +786,7 @@ scg_init (SheetControlGUI *scg)
 /*************************************************************************/
 
 /**
- * gnm_pane_update_inital_top_left :
+ * gnm_pane_update_inital_top_left:
  * A convenience routine to store the new topleft back in the view.
  */
 static void
@@ -2055,38 +2055,38 @@ context_menu_handler (GnmPopupMenuElement const *element,
 	g_return_if_fail (IS_SHEET (sheet));
 
 	switch (element->index) {
-	case CONTEXT_CUT :
+	case CONTEXT_CUT:
 		sv_selection_cut (sv, wbc);
 		break;
-	case CONTEXT_COPY :
+	case CONTEXT_COPY:
 		sv_selection_copy (sv, wbc);
 		break;
-	case CONTEXT_PASTE :
+	case CONTEXT_PASTE:
 		cmd_paste_to_selection (wbc, sv, PASTE_DEFAULT);
 		break;
-	case CONTEXT_PASTE_SPECIAL :
+	case CONTEXT_PASTE_SPECIAL:
 		dialog_paste_special (wbcg);
 		break;
-	case CONTEXT_INSERT :
+	case CONTEXT_INSERT:
 		dialog_insert_cells (wbcg);
 		break;
-	case CONTEXT_DELETE :
+	case CONTEXT_DELETE:
 		dialog_delete_cells (wbcg);
 		break;
-	case CONTEXT_CLEAR_CONTENT :
+	case CONTEXT_CLEAR_CONTENT:
 		cmd_selection_clear (wbc, CLEAR_VALUES);
 		break;
-	case CONTEXT_FORMAT_CELL :
+	case CONTEXT_FORMAT_CELL:
 		dialog_cell_format (wbcg, FD_CURRENT, 0);
 		break;
-	case CONTEXT_FORMAT_CELL_COND :
+	case CONTEXT_FORMAT_CELL_COND:
 		dialog_cell_format_cond (wbcg);
 		break;
-	case CONTEXT_CELL_AUTOFIT_HEIGHT :
+	case CONTEXT_CELL_AUTOFIT_HEIGHT:
 		workbook_cmd_autofit_selection
 			(wbc, wb_control_cur_sheet (wbc), FALSE);
 		break;
-	case CONTEXT_CELL_AUTOFIT_WIDTH :
+	case CONTEXT_CELL_AUTOFIT_WIDTH:
 		workbook_cmd_autofit_selection
 			(wbc, wb_control_cur_sheet (wbc), TRUE);
 		break;
@@ -2105,30 +2105,30 @@ context_menu_handler (GnmPopupMenuElement const *element,
 
 	}
 		break;
-	case CONTEXT_COL_WIDTH :
+	case CONTEXT_COL_WIDTH:
 		dialog_col_width (wbcg, FALSE);
 		break;
-	case CONTEXT_COL_AUTOFIT :
+	case CONTEXT_COL_AUTOFIT:
 		workbook_cmd_resize_selected_colrow
 			(wbc, wb_control_cur_sheet (wbc), TRUE, -1);
 		break;
-	case CONTEXT_COL_HIDE :
+	case CONTEXT_COL_HIDE:
 		cmd_selection_colrow_hide (wbc, TRUE, FALSE);
 		break;
-	case CONTEXT_COL_UNHIDE :
+	case CONTEXT_COL_UNHIDE:
 		cmd_selection_colrow_hide (wbc, TRUE, TRUE);
 		break;
-	case CONTEXT_ROW_HEIGHT :
+	case CONTEXT_ROW_HEIGHT:
 		dialog_row_height (wbcg, FALSE);
 		break;
-	case CONTEXT_ROW_AUTOFIT :
+	case CONTEXT_ROW_AUTOFIT:
 		workbook_cmd_resize_selected_colrow
 			(wbc, wb_control_cur_sheet (wbc), FALSE, -1);
 		break;
-	case CONTEXT_ROW_HIDE :
+	case CONTEXT_ROW_HIDE:
 		cmd_selection_colrow_hide (wbc, FALSE, FALSE);
 		break;
-	case CONTEXT_ROW_UNHIDE :
+	case CONTEXT_ROW_UNHIDE:
 		cmd_selection_colrow_hide (wbc, FALSE, TRUE);
 		break;
 	case CONTEXT_COMMENT_EDIT:
@@ -2165,14 +2165,14 @@ context_menu_handler (GnmPopupMenuElement const *element,
 		g_free (name);
 		break;
 	}
-	case CONTEXT_DATA_SLICER_REFRESH :
+	case CONTEXT_DATA_SLICER_REFRESH:
 		cmd_slicer_refresh (wbc);
 		break;
-	case CONTEXT_DATA_SLICER_EDIT :
+	case CONTEXT_DATA_SLICER_EDIT:
 		dialog_data_slicer (wbcg, FALSE);
 		break;
 
-	default :
+	default:
 		break;
 	}
 }
@@ -2685,7 +2685,7 @@ cb_scg_object_unselect (SheetObject *so, G_GNUC_UNUSED double *coords, SheetCont
 }
 
 /**
- * scg_object_unselect :
+ * scg_object_unselect:
  * @scg: #SheetControlGUI
  * @so: #SheetObject (optionally NULL)
  *
@@ -2878,7 +2878,7 @@ cb_drag_selected_objects (SheetObject *so, double *coords, ObjDragInfo *info)
 }
 
 /**
- * scg_objects_drag :
+ * scg_objects_drag:
  * @scg: #SheetControlGUI
  * @primary: #SheetObject (optionally NULL)
  * @dx:
@@ -3180,7 +3180,7 @@ scg_comment_display_filter_cb (PangoAttribute *attribute, gboolean *state)
 }
 
 /**
- * scg_comment_display :
+ * scg_comment_display:
  * @scg: The SheetControl
  * @cc: A cell comment
  *
@@ -3290,7 +3290,7 @@ cb_cell_comment_timer (SheetControlGUI *scg)
 }
 
 /**
- * scg_comment_select :
+ * scg_comment_select:
  * @scg: The SheetControl
  * @cc: A cell comment
  *
@@ -3314,7 +3314,7 @@ scg_comment_select (SheetControlGUI *scg, GnmComment *cc, int x, int y)
 }
 
 /**
- * scg_comment_unselect :
+ * scg_comment_unselect:
  * @scg: The SheetControl
  * @cc: A cell comment
  *
@@ -3540,7 +3540,7 @@ scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 }
 
 /**
- * scg_set_display_cursor :
+ * scg_set_display_cursor:
  * @scg:
  *
  * Set the displayed cursor type.
@@ -3699,7 +3699,7 @@ scg_cursor_move (SheetControlGUI *scg, int n,
 }
 
 /**
- * scg_cursor_extend :
+ * scg_cursor_extend:
  * @scg: The scg
  * @n: Units to extend the selection
  * @jump_to_bound: Move to transitions between cells and blanks,
@@ -4167,7 +4167,7 @@ scg_paste_cellregion (SheetControlGUI *scg, double x, double y,
 	coords[0] = coords[2] = x;
 	coords[1] = coords[3] = y;
 	scg_object_coords_to_anchor (scg, coords, &anchor);
-	paste_target_init (&pt, sheet, &anchor.cell_bound, PASTE_ALL_TYPES);
+	paste_target_init (&pt, sheet, &anchor.cell_bound, PASTE_ALL_SHEET);
 	if (content && ((content->cols > 0 && content->rows > 0) ||
 			content->objects != NULL))
 		cmd_paste_copy (wbc, &pt, content);

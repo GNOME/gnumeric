@@ -2726,7 +2726,7 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	if (me->info.origin_sheet != me->info.target_sheet ||
 	    !range_overlap (&me->info.origin, &tmp)) {
 		PasteContent *pc = g_new (PasteContent, 1);
-		paste_target_init (&pc->pt, me->info.target_sheet, &tmp, PASTE_ALL_TYPES);
+		paste_target_init (&pc->pt, me->info.target_sheet, &tmp, PASTE_ALL_SHEET);
 		pc->contents = clipboard_copy_range (me->info.target_sheet, &tmp);
 		me->paste_contents = g_slist_prepend (me->paste_contents, pc);
 	} else {
@@ -2739,7 +2739,7 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 			if (!range_overlap (&me->info.origin, r)) {
 				PasteContent *pc = g_new (PasteContent, 1);
-				paste_target_init (&pc->pt, me->info.target_sheet, r, PASTE_ALL_TYPES);
+				paste_target_init (&pc->pt, me->info.target_sheet, r, PASTE_ALL_SHEET);
 				pc->contents = clipboard_copy_range (me->info.target_sheet,  r);
 				me->paste_contents = g_slist_prepend (me->paste_contents, pc);
 			}
@@ -2751,7 +2751,7 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	/* rare corner case.  If the origin sheet has been deleted */
 	if (!IS_SHEET (me->info.origin_sheet)) {
 		GnmPasteTarget pt;
-		paste_target_init (&pt, me->info.target_sheet, &tmp, PASTE_ALL_TYPES);
+		paste_target_init (&pt, me->info.target_sheet, &tmp, PASTE_ALL_SHEET);
 		sheet_clear_region (pt.sheet,
 			tmp.start.col, tmp.start.row, tmp.end.col,   tmp.end.row,
 			CLEAR_VALUES | CLEAR_MERGES | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS,
@@ -3002,7 +3002,7 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	contents = clipboard_copy_range (me->dst.sheet, &me->dst.range);
 	if (me->has_been_through_cycle)
 		me->dst.paste_flags = PASTE_CONTENTS |
-			(me->dst.paste_flags & PASTE_ALL_TYPES);
+			(me->dst.paste_flags & PASTE_ALL_SHEET);
 	actual_dst = me->dst;
 	if (clipboard_paste_region (me->contents, &actual_dst, GO_CMD_CONTEXT (wbc))) {
 		/* There was a problem, avoid leaking */
@@ -5190,7 +5190,7 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 				    CLEAR_RECALC_DEPS | CLEAR_VALUES | CLEAR_MERGES,
 				    GO_CMD_CONTEXT (wbc));
 		clipboard_paste_region (me->old_contents,
-			paste_target_init (&pt, me->dao->sheet, &me->old_range, PASTE_ALL_TYPES),
+			paste_target_init (&pt, me->dao->sheet, &me->old_range, PASTE_ALL_SHEET),
 			GO_CMD_CONTEXT (wbc));
 		cellregion_unref (me->old_contents);
 		me->old_contents = NULL;
@@ -5453,7 +5453,7 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		colrow_set_states (new_sheet, FALSE, target_range.start.row, state_row);
 		sheet_objects_dup (source_sheet, new_sheet, &target_range);
 		clipboard_paste_region (merge_contents,
-			paste_target_init (&pt, new_sheet, &target_range, PASTE_ALL_TYPES),
+			paste_target_init (&pt, new_sheet, &target_range, PASTE_ALL_SHEET),
 			GO_CMD_CONTEXT (wbc));
 	}
 	cellregion_unref (merge_contents);

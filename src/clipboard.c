@@ -253,10 +253,10 @@ struct paste_cell_data {
  * paste_cell:
  * @target_col:  Column to put the cell into
  * @target_row:  Row to put the cell into.
- * @src:         A #GnmCelCopy with the content to paste
+ * @src:         A #GnmCellCopy with the content to paste
  * @paste_flags: Bit mask that describes the paste options.
  *
- *  Pastes a cell in the spreadsheet.
+ * Pastes a cell in the spreadsheet.
  */
 static void
 paste_cell (int target_col, int target_row,
@@ -417,7 +417,7 @@ range_flip_v (GnmRange *range, Sheet const *sheet, int const *data)
  * the destination if the target is a singleton.  This is a simple interface to
  * paste a region.
  *
- * returns : TRUE if there was a problem.
+ * Returns: %TRUE if there was a problem.
  **/
 gboolean
 clipboard_paste_region (GnmCellRegion const *cr,
@@ -432,6 +432,7 @@ clipboard_paste_region (GnmCellRegion const *cr,
 	gboolean has_contents, adjust_merges = TRUE;
 	struct paste_cell_data dat;
 	GnmRange const *merge_src;
+	gboolean no_flipping, do_col_widths, do_row_heights;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
 	g_return_val_if_fail (cr != NULL, TRUE);
@@ -632,6 +633,35 @@ clipboard_paste_region (GnmCellRegion const *cr,
 					paste_object (pt, ptr->data, left, top);
 		}
 
+	no_flipping = (pt->paste_flags & (PASTE_FLIP_H | PASTE_FLIP_V | PASTE_TRANSPOSE)) == 0;
+	do_col_widths =
+		no_flipping &&
+		((pt->paste_flags & PASTE_COLUMN_WIDTHS) ||
+		 ((pt->paste_flags & PASTE_COLUMN_WIDTHS_AUTO) &&
+		  cr->origin_sheet &&
+		  src_rows == gnm_sheet_get_max_rows (cr->origin_sheet)));
+	if (do_col_widths) {
+		int i;
+		for (i = 0; i < repeat_horizontal; i++) {
+			int first = pt->range.start.col + i * src_cols;
+			colrow_set_states (pt->sheet, TRUE, first, cr->col_state);
+		}
+	}
+
+	do_row_heights =
+		no_flipping &&
+		((pt->paste_flags & PASTE_ROW_HEIGHTS) ||
+		 ((pt->paste_flags & PASTE_ROW_HEIGHTS_AUTO) &&
+		  cr->origin_sheet &&
+		  src_cols == gnm_sheet_get_max_cols (cr->origin_sheet)));
+	if (do_row_heights) {
+		int i;
+		for (i = 0; i < repeat_vertical; i++) {
+			int first = pt->range.start.row + i * src_rows;
+			colrow_set_states (pt->sheet, FALSE, first, cr->row_state);
+		}
+	}
+
 	if (!(pt->paste_flags & PASTE_NO_RECALC)) {
 		if (has_contents) {
 			sheet_region_queue_recalc (pt->sheet, r);
@@ -641,8 +671,6 @@ clipboard_paste_region (GnmCellRegion const *cr,
 
 		sheet_range_calc_spans (pt->sheet, r,
 					(pt->paste_flags & PASTE_FORMATS) ? GNM_SPANCALC_RE_RENDER : GNM_SPANCALC_RENDER);
-		if (pt->paste_flags & PASTE_UPDATE_ROW_HEIGHT)
-			rows_height_update (pt->sheet, &pt->range, FALSE);
 		sheet_redraw_all (pt->sheet, FALSE);
 	}
 
@@ -745,7 +773,8 @@ cb_clipboard_copy_range_undo (GnmCellRegion *cr, GnmSheetRange *sr,
 				    sr->sheet,
 				    &sr->range,
 				    PASTE_CONTENTS | PASTE_FORMATS |
-				    PASTE_OBJECTS | PASTE_COMMENTS),
+				    PASTE_OBJECTS | PASTE_COMMENTS |
+				    PASTE_COLUMN_WIDTHS | PASTE_ROW_HEIGHTS),
 		 cc);
 }
 
@@ -857,7 +886,7 @@ paste_target_init (GnmPasteTarget *pt, Sheet *sheet,
 }
 
 /**
- * gnm_cell_region_new :
+ * gnm_cell_region_new:
  * @origin_sheet: optionally NULL.
  *
  * A convenience routine to create CellRegions and init the flags nicely.
@@ -972,7 +1001,7 @@ cb_invalidate_cellcopy (GnmCellCopy *cc, gconstpointer ignore,
 }
 
 /**
- * cellregion_invalidate_sheet :
+ * cellregion_invalidate_sheet:
  * @cr: #GnmCellRegion
  * @sheet: #Sheet
  *

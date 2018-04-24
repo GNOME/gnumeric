@@ -765,7 +765,7 @@ item_cursor_do_action (GnmItemCursor *ic, ActionType action)
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,
-					      PASTE_ALL_TYPES));
+					      PASTE_ALL_CELL));
 		break;
 
 	case ACTION_MOVE_CELLS:
@@ -773,7 +773,7 @@ item_cursor_do_action (GnmItemCursor *ic, ActionType action)
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,
-					      PASTE_ALL_TYPES));
+					      PASTE_ALL_CELL));
 		break;
 
 	case ACTION_COPY_FORMATS:

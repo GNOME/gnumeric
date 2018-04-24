@@ -35,20 +35,28 @@ typedef enum {
 	/* Internal flag : see cmd_merge_cells_undo for details */
 	PASTE_IGNORE_COMMENTS_AT_ORIGIN   = 1 << 13,
 
-	/* Update the row height when pasting? (for large fonts, etc.) */
-	PASTE_UPDATE_ROW_HEIGHT = 1 << 14,
+	// Copy column widths
+	PASTE_COLUMN_WIDTHS = 1 << 14,
+	PASTE_COLUMN_WIDTHS_AUTO = 1 << 15,
+	PASTE_COLUMN_WIDTHS_MASK = (PASTE_COLUMN_WIDTHS | PASTE_COLUMN_WIDTHS_AUTO),
 
-	PASTE_EXPR_LOCAL_RELOCATE = 1 << 15,
+	// Copy row heights
+	PASTE_ROW_HEIGHTS = 1 << 16,
+	PASTE_ROW_HEIGHTS_AUTO = 1 << 17,
+	PASTE_ROW_HEIGHTS_MASK = (PASTE_ROW_HEIGHTS | PASTE_ROW_HEIGHTS_AUTO),
+
+	PASTE_EXPR_LOCAL_RELOCATE = 1 << 18,
 
 	/* Avoid flagging dependencies.  */
-	PASTE_NO_RECALC         = 1 << 16,
+	PASTE_NO_RECALC         = 1 << 19,
 
 	/* Whether the paste flips or not */
-	PASTE_FLIP_H         = 1 << 17,
-	PASTE_FLIP_V         = 1 << 18,
+	PASTE_FLIP_H         = 1 << 20,
+	PASTE_FLIP_V         = 1 << 21,
 
-	PASTE_ALL_TYPES = (PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS | PASTE_OBJECTS),
-	PASTE_DEFAULT = PASTE_ALL_TYPES
+	PASTE_ALL_CELL = (PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS | PASTE_OBJECTS),
+	PASTE_ALL_SHEET = (PASTE_ALL_CELL | PASTE_COLUMN_WIDTHS_AUTO | PASTE_ROW_HEIGHTS_AUTO),
+	PASTE_DEFAULT = PASTE_ALL_SHEET
 } GnmPasteFlags;
 
 #define PASTE_OPER_MASK (PASTE_OPER_ADD | PASTE_OPER_SUB | PASTE_OPER_MULT | PASTE_OPER_DIV)

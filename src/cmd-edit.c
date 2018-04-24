@@ -86,7 +86,7 @@ sv_select_cur_col (SheetView *sv)
 }
 
 /**
- * sv_select_cur_array :
+ * sv_select_cur_array:
  * @sv: The sheet
  *
  * If the editpos is part of an array clear the selection and select the array.
@@ -135,7 +135,7 @@ cb_collect_deps (GnmDependent *dep, gpointer user)
 }
 
 /**
- * sv_select_cur_depends :
+ * sv_select_cur_depends:
  * @sv: The sheet
  *
  * Select all cells that depend on the expression in the current cell.
@@ -225,7 +225,7 @@ sv_select_cur_depends (SheetView *sv)
 }
 
 /**
- * sv_select_cur_inputs :
+ * sv_select_cur_inputs:
  * @sv: The sheet
  *
  * Select all cells that are direct potential inputs to the
@@ -277,7 +277,7 @@ sv_select_cur_inputs (SheetView *sv)
 }
 
 /**
- * cmd_paste :
+ * cmd_paste:
  *
  * Pastes the current cut buffer, copy buffer, or X selection to
  * the destination sheet range.
@@ -356,7 +356,7 @@ cmd_paste (WorkbookControl *wbc, GnmPasteTarget const *pt)
 }
 
 /**
- * cmd_paste_to_selection :
+ * cmd_paste_to_selection:
  * @dest_sv: The sheet into which things should be pasted
  * @paste_flags: special paste flags (eg transpose)
  *

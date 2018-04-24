@@ -28,7 +28,7 @@
 #include <wbc-gtk.h>
 #include <gui-util.h>
 #include <clipboard.h>
-#include <dependent.h>
+#include <selection.h>
 #include <cmd-edit.h>
 
 #include <gtk/gtk.h>
@@ -41,11 +41,11 @@ static char const * const paste_type_group[] = {
 	"paste-type-comments",
 	NULL
 };
-static struct {
+static const struct {
 	gboolean permit_cell_ops;
 	int paste_enum;
 } paste_type_group_props[] = {
-	{TRUE, PASTE_ALL_TYPES},
+	{TRUE, PASTE_ALL_CELL},
 	{TRUE, PASTE_CONTENTS},
 	{TRUE, PASTE_AS_VALUES},
 	{FALSE, PASTE_FORMATS},
@@ -59,7 +59,7 @@ static char const * const cell_operation_group[] = {
 	"cell-operation-divide",
 	NULL
 };
-static struct {
+static const struct {
 	int paste_enum;
 } cell_operation_props[] = {
 	{0},
@@ -75,7 +75,7 @@ static char const * const region_operation_group[] = {
 	"region-operation-flip-v",
 	NULL
 };
-static struct {
+static const struct {
 	int paste_enum;
 } region_operation_props[] = {
 	{0},
@@ -216,6 +216,13 @@ cb_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	    (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui,"dont-change-formulae"))))
 		result |= PASTE_EXPR_LOCAL_RELOCATE;
 
+	if (gtk_toggle_button_get_active
+	    (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui,"row-heights"))))
+		result |= PASTE_ROW_HEIGHTS;
+	if (gtk_toggle_button_get_active
+	    (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui,"column-widths"))))
+		result |= PASTE_COLUMN_WIDTHS;
+
 	cmd_paste_to_selection (GNM_WBC (state->wbcg), state->sv, result);
 	gtk_widget_destroy (state->dialog);
 	return;
@@ -284,6 +291,13 @@ dialog_paste_special (WBCGtk *wbcg)
 				"toggled",
 				G_CALLBACK (dialog_paste_special_skip_blanks_toggled_cb), state);
 	paste_link_set_sensitive (state);
+
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui,"column-widths")),
+		 sv_is_full_colrow_selected (state->sv, TRUE, -1));
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui,"row-heights")),
+		 sv_is_full_colrow_selected (state->sv, FALSE, -1));
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);

@@ -216,9 +216,9 @@ sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
  * sv_is_full_colrow_selected:
  * @sv:
  * @is_cols:
- * @index:
+ * @index: index of column or row, -1 for any.
  *
- * Returns: TRUE if all of the selected cols/rows in the selection
+ * Returns: %TRUE if all of the selected cols/rows in the selection
  *	are fully selected and the selection contains the specified col.
  **/
 gboolean
@@ -235,12 +235,12 @@ sv_is_full_colrow_selected (SheetView const *sv, gboolean is_cols, int index)
 		if (is_cols) {
 			if (r->start.row > 0 || r->end.row < gnm_sheet_get_last_row (sv->sheet))
 				return FALSE;
-			if (r->start.col <= index && index <= r->end.col)
+			if (index == -1 || (r->start.col <= index && index <= r->end.col))
 				found = TRUE;
 		} else {
 			if (r->start.col > 0 || r->end.col < gnm_sheet_get_last_col (sv->sheet))
 				return FALSE;
-			if (r->start.row <= index && index <= r->end.row)
+			if (index == -1 || (r->start.row <= index && index <= r->end.row))
 				found = TRUE;
 		}
 	}
