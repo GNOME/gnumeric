@@ -853,8 +853,8 @@ cb_autofit_row (GnmColRowIter const *iter, gpointer data_)
  * @ignore_strings: Don't consider cells with string values.
  * @min_current: Don't shrink below current size.
  * @min_default: Don't shrink below default size.
- * @indices: indices appropriate for colrow_restore_state_group.
- * @sizes: old sizes appropriate for colrow_restore_state_group.
+ * @indices: (nullable): indices appropriate for colrow_restore_state_group.
+ * @sizes: (nullable): old sizes appropriate for colrow_restore_state_group.
  *
  * This function autofits columns or rows in @range as specified by
  * @is_cols.  Only cells in @range are considered for the sizing

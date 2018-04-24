@@ -455,8 +455,6 @@ clipboard_paste_region (GnmCellRegion const *cr,
 	src_cols = cr->cols;
 	src_rows = cr->rows;
 
-
-
 	/* If the source is a single cell or a single merge */
 	/* Treat a target of a single merge specially, don't split the merge */
 	if ((src_cols == 1 && src_rows == 1) ||
