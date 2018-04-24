@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2018-04-21 17:01+0000\n"
-"PO-Revision-Date: 2018-04-21 18:40+0200\n"
+"POT-Creation-Date: 2018-04-24 02:56+0000\n"
+"PO-Revision-Date: 2018-04-24 18:17+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -3763,16 +3763,16 @@ msgstr "Nástrojová lišta Objekt"
 msgid "Cut Object"
 msgstr "Vyjmout objekt"
 
-#: ../src/clipboard.c:489 ../src/clipboard.c:502 ../src/clipboard.c:514
-#: ../src/clipboard.c:524
+#: ../src/clipboard.c:490 ../src/clipboard.c:503 ../src/clipboard.c:515
+#: ../src/clipboard.c:525
 msgid "Unable to paste"
 msgstr "Nelze vložit"
 
-#: ../src/clipboard.c:490
+#: ../src/clipboard.c:491
 msgid "Contents can only be pasted by value or by link."
 msgstr "Obsah je možné vložit pouze jako hodnotu nebo jako odkaz."
 
-#: ../src/clipboard.c:498
+#: ../src/clipboard.c:499
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -3783,7 +3783,7 @@ msgstr ""
 "\n"
 "Zkuste vybrat jedinou buňku nebo oblast stejného tvaru a velikosti."
 
-#: ../src/clipboard.c:510
+#: ../src/clipboard.c:511
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -3794,7 +3794,7 @@ msgstr ""
 "\n"
 "Zkuste vybrat jedinou buňku nebo oblast stejného tvaru a velikosti."
 
-#: ../src/clipboard.c:525
+#: ../src/clipboard.c:526
 msgid "result passes the sheet boundary"
 msgstr "výsledek přesahuje hranice listu"
 
@@ -4293,7 +4293,7 @@ msgstr "Odstranit objekt"
 #: ../src/commands.c:4858 ../src/commands.c:5924
 #: ../src/dialogs/dialog-doc-metadata.c:1914
 #: ../src/dialogs/dialog-formula-guru.c:894
-#: ../src/dialogs/dialog-function-select.c:1257
+#: ../src/dialogs/dialog-function-select.c:1284
 #: ../src/dialogs/dialog-scenarios.c:522 ../src/dialogs/dialog-simulation.c:215
 #: ../src/dialogs/dialog-zoom.c:196 ../src/format-template.c:217
 msgid "Name"
@@ -6237,7 +6237,7 @@ msgid "Properties"
 msgstr "Vlastnosti"
 
 #: ../src/dialogs/dialog-doc-metadata.c:2245
-#: ../src/dialogs/dialog-function-select.c:1262
+#: ../src/dialogs/dialog-function-select.c:1289
 #: ../src/dialogs/dialog-plugin-manager.c:712
 #: ../src/dialogs/dialog-sheet-compare.c:713
 #: ../src/dialogs/doc-meta-data.ui.h:29
@@ -6282,53 +6282,53 @@ msgstr "Nedávno použité"
 msgid "In Use"
 msgstr "Použité"
 
-#: ../src/dialogs/dialog-function-select.c:678
+#: ../src/dialogs/dialog-function-select.c:696
 #, c-format
 msgid "%s evaluates to %s."
 msgstr "%s se vyhodnotí jako %s"
 
-#: ../src/dialogs/dialog-function-select.c:749
+#: ../src/dialogs/dialog-function-select.c:773
 msgid "Arguments:"
 msgstr "Argumenty:"
 
-#: ../src/dialogs/dialog-function-select.c:771
+#: ../src/dialogs/dialog-function-select.c:795
 msgid "Note: "
 msgstr "Poznámka: "
 
-#: ../src/dialogs/dialog-function-select.c:784
+#: ../src/dialogs/dialog-function-select.c:808
 msgid "Examples:"
 msgstr "Příklady:"
 
 #. Not translated
-#: ../src/dialogs/dialog-function-select.c:800
+#: ../src/dialogs/dialog-function-select.c:827
 msgid "See also: "
 msgstr "Viz také: "
 
-#: ../src/dialogs/dialog-function-select.c:817
+#: ../src/dialogs/dialog-function-select.c:844
 msgid ", "
 msgstr ", "
 
-#: ../src/dialogs/dialog-function-select.c:850
+#: ../src/dialogs/dialog-function-select.c:877
 msgid "Further information: "
 msgstr "Další informace: "
 
-#: ../src/dialogs/dialog-function-select.c:852
+#: ../src/dialogs/dialog-function-select.c:879
 msgid "online descriptions"
 msgstr "popis on-line"
 
-#: ../src/dialogs/dialog-function-select.c:864
+#: ../src/dialogs/dialog-function-select.c:891
 msgid "Microsoft Excel: "
 msgstr "Microsoft Excel: "
 
-#: ../src/dialogs/dialog-function-select.c:873
+#: ../src/dialogs/dialog-function-select.c:900
 msgid "ODF (OpenFormula): "
 msgstr "ODF (OpenFormula): "
 
-#: ../src/dialogs/dialog-function-select.c:1362
+#: ../src/dialogs/dialog-function-select.c:1389
 msgid "Gnumeric Function Help Browser"
 msgstr "Prohlížeč nápovědy k funkcím Gnumeric"
 
-#: ../src/dialogs/dialog-function-select.c:1366
+#: ../src/dialogs/dialog-function-select.c:1393
 msgid "Paste Function Name dialog"
 msgstr "Dialogové okno pro vložení názvu funkce"
 
@@ -10440,72 +10440,136 @@ msgid "Cont_ent"
 msgstr "_Obsah"
 
 #: ../src/dialogs/paste-special.ui.h:6
+msgid "Paste the cell contents only, not the formatting"
+msgstr "Vložit pouze obsahy buněk, nikoliv formátování"
+
+#: ../src/dialogs/paste-special.ui.h:7
 msgid "As _Value"
 msgstr "Jako _hodnotu"
 
-#: ../src/dialogs/paste-special.ui.h:7
+#: ../src/dialogs/paste-special.ui.h:8
+msgid "Paste the value of expressions rather than the expressions themselves"
+msgstr "Vložit výsledky výrazů namísto výrazů samotných"
+
+#: ../src/dialogs/paste-special.ui.h:9
 msgid "_Formats"
 msgstr "_Formáty"
 
-#: ../src/dialogs/paste-special.ui.h:8 ../src/wbc-gtk-actions.c:2414
+#: ../src/dialogs/paste-special.ui.h:10
+msgid "Paste cell formats (number formats, colors, borders, etc.) only"
+msgstr "Vložit pouze formátování buněk (formáty čísel, barvy, okraje atd.)"
+
+#: ../src/dialogs/paste-special.ui.h:11 ../src/wbc-gtk-actions.c:2414
 msgid "Co_mments"
 msgstr "Ko_mentáře"
 
-#: ../src/dialogs/paste-special.ui.h:9
+#: ../src/dialogs/paste-special.ui.h:12
+msgid "Paste cell comments only"
+msgstr "Vložit pouze komentáře buněk"
+
+#: ../src/dialogs/paste-special.ui.h:13
 msgid "<b>Cell operation</b>"
 msgstr "<b>Operace s buňkou</b>"
 
-#: ../src/dialogs/paste-special.ui.h:10
-msgid "Skip _Blanks"
-msgstr "Přeskočit _prázdné"
-
-#: ../src/dialogs/paste-special.ui.h:11
+#: ../src/dialogs/paste-special.ui.h:14
 msgid "D_o not change formulæ"
 msgstr "Neměnit vz_orce"
 
 #. Cell operation while paste
-#: ../src/dialogs/paste-special.ui.h:13
+#: ../src/dialogs/paste-special.ui.h:16
 msgctxt "operation"
 msgid "_None"
 msgstr "Žád_ná"
 
-#: ../src/dialogs/paste-special.ui.h:14
+#: ../src/dialogs/paste-special.ui.h:17
 msgid "A_dd"
 msgstr "_Přičíst"
 
-#: ../src/dialogs/paste-special.ui.h:15
+#: ../src/dialogs/paste-special.ui.h:18
 msgid "_Subtract"
 msgstr "_Odečíst"
 
-#: ../src/dialogs/paste-special.ui.h:16
+#: ../src/dialogs/paste-special.ui.h:19
 msgid "M_ultiply"
 msgstr "Vy_násobit"
 
-#: ../src/dialogs/paste-special.ui.h:17
+#: ../src/dialogs/paste-special.ui.h:20
 msgid "D_ivide"
 msgstr "Vyděl_it"
 
-#: ../src/dialogs/paste-special.ui.h:18
+#: ../src/dialogs/paste-special.ui.h:21
 msgid "<b>Region operation</b>"
 msgstr "<b>Operace s oblastí</b>"
 
 #. Region operation while paste
-#: ../src/dialogs/paste-special.ui.h:20
+#: ../src/dialogs/paste-special.ui.h:23
 msgctxt "operation"
 msgid "None"
 msgstr "Žádná"
 
-#: ../src/dialogs/paste-special.ui.h:21
+#: ../src/dialogs/paste-special.ui.h:24
 msgid "_Transpose"
 msgstr "_Transponovat"
 
-#: ../src/dialogs/paste-special.ui.h:22
+#: ../src/dialogs/paste-special.ui.h:25
+msgid ""
+"Transpose the source during the paste so columns become rows and vice versa"
+msgstr ""
+"Při vkládání transponovat zdroj, takže sloupce se stanou řádky a naopak"
+
+#: ../src/dialogs/paste-special.ui.h:26
 msgid "Flip Hori_zontally"
 msgstr "Překlopit _vodorovně"
 
-#: ../src/dialogs/paste-special.ui.h:23
+#: ../src/dialogs/paste-special.ui.h:27
+msgid ""
+"Flip the source horizontally during the paste so the first column becomes "
+"the last and vice versa"
+msgstr ""
+"Při vkládání překlopit zdroj vodorovně, takže první sloupec se stane "
+"posledním a naopak"
+
+#: ../src/dialogs/paste-special.ui.h:28
 msgid "Fli_p Vertically"
 msgstr "Překlo_pit svisle"
+
+#: ../src/dialogs/paste-special.ui.h:29
+msgid ""
+"Flip the source vertically during the paste so the first row becomes the "
+"last and vice versa"
+msgstr ""
+"Při vkládání překlopit zdroj svisle, takže první řádek se stane posledním a "
+"naopak"
+
+#: ../src/dialogs/paste-special.ui.h:30
+msgid "Column widths"
+msgstr "Šířky sloupců"
+
+#: ../src/dialogs/paste-special.ui.h:31
+msgid "Set column widths of the destination to those of the source"
+msgstr "Nastavit šířky sloupců v cíly na ty stejné, jako ve zdroji"
+
+#: ../src/dialogs/paste-special.ui.h:32
+msgid "Row heights"
+msgstr "Výšky řádků"
+
+#: ../src/dialogs/paste-special.ui.h:33
+msgid "Set row heights of the destination to those of the source"
+msgstr "Nastavit výšky řádků v cíli na ty stejné, jako ve zdroji"
+
+#: ../src/dialogs/paste-special.ui.h:34
+msgid "Skip _Blanks"
+msgstr "Přeskočit _prázdné"
+
+#: ../src/dialogs/paste-special.ui.h:35
+msgid ""
+"When the source of the paste is a blank cell, leave the target unchanged"
+msgstr ""
+"Když je zdrojem pro vložení prázdná buňka, ponechat cílovou buňku beze změn"
+
+#: ../src/dialogs/paste-special.ui.h:36
+msgid "<b>Options</b>"
+msgstr "<b>Volby</b>"
 
 #: ../src/dialogs/plugin-manager.ui.h:1
 msgid "Plugin Manager"
@@ -12384,11 +12448,11 @@ msgstr "Vlastnosti čáry/šipky"
 msgid "Polygon Properties"
 msgstr "Vlastnosti mnohoúhelníku"
 
-#: ../src/gui-clipboard.c:232
+#: ../src/gui-clipboard.c:311
 msgid "clipboard"
 msgstr "schránka"
 
-#: ../src/gui-clipboard.c:1054
+#: ../src/gui-clipboard.c:1133
 #, c-format
 msgid "Cut of %s"
 msgstr "Vyjmout %s"
@@ -13347,7 +13411,7 @@ msgid "Print"
 msgstr "Tisk"
 
 #: ../src/sheet-object-component.c:183 ../src/sheet-object-graph.c:289
-#: ../src/sheet-object-image.c:274
+#: ../src/sheet-object-image.c:289
 #, c-format
 msgid "Unknown failure while saving image"
 msgstr "Neznámá chyba při ukládání obrázku"
@@ -13357,7 +13421,7 @@ msgid "Save as"
 msgstr "Uložení jako"
 
 #: ../src/sheet-object-component.c:269 ../src/sheet-object-graph.c:400
-#: ../src/sheet-object-image.c:329
+#: ../src/sheet-object-image.c:346
 msgid "_Save As Image"
 msgstr "_Uložit jako obrázek"
 
