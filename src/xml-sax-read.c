@@ -2115,7 +2115,7 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	int const row = state->cell.row;
 	int const array_cols = state->array_cols;
 	int const array_rows = state->array_rows;
-	int const expr_id = state->expr_id;
+	int expr_id = state->expr_id;
 	int const value_type = state->value_type;
 	gboolean const seen_contents = state->seen_cell_contents;
 	GOFormat *value_fmt = state->value_fmt;
@@ -2162,7 +2162,9 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		g_return_if_fail (content[0] == '=');
 		xml_cell_set_array_expr (state, cell, cc, content + 1,
 					 array_cols, array_rows);
-		goto done;
+		texpr = cell->base.texpr;
+		if (texpr) gnm_expr_top_ref (texpr);
+		goto store_shared;
 	}
 
 	// ----------------------------------------
@@ -2180,7 +2182,14 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		texpr = g_hash_table_lookup (state->expr_map,
 					     GINT_TO_POINTER (expr_id));
 
-		if (!texpr) {
+		if (texpr && gnm_expr_top_is_array_corner (texpr)) {
+			g_printerr ("Shared array formula -- how did that happen?\n");
+			texpr = gnm_expr_top_new (gnm_expr_copy (texpr->expr));
+			expr_id = -1;
+		} else if (texpr) {
+			gnm_expr_top_ref (texpr);
+			expr_id = -1;
+		} else {
 			char *msg = g_strdup_printf
 				("Looking up shared expression id %d",
 				 expr_id);
@@ -2189,11 +2198,7 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			g_free (msg);
 
 			texpr = gnm_expr_top_new_constant (value_new_string_nocopy (s));
-			g_hash_table_insert (state->expr_map,
-					     GINT_TO_POINTER (expr_id),
-					     (gpointer)texpr);
 		}
-		gnm_expr_top_ref (texpr);
 		goto assign_and_done;
 	}
 
@@ -2249,13 +2254,11 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			gpointer id = GINT_TO_POINTER (expr_id);
 			GnmExprTop const *texpr0 =
 				g_hash_table_lookup (state->expr_map, id);
-			if (!texpr0) {
-				gnm_expr_top_ref (texpr);
-				g_hash_table_insert (state->expr_map,
-						     id,
-						     (gpointer)texpr);
-			} else if (!is_post_52_array)
-				g_warning ("XML-IO : Duplicate shared expression");
+			if (texpr0) {
+				if (!is_post_52_array)
+					g_warning ("XML-IO: Duplicate shared expression");
+				expr_id = -1;
+			}
 		}
 	}
 
@@ -2264,15 +2267,24 @@ assign_and_done:
 		v = value_new_empty ();
 	if (cell) {
 		// Regular case
-		if (texpr) {
+		if (texpr)
 			gnm_cell_set_expr_and_value (cell, texpr, v, TRUE);
-			gnm_expr_top_unref (texpr);
-		} else
+		else
 			gnm_cell_set_value (cell, v);
 	} else {
 		// Clipboard case
-		cc->texpr = texpr;
+		cc->texpr = texpr ? gnm_expr_top_ref (texpr) : NULL;
 		cc->val = v;
+	}
+
+store_shared:
+	if (texpr) {
+		if (expr_id > 0)
+			g_hash_table_insert (state->expr_map,
+					     GINT_TO_POINTER (expr_id),
+					     (gpointer)texpr);
+		else
+			gnm_expr_top_unref (texpr);
 	}
 
 done:

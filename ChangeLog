@@ -1,3 +1,10 @@
+2018-04-25  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_cell_content): Read shared array
+	expressions as we used to, but immediately unshare.  I had an old
+	file with such a thing and it not supposed to happen.  That
+	formula would likely have been created in early 2007.
+
 2018-04-24  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_paste_copy_impl): Simplify now that
