@@ -2265,6 +2265,9 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 assign_and_done:
 	if (!v)
 		v = value_new_empty ();
+	// When we get here:
+	// 1. We own a ref to texpr (or it's NULL)
+	// 2. We own v.  After this section we no longer own v.
 	if (cell) {
 		// Regular case
 		if (texpr)
@@ -2279,6 +2282,7 @@ assign_and_done:
 
 store_shared:
 	if (texpr) {
+		// We own a ref to texpr at this point.  Store or discard.
 		if (expr_id > 0)
 			g_hash_table_insert (state->expr_map,
 					     GINT_TO_POINTER (expr_id),
