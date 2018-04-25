@@ -5,6 +5,11 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
+my %extras =
+    ('xml.xsd' => 'http://www.w3.org/2009/01/xml.xsd'
+    );
+
+
 &message ("Check that the xlsx exporter produces valid files.");
 
 my $format = "Gnumeric_Excel:xlsx";
@@ -26,6 +31,13 @@ if (!-r $drawing_schema) {
     $drawing_schema = undef;
 }
 
+my $xmllint_extra = "$topsrc/test/xmllint-extra";
+for my $extra (sort keys %extras) {
+    my $f = "$xmllint_extra/$extra";
+    &GnumericTest::report_skip ("Missing $f available from $extras{$extra}")
+	unless -r $f;
+}
+
 my $sml_schema_patched_for_comments = undef;
 my $sml_schema_patched_for_comments_warned = 0;
 if ($schema) {
@@ -45,10 +57,12 @@ my $nskipped = 0;
 my $ngood = 0;
 my $nbad = 0;
 
-my $checker = "$xmllint --noout" . ($schema ? " --schema $schema" : "");
-my $chart_checker = "$xmllint --noout" . ($chart_schema ? " --schema $chart_schema" : "");
-my $drawing_checker = "$xmllint --noout" . ($drawing_schema ? " --schema $drawing_schema" : "");
-my $basic_checker = "$xmllint --noout";
+my $common_checker = "$xmllint --noout --nonet --path $xmllint_extra";
+
+my $checker = $common_checker . ($schema ? " --schema $schema" : "");
+my $chart_checker = $common_checker . ($chart_schema ? " --schema $chart_schema" : "");
+my $drawing_checker = $common_checker . ($drawing_schema ? " --schema $drawing_schema" : "");
+my $basic_checker = $common_checker;
 
 my %checkers = ( 0 => $checker,
 		 1 => $chart_checker,
@@ -119,9 +133,9 @@ foreach my $src (@sources) {
     for (@check_members) {
 	my ($member,$typ) = @$_;
 	my $this_checker = $checkers{$typ};
-	my $cmd = "$unzip -p $tmp '$member' | $this_checker";
+	my $cmd = "$unzip -p $tmp '$member' | $this_checker -";
 	print STDERR "# $cmd\n" if $GnumericTest::verbose;
-	my $out = `$cmd - 2>&1`;
+	my $out = `$cmd 2>&1`;
 	if ($out ne '' && $out !~ /validates$/) {
 	    print STDERR "While checking $member from $tmp:\n";
 	    &GnumericTest::dump_indented ($out);
