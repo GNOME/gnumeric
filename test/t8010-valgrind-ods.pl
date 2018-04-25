@@ -9,7 +9,6 @@ $GnumericTest::default_corpus = 'random:5';
 
 &message ("Check the ods importer/exporter with valgrind.");
 
-my $xmllint = &GnumericTest::find_program ("xmllint");
 my $unzip = &GnumericTest::find_program ("unzip");
 
 my $format = "Gnumeric_OpenCalc:odf";

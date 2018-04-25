@@ -52,9 +52,11 @@ if (!-r $schema_manifest) {
 print STDERR "NOTE: Suggest rerunning with argument \"download\" to obtain missing schemas\n"
     if $suggest_download;
 
-my $checker = "$xmllint --noout" . ($schema ? " --relaxng $schema" : "");
-my $checker_ext = "$xmllint --noout" . ($schema_ext ? " --relaxng $schema_ext" : "");
-my $manifest_checker = "$xmllint --noout" . ($schema_manifest ? " --relaxng $schema_manifest" : "");
+my $common_checker = "$xmllint --noout --nonet";
+
+my $checker = $common_checker . ($schema ? " --relaxng $schema" : "");
+my $checker_ext = $common_checker . ($schema_ext ? " --relaxng $schema_ext" : "");
+my $manifest_checker = $common_checker . ($schema_manifest ? " --relaxng $schema_manifest" : "");
 my %checkers = ( 0 => $checker,
 		 1 => $checker_ext,
 		 2 => $manifest_checker);

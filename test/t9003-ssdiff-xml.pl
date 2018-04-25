@@ -27,7 +27,7 @@ for my $p (@pairs) {
 
     print STDERR "$first vs $second...\n";
 
-    my $cmd = "$ssdiff --xml $first $second | xmllint -noout - 2>&1";
+    my $cmd = "$ssdiff --xml $first $second | $xmllint --nonet --noout - 2>&1";
     print STDERR "$cmd\n" if $GnumericTest::verbose;
     my $output = `$cmd 2>&1`;
     my $err = $?; # from xmllint

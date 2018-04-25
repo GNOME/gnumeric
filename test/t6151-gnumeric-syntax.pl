@@ -36,7 +36,7 @@ foreach my $src (@sources) {
 	die "Fail\n";
     }
 
-    my $out = `$xmllint --noout --schema $schema $tmp 2>&1`;
+    my $out = `$xmllint --nonet --noout --schema $schema $tmp 2>&1`;
     if ($out !~ /validates$/) {
 	print STDERR "While checking $tmp:\n";
 	&GnumericTest::dump_indented ($out);
