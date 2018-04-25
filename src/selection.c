@@ -618,7 +618,7 @@ set_menu_flags:
 	 * FIXME: Enable/disable the show/hide detail menu items here.
 	 * We can only do this when the data structures have improved, currently
 	 * checking for this will be to slow.
-	 * Once it works, use this code :
+	 * Once it works, use this code:
 	 *
 	 * sheet->priv->enable_showhide_detail = ....
 	 *
@@ -938,7 +938,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					a->start.row = b->end.row + 1;
 					break;
 
-				default :
+				default:
 					g_assert_not_reached ();
 				}
 				break;
@@ -983,7 +983,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					a->end.col = b->start.col - 1;
 					break;
 
-				default :
+				default:
 					g_assert_not_reached ();
 				}
 				break;
@@ -1020,7 +1020,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					a->start.row = b->end.row + 1;
 					break;
 
-				default :
+				default:
 					g_assert_not_reached ();
 				}
 				break;
@@ -1055,7 +1055,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					a->start.col = b->end.col + 1;
 					break;
 
-				default :
+				default:
 					g_assert_not_reached ();
 				}
 				break;
@@ -1250,7 +1250,7 @@ walk_boundaries (SheetView const *sv, GnmRange const * const bound,
 	GnmRange const *merge;
 
 	*res = pos;
-loop :
+loop:
 	merge = gnm_sheet_merge_contains_pos (sv->sheet, &pos);
 	if (horizontal) {
 		if (merge != NULL)

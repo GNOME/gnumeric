@@ -654,7 +654,7 @@ static GNM_ACTION_DEF (cb_edit_goto_cell_indicator)
 
 static GNM_ACTION_DEF (cb_edit_recalc)
 {
-	/* TODO :
+	/* TODO:
 	 * f9  -  do any necessary calculations across all sheets
 	 * shift-f9  -  do any necessary calcs on current sheet only
 	 * ctrl-alt-f9 -  force a full recalc across all sheets
@@ -1573,7 +1573,7 @@ toggle_font_attr (WBCGtk *wbcg, GtkToggleAction *act,
 	if (wbcg_is_editing (wbcg)) {
 		PangoAttribute *attr = NULL;
 		switch (t) {
-		default :
+		default:
 		case MSTYLE_FONT_BOLD:
 			attr = pango_attr_weight_new (val ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
 			break;
@@ -1610,7 +1610,7 @@ toggle_font_attr (WBCGtk *wbcg, GtkToggleAction *act,
 
 	new_style = gnm_style_new ();
 	switch (t) {
-	default :
+	default:
 	case MSTYLE_FONT_BOLD:		gnm_style_set_font_bold (new_style, val); break;
 	case MSTYLE_FONT_ITALIC:	gnm_style_set_font_italic (new_style, val); break;
 	case MSTYLE_FONT_UNDERLINE:	gnm_style_set_font_uline (new_style, val); break;
@@ -3959,7 +3959,7 @@ cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
 		break;
 	}
 
-	default :
+	default:
 		g_warning ("Unknown border preset selected (%d)", index);
 		return;
 	}

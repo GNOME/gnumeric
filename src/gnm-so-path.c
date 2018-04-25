@@ -603,19 +603,19 @@ gnm_so_path_get_property (GObject *obj, guint param_id,
 	case SOP_PROP_PATHS:
 		g_value_set_boxed (value, sop->paths);
 		break;
-	case SOP_PROP_TEXT :
+	case SOP_PROP_TEXT:
 		g_value_set_string (value, sop->text);
 		break;
-	case SOP_PROP_MARKUP :
+	case SOP_PROP_MARKUP:
 		g_value_set_boxed (value, sop->markup);
 		break;
-	case SOP_PROP_VIEWBOX :
+	case SOP_PROP_VIEWBOX:
 		g_value_take_string
 			(value,
 			 g_strdup_printf ("%0.0f %0.0f %0.0f %0.0f", sop->x_offset, sop->y_offset,
 					  sop->width + sop->x_offset, sop->height + sop->y_offset));
 		break;
-	default :
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
 	}

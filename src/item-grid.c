@@ -1028,7 +1028,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 
 	case 3: scg_context_menu (scg, event, FALSE, FALSE);
 		break;
-	default :
+	default:
 		break;
 	}
 
@@ -1117,10 +1117,10 @@ item_grid_motion (GocItem *item, double x_, double y_)
 		ig->last_x = x;
 		ig->last_y = y;
 		return TRUE;
-	case GNM_ITEM_GRID_SELECTING_CELL_RANGE :
+	case GNM_ITEM_GRID_SELECTING_CELL_RANGE:
 		slide_handler = &cb_extend_cell_range;
 		break;
-	case GNM_ITEM_GRID_SELECTING_FORMULA_RANGE :
+	case GNM_ITEM_GRID_SELECTING_FORMULA_RANGE:
 		slide_handler = &cb_extend_expr_range;
 		break;
 	default:
@@ -1152,13 +1152,13 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 	case GNM_ITEM_GRID_NO_SELECTION:
 		return TRUE;
 
-	case GNM_ITEM_GRID_SELECTING_FORMULA_RANGE :
+	case GNM_ITEM_GRID_SELECTING_FORMULA_RANGE:
 /*  Removal of this code (2 lines)                                                */
 /*  should fix http://bugzilla.gnome.org/show_bug.cgi?id=63485                    */
 /*			sheet_make_cell_visible (sheet,                           */
 /*				sheet->edit_pos.col, sheet->edit_pos.row, FALSE); */
 		/* Fall through */
-	case GNM_ITEM_GRID_SELECTING_CELL_RANGE :
+	case GNM_ITEM_GRID_SELECTING_CELL_RANGE:
 		sv_selection_simplify (scg_view (scg));
 		wb_view_selection_desc (
 			wb_control_view (scg_wbc (scg)), TRUE, NULL);
@@ -1237,11 +1237,11 @@ item_grid_set_property (GObject *obj, guint param_id,
 	GnmRange const *r;
 
 	switch (param_id) {
-	case GNM_ITEM_GRID_PROP_SHEET_CONTROL_GUI :
+	case GNM_ITEM_GRID_PROP_SHEET_CONTROL_GUI:
 		ig->scg = g_value_get_object (value);
 		break;
 
-	case GNM_ITEM_GRID_PROP_BOUND :
+	case GNM_ITEM_GRID_PROP_BOUND:
 		r = g_value_get_pointer (value);
 		g_return_if_fail (r != NULL);
 		ig->bound =  *r;

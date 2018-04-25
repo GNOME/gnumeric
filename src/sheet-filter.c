@@ -65,7 +65,7 @@ gnm_filter_op_needs_value (GnmFilterOp op)
 
 
 /**
- * gnm_filter_condition_new_single :
+ * gnm_filter_condition_new_single:
  * @op: #GnmFilterOp
  * @v: #GnmValue
  *
@@ -87,7 +87,7 @@ gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v)
 }
 
 /**
- * gnm_filter_condition_new_double :
+ * gnm_filter_condition_new_double:
  * @op0: #GnmFilterOp
  * @v0: #GnmValue
  * @join_with_and:
@@ -274,7 +274,7 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 	case GNM_FILTER_OP_GT	: return cmp == IS_GREATER;
 	case GNM_FILTER_OP_LTE	: if (cmp == IS_EQUAL) return TRUE; /* fall */
 	case GNM_FILTER_OP_LT	: return cmp == IS_LESS;
-	default :
+	default:
 		g_warning ("Huh?");
 		return FALSE;
 	}
@@ -441,7 +441,7 @@ gnm_filter_combo_index (GnmFilterCombo *fcombo)
 
 
 /**
- * gnm_filter_combo_apply :
+ * gnm_filter_combo_apply:
  * @fcombo: #GnmFilterCombo
  * @target_sheet: @Sheet
  *
@@ -676,7 +676,7 @@ gnm_filter_attach (GnmFilter *filter, Sheet *sheet)
 
 
 /**
- * gnm_filter_new :
+ * gnm_filter_new:
  * @sheet:
  * @r:
  *
@@ -703,7 +703,7 @@ gnm_filter_new (Sheet *sheet, GnmRange const *r)
 }
 
 /**
- * gnm_filter_dup :
+ * gnm_filter_dup:
  * @src: #GnmFilter
  * @sheet: #Sheet
  *
@@ -802,7 +802,7 @@ gnm_filter_remove (GnmFilter *filter)
 }
 
 /**
- * gnm_filter_get_condition :
+ * gnm_filter_get_condition:
  * @filter:
  * @i:
  *
@@ -857,7 +857,7 @@ gnm_filter_update_active (GnmFilter *filter)
 
 
 /**
- * gnm_filter_set_condition :
+ * gnm_filter_set_condition:
  * @filter:
  * @i:
  * @cond: #GnmFilterCondition
@@ -906,7 +906,7 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 }
 
 /**
- * gnm_filter_overlaps_range :
+ * gnm_filter_overlaps_range:
  * @filter: #GnmFilter
  * @r: #GnmRange
  *
@@ -924,7 +924,7 @@ gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r)
 /*************************************************************************/
 
 /**
- * gnm_sheet_filter_at_pos :
+ * gnm_sheet_filter_at_pos:
  * @sheet: #Sheet
  *
  * Returns : #GnmRange
@@ -1047,7 +1047,7 @@ gnm_filter_set_range (GnmFilter *filter, GnmRange *r)
 }
 
 /**
- * gnm_sheet_filter_insdel_colrow :
+ * gnm_sheet_filter_insdel_colrow:
  * @sheet:
  * @is_cols:
  * @is_insert:

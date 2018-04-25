@@ -693,17 +693,17 @@ xml_sax_attr_elem (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	int const len = xin->content->len;
 
 	switch (xin->node->user_data.v_int) {
-	case 0 :
+	case 0:
 		g_return_if_fail (state->attribute.name == NULL);
 		state->attribute.name = g_strndup (content, len);
 		break;
 
-	case 1 :
+	case 1:
 		g_return_if_fail (state->attribute.value == NULL);
 		state->attribute.value = g_strndup (content, len);
 		break;
 
-	default :
+	default:
 		g_assert_not_reached ();
 	}
 }

@@ -764,7 +764,7 @@ item_bar_distance (GocItem *item, double x, double y,
 }
 
 /**
- * is_pointer_on_division :
+ * is_pointer_on_division:
  * @ib: #GnmItemBar
  * @x: in world coords
  * @y: in world coords

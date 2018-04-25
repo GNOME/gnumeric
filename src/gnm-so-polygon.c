@@ -251,7 +251,7 @@ gnm_so_polygon_get_property (GObject *obj, guint param_id,
 	case SOP_PROP_DOCUMENT:
 		g_value_set_object (value, sheet_object_get_sheet (GNM_SO (obj))->workbook);
 		break;
-	default :
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
 	}

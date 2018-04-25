@@ -123,7 +123,7 @@ GSF_CLASS (GODataSlicer, go_data_slicer,
 	   G_TYPE_OBJECT)
 
 /**
- * go_data_slicer_get_cache :
+ * go_data_slicer_get_cache:
  * @ds: #GODataSlicer
  *
  * Does not add a reference.

@@ -340,8 +340,8 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 			return value_new_error_VALUE (ep);
 		break;
 
-	case VALUE_CELLRANGE :
-	case VALUE_ARRAY :
+	case VALUE_CELLRANGE:
+	case VALUE_ARRAY:
 		/* Ranges and arrays are not singleton values treat as errors */
 
 	case VALUE_ERROR:

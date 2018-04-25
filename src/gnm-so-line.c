@@ -392,7 +392,7 @@ gnm_so_line_get_property (GObject *obj, guint param_id,
 	case SOL_PROP_END_ARROW:
 		g_value_set_boxed (value, &sol->end_arrow);
 		break;
-	default :
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
 	}

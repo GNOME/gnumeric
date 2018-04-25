@@ -358,8 +358,8 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *kevent,
 			wbcg_set_end_mode (wbcg, !end_mode);
 		break;
 
-	case GDK_KEY_KP_Insert :
-	case GDK_KEY_Insert :
+	case GDK_KEY_KP_Insert:
+	case GDK_KEY_Insert:
 		if (gnm_pane_guru_key (wbcg, event))
 			break;
 		if (state == GDK_CONTROL_MASK)
@@ -2509,7 +2509,7 @@ control_point_set_cursor (SheetControlGUI const *scg, GocItem *ctrl_pt)
 		break;
 
 	case 8:
-	default :
+	default:
 		cursor = GDK_FLEUR;
 	}
 	gnm_widget_set_cursor_type (GTK_WIDGET (ctrl_pt->canvas), cursor);

@@ -184,7 +184,7 @@ gnm_style_border_none_set_color (GnmColor *color)
 }
 
 /**
- * gnm_style_border_fetch :
+ * gnm_style_border_fetch:
  * @line_type: dash style
  * @color: (transfer full): colour
  * @orientation: Not currently used.
@@ -617,7 +617,7 @@ print_vline_gtk (cairo_t *context,
 }
 
 /**
- * gnm_style_borders_row_draw :
+ * gnm_style_borders_row_draw:
  *
  * TODO : This is not the final resting place for this.
  * It will move into the gui layer eventually.

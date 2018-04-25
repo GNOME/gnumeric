@@ -460,7 +460,7 @@ kill_popup_menu (GtkWidget *widget, G_GNUC_UNUSED gpointer user)
 }
 
 /**
- * gnumeric_popup_menu :
+ * gnumeric_popup_menu:
  * @menu: #GtkMenu
  * @event: #GdkEvent optionally NULL
  *

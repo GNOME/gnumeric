@@ -349,7 +349,7 @@ sheet_object_get_property (GObject *obj, guint param_id,
 	case SO_PROP_NAME:
 		g_value_set_string (value, so->name);
 		break;
-	default :
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
 	}

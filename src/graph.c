@@ -597,11 +597,11 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 			vec->as_col = (vec->val->v_array.y > vec->val->v_array.x);
 			break;
 		}
-		case VALUE_ERROR :
+		case VALUE_ERROR:
 			new_len = 0;
 			break;
 
-		default :
+		default:
 			new_len = 1;
 			vec->as_col = TRUE;
 		}
@@ -807,7 +807,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 		break;
 	}
 
-	case VALUE_STRING :
+	case VALUE_STRING:
 		v = format_match_number (value_peek_string (vec->val),
 					 NULL,
 					 closure.date_conv);
@@ -818,11 +818,11 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 		}
 		/* fall through to errors */
 
-	case VALUE_EMPTY :
-	case VALUE_ERROR :
+	case VALUE_EMPTY:
+	case VALUE_ERROR:
 		minimum = maximum = vals[0] = go_nan;
 		break;
-	default :
+	default:
 		minimum = maximum = vals[0] = value_get_as_float (vec->val);
 		break;
 	}
@@ -1210,12 +1210,12 @@ gnm_go_data_matrix_load_size (GODataMatrix *dat)
 			}
 			break;
 
-		case VALUE_ARRAY :
+		case VALUE_ARRAY:
 			dat->size.rows = mat->val->v_array.y;
 			dat->size.columns = mat->val->v_array.x;
 			break;
 
-		default :
+		default:
 			dat->size.rows = 1;
 			dat->size.columns = 1;
 		}
@@ -1347,7 +1347,7 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 			minimum = maximum = vals[0] = go_nan;
 		break;
 
-	case VALUE_ARRAY :
+	case VALUE_ARRAY:
 		maximum = - G_MAXDOUBLE;
 		minimum = G_MAXDOUBLE;
 		for (col = 0; col < size.columns; col ++)
@@ -1378,7 +1378,7 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 			minimum = maximum = go_nan;
 		break;
 
-	case VALUE_STRING :
+	case VALUE_STRING:
 		v = format_match_number (value_peek_string (mat->val),
 					 NULL,
 					 closure.date_conv);
@@ -1390,11 +1390,11 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 		}
 		/* fall through to errors */
 
-	case VALUE_EMPTY :
-	case VALUE_ERROR :
+	case VALUE_EMPTY:
+	case VALUE_ERROR:
 		minimum = maximum = vals[0] = go_nan;
 		break;
-	default :
+	default:
 		vals[0] = value_get_as_float (mat->val);
 		minimum = maximum = go_nan;
 		break;

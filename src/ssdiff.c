@@ -4,7 +4,7 @@
  * Author:
  *   Morten Welinder <terra@gnome.org>
  *
- * Copyright (C) 2012 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2012-2018 Morten Welinder (terra@gnome.org)
  */
 
 #include <gnumeric-config.h>

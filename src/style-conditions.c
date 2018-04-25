@@ -86,7 +86,7 @@ gnm_style_cond_op_operands (GnmStyleCondOp op)
 
 
 /**
- * gnm_style_cond_is_valid :
+ * gnm_style_cond_is_valid:
  * @cond: #GnmStyleCond
  *
  * Returns: TRUE if @cond is in a reasonable state
@@ -705,7 +705,7 @@ GSF_CLASS (GnmStyleConditions, gnm_style_conditions,
 	   G_TYPE_OBJECT)
 
 /**
- * gnm_style_conditions_new :
+ * gnm_style_conditions_new:
  *
  * Convenience tool to create a GnmStyleCondition.  Straight g_object_new
  * will work too.
@@ -871,7 +871,7 @@ gnm_style_conditions_details (GnmStyleConditions const *sc)
 }
 
 /**
- * gnm_style_conditions_insert :
+ * gnm_style_conditions_insert:
  * @sc: #GnmStyleConditions
  * @cond: #GnmStyleCond
  * @pos: position.

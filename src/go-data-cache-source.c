@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-data-cache-source.c :
+ * go-data-cache-source.c:
  *
  * Copyright (C) 2008 Jody Goldberg (jody@gnome.org)
  *

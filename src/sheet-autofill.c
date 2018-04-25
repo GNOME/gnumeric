@@ -1297,7 +1297,7 @@ sheet_autofill_internal (Sheet *sheet, gboolean singleton,
 
 
 /**
- * gnm_autofill_fill :
+ * gnm_autofill_fill:
  *
  * An internal routine to autofill a region.  It does NOT
  * queue a recalc, flag a status update, or regen spans.

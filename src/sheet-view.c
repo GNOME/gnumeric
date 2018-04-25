@@ -438,7 +438,7 @@ sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
 }
 
 /**
- * sv_cursor_set :
+ * sv_cursor_set:
  * @sv: The sheet
  * @edit:
  * @base_col:
@@ -610,7 +610,7 @@ sv_flag_status_update_range (SheetView *sv, GnmRange const *range)
 }
 
 /**
- * sv_flag_style_update_range :
+ * sv_flag_style_update_range:
  * @sv: The sheet being changed
  * @range: the range that is changing.
  *
@@ -626,7 +626,7 @@ sv_flag_style_update_range (SheetView *sv, GnmRange const *range)
 }
 
 /**
- * sv_flag_selection_change :
+ * sv_flag_selection_change:
  * @sv:
  *
  * flag the sheet as requiring an update to the status display
@@ -706,7 +706,7 @@ sv_update (SheetView *sv)
 }
 
 /**
- * sv_editpos_in_filter :
+ * sv_editpos_in_filter:
  * @sv: #SheetView
  *
  * Returns: %NULL or GnmFilter that overlaps the sv::edit_pos
@@ -719,7 +719,7 @@ sv_editpos_in_filter (SheetView const *sv)
 }
 
 /**
- * sv_selection_intersects_filter_rows :
+ * sv_selection_intersects_filter_rows:
  * @sv: #SheetView
  *
  * Returns: %NULL or GnmFilter whose rows intersect the rows
@@ -772,7 +772,7 @@ sv_editpos_in_slicer (SheetView const *sv)
 }
 
 /**
- * sv_freeze_panes :
+ * sv_freeze_panes:
  * @sv: the sheet
  * @frozen_top_left: top left corner of the frozen region
  * @unfrozen_top_left: top left corner of the unfrozen region
@@ -836,7 +836,7 @@ sv_freeze_panes (SheetView *sv,
 }
 
 /**
- * sv_panes_insdel_colrow :
+ * sv_panes_insdel_colrow:
  * @sv:
  * @is_cols:
  * @is_insert:

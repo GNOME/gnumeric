@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-val.c :
+ * go-val.c:
  *
  * Copyright (C) 2008 Jody Goldberg (jody@gnome.org)
  *
@@ -76,7 +76,7 @@ go_val_bucketer_validate (GOValBucketer *bucketer)
 }
 
 /**
- * go_val_bucketer_apply :
+ * go_val_bucketer_apply:
  * @bucketer: #GOValBucketer
  * @v: #GOVal
  *
@@ -97,9 +97,9 @@ go_val_bucketer_apply (GOValBucketer const *bucketer, GOVal const *v)
 	/* Time based */
 	if (bucketer->type <= GO_VAL_BUCKET_HOUR) {
 		switch (bucketer->type) {
-		case GO_VAL_BUCKET_SECOND :
+		case GO_VAL_BUCKET_SECOND:
 			break;
-		case GO_VAL_BUCKET_MINUTE :
+		case GO_VAL_BUCKET_MINUTE:
 			break;
 		default : g_assert_not_reached ();
 		}

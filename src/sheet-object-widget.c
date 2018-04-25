@@ -368,7 +368,7 @@ sheet_widget_frame_get_property (GObject *obj, guint param_id,
 	case SOF_PROP_TEXT:
 		g_value_set_string (value, swf->label);
 		break;
-	default :
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
 	}
@@ -819,7 +819,7 @@ sheet_widget_button_get_property (GObject *obj, guint param_id,
 	case SOB_PROP_MARKUP:
 		g_value_set_boxed (value, NULL); /* swb->markup */
 		break;
-	default :
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
 	}
@@ -1483,7 +1483,7 @@ sheet_widget_adjustment_get_property (GObject *obj, guint param_id,
 	case SWA_PROP_HORIZONTAL:
 		g_value_set_boolean (value, swa->horizontal);
 		break;
-	default :
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
 	}
@@ -2276,7 +2276,7 @@ sheet_widget_checkbox_get_property (GObject *obj, guint param_id,
 	case SOC_PROP_MARKUP:
 		g_value_set_boxed (value, NULL); /* swc->markup */
 		break;
-	default :
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
 	}
@@ -2847,7 +2847,7 @@ sheet_widget_radio_button_get_property (GObject *obj, guint param_id,
 	case SOR_PROP_VALUE:
 		g_value_set_boxed (value, swrb->value);
 		break;
-	default :
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
 	}

@@ -799,7 +799,7 @@ item_cursor_do_action (GnmItemCursor *ic, ActionType action)
 		g_warning ("Operation not yet implemented.");
 		break;
 
-	default :
+	default:
 		g_warning ("Invalid Operation %d.", action);
 	}
 
@@ -1443,7 +1443,7 @@ item_cursor_set_property (GObject *obj, guint param_id,
 	case ITEM_CURSOR_PROP_STYLE:
 		ic->style = g_value_get_int (value);
 		break;
-	case ITEM_CURSOR_PROP_BUTTON :
+	case ITEM_CURSOR_PROP_BUTTON:
 		ic->drag_button = g_value_get_int (value);
 		break;
 	case ITEM_CURSOR_PROP_COLOR:

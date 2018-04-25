@@ -311,13 +311,13 @@ preview_grid_set_property (GObject *obj, guint param_id,
 	GnmPreviewGrid *pg = GNM_PREVIEW_GRID (obj);
 
 	switch (param_id){
-	case PREVIEW_GRID_PROP_RENDER_GRIDLINES :
+	case PREVIEW_GRID_PROP_RENDER_GRIDLINES:
 		pg->gridlines = g_value_get_boolean (value);
 		break;
-	case PREVIEW_GRID_PROP_DEFAULT_COL_WIDTH :
+	case PREVIEW_GRID_PROP_DEFAULT_COL_WIDTH:
 		pg->defaults.col_width = g_value_get_uint (value);
 		break;
-	case PREVIEW_GRID_PROP_DEFAULT_ROW_HEIGHT :
+	case PREVIEW_GRID_PROP_DEFAULT_ROW_HEIGHT:
 		pg->defaults.row_height = g_value_get_uint (value);
 		break;
 	case PREVIEW_GRID_PROP_DEFAULT_STYLE : {

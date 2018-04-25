@@ -90,7 +90,7 @@ cb_value_compare (GnmValue const *a, GnmValue const *b)
 	case IS_LESS: return -1;
 	case IS_GREATER: return 1;
 	case TYPE_MISMATCH: return 1; /* Push time mismatches to the end */
-	default :
+	default:
 		g_warning ("Unknown value comparison result");
 	}
 
@@ -287,7 +287,7 @@ tree_free (GTree *tree)
  * B  1
  * A  1
  *
- * This will be put in the tree like :
+ * This will be put in the tree like:
  * A  2
  * B  1
  *
@@ -462,11 +462,11 @@ key_list_get (GnmConsolidate *cs, gboolean is_cols)
  * the region dst using the function "fd" on all the overlapping
  * src regions.
  *
- * Example :
+ * Example:
  * function is  : SUM
  * src contains : A1:B2 (4 cells containing all 1's) and A3:B4 (4 cells containing all 2's).
  *
- * The consolidated result will be :
+ * The consolidated result will be:
  * 3  3
  * 3  3
  *

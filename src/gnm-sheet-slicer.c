@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gnm-sheet-slicer.c :
+ * gnm-sheet-slicer.c:
  *
  * Copyright (C) 2008-2009 Jody Goldberg (jody@gnome.org)
  *
@@ -237,7 +237,7 @@ gnm_sheet_slicer_set_range (GnmSheetSlicer *gss, GnmRange const *r)
 }
 
 /**
- * gnm_sheet_slicer_overlaps_range :
+ * gnm_sheet_slicer_overlaps_range:
  * @gss: #GnmSheetSlicer
  * @r: #GnmRange
  *
@@ -251,7 +251,7 @@ gnm_sheet_slicer_overlaps_range (GnmSheetSlicer const *gss, GnmRange const *r)
 }
 
 /**
- * gnm_sheet_slicer_field_header_at_pos :
+ * gnm_sheet_slicer_field_header_at_pos:
  * @gss: #GnmSheetSlicer const
  * @pos: #GnmCellPos const
  *

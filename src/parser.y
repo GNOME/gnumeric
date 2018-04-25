@@ -457,7 +457,7 @@ build_set (GnmExprList *list)
 }
 
 /**
- * parse_string_as_value :
+ * parse_string_as_value:
  *
  * Try to parse the entered text as a basic value (empty, bool, int,
  * gnm_float, err) if this succeeds, we store this as a GnmValue otherwise, we
@@ -523,7 +523,7 @@ parser_simple_name (const char *str, Sheet *sheet)
 }
 
 /**
- * parser_simple_val_or_name :
+ * parser_simple_val_or_name:
  * @str : An expression with oper constant, whose value is a string.
  *
  * Check to see if a string is a simple value or failing that a named
@@ -1097,7 +1097,7 @@ yylex (void)
 
 			state->ptr += 5;
 			p = state->ptr;
-			double_quote_loop :
+			double_quote_loop:
 				state->ptr = strstr (state->ptr, quotes_end);
 			if (!*state->ptr) {
 				report_err (state, g_error_new (1, PERR_MISSING_CLOSING_QUOTE,
@@ -1475,10 +1475,10 @@ yylex (void)
 
 	case '\n': return 0;
 
-	case '{' :
+	case '{':
 		state->in_array++;
 		return c;
-	case '}' :
+	case '}':
 		state->in_array--;
 		return c;
 

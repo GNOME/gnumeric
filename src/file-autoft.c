@@ -98,7 +98,7 @@ gnm_ft_category_get_templates_list (GnmFTCategory *category,
 }
 
 /**
- * gnm_ft_xml_read_category :
+ * gnm_ft_xml_read_category:
  * Open an XML file and read a GnmFTCategory
  */
 static GnmFTCategory *

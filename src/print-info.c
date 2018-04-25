@@ -1374,7 +1374,7 @@ gnm_print_info_get_page_setup (GnmPrintInformation *pi)
 }
 
 /**
- * gnm_print_info_set_page_setup :
+ * gnm_print_info_set_page_setup:
  * @pi: #GnmPrintInformation
  * @page_setup: #GtkPageSetup
  *
@@ -1429,7 +1429,7 @@ print_info_set_paper_orientation (GnmPrintInformation *pi,
 }
 
 /**
- * print_info_set_breaks :
+ * print_info_set_breaks:
  * @pi: #GnmPrintInformation
  * @breaks: #GnmPageBreaks
  *
@@ -1465,7 +1465,7 @@ print_info_has_manual_breaks (GnmPrintInformation *pi)
  * need something more extensive later. */
 
 /**
- * gnm_page_breaks_new :
+ * gnm_page_breaks_new:
  * @is_vert:
  *
  * Allocate a collection of page breaks.

@@ -160,7 +160,7 @@ GSF_CLASS (GODataSlicerField, go_data_slicer_field,
 	   G_TYPE_OBJECT)
 
 /**
- * go_data_slicer_field_get_cache_field :
+ * go_data_slicer_field_get_cache_field:
  * @dsf: #GODataSlicerField const
  *
  * Returns : the underlying cache field
@@ -174,7 +174,7 @@ go_data_slicer_field_get_cache_field (GODataSlicerField const *dsf)
 }
 
 /**
- * go_data_slicer_field_get_name :
+ * go_data_slicer_field_get_name:
  * @dsf: #GODataSlicerField const
  *
  * If @dsf has a name return that, otherwise default to the name of the
@@ -204,7 +204,7 @@ go_data_slicer_field_get_field_type_pos (GODataSlicerField const *dsf,
 }
 
 /**
- * go_data_slicer_field_set_field_type_pos :
+ * go_data_slicer_field_set_field_type_pos:
  * @dsf: #GODataSlicerField
  * @field_type: #GODataSlicerFieldType
  * @pos: >= len => append, else move ahead of @pos, -1 removes

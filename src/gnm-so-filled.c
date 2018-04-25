@@ -467,16 +467,16 @@ gnm_so_filled_get_property (GObject *obj, guint param_id,
 	case SOF_PROP_IS_OVAL:
 		g_value_set_boolean (value, sof->is_oval);
 		break;
-	case SOF_PROP_TEXT :
+	case SOF_PROP_TEXT:
 		g_value_set_string (value, sof->text);
 		break;
-	case SOF_PROP_MARKUP :
+	case SOF_PROP_MARKUP:
 		g_value_set_boxed (value, sof->markup);
 		break;
 	case SOF_PROP_DOCUMENT:
 		g_value_set_object (value, sheet_object_get_sheet (GNM_SO (obj))->workbook);
 		break;
-	default :
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
 	}

@@ -122,7 +122,7 @@ enum {
 };
 
 /**
- * sheet_object_image_set_image :
+ * sheet_object_image_set_image:
  * @soi: #SheetObjectImage
  * @type:
  * @data:

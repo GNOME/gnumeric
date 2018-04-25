@@ -299,7 +299,7 @@ enumerate_functions (gboolean filter)
 }
 
 /**
- * function_dump_defs :
+ * function_dump_defs:
  * @filename:
  * @dump_type:
  *
@@ -307,7 +307,7 @@ enumerate_functions (gboolean filter)
  * in various ways.  @dump_type will change/extend as needed
  * Right now
  * 0 : www.gnumeric.org's function.shtml page
- * 1 :
+ * 1:
  * 2 : (obsolete)
  * 3 : dump function usage count
  * 4 : external refs

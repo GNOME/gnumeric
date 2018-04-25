@@ -1804,7 +1804,7 @@ wbcg_show_save_dialog (WBCGtk *wbcg, Workbook *wb)
  * wbcg_close_if_user_permits : If the workbook is dirty the user is
  *		prompted to see if they should exit.
  *
- * Returns :
+ * Returns:
  * 0) canceled
  * 1) closed
  * 2) -
@@ -2902,21 +2902,21 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 	int response;
 
 	switch (v) {
-	case GNM_VALIDATION_STYLE_STOP :
+	case GNM_VALIDATION_STYLE_STOP:
 		res0 = GNM_VALIDATION_STATUS_INVALID_EDIT;
 		btn0 = _("_Re-Edit");
 		res1 = GNM_VALIDATION_STATUS_INVALID_DISCARD;
 		btn1 = _("_Discard");
 		type = GTK_MESSAGE_ERROR;
 		break;
-	case GNM_VALIDATION_STYLE_WARNING :
+	case GNM_VALIDATION_STYLE_WARNING:
 		res0 = GNM_VALIDATION_STATUS_VALID;
 		btn0 = _("_Accept");
 		res1 = GNM_VALIDATION_STATUS_INVALID_DISCARD;
 		btn1 = _("_Discard");
 		type = GTK_MESSAGE_WARNING;
 		break;
-	case GNM_VALIDATION_STYLE_INFO :
+	case GNM_VALIDATION_STYLE_INFO:
 		res0 = GNM_VALIDATION_STATUS_VALID;
 		btn0 = GNM_STOCK_OK;
 		btn1 = NULL;

@@ -249,7 +249,7 @@ cell_comment_set_property (GObject *obj, guint param_id,
 		g_free (cc->author);
 		cc->author = g_value_dup_string (value);
 		break;
-	case CC_PROP_MARKUP :
+	case CC_PROP_MARKUP:
 		if (cc->markup != NULL)
 			pango_attr_list_unref (cc->markup);
 		cc->markup = g_value_peek_pointer (value);
@@ -269,16 +269,16 @@ cell_comment_get_property (GObject *obj, guint param_id,
 {
 	GnmComment *cc = GNM_CELL_COMMENT (obj);
 	switch (param_id) {
-	case CC_PROP_TEXT :
+	case CC_PROP_TEXT:
 		g_value_set_string (value, cc->text);
 		break;
-	case CC_PROP_AUTHOR :
+	case CC_PROP_AUTHOR:
 		g_value_set_string (value, cc->author);
 		break;
-	case CC_PROP_MARKUP :
+	case CC_PROP_MARKUP:
 		g_value_set_boxed (value, cc->markup);
 		break;
-	default :
+	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		break;
 	}

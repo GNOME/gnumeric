@@ -152,11 +152,11 @@ go_data_cache_set_property (GObject *obj, guint property_id,
 	GODataCache *cache = (GODataCache *)obj;
 
 	switch (property_id) {
-	case PROP_REFRESHED_BY :
+	case PROP_REFRESHED_BY:
 		g_free (cache->refreshed_by);
 		cache->refreshed_by = g_value_dup_string (value);
 		break;
-	case PROP_REFRESHED_ON :
+	case PROP_REFRESHED_ON:
 		go_val_free (cache->refreshed_on);
 		cache->refreshed_on = g_value_dup_boxed (value);
 		break;
@@ -224,7 +224,7 @@ go_data_cache_get_source (GODataCache const *cache)
 }
 
 /**
- * go_data_cache_set_source :
+ * go_data_cache_set_source:
  * @cache: #GODataCache
  * @src: #GODataCacheSource
  *
@@ -256,7 +256,7 @@ go_data_cache_add_field (GODataCache *cache, GODataCacheField *field)
 }
 
 /**
- * go_data_cache_import_start :
+ * go_data_cache_import_start:
  * @cache:#GODataCache
  * @n: num records
  *
@@ -342,7 +342,7 @@ go_data_cache_set_val (GODataCache *cache,
 
 	p = go_data_cache_records_fetch_index (cache, record_num) + f->offset;
 	switch (f->ref_type) {
-	case GO_DATA_CACHE_FIELD_TYPE_NONE :
+	case GO_DATA_CACHE_FIELD_TYPE_NONE:
 		g_warning ("attempt to set a value for grouped/calculated field #%d : '%s'",
 			   f->indx, f->name->str);
 		return;
@@ -355,7 +355,7 @@ go_data_cache_set_val (GODataCache *cache,
 	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : *((guint16 *)p) = 0; break;
 	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : *((guint32 *)p) = 0; break;
 
-	default :
+	default:
 		g_warning ("unknown field type %d", f->ref_type);
 	}
 	go_val_free (v);
@@ -385,7 +385,7 @@ go_data_cache_set_index (GODataCache *cache,
 
 	p = go_data_cache_records_fetch_index (cache, record_num) + f->offset;
 	switch (f->ref_type) {
-	case GO_DATA_CACHE_FIELD_TYPE_NONE :
+	case GO_DATA_CACHE_FIELD_TYPE_NONE:
 		g_warning ("attempt to get value from grouped/calculated field #%d : '%s'",
 			   f->indx, f->name->str);
 		return;
@@ -398,13 +398,13 @@ go_data_cache_set_index (GODataCache *cache,
 	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : *((guint16 *)p) = idx+1; break;
 	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : *((guint32 *)p) = idx+1; break;
 
-	default :
+	default:
 		g_warning ("unknown field type %d", f->ref_type);
 	}
 }
 
 /**
- * go_data_cache_import_done :
+ * go_data_cache_import_done:
  * @cache: #GODataCache
  * @actual_records: count
  *
@@ -456,7 +456,7 @@ go_data_cache_get_index (GODataCache const *cache,
 	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  : return *(guint8 *)p - 1;
 	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : return *(guint16 *)p - 1;
 	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : return *(guint32 *)p - 1;
-	default :
+	default:
 		g_warning ("unknown field type %d", field->ref_type);
 	}
 	return -1;
@@ -484,19 +484,19 @@ cb_go_data_cache_cmp (int const *a, int const * b,
 		pb = go_data_cache_records_index (info->cache, *b) + base->offset;
 		if (base->ref_type != GO_DATA_CACHE_FIELD_TYPE_INLINE) {
 			switch (base->ref_type) {
-			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  :
+			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8 :
 				idxa = *(guint8 *)pa;
 				idxb = *(guint8 *)pb;
 				break;
-			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 :
+			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16:
 				idxa = *(guint16 *)pa;
 				idxb = *(guint16 *)pb;
 				break;
-			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 :
+			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32:
 				idxa = *(guint32 *)pa;
 				idxb = *(guint32 *)pb;
 				break;
-			default :
+			default:
 				g_assert_not_reached ();
 			}
 #warning TODO : compare indicies directly, and pre-order the indexed values
@@ -581,7 +581,7 @@ go_data_cache_dump (GODataCache *cache,
 			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : idx = *(guint16 *)p; break;
 			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : idx = *(guint32 *)p; break;
 
-			default :
+			default:
 				g_warning ("unknown field type %d", base->ref_type);
 				continue;
 			}

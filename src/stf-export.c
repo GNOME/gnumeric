@@ -6,7 +6,7 @@
  * Copyright (C) Almer. S. Tigelaar.
  * EMail: almer1@dds.nl or almer-t@bigfoot.com
  *
- * Based on the csv-io.c plugin by :
+ * Based on the csv-io.c plugin by:
  *   Miguel de Icaza <miguel@gnu.org>
  *   Jody Goldberg   <jody@gnome.org>
  *

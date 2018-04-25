@@ -950,7 +950,7 @@ unquote (char *dst, char const *src, int n)
 }
 
 /**
- * wbref_parse :
+ * wbref_parse:
  * @convs: #GnmConventions const
  * @start:
  * @wb:

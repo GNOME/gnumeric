@@ -1267,7 +1267,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 			break;
 
 		/* case '?': handled above */
-		default :
+		default:
 			g_warning ("Unknown argument type '%c'", arg_type);
 			break;
 		}

@@ -230,7 +230,7 @@ gnm_validation_op_get_type (void)
 /***************************************************************************/
 
 /**
- * gnm_validation_new :
+ * gnm_validation_new:
  * @title: will be copied.
  * @msg: will be copied.
  * @texpr0: absorb the reference to the expression (optionally %NULL).
@@ -434,7 +434,7 @@ gnm_validation_set_sheet (GnmValidation *v, Sheet *sheet)
 
 
 /**
- * gnm_validation_set_expr :
+ * gnm_validation_set_expr:
  * @v: #GnmValidation
  * @texpr: #GnmExprTop
  * @indx: 0 or 1

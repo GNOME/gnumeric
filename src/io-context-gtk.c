@@ -343,10 +343,10 @@ icg_set_property (GObject *obj, guint property_id,
 	GnmIOContextGtk *icg = GNM_IO_CONTEXT_GTK (obj);
 
 	switch (property_id) {
-	case PROP_SHOW_SPLASH :
+	case PROP_SHOW_SPLASH:
 		icg->show_splash = g_value_get_boolean (value);
 		break;
-	case PROP_SHOW_WARNINGS :
+	case PROP_SHOW_WARNINGS:
 		icg->show_warnings = g_value_get_boolean (value);
 		break;
 	default:

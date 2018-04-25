@@ -177,7 +177,7 @@ cell_span_info_get_type (void)
 }
 
 /**
- * cellspan_is_empty :
+ * cellspan_is_empty:
  *
  * Utility to ensure that a cell is completely empty.
  *    - no spans

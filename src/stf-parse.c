@@ -1052,7 +1052,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions,
 	list_start = list;
 
 	/*
-	 * Kewl stuff :
+	 * Kewl stuff:
 	 * Look at the number of hits at each line position
 	 * if the number of hits equals the number of lines
 	 * we can be pretty sure this is the start or end
@@ -1085,7 +1085,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions,
 	 */
 	if (my_garray_len (parseoptions->splitpositions) > 0) {
 		/*
-		 * Try to find columns that look like :
+		 * Try to find columns that look like:
 		 *
 		 * Example     100
 		 * Example2      9

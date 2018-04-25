@@ -34,7 +34,7 @@ sheet_cell_or_one_below_is_not_empty (Sheet *sheet, int col, int row)
 }
 
 /**
- * gnm_sheet_guess_region :
+ * gnm_sheet_guess_region:
  * @sheet: #Sheet
  * @region: #GnmRange
  *
@@ -92,7 +92,7 @@ gnm_sheet_guess_region (Sheet *sheet, GnmRange *region)
 
 
 /**
- * gnm_sheet_guess_data_range :
+ * gnm_sheet_guess_data_range:
  * @sheet: #Sheet
  * @region: #GnmRange
  *
