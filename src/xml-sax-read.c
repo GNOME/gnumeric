@@ -2183,7 +2183,8 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					     GINT_TO_POINTER (expr_id));
 
 		if (texpr && gnm_expr_top_is_array_corner (texpr)) {
-			g_printerr ("Shared array formula -- how did that happen?\n");
+			g_printerr ("Shared array formula for %s -- how did that happen?\n",
+				    cell ? cell_name (cell) : "clipboard");
 			texpr = gnm_expr_top_new (gnm_expr_copy (texpr->expr));
 			expr_id = -1;
 		} else if (texpr) {

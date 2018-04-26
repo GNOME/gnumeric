@@ -265,6 +265,8 @@ gnm_sheet_view_init (GObject *object)
 {
 	SheetView *sv = GNM_SHEET_VIEW (object);
 
+	sv->controls = g_ptr_array_new ();
+
 	/* Init menu states */
 	sv->enable_insert_rows = TRUE;
 	sv->enable_insert_cols = TRUE;
@@ -285,8 +287,6 @@ gnm_sheet_view_init (GObject *object)
 	sv->selection_mode = GNM_SELECTION_MODE_ADD;
 	sv->selections_simplified = NULL;
 	sv_selection_add_pos (sv, 0, 0, GNM_SELECTION_MODE_ADD);
-
-	sv->controls = g_ptr_array_new ();
 }
 
 GSF_CLASS (SheetView, gnm_sheet_view,
