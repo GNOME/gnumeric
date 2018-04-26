@@ -304,11 +304,8 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 	range_translate (&target, target_sheet, 1, 0);
 
 	buf = gsf_output_memory_new ();
-	sheet_foreach_cell_in_range (src_sheet,
-		CELL_ITER_ALL,
-		src->start.col, src->start.row,
-		src->end.col, src->end.row,
-		(CellIterFunc) &cb_get_content, buf);
+	sheet_foreach_cell_in_range (src_sheet, CELL_ITER_ALL, src,
+				     (CellIterFunc) &cb_get_content, buf);
 
 	gsf_output_close (buf);
 	data = gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (buf));

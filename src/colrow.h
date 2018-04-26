@@ -26,13 +26,6 @@ struct _ColRowInfo {
 };
 GType col_row_info_get_type (void);
 
-struct _ColRowCollection {
-	int         max_used;
-	ColRowInfo  default_style;
-	GPtrArray * info;
-	int	    max_outline_level;
-};
-
 /* We never did get around to support 'thick' borders so these are effectively
  * unitless (margins do not scale) constants . */
 #define	GNM_COL_MARGIN	2
@@ -88,13 +81,6 @@ typedef struct {
 } GnmColRowIter;
 
 typedef gboolean (*ColRowHandler)(GnmColRowIter const *iter, gpointer user_data);
-gboolean col_row_collection_foreach	   (ColRowCollection const *infos,
-					    int first, int last,
-					    ColRowHandler callback,
-					    gpointer user_data);
-
-void col_row_collection_resize (ColRowCollection *infos, int size);
-
 #define colrow_index_list_destroy(l) g_list_free_full ((l), g_free)
 
 GString         *colrow_index_list_to_string (ColRowIndexList *list,

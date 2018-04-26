@@ -156,6 +156,24 @@ static void gnm_sheet_finalize (GObject *obj);
 static GObjectClass *parent_class;
 
 static void
+col_row_collection_resize (ColRowCollection *infos, int size)
+{
+	int end_idx = COLROW_SEGMENT_INDEX (size);
+	int i = infos->info->len - 1;
+
+	while (i >= end_idx) {
+		ColRowSegment *segment = g_ptr_array_index (infos->info, i);
+		if (segment) {
+			g_free (segment);
+			g_ptr_array_index (infos->info, i) = NULL;
+		}
+		i--;
+	}
+
+	g_ptr_array_set_size (infos->info, end_idx);
+}
+
+static void
 sheet_set_direction (Sheet *sheet, gboolean text_is_rtl)
 {
 	GnmRange r;
@@ -332,8 +350,9 @@ struct resize_colrow {
 
 static gboolean
 cb_colrow_compute_pixels_from_pts (GnmColRowIter const *iter,
-				   struct resize_colrow *data)
+				   gpointer data_)
 {
+	struct resize_colrow *data = data_;
 	colrow_compute_pixels_from_pts ((ColRowInfo *)iter->cri,
 					data->sheet, data->is_cols,
 					data->scale);
@@ -364,9 +383,9 @@ sheet_scale_changed (Sheet *sheet, gboolean cols_rescaled, gboolean rows_rescale
 
 		colrow_compute_pixels_from_pts (&sheet->cols.default_style,
 						sheet, TRUE, closure.scale);
-		col_row_collection_foreach (&sheet->cols,
-					    0, gnm_sheet_get_last_col (sheet),
-			(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
+		sheet_colrow_foreach (sheet, TRUE, 0, -1,
+				      cb_colrow_compute_pixels_from_pts,
+				      &closure);
 	}
 	if (rows_rescaled) {
 		struct resize_colrow closure;
@@ -377,8 +396,9 @@ sheet_scale_changed (Sheet *sheet, gboolean cols_rescaled, gboolean rows_rescale
 
 		colrow_compute_pixels_from_pts (&sheet->rows.default_style,
 						sheet, FALSE, closure.scale);
-		col_row_collection_foreach (&sheet->rows, 0, gnm_sheet_get_last_row (sheet),
-			(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
+		sheet_colrow_foreach (sheet, FALSE, 0, -1,
+				      cb_colrow_compute_pixels_from_pts,
+				      &closure);
 	}
 
 	sheet_cell_foreach (sheet, (GHFunc)&cb_clear_rendered_cells, NULL);
@@ -1563,9 +1583,9 @@ void
 sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, GnmSpanCalcFlags flags)
 {
 	if (flags & GNM_SPANCALC_RE_RENDER)
-		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-			r->start.col, r->start.row, r->end.col, r->end.row,
-			cb_clear_rendered_values, NULL);
+		sheet_foreach_cell_in_range
+			(sheet, CELL_ITER_IGNORE_NONEXISTENT, r,
+			 cb_clear_rendered_values, NULL);
 	sheet_queue_respan (sheet, r->start.row, r->end.row);
 
 	/* Redraw the new region in case the span changes */
@@ -1915,8 +1935,9 @@ sheet_flag_recompute_spans (Sheet const *sheet)
 }
 
 static gboolean
-cb_outline_level (GnmColRowIter const *iter, int *outline_level)
+cb_outline_level (GnmColRowIter const *iter, gpointer data)
 {
+	int *outline_level = data;
 	if (*outline_level < iter->cri->outline_level)
 		*outline_level  = iter->cri->outline_level;
 	return FALSE;
@@ -1933,9 +1954,8 @@ static int
 sheet_colrow_fit_gutter (Sheet const *sheet, gboolean is_cols)
 {
 	int outline_level = 0;
-	col_row_collection_foreach (is_cols ? &sheet->cols : &sheet->rows,
-			0, colrow_max (is_cols, sheet) - 1,
-		(ColRowHandler)cb_outline_level, &outline_level);
+	sheet_colrow_foreach (sheet, is_cols, 0, -1,
+			      cb_outline_level, &outline_level);
 	return outline_level;
 }
 
@@ -2499,7 +2519,7 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col, int srow, int erow,
 
 	data.max = -1;
 	data.ignore_strings = ignore_strings;
-	sheet_foreach_cell_in_range (sheet,
+	sheet_foreach_cell_in_region (sheet,
 		CELL_ITER_IGNORE_NONEXISTENT |
 		CELL_ITER_IGNORE_HIDDEN |
 		CELL_ITER_IGNORE_FILTERED,
@@ -2585,7 +2605,7 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row, int scol, int ecol,
 
 	data.max = -1;
 	data.ignore_strings = ignore_strings;
-	sheet_foreach_cell_in_range (sheet,
+	sheet_foreach_cell_in_region (sheet,
 		CELL_ITER_IGNORE_NONEXISTENT |
 		CELL_ITER_IGNORE_HIDDEN |
 		CELL_ITER_IGNORE_FILTERED,
@@ -2650,8 +2670,8 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 	closure.sheet = sheet;
 	closure.col = col;
 
-	col_row_collection_foreach (&sheet->rows, 0, gnm_sheet_get_last_row (sheet),
-			&cb_recalc_spans_in_col, &closure);
+	sheet_colrow_foreach (sheet, FALSE, 0, -1,
+			      &cb_recalc_spans_in_col, &closure);
 }
 
 /****************************************************************************/
@@ -2736,18 +2756,14 @@ sheet_range_set_expr_cb (GnmSheetRange const *sr, GnmExprTop const *texpr)
 	sheet_region_queue_recalc (sr->sheet, &sr->range);
 	/* Store the parsed result creating any cells necessary */
 	sheet_foreach_cell_in_range
-		(sr->sheet, CELL_ITER_ALL,
-		 sr->range.start.col, sr->range.start.row,
-		 sr->range.end.col, sr->range.end.row,
+		(sr->sheet, CELL_ITER_ALL, &sr->range,
 		 (CellIterFunc)&cb_set_cell_content, &closure);
 
 	merged = gnm_sheet_merge_get_overlap (sr->sheet, &sr->range);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange const *tmp = ptr->data;
 		sheet_foreach_cell_in_range
-			(sr->sheet, CELL_ITER_IGNORE_BLANK,
-			 tmp->start.col, tmp->start.row,
-			 tmp->end.col, tmp->end.row,
+			(sr->sheet, CELL_ITER_IGNORE_BLANK, tmp,
 			 (CellIterFunc)&cb_clear_non_corner,
 			 (gpointer)tmp);
 	}
@@ -2810,16 +2826,13 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 					      &closure.expr_bound);
 
 	/* Store the parsed result creating any cells necessary */
-	sheet_foreach_cell_in_range (sheet, CELL_ITER_ALL,
-		r->start.col, r->start.row, r->end.col, r->end.row,
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_ALL, r,
 		(CellIterFunc)&cb_set_cell_content, &closure);
 
 	merged = gnm_sheet_merge_get_overlap (sheet, r);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange const *tmp = ptr->data;
-		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
-			tmp->start.col, tmp->start.row,
-			tmp->end.col, tmp->end.row,
+		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK, tmp,
 			(CellIterFunc)&cb_clear_non_corner, (gpointer)tmp);
 	}
 	g_slist_free (merged);
@@ -2896,9 +2909,7 @@ static void
 sheet_range_set_markup_cb (GnmSheetRange const *sr, PangoAttrList *markup)
 {
 	sheet_foreach_cell_in_range
-		(sr->sheet, CELL_ITER_ALL,
-		 sr->range.start.col, sr->range.start.row,
-		 sr->range.end.col, sr->range.end.row,
+		(sr->sheet, CELL_ITER_ALL, &sr->range,
 		 (CellIterFunc)&cb_set_markup, markup);
 
 	sheet_region_queue_recalc (sr->sheet, &sr->range);
@@ -3455,8 +3466,9 @@ typedef struct {
 } ArrayCheckData;
 
 static gboolean
-cb_check_array_horizontal (GnmColRowIter const *iter, ArrayCheckData *data)
+cb_check_array_horizontal (GnmColRowIter const *iter, gpointer data_)
 {
+	ArrayCheckData *data = data_;
 	gboolean is_array = FALSE;
 
 	if (data->flags & CHECK_AND_LOAD_START  &&	/* Top */
@@ -3481,8 +3493,9 @@ cb_check_array_horizontal (GnmColRowIter const *iter, ArrayCheckData *data)
 }
 
 static gboolean
-cb_check_array_vertical (GnmColRowIter const *iter, ArrayCheckData *data)
+cb_check_array_vertical (GnmColRowIter const *iter, gpointer data_)
 {
+	ArrayCheckData *data = data_;
 	gboolean is_array = FALSE;
 
 	if (data->flags & CHECK_AND_LOAD_START &&	/* Left */
@@ -3547,8 +3560,9 @@ sheet_range_splits_array (Sheet const *sheet,
 		closure.flags = CHECK_AND_LOAD_START;
 
 	if (closure.flags &&
-	    col_row_collection_foreach (&sheet->cols, r->start.col, r->end.col,
-			    (ColRowHandler) cb_check_array_horizontal, &closure)) {
+	    sheet_colrow_foreach (sheet, TRUE,
+				  r->start.col, r->end.col,
+				  cb_check_array_horizontal, &closure)) {
 		if (cc)
 			gnm_cmd_context_error_splits_array (cc,
 				cmd, &closure.error);
@@ -3569,8 +3583,9 @@ sheet_range_splits_array (Sheet const *sheet,
 		closure.flags = CHECK_AND_LOAD_START;
 
 	if (closure.flags &&
-	    col_row_collection_foreach (&sheet->rows, r->start.row, r->end.row,
-			    (ColRowHandler) cb_check_array_vertical, &closure)) {
+	    sheet_colrow_foreach (sheet, FALSE,
+				  r->start.row, r->end.row,
+				  cb_check_array_vertical, &closure)) {
 		if (cc)
 			gnm_cmd_context_error_splits_array (cc,
 				cmd, &closure.error);
@@ -3693,8 +3708,7 @@ sheet_range_contains_merges_or_arrays (Sheet const *sheet, GnmRange const *r,
 
 	if (arrays) {
 		if (sheet_foreach_cell_in_range (
-			    (Sheet *)sheet, CELL_ITER_IGNORE_NONEXISTENT,
-			    r->start.col, r->start.row, r->end.col, r->end.row,
+			    (Sheet *)sheet, CELL_ITER_IGNORE_NONEXISTENT, r,
 			    cb_cell_is_array, NULL)) {
 			if (cc != NULL)
 				go_cmd_context_error_invalid
@@ -3914,6 +3928,62 @@ sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
 		: sheet_row_get_info (sheet, colrow);
 }
 
+/**
+ * sheet_colrow_foreach:
+ * @sheet: #Sheet
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ * @first:	start position (inclusive)
+ * @last:	stop position (inclusive), -1 meaning end-of-sheet
+ * @callback: (scope call): A callback function which should return %TRUE
+ *    to stop the iteration.
+ * @user_data:	A baggage pointer.
+ *
+ * Iterates through the existing rows or columns within the range supplied.
+ * If a callback returns %TRUE, iteration stops.
+ **/
+gboolean
+sheet_colrow_foreach (Sheet const *sheet,
+		      gboolean is_cols,
+		      int first, int last,
+		      ColRowHandler callback,
+		      gpointer user_data)
+{
+	ColRowCollection const *infos;
+	GnmColRowIter iter;
+	ColRowSegment const *segment;
+	int sub, inner_last, i;
+
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+
+	if (last == -1)
+		last = colrow_max (is_cols, sheet) - 1;
+	infos = is_cols ? &sheet->cols : &sheet->rows;
+
+	/* clip */
+	if (last > infos->max_used)
+		last = infos->max_used;
+
+	for (i = first; i <= last ; ) {
+		segment = COLROW_GET_SEGMENT (infos, i);
+		sub = COLROW_SUB_INDEX(i);
+		inner_last = (COLROW_SEGMENT_INDEX (last) == COLROW_SEGMENT_INDEX (i))
+			? COLROW_SUB_INDEX (last)+1 : COLROW_SEGMENT_SIZE;
+		iter.pos = i;
+		i += COLROW_SEGMENT_SIZE - sub;
+		if (segment == NULL)
+			continue;
+
+		for (; sub < inner_last; sub++, iter.pos++) {
+			iter.cri = segment->info[sub];
+			if (iter.cri != NULL && (*callback)(&iter, user_data))
+				return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+
 /*****************************************************************************/
 
 static gint
@@ -3962,11 +4032,8 @@ sheet_cells (Sheet *sheet, const GnmRange *r)
  * sheet_foreach_cell_in_range:
  * @sheet: #Sheet
  * @flags:
- * @start_col:
- * @start_row:
- * @end_col:
- * @end_row:
- * @callback: (scope call): #CellFiletrFunc
+ * @r: #GnmRange
+ * @callback: (scope call): #CellFilterFunc
  * @closure: user data.
  *
  * For each existing cell in the range specified, invoke the
@@ -3991,6 +4058,50 @@ sheet_cells (Sheet *sheet, const GnmRange *r)
  */
 GnmValue *
 sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
+			     GnmRange const *r,
+			     CellIterFunc callback,
+			     gpointer     closure)
+{
+	return sheet_foreach_cell_in_region (sheet, flags,
+					     r->start.col, r->start.row,
+					     r->end.col, r->end.row,
+					     callback, closure);
+}
+
+
+/**
+ * sheet_foreach_cell_in_region:
+ * @sheet: #Sheet
+ * @flags:
+ * @start_col: Starting column
+ * @start_row: Starting row
+ * @end_col: Ending column, -1 meaning last
+ * @end_row: Ending row, -1 meaning last
+ * @callback: (scope call): #CellFilterFunc
+ * @closure: user data.
+ *
+ * For each existing cell in the range specified, invoke the
+ * callback routine.  If the only_existing flag is passed, then
+ * callbacks are only invoked for existing cells.
+ *
+ * Note: this function does not honour the CELL_ITER_IGNORE_SUBTOTAL flag.
+ *
+ * Returns: (transfer none): the value returned by the callback, which can be:
+ *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
+ *    to stop (by returning non-NULL).
+ *
+ * NOTE: between 0.56 and 0.57, the traversal order changed.  The order is now
+ *
+ *        1    2    3
+ *        4    5    6
+ *        7    8    9
+ *
+ * (This appears to be the order in which XL looks at the values of ranges.)
+ * If your code depends on any particular ordering, please add a very visible
+ * comment near the call.
+ */
+GnmValue *
+sheet_foreach_cell_in_region (Sheet *sheet, CellIterFlags flags,
 			     int start_col, int start_row,
 			     int end_col,   int end_row,
 			     CellIterFunc callback, void *closure)
@@ -4007,6 +4118,10 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (callback != NULL, NULL);
+
+	// For convenience
+	if (end_col == -1) end_col = gnm_sheet_get_last_col (sheet);
+	if (end_row == -1) end_row = gnm_sheet_get_last_row (sheet);
 
 	iter.pp.sheet = sheet;
 	iter.pp.wb = sheet->workbook;
@@ -4247,8 +4362,7 @@ sheet_is_region_empty (Sheet *sheet, GnmRange const *r)
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	return sheet_foreach_cell_in_range (
-		sheet, CELL_ITER_IGNORE_BLANK,
-		r->start.col, r->start.row, r->end.col, r->end.row,
+		sheet, CELL_ITER_IGNORE_BLANK, r,
 		cb_fail_if_exist, NULL) == NULL;
 }
 
@@ -4511,9 +4625,9 @@ sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 		sheet->priv->recompute_max_col_group = TRUE;
 
 	if (free_cells)
-		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-			col, 0, col, gnm_sheet_get_last_row (sheet),
-			&cb_free_cell, NULL);
+		sheet_foreach_cell_in_region (sheet, CELL_ITER_IGNORE_NONEXISTENT,
+					      col, 0, col, -1,
+					      &cb_free_cell, NULL);
 
 	(*segment)->info[sub] = NULL;
 	colrow_free (ci);
@@ -4548,9 +4662,9 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 		sheet->priv->recompute_max_row_group = TRUE;
 
 	if (free_cells)
-		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-			0, row, gnm_sheet_get_last_col (sheet), row,
-			&cb_free_cell, NULL);
+		sheet_foreach_cell_in_region (sheet, CELL_ITER_IGNORE_NONEXISTENT,
+					      0, row, -1, row,
+					      &cb_free_cell, NULL);
 
 	/* Rows have span lists, destroy them too */
 	row_destroy_span (ri);
@@ -4744,7 +4858,7 @@ gnm_sheet_finalize (GObject *obj)
 /*****************************************************************************/
 
 /*
- * cb_empty_cell: A callback for sheet_foreach_cell_in_range
+ * cb_empty_cell: A callback for sheet_foreach_cell_in_region
  *     removes/clear all of the cells in the specified region.
  *     Does NOT queue a redraw.
  *
@@ -4782,7 +4896,7 @@ cb_empty_cell (GnmCellIter const *iter, gpointer user)
  * Clears are region of cells
  *
  * We assemble a list of cells to destroy, since we will be making changes
- * to the structure being manipulated by the sheet_foreach_cell_in_range routine
+ * to the structure being manipulated by the sheet_foreach_cell_in_region routine
  */
 void
 sheet_clear_region (Sheet *sheet,
@@ -4829,7 +4943,7 @@ sheet_clear_region (Sheet *sheet,
 		/* Remove or empty the cells depending on
 		 * whether or not there are comments
 		 */
-		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
+		sheet_foreach_cell_in_region (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 			start_col, start_row, end_col, end_row,
 			&cb_empty_cell, GINT_TO_POINTER (clear_flags));
 
@@ -5285,7 +5399,7 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 }
 
 /*
- * Callback for sheet_foreach_cell_in_range to remove a cell from the sheet
+ * Callback for sheet_foreach_cell_in_region to remove a cell from the sheet
  * hash, unlink from the dependent collection and put it in a temporary list.
  */
 static GnmValue *
@@ -5404,10 +5518,10 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 	}
 
 	/* 3. Collect the cells */
-	sheet_foreach_cell_in_range (rinfo->origin_sheet, CELL_ITER_IGNORE_NONEXISTENT,
-		rinfo->origin.start.col, rinfo->origin.start.row,
-		rinfo->origin.end.col, rinfo->origin.end.row,
-		&cb_collect_cell, &cells);
+	sheet_foreach_cell_in_range (rinfo->origin_sheet,
+				     CELL_ITER_IGNORE_NONEXISTENT,
+				     &rinfo->origin,
+				     &cb_collect_cell, &cells);
 
 	/* Reverse list so that we start at the top left (simplifies arrays). */
 	cells = g_list_reverse (cells);
@@ -5509,8 +5623,8 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (from >= 0, 1.);
 	g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sheet), 1.);
 
-	/* Do not use col_row_collection_foreach, it ignores empties */
-	dflt =  sheet->cols.default_style.size_pts;
+	/* Do not use sheet_colrow_foreach, it ignores empties */
+	dflt = sheet->cols.default_style.size_pts;
 	for (i = from ; i < to ; ++i) {
 		if (NULL == (ci = sheet_col_get (sheet, i)))
 			pts += dflt;
@@ -5549,8 +5663,8 @@ sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (from >= 0, 1);
 	g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sheet), 1);
 
-	/* Do not use col_row_collection_foreach, it ignores empties */
-	dflt =  sheet_col_get_default_size_pixels (sheet);
+	/* Do not use sheet_colrow_foreach, it ignores empties */
+	dflt = sheet_col_get_default_size_pixels (sheet);
 	for (i = from ; i < to ; ++i) {
 		if (NULL == (ci = sheet_col_get (sheet, i)))
 			pixels += dflt;
@@ -5692,7 +5806,7 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (from >= 0, 1.);
 	g_return_val_if_fail (to <= gnm_sheet_get_max_rows (sheet), 1.);
 
-	/* Do not use col_row_collection_foreach, it ignores empties.
+	/* Do not use sheet_colrow_foreach, it ignores empties.
 	 * Optimize this so that long jumps are not quite so horrific
 	 * for performance.
 	 */
@@ -5742,7 +5856,7 @@ sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (from >= 0, 1);
 	g_return_val_if_fail (to <= gnm_sheet_get_max_rows (sheet), 1);
 
-	/* Do not use col_row_collection_foreach, it ignores empties */
+	/* Do not use sheet_colrow_foreach, it ignores empties */
 	dflt =  sheet_row_get_default_size_pixels (sheet);
 	for (i = from ; i < to ; ++i) {
 		if (NULL == (ci = sheet_row_get (sheet, i)))
@@ -5898,11 +6012,11 @@ sheet_dup_colrows (Sheet const *src, Sheet *dst)
 
 	closure.sheet = dst;
 	closure.is_column = TRUE;
-	col_row_collection_foreach (&src->cols, 0, max_col - 1,
-			&sheet_clone_colrow_info_item, &closure);
+	sheet_colrow_foreach  (src, TRUE, 0, max_col - 1,
+			       &sheet_clone_colrow_info_item, &closure);
 	closure.is_column = FALSE;
-	col_row_collection_foreach (&src->rows, 0, max_row - 1,
-			&sheet_clone_colrow_info_item, &closure);
+	sheet_colrow_foreach (src, FALSE, 0, max_row - 1,
+			      &sheet_clone_colrow_info_item, &closure);
 
 	sheet_col_set_default_size_pixels (dst,
 		sheet_col_get_default_size_pixels (src));
@@ -6178,8 +6292,8 @@ cb_queue_respan (GnmColRowIter const *iter, void *user_data)
 void
 sheet_queue_respan (Sheet const *sheet, int start_row, int end_row)
 {
-	col_row_collection_foreach (&sheet->rows, start_row, end_row,
-		cb_queue_respan, NULL);
+	sheet_colrow_foreach (sheet, FALSE, start_row, end_row,
+			      cb_queue_respan, NULL);
 }
 
 void
@@ -6259,8 +6373,7 @@ sheet_range_trim (Sheet const *sheet, GnmRange *r,
 	g_return_val_if_fail (r != NULL, TRUE);
 
 	sheet_foreach_cell_in_range (
-		(Sheet *)sheet, CELL_ITER_IGNORE_BLANK,
-		r->start.col, r->start.row, r->end.col, r->end.row,
+		(Sheet *)sheet, CELL_ITER_IGNORE_BLANK, r,
 		(CellIterFunc) cb_find_extents, &extent);
 
 	if (extent.col < 0 || extent.row < 0)

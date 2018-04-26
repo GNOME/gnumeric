@@ -1,3 +1,13 @@
+2018-04-26  Morten Welinder  <terra@gnome.org>
+
+	* src/colrow.c (col_row_collection_foreach): move to...
+	* src/sheet.c (sheet_colrow_foreach): ...here.  Allow -1 to mean
+	last column or row.
+	(sheet_foreach_cell_in_range): Change to take a range.
+	(sheet_foreach_cell_in_region): Preserve the old
+	sheet_foreach_cell_in_range api.  Most callers changed.  Allow -1
+	to mean last column or row.
+
 2018-04-25  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_cell_content): Read shared array

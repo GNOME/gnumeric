@@ -228,9 +228,7 @@ gnm_scenario_add_area (GnmScenario *sc, const GnmSheetRange *sr)
 	data.sc = sc;
 	sheet_foreach_cell_in_range
 		(eval_sheet (sr->sheet, sc->sheet),
-		 CELL_ITER_IGNORE_NONEXISTENT,
-		 sr->range.start.col, sr->range.start.row,
-		 sr->range.end.col, sr->range.end.row,
+		 CELL_ITER_IGNORE_NONEXISTENT, &sr->range,
 		 cb_save_cells, &data);
 	sc->items = g_slist_concat (sc->items,
 				    g_slist_reverse (data.items));

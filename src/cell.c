@@ -1079,7 +1079,7 @@ gnm_cell_convert_expr_to_value (GnmCell *cell)
 
 		gnm_expr_top_get_array_size (texpr, &cols, &rows);
 
-		sheet_foreach_cell_in_range (cell->base.sheet, CELL_ITER_ALL,
+		sheet_foreach_cell_in_region (cell->base.sheet, CELL_ITER_ALL,
 					     cell->pos.col, cell->pos.row,
 					     cell->pos.col + cols - 1,
 					     cell->pos.row + rows - 1,

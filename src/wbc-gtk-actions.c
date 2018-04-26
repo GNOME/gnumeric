@@ -1831,10 +1831,7 @@ inc_dec (WBCGtk *wbcg,
 		sheet_foreach_cell_in_range (sv_sheet (sv),
 					     CELL_ITER_IGNORE_BLANK |
 					     CELL_ITER_IGNORE_HIDDEN,
-					     r->start.col, r->start.row,
-					     r->end.col, r->end.row,
-					     cb_calc_decs,
-					     &decs);
+					     r, cb_calc_decs, &decs);
 	}
 
 	new_fmt_str = g_string_new ("0");

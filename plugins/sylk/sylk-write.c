@@ -312,9 +312,7 @@ sylk_write_sheet (SylkWriter *state)
 
 	// Cell styles
 	state->cur_row = -1;
-	sheet_foreach_cell_in_range (sheet, 0,
-		extent.start.col, extent.start.row,
-		extent.end.col,   extent.end.row,
+	sheet_foreach_cell_in_range (sheet, 0, &extent,
 		(CellIterFunc) cb_sylk_write_cell_style, state);
 
 	// Column widths
@@ -363,10 +361,8 @@ sylk_write_sheet (SylkWriter *state)
 
 /* dump content */
 	state->cur_row = -1;
-	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
-		extent.start.col, extent.start.row,
-		extent.end.col,   extent.end.row,
-		(CellIterFunc) cb_sylk_write_cell, state);
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK, &extent,
+				     (CellIterFunc) cb_sylk_write_cell, state);
 
 	g_free (col_defs);
 }

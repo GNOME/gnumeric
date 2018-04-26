@@ -703,8 +703,7 @@ make_expr_example (Sheet *sheet, const char *text,
 	}
 
 	g_free (tmp_text);
-	if (fmt)
-		go_format_unref (fmt);
+	go_format_unref (fmt);
 
 	return res;
 }

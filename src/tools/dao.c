@@ -1093,12 +1093,12 @@ dao_convert_to_values (data_analysis_output_t *dao)
 	if (dao->put_formulas)
 		return;
 
-	sheet_foreach_cell_in_range (dao->sheet, CELL_ITER_IGNORE_BLANK,
-				     dao->start_col, dao->start_row,
-				     dao->start_col + dao->cols - 1,
-				     dao->start_row + dao->rows - 1,
-				     cb_convert_to_value,
-				     NULL);
+	sheet_foreach_cell_in_region (dao->sheet, CELL_ITER_IGNORE_BLANK,
+				      dao->start_col, dao->start_row,
+				      dao->start_col + dao->cols - 1,
+				      dao->start_row + dao->rows - 1,
+				      cb_convert_to_value,
+				      NULL);
 }
 
 void

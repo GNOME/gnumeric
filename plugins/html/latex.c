@@ -456,9 +456,7 @@ latex2e_write_font_encodings (GsfOutput *output, Sheet *sheet, GnmRange const *r
 	gboolean *fonts = g_new0 (gboolean, G_UNICODE_SCRIPT_MANDAIC + 1);
 
 	sheet_foreach_cell_in_range
-		(sheet, CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_HIDDEN,
-		 range->start.col, range->start.row,
-		 range->end.col, range->end.row,
+		(sheet, CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_HIDDEN, range,
 		 (CellIterFunc)&cb_find_font_encodings, fonts);
 
 	if (fonts[G_UNICODE_SCRIPT_CYRILLIC])

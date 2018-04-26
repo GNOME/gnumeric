@@ -483,7 +483,7 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 		if (cond->op[1] != GNM_FILTER_UNUSED)
 			filter_expr_init (&data, 1, cond, filter);
 
-		sheet_foreach_cell_in_range (filter->sheet,
+		sheet_foreach_cell_in_region (filter->sheet,
 			iter_flags,
 			col, start_row, col, end_row,
 			(CellIterFunc) cb_filter_expr, &data);
@@ -492,12 +492,12 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 		if (cond->op[1] != GNM_FILTER_UNUSED)
 			filter_expr_release (&data, 1);
 	} else if (cond->op[0] == GNM_FILTER_OP_BLANKS)
-		sheet_foreach_cell_in_range (filter->sheet,
+		sheet_foreach_cell_in_region (filter->sheet,
 			CELL_ITER_IGNORE_HIDDEN,
 			col, start_row, col, end_row,
 			(CellIterFunc) cb_filter_blanks, target_sheet);
 	else if (cond->op[0] == GNM_FILTER_OP_NON_BLANKS)
-		sheet_foreach_cell_in_range (filter->sheet,
+		sheet_foreach_cell_in_region (filter->sheet,
 			CELL_ITER_IGNORE_HIDDEN,
 			col, start_row, col, end_row,
 			(CellIterFunc) cb_filter_non_blanks, target_sheet);
@@ -511,12 +511,12 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 				if (data.count < 1)
 					data.count = 1;
 				data.vals   = g_new (GnmValue const *, data.count);
-				sheet_foreach_cell_in_range (filter->sheet,
+				sheet_foreach_cell_in_region (filter->sheet,
 							     CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
 							     col, start_row, col, end_row,
 							     (CellIterFunc) cb_filter_find_items, &data);
 				data.target_sheet = target_sheet;
-				sheet_foreach_cell_in_range (filter->sheet,
+				sheet_foreach_cell_in_region (filter->sheet,
 							     CELL_ITER_IGNORE_HIDDEN,
 							     col, start_row, col, end_row,
 							     (CellIterFunc) cb_hide_unwanted_items, &data);
@@ -527,7 +527,7 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 
 				data.find_max = (cond->op[0] & 0x1) ? FALSE : TRUE;
 				data.initialized = FALSE;
-				sheet_foreach_cell_in_range (filter->sheet,
+				sheet_foreach_cell_in_region (filter->sheet,
 							     CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
 							     col, start_row, col, end_row,
 							     (CellIterFunc) cb_filter_find_percentage, &data);
@@ -535,7 +535,7 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 				data.high -= offset;
 				data.low  += offset;
 				data.target_sheet = target_sheet;
-				sheet_foreach_cell_in_range (filter->sheet,
+				sheet_foreach_cell_in_region (filter->sheet,
 							     CELL_ITER_IGNORE_HIDDEN,
 							     col, start_row, col, end_row,
 							     (CellIterFunc) cb_hide_unwanted_percentage, &data);
@@ -547,12 +547,12 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 			data.count  = cond->count;
 			data.vals   = g_new (GnmValue const *, data.count);
 
-			sheet_foreach_cell_in_range (filter->sheet,
+			sheet_foreach_cell_in_region (filter->sheet,
 				CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
 				col, start_row, col, end_row,
 				(CellIterFunc) cb_filter_find_items, &data);
 			data.target_sheet = target_sheet;
-			sheet_foreach_cell_in_range (filter->sheet,
+			sheet_foreach_cell_in_region (filter->sheet,
 				CELL_ITER_IGNORE_HIDDEN,
 				col, start_row, col, end_row,
 				(CellIterFunc) cb_hide_unwanted_items, &data);

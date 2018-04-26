@@ -600,8 +600,7 @@ workbook_foreach_cell_in_range (GnmEvalPos const *pos,
 
 		for (; i <= stop ; i++) {
 			res = sheet_foreach_cell_in_range (
-				g_ptr_array_index (wb->sheets, i), flags,
-				r.start.col, r.start.row, r.end.col, r.end.row,
+				g_ptr_array_index (wb->sheets, i), flags, &r,
 				handler, closure);
 			if (res != NULL)
 				return res;
@@ -609,8 +608,7 @@ workbook_foreach_cell_in_range (GnmEvalPos const *pos,
 		return NULL;
 	}
 
-	return sheet_foreach_cell_in_range (start_sheet, flags,
-		r.start.col, r.start.row, r.end.col, r.end.row,
+	return sheet_foreach_cell_in_range (start_sheet, flags, &r,
 		handler, closure);
 }
 

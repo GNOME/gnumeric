@@ -738,10 +738,9 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 	cr->row_state = colrow_get_states (sheet,
 		FALSE, r->start.row, r->end.row);
 
-	sheet_foreach_cell_in_range ( sheet, CELL_ITER_IGNORE_NONEXISTENT,
-		r->start.col, r->start.row,
-		r->end.col, r->end.row,
-		(CellIterFunc) cb_clipboard_prepend_cell, cr);
+	sheet_foreach_cell_in_range ( sheet, CELL_ITER_IGNORE_NONEXISTENT, r,
+				      (CellIterFunc) cb_clipboard_prepend_cell,
+				      cr);
 	objects = sheet_objects_get (sheet, r, G_TYPE_NONE);
 	g_slist_foreach (objects, (GFunc)cb_dup_objects, cr);
 	g_slist_free (objects);

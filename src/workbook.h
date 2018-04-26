@@ -57,7 +57,7 @@ gchar const *workbook_get_last_export_uri (Workbook *wb);
 void         workbook_set_file_exporter	  (Workbook *wb, GOFileSaver *fs);
 void         workbook_set_last_export_uri (Workbook *wb, const gchar *uri);
 
-/* See also sheet_foreach_cell_in_range */
+/* See also sheet_foreach_cell_in_region */
 GnmValue   *workbook_foreach_cell_in_range (GnmEvalPos const  *pos,
 					    GnmValue const *cell_range,
 					    CellIterFlags   flags,

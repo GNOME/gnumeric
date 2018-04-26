@@ -183,52 +183,6 @@ colrow_free (ColRowInfo *cri)
 	g_slice_free1 (sizeof (*cri), cri);
 }
 
-/**
- * col_row_collection_foreach:
- * @infos:	The Row or Column collection.
- * @first:	start position (inclusive)
- * @last:	stop column (inclusive)
- * @callback: (scope call): A callback function which should return %TRUE to stop
- *              the iteration.
- * @user_data:	A baggage pointer.
- *
- * Iterates through the existing rows or columns within the range supplied.
- * Currently only support left -> right iteration.  If a callback returns
- * %TRUE iteration stops.
- **/
-gboolean
-col_row_collection_foreach (ColRowCollection const *infos, int first, int last,
-			    ColRowHandler callback, gpointer user_data)
-{
-	GnmColRowIter iter;
-	ColRowSegment const *segment;
-	int sub, inner_last, i;
-
-	/* TODO : Do we need to support right -> left as an option */
-
-	/* clip */
-	if (last > infos->max_used)
-		last = infos->max_used;
-
-	for (i = first; i <= last ; ) {
-		segment = COLROW_GET_SEGMENT (infos, i);
-		sub = COLROW_SUB_INDEX(i);
-		inner_last = (COLROW_SEGMENT_INDEX (last) == COLROW_SEGMENT_INDEX (i))
-			? COLROW_SUB_INDEX (last)+1 : COLROW_SEGMENT_SIZE;
-		iter.pos = i;
-		i += COLROW_SEGMENT_SIZE - sub;
-		if (segment == NULL)
-			continue;
-
-		for (; sub < inner_last; sub++, iter.pos++) {
-			iter.cri = segment->info[sub];
-			if (iter.cri != NULL && (*callback)(&iter, user_data))
-				return TRUE;
-		}
-	}
-	return FALSE;
-}
-
 
 /**
  * colrow_state_list_foreach:
@@ -637,19 +591,19 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 			if (is_cols) {
 				rles->state.size_pts = sheet_col_get_default_size_pts (sheet);
 				sheet_col_set_default_size_pixels (sheet, new_size);
-				col_row_collection_foreach (&sheet->cols, 0, gnm_sheet_get_last_col (sheet),
+				sheet_colrow_foreach (sheet, TRUE, 0, -1,
 					&cb_set_colrow_size, &closure);
 			} else {
 				rles->state.size_pts = sheet_row_get_default_size_pts (sheet);
 				sheet_row_set_default_size_pixels (sheet, new_size);
-				col_row_collection_foreach (&sheet->rows, 0, gnm_sheet_get_last_row (sheet),
+				sheet_colrow_foreach (sheet, FALSE, 0, -1,
 					&cb_set_colrow_size, &closure);
 			}
 
 			/* force a re-render of cells with expanding formats */
 			if (is_cols)
-				sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
-					0, 0, gnm_sheet_get_last_col (sheet), gnm_sheet_get_last_row (sheet),
+				sheet_foreach_cell_in_region (sheet, CELL_ITER_IGNORE_BLANK,
+							      0, 0, -1, -1,
 					(CellIterFunc) &cb_clear_variable_width_content, NULL);
 
 			/* Result is a magic 'default' record + >= 1 normal */
@@ -658,8 +612,8 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 
 		if (is_cols) {
 			/* force a re-render of cells with expanding formats */
-			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
-				index->first, 0, index->last, gnm_sheet_get_last_row (sheet),
+			sheet_foreach_cell_in_region (sheet, CELL_ITER_IGNORE_BLANK,
+				index->first, 0, index->last, -1,
 				(CellIterFunc) &cb_clear_variable_width_content, NULL);
 
 			/* In order to properly reposition cell comments in
@@ -818,8 +772,8 @@ colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
 		colrow_set_states (sheet, is_cols, index->first, ptr->data);
 		/* force a re-render of cells with expanding formats */
 		if (is_cols)
-			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
-				index->first, 0, index->last, gnm_sheet_get_last_row (sheet),
+			sheet_foreach_cell_in_region (sheet, CELL_ITER_IGNORE_BLANK,
+				index->first, 0, index->last, -1,
 				(CellIterFunc) &cb_clear_variable_width_content, NULL);
 		selection = selection->prev;
 	}
@@ -936,7 +890,6 @@ colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
 {
 	struct cb_autofit data;
 	int a, b;
-	ColRowCollection *crs;
 	ColRowHandler handler;
 
 	data.sheet = sheet;
@@ -948,12 +901,10 @@ colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
 	if (is_cols) {
 		a = range->start.col;
 		b = range->end.col;
-		crs = &sheet->cols;
 		handler = cb_autofit_col;
 	} else {
 		a = range->start.row;
 		b = range->end.row;
-		crs = &sheet->rows;
 		handler = cb_autofit_row;
 	}
 
@@ -966,7 +917,7 @@ colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
 	   stuff that caches sub-computations see the whole thing instead
 	   of clearing between cells.  */
 	gnm_app_recalc_start ();
-	col_row_collection_foreach (crs, a, b, handler, &data);
+	sheet_colrow_foreach (sheet, is_cols, a, b, handler, &data);
 	gnm_app_recalc_finish ();
 }
 
@@ -980,11 +931,11 @@ colrow_autofit_col (Sheet *sheet, GnmRange *r)
 {
 	colrow_autofit (sheet, r, TRUE, TRUE,
 			TRUE, FALSE, NULL, NULL);
-	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
-				     r->start.col, 0,
-				     r->end.col, gnm_sheet_get_last_row (sheet),
-				     (CellIterFunc) &cb_clear_variable_width_content,
-				     NULL);
+	sheet_foreach_cell_in_region (sheet, CELL_ITER_IGNORE_BLANK,
+				      r->start.col, 0,
+				      r->end.col, -1,
+				      (CellIterFunc) &cb_clear_variable_width_content,
+				      NULL);
 }
 
 /**
@@ -1374,22 +1325,4 @@ colrow_get_global_outline (Sheet const *sheet, gboolean is_cols, int depth,
 
 	*show = g_slist_reverse (*show);
 	*hide = g_slist_reverse (*hide);
-}
-
-void
-col_row_collection_resize (ColRowCollection *infos, int size)
-{
-	int end_idx = COLROW_SEGMENT_INDEX (size);
-	int i = infos->info->len - 1;
-
-	while (i >= end_idx) {
-		ColRowSegment *segment = g_ptr_array_index (infos->info, i);
-		if (segment) {
-			g_free (segment);
-			g_ptr_array_index (infos->info, i) = NULL;
-		}
-		i--;
-	}
-
-	g_ptr_array_set_size (infos->info, end_idx);
 }

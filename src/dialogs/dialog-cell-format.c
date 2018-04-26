@@ -2542,9 +2542,9 @@ fmt_dialog_selection_type (SheetView *sv,
 
 	if ((state->conflicts & MSTYLE_FORMAT) == 0 &&
 	    go_format_is_general (gnm_style_get_format (state->style))) {
-		sheet_foreach_cell_in_range (state->sheet, CELL_ITER_IGNORE_BLANK,
-					     r.start.col, r.start.row,
-					     r.end.col,	  r.end.row,
+		sheet_foreach_cell_in_range (state->sheet,
+					     CELL_ITER_IGNORE_BLANK,
+					     &r,
 					     cb_check_cell_format,
 					     state);
 	}

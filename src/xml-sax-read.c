@@ -1974,7 +1974,7 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_eq (attrs[0], "Value"))
 			value_result = CXML2C (attrs[1]);
 		else if (attr_eq (attrs[0], "ValueFormat")) {
-			if (value_fmt) go_format_unref (value_fmt);
+			go_format_unref (value_fmt);
 			value_fmt = make_format (CXML2C (attrs[1]));
 		} else
 			unknown_attr (xin, attrs);

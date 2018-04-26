@@ -18,6 +18,13 @@ struct _GnmSheetSize {
 };
 GType gnm_sheet_size_get_type (void);
 
+struct _ColRowCollection {
+	int         max_used;
+	ColRowInfo  default_style;
+	GPtrArray * info;
+	int	    max_outline_level;
+};
+
 typedef struct _SheetPrivate SheetPrivate;
 GType gnm_sheet_type_get_type (void);
 #define GNM_SHEET_TYPE_TYPE (gnm_sheet_type_get_type ())
@@ -157,9 +164,13 @@ struct _GnmCellIter {
 	GnmParsePos  pp;
 	ColRowInfo  *ci, *ri;
 };
-GnmValue *sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
+GnmValue *sheet_foreach_cell_in_region (Sheet *sheet, CellIterFlags flags,
 				       int start_col, int start_row,
 				       int end_col, int end_row,
+				       CellIterFunc callback,
+				       gpointer     closure);
+GnmValue *sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
+				       GnmRange const *r,
 				       CellIterFunc callback,
 				       gpointer     closure);
 void	    sheet_cell_foreach	 (Sheet const *sheet,
@@ -207,6 +218,12 @@ ColRowInfo const *sheet_col_get_info	  (Sheet const *sheet, int col);
 ColRowInfo const *sheet_row_get_info	  (Sheet const *sheet, int row);
 ColRowInfo const *sheet_colrow_get_info	  (Sheet const *sheet,
 					   int colrow, gboolean is_cols);
+
+gboolean          sheet_colrow_foreach	   (Sheet const *sheet,
+					    gboolean is_cols,
+					    int first, int last,
+					    ColRowHandler callback,
+					    gpointer user_data);
 
 /*
  * Definitions of row/col size terminology :

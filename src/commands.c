@@ -863,9 +863,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 			GnmRange *r = l->data;
 			GnmValue *val =
 				sheet_foreach_cell_in_range
-				(sheet, CELL_ITER_ALL,
-				 r->start.col, r->start.row,
-				 r->end.col, r->end.row,
+				(sheet, CELL_ITER_ALL, r,
 				 (CellIterFunc) cmd_set_text_full_check_texpr,
 				 (gpointer) texpr);
 
@@ -934,9 +932,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 			GnmRange *r = l->data;
 			GnmValue *val =
 				sheet_foreach_cell_in_range
-				(sheet, CELL_ITER_ALL,
-				 r->start.col, r->start.row,
-				 r->end.col, r->end.row,
+				(sheet, CELL_ITER_ALL, r,
 				 (CellIterFunc) cmd_set_text_full_check_text,
 				 (gpointer) corrected);
 
@@ -957,9 +953,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 				GnmRange *r = l->data;
 				GnmValue *val =
 					sheet_foreach_cell_in_range
-					(sheet, CELL_ITER_IGNORE_BLANK,
-					 r->start.col, r->start.row,
-					 r->end.col, r->end.row,
+					(sheet, CELL_ITER_IGNORE_BLANK, r,
 					 (CellIterFunc) cmd_set_text_full_check_markup,
 					 (gpointer) markup);
 
@@ -1582,8 +1576,11 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 			filter = gnm_sheet_filter_intersect_rows
 				(sheet, data.r->start.row, data.r->end.row);
 			if (filter) {
-				col_row_collection_foreach (&sheet->rows, data.r->start.row, data.r->end.row,
-						(ColRowHandler) cmd_selection_clear_row_handler, &data);
+				sheet_colrow_foreach (sheet, FALSE,
+						      data.r->start.row,
+						      data.r->end.row,
+						      (ColRowHandler) cmd_selection_clear_row_handler,
+						      &data);
 				g_free (ranges->data);
 				ranges->data = NULL;
 			}
@@ -1990,11 +1987,10 @@ cmd_selection_format_toggle_font_style (WorkbookControl *wbc,
 			csftfs closure;
 			closure.undo = NULL;
 			closure.pt = pt;
-			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
-						     sr->range.start.col, sr->range.start.row,
-						     sr->range.end.col, sr->range.end.row,
-						     (CellIterFunc) cmd_selection_format_toggle_font_style_cb,
-						     &closure);
+			sheet_foreach_cell_in_range
+				(sheet, CELL_ITER_IGNORE_BLANK, &sr->range,
+				 (CellIterFunc) cmd_selection_format_toggle_font_style_cb,
+				 &closure);
 			redo = go_undo_combine (redo, closure.undo);
 		}
 	}
@@ -7157,9 +7153,7 @@ cmd_hyperlink_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		}
 
 		if (me->opt_content) {
-			sheet_foreach_cell_in_range (sheet, CELL_ITER_ALL,
-						     r->start.col, r->start.row,
-						     r->end.col, r->end.row,
+			sheet_foreach_cell_in_range (sheet, CELL_ITER_ALL, r,
 						     cb_hyperlink_set_text,
 						     me);
 		}

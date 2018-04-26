@@ -199,9 +199,7 @@ workbook_cmd_wrap_sort (WorkbookControl *wbc, int type)
 	fd_array = gnm_func_lookup_or_add_placeholder ("array");
 
 	sheet_foreach_cell_in_range
-		(sv->sheet, CELL_ITER_ALL,
-		 cl.r->start.col, cl.r->start.row,
-		 cl.r->end.col, cl.r->end.row,
+		(sv->sheet, CELL_ITER_ALL, cl.r,
 		 (CellIterFunc)&cb_get_cell_content, &cl);
 
 	cl.args = g_slist_reverse (cl.args);

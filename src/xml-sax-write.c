@@ -811,9 +811,8 @@ xml_write_cols_rows (GnmOutputXML *state, GnmCellRegion const *cr)
 				 (ColRowHandler)&xml_write_colrow_info,
 				 &closure);
 		else
-			col_row_collection_foreach
-				(is_cols ? &sheet->cols : &sheet->rows,
-				 0, colrow_max(is_cols, sheet) - 1,
+			sheet_colrow_foreach
+				(sheet, is_cols, 0, -1,
 				 (ColRowHandler)&xml_write_colrow_info,
 				 &closure);
 		xml_write_colrow_info (NULL, &closure); /* flush */
@@ -939,9 +938,10 @@ static void
 xml_write_cells (GnmOutputXML *state)
 {
 	gsf_xml_out_start_element (state->output, GNM "Cells");
-	sheet_foreach_cell_in_range ((Sheet *)state->sheet, CELL_ITER_IGNORE_NONEXISTENT,
-		0, 0, gnm_sheet_get_last_col (state->sheet), gnm_sheet_get_last_row (state->sheet),
-		(CellIterFunc) cb_write_cell, state);
+	sheet_foreach_cell_in_region ((Sheet *)state->sheet,
+				      CELL_ITER_IGNORE_NONEXISTENT,
+				      0, 0, -1, -1,
+				      (CellIterFunc) cb_write_cell, state);
 	gsf_xml_out_end_element (state->output); /* </gnm:Cells> */
 }
 

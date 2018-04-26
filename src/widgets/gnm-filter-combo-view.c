@@ -208,14 +208,15 @@ fcombo_create_list (SheetObject *so,
 			if (i != field_num)
 				gnm_filter_combo_apply (g_ptr_array_index (filter->fields, i),
 							filtered_sheet);
-		sheet_foreach_cell_in_range (filtered_sheet, CELL_ITER_IGNORE_HIDDEN,
-			r.start.col, r.start.row, r.end.col, r.end.row,
-			(CellIterFunc)&cb_collect_content, &uc);
+		sheet_foreach_cell_in_range (filtered_sheet,
+					     CELL_ITER_IGNORE_HIDDEN,
+					     &r,
+					     (CellIterFunc)&cb_collect_content, &uc);
 		g_object_unref (filtered_sheet);
 	} else
 		sheet_foreach_cell_in_range (filter->sheet, CELL_ITER_ALL,
-			r.start.col, r.start.row, r.end.col, r.end.row,
-			(CellIterFunc)&cb_collect_content, &uc);
+					     &r,
+					     (CellIterFunc)&cb_collect_content, &uc);
 
 	g_hash_table_foreach (uc.hash, (GHFunc)cb_hash_domain, sorted);
 	g_ptr_array_sort (sorted, value_cmp);
