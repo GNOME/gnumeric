@@ -1,5 +1,3 @@
-/* vim: set sw=8: */
-
 /*
  * sheet-control.c:
  *
@@ -33,7 +31,7 @@ void sc_ ## func arglist				        \
 {								\
 	SheetControlClass *sc_class;			        \
 								\
-	g_return_if_fail (GNM_IS_SC (sc));		\
+	g_return_if_fail (GNM_IS_SHEET_CONTROL (sc));		\
 								\
 	sc_class = SC_CLASS (sc);				\
 	if (sc_class->handle != NULL)				\
@@ -49,7 +47,7 @@ static void
 sc_finalize (GObject *obj)
 {
 	/* Commented out until needed */
-	/* SheetControl *sc = GNM_SC (obj); */
+	/* SheetControl *sc = GNM_SHEET_CONTROL (obj); */
 	parent_class->finalize (obj);
 }
 
@@ -67,12 +65,12 @@ GSF_CLASS (SheetControl, sheet_control,
  * sc_wbc:
  * @sc: #SheetControl
  *
- * Returns: (transfer none): the workbook control.
+ * Returns: (transfer none) (nullable): the workbook control.
  **/
 WorkbookControl *
 sc_wbc (SheetControl const *sc)
 {
-	g_return_val_if_fail (GNM_IS_SC (sc), NULL);
+	g_return_val_if_fail (GNM_IS_SHEET_CONTROL (sc), NULL);
 	return sc->wbc;
 }
 
@@ -80,12 +78,12 @@ sc_wbc (SheetControl const *sc)
  * sc_sheet:
  * @sc: #SheetControl
  *
- * Returns: (transfer none): the sheet.
+ * Returns: (transfer none) (nullable): the sheet.
  **/
 Sheet *
 sc_sheet (SheetControl const *sc)
 {
-	g_return_val_if_fail (GNM_IS_SC (sc), NULL);
+	g_return_val_if_fail (GNM_IS_SHEET_CONTROL (sc), NULL);
 	return sc->view ? sc->view->sheet : NULL;
 }
 
@@ -93,12 +91,12 @@ sc_sheet (SheetControl const *sc)
  * sc_view:
  * @sc: #SheetControl
  *
- * Returns: (transfer none): the sheet view.
+ * Returns: (transfer none) (nullable): the sheet view.
  **/
 SheetView *
 sc_view (SheetControl const *sc)
 {
-	g_return_val_if_fail (GNM_IS_SC (sc), NULL);
+	g_return_val_if_fail (GNM_IS_SHEET_CONTROL (sc), NULL);
 	return sc->view;
 }
 
@@ -137,5 +135,3 @@ SC_VIRTUAL (object_create_view,	(SheetControl *sc, SheetObject *so), (sc, so))
 SC_VIRTUAL (scale_changed,	(SheetControl *sc), (sc))
 
 SC_VIRTUAL (show_im_tooltip,	(SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos), (sc, im, pos))
-
-

@@ -156,27 +156,22 @@ void
 gnm_sheet_view_attach_control (SheetView *sv, SheetControl *sc)
 {
 	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
-	g_return_if_fail (GNM_IS_SC (sc));
+	g_return_if_fail (GNM_IS_SHEET_CONTROL (sc));
 	g_return_if_fail (sc->view == NULL);
 
-	if (sv->controls == NULL)
-		sv->controls = g_ptr_array_new ();
 	g_ptr_array_add (sv->controls, sc);
 	sc->view  = sv;
 	sv_init_sc (sv, sc);
 }
 
 void
-gnm_sheet_view_detach_control (SheetControl *sc)
+gnm_sheet_view_detach_control (SheetView *sv, SheetControl *sc)
 {
-	g_return_if_fail (GNM_IS_SC (sc));
-	g_return_if_fail (GNM_IS_SHEET_VIEW (sc->view));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
+	g_return_if_fail (GNM_IS_SHEET_CONTROL (sc));
+	g_return_if_fail (sv == sc->view);
 
-	g_ptr_array_remove (sc->view->controls, sc);
-	if (sc->view->controls->len == 0) {
-		g_ptr_array_free (sc->view->controls, TRUE);
-		sc->view->controls = NULL;
-	}
+	g_ptr_array_remove (sv->controls, sc);
 	sc->view = NULL;
 }
 
@@ -214,17 +209,24 @@ gnm_sheet_view_weak_unref (SheetView **ptr)
 }
 
 static void
+sv_finalize (GObject *object)
+{
+	SheetView *sv = GNM_SHEET_VIEW (object);
+	g_ptr_array_free (sv->controls, TRUE);
+	parent_class->finalize (object);
+}
+
+static void
 sv_real_dispose (GObject *object)
 {
 	SheetView *sv = GNM_SHEET_VIEW (object);
 
-	if (sv->controls != NULL) {
-		SHEET_VIEW_FOREACH_CONTROL (sv, control, {
-			gnm_sheet_view_detach_control (control);
-			g_object_unref (control);
-		});
-		if (sv->controls != NULL)
-			g_warning ("Unexpected left-over controls");
+	while (sv->controls->len > 0) {
+		SheetControl *control =
+			g_ptr_array_index (sv->controls,
+					   sv->controls->len - 10);
+		gnm_sheet_view_detach_control (sv, control);
+		g_object_unref (control);
 	}
 
 	if (sv->sheet) {
@@ -255,6 +257,7 @@ gnm_sheet_view_class_init (GObjectClass *klass)
 
 	parent_class = g_type_class_peek_parent (klass);
 	klass->dispose = sv_real_dispose;
+	klass->finalize = sv_finalize;
 }
 
 static void
@@ -282,6 +285,8 @@ gnm_sheet_view_init (GObject *object)
 	sv->selection_mode = GNM_SELECTION_MODE_ADD;
 	sv->selections_simplified = NULL;
 	sv_selection_add_pos (sv, 0, 0, GNM_SELECTION_MODE_ADD);
+
+	sv->controls = g_ptr_array_new ();
 }
 
 GSF_CLASS (SheetView, gnm_sheet_view,

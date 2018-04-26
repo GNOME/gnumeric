@@ -1173,7 +1173,7 @@ static GNM_ACTION_DEF (cb_insert_image)
 	}
 }
 
-static GNM_ACTION_DEF (cb_insert_hyperlink)	{ dialog_hyperlink (wbcg, GNM_SC (wbcg_cur_scg (wbcg))); }
+static GNM_ACTION_DEF (cb_insert_hyperlink)	{ dialog_hyperlink (wbcg, GNM_SHEET_CONTROL (wbcg_cur_scg (wbcg))); }
 static GNM_ACTION_DEF (cb_formula_guru)		{ dialog_formula_guru (wbcg, NULL); }
 static GNM_ACTION_DEF (cb_insert_sort_ascending) { workbook_cmd_wrap_sort (GNM_WBC (wbcg), 1);}
 static GNM_ACTION_DEF (cb_insert_sort_descending){ workbook_cmd_wrap_sort (GNM_WBC (wbcg), 0);}

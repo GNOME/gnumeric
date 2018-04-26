@@ -2339,7 +2339,7 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 	if (scg) {
 		g_object_weak_ref (G_OBJECT (gee->scg),
 				   (GWeakNotify) cb_scg_destroy, gee);
-		gee->sheet = sc_sheet (GNM_SC (scg));
+		gee->sheet = sc_sheet (GNM_SHEET_CONTROL (scg));
 		parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
 		gee->wbcg = scg_wbcg (gee->scg);
 	} else
@@ -2657,7 +2657,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 		SheetControlGUI *scg = wbcg_cur_scg (gee->wbcg);
 		Rangesel const *rs = &gee->rangesel;
 		if (gee == wbcg_get_entry_logical (gee->wbcg) &&
-		    start_sel && sc_sheet (GNM_SC (scg)) == rs->ref.a.sheet) {
+		    start_sel && sc_sheet (GNM_SHEET_CONTROL (scg)) == rs->ref.a.sheet) {
 			scg_rangesel_bound (scg,
 				rs->ref.a.col, rs->ref.a.row,
 				rs->ref.b.col, rs->ref.b.row);

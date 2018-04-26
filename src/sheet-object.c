@@ -1344,8 +1344,6 @@ sheet_object_direction_set (SheetObject *so, gdouble const *coords)
  *
  * Returns: %TRUE if we should draw the object as we are laying it out on
  * an sheet. If %FALSE we draw a rectangle where the object is going to go
- *
- * Return Value:
  **/
 gboolean
 sheet_object_rubber_band_directly (G_GNUC_UNUSED SheetObject const *so)
@@ -1519,7 +1517,7 @@ cb_so_menu_activate (GObject *menu, GocItem *view)
 		if (data == NULL)
 			data = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 
-		(a->func) (so, GNM_SC (data));
+		(a->func) (so, GNM_SHEET_CONTROL (data));
 	}
 }
 
@@ -1646,7 +1644,7 @@ static gboolean
 sheet_object_view_button2_pressed (GocItem *item, int button, double x, double y)
 {
 	if (button == 1 && !GNM_IS_PANE (item->canvas)) {
-		SheetControl *sc = GNM_SC (g_object_get_data (G_OBJECT (item->canvas), "sheet-control"));
+		SheetControl *sc = GNM_SHEET_CONTROL (g_object_get_data (G_OBJECT (item->canvas), "sheet-control"));
 		SheetObject *so = (SheetObject *) g_object_get_qdata (G_OBJECT (item), sov_so_quark);
 
 		if (sc && sheet_object_can_edit (so))

@@ -74,7 +74,7 @@ typedef GObjectClass SheetViewClass;
 GType	      gnm_sheet_view_get_type (void);
 SheetView    *gnm_sheet_view_new	  (Sheet *sheet, WorkbookView *wbv);
 void	      gnm_sheet_view_attach_control  (SheetView *sv, SheetControl *sc);
-void	      gnm_sheet_view_detach_control  (SheetControl *sc);
+void	      gnm_sheet_view_detach_control  (SheetView *sv, SheetControl *sc);
 void	      gnm_sheet_view_weak_ref	  (SheetView *sv, SheetView **ptr);
 void	      gnm_sheet_view_weak_unref	  (SheetView **ptr);
 void	      gnm_sheet_view_update	  (SheetView *sv);
@@ -123,16 +123,15 @@ void	 gnm_sheet_view_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 				 gboolean is_insert, int start, int count);
 void	 gnm_sheet_view_set_initial_top_left(SheetView *sv, int col, int row);
 
-#define SHEET_VIEW_FOREACH_CONTROL(sv, control, code)				\
-do {										\
-	int j;									\
-	GPtrArray *controls = (sv)->controls;					\
-	if (controls != NULL) /* Reverse is important during destruction */	\
-		for (j = controls->len; j-- > 0 ;) {				\
-			SheetControl *control =					\
-				g_ptr_array_index (controls, j);		\
-			code							\
-		}								\
+#define SHEET_VIEW_FOREACH_CONTROL(sv, control, code)		\
+do {								\
+	int ctrlno;						\
+	GPtrArray *controls = (sv)->controls;			\
+	for (ctrlno = controls->len; ctrlno-- > 0 ;) {		\
+		SheetControl *control =				\
+			g_ptr_array_index (controls, ctrlno);	\
+		code						\
+	}							\
 } while (0)
 
 G_END_DECLS

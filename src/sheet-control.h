@@ -7,9 +7,9 @@
 
 G_BEGIN_DECLS
 
-#define GNM_SC_TYPE	(sheet_control_get_type ())
-#define GNM_SC(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_SC_TYPE, SheetControl))
-#define GNM_IS_SC(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SC_TYPE))
+#define GNM_SHEET_CONTROL_TYPE	(sheet_control_get_type ())
+#define GNM_SHEET_CONTROL(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_SHEET_CONTROL_TYPE, SheetControl))
+#define GNM_IS_SHEET_CONTROL(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SHEET_CONTROL_TYPE))
 
 /* Lifecycle */
 GType sheet_control_get_type	(void);

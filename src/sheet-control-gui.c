@@ -1554,7 +1554,7 @@ cb_canvas_resize (GtkWidget *w, G_GNUC_UNUSED GtkAllocation *allocation,
 static gboolean
 post_create_cb (SheetControlGUI *scg)
 {
-	Sheet *sheet = sc_sheet (GNM_SC (scg));
+	Sheet *sheet = sc_sheet (GNM_SHEET_CONTROL (scg));
 	if (sheet->sheet_objects)
 		scg_object_select (scg, (SheetObject *) sheet->sheet_objects->data);
 	return FALSE;
@@ -1755,7 +1755,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			G_CALLBACK (cb_table_destroy), G_OBJECT (scg),
 			G_CONNECT_SWAPPED);
 
-		gnm_sheet_view_attach_control (sv, GNM_SC (scg));
+		gnm_sheet_view_attach_control (sv, GNM_SHEET_CONTROL (scg));
 
 		g_object_connect (G_OBJECT (sheet),
 			 "swapped_signal::notify::text-is-rtl", cb_scg_direction_changed, scg,
@@ -1790,7 +1790,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			g_signal_connect (G_OBJECT (scg->vs), "key-press-event",
 			                  G_CALLBACK (sheet_object_key_pressed), scg);
 		}
-		gnm_sheet_view_attach_control (sv, GNM_SC (scg));
+		gnm_sheet_view_attach_control (sv, GNM_SHEET_CONTROL (scg));
 		if (scg->vs) {
 			g_object_set_data (G_OBJECT (scg->vs), "sheet-control", scg);
 			if (sheet->sheet_objects) {
@@ -1897,7 +1897,7 @@ scg_finalize (GObject *object)
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_redraw_resize, scg);
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_sheet_resized, scg);
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_direction_changed, scg);
-		gnm_sheet_view_detach_control (sc);
+		gnm_sheet_view_detach_control (sc->view, sc);
 	}
 
 	if (scg->grid) {
@@ -2655,7 +2655,7 @@ scg_object_select (SheetControlGUI *scg, SheetObject *so)
 		wbcg_insert_object_clear (scg->wbcg);
 		scg_cursor_visible (scg, FALSE);
 		scg_set_display_cursor (scg);
-		scg_unant (GNM_SC (scg));
+		scg_unant (GNM_SHEET_CONTROL (scg));
 
 		scg->selected_objects = g_hash_table_new_full (
 			g_direct_hash, g_direct_equal,
@@ -3979,7 +3979,7 @@ scg_class_init (GObjectClass *object_class)
 }
 
 GSF_CLASS (SheetControlGUI, sheet_control_gui,
-	   scg_class_init, scg_init, GNM_SC_TYPE)
+	   scg_class_init, scg_init, GNM_SHEET_CONTROL_TYPE)
 
 static gint
 cb_scg_queued_movement (SheetControlGUI *scg)
@@ -4534,7 +4534,7 @@ scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
 		gtk_selection_data_set (selection_data, target,
 					8, (void *)scg, sizeof (scg));
 	else if (strcmp (target_name, "application/x-gnumeric") == 0)
-		scg_drag_send_clipboard_objects (GNM_SC (scg),
+		scg_drag_send_clipboard_objects (GNM_SHEET_CONTROL (scg),
 			selection_data, objects);
 	else if (strcmp (target_name, "application/x-goffice-graph") == 0)
 		scg_drag_send_graph (scg, selection_data, objects, target_name);

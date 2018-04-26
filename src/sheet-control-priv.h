@@ -39,7 +39,7 @@ typedef struct {
 					 GnmInputMsg *im, GnmCellPos *pos);
 } SheetControlClass;
 
-#define SHEET_CONTROL_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SC_TYPE, SheetControlClass))
+#define SHEET_CONTROL_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SHEET_CONTROL_TYPE, SheetControlClass))
 
 G_END_DECLS
 

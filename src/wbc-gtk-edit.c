@@ -1044,7 +1044,7 @@ wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
 			scg_object_unselect (scg, NULL);
 			scg_cursor_visible (scg, FALSE);
 			scg_set_display_cursor (scg);
-			sc_unant (GNM_SC (scg));
+			sc_unant (GNM_SHEET_CONTROL (scg));
 		}
 	}
 	/* we can't set wbcg->new_object before now because if one sheet has a
