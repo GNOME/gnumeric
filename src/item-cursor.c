@@ -761,7 +761,7 @@ item_cursor_do_action (GnmItemCursor *ic, ActionType action)
 
 	switch (action) {
 	case ACTION_COPY_CELLS:
-		if (!sv_selection_copy (sv, wbc))
+		if (!gnm_sheet_view_selection_copy (sv, wbc))
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,
@@ -769,7 +769,7 @@ item_cursor_do_action (GnmItemCursor *ic, ActionType action)
 		break;
 
 	case ACTION_MOVE_CELLS:
-		if (!sv_selection_cut (sv, wbc))
+		if (!gnm_sheet_view_selection_cut (sv, wbc))
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,
@@ -777,7 +777,7 @@ item_cursor_do_action (GnmItemCursor *ic, ActionType action)
 		break;
 
 	case ACTION_COPY_FORMATS:
-		if (!sv_selection_copy (sv, wbc))
+		if (!gnm_sheet_view_selection_copy (sv, wbc))
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,
@@ -785,7 +785,7 @@ item_cursor_do_action (GnmItemCursor *ic, ActionType action)
 		break;
 
 	case ACTION_COPY_VALUES:
-		if (!sv_selection_copy (sv, wbc))
+		if (!gnm_sheet_view_selection_copy (sv, wbc))
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,

@@ -197,7 +197,7 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 
 	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 
-	new_view = sheet_view_new (new_sheet, wbv);
+	new_view = gnm_sheet_view_new (new_sheet, wbv);
 
 	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 		wb_control_sheet_add (control, new_view););
@@ -393,7 +393,7 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 		char const *sel_descr = buffer;
 		GnmRange const *r, *m;
 
-		g_return_if_fail (GNM_IS_SV (sv));
+		g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 		g_return_if_fail (sv->selections);
 
 		r = selection_first_range (sv, NULL, NULL);

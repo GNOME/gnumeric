@@ -811,7 +811,7 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 		options |= 0x0002;
 	if (!sheet->hide_col_header || !sheet->hide_row_header)
 		options |= 0x0004;
-	if (sv_is_frozen (sv))
+	if (gnm_sheet_view_is_frozen (sv))
 		options |= 0x0108;
 	if (!sheet->hide_zero)
 		options |= 0x0010;
@@ -851,7 +851,7 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 	style_color_unref (sheet_auto);
 	style_color_unref (default_auto);
 
-	if (sv_is_frozen (sv)) {
+	if (gnm_sheet_view_is_frozen (sv)) {
 		data = ms_biff_put_len_next (bp, BIFF_PANE, 10);
 
 		if (sv->unfrozen_top_left.col > 0)

@@ -438,7 +438,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			/* Redraw the cell contents in case there was a span */
 			GnmRange tmp; tmp.start = tmp.end = sv->edit_pos;
 			sheet_range_bounding_box (sv->sheet, &tmp);
-			sv_redraw_range (wb_control_cur_sheet_view (wbc), &tmp);
+			gnm_sheet_view_redraw_range (wb_control_cur_sheet_view (wbc), &tmp);
 		}
 
 		/* Reload the entry widget with the original contents */

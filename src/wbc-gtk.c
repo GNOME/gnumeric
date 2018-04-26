@@ -1596,18 +1596,18 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	if (MS_FREEZE_VS_THAW & flags) {
 		/* Cheat and use the same accelerator for both states because
 		 * we don't reset it when the label changes */
-		char const* label = sv_is_frozen (sv)
+		char const* label = gnm_sheet_view_is_frozen (sv)
 			? _("Un_freeze Panes")
 			: _("_Freeze Panes");
-		char const *new_tip = sv_is_frozen (sv)
+		char const *new_tip = gnm_sheet_view_is_frozen (sv)
 			? _("Unfreeze the top left of the sheet")
 			: _("Freeze the top left of the sheet");
 		wbc_gtk_set_action_label (wbcg, "ViewFreezeThawPanes", NULL, label, new_tip);
 	}
 
 	if (MS_ADD_VS_REMOVE_FILTER & flags) {
-		gboolean const has_filter = (NULL != sv_editpos_in_filter (sv));
-		GnmFilter *f = sv_selection_intersects_filter_rows (sv);
+		gboolean const has_filter = (NULL != gnm_sheet_view_editpos_in_filter (sv));
+		GnmFilter *f = gnm_sheet_view_selection_intersects_filter_rows (sv);
 		char const* label;
 		char const *new_tip;
 		gboolean active = TRUE;
@@ -1615,7 +1615,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 
 		if ((!has_filter) && (NULL != f)) {
 			gchar *nlabel = NULL;
-			if (NULL != (r = sv_selection_extends_filter (sv, f))) {
+			if (NULL != (r = gnm_sheet_view_selection_extends_filter (sv, f))) {
 				active = TRUE;
 				nlabel = g_strdup_printf
 					(_("Extend _Auto Filter to %s"),
@@ -1722,7 +1722,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 						  N_("Repeat Export"), N_("Repeat the last data export"));
 	}
 	{
-		gboolean const has_slicer = (NULL != sv_editpos_in_slicer (sv));
+		gboolean const has_slicer = (NULL != gnm_sheet_view_editpos_in_slicer (sv));
 		char const* label = has_slicer
 			? _("Remove _Data Slicer")
 			: _("Create _Data Slicer");

@@ -385,7 +385,7 @@ scg_resize (SheetControlGUI *scg, G_GNUC_UNUSED gboolean force_scroll)
 				 scg->pane[0]->row.item, FALSE,
 				 -1, btn_h, scg->row_group.buttons, scg->row_group.button_box);
 
-	if (scg->active_panes != 1 && sv_is_frozen (scg_view (scg))) {
+	if (scg->active_panes != 1 && gnm_sheet_view_is_frozen (scg_view (scg))) {
 		GnmCellPos const *tl = &scg_view (scg)->frozen_top_left;
 		GnmCellPos const *br = &scg_view (scg)->unfrozen_top_left;
 		int const l = scg_colrow_distance_get (scg, TRUE,
@@ -521,7 +521,7 @@ scg_scrollbar_config_real (SheetControl const *sc)
 		gnm_adjustment_configure
 			(va,
 			 pane->first.row,
-			 sv_is_frozen (sv) ? sv->unfrozen_top_left.row : 0,
+			 gnm_sheet_view_is_frozen (sv) ? sv->unfrozen_top_left.row : 0,
 			 max_row + 1,
 			 1,
 			 MAX (gtk_adjustment_get_page_size (va) - 3.0, 1.0),
@@ -534,7 +534,7 @@ scg_scrollbar_config_real (SheetControl const *sc)
 		gnm_adjustment_configure
 			(ha,
 			 pane->first.col,
-			 sv_is_frozen (sv) ? sv->unfrozen_top_left.col : 0,
+			 gnm_sheet_view_is_frozen (sv) ? sv->unfrozen_top_left.col : 0,
 			 max_col + 1,
 			 1,
 			 MAX (gtk_adjustment_get_page_size (ha) - 3.0, 1.0),
@@ -1168,10 +1168,10 @@ scg_set_panes (SheetControl *sc)
 {
 	SheetControlGUI *scg = (SheetControlGUI *) sc;
 	SheetView	*sv = sc->view;
-	gboolean const being_frozen = sv_is_frozen (sv);
+	gboolean const being_frozen = gnm_sheet_view_is_frozen (sv);
 	GocDirection direction = (sv_sheet (sv)->text_is_rtl)? GOC_DIRECTION_RTL: GOC_DIRECTION_LTR;
 
-	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 
 	if (!scg->pane[0])
 		return;
@@ -1440,21 +1440,21 @@ resize_pane_finish (SheetControlGUI *scg, GtkPaned *p)
 #endif
 	pane = resize_pane_pos (scg, p, &colrow, &guide_pos);
 
-	if (sv_is_frozen (sv)) {
+	if (gnm_sheet_view_is_frozen (sv)) {
 		frozen_tl   = sv->frozen_top_left;
 		unfrozen_tl = sv->unfrozen_top_left;
 	} else
 		frozen_tl = pane->first;
 	if (p == scg->hpane) {
 		unfrozen_tl.col = colrow;
-		if (!sv_is_frozen (sv))
+		if (!gnm_sheet_view_is_frozen (sv))
 			unfrozen_tl.row = frozen_tl.row = 0;
 	} else {
 		unfrozen_tl.row = colrow;
-		if (!sv_is_frozen (sv))
+		if (!gnm_sheet_view_is_frozen (sv))
 			unfrozen_tl.col = frozen_tl.col = 0;
 	}
-	sv_freeze_panes	(sv, &frozen_tl, &unfrozen_tl);
+	gnm_sheet_view_freeze_panes	(sv, &frozen_tl, &unfrozen_tl);
 
 	scg->pane_drag_handler = 0;
 	scg_size_guide_stop (scg);
@@ -1627,7 +1627,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 	GocDirection direction;
 	GdkRGBA cfore, cback;
 
-	g_return_val_if_fail (GNM_IS_SV (sv), NULL);
+	g_return_val_if_fail (GNM_IS_SHEET_VIEW (sv), NULL);
 
 	sheet = sv_sheet (sv);
 	direction = (sheet->text_is_rtl)? GOC_DIRECTION_RTL: GOC_DIRECTION_LTR;
@@ -1755,7 +1755,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			G_CALLBACK (cb_table_destroy), G_OBJECT (scg),
 			G_CONNECT_SWAPPED);
 
-		sv_attach_control (sv, GNM_SC (scg));
+		gnm_sheet_view_attach_control (sv, GNM_SC (scg));
 
 		g_object_connect (G_OBJECT (sheet),
 			 "swapped_signal::notify::text-is-rtl", cb_scg_direction_changed, scg,
@@ -1790,7 +1790,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			g_signal_connect (G_OBJECT (scg->vs), "key-press-event",
 			                  G_CALLBACK (sheet_object_key_pressed), scg);
 		}
-		sv_attach_control (sv, GNM_SC (scg));
+		gnm_sheet_view_attach_control (sv, GNM_SC (scg));
 		if (scg->vs) {
 			g_object_set_data (G_OBJECT (scg->vs), "sheet-control", scg);
 			if (sheet->sheet_objects) {
@@ -1897,7 +1897,7 @@ scg_finalize (GObject *object)
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_redraw_resize, scg);
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_sheet_resized, scg);
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_direction_changed, scg);
-		sv_detach_control (sc);
+		gnm_sheet_view_detach_control (sc);
 	}
 
 	if (scg->grid) {
@@ -2056,10 +2056,10 @@ context_menu_handler (GnmPopupMenuElement const *element,
 
 	switch (element->index) {
 	case CONTEXT_CUT:
-		sv_selection_cut (sv, wbc);
+		gnm_sheet_view_selection_cut (sv, wbc);
 		break;
 	case CONTEXT_COPY:
-		sv_selection_copy (sv, wbc);
+		gnm_sheet_view_selection_copy (sv, wbc);
 		break;
 	case CONTEXT_PASTE:
 		cmd_paste_to_selection (wbc, sv, PASTE_DEFAULT);
@@ -2462,7 +2462,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEvent *event,
 	range_init_cellpos (&rge, &sv->edit_pos);
 	has_link = (NULL != sheet_style_region_contains_link (sheet, &rge));
 
-	slicer = sv_editpos_in_slicer (scg_view (scg));
+	slicer = gnm_sheet_view_editpos_in_slicer (scg_view (scg));
 	/* FIXME: disabled for now */
 	if (0 && slicer) {
 		GODataSlicerField *dsf = gnm_sheet_slicer_field_header_at_pos (slicer, &sv->edit_pos);
@@ -3692,9 +3692,9 @@ scg_cursor_move (SheetControlGUI *scg, int n,
 			 step, jump_to_bound);
 
 	sv_selection_reset (sv);
-	sv_cursor_set (sv, &tmp,
+	gnm_sheet_view_cursor_set (sv, &tmp,
 		       tmp.col, tmp.row, tmp.col, tmp.row, NULL);
-	sv_make_cell_visible (sv, tmp.col, tmp.row, FALSE);
+	gnm_sheet_view_make_cell_visible (sv, tmp.col, tmp.row, FALSE);
 	sv_selection_add_pos (sv, tmp.col, tmp.row, GNM_SELECTION_MODE_ADD);
 }
 
@@ -3727,7 +3727,7 @@ scg_cursor_extend (SheetControlGUI *scg, int n,
 			n, jump_to_bound);
 
 	sv_selection_extend_to (sv, move.col, move.row);
-	sv_make_cell_visible (sv, visible.col, visible.row, FALSE);
+	gnm_sheet_view_make_cell_visible (sv, visible.col, visible.row, FALSE);
 }
 
 void

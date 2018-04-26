@@ -244,7 +244,7 @@ static GNM_ACTION_DEF (cb_file_print_area_show)
 		wb_control_sheet_focus (GNM_WBC (wbcg), sheet);
 		sv_selection_reset (sv);
 		sv_selection_add_range (sv, r);
-		sv_make_cell_visible (sv, r->start.col, r->start.row, FALSE);
+		gnm_sheet_view_make_cell_visible (sv, r->start.col, r->start.row, FALSE);
 		g_free (r);
 	}
 }
@@ -423,7 +423,7 @@ static GNM_ACTION_DEF (cb_edit_cut)
 			gnm_app_clipboard_cut_copy_obj (wbc, TRUE, sv,
 				go_hash_keys (scg->selected_objects));
 		else
-			sv_selection_cut (sv, wbc);
+			gnm_sheet_view_selection_cut (sv, wbc);
 	} else
 		gtk_editable_cut_clipboard (GTK_EDITABLE (wbcg_get_entry (wbcg)));
 }
@@ -438,7 +438,7 @@ static GNM_ACTION_DEF (cb_edit_copy)
 			gnm_app_clipboard_cut_copy_obj (wbc, FALSE, sv,
 				go_hash_keys (scg->selected_objects));
 		else
-			sv_selection_copy (sv, wbc);
+			gnm_sheet_view_selection_copy (sv, wbc);
 	} else
 		gtk_editable_copy_clipboard (GTK_EDITABLE (wbcg_get_entry (wbcg)));
 }
@@ -480,7 +480,7 @@ common_cell_goto (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 	sv_selection_set (sv, pos,
 		pos->col, pos->row,
 		pos->col, pos->row);
-	sv_make_cell_visible (sv, pos->col, pos->row, FALSE);
+	gnm_sheet_view_make_cell_visible (sv, pos->col, pos->row, FALSE);
 }
 
 static int
@@ -767,9 +767,9 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 		g_return_if_fail (unfrozen_tl.col > frozen_tl.col ||
 				  unfrozen_tl.row > frozen_tl.row);
 
-		sv_freeze_panes (sv, &frozen_tl, &unfrozen_tl);
+		gnm_sheet_view_freeze_panes (sv, &frozen_tl, &unfrozen_tl);
 	} else
-		sv_freeze_panes (sv, NULL, NULL);
+		gnm_sheet_view_freeze_panes (sv, NULL, NULL);
 }
 
 /****************************************************************************/

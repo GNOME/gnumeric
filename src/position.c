@@ -159,7 +159,7 @@ GnmEvalPos *
 eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv)
 {
 	g_return_val_if_fail (ep != NULL, NULL);
-	g_return_val_if_fail (GNM_IS_SV (sv), NULL);
+	g_return_val_if_fail (GNM_IS_SHEET_VIEW (sv), NULL);
 
 	return eval_pos_init (ep, sv_sheet (sv),
 		sv->edit_pos.col, sv->edit_pos.row);
@@ -332,7 +332,7 @@ parse_pos_init_evalpos (GnmParsePos *pp, GnmEvalPos const *ep)
 GnmParsePos *
 parse_pos_init_editpos (GnmParsePos *pp, SheetView const *sv)
 {
-	g_return_val_if_fail (GNM_IS_SV (sv), NULL);
+	g_return_val_if_fail (GNM_IS_SHEET_VIEW (sv), NULL);
 
 	return parse_pos_init (pp, NULL, sv_sheet (sv),
 		sv->edit_pos.col, sv->edit_pos.row);

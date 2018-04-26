@@ -11250,7 +11250,7 @@ odf_selection_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	sv_set_edit_pos (sheet_get_view (state->pos.sheet, state->wb_view), &state->pos.eval);
+	gnm_sheet_view_set_edit_pos (sheet_get_view (state->pos.sheet, state->wb_view), &state->pos.eval);
 }
 
 
@@ -11511,7 +11511,7 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 
 						sv_selection_reset (sv);
 						sv_selection_add_range (sv, &r);
-						sv_set_edit_pos
+						gnm_sheet_view_set_edit_pos
 							(sheet_get_view (sheet, state->wb_view),
 							 &pos);
 					}
@@ -11554,7 +11554,7 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 					GnmCellPos fpos = {0, 0};
 					pos.col = hsp;
 					pos.row = vsp;
-					sv_freeze_panes (sv, &fpos, &pos);
+					gnm_sheet_view_freeze_panes (sv, &fpos, &pos);
 				}
 
 				item = g_hash_table_lookup (hash, "PositionRight");
@@ -11568,7 +11568,7 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
 				pos_bottom = g_value_get_int (item);
 
-			sv_set_initial_top_left (sv, pos_left, pos_bottom);
+			gnm_sheet_view_set_initial_top_left (sv, pos_left, pos_bottom);
 		}
 	}
 }

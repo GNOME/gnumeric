@@ -1281,7 +1281,7 @@ xml_sax_selection_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	GnmCellPos const pos = state->cell;
 	state->cell.col = state->cell.row = -1;
-	sv_set_edit_pos (sheet_get_view (state->sheet, state->wb_view), &pos);
+	gnm_sheet_view_set_edit_pos (sheet_get_view (state->sheet, state->wb_view), &pos);
 }
 
 static void
@@ -1294,7 +1294,7 @@ xml_sax_sheet_layout (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml_sax_attr_cellpos (attrs, "TopLeft", &tmp, state->sheet))
-			sv_set_initial_top_left (
+			gnm_sheet_view_set_initial_top_left (
 				sheet_get_view (state->sheet, state->wb_view),
 				tmp.col, tmp.row);
 		else
@@ -1319,7 +1319,7 @@ xml_sax_sheet_freezepanes (GsfXMLIn *xin, xmlChar const **attrs)
 			unknown_attr (xin, attrs);
 
 	if (flags == 3)
-		sv_freeze_panes (sheet_get_view (state->sheet, state->wb_view),
+		gnm_sheet_view_freeze_panes (sheet_get_view (state->sheet, state->wb_view),
 			&frozen_tl, &unfrozen_tl);
 }
 

@@ -2887,10 +2887,10 @@ xlsx_CT_SheetView_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	/* until we import multiple views unfreeze just in case a previous view
 	 * had frozen */
-	sv_freeze_panes (state->sv, NULL, NULL);
+	gnm_sheet_view_freeze_panes (state->sv, NULL, NULL);
 
 	if (topLeft.col >= 0)
-		sv_set_initial_top_left (state->sv, topLeft.col, topLeft.row);
+		gnm_sheet_view_set_initial_top_left (state->sv, topLeft.col, topLeft.row);
 	g_object_set (state->sheet,
 		"text-is-rtl",		rightToLeft,
 		"display-formulas",	showFormulas,
@@ -2990,7 +2990,7 @@ xlsx_CT_Selection (GsfXMLIn *xin, xmlChar const **attrs)
 			sv_selection_add_range (state->sv, ptr->data);
 			g_free (ptr->data);
 		}
-		sv_set_edit_pos (state->sv, &edit_pos);
+		gnm_sheet_view_set_edit_pos (state->sv, &edit_pos);
 		g_slist_free (accum);
 	}
 }
@@ -3108,8 +3108,8 @@ xlsx_CT_Pane (GsfXMLIn *xin, xmlChar const **attrs)
 			unfrozen.row += ySplit;
 		else
 			topLeft.row = state->sv->initial_top_left.row;
-		sv_freeze_panes (state->sv, &frozen, &unfrozen);
-		sv_set_initial_top_left (state->sv, topLeft.col, topLeft.row);
+		gnm_sheet_view_freeze_panes (state->sv, &frozen, &unfrozen);
+		gnm_sheet_view_set_initial_top_left (state->sv, topLeft.col, topLeft.row);
 	}
 }
 

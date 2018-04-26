@@ -363,7 +363,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *kevent,
 		if (gnm_pane_guru_key (wbcg, event))
 			break;
 		if (state == GDK_CONTROL_MASK)
-			sv_selection_copy (sv, GNM_WBC (wbcg));
+			gnm_sheet_view_selection_copy (sv, GNM_WBC (wbcg));
 		else if (state == GDK_SHIFT_MASK)
 			cmd_paste_to_selection (GNM_WBC (wbcg), sv, PASTE_DEFAULT);
 		break;
@@ -394,7 +394,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *kevent,
 			break;
 		if (state == GDK_SHIFT_MASK) {
 			scg_mode_edit (scg);
-			sv_selection_cut (sv, GNM_WBC (wbcg));
+			gnm_sheet_view_selection_cut (sv, GNM_WBC (wbcg));
 		} else
 			cmd_selection_clear (GNM_WBC (wbcg), CLEAR_VALUES);
 		break;

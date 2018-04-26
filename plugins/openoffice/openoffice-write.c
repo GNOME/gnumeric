@@ -6200,7 +6200,7 @@ odf_write_ooo_settings (GnmOOExport *state)
 		odf_add_bool (state->xml, NULL, !sheet->hide_zero);
 		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 
-		if (sv_is_frozen (sv)) {
+		if (gnm_sheet_view_is_frozen (sv)) {
 			gsf_xml_out_start_element (state->xml, CONFIG "config-item");
 			gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "HorizontalSplitMode");
 			gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "short");

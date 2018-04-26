@@ -27,8 +27,6 @@ sstest
 sstest.exe
 ssdiff
 ssdiff.exe
-test-pango
-test-pango.exe
 GNOME_Gnumeric-gtk.xml
 libspreadsheet.def
 local.def

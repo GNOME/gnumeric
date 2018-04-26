@@ -1441,7 +1441,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 				/* invalidate, in case Enter direction changes */
 				if (is_enter)
 					sv->first_tab_col = -1;
-				sv_update (sv);
+				gnm_sheet_view_update (sv);
 			}
 		}
 		return TRUE;

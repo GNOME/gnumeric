@@ -136,7 +136,7 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 	SHEET_FOREACH_VIEW (sheet, sv, {
 		sv->reposition_selection = TRUE;
 		if (range_contains (&r2, sv->edit_pos.col, sv->edit_pos.row))
-			sv_set_edit_pos (sv, &r2.start);
+			gnm_sheet_view_set_edit_pos (sv, &r2.start);
 	});
 
 	comment = sheet_get_comment (sheet, &r2.start);

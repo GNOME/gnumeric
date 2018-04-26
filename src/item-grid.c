@@ -991,7 +991,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 					      (already_selected && (event->button.state & GDK_CONTROL_MASK)) ?
 					      GNM_SELECTION_MODE_REMOVE :
 					      GNM_SELECTION_MODE_ADD);
-			sv_make_cell_visible (sv, pos.col, pos.row, FALSE);
+			gnm_sheet_view_make_cell_visible (sv, pos.col, pos.row, FALSE);
 		} else sv_selection_extend_to (sv, pos.col, pos.row);
 		sheet_update (sheet);
 	}

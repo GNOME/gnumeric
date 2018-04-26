@@ -295,10 +295,10 @@ cursor_change (GtkTreeView *tree_view, DialogState *dd)
 		if (wb_control_cur_sheet (wbc) != item->ep.sheet)
 			wb_view_sheet_focus (wbv, item->ep.sheet);
 		sv = wb_view_cur_sheet_view (wbv);
-		sv_set_edit_pos (sv, &item->ep.eval);
+		gnm_sheet_view_set_edit_pos (sv, &item->ep.eval);
 		sv_selection_set (sv, &item->ep.eval, col, row, col, row);
-		sv_make_cell_visible (sv, col, row, FALSE);
-		sv_update (sv);
+		gnm_sheet_view_make_cell_visible (sv, col, row, FALSE);
+		gnm_sheet_view_update (sv);
 	}
 }
 

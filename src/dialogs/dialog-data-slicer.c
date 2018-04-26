@@ -237,7 +237,7 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 
 	state->dialog	= go_gtk_builder_get_widget (gui, "dialog_data_slicer");
 	state->notebook = go_gtk_builder_get_widget (gui, "notebook");
-	state->slicer	= create ? NULL : sv_editpos_in_slicer (state->sv);
+	state->slicer	= create ? NULL : gnm_sheet_view_editpos_in_slicer (state->sv);
 	state->cache	= NULL;
 	state->source	= NULL;
 

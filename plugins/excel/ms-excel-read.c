@@ -5090,8 +5090,8 @@ excel_read_PANE (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 			unfrozen.row += y;
 		else
 			rwTop = sv->initial_top_left.row;
-		sv_freeze_panes (sv, &frozen, &unfrozen);
-		sv_set_initial_top_left (sv, colLeft, rwTop);
+		gnm_sheet_view_freeze_panes (sv, &frozen, &unfrozen);
+		gnm_sheet_view_set_initial_top_left (sv, colLeft, rwTop);
 	} else {
 		g_warning ("EXCEL : no support for split panes yet (%s)", esheet->sheet->name_unquoted);
 	}
@@ -5178,11 +5178,11 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 
 	/* until we import multiple views unfreeze just in case a previous view
 	 * had frozen */
-	sv_freeze_panes (sv, NULL, NULL);
+	gnm_sheet_view_freeze_panes (sv, NULL, NULL);
 
 	/* NOTE : This is top left of screen even if frozen, modify when
 	 *        we read PANE */
-	sv_set_initial_top_left (sv, left_col, top_row);
+	gnm_sheet_view_set_initial_top_left (sv, left_col, top_row);
 }
 
 static void

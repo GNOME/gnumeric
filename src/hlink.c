@@ -284,7 +284,7 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WBCGtk *wbcg)
 	sv_selection_set (sv, &sr.range.start,
 			  sr.range.start.col, sr.range.start.row,
 			  sr.range.end.col, sr.range.end.row);
-	sv_make_cell_visible (sv, sr.range.start.col, sr.range.start.row, FALSE);
+	gnm_sheet_view_make_cell_visible (sv, sr.range.start.col, sr.range.start.row, FALSE);
 	if (wbcg_cur_sheet (wbcg) != sr.sheet)
 		wb_view_sheet_focus (wb_control_view (wbc), sr.sheet);
 

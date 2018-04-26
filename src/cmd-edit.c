@@ -146,7 +146,7 @@ sv_select_cur_depends (SheetView *sv)
 	GnmCell  *cur_cell, dummy;
 	GList *deps = NULL, *ptr = NULL;
 
-	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 
 	cur_cell = sheet_cell_get (sv->sheet,
 		sv->edit_pos.col, sv->edit_pos.row);
@@ -238,7 +238,7 @@ sv_select_cur_inputs (SheetView *sv)
 	GSList   *ranges, *ptr;
 	GnmEvalPos ep;
 
-	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 
 	cell = sheet_cell_get (sv->sheet,
 		sv->edit_pos.col, sv->edit_pos.row);

@@ -27,7 +27,6 @@ noinst_HEADERS = dead-kittens.h compilation.h gnm-i18n.h
 if WITH_GTK
   SUBDIRS += dialogs widgets
   bin_PROGRAMS += gnumeric
-  check_PROGRAMS += test-pango
 endif
 
 bin_PROGRAMS += ssconvert ssindex ssgrep ssdiff
@@ -387,11 +386,6 @@ ssdiff_LDADD   = $(gnumeric_LDADD)
 ssdiff_LDFLAGS = -export-dynamic
 ssdiff_SOURCES =				\
 	ssdiff.c
-
-test_pango_LDADD   = $(gnumeric_LDADD)
-test_pango_LDFLAGS = -export-dynamic
-test_pango_SOURCES =				\
-	test-pango.c
 
 if WITH_NATIVE_WIN32
     gnumeric_LDADD += gnumeric_rc.o

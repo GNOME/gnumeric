@@ -191,7 +191,7 @@ sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
 {
 	GSList *l;
 
-	g_return_val_if_fail (GNM_IS_SV (sv), FALSE);
+	g_return_val_if_fail (GNM_IS_SHEET_VIEW (sv), FALSE);
 
 	for (l = sv_selection_calc_simplification (sv);
 	     l != NULL; l = l->next) {
@@ -227,7 +227,7 @@ sv_is_full_colrow_selected (SheetView const *sv, gboolean is_cols, int index)
 	GSList *l;
 	gboolean found = FALSE;
 
-	g_return_val_if_fail (GNM_IS_SV (sv), FALSE);
+	g_return_val_if_fail (GNM_IS_SHEET_VIEW (sv), FALSE);
 
 	for (l = sv_selection_calc_simplification (sv);
 	     l != NULL; l = l->next){
@@ -262,7 +262,7 @@ sv_selection_col_type (SheetView const *sv, int col)
 	GnmRange const *sr;
 	int ret = COL_ROW_NO_SELECTION;
 
-	g_return_val_if_fail (GNM_IS_SV (sv), COL_ROW_NO_SELECTION);
+	g_return_val_if_fail (GNM_IS_SHEET_VIEW (sv), COL_ROW_NO_SELECTION);
 
 	if (sv->selections == NULL)
 		return COL_ROW_NO_SELECTION;
@@ -298,7 +298,7 @@ sv_selection_row_type (SheetView const *sv, int row)
 	GnmRange const *sr;
 	int ret = COL_ROW_NO_SELECTION;
 
-	g_return_val_if_fail (GNM_IS_SV (sv), COL_ROW_NO_SELECTION);
+	g_return_val_if_fail (GNM_IS_SHEET_VIEW (sv), COL_ROW_NO_SELECTION);
 
 	if (sv->selections == NULL)
 		return COL_ROW_NO_SELECTION;
@@ -364,7 +364,7 @@ sv_menu_enable_insert (SheetView *sv, gboolean col, gboolean row)
 {
 	int flags = 0;
 
-	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 
 	if (sv->enable_insert_cols != col) {
 		flags |= MS_INSERT_COLS;
@@ -403,7 +403,7 @@ selection_first_range (SheetView const *sv,
 	GnmRange const *r;
 	GSList *l;
 
-	g_return_val_if_fail (GNM_IS_SV (sv), NULL);
+	g_return_val_if_fail (GNM_IS_SHEET_VIEW (sv), NULL);
 
 	l = sv->selections;
 
@@ -500,13 +500,13 @@ sheet_selection_set_internal (SheetView *sv,
 	*ss = new_sel;
 
 	/* Set the cursor boundary */
-	sv_cursor_set (sv, edit,
+	gnm_sheet_view_cursor_set (sv, edit,
 		base_col, base_row,
 		move_col, move_row, ss);
 
 	if (just_add_it) {
-		sv_redraw_range	(sv, &new_sel);
-		sv_redraw_headers (sv, TRUE, TRUE, &new_sel);
+		gnm_sheet_view_redraw_range	(sv, &new_sel);
+		gnm_sheet_view_redraw_headers (sv, TRUE, TRUE, &new_sel);
 		goto set_menu_flags;
 	}
 
@@ -519,11 +519,11 @@ sheet_selection_set_internal (SheetView *sv,
 		ranges = range_fragment (&old_sel, &new_sel);
 
 		for (l = ranges->next; l; l = l->next)
-			sv_redraw_range	(sv, l->data);
+			gnm_sheet_view_redraw_range	(sv, l->data);
 		range_fragment_free (ranges);
 	} else {
-		sv_redraw_range (sv, &old_sel);
-		sv_redraw_range (sv, &new_sel);
+		gnm_sheet_view_redraw_range (sv, &old_sel);
+		gnm_sheet_view_redraw_range (sv, &new_sel);
 	}
 
 	/* Has the entire row been selected/unselected */
@@ -531,7 +531,7 @@ sheet_selection_set_internal (SheetView *sv,
 	     (old_sel.start.row == 0 && old_sel.end.row == gnm_sheet_get_last_row (sv->sheet)))
 	    || sv->selection_mode != GNM_SELECTION_MODE_ADD) {
 		GnmRange tmp = range_union (&new_sel, &old_sel);
-		sv_redraw_headers (sv, TRUE, FALSE, &tmp);
+		gnm_sheet_view_redraw_headers (sv, TRUE, FALSE, &tmp);
 	} else {
 		GnmRange tmp = new_sel;
 		int diff;
@@ -545,7 +545,7 @@ sheet_selection_set_internal (SheetView *sv,
 				tmp.end.col = old_sel.start.col;
 				tmp.start.col = new_sel.start.col;
 			}
-			sv_redraw_headers (sv, TRUE, FALSE, &tmp);
+			gnm_sheet_view_redraw_headers (sv, TRUE, FALSE, &tmp);
 		}
 		diff = new_sel.end.col - old_sel.end.col;
 		if (diff != 0) {
@@ -556,7 +556,7 @@ sheet_selection_set_internal (SheetView *sv,
 				tmp.end.col = old_sel.end.col;
 				tmp.start.col = new_sel.end.col;
 			}
-			sv_redraw_headers (sv, TRUE, FALSE, &tmp);
+			gnm_sheet_view_redraw_headers (sv, TRUE, FALSE, &tmp);
 		}
 	}
 
@@ -565,7 +565,7 @@ sheet_selection_set_internal (SheetView *sv,
 	     (old_sel.start.col == 0 && old_sel.end.col == gnm_sheet_get_last_col (sv->sheet)))
 	    || sv->selection_mode != GNM_SELECTION_MODE_ADD) {
 		GnmRange tmp = range_union (&new_sel, &old_sel);
-		sv_redraw_headers (sv, FALSE, TRUE, &tmp);
+		gnm_sheet_view_redraw_headers (sv, FALSE, TRUE, &tmp);
 	} else {
 		GnmRange tmp = new_sel;
 		int diff;
@@ -579,7 +579,7 @@ sheet_selection_set_internal (SheetView *sv,
 				tmp.end.row = old_sel.start.row;
 				tmp.start.row = new_sel.start.row;
 			}
-			sv_redraw_headers (sv, FALSE, TRUE, &tmp);
+			gnm_sheet_view_redraw_headers (sv, FALSE, TRUE, &tmp);
 		}
 
 		diff = new_sel.end.row - old_sel.end.row;
@@ -591,12 +591,12 @@ sheet_selection_set_internal (SheetView *sv,
 				tmp.end.row = old_sel.end.row;
 				tmp.start.row = new_sel.end.row;
 			}
-			sv_redraw_headers (sv, FALSE, TRUE, &tmp);
+			gnm_sheet_view_redraw_headers (sv, FALSE, TRUE, &tmp);
 		}
 	}
 
 set_menu_flags:
-	sv_flag_selection_change (sv);
+	gnm_sheet_view_flag_selection_change (sv);
 
 	/*
 	 * Now see if there is some selection which selects a
@@ -636,7 +636,7 @@ sv_selection_set (SheetView *sv, GnmCellPos const *edit,
 		  int base_col, int base_row,
 		  int move_col, int move_row)
 {
-	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 
 	sheet_selection_set_internal (sv, edit,
 		base_col, base_row,
@@ -688,7 +688,7 @@ sv_selection_add_full (SheetView *sv,
 	GnmRange *ss;
 	GnmCellPos edit;
 
-	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 	sv_selection_simplify (sv);
 
 	/* Create and prepend new selection */
@@ -761,7 +761,7 @@ sv_selection_reset (SheetView *sv)
 {
 	GSList *list, *tmp;
 
-	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 
 	/* Empty the sheets selection */
 	list = sv->selections;
@@ -771,8 +771,8 @@ sv_selection_reset (SheetView *sv)
 	/* Redraw the grid, & headers for each region */
 	for (tmp = list; tmp; tmp = tmp->next){
 		GnmRange *ss = tmp->data;
-		sv_redraw_range (sv, ss);
-		sv_redraw_headers (sv, TRUE, TRUE, ss);
+		gnm_sheet_view_redraw_range (sv, ss);
+		gnm_sheet_view_redraw_headers (sv, TRUE, TRUE, ss);
 		g_free (ss);
 	}
 
@@ -1094,7 +1094,7 @@ sv_selection_apply (SheetView *sv, SelectionApplyFunc const func,
 	GSList *l;
 	GSList *proposed = NULL;
 
-	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 
 	if (allow_intersection) {
 		for (l = sv_selection_calc_simplification (sv);
@@ -1154,7 +1154,7 @@ sv_selection_apply_in_order (SheetView *sv, SelectionApplyFunc const func,
 {
 	GSList *l, *reverse;
 
-	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 
 	reverse = g_slist_copy (sv_selection_calc_simplification (sv));
 	reverse = g_slist_reverse (reverse);
@@ -1202,7 +1202,7 @@ sv_selection_foreach (SheetView *sv,
 {
 	GSList *l;
 
-	g_return_val_if_fail (GNM_IS_SV (sv), FALSE);
+	g_return_val_if_fail (GNM_IS_SHEET_VIEW (sv), FALSE);
 
 	for (l = sv_selection_calc_simplification (sv); l != NULL; l = l->next) {
 		GnmRange *ss = l->data;
@@ -1339,7 +1339,7 @@ sv_selection_walk_step (SheetView *sv, gboolean forward, gboolean horizontal)
 	gboolean is_singleton = FALSE;
 	GSList *selections;
 
-	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 	g_return_if_fail (sv->selections != NULL);
 
 	selections = sv_selection_calc_simplification (sv);
@@ -1392,7 +1392,7 @@ sv_selection_walk_step (SheetView *sv, gboolean forward, gboolean horizontal)
 			sv_selection_set (sv, &destination,
 					  destination.col, destination.row,
 					  destination.col, destination.row);
-			sv_make_cell_visible (sv, sv->edit_pos.col,
+			gnm_sheet_view_make_cell_visible (sv, sv->edit_pos.col,
 					      sv->edit_pos.row, FALSE);
 			if (horizontal)
 				sv->first_tab_col = (first_tab_col < 0 || cur_col < first_tab_col) ? cur_col : first_tab_col;
@@ -1417,13 +1417,13 @@ sv_selection_walk_step (SheetView *sv, gboolean forward, gboolean horizontal)
 			destination = ss->end;
 		}
 		if (selections_count != 1)
-			sv_cursor_set (sv, &destination,
+			gnm_sheet_view_cursor_set (sv, &destination,
 				       ss->start.col, ss->start.row,
 				       ss->end.col, ss->end.row, NULL);
 	}
 
-	sv_set_edit_pos (sv, &destination);
-	sv_make_cell_visible (sv, destination.col, destination.row, FALSE);
+	gnm_sheet_view_set_edit_pos (sv, &destination);
+	gnm_sheet_view_make_cell_visible (sv, destination.col, destination.row, FALSE);
 }
 
 #include <goffice/goffice.h>

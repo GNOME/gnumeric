@@ -1303,7 +1303,7 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 			if (!any)
 				sv_selection_add_pos (sv, 0, 0,
 						      GNM_SELECTION_MODE_ADD);
-			sv_make_cell_visible (sv, vis.col, vis.row, FALSE);
+			gnm_sheet_view_make_cell_visible (sv, vis.col, vis.row, FALSE);
 		});
 
 	/* ---------------------------------------- */
@@ -1885,7 +1885,7 @@ void
 sheet_flag_status_update_cell (GnmCell const *cell)
 {
 	SHEET_FOREACH_VIEW (cell->base.sheet, sv,
-		sv_flag_status_update_pos (sv, &cell->pos););
+		gnm_sheet_view_flag_status_update_pos (sv, &cell->pos););
 }
 
 /**
@@ -1904,7 +1904,7 @@ void
 sheet_flag_status_update_range (Sheet const *sheet, GnmRange const *range)
 {
 	SHEET_FOREACH_VIEW (sheet, sv,
-		sv_flag_status_update_range (sv, range););
+		gnm_sheet_view_flag_status_update_range (sv, range););
 }
 
 /**
@@ -1918,7 +1918,7 @@ void
 sheet_flag_style_update_range (Sheet const *sheet, GnmRange const *range)
 {
 	SHEET_FOREACH_VIEW (sheet, sv,
-		sv_flag_style_update_range (sv, range););
+		gnm_sheet_view_flag_style_update_range (sv, range););
 }
 
 /**
@@ -2025,11 +2025,10 @@ sheet_update_only_grid (Sheet const *sheet)
 	if (p->reposition_objects.row < gnm_sheet_get_max_rows (sheet) ||
 	    p->reposition_objects.col < gnm_sheet_get_max_cols (sheet)) {
 		SHEET_FOREACH_VIEW (sheet, sv, {
-			if (!p->resize && sv_is_frozen (sv)) {
+			if (!p->resize && gnm_sheet_view_is_frozen (sv)) {
 				if (p->reposition_objects.col < sv->unfrozen_top_left.col ||
 				    p->reposition_objects.row < sv->unfrozen_top_left.row) {
-					SHEET_VIEW_FOREACH_CONTROL(sv, control,
-						sc_resize (control, FALSE););
+					gnm_sheet_view_resize (sv, FALSE);
 				}
 			}
 		});
@@ -2040,7 +2039,7 @@ sheet_update_only_grid (Sheet const *sheet)
 
 	if (p->resize) {
 		p->resize = FALSE;
-		SHEET_FOREACH_CONTROL (sheet, sv, control, sc_resize (control, FALSE););
+		SHEET_FOREACH_VIEW (sheet, sv, { gnm_sheet_view_resize (sv, FALSE); });
 	}
 
 	if (p->recompute_visibility) {
@@ -2083,7 +2082,7 @@ sheet_update (Sheet const *sheet)
 
 	sheet_update_only_grid (sheet);
 
-	SHEET_FOREACH_VIEW (sheet, sv, sv_update (sv););
+	SHEET_FOREACH_VIEW (sheet, sv, gnm_sheet_view_update (sv););
 }
 
 /**
@@ -2208,7 +2207,7 @@ sheet_colrow_group_ungroup (Sheet *sheet, GnmRange const *r,
 
 	sheet_colrow_gutter (sheet, is_cols, new_max);
 	SHEET_FOREACH_VIEW (sheet, sv,
-		sv_redraw_headers (sv, is_cols, !is_cols, NULL););
+		gnm_sheet_view_redraw_headers (sv, is_cols, !is_cols, NULL););
 
 	return TRUE;
 }
@@ -5290,12 +5289,12 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
 	/* WARNING WARNING WARNING
 	 * This is bad practice and should not really be here.
 	 * However, we need to ensure that update is run before
-	 * sv_panes_insdel_colrow plays with frozen panes, updating those can
+	 * gnm_sheet_view_panes_insdel_colrow plays with frozen panes, updating those can
 	 * trigger redraws before sheet_update has been called. */
 	sheet_update (sheet);
 
 	SHEET_FOREACH_VIEW (sheet, sv,
-			    sv_panes_insdel_colrow (sv, is_cols, is_insert, pos, count););
+			    gnm_sheet_view_panes_insdel_colrow (sv, is_cols, is_insert, pos, count););
 
 	/* The main undo is the opposite operation.  */
 	if (pundo) {

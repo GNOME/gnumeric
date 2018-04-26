@@ -116,7 +116,7 @@ void sheet_object_anchor_to_pts	(SheetObjectAnchor const *anchor,
 void sheet_object_anchor_to_offset_pts	(SheetObjectAnchor const *anchor,
 					 Sheet const *sheet, double *res_pts);
 void sheet_object_anchor_init	(SheetObjectAnchor *anchor,
-				 GnmRange const *cell_bound,
+				 GnmRange const *r,
 				 const double *offsets,
 				 GODrawingAnchorDir direction,
 				 GnmSOAnchorMode mode);

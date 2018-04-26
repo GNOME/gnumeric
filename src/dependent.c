@@ -2884,7 +2884,7 @@ workbook_recalc (Workbook *wb)
 	 */
 	if (redraw) {
 		WORKBOOK_FOREACH_SHEET (wb, sheet, {
-			SHEET_FOREACH_VIEW (sheet, sv, sv_flag_selection_change (sv););
+			SHEET_FOREACH_VIEW (sheet, sv, gnm_sheet_view_flag_selection_change (sv););
 			sheet_redraw_all (sheet, FALSE);});
 	}
 }

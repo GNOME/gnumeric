@@ -39,11 +39,11 @@ gnm_cell_combo_set_sv (GnmCellCombo *ccombo, SheetView *sv)
 		return;
 
 	if (NULL != ccombo->sv)
-		sv_weak_unref (&ccombo->sv);
+		gnm_sheet_view_weak_unref (&ccombo->sv);
 
 	ccombo->sv = sv;
 	if (sv)
-		sv_weak_ref (sv, &ccombo->sv);
+		gnm_sheet_view_weak_ref (sv, &ccombo->sv);
 }
 
 static void
@@ -119,7 +119,7 @@ gnm_cell_combo_class_init (GObjectClass *gobject_class)
 
 	g_object_class_install_property (gobject_class, PROP_SV,
 		 g_param_spec_object ("sheet-view", NULL, NULL,
-			GNM_SV_TYPE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+			GNM_SHEET_VIEW_TYPE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 GSF_CLASS_ABSTRACT (GnmCellCombo, gnm_cell_combo,

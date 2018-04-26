@@ -1446,7 +1446,7 @@ xlsx_write_sheet_view (GsfXMLOut *xml, SheetView const *sv)
 	style_color_unref (sheet_auto);
 	style_color_unref (default_auto);
 
-	if (sv_is_frozen (sv)) {
+	if (gnm_sheet_view_is_frozen (sv)) {
 		activePane = "bottomRight"; /* h&v freeze */
 
 		gsf_xml_out_start_element (xml, "pane");

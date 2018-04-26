@@ -281,7 +281,7 @@ select_range (Sheet *sheet, const GnmRange *r, WorkbookControl *wbc)
 	sv = sheet_get_view (sheet, wb_control_view (wbc));
 	sv_selection_reset (sv);
 	sv_selection_add_range (sv, r);
-	sv_make_cell_visible (sv, r->start.col, r->start.row, FALSE);
+	gnm_sheet_view_make_cell_visible (sv, r->start.col, r->start.row, FALSE);
 }
 
 /*
@@ -304,7 +304,7 @@ select_selection (Sheet *sheet, GSList *selection, WorkbookControl *wbc)
 		sv_selection_add_range (sv, r);
 		r0 = r;
 	}
-	sv_make_cell_visible (sv, r0->start.col, r0->start.row, FALSE);
+	gnm_sheet_view_make_cell_visible (sv, r0->start.col, r0->start.row, FALSE);
 }
 
 /**
@@ -1388,7 +1388,7 @@ cmd_ins_del_colrow_finalize (GObject *cmd)
 
 	g_free (me->cutcopied);
 
-	sv_weak_unref (&(me->cut_copy_view));
+	gnm_sheet_view_weak_unref (&(me->cut_copy_view));
 
 	gnm_command_finalize (cmd);
 }
@@ -1441,7 +1441,7 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	    sheet == gnm_app_clipboard_sheet_get ()) {
 		me->cutcopied = gnm_range_dup (gnm_app_clipboard_area_get ());
 		me->is_cut    = gnm_app_clipboard_is_cut ();
-		sv_weak_ref (gnm_app_clipboard_sheet_view_get (),
+		gnm_sheet_view_weak_ref (gnm_app_clipboard_sheet_view_get (),
 			&(me->cut_copy_view));
 	} else
 		me->cutcopied = NULL;
@@ -7738,7 +7738,7 @@ gboolean
 cmd_autofilter_add_remove (WorkbookControl *wbc)
 {
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	GnmFilter *f = sv_editpos_in_filter (sv);
+	GnmFilter *f = gnm_sheet_view_editpos_in_filter (sv);
 	gboolean add = (f == NULL);
 	char *descr = NULL, *name = NULL;
 	GOUndo *undo = NULL;

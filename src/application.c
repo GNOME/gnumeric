@@ -186,11 +186,11 @@ gnm_app_clipboard_clear (gboolean drop_selection)
 		app->clipboard_copied_contents = NULL;
 	}
 	if (app->clipboard_sheet_view != NULL) {
-		sv_unant (app->clipboard_sheet_view);
+		gnm_sheet_view_unant (app->clipboard_sheet_view);
 
 		g_signal_emit (G_OBJECT (app), signals[CLIPBOARD_MODIFIED], 0);
 
-		sv_weak_unref (&(app->clipboard_sheet_view));
+		gnm_sheet_view_weak_unref (&(app->clipboard_sheet_view));
 
 		/* Release the selection */
 		if (drop_selection)
@@ -214,7 +214,7 @@ gnm_app_clipboard_unant (void)
 	g_return_if_fail (app != NULL);
 
 	if (app->clipboard_sheet_view != NULL)
-		sv_unant (app->clipboard_sheet_view);
+		gnm_sheet_view_unant (app->clipboard_sheet_view);
 }
 
 /**
@@ -244,7 +244,7 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 {
 	Sheet *sheet;
 
-	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 	g_return_if_fail (area != NULL);
 	g_return_if_fail (app != NULL);
 
@@ -252,14 +252,14 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 	sheet = sv_sheet (sv);
 	g_free (app->clipboard_cut_range);
 	app->clipboard_cut_range = gnm_range_dup (area);
-	sv_weak_ref (sv, &(app->clipboard_sheet_view));
+	gnm_sheet_view_weak_ref (sv, &(app->clipboard_sheet_view));
 
 	if (!is_cut)
 		app->clipboard_copied_contents =
 			clipboard_copy_range (sheet, area);
 	if (animate_cursor) {
 		GList *l = g_list_append (NULL, (gpointer)area);
-		sv_ant (sv, l);
+		gnm_sheet_view_ant (sv, l);
 		g_list_free (l);
 	}
 
@@ -284,14 +284,14 @@ void
 gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
 				SheetView *sv, GSList *objects)
 {
-	g_return_if_fail (GNM_IS_SV (sv));
+	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 	g_return_if_fail (objects != NULL);
 	g_return_if_fail (app != NULL);
 
 	gnm_app_clipboard_clear (FALSE);
 	g_free (app->clipboard_cut_range);
 	app->clipboard_cut_range = NULL;
-	sv_weak_ref (sv, &(app->clipboard_sheet_view));
+	gnm_sheet_view_weak_ref (sv, &(app->clipboard_sheet_view));
 	app->clipboard_copied_contents
 		= clipboard_copy_obj (sv_sheet (sv), objects);
 	if (is_cut) {

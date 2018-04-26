@@ -967,7 +967,7 @@ xml_write_sheet_layout (GnmOutputXML *state)
 	gsf_xml_out_start_element (state->output, GNM "SheetLayout");
 	gnm_xml_out_add_cellpos (state->output, "TopLeft", &sv->initial_top_left);
 
-	if (sv_is_frozen (sv)) {
+	if (gnm_sheet_view_is_frozen (sv)) {
 		gsf_xml_out_start_element (state->output, GNM "FreezePanes");
 		gnm_xml_out_add_cellpos (state->output, "FrozenTopLeft", &sv->frozen_top_left);
 		gnm_xml_out_add_cellpos (state->output, "UnfrozenTopLeft", &sv->unfrozen_top_left);

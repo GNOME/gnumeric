@@ -263,7 +263,7 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 		static SheetObjectAction const so_actions [] = {
 			{ GTK_STOCK_PROPERTIES,	        NULL, NULL,  0, sheet_object_get_editor, sheet_object_can_prop},
 			{ NULL,	NULL, NULL, 0, NULL, NULL },
-#warning "Two high dubious icon names here"
+#warning "Two highly dubious icon names here"
 			{ GTK_STOCK_LEAVE_FULLSCREEN,   N_("Size _& Position"),	NULL,  0, cb_so_size_position, NULL },
 			{ GTK_STOCK_FULLSCREEN,	        N_("_Snap to Grid"),	NULL,  0, cb_so_snap_to_grid, NULL },
 			{ NULL,			        N_("_Order"),	        NULL,  1, NULL, NULL },
@@ -480,7 +480,7 @@ sheet_object_get_view (SheetObject const *so, SheetObjectViewContainer *containe
 /**
  * sheet_object_update_bounds:
  * @so: The sheet object
- * @p: An optional position marking the top left of the region
+ * @p: (nullable): A position marking the top left of the region
  *        needing relocation (default == A1)
  *
  * update the bounds of an object that intersects the region whose top left
@@ -572,7 +572,7 @@ cb_create_views (SheetObject *so)
  *
  * Adds a reference to the object.
  *
- * Returns TRUE if there was a problem
+ * Returns: %TRUE if there was a problem
  **/
 gboolean
 sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
@@ -844,6 +844,12 @@ sheet_object_draw_cairo_sized (SheetObject const *so, cairo_t *cr, double width,
 	SO_CLASS (so)->draw_cairo (so, cr, width, height);
 }
 
+/**
+ * sheet_object_get_range:
+ * @so: the #SheetObject to query
+ *
+ * Returns: (transfer none): the #GnmRange used for @so.
+ */
 GnmRange const *
 sheet_object_get_range (SheetObject const *so)
 {
@@ -1176,13 +1182,12 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 /**
  * sheet_objects_get:
  * @sheet: the sheet.
- * @r: an optional range to look in
- * @t: The type of object to lookup
+ * @r: (nullable): #GnmRange to look in
+ * @t: The type of object to lookup, %G_TYPE_NONE for any.
  *
- * Returns: (element-type SheetObject) (transfer container): a list of which
- * the caller must free (just the list not the content).
- * Containing all objects of exactly the specified type (inheritence does not count)
- * that are completely contained by @r.
+ * Returns: (element-type SheetObject) (transfer container): a list
+ * containing all objects of exactly the specified type (inheritence does
+ * not count) that are completely contained in @r.
  **/
 GSList *
 sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
@@ -1207,9 +1212,9 @@ sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
 /**
  * sheet_objects_clear:
  * @sheet: the sheet.
- * @r: an optional range to look in
+ * @r: (nullable): #GnmRange to look in
  *
- * removes the objects in the region.
+ * Removes the objects in the region.
  **/
 void
 sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t,
@@ -1236,7 +1241,6 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t,
  * @so: a #SheetObject to duplicate
  *
  * Returns: (transfer full): A copy of @so that is not attached to a sheet.
- *    Caller is responsible for the reference.
  **/
 SheetObject *
 sheet_object_dup (SheetObject const *so)
@@ -1282,7 +1286,7 @@ cb_sheet_objects_dup (GnmDependent *dep, SheetObject *so, gpointer user)
  * sheet_objects_dup:
  * @src: The source sheet to read the objects from
  * @dst: The destination sheet to attach the objects to
- * @range: Optionally NULL region of interest
+ * @range: (nullable): #GnmRange to look in
  *
  * Clones the objects of the src sheet and attaches them into the dst sheet
  **/
@@ -1314,7 +1318,7 @@ sheet_objects_dup (Sheet const *src, Sheet *dst, GnmRange *range)
 /**
  * sheet_object_direction_set:
  * @so: The sheet object that we are calculating the direction for
- * @coords: array of coordinates in L,T,R,B order
+ * @coords: (in) (array fixed-size=4): array of coordinates in L,T,R,B order
  *
  * Sets the object direction from the given the new coordinates
  * The original coordinates are assumed to be normalized (so that top
@@ -1338,8 +1342,8 @@ sheet_object_direction_set (SheetObject *so, gdouble const *coords)
  * sheet_object_rubber_band_directly:
  * @so:
  *
- * Returns TRUE if we should draw the object as we are laying it out on
- * an sheet. If FLASE we draw a rectangle where the object is going to go
+ * Returns: %TRUE if we should draw the object as we are laying it out on
+ * an sheet. If %FALSE we draw a rectangle where the object is going to go
  *
  * Return Value:
  **/
@@ -1352,8 +1356,8 @@ sheet_object_rubber_band_directly (G_GNUC_UNUSED SheetObject const *so)
 /**
  * sheet_object_anchor_init:
  * @anchor: #SheetObjectAnchor
- * @cell_bound: #GnmRange
- * @offsets: double[4]
+ * @r: (nullable): #GnmRange to look in
+ * @offsets: (in) (array fixed-size=4) (nullable):
  * @direction: #GODrawingAnchorDir
  * @mode: #GnmSOAnchorMode
  *
@@ -1364,7 +1368,7 @@ void
 sheet_object_anchor_init (SheetObjectAnchor *anchor,
 			  GnmRange const *r, const double *offsets,
 			  GODrawingAnchorDir direction,
-              GnmSOAnchorMode mode)
+			  GnmSOAnchorMode mode)
 {
 	int i;
 
@@ -1392,7 +1396,7 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
  * sheet_object_get_stacking:
  * @so: #SheetObject
  *
- * Returns @so's position in the stack of sheet objects.
+ * Returns: @so's position in the stack of sheet objects.
  **/
 gint
 sheet_object_get_stacking (SheetObject *so)

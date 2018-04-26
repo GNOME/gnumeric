@@ -788,10 +788,10 @@ find_and_focus (GnmRangeRef const *loc, SheetView *avoid)
 		if (wb_view_cur_sheet (view) != loc_sheet)
 			continue;
 
-		sv_set_edit_pos (sv, &r.start);
+		gnm_sheet_view_set_edit_pos (sv, &r.start);
 		sv_selection_set (sv, &r.start, col, row, col, row);
-		sv_make_cell_visible (sv, col, row, FALSE);
-		sv_update (sv);
+		gnm_sheet_view_make_cell_visible (sv, col, row, FALSE);
+		gnm_sheet_view_update (sv);
 		return sv;
 		});
 	return NULL;

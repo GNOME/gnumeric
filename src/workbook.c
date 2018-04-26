@@ -788,7 +788,7 @@ workbook_detach_view (WorkbookView *wbv)
 
 	WORKBOOK_FOREACH_SHEET (wbv->wb, sheet, {
 		SheetView *sv = sheet_get_view (sheet, wbv);
-		sv_dispose (sv);
+		gnm_sheet_view_dispose (sv);
 	});
 
 	g_ptr_array_remove (wbv->wb->wb_views, wbv);
@@ -1137,7 +1137,7 @@ workbook_sheet_delete (Sheet *sheet)
 	post_sheet_index_change (wb);
 
 	/* Clear the controls first, before we potentially update */
-	SHEET_FOREACH_VIEW (sheet, view, sv_dispose (view););
+	SHEET_FOREACH_VIEW (sheet, view, gnm_sheet_view_dispose (view););
 
 	g_signal_emit_by_name (G_OBJECT (sheet), "detached_from_workbook", wb);
 	g_object_unref (sheet);
