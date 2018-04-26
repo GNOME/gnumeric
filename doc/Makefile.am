@@ -546,7 +546,7 @@ C/functions.xml: $(srcdir)/make-func-list.pl $(functions_xml_parts)
 	 $(PERL) $(srcdir)/make-func-list.pl C/func.defs ;		\
 	 cat $(srcdir)/C/func-footer.xml				\
 	) >functions.tmp ;						\
-	if xmllint -noent --format --encode "UTF-8" functions.tmp >functions.out ; then	\
+	if xmllint -noent --nonet --format --encode "UTF-8" functions.tmp >functions.out ; then	\
 	    mv functions.out $@; rm functions.tmp;					\
 	fi
 
