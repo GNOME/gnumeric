@@ -11,6 +11,7 @@ zzufit.log
 test-suite.log
 ooxml-schema
 ods-schema
+xmllint-extra
 
 # We don't want to ignore spreadsheet files here.
 !*.gnumeric
