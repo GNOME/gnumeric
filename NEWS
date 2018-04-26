@@ -23,6 +23,8 @@ Morten:
 	* Allow pasting an image into Gnumeric.  [#366816]
 	* Full-column paste includes column width.  [#121722]
 	* Auto-fix shared array formulas in gnumeric files.
+	* No-net-access doc build.  [#790226]
+	* No-net test suite fixes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.39
