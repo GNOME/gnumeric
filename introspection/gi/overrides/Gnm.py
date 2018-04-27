@@ -33,7 +33,11 @@ Gnm.ValueType.__str__ = _valuetype_str
 
 class Value(Gnm.Value):
     def __str__(self):
-        return self.type_of().value_name + ":" + self.get_as_string()
+        fmt = self.v_any.fmt
+        main = self.type_of().value_name + "," + self.get_as_string()
+        if fmt is not None:
+            main += "," + str(fmt)
+        return "{" + main + "}";
 
 Value = override(Value)
 __all__.append('Value')

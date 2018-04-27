@@ -184,7 +184,8 @@ INTROSPECTION_TSTS = \
 	t3000-introspection-basic.pl		\
 	t3001-introspection-simple.pl		\
 	t3002-introspection-io.pl		\
-	t3003-introspection-plugins.pl
+	t3003-introspection-plugins.pl		\
+	t3004-introspection-overrides.pl
 
 INTROSPECTION_SUPPS = \
 	$(INTROSPECTION_TSTS:.pl=.py)
