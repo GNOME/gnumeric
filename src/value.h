@@ -149,6 +149,7 @@ char const *value_peek_string	   (GnmValue const *v);
 char       *value_get_as_string	   (GnmValue const *v);
 void        value_get_as_gstring   (GnmValue const *v, GString *target,
 				    GnmConventions const *conv);
+char       *value_stringify        (GnmValue const *v);
 
 GnmValueType value_type_of         (GnmValue const *v);
 int         value_get_as_int	   (GnmValue const *v);

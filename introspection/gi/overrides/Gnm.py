@@ -18,8 +18,7 @@ class Range(Gnm.Range):
     def __init__(cls,*argv):
         pass
 
-    def __str__(self):
-        return self.as_string()
+    __str__ = Gnm.Range.as_string
     
 Range = override(Range)
 __all__.append('Range')
@@ -27,17 +26,12 @@ __all__.append('Range')
 # ----------------------------------------------------------------------------
 
 def _valuetype_str(vt):
-    return vt.value_name
+    return vt.value_name[6:]
 
 Gnm.ValueType.__str__ = _valuetype_str
 
 class Value(Gnm.Value):
-    def __str__(self):
-        fmt = self.v_any.fmt
-        main = self.type_of().value_name + "," + self.get_as_string()
-        if fmt is not None:
-            main += "," + str(fmt)
-        return "{" + main + "}";
+    __repr__ = Gnm.Value.stringify
 
 Value = override(Value)
 __all__.append('Value')

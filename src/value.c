@@ -1059,6 +1059,73 @@ value_peek_string (GnmValue const *v)
 }
 
 /**
+ * value_stringify:
+ * @v: a #GnmValue
+ *
+ * Returns: (transfer full): A string representation of the value suitable
+ * for use in a Python __repr__ function.
+ */
+char *
+value_stringify (GnmValue const *v)
+{
+	GString *res = g_string_sized_new (30);
+
+	g_string_append_c (res, '{');
+
+	switch (v->v_any.type) {
+	case VALUE_EMPTY:
+		g_string_append (res, "EMPTY,");
+		g_string_append (res, "None");
+		break;
+
+	case VALUE_STRING:
+		g_string_append (res, "STRING,");
+		go_strescape (res, value_peek_string (v));
+		break;
+
+	case VALUE_CELLRANGE:
+		g_string_append (res, "CELLRANGE,");
+		g_string_append (res, value_peek_string (v));
+		return 0;
+
+	case VALUE_ARRAY:
+		g_string_append (res, "ARRAY,");
+		g_string_append (res, value_peek_string (v));
+		break;
+
+	case VALUE_FLOAT:
+		g_string_append (res, "FLOAT,");
+		g_string_append (res, value_peek_string (v));
+		break;
+
+	case VALUE_BOOLEAN:
+		g_string_append (res, "BOOLEAN,");
+		g_string_append_c (res, v->v_bool.val ? '1' : '0');
+		break;
+
+	case VALUE_ERROR:
+		g_string_append (res, "ERROR,");
+		go_strescape (res, value_peek_string (v));
+		break;
+
+	default:
+		g_string_append (res, "?,?");
+		break;
+	}
+
+	if (VALUE_FMT (v) != NULL) {
+		g_string_append_c (res, ',');
+		go_strescape (res, go_format_as_XL (VALUE_FMT (v)));
+	}
+
+	g_string_append_c (res, '}');
+
+	return g_string_free (res, FALSE);
+}
+
+
+
+/**
  * value_get_as_int:
  * @v: (nullable): a #GnmValue
  *
