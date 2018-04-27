@@ -189,7 +189,8 @@ PasteFlags: [Enum]
   NO_RECALC
   FLIP_H
   FLIP_V
-  ALL_TYPES
+  ALL_CELL
+  ALL_SHEET
   DEFAULT
 
 

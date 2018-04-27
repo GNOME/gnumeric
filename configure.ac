@@ -1172,6 +1172,7 @@ icons/48x48/actions/Makefile
 icons/48x48/apps/Makefile
 icons/256x256/Makefile
 icons/256x256/apps/Makefile
+introspection/Makefile
 src/Makefile
 src/dialogs/Makefile
 src/widgets/Makefile

@@ -275,9 +275,9 @@ sub test_command {
     print STDERR "# $cmd\n" if $verbose;
     my $output = `$cmd 2>&1`;
     my $err = $?;
+    &dump_indented ($output);
     die "Failed command: $cmd\n" if $err;
 
-    &dump_indented ($output);
     local $_ = $output;
     if (&$test ($output)) {
 	print STDERR "Pass\n";
@@ -900,6 +900,11 @@ sub setup_python_environment {
     $v = 'LD_LIBRARY_PATH';
     $dir = "$top_builddir/src/.libs";
     $ENV{$v} = ($ENV{$v} || '') eq '' ? $dir : $dir . ':' . $ENV{$v};
+
+    $ENV{'PYTHONPATH'} = "$topsrc/introspection";
+    
+    # Don't litter
+    $ENV{'PYTHONDONTWRITEBYTECODE'} = 1;
 }
 
 # -----------------------------------------------------------------------------
