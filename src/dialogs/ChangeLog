@@ -1,3 +1,7 @@
+2018-04-29  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.40
+
 2018-04-21  Morten Welinder  <terra@gnome.org>
 
 	* dialog-function-select.c (make_expr_example): Handle examples
