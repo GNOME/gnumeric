@@ -2,7 +2,7 @@
 # -----------------------------------------------------------------------------
 
 import gi
-gi.require_version('Gnm', '1.12') 
+gi.require_version('Gnm', '1.12')
 from gi.repository import Gnm
 from gi.repository import GOffice as Go
 Gnm.init()

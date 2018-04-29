@@ -9,8 +9,8 @@ __all__ = []
 
 class Range(Gnm.Range):
     def __new__(cls,start_col=0,start_row=0,end_col=None,end_row=None):
-        if end_col is None: end_col = start_col 
-        if end_row is None: end_row = start_row 
+        if end_col is None: end_col = start_col
+        if end_row is None: end_row = start_row
         r = Gnm.Range.__new__(cls)
         r.init(start_col,start_row,end_col,end_row)
         return r
@@ -19,7 +19,7 @@ class Range(Gnm.Range):
         pass
 
     __str__ = Gnm.Range.as_string
-    
+
 Range = override(Range)
 __all__.append('Range')
 
