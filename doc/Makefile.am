@@ -11,6 +11,9 @@ HELP_ID=gnumeric
 HELP_LINGUAS=cs de es
 HELP_FILES=gnumeric.xml
 
+distclean-local:
+	for l in $(HELP_LINGUAS); do rm $l/gnumeric.xml; done
+
 HELP_EXTRA=					\
 	about-authors.xml			\
 	about-history.xml			\

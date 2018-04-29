@@ -28,9 +28,14 @@ $PYTHON = undef;
 $PERL = $Config{'perlpath'};
 $PERL .= $Config{'_exe'} if $^O ne 'VMS' && $PERL !~ m/$Config{'_exe'}$/i;
 
-$topsrc = $0;
-$topsrc =~ s|/[^/]+$|/..|;
-$topsrc =~ s|/test/\.\.$||;
+if ($0 eq '-e') {
+    # Running as "perl -e '...'", so no idea about where we are
+    $topsrc = '.';
+} else {
+    $topsrc = $0;
+    $topsrc =~ s|/[^/]+$|/..|;
+    $topsrc =~ s|/test/\.\.$||;
+}
 
 $top_builddir = "..";
 $samples = "$topsrc/samples"; $samples =~ s{^\./+}{};
@@ -177,10 +182,10 @@ sub subtest {
 
 # -----------------------------------------------------------------------------
 
-my @full_corpus =
-    ("$samples/excel/address.xls",
+my @dist_corpus =
+    ("$samples/regress.gnumeric",
+     "$samples/excel/address.xls",
      "$samples/excel/bitwise.xls",
-     "$samples/excel/chart-tests-excel.xls",
      "$samples/excel/datefuns.xls",
      "$samples/excel/dbfuns.xls",
      "$samples/excel/engfuns.xls",
@@ -244,12 +249,19 @@ my @full_corpus =
      "$samples/validation-tests.gnumeric",
     );
 
+my @full_corpus =
+    ("$samples/excel/chart-tests-excel.xls",   # Too big
+     @dist_corpus);
+
+
 sub corpus {
     my ($c) = @_;
 
     my $corpus = ($c || $user_corpus || $default_corpus);
     if ($corpus eq 'full') {
 	return @full_corpus;
+    } elsif ($corpus eq 'dist') {
+	return @dist_corpus;
     } elsif ($corpus =~ /^random:(\d+)$/) {
 	my $n = $1;
 	my @corpus = grep { -r $_; } @full_corpus;

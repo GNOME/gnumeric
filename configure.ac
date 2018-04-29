@@ -870,6 +870,7 @@ fi
 # and the Python plugin
 have_python=no
 have_python_gi=no
+PYTHON_GIOVERRIDESDIR=
 if test "x$PYTHON" != x; then
     AC_DEFINE_UNQUOTED(PYTHON_INTERPRETER, ["$PYTHON"],
 		       [The Python interpreter to use])
@@ -878,6 +879,7 @@ if test "x$PYTHON" != x; then
     AC_MSG_CHECKING([for python module gi])
     if $PYTHON -c 'import gi' 2>/dev/null; then
         have_python_gi=yes
+	[PYTHON_GIOVERRIDESDIR=`python -c 'import gi; import os.path; print(os.path.dirname(gi.__file__)+"/overrides")'`]
     fi
     AC_MSG_RESULT($have_python_gi)
 fi
@@ -955,7 +957,7 @@ AC_SUBST(GNM_PY_CFLAGS)
 AC_SUBST(GNM_PY_LDFLAGS)
 AC_SUBST(GNM_PY_LIBADD)
 
-YELP_HELP_INIT
+YELP_HELP_INIT(no-lc-dist)
 
 # Support for PDF docs
 AC_ARG_ENABLE(pdfdocs,
@@ -1119,6 +1121,18 @@ AC_ARG_WITH([typelib-dir],
 	[TYPELIBDIR=$INTROSPECTION_TYPELIBDIR]
 )
 AC_SUBST(TYPELIBDIR)
+AC_ARG_WITH([gi-overrides-dir],
+	AS_HELP_STRING(
+		[--with-gi-overrides-dir],
+		[
+		 path to introspection overrides repository
+		 (automatically detected via python)
+		]
+	),
+	[GIOVERRIDESDIR=$withval],
+	[GIOVERRIDESDIR=$PYTHON_GIOVERRIDESDIR]
+)
+AC_SUBST(GIOVERRIDESDIR)
 
 
 dnl **************************************************

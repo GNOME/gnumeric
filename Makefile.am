@@ -2,10 +2,8 @@ SUBDIRS = . po po-functions src plugins icons @COMPONENT_DIR@ templates doc tool
 
 XML_I18N_XML_KIND = --pass-through
 
-change_logs = ChangeLog \
-	OChangeLog-1999-07-09 \
-	OChangeLog-2000-02-23 OChangeLog-2000-10-10  \
-	OChangeLog-2001-06-26
+# We used to distribute old ChangeLog files too.
+change_logs = ChangeLog
 
 CLEANFILES = gnumeric.desktop gnumeric.keys gnumeric.appdata.xml
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DATA)
@@ -13,11 +11,14 @@ DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DAT
 DISTCHECK_CONFIGURE_FLAGS = --without-perl --without-python \
 	--enable-introspection=auto \
 	--with-gir-dir=\$${datadir}/gir-1.0 \
-	--with-typelib-dir=\$${libdir}/girepository-1.0
+	--with-typelib-dir=\$${libdir}/girepository-1.0 \
+	--with-gi-overrides-dir=\$${libdir}/gi/overrides
+
+DIST_SAMPLES = $(shell (cd $(srcdir)/test && perl -e 'use GnumericTest; foreach (&GnumericTest::corpus("dist")) { print "$$_\n"; }'))
 
 EXTRA_DIST = \
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
-	COPYING-gpl2 COPYING-gpl3 \
+	COPYING COPYING-gpl2 COPYING-gpl3 \
 	gnumeric.appdata.xml.in	\
 	gnumeric.desktop.in	\
 	gnumeric.keys.in	\
@@ -29,7 +30,8 @@ EXTRA_DIST = \
 	intltool-update.in	\
 	xmldocs.make 		\
 	libspreadsheet.pc.in	\
-	omf.make
+	omf.make		\
+	$(DIST_SAMPLES)
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libspreadsheet-@GNUMERIC_API_VER@.pc
@@ -66,11 +68,6 @@ install-exec-local: gnumeric-features.h
 
 uninstall-local:
 	rm -f $(DESTDIR)$(configexecincludedir)/gnumeric-features.h
-dist-hook:
-	mkdir $(distdir)/samples
-	cp $(srcdir)/samples/*.gnumeric $(distdir)/samples/.
-	mkdir $(distdir)/samples/excel
-	cp $(srcdir)/samples/excel/*.xls $(distdir)/samples/excel/.
 
 ## If I understand this correctly, this hack is needed only --with-perl:
 if WITH_PERL
