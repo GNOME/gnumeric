@@ -505,7 +505,13 @@ create_animation (AboutState *state)
 
 	state->now -= 2000;  /* Overlap.  */
 
-	r = make_text_item (state, _("Report problems at http://bugzilla.gnome.org"), 3000);
+	r = make_text_item (state, _("Report problems at"), 3000);
+	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
+	APPENDR (r);
+
+	state->now -= 2000;  /* Overlap.  */
+
+	r = make_text_item (state, _("https://bugzilla.gnome.org/"), 3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
 	APPENDR (r);
 
@@ -558,13 +564,14 @@ dialog_about (WBCGtk *wbcg)
 
 	if (children && GTK_IS_BOX (children->data)) {
 		GtkWidget *vbox = children->data;
-		int height;
+		int width, height;
 		PangoLayout *layout;
 
 		state->anim_area = gtk_drawing_area_new ();
 		layout = gtk_widget_create_pango_layout (state->anim_area, "x");
-		pango_layout_get_pixel_size (layout, NULL, &height);
-		gtk_widget_set_size_request (state->anim_area, -1, 8 * height);
+		pango_layout_get_pixel_size (layout, &width, &height);
+		gtk_widget_set_size_request (state->anim_area,
+					     40 * width, 8 * height);
 		g_object_unref (layout);
 
 		g_signal_connect (state->anim_area, "draw",
