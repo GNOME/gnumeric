@@ -1,3 +1,8 @@
+2018-04-30  Morten Welinder  <terra@gnome.org>
+
+	* dialog-about.c (dialog_about): Speed up animation a bit.  Catch
+	up with Gtk+ updates to the about dialog.
+
 2018-04-29  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.40

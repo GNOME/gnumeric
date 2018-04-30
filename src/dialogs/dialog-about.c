@@ -34,6 +34,12 @@
 
 #define ABOUT_KEY          "about-dialog"
 
+#define SPEED_FACTOR 1.5
+
+#define LICENSE_TEXT \
+	N_("Gnumeric is available under the GNU General Public License, version 2 or 3 at your option.\n\nSee https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\nor https://www.gnu.org/licenses/gpl-3.0.html.\n\nGnumeric comes with absolutely no warranty.")
+
+
 typedef enum {
 	GNM_CORE		= 1 << 0,	/* All round hacking */
 	GNM_FEATURE_HACKER	= 1 << 1,	/* Implement specific feature */
@@ -325,6 +331,8 @@ make_text_item (AboutState *state, const char *text, int duration)
 	PangoAttrList *attrlist;
 	PangoAttribute *attr;
 
+	duration = (int)(duration / SPEED_FACTOR);
+
 	r->start_time = state->now;
 	r->duration = duration;
 	r->layout = gtk_widget_create_pango_layout (state->anim_area, NULL);
@@ -420,6 +428,10 @@ about_dialog_anim_draw (G_GNUC_UNUSED GtkWidget *widget,
   tail = tail->next;				\
 } while (0)
 
+#define OVERLAP(ms) do {			\
+  state->now -= (int)((ms) / SPEED_FACTOR);	\
+} while (0)
+
 static void
 create_animation (AboutState *state)
 {
@@ -429,19 +441,19 @@ create_animation (AboutState *state)
 	unsigned N = G_N_ELEMENTS (contributors);
 	unsigned *permutation;
 
-	state->now += 500;
+	OVERLAP (-500);
 
 	r = make_text_item (state, _("Gnumeric is the result of"), 3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
 	tail = state->waiting = g_list_prepend (NULL, r);
 
-	state->now -= 2000;  /* Overlap.  */
+	OVERLAP (2000);
 
 	r = make_text_item (state, _("the efforts of many people."), 3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
 	APPENDR (r);
 
-	state->now -= 2000;  /* Overlap.  */
+	OVERLAP (2000);
 
 	r = make_text_item (state, _("Your help is much appreciated!"), 3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
@@ -464,7 +476,7 @@ create_animation (AboutState *state)
 		int style = ui % 2;
 
 		if (ui != 0)
-			state->now -= 1900;  /* Overlap.  */
+			OVERLAP (1900);
 
 		r = make_text_item (state, name, 3000);
 		switch (style) {
@@ -489,27 +501,27 @@ create_animation (AboutState *state)
 
 	g_free (permutation);
 
-	state->now += 1000;
+	OVERLAP (-1000);
 
 	r = make_text_item (state, _("We apologize if anyone was left out."),
 			    3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
 	APPENDR (r);
 
-	state->now -= 2000;  /* Overlap.  */
+	OVERLAP (2000);
 
 	r = make_text_item (state, _("Please contact us to correct mistakes."),
 			    3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
 	APPENDR (r);
 
-	state->now -= 2000;  /* Overlap.  */
+	OVERLAP (2000);
 
 	r = make_text_item (state, _("Report problems at"), 3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
 	APPENDR (r);
 
-	state->now -= 2000;  /* Overlap.  */
+	OVERLAP (2000);
 
 	r = make_text_item (state, _("https://bugzilla.gnome.org/"), 3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
@@ -519,7 +531,7 @@ create_animation (AboutState *state)
 	r->fade_out = FALSE;
 	APPENDR (r);
 
-	state->now -= 100;  /* Overlap.  */
+	OVERLAP (-100);
 
 	r = make_text_item (state, _("We aim to please!"), 1000);
 	r->fade_in = FALSE;
@@ -537,12 +549,39 @@ dialog_about (WBCGtk *wbcg)
 	GtkWidget *w, *c;
 	GList *children;
 	AboutState *state;
+	GPtrArray *authors;
+	GPtrArray *documenters;
+	GPtrArray *artists;
+	unsigned ui;
 
 	if (gnm_dialog_raise_if_exists (wbcg, ABOUT_KEY))
 		return;
 
 	state = g_new0 (AboutState, 1);
 
+	authors = g_ptr_array_new_with_free_func (g_free);
+	documenters = g_ptr_array_new_with_free_func (g_free);
+	artists = g_ptr_array_new_with_free_func (g_free);
+	for (ui = 0; ui < G_N_ELEMENTS (contributors); ui++) {
+		const char *name = contributors[ui].name;
+		const char *details = contributors[ui].details;
+		unsigned flags = contributors[ui].contributions;
+		if (flags & GNM_ART) {
+			g_ptr_array_add (artists, g_strdup (name));
+		}
+		if (flags & GNM_DOCUMENTATION) {
+			g_ptr_array_add (documenters, g_strdup (name));
+		}
+		if (flags & ~(GNM_ART | GNM_DOCUMENTATION)) {
+			char *text = details
+				? g_strdup_printf ("%s (%s)", name, details)
+				: g_strdup (name);
+			g_ptr_array_add (authors, text);
+		}
+	}
+	g_ptr_array_add (authors, NULL);
+	g_ptr_array_add (documenters, NULL);
+	g_ptr_array_add (artists, NULL);
 	w = g_object_new (GTK_TYPE_ABOUT_DIALOG,
 			  "title", _("About Gnumeric"),
 			  "version", GNM_VERSION_FULL,
@@ -551,7 +590,15 @@ dialog_about (WBCGtk *wbcg)
 			  "logo-icon-name", "gnumeric",
 			  "copyright", _("Copyright \xc2\xa9 1998-2018"),
 			  "comments", _("Free, Fast, Accurate - Pick Any Three!"),
+			  "license", _(LICENSE_TEXT),
+			  "wrap-license", TRUE,
+			  "authors", authors->pdata,
+			  "documenters", documenters->pdata,
+			  "artists", artists->pdata,
 			  NULL);
+	g_ptr_array_free (authors, TRUE);
+	g_ptr_array_free (documenters, TRUE);
+	g_ptr_array_free (artists, TRUE);
 	state->dialog = w;
 
 	g_signal_connect (w, "response",
