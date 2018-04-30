@@ -5,7 +5,7 @@ EXTRA_DIST = README 			\
 if HAVE_INTROSPECTION
 if HAVE_PYTHON_GI
 install-data-local:
-	install -m 0444 -t @GIOVERRIDESDIR@ gi/overrides/Gnm.py
+	install -D -m 0444 -t @GIOVERRIDESDIR@ gi/overrides/Gnm.py
 
 uninstall-local:
 	rm -f @GIOVERRIDESDIR@/Gnm.py
