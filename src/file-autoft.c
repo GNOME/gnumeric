@@ -73,10 +73,7 @@ gnm_ft_category_get_templates_list (GnmFTCategory *category,
 		return NULL;
 
 	while ((d_name = g_dir_read_name (dir)) != NULL) {
-		gint name_len;
-
-		name_len = strlen (d_name);
-		if (name_len > 4 && strcmp (d_name + name_len - 4, ".xml") == 0) {
+		if (g_str_has_suffix (d_name, ".xml")) {
 			gchar *full_entry_name;
 			GnmFT *ft;
 

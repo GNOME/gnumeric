@@ -889,7 +889,7 @@ xml_sax_sheet_zoom (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 static void
 xml_sax_print_margins_unit (GsfXMLIn *xin, xmlChar const **attrs,
-				  double *points, GtkUnit *desired_display)
+			    double *points, GtkUnit *desired_display)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		double pts;
@@ -3672,8 +3672,8 @@ gnm_xml_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context
 
 GnmCellRegion *
 gnm_xml_cellregion_read (WorkbookControl *wbc, GOIOContext *io_context,
-		     Sheet *sheet,
-		     const char *buffer, int length)
+			 Sheet *sheet,
+			 const char *buffer, int length)
 {
 	WorkbookView *wb_view;
 	GsfInput *input;

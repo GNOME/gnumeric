@@ -1,3 +1,7 @@
+2018-04-30  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_reload_recent_file_menu): Make full history item
+
 2018-04-29  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

@@ -21,16 +21,14 @@ gnm_history_item_label (gchar const *uri, int accel_number)
 {
 	GString *res = g_string_new (NULL);
 	char *basename, *tmp;
-	int len;
 
 	basename = go_basename_from_uri (uri);
 	if (basename == NULL)
 		basename = g_strdup ("(invalid file name)");
 
 	/* Remove .gnumeric, if present.  */
-	len = strlen (basename);
-	if (len > 9 && strcmp (basename + len - 9, ".gnumeric") == 0)
-		basename[len - 9] = 0;
+	if (g_str_has_suffix (basename, ".gnumeric"))
+		basename[strlen (basename) - 9] = 0;
 
 	if (accel_number <= 9)
 		g_string_append_printf (res, "_%d ", accel_number);

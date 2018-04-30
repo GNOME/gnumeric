@@ -4208,11 +4208,13 @@ cb_file_history_activate (GObject *action, WBCGtk *wbcg)
 }
 
 static void
-wbc_gtk_reload_recent_file_menu (WBCGtk const *wbcg)
+wbc_gtk_reload_recent_file_menu (WBCGtk *wbcg)
 {
 	WBCGtk *gtk = (WBCGtk *)wbcg;
 	GSList *history, *ptr;
 	unsigned i;
+	gboolean any_history;
+	GtkAction *full_history;
 
 	if (gtk->file_history.merge_id != 0)
 		gtk_ui_manager_remove_ui (gtk->ui, gtk->file_history.merge_id);
@@ -4227,6 +4229,7 @@ wbc_gtk_reload_recent_file_menu (WBCGtk const *wbcg)
 
 	/* create the actions */
 	history = gnm_app_history_get_list (3);
+	any_history = (history != NULL);
 	for (i = 1, ptr = history; ptr != NULL ; ptr = ptr->next, i++) {
 		GtkActionEntry entry;
 		GtkAction *action;
@@ -4268,6 +4271,9 @@ wbc_gtk_reload_recent_file_menu (WBCGtk const *wbcg)
 			GTK_UI_MANAGER_AUTO, TRUE);
 		g_free (name);
 	}
+
+	full_history = wbcg_find_action (wbcg, "FileHistoryFull");
+	g_object_set (G_OBJECT (full_history), "sensitive", any_history, NULL);
 }
 
 static void
