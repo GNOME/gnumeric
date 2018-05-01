@@ -104,7 +104,7 @@ gnm_app_get_app (void)
 
 /**
  * gnm_app_workbook_list_add:
- * @wb:
+ * @wb: A #Workbook
  *
  * Add @wb to the application's list of workbooks.
  **/
@@ -124,7 +124,7 @@ gnm_app_workbook_list_add (Workbook *wb)
 
 /**
  * gnm_app_workbook_list_remove:
- * @wb:
+ * @wb: A #Workbook
  *
  * Remove @wb from the application's list of workbooks.
  **/
@@ -267,18 +267,19 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 		g_signal_emit (G_OBJECT (app), signals[CLIPBOARD_MODIFIED], 0);
 	} else {
 		gnm_app_clipboard_clear (FALSE);
-		g_warning ("Unable to set selection ?");
+		g_warning ("Unable to set selection?");
 	}
 }
 
 /**
  * gnm_app_clipboard_cut_copy_obj:
  * @wbc: #WorkbookControl
- * @is_cut:
+ * @is_cut: %TRUE for cut, %FALSE for copy
  * @sv: #SheetView
- * @objects: (element-type SheetObject): a list of #SheetObject which is freed
+ * @objects: (element-type SheetObject) (transfer container): a list
+ * of #SheetObject
  *
- * Different than copying/cutting a region, this can actually cuts an object
+ * Different than copying/cutting a region, this can actually cut an object
  **/
 void
 gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
@@ -302,7 +303,7 @@ gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
 		g_signal_emit (G_OBJECT (app), signals[CLIPBOARD_MODIFIED], 0);
 	} else {
 		gnm_app_clipboard_clear (FALSE);
-		g_warning ("Unable to set selection ?");
+		g_warning ("Unable to set selection?");
 	}
 	g_slist_free (objects);
 }
@@ -328,7 +329,7 @@ gnm_app_clipboard_is_cut (void)
 /**
  * gnm_app_clipboard_sheet_get:
  *
- * Returns: (transfer none): the current clipboard #Sheet.
+ * Returns: (transfer none) (nullable): the current clipboard #Sheet.
  **/
 Sheet *
 gnm_app_clipboard_sheet_get (void)
@@ -343,7 +344,7 @@ gnm_app_clipboard_sheet_get (void)
 /**
  * gnm_app_clipboard_sheet_view_get:
  *
- * Returns: (transfer none): the current clipboard #SheetView.
+ * Returns: (transfer none) (nullable): the current clipboard #SheetView.
  **/
 SheetView *
 gnm_app_clipboard_sheet_view_get (void)
@@ -352,6 +353,11 @@ gnm_app_clipboard_sheet_view_get (void)
 	return app->clipboard_sheet_view;
 }
 
+/**
+ * gnm_app_clipboard_contents_get:
+ *
+ * Returns: (nullable) (transfer none): the current contents of the clipboard.
+ */
 GnmCellRegion *
 gnm_app_clipboard_contents_get (void)
 {
@@ -359,6 +365,11 @@ gnm_app_clipboard_contents_get (void)
 	return app->clipboard_copied_contents;
 }
 
+/**
+ * gnm_app_clipboard_area_get:
+ *
+ * Returns: (nullable) (transfer none): the current range in the clipboard.
+ */
 GnmRange const *
 gnm_app_clipboard_area_get (void)
 {
@@ -482,7 +493,7 @@ gnm_app_workbook_foreach (GnmWbIterFunc cback, gpointer data)
  * @i: index
  *
  * Get nth workbook.  Index is zero-based.
- * Return value: (transfer none): the nth workbook if any.
+ * Return value: (nullable) (transfer none): the nth workbook, if any.
  */
 Workbook *
 gnm_app_workbook_get_by_index (int i)
@@ -667,6 +678,7 @@ gnm_app_history_get_list (int max_elements)
 /**
  * application_history_update_list:
  * @uri:
+ * @mimetype: (nullable): the mime type for @uri
  *
  * Adds @uri to the application's history of files.
  **/
