@@ -1134,6 +1134,18 @@ AC_ARG_WITH([gi-overrides-dir],
 )
 AC_SUBST(GIOVERRIDESDIR)
 
+AC_ARG_WITH([goffice-plugins-dir],
+	AS_HELP_STRING(
+		[--with-goffice-plugins-dir],
+		[
+		 path to goffice plugins
+		 (automatically detected via pkg-config)
+		]
+	),
+	[GOFFICE_PLUGINS_DIR=$withval],
+	[:]
+)
+
 
 dnl **************************************************
 dnl * Config defaults

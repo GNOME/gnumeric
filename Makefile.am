@@ -8,11 +8,15 @@ change_logs = ChangeLog
 CLEANFILES = gnumeric.desktop gnumeric.keys gnumeric.appdata.xml
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DATA)
 
+# Flags for distcheck, mostly to install things that nominally go under the
+# directories of other packages into the dist dir instead.  (They won't work
+# there, but that's ok.)
 DISTCHECK_CONFIGURE_FLAGS = --without-perl --without-python \
 	--enable-introspection=auto \
 	--with-gir-dir=\$${datadir}/gir-1.0 \
 	--with-typelib-dir=\$${libdir}/girepository-1.0 \
-	--with-gi-overrides-dir=\$${libdir}/gi/overrides
+	--with-gi-overrides-dir=\$${libdir}/gi/overrides \
+	--with-goffice-plugins-dir=\$${libdir}/goffice
 
 DIST_SAMPLES = $(shell (cd $(srcdir)/test && perl -e 'use GnumericTest; foreach (&GnumericTest::corpus("dist")) { print "$$_\n"; }'))
 
