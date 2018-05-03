@@ -3024,15 +3024,27 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 				NULL, NULL);
 	}
 
-	/*
-	 * We cannot use the random set of objects at the target location.
-	 * See http://bugzilla.gnome.org/show_bug.cgi?id=308300
-	 */
-	g_slist_free_full (contents->objects, (GDestroyNotify)g_object_unref);
-	contents->objects = is_undo
-		? go_slist_map (me->orig_contents_objects,
-				(GOMapFunc)sheet_object_dup)
-		: NULL;
+	if (is_undo) {
+		// We cannot use the random set of objects at the target
+		// location.  http://bugzilla.gnome.org/show_bug.cgi?id=308300
+		g_slist_free_full (contents->objects, g_object_unref);
+		contents->objects = go_slist_map (me->orig_contents_objects,
+						  (GOMapFunc)sheet_object_dup);
+	} else {
+		GSList *l;
+		for (l = contents->objects; l; l = l->next) {
+			SheetObject *so = l->data;
+			if (sheet_object_get_sheet (so)) {
+				g_object_unref (so);
+				l->data = NULL;
+			} else {
+				// Object got deleted by paste, so keep it for
+				// undo.  See bugzilla 732653
+			}
+		}
+		contents->objects =
+			g_slist_remove_all (contents->objects, NULL);
+	}
 
 	cellregion_unref (me->contents);
 	me->contents = contents;
