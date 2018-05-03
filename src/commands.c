@@ -2936,11 +2936,20 @@ by_addr (gconstpointer a, gconstpointer b)
 	return 0;
 }
 
+/**
+ * get_new_objects:
+ * @sheet: #Sheet to query
+ * @old: (element-type SheetObject): list of objects to disregard
+ *
+ * Returns: (transfer full) (element-type SheetObject): A list of new objects
+ * in sheet since @old was collected.
+ */
 static GSList *
 get_new_objects (Sheet *sheet, GSList *old)
 {
-	GSList *objs = g_slist_sort (g_slist_copy (sheet->sheet_objects),
-				     by_addr);
+	GSList *objs =
+		g_slist_sort (go_slist_map (sheet->sheet_objects, g_object_ref),
+			      by_addr);
 	GSList *p = objs, *last = NULL;
 
 	while (old) {
@@ -2999,13 +3008,12 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 				    GO_CMD_CONTEXT (wbc))) {
 		/* There was a problem, avoid leaking */
 		cellregion_unref (contents);
-		g_slist_free (old_objects);
+		g_slist_free_full (old_objects, g_object_unref);
 		return TRUE;
 	}
 
 	me->pasted_objects = get_new_objects (me->dst.sheet, old_objects);
-	g_slist_foreach (me->pasted_objects, (GFunc)g_object_ref, NULL);
-	g_slist_free (old_objects);
+	g_slist_free_full (old_objects, g_object_unref);
 
 	if (!is_undo && !me->has_been_through_cycle) {
 		colrow_autofit (me->dst.sheet, &me->dst.range, FALSE, FALSE,

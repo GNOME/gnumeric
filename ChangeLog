@@ -1,6 +1,13 @@
+2018-05-03  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (get_new_objects): Change from transfer-container
+	to transfer-full.  Otherwise a deleted object can shadow a new
+	one.  (Never observed.)
+
 2018-04-30  Morten Welinder  <terra@gnome.org>
 
-	* src/wbc-gtk.c (wbc_gtk_reload_recent_file_menu): Make full history item
+	* src/wbc-gtk.c (wbc_gtk_reload_recent_file_menu): Make full
+	history item insensitive if we have to history.
 
 2018-04-29  Morten Welinder <terra@gnome.org>
 
