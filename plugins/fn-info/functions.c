@@ -229,6 +229,12 @@ gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	 * in the number format, e.g., 1 for format "[Black]0;-0;0" but not
 	 * for format "0;-0;[Green]0"
 	 * Another place where Excel doesn't conform to its documentation!
+	 *
+	 * 20180503: and even the above isn't right.  What appears to be test
+	 * is this:
+	 * (a) The format must be conditional; "[Red]0" won't do
+	 * (b) One of the first two conditional formats must have a color
+	 *     specified.
 	 */
 	} else if (!g_ascii_strcasecmp (info_type, "color")) {
 		/* See 1.7.6 for old version.  */
