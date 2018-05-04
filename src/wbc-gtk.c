@@ -3588,9 +3588,9 @@ toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEvent *event)
 		char const *text;
 		GtkPositionType pos;
 	} const pos_items[] = {
-		{ N_("Display above sheets"), GTK_POS_TOP },
-		{ N_("Display to the left of sheets"), GTK_POS_LEFT },
-		{ N_("Display to the right of sheets"), GTK_POS_RIGHT }
+		{ N_("Display toolbar above sheets"), GTK_POS_TOP },
+		{ N_("Display toolbar to the left of sheets"), GTK_POS_LEFT },
+		{ N_("Display toolbar to the right of sheets"), GTK_POS_RIGHT }
 	};
 
 	if (gnm_debug_flag ("toolbar-size"))
@@ -3615,9 +3615,8 @@ toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEvent *event)
 				  gtk);
 	}
 
-	item = gtk_menu_item_new ();
+	item = gtk_separator_menu_item_new ();
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	gtk_widget_set_sensitive (item, FALSE);
 
 	item = gtk_menu_item_new_with_label (_("Hide"));
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
