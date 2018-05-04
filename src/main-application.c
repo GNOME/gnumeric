@@ -194,6 +194,7 @@ main (int argc, char const **argv)
 	WorkbookView *wbv;
 	GSList *wbcgs_to_kill = NULL;
 	GOCmdContext *cc;
+	gboolean any_error = FALSE;
 
 #ifdef G_OS_WIN32
 	gboolean has_console;
@@ -265,6 +266,7 @@ main (int argc, char const **argv)
 
 			if (uri == NULL) {
 				g_warning ("Ignoring invalid URI.");
+				any_error = TRUE;
 				continue;
 			}
 
@@ -274,6 +276,8 @@ main (int argc, char const **argv)
 
 			if (go_io_error_occurred (ioc) ||
 			    go_io_warning_occurred (ioc)) {
+				if (go_io_error_occurred (ioc))
+					any_error = TRUE;
 				go_io_error_display (ioc);
 				go_io_error_clear (ioc);
 			}
@@ -303,11 +307,17 @@ main (int argc, char const **argv)
 	g_object_unref (cc);
 	cc = NULL;
 
-	/* FIXME: Maybe we should quit here if we were asked to open
-	   files and failed to do so. */
+	// If we actually opened a workbook, we are not about to exit so
+	// suppress the error.  (Returning an error when the GUI exits
+	// down the line is not helpful.)
+	if (opened_workbook)
+		any_error = FALSE;
 
-	/* If we were intentionally short circuited exit now */
-	if (!initial_workbook_open_complete) {
+	// If we were intentionally short circuited exit now
+	if (any_error || initial_workbook_open_complete) {
+		g_object_unref (ioc);
+		g_slist_foreach (wbcgs_to_kill, (GFunc)cb_kill_wbcg, NULL);
+	} else {
 		initial_workbook_open_complete = TRUE;
 		if (!opened_workbook) {
 			gint n_of_sheets = gnm_conf_get_core_workbook_n_sheet ();
@@ -331,9 +341,6 @@ main (int argc, char const **argv)
 		g_object_unref (ioc);
 
 		gtk_main ();
-	} else {
-		g_object_unref (ioc);
-		g_slist_foreach (wbcgs_to_kill, (GFunc)cb_kill_wbcg, NULL);
 	}
 
 	g_slist_free (wbcgs_to_kill);
@@ -369,5 +376,5 @@ main (int argc, char const **argv)
 		g_slist_free (displays);
 	}
 
-	return 0;
+	return any_error ? 1 : 0;
 }

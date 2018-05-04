@@ -3,6 +3,7 @@ Gnumeric 1.12.41
 Morten:
 	* Fix problem with object pasting.
 	* Fix undo problem for cell comments.  [#732653]
+	* Exit with non-zero with we fail to load file on command line.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.40
