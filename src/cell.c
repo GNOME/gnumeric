@@ -682,8 +682,7 @@ gnm_cell_get_rendered_text (GnmCell *cell)
  * gnm_cell_get_render_color:
  * @cell: the cell from which we want to pull the color from
  *
- * The returned value is a pointer to a PangoColor describing
- * the foreground colour.
+ * Returns: A #GOColor used for foreground in @cell.
  */
 GOColor
 gnm_cell_get_render_color (GnmCell const *cell)
