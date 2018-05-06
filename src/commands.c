@@ -2979,7 +2979,9 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 
 	contents = clipboard_copy_range (me->dst.sheet, &me->dst.range);
 	if (me->has_been_through_cycle)
-		me->dst.paste_flags = PASTE_CONTENTS |
+		me->dst.paste_flags =
+			PASTE_CONTENTS |
+			PASTE_COLUMN_WIDTHS | PASTE_ROW_HEIGHTS |
 			(me->dst.paste_flags & PASTE_ALL_SHEET);
 
 	if (clipboard_paste_region (me->contents, &me->dst,

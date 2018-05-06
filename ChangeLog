@@ -2,6 +2,8 @@
 
 	* src/commands.c (cmd_area_set_array_expr): The clipboard now
 	takes care of restoring row heights and column widths.
+	(cmd_paste_copy_impl): After the initial "do", always restore
+	column widths and row heights.
 
 2018-05-04  Morten Welinder  <terra@gnome.org>
 
