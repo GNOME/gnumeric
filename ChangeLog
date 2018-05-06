@@ -1,3 +1,8 @@
+2018-05-06  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_area_set_array_expr): The clipboard now
+	takes care of restoring row heights and column widths.
+
 2018-05-04  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (toolbar_context_menu): Use a proper separator

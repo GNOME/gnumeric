@@ -1056,6 +1056,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 				(r->start.col, r->end.col, cri_col_list);
 		}
 	}
+
 	undo = go_undo_combine (undo,
 				gnm_undo_colrow_restore_state_group_new
 				(sheet, TRUE,
@@ -1068,7 +1069,6 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 				 cri_row_list,
 				 colrow_get_sizes (sheet, FALSE,
 						   cri_row_list, -1)));
-
 
 	result = cmd_generic (wbc, text, undo, redo);
 	g_free (text);
@@ -1157,9 +1157,7 @@ cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
 	char *name;
 	char *text;
 	GnmSheetRange *sr;
-	GnmRange *r_1, *r_2, *r;
-	ColRowIndexList *cri_col_list;
-	ColRowIndexList *cri_row_list;
+	GnmRange *r;
 
 	g_return_val_if_fail (selection != NULL , TRUE);
 	g_return_val_if_fail (selection->next == NULL , TRUE);
@@ -1170,39 +1168,19 @@ cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
 
 	r = selection->data;
 
-	cri_row_list = colrow_get_index_list
-		(r->start.row, r->end.row, NULL);
-	cri_col_list = colrow_get_index_list
-		(r->start.col, r->end.col, NULL);
 	undo = clipboard_copy_range_undo (sheet, selection->data);
-	undo = go_undo_combine (undo,
-				gnm_undo_colrow_restore_state_group_new
-				(sheet, TRUE,
-				 cri_col_list,
-				 colrow_get_sizes (sheet, TRUE,
-						   cri_col_list, -1)));
-	undo = go_undo_combine (undo,
-				gnm_undo_colrow_restore_state_group_new
-				(sheet, FALSE,
-				 cri_row_list,
-				 colrow_get_sizes (sheet, FALSE,
-						   cri_row_list, -1)));
 
 	sr = gnm_sheet_range_new (sheet, r);
-	r_1 = g_new (GnmRange, 1);
-	*r_1 = *r;
-	r_2 = g_new (GnmRange, 1);
-	*r_2 = *r;
 	redo = gnm_cell_set_array_formula_undo (sr, texpr);
 	redo = go_undo_combine
 		(go_undo_binary_new
-		 (sheet, r_1,
+		 (sheet, g_memdup (r, sizeof (*r)),
 		  (GOUndoBinaryFunc) colrow_autofit_col,
 		  NULL, g_free),
 		 redo);
 	redo  = go_undo_combine
 		(go_undo_binary_new
-		 (sheet, r_2,
+		 (sheet, g_memdup (r, sizeof (*r)),
 		  (GOUndoBinaryFunc) colrow_autofit_row,
 		  NULL, g_free),
 		 redo);
