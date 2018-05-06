@@ -82,7 +82,7 @@ render_val (GnmValue const *v, int i, int j,
 	if (!v)
 		return NULL;
 
-	date_conv = ep->sheet ? workbook_date_conv (ep->sheet->workbook) : NULL;
+	date_conv = ep->sheet ? sheet_date_conv (ep->sheet) : NULL;
 
 #if 0
 	g_printerr ("Rendering %s with fmt=%s\n",
@@ -181,7 +181,7 @@ gnm_go_data_date_conv (GOData const *dat)
 	if (!dep->sheet)
 		return NULL;
 
-	return workbook_date_conv (dep->sheet->workbook);
+	return sheet_date_conv (dep->sheet);
 }
 
 static char *
@@ -690,7 +690,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 		return;
 	}
 
-	closure.date_conv = workbook_date_conv (vec->dep.sheet->workbook);
+	closure.date_conv = sheet_date_conv (vec->dep.sheet);
 
 	if (dat->values == NULL)
 		dat->values = g_new (double, dat->len);
@@ -914,7 +914,7 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 			int x = 0, y = vec->val->v_array.y;
 			struct string_closure closure;
 			closure.strs = vec->strs = g_ptr_array_new_with_free_func (g_free);
-			closure.date_conv = ep.sheet ? workbook_date_conv (ep.sheet->workbook) : NULL;
+			closure.date_conv = ep.sheet ? sheet_date_conv (ep.sheet) : NULL;
 			while (len-- > 0) {
 				if (x == 0) {
 					x = vec->val->v_array.x;
@@ -956,7 +956,7 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 		if (vec->strs == NULL) {
 			struct string_closure closure;
 			closure.strs = vec->strs = g_ptr_array_new_with_free_func (g_free);
-			closure.date_conv = ep.sheet ? workbook_date_conv (ep.sheet->workbook) : NULL;
+			closure.date_conv = ep.sheet ? sheet_date_conv (ep.sheet) : NULL;
 			gnm_rangeref_normalize (&vec->val->v_range.cell,
 				eval_pos_init_dep (&ep, &vec->dep),
 				&start_sheet, &end_sheet, &r);
@@ -1319,7 +1319,7 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 		return;
 	}
 
-	closure.date_conv = workbook_date_conv (mat->dep.sheet->workbook);
+	closure.date_conv = sheet_date_conv (mat->dep.sheet);
 
 	if (dat->values == NULL)
 		dat->values = g_new (double, size.rows * size.columns);

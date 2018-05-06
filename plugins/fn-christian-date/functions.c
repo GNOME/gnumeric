@@ -40,7 +40,7 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-#define DATE_CONV(ep)		workbook_date_conv ((ep)->sheet->workbook)
+#define DATE_CONV(ep)		sheet_date_conv ((ep)->sheet)
 
 static void
 eastersunday_calc_for_year (int year, GDate *date)

@@ -1750,7 +1750,7 @@ gnumeric_n (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	v = format_match_number (value_peek_string (argv[0]),
 				 NULL,
-				 workbook_date_conv (ei->pos->sheet->workbook));
+				 sheet_date_conv (ei->pos->sheet));
 	if (v != NULL)
 		return v;
 

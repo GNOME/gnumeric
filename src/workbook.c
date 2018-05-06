@@ -1351,7 +1351,7 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order)
  * workbook_date_conv:
  * @wb: Workbook
  *
- * Returns: the date convention in effect for the workbook.
+ * Returns: (transfer none): the date conventions in effect for the workbook.
  **/
 GODateConventions const *
 workbook_date_conv (Workbook const *wb)

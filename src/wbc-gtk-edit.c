@@ -242,8 +242,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		fmt = gnm_cell_get_format (sheet_cell_fetch (sheet, sv->edit_pos.col,
 							     sv->edit_pos.row));
 
-		value = format_match (txt, fmt,
-				      workbook_date_conv (sheet->workbook));
+		value = format_match (txt, fmt, sheet_date_conv (sheet));
 		if (value == NULL)
 			expr_txt = gnm_expr_char_start_p (txt);
 		else

@@ -4504,10 +4504,9 @@ static void
 scg_drag_send_text (SheetControlGUI *scg, GtkSelectionData *sd)
 {
 	Sheet *sheet = scg_sheet (scg);
-	Workbook *wb = sheet->workbook;
 	GnmRange range = sheet_get_extent (sheet, TRUE, TRUE);
 	GnmCellRegion *reg = clipboard_copy_range (sheet, &range);
-	GString *s = cellregion_to_string (reg, TRUE, workbook_date_conv (wb));
+	GString *s = cellregion_to_string (reg, TRUE, sheet_date_conv (sheet));
 
 	cellregion_unref (reg);
 	if (!s)

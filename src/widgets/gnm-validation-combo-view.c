@@ -117,7 +117,7 @@ vcombo_create_list (SheetObject *so,
 	if (NULL == v)
 		return NULL;
 
-	uc.date_conv = workbook_date_conv (sv->sheet->workbook);
+	uc.date_conv = sheet_date_conv (sv->sheet);
 	uc.hash = g_hash_table_new_full ((GHashFunc)value_hash, (GEqualFunc)value_equal,
 		(GDestroyNotify)value_release, (GDestroyNotify)g_free);
 	value_area_foreach (v, &ep, CELL_ITER_IGNORE_BLANK,

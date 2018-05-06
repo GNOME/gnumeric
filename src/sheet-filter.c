@@ -191,7 +191,7 @@ filter_expr_init (FilterExpr *fexpr, unsigned i,
 		GnmFilterOp op = cond->op[i];
 		char const *str = value_peek_string (tmp);
 		GODateConventions const *date_conv =
-			workbook_date_conv (filter->sheet->workbook);
+			sheet_date_conv (filter->sheet);
 
 		if ((op == GNM_FILTER_OP_EQUAL || op == GNM_FILTER_OP_NOT_EQUAL) &&
 		    gnm_regcomp_XL (fexpr->regexp + i, str, GO_REG_ICASE, TRUE, TRUE) == GO_REG_OK) {
@@ -221,7 +221,7 @@ filter_cell_contents (GnmCell *cell)
 {
 	GOFormat const *format = gnm_cell_get_format (cell);
 	GODateConventions const *date_conv =
-		workbook_date_conv (cell->base.sheet->workbook);
+		sheet_date_conv (cell->base.sheet);
 	return format_value (format, cell->value, -1, date_conv);
 }
 
@@ -258,7 +258,7 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 
 	if (VALUE_IS_STRING (target) && VALUE_IS_NUMBER (src)) {
 		GODateConventions const *date_conv =
-			workbook_date_conv (cell->base.sheet->workbook);
+			sheet_date_conv (cell->base.sheet);
 		char *str = format_value (NULL, src, -1, date_conv);
 		fake_val = value_new_string_nocopy (str);
 		src = fake_val;

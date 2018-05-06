@@ -46,7 +46,7 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-#define DATE_CONV(ep)               workbook_date_conv ((ep)->sheet->workbook)
+#define DATE_CONV(ep)               sheet_date_conv ((ep)->sheet)
 #define UNICODE_MONTH_PREFIX "\xd7\x91\xd6\xbc\xd6\xb0"
 
 static void

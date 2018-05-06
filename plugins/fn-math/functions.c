@@ -65,7 +65,7 @@ oldstyle_if_func (GnmFuncEvalInfo *ei, GnmValue const * const *argv,
 	GPtrArray *crits = g_ptr_array_new_with_free_func ((GDestroyNotify)gnm_criteria_unref);
 	GPtrArray *data = g_ptr_array_new ();
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 	GnmValue *res;
 	gboolean insanity;
 	GnmValue const *vals;
@@ -112,7 +112,7 @@ newstyle_if_func (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv,
 	GPtrArray *crits = g_ptr_array_new_with_free_func ((GDestroyNotify)gnm_criteria_unref);
 	GPtrArray *data = g_ptr_array_new_with_free_func ((GDestroyNotify)value_release);
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 	GnmValue *res;
 	GnmValue *vals = NULL;
 	int i;

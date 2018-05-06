@@ -400,8 +400,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 		      int   *field_ind, gboolean anchor_end)
 {
 	GSList *criterias = NULL;
-	GODateConventions const *date_conv =
-		workbook_date_conv (sheet->workbook);
+	GODateConventions const *date_conv = sheet_date_conv (sheet);
         int i, j;
 
 	for (i = b_row; i <= e_row; i++) {

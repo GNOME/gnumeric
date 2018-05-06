@@ -100,7 +100,7 @@ sscombo_create_list (SheetObject *so,
 	GOVal const	*v;
 	GString		*str;
 	unsigned i;
-	GODateConventions const *dconv = workbook_date_conv (sscombo->parent.sv->sheet->workbook);
+	GODateConventions const *dconv = sheet_date_conv (sscombo->parent.sv->sheet);
 
 	vals = go_data_cache_field_get_vals (dcf, TRUE);
 	if (NULL == vals)

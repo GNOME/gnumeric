@@ -881,7 +881,7 @@ gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	g_string_free (format, TRUE);
 
 	res = format_value (fmt, v, -1,
-			    workbook_date_conv (ei->pos->sheet->workbook));
+			    sheet_date_conv (ei->pos->sheet));
 
 	go_format_unref (fmt);
 	value_release (v);
@@ -1079,7 +1079,7 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmValue *res, *match = NULL;
 	GnmValue const *v  = argv[0];
 	GODateConventions const *conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 	char *lfmt;
 
 	/* Why do we have to do these here?  */
@@ -1186,7 +1186,7 @@ gnumeric_value (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		       p = g_utf8_next_char (p);
 
 		v = format_match_number (p, NULL,
-			workbook_date_conv (ei->pos->sheet->workbook));
+			sheet_date_conv (ei->pos->sheet));
 
 		if (v != NULL)
 			return v;
@@ -1245,7 +1245,7 @@ gnumeric_numbervalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		if (v == NULL)
 			v = format_match_number
 				(p, NULL,
-				 workbook_date_conv (ei->pos->sheet->workbook));
+				 sheet_date_conv (ei->pos->sheet));
 
 		if (v != NULL)
 			return v;
@@ -1390,7 +1390,7 @@ gnumeric_dollar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	v = value_new_float (number);
 	s = format_value (sf, v, -1,
-			  workbook_date_conv (ei->pos->sheet->workbook));
+			  sheet_date_conv (ei->pos->sheet));
 	value_release (v);
 	go_format_unref (sf);
 

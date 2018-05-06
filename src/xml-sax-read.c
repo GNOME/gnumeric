@@ -2579,8 +2579,7 @@ xml_sax_object_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static GnmValue *
 parse_constraint_side (const char *s, const GnmParsePos *pp)
 {
-	GODateConventions const *date_conv =
-		workbook_date_conv (pp->sheet->workbook);
+	GODateConventions const *date_conv = sheet_date_conv (pp->sheet);
 	GnmValue *v = format_match_number (s, NULL, date_conv);
 
 	if (!v) {

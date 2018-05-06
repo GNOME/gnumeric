@@ -5341,7 +5341,7 @@
 	dependent_managed_set_expr): New functions.
 
 	* src/value.c (value_new_cellrange_parsepos_str): Use the right
-	convensions.  Add flags argument for finer control.  All callers
+	conventions.  Add flags argument for finer control.  All callers
 	changed.
 
 2009-10-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>

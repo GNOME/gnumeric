@@ -731,7 +731,7 @@ gnm_cell_get_entered_text (GnmCell const *cell)
 	v = cell->value;
 	if (v != NULL) {
 		GODateConventions const *date_conv =
-			workbook_date_conv (sheet->workbook);
+			sheet_date_conv (sheet);
 
 		if (VALUE_IS_STRING (v)) {
 			/* Try to be reasonably smart about adding a leading quote */
@@ -830,7 +830,7 @@ gnm_cell_get_text_for_editing (GnmCell const * cell,
 	if (quoted)
 		*quoted = FALSE;
 
-	date_conv = workbook_date_conv (cell->base.sheet->workbook);
+	date_conv = sheet_date_conv (cell->base.sheet);
 
 	if (!gnm_cell_is_array (cell) &&
 	    !gnm_cell_has_expr (cell) && VALUE_IS_FLOAT (cell->value)) {

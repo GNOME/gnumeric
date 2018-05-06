@@ -3413,7 +3413,7 @@
 	* src/ssdiff.c (diff): Use C locale.
 	(ignore_cell): Ignore arrays, except for the corner.
 	(output_cell): New function taking proper care of value types,
-	convensions, etc.
+	conventions, etc.
 	(xml_cell_changed): Use output_cell.
 	(compare_corresponding_cells): Don't use entered_text here either,
 	although it's harmless.

@@ -6669,3 +6669,19 @@ gnm_sheet_find_sort_setup (Sheet *sheet, char const *key)
 		return NULL;
 	return g_hash_table_lookup (sheet->sort_setups, key);
 }
+
+/**
+ * sheet_date_conv:
+ * @sheet: #Sheet
+ *
+ * Returns: (transfer none): the date conventions in effect for the sheet.
+ * This is purely a convenience function to access the conventions used
+ * for the workbook.  All sheets in a workbook share the same date
+ * conventions.
+ **/
+GODateConventions const *
+sheet_date_conv (Sheet const *sheet)
+{
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	return workbook_date_conv (sheet->workbook);
+}

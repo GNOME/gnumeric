@@ -687,8 +687,7 @@ make_expr_example (Sheet *sheet, const char *text,
 
 		if (!fmt)
 			fmt = gnm_auto_style_format_suggest (texpr, &ep);
-		vtxt = format_value (fmt, val, -1,
-				     workbook_date_conv (sheet->workbook));
+		vtxt = format_value (fmt, val, -1, sheet_date_conv (sheet));
 
 		gnm_expr_top_unref (texpr);
 		value_release (val);

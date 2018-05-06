@@ -460,8 +460,7 @@ static void
 fmt_dialog_init_format_page (FormatState *state)
 {
 	GOFormatSel *gfs;
-	GODateConventions const *date_conv =
-		workbook_date_conv (state->sheet->workbook);
+	GODateConventions const *date_conv = sheet_date_conv (state->sheet);
 
 	state->format_sel = gnm_format_sel_new ();
 	gfs = GO_FORMAT_SEL (state->format_sel);
@@ -860,8 +859,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	GtkWidget *font_widget;
 	gboolean strikethrough = FALSE;
 	GOFontScript script = GO_FONT_SCRIPT_STANDARD;
-	GODateConventions const *date_conv =
-		workbook_date_conv (state->sheet->workbook);
+	GODateConventions const *date_conv = sheet_date_conv (state->sheet);
 	GnmColor *mcolor = NULL;
 	GnmColor *def_sc;
 	GtkWidget *up;

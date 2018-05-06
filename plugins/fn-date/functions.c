@@ -45,7 +45,7 @@
 GNM_PLUGIN_MODULE_HEADER;
 
 #define DAY_SECONDS (3600*24)
-#define DATE_CONV(ep)		workbook_date_conv ((ep)->sheet->workbook)
+#define DATE_CONV(ep)		sheet_date_conv ((ep)->sheet)
 
 static GnmValue *
 make_date (GnmValue *res)

@@ -784,8 +784,7 @@ insert_date_time_common (WBCGtk *wbcg, gboolean do_date, gboolean do_time)
 		GnmCell const *cell = sheet_cell_fetch (sheet,
 							sv->edit_pos.col,
 							sv->edit_pos.row);
-		GODateConventions const *date_conv =
-			workbook_date_conv (sheet->workbook);
+		GODateConventions const *date_conv = sheet_date_conv (sheet);
 		GnmValue *v = value_new_float
 			(go_date_timet_to_serial_raw (time (NULL), date_conv));
 		char *txt;

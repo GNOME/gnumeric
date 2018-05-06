@@ -832,7 +832,7 @@ parse_text_value_or_expr (GnmParsePos const *pos, char const *text,
 	/* Determine context information.  */
 	date_conv =
 		pos->sheet
-		? workbook_date_conv (pos->sheet->workbook)
+		? sheet_date_conv (pos->sheet)
 		: (pos->wb
 		   ? workbook_date_conv (pos->wb)
 		   : NULL);

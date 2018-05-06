@@ -1658,7 +1658,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	if (cr->origin_sheet)
 		xml_write_date_conventions_as_attr
 			(&state.state,
-			 workbook_date_conv (cr->origin_sheet->workbook));
+			 sheet_date_conv (cr->origin_sheet));
 	xml_write_number_system (&state.state);
 	if (cr->not_as_contents)
 		gsf_xml_out_add_bool (state.state.output, "NotAsContent", TRUE);

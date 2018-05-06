@@ -361,7 +361,7 @@ static GnmValue *
 get_matched_value (GnmExprEntry *gee)
 {
 	GODateConventions const *date_conv =
-		workbook_date_conv (gee->sheet->workbook);
+		sheet_date_conv (gee->sheet);
 	const char *text = gnm_expr_entry_get_text (gee);
 
 	return format_match_number (text, gee->constant_format, date_conv);
@@ -374,7 +374,7 @@ gee_update_calendar (GnmExprEntry *gee)
 	GDate date;
 	GnmValue *v;
 	GODateConventions const *date_conv =
-		workbook_date_conv (gee->sheet->workbook);
+		sheet_date_conv (gee->sheet);
 
 	if (!gee->calendar_combo)
 		return;
@@ -401,7 +401,7 @@ cb_calendar_changed (GOCalendarButton *calb, GnmExprEntry *gee)
 {
 	GDate date;
 	GODateConventions const *date_conv =
-		workbook_date_conv (gee->sheet->workbook);
+		sheet_date_conv (gee->sheet);
 	int serial;
 
 	if (!go_calendar_button_get_date (calb, &date))
@@ -1626,7 +1626,7 @@ gee_data_editor_set_format (GogDataEditor *deditor, GOFormat const *fmt)
 	GnmExprEntry *gee = (GnmExprEntry *)deditor;
 	GnmValue *v;
 	GODateConventions const *date_conv =
-		workbook_date_conv (gee->sheet->workbook);
+		sheet_date_conv (gee->sheet);
 
 	if (fmt == gee->constant_format)
 		return;
@@ -2619,7 +2619,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 		GnmValue *v = get_matched_value (gee);
 		if (v) {
 			GODateConventions const *date_conv =
-				workbook_date_conv (gee->sheet->workbook);
+				sheet_date_conv (gee->sheet);
 			GnmExprTop const *texpr = gnm_expr_top_new_constant (v);
 			char *str = format_value (gee->constant_format, v, -1, date_conv);
 			if (gee_debug)
@@ -2720,7 +2720,7 @@ gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
 
 	if (!v && (gee->flags & GNM_EE_CONSTANT_ALLOWED)) {
 		GODateConventions const *date_conv =
-			sheet ? workbook_date_conv (sheet->workbook) : NULL;
+			sheet ? sheet_date_conv (sheet) : NULL;
 		v = format_match_number (txt, NULL, date_conv);
 	}
 

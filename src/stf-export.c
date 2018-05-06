@@ -245,7 +245,7 @@ stf_export_cell (GnmStfExport *stfe, GnmCell *cell)
 		case GNM_STF_FORMAT_AUTO:
 			if (cell->value) {
 				GODateConventions const *date_conv =
-					workbook_date_conv (cell->base.sheet->workbook);
+					sheet_date_conv (cell->base.sheet);
 				GOFormat const *format = gnm_cell_get_format (cell);
 				text = tmp = try_auto_date (cell->value, format, date_conv);
 				if (!text)

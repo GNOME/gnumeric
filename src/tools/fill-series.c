@@ -50,7 +50,7 @@ do_row_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 	gnm_float start = info->start_value;
 	GDate        date;
 	GODateConventions const *conv =
-		workbook_date_conv (dao->sheet->workbook);
+		sheet_date_conv (dao->sheet);
 
 
 	for (i = 0; i < info->n; i++) {
@@ -77,7 +77,7 @@ do_column_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 	gnm_float start = info->start_value;
 	GDate        date;
 	GODateConventions const *conv =
-		workbook_date_conv (dao->sheet->workbook);
+		sheet_date_conv (dao->sheet);
 
 
 	for (i = 0; i < info->n; i++) {
@@ -105,7 +105,7 @@ do_row_filling_month (data_analysis_output_t *dao, fill_series_t *info)
 	gnm_float start = info->start_value;
 	GDate        date;
 	GODateConventions const *conv =
-		workbook_date_conv (dao->sheet->workbook);
+		sheet_date_conv (dao->sheet);
 
 
 	for (i = 0; i < info->n; i++) {
@@ -124,7 +124,7 @@ do_column_filling_month (data_analysis_output_t *dao, fill_series_t *info)
 	gnm_float start = info->start_value;
 	GDate        date;
 	GODateConventions const *conv =
-		workbook_date_conv (dao->sheet->workbook);
+		sheet_date_conv (dao->sheet);
 
 
 	for (i = 0; i < info->n; i++) {
@@ -143,7 +143,7 @@ do_row_filling_year (data_analysis_output_t *dao, fill_series_t *info)
 	gnm_float start = info->start_value;
 	GDate        date;
 	GODateConventions const *conv =
-		workbook_date_conv (dao->sheet->workbook);
+		sheet_date_conv (dao->sheet);
 
 
 	for (i = 0; i < info->n; i++) {
@@ -162,7 +162,7 @@ do_column_filling_year (data_analysis_output_t *dao, fill_series_t *info)
 	gnm_float start = info->start_value;
 	GDate        date;
 	GODateConventions const *conv =
-		workbook_date_conv (dao->sheet->workbook);
+		sheet_date_conv (dao->sheet);
 
 
 	for (i = 0; i < info->n; i++) {
@@ -242,7 +242,7 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 		if (info->is_stop_set) {
 			GDate        from_date, to_date;
 			GODateConventions const *conv =
-				workbook_date_conv (dao->sheet->workbook);
+				sheet_date_conv (dao->sheet);
 
 			if (info->step_value < 0) {
 				go_date_serial_to_g (&from_date,

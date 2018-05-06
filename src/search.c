@@ -76,8 +76,7 @@ gnm_search_normalize_result (const char *txt)
 static gboolean
 check_number (GnmSearchReplace *sr)
 {
-	GODateConventions const *date_conv =
-		workbook_date_conv (sr->sheet->workbook);
+	GODateConventions const *date_conv = sheet_date_conv (sr->sheet);
 	GOSearchReplace *gosr = (GOSearchReplace *)sr;
 	GnmValue *v = format_match_number (gosr->search_text, NULL, date_conv);
 

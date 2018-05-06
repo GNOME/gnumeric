@@ -490,7 +490,7 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 	cl.count = 0;
 	cl.flags = flags;
 	cl.info = NULL;
-	cl.date_conv = workbook_date_conv (ep->sheet->workbook);
+	cl.date_conv = sheet_date_conv (ep->sheet);
 
 	*error = function_iterate_argument_values
 		(ep, &callback_function_collect, &cl,

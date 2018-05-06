@@ -1237,8 +1237,9 @@ value_coerce_to_number (GnmValue *v, gboolean *valid, GnmEvalPos const *ep)
 
 	*valid = FALSE;
 	if (VALUE_IS_STRING (v)) {
-		GnmValue *tmp = format_match_number (value_peek_string (v), NULL,
-			workbook_date_conv (ep->sheet->workbook));
+		GnmValue *tmp =
+			format_match_number (value_peek_string (v), NULL,
+					     sheet_date_conv (ep->sheet));
 		value_release (v);
 		if (tmp == NULL)
 			return value_new_error_VALUE (ep);

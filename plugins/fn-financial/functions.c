@@ -337,7 +337,7 @@ func_coup (GnmFuncEvalInfo *ei, GnmValue const * const *argv,
         conv.freq  = value_get_freq (argv[2]);
 	conv.basis = value_get_basis (argv[3], GO_BASIS_MSRB_30_360);
 	conv.eom   = argv[4] ? value_get_as_checked_bool (argv[4]) : TRUE;
-	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+	conv.date_conv = sheet_date_conv (ei->pos->sheet);
 
         if (!datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
 	    !datetime_value_to_g (&maturity, argv[1], conv.date_conv))
@@ -401,7 +401,7 @@ gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gboolean   calc_method;
 
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
         if (!datetime_value_to_g (&issue, argv[0], date_conv) ||
 	    !datetime_value_to_g (&first_interest, argv[1], date_conv) ||
@@ -466,7 +466,7 @@ gnumeric_accrintm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float rate, a, d, par;
 	int basis;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	rate  = value_get_as_float (argv[2]);
 	par   = argv[3] ? value_get_as_float (argv[3]) : 1000;
@@ -504,7 +504,7 @@ gnumeric_intrate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float investment, redemption, a, d;
 	int basis;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	investment = value_get_as_float (argv[2]);
 	redemption = value_get_as_float (argv[3]);
@@ -542,7 +542,7 @@ gnumeric_received (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float investment, discount, a, d, n;
 	int basis;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	investment = value_get_as_float (argv[2]);
 	discount   = value_get_as_float (argv[3]);
@@ -582,7 +582,7 @@ gnumeric_pricedisc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float discount, redemption, a, d;
 	int basis;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	discount   = value_get_as_float (argv[2]);
 	redemption = value_get_as_float (argv[3]);
@@ -619,7 +619,7 @@ gnumeric_pricemat (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float discount, yield, a, b, dsm, dim, n;
 	int basis;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	discount = value_get_as_float (argv[3]);
 	yield    = value_get_as_float (argv[4]);
@@ -664,7 +664,7 @@ gnumeric_disc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float par, redemption, dsm, b;
 	int basis;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	par        = value_get_as_float (argv[2]);
 	redemption = value_get_as_float (argv[3]);
@@ -1098,7 +1098,7 @@ gnumeric_tbilleq (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float settlement, maturity, discount;
 	gnm_float dsm, divisor;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	settlement = datetime_value_to_serial (argv[0], date_conv);
 	maturity   = datetime_value_to_serial (argv[1], date_conv);
@@ -1136,7 +1136,7 @@ gnumeric_tbillprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float settlement, maturity, discount;
 	gnm_float res, dsm;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	settlement = datetime_value_to_serial (argv[0], date_conv);
 	maturity   = datetime_value_to_serial (argv[1], date_conv);
@@ -1170,7 +1170,7 @@ gnumeric_tbillyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float settlement, maturity, pr;
 	gnm_float res, dsm;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	settlement = datetime_value_to_serial (argv[0], date_conv);
 	maturity   = datetime_value_to_serial (argv[1], date_conv);
@@ -1911,7 +1911,7 @@ gnumeric_duration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         gnm_float fNumOfCoups;
 	GoCouponConvention conv;
 
-	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+	conv.date_conv = sheet_date_conv (ei->pos->sheet);
 	conv.eom = TRUE;
 
 	fCoup      = value_get_as_float (argv[2]);
@@ -2274,7 +2274,7 @@ gnumeric_price (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float rate, yield, redemption;
 	GoCouponConvention conv;
 
-	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+	conv.date_conv = sheet_date_conv (ei->pos->sheet);
 
 	rate       = value_get_as_float (argv[2]);
 	yield      = value_get_as_float (argv[3]);
@@ -2347,7 +2347,7 @@ gnumeric_yield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         udata.conv.freq  = value_get_freq (argv[5]);
         udata.conv.basis = value_get_basis (argv[6], GO_BASIS_MSRB_30_360);
         udata.conv.eom   = TRUE;
-        udata.conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+        udata.conv.date_conv = sheet_date_conv (ei->pos->sheet);
 
 	if (!datetime_value_to_g (&udata.settlement, argv[0], udata.conv.date_conv) ||
 	    !datetime_value_to_g (&udata.maturity, argv[1], udata.conv.date_conv))
@@ -2431,7 +2431,7 @@ gnumeric_yielddisc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gint      basis;
 	gnm_float ret, yfrac;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	fPrice     = value_get_as_float (argv[2]);
 	fRedemp    = value_get_as_float (argv[3]);
@@ -2476,7 +2476,7 @@ gnumeric_yieldmat (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float fRate, fPrice;
 	gint      basis;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	fRate      = value_get_as_float (argv[3]);
 	fPrice     = value_get_as_float (argv[4]);
@@ -2618,7 +2618,7 @@ gnumeric_oddfprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         conv.eom   = TRUE;
         conv.freq  = value_get_freq (argv[7]);
         conv.basis = value_get_basis (argv[8], GO_BASIS_MSRB_30_360);
-	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+	conv.date_conv = sheet_date_conv (ei->pos->sheet);
 
 	if (!datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
 	    !datetime_value_to_g (&maturity, argv[1], conv.date_conv) ||
@@ -2696,7 +2696,7 @@ gnumeric_oddfyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         udata.conv.eom   = TRUE;
         udata.conv.freq  = value_get_freq (argv[7]);
         udata.conv.basis = value_get_basis (argv[8], GO_BASIS_MSRB_30_360);
-	udata.conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+	udata.conv.date_conv = sheet_date_conv (ei->pos->sheet);
 
 	if (!datetime_value_to_g (&udata.settlement, argv[0], udata.conv.date_conv) ||
 	    !datetime_value_to_g (&udata.maturity, argv[1], udata.conv.date_conv) ||
@@ -2794,7 +2794,7 @@ gnumeric_oddlprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         conv.eom   = TRUE;
         conv.freq  = value_get_freq (argv[6]);
         conv.basis = value_get_basis (argv[7], GO_BASIS_MSRB_30_360);
-	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+	conv.date_conv = sheet_date_conv (ei->pos->sheet);
 
 	if (!datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
 	    !datetime_value_to_g (&maturity, argv[1], conv.date_conv) ||
@@ -2872,7 +2872,7 @@ gnumeric_oddlyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         conv.eom   = TRUE;
         conv.freq  = value_get_freq (argv[6]);
         conv.basis = value_get_basis (argv[7], GO_BASIS_MSRB_30_360);
-	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+	conv.date_conv = sheet_date_conv (ei->pos->sheet);
 
 	if (!datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
 	    !datetime_value_to_g (&maturity, argv[1], conv.date_conv) ||
@@ -2932,7 +2932,7 @@ gnumeric_amordegrc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float fRestVal, fRate, fCost;
 	gint      basis, nPer;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	fCost      = value_get_as_float (argv[0]);
 	fRestVal   = value_get_as_float (argv[3]);
@@ -2978,7 +2978,7 @@ gnumeric_amorlinc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float fCost, fRestVal, fRate;
 	gint      nPer, basis;
 	GODateConventions const *date_conv =
-		workbook_date_conv (ei->pos->sheet->workbook);
+		sheet_date_conv (ei->pos->sheet);
 
 	fCost      = value_get_as_float (argv[0]);
 	fRestVal   = value_get_as_float (argv[3]);
@@ -3259,7 +3259,7 @@ gnumeric_mduration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         gnm_float fNumOfCoups;
 	GoCouponConvention conv;
 
-	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
+	conv.date_conv = sheet_date_conv (ei->pos->sheet);
 	conv.eom = TRUE;
 
 	fCoup      = value_get_as_float (argv[2]);

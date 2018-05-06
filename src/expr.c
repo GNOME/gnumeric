@@ -904,7 +904,7 @@ cb_bin_arith (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
 		a = va = (GnmValue *)value_zero;
 	else if (VALUE_IS_STRING (a)) {
 		va = format_match_number (value_peek_string (a), NULL,
-			workbook_date_conv (ep->sheet->workbook));
+			sheet_date_conv (ep->sheet));
 		if (va == NULL)
 			return value_new_error_VALUE (ep);
 	} else if (!VALUE_IS_NUMBER (a))
@@ -915,7 +915,7 @@ cb_bin_arith (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
 		b = vb = (GnmValue *)value_zero;
 	else if (VALUE_IS_STRING (b)) {
 		vb = format_match_number (value_peek_string (b), NULL,
-			workbook_date_conv (ep->sheet->workbook));
+			sheet_date_conv (ep->sheet));
 		if (vb == NULL) {
 			if (va != a)
 				value_release (va);
@@ -1119,7 +1119,7 @@ cb_iter_unary_neg (GnmValueIter const *v_iter, GnmValue *res)
 	else if (VALUE_IS_STRING (v)) {
 		GnmValue *conv = format_match_number (
 			value_peek_string (v), NULL,
-			workbook_date_conv (v_iter->ep->sheet->workbook));
+			sheet_date_conv (v_iter->ep->sheet));
 		if (conv != NULL) {
 			tmp = negate_value (conv);
 			value_release (conv);
@@ -1150,7 +1150,7 @@ cb_iter_percentage (GnmValueIter const *v_iter, GnmValue *res)
 		if (VALUE_IS_STRING (v)) {
 			conv = format_match_number (
 				value_peek_string (v), NULL,
-				workbook_date_conv (v_iter->ep->sheet->workbook));
+				sheet_date_conv (v_iter->ep->sheet));
 			if (conv != NULL)
 				v = conv;
 		}
@@ -1301,7 +1301,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		/* 2) #!VALUE error if A is not a number */
 		if (VALUE_IS_STRING (a)) {
 			GnmValue *tmp = format_match_number (value_peek_string (a), NULL,
-				workbook_date_conv (pos->sheet->workbook));
+				sheet_date_conv (pos->sheet));
 
 			value_release (a);
 			if (tmp == NULL)
@@ -1311,7 +1311,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			b = gnm_expr_eval (expr->binary.value_b, pos, flags);
 			if (VALUE_IS_STRING (b)) {
 				res = format_match_number (value_peek_string (b), NULL,
-					workbook_date_conv (pos->sheet->workbook));
+					sheet_date_conv (pos->sheet));
 				value_release (b);
 				b = (res == NULL) ? value_new_error_VALUE (pos) : res;
 			}
@@ -1333,7 +1333,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		/* 4) #!VALUE error if B is not a number */
 		if (VALUE_IS_STRING (b)) {
 			GnmValue *tmp = format_match_number (value_peek_string (b), NULL,
-				workbook_date_conv (pos->sheet->workbook));
+				sheet_date_conv (pos->sheet));
 
 			value_release (b);
 			if (tmp == NULL) {
@@ -1377,7 +1377,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		/* 2) #!VALUE error if A is not a number */
 		if (VALUE_IS_STRING (a)) {
 			GnmValue *tmp = format_match_number (value_peek_string (a), NULL,
-				workbook_date_conv (pos->sheet->workbook));
+				sheet_date_conv (pos->sheet));
 
 			value_release (a);
 			if (tmp == NULL)

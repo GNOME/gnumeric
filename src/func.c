@@ -1236,7 +1236,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 		case 'f':
 			if (VALUE_IS_STRING (tmp)) {
 				tmp = format_match_number (value_peek_string (tmp), NULL,
-					workbook_date_conv (ei->pos->sheet->workbook));
+					sheet_date_conv (ei->pos->sheet));
 				if (tmp == NULL) {
 					free_values (args, i + 1);
 					return value_new_error_VALUE (ei->pos);
@@ -1299,7 +1299,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 							elem = value_zero;
 						else if (VALUE_IS_STRING (elem)) {
 							tmp = format_match_number (value_peek_string (elem), NULL,
-								workbook_date_conv (ei->pos->sheet->workbook));
+								sheet_date_conv (ei->pos->sheet));
 							if (tmp != NULL) {
 								args [iter_item[i]] = iter_args [i] = tmp;
 								continue;

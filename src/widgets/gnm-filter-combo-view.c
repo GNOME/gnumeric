@@ -192,7 +192,7 @@ fcombo_create_list (SheetObject *so,
 	uc.hash = g_hash_table_new_full ((GHashFunc)value_hash, (GEqualFunc)formatted_value_equal,
 		(GDestroyNotify)value_release, (GDestroyNotify)g_free);
 	uc.src_sheet = filter->sheet;
-	uc.date_conv = workbook_date_conv (uc.src_sheet->workbook);
+	uc.date_conv = sheet_date_conv (uc.src_sheet);
 
 	/* We do not want to show items that are filtered by _other_ fields.
 	 * The cleanest way to do that is to create a temporary sheet, apply

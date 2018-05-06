@@ -447,7 +447,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 		int col_width = -1;
 		GOFormat const *format = gnm_style_get_format (mstyle);
 		GODateConventions const *date_conv = sheet->workbook
-			? workbook_date_conv (sheet->workbook)
+			? sheet_date_conv (sheet)
 			: NULL;
 		GnmFont *font = gnm_style_get_font (mstyle, context);
 		gboolean is_rotated = (rotation != 0);

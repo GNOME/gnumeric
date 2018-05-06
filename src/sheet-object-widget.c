@@ -3197,7 +3197,7 @@ static GnmValue *
 so_parse_value (SheetObject *so, const char *s)
 {
 	Sheet *sheet = so->sheet;
-	return format_match (s, NULL, workbook_date_conv (sheet->workbook));
+	return format_match (s, NULL, sheet_date_conv (sheet));
 }
 
 static void

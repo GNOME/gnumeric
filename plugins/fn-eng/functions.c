@@ -93,7 +93,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 		if (flags & V2B_STRINGS_GENERAL) {
 			vstring = format_match_number
 				(value_peek_string (value), NULL,
-				 workbook_date_conv (ei->pos->sheet->workbook));
+				 sheet_date_conv (ei->pos->sheet));
 			if (!vstring || !VALUE_IS_FLOAT (vstring)) {
 				value_release (vstring);
 				return value_new_error_VALUE (ei->pos);

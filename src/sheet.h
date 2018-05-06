@@ -403,6 +403,8 @@ GOUndo *sheet_clear_region_undo (GnmSheetRange *sr,
 
 SheetView *sheet_get_view (Sheet const *sheet, WorkbookView const *wbv);
 
+GODateConventions const *sheet_date_conv (Sheet const *sheet);
+
 // Introspection support
 void sheet_cell_set_value_gi (Sheet *sheet, int col, int row, GnmValue *v);
 void sheet_cell_set_text_gi  (Sheet *sheet, int col, int row, char const *str);

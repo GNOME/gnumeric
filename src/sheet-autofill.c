@@ -165,7 +165,7 @@ afa_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 
 	switch (n) {
 	case 0:
-		afa->dateconv = workbook_date_conv (cell->base.sheet->workbook);
+		afa->dateconv = sheet_date_conv (cell->base.sheet);
 		afa->base = f;
 		if (afa->singleton) {
 			afa->step = 1;
@@ -546,7 +546,7 @@ afm_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	if (gnm_format_is_date_for_value (sf, value) != 1)
 		goto bad;
 
-	afm->dateconv = workbook_date_conv (cell->base.sheet->workbook);
+	afm->dateconv = sheet_date_conv (cell->base.sheet);
 	if (!datetime_value_to_g (&d, value, afm->dateconv))
 		goto bad;
 
@@ -902,7 +902,7 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 		else {
 			Sheet const *sheet = src->base.sheet;
 			GODateConventions const *dateconv =
-				workbook_date_conv (sheet->workbook);
+				sheet_date_conv (sheet);
 			GOFormat const *format = gnm_cell_get_format (src);
 			return format_value (format, src->value, -1,
 					     dateconv);

@@ -302,7 +302,7 @@ paste_cell (int target_col, int target_row,
 					gnm_float fnew = go_date_conv_translate
 						(value_get_as_float (oldval),
 						 dat->cr->date_conv,
-						 workbook_date_conv (dst_sheet->workbook));
+						 sheet_date_conv (dst_sheet));
 					newval = value_new_float (fnew);
 					value_set_fmt (newval, VALUE_FMT (oldval));
 				}
@@ -554,7 +554,7 @@ clipboard_paste_region (GnmCellRegion const *cr,
 	}
 
 	dat.translate_dates = cr->date_conv &&
-		!go_date_conv_equal (cr->date_conv, workbook_date_conv (pt->sheet->workbook));
+		!go_date_conv_equal (cr->date_conv, sheet_date_conv (pt->sheet));
 
 	for (i = 0; i < repeat_horizontal ; i++)
 		for (j = 0; j < repeat_vertical ; j++) {
@@ -894,7 +894,7 @@ gnm_cell_region_new (Sheet *origin_sheet)
 	GnmCellRegion *cr = g_new0 (GnmCellRegion, 1);
 	cr->origin_sheet	= origin_sheet;
 	cr->date_conv           = origin_sheet && origin_sheet->workbook
-		? workbook_date_conv (origin_sheet->workbook)
+		? sheet_date_conv (origin_sheet)
 		: NULL;
 	cr->cols = cr->rows	= -1;
 	cr->not_as_contents	= FALSE;

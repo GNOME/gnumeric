@@ -22,7 +22,7 @@
 
 /*
  * NOTE 2: the pbeta (and support) code comes from Ian Smith.  (Translated
- * into C, adapted to Gnumeric naming convensions, and R's API conventions
+ * into C, adapted to Gnumeric naming conventions, and R's API conventions
  * by Morten Welinder.  Blame me for problems.)
  *
  * Copyright © Ian Smith 2002-2003
