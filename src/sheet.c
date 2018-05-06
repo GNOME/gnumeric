@@ -4168,6 +4168,10 @@ sheet_foreach_cell_in_region (Sheet *sheet, CellIterFlags flags,
 				last_row = iter.pp.eval.row;
 				iter.ri = sheet_row_get (iter.pp.sheet, last_row);
 			}
+			if (iter.ri == NULL) {
+				g_critical ("Cell without row data -- please report");
+				continue;
+			}
 			if (visibility_matters && !iter.ri->visible)
 				continue;
 			if (ignore_filtered && iter.ri->in_filter && !iter.ri->visible)
@@ -4176,6 +4180,10 @@ sheet_foreach_cell_in_region (Sheet *sheet, CellIterFlags flags,
 			if (iter.pp.eval.col != last_col) {
 				last_col = iter.pp.eval.col;
 				iter.ci = sheet_col_get (iter.pp.sheet, last_col);
+			}
+			if (iter.ci == NULL) {
+				g_critical ("Cell without column data -- please report");
+				continue;
 			}
 			if (visibility_matters && !iter.ci->visible)
 				continue;
