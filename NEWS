@@ -6,6 +6,7 @@ Morten:
 	* Exit with non-zero with we fail to load file on command line.
 	* Fix undo crash.  [#795861]
 	* Introspection fixes.
+	* Don't offer more than 15 significant digits by default.  [#754391]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.40

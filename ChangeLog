@@ -1,5 +1,10 @@
 2018-05-07  Morten Welinder  <terra@gnome.org>
 
+	* src/rendered-value.c (gnm_rendered_value_new): When auto-fitting
+	a column, request no more room than for 15 significant digits.
+	Fixes #754391.  You can still get the maximum precision by
+	widening the column.
+
 	* src/wbc-gtk.c (wbc_gtk_init): Use a resource for the default ui
 	definition.
 	(wbcg_auto_expr_value_changed): Limit the width of numbers

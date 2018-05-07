@@ -62,6 +62,9 @@ static int rv_allocations;
 #define CHUNK_FREE(p,v) (rv_allocations--, g_slice_free1 (sizeof(*v),(v)))
 #endif
 
+// Number of decimal digits in a gnm_float rounded down to an integer.
+static int sane_digits;
+
 static gboolean
 debug_rv (void)
 {
@@ -218,6 +221,25 @@ rv_adjust_attributes (PangoAttrList *markup, double zoom, double scale, int rise
 				&raat);
 }
 
+static gboolean
+too_many_digits (const char *s)
+{
+	int count = 0;
+	const char *p;
+
+	// Count significant digits
+	for (p = s; *p; p = g_utf8_next_char (p)) {
+		gunichar uc = g_utf8_get_char (p);
+		if (uc == '0' && count == 0)
+			continue;
+		if (g_unichar_isdigit (uc))
+			count++;
+		if (uc == 'e' || uc == 'E')
+			break;
+	}
+
+	return count > sane_digits;
+}
 
 /**
  * gnm_rendered_value_new: (skip)
@@ -483,12 +505,32 @@ gnm_rendered_value_new (GnmCell const *cell,
 				col_width_pixels = ci->size_pixels;
 			}
 			col_width_pixels -= (GNM_COL_MARGIN + GNM_COL_MARGIN + 1);
+			if (col_width_pixels < 0)
+				col_width_pixels = 0;
 			col_width = col_width_pixels * PANGO_SCALE;
 		}
 
 		err = gnm_format_layout (layout, font->go.metrics, format,
 					 cell->value,
 					 col_width, date_conv, TRUE);
+
+		// If we are formatting a number as General without a limit
+		// on size [i.e., we autofitting a column] then avoid excess
+		// precision.  This is somewhat hacky.
+		if (col_width == -1 &&
+		    go_format_is_general (format) &&
+		    VALUE_IS_FLOAT (cell->value) &&
+		    font->go.metrics->min_digit_width > 0 &&
+		    too_many_digits (pango_layout_get_text (layout))) {
+			int width;
+			int delta = (font->go.metrics->min_digit_width + 1) / 2;
+			pango_layout_get_size (layout, &width, NULL);
+			col_width = width - delta;
+			err = gnm_format_layout (layout,
+						 font->go.metrics, format,
+						 cell->value,
+						 col_width, date_conv, TRUE);
+		}
 
 		switch (err) {
 		case GO_FORMAT_NUMBER_DATE_ERROR:
@@ -686,6 +728,8 @@ gnm_rvc_remove (GnmRenderedValueCollection *rvc, GnmCell const *cell)
 void
 gnm_rendered_value_init (void)
 {
+	sane_digits = (int)gnm_floor (GNM_MANT_DIG * gnm_log10 (FLT_RADIX));
+
 #if USE_RV_POOLS
 	rendered_value_pool =
 		go_mem_chunk_new ("rendered value pool",
