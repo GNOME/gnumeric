@@ -241,6 +241,15 @@ do_af_suggest_list (int argc, GnmExprConstPtr const *argv,
 
 GNM_BEGIN_KILL_SWITCH_WARNING
 
+/**
+ * gnm_auto_style_format_suggest:
+ * @texpr: A #GnmExprTop
+ * @epos: A #GnmEvalPos
+ *
+ * Suggest a format for @texpr.
+ *
+ * Returns: (transfer full) (nullable): Suggested format.
+ */
 GOFormat const *
 gnm_auto_style_format_suggest (GnmExprTop const *texpr, GnmEvalPos const *epos)
 {

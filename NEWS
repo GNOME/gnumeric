@@ -5,6 +5,7 @@ Morten:
 	* Fix undo problem for cell comments.  [#732653]
 	* Exit with non-zero with we fail to load file on command line.
 	* Fix undo crash.  [#795861]
+	* Introspection fixes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.40

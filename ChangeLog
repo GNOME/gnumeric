@@ -2,6 +2,10 @@
 
 	* src/wbc-gtk.c (wbc_gtk_init): Use a resource for the default ui
 	definition.
+	(wbcg_auto_expr_value_changed): Limit the width of numbers
+	formatted as General to something independent of function name.
+	This avoids the 10.10000...002 situation unless maximum precision
+	is requested.
 
 2018-05-06  Morten Welinder  <terra@gnome.org>
 

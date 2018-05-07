@@ -1438,10 +1438,12 @@ wbcg_auto_expr_value_changed (WorkbookView *wbv,
 			PangoLayout *layout = gtk_widget_create_pango_layout (GTK_WIDGET (wbcg->toplevel), NULL);
 			gsize old_len = str->len;
 			GODateConventions const *date_conv = workbook_date_conv (wb_view_get_workbook (wbv));
+			int max_width = go_format_is_general (format) && VALUE_IS_NUMBER (v)
+				? 14
+				: strlen (AUTO_EXPR_SAMPLE) - g_utf8_strlen (str->str, -1);
 			GOFormatNumberError err =
 				format_value_layout (layout, format, v,
-						     strlen (AUTO_EXPR_SAMPLE) - g_utf8_strlen (str->str, -1),
-						     date_conv);
+						     max_width, date_conv);
 			switch (err) {
 			case GO_FORMAT_NUMBER_OK:
 			case GO_FORMAT_NUMBER_DATE_ERROR: {
