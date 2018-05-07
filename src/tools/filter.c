@@ -54,8 +54,8 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 			ri->in_advanced_filter = TRUE;
 		}
 		while (rows != NULL) {
-			const gint *row = rows->data;
-			colrow_set_visibility (sheet, FALSE, TRUE, *row, *row);
+			gint row = GPOINTER_TO_INT (rows->data);
+			colrow_set_visibility (sheet, FALSE, TRUE, row, row);
 			rows = rows->next;
 		}
 		sheet_redraw_all (sheet, TRUE);
@@ -75,9 +75,9 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 		++r;
 
 		while (rows != NULL) {
-			const gint *row = rows->data;
+			gint row = GPOINTER_TO_INT (rows->data);
 			for (i=input_col_b; i<=input_col_e; i++) {
-				cell = sheet_cell_get (sheet, i, *row);
+				cell = sheet_cell_get (sheet, i, row);
 				if (cell == NULL)
 					dao_set_cell (dao, i - input_col_b, r,
 						      NULL);
@@ -140,8 +140,6 @@ advanced_filter (WorkbookControl        *wbc,
 		database->v_range.cell.a.col,
 		database->v_range.cell.b.col, database->v_range.cell.a.row,
 		database->v_range.cell.b.row);
-
-	g_slist_free_full (rows, (GDestroyNotify)g_free);
 
 	sv = sheet_get_view (sheet, wb_control_view (wbc));
 	s = r = *(selection_first_range (sv, NULL, NULL));
@@ -237,8 +235,6 @@ analysis_tool_advanced_filter_engine_run (data_analysis_output_t *dao,
 		database->v_range.cell.a.col,
 		database->v_range.cell.b.col, database->v_range.cell.a.row,
 		database->v_range.cell.b.row);
-
-	g_slist_free_full (rows, (GDestroyNotify)g_free);
 
 finish:
 	if (err != analysis_tools_noerr) {
