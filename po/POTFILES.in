@@ -125,7 +125,7 @@ plugins/xbase/xbase.c
 schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in
 schemas/org.gnome.gnumeric.gschema.xml.in.in
 schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in
-src/GNOME_Gnumeric-gtk.xml.in
+src/GNOME_Gnumeric-gtk.xml
 src/application.c
 src/cell.c
 src/clipboard.c
