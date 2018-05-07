@@ -493,7 +493,7 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
  * @first_col: first column.
  * @first_row: first row.
  * @last_col: last column.
- * @last_row: laset row.
+ * @last_row: last row.
  * @criterias: (element-type GnmDBCriteria): the criteria to use.
  * @unique_only:
  *

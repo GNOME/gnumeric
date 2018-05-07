@@ -1,3 +1,7 @@
+2018-05-07  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.41
+
 2018-05-07  Morten Welinder  <terra@gnome.org>
 
 	* src/rendered-value.c (gnm_rendered_value_new): When auto-fitting
