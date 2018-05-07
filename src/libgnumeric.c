@@ -373,11 +373,14 @@ gnm_shutdown (void)
 	parse_util_shutdown ();
 	value_shutdown ();
 
+	// The style leak printer may access font/border/color info so
+	// shut styles down first.
+	gnm_style_shutdown ();
 	gnm_font_shutdown ();
 	gnm_border_shutdown ();
 	gnm_color_shutdown ();
+
 	gnm_conf_shutdown ();
-	gnm_style_shutdown ();
 
 	_gnm_unregister_resource ();
 	libgoffice_shutdown ();
