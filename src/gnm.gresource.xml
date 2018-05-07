@@ -181,5 +181,6 @@
     <file alias="images/unknown_image.png">src/pixmaps/unknown_image.png</file>
     <file alias="images/sheet_move_marker.png">src/pixmaps/sheet_move_marker.png</file>
     <file alias="ui/gnumeric.css">src/gnumeric.css</file>
+    <file alias="ui/GNOME_Gnumeric-gtk.xml">src/GNOME_Gnumeric-gtk.xml</file>
   </gresource>
 </gresources>

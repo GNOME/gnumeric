@@ -4996,6 +4996,7 @@ wbc_gtk_init (GObject *obj)
 	unsigned	 i;
 	GEnumClass      *posclass;
 	GtkStyleContext *ctxt;
+	guint            merge_id;
 
 	wbcg->gui = gnm_gtk_builder_load ("wbcg.ui", NULL, NULL);
 	wbcg->cancel_button = GET_GUI_ITEM ("cancel_button");
@@ -5074,13 +5075,27 @@ wbc_gtk_init (GObject *obj)
 		gtk_action_group_add_actions (wbcg->actions, extra_actions,
 			                      extra_actions_nb, wbcg);
 
-	uifile = g_build_filename (gnm_sys_data_dir (),
-		(uifilename? uifilename: "GNOME_Gnumeric-gtk.xml"), NULL);
+	if (uifilename) {
+		if (strncmp (uifilename, "res:", 4) == 0)
+			uifile = g_strdup (uifilename);
+		else
+			uifile = g_build_filename (gnm_sys_data_dir (),
+						   uifilename,
+						   NULL);
+	} else
+		uifile = g_strdup ("res:/org/gnumeric/gnumeric/ui/GNOME_Gnumeric-gtk.xml");
 
-	if (!gtk_ui_manager_add_ui_from_file (wbcg->ui, uifile, &error)) {
+	if (strncmp (uifile, "res:", 4) == 0)
+		merge_id = gtk_ui_manager_add_ui_from_resource
+			(wbcg->ui, uifile + 4, &error);
+	else
+		merge_id = gtk_ui_manager_add_ui_from_file
+			(wbcg->ui, uifile, &error);
+	if (!merge_id) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
+
 	g_free (uifile);
 
 	wbcg->custom_uis = g_hash_table_new_full (g_direct_hash, g_direct_equal,

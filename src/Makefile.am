@@ -527,14 +527,7 @@ EXTRA_DIST =						\
 	gnm-marshalers.list				\
 	README.gnm_float				\
 	gnumeric.rc					\
-	GNOME_Gnumeric-gtk.xml.in
-
-gtkactiondir=$(gnumeric_datadir)
-
-gtkaction_DATA = GNOME_Gnumeric-gtk.xml
-GNOME_Gnumeric-gtk.xml: GNOME_Gnumeric-gtk.xml.in
-	sed -e 's/ _name *=/ name=/' <$<  >$@
-DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
+	GNOME_Gnumeric-gtk.xml
 
 if HAVE_INTROSPECTION
 

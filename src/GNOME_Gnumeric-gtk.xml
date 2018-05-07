@@ -331,7 +331,7 @@
       <menuitem action="HelpAbout"/>
     </menu>
   </menubar>
-  <toolbar _name="StandardToolbar">
+  <toolbar name="StandardToolbar">
     <toolitem action="FileNew"/>
     <toolitem action="FileOpen"/>
     <toolitem action="FileSave"/>
@@ -358,7 +358,7 @@
     <toolitem action="Zoom"/>
     <toolitem action="VZoom"/>
   </toolbar>
-  <toolbar _name="FormatToolbar">
+  <toolbar name="FormatToolbar">
     <toolitem action="FontName"/>
     <toolitem action="VFontName"/>
     <toolitem action="FontBold"/>
@@ -388,7 +388,7 @@
     <toolitem action="ColorBack"/>
     <toolitem action="ColorFore"/>
   </toolbar>
-  <toolbar _name="ObjectToolbar">
+  <toolbar name="ObjectToolbar">
     <toolitem action="CreateRectangle"/>
     <toolitem action="CreateEllipse"/>
     <toolitem action="CreateFrame"/>
