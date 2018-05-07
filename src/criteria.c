@@ -534,15 +534,13 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 				break;
 		}
 		if (add_flag) {
-			gint *p;
-
 			if (unique_only) {
 				GSList *c;
 				GnmCell   *cell;
-				gint    i, trow;
+				gint    i;
 
 				for (c = rows; c != NULL; c = c->next) {
-					trow = *((gint *) c->data);
+					int trow = GPOINTER_TO_INT (c->data);
 					for (i = first_col; i <= last_col; i++) {
 						test_cell = sheet_cell_get (sheet, i, trow);
 						cell = sheet_cell_get (sheet, i, row);
@@ -565,9 +563,7 @@ row_ok:
 					;
 				}
 			}
-			p = g_new (gint, 1);
-			*p = row;
-			rows = g_slist_prepend (rows, (gpointer) p);
+			rows = g_slist_prepend (rows, GINT_TO_POINTER (row));
 filter_row:
 			;
 		}
