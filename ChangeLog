@@ -1,3 +1,7 @@
+2018-05-07  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-pane.c (gnm_pane_key_mode_sheet): Plug leaks.
+
 2018-05-07  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

@@ -271,11 +271,10 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *kevent,
 	case GDK_KEY_Page_Up:
 		if (event_state & GDK_CONTROL_MASK) {
 			if (event_state & GDK_SHIFT_MASK) {
-				WorkbookSheetState * old_state = workbook_sheet_state_new(wb);
 				int old_pos = sheet->index_in_wb;
-
-				if (old_pos > 0){
-					workbook_sheet_move(sheet, -1);
+				if (old_pos > 0) {
+					WorkbookSheetState * old_state = workbook_sheet_state_new (wb);
+					workbook_sheet_move (sheet, -1);
 					cmd_reorganize_sheets (wbc, old_state, sheet);
 				}
 			} else {
@@ -296,15 +295,13 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *kevent,
 
 	case GDK_KEY_KP_Page_Down:
 	case GDK_KEY_Page_Down:
-
 		if ((event_state & GDK_CONTROL_MASK) != 0){
 			if ((event_state & GDK_SHIFT_MASK) != 0){
-				WorkbookSheetState * old_state = workbook_sheet_state_new(wb);
-				int num_sheets = workbook_sheet_count(wb);
+				int num_sheets = workbook_sheet_count (wb);
 				gint old_pos = sheet->index_in_wb;
-
-				if (old_pos < num_sheets - 1){
-					workbook_sheet_move(sheet, 1);
+				if (old_pos < num_sheets - 1) {
+					WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
+					workbook_sheet_move (sheet, 1);
 					cmd_reorganize_sheets (wbc, old_state, sheet);
 				}
 			} else {
