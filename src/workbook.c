@@ -1249,7 +1249,7 @@ workbook_sheet_get_free_name (Workbook *wb,
 /**
  * workbook_sheet_rename:
  * @wb: #Workbook in which to rename sheets
- * @sheet_indices: (element-type void): list of sheet indices (ignore -1)
+ * @sheet_indices: (element-type int): list of sheet indices (ignore -1)
  * @new_names: (element-type utf8): list of new names
  *
  * Adjusts the names of the sheets. We assume that everything is

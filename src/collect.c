@@ -573,7 +573,7 @@ collect_floats_value (GnmValue const *val, GnmEvalPos const *ep,
  * @ep: #GnmEvalPos
  * @flags: #CollectFlags
  * @n:
- * @info: (element-type void):
+ * @info: (element-type guint):
  * @error:
  *
  * Like collect_floats_value, but keeps info on missing values
@@ -646,13 +646,13 @@ float_range_function (int argc, GnmExprConstPtr const *argv,
 
 /**
  * gnm_slist_sort_merge:
- * @list_1: (element-type void) (transfer container): a sorted list of
+ * @list_1: (element-type guint) (transfer container): a sorted list of
  * unsigned integers with no duplicates.
- * @list_2: (element-type void) (transfer container): another one
+ * @list_2: (element-type guint) (transfer container): another one
  *
  * gnm_slist_sort_merge merges two lists of unsigned integers.
  *
- * Returns: (element-type void) (transfer container): the mergedlist.
+ * Returns: (element-type guint) (transfer container): the mergedlist.
  **/
 GSList *
 gnm_slist_sort_merge (GSList *l1,
@@ -688,7 +688,7 @@ gnm_slist_sort_merge (GSList *l1,
  * gnm_strip_missing:
  * @data: (inout) (array length=n): Array
  * @n: (inout): Number of elements in @data.
- * @missing: (element-type void): indices of elements to remove in increasing
+ * @missing: (element-type guint): indices of elements to remove in increasing
  * order.
  *
  * This removes the data elements from @data whose indices are given by
