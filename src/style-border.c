@@ -136,6 +136,11 @@ style_border_hash (gconstpointer v)
 	return (GPOINTER_TO_UINT(b->color) ^ b->line_type);
 }
 
+/**
+ * gnm_style_border_none:
+ *
+ * Returns: (transfer none): A #GnmBorder with no borders.
+ */
 GnmBorder *
 gnm_style_border_none (void)
 {
@@ -155,7 +160,7 @@ gnm_style_border_none (void)
 
 /**
  * gnm_style_border_none_set_color:
- * @color:
+ * @color: (transfer full): #GnmColor
  *
  * This function updates the color of gnm_style_border_none when the wanted grid
  * color is known. gnm_style_border_none tells how to render the grid. Because
@@ -165,7 +170,6 @@ gnm_style_border_none (void)
  * color is default (which is black), the grid color is gray, as returned by
  * style_color_grid ().  - otherwise, the auto pattern color is used for the
  * grid.
- * NOTE : Absorbs a reference to @color.
  */
 void
 gnm_style_border_none_set_color (GnmColor *color)
@@ -186,7 +190,7 @@ gnm_style_border_none_set_color (GnmColor *color)
 /**
  * gnm_style_border_fetch:
  * @line_type: dash style
- * @color: (transfer full): colour
+ * @color: (transfer full) (nullable): colour
  * @orientation: Not currently used.
  *
  * Fetches a GnmBorder from the cache, creating one if necessary.  Absorbs
@@ -280,6 +284,12 @@ gnm_style_border_get_orientation (GnmStyleBorderLocation type)
 	}
 }
 
+/**
+ * gnm_style_border_ref:
+ * @border: (nullable): #GnmBorder
+ *
+ * Returns: (transfer full): a reference to @border
+ */
 GnmBorder *
 gnm_style_border_ref (GnmBorder *border)
 {
@@ -291,6 +301,10 @@ gnm_style_border_ref (GnmBorder *border)
 	return border;
 }
 
+/**
+ * gnm_style_border_unref:
+ * @border: (transfer full) (nullable): #GnmBorder
+ */
 void
 gnm_style_border_unref (GnmBorder *border)
 {
@@ -334,12 +348,19 @@ cb_border_leak (gpointer key, gpointer value, gpointer user_data)
 		    border->ref_count);
 }
 
+/**
+ * gnm_border_shutdown: (skip)
+ */
 void
 gnm_border_shutdown (void)
 {
 	if (border_none) {
-		style_color_unref (border_none->color);
-		g_free (border_none);
+		if (border_none->ref_count == 1) {
+			style_color_unref (border_none->color);
+			g_free (border_none);
+		} else {
+			cb_border_leak (NULL, border_none, NULL);
+		}
 		border_none = NULL;
 	}
 
