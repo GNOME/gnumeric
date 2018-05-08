@@ -407,8 +407,7 @@ gnm_sog_populate_menu (SheetObject *so, GPtrArray *actions)
 	GNM_SO_CLASS (parent_klass)->populate_menu (so, actions);
 
 	for (i = 0; i < G_N_ELEMENTS (sog_actions); i++)
-		go_ptr_array_insert (actions, (gpointer) (sog_actions + i), 1 + i);
-
+		g_ptr_array_insert (actions, 1 + i, (gpointer) (sog_actions + i));
 }
 
 static void

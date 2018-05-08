@@ -172,8 +172,8 @@ gnm_scenario_dup (GnmScenario *src, Sheet *new_sheet)
 
 	dst = gnm_scenario_new (src->name, new_sheet);
 	gnm_scenario_set_comment (dst, src->comment);
-	dst->items = go_slist_map (src->items,
-				   (GOMapFunc)gnm_scenario_item_dup);
+	dst->items = g_slist_copy_deep
+		(src->items, (GCopyFunc)gnm_scenario_item_dup, NULL);
 	return dst;
 }
 

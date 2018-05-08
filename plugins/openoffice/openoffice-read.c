@@ -3384,9 +3384,9 @@ static OOCellStyle *
 odf_oo_cell_style_copy (OOCellStyle *oostyle)
 {
 	OOCellStyle *new = odf_oo_cell_style_new (oostyle->style);
-	new->styles = go_slist_map (oostyle->styles, (GOMapFunc)odf_oo_cell_style_ref);
-	new->conditions = go_slist_map (oostyle->conditions, (GOMapFunc)g_strdup);
-	new->bases = go_slist_map (oostyle->bases, (GOMapFunc)g_strdup);
+	new->styles = g_slist_copy_deep (oostyle->styles, (GCopyFunc)odf_oo_cell_style_ref, NULL);
+	new->conditions = g_slist_copy_deep (oostyle->conditions, (GCopyFunc)g_strdup, NULL);
+	new->bases = g_slist_copy_deep (oostyle->bases, (GCopyFunc)g_strdup, NULL);
 	return new;
 }
 

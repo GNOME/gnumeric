@@ -171,10 +171,10 @@ libspreadsheet_reqs="
 	libxml-2.0		>= 2.4.12
 "
 gnumeric_reqs="$libspreadsheet_reqs
-	glib-2.0		>= 2.38.0
-	gobject-2.0		>= 2.38.0
-	gmodule-2.0		>= 2.38.0
-	gthread-2.0		>= 2.38.0
+	glib-2.0		>= 2.40.0
+	gobject-2.0		>= 2.40.0
+	gmodule-2.0		>= 2.40.0
+	gthread-2.0		>= 2.40.0
 	pango			>= 1.24.0
 	pangocairo		>= 1.24.0
 "

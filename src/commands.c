@@ -2926,7 +2926,9 @@ static GSList *
 get_new_objects (Sheet *sheet, GSList *old)
 {
 	GSList *objs =
-		g_slist_sort (go_slist_map (sheet->sheet_objects, g_object_ref),
+		g_slist_sort (g_slist_copy_deep (sheet->sheet_objects,
+						 (GCopyFunc)g_object_ref,
+						 NULL),
 			      by_addr);
 	GSList *p = objs, *last = NULL;
 
@@ -3008,8 +3010,9 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 		// We cannot use the random set of objects at the target
 		// location.  http://bugzilla.gnome.org/show_bug.cgi?id=308300
 		g_slist_free_full (contents->objects, g_object_unref);
-		contents->objects = go_slist_map (me->orig_contents_objects,
-						  (GOMapFunc)sheet_object_dup);
+		contents->objects = g_slist_copy_deep
+			(me->orig_contents_objects,
+			 (GCopyFunc)sheet_object_dup, NULL);
 	} else {
 		GSList *l;
 		for (l = contents->objects; l; l = l->next) {
@@ -3104,7 +3107,8 @@ cmd_paste_copy (WorkbookControl *wbc,
 	me->only_objects = (cr->cols < 1 || cr->rows < 1);
 	me->pasted_objects = NULL;
 	me->orig_contents_objects =
-		go_slist_map (cr->objects, (GOMapFunc)sheet_object_dup);
+		g_slist_copy_deep (cr->objects,
+				   (GCopyFunc)sheet_object_dup, NULL);
 	me->single_merge_to_single_merge = FALSE;
 
 	/* If the input is only objects ignore all this range stuff */

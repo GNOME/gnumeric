@@ -1004,7 +1004,7 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 	pre_sheet_index_change (wb);
 
 	g_object_ref (new_sheet);
-	go_ptr_array_insert (wb->sheets, (gpointer)new_sheet, pos);
+	g_ptr_array_insert (wb->sheets, pos, (gpointer)new_sheet);
 	workbook_sheet_index_update (wb, pos);
 	g_hash_table_insert (wb->sheet_hash_private,
 			     new_sheet->name_case_insensitive,
@@ -1178,7 +1178,7 @@ workbook_sheet_move (Sheet *sheet, int direction)
 		int max_pos = MAX (old_pos, new_pos);
 
 		g_ptr_array_remove_index (wb->sheets, old_pos);
-		go_ptr_array_insert (wb->sheets, sheet, new_pos);
+		g_ptr_array_insert (wb->sheets, new_pos, sheet);
 
 		for (; max_pos >= min_pos ; max_pos--) {
 			Sheet *sheet = g_ptr_array_index (wb->sheets, max_pos);

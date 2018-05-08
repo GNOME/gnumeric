@@ -314,8 +314,9 @@ gnm_ft_clone (GnmFT const *ft)
 
 	clone->category    = ft->category;
 
-	clone->members = go_slist_map (ft->members,
-				       (GOMapFunc)gnm_ft_member_clone);
+	clone->members =
+		g_slist_copy_deep (ft->members,
+				   (GCopyFunc)gnm_ft_member_clone, NULL);
 
 	clone->number    = ft->number;
 	clone->border    = ft->border;

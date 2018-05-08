@@ -259,8 +259,10 @@ static void
 compile_terminators (StfParseOptions_t *parseoptions)
 {
 	GSList *l;
-	GO_SLIST_SORT (parseoptions->terminator, (GCompareFunc)long_string_first);
 
+	parseoptions->terminator =
+		g_slist_sort (parseoptions->terminator,
+			      (GCompareFunc)long_string_first);
 	parseoptions->compiled_terminator.min = 255;
 	parseoptions->compiled_terminator.max = 0;
 	for (l = parseoptions->terminator; l; l = l->next) {
@@ -339,7 +341,8 @@ stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions,
 	parseoptions->sep.chr = g_strdup (character);
 
 	g_slist_free_full (parseoptions->sep.str, g_free);
-	parseoptions->sep.str = go_slist_map (seps, (GOMapFunc)g_strdup);
+	parseoptions->sep.str =
+		g_slist_copy_deep ((GSList *)seps, (GCopyFunc)g_strdup, NULL);
 }
 
 void

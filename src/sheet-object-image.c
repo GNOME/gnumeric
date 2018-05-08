@@ -345,7 +345,7 @@ gnm_soi_populate_menu (SheetObject *so, GPtrArray *actions)
 	static SheetObjectAction const soi_action =
 		{ "document-save-as", N_("_Save As Image"), NULL, 0, soi_cb_save_as };
 	gnm_soi_parent_class->populate_menu (so, actions);
-	go_ptr_array_insert (actions, (gpointer) &soi_action, 1);
+	g_ptr_array_insert (actions, 1, (gpointer) &soi_action);
 }
 
 static void
