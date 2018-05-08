@@ -53,10 +53,10 @@ static GObjectClass *gnm_hlink_parent_class;
  */
 /**
  * gnm_hlink_activate:
- * @lnk:
+ * @lnk: #GnmHLink
  * @wbcg: the wbcg that activated the link
  *
- * Returns: TRUE if the link successfully activated.
+ * Returns: %TRUE if the link successfully activated.
  **/
 gboolean
 gnm_hlink_activate (GnmHLink *lnk, WBCGtk *wbcg)
@@ -71,7 +71,7 @@ gnm_hlink_activate (GnmHLink *lnk, WBCGtk *wbcg)
  * @sheet: #Sheet
  * @pos: #GcmCellPos
  *
- * Returns: (transfer none): the found #GnmHLink.
+ * Returns: (transfer none) (nullable): the found #GnmHLink.
  **/
 GnmHLink *
 gnm_sheet_hlink_find (Sheet const *sheet, GnmCellPos const *pos)
@@ -138,6 +138,12 @@ gnm_hlink_init (GObject *obj)
 GSF_CLASS_ABSTRACT (GnmHLink, gnm_hlink,
 		    gnm_hlink_class_init, gnm_hlink_init, G_TYPE_OBJECT)
 
+/**
+ * gnm_hlink_get_target:
+ * @lnk: #GnmHLink
+ *
+ * Returns: (transfer none): @lnk's target.
+ */
 const char *
 gnm_hlink_get_target (GnmHLink const *lnk)
 {
@@ -154,6 +160,12 @@ gnm_hlink_set_target (GnmHLink *lnk, gchar const *target)
 	GET_CLASS (lnk)->set_target (lnk, target);
 }
 
+/**
+ * gnm_hlink_get_tip:
+ * @lnk: #GnmHLink
+ *
+ * Returns: (transfer none): @lnk's tooltip.
+ */
 const char *
 gnm_hlink_get_tip (GnmHLink const *lnk)
 {
@@ -175,7 +187,7 @@ gnm_hlink_set_tip (GnmHLink *lnk, gchar const *tip)
 
 /**
  * gnm_hlink_get_sheet:
- * @lnk: link
+ * @lnk: #GnmHLink
  *
  * Returns: (transfer none): the sheet
  */
@@ -400,7 +412,7 @@ GSF_CLASS (GnmHLinkCurWB, gnm_hlink_cur_wb,
 /**
  * gnm_hlink_get_range_target:
  * @lnk: the hyperlink to query
- * @sr: location to start link target range
+ * @sr: (out): location to store link target range
  *
  * This function determines the location that a link points to.  It will
  * resolve names.
@@ -416,6 +428,8 @@ gnm_hlink_get_range_target (GnmHLink const *lnk, GnmSheetRange *sr)
 	GnmRangeRef const *r;
 	GnmParsePos pp;
 	Sheet *start_sheet, *end_sheet;
+
+	memset (sr, 0, sizeof (*sr));
 
 	g_return_val_if_fail (GNM_IS_HLINK (lnk), FALSE);
 
@@ -441,6 +455,14 @@ gnm_hlink_get_range_target (GnmHLink const *lnk, GnmSheetRange *sr)
 }
 
 
+/**
+ * gnm_hlink_get_target_expr:
+ * @lnk: the hyperlink to query
+ *
+ * This function determines the location that a link points to.
+ *
+ * Returns: (transfer none) (nullable): A #GnmExprTop describing the target.
+ */
 GnmExprTop const *
 gnm_hlink_get_target_expr (GnmHLink const *lnk)
 {

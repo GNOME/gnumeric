@@ -20,6 +20,10 @@
 #include <gnumeric-config.h>
 
 #include "session.h"
+
+/**
+ * gnm_session_init: (skip)
+ */
 void
 gnm_session_init (char const *argv0)
 {

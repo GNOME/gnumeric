@@ -409,8 +409,11 @@ random_01 (void)
 }
 
 /* ------------------------------------------------------------------------ */
-/*
- * Generate a N(0,1) distributed number.
+
+/**
+ * random_normal:
+ *
+ * Returns: a N(0,1) distributed random number.
  */
 gnm_float
 random_normal (void)

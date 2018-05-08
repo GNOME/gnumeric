@@ -708,6 +708,13 @@ gnm_insert_meta_date (GODoc *doc, char const *name)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_object_get_bool:
+ * @o: #GObject
+ * @name: property name
+ *
+ * Returns: the value of @o's boolean property @name.
+ */
 gboolean
 gnm_object_get_bool (gpointer o, const char *name)
 {
@@ -716,6 +723,16 @@ gnm_object_get_bool (gpointer o, const char *name)
 	return b;
 }
 
+/**
+ * gnm_object_has_readable_prop:
+ * @obj: #GObject
+ * @property: property name
+ * @typ: property's type or %G_TYPE_NONE.  (Exact type, not is-a.)
+ * @pres: (out) (optional): location to store property value.
+ *
+ * Returns: %TRUE if @obj has a readable property named @property
+ * of type @typ.
+ */
 gboolean
 gnm_object_has_readable_prop (gconstpointer obj, const char *property,
 			      GType typ, gpointer pres)
@@ -738,16 +755,13 @@ gnm_object_has_readable_prop (gconstpointer obj, const char *property,
 	return TRUE;
 }
 
-
-
+/* ------------------------------------------------------------------------- */
 
 gint
 gnm_float_equal (gnm_float const *a, const gnm_float *b)
 {
 	return (*a == *b);
 }
-
-/* ------------------------------------------------------------------------- */
 
 guint
 gnm_float_hash (gnm_float const *d)

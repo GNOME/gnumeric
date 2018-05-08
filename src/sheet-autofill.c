@@ -38,6 +38,9 @@ static char *weekday_names_short[7 + 1];
 static char *quarters[4 + 1];
 static gboolean has_quarters;
 
+/**
+ * gnm_autofill_init: (skip)
+ */
 void
 gnm_autofill_init (void)
 {
@@ -67,6 +70,9 @@ gnm_autofill_init (void)
 	}
 }
 
+/**
+ * gnm_autofill_shutdown: (skip)
+ */
 void
 gnm_autofill_shutdown (void)
 {
@@ -259,8 +265,7 @@ as_finalize (ArithString *as)
 		g_string_free (as->suffix, TRUE);
 }
 
-static
-gboolean
+static gboolean
 as_check_prefix_suffix (ArithString *as, char const *s, gsize slen)
 {
 	if (as->prefix) {

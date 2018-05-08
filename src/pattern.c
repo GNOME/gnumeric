@@ -57,7 +57,7 @@ static const GOPatternType patterns[] = {
 
 gboolean
 gnm_pattern_background_set (GnmStyle const *mstyle, cairo_t *cr,
-			 gboolean const is_selected, GtkStyleContext *ctxt)
+			    gboolean const is_selected, GtkStyleContext *ctxt)
 {
 	int pattern;
 

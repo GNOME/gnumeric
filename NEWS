@@ -2,6 +2,7 @@ Gnumeric 1.12.42
 
 Morten:
 	* Plug leaks.
+	* Introspection fixes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.41

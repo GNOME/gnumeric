@@ -360,9 +360,9 @@ clear_stray_NULs (GOIOContext *context, GString *utf8data)
 	if (null_chars > 0) {
 		gchar const *format;
 		gchar *msg;
-		format = ngettext ("The file contains %d NULL character. "
+		format = ngettext ("The file contains %d NUL character. "
 				   "It has been changed to a space.",
-				   "The file contains %d NULL characters. "
+				   "The file contains %d NUL characters. "
 				   "They have been changed to spaces.",
 				   null_chars);
 		msg = g_strdup_printf (format, null_chars);
@@ -580,6 +580,9 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 	}
 }
 
+/**
+ * stf_init: (skip)
+ */
 void
 stf_init (void)
 {
@@ -637,6 +640,9 @@ stf_init (void)
 	g_object_unref (saver);
 }
 
+/**
+ * stf_shutdown: (skip)
+ */
 void
 stf_shutdown (void)
 {

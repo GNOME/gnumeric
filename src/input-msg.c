@@ -74,8 +74,8 @@ GSF_CLASS (GnmInputMsg, gnm_input_msg,
 
 /**
  * gnm_input_msg_new:
- * @msg:
- * @title:
+ * @msg: (nullable): A message to show
+ * @title: (nullable): A title to show for the message
  *
  * Returns: a ref to new #GnmInputMsg.
  **/
@@ -106,14 +106,26 @@ gnm_input_msg_equal (GnmInputMsg const *a,
 }
 
 
+/**
+ * gnm_input_msg_get_msg:
+ * @msg: #GnmInputMsg
+ *
+ * Returns: (transfer none): The message to show
+ **/
 char const *
-gnm_input_msg_get_msg (GnmInputMsg const *imsg)
+gnm_input_msg_get_msg (GnmInputMsg const *msg)
 {
-	return (imsg->msg != NULL) ? imsg->msg->str : "";
+	return (msg->msg != NULL) ? msg->msg->str : "";
 }
 
+/**
+ * gnm_input_msg_get_title:
+ * @msg: #GnmInputMsg
+ *
+ * Returns: (transfer none): The title of the message to show
+ **/
 char const  *
-gnm_input_msg_get_title (GnmInputMsg const *imsg)
+gnm_input_msg_get_title (GnmInputMsg const *msg)
 {
-	return (imsg->title != NULL) ? imsg->title->str : "";
+	return (msg->title != NULL) ? msg->title->str : "";
 }

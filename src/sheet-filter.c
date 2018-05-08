@@ -803,9 +803,10 @@ gnm_filter_remove (GnmFilter *filter)
 
 /**
  * gnm_filter_get_condition:
- * @filter:
- * @i:
+ * @filter: #GnmFilter
+ * @i: zero-based index
  *
+ * Returns: (transfer none): the @i'th condition of @filter
  **/
 GnmFilterCondition const *
 gnm_filter_get_condition (GnmFilter const *filter, unsigned i)
@@ -819,6 +820,12 @@ gnm_filter_get_condition (GnmFilter const *filter, unsigned i)
 	return fcombo->cond;
 }
 
+/**
+ * gnm_filter_reapply:
+ * @filter: #GnmFilter
+ *
+ * Reapplies @filter after changes.
+ **/
 void
 gnm_filter_reapply (GnmFilter *filter)
 {
@@ -864,7 +871,7 @@ gnm_filter_update_active (GnmFilter *filter)
  * @apply:
  *
  * Change the @i-th condition of @filter to @cond.  If @apply is
- * TRUE @filter is used to set the visibility of the rows in @filter::sheet
+ * %TRUE, @filter is used to set the visibility of the rows in @filter::sheet
  *
  * Absorbs the reference to @cond.
  **/
@@ -926,8 +933,9 @@ gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r)
 /**
  * gnm_sheet_filter_at_pos:
  * @sheet: #Sheet
+ * @pos: location to query
  *
- * Returns : #GnmRange
+ * Returns: (transfer none) (nullable): #GnmFilter covering @pos.
  **/
 GnmFilter *
 gnm_sheet_filter_at_pos (Sheet const *sheet, GnmCellPos const *pos)
@@ -948,11 +956,12 @@ gnm_sheet_filter_at_pos (Sheet const *sheet, GnmCellPos const *pos)
 
 /**
  * gnm_sheet_filter_intersect_rows:
- * @sheet:
+ * @sheet: #Sheet
  * @from: starting row number
  * @to: ending row number
  *
- * Returns: the filter, if any, that intersect the rows @from to @to
+ * Returns: (transfer none) (nullable): the #GnmFilter, if any, that
+ * intersects the rows @from to @to.
  **/
 GnmFilter *
 gnm_sheet_filter_intersect_rows (Sheet const *sheet, int from, int to)
@@ -970,6 +979,11 @@ gnm_sheet_filter_intersect_rows (Sheet const *sheet, int from, int to)
 	return NULL;
 }
 
+/**
+ * gnm_sheet_filter_can_be_extended:
+ *
+ * Returns: (transfer full): #GnmRange
+ */
 GnmRange *
 gnm_sheet_filter_can_be_extended (G_GNUC_UNUSED Sheet const *sheet,
 				  GnmFilter const *f, GnmRange const *r)
@@ -1048,12 +1062,12 @@ gnm_filter_set_range (GnmFilter *filter, GnmRange *r)
 
 /**
  * gnm_sheet_filter_insdel_colrow:
- * @sheet:
- * @is_cols:
- * @is_insert:
- * @start:
- * @count:
- * @pundo: location to store undo closures.
+ * @sheet: #Sheet
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ * @is_insert: %TRUE for insert, %FALSE for delete.
+ * @start: Starting column or row.
+ * @count: Number of columns or rows.
+ * @pundo: (out) (optional): location to store undo closures.
  *
  * Adjust filters as necessary to handle col/row insertions and deletions
  **/
@@ -1194,4 +1208,3 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 
 	g_slist_free (filters);
 }
-
