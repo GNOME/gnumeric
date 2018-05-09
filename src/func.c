@@ -376,8 +376,7 @@ gnm_func_free (GnmFunc *func)
 
 	g_free ((char *)func->name);
 
-	if (func->tdomain)
-		go_string_unref (func->tdomain);
+	go_string_unref (func->tdomain);
 
 	gnm_func_clear_arg_names (func);
 

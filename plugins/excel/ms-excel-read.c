@@ -1907,8 +1907,7 @@ excel_palette_destroy (ExcelPalette *pal)
 	g_free (pal->green);
 	g_free (pal->blue);
 	for (lp = 0; lp < pal->length; lp++)
-		if (pal->gnm_colors[lp])
-			style_color_unref (pal->gnm_colors[lp]);
+		style_color_unref (pal->gnm_colors[lp]);
 	g_free (pal->gnm_colors);
 	g_free (pal);
 }
@@ -2306,10 +2305,8 @@ excel_set_xf (ExcelReadSheet *esheet, BiffQuery *q)
 			/* adjacent borders  */
 			range_init (&range, col, row, col, row);
 			sheet_style_apply_border (sheet, &range, overlay);
-			if (overlay[GNM_STYLE_BORDER_TOP])
-				gnm_style_border_unref (overlay[GNM_STYLE_BORDER_TOP]);
-			if (overlay[GNM_STYLE_BORDER_LEFT])
-				gnm_style_border_unref (overlay[GNM_STYLE_BORDER_LEFT]);
+			gnm_style_border_unref (overlay[GNM_STYLE_BORDER_TOP]);
+			gnm_style_border_unref (overlay[GNM_STYLE_BORDER_LEFT]);
 			g_free (overlay);
 		}
 	}
@@ -3568,8 +3565,7 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 	if (importer->sst != NULL) {
 		unsigned i = importer->sst_len;
 		while (i-- > 0) {
-			if (importer->sst[i].content)
-				go_string_unref (importer->sst[i].content);
+			go_string_unref (importer->sst[i].content);
 			go_format_unref (importer->sst[i].markup);
 		}
 		g_free (importer->sst);

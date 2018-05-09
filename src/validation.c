@@ -380,14 +380,12 @@ gnm_validation_unref (GnmValidation const *val)
 	if (v->ref_count < 1) {
 		int i;
 
-		if (v->title != NULL) {
-			go_string_unref (v->title);
-			v->title = NULL;
-		}
-		if (v->msg != NULL) {
-			go_string_unref (v->msg);
-			v->msg = NULL;
-		}
+		go_string_unref (v->title);
+		v->title = NULL;
+
+		go_string_unref (v->msg);
+		v->msg = NULL;
+
 		for (i = 0 ; i < 2 ; i++)
 			dependent_managed_set_expr (&v->deps[i], NULL);
 		g_free (v);

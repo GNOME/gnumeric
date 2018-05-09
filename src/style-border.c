@@ -209,8 +209,7 @@ gnm_style_border_fetch (GnmStyleBorderType		 line_type,
 	}
 
 	if (line_type == GNM_STYLE_BORDER_NONE) {
-		if (color)
-			style_color_unref (color);
+		style_color_unref (color);
 		return gnm_style_border_ref (gnm_style_border_none ());
 	}
 
@@ -222,8 +221,7 @@ gnm_style_border_fetch (GnmStyleBorderType		 line_type,
 	if (border_hash) {
 		border = g_hash_table_lookup (border_hash, &key);
 		if (border != NULL) {
-			if (color)
-				style_color_unref (color);
+			style_color_unref (color);
 			return gnm_style_border_ref (border);
 		}
 	} else
@@ -326,10 +324,8 @@ gnm_style_border_unref (GnmBorder *border)
 	/* Remove here, before we mess with the hashed fields.  */
 	g_hash_table_remove (border_hash, border);
 
-	if (border->color) {
-		style_color_unref (border->color);
-		border->color = NULL;
-	}
+	style_color_unref (border->color);
+	border->color = NULL;
 
 	g_free (border);
 }

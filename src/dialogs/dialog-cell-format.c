@@ -423,8 +423,7 @@ setup_color_pickers (FormatState *state,
 	w = go_gtk_builder_get_widget (state->gui, label);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), combo);
 
-	if (def_sc)
-		style_color_unref (def_sc);
+	style_color_unref (def_sc);
 
 	if (picker != NULL) {
 		picker->combo          = combo;

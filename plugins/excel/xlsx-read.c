@@ -4631,8 +4631,7 @@ xlsx_border_color (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmColor *color = elem_color (xin, attrs, TRUE);
-	if (state->border_color)
-		style_color_unref (state->border_color);
+	style_color_unref (state->border_color);
 	state->border_color = color;
 }
 
@@ -5284,7 +5283,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	if (state.cur_style) g_object_unref (state.cur_style);
 	if (state.style_accum) gnm_style_unref (state.style_accum);
 	if (state.pending_rowcol_style) gnm_style_unref (state.pending_rowcol_style);
-	if (state.border_color) style_color_unref (state.border_color);
+	style_color_unref (state.border_color);
 
 	workbook_set_saveinfo (state.wb, GO_FILE_FL_AUTO,
 			       go_file_saver_for_id ((state.version == ECMA_376_2006) ?

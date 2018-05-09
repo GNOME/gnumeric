@@ -1489,8 +1489,7 @@ gnm_style_set_border (GnmStyle *style, GnmStyleElement elem,
 		elem_changed (style, elem);
 		elem_set (style, elem);
 		elem -= MSTYLE_BORDER_TOP;
-		if (style->borders[elem])
-			gnm_style_border_unref (style->borders[elem]);
+		gnm_style_border_unref (style->borders[elem]);
 		style->borders[elem] = border;
 		break;
 	default:

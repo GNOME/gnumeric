@@ -638,8 +638,7 @@ xl_xml_border (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_int (xin, attrs, XL_NS_SS, "Weight", &weight))
 			;
 		else if ((new_color = attr_color (xin, attrs, XL_NS_SS, "Color"))) {
-			if (color)
-				style_color_unref (color);
+			style_color_unref (color);
 			color = new_color;
 		} else
 			unknown_attr (xin, attrs, "Style::Border");

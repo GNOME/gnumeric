@@ -242,35 +242,23 @@ cb_color_leak (gpointer key, gpointer value, gpointer user_data)
 void
 gnm_color_shutdown (void)
 {
-	if (sc_black) {
-		style_color_unref (sc_black);
-		sc_black = NULL;
-	}
+	style_color_unref (sc_black);
+	sc_black = NULL;
 
-	if (sc_white) {
-		style_color_unref (sc_white);
-		sc_white = NULL;
-	}
+	style_color_unref (sc_white);
+	sc_white = NULL;
 
-	if (sc_grid) {
-		style_color_unref (sc_grid);
-		sc_grid = NULL;
-	}
+	style_color_unref (sc_grid);
+	sc_grid = NULL;
 
-	if (sc_auto_back) {
-		style_color_unref (sc_auto_back);
-		sc_auto_back = NULL;
-	}
+	style_color_unref (sc_auto_back);
+	sc_auto_back = NULL;
 
-	if (sc_auto_font) {
-		style_color_unref (sc_auto_font);
-		sc_auto_font = NULL;
-	}
+	style_color_unref (sc_auto_font);
+	sc_auto_font = NULL;
 
-	if (sc_auto_pattern) {
-		style_color_unref (sc_auto_pattern);
-		sc_auto_pattern = NULL;
-	}
+	style_color_unref (sc_auto_pattern);
+	sc_auto_pattern = NULL;
 
 	g_hash_table_foreach (style_color_hash, cb_color_leak, NULL);
 	g_hash_table_destroy (style_color_hash);

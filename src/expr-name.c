@@ -815,10 +815,8 @@ expr_name_unref (GnmNamedExpr *nexpr)
 
 	g_return_if_fail (nexpr->scope == NULL);
 
-	if (nexpr->name) {
-		go_string_unref (nexpr->name);
-		nexpr->name = NULL;
-	}
+	go_string_unref (nexpr->name);
+	nexpr->name = NULL;
 
 	if (nexpr->texpr != NULL)
 		expr_name_set_expr (nexpr, NULL);

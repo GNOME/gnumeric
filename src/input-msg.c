@@ -43,14 +43,11 @@ gnm_input_msg_finalize (GObject *obj)
 	GObjectClass *parent_class;
 	GnmInputMsg *msg = (GnmInputMsg *)obj;
 
-	if (msg->title != NULL) {
-		go_string_unref (msg->title);
-		msg->title = NULL;
-	}
-	if (msg->msg != NULL) {
-		go_string_unref (msg->msg);
-		msg->msg = NULL;
-	}
+	go_string_unref (msg->title);
+	msg->title = NULL;
+
+	go_string_unref (msg->msg);
+	msg->msg = NULL;
 
 	parent_class = g_type_class_peek (G_TYPE_OBJECT);
 	parent_class->finalize (obj);
