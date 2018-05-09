@@ -263,12 +263,12 @@ button:hover.itembar, button:hover.itembar * {
 
 
 /* Small padding between and around toolbars, but not double between */
-box box toolbar {
+box > box > toolbar {
     padding-top: 1pt;
     padding-bottom: 0pt;
 }
 
-box box:last-child toolbar {
+box > box:last-child > toolbar {
     padding-top: 1pt;
     padding-bottom: 1pt;
 }
