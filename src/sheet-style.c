@@ -2009,17 +2009,18 @@ border_mask_vec (gboolean *known, GnmBorder **borders,
 }
 
 /**
- * sheet_style_get_uniform:
- * @sheet:
- * @range:
- * @borders:
+ * sheet_style_find_conflicts:
+ * @sheet: #Sheet to query
+ * @r: #GnmRange to query
+ * @style: (inout):
+ * @borders: (out) (array fixed-size=8):
  *
- * Find out what style elements are common to every cell in a range
- * Returns a flag of TRUE if there was a conflict a given style element
+ * Returns: bitmask of conflicts
  */
 unsigned int
 sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
-			    GnmStyle **style, GnmBorder **borders)
+			    GnmStyle **style,
+			    GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX])
 {
 	int n, col, row, start_col, end_col;
 	GnmStyleRow sr;

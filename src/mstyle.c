@@ -1360,6 +1360,13 @@ gnm_style_merge_element (GnmStyle *dst, GnmStyle const *src, GnmStyleElement ele
 	}
 }
 
+/**
+ * gnm_style_set_font_color:
+ * @style: #GnmStyle to change
+ * @col: (transfer full): #GnmColor
+ *
+ * Set the color used for fonts.
+ */
 void
 gnm_style_set_font_color (GnmStyle *style, GnmColor *col)
 {
@@ -1378,13 +1385,12 @@ gnm_style_set_font_color (GnmStyle *style, GnmColor *col)
 
 /**
  * gnm_style_set_back_color:
- * @style: #GnmStyle
- * @col: #GnmColor
+ * @style: #GnmStyle to change
+ * @col: (transfer full): #GnmColor
  *
  * Assigns @col as the background of @style.
  *
- * NOTE : the background colour is only visibile if
- *	GnmStyle::pattern > 0
+ * NOTE: the background colour is only visibile if GnmStyle::pattern > 0
  **/
 void
 gnm_style_set_back_color (GnmStyle *style, GnmColor *col)
@@ -1400,6 +1406,14 @@ gnm_style_set_back_color (GnmStyle *style, GnmColor *col)
 	style->color.back = col;
 	gnm_style_clear_pango (style);
 }
+
+/**
+ * gnm_style_set_pattern_color:
+ * @style: #GnmStyle to change
+ * @col: (transfer full): #GnmColor
+ *
+ * Set the color used for pattern.
+ */
 void
 gnm_style_set_pattern_color (GnmStyle *style, GnmColor *col)
 {
@@ -1415,6 +1429,12 @@ gnm_style_set_pattern_color (GnmStyle *style, GnmColor *col)
 	gnm_style_clear_pango (style);
 }
 
+/**
+ * gnm_style_get_font_color:
+ * @style: #GnmStyle
+ *
+ * Returns: (transfer none) (nullable): #GnmColor used for font.
+ */
 GnmColor *
 gnm_style_get_font_color (GnmStyle const *style)
 {
@@ -1423,6 +1443,12 @@ gnm_style_get_font_color (GnmStyle const *style)
 	return style->color.font;
 }
 
+/**
+ * gnm_style_get_back_color:
+ * @style: #GnmStyle
+ *
+ * Returns: (transfer none) (nullable): #GnmColor used for background.
+ */
 GnmColor *
 gnm_style_get_back_color (GnmStyle const *style)
 {
@@ -1431,6 +1457,12 @@ gnm_style_get_back_color (GnmStyle const *style)
 	return style->color.back;
 }
 
+/**
+ * gnm_style_get_pattern_color:
+ * @style: #GnmStyle
+ *
+ * Returns: (transfer none) (nullable): #GnmColor used for pattern.
+ */
 GnmColor *
 gnm_style_get_pattern_color (GnmStyle const *style)
 {
@@ -1439,6 +1471,12 @@ gnm_style_get_pattern_color (GnmStyle const *style)
 	return style->color.pattern;
 }
 
+/**
+ * gnm_style_set_border:
+ * @style: #GnmStyle to change
+ * @elem: Border element
+ * @border: (transfer full) (nullable): new #GnmBorder for @style.
+ */
 void
 gnm_style_set_border (GnmStyle *style, GnmStyleElement elem,
 		      GnmBorder *border)
@@ -1461,6 +1499,14 @@ gnm_style_set_border (GnmStyle *style, GnmStyleElement elem,
 	}
 }
 
+/**
+ * gnm_style_get_border:
+ * @style: #GnmStyle to query
+ * @elem: Border element
+ *
+ * Returns: (transfer none) (nullable): The #GnmBorder for a single
+ * border element.
+ */
 GnmBorder *
 gnm_style_get_border (GnmStyle const *style, GnmStyleElement elem)
 {
@@ -1499,10 +1545,10 @@ gnm_style_get_pattern (GnmStyle const *style)
 
 /**
  * gnm_style_get_font:
- * @style: #GnmStyle
+ * @style: #GnmStyle to query
  * @context: #PangoContext
  *
- * Returns: (transfer none):
+ * Returns: (transfer none): GnmFont implied by @style.
  **/
 GnmFont *
 gnm_style_get_font (GnmStyle const *style, PangoContext *context)
@@ -1546,7 +1592,7 @@ gnm_style_get_font (GnmStyle const *style, PangoContext *context)
 
 /**
  * gnm_style_set_font_name:
- * @style: the style to change
+ * @style: #GnmStyle to change
  * @name: the font name as a string
  *
  */
@@ -1581,6 +1627,11 @@ gnm_style_get_font_name (GnmStyle const *style)
 	return style->font_detail.name->str;
 }
 
+/**
+ * gnm_style_set_font_bold:
+ * @style: #GnmStyle to change
+ * @bold: %TRUE for bold, %FALSE for regular
+ */
 void
 gnm_style_set_font_bold (GnmStyle *style, gboolean bold)
 {
@@ -1608,6 +1659,11 @@ gnm_style_get_font_bold (GnmStyle const *style)
 	return style->font_detail.bold;
 }
 
+/**
+ * gnm_style_set_font_italic:
+ * @style: #GnmStyle to change
+ * @italic: %TRUE for italic, %FALSE for regular
+ */
 void
 gnm_style_set_font_italic (GnmStyle *style, gboolean italic)
 {
@@ -1620,6 +1676,12 @@ gnm_style_set_font_italic (GnmStyle *style, gboolean italic)
 	gnm_style_clear_pango (style);
 }
 
+/**
+ * gnm_style_get_font_italic:
+ * @style: #GnmStyle to query
+ *
+ * Returns: %TRUE if the style has an italic font.
+ */
 gboolean
 gnm_style_get_font_italic (GnmStyle const *style)
 {
@@ -1650,6 +1712,11 @@ gnm_style_get_font_uline (GnmStyle const *style)
 	return style->font_detail.underline;
 }
 
+/**
+ * gnm_style_set_font_strike:
+ * @style: #GnmStyle to change
+ * @strike: %TRUE for strikethrough, %FALSE for regular
+ */
 void
 gnm_style_set_font_strike (GnmStyle *style, gboolean strikethrough)
 {
@@ -1709,17 +1776,22 @@ gnm_style_get_font_size (GnmStyle const *style)
 	return style->font_detail.size;
 }
 
+/**
+ * gnm_style_set_format:
+ * @style: #GnmStyle to change
+ * @fmt: #GOFormat
+ */
 void
-gnm_style_set_format (GnmStyle *style, GOFormat const *format)
+gnm_style_set_format (GnmStyle *style, GOFormat const *fmt)
 {
 	g_return_if_fail (style != NULL);
-	g_return_if_fail (format != NULL);
+	g_return_if_fail (fmt != NULL);
 
 	elem_changed (style, MSTYLE_FORMAT);
-	go_format_ref (format);
+	go_format_ref (fmt);
 	elem_clear_contents (style, MSTYLE_FORMAT);
 	elem_set (style, MSTYLE_FORMAT);
-	style->format = format;
+	style->format = fmt;
 }
 
 /*

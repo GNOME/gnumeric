@@ -3,6 +3,7 @@
 # define _GNM_SHEET_STYLE_H_
 
 #include "gnumeric.h"
+#include "style-border.h"
 
 G_BEGIN_DECLS
 
@@ -46,7 +47,8 @@ void	 sheet_style_apply_pos		(Sheet  *sheet, int col, int row,
 void	 sheet_style_insdel_colrow	(GnmExprRelocateInfo const *rinfo);
 void	 sheet_style_relocate		(GnmExprRelocateInfo const *rinfo);
 unsigned int sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
-					 GnmStyle **style, GnmBorder **borders);
+					 GnmStyle **style,
+					 GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX]);
 void	 sheet_style_get_extent		(Sheet const *sheet, GnmRange *r);
 void	 sheet_style_get_nondefault_extent (Sheet const *sheet, GnmRange *extent,
 					    const GnmRange *src, GnmStyle **col_defaults);
