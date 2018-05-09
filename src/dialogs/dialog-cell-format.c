@@ -2370,6 +2370,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 			init_border_button (state, i, tmp,
 					    state->borders[i]);
 			gnm_style_border_unref (state->borders[i]);
+			state->borders[i] = NULL;
 		}
 	}
 

@@ -1964,11 +1964,13 @@ cb_find_conflicts (GnmStyle *style,
 }
 
 static void
-border_mask_internal (gboolean *known, GnmBorder **borders,
+border_mask_internal (gboolean known[GNM_STYLE_BORDER_EDGE_MAX],
+		      GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX],
 		      GnmBorder const *b, GnmStyleBorderLocation l)
 {
 	if (!known[l]) {
 		known[l] = TRUE;
+		gnm_style_border_unref (borders[l]);
 		borders[l] = (GnmBorder *)b;
 		gnm_style_border_ref (borders[l]);
 	} else if (borders[l] != b && borders[l] != NULL) {
@@ -1978,7 +1980,8 @@ border_mask_internal (gboolean *known, GnmBorder **borders,
 }
 
 static void
-border_mask (gboolean *known, GnmBorder **borders,
+border_mask (gboolean known[GNM_STYLE_BORDER_EDGE_MAX],
+	     GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX],
 	     GnmBorder const *b, GnmStyleBorderLocation l)
 {
 	if (b == NULL)
@@ -1987,7 +1990,8 @@ border_mask (gboolean *known, GnmBorder **borders,
 }
 
 static void
-border_mask_vec (gboolean *known, GnmBorder **borders,
+border_mask_vec (gboolean known[GNM_STYLE_BORDER_EDGE_MAX],
+		 GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX],
 		 GnmBorder const * const *vec, int first, int last,
 		 GnmStyleBorderLocation l)
 {
@@ -2044,8 +2048,10 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 			borders[i] = gnm_style_border_ref ((GnmBorder *)none);
 		}
 	} else {
-		for (i = GNM_STYLE_BORDER_TOP ; i < GNM_STYLE_BORDER_EDGE_MAX ; i++)
+		for (i = GNM_STYLE_BORDER_TOP ; i < GNM_STYLE_BORDER_EDGE_MAX ; i++) {
 			known[i] = TRUE;
+			borders[i] = NULL;
+		}
 	}
 
 	user.accum = *style;
@@ -2055,6 +2061,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 	/* copy over the diagonals */
 	for (i = GNM_STYLE_BORDER_REV_DIAG ; i <= GNM_STYLE_BORDER_DIAG ; i++) {
 		GnmStyleElement se = GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (i);
+		gnm_style_border_unref (borders[i]);
 		if (user.conflicts & (1 << se))
 			borders[i] = NULL;
 		else
