@@ -1290,7 +1290,7 @@ gnm_style_is_element_set (GnmStyle const *style, GnmStyleElement elem)
 
 /**
  * gnm_style_is_complete:
- * @style: #GnmStyle
+ * @style: #GnmStyle to query
  *
  * Returns TRUE if all elements are set.
  **/
@@ -1431,7 +1431,7 @@ gnm_style_set_pattern_color (GnmStyle *style, GnmColor *col)
 
 /**
  * gnm_style_get_font_color:
- * @style: #GnmStyle
+ * @style: #GnmStyle to query
  *
  * Returns: (transfer none) (nullable): #GnmColor used for font.
  */
@@ -1445,7 +1445,7 @@ gnm_style_get_font_color (GnmStyle const *style)
 
 /**
  * gnm_style_get_back_color:
- * @style: #GnmStyle
+ * @style: #GnmStyle to query
  *
  * Returns: (transfer none) (nullable): #GnmColor used for background.
  */
@@ -1459,7 +1459,7 @@ gnm_style_get_back_color (GnmStyle const *style)
 
 /**
  * gnm_style_get_pattern_color:
- * @style: #GnmStyle
+ * @style: #GnmStyle to query
  *
  * Returns: (transfer none) (nullable): #GnmColor used for pattern.
  */
@@ -1522,6 +1522,11 @@ gnm_style_get_border (GnmStyle const *style, GnmStyleElement elem)
 	}
 }
 
+/**
+ * gnm_style_set_pattern:
+ * @style: #GnmStyle to change
+ * @pattern: pattern code
+ **/
 void
 gnm_style_set_pattern (GnmStyle *style, int pattern)
 {
@@ -1594,7 +1599,6 @@ gnm_style_get_font (GnmStyle const *style, PangoContext *context)
  * gnm_style_set_font_name:
  * @style: #GnmStyle to change
  * @name: the font name as a string
- *
  */
 void
 gnm_style_set_font_name (GnmStyle *style, char const *name)
@@ -1691,6 +1695,11 @@ gnm_style_get_font_italic (GnmStyle const *style)
 	return style->font_detail.italic;
 }
 
+/**
+ * gnm_style_set_font_uline:
+ * @style: #GnmStyle to change
+ * @ul: #GnmUnderline specifying type of underlining
+ **/
 void
 gnm_style_set_font_uline (GnmStyle *style, GnmUnderline const underline)
 {
@@ -1703,6 +1712,12 @@ gnm_style_set_font_uline (GnmStyle *style, GnmUnderline const underline)
 	gnm_style_clear_pango (style);
 }
 
+/**
+ * gnm_style_get_font_uline:
+ * @style: #GnmStyle to query
+ *
+ * Returns: #GnmUnderline specifying type of underlining
+ **/
 GnmUnderline
 gnm_style_get_font_uline (GnmStyle const *style)
 {
@@ -1728,6 +1743,12 @@ gnm_style_set_font_strike (GnmStyle *style, gboolean strikethrough)
 	gnm_style_clear_pango (style);
 }
 
+/**
+ * gnm_style_get_font_strike:
+ * @style: #GnmStyle to query
+ *
+ * Returns: %TRUE for strikethrough, %FALSE for regular
+ */
 gboolean
 gnm_style_get_font_strike (GnmStyle const *style)
 {
@@ -1736,6 +1757,11 @@ gnm_style_get_font_strike (GnmStyle const *style)
 	return style->font_detail.strikethrough;
 }
 
+/**
+ * gnm_style_set_font_script:
+ * @style: #GnmStyle to change
+ * @script: #GOFontScript specifying super or subscript
+ **/
 void
 gnm_style_set_font_script (GnmStyle *style, GOFontScript script)
 {
@@ -1746,6 +1772,12 @@ gnm_style_set_font_script (GnmStyle *style, GOFontScript script)
 	gnm_style_clear_pango (style);
 }
 
+/**
+ * gnm_style_get_font_script:
+ * @style: #GnmStyle to query
+ *
+ * Returns: #GOFontScript specifying super or subscript
+ **/
 GOFontScript
 gnm_style_get_font_script (GnmStyle const *style)
 {
@@ -1755,6 +1787,11 @@ gnm_style_get_font_script (GnmStyle const *style)
 	return style->font_detail.script;
 }
 
+/**
+ * gnm_style_set_font_size:
+ * @style: #GnmStyle to change
+ * @size: Font size in points
+ **/
 void
 gnm_style_set_font_size (GnmStyle *style, double size)
 {
@@ -1767,6 +1804,12 @@ gnm_style_set_font_size (GnmStyle *style, double size)
 	gnm_style_clear_pango (style);
 }
 
+/**
+ * gnm_style_get_font_size:
+ * @style: #GnmStyle to query
+ *
+ * Returns: Font size in points
+ **/
 double
 gnm_style_get_font_size (GnmStyle const *style)
 {
@@ -1796,7 +1839,6 @@ gnm_style_set_format (GnmStyle *style, GOFormat const *fmt)
 
 /*
  * gnm_style_set_format_text:
- *
  * @style: mstyle to change.
  * @format: An *untranslated* format string.
  */
@@ -1813,6 +1855,12 @@ gnm_style_set_format_text (GnmStyle *style, char const *format)
 	go_format_unref (sf);
 }
 
+/**
+ * gnm_style_get_format:
+ * @style: #GnmStyle to query
+ *
+ * Returns: (transfer none): #GOFormat
+ */
 const GOFormat *
 gnm_style_get_format (GnmStyle const *style)
 {
@@ -1822,6 +1870,11 @@ gnm_style_get_format (GnmStyle const *style)
 	return style->format;
 }
 
+/**
+ * gnm_style_set_align_h:
+ * @style: #GnmStyle to change
+ * @a: A #GnmHAlign
+ **/
 void
 gnm_style_set_align_h (GnmStyle *style, GnmHAlign a)
 {
@@ -1832,6 +1885,12 @@ gnm_style_set_align_h (GnmStyle *style, GnmHAlign a)
 	style->h_align = a;
 }
 
+/**
+ * gnm_style_get_align_h:
+ * @style: #GnmStyle to query
+ *
+ * Returns: A #GnmHAlign
+ **/
 GnmHAlign
 gnm_style_get_align_h (GnmStyle const *style)
 {
@@ -1841,6 +1900,11 @@ gnm_style_get_align_h (GnmStyle const *style)
 	return style->h_align;
 }
 
+/**
+ * gnm_style_set_align_v:
+ * @style: #GnmStyle to change
+ * @a: A #GnmVAlign
+ **/
 void
 gnm_style_set_align_v (GnmStyle *style, GnmVAlign a)
 {
@@ -1851,6 +1915,12 @@ gnm_style_set_align_v (GnmStyle *style, GnmVAlign a)
 	style->v_align = a;
 }
 
+/**
+ * gnm_style_get_align_v:
+ * @style: #GnmStyle to query
+ *
+ * Returns: A #GnmVAlign
+ **/
 GnmVAlign
 gnm_style_get_align_v (GnmStyle const *style)
 {
@@ -1860,6 +1930,11 @@ gnm_style_get_align_v (GnmStyle const *style)
 	return style->v_align;
 }
 
+/**
+ * gnm_style_set_indent:
+ * @style: #GnmStyle to change
+ * @i: Indentation amount
+ **/
 void
 gnm_style_set_indent (GnmStyle *style, int i)
 {
@@ -1870,6 +1945,12 @@ gnm_style_set_indent (GnmStyle *style, int i)
 	style->indent = i;
 }
 
+/**
+ * gnm_style_get_indent:
+ * @style: #GnmStyle to query
+ *
+ * Returns: Indentation amount
+ **/
 int
 gnm_style_get_indent (GnmStyle const *style)
 {
@@ -1879,6 +1960,11 @@ gnm_style_get_indent (GnmStyle const *style)
 	return style->indent;
 }
 
+/**
+ * gnm_style_set_rotation:
+ * @style: #GnmStyle to change
+ * @r: Rotation in degrees relative to horizontal
+ **/
 void
 gnm_style_set_rotation (GnmStyle *style, int rot_deg)
 {
@@ -1889,6 +1975,12 @@ gnm_style_set_rotation (GnmStyle *style, int rot_deg)
 	style->rotation = rot_deg;
 }
 
+/**
+ * gnm_style_get_rotation:
+ * @style: #GnmStyle to query
+ *
+ * Returns: Rotation in degrees relative to horizontal
+ **/
 int
 gnm_style_get_rotation (GnmStyle const *style)
 {
@@ -1898,6 +1990,11 @@ gnm_style_get_rotation (GnmStyle const *style)
 	return style->rotation;
 }
 
+/**
+ * gnm_style_set_text_dir:
+ * @style: #GnmStyle to change
+ * @text_dir: A #GnmTextDir
+ **/
 void
 gnm_style_set_text_dir (GnmStyle *style, GnmTextDir text_dir)
 {
@@ -1908,6 +2005,12 @@ gnm_style_set_text_dir (GnmStyle *style, GnmTextDir text_dir)
 	style->text_dir = text_dir;
 }
 
+/**
+ * gnm_style_get_text_dir:
+ * @style: #GnmStyle to query
+ *
+ * Returns: A #GnmTextDir
+ **/
 GnmTextDir
 gnm_style_get_text_dir (GnmStyle const *style)
 {
@@ -1917,6 +2020,11 @@ gnm_style_get_text_dir (GnmStyle const *style)
 	return style->text_dir;
 }
 
+/**
+ * gnm_style_set_wrap_text:
+ * @style: #GnmStyle to change
+ * @f: %TRUE for wrapping, %FALSE for not
+ **/
 void
 gnm_style_set_wrap_text (GnmStyle *style, gboolean f)
 {
@@ -1927,6 +2035,13 @@ gnm_style_set_wrap_text (GnmStyle *style, gboolean f)
 	style->wrap_text = !!f;
 }
 
+/**
+ * gnm_style_get_wrap_text:
+ * @style: #GnmStyle to query
+ *
+ * Returns: %TRUE for wrapping, %FALSE for not.  See also
+ * gnm_style_get_effective_wrap_text.
+ **/
 gboolean
 gnm_style_get_wrap_text (GnmStyle const *style)
 {
@@ -1935,10 +2050,13 @@ gnm_style_get_wrap_text (GnmStyle const *style)
 	return style->wrap_text;
 }
 
-/*
- * Same as gnm_style_get_wrap_text except that if either halign or valign
- * is _JUSTIFY, the result will be TRUE.
- */
+/**
+ * gnm_style_get_effective_wrap_text:
+ * @style: #GnmStyle to query
+ *
+ * Returns: %TRUE for wrapping, %FALSE for not.  This will be %TRUE also
+ * when either alignment is JUSTIFY.
+ **/
 gboolean
 gnm_style_get_effective_wrap_text (GnmStyle const *style)
 {
@@ -1954,6 +2072,11 @@ gnm_style_get_effective_wrap_text (GnmStyle const *style)
 		style->h_align == GNM_HALIGN_JUSTIFY);
 }
 
+/**
+ * gnm_style_set_shrink_to_fit:
+ * @style: #GnmStyle to change
+ * @f: %TRUE for shrink-to-fit, %FALSE for not
+ **/
 void
 gnm_style_set_shrink_to_fit (GnmStyle *style, gboolean f)
 {
@@ -1964,6 +2087,12 @@ gnm_style_set_shrink_to_fit (GnmStyle *style, gboolean f)
 	style->shrink_to_fit = !!f;
 }
 
+/**
+ * gnm_style_get_shrink_to_fit:
+ * @style: #GnmStyle to query
+ *
+ * Returns: %TRUE for shrink-to-fit, %FALSE for not
+ **/
 gboolean
 gnm_style_get_shrink_to_fit (GnmStyle const *style)
 {
@@ -1973,6 +2102,11 @@ gnm_style_get_shrink_to_fit (GnmStyle const *style)
 	return style->shrink_to_fit;
 }
 
+/**
+ * gnm_style_set_contents_locked:
+ * @style: #GnmStyle to change
+ * @f: %TRUE for locked, %FALSE for not
+ **/
 void
 gnm_style_set_contents_locked (GnmStyle *style, gboolean f)
 {
@@ -1983,6 +2117,12 @@ gnm_style_set_contents_locked (GnmStyle *style, gboolean f)
 	style->contents_locked = !!f;
 }
 
+/**
+ * gnm_style_get_contents_locked:
+ * @style: #GnmStyle to query
+ *
+ * Returns: %TRUE for locked, %FALSE for not
+ **/
 gboolean
 gnm_style_get_contents_locked (GnmStyle const *style)
 {
@@ -1992,6 +2132,11 @@ gnm_style_get_contents_locked (GnmStyle const *style)
 	return style->contents_locked;
 }
 
+/**
+ * gnm_style_set_contents_hidden:
+ * @style: #GnmStyle to change
+ * @f: %TRUE for hidden, %FALSE for not
+ **/
 void
 gnm_style_set_contents_hidden (GnmStyle *style, gboolean f)
 {
@@ -2002,6 +2147,12 @@ gnm_style_set_contents_hidden (GnmStyle *style, gboolean f)
 	style->contents_hidden = !!f;
 }
 
+/**
+ * gnm_style_get_contents_hidden:
+ * @style: #GnmStyle to query
+ *
+ * Return: %TRUE for hidden, %FALSE for not
+ **/
 gboolean
 gnm_style_get_contents_hidden (GnmStyle const *style)
 {
@@ -2013,7 +2164,7 @@ gnm_style_get_contents_hidden (GnmStyle const *style)
 
 /**
  * gnm_style_set_validation:
- * @style: #GnmStyle
+ * @style: #GnmStyle to change
  * @v: (transfer full): #GnmValidation
  **/
 void
@@ -2029,7 +2180,7 @@ gnm_style_set_validation (GnmStyle *style, GnmValidation *v)
 
 /**
  * gnm_style_get_validation:
- * @style: #GnmStyle
+ * @style: #GnmStyle to query
  *
  * Returns: (transfer none):
  **/
@@ -2044,8 +2195,8 @@ gnm_style_get_validation (GnmStyle const *style)
 
 /**
  * gnm_style_set_hlink:
- * @style: #GnmStyle
- * @lnk: (transfer full): #GnmHLink
+ * @style: #GnmStyle to change
+ * @lnk: (transfer full) (nullable): #GnmHLink
  *
  * This sets a link for @style.
  **/
@@ -2062,9 +2213,9 @@ gnm_style_set_hlink (GnmStyle *style, GnmHLink *lnk)
 
 /**
  * gnm_style_get_hlink:
- * @style: #GnmStyle
+ * @style: #GnmStyle to query
  *
- * Returns: (transfer none): the associated #GnmHLink.
+ * Returns: (transfer none) (nullable): the associated #GnmHLink.
  **/
 GnmHLink *
 gnm_style_get_hlink (GnmStyle const *style)
@@ -2077,8 +2228,8 @@ gnm_style_get_hlink (GnmStyle const *style)
 
 /**
  * gnm_style_set_input_msg:
- * @style: #GnmStyle
- * @msg: (transfer full): #GnmInputMsg
+ * @style: #GnmStyle to change
+ * @msg: (transfer full) (nullable): #GnmInputMsg
  *
  * This sets an input message for @style.
  **/
@@ -2095,10 +2246,9 @@ gnm_style_set_input_msg (GnmStyle *style, GnmInputMsg *msg)
 
 /**
  * gnm_style_get_input_msg:
- * @style: #GnmStyle
+ * @style: #GnmStyle to query
  *
- * Returns: (transfer none): the currently set input message assuming
- * that the style has such.
+ * Returns: (transfer none) (nullable): the currently set input message.
  **/
 GnmInputMsg *
 gnm_style_get_input_msg (GnmStyle const *style)
@@ -2111,7 +2261,7 @@ gnm_style_get_input_msg (GnmStyle const *style)
 
 /**
  * gnm_style_set_conditions:
- * @style: #GnmStyle
+ * @style: #GnmStyle to change
  * @sc: (transfer full): #GnmStyleConditions
  *
  * This sets conditional style for @style.
@@ -2129,10 +2279,9 @@ gnm_style_set_conditions (GnmStyle *style, GnmStyleConditions *sc)
 
 /**
  * gnm_style_get_conditions:
- * @style: #GnmStyle
+ * @style: #GnmStyle to query
  *
- * Returns: (transfer none): the currently set conditional style assuming
- * that the style has such.
+ * Returns: (transfer none) (nullable): the currently set conditional style.
  **/
 GnmStyleConditions *
 gnm_style_get_conditions (GnmStyle const *style)
@@ -2144,7 +2293,7 @@ gnm_style_get_conditions (GnmStyle const *style)
 
 /**
  * gnm_style_get_cond_style:
- * @style: #GnmStyle
+ * @style: #GnmStyle to query
  * @ix: The index of the condition for which style is desired
  *
  * Returns: (transfer none): the resulting style from applying the condition's
@@ -2314,9 +2463,13 @@ add_attr (PangoAttrList *attrs, PangoAttribute *attr)
 }
 
 /**
- * gnm_style_get_pango_attrs:
- * @style: #GnmStyle
- **/
+ * gnm_style_generate_attrs:
+ * @style: style to query
+ *
+ * Returns: (transfer full): a #PangoAttrList with attributes matching
+ * @style.  Attributes where the default will serve are not included.
+ * The foreground color is not included.
+ */
 PangoAttrList *
 gnm_style_get_pango_attrs (GnmStyle const *style,
 			   PangoContext *context,
@@ -2377,6 +2530,13 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 	return l;
 }
 
+/**
+ * gnm_style_generate_attrs_full:
+ * @style: style to query
+ *
+ * Returns: (transfer full): a #PangoAttrList with attributes matching
+ * @style, even attributes where the default would have served.
+ */
 PangoAttrList *
 gnm_style_generate_attrs_full (GnmStyle const *style)
 {
