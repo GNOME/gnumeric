@@ -3720,7 +3720,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 				"signal::child_detached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (FALSE),
 				NULL);
 		} else
-			box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+			box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		g_signal_connect (G_OBJECT (w),
 				  "button_press_event",
 				  G_CALLBACK (cb_toolbar_button_press),
