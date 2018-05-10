@@ -187,6 +187,8 @@ void gnm_style_context_get_color (GtkStyleContext *context,
 				  GtkStateFlags state,
 				  GdkRGBA *color);
 
+void gnm_get_link_color (GtkWidget *widget, GdkRGBA *res);
+
 G_END_DECLS
 
 #endif /* _GNM_GUI_UTIL_H_ */

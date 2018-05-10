@@ -29,6 +29,7 @@
 #include "command-context-stderr.h"
 #include "gnm-plugin.h"
 #include "gutils.h"
+#include "gui-util.h"
 
 #include <goffice/goffice.h>
 #include <glib.h>
@@ -1034,16 +1035,16 @@ gnm_func_convert_markup_to_pango (char const *desc, GtkWidget *target)
 {
 	GString *str;
 	gchar *markup, *at;
-	GdkColor *link_color = NULL;
+	GdkRGBA link_color;
+	PangoColor pg;
 	char *link_color_text, *span_text;
 	size_t span_text_len;
 
-	gtk_widget_style_get (target, "link-color", &link_color, NULL);
-	if (link_color) {
-		link_color_text = gdk_color_to_string (link_color);
-		gdk_color_free (link_color);
-	} else
-		link_color_text = g_strdup ("blue");
+	gnm_get_link_color (target, &link_color);
+	pg.red = 65535 * link_color.red;
+	pg.green = 65535 * link_color.green;
+	pg.blue = 65535 * link_color.blue;
+	link_color_text = pango_color_to_string (&pg);
 	span_text = g_strdup_printf ("<span foreground=\"%s\">",
 				     link_color_text);
 	span_text_len = strlen (span_text);

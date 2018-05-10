@@ -577,12 +577,11 @@ make_link (GtkTextBuffer *description, GtkWidget *target, const char *name,
 		(gtk_text_buffer_get_tag_table (description), name);
 
 	if (!link) {
-		GdkColor *link_color = NULL;
+		GdkRGBA link_color;
 		char *link_color_text;
 
-		gtk_widget_style_get (target, "link-color", &link_color, NULL);
-		link_color_text = gdk_color_to_string (link_color);
-		gdk_color_free (link_color);
+		gnm_get_link_color (target, &link_color);
+		link_color_text = gdk_rgba_to_string (&link_color);
 
 		link = gtk_text_buffer_create_tag
 			(description, name,

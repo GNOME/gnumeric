@@ -1359,4 +1359,11 @@ gnm_style_context_get_color (GtkStyleContext *context,
 	gtk_style_context_restore (context);
 }
 
+void
+gnm_get_link_color (GtkWidget *widget, GdkRGBA *res)
+{
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (widget);
+	gnm_style_context_get_color (ctxt, GTK_STATE_FLAG_LINK, res);
+}
+
 // ----------------------------------------------------------------------------

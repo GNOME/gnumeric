@@ -3,6 +3,7 @@ Gnumeric 1.12.42
 Morten:
 	* Plug leaks.
 	* Introspection fixes.
+	* Work around gtk+ breakage re. link colors.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.41
