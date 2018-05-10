@@ -40,6 +40,9 @@
 #include <sys/resource.h>
 #endif
 
+#define SHEET_SELECTION_KEY "sheet-selection"
+
+
 static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_verbose = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
@@ -183,12 +186,12 @@ static const GOptionEntry ssconvert_options [] = {
 	{ NULL }
 };
 
-static void
+static GnmRangeRef const *
 setup_range (GObject *obj, const char *key, Workbook *wb, const char *rtxt)
 {
 	GnmParsePos pp;
 	const char *end;
-	GnmRangeRef rr;
+	GnmRangeRef rr, *rrc;
 
 	pp.wb = wb;
 	pp.sheet = workbook_sheet_by_index (wb, 0);
@@ -201,9 +204,10 @@ setup_range (GObject *obj, const char *key, Workbook *wb, const char *rtxt)
 		exit (1);
 	}
 
-	g_object_set_data_full (obj, key,
-				g_memdup (&rr, sizeof (rr)),
-				g_free);
+	rrc = g_memdup (&rr, sizeof (rr));
+	g_object_set_data_full (obj, key, rrc, g_free);
+
+	return rrc;
 }
 
 static int
@@ -679,6 +683,10 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	WorkbookView *wbv;
 	GOIOContext *io_context = NULL;
 	Workbook *wb = NULL;
+	GOFileSaveScope fsscope;
+	gboolean fs_sheet_selection;
+	GPtrArray *sheet_sel = NULL;
+	GnmRangeRef const *range = NULL;
 
 	if (ssconvert_export_id != NULL) {
 		fs = go_file_saver_for_id (ssconvert_export_id);
@@ -735,6 +743,30 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 
 	if (!fs)
 		goto out;
+	fsscope = go_file_saver_get_save_scope (fs);
+	g_object_get (G_OBJECT (fs), "sheet-selection", &fs_sheet_selection, NULL);
+
+	if (ssconvert_one_file_per_sheet) {
+		gboolean ok;
+		switch (fsscope) {
+		case GO_FILE_SAVE_WORKBOOK:
+			ok = fs_sheet_selection;
+			break;
+		case GO_FILE_SAVE_SHEET:
+			ok = TRUE;
+			break;
+		case GO_FILE_SAVE_RANGE:
+		default:
+			ok = FALSE;
+			break;
+		}
+		if (!ok) {
+			g_printerr (_("Selected exporter (%s) does not have the ability to split a workbook into sheets.\n"),
+				    go_file_saver_get_id (fs));
+			res = 1;
+			goto out;
+		}
+	}
 
 	io_context = go_io_context_new (cc);
 	if (mergeargs == NULL) {
@@ -819,56 +851,81 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	gnm_app_recalc ();
 
 	if (ssconvert_range)
-		setup_range (G_OBJECT (wb),
-			     "ssconvert-range",
-			     wb,
-			     ssconvert_range);
-	else if (ssconvert_one_file_per_sheet ||
-		 (workbook_sheet_count (wb) > 1 &&
-		  go_file_saver_get_save_scope (fs) != GO_FILE_SAVE_WORKBOOK)) {
-		if (ssconvert_one_file_per_sheet) {
-			GSList *ptr, *sheets;
-			char *template;
+		range = setup_range (G_OBJECT (wb),
+				     "ssconvert-range",
+				     wb,
+				     ssconvert_range);
 
-			res = 0;
+	if (ssconvert_one_file_per_sheet ||
+	    fsscope == GO_FILE_SAVE_SHEET ||
+	    range) {
+		Sheet *def_sheet = NULL;
 
-			template = strchr (outarg, '%')
-				? g_strdup (outarg)
-				: g_strconcat (outarg, ".%n", NULL);
+		if (range && range->a.sheet)
+			def_sheet = range->a.sheet;
+		else if (fsscope == GO_FILE_SAVE_SHEET || range)
+			def_sheet = wb_view_cur_sheet (wbv);
 
-			sheets = workbook_sheets (wb);
-			for (ptr = sheets; ptr; ptr = ptr->next) {
-				Sheet *sheet = ptr->data;
-				char *tmpfile =	resolve_template (template, sheet);
-				int oldn = sheet->index_in_wb;
+		sheet_sel = g_ptr_array_new ();
+		if (def_sheet)
+			g_ptr_array_add (sheet_sel, def_sheet);
+		g_object_set_data (G_OBJECT (wb),
+				   SHEET_SELECTION_KEY, sheet_sel);
+	}
 
+	if (ssconvert_one_file_per_sheet) {
+		GSList *ptr, *sheets;
+		char *template;
+
+		res = 0;
+
+		template = strchr (outarg, '%')
+			? g_strdup (outarg)
+			: g_strconcat (outarg, ".%n", NULL);
+
+		sheets = workbook_sheets (wb);
+		for (ptr = sheets; ptr; ptr = ptr->next) {
+			Sheet *sheet = ptr->data;
+			char *tmpfile =	resolve_template (template, sheet);
+			int oldn = sheet->index_in_wb;
+
+			g_ptr_array_set_size (sheet_sel, 0);
+			g_ptr_array_add (sheet_sel, sheet);
+
+			if (!fs_sheet_selection) {
 				/*
 				 * HACK: (bug 694408).
 				 *
 				 * We don't have a good way of specifying the
 				 * sheet.  Move it to the front and select
 				 * it.  That will at least make cvs and txt
-				 * exporters reliable find it.
+				 * exporters reliably find it.
 				 */
 				workbook_sheet_move (sheet, -oldn);
 				wb_view_sheet_focus (wbv, sheet);
-
-				res = !workbook_view_save_as (wbv, fs, tmpfile, cc);
-				workbook_sheet_move (sheet, +oldn);
-				g_free (tmpfile);
-				if (res)
-					break;
 			}
 
-			g_free (template);
-			g_slist_free (sheets);
-			goto out;
-		} else
-			g_printerr (_("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
-				      "Only the current sheet will be saved.  To get around this limitation, use -S.\n"),
-				    go_file_saver_get_id (fs));
+			res = !workbook_view_save_as (wbv, fs, tmpfile, cc);
+
+			if (!fs_sheet_selection)
+				workbook_sheet_move (sheet, +oldn);
+
+			g_free (tmpfile);
+			if (res)
+				break;
+		}
+
+		g_free (template);
+		g_slist_free (sheets);
+	} else {
+		res = !workbook_view_save_as (wbv, fs, outfile, cc);
 	}
-	res = !workbook_view_save_as (wbv, fs, outfile, cc);
+
+	if (sheet_sel) {
+		g_object_set_data (G_OBJECT (wb),
+				   SHEET_SELECTION_KEY, NULL);
+		g_ptr_array_free (sheet_sel, TRUE);
+	}
 
  out:
 	if (wb)
@@ -915,6 +972,11 @@ main (int argc, char const **argv)
 		g_print (_("ssconvert version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
 			 GNM_VERSION_FULL, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		return 0;
+	}
+
+	if (ssconvert_one_file_per_sheet && ssconvert_merge_target) {
+		g_printerr (_("--export-file-per-sheet and --merge-to are incompatible\n"));
+		return 1;
 	}
 
 	gnm_init ();

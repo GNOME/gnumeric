@@ -44,6 +44,7 @@
 #include <string.h>
 #include <locale.h>
 
+#define SHEET_SELECTION_KEY "sheet-selection"
 
 struct _GnmStfExport {
 	GsfOutputCsv csv;
@@ -657,7 +658,8 @@ gnm_stf_get_stfe (GObject *obj)
 }
 
 static void
-gnm_stf_file_saver_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *context,
+gnm_stf_file_saver_save (G_GNUC_UNUSED GOFileSaver const *fs,
+			 GOIOContext *context,
 			 GoView const *view, GsfOutput *output)
 {
 	WorkbookView *wbv = GNM_WORKBOOK_VIEW (view);
@@ -678,9 +680,17 @@ gnm_stf_file_saver_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *conte
 	}
 
 	nosheets = (stfe->sheet_list == NULL);
-	if (nosheets)
-		gnm_stf_export_options_sheet_list_add
-			(stfe, wb_view_cur_sheet (wbv));
+	if (nosheets) {
+		GPtrArray *sel = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
+		if (sel) {
+			unsigned ui;
+			for (ui = 0; ui < sel->len; ui++)
+				gnm_stf_export_options_sheet_list_add
+					(stfe, g_ptr_array_index (sel, ui));
+		} else
+			gnm_stf_export_options_sheet_list_add
+				(stfe, wb_view_cur_sheet (wbv));
+	}
 
 	g_object_set (G_OBJECT (stfe), "sink", output, NULL);
 	if (gnm_stf_export (stfe) == FALSE)
@@ -782,6 +792,7 @@ gnm_stf_file_saver_create (gchar const *id)
 					     GO_FILE_FL_WRITE_ONLY,
 					     gnm_stf_file_saver_save);
 	go_file_saver_set_save_scope (fs, GO_FILE_SAVE_WORKBOOK);
+	g_object_set (G_OBJECT (fs), "sheet-selection", TRUE, NULL);
 	g_signal_connect (G_OBJECT (fs), "set-export-options",
 			  G_CALLBACK (gnm_stf_fs_set_export_options),
 			  NULL);

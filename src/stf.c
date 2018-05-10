@@ -58,6 +58,7 @@
 #include <gsf/gsf-utils.h>
 #include <locale.h>
 
+#define SHEET_SELECTION_KEY "sheet-selection"
 
 static void
 stf_warning (GOIOContext *context, char const *msg)
@@ -490,8 +491,9 @@ stf_write_csv (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *context,
 	       GoView const *view, GsfOutput *output)
 {
 	Sheet *sheet;
-	GnmRangeRef const *range;
 	WorkbookView *wbv = GNM_WORKBOOK_VIEW (view);
+	Workbook *wb = wb_view_get_workbook (wbv);
+	GPtrArray *sel = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
 
 	GnmStfExport *config = g_object_new
 		(GNM_STF_EXPORT_TYPE,
@@ -499,14 +501,13 @@ stf_write_csv (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *context,
 		 "quoting-triggers", ", \t\n\"",
 		 NULL);
 
-	/* FIXME: this is crap in both branches of the "if".  */
-	range = g_object_get_data (G_OBJECT (wb_view_get_workbook (wbv)), "ssconvert-range");
-	if (range && range->a.sheet)
-		sheet = range->a.sheet;
+	if (sel)
+		sheet = sel->len ? g_ptr_array_index (sel, 0) : NULL;
 	else
 		sheet = wb_view_cur_sheet (wbv);
 
-	gnm_stf_export_options_sheet_list_add (config, sheet);
+	if (sheet)
+		gnm_stf_export_options_sheet_list_add (config, sheet);
 
 	if (gnm_stf_export (config) == FALSE)
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
@@ -636,6 +637,7 @@ stf_init (void)
 		_("Comma separated values (CSV)"),
 		GO_FILE_FL_MANUAL_REMEMBER, stf_write_csv);
 	go_file_saver_set_save_scope (saver, GO_FILE_SAVE_SHEET);
+	g_object_set (G_OBJECT (saver), "sheet-selection", TRUE, NULL);
 	go_file_saver_register (saver);
 	g_object_unref (saver);
 }
