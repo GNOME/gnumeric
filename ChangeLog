@@ -1,3 +1,7 @@
+2018-05-10  Morten Welinder  <terra@gnome.org>
+
+	* configure.ac (LIBS): Clear out obsolete pango check.
+
 2018-05-07  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-pane.c (gnm_pane_key_mode_sheet): Plug leaks.

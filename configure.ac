@@ -557,15 +557,6 @@ LIBS="$GNUMERIC_LIBS $LIBS"
 AC_CHECK_FUNCS(gtk_cell_renderer_text_get_background_set gtk_cell_renderer_text_get_foreground_set gtk_cell_renderer_text_get_editable)
 AC_CHECK_FUNCS(gtk_entry_set_editing_cancelled gtk_icon_theme_add_resource_path)
 
-AC_MSG_CHECKING([for PANGO_WEIGHT_THIN etc.])
-AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pango/pango.h>]],
-				[[(void)(PANGO_WEIGHT_THIN == 42);
-				(void)(PANGO_WEIGHT_MEDIUM == 42);
-				(void)(PANGO_WEIGHT_ULTRAHEAVY == 42);]])],
-               [AC_DEFINE(HAVE_PANGO_WEIGHT_THIN_ETC, 1, [Define if PANGO_WEIGHT_THIN etc are available])
-		AC_MSG_RESULT(yes)],
-	       [AC_MSG_RESULT(no)])
-
 AC_MSG_CHECKING([for OO_NS_LOCALC_EXT])
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gsf/gsf.h>]],
 				[[(void)(OO_NS_LOCALC_EXT == OO_NS_LOCALC_EXT);]])],
