@@ -58,12 +58,11 @@
 #include <rendered-value.h>
 #include <cellspan.h>
 #include <print-info.h>
+#include <gutils.h>
 
 #include <locale.h>
 #include <gsf/gsf-output.h>
 #include <string.h>
-
-#define SHEET_SELECTION_KEY "sheet-selection"
 
 typedef enum {
 	LATEX_NO_BORDER = 0,
@@ -1289,10 +1288,9 @@ file_saver_sheet_get_extent (Sheet *sheet)
  * to render the format and contents of the cell.
  */
 void
-latex_file_save (G_GNUC_UNUSED GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext *io_context,
+latex_file_save (GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext *io_context,
 		 WorkbookView const *wb_view, GsfOutput *output)
 {
-	Workbook *wb = wb_view_get_workbook (wb_view);
 	GnmCell *cell;
 	Sheet *current_sheet;
 	GnmRange total_range;
@@ -1302,13 +1300,9 @@ latex_file_save (G_GNUC_UNUSED GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext 
 	GnmStyleBorderType *clines, *this_clines;
 	GnmStyleBorderType *prev_vert = NULL, *next_vert = NULL, *this_vert;
 	gboolean needs_hline;
-	GPtrArray *sel;
 
 	/* Get the sheet and its range from the plugin function argument. */
-	sel = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
-	current_sheet = sel && sel->len
-		? g_ptr_array_index (sel, 0)
-		: wb_view_cur_sheet(wb_view);
+	current_sheet = gnm_file_saver_get_sheet (fs, wb_view);
 	total_range = file_saver_sheet_get_extent (current_sheet);
 
 	/* This is the preamble of the LaTeX2e file. */
@@ -1568,23 +1562,19 @@ latex2e_table_write_file_header(GsfOutput *output)
  * We try to avoid all formatting.
  */
 static void
-latex_table_file_save_impl (WorkbookView const *wb_view, GsfOutput *output, gboolean all)
+latex_table_file_save_impl (GOFileSaver const *fs, WorkbookView const *wb_view,
+			    GsfOutput *output, gboolean all)
 {
-	Workbook *wb = wb_view_get_workbook (wb_view);
 	GnmCell *cell;
 	Sheet *current_sheet;
 	GnmRange total_range;
 	int row, col;
-	GPtrArray *sel;
 
 	/* This is the preamble of the LaTeX2e file. */
 	latex2e_table_write_file_header(output);
 
 	/* Get the sheet and its range from the plugin function argument. */
-	sel = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
-	current_sheet = sel && sel->len
-		? g_ptr_array_index (sel, 0)
-		: wb_view_cur_sheet(wb_view);
+	current_sheet = gnm_file_saver_get_sheet (fs, wb_view);
 	total_range = file_saver_sheet_get_extent (current_sheet);
 
 	/* Step through the sheet, writing cells as appropriate. */
@@ -1625,11 +1615,11 @@ latex_table_file_save_impl (WorkbookView const *wb_view, GsfOutput *output, gboo
  * latex table environment.  We try to avoid all formatting.
  */
 void
-latex_table_file_save (G_GNUC_UNUSED GOFileSaver const *fs,
+latex_table_file_save (GOFileSaver const *fs,
 		       G_GNUC_UNUSED GOIOContext *io_context,
 		       WorkbookView const *wb_view, GsfOutput *output)
 {
-	latex_table_file_save_impl (wb_view, output, TRUE);
+	latex_table_file_save_impl (fs, wb_view, output, TRUE);
 }
 
 /**
@@ -1644,9 +1634,9 @@ latex_table_file_save (G_GNUC_UNUSED GOFileSaver const *fs,
  * latex table environment.  We try to avoid all formatting.
  */
 void
-latex_table_visible_file_save (G_GNUC_UNUSED GOFileSaver const *fs,
+latex_table_visible_file_save (GOFileSaver const *fs,
 			       G_GNUC_UNUSED GOIOContext *io_context,
 			       WorkbookView const *wb_view, GsfOutput *output)
 {
-	latex_table_file_save_impl (wb_view, output, FALSE);
+	latex_table_file_save_impl (fs, wb_view, output, FALSE);
 }

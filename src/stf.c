@@ -58,8 +58,6 @@
 #include <gsf/gsf-utils.h>
 #include <locale.h>
 
-#define SHEET_SELECTION_KEY "sheet-selection"
-
 static void
 stf_warning (GOIOContext *context, char const *msg)
 {
@@ -487,13 +485,11 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 /***********************************************************************************/
 
 static void
-stf_write_csv (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *context,
+stf_write_csv (GOFileSaver const *fs, GOIOContext *context,
 	       GoView const *view, GsfOutput *output)
 {
 	Sheet *sheet;
 	WorkbookView *wbv = GNM_WORKBOOK_VIEW (view);
-	Workbook *wb = wb_view_get_workbook (wbv);
-	GPtrArray *sel = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
 
 	GnmStfExport *config = g_object_new
 		(GNM_STF_EXPORT_TYPE,
@@ -501,11 +497,7 @@ stf_write_csv (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *context,
 		 "quoting-triggers", ", \t\n\"",
 		 NULL);
 
-	if (sel)
-		sheet = sel->len ? g_ptr_array_index (sel, 0) : NULL;
-	else
-		sheet = wb_view_cur_sheet (wbv);
-
+	sheet = gnm_file_saver_get_sheet (fs, wbv);
 	if (sheet)
 		gnm_stf_export_options_sheet_list_add (config, sheet);
 

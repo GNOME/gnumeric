@@ -16,6 +16,7 @@
 #include "sheet.h"
 #include "ranges.h"
 #include "mathfunc.h"
+#include "workbook-view.h"
 
 #include <goffice/goffice.h>
 
@@ -30,6 +31,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-timestamp.h>
+
+#define SHEET_SELECTION_KEY "sheet-selection"
 
 static char *gnumeric_lib_dir;
 static char *gnumeric_data_dir;
@@ -848,3 +851,34 @@ gnm_xml_in_doc_dispose_on_exit (GsfXMLInDoc **pdoc)
 }
 
 /* ------------------------------------------------------------------------- */
+
+/**
+ * gnm_file_saver_get_sheet:
+ * @fs: #GOFileSaver
+ * @wbv: #WorkbookView
+ *
+ * For a single-sheet saver, this function determines what sheet to save.
+ *
+ * Returns: (transfer none): the sheet to export
+ */
+Sheet *
+gnm_file_saver_get_sheet (GOFileSaver const *fs, WorkbookView const *wbv)
+{
+	Workbook *wb;
+	GPtrArray *sel;
+
+	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), NULL);
+	g_return_val_if_fail (go_file_saver_get_save_scope (fs) == GO_FILE_SAVE_SHEET, NULL);
+	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wbv), NULL);
+
+	wb = wb_view_get_workbook (wbv);
+
+	sel = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
+	if (sel) {
+		if (sel->len)
+			return g_ptr_array_index (sel, 0);
+		g_critical ("Someone messed up sheet selection");
+	}
+
+	return wb_view_cur_sheet (wbv);
+}

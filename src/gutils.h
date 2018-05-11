@@ -62,6 +62,9 @@ void gnm_hash_table_foreach_ordered (GHashTable *h,
 
 void gnm_xml_in_doc_dispose_on_exit (GsfXMLInDoc **pdoc);
 
+Sheet *gnm_file_saver_get_sheet (GOFileSaver const *fs,
+				 WorkbookView const *wbv);
+
 G_END_DECLS
 
 #endif /* _GNM_GUTILS_H_ */
