@@ -64,6 +64,9 @@ void gnm_xml_in_doc_dispose_on_exit (GsfXMLInDoc **pdoc);
 
 Sheet *gnm_file_saver_get_sheet (GOFileSaver const *fs,
 				 WorkbookView const *wbv);
+GPtrArray *gnm_file_saver_get_sheets (GOFileSaver const *fs,
+				      WorkbookView const *wbv,
+				      gboolean default_all);
 
 G_END_DECLS
 

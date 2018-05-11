@@ -37,8 +37,6 @@
 #include <locale.h>
 #include <time.h>
 
-#define SHEET_SELECTION_KEY "sheet-selection"
-
 #define PDF_SAVER_ID "Gnumeric_pdf:pdf_assistant"
 
 #define MAX_SAVED_CUSTOM_HF_FORMATS 9
@@ -838,7 +836,10 @@ pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs,
 	GPtrArray *sheets;
 
 	sheets = g_object_get_data (G_OBJECT (wb), "pdf-sheets");
-	if (!sheets) sheets = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
+	if (sheets)
+		g_ptr_array_ref (sheets);
+	else
+		sheets = gnm_file_saver_get_sheets (fs, wbv, FALSE);
 
 	if (sheets) {
 		int i;
@@ -852,6 +853,9 @@ pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs,
 			sheet->print_info->do_not_print = FALSE;
 		}
 	}
+
+	if (sheets)
+		g_ptr_array_unref (sheets);
 
 	gnm_print_sheet (NULL, wb_view_cur_sheet (wbv), FALSE,
 			 GNM_PRINT_ALL_SHEETS, output);

@@ -34,6 +34,7 @@
 #include "workbook.h"
 #include "cell.h"
 #include "value.h"
+#include "gutils.h"
 #include "gnm-format.h"
 #include "gnm-datetime.h"
 #include <gsf/gsf-output-iconv.h>
@@ -43,8 +44,6 @@
 
 #include <string.h>
 #include <locale.h>
-
-#define SHEET_SELECTION_KEY "sheet-selection"
 
 struct _GnmStfExport {
 	GsfOutputCsv csv;
@@ -681,15 +680,11 @@ gnm_stf_file_saver_save (G_GNUC_UNUSED GOFileSaver const *fs,
 
 	nosheets = (stfe->sheet_list == NULL);
 	if (nosheets) {
-		GPtrArray *sel = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
-		if (sel) {
-			unsigned ui;
-			for (ui = 0; ui < sel->len; ui++)
-				gnm_stf_export_options_sheet_list_add
-					(stfe, g_ptr_array_index (sel, ui));
-		} else
+		GPtrArray *sel = gnm_file_saver_get_sheets (fs, wbv, TRUE);
+		unsigned ui;
+		for (ui = 0; ui < sel->len; ui++)
 			gnm_stf_export_options_sheet_list_add
-				(stfe, wb_view_cur_sheet (wbv));
+				(stfe, g_ptr_array_index (sel, ui));
 	}
 
 	g_object_set (G_OBJECT (stfe), "sink", output, NULL);

@@ -44,11 +44,10 @@
 #include <rendered-value.h>
 #include "style.h"
 #include "hlink.h"
+#include "gutils.h"
 
 #include <gsf/gsf-output.h>
 #include <string.h>
-
-#define SHEET_SELECTION_KEY "sheet-selection"
 
 /*
  * html_version_t:
@@ -699,7 +698,7 @@ html_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	Workbook *wb = wb_view_get_workbook (wb_view);
 	GOFileSaveScope save_scope;
 	GPtrArray *sel;
-	unsigned ui, count;
+	unsigned ui;
 
 	g_return_if_fail (fs != NULL);
 	g_return_if_fail (wb != NULL);
@@ -780,14 +779,12 @@ html_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 	save_scope = go_file_saver_get_save_scope (fs);
 
-	sel = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
-	count = sel ? sel->len : workbook_sheet_count (wb);
-	for (ui = 0; ui < count; ui++) {
-		Sheet *sheet = sel
-			? g_ptr_array_index (sel, ui)
-			: workbook_sheet_by_index (wb, ui);
+	sel = gnm_file_saver_get_sheets (fs, wb_view, TRUE);
+	for (ui = 0; ui < sel->len; ui++) {
+		Sheet *sheet = g_ptr_array_index (sel, ui);
 		write_sheet (output, sheet, version, save_scope);
 	}
+	g_ptr_array_unref (sel);
 
 	if (version == HTML32 || version == HTML40 || version == XHTML)
 		gsf_output_puts (output, "</body>\n</html>\n");
