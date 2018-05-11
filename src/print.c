@@ -1804,7 +1804,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	gtk_print_settings_set_use_color (settings,
 					  !sheet->print_info->print_black_and_white);
 	if (!export_dst && !preview_via_pdf && !preview) {
-		/* We should be setting the output file name to somethig */
+		/* We should be setting the output file name to something */
 		/* reasonable */
 		saved_uri = print_info_get_printtofile_uri (sheet->print_info);
 		if (saved_uri != NULL &&

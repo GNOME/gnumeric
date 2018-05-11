@@ -5,7 +5,7 @@ Morten:
 	* Introspection fixes.
 	* Work around gtk+ breakage re. link colors.
 	* Fix problems with ssconvert --export-file-per-sheet.  [#694408]
-	* Enable --export-file-per-sheet for html and latex.
+	* Enable --export-file-per-sheet for html, latex, and pdf.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.41

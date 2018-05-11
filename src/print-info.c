@@ -37,6 +37,8 @@
 #include <locale.h>
 #include <time.h>
 
+#define SHEET_SELECTION_KEY "sheet-selection"
+
 #define PDF_SAVER_ID "Gnumeric_pdf:pdf_assistant"
 
 #define MAX_SAVED_CUSTOM_HF_FORMATS 9
@@ -833,7 +835,10 @@ pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs,
 		    WorkbookView const *wbv, GsfOutput *output)
 {
 	Workbook const *wb = wb_view_get_workbook (wbv);
-	GPtrArray *sheets = g_object_get_data (G_OBJECT (wb), "pdf-sheets");
+	GPtrArray *sheets;
+
+	sheets = g_object_get_data (G_OBJECT (wb), "pdf-sheets");
+	if (!sheets) sheets = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
 
 	if (sheets) {
 		int i;
@@ -854,7 +859,7 @@ pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs,
 
 static void
 pdf_export (GOFileSaver const *fs, GOIOContext *context,
-		    GoView const *view, GsfOutput *output)
+	    GoView const *view, GsfOutput *output)
 {
 	WorkbookView const *wbv = GNM_WORKBOOK_VIEW (view);
 	Workbook const *wb = wb_view_get_workbook (wbv);
@@ -984,6 +989,7 @@ print_init (void)
 		PDF_SAVER_ID, "pdf",
 		_("PDF export"),
 		GO_FILE_FL_WRITE_ONLY, pdf_export);
+	g_object_set (G_OBJECT (saver), "sheet-selection", TRUE, NULL);
 	g_signal_connect (G_OBJECT (saver), "set-export-options",
 			  G_CALLBACK (pdf_set_export_options),
 			  NULL);
