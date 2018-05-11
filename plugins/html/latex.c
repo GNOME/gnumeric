@@ -63,6 +63,8 @@
 #include <gsf/gsf-output.h>
 #include <string.h>
 
+#define SHEET_SELECTION_KEY "sheet-selection"
+
 typedef enum {
 	LATEX_NO_BORDER = 0,
 	LATEX_SINGLE_BORDER = 1,
@@ -1290,6 +1292,7 @@ void
 latex_file_save (G_GNUC_UNUSED GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext *io_context,
 		 WorkbookView const *wb_view, GsfOutput *output)
 {
+	Workbook *wb = wb_view_get_workbook (wb_view);
 	GnmCell *cell;
 	Sheet *current_sheet;
 	GnmRange total_range;
@@ -1299,9 +1302,13 @@ latex_file_save (G_GNUC_UNUSED GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext 
 	GnmStyleBorderType *clines, *this_clines;
 	GnmStyleBorderType *prev_vert = NULL, *next_vert = NULL, *this_vert;
 	gboolean needs_hline;
+	GPtrArray *sel;
 
-	/* Get the topmost sheet and its range from the plugin function argument. */
-	current_sheet = wb_view_cur_sheet(wb_view);
+	/* Get the sheet and its range from the plugin function argument. */
+	sel = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
+	current_sheet = sel && sel->len
+		? g_ptr_array_index (sel, 0)
+		: wb_view_cur_sheet(wb_view);
 	total_range = file_saver_sheet_get_extent (current_sheet);
 
 	/* This is the preamble of the LaTeX2e file. */
@@ -1551,7 +1558,7 @@ latex2e_table_write_file_header(GsfOutput *output)
 }
 
 /**
- * latex_table_file_save :  The LaTeX2e exporter plugin function.
+ * latex_table_file_save_impl :  The LaTeX2e exporter plugin function.
  *
  * @WorkbookView:     this provides the way to access the sheet being exported.
  * @outpu:            where we'll write.
@@ -1563,16 +1570,21 @@ latex2e_table_write_file_header(GsfOutput *output)
 static void
 latex_table_file_save_impl (WorkbookView const *wb_view, GsfOutput *output, gboolean all)
 {
+	Workbook *wb = wb_view_get_workbook (wb_view);
 	GnmCell *cell;
 	Sheet *current_sheet;
 	GnmRange total_range;
 	int row, col;
+	GPtrArray *sel;
 
 	/* This is the preamble of the LaTeX2e file. */
 	latex2e_table_write_file_header(output);
 
-	/* Get the topmost sheet and its range from the plugin function argument. */
-	current_sheet = wb_view_cur_sheet(wb_view);
+	/* Get the sheet and its range from the plugin function argument. */
+	sel = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
+	current_sheet = sel && sel->len
+		? g_ptr_array_index (sel, 0)
+		: wb_view_cur_sheet(wb_view);
 	total_range = file_saver_sheet_get_extent (current_sheet);
 
 	/* Step through the sheet, writing cells as appropriate. */
@@ -1609,8 +1621,8 @@ latex_table_file_save_impl (WorkbookView const *wb_view, GsfOutput *output, gboo
  * @WorkbookView:     this provides the way to access the sheet being exported.
  * @output:           where we'll write.
  *
- * This writes the top sheet of a Gnumeric workbook as the content of a latex table environment.
- * We try to avoid all formatting.
+ * This writes the selected sheet of a Gnumeric workbook as the content of a
+ * latex table environment.  We try to avoid all formatting.
  */
 void
 latex_table_file_save (G_GNUC_UNUSED GOFileSaver const *fs,
@@ -1628,13 +1640,13 @@ latex_table_file_save (G_GNUC_UNUSED GOFileSaver const *fs,
  * @WorkbookView:     this provides the way to access the sheet being exported.
  * @output:           where we'll write.
  *
- * This writes the top sheet of a Gnumeric workbook as the content of a latex table environment.
- * We try to avoid all formatting.
+ * This writes the selected sheet of a Gnumeric workbook as the content of a
+ * latex table environment.  We try to avoid all formatting.
  */
 void
 latex_table_visible_file_save (G_GNUC_UNUSED GOFileSaver const *fs,
-		       G_GNUC_UNUSED GOIOContext *io_context,
-		       WorkbookView const *wb_view, GsfOutput *output)
+			       G_GNUC_UNUSED GOIOContext *io_context,
+			       WorkbookView const *wb_view, GsfOutput *output)
 {
 	latex_table_file_save_impl (wb_view, output, FALSE);
 }

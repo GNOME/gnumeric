@@ -17,22 +17,26 @@
 				<suffix>htm</suffix>
 			</suffixes>
 		</service>
-		<service type="file_saver" id="html32" file_extension="html" format_level="write_only">
+		<service type="file_saver" id="html32" file_extension="html"
+			 format_level="write_only" sheet_selection="true">
 			<information>
 				<_description>HTML 3.2 (*.html)</_description>
 			</information>
 		</service>
-		<service type="file_saver" id="html40" file_extension="html" format_level="write_only">
+		<service type="file_saver" id="html40" file_extension="html"
+			 format_level="write_only" sheet_selection="true">
 			<information>
 				<_description>HTML 4.0 (*.html)</_description>
 			</information>
 		</service>
-		<service type="file_saver" id="html40frag" file_extension="html" format_level="write_only">
+		<service type="file_saver" id="html40frag" file_extension="html"
+			 format_level="write_only" sheet_selection="true">
 			<information>
 				<_description>HTML (*.html) fragment</_description>
 			</information>
 		</service>
-		<service type="file_saver" id="xhtml" file_extension="html" format_level="write_only">
+		<service type="file_saver" id="xhtml" file_extension="html"
+			 format_level="write_only" sheet_selection="true">
 			<information>
 				<_description>XHTML (*.html)</_description>
 			</information>
@@ -44,17 +48,20 @@
 				<_description>XHTML range - for export to clipboard</_description>
 			</information>
 		</service>
-		<service type="file_saver" id="latex" file_extension="tex" format_level="write_only">
+		<service type="file_saver" id="latex" file_extension="tex"
+			 save_scope="sheet" format_level="write_only" sheet_selection="true">
 			<information>
 				<_description>LaTeX 2e (*.tex)</_description>
 			</information>
 		</service>
-		<service type="file_saver" id="latex_table" file_extension="tex" format_level="write_only">
+		<service type="file_saver" id="latex_table" file_extension="tex"
+			 save_scope="sheet" format_level="write_only" sheet_selection="true">
 			<information>
 				<_description>LaTeX 2e (*.tex) table fragment</_description>
 			</information>
 		</service>
-		<service type="file_saver" id="latex_table_visible" file_extension="tex" format_level="write_only">
+		<service type="file_saver" id="latex_table_visible" file_extension="tex"
+			 save_scope="sheet" format_level="write_only" sheet_selection="true">
 			<information>
 				<_description>LaTeX 2e (*.tex) table fragment of visible rows</_description>
 			</information>
