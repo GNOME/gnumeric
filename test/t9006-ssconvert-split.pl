@@ -121,3 +121,11 @@ if (&subtest ("tex")) {
 		  sub { s/(\%.*$)\n//mg; },
 		  \@expected);
 }
+
+if (&subtest ("pdf")) {
+    &message ("Check splitting info pdf files.");
+
+    # We check only that the files are generated
+    my @expected = ('') x $N;
+    &common_test ('pdf', '', sub { $_ = ''; }, \@expected);
+}
