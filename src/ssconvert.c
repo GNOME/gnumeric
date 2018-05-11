@@ -243,18 +243,28 @@ handle_export_options (GOFileSaver *fs, GODoc *doc)
 }
 
 
-typedef gchar const *(*get_desc_f)(void *);
+typedef gchar const *(*get_desc_f)(const void *);
+
+static int
+by_his_id (gconstpointer a, gconstpointer b, gpointer user)
+{
+	get_desc_f get_his_id = user;
+	return strcmp (get_his_id (a), get_his_id (b));
+}
 
 static void
 list_them (GList *them,
 	   get_desc_f get_his_id,
 	   get_desc_f get_his_description)
 {
+	GList *them_copy = g_list_copy (them);
 	GList *ptr;
 	guint len = 0;
 	gboolean interactive;
 
-	for (ptr = them; ptr ; ptr = ptr->next) {
+	them_copy = g_list_sort_with_data (them_copy, by_his_id, get_his_id);
+
+	for (ptr = them_copy; ptr; ptr = ptr->next) {
 		GObject *obj = ptr->data;
 		char const *id;
 
@@ -271,7 +281,7 @@ list_them (GList *them,
 		    /* Translate these? */
 		    "ID",
 		    "Description");
-	for (ptr = them; ptr ; ptr = ptr->next) {
+	for (ptr = them_copy; ptr ; ptr = ptr->next) {
 		GObject *obj = ptr->data;
 		char const *id;
 
@@ -285,6 +295,8 @@ list_them (GList *them,
 			    id,
 			    (*get_his_description) (ptr->data));
 	}
+
+	g_list_free (them_copy);
 }
 
 /*
