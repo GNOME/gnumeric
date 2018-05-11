@@ -85,7 +85,7 @@ gnm_eval_pos_get_type (void)
  * @col: column.
  * @row: row
  *
- * Returns: (transfer none): the initialized #GnmEvalPos (@ep).
+ * Returns: (skip) (transfer none): the initialized #GnmEvalPos (@ep).
  **/
 GnmEvalPos *
 eval_pos_init (GnmEvalPos *ep, Sheet *sheet, int col, int row)
@@ -108,7 +108,7 @@ eval_pos_init (GnmEvalPos *ep, Sheet *sheet, int col, int row)
  * @s: #Sheet
  * @pos: #GnmCellPos
  *
- * Returns: (transfer none): the initialized #GnmEvalPos (@ep).
+ * Returns: (skip) (transfer none): the initialized #GnmEvalPos (@ep).
  **/
 GnmEvalPos *
 eval_pos_init_pos (GnmEvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
@@ -130,7 +130,7 @@ eval_pos_init_pos (GnmEvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
  * @ep: The position to init.
  * @dep:
  *
- * Returns: (transfer none): the initialized #GnmEvalPos (@ep).
+ * Returns: (skip) (transfer none): the initialized #GnmEvalPos (@ep).
  **/
 GnmEvalPos *
 eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
@@ -153,7 +153,7 @@ eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
  *
  * The function initializes an evalpos with the edit position from the
  * given sheetview.
- * Returns: (transfer none): the initialized #GnmEvalPos (@ep).
+ * Returns: (skip) (transfer none): the initialized #GnmEvalPos (@ep).
  **/
 GnmEvalPos *
 eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv)
@@ -172,7 +172,7 @@ eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv)
  *
  * The function initializes an evalpos with the given cell
  *
- * Returns: (transfer none): the initialized #GnmEvalPos (@ep).
+ * Returns: (skip) (transfer none): the initialized #GnmEvalPos (@ep).
  */
 GnmEvalPos *
 eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
@@ -195,7 +195,7 @@ eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
  *
  * The function initializes an evalpos with the given sheet.
  *
- * Returns: (transfer none): the initialized #GnmEvalPos (@ep).
+ * Returns: (skip) (transfer none): the initialized #GnmEvalPos (@ep).
  */
 GnmEvalPos *
 eval_pos_init_sheet (GnmEvalPos *ep, Sheet const *sheet)
@@ -250,7 +250,7 @@ gnm_parse_pos_get_type (void)
  *
  * Use either a sheet (preferred) or a workbook to initialize the supplied
  * ParsePosition.
- * Returns: (transfer none): the initialized #GnmParsePos (@pp).
+ * Returns: (skip) (transfer none): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet const *sheet,
@@ -275,7 +275,7 @@ parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet const *sheet,
  * @pp: The position to init.
  * @dep: The dependent
  *
- * Returns: (transfer none): the initialized #GnmParsePos (@pp).
+ * Returns: (skip) (transfer none): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init_dep (GnmParsePos *pp, GnmDependent const *dep)
@@ -294,7 +294,7 @@ parse_pos_init_dep (GnmParsePos *pp, GnmDependent const *dep)
  * @pp: The position to init.
  * @cell: The cell
  *
- * Returns: (transfer none): the initialized #GnmParsePos (@pp).
+ * Returns: (skip) (transfer none): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init_cell (GnmParsePos *pp, GnmCell const *cell)
@@ -312,7 +312,7 @@ parse_pos_init_cell (GnmParsePos *pp, GnmCell const *cell)
  * @pp: The position to init.
  * @ep: #GnmEvalPos
  *
- * Returns: (transfer none): the initialized #GnmParsePos (@pp).
+ * Returns: (skip) (transfer none): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init_evalpos (GnmParsePos *pp, GnmEvalPos const *ep)
@@ -327,7 +327,7 @@ parse_pos_init_evalpos (GnmParsePos *pp, GnmEvalPos const *ep)
  * @pp: The position to init.
  * @sv: sheet view
  *
- * Returns: (transfer none): the initialized #GnmParsePos (@pp).
+ * Returns: (skip) (transfer none): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init_editpos (GnmParsePos *pp, SheetView const *sv)
@@ -343,7 +343,7 @@ parse_pos_init_editpos (GnmParsePos *pp, SheetView const *sv)
  * @pp: The position to init.
  * @sheet: The sheet
  *
- * Returns: (transfer none): the initialized #GnmParsePos (@pp).
+ * Returns: (skip) (transfer none): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init_sheet (GnmParsePos *pp, Sheet const *sheet)
@@ -620,4 +620,3 @@ gnm_cellpos_equal (GnmCellPos const *a, GnmCellPos const *b)
 {
 	return (a->row == b->row && a->col == b->col);
 }
-
