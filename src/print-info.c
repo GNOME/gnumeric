@@ -833,13 +833,7 @@ pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs,
 		    WorkbookView const *wbv, GsfOutput *output)
 {
 	Workbook const *wb = wb_view_get_workbook (wbv);
-	GPtrArray *sheets;
-
-	sheets = g_object_get_data (G_OBJECT (wb), "pdf-sheets");
-	if (sheets)
-		g_ptr_array_ref (sheets);
-	else
-		sheets = gnm_file_saver_get_sheets (fs, wbv, FALSE);
+	GPtrArray *sheets = gnm_file_saver_get_sheets (fs, wbv, FALSE);
 
 	if (sheets) {
 		int i;
@@ -885,33 +879,17 @@ pdf_export (GOFileSaver const *fs, GOIOContext *context,
 		pdf_write_workbook (fs, context, wbv, output);
 }
 
+struct cb_set_pdf_option {
+	GOFileSaver *fs;
+	Workbook const *wb;
+};
+
 static gboolean
 cb_set_pdf_option (const char *key, const char *value,
-		   GError **err, gpointer user)
+		   GError **err, gpointer user_)
 {
-	Workbook *wb = user;
-
-	if (strcmp (key, "sheet") == 0) {
-		Sheet *sheet = workbook_sheet_by_name (wb, value);
-		GPtrArray *sheets;
-
-		if (!sheet) {
-			*err = g_error_new (go_error_invalid (), 0,
-					    _("There is no such sheet"));
-			return TRUE;
-		}
-
-		sheets = g_object_get_data (G_OBJECT (wb), "pdf-sheets");
-		if (!sheets) {
-			sheets = g_ptr_array_new ();
-			g_object_set_data_full (G_OBJECT (wb),
-						"pdf-sheets", sheets,
-						(GDestroyNotify)g_ptr_array_unref);
-		}
-		g_ptr_array_add (sheets, sheet);
-
-		return FALSE;
-	}
+	struct cb_set_pdf_option *user = user_;
+	Workbook const *wb = user->wb;
 
 	if (strcmp (key, "object") == 0) {
 		GPtrArray *objects = g_object_get_data (G_OBJECT (wb), "pdf-objects");
@@ -965,21 +943,21 @@ cb_set_pdf_option (const char *key, const char *value,
 		return FALSE;
 	}
 
-	if (err)
-		*err = g_error_new (go_error_invalid (), 0,
-				    _("Invalid option for pdf exporter"));
-
-	return TRUE;
+	return gnm_file_saver_common_export_option (user->fs, wb,
+						    key, value, err);
 }
 
 static gboolean
-pdf_set_export_options (G_GNUC_UNUSED GOFileSaver *fs,
+pdf_set_export_options (GOFileSaver *fs,
 			GODoc *doc,
 			const char *options,
 			GError **err,
 			G_GNUC_UNUSED gpointer user)
 {
-	return go_parse_key_value (options, err, cb_set_pdf_option, doc);
+	struct cb_set_pdf_option data;
+	data.fs = fs;
+	data.wb = WORKBOOK (doc);
+	return go_parse_key_value (options, err, cb_set_pdf_option, &data);
 }
 
 /**

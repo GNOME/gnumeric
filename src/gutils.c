@@ -34,6 +34,7 @@
 #include <gsf/gsf-timestamp.h>
 
 #define SHEET_SELECTION_KEY "sheet-selection"
+#define SSCONVERT_SHEET_SET_KEY "ssconvert-sheets"
 
 static char *gnumeric_lib_dir;
 static char *gnumeric_data_dir;
@@ -904,7 +905,7 @@ gnm_file_saver_get_sheets (GOFileSaver const *fs,
 			   gboolean default_all)
 {
 	Workbook *wb;
-	GPtrArray *sel;
+	GPtrArray *sel, *sheets;
 
 	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), NULL);
 	g_return_val_if_fail (go_file_saver_get_save_scope (fs) ==
@@ -913,8 +914,11 @@ gnm_file_saver_get_sheets (GOFileSaver const *fs,
 
 	wb = wb_view_get_workbook (wbv);
 	sel = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
+	sheets = g_object_get_data (G_OBJECT (wb), SSCONVERT_SHEET_SET_KEY);
 	if (sel)
 		g_ptr_array_ref (sel);
+	else if (sheets)
+		sel = g_ptr_array_ref (sheets);
 	else if (default_all) {
 		int i;
 		sel = g_ptr_array_new ();
@@ -925,4 +929,52 @@ gnm_file_saver_get_sheets (GOFileSaver const *fs,
 	}
 
 	return sel;
+}
+
+gboolean
+gnm_file_saver_common_export_option (GOFileSaver const *fs,
+				     Workbook const *wb,
+				     const char *key, const char *value,
+				     GError **err)
+{
+	if (err)
+		*err = NULL;
+
+	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), FALSE);
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), FALSE);
+	g_return_val_if_fail (key != NULL, FALSE);
+	g_return_val_if_fail (value != NULL, FALSE);
+
+	if (strcmp (key, "sheet") == 0) {
+		GPtrArray *sheets;
+		Sheet *sheet = workbook_sheet_by_name (wb, value);
+
+		if (!sheet) {
+			if (err)
+				*err = g_error_new (go_error_invalid (), 0,
+						    _("Unknown sheet \"%s\""),
+						    value);
+			return TRUE;
+		}
+
+		sheets = g_object_get_data (G_OBJECT (wb), SSCONVERT_SHEET_SET_KEY);
+		if (!sheets) {
+			sheets = g_ptr_array_new ();
+			g_object_set_data_full (G_OBJECT (wb),
+						SSCONVERT_SHEET_SET_KEY,
+						sheets,
+						(GDestroyNotify)g_ptr_array_unref);
+		}
+		g_ptr_array_add (sheets, sheet);
+
+		return FALSE;
+	}
+
+	if (err)
+		*err = g_error_new (go_error_invalid (), 0,
+				    _("Invalid export option \"%s\" for format %s"),
+				    key,
+				    go_file_saver_get_id (fs));
+
+	return TRUE;
 }

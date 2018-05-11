@@ -68,6 +68,12 @@ GPtrArray *gnm_file_saver_get_sheets (GOFileSaver const *fs,
 				      WorkbookView const *wbv,
 				      gboolean default_all);
 
+gboolean gnm_file_saver_common_export_option (GOFileSaver const *fs,
+					      Workbook const *wb,
+					      const char *key,
+					      const char *value,
+					      GError **err);
+
 G_END_DECLS
 
 #endif /* _GNM_GUTILS_H_ */

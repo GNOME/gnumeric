@@ -685,6 +685,7 @@ gnm_stf_file_saver_save (G_GNUC_UNUSED GOFileSaver const *fs,
 		for (ui = 0; ui < sel->len; ui++)
 			gnm_stf_export_options_sheet_list_add
 				(stfe, g_ptr_array_index (sel, ui));
+		g_ptr_array_unref (sel);
 	}
 
 	g_object_set (G_OBJECT (stfe), "sink", output, NULL);
@@ -701,25 +702,19 @@ gnm_stf_file_saver_save (G_GNUC_UNUSED GOFileSaver const *fs,
 		gnm_stf_export_options_sheet_list_clear (stfe);
 }
 
+struct cb_set_export_option {
+	GOFileSaver *fs;
+	Workbook const *wb;
+};
+
 static gboolean
 cb_set_export_option (const char *key, const char *value,
-		      GError **err, gpointer user)
+		      GError **err, gpointer user_)
 {
-	Workbook *wb = user;
+	struct cb_set_export_option *user = user_;
+	Workbook const *wb = user->wb;
 	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (wb));
 	const char *errtxt;
-
-	if (strcmp (key, "sheet") == 0) {
-		Sheet *sheet = workbook_sheet_by_name (wb, value);
-		if (!sheet) {
-			errtxt = _("There is no such sheet");
-			goto error;
-		}
-
-		gnm_stf_export_options_sheet_list_add (stfe, sheet);
-
-		return FALSE;
-	}
 
 	if (strcmp (key, "eol") == 0) {
 		const char *eol;
@@ -752,7 +747,9 @@ cb_set_export_option (const char *key, const char *value,
 			 err,
 			 (_("Invalid value for option %s: \"%s\"")));
 
-	errtxt = _("Invalid option for stf exporter");
+	return gnm_file_saver_common_export_option (user->fs, wb,
+						    key, value, err);
+
 error:
 	if (err)
 		*err = g_error_new (go_error_invalid (), 0, "%s", errtxt);
@@ -761,15 +758,18 @@ error:
 }
 
 static gboolean
-gnm_stf_fs_set_export_options (G_GNUC_UNUSED GOFileSaver *fs,
+gnm_stf_fs_set_export_options (GOFileSaver *fs,
 			       GODoc *doc,
 			       const char *options,
 			       GError **err,
 			       G_GNUC_UNUSED gpointer user)
 {
 	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (doc));
+	struct cb_set_export_option data;
+	data.fs = fs;
+	data.wb = WORKBOOK (doc);
 	gnm_stf_export_options_sheet_list_clear (stfe);
-	return go_parse_key_value (options, err, cb_set_export_option, doc);
+	return go_parse_key_value (options, err, cb_set_export_option, &data);
 }
 
 /**

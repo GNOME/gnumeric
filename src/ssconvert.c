@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * ssconvert.c: A wrapper application to convert spreadsheet formats
  *
@@ -40,8 +39,11 @@
 #include <sys/resource.h>
 #endif
 
+// Sheets that an exporter should export.
 #define SHEET_SELECTION_KEY "sheet-selection"
 
+// Sheets user has specified as export options
+#define SSCONVERT_SHEET_SET_KEY "ssconvert-sheets"
 
 static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_verbose = FALSE;
@@ -210,36 +212,109 @@ setup_range (GObject *obj, const char *key, Workbook *wb, const char *rtxt)
 	return rrc;
 }
 
-static int
-handle_export_options (GOFileSaver *fs, GODoc *doc)
+struct cb_handle_export_options {
+	GOFileSaver *fs;
+	Workbook const *wb;
+};
+
+static gboolean
+cb_handle_export_options (const char *key, const char *value,
+			  GError **err, gpointer user_)
 {
-	guint sig = g_signal_lookup ("set-export-options",
-				     G_TYPE_FROM_INSTANCE (fs));
+	struct cb_handle_export_options *user = user_;
+	return gnm_file_saver_common_export_option (user->fs, user->wb,
+						    key, value, err);
+}
+
+static int
+handle_export_options (GOFileSaver *fs, Workbook *wb)
+{
+	GError *err = NULL;
+	gboolean fail;
+	guint sig;
 
 	if (!ssconvert_export_options)
 		return 0;
 
+	sig = g_signal_lookup ("set-export-options", G_TYPE_FROM_INSTANCE (fs));
 	if (g_signal_handler_find (fs, G_SIGNAL_MATCH_ID,
-				   sig, 0, NULL, NULL, NULL)) {
-		GError *err = NULL;
-		gboolean fail =
-			go_file_saver_set_export_options
-			(fs, doc,
+				   sig, 0, NULL, NULL, NULL))
+		fail = go_file_saver_set_export_options
+			(fs, GO_DOC (wb),
 			 ssconvert_export_options,
 			 &err);
+	else {
+		struct cb_handle_export_options data;
+		data.fs = fs;
+		data.wb = wb;
+		fail = go_parse_key_value (ssconvert_export_options, &err,
+					   cb_handle_export_options, &data);
+	}
 
-		if (fail) {
-			g_printerr ("ssconvert: %s\n", err
-				    ? err->message
-				    : _("Cannot parse export options."));
-			return 1;
-		}
-
-		return 0;
-	} else {
-		g_printerr (_("The file saver does not take options\n"));
+	if (fail) {
+		g_printerr ("ssconvert: %s\n", err
+			    ? err->message
+			    : _("Cannot parse export options."));
 		return 1;
 	}
+
+	return 0;
+}
+
+// Check that the sheet selection, if any, matches the file saver's
+// capabilities.
+static int
+validate_sheet_selection (GOFileSaver *fs, Workbook *wb)
+{
+	GOFileSaveScope fsscope = go_file_saver_get_save_scope (fs);
+	gboolean fs_sheet_selection;
+
+	g_object_get (G_OBJECT (fs),
+		      "sheet-selection", &fs_sheet_selection, NULL);
+
+	if (ssconvert_one_file_per_sheet) {
+		gboolean ok;
+		switch (fsscope) {
+		case GO_FILE_SAVE_WORKBOOK:
+			ok = fs_sheet_selection;
+			break;
+		case GO_FILE_SAVE_SHEET:
+			ok = TRUE;
+			break;
+		case GO_FILE_SAVE_RANGE:
+		default:
+			ok = FALSE;
+			break;
+		}
+		if (!ok) {
+			g_printerr (_("Selected exporter (%s) does not have the ability to split a workbook into sheets.\n"),
+				    go_file_saver_get_id (fs));
+			return 1;
+		}
+	} else {
+		GPtrArray *sheets = g_object_get_data (G_OBJECT (wb),
+						       SSCONVERT_SHEET_SET_KEY);
+		switch (fsscope) {
+		case GO_FILE_SAVE_WORKBOOK:
+		case GO_FILE_SAVE_RANGE:
+		default:
+			if (sheets && !fs_sheet_selection) {
+				g_printerr (_("Selected exporter (%s) does not have the ability to export a subset of sheets.\n"),
+					    go_file_saver_get_id (fs));
+				return 1;
+			}
+			break;
+		case GO_FILE_SAVE_SHEET:
+			if (sheets && sheets->len != 1) {
+				g_printerr (_("Selected exporter (%s) can only export one sheet at a time.\n"),
+					    go_file_saver_get_id (fs));
+				return 1;
+			}
+			break;
+		}
+	}
+
+	return 0;
 }
 
 
@@ -490,7 +565,7 @@ merge (Workbook *wb, char const *inputs[],
 }
 
 static char *
-resolve_template (const char *template, Sheet *sheet)
+resolve_template (const char *template, Sheet *sheet, unsigned n)
 {
 	GString *s = g_string_new (NULL);
 	while (1) {
@@ -507,7 +582,7 @@ resolve_template (const char *template, Sheet *sheet)
 			case 0:
 				goto done;
 			case 'n':
-				g_string_append_printf (s, "%d", sheet->index_in_wb);
+				g_string_append_printf (s, "%u", n);
 				break;
 			case 's':
 				g_string_append (s, sheet->name_unquoted);
@@ -683,6 +758,76 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 #undef RANGE_LISTARG
 #undef SHEET_ARG
 
+
+static int
+do_split_save (GOFileSaver *fs, WorkbookView *wbv,
+	       const char *outarg, GOCmdContext *cc)
+{
+	Workbook *wb = wb_view_get_workbook (wbv);
+	char *template;
+	GPtrArray *sheets;
+	unsigned ui;
+	int res = 0;
+	GPtrArray *sheet_sel =
+		g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
+	gboolean fs_sheet_selection;
+
+	g_object_get (G_OBJECT (fs), "sheet-selection", &fs_sheet_selection, NULL);
+
+	template = strchr (outarg, '%')
+		? g_strdup (outarg)
+		: g_strconcat (outarg, ".%n", NULL);
+
+	sheets = g_object_get_data (G_OBJECT (wb),
+				    SSCONVERT_SHEET_SET_KEY);
+	if (sheets)
+		g_ptr_array_ref (sheets);
+	else {
+		int i;
+		sheets = g_ptr_array_new ();
+		for (i = 0; i < workbook_sheet_count (wb); i++) {
+			Sheet *sheet = workbook_sheet_by_index (wb, i);
+			g_ptr_array_add (sheets, sheet);
+		}
+	}
+
+	for (ui = 0; ui < sheets->len; ui++) {
+		Sheet *sheet = g_ptr_array_index (sheets, ui);
+		char *tmpfile =	resolve_template (template, sheet, ui);
+		int oldn = sheet->index_in_wb;
+
+		g_ptr_array_set_size (sheet_sel, 0);
+		g_ptr_array_add (sheet_sel, sheet);
+
+		if (!fs_sheet_selection) {
+			/*
+			 * HACK: (bug 694408).
+			 *
+			 * We don't have a good way of specifying the
+			 * sheet.  Move it to the front and select
+			 * it.  That will at least make cvs and txt
+			 * exporters reliably find it.
+			 */
+			workbook_sheet_move (sheet, -oldn);
+			wb_view_sheet_focus (wbv, sheet);
+		}
+
+		res = !workbook_view_save_as (wbv, fs, tmpfile, cc);
+
+		if (!fs_sheet_selection)
+			workbook_sheet_move (sheet, +oldn);
+
+		g_free (tmpfile);
+		if (res)
+			break;
+	}
+
+	g_free (template);
+	g_ptr_array_unref (sheets);
+
+	return res;
+}
+
 static int
 convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	 GOCmdContext *cc)
@@ -696,7 +841,6 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	GOIOContext *io_context = NULL;
 	Workbook *wb = NULL;
 	GOFileSaveScope fsscope;
-	gboolean fs_sheet_selection;
 	GPtrArray *sheet_sel = NULL;
 	GnmRangeRef const *range = NULL;
 
@@ -756,35 +900,12 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	if (!fs)
 		goto out;
 	fsscope = go_file_saver_get_save_scope (fs);
-	g_object_get (G_OBJECT (fs), "sheet-selection", &fs_sheet_selection, NULL);
-
-	if (ssconvert_one_file_per_sheet) {
-		gboolean ok;
-		switch (fsscope) {
-		case GO_FILE_SAVE_WORKBOOK:
-			ok = fs_sheet_selection;
-			break;
-		case GO_FILE_SAVE_SHEET:
-			ok = TRUE;
-			break;
-		case GO_FILE_SAVE_RANGE:
-		default:
-			ok = FALSE;
-			break;
-		}
-		if (!ok) {
-			g_printerr (_("Selected exporter (%s) does not have the ability to split a workbook into sheets.\n"),
-				    go_file_saver_get_id (fs));
-			res = 1;
-			goto out;
-		}
-	}
 
 	io_context = go_io_context_new (cc);
 	if (mergeargs == NULL) {
 		wbv = workbook_view_new_from_uri (infile, fo,
-					    io_context,
-					    ssconvert_import_encoding);
+						  io_context,
+						  ssconvert_import_encoding);
 	} else {
 		wbv = workbook_view_new (NULL);
 	}
@@ -801,7 +922,11 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 
 	wb = wb_view_get_workbook (wbv);
 
-	res = handle_export_options (fs, GO_DOC (wb));
+	res = handle_export_options (fs, wb);
+	if (res)
+		goto out;
+
+	res = validate_sheet_selection (fs, wb);
 	if (res)
 		goto out;
 
@@ -886,49 +1011,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	}
 
 	if (ssconvert_one_file_per_sheet) {
-		GSList *ptr, *sheets;
-		char *template;
-
-		res = 0;
-
-		template = strchr (outarg, '%')
-			? g_strdup (outarg)
-			: g_strconcat (outarg, ".%n", NULL);
-
-		sheets = workbook_sheets (wb);
-		for (ptr = sheets; ptr; ptr = ptr->next) {
-			Sheet *sheet = ptr->data;
-			char *tmpfile =	resolve_template (template, sheet);
-			int oldn = sheet->index_in_wb;
-
-			g_ptr_array_set_size (sheet_sel, 0);
-			g_ptr_array_add (sheet_sel, sheet);
-
-			if (!fs_sheet_selection) {
-				/*
-				 * HACK: (bug 694408).
-				 *
-				 * We don't have a good way of specifying the
-				 * sheet.  Move it to the front and select
-				 * it.  That will at least make cvs and txt
-				 * exporters reliably find it.
-				 */
-				workbook_sheet_move (sheet, -oldn);
-				wb_view_sheet_focus (wbv, sheet);
-			}
-
-			res = !workbook_view_save_as (wbv, fs, tmpfile, cc);
-
-			if (!fs_sheet_selection)
-				workbook_sheet_move (sheet, +oldn);
-
-			g_free (tmpfile);
-			if (res)
-				break;
-		}
-
-		g_free (template);
-		g_slist_free (sheets);
+		res = do_split_save (fs, wbv, outarg, cc);
 	} else {
 		res = !workbook_view_save_as (wbv, fs, outfile, cc);
 	}
