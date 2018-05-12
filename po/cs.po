@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2018-05-08 17:41+0000\n"
-"PO-Revision-Date: 2018-05-08 22:19+0200\n"
+"POT-Creation-Date: 2018-05-11 19:15+0000\n"
+"PO-Revision-Date: 2018-05-12 11:17+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -115,7 +115,7 @@ msgstr "Import tabulek verzí 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7220
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7216
 #: ../plugins/openoffice/openoffice-read.c:13875 ../src/xml-sax-read.c:3517
 msgid "Reading file..."
 msgstr "Načítá se soubor…"
@@ -222,7 +222,7 @@ msgstr "Neplatný obsah prvku ss:data, očekáváno číslo, obdrženo „%s“"
 msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Neplatný obsah prvku ss:data, obdrženo „%s“"
 
-#: ../plugins/excel/excel-xml-read.c:1100
+#: ../plugins/excel/excel-xml-read.c:1099
 #: ../plugins/openoffice/openoffice-read.c:14039 ../src/xml-sax-read.c:3534
 msgid "XML document not well formed!"
 msgstr "Dokument XML není syntakticky správný!"
@@ -252,17 +252,17 @@ msgstr "Graf%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: ../plugins/excel/ms-excel-read.c:3700
+#: ../plugins/excel/ms-excel-read.c:3696
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Selhání při zpracování názvu „%s“"
 
-#: ../plugins/excel/ms-excel-read.c:3861
+#: ../plugins/excel/ms-excel-read.c:3857
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Nesprávný výraz pro název „%s“: obsah bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3866
+#: ../plugins/excel/ms-excel-read.c:3862
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -271,7 +271,7 @@ msgstr ""
 "Odkazy DDE nejsou zatím podporovány.\n"
 "Název „%s“ bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3870
+#: ../plugins/excel/ms-excel-read.c:3866
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -280,11 +280,11 @@ msgstr ""
 "Odkazy OLE nejsou zatím podporovány.\n"
 "Název „%s“ bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6345
+#: ../plugins/excel/ms-excel-read.c:6341
 msgid "external references"
 msgstr "externí odkazy"
 
-#: ../plugins/excel/ms-excel-read.c:6384
+#: ../plugins/excel/ms-excel-read.c:6380
 msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
@@ -651,23 +651,23 @@ msgstr "Načítá se list „%s“…"
 msgid "Reading comments..."
 msgstr "Načítají se komentáře…"
 
-#: ../plugins/excel/xlsx-read.c:5213
+#: ../plugins/excel/xlsx-read.c:5212
 msgid "Reading shared strings..."
 msgstr "Načítají se sdílené texty…"
 
-#: ../plugins/excel/xlsx-read.c:5222
+#: ../plugins/excel/xlsx-read.c:5221
 msgid "Reading theme..."
 msgstr "Načítá se motiv…"
 
-#: ../plugins/excel/xlsx-read.c:5231
+#: ../plugins/excel/xlsx-read.c:5230
 msgid "Reading styles..."
 msgstr "Načítají se styly…"
 
-#: ../plugins/excel/xlsx-read.c:5236
+#: ../plugins/excel/xlsx-read.c:5235
 msgid "Reading workbook..."
 msgstr "Načítá se sešit…"
 
-#: ../plugins/excel/xlsx-read.c:5246
+#: ../plugins/excel/xlsx-read.c:5245
 msgid "No workbook stream found."
 msgstr "Nebyl nalezen žádný proud pro sešit."
 
@@ -948,9 +948,9 @@ msgstr "Neznámá verze"
 msgid "%s version %s"
 msgstr "%s verze %s"
 
-#: ../plugins/fn-info/functions.c:1410 ../src/dialogs/dialog-cell-format.c:881
-#: ../src/dialogs/dialog-cell-format.c:2355
-#: ../src/dialogs/dialog-cell-format.c:2363 ../src/wbc-gtk-actions.c:3803
+#: ../plugins/fn-info/functions.c:1410 ../src/dialogs/dialog-cell-format.c:880
+#: ../src/dialogs/dialog-cell-format.c:2354
+#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3803
 msgid "Automatic"
 msgstr "Automaticky"
 
@@ -1936,7 +1936,7 @@ msgid "time"
 msgstr "čas"
 
 #: ../plugins/openoffice/openoffice-write.c:5247
-#: ../plugins/openoffice/openoffice-write.c:5259 ../src/ssconvert.c:104
+#: ../plugins/openoffice/openoffice-write.c:5259 ../src/ssconvert.c:109
 #: ../src/ssdiff.c:59
 msgid "file"
 msgstr "soubor"
@@ -4281,7 +4281,7 @@ msgstr "Odstranit objekt"
 #: ../src/commands.c:4831 ../src/commands.c:5897
 #: ../src/dialogs/dialog-doc-metadata.c:1914
 #: ../src/dialogs/dialog-formula-guru.c:894
-#: ../src/dialogs/dialog-function-select.c:1282
+#: ../src/dialogs/dialog-function-select.c:1281
 #: ../src/dialogs/dialog-scenarios.c:522 ../src/dialogs/dialog-simulation.c:215
 #: ../src/dialogs/dialog-zoom.c:196 ../src/format-template.c:217
 msgid "Name"
@@ -5662,105 +5662,105 @@ msgstr "Nový komentář buňky (%s)"
 
 #. xgettext: This refers to a "none underline"
 #: ../src/dialogs/dialog-cell-format.c:72
-#: ../src/dialogs/dialog-cell-format.c:868
+#: ../src/dialogs/dialog-cell-format.c:867
 msgctxt "underline"
 msgid "None"
 msgstr "Žádné"
 
 #: ../src/dialogs/dialog-cell-format.c:73
-#: ../src/dialogs/dialog-cell-format.c:869
+#: ../src/dialogs/dialog-cell-format.c:868
 msgctxt "underline"
 msgid "Single"
 msgstr "Jednoduché"
 
 #: ../src/dialogs/dialog-cell-format.c:74
-#: ../src/dialogs/dialog-cell-format.c:870
+#: ../src/dialogs/dialog-cell-format.c:869
 msgctxt "underline"
 msgid "Double"
 msgstr "Dvojité"
 
 #. xgettext: This refers to a "single low underline"
 #: ../src/dialogs/dialog-cell-format.c:76
-#: ../src/dialogs/dialog-cell-format.c:871
+#: ../src/dialogs/dialog-cell-format.c:870
 msgctxt "underline"
 msgid "Single Low"
 msgstr "Jednoduché dolní"
 
 #. xgettext: This refers to a "double low underline"
 #: ../src/dialogs/dialog-cell-format.c:78
-#: ../src/dialogs/dialog-cell-format.c:872
+#: ../src/dialogs/dialog-cell-format.c:871
 msgctxt "underline"
 msgid "Double Low"
 msgstr "Dvojité dolní"
 
-#: ../src/dialogs/dialog-cell-format.c:470 ../src/dialogs/dialog-search.c:154
+#: ../src/dialogs/dialog-cell-format.c:469 ../src/dialogs/dialog-search.c:154
 #: ../src/func.c:943 ../src/wbc-gtk-actions.c:3419
 msgid "Number"
 msgstr "Číslo"
 
-#: ../src/dialogs/dialog-cell-format.c:1675
+#: ../src/dialogs/dialog-cell-format.c:1674
 msgid "None          (silently accept invalid input)"
 msgstr "Žádná       (tiše přijímat neplatný vstup)"
 
-#: ../src/dialogs/dialog-cell-format.c:1679
+#: ../src/dialogs/dialog-cell-format.c:1678
 msgid "Stop            (never allow invalid input)"
 msgstr "Zastavit      (nikdy nepovolit neplatný vstup)"
 
-#: ../src/dialogs/dialog-cell-format.c:1683
+#: ../src/dialogs/dialog-cell-format.c:1682
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Varování    (přijmout/zahodit neplatný vstup)"
 
-#: ../src/dialogs/dialog-cell-format.c:1687
+#: ../src/dialogs/dialog-cell-format.c:1686
 msgid "Information (allow invalid input)"
 msgstr "Informace (umožnit neplatný vstup)"
 
-#: ../src/dialogs/dialog-cell-format.c:1727 ../src/dialogs/data-slicer.ui.h:2
+#: ../src/dialogs/dialog-cell-format.c:1726 ../src/dialogs/data-slicer.ui.h:2
 msgid "Source"
 msgstr "Zdroj"
 
-#: ../src/dialogs/dialog-cell-format.c:1728
+#: ../src/dialogs/dialog-cell-format.c:1727
 msgid "Criteria"
 msgstr "Kritéria"
 
-#: ../src/dialogs/dialog-cell-format.c:1743
-#: ../src/dialogs/dialog-cell-format.c:1752 ../src/dialogs/so-scrollbar.ui.h:4
+#: ../src/dialogs/dialog-cell-format.c:1742
+#: ../src/dialogs/dialog-cell-format.c:1751 ../src/dialogs/so-scrollbar.ui.h:4
 msgid "Min:"
 msgstr "Min:"
 
-#: ../src/dialogs/dialog-cell-format.c:1744
-#: ../src/dialogs/dialog-cell-format.c:1756 ../src/dialogs/so-scrollbar.ui.h:5
+#: ../src/dialogs/dialog-cell-format.c:1743
+#: ../src/dialogs/dialog-cell-format.c:1755 ../src/dialogs/so-scrollbar.ui.h:5
 msgid "Max:"
 msgstr "Max:"
 
-#: ../src/dialogs/dialog-cell-format.c:1748
+#: ../src/dialogs/dialog-cell-format.c:1747
 #: ../src/dialogs/doc-meta-data.ui.h:34 ../src/dialogs/so-radiobutton.ui.h:4
 msgid "Value:"
 msgstr "Hodnota:"
 
-#: ../src/dialogs/dialog-cell-format.c:2086
+#: ../src/dialogs/dialog-cell-format.c:2085
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "Kritérium pro ověření platnosti je nepoužitelné. Vypnout ověřování?"
 
-#: ../src/dialogs/dialog-cell-format.c:2292 ../src/dialogs/cell-format.ui.h:17
+#: ../src/dialogs/dialog-cell-format.c:2291 ../src/dialogs/cell-format.ui.h:17
 msgid "Format Cells"
 msgstr "Formát buněk"
 
-#: ../src/dialogs/dialog-cell-format.c:2355
+#: ../src/dialogs/dialog-cell-format.c:2354
 #: ../src/dialogs/cell-format-cond.ui.h:8 ../src/dialogs/cell-format.ui.h:57
 msgid "Border"
 msgstr "Ohraničení"
 
-#: ../src/dialogs/dialog-cell-format.c:2359 ../src/wbc-gtk-actions.c:3849
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3849
 msgid "Clear Background"
 msgstr "Vymazat pozadí"
 
-#: ../src/dialogs/dialog-cell-format.c:2359
+#: ../src/dialogs/dialog-cell-format.c:2358
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:90
 #: ../src/wbc-gtk-actions.c:3851 ../src/wbc-gtk-actions.c:3852
 msgid "Background"
 msgstr "Pozadí"
 
-#: ../src/dialogs/dialog-cell-format.c:2363
+#: ../src/dialogs/dialog-cell-format.c:2362
 #: ../src/dialogs/dialog-sheet-compare.c:203
 msgid "Pattern"
 msgstr "Vzorek"
@@ -6242,7 +6242,7 @@ msgid "Properties"
 msgstr "Vlastnosti"
 
 #: ../src/dialogs/dialog-doc-metadata.c:2245
-#: ../src/dialogs/dialog-function-select.c:1287
+#: ../src/dialogs/dialog-function-select.c:1286
 #: ../src/dialogs/dialog-plugin-manager.c:712
 #: ../src/dialogs/dialog-sheet-compare.c:713
 #: ../src/dialogs/doc-meta-data.ui.h:29
@@ -6287,53 +6287,53 @@ msgstr "Nedávno použité"
 msgid "In Use"
 msgstr "Použité"
 
-#: ../src/dialogs/dialog-function-select.c:695
+#: ../src/dialogs/dialog-function-select.c:694
 #, c-format
 msgid "%s evaluates to %s."
 msgstr "%s se vyhodnotí jako %s"
 
-#: ../src/dialogs/dialog-function-select.c:771
+#: ../src/dialogs/dialog-function-select.c:770
 msgid "Arguments:"
 msgstr "Argumenty:"
 
-#: ../src/dialogs/dialog-function-select.c:793
+#: ../src/dialogs/dialog-function-select.c:792
 msgid "Note: "
 msgstr "Poznámka: "
 
-#: ../src/dialogs/dialog-function-select.c:806
+#: ../src/dialogs/dialog-function-select.c:805
 msgid "Examples:"
 msgstr "Příklady:"
 
 #. Not translated
-#: ../src/dialogs/dialog-function-select.c:825
+#: ../src/dialogs/dialog-function-select.c:824
 msgid "See also: "
 msgstr "Viz také: "
 
-#: ../src/dialogs/dialog-function-select.c:842
+#: ../src/dialogs/dialog-function-select.c:841
 msgid ", "
 msgstr ", "
 
-#: ../src/dialogs/dialog-function-select.c:875
+#: ../src/dialogs/dialog-function-select.c:874
 msgid "Further information: "
 msgstr "Další informace: "
 
-#: ../src/dialogs/dialog-function-select.c:877
+#: ../src/dialogs/dialog-function-select.c:876
 msgid "online descriptions"
 msgstr "popis on-line"
 
-#: ../src/dialogs/dialog-function-select.c:889
+#: ../src/dialogs/dialog-function-select.c:888
 msgid "Microsoft Excel: "
 msgstr "Microsoft Excel: "
 
-#: ../src/dialogs/dialog-function-select.c:898
+#: ../src/dialogs/dialog-function-select.c:897
 msgid "ODF (OpenFormula): "
 msgstr "ODF (OpenFormula): "
 
-#: ../src/dialogs/dialog-function-select.c:1387
+#: ../src/dialogs/dialog-function-select.c:1386
 msgid "Gnumeric Function Help Browser"
 msgstr "Prohlížeč nápovědy k funkcím Gnumeric"
 
-#: ../src/dialogs/dialog-function-select.c:1391
+#: ../src/dialogs/dialog-function-select.c:1390
 msgid "Paste Function Name dialog"
 msgstr "Dialogové okno pro vložení názvu funkce"
 
@@ -6565,8 +6565,8 @@ msgstr "Aktivní"
 msgid "Plugin name"
 msgstr "Název zásuvného modulu"
 
-#: ../src/dialogs/dialog-plugin-manager.c:716 ../src/ssconvert.c:88
-#: ../src/ssconvert.c:111
+#: ../src/dialogs/dialog-plugin-manager.c:716 ../src/ssconvert.c:93
+#: ../src/ssconvert.c:116
 msgid "ID"
 msgstr "ID"
 
@@ -12131,12 +12131,12 @@ msgstr ""
 msgid "'%s' has a circular reference"
 msgstr "„%s“ obsahuje cyklický odkaz"
 
-#: ../src/expr-name.c:762 ../src/expr-name.c:1018
+#: ../src/expr-name.c:762 ../src/expr-name.c:1016
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "„%s“ je již v listě definován"
 
-#: ../src/expr-name.c:763 ../src/expr-name.c:1019
+#: ../src/expr-name.c:763 ../src/expr-name.c:1017
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "„%s“ je již v sešitě definován"
@@ -12291,7 +12291,7 @@ msgstr ""
 "vyhodnocen a vrácen druhý argument. V opačném případě je vyhodnocen a vrácen "
 "poslední argument."
 
-#: ../src/func.c:266
+#: ../src/func.c:267
 msgid "Function implementation not available."
 msgstr "Implementace funkce není k dispozici."
 
@@ -12636,6 +12636,16 @@ msgctxt "Stock label"
 msgid "_OK"
 msgstr "_Budiž"
 
+#: ../src/gutils.c:955
+#, c-format
+msgid "Unknown sheet \"%s\""
+msgstr "Neznámý list „%s“"
+
+#: ../src/gutils.c:975
+#, c-format
+msgid "Invalid export option \"%s\" for format %s"
+msgstr "Neplatná volba exportu „%s“ pro formát %s"
+
 #: ../src/hlink.c:290
 msgid "Link target"
 msgstr "Cíl odkazu"
@@ -12789,7 +12799,7 @@ msgstr "Skončit hned po načtení vybraných sešitů"
 msgid "[FILE ...]"
 msgstr "[SOUBOR…]"
 
-#: ../src/main-application.c:129 ../src/ssconvert.c:908 ../src/ssdiff.c:932
+#: ../src/main-application.c:129 ../src/ssconvert.c:1060 ../src/ssdiff.c:932
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -12935,27 +12945,17 @@ msgstr "Cesta "
 msgid "Title"
 msgstr "Záhlaví"
 
-#: ../src/print-info.c:891 ../src/stf-export.c:710
-#, c-format
-msgid "There is no such sheet"
-msgstr "Žádný takový list není"
-
-#: ../src/print-info.c:934
+#: ../src/print-info.c:921
 #, c-format
 msgid "There is no object with name '%s'"
 msgstr "Neexistuje žádný objekt s názvem „%s“"
 
-#: ../src/print-info.c:951
+#: ../src/print-info.c:938
 #, c-format
 msgid "Unknown paper size"
 msgstr "Neznámá velikost papíru"
 
-#: ../src/print-info.c:961
-#, c-format
-msgid "Invalid option for pdf exporter"
-msgstr "Neznámá volba pro export PDF"
-
-#: ../src/print-info.c:985
+#: ../src/print-info.c:972
 msgid "PDF export"
 msgstr "Export PDF"
 
@@ -13600,116 +13600,134 @@ msgstr "Vložit řádky"
 msgid "Delete Rows"
 msgstr "Odstranit řádky"
 
-#: ../src/ssconvert.c:64 ../src/ssdiff.c:51 ../src/ssgrep.c:158
+#: ../src/ssconvert.c:69 ../src/ssdiff.c:51 ../src/ssgrep.c:158
 #: ../src/ssindex.c:45
 msgid "Display program version"
 msgstr "Zobrazit verzi aplikace"
 
-#: ../src/ssconvert.c:71
+#: ../src/ssconvert.c:76
 msgid "Be somewhat more verbose during conversion"
 msgstr "Během převodu informovat o něco víc podrobněji"
 
-#: ../src/ssconvert.c:80 ../src/ssindex.c:66
+#: ../src/ssconvert.c:85 ../src/ssindex.c:66
 msgid "Optionally specify an encoding for imported content"
 msgstr "Nepovinné určení kódování importovaného obsahu"
 
-#: ../src/ssconvert.c:81 ../src/ssindex.c:67
+#: ../src/ssconvert.c:86 ../src/ssindex.c:67
 msgid "ENCODING"
 msgstr "KÓDOVÁNÍ"
 
-#: ../src/ssconvert.c:87
+#: ../src/ssconvert.c:92
 msgid "Optionally specify which importer to use"
 msgstr "Nepovinné určení, jaký import použít"
 
-#: ../src/ssconvert.c:94
+#: ../src/ssconvert.c:99
 msgid "List the available importers"
 msgstr "Vypsat dostupné typy importu"
 
-#: ../src/ssconvert.c:103
+#: ../src/ssconvert.c:108
 msgid "Merge listed files (all same format) to make this file"
 msgstr ""
 "Sloučit vypsané soubory (všechny ve stejném formátu), aby vytvořily tento "
 "soubor"
 
-#: ../src/ssconvert.c:110
+#: ../src/ssconvert.c:115
 msgid "Optionally specify which exporter to use"
 msgstr "Nepovinné určení, který export použít"
 
-#: ../src/ssconvert.c:117
+#: ../src/ssconvert.c:122
 msgid "Detailed instructions for the chosen exporter"
 msgstr "Podrobné instrukce pro vybraný export"
 
-#: ../src/ssconvert.c:118
+#: ../src/ssconvert.c:123
 msgid "string"
 msgstr "text"
 
-#: ../src/ssconvert.c:124
+#: ../src/ssconvert.c:129
 msgid "List the available exporters"
 msgstr "Vypsat dostupné typy exportu"
 
-#: ../src/ssconvert.c:131
+#: ../src/ssconvert.c:136
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time"
 msgstr ""
 "Exportovat soubor pro každý list, pokud typ exportu podporuje jen jeden list."
 
-#: ../src/ssconvert.c:138
+#: ../src/ssconvert.c:143
 msgid "Recalculate all cells before writing the result"
 msgstr "Před zápisem výsledků přepočítat všechny buňky"
 
-#: ../src/ssconvert.c:145
+#: ../src/ssconvert.c:150
 msgid "Resize to given ROWSxCOLS"
 msgstr "Změnit velikost na zadaných ŘÁDKŮ×SLOUPCŮ"
 
-#: ../src/ssconvert.c:156
+#: ../src/ssconvert.c:161
 msgid "The range to export"
 msgstr "Oblast pro export"
 
-#: ../src/ssconvert.c:163
+#: ../src/ssconvert.c:168
 msgid "Goal seek areas"
 msgstr "Oblasti hledání cíle"
 
-#: ../src/ssconvert.c:170
+#: ../src/ssconvert.c:175
 msgid "Run the solver"
 msgstr "Spustit řešitele"
 
-#: ../src/ssconvert.c:177
+#: ../src/ssconvert.c:182
 msgid "Tool test specs"
 msgstr "Specifikace testovacího nástroje"
 
-#: ../src/ssconvert.c:230
+#: ../src/ssconvert.c:257
 msgid "Cannot parse export options."
 msgstr "Nelze zpracovat volby exportu."
 
-#: ../src/ssconvert.c:236
+#: ../src/ssconvert.c:290
 #, c-format
-msgid "The file saver does not take options\n"
-msgstr "Program pro ukládání nemá takovouto volbu\n"
+msgid ""
+"Selected exporter (%s) does not have the ability to split a workbook into "
+"sheets.\n"
+msgstr ""
+"Vybraný typ exportu (%s) nemá možnost rozdělit pracovní sešit na jednotlivé "
+"listy.\n"
+
+#: ../src/ssconvert.c:302
+#, c-format
+msgid ""
+"Selected exporter (%s) does not have the ability to export a subset of "
+"sheets.\n"
+msgstr ""
+"Vybraný typ exportu (%s) nemá možnost exportovat jen podmnožinu listů.\n"
+
+#: ../src/ssconvert.c:309
+#, c-format
+msgid "Selected exporter (%s) can only export one sheet at a time.\n"
+msgstr ""
+"Vybraný typ exportu (%s) umí exportovat v daný okamžik jen jeden list.\n"
 
 #. FIXME: && nexpr2-is-not-the-same-as-nexpr
-#: ../src/ssconvert.c:386
+#: ../src/ssconvert.c:477
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 "Konflikt názvů při slučování: „%s“ se v rámci sešitu objevuje dvakrát.\n"
 
-#: ../src/ssconvert.c:547
+#: ../src/ssconvert.c:638
 #, c-format
 msgid "Failed to create solver"
 msgstr "Nelze vytvořit řešitele"
 
-#: ../src/ssconvert.c:566
+#: ../src/ssconvert.c:657
 #, c-format
 msgid "Solver ran, but failed"
 msgstr "Řešitel běžel, ale selhal"
 
-#: ../src/ssconvert.c:578
+#: ../src/ssconvert.c:669
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Řešitel: %s\n"
 
-#: ../src/ssconvert.c:687
+#: ../src/ssconvert.c:851
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13718,7 +13736,7 @@ msgstr ""
 "Neznámý export „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:707
+#: ../src/ssconvert.c:871
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13727,7 +13745,7 @@ msgstr ""
 "Není možné odhadnout export, který se má použít pro „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:719
+#: ../src/ssconvert.c:883
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13736,7 +13754,7 @@ msgstr ""
 "Je vyžadován název výstupního souboru nebo explicitní typ exportu.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
-#: ../src/ssconvert.c:729
+#: ../src/ssconvert.c:893
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13745,26 +13763,16 @@ msgstr ""
 "Neznámý import „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-importers.\n"
 
-#: ../src/ssconvert.c:753
+#: ../src/ssconvert.c:918
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Načtení %s selhalo\n"
 
-#: ../src/ssconvert.c:867
-#, c-format
-msgid ""
-"Selected exporter (%s) does not support saving multiple sheets in one file.\n"
-"Only the current sheet will be saved.  To get around this limitation, use -"
-"S.\n"
-msgstr ""
-"Zvolený export (%s) nepodporuje ukládání více listů do jednoho souboru.\n"
-"Bude uložen jen aktuální list. Pro obejití tohoto omezení použijte -S.\n"
-
-#: ../src/ssconvert.c:896 ../src/ssconvert.c:947
+#: ../src/ssconvert.c:1048 ../src/ssconvert.c:1104
 msgid "INFILE [OUTFILE]"
 msgstr "VSTUPNÍ_SOUBOR [VÝSTUPNÍ_SOUBOR]"
 
-#: ../src/ssconvert.c:915
+#: ../src/ssconvert.c:1067
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13775,7 +13783,12 @@ msgstr ""
 "datadir := „%s“\n"
 "libdir := „%s“\n"
 
-#: ../src/ssconvert.c:945 ../src/ssdiff.c:989 ../src/ssindex.c:268
+#: ../src/ssconvert.c:1073
+#, c-format
+msgid "--export-file-per-sheet and --merge-to are incompatible\n"
+msgstr "--export-file-per-sheet a --merge-to nelze použít dohromady\n"
+
+#: ../src/ssconvert.c:1102 ../src/ssdiff.c:989 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Použití: %s [PŘEPÍNAČ…] %s\n"
@@ -14016,7 +14029,7 @@ msgstr ""
 "datadir := „%s“\n"
 "libdir := „%s“\n"
 
-#: ../src/stf-export.c:688
+#: ../src/stf-export.c:694
 msgid "Error while trying to export file as text"
 msgstr "Chyba při pokusu exportovat soubor jako text"
 
@@ -14029,11 +14042,7 @@ msgstr "Zakončení řádku musí být unix nebo mac nebo windows"
 msgid "Invalid value for option %s: \"%s\""
 msgstr "Neplatná hodnota pro volbu %s: „%s“"
 
-#: ../src/stf-export.c:750
-msgid "Invalid option for stf exporter"
-msgstr "Neplatná volba pro export stf"
-
-#: ../src/stf-export.c:781
+#: ../src/stf-export.c:786
 msgid "Text (configurable)"
 msgstr "Text (nastavitelný)"
 
@@ -14055,32 +14064,32 @@ msgstr ""
 "Je více sloupců dat, než na kolik je v listu místa. Další sloupce budou "
 "ignorovány."
 
-#: ../src/stf.c:131
+#: ../src/stf.c:130
 msgid "Error while trying to read file"
 msgstr "Chyba při pokusu o čtení souboru"
 
-#: ../src/stf.c:194
+#: ../src/stf.c:193
 msgid "This importer can only be used with a GUI."
 msgstr "Tento import je možné použít poze v grafickém rozhraní."
 
-#: ../src/stf.c:288 ../src/stf.c:320
+#: ../src/stf.c:287 ../src/stf.c:319
 msgid "Text to Columns"
 msgstr "Text do sloupců"
 
-#: ../src/stf.c:293
+#: ../src/stf.c:292
 #, c-format
 msgid "Only one column of input data can be parsed at a time"
 msgstr "Najednou lze zpracovat pouze jeden sloupec vstupních dat"
 
-#: ../src/stf.c:315
+#: ../src/stf.c:314
 msgid "There is no data to convert"
 msgstr "Nejsou žádná data pro konverzi"
 
-#: ../src/stf.c:335
+#: ../src/stf.c:334
 msgid "Error while trying to parse data into sheet"
 msgstr "Chyba při pokusu o zpracování dat do listu"
 
-#: ../src/stf.c:363
+#: ../src/stf.c:362
 #, c-format
 msgid "The file contains %d NUL character. It has been changed to a space."
 msgid_plural ""
@@ -14089,36 +14098,36 @@ msgstr[0] "Soubor obsahuje %d nulový znak NULL. Bude změněn na mezeru."
 msgstr[1] "Soubor obsahuje %d nulové znaky NULL. Budou změněny na mezery."
 msgstr[2] "Soubor obsahuje %d nulových znaků NULL. Budou změněny na mezery."
 
-#: ../src/stf.c:375
+#: ../src/stf.c:374
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
 msgstr "Soubor obsahuje neplatné znaky kódované v UTF-8 a bude oříznut"
 
-#: ../src/stf.c:421
+#: ../src/stf.c:420
 msgid "That file is not in the given encoding."
 msgstr "Tento soubor není v daném kódování."
 
-#: ../src/stf.c:466
+#: ../src/stf.c:465
 msgid "Some data did not fit on the sheet and was dropped."
 msgstr "Některá data nepasují do listu a budou zahozena."
 
-#: ../src/stf.c:478
+#: ../src/stf.c:477
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Chyba zpracování při pokusu o zpracování dat do listu"
 
-#: ../src/stf.c:513
+#: ../src/stf.c:506
 msgid "Error while trying to write CSV file"
 msgstr "Chyba při pokusu zapsat soubor CSV"
 
-#: ../src/stf.c:614
+#: ../src/stf.c:607
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Hodnoty oddělené čárkou nebo tabulátorem (CSV/TSV)"
 
-#: ../src/stf.c:622
+#: ../src/stf.c:615
 msgid "Text import (configurable)"
 msgstr "Import textu (nastavitelný)"
 
-#: ../src/stf.c:636
+#: ../src/stf.c:629
 msgid "Comma separated values (CSV)"
 msgstr "Hodnoty oddělené čárkou (CSV)"
 
@@ -15398,56 +15407,56 @@ msgstr "Větší nebo rovno"
 msgid "Less than or Equal"
 msgstr "Menší nebo rovno"
 
-#: ../src/validation.c:473
+#: ../src/validation.c:471
 #, c-format
 msgid "Missing formula for validation"
 msgstr "Schází vzorec pro ověření"
 
-#: ../src/validation.c:476
+#: ../src/validation.c:474
 #, c-format
 msgid "Extra formula for validation"
 msgstr "Dodatečný vzorec pro ověření"
 
-#: ../src/validation.c:487
+#: ../src/validation.c:485
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: Ověření"
 
-#: ../src/validation.c:550
+#: ../src/validation.c:548
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Buňka %s nesmí být prázdná"
 
-#: ../src/validation.c:558
+#: ../src/validation.c:556
 #, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "Buňka %s nesmí obsahovat chybovou hodnotu"
 
-#: ../src/validation.c:569
+#: ../src/validation.c:567
 #, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "Buňka %s nesmí obsahovat text"
 
-#: ../src/validation.c:585
+#: ../src/validation.c:583
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "„%s“ není celé číslo"
 
-#: ../src/validation.c:595
+#: ../src/validation.c:593
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "„%s“ není platné datum"
 
-#: ../src/validation.c:619
+#: ../src/validation.c:617
 #, c-format
 msgid "%s does not contain the new value."
 msgstr "%s neobsahuje novou hodnotu."
 
-#: ../src/validation.c:655
+#: ../src/validation.c:653
 #, c-format
 msgid "%s is not true."
 msgstr "%s není pravda."
 
-#: ../src/validation.c:694
+#: ../src/validation.c:692
 #, c-format
 msgid "%s is out of permitted range"
 msgstr "%s je mimo povolený rozsah"
