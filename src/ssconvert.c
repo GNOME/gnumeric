@@ -354,8 +354,8 @@ list_them (GList *them,
 
 	g_printerr ("%-*s | %s\n", len,
 		    /* Translate these? */
-		    "ID",
-		    "Description");
+		    _("ID"),
+		    _("Description"));
 	for (ptr = them_copy; ptr ; ptr = ptr->next) {
 		GObject *obj = ptr->data;
 		char const *id;
@@ -553,7 +553,7 @@ merge (Workbook *wb, char const *inputs[],
 		Workbook *wb2 = l->data;
 		const char *uri = go_doc_get_uri (GO_DOC (wb2));
 
-		g_printerr ("Adding sheets from %s\n", uri);
+		g_printerr (_("Adding sheets from %s\n"), uri);
 
 		result = merge_single (wb, wb2, cmax, rmax, cc);
 		if (result)
@@ -650,7 +650,7 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
 	case GNM_SOLVER_STATUS_DONE:
 		break;
 	case GNM_SOLVER_STATUS_CANCELLED:
-		g_printerr ("Solver reached time or iteration limit\n");
+		g_printerr (_("Solver reached time or iteration limit\n"));
 		break;
 	default:
 		g_set_error (&err, go_error_invalid (), 0,
@@ -874,7 +874,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				goto out;
 			}
 			if (ssconvert_verbose)
-				g_printerr ("Using exporter %s\n",
+				g_printerr (_("Using exporter %s\n"),
 					    go_file_saver_get_id (fs));
 		}
 	}
@@ -965,7 +965,8 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 			int n;
 
 			if (ssconvert_verbose)
-				g_printerr ("Resizing to %dx%d\n", rows, cols);
+				g_printerr (_("Resizing to %dx%d\n"),
+					    rows, cols);
 
 			for (n = workbook_sheet_count (wb) - 1;
 			     n >= 0;
@@ -976,7 +977,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 					gnm_sheet_resize (sheet, cols, rows,
 							  NULL, &err);
 				if (err)
-					g_printerr ("Resizing of sheet %s failed\n",
+					g_printerr (_("Resizing of sheet %s failed\n"),
 						    sheet->name_unquoted);
 				g_object_unref (undo);
 			}
