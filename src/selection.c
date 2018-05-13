@@ -30,6 +30,9 @@
 #include "commands.h"
 #include "value.h"
 #include "cell.h"
+#include <goffice/goffice.h>
+#include <expr.h>
+#include <graph.h>
 
 /**
  * sv_selection_calc_simplification:
@@ -89,11 +92,12 @@ sv_selection_calc_simplification (SheetView const *sv)
 
 /**
  * sv_is_singleton_selected:
- * @sv:
+ * @sv: #SheetView
  *
  * See if the 1st selected region is a singleton.
  *
- * Returns A GnmCellPos pointer if the selection is a singleton, and NULL if not.
+ * Returns: (transfer none) (nullable): A #GnmCellPos if the selection is
+ * a singleton
  **/
 GnmCellPos const *
 sv_is_singleton_selected (SheetView const *sv)
@@ -111,7 +115,7 @@ sv_is_singleton_selected (SheetView const *sv)
  * @col:
  * @row:
  *
- * Returns: TRUE if the supplied position is selected in view @sv.
+ * Returns: %TRUE if the supplied position is selected in view @sv.
  **/
 gboolean
 sv_is_pos_selected (SheetView const *sv, int col, int row)
@@ -133,7 +137,7 @@ sv_is_pos_selected (SheetView const *sv, int col, int row)
  * @sv:
  * @r:
  *
- * Returns: TRUE If @r overlaps with any part of the selection in @sv.
+ * Returns: %TRUE If @r overlaps with any part of the selection in @sv.
  **/
 gboolean
 sv_is_range_selected (SheetView const *sv, GnmRange const *r)
@@ -155,7 +159,7 @@ sv_is_range_selected (SheetView const *sv, GnmRange const *r)
  * @sv:
  * @r:
  *
- * Returns TRUE if all of @r is contained by the selection in @sv.
+ * Returns: %TRUE if all of @r is contained by the selection in @sv.
  **/
 gboolean
 sv_is_full_range_selected (SheetView const *sv, GnmRange const *r)
@@ -393,8 +397,8 @@ sv_menu_enable_insert (SheetView *sv, gboolean col, gboolean row)
  * @cc: The command context to report errors to
  * @cmd_name: A string naming the operation requiring a single range.
  *
- * Returns the first range, if a control is supplied it displays an error if
- *    there is more than one range.
+ * Returns: (transfer none): the first range, if a control is supplied it
+ * displays an error if there is more than one range.
  **/
 GnmRange const *
 selection_first_range (SheetView const *sv,
@@ -1237,7 +1241,7 @@ sheet_selection_is_allowed (Sheet const *sheet, GnmCellPos const *pos)
  * @smart_merge: iterate into merged cells only at their corners
  * @res: The result.
  *
- * Returns: TRUE if the cursor leaves the boundary region.
+ * Returns: %TRUE if the cursor leaves the boundary region.
  */
 static gboolean
 walk_boundaries (SheetView const *sv, GnmRange const * const bound,
@@ -1425,10 +1429,6 @@ sv_selection_walk_step (SheetView *sv, gboolean forward, gboolean horizontal)
 	gnm_sheet_view_set_edit_pos (sv, &destination);
 	gnm_sheet_view_make_cell_visible (sv, destination.col, destination.row, FALSE);
 }
-
-#include <goffice/goffice.h>
-#include <expr.h>
-#include <graph.h>
 
 /* characterize a vector based on the last non-blank cell in the range.
  * optionally expand the vector to merge multiple string vectors */

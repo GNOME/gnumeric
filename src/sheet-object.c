@@ -459,7 +459,7 @@ GSF_CLASS (SheetObject, sheet_object,
  * @so: #SheetObject
  * @container: #SheetObjectViewContainer
  *
- * Returns: (transfer none): the found #SheetObjectView or %NULL.
+ * Returns: (transfer none) (nullable): the found #SheetObjectView or %NULL.
  **/
 SheetObjectView *
 sheet_object_get_view (SheetObject const *so, SheetObjectViewContainer *container)
@@ -901,8 +901,8 @@ cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col, double offset)
 /**
  * sheet_object_default_size:
  * @so: The sheet object
- * @w: a ptr into which to store the default_width.
- * @h: a ptr into which to store the default_height.
+ * @w: (out): a ptr into which to store the default_width.
+ * @h: (out): a ptr into which to store the default_height.
  *
  * Measurements are in pts.
  **/
@@ -919,7 +919,7 @@ sheet_object_default_size (SheetObject *so, double *w, double *h)
 /**
  * sheet_object_position_pts_get:
  * @so: The sheet object
- * @coords: array of 4 doubles
+ * @coords: (out) (array fixed-size=4): coordinates
  *
  * Calculate the position of the object @so in pts from the logical position in
  * the object.
@@ -1106,7 +1106,7 @@ clear_sheet (SheetObject *so, GOUndo **pundo)
  * @rinfo: details on what should be moved.
  * @update: Should we do the bound_update now, or leave it for later.
  *		if FALSE honour the move_with_cells flag.
- * @pundo: if non-NULL add dropped objects to ::objects
+ * @pundo: (optional) (out): add dropped objects to ::objects
  *
  * Uses the relocation info and the anchors to decide whether or not, and how
  * to relocate objects when the grid moves (eg ins/del col/row).
@@ -1213,6 +1213,8 @@ sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
  * sheet_objects_clear:
  * @sheet: the sheet.
  * @r: (nullable): #GnmRange to look in
+ * @t #GType
+ * @pundo: (out) (nullable):
  *
  * Removes the objects in the region.
  **/
@@ -1240,7 +1242,8 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t,
  * sheet_object_dup:
  * @so: a #SheetObject to duplicate
  *
- * Returns: (transfer full): A copy of @so that is not attached to a sheet.
+ * Returns: (transfer full) (nullable): A copy of @so that is not attached
+ * to a sheet.
  **/
 SheetObject *
 sheet_object_dup (SheetObject const *so)

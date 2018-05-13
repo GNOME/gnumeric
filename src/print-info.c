@@ -47,42 +47,46 @@ static gint hf_formats_base_num = 0;
 GType
 gnm_print_comment_placement_get_type (void)
 {
-  static GType etype = 0;
-  if (etype == 0) {
-	  static GEnumValue const values[] = {
-		  { GNM_PRINT_COMMENTS_NONE, "GNM_PRINT_COMMENTS_NONE", "none"},
-		  { GNM_PRINT_COMMENTS_IN_PLACE, "GNM_PRINT_COMMENTS_IN_PLACE",
-		    "in-place"},
-		  { GNM_PRINT_COMMENTS_AT_END, "GNM_PRINT_COMMENTS_AT_END",
-		    "at-end"},
-		  { 0, NULL, NULL }
-	  };
-	  etype = g_enum_register_static ("GnmPrintCommentPlacementType",
-					  values);
-  }
-  return etype;
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ GNM_PRINT_COMMENTS_NONE,
+			  "GNM_PRINT_COMMENTS_NONE",
+			  "none"},
+			{ GNM_PRINT_COMMENTS_IN_PLACE,
+			  "GNM_PRINT_COMMENTS_IN_PLACE",
+			  "in-place"},
+			{ GNM_PRINT_COMMENTS_AT_END,
+			  "GNM_PRINT_COMMENTS_AT_END",
+			  "at-end"},
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("GnmPrintCommentPlacementType",
+						values);
+	}
+	return etype;
 }
 
 GType
 gnm_print_errors_get_type (void)
 {
-  static GType etype = 0;
-  if (etype == 0) {
-	  static GEnumValue const values[] = {
-		  { GNM_PRINT_ERRORS_AS_DISPLAYED,
-		    "GNM_PRINT_ERRORS_AS_DISPLAYED", "as-displayed"},
-		  { GNM_PRINT_ERRORS_AS_BLANK,
-		    "GNM_PRINT_ERRORS_AS_BLANK", "as-blank"},
-		  { GNM_PRINT_ERRORS_AS_DASHES,
-		    "GNM_PRINT_ERRORS_AS_DASHES", "as-dashes"},
-		  { GNM_PRINT_ERRORS_AS_NA,
-		    "GNM_PRINT_ERRORS_AS_NA", "as-na"},
-		  { 0, NULL, NULL }
-	  };
-	  etype = g_enum_register_static ("GnmPrintErrorsType",
-					  values);
-  }
-  return etype;
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ GNM_PRINT_ERRORS_AS_DISPLAYED,
+			  "GNM_PRINT_ERRORS_AS_DISPLAYED", "as-displayed"},
+			{ GNM_PRINT_ERRORS_AS_BLANK,
+			  "GNM_PRINT_ERRORS_AS_BLANK", "as-blank"},
+			{ GNM_PRINT_ERRORS_AS_DASHES,
+			  "GNM_PRINT_ERRORS_AS_DASHES", "as-dashes"},
+			{ GNM_PRINT_ERRORS_AS_NA,
+			  "GNM_PRINT_ERRORS_AS_NA", "as-na"},
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("GnmPrintErrorsType",
+						values);
+	}
+	return etype;
 }
 
 
@@ -289,13 +293,14 @@ load_formats (void)
 
 /**
  * gnm_print_info_load_defaults:
+ * @pi: #GnmPrintInformation
  *
+ * Returns: (skip) (transfer none): @pi
  *
  * NOTE: This reads from a globally stored configuration. If a
  *       configuration is stored along with a sheet then that will
  *       override these global defaults.
  */
-
 GnmPrintInformation *
 gnm_print_info_load_defaults (GnmPrintInformation *res)
 {
@@ -364,9 +369,9 @@ gnm_print_information_new (gboolean load_defaults)
 {
 	GnmPrintInformation *res = g_new0 (GnmPrintInformation, 1);
 
-	res->print_as_draft	   = FALSE;
+	res->print_as_draft = FALSE;
 	res->comment_placement = GNM_PRINT_COMMENTS_IN_PLACE;
-	res->error_display     = GNM_PRINT_ERRORS_AS_DISPLAYED;
+	res->error_display = GNM_PRINT_ERRORS_AS_DISPLAYED;
 
 	res->start_page	   = -1;
 	res->n_copies	   = 0;
@@ -1052,6 +1057,16 @@ gnm_print_info_dup (GnmPrintInformation const *src)
 
 #undef COPY
 
+/**
+ * print_info_get_margins:
+ * @pi: #GnmPrintInformation
+ * @top: (out) (optional): top margin.
+ * @bottom: (out) (optional): bottom margin.
+ * @left: (out) (optional): left margin.
+ * @right: (out) (optional): right margin.
+ * @edge_to_below_header: (out) (optional):  margin.
+ * @edge_to_above_footer: (out) (optional):  margin.
+ */
 void
 print_info_get_margins (GnmPrintInformation *pi,
 			double *top, double *bottom,
@@ -1296,7 +1311,7 @@ page_setup_get_paper (GtkPageSetup *page_setup)
 	return g_strdup (name);
 }
 
-char  *
+char *
 print_info_get_paper (GnmPrintInformation *pi)
 {
 	g_return_val_if_fail (pi != NULL, g_strdup (GTK_PAPER_NAME_A4));
@@ -1314,8 +1329,13 @@ print_info_get_paper_size (GnmPrintInformation *pi)
 	return gtk_page_setup_get_paper_size (pi->page_setup);
 }
 
-
-char  const*
+/**
+ * print_info_get_paper_display_name:
+ * @pi: #GnmPrintInformation
+ *
+ * Returns: (transfer none): the name of the selected paper type
+ */
+char const *
 print_info_get_paper_display_name (GnmPrintInformation *pi)
 {
 	GtkPaperSize* paper;
@@ -1352,7 +1372,7 @@ print_info_get_paper_height (GnmPrintInformation *pi, GtkUnit unit)
  *
  * Returns: (transfer none): the page setup.
  **/
-GtkPageSetup*
+GtkPageSetup *
 gnm_print_info_get_page_setup (GnmPrintInformation *pi)
 {
 	g_return_val_if_fail (pi != NULL, NULL);
@@ -1364,7 +1384,7 @@ gnm_print_info_get_page_setup (GnmPrintInformation *pi)
 /**
  * gnm_print_info_set_page_setup:
  * @pi: #GnmPrintInformation
- * @page_setup: #GtkPageSetup
+ * @page_setup: (transfer full): #GtkPageSetup
  *
  * Absorb a ref to @page_setup.
  *
@@ -1376,7 +1396,8 @@ gnm_print_info_get_page_setup (GnmPrintInformation *pi)
  * 2) Why not copy the page_setup in here and make the arg const ?
  **/
 void
-gnm_print_info_set_page_setup (GnmPrintInformation *pi, GtkPageSetup *page_setup)
+gnm_print_info_set_page_setup (GnmPrintInformation *pi,
+			       GtkPageSetup *page_setup)
 {
 	g_return_if_fail (pi != NULL);
 
@@ -1419,9 +1440,7 @@ print_info_set_paper_orientation (GnmPrintInformation *pi,
 /**
  * print_info_set_breaks:
  * @pi: #GnmPrintInformation
- * @breaks: #GnmPageBreaks
- *
- * NOTE : Takes ownership of @breaks.  DO NOT FREE after calling.
+ * @breaks: (transfer full): #GnmPageBreaks
  **/
 void
 print_info_set_breaks (GnmPrintInformation *pi,
@@ -1469,6 +1488,12 @@ gnm_page_breaks_new (gboolean is_vert)
 	return res;
 }
 
+/**
+ * gnm_page_breaks_dup:
+ * @src: (transfer none) (nullable): #GnmPageBreak
+ *
+ * Returns: (transfer full) (nullable): A duplicate #GnmPageBreak.
+ */
 GnmPageBreaks *
 gnm_page_breaks_dup (GnmPageBreaks const *src)
 {
@@ -1488,6 +1513,10 @@ gnm_page_breaks_dup (GnmPageBreaks const *src)
 		return NULL;
 }
 
+/**
+ * gnm_page_breaks_free:
+ * @breaks: (transfer none) (nullable): #GnmPageBreak
+ */
 void
 gnm_page_breaks_free (GnmPageBreaks *breaks)
 {
@@ -1510,6 +1539,13 @@ gnm_page_breaks_get_type (void)
 	return t;
 }
 
+/**
+ * gnm_page_breaks_dup_non_auto_breaks:
+ * @src: (transfer none) (nullable): #GnmPageBreak
+ *
+ * Returns: (transfer full) (nullable): A duplicate #GnmPageBreak, but
+ * containing only non-auto page breaks.
+ */
 GnmPageBreaks *
 gnm_page_breaks_dup_non_auto_breaks (GnmPageBreaks const *src)
 {
@@ -1583,7 +1619,7 @@ gnm_page_breaks_get_break (GnmPageBreaks *breaks,
 
 int
 gnm_page_breaks_get_next_manual_break (GnmPageBreaks *breaks,
-			   int pos)
+				       int pos)
 {
 	guint i;
 
@@ -1601,8 +1637,7 @@ gnm_page_breaks_get_next_manual_break (GnmPageBreaks *breaks,
 }
 
 int
-gnm_page_breaks_get_next_break (GnmPageBreaks *breaks,
-			   int pos)
+gnm_page_breaks_get_next_break (GnmPageBreaks *breaks, int pos)
 {
 	guint i;
 
@@ -1685,9 +1720,9 @@ gnm_page_break_type_from_str (char const *str)
 
 /**
  * gnm_page_breaks_clean:
+ * @breaks: (nullable): #GnmPageBreakType
  *
  * Remove all auto page breaks
- *
  **/
 void
 gnm_page_breaks_clean (GnmPageBreaks *breaks)
@@ -1731,7 +1766,7 @@ print_info_set_printtofile_from_settings (GnmPrintInformation *pi,
 
 void
 print_info_set_from_settings (GnmPrintInformation *pi,
-					  GtkPrintSettings* settings)
+			      GtkPrintSettings* settings)
 {
 	pi->print_range = gtk_print_settings_get_int_with_default
 		(settings,
@@ -1756,7 +1791,12 @@ print_info_set_printrange (GnmPrintInformation *pi, PrintRange pr)
 		pi->print_range = GNM_PRINT_ACTIVE_SHEET;
 }
 
-
+/**
+ * print_info_get_printtofile_uri:
+ * @pi: @GnmPrintInformation
+ *
+ * Returns: (transfer none): The uri used for print-to-file.
+ */
 char const *
 print_info_get_printtofile_uri (GnmPrintInformation *pi)
 {
@@ -1786,4 +1826,3 @@ print_load_repeat_range (char const *str, GnmRange *r, Sheet const *sheet)
 	} else
 		return FALSE;
 }
-
