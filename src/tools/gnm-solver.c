@@ -2105,11 +2105,11 @@ gnm_solver_compute_gradient_analytically (GnmSolver *sol, gnm_float const *xs)
 }
 
 /**
- * gnm_solver_compute_gradient:
+ * gnm_solver_compute_gradient: (skip)
  * @sol: Solver
  * @xs: Point to compute gradient at
  *
- * Returns: (transfer full): A vector containing the gradient.  This
+ * Returns: xxx(transfer full): A vector containing the gradient.  This
  * function takes the flip-sign property into account.  This will use
  * analytic gradient, if possible, and a numerical approximation otherwise.
  */
@@ -2493,14 +2493,14 @@ gnm_solver_pick_lp_coords (GnmSolver *sol,
 }
 
 /**
- * gnm_solver_get_lp_coeffs:
+ * gnm_solver_get_lp_coeffs: (skip)
  * @sol: Solver
  * @ycell: Cell for which to compute coefficients
  * @x1: first coordinate value
  * @x2: second coordinate value
  * @err: error location
  *
- * Returns: (transfer full) (nullable): coordinates, or %NULL in case of error.
+ * Returns: xxx(transfer full) (nullable): coordinates, or %NULL in case of error.
  * Note: this function is not affected by the flip-sign property, even
  * if @ycell happens to coindice with the solver target cell.
  */
