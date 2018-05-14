@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=General\n"
-"POT-Creation-Date: 2018-05-11 19:15+0000\n"
-"PO-Revision-Date: 2018-05-12 11:17+0200\n"
+"POT-Creation-Date: 2018-05-13 22:17+0000\n"
+"PO-Revision-Date: 2018-05-14 21:48+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -6245,7 +6245,7 @@ msgstr "Vlastnosti"
 #: ../src/dialogs/dialog-function-select.c:1286
 #: ../src/dialogs/dialog-plugin-manager.c:712
 #: ../src/dialogs/dialog-sheet-compare.c:713
-#: ../src/dialogs/doc-meta-data.ui.h:29
+#: ../src/dialogs/doc-meta-data.ui.h:29 ../src/ssconvert.c:358
 msgid "Description"
 msgstr "Popis"
 
@@ -6565,8 +6565,9 @@ msgstr "Aktivní"
 msgid "Plugin name"
 msgstr "Název zásuvného modulu"
 
+#. Translate these?
 #: ../src/dialogs/dialog-plugin-manager.c:716 ../src/ssconvert.c:93
-#: ../src/ssconvert.c:116
+#: ../src/ssconvert.c:116 ../src/ssconvert.c:357
 msgid "ID"
 msgstr "ID"
 
@@ -12799,7 +12800,7 @@ msgstr "Skončit hned po načtení vybraných sešitů"
 msgid "[FILE ...]"
 msgstr "[SOUBOR…]"
 
-#: ../src/main-application.c:129 ../src/ssconvert.c:1060 ../src/ssdiff.c:932
+#: ../src/main-application.c:129 ../src/ssconvert.c:1061 ../src/ssdiff.c:932
 #: ../src/ssgrep.c:434 ../src/ssindex.c:257
 #, c-format
 msgid ""
@@ -13712,10 +13713,20 @@ msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 "Konflikt názvů při slučování: „%s“ se v rámci sešitu objevuje dvakrát.\n"
 
+#: ../src/ssconvert.c:556
+#, c-format
+msgid "Adding sheets from %s\n"
+msgstr "Přidávají se listy z %s\n"
+
 #: ../src/ssconvert.c:638
 #, c-format
 msgid "Failed to create solver"
 msgstr "Nelze vytvořit řešitele"
+
+#: ../src/ssconvert.c:653
+#, c-format
+msgid "Solver reached time or iteration limit\n"
+msgstr "Řešitel narazil na omezení času nebo počtu iterací"
 
 #: ../src/ssconvert.c:657
 #, c-format
@@ -13745,6 +13756,10 @@ msgstr ""
 "Není možné odhadnout export, který se má použít pro „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
+#: ../src/ssconvert.c:877
+msgid "Using exporter %s\n"
+msgstr "Používá se export %s\n"
+
 #: ../src/ssconvert.c:883
 #, c-format
 msgid ""
@@ -13768,11 +13783,21 @@ msgstr ""
 msgid "Loading %s failed\n"
 msgstr "Načtení %s selhalo\n"
 
-#: ../src/ssconvert.c:1048 ../src/ssconvert.c:1104
+#: ../src/ssconvert.c:968
+#, c-format
+msgid "Resizing to %dx%d\n"
+msgstr "Mění se velikost na %d × %d\n"
+
+#: ../src/ssconvert.c:980
+#, c-format
+msgid "Resizing of sheet %s failed\n"
+msgstr "Změnit velikosti listu %s selhala\n"
+
+#: ../src/ssconvert.c:1049 ../src/ssconvert.c:1105
 msgid "INFILE [OUTFILE]"
 msgstr "VSTUPNÍ_SOUBOR [VÝSTUPNÍ_SOUBOR]"
 
-#: ../src/ssconvert.c:1067
+#: ../src/ssconvert.c:1068
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13783,12 +13808,12 @@ msgstr ""
 "datadir := „%s“\n"
 "libdir := „%s“\n"
 
-#: ../src/ssconvert.c:1073
+#: ../src/ssconvert.c:1074
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr "--export-file-per-sheet a --merge-to nelze použít dohromady\n"
 
-#: ../src/ssconvert.c:1102 ../src/ssdiff.c:989 ../src/ssindex.c:268
+#: ../src/ssconvert.c:1103 ../src/ssdiff.c:989 ../src/ssindex.c:268
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Použití: %s [PŘEPÍNAČ…] %s\n"
