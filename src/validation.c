@@ -231,16 +231,22 @@ gnm_validation_op_get_type (void)
 
 /**
  * gnm_validation_new:
+ * @style: #ValidationStyle
+ * @op: #ValidationOp
+ * @sheet: #Sheet
  * @title: will be copied.
  * @msg: will be copied.
- * @texpr0: absorb the reference to the expression (optionally %NULL).
- * @texpr1: absorb the reference to the expression (optionally %NULL).
+ * @texpr0: (transfer full) (nullable): first expression
+ * @texpr1: (transfer full) (nullable): second expression
+ * @allow_blank:
+ * @use_dropdown:
  *
  * Does _NOT_ require all necessary information to be set here.
  * gnm_validation_set_expr can be used to change the expressions after creation,
- * and gnm_validation_is_ok can be used to ensure that things are properly setup.
+ * and gnm_validation_is_ok can be used to ensure that things are properly
+ * setup.
  *
- * Returns a new @GnmValidation object that needs to be unrefed.
+ * Returns: (transfer full): a new @GnmValidation object
  **/
 GnmValidation *
 gnm_validation_new (ValidationStyle style,
@@ -515,12 +521,16 @@ cb_validate_custom (GnmValueIter const *v_iter, GnmValue const *target)
  * @wbc:
  * @mstyle:
  * @sheet:
+ * @pos:
+ * @showed_dialog: (out) (optional):
  *
- * validation set in the GnmStyle if applicable.
+ * Checks the validation in @mstyle, if any.  Set @showed_dialog to %TRUE
+ * if a dialog was showed as a result.
  **/
 ValidationStatus
 gnm_validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
-		 Sheet *sheet, GnmCellPos const *pos, gboolean *showed_dialog)
+		     Sheet *sheet, GnmCellPos const *pos,
+		     gboolean *showed_dialog)
 {
 	GnmValidation const *v;
 	GnmCell *cell;
@@ -731,8 +741,9 @@ validation_eval_range_cb (GnmCellIter const *iter, validation_eval_t *closure)
 
 ValidationStatus
 gnm_validation_eval_range (WorkbookControl *wbc,
-		       Sheet *sheet, GnmCellPos const *pos, GnmRange const *r,
-		       gboolean *showed_dialog)
+			   Sheet *sheet, GnmCellPos const *pos,
+			   GnmRange const *r,
+			   gboolean *showed_dialog)
 {
 	GnmValue *result;
 	validation_eval_t closure;

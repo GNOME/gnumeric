@@ -545,6 +545,8 @@ Gnm_@GNUMERIC_API_VER_@_gir_FILES = \
 	tools/dao.h \
 	tools/scenarios.c \
 	tools/scenarios.h \
+	tools/gnm-solver.c \
+	tools/gnm-solver.h \
 	tools/tools.h \
 	widgets/gnumeric-expr-entry.c \
 	widgets/gnumeric-expr-entry.h

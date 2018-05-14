@@ -162,6 +162,24 @@ gnm_solver_constraint_dup (GnmSolverConstraint *c, Sheet *sheet)
 	return res;
 }
 
+static GnmSolverConstraint *
+gnm_solver_constraint_dup1 (GnmSolverConstraint *c)
+{
+	return gnm_solver_constraint_dup (c, c->lhs.sheet);
+}
+
+GType
+gnm_solver_constraint_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GnmSolverConstraint",
+			 (GBoxedCopyFunc)gnm_solver_constraint_dup1,
+			 (GBoxedFreeFunc)gnm_solver_constraint_free);
+	return t;
+}
+
 gboolean
 gnm_solver_constraint_equal (GnmSolverConstraint const *a,
 			     GnmSolverConstraint const *b)
@@ -246,6 +264,12 @@ gnm_solver_constraint_valid (GnmSolverConstraint const *c,
 	return TRUE;
 }
 
+/**
+ * gnm_solver_constraint_get_lhs:
+ * @c: GnmSolverConstraint
+ *
+ * Returns: (transfer none) (nullable): Get left-hand side of constraint @c.
+ */
 GnmValue const *
 gnm_solver_constraint_get_lhs (GnmSolverConstraint const *c)
 {
@@ -253,15 +277,25 @@ gnm_solver_constraint_get_lhs (GnmSolverConstraint const *c)
 	return texpr ? gnm_expr_top_get_constant (texpr) : NULL;
 }
 
+/**
+ * gnm_solver_constraint_set_lhs:
+ * @c: GnmSolverConstraint
+ * @v: (transfer full) (nullable): new left-hand side
+ */
 void
 gnm_solver_constraint_set_lhs (GnmSolverConstraint *c, GnmValue *v)
 {
-	/* Takes ownership.  */
 	GnmExprTop const *texpr = v ? gnm_expr_top_new_constant (v) : NULL;
 	dependent_managed_set_expr (&c->lhs, texpr);
 	if (texpr) gnm_expr_top_unref (texpr);
 }
 
+/**
+ * gnm_solver_constraint_get_rhs:
+ * @c: GnmSolverConstraint
+ *
+ * Returns: (transfer none) (nullable): Get right-hand side of constraint @c.
+ */
 GnmValue const *
 gnm_solver_constraint_get_rhs (GnmSolverConstraint const *c)
 {
@@ -269,15 +303,34 @@ gnm_solver_constraint_get_rhs (GnmSolverConstraint const *c)
 	return texpr ? gnm_expr_top_get_constant (texpr) : NULL;
 }
 
+/**
+ * gnm_solver_constraint_set_rhs:
+ * @c: GnmSolverConstraint
+ * @v: (transfer full) (nullable): new right-hand side
+ */
 void
 gnm_solver_constraint_set_rhs (GnmSolverConstraint *c, GnmValue *v)
 {
-	/* Takes ownership.  */
 	GnmExprTop const *texpr = v ? gnm_expr_top_new_constant (v) : NULL;
 	dependent_managed_set_expr (&c->rhs, texpr);
 	if (texpr) gnm_expr_top_unref (texpr);
 }
 
+/**
+ * gnm_solver_constraint_get_part:
+ * @c: GnmSolverConstraint
+ * @sp: GnmSolverParameters
+ * @i: part index
+ * @lhs: (optional) (out): #GnmCell of left-hand side
+ * @cl: (optional) (out): constant value of left-hand side
+ * @rhs: (optional) (out): #GnmCell of right-hand side
+ * @cr: (optional) (out): constant value of left-hand side
+ *
+ * This splits @c into parts and returns information about the @i'th part.
+ * There will be multiple parts when the left-hand side is a cell range.
+ *
+ * Returns: %TRUE if the @i'th part exists.
+ */
 gboolean
 gnm_solver_constraint_get_part (GnmSolverConstraint const *c,
 				GnmSolverParameters const *sp, int i,
@@ -454,6 +507,13 @@ gnm_solver_param_new (Sheet *sheet)
 			     NULL);
 }
 
+/**
+ * gnm_solver_param_dup:
+ * @src: #GnmSolverParameters
+ * @new_sheet: #Sheet
+ *
+ * Returns: (transfer full): duplicate @src, but for @new_sheet.
+ */
 GnmSolverParameters *
 gnm_solver_param_dup (GnmSolverParameters *src, Sheet *new_sheet)
 {
@@ -518,6 +578,12 @@ gnm_solver_param_equal (GnmSolverParameters const *a,
 	return la == lb;
 }
 
+/**
+ * gnm_solver_param_get_input:
+ * @sp: #GnmSolverParameters
+ *
+ * Returns: (transfer none) (nullable): the input cell area.
+ */
 GnmValue const *
 gnm_solver_param_get_input (GnmSolverParameters const *sp)
 {
@@ -526,10 +592,14 @@ gnm_solver_param_get_input (GnmSolverParameters const *sp)
 		: NULL;
 }
 
+/**
+ * gnm_solver_param_set_input:
+ * @sp: #GnmSolverParameters
+ * @v: (transfer full) (nullable): new input area
+ */
 void
 gnm_solver_param_set_input (GnmSolverParameters *sp, GnmValue *v)
 {
-	/* Takes ownership.  */
 	GnmExprTop const *texpr = v ? gnm_expr_top_new_constant (v) : NULL;
 	dependent_managed_set_expr (&sp->input, texpr);
 	if (texpr) gnm_expr_top_unref (texpr);
@@ -548,6 +618,12 @@ cb_grab_cells (GnmCellIter const *iter, gpointer user)
 	return NULL;
 }
 
+/**
+ * gnm_solver_param_get_input_cells:
+ * @sp: #GnmSolverParameters
+ *
+ * Returns: (element-type GnmCell) (transfer container):
+ */
 GPtrArray *
 gnm_solver_param_get_input_cells (GnmSolverParameters const *sp)
 {
@@ -968,7 +1044,7 @@ gnm_solver_set_property (GObject *object, guint property_id,
 }
 
 /**
- * gnm_solver_prepare:
+ * gnm_solver_prepare: (virtual prepare)
  * @sol: solver
  * @wbc: control for user interaction
  * @err: location to store error
@@ -992,7 +1068,7 @@ gnm_solver_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 }
 
 /**
- * gnm_solver_start:
+ * gnm_solver_start: (virtual start)
  * @sol: solver
  * @wbc: control for user interaction
  * @err: location to store error
@@ -1023,7 +1099,7 @@ gnm_solver_start (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 }
 
 /**
- * gnm_solver_stop:
+ * gnm_solver_stop: (virtual stop)
  * @sol: solver
  * @err: location to store error
  *
@@ -1885,7 +1961,7 @@ gnm_solver_create_report (GnmSolver *solver, const char *base)
 
 /**
  * gnm_solver_get_target_value:
- * @isol: solver
+ * @solver: solver
  *
  * Returns: the current value of the target cell, possibly with the sign
  * flipped.
@@ -1929,6 +2005,12 @@ gnm_solver_set_vars (GnmSolver *sol, gnm_float const *xs)
 		gnm_solver_set_var (sol, i, xs[i]);
 }
 
+/**
+ * gnm_solver_save_vars:
+ * @sol: #GnmSolver
+ *
+ * Returns: (transfer full) (element-type GnmValue):
+ */
 GPtrArray *
 gnm_solver_save_vars (GnmSolver *sol)
 {
@@ -1943,6 +2025,11 @@ gnm_solver_save_vars (GnmSolver *sol)
 	return vals;
 }
 
+/**
+ * gnm_solver_restore_vars:
+ * @sol: #GnmSolver
+ * @vals: (transfer full) (element-type GnmValue): values to restore
+ */
 void
 gnm_solver_restore_vars (GnmSolver *sol, GPtrArray *vals)
 {
@@ -2135,7 +2222,7 @@ gnm_solver_has_analytic_hessian (GnmSolver *sol)
 }
 
 /**
- * gnm_solver_compute_hessian:
+ * gnm_solver_compute_hessian: (skip)
  * @sol: Solver
  * @xs: Point to compute Hessian at
  *
@@ -2900,6 +2987,9 @@ cb_child_exit (G_GNUC_UNUSED GPid pid, gint status, GnmSubSolver *subsol)
 	}
 }
 
+/**
+ * gnm_sub_solver_spawn: (skip)
+ */
 gboolean
 gnm_sub_solver_spawn (GnmSubSolver *subsol,
 		      char **argv,
@@ -3183,6 +3273,9 @@ gnm_solver_iterator_iterate (GnmSolverIterator *iter)
 	return progress;
 }
 
+/**
+ * gnm_solver_iterator_new_func: (skip)
+ */
 GnmSolverIterator *
 gnm_solver_iterator_new_func (GCallback iterate, gpointer user)
 {
@@ -3661,12 +3754,28 @@ GSF_CLASS (GnmSolverFactory, gnm_solver_factory,
 
 static GSList *solvers;
 
+/**
+ * gnm_solver_db_get:
+ *
+ * Returns: (transfer none) (element-type GnmSolverFactory): list of
+ * registered solver factories.
+ */
 GSList *
 gnm_solver_db_get (void)
 {
 	return solvers;
 }
 
+/**
+ * gnm_solver_factory_new: (skip)
+ * @id:
+ * @name:
+ * @type:
+ * @creator: xxx(scope forever)
+ * @functional: xxx(scope forever)
+ *
+ * Returns: (transfer full): a new #GnmSolverFactory
+ */
 GnmSolverFactory *
 gnm_solver_factory_new (const char *id,
 			const char *name,
@@ -3689,6 +3798,13 @@ gnm_solver_factory_new (const char *id,
 	return res;
 }
 
+/**
+ * gnm_solver_factory_create:
+ * @factory: #GnmSolverFactory
+ * @param: #GnmSolverParameters
+ *
+ * Returns: (transfer full): a new #GnmSolver
+ */
 GnmSolver *
 gnm_solver_factory_create (GnmSolverFactory *factory,
 			   GnmSolverParameters *param)

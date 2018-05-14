@@ -67,6 +67,8 @@ struct GnmSolverConstraint_ {
 	GnmDependent rhs;
 };
 
+GType gnm_solver_constraint_get_type (void);
+
 GnmSolverConstraint *gnm_solver_constraint_new (Sheet *sheet);
 void gnm_solver_constraint_free (GnmSolverConstraint *c);
 GnmSolverConstraint *gnm_solver_constraint_dup (GnmSolverConstraint *c,
@@ -145,7 +147,7 @@ GType gnm_solver_param_get_type (void);
 GnmSolverParameters *gnm_solver_param_new (Sheet *sheet);
 
 /* Duplicate a GnmSolverParameters object. */
-GnmSolverParameters *gnm_solver_param_dup (GnmSolverParameters *src_param,
+GnmSolverParameters *gnm_solver_param_dup (GnmSolverParameters *src,
 					   Sheet *new_sheet);
 
 gboolean gnm_solver_param_equal (GnmSolverParameters const *a,
@@ -256,20 +258,20 @@ struct GnmSolver_ {
 typedef struct {
 	GObjectClass parent_class;
 
-	gboolean (*prepare) (GnmSolver *solver,
+	gboolean (*prepare) (GnmSolver *sol,
 			     WorkbookControl *wbc, GError **err);
-	gboolean (*start) (GnmSolver *solver,
+	gboolean (*start) (GnmSolver *sol,
 			   WorkbookControl *wbc, GError **err);
-	gboolean (*stop) (GnmSolver *solver, GError **err);
+	gboolean (*stop) (GnmSolver *sol, GError **err);
 } GnmSolverClass;
 
 GType gnm_solver_get_type (void);
 
-gboolean gnm_solver_prepare (GnmSolver *solver,
+gboolean gnm_solver_prepare (GnmSolver *sol,
 			     WorkbookControl *wbc, GError **err);
-gboolean gnm_solver_start (GnmSolver *solver,
+gboolean gnm_solver_start (GnmSolver *sol,
 			   WorkbookControl *wbc, GError **err);
-gboolean gnm_solver_stop (GnmSolver *solver, GError **err);
+gboolean gnm_solver_stop (GnmSolver *sol, GError **err);
 
 void gnm_solver_set_status (GnmSolver *solver, GnmSolverStatus status);
 
@@ -481,10 +483,10 @@ void gnm_iter_solver_set_solution (GnmIterSolver *isol);
 #define GNM_SOLVER_FACTORY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SOLVER_FACTORY_TYPE, GnmSolverFactory))
 #define GNM_IS_SOLVER_FACTORY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SOLVER_FACTORY_TYPE))
 
-typedef GnmSolver * (*GnmSolverCreator) (GnmSolverFactory *,
-					 GnmSolverParameters *);
-typedef gboolean (*GnmSolverFactoryFunctional) (GnmSolverFactory *,
-						WBCGtk *);
+typedef GnmSolver * (*GnmSolverCreator) (GnmSolverFactory *factory,
+					 GnmSolverParameters *param);
+typedef gboolean (*GnmSolverFactoryFunctional) (GnmSolverFactory *factory,
+						WBCGtk *wbcg);
 
 struct GnmSolverFactory_ {
 	GObject parent;
@@ -506,7 +508,7 @@ GnmSolverFactory *gnm_solver_factory_new (const char *id,
 					  const char *name,
 					  GnmSolverModelType type,
 					  GnmSolverCreator creator,
-					  GnmSolverFactoryFunctional funct);
+					  GnmSolverFactoryFunctional functional);
 GnmSolver *gnm_solver_factory_create (GnmSolverFactory *factory,
 				      GnmSolverParameters *param);
 gboolean gnm_solver_factory_functional (GnmSolverFactory *factory,

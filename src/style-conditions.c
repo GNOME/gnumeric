@@ -206,6 +206,13 @@ gnm_style_cond_set_sheet (GnmStyleCond *cond, Sheet *sheet)
 		dependent_managed_set_sheet (&cond->deps[ui], sheet);
 }
 
+/**
+ * gnm_style_cond_get_expr:
+ * @cond: #GnmStyleCond
+ * @idx: index
+ *
+ * Returns: (transfer none): the #GnmExprTop for the @idx'th condition.
+ **/
 GnmExprTop const *
 gnm_style_cond_get_expr (GnmStyleCond const *cond, unsigned idx)
 {
@@ -706,11 +713,12 @@ GSF_CLASS (GnmStyleConditions, gnm_style_conditions,
 
 /**
  * gnm_style_conditions_new:
+ * @sheet: #Sheet
  *
- * Convenience tool to create a GnmStyleCondition.  Straight g_object_new
+ * Convenience tool to create a #GnmStyleCondition.  Straight g_object_new
  * will work too.
  *
- * Returns a GnmStyleConditions that the caller is responsible for.
+ * Returns: (transfer full): a #GnmStyleConditions
  **/
 GnmStyleConditions  *
 gnm_style_conditions_new (Sheet *sheet)
@@ -725,9 +733,9 @@ gnm_style_conditions_new (Sheet *sheet)
 
 /**
  * gnm_style_conditions_dup:
- * @sc: the #GnmStyleConditions to duplicate.
+ * @sc: (nullable): the #GnmStyleConditions to duplicate.
  *
- * Returns: (transfer full): the duplicated #GnmStyleConditions.
+ * Returns: (transfer full) (nullable): the duplicated #GnmStyleConditions.
  **/
 GnmStyleConditions *
 gnm_style_conditions_dup (GnmStyleConditions const *sc)
