@@ -1725,7 +1725,7 @@ cb_pane_sliding (GnmPane *pane)
  * @pane: The GnmPane managing the scroll
  * @canvas: The Canvas the event comes from
  * @slide_flags:
- * @handler: (scope call): The handler when sliding
+ * @handler: (scope async): The handler when sliding
  * @user_data: closure data
  *
  * Handle a motion event from a @canvas and scroll the @pane

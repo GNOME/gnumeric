@@ -3708,7 +3708,7 @@ style_parser_done (GsfXMLIn *xin, XMLSaxParseState *old_state)
  * gnm_xml_prep_style_parser:
  * @xin:
  * @attrs:
- * @handler: (scope call):
+ * @handler: (scope async):
  * @user: user data.
  *
  **/
