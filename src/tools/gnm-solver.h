@@ -484,18 +484,23 @@ void gnm_iter_solver_set_solution (GnmIterSolver *isol);
 #define GNM_IS_SOLVER_FACTORY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SOLVER_FACTORY_TYPE))
 
 typedef GnmSolver * (*GnmSolverCreator) (GnmSolverFactory *factory,
-					 GnmSolverParameters *param);
+					 GnmSolverParameters *param,
+					 gpointer data);
 typedef gboolean (*GnmSolverFactoryFunctional) (GnmSolverFactory *factory,
-						WBCGtk *wbcg);
+						WBCGtk *wbcg,
+						gpointer data);
 
 struct GnmSolverFactory_ {
 	GObject parent;
 
+	/* <private> */
 	char *id;
 	char *name; /* Already translated */
 	GnmSolverModelType type;
 	GnmSolverCreator creator;
 	GnmSolverFactoryFunctional functional;
+	gpointer data;
+	GDestroyNotify notify;
 };
 
 typedef struct {
@@ -508,7 +513,9 @@ GnmSolverFactory *gnm_solver_factory_new (const char *id,
 					  const char *name,
 					  GnmSolverModelType type,
 					  GnmSolverCreator creator,
-					  GnmSolverFactoryFunctional functional);
+					  GnmSolverFactoryFunctional functional,
+					  gpointer data,
+					  GDestroyNotify notify);
 GnmSolver *gnm_solver_factory_create (GnmSolverFactory *factory,
 				      GnmSolverParameters *param);
 gboolean gnm_solver_factory_functional (GnmSolverFactory *factory,

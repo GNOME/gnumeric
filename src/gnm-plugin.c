@@ -547,7 +547,8 @@ struct GnmPluginServiceSolver_ {
 };
 
 static GnmSolver *
-cb_load_and_create (GnmSolverFactory *factory, GnmSolverParameters *param)
+cb_load_and_create (GnmSolverFactory *factory, GnmSolverParameters *param,
+		    gpointer data)
 {
 	PluginServiceSolver *ssol =
 		g_object_get_data (G_OBJECT (factory), "ssol");
@@ -562,7 +563,7 @@ cb_load_and_create (GnmSolverFactory *factory, GnmSolverParameters *param)
 		return NULL;
 	}
 
-	res = ssol->cbs.creator (factory, param);
+	res = ssol->cbs.creator (factory, param, data);
 	if (res) {
 		go_plugin_use_ref (service->plugin);
 		g_object_set_data_full (G_OBJECT (res),
@@ -575,7 +576,8 @@ cb_load_and_create (GnmSolverFactory *factory, GnmSolverParameters *param)
 
 static gboolean
 cb_load_and_functional (GnmSolverFactory *factory,
-			WBCGtk *wbcg)
+			WBCGtk *wbcg,
+			gpointer data)
 {
 	PluginServiceSolver *ssol =
 		g_object_get_data (G_OBJECT (factory), "ssol");
@@ -591,7 +593,7 @@ cb_load_and_functional (GnmSolverFactory *factory,
 	}
 
 	functional = ssol->cbs.functional;
-	return (functional == NULL || functional (factory, wbcg));
+	return (functional == NULL || functional (factory, wbcg, data));
 }
 
 static void
@@ -659,7 +661,9 @@ plugin_service_solver_read_xml (GOPluginService *service, xmlNode *tree,
 							CXML2C (s_name),
 							type,
 							cb_load_and_create,
-							cb_load_and_functional);
+							cb_load_and_functional,
+							NULL,
+							NULL);
 		g_object_set_data (G_OBJECT (ssol->factory), "ssol", ssol);
 	}
 	xmlFree (s_id);

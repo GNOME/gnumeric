@@ -3729,14 +3729,17 @@ GSF_CLASS (GnmIterSolver, gnm_iter_solver,
 static GObjectClass *gnm_solver_factory_parent_class;
 
 static void
-gnm_solver_factory_dispose (GObject *obj)
+gnm_solver_factory_finalize (GObject *obj)
 {
 	GnmSolverFactory *factory = GNM_SOLVER_FACTORY (obj);
+
+	if (factory->notify)
+		factory->notify (factory->data);
 
 	g_free (factory->id);
 	g_free (factory->name);
 
-	gnm_solver_factory_parent_class->dispose (obj);
+	gnm_solver_factory_parent_class->finalize (obj);
 }
 
 static void
@@ -3745,7 +3748,7 @@ gnm_solver_factory_class_init (GObjectClass *object_class)
 	gnm_solver_factory_parent_class =
 		g_type_class_peek_parent (object_class);
 
-	object_class->dispose = gnm_solver_factory_dispose;
+	object_class->finalize = gnm_solver_factory_finalize;
 }
 
 GSF_CLASS (GnmSolverFactory, gnm_solver_factory,
@@ -3767,12 +3770,14 @@ gnm_solver_db_get (void)
 }
 
 /**
- * gnm_solver_factory_new: (skip)
- * @id:
- * @name:
- * @type:
- * @creator: xxx(scope forever)
- * @functional: xxx(scope forever)
+ * gnm_solver_factory_new:
+ * @id: Unique identifier
+ * @name: Translated name for UI purposes
+ * @type: Model type created by factory
+ * @creator: (scope notified): callback for creating a solver
+ * @functional: (scope notified): callback for checking if factory is functional
+ * @data: User pointer for @creator and @functional
+ * @notify: Destroy notification for @data.
  *
  * Returns: (transfer full): a new #GnmSolverFactory
  */
@@ -3781,7 +3786,9 @@ gnm_solver_factory_new (const char *id,
 			const char *name,
 			GnmSolverModelType type,
 			GnmSolverCreator creator,
-			GnmSolverFactoryFunctional functional)
+			GnmSolverFactoryFunctional functional,
+			gpointer data,
+			GDestroyNotify notify)
 {
 	GnmSolverFactory *res;
 
@@ -3795,6 +3802,8 @@ gnm_solver_factory_new (const char *id,
 	res->type = type;
 	res->creator = creator;
 	res->functional = functional;
+	res->data = data;
+	res->notify = notify;
 	return res;
 }
 
@@ -3810,7 +3819,7 @@ gnm_solver_factory_create (GnmSolverFactory *factory,
 			   GnmSolverParameters *param)
 {
 	g_return_val_if_fail (GNM_IS_SOLVER_FACTORY (factory), NULL);
-	return factory->creator (factory, param);
+	return factory->creator (factory, param, factory->data);
 }
 
 gboolean
@@ -3821,7 +3830,7 @@ gnm_solver_factory_functional (GnmSolverFactory *factory,
 		return FALSE;
 
 	return (factory->functional == NULL ||
-		factory->functional (factory, wbcg));
+		factory->functional (factory, wbcg, factory->data));
 }
 
 static int
