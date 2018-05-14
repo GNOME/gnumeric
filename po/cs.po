@@ -13726,7 +13726,7 @@ msgstr "Nelze vytvořit řešitele"
 #: ../src/ssconvert.c:653
 #, c-format
 msgid "Solver reached time or iteration limit\n"
-msgstr "Řešitel narazil na omezení času nebo počtu iterací"
+msgstr "Řešitel narazil na omezení času nebo počtu iterací\n"
 
 #: ../src/ssconvert.c:657
 #, c-format
