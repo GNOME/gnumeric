@@ -1,4 +1,4 @@
-/**
+/*
  * gnm-notebook.h: Implements a button-only notebook.
  *
  * Copyright (c) 2008 Morten Welinder <terra@gnome.org>

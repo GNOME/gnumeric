@@ -4,7 +4,7 @@
 #include "gnumeric.h"
 #include <glib-object.h>
 
-SheetObjectView *gnm_cell_combo_view_new	 (SheetObject *so, GType t,
+SheetObjectView *gnm_cell_combo_view_new	 (SheetObject *so, GType type,
 						  SheetObjectViewContainer *container);
 void		 gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time);
 

@@ -1,4 +1,4 @@
-/**
+/*
  * gnm-radiobutton.c: Implements a special radiobutton
  *
  * Copyright (c) 2009 Morten Welinder <terra@gnome.org>
@@ -27,13 +27,18 @@ static void
 gnm_radiobutton_class_init (GnmRadioButtonClass *class)
 {
 	GtkButtonClass *button_class = GTK_BUTTON_CLASS (class);
-	GtkWidget *tb = gtk_toggle_button_new ();
 
-	button_class->clicked = GTK_BUTTON_GET_CLASS(tb)->clicked;
+	if (gdk_screen_get_default ()) {
+		GtkWidget *tb = gtk_toggle_button_new ();
 
-	g_object_ref_sink (tb);
-	gtk_widget_destroy (tb);
-	g_object_unref (tb);
+		button_class->clicked = GTK_BUTTON_GET_CLASS(tb)->clicked;
+
+		g_object_ref_sink (tb);
+		gtk_widget_destroy (tb);
+		g_object_unref (tb);
+	} else {
+		// Introspection
+	}
 }
 
 GSF_CLASS (GnmRadioButton, gnm_radiobutton,

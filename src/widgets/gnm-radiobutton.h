@@ -1,4 +1,4 @@
-/**
+/*
  * gnm-radiobutton.h: Implements a special radiobutton.
  *
  * Copyright (c) 2009 Morten Welinder <terra@gnome.org>

@@ -1,4 +1,4 @@
-/**
+/*
  * gnm-notebook.c: Implements a button-only notebook.
  *
  * Copyright (c) 2008 Morten Welinder <terra@gnome.org>
@@ -23,6 +23,16 @@
 #include <goffice/goffice.h>
 #include "gnm-i18n.h"
 #include <gsf/gsf-impl-utils.h>
+
+/* ------------------------------------------------------------------------- */
+
+/**
+ * gnm_notebook_get_nth_label: (skip)
+ */
+
+/**
+ * gnm_notebook_get_current_label: (skip)
+ */
 
 /* ------------------------------------------------------------------------- */
 

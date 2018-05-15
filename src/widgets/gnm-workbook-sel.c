@@ -1,4 +1,4 @@
-/**
+/*
  * gnm-workbook-sel.c: A selector for workbooks.
  *
  * Copyright (c) 2018 Morten Welinder
@@ -42,6 +42,11 @@ enum {
 
 static GOOptionMenuClass *gnm_workbook_sel_parent_class;
 
+/**
+ * gnm_workbook_sel_set_workbook:
+ * @wbs: #GnmWorkbookSel
+ * @wb: (transfer none): #Workbook
+ */
 void
 gnm_workbook_sel_set_workbook (GnmWorkbookSel *wbs, Workbook *wb)
 {
@@ -75,6 +80,12 @@ gnm_workbook_sel_set_workbook (GnmWorkbookSel *wbs, Workbook *wb)
 	g_object_notify (G_OBJECT (wbs), "workbook");
 }
 
+/**
+ * gnm_workbook_sel_get_workbook:
+ * @wbs: #GnmWorkbookSel
+ *
+ * Returns: (transfer none): Selected workbook
+ */
 Workbook *
 gnm_workbook_sel_get_workbook (GnmWorkbookSel *wbs)
 {

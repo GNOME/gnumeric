@@ -1,5 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * gnm-format-sel.c: Gnumeric extensions to the format selector widget
  *
  * This program is free software; you can redistribute it and/or modify
@@ -54,6 +53,11 @@ cb_generate_preview (GOFormatSel *gfs, PangoAttrList **attrs)
 	}
 }
 
+/**
+ * gnm_format_sel_new:
+ *
+ * Returns: (transfer full): a new format selector
+ */
 GtkWidget *
 gnm_format_sel_new (void)
 {

@@ -1,4 +1,4 @@
-/**
+/*
  * gnm-sheet-sel.h: A selector for sheets.
  *
  * Copyright (c) 2018 Morten Welinder

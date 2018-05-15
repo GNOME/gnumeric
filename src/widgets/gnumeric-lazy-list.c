@@ -252,6 +252,9 @@ gnumeric_lazy_list_get_type (void)
 	return lazy_list_type;
 }
 
+/**
+ * gnumeric_lazy_list_new: (skip)
+ */
 GnumericLazyList *
 gnumeric_lazy_list_new (GnumericLazyListValueGetFunc get_value,
 			gpointer user_data,

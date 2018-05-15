@@ -1,4 +1,4 @@
-/**
+/*
  * gnm-sheet-sel.c: A selector for sheets.
  *
  * Copyright (c) 2018 Morten Welinder
@@ -43,6 +43,11 @@ enum {
 
 static GOOptionMenuClass *gnm_sheet_sel_parent_class;
 
+/**
+ * gnm_sheet_sel_set_sheet:
+ * @ss: #GnmSheetSel
+ * @sheet: (transfer none): #Sheet
+ */
 void
 gnm_sheet_sel_set_sheet (GnmSheetSel *ss, Sheet *sheet)
 {
@@ -76,6 +81,12 @@ gnm_sheet_sel_set_sheet (GnmSheetSel *ss, Sheet *sheet)
 	g_object_notify (G_OBJECT (ss), "sheet");
 }
 
+/**
+ * gnm_sheet_sel_get_sheet:
+ * @ss: #GnmSheetSel
+ *
+ * Returns: (transfer none): Selected #Sheet
+ */
 Sheet *
 gnm_sheet_sel_get_sheet (GnmSheetSel *ss)
 {
@@ -158,6 +169,11 @@ gnm_sheet_sel_new (void)
 	return g_object_new (GNM_TYPE_SHEET_SEL, NULL);
 }
 
+/**
+ * gnm_sheet_sel_set_sheets:
+ * @ss: #GnmSheetSel
+ * @sheets: (element-type Sheet) (transfer none): sheets
+ */
 void
 gnm_sheet_sel_set_sheets (GnmSheetSel *ss, GSList *sheets)
 {

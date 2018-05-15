@@ -16,6 +16,8 @@ INTROSPECTION_COMPILER_ARGS = \
 
 SUBDIRS = tools
 
+EXTRA_DIST =
+
 lib_LTLIBRARIES = libspreadsheet.la
 
 bin_PROGRAMS =
@@ -25,7 +27,6 @@ noinst_PROGRAMS = sstest
 noinst_HEADERS = dead-kittens.h compilation.h gnm-i18n.h
 
 if WITH_GTK
-  SUBDIRS += widgets
   bin_PROGRAMS += gnumeric
 endif
 
@@ -135,7 +136,7 @@ resource_ui_files =				\
 	wilcoxon-mann-whitney.ui		\
 	workbook-attr.ui
 
-dialog_sources = 						\
+dialogs_sources = 						\
 	dialogs/dao-gui-utils.c					\
 	dialogs/dialog-about.c					\
 	dialogs/dialog-advanced-filter.c			\
@@ -206,7 +207,7 @@ dialog_sources = 						\
 	dialogs/dialog-zoom.c					\
 	dialogs/dialog-printer-setup.c
 
-dialog_headers = \
+dialogs_headers = \
 	dialogs/help.h						\
 	dialogs/dao-gui-utils.h					\
 	dialogs/dialog-stf.h					\
@@ -214,6 +215,49 @@ dialog_headers = \
 	dialogs/dialog-stf-export.h				\
 	dialogs/dialogs.h					\
 	dialogs/tool-dialogs.h
+
+widgets_sources = \
+	widgets/gnm-dao.c				\
+	widgets/gnm-fontbutton.c			\
+	widgets/gnm-format-sel.c			\
+	widgets/gnm-notebook.c				\
+	widgets/gnm-radiobutton.c			\
+	widgets/gnm-cell-combo-view.c			\
+	widgets/gnm-filter-combo-view.c			\
+	widgets/gnm-validation-combo-view.c		\
+	widgets/gnm-sheet-sel.c				\
+	widgets/gnm-sheet-slicer-combo-view.c		\
+	widgets/gnm-so-anchor-mode-chooser.c		\
+	widgets/gnm-workbook-sel.c			\
+	widgets/gnumeric-cell-renderer-text.c		\
+	widgets/gnumeric-cell-renderer-expr-entry.c	\
+	widgets/gnumeric-cell-renderer-toggle.c		\
+	widgets/gnumeric-dashed-canvas-line.c		\
+	widgets/gnumeric-expr-entry.c			\
+	widgets/gnumeric-lazy-list.c			\
+	widgets/gnumeric-text-view.c
+
+widgets_headers = \
+	widgets/gnm-dao.h				\
+	widgets/gnm-fontbutton.h			\
+	widgets/gnm-format-sel.h			\
+	widgets/gnm-notebook.h				\
+	widgets/gnm-radiobutton.h			\
+	widgets/gnm-cell-combo-view.h			\
+	widgets/gnm-cell-combo-view-impl.h		\
+	widgets/gnm-filter-combo-view.h			\
+	widgets/gnm-validation-combo-view.h		\
+	widgets/gnm-sheet-sel.h				\
+	widgets/gnm-sheet-slicer-combo-view.h		\
+	widgets/gnm-so-anchor-mode-chooser.h		\
+	widgets/gnm-workbook-sel.h			\
+	widgets/gnumeric-cell-renderer-text.h		\
+	widgets/gnumeric-cell-renderer-expr-entry.h	\
+	widgets/gnumeric-cell-renderer-toggle.h		\
+	widgets/gnumeric-dashed-canvas-line.h		\
+	widgets/gnumeric-expr-entry.h			\
+	widgets/gnumeric-lazy-list.h			\
+	widgets/gnumeric-text-view.h
 
 
 # Another hint, see bugs #172211 and #172212:
@@ -383,7 +427,13 @@ libspreadsheet_la_SOURCES =		\
 	workbook.c				\
 	xml-sax-read.c				\
 	xml-sax-write.c				\
-	$(dialog_sources)
+	$(dialogs_sources)
+
+if WITH_GTK
+  libspreadsheet_la_SOURCES += $(widgets_sources)
+else
+  EXTRA_DIST += $(widgets_sources)
+endif
 
 nodist_libspreadsheet_la_SOURCES = gnmresources.c gnmresources.h
 
@@ -524,7 +574,8 @@ libspreadsheet_include_HEADERS =		\
 	workbook.h				\
 	xml-io-version.h			\
 	xml-sax.h				\
-	$(dialog_headers)
+	$(dialogs_headers)			\
+	$(widgets_headers)
 
 gnumeric_SOURCES =				\
 	io-context-gtk.c			\
@@ -600,8 +651,7 @@ stamp-local.def: $(libspreadsheet_include_HEADERS) Makefile $(top_srcdir)/tools/
 endif
 
 gnumeric_app_libs =				\
-	tools/libtools.la			\
-	widgets/libwidgets.la
+	tools/libtools.la
 
 
 # Rules for the marshalers code:
@@ -673,7 +723,7 @@ uninstall-hook:
 
 # include conditional files to ensure everything gets distributed no matter
 # what the build
-EXTRA_DIST =						\
+EXTRA_DIST +=						\
 	gnm.gresource.xml				\
 	pixmaps/line_pattern_dash_dot.png		\
 	pixmaps/line_pattern_dash_dot_dot.png		\
@@ -718,9 +768,7 @@ Gnm_@GNUMERIC_API_VER_@_gir_FILES = \
 	tools/scenarios.h \
 	tools/gnm-solver.c \
 	tools/gnm-solver.h \
-	tools/tools.h \
-	widgets/gnumeric-expr-entry.c \
-	widgets/gnumeric-expr-entry.h
+	tools/tools.h
 
 
 girdir = $(GIRDIR)

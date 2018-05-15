@@ -1,4 +1,4 @@
-/**
+/*
  * gnm-dao.h:  Implements a widget to specify tool output location.
  *
  * Copyright (c) 2003 Andreas J. Guelzow <aguelzow@taliesin.ca>

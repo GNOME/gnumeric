@@ -452,7 +452,7 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
  **/
 SheetObjectView *
 gnm_cell_combo_view_new (SheetObject *so, GType type,
-			     SheetObjectViewContainer *container)
+			 SheetObjectViewContainer *container)
 {
 	GnmPane *pane = GNM_PANE (container);
 	GtkWidget *view_widget = gtk_button_new ();

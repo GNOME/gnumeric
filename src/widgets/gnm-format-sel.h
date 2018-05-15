@@ -1,4 +1,4 @@
-/**
+/*
  * gnm-format-sel.h: Some gnumeric specific utilities for the format selector
  *
  * Copyright (c) 2005 Jody Goldberg <jody@gnome.org>

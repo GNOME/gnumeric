@@ -1,5 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * gnm-dao.c:  Implements a widget to specify tool output location.
  *
  * Copyright (c) 2003 Andreas J. Guelzow <aguelzow@taliesin.ca>

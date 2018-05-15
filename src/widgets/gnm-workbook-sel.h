@@ -1,4 +1,4 @@
-/**
+/*
  * gnm-workbook-sel.h: A selector for workbooks.
  *
  * Copyright (c) 2018 Morten Welinder
