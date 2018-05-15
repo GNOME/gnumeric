@@ -14,8 +14,6 @@ INTROSPECTION_COMPILER_ARGS = \
 	--includedir=. \
 	--includedir="${INTROSPECTION_GIRDIR}"
 
-SUBDIRS = tools
-
 EXTRA_DIST =
 
 lib_LTLIBRARIES = libspreadsheet.la
@@ -259,6 +257,63 @@ widgets_headers = \
 	widgets/gnumeric-lazy-list.h			\
 	widgets/gnumeric-text-view.h
 
+tools_sources =	\
+	tools/analysis-anova.c			\
+	tools/analysis-auto-expression.c	\
+	tools/analysis-chi-squared.c		\
+	tools/analysis-exp-smoothing.c		\
+	tools/analysis-frequency.c		\
+	tools/analysis-histogram.c		\
+	tools/analysis-kaplan-meier.c		\
+	tools/analysis-normality.c		\
+	tools/analysis-one-mean-test.c		\
+	tools/analysis-principal-components.c	\
+	tools/analysis-sign-test.c		\
+	tools/analysis-signed-rank-test.c	\
+	tools/analysis-tools.c			\
+	tools/analysis-wilcoxon-mann-whitney.c	\
+	tools/auto-correct.c			\
+	tools/dao.c				\
+	tools/data-shuffling.c			\
+	tools/fill-series.c			\
+	tools/filter.c				\
+	tools/gnm-solver.c			\
+	tools/goal-seek.c			\
+	tools/random-generator-cor.c		\
+	tools/random-generator.c		\
+	tools/scenarios.c			\
+	tools/simulation.c			\
+	tools/tabulate.c
+
+tools_headers = \
+	tools/analysis-anova.h			\
+	tools/analysis-auto-expression.h	\
+	tools/analysis-chi-squared.h		\
+	tools/analysis-exp-smoothing.h		\
+	tools/analysis-frequency.h		\
+	tools/analysis-histogram.h		\
+	tools/analysis-kaplan-meier.h		\
+	tools/analysis-normality.h		\
+	tools/analysis-one-mean-test.h		\
+	tools/analysis-principal-components.h	\
+	tools/analysis-sign-test.h		\
+	tools/analysis-signed-rank-test.h	\
+	tools/analysis-tools.h			\
+	tools/analysis-wilcoxon-mann-whitney.h	\
+	tools/auto-correct.h			\
+	tools/dao.h				\
+	tools/data-shuffling.h			\
+	tools/fill-series.h			\
+	tools/filter.h				\
+	tools/gnm-solver.h			\
+	tools/goal-seek.h			\
+	tools/random-generator-cor.h		\
+	tools/random-generator.h		\
+	tools/scenarios.h			\
+	tools/simulation.h			\
+	tools/tabulate.h			\
+	tools/tools.h
+
 
 # Another hint, see bugs #172211 and #172212:
 non-intermediate: gnm-marshalers.c gnmresources.c
@@ -279,7 +334,6 @@ CLEANFILES = $(BUILT_SOURCES)			\
 libspreadsheet_la_CPPFLAGS = $(AM_CPPFLAGS) -DGNUMERIC_INTERNAL
 libspreadsheet_la_LDFLAGS = -release $(VERSION)
 libspreadsheet_la_LIBADD = 			\
-	$(gnumeric_app_libs)			\
 	$(GNUMERIC_LIBS)			\
 	$(INTLLIBS)
 
@@ -427,7 +481,8 @@ libspreadsheet_la_SOURCES =		\
 	workbook.c				\
 	xml-sax-read.c				\
 	xml-sax-write.c				\
-	$(dialogs_sources)
+	$(dialogs_sources)			\
+	$(tools_sources)
 
 if WITH_GTK
   libspreadsheet_la_SOURCES += $(widgets_sources)
@@ -575,6 +630,7 @@ libspreadsheet_include_HEADERS =		\
 	xml-io-version.h			\
 	xml-sax.h				\
 	$(dialogs_headers)			\
+	$(tools_headers)			\
 	$(widgets_headers)
 
 gnumeric_SOURCES =				\
@@ -649,9 +705,6 @@ stamp-local.def: $(libspreadsheet_include_HEADERS) Makefile $(top_srcdir)/tools/
 	&& echo timestamp > $@
 
 endif
-
-gnumeric_app_libs =				\
-	tools/libtools.la
 
 
 # Rules for the marshalers code:
@@ -761,14 +814,7 @@ Gnm_@GNUMERIC_API_VER_@_gir_CFLAGS = $(AM_CPPFLAGS)
 Gnm_@GNUMERIC_API_VER_@_gir_LIBS = libspreadsheet.la
 Gnm_@GNUMERIC_API_VER_@_gir_FILES = \
 	$(libspreadsheet_la_SOURCES) \
-	$(libspreadsheet_include_HEADERS) \
-	tools/dao.c \
-	tools/dao.h \
-	tools/scenarios.c \
-	tools/scenarios.h \
-	tools/gnm-solver.c \
-	tools/gnm-solver.h \
-	tools/tools.h
+	$(libspreadsheet_include_HEADERS)
 
 
 girdir = $(GIRDIR)

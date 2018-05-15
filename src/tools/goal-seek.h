@@ -19,37 +19,37 @@ typedef struct {
 
 	gboolean have_root;       /* Do we have a valid root?  */
 	gnm_float root;           /* Value for which f(root) == 0.  */
-} GoalSeekData;
+} GnmGoalSeekData;
 
-typedef enum { GOAL_SEEK_OK, GOAL_SEEK_ERROR } GoalSeekStatus;
+typedef enum { GOAL_SEEK_OK, GOAL_SEEK_ERROR } GnmGoalSeekStatus;
 
-typedef GoalSeekStatus (*GoalSeekFunction) (gnm_float x, gnm_float *y, void *user_data);
+typedef GnmGoalSeekStatus (*GnmGoalSeekFunction) (gnm_float x, gnm_float *y, void *user_data);
 
-void goal_seek_initialize (GoalSeekData *data);
+void goal_seek_initialize (GnmGoalSeekData *data);
 
-GoalSeekStatus goal_seek_point (GoalSeekFunction f,
-				GoalSeekData *data,
+GnmGoalSeekStatus goal_seek_point (GnmGoalSeekFunction f,
+				GnmGoalSeekData *data,
 				void *user_data,
 				gnm_float x0);
 
-GoalSeekStatus goal_seek_newton (GoalSeekFunction f,
-				 GoalSeekFunction df,
-				 GoalSeekData *data,
+GnmGoalSeekStatus goal_seek_newton (GnmGoalSeekFunction f,
+				 GnmGoalSeekFunction df,
+				 GnmGoalSeekData *data,
 				 void *user_data,
 				 gnm_float x0);
 
-GoalSeekStatus goal_seek_bisection (GoalSeekFunction f,
-				    GoalSeekData *data,
+GnmGoalSeekStatus goal_seek_bisection (GnmGoalSeekFunction f,
+				    GnmGoalSeekData *data,
 				    void *user_data);
 
-GoalSeekStatus goal_seek_trawl_uniformly (GoalSeekFunction f,
-					  GoalSeekData *data,
+GnmGoalSeekStatus goal_seek_trawl_uniformly (GnmGoalSeekFunction f,
+					  GnmGoalSeekData *data,
 					  void *user_data,
 					  gnm_float xmin, gnm_float xmax,
 					  int points);
 
-GoalSeekStatus goal_seek_trawl_normally (GoalSeekFunction f,
-					 GoalSeekData *data,
+GnmGoalSeekStatus goal_seek_trawl_normally (GnmGoalSeekFunction f,
+					 GnmGoalSeekData *data,
 					 void *user_data,
 					 gnm_float mu, gnm_float sigma,
 					 int points);

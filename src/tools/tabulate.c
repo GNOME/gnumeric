@@ -74,6 +74,13 @@ my_get_format (GnmCell const *cell)
 	return format;
 }
 
+/**
+ * do_tabulation:
+ * @wbc: control
+ * @data:
+ *
+ * Returns: (transfer full) (element-type int):
+ */
 GSList *
 do_tabulation (WorkbookControl *wbc,
 	       GnmTabulateInfo *data)

@@ -140,7 +140,7 @@ typedef struct {
 	gnm_float traffic, circuits;
 } gnumeric_offtraf_t;
 
-static GoalSeekStatus
+static GnmGoalSeekStatus
 gnumeric_offtraf_f (gnm_float off_traffic, gnm_float *y, void *user_data)
 {
 	gnumeric_offtraf_t *pudata = user_data;
@@ -157,8 +157,8 @@ gnumeric_offtraf (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float traffic = value_get_as_float (argv[0]);
 	gnm_float circuits = value_get_as_float (argv[1]);
 	gnm_float traffic0;
-	GoalSeekData data;
-	GoalSeekStatus status;
+	GnmGoalSeekData data;
+	GnmGoalSeekStatus status;
 	gnumeric_offtraf_t udata;
 
 	if (circuits < 1 || traffic < 0)
@@ -237,7 +237,7 @@ typedef struct {
 	gnm_float circuits, des_gos;
 } gnumeric_offcap_t;
 
-static GoalSeekStatus
+static GnmGoalSeekStatus
 gnumeric_offcap_f (gnm_float traffic, gnm_float *y, void *user_data)
 {
 	gnumeric_offcap_t *pudata = user_data;
@@ -254,8 +254,8 @@ gnumeric_offcap (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float circuits = value_get_as_float (argv[0]);
 	gnm_float des_gos  = value_get_as_float (argv[1]);
 	gnm_float traffic0;
-	GoalSeekData data;
-	GoalSeekStatus status;
+	GnmGoalSeekData data;
+	GnmGoalSeekStatus status;
 	gnumeric_offcap_t udata;
 
 	if (des_gos >= 1 || des_gos <= 0)

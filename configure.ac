@@ -1191,7 +1191,6 @@ icons/256x256/Makefile
 icons/256x256/apps/Makefile
 introspection/Makefile
 src/Makefile
-src/tools/Makefile
 doc/Makefile
 plugins/Makefile
 plugins/fn-christian-date/Makefile

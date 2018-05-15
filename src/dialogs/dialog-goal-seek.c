@@ -95,7 +95,7 @@ typedef struct {
 	gboolean	update_ui;
 } GoalEvalData;
 
-static GoalSeekStatus
+static GnmGoalSeekStatus
 goal_seek_eval (gnm_float x, gnm_float *y, void *vevaldata)
 {
 	GoalEvalData const *evaldata = vevaldata;
@@ -119,12 +119,12 @@ goal_seek_eval (gnm_float x, gnm_float *y, void *vevaldata)
 }
 
 
-static GoalSeekStatus
+static GnmGoalSeekStatus
 gnumeric_goal_seek (GoalSeekState *state)
 {
-	GoalSeekData seekdata;
+	GnmGoalSeekData seekdata;
 	GoalEvalData evaldata;
-	GoalSeekStatus status;
+	GnmGoalSeekStatus status;
 	gboolean hadold;
 	gnm_float oldx;
 
@@ -312,7 +312,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 GoalSeekState *state)
 {
 	char *status_str;
-	GoalSeekStatus status;
+	GnmGoalSeekStatus status;
 	GnmValue *target;
 	GnmRangeRef const *r;
 	GOFormat const *format;
@@ -604,7 +604,7 @@ dialog_goal_seek_test (Sheet *sheet, const GnmRange *range)
 	GoalSeekState state;
 	GnmCell *cell;
 	int r, c;
-	GoalSeekStatus status;
+	GnmGoalSeekStatus status;
 
 	g_return_if_fail (range->start.row == range->end.row);
 	g_return_if_fail (range->start.col + 4 == range->end.col);

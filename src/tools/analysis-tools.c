@@ -356,11 +356,10 @@ cb_cut_into_rows (gpointer data, gpointer user_data)
 }
 
 
-/*
+/**
  *  prepare_input_range:
- *  @input_range:
+ *  @input_range: (inout) (element-type GnmRange) (transfer full):
  *  @group_by:
- *
  */
 void
 prepare_input_range (GSList **input_range, group_by_t group_by)

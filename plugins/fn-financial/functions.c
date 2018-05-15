@@ -1209,7 +1209,7 @@ typedef struct {
 	gnm_float nper, pv, fv, pmt;
 } gnumeric_rate_t;
 
-static GoalSeekStatus
+static GnmGoalSeekStatus
 gnumeric_rate_f (gnm_float rate, gnm_float *y, void *user_data)
 {
 	if (rate > -1.0 && rate != 0) {
@@ -1225,7 +1225,7 @@ gnumeric_rate_f (gnm_float rate, gnm_float *y, void *user_data)
 }
 
 /* The derivative of the above function with respect to rate.  */
-static GoalSeekStatus
+static GnmGoalSeekStatus
 gnumeric_rate_df (gnm_float rate, gnm_float *y, void *user_data)
 {
 	if (rate > -1.0 && rate != 0.0) {
@@ -1243,8 +1243,8 @@ gnumeric_rate_df (gnm_float rate, gnm_float *y, void *user_data)
 static GnmValue *
 gnumeric_rate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GoalSeekData    data;
-	GoalSeekStatus  status;
+	GnmGoalSeekData    data;
+	GnmGoalSeekStatus  status;
 	gnumeric_rate_t udata;
 	gnm_float      rate0;
 
@@ -1353,7 +1353,7 @@ typedef struct {
         gnm_float *values;
 } gnumeric_irr_t;
 
-static GoalSeekStatus
+static GnmGoalSeekStatus
 irr_npv (gnm_float rate, gnm_float *y, void *user_data)
 {
 	const gnumeric_irr_t *p = user_data;
@@ -1373,7 +1373,7 @@ irr_npv (gnm_float rate, gnm_float *y, void *user_data)
 	return gnm_finite (sum) ? GOAL_SEEK_OK : GOAL_SEEK_ERROR;
 }
 
-static GoalSeekStatus
+static GnmGoalSeekStatus
 irr_npv_df (gnm_float rate, gnm_float *y, void *user_data)
 {
 	const gnumeric_irr_t *p = user_data;
@@ -1396,8 +1396,8 @@ irr_npv_df (gnm_float rate, gnm_float *y, void *user_data)
 static GnmValue *
 gnumeric_irr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GoalSeekData    data;
-	GoalSeekStatus  status;
+	GnmGoalSeekData    data;
+	GnmGoalSeekStatus  status;
 	GnmValue           *result = NULL;
 	gnumeric_irr_t  p;
 	gnm_float      rate0;
@@ -1611,7 +1611,7 @@ typedef struct {
         const gnm_float *dates;
 } gnumeric_xirr_t;
 
-static GoalSeekStatus
+static GnmGoalSeekStatus
 xirr_npv (gnm_float rate, gnm_float *y, void *user_data)
 {
 	const gnumeric_xirr_t *p = user_data;
@@ -1636,8 +1636,8 @@ gnm_range_xirr (gnm_float const *xs, const gnm_float *ys,
 {
 	gnumeric_xirr_t p;
 	gnm_float rate0 = *(gnm_float *)user;
-	GoalSeekData data;
-	GoalSeekStatus status;
+	GnmGoalSeekData data;
+	GnmGoalSeekStatus status;
 
 	p.dates = ys;
 	p.values = xs;
@@ -2323,7 +2323,7 @@ typedef struct {
 	GoCouponConvention conv;
 } gnumeric_yield_t;
 
-static GoalSeekStatus
+static GnmGoalSeekStatus
 gnumeric_yield_f (gnm_float yield, gnm_float *y, void *user_data)
 {
 	gnumeric_yield_t *data = user_data;
@@ -2380,8 +2380,8 @@ gnumeric_yield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 		return value_new_float (num / den * coeff);
 	} else {
-		GoalSeekData     data;
-		GoalSeekStatus   status;
+		GnmGoalSeekData     data;
+		GnmGoalSeekStatus   status;
 		gnm_float       yield0 = 0.1;
 
 		goal_seek_initialize (&data);
@@ -2668,7 +2668,7 @@ struct gnumeric_oddyield_f {
 	GoCouponConvention conv;
 };
 
-static GoalSeekStatus
+static GnmGoalSeekStatus
 gnumeric_oddyield_f (gnm_float yield, gnm_float *y, void *user_data)
 {
 	struct gnumeric_oddyield_f *data = user_data;
@@ -2685,8 +2685,8 @@ static GnmValue *
 gnumeric_oddfyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	struct gnumeric_oddyield_f udata;
-	GoalSeekData data;
-	GoalSeekStatus status;
+	GnmGoalSeekData data;
+	GnmGoalSeekStatus status;
 	gnm_float yield0 = 0.1;
 
 	udata.rate       = value_get_as_float (argv[4]);

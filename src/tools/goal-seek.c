@@ -23,7 +23,7 @@
 
 
 static gboolean
-update_data (gnm_float x, gnm_float y, GoalSeekData *data)
+update_data (gnm_float x, gnm_float y, GnmGoalSeekData *data)
 {
 	if (!gnm_finite (y))
 		return FALSE;
@@ -89,12 +89,12 @@ update_data (gnm_float x, gnm_float y, GoalSeekData *data)
  * Calculate a reasonable approximation to the derivative of a function
  * in a single point.
  */
-static GoalSeekStatus
-fake_df (GoalSeekFunction f, gnm_float x, gnm_float *dfx, gnm_float xstep,
-	 GoalSeekData *data, void *user_data)
+static GnmGoalSeekStatus
+fake_df (GnmGoalSeekFunction f, gnm_float x, gnm_float *dfx, gnm_float xstep,
+	 GnmGoalSeekData *data, void *user_data)
 {
 	gnm_float xl, xr, yl, yr;
-	GoalSeekStatus status;
+	GnmGoalSeekStatus status;
 
 #ifdef DEBUG_GOAL_SEEK
 	g_print ("fake_df (x=%.20" GNM_FORMAT_g ", xstep=%.20" GNM_FORMAT_g ")\n",
@@ -148,7 +148,7 @@ fake_df (GoalSeekFunction f, gnm_float x, gnm_float *dfx, gnm_float xstep,
 }
 
 void
-goal_seek_initialize (GoalSeekData *data)
+goal_seek_initialize (GnmGoalSeekData *data)
 {
 	data->havexpos = data->havexneg = data->have_root = FALSE;
 	data->xpos = data->xneg = data->root = gnm_nan;
@@ -159,14 +159,22 @@ goal_seek_initialize (GoalSeekData *data)
 }
 
 
-/*
+/**
+ * goal_seek_point:
+ * @f: (scope call): object function
+ * @data: #GnmGoalSeekData state
+ * @user_data: user data for @f
+ * @x0: root guess
+ *
  * Seek a goal using a single point.
+ *
+ * Returns:
  */
-GoalSeekStatus
-goal_seek_point (GoalSeekFunction f, GoalSeekData *data,
+GnmGoalSeekStatus
+goal_seek_point (GnmGoalSeekFunction f, GnmGoalSeekData *data,
 		 void *user_data, gnm_float x0)
 {
-	GoalSeekStatus status;
+	GnmGoalSeekStatus status;
 	gnm_float y0;
 
 	if (data->have_root)
@@ -190,9 +198,9 @@ goal_seek_point (GoalSeekFunction f, GoalSeekData *data,
 }
 
 
-static GoalSeekStatus
-goal_seek_newton_polish (GoalSeekFunction f, GoalSeekFunction df,
-			 GoalSeekData *data, void *user_data,
+static GnmGoalSeekStatus
+goal_seek_newton_polish (GnmGoalSeekFunction f, GnmGoalSeekFunction df,
+			 GnmGoalSeekData *data, void *user_data,
 			 gnm_float x0, gnm_float y0)
 {
 	int iterations;
@@ -208,7 +216,7 @@ goal_seek_newton_polish (GoalSeekFunction f, GoalSeekFunction df,
 		if (try_square) {
 			gnm_float x1 = x0 * gnm_abs (x0);
 			gnm_float y1, r;
-			GoalSeekStatus status = f (x1, &y1, user_data);
+			GnmGoalSeekStatus status = f (x1, &y1, user_data);
 			if (status != GOAL_SEEK_OK)
 				goto nomore_square;
 
@@ -235,7 +243,7 @@ goal_seek_newton_polish (GoalSeekFunction f, GoalSeekFunction df,
 
 		if (try_newton) {
 			gnm_float df0, r, x1, y1;
-			GoalSeekStatus status = df
+			GnmGoalSeekStatus status = df
 				? df (x0, &df0, user_data)
 				: fake_df (f, x0, &df0, gnm_abs (x0) / 1e6, data, user_data);
 			if (status != GOAL_SEEK_OK || df0 == 0)
@@ -285,11 +293,18 @@ goal_seek_newton_polish (GoalSeekFunction f, GoalSeekFunction df,
 }
 
 
-/*
+/**
+ * goal_seek_newton:
+ * @f: (scope call): object function
+ * @df: (scope call) (nullable): object function derivative
+ * @data: #GnmGoalSeekData state
+ * @user_data: user data for @f and @df
+ * @x0: root guess
+ *
  * Seek a goal (root) using Newton's iterative method.
  *
  * The supplied function must (should) be continously differentiable in
- * the supplied interval.  If NULL is used for `df', this function will
+ * the supplied interval.  If @df is %NULL, this function will
  * estimate the derivative.
  *
  * This method will find a root rapidly provided the initial guess, x0,
@@ -297,9 +312,9 @@ goal_seek_newton_polish (GoalSeekFunction f, GoalSeekFunction df,
  * (asympotically) goes like i^2 unless the root is a multiple root in
  * which case it is only like c*i.)
  */
-GoalSeekStatus
-goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
-		  GoalSeekData *data, void *user_data, gnm_float x0)
+GnmGoalSeekStatus
+goal_seek_newton (GnmGoalSeekFunction f, GnmGoalSeekFunction df,
+		  GnmGoalSeekData *data, void *user_data, gnm_float x0)
 {
 	int iterations;
 	gnm_float precision = data->precision / 2;
@@ -315,7 +330,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 
 	for (iterations = 0; iterations < 100; iterations++) {
 		gnm_float x1, y0, df0, stepsize;
-		GoalSeekStatus status;
+		GnmGoalSeekStatus status;
 		gboolean flat;
 
 #ifdef DEBUG_GOAL_SEEK
@@ -416,7 +431,12 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 	return GOAL_SEEK_ERROR;
 }
 
-/*
+/**
+ * goal_seek_bisection:
+ * @f: (scope call): object function
+ * @data: #GnmGoalSeekData state.
+ * @user_data: user data for @f.
+ *
  * Seek a goal (root) using bisection methods.
  *
  * The supplied function must (should) be continous over the interval.
@@ -431,9 +451,9 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
  * nowhere), and Ridder's Method (usually fast, harder to fool than
  * the secant method).
  */
-
-GoalSeekStatus
-goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
+GnmGoalSeekStatus
+goal_seek_bisection (GnmGoalSeekFunction f, GnmGoalSeekData *data,
+		     void *user_data)
 {
 	int iterations;
 	gnm_float stepsize;
@@ -455,7 +475,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 	/* log_2 (10) = 3.3219 < 4.  */
 	for (iterations = 0; iterations < 100 + GNM_DIG * 4; iterations++) {
 		gnm_float xmid, ymid;
-		GoalSeekStatus status;
+		GnmGoalSeekStatus status;
 		enum { M_SECANT, M_RIDDER, M_NEWTON, M_MIDPOINT } method;
 
 		method = (iterations % 4 == 0)
@@ -594,9 +614,18 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 #undef SECANT_P
 #undef RIDDER_P
 
-GoalSeekStatus
-goal_seek_trawl_uniformly (GoalSeekFunction f,
-			   GoalSeekData *data, void *user_data,
+/**
+ * goal_seek_trawl_uniformly:
+ * @f: (scope call): object function
+ * @data: #GnmGoalSeekData state
+ * @user_data: user data for @f
+ * @xmin: lower search bound
+ * @xmax: upper search bound
+ * @points: number of points to try.
+ */
+GnmGoalSeekStatus
+goal_seek_trawl_uniformly (GnmGoalSeekFunction f,
+			   GnmGoalSeekData *data, void *user_data,
 			   gnm_float xmin, gnm_float xmax,
 			   int points)
 {
@@ -614,7 +643,7 @@ goal_seek_trawl_uniformly (GoalSeekFunction f,
 
 	for (i = 0; i < points; i++) {
 		gnm_float x, y;
-		GoalSeekStatus status;
+		GnmGoalSeekStatus status;
 
 		if (data->havexpos && data->havexneg)
 			break;
@@ -639,9 +668,18 @@ goal_seek_trawl_uniformly (GoalSeekFunction f,
 	return GOAL_SEEK_ERROR;
 }
 
-GoalSeekStatus
-goal_seek_trawl_normally (GoalSeekFunction f,
-			  GoalSeekData *data, void *user_data,
+/**
+ * goal_seek_trawl_normally:
+ * @f: (scope call): object function
+ * @data: #GnmGoalSeekData state
+ * @user_data: user data for @f
+ * @mu: search mean
+ * @sigma: search standard deviation
+ * @points: number of points to try.
+ */
+GnmGoalSeekStatus
+goal_seek_trawl_normally (GnmGoalSeekFunction f,
+			  GnmGoalSeekData *data, void *user_data,
 			  gnm_float mu, gnm_float sigma,
 			  int points)
 {
@@ -659,7 +697,7 @@ goal_seek_trawl_normally (GoalSeekFunction f,
 
 	for (i = 0; i < points; i++) {
 		gnm_float x, y;
-		GoalSeekStatus status;
+		GnmGoalSeekStatus status;
 
 		if (data->havexpos && data->havexneg)
 			break;
@@ -688,14 +726,14 @@ goal_seek_trawl_normally (GoalSeekFunction f,
 }
 
 #ifdef STANDALONE
-static GoalSeekStatus
+static GnmGoalSeekStatus
 f (gnm_float x, gnm_float *y, void *user_data)
 {
 	*y = x * x - 2;
 	return GOAL_SEEK_OK;
 }
 
-static GoalSeekStatus
+static GnmGoalSeekStatus
 df (gnm_float x, gnm_float *y, void *user_data)
 {
 	*y = 2 * x;
@@ -706,7 +744,7 @@ df (gnm_float x, gnm_float *y, void *user_data)
 int
 main ()
 {
-	GoalSeekData data;
+	GnmGoalSeekData data;
 
 	goal_seek_initialize (&data);
 	data.xmin = -100;
