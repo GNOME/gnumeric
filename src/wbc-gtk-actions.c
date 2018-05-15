@@ -287,8 +287,8 @@ static GNM_ACTION_DEF (cb_file_close)		{ wbc_gtk_close (wbcg); }
 static GNM_ACTION_DEF (cb_file_quit)
 {
 	/* If we are still loading initial files, short circuit */
-	if (!initial_workbook_open_complete) {
-		initial_workbook_open_complete = TRUE;
+	if (!gnm_app_initial_open_complete ()) {
+		g_object_set (gnm_app_get_app (), "shutting-down", TRUE, NULL);
 		return;
 	}
 

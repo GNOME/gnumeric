@@ -13,6 +13,9 @@ typedef gboolean (*GnmWbIterFunc) (Workbook *wb, gpointer data);
 GType	     gnm_app_get_type (void);
 GObject     *gnm_app_get_app (void);
 
+gboolean     gnm_app_shutting_down (void);
+gboolean     gnm_app_initial_open_complete (void);
+
 /* List of active workbooks */
 void         gnm_app_workbook_list_add     (Workbook *wb);
 void         gnm_app_workbook_list_remove  (Workbook *wb);

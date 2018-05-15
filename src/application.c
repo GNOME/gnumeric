@@ -38,8 +38,10 @@
 #define GNM_IS_APP(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_APP_TYPE))
 
 enum {
-	APPLICATION_PROP_0,
-	APPLICATION_PROP_FILE_HISTORY_LIST
+	PROP_0,
+	PROP_HISTORY_LIST,
+	PROP_SHUTTING_DOWN,
+	PROP_INITIAL_OPEN_COMPLETE
 };
 /* Signals */
 enum {
@@ -71,6 +73,9 @@ struct _GnmApp {
 
 	GtkRecentManager *recent;
 	gulong           recent_sig;
+
+	gboolean         shutting_down;
+	gboolean         initial_open_complete;
 };
 
 typedef struct {
@@ -723,7 +728,7 @@ cb_recent_changed (G_GNUC_UNUSED GtkRecentManager *recent, GnmApp *app)
 }
 
 static void
-gnumeric_application_finalize (GObject *obj)
+gnm_app_finalize (GObject *obj)
 {
 	GnmApp *application = GNM_APP (obj);
 
@@ -739,18 +744,44 @@ gnumeric_application_finalize (GObject *obj)
 }
 
 static void
-gnumeric_application_get_property (GObject *obj, guint param_id,
+gnm_app_get_property (GObject *obj, guint param_id,
 				   GValue *value, GParamSpec *pspec)
 {
 #if 0
 	GnmApp *application = GNM_APP (obj);
 #endif
+
 	switch (param_id) {
-	case APPLICATION_PROP_FILE_HISTORY_LIST:
+	case PROP_HISTORY_LIST:
 		g_value_set_pointer (value, gnm_app_history_get_list (G_MAXINT));
+		break;
+	case PROP_SHUTTING_DOWN:
+		g_value_set_boolean (value, gnm_app_shutting_down ());
+		break;
+	case PROP_INITIAL_OPEN_COMPLETE:
+		g_value_set_boolean (value, gnm_app_initial_open_complete ());
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
+	}
+}
+
+static void
+gnm_app_set_property (GObject *object, guint property_id,
+		      GValue const *value, GParamSpec *pspec)
+{
+	GnmApp *app = (GnmApp *)object;
+
+	switch (property_id) {
+	case PROP_SHUTTING_DOWN:
+		app->shutting_down = g_value_get_boolean (value);
+		break;
+	case PROP_INITIAL_OPEN_COMPLETE:
+		app->initial_open_complete = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
 	}
 }
 
@@ -760,13 +791,28 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 	parent_klass = g_type_class_peek_parent (gobject_klass);
 
 	/* Object class method overrides */
-	gobject_klass->finalize = gnumeric_application_finalize;
-	gobject_klass->get_property = gnumeric_application_get_property;
-	g_object_class_install_property (gobject_klass, APPLICATION_PROP_FILE_HISTORY_LIST,
+	gobject_klass->finalize = gnm_app_finalize;
+	gobject_klass->get_property = gnm_app_get_property;
+	gobject_klass->set_property = gnm_app_set_property;
+
+	g_object_class_install_property (gobject_klass, PROP_HISTORY_LIST,
 		g_param_spec_pointer ("file-history-list",
 				      P_("File History List"),
 				      P_("A list of filenames that have been read recently"),
 				      GSF_PARAM_STATIC | G_PARAM_READABLE));
+	g_object_class_install_property (gobject_klass, PROP_SHUTTING_DOWN,
+		g_param_spec_boolean ("shutting-down",
+				      P_("Shutting Down"),
+				      P_("In the process of shutting down?"),
+				      FALSE,
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_klass, PROP_INITIAL_OPEN_COMPLETE,
+		g_param_spec_boolean ("initial-open-complete",
+				      P_("Initial Open Complete"),
+				      P_("All command-line files open?"),
+				      FALSE,
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
 
 	signals[WORKBOOK_ADDED] = g_signal_new ("workbook_added",
 		GNM_APP_TYPE,
@@ -1073,4 +1119,16 @@ void
 gnm_app_recalc_clear_caches (void)
 {
 	g_signal_emit_by_name (gnm_app_get_app (), "recalc-clear-caches");
+}
+
+gboolean
+gnm_app_shutting_down (void)
+{
+	return app->shutting_down;
+}
+
+gboolean
+gnm_app_initial_open_complete (void)
+{
+	return app->initial_open_complete;
 }

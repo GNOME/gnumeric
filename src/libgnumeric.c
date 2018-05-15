@@ -128,9 +128,6 @@ fake_gtk_icon_theme_add_resource_path (GtkIconTheme G_GNUC_UNUSED *theme,
 
 #endif
 
-/* TODO : get rid of this monstrosity */
-gboolean initial_workbook_open_complete = FALSE;
-
 static gboolean param_show_version = FALSE;
 static char *param_lib_dir  = NULL;
 static char *param_data_dir = NULL;

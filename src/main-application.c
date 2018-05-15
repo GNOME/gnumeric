@@ -88,7 +88,7 @@ handle_paint_events (void)
 {
 	/* FIXME: we need to mask input events correctly here */
 	/* Show something coherent */
-	while (gtk_events_pending () && !initial_workbook_open_complete)
+	while (gtk_events_pending () && !gnm_app_shutting_down ())
 		gtk_main_iteration_do (FALSE);
 }
 
@@ -261,7 +261,7 @@ main (int argc, char const **argv)
 
 		N = g_strv_length (startup_files);
 		go_io_context_set_num_files (ioc, N);
-		for (i = 0; i < N && !initial_workbook_open_complete; i++) {
+		for (i = 0; i < N && !gnm_app_shutting_down (); i++) {
 			char *uri = go_shell_arg_to_uri (startup_files[i]);
 
 			if (uri == NULL) {
@@ -314,11 +314,13 @@ main (int argc, char const **argv)
 		any_error = FALSE;
 
 	// If we were intentionally short circuited exit now
-	if (any_error || initial_workbook_open_complete) {
+	if (any_error || gnm_app_shutting_down ()) {
 		g_object_unref (ioc);
 		g_slist_foreach (wbcgs_to_kill, (GFunc)cb_kill_wbcg, NULL);
 	} else {
-		initial_workbook_open_complete = TRUE;
+		g_object_set (gnm_app_get_app (),
+			      "initial-open-complete", TRUE, NULL);
+
 		if (!opened_workbook) {
 			gint n_of_sheets = gnm_conf_get_core_workbook_n_sheet ();
 			wbc_gtk_new (NULL,
@@ -342,6 +344,8 @@ main (int argc, char const **argv)
 
 		gtk_main ();
 	}
+
+	g_object_set (gnm_app_get_app (), "shutting-down", TRUE, NULL);
 
 	g_slist_free (wbcgs_to_kill);
 	gnumeric_arg_shutdown ();

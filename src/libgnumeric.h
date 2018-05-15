@@ -25,8 +25,6 @@ void	     gnm_shutdown	    (void);
 
 GOptionGroup *gnm_get_option_group (void);
 
-GNM_VAR_DECL gboolean	initial_workbook_open_complete;
-
 G_END_DECLS
 
 #endif /* _GNM_LIBGNUMERIC_H_ */
