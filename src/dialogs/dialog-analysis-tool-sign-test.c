@@ -64,7 +64,7 @@ static char const * const grouped_by_group[] = {
 };
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *alpha_entry;
 	GtkWidget *median_entry;
 } SignTestToolState;
@@ -118,7 +118,7 @@ sign_test_tool_update_common_sensitivity_cb (SignTestToolState *state)
 
 
 /**
- * sign_test_tool_update_sensitivity_cb:
+ * sign_test_two_tool_update_sensitivity_cb:
  * @dummy:
  * @state:
  *
@@ -126,7 +126,7 @@ sign_test_tool_update_common_sensitivity_cb (SignTestToolState *state)
  **/
 static void
 sign_test_two_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
-				      SignTestToolState *state)
+					  SignTestToolState *state)
 {
         GnmValue *input_range;
  	gint w, h;
@@ -195,7 +195,7 @@ sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	analysis_tool_engine engine;
 
 	data = g_new0 (analysis_tools_data_sign_test_two_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->base.range_1 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -285,7 +285,7 @@ dialog_sign_test_two_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	sign_test_two_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
 	return 0;
 
@@ -312,7 +312,7 @@ sign_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	analysis_tool_engine engine;
 
 	data = g_new0 (analysis_tools_data_sign_test_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -433,7 +433,7 @@ dialog_sign_test_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	sign_test_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
 	return 0;
 

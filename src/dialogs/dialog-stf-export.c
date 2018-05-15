@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-stf-export.c : implementation of the STF export dialog
  *
@@ -426,7 +425,7 @@ cb_sheet_select_none (TextExportState *state)
 	set_sheet_selection_count (state, 0);
 }
 
-/**
+/*
  * Refreshes the buttons on a row (un)selection and selects the chosen sheet
  * for this view.
  */
@@ -695,7 +694,7 @@ cb_next_page (TextExportState *state)
 }
 
 /**
- * stf_dialog
+ * stf_export_dialog:
  * @wbcg: #WBCGtk (can be NULL)
  * @stfe: An exporter to set up (and take defaults from)
  * @wb: The #Workbook to export

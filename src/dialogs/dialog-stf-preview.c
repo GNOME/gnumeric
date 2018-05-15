@@ -88,12 +88,12 @@ render_get_value (gint row, gint column, gpointer _rd, GValue *value)
  ******************************************************************************************************************/
 
 /**
- * stf_preview_new
+ * stf_preview_new: (skip)
  * @data_container: a container in which to put a treeview.
  *
  * returns : a new renderdata struct
  **/
-RenderData_t*
+RenderData_t *
 stf_preview_new (GtkWidget *data_container,
 		 GODateConventions const *date_conv)
 {
@@ -152,12 +152,10 @@ stf_preview_new (GtkWidget *data_container,
 }
 
 /**
- * stf_preview_free
- * @renderdata: a renderdata struct
+ * stf_preview_free: (skip)
+ * @data: a renderdata struct
  *
  * This will free the @renderdata
- *
- * returns : nothing
  **/
 void
 stf_preview_free (RenderData_t *renderdata)
@@ -174,6 +172,9 @@ stf_preview_free (RenderData_t *renderdata)
 	g_free (renderdata);
 }
 
+/**
+ * stf_preview_set_lines: (skip)
+ */
 void
 stf_preview_set_lines (RenderData_t *renderdata,
 		       GStringChunk *lines_chunk,
@@ -254,13 +255,11 @@ stf_preview_set_lines (RenderData_t *renderdata,
 }
 
 /**
- * stf_preview_colformats_clear
+ * stf_preview_colformats_clear: (skip)
  * @renderdata: a struct containing rendering information
  *
  * This will clear the @renderdata->colformats array which contains the format of
  * each column.
- *
- * returns : nothing
  **/
 void
 stf_preview_colformats_clear (RenderData_t *renderdata)
@@ -275,7 +274,7 @@ stf_preview_colformats_clear (RenderData_t *renderdata)
 }
 
 /**
- * stf_preview_colformats_add
+ * stf_preview_colformats_add: (skip)
  * @renderdata: a struct containing rendering information
  * @format: the format of the column
  *
@@ -295,13 +294,18 @@ stf_preview_colformats_add (RenderData_t *renderdata, GOFormat *format)
 	g_ptr_array_add (renderdata->colformats, go_format_ref (format));
 }
 
-
+/**
+ * stf_preview_get_column: (skip)
+ */
 GtkTreeViewColumn *
 stf_preview_get_column (RenderData_t *renderdata, int col)
 {
 	return gtk_tree_view_get_column (renderdata->tree_view, col);
 }
 
+/**
+ * stf_preview_get_cell_renderer: (skip)
+ */
 GtkCellRenderer *
 stf_preview_get_cell_renderer (RenderData_t *renderdata, int col)
 {

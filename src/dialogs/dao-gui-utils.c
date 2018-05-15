@@ -44,7 +44,7 @@
  **/
 
 void
-dialog_tool_preset_to_range (GenericToolState *state)
+dialog_tool_preset_to_range (GnmGenericToolState *state)
 {
 	GnmRange const *sel;
 	GtkWidget *w;
@@ -63,7 +63,7 @@ dialog_tool_preset_to_range (GenericToolState *state)
 
 
 /**
- * dialog_tool_init_outputs:
+ * dialog_tool_init_outputs: (skip)
  * @state:
  * @sensitivity_cb:
  *
@@ -71,7 +71,7 @@ dialog_tool_preset_to_range (GenericToolState *state)
  *
  **/
 void
-dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb)
+dialog_tool_init_outputs (GnmGenericToolState *state, GCallback sensitivity_cb)
 {
 	GtkWidget *dao_box;
 
@@ -91,20 +91,17 @@ dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb)
 				G_CALLBACK (sensitivity_cb), state);
 	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->gdao));
-
-	return;
 }
 
 /**
- * parse_output:
- *
+ * parse_output: (skip)
  * @state:
  * @dao:
  *
  * fill dao with information from the standard output section of a dialog
  */
 data_analysis_output_t *
-parse_output (GenericToolState *state, data_analysis_output_t *dao)
+parse_output (GnmGenericToolState *state, data_analysis_output_t *dao)
 {
 	data_analysis_output_t *this_dao = dao;
 

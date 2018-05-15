@@ -499,7 +499,7 @@ cb_canvas_focus (GtkWidget *canvas,
 
 /**
  * dialog_autoformat:
- * @wb: The Workbook
+ * @wbcg: the control that invoked this dialog
  *
  * This function will show the AutoFormatTemplate dialog and apply
  * the template the user chooses to the current selection in the active

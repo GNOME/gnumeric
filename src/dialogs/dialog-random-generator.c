@@ -60,7 +60,7 @@
 #define RANDOM_KEY            "analysistools-random-dialog"
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *distribution_grid;
         GtkWidget *distribution_combo;
 	GtkWidget *par1_label;
@@ -533,7 +533,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	gint err;
 
 	data = g_new0 (tools_data_random_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->wbc = GNM_WBC (state->base.wbcg);
 
@@ -840,7 +840,7 @@ dialog_random_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	state = g_new (RandomToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init ((GnmGenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_RANDOM_GENERATOR,
 			      "res:ui/random-generation.ui", "Random",
 			      _("Could not create the Random Tool dialog."),

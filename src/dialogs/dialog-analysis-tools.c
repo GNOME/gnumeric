@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-analysis-tools.c:
  *
@@ -85,7 +84,7 @@ static char const * const grouped_by_group[] = {
 };
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *predetermined_button;
 	GtkWidget *calculated_button;
 	GtkEntry  *n_entry;
@@ -145,7 +144,7 @@ static char const * const exp_smoothing_group[] = {
 
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *summary_stats_button;
 	GtkWidget *mean_stats_button;
 	GtkWidget *kth_largest_button;
@@ -157,7 +156,7 @@ typedef struct {
 } DescriptiveStatState;
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *paired_button;
 	GtkWidget *unpaired_button;
 	GtkWidget *known_button;
@@ -178,7 +177,7 @@ typedef struct {
 } TTestState;
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *options_grid;
 	GtkWidget *method_label;
 	GtkWidget *periodic_button;
@@ -196,7 +195,7 @@ typedef struct {
 } SamplingState;
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *interval_entry;
 	GtkWidget *show_std_errors;
 	GtkWidget *n_button;
@@ -214,7 +213,7 @@ typedef struct {
 } AverageToolState;
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
         GtkWidget *damping_fact_entry;
         GtkWidget *g_damping_fact_entry;
         GtkWidget *s_damping_fact_entry;
@@ -233,7 +232,7 @@ typedef struct {
 } ExpSmoothToolState;
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *confidence_entry;
 	GtkWidget *simple_linear_regression_radio;
 	GtkWidget *switch_variables_check;
@@ -241,18 +240,18 @@ typedef struct {
 } RegressionToolState;
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *alpha_entry;
 } AnovaSingleToolState;
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *alpha_entry;
 	GtkWidget *replication_entry;
 } AnovaTwoFactorToolState;
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *alpha_entry;
 } FTestToolState;
 
@@ -266,15 +265,14 @@ typedef struct {
 
 /**
  * error_in_entry:
- *
- * @wbcg:
+ * @state:
  * @entry:
  * @err_str:
  *
  * Show an error dialog and select corresponding entry
  */
 void
-error_in_entry (GenericToolState *state, GtkWidget *entry, char const *err_str)
+error_in_entry (GnmGenericToolState *state, GtkWidget *entry, char const *err_str)
 {
         go_gtk_notice_nonmodal_dialog ((GtkWindow *) state->dialog,
 				       &(state->warning_dialog),
@@ -288,7 +286,7 @@ error_in_entry (GenericToolState *state, GtkWidget *entry, char const *err_str)
 }
 
 static void
-cb_tool_destroy (GenericToolState  *state)
+cb_tool_destroy (GnmGenericToolState  *state)
 {
 	if (state->gui != NULL)
 		g_object_unref (state->gui);
@@ -307,7 +305,7 @@ cb_tool_destroy (GenericToolState  *state)
  **/
 static void
 cb_tool_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
-			GenericToolState *state)
+			GnmGenericToolState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	return;
@@ -324,7 +322,7 @@ cb_tool_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
  *
  **/
 static void
-dialog_tool_init_buttons (GenericToolState *state,
+dialog_tool_init_buttons (GnmGenericToolState *state,
 			  GCallback ok_function,
 			  GCallback close_function)
 {
@@ -357,7 +355,7 @@ dialog_tool_init_buttons (GenericToolState *state,
 
 
 /**
- * dialog_tool_init:
+ * dialog_tool_init: (skip)
  * @state:
  * @gui_name:
  * @dialog_name:
@@ -368,7 +366,7 @@ dialog_tool_init_buttons (GenericToolState *state,
  *
  **/
 gboolean
-dialog_tool_init (GenericToolState *state,
+dialog_tool_init (GnmGenericToolState *state,
 		  WBCGtk *wbcg,
 		  Sheet *sheet,
 		  char const *help_file,
@@ -509,7 +507,7 @@ dialog_tool_init (GenericToolState *state,
  *
  **/
 void
-tool_load_selection (GenericToolState *state, gboolean allow_multiple)
+tool_load_selection (GnmGenericToolState *state, gboolean allow_multiple)
 {
 	GnmRange const *first = selection_first_range (state->sv, NULL, NULL);
 
@@ -532,9 +530,11 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 
 }
 
-
+/**
+ * tool_setup_update: (skip)
+ */
 GtkWidget *
-tool_setup_update (GenericToolState* state, char const *name, GCallback cb,
+tool_setup_update (GnmGenericToolState* state, char const *name, GCallback cb,
 		   gpointer closure)
 {
 	GtkWidget *w = go_gtk_builder_get_widget (state->gui, name);
@@ -578,7 +578,7 @@ tool_setup_update (GenericToolState* state, char const *name, GCallback cb,
  **/
 static void
 tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
-			    GenericToolState *state)
+			    GnmGenericToolState *state)
 {
         GSList *input_range;
 
@@ -624,7 +624,7 @@ tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
  **/
 static void
 corr_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
-			 GenericToolState *state)
+			 GnmGenericToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_generic_t  *data;
@@ -650,24 +650,24 @@ corr_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 		switch (data->err - 1) {
 		case GROUPED_BY_ROW:
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input rows must have equal size!"));
 			break;
 		case GROUPED_BY_COL:
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input columns must have equal size!"));
 			break;
 		case GROUPED_BY_AREA:
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input areas must have equal size!"));
 			break;
 		default:
 			text = g_strdup_printf (
 				_("An unexpected error has occurred: %d."), data->err);
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry), text);
 			g_free (text);
 			break;
@@ -693,7 +693,7 @@ corr_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 int
 dialog_correlation_tool (WBCGtk *wbcg, Sheet *sheet)
 {
-        GenericToolState *state;
+        GnmGenericToolState *state;
 	char const * plugins[] = { "Gnumeric_fnstat",
 				   NULL};
 
@@ -705,7 +705,7 @@ dialog_correlation_tool (WBCGtk *wbcg, Sheet *sheet)
 	if (gnm_dialog_raise_if_exists (wbcg, CORRELATION_KEY))
 		return 0;
 
-	state = g_new0 (GenericToolState, 1);
+	state = g_new0 (GnmGenericToolState, 1);
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_CORRELATION,
@@ -719,7 +719,7 @@ dialog_correlation_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->gdao), TRUE, TRUE);
 	tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -744,7 +744,7 @@ dialog_correlation_tool (WBCGtk *wbcg, Sheet *sheet)
  **/
 static void
 cov_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
-			GenericToolState *state)
+			GnmGenericToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_generic_t  *data;
@@ -770,24 +770,24 @@ cov_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 		switch (data->err - 1) {
 		case GROUPED_BY_ROW:
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input rows must have equal size!"));
 			break;
 		case GROUPED_BY_COL:
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input columns must have equal size!"));
 			break;
 		case GROUPED_BY_AREA:
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input areas must have equal size!"));
 			break;
 		default:
 			text = g_strdup_printf (
 				_("An unexpected error has occurred: %d."), data->err);
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry), text);
 			g_free (text);
 			break;
@@ -813,7 +813,7 @@ cov_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 int
 dialog_covariance_tool (WBCGtk *wbcg, Sheet *sheet)
 {
-        GenericToolState *state;
+        GnmGenericToolState *state;
 	char const * plugins[] = { "Gnumeric_fnstat",
 				   NULL};
 
@@ -825,7 +825,7 @@ dialog_covariance_tool (WBCGtk *wbcg, Sheet *sheet)
 	if (gnm_dialog_raise_if_exists (wbcg, COVARIANCE_KEY))
 		return 0;
 
-	state = g_new0 (GenericToolState, 1);
+	state = g_new0 (GnmGenericToolState, 1);
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_COVARIANCE,
@@ -839,7 +839,7 @@ dialog_covariance_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->gdao), TRUE, TRUE);
 	tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -864,7 +864,7 @@ dialog_covariance_tool (WBCGtk *wbcg, Sheet *sheet)
  **/
 static void
 rank_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
-			 GenericToolState *state)
+			 GnmGenericToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_ranking_t  *data;
@@ -904,7 +904,7 @@ rank_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 int
 dialog_ranking_tool (WBCGtk *wbcg, Sheet *sheet)
 {
-        GenericToolState *state;
+        GnmGenericToolState *state;
 	char const * plugins[] = { "Gnumeric_fnstat",
 				   "Gnumeric_fnlookup",
 				   NULL};
@@ -917,7 +917,7 @@ dialog_ranking_tool (WBCGtk *wbcg, Sheet *sheet)
 	if (gnm_dialog_raise_if_exists (wbcg, RANK_PERCENTILE_KEY))
 		return 0;
 
-	state = g_new0 (GenericToolState, 1);
+	state = g_new0 (GnmGenericToolState, 1);
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_RANKING,
@@ -932,7 +932,7 @@ dialog_ranking_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->gdao), TRUE, TRUE);
 	tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -956,7 +956,7 @@ dialog_ranking_tool (WBCGtk *wbcg, Sheet *sheet)
  **/
 static void
 fourier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
-			    GenericToolState *state)
+			    GnmGenericToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_fourier_t  *data;
@@ -997,7 +997,7 @@ fourier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 int
 dialog_fourier_tool (WBCGtk *wbcg, Sheet *sheet)
 {
-        GenericToolState *state;
+        GnmGenericToolState *state;
 	char const * plugins[] = { "Gnumeric_fnTimeSeriesAnalysis",
 				   "Gnumeric_fncomplex",
 				   NULL};
@@ -1010,7 +1010,7 @@ dialog_fourier_tool (WBCGtk *wbcg, Sheet *sheet)
 	if (gnm_dialog_raise_if_exists (wbcg, FOURIER_KEY))
 		return 0;
 
-	state = g_new0 (GenericToolState, 1);
+	state = g_new0 (GnmGenericToolState, 1);
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_FOURIER_ANALYSIS,
@@ -1025,7 +1025,7 @@ dialog_fourier_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->gdao), TRUE, TRUE);
 	tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -1057,7 +1057,7 @@ cb_desc_stat_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget *w;
 
 	data = g_new0 (analysis_tools_data_descriptive_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -1286,7 +1286,7 @@ dialog_descriptive_stat_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	desc_stat_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -1321,7 +1321,7 @@ ttest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	int    err = 0;
 
 	data = g_new0 (analysis_tools_data_ttests_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->base.wbc = GNM_WBC (state->base.wbcg);
 
@@ -1376,7 +1376,7 @@ ttest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	case TTEST_ZTEST:
 		err = entry_to_float (GTK_ENTRY (state->var1_variance), &data->var1, TRUE);
 		if (err != 0 || data->var1 <= 0.0) {
-			error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->var1_variance),
+			error_in_entry ((GnmGenericToolState *) state, GTK_WIDGET (state->var1_variance),
 					_("Please enter a valid\n"
 					  "population variance for variable 1."));
 			g_free (data);
@@ -1385,7 +1385,7 @@ ttest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		}
 		err = entry_to_float (GTK_ENTRY (state->var2_variance), &data->var2, TRUE);
 		if (err != 0 || data->var2 <= 0.0) {
-			error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->var2_variance),
+			error_in_entry ((GnmGenericToolState *) state, GTK_WIDGET (state->var2_variance),
 					_("Please enter a valid\n"
 					  "population variance for variable 2."));
 			g_free (data);
@@ -1674,7 +1674,7 @@ dialog_ttest_tool (WBCGtk *wbcg, Sheet *sheet, ttest_type test)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	ttest_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, FALSE);
+	tool_load_selection ((GnmGenericToolState *)state, FALSE);
 
         return 0;
 }
@@ -1708,7 +1708,7 @@ ftest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget *w;
 
 	data = g_new0 (analysis_tools_data_generic_b_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->wbc = GNM_WBC (state->base.wbcg);
 
@@ -1823,7 +1823,7 @@ dialog_ftest_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	ftest_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, FALSE);
+	tool_load_selection ((GnmGenericToolState *)state, FALSE);
 
         return 0;
 }
@@ -1933,7 +1933,7 @@ sampling_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget *w;
 
 	data = g_new0 (analysis_tools_data_sampling_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->base.wbc = GNM_WBC (state->base.wbcg);
 
@@ -2116,7 +2116,7 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	sampling_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -2173,7 +2173,7 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		gtk_widget_destroy (state->base.warning_dialog);
 
 	data = g_new0 (analysis_tools_data_regression_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->base.wbc = GNM_WBC (state->base.wbcg);
 
@@ -2211,7 +2211,7 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 		text = g_strdup_printf (
 			_("An unexpected error has occurred: %d."), data->base.err);
-		error_in_entry ((GenericToolState *) state,
+		error_in_entry ((GnmGenericToolState *) state,
 				GTK_WIDGET (state->base.input_entry), text);
 		g_free (text);
 
@@ -2474,7 +2474,7 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	regression_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -2504,7 +2504,7 @@ exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget               *w;
 
 	data = g_new0 (analysis_tools_data_exponential_smoothing_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -2818,7 +2818,7 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->ses_h_button), TRUE);
 	exp_smoothing_ses_h_cb (GTK_TOGGLE_BUTTON (state->ses_h_button), state);
 	exp_smoothing_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -2851,7 +2851,7 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget               *w;
 
 	data = g_new0 (analysis_tools_data_moving_average_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -3182,7 +3182,7 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	average_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -3274,7 +3274,7 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget *w;
 
 	data = g_new0 (analysis_tools_data_histogram_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -3428,7 +3428,7 @@ dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	histogram_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->calculated_button), TRUE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->base.gui,"histogram-button")), TRUE);
@@ -3464,7 +3464,7 @@ anova_single_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	analysis_tools_data_anova_single_t *data;
 
 	data = g_new0 (analysis_tools_data_anova_single_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -3586,7 +3586,7 @@ dialog_anova_single_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	anova_single_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -3622,7 +3622,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		gtk_widget_destroy (state->base.warning_dialog);
 
 	data = g_new0 (analysis_tools_data_anova_two_factor_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->input = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry),
@@ -3643,7 +3643,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			       dao, data, analysis_tool_anova_two_factor_engine, FALSE)) {
 		switch (data->err) {
 		case analysis_tools_missing_data:
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
 					data->labels ? _("The given input range should contain at "
 					  "least two columns and two rows of data and the "
@@ -3652,7 +3652,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 					  "least two columns and two rows of data."));
 			break;
 		case analysis_tools_too_few_cols:
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
 					data->labels ? _("The given input range should contain at "
 					  "least two columns of data and the "
@@ -3661,7 +3661,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 					  "least two columns of data."));
 			break;
 		case analysis_tools_too_few_rows:
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
 					data->labels ? _("The given input range should contain at "
 					  "least two rows of data and the "
@@ -3671,7 +3671,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 					  "data."));
 			break;
 		case analysis_tools_replication_invalid:
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
 					_("The number of data rows must be a "
 					  "multiple of the replication "
@@ -3681,7 +3681,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			text = g_strdup_printf (
 				_("An unexpected error has occurred: %d."),
 				data->err);
-			error_in_entry ((GenericToolState *) state,
+			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
 					text);
 			g_free (text);
@@ -3829,7 +3829,7 @@ dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	anova_two_factor_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, FALSE);
+	tool_load_selection ((GnmGenericToolState *)state, FALSE);
 
         return 0;
 }

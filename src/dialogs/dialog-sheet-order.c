@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-sheet-order.c: Dialog to change the order of sheets in the Gnumeric
  * spreadsheet
@@ -423,7 +422,7 @@ sheet_order_cnt_visible (SheetManager *state)
 	return data;
 }
 
-/**
+/*
  * Refreshes the buttons on a row (un)selection and selects the chosen sheet
  * for this view.
  */

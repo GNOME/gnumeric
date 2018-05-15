@@ -1265,7 +1265,7 @@ dialog_define_names (WBCGtk *wbcg)
 }
 
 /**
- * dialog_define_names:
+ * dialog_paste_names:
  * @wbcg:
  *
  * Create and show the define names dialog.

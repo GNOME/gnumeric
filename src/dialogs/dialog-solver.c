@@ -910,14 +910,14 @@ do {									\
 
 
 /**
- * dialog_init:
+ * dialog_solver_init:
  * @state:
  *
  * Create the dialog (guru).
  *
  **/
 static gboolean
-dialog_init (SolverState *state)
+dialog_solver_init (SolverState *state)
 {
 	GtkGrid *grid;
 	GnmSolverParameters *param;
@@ -1261,7 +1261,7 @@ dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 	state->orig_params = gnm_solver_param_dup (sheet->solver_parameters,
 						   sheet);
 
-	if (dialog_init (state)) {
+	if (dialog_solver_init (state)) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Solver dialog."));
 		unref_state (state);

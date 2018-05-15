@@ -1,4 +1,4 @@
-/**
+/*
  * dialog-view.c:  New view dialog.
  *
  * Author:

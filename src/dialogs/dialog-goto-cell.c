@@ -1,4 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * dialog-goto-cell.c:  Implements the "goto cell/navigator" functionality
  *
@@ -338,11 +338,10 @@ dialog_goto_load_selection (GotoState *state)
 }
 
 /**
- * dialog_init:
+ * dialog_goto_init:
  * @state:
  *
  * Create the dialog (guru).
- *
  **/
 static gboolean
 dialog_goto_init (GotoState *state)

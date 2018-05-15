@@ -225,6 +225,9 @@ range_focused (G_GNUC_UNUSED GtkWidget *widget,
 	return FALSE;
 }
 
+/**
+ * dialog_search_replace: (skip)
+ */
 void
 dialog_search_replace (WBCGtk *wbcg,
 		       SearchDialogCallback cb)

@@ -1,5 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * dialog-cell-format.c:  Implements a dialog to format cells.
  *
  * Authors:
@@ -2625,6 +2624,11 @@ dialog_cell_format (WBCGtk *wbcg, FormatDialogPosition_t pageno, gint pages)
  *	- How to distinguish between auto & custom colors on extraction from styles.
  */
 
+/**
+ * dialog_cell_format_select_style:
+ *
+ * Returns: (transfer floating): a #GtkDialog.
+ */
 GtkDialog *
 dialog_cell_format_select_style (WBCGtk *wbcg, gint pages,
 				 GtkWindow *w,

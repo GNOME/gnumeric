@@ -47,7 +47,7 @@
 
 #define ADVANCED_FILTER_KEY         "advanced-filter-dialog"
 
-typedef GenericToolState AdvancedFilterState;
+typedef GnmGenericToolState AdvancedFilterState;
 
 /**
  * advanced_filter_update_sensitivity_cb:
@@ -122,7 +122,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	criteria = gnm_expr_entry_parse_as_value
 		(state->input_entry_2, state->sheet);
 
-        dao  = parse_output ((GenericToolState *) state, NULL);
+        dao  = parse_output ((GnmGenericToolState *) state, NULL);
 
 	w = go_gtk_builder_get_widget (state->gui, "unique-button");
 	unique = (1 == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)));
@@ -158,7 +158,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		gtk_widget_destroy (state->dialog);
 		break;
 	case analysis_tools_invalid_field:
-		error_in_entry ((GenericToolState *) state,
+		error_in_entry ((GnmGenericToolState *) state,
 				GTK_WIDGET (state->input_entry_2),
 				_("The given criteria are invalid."));
 		break;
@@ -171,7 +171,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: "
 					  "%d."), err);
-		error_in_entry ((GenericToolState *) state,
+		error_in_entry ((GnmGenericToolState *) state,
 				GTK_WIDGET (state->input_entry), text);
 		g_free (text);
 		break;
@@ -182,10 +182,8 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 /**
  * dialog_advanced_filter:
  * @wbcg:
- * @sheet:
  *
  * Show the dialog (guru).
- *
  **/
 void
 dialog_advanced_filter (WBCGtk *wbcg)
@@ -216,7 +214,7 @@ dialog_advanced_filter (WBCGtk *wbcg)
 	gnm_dao_set_inplace (GNM_DAO (state->gdao), _("Filter _in-place"));
 	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
 	advanced_filter_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return;
 }

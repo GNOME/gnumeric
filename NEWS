@@ -8,6 +8,7 @@ Morten:
 	* Enable ssconvert --export-file-per-sheet for html, latex, and pdf.
 	* Test suite improvements.
 	* ssconvert improvements.
+	* Makefile improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.41

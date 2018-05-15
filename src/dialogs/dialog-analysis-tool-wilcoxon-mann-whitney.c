@@ -63,7 +63,7 @@ static char const * const grouped_by_group[] = {
 
 static void
 wilcoxon_mann_whitney_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
-						 GenericToolState *state)
+						 GnmGenericToolState *state)
 {
         GnmValue *input_range;
         GnmValue *input_range_2;
@@ -116,7 +116,7 @@ wilcoxon_mann_whitney_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy
  **/
 static void
 wilcoxon_mann_whitney_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
-			GenericToolState *state)
+			GnmGenericToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_generic_b_t  *data;
@@ -166,7 +166,7 @@ wilcoxon_mann_whitney_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 int
 dialog_wilcoxon_m_w_tool (WBCGtk *wbcg, Sheet *sheet)
 {
-        GenericToolState *state;
+        GnmGenericToolState *state;
 	char const * plugins[] = { "Gnumeric_fnstat",
 				   "Gnumeric_fnmath",
 				   "Gnumeric_fnlookup",
@@ -180,7 +180,7 @@ dialog_wilcoxon_m_w_tool (WBCGtk *wbcg, Sheet *sheet)
 	if (gnm_dialog_raise_if_exists (wbcg, WILCOXON_MANN_WHITNEY_KEY))
 		return 0;
 
-	state = g_new0 (GenericToolState, 1);
+	state = g_new0 (GnmGenericToolState, 1);
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_WILCOXON_MANN_WHITNEY,
@@ -194,7 +194,7 @@ dialog_wilcoxon_m_w_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->gdao), TRUE, TRUE);
 	wilcoxon_mann_whitney_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }

@@ -65,7 +65,7 @@ static char const * const matrix_group[] = {
 };
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *count_entry;
 } RandomCorToolState;
 
@@ -76,7 +76,7 @@ typedef struct {
 
 
 /**
- * random_tool_update_sensitivity:
+ * random_cor_tool_update_sensitivity_cb:
  * @dummy:
  * @state:
  *
@@ -85,7 +85,7 @@ typedef struct {
  **/
 static void
 random_cor_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
-				   RandomCorToolState *state)
+				       RandomCorToolState *state)
 {
         GnmValue *input_range;
 	gint height, width, count;
@@ -148,7 +148,7 @@ random_cor_tool_ok_clicked_cb (GtkWidget *button, RandomCorToolState *state)
 
 	data = g_new0 (tools_data_random_cor_t, 1);
 
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 	err = entry_to_int (GTK_ENTRY (state->count_entry), &data->count, FALSE);
 	data->matrix = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry),
@@ -170,7 +170,7 @@ random_cor_tool_ok_clicked_cb (GtkWidget *button, RandomCorToolState *state)
 
 
 /**
- * dialog_random_tool_init:
+ * dialog_random_cor_tool_init:
  * @state:
  *
  * Create the dialog (guru).
@@ -190,7 +190,7 @@ dialog_random_cor_tool_init (RandomCorToolState *state)
 
 
 /**
- * dialog_random_tool:
+ * dialog_random_cor_tool:
  * @wbcg:
  * @sheet:
  *
@@ -214,7 +214,7 @@ dialog_random_cor_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	state = g_new (RandomCorToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init ((GnmGenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_RANDOM_GENERATOR_COR,
 			      "res:ui/random-generation-cor.ui", "CorRandom",
 			      _("Could not create the Correlated Random Tool dialog."),
@@ -228,7 +228,7 @@ dialog_random_cor_tool (WBCGtk *wbcg, Sheet *sheet)
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	dialog_random_cor_tool_init (state);
 
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
 	gtk_widget_show_all (state->base.dialog);
 

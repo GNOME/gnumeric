@@ -22,8 +22,8 @@
 
 typedef struct _scenario_state scenario_state_t;
 
-typedef struct _GenericToolState GenericToolState;
-typedef void (*state_destroy_t) (GenericToolState *state);
+typedef struct _GenericToolState GnmGenericToolState;
+typedef void (*state_destroy_t) (GnmGenericToolState *state);
 
 struct _GenericToolState {
 	GtkBuilder  *gui;
@@ -45,9 +45,9 @@ struct _GenericToolState {
 	state_destroy_t state_destroy;
 } ;
 
-void     tool_load_selection (GenericToolState *state, gboolean allow_multiple);
-void     error_in_entry (GenericToolState *state, GtkWidget *entry, char const *err_str);
-gboolean dialog_tool_init (GenericToolState *state,
+void     tool_load_selection (GnmGenericToolState *state, gboolean allow_multiple);
+void     error_in_entry (GnmGenericToolState *state, GtkWidget *entry, char const *err_str);
+gboolean dialog_tool_init (GnmGenericToolState *state,
 			   WBCGtk *wbcg,
 			   Sheet *sheet,
 			   char const *help_file,
@@ -60,7 +60,7 @@ gboolean dialog_tool_init (GenericToolState *state,
 			   GCallback sensitivity_cb,
 			   GnmExprEntryFlags flags);
 
-GtkWidget *tool_setup_update (GenericToolState* state,
+GtkWidget *tool_setup_update (GnmGenericToolState* state,
 			      char const *name,
 			      GCallback cb,
 			      gpointer closure);

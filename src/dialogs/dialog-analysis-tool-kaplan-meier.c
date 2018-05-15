@@ -55,7 +55,7 @@
 #define KAPLAN_MEIER_KEY      "analysistools-kaplan-meier-dialog"
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *censorship_button;
 	GtkWidget *censor_spin_from;
 	GtkWidget *censor_spin_to;
@@ -249,7 +249,7 @@ kaplan_meier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	analysis_tools_data_kaplan_meier_t  *data;
 
 	data = g_new0 (analysis_tools_data_kaplan_meier_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 
 	data->base.wbc = GNM_WBC (state->base.wbcg);
@@ -736,7 +736,7 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	kaplan_meier_tool_update_sensitivity_cb (NULL, state);
 	kaplan_meier_tool_update_groups_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
 	gtk_widget_show_all (GTK_WIDGET (state->base.dialog));
 	/* And to hide the in-place button again */

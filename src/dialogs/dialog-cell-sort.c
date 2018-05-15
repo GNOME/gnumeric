@@ -609,8 +609,9 @@ dialog_load_selection (SortFlowState *state, gboolean *col_rb)
 }
 
 /**
- * Refreshes the buttons on a row (un)selection
+ * cb_sort_selection_changed:
  *
+ * Refreshes the buttons on a row (un)selection
  */
 static void
 cb_sort_selection_changed (SortFlowState *state)

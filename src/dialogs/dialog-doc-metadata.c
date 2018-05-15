@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-doc-metadata.c: Edit document metadata
  *
@@ -868,7 +867,6 @@ dialog_doc_metadata_set_gsf_prop_val (DialogDocMetaData *state,
 
 /**
  * dialog_doc_metadata_set_gsf_prop
- *
  * @state: dialog main struct
  * @name: property name
  * @value: property value
@@ -972,7 +970,6 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 
 /**
  * dialog_doc_metadata_set_prop
- *
  * @state: dialog main struct
  * @prop_name: property name
  * @prop_value: property value
@@ -1063,9 +1060,9 @@ dialog_doc_metadata_set_prop (DialogDocMetaData *state,
 	g_free (new_prop_value );
 }
 
-/**
+/*
  * CALLBACKS for 'Description' page entries
- **/
+ */
 static gboolean
 cb_dialog_doc_metadata_title_changed (GtkEntry          *entry,
 				      G_GNUC_UNUSED GdkEventFocus *event,
@@ -1162,7 +1159,6 @@ cb_dialog_doc_metadata_comments_changed (GtkTextView     *view,
 
 /**
  * dialog_doc_metadata_init_description_page
- *
  * @state: dialog main struct
  *
  * Initializes the widgets and signals for the 'Description' page.
@@ -1321,7 +1317,6 @@ cb_dialog_doc_metadata_keyword_edited (G_GNUC_UNUSED GtkCellRendererText *render
 
 /**
  * dialog_doc_metadata_init_keywords_page
- *
  * @state: dialog main struct
  *
  * Initializes the widgets and signals for the 'Description' page.
@@ -1400,7 +1395,6 @@ cb_dialog_doc_metadata_value_edited (G_GNUC_UNUSED GtkCellRendererText *renderer
 
 /**
  * cb_dialog_doc_metadata_add_clicked
- *
  * @w: widget
  * @state: dialog main struct
  *
@@ -1435,7 +1429,6 @@ cb_dialog_doc_metadata_add_clicked (G_GNUC_UNUSED GtkWidget *w,
 
 /**
  * dialog_doc_metadata_update_prop
- *
  * @state: dialog main struct
  * @prop_name: property name
  * @prop_value: property value
@@ -1523,7 +1516,6 @@ dialog_doc_metadata_update_prop (DialogDocMetaData *state,
 
 /**
  * cb_dialog_doc_metadata_remove_clicked
- *
  * @remove_bt: widget
  * @state: dialog main struct
  *
@@ -1575,7 +1567,6 @@ cb_dialog_doc_metadata_remove_clicked (GtkWidget         *remove_bt,
 
 /**
  * cb_dialog_doc_metadata_tree_prop_selected
- *
  * @combo_box: widget
  * @state: dialog main struct
  *
@@ -1639,8 +1630,8 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeSelection  *selection,
 }
 
 /**
- * dialog_doc_metadata_get_prop_val
- *
+ * dialog_doc_metadata_get_prop_val:
+ * @state:
  * @prop_name: property name
  * @prop_value: property value
  *
@@ -1671,7 +1662,6 @@ dialog_doc_metadata_get_prop_val (G_GNUC_UNUSED DialogDocMetaData *state,
 
 /**
  * dialog_doc_metadata_populate_tree_view
- *
  * @name: property name
  * @prop: property stored in GsfDocMetaData
  * @state: dialog main struct
@@ -1845,7 +1835,6 @@ cb_dialog_doc_metadata_ppt_name_changed (G_GNUC_UNUSED GtkEntry          *entry,
 
 /**
  * dialog_doc_metadata_init_properties_page
- *
  * @state: dialog main struct
  *
  * Initializes the widgets and signals for the 'Properties' page.
@@ -1983,7 +1972,6 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 
 /**
  * dialog_doc_metadata_init_statistics_page
- *
  * @state: dialog main struct
  *
  * Initializes the widgets and signals for the 'Statistics' page.
@@ -2045,7 +2033,6 @@ cb_dialog_doc_metadata_recalc_iteration_changed (G_GNUC_UNUSED GtkWidget *widget
 
 /**
  * dialog_doc_metadata_init_calculations_page
- *
  * @state: dialog main struct
  *
  * Initializes the widgets and signals for the 'Calculations' page.
@@ -2093,7 +2080,6 @@ dialog_doc_metadata_init_calculations_page (DialogDocMetaData *state)
 
 /**
  * dialog_doc_metadata_set_file_permissions
- *
  * @state: dialog main struct
  *
  * Writes the new file permissions if there were any changes.
@@ -2428,12 +2414,10 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
  ******************************************************************************/
 
 /**
- * dialog_doc_metadata_new
- *
+ * dialog_doc_metadata_new:
  * @wbcg: WBCGtk
  *
  * Creates a new instance of the dialog.
- *
  **/
 void
 dialog_doc_metadata_new (WBCGtk *wbcg, int page)

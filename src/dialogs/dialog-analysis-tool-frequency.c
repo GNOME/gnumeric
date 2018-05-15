@@ -68,7 +68,7 @@ static char const * const chart_group[] = {
 };
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *predetermined_button;
 	GtkWidget *calculated_button;
 	GtkEntry  *n_entry;
@@ -154,7 +154,7 @@ frequency_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget *w;
 
 	data = g_new0 (analysis_tools_data_frequency_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -291,7 +291,7 @@ dialog_frequency_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	frequency_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->n_entry), FALSE);
 	gtk_widget_set_sensitive (state->calculated_button, FALSE);

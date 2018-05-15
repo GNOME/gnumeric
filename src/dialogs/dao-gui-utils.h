@@ -34,9 +34,9 @@
 #include "tools/dao.h"
 
 
-void dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb);
-data_analysis_output_t *parse_output (GenericToolState *state, data_analysis_output_t *dao);
-void dialog_tool_preset_to_range (GenericToolState *state);
+void dialog_tool_init_outputs (GnmGenericToolState *state, GCallback sensitivity_cb);
+data_analysis_output_t *parse_output (GnmGenericToolState *state, data_analysis_output_t *dao);
+void dialog_tool_preset_to_range (GnmGenericToolState *state);
 
 
 #endif

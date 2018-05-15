@@ -1,5 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * dialog-col-row.c:  group/ungroup dialog
  *
  * Author:
@@ -74,6 +73,9 @@ cb_dialog_col_row_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gtk_widget_destroy (state->dialog);
 }
 
+/**
+ * dialog_col_row: (skip)
+ */
 void
 dialog_col_row (WBCGtk *wbcg,  char const *operation,
 		ColRowCallback_t callback,

@@ -195,11 +195,9 @@ csv_page_parseoptions_to_gui (StfDialogData *pagedata)
 
 /**
  * stf_dialog_csv_page_prepare
- * @data: mother struct
+ * @pagedata: mother struct
  *
  * Will prepare the csv page
- *
- * returns : nothing
  **/
 void
 stf_dialog_csv_page_prepare (StfDialogData *pagedata)

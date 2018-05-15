@@ -459,11 +459,9 @@ fixed_page_auto_clicked (G_GNUC_UNUSED GtkButton *button,
 
 /**
  * stf_dialog_fixed_page_prepare
- * @data: mother struct
+ * @pagedata: mother struct
  *
  * Will prepare the fixed page
- *
- * returns : nothing
  **/
 void
 stf_dialog_fixed_page_prepare (StfDialogData *pagedata)

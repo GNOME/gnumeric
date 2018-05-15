@@ -46,7 +46,7 @@
 
 #define SHUFFLE_KEY         "shuffle-dialog"
 
-typedef GenericToolState ShuffleState;
+typedef GnmGenericToolState ShuffleState;
 
 static char const * const shuffle_by[] = {
 	"shuffle_cols",
@@ -122,10 +122,8 @@ shuffle_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button, ShuffleState *state)
 /**
  * dialog_shuffle:
  * @wbcg:
- * @sheet:
  *
  * Show the dialog (guru).
- *
  **/
 void
 dialog_shuffle (WBCGtk *wbcg)
@@ -158,7 +156,7 @@ dialog_shuffle (WBCGtk *wbcg)
 
 	shuffle_update_sensitivity_cb (NULL, state);
 	state->gdao = NULL;
-	tool_load_selection ((GenericToolState *)state, FALSE);
+	tool_load_selection ((GnmGenericToolState *)state, FALSE);
 
 	r = selection_first_range (state->sv, NULL, NULL);
 	if (range_width (r) == 1)

@@ -1,4 +1,4 @@
-/**
+/*
  * dialog-workbook-attr.c:  Implements a dialog to set workbook attributes.
  *
  * Author:

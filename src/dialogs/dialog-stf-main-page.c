@@ -262,7 +262,7 @@ cb_line_breaks (G_GNUC_UNUSED GtkWidget *widget,
 
 /**
  * stf_dialog_main_page_prepare
- * @data: mother struct
+ * @pagedata: mother struct
  *
  * This will prepare the widgets on the format page before
  * the page gets displayed

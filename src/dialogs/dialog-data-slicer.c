@@ -1,4 +1,4 @@
-/**
+/*
  * dialog-data-slicer.c:  Edit DataSlicers
  *
  * (c) Copyright 2008-2009 Jody Goldberg <jody@gnome.org>

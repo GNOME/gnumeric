@@ -1191,7 +1191,6 @@ icons/256x256/Makefile
 icons/256x256/apps/Makefile
 introspection/Makefile
 src/Makefile
-src/dialogs/Makefile
 src/widgets/Makefile
 src/tools/Makefile
 doc/Makefile

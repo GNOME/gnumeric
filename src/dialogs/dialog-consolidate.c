@@ -55,7 +55,7 @@ enum {
 };
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 
 	GtkComboBox     *function;
 
@@ -290,7 +290,7 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
 
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 	cs = construct_consolidate (state, dao);
 
 	/*
@@ -543,7 +543,7 @@ dialog_consolidate (WBCGtk *wbcg)
 	/* Primary static initialization */
 	state = g_new0 (ConsolidateState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init ((GnmGenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_CONSOLIDATE,
 			      "res:ui/consolidate.ui", "Consolidate",
 			      _("Could not create the Consolidate dialog."),

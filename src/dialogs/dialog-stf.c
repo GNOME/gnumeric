@@ -234,8 +234,8 @@ stf_dialog_editables_enter (StfDialogData *pagedata)
 }
 
 /**
- * stf_dialog
- * @wbcg: a Commandcontext (can be NULL)
+ * stf_dialog: (skip)
+ * @wbcg: (nullable):
  * @source: name of the file we are importing (or data) in UTF-8
  * @data: the data itself
  *

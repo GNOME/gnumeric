@@ -692,12 +692,10 @@ locale_changed_cb (GOLocaleSel *ls, char const *new_locale,
 
 /**
  * stf_dialog_format_page_prepare
- * @data: mother struct
+ * @pagedata: mother struct
  *
  * This will prepare the widgets on the format page before
  * the page gets displayed
- *
- * returns : nothing
  **/
 void
 stf_dialog_format_page_prepare (StfDialogData *data)

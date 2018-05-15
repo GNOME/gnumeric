@@ -42,7 +42,7 @@
 
 #define SIMULATION_KEY         "simulation-dialog"
 
-typedef GenericToolState SimulationState;
+typedef GnmGenericToolState SimulationState;
 
 static GtkTextBuffer   *results_buffer;
 static int             results_sim_index;
@@ -310,7 +310,7 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	sim.outputs = gnm_expr_entry_parse_as_value
 		(state->input_entry_2, state->sheet);
 
-        parse_output ((GenericToolState *) state, &dao);
+        parse_output ((GnmGenericToolState *) state, &dao);
 
 	if (prepare_ranges (&sim)) {
 		err = (gchar *) N_("Invalid variable range was given");
@@ -358,7 +358,7 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	value_release (sim.outputs);
 
 	if (err != NULL)
-		error_in_entry ((GenericToolState *) state,
+		error_in_entry ((GnmGenericToolState *) state,
 				GTK_WIDGET (state->input_entry_2), _(err));
 	return;
 }
@@ -373,7 +373,7 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
  **/
 static void
 cb_tool_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
-			GenericToolState *state)
+			GnmGenericToolState *state)
 {
 	simulation_tool_destroy (current_sim);
 	gtk_widget_destroy (state->dialog);
@@ -450,6 +450,6 @@ dialog_simulation (WBCGtk *wbcg, G_GNUC_UNUSED Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
 	simulation_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
         return;
 }

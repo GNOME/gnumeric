@@ -52,7 +52,7 @@
 #define FILL_SERIES_KEY "fill-series-dialog"
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget          *start_entry;
 	GtkWidget          *stop_entry;
 	GtkWidget          *step_entry;
@@ -92,7 +92,7 @@ cb_fill_series_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	data_analysis_output_t  *dao;
 
 	fs = g_new0 (fill_series_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	/* Read the `Series in' radio buttons. */
 	radio = go_gtk_builder_get_widget (state->base.gui, "series_in_rows");
@@ -247,7 +247,7 @@ dialog_fill_series (WBCGtk *wbcg)
 
 	state = g_new (FillSeriesState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sv_sheet (sv),
+	if (dialog_tool_init ((GnmGenericToolState *)state, wbcg, sv_sheet (sv),
 			      GNUMERIC_HELP_LINK_FILL_SERIES,
 			      "res:ui/fill-series.ui", "Fill_series",
 			      _("Could not create the Fill Series dialog."),

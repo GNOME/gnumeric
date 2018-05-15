@@ -63,7 +63,7 @@ static char const * const grouped_by_group[] = {
 
 static void
 principal_components_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
-						 GenericToolState *state)
+						 GnmGenericToolState *state)
 {
         GSList *input_range;
 
@@ -101,7 +101,7 @@ principal_components_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
  **/
 static void
 principal_components_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
-			GenericToolState *state)
+			GnmGenericToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_generic_t  *data;
@@ -128,7 +128,7 @@ principal_components_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		char   *text;
 		text = g_strdup_printf (
 			_("An unexpected error has occurred."));
-		error_in_entry ((GenericToolState *) state,
+		error_in_entry ((GnmGenericToolState *) state,
 				GTK_WIDGET (state->input_entry), text);
 		g_free (text);
 	} else
@@ -149,7 +149,7 @@ principal_components_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 int
 dialog_principal_components_tool (WBCGtk *wbcg, Sheet *sheet)
 {
-        GenericToolState *state;
+        GnmGenericToolState *state;
 	char const * plugins[] = { "Gnumeric_fnstat",
 				   "Gnumeric_fnmath",
 				   "Gnumeric_fnlogical",
@@ -163,7 +163,7 @@ dialog_principal_components_tool (WBCGtk *wbcg, Sheet *sheet)
 	if (gnm_dialog_raise_if_exists (wbcg, PRINCIPAL_COMPONENTS_KEY))
 		return 0;
 
-	state = g_new0 (GenericToolState, 1);
+	state = g_new0 (GnmGenericToolState, 1);
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_PRINCIPAL_COMPONENTS,
@@ -177,7 +177,7 @@ dialog_principal_components_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->gdao), TRUE, TRUE);
 	principal_components_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }

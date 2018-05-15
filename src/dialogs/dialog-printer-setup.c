@@ -1,5 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * dialog-printer-setup.c: Printer setup dialog box
  *
  * Authors:
@@ -764,7 +763,7 @@ unit_sort_func (GtkTreeModel *model,
 }
 
 
-/**
+/*
  * Header and footer are stored with Excel semantics, but displayed with
  * more natural semantics. In Excel, both top margin and header are measured
  * from top of sheet. The Gnumeric user interface presents header as the
@@ -2888,7 +2887,7 @@ do_fetch_scale (PrinterSetupState *state)
 	}
 }
 
-/**
+/*
  * Header and footer are stored with Excel semantics, but displayed with
  * more natural semantics. In Excel, both top margin and header are measured
  * from top of sheet. See illustration at start of src/print.c. The Gnumeric

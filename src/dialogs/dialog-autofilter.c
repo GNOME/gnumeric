@@ -1,5 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * dialog-autofilter.c:  A pair of dialogs for autofilter conditions
  *
  * (c) Copyright 2002 Jody Goldberg <jody@gnome.org>

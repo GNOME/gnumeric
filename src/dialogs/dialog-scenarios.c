@@ -1,5 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * dialog-scenarios.c:  Create, edit, and view scenarios.
  *
  * Author:
@@ -48,7 +47,7 @@
 #define LIGHT_GRAY GO_COLOR_GREY(199)   /* "gray78" */
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 
 	GtkWidget  *show_button;
 	GtkWidget  *delete_button;
@@ -272,7 +271,7 @@ check_name (const gchar *n)
 }
 
 /**
- * scenarios_ok_clicked_cb:
+ * scenario_add_ok_clicked_cb:
  * @button:
  * @state:
  *
@@ -427,7 +426,7 @@ dialog_scenario_add (WBCGtk *wbcg)
 	gnm_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->name_entry));
 	scenario_add_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 }
 
 

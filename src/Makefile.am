@@ -25,7 +25,7 @@ noinst_PROGRAMS = sstest
 noinst_HEADERS = dead-kittens.h compilation.h gnm-i18n.h
 
 if WITH_GTK
-  SUBDIRS += dialogs widgets
+  SUBDIRS += widgets
   bin_PROGRAMS += gnumeric
 endif
 
@@ -135,6 +135,86 @@ resource_ui_files =				\
 	wilcoxon-mann-whitney.ui		\
 	workbook-attr.ui
 
+dialog_sources = 						\
+	dialogs/dao-gui-utils.c					\
+	dialogs/dialog-about.c					\
+	dialogs/dialog-advanced-filter.c			\
+	dialogs/dialog-analysis-tools.c				\
+	dialogs/dialog-analysis-tool-chi-squared.c		\
+	dialogs/dialog-analysis-tool-frequency.c		\
+	dialogs/dialog-analysis-tool-kaplan-meier.c		\
+	dialogs/dialog-analysis-tool-normality.c		\
+	dialogs/dialog-analysis-tool-one-mean.c			\
+	dialogs/dialog-analysis-tool-principal-components.c	\
+	dialogs/dialog-analysis-tool-sign-test.c		\
+	dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c	\
+	dialogs/dialog-autofilter.c				\
+	dialogs/dialog-autoformat.c				\
+	dialogs/dialog-autosave.c				\
+	dialogs/dialog-cell-comment.c				\
+	dialogs/dialog-cell-format.c				\
+	dialogs/dialog-cell-format-cond.c			\
+	dialogs/dialog-cell-sort.c				\
+	dialogs/dialog-col-width.c				\
+	dialogs/dialog-col-row.c				\
+	dialogs/dialog-consolidate.c				\
+	dialogs/dialog-data-slicer.c				\
+	dialogs/dialog-data-table.c				\
+	dialogs/dialog-fill-series.c				\
+	dialogs/dialog-function-select.c			\
+	dialogs/dialog-formula-guru.c				\
+	dialogs/dialog-goal-seek.c				\
+	dialogs/dialog-goto-cell.c				\
+	dialogs/dialog-hyperlink.c				\
+	dialogs/dialog-insert-cells.c				\
+	dialogs/dialog-define-names.c				\
+	dialogs/dialog-delete-cells.c				\
+	dialogs/dialog-merge.c					\
+	dialogs/dialog-password.c				\
+	dialogs/dialog-paste-special.c				\
+	dialogs/dialog-plugin-manager.c				\
+	dialogs/dialog-preferences.c				\
+	dialogs/dialog-random-generator.c			\
+	dialogs/dialog-random-generator-cor.c			\
+	dialogs/dialog-recent.c					\
+	dialogs/dialog-row-height.c				\
+	dialogs/dialog-quit.c					\
+	dialogs/dialog-scenarios.c				\
+	dialogs/dialog-search.c					\
+	dialogs/dialog-search-replace.c				\
+	dialogs/dialog-sheet-compare.c				\
+	dialogs/dialog-sheet-order.c				\
+	dialogs/dialog-sheet-rename.c				\
+	dialogs/dialog-sheet-resize.c				\
+	dialogs/dialog-sheetobject-size.c			\
+	dialogs/dialog-shuffle.c				\
+	dialogs/dialog-simulation.c				\
+	dialogs/dialog-so-list.c				\
+	dialogs/dialog-so-styled.c				\
+	dialogs/dialog-solver.c					\
+	dialogs/dialog-stf.c					\
+	dialogs/dialog-stf-main-page.c				\
+	dialogs/dialog-stf-csv-page.c				\
+	dialogs/dialog-stf-fixed-page.c				\
+	dialogs/dialog-stf-format-page.c			\
+	dialogs/dialog-stf-preview.c				\
+	dialogs/dialog-stf-export.c				\
+	dialogs/dialog-tabulate.c				\
+	dialogs/dialog-doc-metadata.c				\
+	dialogs/dialog-view.c					\
+	dialogs/dialog-workbook-attr.c				\
+	dialogs/dialog-zoom.c					\
+	dialogs/dialog-printer-setup.c
+
+dialog_headers = \
+	dialogs/help.h						\
+	dialogs/dao-gui-utils.h					\
+	dialogs/dialog-stf.h					\
+	dialogs/dialog-stf-preview.h				\
+	dialogs/dialog-stf-export.h				\
+	dialogs/dialogs.h					\
+	dialogs/tool-dialogs.h
+
 
 # Another hint, see bugs #172211 and #172212:
 non-intermediate: gnm-marshalers.c gnmresources.c
@@ -159,7 +239,7 @@ libspreadsheet_la_LIBADD = 			\
 	$(GNUMERIC_LIBS)			\
 	$(INTLLIBS)
 
-libspreadsheet_la_SOURCES =			\
+libspreadsheet_la_SOURCES =		\
 	go-val.h			\
 	go-val.c			\
 	\
@@ -302,7 +382,8 @@ libspreadsheet_la_SOURCES =			\
 	workbook-view.c				\
 	workbook.c				\
 	xml-sax-read.c				\
-	xml-sax-write.c
+	xml-sax-write.c				\
+	$(dialog_sources)
 
 nodist_libspreadsheet_la_SOURCES = gnmresources.c gnmresources.h
 
@@ -310,7 +391,7 @@ nodist_libspreadsheet_la_SOURCES = gnmresources.c gnmresources.h
 # libspreadsheet-ver/spreadsheet/header
 # doing it now would require massive cvs surgery.
 libspreadsheet_includedir = $(includedir)/libspreadsheet-@GNUMERIC_API_VER@/spreadsheet
-libspreadsheet_include_HEADERS = 	\
+libspreadsheet_include_HEADERS =		\
 	application.h				\
 	auto-format.h				\
 	cell-draw.h				\
@@ -355,9 +436,9 @@ libspreadsheet_include_HEADERS = 	\
 	gnumeric-fwd.h				\
 	gnumeric-simple-canvas.h		\
 	gnumeric.h				\
-	go-data-cache-field.h 			\
-	go-data-cache-source.h 			\
-	go-data-cache.h 			\
+	go-data-cache-field.h			\
+	go-data-cache-source.h			\
+	go-data-cache.h				\
 	go-data-slicer-field.h			\
 	go-data-slicer.h			\
 	go-val.h				\
@@ -401,9 +482,9 @@ libspreadsheet_include_HEADERS = 	\
 	sheet-autofill.h			\
 	sheet-control-gui-priv.h		\
 	sheet-control-gui.h			\
-	sheet-control-priv.h 			\
-	sheet-control.h    			\
-	sheet-diff.h    			\
+	sheet-control-priv.h			\
+	sheet-control.h				\
+	sheet-diff.h				\
 	sheet-filter-combo.h			\
 	sheet-filter.h				\
 	sheet-merge.h				\
@@ -418,7 +499,7 @@ libspreadsheet_include_HEADERS = 	\
 	sheet-private.h				\
 	sheet-style.h				\
 	sheet-utils.h				\
-	sheet-view.h    			\
+	sheet-view.h				\
 	sheet.h					\
 	sort.h					\
 	stf-export.h				\
@@ -436,13 +517,14 @@ libspreadsheet_include_HEADERS = 	\
 	wbc-gtk-impl.h				\
 	wbc-gtk.h				\
 	workbook-cmd-format.h			\
-	workbook-control-priv.h 		\
-	workbook-control.h 			\
+	workbook-control-priv.h			\
+	workbook-control.h			\
 	workbook-priv.h				\
 	workbook-view.h				\
 	workbook.h				\
 	xml-io-version.h			\
-	xml-sax.h
+	xml-sax.h				\
+	$(dialog_headers)
 
 gnumeric_SOURCES =				\
 	io-context-gtk.c			\
@@ -518,7 +600,6 @@ stamp-local.def: $(libspreadsheet_include_HEADERS) Makefile $(top_srcdir)/tools/
 endif
 
 gnumeric_app_libs =				\
-	dialogs/libdialogs.la			\
 	tools/libtools.la			\
 	widgets/libwidgets.la
 

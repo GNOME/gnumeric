@@ -1,5 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * dialog-cell-format-cond.c:  Implements a dialog to format cells.
  *
  * (c) Copyright 2010-2011 Andreas J. Guelzow <aguelzow@pyrshep.ca>

@@ -55,7 +55,7 @@
 #define NORMALITY_KEY      "analysistools-normality-dialog"
 
 typedef struct {
-	GenericToolState base;
+	GnmGenericToolState base;
 	GtkWidget *alpha_entry;
 } NormalityTestsToolState;
 
@@ -144,7 +144,7 @@ normality_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	analysis_tools_data_normality_t *data;
 
 	data = g_new0 (analysis_tools_data_normality_t, 1);
-	dao  = parse_output ((GenericToolState *)state, NULL);
+	dao  = parse_output ((GnmGenericToolState *)state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -218,7 +218,7 @@ dialog_normality_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	normality_tool_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	tool_load_selection ((GnmGenericToolState *)state, TRUE);
 
         return 0;
 }
