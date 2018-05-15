@@ -14,7 +14,7 @@ INTROSPECTION_COMPILER_ARGS = \
 	--includedir=. \
 	--includedir="${INTROSPECTION_GIRDIR}"
 
-SUBDIRS = tools cut-n-paste-code
+SUBDIRS = tools
 
 lib_LTLIBRARIES = libspreadsheet.la
 

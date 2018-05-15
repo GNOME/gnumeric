@@ -1194,7 +1194,6 @@ src/Makefile
 src/dialogs/Makefile
 src/widgets/Makefile
 src/tools/Makefile
-src/cut-n-paste-code/Makefile
 doc/Makefile
 plugins/Makefile
 plugins/fn-christian-date/Makefile
