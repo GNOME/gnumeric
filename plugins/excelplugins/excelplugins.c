@@ -498,8 +498,14 @@ genericXLLFunction (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	m = MAX (m, MAXIMUM_NUMBER_OF_EXCEL_FUNCTION_ARGUMENTS);
 	for (i = 0; i < m; ++i)
 		copy_construct_xloper_from_gnm_value (x+i,argv[i],ei);
+#if 0
 	m = info->number_of_arguments;
 	m = MAX (m, MAXIMUM_NUMBER_OF_EXCEL_FUNCTION_ARGUMENTS);
+#else
+	// MW 20180515: it's unclear to me what is needed, but the above
+	// cannot be right.  This should be safe.
+	m = MAXIMUM_NUMBER_OF_EXCEL_FUNCTION_ARGUMENTS;
+#endif
 	for (; i < m; ++i)
 		x[i].xltype=xltypeMissing;
 	func = (XLLFunctionWithVarArgs)info->xll_function;
@@ -507,6 +513,7 @@ genericXLLFunction (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	currently_called_xll = info->xll;
 	current_eval_info    = ei;
 	switch (info->number_of_arguments) {
+	default: g_assert_not_reached ();
 	case  0: r=info->xll_function (); break;
 	/*
 	  bash script to generate code below
