@@ -47,6 +47,95 @@ BUILT_SOURCES =					\
 	gnmresources.h				\
 	gnumeric-paths.h
 
+# These also need to occur in gnm.gresource.xml
+resource_ui_files =				\
+	advanced-filter.ui			\
+	anova-one.ui				\
+	anova-two.ui				\
+	autofilter-expression.ui		\
+	autofilter-top10.ui			\
+	autoformat.ui				\
+	autosave.ui				\
+	cell-comment.ui				\
+	cell-format-cond.ui			\
+	cell-format.ui				\
+	cell-sort.ui				\
+	chi-squared.ui				\
+	col-width.ui				\
+	colrow.ui				\
+	consolidate.ui				\
+	correlation.ui				\
+	covariance.ui				\
+	dao.ui					\
+	data-slicer.ui				\
+	data-table.ui				\
+	define-name.ui				\
+	delete-cells.ui				\
+	descriptive-stats.ui			\
+	dialog-stf-export.ui			\
+	dialog-stf.ui				\
+	dialog-zoom.ui				\
+	doc-meta-data.ui			\
+	exp-smoothing.ui			\
+	fill-series.ui				\
+	formula-guru.ui				\
+	fourier-analysis.ui			\
+	frequency.ui				\
+	function-select.ui			\
+	goalseek.ui				\
+	goto.ui					\
+	hf-config.ui				\
+	hf-dt-format.ui				\
+	histogram.ui				\
+	hyperlink.ui				\
+	insert-cells.ui				\
+	kaplan-meier.ui				\
+	mean-tests.ui				\
+	merge.ui				\
+	moving-averages.ui			\
+	normality-tests.ui			\
+	one-mean-test.ui			\
+	paste-special.ui			\
+	plugin-manager.ui			\
+	preferences.ui				\
+	principal-components.ui			\
+	print.ui				\
+	quit.ui					\
+	random-generation-cor.ui		\
+	random-generation.ui			\
+	rank.ui					\
+	recent.ui				\
+	regression.ui				\
+	row-height.ui				\
+	sampling.ui				\
+	scenario-add.ui				\
+	scenario-manager.ui			\
+	search-replace.ui			\
+	search.ui				\
+	sheet-compare.ui			\
+	sheet-order.ui				\
+	sheet-rename.ui				\
+	sheet-resize.ui				\
+	sheetobject-size.ui			\
+	shuffle.ui				\
+	sign-test-two.ui			\
+	sign-test.ui				\
+	simulation.ui				\
+	so-button.ui				\
+	so-checkbox.ui				\
+	so-frame.ui				\
+	so-list.ui				\
+	so-radiobutton.ui			\
+	so-scrollbar.ui				\
+	solver.ui				\
+	tabulate.ui				\
+	variance-tests.ui			\
+	view.ui					\
+	wbcg.ui					\
+	wilcoxon-mann-whitney.ui		\
+	workbook-attr.ui
+
+
 # Another hint, see bugs #172211 and #172212:
 non-intermediate: gnm-marshalers.c gnmresources.c
 
@@ -527,7 +616,8 @@ EXTRA_DIST =						\
 	gnm-marshalers.list				\
 	README.gnm_float				\
 	gnumeric.rc					\
-	GNOME_Gnumeric-gtk.xml
+	GNOME_Gnumeric-gtk.xml				\
+	$(resource_ui_files)
 
 if HAVE_INTROSPECTION
 

@@ -92,7 +92,7 @@ cb_data_table_response (GtkWidget *dialog, gint response_id, GnmDialogDataTable 
 static gboolean
 data_table_init (GnmDialogDataTable *state, WBCGtk *wbcg)
 {
-	state->gui = gnm_gtk_builder_load ("data-table.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	state->gui = gnm_gtk_builder_load ("res:ui/data-table.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (state->gui == NULL)
                 return TRUE;
 

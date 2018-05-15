@@ -1056,7 +1056,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 	state->is_paste_dialog = is_paste_dialog;
 	state->has_pasted = FALSE;
 
-	state->gui = gnm_gtk_builder_load ("define-name.ui", NULL,
+	state->gui = gnm_gtk_builder_load ("res:ui/define-name.ui", NULL,
 	                                  GO_CMD_CONTEXT (wbcg));
         if (state->gui == NULL)
                 return TRUE;

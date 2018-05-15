@@ -86,7 +86,7 @@ dialog_col_row (WBCGtk *wbcg,  char const *operation,
 
 	if (gnm_dialog_raise_if_exists (wbcg, COL_ROW_DIALOG_KEY))
 		return;
-	gui = gnm_gtk_builder_load ("colrow.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/colrow.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

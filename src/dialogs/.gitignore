@@ -2,4 +2,3 @@ Makefile.in
 Makefile
 .deps
 *.bak
-embedded-ui.c

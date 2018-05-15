@@ -512,7 +512,7 @@ dialog_autoformat (WBCGtk *wbcg)
 	AutoFormatState *state;
 	int i;
 
-	gui = gnm_gtk_builder_load ("autoformat.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/autoformat.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

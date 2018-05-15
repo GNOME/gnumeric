@@ -652,7 +652,7 @@ dialog_plugin_manager (WBCGtk *wbcg)
 	if (gnm_dialog_raise_if_exists (wbcg, PLUGIN_MANAGER_DIALOG_KEY))
 		return;
 
-	gui = gnm_gtk_builder_load ("plugin-manager.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/plugin-manager.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

@@ -1709,7 +1709,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		return;
 	}
 
-	gui = gnm_gtk_builder_load ("hf-config.ui", NULL, GO_CMD_CONTEXT (state->wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/hf-config.ui", NULL, GO_CMD_CONTEXT (state->wbcg));
         if (gui == NULL)
                 return;
 
@@ -1870,7 +1870,7 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 	gint result;
 	char *result_string = NULL;
 
-	gui = gnm_gtk_builder_load ("hf-dt-format.ui", NULL,
+	gui = gnm_gtk_builder_load ("res:ui/hf-dt-format.ui", NULL,
 	                         GO_CMD_CONTEXT (hf_state->printer_setup_state->wbcg));
         if (gui == NULL)
                 return NULL;
@@ -2805,7 +2805,7 @@ printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
 	PrinterSetupState *state;
 	GtkBuilder *gui;
 
-	gui = gnm_gtk_builder_load ("print.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/print.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return NULL;
 

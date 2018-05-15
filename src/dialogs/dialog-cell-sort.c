@@ -1153,7 +1153,7 @@ dialog_cell_sort (WBCGtk *wbcg)
 	if (gnm_dialog_raise_if_exists (wbcg, CELL_SORT_KEY))
 		return;
 
-	gui = gnm_gtk_builder_load ("cell-sort.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/cell-sort.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
             return;
 

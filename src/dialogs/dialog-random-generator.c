@@ -842,7 +842,7 @@ dialog_random_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_RANDOM_GENERATOR,
-			      "random-generation.ui", "Random",
+			      "res:ui/random-generation.ui", "Random",
 			      _("Could not create the Random Tool dialog."),
 			      RANDOM_KEY,
 			      G_CALLBACK (random_tool_ok_clicked_cb), NULL,

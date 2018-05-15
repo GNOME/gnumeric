@@ -301,7 +301,7 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 
 	if (gnm_dialog_raise_if_exists (wbcg, TABULATE_KEY))
 		return;
-	gui = gnm_gtk_builder_load ("tabulate.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/tabulate.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

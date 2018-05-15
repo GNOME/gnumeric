@@ -60,7 +60,6 @@
 #include "hlink.h"
 #include "wbc-gtk-impl.h"
 #include "gnmresources.h"
-#include "dialogs/embedded-ui.h"
 #include <goffice/goffice.h>
 
 #ifdef HAVE_SYS_RESOURCE_H
@@ -297,7 +296,6 @@ gnm_init (void)
 		gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
 						  "/org/gnumeric/gnumeric/icons");
 	}
-	gnm_register_ui_files ();
 	go_plugin_service_define ("function_group",
 		&gnm_plugin_service_function_group_get_type);
 	go_plugin_service_define ("ui",

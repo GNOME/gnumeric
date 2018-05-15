@@ -167,7 +167,7 @@ dialog_principal_components_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_PRINCIPAL_COMPONENTS,
-			      "principal-components.ui", "PrincipalComponents",
+			      "res:ui/principal-components.ui", "PrincipalComponents",
 			      _("Could not create the Principal Components Analysis Tool dialog."),
 			      PRINCIPAL_COMPONENTS_KEY,
 			      G_CALLBACK (principal_components_tool_ok_clicked_cb), NULL,

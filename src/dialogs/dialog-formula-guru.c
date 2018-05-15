@@ -1034,7 +1034,7 @@ dialog_formula_guru (WBCGtk *wbcg, GnmFunc *fd)
 	}
 
 	/* Get the dialog and check for errors */
-	gui = gnm_gtk_builder_load ("formula-guru.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/formula-guru.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

@@ -130,7 +130,7 @@ dialog_new_view (WBCGtk *wbcg)
 
 	if (gnm_dialog_raise_if_exists (wbcg, VIEW_DIALOG_KEY))
 		return;
-	gui = gnm_gtk_builder_load ("view.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/view.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

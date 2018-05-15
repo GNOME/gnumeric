@@ -685,7 +685,7 @@ dialog_goal_seek (WBCGtk *wbcg, Sheet *sheet)
 	/* Only pop up one copy per workbook */
 	if (gnm_dialog_raise_if_exists (wbcg, GOALSEEK_KEY))
 		return;
-	gui = gnm_gtk_builder_load ("goalseek.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/goalseek.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

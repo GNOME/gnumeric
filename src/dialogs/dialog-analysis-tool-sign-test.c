@@ -253,7 +253,7 @@ dialog_sign_test_two_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_SIGN_TEST_TWO,
-			      "sign-test-two.ui", "Sign-Test",
+			      "res:ui/sign-test-two.ui", "Sign-Test",
 			      _("Could not create the Sign Test Tool dialog."),
 			      SIGN_TEST_KEY_TWO,
 			      G_CALLBACK (sign_test_two_tool_ok_clicked_cb),
@@ -401,7 +401,7 @@ dialog_sign_test_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_SIGN_TEST,
-			      "sign-test.ui", "Sign-Test",
+			      "res:ui/sign-test.ui", "Sign-Test",
 			      _("Could not create the Sign Test Tool dialog."),
 			      SIGN_TEST_KEY_ONE,
 			      G_CALLBACK (sign_test_tool_ok_clicked_cb),

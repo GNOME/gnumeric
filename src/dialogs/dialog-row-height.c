@@ -254,7 +254,7 @@ dialog_row_height (WBCGtk *wbcg, gboolean use_default)
 	state->sv = wb_control_cur_sheet_view (GNM_WBC (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	state->adjusting = FALSE;
-	state->gui = gnm_gtk_builder_load ("row-height.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	state->gui = gnm_gtk_builder_load ("res:ui/row-height.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	g_return_if_fail (state->gui != NULL);
 
 	state->dialog = go_gtk_builder_get_widget (state->gui, "dialog");

@@ -213,7 +213,7 @@ dialog_chi_square_tool (WBCGtk *wbcg, Sheet *sheet, gboolean independence)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_CHI_SQUARED,
-			      "chi-squared.ui", "Chi-Squared Tests",
+			      "res:ui/chi-squared.ui", "Chi-Squared Tests",
 			      _("Could not create the Chi Squared Tests "
 				"tool dialog."),
 			      CHI_SQUARED_I_KEY,

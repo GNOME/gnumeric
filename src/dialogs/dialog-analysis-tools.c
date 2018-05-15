@@ -709,7 +709,7 @@ dialog_correlation_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_CORRELATION,
-			      "correlation.ui", "Correlation",
+			      "res:ui/correlation.ui", "Correlation",
 			      _("Could not create the Correlation Tool dialog."),
 			      CORRELATION_KEY,
 			      G_CALLBACK (corr_tool_ok_clicked_cb), NULL,
@@ -829,7 +829,7 @@ dialog_covariance_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_COVARIANCE,
-			      "covariance.ui", "Covariance",
+			      "res:ui/covariance.ui", "Covariance",
 			      _("Could not create the Covariance Tool dialog."),
 			      COVARIANCE_KEY,
 			      G_CALLBACK (cov_tool_ok_clicked_cb), NULL,
@@ -921,7 +921,7 @@ dialog_ranking_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_RANKING,
-			      "rank.ui", "RankPercentile",
+			      "res:ui/rank.ui", "RankPercentile",
 			      _("Could not create the Rank and Percentile "
 				"Tools dialog."),
 			      RANK_PERCENTILE_KEY,
@@ -1014,7 +1014,7 @@ dialog_fourier_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_FOURIER_ANALYSIS,
-			      "fourier-analysis.ui", "FourierAnalysis",
+			      "res:ui/fourier-analysis.ui", "FourierAnalysis",
 			      _("Could not create the Fourier Analysis Tool "
 				"dialog."),
 			      FOURIER_KEY,
@@ -1226,7 +1226,7 @@ dialog_descriptive_stat_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_DESCRIPTIVE_STATS,
-			      "descriptive-stats.ui", "DescStats",
+			      "res:ui/descriptive-stats.ui", "DescStats",
 			      _("Could not create the Descriptive Statistics "
 				"Tool dialog."),
 			      DESCRIPTIVE_STATS_KEY,
@@ -1612,7 +1612,7 @@ dialog_ttest_tool (WBCGtk *wbcg, Sheet *sheet, ttest_type test)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_MEAN_TESTS,
-			      "mean-tests.ui", "MeanTests",
+			      "res:ui/mean-tests.ui", "MeanTests",
 			      _("Could not create the Mean Tests Tool dialog."),
 			      TTEST_KEY,
 			      G_CALLBACK (ttest_tool_ok_clicked_cb), NULL,
@@ -1802,7 +1802,7 @@ dialog_ftest_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_F_TEST_TWO_SAMPLE,
-			      "variance-tests.ui", "VarianceTests",
+			      "res:ui/variance-tests.ui", "VarianceTests",
 			      _("Could not create the FTest Tool dialog."),
 			      FTEST_KEY,
 			      G_CALLBACK (ftest_tool_ok_clicked_cb), NULL,
@@ -2060,7 +2060,7 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_SAMPLING,
-			      "sampling.ui", "Sampling",
+			      "res:ui/sampling.ui", "Sampling",
 			      _("Could not create the Sampling Tool dialog."),
 			      SAMPLING_KEY,
 			      G_CALLBACK (sampling_tool_ok_clicked_cb), NULL,
@@ -2422,7 +2422,7 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_REGRESSION,
-			      "regression.ui", "Regression",
+			      "res:ui/regression.ui", "Regression",
 			      _("Could not create the Regression Tool dialog."),
 			      REGRESSION_KEY,
 			      G_CALLBACK (regression_tool_ok_clicked_cb), NULL,
@@ -2732,7 +2732,7 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_EXP_SMOOTHING,
-			      "exp-smoothing.ui",
+			      "res:ui/exp-smoothing.ui",
 			      "ExpSmoothing",
 			      _("Could not create the Exponential Smoothing "
 				"Tool dialog."),
@@ -3106,7 +3106,7 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_MOVING_AVERAGES,
-			      "moving-averages.ui",
+			      "res:ui/moving-averages.ui",
 			      "MovAverages",
 			      _("Could not create the Moving Average Tool "
 				"dialog."),
@@ -3378,7 +3378,7 @@ dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_HISTOGRAM,
-			      "histogram.ui", "Histogram",
+			      "res:ui/histogram.ui", "Histogram",
 			      _("Could not create the Histogram Tool dialog."),
 			      HISTOGRAM_KEY,
 			      G_CALLBACK (histogram_tool_ok_clicked_cb), NULL,
@@ -3562,7 +3562,7 @@ dialog_anova_single_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_ANOVA_SINGLE_FACTOR,
-			      "anova-one.ui", "ANOVA",
+			      "res:ui/anova-one.ui", "ANOVA",
 			      _("Could not create the ANOVA (single factor) "
 				"tool dialog."),
 			      ANOVA_SINGLE_KEY,
@@ -3794,7 +3794,7 @@ dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_ANOVA_TWO_FACTOR,
-			      "anova-two.ui", "ANOVA",
+			      "res:ui/anova-two.ui", "ANOVA",
 			      _("Could not create the ANOVA (two factor) "
 				"tool dialog."),
 			      ANOVA_TWO_FACTOR_KEY,

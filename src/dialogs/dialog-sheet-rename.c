@@ -128,7 +128,7 @@ dialog_sheet_rename (WBCGtk *wbcg, Sheet *sheet)
 
 	if (gnm_dialog_raise_if_exists (wbcg, RENAME_DIALOG_KEY))
 		return;
-	gui = gnm_gtk_builder_load ("sheet-rename.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/sheet-rename.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

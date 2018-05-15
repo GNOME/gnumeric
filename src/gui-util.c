@@ -584,7 +584,11 @@ gnm_gtk_builder_load (char const *uifile, char const *domain, GOCmdContext *cc)
 	GtkBuilder *gui;
 	char *f;
 
-	if (g_path_is_absolute (uifile)) {
+	if (strncmp (uifile, "res:", 4) == 0) {
+		f = g_strconcat ("res:/org/gnumeric/gnumeric/",
+				 uifile + 4,
+				 NULL);
+	} else if (g_path_is_absolute (uifile)) {
 		f = g_strdup (uifile);
 	} else {
 		f = g_strconcat ("res:gnm:", uifile, NULL);

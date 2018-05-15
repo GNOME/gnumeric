@@ -1440,7 +1440,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 
 	widget = GTK_WIDGET (wbcg_toplevel (wbcg));
 
-	gui = gnm_gtk_builder_load ("sheet-order.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/sheet-order.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

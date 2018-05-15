@@ -264,7 +264,7 @@ stf_dialog (WBCGtk *wbcg,
 	g_return_val_if_fail (source != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 
-	gui = gnm_gtk_builder_load ("dialog-stf.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/dialog-stf.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return NULL;
 

@@ -545,7 +545,7 @@ dialog_consolidate (WBCGtk *wbcg)
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_CONSOLIDATE,
-			      "consolidate.ui", "Consolidate",
+			      "res:ui/consolidate.ui", "Consolidate",
 			      _("Could not create the Consolidate dialog."),
 			      CONSOLIDATE_KEY,
 			      G_CALLBACK (cb_consolidate_ok_clicked),

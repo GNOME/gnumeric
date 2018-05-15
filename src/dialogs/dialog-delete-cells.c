@@ -136,7 +136,7 @@ dialog_delete_cells (WBCGtk *wbcg)
 
 	if (gnm_dialog_raise_if_exists (wbcg, DELETE_CELL_DIALOG_KEY))
 		return;
-	gui = gnm_gtk_builder_load ("delete-cells.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/delete-cells.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

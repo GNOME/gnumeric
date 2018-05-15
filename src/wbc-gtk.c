@@ -5000,7 +5000,7 @@ wbc_gtk_init (GObject *obj)
 	GtkStyleContext *ctxt;
 	guint            merge_id;
 
-	wbcg->gui = gnm_gtk_builder_load ("wbcg.ui", NULL, NULL);
+	wbcg->gui = gnm_gtk_builder_load ("res:ui/wbcg.ui", NULL, NULL);
 	wbcg->cancel_button = GET_GUI_ITEM ("cancel_button");
 	wbcg->ok_button = GET_GUI_ITEM ("ok_button");
 	wbcg->func_button = GET_GUI_ITEM ("func_button");

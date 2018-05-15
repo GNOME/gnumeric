@@ -321,7 +321,7 @@ dialog_merge (WBCGtk *wbcg)
 
 	if (gnm_dialog_raise_if_exists (wbcg, MERGE_KEY))
 		return;
-	gui = gnm_gtk_builder_load ("merge.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/merge.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

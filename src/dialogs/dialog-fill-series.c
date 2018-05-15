@@ -249,7 +249,7 @@ dialog_fill_series (WBCGtk *wbcg)
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sv_sheet (sv),
 			      GNUMERIC_HELP_LINK_FILL_SERIES,
-			      "fill-series.ui", "Fill_series",
+			      "res:ui/fill-series.ui", "Fill_series",
 			      _("Could not create the Fill Series dialog."),
 			      FILL_SERIES_KEY,
 			      G_CALLBACK (cb_fill_series_ok_clicked), NULL,

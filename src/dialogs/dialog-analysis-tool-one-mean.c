@@ -220,7 +220,7 @@ dialog_one_mean_test_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_ONE_MEAN,
-			      "one-mean-test.ui", "One-Mean-Test",
+			      "res:ui/one-mean-test.ui", "One-Mean-Test",
 			      _("Could not create the Student-t Test Tool dialog."),
 			      ONE_MEAN_TEST_KEY,
 			      G_CALLBACK (one_mean_test_tool_ok_clicked_cb),

@@ -254,7 +254,7 @@ dialog_frequency_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_FREQUENCY,
-			      "frequency.ui", "Frequency",
+			      "res:ui/frequency.ui", "Frequency",
 			      _("Could not create the Frequency Tool dialog."),
 			      FREQUENCY_KEY,
 			      G_CALLBACK (frequency_tool_ok_clicked_cb), NULL,

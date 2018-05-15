@@ -541,7 +541,7 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	if (gnm_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
-	gui = gnm_gtk_builder_load ("so-frame.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/so-frame.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (!gui)
 		return;
 	state = g_new (FrameConfigState, 1);
@@ -1070,7 +1070,7 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	if (gnm_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
-	gui = gnm_gtk_builder_load ("so-button.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/so-button.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (!gui)
 		return;
 	state = g_new (ButtonConfigState, 1);
@@ -1680,7 +1680,7 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	if (gnm_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
-	gui = gnm_gtk_builder_load ("so-scrollbar.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/so-scrollbar.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (!gui)
 		return;
 	state = g_new (AdjustmentConfigState, 1);
@@ -2522,7 +2522,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	if (gnm_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 
-	gui = gnm_gtk_builder_load ("so-checkbox.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/so-checkbox.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (!gui)
 		return;
 	state = g_new (CheckboxConfigState, 1);
@@ -3265,7 +3265,7 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
  	if (gnm_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
  		return;
 
-	gui = gnm_gtk_builder_load ("so-radiobutton.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("res:ui/so-radiobutton.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (!gui)
 		return;
  	state = g_new (RadioButtonConfigState, 1);
