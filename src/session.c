@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /* session.c
  * Copyright (C) 2003-2006  Andreas J. Guelzow <aguelzow@taliesin.ca>

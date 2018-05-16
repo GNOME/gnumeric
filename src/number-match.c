@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * number-match.c: This file includes the support for matching
  * entered strings as numbers (by trying to apply one of the existing

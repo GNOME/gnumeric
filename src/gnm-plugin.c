@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * go-plugin-service.c: Plugin services - reading XML info, activating, etc.
  *                   (everything independent of plugin loading method)

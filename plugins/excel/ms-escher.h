@@ -1,4 +1,3 @@
-/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef GNM_MS_OFFICE_ESCHER_H
 #define GNM_MS_OFFICE_ESCHER_H
 

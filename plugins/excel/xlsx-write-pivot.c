@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * xlsx-write-pivot.c : export pivot tables (tm) to MS Office Open xlsx files.
  *

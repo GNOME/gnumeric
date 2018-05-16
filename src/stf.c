@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * stf.c : Utilizes the stf-parse engine and the dialog-stf to provide a plug-in for
  *         importing text files with a structure (CSV/fixed width)

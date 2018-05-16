@@ -1,4 +1,3 @@
-/* vim: set sw=8: */
 
 /*
  * applix-write.c : Routines to write applix version 4 spreadsheets.

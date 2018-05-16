@@ -1,4 +1,3 @@
-/* vim: set sw=8: */
 
 /**
  * ms-container.c: A meta container to handle object import for charts,

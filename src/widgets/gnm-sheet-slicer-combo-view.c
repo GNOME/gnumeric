@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * gnm-sheet-slicer-combo-foo-view.c: A foocanvas object for data slicer field combos

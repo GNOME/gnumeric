@@ -1,4 +1,3 @@
-/* vim: set sw=8: */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <gnumeric-simple-canvas.h>

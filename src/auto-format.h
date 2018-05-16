@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef _GNM_AUTO_FORMAT_H_
 # define _GNM_AUTO_FORMAT_H_
 

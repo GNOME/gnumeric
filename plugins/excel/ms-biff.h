@@ -1,4 +1,3 @@
-/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * ms-biff.h: MS Excel BIFF support for Gnumeric
  *

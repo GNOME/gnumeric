@@ -1,4 +1,3 @@
-/* vim: set sw=8: */
 /*
  * ms-escher.c: MS Office drawing layer support
  *

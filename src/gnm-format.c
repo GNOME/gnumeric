@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* format.c - attempts to emulate excel's number formatting ability.
  *
  * Copyright (C) 1998 Chris Lahey, Miguel de Icaza

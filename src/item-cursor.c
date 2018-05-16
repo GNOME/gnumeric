@@ -1,4 +1,3 @@
-/* vim: set sw=8: */
 /*
  * The Cursor Canvas Item: Implements a rectangular cursor
  *

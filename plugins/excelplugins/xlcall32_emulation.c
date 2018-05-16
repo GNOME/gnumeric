@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * xlcall32_emulation.c:  callback module required by (genuine) Excel plugins (also known as XLLs).
  *

@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * stf-parse.c : Structured Text Format parser. (STF)
  *               A general purpose engine for parsing data

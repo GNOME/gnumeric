@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <wbc-gtk.h>

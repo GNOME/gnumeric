@@ -1,4 +1,3 @@
-/* vim: set sw=8: */
 
 /*
  * sheet-merge.c: merged cell support

@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Interface Gnumeric to Databases
  * Copyright (C) 1998,1999 Michael Lausch
  * Copyright (C) 2000-2002 Rodrigo Moya

@@ -1,4 +1,3 @@
-/* vim: set sw=8: */
 
 /*
  * ms-obj.c: MS Excel Object support for Gnumeric

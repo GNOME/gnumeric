@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * go-data-cache-field.h : A field (named vector) within a cache of data
  *	containing the unique values (unodered).  The cache contains the

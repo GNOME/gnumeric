@@ -1,4 +1,3 @@
-/* vim: set sw=8: */
 /**
  * ms-excel-util.c: Utility functions for MS Excel import / export
  *

@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * complete.c: Our auto completion engine.  This is an abstract class
  * that must be derived to implement its actual functionality.

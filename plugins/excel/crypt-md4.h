@@ -1,4 +1,3 @@
-/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
    Unix SMB/CIFS implementation.
    a implementation of MD4 designed for use in the SMB authentication protocol

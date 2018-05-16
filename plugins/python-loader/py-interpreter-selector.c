@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * py-interpreter-selector.c: A widget that can be used to select Python
  *                            interpreter from the list of available ones.

@@ -1,4 +1,3 @@
-/* vim: set sw=8: */
 
 /*
  * applix-read.c : Routines to read applix version 4 & 5 spreadsheets.

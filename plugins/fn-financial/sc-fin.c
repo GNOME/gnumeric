@@ -1,4 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- *//*
+/*
  * This implementation has been taken from the OpenOffice 1.0, see
  * functions in scaddins/source/analysis/analysishelper.cxx. Since
  * then there has been made some Gnumeric type system, glib and the C

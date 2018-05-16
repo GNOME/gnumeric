@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * sc.c - file import of SC/xspread files
  * Copyright 1999 Jeff Garzik <jgarzik@mandrakesoft.com>
