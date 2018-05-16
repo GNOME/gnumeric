@@ -26,7 +26,7 @@
 #include "dialogs.h"
 #include "help.h"
 #include "dialogs/tool-dialogs.h"
-#include "random-generator-cor.h"
+#include "tools/random-generator-cor.h"
 
 #include <workbook.h>
 #include <workbook-control.h>

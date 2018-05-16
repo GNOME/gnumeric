@@ -25,7 +25,7 @@
  */
 
 #include <gnumeric-config.h>
-#include "dao.h"
+#include <tools/dao.h>
 
 #include "expr.h"
 #include "value.h"

@@ -50,7 +50,7 @@
 #include <gtk/gtk.h>
 #include <goffice/goffice.h>
 #include <string.h>
-#include <scenarios.h>
+#include <tools/scenarios.h>
 
 #define SOLVER_KEY            "solver-dialog"
 

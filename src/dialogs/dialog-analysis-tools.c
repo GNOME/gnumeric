@@ -25,10 +25,10 @@
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include "dialogs.h"
-#include "analysis-tools.h"
-#include "analysis-anova.h"
-#include "analysis-histogram.h"
-#include "analysis-exp-smoothing.h"
+#include "tools/analysis-tools.h"
+#include "tools/analysis-anova.h"
+#include "tools/analysis-histogram.h"
+#include "tools/analysis-exp-smoothing.h"
 
 #include <workbook.h>
 #include <workbook-control.h>

@@ -34,7 +34,6 @@ AM_CPPFLAGS = 								\
 	-I$(top_srcdir)							\
 	-I$(srcdir)							\
 	-I$(srcdir)/widgets						\
-	-I$(srcdir)/tools						\
 	$(GNUMERIC_CFLAGS)
 
 # A hint is needed to build these headers first:

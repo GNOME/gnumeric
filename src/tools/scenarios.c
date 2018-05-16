@@ -32,7 +32,7 @@
 #include <expr.h>
 
 #include "scenarios.h"
-#include "dao.h"
+#include <tools/dao.h>
 #include "clipboard.h"
 #include "parse-util.h"
 #include <goffice/goffice.h>

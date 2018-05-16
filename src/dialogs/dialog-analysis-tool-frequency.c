@@ -25,8 +25,8 @@
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include "dialogs.h"
-#include "analysis-frequency.h"
-#include "analysis-tools.h"
+#include "tools/analysis-frequency.h"
+#include "tools/analysis-tools.h"
 
 #include <workbook.h>
 #include <workbook-control.h>

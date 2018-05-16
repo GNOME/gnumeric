@@ -15,7 +15,7 @@
 #include "workbook-control.h"
 #include "application.h"
 #include "gnm-marshalers.h"
-#include "dao.h"
+#include <tools/dao.h>
 #include "gui-util.h"
 #include "gnm-i18n.h"
 #include <gsf/gsf-impl-utils.h>

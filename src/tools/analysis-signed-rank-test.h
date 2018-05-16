@@ -28,7 +28,7 @@
 
 #include "gnumeric.h"
 #include "numbers.h"
-#include "dao.h"
+#include <tools/dao.h>
 #include "tools.h"
 #include "analysis-tools.h"
 #include "analysis-sign-test.h"

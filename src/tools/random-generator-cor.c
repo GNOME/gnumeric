@@ -30,8 +30,8 @@
 #include "value.h"
 #include "ranges.h"
 #include "expr.h"
-#include "dao.h"
-#include "dao.h"
+#include <tools/dao.h>
+#include <tools/dao.h>
 #include "sheet.h"
 #include "func.h"
 #include "numbers.h"

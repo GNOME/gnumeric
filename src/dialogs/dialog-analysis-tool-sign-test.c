@@ -25,9 +25,9 @@
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include "dialogs.h"
-#include "analysis-sign-test.h"
-#include "analysis-signed-rank-test.h"
-#include "analysis-tools.h"
+#include "tools/analysis-sign-test.h"
+#include "tools/analysis-signed-rank-test.h"
+#include "tools/analysis-tools.h"
 
 #include <workbook.h>
 #include <workbook-control.h>

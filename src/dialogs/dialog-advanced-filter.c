@@ -40,8 +40,8 @@
 #include <gtk/gtk.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnm-dao.h>
-#include "filter.h"
-#include "analysis-tools.h"
+#include "tools/filter.h"
+#include "tools/analysis-tools.h"
 #include "commands.h"
 
 

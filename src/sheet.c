@@ -61,7 +61,7 @@
 #include "sheet-filter.h"
 #include "sheet-filter-combo.h"
 #include "gnm-sheet-slicer.h"
-#include "scenarios.h"
+#include "tools/scenarios.h"
 #include "cell-draw.h"
 #include "sort.h"
 #include "gutils.h"

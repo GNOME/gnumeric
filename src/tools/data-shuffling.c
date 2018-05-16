@@ -35,8 +35,7 @@
 #include <goffice/goffice.h>
 
 #include "gnm-random.h"
-#include "data-shuffling.h"
-#include "dao.h"
+#include "tools/data-shuffling.h"
 #include "expr.h"
 
 

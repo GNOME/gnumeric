@@ -2,7 +2,7 @@
 #define __FILTER_H__
 
 #include <gnumeric.h>
-#include <dao.h>
+#include <tools/dao.h>
 
 gint advanced_filter (WorkbookControl        *wbc,
 		      data_analysis_output_t *dao,

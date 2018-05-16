@@ -35,7 +35,7 @@
 
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnm-dao.h>
-#include "simulation.h"
+#include "tools/simulation.h"
 
 #include <string.h>
 #include <gtk/gtk.h>

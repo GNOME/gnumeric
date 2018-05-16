@@ -19,7 +19,6 @@
 #include "sheet-view.h"
 #include "sheet-private.h"
 #include "sheet-object.h"
-#include "auto-correct.h"
 #include "gutils.h"
 #include "ranges.h"
 #include "sheet-object.h"

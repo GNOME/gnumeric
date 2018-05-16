@@ -36,8 +36,8 @@
 #include <ranges.h>
 #include <value.h>
 #include <cell.h>
-#include <dao.h>
-#include "scenarios.h"
+#include <tools/dao.h>
+#include "tools/scenarios.h"
 
 #include <gtk/gtk.h>
 #include <goffice/goffice.h>

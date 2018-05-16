@@ -39,8 +39,7 @@
 #include "gnm-datetime.h"
 
 #include "mathfunc.h"
-#include "fill-series.h"
-#include "dao.h"
+#include "tools/fill-series.h"
 #include <goffice/goffice.h>
 
 static void

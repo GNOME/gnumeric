@@ -2,7 +2,7 @@
 #define __FILL_SERIES_H__
 
 #include <gnumeric.h>
-#include <dao.h>
+#include <tools/dao.h>
 
 
 typedef enum {

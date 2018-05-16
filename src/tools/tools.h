@@ -17,7 +17,7 @@
 
 #include "gnumeric.h"
 #include "numbers.h"
-#include "dao.h"
+#include <tools/dao.h>
 
 typedef enum {
 	TOOL_ENGINE_UPDATE_DAO = 0,

@@ -3,7 +3,7 @@
 
 #include "gnumeric.h"
 #include "numbers.h"
-#include "dao.h"
+#include <tools/dao.h>
 #include "tools.h"
 
 typedef enum {

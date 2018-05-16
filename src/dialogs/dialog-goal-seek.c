@@ -42,7 +42,7 @@
 #include <workbook-control.h>
 #include <wbc-gtk.h>
 #include <workbook-view.h>
-#include <goal-seek.h>
+#include <tools/goal-seek.h>
 #include <mathfunc.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <selection.h>

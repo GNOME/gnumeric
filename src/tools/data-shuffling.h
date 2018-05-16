@@ -2,7 +2,7 @@
 #define __DATA_SHUFFLING_H__
 
 #include <gnumeric.h>
-#include <dao.h>
+#include <tools/dao.h>
 
 
 #define SHUFFLE_COLS  0
