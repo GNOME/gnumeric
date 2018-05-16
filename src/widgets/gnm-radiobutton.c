@@ -18,7 +18,7 @@
  **/
 
 #include <gnumeric-config.h>
-#include "gnm-radiobutton.h"
+#include <widgets/gnm-radiobutton.h>
 #include <gsf/gsf-impl-utils.h>
 
 typedef GtkRadioButtonClass GnmRadioButtonClass;

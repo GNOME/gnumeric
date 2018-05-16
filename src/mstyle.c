@@ -8,25 +8,25 @@
  *   Morten Welinder <terra@gnome.org>
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "style.h"
+#include <gnumeric.h>
+#include <style.h>
 
-#include "sheet-style.h"
-#include "style-border.h"
-#include "style-font.h"
-#include "style-color.h"
-#include "style-conditions.h"
-#include "validation.h"
-#include "pattern.h"
-#include "hlink.h"
-#include "input-msg.h"
-#include "application.h"
-#include "parse-util.h"
-#include "expr.h"
-#include "value.h"
-#include "gutils.h"
-#include "ranges.h"
-#include "gnumeric-conf.h"
+#include <sheet-style.h>
+#include <style-border.h>
+#include <style-font.h>
+#include <style-color.h>
+#include <style-conditions.h>
+#include <validation.h>
+#include <pattern.h>
+#include <hlink.h>
+#include <input-msg.h>
+#include <application.h>
+#include <parse-util.h>
+#include <expr.h>
+#include <value.h>
+#include <gutils.h>
+#include <ranges.h>
+#include <gnumeric-conf.h>
 #include <goffice/goffice.h>
 #include <string.h>
 

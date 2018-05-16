@@ -1,7 +1,7 @@
 #ifndef GNM_SHEET_DIFF_H
 #define GNM_SHEET_DIFF_H
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 
 G_BEGIN_DECLS
 

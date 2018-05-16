@@ -1,10 +1,10 @@
 #ifndef GNUMERIC_TABULATE_H
 #define GNUMERIC_TABULATE_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
+#include <tools/tools.h>
 
 typedef struct {
 	GnmCell   *target;

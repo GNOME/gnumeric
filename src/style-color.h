@@ -2,8 +2,8 @@
 #ifndef _GNM_STYLE_COLOR_H_
 # define _GNM_STYLE_COLOR_H_
 
-#include "gnumeric.h"
-#include "libgnumeric.h"
+#include <gnumeric.h>
+#include <libgnumeric.h>
 #include <goffice/goffice.h>
 #include <gdk/gdk.h>
 

@@ -15,8 +15,8 @@
 #ifndef GNUMERIC_TOOLS_H
 #define GNUMERIC_TOOLS_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
 
 typedef enum {

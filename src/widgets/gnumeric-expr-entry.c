@@ -9,9 +9,9 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-i18n.h"
+#include <gnm-i18n.h>
 #include <gnumeric.h>
-#include "gnumeric-expr-entry.h"
+#include <widgets/gnumeric-expr-entry.h>
 
 #include <wbc-gtk-impl.h>
 #include <sheet-control-gui-priv.h>

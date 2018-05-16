@@ -26,13 +26,13 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "dao-gui-utils.h"
+#include <dialogs/dao-gui-utils.h>
 
-#include "value.h"
-#include "gui-util.h"
-#include "selection.h"
+#include <value.h>
+#include <gui-util.h>
+#include <selection.h>
 #include <widgets/gnm-dao.h>
-#include "dialogs/tool-dialogs.h"
+#include <dialogs/tool-dialogs.h>
 
 
 /**

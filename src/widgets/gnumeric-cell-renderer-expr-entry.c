@@ -16,9 +16,9 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric-cell-renderer-expr-entry.h"
-#include "gnumeric-expr-entry.h"
-#include "wbc-gtk.h"
+#include <widgets/gnumeric-cell-renderer-expr-entry.h>
+#include <widgets/gnumeric-expr-entry.h>
+#include <wbc-gtk.h>
 #include <dead-kittens.h>
 
 #define GNUMERIC_CELL_RENDERER_EXPR_ENTRY_PATH "gnumeric-cell-renderer-expr-entry-path"

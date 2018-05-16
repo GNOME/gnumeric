@@ -16,10 +16,10 @@
  **/
 
 #include <gnumeric-config.h>
-#include "gnm-format-sel.h"
-#include "src/value.h"
-#include "src/gnm-format.h"
-#include "src/style-font.h"
+#include <widgets/gnm-format-sel.h>
+#include <src/value.h>
+#include <src/gnm-format.h>
+#include <src/style-font.h>
 
 static char *
 cb_generate_preview (GOFormatSel *gfs, PangoAttrList **attrs)

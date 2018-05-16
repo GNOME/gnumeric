@@ -21,23 +21,23 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "libgnumeric.h"
-#include "sheet-filter.h"
-#include "sheet-filter-combo.h"
+#include <libgnumeric.h>
+#include <sheet-filter.h>
+#include <sheet-filter-combo.h>
 
-#include "workbook.h"
-#include "sheet.h"
-#include "sheet-private.h"
-#include "cell.h"
-#include "expr.h"
-#include "value.h"
-#include "gnm-format.h"
-#include "ranges.h"
-#include "number-match.h"
-#include "gutils.h"
-#include "sheet-object.h"
-#include "widgets/gnm-filter-combo-view.h"
-#include "widgets/gnm-cell-combo-view.h"
+#include <workbook.h>
+#include <sheet.h>
+#include <sheet-private.h>
+#include <cell.h>
+#include <expr.h>
+#include <value.h>
+#include <gnm-format.h>
+#include <ranges.h>
+#include <number-match.h>
+#include <gutils.h>
+#include <sheet-object.h>
+#include <widgets/gnm-filter-combo-view.h>
+#include <widgets/gnm-cell-combo-view.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>

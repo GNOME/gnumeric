@@ -2,8 +2,8 @@
 #ifndef _GNM_FILE_AUTOFT_H_
 # define _GNM_FILE_AUTOFT_H_
 
-#include "gnumeric.h"
-#include "format-template.h"
+#include <gnumeric.h>
+#include <format-template.h>
 
 G_BEGIN_DECLS
 

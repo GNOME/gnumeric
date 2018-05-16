@@ -21,8 +21,8 @@
 #ifndef GNM_SO_ANCHOR_MODE_CHOOSER_H
 #define GNM_SO_ANCHOR_MODE_CHOOSER_H
 
-#include "gnumeric.h"
-#include "sheet-object.h"
+#include <gnumeric.h>
+#include <sheet-object.h>
 #include <glib-object.h>
 
 typedef struct _GnmSOAnchorModeChooser GnmSOAnchorModeChooser;

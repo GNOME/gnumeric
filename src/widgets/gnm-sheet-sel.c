@@ -18,11 +18,11 @@
  **/
 
 #include <gnumeric-config.h>
-#include "gnm-sheet-sel.h"
-#include "gnm-i18n.h"
-#include "sheet.h"
-#include "workbook.h"
-#include "application.h"
+#include <widgets/gnm-sheet-sel.h>
+#include <gnm-i18n.h>
+#include <sheet.h>
+#include <workbook.h>
+#include <application.h>
 
 #define SHEET_KEY "__sheet"
 

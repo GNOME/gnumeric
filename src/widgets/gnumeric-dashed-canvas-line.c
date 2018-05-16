@@ -8,7 +8,7 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "gnumeric-dashed-canvas-line.h"
+#include <widgets/gnumeric-dashed-canvas-line.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>

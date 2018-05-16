@@ -2,7 +2,7 @@
 #ifndef _GNM_CONSOLIDATE_H_
 # define _GNM_CONSOLIDATE_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <tools/dao.h>
 #include <tools/tools.h>
 

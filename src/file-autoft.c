@@ -21,13 +21,13 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "file-autoft.h"
+#include <gnumeric.h>
+#include <file-autoft.h>
 
-#include "gutils.h"
-#include "workbook-control.h"
-#include "format-template.h"
-#include "gnumeric-conf.h"
+#include <gutils.h>
+#include <workbook-control.h>
+#include <format-template.h>
+#include <gnumeric-conf.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/goffice.h>

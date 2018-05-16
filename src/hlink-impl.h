@@ -1,7 +1,7 @@
 #ifndef _GNM_HLINK_IMPL_H_
 # define _GNM_HLINK_IMPL_H_
 
-#include "hlink.h"
+#include <hlink.h>
 
 G_BEGIN_DECLS
 

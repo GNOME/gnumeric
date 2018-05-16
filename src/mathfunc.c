@@ -34,10 +34,10 @@
 
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "mathfunc.h"
-#include "sf-dpq.h"
-#include "sf-gamma.h"
+#include <gnumeric.h>
+#include <mathfunc.h>
+#include <sf-dpq.h>
+#include <sf-gamma.h>
 #include <glib/gi18n-lib.h>
 
 #include <math.h>

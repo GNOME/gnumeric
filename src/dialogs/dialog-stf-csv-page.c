@@ -20,8 +20,8 @@
  */
 
 #include <gnumeric-config.h>
-#include "dialog-stf.h"
-#include "gnm-format.h"
+#include <dialogs/dialog-stf.h>
+#include <gnm-format.h>
 #include <goffice/goffice.h>
 #include <string.h>
 

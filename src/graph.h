@@ -2,8 +2,8 @@
 #ifndef _GNM_GRAPH_H_
 # define _GNM_GRAPH_H_
 
-#include "gnumeric.h"
-#include "sheet-object.h"
+#include <gnumeric.h>
+#include <sheet-object.h>
 #include <goffice/goffice.h>
 #include <glib-object.h>
 

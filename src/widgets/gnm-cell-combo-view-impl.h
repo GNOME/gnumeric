@@ -1,8 +1,8 @@
 #ifndef GNM_CELL_COMBO_VIEW_IMPL_H
 #define GNM_CELL_COMBO_VIEW_IMPL_H
 
-#include "gnumeric-fwd.h"
-#include "sheet-object-impl.h"
+#include <gnumeric-fwd.h>
+#include <sheet-object-impl.h>
 
 typedef SheetObjectView GnmCComboView;
 typedef struct {

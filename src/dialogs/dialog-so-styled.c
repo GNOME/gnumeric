@@ -23,15 +23,15 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "dialogs.h"
+#include <gnumeric.h>
+#include <dialogs/dialogs.h>
 
-#include "gui-util.h"
-#include "dialogs/help.h"
-#include "wbc-gtk.h"
-#include "commands.h"
-#include "sheet-object.h"
-#include "gnm-so-line.h"
+#include <gui-util.h>
+#include <dialogs/help.h>
+#include <wbc-gtk.h>
+#include <commands.h>
+#include <sheet-object.h>
+#include <gnm-so-line.h>
 #include <goffice/goffice.h>
 #include <widgets/gnumeric-text-view.h>
 

@@ -2,8 +2,8 @@
 #ifndef _GNM_WORKBOOK_CONTROL_H_
 # define _GNM_WORKBOOK_CONTROL_H_
 
-#include "gnumeric.h"
-#include "validation.h"
+#include <gnumeric.h>
+#include <validation.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS

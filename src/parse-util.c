@@ -22,25 +22,25 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "parse-util.h"
+#include <gnumeric.h>
+#include <parse-util.h>
 
-#include "application.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "value.h"
-#include "ranges.h"
-#include "cell.h"
-#include "expr.h"
-#include "number-match.h"
-#include "gnm-format.h"
-#include "expr-name.h"
-#include "func.h"
-#include "mstyle.h"
-#include "sheet-style.h"
+#include <application.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <value.h>
+#include <ranges.h>
+#include <cell.h>
+#include <expr.h>
+#include <number-match.h>
+#include <gnm-format.h>
+#include <expr-name.h>
+#include <func.h>
+#include <mstyle.h>
+#include <sheet-style.h>
 /* For std_expr_name_handler: */
-#include "expr-impl.h"
-#include "gutils.h"
+#include <expr-impl.h>
+#include <gutils.h>
 #include <goffice/goffice.h>
 
 #include <errno.h>

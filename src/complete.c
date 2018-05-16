@@ -20,8 +20,8 @@
  * (C) 2000-2001 Ximain Inc.
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "complete.h"
+#include <gnumeric.h>
+#include <complete.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <stdlib.h>

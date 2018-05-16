@@ -21,14 +21,14 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
-#include "workbook-view.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "style.h"
+#include <workbook-view.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <style.h>
 #include "roff.h"
 #include "font.h"
-#include "cell.h"
-#include "cellspan.h"
+#include <cell.h>
+#include <cellspan.h>
 #include <goffice/goffice.h>
 
 #include <string.h>

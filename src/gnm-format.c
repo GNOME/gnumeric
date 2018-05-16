@@ -23,9 +23,9 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-format.h"
-#include "value.h"
-#include "cell.h"
+#include <gnm-format.h>
+#include <value.h>
+#include <cell.h>
 
 #include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>

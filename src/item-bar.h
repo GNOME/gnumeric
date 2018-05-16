@@ -1,7 +1,7 @@
 #ifndef _GNM_ITEM_BAR_H_
 #define _GNM_ITEM_BAR_H_
 
-#include "gnumeric-fwd.h"
+#include <gnumeric-fwd.h>
 #include <glib-object.h>
 #include <pango/pango-font.h>
 

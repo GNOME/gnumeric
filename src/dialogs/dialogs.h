@@ -1,8 +1,8 @@
 #ifndef GNUMERIC_DIALOGS_H
 #define GNUMERIC_DIALOGS_H
 
-#include "gnumeric.h"
-#include "consolidate.h"
+#include <gnumeric.h>
+#include <consolidate.h>
 #include <goffice/goffice.h>
 
 typedef enum {

@@ -2,8 +2,8 @@
 #ifndef _GNM_HLINK_H_
 # define _GNM_HLINK_H_
 
-#include "gnumeric.h"
-#include "wbc-gtk.h"
+#include <gnumeric.h>
+#include <wbc-gtk.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS

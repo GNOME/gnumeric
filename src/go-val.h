@@ -23,8 +23,8 @@
 #ifndef GO_VAL_H
 #define GO_VAL_H
 
-#include "value.h"	/* remove after move to goffice */
-#include "gnm-format.h"	/* remove after move to goffice */
+#include <value.h>	/* remove after move to goffice */
+#include <gnm-format.h>	/* remove after move to goffice */
 
 G_BEGIN_DECLS
 #ifndef GOFFICE_NAMESPACE_DISABLE

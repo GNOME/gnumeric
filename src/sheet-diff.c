@@ -19,18 +19,18 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "sheet-diff.h"
-#include "sheet.h"
-#include "cell.h"
-#include "expr.h"
-#include "value.h"
-#include "sheet-style.h"
-#include "mstyle.h"
-#include "ranges.h"
-#include "expr-name.h"
-#include "workbook.h"
-#include "workbook-priv.h"
+#include <gnumeric.h>
+#include <sheet-diff.h>
+#include <sheet.h>
+#include <cell.h>
+#include <expr.h>
+#include <value.h>
+#include <sheet-style.h>
+#include <mstyle.h>
+#include <ranges.h>
+#include <expr-name.h>
+#include <workbook.h>
+#include <workbook-priv.h>
 #include <string.h>
 
 /* ------------------------------------------------------------------------- */

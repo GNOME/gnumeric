@@ -7,9 +7,9 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "complex.h"
-#include "gutils.h"
+#include <gnumeric.h>
+#include <complex.h>
+#include <gutils.h>
 
 #include <stdlib.h>
 #include <errno.h>

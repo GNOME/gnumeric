@@ -1,7 +1,7 @@
 #ifndef _GNM_RANDOM_H_
 #define _GNM_RANDOM_H_
 
-#include "numbers.h"
+#include <numbers.h>
 
 G_BEGIN_DECLS
 

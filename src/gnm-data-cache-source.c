@@ -21,9 +21,9 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-data-cache-source.h"
-#include "go-data-cache-source.h"
-#include "go-data-cache.h"
+#include <gnm-data-cache-source.h>
+#include <go-data-cache-source.h>
+#include <go-data-cache.h>
 
 
 #include <gnumeric.h>
@@ -32,7 +32,7 @@
 #include <expr-name.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include "gnm-i18n.h"
+#include <gnm-i18n.h>
 #include <string.h>
 
 struct _GnmDataCacheSource {

@@ -29,7 +29,7 @@
 #include <stdlib.h>
 
 #include "smob-value.h"
-#include "value.h"
+#include <value.h>
 
 int scm_i_scm2bool (SCM obj);
 static long value_tag;

@@ -18,8 +18,8 @@
 #ifndef __GNUMERIC_CELL_RENDERER_EXPR_ENTRY_H__
 #define __GNUMERIC_CELL_RENDERER_EXPR_ENTRY_H__
 
-#include "gnumeric-cell-renderer-text.h"
-#include "gnumeric-expr-entry.h"
+#include <widgets/gnumeric-cell-renderer-text.h>
+#include <widgets/gnumeric-expr-entry.h>
 #include <gnumeric-fwd.h>
 
 G_BEGIN_DECLS

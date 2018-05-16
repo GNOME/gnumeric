@@ -27,8 +27,8 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "dialogs.h"
-#include "help.h"
+#include <dialogs/dialogs.h>
+#include <dialogs/help.h>
 #include <application.h>
 #include <wbc-gtk.h>
 #include <gnumeric-conf.h>

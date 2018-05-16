@@ -2,7 +2,7 @@
 #ifndef _GNM_STYLE_BORDER_H_
 # define _GNM_STYLE_BORDER_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <gdk/gdk.h>
 
 G_BEGIN_DECLS

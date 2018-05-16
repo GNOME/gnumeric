@@ -2,8 +2,8 @@
 #ifndef _GNM_SHEET_SLICER_COMBO_H_
 # define _GNM_SHEET_SLICER_COMBO_H_
 
-#include "gnm-cell-combo.h"
-#include "goffice-data.h"
+#include <gnm-cell-combo.h>
+#include <goffice-data.h>
 
 G_BEGIN_DECLS
 

@@ -2,12 +2,12 @@
 #ifndef _GNM_SHEET_H_
 # define _GNM_SHEET_H_
 
-#include "gnumeric.h"
-#include "colrow.h"
-#include "position.h"
+#include <gnumeric.h>
+#include <colrow.h>
+#include <position.h>
 #include <pango/pango.h>
 #include <goffice/goffice.h>
-#include "libgnumeric.h"
+#include <libgnumeric.h>
 
 G_BEGIN_DECLS
 

@@ -34,9 +34,9 @@
 #include <command-context.h>
 #include <goffice/goffice.h>
 
-#include "gnm-random.h"
-#include "tools/data-shuffling.h"
-#include "expr.h"
+#include <gnm-random.h>
+#include <tools/data-shuffling.h>
+#include <expr.h>
 
 
 typedef struct {

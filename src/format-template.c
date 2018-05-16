@@ -20,15 +20,15 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "format-template.h"
+#include <gnumeric.h>
+#include <format-template.h>
 
-#include "mstyle.h"
-#include "gutils.h"
-#include "sheet.h"
-#include "command-context.h"
-#include "ranges.h"
-#include "xml-sax.h"
+#include <mstyle.h>
+#include <gutils.h>
+#include <sheet.h>
+#include <command-context.h>
+#include <ranges.h>
+#include <xml-sax.h>
 #include <goffice/goffice.h>
 #include <string.h>
 #include <gsf/gsf-input-stdio.h>

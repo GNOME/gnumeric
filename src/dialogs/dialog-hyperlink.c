@@ -23,13 +23,13 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "dialogs.h"
-#include "help.h"
+#include <dialogs/dialogs.h>
+#include <dialogs/help.h>
 
 #include <commands.h>
 #include <widgets/gnumeric-expr-entry.h>
-#include "expr-name.h"
-#include "expr.h"
+#include <expr-name.h>
+#include <expr.h>
 #include <gui-util.h>
 #include <hlink.h>
 #include <mstyle.h>

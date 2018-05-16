@@ -22,20 +22,20 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "sheet-merge.h"
+#include <gnumeric.h>
+#include <sheet-merge.h>
 
-#include "sheet-object.h"
-#include "sheet.h"
-#include "sheet-view.h"
-#include "sheet-private.h"
-#include "ranges.h"
-#include "cell.h"
-#include "cellspan.h"
-#include "sheet-style.h"
-#include "mstyle.h"
-#include "expr.h"
-#include "command-context.h"
+#include <sheet-object.h>
+#include <sheet.h>
+#include <sheet-view.h>
+#include <sheet-private.h>
+#include <ranges.h>
+#include <cell.h>
+#include <cellspan.h>
+#include <sheet-style.h>
+#include <mstyle.h>
+#include <expr.h>
+#include <command-context.h>
 
 static gint
 range_row_cmp (GnmRange const *a, GnmRange const *b)

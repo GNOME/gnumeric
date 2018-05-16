@@ -2,8 +2,8 @@
 #ifndef _GNM_WORKBOOK_VIEW_H_
 # define _GNM_WORKBOOK_VIEW_H_
 
-#include "gnumeric.h"
-#include "dependent.h"
+#include <gnumeric.h>
+#include <dependent.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

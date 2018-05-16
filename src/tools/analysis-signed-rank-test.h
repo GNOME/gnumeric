@@ -26,13 +26,13 @@
 #ifndef ANALYSIS_SIGNED_RANK_TEST_H
 #define ANALYSIS_SIGNED_RANK_TEST_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
-#include "analysis-tools.h"
-#include "analysis-sign-test.h"
-#include "sheet.h"
+#include <tools/tools.h>
+#include <tools/analysis-tools.h>
+#include <tools/analysis-sign-test.h>
+#include <sheet.h>
 
 /* note: specs is a pointer to a analysis_tools_data_sign_test_t */
 

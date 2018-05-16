@@ -2,7 +2,7 @@
 #ifndef _GNM_WORKBOOK_CONTROL_PRIV_H_
 # define _GNM_WORKBOOK_CONTROL_PRIV_H_
 
-#include "workbook-control.h"
+#include <workbook-control.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

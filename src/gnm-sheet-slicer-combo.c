@@ -19,11 +19,11 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "gnm-sheet-slicer-combo.h"
-#include "go-data-slicer-field.h"
-#include "widgets/gnm-cell-combo-view.h"
-#include "widgets/gnm-sheet-slicer-combo-view.h"
+#include <gnumeric.h>
+#include <gnm-sheet-slicer-combo.h>
+#include <go-data-slicer-field.h>
+#include <widgets/gnm-cell-combo-view.h>
+#include <widgets/gnm-sheet-slicer-combo-view.h>
 
 #include <gsf/gsf-impl-utils.h>
 

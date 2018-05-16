@@ -2,8 +2,8 @@
 #ifndef _GNM_SHEET_CONTROL_GUI_H_
 # define _GNM_SHEET_CONTROL_GUI_H_
 
-#include "gnumeric-fwd.h"
-#include "sheet-control.h"
+#include <gnumeric-fwd.h>
+#include <sheet-control.h>
 
 G_BEGIN_DECLS
 

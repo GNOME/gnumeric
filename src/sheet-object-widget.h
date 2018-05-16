@@ -2,7 +2,7 @@
 #ifndef _GNM_SHEET_OBJECT_WIDGET_H_
 # define _GNM_SHEET_OBJECT_WIDGET_H_
 
-#include "sheet-object.h"
+#include <sheet-object.h>
 #include <pango/pango-attributes.h>
 
 G_BEGIN_DECLS

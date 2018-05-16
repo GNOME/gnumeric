@@ -11,14 +11,14 @@
  * (C) 2002 Jon K Hellan
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "io-context-gtk.h"
+#include <gnumeric.h>
+#include <gui-util.h>
+#include <io-context-gtk.h>
 #include <goffice/goffice.h>
-#include "application.h"
-#include "libgnumeric.h"
-#include "dialogs/dialogs.h"
-#include "gnm-i18n.h"
+#include <application.h>
+#include <libgnumeric.h>
+#include <dialogs/dialogs.h>
+#include <gnm-i18n.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <stdlib.h>

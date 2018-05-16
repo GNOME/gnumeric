@@ -713,7 +713,7 @@ GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_
 
 .list.c:
 	(echo '/* This file has been automatically generated.  Do not edit. */' && \
-	echo '#include "$*.h"' && \
+	echo '#include <$*.h>' && \
 	$(GENMARSHAL_COMMAND) --body $< ) >$@
 
 # Depends on this Makefile, because it uses make variables.

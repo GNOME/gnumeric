@@ -24,14 +24,14 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "analysis-auto-expression.h"
-#include "analysis-tools.h"
-#include "value.h"
-#include "ranges.h"
-#include "expr.h"
-#include "func.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <tools/analysis-auto-expression.h>
+#include <tools/analysis-tools.h>
+#include <value.h>
+#include <ranges.h>
+#include <expr.h>
+#include <func.h>
+#include <numbers.h>
 
 static gboolean
 analysis_tool_auto_expression_engine_run (data_analysis_output_t *dao,

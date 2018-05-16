@@ -22,24 +22,24 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "sheet-object-graph.h"
+#include <gnumeric.h>
+#include <sheet-object-graph.h>
 
-#include "gnm-pane-impl.h"
-#include "sheet-control-gui.h"
-#include "gui-util.h"
-#include "gui-file.h"
-#include "gnm-graph-window.h"
-#include "style-color.h"
-#include "sheet-object-impl.h"
-#include "wbc-gtk.h"
-#include "commands.h"
-#include "application.h"
-#include "sheet.h"
-#include "print-info.h"
-#include "workbook.h"
-#include "workbook-view.h"
-#include "gutils.h"
+#include <gnm-pane-impl.h>
+#include <sheet-control-gui.h>
+#include <gui-util.h>
+#include <gui-file.h>
+#include <gnm-graph-window.h>
+#include <style-color.h>
+#include <sheet-object-impl.h>
+#include <wbc-gtk.h>
+#include <commands.h>
+#include <application.h>
+#include <sheet.h>
+#include <print-info.h>
+#include <workbook.h>
+#include <workbook-view.h>
+#include <gutils.h>
 #include <graph.h>
 
 #include <goffice/goffice.h>

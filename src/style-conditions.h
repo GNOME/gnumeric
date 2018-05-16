@@ -2,7 +2,7 @@
 #ifndef _GNM_STYLE_CONDITIONS_H_
 # define _GNM_STYLE_CONDITIONS_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <dependent.h>
 
 G_BEGIN_DECLS

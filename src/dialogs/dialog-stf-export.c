@@ -20,7 +20,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "dialog-stf-export.h"
+#include <dialogs/dialog-stf-export.h>
 
 #include <command-context.h>
 #include <workbook.h>

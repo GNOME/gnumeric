@@ -12,7 +12,7 @@
 #ifndef GNM_MS_EXCEL_H
 #define GNM_MS_EXCEL_H
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include "ms-biff.h"
 
 void excel_read_workbook (GOIOContext *context, WorkbookView *new_wb,

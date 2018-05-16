@@ -2,7 +2,7 @@
 #ifndef _GNM_RANGEFUNC_H_
 # define _GNM_RANGEFUNC_H_
 
-#include "numbers.h"
+#include <numbers.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

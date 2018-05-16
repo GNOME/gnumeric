@@ -7,12 +7,12 @@
  */
 
 #include <gnumeric-config.h>
-#include "gutils.h"
+#include <gutils.h>
 #include <tools/gnm-solver.h>
-#include "func.h"
-#include "gnm-plugin.h"
-#include "gnumeric-conf.h"
-#include "application.h"
+#include <func.h>
+#include <gnm-plugin.h>
+#include <gnumeric-conf.h>
+#include <application.h>
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>

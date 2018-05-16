@@ -1,5 +1,5 @@
 #include <gnumeric-config.h>
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <mathfunc.h>
 #include <sf-dpq.h>
 #include <sf-trig.h>

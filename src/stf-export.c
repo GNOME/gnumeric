@@ -25,18 +25,18 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "gnm-i18n.h"
-#include "stf-export.h"
+#include <gnumeric.h>
+#include <gnm-i18n.h>
+#include <stf-export.h>
 
-#include "gnumeric-conf.h"
-#include "sheet.h"
-#include "workbook.h"
-#include "cell.h"
-#include "value.h"
-#include "gutils.h"
-#include "gnm-format.h"
-#include "gnm-datetime.h"
+#include <gnumeric-conf.h>
+#include <sheet.h>
+#include <workbook.h>
+#include <cell.h>
+#include <value.h>
+#include <gutils.h>
+#include <gnm-format.h>
+#include <gnm-datetime.h>
 #include <gsf/gsf-output-iconv.h>
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-impl-utils.h>
@@ -596,9 +596,9 @@ GSF_CLASS (GnmStfExport, gnm_stf_export,
 /* ------------------------------------------------------------------------- */
 
 
-#include "wbc-gtk.h"
-#include "dialogs/dialog-stf-export.h"
-#include "workbook-view.h"
+#include <wbc-gtk.h>
+#include <dialogs/dialog-stf-export.h>
+#include <workbook-view.h>
 
 /**
  * gnm_stf_get_stfe:

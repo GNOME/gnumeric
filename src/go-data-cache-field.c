@@ -23,9 +23,9 @@
  */
 
 #include <gnumeric-config.h>
-#include "go-data-cache-field-impl.h"
-#include "go-data-cache-impl.h"
-#include "go-data-cache.h"
+#include <go-data-cache-field-impl.h>
+#include <go-data-cache-impl.h>
+#include <go-data-cache.h>
 
 #include <go-val.h>
 

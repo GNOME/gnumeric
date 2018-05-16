@@ -23,7 +23,7 @@
 #ifndef GNM_COMMAND_IMPL_H
 #define GNM_COMMAND_IMPL_H
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib-object.h>
 

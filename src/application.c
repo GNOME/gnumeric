@@ -7,30 +7,30 @@
  */
 #include <gnumeric-config.h>
 #include <string.h>
-#include "gnumeric.h"
-#include "application.h"
+#include <gnumeric.h>
+#include <application.h>
 
-#include "clipboard.h"
-#include "selection.h"
-#include "workbook-control.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "sheet-view.h"
-#include "sheet-private.h"
-#include "sheet-object.h"
-#include "gutils.h"
-#include "ranges.h"
-#include "sheet-object.h"
-#include "commands.h"
-#include "gui-clipboard.h"
-#include "expr-name.h"
-#include "workbook-priv.h"
+#include <clipboard.h>
+#include <selection.h>
+#include <workbook-control.h>
+#include <workbook-view.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <sheet-view.h>
+#include <sheet-private.h>
+#include <sheet-object.h>
+#include <gutils.h>
+#include <ranges.h>
+#include <sheet-object.h>
+#include <commands.h>
+#include <gui-clipboard.h>
+#include <expr-name.h>
+#include <workbook-priv.h>
 
 #include <gnumeric-conf.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
-#include "gnm-i18n.h"
+#include <gnm-i18n.h>
 
 #define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
 #define GNM_IS_APP(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_APP_TYPE))

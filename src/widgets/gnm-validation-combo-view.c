@@ -23,22 +23,22 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-validation-combo-view.h"
-#include "gnm-cell-combo-view-impl.h"
+#include <widgets/gnm-validation-combo-view.h>
+#include <widgets/gnm-cell-combo-view-impl.h>
 
-#include "validation-combo.h"
-#include "commands.h"
-#include "gnm-format.h"
-#include "workbook-control.h"
-#include "workbook.h"
-#include "sheet-control-gui.h"
-#include "sheet-view.h"
-#include "sheet.h"
-#include "cell.h"
-#include "expr.h"
-#include "value.h"
+#include <validation-combo.h>
+#include <commands.h>
+#include <gnm-format.h>
+#include <workbook-control.h>
+#include <workbook.h>
+#include <sheet-control-gui.h>
+#include <sheet-view.h>
+#include <sheet.h>
+#include <cell.h>
+#include <expr.h>
+#include <value.h>
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

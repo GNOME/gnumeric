@@ -21,9 +21,9 @@
  */
 
 #include <gnumeric-config.h>
-#include "go-data-slicer-impl.h"
-#include "go-data-slicer-field-impl.h"
-#include "go-data-cache.h"
+#include <go-data-slicer-impl.h>
+#include <go-data-slicer-field-impl.h>
+#include <go-data-cache.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

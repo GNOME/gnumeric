@@ -22,7 +22,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
-#include "dialogs.h"
+#include <dialogs/dialogs.h>
 #include <wbc-gtk.h>
 #include <gui-file.h>
 #include <gui-util.h>

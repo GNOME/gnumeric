@@ -22,18 +22,18 @@
 
 #include <gnumeric-config.h>
 
-#include "workbook-priv.h"
-#include "workbook-view.h"
-#include "sheet.h"
-#include "sheet-style.h"
-#include "expr.h"
-#include "value.h"
-#include "cell.h"
-#include "mstyle.h"
-#include "gutils.h"
-#include "parse-util.h"
-#include "style-border.h"
-#include "ranges.h"
+#include <workbook-priv.h>
+#include <workbook-view.h>
+#include <sheet.h>
+#include <sheet-style.h>
+#include <expr.h>
+#include <value.h>
+#include <cell.h>
+#include <mstyle.h>
+#include <gutils.h>
+#include <parse-util.h>
+#include <style-border.h>
+#include <ranges.h>
 
 #include <goffice/goffice.h>
 

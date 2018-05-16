@@ -26,18 +26,18 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "analysis-exp-smoothing.h"
-#include "analysis-tools.h"
-#include "value.h"
-#include "ranges.h"
-#include "expr.h"
-#include "graph.h"
-#include "func.h"
-#include "numbers.h"
-#include "sheet-object-graph.h"
+#include <gnumeric.h>
+#include <tools/analysis-exp-smoothing.h>
+#include <tools/analysis-tools.h>
+#include <value.h>
+#include <ranges.h>
+#include <expr.h>
+#include <graph.h>
+#include <func.h>
+#include <numbers.h>
+#include <sheet-object-graph.h>
 #include <goffice/goffice.h>
-#include "sheet.h"
+#include <sheet.h>
 
 
 static GnmExpr const *

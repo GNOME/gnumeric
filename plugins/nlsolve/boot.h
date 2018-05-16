@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_NLSOLVE_BOOT_H
 #define GNUMERIC_NLSOLVE_BOOT_H
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-output.h>
 

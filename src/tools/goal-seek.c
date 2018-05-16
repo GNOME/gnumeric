@@ -12,10 +12,10 @@
 #endif
 
 #include <gnumeric-config.h>
-#include "numbers.h"
-#include "gnumeric.h"
-#include "goal-seek.h"
-#include "gnm-random.h"
+#include <numbers.h>
+#include <gnumeric.h>
+#include <tools/goal-seek.h>
+#include <gnm-random.h>
 
 #include <stdlib.h>
 #include <math.h>

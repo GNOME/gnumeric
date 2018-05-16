@@ -2,8 +2,8 @@
 #ifndef _GNM_PRINT_CELL_H_
 # define _GNM_PRINT_CELL_H_
 
-#include "gnumeric.h"
-#include "print-info.h"
+#include <gnumeric.h>
+#include <print-info.h>
 #include <cairo.h>
 
 G_BEGIN_DECLS

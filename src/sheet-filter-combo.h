@@ -2,7 +2,7 @@
 #ifndef _GNM_SHEET_FILTER_COMBO_H_
 # define _GNM_SHEET_FILTER_COMBO_H_
 
-#include "sheet-object-impl.h"
+#include <sheet-object-impl.h>
 
 G_BEGIN_DECLS
 

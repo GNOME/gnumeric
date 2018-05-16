@@ -23,7 +23,7 @@
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include <libgnumeric.h>
-#include "dialog-stf.h"
+#include <dialogs/dialog-stf.h>
 #include <gnm-format.h>
 #include <sheet.h>
 #include <workbook.h>

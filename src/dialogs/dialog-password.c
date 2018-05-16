@@ -1,7 +1,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "dialogs.h"
-#include "gui-util.h"
+#include <dialogs/dialogs.h>
+#include <gui-util.h>
 
 static void
 cb_accept_password (G_GNUC_UNUSED GtkWidget *IGNORED, GtkDialog *d)

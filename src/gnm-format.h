@@ -2,7 +2,7 @@
 #ifndef _GNM_FORMAT_H_
 # define _GNM_FORMAT_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <goffice/goffice.h>
 #include <pango/pango.h>
 

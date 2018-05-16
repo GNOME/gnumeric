@@ -2,7 +2,7 @@
 #ifndef _GNM_SELECTION_H_
 # define _GNM_SELECTION_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

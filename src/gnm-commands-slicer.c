@@ -21,15 +21,15 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnm-commands-slicer.h"
-#include "gnm-sheet-slicer.h"
-#include "gnm-command-impl.h"
-#include "command-context.h"
-#include "workbook-control.h"
-#include "sheet-view.h"
-#include "sheet.h"
-#include "ranges.h"
-#include "clipboard.h"
+#include <gnm-commands-slicer.h>
+#include <gnm-sheet-slicer.h>
+#include <gnm-command-impl.h>
+#include <command-context.h>
+#include <workbook-control.h>
+#include <sheet-view.h>
+#include <sheet.h>
+#include <ranges.h>
+#include <clipboard.h>
 
 #define CMD_SLICER_REFRESH_TYPE        (cmd_slicer_refresh_get_type ())
 #define CMD_SLICER_REFRESH(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SLICER_REFRESH_TYPE, CmdSlicerRefresh))

@@ -12,9 +12,9 @@
 #ifndef GNM_MS_EXCEL_XF_H
 #define GNM_MS_EXCEL_XF_H
 
-#include "style.h"
-#include "style-border.h"
-#include "style-color.h"
+#include <style.h>
+#include <style-border.h>
+#include <style-color.h>
 
 #define STYLE_TOP		(MSTYLE_BORDER_TOP	    - MSTYLE_BORDER_TOP)
 #define STYLE_BOTTOM		(MSTYLE_BORDER_BOTTOM	    - MSTYLE_BORDER_TOP)

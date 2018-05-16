@@ -2,12 +2,12 @@
 #ifndef GNUMERIC_ANALYSIS_TOOLS_H
 #define GNUMERIC_ANALYSIS_TOOLS_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
-#include "regression.h"
-#include "func.h"
+#include <tools/tools.h>
+#include <regression.h>
+#include <func.h>
 
 
 /*******************************************************************/

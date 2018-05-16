@@ -23,7 +23,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "dialogs.h"
+#include <dialogs/dialogs.h>
 #include <gui-file.h>
 #include <gui-util.h>
 #include <workbook.h>

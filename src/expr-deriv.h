@@ -3,8 +3,8 @@
 
 G_BEGIN_DECLS
 
-#include "expr.h"
-#include "numbers.h"
+#include <expr.h>
+#include <numbers.h>
 
 /* ------------------------------------------------------------------------- */
 

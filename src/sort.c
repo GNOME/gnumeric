@@ -10,15 +10,15 @@
  * (C) 2000 Morten Welinder
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "sort.h"
+#include <gnumeric.h>
+#include <sort.h>
 
-#include "commands.h"
-#include "clipboard.h"
-#include "cell.h"
-#include "value.h"
-#include "sheet.h"
-#include "ranges.h"
+#include <commands.h>
+#include <clipboard.h>
+#include <cell.h>
+#include <value.h>
+#include <sheet.h>
+#include <ranges.h>
 #include <goffice/goffice.h>
 #include <stdlib.h>
 

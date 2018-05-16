@@ -1,7 +1,7 @@
 #ifndef _GNM_PREVIEW_GRID_H_
 #define _GNM_PREVIEW_GRID_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS

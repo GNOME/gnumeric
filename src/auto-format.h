@@ -2,7 +2,7 @@
 #ifndef _GNM_AUTO_FORMAT_H_
 # define _GNM_AUTO_FORMAT_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 
 G_BEGIN_DECLS
 

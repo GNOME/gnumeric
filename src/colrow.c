@@ -20,20 +20,20 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "colrow.h"
+#include <gnumeric.h>
+#include <colrow.h>
 
-#include "sheet.h"
-#include "sheet-view.h"
-#include "sheet-private.h"
-#include "application.h"
-#include "parse-util.h"
-#include "selection.h"
-#include "ranges.h"
-#include "sheet-merge.h"
-#include "cell.h"
-#include "cellspan.h"
-#include "rendered-value.h"
+#include <sheet.h>
+#include <sheet-view.h>
+#include <sheet-private.h>
+#include <application.h>
+#include <parse-util.h>
+#include <selection.h>
+#include <ranges.h>
+#include <sheet-merge.h>
+#include <cell.h>
+#include <cellspan.h>
+#include <rendered-value.h>
 #include <goffice/goffice.h>
 #include <string.h>
 

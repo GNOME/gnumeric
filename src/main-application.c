@@ -12,31 +12,31 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
-#include "gnumeric.h"
-#include "libgnumeric.h"
+#include <gnumeric.h>
+#include <libgnumeric.h>
 #ifdef G_OS_WIN32
 #define _WIN32_WINNT 0x0501
 #include <windows.h>
 #include <io.h>
 #endif
 
-#include "command-context.h"
+#include <command-context.h>
 #include <goffice/goffice.h>
-#include "io-context-gtk.h"
+#include <io-context-gtk.h>
 /* TODO: Get rid of this one */
-#include "command-context-stderr.h"
-#include "wbc-gtk-impl.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "gui-file.h"
-#include "gnumeric-conf.h"
-#include "gnumeric-paths.h"
-#include "session.h"
-#include "sheet.h"
-#include "gutils.h"
-#include "gnm-plugin.h"
-#include "application.h"
-#include "func.h"
+#include <command-context-stderr.h>
+#include <wbc-gtk-impl.h>
+#include <workbook-view.h>
+#include <workbook.h>
+#include <gui-file.h>
+#include <gnumeric-conf.h>
+#include <gnumeric-paths.h>
+#include <session.h>
+#include <sheet.h>
+#include <gutils.h>
+#include <gnm-plugin.h>
+#include <application.h>
+#include <func.h>
 
 #include <glib/gstdio.h>
 

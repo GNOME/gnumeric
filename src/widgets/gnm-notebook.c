@@ -19,9 +19,9 @@
  **/
 
 #include <gnumeric-config.h>
-#include "gnm-notebook.h"
+#include <widgets/gnm-notebook.h>
 #include <goffice/goffice.h>
-#include "gnm-i18n.h"
+#include <gnm-i18n.h>
 #include <gsf/gsf-impl-utils.h>
 
 /* ------------------------------------------------------------------------- */

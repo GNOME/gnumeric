@@ -7,18 +7,18 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "application.h"
-#include "workbook.h"
-#include "cell.h"
-#include "mstyle.h"
-#include "sheet.h"
-#include "sheet-style.h"
-#include "position.h"
-#include "value.h"
-#include "expr.h"
-#include "func.h"
-#include "wbc-gtk.h"
-#include "parse-util.h"
+#include <application.h>
+#include <workbook.h>
+#include <cell.h>
+#include <mstyle.h>
+#include <sheet.h>
+#include <sheet-style.h>
+#include <position.h>
+#include <value.h>
+#include <expr.h>
+#include <func.h>
+#include <wbc-gtk.h>
+#include <parse-util.h>
 #include "gnm-py-interpreter.h"
 #include "py-gnumeric.h"
 

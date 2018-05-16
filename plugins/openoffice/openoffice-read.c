@@ -54,7 +54,7 @@
 #include <gutils.h>
 #include <xml-sax.h>
 #include <sheet-object-cell-comment.h>
-#include "sheet-object-widget.h"
+#include <sheet-object-widget.h>
 #include <style-conditions.h>
 #include <gnumeric-conf.h>
 #include <mathfunc.h>

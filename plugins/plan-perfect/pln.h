@@ -10,7 +10,7 @@
 #ifndef GNUMERIC_PLN_H
 #define GNUMERIC_PLN_H
 
-#include "sheet.h"
+#include <sheet.h>
 #include <goffice/goffice.h>
 
 PluginInitResult       init_plugin (GOCmdContext *context, PluginData *pd);

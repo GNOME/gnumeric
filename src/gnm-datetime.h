@@ -2,8 +2,8 @@
 #ifndef _GNM_DATETIME_H_
 # define _GNM_DATETIME_H_
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

@@ -21,13 +21,13 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "style-border.h"
+#include <gnumeric.h>
+#include <style-border.h>
 
-#include "style-color.h"
-#include "style.h"
-#include "sheet-style.h"
-#include "sheet.h"
+#include <style-color.h>
+#include <style.h>
+#include <sheet-style.h>
+#include <sheet.h>
 #include <gdk/gdk.h>
 #include <string.h>
 

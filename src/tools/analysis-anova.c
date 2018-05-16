@@ -25,18 +25,18 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "analysis-anova.h"
-#include "analysis-tools.h"
-#include "value.h"
-#include "ranges.h"
-#include "expr.h"
-#include "func.h"
-#include "sheet.h"
-#include "numbers.h"
-#include "mstyle.h"
-#include "style-border.h"
-#include "style-color.h"
+#include <gnumeric.h>
+#include <tools/analysis-anova.h>
+#include <tools/analysis-tools.h>
+#include <value.h>
+#include <ranges.h>
+#include <expr.h>
+#include <func.h>
+#include <sheet.h>
+#include <numbers.h>
+#include <mstyle.h>
+#include <style-border.h>
+#include <style-color.h>
 
 
 static gboolean

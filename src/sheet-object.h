@@ -2,7 +2,7 @@
 #ifndef _GNM_SHEET_OBJECT_H_
 # define _GNM_SHEET_OBJECT_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <gsf/gsf-output.h>
 #include <goffice/goffice.h>
 

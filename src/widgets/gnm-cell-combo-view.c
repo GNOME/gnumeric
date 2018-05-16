@@ -22,15 +22,15 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-cell-combo-view.h"
-#include "gnm-cell-combo-view-impl.h"
+#include <widgets/gnm-cell-combo-view.h>
+#include <widgets/gnm-cell-combo-view-impl.h>
 
-#include "wbc-gtk.h"
-#include "sheet.h"
-#include "sheet-control-gui.h"
-#include "sheet-merge.h"
-#include "gnm-pane-impl.h"
-#include "ranges.h"
+#include <wbc-gtk.h>
+#include <sheet.h>
+#include <sheet-control-gui.h>
+#include <sheet-merge.h>
+#include <gnm-pane-impl.h>
+#include <ranges.h>
 
 #include <goffice/goffice.h>
 #include <gdk/gdk.h>

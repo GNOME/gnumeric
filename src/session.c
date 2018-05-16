@@ -19,7 +19,7 @@
 
 #include <gnumeric-config.h>
 
-#include "session.h"
+#include <session.h>
 
 /**
  * gnm_session_init: (skip)

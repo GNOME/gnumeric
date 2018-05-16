@@ -23,46 +23,46 @@
 #include "xlsx-utils.h"
 #include "ms-excel-write.h"
 
-#include "sheet-view.h"
-#include "sheet-style.h"
-#include "sheet-merge.h"
-#include "sheet.h"
-#include "ranges.h"
-#include "style.h"
-#include "style-border.h"
-#include "style-color.h"
-#include "style-conditions.h"
-#include "gnm-format.h"
-#include "cell.h"
-#include "position.h"
-#include "expr.h"
-#include "expr-name.h"
-#include "print-info.h"
-#include "validation.h"
-#include "input-msg.h"
-#include "value.h"
-#include "sheet-filter.h"
-#include "hlink.h"
-#include "selection.h"
-#include "command-context.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "gutils.h"
-#include "graph.h"
-#include "sheet-object-graph.h"
-#include "sheet-object-cell-comment.h"
-#include "gnm-sheet-slicer.h"
-#include "gnm-so-filled.h"
-#include "gnm-so-line.h"
-#include "sheet-object-image.h"
-#include "number-match.h"
+#include <sheet-view.h>
+#include <sheet-style.h>
+#include <sheet-merge.h>
+#include <sheet.h>
+#include <ranges.h>
+#include <style.h>
+#include <style-border.h>
+#include <style-color.h>
+#include <style-conditions.h>
+#include <gnm-format.h>
+#include <cell.h>
+#include <position.h>
+#include <expr.h>
+#include <expr-name.h>
+#include <print-info.h>
+#include <validation.h>
+#include <input-msg.h>
+#include <value.h>
+#include <sheet-filter.h>
+#include <hlink.h>
+#include <selection.h>
+#include <command-context.h>
+#include <workbook-view.h>
+#include <workbook.h>
+#include <gutils.h>
+#include <graph.h>
+#include <sheet-object-graph.h>
+#include <sheet-object-cell-comment.h>
+#include <gnm-sheet-slicer.h>
+#include <gnm-so-filled.h>
+#include <gnm-so-line.h>
+#include <sheet-object-image.h>
+#include <number-match.h>
 #include "dead-kittens.h"
 
 #include <goffice/goffice.h>
 
 
-#include "goffice-data.h"		/* MOVE TO GOFFCE with slicer code */
-#include "go-data-slicer-field.h"	/* MOVE TO GOFFCE with slicer code */
+#include <goffice-data.h>		/* MOVE TO GOFFCE with slicer code */
+#include <go-data-slicer-field.h>	/* MOVE TO GOFFCE with slicer code */
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>

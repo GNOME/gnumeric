@@ -24,9 +24,9 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
-#include "dialogs.h"
-#include "help.h"
-#include "dialogs/tool-dialogs.h"
+#include <dialogs/dialogs.h>
+#include <dialogs/help.h>
+#include <dialogs/tool-dialogs.h>
 
 #include <gui-util.h>
 #include <selection.h>
@@ -46,7 +46,7 @@
 
 #include <dialogs/dao-gui-utils.h>
 
-#include "tools/fill-series.h"
+#include <tools/fill-series.h>
 
 #define FILL_SERIES_KEY "fill-series-dialog"
 

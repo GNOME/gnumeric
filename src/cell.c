@@ -8,21 +8,21 @@
  *    Copyright (C) 2000-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "cell.h"
+#include <gnumeric.h>
+#include <cell.h>
 
-#include "gutils.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "expr.h"
-#include "rendered-value.h"
-#include "value.h"
-#include "style.h"
-#include "ranges.h"
-#include "gnm-format.h"
-#include "number-match.h"
-#include "sheet-style.h"
-#include "parse-util.h"
+#include <gutils.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <expr.h>
+#include <rendered-value.h>
+#include <value.h>
+#include <style.h>
+#include <ranges.h>
+#include <gnm-format.h>
+#include <number-match.h>
+#include <sheet-style.h>
+#include <parse-util.h>
 
 #include <goffice/goffice.h>
 

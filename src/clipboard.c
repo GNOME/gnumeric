@@ -21,26 +21,26 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "clipboard.h"
+#include <gnumeric.h>
+#include <clipboard.h>
 
-#include "sheet.h"
-#include "cell.h"
-#include "sheet-style.h"
-#include "sheet-merge.h"
-#include "dependent.h"
-#include "selection.h"
-#include "command-context.h"
-#include "workbook-control.h"
-#include "workbook.h"
-#include "ranges.h"
-#include "colrow.h"
-#include "expr.h"
-#include "value.h"
-#include "mstyle.h"
-#include "stf-parse.h"
-#include "gnm-format.h"
-#include "sheet-object-cell-comment.h"
+#include <sheet.h>
+#include <cell.h>
+#include <sheet-style.h>
+#include <sheet-merge.h>
+#include <dependent.h>
+#include <selection.h>
+#include <command-context.h>
+#include <workbook-control.h>
+#include <workbook.h>
+#include <ranges.h>
+#include <colrow.h>
+#include <expr.h>
+#include <value.h>
+#include <mstyle.h>
+#include <stf-parse.h>
+#include <gnm-format.h>
+#include <sheet-object-cell-comment.h>
 
 #include <glib/gi18n-lib.h>
 #include <locale.h>

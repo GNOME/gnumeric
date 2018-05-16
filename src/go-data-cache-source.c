@@ -22,7 +22,7 @@
 
 #include <goffice/goffice.h>
 #include <gnumeric-config.h>
-#include "go-data-cache-source.h"
+#include <go-data-cache-source.h>
 
 GType
 go_data_cache_source_get_type (void)

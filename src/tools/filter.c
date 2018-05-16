@@ -35,8 +35,8 @@
 #include <selection.h>
 #include <criteria.h>
 
-#include "filter.h"
-#include "analysis-tools.h"
+#include <tools/filter.h>
+#include <tools/analysis-tools.h>
 
 static void
 filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,

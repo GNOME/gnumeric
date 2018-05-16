@@ -21,25 +21,25 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "cmd-edit.h"
+#include <gnumeric.h>
+#include <cmd-edit.h>
 
-#include "application.h"
-#include "command-context.h"
-#include "workbook-control.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "sheet-view.h"
-#include "cell.h"
-#include "expr.h"
-#include "dependent.h"
-#include "selection.h"
-#include "parse-util.h"
-#include "ranges.h"
-#include "commands.h"
-#include "clipboard.h"
-#include "value.h"
-#include "wbc-gtk.h"
+#include <application.h>
+#include <command-context.h>
+#include <workbook-control.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <sheet-view.h>
+#include <cell.h>
+#include <expr.h>
+#include <dependent.h>
+#include <selection.h>
+#include <parse-util.h>
+#include <ranges.h>
+#include <commands.h>
+#include <clipboard.h>
+#include <value.h>
+#include <wbc-gtk.h>
 
 /**
  * sv_select_cur_row:

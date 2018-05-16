@@ -28,11 +28,11 @@
 #ifndef ANALYSIS_EXP_SMOOTHING_H
 #define ANALYSIS_EXP_SMOOTHING_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
-#include "analysis-tools.h"
+#include <tools/tools.h>
+#include <tools/analysis-tools.h>
 
 typedef enum {
 	exp_smoothing_type_ses_h = 0,

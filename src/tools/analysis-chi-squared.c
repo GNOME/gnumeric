@@ -24,14 +24,14 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "analysis-chi-squared.h"
-#include "analysis-tools.h"
-#include "value.h"
-#include "ranges.h"
-#include "expr.h"
-#include "func.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <tools/analysis-chi-squared.h>
+#include <tools/analysis-tools.h>
+#include <value.h>
+#include <ranges.h>
+#include <expr.h>
+#include <func.h>
+#include <numbers.h>
 
 static gboolean
 analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,

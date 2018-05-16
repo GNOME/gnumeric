@@ -2,7 +2,7 @@
 #ifndef _GNM_COLROW_H_
 # define _GNM_COLROW_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 
 G_BEGIN_DECLS
 

@@ -2,7 +2,7 @@
 #ifndef _GNM_GUTILS_H_
 # define _GNM_GUTILS_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <goffice/goffice.h>
 #include <numbers.h>
 

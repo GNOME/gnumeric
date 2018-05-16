@@ -22,11 +22,11 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "gnm-so-polygon.h"
-#include "sheet-object-impl.h"
-#include "sheet.h"
-#include "parse-util.h"
+#include <gnumeric.h>
+#include <gnm-so-polygon.h>
+#include <sheet-object-impl.h>
+#include <sheet.h>
+#include <parse-util.h>
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
@@ -45,7 +45,7 @@ typedef struct {
 typedef SheetObjectClass GnmSOPolygonClass;
 
 #ifdef GNM_WITH_GTK
-#include "gnm-pane.h"
+#include <gnm-pane.h>
 static void
 so_polygon_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {

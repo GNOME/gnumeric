@@ -19,15 +19,15 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "application.h"
-#include "commands.h"
-#include "gnm-pane-impl.h"
-#include "gui-util.h"
-#include "sheet-control-gui.h"
-#include "sheet-object-component.h"
-#include "sheet-object-impl.h"
-#include "wbc-gtk.h"
+#include <gnumeric.h>
+#include <application.h>
+#include <commands.h>
+#include <gnm-pane-impl.h>
+#include <gui-util.h>
+#include <sheet-control-gui.h>
+#include <sheet-object-component.h>
+#include <sheet-object-impl.h>
+#include <wbc-gtk.h>
 #include <goffice/goffice.h>
 #include <goffice/component/go-component.h>
 #include <gsf/gsf-impl-utils.h>

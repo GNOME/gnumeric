@@ -22,24 +22,24 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-filter-combo-view.h"
-#include "gnm-cell-combo-view-impl.h"
+#include <widgets/gnm-filter-combo-view.h>
+#include <widgets/gnm-cell-combo-view-impl.h>
 
-#include "gnumeric.h"
-#include "sheet-filter.h"
-#include "sheet-filter-combo.h"
-#include "gnm-format.h"
-#include "value.h"
-#include "cell.h"
-#include "commands.h"
-#include "sheet.h"
-#include "sheet-object-impl.h"
-#include "wbc-gtk.h"
-#include "workbook.h"
-#include "style-color.h"
-#include "sheet-control-gui.h"
-#include "../dialogs/dialogs.h"
-#include "wbc-gtk-impl.h"
+#include <gnumeric.h>
+#include <sheet-filter.h>
+#include <sheet-filter-combo.h>
+#include <gnm-format.h>
+#include <value.h>
+#include <cell.h>
+#include <commands.h>
+#include <sheet.h>
+#include <sheet-object-impl.h>
+#include <wbc-gtk.h>
+#include <workbook.h>
+#include <style-color.h>
+#include <sheet-control-gui.h>
+#include <dialogs/dialogs.h>
+#include <wbc-gtk-impl.h>
 #include <undo.h>
 
 #include <goffice/goffice.h>

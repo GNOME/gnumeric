@@ -2,7 +2,7 @@
 #ifndef _GNM_VALIDATION_COMBO_H_
 # define _GNM_VALIDATION_COMBO_H_
 
-#include "gnm-cell-combo.h"
+#include <gnm-cell-combo.h>
 
 G_BEGIN_DECLS
 

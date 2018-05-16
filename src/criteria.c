@@ -1,4 +1,4 @@
-#include "criteria.h"
+#include <criteria.h>
 
 typedef enum { CRIT_NULL, CRIT_FLOAT, CRIT_WRONGTYPE, CRIT_STRING } CritType;
 

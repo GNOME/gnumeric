@@ -2,7 +2,7 @@
 #ifndef _GNM_RANGEFUNC_STRINGS_H_
 # define _GNM_RANGEFUNC_STRINGS_H_
 
-#include "numbers.h"
+#include <numbers.h>
 
 G_BEGIN_DECLS
 

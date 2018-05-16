@@ -21,9 +21,9 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "libgnumeric.h"
-#include "sheet-utils.h"
-#include "sheet.h"
+#include <libgnumeric.h>
+#include <sheet-utils.h>
+#include <sheet.h>
 
 static gboolean
 sheet_cell_or_one_below_is_not_empty (Sheet *sheet, int col, int row)

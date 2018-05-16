@@ -20,21 +20,21 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "graph.h"
-#include "dependent.h"
-#include "expr.h"
-#include "cell.h"
-#include "value.h"
-#include "number-match.h"
-#include "mathfunc.h"
-#include "sheet.h"
-#include "workbook.h"
-#include "position.h"
-#include "gnm-format.h"
-#include "auto-format.h"
-#include "ranges.h"
-#include "parse-util.h"
-#include "expr-impl.h"
+#include <graph.h>
+#include <dependent.h>
+#include <expr.h>
+#include <cell.h>
+#include <value.h>
+#include <number-match.h>
+#include <mathfunc.h>
+#include <sheet.h>
+#include <workbook.h>
+#include <position.h>
+#include <gnm-format.h>
+#include <auto-format.h>
+#include <ranges.h>
+#include <parse-util.h>
+#include <expr-impl.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>

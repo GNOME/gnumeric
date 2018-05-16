@@ -28,11 +28,11 @@
 #ifndef ANALYSIS_HISTOGRAM_H
 #define ANALYSIS_HISTOGRAM_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
-#include "analysis-tools.h"
+#include <tools/tools.h>
+#include <tools/analysis-tools.h>
 
 typedef enum {
 	bintype_no_inf_lower = 0,

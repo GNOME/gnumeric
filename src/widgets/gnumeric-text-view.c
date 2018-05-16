@@ -20,9 +20,9 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-i18n.h"
+#include <gnm-i18n.h>
 #include <gnumeric.h>
-#include "gnumeric-text-view.h"
+#include <widgets/gnumeric-text-view.h>
 
 #include <gui-util.h>
 

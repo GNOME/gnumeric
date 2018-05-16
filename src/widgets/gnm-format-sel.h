@@ -20,7 +20,7 @@
 #ifndef GNM_FORMAT_SEL_H
 #define GNM_FORMAT_SEL_H
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

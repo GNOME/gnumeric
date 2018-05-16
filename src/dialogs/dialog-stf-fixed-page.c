@@ -21,7 +21,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
-#include "dialog-stf.h"
+#include <dialogs/dialog-stf.h>
 #include <gui-util.h>
 #include <gdk/gdkkeysyms.h>
 

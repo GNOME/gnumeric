@@ -22,9 +22,9 @@
 #include "boot.h"
 #include "ms-biff.h"
 #include "excel.h"
-#include "ranges.h"
-#include "pattern.h"
-#include "sheet-filter.h"
+#include <ranges.h>
+#include <pattern.h>
+#include <sheet-filter.h>
 #include "ms-excel-write.h"
 #include "ms-excel-xf.h"
 #include "ms-escher.h"

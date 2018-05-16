@@ -2,8 +2,8 @@
 #ifndef _GNM_MSTYLE_H_
 # define _GNM_MSTYLE_H_
 
-#include "gnumeric.h"
-#include "style.h"
+#include <gnumeric.h>
+#include <style.h>
 
 G_BEGIN_DECLS
 

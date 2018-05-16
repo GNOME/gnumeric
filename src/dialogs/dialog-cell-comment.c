@@ -20,8 +20,8 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
-#include "dialogs.h"
-#include "help.h"
+#include <dialogs/dialogs.h>
+#include <dialogs/help.h>
 
 #include <gui-util.h>
 #include <sheet.h>

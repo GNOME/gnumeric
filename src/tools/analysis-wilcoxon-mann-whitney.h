@@ -26,12 +26,12 @@
 #ifndef ANALYSIS_WILCOXON_MANN_WHITNEY_H
 #define ANALYSIS_WILCOXON_MANN_WHITNEY_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
-#include "analysis-tools.h"
-#include "sheet.h"
+#include <tools/tools.h>
+#include <tools/analysis-tools.h>
+#include <sheet.h>
 
 gboolean
 analysis_tool_wilcoxon_mann_whitney_engine (GOCmdContext *gcc,

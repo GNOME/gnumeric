@@ -2,10 +2,10 @@
 #ifndef _GNM_VALUE_H_
 # define _GNM_VALUE_H_
 
-#include "gnumeric.h"
-#include "position.h"
-#include "numbers.h"
-#include "parse-util.h"
+#include <gnumeric.h>
+#include <position.h>
+#include <numbers.h>
+#include <parse-util.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS

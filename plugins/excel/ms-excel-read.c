@@ -49,7 +49,7 @@
 #include <func.h>
 #include <style.h>
 #include <style-conditions.h>
-#include "style-font.h"
+#include <style-font.h>
 #include <gnm-format.h>
 #include <print-info.h>
 #include <selection.h>

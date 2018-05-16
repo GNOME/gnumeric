@@ -2,7 +2,7 @@
 #ifndef _GNM_WORKBOOK_PRIV_H_
 # define _GNM_WORKBOOK_PRIV_H_
 
-#include "workbook.h"
+#include <workbook.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

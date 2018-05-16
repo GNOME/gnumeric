@@ -27,24 +27,24 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "stf-parse.h"
-#include "stf-export.h"
+#include <gnumeric.h>
+#include <stf-parse.h>
+#include <stf-export.h>
 
-#include "workbook.h"
-#include "cell.h"
-#include "sheet.h"
-#include "expr.h"
-#include "clipboard.h"
-#include "sheet-style.h"
-#include "value.h"
-#include "mstyle.h"
-#include "number-match.h"
-#include "gutils.h"
-#include "parse-util.h"
-#include "number-match.h"
-#include "gnm-format.h"
-#include "ranges.h"
+#include <workbook.h>
+#include <cell.h>
+#include <sheet.h>
+#include <expr.h>
+#include <clipboard.h>
+#include <sheet-style.h>
+#include <value.h>
+#include <mstyle.h>
+#include <number-match.h>
+#include <gutils.h>
+#include <parse-util.h>
+#include <number-match.h>
+#include <gnm-format.h>
+#include <ranges.h>
 #include <goffice/goffice.h>
 
 #include <stdlib.h>

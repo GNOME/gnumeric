@@ -8,8 +8,8 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <goffice/goffice.h>
-#include "gnumeric.h"
-#include "history.h"
+#include <gnumeric.h>
+#include <history.h>
 #include <string.h>
 
 /*

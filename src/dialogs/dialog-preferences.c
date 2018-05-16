@@ -24,20 +24,20 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "application.h"
-#include "dialogs.h"
-#include "help.h"
+#include <application.h>
+#include <dialogs/dialogs.h>
+#include <dialogs/help.h>
 
-#include "mstyle.h"
-#include "value.h"
+#include <mstyle.h>
+#include <value.h>
 #include <gnm-format.h>
-#include "workbook.h"
-#include "workbook-control.h"
-#include "wbc-gtk.h"
-#include "number-match.h"
-#include "widgets/gnumeric-cell-renderer-text.h"
+#include <workbook.h>
+#include <workbook-control.h>
+#include <wbc-gtk.h>
+#include <number-match.h>
+#include <widgets/gnumeric-cell-renderer-text.h>
 
-#include "gnumeric-conf.h"
+#include <gnumeric-conf.h>
 
 #include <gui-util.h>
 #include <glib/gi18n-lib.h>

@@ -27,13 +27,13 @@
 #ifndef GNUMERIC_DAO_H
 #define GNUMERIC_DAO_H
 
-#include "gnumeric.h"
-#include "numbers.h"
-#include "style.h"
+#include <gnumeric.h>
+#include <numbers.h>
+#include <style.h>
 #include <goffice/goffice.h>
-#include "style-color.h"
-#include "style-border.h"
-#include "graph.h"
+#include <style-color.h>
+#include <style-border.h>
+#include <graph.h>
 
 typedef enum {
         NewSheetOutput, NewWorkbookOutput, RangeOutput, InPlaceOutput

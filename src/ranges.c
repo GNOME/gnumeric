@@ -9,22 +9,22 @@
  * Copyright (C) 2007-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "ranges.h"
+#include <gnumeric.h>
+#include <ranges.h>
 
-#include "commands.h"
-#include "numbers.h"
-#include "expr.h"
-#include "expr-impl.h"
-#include "expr-name.h"
-#include "sheet.h"
-#include "sheet-style.h"
-#include "parse-util.h"
-#include "value.h"
-#include "cell.h"
-#include "style.h"
-#include "workbook.h"
-#include "gnumeric-conf.h"
+#include <commands.h>
+#include <numbers.h>
+#include <expr.h>
+#include <expr-impl.h>
+#include <expr-name.h>
+#include <sheet.h>
+#include <sheet-style.h>
+#include <parse-util.h>
+#include <value.h>
+#include <cell.h>
+#include <style.h>
+#include <workbook.h>
+#include <gnumeric-conf.h>
 
 #include <stdlib.h>
 #include <glib.h>

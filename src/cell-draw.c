@@ -8,16 +8,16 @@
  *    Morten Welinder 2003       (terra@gnome.org)
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "cell-draw.h"
+#include <gnumeric.h>
+#include <cell-draw.h>
 
-#include "style.h"
-#include "cell.h"
-#include "sheet.h"
-#include "gnm-format.h"
-#include "rendered-value.h"
-#include "parse-util.h"
-#include "sheet-merge.h"
+#include <style.h>
+#include <cell.h>
+#include <sheet.h>
+#include <gnm-format.h>
+#include <rendered-value.h>
+#include <parse-util.h>
+#include <sheet-merge.h>
 #include <goffice/goffice.h>
 
 #include <gdk/gdk.h>

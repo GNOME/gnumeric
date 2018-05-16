@@ -12,28 +12,28 @@
  *     ranges are highlighted on the spreadsheet).
  */
 #include <gnumeric-config.h>
-#include "gnm-i18n.h"
-#include "gnumeric.h"
-#include "item-edit.h"
-#include "gnm-pane-impl.h"
+#include <gnm-i18n.h>
+#include <gnumeric.h>
+#include <item-edit.h>
+#include <gnm-pane-impl.h>
 
-#include "item-cursor.h"
-#include "sheet-control-gui-priv.h"
-#include "sheet.h"
-#include "sheet-view.h"
-#include "sheet-style.h"
-#include "sheet-merge.h"
-#include "value.h"
-#include "ranges.h"
-#include "style.h"
-#include "style-font.h"
-#include "style-color.h"
-#include "pattern.h"
-#include "parse-util.h"
-#include "workbook.h"
-#include "wbc-gtk.h"
-#include "gui-util.h"
-#include "widgets/gnumeric-expr-entry.h"
+#include <item-cursor.h>
+#include <sheet-control-gui-priv.h>
+#include <sheet.h>
+#include <sheet-view.h>
+#include <sheet-style.h>
+#include <sheet-merge.h>
+#include <value.h>
+#include <ranges.h>
+#include <style.h>
+#include <style-font.h>
+#include <style-color.h>
+#include <pattern.h>
+#include <parse-util.h>
+#include <workbook.h>
+#include <wbc-gtk.h>
+#include <gui-util.h>
+#include <widgets/gnumeric-expr-entry.h>
 #define GNUMERIC_ITEM "EDIT"
 
 #include <gsf/gsf-impl-utils.h>

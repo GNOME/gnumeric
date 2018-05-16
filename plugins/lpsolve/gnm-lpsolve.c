@@ -1,11 +1,11 @@
 #include <gnumeric-config.h>
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include "boot.h"
-#include "cell.h"
-#include "sheet.h"
-#include "value.h"
-#include "ranges.h"
-#include "gnumeric-conf.h"
+#include <cell.h>
+#include <sheet.h>
+#include <value.h>
+#include <ranges.h>
+#include <gnumeric-conf.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>

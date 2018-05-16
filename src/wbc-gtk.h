@@ -2,10 +2,10 @@
 #ifndef _GNM_WBC_GTK_H_
 # define _GNM_WBC_GTK_H_
 
-#include "gnumeric.h"
-#include "gnumeric-fwd.h"
-#include "workbook-control.h"
-#include "widgets/gnumeric-expr-entry.h"
+#include <gnumeric.h>
+#include <gnumeric-fwd.h>
+#include <workbook-control.h>
+#include <widgets/gnumeric-expr-entry.h>
 
 
 G_BEGIN_DECLS

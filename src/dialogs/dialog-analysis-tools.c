@@ -24,11 +24,11 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
-#include "dialogs.h"
-#include "tools/analysis-tools.h"
-#include "tools/analysis-anova.h"
-#include "tools/analysis-histogram.h"
-#include "tools/analysis-exp-smoothing.h"
+#include <dialogs/dialogs.h>
+#include <tools/analysis-tools.h>
+#include <tools/analysis-anova.h>
+#include <tools/analysis-histogram.h>
+#include <tools/analysis-exp-smoothing.h>
 
 #include <workbook.h>
 #include <workbook-control.h>
@@ -46,7 +46,7 @@
 #include <selection.h>
 #include <value.h>
 #include <commands.h>
-#include "help.h"
+#include <dialogs/help.h>
 
 #include <widgets/gnm-dao.h>
 #include <widgets/gnumeric-expr-entry.h>

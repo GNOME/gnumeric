@@ -4,8 +4,8 @@
 
 G_BEGIN_DECLS
 
-#include "gnumeric.h"
-#include "position.h"
+#include <gnumeric.h>
+#include <position.h>
 
 /* Warning: if you add something here, see do_expr_as_string   ! */
 /* Warning: if you add something here, see ms-formula-write.c  ! */

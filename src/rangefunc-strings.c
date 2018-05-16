@@ -6,8 +6,8 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "rangefunc-strings.h"
+#include <gnumeric.h>
+#include <rangefunc-strings.h>
 
 #include <string.h>
 

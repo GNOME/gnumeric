@@ -2,7 +2,7 @@
 #ifndef _GNM_DEPENDENT_H_
 # define _GNM_DEPENDENT_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

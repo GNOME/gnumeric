@@ -1,7 +1,7 @@
 #include <gnumeric-config.h>
 
-#include "gnm-graph-window.h"
-#include "application.h"
+#include <gnm-graph-window.h>
+#include <application.h>
 
 #include <string.h>
 

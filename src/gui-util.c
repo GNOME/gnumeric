@@ -8,22 +8,22 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "libgnumeric.h"
-#include "gui-util.h"
+#include <gnumeric.h>
+#include <libgnumeric.h>
+#include <gui-util.h>
 
-#include "gutils.h"
-#include "parse-util.h"
-#include "style.h"
-#include "style-color.h"
-#include "value.h"
-#include "number-match.h"
-#include "gnm-format.h"
-#include "application.h"
-#include "workbook.h"
-#include "libgnumeric.h"
-#include "wbc-gtk.h"
-#include "widgets/gnumeric-expr-entry.h"
+#include <gutils.h>
+#include <parse-util.h>
+#include <style.h>
+#include <style-color.h>
+#include <value.h>
+#include <number-match.h>
+#include <gnm-format.h>
+#include <application.h>
+#include <workbook.h>
+#include <libgnumeric.h>
+#include <wbc-gtk.h>
+#include <widgets/gnumeric-expr-entry.h>
 
 #include <goffice/goffice.h>
 #include <atk/atkrelation.h>

@@ -5,19 +5,19 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-i18n.h"
-#include "gnumeric.h"
-#include "search.h"
+#include <gnm-i18n.h>
+#include <gnumeric.h>
+#include <search.h>
 
-#include "gutils.h"
-#include "ranges.h"
-#include "sheet.h"
-#include "workbook.h"
-#include "position.h"
-#include "cell.h"
-#include "number-match.h"
-#include "value.h"
-#include "sheet-object-cell-comment.h"
+#include <gutils.h>
+#include <ranges.h>
+#include <sheet.h>
+#include <workbook.h>
+#include <position.h>
+#include <cell.h>
+#include <number-match.h>
+#include <value.h>
+#include <sheet-object-cell-comment.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>

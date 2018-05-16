@@ -21,8 +21,8 @@
  */
 
 #include <gnumeric-config.h>
-#include "go-val.h"
-#include "gnm-datetime.h"
+#include <go-val.h>
+#include <gnm-datetime.h>
 
 #include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>

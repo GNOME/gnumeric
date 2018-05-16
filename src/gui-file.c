@@ -9,20 +9,20 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "gui-file.h"
+#include <gnumeric.h>
+#include <gui-file.h>
 
-#include "gui-util.h"
-#include "gutils.h"
-#include "dialogs/dialogs.h"
-#include "sheet.h"
-#include "application.h"
-#include "command-context.h"
-#include "wbc-gtk-impl.h"
-#include "workbook-view.h"
-#include "workbook-priv.h"
-#include "gnumeric-conf.h"
-#include "application.h"
+#include <gui-util.h>
+#include <gutils.h>
+#include <dialogs/dialogs.h>
+#include <sheet.h>
+#include <application.h>
+#include <command-context.h>
+#include <wbc-gtk-impl.h>
+#include <workbook-view.h>
+#include <workbook-priv.h>
+#include <gnumeric-conf.h>
+#include <application.h>
 
 #include <goffice/goffice.h>
 

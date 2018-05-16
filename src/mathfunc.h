@@ -2,10 +2,10 @@
 #ifndef _GNM_MATHFUNC_H_
 # define _GNM_MATHFUNC_H_
 
-#include "numbers.h"
+#include <numbers.h>
 #include <math.h>
 #include <glib.h>
-#include "gnumeric.h"
+#include <gnumeric.h>
 
 G_BEGIN_DECLS
 

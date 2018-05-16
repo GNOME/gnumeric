@@ -25,21 +25,21 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
+#include <gnumeric.h>
 
-#include "sheet.h"
-#include "sheet-filter.h"
-#include "cell.h"
-#include "ranges.h"
-#include "value.h"
-#include "gnm-format.h"
-#include "workbook.h"
-#include "tools.h"
-#include "numbers.h"
-#include "gnm-datetime.h"
+#include <sheet.h>
+#include <sheet-filter.h>
+#include <cell.h>
+#include <ranges.h>
+#include <value.h>
+#include <gnm-format.h>
+#include <workbook.h>
+#include <tools/tools.h>
+#include <numbers.h>
+#include <gnm-datetime.h>
 
-#include "mathfunc.h"
-#include "tools/fill-series.h"
+#include <mathfunc.h>
+#include <tools/fill-series.h>
 #include <goffice/goffice.h>
 
 static void

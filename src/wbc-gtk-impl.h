@@ -2,12 +2,12 @@
 #ifndef _GNM_WBC_GTK_IMPL_H_
 # define _GNM_WBC_GTK_IMPL_H_
 
-#include "gnumeric.h"
-#include "wbc-gtk.h"
-#include "workbook-control-priv.h"
-#include "style.h"
-#include "widgets/gnumeric-expr-entry.h"
-#include "widgets/gnm-notebook.h"
+#include <gnumeric.h>
+#include <wbc-gtk.h>
+#include <workbook-control-priv.h>
+#include <style.h>
+#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-notebook.h>
 
 #include <goffice/goffice.h>
 

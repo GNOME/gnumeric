@@ -2,7 +2,7 @@
 #ifndef _GNM_SHEET_CONTROL_PRIV_H_
 # define _GNM_SHEET_CONTROL_PRIV_H_
 
-#include "sheet-control.h"
+#include <sheet-control.h>
 
 G_BEGIN_DECLS
 

@@ -22,23 +22,23 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-i18n.h"
-#include "gnumeric.h"
-#include "workbook-control-priv.h"
+#include <gnm-i18n.h>
+#include <gnumeric.h>
+#include <workbook-control-priv.h>
 
-#include "application.h"
-#include "workbook-view.h"
-#include "workbook-priv.h"
-#include "sheet.h"
-#include "sheet-view.h"
-#include "sheet-utils.h"
-#include "selection.h"
-#include "commands.h"
-#include "value.h"
-#include "ranges.h"
-#include "expr-name.h"
-#include "expr.h"
-#include "command-context.h"
+#include <application.h>
+#include <workbook-view.h>
+#include <workbook-priv.h>
+#include <sheet.h>
+#include <sheet-view.h>
+#include <sheet-utils.h>
+#include <selection.h>
+#include <commands.h>
+#include <value.h>
+#include <ranges.h>
+#include <expr-name.h>
+#include <expr.h>
+#include <command-context.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 

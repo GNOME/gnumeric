@@ -26,11 +26,11 @@
 #ifndef ANALYSIS_ANOVA_H
 #define ANALYSIS_ANOVA_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
-#include "analysis-tools.h"
+#include <tools/tools.h>
+#include <tools/analysis-tools.h>
 
 /****************  2-Factor ANOVA  ***************/
 /*** with contingency table like data provision **/

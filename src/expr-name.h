@@ -2,8 +2,8 @@
 #ifndef _GNM_EXPR_NAME_H_
 # define _GNM_EXPR_NAME_H_
 
-#include "gnumeric.h"
-#include "position.h"
+#include <gnumeric.h>
+#include <position.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

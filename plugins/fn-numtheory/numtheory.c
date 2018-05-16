@@ -21,8 +21,8 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "func.h"
-#include "value.h"
+#include <func.h>
+#include <value.h>
 #include <gnm-i18n.h>
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>

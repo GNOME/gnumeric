@@ -2,7 +2,7 @@
 #ifndef _GNM_SHEET_CONTROL_H_
 # define _GNM_SHEET_CONTROL_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS

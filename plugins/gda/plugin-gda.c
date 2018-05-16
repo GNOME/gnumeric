@@ -27,13 +27,13 @@
 #include <sql-parser/gda-sql-parser.h>
 #include <string.h>
 
-#include "func.h"
-#include "expr.h"
-#include "value.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "gnm-i18n.h"
-#include "gui-util.h"
+#include <func.h>
+#include <expr.h>
+#include <value.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <gnm-i18n.h>
+#include <gui-util.h>
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
 #include <dead-kittens.h>

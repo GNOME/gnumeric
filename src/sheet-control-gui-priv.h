@@ -2,9 +2,9 @@
 #ifndef _GNM_SHEET_CONTROL_GUI_PRIV_H_
 # define _GNM_SHEET_CONTROL_GUI_PRIV_H_
 
-#include "sheet-control-gui.h"
-#include "sheet-control-priv.h"
-#include "sheet-object.h"
+#include <sheet-control-gui.h>
+#include <sheet-control-priv.h>
+#include <sheet-object.h>
 
 G_BEGIN_DECLS
 

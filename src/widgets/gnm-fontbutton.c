@@ -1,7 +1,7 @@
 /* Mostly a copy of gtkfontbutton.c awaiting a fix for 695776.  */
 
 #include <gnumeric-config.h>
-#include "gnm-fontbutton.h"
+#include <widgets/gnm-fontbutton.h>
 
 typedef enum {
   GTK_FONT_CHOOSER_PROP_FIRST           = 0x4000,

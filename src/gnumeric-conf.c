@@ -27,10 +27,10 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "application.h"
-#include "gnumeric-conf.h"
-#include "gutils.h"
-#include "mstyle.h"
+#include <application.h>
+#include <gnumeric-conf.h>
+#include <gutils.h>
+#include <mstyle.h>
 #include <goffice/goffice.h>
 #include <value.h>
 #include <number-match.h>

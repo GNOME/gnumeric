@@ -2,8 +2,8 @@
 #ifndef _GNM_STYLE_FONT_H_
 # define _GNM_STYLE_FONT_H_
 
-#include "gnumeric.h"
-#include "libgnumeric.h"
+#include <gnumeric.h>
+#include <libgnumeric.h>
 #include <pango/pango.h>
 
 G_BEGIN_DECLS

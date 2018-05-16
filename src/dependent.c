@@ -21,22 +21,22 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "dependent.h"
+#include <gnumeric.h>
+#include <dependent.h>
 
-#include "workbook-priv.h"
-#include "value.h"
-#include "cell.h"
-#include "sheet.h"
-#include "expr.h"
-#include "expr-impl.h"
-#include "expr-name.h"
-#include "application.h"
-#include "workbook-view.h"
-#include "ranges.h"
-#include "gutils.h"
-#include "sheet-view.h"
-#include "func.h"
+#include <workbook-priv.h>
+#include <value.h>
+#include <cell.h>
+#include <sheet.h>
+#include <expr.h>
+#include <expr-impl.h>
+#include <expr-name.h>
+#include <application.h>
+#include <workbook-view.h>
+#include <ranges.h>
+#include <gutils.h>
+#include <sheet-view.h>
+#include <func.h>
 
 #include <goffice/goffice.h>
 #include <string.h>

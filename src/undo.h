@@ -2,10 +2,10 @@
 #ifndef _GNM_UNDO_H_
 #define _GNM_UNDO_H_
 
-#include "gnumeric.h"
-#include "sheet.h"
-#include "colrow.h"
-#include "sheet-filter.h"
+#include <gnumeric.h>
+#include <sheet.h>
+#include <colrow.h>
+#include <sheet-filter.h>
 #include <goffice/goffice.h>
 #include <glib-object.h>
 

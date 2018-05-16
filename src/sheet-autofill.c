@@ -9,20 +9,20 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "sheet-autofill.h"
+#include <gnumeric.h>
+#include <sheet-autofill.h>
 
-#include "sheet.h"
-#include "cell.h"
-#include "value.h"
-#include "workbook.h"
-#include "sheet-style.h"
-#include "expr.h"
-#include "gnm-datetime.h"
-#include "mstyle.h"
-#include "ranges.h"
-#include "sheet-merge.h"
-#include "gnm-format.h"
+#include <sheet.h>
+#include <cell.h>
+#include <value.h>
+#include <workbook.h>
+#include <sheet-style.h>
+#include <expr.h>
+#include <gnm-datetime.h>
+#include <mstyle.h>
+#include <ranges.h>
+#include <sheet-merge.h>
+#include <gnm-format.h>
 #include <goffice/goffice.h>
 
 #include <string.h>

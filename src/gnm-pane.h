@@ -2,7 +2,7 @@
 #ifndef _GNM_PANE_H_
 # define _GNM_PANE_H_
 
-#include "gnumeric-fwd.h"
+#include <gnumeric-fwd.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

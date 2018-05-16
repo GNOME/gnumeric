@@ -21,7 +21,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "font.h"
-#include "style.h"
+#include <style.h>
 
 static int
 font_match (GnmStyle const *mstyle, char const **names)

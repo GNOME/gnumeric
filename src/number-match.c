@@ -16,16 +16,16 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "number-match.h"
+#include <gnumeric.h>
+#include <number-match.h>
 
-#include "gutils.h"
-#include "style.h"
-#include "gnm-format.h"
-#include "value.h"
-#include "mathfunc.h"
-#include "numbers.h"
-#include "gnm-datetime.h"
+#include <gutils.h>
+#include <style.h>
+#include <gnm-format.h>
+#include <value.h>
+#include <mathfunc.h>
+#include <numbers.h>
+#include <gnm-datetime.h>
 #include <goffice/goffice.h>
 
 #include <string.h>

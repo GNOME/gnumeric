@@ -24,14 +24,14 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "analysis-wilcoxon-mann-whitney.h"
-#include "analysis-tools.h"
-#include "value.h"
-#include "ranges.h"
-#include "expr.h"
-#include "func.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <tools/analysis-wilcoxon-mann-whitney.h>
+#include <tools/analysis-tools.h>
+#include <value.h>
+#include <ranges.h>
+#include <expr.h>
+#include <func.h>
+#include <numbers.h>
 
 static
 GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Workbook *wb)

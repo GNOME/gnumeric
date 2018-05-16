@@ -2,9 +2,9 @@
 #ifndef _GNM_GUI_UTIL_H_
 # define _GNM_GUI_UTIL_H_
 
-#include "gnumeric-fwd.h"
+#include <gnumeric-fwd.h>
 #include <goffice/goffice.h>
-#include "numbers.h"
+#include <numbers.h>
 
 G_BEGIN_DECLS
 

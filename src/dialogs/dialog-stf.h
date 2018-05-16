@@ -1,8 +1,8 @@
 #ifndef GNUMERIC_DIALOG_STF_H
 #define GNUMERIC_DIALOG_STF_H
 
-#include "dialog-stf-preview.h"
-#include "gui-util.h"
+#include <dialogs/dialog-stf-preview.h>
+#include <gui-util.h>
 #include <stf-parse.h>
 #include <goffice/goffice.h>
 

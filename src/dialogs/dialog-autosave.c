@@ -23,8 +23,8 @@
  **/
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "dialogs.h"
-#include "help.h"
+#include <dialogs/dialogs.h>
+#include <dialogs/help.h>
 #include <workbook.h>
 #include <workbook-control.h>
 #include <wbc-gtk.h>

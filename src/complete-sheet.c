@@ -11,14 +11,14 @@
  * (C) 2000-2001 Ximian, Inc.
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "complete-sheet.h"
-#include "gnumeric-conf.h"
+#include <gnumeric.h>
+#include <complete-sheet.h>
+#include <gnumeric-conf.h>
 
-#include "sheet.h"
-#include "cell.h"
-#include "value.h"
-#include "parse-util.h"
+#include <sheet.h>
+#include <cell.h>
+#include <value.h>
+#include <parse-util.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>

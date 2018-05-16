@@ -9,28 +9,28 @@
  *  Copyright (C) 2007-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "print-cell.h"
+#include <gnumeric.h>
+#include <print-cell.h>
 
-#include "application.h"
-#include "dependent.h"
-#include "gnm-format.h"
-#include "style-color.h"
-#include "style-font.h"
-#include "parse-util.h"
-#include "cell.h"
-#include "value.h"
-#include "style-border.h"
-#include "style-conditions.h"
-#include "pattern.h"
-#include "cellspan.h"
-#include "ranges.h"
-#include "sheet.h"
-#include "sheet-style.h"
-#include "sheet-merge.h"
-#include "rendered-value.h"
-#include "cell-draw.h"
-#include "print-info.h"
+#include <application.h>
+#include <dependent.h>
+#include <gnm-format.h>
+#include <style-color.h>
+#include <style-font.h>
+#include <parse-util.h>
+#include <cell.h>
+#include <value.h>
+#include <style-border.h>
+#include <style-conditions.h>
+#include <pattern.h>
+#include <cellspan.h>
+#include <ranges.h>
+#include <sheet.h>
+#include <sheet-style.h>
+#include <sheet-merge.h>
+#include <rendered-value.h>
+#include <cell-draw.h>
+#include <print-info.h>
 
 #include <string.h>
 #include <locale.h>

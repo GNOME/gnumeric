@@ -34,13 +34,13 @@
 
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
-#include "expr.h"
-#include "gutils.h"
-#include "func.h"
-#include "cell.h"
-#include "value.h"
-#include "libgnumeric.h"
-#include "command-context.h"
+#include <expr.h>
+#include <gutils.h>
+#include <func.h>
+#include <cell.h>
+#include <value.h>
+#include <libgnumeric.h>
+#include <command-context.h>
 #include "guile-support.h"
 #include "smob-value.h"
 

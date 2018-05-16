@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_PLUGIN_LOTUS_123_LOTUS_FORMULA_H
 #define GNUMERIC_PLUGIN_LOTUS_123_LOTUS_FORMULA_H
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <sheet.h>
 
 #define LOTUS_FORMULA_CONSTANT    0x0

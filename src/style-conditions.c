@@ -20,14 +20,14 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "style-conditions.h"
-#include "mstyle.h"
-#include "expr.h"
-#include "expr-impl.h"
-#include "cell.h"
-#include "value.h"
-#include "sheet.h"
+#include <gnumeric.h>
+#include <style-conditions.h>
+#include <mstyle.h>
+#include <expr.h>
+#include <expr-impl.h>
+#include <cell.h>
+#include <value.h>
+#include <sheet.h>
 #include <parse-util.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>

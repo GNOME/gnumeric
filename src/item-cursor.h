@@ -1,7 +1,7 @@
 #ifndef _GNM_ITEM_CURSOR_H_
 #define _GNM_ITEM_CURSOR_H_
 
-#include "gnumeric-fwd.h"
+#include <gnumeric-fwd.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS

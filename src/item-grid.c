@@ -11,34 +11,34 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "item-grid.h"
+#include <gnumeric.h>
+#include <item-grid.h>
 
-#include "gnm-pane-impl.h"
-#include "wbc-gtk-impl.h"
-#include "workbook-view.h"
-#include "sheet-control-gui-priv.h"
-#include "sheet.h"
-#include "sheet-view.h"
-#include "sheet-style.h"
-#include "sheet-merge.h"
-#include "sheet-object-impl.h"
-#include "cell.h"
-#include "cell-draw.h"
-#include "cellspan.h"
-#include "ranges.h"
-#include "selection.h"
-#include "parse-util.h"
-#include "mstyle.h"
-#include "style-conditions.h"
-#include "position.h"		/* to eval conditions */
-#include "style-border.h"
-#include "style-color.h"
-#include "pattern.h"
-#include "commands.h"
-#include "hlink.h"
-#include "gui-util.h"
-#include "gnm-i18n.h"
+#include <gnm-pane-impl.h>
+#include <wbc-gtk-impl.h>
+#include <workbook-view.h>
+#include <sheet-control-gui-priv.h>
+#include <sheet.h>
+#include <sheet-view.h>
+#include <sheet-style.h>
+#include <sheet-merge.h>
+#include <sheet-object-impl.h>
+#include <cell.h>
+#include <cell-draw.h>
+#include <cellspan.h>
+#include <ranges.h>
+#include <selection.h>
+#include <parse-util.h>
+#include <mstyle.h>
+#include <style-conditions.h>
+#include <position.h>		/* to eval conditions */
+#include <style-border.h>
+#include <style-color.h>
+#include <pattern.h>
+#include <commands.h>
+#include <hlink.h>
+#include <gui-util.h>
+#include <gnm-i18n.h>
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>

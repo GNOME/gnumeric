@@ -21,9 +21,9 @@
  */
 
 #include <gnumeric-config.h>
-#include "go-data-cache-impl.h"
-#include "go-data-cache-source.h"
-#include "go-data-cache-field-impl.h"
+#include <go-data-cache-impl.h>
+#include <go-data-cache-source.h>
+#include <go-data-cache-field-impl.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

@@ -2,8 +2,8 @@
 #ifndef _GNM_COMPLETE_SHEET_H_
 # define _GNM_COMPLETE_SHEET_H_
 
-#include "gnumeric.h"
-#include "complete.h"
+#include <gnumeric.h>
+#include <complete.h>
 
 G_BEGIN_DECLS
 

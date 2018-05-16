@@ -24,14 +24,14 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "analysis-signed-rank-test.h"
-#include "analysis-tools.h"
-#include "value.h"
-#include "ranges.h"
-#include "expr.h"
-#include "func.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <tools/analysis-signed-rank-test.h>
+#include <tools/analysis-tools.h>
+#include <value.h>
+#include <ranges.h>
+#include <expr.h>
+#include <func.h>
+#include <numbers.h>
 
 static inline GnmExpr const *
 make_int (int n)

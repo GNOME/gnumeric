@@ -22,17 +22,17 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "libgnumeric.h"
-#include "position.h"
+#include <gnumeric.h>
+#include <libgnumeric.h>
+#include <position.h>
 
-#include "sheet.h"
-#include "sheet-view.h"
-#include "cell.h"
-#include "value.h"
-#include "ranges.h"
+#include <sheet.h>
+#include <sheet-view.h>
+#include <cell.h>
+#include <value.h>
+#include <ranges.h>
 #include <string.h>
-#include "workbook.h"
+#include <workbook.h>
 
 /* GnmCellPos made a boxed type */
 static GnmCellPos *

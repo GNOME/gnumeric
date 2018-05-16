@@ -2,7 +2,7 @@
 #ifndef _GNM_RENDERED_VALUE_H_
 # define _GNM_RENDERED_VALUE_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <pango/pango.h>
 
 G_BEGIN_DECLS

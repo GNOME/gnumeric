@@ -21,7 +21,7 @@
 #ifndef GNUMERIC_HTML_BOOT_H
 #define GNUMERIC_HTML_BOOT_H
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <goffice/goffice.h>
 
 #endif

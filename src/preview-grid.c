@@ -22,21 +22,21 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "preview-grid-impl.h"
+#include <gnumeric.h>
+#include <preview-grid-impl.h>
 
-#include "cell.h"
-#include "sheet.h"
-#include "cell-draw.h"
-#include "colrow.h"
-#include "pattern.h"
-#include "mstyle.h"
-#include "rendered-value.h"
-#include "sheet-style.h"
-#include "style-border.h"
-#include "style-color.h"
-#include "value.h"
-#include "gnm-marshalers.h"
+#include <cell.h>
+#include <sheet.h>
+#include <cell-draw.h>
+#include <colrow.h>
+#include <pattern.h>
+#include <mstyle.h>
+#include <rendered-value.h>
+#include <sheet-style.h>
+#include <style-border.h>
+#include <style-color.h>
+#include <value.h>
+#include <gnm-marshalers.h>
 
 #include <gsf/gsf-impl-utils.h>
 

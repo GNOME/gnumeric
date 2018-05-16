@@ -8,22 +8,22 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-i18n.h"
-#include "gnumeric.h"
-#include "item-bar.h"
-#include "gnm-pane-impl.h"
+#include <gnm-i18n.h>
+#include <gnumeric.h>
+#include <item-bar.h>
+#include <gnm-pane-impl.h>
 
-#include "style-color.h"
-#include "sheet.h"
-#include "sheet-control-gui.h"
-#include "sheet-control-gui-priv.h"
-#include "application.h"
-#include "selection.h"
-#include "wbc-gtk-impl.h"
-#include "gui-util.h"
-#include "parse-util.h"
-#include "commands.h"
-#include "gutils.h"
+#include <style-color.h>
+#include <sheet.h>
+#include <sheet-control-gui.h>
+#include <sheet-control-gui-priv.h>
+#include <application.h>
+#include <selection.h>
+#include <wbc-gtk-impl.h>
+#include <gui-util.h>
+#include <parse-util.h>
+#include <commands.h>
+#include <gutils.h>
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>

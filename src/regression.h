@@ -2,7 +2,7 @@
 #ifndef _GNM_REGRESSION_H_
 # define _GNM_REGRESSION_H_
 
-#include "numbers.h"
+#include <numbers.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

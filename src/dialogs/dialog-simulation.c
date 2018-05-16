@@ -21,8 +21,8 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
-#include "dialogs.h"
-#include "help.h"
+#include <dialogs/dialogs.h>
+#include <dialogs/help.h>
 
 #include <sheet.h>
 #include <cell.h>
@@ -35,7 +35,7 @@
 
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnm-dao.h>
-#include "tools/simulation.h"
+#include <tools/simulation.h>
 
 #include <string.h>
 

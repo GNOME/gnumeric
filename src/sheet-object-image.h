@@ -2,7 +2,7 @@
 #ifndef _GNM_SHEET_OBJECT_IMAGE_H_
 # define _GNM_SHEET_OBJECT_IMAGE_H_
 
-#include "sheet-object.h"
+#include <sheet-object.h>
 
 G_BEGIN_DECLS
 

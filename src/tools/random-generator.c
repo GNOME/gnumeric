@@ -26,22 +26,22 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "random-generator.h"
+#include <gnumeric.h>
+#include <tools/random-generator.h>
 
-#include "gnm-random.h"
-#include "rangefunc.h"
-#include "tools.h"
-#include "value.h"
-#include "cell.h"
-#include "sheet.h"
-#include "ranges.h"
-#include "style.h"
-#include "sheet-style.h"
-#include "workbook.h"
-#include "gnm-format.h"
-#include "command-context.h"
-#include "sheet-object-cell-comment.h"
+#include <gnm-random.h>
+#include <rangefunc.h>
+#include <tools/tools.h>
+#include <value.h>
+#include <cell.h>
+#include <sheet.h>
+#include <ranges.h>
+#include <style.h>
+#include <sheet-style.h>
+#include <workbook.h>
+#include <gnm-format.h>
+#include <command-context.h>
+#include <sheet-object-cell-comment.h>
 
 #include <string.h>
 #include <math.h>

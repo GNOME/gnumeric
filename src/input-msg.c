@@ -22,8 +22,8 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "input-msg.h"
+#include <gnumeric.h>
+#include <input-msg.h>
 
 #include <gsf/gsf-impl-utils.h>
 

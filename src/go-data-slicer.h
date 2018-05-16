@@ -22,7 +22,7 @@
 #ifndef GO_DATA_SLICER_H
 #define GO_DATA_SLICER_H
 
-#include "goffice-data.h"	/* remove after move to goffice */
+#include <goffice-data.h>	/* remove after move to goffice */
 #include <glib-object.h>
 
 G_BEGIN_DECLS

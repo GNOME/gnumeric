@@ -23,11 +23,11 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "ms-excel-write.h"
-#include "gnm-datetime.h"
-#include "workbook.h"
-#include "go-val.h"
-#include "go-data-cache.h"
-#include "go-data-cache-field.h"
+#include <gnm-datetime.h>
+#include <workbook.h>
+#include <go-val.h>
+#include <go-data-cache.h>
+#include <go-data-cache-field.h>
 
 #include <gsf/gsf-outfile.h>
 #include <gsf/gsf-output.h>

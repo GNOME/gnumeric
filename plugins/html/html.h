@@ -21,7 +21,7 @@
 #ifndef GNUMERIC_PLUGIN_HTML_H
 #define GNUMERIC_PLUGIN_HTML_H
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <goffice/goffice.h>
 
 void html32_file_save	  (GOFileSaver const *fs, GOIOContext *io_context,

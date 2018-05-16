@@ -15,7 +15,7 @@
 #ifndef GNUMERIC_DIALOG_STF_EXPORT_H
 #define GNUMERIC_DIALOG_STF_EXPORT_H
 
-#include "gnumeric-fwd.h"
+#include <gnumeric-fwd.h>
 
 gboolean stf_export_dialog (WBCGtk *wbcg, GnmStfExport *stfe, Workbook *wb);
 

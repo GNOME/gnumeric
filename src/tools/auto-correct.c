@@ -25,13 +25,13 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "auto-correct.h"
+#include <gnumeric.h>
+#include <tools/auto-correct.h>
 
-#include "application.h"
-#include "gutils.h"
-#include "gnumeric-conf.h"
-#include "parse-util.h"
+#include <application.h>
+#include <gutils.h>
+#include <gnumeric-conf.h>
+#include <parse-util.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>

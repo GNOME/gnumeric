@@ -20,15 +20,15 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "expr-deriv.h"
-#include "expr-impl.h"
-#include "func.h"
-#include "value.h"
-#include "sheet.h"
-#include "workbook.h"
-#include "cell.h"
-#include "gutils.h"
+#include <gnumeric.h>
+#include <expr-deriv.h>
+#include <expr-impl.h>
+#include <func.h>
+#include <value.h>
+#include <sheet.h>
+#include <workbook.h>
+#include <cell.h>
+#include <gutils.h>
 
 /* ------------------------------------------------------------------------- */
 

@@ -4,7 +4,7 @@
 
 G_BEGIN_DECLS
 
-#include "sheet-object.h"
+#include <sheet-object.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-libxml.h>
 #include <libxml/tree.h>

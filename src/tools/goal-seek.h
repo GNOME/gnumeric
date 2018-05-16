@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_GOAL_SEEK_H
 #define GNUMERIC_GOAL_SEEK_H
 
-#include "numbers.h"
+#include <numbers.h>
 #include <glib.h>
 
 typedef struct {

@@ -2,7 +2,7 @@
 #ifndef _GNM_COMPLEX_H_
 # define _GNM_COMPLEX_H_
 
-#include "numbers.h"
+#include <numbers.h>
 #include <goffice/goffice.h>
 #include <math.h>
 

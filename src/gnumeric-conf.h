@@ -2,9 +2,9 @@
 #ifndef _GNM_GCONF_H_
 # define _GNM_GCONF_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <gsf/gsf-output-csv.h>
-#include "stf-export.h"
+#include <stf-export.h>
 
 G_BEGIN_DECLS
 

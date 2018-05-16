@@ -2,7 +2,7 @@
 #ifndef _GNM_PATTERN_H_
 # define _GNM_PATTERN_H_
 
-#include "style.h"
+#include <style.h>
 
 G_BEGIN_DECLS
 

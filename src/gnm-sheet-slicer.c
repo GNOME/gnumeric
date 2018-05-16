@@ -21,12 +21,12 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-sheet-slicer.h"
-#include "go-data-slicer-impl.h"
-#include "go-data-slicer-field-impl.h"
-#include "go-data-cache.h"
-#include "sheet.h"
-#include "ranges.h"
+#include <gnm-sheet-slicer.h>
+#include <go-data-slicer-impl.h>
+#include <go-data-slicer-field-impl.h>
+#include <go-data-cache.h>
+#include <sheet.h>
+#include <ranges.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

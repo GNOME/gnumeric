@@ -22,25 +22,25 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "validation.h"
-#include "validation-combo.h"
+#include <gnumeric.h>
+#include <validation.h>
+#include <validation-combo.h>
 
-#include "numbers.h"
-#include "expr.h"
-#include "mstyle.h"
-#include "sheet.h"
-#include "cell.h"
-#include "value.h"
-#include "workbook.h"
-#include "workbook-control.h"
-#include "parse-util.h"
+#include <numbers.h>
+#include <expr.h>
+#include <mstyle.h>
+#include <sheet.h>
+#include <cell.h>
+#include <value.h>
+#include <workbook.h>
+#include <workbook-control.h>
+#include <parse-util.h>
 
-#include "sheet-view.h"
-#include "sheet-object.h"
-#include "sheet-style.h"
-#include "widgets/gnm-validation-combo-view.h"
-#include "widgets/gnm-cell-combo-view.h"
+#include <sheet-view.h>
+#include <sheet-object.h>
+#include <sheet-style.h>
+#include <widgets/gnm-validation-combo-view.h>
+#include <widgets/gnm-cell-combo-view.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>

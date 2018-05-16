@@ -2,8 +2,8 @@
 #ifndef _GNM_SHEET_OBJECT_WIDGET_IMPL_H_
 # define _GNM_SHEET_OBJECT_WIDGET_IMPL_H_
 
-#include "sheet-object-widget.h"
-#include "sheet-object-impl.h"
+#include <sheet-object-widget.h>
+#include <sheet-object-impl.h>
 
 G_BEGIN_DECLS
 

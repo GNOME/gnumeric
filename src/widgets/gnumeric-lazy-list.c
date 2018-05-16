@@ -1,5 +1,5 @@
 #include <gnumeric-config.h>
-#include "gnumeric-lazy-list.h"
+#include <widgets/gnumeric-lazy-list.h>
 #include <glib/gi18n-lib.h>
 #include <gnm-marshalers.h>
 

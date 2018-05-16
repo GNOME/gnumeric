@@ -22,13 +22,13 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "application.h"
-#include "gnm-so-filled.h"
-#include "sheet-object-impl.h"
-#include "sheet.h"
-#include "gutils.h"
-#include "xml-sax.h"
+#include <gnumeric.h>
+#include <application.h>
+#include <gnm-so-filled.h>
+#include <sheet-object-impl.h>
+#include <sheet.h>
+#include <gutils.h>
+#include <xml-sax.h>
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>

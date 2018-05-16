@@ -12,17 +12,17 @@
 #include "py-gnumeric.h"
 #include "gnm-python.h"
 
-#include "gnm-plugin.h"
-#include "application.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "workbook-view.h"
-#include "wbc-gtk.h"
-#include "gui-util.h"
-#include "value.h"
-#include "expr.h"
-#include "expr-impl.h"
-#include "func.h"
+#include <gnm-plugin.h>
+#include <application.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <workbook-view.h>
+#include <wbc-gtk.h>
+#include <gui-util.h>
+#include <value.h>
+#include <expr.h>
+#include <expr-impl.h>
+#include <func.h>
 
 #include <goffice/goffice.h>
 #include <goffice/app/module-plugin-defs.h>

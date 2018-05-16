@@ -8,15 +8,15 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
+#include <gnumeric.h>
 
-#include "value.h"
-#include "gnm-format.h"
-#include "ranges.h"
-#include "sheet.h"
-#include "cell.h"
-#include "workbook.h"
-#include "parse-util.h"
+#include <value.h>
+#include <gnm-format.h>
+#include <ranges.h>
+#include <sheet.h>
+#include <cell.h>
+#include <workbook.h>
+#include <parse-util.h>
 #include <goffice/goffice.h>
 
 /* Debugging utility to print a GnmValue */

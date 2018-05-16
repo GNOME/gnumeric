@@ -2,7 +2,7 @@
 #ifndef _GNM_SIMPLE_CANVAS_H_
 # define _GNM_SIMPLE_CANVAS_H_
 
-#include "gnumeric-fwd.h"
+#include <gnumeric-fwd.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

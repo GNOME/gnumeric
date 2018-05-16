@@ -8,20 +8,20 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "style.h"
-#include "style-font.h"
+#include <gnumeric.h>
+#include <style.h>
+#include <style-font.h>
 
-#include "gnm-format.h"
-#include "style-color.h"
-#include "application.h"
-#include "sheet.h"
-#include "cell.h"
-#include "value.h"
+#include <gnm-format.h>
+#include <style-color.h>
+#include <application.h>
+#include <sheet.h>
+#include <cell.h>
+#include <value.h>
 
-#include "gui-util.h"
-#include "mathfunc.h"
-#include "gnumeric-conf.h"
+#include <gui-util.h>
+#include <mathfunc.h>
+#include <gnumeric-conf.h>
 
 #include <pango/pangocairo.h>
 #include <gdk/gdk.h>

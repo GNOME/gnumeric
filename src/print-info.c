@@ -11,22 +11,22 @@
  * Copyright (C) 2007-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "print-info.h"
+#include <gnumeric.h>
+#include <print-info.h>
 
-#include "print.h"
-#include "gutils.h"
-#include "ranges.h"
-#include "gnm-format.h"
-#include "func.h"
-#include "sheet.h"
-#include "value.h"
-#include "workbook.h"
-#include "workbook-view.h"
-#include "gnumeric-conf.h"
-#include "parse-util.h"
-#include "sheet-object.h"
-#include "sheet-object-graph.h"
+#include <print.h>
+#include <gutils.h>
+#include <ranges.h>
+#include <gnm-format.h>
+#include <func.h>
+#include <sheet.h>
+#include <value.h>
+#include <workbook.h>
+#include <workbook-view.h>
+#include <gnumeric-conf.h>
+#include <parse-util.h>
+#include <sheet-object.h>
+#include <sheet-object-graph.h>
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-doc-meta-data.h>

@@ -21,7 +21,7 @@
 #ifndef GNUMERIC_PLUGIN_ROFF_H
 #define GNUMERIC_PLUGIN_ROFF_H
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 
 void roff_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		     WorkbookView const *wb_view, GsfOutput *output);

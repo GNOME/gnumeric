@@ -23,23 +23,23 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "rendered-value.h"
+#include <gnumeric.h>
+#include <rendered-value.h>
 
-#include "expr.h"
-#include "cell.h"
-#include "style.h"
-#include "style-color.h"
-#include "style-font.h"
-#include "style-border.h"
-#include "style-conditions.h"
-#include "sheet.h"
-#include "sheet-merge.h"
-#include "gnm-format.h"
-#include "value.h"
-#include "parse-util.h"
-#include "workbook.h"
-#include "gutils.h"
+#include <expr.h>
+#include <cell.h>
+#include <style.h>
+#include <style-color.h>
+#include <style-font.h>
+#include <style-border.h>
+#include <style-conditions.h>
+#include <sheet.h>
+#include <sheet-merge.h>
+#include <gnm-format.h>
+#include <value.h>
+#include <parse-util.h>
+#include <workbook.h>
+#include <gutils.h>
 
 #include <string.h>
 #include <goffice/goffice.h>

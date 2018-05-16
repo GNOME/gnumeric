@@ -2,7 +2,7 @@
 #ifndef _GNM_PREVIEW_GRID_IMPL_H_
 #define _GNM_PREVIEW_GRID_IMPL_H_
 
-#include "preview-grid.h"
+#include <preview-grid.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

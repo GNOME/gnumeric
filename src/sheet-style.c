@@ -22,17 +22,17 @@
  */
 
 #include <gnumeric-config.h>
-#include "sheet-style.h"
-#include "ranges.h"
-#include "sheet.h"
-#include "expr.h"
-#include "style.h"
-#include "style-border.h"
-#include "style-color.h"
-#include "style-conditions.h"
-#include "parse-util.h"
-#include "cell.h"
-#include "gutils.h"
+#include <sheet-style.h>
+#include <ranges.h>
+#include <sheet.h>
+#include <expr.h>
+#include <style.h>
+#include <style-border.h>
+#include <style-color.h>
+#include <style-conditions.h>
+#include <parse-util.h>
+#include <cell.h>
+#include <gutils.h>
 #include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>

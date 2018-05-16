@@ -26,11 +26,11 @@
  */
 #include <gnumeric-config.h>
 #include <goffice/goffice.h>
-#include "value.h"
+#include <value.h>
 #include <string.h>
-#include "gnm-datetime.h"
-#include "gnm-format.h"
-#include "number-match.h"
+#include <gnm-datetime.h>
+#include <gnm-format.h>
+#include <number-match.h>
 
 /*
  * Figure out whether the format engine in goffice allows negative values

@@ -1,10 +1,10 @@
 /* vim: set sw=8: */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "gnumeric-simple-canvas.h"
+#include <gnumeric.h>
+#include <gnumeric-simple-canvas.h>
 
-#include "sheet-control-gui-priv.h"
-#include "gutils.h"
+#include <sheet-control-gui-priv.h>
+#include <gutils.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 

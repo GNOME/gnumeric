@@ -24,27 +24,27 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
-#include "dialogs.h"
-#include "help.h"
+#include <dialogs/dialogs.h>
+#include <dialogs/help.h>
 
 #include <gui-util.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <tools/tabulate.h>
 #include <wbc-gtk.h>
-#include "ranges.h"
-#include "value.h"
-#include "sheet.h"
-#include "mstyle.h"
-#include "workbook.h"
-#include "mathfunc.h"
-#include "cell.h"
-#include "commands.h"
-#include "gnm-format.h"
-#include "number-match.h"
-#include "mstyle.h"
-#include "style-border.h"
-#include "sheet-style.h"
-#include "style-color.h"
+#include <ranges.h>
+#include <value.h>
+#include <sheet.h>
+#include <mstyle.h>
+#include <workbook.h>
+#include <mathfunc.h>
+#include <cell.h>
+#include <commands.h>
+#include <gnm-format.h>
+#include <number-match.h>
+#include <mstyle.h>
+#include <style-border.h>
+#include <sheet-style.h>
+#include <style-color.h>
 
 #include <string.h>
 

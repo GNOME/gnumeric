@@ -21,17 +21,17 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "sheet-object-cell-comment.h"
+#include <gnumeric.h>
+#include <sheet-object-cell-comment.h>
 
-#include "gnm-pane-impl.h"
-#include "sheet-object-impl.h"
-#include "sheet.h"
-#include "sheet-view.h"
-#include "sheet-merge.h"
-#include "sheet-control-gui-priv.h"
-#include "dialogs/dialogs.h"
-#include "gui-util.h"
+#include <gnm-pane-impl.h>
+#include <sheet-object-impl.h>
+#include <sheet.h>
+#include <sheet-view.h>
+#include <sheet-merge.h>
+#include <sheet-control-gui-priv.h>
+#include <dialogs/dialogs.h>
+#include <gui-util.h>
 #include <goffice/goffice.h>
 
 #include <string.h>

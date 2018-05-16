@@ -26,12 +26,12 @@
 #ifndef ANALYSIS_PRINCIPAL_COMPONENTS_H
 #define ANALYSIS_PRINCIPAL_COMPONENTS_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
-#include "analysis-tools.h"
-#include "sheet.h"
+#include <tools/tools.h>
+#include <tools/analysis-tools.h>
+#include <sheet.h>
 
 gboolean analysis_tool_principal_components_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);

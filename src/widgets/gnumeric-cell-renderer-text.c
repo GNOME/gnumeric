@@ -16,7 +16,7 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric-cell-renderer-text.h"
+#include <widgets/gnumeric-cell-renderer-text.h>
 #include <dead-kittens.h>
 #include <gui-util.h>
 

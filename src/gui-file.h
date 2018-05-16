@@ -2,7 +2,7 @@
 #ifndef _GNM_GUI_FILE_H_
 # define _GNM_GUI_FILE_H_
 
-#include "gnumeric-fwd.h"
+#include <gnumeric-fwd.h>
 
 G_BEGIN_DECLS
 

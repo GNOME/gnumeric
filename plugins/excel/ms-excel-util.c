@@ -13,7 +13,7 @@
 #include <glib.h>
 
 #include "boot.h"
-#include "style.h"
+#include <style.h>
 #include "ms-excel-util.h"
 #include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>

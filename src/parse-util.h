@@ -2,8 +2,8 @@
 #ifndef _GNM_PARSE_UTIL_H_
 # define _GNM_PARSE_UTIL_H_
 
-#include "gnumeric.h"
-#include "libgnumeric.h"
+#include <gnumeric.h>
+#include <libgnumeric.h>
 
 G_BEGIN_DECLS
 

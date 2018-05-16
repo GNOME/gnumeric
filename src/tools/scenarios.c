@@ -31,10 +31,10 @@
 #include <workbook.h>
 #include <expr.h>
 
-#include "scenarios.h"
+#include <tools/scenarios.h>
 #include <tools/dao.h>
-#include "clipboard.h"
-#include "parse-util.h"
+#include <clipboard.h>
+#include <parse-util.h>
 #include <goffice/goffice.h>
 
 #include <string.h>

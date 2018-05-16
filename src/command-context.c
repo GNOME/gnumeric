@@ -21,9 +21,9 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "command-context.h"
-#include "ranges.h"
+#include <gnumeric.h>
+#include <command-context.h>
+#include <ranges.h>
 
 #include <glib/gi18n-lib.h>
 

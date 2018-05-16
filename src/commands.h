@@ -2,8 +2,8 @@
 #ifndef _GNM_COMMANDS_H_
 #define _GNM_COMMANDS_H_
 
-#include "gnumeric.h"
-#include "tools/tools.h"
+#include <gnumeric.h>
+#include <tools/tools.h>
 
 G_BEGIN_DECLS
 

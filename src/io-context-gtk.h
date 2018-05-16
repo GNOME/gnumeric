@@ -2,7 +2,7 @@
 # define _GNM_IO_CONTEXT_GTK_H_
 
 #include <stdarg.h>
-#include "gnumeric-fwd.h"
+#include <gnumeric-fwd.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

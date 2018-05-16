@@ -22,13 +22,13 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 
-#include "func.h"
-#include "value.h"
-#include "workbook.h"
-#include "application.h"
-#include "sheet.h"
-#include "gutils.h"
-#include "gnm-i18n.h"
+#include <func.h>
+#include <value.h>
+#include <workbook.h>
+#include <application.h>
+#include <sheet.h>
+#include <gutils.h>
+#include <gnm-i18n.h>
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
 

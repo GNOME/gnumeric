@@ -23,13 +23,13 @@
 
 #include <gnumeric-config.h>
 
-#include "undo.h"
-#include "sheet.h"
-#include "sheet-view.h"
-#include "sheet-control-gui.h"
-#include "wbc-gtk.h"
-#include "wbc-gtk-impl.h"
-#include "colrow.h"
+#include <undo.h>
+#include <sheet.h>
+#include <sheet-view.h>
+#include <sheet-control-gui.h>
+#include <wbc-gtk.h>
+#include <wbc-gtk-impl.h>
+#include <colrow.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

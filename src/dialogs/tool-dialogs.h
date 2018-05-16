@@ -16,9 +16,9 @@
 #ifndef GNUMERIC_TOOL_DIALOGS_H
 #define GNUMERIC_TOOL_DIALOGS_H
 
-#include "gnumeric.h"
-#include "numbers.h"
-#include "widgets/gnumeric-expr-entry.h"
+#include <gnumeric.h>
+#include <numbers.h>
+#include <widgets/gnumeric-expr-entry.h>
 
 typedef struct _scenario_state scenario_state_t;
 

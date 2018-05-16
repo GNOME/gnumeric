@@ -1,10 +1,10 @@
 #ifndef GNUMERIC_RANDOM_GENERATOR_COR_H
 #define GNUMERIC_RANDOM_GENERATOR_COR_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
+#include <tools/tools.h>
 
 typedef enum {
 	random_gen_cor_type_cov = 0,

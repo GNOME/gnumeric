@@ -2,10 +2,10 @@
 #ifndef _GNM_WORKBOOK_H_
 # define _GNM_WORKBOOK_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <goffice/goffice.h>
 #include <glib-object.h>
-#include "gui-file.h"
+#include <gui-file.h>
 
 G_BEGIN_DECLS
 

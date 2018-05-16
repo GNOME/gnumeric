@@ -22,8 +22,8 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
-#include "dialogs.h"
-#include "help.h"
+#include <dialogs/dialogs.h>
+#include <dialogs/help.h>
 
 #include <gui-util.h>
 #include <commands.h>
@@ -37,8 +37,8 @@
 #include <value.h>
 #include <cell.h>
 #include <tools/dao.h>
-#include "tools/scenarios.h"
-#include "dialogs/tool-dialogs.h"
+#include <tools/scenarios.h>
+#include <dialogs/tool-dialogs.h>
 
 #include <goffice/goffice.h>
 #include <string.h>

@@ -14,20 +14,20 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "number-match.h"
-#include "expr.h"
-#include "expr-impl.h"
-#include "expr-name.h"
-#include "func.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "gnm-format.h"
-#include "application.h"
-#include "parse-util.h"
-#include "gutils.h"
-#include "style.h"
-#include "value.h"
+#include <gnumeric.h>
+#include <number-match.h>
+#include <expr.h>
+#include <expr-impl.h>
+#include <expr-name.h>
+#include <func.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <gnm-format.h>
+#include <application.h>
+#include <parse-util.h>
+#include <gutils.h>
+#include <style.h>
+#include <value.h>
 #include <goffice/goffice.h>
 
 #include <string.h>

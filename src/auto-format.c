@@ -11,17 +11,17 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "auto-format.h"
+#include <gnumeric.h>
+#include <auto-format.h>
 
-#include "compilation.h"
-#include "func.h"
-#include "cell.h"
-#include "value.h"
-#include "expr.h"
-#include "expr-impl.h"
-#include "sheet.h"
-#include "workbook.h"
+#include <compilation.h>
+#include <func.h>
+#include <cell.h>
+#include <value.h>
+#include <expr.h>
+#include <expr-impl.h>
+#include <sheet.h>
+#include <workbook.h>
 #include <goffice/goffice.h>
 
 /* ------------------------------------------------------------------------- */

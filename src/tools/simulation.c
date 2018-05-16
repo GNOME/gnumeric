@@ -33,8 +33,8 @@
 #include <sheet.h>
 
 #include <mathfunc.h>
-#include "rangefunc.h"
-#include "simulation.h"
+#include <rangefunc.h>
+#include <tools/simulation.h>
 
 static void
 init_stats (simstats_t *stats, simulation_t *sim)

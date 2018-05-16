@@ -26,7 +26,7 @@
 
 
 #include <libguile.h>
-#include "value.h"
+#include <value.h>
 
 void init_value_type (void);
 

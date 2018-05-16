@@ -9,11 +9,11 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "command-context-stderr.h"
+#include <gnumeric.h>
+#include <command-context-stderr.h>
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/goffice.h>
-#include "ranges.h"
+#include <ranges.h>
 
 struct GnmCmdContextStderr_ {
 	GObject	 base;

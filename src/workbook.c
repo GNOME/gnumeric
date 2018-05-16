@@ -13,39 +13,39 @@
  * Copyright (C) 1999-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "workbook-priv.h"
-#include "compilation.h"
+#include <gnumeric.h>
+#include <workbook-priv.h>
+#include <compilation.h>
 
-#include "workbook-view.h"
-#include "workbook-control.h"
-#include "command-context.h"
-#include "application.h"
-#include "gnumeric-conf.h"
-#include "sheet.h"
-#include "sheet-view.h"
-#include "sheet-control.h"
-#include "cell.h"
-#include "expr.h"
-#include "expr-name.h"
-#include "dependent.h"
-#include "value.h"
-#include "ranges.h"
-#include "history.h"
-#include "commands.h"
-#include "libgnumeric.h"
-#include "gutils.h"
-#include "gnm-marshalers.h"
-#include "style-color.h"
-#include "sheet-style.h"
-#include "sheet-object-graph.h"
+#include <workbook-view.h>
+#include <workbook-control.h>
+#include <command-context.h>
+#include <application.h>
+#include <gnumeric-conf.h>
+#include <sheet.h>
+#include <sheet-view.h>
+#include <sheet-control.h>
+#include <cell.h>
+#include <expr.h>
+#include <expr-name.h>
+#include <dependent.h>
+#include <value.h>
+#include <ranges.h>
+#include <history.h>
+#include <commands.h>
+#include <libgnumeric.h>
+#include <gutils.h>
+#include <gnm-marshalers.h>
+#include <style-color.h>
+#include <sheet-style.h>
+#include <sheet-object-graph.h>
 
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-meta-names.h>
-#include "gnm-i18n.h"
+#include <gnm-i18n.h>
 #include <string.h>
 #include <errno.h>
 

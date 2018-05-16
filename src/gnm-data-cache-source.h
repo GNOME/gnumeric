@@ -26,7 +26,7 @@
 #include <glib-object.h>
 
 #include <gnumeric.h>
-#include "goffice-data.h"
+#include <goffice-data.h>
 
 G_BEGIN_DECLS
 

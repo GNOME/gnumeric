@@ -24,11 +24,11 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 
-#include "libgnumeric.h"
-#include "command-context.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "gnm-plugin.h"
+#include <libgnumeric.h>
+#include <command-context.h>
+#include <workbook-view.h>
+#include <workbook.h>
+#include <gnm-plugin.h>
 
 #include "excel.h"
 #include "ms-excel-write.h"

@@ -19,21 +19,21 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <glib/gi18n-lib.h>
-#include "consolidate.h"
+#include <consolidate.h>
 
-#include "cell.h"
-#include "dependent.h"
-#include "expr.h"
-#include "func.h"
-#include "position.h"
-#include "ranges.h"
-#include "selection.h"
-#include "sheet.h"
-#include "value.h"
-#include "workbook.h"
-#include "workbook-control.h"
+#include <cell.h>
+#include <dependent.h>
+#include <expr.h>
+#include <func.h>
+#include <position.h>
+#include <ranges.h>
+#include <selection.h>
+#include <sheet.h>
+#include <value.h>
+#include <workbook.h>
+#include <workbook-control.h>
 
 
 /**********************************************************************************

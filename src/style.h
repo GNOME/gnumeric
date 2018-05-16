@@ -2,8 +2,8 @@
 #ifndef _GNM_STYLE_H_
 # define _GNM_STYLE_H_
 
-#include "gnumeric.h"
-#include "libgnumeric.h"
+#include <gnumeric.h>
+#include <libgnumeric.h>
 #include <pango/pango-context.h>
 
 G_BEGIN_DECLS
@@ -46,7 +46,7 @@ typedef enum {
 	GNM_TEXT_DIR_LTR	=  1
 } GnmTextDir;
 
-#include "mstyle.h"
+#include <mstyle.h>
 
 GType gnm_align_h_get_type (void);
 #define GNM_ALIGN_H_TYPE (gnm_align_h_get_type ())

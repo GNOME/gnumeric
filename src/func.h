@@ -2,8 +2,8 @@
 #ifndef _GNM_FUNC_H_
 # define _GNM_FUNC_H_
 
-#include "gnumeric.h"
-#include "dependent.h"
+#include <gnumeric.h>
+#include <dependent.h>
 
 G_BEGIN_DECLS
 

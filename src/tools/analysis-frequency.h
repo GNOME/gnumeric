@@ -26,11 +26,11 @@
 #ifndef ANALYSIS_FREQUENCY_H
 #define ANALYSIS_FREQUENCY_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
-#include "analysis-tools.h"
+#include <tools/tools.h>
+#include <tools/analysis-tools.h>
 
 typedef enum {
 	NO_CHART = 0,

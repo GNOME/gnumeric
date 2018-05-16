@@ -27,12 +27,12 @@
 
 #include "xlsx-utils.h"
 
-#include "parse-util.h"
-#include "position.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "func.h"
-#include "gnm-format.h"
+#include <parse-util.h>
+#include <position.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <func.h>
+#include <gnm-format.h>
 #include <goffice/goffice.h>
 #include <glib-object.h>
 #include <string.h>

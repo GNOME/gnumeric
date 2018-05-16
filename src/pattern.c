@@ -8,10 +8,10 @@
  *  (C) 1999-2003 Jody Goldberg
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "pattern.h"
+#include <gnumeric.h>
+#include <pattern.h>
 
-#include "style-color.h"
+#include <style-color.h>
 
 #include <goffice/utils/go-pattern.h>
 

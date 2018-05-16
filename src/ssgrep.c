@@ -6,22 +6,22 @@
  * Copyright (C) 2008-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "libgnumeric.h"
+#include <gnumeric.h>
+#include <libgnumeric.h>
 #include <goffice/goffice.h>
-#include "command-context-stderr.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "application.h"
-#include "gutils.h"
-#include "gnm-plugin.h"
-#include "search.h"
-#include "sheet.h"
-#include "cell.h"
-#include "value.h"
-#include "func.h"
-#include "parse-util.h"
-#include "sheet-object-cell-comment.h"
+#include <command-context-stderr.h>
+#include <workbook-view.h>
+#include <workbook.h>
+#include <application.h>
+#include <gutils.h>
+#include <gnm-plugin.h>
+#include <search.h>
+#include <sheet.h>
+#include <cell.h>
+#include <value.h>
+#include <func.h>
+#include <parse-util.h>
+#include <sheet-object-cell-comment.h>
 
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>

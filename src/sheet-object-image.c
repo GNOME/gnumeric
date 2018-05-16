@@ -7,19 +7,19 @@
  *	Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
-#include "gnm-i18n.h"
-#include "gnumeric.h"
-#include "sheet-object-image.h"
-#include "sheet.h"
+#include <gnm-i18n.h>
+#include <gnumeric.h>
+#include <sheet-object-image.h>
+#include <sheet.h>
 
-#include "gnm-pane.h"
-#include "wbc-gtk.h"
-#include "sheet-object-impl.h"
-#include "sheet-control-gui.h"
-#include "gui-file.h"
-#include "application.h"
-#include "gutils.h"
-#include "xml-sax.h"
+#include <gnm-pane.h>
+#include <wbc-gtk.h>
+#include <sheet-object-impl.h>
+#include <sheet-control-gui.h>
+#include <gui-file.h>
+#include <application.h>
+#include <gutils.h>
+#include <xml-sax.h>
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>

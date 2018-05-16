@@ -23,8 +23,8 @@
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include <string.h>
-#include "dialogs.h"
-#include "help.h"
+#include <dialogs/dialogs.h>
+#include <dialogs/help.h>
 
 #include <gui-util.h>
 #include <commands.h>

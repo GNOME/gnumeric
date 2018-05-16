@@ -7,9 +7,9 @@
  *
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "style-color.h"
-#include "style-border.h"
+#include <gnumeric.h>
+#include <style-color.h>
+#include <style-border.h>
 
 static GHashTable *style_color_hash;
 static GnmColor *sc_black;

@@ -8,28 +8,28 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "workbook-cmd-format.h"
+#include <gnumeric.h>
+#include <workbook-cmd-format.h>
 
-#include "cell.h"
-#include "dependent.h"
-#include "expr.h"
-#include "func.h"
-#include "ranges.h"
-#include "gui-util.h"
-#include "selection.h"
-#include "sheet-merge.h"
-#include "sheet-view.h"
-#include "value.h"
-#include "workbook-control.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "application.h"
-#include "dialogs/dialogs.h"
-#include "sheet.h"
-#include "commands.h"
-#include "style-border.h"
-#include "style-color.h"
+#include <cell.h>
+#include <dependent.h>
+#include <expr.h>
+#include <func.h>
+#include <ranges.h>
+#include <gui-util.h>
+#include <selection.h>
+#include <sheet-merge.h>
+#include <sheet-view.h>
+#include <value.h>
+#include <workbook-control.h>
+#include <workbook-view.h>
+#include <workbook.h>
+#include <application.h>
+#include <dialogs/dialogs.h>
+#include <sheet.h>
+#include <commands.h>
+#include <style-border.h>
+#include <style-color.h>
 
 struct closure_colrow_resize {
 	gboolean	 is_cols;

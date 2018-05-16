@@ -20,8 +20,8 @@
 #ifndef GNM_SHEET_SEL_H
 #define GNM_SHEET_SEL_H
 
-#include "gnumeric.h"
-#include "widgets/gnm-workbook-sel.h"
+#include <gnumeric.h>
+#include <widgets/gnm-workbook-sel.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

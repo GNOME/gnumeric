@@ -18,10 +18,10 @@
  **/
 
 #include <gnumeric-config.h>
-#include "gnm-workbook-sel.h"
-#include "gnm-i18n.h"
-#include "workbook.h"
-#include "application.h"
+#include <widgets/gnm-workbook-sel.h>
+#include <gnm-i18n.h>
+#include <workbook.h>
+#include <application.h>
 
 #define WB_KEY "__wb"
 

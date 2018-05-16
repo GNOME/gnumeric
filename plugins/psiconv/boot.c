@@ -28,8 +28,8 @@
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
 #include "psiconv-plugin.h"
-#include "workbook-view.h"
-#include "workbook.h"
+#include <workbook-view.h>
+#include <workbook.h>
 
 #include <string.h>
 

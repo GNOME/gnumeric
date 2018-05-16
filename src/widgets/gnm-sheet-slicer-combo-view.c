@@ -22,18 +22,18 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-sheet-slicer-combo-view.h"
-#include "gnm-cell-combo-view-impl.h"
+#include <widgets/gnm-sheet-slicer-combo-view.h>
+#include <widgets/gnm-cell-combo-view-impl.h>
 
-#include "gnm-sheet-slicer-combo.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "sheet-view.h"
-#include "value.h"
+#include <gnm-sheet-slicer-combo.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <sheet-view.h>
+#include <value.h>
 
-#include "gnumeric.h"
-#include "go-data-slicer-field.h"
-#include "go-data-cache-field.h"
+#include <gnumeric.h>
+#include <go-data-slicer-field.h>
+#include <go-data-cache-field.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

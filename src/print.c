@@ -14,33 +14,33 @@
  * Handles printing of Sheets.
  */
 #include <gnumeric-config.h>
-#include "print-cell.h"
+#include <print-cell.h>
 
-#include "gnumeric.h"
-#include "print.h"
+#include <gnumeric.h>
+#include <print.h>
 
-#include "gui-util.h"
-#include "gutils.h"
-#include "sheet-object.h"
-#include "sheet-object-impl.h"
-#include "selection.h"
-#include "workbook.h"
-#include "workbook-control.h"
-#include "wbc-gtk.h"
-#include "command-context.h"
-#include "dialogs/dialogs.h"
-#include "gnumeric-conf.h"
-#include "libgnumeric.h"
-#include "sheet.h"
-#include "value.h"
-#include "cellspan.h"
-#include "print-info.h"
-#include "application.h"
-#include "sheet-style.h"
-#include "ranges.h"
-#include "parse-util.h"
-#include "style-font.h"
-#include "gnumeric-conf.h"
+#include <gui-util.h>
+#include <gutils.h>
+#include <sheet-object.h>
+#include <sheet-object-impl.h>
+#include <selection.h>
+#include <workbook.h>
+#include <workbook-control.h>
+#include <wbc-gtk.h>
+#include <command-context.h>
+#include <dialogs/dialogs.h>
+#include <gnumeric-conf.h>
+#include <libgnumeric.h>
+#include <sheet.h>
+#include <value.h>
+#include <cellspan.h>
+#include <print-info.h>
+#include <application.h>
+#include <sheet-style.h>
+#include <ranges.h>
+#include <parse-util.h>
+#include <style-font.h>
+#include <gnumeric-conf.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-meta-names.h>

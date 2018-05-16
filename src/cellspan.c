@@ -17,17 +17,17 @@
  * the "owner" of the cell to be able to repaint its contents.
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "cellspan.h"
+#include <gnumeric.h>
+#include <cellspan.h>
 
-#include "cell.h"
-#include "sheet.h"
-#include "sheet-merge.h"
-#include "sheet-style.h"
-#include "style.h"
-#include "colrow.h"
-#include "value.h"
-#include "rendered-value.h"
+#include <cell.h>
+#include <sheet.h>
+#include <sheet-merge.h>
+#include <sheet-style.h>
+#include <style.h>
+#include <colrow.h>
+#include <value.h>
+#include <rendered-value.h>
 
 static guint
 col_hash (gconstpointer key)

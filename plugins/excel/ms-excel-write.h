@@ -15,7 +15,7 @@
 #include "ms-biff.h"
 #include "ms-excel-biff.h"
 #include "ms-excel-util.h"
-#include "style.h"
+#include <style.h>
 #include <goffice-data.h>
 
 typedef struct {

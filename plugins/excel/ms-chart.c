@@ -18,7 +18,7 @@
 #include "ms-excel-write.h"
 #include "ms-escher.h"
 #include "ms-formula-write.h"
-#include "compilation.h"
+#include <compilation.h>
 
 #include <parse-util.h>
 #include <gnm-format.h>

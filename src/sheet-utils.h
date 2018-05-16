@@ -2,7 +2,7 @@
 #ifndef _GNM_SHEET_UTILS_H
 # define _GNM_SHEET_UTILS_H
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 
 G_BEGIN_DECLS
 

@@ -12,17 +12,17 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
-#include "gnumeric.h"
-#include "expr-name.h"
+#include <gnumeric.h>
+#include <expr-name.h>
 
-#include "dependent.h"
-#include "value.h"
-#include "workbook-priv.h"
-#include "expr.h"
-#include "sheet.h"
-#include "ranges.h"
-#include "gutils.h"
-#include "sheet-style.h"
+#include <dependent.h>
+#include <value.h>
+#include <workbook-priv.h>
+#include <expr.h>
+#include <sheet.h>
+#include <ranges.h>
+#include <gutils.h>
+#include <sheet-style.h>
 
 #include <goffice/goffice.h>
 

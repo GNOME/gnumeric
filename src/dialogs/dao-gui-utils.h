@@ -25,8 +25,8 @@
 #ifndef GNUMERIC_DAO_GUI_UTILS_H
 #define GNUMERIC_DAO_GUI_UTILS_H
 
-#include "gnumeric.h"
-#include "tools/dao.h"
+#include <gnumeric.h>
+#include <tools/dao.h>
 
 
 void dialog_tool_init_outputs (GnmGenericToolState *state, GCallback sensitivity_cb);

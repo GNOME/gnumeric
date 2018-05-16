@@ -20,9 +20,9 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric-cell-renderer-toggle.h"
+#include <widgets/gnumeric-cell-renderer-toggle.h>
 #include <gsf/gsf-impl-utils.h>
-#include "gnm-i18n.h"
+#include <gnm-i18n.h>
 
 static void gnumeric_cell_renderer_toggle_get_property  (GObject         *object,
 							 guint            param_id,

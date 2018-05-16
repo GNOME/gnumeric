@@ -8,19 +8,19 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "collect.h"
+#include <gnumeric.h>
+#include <collect.h>
 
-#include "func.h"
-#include "application.h"
-#include "value.h"
-#include "expr.h"
-#include "expr-impl.h"
-#include "gnm-datetime.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "ranges.h"
-#include "number-match.h"
+#include <func.h>
+#include <application.h>
+#include <value.h>
+#include <expr.h>
+#include <expr-impl.h>
+#include <gnm-datetime.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <ranges.h>
+#include <number-match.h>
 #include <goffice/goffice.h>
 #include <stdlib.h>
 #include <string.h>

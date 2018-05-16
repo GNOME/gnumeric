@@ -23,24 +23,24 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include "gnumeric.h"
-#include "expr.h"
+#include <gnumeric.h>
+#include <expr.h>
 
-#include "expr-impl.h"
-#include "expr-name.h"
-#include "dependent.h"
-#include "application.h"
-#include "func.h"
-#include "cell.h"
-#include "sheet.h"
-#include "value.h"
-#include "parse-util.h"
-#include "ranges.h"
-#include "number-match.h"
-#include "workbook.h"
-#include "gutils.h"
-#include "parse-util.h"
-#include "mathfunc.h"
+#include <expr-impl.h>
+#include <expr-name.h>
+#include <dependent.h>
+#include <application.h>
+#include <func.h>
+#include <cell.h>
+#include <sheet.h>
+#include <value.h>
+#include <parse-util.h>
+#include <ranges.h>
+#include <number-match.h>
+#include <workbook.h>
+#include <gutils.h>
+#include <parse-util.h>
+#include <mathfunc.h>
 
 #include <goffice/goffice.h>
 #include <math.h>

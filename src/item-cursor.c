@@ -9,31 +9,31 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-i18n.h"
-#include "gnumeric.h"
-#include "item-cursor.h"
-#include "gnm-pane-impl.h"
+#include <gnm-i18n.h>
+#include <gnumeric.h>
+#include <item-cursor.h>
+#include <gnm-pane-impl.h>
 
-#include "sheet-control-gui.h"
-#include "sheet-control-priv.h"
-#include "style-color.h"
-#include "cell.h"
-#include "clipboard.h"
-#include "selection.h"
-#include "sheet.h"
-#include "sheet-view.h"
-#include "sheet-merge.h"
-#include "value.h"
-#include "workbook.h"
-#include "wbc-gtk.h"
-#include "gui-util.h"
-#include "cmd-edit.h"
-#include "commands.h"
-#include "ranges.h"
-#include "parse-util.h"
-#include "gutils.h"
-#include "gui-util.h"
-#include "sheet-autofill.h"
+#include <sheet-control-gui.h>
+#include <sheet-control-priv.h>
+#include <style-color.h>
+#include <cell.h>
+#include <clipboard.h>
+#include <selection.h>
+#include <sheet.h>
+#include <sheet-view.h>
+#include <sheet-merge.h>
+#include <value.h>
+#include <workbook.h>
+#include <wbc-gtk.h>
+#include <gui-util.h>
+#include <cmd-edit.h>
+#include <commands.h>
+#include <ranges.h>
+#include <parse-util.h>
+#include <gutils.h>
+#include <gui-util.h>
+#include <sheet-autofill.h>
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/goffice.h>
 #define GNUMERIC_ITEM "CURSOR"

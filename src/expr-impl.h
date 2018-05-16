@@ -2,9 +2,9 @@
 #ifndef _GNM_EXPR_IMPL_H_
 # define _GNM_EXPR_IMPL_H_
 
-#include "gnumeric.h"
-#include "numbers.h"
-#include "parse-util.h"
+#include <gnumeric.h>
+#include <numbers.h>
+#include <parse-util.h>
 
 
 G_BEGIN_DECLS

@@ -22,9 +22,9 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "dialogs.h"
-#include "help.h"
-#include "application.h"
+#include <dialogs/dialogs.h>
+#include <dialogs/help.h>
+#include <application.h>
 #include <gui-util.h>
 #include <wbc-gtk.h>
 

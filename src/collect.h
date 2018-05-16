@@ -2,8 +2,8 @@
 #ifndef _GNM_COLLECT_H_
 # define _GNM_COLLECT_H_
 
-#include "numbers.h"
-#include "gnumeric.h"
+#include <numbers.h>
+#include <gnumeric.h>
 
 G_BEGIN_DECLS
 

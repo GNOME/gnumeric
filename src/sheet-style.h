@@ -2,8 +2,8 @@
 #ifndef _GNM_SHEET_STYLE_H_
 # define _GNM_SHEET_STYLE_H_
 
-#include "gnumeric.h"
-#include "style-border.h"
+#include <gnumeric.h>
+#include <style-border.h>
 
 G_BEGIN_DECLS
 

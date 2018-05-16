@@ -26,11 +26,11 @@
 #ifndef ANALYSIS_KAPLAN_MEIER_H
 #define ANALYSIS_KAPLAN_MEIER_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
-#include "analysis-tools.h"
+#include <tools/tools.h>
+#include <tools/analysis-tools.h>
 
 /* typedef struct { */
 /*	analysis_tools_error_code_t err; */

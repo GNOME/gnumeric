@@ -2,7 +2,7 @@
 #ifndef _GNM_STF_EXPORT_H_
 # define _GNM_STF_EXPORT_H_
 
-#include "gnumeric.h"
+#include <gnumeric.h>
 #include <gsf/gsf-output-csv.h>
 #include <goffice/goffice.h>
 

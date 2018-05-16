@@ -22,7 +22,7 @@
  * USA
  */
 
-#include "sheet-object-widget.h"
+#include <sheet-object-widget.h>
 
 #undef DEBUG_AXIS
 #undef DEBUG_COLOR

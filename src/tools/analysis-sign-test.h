@@ -26,12 +26,12 @@
 #ifndef ANALYSIS_SIGN_TEST_H
 #define ANALYSIS_SIGN_TEST_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
-#include "analysis-tools.h"
-#include "sheet.h"
+#include <tools/tools.h>
+#include <tools/analysis-tools.h>
+#include <sheet.h>
 
 typedef struct {
 	analysis_tools_data_generic_t base;

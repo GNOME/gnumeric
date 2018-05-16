@@ -19,9 +19,9 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "sheet-control-priv.h"
-#include "sheet-view.h"
+#include <gnumeric.h>
+#include <sheet-control-priv.h>
+#include <sheet-view.h>
 
 #include <gsf/gsf-impl-utils.h>
 

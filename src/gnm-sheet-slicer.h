@@ -23,7 +23,7 @@
 #define GNM_SHEET_SLICER_H
 
 #include <gnumeric.h>
-#include "goffice-data.h"
+#include <goffice-data.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS

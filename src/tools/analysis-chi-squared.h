@@ -26,12 +26,12 @@
 #ifndef ANALYSIS_CHI_SQUARED_H
 #define ANALYSIS_CHI_SQUARED_H
 
-#include "gnumeric.h"
-#include "numbers.h"
+#include <gnumeric.h>
+#include <numbers.h>
 #include <tools/dao.h>
-#include "tools.h"
-#include "analysis-tools.h"
-#include "sheet.h"
+#include <tools/tools.h>
+#include <tools/analysis-tools.h>
+#include <sheet.h>
 
 typedef struct {
 	WorkbookControl *wbc;
