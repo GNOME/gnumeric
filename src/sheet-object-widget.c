@@ -44,7 +44,7 @@
 #include "cell.h"
 #include "mathfunc.h"
 #include "gnumeric-expr-entry.h"
-#include "dialogs.h"
+#include "dialogs/dialogs.h"
 #include "dialogs/help.h"
 #include "xml-sax.h"
 #include "commands.h"

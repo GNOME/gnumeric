@@ -14,7 +14,7 @@
 
 #include "gui-util.h"
 #include "gutils.h"
-#include "dialogs.h"
+#include "dialogs/dialogs.h"
 #include "sheet.h"
 #include "application.h"
 #include "command-context.h"

@@ -50,7 +50,7 @@
 #include "commands.h"
 #include "gnm-commands-slicer.h"
 #include "clipboard.h"
-#include "dialogs.h"
+#include "dialogs/dialogs.h"
 #include "gui-file.h"
 #include "sheet-merge.h"
 #include "ranges.h"

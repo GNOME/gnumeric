@@ -30,7 +30,7 @@
 
 #include <gui-util.h>
 #include <func.h>
-#include <tool-dialogs.h>
+#include <dialogs/tool-dialogs.h>
 #include <value.h>
 #include <cell.h>
 #include <sheet.h>

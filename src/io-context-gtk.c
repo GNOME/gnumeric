@@ -17,7 +17,7 @@
 #include <goffice/goffice.h>
 #include "application.h"
 #include "libgnumeric.h"
-#include "dialogs.h"
+#include "dialogs/dialogs.h"
 #include "gnm-i18n.h"
 
 #include <gsf/gsf-impl-utils.h>

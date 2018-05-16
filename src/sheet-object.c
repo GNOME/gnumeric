@@ -17,7 +17,7 @@
 #include "sheet-control.h"
 #include "sheet-control-gui.h"
 #include "sheet-private.h"
-#include "dialogs.h"
+#include "dialogs/dialogs.h"
 #include "sheet-object-impl.h"
 #include "expr.h"
 #include "ranges.h"

@@ -25,7 +25,7 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "application.h"
-#include "dialogs.h"
+#include "dialogs/dialogs.h"
 #include "sheet.h"
 #include "commands.h"
 #include "style-border.h"

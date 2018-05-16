@@ -29,7 +29,7 @@
 #include "commands.h"
 #include "value.h"
 #include "number-match.h"
-#include "dialog-stf.h"
+#include "dialogs/dialog-stf.h"
 #include "stf-parse.h"
 #include "mstyle.h"
 #include "gnm-format.h"

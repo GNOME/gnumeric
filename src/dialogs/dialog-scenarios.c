@@ -31,7 +31,7 @@
 #include <workbook.h>
 #include <wbc-gtk.h>
 #include <sheet.h>
-#include <dao-gui-utils.h>
+#include <dialogs/dao-gui-utils.h>
 #include <position.h>
 #include <ranges.h>
 #include <value.h>

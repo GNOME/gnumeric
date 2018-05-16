@@ -28,7 +28,7 @@
 #include "workbook-control.h"
 #include "wbc-gtk.h"
 #include "command-context.h"
-#include "dialogs.h"
+#include "dialogs/dialogs.h"
 #include "gnumeric-conf.h"
 #include "libgnumeric.h"
 #include "sheet.h"

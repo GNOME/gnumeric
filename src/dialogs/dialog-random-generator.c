@@ -26,7 +26,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
-#include "tool-dialogs.h"
+#include "dialogs/tool-dialogs.h"
 #include "random-generator.h"
 
 #include <workbook.h>
@@ -36,7 +36,7 @@
 #include <gui-util.h>
 #include <parse-util.h>
 #include <gnm-format.h>
-#include <dao-gui-utils.h>
+#include <dialogs/dao-gui-utils.h>
 #include <sheet.h>
 #include <expr.h>
 #include <number-match.h>

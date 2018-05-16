@@ -32,8 +32,8 @@
 #include <cell.h>
 #include <ranges.h>
 #include <gui-util.h>
-#include <tool-dialogs.h>
-#include <dao-gui-utils.h>
+#include <dialogs/tool-dialogs.h>
+#include <dialogs/dao-gui-utils.h>
 #include <value.h>
 #include <wbc-gtk.h>
 #include <commands.h>

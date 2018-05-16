@@ -30,7 +30,7 @@
 #include "sheet-view.h"
 #include "sheet-merge.h"
 #include "sheet-control-gui-priv.h"
-#include "dialogs.h"
+#include "dialogs/dialogs.h"
 #include "gui-util.h"
 #include <goffice/goffice.h>
 

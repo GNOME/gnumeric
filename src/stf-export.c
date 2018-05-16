@@ -597,7 +597,7 @@ GSF_CLASS (GnmStfExport, gnm_stf_export,
 
 
 #include "wbc-gtk.h"
-#include "dialog-stf-export.h"
+#include "dialogs/dialog-stf-export.h"
 #include "workbook-view.h"
 
 /**

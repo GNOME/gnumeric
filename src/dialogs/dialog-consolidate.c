@@ -24,7 +24,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
-#include "tool-dialogs.h"
+#include "dialogs/tool-dialogs.h"
 
 #include <commands.h>
 #include <consolidate.h>
@@ -38,7 +38,7 @@
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
 #include <widgets/gnm-dao.h>
 #include <wbc-gtk.h>
-#include <dao-gui-utils.h>
+#include <dialogs/dao-gui-utils.h>
 #include <tools/dao.h>
 #include <gtk/gtk.h>
 

@@ -26,7 +26,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
-#include "tool-dialogs.h"
+#include "dialogs/tool-dialogs.h"
 
 #include <gui-util.h>
 #include <selection.h>
@@ -44,7 +44,7 @@
 #include <cell.h>
 #include <widgets/gnm-dao.h>
 
-#include <dao-gui-utils.h>
+#include <dialogs/dao-gui-utils.h>
 
 #include <gtk/gtk.h>
 #include "fill-series.h"
