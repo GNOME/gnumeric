@@ -22,7 +22,6 @@
 
 typedef struct _scenario_state scenario_state_t;
 
-typedef struct _GenericToolState GnmGenericToolState;
 typedef void (*state_destroy_t) (GnmGenericToolState *state);
 
 struct _GenericToolState {

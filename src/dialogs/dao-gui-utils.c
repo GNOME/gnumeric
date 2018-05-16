@@ -32,6 +32,7 @@
 #include "gui-util.h"
 #include "selection.h"
 #include <widgets/gnm-dao.h>
+#include "dialogs/tool-dialogs.h"
 
 
 /**

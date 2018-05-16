@@ -1,6 +1,8 @@
-#
 # Gnumeric's Makefile.am
 # Author: Miguel de Icaza (miguel@kernel.org)
+
+AUTOMAKE_OPTIONS = subdir-objects
+
 -include $(INTROSPECTION_MAKEFILE)
 INTROSPECTION_GIRS =
 INTROSPECTION_SCANNER_ARGS = \
@@ -21,8 +23,6 @@ lib_LTLIBRARIES = libspreadsheet.la
 bin_PROGRAMS =
 check_PROGRAMS =
 noinst_PROGRAMS = sstest
-
-noinst_HEADERS = dead-kittens.h compilation.h gnm-i18n.h
 
 if WITH_GTK
   bin_PROGRAMS += gnumeric
@@ -311,6 +311,8 @@ tools_headers = \
 	tools/tabulate.h			\
 	tools/tools.h
 
+noinst_HEADERS = dead-kittens.h compilation.h gnm-i18n.h \
+	$(dialogs_headers)
 
 # Another hint, see bugs #172211 and #172212:
 non-intermediate: gnm-marshalers.c gnmresources.c
@@ -626,7 +628,6 @@ libspreadsheet_include_HEADERS =		\
 	workbook.h				\
 	xml-io-version.h			\
 	xml-sax.h				\
-	$(dialogs_headers)			\
 	$(tools_headers)			\
 	$(widgets_headers)
 

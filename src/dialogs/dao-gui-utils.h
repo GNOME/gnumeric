@@ -1,5 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * dao-gui-utils.h:
  *
@@ -28,9 +26,6 @@
 #define GNUMERIC_DAO_GUI_UTILS_H
 
 #include "gnumeric.h"
-#include "numbers.h"
-#include <widgets/gnumeric-expr-entry.h>
-#include "dialogs/tool-dialogs.h"
 #include "tools/dao.h"
 
 

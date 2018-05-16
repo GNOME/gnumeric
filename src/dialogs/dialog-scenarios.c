@@ -38,6 +38,7 @@
 #include <cell.h>
 #include <tools/dao.h>
 #include "tools/scenarios.h"
+#include "dialogs/tool-dialogs.h"
 
 #include <goffice/goffice.h>
 #include <string.h>

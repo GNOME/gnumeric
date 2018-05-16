@@ -103,6 +103,7 @@ typedef struct _WorkbookSheetState	WorkbookSheetState;
 typedef struct _WorkbookView		WorkbookView;
 typedef union  _GnmExpr			GnmExpr;
 typedef union  _GnmValue		GnmValue;
+typedef struct _GenericToolState	GnmGenericToolState;
 
 typedef GList				ColRowIndexList;
 typedef GSList				ColRowStateGroup;
