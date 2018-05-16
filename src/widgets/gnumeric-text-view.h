@@ -23,7 +23,6 @@
 #define GNUMERIC_TEXT_VIEW_H
 
 #include "gnumeric-fwd.h"
-#include <gtk/gtk.h>
 
 #define GNM_TEXT_VIEW_TYPE	(gnm_text_view_get_type ())
 #define GNM_TEXT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TEXT_VIEW_TYPE, GnmTextView))

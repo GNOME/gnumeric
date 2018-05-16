@@ -46,7 +46,6 @@
 
 #include <dialogs/dao-gui-utils.h>
 
-#include <gtk/gtk.h>
 #include "tools/fill-series.h"
 
 #define FILL_SERIES_KEY "fill-series-dialog"

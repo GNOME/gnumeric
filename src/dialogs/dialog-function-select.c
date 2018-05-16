@@ -43,7 +43,6 @@
 #include <auto-format.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtk.h>
 #include <string.h>
 
 #define F2(func,s) dgettext ((func)->tdomain->str, (s))

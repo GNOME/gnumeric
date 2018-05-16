@@ -3,7 +3,6 @@
 
 #include "gnumeric-fwd.h"
 #include "sheet-object-impl.h"
-#include <gtk/gtk.h>
 
 typedef SheetObjectView GnmCComboView;
 typedef struct {

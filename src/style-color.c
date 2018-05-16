@@ -10,7 +10,6 @@
 #include "gnumeric.h"
 #include "style-color.h"
 #include "style-border.h"
-#include <gtk/gtk.h>
 
 static GHashTable *style_color_hash;
 static GnmColor *sc_black;

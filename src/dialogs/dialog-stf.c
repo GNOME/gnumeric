@@ -30,7 +30,6 @@
 #include <sheet-style.h>
 #include <mstyle.h>
 #include <clipboard.h>
-#include <gtk/gtk.h>
 #include <string.h>
 
 /**********************************************************************************************

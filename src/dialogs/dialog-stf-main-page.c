@@ -26,7 +26,6 @@
 #include <gui-util.h>
 #include <sheet.h>
 #include <workbook.h>
-#include <gtk/gtk.h>
 #include <goffice/goffice.h>
 #include <string.h>
 

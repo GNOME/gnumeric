@@ -50,7 +50,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <string.h>
-#include <gtk/gtk.h>
 
 #define ONE_MEAN_TEST_KEY      "analysistools-one-mean-test-dialog"
 

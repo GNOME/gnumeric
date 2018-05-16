@@ -72,7 +72,6 @@
 #include <goffice/goffice.h>
 #include <goffice/component/goffice-component.h>
 
-#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-input.h>
 #include <string.h>

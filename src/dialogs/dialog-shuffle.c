@@ -39,7 +39,6 @@
 #include <commands.h>
 #include <selection.h>
 
-#include <gtk/gtk.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <tools/data-shuffling.h>
 

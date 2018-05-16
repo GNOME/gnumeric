@@ -41,7 +41,6 @@
 #include "gnm-i18n.h"
 
 #include <goffice/goffice.h>
-#include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 #include <string.h>

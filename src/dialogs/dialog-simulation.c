@@ -38,7 +38,6 @@
 #include "tools/simulation.h"
 
 #include <string.h>
-#include <gtk/gtk.h>
 
 #define SIMULATION_KEY         "simulation-dialog"
 

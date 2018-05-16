@@ -51,7 +51,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <string.h>
-#include <gtk/gtk.h>
 
 #define SIGN_TEST_KEY_ONE      "analysistools-sign-test-one-dialog"
 #define SIGN_TEST_KEY_TWO      "analysistools-sign-test-two-dialog"

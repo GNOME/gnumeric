@@ -39,7 +39,6 @@
 #include <tools/dao.h>
 #include "tools/scenarios.h"
 
-#include <gtk/gtk.h>
 #include <goffice/goffice.h>
 #include <string.h>
 

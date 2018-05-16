@@ -3,7 +3,6 @@
 
 #include "gnumeric-fwd.h"
 #include "parse-util.h"
-#include <gtk/gtk.h>
 
 #define GNM_EXPR_ENTRY_TYPE	(gnm_expr_entry_get_type ())
 #define GNM_EXPR_ENTRY(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_EXPR_ENTRY_TYPE, GnmExprEntry))

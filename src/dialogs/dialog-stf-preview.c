@@ -29,7 +29,6 @@
 #include <number-match.h>
 #include <value.h>
 #include <style.h>
-#include <gtk/gtk.h>
 #include <widgets/gnumeric-lazy-list.h>
 #include <string.h>
 

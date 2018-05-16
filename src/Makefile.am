@@ -33,7 +33,6 @@ bin_PROGRAMS += ssconvert ssindex ssgrep ssdiff
 AM_CPPFLAGS = 								\
 	-I$(top_srcdir)							\
 	-I$(srcdir)							\
-	-I$(srcdir)/widgets						\
 	$(GNUMERIC_CFLAGS)
 
 # A hint is needed to build these headers first:

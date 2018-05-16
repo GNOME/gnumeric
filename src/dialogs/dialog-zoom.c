@@ -33,7 +33,6 @@
 #include <wbc-gtk.h>
 #include <sheet.h>
 
-#include <gtk/gtk.h>
 
 #define ZOOM_DIALOG_KEY "zoom-dialog"
 #define ZOOM_DIALOG_FACTOR_KEY "zoom-dialog-factor"

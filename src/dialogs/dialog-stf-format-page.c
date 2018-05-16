@@ -29,7 +29,6 @@
 #include <workbook.h>
 #include <workbook-control.h>
 #include <gui-util.h>
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
 /*************************************************************************************************

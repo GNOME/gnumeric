@@ -50,7 +50,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <string.h>
-#include <gtk/gtk.h>
 
 #define CHI_SQUARED_I_KEY      "analysistools-chi-square-independence-dialog"
 

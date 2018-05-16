@@ -63,7 +63,6 @@
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-doc-meta-data.h>
-#include <gtk/gtk.h>
 #include "gdk/gdkkeysyms-compat.h"
 #include "gnm-i18n.h"
 #include <string.h>

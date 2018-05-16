@@ -7,7 +7,6 @@
 #include "workbook-control.h"
 #include "widgets/gnumeric-expr-entry.h"
 
-#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

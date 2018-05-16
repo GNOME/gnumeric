@@ -17,7 +17,6 @@
 
 #include <gnumeric-fwd.h>
 #include <stf.h>
-#include <gtk/gtk.h>
 
 #define STF_LINE_LENGTH_LIMIT 1000
 #define STF_LINE_DISPLAY_LIMIT 500

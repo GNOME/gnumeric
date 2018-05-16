@@ -30,7 +30,6 @@
 #include <wbc-gtk.h>
 #include <gnm-format.h>
 #include <goffice/goffice.h>
-#include <gtk/gtk.h>
 
 #define ABOUT_KEY          "about-dialog"
 

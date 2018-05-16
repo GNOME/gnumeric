@@ -26,7 +26,6 @@
 #include <gnumeric.h>
 #include <libguile.h>
 #include <glib.h>
-#include <gtk/gtk.h>
 #include <stdlib.h>
 
 #include "smob-value.h"

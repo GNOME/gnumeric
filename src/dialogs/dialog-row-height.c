@@ -35,7 +35,6 @@
 #include <application.h>
 #include <workbook-cmd-format.h>
 
-#include <gtk/gtk.h>
 
 #define ROW_HEIGHT_DIALOG_KEY "row-height-dialog"
 

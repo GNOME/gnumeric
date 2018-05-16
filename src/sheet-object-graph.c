@@ -50,7 +50,6 @@
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-libxml.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtk.h>
 #include <math.h>
 #include <string.h>
 

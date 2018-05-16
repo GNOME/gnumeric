@@ -44,7 +44,6 @@
 #include <widgets/gnumeric-cell-renderer-toggle.h>
 #include <goffice/goffice.h>
 
-#include <gtk/gtk.h>
 #include <string.h>
 
 

@@ -35,7 +35,6 @@
 #include <selection.h>
 
 #include <goffice/goffice.h>
-#include <gtk/gtk.h>
 #include <string.h>
 
 #define SEARCH_REPLACE_KEY "search-replace-dialog"

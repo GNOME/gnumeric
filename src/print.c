@@ -43,7 +43,6 @@
 #include "gnumeric-conf.h"
 #include <goffice/goffice.h>
 
-#include <gtk/gtk.h>
 #include <gsf/gsf-meta-names.h>
 
 #include <glib/gi18n-lib.h>

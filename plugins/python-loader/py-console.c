@@ -15,7 +15,6 @@
 #include <goffice/goffice.h>
 #include <goffice/app/module-plugin-defs.h>
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
 

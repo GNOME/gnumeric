@@ -6,7 +6,6 @@
 #include <stf-parse.h>
 #include <goffice/goffice.h>
 
-#include <gtk/gtk.h>
 
 /* for the main_page */
 typedef struct {

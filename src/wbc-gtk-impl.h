@@ -10,7 +10,6 @@
 #include "widgets/gnm-notebook.h"
 
 #include <goffice/goffice.h>
-#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

@@ -50,7 +50,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <string.h>
-#include <gtk/gtk.h>
 
 #define PRINCIPAL_COMPONENTS_KEY "analysistools-principal-components-dialog"
 

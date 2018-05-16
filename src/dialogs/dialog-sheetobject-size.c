@@ -40,7 +40,6 @@
 #include <sheet-control-gui.h>
 #include <widgets/gnm-so-anchor-mode-chooser.h>
 
-#include <gtk/gtk.h>
 
 #define SO_SIZE_DIALOG_KEY "so-size-dialog"
 

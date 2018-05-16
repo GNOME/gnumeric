@@ -36,8 +36,8 @@
 #include "number-match.h"
 #include "gutils.h"
 #include "sheet-object.h"
-#include "gnm-filter-combo-view.h"
-#include "gnm-cell-combo-view.h"
+#include "widgets/gnm-filter-combo-view.h"
+#include "widgets/gnm-cell-combo-view.h"
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>

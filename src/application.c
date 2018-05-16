@@ -31,7 +31,6 @@
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include "gnm-i18n.h"
-#include <gtk/gtk.h>
 
 #define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
 #define GNM_IS_APP(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_APP_TYPE))

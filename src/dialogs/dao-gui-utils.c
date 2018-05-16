@@ -33,7 +33,6 @@
 #include "selection.h"
 #include <widgets/gnm-dao.h>
 
-#include <gtk/gtk.h>
 
 /**
  * dialog__tool_preset_to_range:

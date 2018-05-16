@@ -3,7 +3,6 @@
 
 #include <stdarg.h>
 #include "gnumeric-fwd.h"
-#include <gtk/gtk.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

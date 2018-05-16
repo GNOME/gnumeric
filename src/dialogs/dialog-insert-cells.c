@@ -35,7 +35,6 @@
 #include <wbc-gtk.h>
 #include <command-context.h>
 
-#include <gtk/gtk.h>
 
 #define INSERT_CELL_DIALOG_KEY "insert-cells-dialog"
 

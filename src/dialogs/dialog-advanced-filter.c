@@ -37,7 +37,6 @@
 #include <value.h>
 #include <wbc-gtk.h>
 
-#include <gtk/gtk.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnm-dao.h>
 #include "tools/filter.h"

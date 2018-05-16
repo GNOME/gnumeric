@@ -39,8 +39,8 @@
 #include "sheet-view.h"
 #include "sheet-object.h"
 #include "sheet-style.h"
-#include "gnm-validation-combo-view.h"
-#include "gnm-cell-combo-view.h"
+#include "widgets/gnm-validation-combo-view.h"
+#include "widgets/gnm-cell-combo-view.h"
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>

@@ -32,7 +32,6 @@
 #include <application.h>
 
 #include <goffice/goffice.h>
-#include <gtk/gtk.h>
 
 #include <glib/gi18n-lib.h>
 

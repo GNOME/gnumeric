@@ -35,7 +35,6 @@
 #include "gui-util.h"
 #include "sheet-autofill.h"
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtk.h>
 #include <goffice/goffice.h>
 #define GNUMERIC_ITEM "CURSOR"
 

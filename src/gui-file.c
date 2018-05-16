@@ -26,7 +26,6 @@
 
 #include <goffice/goffice.h>
 
-#include <gtk/gtk.h>
 #include <unistd.h>
 #include <string.h>
 

@@ -43,7 +43,7 @@
 #include "sheet.h"
 #include "cell.h"
 #include "mathfunc.h"
-#include "gnumeric-expr-entry.h"
+#include "widgets/gnumeric-expr-entry.h"
 #include "dialogs/dialogs.h"
 #include "dialogs/help.h"
 #include "xml-sax.h"
@@ -56,7 +56,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <libxml/globals.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtk.h>
 #include <math.h>
 #include <string.h>
 

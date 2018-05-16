@@ -38,7 +38,6 @@
 #include <number-match.h>
 #include <undo.h>
 
-#include <gtk/gtk.h>
 #include <string.h>
 
 typedef struct {

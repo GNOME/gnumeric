@@ -9,7 +9,6 @@
 #include <gnumeric-config.h>
 #include <goffice/goffice.h>
 
-#include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gnumeric.h>
 #include <gui-util.h>
@@ -19,7 +18,6 @@
 #include "py-interpreter-selector.h"
 
 #include <string.h>
-#include <gtk/gtk.h>
 #include <glib.h>
 
 struct _GnmPyInterpreterSelector {

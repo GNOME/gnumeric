@@ -5,7 +5,6 @@
 #include "gnumeric.h"
 #include "print-info.h"
 #include <cairo.h>
-#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

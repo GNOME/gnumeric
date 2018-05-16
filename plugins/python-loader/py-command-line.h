@@ -2,7 +2,6 @@
 #define PY_COMMAND_LINE
 
 #include <glib.h>
-#include <gtk/gtk.h>
 #include <gnumeric.h>
 #include "gnm-py-interpreter.h"
 

@@ -50,7 +50,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <string.h>
-#include <gtk/gtk.h>
 
 #define WILCOXON_MANN_WHITNEY_KEY "analysistools-principal-components-dialog"
 

@@ -4,7 +4,6 @@
 
 #include "gnumeric-fwd.h"
 #include "sheet-control.h"
-#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

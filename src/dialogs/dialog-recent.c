@@ -26,7 +26,6 @@
 #include <wbc-gtk.h>
 #include <gui-file.h>
 #include <gui-util.h>
-#include <gtk/gtk.h>
 #include <string.h>
 #include <goffice/goffice.h>
 

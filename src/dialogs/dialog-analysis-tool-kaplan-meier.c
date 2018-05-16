@@ -50,7 +50,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <string.h>
-#include <gtk/gtk.h>
 
 #define KAPLAN_MEIER_KEY      "analysistools-kaplan-meier-dialog"
 

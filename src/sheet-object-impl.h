@@ -9,7 +9,6 @@ G_BEGIN_DECLS
 #include <gsf/gsf-libxml.h>
 #include <libxml/tree.h>
 #include <glib-object.h>
-#include <gtk/gtk.h>
 
 typedef enum {
 	SHEET_OBJECT_IS_VISIBLE	= 1 << 0,	/* user selectable */

@@ -1,5 +1,4 @@
 #include <gnumeric-config.h>
-#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include "dialogs.h"
 #include "gui-util.h"

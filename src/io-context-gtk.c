@@ -21,7 +21,6 @@
 #include "gnm-i18n.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtk.h>
 #include <stdlib.h>
 #include <string.h>
 

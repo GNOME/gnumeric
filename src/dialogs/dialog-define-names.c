@@ -44,7 +44,6 @@
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-toggle.h>
 
-#include <gtk/gtk.h>
 #include <string.h>
 
 #define DEFINE_NAMES_KEY "define-names-dialog"

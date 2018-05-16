@@ -43,7 +43,6 @@
 
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-lazy-list.h>
-#include <gtk/gtk.h>
 #include <string.h>
 
 #define SEARCH_KEY "search-dialog"

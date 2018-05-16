@@ -41,7 +41,6 @@
 #include "gnumeric.h"
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 

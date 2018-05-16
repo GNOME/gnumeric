@@ -19,7 +19,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <gtk/gtk.h>
 #include "gnm-so-anchor-mode-chooser.h"
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

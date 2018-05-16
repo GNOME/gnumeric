@@ -25,7 +25,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
-#include <gtk/gtk.h>
 
 #include <math.h>
 #include <string.h>

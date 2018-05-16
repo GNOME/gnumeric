@@ -27,7 +27,6 @@
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtk.h>
 #define GNUMERIC_ITEM "BAR"
 
 #include <string.h>

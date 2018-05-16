@@ -40,7 +40,6 @@
 #include <wbc-gtk.h>
 #include <dialogs/dao-gui-utils.h>
 #include <tools/dao.h>
-#include <gtk/gtk.h>
 
 #include <string.h>
 

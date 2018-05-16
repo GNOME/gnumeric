@@ -2,7 +2,6 @@
 #define PY_INTERPRETER_SELECTOR
 
 #include <glib.h>
-#include <gtk/gtk.h>
 #include <gnumeric.h>
 #include <goffice/goffice.h>
 #include "gnm-py-interpreter.h"

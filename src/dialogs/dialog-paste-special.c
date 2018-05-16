@@ -31,7 +31,6 @@
 #include <selection.h>
 #include <cmd-edit.h>
 
-#include <gtk/gtk.h>
 
 static char const * const paste_type_group[] = {
 	"paste-type-all",

@@ -33,7 +33,6 @@
 #include "sheet-object.h"
 #include "gnm-so-line.h"
 #include <goffice/goffice.h>
-#include <gtk/gtk.h>
 #include <widgets/gnumeric-text-view.h>
 
 typedef struct {

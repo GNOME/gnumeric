@@ -33,7 +33,6 @@
 #include "ranges.h"
 
 #include <goffice/goffice.h>
-#include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>

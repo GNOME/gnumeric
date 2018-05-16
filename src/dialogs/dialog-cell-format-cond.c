@@ -43,7 +43,6 @@
 #include <mathfunc.h>
 #include <style-conditions.h>
 
-#include <gtk/gtk.h>
 
 #include <string.h>
 

@@ -14,7 +14,6 @@
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib-object.h>
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 

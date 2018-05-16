@@ -5,7 +5,6 @@
 #include "gnumeric-fwd.h"
 #include <goffice/goffice.h>
 #include "numbers.h"
-#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

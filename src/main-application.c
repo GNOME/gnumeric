@@ -38,7 +38,6 @@
 #include "application.h"
 #include "func.h"
 
-#include <gtk/gtk.h>
 #include <glib/gstdio.h>
 
 #include <sys/types.h>

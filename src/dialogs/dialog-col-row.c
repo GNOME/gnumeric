@@ -30,7 +30,6 @@
 #include <workbook.h>
 #include <wbc-gtk.h>
 
-#include <gtk/gtk.h>
 
 #define COL_ROW_DIALOG_KEY "col-row-dialog"
 

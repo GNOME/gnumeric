@@ -7,7 +7,6 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <libguile.h>
-#include <gtk/gtk.h>
 #include <guile/gh.h>
 #include <position.h>
 #include "guile-support.h"

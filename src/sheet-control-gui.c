@@ -72,7 +72,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output-memory.h>
-#include <gtk/gtk.h>
 
 #include <string.h>
 

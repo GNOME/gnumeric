@@ -25,7 +25,6 @@
 
 #include <pango/pangocairo.h>
 #include <gdk/gdk.h>
-#include <gtk/gtk.h>
 #include <string.h>
 #include <goffice/goffice.h>
 

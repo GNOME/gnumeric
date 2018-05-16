@@ -5,7 +5,6 @@
 #include <src/gnm-pane.h>
 #include <src/gnumeric-simple-canvas.h>
 #include <goffice/canvas/goc-structs.h>
-#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
