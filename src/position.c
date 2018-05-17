@@ -59,9 +59,7 @@ gnm_cell_pos_get_type (void)
 static GnmEvalPos *
 gnm_eval_pos_dup (GnmEvalPos *ep)
 {
-	GnmEvalPos *res = g_new0 (GnmEvalPos, 1);
-	memcpy (res, ep, sizeof (GnmEvalPos)); /* is this safe? */
-	return res;
+	return g_memdup (ep, sizeof (*ep));
 }
 
 GType
@@ -218,11 +216,9 @@ eval_pos_is_array_context (GnmEvalPos const *ep)
 
 
 static GnmParsePos *
-gnm_parse_pos_dup (GnmParsePos *ep)
+gnm_parse_pos_dup (GnmParsePos *pp)
 {
-	GnmParsePos *res = g_new0 (GnmParsePos, 1);
-	memcpy (res, ep, sizeof (GnmParsePos)); /* is this safe? */
-	return res;
+	return g_memdup (pp, sizeof (*pp));
 }
 
 GType
@@ -238,9 +234,8 @@ gnm_parse_pos_get_type (void)
 	return t;
 }
 
-/*
+/**
  * parse_pos_init:
- *
  * @pp: The position to init.
  * @sheet: The sheet being selected
  * @wb: The workbook being selected.
@@ -269,7 +264,7 @@ parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet const *sheet,
 	return pp;
 }
 
-/*
+/**
  * parse_pos_init_dep:
  * @pp: The position to init.
  * @dep: The dependent
@@ -288,7 +283,7 @@ parse_pos_init_dep (GnmParsePos *pp, GnmDependent const *dep)
 	return pp;
 }
 
-/*
+/**
  * parse_pos_init_cell:
  * @pp: The position to init.
  * @cell: The cell
@@ -306,10 +301,10 @@ parse_pos_init_cell (GnmParsePos *pp, GnmCell const *cell)
 			       cell->pos.col, cell->pos.row);
 }
 
-/*
+/**
  * parse_pos_init_evalpos:
  * @pp: The position to init.
- * @ep: #GnmEvalPos
+ * @pos: #GnmEvalPos
  *
  * Returns: (skip) (transfer none): the initialized #GnmParsePos (@pp).
  */
@@ -321,7 +316,7 @@ parse_pos_init_evalpos (GnmParsePos *pp, GnmEvalPos const *ep)
 	return parse_pos_init (pp, NULL, ep->sheet, ep->eval.col, ep->eval.row);
 }
 
-/*
+/**
  * parse_pos_init_editpos:
  * @pp: The position to init.
  * @sv: sheet view
@@ -337,7 +332,7 @@ parse_pos_init_editpos (GnmParsePos *pp, SheetView const *sv)
 		sv->edit_pos.col, sv->edit_pos.row);
 }
 
-/*
+/**
  * parse_pos_init_sheet:
  * @pp: The position to init.
  * @sheet: The sheet
@@ -356,11 +351,9 @@ parse_pos_init_sheet (GnmParsePos *pp, Sheet const *sheet)
 
 
 static GnmCellRef *
-gnm_cellref_dup (GnmCellRef *ep)
+gnm_cellref_dup (GnmCellRef *cr)
 {
-	GnmCellRef *res = g_new0 (GnmCellRef, 1);
-	memcpy (res, ep, sizeof (GnmCellRef)); /* is this safe? */
-	return res;
+	return g_memdup (cr, sizeof (*cr));
 }
 
 GType

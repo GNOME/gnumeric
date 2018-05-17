@@ -141,7 +141,7 @@ range_init_rangeref (GnmRange *range, GnmRangeRef const *rr)
  *
  * Updates @r to be the same as the cell range of @v.
  *
- * Returns: (skip) (transfer none) (nullable): @r
+ * Returns: (skip) (transfer none): @r
  */
 GnmRange *
 range_init_value (GnmRange *range, GnmValue const *v)
@@ -254,19 +254,13 @@ range_parse (GnmRange *r, char const *text, GnmSheetSize const *ss)
  * @ranges: (element-type GnmValue) (transfer full): a list of value ranges
  * to destroy.
  *
- * Destroys a list of ranges returned from parse_cell_range_list
+ * Destroys a list of ranges returned from parse_cell_range_list.  Note:
+ * the element type here is GnmValue, not GnmRange.
  **/
 void
 range_list_destroy (GSList *ranges)
 {
-	GSList *l;
-
-	for (l = ranges; l; l = l->next){
-		GnmValue *value = l->data;
-
-		value_release (value);
-	}
-	g_slist_free (ranges);
+	g_slist_free_full (ranges, (GDestroyNotify)value_release);
 }
 
 
@@ -274,7 +268,7 @@ range_list_destroy (GSList *ranges)
  * range_as_string:
  * @r: A #GnmRange
  *
- * Returns: (transfer none): a string repesentation of @src
+ * Returns: (transfer none): a string representation of @src
  **/
 char const *
 range_as_string (GnmRange const *r)
@@ -331,7 +325,7 @@ ranges_dump (GList *l, char const *txt)
  * @a:
  * @b:
  *
- * Is @a totaly contained by @b
+ * Is @a totally contained by @b
  *
  * Return value:
  **/
@@ -360,7 +354,7 @@ range_contained (GnmRange const *a, GnmRange const *b)
  *
  * Splits soft into several chunks, and returns the still
  * overlapping remainder of soft as the first list item
- * ( the central region in the pathalogical case ).
+ * (the central region in the pathological case).
  *
  * Returns: (element-type GnmRange) (transfer full): A list of fragments.
  **/
@@ -373,7 +367,7 @@ range_split_ranges (GnmRange const *hard, GnmRange const *soft)
 	 * Original Methodology ( approximately )
 	 *	a) Get a vertex: is it contained ?
 	 *	b) Yes: split so it isn't
-	 *	c) Continue for all verticees.
+	 *	c) Continue for all vertices.
 	 *
 	 * NB. We prefer to have long columns at the expense
 	 *     of long rows.
@@ -528,22 +522,20 @@ range_split_ranges (GnmRange const *hard, GnmRange const *soft)
  * Returns: (transfer full): A copy of the GnmRange.
  **/
 GnmRange *
-gnm_range_dup (GnmRange const *a)
+gnm_range_dup (GnmRange const *r)
 {
-	GnmRange *r = g_new (GnmRange, 1);
-	*r = *a;
-	return r;
+	return g_memdup (r, sizeof (*r));
 }
 
 /**
  * range_fragment:
- * @a: #GnmRange a
- * @b: #GnmRange b
+ * @a: First #GnmRange
+ * @b: Second #GnmRange
  *
- * Fragments the ranges into totaly non-overlapping regions,
+ * Fragments the ranges into totally non-overlapping regions,
  *
  * Returns: (element-type GnmRange) (transfer full): A list of fragmented
- * ranges or at minimum simply a and b.
+ * ranges or at minimum simply @a and @b.
  **/
 GSList *
 range_fragment (GnmRange const *a, GnmRange const *b)
@@ -566,13 +558,13 @@ range_fragment (GnmRange const *a, GnmRange const *b)
 /**
  * range_intersection:
  * @r: intersection range
- * @a: range a
- * @b: range b
+ * @a: First #GnmRange
+ * @b: Second #GnmRange
  *
  * This computes the intersection of two ranges; on a Venn
  * diagram this would be A (upside down U) B.
  * If the ranges do not intersect, false is returned an the
- * values of r are unpredictable.
+ * values of @r are unpredictable.
  *
  * NB. totally commutative
  *
@@ -627,7 +619,7 @@ range_normalize (GnmRange *src)
  * diagram this would be A U B
  * NB. totally commutative. Also, this may
  * include cells not in either range since
- * it must return a GnmRange.
+ * it must return a #GnmRange.
  *
  * Return value: the union
  **/
@@ -675,12 +667,13 @@ range_is_singleton (GnmRange const *r)
  * range_is_full:
  * @r: the range.
  * @sheet: the sheet in which @r lives
- * @horiz: %TRUE to check for a horizontal full ref (_cols_ [0..MAX))
+ * @horiz: %TRUE to check for a horizontal full ref (all _cols_); %FALSE
+ * to check for a vertical full ref (all _rows_).
  *
- * This determines whether @r completely spans a sheet
- * in the dimension specified by @horiz.
+ * This determines whether @r completely spans a sheet in the dimension
+ * specified by @horiz.
  *
- * Return value: %TRUE if it is infinite else %FALSE.
+ * Returns: %TRUE if it is infinite, %FALSE otherwise.
  **/
 gboolean
 range_is_full (GnmRange const *r, Sheet const *sheet, gboolean horiz)
@@ -704,7 +697,7 @@ range_is_full (GnmRange const *r, Sheet const *sheet, gboolean horiz)
  * The idea here is that users may select a whole column or row when they
  * really are only concerned with the extent of the sheet.
  * On the otehr hand, if users select any smaller region they probably
- * intend to selec tjust that.
+ * intend to select just that.
  *
  * WARNING THIS IS EXPENSIVE!
  **/
@@ -724,6 +717,12 @@ range_clip_to_finite (GnmRange *range, Sheet *sheet)
 		range->end.row = extent.end.row;
 }
 
+/**
+ * range_width:
+ * @r: #GnmRange
+ *
+ * Returns: width of @r.
+ */
 int
 range_width (GnmRange const *r)
 {
@@ -731,6 +730,12 @@ range_width (GnmRange const *r)
 	return ABS (r->end.col - r->start.col) + 1;
 }
 
+/**
+ * range_height:
+ * @r: #GnmRange
+ *
+ * Returns: height of @r.
+ */
 int
 range_height (GnmRange const *r)
 {
@@ -745,9 +750,9 @@ range_height (GnmRange const *r)
  * @col_offset:
  * @row_offset:
  *
- * Translate the range and return TRUE if it is invalidated.
+ * Translate the range and return %TRUE if it is invalidated.
  *
- * return TRUE if the range is no longer valid.
+ * Return: %TRUE if the range is no longer valid.
  **/
 gboolean
 range_translate (GnmRange *range, Sheet const *sheet, int col_offset, int row_offset)
@@ -1053,7 +1058,7 @@ undo_range_name (Sheet const *sheet, GnmRange const *r)
 
 /*
  * Create range list name, but don't exceed max_width.
- * Return TRUE iff the name is complete.
+ * Returns: %TRUE iff the name is complete.
  */
 static gboolean
 range_list_name_try (GString *names, char const *sheet, GSList const *ranges)
@@ -1095,9 +1100,9 @@ range_list_name_try (GString *names, char const *sheet, GSList const *ranges)
 /**
  * undo_range_list_name:
  * @sheet:
- * @ranges: (element-type GnmRange): GSList containing GnmRange *'s
+ * @ranges: (element-type GnmRange): list of ranges
  *
- * Returns the range list name depending on the preference setting.
+ * Returns: the range list name depending on the preference setting.
  * (The result will be something like: "A1:C3, D4:E5"). The string will be
  * truncated to max_descriptor_width.
  **/
@@ -1223,12 +1228,11 @@ global_range_list_foreach (GSList *gr_list, GnmEvalPos const *ep,
 
 /**
  * global_range_contained:
- * @sheet: The calling context #Sheet for references with sheet==NULL
- * @a:
- * @b:
+ * @sheet: The calling context #Sheet for references without sheet.
+ * @a: A #GnmValue representing a range
+ * @b: A #GnmValue representing a range
  *
- * return true if a is contained in b
- * we do not handle 3d ranges
+ * Returns: %TRUE if @a is contained in @b.  We do not handle 3d ranges
  **/
 gboolean
 global_range_contained (Sheet const *sheet, GnmValue const *a, GnmValue const *b)
