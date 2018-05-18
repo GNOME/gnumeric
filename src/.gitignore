@@ -4,6 +4,7 @@
 *.lo
 *.la
 .*.sw*
+.dirstamp
 Makefile.in
 Makefile
 .deps

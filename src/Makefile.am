@@ -229,7 +229,6 @@ widgets_sources = \
 	widgets/gnumeric-cell-renderer-toggle.c		\
 	widgets/gnumeric-dashed-canvas-line.c		\
 	widgets/gnumeric-expr-entry.c			\
-	widgets/gnumeric-lazy-list.c			\
 	widgets/gnumeric-text-view.c
 
 widgets_headers = \
@@ -251,7 +250,6 @@ widgets_headers = \
 	widgets/gnumeric-cell-renderer-toggle.h		\
 	widgets/gnumeric-dashed-canvas-line.h		\
 	widgets/gnumeric-expr-entry.h			\
-	widgets/gnumeric-lazy-list.h			\
 	widgets/gnumeric-text-view.h
 
 tools_sources =	\
