@@ -799,8 +799,8 @@ cb_compare (gconstpointer a_, gconstpointer b_, gpointer user_data)
 /**
  * gnm_hash_table_foreach_ordered:
  * @h: Hash table
- * @callback: (scope async): #GHFunc
- * @order: (scope async): Ordering function
+ * @callback: (scope call): #GHFunc
+ * @order: (scope call): Ordering function
  * @user: user data for callback and order
  *
  * Like g_hash_table_foreach, but with an ordering imposed.
