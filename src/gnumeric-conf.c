@@ -391,10 +391,8 @@ static gboolean
 string_list_equal (GSList *x, GSList *y)
 {
 	while (x && y) {
-		if (strcmp (x->data, y->data) != 0) {
-			g_printerr ("Diff: %s %s\n", x->data, y->data);
+		if (strcmp (x->data, y->data) != 0)
 			return FALSE;
-		}
 		x = x->next;
 		y = y->next;
 	}
