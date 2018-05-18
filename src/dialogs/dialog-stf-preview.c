@@ -29,27 +29,35 @@
 #include <number-match.h>
 #include <value.h>
 #include <style.h>
-#include <widgets/gnumeric-lazy-list.h>
 #include <string.h>
 
 /******************************************************************************************************************
  * ADVANCED DRAWING FUNCTIONS
  ******************************************************************************************************************/
 
-static void
-render_get_value (gint row, gint column, gpointer _rd, GValue *value)
-{
-	RenderData_t *rd = (RenderData_t *)_rd;
-	GnumericLazyList *ll = GNM_LAZY_LIST (gtk_tree_view_get_model (rd->tree_view));
-	GPtrArray *lines = rd->lines;
-	GPtrArray *line = (row < (int)lines->len)
-		? g_ptr_array_index (lines, row)
-		: NULL;
-	const char *text = (line && column < (int)line->len)
-		? g_ptr_array_index (line, column)
-		: NULL;
+enum { ITEM_LINENO };
 
-	g_value_init (value, ll->column_headers[column]);
+static void
+line_renderer_func (GtkTreeViewColumn *tvc,
+		    GtkCellRenderer   *cr,
+		    GtkTreeModel      *model,
+		    GtkTreeIter       *iter,
+		    gpointer           user_data)
+{
+	RenderData_t *renderdata = user_data;
+	unsigned row, col;
+	GPtrArray *line;
+	const char *text;
+
+	gtk_tree_model_get (model, iter, ITEM_LINENO, &row, -1);
+	col = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (tvc), "col-no"));
+
+	line = (renderdata->lines && row < renderdata->lines->len)
+		? g_ptr_array_index (renderdata->lines, row)
+		: NULL;
+	text = (line && col < line->len)
+		? g_ptr_array_index (line, col)
+		: NULL;
 
 	if (text) {
 		char *copy = NULL;
@@ -76,10 +84,28 @@ render_get_value (gint row, gint column, gpointer _rd, GValue *value)
 			text = copy = cut;
 		}
 
-		g_value_set_string (value, text);
+		g_object_set (cr, "text", text, NULL);
 		g_free (copy);
-	}
+	} else
+		g_object_set (cr, "text", "", NULL);
 }
+
+static GtkTreeModel *
+make_model (GPtrArray *lines)
+{
+	GtkListStore *list_store = gtk_list_store_new (1, G_TYPE_UINT);
+	unsigned ui;
+	unsigned count = lines ? MIN (lines->len, STF_LINE_DISPLAY_LIMIT) : 0;
+
+	for (ui = 0; ui < count; ui++) {
+		GtkTreeIter iter;
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter, ITEM_LINENO, ui, -1);
+	}
+
+	return GTK_TREE_MODEL (list_store);
+}
+
 
 
 /******************************************************************************************************************
@@ -97,7 +123,7 @@ stf_preview_new (GtkWidget *data_container,
 		 GODateConventions const *date_conv)
 {
 	RenderData_t* renderdata;
-	GnumericLazyList *ll;
+	GtkTreeModel *model;
 
 	g_return_val_if_fail (data_container != NULL, NULL);
 
@@ -112,13 +138,13 @@ stf_preview_new (GtkWidget *data_container,
 
 	renderdata->date_conv	   = date_conv;
 
-	ll = gnumeric_lazy_list_new (render_get_value, renderdata, 0, 1, G_TYPE_STRING);
+	model = make_model (NULL);
 	renderdata->tree_view =
-		GTK_TREE_VIEW (gtk_tree_view_new_with_model (GTK_TREE_MODEL (ll)));
+		GTK_TREE_VIEW (gtk_tree_view_new_with_model (model));
 	gtk_tree_view_set_grid_lines (renderdata->tree_view,
 				      GTK_TREE_VIEW_GRID_LINES_VERTICAL);
 	g_object_ref (renderdata->tree_view);
-	g_object_unref (ll);
+	g_object_unref (model);
 
 	renderdata->colcount = 0;
 
@@ -181,7 +207,7 @@ stf_preview_set_lines (RenderData_t *renderdata,
 {
 	unsigned int i;
 	int colcount = 1;
-	GnumericLazyList *ll;
+	GtkTreeModel *model;
 	gboolean hidden;
 
 	g_return_if_fail (renderdata != NULL);
@@ -228,26 +254,28 @@ stf_preview_set_lines (RenderData_t *renderdata,
 	while (renderdata->colcount < colcount) {
 		char *text = g_strdup_printf (_(COLUMN_CAPTION),
 					      renderdata->colcount + 1);
-		GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
-		GtkTreeViewColumn *column =
-			gtk_tree_view_column_new_with_attributes
-			(text, cell,
-			 "text", renderdata->colcount,
-			 NULL);
-		g_object_set (cell,
-			      "single_paragraph_mode", TRUE,
-			      NULL);
-		gtk_tree_view_append_column (renderdata->tree_view, column);
+		GtkCellRenderer *cr = gtk_cell_renderer_text_new ();
+		GtkTreeViewColumn *tvc = gtk_tree_view_column_new ();
+
+		g_object_set (cr, "single_paragraph_mode", TRUE, NULL);
+
+		gtk_tree_view_column_set_title (tvc, text);
+		gtk_tree_view_column_set_cell_data_func
+			(tvc, cr,
+			 line_renderer_func,
+			 renderdata, NULL);
+		gtk_tree_view_column_pack_start (tvc, cr, TRUE);
+
+		g_object_set_data (G_OBJECT (tvc), "col-no",
+				   GUINT_TO_POINTER (renderdata->colcount));
+		gtk_tree_view_append_column (renderdata->tree_view, tvc);
 		g_free (text);
 		renderdata->colcount++;
 	}
 
-	ll = gnumeric_lazy_list_new (render_get_value, renderdata,
-				     MIN (lines->len, STF_LINE_DISPLAY_LIMIT),
-				     0);
-	gnumeric_lazy_list_add_column (ll, colcount, G_TYPE_STRING);
-	gtk_tree_view_set_model (renderdata->tree_view, GTK_TREE_MODEL (ll));
-	g_object_unref (ll);
+	model = make_model (lines);
+	gtk_tree_view_set_model (renderdata->tree_view, model);
+	g_object_unref (model);
 
 	if (hidden)
 		gtk_widget_show (GTK_WIDGET (renderdata->tree_view));
