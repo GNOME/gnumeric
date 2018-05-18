@@ -32,7 +32,7 @@
 #include <workbook.h>
 #include <wbc-gtk.h>
 #include <gui-util.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #define GNUMERIC_ITEM "EDIT"
 
 #include <gsf/gsf-impl-utils.h>

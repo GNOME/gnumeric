@@ -60,7 +60,7 @@
 #include <gnm-pane-impl.h>
 #include <item-bar.h>
 #include <item-cursor.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <gnm-sheet-slicer.h>
 #include <input-msg.h>
 

@@ -1,5 +1,5 @@
 /*
- * gnumeric-dashed-canvas-line.c : A canvas line with support for dash styles.
+ * gnm-dashed-canvas-line.c : A canvas line with support for dash styles.
  *
  * Author:
  *  Jody Goldberg (jody@gnome.org)
@@ -8,31 +8,16 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <widgets/gnumeric-dashed-canvas-line.h>
+#include <widgets/gnm-dashed-canvas-line.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
 static GocItemClass *parent_class;
 
-static void gnumeric_dashed_canvas_line_draw (GocItem const *item,
-					      cairo_t *cr);
+static void gnm_dashed_canvas_line_draw (GocItem const *item, cairo_t *cr);
 
-static GnmDashedCanvasLineClass *gnumeric_dashed_canvas_line_class;
-
-static inline double
-hypothenuse (double xlength, double ylength)
-{
-	/* A little optimisation for speed. Horizontal or vertical lines
-	 * are a lot more common than slanted */
-	if (xlength == 0)
-		return fabs (ylength);
-	else if (ylength == 0)
-		return fabs (xlength);
-	else
-		return sqrt (xlength * xlength + ylength * ylength);
-
-}
+static GnmDashedCanvasLineClass *gnm_dashed_canvas_line_class;
 
 static void
 line_draw (GocItem const *item, GnmStyleBorderType const i, cairo_t *cr)
@@ -117,7 +102,7 @@ double_line_draw (GocItem const *item, GnmStyleBorderType const i, cairo_t *cr)
 	xdiff = coords[2] - coords[0];
 	ydiff = coords[3] - coords[1];
 
-	length = hypothenuse (xdiff, ydiff);
+	length = hypot (xdiff, ydiff);
 	yoffs = xdiff/length;
 	xoffs = -ydiff/length;
 
@@ -140,7 +125,7 @@ double_line_draw (GocItem const *item, GnmStyleBorderType const i, cairo_t *cr)
 }
 
 static void
-gnumeric_dashed_canvas_line_draw (GocItem const *item, cairo_t *cr)
+gnm_dashed_canvas_line_draw (GocItem const *item, cairo_t *cr)
 {
 	GnmDashedCanvasLine *line = GNM_DASHED_CANVAS_LINE (item);
 
@@ -152,7 +137,7 @@ gnumeric_dashed_canvas_line_draw (GocItem const *item, cairo_t *cr)
 }
 
 static void
-gnumeric_dashed_canvas_line_update_bounds (GocItem *item)
+gnm_dashed_canvas_line_update_bounds (GocItem *item)
 {
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double saved_width = style->line.width;
@@ -162,32 +147,32 @@ gnumeric_dashed_canvas_line_update_bounds (GocItem *item)
 }
 
 static void
-gnumeric_dashed_canvas_line_class_init (GnmDashedCanvasLineClass *klass)
+gnm_dashed_canvas_line_class_init (GnmDashedCanvasLineClass *klass)
 {
 	GocItemClass *item_class;
 
 	parent_class = g_type_class_peek_parent (klass);
-	gnumeric_dashed_canvas_line_class = klass;
+	gnm_dashed_canvas_line_class = klass;
 
 	item_class = (GocItemClass *) klass;
 
-	item_class->draw = gnumeric_dashed_canvas_line_draw;
-	item_class->update_bounds = gnumeric_dashed_canvas_line_update_bounds;
+	item_class->draw = gnm_dashed_canvas_line_draw;
+	item_class->update_bounds = gnm_dashed_canvas_line_update_bounds;
 }
 
 static void
-gnumeric_dashed_canvas_line_init (GnmDashedCanvasLine *line)
+gnm_dashed_canvas_line_init (GnmDashedCanvasLine *line)
 {
 	line->dash_style_index = GNM_STYLE_BORDER_THIN;
 }
 
-GSF_CLASS (GnmDashedCanvasLine, gnumeric_dashed_canvas_line,
-	   gnumeric_dashed_canvas_line_class_init,
-	   gnumeric_dashed_canvas_line_init, GOC_TYPE_LINE)
+GSF_CLASS (GnmDashedCanvasLine, gnm_dashed_canvas_line,
+	   gnm_dashed_canvas_line_class_init,
+	   gnm_dashed_canvas_line_init, GOC_TYPE_LINE)
 
 void
-gnumeric_dashed_canvas_line_set_dash_index (GnmDashedCanvasLine *line,
-					    GnmStyleBorderType const indx)
+gnm_dashed_canvas_line_set_dash_index (GnmDashedCanvasLine *line,
+				       GnmStyleBorderType const indx)
 {
 	gint const width = gnm_style_border_get_width (indx);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (line));

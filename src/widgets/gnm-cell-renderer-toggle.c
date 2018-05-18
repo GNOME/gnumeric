@@ -1,4 +1,4 @@
-/* gnumeric-cell-renderer-toggle.c
+/* gnm-cell-renderer-toggle.c
  *
  * Author:
  *        Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -20,7 +20,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <widgets/gnumeric-cell-renderer-toggle.h>
+#include <widgets/gnm-cell-renderer-toggle.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gnm-i18n.h>
 
@@ -49,7 +49,7 @@ static void gnumeric_cell_renderer_toggle_render (GtkCellRenderer *cell,
 						  GtkCellRendererState flags);
 
 static void gnumeric_cell_renderer_toggle_class_init
-                                      (GnumericCellRendererToggleClass *cell_toggle_class);
+                                      (GnmCellRendererToggleClass *cell_toggle_class);
 
 static GtkCellRendererToggleClass *parent_class = NULL;
 
@@ -59,7 +59,7 @@ enum {
 };
 
 GType
-gnumeric_cell_renderer_toggle_get_type (void)
+gnm_cell_renderer_toggle_get_type (void)
 {
 	static GType cell_toggle_type = 0;
 
@@ -67,19 +67,19 @@ gnumeric_cell_renderer_toggle_get_type (void)
 	{
 		static const GTypeInfo cell_toggle_info =
 			{
-				sizeof (GnumericCellRendererToggleClass),
+				sizeof (GnmCellRendererToggleClass),
 				NULL,		/* base_init */
 				NULL,		/* base_finalize */
 				(GClassInitFunc)gnumeric_cell_renderer_toggle_class_init,
 				NULL,		/* class_finalize */
 				NULL,		/* class_data */
-				sizeof (GnumericCellRendererToggle),
+				sizeof (GnmCellRendererToggle),
 				0,              /* n_preallocs */
 				(GInstanceInitFunc) NULL,
 			};
 
 		cell_toggle_type = g_type_register_static (GTK_TYPE_CELL_RENDERER_TOGGLE,
-							   "GnumericCellRendererToggle",
+							   "GnmCellRendererToggle",
 							   &cell_toggle_info, 0);
 	}
 
@@ -89,13 +89,13 @@ gnumeric_cell_renderer_toggle_get_type (void)
 static void
 gnumeric_cell_renderer_toggle_dispose (GObject *obj)
 {
-	GnumericCellRendererToggle *celltoggle = GNM_CELL_RENDERER_TOGGLE (obj);
+	GnmCellRendererToggle *celltoggle = GNM_CELL_RENDERER_TOGGLE (obj);
 	g_clear_object (&celltoggle->pixbuf);
 	G_OBJECT_CLASS (parent_class)->dispose (obj);
 }
 
 static void
-gnumeric_cell_renderer_toggle_class_init (GnumericCellRendererToggleClass *class)
+gnumeric_cell_renderer_toggle_class_init (GnmCellRendererToggleClass *class)
 {
 	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS  (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
@@ -120,7 +120,7 @@ gnumeric_cell_renderer_toggle_class_init (GnumericCellRendererToggleClass *class
 
 
 GtkCellRenderer *
-gnumeric_cell_renderer_toggle_new (void)
+gnm_cell_renderer_toggle_new (void)
 {
 	return GTK_CELL_RENDERER (g_object_new (GNM_CELL_RENDERER_TOGGLE_TYPE, NULL));
 }
@@ -131,7 +131,7 @@ gnumeric_cell_renderer_toggle_get_property (GObject     *object,
 					    GValue      *value,
 					    GParamSpec  *pspec)
 {
-	GnumericCellRendererToggle *celltoggle = GNM_CELL_RENDERER_TOGGLE (object);
+	GnmCellRendererToggle *celltoggle = GNM_CELL_RENDERER_TOGGLE (object);
 
 	switch (param_id) {
 	case PROP_PIXBUF:
@@ -150,7 +150,7 @@ gnumeric_cell_renderer_toggle_set_property (GObject      *object,
 					    const GValue *value,
 					    GParamSpec   *pspec)
 {
-	GnumericCellRendererToggle *celltoggle = GNM_CELL_RENDERER_TOGGLE (object);
+	GnmCellRendererToggle *celltoggle = GNM_CELL_RENDERER_TOGGLE (object);
 	GdkPixbuf *pixbuf;
 
 	switch (param_id) {
@@ -177,7 +177,7 @@ gnumeric_cell_renderer_toggle_get_size (GtkCellRenderer *cell,
 					gint            *width,
 					gint            *height)
 {
-	GnumericCellRendererToggle *cellpixbuf = (GnumericCellRendererToggle *) cell;
+	GnmCellRendererToggle *cellpixbuf = (GnmCellRendererToggle *) cell;
 	gint pixbuf_width = 0;
 	gint pixbuf_height = 0;
 	gint calc_width;
@@ -233,7 +233,7 @@ gnumeric_cell_renderer_toggle_render (GtkCellRenderer *cell,
 				      GdkRectangle const *cell_area,
 				      G_GNUC_UNUSED GtkCellRendererState flags)
 {
-	GnumericCellRendererToggle *cellpixbuf = (GnumericCellRendererToggle *) cell;
+	GnmCellRendererToggle *cellpixbuf = (GnmCellRendererToggle *) cell;
 	GdkPixbuf *pixbuf;
 	GdkRectangle pix_rect;
 	GdkRectangle draw_rect;

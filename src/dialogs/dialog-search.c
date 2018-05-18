@@ -40,7 +40,7 @@
 #include <sheet-object-cell-comment.h>
 #include <selection.h>
 
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <string.h>
 
 #define SEARCH_KEY "search-dialog"

@@ -17,7 +17,7 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 
 typedef struct _scenario_state scenario_state_t;
 

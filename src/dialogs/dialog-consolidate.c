@@ -33,8 +33,8 @@
 #include <value.h>
 #include <sheet-view.h>
 #include <selection.h>
-#include <widgets/gnumeric-expr-entry.h>
-#include <widgets/gnumeric-cell-renderer-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
+#include <widgets/gnm-cell-renderer-expr-entry.h>
 #include <widgets/gnm-dao.h>
 #include <wbc-gtk.h>
 #include <dialogs/dao-gui-utils.h>
@@ -59,7 +59,7 @@ typedef struct {
 
 	GtkTreeView       *source_view;
 	GtkTreeModel      *source_areas;
-	GnumericCellRendererExprEntry *cellrenderer;
+	GnmCellRendererExprEntry *cellrenderer;
 	GdkPixbuf         *pixmap;
 
 	GtkButton         *clear;
@@ -281,7 +281,7 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 	data_analysis_output_t  *dao;
 
 	if (state->cellrenderer->entry)
-		gnumeric_cell_renderer_expr_entry_editing_done (
+		gnm_cell_renderer_expr_entry_editing_done (
 			GTK_CELL_EDITABLE (state->cellrenderer->entry),
 			state->cellrenderer);
 
@@ -341,7 +341,7 @@ cb_clear_clicked (G_GNUC_UNUSED GtkButton *button,
 	g_return_if_fail (state != NULL);
 
 	if (state->cellrenderer->entry)
-		gnumeric_cell_renderer_expr_entry_editing_done (
+		gnm_cell_renderer_expr_entry_editing_done (
 			GTK_CELL_EDITABLE (state->cellrenderer->entry),
 			state->cellrenderer);
 
@@ -360,7 +360,7 @@ cb_delete_clicked (G_GNUC_UNUSED GtkButton *button,
 		gtk_tree_view_get_selection (state->source_view);
 
 	if (state->cellrenderer->entry)
-		gnumeric_cell_renderer_expr_entry_editing_done (
+		gnm_cell_renderer_expr_entry_editing_done (
 			GTK_CELL_EDITABLE (state->cellrenderer->entry),
 			state->cellrenderer);
 	if (!gtk_tree_selection_get_selected (selection, NULL, &sel_iter))
@@ -422,7 +422,7 @@ setup_widgets (ConsolidateState *state, GtkBuilder *gui)
 			(state->source_view );
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 
-	renderer = gnumeric_cell_renderer_expr_entry_new (state->base.wbcg);
+	renderer = gnm_cell_renderer_expr_entry_new (state->base.wbcg);
 	state->cellrenderer =
 		GNM_CELL_RENDERER_EXPR_ENTRY (renderer);
 	column = gtk_tree_view_column_new_with_attributes

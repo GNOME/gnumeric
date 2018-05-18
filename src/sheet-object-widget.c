@@ -42,7 +42,7 @@
 #include <sheet.h>
 #include <cell.h>
 #include <mathfunc.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <dialogs/dialogs.h>
 #include <dialogs/help.h>
 #include <xml-sax.h>

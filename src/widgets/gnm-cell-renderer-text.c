@@ -1,4 +1,4 @@
-/* gnumeric-cell-renderer-text.c
+/* gnm-cell-renderer-text.c
  * Copyright (C) 2002  Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -16,17 +16,17 @@
  */
 
 #include <gnumeric-config.h>
-#include <widgets/gnumeric-cell-renderer-text.h>
+#include <widgets/gnm-cell-renderer-text.h>
 #include <dead-kittens.h>
 #include <gui-util.h>
 
 static void gnumeric_cell_renderer_text_class_init
-    (GnumericCellRendererTextClass *cell_text_class);
+    (GnmCellRendererTextClass *cell_text_class);
 
 static GtkCellRendererTextClass *parent_class = NULL;
 
 GType
-gnumeric_cell_renderer_text_get_type (void)
+gnm_cell_renderer_text_get_type (void)
 {
 	static GType cell_text_type = 0;
 
@@ -34,18 +34,18 @@ gnumeric_cell_renderer_text_get_type (void)
 	{
 		static const GTypeInfo cell_text_info =
 			{
-				sizeof (GnumericCellRendererTextClass),
+				sizeof (GnmCellRendererTextClass),
 				NULL,		/* base_init */
 				NULL,		/* base_finalize */
 				(GClassInitFunc)gnumeric_cell_renderer_text_class_init,
 				NULL,		/* class_finalize */
 				NULL,		/* class_data */
-				sizeof (GnumericCellRendererText),
+				sizeof (GnmCellRendererText),
 				0,              /* n_preallocs */
 				(GInstanceInitFunc) NULL,
 			};
 
-		cell_text_type = g_type_register_static (GTK_TYPE_CELL_RENDERER_TEXT, "GnumericCellRendererText", &cell_text_info, 0);
+		cell_text_type = g_type_register_static (GTK_TYPE_CELL_RENDERER_TEXT, "GnmCellRendererText", &cell_text_info, 0);
 	}
 
 	return cell_text_type;
@@ -109,7 +109,7 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 }
 
 static void
-gnumeric_cell_renderer_text_class_init (GnumericCellRendererTextClass *class)
+gnumeric_cell_renderer_text_class_init (GnmCellRendererTextClass *class)
 {
 	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS  (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
@@ -121,7 +121,7 @@ gnumeric_cell_renderer_text_class_init (GnumericCellRendererTextClass *class)
 
 
 GtkCellRenderer *
-gnumeric_cell_renderer_text_new (void)
+gnm_cell_renderer_text_new (void)
 {
 	return GTK_CELL_RENDERER (g_object_new (GNM_CELL_RENDERER_TEXT_TYPE, NULL));
 }

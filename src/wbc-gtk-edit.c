@@ -47,7 +47,7 @@
 #include <selection.h>
 #include <validation.h>
 #include <value.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <gui-util.h>
 #include <command-context.h>
 

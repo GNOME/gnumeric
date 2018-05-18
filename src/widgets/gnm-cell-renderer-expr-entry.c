@@ -1,4 +1,4 @@
-/* gnumeric-cell-renderer-expr-entry.c
+/* gnm-cell-renderer-expr-entry.c
  * Copyright (C) 2002  Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -16,17 +16,17 @@
  */
 
 #include <gnumeric-config.h>
-#include <widgets/gnumeric-cell-renderer-expr-entry.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-cell-renderer-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <wbc-gtk.h>
 #include <dead-kittens.h>
 
 #define GNUMERIC_CELL_RENDERER_EXPR_ENTRY_PATH "gnumeric-cell-renderer-expr-entry-path"
 
 static void gnumeric_cell_renderer_expr_entry_class_init
-            (GnumericCellRendererExprEntryClass *cell_expr_entry_class)           ;
+            (GnmCellRendererExprEntryClass *cell_expr_entry_class)           ;
 
-static GnumericCellRendererTextClass *parent_class = NULL;
+static GnmCellRendererTextClass *parent_class = NULL;
 
 static GtkCellEditable *gnumeric_cell_renderer_expr_entry_start_editing
                                                              (GtkCellRenderer      *cell,
@@ -38,7 +38,7 @@ static GtkCellEditable *gnumeric_cell_renderer_expr_entry_start_editing
 							      GtkCellRendererState  flags);
 
 GType
-gnumeric_cell_renderer_expr_entry_get_type (void)
+gnm_cell_renderer_expr_entry_get_type (void)
 {
 	static GType cell_expr_entry_type = 0;
 
@@ -46,19 +46,19 @@ gnumeric_cell_renderer_expr_entry_get_type (void)
 	{
 		static const GTypeInfo cell_expr_entry_info =
 			{
-				sizeof (GnumericCellRendererExprEntryClass),
+				sizeof (GnmCellRendererExprEntryClass),
 				NULL,		/* base_init */
 				NULL,		/* base_finalize */
 				(GClassInitFunc)gnumeric_cell_renderer_expr_entry_class_init,
 				NULL,		/* class_finalize */
 				NULL,		/* class_data */
-				sizeof (GnumericCellRendererExprEntry),
+				sizeof (GnmCellRendererExprEntry),
 				0,              /* n_preallocs */
 				(GInstanceInitFunc) NULL,
 			};
 
 		cell_expr_entry_type = g_type_register_static (GNM_CELL_RENDERER_TEXT_TYPE,
-							       "GnumericCellRendererExprEntry",
+							       "GnmCellRendererExprEntry",
 							       &cell_expr_entry_info, 0);
 	}
 
@@ -67,7 +67,7 @@ gnumeric_cell_renderer_expr_entry_get_type (void)
 
 
 static void
-gnumeric_cell_renderer_expr_entry_class_init (GnumericCellRendererExprEntryClass *class)
+gnumeric_cell_renderer_expr_entry_class_init (GnmCellRendererExprEntryClass *class)
 {
 	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS  (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
@@ -79,9 +79,9 @@ gnumeric_cell_renderer_expr_entry_class_init (GnumericCellRendererExprEntryClass
 
 
 GtkCellRenderer *
-gnumeric_cell_renderer_expr_entry_new (WBCGtk *wbcg)
+gnm_cell_renderer_expr_entry_new (WBCGtk *wbcg)
 {
-	GnumericCellRendererExprEntry *this =
+	GnmCellRendererExprEntry *this =
 		GNM_CELL_RENDERER_EXPR_ENTRY(g_object_new
 						  (GNM_CELL_RENDERER_EXPR_ENTRY_TYPE, NULL));
 	this->wbcg = wbcg;
@@ -89,8 +89,8 @@ gnumeric_cell_renderer_expr_entry_new (WBCGtk *wbcg)
 }
 
 void
-gnumeric_cell_renderer_expr_entry_editing_done (GtkCellEditable *entry,
-						GnumericCellRendererExprEntry *celltext)
+gnm_cell_renderer_expr_entry_editing_done (GtkCellEditable *entry,
+						GnmCellRendererExprEntry *celltext)
 {
   const gchar *path;
   const gchar *new_text;
@@ -115,7 +115,7 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
 				      G_GNUC_UNUSED GdkRectangle const *cell_area,
 				      G_GNUC_UNUSED GtkCellRendererState flags)
 {
-  GnumericCellRendererExprEntry *celltext;
+  GnmCellRendererExprEntry *celltext;
   GtkEntry *entry;
   GnmExprEntry *gentry;
   char *text;
@@ -141,7 +141,7 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
   gtk_widget_show_all (GTK_WIDGET (gentry));
   g_signal_connect (gentry,
 		    "editing_done",
-		    G_CALLBACK (gnumeric_cell_renderer_expr_entry_editing_done),
+		    G_CALLBACK (gnm_cell_renderer_expr_entry_editing_done),
 		    celltext);
 
   wbcg_set_entry (celltext->wbcg, gentry);

@@ -4,7 +4,7 @@
 #include <gnumeric.h>
 #include <gnumeric-fwd.h>
 #include <workbook-control.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 
 
 G_BEGIN_DECLS

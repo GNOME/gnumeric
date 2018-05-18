@@ -29,7 +29,7 @@
 #include <gnumeric-conf.h>
 #include <gui-util.h>
 #include <search.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <wbc-gtk.h>
 #include <selection.h>
 

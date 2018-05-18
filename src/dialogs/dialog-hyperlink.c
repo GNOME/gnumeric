@@ -26,7 +26,7 @@
 #include <dialogs/help.h>
 
 #include <commands.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <expr-name.h>
 #include <expr.h>
 #include <gui-util.h>

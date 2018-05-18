@@ -5,7 +5,7 @@
 #include <wbc-gtk.h>
 #include <workbook-control-priv.h>
 #include <style.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <widgets/gnm-notebook.h>
 
 #include <goffice/goffice.h>

@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_EXPR_ENTRY_H
-#define GNUMERIC_EXPR_ENTRY_H
+#ifndef GNM_EXPR_ENTRY_H
+#define GNM_EXPR_ENTRY_H
 
 #include <gnumeric-fwd.h>
 #include <parse-util.h>
@@ -90,4 +90,4 @@ gboolean gnm_expr_entry_editing_canceled (GnmExprEntry *gee);
 /* private : for internal use */
 void gnm_expr_entry_signal_update (GnmExprEntry *gee, gboolean user_requested);
 
-#endif /* GNUMERIC_EXPR_ENTRY_H */
+#endif

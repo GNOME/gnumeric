@@ -1,5 +1,5 @@
 /*
- * gnumeric-text-view.c: A textview extension handling formatting
+ * gnm-text-view.c: A textview extension handling formatting
  *
  * Copyright (C) 2009  Andreas J. Guelzow
 
@@ -22,7 +22,7 @@
 #include <gnumeric-config.h>
 #include <gnm-i18n.h>
 #include <gnumeric.h>
-#include <widgets/gnumeric-text-view.h>
+#include <widgets/gnm-text-view.h>
 
 #include <gui-util.h>
 

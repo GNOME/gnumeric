@@ -331,11 +331,11 @@ src/widgets/gnm-sheet-sel.c
 src/widgets/gnm-sheet-slicer-combo-view.c
 src/widgets/gnm-so-anchor-mode-chooser.c
 src/widgets/gnm-workbook-sel.c
-src/widgets/gnumeric-cell-renderer-expr-entry.c
-src/widgets/gnumeric-cell-renderer-text.c
-src/widgets/gnumeric-cell-renderer-toggle.c
-src/widgets/gnumeric-expr-entry.c
-src/widgets/gnumeric-text-view.c
+src/widgets/gnm-cell-renderer-expr-entry.c
+src/widgets/gnm-cell-renderer-text.c
+src/widgets/gnm-cell-renderer-toggle.c
+src/widgets/gnm-expr-entry.c
+src/widgets/gnm-text-view.c
 src/workbook-cmd-format.c
 src/workbook-control.c
 src/workbook-view.c

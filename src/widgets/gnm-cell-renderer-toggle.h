@@ -1,4 +1,4 @@
-/* gnumeric-cell-renderer-toggle.h
+/* gnm-cell-renderer-toggle.h
  *
  * Author:
  *        Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -19,36 +19,36 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef __GNUMERIC_CELL_RENDERER_TOGGLE_H__
-#define __GNUMERIC_CELL_RENDERER_TOGGLE_H__
+#ifndef GNM__CELL_RENDERER_TOGGLE_H__
+#define GNM__CELL_RENDERER_TOGGLE_H__
 
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
-#define GNM_CELL_RENDERER_TOGGLE_TYPE		(gnumeric_cell_renderer_toggle_get_type ())
-#define GNM_CELL_RENDERER_TOGGLE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_CELL_RENDERER_TOGGLE_TYPE, GnumericCellRendererToggle))
+#define GNM_CELL_RENDERER_TOGGLE_TYPE		(gnm_cell_renderer_toggle_get_type ())
+#define GNM_CELL_RENDERER_TOGGLE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_CELL_RENDERER_TOGGLE_TYPE, GnmCellRendererToggle))
 #define GNM_IS_CELL_RENDERER_TOGGLE(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_CELL_RENDERER_TOGGLE_TYPE))
 
-typedef struct _GnumericCellRendererToggle      GnumericCellRendererToggle;
-typedef struct _GnumericCellRendererToggleClass GnumericCellRendererToggleClass;
+typedef struct GnmCellRendererToggle_      GnmCellRendererToggle;
+typedef struct GnmCellRendererToggleClass_ GnmCellRendererToggleClass;
 
-struct _GnumericCellRendererToggle
+struct GnmCellRendererToggle_
 {
 	GtkCellRendererToggle parent;
 
 	GdkPixbuf *pixbuf;
 };
 
-struct _GnumericCellRendererToggleClass
+struct GnmCellRendererToggleClass_
 {
 	GtkCellRendererToggleClass parent_class;
 };
 
-GType            gnumeric_cell_renderer_toggle_get_type (void);
-GtkCellRenderer *gnumeric_cell_renderer_toggle_new      (void);
+GType            gnm_cell_renderer_toggle_get_type (void);
+GtkCellRenderer *gnm_cell_renderer_toggle_new      (void);
 
 G_END_DECLS
 
 
-#endif /* __GTK_CELL_RENDERER_TOGGLE_H__ */
+#endif

@@ -40,8 +40,8 @@
 #include <style-color.h>
 #include <commands.h>
 #include <application.h>
-#include <widgets/gnumeric-cell-renderer-text.h>
-#include <widgets/gnumeric-cell-renderer-toggle.h>
+#include <widgets/gnm-cell-renderer-text.h>
+#include <widgets/gnm-cell-renderer-toggle.h>
 #include <goffice/goffice.h>
 
 #include <string.h>
@@ -697,7 +697,7 @@ create_sheet_list (SheetManager *state)
 	selection = gtk_tree_view_get_selection (state->sheet_list);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
 
-	renderer = gnumeric_cell_renderer_toggle_new ();
+	renderer = gnm_cell_renderer_toggle_new ();
 	g_signal_connect (G_OBJECT (renderer),
 		"toggled",
 		G_CALLBACK (cb_toggled_lock), state);
@@ -710,7 +710,7 @@ create_sheet_list (SheetManager *state)
 		 NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
-	renderer = gnumeric_cell_renderer_toggle_new ();
+	renderer = gnm_cell_renderer_toggle_new ();
 	g_signal_connect (G_OBJECT (renderer),
 		"toggled",
 		G_CALLBACK (cb_toggled_visible), state);
@@ -723,7 +723,7 @@ create_sheet_list (SheetManager *state)
 		 NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
-	renderer = gnumeric_cell_renderer_toggle_new ();
+	renderer = gnm_cell_renderer_toggle_new ();
 	g_signal_connect (G_OBJECT (renderer), "toggled",
 		G_CALLBACK (cb_toggled_direction), state);
 	column = gtk_tree_view_column_new_with_attributes
@@ -740,7 +740,7 @@ create_sheet_list (SheetManager *state)
 	column = gtk_tree_view_column_new_with_attributes
 		/*Translators: Table header for column with number of "Rows"*/
 		(C_("sheetlist", "Rows"),
-		 gnumeric_cell_renderer_text_new (),
+		 gnm_cell_renderer_text_new (),
 		 "text", SHEET_ROW_MAX,
 		 NULL);
 	gtk_tree_view_column_set_visible (column, FALSE);
@@ -750,7 +750,7 @@ create_sheet_list (SheetManager *state)
 	column = gtk_tree_view_column_new_with_attributes
 		/*Translators: Table header for column with number of "Cols"*/
 		(C_("sheetlist", "Cols"),
-		 gnumeric_cell_renderer_text_new (),
+		 gnm_cell_renderer_text_new (),
 		 "text", SHEET_COL_MAX,
 		 NULL);
 	gtk_tree_view_column_set_visible (column, FALSE);
@@ -758,14 +758,14 @@ create_sheet_list (SheetManager *state)
 	state->col_max_column = column;
 
 	column = gtk_tree_view_column_new_with_attributes (_("Current Name"),
-					      gnumeric_cell_renderer_text_new (),
+					      gnm_cell_renderer_text_new (),
 					      "text", SHEET_NAME,
 					      "background-rgba",BACKGROUND_COLOUR,
 					      "foreground-rgba",FOREGROUND_COLOUR,
 					      NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
-	renderer = gnumeric_cell_renderer_text_new ();
+	renderer = gnm_cell_renderer_text_new ();
 	g_object_set (G_OBJECT (renderer),
 		      "editable", TRUE,
 		      "editable-set", TRUE,

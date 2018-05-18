@@ -28,7 +28,7 @@
 #include <dialogs/help.h>
 
 #include <gui-util.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <tools/tabulate.h>
 #include <wbc-gtk.h>
 #include <ranges.h>

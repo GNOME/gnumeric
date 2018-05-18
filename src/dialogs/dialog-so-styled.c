@@ -32,7 +32,7 @@
 #include <sheet-object.h>
 #include <gnm-so-line.h>
 #include <goffice/goffice.h>
-#include <widgets/gnumeric-text-view.h>
+#include <widgets/gnm-text-view.h>
 
 typedef struct {
 	GObject *so;

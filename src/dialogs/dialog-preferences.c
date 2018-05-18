@@ -34,7 +34,7 @@
 #include <workbook-control.h>
 #include <wbc-gtk.h>
 #include <number-match.h>
-#include <widgets/gnumeric-cell-renderer-text.h>
+#include <widgets/gnm-cell-renderer-text.h>
 
 #include <gnumeric-conf.h>
 

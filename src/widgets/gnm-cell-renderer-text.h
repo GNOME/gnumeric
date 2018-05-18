@@ -1,4 +1,4 @@
-/* gnumeric-cell-renderer-text.h
+/* gnm-cell-renderer-text.h
  * Copyright (C) 2002  Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -15,34 +15,34 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef __GNUMERIC_CELL_RENDERER_TEXT_H__
-#define __GNUMERIC_CELL_RENDERER_TEXT_H__
+#ifndef GNM__CELL_RENDERER_TEXT_H__
+#define GNM__CELL_RENDERER_TEXT_H__
 
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
-#define GNM_CELL_RENDERER_TEXT_TYPE	 (gnumeric_cell_renderer_text_get_type ())
-#define GNM_CELL_RENDERER_TEXT(o)		 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_CELL_RENDERER_TEXT_TYPE, GnumericCellRendererText))
+#define GNM_CELL_RENDERER_TEXT_TYPE	 (gnm_cell_renderer_text_get_type ())
+#define GNM_CELL_RENDERER_TEXT(o)		 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_CELL_RENDERER_TEXT_TYPE, GnmCellRendererText))
 #define GNM_IS_CELL_RENDERER_TEXT(o)	 (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_CELL_RENDERER_TEXT_TYPE))
 
-typedef struct _GnumericCellRendererText      GnumericCellRendererText;
-typedef struct _GnumericCellRendererTextClass GnumericCellRendererTextClass;
+typedef struct GnmCellRendererText_      GnmCellRendererText;
+typedef struct GnmCellRendererTextClass_ GnmCellRendererTextClass;
 
-struct _GnumericCellRendererText
+struct GnmCellRendererText_
 {
   GtkCellRendererText parent;
 };
 
-struct _GnumericCellRendererTextClass
+struct GnmCellRendererTextClass_
 {
   GtkCellRendererTextClass parent_class;
 };
 
-GType            gnumeric_cell_renderer_text_get_type (void);
-GtkCellRenderer *gnumeric_cell_renderer_text_new      (void);
+GType            gnm_cell_renderer_text_get_type (void);
+GtkCellRenderer *gnm_cell_renderer_text_new      (void);
 
 G_END_DECLS
 
 
-#endif /* __GTK_CELL_RENDERER_TEXT_H__ */
+#endif

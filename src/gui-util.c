@@ -22,7 +22,7 @@
 #include <workbook.h>
 #include <libgnumeric.h>
 #include <wbc-gtk.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 
 #include <goffice/goffice.h>
 #include <atk/atkrelation.h>

@@ -39,9 +39,9 @@
 #include <gui-util.h>
 #include <parse-util.h>
 #include <commands.h>
-#include <widgets/gnumeric-expr-entry.h>
-#include <widgets/gnumeric-cell-renderer-expr-entry.h>
-#include <widgets/gnumeric-cell-renderer-toggle.h>
+#include <widgets/gnm-expr-entry.h>
+#include <widgets/gnm-cell-renderer-expr-entry.h>
+#include <widgets/gnm-cell-renderer-toggle.h>
 
 #include <string.h>
 
@@ -885,7 +885,7 @@ name_guru_check_expression (NameGuruState *state, gchar *text,
 
 static void
 cb_name_guru_content_edited
-(G_GNUC_UNUSED GnumericCellRendererExprEntry *cell,
+(G_GNUC_UNUSED GnmCellRendererExprEntry *cell,
  gchar               *path_string,
  gchar               *new_text,
  NameGuruState       *state)
@@ -1107,7 +1107,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (state->treeview), column);
 
 	if (is_paste_dialog) {
-		renderer = gnumeric_cell_renderer_toggle_new ();
+		renderer = gnm_cell_renderer_toggle_new ();
 		g_signal_connect (G_OBJECT (renderer),
 				  "toggled",
 				  G_CALLBACK (cb_name_guru_paste), state);
@@ -1120,7 +1120,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 		gtk_tree_view_append_column (GTK_TREE_VIEW (state->treeview),
 					     column);
 	} else {
-		renderer = gnumeric_cell_renderer_toggle_new ();
+		renderer = gnm_cell_renderer_toggle_new ();
 		g_signal_connect (G_OBJECT (renderer),
 				  "toggled",
 				  G_CALLBACK (cb_name_guru_add_delete), state);
@@ -1133,7 +1133,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 		gtk_tree_view_append_column (GTK_TREE_VIEW (state->treeview),
 					     column);
 
-		renderer = gnumeric_cell_renderer_toggle_new ();
+		renderer = gnm_cell_renderer_toggle_new ();
 		g_signal_connect (G_OBJECT (renderer),
 				  "toggled",
 				  G_CALLBACK (cb_name_guru_switch_scope),
@@ -1148,7 +1148,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 					     column);
 	}
 
-	renderer = gnumeric_cell_renderer_expr_entry_new (state->wbcg);
+	renderer = gnm_cell_renderer_expr_entry_new (state->wbcg);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_name_guru_content_edited), state);
 	column = gtk_tree_view_column_new_with_attributes

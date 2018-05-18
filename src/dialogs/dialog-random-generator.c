@@ -45,7 +45,7 @@
 #include <value.h>
 #include <commands.h>
 
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <widgets/gnm-dao.h>
 
 #include <string.h>

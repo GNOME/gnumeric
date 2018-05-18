@@ -43,7 +43,7 @@
 #include <workbook-view.h>
 #include <tools/goal-seek.h>
 #include <mathfunc.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <selection.h>
 #include <application.h>
 

@@ -224,12 +224,12 @@ widgets_sources = \
 	widgets/gnm-sheet-slicer-combo-view.c		\
 	widgets/gnm-so-anchor-mode-chooser.c		\
 	widgets/gnm-workbook-sel.c			\
-	widgets/gnumeric-cell-renderer-text.c		\
-	widgets/gnumeric-cell-renderer-expr-entry.c	\
-	widgets/gnumeric-cell-renderer-toggle.c		\
-	widgets/gnumeric-dashed-canvas-line.c		\
-	widgets/gnumeric-expr-entry.c			\
-	widgets/gnumeric-text-view.c
+	widgets/gnm-cell-renderer-text.c		\
+	widgets/gnm-cell-renderer-expr-entry.c	\
+	widgets/gnm-cell-renderer-toggle.c		\
+	widgets/gnm-dashed-canvas-line.c		\
+	widgets/gnm-expr-entry.c			\
+	widgets/gnm-text-view.c
 
 widgets_headers = \
 	widgets/gnm-dao.h				\
@@ -245,12 +245,12 @@ widgets_headers = \
 	widgets/gnm-sheet-slicer-combo-view.h		\
 	widgets/gnm-so-anchor-mode-chooser.h		\
 	widgets/gnm-workbook-sel.h			\
-	widgets/gnumeric-cell-renderer-text.h		\
-	widgets/gnumeric-cell-renderer-expr-entry.h	\
-	widgets/gnumeric-cell-renderer-toggle.h		\
-	widgets/gnumeric-dashed-canvas-line.h		\
-	widgets/gnumeric-expr-entry.h			\
-	widgets/gnumeric-text-view.h
+	widgets/gnm-cell-renderer-text.h		\
+	widgets/gnm-cell-renderer-expr-entry.h	\
+	widgets/gnm-cell-renderer-toggle.h		\
+	widgets/gnm-dashed-canvas-line.h		\
+	widgets/gnm-expr-entry.h			\
+	widgets/gnm-text-view.h
 
 tools_sources =	\
 	tools/analysis-anova.c			\
@@ -681,7 +681,7 @@ local.def: stamp-local.def
 	@true
 
 stamp-local.def: $(libspreadsheet_include_HEADERS) Makefile $(top_srcdir)/tools/dumpdef.pl
-	hdrs='$(libspreadsheet_include_HEADERS) dialogs/dialogs.h dialogs/tool-dialogs.h tools/dao.h tools/goal-seek.h tools/analysis-tools.h tools/gnm-solver.h widgets/gnumeric-expr-entry.h'; \
+	hdrs='$(libspreadsheet_include_HEADERS) dialogs/dialogs.h dialogs/tool-dialogs.h tools/dao.h tools/goal-seek.h tools/analysis-tools.h tools/gnm-solver.h widgets/gnm-expr-entry.h'; \
 	hdrs_list=''; \
 	for hdr in $$hdrs; do \
 	  if test -f $(srcdir)/$$hdr; then \

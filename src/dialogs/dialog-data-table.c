@@ -35,7 +35,7 @@
 #include <parse-util.h>
 #include <commands.h>
 #include <ranges.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <glib/gi18n.h>
 
 #define DIALOG_DATA_TABLE_KEY "dialog-data-table"

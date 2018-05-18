@@ -1,6 +1,5 @@
-
 /*
- * gnumeric-expr-entry.c: An entry widget specialized to handle expressions
+ * gnm-expr-entry.c: An entry widget specialized to handle expressions
  * and ranges.
  *
  * Author:
@@ -10,7 +9,7 @@
 #include <gnumeric-config.h>
 #include <gnm-i18n.h>
 #include <gnumeric.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 
 #include <wbc-gtk-impl.h>
 #include <sheet-control-gui-priv.h>

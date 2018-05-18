@@ -42,8 +42,8 @@
 #include <func.h>
 #include <gnm-format.h>
 #include <goffice/goffice.h>
-#include <widgets/gnumeric-expr-entry.h>
-#include <widgets/gnumeric-cell-renderer-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
+#include <widgets/gnm-cell-renderer-expr-entry.h>
 
 #include <locale.h>
 #include <string.h>
@@ -83,7 +83,7 @@ typedef struct
 	gint old_height_request;
 	gint old_width_request;
 
-	GnumericCellRendererExprEntry *cellrenderer;
+	GnmCellRendererExprEntry *cellrenderer;
 	GtkTreeViewColumn *column;
 	GtkCellEditable *editable;
 } FormulaGuruState;
@@ -668,7 +668,7 @@ cb_dialog_formula_guru_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 				   FormulaGuruState *state)
 {
 	if (state->cellrenderer->entry)
-		gnumeric_cell_renderer_expr_entry_editing_done (
+		gnm_cell_renderer_expr_entry_editing_done (
 			GTK_CELL_EDITABLE (state->cellrenderer->entry),
 			state->cellrenderer);
 	wbcg_edit_finish (state->wbcg,
@@ -890,14 +890,14 @@ dialog_formula_guru_init (FormulaGuruState *state)
 		G_CALLBACK (cb_dialog_formula_guru_selection_changed), state);
 
 	column = gtk_tree_view_column_new_with_attributes (_("Name"),
-							   gnumeric_cell_renderer_text_new (),
+							   gnm_cell_renderer_text_new (),
 							   "text", ARG_NAME, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 	column = gtk_tree_view_column_new_with_attributes (_("Type"),
-							   gnumeric_cell_renderer_text_new (),
+							   gnm_cell_renderer_text_new (),
 							   "text", ARG_TYPE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
-	renderer = gnumeric_cell_renderer_expr_entry_new (state->wbcg);
+	renderer = gnm_cell_renderer_expr_entry_new (state->wbcg);
 	state->cellrenderer = GNM_CELL_RENDERER_EXPR_ENTRY (renderer);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_dialog_formula_guru_edited), state);

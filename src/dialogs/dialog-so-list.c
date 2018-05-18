@@ -35,7 +35,7 @@
 #include <gui-util.h>
 #include <parse-util.h>
 #include <commands.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 #include <glib/gi18n.h>
 
 #define DIALOG_SO_LIST_KEY "so-list"

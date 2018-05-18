@@ -44,7 +44,7 @@
 #include <selection.h>
 #include <application.h>
 #include <tools/gnm-solver.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-expr-entry.h>
 
 #include <goffice/goffice.h>
 #include <string.h>

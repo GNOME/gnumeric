@@ -30,7 +30,7 @@
 #include <wbc-gtk.h>
 #include <ranges.h>
 #include <commands.h>
-#include <widgets/gnumeric-text-view.h>
+#include <widgets/gnm-text-view.h>
 
 #define COMMENT_DIALOG_KEY "cell-comment-dialog"
 

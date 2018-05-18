@@ -1,5 +1,5 @@
 /*
- * gnumeric-text-view.c: A textview extension handling formatting
+ * gnm-text-view.h: A textview extension handling formatting
  *
  * Copyright (C) 2009  Andreas J. Guelzow
 
@@ -19,8 +19,8 @@
  * USA
 */
 
-#ifndef GNUMERIC_TEXT_VIEW_H
-#define GNUMERIC_TEXT_VIEW_H
+#ifndef GNM_TEXT_VIEW_H
+#define GNM_TEXT_VIEW_H
 
 #include <gnumeric-fwd.h>
 
@@ -33,4 +33,4 @@ typedef struct _GnmTextView GnmTextView;
 GType gnm_text_view_get_type (void);
 GnmTextView *gnm_text_view_new       (void);
 
-#endif /* GNUMERIC_TEXT_VIEW_H */
+#endif

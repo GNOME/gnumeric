@@ -49,7 +49,7 @@
 #include <commands.h>
 #include <mathfunc.h>
 #include <preview-grid.h>
-#include <widgets/gnumeric-dashed-canvas-line.h>
+#include <widgets/gnm-dashed-canvas-line.h>
 #include <widgets/gnm-format-sel.h>
 #include <style-conditions.h>
 
@@ -1175,7 +1175,7 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 		for (i = 0; line_info[i].states != 0 ; ++i ) {
 			if (line_info[i].location == edge->index &&
 			    state->border.lines[i] != NULL) {
-				gnumeric_dashed_canvas_line_set_dash_index (
+				gnm_dashed_canvas_line_set_dash_index (
 					GNM_DASHED_CANVAS_LINE (state->border.lines[i]),
 					edge->pattern_index);
 			}
@@ -1364,7 +1364,7 @@ draw_border_preview (FormatState *state)
 					& state->border.edge[line_info[i].location];
 				state->border.lines[i] =
 					goc_item_new (group,
-						      gnumeric_dashed_canvas_line_get_type (),
+						      gnm_dashed_canvas_line_get_type (),
 					              "x0", line_info[i].points[0],
 					              "y0", line_info[i].points[1],
 					              "x1", line_info[i].points[2],
@@ -1372,7 +1372,7 @@ draw_border_preview (FormatState *state)
 						      NULL);
 				style = go_styled_object_get_style (GO_STYLED_OBJECT (state->border.lines[i]));
 				style->line.color = p->rgba;
-				gnumeric_dashed_canvas_line_set_dash_index (
+				gnm_dashed_canvas_line_set_dash_index (
 					GNM_DASHED_CANVAS_LINE (state->border.lines[i]),
 					p->pattern_index);
 			} else

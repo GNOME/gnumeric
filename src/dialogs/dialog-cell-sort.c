@@ -41,8 +41,8 @@
 #include <sheet-view.h>
 #include <wbc-gtk.h>
 #include <gnumeric-conf.h>
-#include <widgets/gnumeric-cell-renderer-toggle.h>
-#include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-cell-renderer-toggle.h>
+#include <widgets/gnm-expr-entry.h>
 #include <value.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -1015,7 +1015,7 @@ dialog_init (SortFlowState *state)
 		 "text", ITEM_NAME, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
-	renderer = gnumeric_cell_renderer_toggle_new ();
+	renderer = gnm_cell_renderer_toggle_new ();
 	g_signal_connect (G_OBJECT (renderer),
 			  "toggled",
 			  G_CALLBACK (cb_toggled_descending), state);
