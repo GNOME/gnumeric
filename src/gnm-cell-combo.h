@@ -10,7 +10,10 @@ typedef struct {
 
 	SheetView	*sv;
 } GnmCellCombo;
-typedef SheetObjectClass GnmCellComboClass;
+
+typedef struct {
+	SheetObjectClass parent_class;
+} GnmCellComboClass;
 
 #define GNM_CELL_COMBO_TYPE     (gnm_cell_combo_get_type ())
 #define GNM_CELL_COMBO(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_CELL_COMBO_TYPE, GnmCellCombo))

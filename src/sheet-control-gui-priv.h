@@ -67,7 +67,10 @@ struct _SheetControlGUI {
 		SCGUIMoveFunc	handler;
 	} delayedMovement;
 };
-typedef SheetControlClass SheetControlGUIClass;
+
+typedef struct {
+	SheetControlClass parent_class;
+} SheetControlGUIClass;
 
 /* SCG virtual methods called directly from the GUI layer*/
 void scg_adjust_preferences     (SheetControlGUI *scg);

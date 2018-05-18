@@ -63,7 +63,9 @@ struct _SheetView {
 	guint            auto_expr_timer;
 };
 
-typedef GObjectClass SheetViewClass;
+typedef struct {
+	GObjectClass parent_class;
+} SheetViewClass;
 
 #define GNM_SHEET_VIEW_TYPE     (gnm_sheet_view_get_type ())
 #define GNM_SHEET_VIEW(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_SHEET_VIEW_TYPE, SheetView))

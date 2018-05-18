@@ -6,8 +6,13 @@
 
 G_BEGIN_DECLS
 
-typedef SheetObjectView			SOWidgetView;
-typedef SheetObjectViewClass	SOWidgetViewClass;
+typedef struct {
+	SheetObjectView parent;
+} SOWidgetView;
+
+typedef struct {
+	SheetObjectViewClass parent_class;
+} SOWidgetViewClass;
 
 G_END_DECLS
 
