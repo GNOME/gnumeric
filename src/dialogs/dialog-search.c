@@ -41,7 +41,6 @@
 #include <selection.h>
 
 #include <widgets/gnumeric-expr-entry.h>
-#include <widgets/gnumeric-lazy-list.h>
 #include <string.h>
 
 #define SEARCH_KEY "search-dialog"
@@ -53,6 +52,10 @@ enum {
 	COL_CELL,
 	COL_TYPE,
 	COL_CONTENTS
+};
+
+enum {
+	ITEM_MATCH
 };
 
 typedef struct {
@@ -92,123 +95,23 @@ static const char * const direction_group[] = {
 
 /* ------------------------------------------------------------------------- */
 
-
-/* ------------------------------------------------------------------------- */
-
-static void
-search_get_value (gint row, gint column, gpointer _dd, GValue *value)
+static GtkTreeModel *
+make_matches_model (DialogState *dd)
 {
-	DialogState *dd = (DialogState *)_dd;
-	GnumericLazyList *ll = GNM_LAZY_LIST (gtk_tree_view_get_model (dd->matches_table));
-	GnmSearchFilterResult *item = g_ptr_array_index (dd->matches, row);
-	GnmCell *cell;
-	GnmComment *comment;
+	GtkListStore *list_store = gtk_list_store_new (1, G_TYPE_POINTER);
+	unsigned ui;
+	GPtrArray *matches = dd->matches;
 
-	if (item->locus == GNM_SRL_COMMENT) {
-		cell = NULL;
-		comment = sheet_get_comment (item->ep.sheet, &item->ep.eval);
-	} else {
-		cell = sheet_cell_get (item->ep.sheet,
-				       item->ep.eval.col,
-				       item->ep.eval.row);
-		comment = NULL;
+	for (ui = 0; ui < matches->len; ui++) {
+		GtkTreeIter iter;
+
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter,
+				    ITEM_MATCH, g_ptr_array_index (matches, ui),
+				    -1);
 	}
 
-	g_value_init (value, ll->column_headers[column]);
-
-#if 0
-	g_print ("col=%d,row=%d\n", column, row);
-#endif
-
-	switch (column) {
-	case COL_SHEET:
-		g_value_set_string (value, item->ep.sheet->name_unquoted);
-		return;
-	case COL_CELL:
-		g_value_set_string (value, cellpos_as_string (&item->ep.eval));
-		return;
-	case COL_TYPE:
-		switch (item->locus) {
-		case GNM_SRL_COMMENT:
-			g_value_set_static_string (value, _("Comment"));
-			return;
-		case GNM_SRL_VALUE:
-			g_value_set_static_string (value, _("Result"));
-			return;
-		case GNM_SRL_CONTENTS: {
-			GnmValue *v = cell ? cell->value : NULL;
-			char const *type;
-
-			gboolean is_expr = cell && gnm_cell_has_expr (cell);
-			gboolean is_value = !is_expr && !gnm_cell_is_empty (cell) && v;
-
-			if (!cell)
-				type = _("Deleted");
-			else if (is_expr)
-				type = _("Expression");
-			else if (is_value && VALUE_IS_STRING (v))
-				type = _("String");
-			else if (is_value && VALUE_IS_FLOAT (v))
-				type = _("Number");
-			else
-				type = _("Other value");
-
-			g_value_set_static_string (value, type);
-			return;
-		}
-
-#ifndef DEBUG_SWITCH_ENUM
-	default:
-		g_assert_not_reached ();
-#endif
-		}
-
-	case COL_CONTENTS:
-		switch (item->locus) {
-		case GNM_SRL_COMMENT:
-			if (comment)
-				g_value_set_string (value, cell_comment_text_get (comment));
-			else
-				g_value_set_static_string (value, _("Deleted"));
-			return;
-		case GNM_SRL_VALUE:
-			if (cell && cell->value)
-				g_value_take_string (value, value_get_as_string (cell->value));
-			else
-				g_value_set_static_string (value, _("Deleted"));
-			return;
-		case GNM_SRL_CONTENTS:
-			if (cell)
-				g_value_take_string (value, gnm_cell_get_entered_text (cell));
-			else
-				g_value_set_static_string (value, _("Deleted"));
-			return;
-#ifndef DEBUG_SWITCH_ENUM
-	default:
-		g_assert_not_reached ();
-#endif
-		}
-
-#ifndef DEBUG_SWITCH_ENUM
-	default:
-		g_assert_not_reached ();
-#endif
-	}
-}
-
-/* ------------------------------------------------------------------------- */
-
-static GnumericLazyList *
-make_matches_model (DialogState *dd, int rows)
-{
-	return gnumeric_lazy_list_new (search_get_value,
-				       dd,
-				       rows,
-				       4,
-				       G_TYPE_STRING,
-				       G_TYPE_STRING,
-				       G_TYPE_STRING,
-				       G_TYPE_STRING);
+	return GTK_TREE_MODEL (list_store);
 }
 
 static void
@@ -364,7 +267,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		dialog_search_save_in_prefs (dd);
 
 	{
-		GnumericLazyList *ll;
+		GtkTreeModel *model;
 		GPtrArray *cells;
 
 		/* Clear current table.  */
@@ -375,9 +278,9 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		dd->matches = gnm_search_filter_matching (sr, cells);
 		gnm_search_collect_cells_free (cells);
 
-		ll = make_matches_model (dd, dd->matches->len);
-		gtk_tree_view_set_model (dd->matches_table, GTK_TREE_MODEL (ll));
-		g_object_unref (ll);
+		model = make_matches_model (dd);
+		gtk_tree_view_set_model (dd->matches_table, model);
+		g_object_unref (model);
 
 		/* Set sensitivity of buttons.  */
 		cursor_change (dd->matches_table, dd);
@@ -430,41 +333,129 @@ cb_focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 						   (GNM_EXPR_ENTRY (entry))));
 }
 
-static const struct {
-	const char *title;
-	const char *type;
-} columns[] = {
-	{ N_("Sheet"), "text" },
-	{ N_("Cell"), "text" },
-	{ N_("Type"), "text" },
-	{ N_("Content"), "text" }
-};
+static void
+match_renderer_func (GtkTreeViewColumn *tree_column,
+		     GtkCellRenderer   *cr,
+		     GtkTreeModel      *model,
+		     GtkTreeIter       *iter,
+		     gpointer           user_data)
+{
+	int column = GPOINTER_TO_INT (user_data);
+	GnmSearchFilterResult *m;
+	GnmCell *cell;
+	GnmComment *comment;
+	const char *text = NULL;
+	char *free_text = NULL;
+
+	gtk_tree_model_get (model, iter, ITEM_MATCH, &m, -1);
+
+	if (m->locus == GNM_SRL_COMMENT) {
+		cell = NULL;
+		comment = sheet_get_comment (m->ep.sheet, &m->ep.eval);
+	} else {
+		cell = sheet_cell_get (m->ep.sheet,
+				       m->ep.eval.col,
+				       m->ep.eval.row);
+		comment = NULL;
+	}
+
+	switch (column) {
+	case COL_SHEET:
+		text = m->ep.sheet->name_unquoted;
+		break;
+	case COL_CELL:
+		text = cellpos_as_string (&m->ep.eval);
+		break;
+	case COL_TYPE:
+		switch (m->locus) {
+		case GNM_SRL_COMMENT:
+			text = _("Comment");
+			break;
+		case GNM_SRL_VALUE:
+			text = _("Result");
+			break;
+		case GNM_SRL_CONTENTS: {
+			GnmValue *v = cell ? cell->value : NULL;
+			gboolean is_expr = cell && gnm_cell_has_expr (cell);
+			gboolean is_value = !is_expr && !gnm_cell_is_empty (cell) && v;
+
+			if (!cell)
+				text = _("Deleted");
+			else if (is_expr)
+				text = _("Expression");
+			else if (is_value && VALUE_IS_STRING (v))
+				text = _("String");
+			else if (is_value && VALUE_IS_FLOAT (v))
+				text = _("Number");
+			else
+				text = _("Other value");
+			break;
+		}
+		default:
+			g_assert_not_reached ();
+		}
+		break;
+
+	case COL_CONTENTS:
+		switch (m->locus) {
+		case GNM_SRL_COMMENT:
+			text = comment
+				? cell_comment_text_get (comment)
+				: _("Deleted");
+			break;
+		case GNM_SRL_VALUE:
+			text = cell && cell->value
+				? value_peek_string (cell->value)
+				: _("Deleted");
+			break;
+		case GNM_SRL_CONTENTS:
+			text = cell
+				? (free_text = gnm_cell_get_entered_text (cell))
+				: _("Deleted");
+			break;
+		default:
+			g_assert_not_reached ();
+		}
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	g_object_set (cr, "text", text, NULL);
+	g_free (free_text);
+}
+
 
 static GtkTreeView *
 make_matches_table (DialogState *dd)
 {
 	GtkTreeView *tree_view;
-	GtkTreeModel *model = GTK_TREE_MODEL (make_matches_model (dd, 0));
+	GtkTreeModel *model = GTK_TREE_MODEL (make_matches_model (dd));
 	int i;
+	static const char *const columns[4] = {
+		N_("Sheet"), N_("Cell"), N_("Type"), N_("Content")
+	};
 
 	tree_view = GTK_TREE_VIEW (gtk_tree_view_new_with_model (model));
-#ifdef NOT_YET
-	/* Gtk+ isn't ready yet -- 20031224.  */
-	g_object_set (tree_view, "fixed-height-mode", TRUE, NULL);
-#endif
 
 	for (i = 0; i < (int)G_N_ELEMENTS (columns); i++) {
-		GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
-		GtkTreeViewColumn *column =
-			gtk_tree_view_column_new_with_attributes (_(columns[i].title), cell,
-								  columns[i].type, i,
-								  NULL);
-		/* Set single_paragraph_mode to ensure fixed height.  */
-		g_object_set (cell, "single-paragraph-mode", TRUE, NULL);
+		GtkTreeViewColumn *tvc = gtk_tree_view_column_new ();
+		GtkCellRenderer *cr = gtk_cell_renderer_text_new ();
+
+		g_object_set (cr, "single-paragraph-mode", TRUE, NULL);
 		if (i == COL_CONTENTS)
-			g_object_set (cell, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
-		gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
-		gtk_tree_view_append_column (tree_view, column);
+			g_object_set (cr, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
+
+		gtk_tree_view_column_set_title (tvc, _(columns[i]));
+		gtk_tree_view_column_set_cell_data_func
+			(tvc, cr,
+			 match_renderer_func,
+			 GINT_TO_POINTER (i), NULL);
+		gtk_tree_view_column_pack_start (tvc, cr, TRUE);
+
+		gtk_tree_view_column_set_sizing (tvc, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
+		gtk_tree_view_append_column (tree_view, tvc);
 	}
 
 	g_object_unref (model);
