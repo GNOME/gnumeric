@@ -2532,9 +2532,9 @@ scg_context_menu (SheetControlGUI *scg, GdkEvent *event,
 	}
 
 
-	gnm_create_popup_menu (popup_elements, &context_menu_handler,
-				    scg, display_filter,
-				    sensitivity_filter, event);
+	gnm_create_popup_menu (popup_elements,
+			       &context_menu_handler, scg, NULL,
+			       display_filter, sensitivity_filter, event);
 }
 
 static gboolean

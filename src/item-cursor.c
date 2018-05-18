@@ -847,8 +847,8 @@ item_cursor_popup_menu (GnmItemCursor *ic, GdkEvent *event)
 	};
 
 	gnm_create_popup_menu (popup_elements,
-				    &context_menu_hander, ic,
-				    0, 0, event);
+			       &context_menu_hander, ic, NULL,
+			       0, 0, event);
 }
 
 static void

@@ -599,14 +599,28 @@ gnm_gtk_builder_load (char const *uifile, char const *domain, GOCmdContext *cc)
 }
 
 static void
-popup_item_activate (GtkWidget *item, gpointer *user_data)
+popup_item_activate (GtkWidget *item, GnmPopupMenuElement const *elem)
 {
-	GnmPopupMenuElement const *elem =
-		g_object_get_data (G_OBJECT (item), "descriptor");
-	GnmPopupMenuHandler handler =
-		g_object_get_data (G_OBJECT (item), "handler");
+	GtkWidget *menu;
+	GnmPopupMenuHandler handler;
+	gpointer user_data;
 
-	g_return_if_fail (elem != NULL);
+	// Go to top-level menu.  This shouldn't be that hard.
+	menu = item;
+	while (TRUE) {
+		if (GTK_IS_MENU_ITEM (menu))
+			menu = gtk_widget_get_parent (menu);
+		else if (GTK_IS_MENU (menu)) {
+			GtkWidget *a = gtk_menu_get_attach_widget (GTK_MENU (menu));
+			if (a)
+				menu = a;
+			else
+				break;
+		} else
+			break;
+	}
+	handler = g_object_get_data (G_OBJECT (menu), "handler");
+	user_data = g_object_get_data (G_OBJECT (menu), "user-data");
 	g_return_if_fail (handler != NULL);
 
 	handler (elem, user_data);
@@ -615,24 +629,28 @@ popup_item_activate (GtkWidget *item, gpointer *user_data)
 /**
  * gnm_create_popup_menu:
  * @elements:
- * @handler: (scope async):
+ * @handler: (scope notified):
  * @user_data: user data to pass to @handler.
+ * @notify: destroy notification for @user_data
  * @display_filter:
  * @sensitive_filter:
  * @event:
  **/
 void
 gnm_create_popup_menu (GnmPopupMenuElement const *elements,
-			    GnmPopupMenuHandler handler,
-			    gpointer user_data,
-			    int display_filter, int sensitive_filter,
-			    GdkEvent *event)
+		       GnmPopupMenuHandler handler,
+		       gpointer user_data,
+		       GDestroyNotify notify,
+		       int display_filter, int sensitive_filter,
+		       GdkEvent *event)
 {
 	char const *trans;
 	GSList *menu_stack = NULL;
 	GtkWidget *menu, *item;
 
 	menu = gtk_menu_new ();
+	g_object_set_data (G_OBJECT (menu), "handler", (gpointer)handler);
+	g_object_set_data_full (G_OBJECT (menu), "user-data", user_data, notify);
 	for (; NULL != elements->name ; elements++) {
 		char const * const name = elements->name;
 		char const * const pix_name = elements->pixmap;
@@ -677,12 +695,9 @@ gnm_create_popup_menu (GnmPopupMenuElement const *elements,
 
 		if (elements->index > 0) {
 			g_signal_connect (G_OBJECT (item),
-				"activate",
-				G_CALLBACK (&popup_item_activate), user_data);
-			g_object_set_data (
-				G_OBJECT (item), "descriptor", (gpointer)(elements));
-			g_object_set_data (
-				G_OBJECT (item), "handler", (gpointer)handler);
+					  "activate",
+					  G_CALLBACK (popup_item_activate),
+					  (gpointer)elements);
 		}
 		if (NULL != item) {
 			gtk_widget_show (item);

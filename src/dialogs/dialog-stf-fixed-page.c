@@ -257,10 +257,10 @@ fixed_context_menu (StfDialogData *pagedata, GdkEventButton *event,
 		sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_NARROW);
 
 	select_column (pagedata, col);
-	gnm_create_popup_menu (popup_elements, &fixed_context_menu_handler,
-				    pagedata, 0,
-				    sensitivity_filter,
-				    (GdkEvent*)event);
+	gnm_create_popup_menu (popup_elements,
+			       &fixed_context_menu_handler, pagedata, NULL,
+			       0, sensitivity_filter,
+			       (GdkEvent*)event);
 }
 
 static gint
