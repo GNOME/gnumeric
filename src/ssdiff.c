@@ -32,6 +32,8 @@
 #include <input-msg.h>
 #include <expr-name.h>
 #include <sheet-diff.h>
+#include <gnumeric-conf.h>
+
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-input.h>
@@ -921,6 +923,8 @@ main (int argc, char const **argv)
 
 	// No code before here, we need to init threads
 	argv = gnm_pre_parse_init (argc, argv);
+
+	gnm_conf_set_persistence (FALSE);
 
 	ocontext = g_option_context_new (_("OLDFILE NEWFILE"));
 	g_option_context_add_main_entries (ocontext, ssdiff_options, GETTEXT_PACKAGE);

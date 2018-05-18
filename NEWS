@@ -9,6 +9,7 @@ Morten:
 	* Test suite improvements.
 	* ssconvert improvements.
 	* Makefile improvements.
+	* Don't save any configuration when running ssconvert/ssdiff/...
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.41

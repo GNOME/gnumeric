@@ -30,6 +30,7 @@
 #include <command-context.h>
 #include <command-context-stderr.h>
 #include <workbook-view.h>
+#include <gnumeric-conf.h>
 #include <tools/analysis-tools.h>
 #include <dialogs/dialogs.h>
 #include <goffice/goffice.h>
@@ -1045,6 +1046,8 @@ main (int argc, char const **argv)
 
 	/* No code before here, we need to init threads */
 	argv = gnm_pre_parse_init (argc, argv);
+
+	gnm_conf_set_persistence (FALSE);
 
 	ocontext = g_option_context_new (_("INFILE [OUTFILE]"));
 	g_option_context_add_main_entries (ocontext, ssconvert_options, GETTEXT_PACKAGE);

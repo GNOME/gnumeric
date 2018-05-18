@@ -47,6 +47,8 @@
 
 #define GNM_CONF_DIR "gnumeric"
 
+static gboolean persist_changes = TRUE;
+
 static GOConfNode *root = NULL;
 
 /*
@@ -204,8 +206,10 @@ set_bool (struct cb_watch_bool *watch, gboolean x)
 
 	MAYBE_DEBUG_SET (watch->key);
 	watch->var = x;
-	go_conf_set_bool (root, watch->key, x);
-	schedule_sync ();
+	if (persist_changes) {
+		go_conf_set_bool (root, watch->key, x);
+		schedule_sync ();
+	}
 }
 
 /* ---------------------------------------- */
@@ -249,8 +253,10 @@ set_int (struct cb_watch_int *watch, int x)
 
 	MAYBE_DEBUG_SET (watch->key);
 	watch->var = x;
-	go_conf_set_int (root, watch->key, x);
-	schedule_sync ();
+	if (persist_changes) {
+		go_conf_set_int (root, watch->key, x);
+		schedule_sync ();
+	}
 }
 
 /* ---------------------------------------- */
@@ -294,8 +300,10 @@ set_double (struct cb_watch_double *watch, double x)
 
 	MAYBE_DEBUG_SET (watch->key);
 	watch->var = x;
-	go_conf_set_double (root, watch->key, x);
-	schedule_sync ();
+	if (persist_changes) {
+		go_conf_set_double (root, watch->key, x);
+		schedule_sync ();
+	}
 }
 
 /* ---------------------------------------- */
@@ -343,8 +351,10 @@ set_string (struct cb_watch_string *watch, const char *x)
 	watch->var = xc;
 	/* Update pool before setting so monitors see the right value.  */
 	g_hash_table_replace (string_pool, (gpointer)watch->key, xc);
-	go_conf_set_string (root, watch->key, xc);
-	schedule_sync ();
+	if (persist_changes) {
+		go_conf_set_string (root, watch->key, xc);
+		schedule_sync ();
+	}
 }
 
 /* ---------------------------------------- */
@@ -381,8 +391,10 @@ static gboolean
 string_list_equal (GSList *x, GSList *y)
 {
 	while (x && y) {
-		if (strcmp (x->data, y->data) != 0)
+		if (strcmp (x->data, y->data) != 0) {
+			g_printerr ("Diff: %s %s\n", x->data, y->data);
 			return FALSE;
+		}
 		x = x->next;
 		y = y->next;
 	}
@@ -402,8 +414,10 @@ set_string_list (struct cb_watch_string_list *watch, GSList *x)
 	watch->var = x;
 	/* Update pool before setting so monitors see the right value.  */
 	g_hash_table_replace (string_list_pool, (gpointer)watch->key, x);
-	go_conf_set_str_list (root, watch->key, x);
-	schedule_sync ();
+	if (persist_changes) {
+		go_conf_set_str_list (root, watch->key, x);
+		schedule_sync ();
+	}
 }
 
 /* ---------------------------------------- */
@@ -446,8 +460,10 @@ set_enum (struct cb_watch_enum *watch, int x)
 
 	MAYBE_DEBUG_SET (watch->key);
 	watch->var = x;
-	go_conf_set_enum (root, watch->key, watch->typ, x);
-	schedule_sync ();
+	if (persist_changes) {
+		go_conf_set_enum (root, watch->key, watch->typ, x);
+		schedule_sync ();
+	}
 }
 
 /* -------------------------------------------------------------------------- */
@@ -494,7 +510,7 @@ gnm_conf_shutdown (void)
 	if (debug_getters || debug_setters)
 		g_printerr ("gnm_conf_shutdown\n");
 
-	go_conf_sync (root);
+	//go_conf_sync (root);
 	if (sync_handler) {
 		g_source_remove (sync_handler);
 		sync_handler = 0;
@@ -517,6 +533,19 @@ gnm_conf_shutdown (void)
 
 	root = NULL;
 }
+
+/**
+ * gnm_conf_set_persistence:
+ * @persist: whether to save changes
+ *
+ * If @persist is %TRUE, then changes from this point on will not be saved.
+ */
+void
+gnm_conf_set_persistence (gboolean persist)
+{
+	persist_changes = persist;
+}
+
 
 /**
  * gnm_conf_get_page_setup:

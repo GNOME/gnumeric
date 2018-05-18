@@ -27,6 +27,7 @@
 #include <validation.h>
 #include <sheet-object-graph.h>
 #include <gnm-plugin.h>
+#include <gnumeric-conf.h>
 
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-libxml.h>
@@ -245,6 +246,8 @@ main (int argc, char const **argv)
 
 	/* No code before here, we need to init threads */
 	argv = gnm_pre_parse_init (argc, argv);
+
+	gnm_conf_set_persistence (FALSE);
 
 	ocontext = g_option_context_new (_("INFILE..."));
 	g_option_context_add_main_entries (ocontext, ssindex_options, GETTEXT_PACKAGE);

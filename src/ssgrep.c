@@ -21,6 +21,7 @@
 #include <func.h>
 #include <parse-util.h>
 #include <sheet-object-cell-comment.h>
+#include <gnumeric-conf.h>
 
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
@@ -422,6 +423,8 @@ main (int argc, char const **argv)
 
 	/* No code before here, we need to init threads */
 	argv = gnm_pre_parse_init (argc, argv);
+
+	gnm_conf_set_persistence (FALSE);
 
 	ocontext = g_option_context_new (_("PATTERN INFILE..."));
 	g_option_context_add_main_entries (ocontext, ssgrep_options, GETTEXT_PACKAGE);

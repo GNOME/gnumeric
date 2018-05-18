@@ -9,6 +9,8 @@ G_BEGIN_DECLS
 
 void     gnm_conf_init (void);
 void     gnm_conf_shutdown (void);
+void     gnm_conf_set_persistence (gboolean persist);
+
 GOConfNode *gnm_conf_get_root (void);
 
 char const *gnm_conf_get_short_desc (GOConfNode *node);
