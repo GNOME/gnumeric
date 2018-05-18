@@ -332,7 +332,7 @@ plugin_service_ui_finalize (GObject *obj)
 
 	g_free (service_ui->file_name);
 	service_ui->file_name = NULL;
-	g_slist_free_full (service_ui->actions, (GDestroyNotify)gnm_action_free);
+	g_slist_free_full (service_ui->actions, (GDestroyNotify)gnm_action_unref);
 	service_ui->actions = NULL;
 
 	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
@@ -412,7 +412,8 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 			if (!go_xml_node_get_bool (ptr, "always_available", &always_available))
 				always_available = FALSE;
 			action = gnm_action_new (name, label, icon, always_available,
-				(GnmActionHandler) cb_ui_service_activate);
+						 (GnmActionHandler) cb_ui_service_activate,
+						 service, NULL);
 			if (NULL != name) xmlFree (name);
 			g_free (label);
 			if (NULL != icon) xmlFree (icon);
@@ -471,7 +472,7 @@ plugin_service_ui_activate (GOPluginService *service, GOErrorInfo **ret_error)
 	group_name = g_strconcat (go_plugin_get_id (service->plugin), service->id, NULL);
 	service_ui->layout_id = gnm_app_add_extra_ui (group_name,
 		service_ui->actions,
-		xml_ui, tdomain, service);
+		xml_ui, tdomain);
 	g_free (group_name);
 	g_free (xml_ui);
 	g_object_unref (src);

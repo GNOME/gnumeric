@@ -61,8 +61,9 @@ GnmRange const	*gnm_app_clipboard_area_get	  (void);
  **/
 
 typedef void (*GnmActionHandler) (GnmAction const *action, WorkbookControl *wbc,
-				  gpointer user_data);
+				  gpointer data);
 struct _GnmAction {
+	unsigned ref_count;
 	char *id;	 /* id of the function that will handle this */
 	char *label;	 /* untranslated, gettext domain will be passed later */
 	char *icon_name; /* optionally NULL */
@@ -74,27 +75,30 @@ struct _GnmAction {
 	 **/
 	gboolean always_available;
 
-	GnmActionHandler	handler;
+	GnmActionHandler handler;
+	gpointer data;
+	GDestroyNotify notify;
 };
+
 typedef struct {
 	char *group_name;
 	GSList	   *actions;
 	char	   *layout;
 	char const *domain;
-	gpointer    user_data;
 } GnmAppExtraUI;
 
 GType      gnm_action_get_type (void);
 GnmAction *gnm_action_new  (char const *name, char const *label,
 			    char const *icon, gboolean always_available,
-			    GnmActionHandler handler);
-void	   gnm_action_free (GnmAction *action);
+			    GnmActionHandler handler,
+			    gpointer data, GDestroyNotify notify);
+GnmAction *gnm_action_ref   (GnmAction *action);
+void	   gnm_action_unref (GnmAction *action);
 
 GType      gnm_app_extra_ui_get_type (void);
 GnmAppExtraUI *gnm_app_add_extra_ui (char const *group_name,
 				     GSList *actions, const char *layout,
-				     char const *domain,
-				     gpointer user_data);
+				     char const *domain);
 void	   gnm_app_remove_extra_ui  (GnmAppExtraUI *extra_ui);
 void	   gnm_app_foreach_extra_ui (GFunc func, gpointer data);
 

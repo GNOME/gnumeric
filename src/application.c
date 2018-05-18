@@ -908,40 +908,61 @@ static GSList *extra_uis = NULL;
  * @label: label.
  * @icon: icon name.
  * @always_available: whether the action should always be available.
- * @handler: (scope async): the handler.
+ * @handler: (scope notified): the handler.
+ * @data: user data for @handler
+ * @notify: destroy notification for @data
  *
  * Returns: (transfer full): the newly allocated #GnmAction.
  **/
 GnmAction *
 gnm_action_new (char const *id, char const *label,
 		char const *icon_name, gboolean always_available,
-		GnmActionHandler handler)
+		GnmActionHandler handler,
+		gpointer data, GDestroyNotify notify)
 {
 	GnmAction *res = g_new0 (GnmAction, 1);
+	res->ref_count  = 1;
 	res->id		= g_strdup (id);
 	res->label	= g_strdup (label);
 	res->icon_name	= g_strdup (icon_name);
 	res->always_available = always_available;
 	res->handler	= handler;
+	res->data       = data;
+	res->notify     = notify;
 	return res;
 }
 
+/**
+ * gnm_action_unref:
+ * @action: (transfer full) (nullable): #GnmAction
+ */
 void
-gnm_action_free (GnmAction *action)
+gnm_action_unref (GnmAction *action)
 {
-	if (NULL != action) {
-		g_free (action->id);
-		g_free (action->label);
-		g_free (action->icon_name);
-		g_free (action);
-	}
+	if (!action || action->ref_count-- > 1)
+		return;
+
+	if (action->notify)
+		action->notify (action->data);
+
+	g_free (action->id);
+	g_free (action->label);
+	g_free (action->icon_name);
+	g_free (action);
 }
 
-static GnmAction *
-gnm_action_copy (GnmAction const *action)
+/**
+ * gnm_action_ref:
+ * @action: (transfer none) (nullable): #GnmAction
+ *
+ * Returns: (transfer full) (nullable): a new reference to @action.
+ */
+GnmAction *
+gnm_action_ref (GnmAction *action)
 {
-	return gnm_action_new (action->id, action->label, action->icon_name,
-	                       action->always_available, action->handler);
+	if (action)
+		action->ref_count++;
+	return action;
 }
 
 GType
@@ -951,8 +972,8 @@ gnm_action_get_type (void)
 
 	if (t == 0) {
 		t = g_boxed_type_register_static ("GnmAction",
-			 (GBoxedCopyFunc)gnm_action_copy,
-			 (GBoxedFreeFunc)gnm_action_free);
+			 (GBoxedCopyFunc)gnm_action_ref,
+			 (GBoxedFreeFunc)gnm_action_unref);
 	}
 	return t;
 }
@@ -994,7 +1015,6 @@ gnm_app_extra_ui_get_type (void)
  * @actions: (element-type GnmAction): list of actions.
  * @layout: the xml string describing the menus and toolbars.
  * @domain: localization domain.
- * @user_data: user data
  *
  * Returns: (transfer full): the newly allocated #GnmAppExtraUI.
  **/
@@ -1002,15 +1022,13 @@ GnmAppExtraUI *
 gnm_app_add_extra_ui (char const *group_name,
 		      GSList *actions,
 		      const char *layout,
-		      char const *domain,
-		      gpointer user_data)
+		      char const *domain)
 {
 	GnmAppExtraUI *extra_ui = g_new0 (GnmAppExtraUI, 1);
 	extra_uis = g_slist_prepend (extra_uis, extra_ui);
 	extra_ui->group_name = g_strdup (group_name);
 	extra_ui->actions = actions;
 	extra_ui->layout = g_strdup (layout);
-	extra_ui->user_data = user_data;
 	g_signal_emit (G_OBJECT (app), signals[CUSTOM_UI_ADDED], 0, extra_ui);
 	if (gnm_debug_flag ("extra-ui"))
 		g_printerr ("Adding extra ui [%s] %p\n", group_name, extra_ui);

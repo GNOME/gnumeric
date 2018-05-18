@@ -3410,13 +3410,11 @@ static void
 cb_custom_ui_handler (GObject *gtk_action, WorkbookControl *wbc)
 {
 	GnmAction *action = g_object_get_data (gtk_action, "GnmAction");
-	GnmAppExtraUI *extra_ui = g_object_get_data (gtk_action, "ExtraUI");
 
 	g_return_if_fail (action != NULL);
 	g_return_if_fail (action->handler != NULL);
-	g_return_if_fail (extra_ui != NULL);
 
-	action->handler (action, wbc, extra_ui->user_data);
+	action->handler (action, wbc, action->data);
 }
 
 static void
@@ -3445,7 +3443,6 @@ cb_add_custom_ui (G_GNUC_UNUSED GnmApp *app,
 		gtk_action_group_add_actions (details->actions, &entry, 1, gtk);
 		res = gtk_action_group_get_action (details->actions, action->id);
 		g_object_set_data (G_OBJECT (res), "GnmAction", action);
-		g_object_set_data (G_OBJECT (res), "ExtraUI", extra_ui);
 	}
 	gtk_ui_manager_insert_action_group (gtk->ui, details->actions, 0);
 
