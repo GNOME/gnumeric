@@ -10,8 +10,11 @@ G_BEGIN_DECLS
 
 typedef struct GnmExprDeriv_ GnmExprDeriv;
 
+GType gnm_expr_deriv_info_get_type (void);
+
 GnmExprDeriv *gnm_expr_deriv_info_new (void);
-void gnm_expr_deriv_info_free (GnmExprDeriv *deriv);
+GnmExprDeriv *gnm_expr_deriv_info_ref (GnmExprDeriv *deriv);
+void gnm_expr_deriv_info_unref (GnmExprDeriv *deriv);
 
 void gnm_expr_deriv_info_set_var (GnmExprDeriv *deriv, GnmEvalPos const *var);
 
@@ -38,14 +41,16 @@ GnmExprList *gnm_expr_deriv_collect (GnmExpr const *expr,
 
 typedef GnmExpr const * (*GnmExprDerivHandler) (GnmExpr const *expr,
 						GnmEvalPos const *ep,
-						GnmExprDeriv *info);
+						GnmExprDeriv *info,
+						gpointer user);
 typedef enum {
 	GNM_EXPR_DERIV_NO_CHAIN = 0x0,
 	GNM_EXPR_DERIV_CHAIN = 0x1
 } GnmExprDerivFlags;
 
 void gnm_expr_deriv_install_handler (GnmFunc *func, GnmExprDerivHandler h,
-				     GnmExprDerivFlags flags);
+				     GnmExprDerivFlags flags,
+				     gpointer data, GDestroyNotify notify);
 void gnm_expr_deriv_uninstall_handler (GnmFunc *func);
 void _gnm_expr_deriv_shutdown (void);
 

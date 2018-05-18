@@ -64,7 +64,8 @@ gnumeric_sum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 static GnmExpr const *
 gnumeric_sum_deriv (GnmExpr const *expr,
 		    GnmEvalPos const *ep,
-		    GnmExprDeriv *info)
+		    GnmExprDeriv *info,
+		    gpointer data)
 {
 	GnmExprList *l, *args = gnm_expr_deriv_collect (expr, ep, info);
 	GnmFunc *fsum = gnm_expr_get_func_def (expr);
@@ -523,7 +524,8 @@ func_builtin_init (void)
 
 	gnm_expr_deriv_install_handler (gnm_func_lookup ("sum", NULL),
 					gnumeric_sum_deriv,
-					GNM_EXPR_DERIV_NO_CHAIN);
+					GNM_EXPR_DERIV_NO_CHAIN,
+					NULL, NULL);
 }
 
 static void

@@ -37,35 +37,82 @@ static GHashTable *deriv_handlers;
 struct DerivInfo {
 	GnmExprDerivHandler handler;
 	GnmExprDerivFlags flags;
+	gpointer data;
+	GDestroyNotify notify;
 };
+
+static void
+deriv_info_free (struct DerivInfo *di)
+{
+	if (di->notify)
+		di->notify (di->data);
+	g_free (di);
+}
 
 /* ------------------------------------------------------------------------- */
 
 struct GnmExprDeriv_ {
+	unsigned ref_count;
 	GnmEvalPos var;
 };
 
 /**
- * gnm_expr_deriv_info_new: (skip)
+ * gnm_expr_deriv_info_new:
+ *
+ * Returns: (transfer full): A new #GnmExprDeriv.
  */
 GnmExprDeriv *
 gnm_expr_deriv_info_new (void)
 {
-	return g_new0 (GnmExprDeriv, 1);
+	GnmExprDeriv *res = g_new0 (GnmExprDeriv, 1);
+	res->ref_count = 1;
+	return res;
 }
 
 /**
- * gnm_expr_deriv_info_free: (skip)
+ * gnm_expr_deriv_info_unref:
+ * @deriv: (transfer full) (nullable): #GnmExprDeriv
  */
 void
-gnm_expr_deriv_info_free (GnmExprDeriv *deriv)
+gnm_expr_deriv_info_unref (GnmExprDeriv *deriv)
 {
+	if (!deriv || deriv->ref_count-- > 1)
+		return;
 	g_free (deriv);
 }
 
+/**
+ * gnm_expr_deriv_info_ref:
+ * @deriv: (transfer none) (nullable): #GnmExprDeriv
+ *
+ * Returns: (transfer full) (nullable): a new reference to @deriv.
+ */
+GnmExprDeriv *
+gnm_expr_deriv_info_ref (GnmExprDeriv *deriv)
+{
+	if (deriv)
+		deriv->ref_count++;
+	return deriv;
+}
+
+GType
+gnm_expr_deriv_info_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmExprDeriv",
+			 (GBoxedCopyFunc)gnm_expr_deriv_info_ref,
+			 (GBoxedFreeFunc)gnm_expr_deriv_info_unref);
+	}
+	return t;
+}
+
 void
 /**
- * gnm_expr_deriv_info_set_var: (skip)
+ * gnm_expr_deriv_info_set_var:
+ * @deriv: #GnmExprDeriv
+ * @var: (transfer none): location of variable
  */
 gnm_expr_deriv_info_set_var (GnmExprDeriv *deriv, GnmEvalPos const *var)
 {
@@ -269,7 +316,8 @@ cb_arg_collect (GnmCellIter const *iter, gpointer user_)
  * @ep: evaluation position
  * @info: extra information, not currently used
  *
- * Returns: (transfer full): list of expressions expanded from @expr
+ * Returns: (type GSList) (transfer full) (element-type GnmExpr): list of
+ * expressions expanded from @expr
  */
 GnmExprList *
 gnm_expr_deriv_collect (GnmExpr const *expr,
@@ -413,7 +461,7 @@ gnm_expr_deriv (GnmExpr const *expr,
 			? g_hash_table_lookup (deriv_handlers, f)
 			: NULL;
 		GnmExpr const *res = di
-			? di->handler (expr, ep, info)
+			? di->handler (expr, ep, info, di->data)
 			: NULL;
 		if (!res)
 			return NULL;
@@ -454,7 +502,7 @@ gnm_expr_deriv (GnmExpr const *expr,
 
 		cell = sheet_cell_get (sheet, r.col, r.row);
 		if (!cell)
-			return gnm_expr_new_constant (value_new_float (1));
+			return gnm_expr_new_constant (value_new_float (0));
 		if (!gnm_cell_has_expr (cell))
 			return gnm_value_deriv (cell->value);
 
@@ -497,6 +545,15 @@ gnm_expr_deriv (GnmExpr const *expr,
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_expr_top_deriv:
+ * @texpr: Expression
+ * @ep: Evaluation position
+ * @info: Derivative information
+ *
+ * Returns: (transfer full) (nullable): The derivative of @texpr with
+ * respect to @info.
+ */
 GnmExprTop const *
 gnm_expr_top_deriv (GnmExprTop const *texpr,
 		    GnmEvalPos const *ep,
@@ -531,6 +588,14 @@ gnm_expr_top_deriv (GnmExprTop const *texpr,
 	return gnm_expr_top_new (expr);
 }
 
+/**
+ * gnm_expr_cell_deriv:
+ * @y: Result cell
+ * @x: Variable cell
+ *
+ * Returns: (transfer full) (nullable): The derivative of cell @y with
+ * respect to cell @x.
+ */
 GnmExprTop const *
 gnm_expr_cell_deriv (GnmCell *y, GnmCell *x)
 {
@@ -550,11 +615,19 @@ gnm_expr_cell_deriv (GnmCell *y, GnmCell *x)
 
 	res = gnm_expr_top_deriv (y->base.texpr, &ep, info);
 
-	gnm_expr_deriv_info_free (info);
+	gnm_expr_deriv_info_unref (info);
 
 	return res;
 }
 
+/**
+ * gnm_expr_cell_deriv_value:
+ * @y: Result cell
+ * @x: Variable cell
+ *
+ * Returns: The derivative of cell @y with respect to cell @x at the
+ * current value of @x.  Returns NaN on error.
+ */
 gnm_float
 gnm_expr_cell_deriv_value (GnmCell *y, GnmCell *x)
 {
@@ -585,26 +658,32 @@ gnm_expr_cell_deriv_value (GnmCell *y, GnmCell *x)
 /**
  * gnm_expr_deriv_install_handler:
  * @func: the function being given a handler
- * @h: (scope async): #GnmExprDerivHandler
+ * @h: (scope notified): #GnmExprDerivHandler
  * @flags: 
+ * @data: user data for @h
+ * @notify: destroy notification for @data
  */
 void
 gnm_expr_deriv_install_handler (GnmFunc *func, GnmExprDerivHandler h,
-				GnmExprDerivFlags flags)
+				GnmExprDerivFlags flags,
+				gpointer data,
+				GDestroyNotify notify)
 {
-	struct DerivInfo *data;
+	struct DerivInfo *hdata;
 
 	if (!deriv_handlers) {
 		deriv_handlers = g_hash_table_new_full
 			(g_direct_hash, g_direct_equal,
-			 NULL, g_free);
+			 NULL, (GDestroyNotify)deriv_info_free);
 	}
 
-	data = g_new (struct DerivInfo, 1);
-	data->handler = h;
-	data->flags = flags;
+	hdata = g_new (struct DerivInfo, 1);
+	hdata->handler = h;
+	hdata->flags = flags;
+	hdata->data = data;
+	hdata->notify = notify;
 
-	g_hash_table_replace (deriv_handlers, func, data);
+	g_hash_table_replace (deriv_handlers, func, hdata);
 }
 
 void

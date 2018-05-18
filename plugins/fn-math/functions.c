@@ -969,7 +969,7 @@ gnumeric_exp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmExpr const *
 gnumeric_exp_deriv (GnmExpr const *expr, GnmEvalPos const *ep,
-		      GnmExprDeriv *info)
+		    GnmExprDeriv *info, gpointer data)
 {
 	return gnm_expr_copy (expr);
 }
@@ -1316,7 +1316,7 @@ gnumeric_ln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmExpr const *
 gnumeric_ln_deriv (GnmExpr const *expr, GnmEvalPos const *ep,
-		   GnmExprDeriv *info)
+		   GnmExprDeriv *info, gpointer data)
 {
 	return gnm_expr_new_binary (gnm_expr_new_constant (value_new_int (1)),
 				    GNM_EXPR_OP_DIV,
@@ -1751,7 +1751,7 @@ gnumeric_sumsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmExpr const *
 gnumeric_sumsq_deriv (GnmExpr const *expr, GnmEvalPos const *ep,
-		      GnmExprDeriv *info)
+		      GnmExprDeriv *info, gpointer data)
 {
 	GnmExprList *l, *args = gnm_expr_deriv_collect (expr, ep, info);
 	GnmExpr const *res;
@@ -3744,13 +3744,16 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	gnm_expr_deriv_install_handler (gnm_func_lookup ("sumsq", NULL),
 					gnumeric_sumsq_deriv,
-					GNM_EXPR_DERIV_NO_CHAIN);
+					GNM_EXPR_DERIV_NO_CHAIN,
+					NULL, NULL);
 	gnm_expr_deriv_install_handler (gnm_func_lookup ("exp", NULL),
 					gnumeric_exp_deriv,
-					GNM_EXPR_DERIV_CHAIN);
+					GNM_EXPR_DERIV_CHAIN,
+					NULL, NULL);
 	gnm_expr_deriv_install_handler (gnm_func_lookup ("ln", NULL),
 					gnumeric_ln_deriv,
-					GNM_EXPR_DERIV_CHAIN);
+					GNM_EXPR_DERIV_CHAIN,
+					NULL, NULL);
 }
 
 G_MODULE_EXPORT void

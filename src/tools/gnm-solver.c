@@ -2216,7 +2216,7 @@ gnm_solver_has_analytic_hessian (GnmSolver *sol)
 		}
 	}
 
-	gnm_expr_deriv_info_free (info);
+	gnm_expr_deriv_info_unref (info);
 
 	return sol->hessian_status == 1;
 }
