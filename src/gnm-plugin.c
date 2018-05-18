@@ -976,6 +976,22 @@ GSF_CLASS_FULL (GnmPluginLoaderModule, gnm_plugin_loader_module,
 
 /****************************************************************************/
 
+/**
+ * gnm_plugins_service_init: (skip)
+ */
+void
+gnm_plugins_service_init (void)
+{
+	go_plugin_service_define ("function_group",
+		&gnm_plugin_service_function_group_get_type);
+	go_plugin_service_define ("ui",
+		&gnm_plugin_service_ui_get_type);
+	go_plugin_service_define ("solver",
+		&gnm_plugin_service_solver_get_type);
+	go_plugin_loader_module_register_version ("gnumeric", GNM_VERSION_FULL);
+}
+
+
 void
 gnm_plugins_init (GOCmdContext *context)
 {

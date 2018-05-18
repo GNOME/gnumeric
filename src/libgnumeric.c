@@ -295,13 +295,8 @@ gnm_init (void)
 		gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
 						  "/org/gnumeric/gnumeric/icons");
 	}
-	go_plugin_service_define ("function_group",
-		&gnm_plugin_service_function_group_get_type);
-	go_plugin_service_define ("ui",
-		&gnm_plugin_service_ui_get_type);
-	go_plugin_service_define ("solver",
-		&gnm_plugin_service_solver_get_type);
-	go_plugin_loader_module_register_version ("gnumeric", GNM_VERSION_FULL);
+
+	gnm_plugins_service_init ();
 
 	g_object_new (GNM_APP_TYPE, NULL);
 	mathfunc_init ();

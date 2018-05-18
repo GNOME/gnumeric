@@ -67,6 +67,7 @@ G_MODULE_EXPORT GOPluginModuleHeader const go_plugin_header =		\
 
 /**************************************************************************/
 
+void gnm_plugins_service_init (void);
 void gnm_plugins_init (GOCmdContext *c);
 
 G_END_DECLS
