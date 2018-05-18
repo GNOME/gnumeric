@@ -2222,14 +2222,12 @@ gnm_solver_has_analytic_hessian (GnmSolver *sol)
 }
 
 /**
- * gnm_solver_compute_hessian: (skip)
+ * gnm_solver_compute_hessian:
  * @sol: Solver
  * @xs: Point to compute Hessian at
  *
- * Returns: (transfer full): A vector containing the Hessian.  This
- * function takes the flip-sign property into account.  The result vector
- * will be n+(n-1)+...+2+1 elements long containing the triangular
- * Hessian.  Use symmetry to obtain the full Hessian.
+ * Returns: (transfer full): A matrix containing the Hessian.  This
+ * function takes the flip-sign property into account.
  */
 GnmMatrix *
 gnm_solver_compute_hessian (GnmSolver *sol, gnm_float const *xs)

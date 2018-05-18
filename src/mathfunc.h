@@ -124,13 +124,17 @@ gnm_float qtukey(gnm_float p, gnm_float nmeans, gnm_float df, gnm_float nranges,
 
 /* Matrix functions. */
 
+GType gnm_matrix_get_type (void);
+
 struct GnmMatrix_ {
+	int ref_count;
 	gnm_float **data;   /* [y][x] */
 	int cols, rows;
 };
 
 GnmMatrix *gnm_matrix_new (int rows, int cols); /* Note the order: y then x. */
-void gnm_matrix_free (GnmMatrix *m);
+GnmMatrix *gnm_matrix_ref (GnmMatrix *m);
+void gnm_matrix_unref (GnmMatrix *m);
 GnmMatrix *gnm_matrix_from_value (GnmValue const *v, GnmValue **perr, GnmEvalPos const *ep);
 GnmValue *gnm_matrix_to_value (GnmMatrix const *m);
 gboolean gnm_matrix_is_empty (GnmMatrix const *m);

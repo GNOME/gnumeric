@@ -2859,7 +2859,7 @@ gnumeric_minverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		res = value_new_error_NUM (ei->pos);
 
 out:
-	if (A) gnm_matrix_free (A);
+	if (A) gnm_matrix_unref (A);
 	return res;
 }
 
@@ -2895,8 +2895,8 @@ gnumeric_mpseudoinverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	res = gnm_matrix_to_value (B);
 
 out:
-	if (A) gnm_matrix_free (A);
-	if (B) gnm_matrix_free (B);
+	if (A) gnm_matrix_unref (A);
+	if (B) gnm_matrix_unref (B);
 	return res;
 }
 
@@ -2973,8 +2973,8 @@ gnumeric_cholesky (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		res = value_new_error_NUM (ei->pos);
 
 out:
-	if (A) gnm_matrix_free (A);
-	if (B) gnm_matrix_free (B);
+	if (A) gnm_matrix_unref (A);
+	if (B) gnm_matrix_unref (B);
 	return res;
 }
 
@@ -3053,9 +3053,9 @@ gnumeric_mmult (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	res = gnm_matrix_to_value (C);
 
 out:
-	if (A) gnm_matrix_free (A);
-	if (B) gnm_matrix_free (B);
-	if (C) gnm_matrix_free (C);
+	if (A) gnm_matrix_unref (A);
+	if (B) gnm_matrix_unref (B);
+	if (C) gnm_matrix_unref (C);
 	return res;
 }
 
@@ -3110,8 +3110,8 @@ gnumeric_linsolve (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 out:
-	if (A) gnm_matrix_free (A);
-	if (B) gnm_matrix_free (B);
+	if (A) gnm_matrix_unref (A);
+	if (B) gnm_matrix_unref (B);
 	return res;
 }
 
@@ -3143,7 +3143,7 @@ gnumeric_mdeterm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	res = value_new_float (gnm_matrix_determinant (A->data, A->rows));
 
 out:
-	if (A) gnm_matrix_free (A);
+	if (A) gnm_matrix_unref (A);
 	return res;
 }
 
@@ -3402,8 +3402,8 @@ gnumeric_eigen (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	g_free (ev_sort);
 
 out:
-	if (A) gnm_matrix_free (A);
-	if (EIG) gnm_matrix_free (EIG);
+	if (A) gnm_matrix_unref (A);
+	if (EIG) gnm_matrix_unref (EIG);
 	g_free (eigenvalues);
 	return res;
 }

@@ -5082,9 +5082,25 @@ pow1pm1 (gnm_float x, gnm_float y)
  ---------------------------------------------------------------------
  */
 
+GType
+gnm_matrix_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GnmMatrix",
+			 (GBoxedCopyFunc)gnm_matrix_ref,
+			 (GBoxedFreeFunc)gnm_matrix_unref);
+	return t;
+}
+
 /**
- * gnm_matrix_new: (skip)
- **/
+ * gnm_matrix_new:
+ * @rows: Number of rows.
+ * @cols: Number of columns.
+ *
+ * Returns: (transfer full): A new #GnmMatrix.
+ */
 /* Note the order: y then x. */
 GnmMatrix *
 gnm_matrix_new (int rows, int cols)
@@ -5092,6 +5108,7 @@ gnm_matrix_new (int rows, int cols)
 	GnmMatrix *m = g_new (GnmMatrix, 1);
 	int r;
 
+	m->ref_count = 1;
 	m->rows = rows;
 	m->cols = cols;
 	m->data = g_new (gnm_float *, rows);
@@ -5101,10 +5118,31 @@ gnm_matrix_new (int rows, int cols)
 	return m;
 }
 
+/**
+ * gnm_matrix_ref:
+ * @m: (transfer none) (nullable): #GnmMatrix
+ *
+ * Returns: (transfer full) (nullable): a new reference to @m.
+ */
+GnmMatrix *
+gnm_matrix_ref (GnmMatrix *m)
+{
+	if (m)
+		m->ref_count++;
+	return m;
+}
+
+/**
+ * gnm_matrix_unref:
+ * @m: (transfer full) (nullable): #GnmMatrix
+ */
 void
-gnm_matrix_free (GnmMatrix *m)
+gnm_matrix_unref (GnmMatrix *m)
 {
 	int r;
+
+	if (!m || m->ref_count-- > 1)
+		return;
 
 	for (r = 0; r < m->rows; r++)
 		g_free (m->data[r]);
@@ -5112,6 +5150,12 @@ gnm_matrix_free (GnmMatrix *m)
 	g_free (m);
 }
 
+/**
+ * gnm_matrix_is_empty:
+ * @m: (nullable): A #GnmMatrix
+ *
+ * Returns: %TRUE if @m is empty.
+ */
 gboolean
 gnm_matrix_is_empty (GnmMatrix const *m)
 {
@@ -5119,8 +5163,13 @@ gnm_matrix_is_empty (GnmMatrix const *m)
 }
 
 /**
- * gnm_matrix_from_value: (skip)
- **/
+ * gnm_matrix_from_value:
+ * @v: #GnmValue
+ * @perr: (out) (transfer full): #GnmValue with error value
+ * @ep: Evaluation location
+ *
+ * Returns: (transfer full) (nullable): A new #GnmMatrix, %NULL on error.
+ */
 GnmMatrix *
 gnm_matrix_from_value (GnmValue const *v, GnmValue **perr, GnmEvalPos const *ep)
 {
@@ -5137,7 +5186,7 @@ gnm_matrix_from_value (GnmValue const *v, GnmValue **perr, GnmEvalPos const *ep)
 			GnmValue const *v1 = value_area_fetch_x_y (v, c, r, ep);
 			if (VALUE_IS_ERROR (v1)) {
 				*perr = value_dup (v1);
-				gnm_matrix_free (m);
+				gnm_matrix_unref (m);
 				return NULL;
 			}
 
@@ -5147,6 +5196,12 @@ gnm_matrix_from_value (GnmValue const *v, GnmValue **perr, GnmEvalPos const *ep)
 	return m;
 }
 
+/**
+ * gnm_matrix_to_value:
+ * @m: #GnmMatrix
+ *
+ * Returns: (transfer full): A #GnmValue array
+ */
 GnmValue *
 gnm_matrix_to_value (GnmMatrix const *m)
 {
@@ -5161,7 +5216,15 @@ gnm_matrix_to_value (GnmMatrix const *m)
 	return res;
 }
 
-/* C = A * B */
+/**
+ * gnm_matrix_multiply:
+ * @C: Output #GnmMatrix
+ * @A: #GnmMatrix
+ * @B: #GnmMatrix
+ *
+ * Computes @A * @B and stores the result in @C.  The matrices must have
+ * suitable sizes.
+ */
 void
 gnm_matrix_multiply (GnmMatrix *C, const GnmMatrix *A, const GnmMatrix *B)
 {
@@ -5244,7 +5307,12 @@ gnm_matrix_eigen_update (guint k, gnm_float t, gnm_float *eigenvalues, gboolean 
 	}
 }
 
-/*
+/**
+ * gnm_matrix_eigen:
+ * @m: Input #GnmMatrix
+ * @EIG: Output #GnmMatrix
+ * @eigenvalues: (out): Output location for eigen values.
+ *
  * Calculates the eigenvalues and eigenvectors of a real symmetric matrix.
  *
  * This is the Jacobi iterative process in which we use a sequence of
@@ -5506,7 +5574,7 @@ done:
 	g_free (P);
 	g_free (E);
 	g_free (D);
-	gnm_matrix_free (L);
+	gnm_matrix_unref (L);
 
 	return res;
 }

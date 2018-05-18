@@ -261,7 +261,7 @@ newton_improve (GnmNlsolve *nl, gnm_float *xs)
 
 	g_free (d);
 	g_free (g);
-	gnm_matrix_free (H);
+	gnm_matrix_unref (H);
 	g_free (xs2);
 
 	return ok;
