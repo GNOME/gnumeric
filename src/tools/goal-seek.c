@@ -16,6 +16,9 @@
 #include <gnumeric.h>
 #include <tools/goal-seek.h>
 #include <gnm-random.h>
+#include <value.h>
+#include <cell.h>
+#include <sheet.h>
 
 #include <stdlib.h>
 #include <math.h>
@@ -725,35 +728,159 @@ goal_seek_trawl_normally (GnmGoalSeekFunction f,
 	return GOAL_SEEK_ERROR;
 }
 
-#ifdef STANDALONE
-static GnmGoalSeekStatus
-f (gnm_float x, gnm_float *y, void *user_data)
+/**
+ * gnm_goal_seek_eval_cell:
+ * @x: x-value for which to evaluate
+ * @y: (out): location to store result
+ * @data: user data
+ *
+ * Returns: An status indicating whether evaluation went ok.
+ */
+GnmGoalSeekStatus
+gnm_goal_seek_eval_cell (gnm_float x, gnm_float *y, gpointer data_)
 {
-	*y = x * x - 2;
-	return GOAL_SEEK_OK;
+	GnmGoalSeekCellData const *data = data_;
+	GnmValue *v = value_new_float (x);
+
+	gnm_cell_set_value (data->xcell, v);
+	cell_queue_recalc (data->xcell);
+	gnm_cell_eval (data->ycell);
+
+	if (data->ycell->value &&
+	    VALUE_IS_NUMBER (data->ycell->value)) {
+		*y = value_get_as_float (data->ycell->value) - data->ytarget;
+		if (gnm_finite (*y))
+			return GOAL_SEEK_OK;
+	}
+
+	return GOAL_SEEK_ERROR;
 }
 
-static GnmGoalSeekStatus
-df (gnm_float x, gnm_float *y, void *user_data)
+GnmGoalSeekStatus
+gnm_goal_seek_cell (GnmGoalSeekData *data,
+		    GnmGoalSeekCellData *celldata)
 {
-	*y = 2 * x;
-	return GOAL_SEEK_OK;
+	GnmGoalSeekStatus status;
+	gboolean hadold;
+	gnm_float oldx;
+	GnmValue *v;
+
+	hadold = !VALUE_IS_EMPTY_OR_ERROR (celldata->xcell->value);
+	oldx = hadold ? value_get_as_float (celldata->xcell->value) : 0;
+
+	/* PLAN A: Newton's iterative method from initial or midpoint.  */
+	{
+		gnm_float x0;
+
+		if (hadold && oldx >= data->xmin && oldx <= data->xmax)
+			x0 = oldx;
+		else
+			x0 = (data->xmin + data->xmax) / 2;
+
+		status = goal_seek_newton (gnm_goal_seek_eval_cell, NULL,
+					   data, celldata,
+					   x0);
+		if (status == GOAL_SEEK_OK)
+			goto DONE;
+	}
+
+	/* PLAN B: Trawl uniformly.  */
+	if (!data->havexpos || !data->havexneg) {
+		status = goal_seek_trawl_uniformly (gnm_goal_seek_eval_cell,
+						    data, celldata,
+						    data->xmin, data->xmax,
+						    100);
+		if (status == GOAL_SEEK_OK)
+			goto DONE;
+	}
+
+	/* PLAN C: Trawl normally from middle.  */
+	if (!data->havexpos || !data->havexneg) {
+		gnm_float sigma, mu;
+		int i;
+
+		sigma = MIN (data->xmax - data->xmin, 1e6);
+		mu = (data->xmax + data->xmin) / 2;
+
+		for (i = 0; i < 5; i++) {
+			sigma /= 10;
+			status = goal_seek_trawl_normally (gnm_goal_seek_eval_cell,
+							   data, celldata,
+							   mu, sigma, 30);
+			if (status == GOAL_SEEK_OK)
+				goto DONE;
+		}
+	}
+
+	/* PLAN D: Trawl normally from left.  */
+	if (!data->havexpos || !data->havexneg) {
+		gnm_float sigma, mu;
+		int i;
+
+		sigma = MIN (data->xmax - data->xmin, 1e6);
+		mu = data->xmin;
+
+		for (i = 0; i < 5; i++) {
+			sigma /= 10;
+			status = goal_seek_trawl_normally (gnm_goal_seek_eval_cell,
+							   data, celldata,
+							   mu, sigma, 20);
+			if (status == GOAL_SEEK_OK)
+				goto DONE;
+		}
+	}
+
+	/* PLAN E: Trawl normally from right.  */
+	if (!data->havexpos || !data->havexneg) {
+		gnm_float sigma, mu;
+		int i;
+
+		sigma = MIN (data->xmax - data->xmin, 1e6);
+		mu = data->xmax;
+
+		for (i = 0; i < 5; i++) {
+			sigma /= 10;
+			status = goal_seek_trawl_normally (gnm_goal_seek_eval_cell,
+							   data, celldata,
+							   mu, sigma, 20);
+			if (status == GOAL_SEEK_OK)
+				goto DONE;
+		}
+	}
+
+	/* PLAN F: Newton iteration with uniform net of starting points.  */
+	if (!data->havexpos || !data->havexneg) {
+		int i;
+		const int N = 10;
+
+		for (i = 1; i <= N; i++) {
+			gnm_float x0 =	data->xmin +
+				(data->xmax - data->xmin) / (N + 1) * i;
+
+			status = goal_seek_newton (gnm_goal_seek_eval_cell, NULL,
+						   data, celldata,
+						   x0);
+			if (status == GOAL_SEEK_OK)
+				goto DONE;
+		}
+	}
+
+	/* PLAN Z: Bisection.  */
+	{
+		status = goal_seek_bisection (gnm_goal_seek_eval_cell,
+					      data, celldata);
+		if (status == GOAL_SEEK_OK)
+			goto DONE;
+	}
+
+ DONE:
+	if (status == GOAL_SEEK_OK)
+		v = value_new_float (data->root);
+	else if (hadold)
+		v = value_new_float (oldx);
+	else
+		v = value_new_empty ();
+	sheet_cell_set_value (celldata->xcell, v);
+
+	return status;
 }
-
-
-int
-main ()
-{
-	GnmGoalSeekData data;
-
-	goal_seek_initialize (&data);
-	data.xmin = -100;
-	data.xmax = 100;
-
-	goal_seek_newton (f, NULL, &data, NULL, 50.0);
-
-	goal_seek_newton (f, df, &data, NULL, 50.0);
-
-	return 0;
-}
-#endif

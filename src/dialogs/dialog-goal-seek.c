@@ -86,175 +86,21 @@ typedef struct {
 } GoalSeekState;
 
 
-typedef struct {
-	GoalSeekState	*state;
-	GnmCell *xcell, *ycell;
-	gnm_float	ytarget;
-	gboolean	update_ui;
-} GoalEvalData;
-
-static GnmGoalSeekStatus
-goal_seek_eval (gnm_float x, gnm_float *y, void *vevaldata)
-{
-	GoalEvalData const *evaldata = vevaldata;
-	GnmValue *v = value_new_float (x);
-
-	if (evaldata->update_ui) {
-		sheet_cell_set_value (evaldata->xcell, v);
-	} else {
-		gnm_cell_set_value (evaldata->xcell, v);
-		cell_queue_recalc (evaldata->xcell);
-	}
-	gnm_cell_eval (evaldata->ycell);
-
-	if (evaldata->ycell->value) {
-		*y = value_get_as_float (evaldata->ycell->value) - evaldata->ytarget;
-		if (gnm_finite (*y))
-			return GOAL_SEEK_OK;
-	}
-
-	return GOAL_SEEK_ERROR;
-}
-
-
 static GnmGoalSeekStatus
 gnumeric_goal_seek (GoalSeekState *state)
 {
 	GnmGoalSeekData seekdata;
-	GoalEvalData evaldata;
-	GnmGoalSeekStatus status;
-	gboolean hadold;
-	gnm_float oldx;
+	GnmGoalSeekCellData celldata;
 
 	goal_seek_initialize (&seekdata);
 	seekdata.xmin = state->xmin;
 	seekdata.xmax = state->xmax;
 
-	evaldata.xcell = state->change_cell;
-	evaldata.ycell = state->set_cell;
-	evaldata.ytarget = state->target_value;
-	evaldata.update_ui = FALSE;
-	evaldata.state = state;
+	celldata.xcell = state->change_cell;
+	celldata.ycell = state->set_cell;
+	celldata.ytarget = state->target_value;
 
-	hadold = !VALUE_IS_EMPTY_OR_ERROR (state->change_cell->value);
-	oldx = hadold ? value_get_as_float (state->change_cell->value) : 0;
-
-	/* PLAN A: Newton's iterative method from initial or midpoint.  */
-	{
-		gnm_float x0;
-
-		if (hadold && oldx >= seekdata.xmin && oldx <= seekdata.xmax)
-			x0 = oldx;
-		else
-			x0 = (seekdata.xmin + seekdata.xmax) / 2;
-
-		status = goal_seek_newton (goal_seek_eval, NULL,
-					   &seekdata, &evaldata,
-					   x0);
-		if (status == GOAL_SEEK_OK)
-			goto DONE;
-	}
-
-	/* PLAN B: Trawl uniformly.  */
-	if (!seekdata.havexpos || !seekdata.havexneg) {
-		status = goal_seek_trawl_uniformly (goal_seek_eval,
-						    &seekdata, &evaldata,
-						    seekdata.xmin, seekdata.xmax,
-						    100);
-		if (status == GOAL_SEEK_OK)
-			goto DONE;
-	}
-
-	/* PLAN C: Trawl normally from middle.  */
-	if (!seekdata.havexpos || !seekdata.havexneg) {
-		gnm_float sigma, mu;
-		int i;
-
-		sigma = MIN (seekdata.xmax - seekdata.xmin, 1e6);
-		mu = (seekdata.xmax + seekdata.xmin) / 2;
-
-		for (i = 0; i < 5; i++) {
-			sigma /= 10;
-			status = goal_seek_trawl_normally (goal_seek_eval,
-							   &seekdata, &evaldata,
-							   mu, sigma, 30);
-			if (status == GOAL_SEEK_OK)
-				goto DONE;
-		}
-	}
-
-	/* PLAN D: Trawl normally from left.  */
-	if (!seekdata.havexpos || !seekdata.havexneg) {
-		gnm_float sigma, mu;
-		int i;
-
-		sigma = MIN (seekdata.xmax - seekdata.xmin, 1e6);
-		mu = seekdata.xmin;
-
-		for (i = 0; i < 5; i++) {
-			sigma /= 10;
-			status = goal_seek_trawl_normally (goal_seek_eval,
-							   &seekdata, &evaldata,
-							   mu, sigma, 20);
-			if (status == GOAL_SEEK_OK)
-				goto DONE;
-		}
-	}
-
-	/* PLAN E: Trawl normally from right.  */
-	if (!seekdata.havexpos || !seekdata.havexneg) {
-		gnm_float sigma, mu;
-		int i;
-
-		sigma = MIN (seekdata.xmax - seekdata.xmin, 1e6);
-		mu = seekdata.xmax;
-
-		for (i = 0; i < 5; i++) {
-			sigma /= 10;
-			status = goal_seek_trawl_normally (goal_seek_eval,
-							   &seekdata, &evaldata,
-							   mu, sigma, 20);
-			if (status == GOAL_SEEK_OK)
-				goto DONE;
-		}
-	}
-
-	/* PLAN F: Newton iteration with uniform net of starting points.  */
-	if (!seekdata.havexpos || !seekdata.havexneg) {
-		int i;
-		const int N = 10;
-
-		for (i = 1; i <= N; i++) {
-			gnm_float x0 =	seekdata.xmin +
-				(seekdata.xmax - seekdata.xmin) / (N + 1) * i;
-
-			status = goal_seek_newton (goal_seek_eval, NULL,
-						   &seekdata, &evaldata,
-						   x0);
-			if (status == GOAL_SEEK_OK)
-				goto DONE;
-		}
-	}
-
-	/* PLAN Z: Bisection.  */
-	{
-		status = goal_seek_bisection (goal_seek_eval,
-					      &seekdata, &evaldata);
-		if (status == GOAL_SEEK_OK)
-			goto DONE;
-	}
-
- DONE:
-	evaldata.update_ui = TRUE;
-	if (status == GOAL_SEEK_OK) {
-		gnm_float yroot;
-		(void) goal_seek_eval (seekdata.root, &yroot, &evaldata);
-	} else if (hadold) {
-		gnm_float ydummy;
-		(void) goal_seek_eval (oldx, &ydummy, &evaldata);
-	}
-
-	return status;
+	return gnm_goal_seek_cell (&seekdata, &celldata);
 }
 
 static void
