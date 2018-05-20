@@ -366,8 +366,8 @@ optimize_sum (GnmExpr const *e)
 		all_neg = all_neg && is_neg (a);
 
 		all_lcmul = all_lcmul &&
-			is_lcmul (a, &x) &&
-			((i == 0) ? ((cl = x), TRUE) : (cl == x));
+			is_lcmul (a, i ? &x : &cl) &&
+			(i == 0 || cl == x);
 	}
 
 	if (all_neg) {
@@ -430,8 +430,8 @@ cb_arg_collect (GnmCellIter const *iter, gpointer user_)
 			  cell->pos.col, cell->pos.row,
 			  FALSE);
 	parse_pos_init_evalpos (&pp, user->ep);
-	// gnm_cellref_set_col_ar (&cr, &pp, user->cr0->col_relative);
-	// gnm_cellref_set_row_ar (&cr, &pp, user->cr0->row_relative);
+	gnm_cellref_set_col_ar (&cr, &pp, user->cr0->col_relative);
+	gnm_cellref_set_row_ar (&cr, &pp, user->cr0->row_relative);
 	user->args = gnm_expr_list_prepend
 		(user->args,
 		 (gpointer)gnm_expr_new_cellref (&cr));
@@ -703,15 +703,17 @@ gnm_expr_top_deriv (GnmExprTop const *texpr,
 
 	expr = gnm_expr_deriv (texpr->expr, ep, info);
 	if (gnm_debug_flag ("deriv")) {
-		GnmParsePos pp;
+		GnmParsePos pp, ppvar;
 		char *s;
 		Sheet *sheet = ep->sheet;
 		GnmConventions const *convs = sheet_get_conventions (sheet);
 
+		parse_pos_init_evalpos (&ppvar, &info->var);
 		parse_pos_init_evalpos (&pp, ep);
+
 		s = gnm_expr_top_as_string (texpr, &pp, convs);
 		g_printerr ("Derivative of %s with respect to %s:%s",
-			    s, parsepos_as_string (&pp),
+			    s, parsepos_as_string (&ppvar),
 			    expr ? "\n" : " cannot compute.\n");
 		g_free (s);
 		if (expr) {
