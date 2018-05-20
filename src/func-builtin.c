@@ -34,6 +34,7 @@
 #include <application.h>
 #include <number-match.h>
 #include <gutils.h>
+#include <ranges.h>
 
 /***************************************************************************/
 
@@ -450,6 +451,40 @@ gnumeric_number_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_deriv[] = {
+	/* Not for public consumption. */
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_deriv (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	GnmValue const *vy = args[0];
+	GnmValue const *vx = args[1];
+	Sheet *sy, *sy2, *sx, *sx2;
+	GnmRange ry, rx;
+	GnmCell *cy, *cx;
+
+	if (!VALUE_IS_CELLRANGE (vy) ||
+	    !VALUE_IS_CELLRANGE (vx))
+		return value_new_error_VALUE (ei->pos);
+
+	gnm_rangeref_normalize (value_get_rangeref (vy), ei->pos, &sy, &sy2, &ry);
+	gnm_rangeref_normalize (value_get_rangeref (vx), ei->pos, &sx, &sx2, &rx);
+	if (!range_is_singleton (&ry) || sy2 != sy ||
+	    !range_is_singleton (&rx) || sx2 != sx)
+		return value_new_error_VALUE (ei->pos);
+
+	cy = sheet_cell_get (sy, ry.start.col, ry.start.row);
+	cx = sheet_cell_get (sx, rx.start.col, rx.start.row);
+	if (!cy || !cx)
+		return value_new_error_VALUE (ei->pos);
+
+	return value_new_float (gnm_expr_cell_deriv_value (cy, cx));
+}
+
+/***************************************************************************/
+
 static GnmFuncGroup *math_group = NULL;
 static GnmFuncGroup *gnumeric_group = NULL;
 static GnmFuncGroup *logic_group = NULL;
@@ -489,8 +524,14 @@ func_builtin_init (void)
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 		},
-		{	"number_match", "s|s",
+		{	"number_match", "s|s", // Only in test suite
 			help_number_match, gnumeric_number_match, NULL,
+			NULL, NULL,
+			GNM_FUNC_SIMPLE,
+			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+			GNM_FUNC_TEST_STATUS_BASIC },
+		{	"deriv", "r|r",  // Only in test suite
+			help_deriv, gnumeric_deriv, NULL,
 			NULL, NULL,
 			GNM_FUNC_SIMPLE,
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
@@ -514,9 +555,11 @@ func_builtin_init (void)
 	gnumeric_group = gnm_func_group_fetch (gname, _(gname));
 	gnm_func_add (gnumeric_group, builtins + i++, tdomain);
 	gnm_func_add (gnumeric_group, builtins + i++, tdomain);
-	if (gnm_debug_flag ("testsuite"))
+	if (gnm_debug_flag ("testsuite")) {
 		gnm_func_add (gnumeric_group, builtins + i, tdomain);
-	i++;
+		gnm_func_add (gnumeric_group, builtins + i + 1, tdomain);
+	}
+	i += 2;
 
 	gname = N_("Logic");
 	logic_group = gnm_func_group_fetch (gname, _(gname));
@@ -524,7 +567,7 @@ func_builtin_init (void)
 
 	gnm_expr_deriv_install_handler (gnm_func_lookup ("sum", NULL),
 					gnumeric_sum_deriv,
-					GNM_EXPR_DERIV_NO_CHAIN,
+					GNM_EXPR_DERIV_NO_CHAIN | GNM_EXPR_DERIV_OPTIMIZE,
 					NULL, NULL);
 }
 

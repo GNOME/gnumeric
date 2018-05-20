@@ -130,12 +130,22 @@ gnm_value_deriv (GnmValue const *v)
 		return NULL;
 }
 
+static GnmExpr const *madd (GnmExpr const *l, gboolean copyl, GnmExpr const *r, gboolean copyr);
+static GnmExpr const *msub (GnmExpr const *l, gboolean copyl, GnmExpr const *r, gboolean copyr);
+static GnmExpr const *mmul (GnmExpr const *l, gboolean copyl, GnmExpr const *r, gboolean copyr);
+static GnmExpr const *mdiv (GnmExpr const *l, gboolean copyl, GnmExpr const *r, gboolean copyr);
+static GnmExpr const *mneg (GnmExpr const *l, gboolean copyl);
+static GnmExpr const *optimize_sum (GnmExpr const *e);
+
+
+
+
 static gboolean
 is_any_const (GnmExpr const *e, gnm_float *c)
 {
 	GnmValue const *v = gnm_expr_get_constant (e);
 	if (v && VALUE_IS_FLOAT (v)) {
-		*c = value_get_as_float (v);
+		if (c) *c = value_get_as_float (v);
 		return TRUE;
 	} else
 		return FALSE;
@@ -147,6 +157,20 @@ is_const (GnmExpr const *e, gnm_float c)
 	GnmValue const *v = gnm_expr_get_constant (e);
 	return v && VALUE_IS_FLOAT (v) && value_get_as_float (v) == c;
 }
+
+static gboolean
+is_neg (GnmExpr const *e)
+{
+	return (GNM_EXPR_GET_OPER (e) == GNM_EXPR_OP_UNARY_NEG);
+}
+
+static gboolean
+is_lcmul (GnmExpr const *e, gnm_float *c)
+{
+	return (GNM_EXPR_GET_OPER (e) == GNM_EXPR_OP_MULT &&
+		is_any_const (e->binary.value_a, c));
+}
+
 
 // Optimizing constructor for "+".  Takes ownership of "l" and "r"
 // if the corresponding "copy" argument is false.
@@ -185,6 +209,13 @@ mneg (GnmExpr const *l, gboolean copyl)
 	if (is_any_const (l, &x)) {
 		if (!copyl) gnm_expr_free (l);
 		return gnm_expr_new_constant (value_new_float (-x));
+	}
+
+	if (is_lcmul (l, &x)) {
+		GnmExpr const *res = mmul (gnm_expr_new_constant (value_new_float (-x)), 0,
+					   l->binary.value_b, 1);
+		if (!copyl) gnm_expr_free (l);
+		return res;
 	}
 
 	if (copyl) l = gnm_expr_copy (l);
@@ -240,6 +271,26 @@ mmul (GnmExpr const *l, gboolean copyl, GnmExpr const *r, gboolean copyr)
 		return mneg (r, copyr);
 	}
 
+	if (is_neg (l)) {
+		GnmExpr const *res = mneg (mmul (l->unary.value, 1, r, copyr), 0);
+		if (!copyl) gnm_expr_free (l);
+		return res;
+	}
+
+	if (is_neg (r)) {
+		GnmExpr const *res = mneg (mmul (l, copyl, r->unary.value, 1), 0);
+		if (!copyr) gnm_expr_free (r);
+		return res;
+	}
+
+	if (is_lcmul (l, NULL)) {
+		GnmExpr const *res = mmul (l->binary.value_a, 1,
+					   mmul (l->binary.value_b, 1,
+						 r, copyr), 0);
+		if (!copyl) gnm_expr_free (l);
+		return res;
+	}
+
 	if (copyl) l = gnm_expr_copy (l);
 	if (copyr) r = gnm_expr_copy (r);
 	return gnm_expr_new_binary (l, GNM_EXPR_OP_MULT, r);
@@ -281,6 +332,83 @@ mexp (GnmExpr const *l, gboolean copyl, GnmExpr const *r, gboolean copyr)
 	if (copyl) l = gnm_expr_copy (l);
 	if (copyr) r = gnm_expr_copy (r);
 	return gnm_expr_new_binary (l, GNM_EXPR_OP_EXP, r);
+}
+
+static GnmExpr const *
+msum (GnmExprList *as)
+{
+	GnmFunc *fsum = gnm_func_lookup_or_add_placeholder ("SUM");
+	GnmExpr const *res = gnm_expr_new_funcall (fsum, as);
+	GnmExpr const *opt = optimize_sum (res);
+
+	if (opt) {
+		gnm_expr_free (res);
+		res = opt;
+	}
+
+	return res;
+}
+
+static GnmExpr const *
+optimize_sum (GnmExpr const *e)
+{
+	int argc = e->func.argc;
+	GnmExprConstPtr *argv = e->func.argv;
+	gboolean all_neg = (argc > 0);
+	gboolean all_lcmul = (argc > 0);
+	gnm_float cl = 0;
+	int i;
+
+	for (i = 0; i < argc; i++) {
+		GnmExpr const *a = argv[i];
+		gnm_float x;
+
+		all_neg = all_neg && is_neg (a);
+
+		all_lcmul = all_lcmul &&
+			is_lcmul (a, &x) &&
+			((i == 0) ? ((cl = x), TRUE) : (cl == x));
+	}
+
+	if (all_neg) {
+		GnmExprList *as = NULL;
+		for (i = argc; i-- > 0;) {
+			GnmExpr const *a = argv[i];
+			as = g_slist_prepend (as, (gpointer)gnm_expr_copy (a->unary.value));
+		}
+		return mneg (msum (as), 0);
+	}
+
+	if (all_lcmul) {
+		GnmExprList *as = NULL;
+		for (i = argc; i-- > 0;) {
+			GnmExpr const *a = argv[i];
+			as = g_slist_prepend (as, (gpointer)gnm_expr_copy (a->binary.value_b));
+		}
+		return mmul (gnm_expr_new_constant (value_new_float (cl)), 0,
+			     msum (as), 0);
+	}
+
+	return NULL;
+}
+
+static GnmExpr const *
+optimize (GnmExpr const *e)
+{
+	GnmExprOp op = GNM_EXPR_GET_OPER (e);
+
+	switch (op) {
+	case GNM_EXPR_OP_FUNCALL: {
+		GnmFunc *f = gnm_expr_get_func_def (e);
+		GnmFunc *fsum = gnm_func_lookup_or_add_placeholder ("SUM");
+
+		if (f == fsum)
+			return optimize_sum (e);
+		return NULL;
+	}
+	default:
+		return NULL;
+	}
 }
 
 /* ------------------------------------------------------------------------- */
@@ -476,6 +604,14 @@ gnm_expr_deriv (GnmExpr const *expr,
 			res = mmul (res, 0, e2, 0);
 		}
 
+		if (di->flags & GNM_EXPR_DERIV_OPTIMIZE) {
+			GnmExpr const *opt = optimize (res);
+			if (opt) {
+				gnm_expr_free (res);
+				res = opt;
+			}
+		}
+
 		return res;
 	}
 
@@ -659,7 +795,7 @@ gnm_expr_cell_deriv_value (GnmCell *y, GnmCell *x)
  * gnm_expr_deriv_install_handler:
  * @func: the function being given a handler
  * @h: (scope notified): #GnmExprDerivHandler
- * @flags: 
+ * @flags:
  * @data: user data for @h
  * @notify: destroy notification for @data
  */

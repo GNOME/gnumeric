@@ -45,7 +45,8 @@ typedef GnmExpr const * (*GnmExprDerivHandler) (GnmExpr const *expr,
 						gpointer user);
 typedef enum {
 	GNM_EXPR_DERIV_NO_CHAIN = 0x0,
-	GNM_EXPR_DERIV_CHAIN = 0x1
+	GNM_EXPR_DERIV_CHAIN = 0x1,
+	GNM_EXPR_DERIV_OPTIMIZE = 0x2
 } GnmExprDerivFlags;
 
 void gnm_expr_deriv_install_handler (GnmFunc *func, GnmExprDerivHandler h,

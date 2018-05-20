@@ -3744,7 +3744,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	gnm_expr_deriv_install_handler (gnm_func_lookup ("sumsq", NULL),
 					gnumeric_sumsq_deriv,
-					GNM_EXPR_DERIV_NO_CHAIN,
+					GNM_EXPR_DERIV_NO_CHAIN | GNM_EXPR_DERIV_OPTIMIZE,
 					NULL, NULL);
 	gnm_expr_deriv_install_handler (gnm_func_lookup ("exp", NULL),
 					gnumeric_exp_deriv,
