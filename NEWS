@@ -10,6 +10,7 @@ Morten:
 	* ssconvert improvements.
 	* Makefile improvements.
 	* Don't save any configuration when running ssconvert/ssdiff/...
+	* Fix crash-on-exit.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.41

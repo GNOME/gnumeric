@@ -892,7 +892,7 @@ gnm_file_saver_get_sheet (GOFileSaver const *fs, WorkbookView const *wbv)
  * @default_all: If %TRUE, all sheets will be selected by default; if %FALSE,
  * this function will return %NULL if no sheets were explicitly selected.
  *
- * For a workbook-scope saver, this function determines what sheets to save.
+ * This function determines what sheets to save.
  *
  * Returns: (transfer container) (element-type Sheet): the sheets to export
  *
@@ -905,12 +905,12 @@ gnm_file_saver_get_sheets (GOFileSaver const *fs,
 {
 	Workbook *wb;
 	GPtrArray *sel, *sheets;
+	GOFileSaveScope save_scope;
 
 	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), NULL);
-	g_return_val_if_fail (go_file_saver_get_save_scope (fs) ==
-			      GO_FILE_SAVE_WORKBOOK, NULL);
 	g_return_val_if_fail (GNM_IS_WORKBOOK_VIEW (wbv), NULL);
 
+	save_scope = go_file_saver_get_save_scope (fs);
 	wb = wb_view_get_workbook (wbv);
 	sel = g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
 	sheets = g_object_get_data (G_OBJECT (wb), SSCONVERT_SHEET_SET_KEY);
@@ -918,7 +918,10 @@ gnm_file_saver_get_sheets (GOFileSaver const *fs,
 		g_ptr_array_ref (sel);
 	else if (sheets)
 		sel = g_ptr_array_ref (sheets);
-	else if (default_all) {
+	else if (save_scope != GO_FILE_SAVE_WORKBOOK) {
+		sel = g_ptr_array_new ();
+		g_ptr_array_add (sel, wb_view_cur_sheet (wbv));
+	} else if (default_all) {
 		int i;
 		sel = g_ptr_array_new ();
 		for (i = 0; i < workbook_sheet_count (wb); i++) {
