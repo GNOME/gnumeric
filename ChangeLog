@@ -1,3 +1,7 @@
+2018-05-22  Morten Welinder  <terra@gnome.org>
+
+	* Test commit after migration.
+
 2018-05-13  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c: i18n fixes.
