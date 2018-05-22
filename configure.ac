@@ -17,7 +17,7 @@ m4_define([BIG_CHECKING], [AC_MSG_CHECKING([
 ======== $1])])
 
 AC_INIT([gnumeric], [gnumeric_version_full],
-	[https://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric],,
+	[https://gitlab.gnome.org/GNOME/gnumeric/issues],,
 	[http://www.gnumeric.org/])
 
 AC_CONFIG_SRCDIR(src/sheet.h)
