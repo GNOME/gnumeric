@@ -34,7 +34,7 @@
 
 static GHashTable *deriv_handlers;
 
-struct DerivInfo {
+struct DerivHandler {
 	GnmExprDerivHandler handler;
 	GnmExprDerivFlags flags;
 	gpointer data;
@@ -42,7 +42,7 @@ struct DerivInfo {
 };
 
 static void
-deriv_info_free (struct DerivInfo *di)
+deriv_handler_free (struct DerivHandler *di)
 {
 	if (di->notify)
 		di->notify (di->data);
@@ -585,7 +585,7 @@ gnm_expr_deriv (GnmExpr const *expr,
 
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmFunc *f = gnm_expr_get_func_def (expr);
-		struct DerivInfo const *di = deriv_handlers
+		struct DerivHandler const *di = deriv_handlers
 			? g_hash_table_lookup (deriv_handlers, f)
 			: NULL;
 		GnmExpr const *res = di
@@ -807,15 +807,15 @@ gnm_expr_deriv_install_handler (GnmFunc *func, GnmExprDerivHandler h,
 				gpointer data,
 				GDestroyNotify notify)
 {
-	struct DerivInfo *hdata;
+	struct DerivHandler *hdata;
 
 	if (!deriv_handlers) {
 		deriv_handlers = g_hash_table_new_full
 			(g_direct_hash, g_direct_equal,
-			 NULL, (GDestroyNotify)deriv_info_free);
+			 NULL, (GDestroyNotify)deriv_handler_free);
 	}
 
-	hdata = g_new (struct DerivInfo, 1);
+	hdata = g_new (struct DerivHandler, 1);
 	hdata->handler = h;
 	hdata->flags = flags;
 	hdata->data = data;
