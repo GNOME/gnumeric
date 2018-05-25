@@ -199,11 +199,11 @@ make_gnm_help (const char *name, int count, SV **SP)
 	return help;
 }
 
-static gboolean
-gplp_func_desc_load (GOPluginService *service,
-		     char const *name,
-		     GnmFuncDescriptor *res)
+static void
+gplp_func_load_stub (GOPluginService *service,
+		     GnmFunc *func)
 {
+	char const *name = gnm_func_get_name (func, FALSE);
 	char *args[] = { NULL };
 	gchar *help_perl_func = g_strconcat ("help_", name, NULL);
 	gchar *desc_perl_func = g_strconcat ("desc_", name, NULL);
@@ -254,18 +254,13 @@ gplp_func_desc_load (GOPluginService *service,
 	g_free (help_perl_func);
 	g_free (desc_perl_func);
 
-	res->name = g_strdup(name);
-	res->arg_spec = arg_spec;
-
-	res->help = help;
-	res->fn_args = NULL;
-	res->fn_args = &call_perl_function_args;
-	res->fn_nodes = NULL;
-	res->linker = NULL;
-	res->impl_status = GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC;
-	res->test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
-
-	return TRUE;
+	func->help = help;
+	func->impl_status = GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC;
+	func->test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
+	func->flags	  = GNM_FUNC_SIMPLE;
+	func->fn.args.func	= call_perl_function_args;
+	func->fn.args.arg_spec	= arg_spec;
+	gnm_func_set_function_type (func, GNM_FUNC_TYPE_ARGS);
 }
 
 static void
@@ -328,7 +323,7 @@ gplp_load_service_function_group (GOPluginLoader *loader,
 	GO_INIT_RET_ERROR_INFO (ret_error);
 
 	cbs = go_plugin_service_get_cbs (service);
-	cbs->func_desc_load = &gplp_func_desc_load;
+	cbs->load_stub = &gplp_func_load_stub;
 }
 
 static gboolean

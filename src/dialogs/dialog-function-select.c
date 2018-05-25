@@ -44,7 +44,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
-#define F2(func,s) dgettext ((func)->tdomain->str, (s))
+#define F2(func,s) dgettext (gnm_func_get_translation_domain(func), (s))
 
 #define FUNCTION_SELECT_KEY "function-selector-dialog"
 #define FUNCTION_SELECT_HELP_KEY "function-selector-dialog-help-mode"
@@ -726,7 +726,7 @@ make_expr_example (Sheet *sheet, const char *text,
 static void
 describe_new_style (GtkTextBuffer *description,
 		    GtkWidget *target,
-		    GnmFunc const *func, Sheet *sheet)
+		    GnmFunc *func, Sheet *sheet)
 {
 	GnmFuncHelp const *help;
 	GtkTextIter ti;
@@ -1046,7 +1046,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 {
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
-	GnmFunc const *func;
+	GnmFunc *func;
 	GtkTextBuffer *description;
 	GtkTextMark *mark;
 	gboolean active = FALSE;
@@ -1063,7 +1063,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 				    FUNCTION, &func,
 				    -1);
 
-		gnm_func_load_if_stub ((GnmFunc *)func);
+		gnm_func_load_if_stub (func);
 
 		if (func->help == NULL)
 			gtk_text_buffer_set_text (description, "?", -1);
@@ -1190,10 +1190,10 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 				 FUNCTION, func,
 				 FUNCTION_DESC, desc,
 				 FUNCTION_PAL, pal,
-				 FUNCTION_CAT, func->fn_group,
+				 FUNCTION_CAT, gnm_func_get_function_group (func),
 				 FUNCTION_VISIBLE, TRUE,
 				 FUNCTION_RECENT, FALSE,
-				 FUNCTION_USED, (func->usage_count > 1),
+				 FUNCTION_USED, gnm_func_get_in_use (func),
 				 -1);
 			g_free (desc);
 			pango_attr_list_unref (pal);

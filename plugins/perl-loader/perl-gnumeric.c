@@ -48,12 +48,12 @@ perl2value(SV *sv)
     return v;
 }
 
+#if 0
 GnmValue *
 marshal_func (GnmFuncEvalInfo *ei, GnmValue *argv[])
 {
     dSP;
-    GnmFunc const *func =
-	gnm_expr_get_func_def ((GnmExpr const *)ei->func_call);
+    GnmFunc const *func = gnm_eval_info_get_func (ei);
     I32 r;
     int i, min, max;
     SV * result;
@@ -71,6 +71,8 @@ marshal_func (GnmFuncEvalInfo *ei, GnmValue *argv[])
     }
     PUTBACK;
 
+    /* gnm_func_get_user_data doesn't exist anymore and in any case
+       it was never set to a value sane for this. */
     r = perl_call_sv (gnm_func_get_user_data (func), G_SCALAR);
     SPAGAIN;
     if (r != 1)
@@ -85,3 +87,4 @@ marshal_func (GnmFuncEvalInfo *ei, GnmValue *argv[])
 
     return v;
 }
+#endif

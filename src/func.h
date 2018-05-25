@@ -184,26 +184,29 @@ struct GnmFunc_ {
 	GObject	base;
 
 	char const *name;
-	GPtrArray *arg_names_p;
 	GnmFuncHelp const *help;
-	GOString *tdomain;
-	char *localized_name;
-	GnmFuncType fn_type;
 	union {
 		GnmFuncNodes nodes;
 		struct {
 			char const *arg_spec;
-			GnmFuncArgs  func;
-			int min_args, max_args;
-			char *arg_types;
+			GnmFuncArgs func;
 		} args;
 	} fn;
-	GnmFuncGroup		*fn_group; /* most recent it was assigned to */
 	GnmFuncImplStatus	 impl_status;
 	GnmFuncTestStatus	 test_status;
 	GnmFuncFlags		 flags;
 
-	gint			 usage_count;
+	/* <private> */
+	GnmFuncType XXXfn_type;
+	GnmFuncGroup *XXXfn_group;
+	GOString *XXXtdomain;
+	char *XXXlocalized_name;
+	GPtrArray *XXXarg_names_p;
+	gint XXXusage_count;
+	int XXXmin_args, XXXmax_args;
+
+	// Meaningful for ARGS only
+	char *XXXarg_types;
 };
 
 #define GNM_FUNC_TYPE	(gnm_func_get_type ())
@@ -212,7 +215,7 @@ struct GnmFunc_ {
 
 GType       gnm_func_get_type        (void);
 void        gnm_func_load_if_stub    (GnmFunc *func);
-void	    gnm_func_load_stub	     (GnmFunc *func);
+void        gnm_func_dispose         (GnmFunc *func);
 
 GnmFunc	   *gnm_func_inc_usage	     (GnmFunc *func);
 void	    gnm_func_dec_usage	     (GnmFunc *func);
@@ -222,8 +225,11 @@ char const *gnm_func_get_translation_domain (GnmFunc *func);
 void        gnm_func_set_translation_domain (GnmFunc *func,
 					     const char *tdomain);
 
+GnmFuncGroup*gnm_func_get_function_group (GnmFunc *func);
 void        gnm_func_set_function_group (GnmFunc *func, GnmFuncGroup *group);
 
+gboolean    gnm_func_is_vararg         (GnmFunc *func);
+gboolean    gnm_func_is_fixarg         (GnmFunc *func);
 void        gnm_func_set_function_type (GnmFunc *func, GnmFuncType typ);
 
 GnmDependentFlags gnm_func_link_dep (GnmFunc *func, GnmFuncEvalInfo *ei, gboolean qlink);

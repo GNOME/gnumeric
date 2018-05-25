@@ -92,7 +92,7 @@ static GOptionEntry const sstest_options [] = {
 /* ------------------------------------------------------------------------- */
 
 #define UNICODE_ELLIPSIS "\xe2\x80\xa6"
-#define F2(func,s) dgettext ((func)->tdomain->str, (s))
+#define F2(func,s) dgettext (gnm_func_get_translation_domain(func), (s))
 
 static char *
 split_at_colon (char const *s, char **rest)
@@ -124,7 +124,7 @@ dump_externals (GPtrArray *defs, FILE *out)
 	fprintf (out, "<!--\n\n-->");
 
 	for (ui = 0; ui < defs->len; ui++) {
-		GnmFunc const *fd = g_ptr_array_index (defs, ui);
+		GnmFunc *fd = g_ptr_array_index (defs, ui);
 		gboolean any = FALSE;
 		int j;
 
@@ -201,13 +201,13 @@ dump_samples (GPtrArray *defs, FILE *out)
 	GnmFuncGroup *last_group = NULL;
 
 	for (ui = 0; ui < defs->len; ui++) {
-		GnmFunc const *fd = g_ptr_array_index (defs, ui);
+		GnmFunc *fd = g_ptr_array_index (defs, ui);
 		int j;
 		const char *last = NULL;
 		gboolean has_sample = FALSE;
 
-		if (last_group != fd->fn_group) {
-			last_group = fd->fn_group;
+		if (last_group != gnm_func_get_function_group (fd)) {
+			last_group = gnm_func_get_function_group (fd);
 			csv_quoted_print (out, last_group->display_name->str);
 			fputc ('\n', out);
 		}
@@ -242,27 +242,21 @@ dump_samples (GPtrArray *defs, FILE *out)
 	}
 }
 
-static void
-cb_dump_usage (GnmFunc const *fd, FILE *out)
-{
-	if (fd->usage_count > 0)
-		fprintf (out, "%d,%s\n", fd->usage_count, fd->name);
-}
-
-
-
 static int
 func_def_cmp (gconstpointer a, gconstpointer b)
 {
-	GnmFunc const *fda = *(GnmFunc const **)a ;
-	GnmFunc const *fdb = *(GnmFunc const **)b ;
+	GnmFunc *fda = *(GnmFunc **)a ;
+	GnmFunc *fdb = *(GnmFunc **)b ;
+	GnmFuncGroup *ga, *gb;
 
 	g_return_val_if_fail (fda->name != NULL, 0);
 	g_return_val_if_fail (fdb->name != NULL, 0);
 
-	if (fda->fn_group != NULL && fdb->fn_group != NULL) {
-		int res = go_string_cmp (fda->fn_group->display_name,
-					 fdb->fn_group->display_name);
+	ga = gnm_func_get_function_group (fda);
+	gb = gnm_func_get_function_group (fdb);
+
+	if (ga && gb) {
+		int res = go_string_cmp (ga->display_name, gb->display_name);
 		if (res != 0)
 			return res;
 	}
@@ -310,7 +304,7 @@ enumerate_functions (gboolean filter)
  * 0 : www.gnumeric.org's function.shtml page
  * 1:
  * 2 : (obsolete)
- * 3 : dump function usage count
+ * 3 : (obsolete)
  * 4 : external refs
  * 5 : all sample expressions
  **/
@@ -330,15 +324,7 @@ function_dump_defs (char const *filename, int dump_type)
 		exit (1);
 	}
 
-	if (dump_type == 3) {
-		GPtrArray *funcs = enumerate_functions (FALSE);
-		g_ptr_array_foreach (funcs, (GFunc)cb_dump_usage, output_file);
-		g_ptr_array_free (funcs, TRUE);
-		fclose (output_file);
-		return;
-	}
-
-	/* TODO : Use the translated names and split by fn_group. */
+	/* TODO : Use the translated names and split by function group. */
 	ordered = enumerate_functions (TRUE);
 
 	if (dump_type == 4) {
@@ -439,7 +425,7 @@ function_dump_defs (char const *filename, int dump_type)
 	}
 
 	for (i = 0; i < ordered->len; i++) {
-		GnmFunc const *fd = g_ptr_array_index (ordered, i);
+		GnmFunc *fd = g_ptr_array_index (ordered, i);
 
 		// Skip internal-use function
 		if (g_ascii_strcasecmp (fd->name, "TABLE") == 0)
@@ -460,9 +446,10 @@ function_dump_defs (char const *filename, int dump_type)
 			GString *note = g_string_new (NULL);
 			GString *seealso = g_string_new (NULL);
 			gint min, max;
+			GnmFuncGroup *group = gnm_func_get_function_group (fd);
 
 			fprintf (output_file, "@CATEGORY=%s\n",
-				 F2(fd, fd->fn_group->display_name->str));
+				 F2(fd, group->display_name->str));
 			for (i = 0;
 			     fd->help[i].type != GNM_FUNC_HELP_END;
 			     i++) {
@@ -589,9 +576,9 @@ function_dump_defs (char const *filename, int dump_type)
 				{ "Under development",		"imp-devel" },
 				{ "Unique to Gnumeric",		"imp-gnumeric" },
 			};
-			if (group != fd->fn_group) {
+			if (group != gnm_func_get_function_group (fd)) {
 				if (group) fprintf (output_file, "</table></div>\n");
-				group = fd->fn_group;
+				group = gnm_func_get_function_group (fd);
 				fprintf (output_file,
 					 "<h2>%s</h2>\n"
 					 "<div class=\"functiongroup\"><table class=\"functiongroup\">\n"
@@ -944,7 +931,7 @@ check_help_expression (const char *text, GnmFunc const *fd)
 static gboolean
 check_argument_refs (const char *text, GnmFunc const *fd)
 {
-	if (fd->fn_type != GNM_FUNC_TYPE_ARGS)
+	if (!gnm_func_is_fixarg (fd))
 		return FALSE;
 
 	while (1) {
@@ -1104,12 +1091,13 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 
 	g_hash_table_destroy (allargs);
 
-	if (fd->fn_type == GNM_FUNC_TYPE_ARGS) {
+	if (gnm_func_is_fixarg (fd)) {
 		int n = counts[GNM_FUNC_HELP_ARG];
-		if (n != fd->fn.args.max_args) {
+		int min, max;
+		gnm_func_count_args (fd, &min, &max);
+		if (n != max) {
 			g_printerr ("%s: Help for %d args, but takes %d-%d\n",
-				    fd->name, n,
-				    fd->fn.args.min_args, fd->fn.args.max_args);
+				    fd->name, n, min, max);
 			res = 1;
 		}
 	}

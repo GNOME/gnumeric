@@ -207,29 +207,29 @@ plugin_service_function_group_activate (GOPluginService *service, GOErrorInfo **
 
 	for (l = sfg->function_name_list; l; l = l->next) {
 		const char *fname = l->data;
-		GnmFunc *fd = gnm_func_lookup_or_add_placeholder (fname);
+		GnmFunc *func = gnm_func_lookup_or_add_placeholder (fname);
 
-		gnm_func_set_function_type (fd, GNM_FUNC_TYPE_STUB);
-		gnm_func_set_translation_domain (fd, sfg->tdomain);
-		gnm_func_set_function_group (fd, sfg->func_group);
+		gnm_func_set_function_type (func, GNM_FUNC_TYPE_STUB);
+		gnm_func_set_translation_domain (func, sfg->tdomain);
+		gnm_func_set_function_group (func, sfg->func_group);
 		// Clear localized_name so we can deduce the proper name.
-		//gnm_func_set_localized_name (fd, NULL);
+		//gnm_func_set_localized_name (func, NULL);
 
 		g_signal_connect
-			(G_OBJECT (fd), "notify::in-use",
+			(func, "notify::in-use",
 			 G_CALLBACK (plugin_service_function_group_func_ref_notify),
 			 plugin);
 
 		g_signal_connect
-			(G_OBJECT (fd), "load-stub",
+			(func, "load-stub",
 			 G_CALLBACK (plugin_service_function_group_func_load_stub),
 			 service);
 
-		if (fd->usage_count > 0)
+		if (gnm_func_get_in_use (func))
 			g_signal_connect (plugin,
 					  "state_changed",
 					  G_CALLBACK (delayed_ref_notify),
-					  fd);
+					  func);
 	}
 	service->is_active = TRUE;
 }
@@ -238,6 +238,7 @@ static void
 plugin_service_function_group_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	GnmPluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+	GOPlugin *plugin = go_plugin_service_get_plugin (service);
 	GSList *l;
 
 	if (gnm_debug_flag ("plugin-func"))
@@ -248,6 +249,17 @@ plugin_service_function_group_deactivate (GOPluginService *service, GOErrorInfo 
 	for (l = sfg->function_name_list; l; l = l->next) {
 		const char *fname = l->data;
 		GnmFunc *func = gnm_func_lookup (fname, NULL);
+
+		// This should not happen, but if it were to, having a handler
+		// of some other object is not going to be good.
+		if (gnm_func_get_in_use (func))
+			g_signal_handlers_disconnect_by_func
+				(plugin, G_CALLBACK (delayed_ref_notify), func);
+
+		// Someone else might hold a ref so make sure the object
+		// becomes inaccessible via gnm_func_lookup
+		gnm_func_dispose (func);
+
 		g_object_unref (func);
 	}
 	service->is_active = FALSE;

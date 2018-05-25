@@ -501,24 +501,25 @@ excel_formula_write_AREA (PolishData *pd, GnmCellRef const *a, GnmCellRef const 
 }
 
 static char *
-guess_arg_types (const GnmFunc *func)
+guess_arg_types (GnmFunc *func)
 {
-	char *res, *p;
+	char *res;
+	int i, min, max;
 
-	if (func->fn_type != GNM_FUNC_TYPE_ARGS)
+	if (!gnm_func_is_fixarg (func))
 		return NULL;
 
-	res = g_strdup (func->fn.args.arg_types);
+	gnm_func_count_args (func, &min, &max);
 
-	for (p = res; *p; p++) {
-		switch (*p) {
-		case 'r':
-		case 'A':
-			*p = 'A';
-			break;
-		default:
-			*p = 'V';
-		}
+	res = g_new (char, max + 1);
+	res[max] = 0;
+
+	for (i = 0; i < max; i++) {
+		char t = gnm_func_get_arg_type (func, i);
+		if (t == 'r' || t == 'A')
+			res[i] = 'A';
+		else
+			res[i] = 'V';
 	}
 
 #if FORMULA_DEBUG > 1

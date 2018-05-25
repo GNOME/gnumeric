@@ -34,6 +34,8 @@ typedef FILE * OutputStream;
 
 SV* value2perl(const GnmValue *v);
 GnmValue* perl2value(SV *sv);
+#if 0
 GnmValue* marshal_func (GnmFuncEvalInfo *ei, GnmValue *argv[]);
+#endif
 
 #endif /* _PERL_GNUMERIC_H */

@@ -1114,8 +1114,7 @@ link_unlink_expr_dep (GnmEvalPos *ep, GnmExpr const *tree, gboolean qlink)
 		GnmFuncEvalInfo fei;
 		GnmDependentFlags flag;
 
-		if (tree->func.func->fn_type == GNM_FUNC_TYPE_STUB)
-			gnm_func_load_stub (tree->func.func);
+		gnm_func_load_if_stub (tree->func.func);
 		fei.pos = ep;
 		fei.func_call = &tree->func;
 		flag = gnm_func_link_dep (tree->func.func, &fei, qlink);

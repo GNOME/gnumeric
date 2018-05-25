@@ -15,7 +15,9 @@ while (@ARGV) {
 	next;
     }
 
-    if ($sanitize && $arg =~ /^-/ && $arg !~ /^-(threads|-pthread|D|U|I|c|o)/) {
+    if ($sanitize && $arg =~ /^-/ &&
+	($arg !~ /^-(threads|-pthread|D|U|I|c|o)/ ||
+	 $arg =~ /^-DPIC$/)) {
 	# Options that get here are not in the desiret set.
 	# Notably we drop "-fPIC" (some variant of which should probably
 	# also occur in an unsanitized section).
