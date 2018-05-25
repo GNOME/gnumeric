@@ -209,7 +209,7 @@ plugin_service_function_group_activate (GOPluginService *service, GOErrorInfo **
 		const char *fname = l->data;
 		GnmFunc *func = gnm_func_lookup_or_add_placeholder (fname);
 
-		gnm_func_set_function_type (func, GNM_FUNC_TYPE_STUB);
+		gnm_func_set_stub (func);
 		gnm_func_set_translation_domain (func, sfg->tdomain);
 		gnm_func_set_function_group (func, sfg->func_group);
 		// Clear localized_name so we can deduce the proper name.
@@ -776,16 +776,13 @@ gnm_plugin_loader_module_func_load_stub (GOPluginService *service,
 	desc = loader_data->module_fn_info_array + GPOINTER_TO_INT (index_ptr);
 
 	func->help	 = desc->help ? desc->help : NULL;
-	func->impl_status = desc->impl_status;
-	func->test_status = desc->test_status;
-	func->flags	  = desc->flags;
+	gnm_func_set_impl_status (func, desc->impl_status);
+	gnm_func_set_test_status (func, desc->test_status);
+	gnm_func_set_flags (func, desc->flags);
 	if (desc->fn_args != NULL) {
-		func->fn.args.func	= desc->fn_args;
-		func->fn.args.arg_spec	= desc->arg_spec;
-		gnm_func_set_function_type (func, GNM_FUNC_TYPE_ARGS);
+		gnm_func_set_fixargs (func, desc->fn_args, desc->arg_spec);
 	} else if (desc->fn_nodes != NULL) {
-		func->fn.nodes		= desc->fn_nodes;
-		gnm_func_set_function_type (func, GNM_FUNC_TYPE_NODES);
+		gnm_func_set_varargs (func, desc->fn_nodes);
 	} else {
 		g_warning ("Invalid function descriptor with no function");
 	}

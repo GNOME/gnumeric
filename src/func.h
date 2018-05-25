@@ -185,28 +185,30 @@ struct GnmFunc_ {
 
 	char const *name;
 	GnmFuncHelp const *help;
-	union {
-		GnmFuncNodes nodes;
-		struct {
-			char const *arg_spec;
-			GnmFuncArgs func;
-		} args;
-	} fn;
-	GnmFuncImplStatus	 impl_status;
-	GnmFuncTestStatus	 test_status;
-	GnmFuncFlags		 flags;
 
 	/* <private> */
-	GnmFuncType XXXfn_type;
-	GnmFuncGroup *XXXfn_group;
-	GOString *XXXtdomain;
-	char *XXXlocalized_name;
-	GPtrArray *XXXarg_names_p;
-	gint XXXusage_count;
-	int XXXmin_args, XXXmax_args;
+	GnmFuncType fn_type;
+	GnmFuncGroup *fn_group;
+	GnmFuncFlags flags;
+	GnmFuncImplStatus impl_status;
+	GnmFuncTestStatus test_status;
+
+	GOString *tdomain;
+	char *localized_name;
+
+	gint usage_count;
 
 	// Meaningful for ARGS only
-	char *XXXarg_types;
+	char *arg_spec;
+	GnmFuncArgs args_func;
+
+	// Meaningful for NODES only
+	GnmFuncNodes nodes_func;
+
+	// Derived for quick access
+	GPtrArray *arg_names;
+	int min_args, max_args;
+	char *arg_types;
 };
 
 #define GNM_FUNC_TYPE	(gnm_func_get_type ())
@@ -225,12 +227,26 @@ char const *gnm_func_get_translation_domain (GnmFunc *func);
 void        gnm_func_set_translation_domain (GnmFunc *func,
 					     const char *tdomain);
 
+GnmFuncFlags gnm_func_get_flags      (GnmFunc *func);
+void        gnm_func_set_flags       (GnmFunc *func, GnmFuncFlags f);
+
+
+GnmFuncImplStatus gnm_func_get_impl_status (GnmFunc *func);
+void        gnm_func_set_impl_status (GnmFunc *func, GnmFuncImplStatus st);
+
+GnmFuncTestStatus gnm_func_get_test_status (GnmFunc *func);
+void        gnm_func_set_test_status (GnmFunc *func, GnmFuncTestStatus st);
+
 GnmFuncGroup*gnm_func_get_function_group (GnmFunc *func);
 void        gnm_func_set_function_group (GnmFunc *func, GnmFuncGroup *group);
 
-gboolean    gnm_func_is_vararg         (GnmFunc *func);
-gboolean    gnm_func_is_fixarg         (GnmFunc *func);
-void        gnm_func_set_function_type (GnmFunc *func, GnmFuncType typ);
+gboolean    gnm_func_is_varargs      (GnmFunc *func);
+gboolean    gnm_func_is_fixargs      (GnmFunc *func);
+
+void        gnm_func_set_stub        (GnmFunc *func);
+void        gnm_func_set_varargs     (GnmFunc *func, GnmFuncNodes fn);
+void        gnm_func_set_fixargs     (GnmFunc *func, GnmFuncArgs fn,
+				      const char *spec);
 
 GnmDependentFlags gnm_func_link_dep (GnmFunc *func, GnmFuncEvalInfo *ei, gboolean qlink);
 
@@ -257,8 +273,7 @@ char        gnm_func_get_arg_type  (GnmFunc const *fn_def,
                                         gint arg_idx);
 char const *gnm_func_get_arg_type_string  (GnmFunc const *fn_def,
                                         gint arg_idx);
-char       *gnm_func_get_arg_name  (GnmFunc const *fn_def,
-                                        guint arg_idx);
+char       *gnm_func_get_arg_name  (GnmFunc const *func, guint arg_idx);
 char const *gnm_func_get_arg_description (GnmFunc const *fn_def,
                                         guint arg_idx);
 char       *gnm_func_convert_markup_to_pango (char const *desc,

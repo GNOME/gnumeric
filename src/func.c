@@ -8,17 +8,6 @@
  *  Jody Goldberg   (jody@gnome.org)
  */
 
-// Temporary while cleaning out direct access to GnmFunc
-#define XXXusage_count usage_count
-#define XXXlocalized_name localized_name
-#define XXXtdomain tdomain
-#define XXXarg_names_p arg_names_p
-#define XXXfn_group fn_group
-#define XXXmin_args min_args
-#define XXXmax_args max_args
-#define XXXarg_types arg_types
-#define XXXfn_type fn_type
-
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
@@ -150,8 +139,7 @@ gnm_func_load_stub (GnmFunc *func)
 		static GnmFuncHelp const no_help[] = { { GNM_FUNC_HELP_END } };
 
 		func->help = no_help;
-		func->fn.nodes = &error_function_no_full_info;
-		gnm_func_set_function_type (func, GNM_FUNC_TYPE_NODES);
+		gnm_func_set_varargs (func, error_function_no_full_info);
 	}
 }
 
@@ -297,35 +285,6 @@ gnm_func_group_remove_func (GnmFuncGroup *fn_group, GnmFunc *fn_def)
 /******************************************************************************/
 
 static void
-extract_arg_types (GnmFunc *func)
-{
-	int i;
-
-	gnm_func_count_args (func,
-			     &func->min_args,
-			     &func->max_args);
-	g_free (func->arg_types);
-	func->arg_types = NULL;
-
-	if (func->fn_type == GNM_FUNC_TYPE_ARGS) {
-		func->arg_types = g_malloc (func->max_args + 1);
-		for (i = 0; i < func->max_args; i++)
-			func->arg_types[i] = gnm_func_get_arg_type (func, i);
-		func->arg_types[i] = 0;
-	}
-}
-
-static void
-gnm_func_clear_arg_names (GnmFunc *fd)
-{
-	if (fd->arg_names_p) {
-		g_ptr_array_foreach (fd->arg_names_p, (GFunc) g_free, NULL);
-		g_ptr_array_free (fd->arg_names_p, TRUE);
-		fd->arg_names_p = NULL;
-	}
-}
-
-static void
 gnm_func_create_arg_names (GnmFunc *fn_def)
 {
 	int i;
@@ -345,37 +304,97 @@ gnm_func_create_arg_names (GnmFunc *fn_def)
 			 (F2(fn_def, fn_def->help[i].text), NULL));
 	}
 
-	gnm_func_clear_arg_names (fn_def);
-	fn_def->arg_names_p = ptr;
+	fn_def->arg_names = ptr;
 }
 
 gboolean
-gnm_func_is_vararg (GnmFunc *func)
+gnm_func_is_varargs (GnmFunc *func)
 {
 	gnm_func_load_stub (func);
 	return func->fn_type == GNM_FUNC_TYPE_NODES;
 }
 
 gboolean
-gnm_func_is_fixarg (GnmFunc *func)
+gnm_func_is_fixargs (GnmFunc *func)
 {
 	gnm_func_load_stub (func);
 	return func->fn_type == GNM_FUNC_TYPE_ARGS;
 }
 
 void
-gnm_func_set_function_type (GnmFunc *func, GnmFuncType typ)
+gnm_func_set_stub (GnmFunc *func)
 {
-	g_return_if_fail (GNM_IS_FUNC (func));
+	func->fn_type = GNM_FUNC_TYPE_STUB;
 
-	func->fn_type = typ;
-	if (typ == GNM_FUNC_TYPE_STUB)
-		return;
+	g_free (func->arg_spec);
+	func->arg_spec = NULL;
 
-	extract_arg_types (func);
-	gnm_func_create_arg_names (func);
+	g_free (func->arg_types);
+	func->arg_types = NULL;
+
+	if (func->arg_names) {
+		g_ptr_array_foreach (func->arg_names, (GFunc)g_free, NULL);
+		g_ptr_array_free (func->arg_names, TRUE);
+		func->arg_names = NULL;
+	}
+
+	func->min_args = func->max_args = 0;
+
+	func->nodes_func = NULL;
+	func->args_func = NULL;
 }
 
+/**
+ * gnm_func_set_varargs: (skip)
+ * @func: #GnmFunc
+ * @fn: evaluation function
+ */
+void
+gnm_func_set_varargs (GnmFunc *func, GnmFuncNodes fn)
+{
+	g_return_if_fail (GNM_IS_FUNC (func));
+	g_return_if_fail (fn != NULL);
+
+	gnm_func_set_stub (func); // Clear out stuff
+
+	func->fn_type = GNM_FUNC_TYPE_NODES;
+	func->nodes_func = fn;
+	func->min_args = 0;
+	func->min_args = G_MAXINT;
+}
+
+/**
+ * gnm_func_set_fixargs: (skip)
+ * @func: #GnmFunc
+ * @fn: evaluation function
+ * @spec: argument type specification
+ */
+void
+gnm_func_set_fixargs (GnmFunc *func, GnmFuncArgs fn, const char *spec)
+{
+	char *p;
+
+	g_return_if_fail (GNM_IS_FUNC (func));
+	g_return_if_fail (fn != NULL);
+	g_return_if_fail (spec != NULL);
+
+	gnm_func_set_stub (func); // Clear out stuff
+
+	func->fn_type = GNM_FUNC_TYPE_ARGS;
+	func->args_func = fn;
+	func->arg_spec = g_strdup (spec);
+
+	func->arg_types = g_strdup (func->arg_spec);
+	p = strchr (func->arg_types, '|');
+	if (p) {
+		func->min_args = p - func->arg_types;
+		memmove (p, p + 1, strlen (p));
+	} else
+		func->min_args = 0;
+	func->max_args = strlen (func->arg_types);
+
+	gnm_func_create_arg_names (func);
+}
 
 static void
 gnm_func_set_localized_name (GnmFunc *fd, const char *lname)
@@ -397,7 +416,7 @@ gnm_func_set_localized_name (GnmFunc *fd, const char *lname)
 
 /**
  * gnm_func_inc_usage:
- * @func: (transfer none): #GnmFunc
+ * @func: #GnmFunc
  *
  * This function increments the usage count of @func.  A non-zero usage count
  * prevents the unloading of the function.
@@ -559,6 +578,50 @@ gnm_func_set_translation_domain (GnmFunc *func, const char *tdomain)
 	g_object_notify (G_OBJECT (func), "translation-domain");
 }
 
+GnmFuncFlags
+gnm_func_get_flags (GnmFunc *func)
+{
+	g_return_val_if_fail (GNM_IS_FUNC (func), GNM_FUNC_SIMPLE);
+	return func->flags;
+}
+
+void
+gnm_func_set_flags (GnmFunc *func, GnmFuncFlags f)
+{
+	g_return_if_fail (GNM_IS_FUNC (func));
+	func->flags = f;
+}
+
+GnmFuncImplStatus
+gnm_func_get_impl_status (GnmFunc *func)
+{
+	g_return_val_if_fail (GNM_IS_FUNC (func), GNM_FUNC_IMPL_STATUS_UNIMPLEMENTED);
+	return func->impl_status;
+}
+
+void
+gnm_func_set_impl_status (GnmFunc *func, GnmFuncImplStatus st)
+{
+	g_return_if_fail (GNM_IS_FUNC (func));
+	func->impl_status = st;
+}
+
+
+GnmFuncTestStatus
+gnm_func_get_test_status (GnmFunc *func)
+{
+	g_return_val_if_fail (GNM_IS_FUNC (func), GNM_FUNC_TEST_STATUS_UNKNOWN);
+	return func->test_status;
+}
+
+void
+gnm_func_set_test_status (GnmFunc *func, GnmFuncTestStatus st)
+{
+	g_return_if_fail (GNM_IS_FUNC (func));
+	func->test_status = st;
+}
+
+
 /**
  * gnm_func_get_function_group:
  * @func: #GnmFunc
@@ -608,9 +671,8 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	      GnmFuncDescriptor const *desc,
 	      const char *tdomain)
 {
-	static char const valid_tokens[] = "fsbraAES?|";
+	//static char const valid_tokens[] = "fsbraAES?|";
 	GnmFunc *func;
-	char const *ptr;
 
 	g_return_val_if_fail (fn_group != NULL, NULL);
 	g_return_val_if_fail (desc != NULL, NULL);
@@ -624,28 +686,13 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	func->flags		= desc->flags;
 	func->impl_status	= desc->impl_status;
 	func->test_status	= desc->test_status;
-	func->localized_name    = NULL;
-	func->arg_names_p       = NULL;
-
-	func->usage_count	= 0;
 
 	if (desc->fn_args != NULL) {
-		/* Check those arguments */
-		for (ptr = desc->arg_spec ; *ptr ; ptr++) {
-			g_return_val_if_fail (strchr (valid_tokens, *ptr), NULL);
-		}
-
-		func->fn.args.func	= desc->fn_args;
-		func->fn.args.arg_spec	= desc->arg_spec;
-		gnm_func_set_function_type (func, GNM_FUNC_TYPE_ARGS);
+		gnm_func_set_fixargs (func, desc->fn_args, desc->arg_spec);
 	} else if (desc->fn_nodes != NULL) {
-
-		if (desc->arg_spec && *desc->arg_spec) {
+		if (desc->arg_spec && *desc->arg_spec)
 			g_warning ("Arg spec for node function -- why?");
-		}
-
-		func->fn.nodes = desc->fn_nodes;
-		gnm_func_set_function_type (func, GNM_FUNC_TYPE_NODES);
+		gnm_func_set_varargs (func, desc->fn_nodes);
 	} else {
 		g_warning ("Invalid function has neither args nor nodes handler");
 		g_object_unref (func);
@@ -874,7 +921,7 @@ gnm_func_get_name (GnmFunc const *func, gboolean localized)
  *
  * Returns: (transfer none): the description of the function
  **/
-char const*
+char const *
 gnm_func_get_description (GnmFunc const *fn_def)
 {
 	gint i;
@@ -914,83 +961,33 @@ gnm_func_count_args (GnmFunc const *fn_def, int *min, int *max)
 
 	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
-	switch (fn_def->fn_type) {
-	case GNM_FUNC_TYPE_NODES:
-		*min = 0;
-		// Really?
-		if (g_ascii_strcasecmp ("INDEX",fn_def->name) == 0)
-			*max = 4;
-		else
-			*max = G_MAXINT;
-		return;
-
-	case GNM_FUNC_TYPE_ARGS: {
-		const char *ptr = fn_def->fn.args.arg_spec;
-		int i, vararg;
-
-		for (i = vararg = 0; ptr && *ptr; ptr++) {
-			if (*ptr == '|') {
-				vararg = 1;
-				*min = i;
-			} else
-				i++;
-		}
-		*max = i;
-		if (!vararg)
-			*min = i;
-		return;
-	}
-
-	default:
-		*min = 0;
-		*max = G_MAXINT;
-		return;
-	}
+	*min = fn_def->min_args;
+	*max = fn_def->max_args;
 }
 
 /**
  * gnm_func_get_arg_type:
  * @fn_def: the fn defintion
- * @arg_idx: zero based argument offset
+ * @arg_idx: zero-based argument offset
  *
  * Returns: the type of the argument
  **/
 char
 gnm_func_get_arg_type (GnmFunc const *fn_def, int arg_idx)
 {
-	char const *ptr;
-
-	g_return_val_if_fail (arg_idx >= 0, '?');
 	g_return_val_if_fail (fn_def != NULL, '?');
 
 	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
-	switch (fn_def->fn_type) {
-	case GNM_FUNC_TYPE_ARGS:
-		for (ptr = fn_def->fn.args.arg_spec; ptr && *ptr; ptr++) {
-			if (*ptr == '|')
-				continue;
-			if (arg_idx-- == 0)
-				return *ptr;
-		}
-		return '?';
+	g_return_val_if_fail (arg_idx >= 0 && arg_idx < fn_def->max_args, '?');
 
-	case GNM_FUNC_TYPE_NODES:
-		return '?'; /* Close enough for now.  */
-
-	case GNM_FUNC_TYPE_STUB:
-#ifndef DEBUG_SWITCH_ENUM
-	default:
-#endif
-		g_assert_not_reached ();
-		return '?';
-	}
+	return fn_def->arg_types ? fn_def->arg_types[arg_idx] : '?';
 }
 
 /**
  * gnm_func_get_arg_type_string:
  * @fn_def: the fn defintion
- * @arg_idx: zero based argument offset
+ * @arg_idx: zero-based argument offset
  *
  * Return value: (transfer none): the type of the argument as a string
  **/
@@ -1025,29 +1022,27 @@ gnm_func_get_arg_type_string (GnmFunc const *fn_def,
 
 /**
  * gnm_func_get_arg_name:
- * @fn_def: the fn defintion
- * @arg_idx: zero based argument offset
+ * @func: #GnmFunc
+ * @arg_idx: zero-based argument offset
  *
- * Returns: (transfer full): the name of the argument
+ * Returns: (transfer full) (nullable): the name of the argument
  **/
 char *
-gnm_func_get_arg_name (GnmFunc const *fn_def, guint arg_idx)
+gnm_func_get_arg_name (GnmFunc const *func, guint arg_idx)
 {
-	g_return_val_if_fail (fn_def != NULL, NULL);
+	g_return_val_if_fail (func != NULL, NULL);
 
-	gnm_func_load_if_stub ((GnmFunc *)fn_def);
+	gnm_func_load_if_stub ((GnmFunc *)func);
 
-	if ((fn_def->arg_names_p != NULL)
-	    && (arg_idx < fn_def->arg_names_p->len))
-		return g_strdup (g_ptr_array_index (fn_def->arg_names_p,
-						    arg_idx));
+	if (func->arg_names && arg_idx < func->arg_names->len)
+		return g_strdup (g_ptr_array_index (func->arg_names, arg_idx));
 	return NULL;
 }
 
 /**
  * gnm_func_get_arg_description:
  * @fn_def: the fn defintion
- * @arg_idx: zero based argument offset
+ * @arg_idx: zero-based argument offset
  *
  * Returns: (transfer none): the description of the argument
  **/
@@ -1177,7 +1172,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 
 	/* Functions that deal with ExprNodes */
 	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES)
-		return fn_def->fn.nodes (ei, argc, argv);
+		return fn_def->nodes_func (ei, argc, argv);
 
 	/* Functions that take pre-computed Values */
 	if (argc > fn_def->max_args ||
@@ -1190,7 +1185,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 		? 0 : -1;
 
 	/* Optimization for IF when implicit iteration is not used.  */
-	if (ei->func_call->func->fn.args.func == gnumeric_if &&
+	if (ei->func_call->func->args_func == gnumeric_if &&
 	    iter_count == -1)
 		return gnumeric_if2 (ei, argc, argv, flags);
 
@@ -1387,7 +1382,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 				}
 
 				res->v_array.vals[x][y] = (i == iter_count)
-					? fn_def->fn.args.func (ei, (GnmValue const * const *)args)
+					? fn_def->args_func (ei, (GnmValue const * const *)args)
 					: ((err != NULL) ? value_dup (err)
 							 : value_new_error_VALUE (ei->pos));
 				free_values (iter_args, i);
@@ -1399,7 +1394,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 		tmp = res;
 		i = fn_def->max_args;
 	} else
-		tmp = fn_def->fn.args.func (ei, (GnmValue const * const *)args);
+		tmp = fn_def->args_func (ei, (GnmValue const * const *)args);
 
 	free_values (args, i);
 	return tmp;
@@ -1453,11 +1448,11 @@ function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn_def,
 			gnm_expr_constant_init (expr + i, values[i]);
 			argv[i] = (GnmExprConstPtr)(expr + i);
 		}
-		retval = fn_def->fn.nodes (&fs, argc, argv);
+		retval = fn_def->nodes_func (&fs, argc, argv);
 		g_free (argv);
 		g_free (expr);
 	} else
-		retval = fn_def->fn.args.func (&fs, values);
+		retval = fn_def->args_func (&fs, values);
 
 	return retval;
 }
@@ -1738,6 +1733,8 @@ gnm_func_real_dispose (GObject *obj)
 			    func->name, func->usage_count);
 	}
 
+	gnm_func_set_stub (func);
+
 	if (func->fn_group) {
 		gnm_func_group_remove_func (func->fn_group, func);
 		func->fn_group = NULL;
@@ -1748,8 +1745,6 @@ gnm_func_real_dispose (GObject *obj)
 	if (!(func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL)) {
 		g_hash_table_remove (functions_by_name, func->name);
 	}
-
-	gnm_func_clear_arg_names (func);
 
 	parent_class->dispose (obj);
 }

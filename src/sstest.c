@@ -344,8 +344,8 @@ function_dump_defs (char const *filename, int dump_type)
 	if (dump_type == 0) {
 		int unique = 0;
 		for (i = 0; i < ordered->len; i++) {
-			GnmFunc const *fd = g_ptr_array_index (ordered, i);
-			switch (fd->impl_status) {
+			GnmFunc *fd = g_ptr_array_index (ordered, i);
+			switch (gnm_func_get_impl_status (fd)) {
 			case GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC:
 				unique++;
 				break;
@@ -576,6 +576,9 @@ function_dump_defs (char const *filename, int dump_type)
 				{ "Under development",		"imp-devel" },
 				{ "Unique to Gnumeric",		"imp-gnumeric" },
 			};
+			GnmFuncImplStatus imst = gnm_func_get_impl_status (fd);
+			GnmFuncTestStatus test = gnm_func_get_test_status (fd);
+
 			if (group != gnm_func_get_function_group (fd)) {
 				if (group) fprintf (output_file, "</table></div>\n");
 				group = gnm_func_get_function_group (fd);
@@ -601,14 +604,14 @@ function_dump_defs (char const *filename, int dump_type)
 			g_free (catname);
 			fprintf (output_file,
 				 "<td class=\"%s\"><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s implementation\">%s</a></td>\n",
-				 implementation[fd->impl_status].klass,
+				 implementation[imst].klass,
 				 fd->name,
-				 implementation[fd->impl_status].name);
+				 implementation[imst].name);
 			fprintf (output_file,
 				 "<td class=\"%s\"><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s testing\">%s</a></td>\n",
-				 testing[fd->test_status].klass,
+				 testing[test].klass,
 				 fd->name,
-				 testing[fd->test_status].name);
+				 testing[test].name);
 			fprintf (output_file,"</tr>\n");
 		}
 	}
@@ -929,9 +932,9 @@ check_help_expression (const char *text, GnmFunc const *fd)
 }
 
 static gboolean
-check_argument_refs (const char *text, GnmFunc const *fd)
+check_argument_refs (const char *text, GnmFunc *fd)
 {
-	if (!gnm_func_is_fixarg (fd))
+	if (!gnm_func_is_fixargs (fd))
 		return FALSE;
 
 	while (1) {
@@ -966,7 +969,7 @@ check_argument_refs (const char *text, GnmFunc const *fd)
 
 
 static int
-gnm_func_sanity_check1 (GnmFunc const *fd)
+gnm_func_sanity_check1 (GnmFunc *fd)
 {
 	GnmFuncHelp const *h;
 	int counts[(int)GNM_FUNC_HELP_ODF + 1];
@@ -1091,7 +1094,7 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 
 	g_hash_table_destroy (allargs);
 
-	if (gnm_func_is_fixarg (fd)) {
+	if (gnm_func_is_fixargs (fd)) {
 		int n = counts[GNM_FUNC_HELP_ARG];
 		int min, max;
 		gnm_func_count_args (fd, &min, &max);
@@ -1141,7 +1144,7 @@ gnm_func_sanity_check (void)
 	ordered = enumerate_functions (TRUE);
 
 	for (ui = 0; ui < ordered->len; ui++) {
-		GnmFunc const *fd = g_ptr_array_index (ordered, ui);
+		GnmFunc *fd = g_ptr_array_index (ordered, ui);
 		if (gnm_func_sanity_check1 (fd))
 			res = 1;
 	}

@@ -79,13 +79,14 @@ cb_excel_write_prep_expr (GnmExpr const *expr, GnmExprWalk *data)
 	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmFunc *func = expr->func.func;
+		GnmFuncFlags flags = gnm_func_get_flags (func);
 		ExcelFunc *ef = g_hash_table_lookup (ewb->function_map, func);
 		if (ef != NULL)
 			break;
 
 		ef = g_new (ExcelFunc, 1);
-		ef->efunc = (func->flags & (GNM_FUNC_IS_PLACEHOLDER |
-					    GNM_FUNC_IS_WORKBOOK_LOCAL))
+		ef->efunc = (flags & (GNM_FUNC_IS_PLACEHOLDER |
+				      GNM_FUNC_IS_WORKBOOK_LOCAL))
 			? NULL
 			: g_hash_table_lookup (excel_func_by_name,
 					       func->name);
@@ -97,7 +98,7 @@ cb_excel_write_prep_expr (GnmExpr const *expr, GnmExprWalk *data)
 		} else if (ef->efunc) {
 			ef->macro_name = NULL;
 			ef->idx = ef->efunc->idx;
-		} else if (func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL) {
+		} else if (flags & GNM_FUNC_IS_WORKBOOK_LOCAL) {
 			ef->macro_name = g_strdup (func->name);
 			ef->idx = -1;
 		} else {
@@ -506,7 +507,7 @@ guess_arg_types (GnmFunc *func)
 	char *res;
 	int i, min, max;
 
-	if (!gnm_func_is_fixarg (func))
+	if (!gnm_func_is_fixargs (func))
 		return NULL;
 
 	gnm_func_count_args (func, &min, &max);

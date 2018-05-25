@@ -169,7 +169,7 @@ static void
 xlsx_func_map_out (GnmConventionsOut *out, GnmExprFunction const *func)
 {
 	XLSXExprConventions const *xconv = (XLSXExprConventions const *)(out->convs);
-	GnmFunc const *gfunc = gnm_expr_get_func_def ((GnmExpr *)func);
+	GnmFunc *gfunc = gnm_expr_get_func_def ((GnmExpr *)func);
 	char const *name = gnm_func_get_name (gfunc, FALSE);
 	gboolean (*handler) (GnmConventionsOut *out, GnmExprFunction const *func);
 
@@ -182,7 +182,7 @@ xlsx_func_map_out (GnmConventionsOut *out, GnmExprFunction const *func)
 		if (new_name == NULL) {
 				char *new_u_name;
 				new_u_name = g_ascii_strup (name, -1);
-				if (gfunc->impl_status ==
+				if (gnm_func_get_impl_status (gfunc) ==
 				    GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC)
 					g_string_append (target, "_xlfngnumeric.");
 				/* LO & friends use _xlfnodf */

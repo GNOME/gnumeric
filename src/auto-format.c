@@ -134,8 +134,8 @@ do_af_suggest (GnmExpr const *expr, GnmEvalPos const *epos, GOFormat const **exp
 		return do_af_suggest (expr->binary.value_a, epos, explicit);
 
 	case GNM_EXPR_OP_FUNCALL: {
-		GnmFuncFlags typ =
-			(expr->func.func->flags & GNM_FUNC_AUTO_MASK);
+		GnmFuncFlags typ = (gnm_func_get_flags (expr->func.func) &
+				    GNM_FUNC_AUTO_MASK);
 
 		switch (typ) {
 		case GNM_FUNC_AUTO_FIRST:

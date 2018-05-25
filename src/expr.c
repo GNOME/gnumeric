@@ -3072,7 +3072,7 @@ cb_is_volatile (GnmExpr const *expr, GnmExprWalk *data)
 {
 	gboolean *res = data->user;
 	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL &&
-	    (expr->func.func->flags & GNM_FUNC_VOLATILE)) {
+	    (gnm_func_get_flags (expr->func.func) & GNM_FUNC_VOLATILE)) {
 		*res = TRUE;
 		data->stop = TRUE;
 	}
