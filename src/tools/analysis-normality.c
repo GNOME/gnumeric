@@ -88,9 +88,9 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 	}
 
 	fd = gnm_func_lookup_or_add_placeholder	(fdname);
-	gnm_func_ref (fd);
+	gnm_func_inc_usage (fd);
 	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_ref (fd_if);
+	gnm_func_inc_usage (fd_if);
 
 	dao_set_italic (dao, 0, 0, 0, 5);
         dao_set_cell (dao, 0, 0, _(testname));
@@ -172,8 +172,8 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 	}
 
 
-	gnm_func_unref (fd);
-	gnm_func_unref (fd_if);
+	gnm_func_dec_usage (fd);
+	gnm_func_dec_usage (fd_if);
 
 	dao_redraw_respan (dao);
 	return 0;

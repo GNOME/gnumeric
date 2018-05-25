@@ -1,4 +1,3 @@
-
 /*
  * func.c: Function management and utility routines.
  *
@@ -11,6 +10,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
+#include <gnm-i18n.h>
 #include <gnumeric.h>
 #include <func.h>
 
@@ -29,11 +29,27 @@
 #include <gnm-plugin.h>
 #include <gutils.h>
 #include <gui-util.h>
+#include <gnm-marshalers.h>
 
 #include <goffice/goffice.h>
 #include <glib.h>
 #include <string.h>
 #include <stdlib.h>
+
+enum {
+	PROP_0,
+	PROP_NAME,
+	PROP_TRANSLATION_DOMAIN,
+	PROP_IN_USE,
+};
+
+enum {
+	SIG_LOAD_STUB,
+	SIG_LINK_DEP,
+	LAST_SIGNAL
+};
+static guint signals[LAST_SIGNAL] = { 0 };
+
 
 #define F2(func,s) dgettext ((func)->tdomain->str, (s))
 
@@ -73,7 +89,7 @@ functions_shutdown (void)
 				   func->usage_count);
 			func->usage_count = 0;
 		}
-		gnm_func_free (func);
+		g_object_unref (func);
 	}
 	func_builtin_shutdown ();
 
@@ -304,44 +320,46 @@ gnm_func_create_arg_names (GnmFunc *fn_def)
 void
 gnm_func_load_stub (GnmFunc *func)
 {
-	GnmFuncDescriptor desc;
-
 	g_return_if_fail (func->fn_type == GNM_FUNC_TYPE_STUB);
 
-	/* default the content to 0 in case we add new fields
-	 * later and the services do not fill them in
-	 */
-	memset (&desc, 0, sizeof (GnmFuncDescriptor));
+	g_signal_emit (G_OBJECT (func), signals[SIG_LOAD_STUB], 0);
 
-	if (func->fn.load_desc (func, &desc)) {
-		func->help	 = desc.help ? desc.help : NULL;
-		if (desc.fn_args != NULL) {
-			func->fn_type		= GNM_FUNC_TYPE_ARGS;
-			func->fn.args.func	= desc.fn_args;
-			func->fn.args.arg_spec	= desc.arg_spec;
-			extract_arg_types (func);
-		} else if (desc.fn_nodes != NULL) {
-			func->fn_type		= GNM_FUNC_TYPE_NODES;
-			func->fn.nodes		= desc.fn_nodes;
-		} else {
-			g_warning ("Invalid function descriptor with no function");
-		}
-		func->linker	  = desc.linker;
-		func->impl_status = desc.impl_status;
-		func->test_status = desc.test_status;
-		func->flags	  = desc.flags;
-		gnm_func_create_arg_names (func);
-	} else {
-		func->fn_type = GNM_FUNC_TYPE_NODES;
+	if (func->fn_type == GNM_FUNC_TYPE_STUB) {
+		static GnmFuncHelp const no_help[] = { { GNM_FUNC_HELP_END } };
+
+		func->help = no_help;
 		func->fn.nodes = &error_function_no_full_info;
-		func->linker   = NULL;
+		gnm_func_set_function_type (func, GNM_FUNC_TYPE_NODES);
 	}
 }
+
+void
+gnm_func_set_function_type (GnmFunc *func, GnmFuncType typ)
+{
+	g_return_if_fail (GNM_IS_FUNC (func));
+
+	func->fn_type = typ;
+	switch (typ) {
+	case GNM_FUNC_TYPE_ARGS:
+		extract_arg_types (func);
+		gnm_func_create_arg_names (func);
+		break;
+	case GNM_FUNC_TYPE_NODES:
+		gnm_func_create_arg_names (func);
+		break;
+	case GNM_FUNC_TYPE_STUB:
+		break;
+	}
+}
+
 
 static void
 gnm_func_set_localized_name (GnmFunc *fd, const char *lname)
 {
 	gboolean in_hashes = !(fd->flags & GNM_FUNC_IS_WORKBOOK_LOCAL);
+
+	if (g_strcmp0 (fd->localized_name, lname) == 0)
+		return;
 
 	if (in_hashes && fd->localized_name)
 		g_hash_table_remove (functions_by_localized_name, fd->localized_name);
@@ -353,71 +371,61 @@ gnm_func_set_localized_name (GnmFunc *fd, const char *lname)
 				     fd->localized_name, fd);
 }
 
-void
-gnm_func_free (GnmFunc *func)
-{
-	GnmFuncGroup *group;
-
-	g_return_if_fail (func != NULL);
-	g_return_if_fail (func->usage_count == 0);
-
-	group = func->fn_group;
-	if (group != NULL)
-		gnm_func_group_remove_func (group, func);
-
-	gnm_func_set_localized_name (func, NULL);
-
-	if (!(func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL)) {
-		g_hash_table_remove (functions_by_name, func->name);
-	}
-
-	if (func->fn_type == GNM_FUNC_TYPE_ARGS)
-		g_free (func->fn.args.arg_types);
-
-	g_free ((char *)func->name);
-
-	go_string_unref (func->tdomain);
-
-	gnm_func_clear_arg_names (func);
-
-	g_free (func);
-}
-
+/**
+ * gnm_func_inc_usage:
+ * @func: (transfer none): #GnmFunc
+ *
+ * This function increments the usage count of @func.  A non-zero usage count
+ * prevents the unloading of the function.
+ *
+ * Returns: (transfer full): a new reference to @func.
+ */
 GnmFunc *
-gnm_func_ref (GnmFunc *func)
+gnm_func_inc_usage (GnmFunc *func)
 {
 	g_return_val_if_fail (func != NULL, NULL);
 
 	func->usage_count++;
-	if (func->usage_count == 1 && func->usage_notify != NULL)
-		func->usage_notify (func, 1);
+	if (func->usage_count == 1)
+		g_object_notify (G_OBJECT (func), "in-use");
 	return func;
 }
 
+/**
+ * gnm_func_dec_usage:
+ * @func: (transfer full): #GnmFunc
+ *
+ * This function decrements the usage count of @func.  When the usage count
+ * reaches zero, the function may be unloaded, for example by unloading the
+ * plugin that defines it.
+ */
 void
-gnm_func_unref (GnmFunc *func)
+gnm_func_dec_usage (GnmFunc *func)
 {
 	g_return_if_fail (func != NULL);
 	g_return_if_fail (func->usage_count > 0);
 
 	func->usage_count--;
-	if (func->usage_count == 0 && func->usage_notify != NULL)
-		func->usage_notify (func, 0);
+	if (func->usage_count == 0)
+		g_object_notify (G_OBJECT (func), "in-use");
 }
 
-GType
-gnm_func_get_type (void)
+gboolean
+gnm_func_get_in_use (GnmFunc *func)
 {
-	static GType t = 0;
+	g_return_val_if_fail (func != NULL, FALSE);
 
-	if (t == 0) {
-		t = g_boxed_type_register_static ("GnmFunc",
-			 (GBoxedCopyFunc)gnm_func_ref,
-			 (GBoxedFreeFunc)gnm_func_unref);
-	}
-	return t;
+	return func->usage_count > 0;
 }
 
+
+/**
+ * gnm_func_lookup:
+ * @name: name of function
+ * @scope: (nullable): scope of function, %NULL for global
+ *
+ * Returns: (nullable) (transfer none): the function of that name.
+ */
 GnmFunc *
 gnm_func_lookup (char const *name, Workbook *scope)
 {
@@ -429,6 +437,13 @@ gnm_func_lookup (char const *name, Workbook *scope)
 	return g_hash_table_lookup (scope->sheet_local_functions, (gpointer)name);
 }
 
+/**
+ * gnm_func_lookup_localized:
+ * @name: localized name of function
+ * @scope: (nullable): scope of function, %NULL for global
+ *
+ * Returns: (nullable) (transfer none): the function of that name.
+ */
 GnmFunc *
 gnm_func_lookup_localized (char const *name, Workbook *scope)
 {
@@ -476,7 +491,7 @@ gnm_func_lookup_prefix (char const *prefix, Workbook *scope, gboolean trans)
 		if (!(fd->flags & GNM_FUNC_IS_PLACEHOLDER)) {
 			const char *name = gnm_func_get_name (fd, trans);
 			if (g_str_has_prefix (name, prefix)) {
-				gnm_func_ref (fd);
+				gnm_func_inc_usage (fd);
 				res = g_slist_prepend (res, fd);
 			}
 		}
@@ -485,6 +500,71 @@ gnm_func_lookup_prefix (char const *prefix, Workbook *scope, gboolean trans)
 	return res;
 }
 
+/**
+ * gnm_func_get_translation_domain:
+ * @func: #GnmFunc
+ *
+ * Returns: (transfer none): the translation domain for @func's help text.
+ */
+char const *
+gnm_func_get_translation_domain (GnmFunc *func)
+{
+	g_return_val_if_fail (GNM_IS_FUNC (func), NULL);
+	return func->tdomain->str;
+}
+
+/**
+ * gnm_func_set_translation_domain:
+ * @func: #GnmFunc
+ * @tdomain: (nullable): Translation domain, %NULL for Gnumeric's.
+ */
+void
+gnm_func_set_translation_domain (GnmFunc *func, const char *tdomain)
+{
+	g_return_if_fail (GNM_IS_FUNC (func));
+
+	if (!tdomain)
+		tdomain = GETTEXT_PACKAGE;
+
+	if (g_strcmp0 (func->tdomain->str, tdomain) == 0)
+		return;
+
+	go_string_unref (func->tdomain);
+	func->tdomain = go_string_new (tdomain);
+
+	g_object_notify (G_OBJECT (func), "translation-domain");
+}
+
+void
+gnm_func_set_function_group (GnmFunc *func, GnmFuncGroup *group)
+{
+	g_return_if_fail (GNM_IS_FUNC (func));
+	g_return_if_fail (group != NULL);
+
+	if (func->fn_group == group)
+		return;
+
+	if (func->fn_group)
+		gnm_func_group_remove_func (func->fn_group, func);
+	func->fn_group = group;
+	gnm_func_group_add_func (group, func);
+
+	if (group == unknown_cat)
+		func->flags |= GNM_FUNC_IS_PLACEHOLDER;
+	else
+		func->flags &= ~GNM_FUNC_IS_PLACEHOLDER;
+}
+
+
+
+/**
+ * gnm_func_add:
+ * @group:
+ * @descriptor:
+ * @tdomain: (nullable):
+ *
+ * Returns: (transfer full): a new #GnmFunc.
+ */
 GnmFunc *
 gnm_func_add (GnmFuncGroup *fn_group,
 	      GnmFuncDescriptor const *desc,
@@ -497,23 +577,18 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	g_return_val_if_fail (fn_group != NULL, NULL);
 	g_return_val_if_fail (desc != NULL, NULL);
 
-	func = g_new (GnmFunc, 1);
+	func = g_object_new (GNM_FUNC_TYPE,
+			     "name", desc->name,
+			     NULL);
+	gnm_func_set_translation_domain (func, tdomain);
 
-	if (!tdomain)
-		tdomain = GETTEXT_PACKAGE;
-
-	func->name		= g_strdup (desc->name);
 	func->help		= desc->help ? desc->help : NULL;
-	func->tdomain        = go_string_new (tdomain);
-	func->linker		= desc->linker;
-	func->usage_notify	= desc->usage_notify;
 	func->flags		= desc->flags;
 	func->impl_status	= desc->impl_status;
 	func->test_status	= desc->test_status;
 	func->localized_name    = NULL;
 	func->arg_names_p       = NULL;
 
-	func->user_data		= NULL;
 	func->usage_count	= 0;
 
 	if (desc->fn_args != NULL) {
@@ -522,32 +597,28 @@ gnm_func_add (GnmFuncGroup *fn_group,
 			g_return_val_if_fail (strchr (valid_tokens, *ptr), NULL);
 		}
 
-		func->fn_type		= GNM_FUNC_TYPE_ARGS;
 		func->fn.args.func	= desc->fn_args;
 		func->fn.args.arg_spec	= desc->arg_spec;
-		extract_arg_types (func);
+		gnm_func_set_function_type (func, GNM_FUNC_TYPE_ARGS);
 	} else if (desc->fn_nodes != NULL) {
 
 		if (desc->arg_spec && *desc->arg_spec) {
 			g_warning ("Arg spec for node function -- why?");
 		}
 
-		func->fn_type  = GNM_FUNC_TYPE_NODES;
 		func->fn.nodes = desc->fn_nodes;
+		gnm_func_set_function_type (func, GNM_FUNC_TYPE_NODES);
 	} else {
 		g_warning ("Invalid function has neither args nor nodes handler");
-		g_free (func);
+		g_object_unref (func);
 		return NULL;
 	}
 
 	func->fn_group = fn_group;
-	if (fn_group != NULL)
-		gnm_func_group_add_func (fn_group, func);
+	gnm_func_group_add_func (fn_group, func);
 	if (!(func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL))
 		g_hash_table_insert (functions_by_name,
 				     (gpointer)(func->name), func);
-
-	gnm_func_create_arg_names (func);
 
 	return func;
 }
@@ -559,47 +630,6 @@ unknownFunctionHandler (GnmFuncEvalInfo *ei,
 			G_GNUC_UNUSED GnmExprConstPtr const *argv)
 {
 	return value_new_error_NAME (ei->pos);
-}
-
-/**
- * gnm_func_upgrade_placeholder:
- * @fd:
- * @fn_group:
- * @tdomain:
- * @load_desc: (scope async):
- * @opt_usage_notify: (scope async):
- **/
-void
-gnm_func_upgrade_placeholder (GnmFunc *fd,
-			      GnmFuncGroup *fn_group,
-			      const char *tdomain,
-			      GnmFuncLoadDesc load_desc,
-			      GnmFuncUsageNotify opt_usage_notify)
-{
-	g_return_if_fail (fd != NULL);
-	g_return_if_fail (fd->flags & GNM_FUNC_IS_PLACEHOLDER);
-	g_return_if_fail (fn_group != NULL);
-
-	if (!tdomain)
-		tdomain = GETTEXT_PACKAGE;
-
-	/* Remove from unknown_cat */
-	gnm_func_group_remove_func (fd->fn_group, fd);
-
-	fd->fn_type = GNM_FUNC_TYPE_STUB;
-	fd->fn.load_desc = load_desc;
-	fd->usage_notify = opt_usage_notify;
-
-	go_string_unref (fd->tdomain);
-	fd->tdomain = go_string_new (tdomain);
-
-	/* Clear localized_name so we can deduce the proper name.  */
-	gnm_func_set_localized_name (fd, NULL);
-
-	fd->flags &= ~GNM_FUNC_IS_PLACEHOLDER;
-
-	fd->fn_group = fn_group;
-	gnm_func_group_add_func (fn_group, fd);
 }
 
 static char *
@@ -661,8 +691,6 @@ gnm_func_add_placeholder_full (Workbook *scope,
 	desc.help	  = NULL;
 	desc.fn_args	  = NULL;
 	desc.fn_nodes	  = &unknownFunctionHandler;
-	desc.linker	  = NULL;
-	desc.usage_notify = NULL;
 	desc.flags	  = GNM_FUNC_IS_PLACEHOLDER;
 	desc.impl_status  = GNM_FUNC_IMPL_STATUS_EXISTS;
 	desc.test_status  = GNM_FUNC_TEST_STATUS_UNKNOWN;
@@ -691,7 +719,7 @@ gnm_func_add_placeholder_full (Workbook *scope,
 		if (scope->sheet_local_functions == NULL)
 			scope->sheet_local_functions = g_hash_table_new_full (
 				g_str_hash, g_str_equal,
-				NULL, (GDestroyNotify) gnm_func_free);
+				NULL, g_object_unref);
 		g_hash_table_insert (scope->sheet_local_functions,
 			(gpointer)func->name, func);
 	}
@@ -699,13 +727,13 @@ gnm_func_add_placeholder_full (Workbook *scope,
 	return func;
 }
 
-/*
- * When importing it is useful to keep track of unknown function names.
- * We may be missing a plugin or something similar.
+/**
+ * gnm_func_add_placeholder:
+ * @scope: (nullable): scope to defined placeholder, %NULL for global
+ * @name: (nullable): function name
+ * @type:
  *
- * TODO : Eventully we should be able to keep track of these
- *        and replace them with something else.  Possibly even reordering the
- *        arguments.
+ * Returns: (transfer none): a placeholder with the given name.
  */
 GnmFunc *
 gnm_func_add_placeholder (Workbook *scope,
@@ -714,13 +742,26 @@ gnm_func_add_placeholder (Workbook *scope,
 	return gnm_func_add_placeholder_full (scope, name, NULL, type);
 }
 
+/**
+ * gnm_func_add_placeholder_localized:
+ * @gname: (nullable): function name
+ * @lname: localized function name
+ *
+ * Returns: (transfer none): a placeholder with the given localized name.
+ */
 GnmFunc *
 gnm_func_add_placeholder_localized (char const *gname, char const *lname)
 {
 	return gnm_func_add_placeholder_full (NULL, gname, lname, "?");
 }
 
-/* Utility routine to be used for import and analysis tools */
+/**
+ * gnm_func_lookup_or_add_placeholder:
+ * @name: function name
+ *
+ * Returns: (transfer none): a #GnmFunc named @name, either an existing
+ * one or a placeholder.
+ */
 GnmFunc	*
 gnm_func_lookup_or_add_placeholder (char const *name)
 {
@@ -728,28 +769,6 @@ gnm_func_lookup_or_add_placeholder (char const *name)
 	if (f == NULL)
 		f = gnm_func_add_placeholder (NULL, name, "");
 	return f;
-}
-
-/**
- * gnm_func_get_user_data:
- * @func:
- *
- * Returns: (transfer none):
- **/
-gpointer
-gnm_func_get_user_data (GnmFunc const *func)
-{
-	g_return_val_if_fail (func != NULL, NULL);
-
-	return func->user_data;
-}
-
-void
-gnm_func_set_user_data (GnmFunc *func, gpointer user_data)
-{
-	g_return_if_fail (func != NULL);
-
-	func->user_data = user_data;
 }
 
 /**
@@ -845,46 +864,50 @@ gnm_func_get_description (GnmFunc const *fn_def)
  * @min: (out): location for mininum args
  * @max: (out): location for mininum args
  *
- * This calculates the maximum and minimum number of args tha can be passed.
+ * This calculates the maximum and minimum number of args that can be passed.
  * For a vararg function, the maximum will be set to G_MAXINT.
  **/
 void
 gnm_func_count_args (GnmFunc const *fn_def, int *min, int *max)
 {
-	char const *ptr;
-	int   i;
-	int   vararg;
-
 	g_return_if_fail (min != NULL);
 	g_return_if_fail (max != NULL);
 	g_return_if_fail (fn_def != NULL);
 
 	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
-	/*
-	 * FIXME: clearly for 'nodes' functions many of
-	 * the type fields will need to be filled.
-	 */
-	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES) {
+	switch (fn_def->fn_type) {
+	case GNM_FUNC_TYPE_NODES:
 		*min = 0;
+		// Really?
 		if (g_ascii_strcasecmp ("INDEX",fn_def->name) == 0)
 			*max = 4;
 		else
 			*max = G_MAXINT;
 		return;
+
+	case GNM_FUNC_TYPE_ARGS: {
+		const char *ptr = fn_def->fn.args.arg_spec;
+		int i, vararg;
+
+		for (i = vararg = 0; ptr && *ptr; ptr++) {
+			if (*ptr == '|') {
+				vararg = 1;
+				*min = i;
+			} else
+				i++;
+		}
+		*max = i;
+		if (!vararg)
+			*min = i;
+		return;
 	}
 
-	ptr = fn_def->fn.args.arg_spec;
-	for (i = vararg = 0; ptr && *ptr; ptr++) {
-		if (*ptr == '|') {
-			vararg = 1;
-			*min = i;
-		} else
-			i++;
+	default:
+		*min = 0;
+		*max = G_MAXINT;
+		return;
 	}
-	*max = i;
-	if (!vararg)
-		*min = i;
 }
 
 /**
@@ -935,7 +958,7 @@ gnm_func_get_arg_type (GnmFunc const *fn_def, int arg_idx)
  **/
 char const *
 gnm_func_get_arg_type_string (GnmFunc const *fn_def,
-				  int arg_idx)
+			      int arg_idx)
 {
 	switch (gnm_func_get_arg_type (fn_def, arg_idx)) {
 	case 'f':
@@ -979,7 +1002,7 @@ gnm_func_get_arg_name (GnmFunc const *fn_def, guint arg_idx)
 	if ((fn_def->arg_names_p != NULL)
 	    && (arg_idx < fn_def->arg_names_p->len))
 		return g_strdup (g_ptr_array_index (fn_def->arg_names_p,
-						     arg_idx));
+						    arg_idx));
 	return NULL;
 }
 
@@ -1616,6 +1639,12 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 }
 
 
+/**
+ * gnm_eval_info_get_func:
+ * @ei: #GnmFuncEvalInfo
+ *
+ * Returns: (transfer none): the called function.
+ */
 GnmFunc const *
 gnm_eval_info_get_func (GnmFuncEvalInfo const *ei)
 {
@@ -1627,3 +1656,161 @@ gnm_eval_info_get_arg_count (GnmFuncEvalInfo const *ei)
 {
 	return ei->func_call->argc;
 }
+
+GnmDependentFlags
+gnm_func_link_dep (GnmFunc *func, GnmFuncEvalInfo *ei, gboolean qlink)
+{
+	int res = DEPENDENT_NO_FLAG;
+	g_signal_emit (func, signals[SIG_LINK_DEP], 0, ei, qlink, &res);
+	return (GnmDependentFlags)res;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static GObjectClass *parent_class;
+
+typedef struct {
+	GObjectClass parent;
+
+	void (*load_stub) (GnmFunc *func);
+	int (*link_dep) (GnmFunc *func, GnmFuncEvalInfo *ei, gboolean qlink);
+} GnmFuncClass;
+
+static void
+gnm_func_finalize (GObject *obj)
+{
+	GnmFunc *func = GNM_FUNC (obj);
+
+	if (func->usage_count != 0) {
+		g_printerr ("Function %s still has a usage count of %d\n",
+			    func->name, func->usage_count);
+	}
+
+	if (func->fn_group) {
+		gnm_func_group_remove_func (func->fn_group, func);
+		func->fn_group = NULL;
+	}
+
+	gnm_func_set_localized_name (func, NULL);
+
+	if (!(func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL)) {
+		g_hash_table_remove (functions_by_name, func->name);
+	}
+
+	if (func->fn_type == GNM_FUNC_TYPE_ARGS)
+		g_free (func->fn.args.arg_types);
+
+	g_free ((char *)func->name);
+
+	go_string_unref (func->tdomain);
+
+	gnm_func_clear_arg_names (func);
+
+	parent_class->finalize (obj);
+}
+
+static void
+gnm_func_get_property (GObject *object, guint property_id,
+		       GValue *value, GParamSpec *pspec)
+{
+	GnmFunc *func = (GnmFunc *)object;
+
+	switch (property_id) {
+	case PROP_NAME:
+		g_value_set_string (value, func->name);
+		break;
+	case PROP_TRANSLATION_DOMAIN:
+		g_value_set_string (value, func->tdomain->str);
+		break;
+	case PROP_IN_USE:
+		g_value_set_boolean (value, func->usage_count > 0);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_func_set_property (GObject *object, guint property_id,
+		       GValue const *value, GParamSpec *pspec)
+{
+	GnmFunc *func = (GnmFunc *)object;
+
+	switch (property_id) {
+	case PROP_NAME:
+		func->name = g_value_dup_string (value);
+		break;
+	case PROP_TRANSLATION_DOMAIN:
+		gnm_func_set_translation_domain (func,
+						 g_value_get_string (value));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_func_init (GnmFunc *func)
+{
+	func->tdomain = go_string_new (GETTEXT_PACKAGE);
+}
+
+static void
+gnm_func_class_init (GObjectClass *gobject_class)
+{
+	parent_class = g_type_class_peek_parent (gobject_class);
+
+	gobject_class->finalize         = gnm_func_finalize;
+	gobject_class->get_property	= gnm_func_get_property;
+	gobject_class->set_property	= gnm_func_set_property;
+
+        g_object_class_install_property (gobject_class, PROP_NAME,
+		 g_param_spec_string ("name",
+				      P_("Name"),
+				      P_("The name of the function."),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE |
+				      G_PARAM_CONSTRUCT_ONLY));
+
+        g_object_class_install_property (gobject_class, PROP_TRANSLATION_DOMAIN,
+		 g_param_spec_string ("translation-domain",
+				      P_("Translation Domain"),
+				      P_("The translation domain for help texts"),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
+
+        g_object_class_install_property (gobject_class, PROP_IN_USE,
+		 g_param_spec_boolean ("in-use",
+				       P_("In use"),
+				       P_("Is function being used?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READABLE));
+
+	signals[SIG_LOAD_STUB] = g_signal_new
+		("load-stub",
+		 GNM_FUNC_TYPE,
+		 G_SIGNAL_RUN_LAST,
+		 G_STRUCT_OFFSET (GnmFuncClass, load_stub),
+		 NULL, NULL,
+		 g_cclosure_marshal_VOID__VOID,
+		 G_TYPE_NONE, 0);
+
+
+	signals[SIG_LINK_DEP] = g_signal_new
+		("link-dep",
+		 GNM_FUNC_TYPE,
+		 G_SIGNAL_RUN_LAST,
+		 G_STRUCT_OFFSET (GnmFuncClass, link_dep),
+		 NULL, NULL,
+		 gnm__INT__POINTER_BOOLEAN,
+		 // GnmDependentFlags ... GnmFuncEvalInfo
+		 G_TYPE_INT, 2, G_TYPE_POINTER, G_TYPE_BOOLEAN);
+}
+
+GSF_CLASS (GnmFunc, gnm_func,
+	   gnm_func_class_init, gnm_func_init, G_TYPE_OBJECT)

@@ -51,23 +51,23 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_exact = NULL;
 
 	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_ref (fd_sum);
+	gnm_func_inc_usage (fd_sum);
 	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_ref (fd_if);
+	gnm_func_inc_usage (fd_if);
 	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-	gnm_func_ref (fd_index);
+	gnm_func_inc_usage (fd_index);
 	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK");
-	gnm_func_ref (fd_isblank);
+	gnm_func_inc_usage (fd_isblank);
 
 	if (info->exact) {
 		fd_exact = gnm_func_lookup_or_add_placeholder ("EXACT");
-		gnm_func_ref (fd_exact);
+		gnm_func_inc_usage (fd_exact);
 	}
 	if (info->percentage) {
 		fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS");
-		gnm_func_ref (fd_rows);
+		gnm_func_inc_usage (fd_rows);
 		fd_columns = gnm_func_lookup_or_add_placeholder ("COLUMNS");
-		gnm_func_ref (fd_columns);
+		gnm_func_inc_usage (fd_columns);
 	}
 	/* General Info */
 
@@ -190,16 +190,16 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 		gnm_expr_free (expr_count);
 	}
 
-	gnm_func_unref (fd_if);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_index);
-	gnm_func_unref (fd_isblank);
+	gnm_func_dec_usage (fd_if);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_index);
+	gnm_func_dec_usage (fd_isblank);
 	if (fd_rows != NULL)
-		gnm_func_unref (fd_rows);
+		gnm_func_dec_usage (fd_rows);
 	if (fd_columns != NULL)
-		gnm_func_unref (fd_columns);
+		gnm_func_dec_usage (fd_columns);
 	if (fd_exact != NULL)
-		gnm_func_unref (fd_exact);
+		gnm_func_dec_usage (fd_exact);
 
 	/* Create Chart if requested */
 	if (info->chart != NO_CHART) {

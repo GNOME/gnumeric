@@ -98,7 +98,7 @@ gnm_expr_new_funcallv (GnmFunc *func, int argc, GnmExprConstPtr *argv)
 	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool_small);
 
 	ans->oper = GNM_EXPR_OP_FUNCALL;
-	gnm_func_ref (func);
+	gnm_func_inc_usage (func);
 	ans->func = func;
 	ans->argc = argc;
 	ans->argv = argv;
@@ -479,7 +479,7 @@ gnm_expr_free (GnmExpr const *expr)
 		for (i = 0; i < expr->func.argc; i++)
 			gnm_expr_free (expr->func.argv[i]);
 		g_free (expr->func.argv);
-		gnm_func_unref (expr->func.func);
+		gnm_func_dec_usage (expr->func.func);
 		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
 	}
@@ -2236,6 +2236,12 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 	return gnm_expr_walk (expr, cb_relocate, (gpointer)rinfo);
 }
 
+/**
+ * gnm_expr_get_func_def:
+ * @expr: Function call expressions
+ *
+ * Returns: (transfer none): the called function.
+ */
 GnmFunc *
 gnm_expr_get_func_def (GnmExpr const *expr)
 {
@@ -2245,6 +2251,13 @@ gnm_expr_get_func_def (GnmExpr const *expr)
 	return expr->func.func;
 }
 
+/**
+ * gnm_expr_get_func_arg:
+ * @expr: Function call expressions
+ * @i: argument index
+ *
+ * Returns: (transfer none): the @i'th argument of the function call @expr.
+ */
 GnmExpr const *
 gnm_expr_get_func_arg (GnmExpr const *expr, int i)
 {

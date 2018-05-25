@@ -133,15 +133,15 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 			   gnm_expr_new_constant (value_new_float (info->alpha)),
 			   make_cellref (0,-2)));
 
-	gnm_func_unref (fd_mmult);
-	gnm_func_unref (fd_row);
-	gnm_func_unref (fd_column);
-	gnm_func_unref (fd_transpose);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_min);
-	gnm_func_unref (fd_offset);
-	gnm_func_unref (fd_chiinv);
-	gnm_func_unref (fd_chidist);
+	gnm_func_dec_usage (fd_mmult);
+	gnm_func_dec_usage (fd_row);
+	gnm_func_dec_usage (fd_column);
+	gnm_func_dec_usage (fd_transpose);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_min);
+	gnm_func_dec_usage (fd_offset);
+	gnm_func_dec_usage (fd_chiinv);
+	gnm_func_dec_usage (fd_chidist);
 
 	gnm_expr_free (expr_expect);
 	gnm_expr_free (expr_region);

@@ -138,11 +138,86 @@ cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 	return TRUE;
 }
 
+static GnmValue *
+atl_last (GnmFuncEvalInfo *ei, GnmValue const * const argv[])
+{
+	WatchedValue *val = watched_value_fetch (value_peek_string (argv[0]));
+
+	Watcher key;
+	key.node = ei->func_call;
+	key.dep = ei->pos->dep;
+
+	g_return_val_if_fail (val != NULL,
+		value_new_error_NA (ei->pos));
+
+	/* If caller wants to be notified of updates */
+	if (key.node != NULL && key.dep != NULL) {
+		Watcher *w = g_hash_table_lookup (watchers, &key);
+		if (w == NULL) {
+			w = g_new (Watcher, 1);
+			key.value = val;
+			*w = key;
+			g_hash_table_insert (watchers, w, w);
+			g_hash_table_insert (w->value->deps, w, w);
+		} else if (w->value != val) {
+			g_hash_table_remove (w->value->deps, w);
+			w->value = val;
+			g_hash_table_insert (w->value->deps, w, w);
+		}
+	}
+
+	if (!val->valid)
+		return value_new_error_NA (ei->pos);
+	return value_new_float (val->value);
+}
+
+static int // GnmDependentFlags
+atl_last_link (GnmFunc *func, GnmFuncEvalInfo *ei, gboolean qlink)
+{
+	if (qlink) {
+		if (debug)
+			g_printerr ("link atl_last\n");
+	} else {
+		Watcher key, *w;
+		key.node = ei->func_call;
+		key.dep = ei->pos->dep;
+
+		w = g_hash_table_lookup (watchers, &key);
+		if (w != NULL) {
+			if (w->value != NULL)
+				g_hash_table_remove (w->value->deps, w);
+			g_free (w);
+		}
+		if (debug)
+			g_printerr ("unlink atl_last\n");
+	}
+	return DEPENDENT_NO_FLAG;
+}
+
+static GnmFuncHelp const help_atl_last[] = {
+        { GNM_FUNC_HELP_NAME, F_("ATL_LAST:sample real-time data source")},
+        { GNM_FUNC_HELP_ARG, F_("tag:tag to watch")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.") },
+	{ GNM_FUNC_HELP_NOTE, F_("This is not intended to be generally enabled and is OFF by default.") },
+	{ GNM_FUNC_HELP_END }
+};
+
+GnmFuncDescriptor const ATL_functions[] = {
+	{"atl_last", "s", help_atl_last, atl_last, NULL,
+	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE
+	},
+
+	{NULL}
+};
+
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	GIOChannel *channel = NULL;
 	char *filename;
+	GnmFunc *atl_last = gnm_func_lookup ("atl_last", NULL);
+
+	g_signal_connect (atl_last, "link-dep", G_CALLBACK (atl_last_link), NULL);
 
 	debug = gnm_debug_flag ("datasource");
 
@@ -213,73 +288,3 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 	g_hash_table_destroy (watchers);
 	watchers = NULL;
 }
-
-static GnmValue *
-atl_last (GnmFuncEvalInfo *ei, GnmValue const * const argv[])
-{
-	WatchedValue *val = watched_value_fetch (value_peek_string (argv[0]));
-
-	Watcher key;
-	key.node = ei->func_call;
-	key.dep = ei->pos->dep;
-
-	g_return_val_if_fail (val != NULL,
-		value_new_error_NA (ei->pos));
-
-	/* If caller wants to be notified of updates */
-	if (key.node != NULL && key.dep != NULL) {
-		Watcher *w = g_hash_table_lookup (watchers, &key);
-		if (w == NULL) {
-			w = g_new (Watcher, 1);
-			key.value = val;
-			*w = key;
-			g_hash_table_insert (watchers, w, w);
-			g_hash_table_insert (w->value->deps, w, w);
-		} else if (w->value != val) {
-			g_hash_table_remove (w->value->deps, w);
-			w->value = val;
-			g_hash_table_insert (w->value->deps, w, w);
-		}
-	}
-
-	if (!val->valid)
-		return value_new_error_NA (ei->pos);
-	return value_new_float (val->value);
-}
-
-static GnmDependentFlags
-atl_last_link (GnmFuncEvalInfo *ei, gboolean qlink)
-{
-	if (qlink) {
-		if (debug)
-			g_printerr ("link atl_last\n");
-	} else {
-		Watcher key, *w;
-		key.node = ei->func_call;
-		key.dep = ei->pos->dep;
-
-		w = g_hash_table_lookup (watchers, &key);
-		if (w != NULL) {
-			if (w->value != NULL)
-				g_hash_table_remove (w->value->deps, w);
-			g_free (w);
-		}
-		if (debug)
-			g_printerr ("unlink atl_last\n");
-	}
-	return DEPENDENT_NO_FLAG;
-}
-
-static GnmFuncHelp const help_atl_last[] = {
-        { GNM_FUNC_HELP_NAME, F_("ATL_LAST:sample real-time data source")},
-        { GNM_FUNC_HELP_ARG, F_("tag:tag to watch")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.") },
-	{ GNM_FUNC_HELP_NOTE, F_("This is not intended to be generally enabled and is OFF by default.") },
-	{ GNM_FUNC_HELP_END }
-};
-
-GnmFuncDescriptor const ATL_functions[] = {
-	{"atl_last", "s", help_atl_last, atl_last, NULL, atl_last_link },
-
-	{NULL}
-};

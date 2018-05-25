@@ -49,19 +49,19 @@ analysis_tool_one_mean_test_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_count;
 
 	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_ref (fd_count);
+	gnm_func_inc_usage (fd_count);
 	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_ref (fd_mean);
+	gnm_func_inc_usage (fd_mean);
 	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_ref (fd_var);
+	gnm_func_inc_usage (fd_var);
 	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-	gnm_func_ref (fd_sqrt);
+	gnm_func_inc_usage (fd_sqrt);
 	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
-	gnm_func_ref (fd_abs);
+	gnm_func_inc_usage (fd_abs);
 	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST");
-	gnm_func_ref (fd_tdist);
+	gnm_func_inc_usage (fd_tdist);
 	fd_iferror = gnm_func_lookup_or_add_placeholder ("IFERROR");
-	gnm_func_ref (fd_iferror);
+	gnm_func_inc_usage (fd_iferror);
 
 	dao_set_italic (dao, 0, 0, 0, 9);
 	set_cell_text_col (dao, 0, 0, _("/Student-t Test"
@@ -129,13 +129,13 @@ analysis_tool_one_mean_test_engine_run (data_analysis_output_t *dao,
 					      gnm_expr_new_constant (value_new_int (2)));
 		dao_set_cell_expr (dao, col, 9, expr);
 	}
-	gnm_func_unref (fd_count);
-	gnm_func_unref (fd_mean);
-	gnm_func_unref (fd_var);
-	gnm_func_unref (fd_abs);
-	gnm_func_unref (fd_sqrt);
-	gnm_func_unref (fd_tdist);
-	gnm_func_unref (fd_iferror);
+	gnm_func_dec_usage (fd_count);
+	gnm_func_dec_usage (fd_mean);
+	gnm_func_dec_usage (fd_var);
+	gnm_func_dec_usage (fd_abs);
+	gnm_func_dec_usage (fd_sqrt);
+	gnm_func_dec_usage (fd_tdist);
+	gnm_func_dec_usage (fd_iferror);
 
 	dao_redraw_respan (dao);
 

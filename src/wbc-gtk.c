@@ -4012,7 +4012,7 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 		      "auto-expr-func", &(specs->func), NULL);
 	if (specs->func == NULL) {
 		specs->func =  gnm_func_lookup_or_add_placeholder ("sum");
-		gnm_func_ref (specs->func);
+		gnm_func_inc_usage (specs->func);
 	}
 
 	cmd_analysis_tool (GNM_WBC (wbcg), scg_sheet (scg),

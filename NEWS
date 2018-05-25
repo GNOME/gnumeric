@@ -11,6 +11,7 @@ Morten:
 	* Makefile improvements.
 	* Don't save any configuration when running ssconvert/ssdiff/...
 	* Fix crash-on-exit.
+	* Turn GnmFunc into a GObject.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.41

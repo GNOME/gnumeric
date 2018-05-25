@@ -614,10 +614,10 @@ wb_view_auto_expr_func (WorkbookView *wbv, GnmFunc *func)
 		return;
 
 	if (wbv->auto_expr.func)
-		gnm_func_unref (wbv->auto_expr.func);
+		gnm_func_dec_usage (wbv->auto_expr.func);
 
 	if (func)
-		gnm_func_ref (func);
+		gnm_func_inc_usage (func);
 	wbv->auto_expr.func = func;
 
 	wb_view_auto_expr_recalc (wbv);
@@ -905,16 +905,15 @@ workbook_view_class_init (GObjectClass *gobject_class)
 	gobject_class->get_property = wb_view_get_property;
 	gobject_class->dispose = wb_view_dispose;
 
-	/* FIXME?  Make a boxed type.  */
         g_object_class_install_property
 		(gobject_class,
 		 PROP_AUTO_EXPR_FUNC,
-		 g_param_spec_boxed ("auto-expr-func",
-				     P_("Auto-expression function"),
-				     P_("The automatically computed sheet function."),
-				     gnm_func_get_type (),
-				     GSF_PARAM_STATIC |
-				     G_PARAM_READWRITE));
+		 g_param_spec_object ("auto-expr-func",
+				      P_("Auto-expression function"),
+				      P_("The automatically computed sheet function."),
+				      GNM_FUNC_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
 		 PROP_AUTO_EXPR_DESCR,

@@ -125,10 +125,6 @@ typedef enum {
 typedef GnmValue	*(*GnmFuncArgs)	  (GnmFuncEvalInfo *ei, GnmValue const * const *args);
 typedef GnmValue	*(*GnmFuncNodes)  (GnmFuncEvalInfo *ei,
 					   int argc, GnmExprConstPtr const *argv);
-typedef GnmDependentFlags (*GnmFuncLink)  (GnmFuncEvalInfo *ei, gboolean qlink);
-
-typedef void	 (*GnmFuncUsageNotify) (GnmFunc *f, int refcount);
-typedef gboolean (*GnmFuncLoadDesc)  (GnmFunc const *f, GnmFuncDescriptor *fd);
 
 typedef enum {
 	GNM_FUNC_HELP_END,		/* Format */
@@ -167,6 +163,7 @@ typedef enum {
 	GNM_FUNC_HELP_ODF
 	/* <SPECIAL NOTE RE ODF (reference args using @{arg})> (translated) */
 } GnmFuncHelpType;
+
 typedef struct {
     GnmFuncHelpType	 type;
     char const		*text;
@@ -178,16 +175,16 @@ struct _GnmFuncDescriptor {
 	GnmFuncHelp const *help;
 	GnmFuncArgs	  fn_args;
 	GnmFuncNodes	  fn_nodes;
-	GnmFuncLink	  linker;
-	GnmFuncUsageNotify usage_notify;
 	GnmFuncFlags	  flags;
 	GnmFuncImplStatus impl_status;
 	GnmFuncTestStatus test_status;
 };
 
-struct _GnmFunc {
+struct GnmFunc_ {
+	GObject	base;
+
 	char const *name;
-	GPtrArray  *arg_names_p;
+	GPtrArray *arg_names_p;
 	GnmFuncHelp const *help;
 	GOString *tdomain;
 	char *localized_name;
@@ -200,39 +197,39 @@ struct _GnmFunc {
 			int min_args, max_args;
 			char *arg_types;
 		} args;
-		GnmFuncLoadDesc	load_desc;
 	} fn;
 	GnmFuncGroup		*fn_group; /* most recent it was assigned to */
-	GnmFuncLink		 linker;
-	GnmFuncUsageNotify	 usage_notify;
 	GnmFuncImplStatus	 impl_status;
 	GnmFuncTestStatus	 test_status;
 	GnmFuncFlags		 flags;
 
 	gint			 usage_count;
-	gpointer		 user_data;
 };
 
-struct _GnmFuncEvalInfo {
-	GnmEvalPos const *pos;
-	GnmExprFunction const *func_call;
-	GnmExprEvalFlags flags;
-};
-
-GnmFunc const *gnm_eval_info_get_func (GnmFuncEvalInfo const *ei);
-int gnm_eval_info_get_arg_count (GnmFuncEvalInfo const *ei);
-
+#define GNM_FUNC_TYPE	(gnm_func_get_type ())
+#define GNM_FUNC(obj)   (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_FUNC_TYPE, GnmFunc))
+#define GNM_IS_FUNC(o)  (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_FUNC_TYPE))
 
 GType       gnm_func_get_type        (void);
-void	    gnm_func_free	     (GnmFunc *func);
-GnmFunc	   *gnm_func_ref	     (GnmFunc *func);
-void	    gnm_func_unref	     (GnmFunc *func);
 void        gnm_func_load_if_stub    (GnmFunc *func);
-void	    gnm_func_load_stub	     (GnmFunc *fn_def);
+void	    gnm_func_load_stub	     (GnmFunc *func);
+
+GnmFunc	   *gnm_func_inc_usage	     (GnmFunc *func);
+void	    gnm_func_dec_usage	     (GnmFunc *func);
+gboolean    gnm_func_get_in_use      (GnmFunc *func);
+
+char const *gnm_func_get_translation_domain (GnmFunc *func);
+void        gnm_func_set_translation_domain (GnmFunc *func,
+					     const char *tdomain);
+
+void        gnm_func_set_function_group (GnmFunc *func, GnmFuncGroup *group);
+
+void        gnm_func_set_function_type (GnmFunc *func, GnmFuncType typ);
+
+GnmDependentFlags gnm_func_link_dep (GnmFunc *func, GnmFuncEvalInfo *ei, gboolean qlink);
+
 char const *gnm_func_get_name	     (GnmFunc const *func,
 				      gboolean localized);
-gpointer    gnm_func_get_user_data   (GnmFunc const *func);
-void        gnm_func_set_user_data   (GnmFunc *func, gpointer user_data);
 GnmFunc	   *gnm_func_lookup	     (char const *name, Workbook *scope);
 GnmFunc    *gnm_func_lookup_localized (char const *name, Workbook *scope);
 GSList	   *gnm_func_lookup_prefix   (char const *prefix, Workbook *scope,
@@ -240,17 +237,11 @@ GSList	   *gnm_func_lookup_prefix   (char const *prefix, Workbook *scope,
 GnmFunc    *gnm_func_add	     (GnmFuncGroup *group,
 				      GnmFuncDescriptor const *descriptor,
 				      const char *tdomain);
-GnmFunc    *gnm_func_add_placeholder (Workbook *optional_scope,
+GnmFunc    *gnm_func_add_placeholder (Workbook *scope,
 				      char const *name,
 				      char const *type);
 GnmFunc    *gnm_func_add_placeholder_localized (char const *gname, char const *lname);
 GnmFunc	   *gnm_func_lookup_or_add_placeholder (char const *name);
-void        gnm_func_upgrade_placeholder
-				      (GnmFunc *fd,
-				       GnmFuncGroup *fn_group,
-				       const char *tdomain,
-				       GnmFuncLoadDesc load_desc,
-				       GnmFuncUsageNotify opt_usage_notify);
 
 /* TODO */
 char const *gnm_func_get_description (GnmFunc const *fn_def);
@@ -285,6 +276,17 @@ GnmValue *function_iterate_argument_values (GnmEvalPos const *ep,
 					    GnmExprConstPtr const *argv,
 					    gboolean strict,
 					    CellIterFlags iter_flags);
+
+/*************************************************************************/
+
+struct _GnmFuncEvalInfo {
+	GnmEvalPos const *pos;
+	GnmExprFunction const *func_call;
+	GnmExprEvalFlags flags;
+};
+
+GnmFunc const *gnm_eval_info_get_func (GnmFuncEvalInfo const *ei);
+int gnm_eval_info_get_arg_count (GnmFuncEvalInfo const *ei);
 
 G_END_DECLS
 

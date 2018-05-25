@@ -51,7 +51,7 @@ running_in_tree (void)
 	if (!argv0)
 		return FALSE;
 
-	/* Sometime we see, e.g., "lt-gnumeric" as basename.  */
+	/* Sometimes we see, e.g., "lt-gnumeric" as basename.  */
 	{
 		char *base = g_path_get_basename (argv0);
 		gboolean has_lt_prefix = (strncmp (base, "lt-", 3) == 0);

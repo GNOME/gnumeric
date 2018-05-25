@@ -471,7 +471,7 @@ call_python_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	g_return_val_if_fail (args != NULL, NULL);
 
 	fndef = ei->func_call->func;
-	service = (GOPluginService *) gnm_func_get_user_data (fndef);
+	service = (GOPluginService *)g_object_get_data (G_OBJECT (fndef), "service");
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
 	fn_info_tuple = PyDict_GetItemString (loader_data->python_fn_info_dict,
@@ -501,7 +501,7 @@ call_python_function_nodes (GnmFuncEvalInfo *ei,
 	g_return_val_if_fail (ei->func_call != NULL, NULL);
 
 	fndef = ei->func_call->func;
-	service = (GOPluginService *) gnm_func_get_user_data (fndef);
+	service = (GOPluginService *)g_object_get_data (G_OBJECT (fndef), "service");
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
 	python_fn = PyDict_GetItemString (loader_data->python_fn_info_dict,
@@ -643,24 +643,25 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 	return (GnmFuncHelp const *) PyCObject_AsVoidPtr (cobject_help_value);
 }
 
-static gboolean
-gplp_func_desc_load (GOPluginService *service,
-		     char const *name,
-		     GnmFuncDescriptor *res)
+static void
+gplp_func_load_stub (GOPluginService *service,
+		     GnmFunc *func)
 {
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *fn_info_obj;
+	char const *name;
 
-	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service), FALSE);
-	g_return_val_if_fail (name != NULL, FALSE);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
+	g_return_if_fail (GNM_IS_FUNC (func));
 
+	name = gnm_func_get_name (func, FALSE);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
 	fn_info_obj = PyDict_GetItemString (loader_data->python_fn_info_dict,
-					    (gchar *) name);
+					    (gchar *)name);
 	if (fn_info_obj == NULL) {
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
-		return FALSE;
+		return;
 	}
 
 	if (PyTuple_Check (fn_info_obj)) {
@@ -672,35 +673,36 @@ gplp_func_desc_load (GOPluginService *service,
 			PyString_Check (python_args) &&
 		    (python_fn = PyTuple_GetItem (fn_info_obj, 2)) != NULL &&
 		    PyCallable_Check (python_fn)) {
-			res->arg_spec	= PyString_AsString (python_args);
-			res->help	= python_function_get_gnumeric_help (
+			func->fn.args.func	= &call_python_function_args;
+			func->fn.args.arg_spec	= PyString_AsString (python_args);
+			func->help	= python_function_get_gnumeric_help (
 				loader_data->python_fn_info_dict, python_fn, name);
-			res->fn_args	= &call_python_function_args;
-			res->fn_nodes	= NULL;
-			res->linker	= NULL;
-			res->impl_status = GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC;
-			res->test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
-			return TRUE;
+			func->linker	= NULL;
+			func->impl_status = GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC;
+			func->test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
+			gnm_func_set_function_type (func, GNM_FUNC_TYPE_ARGS);
+			g_object_set_data (G_OBJECT (func), "service", service);
+			return;
 		}
 
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
-		return FALSE;
+		return;
 	}
 
 	if (PyCallable_Check (fn_info_obj)) {
-		res->arg_spec	= "";
-		res->help	= python_function_get_gnumeric_help (
+		func->help	= python_function_get_gnumeric_help (
 			loader_data->python_fn_info_dict, fn_info_obj, name);
-		res->fn_args	= NULL;
-		res->fn_nodes	= &call_python_function_nodes;
-		res->linker	= NULL;
-		res->impl_status = GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC;
-		res->test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
-		return TRUE;
+		func->fn.nodes	= &call_python_function_nodes;
+		func->linker	= NULL;
+		func->impl_status = GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC;
+		func->test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
+		gnm_func_set_function_type (func, GNM_FUNC_TYPE_NODES);
+		g_object_set_data (G_OBJECT (func), "service", service);
+		return;
 	}
 
 	gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
-	return FALSE;
+	return;
 }
 
 static void
@@ -726,7 +728,7 @@ gplp_load_service_function_group (GOPluginLoader *loader,
 		ServiceLoaderDataFunctionGroup *loader_data;
 
 		cbs = go_plugin_service_get_cbs (service);
-		cbs->func_desc_load = &gplp_func_desc_load;
+		cbs->load_stub = &gplp_func_load_stub;
 
 		loader_data = g_new (ServiceLoaderDataFunctionGroup, 1);
 		loader_data->python_fn_info_dict = (PyObject *) python_fn_info_dict;

@@ -76,21 +76,21 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	GSList *gl = info->group_list;
 
 	fd_small = gnm_func_lookup_or_add_placeholder ("SMALL");
-	gnm_func_ref (fd_small);
+	gnm_func_inc_usage (fd_small);
 	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_ref (fd_if);
+	gnm_func_inc_usage (fd_if);
 	fd_iserror = gnm_func_lookup_or_add_placeholder ("ISERROR");
-	gnm_func_ref (fd_iserror);
+	gnm_func_inc_usage (fd_iserror);
 	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_ref (fd_sum);
+	gnm_func_inc_usage (fd_sum);
 
 	if (info->std_err) {
 		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-		gnm_func_ref (fd_sqrt);
+		gnm_func_inc_usage (fd_sqrt);
 	}
 	if (info->median) {
 		fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
-		gnm_func_ref (fd_min);
+		gnm_func_inc_usage (fd_min);
 	}
 
 	rows =  info->base.range_1->v_range.cell.b.row
@@ -523,7 +523,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		GnmExpr const *expr_death_total = gnm_expr_new_constant (value_new_int (0));
 
 		fd_chidist = gnm_func_lookup_or_add_placeholder ("CHIDIST");
-		gnm_func_ref (fd_chidist);
+		gnm_func_inc_usage (fd_chidist);
 
 		dao_set_italic (dao, 1, logrank_test_y_offset, 1, logrank_test_y_offset+3);
 		set_cell_text_col (dao, 1, logrank_test_y_offset,
@@ -605,7 +605,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 						make_cellref (0,-1));
 		dao_set_cell_expr (dao, 2, logrank_test_y_offset + 3, expr_p);
 
-		gnm_func_unref (fd_chidist);
+		gnm_func_dec_usage (fd_chidist);
 	}
 
 
@@ -616,14 +616,14 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	if (expr_group_data != NULL)
 		gnm_expr_free (expr_group_data);
 
-	gnm_func_unref (fd_small);
-	gnm_func_unref (fd_if);
-	gnm_func_unref (fd_iserror);
-	gnm_func_unref (fd_sum);
+	gnm_func_dec_usage (fd_small);
+	gnm_func_dec_usage (fd_if);
+	gnm_func_dec_usage (fd_iserror);
+	gnm_func_dec_usage (fd_sum);
 	if (fd_sqrt != NULL)
-		gnm_func_unref (fd_sqrt);
+		gnm_func_dec_usage (fd_sqrt);
 	if (fd_min != NULL)
-		gnm_func_unref (fd_min);
+		gnm_func_dec_usage (fd_min);
 
 	dao_redraw_respan (dao);
 

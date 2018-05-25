@@ -52,7 +52,7 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 		GnmExpr const *expr_cholesky;
 
 		fd_cholesky = gnm_func_lookup_or_add_placeholder ("CHOLESKY");
-		gnm_func_ref (fd_cholesky);
+		gnm_func_inc_usage (fd_cholesky);
 		expr_cholesky = gnm_expr_new_funcall1
 			(fd_cholesky, expr_matrix);
 
@@ -62,7 +62,7 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 		dao_set_array_expr (dao, 0, 1, info->variables, info->variables,
 				    expr_cholesky);
 
-		gnm_func_unref (fd_cholesky);
+		gnm_func_dec_usage (fd_cholesky);
 
 		expr_matrix = dao_get_rangeref (dao, 0, 1, info->variables - 1, info->variables);
 		dao->offset_row += info->variables + 2;
@@ -73,7 +73,7 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 	dao_set_cell (dao, 0, 0, _("Uncorrelated Random Variables"));
 
 	fd_rand = gnm_func_lookup_or_add_placeholder ("RANDNORM");
-	gnm_func_ref (fd_rand);
+	gnm_func_inc_usage (fd_rand);
 	expr_rand = gnm_expr_new_funcall2 (fd_rand,
 					   gnm_expr_new_constant (value_new_int (0)),
 					   gnm_expr_new_constant (value_new_int (1)));
@@ -81,14 +81,14 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 		for (j = 1; j <= info->count; j++)
 			dao_set_cell_expr (dao, i, j, gnm_expr_copy (expr_rand));
 	gnm_expr_free (expr_rand);
-	gnm_func_unref (fd_rand);
+	gnm_func_dec_usage (fd_rand);
 
 	dao->offset_col += info->variables + 1;
 
 	fd_mmult = gnm_func_lookup_or_add_placeholder ("MMULT");
-	gnm_func_ref (fd_mmult);
+	gnm_func_inc_usage (fd_mmult);
 	fd_transpose = gnm_func_lookup_or_add_placeholder ("TRANSPOSE");
-	gnm_func_ref (fd_transpose);
+	gnm_func_inc_usage (fd_transpose);
 
 	dao_set_merge (dao, 0, 0, info->variables - 1, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
@@ -106,8 +106,8 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 
 	gnm_expr_free (expr_rand);
 
-	gnm_func_unref (fd_mmult);
-	gnm_func_unref (fd_transpose);
+	gnm_func_dec_usage (fd_mmult);
+	gnm_func_dec_usage (fd_transpose);
 	dao_redraw_respan (dao);
 
 	return FALSE;

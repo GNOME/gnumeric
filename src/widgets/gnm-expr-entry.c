@@ -722,7 +722,7 @@ gee_delete_tooltip (GnmExprEntry *gee, gboolean remove_completion)
 		gee->tooltip.tooltip = NULL;
 	}
 	if (gee->tooltip.fd) {
-		gnm_func_unref (gee->tooltip.fd);
+		gnm_func_dec_usage (gee->tooltip.fd);
 		gee->tooltip.fd = NULL;
 	}
 	if (gee->tooltip.handlerid != 0 && gee->entry != NULL) {
@@ -863,7 +863,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	gee_delete_tooltip (gee, FALSE);
 
 	gee->tooltip.fd = fd;
-	gnm_func_ref (gee->tooltip.fd);
+	gnm_func_inc_usage (gee->tooltip.fd);
 
 	fdname = gnm_func_get_name (fd, localized_function_names);
 
@@ -987,7 +987,7 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	}
 	g_string_free (str, TRUE);
 	g_string_free (str_marked, TRUE);
-	g_slist_free_full (list, (GDestroyNotify) gnm_func_unref);
+	g_slist_free_full (list, (GDestroyNotify) gnm_func_dec_usage);
 	return show_tool_tip;
 }
 

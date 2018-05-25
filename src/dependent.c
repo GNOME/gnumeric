@@ -1111,15 +1111,15 @@ link_unlink_expr_dep (GnmEvalPos *ep, GnmExpr const *tree, gboolean qlink)
 	 */
 	case GNM_EXPR_OP_FUNCALL: {
 		int i;
-		GnmDependentFlags flag = DEPENDENT_NO_FLAG;
+		GnmFuncEvalInfo fei;
+		GnmDependentFlags flag;
+
 		if (tree->func.func->fn_type == GNM_FUNC_TYPE_STUB)
 			gnm_func_load_stub (tree->func.func);
-		if (tree->func.func->linker) {
-			GnmFuncEvalInfo fei;
-			fei.pos = ep;
-			fei.func_call = &tree->func;
-			flag = tree->func.func->linker (&fei, qlink);
-		}
+		fei.pos = ep;
+		fei.func_call = &tree->func;
+		flag = gnm_func_link_dep (tree->func.func, &fei, qlink);
+
 		if (!(flag & DEPENDENT_IGNORE_ARGS))
 			for (i = 0; i < tree->func.argc; i++)
 				flag |= link_unlink_expr_dep (ep, tree->func.argv[i], qlink);

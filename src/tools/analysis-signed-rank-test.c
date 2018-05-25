@@ -238,17 +238,17 @@ analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
 		dao_set_cell_expr (dao, col + 1, 9, expr);
 	}
 
-	gnm_func_unref (fd_median);
-	gnm_func_unref (fd_if);
-	gnm_func_unref (fd_min);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_normdist);
-	gnm_func_unref (fd_isnumber);
-	gnm_func_unref (fd_iferror);
-	gnm_func_unref (fd_rank);
-	gnm_func_unref (fd_abs);
-	gnm_func_unref (fd_sqrt);
-	gnm_func_unref (fd_max);
+	gnm_func_dec_usage (fd_median);
+	gnm_func_dec_usage (fd_if);
+	gnm_func_dec_usage (fd_min);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_normdist);
+	gnm_func_dec_usage (fd_isnumber);
+	gnm_func_dec_usage (fd_iferror);
+	gnm_func_dec_usage (fd_rank);
+	gnm_func_dec_usage (fd_abs);
+	gnm_func_dec_usage (fd_sqrt);
+	gnm_func_dec_usage (fd_max);
 
 	dao_redraw_respan (dao);
 
@@ -505,17 +505,17 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 				    GNM_EXPR_OP_MULT, make_cellref (0,-1));
 	dao_set_cell_array_expr (dao, 1, 10, expr);
 
-	gnm_func_unref (fd_median);
-	gnm_func_unref (fd_if);
-	gnm_func_unref (fd_min);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_normdist);
-	gnm_func_unref (fd_isnumber);
-	gnm_func_unref (fd_iferror);
-	gnm_func_unref (fd_rank);
-	gnm_func_unref (fd_abs);
-	gnm_func_unref (fd_sqrt);
-	gnm_func_unref (fd_max);
+	gnm_func_dec_usage (fd_median);
+	gnm_func_dec_usage (fd_if);
+	gnm_func_dec_usage (fd_min);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_normdist);
+	gnm_func_dec_usage (fd_isnumber);
+	gnm_func_dec_usage (fd_iferror);
+	gnm_func_dec_usage (fd_rank);
+	gnm_func_dec_usage (fd_abs);
+	gnm_func_dec_usage (fd_sqrt);
+	gnm_func_dec_usage (fd_max);
 
 	value_release (val_1);
 	value_release (val_2);

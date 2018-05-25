@@ -54,19 +54,19 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_iferror;
 
 	fd_median = gnm_func_lookup_or_add_placeholder ("MEDIAN");
-	gnm_func_ref (fd_median);
+	gnm_func_inc_usage (fd_median);
 	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_ref (fd_if);
+	gnm_func_inc_usage (fd_if);
 	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_ref (fd_sum);
+	gnm_func_inc_usage (fd_sum);
 	fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
-	gnm_func_ref (fd_min);
+	gnm_func_inc_usage (fd_min);
 	fd_binomdist = gnm_func_lookup_or_add_placeholder ("BINOMDIST");
-	gnm_func_ref (fd_binomdist);
+	gnm_func_inc_usage (fd_binomdist);
 	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER");
-	gnm_func_ref (fd_isnumber);
+	gnm_func_inc_usage (fd_isnumber);
 	fd_iferror = gnm_func_lookup_or_add_placeholder ("IFERROR");
-	gnm_func_ref (fd_iferror);
+	gnm_func_inc_usage (fd_iferror);
 
 	dao_set_italic (dao, 0, 0, 0, 9);
 	set_cell_text_col (dao, 0, 0, _("/Sign Test"
@@ -157,13 +157,13 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 		dao_set_cell_array_expr (dao, col + 1, 7, expr);
 	}
 
-	gnm_func_unref (fd_median);
-	gnm_func_unref (fd_if);
-	gnm_func_unref (fd_min);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_binomdist);
-	gnm_func_unref (fd_isnumber);
-	gnm_func_unref (fd_iferror);
+	gnm_func_dec_usage (fd_median);
+	gnm_func_dec_usage (fd_if);
+	gnm_func_dec_usage (fd_min);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_binomdist);
+	gnm_func_dec_usage (fd_isnumber);
+	gnm_func_dec_usage (fd_iferror);
 
 	dao_redraw_respan (dao);
 
@@ -196,19 +196,19 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_iferror;
 
 	fd_median = gnm_func_lookup_or_add_placeholder ("MEDIAN");
-	gnm_func_ref (fd_median);
+	gnm_func_inc_usage (fd_median);
 	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_ref (fd_if);
+	gnm_func_inc_usage (fd_if);
 	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_ref (fd_sum);
+	gnm_func_inc_usage (fd_sum);
 	fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
-	gnm_func_ref (fd_min);
+	gnm_func_inc_usage (fd_min);
 	fd_binomdist = gnm_func_lookup_or_add_placeholder ("BINOMDIST");
-	gnm_func_ref (fd_binomdist);
+	gnm_func_inc_usage (fd_binomdist);
 	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER");
-	gnm_func_ref (fd_isnumber);
+	gnm_func_inc_usage (fd_isnumber);
 	fd_iferror = gnm_func_lookup_or_add_placeholder ("IFERROR");
-	gnm_func_ref (fd_iferror);
+	gnm_func_inc_usage (fd_iferror);
 
 	dao_set_italic (dao, 0, 0, 0, 9);
 	set_cell_text_col (dao, 0, 0, _("/Sign Test"
@@ -323,13 +323,13 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 				    GNM_EXPR_OP_MULT, make_cellref (0,-1));
 	dao_set_cell_array_expr (dao, 1, 7, expr);
 
-	gnm_func_unref (fd_median);
-	gnm_func_unref (fd_if);
-	gnm_func_unref (fd_min);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_binomdist);
-	gnm_func_unref (fd_isnumber);
-	gnm_func_unref (fd_iferror);
+	gnm_func_dec_usage (fd_median);
+	gnm_func_dec_usage (fd_if);
+	gnm_func_dec_usage (fd_min);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_binomdist);
+	gnm_func_dec_usage (fd_isnumber);
+	gnm_func_dec_usage (fd_iferror);
 
 	value_release (val_1);
 	value_release (val_2);

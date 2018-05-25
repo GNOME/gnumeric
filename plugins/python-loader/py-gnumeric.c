@@ -1947,7 +1947,7 @@ py_GnumericFunc_object_dealloc (py_GnumericFunc_object *self)
 {
 	g_return_if_fail (self != NULL);
 
-	gnm_func_unref (self->fn_def);
+	gnm_func_dec_usage (self->fn_def);
 	g_free (self->eval_pos);
 	PyObject_Del (self);
 }
@@ -1962,7 +1962,7 @@ py_new_GnumericFunc_object (GnmFunc *fn_def, const GnmEvalPos *opt_eval_pos)
 		return NULL;
 	}
 
-	gnm_func_ref (fn_def);
+	gnm_func_inc_usage (fn_def);
 	self->fn_def = fn_def;
 	if (opt_eval_pos != NULL) {
 		self->eval_pos = g_new (GnmEvalPos, 1);

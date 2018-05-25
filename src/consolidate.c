@@ -123,7 +123,7 @@ gnm_consolidate_free (GnmConsolidate *cs, gboolean content_only)
 	if (cs->ref_count-- > 1)
 		return;
 	if (cs->fd) {
-		gnm_func_unref (cs->fd);
+		gnm_func_dec_usage (cs->fd);
 		cs->fd = NULL;
 	}
 
@@ -171,10 +171,10 @@ gnm_consolidate_set_function (GnmConsolidate *cs, GnmFunc *fd)
 	g_return_if_fail (fd != NULL);
 
 	if (cs->fd)
-		gnm_func_unref (cs->fd);
+		gnm_func_dec_usage (cs->fd);
 
 	cs->fd = fd;
-	gnm_func_ref (fd);
+	gnm_func_inc_usage (fd);
 }
 
 void

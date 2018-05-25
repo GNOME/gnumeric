@@ -95,25 +95,25 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_finv;
 
 	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-	gnm_func_ref (fd_index);
+	gnm_func_inc_usage (fd_index);
 	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
-	gnm_func_ref (fd_offset);
+	gnm_func_inc_usage (fd_offset);
 	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_ref (fd_count);
+	gnm_func_inc_usage (fd_count);
 	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_ref (fd_sum);
+	gnm_func_inc_usage (fd_sum);
 	fd_sumsq = gnm_func_lookup_or_add_placeholder ("SUMSQ");
-	gnm_func_ref (fd_sumsq);
+	gnm_func_inc_usage (fd_sumsq);
 	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_ref (fd_average);
+	gnm_func_inc_usage (fd_average);
 	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_ref (fd_var);
+	gnm_func_inc_usage (fd_var);
 	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_ref (fd_if);
+	gnm_func_inc_usage (fd_if);
 	fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST");
-	gnm_func_ref (fd_fdist);
+	gnm_func_inc_usage (fd_fdist);
 	fd_finv = gnm_func_lookup_or_add_placeholder ("FINV");
-	gnm_func_ref (fd_finv);
+	gnm_func_inc_usage (fd_finv);
 
 	dao_set_merge (dao, 0, 0, 4, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
@@ -384,16 +384,16 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 	} else
 		dao_set_cell (dao, 0, 0, _("Insufficient space available for ANOVA table."));
 
-	gnm_func_unref (fd_index);
-	gnm_func_unref (fd_count);
-	gnm_func_unref (fd_offset);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_sumsq);
-	gnm_func_unref (fd_average);
-	gnm_func_unref (fd_var);
-	gnm_func_unref (fd_if);
-	gnm_func_unref (fd_finv);
-	gnm_func_unref (fd_fdist);
+	gnm_func_dec_usage (fd_index);
+	gnm_func_dec_usage (fd_count);
+	gnm_func_dec_usage (fd_offset);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_sumsq);
+	gnm_func_dec_usage (fd_average);
+	gnm_func_dec_usage (fd_var);
+	gnm_func_dec_usage (fd_if);
+	gnm_func_dec_usage (fd_finv);
+	gnm_func_dec_usage (fd_fdist);
 
 	gnm_expr_free (expr_region);
 
@@ -433,25 +433,25 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_finv;
 
 	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-	gnm_func_ref (fd_index);
+	gnm_func_inc_usage (fd_index);
 	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
-	gnm_func_ref (fd_offset);
+	gnm_func_inc_usage (fd_offset);
 	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_ref (fd_count);
+	gnm_func_inc_usage (fd_count);
 	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_ref (fd_sum);
+	gnm_func_inc_usage (fd_sum);
 	fd_sumsq = gnm_func_lookup_or_add_placeholder ("SUMSQ");
-	gnm_func_ref (fd_sumsq);
+	gnm_func_inc_usage (fd_sumsq);
 	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_ref (fd_average);
+	gnm_func_inc_usage (fd_average);
 	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_ref (fd_var);
+	gnm_func_inc_usage (fd_var);
 	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_ref (fd_if);
+	gnm_func_inc_usage (fd_if);
 	fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST");
-	gnm_func_ref (fd_fdist);
+	gnm_func_inc_usage (fd_fdist);
 	fd_finv = gnm_func_lookup_or_add_placeholder ("FINV");
-	gnm_func_ref (fd_finv);
+	gnm_func_inc_usage (fd_finv);
 
 	dao_set_merge (dao, 0, 0, 4, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
@@ -790,16 +790,16 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	} else
 		dao_set_cell (dao, 0, 0, _("Insufficient space available for ANOVA table."));
 
-	gnm_func_unref (fd_index);
-	gnm_func_unref (fd_count);
-	gnm_func_unref (fd_offset);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_sumsq);
-	gnm_func_unref (fd_average);
-	gnm_func_unref (fd_var);
-	gnm_func_unref (fd_if);
-	gnm_func_unref (fd_finv);
-	gnm_func_unref (fd_fdist);
+	gnm_func_dec_usage (fd_index);
+	gnm_func_dec_usage (fd_count);
+	gnm_func_dec_usage (fd_offset);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_sumsq);
+	gnm_func_dec_usage (fd_average);
+	gnm_func_dec_usage (fd_var);
+	gnm_func_dec_usage (fd_if);
+	gnm_func_dec_usage (fd_finv);
+	gnm_func_dec_usage (fd_fdist);
 
 	gnm_expr_free (expr_source);
 	gnm_expr_free (expr_total_count);

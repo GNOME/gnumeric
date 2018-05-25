@@ -157,8 +157,8 @@ static GnmFuncHelp const help_table[] = {
 };
 
 
-static GnmDependentFlags
-gnumeric_table_link (GnmFuncEvalInfo *ei, gboolean qlink)
+static int //GnmDependentFlags
+gnumeric_table_link (const GnmFunc *func, GnmFuncEvalInfo *ei, gboolean qlink)
 {
 	GnmDependent *dep = ei->pos->dep;
 	GnmRangeRef rr;
@@ -202,7 +202,7 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	int cols, rows;
 
 	/* evaluation clears the dynamic deps */
-	gnumeric_table_link (ei, TRUE);
+	gnumeric_table_link (gnm_eval_info_get_func (ei), ei, TRUE);
 
 	if (argc != 2 ||
 	    ep->eval.col < 1 ||
@@ -489,62 +489,59 @@ static GnmFuncGroup *math_group = NULL;
 static GnmFuncGroup *gnumeric_group = NULL;
 static GnmFuncGroup *logic_group = NULL;
 
+static GnmFuncDescriptor const builtins [] = {
+	/* --- Math --- */
+	{	"sum",		NULL,
+		help_sum,	NULL,	gnumeric_sum,
+		GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+		GNM_FUNC_IMPL_STATUS_COMPLETE,
+		GNM_FUNC_TEST_STATUS_BASIC
+	},
+	{	"product",		NULL,
+		help_product,	NULL,	gnumeric_product,
+		GNM_FUNC_SIMPLE,
+		GNM_FUNC_IMPL_STATUS_COMPLETE,
+		GNM_FUNC_TEST_STATUS_BASIC
+	},
+	/* --- Gnumeric --- */
+	{	"gnumeric_version",	"",
+		help_gnumeric_version,	gnumeric_version, NULL,
+		GNM_FUNC_SIMPLE,
+		GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+		GNM_FUNC_TEST_STATUS_EXHAUSTIVE
+	},
+	{	"table",	"",
+		help_table,		NULL,	gnumeric_table,
+		GNM_FUNC_SIMPLE + GNM_FUNC_INTERNAL,
+		GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+		GNM_FUNC_TEST_STATUS_EXHAUSTIVE
+	},
+	{	"number_match", "s|s", // Only in test suite
+		help_number_match, gnumeric_number_match, NULL,
+		GNM_FUNC_INTERNAL,
+		GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+		GNM_FUNC_TEST_STATUS_BASIC },
+	{	"deriv", "r|r",  // Only in test suite
+		help_deriv, gnumeric_deriv, NULL,
+		GNM_FUNC_INTERNAL,
+		GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+		GNM_FUNC_TEST_STATUS_BASIC },
+	/* --- Logic --- */
+	{	"if", "b|EE",
+		help_if, gnumeric_if, NULL,
+		GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_SECOND,
+		GNM_FUNC_IMPL_STATUS_COMPLETE,
+		GNM_FUNC_TEST_STATUS_BASIC },
+	{ NULL }
+};
+
 void
 func_builtin_init (void)
 {
 	const char *gname;
 	const char *tdomain = GETTEXT_PACKAGE;
 	int i = 0;
-
-	static GnmFuncDescriptor const builtins [] = {
-		/* --- Math --- */
-		{	"sum",		NULL,
-			help_sum,	NULL,	gnumeric_sum,
-			NULL, NULL, GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
-			GNM_FUNC_IMPL_STATUS_COMPLETE,
-			GNM_FUNC_TEST_STATUS_BASIC
-		},
-		{	"product",		NULL,
-			help_product,	NULL,	gnumeric_product,
-			NULL, NULL, GNM_FUNC_SIMPLE,
-			GNM_FUNC_IMPL_STATUS_COMPLETE,
-			GNM_FUNC_TEST_STATUS_BASIC
-		},
-		/* --- Gnumeric --- */
-		{	"gnumeric_version",	"",
-			help_gnumeric_version,	gnumeric_version, NULL,
-			NULL, NULL, GNM_FUNC_SIMPLE,
-			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
-			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
-		},
-		{	"table",	"",
-			help_table,		NULL,	gnumeric_table,
-			gnumeric_table_link,
-			NULL, GNM_FUNC_SIMPLE + GNM_FUNC_INTERNAL,
-			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
-			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
-		},
-		{	"number_match", "s|s", // Only in test suite
-			help_number_match, gnumeric_number_match, NULL,
-			NULL, NULL,
-			GNM_FUNC_SIMPLE,
-			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
-			GNM_FUNC_TEST_STATUS_BASIC },
-		{	"deriv", "r|r",  // Only in test suite
-			help_deriv, gnumeric_deriv, NULL,
-			NULL, NULL,
-			GNM_FUNC_SIMPLE,
-			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
-			GNM_FUNC_TEST_STATUS_BASIC },
-		/* --- Logic --- */
-		{	"if", "b|EE",
-			help_if, gnumeric_if, NULL,
-			NULL, NULL,
-			GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_SECOND,
-			GNM_FUNC_IMPL_STATUS_COMPLETE,
-			GNM_FUNC_TEST_STATUS_BASIC },
-		{ NULL }
-	};
+	GnmFunc *table_func;
 
 	gname = N_("Mathematics");
 	math_group = gnm_func_group_fetch (gname, _(gname));
@@ -565,25 +562,23 @@ func_builtin_init (void)
 	logic_group = gnm_func_group_fetch (gname, _(gname));
 	gnm_func_add (logic_group, builtins + i++, tdomain);
 
+	table_func = gnm_func_lookup ("table", NULL);
+	g_signal_connect (table_func, "link-dep", G_CALLBACK (gnumeric_table_link), NULL);
+
 	gnm_expr_deriv_install_handler (gnm_func_lookup ("sum", NULL),
 					gnumeric_sum_deriv,
 					GNM_EXPR_DERIV_NO_CHAIN | GNM_EXPR_DERIV_OPTIMIZE,
 					NULL, NULL);
 }
 
-static void
-shutdown_cat (GnmFuncGroup *group)
-{
-	GSList *ptr, *list = g_slist_copy (group->functions);
-	for (ptr = list; ptr; ptr = ptr->next)
-		gnm_func_free (ptr->data);
-	g_slist_free (list);
-}
-
 void
 func_builtin_shutdown (void)
 {
-	shutdown_cat (math_group);
-	shutdown_cat (gnumeric_group);
-	shutdown_cat (logic_group);
+	int i;
+
+	for (i = 0; builtins[i].name; i++) {
+		GnmFunc *func = gnm_func_lookup (builtins[i].name, NULL);
+		if (func)
+			g_object_unref (func);
+	}
 }

@@ -78,7 +78,7 @@ analysis_tool_auto_expression_engine_clean (gpointer specs)
 {
 	analysis_tools_data_auto_expression_t *info = specs;
 
-	gnm_func_unref (info->func);
+	gnm_func_dec_usage (info->func);
 	info->func = NULL;
 
 	return analysis_tool_generic_clean (specs);

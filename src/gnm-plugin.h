@@ -20,8 +20,7 @@ GType gnm_plugin_loader_module_get_type (void);
 GType gnm_plugin_service_function_group_get_type (void);
 typedef struct GnmPluginServiceFunctionGroup_	GnmPluginServiceFunctionGroup;
 typedef struct {
-	gboolean (*func_desc_load) (GOPluginService *service, char const *name,
-				    GnmFuncDescriptor *res);
+	void (*load_stub) (GOPluginService *service, GnmFunc *func);
 } GnmPluginServiceFunctionGroupCallbacks;
 
 #define GNM_PLUGIN_SERVICE_UI_TYPE  (gnm_plugin_service_ui_get_type ())

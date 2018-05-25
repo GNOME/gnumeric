@@ -309,7 +309,7 @@ cb_unref (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path,
 	gtk_tree_model_get (model, iter,
 			    FUNCTION, &f,
 			    -1);
-	gnm_func_unref (f);
+	gnm_func_dec_usage (f);
 	return FALSE;
 }
 
@@ -1182,7 +1182,7 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 		if (!(func->flags &
 		      (GNM_FUNC_INTERNAL | GNM_FUNC_IS_PLACEHOLDER))) {
 			gtk_list_store_append (state->model_functions, &iter);
-			gnm_func_ref (func);
+			gnm_func_inc_usage (func);
 			desc = dialog_function_select_get_description (func, &pal);
 			gtk_list_store_set
 				(state->model_functions, &iter,

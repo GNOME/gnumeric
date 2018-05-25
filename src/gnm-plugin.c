@@ -143,45 +143,41 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 	}
 }
 
-static gboolean
-plugin_service_function_group_func_desc_load (GnmFunc const *fn_def,
-					      GnmFuncDescriptor *res)
+static void
+plugin_service_function_group_func_ref_notify (GnmFunc *fn_def,
+					       G_GNUC_UNUSED GParamSpec *pspec,
+					       GOPlugin *plugin)
 {
-	GOPluginService	*service = gnm_func_get_user_data (fn_def);
+	if (gnm_func_get_in_use (fn_def))
+		go_plugin_use_ref (plugin);
+	else
+		go_plugin_use_unref (plugin);
+}
+
+static void
+plugin_service_function_group_func_load_stub (GnmFunc *fn_def,
+					      GOPluginService *service)
+{
 	GnmPluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 	GOErrorInfo *error = NULL;
 
-	g_return_val_if_fail (fn_def != NULL, FALSE);
+	g_return_if_fail (fn_def != NULL);
 
 	go_plugin_service_load (service, &error);
 	if (error != NULL) {
 		go_error_info_print (error);
 		go_error_info_free (error);
-		return FALSE;
+		return;
 	}
-	if (NULL == sfg->cbs.func_desc_load) {
-                error = go_error_info_new_printf (_("No func_desc_load method.\n"));
+
+	if (!sfg->cbs.load_stub) {
+                error = go_error_info_new_printf (_("No load_stub method.\n"));
 		go_error_info_print (error);
 		go_error_info_free (error);
-		return FALSE;
+		return;
 	}
-	return sfg->cbs.func_desc_load (service,
-					gnm_func_get_name (fn_def, FALSE),
-					res);
-}
 
-static void
-plugin_service_function_group_func_ref_notify (GnmFunc *fn_def, int refcount)
-{
-	GOPluginService *service;
-
-	service = gnm_func_get_user_data (fn_def);
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
-	if (refcount == 0) {
-		go_plugin_use_unref (service->plugin);
-	} else {
-		go_plugin_use_ref (service->plugin);
-	}
+	sfg->cbs.load_stub (service, fn_def);
 }
 
 static void
@@ -192,7 +188,7 @@ delayed_ref_notify (GOPlugin *plugin, GnmFunc *fd)
 					      fd);
 
 	/* We cannot do this until after the plugin has been activated.  */
-	plugin_service_function_group_func_ref_notify (fd, 1);
+	plugin_service_function_group_func_ref_notify (fd, NULL, plugin);
 }
 
 static void
@@ -200,40 +196,41 @@ plugin_service_function_group_activate (GOPluginService *service, GOErrorInfo **
 {
 	GnmPluginServiceFunctionGroup *sfg =
 		GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+	GOPlugin *plugin = go_plugin_service_get_plugin (service);
+	GSList *l;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	sfg->func_group = gnm_func_group_fetch (sfg->category_name,
 						sfg->translated_category_name);
 	if (gnm_debug_flag ("plugin-func"))
 		g_printerr ("Activating group %s\n", sfg->category_name);
-	GO_SLIST_FOREACH
-		(sfg->function_name_list, char, fname,
-		 GnmFunc *fd;
 
-		 fd = gnm_func_lookup (fname, NULL);
-		 if (fd) {
-#if 0
-			 g_printerr ("Reusing placeholder for %s\n", fname);
-#endif
-		 } else {
-			 fd = gnm_func_add_placeholder (NULL, fname, "?");
-		 }
-		 if (fd->flags & GNM_FUNC_IS_PLACEHOLDER) {
-			 gnm_func_set_user_data (fd, service);
-			 gnm_func_upgrade_placeholder
-				 (fd, sfg->func_group,
-				  sfg->tdomain,
-				  plugin_service_function_group_func_desc_load,
-				  plugin_service_function_group_func_ref_notify);
-			 if (fd->usage_count > 0)
-				 g_signal_connect (go_plugin_service_get_plugin (service),
-						   "state_changed",
-						   G_CALLBACK (delayed_ref_notify),
-						   fd);
-		 } else {
-			 g_warning ("Multiple definitions of function %s -- this cannot be good!", fname);
-		 }
-	);
+	for (l = sfg->function_name_list; l; l = l->next) {
+		const char *fname = l->data;
+		GnmFunc *fd = gnm_func_lookup_or_add_placeholder (fname);
+
+		gnm_func_set_function_type (fd, GNM_FUNC_TYPE_STUB);
+		gnm_func_set_translation_domain (fd, sfg->tdomain);
+		gnm_func_set_function_group (fd, sfg->func_group);
+		// Clear localized_name so we can deduce the proper name.
+		//gnm_func_set_localized_name (fd, NULL);
+
+		g_signal_connect
+			(G_OBJECT (fd), "notify::in-use",
+			 G_CALLBACK (plugin_service_function_group_func_ref_notify),
+			 plugin);
+
+		g_signal_connect
+			(G_OBJECT (fd), "load-stub",
+			 G_CALLBACK (plugin_service_function_group_func_load_stub),
+			 service);
+
+		if (fd->usage_count > 0)
+			g_signal_connect (plugin,
+					  "state_changed",
+					  G_CALLBACK (delayed_ref_notify),
+					  fd);
+	}
 	service->is_active = TRUE;
 }
 
@@ -241,14 +238,18 @@ static void
 plugin_service_function_group_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	GnmPluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+	GSList *l;
 
 	if (gnm_debug_flag ("plugin-func"))
 		g_printerr ("Deactivating group %s\n", sfg->category_name);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	GO_SLIST_FOREACH (sfg->function_name_list, char, fname,
-		gnm_func_free (gnm_func_lookup (fname, NULL));
-	);
+
+	for (l = sfg->function_name_list; l; l = l->next) {
+		const char *fname = l->data;
+		GnmFunc *func = gnm_func_lookup (fname, NULL);
+		g_object_unref (func);
+	}
 	service->is_active = FALSE;
 }
 
@@ -741,26 +742,43 @@ function_group_loader_data_free (gpointer data)
 	g_free (ld);
 }
 
-static gboolean
-gnm_plugin_loader_module_func_desc_load (GOPluginService *service,
-					 char const *name,
-					 GnmFuncDescriptor *res)
+static void
+gnm_plugin_loader_module_func_load_stub (GOPluginService *service,
+					 GnmFunc *func)
 {
 	ServiceLoaderDataFunctionGroup *loader_data;
-	gpointer func_index_ptr;
+	gpointer index_ptr;
+	GnmFuncDescriptor *desc;
+	const char *name;
 
-	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service), FALSE);
-	g_return_val_if_fail (name != NULL, FALSE);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
+	g_return_if_fail (GNM_IS_FUNC (func));
 
+	name = gnm_func_get_name (func, FALSE);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	if (g_hash_table_lookup_extended (loader_data->function_indices, (gpointer) name,
-	                                  NULL, &func_index_ptr)) {
-		int i = GPOINTER_TO_INT (func_index_ptr);
-		*res = loader_data->module_fn_info_array[i];
-		return TRUE;
+	if (!g_hash_table_lookup_extended (loader_data->function_indices,
+					   (gpointer)name,
+					   NULL, &index_ptr))
+		return; // Failed
+
+	desc = loader_data->module_fn_info_array + GPOINTER_TO_INT (index_ptr);
+
+	func->help	 = desc->help ? desc->help : NULL;
+	func->impl_status = desc->impl_status;
+	func->test_status = desc->test_status;
+	func->flags	  = desc->flags;
+	if (desc->fn_args != NULL) {
+		func->fn.args.func	= desc->fn_args;
+		func->fn.args.arg_spec	= desc->arg_spec;
+		gnm_func_set_function_type (func, GNM_FUNC_TYPE_ARGS);
+	} else if (desc->fn_nodes != NULL) {
+		func->fn.nodes		= desc->fn_nodes;
+		gnm_func_set_function_type (func, GNM_FUNC_TYPE_NODES);
+	} else {
+		g_warning ("Invalid function descriptor with no function");
 	}
-	return FALSE;
 }
+
 static void
 gnm_plugin_loader_module_load_service_function_group (GOPluginLoader  *loader,
 						      GOPluginService *service,
@@ -782,7 +800,7 @@ gnm_plugin_loader_module_load_service_function_group (GOPluginLoader  *loader,
 		gint i;
 
 		cbs = go_plugin_service_get_cbs (service);
-		cbs->func_desc_load = &gnm_plugin_loader_module_func_desc_load;
+		cbs->load_stub = &gnm_plugin_loader_module_func_load_stub;
 
 		loader_data = g_new (ServiceLoaderDataFunctionGroup, 1);
 		loader_data->module_fn_info_array = module_fn_info_array;
@@ -949,7 +967,7 @@ gplm_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
 	if (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (s)) {
 		GnmPluginServiceFunctionGroupCallbacks *cbs = go_plugin_service_get_cbs (s);
-		cbs->func_desc_load = NULL;
+		cbs->load_stub = NULL;
 	} else if (GNM_IS_PLUGIN_SERVICE_UI (s)) {
 		GnmPluginServiceUICallbacks *cbs = go_plugin_service_get_cbs (s);
 		cbs->plugin_func_exec_action = NULL;

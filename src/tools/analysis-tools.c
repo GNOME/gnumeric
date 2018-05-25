@@ -223,9 +223,9 @@ analysis_tools_write_a_label (GnmValue *val, data_analysis_output_t *dao,
 		GnmFunc *fd_cell;
 
 		fd_concatenate = gnm_func_lookup_or_add_placeholder ("CONCATENATE");
-		gnm_func_ref (fd_concatenate);
+		gnm_func_inc_usage (fd_concatenate);
 		fd_cell = gnm_func_lookup_or_add_placeholder ("CELL");
-		gnm_func_ref (fd_cell);
+		gnm_func_inc_usage (fd_cell);
 
 		dao_set_cell_expr (dao, x, y, gnm_expr_new_funcall3
 				   (fd_concatenate, gnm_expr_new_constant (value_new_string (label)),
@@ -234,8 +234,8 @@ analysis_tools_write_a_label (GnmValue *val, data_analysis_output_t *dao,
 							   gnm_expr_new_constant (value_new_string (str)),
 							   gnm_expr_new_constant (value_dup (val)))));
 
-		gnm_func_unref (fd_concatenate);
-		gnm_func_unref (fd_cell);
+		gnm_func_dec_usage (fd_concatenate);
+		gnm_func_dec_usage (fd_cell);
 	}
 }
 
@@ -566,6 +566,14 @@ int analysis_tool_calc_length (analysis_tools_data_generic_t *info)
 	return result;
 }
 
+/**
+ * analysis_tool_get_function:
+ * @name: name of function
+ * @dao:
+ *
+ * Returns: (transfer full): the function named @name or a placeholder.
+ * The usage count of the function is incremented.
+ */
 GnmFunc *
 analysis_tool_get_function (char const *name,
 			    data_analysis_output_t *dao)
@@ -573,7 +581,7 @@ analysis_tool_get_function (char const *name,
 	GnmFunc *fd;
 
 	fd = gnm_func_lookup_or_add_placeholder (name);
-	gnm_func_ref (fd);
+	gnm_func_inc_usage (fd);
 	return fd;
 }
 
@@ -603,7 +611,7 @@ analysis_tool_table (data_analysis_output_t *dao,
 	dao_set_cell_printf (dao, 0, 0, "%s", title);
 
 	fd = gnm_func_lookup_or_add_placeholder (functionname);
-	gnm_func_ref (fd);
+	gnm_func_inc_usage (fd);
 
 	for (col = 1, inputdata = info->input; inputdata != NULL;
 	     inputdata = inputdata->next, col++) {
@@ -650,7 +658,7 @@ analysis_tool_table (data_analysis_output_t *dao,
 	}
 
 	g_slist_free_full (inputexpr, (GDestroyNotify)gnm_expr_free);
-	if (fd) gnm_func_unref (fd);
+	if (fd) gnm_func_dec_usage (fd);
 
 	dao_redraw_respan (dao);
 	return FALSE;
@@ -795,29 +803,29 @@ summary_statistics (data_analysis_output_t *dao,
 	GnmFunc *fd_sqrt;
 
 	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_ref (fd_mean);
+	gnm_func_inc_usage (fd_mean);
 	fd_median = gnm_func_lookup_or_add_placeholder (info->use_ssmedian ? "SSMEDIAN" : "MEDIAN");
-	gnm_func_ref (fd_median);
+	gnm_func_inc_usage (fd_median);
 	fd_mode = gnm_func_lookup_or_add_placeholder ("MODE");
-	gnm_func_ref (fd_mode);
+	gnm_func_inc_usage (fd_mode);
 	fd_stdev = gnm_func_lookup_or_add_placeholder ("STDEV");
-	gnm_func_ref (fd_stdev);
+	gnm_func_inc_usage (fd_stdev);
 	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_ref (fd_var);
+	gnm_func_inc_usage (fd_var);
 	fd_kurt = gnm_func_lookup_or_add_placeholder ("KURT");
-	gnm_func_ref (fd_kurt);
+	gnm_func_inc_usage (fd_kurt);
 	fd_skew = gnm_func_lookup_or_add_placeholder ("SKEW");
-	gnm_func_ref (fd_skew);
+	gnm_func_inc_usage (fd_skew);
 	fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
-	gnm_func_ref (fd_min);
+	gnm_func_inc_usage (fd_min);
 	fd_max = gnm_func_lookup_or_add_placeholder ("MAX");
-	gnm_func_ref (fd_max);
+	gnm_func_inc_usage (fd_max);
 	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_ref (fd_sum);
+	gnm_func_inc_usage (fd_sum);
 	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_ref (fd_count);
+	gnm_func_inc_usage (fd_count);
 	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-	gnm_func_ref (fd_sqrt);
+	gnm_func_inc_usage (fd_sqrt);
 
         dao_set_cell (dao, 0, 0, NULL);
 
@@ -935,18 +943,18 @@ summary_statistics (data_analysis_output_t *dao,
 		dao_set_cell_expr (dao, col + 1, 2, expr);
 	}
 
-	gnm_func_unref (fd_mean);
-	gnm_func_unref (fd_median);
-	gnm_func_unref (fd_mode);
-	gnm_func_unref (fd_stdev);
-	gnm_func_unref (fd_var);
-	gnm_func_unref (fd_kurt);
-	gnm_func_unref (fd_skew);
-	gnm_func_unref (fd_min);
-	gnm_func_unref (fd_max);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_count);
-	gnm_func_unref (fd_sqrt);
+	gnm_func_dec_usage (fd_mean);
+	gnm_func_dec_usage (fd_median);
+	gnm_func_dec_usage (fd_mode);
+	gnm_func_dec_usage (fd_stdev);
+	gnm_func_dec_usage (fd_var);
+	gnm_func_dec_usage (fd_kurt);
+	gnm_func_dec_usage (fd_skew);
+	gnm_func_dec_usage (fd_min);
+	gnm_func_dec_usage (fd_max);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_count);
+	gnm_func_dec_usage (fd_sqrt);
 }
 
 static void
@@ -974,15 +982,15 @@ confidence_level (data_analysis_output_t *dao,
         dao_set_cell (dao, 0, 0, NULL);
 
 	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_ref (fd_mean);
+	gnm_func_inc_usage (fd_mean);
 	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_ref (fd_var);
+	gnm_func_inc_usage (fd_var);
 	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_ref (fd_count);
+	gnm_func_inc_usage (fd_count);
 	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV");
-	gnm_func_ref (fd_tinv);
+	gnm_func_inc_usage (fd_tinv);
 	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-	gnm_func_ref (fd_sqrt);
+	gnm_func_inc_usage (fd_sqrt);
 
 
 	for (col = 0; data != NULL; data = data->next, col++) {
@@ -1034,11 +1042,11 @@ confidence_level (data_analysis_output_t *dao,
 							expr));
 	}
 
-	gnm_func_unref (fd_mean);
-	gnm_func_unref (fd_var);
-	gnm_func_unref (fd_count);
-	gnm_func_unref (fd_tinv);
-	gnm_func_unref (fd_sqrt);
+	gnm_func_dec_usage (fd_mean);
+	gnm_func_dec_usage (fd_var);
+	gnm_func_dec_usage (fd_count);
+	gnm_func_dec_usage (fd_tinv);
+	gnm_func_dec_usage (fd_sqrt);
 }
 
 static void
@@ -1049,7 +1057,7 @@ kth_smallest_largest (data_analysis_output_t *dao,
         guint col;
 	GSList *data = info->base.input;
 	GnmFunc *fd = gnm_func_lookup_or_add_placeholder (func);
-	gnm_func_ref (fd);
+	gnm_func_inc_usage (fd);
 
 	dao_set_italic (dao, 0, 1, 0, 1);
         dao_set_cell_printf (dao, 0, 1, label, k);
@@ -1072,7 +1080,7 @@ kth_smallest_largest (data_analysis_output_t *dao,
 		dao_set_cell_expr (dao, col + 1, 1, expr);
 	}
 
-	gnm_func_unref (fd);
+	gnm_func_dec_usage (fd);
 }
 
 /* Descriptive Statistics
@@ -1172,11 +1180,11 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 
 	if (info->base.labels || info->periodic) {
 		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-		gnm_func_ref (fd_index);
+		gnm_func_inc_usage (fd_index);
 	}
 	if (!info->periodic) {
 		fd_randdiscrete = gnm_func_lookup_or_add_placeholder ("RANDDISCRETE");
-		gnm_func_ref (fd_randdiscrete);
+		gnm_func_inc_usage (fd_randdiscrete);
 	}
 
 	for (l = info->base.input, source = 1; l; l = l->next, source++) {
@@ -1299,9 +1307,9 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 	}
 
 	if (fd_index != NULL)
-		gnm_func_unref (fd_index);
+		gnm_func_dec_usage (fd_index);
 	if (fd_randdiscrete != NULL)
-		gnm_func_unref (fd_randdiscrete);
+		gnm_func_dec_usage (fd_randdiscrete);
 
 	dao_redraw_respan (dao);
 
@@ -1410,17 +1418,17 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 					"/z Critical two-tail"));
 
 	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_ref (fd_mean);
+	gnm_func_inc_usage (fd_mean);
 	fd_normsdist = gnm_func_lookup_or_add_placeholder ("NORMSDIST");
-	gnm_func_ref (fd_normsdist);
+	gnm_func_inc_usage (fd_normsdist);
 	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
-	gnm_func_ref (fd_abs);
+	gnm_func_inc_usage (fd_abs);
 	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-	gnm_func_ref (fd_sqrt);
+	gnm_func_inc_usage (fd_sqrt);
 	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_ref (fd_count);
+	gnm_func_inc_usage (fd_count);
 	fd_normsinv = gnm_func_lookup_or_add_placeholder ("NORMSINV");
-	gnm_func_ref (fd_normsinv);
+	gnm_func_inc_usage (fd_normsinv);
 
 	val_1 = value_dup (info->base.range_1);
 	expr_1 = gnm_expr_new_constant (value_dup (val_1));
@@ -1561,12 +1569,12 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 		    GNM_EXPR_OP_DIV,
 		    gnm_expr_new_constant (value_new_int (2))))));
 
-	gnm_func_unref (fd_mean);
-	gnm_func_unref (fd_normsdist);
-	gnm_func_unref (fd_abs);
-	gnm_func_unref (fd_sqrt);
-	gnm_func_unref (fd_count);
-	gnm_func_unref (fd_normsinv);
+	gnm_func_dec_usage (fd_mean);
+	gnm_func_dec_usage (fd_normsdist);
+	gnm_func_dec_usage (fd_abs);
+	gnm_func_dec_usage (fd_sqrt);
+	gnm_func_dec_usage (fd_count);
+	gnm_func_dec_usage (fd_normsinv);
 
 	/* And finish up */
 
@@ -1664,27 +1672,27 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 					"/t Critical two-tail"));
 
 	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_ref (fd_mean);
+	gnm_func_inc_usage (fd_mean);
 	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_ref (fd_var);
+	gnm_func_inc_usage (fd_var);
 	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_ref (fd_count);
+	gnm_func_inc_usage (fd_count);
 	fd_correl = gnm_func_lookup_or_add_placeholder ("CORREL");
-	gnm_func_ref (fd_correl);
+	gnm_func_inc_usage (fd_correl);
 	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV");
-	gnm_func_ref (fd_tinv);
+	gnm_func_inc_usage (fd_tinv);
 	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST");
-	gnm_func_ref (fd_tdist);
+	gnm_func_inc_usage (fd_tdist);
 	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
-	gnm_func_ref (fd_abs);
+	gnm_func_inc_usage (fd_abs);
 	fd_isodd = gnm_func_lookup_or_add_placeholder ("ISODD");
-	gnm_func_ref (fd_isodd);
+	gnm_func_inc_usage (fd_isodd);
 	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER");
-	gnm_func_ref (fd_isnumber);
+	gnm_func_inc_usage (fd_isnumber);
 	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_ref (fd_if);
+	gnm_func_inc_usage (fd_if);
 	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_ref (fd_sum);
+	gnm_func_inc_usage (fd_sum);
 
 	val_1 = value_dup (info->base.range_1);
 	val_2 = value_dup (info->base.range_2);
@@ -1853,17 +1861,17 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	value_release (val_1);
 	value_release (val_2);
 
-	gnm_func_unref (fd_count);
-	gnm_func_unref (fd_correl);
-	gnm_func_unref (fd_mean);
-	gnm_func_unref (fd_var);
-	gnm_func_unref (fd_tinv);
-	gnm_func_unref (fd_tdist);
-	gnm_func_unref (fd_abs);
-	gnm_func_unref (fd_isodd);
-	gnm_func_unref (fd_isnumber);
-	gnm_func_unref (fd_if);
-	gnm_func_unref (fd_sum);
+	gnm_func_dec_usage (fd_count);
+	gnm_func_dec_usage (fd_correl);
+	gnm_func_dec_usage (fd_mean);
+	gnm_func_dec_usage (fd_var);
+	gnm_func_dec_usage (fd_tinv);
+	gnm_func_dec_usage (fd_tdist);
+	gnm_func_dec_usage (fd_abs);
+	gnm_func_dec_usage (fd_isodd);
+	gnm_func_dec_usage (fd_isnumber);
+	gnm_func_dec_usage (fd_if);
+	gnm_func_dec_usage (fd_sum);
 
 	dao_redraw_respan (dao);
 
@@ -1946,17 +1954,17 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	val_2 = value_dup (info->base.range_2);
 
 	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_ref (fd_mean);
+	gnm_func_inc_usage (fd_mean);
 	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_ref (fd_count);
+	gnm_func_inc_usage (fd_count);
 	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_ref (fd_var);
+	gnm_func_inc_usage (fd_var);
 	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST");
-	gnm_func_ref (fd_tdist);
+	gnm_func_inc_usage (fd_tdist);
 	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
-	gnm_func_ref (fd_abs);
+	gnm_func_inc_usage (fd_abs);
 	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV");
-	gnm_func_ref (fd_tinv);
+	gnm_func_inc_usage (fd_tinv);
 
 	/* Labels */
 	analysis_tools_write_label_ftest (val_1, dao, 1, 0,
@@ -2159,12 +2167,12 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	value_release (val_1);
 	value_release (val_2);
 
-	gnm_func_unref (fd_mean);
-	gnm_func_unref (fd_var);
-	gnm_func_unref (fd_count);
-	gnm_func_unref (fd_tdist);
-	gnm_func_unref (fd_abs);
-	gnm_func_unref (fd_tinv);
+	gnm_func_dec_usage (fd_mean);
+	gnm_func_dec_usage (fd_var);
+	gnm_func_dec_usage (fd_count);
+	gnm_func_dec_usage (fd_tdist);
+	gnm_func_dec_usage (fd_abs);
+	gnm_func_dec_usage (fd_tinv);
 
 	dao_redraw_respan (dao);
 
@@ -2242,17 +2250,17 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 	val_2 = value_dup (info->base.range_2);
 
 	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_ref (fd_mean);
+	gnm_func_inc_usage (fd_mean);
 	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_ref (fd_var);
+	gnm_func_inc_usage (fd_var);
 	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_ref (fd_count);
+	gnm_func_inc_usage (fd_count);
 	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST");
-	gnm_func_ref (fd_tdist);
+	gnm_func_inc_usage (fd_tdist);
 	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
-	gnm_func_ref (fd_abs);
+	gnm_func_inc_usage (fd_abs);
 	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV");
-	gnm_func_ref (fd_tinv);
+	gnm_func_inc_usage (fd_tinv);
 
 	/* Labels */
 	analysis_tools_write_label_ftest (val_1, dao, 1, 0,
@@ -2450,12 +2458,12 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 
 	/* And finish up */
 
-	gnm_func_unref (fd_mean);
-	gnm_func_unref (fd_var);
-	gnm_func_unref (fd_count);
-	gnm_func_unref (fd_tdist);
-	gnm_func_unref (fd_abs);
-	gnm_func_unref (fd_tinv);
+	gnm_func_dec_usage (fd_mean);
+	gnm_func_dec_usage (fd_var);
+	gnm_func_dec_usage (fd_count);
+	gnm_func_dec_usage (fd_tdist);
+	gnm_func_dec_usage (fd_abs);
+	gnm_func_dec_usage (fd_tinv);
 
 	value_release (val_1);
 	value_release (val_2);
@@ -2516,7 +2524,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_finv;
 
 	fd_finv = gnm_func_lookup_or_add_placeholder ("FINV");
-	gnm_func_ref (fd_finv);
+	gnm_func_inc_usage (fd_finv);
 
 	dao_set_italic (dao, 0, 0, 0, 11);
 	dao_set_cell (dao, 0, 0, _("F-Test"));
@@ -2540,7 +2548,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 	/* Mean */
 	{
 		GnmFunc *fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-		gnm_func_ref (fd_mean);
+		gnm_func_inc_usage (fd_mean);
 
 		dao_set_cell_expr
 			(dao, 1, 1,
@@ -2554,13 +2562,13 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			 (fd_mean,
 			  gnm_expr_new_constant (value_dup (val_2))));
 
-		gnm_func_unref (fd_mean);
+		gnm_func_dec_usage (fd_mean);
 	}
 
 	/* Variance */
 	{
 		GnmFunc *fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-		gnm_func_ref (fd_var);
+		gnm_func_inc_usage (fd_var);
 
 		dao_set_cell_expr
 			(dao, 1, 2,
@@ -2573,13 +2581,13 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_constant (value_dup (val_2)));
 		dao_set_cell_expr (dao, 2, 2, gnm_expr_copy (expr_var_denum));
 
-		gnm_func_unref (fd_var);
+		gnm_func_dec_usage (fd_var);
 	}
 
         /* Count */
 	{
 		GnmFunc *fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-		gnm_func_ref (fd_count);
+		gnm_func_inc_usage (fd_count);
 
 		dao_set_cell_expr
 			(dao, 1, 3,
@@ -2592,7 +2600,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_constant (value_dup (val_2)));
 		dao_set_cell_expr (dao, 2, 3, gnm_expr_copy (expr_count_denum));
 
-		gnm_func_unref (fd_count);
+		gnm_func_dec_usage (fd_count);
 	}
 
 	/* df */
@@ -2625,7 +2633,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 		GnmFunc *fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST");
 		const GnmExpr *arg3;
 
-		gnm_func_ref (fd_fdist);
+		gnm_func_inc_usage (fd_fdist);
 
 		if (dao_cell_is_visible (dao, 2, 2)) {
 			arg3 = make_cellref (1, -2);
@@ -2646,7 +2654,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			  make_cellref (0, -2),
 			  arg3));
 
-		gnm_func_unref (fd_fdist);
+		gnm_func_dec_usage (fd_fdist);
 	}
 
 	/* F critical right-tail */
@@ -2699,7 +2707,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 	{
 		GnmFunc *fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
 
-		gnm_func_ref (fd_min);
+		gnm_func_inc_usage (fd_min);
 
 		dao_set_cell_expr
 			(dao, 1, 10,
@@ -2710,7 +2718,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			  (fd_min,
 			   make_cellref (0, -4),
 			   make_cellref (0, -2))));
-		gnm_func_unref (fd_min);
+		gnm_func_dec_usage (fd_min);
 	}
 
 	/* F critical two-tail (left) */
@@ -2746,7 +2754,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 	value_release (val_1);
 	value_release (val_2);
 
-	gnm_func_unref (fd_finv);
+	gnm_func_dec_usage (fd_finv);
 
 	dao_redraw_respan (dao);
 	return FALSE;
@@ -3415,25 +3423,25 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		value_release (val_2);
 	}
 
-	gnm_func_unref (fd_linest);
-	gnm_func_unref (fd_index);
-	gnm_func_unref (fd_fdist);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_sqrt);
-	gnm_func_unref (fd_tdist);
-	gnm_func_unref (fd_abs);
-	gnm_func_unref (fd_tinv);
-	gnm_func_unref (fd_transpose);
+	gnm_func_dec_usage (fd_linest);
+	gnm_func_dec_usage (fd_index);
+	gnm_func_dec_usage (fd_fdist);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_sqrt);
+	gnm_func_dec_usage (fd_tdist);
+	gnm_func_dec_usage (fd_abs);
+	gnm_func_dec_usage (fd_tinv);
+	gnm_func_dec_usage (fd_transpose);
 	if (fd_concatenate != NULL)
-		gnm_func_unref (fd_concatenate);
+		gnm_func_dec_usage (fd_concatenate);
 	if (fd_cell != NULL)
-		gnm_func_unref (fd_cell);
+		gnm_func_dec_usage (fd_cell);
 	if (fd_offset != NULL)
-		gnm_func_unref (fd_offset);
+		gnm_func_dec_usage (fd_offset);
 	if (fd_sumproduct != NULL)
-		gnm_func_unref (fd_sumproduct);
+		gnm_func_dec_usage (fd_sumproduct);
 	if (fd_leverage != NULL)
-		gnm_func_unref (fd_leverage);
+		gnm_func_dec_usage (fd_leverage);
 
 	dao_redraw_respan (dao);
 
@@ -3541,11 +3549,11 @@ analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
 	gnm_expr_free (expr_observ);
 	gnm_expr_free (expr_val_dep);
 
-	gnm_func_unref (fd_fdist);
-	gnm_func_unref (fd_linest);
-	gnm_func_unref (fd_index);
-	gnm_func_unref (fd_rows);
-	gnm_func_unref (fd_columns);
+	gnm_func_dec_usage (fd_fdist);
+	gnm_func_dec_usage (fd_linest);
+	gnm_func_dec_usage (fd_index);
+	gnm_func_dec_usage (fd_rows);
+	gnm_func_dec_usage (fd_columns);
 
 	dao_redraw_respan (dao);
 
@@ -3676,22 +3684,22 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 	if (info->base.labels || info->ma_type == moving_average_type_wma
 	    || info->ma_type== moving_average_type_spencer_ma) {
 		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-		gnm_func_ref (fd_index);
+		gnm_func_inc_usage (fd_index);
 	}
 	if (info->std_error_flag) {
 		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-		gnm_func_ref (fd_sqrt);
+		gnm_func_inc_usage (fd_sqrt);
 		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2");
-		gnm_func_ref (fd_sumxmy2);
+		gnm_func_inc_usage (fd_sumxmy2);
 	}
 	if (moving_average_type_wma == info->ma_type || moving_average_type_spencer_ma == info->ma_type) {
 		fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-		gnm_func_ref (fd_sum);
+		gnm_func_inc_usage (fd_sum);
 	}
 	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_ref (fd_average);
+	gnm_func_inc_usage (fd_average);
 	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
-	gnm_func_ref (fd_offset);
+	gnm_func_inc_usage (fd_offset);
 
 	if (info->show_graph) {
 		GogGraph     *graph;
@@ -3954,15 +3962,15 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		dao_set_sheet_object (dao, 0, 1, so);
 
 	if (fd_index != NULL)
-		gnm_func_unref (fd_index);
+		gnm_func_dec_usage (fd_index);
 	if (fd_sqrt != NULL)
-		gnm_func_unref (fd_sqrt);
+		gnm_func_dec_usage (fd_sqrt);
 	if (fd_sumxmy2 != NULL)
-		gnm_func_unref (fd_sumxmy2);
+		gnm_func_dec_usage (fd_sumxmy2);
 	if (fd_sum != NULL)
-		gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_average);
-	gnm_func_unref (fd_offset);
+		gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_average);
+	gnm_func_dec_usage (fd_offset);
 
 	dao_redraw_respan (dao);
 
@@ -4024,15 +4032,15 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_percentrank;
 
 	fd_large = gnm_func_lookup_or_add_placeholder ("LARGE");
-	gnm_func_ref (fd_large);
+	gnm_func_inc_usage (fd_large);
 	fd_row = gnm_func_lookup_or_add_placeholder ("ROW");
-	gnm_func_ref (fd_row);
+	gnm_func_inc_usage (fd_row);
 	fd_rank = gnm_func_lookup_or_add_placeholder ("RANK");
-	gnm_func_ref (fd_rank);
+	gnm_func_inc_usage (fd_rank);
 	fd_match = gnm_func_lookup_or_add_placeholder ("MATCH");
-	gnm_func_ref (fd_match);
+	gnm_func_inc_usage (fd_match);
 	fd_percentrank = gnm_func_lookup_or_add_placeholder ("PERCENTRANK");
-	gnm_func_ref (fd_percentrank);
+	gnm_func_inc_usage (fd_percentrank);
 
 	dao_set_merge (dao, 0, 0, 1, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
@@ -4082,7 +4090,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 			GnmExpr const *expr_rows;
 			GnmFunc *fd_count;
 			fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-			gnm_func_ref (fd_count);
+			gnm_func_inc_usage (fd_count);
 
 			expr_rows = gnm_expr_new_funcall1
 				(fd_count, gnm_expr_new_constant (value_dup (val_org)));
@@ -4102,7 +4110,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 				 GNM_EXPR_OP_DIV,
 				 gnm_expr_new_constant (value_new_int (2)));
 
-			gnm_func_unref (fd_count);
+			gnm_func_dec_usage (fd_count);
 		}
 		expr_percentile = gnm_expr_new_funcall3 (fd_percentrank,
 							 gnm_expr_new_constant (value_dup (val_org)),
@@ -4122,11 +4130,11 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 		gnm_expr_free (expr_percentile);
 	}
 
-	gnm_func_unref (fd_large);
-	gnm_func_unref (fd_row);
-	gnm_func_unref (fd_rank);
-	gnm_func_unref (fd_match);
-	gnm_func_unref (fd_percentrank);
+	gnm_func_dec_usage (fd_large);
+	gnm_func_dec_usage (fd_row);
+	gnm_func_dec_usage (fd_rank);
+	gnm_func_dec_usage (fd_match);
+	gnm_func_dec_usage (fd_percentrank);
 
 	dao_redraw_respan (dao);
 
@@ -4199,15 +4207,15 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 					"/Variance"));
 
 	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_ref (fd_mean);
+	gnm_func_inc_usage (fd_mean);
 	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_ref (fd_var);
+	gnm_func_inc_usage (fd_var);
 	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_ref (fd_sum);
+	gnm_func_inc_usage (fd_sum);
 	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_ref (fd_count);
+	gnm_func_inc_usage (fd_count);
 	fd_devsq = gnm_func_lookup_or_add_placeholder ("DEVSQ");
-	gnm_func_ref (fd_devsq);
+	gnm_func_inc_usage (fd_devsq);
 
 	dao->offset_row += 4;
 	if (dao->rows <= dao->offset_row)
@@ -4417,7 +4425,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 			}
 
 			fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST");
-			gnm_func_ref (fd_fdist);
+			gnm_func_inc_usage (fd_fdist);
 
 			dao_set_cell_expr
 				(dao, 5, 2,
@@ -4425,7 +4433,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 				 (fd_fdist,
 				  arg1, arg2, arg3));
 			if (fd_fdist)
-				gnm_func_unref (fd_fdist);
+				gnm_func_dec_usage (fd_fdist);
 		}
 		{
 			/* Critical F*/
@@ -4439,7 +4447,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 				arg3 = expr_wdof;
 
 			fd_finv = gnm_func_lookup_or_add_placeholder ("FINV");
-			gnm_func_ref (fd_finv);
+			gnm_func_inc_usage (fd_finv);
 
 			dao_set_cell_expr
 				(dao, 6, 2,
@@ -4449,17 +4457,17 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 				  (value_new_float (info->alpha)),
 				  make_cellref (-4, 0),
 				  arg3));
-			gnm_func_unref (fd_finv);
+			gnm_func_dec_usage (fd_finv);
 		}
 	}
 
 finish_anova_single_factor_tool:
 
-	gnm_func_unref (fd_mean);
-	gnm_func_unref (fd_var);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_count);
-	gnm_func_unref (fd_devsq);
+	gnm_func_dec_usage (fd_mean);
+	gnm_func_dec_usage (fd_var);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_count);
+	gnm_func_dec_usage (fd_devsq);
 
 	dao->offset_row = 0;
 	dao->offset_col = 0;
@@ -4520,7 +4528,7 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_fourier;
 
 	fd_fourier = gnm_func_lookup_or_add_placeholder ("FOURIER");
-	gnm_func_ref (fd_fourier);
+	gnm_func_inc_usage (fd_fourier);
 
 	dao_set_merge (dao, 0, 0, 1, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
@@ -4555,7 +4563,7 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 		dao->offset_col += 2;
 	}
 
-	gnm_func_unref (fd_fourier);
+	gnm_func_dec_usage (fd_fourier);
 
 	dao_redraw_respan (dao);
 

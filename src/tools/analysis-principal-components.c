@@ -69,25 +69,25 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 	}
 
 	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_ref (fd_mean);
+	gnm_func_inc_usage (fd_mean);
 	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_ref (fd_var);
+	gnm_func_inc_usage (fd_var);
 	fd_eigen = gnm_func_lookup_or_add_placeholder ("EIGEN");
-	gnm_func_ref (fd_eigen);
+	gnm_func_inc_usage (fd_eigen);
 	fd_mmult = gnm_func_lookup_or_add_placeholder ("MMULT");
-	gnm_func_ref (fd_mmult);
+	gnm_func_inc_usage (fd_mmult);
 	fd_munit = gnm_func_lookup_or_add_placeholder ("MUNIT");
-	gnm_func_ref (fd_munit);
+	gnm_func_inc_usage (fd_munit);
 	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-	gnm_func_ref (fd_sqrt);
+	gnm_func_inc_usage (fd_sqrt);
 	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_ref (fd_count);
+	gnm_func_inc_usage (fd_count);
 	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_ref (fd_sum);
+	gnm_func_inc_usage (fd_sum);
 	fd_and = gnm_func_lookup_or_add_placeholder ("AND");
-	gnm_func_ref (fd_and);
+	gnm_func_inc_usage (fd_and);
 	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_ref (fd_if);
+	gnm_func_inc_usage (fd_if);
 
 	dao_set_bold (dao, 0, 0, 0, 0);
 	dao_set_italic (dao, 0, 0, 0, 11 + 3 * l);
@@ -186,16 +186,16 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 				       expr_munit));
 	dao_set_array_expr (dao, 1, 10 + 2 * l, l, l, expr);
 
-	gnm_func_unref (fd_mean);
-	gnm_func_unref (fd_var);
-	gnm_func_unref (fd_eigen);
-	gnm_func_unref (fd_mmult);
-	gnm_func_unref (fd_munit);
-	gnm_func_unref (fd_sqrt);
-	gnm_func_unref (fd_count);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_and);
-	gnm_func_unref (fd_if);
+	gnm_func_dec_usage (fd_mean);
+	gnm_func_dec_usage (fd_var);
+	gnm_func_dec_usage (fd_eigen);
+	gnm_func_dec_usage (fd_mmult);
+	gnm_func_dec_usage (fd_munit);
+	gnm_func_dec_usage (fd_sqrt);
+	gnm_func_dec_usage (fd_count);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_and);
+	gnm_func_dec_usage (fd_if);
 
 	dao_redraw_respan (dao);
 	return 0;

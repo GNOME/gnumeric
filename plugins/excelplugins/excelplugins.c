@@ -574,7 +574,7 @@ free_xll_function_info (gpointer data)
 	XLLFunctionInfo *info= (XLLFunctionInfo *)data;
 	const guint n = info->number_of_arguments;
 	if (NULL != info->gnm_func) {
-		gnm_func_free (info->gnm_func);
+		g_object_unref (info->gnm_func);
 		info->gnm_func = NULL;
 	}
 	delete_string (&info->category);

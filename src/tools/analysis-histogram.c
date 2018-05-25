@@ -142,11 +142,11 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 	char const *format;
 
 	fd_small = gnm_func_lookup_or_add_placeholder ("SMALL");
-	gnm_func_ref (fd_small);
+	gnm_func_inc_usage (fd_small);
 
 	if (info->base.labels) {
 		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-		gnm_func_ref (fd_index);
+		gnm_func_inc_usage (fd_index);
 	}
 
 
@@ -212,12 +212,12 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 			GnmFunc *fd_min;
 
 			fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
-			gnm_func_ref (fd_min);
+			gnm_func_inc_usage (fd_min);
 			dao_set_cell_expr (dao, to_col, i_start,
 					   gnm_expr_new_funcall1
 					   (fd_min,
 					    gnm_expr_new_constant (value_dup (val))));
-			gnm_func_unref (fd_min);
+			gnm_func_dec_usage (fd_min);
 		}
 
 		if (info->max_given)
@@ -226,12 +226,12 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 			GnmFunc *fd_max;
 
 			fd_max = gnm_func_lookup_or_add_placeholder ("MAX");
-			gnm_func_ref (fd_max);
+			gnm_func_inc_usage (fd_max);
 			dao_set_cell_expr (dao, to_col, i_start + i_limit - 1,
 					   gnm_expr_new_funcall1
 					   (fd_max,
 					    gnm_expr_new_constant (value_dup (val))));
-			gnm_func_unref (fd_max);
+			gnm_func_dec_usage (fd_max);
 		}
 
 		value_release (val);
@@ -347,9 +347,9 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 	if (expr_bin != NULL)
 		gnm_expr_free (expr_bin);
 
-	gnm_func_unref (fd_small);
+	gnm_func_dec_usage (fd_small);
 	if (fd_index != NULL)
-		gnm_func_unref (fd_index);
+		gnm_func_dec_usage (fd_index);
 
 	/* Create Chart if requested */
 	if (info->chart != NO_CHART) {

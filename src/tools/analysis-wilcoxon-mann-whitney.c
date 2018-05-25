@@ -73,13 +73,13 @@ GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Wor
 	}
 
 	fd_array = gnm_func_lookup_or_add_placeholder ("ARRAY");
-	gnm_func_ref (fd_array);
+	gnm_func_inc_usage (fd_array);
 
 	expr = gnm_expr_new_funcall2 (fd_array,
 				      gnm_expr_new_constant (value_dup (val_1)),
 				      gnm_expr_new_constant (value_dup (val_2)));
 
-	gnm_func_unref (fd_array);
+	gnm_func_dec_usage (fd_array);
 
 	return expr;
 }
@@ -110,25 +110,25 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 	Workbook *wb = dao->sheet ? dao->sheet->workbook : NULL;
 
 	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_ref (fd_count);
+	gnm_func_inc_usage (fd_count);
 	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_ref (fd_sum);
+	gnm_func_inc_usage (fd_sum);
 	fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS");
-	gnm_func_ref (fd_rows);
+	gnm_func_inc_usage (fd_rows);
 	fd_rank_avg = gnm_func_lookup_or_add_placeholder ("RANK.AVG");
-	gnm_func_ref (fd_rank_avg);
+	gnm_func_inc_usage (fd_rank_avg);
 	fd_rank = gnm_func_lookup_or_add_placeholder ("RANK");
-	gnm_func_ref (fd_rank);
+	gnm_func_inc_usage (fd_rank);
 	fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
-	gnm_func_ref (fd_min);
+	gnm_func_inc_usage (fd_min);
 	fd_normdist = gnm_func_lookup_or_add_placeholder ("NORMDIST");
-	gnm_func_ref (fd_normdist);
+	gnm_func_inc_usage (fd_normdist);
 	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-	gnm_func_ref (fd_sqrt);
+	gnm_func_inc_usage (fd_sqrt);
 	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_ref (fd_if);
+	gnm_func_inc_usage (fd_if);
 	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK");
-	gnm_func_ref (fd_isblank);
+	gnm_func_inc_usage (fd_isblank);
 
 	dao_set_italic (dao, 0, 0, 0, 8);
 	dao_set_italic (dao, 0, 1, 3, 1);
@@ -323,16 +323,16 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 
 	gnm_expr_free (expr_total);
 
-	gnm_func_unref (fd_count);
-	gnm_func_unref (fd_sum);
-	gnm_func_unref (fd_rows);
-	gnm_func_unref (fd_rank_avg);
-	gnm_func_unref (fd_rank);
-	gnm_func_unref (fd_min);
-	gnm_func_unref (fd_normdist);
-	gnm_func_unref (fd_sqrt);
-	gnm_func_unref (fd_if);
-	gnm_func_unref (fd_isblank);
+	gnm_func_dec_usage (fd_count);
+	gnm_func_dec_usage (fd_sum);
+	gnm_func_dec_usage (fd_rows);
+	gnm_func_dec_usage (fd_rank_avg);
+	gnm_func_dec_usage (fd_rank);
+	gnm_func_dec_usage (fd_min);
+	gnm_func_dec_usage (fd_normdist);
+	gnm_func_dec_usage (fd_sqrt);
+	gnm_func_dec_usage (fd_if);
+	gnm_func_dec_usage (fd_isblank);
 
 	dao_redraw_respan (dao);
 	return 0;
