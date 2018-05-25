@@ -259,6 +259,8 @@ GSList	   *gnm_func_lookup_prefix   (char const *prefix, Workbook *scope,
 GnmFunc    *gnm_func_add	     (GnmFuncGroup *group,
 				      GnmFuncDescriptor const *descriptor,
 				      const char *tdomain);
+void        gnm_func_set_from_desc   (GnmFunc *func, GnmFuncDescriptor const *desc);
+
 GnmFunc    *gnm_func_add_placeholder (Workbook *scope,
 				      char const *name,
 				      char const *type);

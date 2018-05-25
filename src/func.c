@@ -137,9 +137,8 @@ gnm_func_load_stub (GnmFunc *func)
 
 	if (func->fn_type == GNM_FUNC_TYPE_STUB) {
 		static GnmFuncHelp const no_help[] = { { GNM_FUNC_HELP_END } };
-
-		func->help = no_help;
 		gnm_func_set_varargs (func, error_function_no_full_info);
+		func->help = no_help;
 	}
 }
 
@@ -656,6 +655,31 @@ gnm_func_set_function_group (GnmFunc *func, GnmFuncGroup *group)
 		func->flags &= ~GNM_FUNC_IS_PLACEHOLDER;
 }
 
+void
+gnm_func_set_from_desc (GnmFunc *func, GnmFuncDescriptor const *desc)
+{
+	g_return_if_fail (GNM_IS_FUNC (func));
+	g_return_if_fail (desc != NULL);
+
+	// Not setting name, localized_name.  Also not setting things not present
+	// in desc, such as translation domain.
+
+	if (desc->fn_args != NULL) {
+		gnm_func_set_fixargs (func, desc->fn_args, desc->arg_spec);
+	} else if (desc->fn_nodes != NULL) {
+		if (desc->arg_spec && *desc->arg_spec)
+			g_warning ("Arg spec for node function -- why?");
+		gnm_func_set_varargs (func, desc->fn_nodes);
+	} else {
+		gnm_func_set_stub (func);
+		return;
+	}
+
+	func->help		= desc->help ? desc->help : NULL;
+	func->flags		= desc->flags;
+	func->impl_status	= desc->impl_status;
+	func->test_status	= desc->test_status;
+}
 
 
 /**
@@ -682,25 +706,16 @@ gnm_func_add (GnmFuncGroup *fn_group,
 			     NULL);
 	gnm_func_set_translation_domain (func, tdomain);
 
-	func->help		= desc->help ? desc->help : NULL;
-	func->flags		= desc->flags;
-	func->impl_status	= desc->impl_status;
-	func->test_status	= desc->test_status;
+	gnm_func_set_from_desc (func, desc);
 
-	if (desc->fn_args != NULL) {
-		gnm_func_set_fixargs (func, desc->fn_args, desc->arg_spec);
-	} else if (desc->fn_nodes != NULL) {
-		if (desc->arg_spec && *desc->arg_spec)
-			g_warning ("Arg spec for node function -- why?");
-		gnm_func_set_varargs (func, desc->fn_nodes);
-	} else {
+	if (func->fn_type == GNM_FUNC_TYPE_STUB) {
 		g_warning ("Invalid function has neither args nor nodes handler");
 		g_object_unref (func);
 		return NULL;
 	}
 
-	func->fn_group = fn_group;
-	gnm_func_group_add_func (fn_group, func);
+	gnm_func_set_function_group (func, fn_group);
+
 	if (!(func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL))
 		g_hash_table_insert (functions_by_name,
 				     (gpointer)(func->name), func);
@@ -1801,6 +1816,9 @@ static void
 gnm_func_init (GnmFunc *func)
 {
 	func->tdomain = go_string_new (GETTEXT_PACKAGE);
+	func->flags = GNM_FUNC_SIMPLE;
+	func->impl_status = GNM_FUNC_IMPL_STATUS_UNIMPLEMENTED;
+	func->test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
 }
 
 static void

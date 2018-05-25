@@ -774,18 +774,7 @@ gnm_plugin_loader_module_func_load_stub (GOPluginService *service,
 		return; // Failed
 
 	desc = loader_data->module_fn_info_array + GPOINTER_TO_INT (index_ptr);
-
-	func->help	 = desc->help ? desc->help : NULL;
-	gnm_func_set_impl_status (func, desc->impl_status);
-	gnm_func_set_test_status (func, desc->test_status);
-	gnm_func_set_flags (func, desc->flags);
-	if (desc->fn_args != NULL) {
-		gnm_func_set_fixargs (func, desc->fn_args, desc->arg_spec);
-	} else if (desc->fn_nodes != NULL) {
-		gnm_func_set_varargs (func, desc->fn_nodes);
-	} else {
-		g_warning ("Invalid function descriptor with no function");
-	}
+	gnm_func_set_from_desc (func, desc);
 }
 
 static void
