@@ -45,7 +45,7 @@ typedef GObjectClass GnmPerlPluginLoaderClass;
 static GnmValue*
 call_perl_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	GnmFunc const *fndef;
+	GnmFunc *fndef;
 	gint min_n_args, max_n_args, n_args;
 	gint i;
 	gchar *perl_func;
@@ -53,7 +53,7 @@ call_perl_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	dSP;
 
 	fndef = gnm_expr_get_func_def ((GnmExpr *)(ei->func_call));
-	perl_func = g_strconcat ("func_", fndef->name, NULL);
+	perl_func = g_strconcat ("func_", gnm_func_get_name (fndef, FALSE), NULL);
 
 	gnm_func_count_args (fndef, &min_n_args, &max_n_args);
 	for (n_args = min_n_args; n_args < max_n_args && args[n_args] != NULL; n_args++);
@@ -200,8 +200,7 @@ make_gnm_help (const char *name, int count, SV **SP)
 }
 
 static void
-gplp_func_load_stub (GOPluginService *service,
-		     GnmFunc *func)
+gplp_func_load_stub (GOPluginService *service, GnmFunc *func)
 {
 	char const *name = gnm_func_get_name (func, FALSE);
 	char *args[] = { NULL };
@@ -254,13 +253,9 @@ gplp_func_load_stub (GOPluginService *service,
 	g_free (help_perl_func);
 	g_free (desc_perl_func);
 
-	func->help = help;
-	func->impl_status = GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC;
-	func->test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
-	func->flags	  = GNM_FUNC_SIMPLE;
-	func->fn.args.func	= call_perl_function_args;
-	func->fn.args.arg_spec	= arg_spec;
-	gnm_func_set_function_type (func, GNM_FUNC_TYPE_ARGS);
+	gnm_func_set_fixargs (func, call_perl_function_args, arg_spec);
+	gnm_func_set_help (func, help, -1);
+	gnm_func_set_impl_status (func, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC);
 }
 
 static void
