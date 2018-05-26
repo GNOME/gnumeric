@@ -1039,8 +1039,8 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 				res = 1;
 			}
 			if (check_argument_refs (aend + 1, fd)) {
-				g_printerr ("%s: Invalid argument reference in argument\n",
-					    fd->name);
+				g_printerr ("%s: Invalid argument reference, %s, in argument\n",
+					    aend + 1, fd->name);
 				res = 1;
 			}
 			argname = g_strndup (h->text, aend - h->text);

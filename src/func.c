@@ -304,14 +304,14 @@ gnm_func_create_arg_names (GnmFunc *func)
 gboolean
 gnm_func_is_varargs (GnmFunc *func)
 {
-	gnm_func_load_stub (func);
+	gnm_func_load_if_stub (func);
 	return func->fn_type == GNM_FUNC_TYPE_NODES;
 }
 
 gboolean
 gnm_func_is_fixargs (GnmFunc *func)
 {
-	gnm_func_load_stub (func);
+	gnm_func_load_if_stub (func);
 	return func->fn_type == GNM_FUNC_TYPE_ARGS;
 }
 
@@ -325,12 +325,6 @@ gnm_func_set_stub (GnmFunc *func)
 
 	g_free (func->arg_types);
 	func->arg_types = NULL;
-
-	if (func->arg_names) {
-		g_ptr_array_foreach (func->arg_names, (GFunc)g_free, NULL);
-		g_ptr_array_free (func->arg_names, TRUE);
-		func->arg_names = NULL;
-	}
 
 	func->min_args = func->max_args = 0;
 
@@ -395,10 +389,8 @@ gnm_func_set_fixargs (GnmFunc *func, GnmFuncArgs fn, const char *spec)
 		func->min_args = p - func->arg_types;
 		memmove (p, p + 1, strlen (p));
 	} else
-		func->min_args = 0;
+		func->min_args = strlen (func->arg_types);
 	func->max_args = strlen (func->arg_types);
-
-	gnm_func_create_arg_names (func);
 }
 
 /**
@@ -440,6 +432,12 @@ gnm_func_set_help (GnmFunc *func, GnmFuncHelp const *help, int n)
 		func->help = NULL;
 	}
 
+	if (func->arg_names) {
+		g_ptr_array_foreach (func->arg_names, (GFunc)g_free, NULL);
+		g_ptr_array_free (func->arg_names, TRUE);
+		func->arg_names = NULL;
+	}
+
 	if (help) {
 		int i;
 
@@ -450,6 +448,8 @@ gnm_func_set_help (GnmFunc *func, GnmFuncHelp const *help, int n)
 		}
 		func->help[n].type = GNM_FUNC_HELP_END;
 		func->help[n].text = NULL;
+
+		gnm_func_create_arg_names (func);
 	}
 
 	func->help_count = n;
