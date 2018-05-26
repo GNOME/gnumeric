@@ -464,7 +464,7 @@ call_python_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *fn_info_tuple;
 	PyObject *python_fn;
-	GnmFunc const * fndef;
+	GnmFunc *fndef;
 
 	gint min_n_args, max_n_args, n_args;
 
@@ -675,9 +675,10 @@ gplp_func_load_stub (GOPluginService *service,
 			PyString_Check (python_args) &&
 		    (python_fn = PyTuple_GetItem (fn_info_obj, 2)) != NULL &&
 		    PyCallable_Check (python_fn)) {
+			GnmFuncHelp const *help = python_function_get_gnumeric_help 
+				(loader_data->python_fn_info_dict, python_fn, name);
 			gnm_func_set_fixargs (func, call_python_function_args, PyString_AsString (python_args));
-			func->help	= python_function_get_gnumeric_help (
-				loader_data->python_fn_info_dict, python_fn, name);
+			gnm_func_set_help (func, help, -1);
 			gnm_func_set_impl_status (func, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC);
 			g_object_set_data (G_OBJECT (func), SERVICE_KEY, service);
 			return;
@@ -688,9 +689,10 @@ gplp_func_load_stub (GOPluginService *service,
 	}
 
 	if (PyCallable_Check (fn_info_obj)) {
-		gnm_func_set_varargs (func, call_python_function_nodes);
-		func->help	= python_function_get_gnumeric_help (
-			loader_data->python_fn_info_dict, fn_info_obj, name);
+		GnmFuncHelp const *help = python_function_get_gnumeric_help
+			(loader_data->python_fn_info_dict, fn_info_obj, name);
+		gnm_func_set_varargs (func, call_python_function_nodes, NULL);
+		gnm_func_set_help (func, help, -1);
 		gnm_func_set_impl_status (func, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC);
 		g_object_set_data (G_OBJECT (func), SERVICE_KEY, service);
 		return;

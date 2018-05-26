@@ -739,10 +739,13 @@ describe_new_style (GtkTextBuffer *description,
 	gboolean seen_extref = FALSE;
 	gboolean is_TEXT =
 		g_ascii_strcasecmp (gnm_func_get_name (func, FALSE), "TEXT") == 0;
+	int n;
 
 	gtk_text_buffer_get_end_iter (description, &ti);
 
-	for (help = func->help; 1; help++) {
+	help = gnm_func_get_help (func, &n);
+
+	for (; n-- > 0; help++) {
 		switch (help->type) {
 		case GNM_FUNC_HELP_NAME: {
 			const char *text = gnm_func_gettext (func, help->text);
@@ -839,9 +842,6 @@ describe_new_style (GtkTextBuffer *description,
 			ADD_TEXT ("\n");
 			break;
 		}
-		case GNM_FUNC_HELP_END:
-			FINISH_ARGS;
-			return;
 		case GNM_FUNC_HELP_EXTREF: {
 			GtkTextTag *link;
 			char *uri, *tagname;
@@ -899,6 +899,7 @@ describe_new_style (GtkTextBuffer *description,
 			break;
 		}
 	}
+	FINISH_ARGS;
 }
 
 #undef ADD_TEXT_WITH_ARGS
@@ -1063,7 +1064,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 
 		gnm_func_load_if_stub (func);
 
-		if (func->help == NULL)
+		if (gnm_func_get_help (func, NULL) == NULL)
 			gtk_text_buffer_set_text (description, "?", -1);
 		else
 			describe_new_style (description,
@@ -1084,14 +1085,15 @@ static const gchar *
 dialog_function_select_peek_description (GnmFunc *func)
 {
 	GnmFuncHelp const *help;
+	int n;
 
 	gnm_func_load_if_stub (func);
-	help = func->help;
 
+	help = gnm_func_get_help (func, &n);
 	if (help == NULL)
 		return "";
 
-	for (; TRUE; help++) {
+	for (; n-- > 0; help++) {
 		switch (help->type) {
 		case GNM_FUNC_HELP_ARG:
 		case GNM_FUNC_HELP_NOTE:
@@ -1108,10 +1110,9 @@ dialog_function_select_peek_description (GnmFunc *func)
 			const char *colon = strchr (text, ':');
 			return (colon ? colon + 1 : text);
 		}
-		case GNM_FUNC_HELP_END:
-			return "";
 		}
 	}
+	return "";
 }
 
 

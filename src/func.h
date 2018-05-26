@@ -76,13 +76,6 @@ typedef enum {
 	GNM_FUNC_VOLATILE		= 1 << 0, /* eg now(), today() */
 	GNM_FUNC_RETURNS_NON_SCALAR	= 1 << 1, /* eg transpose(), mmult() */
 
-	/* For functions that are not exactly compatible with various import
-	 * formats.  We need to recalc their results to avoid changing values
-	 * unexpectedly when we recalc later.  This probably needs to be done
-	 * on a per import format basis.  It may not belong here.
-	 */
-/* 	GNM_FUNC_RECALC_ONLOAD		= 1 << 2, */
-
 	/* an unknown function that will hopefully be defined later */
 	GNM_FUNC_IS_PLACEHOLDER		= 1 << 3,
 	GNM_FUNC_IS_WORKBOOK_LOCAL	= 1 << 5,
@@ -184,7 +177,7 @@ struct GnmFunc_ {
 	GObject	base;
 
 	char const *name;
-	GnmFuncHelp const *help;
+	GnmFuncHelp *help;
 
 	/* <private> */
 	GnmFuncType fn_type;
@@ -209,6 +202,7 @@ struct GnmFunc_ {
 	GPtrArray *arg_names;
 	int min_args, max_args;
 	char *arg_types;
+	int help_count;
 };
 
 #define GNM_FUNC_TYPE	(gnm_func_get_type ())
@@ -245,9 +239,13 @@ gboolean    gnm_func_is_varargs      (GnmFunc *func);
 gboolean    gnm_func_is_fixargs      (GnmFunc *func);
 
 void        gnm_func_set_stub        (GnmFunc *func);
-void        gnm_func_set_varargs     (GnmFunc *func, GnmFuncNodes fn);
+void        gnm_func_set_varargs     (GnmFunc *func, GnmFuncNodes fn,
+				      const char *spec);
 void        gnm_func_set_fixargs     (GnmFunc *func, GnmFuncArgs fn,
 				      const char *spec);
+
+GnmFuncHelp const *gnm_func_get_help (GnmFunc *func, int *n);
+void        gnm_func_set_help (GnmFunc *func, GnmFuncHelp const *help, int n);
 
 GnmDependentFlags gnm_func_link_dep (GnmFunc *func, GnmFuncEvalInfo *ei, gboolean qlink);
 
@@ -270,12 +268,9 @@ GnmFunc	   *gnm_func_lookup_or_add_placeholder (char const *name);
 
 /* TODO */
 char const *gnm_func_get_description (GnmFunc *func);
-void        gnm_func_count_args    (GnmFunc const *fn_def,
-                                        gint *min, int *max);
-char        gnm_func_get_arg_type  (GnmFunc const *fn_def,
-                                        gint arg_idx);
-char const *gnm_func_get_arg_type_string  (GnmFunc const *fn_def,
-                                        gint arg_idx);
+void        gnm_func_count_args    (GnmFunc *func, gint *min, int *max);
+char        gnm_func_get_arg_type  (GnmFunc *func, gint arg_idx);
+char const *gnm_func_get_arg_type_string  (GnmFunc *func, gint arg_idx);
 char       *gnm_func_get_arg_name  (GnmFunc const *func, guint arg_idx);
 char const *gnm_func_get_arg_description (GnmFunc *func, guint arg_idx);
 char       *gnm_func_convert_markup_to_pango (char const *desc,

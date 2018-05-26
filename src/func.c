@@ -134,9 +134,8 @@ gnm_func_load_stub (GnmFunc *func)
 	g_signal_emit (G_OBJECT (func), signals[SIG_LOAD_STUB], 0);
 
 	if (func->fn_type == GNM_FUNC_TYPE_STUB) {
-		static GnmFuncHelp const no_help[] = { { GNM_FUNC_HELP_END } };
-		gnm_func_set_varargs (func, error_function_no_full_info);
-		func->help = no_help;
+		gnm_func_set_varargs (func, error_function_no_full_info, NULL);
+		gnm_func_set_help (func, NULL, 0);
 	}
 }
 
@@ -256,21 +255,21 @@ gnm_func_group_get_nth (int n)
 }
 
 static void
-gnm_func_group_add_func (GnmFuncGroup *fn_group, GnmFunc *fn_def)
+gnm_func_group_add_func (GnmFuncGroup *fn_group, GnmFunc *func)
 {
 	g_return_if_fail (fn_group != NULL);
-	g_return_if_fail (fn_def != NULL);
+	g_return_if_fail (func != NULL);
 
-	fn_group->functions = g_slist_prepend (fn_group->functions, fn_def);
+	fn_group->functions = g_slist_prepend (fn_group->functions, func);
 }
 
 static void
-gnm_func_group_remove_func (GnmFuncGroup *fn_group, GnmFunc *fn_def)
+gnm_func_group_remove_func (GnmFuncGroup *fn_group, GnmFunc *func)
 {
 	g_return_if_fail (fn_group != NULL);
-	g_return_if_fail (fn_def != NULL);
+	g_return_if_fail (func != NULL);
 
-	fn_group->functions = g_slist_remove (fn_group->functions, fn_def);
+	fn_group->functions = g_slist_remove (fn_group->functions, func);
 	if (fn_group->functions == NULL) {
 		categories = g_list_remove (categories, fn_group);
 		if (unknown_cat == fn_group)
@@ -282,26 +281,24 @@ gnm_func_group_remove_func (GnmFuncGroup *fn_group, GnmFunc *fn_def)
 /******************************************************************************/
 
 static void
-gnm_func_create_arg_names (GnmFunc *fn_def)
+gnm_func_create_arg_names (GnmFunc *func)
 {
 	int i;
 	GPtrArray *ptr;
 
-	g_return_if_fail (fn_def != NULL);
+	g_return_if_fail (func != NULL);
 
 	ptr = g_ptr_array_new ();
-	for (i = 0;
-	     fn_def->help && fn_def->help[i].type != GNM_FUNC_HELP_END;
-	     i++) {
+	for (i = 0; i < func->help_count; i++) {
 		const char *s;
-		if (fn_def->help[i].type != GNM_FUNC_HELP_ARG)
+		if (func->help[i].type != GNM_FUNC_HELP_ARG)
 			continue;
 
-		s = gnm_func_gettext (fn_def, fn_def->help[i].text);
+		s = gnm_func_gettext (func, func->help[i].text);
 		g_ptr_array_add (ptr, split_at_colon (s, NULL));
 	}
 
-	fn_def->arg_names = ptr;
+	func->arg_names = ptr;
 }
 
 gboolean
@@ -339,15 +336,18 @@ gnm_func_set_stub (GnmFunc *func)
 
 	func->nodes_func = NULL;
 	func->args_func = NULL;
+
+	gnm_func_set_help (func, NULL, 0);
 }
 
 /**
  * gnm_func_set_varargs: (skip)
  * @func: #GnmFunc
  * @fn: evaluation function
+ * @spec: (optional): argument type specification
  */
 void
-gnm_func_set_varargs (GnmFunc *func, GnmFuncNodes fn)
+gnm_func_set_varargs (GnmFunc *func, GnmFuncNodes fn, const char *spec)
 {
 	g_return_if_fail (GNM_IS_FUNC (func));
 	g_return_if_fail (fn != NULL);
@@ -356,8 +356,16 @@ gnm_func_set_varargs (GnmFunc *func, GnmFuncNodes fn)
 
 	func->fn_type = GNM_FUNC_TYPE_NODES;
 	func->nodes_func = fn;
+	func->arg_spec = g_strdup (spec);
 	func->min_args = 0;
 	func->min_args = G_MAXINT;
+
+	if (spec) {
+		const char *p = strchr (spec, '|');
+		const char *q = strchr (spec, '.'); // "..."
+		if (p) func->min_args = p - spec;
+		if (!q) func->min_args = strlen (spec) - (p != NULL);
+	}		
 }
 
 /**
@@ -392,6 +400,61 @@ gnm_func_set_fixargs (GnmFunc *func, GnmFuncArgs fn, const char *spec)
 
 	gnm_func_create_arg_names (func);
 }
+
+/**
+ * gnm_func_get_help:
+ * @func: #GnmFunc
+ * @n: (out) (optional): number of help items, not counting the end item
+ *
+ * Returns: (transfer none) (array length=n) (nullable): @func's help items.
+ */
+GnmFuncHelp const *
+gnm_func_get_help (GnmFunc *func, int *n)
+{
+	if (n) *n = 0;
+
+	g_return_val_if_fail (GNM_IS_FUNC (func), NULL);
+	g_return_val_if_fail (func->help, NULL);
+
+	if (n) *n = func->help_count;
+	return func->help;
+}
+
+
+void
+gnm_func_set_help (GnmFunc *func, GnmFuncHelp const *help, int n)
+{
+	g_return_if_fail (GNM_IS_FUNC (func));
+	g_return_if_fail (n <= 0 || help != NULL);
+
+	if (n < 0) {
+		for (n = 0; help && help[n].type != GNM_FUNC_HELP_END; )
+			n++;
+	}
+
+	if (func->help) {
+		int i;
+		for (i = 0; i <= func->help_count; i++)
+			g_free ((char *)(func->help[i].text));
+		g_free (func->help);
+		func->help = NULL;
+	}
+
+	if (help) {
+		int i;
+
+		func->help = g_new (GnmFuncHelp, n + 1);
+		for (i = 0; i < n; i++) {
+			func->help[i].type = help[i].type;
+			func->help[i].text = g_strdup (help[i].text);
+		}
+		func->help[n].type = GNM_FUNC_HELP_END;
+		func->help[n].text = NULL;
+	}
+
+	func->help_count = n;
+}
+
 
 static void
 gnm_func_set_localized_name (GnmFunc *fd, const char *lname)
@@ -580,7 +643,7 @@ gnm_func_set_translation_domain (GnmFunc *func, const char *tdomain)
  * @func: #GnmFunc
  * @str: string to translate
  *
- * Returns: (transfer none): @str translated in the relevant translation
+ * Returns: (transfer none): @str translated in @func's translation
  * domain.
  */
 char const *
@@ -589,7 +652,7 @@ gnm_func_gettext (GnmFunc *func, const char *str)
 	g_return_val_if_fail (GNM_IS_FUNC (func), NULL);
 	g_return_val_if_fail (str != NULL, NULL);
 
-	return dgettext ((func)->tdomain->str, str);
+	return dgettext (func->tdomain->str, str);
 }
 
 
@@ -674,6 +737,8 @@ gnm_func_set_function_group (GnmFunc *func, GnmFuncGroup *group)
 void
 gnm_func_set_from_desc (GnmFunc *func, GnmFuncDescriptor const *desc)
 {
+	//static char const valid_tokens[] = "fsbraAES?|";
+
 	g_return_if_fail (GNM_IS_FUNC (func));
 	g_return_if_fail (desc != NULL);
 
@@ -683,15 +748,13 @@ gnm_func_set_from_desc (GnmFunc *func, GnmFuncDescriptor const *desc)
 	if (desc->fn_args != NULL) {
 		gnm_func_set_fixargs (func, desc->fn_args, desc->arg_spec);
 	} else if (desc->fn_nodes != NULL) {
-		if (desc->arg_spec && *desc->arg_spec)
-			g_warning ("Arg spec for node function -- why?");
-		gnm_func_set_varargs (func, desc->fn_nodes);
+		gnm_func_set_varargs (func, desc->fn_nodes, desc->arg_spec);
 	} else {
 		gnm_func_set_stub (func);
 		return;
 	}
 
-	func->help		= desc->help ? desc->help : NULL;
+	gnm_func_set_help (func, desc->help, -1);
 	func->flags		= desc->flags;
 	func->impl_status	= desc->impl_status;
 	func->test_status	= desc->test_status;
@@ -711,7 +774,6 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	      GnmFuncDescriptor const *desc,
 	      const char *tdomain)
 {
-	//static char const valid_tokens[] = "fsbraAES?|";
 	GnmFunc *func;
 
 	g_return_val_if_fail (fn_group != NULL, NULL);
@@ -916,11 +978,7 @@ gnm_func_get_name (GnmFunc const *func, gboolean localized)
 
 	gnm_func_load_if_stub (fd);
 
-	for (i = 0;
-	     (func->localized_name == NULL &&
-	      func->help &&
-	      func->help[i].type != GNM_FUNC_HELP_END);
-	     i++) {
+	for (i = 0; func->localized_name == NULL && i < func->help_count; i++) {
 		const char *s, *sl;
 		char *U;
 		if (func->help[i].type != GNM_FUNC_HELP_NAME)
@@ -960,9 +1018,7 @@ gnm_func_get_description (GnmFunc *func)
 
 	gnm_func_load_if_stub (func);
 
-	for (i = 0;
-	     func->help && func->help[i].type != GNM_FUNC_HELP_END;
-	     i++) {
+	for (i = 0; i < func->help_count; i++) {
 		const char *desc;
 
 		if (func->help[i].type != GNM_FUNC_HELP_NAME)
@@ -976,7 +1032,7 @@ gnm_func_get_description (GnmFunc *func)
 
 /**
  * gnm_func_count_args:
- * @fn_def: pointer to function definition
+ * @func: pointer to function definition
  * @min: (out): location for mininum args
  * @max: (out): location for mininum args
  *
@@ -984,49 +1040,48 @@ gnm_func_get_description (GnmFunc *func)
  * For a vararg function, the maximum will be set to G_MAXINT.
  **/
 void
-gnm_func_count_args (GnmFunc const *fn_def, int *min, int *max)
+gnm_func_count_args (GnmFunc *func, int *min, int *max)
 {
 	g_return_if_fail (min != NULL);
 	g_return_if_fail (max != NULL);
-	g_return_if_fail (fn_def != NULL);
+	g_return_if_fail (func != NULL);
 
-	gnm_func_load_if_stub ((GnmFunc *)fn_def);
+	gnm_func_load_if_stub (func);
 
-	*min = fn_def->min_args;
-	*max = fn_def->max_args;
+	*min = func->min_args;
+	*max = func->max_args;
 }
 
 /**
  * gnm_func_get_arg_type:
- * @fn_def: the fn defintion
+ * @func: the fn defintion
  * @arg_idx: zero-based argument offset
  *
  * Returns: the type of the argument
  **/
 char
-gnm_func_get_arg_type (GnmFunc const *fn_def, int arg_idx)
+gnm_func_get_arg_type (GnmFunc *func, int arg_idx)
 {
-	g_return_val_if_fail (fn_def != NULL, '?');
+	g_return_val_if_fail (func != NULL, '?');
 
-	gnm_func_load_if_stub ((GnmFunc *)fn_def);
+	gnm_func_load_if_stub (func);
 
-	g_return_val_if_fail (arg_idx >= 0 && arg_idx < fn_def->max_args, '?');
+	g_return_val_if_fail (arg_idx >= 0 && arg_idx < func->max_args, '?');
 
-	return fn_def->arg_types ? fn_def->arg_types[arg_idx] : '?';
+	return func->arg_types ? func->arg_types[arg_idx] : '?';
 }
 
 /**
  * gnm_func_get_arg_type_string:
- * @fn_def: the fn defintion
+ * @func: the fn defintion
  * @arg_idx: zero-based argument offset
  *
  * Return value: (transfer none): the type of the argument as a string
  **/
 char const *
-gnm_func_get_arg_type_string (GnmFunc const *fn_def,
-			      int arg_idx)
+gnm_func_get_arg_type_string (GnmFunc *func, int arg_idx)
 {
-	switch (gnm_func_get_arg_type (fn_def, arg_idx)) {
+	switch (gnm_func_get_arg_type (func, arg_idx)) {
 	case 'f':
 		return _("Number");
 	case 's':
@@ -1085,9 +1140,7 @@ gnm_func_get_arg_description (GnmFunc *func, guint arg_idx)
 
 	gnm_func_load_if_stub (func);
 
-	for (i = 0;
-	     func->help && func->help[i].type != GNM_FUNC_HELP_END;
-	     i++) {
+	for (i = 0; i < func->help_count; i++) {
 		gchar const *desc;
 
 		if (func->help[i].type != GNM_FUNC_HELP_ARG)

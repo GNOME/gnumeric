@@ -510,7 +510,7 @@ static GnmFuncDescriptor const builtins [] = {
 		GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 		GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 	},
-	{	"table",	"",
+	{	"table", NULL,
 		help_table,		NULL,	gnumeric_table,
 		GNM_FUNC_SIMPLE + GNM_FUNC_INTERNAL,
 		GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,

@@ -125,12 +125,13 @@ dump_externals (GPtrArray *defs, FILE *out)
 	for (ui = 0; ui < defs->len; ui++) {
 		GnmFunc *fd = g_ptr_array_index (defs, ui);
 		gboolean any = FALSE;
-		int j;
+		int j, n;
+		GnmFuncHelp const *help = gnm_func_get_help (fd, &n);
 
-		for (j = 0; fd->help[j].type != GNM_FUNC_HELP_END; j++) {
-			const char *s = gnm_func_gettext (fd, fd->help[j].text);
+		for (j = 0; j < n; j++) {
+			const char *s = gnm_func_gettext (fd, help[j].text);
 
-			switch (fd->help[j].type) {
+			switch (help[j].type) {
 			case GNM_FUNC_HELP_EXTREF:
 				if (!any) {
 					any = TRUE;
@@ -201,9 +202,10 @@ dump_samples (GPtrArray *defs, FILE *out)
 
 	for (ui = 0; ui < defs->len; ui++) {
 		GnmFunc *fd = g_ptr_array_index (defs, ui);
-		int j;
+		int j, n;
 		const char *last = NULL;
 		gboolean has_sample = FALSE;
+		GnmFuncHelp const *help = gnm_func_get_help (fd, &n);
 
 		if (last_group != gnm_func_get_function_group (fd)) {
 			last_group = gnm_func_get_function_group (fd);
@@ -211,10 +213,10 @@ dump_samples (GPtrArray *defs, FILE *out)
 			fputc ('\n', out);
 		}
 
-		for (j = 0; fd->help[j].type != GNM_FUNC_HELP_END; j++) {
-			const char *s = fd->help[j].text;
+		for (j = 0; j < n; j++) {
+			const char *s = help[j].text;
 
-			if (fd->help[j].type != GNM_FUNC_HELP_EXAMPLES)
+			if (help[j].type != GNM_FUNC_HELP_EXAMPLES)
 				continue;
 
 			has_sample = TRUE;
@@ -446,16 +448,16 @@ function_dump_defs (char const *filename, int dump_type)
 			GString *seealso = g_string_new (NULL);
 			gint min, max;
 			GnmFuncGroup *group = gnm_func_get_function_group (fd);
+			int n;
+			GnmFuncHelp const *help = gnm_func_get_help (fd, &n);
 
 			fprintf (output_file, "@CATEGORY=%s\n",
 				 gnm_func_gettext (fd, group->display_name->str));
-			for (i = 0;
-			     fd->help[i].type != GNM_FUNC_HELP_END;
-			     i++) {
-				switch (fd->help[i].type) {
+			for (i = 0; i < n; i++) {
+				switch (help[i].type) {
 				case GNM_FUNC_HELP_NAME: {
 					char *short_desc;
-					char *name = split_at_colon (gnm_func_gettext (fd, fd->help[i].text), &short_desc);
+					char *name = split_at_colon (gnm_func_gettext (fd, help[i].text), &short_desc);
 					fprintf (output_file,
 						 "@FUNCTION=%s\n",
 						 name);
@@ -470,21 +472,21 @@ function_dump_defs (char const *filename, int dump_type)
 				case GNM_FUNC_HELP_SEEALSO:
 					if (seealso->len > 0)
 						g_string_append (seealso, ",");
-					g_string_append (seealso, gnm_func_gettext (fd, fd->help[i].text));
+					g_string_append (seealso, gnm_func_gettext (fd, help[i].text));
 					break;
 				case GNM_FUNC_HELP_DESCRIPTION:
 					if (desc->len > 0)
 						g_string_append (desc, "\n");
-					g_string_append (desc, gnm_func_gettext (fd, fd->help[i].text));
+					g_string_append (desc, gnm_func_gettext (fd, help[i].text));
 					break;
 				case GNM_FUNC_HELP_NOTE:
 					if (note->len > 0)
 						g_string_append (note, " ");
-					g_string_append (note, gnm_func_gettext (fd, fd->help[i].text));
+					g_string_append (note, gnm_func_gettext (fd, help[i].text));
 					break;
 				case GNM_FUNC_HELP_ARG: {
 					char *argdesc;
-					char *name = split_at_colon (gnm_func_gettext (fd, fd->help[i].text), &argdesc);
+					char *name = split_at_colon (gnm_func_gettext (fd, help[i].text), &argdesc);
 					if (first_arg)
 						first_arg = FALSE;
 					else
@@ -503,12 +505,12 @@ function_dump_defs (char const *filename, int dump_type)
 				case GNM_FUNC_HELP_ODF:
 					if (odf->len > 0)
 						g_string_append (odf, " ");
-					g_string_append (odf, gnm_func_gettext (fd, fd->help[i].text));
+					g_string_append (odf, gnm_func_gettext (fd, help[i].text));
 					break;
 				case GNM_FUNC_HELP_EXCEL:
 					if (excel->len > 0)
 						g_string_append (excel, " ");
-					g_string_append (excel, gnm_func_gettext (fd, fd->help[i].text));
+					g_string_append (excel, gnm_func_gettext (fd, help[i].text));
 					break;
 
 				case GNM_FUNC_HELP_EXTREF:
@@ -975,12 +977,14 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 	int res = 0;
 	size_t nlen = strlen (fd->name);
 	GHashTable *allargs;
+	int n;
+	GnmFuncHelp const *help = gnm_func_get_help (fd, &n);
 
 	allargs = g_hash_table_new_full
 		(g_str_hash, g_str_equal, (GDestroyNotify)g_free, NULL);
 
 	memset (counts, 0, sizeof (counts));
-	for (h = fd->help; h->type != GNM_FUNC_HELP_END; h++) {
+	for (h = help; n-- > 0; h++) {
 		g_assert (h->type <= GNM_FUNC_HELP_ODF);
 		counts[h->type]++;
 
