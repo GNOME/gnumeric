@@ -92,7 +92,6 @@ static GOptionEntry const sstest_options [] = {
 /* ------------------------------------------------------------------------- */
 
 #define UNICODE_ELLIPSIS "\xe2\x80\xa6"
-#define F2(func,s) dgettext (gnm_func_get_translation_domain(func), (s))
 
 static char *
 split_at_colon (char const *s, char **rest)
@@ -129,7 +128,7 @@ dump_externals (GPtrArray *defs, FILE *out)
 		int j;
 
 		for (j = 0; fd->help[j].type != GNM_FUNC_HELP_END; j++) {
-			const char *s = F2(fd, fd->help[j].text);
+			const char *s = gnm_func_gettext (fd, fd->help[j].text);
 
 			switch (fd->help[j].type) {
 			case GNM_FUNC_HELP_EXTREF:
@@ -449,14 +448,14 @@ function_dump_defs (char const *filename, int dump_type)
 			GnmFuncGroup *group = gnm_func_get_function_group (fd);
 
 			fprintf (output_file, "@CATEGORY=%s\n",
-				 F2(fd, group->display_name->str));
+				 gnm_func_gettext (fd, group->display_name->str));
 			for (i = 0;
 			     fd->help[i].type != GNM_FUNC_HELP_END;
 			     i++) {
 				switch (fd->help[i].type) {
 				case GNM_FUNC_HELP_NAME: {
 					char *short_desc;
-					char *name = split_at_colon (F2(fd, fd->help[i].text), &short_desc);
+					char *name = split_at_colon (gnm_func_gettext (fd, fd->help[i].text), &short_desc);
 					fprintf (output_file,
 						 "@FUNCTION=%s\n",
 						 name);
@@ -471,21 +470,21 @@ function_dump_defs (char const *filename, int dump_type)
 				case GNM_FUNC_HELP_SEEALSO:
 					if (seealso->len > 0)
 						g_string_append (seealso, ",");
-					g_string_append (seealso, F2(fd, fd->help[i].text));
+					g_string_append (seealso, gnm_func_gettext (fd, fd->help[i].text));
 					break;
 				case GNM_FUNC_HELP_DESCRIPTION:
 					if (desc->len > 0)
 						g_string_append (desc, "\n");
-					g_string_append (desc, F2(fd, fd->help[i].text));
+					g_string_append (desc, gnm_func_gettext (fd, fd->help[i].text));
 					break;
 				case GNM_FUNC_HELP_NOTE:
 					if (note->len > 0)
 						g_string_append (note, " ");
-					g_string_append (note, F2(fd, fd->help[i].text));
+					g_string_append (note, gnm_func_gettext (fd, fd->help[i].text));
 					break;
 				case GNM_FUNC_HELP_ARG: {
 					char *argdesc;
-					char *name = split_at_colon (F2(fd, fd->help[i].text), &argdesc);
+					char *name = split_at_colon (gnm_func_gettext (fd, fd->help[i].text), &argdesc);
 					if (first_arg)
 						first_arg = FALSE;
 					else
@@ -504,12 +503,12 @@ function_dump_defs (char const *filename, int dump_type)
 				case GNM_FUNC_HELP_ODF:
 					if (odf->len > 0)
 						g_string_append (odf, " ");
-					g_string_append (odf, F2(fd, fd->help[i].text));
+					g_string_append (odf, gnm_func_gettext (fd, fd->help[i].text));
 					break;
 				case GNM_FUNC_HELP_EXCEL:
 					if (excel->len > 0)
 						g_string_append (excel, " ");
-					g_string_append (excel, F2(fd, fd->help[i].text));
+					g_string_append (excel, gnm_func_gettext (fd, fd->help[i].text));
 					break;
 
 				case GNM_FUNC_HELP_EXTREF:

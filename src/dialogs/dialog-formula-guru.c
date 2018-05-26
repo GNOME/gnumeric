@@ -269,14 +269,13 @@ dialog_formula_guru_update_this_child (GtkTreeIter *child, FormulaGuruState *sta
 
 
 static void
-dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
+dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc *fd,
 				     FormulaGuruState *state)
 {
 	gboolean is_non_fun;
 	GtkTreeIter iter;
 	gint min_arg, max_arg, args = 0, i;
 	char *arg_name;
-
 
 	if (fd == NULL) {
 		gtk_tree_model_get (GTK_TREE_MODEL(state->model), parent,

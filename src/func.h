@@ -226,6 +226,7 @@ gboolean    gnm_func_get_in_use      (GnmFunc *func);
 char const *gnm_func_get_translation_domain (GnmFunc *func);
 void        gnm_func_set_translation_domain (GnmFunc *func,
 					     const char *tdomain);
+char const *gnm_func_gettext         (GnmFunc *func, const char *str);
 
 GnmFuncFlags gnm_func_get_flags      (GnmFunc *func);
 void        gnm_func_set_flags       (GnmFunc *func, GnmFuncFlags f);
@@ -268,7 +269,7 @@ GnmFunc    *gnm_func_add_placeholder_localized (char const *gname, char const *l
 GnmFunc	   *gnm_func_lookup_or_add_placeholder (char const *name);
 
 /* TODO */
-char const *gnm_func_get_description (GnmFunc const *fn_def);
+char const *gnm_func_get_description (GnmFunc *func);
 void        gnm_func_count_args    (GnmFunc const *fn_def,
                                         gint *min, int *max);
 char        gnm_func_get_arg_type  (GnmFunc const *fn_def,
@@ -276,8 +277,7 @@ char        gnm_func_get_arg_type  (GnmFunc const *fn_def,
 char const *gnm_func_get_arg_type_string  (GnmFunc const *fn_def,
                                         gint arg_idx);
 char       *gnm_func_get_arg_name  (GnmFunc const *func, guint arg_idx);
-char const *gnm_func_get_arg_description (GnmFunc const *fn_def,
-                                        guint arg_idx);
+char const *gnm_func_get_arg_description (GnmFunc *func, guint arg_idx);
 char       *gnm_func_convert_markup_to_pango (char const *desc,
 					      GtkWidget *target);
 

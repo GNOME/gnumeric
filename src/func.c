@@ -52,8 +52,6 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-#define F2(func,s) dgettext ((func)->tdomain->str, (s))
-
 static GList	    *categories;
 static GnmFuncGroup *unknown_cat;
 
@@ -295,12 +293,12 @@ gnm_func_create_arg_names (GnmFunc *fn_def)
 	for (i = 0;
 	     fn_def->help && fn_def->help[i].type != GNM_FUNC_HELP_END;
 	     i++) {
+		const char *s;
 		if (fn_def->help[i].type != GNM_FUNC_HELP_ARG)
 			continue;
 
-		g_ptr_array_add
-			(ptr, split_at_colon
-			 (F2(fn_def, fn_def->help[i].text), NULL));
+		s = gnm_func_gettext (fn_def, fn_def->help[i].text);
+		g_ptr_array_add (ptr, split_at_colon (s, NULL));
 	}
 
 	fn_def->arg_names = ptr;
@@ -576,6 +574,24 @@ gnm_func_set_translation_domain (GnmFunc *func, const char *tdomain)
 
 	g_object_notify (G_OBJECT (func), "translation-domain");
 }
+
+/**
+ * gnm_func_gettext:
+ * @func: #GnmFunc
+ * @str: string to translate
+ *
+ * Returns: (transfer none): @str translated in the relevant translation
+ * domain.
+ */
+char const *
+gnm_func_gettext (GnmFunc *func, const char *str)
+{
+	g_return_val_if_fail (GNM_IS_FUNC (func), NULL);
+	g_return_val_if_fail (str != NULL, NULL);
+
+	return dgettext ((func)->tdomain->str, str);
+}
+
 
 GnmFuncFlags
 gnm_func_get_flags (GnmFunc *func)
@@ -911,11 +927,11 @@ gnm_func_get_name (GnmFunc const *func, gboolean localized)
 			continue;
 
 		s = func->help[i].text;
-		sl = F2 (func, s);
+		sl = gnm_func_gettext (fd, s);
 		if (s == sl) /* String not actually translated. */
 			continue;
 
-		U = split_at_colon (F2 (func, s), NULL);
+		U = split_at_colon (sl, NULL);
 		if (U) {
 			char *lname = g_utf8_strdown (U, -1);
 			gnm_func_set_localized_name (fd, lname);
@@ -932,27 +948,27 @@ gnm_func_get_name (GnmFunc const *func, gboolean localized)
 
 /**
  * gnm_func_get_description:
- * @fn_def: the fn defintion
+ * @func: #GnmFunc
  *
  * Returns: (transfer none): the description of the function
  **/
 char const *
-gnm_func_get_description (GnmFunc const *fn_def)
+gnm_func_get_description (GnmFunc *func)
 {
 	gint i;
-	g_return_val_if_fail (fn_def != NULL, NULL);
+	g_return_val_if_fail (func != NULL, NULL);
 
-	gnm_func_load_if_stub ((GnmFunc *)fn_def);
+	gnm_func_load_if_stub (func);
 
 	for (i = 0;
-	     fn_def->help && fn_def->help[i].type != GNM_FUNC_HELP_END;
+	     func->help && func->help[i].type != GNM_FUNC_HELP_END;
 	     i++) {
 		const char *desc;
 
-		if (fn_def->help[i].type != GNM_FUNC_HELP_NAME)
+		if (func->help[i].type != GNM_FUNC_HELP_NAME)
 			continue;
 
-		desc = strchr (F2 (fn_def, fn_def->help[i].text), ':');
+		desc = strchr (gnm_func_gettext (func, func->help[i].text), ':');
 		return desc ? (desc + 1) : "";
 	}
 	return "";
@@ -1056,30 +1072,30 @@ gnm_func_get_arg_name (GnmFunc const *func, guint arg_idx)
 
 /**
  * gnm_func_get_arg_description:
- * @fn_def: the fn defintion
+ * @func: the fn defintion
  * @arg_idx: zero-based argument offset
  *
  * Returns: (transfer none): the description of the argument
  **/
-char const*
-gnm_func_get_arg_description (GnmFunc const *fn_def, guint arg_idx)
+char const *
+gnm_func_get_arg_description (GnmFunc *func, guint arg_idx)
 {
 	gint i;
-	g_return_val_if_fail (fn_def != NULL, NULL);
+	g_return_val_if_fail (func != NULL, NULL);
 
-	gnm_func_load_if_stub ((GnmFunc *)fn_def);
+	gnm_func_load_if_stub (func);
 
 	for (i = 0;
-	     fn_def->help && fn_def->help[i].type != GNM_FUNC_HELP_END;
+	     func->help && func->help[i].type != GNM_FUNC_HELP_END;
 	     i++) {
 		gchar const *desc;
 
-		if (fn_def->help[i].type != GNM_FUNC_HELP_ARG)
+		if (func->help[i].type != GNM_FUNC_HELP_ARG)
 			continue;
 		if (arg_idx--)
 			continue;
 
-		desc = strchr (F2 (fn_def, fn_def->help[i].text), ':');
+		desc = strchr (gnm_func_gettext (func, func->help[i].text), ':');
 		if (!desc)
 			return "";
 
