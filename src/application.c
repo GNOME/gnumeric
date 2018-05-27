@@ -457,6 +457,7 @@ cb_workbook_uri (Workbook * wb, gpointer closure)
 	return TRUE;
 }
 
+typedef gboolean (*GnmWbIterFunc) (Workbook *wb, gpointer data);
 static gboolean
 gnm_app_workbook_foreach (GnmWbIterFunc cback, gpointer data);
 
