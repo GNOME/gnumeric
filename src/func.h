@@ -306,6 +306,13 @@ struct _GnmFuncEvalInfo {
 GnmFunc const *gnm_eval_info_get_func (GnmFuncEvalInfo const *ei);
 int gnm_eval_info_get_arg_count (GnmFuncEvalInfo const *ei);
 
+/*************************************************************************/
+
+GnmExpr const *gnm_func_derivative (GnmFunc *func,
+				    GnmExpr const *expr, GnmEvalPos const *ep,
+				    GnmExprDeriv *info);
+
+
 G_END_DECLS
 
 #endif /* _GNM_FUNC_H_ */

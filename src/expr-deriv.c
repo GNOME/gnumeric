@@ -32,25 +32,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-static GHashTable *deriv_handlers;
-
-struct DerivHandler {
-	GnmExprDerivHandler handler;
-	GnmExprDerivFlags flags;
-	gpointer data;
-	GDestroyNotify notify;
-};
-
-static void
-deriv_handler_free (struct DerivHandler *di)
-{
-	if (di->notify)
-		di->notify (di->data);
-	g_free (di);
-}
-
-/* ------------------------------------------------------------------------- */
-
 struct GnmExprDeriv_ {
 	unsigned ref_count;
 	GnmEvalPos var;
@@ -474,7 +455,7 @@ gnm_expr_deriv_collect (GnmExpr const *expr,
 						&user);
 	}
 
-	return user.args;
+	return g_slist_reverse (user.args);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -494,7 +475,15 @@ gnm_expr_deriv_collect (GnmExpr const *expr,
 
 #define COMMON_BINARY_END }
 
-
+/**
+ * gnm_expr_deriv:
+ * @expr: #GnmExpr
+ * @ep: position for @expr
+ * @info: Derivative information
+ *
+ * Returns: (transfer full) (nullable): the derivative of @expr with respect
+ * to @info.
+ */
 GnmExpr const *
 gnm_expr_deriv (GnmExpr const *expr,
 		GnmEvalPos const *ep,
@@ -585,33 +574,12 @@ gnm_expr_deriv (GnmExpr const *expr,
 
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmFunc *f = gnm_expr_get_func_def (expr);
-		struct DerivHandler const *di = deriv_handlers
-			? g_hash_table_lookup (deriv_handlers, f)
-			: NULL;
-		GnmExpr const *res = di
-			? di->handler (expr, ep, info, di->data)
-			: NULL;
-		if (!res)
-			return NULL;
-
-		if (di->flags & GNM_EXPR_DERIV_CHAIN) {
-			GnmExpr const *e2 =
-				gnm_expr_deriv (gnm_expr_get_func_arg (expr, 0), ep, info);
-			if (!e2) {
-				gnm_expr_free (res);
-				return NULL;
-			}
-			res = mmul (res, 0, e2, 0);
+		GnmExpr const *res = gnm_func_derivative (f, expr, ep, info);
+		GnmExpr const *opt = optimize (res);
+		if (opt) {
+			gnm_expr_free (res);
+			res = opt;
 		}
-
-		if (di->flags & GNM_EXPR_DERIV_OPTIMIZE) {
-			GnmExpr const *opt = optimize (res);
-			if (opt) {
-				gnm_expr_free (res);
-				res = opt;
-			}
-		}
-
 		return res;
 	}
 
@@ -794,40 +762,35 @@ gnm_expr_cell_deriv_value (GnmCell *y, GnmCell *x)
 /* ------------------------------------------------------------------------- */
 
 /**
- * gnm_expr_deriv_install_handler:
- * @func: the function being given a handler
- * @h: (scope notified): #GnmExprDerivHandler
- * @flags:
- * @data: user data for @h
- * @notify: destroy notification for @data
+ * gnm_expr_deriv_chain:
+ * @expr: #GnmExpr for a function call with one argument
+ * @deriv: (transfer full) (nullable): Derivative of @expr's function.
+ * @ep: position for @expr
+ * @info: Derivative information
+ *
+ * Applies the chain rule to @expr.
+ *
+ * Returns: (transfer full) (nullable): the derivative of @expr with respect
+ * to @info.
  */
-void
-gnm_expr_deriv_install_handler (GnmFunc *func, GnmExprDerivHandler h,
-				GnmExprDerivFlags flags,
-				gpointer data,
-				GDestroyNotify notify)
+GnmExpr const *
+gnm_expr_deriv_chain (GnmExpr const *expr,
+		      GnmExpr const *deriv,
+		      GnmEvalPos const *ep,
+		      GnmExprDeriv *info)
 {
-	struct DerivHandler *hdata;
+	GnmExpr const *deriv2;
 
-	if (!deriv_handlers) {
-		deriv_handlers = g_hash_table_new_full
-			(g_direct_hash, g_direct_equal,
-			 NULL, (GDestroyNotify)deriv_handler_free);
+	if (!deriv)
+		return NULL;
+
+	deriv2 = gnm_expr_deriv (gnm_expr_get_func_arg (expr, 0), ep, info);
+	if (!deriv2) {
+		gnm_expr_free (deriv);
+		return NULL;
 	}
 
-	hdata = g_new (struct DerivHandler, 1);
-	hdata->handler = h;
-	hdata->flags = flags;
-	hdata->data = data;
-	hdata->notify = notify;
-
-	g_hash_table_replace (deriv_handlers, func, hdata);
-}
-
-void
-gnm_expr_deriv_uninstall_handler (GnmFunc *func)
-{
-	g_hash_table_remove (deriv_handlers, func);
+	return mmul (deriv, 0, deriv2, 0);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -835,10 +798,6 @@ gnm_expr_deriv_uninstall_handler (GnmFunc *func)
 void
 _gnm_expr_deriv_shutdown (void)
 {
-	if (deriv_handlers) {
-		g_hash_table_destroy (deriv_handlers);
-		deriv_handlers = NULL;
-	}
 }
 
 /* ------------------------------------------------------------------------- */

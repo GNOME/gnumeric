@@ -968,10 +968,10 @@ gnumeric_exp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmExpr const *
-gnumeric_exp_deriv (GnmExpr const *expr, GnmEvalPos const *ep,
-		    GnmExprDeriv *info, gpointer data)
+gnumeric_exp_deriv (GnmFunc *func, GnmExpr const *expr, GnmEvalPos const *ep,
+		    GnmExprDeriv *info)
 {
-	return gnm_expr_copy (expr);
+	return gnm_expr_deriv_chain (expr, gnm_expr_copy (expr), ep, info);
 }
 
 /***************************************************************************/
@@ -1318,9 +1318,11 @@ static GnmExpr const *
 gnumeric_ln_deriv (GnmExpr const *expr, GnmEvalPos const *ep,
 		   GnmExprDeriv *info, gpointer data)
 {
-	return gnm_expr_new_binary (gnm_expr_new_constant (value_new_int (1)),
-				    GNM_EXPR_OP_DIV,
-				    gnm_expr_copy (gnm_expr_get_func_arg (expr, 0)));
+	GnmExpr const *deriv =
+		gnm_expr_new_binary (gnm_expr_new_constant (value_new_int (1)),
+				     GNM_EXPR_OP_DIV,
+				     gnm_expr_copy (gnm_expr_get_func_arg (expr, 0)));
+	return gnm_expr_deriv_chain (expr, deriv, ep, info);
 }
 
 /***************************************************************************/
@@ -1750,8 +1752,9 @@ gnumeric_sumsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 }
 
 static GnmExpr const *
-gnumeric_sumsq_deriv (GnmExpr const *expr, GnmEvalPos const *ep,
-		      GnmExprDeriv *info, gpointer data)
+gnumeric_sumsq_deriv (GnmFunc *func,
+		      GnmExpr const *expr, GnmEvalPos const *ep,
+		      GnmExprDeriv *info)
 {
 	GnmExprList *l, *args = gnm_expr_deriv_collect (expr, ep, info);
 	GnmExpr const *res;
@@ -3742,24 +3745,15 @@ GnmFuncDescriptor const math_functions[] = {
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gnm_expr_deriv_install_handler (gnm_func_lookup ("sumsq", NULL),
-					gnumeric_sumsq_deriv,
-					GNM_EXPR_DERIV_NO_CHAIN | GNM_EXPR_DERIV_OPTIMIZE,
-					NULL, NULL);
-	gnm_expr_deriv_install_handler (gnm_func_lookup ("exp", NULL),
-					gnumeric_exp_deriv,
-					GNM_EXPR_DERIV_CHAIN,
-					NULL, NULL);
-	gnm_expr_deriv_install_handler (gnm_func_lookup ("ln", NULL),
-					gnumeric_ln_deriv,
-					GNM_EXPR_DERIV_CHAIN,
-					NULL, NULL);
+	g_signal_connect (gnm_func_lookup ("sumsq", NULL),
+			  "derivative", G_CALLBACK (gnumeric_sumsq_deriv), NULL);
+	g_signal_connect (gnm_func_lookup ("exp", NULL),
+			  "derivative", G_CALLBACK (gnumeric_exp_deriv), NULL);
+	g_signal_connect (gnm_func_lookup ("ln", NULL),
+			  "derivative", G_CALLBACK (gnumeric_ln_deriv), NULL);
 }
 
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gnm_expr_deriv_uninstall_handler (gnm_func_lookup ("sumsq", NULL));
-	gnm_expr_deriv_uninstall_handler (gnm_func_lookup ("exp", NULL));
-	gnm_expr_deriv_uninstall_handler (gnm_func_lookup ("ln", NULL));
 }

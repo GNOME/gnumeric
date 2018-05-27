@@ -104,6 +104,7 @@ typedef struct _WorkbookView		WorkbookView;
 typedef union  _GnmExpr			GnmExpr;
 typedef union  _GnmValue		GnmValue;
 typedef struct _GenericToolState	GnmGenericToolState;
+typedef struct GnmExprDeriv_            GnmExprDeriv;
 
 typedef GList				ColRowIndexList;
 typedef GSList				ColRowStateGroup;

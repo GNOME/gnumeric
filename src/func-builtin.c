@@ -63,13 +63,12 @@ gnumeric_sum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 }
 
 static GnmExpr const *
-gnumeric_sum_deriv (GnmExpr const *expr,
+gnumeric_sum_deriv (GnmFunc *func,
+		    GnmExpr const *expr,
 		    GnmEvalPos const *ep,
-		    GnmExprDeriv *info,
-		    gpointer data)
+		    GnmExprDeriv *info)
 {
 	GnmExprList *l, *args = gnm_expr_deriv_collect (expr, ep, info);
-	GnmFunc *fsum = gnm_expr_get_func_def (expr);
 	gboolean bad = FALSE;
 
 	for (l = args; l; l = l->next) {
@@ -90,7 +89,7 @@ gnumeric_sum_deriv (GnmExpr const *expr,
 		gnm_expr_list_free (args);
 		return NULL;
 	} else
-		return gnm_expr_new_funcall (fsum, args);
+		return gnm_expr_new_funcall (func, args);
 }
 
 /***************************************************************************/
@@ -541,7 +540,6 @@ func_builtin_init (void)
 	const char *gname;
 	const char *tdomain = GETTEXT_PACKAGE;
 	int i = 0;
-	GnmFunc *table_func;
 
 	gname = N_("Mathematics");
 	math_group = gnm_func_group_fetch (gname, _(gname));
@@ -562,13 +560,11 @@ func_builtin_init (void)
 	logic_group = gnm_func_group_fetch (gname, _(gname));
 	gnm_func_add (logic_group, builtins + i++, tdomain);
 
-	table_func = gnm_func_lookup ("table", NULL);
-	g_signal_connect (table_func, "link-dep", G_CALLBACK (gnumeric_table_link), NULL);
+	g_signal_connect (gnm_func_lookup ("table", NULL),
+			  "link-dep", G_CALLBACK (gnumeric_table_link), NULL);
 
-	gnm_expr_deriv_install_handler (gnm_func_lookup ("sum", NULL),
-					gnumeric_sum_deriv,
-					GNM_EXPR_DERIV_NO_CHAIN | GNM_EXPR_DERIV_OPTIMIZE,
-					NULL, NULL);
+	g_signal_connect (gnm_func_lookup ("sum", NULL),
+			  "derivative", G_CALLBACK (gnumeric_sum_deriv), NULL);
 }
 
 void

@@ -30,6 +30,7 @@
 #include <gnm-plugin.h>
 #include <gutils.h>
 #include <gui-util.h>
+#include <expr-deriv.h>
 #include <gnm-marshalers.h>
 
 #include <goffice/goffice.h>
@@ -47,6 +48,7 @@ enum {
 enum {
 	SIG_LOAD_STUB,
 	SIG_LINK_DEP,
+	SIG_DERIVATIVE,
 	LAST_SIGNAL
 };
 static guint signals[LAST_SIGNAL] = { 0 };
@@ -1782,6 +1784,27 @@ gnm_func_link_dep (GnmFunc *func, GnmFuncEvalInfo *ei, gboolean qlink)
 	return (GnmDependentFlags)res;
 }
 
+/**
+ * gnm_func_derivative:
+ * @func: #GnmFunc
+ * @expr: expression that calls @func
+ * @ep: position of @expr
+ * @info: #GnmExprDeriv
+ *
+ * Returns: (transfer full) (nullable): the derivative of @expr with respect to
+ * @info.
+ */
+GnmExpr const *
+gnm_func_derivative (GnmFunc *func, GnmExpr const *expr, GnmEvalPos const *ep,
+		     GnmExprDeriv *info)
+{
+	GnmExpr *res = NULL;
+
+	g_return_val_if_fail (GNM_IS_FUNC (func), NULL);
+	g_signal_emit (func, signals[SIG_DERIVATIVE], 0, expr, ep, info, &res);
+	return res;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static GObjectClass *parent_class;
@@ -1791,6 +1814,7 @@ typedef struct {
 
 	void (*load_stub) (GnmFunc *func);
 	int (*link_dep) (GnmFunc *func, GnmFuncEvalInfo *ei, gboolean qlink);
+	GnmExpr* (*derivative) (GnmFunc *func, GnmExpr const *expr, GnmEvalPos *ep, GnmExprDeriv *info);
 } GnmFuncClass;
 
 static void
@@ -1925,6 +1949,14 @@ gnm_func_class_init (GObjectClass *gobject_class)
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READABLE));
 
+	/**
+	 * GnmFunc::load-stub:
+	 * @func: the #GnmFunc that needs to be loaded
+	 *
+	 * Signals that @func, which is a stub, needs to be loaded now.  Anyone
+	 * creating a stub function should arrange for this signal to be caught
+	 * and the function to be properly instantiated.
+	 */
 	signals[SIG_LOAD_STUB] = g_signal_new
 		("load-stub",
 		 GNM_FUNC_TYPE,
@@ -1934,7 +1966,18 @@ gnm_func_class_init (GObjectClass *gobject_class)
 		 g_cclosure_marshal_VOID__VOID,
 		 G_TYPE_NONE, 0);
 
-
+	/**
+	 * GnmFunc::link-dep:
+	 * @func: the #GnmFunc that is being linked or unlinked
+	 * @ei: #GnmFuncEvalInfo for the call initiating the link or unlink.
+	 * @qlink: %TRUE for link, %FALSE for unlink
+	 *
+	 * Signals that an expressions that is a call to @func is being linked
+	 * or unlinked.  Most functions do not need this.
+	 *
+	 * Returns: A #GnmDependentFlags allowing arguments not be be linked if
+	 * that is appropriate.
+	 */
 	signals[SIG_LINK_DEP] = g_signal_new
 		("link-dep",
 		 GNM_FUNC_TYPE,
@@ -1944,6 +1987,28 @@ gnm_func_class_init (GObjectClass *gobject_class)
 		 gnm__INT__POINTER_BOOLEAN,
 		 // GnmDependentFlags ... GnmFuncEvalInfo
 		 G_TYPE_INT, 2, G_TYPE_POINTER, G_TYPE_BOOLEAN);
+
+	/**
+	 * GnmFunc::derivative:
+	 * @func: #GnmFunc
+	 * @expr: #GnmExpr for the call for which the derivative is sought
+	 * @ep: position f @expr
+	 * @info: #GnmExprDeriv telling which derivative is sought
+	 *
+	 * Signals that a function call's derivative should be calculatted
+	 *
+	 * Returns: (transfer full) (nullable): #GnmExpr representing the
+	 * derivative, %NULL for error.
+	 */
+	signals[SIG_DERIVATIVE] = g_signal_new
+		("derivative",
+		 GNM_FUNC_TYPE,
+		 G_SIGNAL_RUN_LAST,
+		 G_STRUCT_OFFSET (GnmFuncClass, derivative),
+		 NULL, NULL,
+		 gnm__BOXED__BOXED_BOXED_BOXED,
+		 gnm_expr_get_type(),
+		 3, gnm_expr_get_type(), gnm_eval_pos_get_type(), gnm_expr_deriv_info_get_type());
 }
 
 GSF_CLASS (GnmFunc, gnm_func,
