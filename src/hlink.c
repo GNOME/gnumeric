@@ -579,10 +579,10 @@ GSF_CLASS (GnmHLinkExternal, gnm_hlink_external,
 	   GNM_HLINK_TYPE)
 
 /**
- * _gnm_hlink_init: (skip)
+ * gnm_hlink_init_: (skip)
  */
 void
-_gnm_hlink_init (void)
+gnm_hlink_init_ (void)
 {
 	/* make sure that all hlink types are registered */
 	gnm_hlink_cur_wb_get_type ();

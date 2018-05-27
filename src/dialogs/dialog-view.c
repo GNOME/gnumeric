@@ -105,7 +105,7 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		/* What else would it be?  */
 		WBCGtk *new_wbcg = WBC_GTK (new_wbc);
 		wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
-		_gnm_app_flag_windows_changed ();
+		gnm_app_flag_windows_changed_ ();
 	}
 }
 

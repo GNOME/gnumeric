@@ -4974,14 +4974,14 @@ expmx2h (gnm_float x)
 /* ------------------------------------------------------------------------- */
 
 /**
- * agm:
+ * gnm_agm:
  * @a: a number
  * @b: a number
  *
  * Returns: The arithmetic-geometric mean of @a and @b.
  */
 gnm_float
-agm (gnm_float a, gnm_float b)
+gnm_agm (gnm_float a, gnm_float b)
 {
 	gnm_float ab = a * b;
 	gnm_float scale = 1;

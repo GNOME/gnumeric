@@ -7,8 +7,8 @@
 G_BEGIN_DECLS
 
 /* Setup of the symbol table */
-void functions_init     (void);
-void functions_shutdown (void);
+void gnm_func_init_     (void);
+void gnm_func_shutdown_ (void);
 
 GPtrArray *gnm_func_enumerate (void);
 

@@ -119,8 +119,8 @@ gnm_app_workbook_list_add (Workbook *wb)
 	app->workbook_list = g_list_prepend (app->workbook_list, wb);
 	g_signal_connect (G_OBJECT (wb),
 		"notify::uri",
-		G_CALLBACK (_gnm_app_flag_windows_changed), NULL);
-	_gnm_app_flag_windows_changed ();
+		G_CALLBACK (gnm_app_flag_windows_changed_), NULL);
+	gnm_app_flag_windows_changed_ ();
 	g_signal_emit (G_OBJECT (app), signals[WORKBOOK_ADDED], 0, wb);
 }
 
@@ -138,8 +138,8 @@ gnm_app_workbook_list_remove (Workbook *wb)
 
 	app->workbook_list = g_list_remove (app->workbook_list, wb);
 	g_signal_handlers_disconnect_by_func (G_OBJECT (wb),
-		G_CALLBACK (_gnm_app_flag_windows_changed), NULL);
-	_gnm_app_flag_windows_changed ();
+		G_CALLBACK (gnm_app_flag_windows_changed_), NULL);
+	gnm_app_flag_windows_changed_ ();
 	g_signal_emit (G_OBJECT (app), signals[WORKBOOK_REMOVED], 0, wb);
 }
 
@@ -1074,12 +1074,12 @@ cb_flag_windows_changed (void)
 }
 
 /**
- * _gnm_app_flag_windows_changed:
+ * gnm_app_flag_windows_changed_:
  *
  * An internal utility routine to flag a regeneration of the window lists
  **/
 void
-_gnm_app_flag_windows_changed (void)
+gnm_app_flag_windows_changed_ (void)
 {
 	if (windows_update_timer == 0)
 		windows_update_timer = g_timeout_add (100,

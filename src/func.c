@@ -60,11 +60,13 @@ static GnmFuncGroup *unknown_cat;
 static GHashTable *functions_by_name;
 static GHashTable *functions_by_localized_name;
 
+static GnmFunc    *fn_if;
+
 /**
- * functions_init: (skip)
+ * gnm_func_init_: (skip)
  */
 void
-functions_init (void)
+gnm_func_init_ (void)
 {
 	functions_by_name =
 		g_hash_table_new (go_ascii_strcase_hash, go_ascii_strcase_equal);
@@ -73,15 +75,19 @@ functions_init (void)
 	functions_by_localized_name =
 		g_hash_table_new (go_ascii_strcase_hash, go_ascii_strcase_equal);
 
-	func_builtin_init ();
+	gnm_func_builtin_init ();
+
+	fn_if = gnm_func_lookup ("if", NULL);
 }
 
 /**
- * functions_shutdown: (skip)
+ * gnm_func_shutdown_: (skip)
  */
 void
-functions_shutdown (void)
+gnm_func_shutdown_ (void)
 {
+	fn_if = NULL;
+
 	while (unknown_cat != NULL && unknown_cat->functions != NULL) {
 		GnmFunc *func = unknown_cat->functions->data;
 		if (func->usage_count > 0) {
@@ -92,7 +98,7 @@ functions_shutdown (void)
 		}
 		g_object_unref (func);
 	}
-	func_builtin_shutdown ();
+	gnm_func_builtin_shutdown ();
 
 	g_hash_table_destroy (functions_by_name);
 	functions_by_name = NULL;
@@ -340,7 +346,7 @@ gnm_func_set_stub (GnmFunc *func)
  * gnm_func_set_varargs: (skip)
  * @func: #GnmFunc
  * @fn: evaluation function
- * @spec: (optional): argument type specification
+ * @spec: (nullable): argument type specification
  */
 void
 gnm_func_set_varargs (GnmFunc *func, GnmFuncNodes fn, const char *spec)
@@ -1271,8 +1277,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 		? 0 : -1;
 
 	/* Optimization for IF when implicit iteration is not used.  */
-	if (ei->func_call->func->args_func == gnumeric_if &&
-	    iter_count == -1)
+	if (ei->func_call->func == fn_if && iter_count == -1)
 		return gnumeric_if2 (ei, argc, argv, flags);
 
 	pass_flags = (flags &

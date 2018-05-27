@@ -226,8 +226,8 @@ void              gnm_expr_sharer_report (GnmExprSharer *es);
 
 /*****************************************************************************/
 
-void _gnm_expr_init (void);
-void _gnm_expr_shutdown (void);
+void gnm_expr_init_ (void);
+void gnm_expr_shutdown_ (void);
 
 G_END_DECLS
 

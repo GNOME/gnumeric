@@ -37,7 +37,7 @@ gnm_float logspace_sub (gnm_float logx, gnm_float logy);
 gnm_float gnm_owent (gnm_float h, gnm_float a);
 gnm_float gnm_logcf (gnm_float x, gnm_float i, gnm_float d);
 gnm_float expmx2h (gnm_float x);
-gnm_float agm(gnm_float a, gnm_float b);
+gnm_float gnm_agm(gnm_float a, gnm_float b);
 
 /* "d": density.  */
 /* "p": distribution function.  */

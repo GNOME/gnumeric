@@ -5,11 +5,10 @@
 
 G_BEGIN_DECLS
 
-GnmValue *gnumeric_if      (GnmFuncEvalInfo *ei, GnmValue const * const *args);
 GnmValue *gnumeric_if2     (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv, GnmExprEvalFlags flags);
 
-void func_builtin_init (void);
-void func_builtin_shutdown (void);
+void gnm_func_builtin_init (void);
+void gnm_func_builtin_shutdown (void);
 
 G_END_DECLS
 

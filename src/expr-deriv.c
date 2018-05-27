@@ -796,7 +796,7 @@ gnm_expr_deriv_chain (GnmExpr const *expr,
 /* ------------------------------------------------------------------------- */
 
 void
-_gnm_expr_deriv_shutdown (void)
+gnm_expr_deriv_shutdown_ (void)
 {
 }
 

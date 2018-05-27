@@ -353,7 +353,7 @@ static GnmFuncHelp const help_if[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-GnmValue *
+static GnmValue *
 gnumeric_if (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gboolean err;
@@ -370,7 +370,9 @@ gnumeric_if (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		return value_new_int (0);
 }
 
-
+/**
+ * gnumeric_if2: (skip)
+ */
 GnmValue *
 gnumeric_if2 (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv,
 	      GnmExprEvalFlags flags)
@@ -534,8 +536,11 @@ static GnmFuncDescriptor const builtins [] = {
 	{ NULL }
 };
 
+/**
+ * gnm_func_builtin_init: (skip)
+ */
 void
-func_builtin_init (void)
+gnm_func_builtin_init (void)
 {
 	const char *gname;
 	const char *tdomain = GETTEXT_PACKAGE;
@@ -567,8 +572,11 @@ func_builtin_init (void)
 			  "derivative", G_CALLBACK (gnumeric_sum_deriv), NULL);
 }
 
+/**
+ * gnm_func_builtin_shutdown: (skip)
+ */
 void
-func_builtin_shutdown (void)
+gnm_func_builtin_shutdown (void)
 {
 	int i;
 

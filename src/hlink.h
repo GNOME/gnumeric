@@ -45,7 +45,7 @@ gboolean gnm_hlink_get_range_target (GnmHLink const *lnk, GnmSheetRange *sr);
 GnmExprTop const *gnm_hlink_get_target_expr (GnmHLink const *lnk);
 
 /* Protected. */
-void _gnm_hlink_init (void);
+void gnm_hlink_init_ (void);
 
 G_END_DECLS
 

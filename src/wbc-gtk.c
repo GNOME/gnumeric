@@ -1917,7 +1917,7 @@ wbc_gtk_close (WBCGtk *wbcg)
 	} else
 		g_object_unref (wbcg);
 
-	_gnm_app_flag_windows_changed ();
+	gnm_app_flag_windows_changed_ ();
 
 	return FALSE;
 }

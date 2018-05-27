@@ -597,7 +597,7 @@ gnumeric_agm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
 
-	return value_new_float (agm (a, b));
+	return value_new_float (gnm_agm (a, b));
 }
 
 /***************************************************************************/

@@ -308,17 +308,17 @@ gnm_init (void)
 
 	value_init ();
 	parse_util_init ();
-	_gnm_expr_init ();
+	gnm_expr_init_ ();
 	gnm_sheet_cell_init ();
 	clipboard_init ();
 	gui_clipboard_init ();
 	dependent_types_init ();
 	gnm_rendered_value_init ();
-	functions_init ();
+	gnm_func_init_ ();
 	print_init ();
 	gnm_autofill_init ();
 	sheet_objects_init ();
-	_gnm_hlink_init ();
+	gnm_hlink_init_ ();
 
 	/* The statically linked in file formats */
 	gnm_xml_sax_read_init ();
@@ -350,15 +350,15 @@ gnm_shutdown (void)
 
 	gnm_autofill_shutdown ();
 	print_shutdown ();
-	functions_shutdown ();
+	gnm_func_shutdown_ ();
 
 	gnm_rendered_value_shutdown ();
 	dependent_types_shutdown ();
 	gui_clipboard_shutdown ();
 	clipboard_shutdown ();
 	gnm_sheet_cell_shutdown ();
-	_gnm_expr_deriv_shutdown ();
-	_gnm_expr_shutdown ();
+	gnm_expr_deriv_shutdown_ ();
+	gnm_expr_shutdown_ ();
 	parse_util_shutdown ();
 	value_shutdown ();
 

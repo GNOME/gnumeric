@@ -43,7 +43,7 @@ GnmExprList *gnm_expr_deriv_collect (GnmExpr const *expr,
 
 /* ------------------------------------------------------------------------- */
 
-void _gnm_expr_deriv_shutdown (void);
+void gnm_expr_deriv_shutdown_ (void);
 
 /* ------------------------------------------------------------------------- */
 

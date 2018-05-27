@@ -104,7 +104,7 @@ void	   gnm_app_foreach_extra_ui (GFunc func, gpointer data);
 /**********************************************************************/
 
 /* internal implementation util */
-void _gnm_app_flag_windows_changed (void);
+void gnm_app_flag_windows_changed_ (void);
 
 G_END_DECLS
 
