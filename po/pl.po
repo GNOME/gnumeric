@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-20 20:39+0200\n"
-"PO-Revision-Date: 2018-05-20 20:40+0200\n"
+"POT-Creation-Date: 2018-05-27 07:18+0200\n"
+"PO-Revision-Date: 2018-05-27 01:19+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
-#: ../src/func-builtin.c:554
+#: ../src/func-builtin.c:549
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -382,7 +382,7 @@ msgstr "Nie można otworzyć potoku „Zeszyt” do zapisania\n"
 msgid "Broken function"
 msgstr "Uszkodzona funkcja"
 
-#: ../plugins/excel/ms-formula-write.c:597
+#: ../plugins/excel/ms-formula-write.c:599
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
@@ -994,7 +994,7 @@ msgstr "Funkcje logiczne"
 msgid "Functions for manipulating truth values"
 msgstr "Funkcje do manipulacji wartościami prawdy"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:564
+#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:559
 msgid "Logic"
 msgstr "Logika"
 
@@ -1018,7 +1018,7 @@ msgstr "Funkcje matematyczne"
 msgid "Mathematical Functions"
 msgstr "Funkcje matematyczne"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:549
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:544
 msgid "Mathematics"
 msgstr "Matematyka"
 
@@ -1078,7 +1078,7 @@ msgstr "Funkcje do wykonywania działań na ciągach"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 #: ../src/dialogs/dialog-doc-metadata.c:1853 ../src/dialogs/dialog-search.c:387
-#: ../src/func.c:944
+#: ../src/func.c:1090
 msgid "String"
 msgstr "Ciąg"
 
@@ -1374,7 +1374,7 @@ msgstr "Ograniczenie"
 msgid "Value"
 msgstr "Wartość"
 
-#: ../plugins/mps/mps.c:592 ../src/dialogs/dialog-formula-guru.c:896
+#: ../plugins/mps/mps.c:592 ../src/dialogs/dialog-formula-guru.c:895
 #: ../src/dialogs/dialog-search.c:437 ../src/tools/gnm-solver.c:1652
 msgid "Type"
 msgstr "Typ"
@@ -2113,17 +2113,17 @@ msgstr "Perl"
 msgid "Perl error: "
 msgstr "Błąd języka Perl: "
 
-#: ../plugins/perl-loader/perl-loader.c:224
-#: ../plugins/perl-loader/perl-loader.c:243
+#: ../plugins/perl-loader/perl-loader.c:223
+#: ../plugins/perl-loader/perl-loader.c:242
 #, c-format
 msgid "Perl error: %s\n"
 msgstr "Błąd języka Perl: %s\n"
 
-#: ../plugins/perl-loader/perl-loader.c:284
+#: ../plugins/perl-loader/perl-loader.c:274
 msgid "Module name not given."
 msgstr "Nie podano nazwy modułu."
 
-#: ../plugins/perl-loader/perl-loader.c:312
+#: ../plugins/perl-loader/perl-loader.c:302
 msgid "perl_func.pl doesn't exist."
 msgstr "Plik „perl_func.pl” nie istnieje."
 
@@ -2259,70 +2259,70 @@ msgstr "Wyjątek języka Python (%s: %s)"
 msgid "Python exception (%s)"
 msgstr "Wyjątek języka Python (%s)"
 
-#: ../plugins/python-loader/python-loader.c:70
+#: ../plugins/python-loader/python-loader.c:72
 msgid "Python module name not given."
 msgstr "Nie podano nazwy modułu języka Python."
 
-#: ../plugins/python-loader/python-loader.c:88
+#: ../plugins/python-loader/python-loader.c:90
 #, c-format
 msgid "Error while opening file \"%s\" for writing."
 msgstr "Błąd podczas otwierania pliku „%s” do zapisu."
 
-#: ../plugins/python-loader/python-loader.c:92
+#: ../plugins/python-loader/python-loader.c:94
 #, c-format
 msgid "Error while opening file \"%s\" for reading."
 msgstr "Błąd podczas otwierania pliku „%s” do odczytu."
 
-#: ../plugins/python-loader/python-loader.c:123
+#: ../plugins/python-loader/python-loader.c:125
 msgid "Cannot create new Python interpreter."
 msgstr "Nie można utworzyć nowego interpretera języka Python."
 
-#: ../plugins/python-loader/python-loader.c:144
+#: ../plugins/python-loader/python-loader.c:146
 #, c-format
 msgid "Module \"%s\" doesn't exist."
 msgstr "Moduł „%s” nie istnieje."
 
-#: ../plugins/python-loader/python-loader.c:162
+#: ../plugins/python-loader/python-loader.c:164
 #, c-format
 msgid "Execution of module \"%s\" failed."
 msgstr "Wykonanie modułu „%s” się nie powiodło."
 
-#: ../plugins/python-loader/python-loader.c:272
+#: ../plugins/python-loader/python-loader.c:274
 msgid "Some name"
 msgstr "Jakaś nazwa"
 
-#: ../plugins/python-loader/python-loader.c:337
-#: ../plugins/python-loader/python-loader.c:430
-#: ../plugins/python-loader/python-loader.c:739
-#: ../plugins/python-loader/python-loader.c:851
+#: ../plugins/python-loader/python-loader.c:339
+#: ../plugins/python-loader/python-loader.c:432
+#: ../plugins/python-loader/python-loader.c:738
+#: ../plugins/python-loader/python-loader.c:850
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Plik języka Python „%s” ma nieprawidłowy format."
 
-#: ../plugins/python-loader/python-loader.c:341
-#: ../plugins/python-loader/python-loader.c:435
+#: ../plugins/python-loader/python-loader.c:343
+#: ../plugins/python-loader/python-loader.c:437
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Plik nie zawiera funkcji „%s”."
 
-#: ../plugins/python-loader/python-loader.c:744
-#: ../plugins/python-loader/python-loader.c:856
+#: ../plugins/python-loader/python-loader.c:743
+#: ../plugins/python-loader/python-loader.c:855
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Plik nie zawiera słownika „%s”."
 
-#: ../plugins/python-loader/python-loader.c:749
-#: ../plugins/python-loader/python-loader.c:861
+#: ../plugins/python-loader/python-loader.c:748
+#: ../plugins/python-loader/python-loader.c:860
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Obiekt „%s” nie jest słownikiem."
 
-#: ../plugins/python-loader/python-loader.c:799 ../src/gnm-plugin.c:843
+#: ../plugins/python-loader/python-loader.c:798 ../src/gnm-plugin.c:859
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Nieznane działanie: %s"
 
-#: ../plugins/python-loader/python-loader.c:804
+#: ../plugins/python-loader/python-loader.c:803
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "Nieprawidłowa funkcja dla działania: %s"
@@ -4279,8 +4279,8 @@ msgstr "Usuń obiekt"
 
 #: ../src/commands.c:4830 ../src/commands.c:5896
 #: ../src/dialogs/dialog-doc-metadata.c:1902
-#: ../src/dialogs/dialog-formula-guru.c:892
-#: ../src/dialogs/dialog-function-select.c:1279
+#: ../src/dialogs/dialog-formula-guru.c:891
+#: ../src/dialogs/dialog-function-select.c:1278
 #: ../src/dialogs/dialog-scenarios.c:521 ../src/dialogs/dialog-simulation.c:213
 #: ../src/dialogs/dialog-zoom.c:194 ../src/format-template.c:216
 msgid "Name"
@@ -5695,7 +5695,7 @@ msgid "Double Low"
 msgstr "Podwójne niskie"
 
 #: ../src/dialogs/dialog-cell-format.c:467 ../src/dialogs/dialog-search.c:389
-#: ../src/func.c:942 ../src/wbc-gtk-actions.c:3417
+#: ../src/func.c:1088 ../src/wbc-gtk-actions.c:3417
 msgid "Number"
 msgstr "Liczba"
 
@@ -6076,14 +6076,14 @@ msgstr "Filtr"
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2352
-#: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2888
+#: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2896
 msgid "Row"
 msgstr "Rząd"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2344
-#: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2889
+#: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2897
 msgid "Column"
 msgstr "Kolumna"
 
@@ -6258,7 +6258,7 @@ msgid "Properties"
 msgstr "Właściwości"
 
 #: ../src/dialogs/dialog-doc-metadata.c:2230
-#: ../src/dialogs/dialog-function-select.c:1284
+#: ../src/dialogs/dialog-function-select.c:1283
 #: ../src/dialogs/dialog-plugin-manager.c:710
 #: ../src/dialogs/dialog-sheet-compare.c:713
 #: ../src/dialogs/doc-meta-data.ui.h:29 ../src/ssconvert.c:359
@@ -6278,78 +6278,78 @@ msgstr "Nie można utworzyć okna właściwości."
 msgid "Could not create the Fill Series dialog."
 msgstr "Nie można utworzyć okna wypełniania serii."
 
-#: ../src/dialogs/dialog-formula-guru.c:323
+#: ../src/dialogs/dialog-formula-guru.c:322
 #, c-format
 msgid "[%s]"
 msgstr "[%s]"
 
-#: ../src/dialogs/dialog-formula-guru.c:907
+#: ../src/dialogs/dialog-formula-guru.c:906
 msgid "Function/Argument"
 msgstr "Funkcja/parametr"
 
-#: ../src/dialogs/dialog-formula-guru.c:1091
+#: ../src/dialogs/dialog-formula-guru.c:1090
 msgid "Could not create the formula guru."
 msgstr "Nie można utworzyć kreatora formuł."
 
-#: ../src/dialogs/dialog-function-select.c:507
+#: ../src/dialogs/dialog-function-select.c:505
 msgid "All Functions"
 msgstr "Wszystkie funkcje"
 
-#: ../src/dialogs/dialog-function-select.c:513
+#: ../src/dialogs/dialog-function-select.c:511
 msgid "Recently Used"
 msgstr "Ostatnio używane"
 
-#: ../src/dialogs/dialog-function-select.c:519
+#: ../src/dialogs/dialog-function-select.c:517
 msgid "In Use"
 msgstr "W użytku"
 
-#: ../src/dialogs/dialog-function-select.c:692
+#: ../src/dialogs/dialog-function-select.c:690
 #, c-format
 msgid "%s evaluates to %s."
 msgstr "%s zwraca %s."
 
-#: ../src/dialogs/dialog-function-select.c:768
+#: ../src/dialogs/dialog-function-select.c:769
 msgid "Arguments:"
 msgstr "Parametry:"
 
-#: ../src/dialogs/dialog-function-select.c:790
+#: ../src/dialogs/dialog-function-select.c:791
 msgid "Note: "
 msgstr "Uwaga: "
 
-#: ../src/dialogs/dialog-function-select.c:803
+#: ../src/dialogs/dialog-function-select.c:804
 msgid "Examples:"
 msgstr "Przykłady:"
 
 #. Not translated
-#: ../src/dialogs/dialog-function-select.c:822
+#: ../src/dialogs/dialog-function-select.c:823
 msgid "See also: "
 msgstr "Zobacz też: "
 
-#: ../src/dialogs/dialog-function-select.c:839
+#: ../src/dialogs/dialog-function-select.c:840
 msgid ", "
 msgstr ", "
 
-#: ../src/dialogs/dialog-function-select.c:872
+#: ../src/dialogs/dialog-function-select.c:870
 msgid "Further information: "
 msgstr "Więcej informacji: "
 
-#: ../src/dialogs/dialog-function-select.c:874
+#: ../src/dialogs/dialog-function-select.c:872
 msgid "online descriptions"
 msgstr "opisy online"
 
-#: ../src/dialogs/dialog-function-select.c:886
+#: ../src/dialogs/dialog-function-select.c:884
 msgid "Microsoft Excel: "
 msgstr "Microsoft Excel: "
 
-#: ../src/dialogs/dialog-function-select.c:895
+#: ../src/dialogs/dialog-function-select.c:893
 msgid "ODF (OpenFormula): "
 msgstr "ODF (OpenFormula): "
 
-#: ../src/dialogs/dialog-function-select.c:1384
+#: ../src/dialogs/dialog-function-select.c:1383
 msgid "Gnumeric Function Help Browser"
 msgstr "Przeglądarka pomocy funkcji programu Gnumeric"
 
-#: ../src/dialogs/dialog-function-select.c:1388
+#: ../src/dialogs/dialog-function-select.c:1387
 msgid "Paste Function Name dialog"
 msgstr "Okno wklejania nazwy funkcji"
 
@@ -7826,7 +7826,7 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:791
 #: ../src/tools/analysis-exp-smoothing.c:1116
 #: ../src/tools/analysis-frequency.c:147 ../src/tools/analysis-histogram.c:322
-#: ../src/tools/analysis-tools.c:1219 ../src/tools/analysis-tools.c:3748
+#: ../src/tools/analysis-tools.c:1227 ../src/tools/analysis-tools.c:3756
 #, c-format
 msgid "Column %d"
 msgstr "Kolumna %d"
@@ -8914,13 +8914,13 @@ msgstr "WARIANCJA"
 msgid "VARP"
 msgstr "WARIANCJA POPULACJI"
 
-#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:691
-#: ../src/tools/analysis-tools.c:694
+#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:699
+#: ../src/tools/analysis-tools.c:702
 msgid "Correlation"
 msgstr "Korelacja"
 
-#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:746
-#: ../src/tools/analysis-tools.c:749 ../src/wbc-gtk-actions.c:2945
+#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:754
+#: ../src/tools/analysis-tools.c:757 ../src/wbc-gtk-actions.c:2945
 msgid "Covariance"
 msgstr "Kowariancja"
 
@@ -9032,8 +9032,8 @@ msgstr "Usunięcie _rzędów"
 msgid "Delete _column(s)"
 msgstr "Usunięcie _kolumn"
 
-#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1136
-#: ../src/tools/analysis-tools.c:1139
+#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1144
+#: ../src/tools/analysis-tools.c:1147
 msgid "Descriptive Statistics"
 msgstr "Statystyka opisowa"
 
@@ -10367,8 +10367,8 @@ msgstr "_Scal"
 msgid "Merge _Range:"
 msgstr "Zakres _scalania:"
 
-#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3994
-#: ../src/tools/analysis-tools.c:3997
+#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:4002
+#: ../src/tools/analysis-tools.c:4005
 msgid "Moving Average"
 msgstr "Średnia ruchoma"
 
@@ -10997,8 +10997,8 @@ msgstr "Otwórz dokument"
 msgid "Last Used"
 msgstr "Ostatnio używane"
 
-#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3601
-#: ../src/tools/analysis-tools.c:3604
+#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3609
+#: ../src/tools/analysis-tools.c:3612
 msgid "Regression"
 msgstr "Regresja"
 
@@ -12240,25 +12240,25 @@ msgstr ""
 "SUM oblicza sumę wszystkich wartości i komórek przywołanych w liście "
 "parametrów."
 
-#: ../src/func-builtin.c:47 ../src/func-builtin.c:105
+#: ../src/func-builtin.c:47 ../src/func-builtin.c:104
 msgid "This function is Excel compatible."
 msgstr "Ta funkcja jest zgodna z programem Excel."
 
-#: ../src/func-builtin.c:48 ../src/func-builtin.c:106
+#: ../src/func-builtin.c:48 ../src/func-builtin.c:105
 msgid "This function is OpenFormula compatible."
 msgstr "Ta funkcja jest zgodna ze standardem OpenFormula."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:100
+#: ../src/func-builtin.c:99
 msgid "PRODUCT:product of the given values"
 msgstr "PRODUCT:iloczyn podanych wartości"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:102
+#: ../src/func-builtin.c:101
 msgid "values:a list of values to multiply"
 msgstr "wartości:lista wartości do pomnożenia"
 
-#: ../src/func-builtin.c:103
+#: ../src/func-builtin.c:102
 msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
@@ -12266,48 +12266,48 @@ msgstr ""
 "PRODUCT oblicza iloczyn wszystkich wartości i komórek przywołanych w liście "
 "parametrów."
 
-#: ../src/func-builtin.c:104
+#: ../src/func-builtin.c:103
 msgid "If all cells are empty, the result will be 0."
 msgstr "Jeśli wszystkie komórki są puste, wynikiem będzie 0."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:137
+#: ../src/func-builtin.c:136
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr "GNUMERIC_VERSION:obecna wersja programu Gnumeric"
 
-#: ../src/func-builtin.c:138
+#: ../src/func-builtin.c:137
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
 msgstr "GNUMERIC_VERSION zwraca wersję programu Gnumeric jako ciąg."
 
-#: ../src/func-builtin.c:153
+#: ../src/func-builtin.c:152
 msgid "TABLE:internal function for data tables"
 msgstr "TABLE:wewnętrzna funkcja dla tablic danych"
 
-#: ../src/func-builtin.c:154
+#: ../src/func-builtin.c:153
 msgid "This function should not be called directly."
 msgstr "Tej funkcji nie należy wywoływać bezpośrednio."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:344
+#: ../src/func-builtin.c:343
 msgid "IF:conditional expression"
 msgstr "IF:wyrażenie warunkowe"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:346
+#: ../src/func-builtin.c:345
 msgid "cond:condition"
 msgstr "warunek:warunek"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:348
+#: ../src/func-builtin.c:347
 msgid "trueval:value to use if condition is true"
 msgstr "prawda:wartość używana, jeśli warunek jest prawdą"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:350
+#: ../src/func-builtin.c:349
 msgid "falseval:value to use if condition is false"
 msgstr "fałsz:wartość używana, jeśli warunek jest fałszem"
 
-#: ../src/func-builtin.c:351
+#: ../src/func-builtin.c:350
 msgid ""
 "This function first evaluates the condition.  If the result is true, it will "
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
@@ -12316,42 +12316,42 @@ msgstr ""
 "Ta funkcja zwraca warunek. Jeśli wynikiem jest prawda, to oceni i zwróci "
 "drugi parametr. W przeciwnym przypadku oceni i zwróci ostatni parametr."
 
-#: ../src/func.c:266
+#: ../src/func.c:128
 msgid "Function implementation not available."
 msgstr "Implementacja funkcji jest niedostępna."
 
-#: ../src/func.c:627
+#: ../src/func.c:837
 msgid "Unknown Function"
 msgstr "Nieznana funkcja"
 
 #. xgettext: This represents a made-up translated function name.
-#: ../src/func.c:651
+#: ../src/func.c:861
 #, c-format
 msgid "unknown%d"
 msgstr "nieznane%d"
 
-#: ../src/func.c:946
+#: ../src/func.c:1092
 msgid "Boolean"
 msgstr "Logiczne"
 
-#: ../src/func.c:948
+#: ../src/func.c:1094
 msgid "Cell Range"
 msgstr "Zakres komórek"
 
-#: ../src/func.c:950
+#: ../src/func.c:1096
 msgid "Area"
 msgstr "Obszar"
 
-#: ../src/func.c:952
+#: ../src/func.c:1098
 msgid "Scalar, Blank, or Error"
 msgstr "Skalar, puste lub błąd"
 
-#: ../src/func.c:954
+#: ../src/func.c:1100
 msgid "Scalar"
 msgstr "Skalar"
 
 #. Missing values will be NULL.
-#: ../src/func.c:957
+#: ../src/func.c:1103
 msgid "Any"
 msgstr "Dowolne"
 
@@ -12413,11 +12413,11 @@ msgstr "Brak nazwy kategorii funkcji."
 msgid "Function group is empty."
 msgstr "Grupa funkcji jest pusta."
 
-#: ../src/gnm-plugin.c:163
-msgid "No func_desc_load method.\n"
-msgstr "Brak metody „func_desc_load”.\n"
+#: ../src/gnm-plugin.c:174
+msgid "No load_stub method.\n"
+msgstr "Brak metody „load_stub”.\n"
 
-#: ../src/gnm-plugin.c:268
+#: ../src/gnm-plugin.c:281
 #, c-format
 msgid "%d function in category \"%s\""
 msgid_plural "Group of %d functions in category \"%s\""
@@ -12425,17 +12425,17 @@ msgstr[0] "%d funkcja w kategorii „%s”"
 msgstr[1] "Grupa %d funkcji w kategorii „%s”"
 msgstr[2] "Grupa %d funkcji w kategorii „%s”"
 
-#: ../src/gnm-plugin.c:377
+#: ../src/gnm-plugin.c:390
 msgid "Missing file name."
 msgstr "Brak nazwy pliku."
 
-#: ../src/gnm-plugin.c:484
+#: ../src/gnm-plugin.c:497
 #, c-format
 msgid "Cannot read UI description from %s: %s"
 msgstr "Nie można odczytać opisu interfejsu użytkownika z %s: %s"
 
 #. xgettext : %d gives the number of actions. This is input to ngettext.
-#: ../src/gnm-plugin.c:513
+#: ../src/gnm-plugin.c:526
 #, c-format
 msgid "User interface with %d action"
 msgid_plural "User interface with %d actions"
@@ -12443,25 +12443,25 @@ msgstr[0] "Interfejs użytkownika z %d działaniem"
 msgstr[1] "Interfejs użytkownika z %d działaniami"
 msgstr[2] "Interfejs użytkownika z %d działaniami"
 
-#: ../src/gnm-plugin.c:639
+#: ../src/gnm-plugin.c:652
 msgid "Invalid solver model type."
 msgstr "Nieprawidłowy typ modelu solvera."
 
-#: ../src/gnm-plugin.c:658
+#: ../src/gnm-plugin.c:671
 msgid "Missing fields in plugin file"
 msgstr "Brakujące pola w pliku wtyczki"
 
-#: ../src/gnm-plugin.c:701
+#: ../src/gnm-plugin.c:714
 #, c-format
 msgid "Solver Algorithm %s"
 msgstr "Algorytm solvera %s"
 
-#: ../src/gnm-plugin.c:799 ../src/gnm-plugin.c:871 ../src/gnm-plugin.c:917
+#: ../src/gnm-plugin.c:815 ../src/gnm-plugin.c:887 ../src/gnm-plugin.c:933
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "Plik z modułem „%s” jest w nieprawidłowym formacie."
 
-#: ../src/gnm-plugin.c:803 ../src/gnm-plugin.c:874
+#: ../src/gnm-plugin.c:819 ../src/gnm-plugin.c:890
 #, c-format
 msgid "File doesn't contain \"%s\" array."
 msgstr "Plik nie zawiera tablicy „%s”."
@@ -12663,12 +12663,12 @@ msgctxt "Stock label"
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/gutils.c:954
+#: ../src/gutils.c:957
 #, c-format
 msgid "Unknown sheet \"%s\""
 msgstr "Nieznany arkusz „%s”"
 
-#: ../src/gutils.c:974
+#: ../src/gutils.c:977
 #, c-format
 msgid "Invalid export option \"%s\" for format %s"
 msgstr "Nieprawidłowa opcja eksportu „%s” dla formatu %s"
@@ -14216,7 +14216,7 @@ msgid "/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Źródło wariancji/Rzędy/Kolumny/Błąd/Ogółem"
 
 #: ../src/tools/analysis-anova.c:248 ../src/tools/analysis-anova.c:607
-#: ../src/tools/analysis-tools.c:4269
+#: ../src/tools/analysis-tools.c:4277
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/Wartość p/Krytyczne f"
 
@@ -14330,7 +14330,7 @@ msgstr "\"α =\" * 0.000"
 #: ../src/tools/analysis-exp-smoothing.c:791
 #: ../src/tools/analysis-exp-smoothing.c:1116
 #: ../src/tools/analysis-frequency.c:144 ../src/tools/analysis-histogram.c:319
-#: ../src/tools/analysis-tools.c:1216 ../src/tools/analysis-tools.c:3745
+#: ../src/tools/analysis-tools.c:1224 ../src/tools/analysis-tools.c:3753
 #, c-format
 msgid "Row %d"
 msgstr "Rząd %d"
@@ -14340,7 +14340,7 @@ msgstr "Rząd %d"
 #: ../src/tools/analysis-exp-smoothing.c:610
 #: ../src/tools/analysis-exp-smoothing.c:932
 #: ../src/tools/analysis-exp-smoothing.c:1299
-#: ../src/tools/analysis-kaplan-meier.c:212 ../src/tools/analysis-tools.c:3920
+#: ../src/tools/analysis-kaplan-meier.c:212 ../src/tools/analysis-tools.c:3928
 msgid "Standard Error"
 msgstr "Błąd standardowy"
 
@@ -14403,7 +14403,7 @@ msgid "/Frequency Table/Category"
 msgstr "/Tablica częstości/Kategoria"
 
 #: ../src/tools/analysis-frequency.c:150 ../src/tools/analysis-histogram.c:325
-#: ../src/tools/analysis-tools.c:1222
+#: ../src/tools/analysis-tools.c:1230
 #, c-format
 msgid "Area %d"
 msgstr "Obszar %d"
@@ -14587,7 +14587,7 @@ msgstr ""
 "nieprawidłowa.\""
 
 #: ../src/tools/analysis-principal-components.c:103
-#: ../src/tools/analysis-tools.c:718
+#: ../src/tools/analysis-tools.c:726
 msgid "Covariances"
 msgstr "Kowariancje"
 
@@ -14673,16 +14673,16 @@ msgstr "Obszar %i"
 msgid "Variable %i"
 msgstr "Zmienna %i"
 
-#: ../src/tools/analysis-tools.c:663
+#: ../src/tools/analysis-tools.c:671
 msgid "Correlations"
 msgstr "Korelacje"
 
-#: ../src/tools/analysis-tools.c:675
+#: ../src/tools/analysis-tools.c:683
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Korelacja (%s)"
 
-#: ../src/tools/analysis-tools.c:730
+#: ../src/tools/analysis-tools.c:738
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Kowariancja (%s)"
@@ -14694,7 +14694,7 @@ msgstr "Kowariancja (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:832
+#: ../src/tools/analysis-tools.c:840
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -14702,36 +14702,36 @@ msgstr ""
 "/Średnia/Błąd standardowy/Mediana/Moda/Odchylenie standardowe/Wariancja "
 "próby/Kurtoza/Zakrzywienie/Zakres/Minimum/Maksimum/Suma/Liczba"
 
-#: ../src/tools/analysis-tools.c:966
+#: ../src/tools/analysis-tools.c:974
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% CI dla średniej od/do"
 
-#: ../src/tools/analysis-tools.c:1097
+#: ../src/tools/analysis-tools.c:1105
 #, c-format
 msgid "Largest (%d)"
 msgstr "Największa (%d)"
 
-#: ../src/tools/analysis-tools.c:1104
+#: ../src/tools/analysis-tools.c:1112
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Najmniejsza (%d)"
 
-#: ../src/tools/analysis-tools.c:1121
+#: ../src/tools/analysis-tools.c:1129
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Statystyka opisowa (%s)"
 
-#: ../src/tools/analysis-tools.c:1319
+#: ../src/tools/analysis-tools.c:1327
 #, c-format
 msgid "Sampling (%s)"
 msgstr "Próbkowanie (%s)"
 
-#: ../src/tools/analysis-tools.c:1357 ../src/tools/analysis-tools.c:1360
+#: ../src/tools/analysis-tools.c:1365 ../src/tools/analysis-tools.c:1368
 msgid "Sample"
 msgstr "Próbka"
 
-#: ../src/tools/analysis-tools.c:1401
+#: ../src/tools/analysis-tools.c:1409
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -14741,16 +14741,16 @@ msgstr ""
 "różnica obserwacji/z/P (Z<=z) jednostronny/Krytyczne z jednostronne/P (Z<=z) "
 "dwustronne/Krytyczne z dwustronne"
 
-#: ../src/tools/analysis-tools.c:1588
+#: ../src/tools/analysis-tools.c:1596
 #, c-format
 msgid "z-Test (%s)"
 msgstr "Test z (%s)"
 
-#: ../src/tools/analysis-tools.c:1598 ../src/tools/analysis-tools.c:1601
+#: ../src/tools/analysis-tools.c:1606 ../src/tools/analysis-tools.c:1609
 msgid "z-Test"
 msgstr "Test z"
 
-#: ../src/tools/analysis-tools.c:1652
+#: ../src/tools/analysis-tools.c:1660
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
@@ -14761,18 +14761,18 @@ msgstr ""
 "jednostronne/Krytyczne t jednostronne/P (T<=t) dwustronne/Krytyczne t "
 "dwustronne"
 
-#: ../src/tools/analysis-tools.c:1880
+#: ../src/tools/analysis-tools.c:1888
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "Test t, sparowane (%s)"
 
-#: ../src/tools/analysis-tools.c:1890 ../src/tools/analysis-tools.c:1893
-#: ../src/tools/analysis-tools.c:2190 ../src/tools/analysis-tools.c:2193
-#: ../src/tools/analysis-tools.c:2483 ../src/tools/analysis-tools.c:2486
+#: ../src/tools/analysis-tools.c:1898 ../src/tools/analysis-tools.c:1901
+#: ../src/tools/analysis-tools.c:2198 ../src/tools/analysis-tools.c:2201
+#: ../src/tools/analysis-tools.c:2491 ../src/tools/analysis-tools.c:2494
 msgid "t-Test"
 msgstr "Test t"
 
-#: ../src/tools/analysis-tools.c:1931
+#: ../src/tools/analysis-tools.c:1939
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -14782,12 +14782,12 @@ msgstr ""
 "różnicy/Średnia różnicy obserwacji/df/Stat t/P (T<=t) jednostronne/Krytyczne "
 "t jednostronne/P (T<=t) dwustronne/Krytyczne t dwustronne"
 
-#: ../src/tools/analysis-tools.c:2180 ../src/tools/analysis-tools.c:2473
+#: ../src/tools/analysis-tools.c:2188 ../src/tools/analysis-tools.c:2481
 #, c-format
 msgid "t-Test (%s)"
 msgstr "Test t (%s)"
 
-#: ../src/tools/analysis-tools.c:2228
+#: ../src/tools/analysis-tools.c:2236
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -14797,12 +14797,12 @@ msgstr ""
 "obserwacji/df/Stat t/P (T<=t) jednostronne/Krytyczne t jednostronne/P (T<=t) "
 "dwustronne/Krytyczne t dwustronne"
 
-#: ../src/tools/analysis-tools.c:2522 ../src/tools/analysis-tools.c:2771
-#: ../src/tools/analysis-tools.c:2774
+#: ../src/tools/analysis-tools.c:2530 ../src/tools/analysis-tools.c:2779
+#: ../src/tools/analysis-tools.c:2782
 msgid "F-Test"
 msgstr "Test F"
 
-#: ../src/tools/analysis-tools.c:2523
+#: ../src/tools/analysis-tools.c:2531
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -14811,12 +14811,12 @@ msgstr ""
 "prawostronne/P (f<=F) lewostronne/Krytyczne F lewostronne/P dwustronne/"
 "Krytyczne F dwustronne"
 
-#: ../src/tools/analysis-tools.c:2761
+#: ../src/tools/analysis-tools.c:2769
 #, c-format
 msgid "F-Test (%s)"
 msgstr "Test F (%s)"
 
-#: ../src/tools/analysis-tools.c:2906
+#: ../src/tools/analysis-tools.c:2914
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -14825,29 +14825,29 @@ msgstr ""
 "standardowy/Skorygowane R^2/Obserwacje//Analiza wariancji//Regresja/"
 "Rezydualna/Ogółem///Punkt przecięcia"
 
-#: ../src/tools/analysis-tools.c:2925
+#: ../src/tools/analysis-tools.c:2933
 msgid "Response Variable"
 msgstr "Zmienna odpowiedzi"
 
-#: ../src/tools/analysis-tools.c:2959
+#: ../src/tools/analysis-tools.c:2967
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Istotność F"
 
-#: ../src/tools/analysis-tools.c:2966
+#: ../src/tools/analysis-tools.c:2974
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr "/Współczynniki/Błąd standardowy/Statystyka t/Wartość p"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2972
+#: ../src/tools/analysis-tools.c:2980
 msgid "\"Lower\" 0%"
 msgstr "\"Dolne\" 0%"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2974
+#: ../src/tools/analysis-tools.c:2982
 msgid "\"Upper\" 0%"
 msgstr "\"Górne\" 0%"
 
-#: ../src/tools/analysis-tools.c:2983
+#: ../src/tools/analysis-tools.c:2991
 msgid ""
 "Probability of observing a t-statistic\n"
 "whose absolute value is at least as large\n"
@@ -14861,7 +14861,7 @@ msgstr ""
 "statystycznego t, zakładając że wartość null\n"
 "hipotezy jest faktycznie prawdziwa."
 
-#: ../src/tools/analysis-tools.c:2990
+#: ../src/tools/analysis-tools.c:2998
 msgid ""
 "This value is not the square of R\n"
 "but the uncentered version of the\n"
@@ -14875,11 +14875,11 @@ msgstr ""
 "znaczy, proporcja sumy\n"
 "kwadratów wyjaśniona przez model."
 
-#: ../src/tools/analysis-tools.c:3298
+#: ../src/tools/analysis-tools.c:3306
 msgid "Constant"
 msgstr "Stała"
 
-#: ../src/tools/analysis-tools.c:3303
+#: ../src/tools/analysis-tools.c:3311
 msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
@@ -14887,104 +14887,104 @@ msgstr ""
 "/Prognoza/Rezydualna/Dźwignie/Wewnętrznie studentyzowany/Zewnętrznie "
 "studentyzowany/Wartość p"
 
-#: ../src/tools/analysis-tools.c:3465
+#: ../src/tools/analysis-tools.c:3473
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr "/WYJŚCIE PODSUMOWANIA//Niezależna zmienna//Obserwacje"
 
-#: ../src/tools/analysis-tools.c:3470
+#: ../src/tools/analysis-tools.c:3478
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr "/WYJŚCIE PODSUMOWANIA//Zmienna odpowiedzi//Obserwacje"
 
-#: ../src/tools/analysis-tools.c:3476
+#: ../src/tools/analysis-tools.c:3484
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Zmienna odpowiedzi/R^2/Nachylenie/Punkt przecięcia/F/Istotność F"
 
-#: ../src/tools/analysis-tools.c:3482
+#: ../src/tools/analysis-tools.c:3490
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Zmienna niezależna/R^2/Nachylenie/Punkt przecięcia/F/Istotność F"
 
-#: ../src/tools/analysis-tools.c:3563
+#: ../src/tools/analysis-tools.c:3571
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regresja (%s)"
 
-#: ../src/tools/analysis-tools.c:3981
+#: ../src/tools/analysis-tools.c:3989
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Średnia ruchoma (%s)"
 
-#: ../src/tools/analysis-tools.c:4039
+#: ../src/tools/analysis-tools.c:4047
 msgid "Ranks & Percentiles"
 msgstr "Korelacja rangowa i percentyle"
 
-#: ../src/tools/analysis-tools.c:4050
+#: ../src/tools/analysis-tools.c:4058
 msgid "Point"
 msgstr "Punkt"
 
-#: ../src/tools/analysis-tools.c:4051
+#: ../src/tools/analysis-tools.c:4059
 msgid "Rank"
 msgstr "Ranga"
 
-#: ../src/tools/analysis-tools.c:4052
+#: ../src/tools/analysis-tools.c:4060
 msgid "Percentile Rank"
 msgstr "Grupa percentyli"
 
-#: ../src/tools/analysis-tools.c:4144
+#: ../src/tools/analysis-tools.c:4152
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Rangi (%s)"
 
-#: ../src/tools/analysis-tools.c:4156 ../src/tools/analysis-tools.c:4159
+#: ../src/tools/analysis-tools.c:4164 ../src/tools/analysis-tools.c:4167
 msgid "Ranks"
 msgstr "Rangi"
 
-#: ../src/tools/analysis-tools.c:4191
+#: ../src/tools/analysis-tools.c:4199
 msgid "Anova: Single Factor"
 msgstr "Analiza wariancji: jeden czynnik"
 
-#: ../src/tools/analysis-tools.c:4192 ../src/tools/simulation.c:334
+#: ../src/tools/analysis-tools.c:4200 ../src/tools/simulation.c:334
 msgid "SUMMARY"
 msgstr "PODSUMOWANIE"
 
-#: ../src/tools/analysis-tools.c:4195
+#: ../src/tools/analysis-tools.c:4203
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupy/Liczba/Suma/Średnia/Wariancja"
 
-#: ../src/tools/analysis-tools.c:4263
+#: ../src/tools/analysis-tools.c:4271
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/Analiza wariancji/Źródło wariancji/Pomiędzy grupami/w grupach/Ogółem"
 
-#: ../src/tools/analysis-tools.c:4481
+#: ../src/tools/analysis-tools.c:4489
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Analiza wariancji z jednym czynnikiem (%s)"
 
-#: ../src/tools/analysis-tools.c:4492
+#: ../src/tools/analysis-tools.c:4500
 msgid "Anova"
 msgstr "Analiza wariancji"
 
-#: ../src/tools/analysis-tools.c:4495
+#: ../src/tools/analysis-tools.c:4503
 msgid "Single Factor ANOVA"
 msgstr "Analiza wariancji z jednym czynnikiem"
 
-#: ../src/tools/analysis-tools.c:4527
+#: ../src/tools/analysis-tools.c:4535
 msgid "Inverse Fourier Transform"
 msgstr "Odwrotna transformata Fouriera"
 
-#: ../src/tools/analysis-tools.c:4528
+#: ../src/tools/analysis-tools.c:4536
 msgid "Fourier Transform"
 msgstr "Transformata Fouriera"
 
-#: ../src/tools/analysis-tools.c:4536
+#: ../src/tools/analysis-tools.c:4544
 msgid "/Real/Imaginary"
 msgstr "/Rzeczywista/Urojona"
 
-#: ../src/tools/analysis-tools.c:4584
+#: ../src/tools/analysis-tools.c:4592
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Serie Fouriera (%s)"
 
-#: ../src/tools/analysis-tools.c:4596 ../src/tools/analysis-tools.c:4599
+#: ../src/tools/analysis-tools.c:4604 ../src/tools/analysis-tools.c:4607
 msgid "Fourier Series"
 msgstr "Serie Fouriera"
 
@@ -15538,7 +15538,7 @@ msgstr "#LICZBA!"
 msgid "#N/A"
 msgstr "#N/D"
 
-#: ../src/wbc-gtk-actions.c:183 ../src/workbook-view.c:1274
+#: ../src/wbc-gtk-actions.c:183 ../src/workbook-view.c:1273
 msgid "Default file saver is not available."
 msgstr "Domyślny moduł zapisywania plików jest niedostępny."
 
@@ -18216,25 +18216,25 @@ msgstr "%dR"
 msgid "%dR x %dC"
 msgstr "%dR×%dK"
 
-#: ../src/workbook-view.c:1114
+#: ../src/workbook-view.c:1113
 msgid "An unexplained error happened while saving."
 msgstr "Wystąpił nierozpoznany błąd podczas zapisywania."
 
-#: ../src/workbook-view.c:1138
+#: ../src/workbook-view.c:1137
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Nie można otworzyć „%s” do zapisania: %s"
 
-#: ../src/workbook-view.c:1142
+#: ../src/workbook-view.c:1141
 #, c-format
 msgid "Can't open '%s' for writing"
 msgstr "Nie można otworzyć „%s” do zapisania"
 
-#: ../src/workbook-view.c:1408
+#: ../src/workbook-view.c:1407
 msgid "Unsupported file format."
 msgstr "Nieobsługiwany format pliku."
 
-#: ../src/workbook-view.c:1457
+#: ../src/workbook-view.c:1456
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Wystąpił nierozpoznany błąd podczas otwierania %s"
