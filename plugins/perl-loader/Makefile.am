@@ -22,9 +22,23 @@ nodist_perl_loader_la_SOURCES = \
 	xsinit.c
 
 # Auto dep tracking is off here.  Add a few deps by hand
-boot.lo: $(srcdir)/../../gnumeric-config.h $(srcdir)/../../src/gnumeric.h $(srcdir)/../../src/gnm-plugin.h 
-perl-loader.lo: $(srcdir)/../../gnumeric-config.h $(srcdir)/../../src/gnumeric.h $(srcdir)/../../src/expr.h $(srcdir)/../../src/value.h $(srcdir)/../../src/sheet.h
-perl-gnumeric.lo: $(srcdir)/../../gnumeric-config.h $(srcdir)/../../src/gnumeric.h $(srcdir)/../../src/expr.h $(srcdir)/../../src/value.h $(srcdir)/../../src/func.h
+some_deps =					\
+	$(top_srcdir)/src/application.h		\
+	$(top_srcdir)/src/expr.h		\
+	$(top_srcdir)/src/func.h		\
+	$(top_srcdir)/src/gnm-plugin.h		\
+	$(top_srcdir)/src/gnumeric.h		\
+	$(top_srcdir)/src/sheet.h		\
+	$(top_srcdir)/src/value.h		\
+	$(top_srcdir)/src/workbook.h		\
+	$(top_srcdir)/src/workbook-view.h	\
+	perl-gnumeric.h				\
+	perl-loader.h
+
+
+boot.lo: $(some_deps)
+perl-loader.lo: $(some_deps)
+perl-gnumeric.lo: $(some_deps)
 
 
 # Use the right compiler.  This is not 100% correct: we use GNUMERIC_CFLAGS
