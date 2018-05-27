@@ -1751,16 +1751,17 @@ gnumeric_sumsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     GNM_ERROR_VALUE);
 }
 
+// Construct an equivalend expression
 static GnmExpr const *
-gnumeric_sumsq_deriv (GnmFunc *func,
-		      GnmExpr const *expr, GnmEvalPos const *ep,
+gnumeric_sumsq_equiv (GnmExpr const *expr, GnmEvalPos const *ep,
 		      GnmExprDeriv *info)
 {
-	GnmExprList *l, *args = gnm_expr_deriv_collect (expr, ep, info);
-	GnmExpr const *res;
-	GnmExpr const *sqsum;
-	GnmFunc *fsum = gnm_func_lookup_or_add_placeholder ("SUM");
+	GnmExprList *l, *args;
+	GnmFunc *fsum = gnm_func_lookup ("SUM", NULL);
 
+	if (!fsum) return NULL;
+
+	args = gnm_expr_deriv_collect (expr, ep, info);
 	for (l = args; l; l = l->next) {
 		GnmExpr const *e = l->data;
 		GnmExpr const *ee = gnm_expr_new_binary
@@ -1770,11 +1771,21 @@ gnumeric_sumsq_deriv (GnmFunc *func,
 		l->data = (gpointer)ee;
 	}
 
-	sqsum = gnm_expr_new_funcall (fsum, args);
-	res = gnm_expr_deriv (sqsum, ep, info);
-	gnm_expr_free (sqsum);
+	return gnm_expr_new_funcall (fsum, args);
+}
 
-	return res;
+static GnmExpr const *
+gnumeric_sumsq_deriv (GnmFunc *func,
+		      GnmExpr const *expr, GnmEvalPos const *ep,
+		      GnmExprDeriv *info)
+{
+	GnmExpr const *sqsum = gnumeric_sumsq_equiv (expr, ep, info);
+	if (sqsum) {
+		GnmExpr const *res = gnm_expr_deriv (sqsum, ep, info);
+		gnm_expr_free (sqsum);
+		return res;
+	} else
+		return NULL;
 }
 
 /***************************************************************************/

@@ -552,9 +552,9 @@ gnm_expr_deriv (GnmExpr const *expr,
 	case GNM_EXPR_OP_EXP: {
 		COMMON_BINARY_START
 		GnmFunc *fln = gnm_func_lookup ("ln", NULL);
-		GnmValue const *vb = gnm_expr_get_constant (b);
-		if (vb && VALUE_IS_FLOAT (vb)) {
-			GnmExpr const *bm1 = gnm_expr_new_constant (value_new_float (value_get_as_float (vb) - 1));
+		gnm_float cb;
+		if (is_any_const (b, &cb)) {
+			GnmExpr const *bm1 = gnm_expr_new_constant (value_new_float (cb - 1));
 			GnmExpr const *t1 = mexp (a, 1, bm1, 0);
 			gnm_expr_free (db);
 			return mmul (mmul (b, 1, t1, 0), 0, da, 0);
@@ -575,7 +575,7 @@ gnm_expr_deriv (GnmExpr const *expr,
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmFunc *f = gnm_expr_get_func_def (expr);
 		GnmExpr const *res = gnm_func_derivative (f, expr, ep, info);
-		GnmExpr const *opt = optimize (res);
+		GnmExpr const *opt = res ? optimize (res) : NULL;
 		if (opt) {
 			gnm_expr_free (res);
 			res = opt;
