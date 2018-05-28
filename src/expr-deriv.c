@@ -89,12 +89,12 @@ gnm_expr_deriv_info_get_type (void)
 	return t;
 }
 
-void
 /**
  * gnm_expr_deriv_info_set_var:
  * @deriv: #GnmExprDeriv
  * @var: (transfer none): location of variable
  */
+void
 gnm_expr_deriv_info_set_var (GnmExprDeriv *deriv, GnmEvalPos const *var)
 {
 	deriv->var = *var;
@@ -567,8 +567,11 @@ gnm_expr_deriv (GnmExpr const *expr,
 				 gnm_expr_new_funcall1 (fln, gnm_expr_copy (a)), 0);
 			GnmExpr const *s = madd (t1, 0, t2, 0);
 			return mmul (expr, 1, s, 0);
-		} else
+		} else {
+		        gnm_expr_free (da);
+			gnm_expr_free (db);
 			return NULL;
+		}
 		COMMON_BINARY_END
 	}
 

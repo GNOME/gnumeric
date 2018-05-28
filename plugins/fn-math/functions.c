@@ -1315,7 +1315,8 @@ gnumeric_ln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmExpr const *
-gnumeric_ln_deriv (GnmExpr const *expr, GnmEvalPos const *ep,
+gnumeric_ln_deriv (GnmFunc *func,
+		   GnmExpr const *expr, GnmEvalPos const *ep,
 		   GnmExprDeriv *info, gpointer data)
 {
 	GnmExpr const *deriv =

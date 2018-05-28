@@ -89,6 +89,14 @@ gnm_expr_new_constant (GnmValue *v)
 
 /***************************************************************************/
 
+/**
+ * gnm_expr_new_funcallv: (skip)
+ * @func: #GnmFunc
+ * @argc: argument count
+ * @argv: (array length=argc): transfers everything
+ *
+ * Returns: (transfer full): function call expression.
+ */
 static GnmExpr const *
 gnm_expr_new_funcallv (GnmFunc *func, int argc, GnmExprConstPtr *argv)
 {
@@ -106,6 +114,13 @@ gnm_expr_new_funcallv (GnmFunc *func, int argc, GnmExprConstPtr *argv)
 	return (GnmExpr *)ans;
 }
 
+/**
+ * gnm_expr_new_funcall: (skip)
+ * @func: #GnmFunc
+ * @args: argument list -- transfers content, not container
+ *
+ * Returns: (transfer full): function call expression.
+ */
 GnmExpr const *
 gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
 {
@@ -121,6 +136,13 @@ gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
 	return gnm_expr_new_funcallv (func, argc, argv);
 }
 
+/**
+ * gnm_expr_new_funcall1:
+ * @func: #GnmFunc
+ * @arg0: (transfer full): argument
+ *
+ * Returns: (transfer full): function call expression.
+ */
 GnmExpr const *
 gnm_expr_new_funcall1 (GnmFunc *func,
 		       GnmExpr const *arg0)
@@ -130,6 +152,14 @@ gnm_expr_new_funcall1 (GnmFunc *func,
 	return gnm_expr_new_funcallv (func, 1, argv);
 }
 
+/**
+ * gnm_expr_new_funcall2:
+ * @func: #GnmFunc
+ * @arg0: (transfer full): argument
+ * @arg1: (transfer full): argument
+ *
+ * Returns: (transfer full): function call expression.
+ */
 GnmExpr const *
 gnm_expr_new_funcall2 (GnmFunc *func,
 		       GnmExpr const *arg0,
@@ -141,6 +171,15 @@ gnm_expr_new_funcall2 (GnmFunc *func,
 	return gnm_expr_new_funcallv (func, 2, argv);
 }
 
+/**
+ * gnm_expr_new_funcall3:
+ * @func: #GnmFunc
+ * @arg0: (transfer full): argument
+ * @arg1: (transfer full): argument
+ * @arg2: (transfer full): argument
+ *
+ * Returns: (transfer full): function call expression.
+ */
 GnmExpr const *
 gnm_expr_new_funcall3 (GnmFunc *func,
 		       GnmExpr const *arg0,
@@ -154,6 +193,16 @@ gnm_expr_new_funcall3 (GnmFunc *func,
 	return gnm_expr_new_funcallv (func, 3, argv);
 }
 
+/**
+ * gnm_expr_new_funcall4:
+ * @func: #GnmFunc
+ * @arg0: (transfer full): argument
+ * @arg1: (transfer full): argument
+ * @arg2: (transfer full): argument
+ * @arg3: (transfer full): argument
+ *
+ * Returns: (transfer full): function call expression.
+ */
 GnmExpr const *
 gnm_expr_new_funcall4 (GnmFunc *func,
 		       GnmExpr const *arg0,
@@ -169,6 +218,17 @@ gnm_expr_new_funcall4 (GnmFunc *func,
 	return gnm_expr_new_funcallv (func, 4, argv);
 }
 
+/**
+ * gnm_expr_new_funcall5:
+ * @func: #GnmFunc
+ * @arg0: (transfer full): argument
+ * @arg1: (transfer full): argument
+ * @arg2: (transfer full): argument
+ * @arg3: (transfer full): argument
+ * @arg4: (transfer full): argument
+ *
+ * Returns: (transfer full): function call expression.
+ */
 GnmExpr const *
 gnm_expr_new_funcall5 (GnmFunc *func,
 		       GnmExpr const *arg0,
