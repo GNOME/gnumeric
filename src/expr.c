@@ -68,9 +68,9 @@ static GOMemChunk *expression_pool_small, *expression_pool_big;
 
 /**
  * gnm_expr_new_constant:
- * @v:
+ * @v: (transfer full): #GnmValue
  *
- * Absorbs the value.
+ * Returns: (transfer full): constant expression.
  **/
 GnmExpr const *
 gnm_expr_new_constant (GnmValue *v)
@@ -115,23 +115,27 @@ gnm_expr_new_funcallv (GnmFunc *func, int argc, GnmExprConstPtr *argv)
 }
 
 /**
- * gnm_expr_new_funcall: (skip)
+ * gnm_expr_new_funcall:
  * @func: #GnmFunc
- * @args: argument list -- transfers content, not container
+ * @args: (transfer full): argument list
  *
  * Returns: (transfer full): function call expression.
  */
 GnmExpr const *
-gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
+gnm_expr_new_funcall (GnmFunc *func, GnmExprList *args)
 {
-	GnmExprList *arg_list0 = arg_list;
-	int argc = gnm_expr_list_length (arg_list);
-	GnmExprConstPtr *argv = argc ? g_new (GnmExprConstPtr, argc) : NULL;
-	int i;
+	int argc = gnm_expr_list_length (args);
+	GnmExprConstPtr *argv = NULL;
 
-	for (i = 0; arg_list; i++, arg_list = arg_list->next)
-		argv[i] = arg_list->data;
-	gnm_expr_list_free (arg_list0);
+	if (args) {
+		GnmExprList *args0 = args;
+		int i = 0;
+
+		argv = g_new (GnmExprConstPtr, argc);
+		for (; args; args = args->next)
+			argv[i++] = args->data;
+		gnm_expr_list_free (args0);
+	}
 
 	return gnm_expr_new_funcallv (func, argc, argv);
 }
@@ -249,8 +253,15 @@ gnm_expr_new_funcall5 (GnmFunc *func,
 
 /***************************************************************************/
 
+/**
+ * gnm_expr_new_unary:
+ * @op: Unary operator
+ * @e: (transfer full): #GnmExpr
+ *
+ * Returns: (transfer full): Unary expresssion
+ */
 GnmExpr const *
-gnm_expr_new_unary  (GnmExprOp op, GnmExpr const *e)
+gnm_expr_new_unary (GnmExprOp op, GnmExpr const *e)
 {
 	GnmExprUnary *ans;
 
@@ -266,6 +277,14 @@ gnm_expr_new_unary  (GnmExprOp op, GnmExpr const *e)
 
 /***************************************************************************/
 
+/**
+ * gnm_expr_new_binary:
+ * @l: (transfer full): left operand.
+ * @op: Unary operator
+ * @r: (transfer full): right operand.
+ *
+ * Returns: (transfer full): Binary expresssion
+ */
 GnmExpr const *
 gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
 {
@@ -306,6 +325,12 @@ gnm_expr_new_name (GnmNamedExpr *name,
 
 /***************************************************************************/
 
+/**
+ * gnm_expr_new_cellref:
+ * @cr: (transfer none): cell reference
+ *
+ * Returns: (transfer full): expression referencing @cr.
+ */
 GnmExpr const *
 gnm_expr_new_cellref (GnmCellRef const *cr)
 {
@@ -323,6 +348,13 @@ gnm_expr_new_cellref (GnmCellRef const *cr)
 
 /***************************************************************************/
 
+/**
+ * gnm_expr_is_array:
+ * @expr: #GnmExpr
+ *
+ * Returns: %TRUE if @expr is an array expression, either a corner or a
+ * non-corner element.
+ */
 static gboolean
 gnm_expr_is_array (GnmExpr const *expr)
 {
@@ -333,11 +365,11 @@ gnm_expr_is_array (GnmExpr const *expr)
 
 /**
  * gnm_expr_new_array_corner:
- * @cols:
- * @rows:
- * @expr: optionally NULL.
+ * @cols: Number of columns
+ * @rows: Number of rows
+ * @expr: (transfer full) (nullable): #GnmExpr
  *
- * Absorb a referernce to @expr if it is non NULL.
+ * Returns: (transfer full): An array corner expression
  **/
 static GnmExpr const *
 gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr)
@@ -347,9 +379,6 @@ gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr)
 	g_return_val_if_fail (!gnm_expr_is_array (expr), NULL);
 
 	ans = CHUNK_ALLOC (GnmExprArrayCorner, expression_pool_big);
-	if (ans == NULL)
-		return NULL;
-
 	ans->oper = GNM_EXPR_OP_ARRAY_CORNER;
 	ans->rows = rows;
 	ans->cols = cols;
@@ -358,15 +387,19 @@ gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr)
 	return (GnmExpr *)ans;
 }
 
+/**
+ * gnm_expr_new_array_elem:
+ * @x: Column number relative to corner
+ * @y: Row number relative to corner
+ *
+ * Returns: (transfer full): An array non-corner expression
+ **/
 static GnmExpr const *
 gnm_expr_new_array_elem  (int x, int y)
 {
 	GnmExprArrayElem *ans;
 
 	ans = CHUNK_ALLOC (GnmExprArrayElem, expression_pool_small);
-	if (ans == NULL)
-		return NULL;
-
 	ans->oper = GNM_EXPR_OP_ARRAY_ELEM;
 	ans->x = x;
 	ans->y = y;
@@ -387,6 +420,12 @@ gnm_expr_new_setv (int argc, GnmExprConstPtr *argv)
 	return (GnmExpr *)ans;
 }
 
+/**
+ * gnm_expr_new_set:
+ * @args: (transfer full): element list
+ *
+ * Returns: (transfer full): set expression.
+ */
 GnmExpr const *
 gnm_expr_new_set (GnmExprList *set)
 {
@@ -407,13 +446,13 @@ gnm_expr_new_set (GnmExprList *set)
 
 /**
  * gnm_expr_new_range_ctor:
- * @l: start range
- * @r: end range
+ * @l: (transfer full): start range
+ * @r: (transfer full): end range
  *
  * This function builds a range constructor or something simpler,
  * but equivalent, if the arguments allow it.
  *
- * Note: this takes ownership of @l and @r and may delete them.
+ * Returns: (transfer full): And expression referencing @l to @r.
  **/
 GnmExpr const *
 gnm_expr_new_range_ctor (GnmExpr const *l, GnmExpr const *r)
@@ -439,6 +478,12 @@ gnm_expr_new_range_ctor (GnmExpr const *l, GnmExpr const *r)
 
 /***************************************************************************/
 
+/**
+ * gnm_expr_copy:
+ * @expr: (transfer none): #GnmExpr
+ *
+ * Returns: (transfer full): A deep copy of @expr.
+ **/
 GnmExpr const *
 gnm_expr_copy (GnmExpr const *expr)
 {
@@ -516,8 +561,11 @@ gnm_expr_copy (GnmExpr const *expr)
 	}
 }
 
-/*
+/**
  * gnm_expr_free:
+ * @expr: (transfer full): #GnmExpr
+ *
+ * Deletes @expr with all its subexpressions.
  */
 void
 gnm_expr_free (GnmExpr const *expr)
@@ -622,11 +670,13 @@ gnm_expr_array_corner_get_type (void)
 
 /**
  * gnm_expr_equal:
+ * @a: first #GnmExpr
+ * @b: first #GnmExpr
  *
- * Return:s TRUE if the supplied expressions are exactly the
- *   same.  No eval position is used to see if they are effectively the same.
- *   Named expressions must refer the same name, having equivalent names is
- *   insufficeient.
+ * Returns: %TRUE, if the supplied expressions are exactly the
+ *   same and %FALSE otherwise.  No eval position is used to see if they
+ *   are effectively the same.  Named expressions must refer the same name,
+ *   having equivalent names is insufficeient.
  */
 gboolean
 gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
@@ -1279,12 +1329,15 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
 
 /**
  * gnm_expr_eval:
- * @expr:
- * @pos:
- * @flags:
+ * @expr: #GnmExpr
+ * @pos: evaluation position
+ * @flags: #GnmExprEvalFlags
  *
- * if GNM_EXPR_EVAL_PERMIT_EMPTY is not set then return int(0) if the
- * expression returns empty, or the  value of an unused cell.
+ * Evaluatates the given expression.  Iif GNM_EXPR_EVAL_PERMIT_EMPTY is not set
+ * then return zero if the expression instead of the empty value, or the value
+ * of an unused cell.
+ *
+ * Returns: (transfer full): result.
  **/
 GnmValue *
 gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
@@ -1609,7 +1662,14 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	return value_new_error (pos, _("Unknown evaluation error"));
 }
 
-
+/**
+ * gnm_expr_simplify_if:
+ * @expr: Expression
+ *
+ * Simplifies @expr if it is a call to "if" with a constant condition.
+ *
+ * Returns: (transfer full) (nullable): simpler expression.
+ */
 GnmExpr const *
 gnm_expr_simplify_if (GnmExpr const *expr)
 {
@@ -1825,6 +1885,14 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 	g_string_append (target, "<ERROR>");
 }
 
+/**
+ * gnm_expr_as_gstring:
+ * @expr: #GnmExpr
+ * @out: output convensions
+ *
+ * Renders the expression as a string according to @out and places the
+ * result in @out's accumulator.
+ */
 void
 gnm_expr_as_gstring (GnmExpr const *expr, GnmConventionsOut *out)
 {
@@ -1834,6 +1902,17 @@ gnm_expr_as_gstring (GnmExpr const *expr, GnmConventionsOut *out)
 	do_expr_as_string (expr, 0, out);
 }
 
+/**
+ * gnm_expr_as_string:
+ * @expr: #GnmExpr
+ * @pp: (nullable): Parse position.  %NULL should be used for debugging only.
+ * @convs: (nullable): #GnmConventions.  %NULL should be used for debugging
+ * or when @pp identifies a #Sheet.
+ *
+ * Renders the expression as a string according to @convs.
+ *
+ * Returns: (transfer full): @expr as a string.
+ */
 char *
 gnm_expr_as_string (GnmExpr const *expr, GnmParsePos const *pp,
 		    GnmConventions const *convs)
@@ -1881,9 +1960,10 @@ gnm_expr_is_err (GnmExpr const *expr, GnmStdError err)
 
 /**
  * gnm_expr_get_constant:
- * @expr:
+ * @expr: #GnmExpr
  *
- * If this expression consists of just a constant, return it.
+ * Returns: (transfer none) (nullable): If this expression consists of just
+ * a constant, return it.  Otherwise, %NULL.
  */
 GnmValue const *
 gnm_expr_get_constant (GnmExpr const *expr)
@@ -1896,9 +1976,10 @@ gnm_expr_get_constant (GnmExpr const *expr)
 
 /**
  * gnm_expr_get_name:
- * @expr:
+ * @expr: #GnmExpr
  *
- * If this expression consists of just a name, return it.
+ * Returns: (transfer none) (nullable): If this expression consists of just
+ * a name, return it.  Otherwise, %NULL.
  */
 GnmNamedExpr const *
 gnm_expr_get_name (GnmExpr const *expr)
@@ -1912,9 +1993,10 @@ gnm_expr_get_name (GnmExpr const *expr)
 
 /**
  * gnm_expr_get_cellref:
- * @expr:
+ * @expr: #GnmExpr
  *
- * If this expression consists of just a cell reference, return it.
+ * Returns: (transfer none) (nullable): If this expression consists of just
+ * a cell reference, return it.  Otherwise, %NULL.
  */
 GnmCellRef const *
 gnm_expr_get_cellref (GnmExpr const *expr)
@@ -2376,9 +2458,9 @@ cb_contains_subtotal (GnmExpr const *expr, GnmExprWalk *data)
 
 /**
  * gnm_expr_containts_subtotal:
- * @expr:
+ * @expr: #GnmExpr
  *
- * return TRUE if the expression calls the SUBTOTAL function
+ * Returns: %TRUE if the expression calls the SUBTOTAL function
  **/
 gboolean
 gnm_expr_contains_subtotal (GnmExpr const *expr)
@@ -2390,10 +2472,11 @@ gnm_expr_contains_subtotal (GnmExpr const *expr)
 
 /**
  * gnm_expr_get_range:
- * @expr:
+ * @expr: #GnmExpr
  *
- * If this expression contains a single range return it.
- * Caller is responsible for value_releasing the result.
+ * Returns: (transfer full) (nullable): If this expression contains a
+ * single range, return it.  Otherwise, %NULL.  A cell reference is
+ * returned as a singleton range.
  */
 GnmValue *
 gnm_expr_get_range (GnmExpr const *expr)
@@ -2444,10 +2527,10 @@ gnm_insert_unique_value (GSList *list, GnmValue *data)
 
 /**
  * gnm_expr_is_rangeref:
- * @expr:
+ * @expr: #GnmExpr
  *
- * Returns TRUE if the expression can generate a reference.
- * NOTE : in the future it would be nice to know if a function
+ * Returns: %TRUE if the expression can generate a reference.
+ * NOTE: in the future it would be nice to know if a function
  * can return a reference to tighten that up a bit.
  **/
 gboolean
@@ -2676,6 +2759,12 @@ gnm_expr_walk (GnmExpr const *expr, GnmExprWalkerFunc walker, gpointer user)
 	return do_expr_walk (expr, walker, &data);
 }
 
+/**
+ * gnm_expr_is_empty:
+ * @expr: #GnmExpr
+ *
+ * Returns: %TRUE if @expr is a constant expression with the empty value.
+ */
 gboolean
 gnm_expr_is_empty (GnmExpr const *expr)
 {
@@ -2685,8 +2774,11 @@ gnm_expr_is_empty (GnmExpr const *expr)
 		VALUE_IS_EMPTY (expr->constant.value));
 }
 
-/*
- * This frees the data pointers and the list.
+/**
+ * gnm_expr_list_unref:
+ * @list: (transfer full): expression list
+ *
+ * This frees list and all the expressions in it.
  */
 void
 gnm_expr_list_unref (GnmExprList *list)
@@ -2699,9 +2791,10 @@ gnm_expr_list_unref (GnmExprList *list)
 
 /**
  * gnm_expr_list_copy:
- * @list: list of expressions
+ * @list: (transfer none): list of expressions
  *
- * Returns: (transfer full): a copy of the list.
+ * Returns: (transfer full): a copy of the list and all the
+ * expressions in it.
  */
 GnmExprList *
 gnm_expr_list_copy (GnmExprList *list)
