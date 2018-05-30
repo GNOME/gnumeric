@@ -66,6 +66,11 @@ static struct {
 	{ N_("#UNKNOWN!"), NULL, NULL }
 };
 
+/**
+ * value_new_empty:
+ *
+ * Returns: (transfer full): a new empty value.
+ */
 GnmValue *
 value_new_empty (void)
 {
@@ -74,6 +79,12 @@ value_new_empty (void)
 	return (GnmValue *)&v;
 }
 
+/**
+ * value_new_bool:
+ * @b: boolean
+ *
+ * Returns: (transfer full): a new boolean value.
+ */
 GnmValue *
 value_new_bool (gboolean b)
 {
@@ -83,12 +94,25 @@ value_new_bool (gboolean b)
 	return (GnmValue*) (b ? &vt : &vf);
 }
 
+/**
+ * value_new_int:
+ * @i: integer
+ *
+ * Returns: (transfer full): a new integer value.  There is no separate
+ * integer type, so this is just an alias for value_new_float.
+ */
 GnmValue *
 value_new_int (int i)
 {
 	return value_new_float (i);
 }
 
+/**
+ * value_new_float:
+ * @f: number
+ *
+ * Returns: (transfer full): a new floating-point value.
+ */
 GnmValue *
 value_new_float (gnm_float f)
 {
@@ -104,6 +128,11 @@ value_new_float (gnm_float f)
 	}
 }
 
+/**
+ * value_new_error: (skip)
+ *
+ * Returns: (transfer full): a new error value.
+ */
 GnmValue *
 value_new_error (G_GNUC_UNUSED GnmEvalPos const *ep, char const *mesg)
 {
@@ -114,6 +143,11 @@ value_new_error (G_GNUC_UNUSED GnmEvalPos const *ep, char const *mesg)
 	return (GnmValue *)v;
 }
 
+/**
+ * value_new_error_str: (skip)
+ *
+ * Returns: (transfer full): a new error value.
+ */
 GnmValue *
 value_new_error_str (G_GNUC_UNUSED GnmEvalPos const *ep, GOString *mesg)
 {
@@ -124,6 +158,11 @@ value_new_error_str (G_GNUC_UNUSED GnmEvalPos const *ep, GOString *mesg)
 	return (GnmValue *)v;
 }
 
+/**
+ * value_new_error_std: (skip)
+ *
+ * Returns: (transfer full): a new error value.
+ */
 GnmValue *
 value_new_error_std (GnmEvalPos const *pos, GnmStdError err)
 {
@@ -133,43 +172,85 @@ value_new_error_std (GnmEvalPos const *pos, GnmStdError err)
 	return value_new_error_str (pos, standard_errors[i].locale_name_str);
 }
 
-
+/**
+ * value_new_error_NULL: (skip)
+ *
+ * Returns: (transfer full): a new \#NULL! error value.
+ */
 GnmValue *
 value_new_error_NULL (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NULL].locale_name_str);
 }
 
+/**
+ * value_new_error_DIV0: (skip)
+ *
+ * Returns: (transfer full): a new \#DIV0! error value.  This is used for
+ * division by zero.
+ */
 GnmValue *
 value_new_error_DIV0 (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_DIV0].locale_name_str);
 }
 
+/**
+ * value_new_error_VALUE: (skip)
+ *
+ * Returns: (transfer full): a new \#VALUE! error value.  This is used for
+ * example for type errors.
+ */
 GnmValue *
 value_new_error_VALUE (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_VALUE].locale_name_str);
 }
 
+/**
+ * value_new_error_REF: (skip)
+ *
+ * Returns: (transfer full): a new \#REF! error value.  This is used for
+ * references that are no longer valid, for example because the column they
+ * were in got removed.
+ */
 GnmValue *
 value_new_error_REF (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_REF].locale_name_str);
 }
 
+/**
+ * value_new_error_NAME: (skip)
+ *
+ * Returns: (transfer full): a new \#NAME! error value.  This is used for
+ * references to undefined names.
+ */
 GnmValue *
 value_new_error_NAME (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NAME].locale_name_str);
 }
 
+/**
+ * value_new_error_NUM: (skip)
+ *
+ * Returns: (transfer full): a new \#NUM! error value.  This is used
+ * for errors in numerical computations such as overflow or taking the
+ * logarithm of a negative number.
+ */
 GnmValue *
 value_new_error_NUM (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NUM].locale_name_str);
 }
 
+/**
+ * value_new_error_NA: (skip)
+ *
+ * Returns: (transfer full): a new \#NA! error value.  This is used for data
+ * that is not available.
+ */
 GnmValue *
 value_new_error_NA (GnmEvalPos const *pos)
 {
@@ -236,7 +317,7 @@ value_error_classify (GnmValue const *v)
  * value_new_string_str:
  * @str: (transfer full): string to use for value
  *
- * Returns: (transfer full): a new value object.
+ * Returns: (transfer full): a new string value.
  */
 GnmValue *
 value_new_string_str (GOString *str)
@@ -254,9 +335,9 @@ value_new_string_str (GOString *str)
 
 /**
  * value_new_string:
- * @str: string to use for value
+ * @str: (transfer none): string to use for value
  *
- * Returns: (transfer full): a new value object.
+ * Returns: (transfer full): a new string object.
  */
 GnmValue *
 value_new_string (char const *str)
@@ -265,10 +346,10 @@ value_new_string (char const *str)
 }
 
 /**
- * value_new_string_nocopy:
+ * value_new_string_nocopy: (skip)
  * @str: (transfer full): string to use for value
  *
- * Returns: (transfer full): a new value object.
+ * Returns: (transfer full): a new string object.
  */
 GnmValue *
 value_new_string_nocopy (char *str)
@@ -276,6 +357,13 @@ value_new_string_nocopy (char *str)
 	return value_new_string_str (go_string_new_nocopy (str));
 }
 
+/**
+ * value_new_cellrange_unsafe: (skip)
+ * @a: (transfer none): first #GnmCellRef
+ * @b: (transfer none): second #GnmCellRef
+ *
+ * Returns: (transfer full): a new cell range value.
+ */
 GnmValue *
 value_new_cellrange_unsafe (GnmCellRef const *a, GnmCellRef const *b)
 {
@@ -344,6 +432,12 @@ value_new_cellrange (GnmCellRef const *a, GnmCellRef const *b,
 	return (GnmValue *)v;
 }
 
+/**
+ * value_new_cellrange_r:
+ * @r: #GnmRange
+ *
+ * Returns: (transfer full): a new cell range value for @r
+ */
 GnmValue *
 value_new_cellrange_r (Sheet *sheet, GnmRange const *r)
 {
@@ -425,6 +519,13 @@ value_new_cellrange_parsepos_str (GnmParsePos const *pp, char const *str,
 	return NULL;
 }
 
+/**
+ * value_new_array_non_init: (skip)
+ * @cols: number of columns
+ * @rows: number of rows
+ *
+ * Returns: (transfer full): a new array value of the given size.
+ */
 GnmValue *
 value_new_array_non_init (guint cols, guint rows)
 {
@@ -437,6 +538,14 @@ value_new_array_non_init (guint cols, guint rows)
 	return (GnmValue *)v;
 }
 
+/**
+ * value_new_array:
+ * @cols: number of columns
+ * @rows: number of rows
+ *
+ * Returns: (transfer full): a new array value of the given size with all
+ * elements equal to 0.
+ */
 GnmValue *
 value_new_array (guint cols, guint rows)
 {
@@ -451,6 +560,14 @@ value_new_array (guint cols, guint rows)
 	return (GnmValue *)v;
 }
 
+/**
+ * value_new_array_empty:
+ * @cols: number of columns
+ * @rows: number of rows
+ *
+ * Returns: (transfer full): a new array value of the given size with all
+ * elements equal the empty value.
+ */
 GnmValue *
 value_new_array_empty (guint cols, guint rows)
 {
@@ -735,6 +852,15 @@ value_cmp_reverse (void const *ptr_a, void const *ptr_b)
 	return -value_cmp (ptr_a, ptr_b);
 }
 
+/**
+ * value_equal:
+ * @a: first #GnmValue
+ * @b: second #GnmValue
+ *
+ * Returns: %TRUE if the two values are equal, %FALSE otherwise.  Cell ranges
+ * are considered equal only if they are the same ranges, i.e., the contents
+ * of the ranges are not considered.
+ */
 gboolean
 value_equal (GnmValue const *a, GnmValue const *b)
 {
@@ -782,6 +908,12 @@ value_equal (GnmValue const *a, GnmValue const *b)
 	}
 }
 
+/**
+ * value_hash:
+ * @v: #GnmValue
+ *
+ * Returns: a reasonable hash value for @v.
+ */
 guint
 value_hash (GnmValue const *v)
 {
@@ -1207,12 +1339,24 @@ value_get_as_float (GnmValue const *v)
 	return 0.0;
 }
 
+/**
+ * value_is_zero:
+ * @v: (nullable): a #GnmValue
+ *
+ * Returns: %TRUE if @v interpreted as a floating-point value is zero.
+ */
 gboolean
 value_is_zero (GnmValue const *v)
 {
 	return gnm_abs (value_get_as_float (v)) < 64 * GNM_EPSILON;
 }
 
+/**
+ * value_get_rangeref:
+ * @v: #gnmvalue
+ *
+ * Returns: (transfer none): the cell range of a cell range value.
+ */
 GnmRangeRef const *
 value_get_rangeref (GnmValue const *v)
 {
@@ -1255,6 +1399,15 @@ value_coerce_to_number (GnmValue *v, gboolean *valid, GnmEvalPos const *ep)
 	return v;
 }
 
+/**
+ * value_array_set:
+ * @array: Array #GnmValue
+ * @col: column
+ * @row: row
+ * @v: (transfer full): #GnmValue
+ *
+ * Sets an element of an array value.
+ */
 void
 value_array_set (GnmValue *array, int col, int row, GnmValue *v)
 {
