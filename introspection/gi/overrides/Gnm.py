@@ -1,9 +1,37 @@
 from ..overrides import override
 from ..module import get_introspection_module
+import os.path
 
 Gnm = get_introspection_module('Gnm')
 
 __all__ = []
+
+# ----------------------------------------------------------------------------
+
+def atomize_path(p):
+    res=[]
+    while 1:
+        h,t = os.path.split(p)
+        if t != "":
+            res.append(t)
+        if h == "":
+            break
+        if h == p:
+            res.append(h)
+            break
+        p = h
+    res.reverse()
+    return res
+
+l=atomize_path(os.path.dirname(__file__))
+Gnm.in_tree = (len(l) > 3 and l[-3] == "introspection")
+__all__.append('in_tree')
+
+if Gnm.in_tree:
+    # Somehow path gets dropped form g_get_prgname, so make up for that
+    from gi.repository import GLib
+    import sys
+    GLib.set_prgname(sys.argv[0])
 
 # ----------------------------------------------------------------------------
 

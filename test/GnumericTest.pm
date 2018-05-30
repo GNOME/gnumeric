@@ -14,6 +14,7 @@ $| = 1;
 			   test_ssindex sstest test_command message subtest
                            test_tool
                            setup_python_environment
+                           make_absolute
 			   $ssconvert $sstest $ssdiff $ssgrep $gnumeric
                            $topsrc $top_builddir
 			   $subtests $samples corpus $PERL $PYTHON);
@@ -897,6 +898,18 @@ sub has_linear_solver {
 
 # -----------------------------------------------------------------------------
 
+sub make_absolute {
+    my ($fn) = @_;
+
+    return $fn if $fn =~ m{^/};
+    $fn =~ s{^\./+([^/])}{$1};
+    my $pwd = $ENV{'PWD'};
+    $pwd .= '/' unless $pwd =~ m{/$};
+    return "$pwd$fn";
+}
+
+# -----------------------------------------------------------------------------
+
 sub setup_python_environment {
     $PYTHON = `grep '^#define PYTHON_INTERPRETER ' $top_builddir/gnumeric-config.h 2>&1`;
     chomp $PYTHON;
@@ -917,6 +930,9 @@ sub setup_python_environment {
     
     # Don't litter
     $ENV{'PYTHONDONTWRITEBYTECODE'} = 1;
+
+    $0 = &make_absolute ($0);
+    $ENV{'GNM_TEST_TOP_BUILDDIR'} = $top_builddir;
 }
 
 # -----------------------------------------------------------------------------

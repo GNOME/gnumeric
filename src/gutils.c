@@ -43,33 +43,41 @@ static char *gnumeric_usr_dir_unversioned;
 static char *gnumeric_extern_plugin_dir;
 static GSList *gutils_xml_in_docs;
 
-static gboolean
+static char *
 running_in_tree (void)
 {
 	const char *argv0 = g_get_prgname ();
 
 	if (!argv0)
-		return FALSE;
-
-	/* Sometimes we see, e.g., "lt-gnumeric" as basename.  */
-	{
-		char *base = g_path_get_basename (argv0);
-		gboolean has_lt_prefix = (strncmp (base, "lt-", 3) == 0);
-		g_free (base);
-		if (has_lt_prefix)
-			return TRUE;
-	}
+		return NULL;
 
 	/* Look for ".libs" as final path element.  */
 	{
 		const char *dotlibs = strstr (argv0, ".libs/");
 		if (dotlibs &&
 		    (dotlibs == argv0 || G_IS_DIR_SEPARATOR (dotlibs[-1])) &&
-		    strchr (dotlibs + 6, G_DIR_SEPARATOR) == NULL)
-			return TRUE;
+		    strchr (dotlibs + 6, G_DIR_SEPARATOR) == NULL) {
+			size_t l = dotlibs - argv0;
+			char *res = g_strndup (argv0, l);
+
+			while (l > 0 && G_IS_DIR_SEPARATOR (res[l - 1]))
+				res[--l] = 0;
+			while (l > 0 && !G_IS_DIR_SEPARATOR (res[l - 1]))
+				res[--l] = 0;
+			while (l > 0 && G_IS_DIR_SEPARATOR (res[l - 1]))
+				res[--l] = 0;
+
+			return res;
+		}
 	}
 
-	return FALSE;
+	{
+		const char *builddir = g_getenv ("GNM_TEST_TOP_BUILDDIR");
+		if (builddir)
+			return g_strdup (builddir);
+	}
+
+	return NULL;
 }
 
 static gboolean gutils_inited = FALSE;
@@ -78,6 +86,7 @@ void
 gutils_init (void)
 {
 	char const *home_dir;
+	char *top_builddir;
 
 	// This function will end up being called twice in normal operation:
 	// once from gnm_pre_parse_init and once from gnm_init.  Introspection
@@ -99,19 +108,14 @@ gutils_init (void)
 		 NULL);
 	g_free (dir);
 #else
-	if (running_in_tree ()) {
-		const char *argv0 = g_get_prgname ();
-		char *dotlibs = g_path_get_dirname (argv0);
-		char *top = g_build_filename (dotlibs, "..", "../", NULL);
-		char *plugins = g_build_filename (top, PLUGIN_SUBDIR, NULL);
-		if (g_file_test (plugins, G_FILE_TEST_IS_DIR))
-			gnumeric_lib_dir =
-				go_filename_simplify (top, GO_DOTDOT_SYNTACTIC,
-						      FALSE);
-		g_free (top);
-		g_free (plugins);
-		g_free (dotlibs);
-		if (0) g_printerr ("Running in-tree\n");
+	top_builddir = running_in_tree ();
+	if (top_builddir) {
+		gnumeric_lib_dir =
+			go_filename_simplify (top_builddir, GO_DOTDOT_SYNTACTIC,
+					      FALSE);
+		if (gnm_debug_flag ("in-tree"))
+			g_printerr ("Running in-tree [%s]\n", top_builddir);
+		g_free (top_builddir);
 	}
 
 	if (!gnumeric_lib_dir)
