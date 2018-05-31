@@ -460,9 +460,9 @@ kill_popup_menu (GtkWidget *widget, G_GNUC_UNUSED gpointer user)
 /**
  * gnumeric_popup_menu:
  * @menu: #GtkMenu
- * @event: #GdkEvent optionally NULL
+ * @event: (nullable): #GdkEvent
  *
- * Bring up a popup and if @event is non-NULL ensure that the popup is on the
+ * Bring up a popup and if @event is non-%NULL ensure that the popup is on the
  * right screen.
  **/
 void

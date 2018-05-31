@@ -650,7 +650,7 @@ sheet_object_graph_get_gog (SheetObject *sog)
  * @sog: #SheetObjectGraph
  * @graph: (allow-none): #GogGraph
  *
- * If @graph is non NULL add a reference to it, otherwise create a new graph.
+ * If @graph is non-%NULL add a reference to it, otherwise create a new graph.
  * Assign the graph to its SheetObjectGraph wrapper and initialize the
  * handlers, disconnecting any existing connection for the preceding graph.
  **/

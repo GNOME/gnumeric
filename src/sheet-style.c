@@ -182,10 +182,9 @@ sheet_style_unlink (Sheet *sheet, GnmStyle *st)
 /**
  * sheet_style_find:
  * @sheet: (transfer full): the sheet
- * @st: a style
+ * @st: (transfer full): a style
  *
  * Looks up a style from the sheets collection.  Linking if necessary.
- * ABSORBS the reference and adds a link.
  *
  * Returns: (transfer full): the new style.
  */
@@ -824,7 +823,6 @@ sheet_style_shutdown (Sheet *sheet)
  * @grid_color: (transfer full): The color
  *
  * Set the color for rendering auto colored patterns in this sheet.
- * Absorbs a reference to @pattern_color;
  **/
 void
 sheet_style_set_auto_pattern_color (Sheet *sheet, GnmColor *pattern_color)
@@ -1345,12 +1343,11 @@ tail_recursion:
 
 /**
  * sheet_style_set_range:
- * @sheet:
- * @range:
- * @style: #GnmStyle
+ * @sheet: #Sheet being changed
+ * @range: #GnmRange being changed
+ * @style: (transfer full): New #GnmStyle
  *
  * Change the complete style for a region.
- * This function absorbs a reference to the new @style.
  */
 void
 sheet_style_set_range (Sheet *sheet, GnmRange const *range,
@@ -1380,15 +1377,14 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
 
 /**
  * sheet_style_apply_col:
- * @sheet:
- * @col:
- * @style: #GnmStyle
+ * @sheet: #Sheet being changed
+ * @col: Column
+ * @style: (transfer full): #GnmStyle
  *
  * NOTE: This is a simple wrapper for now.  When we support col/row styles it
  *	will make life easier.
  *
  * Apply a partial style to a full col.
- * The routine absorbs a reference to the partial style.
  **/
 void
 sheet_style_apply_col (Sheet *sheet, int col, GnmStyle *pstyle)
@@ -1402,13 +1398,12 @@ sheet_style_apply_col (Sheet *sheet, int col, GnmStyle *pstyle)
  * sheet_style_apply_row:
  * @sheet:
  * @row:
- * @style: #GnmStyle
+ * @style: (transfer full): #GnmStyle
  *
  * NOTE: This is a simple wrapper for now.  When we support col/row styles it
  *	will make life easier.
  *
  * Apply a partial style to a full col.
- * The routine absorbs a reference to the partial style.
  **/
 void
 sheet_style_apply_row (Sheet  *sheet, int row, GnmStyle *pstyle)
@@ -1423,14 +1418,12 @@ sheet_style_apply_row (Sheet  *sheet, int row, GnmStyle *pstyle)
  * @sheet:
  * @col:
  * @row:
- * @style: #GnmStyle
+ * @style: (transfer full): #GnmStyle
  *
  * Apply a partial style to a single cell
- * This function absorbs a reference to the new @style.
  **/
 void
-sheet_style_apply_pos (Sheet *sheet, int col, int row,
-		       GnmStyle *pstyle)
+sheet_style_apply_pos (Sheet *sheet, int col, int row, GnmStyle *pstyle)
 {
 	ReplacementStyle rs;
 
@@ -1447,10 +1440,9 @@ sheet_style_apply_pos (Sheet *sheet, int col, int row,
  * @sheet:
  * @col:
  * @row:
- * @style:
+ * @style: (transfer full):
  *
  * Change the complete style for a single cell.
- * This function absorbs a reference to the new @style.
  **/
 void
 sheet_style_set_pos (Sheet *sheet, int col, int row,
@@ -1754,7 +1746,6 @@ style_row_init (GnmBorder const * * *prev_vert,
  * @pstyle: (transfer full): A partial style to apply
  *
  * Apply a partial style to a region.
- * The routine absorbs a reference to the partial style.
  */
 void
 sheet_style_apply_range (Sheet *sheet, GnmRange const *range, GnmStyle *pstyle)
@@ -1785,7 +1776,7 @@ sheet_style_apply_range (Sheet *sheet, GnmRange const *range, GnmStyle *pstyle)
  * sheet_style_apply_range2: (skip)
  * @sheet: #Sheet
  * @range: #GnmRange to apply over
- * @pstyle: A partial style to apply
+ * @pstyle: (transfer none): A partial style to apply
  *
  * Apply a partial style to a region.
  */

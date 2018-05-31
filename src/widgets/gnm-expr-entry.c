@@ -2232,7 +2232,7 @@ gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
 
 /**
  * gnm_expr_entry_new:
- * @wbcg: #WBCGtk non-NULL
+ * @wbcg: #WBCGtk
  * @with_icon: append a rollup icon to the end of the entry
  *
  * Creates a new #GnmExprEntry, which is an entry widget with support

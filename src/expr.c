@@ -2738,13 +2738,13 @@ do_expr_walk (GnmExpr const *expr, GnmExprWalkerFunc walker, GnmExprWalk *data)
  * Returns: (transfer full) (allow-none): transformed expression.
  *
  * This function walks the expression and calls the walker function for
- * each subexpression.  If the walker returns a non-NULL expression,
+ * each subexpression.  If the walker returns a non-%NULL expression,
  * a new expression is built.
  *
  * The walker will be called for an expression before its subexpressions.
  * It will receive the expression as its first argument and a GnmExprWalk
  * pointer as its second.  It may set the stop flag to terminate the walk
- * in which case gnm_expr_walk will return NULL.
+ * in which case gnm_expr_walk will return %NULL.
  **/
 GnmExpr const *
 gnm_expr_walk (GnmExpr const *expr, GnmExprWalkerFunc walker, gpointer user)

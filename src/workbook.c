@@ -554,7 +554,7 @@ workbook_set_last_export_uri (Workbook *wb, const gchar *uri)
  * workbook_foreach_cell_in_range:
  * @pos: The position the range is relative to.
  * @cell_range: A value containing a range;
- * @flags: if TRUE only existing cells are sent to the handler.
+ * @flags: flags determining whichs cells to consider
  * @handler: (scope call): The operator to apply to each cell.
  * @closure: User data.
  *
@@ -562,14 +562,14 @@ workbook_set_last_export_uri (Workbook *wb, const gchar *uri)
  * The range bounds are calculated relative to the eval position
  * and normalized.
  * For each existing cell in the range specified, invoke the
- * callback routine.  If the only_existing flag is TRUE, then
+ * callback routine.  If the only_existing flag is %TRUE, then
  * callbacks are only invoked for existing cells.
  *
  * Note: this function does not honour the CELL_ITER_IGNORE_SUBTOTAL flag.
  *
- * Return value:
- *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
- *    to stop (by returning non-NULL).
+ * Returns:
+ *    non-%NULL on error, or VALUE_TERMINATE if some the handler requested
+ *    to stop (by returning non-%NULL).
  */
 GnmValue *
 workbook_foreach_cell_in_range (GnmEvalPos const *pos,

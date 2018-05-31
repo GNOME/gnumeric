@@ -281,7 +281,7 @@ previews_free (AutoFormatState *state)
  *
  * This function will create grids and rects for each canvas and associate
  * them with the right format templates.
- * NOTE : if state->preview_locked is TRUE this function will do nothing,
+ * NOTE : if state->preview_locked is %TRUE this function will do nothing,
  *        this is handy in situation where signals can cause previews_load to be
  *        called before previews_free.
  **/

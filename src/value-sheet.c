@@ -225,9 +225,9 @@ cb_wrapper_foreach_cell_in_area (GnmCellIter const *iter, WrapperClosure *wrap)
  * For each existing element in an array or range , invoke the
  * callback routine.
  *
- * Returns: (transfer none):
- *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
- *    to stop (by returning non-NULL).
+ * Returns:
+ *    non-%NULL on error, or VALUE_TERMINATE if some the handler requested
+ *    to stop (by returning non-%NULL).
  **/
 GnmValue *
 value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,

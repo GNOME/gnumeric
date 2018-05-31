@@ -1,4 +1,3 @@
-
 /*
  * wbc-gtk-edit.c: Keeps track of the cell editing process.
  *
@@ -84,9 +83,9 @@ wbcg_auto_complete_destroy (WBCGtk *wbcg)
  * wbcg_edit_finish:
  * @wbcg: #WBCGtk
  * @result: what should we do with the content
- * @showed_dialog: If non-NULL will indicate if a dialog was displayed.
+ * @showed_dialog: (optional) (out): indicates whether a dialog was displayed.
  *
- * Return: TRUE if editing completed successfully, or we were no editing.
+ * Returns: %TRUE if editing completed successfully, or we were no editing.
  **/
 gboolean
 wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
@@ -823,7 +822,7 @@ cb_warn_toggled (GtkToggleButton *button, gboolean *b)
  *  1) in-cell editing when you just start typing, and
  *  2) above sheet editing when you hit F2.
  *
- * Returns TRUE if we did indeed start editing.  Returns FALSE if the
+ * Returns: %TRUE if we did indeed start editing.  Returns %FALSE if the
  * cell-to-be-edited was locked.
  */
 gboolean
@@ -1142,7 +1141,7 @@ wbcg_set_entry (WBCGtk *wbcg, GnmExprEntry *entry)
  * wbcg_entry_has_logical:
  * @wbcg: #WBCGtk
  *
- * Returns: TRUE if wbcg_set_entry has redirected the edit_entry.
+ * Returns: %TRUE if wbcg_set_entry has redirected the edit_entry.
  **/
 gboolean
 wbcg_entry_has_logical (WBCGtk const *wbcg)

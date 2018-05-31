@@ -188,6 +188,8 @@ gnm_cmd_trunc_descriptor (GString *src, gboolean *truncated)
  *
  * Do not use this function unless the sheet is part of the
  * workbook with the given wbc (otherwise the results may be strange)
+ *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  */
 gboolean
 cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
@@ -223,8 +225,8 @@ cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
  * Do not use this function unless the sheet is part of the
  * workbook with the given wbcg (otherwise the results may be strange)
  *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  */
-
 static gboolean
 cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
 			     WorkbookControl *wbc, char const *cmd_name)
@@ -242,10 +244,10 @@ cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
  *
  * static gboolean cmd_selection_is_locked_effective
  *
- *
  * Do not use this function unless the sheet is part of the
  * workbook with the given wbcg (otherwise the results may be strange)
  *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  */
 gboolean
 cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
@@ -818,8 +820,8 @@ cmd_set_text_full_check_markup (GnmCellIter const *iter, PangoAttrList *markup)
  * Note:
  * We will free the selection but nothing else.
  *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  */
-
 static gboolean
 cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		   char const *new_text, PangoAttrList *markup,
@@ -1083,8 +1085,8 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
  * 1) that no array is being split
  * 2) that the range is not locked.
  *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  */
-
 gboolean
 cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 		   char const *new_text, PangoAttrList *markup)
@@ -1142,8 +1144,8 @@ cmd_set_text (WorkbookControl *wbc,
  * 2) that the selection consists of a single range
  * 3) that the range is not locked.
  *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  */
-
 gboolean
 cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
 			 GnmExprTop const  *texpr)
@@ -1198,6 +1200,7 @@ cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
  * 1) that no array is being split
  * 2) that the range is not locked.
  *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  */
 gboolean
 cmd_create_data_table (WorkbookControl *wbc, Sheet *sheet, GnmRange const *r,
@@ -1795,19 +1798,17 @@ cmd_format_finalize (GObject *cmd)
 }
 
 /**
- * cmd_format:
+ * cmd_format: (skip)
  * @wbc: the workbook control.
  * @sheet: the sheet
- * @style: style to apply to the selection
- * @borders: borders to apply to the selection
+ * @style: (transfer full): style to apply to the selection
+ * @borders: (nullable) (transfer full): borders to apply to the selection
  * @opt_translated_name: An optional name to use in place of 'Format Cells'
  *
- * If borders is non NULL, then the GnmBorder references are passed,
+ * If borders is non-%NULL, then the GnmBorder references are passed,
  * the GnmStyle reference is also passed.
  *
- * It absorbs the reference to the style.
- *
- * Return value: TRUE if there was a problem
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_selection_format (WorkbookControl *wbc,
@@ -3073,7 +3074,12 @@ cmd_paste_copy_finalize (GObject *cmd)
 }
 
 /*
- * cmd_paste_copy will ref cr as needed.
+ * cmd_paste_copy:
+ * @wbc:
+ * @pt:
+ * @cr: (transfer none):
+ *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  */
 gboolean
 cmd_paste_copy (WorkbookControl *wbc,
@@ -3681,7 +3687,7 @@ cmd_autoformat_finalize (GObject *cmd)
  * @wbc: the context.
  * @ft: The format template that was applied
  *
- * Return value: TRUE if there was a problem
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_selection_autoformat (WorkbookControl *wbc, GnmFT *ft)
@@ -3825,7 +3831,7 @@ cmd_unmerge_cells_finalize (GObject *cmd)
  * @sheet: #Sheet
  * @selection: (element-type GnmRange): selection.
  *
- * Return value: TRUE if there was a problem
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
@@ -3992,7 +3998,7 @@ cmd_merge_cells_finalize (GObject *cmd)
  * @selection: (element-type GnmRange): selection.
  * @center:
  *
- * Return value: %TRUE if there was a problem
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection,
@@ -4547,6 +4553,7 @@ cmd_zoom_finalize (GObject *cmd)
  * @sheets: (element-type Sheet) (transfer container):
  * @factor:
  *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
@@ -4664,9 +4671,9 @@ cmd_objects_store_location (SheetObject *so, GArray *location)
  * delete.
  * @name:
  *
- * Absorbs the list, adding references to the contents.
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
- gboolean
+gboolean
 cmd_objects_delete (WorkbookControl *wbc, GSList *objects,
 		    char const *name)
 {
@@ -4701,6 +4708,7 @@ cmd_objects_delete (WorkbookControl *wbc, GSList *objects,
  * @objects_created:
  * @name:
  *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_objects_move (WorkbookControl *wbc, GSList *objects, GSList *anchors,
@@ -4917,6 +4925,7 @@ cmd_resize_sheets_finalize (GObject *cmd)
  * @cols: new columns number.
  * @rows: new rows number.
  *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_resize_sheets (WorkbookControl *wbc,
@@ -5300,8 +5309,10 @@ cmd_analysis_tool_finalize (GObject *cmd)
 
 /**
  * cmd_analysis_tool: (skip)
- * Note: this takes ownership of specs and dao if and if only the command
+ * Note: this takes ownership of specs and dao if the command
  * succeeds.
+ *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
@@ -5500,6 +5511,7 @@ cmd_merge_data_finalize (GObject *cmd)
  * @merge_fields: (element-type GnmRange) (transfer full):
  * @merge_data: (element-type GnmRange) (transfer full):
  *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_merge_data (WorkbookControl *wbc, Sheet *sheet,
@@ -5604,6 +5616,7 @@ cmd_change_summary_finalize (GObject *cmd)
  * @changes: (element-type GsfDocMetaData) (transfer full): the changed metadata.
  * @removed: (element-type GsfDocMetaData) (transfer full): the removed metadata.
  *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_change_meta_data (WorkbookControl *wbc, GSList *changes, GSList *removed)
@@ -5931,14 +5944,14 @@ cmd_define_name_finalize (GObject *cmd)
  * @wbc:
  * @name:
  * @pp:
- * @texpr: absorbs a ref to the texpr.
+ * @texpr: (transfer full): #GnmExprTop
  * @descriptor: optional descriptor.
  *
  * If the @name has never been defined in context @pp create a new name
  * If its a placeholder assign @texpr to it and make it real
  * If it already exists as a real name just assign @expr.
  *
- * Returns TRUE on error
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_define_name (WorkbookControl *wbc, char const *name,
@@ -6164,8 +6177,9 @@ cmd_rescope_name_finalize (GObject *cmd)
  * cmd_rescope_name:
  * @wbc:
  * @nexpr: name to rescope.
+ * @scope:
  *
- * Returns TRUE on error
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_rescope_name (WorkbookControl *wbc, GnmNamedExpr *nexpr, Sheet *scope)
@@ -6228,6 +6242,14 @@ cmd_scenario_add_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_scenario_add: (skip)
+ * @wbc:
+ * @s: (transfer full):
+ * @sheet:
+ *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
+ */
 gboolean
 cmd_scenario_add (WorkbookControl *wbc, GnmScenario *s, Sheet *sheet)
 {
@@ -6685,7 +6707,7 @@ cmd_freeze_panes_finalize (GObject *cmd)
  * @frozen:
  * @unfrozen:
  *
- * Returns TRUE on error
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_freeze_panes (WorkbookControl *wbc, SheetView *sv,
@@ -7196,16 +7218,11 @@ cmd_hyperlink_finalize (GObject *cmd)
 /**
  * cmd_selection_hyperlink:
  * @wbc: the workbook control.
- * @style: style to apply to the selection
+ * @style: (transfer full): style to apply to the selection
  * @opt_translated_name: An optional name to use in place of 'Hyperlink Cells'
  * @opt_content: optional content for otherwise empty cells.
  *
- * If borders is non NULL, then the GnmBorder references are passed,
- * the GnmStyle reference is also passed.
- *
- * It absorbs the reference to the style.
- *
- * Return value: TRUE if there was a problem
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
 gboolean
 cmd_selection_hyperlink (WorkbookControl *wbc,

@@ -375,8 +375,14 @@ dao_cell_is_visible (data_analysis_output_t *dao, int col, int row)
 }
 
 
-/*
- * dao_set_cell_array_expr absorbs the reference for the expr.
+/**
+ * dao_set_array_expr: (skip)
+ * @dao:
+ * @col: starting column
+ * @row: starting row
+ * @cols: number of columns
+ * @rows: number of rows
+ * @expr: (transfer full): expression to set
  *
  */
 void
@@ -400,9 +406,15 @@ dao_set_array_expr (data_analysis_output_t *dao,
 				    r.end.col, r.end.row,
 				    texpr);
 }
-/*
- * dao_set_cell_array_expr absorbs the reference for the expr.
+
+/**
+ * dao_set_cell_array_expr: (skip)
+ * @dao:
+ * @col: column
+ * @row: row
+ * @expr: (transfer full): expression to set
  *
+ * Sets a singleton array expression.
  */
 void
 dao_set_cell_array_expr (data_analysis_output_t *dao, int col, int row,
@@ -411,11 +423,15 @@ dao_set_cell_array_expr (data_analysis_output_t *dao, int col, int row,
 	dao_set_array_expr (dao, col, row, 1, 1, expr);
 }
 
-/*
- * dao_set_cell_expr absorbs the reference for the expr.
+/**
+ * dao_set_cell_expr: (skip)
+ * @dao:
+ * @col: column
+ * @row: row
+ * @expr: (transfer full): expression to set
  *
+ * Sets a singleton array expression.
  */
-
 void
 dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
 		   GnmExpr const *expr)
@@ -443,16 +459,13 @@ dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
  * @dao:
  * @col:
  * @row:
- * @v:
+ * @v: (transfer full):
  *
  * set cell to a value
  *
  * Note: the rows/cols specification for all dao_set_cell_...
  *       commands are relative to the location of the output
- *
- *
  **/
-
 void
 dao_set_cell_value (data_analysis_output_t *dao, int col, int row, GnmValue *v)
 {

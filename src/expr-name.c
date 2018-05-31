@@ -682,11 +682,11 @@ expr_name_queue_deps (GnmNamedExpr *nexpr)
 }
 
 /**
- * expr_name_add:
+ * expr_name_add: (skip)
  * @pp:
  * @name:
  * @texpr: if texpr == NULL then create a placeholder with value #NAME?
- * @error_msg:
+ * @error_msg: (out) (optional) (nullable):
  * @link_to_container:
  *
  * Absorbs the reference to @texpr.
@@ -697,7 +697,7 @@ expr_name_queue_deps (GnmNamedExpr *nexpr)
  * 1) new names with @link_to_container TRUE are referenced by the container.
  *    The caller DOES NOT OWN a reference to the result, and needs to add their
  *    own.
- * 2) if @link_to_container is FALSE the caller DOES OWN a reference, and
+ * 2) if @link_to_container is %FALSE the caller DOES OWN a reference, and
  *    can free the result by unrefing the name.
  **/
 GnmNamedExpr *
@@ -714,6 +714,9 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 	g_return_val_if_fail (pp->sheet != NULL || pp->wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 	g_return_val_if_fail (stub == NULL || stub->is_placeholder, NULL);
+
+	if (error_msg)
+		*error_msg = NULL;
 
 	fake_name.str = name;
 
@@ -766,9 +769,6 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 			}
 		}
 	}
-
-	if (error_msg)
-		*error_msg = NULL;
 
 	if (nexpr == NULL) {
 		if (stub != NULL) {

@@ -2301,7 +2301,7 @@ cb_sheet_get_extent (G_GNUC_UNUSED gpointer ignored, gpointer value, gpointer da
  *
  * calculates the area occupied by cell data.
  *
- * NOTE: When spans_and_merges_extend is TRUE, this function will calculate
+ * NOTE: When spans_and_merges_extend is %TRUE, this function will calculate
  * all spans.  That might be expensive.
  *
  * NOTE: This refers to *visible* contents.  Cells with empty values, including
@@ -3334,7 +3334,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 			else if (!find_nonblank) {
 				/*
 				 * Handle special case where we are on the last
-				 * non-null cell
+				 * non-NULL cell
 				 */
 				if (iterations == 1)
 					keep_looking = find_nonblank = TRUE;
@@ -3435,7 +3435,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 			else if (!find_nonblank) {
 				/*
 				 * Handle special case where we are on the last
-				 * non-null cell
+				 * non-NULL cell
 				 */
 				if (iterations == 1)
 					keep_looking = find_nonblank = TRUE;
@@ -4041,8 +4041,8 @@ sheet_cells (Sheet *sheet, const GnmRange *r)
  * Note: this function does not honour the CELL_ITER_IGNORE_SUBTOTAL flag.
  *
  * Returns: (transfer none): the value returned by the callback, which can be:
- *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
- *    to stop (by returning non-NULL).
+ *    non-%NULL on error, or VALUE_TERMINATE if some invoked routine requested
+ *    to stop (by returning non-%NULL).
  *
  * NOTE: between 0.56 and 0.57, the traversal order changed.  The order is now
  *
@@ -4085,8 +4085,8 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
  * Note: this function does not honour the CELL_ITER_IGNORE_SUBTOTAL flag.
  *
  * Returns: (transfer none): the value returned by the callback, which can be:
- *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
- *    to stop (by returning non-NULL).
+ *    non-%NULL on error, or VALUE_TERMINATE if some invoked routine requested
+ *    to stop (by returning non-%NULL).
  *
  * NOTE: between 0.56 and 0.57, the traversal order changed.  The order is now
  *
@@ -4896,7 +4896,7 @@ cb_empty_cell (GnmCellIter const *iter, gpointer user)
  * @start_row:
  * @end_col:
  * @end_row:
- * @clear_flags: If this is TRUE then styles are erased.
+ * @clear_flags: If this is %TRUE then styles are erased.
  * @cc: (nullable):
  *
  * Clears are region of cells
@@ -5426,12 +5426,12 @@ cb_collect_cell (GnmCellIter const *iter, gpointer user)
  * sheet_move_range:
  * @cc:
  * @rinfo:
- * @pundo: optionally NULL, caller releases result
+ * @pundo: (out) (optional) (transfer full): undo object
  *
  * Move a range as specified in @rinfo report warnings to @cc.
- * if @pundo is non NULL, invalidate references to the
+ * if @pundo is non-%NULL, invalidate references to the
  * target region that are being cleared, and store the undo information
- * in @pundo.  If it is NULL do NOT INVALIDATE.
+ * in @pundo.  If it is %NULL do NOT INVALIDATE.
  **/
 void
 sheet_move_range (GnmExprRelocateInfo const *rinfo,

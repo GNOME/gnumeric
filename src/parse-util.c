@@ -727,7 +727,7 @@ cell_name (GnmCell const *cell)
  * @cell_str:   a string representation of a cell name.
  * @ss:          #GnmSheetSize
  * @res:         result
- * @strict:      if this is TRUE, then parsing stops at possible errors,
+ * @strict:      if this is %TRUE, then parsing stops at possible errors,
  *               otherwise an attempt is made to return cell names with
  *               trailing garbage.
  *
