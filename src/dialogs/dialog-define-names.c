@@ -162,7 +162,7 @@ name_guru_expand_at_iter (NameGuruState *state, GtkTreeIter *iter)
  * If the expresion that is about to be deleted is being used,
  * warn the user about it. Ask if we should proceed or not
  *
- * Return Value: TRUE if users confirms deletion, FALSE otherwise
+ * Returns: %TRUE if users confirms deletion, %FALSE otherwise
  **/
 
 static gboolean

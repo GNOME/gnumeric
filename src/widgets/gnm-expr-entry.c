@@ -2510,12 +2510,13 @@ gnm_expr_entry_load_from_range (GnmExprEntry *gee,
 /**
  * gnm_expr_entry_get_rangesel:
  * @gee: a #GnmExprEntry
- * @r:          address to receive #GnmRange
- * @sheet:      address to receive #sheet
+ * @r: (out): address to receive #GnmRange
+ * @sheet: (out) (optional) (transfer none): address to receive #sheet
  *
  * Get the range selection. GnmRange is copied, Sheet is not. If sheet
  * argument is NULL, the corresponding value is not returned.
- * Returns TRUE if the returned range is indeed valid.
+ *
+ * Returns: %TRUE if the returned range is indeed valid.
  * The resulting range is normalized.
  **/
 gboolean
@@ -2552,7 +2553,7 @@ gnm_expr_entry_get_rangesel (GnmExprEntry const *gee,
  * gnm_expr_entry_can_rangesel:
  * @gee:   a #GnmExprEntry
  *
- * Returns TRUE if a range selection is meaningful at current position.
+ * Returns: %TRUE if a range selection is meaningful at current position.
  **/
 gboolean
 gnm_expr_entry_can_rangesel (GnmExprEntry *gee)

@@ -394,9 +394,8 @@ gnm_stf_export (GnmStfExport *stfe)
 /**
  * gnm_stf_export_can_transliterate:
  *
- * Return value: TRUE iff //TRANSLIT is supported
+ * Return value: %TRUE iff //TRANSLIT is supported
  **/
-
 gboolean
 gnm_stf_export_can_transliterate (void)
 {

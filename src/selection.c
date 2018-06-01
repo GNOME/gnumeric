@@ -218,7 +218,7 @@ sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
 /**
  * sv_is_full_colrow_selected:
  * @sv:
- * @is_cols:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  * @index: index of column or row, -1 for any.
  *
  * Returns: %TRUE if all of the selected cols/rows in the selection

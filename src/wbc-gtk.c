@@ -1878,7 +1878,7 @@ wbcg_close_if_user_permits (WBCGtk *wbcg, WorkbookView *wb_view)
  * wbc_gtk_close:
  * @wbcg: #WBCGtk
  *
- * Returns TRUE if the control should NOT be closed.
+ * Returns: %TRUE if the control should NOT be closed.
  */
 gboolean
 wbc_gtk_close (WBCGtk *wbcg)

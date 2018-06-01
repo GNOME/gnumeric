@@ -693,7 +693,22 @@ command_register_undo (WorkbookControl *wbc, GObject *obj)
  *  An internal utility to tack a new command
  *    onto the undo list.
  *
- * returns : TRUE if there was an error.
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
+ */
+
+
+/*
+ * cmd_set_text_full
+ *
+ * the caller is expected to have ensured:
+ *
+ * 1) that no array is being split
+ * 2) that the range is not locked.
+ *
+ * Note:
+ * We will free the selection but nothing else.
+ *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
  */
 gboolean
 gnm_command_push_undo (WorkbookControl *wbc, GObject *obj)

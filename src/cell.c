@@ -262,7 +262,7 @@ gnm_cell_set_expr_unsafe (GnmCell *cell, GnmExprTop const *texpr)
 /**
  * gnm_cell_set_expr: (skip)
  * @cell: The #GnmCell
- * @texpr: The #GnmExprTop
+ * @texpr: (transfer none): The #GnmExprTop
  *
  * Stores and references the supplied expression
  *         marks the sheet as dirty.  Intented for use by import routines that

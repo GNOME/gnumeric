@@ -151,7 +151,7 @@ dialog_set_sec_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 	gtk_widget_set_sensitive (GTK_WIDGET (state->rhs.entry), has_rhs);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->rhs.label), has_rhs);
 
-	/* Return TRUE iff the current constraint is valid.  */
+	/* Return %TRUE iff the current constraint is valid.  */
 	return ready;
 }
 

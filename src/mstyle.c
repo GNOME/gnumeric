@@ -1292,7 +1292,7 @@ gnm_style_is_element_set (GnmStyle const *style, GnmStyleElement elem)
  * gnm_style_is_complete:
  * @style: #GnmStyle to query
  *
- * Returns TRUE if all elements are set.
+ * Returns: %TRUE if all elements are set.
  **/
 gboolean
 gnm_style_is_complete (GnmStyle const *style)

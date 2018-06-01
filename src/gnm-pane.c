@@ -1369,7 +1369,7 @@ gnm_pane_find_row (GnmPane const *pane, gint64 y, gint64 *row_origin)
  *     recalculates the visible boundaries.
  *
  * @full_recompute:
- *       if TRUE recompute the pixel offsets of the top left row/col
+ *       if %TRUE recompute the pixel offsets of the top left row/col
  *       else assumes that the pixel offsets of the top left have not changed.
  */
 void
@@ -2138,7 +2138,7 @@ gnm_pane_size_guide_stop (GnmPane *pane)
 /**
  * gnm_pane_size_guide_motion:
  * @p: #GnmPane
- * @vert: TRUE for a vertical guide, FALSE for horizontal
+ * @vert: %TRUE for a vertical guide, %FALSE for horizontal
  * @guide_pos: in unscaled sheet pixel coords
  *
  * Moves the guide line to @guide_pos.

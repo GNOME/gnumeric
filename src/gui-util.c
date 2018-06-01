@@ -339,7 +339,8 @@ gnm_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
  * @key:     A key to identify the dialog
  *
  * Raise the dialog identified by key if it is registered on the wbcg.
- * Returns: (transfer none): TRUE if dialog found, FALSE if not.
+ *
+ * Returns: (transfer none) (type GtkDialog) (nullable): existing dialog
  **/
 gpointer
 gnm_dialog_raise_if_exists (WBCGtk *wbcg, char const *key)

@@ -2141,7 +2141,7 @@ reloc_normalize_cellref (RelocInfoInternal const *rinfo, GnmCellRef const *ref,
 	}
 }
 
-/* Return TRUE if @pos is out of bounds */
+/* Return %TRUE if @pos is out of bounds */
 static gboolean
 reloc_restore_cellref (RelocInfoInternal const *rinfo,
 		       GnmSheetSize const *ss, GnmCellPos const *pos,

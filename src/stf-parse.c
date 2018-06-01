@@ -472,7 +472,7 @@ stf_parse_options_fixed_splitpositions_nth (StfParseOptions_t *parseoptions, int
  *
  * Checks if @parseoptions is correctly filled
  *
- * returns : TRUE if it is correctly filled, FALSE otherwise.
+ * Returns: %TRUE if it is correctly filled, %FALSE otherwise.
  **/
 static gboolean
 stf_parse_options_valid (StfParseOptions_t *parseoptions)
@@ -523,7 +523,7 @@ trim_spaces_inplace (char *field, StfParseOptions_t const *parseoptions)
 /**
  * stf_parse_csv_is_separator:
  *
- * returns NULL if @character is not a separator, a pointer to the character
+ * Returns: %NULL if @character is not a separator, a pointer to the character
  * after the separator otherwise.
  **/
 static char const *

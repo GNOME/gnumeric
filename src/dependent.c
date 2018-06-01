@@ -133,7 +133,7 @@ cset_insert (CSet **list, gpointer datum)
 		cs->data[cs->count++] = datum;
 }
 
-/* NOTE: takes reference.  Returns TRUE if datum was already present.  */
+/* NOTE: takes reference.  Returns %TRUE if datum was already present.  */
 static gboolean
 cset_insert_checked (CSet **list, gpointer datum)
 {
@@ -158,7 +158,7 @@ cset_insert_checked (CSet **list, gpointer datum)
 }
 
 
-/* NOTE: takes reference.  Returns TRUE if removed.  */
+/* NOTE: takes reference.  Returns %TRUE if removed.  */
 static gboolean
 cset_remove (CSet **list, gpointer datum)
 {

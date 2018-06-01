@@ -854,7 +854,7 @@ gnm_sheet_view_freeze_panes (SheetView *sv,
 /**
  * gnm_sheet_view_panes_insdel_colrow:
  * @sv:
- * @is_cols:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  * @is_insert:
  * @start:
  * @count:

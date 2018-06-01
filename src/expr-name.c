@@ -1101,7 +1101,7 @@ expr_name_remove_dep (GnmNamedExpr *nexpr, GnmDependent *dep)
  * expr_name_is_placeholder:
  * @ne:
  *
- * Returns TRUE if @ne is a placeholder for an unknown name
+ * Returns: %TRUE if @ne is a placeholder for an unknown name
  **/
 gboolean
 expr_name_is_placeholder (GnmNamedExpr const *nexpr)

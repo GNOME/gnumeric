@@ -200,7 +200,7 @@ templates_free (AutoFormatState *state)
  * This function will load the templates in the currently selected
  * category group (it looks at state->category_groups to determine the selection)
  *
- * Return value: TRUE if all went well, FALSE otherwise.
+ * Returns: %TRUE if all went well, %FALSE otherwise.
  **/
 static gboolean
 templates_load (AutoFormatState *state)

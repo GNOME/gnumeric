@@ -928,7 +928,7 @@ dao_set_border (data_analysis_output_t *dao, int col1, int row1,
 /**
  * dao_get_colrow_state_list:
  * @dao:
- * @is_cols:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  *
  *
  * Returns: (transfer full):
@@ -957,10 +957,8 @@ dao_get_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols)
 /**
  * dao_set_colrow_state_list:
  * @dao:
- * @is_cols:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  * @list:
- *
- *
  *
  **/
 void

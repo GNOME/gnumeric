@@ -693,12 +693,12 @@ typedef void (* PCalcCallback) (GnmFT *ft, GnmRange *r, GnmStyle *mstyle, gpoint
  * format_template_range_check:
  * @ft: Format template
  * @r: Target range
- * @optional_cc: if non-NULL display an error message if @r is not
+ * @optional_cc: (nullable): if non-%NULL display an error message if @r is not
  *			appropriate for @ft.
  *
  * Check whether range @r is big enough to apply format template @ft to it.
  *
- * Return value: TRUE if @s is big enough, FALSE if not.
+ * Returns: %TRUE if @s is big enough, %FALSE if not.
  **/
 static gboolean
 format_template_range_check (GnmFT *ft, GnmRange const *r,
@@ -1040,10 +1040,11 @@ cb_format_sheet_style (GnmFT *ft, GnmRange *r, GnmStyle *mstyle, gpointer user)
  * gnm_ft_check_valid:
  * @ft:
  * @regions: (element-type GnmRange):
- * @cc: where to report errors
+ * @cc: (nullable): where to report errors
  *
  * check to see if the @regions are able to contain the support template @ft.
- * Returns TRUE if ok, else FALSE.  Will report an error to @cc if it is
+ *
+ * Returns: %TRUE if ok, else %FALSE.  Will report an error to @cc if it is
  * supplied.
  */
 gboolean

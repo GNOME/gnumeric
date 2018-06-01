@@ -2107,7 +2107,7 @@ odf_fix_expr_names (OOParseState *state)
  * odf_expr_name_validate:
  * @name: tentative name
  *
- * returns TRUE if the given name is valid, FALSE otherwise.
+ * Returns: %TRUE if the given name is valid, %FALSE otherwise.
  *
  * We are accepting names here that contain periods or look like addresses.
  * They need to be replaced when we have finished parsing the file since

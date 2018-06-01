@@ -954,7 +954,7 @@ unquote (char *dst, char const *src, int n)
  * @start:
  * @wb:
  *
- * Returns : NULL if there is a valid workbook name but it is unknown.
+ * Returns: %NULL if there is a valid workbook name but it is unknown.
  *           If the string is a valid workbook known name it returns a pointer
  *           the end of the name.
  *           Otherwise returns @start and does not modify @wb.

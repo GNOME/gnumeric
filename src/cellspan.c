@@ -188,7 +188,7 @@ cell_span_info_get_type (void)
  *
  * We could probably have done the same thing with the span regions too, but
  * the current representation is not well suited to that type of search
- * returns TRUE if the cell is empty.
+ * returns %TRUE if the cell is empty.
  */
 static inline gboolean
 cellspan_is_empty (int col, GnmCell const *ok_span_cell)

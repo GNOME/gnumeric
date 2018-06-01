@@ -1,4 +1,3 @@
-
 /*
  * sheet.c: Implements the sheet management and per-sheet storage
  *
@@ -1179,6 +1178,16 @@ gnm_sheet_valid_size (int cols, int rows)
 		);
 }
 
+/**
+ * gnm_sheet_suggest_size:
+ * @cols: (inout): number of columns
+ * @rows: (inout): number of rows
+ *
+ * This function produces a valid sheet valid that is reasonable for data
+ * of @cols columns by @rows rows.  If possible, this will be a size bigger
+ * in both dimensions.  However, that is not always possible and when it is
+ * not, the suggested will be smaller in one or both directions.
+ */
 void
 gnm_sheet_suggest_size (int *cols, int *rows)
 {
@@ -1449,7 +1458,7 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
  * @cols: the new columns number.
  * @rows: the new rows number.
  * @cc: #GOCmdContext.
- * @perr: will be %TRUE on error.
+ * @perr: (out): will be %TRUE on error.
  *
  * Returns: (transfer full): the newly allocated #GOUndo.
  **/
@@ -1503,6 +1512,7 @@ gnm_sheet_resize (Sheet *sheet, int cols, int rows,
  *
  * Create a new Sheet of type @type, and associate it with @wb.
  * The type cannot be changed later.
+ *
  * Returns: (transfer full): the newly allocated sheet.
  **/
 Sheet *
@@ -1539,6 +1549,7 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type,
  *
  * Create a new Sheet of type SHEET_DATA, and associate it with @wb.
  * The type can not be changed later
+ *
  * Returns: (transfer full): the newly allocated sheet.
  **/
 Sheet *
@@ -1651,7 +1662,7 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 	sheet = cell->base.sheet;
 	row = cell->pos.row;
 
-	/* Render & Size any unrendered cells */
+	/* Render and Size any unrendered cells */
 	if ((flags & GNM_SPANCALC_RENDER) && gnm_cell_get_rendered_value (cell) == NULL)
 		render = TRUE;
 
@@ -1778,8 +1789,8 @@ sheet_apply_style_cb (GnmSheetRange *sr,
 
 /**
  * sheet_apply_style_undo:
- * @sr: #GnmSheetRange
- * @style: #GnmStyle
+ * @sr: (transfer full): #GnmSheetRange
+ * @style: (transfer none): #GnmStyle
  *
  * Returns: (transfer full): the new #GOUndo.
  **/
@@ -1890,7 +1901,7 @@ sheet_flag_status_update_cell (GnmCell const *cell)
 /**
  * sheet_flag_status_update_range:
  * @sheet:
- * @range: If NULL then force an update.
+ * @range: (nullable): GnmRange, or %NULL for full sheet
  *
  *    flag the sheet as requiring an update to the status display
  *    if the supplied cell location contains the edit cursor, or intersects of
@@ -1944,8 +1955,8 @@ cb_outline_level (GnmColRowIter const *iter, gpointer data)
 
 /**
  * sheet_colrow_fit_gutter:
- * @sheet: Sheet to change for.
- * @is_cols: Column gutter or row gutter?
+ * @sheet: Sheet to change.
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  *
  * Find the current max outline level.
  **/
@@ -2134,10 +2145,10 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
  * sheet_colrow_can_group:
  * @sheet: #Sheet
  * @r: A #GnmRange
- * @is_cols: boolean
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  *
- * Returns TRUE if the cols/rows in @r.start -> @r.end can be grouped, return
- * FALSE otherwise. You can invert the result if you need to find out if a
+ * Returns: %TRUE if the cols/rows in @r.start -> @r.end can be grouped,
+ * %FALSE otherwise. You can invert the result if you need to find out if a
  * group can be ungrouped.
  **/
 gboolean
@@ -2214,7 +2225,7 @@ sheet_colrow_group_ungroup (Sheet *sheet, GnmRange const *r,
 /**
  * sheet_colrow_gutter:
  * @sheet:
- * @is_cols:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  * @max_outline:
  *
  * Set the maximum outline levels for cols or rows.
@@ -2259,7 +2270,7 @@ cb_sheet_get_extent (G_GNUC_UNUSED gpointer ignored, gpointer value, gpointer da
 			return;
 	}
 
-	/* Remember the first cell is the min & max */
+	/* Remember the first cell is the min and max */
 	if (res->range.start.col > cell->pos.col)
 		res->range.start.col = cell->pos.col;
 	if (res->range.end.col < cell->pos.col)
@@ -2357,7 +2368,7 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend, gboolean
  * sheet_get_cells_extent:
  * @sheet: the sheet
  *
- * calculates the area occupied by cells, including empty cells.
+ * Calculates the area occupied by cells, including empty cells.
  *
  * Return value: the range.
  **/
@@ -2425,9 +2436,9 @@ sheet_get_nominal_printarea (Sheet const *sheet)
 }
 
 GnmRange
-sheet_get_printarea	(Sheet const *sheet,
-			 gboolean include_styles,
-			 gboolean ignore_printarea)
+sheet_get_printarea (Sheet const *sheet,
+		     gboolean include_styles,
+		     gboolean ignore_printarea)
 {
 	static GnmRange const dummy = { { 0,0 }, { 0,0 } };
 	GnmRange print_area;
@@ -2775,8 +2786,8 @@ sheet_range_set_expr_cb (GnmSheetRange const *sr, GnmExprTop const *texpr)
 
 /**
  * sheet_range_set_expr_undo:
- * @sr: #GnmSheetRange
- * @texpr: #GnmExprTop
+ * @sr: (transfer full): #GnmSheetRange
+ * @texpr: (transfer none): #GnmExprTop
  *
  * Returns: (transfer full): the newly created #GOUndo.
  **/
@@ -2863,8 +2874,8 @@ sheet_range_set_text_cb (GnmSheetRange const *sr, gchar const *text)
 
 /**
  * sheet_range_set_text_undo:
- * @sr: #GnmSheetRange
- * @text:
+ * @sr: (transfer full): #GnmSheetRange
+ * @text: (transfer none): text for range
  *
  * Returns: (transfer full): the newly created #GOUndo.
  **/
@@ -2918,10 +2929,10 @@ sheet_range_set_markup_cb (GnmSheetRange const *sr, PangoAttrList *markup)
 
 /**
  * sheet_range_set_markup_undo:
- * @sr: #GnmSheetRange
- * @markup: #PangoAttrList
+ * @sr: (transfer full): #GnmSheetRange
+ * @markup: (transfer none) (nullable): #PangoAttrList
  *
- * Returns: (transfer full): the newly created #GOUndo.
+ * Returns: (transfer full) (nullable): the newly created #GOUndo.
  **/
 GOUndo *
 sheet_range_set_markup_undo (GnmSheetRange *sr, PangoAttrList *markup)
@@ -2941,7 +2952,8 @@ sheet_range_set_markup_undo (GnmSheetRange *sr, PangoAttrList *markup)
  * @col: Source column
  * @row: Source row
  *
- * Returns: (transfer none) (nullable): the cell's current value.
+ * Returns: (transfer none) (nullable): the cell's current value.  The return
+ * value will be %NULL only when the cell does not exist.
  **/
 GnmValue const *
 sheet_cell_get_value (Sheet *sheet, int const col, int const row)
@@ -3046,6 +3058,8 @@ sheet_cell_set_text_gi (Sheet *sheet, int col, int row, char const *str)
 
 /**
  * sheet_cell_set_expr:
+ * @cell: #GnmCell
+ * @texpr: New expression for @cell.
  *
  * Marks the sheet as dirty
  * Clears old spans.
@@ -3248,23 +3262,24 @@ sheet_row_is_hidden (Sheet const *sheet, int row)
 
 /**
  * sheet_find_boundary_horizontal:
- * @sheet:  The Sheet
+ * @sheet: The Sheet
  * @col: The column from which to begin searching.
  * @move_row: The row in which to search for the edge of the range.
  * @base_row: The height of the area being moved.
  * @count:      units to extend the selection vertically
  * @jump_to_boundaries: Jump to range boundaries.
  *
- * Calculate the column index for the column which is @n units
+ * Calculate the column index for the column which is @count units
  * from @start_col doing bounds checking.  If @jump_to_boundaries is
- * TRUE @n must be 1 and the jump is to the edge of the logical range.
+ * %TRUE then @count must be 1 and the jump is to the edge of the logical range.
  *
- * NOTE : This routine implements the logic necasary for ctrl-arrow style
- * movement.  That is more compilcated than simply finding the last in a list
+ * This routine implements the logic necasary for ctrl-arrow style
+ * movement.  That is more complicated than simply finding the last in a list
  * of cells with content.  If you are at the end of a range it will find the
  * start of the next.  Make sure that is the sort of behavior you want before
  * calling this.
- * Returns: the column inex.
+ *
+ * Returns: the column index.
  **/
 int
 sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
@@ -3349,22 +3364,23 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 
 /**
  * sheet_find_boundary_vertical:
- * @sheet:  The Sheet *
+ * @sheet: The Sheet
  * @move_col: The col in which to search for the edge of the range.
  * @row: The row from which to begin searching.
  * @base_col: The width of the area being moved.
- * @count:      units to extend the selection vertically
+ * @count: units to extend the selection vertically
  * @jump_to_boundaries: Jump to range boundaries.
  *
- * Calculate the row index for the row which is @n units
+ * Calculate the row index for the row which is @count units
  * from @start_row doing bounds checking.  If @jump_to_boundaries is
- * TRUE @n must be 1 and the jump is to the edge of the logical range.
+ * %TRUE then @count must be 1 and the jump is to the edge of the logical range.
  *
- * NOTE : This routine implements the logic necasary for ctrl-arrow style
- * movement.  That is more compilcated than simply finding the last in a list
+ * This routine implements the logic necasary for ctrl-arrow style
+ * movement.  That is more complicated than simply finding the last in a list
  * of cells with content.  If you are at the end of a range it will find the
  * start of the next.  Make sure that is the sort of behavior you want before
  * calling this.
+ *
  * Returns: the row index.
  **/
 int
@@ -3527,9 +3543,9 @@ cb_check_array_vertical (GnmColRowIter const *iter, gpointer data_)
  *
  * Check the outer edges of range @sheet!@r to ensure that if an array is
  * within it then the entire array is within the range.  @ignore is useful when
- * src & dest ranges may overlap.
+ * src and dest ranges may overlap.
  *
- * Returns: TRUE if an array would be split.
+ * Returns: %TRUE if an array would be split.
  **/
 gboolean
 sheet_range_splits_array (Sheet const *sheet,
@@ -3724,7 +3740,7 @@ sheet_range_contains_merges_or_arrays (Sheet const *sheet, GnmRange const *r,
 /**
  * sheet_colrow_get_default:
  * @sheet:
- * @is_cols:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  *
  * Returns: (transfer none): the default #ColRowInfo.
  */
@@ -4359,7 +4375,7 @@ cb_fail_if_exist (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
  * @sheet: sheet to check
  * @r: region to check
  *
- * Returns TRUE if the specified region of the @sheet does not
+ * Returns: %TRUE if the specified region of the @sheet does not
  * contain any cells
  */
 gboolean
@@ -5532,7 +5548,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 	/* Reverse list so that we start at the top left (simplifies arrays). */
 	cells = g_list_reverse (cells);
 
-	/* 4. Clear the target area & invalidate references to it */
+	/* 4. Clear the target area and invalidate references to it */
 	if (!out_of_range)
 		/* we can clear content but not styles from the destination
 		 * region without worrying if it overlaps with the source,
@@ -5686,7 +5702,7 @@ sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
  * @sheet:	 The sheet
  * @col:	 The col
  * @width_pts:	 The desired widtht in pts
- * @set_by_user: TRUE if this was done by a user (ie, user manually
+ * @set_by_user: %TRUE if this was done by a user (ie, user manually
  *               set the width)
  *
  * Sets width of a col in pts, INCLUDING left and right margins, and the far
@@ -5879,7 +5895,7 @@ sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
  * @sheet:	 The sheet
  * @row:	 The row
  * @height_pts:	 The desired height in pts
- * @set_by_user: TRUE if this was done by a user (ie, user manually
+ * @set_by_user: %TRUE if this was done by a user (ie, user manually
  *               set the height)
  *
  * Sets height of a row in pts, INCLUDING top and bottom margins, and the lower
@@ -5913,7 +5929,7 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
  * @sheet:	 The sheet
  * @row:	 The row
  * @height_pixels: The desired height
- * @set_by_user: TRUE if this was done by a user (ie, user manually
+ * @set_by_user: %TRUE if this was done by a user (ie, user manually
  *                      set the width)
  *
  * Sets height of a row in pixels, INCLUDING top and bottom margins, and the lower
@@ -6240,7 +6256,7 @@ sheet_dup (Sheet const *src)
 /**
  * sheet_set_outline_direction:
  * @sheet: the sheet
- * @is_cols: use cols or rows
+ * @is_cols: %TRUE for columns, %FALSE for rows.
  *
  * When changing the placement of outline collapse markers the flags
  * need to be recomputed.
@@ -6367,7 +6383,7 @@ cb_find_extents (GnmCellIter const *iter, GnmCellPos *extent)
  * right hand or bottom edges of the range
  * depending on the value of @cols or @rows.
  *
- * Return value: TRUE if the range was totally empty.
+ * Returns: %TRUE if the range was totally empty.
  **/
 gboolean
 sheet_range_trim (Sheet const *sheet, GnmRange *r,
@@ -6401,7 +6417,7 @@ sheet_range_trim (Sheet const *sheet, GnmRange *r,
  * header row from the top and if false it looks for a header col from the
  * left
  *
- * Returns: TRUE if @src seems to have a heading
+ * Returns: %TRUE if @src seems to have a heading
  **/
 gboolean
 sheet_range_has_heading (Sheet const *sheet, GnmRange const *src,

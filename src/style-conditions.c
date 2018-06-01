@@ -89,7 +89,7 @@ gnm_style_cond_op_operands (GnmStyleCondOp op)
  * gnm_style_cond_is_valid:
  * @cond: #GnmStyleCond
  *
- * Returns: TRUE if @cond is in a reasonable state
+ * Returns: %TRUE if @cond is in a reasonable state
  **/
 gboolean
 gnm_style_cond_is_valid (GnmStyleCond const *cond)
