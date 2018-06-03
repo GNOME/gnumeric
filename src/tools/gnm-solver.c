@@ -928,14 +928,14 @@ gnm_solver_dispose (GObject *obj)
 		gnm_solver_update_derived (sol);
 	}
 
+	sol->gradient_status = 0;
 	if (sol->gradient) {
-		sol->gradient_status = 0;
 		g_ptr_array_unref (sol->gradient);
 		sol->gradient = NULL;
 	}
 
+	sol->hessian_status = 0;
 	if (sol->hessian) {
-		sol->hessian_status = 0;
 		g_ptr_array_unref (sol->hessian);
 		sol->hessian = NULL;
 	}
@@ -1267,6 +1267,17 @@ gnm_solver_has_solution (GnmSolver *solver)
 	}
 }
 
+static gnm_float
+get_cell_value (GnmCell *cell)
+{
+	GnmValue const *v;
+	gnm_cell_eval (cell);
+	v = cell->value;
+	return VALUE_IS_NUMBER (v) || VALUE_IS_EMPTY (v)
+		? value_get_as_float (v)
+		: gnm_nan;
+}
+
 gboolean
 gnm_solver_check_constraints (GnmSolver *solver)
 {
@@ -1281,10 +1292,10 @@ gnm_solver_check_constraints (GnmSolver *solver)
 
 		for (ui = 0; ui < solver->input_cells->len; ui++) {
 			GnmCell *cell = g_ptr_array_index (solver->input_cells, ui);
-			gnm_float val;
+			gnm_float val = get_cell_value (cell);
 
-			gnm_cell_eval (cell);
-			val = value_get_as_float (cell->value);
+			if (!gnm_finite (val))
+				break;
 			if (sp->options.assume_non_negative && val < 0)
 				break;
 			if (sp->options.assume_discrete &&
@@ -1308,14 +1319,10 @@ gnm_solver_check_constraints (GnmSolver *solver)
 						     &lhs, &cl,
 						     &rhs, &cr);
 		     i++) {
-			if (lhs) {
-				gnm_cell_eval (lhs);
-				cl = value_get_as_float (lhs->value);
-			}
-			if (rhs) {
-				gnm_cell_eval (rhs);
-				cr = value_get_as_float (rhs->value);
-			}
+			if (lhs)
+				cl = get_cell_value (lhs);
+			if (rhs)
+				cr = get_cell_value (rhs);
 
 			switch (c->type) {
 			case GNM_SOLVER_INTEGER:
@@ -1452,15 +1459,16 @@ cell_in_cr (GnmSolver *sol, GnmCell const *cell, gboolean follow)
 static gboolean
 cell_is_constant (GnmCell *cell, gnm_float *pc)
 {
-	if (!cell)
+	if (!cell) {
+		*pc = 0;
 		return TRUE;
+	}
 
 	if (cell->base.texpr)
 		return FALSE;
 
-	gnm_cell_eval (cell);
-	*pc = value_get_as_float (cell->value);
-	return TRUE;
+	*pc = get_cell_value (cell);
+	return gnm_finite (*pc);
 }
 
 #define SET_LOWER(l_)						\
@@ -1761,14 +1769,10 @@ gnm_solver_create_program_report (GnmSolver *solver, const char *name)
 			dao_set_cell (dao, 1, R, ctxt);
 			g_free (ctxt);
 
-			if (lhs) {
-				gnm_cell_eval (lhs);
-				cl = value_get_as_float (lhs->value);
-			}
-			if (rhs) {
-				gnm_cell_eval (rhs);
-				cr = value_get_as_float (rhs->value);
-			}
+			if (lhs)
+				cl = get_cell_value (lhs);
+			if (rhs)
+				cr = get_cell_value (rhs);
 
 			switch (c->type) {
 			case GNM_SOLVER_INTEGER: {
@@ -1910,14 +1914,10 @@ gnm_solver_create_sensitivity_report (GnmSolver *solver, const char *name)
 			dao_set_cell (dao, 1, R, ctxt);
 			g_free (ctxt);
 
-			if (lhs) {
-				gnm_cell_eval (lhs);
-				cl = value_get_as_float (lhs->value);
-			}
-			if (rhs) {
-				gnm_cell_eval (rhs);
-				cr = value_get_as_float (rhs->value);
-			}
+			if (lhs)
+				cl = get_cell_value (lhs);
+			if (rhs)
+				cr = get_cell_value (rhs);
 
 			add_value_or_special (dao, 2, R, sols->constraints[cidx].shadow_price);
 			add_value_or_special (dao, 3, R, cl);
@@ -1969,16 +1969,8 @@ gnm_solver_create_report (GnmSolver *solver, const char *base)
 gnm_float
 gnm_solver_get_target_value (GnmSolver *solver)
 {
-	GnmValue const *v;
-
-	gnm_cell_eval (solver->target);
-	v = solver->target->value;
-
-	if (VALUE_IS_NUMBER (v) || VALUE_IS_EMPTY (v)) {
-		gnm_float y = value_get_as_float (v);
-		return solver->flip_sign ? 0 - y : y;
-	} else
-		return gnm_nan;
+	gnm_float y = get_cell_value (solver->target);
+	return solver->flip_sign ? 0 - y : y;
 }
 
 void
@@ -2070,6 +2062,8 @@ gnm_solver_has_analytic_gradient (GnmSolver *sol)
 			else {
 				if (gnm_solver_debug ())
 					g_printerr ("Unable to compute analytic gradient\n");
+				g_ptr_array_unref (sol->gradient);
+				sol->gradient = NULL;
 				sol->gradient_status++;
 				break;
 			}
@@ -2513,8 +2507,7 @@ gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
 	gnm_float y0;
 
 	gnm_solver_set_vars (sol, x1);
-	gnm_cell_eval (ycell);
-	y0 = VALUE_IS_NUMBER (ycell->value) ? value_get_as_float (ycell->value) : gnm_nan;
+	y0 = get_cell_value (ycell);
 	if (!gnm_finite (y0))
 		goto fail_calc;
 
@@ -2527,8 +2520,7 @@ gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
 		}
 
 		gnm_solver_set_var (sol, ui, x2[ui]);
-		gnm_cell_eval (ycell);
-		y1 = VALUE_IS_NUMBER (ycell->value) ? value_get_as_float (ycell->value) : gnm_nan;
+		y1 = get_cell_value (ycell);
 
 		dy = y1 - y0;
 		res[ui] = dy / dx;
@@ -2541,8 +2533,7 @@ gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
 			x01 = (x1[ui] + x2[ui]) / 2;
 			if (sol->discrete[ui]) x01 = gnm_floor (x01);
 			gnm_solver_set_var (sol, ui, x01);
-			gnm_cell_eval (ycell);
-			y01 = VALUE_IS_NUMBER (ycell->value) ? value_get_as_float (ycell->value) : gnm_nan;
+			y01 = get_cell_value (ycell);
 			if (!gnm_finite (y01))
 				goto fail_calc;
 
