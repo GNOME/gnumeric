@@ -142,6 +142,7 @@ gnm_func_load_stub (GnmFunc *func)
 	g_signal_emit (G_OBJECT (func), signals[SIG_LOAD_STUB], 0);
 
 	if (func->fn_type == GNM_FUNC_TYPE_STUB) {
+		g_printerr ("Failed to load %s\n", func->name);
 		gnm_func_set_varargs (func, error_function_no_full_info, NULL);
 		gnm_func_set_help (func, NULL, 0);
 	}
@@ -457,10 +458,11 @@ gnm_func_set_help (GnmFunc *func, GnmFuncHelp const *help, int n)
 		func->help[n].type = GNM_FUNC_HELP_END;
 		func->help[n].text = NULL;
 
+		func->help_count = n;
 		gnm_func_create_arg_names (func);
+	} else {
+		func->help_count = 0;
 	}
-
-	func->help_count = n;
 }
 
 
