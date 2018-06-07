@@ -471,21 +471,6 @@ gnm_font_init (void)
 	g_object_unref (context);
 }
 
-static void
-delete_neg_font (GnmFont *sf, G_GNUC_UNUSED gpointer value,
-		 G_GNUC_UNUSED gpointer user_data)
-{
-	g_object_unref (sf->context);
-	g_free (sf->font_name);
-	g_free (sf);
-}
-
-static void
-list_cached_fonts (GnmFont *font, G_GNUC_UNUSED gpointer value, GSList **lp)
-{
-	*lp = g_slist_prepend (*lp, font);
-}
-
 /**
  * gnm_font_shutdown: (skip)
  *
@@ -494,13 +479,13 @@ list_cached_fonts (GnmFont *font, G_GNUC_UNUSED gpointer value, GSList **lp)
 void
 gnm_font_shutdown (void)
 {
-	GSList *fonts = NULL, *tmp;
+	GList *fonts = NULL, *tmp;
 
 	g_free (gnumeric_default_font_name);
 	gnumeric_default_font_name = NULL;
 
-	/* Make a list of the fonts, then unref them.  */
-	g_hash_table_foreach (style_font_hash, (GHFunc) list_cached_fonts, &fonts);
+	// Make a list of the fonts, then unref them.
+	fonts = g_hash_table_get_keys (style_font_hash);
 	for (tmp = fonts; tmp; tmp = tmp->next) {
 		GnmFont *sf = tmp->data;
 		if (sf->ref_count != 1)
@@ -508,12 +493,18 @@ gnm_font_shutdown (void)
 				   sf->font_name, sf->ref_count);
 		gnm_font_unref (sf);
 	}
-	g_slist_free (fonts);
-
+	g_list_free (fonts);
 	g_hash_table_destroy (style_font_hash);
 	style_font_hash = NULL;
 
-	g_hash_table_foreach (style_font_negative_hash, (GHFunc) delete_neg_font, NULL);
+	fonts = g_hash_table_get_keys (style_font_negative_hash);
+	for (tmp = fonts; tmp; tmp = tmp->next) {
+		GnmFont *sf = tmp->data;
+		g_object_unref (sf->context);
+		g_free (sf->font_name);
+		g_free (sf);
+	}
+	g_list_free (fonts);
 	g_hash_table_destroy (style_font_negative_hash);
 	style_font_negative_hash = NULL;
 
