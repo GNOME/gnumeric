@@ -585,7 +585,8 @@ gnm_func_lookup_localized (char const *name, Workbook *scope)
  * @scope:
  * @trans: whether to search translated function names
  *
- * Returns: (element-type GnmFunc*) (transfer full):
+ * Returns: (element-type GnmFunc*) (transfer full): A list of functions
+ * whose names start with @prefix.
  **/
 GSList *
 gnm_func_lookup_prefix (char const *prefix, Workbook *scope, gboolean trans)
@@ -601,7 +602,7 @@ gnm_func_lookup_prefix (char const *prefix, Workbook *scope, gboolean trans)
 	g_hash_table_iter_init (&hiter, functions_by_name);
 	while (g_hash_table_iter_next (&hiter, NULL, &value)) {
 		GnmFunc *fd = value;
-		if (!(fd->flags & GNM_FUNC_IS_PLACEHOLDER)) {
+		if (!(fd->flags & (GNM_FUNC_IS_PLACEHOLDER | GNM_FUNC_INTERNAL))) {
 			const char *name = gnm_func_get_name (fd, trans);
 			if (g_str_has_prefix (name, prefix)) {
 				gnm_func_inc_usage (fd);
