@@ -11,6 +11,8 @@ void gnm_x_store_clipboard_if_needed (Workbook *wb);
 gboolean gnm_x_claim_clipboard (GdkDisplay *display);
 void gnm_x_disown_clipboard (void);
 
+GBytes *gui_clipboard_test (const char *fmt);
+
 void gui_clipboard_init (void);
 void gui_clipboard_shutdown (void);
 

@@ -265,7 +265,9 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 		g_list_free (l);
 	}
 
-	if (wb_control_claim_selection (wbc)) {
+	if (wbc == NULL) {
+		// Testing
+	} else if (wb_control_claim_selection (wbc)) {
 		g_signal_emit (G_OBJECT (app), signals[CLIPBOARD_MODIFIED], 0);
 	} else {
 		gnm_app_clipboard_clear (FALSE);

@@ -1015,15 +1015,18 @@ object_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
  * Callback invoked when another application requests we render the selection.
  */
 static void
-x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
-		    guint info_, gpointer app)
+x_clipboard_get_cb (GtkClipboard *gclipboard,
+		    GtkSelectionData *selection_data,
+		    guint info_, G_GNUC_UNUSED gpointer app)
 {
 	gboolean to_gnumeric = FALSE, content_needs_free = FALSE;
 	GnmCellRegion *clipboard = gnm_app_clipboard_contents_get ();
 	Sheet *sheet = gnm_app_clipboard_sheet_get ();
 	GnmRange const *a = gnm_app_clipboard_area_get ();
 	GOCmdContext *ctx = gnm_cmd_context_stderr_new ();
-	GdkAtom target = gtk_selection_data_get_target (selection_data);
+	GdkAtom target = gclipboard
+		? gtk_selection_data_get_target (selection_data)
+		: gtk_selection_data_get_data_type (selection_data); // testing
 	AtomInfoType info = info_;
 	gchar *target_name = gdk_atom_name (target);
 
@@ -1401,6 +1404,85 @@ gnm_x_store_clipboard_if_needed (Workbook *wb)
 		}
 	}
 }
+
+GBytes *
+gui_clipboard_test (const char *fmt)
+{
+	GtkClipboard *gclipboard = NULL;
+	gpointer app = NULL;
+	GtkSelectionData *selection_data;
+	guint info;
+	unsigned ui;
+	GdkAtom atom = NULL;
+	const guchar *data;
+	gint len;
+	GBytes *res;
+
+	for (ui = 0; ui < G_N_ELEMENTS (atom_names); ui++) {
+		if (g_str_equal (fmt, atom_names[ui])) {
+			atom = atoms[ui];
+			break;
+		}
+	}
+	if (!atom)
+		return NULL;
+
+	switch (ui) {
+	case ATOM_GNUMERIC:
+		info = INFO_GNUMERIC;
+		break;
+	case ATOM_UTF8_STRING:
+	case ATOM_STRING:
+	case ATOM_COMPOUND_TEXT:
+		info = INFO_GENERIC_TEXT;
+		break;
+	case ATOM_TEXT_HTML:
+	case ATOM_TEXT_HTML_WINDOWS:
+		info = INFO_HTML;
+		break;
+	case ATOM_BIFF8:
+	case ATOM_BIFF8_OO:
+	case ATOM_BIFF8_CITRIX:
+	case ATOM_BIFF5:
+	case ATOM_BIFF:
+		info = INFO_EXCEL;
+		break;
+	case ATOM_OOO:
+	case ATOM_OOO_WINDOWS:
+	case ATOM_OOO11:
+		info = INFO_OOO;
+		break;
+	case ATOM_IMAGE_SVGXML:
+	case ATOM_IMAGE_XWMF:
+	case ATOM_IMAGE_XEMF:
+	case ATOM_IMAGE_PNG:
+	case ATOM_IMAGE_JPEG:
+	case ATOM_IMAGE_BMP:
+		info = INFO_IMAGE;
+		break;
+	default:
+		g_printerr ("Unknown info type\n");
+		info = INFO_UNKNOWN;
+	}
+
+	{
+		// This is more than a little bit dirty.  There is no good
+		// way to create a GtkSelectionData.
+		void *empty = g_new0 (char, 1000000);
+		selection_data = gtk_selection_data_copy (empty);
+		g_free (empty);
+	}
+
+	gtk_selection_data_set (selection_data, atom, 8, NULL, 0);
+	// No way to set target???
+
+	x_clipboard_get_cb (gclipboard, selection_data, info, app);
+	data = gtk_selection_data_get_data_with_length (selection_data, &len);
+	res = g_bytes_new (data, len);
+	gtk_selection_data_free (selection_data);
+	return res;
+}
+
 
 /**
  * gui_clipboard_init: (skip)

@@ -24,6 +24,7 @@
 #include <libgnumeric.h>
 #include <gutils.h>
 #include <value.h>
+#include <ranges.h>
 #include <commands.h>
 #include <gnumeric-paths.h>
 #include <gnm-plugin.h>
@@ -31,6 +32,7 @@
 #include <command-context-stderr.h>
 #include <workbook-view.h>
 #include <gnumeric-conf.h>
+#include <gui-clipboard.h>
 #include <tools/analysis-tools.h>
 #include <dialogs/dialogs.h>
 #include <goffice/goffice.h>
@@ -54,6 +56,7 @@ static gboolean ssconvert_one_file_per_sheet = FALSE;
 static gboolean ssconvert_recalc = FALSE;
 static gboolean ssconvert_solve = FALSE;
 static char *ssconvert_resize = NULL;
+static char *ssconvert_clipboard = NULL;
 static char *ssconvert_range = NULL;
 static char *ssconvert_import_encoding = NULL;
 static char *ssconvert_import_id = NULL;
@@ -155,7 +158,15 @@ static const GOptionEntry ssconvert_options [] = {
 
 	/* ---------------------------------------- */
 
-	/* For now these are for INTERNAL GNUMERIC USE ONLY.  */
+	// For now these are for INTERNAL GNUMERIC USE ONLY.  They are used
+	// by the test suite.
+	{
+		"clipboard", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &ssconvert_clipboard,
+		N_("Output via the clipboard"),
+		NULL
+	},
+
 	{
 		"export-range", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &ssconvert_range,
@@ -1035,6 +1046,83 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	return res;
 }
 
+static int
+clipboard_export (const char *inarg, char const *outarg, GOCmdContext *cc)
+{
+	GOFileOpener *fo = NULL;
+	GOIOContext *io_context = NULL;
+	WorkbookView *wbv;
+	Workbook *wb = NULL;
+	char *infile = go_shell_arg_to_uri (inarg);
+	char *outfile = go_shell_arg_to_uri (outarg);
+	int res = 0;
+	GnmRangeRef const *range;
+	GnmRange r;
+	WorkbookControl *wbc = NULL;
+	GBytes *data = NULL;
+	GsfOutput *dst;
+
+	io_context = go_io_context_new (cc);
+	wbv = workbook_view_new_from_uri (infile, fo,
+					  io_context,
+					  ssconvert_import_encoding);
+
+	if (go_io_error_occurred (io_context)) {
+		go_io_error_display (io_context);
+		res = 1;
+		goto out;
+	} else if (wbv == NULL) {
+		g_printerr (_("Loading %s failed\n"), infile);
+		res = 1;
+		goto out;
+	}
+
+	wb = wb_view_get_workbook (wbv);
+
+	range = setup_range (G_OBJECT (wb),
+			     "ssconvert-range",
+			     wb,
+			     ssconvert_range);
+	range_init_rangeref (&r, range);
+	if (range->a.sheet)
+		wb_view_sheet_focus (wbv, range->a.sheet);
+
+	gnm_app_clipboard_cut_copy (wbc, FALSE,
+				    wb_view_cur_sheet_view (wbv),
+				    &r, FALSE);
+
+	data = gui_clipboard_test (ssconvert_clipboard);
+	if (!data) {
+		g_printerr ("Failed to get clipboard data.\n");
+		res = 1;
+		goto out;
+	}
+
+	dst = go_file_create (outfile, NULL);
+	if (!dst) {
+		g_printerr ("Failed to write to %s\n", outfile);
+		res = 1;
+		goto out;
+	}
+
+	gsf_output_write (dst, g_bytes_get_size (data),
+			  g_bytes_get_data (data, NULL));
+	gsf_output_close (dst);
+	g_object_unref (dst);
+
+ out:
+	if (data)
+		g_bytes_unref (data);
+	if (wb)
+		g_object_unref (wb);
+	if (io_context)
+		g_object_unref (io_context);
+	g_free (infile);
+	g_free (outfile);
+
+	return res;
+}
+
 int
 main (int argc, char const **argv)
 {
@@ -1043,6 +1131,7 @@ main (int argc, char const **argv)
 	GOCmdContext	*cc;
 	GOptionContext *ocontext;
 	GError *error = NULL;
+	gboolean do_usage = FALSE;
 
 	/* No code before here, we need to init threads */
 	argv = gnm_pre_parse_init (argc, argv);
@@ -1098,11 +1187,23 @@ main (int argc, char const **argv)
 		list_them (go_get_file_openers (),
 			   (get_desc_f) &go_file_opener_get_id,
 			   (get_desc_f) &go_file_opener_get_description);
-	else if (ssconvert_merge_target!=NULL && argc>=3) {
-		res = convert (argv[1], ssconvert_merge_target, argv+1, cc);
+	else if (ssconvert_clipboard)
+		if (argc == 3 && ssconvert_range)
+			res = clipboard_export (argv[1], argv[2], cc);
+		else
+			do_usage = TRUE;
+	else if (ssconvert_merge_target) {
+		if (argc >= 3)
+			res = convert (argv[1], ssconvert_merge_target,
+				       argv + 1, cc);
+		else
+			do_usage = TRUE;
 	} else if (argc == 2 || argc == 3) {
 		res = convert (argv[1], argv[2], NULL, cc);
-	} else {
+	} else
+		do_usage = TRUE;
+
+	if (do_usage) {
 		g_printerr (_("Usage: %s [OPTION...] %s\n"),
 			    g_get_prgname (),
 			    _("INFILE [OUTFILE]"));
