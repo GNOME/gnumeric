@@ -1606,6 +1606,17 @@ cb_xml_write_cell_region_cells (GnmCellCopy *cc,
 		cc->texpr, cc->val, &state->pp);
 }
 
+static int
+by_row_col (GnmCellCopy *cc_a, gpointer val_a,
+	    GnmCellCopy *cc_b, gpointer val_b,
+	    gpointer user)
+{
+	int res = cc_a->offset.row - cc_b->offset.row;
+	if (!res)
+		res = cc_a->offset.col - cc_b->offset.col;
+	return res;
+}
+
 /**
  * gnm_cellregion_to_xml:
  * @cr: the content to store.
@@ -1688,8 +1699,11 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	state.cr = cr;
 	if (cr->cell_content != NULL) {
 		gsf_xml_out_start_element (state.state.output, GNM "Cells");
-		g_hash_table_foreach (cr->cell_content,
-			(GHFunc) cb_xml_write_cell_region_cells, &state);
+		gnm_hash_table_foreach_ordered
+			(cr->cell_content,
+			 (GHFunc) cb_xml_write_cell_region_cells,
+			 (GnmHashTableOrder)by_row_col,
+			 &state);
 		gsf_xml_out_end_element (state.state.output); /* </Cells> */
 	}
 
