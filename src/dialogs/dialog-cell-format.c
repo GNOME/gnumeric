@@ -62,6 +62,7 @@
 
 #define CELL_FORMAT_KEY "cell-format-dialog"
 
+#if 0
 static struct {
 	char const *Cname;
 	GnmUnderline ut;
@@ -75,6 +76,7 @@ static struct {
 	/* xgettext: This refers to a "double low underline" */
 	{ NC_("underline", "Double Low"), UNDERLINE_DOUBLE_LOW }
 };
+#endif
 
 /* The order corresponds to border_preset_buttons */
 typedef enum
