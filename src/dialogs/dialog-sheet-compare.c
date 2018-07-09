@@ -334,9 +334,9 @@ do_color (GnmColor const *gcolor)
 
 	GO_COLOR_TO_RGBA (color, &r, &g, &b, &a);
 	if (a == 0xff)
-		snprintf (buf, sizeof (coltxt), "#%02X%02X%02X", r, g, b);
+		snprintf (buf, sizeof (buf), "#%02X%02X%02X", r, g, b);
 	else
-		snprintf (buf, sizeof (coltxt), "#%02X%02X%02X%02X", r, g, b, a);
+		snprintf (buf, sizeof (buf), "#%02X%02X%02X%02X", r, g, b, a);
 
 	for (n = 0; go_color_palette_query (n, &nc); n++) {
 		if (nc.color == color) {
