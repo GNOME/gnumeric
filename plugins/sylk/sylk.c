@@ -579,44 +579,45 @@ sylk_rtd_f_parse (SylkReader *state, char *str)
 			break;
 
 		case 'S':
-		for (str++ ; *str && *str != ';' ; str++)
-			switch (*str) {
-			case 'I':
-				if (style == NULL) style = gnm_style_new ();
-				gnm_style_set_font_italic (style, TRUE);
-				break;
-
-			case 'D':
-				if (style == NULL) style = gnm_style_new ();
-				gnm_style_set_font_bold (style, TRUE);
-				break;
-
-			case 'M':
-				if (sylk_parse_int (str+1, &tmp) &&
-				    1 <= tmp && tmp <= (int)state->fonts->len) {
-					GnmStyle const *font =
-						g_ptr_array_index (state->fonts, tmp-1);
+			for (str++ ; *str && *str != ';' ; str++) {
+				switch (*str) {
+				case 'I':
 					if (style == NULL) style = gnm_style_new ();
-					gnm_style_merge_element (style, font,
-						MSTYLE_FONT_NAME);
-					gnm_style_merge_element (style, font,
-						MSTYLE_FONT_SIZE);
+					gnm_style_set_font_italic (style, TRUE);
+					break;
+
+				case 'D':
+					if (style == NULL) style = gnm_style_new ();
+					gnm_style_set_font_bold (style, TRUE);
+					break;
+
+				case 'M':
+					if (sylk_parse_int (str+1, &tmp) &&
+					    1 <= tmp && tmp <= (int)state->fonts->len) {
+						GnmStyle const *font =
+							g_ptr_array_index (state->fonts, tmp-1);
+						if (style == NULL) style = gnm_style_new ();
+						gnm_style_merge_element (style, font,
+									 MSTYLE_FONT_NAME);
+						gnm_style_merge_element (style, font,
+									 MSTYLE_FONT_SIZE);
+					}
+					str = (char *)" ";
+					break;
+
+				case 'S': /* seems to stipple things */
+					if (style == NULL) style = gnm_style_new ();
+					gnm_style_set_pattern (style, 5);
+					break;
+
+				case 'T': style = sylk_set_border (style, MSTYLE_BORDER_TOP); break;
+				case 'B': style = sylk_set_border (style, MSTYLE_BORDER_BOTTOM); break;
+				case 'L': style = sylk_set_border (style, MSTYLE_BORDER_LEFT); break;
+				case 'R': style = sylk_set_border (style, MSTYLE_BORDER_RIGHT); break;
+
+				default:
+					sylk_read_warning (state, "unhandled style S%c.", *str);
 				}
-				str = (char *)" ";
-				break;
-
-			case 'S': /* seems to stipple things */
-				if (style == NULL) style = gnm_style_new ();
-				gnm_style_set_pattern (style, 5);
-				break;
-
-			case 'T': style = sylk_set_border (style, MSTYLE_BORDER_TOP); break;
-			case 'B': style = sylk_set_border (style, MSTYLE_BORDER_BOTTOM); break;
-			case 'L': style = sylk_set_border (style, MSTYLE_BORDER_LEFT); break;
-			case 'R': style = sylk_set_border (style, MSTYLE_BORDER_RIGHT); break;
-
-			default:
-				sylk_read_warning (state, "unhandled style S%c.", *str);
 			}
 			break;
 

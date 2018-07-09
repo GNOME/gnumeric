@@ -3584,7 +3584,7 @@ toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEvent *event)
 	static const struct {
 		char const *text;
 		GtkPositionType pos;
-	} const pos_items[] = {
+	} pos_items[] = {
 		{ N_("Display toolbar above sheets"), GTK_POS_TOP },
 		{ N_("Display toolbar to the left of sheets"), GTK_POS_LEFT },
 		{ N_("Display toolbar to the right of sheets"), GTK_POS_RIGHT }

@@ -736,9 +736,10 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr,
 								cairo_move_to (cr, left+3,	    bottom+size/2);
 								cairo_line_to (cr, left+size-4, bottom+size/2);
 							}
-						} else if (level > 0)
+						} else if (level > 0) {
 							cairo_move_to (cr, pos,      top+pixels/2);
 							cairo_line_to (cr, pos+len,  top+pixels/2);
+						}
 					}
 					cairo_stroke (cr);
 					cairo_restore (cr);
