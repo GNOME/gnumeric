@@ -18,7 +18,7 @@ DISTCHECK_CONFIGURE_FLAGS = --without-perl --without-python \
 	--with-gi-overrides-dir=\$${libdir}/gi/overrides \
 	--with-goffice-plugins-dir=\$${libdir}/goffice
 
-DIST_SAMPLES = $(shell (cd $(srcdir)/test && perl -e 'use GnumericTest; foreach (&GnumericTest::corpus("dist")) { print "$$_\n"; }'))
+DIST_SAMPLES = $(shell (cd $(srcdir)/test && perl -I. -e 'use GnumericTest; foreach (&GnumericTest::corpus("dist")) { print "$$_\n"; }'))
 
 EXTRA_DIST = \
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
