@@ -321,6 +321,9 @@ rosenbrock_iter (GnmNlsolve *nl)
 	gnm_float eps = gnm_pow2 (-16);
 	int safety = 0;
 
+	// Give gcc a few hints.
+	g_assert (n >= 0 && n < (1<<20));
+	
 	if (nl->tentative) {
 		nl->tentative--;
 		if (nl->tentative == 0) {
