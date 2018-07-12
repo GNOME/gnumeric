@@ -12,6 +12,7 @@ Morten:
 	* Don't save any configuration when running ssconvert/ssdiff/...
 	* Turn GnmFunc into a GObject.
 	* Make clipboard output deterministic.
+	* Fix conditional format crash [#343].
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.41

@@ -1,3 +1,8 @@
+2018-07-12  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (gnm_style_get_cond_style): Update the cached
+	styles as needed.  Fixes #343.
+
 2018-06-08  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (gnm_cellregion_to_xml): Impose ordering on
