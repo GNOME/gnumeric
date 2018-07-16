@@ -1180,6 +1180,7 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 		func = ptr->data;
 		if (!(gnm_func_get_flags (func) &
 		      (GNM_FUNC_INTERNAL | GNM_FUNC_IS_PLACEHOLDER))) {
+			gboolean in_use = gnm_func_get_in_use (func);
 			gtk_list_store_append (state->model_functions, &iter);
 			gnm_func_inc_usage (func);
 			desc = dialog_function_select_get_description (func, &pal);
@@ -1192,7 +1193,7 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 				 FUNCTION_CAT, gnm_func_get_function_group (func),
 				 FUNCTION_VISIBLE, TRUE,
 				 FUNCTION_RECENT, FALSE,
-				 FUNCTION_USED, gnm_func_get_in_use (func),
+				 FUNCTION_USED, in_use,
 				 -1);
 			g_free (desc);
 			pango_attr_list_unref (pal);
