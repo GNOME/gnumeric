@@ -14,17 +14,17 @@
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Nicolás Satragno <nsatragno@gnome.org>, 2012.
 # Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012, 2013, 2014.
-# Joaquín Rosales <globojorro@gmail.com>, 2018.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2018.
+# Joaquín Rosales <globojorro@gmail.com>, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2018-07-16 15:38+0000\n"
-"PO-Revision-Date: 2018-08-06 09:40+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: es <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2018-08-06 07:48+0000\n"
+"PO-Revision-Date: 2018-08-06 12:10-0500\n"
+"Last-Translator: Joaquín Rosales <globojorro@gmail.com>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1423,9 +1423,9 @@ msgid "This solver does not handle discrete variables."
 msgstr "Este resolutor no maneja variables discretas."
 
 #: ../plugins/nlsolve/gnm-nlsolve.c:111
-#, fuzzy, c-format
+#, c-format
 msgid "This solver does not handle equality constraints."
-msgstr "Este resolutor no maneja variables discretas."
+msgstr "Este resolutor no maneja restricciones de igualdad."
 
 #. -------------------------------------------------------------------------
 #: ../plugins/nlsolve/plugin.xml.in.h:1
@@ -5006,10 +5006,9 @@ msgid "Report problems at"
 msgstr "Informar de errores en"
 
 #: ../src/dialogs/dialog-about.c:524
-#, fuzzy
 #| msgid "Report problems at http://bugzilla.gnome.org"
 msgid "https://bugzilla.gnome.org/"
-msgstr "Informe de errores en http://bugzilla.gnome.org"
+msgstr "https://bugzilla.gnome.org"
 
 #: ../src/dialogs/dialog-about.c:528 ../src/dialogs/dialog-about.c:534
 msgid "We aim to please!"
@@ -7337,13 +7336,11 @@ msgid "Format"
 msgstr "Formato"
 
 #: ../src/dialogs/dialog-sheet-compare.c:216
-#, fuzzy
 #| msgid "Vertical Alignment"
 msgid "Vertical alignment"
 msgstr "Alineación vertical"
 
 #: ../src/dialogs/dialog-sheet-compare.c:217
-#, fuzzy
 #| msgid "Horizontal Alignment"
 msgid "Horizontal alignment"
 msgstr "Alineación horizontal"
@@ -7367,10 +7364,9 @@ msgid "Wrap"
 msgstr "Ajustar ORDENACIÓN"
 
 #: ../src/dialogs/dialog-sheet-compare.c:222
-#, fuzzy
 #| msgid "Shrin_k to fit"
 msgid "Shrink-to-fit"
-msgstr "Encoge_r hasta ajustar"
+msgstr "Encoger hasta ajustar"
 
 #: ../src/dialogs/dialog-sheet-compare.c:224
 #, fuzzy
@@ -7388,10 +7384,9 @@ msgid "Validation"
 msgstr "Validación"
 
 #: ../src/dialogs/dialog-sheet-compare.c:228
-#, fuzzy
 #| msgid "_Hyperlinks"
 msgid "Hyperlink"
-msgstr "_Hiperenlaces"
+msgstr "Hiperenlace"
 
 #: ../src/dialogs/dialog-sheet-compare.c:229
 #, fuzzy
@@ -7406,10 +7401,9 @@ msgid "Conditional format"
 msgstr "Limpiar formato condicional"
 
 #: ../src/dialogs/dialog-sheet-compare.c:255
-#, fuzzy
 #| msgid "_Cells"
 msgid "Cells"
-msgstr "_Celdas"
+msgstr "Celdas"
 
 #: ../src/dialogs/dialog-sheet-compare.c:256
 #, fuzzy
@@ -7418,11 +7412,10 @@ msgid "Formatting"
 msgstr "Formato"
 
 #: ../src/dialogs/dialog-sheet-compare.c:257
-#, fuzzy
 #| msgctxt "import"
 #| msgid "Columns"
 msgid "Columns/Rows"
-msgstr "Columnas"
+msgstr "Columnas/Filas"
 
 #: ../src/dialogs/dialog-sheet-compare.c:263
 msgid "Various"
@@ -10582,7 +10575,7 @@ msgstr "Cont_enido"
 
 #: ../src/dialogs/paste-special.ui.h:6
 msgid "Paste the cell contents only, not the formatting"
-msgstr ""
+msgstr "Pegar el contenido de la celda solamente, sin formato"
 
 #: ../src/dialogs/paste-special.ui.h:7
 msgid "As _Value"
@@ -10709,10 +10702,9 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:36
-#, fuzzy
 #| msgid "<b>Location</b>"
 msgid "<b>Options</b>"
-msgstr "<b>Ubicación</b>"
+msgstr "<b>Opciones</b>"
 
 #: ../src/dialogs/plugin-manager.ui.h:1
 msgid "Plugin Manager"
@@ -12038,7 +12030,7 @@ msgstr ""
 
 #: ../src/dialogs/solver.ui.h:30
 msgid "The maximum time allowed for the solver"
-msgstr ""
+msgstr "El máximo tiempo permitido para el resolutor"
 
 #: ../src/dialogs/solver.ui.h:31
 msgid "Automatic _Scaling"
@@ -15286,6 +15278,8 @@ msgid ""
 "Reduced\n"
 "Cost"
 msgstr ""
+"Costo\n"
+"Reducido"
 
 #: ../src/tools/gnm-solver.c:1847 ../src/tools/gnm-solver.c:1883
 msgid ""
@@ -18321,10 +18315,9 @@ msgid "A single selection is required."
 msgstr "Se requiere una selección simple."
 
 #: ../src/workbook-cmd-format.c:179
-#, fuzzy
 #| msgid "An n or 1⨯n selection is required."
 msgid "An n⨯1 or 1⨯n selection is required."
-msgstr "Se requiere una selección n o 1⨯n."
+msgstr "Se requiere una selección nx1 o 1⨯n."
 
 #: ../src/workbook-cmd-format.c:186
 msgid "There is no point in sorting a single cell."
@@ -18471,10 +18464,9 @@ msgid "Missing filter type"
 msgstr "Falta tipo de filtro"
 
 #: ../src/xml-sax-read.c:2387
-#, fuzzy
 #| msgid "Change filter condition for %s"
 msgid "Malformed sheet filter condition"
-msgstr "Cambiar condición del filtro para %s"
+msgstr "Condición del filtro malformada para la hoja"
 
 #: ../src/xml-sax-read.c:2401
 #, c-format
