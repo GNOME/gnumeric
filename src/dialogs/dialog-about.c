@@ -52,6 +52,8 @@ typedef enum {
 	GNM_ART			= 1 << 10,
 	GNM_PACKAGING		= 1 << 11
 } ContribTypes;
+
+#if 0
 #define GNM_ABOUT_NUM_TYPES	       12
 static char const * const about_types[GNM_ABOUT_NUM_TYPES] = {
 	N_("Core"),
@@ -67,6 +69,7 @@ static char const * const about_types[GNM_ABOUT_NUM_TYPES] = {
 	N_("Art"),
 	N_("Packaging")
 };
+#endif
 
 static struct {
 	char const *name;
@@ -521,7 +524,7 @@ create_animation (AboutState *state)
 
 	OVERLAP (2000);
 
-	r = make_text_item (state, _("https://bugzilla.gnome.org/"), 3000);
+	r = make_text_item (state, PACKAGE_BUGREPORT, 3000);
 	set_text_motion (r, 0.5, 0.9, 0.5, 0.1);
 	APPENDR (r);
 
