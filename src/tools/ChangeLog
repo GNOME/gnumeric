@@ -1,3 +1,7 @@
+2018-08-09  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.42
+
 2018-05-14  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_factory_finalize): Renamed from

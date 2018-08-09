@@ -1,3 +1,7 @@
+2018-08-09  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.42
+
 2018-07-12  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (gnm_style_get_cond_style): Update the cached
