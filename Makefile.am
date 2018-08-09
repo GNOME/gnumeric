@@ -33,7 +33,6 @@ EXTRA_DIST = \
 	intltool-merge.in	\
 	intltool-update.in	\
 	libspreadsheet.pc.in	\
-	omf.make		\
 	$(DIST_SAMPLES)
 
 pkgconfigdir = $(libdir)/pkgconfig
