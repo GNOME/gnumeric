@@ -1,6 +1,3 @@
- * $Id$
- */
-
 /*
  * boot.c : Installation and bootstraping routines to
  *          register the psiconv plugin.
