@@ -16,6 +16,8 @@ INTROSPECTION_COMPILER_ARGS = \
 	--includedir=. \
 	--includedir="${INTROSPECTION_GIRDIR}"
 
+libspreadsheet_includedir = $(includedir)/libspreadsheet-@GNUMERIC_API_VER@/spreadsheet
+
 EXTRA_DIST =
 
 lib_LTLIBRARIES = libspreadsheet.la
@@ -202,6 +204,7 @@ dialogs_sources = 						\
 	dialogs/dialog-zoom.c					\
 	dialogs/dialog-printer-setup.c
 
+# Not installed
 dialogs_headers = \
 	dialogs/help.h						\
 	dialogs/dao-gui-utils.h					\
@@ -211,7 +214,7 @@ dialogs_headers = \
 	dialogs/dialogs.h					\
 	dialogs/tool-dialogs.h
 
-widgets_sources = \
+widgets_SOURCES = \
 	widgets/gnm-dao.c				\
 	widgets/gnm-fontbutton.c			\
 	widgets/gnm-format-sel.c			\
@@ -231,7 +234,8 @@ widgets_sources = \
 	widgets/gnm-expr-entry.c			\
 	widgets/gnm-text-view.c
 
-widgets_headers = \
+widgetsdir = $(libspreadsheet_includedir)/widgets
+widgets_HEADERS = \
 	widgets/gnm-dao.h				\
 	widgets/gnm-fontbutton.h			\
 	widgets/gnm-format-sel.h			\
@@ -252,7 +256,7 @@ widgets_headers = \
 	widgets/gnm-expr-entry.h			\
 	widgets/gnm-text-view.h
 
-tools_sources =	\
+tools_SOURCES =	\
 	tools/analysis-anova.c			\
 	tools/analysis-auto-expression.c	\
 	tools/analysis-chi-squared.c		\
@@ -280,7 +284,8 @@ tools_sources =	\
 	tools/simulation.c			\
 	tools/tabulate.c
 
-tools_headers = \
+toolsdir = $(libspreadsheet_includedir)/tools
+tools_HEADERS = \
 	tools/analysis-anova.h			\
 	tools/analysis-auto-expression.h	\
 	tools/analysis-chi-squared.h		\
@@ -479,12 +484,12 @@ libspreadsheet_la_SOURCES =		\
 	xml-sax-read.c				\
 	xml-sax-write.c				\
 	$(dialogs_sources)			\
-	$(tools_sources)
+	$(tools_SOURCES)
 
 if WITH_GTK
-  libspreadsheet_la_SOURCES += $(widgets_sources)
+  libspreadsheet_la_SOURCES += $(widgets_SOURCES)
 else
-  EXTRA_DIST += $(widgets_sources)
+  EXTRA_DIST += $(widgets_SOURCES)
 endif
 
 nodist_libspreadsheet_la_SOURCES = gnmresources.c gnmresources.h
@@ -492,7 +497,6 @@ nodist_libspreadsheet_la_SOURCES = gnmresources.c gnmresources.h
 # When we switch to subversion fix this to nest as
 # libspreadsheet-ver/spreadsheet/header
 # doing it now would require massive cvs surgery.
-libspreadsheet_includedir = $(includedir)/libspreadsheet-@GNUMERIC_API_VER@/spreadsheet
 libspreadsheet_include_HEADERS =		\
 	application.h				\
 	auto-format.h				\
@@ -625,9 +629,7 @@ libspreadsheet_include_HEADERS =		\
 	workbook-view.h				\
 	workbook.h				\
 	xml-io-version.h			\
-	xml-sax.h				\
-	$(tools_headers)			\
-	$(widgets_headers)
+	xml-sax.h
 
 gnumeric_SOURCES =				\
 	io-context-gtk.c			\
