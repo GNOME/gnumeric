@@ -14,17 +14,17 @@
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Nicolás Satragno <nsatragno@gnome.org>, 2012.
 # Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012, 2013, 2014.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2018.
 # Joaquín Rosales <globojorro@gmail.com>, 2018.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2018-08-06 07:48+0000\n"
-"PO-Revision-Date: 2018-08-06 12:10-0500\n"
-"Last-Translator: Joaquín Rosales <globojorro@gmail.com>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2018-08-19 18:48+0000\n"
+"PO-Revision-Date: 2018-08-21 09:51+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4593,440 +4593,435 @@ msgid ""
 "Gnumeric comes with absolutely no warranty."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:57
+#: ../src/dialogs/dialog-about.c:59
 msgid "Core"
 msgstr "Núcleo"
 
-#: ../src/dialogs/dialog-about.c:58
+#: ../src/dialogs/dialog-about.c:60
 msgid "Features"
 msgstr "Características"
 
-#: ../src/dialogs/dialog-about.c:59
+#: ../src/dialogs/dialog-about.c:61
 msgid "Analytics"
 msgstr "Analíticos"
 
-#: ../src/dialogs/dialog-about.c:60
+#: ../src/dialogs/dialog-about.c:62
 msgid "Import Export"
 msgstr "Importar exportar"
 
-#: ../src/dialogs/dialog-about.c:61
+#: ../src/dialogs/dialog-about.c:63
 msgid "Scripting"
 msgstr "Scripting"
 
-#: ../src/dialogs/dialog-about.c:62
+#: ../src/dialogs/dialog-about.c:64
 msgid "UI"
 msgstr "IU"
 
-#: ../src/dialogs/dialog-about.c:63
+#: ../src/dialogs/dialog-about.c:65
 msgid "Usability"
 msgstr "Usabilidad"
 
-#: ../src/dialogs/dialog-about.c:64
+#: ../src/dialogs/dialog-about.c:66
 msgid "Documentation"
 msgstr "Documentación"
 
-#: ../src/dialogs/dialog-about.c:65
+#: ../src/dialogs/dialog-about.c:67
 msgid "Translation"
 msgstr "Traducción"
 
-#: ../src/dialogs/dialog-about.c:66
+#: ../src/dialogs/dialog-about.c:68
 msgid "QA"
 msgstr "QA"
 
-#: ../src/dialogs/dialog-about.c:67
+#: ../src/dialogs/dialog-about.c:69
 msgid "Art"
 msgstr "Arte"
 
-#: ../src/dialogs/dialog-about.c:68
+#: ../src/dialogs/dialog-about.c:70
 msgid "Packaging"
 msgstr "Empaquetado"
 
-#: ../src/dialogs/dialog-about.c:76
+#: ../src/dialogs/dialog-about.c:79
 msgid "Harald Ashburner"
 msgstr "Harald Ashburner"
 
-#: ../src/dialogs/dialog-about.c:77
+#: ../src/dialogs/dialog-about.c:80
 msgid "Options pricers"
 msgstr "Algoritmos de opciones"
 
-#: ../src/dialogs/dialog-about.c:78
+#: ../src/dialogs/dialog-about.c:81
 msgid "Sean Atkinson"
 msgstr "Sean Atkinson"
 
-#: ../src/dialogs/dialog-about.c:79
+#: ../src/dialogs/dialog-about.c:82
 msgid "Functions and X-Base importing."
 msgstr "Funciones e importación X-Base."
 
-#: ../src/dialogs/dialog-about.c:80
+#: ../src/dialogs/dialog-about.c:83
 msgid "Michel Berkelaar"
 msgstr "Michel Berkelaar"
 
-#: ../src/dialogs/dialog-about.c:81 ../src/dialogs/dialog-about.c:95
+#: ../src/dialogs/dialog-about.c:84 ../src/dialogs/dialog-about.c:98
 msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Algoritmo símplex para resolutor (LP Solve)."
 
-#: ../src/dialogs/dialog-about.c:82
+#: ../src/dialogs/dialog-about.c:85
 msgid "Jean Bréfort"
 msgstr "Jean Bréfort"
 
-#: ../src/dialogs/dialog-about.c:83
+#: ../src/dialogs/dialog-about.c:86
 msgid "Core charting engine."
 msgstr "Núcleo de motor de gráficos."
 
-#: ../src/dialogs/dialog-about.c:84
+#: ../src/dialogs/dialog-about.c:87
 msgid "Grandma Chema Celorio"
 msgstr "Grandma Chema Celorio"
 
-#: ../src/dialogs/dialog-about.c:85
+#: ../src/dialogs/dialog-about.c:88
 msgid "Quality Assurance and sheet copy."
 msgstr "Aseguramiento de calidad y copia de hoja."
 
-#: ../src/dialogs/dialog-about.c:86
+#: ../src/dialogs/dialog-about.c:89
 msgid "Frank Chiulli"
 msgstr "Frank Chiulli"
 
-#: ../src/dialogs/dialog-about.c:87
+#: ../src/dialogs/dialog-about.c:90
 msgid "OLE2 support."
 msgstr "Soporte OLE2."
 
-#: ../src/dialogs/dialog-about.c:88
+#: ../src/dialogs/dialog-about.c:91
 msgid "Kenneth Christiansen"
 msgstr "Kenneth Christiansen"
 
-#: ../src/dialogs/dialog-about.c:89
+#: ../src/dialogs/dialog-about.c:92
 msgid "Localization."
 msgstr "Localización."
 
-#: ../src/dialogs/dialog-about.c:90
+#: ../src/dialogs/dialog-about.c:93
 msgid "Zbigniew Chyla"
 msgstr "Zbigniew Chyla"
 
-#: ../src/dialogs/dialog-about.c:91
+#: ../src/dialogs/dialog-about.c:94
 msgid "Plugin system, localization."
 msgstr "Sistema de complementos, localización."
 
-#: ../src/dialogs/dialog-about.c:92
+#: ../src/dialogs/dialog-about.c:95
 msgid "J.H.M. Dassen (Ray)"
 msgstr "J.H.M. Dassen (Ray)"
 
-#: ../src/dialogs/dialog-about.c:93
+#: ../src/dialogs/dialog-about.c:96
 msgid "Debian packaging."
 msgstr "Empaquetado de Debian."
 
-#: ../src/dialogs/dialog-about.c:94
+#: ../src/dialogs/dialog-about.c:97
 msgid "Jeroen Dirks"
 msgstr "Jeroen Dirks"
 
-#: ../src/dialogs/dialog-about.c:96
+#: ../src/dialogs/dialog-about.c:99
 msgid "Tom Dyas"
 msgstr "Tom Dyas"
 
-#: ../src/dialogs/dialog-about.c:97
+#: ../src/dialogs/dialog-about.c:100
 msgid "Original plugin engine."
 msgstr "Motor de complemento original."
 
-#: ../src/dialogs/dialog-about.c:98
+#: ../src/dialogs/dialog-about.c:101
 msgid "Kjell Eikland"
 msgstr "Kjell Eikland"
 
-#: ../src/dialogs/dialog-about.c:99 ../src/dialogs/dialog-about.c:127
+#: ../src/dialogs/dialog-about.c:102 ../src/dialogs/dialog-about.c:130
 msgid "LP-solve"
 msgstr "LP-solve"
 
-#: ../src/dialogs/dialog-about.c:100
+#: ../src/dialogs/dialog-about.c:103
 msgid "Gergo Erdi"
 msgstr "Gergo Erdi"
 
-#: ../src/dialogs/dialog-about.c:101
+#: ../src/dialogs/dialog-about.c:104
 msgid "Custom UI tools"
 msgstr "Herramientas personalizadas de IU"
 
-#: ../src/dialogs/dialog-about.c:102
+#: ../src/dialogs/dialog-about.c:105
 msgid "Jody Goldberg"
 msgstr "Jody Goldberg"
 
-#: ../src/dialogs/dialog-about.c:103
+#: ../src/dialogs/dialog-about.c:106
 msgid "John Gotts"
 msgstr "John Gotts"
 
-#: ../src/dialogs/dialog-about.c:104
+#: ../src/dialogs/dialog-about.c:107
 msgid "RPM packaging"
 msgstr "Empaquetado RPM"
 
-#: ../src/dialogs/dialog-about.c:105
+#: ../src/dialogs/dialog-about.c:108
 msgid "Andreas J. Gülzow"
 msgstr "Andreas J. Gülzow"
 
-#: ../src/dialogs/dialog-about.c:106
+#: ../src/dialogs/dialog-about.c:109
 msgid "Statistics and GUI master"
 msgstr "Estadísticas y patrón GUI"
 
-#: ../src/dialogs/dialog-about.c:107
+#: ../src/dialogs/dialog-about.c:110
 msgid "Jon Kåre Hellan"
 msgstr "Jon Kåre Hellan"
 
-#: ../src/dialogs/dialog-about.c:108
+#: ../src/dialogs/dialog-about.c:111
 msgid "UI polish and all round bug fixer"
 msgstr "Pulido del IU y errores arreglados"
 
-#: ../src/dialogs/dialog-about.c:109
+#: ../src/dialogs/dialog-about.c:112
 msgid "Miguel de Icaza"
 msgstr "Miguel de Icaza"
 
-#: ../src/dialogs/dialog-about.c:110
+#: ../src/dialogs/dialog-about.c:113
 msgid "Ross Ihaka"
 msgstr "Ross Ihaka"
 
-#: ../src/dialogs/dialog-about.c:111
+#: ../src/dialogs/dialog-about.c:114
 msgid "Special functions"
 msgstr "Funciones especiales"
 
-#: ../src/dialogs/dialog-about.c:112
+#: ../src/dialogs/dialog-about.c:115
 msgid "Jukka-Pekka Iivonen"
 msgstr "Jukka-Pekka Iivonen"
 
-#: ../src/dialogs/dialog-about.c:113
+#: ../src/dialogs/dialog-about.c:116
 msgid "Solver, lots of worksheet functions, and general trailblazer"
 msgstr "Resolutor, muchas funciones de hoja de trabajo, y pionero general"
 
-#: ../src/dialogs/dialog-about.c:114
+#: ../src/dialogs/dialog-about.c:117
 msgid "Jakub Jelínek"
 msgstr "Jakub Jelínek"
 
-#: ../src/dialogs/dialog-about.c:115
+#: ../src/dialogs/dialog-about.c:118
 msgid "One of the original core contributors"
 msgstr "Uno de los contribuidores principales originales"
 
-#: ../src/dialogs/dialog-about.c:116
+#: ../src/dialogs/dialog-about.c:119
 msgid "Chris Lahey"
 msgstr "Chris Lahey"
 
-#: ../src/dialogs/dialog-about.c:117
+#: ../src/dialogs/dialog-about.c:120
 msgid "The original value format engine and libgoffice work"
 msgstr "El motor del formato numérico original y trabajo con libgoffice"
 
-#: ../src/dialogs/dialog-about.c:118
+#: ../src/dialogs/dialog-about.c:121
 msgid "Takashi Matsuda"
 msgstr "Takashi Matsuda"
 
-#: ../src/dialogs/dialog-about.c:119
+#: ../src/dialogs/dialog-about.c:122
 msgid "The original text plugin"
 msgstr "El complemento original para texto"
 
-#: ../src/dialogs/dialog-about.c:120
+#: ../src/dialogs/dialog-about.c:123
 msgid "Michael Meeks"
 msgstr "Michael Meeks"
 
-#: ../src/dialogs/dialog-about.c:121
+#: ../src/dialogs/dialog-about.c:124
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
 msgstr "Inició el motor de importación/exportación de MS Excel, y «GnmStyle»"
 
-#: ../src/dialogs/dialog-about.c:122
+#: ../src/dialogs/dialog-about.c:125
 msgid "Lutz Muller"
 msgstr "Lutz Muller"
 
-#: ../src/dialogs/dialog-about.c:123
+#: ../src/dialogs/dialog-about.c:126
 msgid "SheetObject improvement"
 msgstr "Mejora de SheetObject"
 
-#: ../src/dialogs/dialog-about.c:124
+#: ../src/dialogs/dialog-about.c:127
 msgid "Yukihiro Nakai"
 msgstr "Yukihiro Nakai"
 
-#: ../src/dialogs/dialog-about.c:125
+#: ../src/dialogs/dialog-about.c:128
 msgid "Support for non-Latin languages"
 msgstr "Soporte para idiomas no latinos"
 
-#: ../src/dialogs/dialog-about.c:126
+#: ../src/dialogs/dialog-about.c:129
 msgid "Peter Notebaert"
 msgstr "Peter Notebaert"
 
-#: ../src/dialogs/dialog-about.c:128
+#: ../src/dialogs/dialog-about.c:131
 msgid "Emmanuel Pacaud"
 msgstr "Emmanuel Pacaud"
 
-#: ../src/dialogs/dialog-about.c:129
+#: ../src/dialogs/dialog-about.c:132
 msgid "Many plot types for charting engine."
 msgstr "Muchos tipos de dibujos para el motor de gráficos."
 
-#: ../src/dialogs/dialog-about.c:130
+#: ../src/dialogs/dialog-about.c:133
 msgid "Federico M. Quintero"
 msgstr "Federico M. Quintero"
 
-#: ../src/dialogs/dialog-about.c:131
+#: ../src/dialogs/dialog-about.c:134
 msgid "canvas support"
 msgstr "soporte del lienzo"
 
-#: ../src/dialogs/dialog-about.c:132
+#: ../src/dialogs/dialog-about.c:135
 msgid "Mark Probst"
 msgstr "Mark Probst"
 
-#: ../src/dialogs/dialog-about.c:133 ../src/dialogs/dialog-about.c:139
+#: ../src/dialogs/dialog-about.c:136 ../src/dialogs/dialog-about.c:142
 msgid "Guile support"
 msgstr "Soporte Guile"
 
-#: ../src/dialogs/dialog-about.c:134
+#: ../src/dialogs/dialog-about.c:137
 msgid "Rasca"
 msgstr "Rasca"
 
-#: ../src/dialogs/dialog-about.c:135
+#: ../src/dialogs/dialog-about.c:138
 msgid "HTML, troff, LaTeX exporters"
 msgstr "Exportadores HTML, troff y LaTeX"
 
-#: ../src/dialogs/dialog-about.c:136
+#: ../src/dialogs/dialog-about.c:139
 msgid "Vincent Renardias"
 msgstr "Vincent Renardias"
 
-#: ../src/dialogs/dialog-about.c:137
+#: ../src/dialogs/dialog-about.c:140
 msgid "original CSV support, French localization"
 msgstr "Soporte CSV original y traducción al francés"
 
-#: ../src/dialogs/dialog-about.c:138
+#: ../src/dialogs/dialog-about.c:141
 msgid "Ariel Rios"
 msgstr "Ariel Rios"
 
-#: ../src/dialogs/dialog-about.c:140
+#: ../src/dialogs/dialog-about.c:143
 msgid "Jakub Steiner"
 msgstr "Jakub Steiner"
 
-#: ../src/dialogs/dialog-about.c:141
+#: ../src/dialogs/dialog-about.c:144
 msgid "Icons and Images"
 msgstr "Iconos e imágenes"
 
-#: ../src/dialogs/dialog-about.c:142
+#: ../src/dialogs/dialog-about.c:145
 msgid "Uwe Steinmann"
 msgstr "Uwe Steinmann"
 
-#: ../src/dialogs/dialog-about.c:143
+#: ../src/dialogs/dialog-about.c:146
 msgid "Paradox Importer"
 msgstr "Importador Paradox"
 
-#: ../src/dialogs/dialog-about.c:144
+#: ../src/dialogs/dialog-about.c:147
 msgid "Arturo Tena"
 msgstr "Arturo Tena"
 
-#: ../src/dialogs/dialog-about.c:145
+#: ../src/dialogs/dialog-about.c:148
 msgid "Initial work on OLE2 for libgsf"
 msgstr "Trabajo inicial en OLE2 para libgsf"
 
-#: ../src/dialogs/dialog-about.c:146
+#: ../src/dialogs/dialog-about.c:149
 msgid "Almer S. Tigelaar"
 msgstr "Almer S. Tigelaar"
 
-#: ../src/dialogs/dialog-about.c:147
+#: ../src/dialogs/dialog-about.c:150
 msgid "Consolidation and Structured Text importer"
 msgstr "Consolidación e importador de texto estructurado"
 
-#: ../src/dialogs/dialog-about.c:148
+#: ../src/dialogs/dialog-about.c:151
 msgid "Bruno Unna"
 msgstr "Bruno Unna"
 
-#: ../src/dialogs/dialog-about.c:149
+#: ../src/dialogs/dialog-about.c:152
 msgid "Pieces of MS Excel import"
 msgstr "Partes del importador de MS Excel"
 
-#: ../src/dialogs/dialog-about.c:150
+#: ../src/dialogs/dialog-about.c:153
 msgid "Arief Mulya Utama"
 msgstr "Arief Mulya Utama"
 
-#: ../src/dialogs/dialog-about.c:151
+#: ../src/dialogs/dialog-about.c:154
 msgid "Telecommunications functions"
 msgstr "Funciones de telecomunicación"
 
-#: ../src/dialogs/dialog-about.c:152
+#: ../src/dialogs/dialog-about.c:155
 msgid "Daniel Veillard"
 msgstr "Daniel Veillard"
 
-#: ../src/dialogs/dialog-about.c:153
+#: ../src/dialogs/dialog-about.c:156
 msgid "Initial XML support"
 msgstr "Soporte XML inicial"
 
-#: ../src/dialogs/dialog-about.c:154
+#: ../src/dialogs/dialog-about.c:157
 msgid "Vladimir Vuksan"
 msgstr "Vladimir Vuksan"
 
-#: ../src/dialogs/dialog-about.c:155
+#: ../src/dialogs/dialog-about.c:158
 msgid "Some financial functions"
 msgstr "Algunas funciones financieras"
 
-#: ../src/dialogs/dialog-about.c:156
+#: ../src/dialogs/dialog-about.c:159
 msgid "Morten Welinder"
 msgstr "Morten Welinder"
 
-#: ../src/dialogs/dialog-about.c:157
+#: ../src/dialogs/dialog-about.c:160
 msgid "All round powerhouse"
 msgstr "Todos los redondeos"
 
-#: ../src/dialogs/dialog-about.c:158
+#: ../src/dialogs/dialog-about.c:161
 msgid "Kevin Breit"
 msgstr "Kevin Breit"
 
-#: ../src/dialogs/dialog-about.c:159
+#: ../src/dialogs/dialog-about.c:162
 msgid "Thomas Canty"
 msgstr "Thomas Canty"
 
-#: ../src/dialogs/dialog-about.c:160
+#: ../src/dialogs/dialog-about.c:163
 msgid "Adrian Custer"
 msgstr "Adrian Custer"
 
-#: ../src/dialogs/dialog-about.c:161
+#: ../src/dialogs/dialog-about.c:164
 msgid "Adrian Likins"
 msgstr "Adrian Likins"
 
-#: ../src/dialogs/dialog-about.c:162
+#: ../src/dialogs/dialog-about.c:165
 msgid "Aaron Weber"
 msgstr "Aaron Weber"
 
-#: ../src/dialogs/dialog-about.c:163
+#: ../src/dialogs/dialog-about.c:166
 msgid "Alexander Kirillov"
 msgstr "Alexander Kirillov"
 
-#: ../src/dialogs/dialog-about.c:444
+#: ../src/dialogs/dialog-about.c:447
 msgid "Gnumeric is the result of"
 msgstr "Gnumeric es el resultado de"
 
-#: ../src/dialogs/dialog-about.c:450
+#: ../src/dialogs/dialog-about.c:453
 msgid "the efforts of many people."
 msgstr "los esfuerzos de mucha gente."
 
-#: ../src/dialogs/dialog-about.c:456
+#: ../src/dialogs/dialog-about.c:459
 msgid "Your help is much appreciated!"
 msgstr "Su ayuda es bienvenida"
 
-#: ../src/dialogs/dialog-about.c:504
+#: ../src/dialogs/dialog-about.c:507
 msgid "We apologize if anyone was left out."
 msgstr "Disculpe si alguien se quedó fuera."
 
-#: ../src/dialogs/dialog-about.c:511
+#: ../src/dialogs/dialog-about.c:514
 msgid "Please contact us to correct mistakes."
 msgstr "Contacte con nosotros para corregir errores."
 
-#: ../src/dialogs/dialog-about.c:518
+#: ../src/dialogs/dialog-about.c:521
 msgid "Report problems at"
 msgstr "Informar de errores en"
 
-#: ../src/dialogs/dialog-about.c:524
-#| msgid "Report problems at http://bugzilla.gnome.org"
-msgid "https://bugzilla.gnome.org/"
-msgstr "https://bugzilla.gnome.org"
-
-#: ../src/dialogs/dialog-about.c:528 ../src/dialogs/dialog-about.c:534
+#: ../src/dialogs/dialog-about.c:531 ../src/dialogs/dialog-about.c:537
 msgid "We aim to please!"
 msgstr "Nuestro objetivo es agradarle"
 
-#: ../src/dialogs/dialog-about.c:584
+#: ../src/dialogs/dialog-about.c:587
 msgid "About Gnumeric"
 msgstr "Acerca de Gnumeric"
 
-#: ../src/dialogs/dialog-about.c:587
+#: ../src/dialogs/dialog-about.c:590
 msgid "Visit the Gnumeric website"
 msgstr "Ir al sitio web de Gnumeric"
 
-#: ../src/dialogs/dialog-about.c:589
+#: ../src/dialogs/dialog-about.c:592
 msgid "Copyright © 1998-2018"
 msgstr "Copyright © 1998-2018"
 
-#: ../src/dialogs/dialog-about.c:590
+#: ../src/dialogs/dialog-about.c:593
 msgid "Free, Fast, Accurate - Pick Any Three!"
 msgstr "Libre, rápido, exacto: escoja cualquiera de las tres"
 
@@ -7336,12 +7331,10 @@ msgid "Format"
 msgstr "Formato"
 
 #: ../src/dialogs/dialog-sheet-compare.c:216
-#| msgid "Vertical Alignment"
 msgid "Vertical alignment"
 msgstr "Alineación vertical"
 
 #: ../src/dialogs/dialog-sheet-compare.c:217
-#| msgid "Horizontal Alignment"
 msgid "Horizontal alignment"
 msgstr "Alineación horizontal"
 
@@ -7364,7 +7357,6 @@ msgid "Wrap"
 msgstr "Ajustar ORDENACIÓN"
 
 #: ../src/dialogs/dialog-sheet-compare.c:222
-#| msgid "Shrin_k to fit"
 msgid "Shrink-to-fit"
 msgstr "Encoger hasta ajustar"
 
@@ -7384,7 +7376,6 @@ msgid "Validation"
 msgstr "Validación"
 
 #: ../src/dialogs/dialog-sheet-compare.c:228
-#| msgid "_Hyperlinks"
 msgid "Hyperlink"
 msgstr "Hiperenlace"
 
@@ -7401,7 +7392,6 @@ msgid "Conditional format"
 msgstr "Limpiar formato condicional"
 
 #: ../src/dialogs/dialog-sheet-compare.c:255
-#| msgid "_Cells"
 msgid "Cells"
 msgstr "Celdas"
 
@@ -7412,8 +7402,6 @@ msgid "Formatting"
 msgstr "Formato"
 
 #: ../src/dialogs/dialog-sheet-compare.c:257
-#| msgctxt "import"
-#| msgid "Columns"
 msgid "Columns/Rows"
 msgstr "Columnas/Filas"
 
@@ -10702,7 +10690,6 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:36
-#| msgid "<b>Location</b>"
 msgid "<b>Options</b>"
 msgstr "<b>Opciones</b>"
 
@@ -12390,7 +12377,7 @@ msgstr "GNUMERIC_VERSION devuelve la versión de gnumeric como una cadena."
 
 #: ../src/func-builtin.c:152
 msgid "TABLE:internal function for data tables"
-msgstr ""
+msgstr "TABLE:función interna para tablas de datos"
 
 #: ../src/func-builtin.c:153
 msgid "This function should not be called directly."
@@ -12524,10 +12511,8 @@ msgid "Function group is empty."
 msgstr "El grupo de la función está vacío."
 
 #: ../src/gnm-plugin.c:174
-#, fuzzy
-#| msgid "No func_desc_load method.\n"
 msgid "No load_stub method.\n"
-msgstr "Sin método func_desc_load.\n"
+msgstr "Sin método load_stub.\n"
 
 #: ../src/gnm-plugin.c:281
 #, c-format
@@ -12674,7 +12659,7 @@ msgstr ""
 
 #: ../src/gui-file.c:769
 msgid "%F %T"
-msgstr ""
+msgstr "%F %T"
 
 #: ../src/gui-file.c:777
 #, c-format
@@ -12687,6 +12672,13 @@ msgid ""
 "\n"
 "Last modified: <b>%s</b>\n"
 msgstr ""
+"El archivo que va a guardar se ha modificado en el disco. Si quiere "
+"continuar, debe sobrescribir cambios de alguien más.\n"
+"\n"
+"Archivo: <b>%s</b>\n"
+"Ubicación: %s\n"
+"\n"
+"Última modificación: <b>%s</b>\n"
 
 #: ../src/gui-file.c:783
 msgid "Overwrite"
@@ -12766,16 +12758,14 @@ msgid "_OK"
 msgstr "_Aceptar"
 
 #: ../src/gutils.c:961
-#, fuzzy, c-format
-#| msgid "Unknown sheet '%s'"
+#, c-format
 msgid "Unknown sheet \"%s\""
-msgstr "Hoja «%s» desconocida"
+msgstr "Hoja desconocida «%s»"
 
 #: ../src/gutils.c:981
-#, fuzzy, c-format
-#| msgid "Invalid cell position '%s' for attribute %s"
+#, c-format
 msgid "Invalid export option \"%s\" for format %s"
-msgstr "Posición de celda «%s» no válida para el atributo %s"
+msgstr "Opción de exportar no válida «%s» para el formato %s"
 
 #: ../src/hlink.c:289
 msgid "Link target"
@@ -13777,10 +13767,8 @@ msgid "Resize to given ROWSxCOLS"
 msgstr "Redimensionar a las FILSxCOLS dadas"
 
 #: ../src/ssconvert.c:166
-#, fuzzy
-#| msgid "Paste the clipboard"
 msgid "Output via the clipboard"
-msgstr "Pegar el contenido del portapapeles"
+msgstr "Salida mediante el portapapeles"
 
 #: ../src/ssconvert.c:173
 msgid "The range to export"
@@ -13808,6 +13796,8 @@ msgid ""
 "Selected exporter (%s) does not have the ability to split a workbook into "
 "sheets.\n"
 msgstr ""
+"El exportador seleccionado (%s) no tiene la habilidad de separar un cuaderno "
+"de trabajo en hojas.\n"
 
 #: ../src/ssconvert.c:314
 #, c-format
@@ -13815,16 +13805,14 @@ msgid ""
 "Selected exporter (%s) does not have the ability to export a subset of "
 "sheets.\n"
 msgstr ""
+"El exportador seleccionado (%s) no tiene la habilidad de exportar un "
+"subconjunto de hojas.\n"
 
 #: ../src/ssconvert.c:321
-#, fuzzy, c-format
-#| msgid ""
-#| "Export a file for each sheet if the exporter only supports one sheet at a "
-#| "time"
+#, c-format
 msgid "Selected exporter (%s) can only export one sheet at a time.\n"
 msgstr ""
-"Exportar un archivo para cada hoja si el exportador sólo soporta una hoja a "
-"la vez."
+"El exportador seleccionado (%s) sólo puede exportar una hoja a la vez.\n"
 
 #. FIXME: && nexpr2-is-not-the-same-as-nexpr
 #: ../src/ssconvert.c:489
@@ -13835,11 +13823,9 @@ msgstr ""
 "ámbito del libro de trabajo.\n"
 
 #: ../src/ssconvert.c:568
-#, fuzzy, c-format
-#| msgid "Adding sheet"
-#| msgid_plural "Adding %d sheets"
+#, c-format
 msgid "Adding sheets from %s\n"
-msgstr "Añadiendo hoja"
+msgstr "Añadiendo hojas desde %s\n"
 
 #: ../src/ssconvert.c:650
 #, c-format
@@ -13880,10 +13866,9 @@ msgstr ""
 "Pruebe --list-exporters para ver una lista de posibilidades.\n"
 
 #: ../src/ssconvert.c:889
-#, fuzzy, c-format
-#| msgid "Missing expression"
+#, c-format
 msgid "Using exporter %s\n"
-msgstr "Falta la expresión"
+msgstr "Usando exportador %s\n"
 
 #: ../src/ssconvert.c:895
 #, c-format
@@ -13910,16 +13895,14 @@ msgid "Loading %s failed\n"
 msgstr "Falló al cargar %s\n"
 
 #: ../src/ssconvert.c:980
-#, fuzzy, c-format
-#| msgid "Resizing sheet"
+#, c-format
 msgid "Resizing to %dx%d\n"
-msgstr "Redimensionando hoja"
+msgstr "Redimensionando a %dx%d\n"
 
 #: ../src/ssconvert.c:992
-#, fuzzy, c-format
-#| msgid "Resizing sheet"
+#, c-format
 msgid "Resizing of sheet %s failed\n"
-msgstr "Redimensionando hoja"
+msgstr "Falló el redimensionado de la hoja %s\n"
 
 #: ../src/ssconvert.c:1141 ../src/ssconvert.c:1209
 msgid "INFILE [OUTFILE]"
@@ -13939,7 +13922,7 @@ msgstr ""
 #: ../src/ssconvert.c:1166
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
-msgstr ""
+msgstr "--export-file-per-sheet y --merge-to son incompatibles\n"
 
 #: ../src/ssconvert.c:1207 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
@@ -13988,16 +13971,14 @@ msgid "Sheet attribute %s changed.\n"
 msgstr "Atributo de la hoja %s cambiado.\n"
 
 #: ../src/ssdiff.c:203
-#, fuzzy, c-format
-#| msgid "Cell %s changed.\n"
+#, c-format
 msgid "Column %s changed.\n"
-msgstr "Celda %s cambiada.\n"
+msgstr "Columna %s cambiada.\n"
 
 #: ../src/ssdiff.c:206
-#, fuzzy, c-format
-#| msgid "Cell %s changed.\n"
+#, c-format
 msgid "Row %d changed.\n"
-msgstr "Celda %s cambiada.\n"
+msgstr "Fila %d cambiada.\n"
 
 #: ../src/ssdiff.c:215
 #, c-format
@@ -14020,22 +14001,19 @@ msgid "Style of %s was changed.\n"
 msgstr "Se cambió el estilo de %s.\n"
 
 #: ../src/ssdiff.c:240
-#, fuzzy, c-format
-#| msgid "Cell %s changed.\n"
+#, c-format
 msgid "Name %s changed.\n"
-msgstr "Celda %s cambiada.\n"
+msgstr "Nombre %s cambiado.\n"
 
 #: ../src/ssdiff.c:242
-#, fuzzy, c-format
-#| msgid "Cell %s removed.\n"
+#, c-format
 msgid "Name %s removed.\n"
-msgstr "Celda %s quitada.\n"
+msgstr "Nombre %s quitado.\n"
 
 #: ../src/ssdiff.c:244
-#, fuzzy, c-format
-#| msgid "Cell %s added.\n"
+#, c-format
 msgid "Name %s added.\n"
-msgstr "Celda %s añadida.\n"
+msgstr "Nombre %s añadido.\n"
 
 #: ../src/ssdiff.c:771
 #, c-format
@@ -14250,21 +14228,18 @@ msgid "Error while trying to parse data into sheet"
 msgstr "Error al analizar los datos en la hoja"
 
 #: ../src/stf.c:361
-#, fuzzy, c-format
-#| msgid "The file contains %d NULL character. It has been changed to a space."
-#| msgid_plural ""
-#| "The file contains %d NULL characters. They have been changed to spaces."
+#, c-format
 msgid "The file contains %d NUL character. It has been changed to a space."
 msgid_plural ""
 "The file contains %d NUL characters. They have been changed to spaces."
-msgstr[0] "El archivo contiene %d caracter NULL. Se cambió a un espacio."
-msgstr[1] "El archivo contiene %d caracteres NULL. Se cambiaron a espacios."
+msgstr[0] "El archivo contiene %d caracter NUL. Se cambió a un espacio."
+msgstr[1] "El archivo contiene %d caracteres NUL. Se cambiaron a espacios."
 
 #: ../src/stf.c:373
-#, fuzzy
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
-msgstr "El archivo contiene %d caracter NULL. Se cambió a un espacio."
+msgstr ""
+"El archivo contiene caracteres no válidos codificados UTF-8 y se ha truncado"
 
 #: ../src/stf.c:419
 msgid "That file is not in the given encoding."
@@ -15302,6 +15277,8 @@ msgid ""
 "Shadow\n"
 "Price"
 msgstr ""
+"Precio\n"
+"Sombra"
 
 #: ../src/tools/gnm-solver.c:1881
 msgid ""
@@ -15336,6 +15313,7 @@ msgstr "La celda objetivo no evaluó a un número."
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr ""
+"La celda objetivo parece no depender linealmente de las celdas de entrada."
 
 #: ../src/tools/gnm-solver.c:3150
 #, c-format
@@ -16427,7 +16405,7 @@ msgstr "Saltar a una celda especificada"
 
 #: ../src/wbc-gtk-actions.c:2563 ../src/wbc-gtk-actions.c:2565
 msgid "Go to Current Cell Indicator"
-msgstr ""
+msgstr "Ir al indicador de la celda actual"
 
 #: ../src/wbc-gtk-actions.c:2571
 msgid "Repeat"
@@ -16791,10 +16769,8 @@ msgid "Compare Sheets..."
 msgstr "Comparar hojas…"
 
 #: ../src/wbc-gtk-actions.c:2912
-#, fuzzy
-#| msgid "Differences for sheet %s:\n"
 msgid "Find differences between two sheets"
-msgstr "Diferencias para hoja %s:\n"
+msgstr "Encontrar diferencias entre dos hojas"
 
 #: ../src/wbc-gtk-actions.c:2918
 msgid "_View..."
@@ -17719,9 +17695,8 @@ msgid "Align bottom"
 msgstr "Alineación inferior"
 
 #: ../src/wbc-gtk-actions.c:3717
-#, fuzzy
 msgid "Align distributed"
-msgstr "D_istribuido"
+msgstr "Alineación distribuida"
 
 #: ../src/wbc-gtk-actions.c:3740 ../src/wbc-gtk-actions.c:3741
 msgid "Horizontal Alignment"
@@ -18033,22 +18008,16 @@ msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "En el menú «%s», la clave «%s» se usa tanto para «%s» como para «%s»."
 
 #: ../src/wbc-gtk.c:3588
-#, fuzzy
-#| msgid "Display above sheets"
 msgid "Display toolbar above sheets"
-msgstr "Mostrar sobre las hojas"
+msgstr "Mostrar barra de herramientas sobre las hojas"
 
 #: ../src/wbc-gtk.c:3589
-#, fuzzy
-#| msgid "Display to the left of sheets"
 msgid "Display toolbar to the left of sheets"
-msgstr "Mostrar a la izquierda de las hojas"
+msgstr "Mostrar barra de herramientas a la izquierda de las hojas"
 
 #: ../src/wbc-gtk.c:3590
-#, fuzzy
-#| msgid "Display to the right of sheets"
 msgid "Display toolbar to the right of sheets"
-msgstr "Mostrar a la derecha de las hojas"
+msgstr "Mostrar barra de herramientas a la derecha de las hojas"
 
 #: ../src/wbc-gtk.c:3618
 msgid "Hide"
@@ -18182,9 +18151,8 @@ msgid "Move and resize with cells"
 msgstr ""
 
 #: ../src/widgets/gnm-so-anchor-mode-chooser.c:47
-#, fuzzy
 msgid "Move with cells"
-msgstr "_Insertar en las celdas:"
+msgstr "Desplazar con celdas"
 
 #: ../src/widgets/gnm-so-anchor-mode-chooser.c:49
 msgid "Absolute size and position"
@@ -18315,7 +18283,6 @@ msgid "A single selection is required."
 msgstr "Se requiere una selección simple."
 
 #: ../src/workbook-cmd-format.c:179
-#| msgid "An n or 1⨯n selection is required."
 msgid "An n⨯1 or 1⨯n selection is required."
 msgstr "Se requiere una selección nx1 o 1⨯n."
 
@@ -18464,7 +18431,6 @@ msgid "Missing filter type"
 msgstr "Falta tipo de filtro"
 
 #: ../src/xml-sax-read.c:2387
-#| msgid "Change filter condition for %s"
 msgid "Malformed sheet filter condition"
 msgstr "Condición del filtro malformada para la hoja"
 
@@ -18679,6 +18645,10 @@ msgstr "Plantilla de lista lila"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "A simple list template"
 msgstr "Una plantilla de lista simple"
+
+#~| msgid "Report problems at http://bugzilla.gnome.org"
+#~ msgid "https://bugzilla.gnome.org/"
+#~ msgstr "https://bugzilla.gnome.org"
 
 #~ msgid "StandardToolbar"
 #~ msgstr "Barra de herramientas estándar"
