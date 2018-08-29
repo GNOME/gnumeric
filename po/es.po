@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2018-08-19 18:48+0000\n"
-"PO-Revision-Date: 2018-08-21 09:51+0200\n"
+"POT-Creation-Date: 2018-08-26 15:45+0000\n"
+"PO-Revision-Date: 2018-08-29 09:23+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -62,6 +62,8 @@ msgstr "La hoja de cálculo Gnumeric"
 msgid ""
 "Gnumeric is a spreadsheet application for interactive manipulation of data."
 msgstr ""
+"Gnumeric es una aplicación de hojas de cálculo para manipular datos "
+"interactivamente."
 
 #: ../gnumeric.appdata.xml.in.h:3
 msgid ""
@@ -1273,9 +1275,8 @@ msgid "LaTeX 2e (*.tex) table fragment"
 msgstr "fragmento de tabla LaTeX 2e (*.tex)"
 
 #: ../plugins/html/plugin.xml.in.h:11
-#, fuzzy
 msgid "LaTeX 2e (*.tex) table fragment of visible rows"
-msgstr "fragmento de tabla LaTeX 2e (*.tex)"
+msgstr "fragmento de tabla de filas visibles LaTeX 2e (*.tex)"
 
 #: ../plugins/html/plugin.xml.in.h:12
 msgid "TROFF (*.me)"
@@ -1763,7 +1764,7 @@ msgstr "Gnumeric no soporta condiciones de autofiltro «o» -ed."
 #: ../plugins/openoffice/openoffice-read.c:8192
 #, c-format
 msgid "Moving sheet object from column %i and row %i"
-msgstr ""
+msgstr "Moviendo el objeto de hoja desde la columna %i y la fila %i"
 
 #: ../plugins/openoffice/openoffice-read.c:8257
 #, c-format
@@ -4139,10 +4140,6 @@ msgid "Sorting %s"
 msgstr "Ordenando %s"
 
 #: ../src/commands.c:2343
-#, fuzzy
-#| msgid ""
-#| "Are you sure that you want to hide all columns? If you do so you can "
-#| "unhide them with the 'Format,olumn→Unhide' menu item."
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
@@ -7281,8 +7278,6 @@ msgid "Right border"
 msgstr "Borde derecho"
 
 #: ../src/dialogs/dialog-sheet-compare.c:201
-#, fuzzy
-#| msgid "Reverse Diagonal Stripe"
 msgid "Reverse diagonal border"
 msgstr "Línea diagonal inversa"
 
@@ -7315,10 +7310,8 @@ msgid "Strikethrough"
 msgstr "Tachado"
 
 #: ../src/dialogs/dialog-sheet-compare.c:211
-#, fuzzy
-#| msgid "Scripting"
 msgid "Script"
-msgstr "Scripting"
+msgstr "Script"
 
 #: ../src/dialogs/dialog-sheet-compare.c:212
 #: ../src/dialogs/dialog-sheet-compare.c:266
@@ -7351,20 +7344,16 @@ msgid "Direction"
 msgstr "Dirección"
 
 #: ../src/dialogs/dialog-sheet-compare.c:221
-#, fuzzy
-#| msgid "Wrap SORT"
 msgid "Wrap"
-msgstr "Ajustar ORDENACIÓN"
+msgstr "Ajustar"
 
 #: ../src/dialogs/dialog-sheet-compare.c:222
 msgid "Shrink-to-fit"
 msgstr "Encoger hasta ajustar"
 
 #: ../src/dialogs/dialog-sheet-compare.c:224
-#, fuzzy
-#| msgid "Lock"
 msgid "Locked"
-msgstr "Bloq"
+msgstr "Bloqueado"
 
 #: ../src/dialogs/dialog-sheet-compare.c:225
 msgid "Hidden"
@@ -7380,24 +7369,18 @@ msgid "Hyperlink"
 msgstr "Hiperenlace"
 
 #: ../src/dialogs/dialog-sheet-compare.c:229
-#, fuzzy
-#| msgid "Input Message"
 msgid "Input message"
 msgstr "Mensaje de entrada"
 
 #: ../src/dialogs/dialog-sheet-compare.c:230
-#, fuzzy
-#| msgid "Clear conditional formatting"
 msgid "Conditional format"
-msgstr "Limpiar formato condicional"
+msgstr "Formato condicional"
 
 #: ../src/dialogs/dialog-sheet-compare.c:255
 msgid "Cells"
 msgstr "Celdas"
 
 #: ../src/dialogs/dialog-sheet-compare.c:256
-#, fuzzy
-#| msgid "Format"
 msgid "Formatting"
 msgstr "Formato"
 
@@ -7414,16 +7397,12 @@ msgid "Added"
 msgstr "Añadido"
 
 #: ../src/dialogs/dialog-sheet-compare.c:273
-#, fuzzy
-#| msgid "Remove"
 msgid "Removed"
-msgstr "Quitar"
+msgstr "Eliminado"
 
 #: ../src/dialogs/dialog-sheet-compare.c:274
-#, fuzzy
-#| msgid "Change widget"
 msgid "Changed"
-msgstr "Cambiar widget"
+msgstr "Cambiado"
 
 #: ../src/dialogs/dialog-sheet-compare.c:358
 msgid "Yes"
@@ -7463,10 +7442,8 @@ msgid "Justify"
 msgstr "Justificar"
 
 #: ../src/dialogs/dialog-sheet-compare.c:383
-#, fuzzy
-#| msgid "Center across _selection"
 msgid "Center across selection"
-msgstr "Centrar a través de la _selección"
+msgstr "Centrar a través de la selección"
 
 #: ../src/dialogs/dialog-sheet-compare.c:384
 #: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3705
@@ -7498,22 +7475,14 @@ msgid "Double"
 msgstr "Doble"
 
 #: ../src/dialogs/dialog-sheet-compare.c:404
-#, fuzzy
-#| msgctxt "underline"
-#| msgid "Single Low"
 msgid "Single low"
 msgstr "Simple bajo"
 
 #: ../src/dialogs/dialog-sheet-compare.c:404
-#, fuzzy
-#| msgctxt "underline"
-#| msgid "Double Low"
 msgid "Double low"
 msgstr "Doble bajo"
 
 #: ../src/dialogs/dialog-sheet-compare.c:408
-#, fuzzy
-#| msgid "Right to Left"
 msgid "Right-to-left"
 msgstr "Derecha a izquierda"
 
@@ -7523,16 +7492,12 @@ msgid "Auto"
 msgstr "Auto"
 
 #: ../src/dialogs/dialog-sheet-compare.c:408
-#, fuzzy
-#| msgid "Left to Right"
 msgid "Left-to-right"
 msgstr "Izquierda a derecha"
 
 #: ../src/dialogs/dialog-sheet-compare.c:526
-#, fuzzy
-#| msgid "no available row"
 msgid "Unavailable"
-msgstr "fila no disponible"
+msgstr "No disponible"
 
 #: ../src/dialogs/dialog-sheet-compare.c:531
 #, c-format
@@ -7628,9 +7593,8 @@ msgid "Set Object Print Property"
 msgstr "Establecer propiedad de impresión de objeto"
 
 #: ../src/dialogs/dialog-sheetobject-size.c:273
-#, fuzzy
 msgid "Set Object Anchor Mode"
-msgstr "Establecer propiedades de objeto"
+msgstr "Establecer modo de ancla de objeto"
 
 #: ../src/dialogs/dialog-sheetobject-size.c:279
 msgid "Set Object Properties"
@@ -7711,9 +7675,8 @@ msgid "Format Object"
 msgstr "Formatear objeto"
 
 #: ../src/dialogs/dialog-so-styled.c:234
-#, fuzzy
 msgid "Head"
-msgstr "Encabezado"
+msgstr "Cabeza"
 
 #: ../src/dialogs/dialog-so-styled.c:245
 msgid "Tail"
@@ -10571,7 +10534,7 @@ msgstr "Como _valor"
 
 #: ../src/dialogs/paste-special.ui.h:8
 msgid "Paste the value of expressions rather than the expressions themselves"
-msgstr ""
+msgstr "Pegar el valor de las expresiones en lugar de las expresiones mismas"
 
 #: ../src/dialogs/paste-special.ui.h:9
 msgid "_Formats"
@@ -10580,16 +10543,16 @@ msgstr "_Formatos"
 #: ../src/dialogs/paste-special.ui.h:10
 msgid "Paste cell formats (number formats, colors, borders, etc.) only"
 msgstr ""
+"Pegar formatos de la celda (formatos de números, colores, bordes, etc.) "
+"solamente"
 
 #: ../src/dialogs/paste-special.ui.h:11 ../src/wbc-gtk-actions.c:2408
 msgid "Co_mments"
 msgstr "Co_mentarios"
 
 #: ../src/dialogs/paste-special.ui.h:12
-#, fuzzy
-#| msgid "Perform changes within cell comments"
 msgid "Paste cell comments only"
-msgstr "Efectuar cambios en las celdas comentadas"
+msgstr "Pegar comentarios de la celda solamente"
 
 #: ../src/dialogs/paste-special.ui.h:13
 msgid "<b>Cell operation</b>"
@@ -10639,6 +10602,8 @@ msgstr "_Transponer"
 msgid ""
 "Transpose the source during the paste so columns become rows and vice versa"
 msgstr ""
+"Transpone el origen durante el pegado para que las columnas se conviertan en "
+"filas y viceversa"
 
 #: ../src/dialogs/paste-special.ui.h:26
 msgid "Flip Hori_zontally"
@@ -10661,20 +10626,16 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:30
-#, fuzzy
-#| msgid "Column Width"
 msgid "Column widths"
-msgstr "Anchura de la columna"
+msgstr "Anchura de las columnas"
 
 #: ../src/dialogs/paste-special.ui.h:31
 msgid "Set column widths of the destination to those of the source"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:32
-#, fuzzy
-#| msgid "Row Height"
 msgid "Row heights"
-msgstr "Altura de la fila"
+msgstr "Altura de las filas"
 
 #: ../src/dialogs/paste-special.ui.h:33
 msgid "Set row heights of the destination to those of the source"
@@ -12013,7 +11974,7 @@ msgstr "_Tiempo máximo (seg.):"
 
 #: ../src/dialogs/solver.ui.h:29
 msgid "The maximum number of steps allowed for the solver"
-msgstr ""
+msgstr "El número máximo de pasos permitidos para el resolutor"
 
 #: ../src/dialogs/solver.ui.h:30
 msgid "The maximum time allowed for the solver"
@@ -18148,7 +18109,7 @@ msgstr "<Blank>"
 
 #: ../src/widgets/gnm-so-anchor-mode-chooser.c:44
 msgid "Move and resize with cells"
-msgstr ""
+msgstr "Mover y redimensionar con celdas"
 
 #: ../src/widgets/gnm-so-anchor-mode-chooser.c:47
 msgid "Move with cells"
