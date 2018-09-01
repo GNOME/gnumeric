@@ -332,7 +332,7 @@ gnumeric_switch (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	if (VALUE_IS_ERROR (ref))
 		return ref;
 
-	for (a = 1; !res && a + 1 <= argc; a += 2) {
+	for (a = 1; !res && a + 1 < argc; a += 2) {
 		GnmValue *v;
 
 		v = gnm_expr_eval (argv[a], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
