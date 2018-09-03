@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2018-08-26 15:45+0000\n"
-"PO-Revision-Date: 2018-08-29 09:23+0200\n"
+"POT-Creation-Date: 2018-09-02 00:24+0000\n"
+"PO-Revision-Date: 2018-09-03 09:02+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -71,6 +71,10 @@ msgid ""
 "a wide selection of statistical analysis tools. Gnumeric can share files "
 "with Microsoft Excel and programs supporting the ODS standard."
 msgstr ""
+"Gnumeric aspira a proporcionar cálculos de alta precisión, gráficos "
+"expresivos y una selección amplia de herramientas para análisis estadístico. "
+"Gnumeric puede compartir archivos con Microsoft Excel y programas que "
+"soportan el estándar ODS."
 
 #: ../gnumeric.appdata.xml.in.h:4
 msgid "A High-Precision Spreadsheet Program"
@@ -4589,6 +4593,13 @@ msgid ""
 "\n"
 "Gnumeric comes with absolutely no warranty."
 msgstr ""
+"Gnumeric está disponible bajo la Licencia Pública General GNU, versión 2 o 3 "
+"a su elección.\n"
+"\n"
+"Vea https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\n"
+"ó https://www.gnu.org/licenses/gpl-3.0.html.\n"
+"\n"
+"Gnumeric viene sin ningún tipo de garantía en absoluto."
 
 #: ../src/dialogs/dialog-about.c:59
 msgid "Core"
@@ -5813,6 +5824,8 @@ msgid ""
 "You did not add the defined conditional format. Do you really want to close "
 "the conditional formatting dialog?"
 msgstr ""
+"No ha añadido el formato condicional. ¿Realmente quiere cerrar el diálogo de "
+"formato condicional?"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:238
 msgid "(defined)"
@@ -10614,6 +10627,8 @@ msgid ""
 "Flip the source horizontally during the paste so the first column becomes "
 "the last and vice versa"
 msgstr ""
+"Voltear horizontalmente el origen durante el pegado para que la primera "
+"columna se convierta en la última y viceversa"
 
 #: ../src/dialogs/paste-special.ui.h:28
 msgid "Fli_p Vertically"
@@ -10624,6 +10639,8 @@ msgid ""
 "Flip the source vertically during the paste so the first row becomes the "
 "last and vice versa"
 msgstr ""
+"Voltear verticalment el origen durante el pegado para que la primera fila se "
+"convierta en la última y vice versa"
 
 #: ../src/dialogs/paste-special.ui.h:30
 msgid "Column widths"
@@ -10632,6 +10649,7 @@ msgstr "Anchura de las columnas"
 #: ../src/dialogs/paste-special.ui.h:31
 msgid "Set column widths of the destination to those of the source"
 msgstr ""
+"Establecer los anchos de las columnas del destino a aquellos del origen"
 
 #: ../src/dialogs/paste-special.ui.h:32
 msgid "Row heights"
@@ -10639,7 +10657,7 @@ msgstr "Altura de las filas"
 
 #: ../src/dialogs/paste-special.ui.h:33
 msgid "Set row heights of the destination to those of the source"
-msgstr ""
+msgstr "Establecer las alturas de las filas del destino a aquellas del origen"
 
 #: ../src/dialogs/paste-special.ui.h:34
 msgid "Skip _Blanks"
@@ -10649,6 +10667,7 @@ msgstr "Omitir _blancos"
 msgid ""
 "When the source of the paste is a blank cell, leave the target unchanged"
 msgstr ""
+"Cuando el origen del pegado es una celda vacía, dejar al destino sin cambios"
 
 #: ../src/dialogs/paste-special.ui.h:36
 msgid "<b>Options</b>"
@@ -11993,6 +12012,8 @@ msgid ""
 "The number of data points used on each side when doing numerical "
 "differentiation"
 msgstr ""
+"El número de puntos de datos usados a cada lado al realizar diferenciación "
+"numérica"
 
 #: ../src/dialogs/solver.ui.h:35
 msgid "P_rogram"
