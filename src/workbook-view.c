@@ -708,7 +708,7 @@ wb_view_set_property (GObject *object, guint property_id,
 
 	switch (property_id) {
 	case PROP_AUTO_EXPR_FUNC:
-		wb_view_auto_expr_func (wbv, g_value_get_boxed (value));
+		wb_view_auto_expr_func (wbv, g_value_get_object (value));
 		break;
 	case PROP_AUTO_EXPR_DESCR:
 		wb_view_auto_expr_descr (wbv, g_value_get_string (value));
@@ -770,7 +770,7 @@ wb_view_get_property (GObject *object, guint property_id,
 
 	switch (property_id) {
 	case PROP_AUTO_EXPR_FUNC:
-		g_value_set_boxed (value, wbv->auto_expr.func);
+		g_value_set_object (value, wbv->auto_expr.func);
 		break;
 	case PROP_AUTO_EXPR_DESCR:
 		g_value_set_string (value, wbv->auto_expr.descr);
