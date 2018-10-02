@@ -1,3 +1,9 @@
+2018-10-02  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_BOF): No need to set sheet and unref
+	here for old-format full-sheet graph.  It's already done in
+	ms_excel_chart_read.
+
 2018-08-19  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.43

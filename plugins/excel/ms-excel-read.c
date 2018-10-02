@@ -7135,14 +7135,12 @@ excel_read_BOF (BiffQuery	 *q,
 		if (ver->type == MS_BIFF_TYPE_Worksheet) {
 			excel_read_sheet (q, importer, wb_view, esheet);
 			ms_container_realize_objs (sheet_container (esheet));
-			/* reverse the sheet objects satck order */
+			/* reverse the sheet objects stack order */
 			esheet->sheet->sheet_objects = g_slist_reverse (esheet->sheet->sheet_objects);
 		} else {
 			SheetObject *obj = sheet_object_graph_new (NULL);
 			ms_excel_chart_read (q, sheet_container (esheet),
 					     obj, esheet->sheet);
-			sheet_object_set_sheet (obj, esheet->sheet);
-			g_object_unref (obj);
 		}
 
 	} else if (ver->type == MS_BIFF_TYPE_VBModule ||
