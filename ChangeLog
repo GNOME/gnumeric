@@ -1,3 +1,7 @@
+2018-10-02  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-view.c (sv_real_dispose): Fix typo.
+
 2018-10-01  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_set_property): Fix setting of

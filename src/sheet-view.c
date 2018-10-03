@@ -223,7 +223,7 @@ sv_real_dispose (GObject *object)
 	while (sv->controls->len > 0) {
 		SheetControl *control =
 			g_ptr_array_index (sv->controls,
-					   sv->controls->len - 10);
+					   sv->controls->len - 1);
 		gnm_sheet_view_detach_control (sv, control);
 		g_object_unref (control);
 	}
