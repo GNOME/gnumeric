@@ -1095,7 +1095,9 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 
 			if (is_insert) {
 				/* INSERTING COLUMNS */
-				filter->r.end.col += count;
+				filter->r.end.col
+					MIN (gnm_sheet_get_last_col (sheet),
+					     filter->r.end.col + count);
 				/* inserting in the middle of a filter adds
 				 * fields.  Everything else just moves it */
 				if (start > filter->r.start.col &&
@@ -1142,7 +1144,9 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 
 			if (is_insert) {
 				/* INSERTING ROWS */
-				filter->r.end.row += count;
+				filter->r.end.row =
+					MIN (gnm_sheet_get_last_row (sheet),
+					     filter->r.end.row + count);
 				if (start < filter->r.start.row)
 					filter->r.start.row += count;
 			} else {

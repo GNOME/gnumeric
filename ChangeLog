@@ -1,3 +1,9 @@
+2018-10-04  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-filter.c (gnm_sheet_filter_insdel_colrow): Shorten
+	filter if it would otherwise go beyond the end of the sheet.
+	Fixes #359.
+
 2018-10-02  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-view.c (sv_real_dispose): Fix typo.

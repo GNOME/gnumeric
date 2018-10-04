@@ -4,6 +4,7 @@ Morten:
 	* Fix SWITCH's default argument.  [#354]
 	* Fix problem with setting auto-func.  [#357]
 	* Fix problem reading really old xls format.
+	* Fix sheet filter problem.  [#359]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.43
