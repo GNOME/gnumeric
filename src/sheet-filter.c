@@ -1095,7 +1095,7 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 
 			if (is_insert) {
 				/* INSERTING COLUMNS */
-				filter->r.end.col
+				filter->r.end.col =
 					MIN (gnm_sheet_get_last_col (sheet),
 					     filter->r.end.col + count);
 				/* inserting in the middle of a filter adds
