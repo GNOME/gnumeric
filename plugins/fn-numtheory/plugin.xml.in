@@ -18,6 +18,7 @@
 				<function name="nt_omega"/>
 				<function name="nt_phi"/>
 				<function name="nt_pi"/>
+				<function name="nt_radical"/>
 				<function name="nt_sigma"/>
 				<function name="pfactor"/>
 			</functions>

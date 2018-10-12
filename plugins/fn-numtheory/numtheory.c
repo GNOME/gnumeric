@@ -320,6 +320,39 @@ gnumeric_phi (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 /* ------------------------------------------------------------------------- */
 
+static GnmFuncHelp const help_radical[] = {
+	{ GNM_FUNC_HELP_NAME, F_("NT_RADICAL:Radical function")},
+	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
+	{ GNM_FUNC_HELP_NOTE, F_("The function computes the product of its distinct prime factors") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NT_RADICAL(36)" },
+	{ GNM_FUNC_HELP_SEEALSO, "NT_D,ITHPRIME,NT_SIGMA"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static void
+walk_for_radical (guint64 p, int v, void *data_)
+{
+	guint64 *data = data_;
+	*data *= p;
+}
+
+static GnmValue *
+gnumeric_radical (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	guint64 rad = 1;
+	gnm_float n = gnm_floor (value_get_as_float (args[0]));
+
+	if (n < 1 || n > bit_max)
+		return value_new_error_NUM (ei->pos);
+
+	if (walk_factorization ((guint64)n, &rad, walk_for_radical))
+		return value_new_error (ei->pos, OUT_OF_BOUNDS);
+
+	return value_new_guint64 (rad);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static GnmFuncHelp const help_nt_mu[] = {
  	{ GNM_FUNC_HELP_NAME, F_("NT_MU:Möbius mu function")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
@@ -724,6 +757,9 @@ const GnmFuncDescriptor num_theory_functions[] = {
 	{"nt_phi",   "f", help_phi,
 	 &gnumeric_phi,      NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	{"nt_radical",   "f", help_radical,
+	 &gnumeric_radical,      NULL,
+	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 	{"nt_d",     "f", help_d,
 	 &gnumeric_d,        NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
