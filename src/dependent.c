@@ -2865,6 +2865,15 @@ workbook_recalc (Workbook *wb)
 
 	gnm_app_recalc_start ();
 
+	// Do a pass computing only cells; this allows style deps to see
+	// updated values as needed.
+	WORKBOOK_FOREACH_DEPENDENT (wb, dep, {
+		if (dependent_is_cell (dep) && dependent_needs_recalc (dep)) {
+			redraw = TRUE;
+			dependent_eval (dep);
+		}
+	});
+
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep, {
 		if (dependent_needs_recalc (dep)) {
 			redraw = TRUE;

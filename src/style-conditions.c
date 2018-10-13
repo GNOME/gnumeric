@@ -978,11 +978,14 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 {
 	unsigned i;
 	GPtrArray const *conds;
-	GnmCell const *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
-	GnmValue const *cv = cell ? cell->value : NULL;
+	GnmCell *cell;
+	GnmValue *cv;
 
 	g_return_val_if_fail (sc != NULL, -1);
 	g_return_val_if_fail (sc->conditions != NULL, -1);
+
+	cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
+	cv = value_dup (cell->value);
 
 	conds = sc->conditions;
 
@@ -1003,6 +1006,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 		if (use_this) {
 			if (debug_style_conds ())
 				g_printerr ("  Using clause %d\n", i);
+			value_release (cv);
 			return i;
 		}
 	}
@@ -1010,5 +1014,6 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 	if (debug_style_conds ())
 		g_printerr ("  No matching clauses\n");
 
+	value_release (cv);
 	return -1;
 }

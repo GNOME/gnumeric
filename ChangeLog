@@ -1,3 +1,11 @@
+2018-10-13  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (workbook_recalc): Evaluate cells before other
+	deps.
+
+	* src/style-conditions.c (gnm_style_conditions_eval): Copy the
+	cell value; it may change due to recalc.
+
 2018-10-04  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-filter.c (gnm_sheet_filter_insdel_colrow): Shorten
