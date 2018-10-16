@@ -6543,7 +6543,7 @@ gnm_sheet_set_solver_params (Sheet *sheet, GnmSolverParameters *param)
 /* ------------------------------------------------------------------------- */
 
 /**
- * gnm_sheet_scenario_new:
+ * gnm_sheet_scenario_new: (skip)
  * @sheet:  #Sheet
  * @name: the new scenario name.
  *
