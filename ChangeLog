@@ -1,3 +1,8 @@
+2018-10-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-util.c (gnm_get_link_color): make conditional on definition
+	of GTK_STATE_FLAG_LINK
+
 2018-10-13  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (workbook_recalc): Evaluate cells before other

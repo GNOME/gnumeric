@@ -1377,11 +1377,20 @@ gnm_style_context_get_color (GtkStyleContext *context,
 	gtk_style_context_restore (context);
 }
 
+#ifdef GTK_STATE_FLAG_LINK
 void
 gnm_get_link_color (GtkWidget *widget, GdkRGBA *res)
 {
 	GtkStyleContext *ctxt = gtk_widget_get_style_context (widget);
 	gnm_style_context_get_color (ctxt, GTK_STATE_FLAG_LINK, res);
 }
+#else
+void
+gnm_get_link_color (G_GNUC_UNUSED GtkWidget *widget, GdkRGBA *res)
+{
+  gdk_rgba_parse (res, "blue");
+#warning GTK_STATE_FLAG_LINK is undefined, using color blue
+}
+#endif /* GTK_STATE_FLAG_LINK */
 
 // ----------------------------------------------------------------------------
