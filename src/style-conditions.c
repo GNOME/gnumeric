@@ -985,7 +985,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 	g_return_val_if_fail (sc->conditions != NULL, -1);
 
 	cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
-	cv = value_dup (cell->value);
+	cv = cell ? value_dup (cell->value) : NULL;
 
 	conds = sc->conditions;
 
