@@ -7,6 +7,7 @@ Morten:
 	* Fix sheet filter problem.  [#359]
 	* New NT_RADICAL function.
 	* Fix conditional style crash.
+	* Fix applix locale problem.  [#362]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.43

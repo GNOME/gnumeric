@@ -1624,6 +1624,10 @@ applix_conventions_new (void)
 	conv->accept_hash_logicals	= TRUE;
 	conv->allow_absolute_sheet_references = TRUE;
 	conv->range_sep_dotdot		= TRUE;
+	conv->decimal_sep_dot = '.';
+	conv->arg_sep = ',';
+	conv->array_col_sep = ',';
+	conv->array_row_sep = ';';
 	conv->input.range_ref		= applix_rangeref_parse;
 	conv->input.func		= applix_func_map_in;
 
