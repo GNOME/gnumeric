@@ -78,6 +78,7 @@ typedef struct {
 	GSList *std_names, *real_names;
 
 	GnmConventions *convs;
+	GIConv converter;
 } ApplixReadState;
 
 /* #define NO_DEBUG_APPLIX */
@@ -296,57 +297,81 @@ static unsigned char *
 applix_get_line (ApplixReadState *state)
 {
 	unsigned char *ptr, *end, *buf;
-	size_t len, skip = 0, offset = 0;
+	GString *line = g_string_new (NULL);
+	gboolean first = TRUE;
 
+	// Read line and continuation lines.
 	while (NULL != (ptr = gsf_input_textline_ascii_gets (state->input))) {
-		len = strlen (ptr);
+		size_t len = strlen (ptr);
+		// Clip at the state line length
+		size_t uselen = MIN (len, state->line_len);
 
-		/* Clip at the state line length */
-		if (len > state->line_len)
-			len = state->line_len;
-
-		if ((offset + len) > state->buffer_size) {
-			state->buffer_size += state->line_len;
-			state->buffer = g_realloc (state->buffer, state->buffer_size + 1);
+		if (first) {
+			first = FALSE;
+			g_string_append_len (line, ptr, uselen);
+		} else if (uselen > 0) {
+			// Drop initial space from continuation line
+			g_string_append_len (line, ptr + 1, uselen - 1);
 		}
 
-		end = ptr + len;
-		ptr += skip;
-		buf = state->buffer + offset;
-		while (ptr < end) {
-			if (*ptr == '^') {
-				if (ptr [1] != '^') {
-					if (ptr [1] == '\0' || ptr [2] == '\0') {
-						applix_parse_error (state, _("Missing characters for character encoding"));
-						*(buf++) = *(ptr++);
-					} else if (ptr [1] < 'a' || ptr [1] > 'p' ||
-						   ptr [2] < 'a' || ptr [2] > 'p') {
-						applix_parse_error (state, _("Invalid characters for encoding '%c%c'"),
-								    ptr[1], ptr[2]);
-						*(buf++) = *(ptr++);
-					} else {
-						*(buf++) = ((ptr[1] - 'a') << 8) | (ptr[2] - 'a');
-						ptr += 3;
-					}
-				} else /* an encoded carat */
-					*(buf++) = '^', ptr += 2;
-			} else
-				*(buf++) = *(ptr++);
-		}
-
-		offset = buf - state->buffer;
-
-		if (len >= state->line_len)
-			skip = 1; /* skip the leading space for next line */
-		else
+		if (len < state->line_len)
 			break;
 	}
 
-	if (offset == 0 && ptr == NULL)
-		return NULL;
+	if (line->len > state->buffer_size) {
+		state->buffer_size = line->len;
+		state->buffer = g_realloc (state->buffer, state->buffer_size + 1);
+	}
 
-	if (state->buffer != NULL)
-		state->buffer [offset] = '\0';
+	ptr = line->str;
+	end = ptr + line->len;
+	buf = state->buffer;
+
+	// g_printerr ("Pre [%s]\n", ptr);
+
+	while (ptr < end) {
+		if (*ptr != '^') {
+			*(buf++) = *(ptr++);
+			continue;
+		}
+
+		if (ptr[1] == '^') {
+			// An encoded carat
+			*(buf++) = '^', ptr += 2;
+			continue;
+		}
+
+		if (ptr[1] == '\0' || ptr[2] == '\0') {
+			applix_parse_error (state, _("Missing characters for character encoding"));
+			*(buf++) = *(ptr++);
+		} else if (ptr[1] < 'a' || ptr[1] > 'p' ||
+			   ptr[2] < 'a' || ptr[2] > 'p') {
+			applix_parse_error (state, _("Invalid characters for encoding '%c%c'"),
+					    ptr[1], ptr[2]);
+			*(buf++) = *(ptr++);
+		} else {
+			guchar uc = ((ptr[1] - 'a') << 4) | (ptr[2] - 'a');
+			gsize utf8_len;
+			char *utf8buf = g_convert_with_iconv (&uc, 1, state->converter, NULL,
+							      &utf8_len, NULL);
+			memcpy (buf, utf8buf, utf8_len);
+			buf += utf8_len;
+			g_free (utf8buf);
+			ptr += 3;
+		}
+	}
+
+	if (line->len == 0) {
+		g_string_free (line, TRUE);
+		return NULL;
+	}
+
+	if (buf)
+		*buf = 0;
+
+	g_string_free (line, TRUE);
+
+	//g_printerr ("Post: [%s]\n", state->buffer);
 	return state->buffer;
 }
 
@@ -885,7 +910,7 @@ applix_read_attributes (ApplixReadState *state)
 		if (!a_strncmp (ptr, "Attr Table End"))
 			return FALSE;
 
-		if (ptr [0] != '<')
+		if (ptr[0] != '<')
 			return applix_parse_error (state, "Invalid attribute");
 
 		/* TODO : The first style seems to be a different format */
@@ -1659,6 +1684,7 @@ applix_read (GOIOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	state.std_names   = NULL;
 	state.real_names  = NULL;
 	state.convs       = applix_conventions_new ();
+	state.converter   = g_iconv_open ("UTF-8", "ISO-8859-1");
 
 	/* Actually read the workbook */
 	res = applix_read_impl (&state);
@@ -1708,4 +1734,5 @@ applix_read (GOIOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 		go_io_error_info_set (io_context, state.parse_error);
 
 	gnm_conventions_unref (state.convs);
+	gsf_iconv_close (state.converter);
 }

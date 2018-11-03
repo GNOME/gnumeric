@@ -8,6 +8,7 @@ Morten:
 	* New NT_RADICAL function.
 	* Fix conditional style crash.
 	* Fix applix locale problem.  [#362]
+	* Fix applix encoding and escape problems.  [#363]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.43

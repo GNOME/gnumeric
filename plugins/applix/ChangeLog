@@ -1,3 +1,9 @@
+2018-11-03  Morten Welinder  <terra@gnome.org>
+
+	* applix-read.c (applix_get_line): Properly handle continuation
+	lines with escaped characters.  Handle non-ASCII characters on the
+	assumption that they are ISO-8859-1.  Fixes #363.
+
 2018-11-01  Morten Welinder  <terra@gnome.org>
 
 	* applix-read.c (applix_conventions_new): Set up separators so we
