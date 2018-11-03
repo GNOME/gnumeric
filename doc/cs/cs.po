@@ -7362,7 +7362,6 @@ msgid ""
 "The chapters of this version of the <application>Gnumeric</application> "
 "manual are organized as follows: <_:itemizedlist-1/>"
 msgstr ""
-"Kapitoly v této verzi příručky jsou rozdělené následovně: <application>"
 
 #. (itstool) path: chapter/title
 #: C/gnumeric.xml:468
