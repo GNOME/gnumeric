@@ -9190,7 +9190,7 @@ msgstr ""
 "obsah, jen formát nebo jen vypočítané hodnoty. Přenášený obsah se navíc dá "
 "matematicky kombinovat s aktuálním obsahem v novém místě. Případně lze výběr "
 "transponovat. <xref linkend=\"sect-movecopy-pastespecial\"/>Více "
-"informací<guimenuitem> viz příkaz <guimenuitem>Vložit jinka…</guimenuitem>."
+"informací viz příkaz <guimenuitem>Vložit jinka…</guimenuitem>."
 
 #. (itstool) path: sect2/title
 #: C/gnumeric.xml:1241
@@ -9997,10 +9997,10 @@ msgstr ""
 "<inlinemediaobject><imageobject><imagedata fileref=\"figures/button-open.png"
 "\" format=\"PNG\"/></imageobject> <textobject><phrase>Obrázek tlačítka "
 "Otevřít soubor.</phrase></textobject> </inlinemediaobject> na nástrojové "
-"liště, nebo klávesovou zkratku <inlinemediaobject>F3<imageobject>. Ve všech "
+"liště, nebo klávesovou zkratku <keycap>F3</keycap>. Ve všech "
 "třech případech se vám objeví dialogové oko <interface>Otevření souboru</"
-"interface>. V něm pak můžete vybrat soubor, který si přejete otevřít. </"
-"imageobject>Gnumeric<textobject> umí otevírat řadů různých typů souborů s "
+"interface>. V něm pak můžete vybrat soubor, který si přejete otevřít. <"
+"application>Gnumeric</application> umí otevírat řadů různých typů souborů s "
 "tabulkami."
 
 #. (itstool) path: note/para
@@ -17854,7 +17854,7 @@ msgid ""
 "=sum(B1:C2). Press enter and the formula is entered."
 msgstr ""
 "Pro zakončení funkce uzavřete závorku. Buňka by teď měla zobrazovat =SUM(B1:"
-"C2). Zmáčkněte <keysym>Enter<keysym> a vzorec se vloží."
+"C2). Zmáčkněte <keysym>Enter</keysym> a vzorec se vloží."
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:373
@@ -21264,8 +21264,8 @@ msgstr ""
 "úhlopříčky nejsou ohraničení, ale na tuhle kartu se tak nějak přirozené "
 "hodí.) Pod zmíněnými tlačítky je řádek obsahující další dvě tlačítka "
 "<guibutton>Žádné</guibutton> a <guibutton>Okolo</guibutton>. Kliknutím na "
-"<guibutton>Žádné se odstraní všechna ohraničení buňky, kliknutím na </"
-"guibutton>Okolo<guibutton> s vloží na všechny hrany výběru buněk jako celku."
+"<guibutton>Žádné</guibutton> se odstraní všechna ohraničení buňky, kliknutím na <"
+"guibutton>Okolo</guibutton> s vloží na všechny hrany výběru buněk jako celku."
 
 #. (itstool) path: sect3/para
 #: C/gnumeric.xml:812
