@@ -1,7 +1,3 @@
-/* for random() */
-#define _SVID_SOURCE 1
-#define _BSD_SOURCE 1
-
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <gnm-random.h>
