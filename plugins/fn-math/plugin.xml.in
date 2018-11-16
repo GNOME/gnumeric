@@ -59,6 +59,7 @@
 				<function name="hypot"/>
 				<function name="igamma"/>
 				<function name="int"/>
+				<function name="lambertw"/>
 				<function name="lcm"/>
 				<function name="linsolve"/>
 				<function name="ln"/>

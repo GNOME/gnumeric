@@ -1253,6 +1253,32 @@ gnumeric_int (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_lambertw[] = {
+	{ GNM_FUNC_HELP_NAME, F_("LAMBERTW:the Lambert W function")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_ARG, F_("k:branch")},
+	{ GNM_FUNC_HELP_NOTE, F_("@k defaults to 0, the principal branch.") },
+	{ GNM_FUNC_HELP_NOTE, F_("@k must be either 0 or -1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=LAMBERTW(3)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=LAMBERTW(3,-1)" },
+	{ GNM_FUNC_HELP_SEEALSO, "EXP"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_lambertw (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float k = argv[1] ? value_get_as_float (argv[1]) : 0;
+
+	if (k != 0 && k != -1)
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (gnm_lambert_w (x, (int)k));
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_log[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LOG:logarithm of @{x} with base @{base}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:positive number")},
@@ -3574,6 +3600,9 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_int, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "lambertw", "f|f", help_lambertw,
+	  gnumeric_lambertw, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "lcm", NULL, help_lcm,
 	  NULL, gnumeric_lcm,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

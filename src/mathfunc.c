@@ -5019,6 +5019,94 @@ gnm_agm (gnm_float a, gnm_float b)
 	return a / scale;
 }
 
+/**
+ * gnm_lambert_w:
+ * @x: a number
+ * @k: branch, either 0 or -1
+ *
+ * Returns: The arithmetic-geometric mean of @a and @b.
+ */
+gnm_float
+gnm_lambert_w (gnm_float x, int k)
+{
+	gnm_float w;
+	static const gnm_float one_over_e = 1 / M_Egnum;
+	static const gnm_float sqrt_one_over_e = gnm_sqrt (1 / M_Egnum);
+	static const gboolean debug = FALSE;
+	gnm_float wmin, wmax;
+	int i, imax = 20;
+
+	if (gnm_isnan (x) || x < -one_over_e)
+		return gnm_nan;
+	else if (x == -one_over_e)
+		return -1;
+
+	if (k == 0) {
+		if (x == gnm_pinf)
+			return gnm_pinf;
+		if (x < 0)
+			w = 1.5 * (gnm_sqrt (x + one_over_e) - sqrt_one_over_e);
+		else if (x < 10)
+			w = gnm_sqrt (x) / 1.7;
+		else {
+			gnm_float l1 = gnm_log (x);
+			gnm_float l2 = gnm_log (l1);
+			w = l1 - l2;
+		}
+		wmin = -1;
+		wmax = gnm_pinf;
+	} else if (k == -1) {
+		if (x >= 0)
+			return (x == 0) ? gnm_ninf : gnm_nan;
+		if (x < -0.1)
+			w = -1 - 3 * gnm_sqrt (x + one_over_e);
+		else {
+			gnm_float l1 = gnm_log (-x);
+			gnm_float l2 = gnm_log (-l1);
+			w = l1 - l2;
+		}
+
+		wmin = gnm_ninf;
+		wmax = -1;
+	} else
+		return gnm_nan;
+
+	if (debug) g_printerr ("x = %.20g    w=%.20g\n", x, w);
+	for (i = 0; i < imax; i++) {
+		gnm_float ew = gnm_exp (w);
+		gnm_float wew = w * ew;
+		gnm_float d1 = ew * (w + 1);
+		gnm_float d2 = ew * (w + 2);
+		gnm_float dw;
+		gnm_float wold = w;
+
+		dw = (-2 * ((wew - x) * d1) / (2 * d1 * d1 - (wew - x) * d2));
+		w += dw;
+
+		if (w <= wmin || w >= wmax) {
+			// We overshot
+			gnm_float l = (w < wmin ? wmin : wmax);
+			g_printerr (" (%2d w = %.20g)\n", i, w);
+			dw = (l - wold) * 15 / 16;
+			w = wold + dw;
+		}
+
+		if (debug) {
+			g_printerr ("  %2d w = %.20g\n", i, w);
+			if (i == imax - 1) {
+				g_printerr ("  wew = %.20g\n", wew);
+				g_printerr ("  d1  = %.20g\n", d1);
+				g_printerr ("  d2  = %.20g\n", d2);
+			}
+		}
+
+		if (gnm_abs (dw) <= 2 * GNM_EPSILON * gnm_abs (w))
+			break;
+	}
+
+	return w;
+}
+
 
 /**
  * pow1p:

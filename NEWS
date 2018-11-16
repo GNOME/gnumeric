@@ -9,6 +9,7 @@ Morten:
 	* Fix conditional style crash.
 	* Fix applix locale problem.  [#362]
 	* Fix applix encoding and escape problems.  [#363]
+	* New LAMBERTW function.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.43
