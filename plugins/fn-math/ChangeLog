@@ -1,3 +1,7 @@
+2018-11-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_lambertw): fix formatting
+
 2018-08-19  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.43
