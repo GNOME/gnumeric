@@ -2962,6 +2962,7 @@ get_new_objects (Sheet *sheet, GSList *old)
 				last->next = next;
 			else
 				objs = next;
+			g_object_unref (p->data);
 			g_slist_free_1 (p);
 			p = next;
 		}
