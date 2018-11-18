@@ -690,8 +690,7 @@ gnm_create_popup_menu (GnmPopupMenuElement const *elements,
 			}
 		} else if (elements->index >= 0) {
 			/* separator */
-			item = gtk_menu_item_new ();
-			gtk_widget_set_sensitive (item, FALSE);
+			item = gtk_separator_menu_item_new ();
 		}
 
 		if (elements->index > 0) {

@@ -1,5 +1,8 @@
 2018-11-17  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.c (gnm_create_popup_menu): Use a
+	GtkSeparatorMenuItem instead of an empty item.
+
 	* src/func.c (gnm_func_set_varargs): Correctly signal a vararg
 	function by setting max argumnets to maxint.
 
