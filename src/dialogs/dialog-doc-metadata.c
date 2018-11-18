@@ -1407,7 +1407,8 @@ cb_dialog_doc_metadata_add_clicked (G_GNUC_UNUSED GtkWidget *w,
 	const gchar *name = gtk_entry_get_text (state->ppt_name);
 	const gchar *value = gtk_entry_get_text (state->ppt_value);
 	gchar *name_trimmed = trim_string (name);
-	GType t;
+	GType t = G_TYPE_INVALID; /* we need to initialize that one since
+								gtk_tree_model_get() will only set the low bytes */
 	GtkTreeIter filter_iter;
 
 	if (gtk_combo_box_get_active_iter (state->ppt_type, &filter_iter)) {
