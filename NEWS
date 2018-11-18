@@ -11,6 +11,7 @@ Morten:
 	* Fix applix encoding and escape problems.  [#363]
 	* New LAMBERTW function.
 	* Plug sheet object leak with paste.
+	* Fix documentation problem for vararg functions.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.43

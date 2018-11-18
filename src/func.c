@@ -361,7 +361,7 @@ gnm_func_set_varargs (GnmFunc *func, GnmFuncNodes fn, const char *spec)
 	func->nodes_func = fn;
 	func->arg_spec = g_strdup (spec);
 	func->min_args = 0;
-	func->min_args = G_MAXINT;
+	func->max_args = G_MAXINT;
 
 	if (spec) {
 		const char *p = strchr (spec, '|');
