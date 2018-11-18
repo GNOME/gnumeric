@@ -3076,7 +3076,7 @@ The depreciation coefficient used is:
 @CATEGORY=Lookup
 @FUNCTION=INDEX
 @SHORTDESC=reference to a cell in the given @{array}
-@SYNTAX=INDEX(array,row,col,area)
+@SYNTAX=INDEX(array,row,col,area,…)
 @ARGUMENTDESCRIPTION=@{array}: cell or inline array
 @{row}: desired row, defaults to 1
 @{col}: desired column, defaults to 1
@@ -3613,6 +3613,15 @@ The depreciation coefficient used is:
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
 @SEEALSO=CEIL,CEILING,FLOOR,ABS,MOD
+
+@CATEGORY=Mathematics
+@FUNCTION=LAMBERTW
+@SHORTDESC=the Lambert W function
+@SYNTAX=LAMBERTW(x,k)
+@ARGUMENTDESCRIPTION=@{x}: number
+@{k}: branch
+@NOTE=@{k} defaults to 0, the principal branch. @{k} must be either 0 or -1.
+@SEEALSO=EXP
 
 @CATEGORY=Mathematics
 @FUNCTION=LCM
@@ -4163,6 +4172,14 @@ Strings and empty cells are simply ignored.
 @ARGUMENTDESCRIPTION=@{n}: positive integer
 @DESCRIPTION=NT_PI returns the number of primes less than or equal to @{n}.
 @SEEALSO=ITHPRIME,NT_PHI,NT_D,NT_SIGMA
+
+@CATEGORY=Number Theory
+@FUNCTION=NT_RADICAL
+@SHORTDESC=Radical function
+@SYNTAX=NT_RADICAL(n)
+@ARGUMENTDESCRIPTION=@{n}: positive integer
+@NOTE=The function computes the product of its distinct prime factors
+@SEEALSO=NT_D,ITHPRIME,NT_SIGMA
 
 @CATEGORY=Number Theory
 @FUNCTION=NT_SIGMA

@@ -9864,7 +9864,7 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>INDEX</function>(<parameter>array</parameter>,<parameter>row</parameter>,<parameter>col</parameter>,<parameter>area</parameter>)</synopsis>
+        <synopsis><function>INDEX</function>(<parameter>array</parameter>,<parameter>row</parameter>,<parameter>col</parameter>,<parameter>area</parameter>,<parameter/>…)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -11935,6 +11935,38 @@
         <link linkend="gnumeric-function-FLOOR"><function>FLOOR</function></link>,
         <link linkend="gnumeric-function-ABS"><function>ABS</function></link>,
         <link linkend="gnumeric-function-MOD"><function>MOD</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-LAMBERTW">
+      <refmeta>
+        <refentrytitle>
+          <function>LAMBERTW</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>LAMBERTW</function>
+        </refname>
+        <refpurpose>
+        the Lambert W function
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>LAMBERTW</function>(<parameter>x</parameter>,<parameter>k</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: number</para>
+        <para><parameter>k</parameter>: branch</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para><parameter>k</parameter> defaults to 0, the principal branch. <parameter>k</parameter> must be either 0 or -1.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-EXP"><function>EXP</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -14029,6 +14061,39 @@
         <para><link linkend="gnumeric-function-ITHPRIME"><function>ITHPRIME</function></link>,
         <link linkend="gnumeric-function-NT_PHI"><function>NT_PHI</function></link>,
         <link linkend="gnumeric-function-NT_D"><function>NT_D</function></link>,
+        <link linkend="gnumeric-function-NT_SIGMA"><function>NT_SIGMA</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-NT_RADICAL">
+      <refmeta>
+        <refentrytitle>
+          <function>NT_RADICAL</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>NT_RADICAL</function>
+        </refname>
+        <refpurpose>
+        Radical function
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>NT_RADICAL</function>(<parameter>n</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>n</parameter>: positive integer</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>The function computes the product of its distinct prime factors</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-NT_D"><function>NT_D</function></link>,
+        <link linkend="gnumeric-function-ITHPRIME"><function>ITHPRIME</function></link>,
         <link linkend="gnumeric-function-NT_SIGMA"><function>NT_SIGMA</function></link>.
       </para>
       </refsect1>
