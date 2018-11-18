@@ -1,3 +1,8 @@
+2018-11-18  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (gnm_agm): Short-circuit the a==b case early.  We
+	only need it for +inf, but it's valid and meaningful for all values.
+
 2018-11-17  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnm_create_popup_menu): Use a

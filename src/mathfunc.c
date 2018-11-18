@@ -4990,14 +4990,16 @@ gnm_agm (gnm_float a, gnm_float b)
 	if (a < 0 || b < 0 || gnm_isnan (ab))
 		return gnm_nan;
 
-	if (a == gnm_pinf || b == gnm_pinf)
-		return gnm_pinf;
-	if (a == 0 || b == 0)
-		return 0;
+	if (a == b)
+		return a;
 
 	if (ab == 0 || ab == gnm_pinf) {
-		// Underflow or overflow
 		int ea, eb;
+
+		if (a == 0 || b == 0)
+			return 0;
+
+		// Underflow or overflow
 		(void)gnm_frexp (a, &ea);
 		(void)gnm_frexp (b, &eb);
 		scale = gnm_ldexp (1, -(ea + eb) / 2);
