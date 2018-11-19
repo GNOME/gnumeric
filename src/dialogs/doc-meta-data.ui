@@ -1491,7 +1491,7 @@
       <!-- column-name typename -->
       <column type="gchararray"/>
       <!-- column-name typeid -->
-      <column type="gint"/>
+      <column type="gulong"/>
       <!-- column-name visibility -->
       <column type="gboolean"/>
     </columns>
