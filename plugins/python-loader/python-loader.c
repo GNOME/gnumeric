@@ -222,7 +222,10 @@ gplp_func_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GOPluginService *ser
 
 	g_return_val_if_fail (GO_IS_PLUGIN_SERVICE_FILE_OPENER (service), FALSE);
 	g_return_val_if_fail (input != NULL, FALSE);
-	g_return_val_if_fail (_PyGObject_API != NULL, FALSE);
+	if (_PyGObject_API == NULL) {
+		pygobject_init (3, 0, 0);
+		g_return_if_fail (_PyGObject_API != NULL);
+	}
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
@@ -265,7 +268,10 @@ gplp_func_file_open (G_GNUC_UNUSED GOFileOpener const *fo,
 
 	g_return_if_fail (GO_IS_PLUGIN_SERVICE_FILE_OPENER (service));
 	g_return_if_fail (input != NULL);
-	g_return_if_fail (_PyGObject_API != NULL);
+	if (_PyGObject_API == NULL) {
+		pygobject_init (3, 0, 0);
+		g_return_if_fail (_PyGObject_API != NULL);
+	}
 
 	old_sheet = wb_view_cur_sheet (wb_view);
 
@@ -374,6 +380,10 @@ gplp_func_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOPluginService *servi
 
 	g_return_if_fail (GO_IS_PLUGIN_SERVICE_FILE_SAVER (service));
 	g_return_if_fail (output != NULL);
+	if (_PyGObject_API == NULL) {
+		pygobject_init (3, 0, 0);
+		g_return_if_fail (_PyGObject_API != NULL);
+	}
 	g_return_if_fail (_PyGObject_API != NULL);
 
 	saver_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -788,7 +798,10 @@ gplp_func_exec_action (GOPluginService *service,
 	ServiceLoaderDataUI *loader_data;
 	PyObject *fn, *ret;
 
-	g_return_if_fail (_PyGObject_API != NULL);
+	if (_PyGObject_API == NULL) {
+		pygobject_init (3, 0, 0);
+		g_return_if_fail (_PyGObject_API != NULL);
+	}
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -880,9 +893,9 @@ static gboolean
 gplp_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
 	if (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (s))
-		;
-	else if (GNM_IS_PLUGIN_SERVICE_UI (s))
 		gplp_unload_service_function_group (l, s, err);
+	else if (GNM_IS_PLUGIN_SERVICE_UI (s))
+		;
 	else
 		return FALSE;
 	return TRUE;

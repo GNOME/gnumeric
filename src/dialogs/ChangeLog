@@ -1,8 +1,6 @@
 2018-11-19  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* doc-meta-data.ui:
+	* doc-meta-data.ui: fix dataid type, a better fix for #367.
 
 2018-11-18  Jean Brefort  <jean.brefort@normalesup.org>
 

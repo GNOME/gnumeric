@@ -2,6 +2,7 @@ Gnumeric 1.12.44
 
 Jean:
 	* Fix document properties types. [#367]
+	* Call pygobject_init() if needed. [#368]
 
 Morten:
 	* Fix SWITCH's default argument.  [#354]
