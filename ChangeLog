@@ -1,3 +1,7 @@
+2018-11-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.44
+
 2018-11-18  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (gnm_agm): Short-circuit the a==b case early.  We

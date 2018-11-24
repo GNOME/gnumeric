@@ -1,3 +1,7 @@
+2018-11-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.44
+
 2018-11-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* python-loader.c (gplp_func_file_probe), (gplp_func_file_open),

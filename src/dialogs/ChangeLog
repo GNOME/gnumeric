@@ -1,3 +1,7 @@
+2018-11-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.44
+
 2018-11-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* doc-meta-data.ui: fix dataid type, a better fix for #367.
