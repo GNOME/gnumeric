@@ -5026,7 +5026,8 @@ gnm_agm (gnm_float a, gnm_float b)
  * @x: a number
  * @k: branch, either 0 or -1
  *
- * Returns: The arithmetic-geometric mean of @a and @b.
+ * Returns: The Lambert W function at @x.  @k is a branch number: 0
+ * for the primary branch and -1 for the alternate.
  */
 gnm_float
 gnm_lambert_w (gnm_float x, int k)
