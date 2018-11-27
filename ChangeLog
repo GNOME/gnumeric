@@ -17,7 +17,7 @@
 	GtkSeparatorMenuItem instead of an empty item.
 
 	* src/func.c (gnm_func_set_varargs): Correctly signal a vararg
-	function by setting max argumnets to maxint.
+	function by setting max arguments to maxint.
 
 2018-11-16  Morten Welinder  <terra@gnome.org>
 
