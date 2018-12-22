@@ -1058,6 +1058,22 @@ gnumeric_gammaln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_digamma[] = {
+	{ GNM_FUNC_HELP_NAME, F_("GAMMA:the Digamma function")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=DIGAMMA(1.46)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=DIGAMMA(15000)" },
+	{ GNM_FUNC_HELP_SEEALSO, "GAMMA"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_digamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (gnm_digamma (value_get_as_float (argv[0])));
+}
+
+/***************************************************************************/
 static GnmFuncHelp const help_igamma[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IGAMMA:the incomplete Gamma function")},
 	{ GNM_FUNC_HELP_ARG, F_("a:number")},
@@ -3577,6 +3593,9 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_floor, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "digamma", "f", help_digamma,
+	  gnumeric_digamma, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "gamma",    "f",     help_gamma,
 	  gnumeric_gamma, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },

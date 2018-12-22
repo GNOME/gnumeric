@@ -1341,7 +1341,7 @@ gnm_complex_fact (gnm_complex z, int *exp2)
 /* ------------------------------------------------------------------------- */
 
 // D(a,z) := z^a * exp(-z) / Gamma (a + 1)
-static gnm_complex 
+static gnm_complex
 complex_temme_D (gnm_complex a, gnm_complex z)
 {
 	gnm_complex t;
@@ -1624,6 +1624,317 @@ fixup:
 	}
 
 	return res;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static gnm_float
+gnm_digamma_series_1 (gnm_float x)
+{
+	static const gnm_float ctr = 3414350731.0 / 4294967296.0; // ~ x0-2/3
+	// Taylor series data for digamma(x)*x around ctr
+	// (Multiplying by x eliminates the pole at 0 and inproves convergence)
+
+	// There are more terms here than will be used in practice
+	static const gnm_float c[] = {
+		GNM_const(-1.393604931385844667205297), // cst
+		GNM_const(+0.7838726021041081531302582), // z
+		GNM_const(+1.820471535319717826256316), // z^2
+		GNM_const(+0.2300704039473615371242174), // z^3
+		GNM_const(-0.03648708728785595477443336), // z^4
+		GNM_const(+0.008663338335810582341288719), // z^5
+		GNM_const(-0.002436194723850649598022839), // z^6
+		GNM_const(+0.0007486622557872255311371203), // z^7
+		GNM_const(-0.0002423133587459245107417307), // z^8
+		GNM_const(+0.00008100113830883611703726430), // z^9
+		GNM_const(-0.00002765115168760370451893173), // z^10
+		GNM_const(+9.572584786684540889574004e-6), // z^11
+		GNM_const(-3.345885770126257344664911e-6), // z^12
+		GNM_const(+1.177300128979172845825083e-6), // z^13
+		GNM_const(-4.161969426343619044066147e-7), // z^14
+		GNM_const(+1.476236789046367348142744e-7), // z^15
+		GNM_const(-5.248645227284800471117817e-8), // z^16
+		GNM_const(+1.869315129102582931045594e-8), // z^17
+		GNM_const(-6.665853754670506957976488e-9), // z^18
+		GNM_const(+2.379136739280974154742874e-9), // z^19
+		GNM_const(-8.497029470698846358950073e-10), // z^20
+		GNM_const(+3.036142118559307675850845e-10), // z^21
+		GNM_const(-1.085246878064370064490199e-10), // z^22
+		GNM_const(+3.880126402094332901095669e-11), // z^23
+		GNM_const(-1.387536654151506108828032e-11), // z^24
+		GNM_const(+4.962524563617018345793409e-12), // z^25
+		GNM_const(-1.775025683975804156201718e-12), // z^26
+		GNM_const(+6.349488874733389900536889e-13), // z^27
+		GNM_const(-2.271415182435993612263917e-13), // z^28
+		GNM_const(+8.125903477897147090860925e-14), // z^29
+		GNM_const(-2.907097355266920392577544e-14), // z^30
+		GNM_const(+1.040056414044071726030447e-14), // z^31
+		GNM_const(-3.721012573246943428604950e-15), // z^32
+		GNM_const(+1.331283261904345080561599e-15), // z^33
+		GNM_const(-4.763032612601286523705145e-16), // z^34
+		GNM_const(+1.704116960031678756548478e-16), // z^35
+		GNM_const(-6.097015154289962965498327e-17), // z^36
+		GNM_const(+2.181406718966981191594648e-17), // z^37
+		GNM_const(-7.804716283314031896188832e-18), // z^38
+		GNM_const(+2.792404989185037140120149e-18), // z^39
+		GNM_const(-9.990800520119412094515637e-19)  // z^40
+	};
+
+	gnm_float sum, xn, eps, dx;
+	unsigned ui;
+
+	dx = xn = x - ctr;
+	sum = c[0] + c[1] * xn;
+	eps = gnm_abs (GNM_EPSILON / 2 * sum);
+	for (ui = 2; ui < G_N_ELEMENTS (c); ui++) {
+		gnm_float t;
+		xn *= dx;
+		t = c[ui] * xn;
+		sum += t;
+		if (gnm_abs (t) < eps)
+			break;
+	}
+
+	return sum / x / (x + 1);
+}
+
+static gnm_float
+gnm_digamma_series_2 (gnm_float x, gnm_float dx)
+{
+	// Taylor series data for digamma(x)*x around x0.
+	// (Multiplying by x eliminates the pole at 0 and inproves convergence)
+
+	// There are more terms here than will be used in practice
+	static const gnm_float c[] = {
+		0,
+		GNM_const(1.414380859739958132208209), // z
+		GNM_const(+0.3205153650531439606356288), // z^2
+		GNM_const(-0.06493160890417499678330267), // z^3
+		GNM_const(+0.01887583274794994723362426), // z^4
+		GNM_const(-0.006343606951359283604253287), // z^5
+		GNM_const(+0.002294851106215796610898052), // z^6
+		GNM_const(-0.0008656448634441624396007814), // z^7
+		GNM_const(+0.0003349197451448133179202073), // z^8
+		GNM_const(-0.0001316774179498895538138516), // z^9
+		GNM_const(+0.00005231455693269487786690492), // z^10
+		GNM_const(-0.00002092930898551028581067484), // z^11
+		GNM_const(+8.412567983061925868991692e-6), // z^12
+		GNM_const(-3.392327126020536111624551e-6), // z^13
+		GNM_const(+1.370973972130058130320036e-6), // z^14
+		GNM_const(-5.549180707134621401005220e-7), // z^15
+		GNM_const(+2.248510299244865219544966e-7), // z^16
+		GNM_const(-9.117750735408115351181446e-8), // z^17
+		GNM_const(+3.699221275229322519704744e-8), // z^18
+		GNM_const(-1.501394539608077112213162e-8), // z^19
+		GNM_const(+6.095280485458728954145874e-9), // z^20
+		GNM_const(-2.474989843290409518138793e-9), // z^21
+		GNM_const(+1.005102611341640470198718e-9), // z^22
+		GNM_const(-4.082140595549856261286344e-10), // z^23
+		GNM_const(+1.658037290401667848672372e-10), // z^24
+		GNM_const(-6.734743373121082302361713e-11), // z^25
+		GNM_const(+2.735661184007454408449954e-11), // z^26
+		GNM_const(-1.111255343693481217856139e-11), // z^27
+		GNM_const(+4.514116174157725512713376e-12), // z^28
+		GNM_const(-1.833735949521707719130688e-12), // z^29
+		GNM_const(+7.449112972569399411235872e-13), // z^30
+		GNM_const(-3.026041976266472126189062e-13), // z^31
+		GNM_const(+1.229269770874759794761121e-13), // z^32
+		GNM_const(-4.993680849210878859449551e-14), // z^33
+		GNM_const(+2.028594795343119634764731e-14), // z^34
+		GNM_const(-8.240821397432176895280819e-15), // z^35
+		GNM_const(+3.347697235347764148196203e-15), // z^36
+		GNM_const(-1.359947630194034569577449e-15), // z^37
+		GNM_const(+5.524569438901596063753430e-16), // z^38
+		GNM_const(-2.244268739259513574290477e-16), // z^39
+		GNM_const(+9.116988470680108150341624e-17)  // z^40
+	};
+	gnm_float sum, xn, eps;
+	unsigned ui;
+
+	xn = dx;
+	sum = c[1] * xn;
+	eps = gnm_abs (GNM_EPSILON * sum);
+	for (ui = 2; ui < G_N_ELEMENTS (c); ui++) {
+		gnm_float t;
+		xn *= dx;
+		t = c[ui] * xn;
+		sum += t;
+		if (gnm_abs (t) < eps)
+			break;
+	}
+
+	return sum / x;
+}
+
+static gnm_float
+gnm_digamma_series_3 (gnm_float x)
+{
+	static const gnm_float ctr = 9140973792.0 / 4294967296.0; // ~ x0+2/3
+
+	// Taylor series data for digamma(x)*x*(x+1) around ctr.
+	// (Multiplying by x eliminates the pole at 0 and inproves convergence;
+	// multiplying by x+1 removes trouble caused by the pole at -1.)
+	//
+	// There are more terms here than will be used in practice
+	static const gnm_float c[] = {
+		GNM_const(1.069187202106379964561108), // cst
+		GNM_const(+1.772667605096075412537626), // z
+		GNM_const(+0.2272125634616216308385530), // z^2
+		GNM_const(-0.03340833758699978856544311), // z^3
+		GNM_const(+0.007175553429733710899335576), // z^4
+		GNM_const(-0.001806192980500979068857208), // z^5
+		GNM_const(+0.0004945960000406938148418368), // z^6
+		GNM_const(-0.0001423916069504330801643716), // z^7
+		GNM_const(+0.00004231966722000581929615164), // z^8
+		GNM_const(-0.00001284637919029649494826060), // z^9
+		GNM_const(+3.956444268156385801727645e-6), // z^10
+		GNM_const(-1.230919658902018354780620e-6), // z^11
+		GNM_const(+3.857326410290438339904409e-7), // z^12
+		GNM_const(-1.215068812516640310282077e-7), // z^13
+		GNM_const(+3.842015503145882562666222e-8), // z^14
+		GNM_const(-1.218213493657190927765958e-8), // z^15
+		GNM_const(+3.870598142893619365308165e-9), // z^16
+		GNM_const(-1.231667143855504792729306e-9), // z^17
+		GNM_const(+3.923744199538871225509428e-10), // z^18
+		GNM_const(-1.251053017217116281525239e-10), // z^19
+		GNM_const(+3.991408929102272214329984e-11), // z^20
+		GNM_const(-1.274041466704381992529912e-11), // z^21
+		GNM_const(+4.068145278333075741751660e-12), // z^22
+		GNM_const(-1.299351027914282051289942e-12), // z^23
+		GNM_const(+4.150924791093867196981568e-13), // z^24
+		GNM_const(-1.326263739748920828936488e-13), // z^25
+		GNM_const(+4.238042170781100294818004e-14), // z^26
+		GNM_const(-1.354374285142548716401069e-14), // z^27
+		GNM_const(+4.328534597139797982202326e-15), // z^28
+		GNM_const(-1.383454394822643441972787e-15), // z^29
+		GNM_const(+4.421862837726160406096067e-16), // z^30
+		GNM_const(-1.413377420676461469423437e-16), // z^31
+		GNM_const(+4.517732012277313050103063e-17), // z^32
+		GNM_const(-1.444075584733824688998366e-17), // z^33
+		GNM_const(+4.615989316796428759128748e-18), // z^34
+		GNM_const(-1.475515451985640283943034e-18), // z^35
+		GNM_const(+4.716565090265976036820537e-19), // z^36
+		GNM_const(-1.507683748197167538907172e-19), // z^37
+		GNM_const(+4.819438643661667878185773e-20), // z^38
+		GNM_const(-1.540579118701962073182260e-20), // z^39
+		GNM_const(+4.924618369274725064707054e-21) // z^40
+	};
+
+	gnm_float sum, xn, eps, dx;
+	unsigned ui;
+
+	dx = xn = x - ctr;
+	sum = c[0] + c[1] * xn;
+	eps = gnm_abs (GNM_EPSILON / 2 * sum);
+	for (ui = 2; ui < G_N_ELEMENTS (c); ui++) {
+		gnm_float t;
+		xn *= dx;
+		t = c[ui] * xn;
+		sum += t;
+		if (gnm_abs (t) < eps)
+			break;
+	}
+
+	return sum / x;
+}
+
+static gnm_float
+gnm_digamma_asymp (gnm_float x)
+{
+	// Use asympototic series for exp(digamma(x+1/2))
+	// The use of exp here makes for less cancellation.  Note, that the
+	// asympototic series for plain digamma has a log(x) term, so we
+	// need the log call anyway.  The use of +1/2 makes all the even
+	// powers go away.
+
+	// There are more terms here than will be used in practice
+	static const gnm_float c[] = {
+		1, // x
+		GNM_const(+0.04166666666666666666666667), // x^-1
+		GNM_const(-0.006423611111111111111111111), // x^-3
+		GNM_const(+0.003552482914462081128747795), // x^-5
+		GNM_const(-0.003953557448973030570252792), // x^-7
+		GNM_const(+0.007365033269308668975914346), // x^-9
+		GNM_const(-0.02073467582436813806307797), // x^-11
+		GNM_const(+0.08238185223878776450850024), // x^-13
+		GNM_const(-0.4396044368600812717750832), // x^-15
+		GNM_const(+3.034822873180573561262723), // x^-17
+		GNM_const(-26.32566091447594628148156)  // x^-19
+	};
+
+	gnm_float z = x - 0.5, zm2 = 1 / (z * z), zn = z;
+	gnm_float eps = GNM_EPSILON * z;
+	gnm_float sum = z;
+	unsigned ui;
+
+	for (ui = 1; ui < G_N_ELEMENTS (c); ui++) {
+		gnm_float t;
+		zn *= zm2;
+		t = c[ui] * zn;
+		sum += t;
+		if (gnm_abs (t) < eps)
+			break;
+	}
+
+	return gnm_log (sum);
+}
+
+
+/**
+ * gnm_digamma:
+ * @x: a number
+ *
+ * Returns: the digamma function evaluated at @x.
+ */
+gnm_float
+gnm_digamma (gnm_float x)
+{
+	// x0 = x0a + x0b is the positive root
+	gnm_float x0a = GNM_const(1.4616321449683622457627052426687441766262054443359375);
+	gnm_float x0b = GNM_const(9.549995429965697715184199075967050885129598840859878644035380181024307499273372559036557380022743e-17);
+
+	if (gnm_isnan (x))
+		return x;
+
+	if (x <= 0) {
+		if (x == gnm_floor (x))
+			return gnm_nan; // Including infinite
+
+		// Reflection.  Not ideal near zeros
+		return gnm_digamma (1 - x) - M_PIgnum * gnm_cotpi (x);
+	}
+
+	if (x < x0a - 1)
+		// Single step up.  No cancellation as digamma is negative
+		// at x+1.
+		return gnm_digamma (x + 1) - 1 / x;
+
+	if (x < x0a - 1.0 / 3.0)
+		// Series for range [0.46;1.13]
+		return gnm_digamma_series_1 (x);
+
+	if (x < x0a + 1.0 / 3.0)
+		// Series for range [1.13,1.79] around x0
+		// Take extra care to compute the difference to x0 with a high-
+		// precision version of x0
+		return gnm_digamma_series_2 (x, (x - x0a) - x0b);
+
+	if (x < x0a + 1)
+		// Series for range [1.79,2.46]
+		return gnm_digamma_series_3 (x);
+
+	if (x < 20) {
+		// Step down to series 3.  All terms are positive so no
+		// cancellation.
+		gnm_float sum = 0;
+		while (x > x0a + 1) {
+			x--;
+			sum += 1.0 / x;
+		}
+		return sum + gnm_digamma_series_3 (x);
+	}
+
+	return gnm_digamma_asymp (x);
 }
 
 /* ------------------------------------------------------------------------- */
