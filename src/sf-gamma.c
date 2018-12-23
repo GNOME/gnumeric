@@ -1536,7 +1536,7 @@ fixup_upper_real (gnm_complex *res, gnm_complex a, gnm_complex z)
 
 	if (GNM_CREALP (z) && z.re < 0 &&
 	    GNM_CREALP (a) && a.re != gnm_floor (a.re)) {
-		// Everything in the lower power series is real expect z^a
+		// Everything in the lower power series is real except z^a
 		// which is not.  So...
 		// 1. Flip to lower gamma
 		// 2. Assume modulus is correct
@@ -1914,24 +1914,24 @@ gnm_digamma (gnm_float x)
 		return gnm_digamma_series_1 (x);
 
 	if (x < x0a + 1.0 / 3.0)
-		// Series for range [1.13,1.79] around x0
+		// Series for range [1.13;1.79] around x0
 		// Take extra care to compute the difference to x0 with a high-
 		// precision version of x0
 		return gnm_digamma_series_2 (x, (x - x0a) - x0b);
 
 	if (x < x0a + 1)
-		// Series for range [1.79,2.46]
+		// Series for range [1.79;2.46]
 		return gnm_digamma_series_3 (x);
 
 	if (x < 20) {
-		// Step down to series 3.  All terms are positive so no
+		// Step down to series 2 or 3.  All terms are positive so no
 		// cancellation.
 		gnm_float sum = 0;
 		while (x > x0a + 1) {
 			x--;
 			sum += 1.0 / x;
 		}
-		return sum + gnm_digamma_series_3 (x);
+		return sum + gnm_digamma (x);
 	}
 
 	return gnm_digamma_asymp (x);
