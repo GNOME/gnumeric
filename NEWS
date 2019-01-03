@@ -2,6 +2,7 @@ Gnumeric 1.12.45
 
 Morten:
 	* Add DIGAMMA function.
+	* Support ISO-8601 UTC date/time input.  Mostly.  [#371]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.44
