@@ -1059,7 +1059,7 @@ gnumeric_gammaln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_digamma[] = {
-	{ GNM_FUNC_HELP_NAME, F_("GAMMA:the Digamma function")},
+	{ GNM_FUNC_HELP_NAME, F_("DIGAMMA:the Digamma function")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=DIGAMMA(1.46)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=DIGAMMA(15000)" },
