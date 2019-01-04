@@ -835,7 +835,7 @@ static GnmFuncHelp const help_average[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=AVERAGE(11.4,17.3,21.3,25.9,40.1)" },
-	{ GNM_FUNC_HELP_SEEALSO, ("SUM, COUNT")},
+	{ GNM_FUNC_HELP_SEEALSO, ("SUM,COUNT")},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Arithmetic_mean") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:ArithmeticMean.html") },
 	{ GNM_FUNC_HELP_END }
@@ -1260,7 +1260,7 @@ static GnmFuncHelp const help_betadist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{a} >= @{b} this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=BETADIST(0.12,2,3)" },
-	{ GNM_FUNC_HELP_SEEALSO, "BETAINV, BETA.DIST"},
+	{ GNM_FUNC_HELP_SEEALSO, "BETAINV,BETA.DIST"},
 	{ GNM_FUNC_HELP_END }
 };
 

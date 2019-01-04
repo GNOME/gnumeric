@@ -985,6 +985,8 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 
 	memset (counts, 0, sizeof (counts));
 	for (h = help; n-- > 0; h++) {
+		unsigned len;
+
 		g_assert (h->type <= GNM_FUNC_HELP_ODF);
 		counts[h->type]++;
 
@@ -995,6 +997,7 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 				continue;
 		}
 
+		len = h->text ? strlen (h->text) : 0;
 		switch (h->type) {
 		case GNM_FUNC_HELP_NAME:
 			if (g_ascii_strncasecmp (fd->name, h->text, nlen) ||
@@ -1002,11 +1005,12 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 				g_printerr ("%s: Invalid NAME record\n",
 					    fd->name);
 				res = 1;
-			} else if (h->text[nlen + 1] == ' ') {
+			} else if (h->text[nlen + 1] == ' ' ||
+				   h->text[len - 1] == ' ') {
 				g_printerr ("%s: Unwanted space in NAME record\n",
 					    fd->name);
 				res = 1;
-			} else if (h->text[strlen (h->text) - 1] == '.') {
+			} else if (h->text[len - 1] == '.') {
 				g_printerr ("%s: Unwanted period in NAME record\n",
 					    fd->name);
 				res = 1;
@@ -1090,6 +1094,36 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 				}
 			}
 			break;
+
+		case GNM_FUNC_HELP_SEEALSO: {
+			const char *p = h->text;
+			if (len == 0 || strchr (p, ' ')) {
+				g_printerr ("%s: Invalid SEEALSO record\n",
+					    fd->name);
+				res = 1;
+				break;
+			}
+
+			while (p) {
+				char *ref;
+				const char *e = strchr (p, ',');
+				if (!e) e = p + strlen (p);
+
+				ref = g_strndup (p, e - p);
+				if (!gnm_func_lookup (ref, NULL)) {
+					g_printerr ("%s: unknown SEEALSO record\reference %s",
+						    fd->name, ref);
+					res = 1;
+				}
+				g_free (ref);
+				if (*e == 0)
+					break;
+				else
+					p = e + 1;
+			}
+
+			break;
+		}
 		default:
 			; /* Nothing */
 		}
@@ -1131,6 +1165,12 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 	if (counts[GNM_FUNC_HELP_ODF] > 1) {
 		g_printerr ("%s: Help has %d ODF notes.\n",
 			    fd->name, counts[GNM_FUNC_HELP_ODF]);
+		res = 1;
+	}
+
+	if (counts[GNM_FUNC_HELP_SEEALSO] > 1) {
+		g_printerr ("%s: Help has %d SEEALSO notes.\n",
+			    fd->name, counts[GNM_FUNC_HELP_SEEALSO]);
 		res = 1;
 	}
 

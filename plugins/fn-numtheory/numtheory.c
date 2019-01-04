@@ -491,7 +491,7 @@ static GnmFuncHelp const help_isprime[] = {
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISPRIME returns TRUE if @{n} is prime and FALSE otherwise.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=ISPRIME(57)" },
-	{ GNM_FUNC_HELP_SEEALSO, "NT_D, NT_SIGMA"},
+	{ GNM_FUNC_HELP_SEEALSO, "NT_D,NT_SIGMA"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:PrimeNumber.html") },
 	{ GNM_FUNC_HELP_END }
 };

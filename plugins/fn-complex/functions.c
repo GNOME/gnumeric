@@ -402,7 +402,7 @@ gnumeric_imexp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_imargument[] = {
-	{ GNM_FUNC_HELP_NAME, F_("IMARGUMENT:the argument theta of the complex number @{z} ") },
+	{ GNM_FUNC_HELP_NAME, F_("IMARGUMENT:the argument theta of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The argument theta of a complex number is its angle in radians from the real axis.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
@@ -757,7 +757,7 @@ gnumeric_imarcsin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_imarccos[] = {
-	{ GNM_FUNC_HELP_NAME, F_("IMARCCOS:the complex arccosine of the complex number ") },
+	{ GNM_FUNC_HELP_NAME, F_("IMARCCOS:the complex arccosine of the complex number") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMARCCOS returns the complex arccosine of the complex number "
 	   "@{z}. The branch cuts are on the real axis, less than -1 and greater than 1.") },
@@ -783,7 +783,7 @@ gnumeric_imarccos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_imarctan[] = {
-	{ GNM_FUNC_HELP_NAME, F_("IMARCTAN:the complex arctangent of the complex number ") },
+	{ GNM_FUNC_HELP_NAME, F_("IMARCTAN:the complex arctangent of the complex number") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMARCTAN returns the complex arctangent of the complex number "
 	   "@{z}. The branch cuts are on the imaginary axis, below -i and above i.") },

@@ -136,7 +136,6 @@ static GnmFuncHelp const help_gnumeric_version[] = {
  	{ GNM_FUNC_HELP_NAME, N_("GNUMERIC_VERSION:the current version of Gnumeric")},
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("GNUMERIC_VERSION returns the version of gnumeric as a string.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=GNUMERIC_VERSION()" },
-	{ GNM_FUNC_HELP_SEEALSO, ""},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -151,7 +150,6 @@ gnumeric_version (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_table[] = {
 	{ GNM_FUNC_HELP_NAME, N_("TABLE:internal function for data tables")},
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("This function should not be called directly.")},
-	{ GNM_FUNC_HELP_SEEALSO, ""},
 	{ GNM_FUNC_HELP_END }
 };
 

@@ -285,7 +285,7 @@ static GnmFuncHelp const help_lenb[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=LENB(\"Helsinki\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=LENB(\"L\xc3\xa9vy\")" },
-        { GNM_FUNC_HELP_SEEALSO, "CHAR, CODE, LEN"},
+        { GNM_FUNC_HELP_SEEALSO, "CHAR,CODE,LEN"},
         { GNM_FUNC_HELP_END}
 };
 
