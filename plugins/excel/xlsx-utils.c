@@ -515,7 +515,7 @@ xlsx_string_parser (char const *in, GString *target,
 	char quote = *in;
 	size_t oldlen = target->len;
 
-	if (quote != '"')
+	if (quote != '"' && quote != '\'')
 		goto error;
 	in++;
 	while (*in) {
