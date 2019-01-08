@@ -1,6 +1,5 @@
-
 /*
- * Include this test values from
+ * Include this file of test values from
  *     http://people.sc.fsu.edu/~jburkardt/c_src/test_values/test_values.c
  *
  * Omega(0) is overridden to be 0.  This is a matter of definition.
@@ -285,7 +284,7 @@ main (int argc, char **argv)
 	// laguerre_associated_values ( int *n_data, int *n, int *m, double *x,
 	// laguerre_general_values ( int *n_data, int *n, double *a, double *x,
 	// laguerre_polynomial_values ( int *n_data, int *n, double *x, double *fx )
-	// lambert_w_values ( int *n_data, double *x, double *fx )
+	test_func ("lambertw", lambert_w_values, GT_D_D, NULL);
 	// laplace_cdf_values ( int *n_data, double *mu, double *beta, double *x,
 	// legendre_associated_values ( int *n_data, int *n, int *m, double *x,
 	// legendre_associated_normalized_sphere_values ( int *n_data, int *n, int *m,
@@ -319,7 +318,7 @@ main (int argc, char **argv)
 	// prandtl_values ( int *n_data, double *tc, double *p, double *pr )
 	if (do_slow) test_func ("ithprime", prime_values, GT_I_I, NULL);
 	// psat_values ( int *n_data, double *tc, double *p )
-	// psi_values ( int *n_data, double *x, double *fx )
+	test_func ("digamma", psi_values, GT_D_D, NULL);
 	// r8_factorial_log_values ( int *n_data, int *n, double *fn )
 	// r8_factorial_values ( int *n_data, int *n, double *fn )
 	// rayleigh_cdf_values ( int *n_data, double *sigma, double *x, double *fx )
