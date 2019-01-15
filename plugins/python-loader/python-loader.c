@@ -224,7 +224,7 @@ gplp_func_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GOPluginService *ser
 	g_return_val_if_fail (input != NULL, FALSE);
 	if (_PyGObject_API == NULL) {
 		pygobject_init (3, 0, 0);
-		g_return_if_fail (_PyGObject_API != NULL);
+		g_return_val_if_fail (_PyGObject_API != NULL, FALSE);
 	}
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");

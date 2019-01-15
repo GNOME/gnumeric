@@ -1,3 +1,7 @@
+2019-01-15  Morten Welinder  <terra@gnome.org>
+
+	* python-loader.c (gplp_func_file_probe): Ensure return value.
+
 2018-11-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.44
