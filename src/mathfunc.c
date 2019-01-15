@@ -5034,7 +5034,7 @@ gnm_lambert_w (gnm_float x, int k)
 {
 	gnm_float w;
 	static const gnm_float one_over_e = 1 / M_Egnum;
-	static const gnm_float sqrt_one_over_e = gnm_sqrt (1 / M_Egnum);
+	const gnm_float sqrt_one_over_e = gnm_sqrt (1 / M_Egnum);
 	static const gboolean debug = FALSE;
 	gnm_float wmin, wmax;
 	int i, imax = 20;

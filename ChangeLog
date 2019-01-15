@@ -1,3 +1,8 @@
+2019-01-15  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (gnm_lambert_w): Avoid static for something that
+	formally isn't a compile-time constant.  [#378]
+
 2018-11-24  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

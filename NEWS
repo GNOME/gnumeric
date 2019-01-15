@@ -4,6 +4,9 @@ Morten:
 	* Add DIGAMMA function.
 	* Support ISO-8601 UTC date/time input.  Mostly.  [#371]
 
+Thomas Klausner:
+	* Fix compilation issue.  [#378]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.44
 
