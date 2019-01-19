@@ -2,7 +2,7 @@
 \\$2 \(laURL: \\$1 \(ra\\$3
 ..
 .if \n[.g] .mso www.tmac
-.TH SSCONVERT 1 "2011-11-04" "gnumeric" "GNOME"
+.TH SSCONVERT 1 "2019-01-19" "gnumeric" "GNOME"
 .SH NAME
 ssconvert \- a command line spreadsheet format converter
 
@@ -70,7 +70,7 @@ are not substitutions, a default of ".%s" is added.
 
 .SS "Help options"
 .TP
-.B \-v, \-\-version
+.B \-\-version
 Display ssconvert's version.
 .TP
 .B \-h, \-\-help, \-\-usage
@@ -252,8 +252,7 @@ size of the graph.
 .TP
 .B sheet
 Name of the workbook sheet to operate on.
-You can specify several sheets by repeating this option. If this option is not given the active
-sheet (i. e. the sheet that was active when the file was saved) is used.
+You can specify several sheets by repeating this option. If this option is not given, all sheets are selected.
 
 .TP
 .B eol
