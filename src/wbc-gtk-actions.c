@@ -1115,7 +1115,7 @@ static GNM_ACTION_DEF (cb_help_irc)
 
 static GNM_ACTION_DEF (cb_help_bug)
 {
-	show_url (wbcg, "http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric");
+	show_url (wbcg, "https://gitlab.gnome.org/GNOME/gnumeric/issues");
 }
 
 static GNM_ACTION_DEF (cb_help_about) { dialog_about (wbcg); }
