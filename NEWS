@@ -1,5 +1,8 @@
 Gnumeric 1.12.45
 
+Eugen Dedu:
+	* Doc fixes.  [#380] [#381] [#382]
+
 Morten:
 	* Add DIGAMMA function.
 	* Support ISO-8601 UTC date/time input.  Mostly.  [#371]
