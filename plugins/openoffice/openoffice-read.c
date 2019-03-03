@@ -13737,11 +13737,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 
 	styles = gsf_infile_child_by_name (zip, "styles.xml");
 	if (styles == NULL) {
-		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
-			 _("No stream named styles.xml found."));
-		g_object_unref (contents);
-		g_object_unref (zip);
-		return;
+		/* uncommon but legal */
 	}
 
 	locale = gnm_push_C_locale ();

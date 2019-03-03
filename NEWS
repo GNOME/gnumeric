@@ -9,6 +9,7 @@ Morten:
 
 Thomas Klausner:
 	* Fix compilation issue.  [#378]
+	* Handle odf files with no styles whatsoever.  [#389]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.44
