@@ -1,5 +1,5 @@
 # Brazilian Portuguese translation for gnumeric-functions
-# Copyright (C) 2000-2018 Free Software Foundation, Inc.
+# Copyright (C) 2019 gnumeric-functions's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnumeric package.
 # E. A. Tacão <tacao@conectiva.com.br>, 2000.
 # Juan Carlos Castro y Castro <jcastro@vialink.com.br>, 2001.
@@ -7,21 +7,22 @@
 # Afonso Celso Medina <medina@maua.br>, 2004, 2005.
 # Juan Diego Martins da Costa Cruz <juan.martins@academico.ifrn.edu.br>, 2013, 2014.
 # Rodrigo Abumansur <abu_mansur@hotmail.com>, 2015.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2018.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2018-2019.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2018-12-22 23:42+0000\n"
-"PO-Revision-Date: 2018-12-25 14:58-0200\n"
+"POT-Creation-Date: 2019-01-04 23:49+0000\n"
+"PO-Revision-Date: 2019-03-10 11:12-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
-"Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
+"Language-Team: Portuguese - Brazil <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Virtaal 1.0.0-beta1\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"X-Generator: Gtranslator 3.31.90\n"
 "X-Project-Style: gnome\n"
 
 #: ../plugins/fn-christian-date/functions.c:131
@@ -373,8 +374,8 @@ msgid "IMEXP:the exponential of the complex number @{z}"
 msgstr "IMEXP:o exponencial do número complexo @{z}"
 
 #: ../plugins/fn-complex/functions.c:405
-msgid "IMARGUMENT:the argument theta of the complex number @{z} "
-msgstr "IMARGUMENT:argumento teta do número complexo @{z} "
+msgid "IMARGUMENT:the argument theta of the complex number @{z}"
+msgstr "IMARGUMENT:o argumento teta do número complexo @{z}"
 
 #: ../plugins/fn-complex/functions.c:407
 msgid ""
@@ -482,7 +483,8 @@ msgstr ""
 "ramo estão no eixo real, menor que -1 e maior do que 1."
 
 #: ../plugins/fn-complex/functions.c:760
-msgid "IMARCCOS:the complex arccosine of the complex number "
+#| msgid "IMARCCOS:the complex arccosine of the complex number "
+msgid "IMARCCOS:the complex arccosine of the complex number"
 msgstr "IMARCCOS:o arco-cosseno complexo do número complexo"
 
 #: ../plugins/fn-complex/functions.c:762
@@ -494,7 +496,8 @@ msgstr ""
 "de ramo estão no eixo real, menor que -1 e maior do que 1."
 
 #: ../plugins/fn-complex/functions.c:786
-msgid "IMARCTAN:the complex arctangent of the complex number "
+#| msgid "IMARCTAN:the complex arctangent of the complex number "
+msgid "IMARCTAN:the complex arctangent of the complex number"
 msgstr "IMARCTAN:a arco-tangente complexa do número complexo"
 
 #: ../plugins/fn-complex/functions.c:788
@@ -6315,9 +6318,9 @@ msgid "GAMMALN:natural logarithm of the Gamma function"
 msgstr "GAMMALN:logaritmo natural da função Gama"
 
 #: ../plugins/fn-math/functions.c:1062
-#| msgid "GAMMA:the Gamma function"
-msgid "GAMMA:the Digamma function"
-msgstr "GAMMA:a função Digama"
+#| msgid "GAMMA:the Digamma function"
+msgid "DIGAMMA:the Digamma function"
+msgstr "DIGAMMA:a função Digama"
 
 #: ../plugins/fn-math/functions.c:1078
 msgid "IGAMMA:the incomplete Gamma function"
