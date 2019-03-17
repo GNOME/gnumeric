@@ -157,6 +157,7 @@ TESTS =	t1000-statfuns.pl			\
 	t8003-valgrind-pdf.pl			\
 	t8004-valgrind-xls-macro.pl		\
 	t8005-valgrind-chart-fit.pl		\
+	t8006-valgrind-ods-no-styles.pl		\
 	t8010-valgrind-ods.pl			\
 	t8011-valgrind-xlsx.pl			\
 	t8050-valgrind-sstest.pl		\
