@@ -1,3 +1,8 @@
+2019-03-21  Thomas Kuehne  <undisclosed@nowhere>
+
+	* excel-xml-read.c: provide support for common meta data and basic
+	auto filter settings.
+
 2018-11-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.44

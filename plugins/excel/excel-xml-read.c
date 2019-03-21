@@ -26,6 +26,7 @@
 #include <sheet-view.h>
 #include <sheet-style.h>
 #include <sheet-merge.h>
+#include <sheet-filter.h>
 #include <sheet.h>
 #include <ranges.h>
 #include <style.h>
@@ -74,6 +75,7 @@ typedef struct {
 	GnmStyle	*style;
 	GnmStyle	*def_style;
 	GHashTable	*style_hash;
+	GsfDocMetaData	*metadata;	/* Document Properties */
 } ExcelXMLReadState;
 
 enum {
@@ -275,6 +277,82 @@ xl_xml_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 	parse_error_free (&err);
 
 	return texpr;
+}
+
+static void
+xl_xml_doc_prop_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	state->metadata = gsf_doc_meta_data_new ();
+}
+
+static void
+xl_xml_doc_prop_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	go_doc_set_meta_data (GO_DOC (state->wb), state->metadata);
+	g_object_unref (state->metadata);
+	state->metadata = NULL;
+}
+
+static void
+xl_xml_read_prop_type (GsfXMLIn *xin, GType g_type)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	GValue *res = g_new0 (GValue, 1);
+	if (gsf_xml_gvalue_from_str (res, g_type, xin->content->str))
+		gsf_doc_meta_data_insert
+			(state->metadata,
+			 g_strdup (xin->node->user_data.v_str), res);
+	else
+		 g_free (res);
+}
+
+static void
+xl_xml_read_prop (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+        xl_xml_read_prop_type (xin, G_TYPE_STRING);
+}
+
+static void
+xl_xml_read_prop_dt (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+        xl_xml_read_prop_type (xin, GSF_TIMESTAMP_TYPE);
+}
+
+static void
+xl_xml_read_keywords (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	gchar **strs, **orig_strs;
+	GsfDocPropVector *keywords;
+	GValue v = G_VALUE_INIT;
+	int count = 0;
+
+	if (strlen (xin->content->str) == 0)
+		return;
+
+	orig_strs = strs = g_strsplit (xin->content->str, " ", 0);
+	keywords = gsf_docprop_vector_new ();
+
+	while (strs != NULL && *strs != NULL && strlen (*strs) > 0) {
+		g_value_init (&v, G_TYPE_STRING);
+		g_value_set_string (&v, *strs);
+		gsf_docprop_vector_append (keywords, &v);
+		g_value_unset (&v);
+		count ++;
+		strs++;
+	}
+	g_strfreev(orig_strs);
+
+	if (count > 0) {
+		GValue *val = g_new0 (GValue, 1);
+		g_value_init (val, GSF_DOCPROP_VECTOR_TYPE);
+		g_value_set_object (val, keywords);
+		gsf_doc_meta_data_insert (state->metadata,
+					  g_strdup (xin->node->user_data.v_str), val);
+	}
+	g_object_unref (keywords);
 }
 
 static void
@@ -926,6 +1004,35 @@ xl_xml_selection (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 }
 
+static void
+xl_xml_auto_filter_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	GnmFilter *filter;
+	GnmParsePos pp;
+	GnmRangeRef rr;
+	GnmRange r;
+	char const *end, *range = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_XL, "Range"))
+			range = attrs[1];
+		else
+			unknown_attr (xin, attrs, "AutoFilter");
+
+	if (range)
+	{
+		parse_pos_init_sheet (&pp, state->sheet);
+		end = rangeref_parse (&rr, range, &pp, gnm_conventions_xls_r1c1);
+		if (end != range)
+		{
+			range_init_rangeref (&r, &rr);
+			filter = gnm_filter_new (state->sheet, &r);
+			gnm_filter_reapply (filter);
+		}
+	}
+}
+
 /****************************************************************************/
 
 static GsfXMLInNS content_ns[] = {
@@ -943,17 +1050,25 @@ static GsfXMLInNS content_ns[] = {
 static GsfXMLInNode const excel_xml_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-  GSF_XML_IN_NODE (WORKBOOK, DOC_PROP, XL_NS_O, "DocumentProperties", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (DOC_PROP, PROP_AUTHOR,	 XL_NS_O, "Author",     GSF_XML_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (DOC_PROP, PROP_LAST_AUTHOR, XL_NS_O, "LastAuthor", GSF_XML_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (DOC_PROP, PROP_CREATED,	 XL_NS_O, "Created",    GSF_XML_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (DOC_PROP, PROP_LAST_SAVED,	 XL_NS_O, "LastSaved",  GSF_XML_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (DOC_PROP, PROP_COMPANY,	 XL_NS_O, "Company",    GSF_XML_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (DOC_PROP, PROP_VERSION,	 XL_NS_O, "Version",    GSF_XML_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (DOC_PROP, PROP_TITLE,       XL_NS_O, "Title",      GSF_XML_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (DOC_PROP, PROP_DESCRIPTION, XL_NS_O, "Description",GSF_XML_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (DOC_PROP, PROP_REVISION,    XL_NS_O, "Revision",      GSF_XML_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (DOC_PROP, PROP_TOTAL_TIME,  XL_NS_O, "TotalTime",GSF_XML_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (WORKBOOK, DOC_PROP, XL_NS_O, "DocumentProperties", GSF_XML_NO_CONTENT, &xl_xml_doc_prop_start, &xl_xml_doc_prop_end),
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_AUTHOR,         XL_NS_O, "Author", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_prop, .v_str = GSF_META_NAME_INITIAL_CREATOR),
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_CATEGORY,       XL_NS_O, "Category", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_prop, .v_str = GSF_META_NAME_CATEGORY),
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_CEATED,         XL_NS_O, "Created", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_prop_dt, .v_str = GSF_META_NAME_DATE_CREATED),
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_COMPANY,        XL_NS_O, "Company", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_prop, .v_str = GSF_META_NAME_COMPANY),
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_DESCRIPTION,    XL_NS_O, "Description", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_prop, .v_str = GSF_META_NAME_DESCRIPTION),
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_HYPERLINK_BASE, XL_NS_O, "HyperlinkBase", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_prop, .v_str = "xlsx:HyperlinkBase"),
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_KEYWORDS,       XL_NS_O, "Keywords", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_keywords, .v_str = GSF_META_NAME_KEYWORDS),
+
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_LAST_AUTHOR,    XL_NS_O, "LastAuthor", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_prop, .v_str = GSF_META_NAME_CREATOR),
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_LAST_PRINTED,   XL_NS_O, "LastPrinted", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_prop_dt, .v_str = GSF_META_NAME_PRINT_DATE),
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_LAST_SAVED,     XL_NS_O, "LastSaved", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_prop_dt, .v_str = GSF_META_NAME_DATE_MODIFIED),
+    GSF_XML_IN_NODE (DOC_PROP, PROP_LINES,               XL_NS_O, "Lines", GSF_XML_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_MANAGER,        XL_NS_O, "Manager", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_prop, .v_str = GSF_META_NAME_MANAGER),
+    GSF_XML_IN_NODE (DOC_PROP, PROP_REVISION,            XL_NS_O, "Revision", GSF_XML_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_SUBJECT,        XL_NS_O, "Subject", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_prop, .v_str = GSF_META_NAME_SUBJECT),
+    GSF_XML_IN_NODE_FULL (DOC_PROP, PROP_TITLE,          XL_NS_O, "Title", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xl_xml_read_prop, .v_str = GSF_META_NAME_TITLE),
+    GSF_XML_IN_NODE (DOC_PROP, PROP_TOTAL_TIME,          XL_NS_O, "TotalTime", GSF_XML_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (DOC_PROP, PROP_VERSION,             XL_NS_O, "Version", GSF_XML_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE (WORKBOOK, DOC_SETTINGS, XL_NS_O, "OfficeDocumentSettings", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (DOC_SETTINGS, DOC_COLORS, XL_NS_O, "Colors", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1031,6 +1146,9 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", GSF_XML_NO_CONTENT,
       GSF_XML_IN_NODE (COND_FMT, COND,		XL_NS_XL, "Condition", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (COND, COND_VALUE1,	XL_NS_XL, "Value1", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (COND, COND_STYLE,	XL_NS_XL, "Format", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (WORKSHEET, AUTO_FILTER,    XL_NS_XL, "AutoFilter", GSF_XML_NO_CONTENT, &xl_xml_auto_filter_start, NULL),
+    GSF_XML_IN_NODE (WORKSHEET, WS_NAMES,       XL_NS_SS, "Names", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (WS_NAMES, WS_NAMED_RANGE,   XL_NS_SS, "NamedRange", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE_END
 };

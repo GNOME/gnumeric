@@ -12,6 +12,7 @@ Thomas Klausner:
 
 Thomas Kuehne:
        * Handle odf files with no styles whatsoever.  [#389]
+       * Improve Excel standalone-xml import.  [#391]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.44
