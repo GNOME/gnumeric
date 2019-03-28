@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2019-01-04 23:49+0000\n"
-"PO-Revision-Date: 2019-03-08 15:22+0100\n"
+"POT-Creation-Date: 2019-03-08 14:23+0000\n"
+"PO-Revision-Date: 2019-03-28 13:21+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 3.31.90\n"
+"X-Generator: Gtranslator 3.32.0\n"
 
 #: ../plugins/fn-christian-date/functions.c:131
 msgid ""
@@ -384,7 +384,6 @@ msgid "IMEXP:the exponential of the complex number @{z}"
 msgstr "IMEXP:el exponencial del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:405
-#| msgid "IMARGUMENT:the argument theta of the complex number @{z} "
 msgid "IMARGUMENT:the argument theta of the complex number @{z}"
 msgstr "IMARGUMENT:el argumento theta del número complejo @{z}"
 
@@ -494,7 +493,6 @@ msgstr ""
 "de la rama están en el eje real, menor que -1 y mayor que 1."
 
 #: ../plugins/fn-complex/functions.c:760
-#| msgid "IMARCCOS:the complex arccosine of the complex number "
 msgid "IMARCCOS:the complex arccosine of the complex number"
 msgstr "IMARCCOS:el arcocoseno complejo del número complejo"
 
@@ -507,7 +505,6 @@ msgstr ""
 "cortes de la rama están en el eje real, menor que -1 y mayor que 1."
 
 #: ../plugins/fn-complex/functions.c:786
-#| msgid "IMARCTAN:the complex arctangent of the complex number "
 msgid "IMARCTAN:the complex arctangent of the complex number"
 msgstr "IMARCTAN:la arcotangente compleja del número complejo"
 
@@ -621,7 +618,6 @@ msgstr ""
 "función gama incompleta"
 
 #: ../plugins/fn-complex/functions.c:1111
-#, fuzzy
 #| msgid ""
 #| "The regularized incomplete gamma function is the unregularized incomplete "
 #| "gamma function divided by gamma(@{a})"
@@ -630,7 +626,7 @@ msgid ""
 "gamma function divided by GAMMA(@{a})."
 msgstr ""
 "La función gama incompleta regularizada es la función gama incompleta no "
-"regularizada dividida por gamma(@{a})"
+"regularizada dividida por GAMMA(@{a})"
 
 #: ../plugins/fn-complex/functions.c:1138
 msgid "IMSUB:the difference of two complex numbers"
@@ -1349,9 +1345,6 @@ msgid "method:numbering system, defaults to 1"
 msgstr "método:sistema de numeración, el predeterminado es 1."
 
 #: ../plugins/fn-date/functions.c:649
-#| msgid ""
-#| "The WEEKDAY function returns the day-of-week of @{date}.  The value of "
-#| "@{method} determines how days are numbered; it defaults to 1. "
 msgid ""
 "The WEEKDAY function returns the day-of-week of @{date}.  The value of "
 "@{method} determines how days are numbered; it defaults to 1."
@@ -3950,7 +3943,6 @@ msgid "dates:dates of cash flow"
 msgstr "fechas:fechas de flujo de fondo"
 
 #: ../plugins/fn-financial/functions.c:1545
-#, fuzzy
 #| msgid ""
 #| "XNPV calculates the net present value of a cash flow at irregular times"
 msgid ""
@@ -4356,7 +4348,6 @@ msgstr ""
 "AMORLINC:depreciación de un activo usando convenciones contables francesas"
 
 #: ../plugins/fn-financial/functions.c:2964
-#, fuzzy
 #| msgid ""
 #| "AMORLINC calculates the depreciation of an asset using French accounting "
 #| "conventions. Assets purchased in the middle of a period take prorated "
@@ -5070,16 +5061,14 @@ msgstr ""
 "caso devuelve el segundo."
 
 #: ../plugins/fn-logical/functions.c:245
-#, fuzzy
 #| msgid "IFNA:test for #NA! error"
 msgid "IFNA:test for #N/A error"
-msgstr "IFNA:prueba para el error #NA!"
+msgstr "IFNA:prueba para el error #N/A"
 
 #: ../plugins/fn-logical/functions.c:246
-#, fuzzy
 #| msgid "x:value to test for #NA! error"
 msgid "x:value to test for #N/A error"
-msgstr "x:valor con el que probar el error #NA!"
+msgstr "x:valor con el que probar el error #N/A"
 
 #: ../plugins/fn-logical/functions.c:248
 #, fuzzy
@@ -5095,10 +5084,9 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:265
 msgid "IFS:multi-branch conditional"
-msgstr ""
+msgstr "IFS:condicional multi-rama"
 
 #: ../plugins/fn-logical/functions.c:266
-#| msgid "second:second"
 msgid "cond1:condition"
 msgstr "cond1:condición"
 
@@ -5107,7 +5095,6 @@ msgid "value1:value if @{condition1} is true"
 msgstr "valor1:valor si @{condición1} es cierto"
 
 #: ../plugins/fn-logical/functions.c:268
-#| msgid "second:second"
 msgid "cond2:condition"
 msgstr "cond2:condición"
 
@@ -5132,7 +5119,6 @@ msgid "SWITCH:multi-branch selector"
 msgstr ""
 
 #: ../plugins/fn-logical/functions.c:310
-#| msgid "v:value"
 msgid "ref:value"
 msgstr "ref:valor"
 
@@ -5143,7 +5129,6 @@ msgid "choice1:first choice value"
 msgstr "ref1:primer valor"
 
 #: ../plugins/fn-logical/functions.c:312
-#| msgid "value1:first value"
 msgid "value1:first result value"
 msgstr "valor1:primer valor del resultado"
 
@@ -5154,7 +5139,6 @@ msgid "choice2:second choice value"
 msgstr "ref2:segundo valor"
 
 #: ../plugins/fn-logical/functions.c:314
-#| msgid "value2:second value"
 msgid "value2:second result value"
 msgstr "valor2:segundo valor del resultado"
 
@@ -5420,7 +5404,6 @@ msgid "vector:n by 1 or 1 by n range to be searched"
 msgstr "vector:rango n por 1 o 1 por n que buscar"
 
 #: ../plugins/fn-lookup/functions.c:1258
-#, fuzzy
 #| msgid ""
 #| "type:+1 (the default) to find the largest value ≤ @{seek}, 0 to find the "
 #| "first value = @{seek}, or-1 to find the smallest value ≥ @{seek}"
@@ -5438,7 +5421,6 @@ msgstr ""
 "MATCH busca @{vector} para @{objetivo} y devuelve el índice basado en 1."
 
 #: ../plugins/fn-lookup/functions.c:1262
-#, fuzzy
 #| msgid ""
 #| " For @{type} = -1 the data must be sorted in descending order; for "
 #| "@{type} = +1 the data must be sorted in ascending order."
@@ -5447,7 +5429,7 @@ msgid ""
 "+1 the data must be sorted in ascending order."
 msgstr ""
 "Para @{tipo} = -1 los datos deben ordenarse de manera descendente; para "
-"@{tipo} = +1 los datos deben ser ordenados en orden ascendente."
+"@{tipo} = +1 los datos se deben ordenar en orden ascendente."
 
 #: ../plugins/fn-lookup/functions.c:1264
 msgid "If @{seek} could not be found, #N/A is returned."
@@ -6046,19 +6028,16 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:696 ../plugins/fn-math/functions.c:737
 #: ../plugins/fn-math/functions.c:757 ../plugins/fn-math/functions.c:777
-#| msgid "range:cell area"
 msgid "actual_range:cell area"
 msgstr "rango_actual:área de celda"
 
 #: ../plugins/fn-math/functions.c:697 ../plugins/fn-math/functions.c:738
 #: ../plugins/fn-math/functions.c:758 ../plugins/fn-math/functions.c:778
-#| msgid "range:cell area"
 msgid "range1:cell area"
 msgstr "range1:área de celda"
 
 #: ../plugins/fn-math/functions.c:698 ../plugins/fn-math/functions.c:739
 #: ../plugins/fn-math/functions.c:759 ../plugins/fn-math/functions.c:779
-#| msgid "criteria:condition for a cell to be included"
 msgid "criteria1:condition for a cell to be included"
 msgstr "criteria1:condición para que una celda se incluya"
 
@@ -6087,7 +6066,6 @@ msgstr ""
 "correspondientes en el rango cumplan los @{criterios} dados"
 
 #: ../plugins/fn-math/functions.c:756
-#, fuzzy
 #| msgid ""
 #| "SUMIF:sum of the cells in @{actual_range} for which the corresponding "
 #| "cells in the range meet the given @{criteria}"
@@ -6095,8 +6073,8 @@ msgid ""
 "MINIFS:minimum of the cells in @{actual_range} for which the corresponding "
 "cells in the range meet the given criteria"
 msgstr ""
-"SUMIF:suma de las celdas en @{rango_actual} para el cual las celdas "
-"correspondientes en el rango cumplen los @{criterios} dados"
+"SUMIF:mínimo de las celdas en @{rango_actual} para el cual las celdas "
+"correspondientes en el rango cumplen los criterios dados"
 
 #: ../plugins/fn-math/functions.c:776
 #, fuzzy
@@ -6119,7 +6097,6 @@ msgstr ""
 "menos ABS(@{x})"
 
 #: ../plugins/fn-math/functions.c:798 ../plugins/fn-math/functions.c:1220
-#, fuzzy
 #| msgid ""
 #| "significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)"
 msgid ""
@@ -6251,7 +6228,6 @@ msgid "GAMMALN:natural logarithm of the Gamma function"
 msgstr "GAMMALN:logaritmo natural de la función Gamma"
 
 #: ../plugins/fn-math/functions.c:1062
-#| msgid "GAMMA:the Gamma function"
 msgid "DIGAMMA:the Digamma function"
 msgstr "DIGAMMA:la función Digamma"
 
@@ -6272,7 +6248,6 @@ msgstr ""
 "contrario la parte imaginaria"
 
 #: ../plugins/fn-math/functions.c:1084
-#, fuzzy
 #| msgid ""
 #| "The regularized incomplete gamma function is the unregularized incomplete "
 #| "gamma function divided by gamma(@{a})"
@@ -6281,7 +6256,7 @@ msgid ""
 "gamma function divided by GAMMA(@{a})"
 msgstr ""
 "La función gama incompleta regularizada es la función gama incompleta no "
-"regularizada dividida por gamma(@{a})"
+"regularizada dividida por GAMMA(@{a})"
 
 #: ../plugins/fn-math/functions.c:1085
 msgid ""
@@ -6411,7 +6386,6 @@ msgid "INT:largest integer not larger than @{x}"
 msgstr "INT:entero más grande inferior a @{x}"
 
 #: ../plugins/fn-math/functions.c:1273
-#| msgid "GAMMA:the Gamma function"
 msgid "LAMBERTW:the Lambert W function"
 msgstr "LAMBERTW:la función Lambert W"
 
@@ -6421,10 +6395,9 @@ msgstr "k:rama"
 
 #: ../plugins/fn-math/functions.c:1276
 msgid "@{k} defaults to 0, the principal branch."
-msgstr ""
+msgstr "El valor predeterminado de @{k} es 0, la rama principal."
 
 #: ../plugins/fn-math/functions.c:1277
-#| msgid "@{x} must be in the range 1 to 255."
 msgid "@{k} must be either 0 or -1."
 msgstr "@{k} debe ser 0 o -1."
 
@@ -7292,7 +7265,6 @@ msgid "wiki:en:Euler's_totient_function"
 msgstr "wiki:es:función_indicatriz_Euler"
 
 #: ../plugins/fn-numtheory/numtheory.c:324
-#| msgid "NT_SIGMA:sigma function"
 msgid "NT_RADICAL:Radical function"
 msgstr "NT_RADICAL:función Radical"
 
@@ -7990,10 +7962,10 @@ msgstr ""
 "geométrica."
 
 #: ../plugins/fn-r/functions.c:636
-#, fuzzy
 #| msgid "R.DBETA:probability density function of the beta distribution"
 msgid "R.DGUMBEL:probability density function of the Gumbel distribution"
-msgstr "R.DBETA:función de la densidad de probabilidad de la distribución beta"
+msgstr ""
+"R.DGUMBEL:función de la densidad de probabilidad de la distribución Gumbel"
 
 #: ../plugins/fn-r/functions.c:638 ../plugins/fn-r/functions.c:663
 #: ../plugins/fn-r/functions.c:690
@@ -8020,13 +7992,12 @@ msgstr ""
 "distribución beta."
 
 #: ../plugins/fn-r/functions.c:661
-#, fuzzy
 #| msgid "R.PBETA:cumulative distribution function of the beta distribution"
 msgid "R.PGUMBEL:cumulative distribution function of the Gumbel distribution"
-msgstr "R.PBETA:función de distribución acumulativa de la distribución beta"
+msgstr ""
+"R.PGUMBEL:función de distribución acumulativa de la distribución Gumbel"
 
 #: ../plugins/fn-r/functions.c:667
-#, fuzzy
 #| msgid ""
 #| "This function returns the cumulative distribution function of the beta "
 #| "distribution."
@@ -8035,16 +8006,14 @@ msgid ""
 "distribution."
 msgstr ""
 "Esta función devuelve la función de distribución acumulativa de la "
-"distribución beta."
+"distribución Gumbel."
 
 #: ../plugins/fn-r/functions.c:688
-#, fuzzy
 #| msgid "R.QBETA:probability quantile function of the beta distribution"
 msgid "R.QGUMBEL:probability quantile function of the Gumbel distribution"
-msgstr "R.QBETA:función cuantil de probabilidad la distribución beta"
+msgstr "R.QGUMBEL:función cuantil de probabilidad la distribución Gumbel"
 
 #: ../plugins/fn-r/functions.c:694
-#, fuzzy
 #| msgid ""
 #| "This function returns the probability quantile function, i.e., the "
 #| "inverse of the cumulative distribution function, of the beta distribution."
@@ -8054,7 +8023,7 @@ msgid ""
 msgstr ""
 "Esta función devuelve la función cuantil de la probabilidad, es decir, la "
 "inversa de la función de la distribución acumulativa, de la distribución "
-"beta."
+"Gumbel."
 
 #: ../plugins/fn-r/functions.c:715
 msgid ""
@@ -8315,14 +8284,13 @@ msgstr ""
 "Poisson."
 
 #: ../plugins/fn-r/functions.c:1116
-#, fuzzy
 #| msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
 msgid "R.DRAYLEIGH:probability density function of the Rayleigh distribution"
 msgstr ""
-"RAYLEIGH:función de densidad de probabilidad de la distribución de Rayleigh"
+"R.DRAYLEIGH:función de densidad de probabilidad de la distribución de "
+"Rayleigh"
 
 #: ../plugins/fn-r/functions.c:1120
-#, fuzzy
 #| msgid ""
 #| "This function returns the probability density function of the F "
 #| "distribution."
@@ -8331,17 +8299,16 @@ msgid ""
 "distribution."
 msgstr ""
 "Esta función devuelve la función de densidad de probabilidad de la "
-"distribución de F."
+"distribución de Rayleigh."
 
 #: ../plugins/fn-r/functions.c:1139
-#, fuzzy
 #| msgid "R.PF:cumulative distribution function of the F distribution"
 msgid ""
 "R.PRAYLEIGH:cumulative distribution function of the Rayleigh distribution"
-msgstr "R.PF:función de distribucion acumulativa de la distribución F"
+msgstr ""
+"R.PRAYLEIGH:función de distribución acumulativa de la distribución Rayleigh"
 
 #: ../plugins/fn-r/functions.c:1144
-#, fuzzy
 #| msgid ""
 #| "This function returns the cumulative distribution function of the F "
 #| "distribution."
@@ -8350,17 +8317,15 @@ msgid ""
 "distribution."
 msgstr ""
 "Esta función devuelve la función de distribución acumulativa de la "
-"distribución F."
+"distribución Rayleigh."
 
 #: ../plugins/fn-r/functions.c:1164
-#, fuzzy
 #| msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
 msgid "R.QRAYLEIGH:probability quantile function of the Rayleigh distribution"
 msgstr ""
-"RAYLEIGH:función de densidad de probabilidad de la distribución de Rayleigh"
+"Q.RAYLEIGH:función cuantil de probabilidad de la distribución de Rayleigh"
 
 #: ../plugins/fn-r/functions.c:1169
-#, fuzzy
 #| msgid ""
 #| "This function returns the probability quantile function, i.e., the "
 #| "inverse of the cumulative distribution function, of the F distribution."
@@ -8369,7 +8334,8 @@ msgid ""
 "of the cumulative distribution function, of the Rayleigh distribution."
 msgstr ""
 "Esta función devuelve la función cuantil de probabilidad, es decir, la "
-"inversa de la función de distribución acumulativa de la distribución F."
+"inversa de la función de distribución acumulativa de la distribución "
+"Rayleigh."
 
 #: ../plugins/fn-r/functions.c:1189
 msgid "R.DSNORM:probability density function of the skew-normal distribution"
@@ -9109,7 +9075,7 @@ msgstr ""
 "simulación válidos debería tener el mismo número de valores @{dN} para todas "
 "las variables de decisión. Si la simulación se ejecuta más veces que los "
 "valores que están definidos, SIMTABLE devuelve un error #N/A! (ej: si A1 "
-"contiene «=SIMTABLE(1)» y A2 «=SIMTABLE(1,2)», A1 da un error #N/A! en la "
+"contiene «=SIMTABLE(1)» y A2 «=SIMTABLE(1,2)», A1 da un error #N/A en la "
 "segunda ronda).\n"
 "El uso sucesivo de la herramienta de simulación también requiere que le dé a "
 "la herramienta al menos una variable de entrada teniendo RAND() o cualquier "
@@ -9337,10 +9303,9 @@ msgid "RANK.AVG:rank of a number in a list of numbers"
 msgstr "RANK.AVG:rango de un número en una lista de números"
 
 #: ../plugins/fn-stat/functions.c:213
-#, fuzzy
 #| msgid "In case of a tie, RANK returns the average rank."
 msgid "In case of a tie, RANK.AVG returns the average rank."
-msgstr "En caso de un empate, RANK devuelve el rango promedio."
+msgstr "En caso de un empate, RANK.AVG devuelve el rango promedio."
 
 #: ../plugins/fn-stat/functions.c:214
 msgid "This function is Excel 2010 compatible."
@@ -9470,7 +9435,6 @@ msgid "Then CORREL(A1:A5,B1:B5) equals 0.996124788."
 msgstr "Luego CORREL(A1:A5,B1:B5) igual a 0.996124788."
 
 #: ../plugins/fn-stat/functions.c:386
-#| msgid "wiki:en:CorrelationCoefficient.html"
 msgid "wolfram:CorrelationCoefficient.html"
 msgstr "wolfram:CorrelationCoefficient.html"
 
@@ -9699,7 +9663,6 @@ msgid "HARMEAN:harmonic mean"
 msgstr "HARMEAN:media armónica"
 
 #: ../plugins/fn-stat/functions.c:734
-#, fuzzy
 #| msgid ""
 #| "The harmonic mean of N data points is  N divided by the sum of the "
 #| "reciprocals of the data points)."
@@ -9838,7 +9801,6 @@ msgstr ""
 "distribución acumulativa"
 
 #: ../plugins/fn-stat/functions.c:982
-#, fuzzy
 #| msgid ""
 #| "If @{cumulative} is false it will return:\t@{y} * exp (-@{y}*@{x}),"
 #| "otherwise it will return\t1 - exp (-@{y}*@{x})."
@@ -10369,7 +10331,6 @@ msgstr ""
 "la distribución de Weibull"
 
 #: ../plugins/fn-stat/functions.c:1936
-#, fuzzy
 #| msgid ""
 #| "If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/"
 #| "@{beta})^@{alpha}),otherwise it will return (@{alpha}/@{beta}^@{alpha}) * "
@@ -10380,7 +10341,7 @@ msgid ""
 "@{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha}))."
 msgstr ""
 "Si el booleano @{acumulativo} es verdadero devolverá: 1 - exp (-(@{x}/"
-"@{beta})^@{alfa}), de caso contrario devolverá (@{alfa}/@{beta}^@{alfa}) * "
+"@{beta})^@{alfa}), en caso contrario devolverá (@{alfa}/@{beta}^@{alfa}) * "
 "@{x}^(@{alfa}-1) * exp(-(@{x}/@{beta}^@{alfa}))."
 
 #: ../plugins/fn-stat/functions.c:1967
@@ -10609,20 +10570,18 @@ msgstr ""
 "función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2371
-#, fuzzy
 #| msgid "Then LARGE(A1:A5,2) equals 25.9.LARGE(A1:A5,4) equals 17.3."
 msgid "Then LARGE(A1:A5,2) equals 25.9. LARGE(A1:A5,4) equals 17.3."
-msgstr "Luego LARGE(A1:A5,2) igual a 25.9.LARGE(A1:A5,4) igual a 17.3."
+msgstr "Luego LARGE(A1:A5,2) igual a 25.9. LARGE(A1:A5,4) igual a 17.3."
 
 #: ../plugins/fn-stat/functions.c:2405
 msgid "SMALL:@{k}-th smallest value in a data set"
 msgstr "SMALL:@{k}º valor más pequeño en un conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:2414
-#, fuzzy
 #| msgid "Then SMALL(A1:A5,2) equals 17.3.SMALL(A1:A5,4) equals 25.9."
 msgid "Then SMALL(A1:A5,2) equals 17.3. SMALL(A1:A5,4) equals 25.9."
-msgstr "Luego SMALL(A1:A5,2) igual a 17.3.SMALL(A1:A5,4) igual a 25.9."
+msgstr "Luego SMALL(A1:A5,2) igual a 17.3. SMALL(A1:A5,4) igual a 25.9."
 
 #: ../plugins/fn-stat/functions.c:2449
 msgid ""
@@ -10810,12 +10769,13 @@ msgid "STDEVPA:population standard deviation of an entire population"
 msgstr "STDEVPA:desviación estándar de la población de una población entera."
 
 #: ../plugins/fn-stat/functions.c:2834
-#, fuzzy
 #| msgid "PERCENTRANK:rank of a data point in a data set"
 msgid ""
 "PERCENTRANK:rank of a data point in a data set (Hyndman-Fan method 7: N-1 "
 "basis)"
-msgstr "PERCENTRANK:rango de un punto de datos en un conjunto de datos"
+msgstr ""
+"PERCENTRANK:rango de un punto de datos en un conjunto de datos (método 7 de "
+"Hyndman-Fan: N-1)"
 
 #: ../plugins/fn-stat/functions.c:2835 ../plugins/fn-stat/functions.c:2939
 msgid "array:range of numeric values"
@@ -10844,7 +10804,6 @@ msgstr ""
 "Si @{significancia} es menor que uno, esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2842 ../plugins/fn-stat/functions.c:2946
-#, fuzzy
 #| msgid ""
 #| "If @{x} exceeds the largest value or is less than the smallest value in "
 #| "@{array}, this function returns a #NUM! error."
@@ -10853,7 +10812,7 @@ msgid ""
 "@{array}, this function returns an #N/A error."
 msgstr ""
 "Si @{x} excede el valor más grande o es menor que el valor más pequeño en "
-"@{matriz}, esta función devuelve un error #NUM!."
+"@{matriz}, esta función devuelve un error #N/A."
 
 #: ../plugins/fn-stat/functions.c:2844 ../plugins/fn-stat/functions.c:2948
 msgid ""
@@ -10864,22 +10823,23 @@ msgstr ""
 "coincide más de una vez, esta función interpola el valor devuelto."
 
 #: ../plugins/fn-stat/functions.c:2938
-#, fuzzy
 #| msgid "PERCENTRANK:rank of a data point in a data set"
 msgid ""
 "PERCENTRANK.EXC:rank of a data point in a data set (Hyndman-Fan method 6: N"
 "+1 basis)"
-msgstr "PERCENTRANK.EXC:rango de un punto de datos en un conjunto de datos"
+msgstr ""
+"PERCENTRANK.EXC:rango de un punto de datos en un conjunto de datos (método 6 "
+"de Hyndman-Fan: N-1)"
 
 #: ../plugins/fn-stat/functions.c:3039
-#, fuzzy
 #| msgid ""
 #| "PERCENTILE:determines the  100*@{k}-th percentile of the given data points"
 msgid ""
 "PERCENTILE:determines the 100*@{k}-th percentile of the given data points "
 "(Hyndman-Fan method 7: N-1 basis)"
 msgstr ""
-"PERCENTILE:determina el 100*@{k}-ésimo percentil de los puntos de datos dados"
+"PERCENTILE:determina el 100*@{k}-ésimo percentil de los puntos de datos "
+"dados (método 7 de Hyndman-Fan: N-1)"
 
 #: ../plugins/fn-stat/functions.c:3040 ../plugins/fn-stat/functions.c:3082
 #: ../plugins/fn-stat/functions.c:3127 ../plugins/fn-stat/functions.c:3170
@@ -10899,26 +10859,27 @@ msgid "Then PERCENTILE(A1:A5,0.42) equals 20.02."
 msgstr "Luego PERCENTILE(A1:A5,0.42) igual a 20.02."
 
 #: ../plugins/fn-stat/functions.c:3081
-#, fuzzy
 #| msgid ""
 #| "PERCENTILE:determines the  100*@{k}-th percentile of the given data points"
 msgid ""
 "PERCENTILE.EXC:determines the 100*@{k}-th percentile of the given data "
 "points (Hyndman-Fan method 6: N+1 basis)"
 msgstr ""
-"PERCENTILE:determina el 100*@{k}-ésimo percentil de los puntos de datos dados"
+"PERCENTILE.EXC:determina el 100*@{k}-ésimo percentil de los puntos de datos "
+"dados (método 6 de Hyndman-Fan: N-1)"
 
 #: ../plugins/fn-stat/functions.c:3088
 msgid "Then PERCENTILE.EXC(A1:A5,0.42) equals 20.02."
 msgstr "Luego PERCENTILE.EXC(A1:A5,0.42) igual a 20.02."
 
 #: ../plugins/fn-stat/functions.c:3126
-#, fuzzy
 #| msgid "QUARTILE:the @{k}-th quartile of the data points"
 msgid ""
 "QUARTILE:the @{k}-th quartile of the data points (Hyndman-Fan method 7: N-1 "
 "basis)"
-msgstr "QUARTILE:el @{k}-avo cuartil de los puntos de datos"
+msgstr ""
+"QUARTILE:el @{k}-avo cuartil de los puntos de datos (método 7 de Hyndman-"
+"Fan: N-1)"
 
 #: ../plugins/fn-stat/functions.c:3128
 msgid "quart:a number from 0 to 4, indicating which quartile to calculate"
@@ -10941,7 +10902,6 @@ msgid "Then QUARTILE(A1:A5,1) equals 17.3."
 msgstr "Luego QUARTILE(A1:A5,1) igual a 17.3."
 
 #: ../plugins/fn-stat/functions.c:3169
-#, fuzzy
 #| msgid "QUARTILE:the @{k}-th quartile of the data points"
 msgid ""
 "QUARTILE.EXC:the @{k}-th quartile of the data points (Hyndman-Fan method 6: N"
@@ -10951,10 +10911,9 @@ msgstr ""
 "Fan: N+1)"
 
 #: ../plugins/fn-stat/functions.c:3171
-#, fuzzy
 #| msgid "quart:a number from 0 to 4, indicating which quartile to calculate"
 msgid "quart:a number from 1 to 3, indicating which quartile to calculate"
-msgstr "cuarto:un número de 0 a 4, indicando que cuartil se va a calcular"
+msgstr "cuarto:un número de 1 a 3, indicando qué cuartil se va a calcular"
 
 #: ../plugins/fn-stat/functions.c:3177
 msgid "Then QUARTILE.EXC(A1:A5,1) equals 14.35."
@@ -11027,7 +10986,6 @@ msgstr ""
 "error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:3289
-#, fuzzy
 #| msgid ""
 #| "Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619.TTEST(A1:A5,B1:B5,2,1) "
 #| "equals 0.006255239.TTEST(A1:A5,B1:B5,1,2) equals 0.111804322.TTEST(A1:A5,"
@@ -11037,8 +10995,8 @@ msgid ""
 "equals 0.006255239. TTEST(A1:A5,B1:B5,1,2) equals 0.111804322. TTEST(A1:A5,"
 "B1:B5,1,3) equals 0.113821797."
 msgstr ""
-"Luego TTEST(A1:A5,B1:B5,1,1) igual a 0.003127619.TTEST(A1:A5,B1:B5,2,1) "
-"igual a 0.006255239.TTEST(A1:A5,B1:B5,1,2) igual a 0.111804322.TTEST(A1:A5,"
+"Luego TTEST(A1:A5,B1:B5,1,1) igual a 0.003127619. TTEST(A1:A5,B1:B5,2,1) "
+"igual a 0.006255239. TTEST(A1:A5,B1:B5,1,2) igual a 0.111804322. TTEST(A1:A5,"
 "B1:B5,1,3) igual a 0.113821797."
 
 #: ../plugins/fn-stat/functions.c:3447
@@ -11122,7 +11080,6 @@ msgstr ""
 "seguidas por el intercepto y si @{affine} es verdadero."
 
 #: ../plugins/fn-stat/functions.c:3731
-#, fuzzy
 #| msgid ""
 #| "If @{stats} is true, the second row contains the corresponding standard "
 #| "errors of the regression coefficients.In this case, the third row "
@@ -11180,7 +11137,6 @@ msgstr ""
 "predeterminado es FALSO"
 
 #: ../plugins/fn-stat/functions.c:3834
-#, fuzzy
 #| msgid ""
 #| "LOGREG function transforms your x's to z=ln(x) and applies the “least "
 #| "squares” method to fit the linear equation y = m * z + b to your y's and "
@@ -11201,7 +11157,6 @@ msgstr ""
 "columna y b en la segunda."
 
 #: ../plugins/fn-stat/functions.c:3842
-#, fuzzy
 #| msgid ""
 #| "Any extra statistical information is written below m and b in the result "
 #| "array.  This extra statistical information consists of four rows of "
@@ -11276,7 +11231,6 @@ msgstr ""
 "forma de la nube de punto es muy diferente de un uno ««logarítmico»»."
 
 #: ../plugins/fn-stat/functions.c:3962
-#, fuzzy
 #| msgid ""
 #| "You can use the above formula = a + b * ln(sign * (x - c)) or rearrange "
 #| "it to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, "
@@ -11512,7 +11466,6 @@ msgstr ""
 "Asumiendo que las celdas A1, A2, …, A5 contienen números 23, 27, 28, 33 y 39."
 
 #: ../plugins/fn-stat/functions.c:4570
-#, fuzzy
 #| msgid ""
 #| "Then SUBTOTAL(1,A1:A5) equals 30.SUBTOTAL(6,A1:A5) equals 22378356."
 #| "SUBTOTAL(7,A1:A5) equals 6.164414003.SUBTOTAL(9,A1:A5) equals 150."
@@ -11522,8 +11475,8 @@ msgid ""
 "SUBTOTAL(7,A1:A5) equals 6.164414003. SUBTOTAL(9,A1:A5) equals 150. "
 "SUBTOTAL(11,A1:A5) equals 30.4."
 msgstr ""
-"Luego SUBTOTAL(1,A1:A5) igual a 30.SUBTOTAL(6,A1:A5) igual a 22378356."
-"SUBTOTAL(7,A1:A5) igual a 6.164414003.SUBTOTAL(9,A1:A5) igual a 150."
+"Luego SUBTOTAL(1,A1:A5) igual a 30.SUBTOTAL(6,A1:A5) igual a 22378356. "
+"SUBTOTAL(7,A1:A5) igual a 6.164414003. SUBTOTAL(9,A1:A5) igual a 150. "
 "SUBTOTAL(11,A1:A5) igual a 30.4."
 
 #: ../plugins/fn-stat/functions.c:4642
@@ -11649,7 +11602,6 @@ msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
 msgstr "Si @{x} < 0 o @{y} < 0, PERMUTATIONA devuelve #NUM!"
 
 #: ../plugins/fn-stat/functions.c:4957
-#| msgid "If @{x} or @{y} are not integers, they are truncated"
 msgid "If @{x} or @{y} are not integers, they are truncated."
 msgstr "Si @{x} o @{y} no son enteros, se truncan."
 
@@ -11877,7 +11829,6 @@ msgstr ""
 "los primeros caracteres devueltos son de la derecha de la cadena."
 
 #: ../plugins/fn-string/functions.c:333
-#, fuzzy
 #| msgid ""
 #| "LEFTB:the first characters  of the string @{s} comprising at most "
 #| "@{num_bytes} bytes"
@@ -11885,7 +11836,7 @@ msgid ""
 "LEFTB:the first characters of the string @{s} comprising at most "
 "@{num_bytes} bytes"
 msgstr ""
-"LEFTB:los primeros caracteres de la cadena @{s} comprenden a lo mucho "
+"LEFTB:los primeros caracteres de la cadena @{s} comprenden a lo sumo "
 "@{num_bytes} bytes"
 
 #: ../plugins/fn-string/functions.c:335 ../plugins/fn-string/functions.c:428
@@ -12029,21 +11980,20 @@ msgid "s2:second string"
 msgstr "s2:segunda cadena"
 
 #: ../plugins/fn-string/functions.c:623
-#, fuzzy
 #| msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
 msgid "CONCAT:the concatenation of the strings @{s1}, @{s2},…"
-msgstr "CONCATENATE:la concatenación de las cadenas @{s1}, @{s2},…"
+msgstr "CONCAT:la concatenación de las cadenas @{s1}, @{s2},…"
 
 #: ../plugins/fn-string/functions.c:628
 msgid "This function is identical to CONCATENATE"
 msgstr "Esta función es idéntica a CONCATENATE"
 
 #: ../plugins/fn-string/functions.c:642
-#, fuzzy
 #| msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
 msgid ""
 "TEXTJOIN:the concatenation of the strings @{s1}, @{s2},… delimited by @{del}"
-msgstr "CONCATENATE:la concatenación de las cadenas @{s1}, @{s2},…"
+msgstr ""
+"TEXTJOIN:la concatenación de las cadenas @{s1}, @{s2},… delimitada por @{del}"
 
 #: ../plugins/fn-string/functions.c:643
 msgid "del:delimiter"
@@ -12303,7 +12253,6 @@ msgstr ""
 "mitad de la anchura"
 
 #: ../plugins/fn-string/functions.c:1517
-#, fuzzy
 #| msgid ""
 #| "ASC converts full-width katakana and ASCII characters to half-width "
 #| "equivalent characters, copying all others. "
@@ -12345,7 +12294,6 @@ msgstr ""
 "anchura completa"
 
 #: ../plugins/fn-string/functions.c:1644
-#, fuzzy
 #| msgid ""
 #| "JIS converts half-width katakana and ASCII characters to full-width "
 #| "equivalent characters, copying all others. "
@@ -12462,7 +12410,6 @@ msgid "ordinates:ordinates of the given data"
 msgstr "ordenadas:ordenadas de los datos dados"
 
 #: ../plugins/fn-tsa/functions.c:563
-#, fuzzy
 #| msgid "filter:windowing function to  be used, defaults to no filter"
 msgid "filter:windowing function to be used, defaults to no filter"
 msgstr "filtro:función de ventanas que usar, lo predeterminado es sin filtro"
