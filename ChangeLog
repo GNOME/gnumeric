@@ -1,3 +1,8 @@
+2019-04-09  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_options_guess_csv): Avoid guessing
+	insane separators.  Fixes #397.
+
 2019-01-15  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (gnm_lambert_w): Avoid static for something that

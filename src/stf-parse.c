@@ -1735,23 +1735,29 @@ stf_parse_options_guess_csv (char const *data)
 	lines_chunk = g_string_chunk_new (100 * 1024);
 	lines = stf_parse_lines (res, lines_chunk, data, 1000, FALSE);
 
-	/*
-	 * Find a line containing a quote; skip first line unless it is
-	 * the only one.  Prefer a line with the quote first.
-	 */
-	for (pass = 1; !quoteline && pass <= 2; pass++) {
+	// Find a line containing a quote; skip first line unless it is
+	// the only one.  Prefer a line with the quote first.
+	//
+	// Pass 1: look for initial quote, but not on first line
+	// Pass 2: look for initial quote on first line
+	// Pass 3: look for quote anywhere in any line
+	for (pass = 1; !quoteline && pass <= 3; pass++) {
 		size_t lno;
-		for (lno = MIN (1, lines->len - 1);
-		     !quoteline && lno < lines->len;
+		size_t lstart = (pass == 1 ? 1 : 0);
+		size_t lend = (pass == 2 ? 1 : -1);
+
+		for (lno = lstart;
+		     !quoteline && lno < MIN (lend, lines->len);
 		     lno++) {
 			GPtrArray *boxline = g_ptr_array_index (lines, lno);
 			const char *line = g_ptr_array_index (boxline, 0);
 			switch (pass) {
 			case 1:
+			case 2:
 				if (g_utf8_get_char (line) == stringind)
 					quoteline = line;
 				break;
-			case 2:
+			case 3:
 				if (my_utf8_strchr (line, stringind))
 					quoteline = line;
 				break;
@@ -1763,6 +1769,9 @@ stf_parse_options_guess_csv (char const *data)
 		const char *p0 = my_utf8_strchr (quoteline, stringind);
 		const char *p = p0;
 
+		if (gnm_debug_flag ("stf"))
+			g_printerr ("quoteline = [%s]\n", quoteline);
+
 		do {
 			p = g_utf8_next_char (p);
 		} while (*p && g_utf8_get_char (p) != stringind);
@@ -1770,8 +1779,9 @@ stf_parse_options_guess_csv (char const *data)
 		while (*p && g_unichar_isspace (g_utf8_get_char (p)))
 			p = g_utf8_next_char (p);
 		if (*p) {
-			/* Use the character after the quote.  */
-			sep = g_strndup (p, g_utf8_next_char (p) - p);
+			// Use the character after the quote.
+			if (g_unichar_ispunct (g_utf8_get_char (p)))
+				sep = g_strndup (p, g_utf8_next_char (p) - p);
 		} else {
 			/* Try to use character before the quote.  */
 			while (p0 > quoteline && !sep) {
