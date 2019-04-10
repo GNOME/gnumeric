@@ -69,7 +69,7 @@ workbook.  The merge will be aborted if there are name conflicts.
 Export a file for each sheet if the exporter only supports one sheet at a
 time.  The output filename is treated as a template in which sheet number
 is substituted for %n and/or sheet name is substituted for %s.  If there
-are not substitutions, a default of ".%s" is added.
+are no substitutions, a default of ".%s" is added.
 
 .SS "Help options"
 .TP
@@ -230,9 +230,13 @@ Mixed Integer Linear Programming (MILP) solver
 .TP
 .B sheet
 Name of the workbook sheet to operate on.
-You can specify several sheets by repeating this option. If this option is not given the active
-sheet (i. e. the sheet that was active when the file was saved) is used.
+You can specify several sheets by repeating this option.
 This is ignored if the \fBobject\fR option is given.
+
+.TP
+.B active-sheet
+Select the active sheet to operate on.  The value for this option is
+irrelevant, but the equal sign is mandatory.
 
 .TP
 .B object
@@ -255,7 +259,12 @@ size of the graph.
 .TP
 .B sheet
 Name of the workbook sheet to operate on.
-You can specify several sheets by repeating this option. If this option is not given, all sheets are selected.
+You can specify several sheets by repeating this option.
+
+.TP
+.B active-sheet
+Select the active sheet to operate on.  The value for this option is
+irrelevant, but the equal sign is mandatory.
 
 .TP
 .B eol

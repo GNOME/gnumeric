@@ -17,6 +17,7 @@
 #include <mathfunc.h>
 #include <workbook-view.h>
 #include <workbook.h>
+#include <workbook-priv.h>
 
 #include <goffice/goffice.h>
 
@@ -951,16 +952,25 @@ gnm_file_saver_common_export_option (GOFileSaver const *fs,
 	g_return_val_if_fail (key != NULL, FALSE);
 	g_return_val_if_fail (value != NULL, FALSE);
 
-	if (strcmp (key, "sheet") == 0) {
+	if (strcmp (key, "sheet") == 0 ||
+	    strcmp (key, "active-sheet") == 0) {
 		GPtrArray *sheets;
-		Sheet *sheet = workbook_sheet_by_name (wb, value);
+		Sheet *sheet;
 
-		if (!sheet) {
-			if (err)
-				*err = g_error_new (go_error_invalid (), 0,
-						    _("Unknown sheet \"%s\""),
-						    value);
-			return TRUE;
+		if (key[0] == 'a') {
+			// Not ideal -- we lack a view here
+			WORKBOOK_FOREACH_VIEW (wb, wbv, {
+					sheet = wb_view_cur_sheet (wbv);
+				});
+		} else {
+			sheet = workbook_sheet_by_name (wb, value);
+			if (!sheet) {
+				if (err)
+					*err = g_error_new (go_error_invalid (), 0,
+							    _("Unknown sheet \"%s\""),
+							    value);
+				return TRUE;
+			}
 		}
 
 		sheets = g_object_get_data (G_OBJECT (wb), SSCONVERT_SHEET_SET_KEY);

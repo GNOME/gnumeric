@@ -7,6 +7,7 @@ Morten:
 	* Add DIGAMMA function.
 	* Support ISO-8601 UTC date/time input.  Mostly.  [#371]
 	* Improve cvs separator guessing.  [#397]
+	* Add export option "active-sheet".  [#396]
 
 Thomas Klausner:
 	* Fix compilation issue.  [#378]

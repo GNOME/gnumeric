@@ -1,5 +1,8 @@
 2019-04-09  Morten Welinder  <terra@gnome.org>
 
+	* src/gutils.c (gnm_file_saver_common_export_option): Allow option
+	"active-sheet=" to select the active sheet.
+
 	* src/stf-parse.c (stf_parse_options_guess_csv): Avoid guessing
 	insane separators.  Fixes #397.
 
