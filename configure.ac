@@ -870,7 +870,7 @@ if test "x$PYTHON" != x; then
     AC_MSG_CHECKING([for python module gi])
     if $PYTHON -c 'import gi' 2>/dev/null; then
         have_python_gi=yes
-	[PYTHON_GIOVERRIDESDIR=`python -c 'import gi; import os.path; print(os.path.dirname(gi.__file__)+"/overrides")'`]
+	[PYTHON_GIOVERRIDESDIR=`$PYTHON -c 'import gi; import os.path; print(os.path.dirname(gi.__file__)+"/overrides")'`]
     fi
     AC_MSG_RESULT($have_python_gi)
 fi
