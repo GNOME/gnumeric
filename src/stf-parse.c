@@ -1828,8 +1828,9 @@ do_check_date (const char *data, StfGuessFormats flag,
 	       GODateConventions const *date_conv)
 {
 	GnmValue *v;
-	gboolean this_mbd, this_ybm;
+	gboolean has_all, this_mbd, this_ybm;
 	int imbd;
+	GOFormat const *fmt;
 
 	if (!(*possible & flag))
 		return;
@@ -1838,7 +1839,17 @@ do_check_date (const char *data, StfGuessFormats flag,
 	if (!v || !VALUE_FMT (v))
 		goto fail;
 
-	imbd = go_format_month_before_day (VALUE_FMT (v));
+	fmt = VALUE_FMT (v);
+	has_all = (go_format_has_year (fmt) &&
+		   go_format_has_month (fmt) &&
+		   go_format_has_day (fmt));
+	if (!has_all) {
+		// See #401
+		// Avoid detecting 1.9999 is a date.
+		goto fail;
+	}
+
+	imbd = go_format_month_before_day (fmt);
 	this_mbd = (imbd >= 1);
 	this_ybm = (imbd == 2);
 	if (mbd != this_mbd || ybm != this_ybm)

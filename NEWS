@@ -1,5 +1,8 @@
 Gnumeric 1.12.46
 
+Morten:
+	* Fix over-eager guessing of dates in csv.  [#401]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.45
 
