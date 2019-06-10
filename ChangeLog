@@ -1,3 +1,11 @@
+2019-06-09  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_options_guess_formats): If we cannot
+	choose between decimal comma and decimal point, but have seen only
+	one then assume it is a decimal separator.
+	(do_check_date): Reject date unless guessed format has all three
+	of year, month, and day.  [#401]
+
 2019-05-22  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

@@ -2025,10 +2025,17 @@ stf_parse_options_guess_formats (StfParseOptions_t *po, char const *data)
 				g_printerr ("col=%d; after [%s] possible=0x%x\n", col, data, possible);
 		}
 
-		if ((possible & STF_GUESS_NUMBER_DEC_EITHER) == STF_GUESS_NUMBER_DEC_EITHER &&
-		    !seen_dot && !seen_comma) {
-			// It doesn't matter what the separators are
-			possible &= ~STF_GUESS_NUMBER_DEC_COMMA;
+		if ((possible & STF_GUESS_NUMBER_DEC_EITHER) == STF_GUESS_NUMBER_DEC_EITHER) {
+			if (!seen_dot && !seen_comma) {
+				// It doesn't matter what the separators are
+				possible &= ~STF_GUESS_NUMBER_DEC_COMMA;
+			} else if (seen_dot && !seen_comma) {
+				// Hope for the best
+				possible &= ~STF_GUESS_NUMBER_DEC_COMMA;
+			} else if (seen_comma && !seen_dot) {
+				// Hope for the best
+				possible &= ~STF_GUESS_NUMBER_DEC_EITHER;
+			}
 		}
 
 		switch (possible) {
