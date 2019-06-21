@@ -739,6 +739,25 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 fi
 AC_SUBST(WARN_CFLAGS)
 
+if test "$ac_cv_func_lgamma_r" = yes -o "$ac_cv_lib_m_lgamma_r" = yes; then
+	AC_MSG_CHECKING([if we must prototype lgamma_r ourselves])
+	AC_RUN_IFELSE(
+		[AC_LANG_PROGRAM([[#include <math.h>
+#include <stdlib.h>]],
+			[[
+				const char *s = "-3.1415e+0";
+				int sign;
+				double res = lgamma_r (atof(s), &sign);
+				return !(res >= 0.01630610 && res <= 0.01630611 && sign == +1);
+			]])],
+		[AC_MSG_RESULT(no)],
+		[AC_MSG_RESULT(yes)
+		 AC_DEFINE([NEEDS_LGAMMA_R_PROTOTYPE], 1,
+			   [Define if we must prototype lgamma_r.])
+		],
+		[AC_MSG_RESULT(assuming not)])
+fi
+
 dnl **************************************************
 dnl * Check for GSettings
 dnl **************************************************

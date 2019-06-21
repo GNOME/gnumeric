@@ -1,3 +1,9 @@
+2019-06-20  Morten Welinder  <terra@gnome.org>
+
+	* configure.ac (lgamma_r): Check if we must prototype lgamma_r
+	ourselves.  Fixes #402.
+	* src/numbers.h: Do so, if needed.
+
 2019-06-09  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_options_guess_formats): If we cannot

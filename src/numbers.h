@@ -16,7 +16,7 @@ GO_VAR_DECL int signgam;
 double lgamma (double x);
 #endif
 
-#ifdef GNM_SUPPLIES_LGAMMA_R
+#if defined(GNM_SUPPLIES_LGAMMA_R) || defined(NEEDS_LGAMMA_R_PROTOTYPE)
 double lgamma_r (double x, int *signp);
 #endif
 
