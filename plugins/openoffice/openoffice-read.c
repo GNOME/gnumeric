@@ -5197,7 +5197,7 @@ static void
 oo_date_text_append (OOParseState *state, char const *cnt, int cnt_len)
 {
 	if (cnt_len > 0) {
-		if (NULL != strchr (" /-(),:",*cnt)) {
+		if (NULL != strchr (" -(),:",*cnt)) {
 			oo_date_text_append_unquoted (state, *cnt);
 			oo_date_text_append (state, cnt + 1, cnt_len - 1);
 			return;
