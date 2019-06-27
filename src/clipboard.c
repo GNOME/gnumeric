@@ -37,6 +37,7 @@
 #include <expr.h>
 #include <value.h>
 #include <mstyle.h>
+#include <style-conditions.h>
 #include <stf-parse.h>
 #include <gnm-format.h>
 #include <sheet-object-cell-comment.h>
@@ -1010,6 +1011,7 @@ cellregion_invalidate_sheet (GnmCellRegion *cr,
 	GSList *ptr;
 	gboolean save_invalidated;
 	GnmExprRelocateInfo rinfo;
+	GnmStyleList *l;
 
 	g_return_if_fail (cr != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1022,6 +1024,31 @@ cellregion_invalidate_sheet (GnmCellRegion *cr,
 		g_hash_table_foreach (cr->cell_content,
 			(GHFunc)cb_invalidate_cellcopy, &rinfo);
 	sheet->being_invalidated = save_invalidated;
+
+	// Remove conditional formats from styles.  That's brutal, but
+	// they reference the sheet.  See #406.
+	for (l = cr->styles; l; l = l->next) {
+		GnmStyleRegion *sr = l->data;
+		GnmRange const *r = &sr->range;
+		GnmStyle const *style = sr->style;
+		GnmStyleConditions *conds = gnm_style_is_element_set (style, MSTYLE_CONDITIONS)
+			? gnm_style_get_conditions (style)
+			: NULL;
+
+		if (conds &&
+		    gnm_style_conditions_get_sheet (conds) == sheet) {
+			GnmStyle *style2;
+			GnmStyleRegion *sr2;
+
+			style2 = gnm_style_dup (style);
+			gnm_style_set_conditions (style2, NULL);
+			sr2 = gnm_style_region_new (r, style2);
+			gnm_style_unref (style2);
+
+			gnm_style_region_free (sr);
+			l->data = sr2;
+		}
+	}
 
 	for (ptr = cr->objects; ptr != NULL ; ptr = ptr->next)
 		sheet_object_invalidate_sheet (ptr->data, sheet);

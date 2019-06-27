@@ -3,6 +3,7 @@ Gnumeric 1.12.46
 Morten:
 	* Fix over-eager guessing of dates in csv.  [#401]
 	* Fix Mac build problem.  [#402]
+	* Fix inter-process paste crash [#406]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.45

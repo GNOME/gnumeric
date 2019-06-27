@@ -1,3 +1,8 @@
+2019-06-27  Morten Welinder  <terra@gnome.org>
+
+	* src/clipboard.c (cellregion_invalidate_sheet): Also invalidate
+	conditional formats that reference the sheet.
+
 2019-06-20  Morten Welinder  <terra@gnome.org>
 
 	* configure.ac (lgamma_r): Check if we must prototype lgamma_r
