@@ -5197,7 +5197,7 @@ static void
 oo_date_text_append (OOParseState *state, char const *cnt, int cnt_len)
 {
 	if (cnt_len > 0) {
-		if (NULL != strchr (" -(),:",*cnt)) {
+		if (NULL != strchr (" /-(),:",*cnt)) {
 			oo_date_text_append_unquoted (state, *cnt);
 			oo_date_text_append (state, cnt + 1, cnt_len - 1);
 			return;
@@ -5218,7 +5218,50 @@ oo_date_text_append (OOParseState *state, char const *cnt, int cnt_len)
 	}
 }
 
-/* date_text_end is also used for non-date formats */
+static void
+oo_format_text_append (OOParseState *state, char const *cnt, int cnt_len)
+{
+	if (cnt_len > 0) {
+		if (NULL != strchr (" -(),:",*cnt)) {
+			oo_date_text_append_unquoted (state, *cnt);
+			oo_format_text_append (state, cnt + 1, cnt_len - 1);
+			return;
+		} else if (state->cur_format.percentage && *cnt == '%') {
+			oo_date_text_append_unquoted  (state, '%');
+			state->cur_format.percent_sign_seen = TRUE;
+			oo_format_text_append (state, cnt + 1, cnt_len - 1);
+			return;
+		} else if (*cnt == '"') {
+			oo_date_text_append_unquoted  (state, '\\');
+			oo_date_text_append_unquoted  (state, '"');
+			oo_format_text_append (state, cnt + 1, cnt_len - 1);
+			return;
+		} else {
+			oo_date_text_append_quoted (state, cnt, 1);
+			oo_format_text_append (state, cnt + 1, cnt_len - 1);
+		}
+	}
+}
+
+static void
+oo_format_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->cur_format.accum == NULL)
+		return;
+
+	if (xin->content->len > state->cur_format.offset)
+		oo_format_text_append (state, xin->content->str + state->cur_format.offset,
+				     xin->content->len - state->cur_format.offset);
+
+	if (state->cur_format.string_opened) {
+		g_string_append_c (state->cur_format.accum, '"');
+		state->cur_format.string_opened = FALSE;
+	}
+	state->cur_format.offset = 0;
+}
+
 static void
 oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -11912,7 +11955,7 @@ GSF_XML_IN_NODE (OFFICE_DOC_STYLES, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_X
 #endif
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
 GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_CONTENT, &odf_embedded_text_start, &odf_embedded_text_end),
-    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_format_text_end),
        GSF_XML_IN_NODE (NUMBER_STYLE_TEXT, FORMAT_TEXT_INVISIBLE, OO_GNUM_NS_EXT, "invisible", GSF_XML_NO_CONTENT, &odf_format_invisible_text, NULL),
        GSF_XML_IN_NODE (NUMBER_STYLE_TEXT, FORMAT_TEXT_REPEATED, OO_GNUM_NS_EXT, "repeated", GSF_XML_NO_CONTENT, NULL, &odf_format_repeated_text_end),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", GSF_XML_NO_CONTENT, &odf_fraction, NULL),
@@ -11958,7 +12001,7 @@ GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embed
     GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_STYLE_PROP, OO_NS_STYLE,	"properties", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
     GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_SYMBOL, OO_NS_NUMBER,	"currency-symbol", GSF_XML_CONTENT, NULL, &odf_currency_symbol_end),
-    GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
+    GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_format_text_end),
       GSF_XML_IN_NODE (CURRENCY_TEXT, FORMAT_TEXT_INVISIBLE, OO_GNUM_NS_EXT, "invisible", GSF_XML_2ND, NULL, NULL),
       GSF_XML_IN_NODE (CURRENCY_TEXT, FORMAT_TEXT_REPEATED, OO_GNUM_NS_EXT, "repeated", GSF_XML_2ND, NULL, NULL),
     GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
@@ -11966,14 +12009,14 @@ GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embed
 
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER, "percentage-style", GSF_XML_NO_CONTENT, &odf_number_percentage_style, &odf_number_style_end),
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_STYLE_PROP, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
-    GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
+    GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_format_text_end),
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_FILL_CHARACTER, OO_NS_NUMBER,	"fill-character", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_TEXT, OO_NS_NUMBER, "text-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
     GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_CONTENT, OO_NS_NUMBER,	"text-content", GSF_XML_NO_CONTENT,  &odf_text_content, NULL),
-    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
+    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_format_text_end),
       GSF_XML_IN_NODE (STYLE_TEXT_PROP, FORMAT_TEXT_INVISIBLE, OO_GNUM_NS_EXT, "invisible", GSF_XML_2ND, NULL, NULL),
     GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
     GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
@@ -12210,7 +12253,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 #endif
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	  "number", GSF_XML_NO_CONTENT, &odf_number, NULL),
                  GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	  "text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
+	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	  "text", GSF_XML_CONTENT, &odf_date_text_start, &oo_format_text_end),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", GSF_XML_NO_CONTENT,  &odf_fraction, NULL),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, OO_NS_NUMBER, "scientific-number", GSF_XML_NO_CONTENT, &odf_scientific, NULL),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_MAP, OO_NS_STYLE,		  "map", GSF_XML_NO_CONTENT, &odf_map, NULL),
@@ -12248,12 +12291,12 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_STYLE_PROP, OO_NS_STYLE,"properties", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_MAP, OO_NS_STYLE,	"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_SYMBOL, OO_NS_NUMBER,	"currency-symbol", GSF_XML_CONTENT, NULL, &odf_currency_symbol_end),
-	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
+	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_format_text_end),
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
               GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_FILL_CHARACTER, OO_NS_NUMBER, "fill-character", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER, "percentage-style", GSF_XML_NO_CONTENT, &odf_number_percentage_style, &odf_number_style_end),
 	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_STYLE_PROP, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
-	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_date_text_end),
+	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, &odf_date_text_start, &oo_format_text_end),
 	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
 	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
               GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_FILL_CHARACTER, OO_NS_NUMBER, "fill-character", GSF_XML_NO_CONTENT, NULL, NULL),
