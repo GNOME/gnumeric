@@ -1,7 +1,7 @@
 Gnumeric 1.12.46
 
 Andreas:
-    * Fix format import from ODF. [#403]
+	* Fix format import from ODF. [#403]
 
 Morten:
 	* Fix over-eager guessing of dates in csv.  [#401]

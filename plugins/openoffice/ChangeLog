@@ -1,3 +1,10 @@
+2019-07-02  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_format_text_append): Avoid relying on tail
+	recursion being efficient.  Be more careful about what to quote.
+	(oo_format_text_append_unquoted): Take a string instead of a
+	single character.  Use to fix a few potential string quoting bugs.
+
 2019-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
     * openoffice-read.c (oo_format_text_append): new, use unless we are dealing with dates or times.
