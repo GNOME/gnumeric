@@ -1,3 +1,8 @@
+2019-07-20  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_style): Wrote cell protection too.
+	Fixes #409.
+
 2019-05-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.45

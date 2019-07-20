@@ -1134,6 +1134,13 @@ xlsx_has_alignment_style (GnmStyle const *style)
 		|| gnm_style_is_element_set (style, MSTYLE_INDENT);
 }
 
+static gboolean
+xlsx_has_protection_style (GnmStyle const *style)
+{
+	return gnm_style_is_element_set (style, MSTYLE_CONTENTS_LOCKED)
+		|| gnm_style_is_element_set (style, MSTYLE_CONTENTS_HIDDEN);
+}
+
 static void
 xlsx_write_style_write_alignment (G_GNUC_UNUSED XLSXWriteState *state, GsfXMLOut *xml,
 		  GnmStyle const *style)
@@ -1222,12 +1229,25 @@ xlsx_write_style_write_alignment (G_GNUC_UNUSED XLSXWriteState *state, GsfXMLOut
 }
 
 static void
+xlsx_write_style_write_protection (G_GNUC_UNUSED XLSXWriteState *state, GsfXMLOut *xml,
+		  GnmStyle const *style)
+{
+	gsf_xml_out_start_element (xml, "protection");
+	if (gnm_style_is_element_set (style, MSTYLE_CONTENTS_LOCKED))
+		gsf_xml_out_add_bool (xml, "locked", gnm_style_get_contents_locked (style));
+	if (gnm_style_is_element_set (style, MSTYLE_CONTENTS_HIDDEN))
+		gsf_xml_out_add_bool (xml, "hidden", gnm_style_get_contents_hidden (style));
+	gsf_xml_out_end_element (xml);
+}
+
+static void
 xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml,
 		  GnmStyle const *style, GHashTable *fills_hash,
 		  GHashTable *num_format_hash, GHashTable *fonts_hash,
 		  GHashTable *border_hash, gint id)
 {
 	gboolean alignment = xlsx_has_alignment_style (style);
+	gboolean protection = xlsx_has_protection_style (style);
 	gpointer tmp_fill, tmp_font, tmp_border;
 	gboolean fill = (NULL != (tmp_fill = g_hash_table_lookup (fills_hash, style)));
 	gboolean font = (NULL != (tmp_font = g_hash_table_lookup (fonts_hash, style)));
@@ -1256,6 +1276,8 @@ xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml,
 
 	if (alignment)
 		xlsx_write_style_write_alignment (state, xml, style);
+	if (protection)
+		xlsx_write_style_write_protection (state, xml, style);
 }
 
 static void
