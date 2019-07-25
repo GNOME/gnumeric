@@ -9965,7 +9965,7 @@ msgstr "Di_a"
 
 #: ../src/dialogs/fill-series.ui.h:15
 msgid "_Weekday"
-msgstr "_Dia de la setmana"
+msgstr "_Dia laborable"
 
 #: ../src/dialogs/fill-series.ui.h:16
 msgid "_Month"
@@ -16897,7 +16897,7 @@ msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
-"Prova alternatives de decisió tot utilitzant la simulació Monte Carlo per "
+"Proves alternatives de decisió tot utilitzant la simulació Monte Carlo per "
 "trobar probables sortides i riscos associats"
 
 #: ../src/wbc-gtk-actions.c:2918
@@ -18184,7 +18184,7 @@ msgstr "Crea un tall de dades"
 
 #: ../src/wbc-gtk.c:1745
 msgid "_Redo"
-msgstr "Torna a _fer"
+msgstr "_Refés"
 
 #: ../src/wbc-gtk.c:1746
 msgid "_Undo"
