@@ -16092,7 +16092,7 @@ msgstr "_Dades"
 
 #: ../src/wbc-gtk-actions.c:2196
 msgid "_Filter"
-msgstr "_Fitxer"
+msgstr "_Filtre"
 
 #: ../src/wbc-gtk-actions.c:2199
 msgid "F_ill"
