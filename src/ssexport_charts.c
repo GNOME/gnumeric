@@ -1,13 +1,19 @@
 /*
- * ssconvert.c: A wrapper application to convert spreadsheet formats
+ * ssexport_charts.c: A wrapper application to export charts as SVGs/etc.
+ *
+ * Based on:
+ *
+ * ssconvert.c .
  *
  * Author:
  *   Jon Kåre Hellan <hellan@acm.org>
  *   Morten Welinder <terra@gnome.org>
  *   Jody Goldberg <jody@gnome.org>
+ *   Shlomi Fish ( https://www.shlomifish.org/ )
  *
  * Copyright (C) 2002-2003 Jody Goldberg
  * Copyright (C) 2006-2018 Morten Welinder (terra@gnome.org)
+ * Shlomi Fish puts his changes under https://creativecommons.org/choose/zero/ .
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -848,7 +854,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	GOFileSaver *fs = NULL;
 	GOFileOpener *fo = NULL;
 	char *infile = go_shell_arg_to_uri (inarg);
-	char *outfile = outarg ? go_shell_arg_to_uri (outarg) : NULL;
+	char *out_dirname = outarg ? go_shell_arg_to_uri (outarg) : NULL;
 	WorkbookView *wbv;
 	GOIOContext *io_context = NULL;
 	Workbook *wb = NULL;
@@ -864,7 +870,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				      "Try --list-exporters to see a list of possibilities.\n"),
 				    ssconvert_export_id);
 			goto out;
-		} else if (outfile == NULL &&
+		} else if (out_dirname == NULL &&
 			   !ssconvert_one_file_per_sheet &&
 			   go_file_saver_get_extension (fs) != NULL) {
 			char const *ext = gsf_extension_pointer (infile);
@@ -872,11 +878,12 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				GString *res = g_string_new (NULL);
 				g_string_append_len (res, infile, ext - infile);
 				g_string_append (res, go_file_saver_get_extension(fs));
-				outfile = g_string_free (res, FALSE);
+				out_dirname = g_string_free (res, FALSE);
 			}
 		}
 	} else {
-		if (outfile != NULL) {
+		if (out_dirname != NULL) {
+#if 0
 			fs = go_file_saver_for_file_name (outfile);
 			if (fs == NULL) {
 				res = 2;
@@ -885,13 +892,25 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 					    outfile);
 				goto out;
 			}
+#else
+            gchar * dn = go_filename_from_uri(out_dirname);
+            if (g_mkdir_with_parents(dn, 0775)) {
+				res = 2;
+				g_printerr (_("Unable to mkdir '%s'.\n"
+					      "Try --list-exporters to see a list of possibilities.\n"),
+					    out_dirname);
+                g_free(dn);
+				goto out;
+            }
+            g_free(dn);
+#endif
 			if (ssconvert_verbose)
 				g_printerr (_("Using exporter %s\n"),
 					    go_file_saver_get_id (fs));
 		}
 	}
 
-	if (outfile == NULL) {
+	if (out_dirname == NULL) {
 		g_printerr (_("An output file name or an explicit export type is required.\n"
 			      "Try --list-exporters to see a list of possibilities.\n"));
 		res = 1;
@@ -1026,7 +1045,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	if (ssconvert_one_file_per_sheet) {
 		res = do_split_save (fs, wbv, outarg, cc);
 	} else {
-		res = !workbook_view_save_as (wbv, fs, outfile, cc);
+		res = !workbook_view_save_as (wbv, fs, out_dirname, cc);
 	}
 
 	if (sheet_sel) {
@@ -1041,7 +1060,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	if (io_context)
 		g_object_unref (io_context);
 	g_free (infile);
-	g_free (outfile);
+	g_free (out_dirname);
 
 	return res;
 }
