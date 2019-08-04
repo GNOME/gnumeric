@@ -818,10 +818,10 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 		}
 	}
     format = g_strdup("svg");
+    unsigned graph_idx = 0;
 
 	for (ui = 0; ui < sheets->len; ui++) {
 		Sheet *sheet = g_ptr_array_index (sheets, ui);
-		char *tmpfile =	resolve_template (template, sheet, ui);
 		int oldn = sheet->index_in_wb;
 
 		g_ptr_array_set_size (sheet_sel, 0);
@@ -841,24 +841,25 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 		}
 
         {
-		GSList *l, *graphs = sheet_objects_get (sheet, NULL, GNM_SO_GRAPH_TYPE);
-		for (l = graphs; l; l = l->next) {
-			SheetObject *sog = l->data;
-            GogGraph * graph = sheet_object_graph_get_gog (sog);
-        GsfOutput *dst;
-        dst = go_file_create (tmpfile, NULL);
-        g_assert(dst);
-	    res = gog_graph_export_image (graph, go_image_get_format_from_name (format),
-				      dst, resolution, resolution);
-        gsf_output_close (dst);
-        g_object_unref (dst);
-
-		if (!fs_sheet_selection)
-			workbook_sheet_move (sheet, +oldn);
-		}
-		g_slist_free (graphs);
+            GSList *l, *graphs = sheet_objects_get (sheet, NULL, GNM_SO_GRAPH_TYPE);
+            for (l = graphs; l; l = l->next) {
+                SheetObject *sog = l->data;
+                GogGraph * graph = sheet_object_graph_get_gog (sog);
+                GsfOutput *dst;
+                char *tmpfile =	resolve_template (template, sheet, graph_idx);
+                ++graph_idx;
+                dst = go_file_create (tmpfile, NULL);
+                g_assert(dst);
+                res = gog_graph_export_image (graph, go_image_get_format_from_name (format),
+                    dst, resolution, resolution);
+                gsf_output_close (dst);
+                g_object_unref (dst);
+                g_free (tmpfile);
+            }
+            g_slist_free (graphs);
         }
-		g_free (tmpfile);
+        if (!fs_sheet_selection)
+            workbook_sheet_move (sheet, +oldn);
 		if (res)
 			break;
 	}
@@ -916,6 +917,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				goto out;
 			}
 #else
+#if 0
             gchar * dn = go_filename_from_uri(out_dirname);
             if (g_mkdir_with_parents(dn, 0775)) {
 				res = 2;
@@ -926,6 +928,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				goto out;
             }
             g_free(dn);
+#endif
 #endif
 			if (ssconvert_verbose)
 				g_printerr (_("Using exporter %s\n"),
