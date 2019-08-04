@@ -624,7 +624,6 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	WorkbookView *wbv;
 	GOIOContext *io_context = NULL;
 	Workbook *wb = NULL;
-	GOFileSaveScope fsscope;
 	GPtrArray *sheet_sel = NULL;
 	GnmRangeRef const *range = NULL;
 
@@ -652,8 +651,6 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		res = 1;
 		goto out;
 	}
-
-	fsscope = go_file_saver_get_save_scope (NULL);
 
 	io_context = go_io_context_new (cc);
 	if (mergeargs == NULL) {
@@ -694,13 +691,12 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				     ssconvert_range);
 
 	if (ssexport_chart__one_file_per_chart ||
-	    fsscope == GO_FILE_SAVE_SHEET ||
 	    range) {
 		Sheet *def_sheet = NULL;
 
 		if (range && range->a.sheet)
 			def_sheet = range->a.sheet;
-		else if (fsscope == GO_FILE_SAVE_SHEET || range)
+		else if (range)
 			def_sheet = wb_view_cur_sheet (wbv);
 
 		sheet_sel = g_ptr_array_new ();
