@@ -59,10 +59,7 @@ static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_verbose = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
 static gboolean ssconvert_list_importers = FALSE;
-static gboolean ssconvert_one_file_per_sheet = TRUE;
-static gboolean ssconvert_recalc = FALSE;
-static gboolean ssconvert_solve = FALSE;
-static char *ssconvert_resize = NULL;
+static gboolean ssexport_chart__one_file_per_chart = TRUE;
 static char *ssconvert_clipboard = NULL;
 static char *ssconvert_range = NULL;
 static char *ssconvert_import_encoding = NULL;
@@ -70,7 +67,6 @@ static char *ssconvert_import_id = NULL;
 static char *ssconvert_export_id = NULL;
 static char *ssconvert_export_options = NULL;
 static char *ssconvert_merge_target = NULL;
-static char **ssconvert_goal_seek = NULL;
 static char **ssconvert_tool_test = NULL;
 
 static const GOptionEntry ssconvert_options [] = {
@@ -143,25 +139,10 @@ static const GOptionEntry ssconvert_options [] = {
 
 	{
 		"export-file-per-chart", 'S',
-		0, G_OPTION_ARG_NONE, &ssconvert_one_file_per_sheet,
+		0, G_OPTION_ARG_NONE, &ssexport_chart__one_file_per_chart,
 		N_("Export a file for each sheet if the exporter only supports one sheet at a time"),
 		NULL
 	},
-
-	{
-		"recalc", 0,
-		0, G_OPTION_ARG_NONE, &ssconvert_recalc,
-		N_("Recalculate all cells before writing the result"),
-		NULL
-	},
-
-	{
-		"resize", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &ssconvert_resize,
-		N_("Resize to given ROWSxCOLS"),
-		NULL
-	},
-
 
 	/* ---------------------------------------- */
 
@@ -178,20 +159,6 @@ static const GOptionEntry ssconvert_options [] = {
 		"export-range", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &ssconvert_range,
 		N_("The range to export"),
-		NULL
-	},
-
-	{
-		"goal-seek", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING_ARRAY, &ssconvert_goal_seek,
-		N_("Goal seek areas"),
-		NULL
-	},
-
-	{
-		"solve", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &ssconvert_solve,
-		N_("Run the solver"),
 		NULL
 	},
 
@@ -279,65 +246,6 @@ handle_export_options (GOFileSaver *fs, Workbook *wb)
 
 	return 0;
 }
-
-#if 0
-// Check that the sheet selection, if any, matches the file saver's
-// capabilities.
-static int
-validate_sheet_selection (GOFileSaver *fs, Workbook *wb)
-{
-	GOFileSaveScope fsscope = go_file_saver_get_save_scope (fs);
-	gboolean fs_sheet_selection;
-
-	g_object_get (G_OBJECT (fs),
-		      "sheet-selection", &fs_sheet_selection, NULL);
-
-	if (ssconvert_one_file_per_sheet) {
-		gboolean ok;
-		switch (fsscope) {
-		case GO_FILE_SAVE_WORKBOOK:
-			ok = fs_sheet_selection;
-			break;
-		case GO_FILE_SAVE_SHEET:
-			ok = TRUE;
-			break;
-		case GO_FILE_SAVE_RANGE:
-		default:
-			ok = FALSE;
-			break;
-		}
-		if (!ok) {
-			g_printerr (_("Selected exporter (%s) does not have the ability to split a workbook into sheets.\n"),
-				    go_file_saver_get_id (fs));
-			return 1;
-		}
-	} else {
-		GPtrArray *sheets = g_object_get_data (G_OBJECT (wb),
-						       SSCONVERT_SHEET_SET_KEY);
-		switch (fsscope) {
-		case GO_FILE_SAVE_WORKBOOK:
-		case GO_FILE_SAVE_RANGE:
-		default:
-			if (sheets && !fs_sheet_selection) {
-				g_printerr (_("Selected exporter (%s) does not have the ability to export a subset of sheets.\n"),
-					    go_file_saver_get_id (fs));
-				return 1;
-			}
-			break;
-		case GO_FILE_SAVE_SHEET:
-			if (sheets && sheets->len != 1) {
-				g_printerr (_("Selected exporter (%s) can only export one sheet at a time.\n"),
-					    go_file_saver_get_id (fs));
-				return 1;
-			}
-			break;
-		}
-	}
-
-	return 0;
-}
-#endif
-
 
 typedef gchar const *(*get_desc_f)(const void *);
 
@@ -621,169 +529,6 @@ resolve_template (const char *template, Sheet *sheet, unsigned n)
 	}
 }
 
-#if 0
-static void
-run_solver (Sheet *sheet, WorkbookView *wbv)
-{
-	GnmSolverParameters *params = sheet->solver_parameters;
-	GError *err = NULL;
-	WorkbookControl *wbc;
-	GnmSolver *sol = NULL;
-
-	wbc = g_object_new (GNM_WBC_TYPE, NULL);
-	wb_control_set_view (wbc, wbv, NULL);
-
-	/* Pick a functional algorithm.  */
-	if (!gnm_solver_factory_functional (params->options.algorithm,
-					    NULL)) {
-		GSList *l;
-		for (l = gnm_solver_db_get (); l; l = l->next) {
-			GnmSolverFactory *factory = l->data;
-			if (params->options.model_type != factory->type)
-				continue;
-			if (gnm_solver_factory_functional (factory, NULL)) {
-				gnm_solver_param_set_algorithm (params,
-								factory);
-				break;
-			}
-		}
-	}
-
-	if (!gnm_solver_param_valid (params, &err))
-		goto done;
-
-	sol = params->options.algorithm
-		? gnm_solver_factory_create (params->options.algorithm, params)
-		: NULL;
-	if (!sol) {
-		g_set_error (&err, go_error_invalid (), 0,
-			     _("Failed to create solver"));
-		goto done;
-	}
-
-	if (!gnm_solver_start (sol, wbc, &err))
-		goto done;
-
-	while (!gnm_solver_finished (sol)) {
-		g_main_context_iteration (NULL, TRUE);
-	}
-
-	switch (sol->status) {
-	case GNM_SOLVER_STATUS_DONE:
-		break;
-	case GNM_SOLVER_STATUS_CANCELLED:
-		g_printerr (_("Solver reached time or iteration limit\n"));
-		break;
-	default:
-		g_set_error (&err, go_error_invalid (), 0,
-			     _("Solver ran, but failed"));
-		goto done;
-	}
-
-	gnm_solver_store_result (sol);
-
-	gnm_solver_create_report (sol, "Solver");
-
- done:
-	if (sol)
-		g_object_unref (sol);
-	if (err) {
-		g_printerr (_("Solver: %s\n"), err->message);
-		g_error_free (err);
-	}
-}
-#endif
-
-#define GET_ARG(conv_,name_,def_) (g_hash_table_lookup_extended(args,(name_),NULL,&arg) ? conv_((const char *)arg) : (def_))
-#define RANGE_ARG(s_) value_new_cellrange_str(sheet,(s_))
-#define RANGE_LIST_ARG(s_) g_slist_prepend (NULL, value_new_cellrange_str(sheet,(s_)))
-#define SHEET_ARG(s_) workbook_sheet_by_name(wb,(s_))
-
-#if 0
-static void
-run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
-{
-	int i;
-	WorkbookControl *wbc;
-	gpointer specs;
-	data_analysis_output_t *dao;
-	analysis_tool_engine engine;
-	Workbook *wb;
-	Sheet *sheet;
-	GHashTable *args;
-	gpointer arg;
-
-	/*
-	 * Arguments in argv are of the form key:value.
-	 * Make a hash for those.
-	 */
-	args = g_hash_table_new_full (g_str_hash, g_str_equal,
-				      (GDestroyNotify)g_free,
-				      (GDestroyNotify)g_free);
-	for (i = 0; argv[i]; i++) {
-		const char *s = argv[i];
-		const char *colon = strchr (s, ':');
-		if (!colon) {
-			g_printerr ("Ignoring tool test argument \"%s\"\n", s);
-			continue;
-		}
-		g_hash_table_replace (args, g_strndup (s, colon - s),
-				      g_strdup (colon + 1));
-	}
-
-	wb = wb_view_get_workbook (wbv);
-	wbc = g_object_new (GNM_WBC_TYPE, NULL);
-	wb_control_set_view (wbc, wbv, NULL);
-
-	sheet = GET_ARG (SHEET_ARG, "sheet", wb_view_cur_sheet (wbv));
-
-	if (g_str_equal (tool, "regression")) {
-		analysis_tools_data_regression_t *data =
-			g_new0 (analysis_tools_data_regression_t, 1);
-
-		data->base.wbc = wbc;
-		data->base.range_1 = GET_ARG (RANGE_ARG, "x", value_new_error_REF (NULL));
-		data->base.range_2 = GET_ARG (RANGE_ARG, "y", value_new_error_REF (NULL));
-		data->base.labels = GET_ARG (atoi, "labels", FALSE);
-		data->base.alpha = GET_ARG (atof, "alpha", 0.05);
-		data->group_by = GET_ARG ((group_by_t), "grouped-by", GROUPED_BY_COL);
-		data->intercept = GET_ARG (atoi, "intercept", TRUE);
-		data->multiple_regression = GET_ARG (atoi, "multiple", TRUE);
-		data->multiple_y = GET_ARG (atoi, "multiple-y", FALSE);
-		data->residual = GET_ARG (atoi, "residual", TRUE);
-
-		engine = analysis_tool_regression_engine;
-		specs = data;
-	} else if (g_str_equal (tool, "anova")) {
-		analysis_tools_data_anova_single_t *data =
-			g_new0 (analysis_tools_data_anova_single_t, 1);
-
-		data->base.input = GET_ARG (RANGE_LIST_ARG, "data", NULL);
-		data->base.labels = GET_ARG (atoi, "labels", FALSE);
-		data->base.group_by = GET_ARG ((group_by_t), "grouped-by", GROUPED_BY_COL);
-		data->alpha = GET_ARG (atof, "alpha", 0.05);
-
-		engine = analysis_tool_anova_single_engine;
-		specs = data;
-	} else {
-		g_printerr ("no test for tool \"%s\"\n", tool);
-		return;
-	}
-
-	dao = dao_init_new_sheet (NULL);
-	dao->put_formulas = TRUE;
-	cmd_analysis_tool (wbc, sheet, dao, specs, engine, TRUE);
-
-	g_hash_table_destroy (args);
-}
-#endif
-
-#undef GET_ARG
-#undef RANGE_ARG
-#undef RANGE_LISTARG
-#undef SHEET_ARG
-
-
 static int
 do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 	       const char *outarg, GOCmdContext *cc)
@@ -898,7 +643,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				    ssconvert_export_id);
 			goto out;
 		} else if (out_dirname == NULL &&
-			   !ssconvert_one_file_per_sheet &&
+			   !ssexport_chart__one_file_per_chart &&
 			   go_file_saver_get_extension (fs) != NULL) {
 			char const *ext = gsf_extension_pointer (infile);
 			if (*infile) {
@@ -992,7 +737,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				     wb,
 				     ssconvert_range);
 
-	if (ssconvert_one_file_per_sheet ||
+	if (ssexport_chart__one_file_per_chart ||
 	    fsscope == GO_FILE_SAVE_SHEET ||
 	    range) {
 		Sheet *def_sheet = NULL;
@@ -1009,7 +754,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				   SHEET_SELECTION_KEY, sheet_sel);
 	}
 
-	if (ssconvert_one_file_per_sheet) {
+	if (ssexport_chart__one_file_per_chart) {
 		res = do_split_save (fs, wbv, outarg, cc);
 	} else {
 		res = !workbook_view_save_as (wbv, fs, out_dirname, cc);
@@ -1148,9 +893,9 @@ main (int argc, char const **argv)
 		return 0;
 	}
 
-    g_assert(ssconvert_one_file_per_sheet);
+    g_assert(ssexport_chart__one_file_per_chart);
 
-	if (ssconvert_one_file_per_sheet && ssconvert_merge_target) {
+	if (ssexport_chart__one_file_per_chart && ssconvert_merge_target) {
 		g_printerr (_("--export-file-per-sheet and --merge-to are incompatible\n"));
 		return 1;
 	}
