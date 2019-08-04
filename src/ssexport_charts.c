@@ -64,7 +64,7 @@ static char *ssconvert_clipboard = NULL;
 static char *ssconvert_range = NULL;
 static char *ssconvert_import_encoding = NULL;
 static char *ssconvert_import_id = NULL;
-static char *ssconvert_export_id = NULL;
+static char *ssconvert_export_id = "svg";
 static char *ssconvert_export_options = NULL;
 static char *ssconvert_merge_target = NULL;
 static char **ssconvert_tool_test = NULL;
@@ -534,8 +534,7 @@ do_split_save (WorkbookView *wbv,
 	       const char *outarg, GOCmdContext *cc)
 {
 	Workbook *wb = wb_view_get_workbook (wbv);
-    gchar * format;
-    gint resolution = 1;
+    double resolution = 100.0;
 	char *template;
 	GPtrArray *sheets;
 	unsigned ui;
@@ -560,7 +559,6 @@ do_split_save (WorkbookView *wbv,
 			g_ptr_array_add (sheets, sheet);
 		}
 	}
-    format = g_strdup("svg");
     unsigned graph_idx = 0;
 
 	for (ui = 0; ui < sheets->len; ui++) {
@@ -596,7 +594,7 @@ do_split_save (WorkbookView *wbv,
                 ++graph_idx;
                 dst = go_file_create (tmpfile, NULL);
                 g_assert(dst);
-                res = gog_graph_export_image (graph, go_image_get_format_from_name (format),
+                res = gog_graph_export_image (graph, go_image_get_format_from_name (ssconvert_export_id),
                     dst, resolution, resolution);
                 gsf_output_close (dst);
                 g_object_unref (dst);
