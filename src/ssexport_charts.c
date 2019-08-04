@@ -530,7 +530,7 @@ resolve_template (const char *template, Sheet *sheet, unsigned n)
 }
 
 static int
-do_split_save (GOFileSaver *fs, WorkbookView *wbv,
+do_split_save (WorkbookView *wbv,
 	       const char *outarg, GOCmdContext *cc)
 {
 	Workbook *wb = wb_view_get_workbook (wbv);
@@ -542,9 +542,7 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 	int res = 0;
 	GPtrArray *sheet_sel =
 		g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
-	gboolean fs_sheet_selection;
-
-	g_object_get (G_OBJECT (fs), "sheet-selection", &fs_sheet_selection, NULL);
+	const gboolean fs_sheet_selection = FALSE;
 
 	template = strchr (outarg, '%')
 		? g_strdup (outarg)
@@ -623,7 +621,6 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	 GOCmdContext *cc)
 {
 	int res = 0;
-	GOFileSaver *fs = NULL;
 	GOFileOpener *fo = NULL;
 	char *infile = go_shell_arg_to_uri (inarg);
 	char *out_dirname = outarg ? go_shell_arg_to_uri (outarg) : NULL;
@@ -635,36 +632,8 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	GnmRangeRef const *range = NULL;
 
 	if (ssconvert_export_id != NULL) {
-		fs = go_file_saver_for_id (ssconvert_export_id);
-		if (fs == NULL) {
-			res = 1;
-			g_printerr (_("Unknown exporter '%s'.\n"
-				      "Try --list-exporters to see a list of possibilities.\n"),
-				    ssconvert_export_id);
-			goto out;
-		} else if (out_dirname == NULL &&
-			   !ssexport_chart__one_file_per_chart &&
-			   go_file_saver_get_extension (fs) != NULL) {
-			char const *ext = gsf_extension_pointer (infile);
-			if (*infile) {
-				GString *res = g_string_new (NULL);
-				g_string_append_len (res, infile, ext - infile);
-				g_string_append (res, go_file_saver_get_extension(fs));
-				out_dirname = g_string_free (res, FALSE);
-			}
-		}
 	} else {
 		if (out_dirname != NULL) {
-#if 0
-			fs = go_file_saver_for_file_name (outfile);
-			if (fs == NULL) {
-				res = 2;
-				g_printerr (_("Unable to guess exporter to use for '%s'.\n"
-					      "Try --list-exporters to see a list of possibilities.\n"),
-					    outfile);
-				goto out;
-			}
-#else
 #if 0
             gchar * dn = go_filename_from_uri(out_dirname);
             if (g_mkdir_with_parents(dn, 0775)) {
@@ -677,10 +646,6 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
             }
             g_free(dn);
 #endif
-#endif
-			if (ssconvert_verbose)
-				g_printerr (_("Using exporter %s\n"),
-					    go_file_saver_get_id (fs));
 		}
 	}
 
@@ -691,7 +656,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		goto out;
 	}
 
-	fsscope = go_file_saver_get_save_scope (fs);
+	fsscope = go_file_saver_get_save_scope (NULL);
 
 	io_context = go_io_context_new (cc);
 	if (mergeargs == NULL) {
@@ -714,15 +679,9 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 
 	wb = wb_view_get_workbook (wbv);
 
-	res = handle_export_options (fs, wb);
+	res = handle_export_options (NULL, wb);
 	if (res)
 		goto out;
-
-#if 0
-	res = validate_sheet_selection (fs, wb);
-	if (res)
-		goto out;
-#endif
 
 	if (mergeargs != NULL) {
 		if (merge (wb, mergeargs, fo, io_context, cc))
@@ -755,9 +714,9 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	}
 
 	if (ssexport_chart__one_file_per_chart) {
-		res = do_split_save (fs, wbv, outarg, cc);
+		res = do_split_save (wbv, outarg, cc);
 	} else {
-		res = !workbook_view_save_as (wbv, fs, out_dirname, cc);
+		res = !workbook_view_save_as (wbv, NULL, out_dirname, cc);
 	}
 
 	if (sheet_sel) {
