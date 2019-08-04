@@ -43,6 +43,7 @@
 #include <dialogs/dialogs.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-utils.h>
+#include <sheet-object-graph.h>
 #include <string.h>
 #ifdef HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
@@ -279,6 +280,7 @@ handle_export_options (GOFileSaver *fs, Workbook *wb)
 	return 0;
 }
 
+#if 0
 // Check that the sheet selection, if any, matches the file saver's
 // capabilities.
 static int
@@ -334,6 +336,7 @@ validate_sheet_selection (GOFileSaver *fs, Workbook *wb)
 
 	return 0;
 }
+#endif
 
 
 typedef gchar const *(*get_desc_f)(const void *);
@@ -618,6 +621,7 @@ resolve_template (const char *template, Sheet *sheet, unsigned n)
 	}
 }
 
+#if 0
 static void
 run_solver (Sheet *sheet, WorkbookView *wbv)
 {
@@ -688,12 +692,14 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
 		g_error_free (err);
 	}
 }
+#endif
 
 #define GET_ARG(conv_,name_,def_) (g_hash_table_lookup_extended(args,(name_),NULL,&arg) ? conv_((const char *)arg) : (def_))
 #define RANGE_ARG(s_) value_new_cellrange_str(sheet,(s_))
 #define RANGE_LIST_ARG(s_) g_slist_prepend (NULL, value_new_cellrange_str(sheet,(s_)))
 #define SHEET_ARG(s_) workbook_sheet_by_name(wb,(s_))
 
+#if 0
 static void
 run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 {
@@ -770,6 +776,7 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 
 	g_hash_table_destroy (args);
 }
+#endif
 
 #undef GET_ARG
 #undef RANGE_ARG
@@ -782,6 +789,8 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 	       const char *outarg, GOCmdContext *cc)
 {
 	Workbook *wb = wb_view_get_workbook (wbv);
+    gchar * format;
+    gint resolution = 1;
 	char *template;
 	GPtrArray *sheets;
 	unsigned ui;
@@ -808,6 +817,7 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 			g_ptr_array_add (sheets, sheet);
 		}
 	}
+    format = g_strdup("svg");
 
 	for (ui = 0; ui < sheets->len; ui++) {
 		Sheet *sheet = g_ptr_array_index (sheets, ui);
@@ -830,11 +840,24 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 			wb_view_sheet_focus (wbv, sheet);
 		}
 
-		res = !workbook_view_save_as (wbv, fs, tmpfile, cc);
+        {
+		GSList *l, *graphs = sheet_objects_get (sheet, NULL, GNM_SO_GRAPH_TYPE);
+		for (l = graphs; l; l = l->next) {
+			SheetObject *sog = l->data;
+            GogGraph * graph = sheet_object_graph_get_gog (sog);
+        GsfOutput *dst;
+        dst = go_file_create (tmpfile, NULL);
+        g_assert(dst);
+	    res = gog_graph_export_image (graph, go_image_get_format_from_name (format),
+				      dst, resolution, resolution);
+        gsf_output_close (dst);
+        g_object_unref (dst);
 
 		if (!fs_sheet_selection)
 			workbook_sheet_move (sheet, +oldn);
-
+		}
+		g_slist_free (graphs);
+        }
 		g_free (tmpfile);
 		if (res)
 			break;
