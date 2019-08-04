@@ -917,19 +917,6 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		goto out;
 	}
 
-	if (ssconvert_import_id != NULL) {
-		fo = go_file_opener_for_id (ssconvert_import_id);
-		if (fo == NULL) {
-			res = 1;
-			g_printerr (_("Unknown importer '%s'.\n"
-				      "Try --list-importers to see a list of possibilities.\n"),
-				    ssconvert_import_id);
-			goto out;
-		}
-	}
-
-	if (!fs)
-		goto out;
 	fsscope = go_file_saver_get_save_scope (fs);
 
 	io_context = go_io_context_new (cc);
@@ -957,66 +944,17 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	if (res)
 		goto out;
 
+#if 0
 	res = validate_sheet_selection (fs, wb);
 	if (res)
 		goto out;
+#endif
 
 	if (mergeargs != NULL) {
 		if (merge (wb, mergeargs, fo, io_context, cc))
 			goto out;
 	}
 
-	if (ssconvert_goal_seek) {
-		int i;
-		Sheet *sheet = wb_view_cur_sheet (wbv);
-
-		for (i = 0; ssconvert_goal_seek[i]; i++) {
-			setup_range (G_OBJECT (sheet),
-				     "ssconvert-goal-seek",
-				     wb,
-				     ssconvert_goal_seek[i]);
-			dialog_goal_seek (NULL, sheet);
-		}
-	}
-
-	if (ssconvert_solve) {
-		Sheet *sheet = wb_view_cur_sheet (wbv);
-		run_solver (sheet, wbv);
-	}
-
-	if (ssconvert_tool_test && ssconvert_tool_test[0]) {
-		run_tool_test (ssconvert_tool_test[0],
-			       ssconvert_tool_test + 1,
-			       wbv);
-	}
-
-	if (ssconvert_resize) {
-		int rows, cols;
-		if (sscanf (ssconvert_resize, "%dx%d", &rows, &cols) == 2) {
-			int n;
-
-			if (ssconvert_verbose)
-				g_printerr (_("Resizing to %dx%d\n"),
-					    rows, cols);
-
-			for (n = workbook_sheet_count (wb) - 1;
-			     n >= 0;
-			     n--) {
-				gboolean err;
-				Sheet *sheet = workbook_sheet_by_index (wb, n);
-				GOUndo *undo =
-					gnm_sheet_resize (sheet, cols, rows,
-							  NULL, &err);
-				if (err)
-					g_printerr (_("Resizing of sheet %s failed\n"),
-						    sheet->name_unquoted);
-				g_object_unref (undo);
-			}
-		}
-	}
-
-	if (ssconvert_recalc)
-		workbook_recalc_all (wb);
 	gnm_app_recalc ();
 
 	if (ssconvert_range)
