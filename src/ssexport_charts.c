@@ -64,7 +64,8 @@ static char *ssconvert_clipboard = NULL;
 static char *ssconvert_range = NULL;
 static char *ssconvert_import_encoding = NULL;
 static char *ssconvert_import_id = NULL;
-static char *ssconvert_export_id = "svg";
+char svgstring[4] = "svg";
+static char *ssconvert_export_id = svgstring;
 static char *ssconvert_export_options = NULL;
 static char *ssconvert_merge_target = NULL;
 static char **ssconvert_tool_test = NULL;
@@ -534,6 +535,7 @@ do_split_save (WorkbookView *wbv,
 	       const char *outarg, GOCmdContext *cc)
 {
 	Workbook *wb = wb_view_get_workbook (wbv);
+    unsigned graph_idx = 0;
     double resolution = 100.0;
 	char *template;
 	GPtrArray *sheets;
@@ -559,7 +561,6 @@ do_split_save (WorkbookView *wbv,
 			g_ptr_array_add (sheets, sheet);
 		}
 	}
-    unsigned graph_idx = 0;
 
 	for (ui = 0; ui < sheets->len; ui++) {
 		Sheet *sheet = g_ptr_array_index (sheets, ui);
@@ -582,15 +583,17 @@ do_split_save (WorkbookView *wbv,
 		}
 
         {
+            char *tmpfile;
             GSList *l, *graphs = sheet_objects_get (sheet, NULL, GNM_SO_GRAPH_TYPE);
             for (l = graphs; l; l = l->next) {
+                GsfOutput *dst;
                 SheetObject *sog = l->data;
+                GogGraph * graph;
                 if (!GNM_IS_SO_GRAPH(sog)) {
                     continue;
                 }
-                GogGraph * graph = sheet_object_graph_get_gog (sog);
-                GsfOutput *dst;
-                char *tmpfile =	resolve_template (template, sheet, graph_idx);
+                graph = sheet_object_graph_get_gog (sog);
+                tmpfile =	resolve_template (template, sheet, graph_idx);
                 ++graph_idx;
                 dst = go_file_create (tmpfile, NULL);
                 g_assert(dst);
