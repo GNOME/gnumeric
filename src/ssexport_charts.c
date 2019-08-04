@@ -844,6 +844,9 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
             GSList *l, *graphs = sheet_objects_get (sheet, NULL, GNM_SO_GRAPH_TYPE);
             for (l = graphs; l; l = l->next) {
                 SheetObject *sog = l->data;
+                if (!GNM_IS_SO_GRAPH(sog)) {
+                    continue;
+                }
                 GogGraph * graph = sheet_object_graph_get_gog (sog);
                 GsfOutput *dst;
                 char *tmpfile =	resolve_template (template, sheet, graph_idx);
