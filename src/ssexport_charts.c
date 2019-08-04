@@ -542,7 +542,7 @@ do_split_save (WorkbookView *wbv,
 	GPtrArray *sheet_sel =
 		g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
 	const gboolean fs_sheet_selection = FALSE;
-
+    const GOImageFormat format = go_image_get_format_from_name (ssconvert_export_id);
 	template = strchr (outarg, '%')
 		? g_strdup (outarg)
 		: g_strconcat (outarg, ".%n", NULL);
@@ -594,8 +594,7 @@ do_split_save (WorkbookView *wbv,
                 ++graph_idx;
                 dst = go_file_create (tmpfile, NULL);
                 g_assert(dst);
-                res = gog_graph_export_image (graph, go_image_get_format_from_name (ssconvert_export_id),
-                    dst, resolution, resolution);
+                res = gog_graph_export_image (graph, format, dst, resolution, resolution);
                 gsf_output_close (dst);
                 g_object_unref (dst);
                 g_free (tmpfile);
