@@ -58,7 +58,7 @@ static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_verbose = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
 static gboolean ssconvert_list_importers = FALSE;
-static gboolean ssconvert_one_file_per_sheet = FALSE;
+static gboolean ssconvert_one_file_per_sheet = TRUE;
 static gboolean ssconvert_recalc = FALSE;
 static gboolean ssconvert_solve = FALSE;
 static char *ssconvert_resize = NULL;
@@ -141,7 +141,7 @@ static const GOptionEntry ssconvert_options [] = {
 	},
 
 	{
-		"export-file-per-sheet", 'S',
+		"export-file-per-chart", 'S',
 		0, G_OPTION_ARG_NONE, &ssconvert_one_file_per_sheet,
 		N_("Export a file for each sheet if the exporter only supports one sheet at a time"),
 		NULL
@@ -1180,6 +1180,8 @@ main (int argc, char const **argv)
 			 GNM_VERSION_FULL, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		return 0;
 	}
+
+    g_assert(ssconvert_one_file_per_sheet);
 
 	if (ssconvert_one_file_per_sheet && ssconvert_merge_target) {
 		g_printerr (_("--export-file-per-sheet and --merge-to are incompatible\n"));
