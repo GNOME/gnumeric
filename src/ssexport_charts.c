@@ -67,7 +67,6 @@ static char *ssconvert_import_id = NULL;
 char svgstring[4] = "svg";
 static char *ssconvert_export_id = svgstring;
 static char *ssconvert_export_options = NULL;
-static char *ssconvert_merge_target = NULL;
 static char **ssconvert_tool_test = NULL;
 
 static const GOptionEntry ssconvert_options [] = {
@@ -109,13 +108,6 @@ static const GOptionEntry ssconvert_options [] = {
 	},
 
 	/* ---------------------------------------- */
-
-	{
-		"merge-to", 'M',
-		0, G_OPTION_ARG_STRING, &ssconvert_merge_target,
-		N_("Merge listed files (all same format) to make this file"),
-		N_("file")
-	},
 
 	{
 		"export-type", 'T',
@@ -304,196 +296,6 @@ list_them (GList *them,
 	g_list_free (them_copy);
 }
 
-/*
- * Read the files we're going to merge and return a list of Workbooks.
- */
-static GSList *
-read_files_to_merge (const char *inputs[], GOFileOpener *fo,
-		     GOIOContext *io_context, GOCmdContext *cc)
-{
-	GSList *wbs = NULL;
-
-	while (*inputs) {
-		const char *fname = *inputs;
-		char *uri = go_shell_arg_to_uri (fname);
-		WorkbookView *wbv =
-			workbook_view_new_from_uri (uri, fo, io_context,
-					      ssconvert_import_encoding);
-		g_free (uri);
-		inputs++;
-
-		if (go_io_error_occurred (io_context)) {
-			g_slist_free_full (wbs, g_object_unref);
-			return NULL;
-		}
-
-		if (!wbv)
-			continue;
-
-		wbs = g_slist_prepend (wbs, wb_view_get_workbook (wbv));
-	}
-
-	return g_slist_reverse (wbs);
-}
-
-/*
- * Look at a set of workbooks, and pick a sheet size that would
- * be good for sheets in a workbook merging them all.
- */
-static void
-suggest_size (GSList *wbs, int *csuggest, int *rsuggest)
-{
-	GSList *l;
-	int rmax = 0;
-	int cmax = 0;
-
-	for (l = wbs; l; l = l->next) {
-		Workbook *wb = l->data;
-
-		WORKBOOK_FOREACH_SHEET (wb, sheet, {
-			int r = gnm_sheet_get_max_rows (sheet);
-			int c = gnm_sheet_get_max_cols (sheet);
-			if (r > rmax) rmax = r;
-			if (c > cmax) cmax = c;
-		});
-	}
-
-	gnm_sheet_suggest_size (&cmax, &rmax);
-	*csuggest = cmax;
-	*rsuggest = rmax;
-}
-
-static void
-cb_collect_names (G_GNUC_UNUSED gconstpointer key,
-		  GnmNamedExpr *nexpr,
-		  GSList **plist)
-{
-	if (!expr_name_is_active (nexpr))
-		return;
-	*plist = g_slist_prepend (*plist, expr_name_ref (nexpr));
-}
-
-/* Append the sheets of workbook wb2 to workbook wb.  Resize sheets
-   if necessary.  Fix workbook links in sheet if necessary.
-   Merge names in workbook scope (conflicts result in an error). */
-static gboolean
-merge_single (Workbook *wb, Workbook *wb2,
-	      int cmax, int rmax,
-	      GOCmdContext *cc)
-{
-	/* Move names with workbook scope in wb2 over to wb */
-	GSList *names = g_slist_sort (gnm_named_expr_collection_list (wb2->names),
-				      (GCompareFunc)expr_name_cmp_by_name);
-	GSList *p;
-
-	for (p = names; p; p = p->next) {
-		GnmNamedExpr *nexpr = p->data;
-		const char *name = expr_name_name (nexpr);
-		GnmNamedExpr *nexpr2;
-		GnmParsePos pp;
-		GnmParsePos newpos = nexpr->pos;
-
-		if (!expr_name_is_active (nexpr))
-			continue;
-
-		if (nexpr->pos.wb != wb2 || nexpr->pos.sheet != NULL)
-			continue;
-
-		/* Check for clash with existing name */
-
-		parse_pos_init (&pp, wb, NULL, 0, 0);
-		nexpr2 = expr_name_lookup (&pp, name);
-		if (nexpr2 /* FIXME: && nexpr2-is-not-the-same-as-nexpr */) {
-			g_printerr (_("Name conflict during merge: '%s' appears twice at workbook scope.\n"),
-				    name);
-			g_slist_free (names);
-			return TRUE;
-		}
-
-		/* Move name scope to workbook wb */
-		newpos.wb = wb;
-		expr_name_set_pos (nexpr, &newpos);
-	}
-	g_slist_free (names);
-
-	while (workbook_sheet_count (wb2) > 0) {
-		/* Remove sheet from incoming workbook */
-		Sheet *sheet = workbook_sheet_by_index (wb2, 0);
-		int loc = workbook_sheet_count (wb);
-		GOUndo *undo;
-		char *sheet_name;
-		gboolean err;
-		GSList *names = NULL;
-
-		g_object_ref (sheet);
-		workbook_sheet_delete (sheet);
-		sheet->workbook = wb;
-
-		/* Fix names that reference the old workbook */
-		gnm_sheet_foreach_name (sheet, (GHFunc)cb_collect_names, &names);
-		while (names) {
-			GnmNamedExpr *nexpr = names->data;
-			names = g_slist_delete_link (names, names);
-
-			if (nexpr->pos.wb) {
-				GnmParsePos newpos = nexpr->pos;
-				newpos.wb = wb;
-				expr_name_set_pos (nexpr, &newpos);
-			}
-			expr_name_unref (nexpr);
-		}
-
-		undo = gnm_sheet_resize (sheet, cmax, rmax, cc, &err);
-		if (undo)
-			g_object_unref (undo);
-
-		/* Pick a free sheet name */
-		sheet_name = workbook_sheet_get_free_name
-			(wb, sheet->name_unquoted, FALSE, TRUE);
-		g_object_set (sheet, "name", sheet_name, NULL);
-		g_free (sheet_name);
-
-		/* Insert and revive the sheet */
-		workbook_sheet_attach_at_pos (wb, sheet, loc);
-		dependents_revive_sheet (sheet);
-		g_object_unref (sheet);
-	}
-
-	return FALSE;
-}
-
-/* Merge a collection of workbooks into one. */
-static gboolean
-merge (Workbook *wb, char const *inputs[],
-       GOFileOpener *fo, GOIOContext *io_context, GOCmdContext *cc)
-{
-	GSList *wbs, *l;
-	int result = 0;
-	int cmax, rmax;
-
-	wbs = read_files_to_merge (inputs, fo, io_context, cc);
-	if (go_io_error_occurred (io_context)) {
-		go_io_error_display (io_context);
-		return TRUE;
-	}
-
-	suggest_size (wbs, &cmax, &rmax);
-
-	for (l = wbs; l; l = l->next) {
-		Workbook *wb2 = l->data;
-		const char *uri = go_doc_get_uri (GO_DOC (wb2));
-
-		g_printerr (_("Adding sheets from %s\n"), uri);
-
-		result = merge_single (wb, wb2, cmax, rmax, cc);
-		if (result)
-			break;
-	}
-
-	g_slist_free_full (wbs, g_object_unref);
-	return result;
-}
-
 static char *
 resolve_template (const char *template, Sheet *sheet, unsigned n)
 {
@@ -617,8 +419,7 @@ do_split_save (WorkbookView *wbv,
 }
 
 static int
-convert (char const *inarg, char const *outarg, char const *mergeargs[],
-	 GOCmdContext *cc)
+convert (char const *inarg, char const *outarg, GOCmdContext *cc)
 {
 	int res = 0;
 	GOFileOpener *fo = NULL;
@@ -656,13 +457,9 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	}
 
 	io_context = go_io_context_new (cc);
-	if (mergeargs == NULL) {
-		wbv = workbook_view_new_from_uri (infile, fo,
-						  io_context,
-						  ssconvert_import_encoding);
-	} else {
-		wbv = workbook_view_new (NULL);
-	}
+    wbv = workbook_view_new_from_uri (infile, fo,
+        io_context,
+        ssconvert_import_encoding);
 
 	if (go_io_error_occurred (io_context)) {
 		go_io_error_display (io_context);
@@ -679,11 +476,6 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	res = handle_export_options (NULL, wb);
 	if (res)
 		goto out;
-
-	if (mergeargs != NULL) {
-		if (merge (wb, mergeargs, fo, io_context, cc))
-			goto out;
-	}
 
 	gnm_app_recalc ();
 
@@ -850,11 +642,6 @@ main (int argc, char const **argv)
 
     g_assert(ssexport_chart__one_file_per_chart);
 
-	if (ssexport_chart__one_file_per_chart && ssconvert_merge_target) {
-		g_printerr (_("--export-file-per-sheet and --merge-to are incompatible\n"));
-		return 1;
-	}
-
 	gnm_init ();
 
 	cc = gnm_cmd_context_stderr_new ();
@@ -875,19 +662,13 @@ main (int argc, char const **argv)
 		list_them (go_get_file_openers (),
 			   (get_desc_f) &go_file_opener_get_id,
 			   (get_desc_f) &go_file_opener_get_description);
-	else if (ssconvert_clipboard)
+	else if (ssconvert_clipboard) {
 		if (argc == 3 && ssconvert_range)
 			res = clipboard_export (argv[1], argv[2], cc);
 		else
 			do_usage = TRUE;
-	else if (ssconvert_merge_target) {
-		if (argc >= 3)
-			res = convert (argv[1], ssconvert_merge_target,
-				       argv + 1, cc);
-		else
-			do_usage = TRUE;
 	} else if (argc == 2 || argc == 3) {
-		res = convert (argv[1], argv[2], NULL, cc);
+		res = convert (argv[1], argv[2], cc);
 	} else
 		do_usage = TRUE;
 
