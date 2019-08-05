@@ -55,14 +55,14 @@
 // Sheets user has specified as export options
 #define SSCONVERT_SHEET_SET_KEY "ssconvert-sheets"
 
-static gboolean ssconvert_show_version = FALSE;
-static gboolean ssconvert_verbose = FALSE;
-static gboolean ssconvert_list_exporters = FALSE;
-static gboolean ssconvert_list_importers = FALSE;
+static gboolean show_version = FALSE;
+static gboolean is_verbose = FALSE;
+static gboolean list_exporters = FALSE;
+static gboolean list_importers = FALSE;
 static gboolean ssexport_chart__one_file_per_chart = TRUE;
-static char *ssconvert_clipboard = NULL;
+static char *use_clipboard = NULL;
 static char *ssconvert_range = NULL;
-static char *ssconvert_import_encoding = NULL;
+static char *import_encoding = NULL;
 static char *ssconvert_import_id = NULL;
 char svgstring[4] = "svg";
 static char *ssconvert_export_id = svgstring;
@@ -72,14 +72,14 @@ static char **ssconvert_tool_test = NULL;
 static const GOptionEntry ssconvert_options [] = {
 	{
 		"version", 0,
-		0, G_OPTION_ARG_NONE, &ssconvert_show_version,
+		0, G_OPTION_ARG_NONE, &show_version,
 		N_("Display program version"),
 		NULL
 	},
 
 	{
 		"verbose", 'v',
-		0, G_OPTION_ARG_NONE, &ssconvert_verbose,
+		0, G_OPTION_ARG_NONE, &is_verbose,
 		N_("Be somewhat more verbose during conversion"),
 		NULL
 	},
@@ -88,7 +88,7 @@ static const GOptionEntry ssconvert_options [] = {
 
 	{
 		"import-encoding", 'E',
-		0, G_OPTION_ARG_STRING, &ssconvert_import_encoding,
+		0, G_OPTION_ARG_STRING, &import_encoding,
 		N_("Optionally specify an encoding for imported content"),
 		N_("ENCODING")
 	},
@@ -102,7 +102,7 @@ static const GOptionEntry ssconvert_options [] = {
 
 	{
 		"list-importers", 0,
-		0, G_OPTION_ARG_NONE, &ssconvert_list_importers,
+		0, G_OPTION_ARG_NONE, &list_importers,
 		N_("List the available importers"),
 		NULL
 	},
@@ -125,7 +125,7 @@ static const GOptionEntry ssconvert_options [] = {
 
 	{
 		"list-exporters", 0,
-		0, G_OPTION_ARG_NONE, &ssconvert_list_exporters,
+		0, G_OPTION_ARG_NONE, &list_exporters,
 		N_("List the available exporters"),
 		NULL
 	},
@@ -143,7 +143,7 @@ static const GOptionEntry ssconvert_options [] = {
 	// by the test suite.
 	{
 		"clipboard", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &ssconvert_clipboard,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &use_clipboard,
 		N_("Output via the clipboard"),
 		NULL
 	},
@@ -459,7 +459,7 @@ convert (char const *inarg, char const *outarg, GOCmdContext *cc)
 	io_context = go_io_context_new (cc);
     wbv = workbook_view_new_from_uri (infile, fo,
         io_context,
-        ssconvert_import_encoding);
+        import_encoding);
 
 	if (go_io_error_occurred (io_context)) {
 		go_io_error_display (io_context);
@@ -543,7 +543,7 @@ clipboard_export (const char *inarg, char const *outarg, GOCmdContext *cc)
 	io_context = go_io_context_new (cc);
 	wbv = workbook_view_new_from_uri (infile, fo,
 					  io_context,
-					  ssconvert_import_encoding);
+					  import_encoding);
 
 	if (go_io_error_occurred (io_context)) {
 		go_io_error_display (io_context);
@@ -569,7 +569,7 @@ clipboard_export (const char *inarg, char const *outarg, GOCmdContext *cc)
 				    wb_view_cur_sheet_view (wbv),
 				    &r, FALSE);
 
-	data = gui_clipboard_test (ssconvert_clipboard);
+	data = gui_clipboard_test (use_clipboard);
 	if (!data) {
 		g_printerr ("Failed to get clipboard data.\n");
 		res = 1;
@@ -634,7 +634,7 @@ main (int argc, char const **argv)
 		return 1;
 	}
 
-	if (ssconvert_show_version) {
+	if (show_version) {
 		g_print (_("ssconvert version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
 			 GNM_VERSION_FULL, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		return 0;
@@ -654,15 +654,15 @@ main (int argc, char const **argv)
 	}
 	go_component_set_default_command_context (cc);
 
-	if (ssconvert_list_exporters)
+	if (list_exporters)
 		list_them (go_get_file_savers (),
 			   (get_desc_f) &go_file_saver_get_id,
 			   (get_desc_f) &go_file_saver_get_description);
-	else if (ssconvert_list_importers)
+	else if (list_importers)
 		list_them (go_get_file_openers (),
 			   (get_desc_f) &go_file_opener_get_id,
 			   (get_desc_f) &go_file_opener_get_description);
-	else if (ssconvert_clipboard) {
+	else if (use_clipboard) {
 		if (argc == 3 && ssconvert_range)
 			res = clipboard_export (argv[1], argv[2], cc);
 		else
