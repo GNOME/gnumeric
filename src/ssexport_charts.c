@@ -59,7 +59,6 @@ static gboolean show_version = FALSE;
 static gboolean is_verbose = FALSE;
 static gboolean list_exporters = FALSE;
 static gboolean list_importers = FALSE;
-static gboolean ssexport_chart__one_file_per_chart = TRUE;
 static char *use_clipboard = NULL;
 static char *ssconvert_range = NULL;
 static char *import_encoding = NULL;
@@ -127,13 +126,6 @@ static const GOptionEntry ssconvert_options [] = {
 		"list-exporters", 0,
 		0, G_OPTION_ARG_NONE, &list_exporters,
 		N_("List the available exporters"),
-		NULL
-	},
-
-	{
-		"export-file-per-chart", 'S',
-		0, G_OPTION_ARG_NONE, &ssexport_chart__one_file_per_chart,
-		N_("Export a file for each sheet if the exporter only supports one sheet at a time"),
 		NULL
 	},
 
@@ -485,8 +477,7 @@ convert (char const *inarg, char const *outarg, GOCmdContext *cc)
 				     wb,
 				     ssconvert_range);
 
-	if (ssexport_chart__one_file_per_chart ||
-	    range) {
+    {
 		Sheet *def_sheet = NULL;
 
 		if (range && range->a.sheet)
@@ -501,11 +492,7 @@ convert (char const *inarg, char const *outarg, GOCmdContext *cc)
 				   SHEET_SELECTION_KEY, sheet_sel);
 	}
 
-	if (ssexport_chart__one_file_per_chart) {
-		res = do_split_save (wbv, outarg, cc);
-	} else {
-		res = !workbook_view_save_as (wbv, NULL, out_dirname, cc);
-	}
+    res = do_split_save (wbv, outarg, cc);
 
 	if (sheet_sel) {
 		g_object_set_data (G_OBJECT (wb),
@@ -639,8 +626,6 @@ main (int argc, char const **argv)
 			 GNM_VERSION_FULL, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		return 0;
 	}
-
-    g_assert(ssexport_chart__one_file_per_chart);
 
 	gnm_init ();
 
