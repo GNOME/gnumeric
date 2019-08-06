@@ -18,10 +18,10 @@ $| = 1;
 			   $ssconvert $sstest $ssdiff $ssgrep $gnumeric
                            $topsrc $top_builddir
 			   $subtests $samples corpus $PERL $PYTHON);
-@GnumericTest::EXPORT_OK = qw(junkfile);
+@GnumericTest::EXPORT_OK = qw(junkfile $ssexport_charts);
 
 use vars qw($topsrc $top_builddir $samples $default_subtests $default_corpus $PERL $PYTHON $verbose);
-use vars qw($ssconvert $ssindex $sstest $ssdiff $ssgrep $gnumeric);
+use vars qw($ssconvert $ssexport_charts $ssindex $sstest $ssdiff $ssgrep $gnumeric);
 use vars qw($normalize_gnumeric);
 
 $PYTHON = undef;
@@ -41,6 +41,7 @@ if ($0 eq '-e') {
 $top_builddir = "..";
 $samples = "$topsrc/samples"; $samples =~ s{^\./+}{};
 $ssconvert = "$top_builddir/src/ssconvert";
+$ssexport_charts = "$top_builddir/src/ssexport_charts";
 $ssindex = "$top_builddir/src/ssindex";
 $sstest = "$top_builddir/src/sstest";
 $ssdiff = "$top_builddir/src/ssdiff";
