@@ -31,6 +31,7 @@
 
 TESTS_EXTENSIONS=.pl
 TESTS =	t1000-statfuns.pl			\
+		t0001-ssexport-charts.pl \
 	t1001-mathfuns.pl			\
 	t1002-finfuns.pl			\
 	t1003-engfuns.pl			\

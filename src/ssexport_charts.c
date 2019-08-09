@@ -391,7 +391,9 @@ do_split_save (WorkbookView *wbv,
                 ++graph_idx;
                 dst = go_file_create (tmpfile, NULL);
                 g_assert(dst);
-                res = gog_graph_export_image (graph, format, dst, resolution, resolution);
+                if (!gog_graph_export_image (graph, format, dst, resolution, resolution)) {
+                    res = 1;
+                }
                 gsf_output_close (dst);
                 g_object_unref (dst);
                 g_free (tmpfile);

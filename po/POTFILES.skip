@@ -16,6 +16,7 @@ plugins/guile/smob-value.c
 #
 # and this is a test program intended to have arbitrary content.
 src/sstest.c
+src/ssexport_charts.c
 #
 # We cannot have these as adding them breaks distcheck
 component/Gnumeric-embed.xml.in
