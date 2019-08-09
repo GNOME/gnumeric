@@ -13,6 +13,7 @@ message("Check ssexport_charts export");
 my $src1 = "$samples/fcsolve-with-chart.gnumeric";
 
 my $tmp = "$samples/fcs0.svg";
+GnumericTest::junkfile($tmp);
 
 # Not much of a test, but this at least confirms that the program
 # runs with no criticals.
