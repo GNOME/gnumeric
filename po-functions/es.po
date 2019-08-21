@@ -18,16 +18,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2019-03-28 12:24+0000\n"
-"PO-Revision-Date: 2019-06-19 13:19+0200\n"
+"POT-Creation-Date: 2019-06-19 11:22+0000\n"
+"PO-Revision-Date: 2019-08-21 11:38+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: es <gnome-es-list@gnome.org>\n"
-"Language: es\n"
+"Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 3.32.0\n"
+"X-Generator: Gtranslator 3.32.1\n"
 
 #: ../plugins/fn-christian-date/functions.c:131
 msgid ""
@@ -5107,7 +5107,6 @@ msgid "name:the name of the environment variable"
 msgstr "nombre:el nombre de la variable de entorno"
 
 #: ../plugins/fn-info/functions.c:1805
-#| msgid "If a variable called @{name} does not exist, #N/A! will be returned."
 msgid "If a variable called @{name} does not exist, #N/A will be returned."
 msgstr "Si la variable @{nombre} no existe, se devolverá #N/A!."
 
@@ -5257,9 +5256,6 @@ msgid "x:value to test for #N/A error"
 msgstr "x:valor con el que probar el error #N/A"
 
 #: ../plugins/fn-logical/functions.c:248
-#| msgid ""
-#| "This function returns the first value, unless that is #NA!, in which case "
-#| "it returns the second."
 msgid ""
 "This function returns the first value, unless that is #N/A, in which case it "
 "returns the second."
@@ -5288,7 +5284,6 @@ msgid "value2:value if @{condition2} is true"
 msgstr "valor2:valor si @{condición2} es cierto"
 
 #: ../plugins/fn-logical/functions.c:270
-#, fuzzy
 #| msgid ""
 #| "This function returns the cumulative distribution function of the F "
 #| "distribution."
@@ -5296,32 +5291,30 @@ msgid ""
 "This function returns the value after the first true conditional.  If no "
 "conditional is true, #VALUE! is returned."
 msgstr ""
-"Esta función devuelve la función de distribución acumulativa de la "
-"distribución F."
+"Esta función devuelve el valor antes del primer condicional verdadero. Si el "
+"condicional no es verdadero, devuelve #VALUE!."
 
 #: ../plugins/fn-logical/functions.c:309
 msgid "SWITCH:multi-branch selector"
-msgstr ""
+msgstr "SWITCH:selector multi-rama"
 
 #: ../plugins/fn-logical/functions.c:310
 msgid "ref:value"
 msgstr "ref:valor"
 
 #: ../plugins/fn-logical/functions.c:311
-#, fuzzy
 #| msgid "ref1:first value"
 msgid "choice1:first choice value"
-msgstr "ref1:primer valor"
+msgstr "opcion1:primer valor de la opción"
 
 #: ../plugins/fn-logical/functions.c:312
 msgid "value1:first result value"
 msgstr "valor1:primer valor del resultado"
 
 #: ../plugins/fn-logical/functions.c:313
-#, fuzzy
 #| msgid "ref2:second value"
 msgid "choice2:second choice value"
-msgstr "ref2:segundo valor"
+msgstr "opcion2:segundo valor de la opción"
 
 #: ../plugins/fn-logical/functions.c:314
 msgid "value2:second result value"
@@ -6133,7 +6126,7 @@ msgstr "b:valor"
 
 #: ../plugins/fn-math/functions.c:587
 msgid "AGM computes the arithmetic-geometric mean of the two values."
-msgstr ""
+msgstr "AGM calcula la media aritmética-geométrica de dos valores."
 
 #: ../plugins/fn-math/functions.c:606
 msgid "CEIL:smallest integer larger than or equal to @{x}"
@@ -6162,10 +6155,9 @@ msgid "criteria:condition for a cell to be counted"
 msgstr "criterios:condición para que una celda se cuente"
 
 #: ../plugins/fn-math/functions.c:650
-#, fuzzy
 #| msgid "COUNTIF:count of the cells meeting the given @{criteria}"
 msgid "COUNTIFS:count of the cells meeting the given @{criteria}"
-msgstr "COUNTIF:conteo de las celdas que cumplen los @{criterios} dados"
+msgstr "COUNTIFS:conteo de las celdas que cumplen los @{criterios} dados"
 
 #: ../plugins/fn-math/functions.c:669
 msgid ""
@@ -6194,7 +6186,6 @@ msgstr ""
 "para que coincida con el tamaño del @{rango}."
 
 #: ../plugins/fn-math/functions.c:695
-#, fuzzy
 #| msgid ""
 #| "SUMIF:sum of the cells in @{actual_range} for which the corresponding "
 #| "cells in the range meet the given @{criteria}"
@@ -6202,8 +6193,8 @@ msgid ""
 "SUMIFS:sum of the cells in @{actual_range} for which the corresponding cells "
 "in the range meet the given criteria"
 msgstr ""
-"SUMIF:suma de las celdas en @{rango_actual} para el cual las celdas "
-"correspondientes en el rango cumplen los @{criterios} dados"
+"SUMIFS:suma de las celdas en @{rango_actual} para el que las celdas "
+"correspondientes en el rango cumplen los criterios dados"
 
 #: ../plugins/fn-math/functions.c:696 ../plugins/fn-math/functions.c:737
 #: ../plugins/fn-math/functions.c:757 ../plugins/fn-math/functions.c:777
@@ -6233,7 +6224,6 @@ msgid "criteria:condition for a cell to be included"
 msgstr "criterios:condición para que una celda se incluya"
 
 #: ../plugins/fn-math/functions.c:736
-#, fuzzy
 #| msgid ""
 #| "AVERAGEIF:average of the cells in @{actual range} for which the "
 #| "corresponding cells in the range meet the given @{criteria}"
@@ -6241,8 +6231,8 @@ msgid ""
 "AVERAGEIFS:average of the cells in @{actual_range} for which the "
 "corresponding cells in the range meet the given criteria"
 msgstr ""
-"AVERAGEIF:promedio de las celdas en @{rango_actual} para que las celdas "
-"correspondientes en el rango cumplan los @{criterios} dados"
+"AVERAGEIFS:promedio de las celdas en @{rango_actual} para las que las celdas "
+"correspondientes en el rango cumplan los criterios dados"
 
 #: ../plugins/fn-math/functions.c:756
 msgid ""
@@ -6703,10 +6693,9 @@ msgid "e:scale"
 msgstr "e:escala"
 
 #: ../plugins/fn-math/functions.c:1572
-#, fuzzy
 #| msgid "lower:lower limit of the integral, defaults to 0"
 msgid "q:get lower bits of quotient, defaults to FALSE"
-msgstr "inferior:límite inferior del integral, el predeterminado es 0"
+msgstr "q:obtener los bits más bajos de cociente, el predeterminado es Falso"
 
 #: ../plugins/fn-math/functions.c:1574
 msgid ""
@@ -7440,14 +7429,11 @@ msgid "NT_RADICAL:Radical function"
 msgstr "NT_RADICAL:función Radical"
 
 #: ../plugins/fn-numtheory/numtheory.c:326
-#, fuzzy
 #| msgid ""
 #| "The HOUR function computes the hour part of the fractional day given by "
 #| "@{time}."
 msgid "The function computes the product of its distinct prime factors"
-msgstr ""
-"La función HOUR calcula la parte de la hora del día fraccional dado por "
-"@{hora}."
+msgstr "La función calcula el producto de sus factores primos distintos"
 
 #: ../plugins/fn-numtheory/numtheory.c:357
 msgid "NT_MU:Möbius mu function"
@@ -8139,10 +8125,9 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:638 ../plugins/fn-r/functions.c:663
 #: ../plugins/fn-r/functions.c:690
-#, fuzzy
 #| msgid "location:the location parameter of the distribution"
 msgid "mu:the location parameter of freedom of the distribution"
-msgstr "ubicación:el parámetro de ubicación de la distribución"
+msgstr "mu:el parámetro de ubicación de la libertad de la distribución"
 
 #: ../plugins/fn-r/functions.c:639 ../plugins/fn-r/functions.c:664
 #: ../plugins/fn-r/functions.c:691
@@ -8150,7 +8135,6 @@ msgid "beta:the scale parameter of freedom of the distribution"
 msgstr "beta:el parámetro de escala de libertad de la distribución"
 
 #: ../plugins/fn-r/functions.c:641
-#, fuzzy
 #| msgid ""
 #| "This function returns the probability density function of the beta "
 #| "distribution."
@@ -8159,7 +8143,7 @@ msgid ""
 "distribution."
 msgstr ""
 "Esta función devuelve la función de la densidad de probabilidad de la "
-"distribución beta."
+"distribución Gumbel."
 
 #: ../plugins/fn-r/functions.c:661
 msgid "R.PGUMBEL:cumulative distribution function of the Gumbel distribution"
@@ -8901,10 +8885,9 @@ msgid "a:scale parameter of the Weibull distribution"
 msgstr "a:parámetro de escala de la distribución de Weibull"
 
 #: ../plugins/fn-random/functions.c:401
-#, fuzzy
 #| msgid "b:parameter of the Weibull distribution"
 msgid "b:shape parameter of the Weibull distribution"
-msgstr "b:parámetro de la distribución Weibull"
+msgstr "b:parámetro de forma de la distribución Weibull"
 
 #: ../plugins/fn-random/functions.c:420
 msgid "RANDLAPLACE:random variate from a Laplace distribution"
@@ -8938,10 +8921,9 @@ msgid "RANDGAMMA:random variate from a Gamma distribution"
 msgstr "RANDGAMMA:variate aleatoria de una distribución Gamma"
 
 #: ../plugins/fn-random/functions.c:480
-#, fuzzy
 #| msgid "a:parameter of the Gamma distribution"
 msgid "a:shape parameter of the Gamma distribution"
-msgstr "a:parámetro de la distribución Gamma"
+msgstr "a:parámetro de forma de la distribución Gamma"
 
 #: ../plugins/fn-random/functions.c:481
 msgid "b:scale parameter of the Gamma distribution"
@@ -9178,7 +9160,6 @@ msgid "d2:second value"
 msgstr "d2:segundo valor"
 
 #: ../plugins/fn-random/functions.c:825
-#, fuzzy
 #| msgid ""
 #| "SIMTABLE returns one of the values in the given argument list depending "
 #| "on the round number of the simulation tool. When the simulation tool is "
