@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2019-06-19 11:22+0000\n"
-"PO-Revision-Date: 2019-08-21 11:38+0200\n"
+"PO-Revision-Date: 2019-08-26 14:01+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -5327,6 +5327,11 @@ msgid ""
 "finds a match.  The choices may be followed by a default value to use.  If "
 "there are no choices that match and no default value, #N/A is return."
 msgstr ""
+"Esta función compara en valor de referencia, @{ref}, con los valores "
+"elegidos, @{opcion1} etc., y devuelve el resultado correspondiente cuando se "
+"encuentra una coincidencia. Los valores pueden ir seguidos de uno "
+"predeterminado que usar. Si no hay opciones que coincidan y no hay valor "
+"predeterminado, se devuelve #N/A."
 
 #: ../plugins/fn-logical/functions.c:368
 msgid "TRUE:the value TRUE"
@@ -6243,7 +6248,6 @@ msgstr ""
 "correspondientes en el rango cumplen los criterios dados"
 
 #: ../plugins/fn-math/functions.c:776
-#, fuzzy
 #| msgid ""
 #| "SUMIF:sum of the cells in @{actual_range} for which the corresponding "
 #| "cells in the range meet the given @{criteria}"
@@ -6251,8 +6255,8 @@ msgid ""
 "MAXIFS:maximum of the cells in @{actual_range} for which the corresponding "
 "cells in the range meet the given criteria"
 msgstr ""
-"SUMIF:suma de las celdas en @{rango_actual} para el cual las celdas "
-"correspondientes en el rango cumplen los @{criterios} dados"
+"MAXIFS:valor máximo de las celdas en @{rango_actual} para el que las celdas "
+"correspondientes en el rango cumplen los criterios dados"
 
 #: ../plugins/fn-math/functions.c:796
 msgid ""
@@ -6686,7 +6690,7 @@ msgstr "x:ángulo en grados"
 
 #: ../plugins/fn-math/functions.c:1569
 msgid "REDUCEPI:reduce modulo Pi divided by a power of 2"
-msgstr ""
+msgstr "REDUCEPI:resto reducido de Pi dividido por una potencia de 2"
 
 #: ../plugins/fn-math/functions.c:1571
 msgid "e:scale"
@@ -6704,12 +6708,18 @@ msgid ""
 "optional argument @{q} is TRUE, returns instead the @e+1 lower bits of j.  "
 "The reduction is performed as-if using an exact value of Pi."
 msgstr ""
+"Esta función devuelve un valor, xr, tal que @{x}=xr+j*Pi/2^@{e} donde j es "
+"un entero y el valor absoluto de xr no es superior a Pi/2^(@{e}+1). Si el "
+"argumento opcional @{q} es cierto devuelve en su lugar los @e+1 bits más "
+"bajos de j. La reducción se realiza como si se usara un valor exacto de Pi."
 
 #: ../plugins/fn-math/functions.c:1575
 msgid ""
 "The lowest valid @{e} is -1 representing reduction modulo 2*Pi; the highest "
 "is 7 representing reduction modulo Pi/256."
 msgstr ""
+"El menor valor @{e} válido es -1, que representa el resto reducido de 2*Pi; "
+"el más alto es 7, que representa el resto reducido de Pi/256."
 
 #: ../plugins/fn-math/functions.c:1599
 msgid "SIN:the sine of @{x}"
@@ -7286,6 +7296,10 @@ msgid ""
 "the number of rows is the same as in @{mat1}), and the number of columns is "
 "the same as in (@{mat2})."
 msgstr ""
+"El número de columnas en @{mat1} debe ser igual al número de filas en "
+"@{mat2}; si no es así se devuelve #VALUE!. El resultado de MMULT es una "
+"matriz cuyo número de filas es el mismo que el de @{mat1} y el número de "
+"columnas es el mismo que el de @{mat2}."
 
 #: ../plugins/fn-math/functions.c:3122
 msgid "LINSOLVE:solve linear equation"
@@ -7391,6 +7405,9 @@ msgid ""
 "on the assumption that the non-symmetry is caused by unimportant rounding "
 "errors."
 msgstr ""
+"Si @{matrix} no es simétrica se calculará la media de las casillas "
+"diagonales coincidentes basándose en que la no simetría es debida a errores "
+"de redondeo sin importancia."
 
 #: ../plugins/fn-math/functions.c:3380
 msgid ""
