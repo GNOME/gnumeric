@@ -540,6 +540,12 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			((flip_v == NULL) ? GOD_ANCHOR_DIR_DOWN : 0);
 
 		sheet_object_anchor_init (&anchor, &range, offsets, direction, GNM_SO_ANCHOR_TWO_CELLS);
+		if (mode != GNM_SO_ANCHOR_TWO_CELLS) {
+			double pts[4];
+			sheet_object_anchor_to_pts (&anchor, esheet->sheet, pts);
+			anchor.mode = mode;
+			sheet_object_pts_to_anchor (&anchor, esheet->sheet, pts);
+		}
 		sheet_object_set_anchor (so, &anchor);
 	}
 	sheet_object_set_sheet (so, esheet->sheet);

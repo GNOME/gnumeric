@@ -4310,6 +4310,8 @@ excel_write_chart_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	guint8 zero[4] = { 0, 0, 0, 0 };
 	gsize draw_len = 0;
 	guint16 shape = 0x92;
+	SheetObjectAnchor const *real_anchor = sheet_object_get_anchor (so);
+	SheetObjectAnchor anchor = *real_anchor;
 
 	g_object_get (so,
 		      "name", &name,
@@ -4337,7 +4339,15 @@ excel_write_chart_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	ms_escher_opt_end (escher, optmark);
 	g_string_free (extra, TRUE);
 
-	ms_escher_clientanchor (escher, sheet_object_get_anchor (so));
+	if (anchor.mode != GNM_SO_ANCHOR_TWO_CELLS) {
+		double pts[4];
+		GnmSOAnchorMode mode = anchor.mode;
+		sheet_object_anchor_to_pts (&anchor, esheet->gnum_sheet, pts);
+		anchor.mode = GNM_SO_ANCHOR_TWO_CELLS;
+		sheet_object_pts_to_anchor (&anchor, esheet->gnum_sheet, pts);
+		anchor.mode = mode; /* this anchor is not valid for gnumeric but is what we need there */
+	}
+	ms_escher_clientanchor (escher, &anchor);
 
 	ms_escher_clientdata (escher);
 
