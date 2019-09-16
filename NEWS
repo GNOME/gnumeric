@@ -3,6 +3,10 @@ Gnumeric 1.12.46
 Andreas:
 	* Fix format import from ODF. [#403]
 
+Jean:
+	* Fix charts size in XLS format. [#414]
+	* Fix loading string from arrays in charts. [#416]
+
 Morten:
 	* Fix over-eager guessing of dates in csv.  [#401]
 	* Fix Mac build problem.  [#402]

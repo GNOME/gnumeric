@@ -942,6 +942,13 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 									     CELL_ITER_IGNORE_FILTERED,
 									     &r,
 									     (CellIterFunc)cb_assign_string, &closure);
+				} else if (VALUE_IS_EMPTY_OR_ERROR (v)) {
+					/* Not sure about what to do */
+					/* The use of g_ptr_array_insert there and g-ptr_array_add
+					 * for cell ranges looks like a bugs nest */
+					g_ptr_array_insert (vec->strs, 0, g_strdup (""));
+				} else {
+					g_ptr_array_insert (vec->strs, 0, value_get_as_string (v));
 				}
 			}
 		}
