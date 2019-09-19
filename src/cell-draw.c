@@ -133,6 +133,16 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 
 	if (rv->rotation && !rv->noborders) {
 		GnmRenderedRotatedValue const *rrv = (GnmRenderedRotatedValue *)rv;
+		if (rv->wrap_text) {
+			/* quick fix for #394, may be not perfect */
+			double rot = rv->rotation / 180. * M_PI, actual_width;
+			actual_width = MAX (0, width - indent) * cos (rot) + height * fabs (sin (rot));
+			if (actual_width > pango_layout_get_width (layout)) {
+				pango_layout_set_wrap (layout, PANGO_WRAP_WORD_CHAR);
+				pango_layout_set_width (layout, actual_width);
+				gnm_rendered_value_remeasure (rv);
+			}
+		}
 		if (rrv->sin_a_neg) {
 			hoffset += (width - indent) - rv->layout_natural_width;
 		}

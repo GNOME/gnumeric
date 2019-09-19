@@ -1,3 +1,8 @@
+2019-09-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/cell-draw.c (cell_calc_layout): implement wrapping of rotated text.
+	Fixes #394.
+
 2019-09-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_vector_get_str): load strings from arrays.

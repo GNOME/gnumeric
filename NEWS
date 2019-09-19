@@ -6,6 +6,7 @@ Andreas:
 Jean:
 	* Fix charts size in XLS format. [#414]
 	* Fix loading string from arrays in charts. [#416]
+	* Implement wrapping of rotated text. [#394]
 
 Morten:
 	* Fix over-eager guessing of dates in csv.  [#401]
