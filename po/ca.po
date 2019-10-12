@@ -656,7 +656,7 @@ msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:3699
 msgid "Ignoring a sheet without a name"
-msgstr "S'ignorarà una fulla sense nom"
+msgstr "S'ignorarà un full sense nom"
 
 #: ../plugins/excel/xlsx-read.c:3771
 #, fuzzy, c-format
@@ -1174,7 +1174,7 @@ msgstr ""
 msgid "Database functions for retrieval of data from a database."
 msgstr ""
 "Funcions de bases de dades que permeten la recuperació de dades des d'una "
-"base de dades"
+"base de dades."
 
 #: ../plugins/gda/plugin.xml.in.h:3 ../plugins/gnome-db/plugin.xml.in.h:3
 #, fuzzy
@@ -2626,7 +2626,7 @@ msgstr "Aquesta variable determina si l'autocompleció està activa."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:15
 msgid "Autocorrect replace"
-msgstr "Corregeix automàticament reemplaça"
+msgstr "Reemplaçament de la correcció automàtica"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:16
 msgid "Activate New Plugins"
@@ -2701,7 +2701,7 @@ msgstr "El directori principal per a les plantilles d'autoformat d'usuari."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:32
 msgid "Apply print-setup to all sheets"
-msgstr "Aplica la configuració de la impressora a tots els fulls."
+msgstr "Aplica la configuració de la impressora a tots els fulls"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:33
 msgid ""
@@ -3539,7 +3539,7 @@ msgid ""
 "left, 1 is right, 2 is top."
 msgstr ""
 "Aquesta variable determina on s'ha de mostrar la barra d'eines d'objectes. 0 "
-"és esquerra, 1 és dreta, 2 és dalt"
+"és esquerra, 1 és dreta, 2 és dalt."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:43
 #, fuzzy
@@ -3777,7 +3777,7 @@ msgid ""
 "checkbox in the sort dialog."
 msgstr ""
 "En activar aquesta opció els botons d'ordenació de la barra d'eines fan una "
-"ordenació que diferencia entre majúscules i minúscules, i activarà l'estat "
+"ordenació que distingeix entre majúscules i minúscules, i activarà l'estat "
 "inicial del quadre de verificació per cercar diferenciant entre majúscules i "
 "minúscules en el diàleg d'ordenació."
 
@@ -3999,7 +3999,7 @@ msgstr ""
 #: ../src/commands.c:207
 #, c-format
 msgid "%s is locked. Unprotect the sheet to enable editing."
-msgstr "%s està bloquejada. Desbloquegeu la fulla per habilitar-ne l'edició."
+msgstr "%s està bloquejada. Desbloquegeu el full per habilitar-ne l'edició."
 
 #: ../src/commands.c:884
 #, fuzzy, c-format
@@ -4948,7 +4948,7 @@ msgstr "Rasca"
 
 #: ../src/dialogs/dialog-about.c:132
 msgid "HTML, troff, LaTeX exporters"
-msgstr "Exportadors d'HTML, troff i LaTeX."
+msgstr "Exportadors d'HTML, troff i LaTeX"
 
 #: ../src/dialogs/dialog-about.c:133
 msgid "Vincent Renardias"
@@ -4956,7 +4956,7 @@ msgstr "Vincent Renardias"
 
 #: ../src/dialogs/dialog-about.c:134
 msgid "original CSV support, French localization"
-msgstr "Suport de CSV original, localització en francès."
+msgstr "Suport de CSV original, localització en francès"
 
 #: ../src/dialogs/dialog-about.c:135
 msgid "Ariel Rios"
@@ -6235,11 +6235,11 @@ msgstr "L'especificació %s no defineix una regió"
 #: ../src/dialogs/dialog-consolidate.c:200
 #, c-format
 msgid "Source region %s overlaps with the destination region"
-msgstr "La regió d'origen %s se solapa amb la de destinació"
+msgstr "La regió d'origen %s se superposa amb la de destinació"
 
 #: ../src/dialogs/dialog-consolidate.c:325
 msgid "The output range overlaps with the input ranges."
-msgstr "El rang de sortida se solapa amb els rangs d'entrada."
+msgstr "El rang de sortida se superposa amb els rangs d'entrada."
 
 #: ../src/dialogs/dialog-consolidate.c:550
 msgid "Could not create the Consolidate dialog."
@@ -7306,7 +7306,7 @@ msgstr "Cua de Rayleigh"
 
 #: ../src/dialogs/dialog-random-generator.c:167
 msgid "Student t"
-msgstr "T d'Student"
+msgstr "T de Student"
 
 #: ../src/dialogs/dialog-random-generator.c:167
 msgid "nu Value:"
@@ -7716,7 +7716,7 @@ msgstr "Aquest llibre de treball no té continguts per exportar."
 msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr ""
 "El descobriment automàtic no ha trobat columnes en el text. Proveu-ho "
-"manualment."
+"manualment"
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:68
 msgid "Merge with column on _left"
@@ -10086,7 +10086,7 @@ msgstr "E_specifiqueu la cel·la:"
 
 #: ../src/dialogs/goalseek.ui.h:4
 msgid "_To Value:"
-msgstr "_Fins el valor:"
+msgstr "_Fins al valor:"
 
 #: ../src/dialogs/goalseek.ui.h:5
 msgid "_By Changing Cell:"
@@ -10522,7 +10522,7 @@ msgstr "Mitjana mòbil ponderada"
 
 #: ../src/dialogs/moving-averages.ui.h:12
 msgid "Spencer's 15-point moving average"
-msgstr "Mitjana mòbil de 15 punts d'Spencer"
+msgstr "Mitjana mòbil de 15 punts de Spencer"
 
 #: ../src/dialogs/moving-averages.ui.h:14
 msgid "_Interval:"
@@ -10826,7 +10826,7 @@ msgstr "Se_nse escalat"
 
 #: ../src/dialogs/print.ui.h:24
 msgid "_Fixed scaling:"
-msgstr "Escalat _fixe:"
+msgstr "Escalat _fix:"
 
 #: ../src/dialogs/print.ui.h:25
 msgid "_Automatic scaling:"
@@ -13618,7 +13618,7 @@ msgstr ""
 #: ../src/sheet-object-image.c:274
 #, c-format
 msgid "Unknown failure while saving image"
-msgstr "S'ha produït un error desconegut en desar la imatge."
+msgstr "S'ha produït un error desconegut en desar la imatge"
 
 #: ../src/sheet-object-component.c:194
 #, fuzzy
@@ -14975,7 +14975,7 @@ msgstr ""
 
 #: ../src/tools/analysis-tools.c:2928
 msgid "Response Variable"
-msgstr "Variable de resposta:"
+msgstr "Variable de resposta"
 
 #: ../src/tools/analysis-tools.c:2962
 msgid "/df/SS/MS/F/Significance of F"
@@ -15163,7 +15163,7 @@ msgstr "Test-t (%s)"
 
 #: ../src/tools/dao.c:183
 msgid "New Sheet"
-msgstr "Nou Full"
+msgstr "Full nou"
 
 #: ../src/tools/dao.c:186
 msgid "New Workbook"
@@ -16270,7 +16270,7 @@ msgstr "Commuta la visibilitat de la barra d'estat"
 
 #: ../src/wbc-gtk-actions.c:2348
 msgid "F_ull Screen"
-msgstr "_Pantalla sencera..."
+msgstr "_Pantalla sencera"
 
 #: ../src/wbc-gtk-actions.c:2350
 msgid "Switch to or from full screen mode"
@@ -16687,7 +16687,7 @@ msgstr "Insereix columnes"
 
 #: ../src/wbc-gtk-actions.c:2730
 msgid "Insert a Hyperlink"
-msgstr "Insereix un hiperenllaç"
+msgstr "Insereix un enllaç"
 
 #: ../src/wbc-gtk-actions.c:2735
 #, fuzzy
@@ -17270,7 +17270,7 @@ msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Fusiona les dades columnars en un full creant fulls duplicats per a cada "
-"fila."
+"fila"
 
 #: ../src/wbc-gtk-actions.c:3180
 msgid "_Tabulate Dependency..."
@@ -17455,7 +17455,7 @@ msgid ""
 "selected"
 msgstr ""
 "Ordena la regió seleccionada en ordre ascendent basant-se en la primera "
-"columna seleccionada."
+"columna seleccionada"
 
 #: ../src/wbc-gtk-actions.c:3311
 msgid "Sort Descending"
@@ -17467,7 +17467,7 @@ msgid ""
 "selected"
 msgstr ""
 "Ordena la regió seleccionada en ordre descendent basant-se en la primera "
-"columna seleccionada."
+"columna seleccionada"
 
 #: ../src/wbc-gtk-actions.c:3320
 msgid "Create a frame"
@@ -17609,7 +17609,7 @@ msgstr "Científic"
 
 #: ../src/wbc-gtk-actions.c:3444
 msgid "Format the selection as scientific"
-msgstr "Format la selecció com a científic"
+msgstr "Dóna a la selecció un format científic"
 
 #: ../src/wbc-gtk-actions.c:3450
 msgid "Format the selection as date"
@@ -17806,11 +17806,11 @@ msgstr "Centra verticalment"
 
 #: ../src/wbc-gtk-actions.c:3620
 msgid "Align _Bottom"
-msgstr "Alinea a_baix"
+msgstr "Alinea a_vall"
 
 #: ../src/wbc-gtk-actions.c:3621
 msgid "Align Bottom"
-msgstr "Alinea abaix"
+msgstr "Alinea avall"
 
 #: ../src/wbc-gtk-actions.c:3630
 msgid "_Bold"
@@ -18048,7 +18048,7 @@ msgstr "Desprotegeix el full per habilitar-ne l'edició."
 
 #: ../src/wbc-gtk-edit.c:894
 msgid "You are about to edit a cell with \"text\" format."
-msgstr "Esteu apunt d'editar una cel·la amb format «text»."
+msgstr "Esteu a punt d'editar una cel·la amb format «text»."
 
 #: ../src/wbc-gtk-edit.c:895
 msgid ""
