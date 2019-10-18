@@ -417,7 +417,7 @@ AC_ARG_VAR(PSICONV_CONFIG, [The psiconv-config executable.])
 if test "x$with_psiconv" != xno; then
     AC_CHECK_PROG(PSICONV_CONFIG,psiconv-config,psiconv-config)
     if test x"$PSICONV_CONFIG" = x; then
-	psiconv_msg="missing dependencies"
+	psiconv_msg="Missing dependencies"
     else
 	AC_MSG_CHECKING(for psiconv >= 0.9.3)
 	if $PSICONV_CONFIG --version | awk -F. \
@@ -842,7 +842,7 @@ AM_CONDITIONAL(WITH_PERL, test "x$have_perl" = xyes)
 if test "x$have_perl" = xyes ; then
     perl_msg="yes (using $PERL)"
 else
-    perl_msg="no ($perl_reason)"
+    perl_msg="No. ($perl_reason)"
 fi
 AC_SUBST(PERL_CCCDLFLAGS)
 AC_SUBST(PERL_LDDLFLAGS)
@@ -868,7 +868,7 @@ If you want to specify a path to your Python executable, use:
 	$srcdir/configure PYTHON=/path/to/your/python ...]);;
 esac
 if test "x$with_python" != xno; then
-    AC_PATH_PROGS(PYTHON, python python2 python2.7)
+    AC_PATH_PROGS(PYTHON, python3 python)
     if test "x$PYTHON" = x; then
 	python_msg="could not find python"
     fi
@@ -880,6 +880,7 @@ fi
 # and the Python plugin
 have_python=no
 have_python_gi=no
+introspection_py_msg=no
 PYTHON_GIOVERRIDESDIR=
 if test "x$PYTHON" != x; then
     AC_DEFINE_UNQUOTED(PYTHON_INTERPRETER, ["$PYTHON"],
@@ -889,6 +890,7 @@ if test "x$PYTHON" != x; then
     AC_MSG_CHECKING([for python module gi])
     if $PYTHON -c 'import gi' 2>/dev/null; then
         have_python_gi=yes
+	introspection_py_msg="Yes."
 	[PYTHON_GIOVERRIDESDIR=`$PYTHON -c 'import gi; import os.path; print(os.path.dirname(gi.__file__)+"/overrides")'`]
     fi
     AC_MSG_RESULT($have_python_gi)
@@ -897,6 +899,9 @@ AM_CONDITIONAL(HAVE_PYTHON_GI, test "x$have_python_gi" = "xyes")
 
 
 if test "x$python_msg" = xyes; then
+    # We're checking for python2 here, but we are likely to find python3.
+    # That's by design.
+    # Python2 is dead (or at least dying).
     BIG_CHECKING([for python = 2.x])
     [PY_VERSION=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:3])'`
      major_ver=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:1])'`]
@@ -907,8 +912,8 @@ if test "x$python_msg" = xyes; then
 	    PY_VERSION=`echo $PY_VERSION | sed -e 's/\\.//'`
 	fi
     else
-	AC_MSG_RESULT(no)
-	python_msg="NO.  Python version \"${PY_VERSION}\" is too old."
+	AC_MSG_RESULT([no. $PYTHON is version $PY_VERSION])
+	python_msg="No.  This doesn't work with python3+ yet.  No ETA."
     fi
 fi
 
@@ -1042,6 +1047,7 @@ dnl presence/version checking
 AS_CASE([$enable_introspection],
 [no], [
     found_introspection="no (disabled, use --enable-introspection to enable)"
+    introspection_py_msg="No, introspection disabled"
 ],
 [yes],[
     PKG_CHECK_EXISTS([gobject-introspection-1.0],,
@@ -1280,21 +1286,22 @@ echo "
 
 Configuration:
 
-	Source code location:	${srcdir}
-	Compiler:		${CC}
-	Compiler flags:		${CFLAGS}
-	Floating point type:	${float_msg}
+	Source code location:		${srcdir}
+	Compiler:			${CC}
+	Compiler flags:			${CFLAGS}
+	Floating point type:		${float_msg}
 
-	UI:			${ui_msg}
+	UI:				${ui_msg}
 
-	Perl Support:		${perl_msg}
-	Python Support:		${python_msg}
+	Perl plugin support:		${perl_msg}
+	Python plugin support:		${python_msg}
+	Introspection python support:	${introspection_py_msg}
 
-	GDA support:		${gda_msg}
-	GNOME-DB support:	${gnomedb_msg}
-	Psiconv support:        ${psiconv_msg}
+	GDA support:			${gda_msg}
+	GNOME-DB support:		${gnomedb_msg}
+	Psiconv support:        	${psiconv_msg}
 
-	PDF documentation:	${pdf_msg}
+	PDF documentation:		${pdf_msg}
 "
-#	Mono support:		${mono_msg}
-#	Guile Support:		${guile_msg}
+#	Mono support:			${mono_msg}
+#	Guile Support:			${guile_msg}
