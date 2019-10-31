@@ -804,6 +804,28 @@ guess_time_format (const char *prefix, gnm_float f)
 	return fmt;
 }
 
+static void
+render_percentage (GString *str, gnm_float f)
+{
+	gnm_float f100 = 100 * f;
+	gboolean qneg = (f < 0);
+	gnm_float f2;
+
+	// Render slightly narrow
+	gnm_render_general (NULL, str, go_format_measure_strlen,
+			    go_font_metrics_unit, f100,
+			    12 + qneg, FALSE, 0, 0);
+	// Explicit cast to drop excess precision
+	f2 = (gnm_float)(gnm_strto (str->str, NULL) / 100);
+	if (f2 == f)
+		return;
+
+	// No good -- rerender unconstrained.
+	gnm_render_general (NULL, str, go_format_measure_zero,
+			    go_font_metrics_unit, f100,
+			    -1, FALSE, 0, 0);
+}
+
 /**
  * gnm_cell_get_text_for_editing:
  * @cell: the cell from which we want to pull the content from
@@ -845,13 +867,7 @@ gnm_cell_get_text_for_editing (GnmCell const * cell,
 
 		case GO_FORMAT_PERCENTAGE: {
 			GString *new_str = g_string_new (NULL);
-			gnm_float f100 = 100 * f;
-			gboolean qsimple = (gnm_abs (f) < 100 && close_to_int (f100, 1e-6));
-			gboolean qneg = (f < 0);
-			gnm_render_general (NULL, new_str, go_format_measure_strlen,
-					    go_font_metrics_unit, f100,
-					    qsimple ? 12 + qneg: -1,
-					    FALSE, 0, 0);
+			render_percentage (new_str, f);
 			if (cursor_pos)
 				*cursor_pos = g_utf8_strlen (new_str->str, -1);
 			g_string_append_c (new_str, '%');
