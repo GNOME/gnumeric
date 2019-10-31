@@ -17,6 +17,9 @@ Morten:
 	* Fix SUMIF (etc) problem with blank criteria.  [#423]
 	* Improve editing of percentages.  [#413]
 
+Thomas Kuehne:
+	* Improve html import.  [#392]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.45
 

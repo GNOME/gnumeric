@@ -506,26 +506,38 @@ html_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context,
 		buf = gsf_input_read (input, 4, NULL);
 		if (buf != NULL) {
 			enc = xmlDetectCharEncoding(buf, 4);
-			switch (enc) {	/* Skip byte order mark */
+			switch (enc) {
+#if LIBXML_VERSION < 20702
+			/* Skip byte order mark */
 			case XML_CHAR_ENCODING_UCS4BE:
 			case XML_CHAR_ENCODING_UCS4LE:
 			case XML_CHAR_ENCODING_UCS4_2143:
 			case XML_CHAR_ENCODING_UCS4_3412:
-			case XML_CHAR_ENCODING_EBCDIC:
-				bomlen = 4;
-				break;
-			case XML_CHAR_ENCODING_UTF16BE:
-			case XML_CHAR_ENCODING_UTF16LE:
-				bomlen = 2;
-				break;
-			case XML_CHAR_ENCODING_UTF8:
-				if (buf[0] == 0xef)
-					bomlen = 3;
-				else if (buf[0] == 0x3c)
+				if (buf[0] == 0xFE || buf[1] == 0xFE || buf[2] == 0xFE || buf[3] == 0xFE)
 					bomlen = 4;
 				else
 					bomlen = 0;
 				break;
+			case XML_CHAR_ENCODING_EBCDIC:
+				if (buf[0] == 0xDD)
+					bomlen = 4;
+				else
+					bomlen = 0;
+				break;
+			case XML_CHAR_ENCODING_UTF16BE:
+			case XML_CHAR_ENCODING_UTF16LE:
+				if (buf[0] == 0xFE || buf[1] == 0xFE)
+					bomlen = 2;
+				else
+					bomlen = 0;
+				break;
+			case XML_CHAR_ENCODING_UTF8:
+				if (buf[0] == 0xef)
+					bomlen = 3;
+				else
+					bomlen = 0;
+				break;
+#endif
 			case XML_CHAR_ENCODING_NONE:
 				bomlen = 0;
 				/* Try to detect unmarked UTF16LE

@@ -1,3 +1,7 @@
+2019-10-31  Morten Welinder  <terra@gnome.org>
+
+	* html_read.c (html_file_open): Improve BOM handling.  See #392.
+
 2019-05-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.45
