@@ -204,9 +204,25 @@ criteria_test_empty (GnmValue const *x, GnmCriteria *crit)
 }
 
 static gboolean
+criteria_test_blank (GnmValue const *x, GnmCriteria *crit)
+{
+	if (VALUE_IS_EMPTY (x))
+		return TRUE;
+	if (!VALUE_IS_STRING (x))
+		return FALSE;
+	return *value_peek_string (x) == 0;
+}
+
+static gboolean
 criteria_test_nonempty (GnmValue const *x, GnmCriteria *crit)
 {
 	return !VALUE_IS_EMPTY (x);
+}
+
+static gboolean
+criteria_test_nothing (GnmValue const *x, GnmCriteria *crit)
+{
+	return FALSE;
 }
 
 /*
@@ -345,6 +361,7 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv,
 
 	res->iter_flags = CELL_ITER_IGNORE_BLANK;
 	res->date_conv = date_conv;
+	res->ref_count = 1;
 
 	if (VALUE_IS_NUMBER (crit_val)) {
 		res->fun = criteria_test_equal;
@@ -352,8 +369,18 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv,
 		return res;
 	}
 
+	if (VALUE_IS_EMPTY (crit_val)) {
+		// Empty value
+		res->fun = criteria_test_nothing;
+		res->x = value_new_empty ();
+		return res;
+	}
+
 	criteria = value_peek_string (crit_val);
-        if (strncmp (criteria, "<=", 2) == 0) {
+	if (*criteria == 0) {
+		res->fun = criteria_test_blank;
+		len = 0;
+	} else if (strncmp (criteria, "<=", 2) == 0) {
 		res->fun = criteria_test_less_or_equal;
 		len = 2;
 	} else if (strncmp (criteria, ">=", 2) == 0) {
@@ -389,7 +416,6 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv,
 	if (res->fun (empty, res))
 		res->iter_flags &= ~CELL_ITER_IGNORE_BLANK;
 	value_release (empty);
-	res->ref_count = 1;
 
 	return res;
 }

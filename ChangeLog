@@ -1,3 +1,9 @@
+2019-10-31  Morten Welinder  <terra@gnome.org>
+
+	* src/criteria.c (parse_criteria): Be careful about critiria that
+	are either empty values or empty strings.  The semantics are
+	special.  [#423]  Fix initial ref-count problem.
+
 2019-09-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/cell-draw.c (cell_calc_layout): implement wrapping of rotated text.

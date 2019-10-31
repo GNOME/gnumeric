@@ -14,6 +14,7 @@ Morten:
 	* Fix inter-process paste crash [#406]
 	* Fix problem saving cell protection to xlsx.  [#409]
 	* Look for python3 before python.  [#419]
+	* Fix SUMIF (etc) problem with blank criteria.  [#423]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.45
