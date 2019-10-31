@@ -1,5 +1,8 @@
 2019-10-31  Morten Welinder  <terra@gnome.org>
 
+	* src/cell.c (gnm_cell_get_text_for_editing): Avoid excess
+	precision when editing percentages.  [#413]
+
 	* src/criteria.c (parse_criteria): Be careful about critiria that
 	are either empty values or empty strings.  The semantics are
 	special.  [#423]  Fix initial ref-count problem.
