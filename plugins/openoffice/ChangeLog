@@ -1,3 +1,8 @@
+2019-10-31  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_number_color): Previous fix was a bit too
+	aggressive.  Caught by "t8010 --corpus /amath/".
+
 2019-07-02  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_format_text_append): Avoid relying on tail

@@ -5615,7 +5615,7 @@ odf_number_color (GsfXMLIn *xin, xmlChar const **attrs)
 				GOColor col = GO_COLOR_FROM_RGB (r, g, b);
 				int i = go_format_palette_index_from_color (col);
 				char *color = go_format_palette_name_of_index (i);
-				oo_format_text_append_unquoted  (state, "[", 1);
+				g_string_append_c (state->cur_format.accum, '[');
 				g_string_append (state->cur_format.accum, color);
 				g_string_append_c (state->cur_format.accum, ']');
 				g_free (color);
