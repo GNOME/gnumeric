@@ -2,6 +2,8 @@
 
 	* openoffice-read.c (odf_number_color): Previous fix was a bit too
 	aggressive.  Caught by "t8010 --corpus /amath/".
+	(odf_number_style): Mark quoting not opened.  Caught by "t8010
+	--corpus /vdb/".
 
 2019-07-02  Morten Welinder  <terra@gnome.org>
 

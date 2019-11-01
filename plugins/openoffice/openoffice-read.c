@@ -5293,6 +5293,7 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 	/* We always save a magic number with source language, so if that is gone somebody may have changed formats */
 	state->cur_format.magic = format_source_is_language ? magic : GO_FORMAT_MAGIC_NONE;
 	state->cur_format.accum = (state->cur_format.magic == GO_FORMAT_MAGIC_NONE) ?  g_string_new (NULL) : NULL;
+	state->cur_format.string_opened = FALSE;
 	state->cur_format.name = g_strdup (name);
 	state->cur_format.percentage = FALSE;
 	state->cur_format.truncate_hour_on_overflow = truncate_hour_on_overflow;
@@ -5640,6 +5641,7 @@ odf_number_style (GsfXMLIn *xin, xmlChar const **attrs)
 	state->cur_format.name = g_strdup (name);
 	state->cur_format.percentage = FALSE;
 	state->cur_format.percent_sign_seen = FALSE;
+	state->cur_format.string_opened = FALSE;
 	state->conditions = NULL;
 	state->cond_formats = NULL;
 }
