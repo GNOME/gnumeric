@@ -868,6 +868,14 @@
    fun:FcConfigValues
 }
 
+{
+   FONTCONFIG/VALUES_LEAK
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:FcValueListCreate
+}
+
 # See https://bugs.freedesktop.org/show_bug.cgi?id=87898
 {
    _CAIRO_RECORDING_SURFACE_SNAPSHOT_LEAK
