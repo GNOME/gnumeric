@@ -876,6 +876,15 @@
    fun:FcValueListCreate
 }
 
+{
+   FONTCONFIG/VALUES_LEAK2
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:strdup
+   fun:FcValueSave
+}
+
 # See https://bugs.freedesktop.org/show_bug.cgi?id=87898
 {
    _CAIRO_RECORDING_SURFACE_SNAPSHOT_LEAK
