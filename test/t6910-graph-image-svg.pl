@@ -20,6 +20,11 @@ if (-e $tmpdir || ($tmpdir =~ m{/}) || ($tmpdir eq '')) {
 }
 END { rmdir $tmpdir; }
 
+if (!mkdir $tmpdir) {
+    print STDERR "$0: failed to create $tmpdir\n";
+    die "Fail\n";
+}
+
 my $nskipped = 0;
 my $ngood = 0;
 my $nbad = 0;
@@ -31,11 +36,6 @@ foreach my $src (@sources) {
     }
 
     print STDERR "Checking $src\n";
-
-    if (!mkdir $tmpdir) {
-	print STDERR "$0: failed to create $tmpdir\n";
-	die "Fail\n";
-    }
 
     system ("$ssconvert --export-graphs $src $tmpdir/image-%n.svg");
     my @images = sort <$tmpdir/image-[0-9]*.svg>;
@@ -59,10 +59,6 @@ foreach my $src (@sources) {
     if ($good) {
 	print STDERR "Checked ", scalar @images, " generated image files.\n";
 	$ngood++;
-	if (!rmdir $tmpdir) {
-	    print STDERR "$0: failed to remove $tmpdir\n";
-	    die "Fail\n";
-	}
     } else {
 	$nbad++;
     }
