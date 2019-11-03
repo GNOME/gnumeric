@@ -955,7 +955,7 @@ gnm_file_saver_common_export_option (GOFileSaver const *fs,
 	if (strcmp (key, "sheet") == 0 ||
 	    strcmp (key, "active-sheet") == 0) {
 		GPtrArray *sheets;
-		Sheet *sheet;
+		Sheet *sheet = NULL;
 
 		if (key[0] == 'a') {
 			// Not ideal -- we lack a view here
@@ -964,13 +964,14 @@ gnm_file_saver_common_export_option (GOFileSaver const *fs,
 				});
 		} else {
 			sheet = workbook_sheet_by_name (wb, value);
-			if (!sheet) {
-				if (err)
-					*err = g_error_new (go_error_invalid (), 0,
-							    _("Unknown sheet \"%s\""),
-							    value);
-				return TRUE;
-			}
+		}
+
+		if (!sheet) {
+			if (err)
+				*err = g_error_new (go_error_invalid (), 0,
+						    _("Unknown sheet \"%s\""),
+						    value);
+			return TRUE;
 		}
 
 		sheets = g_object_get_data (G_OBJECT (wb), SSCONVERT_SHEET_SET_KEY);
