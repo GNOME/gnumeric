@@ -30,7 +30,7 @@ if WITH_GTK
   bin_PROGRAMS += gnumeric
 endif
 
-bin_PROGRAMS += ssconvert ssindex ssgrep ssdiff
+bin_PROGRAMS += ssconvert ssexport_charts ssindex ssgrep ssdiff
 
 AM_CPPFLAGS = 								\
 	-I$(top_srcdir)							\
@@ -646,6 +646,10 @@ ssconvert_LDADD   = $(gnumeric_LDADD)
 ssconvert_LDFLAGS = -export-dynamic
 ssconvert_SOURCES =				\
 	ssconvert.c
+ssexport_charts_LDADD   = $(gnumeric_LDADD)
+ssexport_charts_LDFLAGS = -export-dynamic
+ssexport_charts_SOURCES =				\
+	ssexport_charts.c
 ssindex_LDADD   = $(gnumeric_LDADD)
 ssindex_LDFLAGS = -export-dynamic
 ssindex_SOURCES =				\
@@ -667,6 +671,7 @@ if WITH_NATIVE_WIN32
     gnumeric_LDADD += gnumeric_rc.o
     gnumeric_LDFLAGS	+= -mwindows -Wl,--stack,0x4000000
     ssconvert_LDFLAGS	+= -mconsole -Wl,--stack,0x4000000
+    ssexport_charts_LDFLAGS	+= -mconsole -Wl,--stack,0x4000000
     ssindex_LDFLAGS	+= -mconsole
     ssgrep_LDFLAGS	+= -mconsole
 
