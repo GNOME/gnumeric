@@ -19,6 +19,7 @@
 #include <workbook-priv.h>
 #include <workbook-control.h>
 #include <sheet.h>
+#include <sheet-object-graph.h>
 #include <dependent.h>
 #include <expr-name.h>
 #include <libgnumeric.h>
@@ -53,6 +54,8 @@ static gboolean ssconvert_verbose = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
 static gboolean ssconvert_list_importers = FALSE;
 static gboolean ssconvert_one_file_per_sheet = FALSE;
+static gboolean ssconvert_object_export = FALSE;
+static GType ssconvert_object_export_type;
 static gboolean ssconvert_recalc = FALSE;
 static gboolean ssconvert_solve = FALSE;
 static char *ssconvert_resize = NULL;
@@ -65,6 +68,7 @@ static char *ssconvert_export_options = NULL;
 static char *ssconvert_merge_target = NULL;
 static char **ssconvert_goal_seek = NULL;
 static char **ssconvert_tool_test = NULL;
+static const char *ssconvert_image_format = "svg";
 
 static const GOptionEntry ssconvert_options [] = {
 	{
@@ -138,6 +142,13 @@ static const GOptionEntry ssconvert_options [] = {
 		"export-file-per-sheet", 'S',
 		0, G_OPTION_ARG_NONE, &ssconvert_one_file_per_sheet,
 		N_("Export a file for each sheet if the exporter only supports one sheet at a time"),
+		NULL
+	},
+
+	{
+		"export-graphs", 0,
+		0, G_OPTION_ARG_NONE, &ssconvert_object_export,
+		N_("Export graphs"),
 		NULL
 	},
 
@@ -783,8 +794,12 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 	GPtrArray *sheet_sel =
 		g_object_get_data (G_OBJECT (wb), SHEET_SELECTION_KEY);
 	gboolean fs_sheet_selection;
+	guint file_idx = 0;
 
-	g_object_get (G_OBJECT (fs), "sheet-selection", &fs_sheet_selection, NULL);
+	if (fs)
+		g_object_get (G_OBJECT (fs), "sheet-selection", &fs_sheet_selection, NULL);
+	else
+		fs_sheet_selection = FALSE;
 
 	template = strchr (outarg, '%')
 		? g_strdup (outarg)
@@ -805,7 +820,6 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 
 	for (ui = 0; ui < sheets->len; ui++) {
 		Sheet *sheet = g_ptr_array_index (sheets, ui);
-		char *tmpfile =	resolve_template (template, sheet, ui);
 		int oldn = sheet->index_in_wb;
 
 		g_ptr_array_set_size (sheet_sel, 0);
@@ -824,12 +838,41 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 			wb_view_sheet_focus (wbv, sheet);
 		}
 
-		res = !workbook_view_save_as (wbv, fs, tmpfile, cc);
+		if (ssconvert_object_export) {
+			GSList *l, *objs = sheet_objects_get (sheet, NULL, GNM_SO_GRAPH_TYPE);
+			double resolution = 100.0;
+			for (l = objs; l; l = l->next) {
+				SheetObject *so = l->data;
+				char *tmpfile;
+				GError *err = NULL;
+
+				if (!g_type_is_a (G_TYPE_FROM_INSTANCE (so),
+						  ssconvert_object_export_type))
+					continue;
+
+				tmpfile = resolve_template (template, sheet, file_idx++);
+				sheet_object_save_as_image (so, ssconvert_image_format, resolution,
+							    tmpfile, &err);
+
+				if (err) {
+					g_printerr ("Failed to write %s: %s\n", tmpfile, err->message);
+					g_error_free (err);
+					res = 1;
+					g_free (tmpfile);
+				}
+
+				g_free (tmpfile);
+			}
+			g_slist_free (objs);
+		} else {
+			char *tmpfile =	resolve_template (template, sheet, file_idx++);
+			res = !workbook_view_save_as (wbv, fs, tmpfile, cc);
+			g_free (tmpfile);
+		}
 
 		if (!fs_sheet_selection)
 			workbook_sheet_move (sheet, +oldn);
 
-		g_free (tmpfile);
 		if (res)
 			break;
 	}
@@ -856,7 +899,10 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	GPtrArray *sheet_sel = NULL;
 	GnmRangeRef const *range = NULL;
 
-	if (ssconvert_export_id != NULL) {
+	if (ssconvert_object_export) {
+		if (ssconvert_export_id)
+			ssconvert_image_format = ssconvert_export_id;
+	} else if (ssconvert_export_id != NULL) {
 		fs = go_file_saver_for_id (ssconvert_export_id);
 		if (fs == NULL) {
 			res = 1;
@@ -909,9 +955,13 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		}
 	}
 
-	if (!fs)
-		goto out;
-	fsscope = go_file_saver_get_save_scope (fs);
+	if (ssconvert_object_export) {
+		fsscope = GO_FILE_SAVE_SHEET;
+	} else {
+		if (!fs)
+			goto out;
+		fsscope = go_file_saver_get_save_scope (fs);
+	}
 
 	io_context = go_io_context_new (cc);
 	if (mergeargs == NULL) {
@@ -934,13 +984,15 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 
 	wb = wb_view_get_workbook (wbv);
 
-	res = handle_export_options (fs, wb);
-	if (res)
-		goto out;
+	if (fs) {
+		res = handle_export_options (fs, wb);
+		if (res)
+			goto out;
 
-	res = validate_sheet_selection (fs, wb);
-	if (res)
-		goto out;
+		res = validate_sheet_selection (fs, wb);
+		if (res)
+			goto out;
+	}
 
 	if (mergeargs != NULL) {
 		if (merge (wb, mergeargs, fo, io_context, cc))
@@ -1165,6 +1217,15 @@ main (int argc, char const **argv)
 	if (ssconvert_one_file_per_sheet && ssconvert_merge_target) {
 		g_printerr (_("--export-file-per-sheet and --merge-to are incompatible\n"));
 		return 1;
+	}
+
+	if (ssconvert_object_export) {
+		// One file per object
+		ssconvert_one_file_per_sheet = TRUE;
+
+		// For now graphs only, but we can handle anything with
+		// GNM_SO_IMAGEABLE_TYPE
+		ssconvert_object_export_type = GNM_SO_GRAPH_TYPE;
 	}
 
 	gnm_init ();

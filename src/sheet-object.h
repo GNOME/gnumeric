@@ -130,6 +130,11 @@ void sheet_object_write_image	(SheetObject const *so,
 				 double resolution,
 				 GsfOutput *output,
 				 GError **err);
+void sheet_object_save_as_image	(SheetObject const *so,
+				 char const *format,
+				 double resolution,
+				 const char *url,
+				 GError **err);
 
 /* Object export */
 GtkTargetList *sheet_object_exportable_get_target_list (SheetObject const *so);

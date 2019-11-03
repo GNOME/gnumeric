@@ -1715,15 +1715,61 @@ sheet_object_get_target_list (SheetObject const *so)
 	return GNM_SO_IMAGEABLE_CLASS (so)->get_target_list (so);
 }
 
+/**
+ * sheet_object_write_image:
+ * @so: #SheetObject
+ * @format: image format to use
+ * @resolution: export resolution
+ * @output: destination
+ * @err: (out) (optional) (nullable): error indication
+ *
+ * Saves a sheet object as an image to @output.  If an error occurs, @err will
+ * be set.
+ **/
 void
 sheet_object_write_image (SheetObject const *so, char const *format, double resolution,
 			  GsfOutput *output, GError **err)
 {
 	g_return_if_fail (GNM_IS_SO_IMAGEABLE (so));
+	g_return_if_fail (format != NULL);
+	g_return_if_fail (GSF_IS_OUTPUT (output));
 
 	GNM_SO_IMAGEABLE_CLASS (so)->write_image (so, format, resolution,
 							output, err);
 
+}
+
+/**
+ * sheet_object_save_as_image:
+ * @so: #SheetObject
+ * @format: image format to use
+ * @resolution: export resolution
+ * @url: destination url
+ * @err: (out) (optional) (nullable): error indication
+ *
+ * Saves a sheet object as an image to @url.  If an error occurs, @err
+ * will be set.
+ **/
+void
+sheet_object_save_as_image (SheetObject const *so,
+			    char const *format,
+			    double resolution,
+			    const char *url,
+			    GError **err)
+{
+	GsfOutput *dst;
+
+	g_return_if_fail (GNM_IS_SO_IMAGEABLE (so));
+	g_return_if_fail (format != NULL);
+	g_return_if_fail (url != NULL);
+
+	dst = go_file_create (url, err);
+	if (!dst)
+		return;
+
+	sheet_object_write_image (so, format, resolution, dst, err);
+	gsf_output_close (dst);
+	g_object_unref (dst);
 }
 
 /*****************************************************************************/

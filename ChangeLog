@@ -1,3 +1,12 @@
+2019-11-03  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (do_split_save): Extend to create images from
+	each graph.  Code adapted from Shlomi Fish code in #410.
+
+	* src/sheet-object.c (sheet_object_write_image): Document.  Add
+	preconditions.
+	(sheet_object_save_as_image): New function.
+
 2019-11-02  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_file_saver_common_export_option): Reorganize a

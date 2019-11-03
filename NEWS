@@ -20,6 +20,9 @@ Morten:
 Thomas Kuehne:
 	* Improve html import.  [#392]
 
+Shlomi Fish:
+	* Command line export of graphs.  [#410]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.45
 
