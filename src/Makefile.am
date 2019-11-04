@@ -631,6 +631,12 @@ libspreadsheet_include_HEADERS =		\
 	xml-io-version.h			\
 	xml-sax.h
 
+ALL_HDRS = \
+	$(libspreadsheet_include_HEADERS)	\
+	$(tools_HEADERS)			\
+	$(dialogs_headers)			\
+	$(widgets_HEADERS)
+
 gnumeric_SOURCES =				\
 	io-context-gtk.c			\
 	io-context-gtk.h			\
@@ -812,7 +818,7 @@ Gnm_@GNUMERIC_API_VER_@_gir_CFLAGS = $(AM_CPPFLAGS)
 Gnm_@GNUMERIC_API_VER_@_gir_LIBS = libspreadsheet.la
 Gnm_@GNUMERIC_API_VER_@_gir_FILES = \
 	$(libspreadsheet_la_SOURCES) \
-	$(libspreadsheet_include_HEADERS)
+	$(ALL_HDRS)
 
 
 girdir = $(GIRDIR)
