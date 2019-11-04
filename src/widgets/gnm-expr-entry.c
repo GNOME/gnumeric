@@ -83,7 +83,7 @@ typedef struct {
 	gboolean    is_valid;
 } Rangesel;
 
-struct _GnmExprEntry {
+struct GnmExprEntry_ {
 	GtkBox	parent;
 
 	GtkEntry		*entry;

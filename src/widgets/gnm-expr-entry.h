@@ -8,7 +8,7 @@
 #define GNM_EXPR_ENTRY(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_EXPR_ENTRY_TYPE, GnmExprEntry))
 #define GNM_EXPR_ENTRY_IS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_EXPR_ENTRY_TYPE))
 
-typedef struct _GnmExprEntry GnmExprEntry;
+typedef struct GnmExprEntry_ GnmExprEntry;
 
 typedef enum {
 	GNM_EE_SINGLE_RANGE    = 1 << 0,
