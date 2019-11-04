@@ -308,8 +308,6 @@ stf_preview_colformats_clear (RenderData_t *renderdata)
  * This will add an entry to the @renderdata->colformats array.
  * The widths of the columns will be set to at least have the width of
  * the @format.
- *
- * returns : nothing
  **/
 void
 stf_preview_colformats_add (RenderData_t *renderdata, GOFormat *format)

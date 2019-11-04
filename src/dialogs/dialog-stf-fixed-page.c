@@ -371,8 +371,6 @@ cb_col_key_press (GtkWidget *button,
  * @pagedata: mother struct
  *
  * Will simply update the preview
- *
- * returns : nothing
  **/
 static void
 fixed_page_update_preview (StfDialogData *pagedata)
@@ -592,8 +590,6 @@ cb_treeview_draw (GtkWidget *widget,
  * @pagedata: mother struct
  *
  * Will cleanup fixed page run-time data
- *
- * returns : nothing
  **/
 void
 stf_dialog_fixed_page_cleanup (StfDialogData *pagedata)

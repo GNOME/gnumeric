@@ -35,8 +35,6 @@
  *
  * This will update the preview based on the state of
  * the widgets on the csv page
- *
- * returns : nothing
  **/
 static void
 csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
@@ -104,8 +102,6 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
  * This will nicely activate the @data->csv_info->csv_customseparator widget
  * so the user can enter text into it.
  * It will also gray out this widget if the @button is not selected.
- *
- * returns : nothing
  **/
 static void
 csv_page_custom_toggled (GtkCheckButton *button, StfDialogData *data)
@@ -216,8 +212,6 @@ stf_dialog_csv_page_prepare (StfDialogData *pagedata)
  * @pagedata: mother struct
  *
  * Will cleanup csv page run-time data
- *
- * returns : nothing
  **/
 void
 stf_dialog_csv_page_cleanup (StfDialogData *pagedata)

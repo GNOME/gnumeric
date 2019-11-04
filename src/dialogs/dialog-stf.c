@@ -41,8 +41,6 @@
  * @pagedata: mother struct
  *
  * Sets keyboard focus to an appropriate widget on the page.
- *
- * returns: nothing
  **/
 static void
 stf_dialog_set_initial_keyboard_focus (StfDialogData *pagedata)
@@ -182,7 +180,6 @@ back_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
  * main_page /- csv_page   -\ format_page
  *           \- fixed_page -/
  *
- * returns: nothing
  **/
 static void
 stf_dialog_attach_page_signals (GtkBuilder *gui, StfDialogData *pagedata)
@@ -204,8 +201,6 @@ stf_dialog_attach_page_signals (GtkBuilder *gui, StfDialogData *pagedata)
  * @pagedata: mother struct
  *
  * Make <Ret> in text fields activate default.
- *
- * returns: nothing
  **/
 static void
 stf_dialog_editables_enter (StfDialogData *pagedata)
@@ -367,8 +362,6 @@ stf_dialog (WBCGtk *wbcg,
  *
  * This routine will properly free the members of @dialogresult and
  * @dialogresult itself
- *
- * returns: nothing
  **/
 void
 stf_dialog_result_free (DialogStfResult_t *dialogresult)
@@ -389,8 +382,6 @@ stf_dialog_result_free (DialogStfResult_t *dialogresult)
  * @cr: a cell region
  *
  * Attach the formats of the dialogresult to the given cell region.
- *
- * returns: nothing
  **/
 void
 stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
