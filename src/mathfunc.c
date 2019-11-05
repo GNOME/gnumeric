@@ -5041,8 +5041,22 @@ gnm_lambert_w (gnm_float x, int k)
 
 	if (gnm_isnan (x) || x < -one_over_e)
 		return gnm_nan;
-	else if (x == -one_over_e)
+	else if (x == -one_over_e) {
+		// This is technically wrong.  The mathematically right
+		// value of 1/e is 0.367879441171442321595524...
+		// which rounds to 0.367879441171442334024277... as a double.
+		// Note, that the rounding went up.  In other words, when we
+		// observe "x == -one_over_e" then x is already less that the
+		// mathematically right value of -1/e and we ought to return
+		// NaN.  That is, however, a somewhat useless behaviour so
+		// we return -1 instead.
+		//
+		// NOTE 1: The analysis might be different for long double.
+		// NOTE 2: The analysis assumes that 1/e when computed as double
+		//         division (based on rounded e) produces the right
+		//         value.  It does, see goffice's test/constants
 		return -1;
+	}
 
 	if (k == 0) {
 		if (x == gnm_pinf)

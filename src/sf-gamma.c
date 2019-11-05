@@ -1633,7 +1633,7 @@ gnm_digamma_series_1 (gnm_float x)
 {
 	static const gnm_float ctr = 3414350731.0 / 4294967296.0; // ~ x0-2/3
 	// Taylor series data for digamma(x)*x around ctr
-	// (Multiplying by x eliminates the pole at 0 and inproves convergence)
+	// (Multiplying by x eliminates the pole at 0 and improves convergence)
 
 	// There are more terms here than will be used in practice
 	static const gnm_float c[] = {
@@ -1702,7 +1702,7 @@ static gnm_float
 gnm_digamma_series_2 (gnm_float x, gnm_float dx)
 {
 	// Taylor series data for digamma(x)*x around x0.
-	// (Multiplying by x eliminates the pole at 0 and inproves convergence)
+	// (Multiplying by x eliminates the pole at 0 and improves convergence)
 
 	// There are more terms here than will be used in practice
 	static const gnm_float c[] = {
@@ -1772,7 +1772,7 @@ gnm_digamma_series_3 (gnm_float x)
 	static const gnm_float ctr = 9140973792.0 / 4294967296.0; // ~ x0+2/3
 
 	// Taylor series data for digamma(x)*x*(x+1) around ctr.
-	// (Multiplying by x eliminates the pole at 0 and inproves convergence;
+	// (Multiplying by x eliminates the pole at 0 and improves convergence;
 	// multiplying by x+1 removes trouble caused by the pole at -1.)
 	//
 	// There are more terms here than will be used in practice
