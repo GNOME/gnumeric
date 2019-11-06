@@ -1718,7 +1718,7 @@ sheet_object_get_target_list (SheetObject const *so)
 /**
  * sheet_object_write_image:
  * @so: #SheetObject
- * @format: image format to use
+ * @format: (nullable): image format to use
  * @resolution: export resolution
  * @output: destination
  * @err: (out) (optional) (nullable): error indication
@@ -1731,7 +1731,6 @@ sheet_object_write_image (SheetObject const *so, char const *format, double reso
 			  GsfOutput *output, GError **err)
 {
 	g_return_if_fail (GNM_IS_SO_IMAGEABLE (so));
-	g_return_if_fail (format != NULL);
 	g_return_if_fail (GSF_IS_OUTPUT (output));
 
 	GNM_SO_IMAGEABLE_CLASS (so)->write_image (so, format, resolution,
@@ -1742,7 +1741,7 @@ sheet_object_write_image (SheetObject const *so, char const *format, double reso
 /**
  * sheet_object_save_as_image:
  * @so: #SheetObject
- * @format: image format to use
+ * @format: (nullable): image format to use
  * @resolution: export resolution
  * @url: destination url
  * @err: (out) (optional) (nullable): error indication
@@ -1760,7 +1759,6 @@ sheet_object_save_as_image (SheetObject const *so,
 	GsfOutput *dst;
 
 	g_return_if_fail (GNM_IS_SO_IMAGEABLE (so));
-	g_return_if_fail (format != NULL);
 	g_return_if_fail (url != NULL);
 
 	dst = go_file_create (url, err);
