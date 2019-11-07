@@ -1,3 +1,7 @@
+2019-11-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.46
+
 2019-09-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-excel-read.c (ms_sheet_realize_obj): fix charts position. [#414]
