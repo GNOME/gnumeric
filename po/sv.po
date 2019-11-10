@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2019-01-04 23:49+0000\n"
-"PO-Revision-Date: 2019-02-17 18:05+0100\n"
+"POT-Creation-Date: 2019-11-03 18:34+0000\n"
+"PO-Revision-Date: 2019-11-10 19:39+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -45,7 +45,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:552
@@ -136,8 +136,8 @@ msgstr "Importerar kalkylblad från version 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7213
-#: ../plugins/openoffice/openoffice-read.c:13875 ../src/xml-sax-read.c:3516
+#: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7219
+#: ../plugins/openoffice/openoffice-read.c:13897 ../src/xml-sax-read.c:3516
 msgid "Reading file..."
 msgstr "Läser fil…"
 
@@ -227,62 +227,62 @@ msgstr "Förbereder för att spara…"
 msgid "Saving file..."
 msgstr "Sparar fil…"
 
-#: ../plugins/excel/excel-xml-read.c:133 ../src/xml-sax-read.c:461
+#: ../plugins/excel/excel-xml-read.c:135 ../src/xml-sax-read.c:461
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Oväntat attribut %s::%s == ”%s”."
 
-#: ../plugins/excel/excel-xml-read.c:494
+#: ../plugins/excel/excel-xml-read.c:572
 #, c-format
 msgid "Invalid content of ss:data element, expected number, received '%s'"
 msgstr "Ogiltigt innehåll i ss:data-element, förväntade tal, var ”%s”"
 
-#: ../plugins/excel/excel-xml-read.c:513
+#: ../plugins/excel/excel-xml-read.c:591
 #, c-format
 msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Ogiltigt innehåll i ss:data-element, var ”%s”"
 
-#: ../plugins/excel/excel-xml-read.c:1099
-#: ../plugins/openoffice/openoffice-read.c:14039 ../src/xml-sax-read.c:3533
+#: ../plugins/excel/excel-xml-read.c:1217
+#: ../plugins/openoffice/openoffice-read.c:14061 ../src/xml-sax-read.c:3533
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet är inte korrekt utformat!"
 
-#: ../plugins/excel/ms-excel-read.c:1383 ../src/value.c:66
+#: ../plugins/excel/ms-excel-read.c:1389 ../src/value.c:66
 msgid "#UNKNOWN!"
 msgstr "#OKÄND!"
 
-#: ../plugins/excel/ms-excel-read.c:1483 ../plugins/excel/ms-excel-read.c:1494
+#: ../plugins/excel/ms-excel-read.c:1489 ../plugins/excel/ms-excel-read.c:1500
 #: ../plugins/oleo/oleo.c:229 ../plugins/psiconv/psiconv-read.c:543
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
 
-#: ../plugins/excel/ms-excel-read.c:1498
+#: ../plugins/excel/ms-excel-read.c:1504
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: ../plugins/excel/ms-excel-read.c:1502
+#: ../plugins/excel/ms-excel-read.c:1508
 #, c-format
 msgid "Chart%d"
 msgstr "Diagram%d"
 
-#: ../plugins/excel/ms-excel-read.c:1505
+#: ../plugins/excel/ms-excel-read.c:1511
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: ../plugins/excel/ms-excel-read.c:3695
+#: ../plugins/excel/ms-excel-read.c:3701
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Fel vid tolkning av namn ”%s”"
 
-#: ../plugins/excel/ms-excel-read.c:3856
+#: ../plugins/excel/ms-excel-read.c:3862
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Felaktigt uttryck för namn ”%s”: innehåll kommer att förloras.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3861
+#: ../plugins/excel/ms-excel-read.c:3867
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -291,7 +291,7 @@ msgstr ""
 "DDE-länkar stöds inte än.\n"
 "Namn ”%s” kommer förloras.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3865
+#: ../plugins/excel/ms-excel-read.c:3871
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -300,49 +300,49 @@ msgstr ""
 "OLE-länkar stöds inte än.\n"
 "Namn ”%s” kommer förloras.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6340
+#: ../plugins/excel/ms-excel-read.c:6346
 msgid "external references"
 msgstr "externa referenser"
 
-#: ../plugins/excel/ms-excel-read.c:6379
+#: ../plugins/excel/ms-excel-read.c:6385
 msgid "No password supplied"
 msgstr "Inget lösenord givet"
 
 #: ../plugins/excel/ms-excel-util.c:698
-#: ../plugins/openoffice/openoffice-read.c:6197 ../src/print-info.c:674
+#: ../plugins/openoffice/openoffice-read.c:6223 ../src/print-info.c:674
 msgid "TAB"
 msgstr "TAB"
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:6243 ../src/print-info.c:675
+#: ../plugins/openoffice/openoffice-read.c:6269 ../src/print-info.c:675
 msgid "PAGE"
 msgstr "SIDA"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:6250 ../src/print-info.c:676
+#: ../plugins/openoffice/openoffice-read.c:6276 ../src/print-info.c:676
 msgid "PAGES"
 msgstr "SIDOR"
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:6229 ../src/print-info.c:677
+#: ../plugins/openoffice/openoffice-read.c:6255 ../src/print-info.c:677
 msgid "DATE"
 msgstr "DATUM"
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:6236 ../src/print-info.c:678
+#: ../plugins/openoffice/openoffice-read.c:6262 ../src/print-info.c:678
 msgid "TIME"
 msgstr "TID"
 
 #: ../plugins/excel/ms-excel-util.c:703
-#: ../plugins/openoffice/openoffice-read.c:6277
-#: ../plugins/openoffice/openoffice-read.c:6284 ../src/print-info.c:679
+#: ../plugins/openoffice/openoffice-read.c:6303
+#: ../plugins/openoffice/openoffice-read.c:6310 ../src/print-info.c:679
 #: ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "FIL"
 
 #: ../plugins/excel/ms-excel-util.c:704
-#: ../plugins/openoffice/openoffice-read.c:6275
-#: ../plugins/openoffice/openoffice-read.c:6280 ../src/print-info.c:680
+#: ../plugins/openoffice/openoffice-read.c:6301
+#: ../plugins/openoffice/openoffice-read.c:6306 ../src/print-info.c:680
 msgid "PATH"
 msgstr "SÖKVÄG"
 
@@ -352,7 +352,7 @@ msgstr "CELL"
 
 #. ???
 #: ../plugins/excel/ms-excel-util.c:707
-#: ../plugins/openoffice/openoffice-read.c:6328 ../src/print-info.c:682
+#: ../plugins/openoffice/openoffice-read.c:6354 ../src/print-info.c:682
 msgid "TITLE"
 msgstr "TITEL"
 
@@ -386,11 +386,11 @@ msgstr[1] ""
 "Visst innehåll kommer förloras vid sparande. Detta format stöder endast %u "
 "rader och den här arbetsboken har %d"
 
-#: ../plugins/excel/ms-excel-write.c:6579
+#: ../plugins/excel/ms-excel-write.c:6589
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kunde inte öppna ström ”Book” för skrivning\n"
 
-#: ../plugins/excel/ms-excel-write.c:6601
+#: ../plugins/excel/ms-excel-write.c:6611
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kunde inte öppna ström ”Workbook” för skrivning\n"
 
@@ -1237,7 +1237,7 @@ msgstr ""
 "Den ursprungliga html-filen\n"
 "använder nästlade tabeller."
 
-#: ../plugins/html/html_read.c:571
+#: ../plugins/html/html_read.c:583
 msgid "Unable to parse the html."
 msgstr "Det går inte att tolka html-koden."
 
@@ -1523,7 +1523,7 @@ msgid "Unable to open '%s'."
 msgstr "Det går inte att öppna ”%s”."
 
 #: ../plugins/openoffice/openoffice-read.c:1131
-#: ../plugins/openoffice/openoffice-read.c:8564
+#: ../plugins/openoffice/openoffice-read.c:8590
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Det går inte att öppna filen ”%s”."
@@ -1611,7 +1611,7 @@ msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Stöder innehåll bortom högsta antal rader (%i)."
 
 #: ../plugins/openoffice/openoffice-read.c:3891
-#: ../plugins/openoffice/openoffice-read.c:6311
+#: ../plugins/openoffice/openoffice-read.c:6337
 msgid "Missing expression"
 msgstr "Uttryck saknas"
 
@@ -1672,33 +1672,33 @@ msgstr "Duplicerad standardradstil påträffades."
 msgid "Duplicate default chart/graphics style encountered."
 msgstr "Duplicerad standarddiagram-/grafikstil påträffades."
 
-#: ../plugins/openoffice/openoffice-read.c:5299
+#: ../plugins/openoffice/openoffice-read.c:5327
 msgid "Unnamed date style ignored."
 msgstr "Ej namngiven datastil ignorerad."
 
-#: ../plugins/openoffice/openoffice-read.c:5687
+#: ../plugins/openoffice/openoffice-read.c:5713
 #, c-format
 msgid "Corrupted file: invalid number format condition [%s]."
 msgstr "Skadad fil: ogiltigt bivillkor för sifferformatering [%s]."
 
-#: ../plugins/openoffice/openoffice-read.c:5705
+#: ../plugins/openoffice/openoffice-read.c:5731
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Skadad fil: ej namngiven sifferstil ignorerad."
 
-#: ../plugins/openoffice/openoffice-read.c:5727
+#: ../plugins/openoffice/openoffice-read.c:5753
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Den här filen verkar skadad, krävda format saknas."
 
-#: ../plugins/openoffice/openoffice-read.c:5796
+#: ../plugins/openoffice/openoffice-read.c:5822
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Papper från ODF-fil: %ipt⨉%ipt"
 
-#: ../plugins/openoffice/openoffice-read.c:6008
+#: ../plugins/openoffice/openoffice-read.c:6034
 msgid "Missing page layout identifier"
 msgstr "Saknar identifierare för sidlayout"
 
-#: ../plugins/openoffice/openoffice-read.c:6035
+#: ../plugins/openoffice/openoffice-read.c:6061
 msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
@@ -1707,35 +1707,35 @@ msgstr ""
 "ignoreras."
 
 #. For OOO_VER_1 this may be acceptable
-#: ../plugins/openoffice/openoffice-read.c:6060
+#: ../plugins/openoffice/openoffice-read.c:6086
 msgid "Master page style without page layout encountered!"
 msgstr "Bassidstil utan sidlayout påträffades!"
 
-#: ../plugins/openoffice/openoffice-read.c:6066
+#: ../plugins/openoffice/openoffice-read.c:6092
 msgid "Master page style without name encountered!"
 msgstr "Bassidstil utan namn påträffades!"
 
-#: ../plugins/openoffice/openoffice-read.c:6359
+#: ../plugins/openoffice/openoffice-read.c:6385
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Okänd Gnumeric-ramstil ”%s” påträffades."
 
-#: ../plugins/openoffice/openoffice-read.c:6698
+#: ../plugins/openoffice/openoffice-read.c:6724
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Okänd sidbrytstyp ”%s”, sätter standardvalet NONE"
 
-#: ../plugins/openoffice/openoffice-read.c:6783
+#: ../plugins/openoffice/openoffice-read.c:6809
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Det går inte att tolka flikfärgen ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:6794
+#: ../plugins/openoffice/openoffice-read.c:6820
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Det går inte att tolka fliktextfärgen ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:7326
+#: ../plugins/openoffice/openoffice-read.c:7352
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1744,36 +1744,36 @@ msgstr ""
 "Okänd interpolationstyp ”%s” påträffades, använder Bezier kubisk spline "
 "istället."
 
-#: ../plugins/openoffice/openoffice-read.c:7335
+#: ../plugins/openoffice/openoffice-read.c:7361
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Okänd interpolationstyp ”%s” påträffades"
 
-#: ../plugins/openoffice/openoffice-read.c:7870
+#: ../plugins/openoffice/openoffice-read.c:7896
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "uttrycket '%s' @ '%s' är inte en cellref"
 
-#: ../plugins/openoffice/openoffice-read.c:7886
+#: ../plugins/openoffice/openoffice-read.c:7912
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Uttrycket ”%s” har okänd namnrymd"
 
-#: ../plugins/openoffice/openoffice-read.c:7961
+#: ../plugins/openoffice/openoffice-read.c:7987
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Ogiltigt DB-omfång ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:7995
+#: ../plugins/openoffice/openoffice-read.c:8021
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
 msgstr "Gnumeric stödjer inte ”or”-ade villkor för automatiska filter."
 
-#: ../plugins/openoffice/openoffice-read.c:8192
+#: ../plugins/openoffice/openoffice-read.c:8218
 #, c-format
 msgid "Moving sheet object from column %i and row %i"
 msgstr "Flyttar bladobjekt från kolumn %i och rad %i"
 
-#: ../plugins/openoffice/openoffice-read.c:8257
+#: ../plugins/openoffice/openoffice-read.c:8283
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1781,13 +1781,13 @@ msgid ""
 msgstr ""
 "Gnumerics bladobjektrader stöder inte bifogad text. Texten ”%s” har kastats."
 
-#: ../plugins/openoffice/openoffice-read.c:8291
-#: ../plugins/openoffice/openoffice-read.c:8330
+#: ../plugins/openoffice/openoffice-read.c:8317
+#: ../plugins/openoffice/openoffice-read.c:8356
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Ogiltigt attribut ”form:value”, förväntade siffra, fick ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:8296
+#: ../plugins/openoffice/openoffice-read.c:8322
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1796,16 +1796,16 @@ msgstr ""
 "Ogiltig värdetyp ”%s” utlyst för ”form:value”-attributet i element ”form:"
 "value-range”."
 
-#: ../plugins/openoffice/openoffice-read.c:8749
+#: ../plugins/openoffice/openoffice-read.c:8775
 msgid "Unable to determine manual position for a chart component!"
 msgstr "Det går inte att bestämma manuell position för en diagramkomponent!"
 
-#: ../plugins/openoffice/openoffice-read.c:9028
+#: ../plugins/openoffice/openoffice-read.c:9054
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr "Inte nog med data i det angivna intervallet (%s) för alla begäran"
 
-#: ../plugins/openoffice/openoffice-read.c:9755
+#: ../plugins/openoffice/openoffice-read.c:9781
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1813,51 +1813,51 @@ msgstr ""
 "Gnumeric stödjer inte icke-automatiska regressionsekvationer. Använder "
 "automatiska ekvationer istället."
 
-#: ../plugins/openoffice/openoffice-read.c:9774
+#: ../plugins/openoffice/openoffice-read.c:9800
 #, c-format
 msgid "The chart style \"%s\" is not defined!"
 msgstr "Diagramstilen ”%s” är inte definierad!"
 
-#: ../plugins/openoffice/openoffice-read.c:9942
+#: ../plugins/openoffice/openoffice-read.c:9968
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Påträffade lodräta streck i en rityta som inte stödjer dem."
 
-#: ../plugins/openoffice/openoffice-read.c:10079
+#: ../plugins/openoffice/openoffice-read.c:10105
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr "Påträffade en okänd diagramtyp, försöker att skapa ett linjediagram."
 
-#: ../plugins/openoffice/openoffice-read.c:10141
-#: ../plugins/openoffice/openoffice-read.c:10182
-#: ../plugins/openoffice/openoffice-read.c:10212
-#: ../plugins/openoffice/openoffice-read.c:10244
+#: ../plugins/openoffice/openoffice-read.c:10167
+#: ../plugins/openoffice/openoffice-read.c:10208
+#: ../plugins/openoffice/openoffice-read.c:10238
+#: ../plugins/openoffice/openoffice-read.c:10270
 #, c-format
 msgid "Chart style with name '%s' is missing."
 msgstr "Diagramstil med namnet ”%s” saknas."
 
-#: ../plugins/openoffice/openoffice-read.c:10362
+#: ../plugins/openoffice/openoffice-read.c:10388
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
 "En text som inte stöds påträffades och konverterades till en textrektangel."
 
-#: ../plugins/openoffice/openoffice-read.c:10435
+#: ../plugins/openoffice/openoffice-read.c:10461
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr "Loop under tolkning av formel ”%s” för namnet ”%s” påträffades"
 
-#: ../plugins/openoffice/openoffice-read.c:10638
+#: ../plugins/openoffice/openoffice-read.c:10664
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Det går inte att utvärdera formel ”%s” (”%s”) för namnet ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:10643
+#: ../plugins/openoffice/openoffice-read.c:10669
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Det går inte att tolka formeln ”%s” (”%s”) för namnet ”%s”"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:10727
-#: ../plugins/openoffice/openoffice-read.c:10730
+#: ../plugins/openoffice/openoffice-read.c:10753
+#: ../plugins/openoffice/openoffice-read.c:10756
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
@@ -1866,19 +1866,19 @@ msgstr ""
 "En form av typen ”%s” som inte stöds påträffades och konverterades till en "
 "rektangel."
 
-#: ../plugins/openoffice/openoffice-read.c:10733
+#: ../plugins/openoffice/openoffice-read.c:10759
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
 "En anpassad form som inte stöds påträffades och konverterades till en "
 "rektangel."
 
-#: ../plugins/openoffice/openoffice-read.c:11075
+#: ../plugins/openoffice/openoffice-read.c:11101
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Attribut ”%s” har värdet ”%s” som inte stöds."
 
-#: ../plugins/openoffice/openoffice-read.c:11682
+#: ../plugins/openoffice/openoffice-read.c:11708
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
@@ -1887,12 +1887,12 @@ msgstr ""
 "Bladstorleken på %i kolumner och %i rader använda i denna fil överträffar "
 "den största bladstorlek som Gnumeric stöder"
 
-#: ../plugins/openoffice/openoffice-read.c:11713
+#: ../plugins/openoffice/openoffice-read.c:11739
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_I_SKADAD_FIL"
 
-#: ../plugins/openoffice/openoffice-read.c:11718
+#: ../plugins/openoffice/openoffice-read.c:11744
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1900,34 +1900,30 @@ msgid ""
 msgstr ""
 "Denna fil är skadad med ett duplicerat bladnamn ”%s”, nu ändrat till ”%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:11728
+#: ../plugins/openoffice/openoffice-read.c:11754
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "BLAD_I_SKADAD_FIL"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:11734
+#: ../plugins/openoffice/openoffice-read.c:11760
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr "Filen är skadad med ett kalkylblad utan namn, nu med namnet ”%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:13723
+#: ../plugins/openoffice/openoffice-read.c:13749
 msgid "Unknown mimetype for openoffice file."
 msgstr "Okänd mimetype för openoffice-fil."
 
-#: ../plugins/openoffice/openoffice-read.c:13733
+#: ../plugins/openoffice/openoffice-read.c:13759
 msgid "No stream named content.xml found."
 msgstr "Ingen ström med namn content.xml kan hittas."
 
-#: ../plugins/openoffice/openoffice-read.c:13741
-msgid "No stream named styles.xml found."
-msgstr "Ingen ström med namn styles.xml kan hittas."
-
-#: ../plugins/openoffice/openoffice-read.c:13885
+#: ../plugins/openoffice/openoffice-read.c:13907
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Ogiltiga metadata ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:13948
+#: ../plugins/openoffice/openoffice-read.c:13970
 msgid "settings.xml stream is malformed!"
 msgstr "settings.xml-strömmen är felaktig!"
 
@@ -1957,7 +1953,7 @@ msgid "time"
 msgstr "tid"
 
 #: ../plugins/openoffice/openoffice-write.c:5246
-#: ../plugins/openoffice/openoffice-write.c:5258 ../src/ssconvert.c:113
+#: ../plugins/openoffice/openoffice-write.c:5258 ../src/ssconvert.c:117
 #: ../src/ssdiff.c:61
 msgid "file"
 msgstr "fil"
@@ -3745,16 +3741,16 @@ msgstr ""
 msgid "Cut Object"
 msgstr "Klipp ut objekt"
 
-#: ../src/clipboard.c:487 ../src/clipboard.c:500 ../src/clipboard.c:512
-#: ../src/clipboard.c:522
+#: ../src/clipboard.c:488 ../src/clipboard.c:501 ../src/clipboard.c:513
+#: ../src/clipboard.c:523
 msgid "Unable to paste"
 msgstr "Det går inte att klistra in"
 
-#: ../src/clipboard.c:488
+#: ../src/clipboard.c:489
 msgid "Contents can only be pasted by value or by link."
 msgstr "Innehåll kan endast klistras in via värde eller genom länk."
 
-#: ../src/clipboard.c:496
+#: ../src/clipboard.c:497
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -3765,7 +3761,7 @@ msgstr ""
 "\n"
 "Försök markera en enstaka cell eller en yta med samma form och storlek."
 
-#: ../src/clipboard.c:508
+#: ../src/clipboard.c:509
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -3776,7 +3772,7 @@ msgstr ""
 "\n"
 "Försök markera en enstaka cell eller en yta med samma form och storlek."
 
-#: ../src/clipboard.c:523
+#: ../src/clipboard.c:524
 msgid "result passes the sheet boundary"
 msgstr "resultatet går utanför bladets kant"
 
@@ -6227,7 +6223,7 @@ msgstr "Egenskaper"
 #: ../src/dialogs/dialog-function-select.c:1284
 #: ../src/dialogs/dialog-plugin-manager.c:710
 #: ../src/dialogs/dialog-sheet-compare.c:713
-#: ../src/dialogs/doc-meta-data.ui.h:29 ../src/ssconvert.c:370
+#: ../src/dialogs/doc-meta-data.ui.h:29 ../src/ssconvert.c:381
 msgid "Description"
 msgstr "Beskrivning"
 
@@ -6550,8 +6546,8 @@ msgid "Plugin name"
 msgstr "Namn på insticksmodul"
 
 #. Translate these?
-#: ../src/dialogs/dialog-plugin-manager.c:714 ../src/ssconvert.c:97
-#: ../src/ssconvert.c:120 ../src/ssconvert.c:369
+#: ../src/dialogs/dialog-plugin-manager.c:714 ../src/ssconvert.c:101
+#: ../src/ssconvert.c:124 ../src/ssconvert.c:380
 msgid "ID"
 msgstr "ID"
 
@@ -7250,7 +7246,6 @@ msgid "Indentation"
 msgstr "Indrag"
 
 #: ../src/dialogs/dialog-sheet-compare.c:219
-#| msgid "Location"
 msgid "Rotation"
 msgstr "Rotation"
 
@@ -11567,13 +11562,13 @@ msgstr "Nytt namn:"
 msgid "Resize Sheet"
 msgstr "Ändra storlek på bladet"
 
-#. Number of
+#. Number of 'Columns' in sheet
 #: ../src/dialogs/sheet-resize.ui.h:3
 msgctxt "sheetsize"
 msgid "Columns"
 msgstr "Kolumner"
 
-#. Number of
+#. Number of 'Rows' in sheet
 #: ../src/dialogs/sheet-resize.ui.h:5
 msgctxt "sheetsize"
 msgid "Rows"
@@ -12614,12 +12609,12 @@ msgctxt "Stock label"
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/gutils.c:961
+#: ../src/gutils.c:972
 #, c-format
 msgid "Unknown sheet \"%s\""
 msgstr "Okänt blad ”%s”"
 
-#: ../src/gutils.c:981
+#: ../src/gutils.c:992
 #, c-format
 msgid "Invalid export option \"%s\" for format %s"
 msgstr "Ogiltigt exportalternativ ”%s” för formatet %s"
@@ -12776,7 +12771,7 @@ msgstr "Avsluta omedelbart efter öppning av de valda böckerna"
 msgid "[FILE ...]"
 msgstr "[FIL …]"
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1153 ../src/ssdiff.c:936
+#: ../src/main-application.c:127 ../src/ssconvert.c:1205 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
 #, c-format
 msgid ""
@@ -13562,92 +13557,96 @@ msgstr "Infoga rader"
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
-#: ../src/ssconvert.c:73 ../src/ssdiff.c:53 ../src/ssgrep.c:158
+#: ../src/ssconvert.c:77 ../src/ssdiff.c:53 ../src/ssgrep.c:158
 #: ../src/ssindex.c:45
 msgid "Display program version"
 msgstr "Visa programversionsnummer"
 
-#: ../src/ssconvert.c:80
+#: ../src/ssconvert.c:84
 msgid "Be somewhat more verbose during conversion"
 msgstr "Var mer informativ under konvertering"
 
-#: ../src/ssconvert.c:89 ../src/ssindex.c:66
+#: ../src/ssconvert.c:93 ../src/ssindex.c:66
 msgid "Optionally specify an encoding for imported content"
 msgstr "Ange valfritt en kodning för importerat innehåll"
 
-#: ../src/ssconvert.c:90 ../src/ssindex.c:67
+#: ../src/ssconvert.c:94 ../src/ssindex.c:67
 msgid "ENCODING"
 msgstr "KODNING"
 
-#: ../src/ssconvert.c:96
+#: ../src/ssconvert.c:100
 msgid "Optionally specify which importer to use"
 msgstr "Ange valfritt vilken importör som skall användas"
 
-#: ../src/ssconvert.c:103
+#: ../src/ssconvert.c:107
 msgid "List the available importers"
 msgstr "Lista tillgängliga importörer"
 
-#: ../src/ssconvert.c:112
+#: ../src/ssconvert.c:116
 msgid "Merge listed files (all same format) to make this file"
 msgstr ""
 "Sammanfoga listade filer (alla från samma format) för att skapa denna fil"
 
-#: ../src/ssconvert.c:119
+#: ../src/ssconvert.c:123
 msgid "Optionally specify which exporter to use"
 msgstr "Ange valfritt vilken exportör som skall användas"
 
-#: ../src/ssconvert.c:126
+#: ../src/ssconvert.c:130
 msgid "Detailed instructions for the chosen exporter"
 msgstr "Detaljerade instruktioner för vald exportör"
 
-#: ../src/ssconvert.c:127
+#: ../src/ssconvert.c:131
 msgid "string"
 msgstr "sträng"
 
-#: ../src/ssconvert.c:133
+#: ../src/ssconvert.c:137
 msgid "List the available exporters"
 msgstr "Lista tillgängliga exportörer"
 
-#: ../src/ssconvert.c:140
+#: ../src/ssconvert.c:144
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time"
 msgstr ""
 "Exportera en fil för varje blad om exportören bara stödjer ett blad åt gången"
 
-#: ../src/ssconvert.c:147
+#: ../src/ssconvert.c:151
+msgid "Export graphs"
+msgstr "Exportera diagram"
+
+#: ../src/ssconvert.c:158
 msgid "Recalculate all cells before writing the result"
 msgstr "Räkna om alla celler innan resultat skrivs"
 
-#: ../src/ssconvert.c:154
+#: ../src/ssconvert.c:165
 msgid "Resize to given ROWSxCOLS"
 msgstr "Ändra storlek till givna RADERxKOLUMNER"
 
-#: ../src/ssconvert.c:166
+#: ../src/ssconvert.c:177
 msgid "Output via the clipboard"
 msgstr "Utdata via urklipp"
 
-#: ../src/ssconvert.c:173
+#: ../src/ssconvert.c:184
 msgid "The range to export"
 msgstr "Intervallet att exportera"
 
-#: ../src/ssconvert.c:180
+#: ../src/ssconvert.c:191
 msgid "Goal seek areas"
 msgstr "Målsök områden"
 
-#: ../src/ssconvert.c:187
+#: ../src/ssconvert.c:198
 msgid "Run the solver"
 msgstr "Kör lösaren"
 
-#: ../src/ssconvert.c:194
+#: ../src/ssconvert.c:205
 msgid "Tool test specs"
 msgstr "Verktygstestspecifikationer"
 
-#: ../src/ssconvert.c:269
+#: ../src/ssconvert.c:280
 msgid "Cannot parse export options."
 msgstr "Kan inte tolka exportflaggor."
 
-#: ../src/ssconvert.c:302
+#: ../src/ssconvert.c:313
 #, c-format
 msgid ""
 "Selected exporter (%s) does not have the ability to split a workbook into "
@@ -13655,7 +13654,7 @@ msgid ""
 msgstr ""
 "Vald exportör (%s) har inte förmågan att dela upp en arbetsbok i blad.\n"
 
-#: ../src/ssconvert.c:314
+#: ../src/ssconvert.c:325
 #, c-format
 msgid ""
 "Selected exporter (%s) does not have the ability to export a subset of "
@@ -13663,45 +13662,45 @@ msgid ""
 msgstr ""
 "Vald exportör (%s) har inte förmågan att exportera en delmängd av blad.\n"
 
-#: ../src/ssconvert.c:321
+#: ../src/ssconvert.c:332
 #, c-format
 msgid "Selected exporter (%s) can only export one sheet at a time.\n"
 msgstr "Vald exportör (%s) kan bara exportera ett blad åt gången.\n"
 
 #. FIXME: && nexpr2-is-not-the-same-as-nexpr
-#: ../src/ssconvert.c:489
+#: ../src/ssconvert.c:500
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 "Namnkonflikt under sammanfogning: ”%s” framträder två gånger på "
 "arbetsbladsomfång.\n"
 
-#: ../src/ssconvert.c:568
+#: ../src/ssconvert.c:579
 #, c-format
 msgid "Adding sheets from %s\n"
 msgstr "Lägger till blad från %s\n"
 
-#: ../src/ssconvert.c:650
+#: ../src/ssconvert.c:661
 #, c-format
 msgid "Failed to create solver"
 msgstr "Misslyckades att skapa lösare"
 
-#: ../src/ssconvert.c:665
+#: ../src/ssconvert.c:676
 #, c-format
 msgid "Solver reached time or iteration limit\n"
 msgstr "Lösaren nådde tids- eller iterationsgräns\n"
 
-#: ../src/ssconvert.c:669
+#: ../src/ssconvert.c:680
 #, c-format
 msgid "Solver ran, but failed"
 msgstr "Lösaren kördes men misslyckades"
 
-#: ../src/ssconvert.c:681
+#: ../src/ssconvert.c:692
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Lösare: %s\n"
 
-#: ../src/ssconvert.c:863
+#: ../src/ssconvert.c:909
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13710,7 +13709,7 @@ msgstr ""
 "Okänd exportör ”%s”.\n"
 "Använd --list-exporters för att se möjliga alternativ.\n"
 
-#: ../src/ssconvert.c:883
+#: ../src/ssconvert.c:929
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13719,12 +13718,12 @@ msgstr ""
 "Det går inte att gissa vilken exportör som ska användas för ”%s”.\n"
 "Använd --list-exporters för att se möjliga alternativ.\n"
 
-#: ../src/ssconvert.c:889
+#: ../src/ssconvert.c:935
 #, c-format
 msgid "Using exporter %s\n"
 msgstr "Använder exportören %s\n"
 
-#: ../src/ssconvert.c:895
+#: ../src/ssconvert.c:941
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13733,7 +13732,7 @@ msgstr ""
 "Ett filnamn eller en explicit exporttyp behövs.\n"
 "Använd --list-exporters för att se möjliga alternativ.\n"
 
-#: ../src/ssconvert.c:905
+#: ../src/ssconvert.c:951
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13742,26 +13741,26 @@ msgstr ""
 "Okänd importör ”%s”.\n"
 "Använd --list-importers för att se möjliga alternativ.\n"
 
-#: ../src/ssconvert.c:930 ../src/ssconvert.c:1075
+#: ../src/ssconvert.c:980 ../src/ssconvert.c:1127
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Misslyckades med inläsning av %s\n"
 
-#: ../src/ssconvert.c:980
+#: ../src/ssconvert.c:1032
 #, c-format
 msgid "Resizing to %dx%d\n"
 msgstr "Ändrar storlek till %dx%d\n"
 
-#: ../src/ssconvert.c:992
+#: ../src/ssconvert.c:1044
 #, c-format
 msgid "Resizing of sheet %s failed\n"
 msgstr "Storleksändring på blad %s misslyckades\n"
 
-#: ../src/ssconvert.c:1141 ../src/ssconvert.c:1209
+#: ../src/ssconvert.c:1193 ../src/ssconvert.c:1270
 msgid "INFILE [OUTFILE]"
 msgstr "INFIL [UTFIL]"
 
-#: ../src/ssconvert.c:1160
+#: ../src/ssconvert.c:1212
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13772,12 +13771,12 @@ msgstr ""
 "datakat := ”%s”\n"
 "bibkat := ”%s”\n"
 
-#: ../src/ssconvert.c:1166
+#: ../src/ssconvert.c:1218
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr "--export-file-per-sheet och --merge-to är inkompatibla\n"
 
-#: ../src/ssconvert.c:1207 ../src/ssdiff.c:993 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1268 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Användning: %s [FLAGGA…] %s\n"
@@ -17984,9 +17983,6 @@ msgstr "Absolut storlek och position"
 
 #: ../src/widgets/gnm-workbook-sel.c:145
 #, c-format
-#| msgid ""
-#| "<b>%s</b>\n"
-#| "<small>Location: %s</small>"
 msgid ""
 "%s\n"
 "<small>%s</small>"
@@ -18472,6 +18468,9 @@ msgstr "Lila listmall"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "A simple list template"
 msgstr "Enkel listmall"
+
+#~ msgid "No stream named styles.xml found."
+#~ msgstr "Ingen ström med namn styles.xml kan hittas."
 
 #~ msgid "StandardToolbar"
 #~ msgstr "Standardverktygsfält"
