@@ -234,14 +234,19 @@ cb_keyed_dialog_keypress (GtkWidget *dialog, GdkEventKey *event,
 
 #define SAVE_SIZES_SCREEN_KEY "geometry-hash"
 
+static gboolean debug_dialog_size;
+
 static void
-cb_save_sizes (GtkWidget *dialog, const char *key)
+cb_save_sizes (GtkWidget *dialog,
+	       const GtkAllocation *allocation,
+	       const char *key)
 {
 	GdkRectangle *r;
-	GtkAllocation da;
 	GdkScreen *screen = gtk_widget_get_screen (dialog);
 	GHashTable *h = g_object_get_data (G_OBJECT (screen),
 					   SAVE_SIZES_SCREEN_KEY);
+	GdkWindow *window = gtk_widget_get_window (dialog);
+
 	if (!h) {
 		h = g_hash_table_new_full (g_str_hash, g_str_equal,
 					   (GDestroyNotify)g_free,
@@ -259,9 +264,14 @@ cb_save_sizes (GtkWidget *dialog, const char *key)
 					(GDestroyNotify)g_hash_table_destroy);
 	}
 
-	gtk_widget_get_allocation (dialog, &da);
-	r = g_memdup (&da, sizeof (da));
-	gdk_window_get_position (gtk_widget_get_window (dialog), &r->x, &r->y);
+	r = g_memdup (allocation, sizeof (*allocation));
+	if (window)
+		gdk_window_get_position (gtk_widget_get_window (dialog), &r->x, &r->y);
+
+	if (debug_dialog_size) {
+		g_printerr ("Saving %s to %dx%d at (%d,%d)\n",
+			    key, r->width, r->height, r->x, r->y);
+	}
 	g_hash_table_replace (h, g_strdup (key), r);
 }
 
@@ -273,12 +283,14 @@ gnm_restore_window_geometry (GtkWindow *dialog, const char *key)
 	GHashTable *h = g_object_get_data (G_OBJECT (screen), SAVE_SIZES_SCREEN_KEY);
 	GdkRectangle *allocation = h ? g_hash_table_lookup (h, key) : NULL;
 
+	debug_dialog_size = gnm_debug_flag ("dialog-size");
+
 	if (allocation) {
-#if 0
-		g_printerr ("Restoring %s to %dx%d at (%d,%d)\n",
-			    key, allocation->width, allocation->height,
-			    allocation->x, allocation->y);
-#endif
+		if (debug_dialog_size)
+			g_printerr ("Restoring %s to %dx%d at (%d,%d)\n",
+				    key, allocation->width, allocation->height,
+				    allocation->x, allocation->y);
+
 		gtk_window_move
 			(GTK_WINDOW (top),
 			 allocation->x, allocation->y);
@@ -287,7 +299,7 @@ gnm_restore_window_geometry (GtkWindow *dialog, const char *key)
 			 allocation->width, allocation->height);
 	}
 
-	g_signal_connect (G_OBJECT (dialog), "unrealize",
+	g_signal_connect (G_OBJECT (dialog), "size-allocate",
 			  G_CALLBACK (cb_save_sizes),
 			  (gpointer)key);
 }

@@ -1,3 +1,9 @@
+2019-11-12  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnm_restore_window_geometry): Something changed
+	in Gtk+ in the past decade.  Attach to size-allocate instead of
+	unrealize.
+
 2019-11-06  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
