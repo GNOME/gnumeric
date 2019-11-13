@@ -13,7 +13,7 @@
 #include <string.h>
 
 /*
- * mathfunc.c:  Mathematical functions.
+ * gnm-random.c:  Mathematical functions.
  *
  * Authors:
  *   Morten Welinder <terra@gnome.org>

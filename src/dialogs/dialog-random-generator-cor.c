@@ -1,5 +1,5 @@
 /*
- * dialog-random-generator.c:
+ * dialog-random-generator-cor.c:
  *
  * Authors:
  *  Andreas J. Guelzow  <aguelzow@pyrshep.ca>

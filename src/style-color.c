@@ -1,5 +1,5 @@
 /*
- * color.c: Color allocation on the Gnumeric spreadsheet
+ * style-color.c: Color allocation on the Gnumeric spreadsheet
  *
  * Author:
  *  Miguel de Icaza (miguel@kernel.org)

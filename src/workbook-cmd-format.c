@@ -1,5 +1,5 @@
 /*
- * workbook.c:  Workbook format commands hooked to the menus
+ * workbook-cmd-format.c: Workbook format commands hooked to the menus
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)

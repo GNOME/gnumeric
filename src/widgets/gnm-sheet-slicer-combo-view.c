@@ -1,6 +1,5 @@
-
 /*
- * gnm-sheet-slicer-combo-foo-view.c: A foocanvas object for data slicer field combos
+ * gnm-sheet-slicer-combo-view.c: A canvas object for data slicer field combos
  *
  * Copyright (C) 2008 Jody Goldberg (jody@gnome.org)
  *

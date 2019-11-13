@@ -1,5 +1,5 @@
 /*
- * about.c: Shows the contributors to Gnumeric.
+ * dialog-about.c: Shows the contributors to Gnumeric.
  *
  * Author:
  *  Jody Goldberg <jody@gnome.org>

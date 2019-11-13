@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * dialog-define-name.c: Edit named regions.
+ * dialog-define-names.c: Edit named regions.
  *
  * Author:
  *	Jody Goldberg <jody@gnome.org>

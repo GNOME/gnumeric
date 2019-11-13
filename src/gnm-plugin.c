@@ -1,5 +1,5 @@
 /*
- * go-plugin-service.c: Plugin services - reading XML info, activating, etc.
+ * gnm-plugin.c: Plugin services - reading XML info, activating, etc.
  *                   (everything independent of plugin loading method)
  *
  * Author: Zbigniew Chyla (cyba@gnome.pl)

@@ -1,5 +1,5 @@
 /*
- * Style.c: Style resource management
+ * style.c: Style resource management
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)

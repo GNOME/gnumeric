@@ -1,6 +1,5 @@
-
 /*
- * gnm-filter-combo.c: the autofilter combo box for the goffice canvas
+ * gnm-filter-combo-view.c: the autofilter combo box for the goffice canvas
  *
  * Copyright (C) 2006 Jody Goldberg (jody@gnome.org)
  *

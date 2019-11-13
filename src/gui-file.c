@@ -1,5 +1,5 @@
 /*
- * GUI-file.c:
+ * gui-file.c:
  *
  * Authors:
  *    Jon K Hellan (hellan@acm.org)

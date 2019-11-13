@@ -1,5 +1,5 @@
 /*
- * dialog-function-wizard.c:  The formula guru
+ * dialog-formula-guru.c:  The formula guru
  *
  * Authors:
  *  Jody Goldberg <jody@gnome.org>

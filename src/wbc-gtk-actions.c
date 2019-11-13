@@ -1,6 +1,6 @@
 
 /*
- * wbcg-actions.c: The callbacks and tables for all the menus and stock toolbars
+ * wbc-gtk-actions.c: Callbacks and tables for all the menus and stock toolbars
  *
  * Copyright (C) 2003-2006 Jody Goldberg (jody@gnome.org)
  *

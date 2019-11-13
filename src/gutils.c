@@ -1,5 +1,5 @@
 /*
- * utils.c:  Various utility routines that do not depend on the GUI of Gnumeric
+ * gutils.c: Various utility routines that do not depend on the GUI of Gnumeric
  *
  * Authors:
  *    Miguel de Icaza (miguel@gnu.org)

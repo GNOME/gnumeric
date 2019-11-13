@@ -1,5 +1,5 @@
 /*
- * gnumeric-util.c:  Various GUI utility functions.
+ * gui-util.c:  Various GUI utility functions.
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)

@@ -1,5 +1,5 @@
 /*
- * dialog-comparet-order.c: Dialog to compare two sheets.
+ * dialog-sheet-compare.c: Dialog to compare two sheets.
  *
  * (C) Copyright 2018 Morten Welinder (terra@gnome.org)
  *

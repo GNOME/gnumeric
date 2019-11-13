@@ -1,5 +1,5 @@
 /*
- * dialog-insert-cells.c: Insert a number of cells.
+ * dialog-delete-cells.c: Delete a number of cells.
  *
  * Authors:
  *                Miguel de Icaza (miguel@gnu.org)

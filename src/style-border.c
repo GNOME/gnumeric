@@ -1,6 +1,5 @@
-
 /*
- * border.c: Managing drawing and printing cell borders
+ * style-border.c: Managing drawing and printing cell borders
  *
  * Copyright (C) 1999-2001 Jody Goldberg (jody@gnome.org)
  *

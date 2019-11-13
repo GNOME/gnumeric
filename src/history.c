@@ -1,5 +1,5 @@
 /*
- * History.c: Implements file menu file history
+ * history.c: Implements file menu file history
  *
  * Author:
  *  Mike Kestner (mkestner@ameritech.net)

@@ -1,5 +1,5 @@
 /*
- * plugin-manager.c: Dialog used to load plugins into the Gnumeric
+ * dialog-plugin-manager.c: Dialog used to load plugins into the Gnumeric
  * spreadsheet
  *
  * Authors:
