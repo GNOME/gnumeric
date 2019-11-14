@@ -31,6 +31,11 @@ starting with two dashes (`--').
 .B \-\-recalc
 Recalculate all cells before writing the result.
 .TP
+.B \-\-set \fICELL=CONTENTS\fR
+Set the value of \fICELL\fR to \fICONTENTS\fR.  Implies --recalc.  To
+put an expression in a cell, add an extra =, for example \-\-set "A11==A10+1".
+This option may be repeated as many times as needed.
+.TP
 .B \-v, \-\-verbose
 Be slightly more verbose about what is going on.
 .TP

@@ -2,6 +2,7 @@ Gnumeric 1.12.47
 
 Morten:
 	* Fix dialog size problem.
+	* Add "--set CELL=CONTENTS" option to ssconvert.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.46

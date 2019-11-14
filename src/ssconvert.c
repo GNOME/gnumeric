@@ -66,6 +66,7 @@ static char *ssconvert_import_id = NULL;
 static char *ssconvert_export_id = NULL;
 static char *ssconvert_export_options = NULL;
 static char *ssconvert_merge_target = NULL;
+static char **ssconvert_set_cells = NULL;
 static char **ssconvert_goal_seek = NULL;
 static char **ssconvert_tool_test = NULL;
 static const char *ssconvert_image_format = "svg";
@@ -149,6 +150,13 @@ static const GOptionEntry ssconvert_options [] = {
 		"export-graphs", 0,
 		0, G_OPTION_ARG_NONE, &ssconvert_object_export,
 		N_("Export graphs"),
+		NULL
+	},
+
+	{
+		"set", 0,
+		0, G_OPTION_ARG_STRING_ARRAY, &ssconvert_set_cells,
+		N_("Change the contents of a cell before writing --set A12=2"),
 		NULL
 	},
 
@@ -412,6 +420,7 @@ read_files_to_merge (const char *inputs[], GOFileOpener *fo,
 		WorkbookView *wbv =
 			workbook_view_new_from_uri (uri, fo, io_context,
 					      ssconvert_import_encoding);
+		// Do not apply any changes
 		g_free (uri);
 		inputs++;
 
@@ -884,6 +893,48 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 }
 
 static int
+apply_updates (WorkbookView *wbv)
+{
+	Workbook *wb = wb_view_get_workbook (wbv);
+	unsigned ui;
+	GnmParsePos pp;
+
+	pp.wb = wb;
+	pp.sheet = workbook_sheet_by_index (wb, 0);
+	pp.eval.col = 0;
+	pp.eval.row = 0;
+
+	for (ui = 0; ssconvert_set_cells[ui]; ui++) {
+		const char *s = ssconvert_set_cells[ui];
+		const char *eq;
+		GnmRangeRef rr;
+		GnmRange r;
+		GnmParsePos pp2;
+		Sheet *start_sheet, *end_sheet;
+
+		eq = rangeref_parse (&rr, s, &pp, gnm_conventions_default);
+		if (!eq || *eq != '=')
+			goto error;
+
+		parse_pos_init_sheet (&pp2, wb_view_cur_sheet (wbv));
+		gnm_rangeref_normalize_pp (&rr, &pp2,
+					   &start_sheet, &end_sheet,
+					   &r);
+
+		pp2.eval.col = r.start.col;
+		pp2.eval.row = r.start.row;
+		sheet_range_set_text (&pp2, &r, eq + 1);
+		continue;
+
+	error:
+		g_printerr (_("Failed to set cell %s\n"), s);
+		return 1;
+	}
+
+	return 0;
+}
+
+static int
 convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	 GOCmdContext *cc)
 {
@@ -968,6 +1019,10 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		wbv = workbook_view_new_from_uri (infile, fo,
 						  io_context,
 						  ssconvert_import_encoding);
+		if (apply_updates (wbv)) {
+			res = 1;
+			goto out;
+		}
 	} else {
 		wbv = workbook_view_new (NULL);
 	}
@@ -1118,6 +1173,10 @@ clipboard_export (const char *inarg, char const *outarg, GOCmdContext *cc)
 	wbv = workbook_view_new_from_uri (infile, fo,
 					  io_context,
 					  ssconvert_import_encoding);
+	if (apply_updates (wbv)) {
+		res = 1;
+		goto out;
+	}
 
 	if (go_io_error_occurred (io_context)) {
 		go_io_error_display (io_context);
@@ -1218,6 +1277,9 @@ main (int argc, char const **argv)
 		g_printerr (_("--export-file-per-sheet and --merge-to are incompatible\n"));
 		return 1;
 	}
+
+	if (ssconvert_set_cells	&& ssconvert_set_cells[0])
+		ssconvert_recalc = TRUE; // Implied
 
 	if (ssconvert_object_export) {
 		// One file per object
