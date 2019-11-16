@@ -676,7 +676,7 @@ gnm_expr_array_corner_get_type (void)
  * Returns: %TRUE, if the supplied expressions are exactly the
  *   same and %FALSE otherwise.  No eval position is used to see if they
  *   are effectively the same.  Named expressions must refer the same name,
- *   having equivalent names is insufficeient.
+ *   having equivalent names is insufficient.
  */
 gboolean
 gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
@@ -851,7 +851,7 @@ handle_empty (GnmValue *res, GnmExprEvalFlags flags)
  * Return value:
  *     If the intersection succeeded return a duplicate of the value
  *     at the intersection point.  This value needs to be freed.
- *     NULL if there is no intersection
+ *     %NULL if there is no intersection
  * Returns the upper left corner of an array.
  **/
 static GnmValue *
@@ -1333,7 +1333,7 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
  * @pos: evaluation position
  * @flags: #GnmExprEvalFlags
  *
- * Evaluatates the given expression.  Iif GNM_EXPR_EVAL_PERMIT_EMPTY is not set
+ * Evaluatates the given expression.  If GNM_EXPR_EVAL_PERMIT_EMPTY is not set
  * then return zero if the expression instead of the empty value, or the value
  * of an unused cell.
  *
@@ -1888,7 +1888,7 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 /**
  * gnm_expr_as_gstring:
  * @expr: #GnmExpr
- * @out: output convensions
+ * @out: output conventions
  *
  * Renders the expression as a string according to @out and places the
  * result in @out's accumulator.
@@ -3150,7 +3150,7 @@ gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2)
  *	Convert any references to  sheets marked being_invalidated into #REF!
  * GNM_EXPR_RELOCATE_MOVE_RANGE,
  *	Find any references to the specified area and adjust them by the
- *	supplied deltas.  Check for out of bounds conditions.  Return NULL if
+ *	supplied deltas.  Check for out of bounds conditions.  Return %NULL if
  *	no change is required.
  *	If the expression is within the range to be moved, its relative
  *	references to cells outside the range are adjusted to reference the

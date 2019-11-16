@@ -1044,8 +1044,8 @@ gnm_func_get_description (GnmFunc *func)
 /**
  * gnm_func_count_args:
  * @func: pointer to function definition
- * @min: (out): location for mininum args
- * @max: (out): location for mininum args
+ * @min: (out): location for minimum args
+ * @max: (out): location for maximum args
  *
  * This calculates the maximum and minimum number of args that can be passed.
  * For a vararg function, the maximum will be set to G_MAXINT.
@@ -1682,7 +1682,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
  * This routine provides a simple way for internal functions with variable
  * number of arguments to be written: this would iterate over a list of
  * expressions (expr_node_list) and will invoke the callback for every
- * GnmValue found on the list (this means that ranges get properly expaned).
+ * GnmValue found on the list (this means that ranges get properly expanded).
  **/
 GnmValue *
 function_iterate_argument_values (GnmEvalPos const	*ep,
@@ -2003,7 +2003,7 @@ gnm_func_class_init (GObjectClass *gobject_class)
 	 * @ep: position f @expr
 	 * @info: #GnmExprDeriv telling which derivative is sought
 	 *
-	 * Signals that a function call's derivative should be calculatted
+	 * Signals that a function call's derivative should be calculated
 	 *
 	 * Returns: (transfer full) (nullable): #GnmExpr representing the
 	 * derivative, %NULL for error.

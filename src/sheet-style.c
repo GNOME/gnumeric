@@ -3085,7 +3085,7 @@ sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
  * style_list_free:
  * @l: the list to free
  *
- * Free up the ressources in the style list.  Including unreferencing the
+ * Free up the resources in the style list.  This includes unreferencing the
  * styles.
  */
 void

@@ -2692,7 +2692,7 @@ gnm_expr_entry_get_text	(GnmExprEntry const *gee)
  * @sheet: the sheet where the cell range is evaluated.
  *
  * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
- *	succesfully parsed or NULL on failure.
+ *	successfully parsed or %NULL on failure.
  */
 GnmValue *
 gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)

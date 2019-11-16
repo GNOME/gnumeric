@@ -1062,7 +1062,7 @@ cb_colrow_visibility (SheetView *sv, GnmRange const *r, gpointer closure)
  * @visible: Should we unhide or hide the cols/rows.
  *
  * Searches the selection list and generates a list of index,count
- * pairs of row/col ranges that need to be hidden or unhiden.
+ * pairs of row/col ranges that need to be hidden or unhidden.
  *
  * Returns: (transfer full): the list.
  */

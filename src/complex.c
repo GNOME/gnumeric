@@ -95,7 +95,7 @@ gnm_complex_to_string (gnm_complex const *src, char imunit)
  *
  * This function differs from Excel's parsing in at least the following
  * ways:
- * (1) We allow spaces before the imaginary unit used with an impled "1".
+ * (1) We allow spaces before the imaginary unit used with an implied "1".
  * Therefore we allow "+ i".
  * (2) We do not allow a thousands separator as in "1,000i".
  */

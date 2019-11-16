@@ -1028,9 +1028,9 @@ gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
 /**
  * gnm_message_dialog_create:
  *
- * A convenience fonction to build HIG compliant message dialogs.
+ * A convenience function to build HIG compliant message dialogs.
  *
- *   parent : transient parent, or NULL for none.
+ *   parent : transient parent, or %NULL for none.
  *   flags
  *   type : type of dialog
  *   primary_message : message displayed in bold

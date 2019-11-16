@@ -1934,11 +1934,11 @@ cb_single_contained_depend (gpointer key,
 /**
  * sheet_region_queue_recalc:
  * @sheet: The sheet.
- * @range: Optionally NULL range.
+ * @range: (nullable): Range
  *
  * Queues things that depend on @sheet!@range for recalc.
  *
- * If @range is NULL the entire sheet is used.
+ * If @range is %NULL the entire sheet is used.
  */
 void
 sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)

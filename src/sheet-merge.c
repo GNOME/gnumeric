@@ -53,8 +53,8 @@ range_row_cmp (GnmRange const *a, GnmRange const *b)
  *          style from the corner applied.
  * @cc: (nullable): the calling context
  *
- * Add a range to the list of merge targets.  Checks for array spliting returns
- * %TRUE if there was an error.  Queues a respan.  Only queus a redraw if @clear
+ * Add a range to the list of merge targets.  Checks for array splitting returns
+ * %TRUE if there was an error.  Queues a respan.  Only queues a redraw if @clear
  * is %TRUE.
  */
 gboolean
@@ -425,7 +425,7 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri, GOUndo **pundo)
 /**
  * gnm_sheet_merge_find_bounding_box:
  * @sheet: sheet
- * @r: the range to exten
+ * @r: the range to extend
  *
  * Extends @r such that no merged range is split by its boundary.
  */

@@ -299,7 +299,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
  * @dao:
  * @cmd:
  *
- * format's the output range according to the settings
+ * Formats the output range according to the settings
  *
  *
  **/
@@ -594,7 +594,7 @@ dao_set_cell_na (data_analysis_output_t *dao, int col, int row)
  * @v:
  * @is_valid:
  *
- * set cell to a gnm_float or NA as appropraite
+ * set cell to a gnm_float or NA as appropriate
  *
  *
  **/

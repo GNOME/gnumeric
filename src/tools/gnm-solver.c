@@ -2494,7 +2494,7 @@ gnm_solver_pick_lp_coords (GnmSolver *sol,
  *
  * Returns: xxx(transfer full) (nullable): coordinates, or %NULL in case of error.
  * Note: this function is not affected by the flip-sign property, even
- * if @ycell happens to coindice with the solver target cell.
+ * if @ycell happens to coincide with the solver target cell.
  */
 gnm_float *
 gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,

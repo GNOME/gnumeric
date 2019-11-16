@@ -78,7 +78,7 @@ gnm_cell_cleanout (GnmCell *cell)
  *		expression.  It marks the sheet as dirty.
  *
  * If the text is an expression it IS queued for recalc.
- *        the format prefered by the expression is stored for later use.
+ *        the format preferred by the expression is stored for later use.
  * If the text is a value it is rendered and spans are NOT calculated.
  *        the format that matched the text is stored for later use.
  *
@@ -241,7 +241,7 @@ cell_set_expr_internal (GnmCell *cell, GnmExprTop const *texpr)
  * @texpr: The #GnmExprTop
  *
  * Stores and references the supplied expression.  It
- *         marks the sheet as dirty.  Intented for use by import routines that
+ *         marks the sheet as dirty.  Intended for use by import routines that
  *         do bulk assignment.  The resulting cell is NOT linked into the
  *         dependent list.  Nor marked for recalc.
  *
@@ -265,7 +265,7 @@ gnm_cell_set_expr_unsafe (GnmCell *cell, GnmExprTop const *texpr)
  * @texpr: (transfer none): The #GnmExprTop
  *
  * Stores and references the supplied expression
- *         marks the sheet as dirty.  Intented for use by import routines that
+ *         marks the sheet as dirty.  Intended for use by import routines that
  *         do bulk assignment.  The resulting cell _is_ linked into the
  *         dependent list, but NOT marked for recalc.
  *
@@ -384,7 +384,7 @@ gnm_cell_set_array_formula_undo (GnmSheetRange *sr, GnmExprTop const *texpr)
 
 /**
  * gnm_cell_set_array:
- * @sheet:   The sheet to set the expr in.
+ * @sheet:   The sheet to set the array expression in.
  * @r:       The range to set.
  * @texpr:   an expression (the inner expression, not a corner or element)
  *
@@ -393,7 +393,7 @@ gnm_cell_set_array_formula_undo (GnmSheetRange *sr, GnmExprTop const *texpr)
  * 'array-formula'.  The supplied expression is wrapped in an array
  * operator for each cell in the range and scheduled for recalc.
  *
- * Returns: %TRUE if the operation succeded.
+ * Returns: %TRUE if the operation succeeded.
  *
  * NOTE : This adds a reference to the expression.
  *

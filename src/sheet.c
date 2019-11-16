@@ -3273,7 +3273,7 @@ sheet_row_is_hidden (Sheet const *sheet, int row)
  * from @start_col doing bounds checking.  If @jump_to_boundaries is
  * %TRUE then @count must be 1 and the jump is to the edge of the logical range.
  *
- * This routine implements the logic necasary for ctrl-arrow style
+ * This routine implements the logic necessary for ctrl-arrow style
  * movement.  That is more complicated than simply finding the last in a list
  * of cells with content.  If you are at the end of a range it will find the
  * start of the next.  Make sure that is the sort of behavior you want before
@@ -3375,7 +3375,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
  * from @start_row doing bounds checking.  If @jump_to_boundaries is
  * %TRUE then @count must be 1 and the jump is to the edge of the logical range.
  *
- * This routine implements the logic necasary for ctrl-arrow style
+ * This routine implements the logic necessary for ctrl-arrow style
  * movement.  That is more complicated than simply finding the last in a list
  * of cells with content.  If you are at the end of a range it will find the
  * start of the next.  Make sure that is the sort of behavior you want before
@@ -3664,7 +3664,7 @@ sheet_range_splits_region (Sheet const *sheet,
  *
  * A utility to see whether moving any of the ranges @ranges will split any
  * arrays or merged regions.
- * Returns: whether any arrays or merged regions will be splitted.
+ * Returns: whether any arrays or merged regions will be split.
  */
 gboolean
 sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
@@ -5701,7 +5701,7 @@ sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
  * sheet_col_set_size_pts:
  * @sheet:	 The sheet
  * @col:	 The col
- * @width_pts:	 The desired widtht in pts
+ * @width_pts:	 The desired width in pts
  * @set_by_user: %TRUE if this was done by a user (ie, user manually
  *               set the width)
  *
@@ -5960,7 +5960,7 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
 /**
  * sheet_row_get_default_size_pts:
  *
- * Return the defaul number of units in a row, including margins.
+ * Return the default number of units in a row, including margins.
  * This function returns the raw sum, no rounding etc.
  */
 double

@@ -616,7 +616,7 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
  * sheet_object_clear_sheet:
  * @so: #SheetObject
  *
- * Removes @so from its container, unrealizes all views, disconects the
+ * Removes @so from its container, unrealizes all views, disconnects the
  * associated data and unrefs the object
  **/
 void
@@ -1186,7 +1186,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
  * @t: The type of object to lookup, %G_TYPE_NONE for any.
  *
  * Returns: (element-type SheetObject) (transfer container): a list
- * containing all objects of exactly the specified type (inheritence does
+ * containing all objects of exactly the specified type (inheritance does
  * not count) that are completely contained in @r.
  **/
 GSList *

@@ -340,7 +340,7 @@ build_exp (GnmExpr *l, GnmExpr *r)
 /*
  * Build an array expression.
  *
- * Returns NULL on failure.  Caller must YYERROR in that case.
+ * Returns %NULL on failure.  Caller must YYERROR in that case.
  */
 static GnmExpr *
 build_array (GSList *cols)
@@ -391,7 +391,7 @@ build_array (GSList *cols)
 /*
  * Build a range constructor.
  *
- * Returns NULL on failure.  Caller must YYERROR in that case.
+ * Returns %NULL on failure.  Caller must YYERROR in that case.
  */
 static GnmExpr *
 build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
@@ -416,7 +416,7 @@ build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
 /*
  * Build an intersection expression.
  *
- * Returns NULL on failure.  Caller must YYERROR in that case.
+ * Returns %NULL on failure.  Caller must YYERROR in that case.
  */
 static GnmExpr *
 build_intersect (GnmExpr *l, GnmExpr *r)
@@ -434,7 +434,7 @@ build_intersect (GnmExpr *l, GnmExpr *r)
 /*
  * Build a set expression.
  *
- * Returns NULL on failure.  Caller must YYERROR in that case.
+ * Returns %NULL on failure.  Caller must YYERROR in that case.
  */
 static GnmExpr *
 build_set (GnmExprList *list)
@@ -1571,14 +1571,14 @@ setup_state (ParserState *pstate, const char *str,
  * @str   : The string to parse.
  * @pp	  : #GnmParsePos
  * @flags : See parse-utils for descriptions
- * @convs : optionally NULL #GnmConventions
- * @error : optionally NULL ptr to store details of error.
+ * @convs: (nullable): #GnmConventions
+ * @error: (out) (nullable) (optional): ptr to store details of error.
  *
  * Parse a string. if @error is non-null it will be assumed that the
  * caller has passed a pointer to a GnmParseError struct AND that it will
  * take responsibility for freeing that struct and its contents.
  * with parse_error_free.
- * If @convs is NULL use the conventions from @pp.
+ * If @convs is %NULL, use the conventions from @pp.
  **/
 GnmExprTop const *
 gnm_expr_parse_str (char const *str, GnmParsePos const *pp,

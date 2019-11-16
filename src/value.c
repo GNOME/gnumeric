@@ -469,7 +469,7 @@ value_new_cellrange_r (Sheet *sheet, GnmRange const *r)
  *
  * Parse @str using the convention associated with @sheet.
  * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
- * succesfully parsed or %NULL on failure.
+ * successfully parsed or %NULL on failure.
  */
 GnmValue *
 value_new_cellrange_str (Sheet *sheet, char const *str)
@@ -493,7 +493,7 @@ value_new_cellrange_str (Sheet *sheet, char const *str)
  *
  * Parse @str using the convention associated with @sheet.
  * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
- * succesfully parsed or %NULL on failure.
+ * successfully parsed or %NULL on failure.
  */
 GnmValue *
 value_new_cellrange_parsepos_str (GnmParsePos const *pp, char const *str,
@@ -1353,7 +1353,7 @@ value_is_zero (GnmValue const *v)
 
 /**
  * value_get_rangeref:
- * @v: #gnmvalue
+ * @v: #GnmValue
  *
  * Returns: (transfer none): the cell range of a cell range value.
  */

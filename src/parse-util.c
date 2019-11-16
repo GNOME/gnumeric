@@ -807,8 +807,8 @@ gnm_expr_char_start_p (char const * c)
  * parse_text_value_or_expr:
  * @pos: If the string looks like an expression parse it at this location.
  * @text: The text to be parsed.
- * @val: (out): Returns a GnmValue* if the text was a value, otherwise NULL.
- * @texpr: (out): Returns a GnmExprTop* if the text was an expression, otherwise NULL.
+ * @val: (out) (nullable): Returns a #GnmValue if the text was a value, otherwise %NULL.
+ * @texpr: (out) (nullable): Returns a #GnmExprTop if the text was an expression, otherwise %NULL.
  *
  * Utility routine to parse a string and convert it into an expression or value.
  *

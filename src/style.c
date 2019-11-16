@@ -108,7 +108,7 @@ gnm_font_override_codepage (gchar const *font_name)
  * @font_name    The font name
  *
  * Tries to find a gnome font which matches the Excel font.
- * Returns the name of the substitute font if found. Otherwise returns NULL
+ * Returns the name of the substitute font if found. Otherwise returns %NULL
  */
 static gchar const *
 get_substitute_font (gchar const *font_name)

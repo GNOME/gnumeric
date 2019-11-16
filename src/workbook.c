@@ -554,7 +554,7 @@ workbook_set_last_export_uri (Workbook *wb, const gchar *uri)
  * workbook_foreach_cell_in_range:
  * @pos: The position the range is relative to.
  * @cell_range: A value containing a range;
- * @flags: flags determining whichs cells to consider
+ * @flags: flags determining which cells to consider
  * @handler: (scope call): The operator to apply to each cell.
  * @closure: User data.
  *

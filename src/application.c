@@ -225,7 +225,7 @@ gnm_app_clipboard_unant (void)
  * @is_cut: is this a cut or a copy.
  * @sv: The source sheet for the copy.
  * @area: A single rectangular range to be copied.
- * @animate_range: Do we want ot add an animated cursor around things.
+ * @animate_range: Do we want to add an animated cursor around things.
  *
  * When Cutting we
  *   Clear and free the contents of the clipboard and save the sheet and area

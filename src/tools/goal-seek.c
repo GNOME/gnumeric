@@ -306,13 +306,13 @@ goal_seek_newton_polish (GnmGoalSeekFunction f, GnmGoalSeekFunction df,
  *
  * Seek a goal (root) using Newton's iterative method.
  *
- * The supplied function must (should) be continously differentiable in
+ * The supplied function must (should) be continuously differentiable in
  * the supplied interval.  If @df is %NULL, this function will
  * estimate the derivative.
  *
  * This method will find a root rapidly provided the initial guess, x0,
  * is sufficiently close to the root.  (The number of significant digits
- * (asympotically) goes like i^2 unless the root is a multiple root in
+ * (asymptotically) goes like i^2 unless the root is a multiple root in
  * which case it is only like c*i.)
  */
 GnmGoalSeekStatus
@@ -442,7 +442,7 @@ goal_seek_newton (GnmGoalSeekFunction f, GnmGoalSeekFunction df,
  *
  * Seek a goal (root) using bisection methods.
  *
- * The supplied function must (should) be continous over the interval.
+ * The supplied function must (should) be continuous over the interval.
  *
  * Caller must have located a positive and a negative point.
  *
