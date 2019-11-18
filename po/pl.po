@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-10 13:14+0100\n"
-"PO-Revision-Date: 2019-11-10 13:15+0100\n"
+"POT-Creation-Date: 2019-11-18 14:40+0100\n"
+"PO-Revision-Date: 2019-11-18 14:42+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -978,7 +978,7 @@ msgstr "Funkcje informacji"
 msgid "Functions for inspecting values, cells, and more"
 msgstr "Funkcje do badania wartości, komórek i więcej"
 
-#: ../plugins/fn-info/plugin.xml.in.h:3 ../src/gui-util.c:1052
+#: ../plugins/fn-info/plugin.xml.in.h:3 ../src/gui-util.c:1064
 msgid "Information"
 msgstr "Informacja"
 
@@ -1932,7 +1932,7 @@ msgid "time"
 msgstr "czas"
 
 #: ../plugins/openoffice/openoffice-write.c:5246
-#: ../plugins/openoffice/openoffice-write.c:5258 ../src/ssconvert.c:117
+#: ../plugins/openoffice/openoffice-write.c:5258 ../src/ssconvert.c:118
 #: ../src/ssdiff.c:61
 msgid "file"
 msgstr "plik"
@@ -6253,7 +6253,7 @@ msgstr "Właściwości"
 #: ../src/dialogs/dialog-function-select.c:1284
 #: ../src/dialogs/dialog-plugin-manager.c:710
 #: ../src/dialogs/dialog-sheet-compare.c:713
-#: ../src/dialogs/doc-meta-data.ui.h:29 ../src/ssconvert.c:381
+#: ../src/dialogs/doc-meta-data.ui.h:29 ../src/ssconvert.c:389
 msgid "Description"
 msgstr "Opis"
 
@@ -6575,8 +6575,8 @@ msgid "Plugin name"
 msgstr "Nazwa wtyczki"
 
 #. Translate these?
-#: ../src/dialogs/dialog-plugin-manager.c:714 ../src/ssconvert.c:101
-#: ../src/ssconvert.c:124 ../src/ssconvert.c:380
+#: ../src/dialogs/dialog-plugin-manager.c:714 ../src/ssconvert.c:102
+#: ../src/ssconvert.c:125 ../src/ssconvert.c:388
 msgid "ID"
 msgstr "Identyfikator"
 
@@ -7673,7 +7673,7 @@ msgstr "Uruchomiony"
 msgid "Done"
 msgstr "Zrobiony"
 
-#: ../src/dialogs/dialog-solver.c:607 ../src/gui-util.c:1067
+#: ../src/dialogs/dialog-solver.c:607 ../src/gui-util.c:1079
 msgid "Error"
 msgstr "Błąd"
 
@@ -12611,21 +12611,21 @@ msgstr ""
 msgid "Multiple errors\n"
 msgstr "Wiele błędów\n"
 
-#: ../src/gui-util.c:1057
+#: ../src/gui-util.c:1069
 msgid "Question"
 msgstr "Pytanie"
 
-#: ../src/gui-util.c:1062
+#: ../src/gui-util.c:1074
 msgid "Warning"
 msgstr "Ostrzeżenie"
 
-#: ../src/gui-util.c:1250
+#: ../src/gui-util.c:1262
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
 msgstr ""
 "Wtyczka z identyfikatorem %s jest wymagana, ale nie można jej odnaleźć."
 
-#: ../src/gui-util.c:1258
+#: ../src/gui-util.c:1270
 #, c-format
 msgid "The %s plugin is required but is not loaded."
 msgstr "Wtyczka %s jest wymagana, ale nie jest wczytana."
@@ -12818,7 +12818,7 @@ msgstr "Kończy działanie natychmiast po wczytaniu wybranych zeszytów"
 msgid "[FILE ...]"
 msgstr "[PLIK…]"
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1205 ../src/ssdiff.c:936
+#: ../src/main-application.c:127 ../src/ssconvert.c:1264 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
 #, c-format
 msgid ""
@@ -13622,53 +13622,53 @@ msgstr "Wstaw rzędy"
 msgid "Delete Rows"
 msgstr "Usuń rzędy"
 
-#: ../src/ssconvert.c:77 ../src/ssdiff.c:53 ../src/ssgrep.c:158
+#: ../src/ssconvert.c:78 ../src/ssdiff.c:53 ../src/ssgrep.c:158
 #: ../src/ssindex.c:45
 msgid "Display program version"
 msgstr "Wyświetla wersję programu"
 
-#: ../src/ssconvert.c:84
+#: ../src/ssconvert.c:85
 msgid "Be somewhat more verbose during conversion"
 msgstr "Więcej informacji podczas konwersji"
 
-#: ../src/ssconvert.c:93 ../src/ssindex.c:66
+#: ../src/ssconvert.c:94 ../src/ssindex.c:66
 msgid "Optionally specify an encoding for imported content"
 msgstr "Opcjonalnie określa kodowanie importowanej zawartości"
 
-#: ../src/ssconvert.c:94 ../src/ssindex.c:67
+#: ../src/ssconvert.c:95 ../src/ssindex.c:67
 msgid "ENCODING"
 msgstr "KODOWANIE"
 
-#: ../src/ssconvert.c:100
+#: ../src/ssconvert.c:101
 msgid "Optionally specify which importer to use"
 msgstr "Opcjonalnie określa, którego importera użyć"
 
-#: ../src/ssconvert.c:107
+#: ../src/ssconvert.c:108
 msgid "List the available importers"
 msgstr "Lista dostępnych importerów"
 
-#: ../src/ssconvert.c:116
+#: ../src/ssconvert.c:117
 msgid "Merge listed files (all same format) to make this file"
 msgstr ""
 "Łączy wymienione pliki (wszystkie tego samego formatu), aby utworzyć ten plik"
 
-#: ../src/ssconvert.c:123
+#: ../src/ssconvert.c:124
 msgid "Optionally specify which exporter to use"
 msgstr "Opcjonalnie określa, którego eksportera użyć"
 
-#: ../src/ssconvert.c:130
+#: ../src/ssconvert.c:131
 msgid "Detailed instructions for the chosen exporter"
 msgstr "Szczegółowe instrukcje dla wybranego eksportera"
 
-#: ../src/ssconvert.c:131
+#: ../src/ssconvert.c:132
 msgid "string"
 msgstr "ciąg"
 
-#: ../src/ssconvert.c:137
+#: ../src/ssconvert.c:138
 msgid "List the available exporters"
 msgstr "Lista dostępnych eksporterów"
 
-#: ../src/ssconvert.c:144
+#: ../src/ssconvert.c:145
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time"
@@ -13676,43 +13676,47 @@ msgstr ""
 "Eksportuje plik dla każdego arkusza, jeśli eksporter obsługuje tylko jeden "
 "arkusz jednocześnie"
 
-#: ../src/ssconvert.c:151
+#: ../src/ssconvert.c:152
 msgid "Export graphs"
 msgstr "Eksportuje wykresy"
 
-#: ../src/ssconvert.c:158
+#: ../src/ssconvert.c:159
+msgid "Change the contents of a cell before writing --set A12=2"
+msgstr "Zmienia zawartość komórki przed zapisaniem --set A12=2"
+
+#: ../src/ssconvert.c:166
 msgid "Recalculate all cells before writing the result"
 msgstr "Przelicza wszystkie komórki przed zapisaniem wyniku"
 
-#: ../src/ssconvert.c:165
+#: ../src/ssconvert.c:173
 msgid "Resize to given ROWSxCOLS"
 msgstr "Zmienia rozmiar do podanych RZĘDÓWxKOLUMN"
 
-#: ../src/ssconvert.c:177
+#: ../src/ssconvert.c:185
 msgid "Output via the clipboard"
 msgstr "Wyjście przez schowek"
 
-#: ../src/ssconvert.c:184
+#: ../src/ssconvert.c:192
 msgid "The range to export"
 msgstr "Zakres do eksportu"
 
-#: ../src/ssconvert.c:191
+#: ../src/ssconvert.c:199
 msgid "Goal seek areas"
 msgstr "Obszary poszukiwania celu"
 
-#: ../src/ssconvert.c:198
+#: ../src/ssconvert.c:206
 msgid "Run the solver"
 msgstr "Uruchamia solver"
 
-#: ../src/ssconvert.c:205
+#: ../src/ssconvert.c:213
 msgid "Tool test specs"
 msgstr "Narzędzie testowe specyfikacji"
 
-#: ../src/ssconvert.c:280
+#: ../src/ssconvert.c:288
 msgid "Cannot parse export options."
 msgstr "Nie można przetworzyć opcji eksportu."
 
-#: ../src/ssconvert.c:313
+#: ../src/ssconvert.c:321
 #, c-format
 msgid ""
 "Selected exporter (%s) does not have the ability to split a workbook into "
@@ -13720,7 +13724,7 @@ msgid ""
 msgstr ""
 "Wybrany eksporter (%s) nie ma możliwości dzielenia zeszytu na arkusze.\n"
 
-#: ../src/ssconvert.c:325
+#: ../src/ssconvert.c:333
 #, c-format
 msgid ""
 "Selected exporter (%s) does not have the ability to export a subset of "
@@ -13728,46 +13732,51 @@ msgid ""
 msgstr ""
 "Wybrany eksporter (%s) nie ma możliwości eksportowania podzestawu arkuszy.\n"
 
-#: ../src/ssconvert.c:332
+#: ../src/ssconvert.c:340
 #, c-format
 msgid "Selected exporter (%s) can only export one sheet at a time.\n"
 msgstr ""
 "Wybrany eksporter (%s) może eksportować tylko jeden arkusz jednocześnie.\n"
 
 #. FIXME: && nexpr2-is-not-the-same-as-nexpr
-#: ../src/ssconvert.c:500
+#: ../src/ssconvert.c:509
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 "Konflikt nazwy podczas scalania: „%s” pojawia się dwa razy w zakresie "
 "zeszytu.\n"
 
-#: ../src/ssconvert.c:579
+#: ../src/ssconvert.c:588
 #, c-format
 msgid "Adding sheets from %s\n"
 msgstr "Dodawanie arkuszy z %s\n"
 
-#: ../src/ssconvert.c:661
+#: ../src/ssconvert.c:670
 #, c-format
 msgid "Failed to create solver"
 msgstr "Utworzenie solvera się nie powiodło"
 
-#: ../src/ssconvert.c:676
+#: ../src/ssconvert.c:685
 #, c-format
 msgid "Solver reached time or iteration limit\n"
 msgstr "Solver osiągnął ograniczenie czasu lub iteracji\n"
 
-#: ../src/ssconvert.c:680
+#: ../src/ssconvert.c:689
 #, c-format
 msgid "Solver ran, but failed"
 msgstr "Solver został uruchomiony, ale się nie powiódł"
 
-#: ../src/ssconvert.c:692
+#: ../src/ssconvert.c:701
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Solver: %s\n"
 
-#: ../src/ssconvert.c:909
+#: ../src/ssconvert.c:930
+#, c-format
+msgid "Failed to set cell %s\n"
+msgstr "Ustawienie komórki %s się nie powiodło\n"
+
+#: ../src/ssconvert.c:960
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13776,7 +13785,7 @@ msgstr ""
 "Nieznany eksporter „%s”.\n"
 "„--list-exporters” wyświetli listę możliwych eksporterów.\n"
 
-#: ../src/ssconvert.c:929
+#: ../src/ssconvert.c:980
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13785,12 +13794,12 @@ msgstr ""
 "Nie można odgadnąć, którego eksportera użyć dla „%s”.\n"
 "„--list-exporters” wyświetli listę możliwych eksporterów.\n"
 
-#: ../src/ssconvert.c:935
+#: ../src/ssconvert.c:986
 #, c-format
 msgid "Using exporter %s\n"
 msgstr "Używanie eksportera %s\n"
 
-#: ../src/ssconvert.c:941
+#: ../src/ssconvert.c:992
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13799,7 +13808,7 @@ msgstr ""
 "Wymagana jest nazwa pliku wyjściowego lub podanie typu eksportu.\n"
 "„--list-exporters” wyświetli listę możliwych eksporterów.\n"
 
-#: ../src/ssconvert.c:951
+#: ../src/ssconvert.c:1002
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13808,26 +13817,26 @@ msgstr ""
 "Nieznany importer „%s”.\n"
 "„--list-importers” wyświetli listę możliwych importerów.\n"
 
-#: ../src/ssconvert.c:980 ../src/ssconvert.c:1127
+#: ../src/ssconvert.c:1035 ../src/ssconvert.c:1186
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Wczytanie %s się nie powiodło\n"
 
-#: ../src/ssconvert.c:1032
+#: ../src/ssconvert.c:1087
 #, c-format
 msgid "Resizing to %dx%d\n"
 msgstr "Zmienianie rozmiaru na %d×%d\n"
 
-#: ../src/ssconvert.c:1044
+#: ../src/ssconvert.c:1099
 #, c-format
 msgid "Resizing of sheet %s failed\n"
 msgstr "Zmiana rozmiaru arkusza %s się nie powiodła\n"
 
-#: ../src/ssconvert.c:1193 ../src/ssconvert.c:1270
+#: ../src/ssconvert.c:1252 ../src/ssconvert.c:1332
 msgid "INFILE [OUTFILE]"
 msgstr "PLIK-WEJŚCIOWY [PLIK-WYJŚCIOWY]"
 
-#: ../src/ssconvert.c:1212
+#: ../src/ssconvert.c:1271
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13838,12 +13847,12 @@ msgstr ""
 "Katalog z danymi := „%s”\n"
 "Katalog z bibliotekami := „%s”\n"
 
-#: ../src/ssconvert.c:1218
+#: ../src/ssconvert.c:1277
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr "Opcje --export-file-per-sheet i --merge-to są niezgodne\n"
 
-#: ../src/ssconvert.c:1268 ../src/ssdiff.c:993 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1330 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Użycie: %s [OPCJA…] %s\n"
@@ -17954,23 +17963,23 @@ msgstr "Wstaw formułę na stronie"
 msgid "Open %s"
 msgstr "Otwórz %s"
 
-#: ../src/widgets/gnm-filter-combo-view.c:168
+#: ../src/widgets/gnm-filter-combo-view.c:167
 msgid "(All)"
 msgstr "(Wszystko)"
 
-#: ../src/widgets/gnm-filter-combo-view.c:173
+#: ../src/widgets/gnm-filter-combo-view.c:172
 msgid "(Top 10...)"
 msgstr "(Górne 10…)"
 
-#: ../src/widgets/gnm-filter-combo-view.c:180
+#: ../src/widgets/gnm-filter-combo-view.c:179
 msgid "(Custom...)"
 msgstr "(Niestandardowe…)"
 
-#: ../src/widgets/gnm-filter-combo-view.c:258
+#: ../src/widgets/gnm-filter-combo-view.c:257
 msgid "(Blanks...)"
 msgstr "(Puste…)"
 
-#: ../src/widgets/gnm-filter-combo-view.c:264
+#: ../src/widgets/gnm-filter-combo-view.c:263
 msgid "(Non Blanks...)"
 msgstr "(Wypełnione…)"
 
@@ -18034,7 +18043,7 @@ msgstr "Wyświetlany rozmiar"
 msgid "Whether selected font size is shown in the label"
 msgstr "Czy wybrany rozmiar czcionki jest wyświetlany w etykiecie"
 
-#: ../src/widgets/gnm-sheet-slicer-combo-view.c:115
+#: ../src/widgets/gnm-sheet-slicer-combo-view.c:114
 msgid "<Blank>"
 msgstr "<Pusty>"
 
