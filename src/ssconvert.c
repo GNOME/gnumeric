@@ -931,6 +931,8 @@ apply_updates (WorkbookView *wbv)
 		return 1;
 	}
 
+	gnm_app_recalc ();
+
 	return 0;
 }
 
@@ -1277,9 +1279,6 @@ main (int argc, char const **argv)
 		g_printerr (_("--export-file-per-sheet and --merge-to are incompatible\n"));
 		return 1;
 	}
-
-	if (ssconvert_set_cells	&& ssconvert_set_cells[0])
-		ssconvert_recalc = TRUE; // Implied
 
 	if (ssconvert_object_export) {
 		// One file per object
