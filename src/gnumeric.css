@@ -247,6 +247,11 @@ button.itembar, button.itembar * {
   padding-right: 5px;
   padding-top: 2px;
   padding-bottom: 2px;
+  /* The font setup here shouldn't be needed, but we've had a report
+     indicating that it might be with newer Gtk+.  */
+  font-family: Sans;
+  font-style: normal;
+  font-variant: normal;
 }
 
 /* The whole column/row selected. */
