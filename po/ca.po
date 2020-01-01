@@ -2086,7 +2086,7 @@ msgstr "L'especificació del camp %d. ha finalitzat de manera inesperada."
 #: ../plugins/paradox/paradox.c:371
 #, c-format
 msgid "%d. field specification misses type."
-msgstr "Manca el tipus de l'especificació del camp %d.."
+msgstr "Manca el tipus de l'especificació del camp %d."
 
 #: ../plugins/paradox/paradox.c:439
 #, c-format
@@ -2507,7 +2507,7 @@ msgstr "Manca l'«E» de tancament"
 
 #: ../plugins/uihello/plugin.xml.in.h:1
 msgid "UI Hello"
-msgstr "interfície d'usuari hola"
+msgstr "Interfície d'usuari hola"
 
 #: ../plugins/uihello/plugin.xml.in.h:2
 msgid "Hello World plugin using ui service"
@@ -3452,7 +3452,7 @@ msgstr "Segons abans del desat automàtic"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:27
 #: ../src/dialogs/dialog-preferences.c:1021
 msgid "Horizontal DPI"
-msgstr "PPP horitzontal"
+msgstr "PPP horitzontals"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:28
 msgid "Screen resolution in the horizontal direction."
@@ -3778,7 +3778,7 @@ msgid ""
 msgstr ""
 "En activar aquesta opció els botons d'ordenació de la barra d'eines fan una "
 "ordenació que distingeix entre majúscules i minúscules, i activarà l'estat "
-"inicial del quadre de verificació per cercar diferenciant entre majúscules i "
+"inicial de la casella de selecció per cercar diferenciant entre majúscules i "
 "minúscules en el diàleg d'ordenació."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
@@ -3794,7 +3794,7 @@ msgid ""
 msgstr ""
 "En activar aquesta opció, els botons d'ordenació de la barra d'eines "
 "preserven els formats de les cel·les quan es faci una ordenació, i es "
-"determina l'estat inicial del quadre de preservar formats en el diàleg "
+"determina l'estat inicial de la casella de selecció de preservar formats en el diàleg "
 "d'ordenació."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:79
@@ -11539,7 +11539,7 @@ msgstr "Cerca només al rang especificat"
 
 #: ../src/dialogs/search.ui.h:18
 msgid "Search cells containing"
-msgstr "Cerca al contingut de les cel·les"
+msgstr "Cerca les cel·les que contenen"
 
 #: ../src/dialogs/search.ui.h:20
 msgid "Find text within string values"
@@ -11588,7 +11588,7 @@ msgstr ""
 
 #: ../src/dialogs/search.ui.h:37
 msgid "Search text is"
-msgstr "La cerca de text"
+msgstr "El text de cerca és"
 
 #: ../src/dialogs/search.ui.h:42
 #, fuzzy
@@ -13732,7 +13732,7 @@ msgstr "Propietats de la barra de desplaçament"
 #: ../src/sheet-object-widget.c:2347
 #, c-format
 msgid "CheckBox %d"
-msgstr "Quadre de verificació %d"
+msgstr "Casella de selecció %d"
 
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:2392
@@ -15167,7 +15167,7 @@ msgstr "Full nou"
 
 #: ../src/tools/dao.c:186
 msgid "New Workbook"
-msgstr "Nou llibre de treball"
+msgstr "Llibre de treball nou"
 
 #: ../src/tools/dao.c:1004
 msgid "Gnumeric "
@@ -16244,7 +16244,7 @@ msgstr "Insereix el nom del full actual"
 
 #: ../src/wbc-gtk-actions.c:2324
 msgid "_New View..."
-msgstr "_Nova vista..."
+msgstr "_Vista nova..."
 
 #: ../src/wbc-gtk-actions.c:2325
 msgid "Create a new view of the workbook"
@@ -17475,11 +17475,11 @@ msgstr "Crea un marc"
 
 #: ../src/wbc-gtk-actions.c:3325
 msgid "Checkbox"
-msgstr "Quadre de verificació"
+msgstr "Casella de selecció"
 
 #: ../src/wbc-gtk-actions.c:3326
 msgid "Create a checkbox"
-msgstr "Crea un quadre de verificació"
+msgstr "Crea una casella de selecció"
 
 #: ../src/wbc-gtk-actions.c:3331
 msgid "Scrollbar"
