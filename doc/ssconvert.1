@@ -373,6 +373,16 @@ specifying the semicolon as the separator character:
 .PP
 \fBssconvert\fR \fB-O 'separator=; format=raw'\fR \fIsamples/excel/statfuns.xls\fR \fIstatfuns.txt\fR
 .PP
+To export the charts from the input file \fIinput.gnumeric\fR to numbered
+SVG files:
+.PP
+\fBssconvert\fR \fB\-\-export\-graphs\fR \fIinput.gnumeric\fR \fI'output.%n.svg'\fR
+.PP
+To export the charts from the input file \fIinput.gnumeric\fR to numbered
+PNG files:
+.PP
+\fBssconvert\fR \fB\-\-export\-type=png\fR \fB\-\-export\-graphs\fR \fIinput.gnumeric\fR \fI'output.%n.png'\fR
+.PP
 
 .SH LICENSE
 
