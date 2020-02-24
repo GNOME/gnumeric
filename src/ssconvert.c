@@ -1021,7 +1021,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		wbv = workbook_view_new_from_uri (infile, fo,
 						  io_context,
 						  ssconvert_import_encoding);
-		if (apply_updates (wbv)) {
+		if ((ssconvert_set_cells != NULL) && apply_updates (wbv)) {
 			res = 1;
 			goto out;
 		}

@@ -1,3 +1,7 @@
+2020-02-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/ssconvert.c (convert):  don't crash if ssconvert_set_cells is NULL.
+
 2019-11-12  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnm_restore_window_geometry): Something changed
