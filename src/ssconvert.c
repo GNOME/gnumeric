@@ -899,6 +899,9 @@ apply_updates (WorkbookView *wbv)
 	unsigned ui;
 	GnmParsePos pp;
 
+	if (!ssconvert_set_cells)
+		return 0;
+
 	pp.wb = wb;
 	pp.sheet = workbook_sheet_by_index (wb, 0);
 	pp.eval.col = 0;
@@ -1021,7 +1024,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		wbv = workbook_view_new_from_uri (infile, fo,
 						  io_context,
 						  ssconvert_import_encoding);
-		if ((ssconvert_set_cells != NULL) && apply_updates (wbv)) {
+		if (apply_updates (wbv)) {
 			res = 1;
 			goto out;
 		}

@@ -1,6 +1,12 @@
+2020-03-03  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (apply_updates): Move NULL check into here so
+	all callers are covered.
+
 2020-02-24  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/ssconvert.c (convert):  don't crash if ssconvert_set_cells is NULL.
+	* src/ssconvert.c (convert): don't crash if ssconvert_set_cells is
+	NULL.
 
 2019-11-12  Morten Welinder  <terra@gnome.org>
 
