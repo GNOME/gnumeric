@@ -10267,7 +10267,7 @@ msgstr "_Deli"
 
 #: ../src/dialogs/paste-special.ui.h:18
 msgid "<b>Region operation</b>"
-msgstr "<b>Izbran obseg</>"
+msgstr "<b>Izbran obseg</b>"
 
 #. Region operation while paste
 #: ../src/dialogs/paste-special.ui.h:20
