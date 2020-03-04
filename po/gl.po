@@ -7635,7 +7635,7 @@ msgstr "<b>Autor antigo:</b>"
 
 #: ../src/dialogs/cell-comment.ui.h:3
 msgid "<b>New Author:</b>"
-msgstr "<b>Autor novo:</a>"
+msgstr "<b>Autor novo:</b>"
 
 #: ../src/dialogs/cell-comment.ui.h:4
 msgid "_Wrap in properties window"
@@ -9395,7 +9395,7 @@ msgstr ""
 
 #: ../src/dialogs/hf-dt-format.ui.h:1
 msgid "<b>Select a date format:</b>"
-msgstr "Seleccionar un formato de data:</b>"
+msgstr "<b>Seleccionar un formato de data:</b>"
 
 #: ../src/dialogs/histogram.ui.h:1 ../src/tools/analysis-histogram.c:158
 #: ../src/tools/analysis-histogram.c:469 ../src/tools/analysis-histogram.c:472
@@ -10073,7 +10073,7 @@ msgstr "Área de impresión"
 
 #: ../src/dialogs/print.ui.h:42
 msgid "<b>Print</b>"
-msgstr "<a>Imprimir</b>"
+msgstr "<b>Imprimir</b>"
 
 #: ../src/dialogs/print.ui.h:43
 msgid "<b>Page Order</b>"
