@@ -7306,7 +7306,7 @@ msgstr "75% 회색"
 
 #: ../src/dialogs/cell-format.ui.h:12
 msgid "<b>Background</b>"
-msgstr "<b바탕색</b>"
+msgstr "<b>바탕색</b>"
 
 #: ../src/dialogs/cell-format.ui.h:13
 msgid "<b>Control</b>"
