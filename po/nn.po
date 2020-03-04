@@ -7483,7 +7483,7 @@ msgstr "Førehandsvisning"
 
 #: ../src/dialogs/cell-format.ui.h:20
 msgid "<b>Vertical alignment</b>"
-msgstr "</b>Loddrett justering</b>"
+msgstr "<b>Loddrett justering</b>"
 
 #: ../src/dialogs/cell-format.ui.h:21
 msgid "<span weight=\"bold\">Criteria</span>"
