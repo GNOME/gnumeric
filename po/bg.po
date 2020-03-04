@@ -10636,11 +10636,11 @@ msgid ""
 "   <span weight=\"bold\">Rounds</span>"
 msgstr ""
 "   \n"
-"   <span·weight=\"bold\">Закръгляния</span>"
+"   <span weight=\"bold\">Закръгляния</span>"
 
 #: ../src/dialogs/simulation.ui.h:3
 msgid "   <span weight=\"bold\">Limits</span>"
-msgstr "   <span·weight=\"bold\">Ограничения</span>"
+msgstr "   <span weight=\"bold\">Ограничения</span>"
 
 #: ../src/dialogs/simulation.ui.h:4
 #, fuzzy
