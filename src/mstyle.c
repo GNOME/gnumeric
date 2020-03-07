@@ -26,6 +26,7 @@
 #include <value.h>
 #include <gutils.h>
 #include <ranges.h>
+#include <sheet.h>
 #include <gnumeric-conf.h>
 #include <goffice/goffice.h>
 #include <string.h>
@@ -2412,7 +2413,8 @@ gnm_style_unlink_dependents (GnmStyle *style, GnmRange const *r)
 		GnmDependent *dep = g_ptr_array_index (style->deps, ui);
 		GnmCellPos const *pos = dependent_pos (dep);
 
-		if (range_contains (r, pos->col, pos->row)) {
+		if (dep->sheet->being_destructed ||
+		    range_contains (r, pos->col, pos->row)) {
 			if (debug_style_deps ())
 				g_printerr ("Unlinking %s for %p\n",
 					    cellpos_as_string (pos), style);

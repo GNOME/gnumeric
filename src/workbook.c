@@ -169,9 +169,14 @@ workbook_dispose (GObject *wb_object)
 		Sheet *sheet = ptr->data;
 		GnmRange r;
 
+		sheet->being_destructed = TRUE;
+
 		sheet_destroy_contents (sheet);
 		range_init_full_sheet (&r, sheet);
+
 		sheet_style_set_range (sheet, &r, sheet_style_default (sheet));
+
+		sheet->being_destructed = FALSE;
 	}
 
 	/* Now remove the sheets themselves */

@@ -38,6 +38,7 @@ struct _Sheet {
 	Workbook    *workbook;
 	gboolean    being_invalidated;
 	gboolean    being_constructed;
+	gboolean    being_destructed;
 
 	GOUndoGroup *revive;
 
