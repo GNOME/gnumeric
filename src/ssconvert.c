@@ -895,13 +895,14 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 static int
 apply_updates (WorkbookView *wbv)
 {
-	Workbook *wb = wb_view_get_workbook (wbv);
+	Workbook *wb;
 	unsigned ui;
 	GnmParsePos pp;
 
 	if (!ssconvert_set_cells)
 		return 0;
 
+	wb = wb_view_get_workbook (wbv);
 	pp.wb = wb;
 	pp.sheet = workbook_sheet_by_index (wb, 0);
 	pp.eval.col = 0;
@@ -1024,7 +1025,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		wbv = workbook_view_new_from_uri (infile, fo,
 						  io_context,
 						  ssconvert_import_encoding);
-		if (apply_updates (wbv)) {
+		if (wbv && apply_updates (wbv)) {
 			res = 1;
 			goto out;
 		}
@@ -1178,7 +1179,7 @@ clipboard_export (const char *inarg, char const *outarg, GOCmdContext *cc)
 	wbv = workbook_view_new_from_uri (infile, fo,
 					  io_context,
 					  ssconvert_import_encoding);
-	if (apply_updates (wbv)) {
+	if (wbv && apply_updates (wbv)) {
 		res = 1;
 		goto out;
 	}
