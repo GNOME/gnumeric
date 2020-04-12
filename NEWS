@@ -5,6 +5,7 @@ Morten:
 	* Add "--set CELL=CONTENTS" option to ssconvert.
 	* Improve tests.
 	* Improve speed on exit with lots of conditional formatting.
+	* Improve error message [#472]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.46

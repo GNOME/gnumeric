@@ -1401,10 +1401,17 @@ workbook_view_new_from_input (GsfInput *input,
 					(new_wb, uri);
 		}
 	} else {
-		if (io_context)
+		if (io_context) {
+			char *bn = go_basename_from_uri (uri);
+			char *errtxt = g_strdup_printf
+				(_("Unsupported file format for file \"%s\""),
+				 bn);
 			go_cmd_context_error_import
 				(GO_CMD_CONTEXT (io_context),
-				 _("Unsupported file format."));
+				 errtxt);
+			g_free (errtxt);
+			g_free (bn);
+		}
 	}
 
 	return new_wbv;
