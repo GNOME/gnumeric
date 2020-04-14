@@ -867,7 +867,6 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 					g_printerr ("Failed to write %s: %s\n", tmpfile, err->message);
 					g_error_free (err);
 					res = 1;
-					g_free (tmpfile);
 				}
 
 				g_free (tmpfile);

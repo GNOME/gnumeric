@@ -1,3 +1,9 @@
+2020-04-13  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-graph.c (gnm_sog_write_image): Fix criticals.
+
+	* src/ssconvert.c (do_split_save): Fix double-free.
+
 2020-04-12  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (clipboard_export): Avoid critical.

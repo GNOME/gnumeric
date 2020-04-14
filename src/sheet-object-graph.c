@@ -265,6 +265,7 @@ gnm_sog_write_image (SheetObject const *so, char const *format, double resolutio
 	gboolean res = FALSE;
 	double coords[4];
 	double w, h;
+	GOImageFormat imfmt;
 
 	if (so->sheet) {
 		sheet_object_position_pts_get (GNM_SO (sog), coords);
@@ -279,8 +280,16 @@ gnm_sog_write_image (SheetObject const *so, char const *format, double resolutio
 
 	g_return_if_fail (w > 0 && h > 0);
 
-	res = gog_graph_export_image (sog->graph, go_image_get_format_from_name (format),
-				      output, resolution, resolution);
+	imfmt = go_image_get_format_from_name (format);
+	if (imfmt == GO_IMAGE_FORMAT_UNKNOWN) {
+		res = FALSE;
+		if (err)
+			*err = g_error_new (gsf_output_error_id (), 0,
+					    _("Unknown image format"));
+	} else {
+		res = gog_graph_export_image (sog->graph, imfmt,
+					      output, resolution, resolution);
+	}
 
 	if (!res && err && *err == NULL)
 		*err = g_error_new (gsf_output_error_id (), 0,
