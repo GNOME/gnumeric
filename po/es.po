@@ -15,21 +15,21 @@
 # Nicolás Satragno <nsatragno@gnome.org>, 2012.
 # Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012, 2013, 2014.
 # Joaquín Rosales <globojorro@gmail.com>, 2018.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011-2019.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2019-11-14 00:38+0000\n"
-"PO-Revision-Date: 2019-11-15 13:04+0100\n"
+"POT-Creation-Date: 2020-04-14 02:19+0000\n"
+"PO-Revision-Date: 2020-04-14 12:48+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 3.34.0\n"
+"X-Generator: Gtranslator 3.36.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
@@ -2478,7 +2478,7 @@ msgstr "Falta la «E» que cierra"
 #: ../src/dialogs/dialog-search.c:437 ../src/dialogs/dialog-stf-export.c:594
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
 #: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:577
-#: ../src/workbook.c:1052 ../src/workbook.c:1082
+#: ../src/workbook.c:1057 ../src/workbook.c:1087
 msgid "Sheet"
 msgstr "Hoja"
 
@@ -7496,7 +7496,7 @@ msgid "Right-to-left"
 msgstr "Derecha a izquierda"
 
 #: ../src/dialogs/dialog-sheet-compare.c:408
-#: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:767
+#: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:776
 msgid "Auto"
 msgstr "Auto"
 
@@ -12897,7 +12897,7 @@ msgstr "Salir inmediatamente después de cargar los libros seleccionados"
 msgid "[FILE ...]"
 msgstr "[ARCHIVO  …]"
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1264 ../src/ssdiff.c:936
+#: ../src/main-application.c:127 ../src/ssconvert.c:1269 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
 #, c-format
 msgid ""
@@ -13495,7 +13495,7 @@ msgstr "_Eliminar"
 msgid "Print"
 msgstr "Omprimir"
 
-#: ../src/sheet-object-component.c:182 ../src/sheet-object-graph.c:287
+#: ../src/sheet-object-component.c:182 ../src/sheet-object-graph.c:296
 #: ../src/sheet-object-image.c:287
 #, c-format
 msgid "Unknown failure while saving image"
@@ -13505,40 +13505,46 @@ msgstr "Fallo desconocido al guardar imagen"
 msgid "Save as"
 msgstr "Guardar como"
 
-#: ../src/sheet-object-component.c:268 ../src/sheet-object-graph.c:398
+#: ../src/sheet-object-component.c:268 ../src/sheet-object-graph.c:407
 #: ../src/sheet-object-image.c:344
 msgid "_Save As Image"
 msgstr "_Guardar como imagen"
 
-#: ../src/sheet-object-graph.c:399
+#: ../src/sheet-object-graph.c:288
+#, c-format
+#| msgid "Unknown error"
+msgid "Unknown image format"
+msgstr "Formato de imagen desconocido"
+
+#: ../src/sheet-object-graph.c:408
 msgid "Open in _New Window"
 msgstr "Abrir en una ventana _nueva"
 
-#: ../src/sheet-object-graph.c:400
+#: ../src/sheet-object-graph.c:409
 msgid "Copy to New Graph S_heet"
 msgstr "Copiar a una _hoja gráfica nueva"
 
-#: ../src/sheet-object-graph.c:763
+#: ../src/sheet-object-graph.c:772
 msgid "Series as:"
 msgstr "Series como:"
 
 #. Translators: Series as "Columns"
-#: ../src/sheet-object-graph.c:769
+#: ../src/sheet-object-graph.c:778
 msgctxt "graph"
 msgid "Columns"
 msgstr "Columnas"
 
 #. Translators: Series as "Rows"
-#: ../src/sheet-object-graph.c:771
+#: ../src/sheet-object-graph.c:780
 msgctxt "graph"
 msgid "Rows"
 msgstr "Filas"
 
-#: ../src/sheet-object-graph.c:775
+#: ../src/sheet-object-graph.c:784
 msgid "Use first series as shared abscissa"
 msgstr "Usar las primeras series como abscisa compartida"
 
-#: ../src/sheet-object-graph.c:778
+#: ../src/sheet-object-graph.c:787
 msgid "New graph sheet"
 msgstr "Hoja gráfica nueva"
 
@@ -13833,13 +13839,12 @@ msgstr "Se ejecutó el resolutor, pero falló"
 msgid "Solver: %s\n"
 msgstr "Resolutor: %s\n"
 
-#: ../src/ssconvert.c:930
+#: ../src/ssconvert.c:933
 #, c-format
-#| msgid "Failed to define name: %s"
 msgid "Failed to set cell %s\n"
 msgstr "Falló al definir la celda: %s\n"
 
-#: ../src/ssconvert.c:960
+#: ../src/ssconvert.c:965
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13848,7 +13853,7 @@ msgstr ""
 "Exportador desconocido «%s».\n"
 "Pruebe con --list-exporters para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:980
+#: ../src/ssconvert.c:985
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13857,12 +13862,12 @@ msgstr ""
 "No se pudo adivinar el exportador que usar para «%s».\n"
 "Pruebe --list-exporters para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:986
+#: ../src/ssconvert.c:991
 #, c-format
 msgid "Using exporter %s\n"
 msgstr "Usando exportador %s\n"
 
-#: ../src/ssconvert.c:992
+#: ../src/ssconvert.c:997
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13872,7 +13877,7 @@ msgstr ""
 "explícito.\n"
 "Pruebe --list-exportes para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:1002
+#: ../src/ssconvert.c:1007
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13881,26 +13886,26 @@ msgstr ""
 "Importador desconocido «%s».\n"
 "Pruebe con --list-importers para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:1035 ../src/ssconvert.c:1186
+#: ../src/ssconvert.c:1040 ../src/ssconvert.c:1191
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Falló al cargar %s\n"
 
-#: ../src/ssconvert.c:1087
+#: ../src/ssconvert.c:1092
 #, c-format
 msgid "Resizing to %dx%d\n"
 msgstr "Redimensionando a %dx%d\n"
 
-#: ../src/ssconvert.c:1099
+#: ../src/ssconvert.c:1104
 #, c-format
 msgid "Resizing of sheet %s failed\n"
 msgstr "Falló el redimensionado de la hoja %s\n"
 
-#: ../src/ssconvert.c:1252 ../src/ssconvert.c:1332
+#: ../src/ssconvert.c:1257 ../src/ssconvert.c:1334
 msgid "INFILE [OUTFILE]"
 msgstr "ARCHIVO_ENTRADA [ARCHIVO_SALIDA]"
 
-#: ../src/ssconvert.c:1271
+#: ../src/ssconvert.c:1276
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13911,12 +13916,12 @@ msgstr ""
 "datadir := «%s»\n"
 "libdir := «%s»\n"
 
-#: ../src/ssconvert.c:1277
+#: ../src/ssconvert.c:1282
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr "--export-file-per-sheet y --merge-to son incompatibles\n"
 
-#: ../src/ssconvert.c:1330 ../src/ssdiff.c:993 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1332 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Uso: %s [OPCIÓN…] %s\n"
@@ -18331,31 +18336,33 @@ msgid "Can't open '%s' for writing"
 msgstr "No se puede abrir «%s» para escritura"
 
 #: ../src/workbook-view.c:1407
-msgid "Unsupported file format."
-msgstr "Formato de archivo no soportado."
+#, c-format
+#| msgid "Unsupported file format."
+msgid "Unsupported file format for file \"%s\""
+msgstr "Formato de archivo no soportado para el archivo «%s»"
 
-#: ../src/workbook-view.c:1456
+#: ../src/workbook-view.c:1463
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Ocurrió un error inexplicable al abrir %s"
 
-#: ../src/workbook.c:309
+#: ../src/workbook.c:314
 #, c-format
 msgid "Book%d.%s"
 msgstr "Libro%d.%s"
 
-#: ../src/workbook.c:1082
+#: ../src/workbook.c:1087
 msgid "Graph"
 msgstr "Gráfico"
 
-#: ../src/workbook.c:1608
+#: ../src/workbook.c:1613
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
 msgstr[0] "Renombrando hoja"
 msgstr[1] "Renombrando %d hojas"
 
-#: ../src/workbook.c:1610
+#: ../src/workbook.c:1615
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -18366,18 +18373,18 @@ msgstr[1] "Añadiendo %d hojas"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1616
+#: ../src/workbook.c:1621
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
 msgstr[0] "Insertando hoja"
 msgstr[1] "Insertando %d hojas"
 
-#: ../src/workbook.c:1618
+#: ../src/workbook.c:1623
 msgid "Changing sheet tab colors"
 msgstr "Cambiando colores de pestaña de la hoja"
 
-#: ../src/workbook.c:1620
+#: ../src/workbook.c:1625
 msgid "Changing sheet properties"
 msgstr "Cambiando propiedades de la hoja"
 
@@ -18385,18 +18392,18 @@ msgstr "Cambiando propiedades de la hoja"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1627
+#: ../src/workbook.c:1632
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
 msgstr[0] "Eliminando hoja"
 msgstr[1] "Eliminando %d hojas"
 
-#: ../src/workbook.c:1629
+#: ../src/workbook.c:1634
 msgid "Changing sheet order"
 msgstr "Cambiando orden de hoja"
 
-#: ../src/workbook.c:1631
+#: ../src/workbook.c:1636
 msgid "Reorganizing Sheets"
 msgstr "Reorganizando hojas"
 
