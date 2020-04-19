@@ -1190,7 +1190,7 @@ gnm_go_data_matrix_load_size (GODataMatrix *dat)
 	int old_rows = dat->size.rows, old_columns = dat->size.columns;
 
 	eval_pos_init_dep (&ep, &mat->dep);
-	if (mat->val == NULL) {
+	if (mat->val == NULL && mat->dep.texpr) {
 		mat->val = gnm_expr_top_eval (mat->dep.texpr, &ep,
 			GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
 	}
