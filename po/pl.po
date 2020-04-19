@@ -1,19 +1,19 @@
 # Polish translation for gnumeric.
-# Copyright © 1999-2019 the gnumeric authors.
+# Copyright © 1999-2020 the gnumeric authors.
 # This file is distributed under the same license as the gnumeric package.
 # Zbigniew Chyla <zbigniew.chyla@gmail.com>, 1999-2002.
 # Artur Flinta <aflinta@at.kernel.pl>, 2003.
 # Wadim Dziedzic <wdziedzic@aviary.pl>, 2008.
 # Robert Wojewódzki <robwoj44@poczta.onet.pl>, 2013.
-# Piotr Drąg <piotrdrag@gmail.com>, 2016-2019.
-# Aviary.pl <community-poland@mozilla.org>, 2016-2019.
+# Piotr Drąg <piotrdrag@gmail.com>, 2016-2020.
+# Aviary.pl <community-poland@mozilla.org>, 2016-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-18 14:40+0100\n"
-"PO-Revision-Date: 2019-11-18 14:42+0100\n"
+"POT-Creation-Date: 2020-04-19 10:41+0200\n"
+"PO-Revision-Date: 2020-04-19 10:42+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -2450,7 +2450,7 @@ msgstr "Brak zamykające „E”"
 #: ../src/dialogs/dialog-search.c:437 ../src/dialogs/dialog-stf-export.c:594
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
 #: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:577
-#: ../src/workbook.c:1052 ../src/workbook.c:1082
+#: ../src/workbook.c:1057 ../src/workbook.c:1087
 msgid "Sheet"
 msgstr "Arkusz"
 
@@ -7429,7 +7429,7 @@ msgid "Right-to-left"
 msgstr "Od prawej do lewej"
 
 #: ../src/dialogs/dialog-sheet-compare.c:408
-#: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:767
+#: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:776
 msgid "Auto"
 msgstr "Automatycznie"
 
@@ -12818,7 +12818,7 @@ msgstr "Kończy działanie natychmiast po wczytaniu wybranych zeszytów"
 msgid "[FILE ...]"
 msgstr "[PLIK…]"
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1264 ../src/ssdiff.c:936
+#: ../src/main-application.c:127 ../src/ssconvert.c:1269 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
 #, c-format
 msgid ""
@@ -13435,7 +13435,7 @@ msgstr "_Usuń"
 msgid "Print"
 msgstr "Wydrukuj"
 
-#: ../src/sheet-object-component.c:182 ../src/sheet-object-graph.c:287
+#: ../src/sheet-object-component.c:182 ../src/sheet-object-graph.c:296
 #: ../src/sheet-object-image.c:287
 #, c-format
 msgid "Unknown failure while saving image"
@@ -13445,40 +13445,45 @@ msgstr "Nieznane niepowodzenie podczas zapisywania obrazu"
 msgid "Save as"
 msgstr "Zapisz jako"
 
-#: ../src/sheet-object-component.c:268 ../src/sheet-object-graph.c:398
+#: ../src/sheet-object-component.c:268 ../src/sheet-object-graph.c:407
 #: ../src/sheet-object-image.c:344
 msgid "_Save As Image"
 msgstr "_Zapisz jako obraz"
 
-#: ../src/sheet-object-graph.c:399
+#: ../src/sheet-object-graph.c:288
+#, c-format
+msgid "Unknown image format"
+msgstr "Nieznany format obrazu"
+
+#: ../src/sheet-object-graph.c:408
 msgid "Open in _New Window"
 msgstr "Otwórz w _nowym oknie"
 
-#: ../src/sheet-object-graph.c:400
+#: ../src/sheet-object-graph.c:409
 msgid "Copy to New Graph S_heet"
 msgstr "Skopiuj do _nowego arkusza wykresu"
 
-#: ../src/sheet-object-graph.c:763
+#: ../src/sheet-object-graph.c:772
 msgid "Series as:"
 msgstr "Serie jako:"
 
 #. Translators: Series as "Columns"
-#: ../src/sheet-object-graph.c:769
+#: ../src/sheet-object-graph.c:778
 msgctxt "graph"
 msgid "Columns"
 msgstr "Kolumny"
 
 #. Translators: Series as "Rows"
-#: ../src/sheet-object-graph.c:771
+#: ../src/sheet-object-graph.c:780
 msgctxt "graph"
 msgid "Rows"
 msgstr "Rzędy"
 
-#: ../src/sheet-object-graph.c:775
+#: ../src/sheet-object-graph.c:784
 msgid "Use first series as shared abscissa"
 msgstr "Pierwsze serie jako wspólna odcięta"
 
-#: ../src/sheet-object-graph.c:778
+#: ../src/sheet-object-graph.c:787
 msgid "New graph sheet"
 msgstr "Nowy arkusz wykresu"
 
@@ -13771,12 +13776,12 @@ msgstr "Solver został uruchomiony, ale się nie powiódł"
 msgid "Solver: %s\n"
 msgstr "Solver: %s\n"
 
-#: ../src/ssconvert.c:930
+#: ../src/ssconvert.c:933
 #, c-format
 msgid "Failed to set cell %s\n"
 msgstr "Ustawienie komórki %s się nie powiodło\n"
 
-#: ../src/ssconvert.c:960
+#: ../src/ssconvert.c:965
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13785,7 +13790,7 @@ msgstr ""
 "Nieznany eksporter „%s”.\n"
 "„--list-exporters” wyświetli listę możliwych eksporterów.\n"
 
-#: ../src/ssconvert.c:980
+#: ../src/ssconvert.c:985
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13794,12 +13799,12 @@ msgstr ""
 "Nie można odgadnąć, którego eksportera użyć dla „%s”.\n"
 "„--list-exporters” wyświetli listę możliwych eksporterów.\n"
 
-#: ../src/ssconvert.c:986
+#: ../src/ssconvert.c:991
 #, c-format
 msgid "Using exporter %s\n"
 msgstr "Używanie eksportera %s\n"
 
-#: ../src/ssconvert.c:992
+#: ../src/ssconvert.c:997
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13808,7 +13813,7 @@ msgstr ""
 "Wymagana jest nazwa pliku wyjściowego lub podanie typu eksportu.\n"
 "„--list-exporters” wyświetli listę możliwych eksporterów.\n"
 
-#: ../src/ssconvert.c:1002
+#: ../src/ssconvert.c:1007
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13817,26 +13822,26 @@ msgstr ""
 "Nieznany importer „%s”.\n"
 "„--list-importers” wyświetli listę możliwych importerów.\n"
 
-#: ../src/ssconvert.c:1035 ../src/ssconvert.c:1186
+#: ../src/ssconvert.c:1040 ../src/ssconvert.c:1191
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Wczytanie %s się nie powiodło\n"
 
-#: ../src/ssconvert.c:1087
+#: ../src/ssconvert.c:1092
 #, c-format
 msgid "Resizing to %dx%d\n"
 msgstr "Zmienianie rozmiaru na %d×%d\n"
 
-#: ../src/ssconvert.c:1099
+#: ../src/ssconvert.c:1104
 #, c-format
 msgid "Resizing of sheet %s failed\n"
 msgstr "Zmiana rozmiaru arkusza %s się nie powiodła\n"
 
-#: ../src/ssconvert.c:1252 ../src/ssconvert.c:1332
+#: ../src/ssconvert.c:1257 ../src/ssconvert.c:1334
 msgid "INFILE [OUTFILE]"
 msgstr "PLIK-WEJŚCIOWY [PLIK-WYJŚCIOWY]"
 
-#: ../src/ssconvert.c:1271
+#: ../src/ssconvert.c:1276
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13847,12 +13852,12 @@ msgstr ""
 "Katalog z danymi := „%s”\n"
 "Katalog z bibliotekami := „%s”\n"
 
-#: ../src/ssconvert.c:1277
+#: ../src/ssconvert.c:1282
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr "Opcje --export-file-per-sheet i --merge-to są niezgodne\n"
 
-#: ../src/ssconvert.c:1330 ../src/ssdiff.c:993 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1332 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Użycie: %s [OPCJA…] %s\n"
@@ -18240,24 +18245,25 @@ msgid "Can't open '%s' for writing"
 msgstr "Nie można otworzyć „%s” do zapisania"
 
 #: ../src/workbook-view.c:1407
-msgid "Unsupported file format."
-msgstr "Nieobsługiwany format pliku."
+#, c-format
+msgid "Unsupported file format for file \"%s\""
+msgstr "Nieobsługiwany format pliku dla „%s”"
 
-#: ../src/workbook-view.c:1456
+#: ../src/workbook-view.c:1463
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Wystąpił nierozpoznany błąd podczas otwierania %s"
 
-#: ../src/workbook.c:309
+#: ../src/workbook.c:314
 #, c-format
 msgid "Book%d.%s"
 msgstr "Zeszyt%d.%s"
 
-#: ../src/workbook.c:1082
+#: ../src/workbook.c:1087
 msgid "Graph"
 msgstr "Wykres"
 
-#: ../src/workbook.c:1608
+#: ../src/workbook.c:1613
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
@@ -18265,7 +18271,7 @@ msgstr[0] "Zmienianie nazwy arkusza"
 msgstr[1] "Zmienianie nazwy %d arkuszy"
 msgstr[2] "Zmienianie nazwy %d arkuszy"
 
-#: ../src/workbook.c:1610
+#: ../src/workbook.c:1615
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -18277,7 +18283,7 @@ msgstr[2] "Dodawanie %d arkuszy"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1616
+#: ../src/workbook.c:1621
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
@@ -18285,11 +18291,11 @@ msgstr[0] "Wstawianie arkusza"
 msgstr[1] "Wstawianie %d arkuszy"
 msgstr[2] "Wstawianie %d arkuszy"
 
-#: ../src/workbook.c:1618
+#: ../src/workbook.c:1623
 msgid "Changing sheet tab colors"
 msgstr "Zmienianie kolorów kart arkusza"
 
-#: ../src/workbook.c:1620
+#: ../src/workbook.c:1625
 msgid "Changing sheet properties"
 msgstr "Zmienianie właściwości arkusza"
 
@@ -18297,7 +18303,7 @@ msgstr "Zmienianie właściwości arkusza"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1627
+#: ../src/workbook.c:1632
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
@@ -18305,11 +18311,11 @@ msgstr[0] "Usuwanie arkusza"
 msgstr[1] "Usuwanie %d arkuszy"
 msgstr[2] "Usuwanie %d arkuszy"
 
-#: ../src/workbook.c:1629
+#: ../src/workbook.c:1634
 msgid "Changing sheet order"
 msgstr "Zmienianie kolejności arkuszy"
 
-#: ../src/workbook.c:1631
+#: ../src/workbook.c:1636
 msgid "Reorganizing Sheets"
 msgstr "Reorganizowanie arkuszy"
 
