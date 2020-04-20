@@ -1,3 +1,8 @@
+2020-04-20  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (resolve_template): Expand %o to sheet object
+	name, if present, or the empty string.
+
 2020-04-19  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (list_image_formats): New function, handling new

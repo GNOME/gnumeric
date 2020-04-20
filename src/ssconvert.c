@@ -631,7 +631,8 @@ merge (Workbook *wb, char const *inputs[],
 }
 
 static char *
-resolve_template (const char *template, Sheet *sheet, unsigned n)
+resolve_template (const char *template,
+		  Sheet *sheet, SheetObject *so, unsigned n)
 {
 	GString *s = g_string_new (NULL);
 	while (1) {
@@ -653,6 +654,16 @@ resolve_template (const char *template, Sheet *sheet, unsigned n)
 			case 's':
 				g_string_append (s, sheet->name_unquoted);
 				break;
+			case 'o': {
+				char *name = NULL;
+				if (so)
+					g_object_get (so, "name", &name, NULL);
+				if (name) {
+					g_string_append (s, name);
+					g_free (name);
+				}
+				break;
+			}
 			case '%':
 				g_string_append_c (s, '%');
 				break;
@@ -914,7 +925,7 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 						  ssconvert_object_export_type))
 					continue;
 
-				tmpfile = resolve_template (template, sheet, file_idx++);
+				tmpfile = resolve_template (template, sheet, so, file_idx++);
 				sheet_object_save_as_image (so, ssconvert_image_format, resolution,
 							    tmpfile, &err);
 
@@ -928,7 +939,7 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 			}
 			g_slist_free (objs);
 		} else {
-			char *tmpfile =	resolve_template (template, sheet, file_idx++);
+			char *tmpfile =	resolve_template (template, sheet, NULL, file_idx++);
 			res = !workbook_view_save_as (wbv, fs, tmpfile, cc);
 			g_free (tmpfile);
 		}
