@@ -53,6 +53,7 @@ static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_verbose = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
 static gboolean ssconvert_list_importers = FALSE;
+static gboolean ssconvert_list_image_formats = FALSE;
 static gboolean ssconvert_one_file_per_sheet = FALSE;
 static gboolean ssconvert_object_export = FALSE;
 static GType ssconvert_object_export_type;
@@ -150,6 +151,13 @@ static const GOptionEntry ssconvert_options [] = {
 		"export-graphs", 0,
 		0, G_OPTION_ARG_NONE, &ssconvert_object_export,
 		N_("Export graphs"),
+		NULL
+	},
+
+	{
+		"list-image-formats", 0,
+		0, G_OPTION_ARG_NONE, &ssconvert_list_image_formats,
+		N_("List the available image formats"),
 		NULL
 	},
 
@@ -404,6 +412,32 @@ list_them (GList *them,
 
 	g_list_free (them_copy);
 }
+
+static void
+list_image_formats (void)
+{
+	GOImageFormat imfmt;
+	unsigned len = 0;
+
+	for (imfmt = (GOImageFormat)0; imfmt < GO_IMAGE_FORMAT_UNKNOWN; imfmt++) {
+		GOImageFormatInfo const *info = go_image_get_format_info (imfmt);
+		len = MAX (len, strlen (info->name));
+	}
+
+	g_printerr ("%-*s | %s\n", len,
+		    /* Translate these? */
+		    _("ID"),
+		    _("Description"));
+
+	for (imfmt = (GOImageFormat)0; imfmt < GO_IMAGE_FORMAT_UNKNOWN; imfmt++) {
+		GOImageFormatInfo const *info = go_image_get_format_info (imfmt);
+
+		g_printerr ("%-*s | %s\n", len,
+			    info->name,
+			    info->desc);
+	}
+}
+
 
 /*
  * Read the files we're going to merge and return a list of Workbooks.
@@ -790,6 +824,26 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 #undef RANGE_LISTARG
 #undef SHEET_ARG
 
+static int
+by_anchor (gconstpointer a_, gconstpointer b_)
+{
+	SheetObject const *a = a_;
+	SheetObject const *b = b_;
+	double ca[4], cb[4];
+	unsigned ui;
+
+	// Caller ensures that sheets are the same
+	sheet_object_position_pts_get (a, ca);
+	sheet_object_position_pts_get (b, cb);
+
+	for (ui = 0; ui < G_N_ELEMENTS (ca); ui++) {
+		// We want T,L,B,R order
+		double d = ca[ui ^ 1] - cb[ui ^ 1];
+		if (d != 0)
+			return d < 0 ? -1 : +1;
+	}
+	return 0;
+}
 
 static int
 do_split_save (GOFileSaver *fs, WorkbookView *wbv,
@@ -850,6 +904,7 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 		if (ssconvert_object_export) {
 			GSList *l, *objs = sheet_objects_get (sheet, NULL, GNM_SO_GRAPH_TYPE);
 			double resolution = 100.0;
+			objs = g_slist_sort (objs, by_anchor);
 			for (l = objs; l; l = l->next) {
 				SheetObject *so = l->data;
 				char *tmpfile;
@@ -1312,6 +1367,8 @@ main (int argc, char const **argv)
 		list_them (go_get_file_openers (),
 			   (get_desc_f) &go_file_opener_get_id,
 			   (get_desc_f) &go_file_opener_get_description);
+	else if (ssconvert_list_image_formats)
+		list_image_formats ();
 	else if (ssconvert_clipboard)
 		if (argc == 3 && ssconvert_range)
 			res = clipboard_export (argv[1], argv[2], cc);

@@ -6,6 +6,8 @@ Morten:
 	* Improve tests.
 	* Improve speed on exit with lots of conditional formatting.
 	* Improve error message [#472]
+	* Impose ordering of ssconvert --export-graphs
+	* Doc fixes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.46

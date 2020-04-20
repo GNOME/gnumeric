@@ -2,7 +2,7 @@
 \\$2 \(laURL: \\$1 \(ra\\$3
 ..
 .if \n[.g] .mso www.tmac
-.TH SSCONVERT 1 "2019-01-19" "gnumeric" "GNOME"
+.TH SSCONVERT 1 "2020-04-19" "gnumeric" "GNOME"
 .SH NAME
 ssconvert \- a command line spreadsheet format converter
 
@@ -37,7 +37,7 @@ put an expression in a cell, add an extra =, for example \-\-set "A11==A10+1".
 This option may be repeated as many times as needed.  The workbook will be
 recalculated after all cells have been set, provided that the workbook is
 set for automatic recalculation.  If not, recalculation can be forced
-with --recalc.
+with \-\-recalc.
 .TP
 .B \-v, \-\-verbose
 Be slightly more verbose about what is going on.
@@ -48,7 +48,11 @@ List the available exporters (file formats that can be written).
 .B \-T, \-\-export\-type=\fIID\fR
 Specify which exporter to use; see below for a list. This is only
 necessary when the right format does not follow from the output file
-name.
+name.  The list of available export formats can be generated using the
+\-\-list\-exporters option.  However, when image export is requested
+using the \-\-export\-graphs option, the list of image formats should be
+consulted instead.  That list can be generated using the
+\-\-list\-image\-formats option.
 .TP
 .B \-O, \-\-export\-options=\fIoptionsstring\fR
 Specify parameters for the chosen exporter.
@@ -59,7 +63,8 @@ documented below. Multiple parameters can be specified
 .TP
 .B \-\-export\-graphs
 Export the graphs (or charts) inside the input spreadsheet to
-numbered image files (SVG by default).
+numbered image files (SVG by default).  The list of available image
+formats can be printed with \-\-list\-image-formats
 .TP
 .B \-\-list\-importers
 List the available importers (file formats that can be read).
@@ -67,6 +72,9 @@ List the available importers (file formats that can be read).
 Specify which importer to use; see below for a list. This is only
 necessary when the right format does not follow from the input file
 name.
+.TP
+.B \-\-list\-image\-formats
+List the available image formats for graph export
 .TP
 .B \-E, \-\-import\-encoding=\fISTRING\fR
 Specify an encoding for imported content.
