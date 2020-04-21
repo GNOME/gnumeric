@@ -294,6 +294,7 @@ handle_export_options (GOFileSaver *fs, Workbook *wb)
 		g_printerr ("ssconvert: %s\n", err
 			    ? err->message
 			    : _("Cannot parse export options."));
+		g_clear_error (&err);
 		return 1;
 	}
 
@@ -856,6 +857,83 @@ by_anchor (gconstpointer a_, gconstpointer b_)
 	return 0;
 }
 
+struct cb_image_export_options {
+	double resolution;
+};
+
+static gboolean
+cb_image_export_options (const char *key, const char *value,
+			 GError **err, gpointer user_)
+{
+	struct cb_image_export_options *user = user_;
+
+	if (strcmp (key, "resolution") == 0) {
+		user->resolution = atof (value);
+		if (user->resolution >= 1 && user->resolution <= 10000)
+			return FALSE;
+	}
+
+	if (err)
+		*err = g_error_new (go_error_invalid (), 0,
+				    _("Invalid export option \"%s=%s\" for image export"),
+				    key, value);
+
+	return TRUE;
+}
+
+static int
+export_objects_for_sheet (Sheet *sheet, const char *template,
+			  guint *file_idx)
+{
+
+	GSList *l, *objs = sheet_objects_get (sheet, NULL, G_TYPE_NONE);
+	int res = 0;
+
+	struct cb_image_export_options data;
+	data.resolution = 100;
+	if (ssconvert_export_options) {
+		GError *err = NULL;
+		gboolean fail;
+
+		fail = go_parse_key_value (ssconvert_export_options, &err,
+					   cb_image_export_options, &data);
+		if (fail) {
+			g_printerr ("ssconvert: %s\n", err
+				    ? err->message
+				    : _("Cannot parse export options."));
+			g_clear_error (&err);
+			return 1;
+		}
+	}
+
+	objs = g_slist_sort (objs, by_anchor);
+	for (l = objs; l; l = l->next) {
+		SheetObject *so = l->data;
+		char *tmpfile;
+		GError *err = NULL;
+
+		if (!g_type_is_a (G_TYPE_FROM_INSTANCE (so),
+				  ssconvert_object_export_type))
+			continue;
+
+		tmpfile = resolve_template (template, sheet, so, (*file_idx)++);
+		sheet_object_save_as_image (so, ssconvert_image_format,
+					    data.resolution,
+					    tmpfile, &err);
+
+		if (err) {
+			g_printerr ("Failed to write %s: %s\n", tmpfile, err->message);
+			g_error_free (err);
+			res = 1;
+		}
+
+		g_free (tmpfile);
+	}
+	g_slist_free (objs);
+
+	return res;
+}
+
 static int
 do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 	       const char *outarg, GOCmdContext *cc)
@@ -913,31 +991,8 @@ do_split_save (GOFileSaver *fs, WorkbookView *wbv,
 		}
 
 		if (ssconvert_object_export) {
-			GSList *l, *objs = sheet_objects_get (sheet, NULL, GNM_SO_GRAPH_TYPE);
-			double resolution = 100.0;
-			objs = g_slist_sort (objs, by_anchor);
-			for (l = objs; l; l = l->next) {
-				SheetObject *so = l->data;
-				char *tmpfile;
-				GError *err = NULL;
-
-				if (!g_type_is_a (G_TYPE_FROM_INSTANCE (so),
-						  ssconvert_object_export_type))
-					continue;
-
-				tmpfile = resolve_template (template, sheet, so, file_idx++);
-				sheet_object_save_as_image (so, ssconvert_image_format, resolution,
-							    tmpfile, &err);
-
-				if (err) {
-					g_printerr ("Failed to write %s: %s\n", tmpfile, err->message);
-					g_error_free (err);
-					res = 1;
-				}
-
-				g_free (tmpfile);
-			}
-			g_slist_free (objs);
+			if (export_objects_for_sheet (sheet, template, &file_idx))
+				res = 1;
 		} else {
 			char *tmpfile =	resolve_template (template, sheet, NULL, file_idx++);
 			res = !workbook_view_save_as (wbv, fs, tmpfile, cc);
