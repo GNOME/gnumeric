@@ -8,6 +8,7 @@ Morten:
 	* Improve error message [#472]
 	* Impose ordering of ssconvert --export-graphs
 	* Doc fixes.
+	* Fix CELL crash.  [#479]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.46

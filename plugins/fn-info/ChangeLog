@@ -1,3 +1,8 @@
+2020-04-21  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_cell): Actually verify that we get a cell
+	range (and not an array constant).
+
 2019-11-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.46

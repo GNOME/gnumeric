@@ -171,8 +171,14 @@ static GnmValue *
 gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *info_type = value_peek_string (argv[0]);
-	GnmCellRef const *ref = &argv [1]->v_range.cell.a;
-	const Sheet *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
+	GnmCellRef const *ref;
+	const Sheet *sheet;
+
+	if (!VALUE_IS_CELLRANGE (argv[1]))
+		return value_new_error_VALUE (ei->pos);
+
+	ref = &argv[1]->v_range.cell.a;
+	sheet = eval_sheet (ref->sheet, ei->pos->sheet);
 
 	/*
 	 * CELL translates its keywords (ick)
