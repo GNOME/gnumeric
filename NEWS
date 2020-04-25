@@ -1,5 +1,8 @@
 Gnumeric 1.12.47
 
+Jean:
+	* Fix crash when the embedded spreadsheet is invalid. [#481]
+
 Morten:
 	* Fix dialog size problem.
 	* Add "--set CELL=CONTENTS" option to ssconvert.

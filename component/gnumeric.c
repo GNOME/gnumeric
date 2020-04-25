@@ -110,6 +110,7 @@ go_gnm_component_update_data (GOGnmComponent *gognm)
 {
 	SheetView *sv;
 	GnmRange const *range;
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (gognm->wv));
 	gognm->sheet = wb_view_cur_sheet (gognm->wv);
 	sv = sheet_get_view (gognm->sheet, gognm->wv);
 	range = selection_first_range (sv, NULL, NULL);
@@ -138,10 +139,17 @@ go_gnm_component_set_data (GOComponent *component)
 	if (gognm->wv != NULL) {
 		g_object_unref (gognm->wv);
 		g_object_unref (gognm->wb);
+		gognm->wv = NULL;
 	}
 	gognm->wv = workbook_view_new_from_input (input, NULL, NULL, io_context, NULL);
-	gognm->wb = wb_view_get_workbook (gognm->wv);
-	gnm_app_workbook_list_remove (gognm->wb);
+	if (!GNM_IS_WORKBOOK_VIEW (gognm->wv)) {
+		g_warning ("Invalid component data");
+		gognm->wv = NULL;
+		gognm->wb = NULL;
+	} else {
+		gognm->wb = wb_view_get_workbook (gognm->wv);
+		gnm_app_workbook_list_remove (gognm->wb);
+	}
 	g_object_unref (io_context);
 	go_gnm_component_update_data (gognm);
 }
@@ -152,6 +160,7 @@ go_gnm_component_render (GOComponent *component, cairo_t *cr, double width_pixel
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	GnmRange range;
 
+	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (gognm->wv));
 	if (!gognm->sheet)
 		go_gnm_component_update_data (gognm);
 
@@ -182,7 +191,7 @@ cb_gognm_save (G_GNUC_UNUSED GtkAction *a, WBCGtk *wbcg)
 				g_object_unref (gognm->wv);
 				g_object_unref (gognm->wb);
 			}
-			gognm->wv = g_object_ref (wv);
+            gognm->wv = g_object_ref (wv);
 			gognm->wb = wb_view_get_workbook (wv);
 			gnm_app_workbook_list_remove (gognm->wb); /* no need to have this one in the list */
 		}

@@ -1,3 +1,12 @@
+2020-04-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* component/gnumeric.c (go_gnm_component_update_data),
+	(go_gnm_component_set_data), (go_gnm_component_render):
+	* src/sheet-object-component.c (soc_xml_finish),
+	(sheet_object_component_new):
+
 2020-04-24  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (sheet_region_queue_recalc): Fix problem with
