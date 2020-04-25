@@ -1,3 +1,8 @@
+2020-04-24  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (sheet_region_queue_recalc): Fix problem with
+	non-cell deps.  See #480.
+
 2020-04-21  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (export_objects_for_sheet): New function

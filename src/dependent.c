@@ -1874,63 +1874,6 @@ cell_foreach_dep (GnmCell const *cell, GnmDepFunc func, gpointer user)
 				 func, user);
 }
 
-static void
-cb_recalc_all_depends (gpointer key, G_GNUC_UNUSED gpointer value,
-		       G_GNUC_UNUSED gpointer ignore)
-{
-	DependencyAny const *depany = key;
-	GSList *work = NULL;
-	micro_hash_foreach_dep (depany->deps, dep, {
-		if (!dependent_needs_recalc (dep)) {
-			dependent_flag_recalc (dep);
-			work = g_slist_prepend (work, dep);
-		}
-	});
-	dependent_queue_recalc_main (work);
-}
-
-
-
-static void
-cb_range_contained_depend (gpointer key, G_GNUC_UNUSED gpointer value,
-			   gpointer user)
-{
-	DependencyRange const *deprange  = key;
-	GnmRange const *range = &deprange->range;
-	GnmRange const *target = user;
-
-	if (range_overlap (target, range)) {
-		GSList *work = NULL;
-		micro_hash_foreach_dep (deprange->deps, dep, {
-			if (!dependent_needs_recalc (dep)) {
-				dependent_flag_recalc (dep);
-				work = g_slist_prepend (work, dep);
-			}
-		});
-		dependent_queue_recalc_main (work);
-	}
-}
-
-static void
-cb_single_contained_depend (gpointer key,
-			    G_GNUC_UNUSED gpointer value,
-			    gpointer user)
-{
-	DependencySingle const *depsingle  = key;
-	GnmRange const *target = user;
-
-	if (range_contains (target, depsingle->pos.col, depsingle->pos.row)) {
-		GSList *work = NULL;
-		micro_hash_foreach_dep (depsingle->deps, dep, {
-			if (!dependent_needs_recalc (dep)) {
-				dependent_flag_recalc (dep);
-				work = g_slist_prepend (work, dep);
-			}
-		});
-		dependent_queue_recalc_main (work);
-	}
-}
-
 /**
  * sheet_region_queue_recalc:
  * @sheet: The sheet.
@@ -1943,46 +1886,62 @@ cb_single_contained_depend (gpointer key,
 void
 sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 {
-	int i;
+	int i, sb, eb;
+	GList *keys, *l;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->deps != NULL);
 
-	if (r == NULL) {
-		/* mark the contained depends dirty non recursively */
-		SHEET_FOREACH_DEPENDENT (sheet, dep,
-			dependent_flag_recalc (dep););
+	sb = r ? BUCKET_OF_ROW (r->start.row) : 0;
+	eb = r ? BUCKET_OF_ROW (r->end.row) : sheet->deps->buckets - 1;
 
-		/* look for things that depend on the sheet */
-		for (i = sheet->deps->buckets - 1; i >= 0 ; i--) {
-			GHashTable *hash = sheet->deps->range_hash[i];
-			if (hash != NULL)
-				g_hash_table_foreach (hash,
-					&cb_recalc_all_depends, NULL);
+	/* mark the contained depends dirty non recursively */
+	SHEET_FOREACH_DEPENDENT (sheet, dep, {
+		GnmCell *cell = GNM_DEP_TO_CELL (dep);
+		if (!r || (dependent_is_cell (dep) &&
+			   range_contains (r, cell->pos.col, cell->pos.row)))
+			dependent_flag_recalc (dep);
+	});
+
+	// Look for things that depend on target region
+	// Note: we gather the keys first; we may change the hashes as we
+	// queue deps.
+	for (i = eb; i >= sb; i--) {
+		GHashTable *hash = sheet->deps->range_hash[i];
+		if (!hash) continue;
+		keys = g_hash_table_get_keys (hash);
+		for (l = keys; l; l = l->next) {
+			DependencyRange const *dr  = l->data;
+			GSList *work = NULL;
+
+			if (r && !range_overlap (r, &dr->range))
+				continue;
+			micro_hash_foreach_dep (dr->deps, dep, {
+				if (!dependent_needs_recalc (dep)) {
+					dependent_flag_recalc (dep);
+					work = g_slist_prepend (work, dep);
+				}
+			});
+			dependent_queue_recalc_main (work);
 		}
-		g_hash_table_foreach (sheet->deps->single_hash,
-			&cb_recalc_all_depends, NULL);
-	} else {
-		int const first = BUCKET_OF_ROW (r->start.row);
-
-		/* mark the contained depends dirty non recursively */
-		SHEET_FOREACH_DEPENDENT (sheet, dep, {
-			GnmCell *cell = GNM_DEP_TO_CELL (dep);
-			if (dependent_is_cell (dep) &&
-			    range_contains (r, cell->pos.col, cell->pos.row))
-				dependent_flag_recalc (dep);
-		});
-
-		/* look for things that depend on target region */
-		for (i = BUCKET_OF_ROW (r->end.row); i >= first ; i--) {
-			GHashTable *hash = sheet->deps->range_hash[i];
-			if (hash != NULL)
-				g_hash_table_foreach (hash,
-					&cb_range_contained_depend, (gpointer)r);
-		}
-		g_hash_table_foreach (sheet->deps->single_hash,
-			&cb_single_contained_depend, (gpointer)r);
+		g_list_free (keys);
 	}
+
+	keys = g_hash_table_get_keys (sheet->deps->single_hash);
+	for (l = keys; l; l = l->next) {
+		DependencySingle const *ds = l->data;
+		GSList *work = NULL;
+		if (r && !range_contains (r, ds->pos.col, ds->pos.row))
+			continue;
+		micro_hash_foreach_dep (ds->deps, dep, {
+			if (!dependent_needs_recalc (dep)) {
+				dependent_flag_recalc (dep);
+				work = g_slist_prepend (work, dep);
+			}
+		});
+		dependent_queue_recalc_main (work);
+	}
+	g_list_free (keys);
 }
 
 typedef struct
