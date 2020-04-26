@@ -1377,6 +1377,7 @@ style_dep_unrender (GnmDependent *dep, const char *what)
 	GnmCellPos const *pos = dependent_pos (dep);
 	GnmCell *cell;
 	Sheet *sheet = dep->sheet;
+	GnmRange r;
 
 	if (debug_style_deps ())
 		g_printerr ("StyleDep %p at %s %s\n",
@@ -1390,9 +1391,12 @@ style_dep_unrender (GnmDependent *dep, const char *what)
 	if (cell)
 		gnm_cell_unrender (cell);
 
-	sheet_redraw_region (sheet,
-			     pos->col, pos->row,
-			     pos->col, pos->row);
+	// Redraws may involve computation (via conditional styling,
+	// for example) so doing it now is no good.  See #480 for a
+	// particular nasty example involving conditional styling and
+	// dynamic dependents.
+	range_init_cellpos (&r, pos);
+	sheet_queue_redraw_range (sheet, &r);
 }
 
 static void
@@ -2881,11 +2885,10 @@ dynamic_dep_free (DynamicDep *dyn)
 {
 	GnmDependent *dep = dyn->container;
 	GnmCellPos const *pos = dependent_pos (dep);
-	GnmRangeRef *rr;
 	GSList *ptr;
 
 	for (ptr = dyn->singles ; ptr != NULL ; ptr = ptr->next) {
-		rr = ptr->data;
+		GnmRangeRef *rr = ptr->data;
 		unlink_single_dep (&dyn->base, pos, &rr->a);
 		g_free (rr);
 	}
@@ -2893,7 +2896,7 @@ dynamic_dep_free (DynamicDep *dyn)
 	dyn->singles = NULL;
 
 	for (ptr = dyn->ranges ; ptr != NULL ; ptr = ptr->next) {
-		rr = ptr->data;
+		GnmRangeRef *rr = ptr->data;
 		link_unlink_cellrange_dep (&dyn->base, pos,
 					   &rr->a, &rr->b, FALSE);
 		g_free (rr);

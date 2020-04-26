@@ -1,3 +1,13 @@
+2020-04-26  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (style_dep_unrender): Queue the redraw instead
+	of doing it.
+
+	* src/sheet.c (sheet_redraw_region): We don't need the redraw-all
+	hack here.  It's also in sc_redraw_range.
+	(sheet_queue_redraw_range): New function for queueing redraws that
+	we cannot actually handle happening right now.
+
 2020-04-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-component.c (sheet_object_component_new): really fix

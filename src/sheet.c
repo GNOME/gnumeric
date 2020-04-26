@@ -853,6 +853,8 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->style_data = NULL;
 
 	sheet->index_in_wb = -1;
+
+	sheet->pending_redraw_src = 0;
 }
 
 static Sheet the_invalid_sheet;
@@ -3205,43 +3207,83 @@ sheet_redraw_region (Sheet const *sheet,
 		     int start_col, int start_row,
 		     int end_col,   int end_row)
 {
+	GnmRange r;
+	g_return_if_fail (IS_SHEET (sheet));
+
+	range_init (&r, start_col, start_row, end_col, end_row);
+	sheet_redraw_range (sheet, &r);
+}
+
+
+/**
+ * sheet_redraw_range:
+ * @sheet: sheet to redraw
+ * @range: range to redraw
+ *
+ * Redraw the indicated range, or at least the visible parts of it.
+ */
+void
+sheet_redraw_range (Sheet const *sheet, GnmRange const *range)
+{
 	GnmRange bound;
 
 	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (range != NULL);
 
-	/*
-	 * Getting the bounding box causes row respans to be done if
-	 * needed.  That can be expensive, so just redraw the whole
-	 * sheet if the row count is too big.
-	 */
-	if (end_row - start_row > 500) {
-		sheet_redraw_all (sheet, FALSE);
-		return;
-	}
-
-	/* We potentially do a lot of recalcs as part of this, so make sure
-	   stuff that caches sub-computations see the whole thing instead
-	   of clearing between cells.  */
+	// We potentially do a lot of recalcs as part of this, so make sure
+	// stuff that caches sub-computations see the whole thing instead
+	// of clearing between cells.
 	gnm_app_recalc_start ();
 
-	sheet_range_bounding_box (sheet,
-		range_init (&bound, start_col, start_row, end_col, end_row));
+	bound = *range;
+	sheet_range_bounding_box (sheet, &bound);
+
 	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_redraw_range (control, &bound););
 
 	gnm_app_recalc_finish ();
 }
 
+static gboolean
+cb_pending_redraw_handler (Sheet *sheet)
+{
+	while (sheet->pending_redraw) {
+		GnmRange *r = sheet->pending_redraw->data;
+		sheet->pending_redraw =
+			g_slist_delete_link (sheet->pending_redraw,
+					     sheet->pending_redraw);
+		sheet_redraw_range (sheet, r);
+		g_free (r);
+	}
+
+	sheet->pending_redraw_src = 0;
+	return FALSE;
+}
+
+/**
+ * sheet_queue_redraw_range:
+ * @sheet: sheet to redraw
+ * @range: range to redraw
+ *
+ * This queues a redraw for the indicated range.  The redraw will happen
+ * when Gnumeric returns to the gui main loop.
+ */
 void
-sheet_redraw_range (Sheet const *sheet, GnmRange const *range)
+sheet_queue_redraw_range (Sheet *sheet, GnmRange const *range)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range != NULL);
 
-	sheet_redraw_region (sheet,
-			     range->start.col, range->start.row,
-			     range->end.col, range->end.row);
+	sheet->pending_redraw =
+		g_slist_prepend (sheet->pending_redraw,
+				 g_memdup (range, sizeof (*range)));
+	if (sheet->pending_redraw_src == 0)
+		sheet->pending_redraw_src =
+			g_timeout_add (0,
+				       (GSourceFunc)cb_pending_redraw_handler,
+				       sheet);
 }
+
 
 /****************************************************************************/
 
@@ -4852,7 +4894,10 @@ gnm_sheet_finalize (GObject *obj)
 
 	sheet_style_shutdown (sheet);
 
-	(void) g_idle_remove_by_data (sheet);
+	if (sheet->pending_redraw_src) {
+		g_source_remove (sheet->pending_redraw_src);
+		sheet->pending_redraw_src = 0;
+	}
 
 	if (debug_FMR) {
 		g_printerr ("Sheet %p is %s\n", sheet, sheet->name_quoted);

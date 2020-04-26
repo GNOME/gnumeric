@@ -107,6 +107,9 @@ struct _Sheet {
 
 	GnmDepContainer *deps;
 
+	GSList *pending_redraw;
+	guint pending_redraw_src;
+
 	GSList		 *slicers;
 	GSList		 *filters;
 	GSList		 *list_merged;
@@ -316,7 +319,8 @@ gconstpointer gnm_sheet_find_sort_setup (Sheet *sheet, char const *key);
 /* Redraw */
 #define sheet_is_visible(_sheet) ((_sheet)->visibility == GNM_SHEET_VISIBILITY_VISIBLE)
 void     sheet_redraw_all       (Sheet const *sheet, gboolean header);
-void     sheet_redraw_range     (Sheet const *sheet, GnmRange const *r);
+void     sheet_redraw_range     (Sheet const *sheet, GnmRange const *range);
+void     sheet_queue_redraw_range (Sheet *sheet, GnmRange const *range);
 void     sheet_redraw_region    (Sheet const *sheet,
 				 int start_col, int start_row,
 				 int end_col,   int end_row);

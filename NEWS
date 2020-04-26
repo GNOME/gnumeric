@@ -13,7 +13,7 @@ Morten:
 	* Doc fixes.
 	* Fix CELL crash.  [#479]
 	* Handle export options for ssconvert --export-graphs.
-	* Fix deps cash.  [#480]
+	* Fix deps crash.  [#480]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.46
