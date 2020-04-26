@@ -1403,10 +1403,8 @@ static GNM_ACTION_DEF (cb_launch_go_component_from_file)
 		GOComponent *component;
 		component = go_component_new_from_uri (uri);
 		g_free (uri);
-		if (component) {
+		if (component)
 			wbcg_insert_object (WBC_GTK (wbcg), sheet_object_component_new (component));
-			g_object_unref (component);
-		}
 	}
 	gtk_widget_destroy (dlg);
 }

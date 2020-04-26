@@ -457,7 +457,8 @@ sheet_object_component_new (GOComponent *component)
 {
 	SheetObjectComponent *soc = g_object_new (GNM_SO_COMPONENT_TYPE, NULL);
 	sheet_object_component_set_component (GNM_SO (soc), component);
-	g_object_unref (component);
+	if (component)
+		g_object_unref (component);
 	return GNM_SO (soc);
 }
 

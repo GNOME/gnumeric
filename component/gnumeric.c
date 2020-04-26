@@ -191,7 +191,7 @@ cb_gognm_save (G_GNUC_UNUSED GtkAction *a, WBCGtk *wbcg)
 				g_object_unref (gognm->wv);
 				g_object_unref (gognm->wb);
 			}
-            gognm->wv = g_object_ref (wv);
+			gognm->wv = g_object_ref (wv);
 			gognm->wb = wb_view_get_workbook (wv);
 			gnm_app_workbook_list_remove (gognm->wb); /* no need to have this one in the list */
 		}

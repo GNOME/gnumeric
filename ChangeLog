@@ -1,3 +1,9 @@
+2020-04-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-component.c (sheet_object_component_new): really fix
+	the component reference count issue.
+	* src/wbc-gtk-actions.c: ditto.
+
 2020-04-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* component/gnumeric.c (go_gnm_component_update_data),
