@@ -400,7 +400,7 @@ typedef enum {
 void  sheet_clear_region (Sheet *sheet,
 			  int start_col, int start_row,
 			  int end_col, int end_row,
-			  int clear_flags, GOCmdContext *cc);
+			  SheetClearFlags clear_flags, GOCmdContext *cc);
 
 GOUndo *sheet_clear_region_undo (GnmSheetRange *sr,
 				 int clear_flags);

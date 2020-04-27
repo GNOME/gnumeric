@@ -1,5 +1,9 @@
 2020-04-26  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_clear_region): Fix type of clear_flags.
+	(gnm_sheet_finalize): Free the list of pending redraws, just in
+	case.
+
 	* src/dependent.c (style_dep_unrender): Queue the redraw instead
 	of doing it.
 

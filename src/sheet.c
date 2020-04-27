@@ -4898,6 +4898,7 @@ gnm_sheet_finalize (GObject *obj)
 		g_source_remove (sheet->pending_redraw_src);
 		sheet->pending_redraw_src = 0;
 	}
+	g_slist_free_full (sheet->pending_redraw, g_free);
 
 	if (debug_FMR) {
 		g_printerr ("Sheet %p is %s\n", sheet, sheet->name_quoted);
@@ -4952,24 +4953,22 @@ cb_empty_cell (GnmCellIter const *iter, gpointer user)
 
 /**
  * sheet_clear_region:
- * @sheet:
- * @start_col:
- * @start_row:
- * @end_col:
- * @end_row:
- * @clear_flags: If this is %TRUE then styles are erased.
- * @cc: (nullable):
+ * @sheet: the sheet being changed
+ * @start_col: Starting column
+ * @start_row: Starting row
+ * @end_col: Ending column
+ * @end_row: Ending row
+ * @clear_flags: flags indicating what to clear
+ * @cc: (nullable): command context for error reporting
  *
- * Clears are region of cells
- *
- * We assemble a list of cells to destroy, since we will be making changes
- * to the structure being manipulated by the sheet_foreach_cell_in_region routine
+ * Clears a region of cells, formats, object, etc. as indicated by
+ * @clear_flags.
  */
 void
 sheet_clear_region (Sheet *sheet,
 		    int start_col, int start_row,
 		    int end_col, int end_row,
-		    int clear_flags,
+		    SheetClearFlags clear_flags,
 		    GOCmdContext *cc)
 {
 	GnmRange r;
