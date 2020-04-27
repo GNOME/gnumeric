@@ -8247,6 +8247,8 @@ od_draw_frame_end_full (GsfXMLIn *xin, gboolean absolute_distance, char const *c
 		ob_off->frame_offset[2] = state->chart.frame_offset[2];
 		ob_off->frame_offset[3] = state->chart.frame_offset[3];
 		state->chart_list = g_slist_prepend ( state->chart_list, ob_off);
+		if (state->chart.name)
+			sheet_object_set_name (state->chart.so, state->chart.name);
 
 		state->chart.so = NULL;
 	}

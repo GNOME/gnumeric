@@ -2854,6 +2854,7 @@ odf_write_frame_size (GnmOOExport *state, SheetObject *so)
 	GnmParsePos pp;
 	char *formula;
 	Sheet *sheet;
+	char const *name = NULL;
 
 	sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
 
@@ -2891,6 +2892,12 @@ odf_write_frame_size (GnmOOExport *state, SheetObject *so)
 		odf_add_pt (state->xml, SVG "height", anchor->offset[3]);
 		break;
 	}
+
+	g_object_get (G_OBJECT (so),
+			      "name", &name,
+			      NULL);
+	if (name)
+	        gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "name", name);
 
 	sheet = sheet_object_get_sheet (so);
 	if (sheet) {
