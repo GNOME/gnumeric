@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2020-04-14 02:19+0000\n"
-"PO-Revision-Date: 2020-04-14 12:48+0200\n"
+"POT-Creation-Date: 2020-04-21 23:59+0000\n"
+"PO-Revision-Date: 2020-04-30 12:16+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -943,39 +943,39 @@ msgstr "Funciones que manipulan fechas hebreas"
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1368 ../plugins/fn-info/functions.c:1384
+#: ../plugins/fn-info/functions.c:1374 ../plugins/fn-info/functions.c:1390
 #: ../src/dialogs/workbook-attr.ui.h:8
 msgid "Unimplemented"
 msgstr "No implementado"
 
-#: ../plugins/fn-info/functions.c:1392
+#: ../plugins/fn-info/functions.c:1398
 msgid "Unknown version"
 msgstr "Versión desconocida"
 
-#: ../plugins/fn-info/functions.c:1394
+#: ../plugins/fn-info/functions.c:1400
 #, c-format
 msgid "%s version %s"
 msgstr "%s versión %s"
 
-#: ../plugins/fn-info/functions.c:1409 ../src/dialogs/dialog-cell-format.c:880
+#: ../plugins/fn-info/functions.c:1415 ../src/dialogs/dialog-cell-format.c:880
 #: ../src/dialogs/dialog-cell-format.c:2354
 #: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3801
 msgid "Automatic"
 msgstr "Automático"
 
-#: ../plugins/fn-info/functions.c:1409
+#: ../plugins/fn-info/functions.c:1415
 msgid "Manual"
 msgstr "Manual"
 
-#: ../plugins/fn-info/functions.c:1419
+#: ../plugins/fn-info/functions.c:1425
 msgid "Unknown system"
 msgstr "Sistema desconocido"
 
-#: ../plugins/fn-info/functions.c:1434
+#: ../plugins/fn-info/functions.c:1440
 msgid "Unknown info_type"
 msgstr "info_type desconocido"
 
-#: ../plugins/fn-info/functions.c:1698
+#: ../plugins/fn-info/functions.c:1704
 msgid "Invalid number of arguments"
 msgstr "Número de argumentos no válido"
 
@@ -1959,7 +1959,7 @@ msgid "time"
 msgstr "hora"
 
 #: ../plugins/openoffice/openoffice-write.c:5246
-#: ../plugins/openoffice/openoffice-write.c:5258 ../src/ssconvert.c:118
+#: ../plugins/openoffice/openoffice-write.c:5258 ../src/ssconvert.c:119
 #: ../src/ssdiff.c:61
 msgid "file"
 msgstr "archivo"
@@ -6318,7 +6318,8 @@ msgstr "Propiedades"
 #: ../src/dialogs/dialog-function-select.c:1284
 #: ../src/dialogs/dialog-plugin-manager.c:710
 #: ../src/dialogs/dialog-sheet-compare.c:713
-#: ../src/dialogs/doc-meta-data.ui.h:29 ../src/ssconvert.c:389
+#: ../src/dialogs/doc-meta-data.ui.h:29 ../src/ssconvert.c:398
+#: ../src/ssconvert.c:431
 msgid "Description"
 msgstr "Descripción"
 
@@ -6642,8 +6643,8 @@ msgid "Plugin name"
 msgstr "Nombre del complemento"
 
 #. Translate these?
-#: ../src/dialogs/dialog-plugin-manager.c:714 ../src/ssconvert.c:102
-#: ../src/ssconvert.c:125 ../src/ssconvert.c:388
+#: ../src/dialogs/dialog-plugin-manager.c:714 ../src/ssconvert.c:103
+#: ../src/ssconvert.c:126 ../src/ssconvert.c:397 ../src/ssconvert.c:430
 msgid "ID"
 msgstr "ID"
 
@@ -12897,7 +12898,7 @@ msgstr "Salir inmediatamente después de cargar los libros seleccionados"
 msgid "[FILE ...]"
 msgstr "[ARCHIVO  …]"
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1269 ../src/ssdiff.c:936
+#: ../src/main-application.c:127 ../src/ssconvert.c:1390 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
 #, c-format
 msgid ""
@@ -13512,7 +13513,6 @@ msgstr "_Guardar como imagen"
 
 #: ../src/sheet-object-graph.c:288
 #, c-format
-#| msgid "Unknown error"
 msgid "Unknown image format"
 msgstr "Formato de imagen desconocido"
 
@@ -13687,54 +13687,54 @@ msgstr "Insertar filas"
 msgid "Delete Rows"
 msgstr "Eliminar filas"
 
-#: ../src/ssconvert.c:78 ../src/ssdiff.c:53 ../src/ssgrep.c:158
+#: ../src/ssconvert.c:79 ../src/ssdiff.c:53 ../src/ssgrep.c:158
 #: ../src/ssindex.c:45
 msgid "Display program version"
 msgstr "Mostrar versión del programa"
 
-#: ../src/ssconvert.c:85
+#: ../src/ssconvert.c:86
 msgid "Be somewhat more verbose during conversion"
 msgstr "Ser un poco más detallado durante la conversión"
 
-#: ../src/ssconvert.c:94 ../src/ssindex.c:66
+#: ../src/ssconvert.c:95 ../src/ssindex.c:66
 msgid "Optionally specify an encoding for imported content"
 msgstr "Opcionalmente especificar una codificación para el contenido importado"
 
-#: ../src/ssconvert.c:95 ../src/ssindex.c:67
+#: ../src/ssconvert.c:96 ../src/ssindex.c:67
 msgid "ENCODING"
 msgstr "CODIFICACIÓN"
 
-#: ../src/ssconvert.c:101
+#: ../src/ssconvert.c:102
 msgid "Optionally specify which importer to use"
 msgstr "Opcionalmente especificar qué importador usar"
 
-#: ../src/ssconvert.c:108
+#: ../src/ssconvert.c:109
 msgid "List the available importers"
 msgstr "Listar los importadores disponibles"
 
-#: ../src/ssconvert.c:117
+#: ../src/ssconvert.c:118
 msgid "Merge listed files (all same format) to make this file"
 msgstr ""
 "Combinar los archivos de la lista (todos del mismo formato) para hacer este "
 "archivo"
 
-#: ../src/ssconvert.c:124
+#: ../src/ssconvert.c:125
 msgid "Optionally specify which exporter to use"
 msgstr "Opcionalmente especificar qué exportador usar"
 
-#: ../src/ssconvert.c:131
+#: ../src/ssconvert.c:132
 msgid "Detailed instructions for the chosen exporter"
 msgstr "Instrucciones detalladas para el exportador elegido"
 
-#: ../src/ssconvert.c:132
+#: ../src/ssconvert.c:133
 msgid "string"
 msgstr "cadena"
 
-#: ../src/ssconvert.c:138
+#: ../src/ssconvert.c:139
 msgid "List the available exporters"
 msgstr "Listar los exportadores disponibles"
 
-#: ../src/ssconvert.c:145
+#: ../src/ssconvert.c:146
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time"
@@ -13742,47 +13742,52 @@ msgstr ""
 "Exportar un archivo para cada hoja si el exportador sólo soporta una hoja a "
 "la vez."
 
-#: ../src/ssconvert.c:152
+#: ../src/ssconvert.c:153
 msgid "Export graphs"
 msgstr "Exportar gráficos"
 
-#: ../src/ssconvert.c:159
+#: ../src/ssconvert.c:160
+#| msgid "List the available importers"
+msgid "List the available image formats"
+msgstr "Listar los formatos de imagen disponibles"
+
+#: ../src/ssconvert.c:167
 msgid "Change the contents of a cell before writing --set A12=2"
 msgstr "Cambiar el contenido de la celda antes de escribir --set A12=2"
 
-#: ../src/ssconvert.c:166
+#: ../src/ssconvert.c:174
 msgid "Recalculate all cells before writing the result"
 msgstr "Recalcular todas las celdas antes de escribir el resultado"
 
-#: ../src/ssconvert.c:173
+#: ../src/ssconvert.c:181
 msgid "Resize to given ROWSxCOLS"
 msgstr "Redimensionar a las FILSxCOLS dadas"
 
-#: ../src/ssconvert.c:185
+#: ../src/ssconvert.c:193
 msgid "Output via the clipboard"
 msgstr "Salida mediante el portapapeles"
 
-#: ../src/ssconvert.c:192
+#: ../src/ssconvert.c:200
 msgid "The range to export"
 msgstr "El rango que exportar"
 
-#: ../src/ssconvert.c:199
+#: ../src/ssconvert.c:207
 msgid "Goal seek areas"
 msgstr "Áreas de búsqueda de objetivo"
 
-#: ../src/ssconvert.c:206
+#: ../src/ssconvert.c:214
 msgid "Run the solver"
 msgstr "Ejecutar el resolutor"
 
-#: ../src/ssconvert.c:213
+#: ../src/ssconvert.c:221
 msgid "Tool test specs"
 msgstr "Especificaciones de la herramienta de prueba"
 
-#: ../src/ssconvert.c:288
+#: ../src/ssconvert.c:296 ../src/ssconvert.c:903
 msgid "Cannot parse export options."
 msgstr "No se pueden analizar las opciones de exportación."
 
-#: ../src/ssconvert.c:321
+#: ../src/ssconvert.c:330
 #, c-format
 msgid ""
 "Selected exporter (%s) does not have the ability to split a workbook into "
@@ -13791,7 +13796,7 @@ msgstr ""
 "El exportador seleccionado (%s) no tiene la habilidad de separar un cuaderno "
 "de trabajo en hojas.\n"
 
-#: ../src/ssconvert.c:333
+#: ../src/ssconvert.c:342
 #, c-format
 msgid ""
 "Selected exporter (%s) does not have the ability to export a subset of "
@@ -13800,51 +13805,57 @@ msgstr ""
 "El exportador seleccionado (%s) no tiene la habilidad de exportar un "
 "subconjunto de hojas.\n"
 
-#: ../src/ssconvert.c:340
+#: ../src/ssconvert.c:349
 #, c-format
 msgid "Selected exporter (%s) can only export one sheet at a time.\n"
 msgstr ""
 "El exportador seleccionado (%s) sólo puede exportar una hoja a la vez.\n"
 
 #. FIXME: && nexpr2-is-not-the-same-as-nexpr
-#: ../src/ssconvert.c:509
+#: ../src/ssconvert.c:544
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 "Conflicto de nombre durante la combinación: «%s» aparece dos veces en el "
 "ámbito del libro de trabajo.\n"
 
-#: ../src/ssconvert.c:588
+#: ../src/ssconvert.c:623
 #, c-format
 msgid "Adding sheets from %s\n"
 msgstr "Añadiendo hojas desde %s\n"
 
-#: ../src/ssconvert.c:670
+#: ../src/ssconvert.c:716
 #, c-format
 msgid "Failed to create solver"
 msgstr "Falló al crear resolutor"
 
-#: ../src/ssconvert.c:685
+#: ../src/ssconvert.c:731
 #, c-format
 msgid "Solver reached time or iteration limit\n"
 msgstr "El resolutor alcanzó el tiempo o la iteración límite\n"
 
-#: ../src/ssconvert.c:689
+#: ../src/ssconvert.c:735
 #, c-format
 msgid "Solver ran, but failed"
 msgstr "Se ejecutó el resolutor, pero falló"
 
-#: ../src/ssconvert.c:701
+#: ../src/ssconvert.c:747
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Resolutor: %s\n"
 
-#: ../src/ssconvert.c:933
+#: ../src/ssconvert.c:878
+#, c-format
+#| msgid "Invalid export option \"%s\" for format %s"
+msgid "Invalid export option \"%s=%s\" for image export"
+msgstr "Opción de exportar «%s=%s» no válida para el formato de imagen"
+
+#: ../src/ssconvert.c:1054
 #, c-format
 msgid "Failed to set cell %s\n"
 msgstr "Falló al definir la celda: %s\n"
 
-#: ../src/ssconvert.c:965
+#: ../src/ssconvert.c:1086
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13853,7 +13864,7 @@ msgstr ""
 "Exportador desconocido «%s».\n"
 "Pruebe con --list-exporters para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:985
+#: ../src/ssconvert.c:1106
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13862,12 +13873,12 @@ msgstr ""
 "No se pudo adivinar el exportador que usar para «%s».\n"
 "Pruebe --list-exporters para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:991
+#: ../src/ssconvert.c:1112
 #, c-format
 msgid "Using exporter %s\n"
 msgstr "Usando exportador %s\n"
 
-#: ../src/ssconvert.c:997
+#: ../src/ssconvert.c:1118
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13877,7 +13888,7 @@ msgstr ""
 "explícito.\n"
 "Pruebe --list-exportes para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:1007
+#: ../src/ssconvert.c:1128
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13886,26 +13897,26 @@ msgstr ""
 "Importador desconocido «%s».\n"
 "Pruebe con --list-importers para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:1040 ../src/ssconvert.c:1191
+#: ../src/ssconvert.c:1161 ../src/ssconvert.c:1312
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "Falló al cargar %s\n"
 
-#: ../src/ssconvert.c:1092
+#: ../src/ssconvert.c:1213
 #, c-format
 msgid "Resizing to %dx%d\n"
 msgstr "Redimensionando a %dx%d\n"
 
-#: ../src/ssconvert.c:1104
+#: ../src/ssconvert.c:1225
 #, c-format
 msgid "Resizing of sheet %s failed\n"
 msgstr "Falló el redimensionado de la hoja %s\n"
 
-#: ../src/ssconvert.c:1257 ../src/ssconvert.c:1334
+#: ../src/ssconvert.c:1378 ../src/ssconvert.c:1457
 msgid "INFILE [OUTFILE]"
 msgstr "ARCHIVO_ENTRADA [ARCHIVO_SALIDA]"
 
-#: ../src/ssconvert.c:1276
+#: ../src/ssconvert.c:1397
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13916,12 +13927,12 @@ msgstr ""
 "datadir := «%s»\n"
 "libdir := «%s»\n"
 
-#: ../src/ssconvert.c:1282
+#: ../src/ssconvert.c:1403
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr "--export-file-per-sheet y --merge-to son incompatibles\n"
 
-#: ../src/ssconvert.c:1332 ../src/ssdiff.c:993 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1455 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Uso: %s [OPCIÓN…] %s\n"
@@ -18337,7 +18348,6 @@ msgstr "No se puede abrir «%s» para escritura"
 
 #: ../src/workbook-view.c:1407
 #, c-format
-#| msgid "Unsupported file format."
 msgid "Unsupported file format for file \"%s\""
 msgstr "Formato de archivo no soportado para el archivo «%s»"
 
