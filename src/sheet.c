@@ -70,6 +70,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+static gboolean debug_redraw;
+
 static GnmSheetSize *
 gnm_sheet_size_copy (GnmSheetSize *size)
 {
@@ -854,7 +856,9 @@ gnm_sheet_init (Sheet *sheet)
 
 	sheet->index_in_wb = -1;
 
+	sheet->pending_redraw = g_array_new (FALSE, FALSE, sizeof (GnmRange));
 	sheet->pending_redraw_src = 0;
+	debug_redraw = gnm_debug_flag ("redraw-ranges");
 }
 
 static Sheet the_invalid_sheet;
@@ -3245,19 +3249,84 @@ sheet_redraw_range (Sheet const *sheet, GnmRange const *range)
 }
 
 static gboolean
-cb_pending_redraw_handler (Sheet *sheet)
+merge_ranges (GnmRange *a, GnmRange const *b)
 {
-	while (sheet->pending_redraw) {
-		GnmRange *r = sheet->pending_redraw->data;
-		sheet->pending_redraw =
-			g_slist_delete_link (sheet->pending_redraw,
-					     sheet->pending_redraw);
-		sheet_redraw_range (sheet, r);
-		g_free (r);
+	if (a->start.row == b->start.row &&
+	    a->end.row == b->end.row &&
+	    a->end.col + 1 >= b->start.col) {
+		// "a" is just left of "b", possibly with overlap
+		a->end.col = MAX (a->end.col, b->end.col);
+		return TRUE;
 	}
 
-	sheet->pending_redraw_src = 0;
+	if (a->start.col == b->start.col &&
+	    a->end.col == b->end.col &&
+	    a->end.row + 1 >= b->start.row) {
+		// "a" is just on top of "b", possibly with overlap
+		a->end.row = MAX (a->end.row, b->end.row);
+		return TRUE;
+	}
+
+	if (range_contained (b, a)) {
+		// "b" is inside "a"
+		return TRUE;
+	}
+
+	// Punt.
 	return FALSE;
+}
+
+static gboolean
+try_merge_pair (GArray *arr, unsigned ui1, unsigned ui2)
+{
+	GnmRange *ra = &g_array_index (arr, GnmRange, ui1);
+	GnmRange *rb = &g_array_index (arr, GnmRange, ui2);
+
+	if (merge_ranges (ra, rb)) {
+		g_array_remove_index (arr, ui2);
+		return TRUE;
+	} else
+		return FALSE;
+}
+
+
+static gboolean
+cb_pending_redraw_handler (Sheet *sheet)
+{
+	unsigned ui, len;
+	GArray *arr = sheet->pending_redraw;
+
+	// It's possible that more redraws will arrive as we process these
+	// so be careful only to touch the right ones.
+
+	if (debug_redraw)
+		g_printerr ("Entering redraw with %u ranges\n", arr->len);
+	if (arr->len >= 2) {
+		g_array_sort (arr, (GCompareFunc) gnm_range_compare);
+		// Two cheap passes through the ranges.
+		for (ui = arr->len - 1; ui > 0; ui--)
+			try_merge_pair (arr, ui - 1, ui);
+		for (ui = arr->len - 1; ui > 0; ui--)
+			try_merge_pair (arr, ui - 1, ui);
+		if (debug_redraw)
+			g_printerr ("Down to %u ranges\n", arr->len);
+	}
+
+	// Lock down the length we handle here
+	len = arr->len;
+	for (ui = 0; ui < len; ui++) {
+		GnmRange const *r = &g_array_index (arr, GnmRange, ui);
+		if (debug_redraw)
+			g_printerr ("Redrawing %s\n", range_as_string (r));
+		sheet_redraw_range (sheet, r);
+	}
+	g_array_remove_range (arr, 0, len);
+
+	if (arr->len == 0) {
+		sheet->pending_redraw_src = 0;
+		return FALSE;
+	} else
+		return TRUE;
 }
 
 /**
@@ -3274,9 +3343,11 @@ sheet_queue_redraw_range (Sheet *sheet, GnmRange const *range)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range != NULL);
 
-	sheet->pending_redraw =
-		g_slist_prepend (sheet->pending_redraw,
-				 g_memdup (range, sizeof (*range)));
+	if (debug_redraw)
+		g_printerr ("Adding %s\n", range_as_string (range));
+
+	g_array_append_val (sheet->pending_redraw, *range);
+
 	if (sheet->pending_redraw_src == 0)
 		sheet->pending_redraw_src =
 			g_timeout_add (0,
@@ -4898,7 +4969,7 @@ gnm_sheet_finalize (GObject *obj)
 		g_source_remove (sheet->pending_redraw_src);
 		sheet->pending_redraw_src = 0;
 	}
-	g_slist_free_full (sheet->pending_redraw, g_free);
+	g_array_free (sheet->pending_redraw, TRUE);
 
 	if (debug_FMR) {
 		g_printerr ("Sheet %p is %s\n", sheet, sheet->name_quoted);

@@ -107,7 +107,7 @@ struct _Sheet {
 
 	GnmDepContainer *deps;
 
-	GSList *pending_redraw;
+	GArray *pending_redraw;
 	guint pending_redraw_src;
 
 	GSList		 *slicers;

@@ -1,5 +1,10 @@
 2020-04-29  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (cb_pending_redraw_handler): Do some cheap merging
+	of ranges before redrawing.  That should away some degenerate
+	cases.
+	(sheet_queue_redraw_range): Switch to using array for ranges.
+
 	* src/ssconvert.c (convert): Infer image format from filename for
 	object export just as for regular conversion.
 

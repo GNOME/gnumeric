@@ -1,7 +1,7 @@
 Gnumeric 1.12.47
 
 Andreas:
-    * Fix chart name roundtrip through ODF. [#477]
+	* Fix chart name roundtrip through ODF. [#477]
 
 Jean:
 	* Fix crash when the embedded spreadsheet is invalid. [#481]
