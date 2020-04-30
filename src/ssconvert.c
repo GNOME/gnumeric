@@ -49,6 +49,8 @@
 // Sheets user has specified as export options
 #define SSCONVERT_SHEET_SET_KEY "ssconvert-sheets"
 
+#define DEFAULT_IMAGE_FORMAT "svg"
+
 static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_verbose = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
@@ -70,7 +72,7 @@ static char *ssconvert_merge_target = NULL;
 static char **ssconvert_set_cells = NULL;
 static char **ssconvert_goal_seek = NULL;
 static char **ssconvert_tool_test = NULL;
-static const char *ssconvert_image_format = "svg";
+static const char *ssconvert_image_format = "auto";
 
 static const GOptionEntry ssconvert_options [] = {
 	{
@@ -857,6 +859,25 @@ by_anchor (gconstpointer a_, gconstpointer b_)
 	return 0;
 }
 
+static const char *
+infer_image_format (const char *url)
+{
+	const char *ext;
+	GOImageFormat imfmt;
+
+	if (!url)
+		return NULL;
+
+	ext = gsf_extension_pointer (url);
+	for (imfmt = (GOImageFormat)0; imfmt < GO_IMAGE_FORMAT_UNKNOWN; imfmt++) {
+		GOImageFormatInfo const *info = go_image_get_format_info (imfmt);
+		if (info->ext && g_ascii_strcasecmp (ext, info->ext) == 0)
+			return info->name;
+	}
+	return NULL;
+}
+
+
 struct cb_image_export_options {
 	double resolution;
 };
@@ -1079,6 +1100,11 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	if (ssconvert_object_export) {
 		if (ssconvert_export_id)
 			ssconvert_image_format = ssconvert_export_id;
+		if (g_str_equal (ssconvert_image_format, "auto")) {
+			ssconvert_image_format = infer_image_format (outfile);
+			if (!ssconvert_image_format)
+				ssconvert_image_format = DEFAULT_IMAGE_FORMAT;
+		}
 	} else if (ssconvert_export_id != NULL) {
 		fs = go_file_saver_for_id (ssconvert_export_id);
 		if (fs == NULL) {

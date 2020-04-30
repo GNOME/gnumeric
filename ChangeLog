@@ -1,3 +1,8 @@
+2020-04-29  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (convert): Infer image format from filename for
+	object export just as for regular conversion.
+
 2020-04-26  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_clear_region): Fix type of clear_flags.
