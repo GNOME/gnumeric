@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2020-02-17 22:53+0000\n"
-"PO-Revision-Date: 2020-04-11 11:53+0300\n"
+"POT-Creation-Date: 2020-04-21 23:59+0000\n"
+"PO-Revision-Date: 2020-05-02 10:13+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -42,7 +42,6 @@ msgid "Spreadsheet;"
 msgstr "Spreadsheet;електронна;таблиця;таблиці;"
 
 #: ../gnumeric.appdata.xml.in.h:1
-#| msgid "Gnumeric Spreadsheet"
 msgid "The Gnumeric Spreadsheet"
 msgstr "Електронна таблиця Gnumeric"
 
@@ -57,10 +56,10 @@ msgid ""
 "a wide selection of statistical analysis tools. Gnumeric can share files "
 "with Microsoft Excel and programs supporting the ODS standard."
 msgstr ""
-"Gnumeric призначено для виконання високоточних обчислень, створення чудових"
-" графіків та використання широкого спектра засобів статистичного аналізу."
-" Gnumeric може працювати із файлами Microsoft Excel та програму, у яких"
-" передбачено підтримку стандарту ODS."
+"Gnumeric призначено для виконання високоточних обчислень, створення чудових "
+"графіків та використання широкого спектра засобів статистичного аналізу. "
+"Gnumeric може працювати із файлами Microsoft Excel та програму, у яких "
+"передбачено підтримку стандарту ODS."
 
 #: ../gnumeric.appdata.xml.in.h:4
 msgid "A High-Precision Spreadsheet Program"
@@ -76,12 +75,12 @@ msgstr "Помилка під час зчитування файла Applix."
 
 #: ../plugins/applix/applix-read.c:345
 msgid "Missing characters for character encoding"
-msgstr ""
+msgstr "Не вистачає символів для кодування символів"
 
 #: ../plugins/applix/applix-read.c:349
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
-msgstr ""
+msgstr "Некоректні символи для кодування «%c%c»"
 
 #: ../plugins/applix/applix-read.c:1225
 #, c-format
@@ -94,6 +93,8 @@ msgid ""
 "%s!%s : unable to parse '%s'\n"
 "     %s"
 msgstr ""
+"%s!%s : не вдалося обробити «%s»\n"
+"     %s"
 
 #: ../plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
@@ -141,13 +142,13 @@ msgstr ""
 "DIF має більше допустимої кількості рядків %d. Проігноровано зайві рядки."
 
 #: ../plugins/dif/dif.c:263
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
 msgstr ""
-"DIF має більше допустимої кількості стовпчиків %d. Проігноровано зайві "
-"стовпчики."
+"DIF має більше допустимої кількості стовпчиків %d. Проігноровано зайві"
+" стовпчики."
 
 #: ../plugins/dif/dif.c:277
 #, c-format
@@ -199,7 +200,7 @@ msgstr "Збереження файла..."
 #: ../plugins/excel/excel-xml-read.c:135 ../src/xml-sax-read.c:461
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
-msgstr ""
+msgstr "Неочікуваний атрибут %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:572
 #, c-format
@@ -234,7 +235,7 @@ msgstr "Макрос%d"
 #: ../plugins/excel/ms-excel-read.c:1508
 #, c-format
 msgid "Chart%d"
-msgstr ""
+msgstr "Діаграма%d"
 
 #: ../plugins/excel/ms-excel-read.c:1511
 #, c-format
@@ -267,7 +268,7 @@ msgstr ""
 
 #: ../plugins/excel/ms-excel-read.c:6346
 msgid "external references"
-msgstr ""
+msgstr "зовнішні посилання"
 
 #: ../plugins/excel/ms-excel-read.c:6385
 msgid "No password supplied"
@@ -275,25 +276,21 @@ msgstr "Пароль не надано"
 
 #: ../plugins/excel/ms-excel-util.c:698
 #: ../plugins/openoffice/openoffice-read.c:6223 ../src/print-info.c:674
-#| msgid "&[TAB]"
 msgid "TAB"
 msgstr "TAB"
 
 #: ../plugins/excel/ms-excel-util.c:699
 #: ../plugins/openoffice/openoffice-read.c:6269 ../src/print-info.c:675
-#| msgid "&[PAGE]"
 msgid "PAGE"
 msgstr "PAGE"
 
 #: ../plugins/excel/ms-excel-util.c:700
 #: ../plugins/openoffice/openoffice-read.c:6276 ../src/print-info.c:676
-#| msgid "&[PAGE]"
 msgid "PAGES"
 msgstr "PAGES"
 
 #: ../plugins/excel/ms-excel-util.c:701
 #: ../plugins/openoffice/openoffice-read.c:6255 ../src/print-info.c:677
-#| msgid "&[DATE]"
 msgid "DATE"
 msgstr "DATE"
 
@@ -350,9 +347,8 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: ../plugins/excel/ms-excel-write.c:6589
-#, fuzzy
 msgid "Couldn't open stream 'Book' for writing\n"
-msgstr "Не вдалося відкрити потік для запису\n"
+msgstr "Не вдалося відкрити потік «Book» для запису\n"
 
 #: ../plugins/excel/ms-excel-write.c:6611
 #, fuzzy
@@ -378,7 +374,6 @@ msgid "Imports/Exports MS Excel (tm) files"
 msgstr "Імпортує і експортує файли MS Excel (tm)"
 
 #: ../plugins/excel/plugin.xml.in.h:3
-#| msgid "MS Excel (tm) (*.xls)"
 msgid "MS Excel&#8482; (*.xls)"
 msgstr "MS Excel&#8482; (*.xls)"
 
@@ -420,24 +415,21 @@ msgid "Corrupt file: Second child element in custom property encountered."
 msgstr ""
 
 #: ../plugins/excel/xlsx-read-docprops.c:257
-#, fuzzy
 msgid "Reading core properties..."
-msgstr "_Властивості..."
+msgstr "Читаємо основні властивості..."
 
 #: ../plugins/excel/xlsx-read-docprops.c:274
-#, fuzzy
 msgid "Reading extended properties..."
-msgstr "Зміна формату %s"
+msgstr "Читаємо розширені властивості..."
 
 #: ../plugins/excel/xlsx-read-docprops.c:291
-#, fuzzy
 msgid "Reading custom properties..."
-msgstr "_Властивості..."
+msgstr "Читаємо нетипові властивості..."
 
 #: ../plugins/excel/xlsx-read-drawing.c:372
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid number '%s' for node %s"
-msgstr "Невірна кількість аргументів"
+msgstr "Некоректний номер «%s» для вузла %s"
 
 #: ../plugins/excel/xlsx-read-drawing.c:484
 #, c-format
@@ -489,22 +481,22 @@ msgstr ""
 #: ../plugins/excel/xlsx-read.c:542
 #, fuzzy, c-format
 msgid "Unsigned integer '%s' is out of range, for attribute %s"
-msgstr "Невірна кількість аргументів"
+msgstr "Некоректна кількість аргументів"
 
 #: ../plugins/excel/xlsx-read.c:546
 #, fuzzy, c-format
 msgid "Invalid unsigned integer '%s' for attribute %s"
-msgstr "Невірна кількість аргументів"
+msgstr "Некоректна кількість аргументів"
 
 #: ../plugins/excel/xlsx-read.c:602
 #, fuzzy, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
-msgstr "Невірна кількість аргументів"
+msgstr "Некоректна кількість аргументів"
 
 #: ../plugins/excel/xlsx-read.c:633
 #, fuzzy, c-format
 msgid "Invalid number '%s' for attribute %s"
-msgstr "Невірна кількість аргументів"
+msgstr "Некоректна кількість аргументів"
 
 #: ../plugins/excel/xlsx-read.c:697
 #, c-format
@@ -530,9 +522,9 @@ msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:1031
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown theme color %d"
-msgstr "Невідома книга \"%s\""
+msgstr "Невідомий колір теми %d"
 
 #: ../plugins/excel/xlsx-read.c:1177
 #, fuzzy, c-format
@@ -653,14 +645,12 @@ msgid "Reading styles..."
 msgstr "Зчитування файлу..."
 
 #: ../plugins/excel/xlsx-read.c:5234
-#, fuzzy
 msgid "Reading workbook..."
-msgstr "Надрукувати книгу"
+msgstr "Читаємо робочу книгу…"
 
 #: ../plugins/excel/xlsx-read.c:5244
-#, fuzzy
 msgid "No workbook stream found."
-msgstr "Не знайдено потік книги чи робочої книги"
+msgstr "Не знайдено потік робочої книги."
 
 #. We don't attempt to flatten a 3D range to an array.
 #: ../plugins/excelplugins/excelplugins.c:306
@@ -668,9 +658,9 @@ msgid "Cannot convert 3D cell range to XLOPER."
 msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported GnmValue type (%d)"
-msgstr "Непідтримуваний тип завантажувача  \"%s\"."
+msgstr "Непідтримуваний тип GnmValue (%d)"
 
 #: ../plugins/excelplugins/excelplugins.c:614
 #: ../src/widgets/gnm-expr-entry.c:883
@@ -688,7 +678,7 @@ msgstr ""
 #: ../plugins/excelplugins/excelplugins.c:649
 #, c-format
 msgid "Failed to find function \"%s\" in XLL/DLL/SO %s .\n"
-msgstr ""
+msgstr "Не вдалося знайти функцію «%s» у XLL/DLL/SO %s .\n"
 
 #: ../plugins/excelplugins/excelplugins.c:699
 #, c-format
@@ -706,9 +696,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:935
-#, fuzzy
 msgid "Dynamic module loading is not supported on this system."
-msgstr "В цій системі не підтримується динамічне завантаження модулів."
+msgstr ""
+"У цій системі не передбачено підтримки динамічного завантаження модулів."
 
 #: ../plugins/excelplugins/excelplugins.c:947
 #, c-format
@@ -716,9 +706,9 @@ msgid "Unable to open module file \"%s\"."
 msgstr "Неможливо відкрити файл модуля \"%s\"."
 
 #: ../plugins/excelplugins/excelplugins.c:952
-#, fuzzy, c-format
+#, c-format
 msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
-msgstr "Файл не містить \"plugin_file_struct\"."
+msgstr "У модулі «%s» не міститься (символу \"register_actual_excel4v\")."
 
 #: ../plugins/excelplugins/excelplugins.c:996
 #, c-format
@@ -730,15 +720,14 @@ msgstr ""
 #, c-format
 msgid "Loaded %lu function from XLL/DLL/SO %s."
 msgid_plural "Loaded %lu functions from XLL/DLL/SO %s."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Завантажено %lu функцію з XLL/DLL/SO %s."
+msgstr[1] "Завантажено %lu функції з XLL/DLL/SO %s."
+msgstr[2] "Завантажено %lu функцій з XLL/DLL/SO %s."
 
 #. *************************************************************************
 #: ../plugins/excelplugins/plugin.xml.in.h:1
-#, fuzzy
 msgid "Excel plugins"
-msgstr "Доповнення Guile"
+msgstr "Додатки Excel"
 
 #: ../plugins/excelplugins/plugin.xml.in.h:2
 msgid ""
@@ -748,13 +737,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:1
-#, fuzzy
 msgid "Christian Date Functions"
-msgstr "Функції Python"
+msgstr "Функції дат християнського літочислення"
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:2
 msgid "Functions manipulating dates of the Christian liturgical calendar"
-msgstr ""
+msgstr "Функції для роботи з датами у християнському літургійному календарі"
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:3
 #: ../plugins/fn-date/plugin.xml.in.h:3
@@ -763,26 +751,24 @@ msgid "Date/Time"
 msgstr "Дата і час"
 
 #: ../plugins/fn-complex/plugin.xml.in.h:1
-#, fuzzy
 msgid "Complex Functions"
-msgstr "Функція"
+msgstr "Комплексні функції"
 
 #: ../plugins/fn-complex/plugin.xml.in.h:2
 msgid "Functions for complex numbers"
-msgstr ""
+msgstr "Функції для комплексних чисел"
 
 #: ../plugins/fn-complex/plugin.xml.in.h:3
 msgid "Complex"
-msgstr "Комплекс"
+msgstr "Комплексне"
 
 #: ../plugins/fn-database/plugin.xml.in.h:1
-#, fuzzy
 msgid "Database Functions"
-msgstr "Функції Python"
+msgstr "Функції баз даних"
 
 #: ../plugins/fn-database/plugin.xml.in.h:2
 msgid "Functions looking up values in databases"
-msgstr ""
+msgstr "Функції для пошуку значень у базах даних"
 
 #: ../plugins/fn-database/plugin.xml.in.h:3 ../plugins/gda/plugin.xml.in.h:1
 msgid "Database"
@@ -790,11 +776,11 @@ msgstr "База даних"
 
 #: ../plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
-msgstr ""
+msgstr "Функції дати і часу"
 
 #: ../plugins/fn-date/plugin.xml.in.h:2
 msgid "Functions manipulating dates and time"
-msgstr ""
+msgstr "Функції для роботи із записами дати і часу"
 
 #: ../plugins/fn-derivatives/plugin.xml.in.h:1
 msgid "Financial Derivatives"
@@ -811,30 +797,28 @@ msgid "Finance"
 msgstr "Фінанси"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:1
-#, fuzzy
 msgid "Engineering Functions"
-msgstr "Інженерія"
+msgstr "Інженерні функції"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:2
 msgid "Functions for complex numbers, base conversions, and more"
-msgstr ""
+msgstr "Функції для комплексних чисел, перетворення основ числення тощо"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:3
 msgid "Engineering"
 msgstr "Інженерія"
 
 #: ../plugins/fn-erlang/plugin.xml.in.h:1
-#, fuzzy
 msgid "Erlang Functions"
-msgstr "Функції Python"
+msgstr "Функції Ерланга"
 
 #: ../plugins/fn-erlang/plugin.xml.in.h:2
 msgid "Functions to help Erlang Analysis"
-msgstr ""
+msgstr "Допоміжні функції для аналізу Ерланга"
 
 #: ../plugins/fn-erlang/plugin.xml.in.h:3
 msgid "Erlang"
-msgstr "Erlang"
+msgstr "Ерланг"
 
 #: ../plugins/fn-financial/plugin.xml.in.h:1
 msgid "Financial Functions"
@@ -842,52 +826,47 @@ msgstr "Фінансові функції"
 
 #: ../plugins/fn-financial/plugin.xml.in.h:2
 msgid "Interest rate calculations"
-msgstr ""
+msgstr "Обчислення відсоткової ставки"
 
 #. We are using the spellings as included in the
 #. Merriam-Webster dictionary
 #. xgettext: Tishri to Adar II are transliterations of the
 #. xgettext: hebrew months' names using Latin characters.
 #: ../plugins/fn-hebrew-date/hdate_strings.c:111
-#, fuzzy
 msgid "Tishri"
-msgstr "Туреччина, ліри"
+msgstr "Тішрей"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:111
 msgid "Heshwan"
-msgstr ""
+msgstr "Хешван"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:111
 msgid "Kislev"
 msgstr "Кіслев"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:112
-#, fuzzy
 msgid "Tebet"
-msgstr "Текст"
+msgstr "Тевет"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:112
-#, fuzzy
 msgid "Shebat"
-msgstr "Аркуш"
+msgstr "Шват"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:112
-#, fuzzy
 msgid "Adar"
-msgstr "Стандартна похибка"
+msgstr "Адар"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:113
 msgid "Nisan"
-msgstr ""
+msgstr "Нісан"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:113
 msgid "Iyar"
-msgstr ""
+msgstr "Іяр"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:113
-#, fuzzy
 msgid "Sivan"
-msgstr "Ранги"
+msgstr "Сіван"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:113
 msgid "Tammuz"
@@ -895,30 +874,27 @@ msgstr "Таммуз"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:114
 msgid "Ab"
-msgstr "Аб"
+msgstr "Ав"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:114
-#, fuzzy
 msgid "Elul"
-msgstr "Прямокутник"
+msgstr "Елул"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:114
-#, fuzzy
 msgid "Adar I"
-msgstr "Додати"
+msgstr "Адар I"
 
 #: ../plugins/fn-hebrew-date/hdate_strings.c:114
 msgid "Adar II"
-msgstr ""
+msgstr "Адар II"
 
 #: ../plugins/fn-hebrew-date/plugin.xml.in.h:1
-#, fuzzy
 msgid "Hebrew Date Functions"
-msgstr "Функції Python"
+msgstr "Функції дат єврейського календаря"
 
 #: ../plugins/fn-hebrew-date/plugin.xml.in.h:2
 msgid "Functions manipulating Hebrew dates"
-msgstr ""
+msgstr "Функції для роботи з даними єврейського календаря"
 
 #. Path of the current directory or folder.
 #. Absolute A1-style reference, as text, prepended with "$A:"
@@ -926,51 +902,49 @@ msgstr ""
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1368 ../plugins/fn-info/functions.c:1384
+#: ../plugins/fn-info/functions.c:1374 ../plugins/fn-info/functions.c:1390
 #: ../src/dialogs/workbook-attr.ui.h:8
 msgid "Unimplemented"
 msgstr "Не реалізовано"
 
-#: ../plugins/fn-info/functions.c:1392
+#: ../plugins/fn-info/functions.c:1398
 msgid "Unknown version"
 msgstr "Невідома версія"
 
-#: ../plugins/fn-info/functions.c:1394
+#: ../plugins/fn-info/functions.c:1400
 #, c-format
 msgid "%s version %s"
 msgstr "%s версії %s"
 
-#: ../plugins/fn-info/functions.c:1409 ../src/dialogs/dialog-cell-format.c:880
+#: ../plugins/fn-info/functions.c:1415 ../src/dialogs/dialog-cell-format.c:880
 #: ../src/dialogs/dialog-cell-format.c:2354
 #: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3801
 msgid "Automatic"
 msgstr "Автоматично"
 
-#: ../plugins/fn-info/functions.c:1409
-#, fuzzy
+#: ../plugins/fn-info/functions.c:1415
 msgid "Manual"
 msgstr "Вручну"
 
-#: ../plugins/fn-info/functions.c:1419
+#: ../plugins/fn-info/functions.c:1425
 msgid "Unknown system"
 msgstr "Невідома система"
 
-#: ../plugins/fn-info/functions.c:1434
+#: ../plugins/fn-info/functions.c:1440
 msgid "Unknown info_type"
-msgstr ""
+msgstr "Невідомий info_type"
 
-#: ../plugins/fn-info/functions.c:1698
+#: ../plugins/fn-info/functions.c:1704
 msgid "Invalid number of arguments"
-msgstr "Невірна кількість аргументів"
+msgstr "Некоректна кількість аргументів"
 
 #: ../plugins/fn-info/plugin.xml.in.h:1
-#, fuzzy
 msgid "Information Functions"
-msgstr "Інформація"
+msgstr "Інформаційні функції"
 
 #: ../plugins/fn-info/plugin.xml.in.h:2
 msgid "Functions for inspecting values, cells, and more"
-msgstr ""
+msgstr "Функції для перевірки значень, комірок тощо"
 
 #: ../plugins/fn-info/plugin.xml.in.h:3 ../src/gui-util.c:1064
 msgid "Information"
@@ -981,39 +955,36 @@ msgid "Type Mismatch"
 msgstr "Невідповідність типів"
 
 #: ../plugins/fn-logical/plugin.xml.in.h:1
-#, fuzzy
 msgid "Logic Functions"
-msgstr "Функція"
+msgstr "Логічні функції"
 
 #: ../plugins/fn-logical/plugin.xml.in.h:2
 msgid "Functions for manipulating truth values"
-msgstr ""
+msgstr "Функції для роботи із логічними даними"
 
 #: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:562
 msgid "Logic"
 msgstr "Логіка"
 
 #: ../plugins/fn-lookup/plugin.xml.in.h:1
-#, fuzzy
 msgid "Lookup Functions"
-msgstr "Функція"
+msgstr "Функції пошуку"
 
 #: ../plugins/fn-lookup/plugin.xml.in.h:2
 msgid "Functions for looking up values in ranges"
-msgstr ""
+msgstr "Функції для пошуку значень у діапазонах"
 
 #: ../plugins/fn-lookup/plugin.xml.in.h:3
 msgid "Lookup"
 msgstr "Пошук"
 
 #: ../plugins/fn-math/plugin.xml.in.h:1
-#, fuzzy
 msgid "Math Functions"
-msgstr "Функції Python"
+msgstr "Математичні функції"
 
 #: ../plugins/fn-math/plugin.xml.in.h:2
 msgid "Mathematical Functions"
-msgstr ""
+msgstr "Математичні функції"
 
 #: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:547
 msgid "Mathematics"
@@ -1034,14 +1005,13 @@ msgid "Bitwise Operations"
 msgstr "Двійкові операції"
 
 #: ../plugins/fn-r/plugin.xml.in.h:1 ../plugins/fn-stat/plugin.xml.in.h:1
-#, fuzzy
 msgid "Statistical Functions"
-msgstr "Функція"
+msgstr "Статистичні функції"
 
 #: ../plugins/fn-r/plugin.xml.in.h:2
 msgid ""
 "Statistical Functions with naming and calling conventions from The R Project"
-msgstr ""
+msgstr "Статистичні функції із назвами та викликом як у Проєкті R"
 
 #: ../plugins/fn-r/plugin.xml.in.h:3 ../plugins/fn-stat/plugin.xml.in.h:2
 #: ../src/dialogs/dialog-doc-metadata.c:2229
@@ -1051,28 +1021,26 @@ msgid "Statistics"
 msgstr "Статистика"
 
 #: ../plugins/fn-random/plugin.xml.in.h:1
-#, fuzzy
 msgid "Random Number Functions"
-msgstr "Генератор _випадкових чисел..."
+msgstr "Функції для випадкових чисел"
 
 #: ../plugins/fn-random/plugin.xml.in.h:2
 msgid "Functions for generating random numbers"
-msgstr ""
+msgstr "Функції для породження псевдовипадкових чисел"
 
 #: ../plugins/fn-random/plugin.xml.in.h:3
 #: ../src/dialogs/random-generation.ui.h:3 ../src/tools/random-generator.c:776
 #: ../src/tools/random-generator.c:779
 msgid "Random Numbers"
-msgstr ""
+msgstr "Випадкові числа"
 
 #: ../plugins/fn-string/plugin.xml.in.h:1
-#, fuzzy
 msgid "String Functions"
-msgstr "Функції Python"
+msgstr "Функції для роботи з рядками"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2
 msgid "Functions for manipulating strings"
-msgstr ""
+msgstr "Функції для роботи з рядками"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 #: ../src/dialogs/dialog-doc-metadata.c:1854 ../src/dialogs/dialog-search.c:387
@@ -1081,28 +1049,25 @@ msgid "String"
 msgstr "Рядок"
 
 #: ../plugins/fn-tsa/plugin.xml.in.h:1
-#, fuzzy
 msgid "Time Series Analysis Functions"
-msgstr "Інженерія"
+msgstr "Функції аналізу часових послідовностей"
 
 #: ../plugins/fn-tsa/plugin.xml.in.h:2
-#, fuzzy
 msgid "Time Series Analysis"
-msgstr "Аналіз Фур'є"
+msgstr "Аналіз часових послідовностей"
 
 #: ../plugins/gda/plugin-gda.c:157
 msgid "Too much data returned"
-msgstr ""
+msgstr "Повернуто забагато даних"
 
 #: ../plugins/gda/plugin-gda.c:167
 msgid "Can't obtain data"
-msgstr ""
+msgstr "Не вдалося отримати дані"
 
 #. FIXME: pass a pointer to parent window
 #: ../plugins/gda/plugin-gda.c:261
-#, fuzzy
 msgid "Database Connection"
-msgstr "<b>З'єднання з базою даних</b>"
+msgstr "З'єднання з базою даних"
 
 #: ../plugins/gda/plugin-gda.c:362
 #, c-format
@@ -1115,53 +1080,48 @@ msgstr "Формат: execSQL(dsn,користувач,пароль,sql)"
 
 #: ../plugins/gda/plugin-gda.c:426 ../plugins/gda/plugin-gda.c:505
 msgid "More than one statement in SQL string"
-msgstr ""
+msgstr "Декілька інструкцій у одному рядку SQL"
 
 #: ../plugins/gda/plugin-gda.c:483
-#, fuzzy
 msgid "Format: readDBTable(dsn,user,password,table)"
-msgstr "Формат: execSQL(dsn,користувач,пароль,sql)"
+msgstr "Формат: readDBTable(dsn,користувач,пароль,таблиця)"
 
 #: ../plugins/gda/plugin-gda.c:534 ../plugins/gnome-db/plugin-gnomedb.c:19
 #, c-format
 msgid "Could not run GNOME database configuration tool ('%s')"
-msgstr ""
+msgstr "Не вдалося запустити засіб налаштовування баз даних GNOME («%s»)"
 
 #: ../plugins/gda/plugin.xml.in.h:2
-#, fuzzy
 msgid "Database functions for retrieval of data from a database."
-msgstr ""
-"Функції роботи з базою даних, що дозволяють отримувати дані з бази даних"
+msgstr "Функції роботи з базою даних для отримання даних з бази."
 
 #: ../plugins/gda/plugin.xml.in.h:3 ../plugins/gnome-db/plugin.xml.in.h:3
-#, fuzzy
 msgid "Data Bases..."
-msgstr "База даних"
+msgstr "Бази даних…"
 
 #: ../plugins/glpk/glpk-write.c:144 ../plugins/lpsolve/lpsolve-write.c:144
 #, c-format
 msgid "Only linear programs are handled."
-msgstr ""
+msgstr "Виконуватиметься обробка лише лінійних програм."
 
 #: ../plugins/glpk/glpk-write.c:355
-#, fuzzy
 msgid "Writing glpk file..."
-msgstr "Збереження файла..."
+msgstr "Записуємо файл glpk…"
 
 #: ../plugins/glpk/gnm-glpk.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "The GLPK exporter is not available."
-msgstr "Типова функція збереження недоступна."
+msgstr "Засіб експортування GLPK є недоступним."
 
 #: ../plugins/glpk/gnm-glpk.c:535
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create file for solution"
-msgstr "Неможливо створити тимчасовий файл."
+msgstr "Не вдалося створити файл для розв'язку"
 
 #: ../plugins/glpk/gnm-glpk.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create file for sensitivity report"
-msgstr "Неможливо створити тимчасовий файл."
+msgstr "Не вдалося створити файл для звіту щодо чутливості"
 
 #: ../plugins/glpk/gnm-glpk.c:602 ../plugins/lpsolve/gnm-lpsolve.c:427
 #, c-format
@@ -1172,27 +1132,27 @@ msgstr ""
 
 #: ../plugins/glpk/plugin.xml.in.h:1
 msgid "GLPK Linear Program Solver Interface"
-msgstr ""
+msgstr "Інтерфейс до розв'язувача задач лінійного програмування GLPK"
 
 #: ../plugins/glpk/plugin.xml.in.h:2
 msgid "Solver Interface to GLPK"
-msgstr ""
+msgstr "Інтерфейс розв'язувача до GLPK"
 
 #: ../plugins/glpk/plugin.xml.in.h:3
 msgid "GLPK Linear Program Solver"
-msgstr ""
+msgstr "Розв'язувач задач лінійного програмування GLPK"
 
 #: ../plugins/glpk/plugin.xml.in.h:4
 msgid "GLPK"
-msgstr ""
+msgstr "GLPK"
 
 #: ../plugins/gnome-db/plugin.xml.in.h:1
 msgid "GNOME-DB"
-msgstr ""
+msgstr "GNOME-DB"
 
 #: ../plugins/gnome-db/plugin.xml.in.h:2
 msgid "Database UI services plugin"
-msgstr ""
+msgstr "Додаток служб інтерфейсу бази даних"
 
 #: ../plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
@@ -1200,46 +1160,44 @@ msgstr "Словник термінів GNOME"
 
 #: ../plugins/gnome-glossary/plugin.xml.in.h:2
 msgid "It provides support for saving Gnome Glossary in .po files."
-msgstr ""
+msgstr "Забезпечує підтримку зберігання глосарія Gnome до файлів .po."
 
 #: ../plugins/gnome-glossary/plugin.xml.in.h:3
-#, fuzzy
 msgid "Gnome Glossary PO file format"
-msgstr "Формат файлу Gnumeric"
+msgstr "формат файлів PO глосарія Gnome"
 
 #: ../plugins/html/html_read.c:117
 msgid "[Warning: Invalid text string has been removed.]"
-msgstr ""
+msgstr "[Попередження: вилучено некоректний текстовий рядок.]"
 
 #: ../plugins/html/html_read.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "[see sheet %s]"
-msgstr "Перейменування аркушу \"%s\" \"%s\""
+msgstr "[див. аркуш %s]"
 
 #: ../plugins/html/html_read.c:157
 msgid ""
 "The original html file is\n"
 "using nested tables."
 msgstr ""
+"У початковому файлі HTML\n"
+"використано вкладені таблиці."
 
 #: ../plugins/html/html_read.c:583
-#, fuzzy
 msgid "Unable to parse the html."
-msgstr "Не вдалось вставити"
+msgstr "Не вдалося обробити html."
 
 #: ../plugins/html/plugin.xml.in.h:1
-#, fuzzy
 msgid "HTML &amp; TeX"
-msgstr "HTML & TeX"
+msgstr "HTML і TeX"
 
 #: ../plugins/html/plugin.xml.in.h:2
 msgid "Import/Export of HTML, TeX, DVI, roff"
 msgstr "Імпорт та експорт HTML, TeX, DVI, roff"
 
 #: ../plugins/html/plugin.xml.in.h:3
-#, fuzzy
 msgid "HTML (*.html, *.htm)"
-msgstr "HTML 3.2 (*.html)"
+msgstr "HTML (*.html, *.htm)"
 
 #: ../plugins/html/plugin.xml.in.h:4
 msgid "HTML 3.2 (*.html)"
@@ -1254,27 +1212,24 @@ msgid "HTML (*.html) fragment"
 msgstr "Фрагмент HTML (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:7
-#, fuzzy
 msgid "XHTML (*.html)"
-msgstr "HTML 3.2 (*.html)"
+msgstr "XHTML (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:8
 msgid "XHTML range - for export to clipboard"
-msgstr ""
+msgstr "Діапазон XHTML — для експорту до буфера обміну даними"
 
 #: ../plugins/html/plugin.xml.in.h:9
 msgid "LaTeX 2e (*.tex)"
 msgstr "LaTeX 2e (*.tex)"
 
 #: ../plugins/html/plugin.xml.in.h:10
-#, fuzzy
 msgid "LaTeX 2e (*.tex) table fragment"
-msgstr "LaTeX 2e (*.tex)"
+msgstr "Фрагмент таблиці LaTeX 2e (*.tex)"
 
 #: ../plugins/html/plugin.xml.in.h:11
-#, fuzzy
 msgid "LaTeX 2e (*.tex) table fragment of visible rows"
-msgstr "LaTeX 2e (*.tex)"
+msgstr "Фрагмент таблиці LaTeX 2e (*.tex) з видимих рядків"
 
 #: ../plugins/html/plugin.xml.in.h:12
 msgid "TROFF (*.me)"
@@ -1293,35 +1248,33 @@ msgid "Imports Lotus 123 files"
 msgstr "Імпортує файли Lotus 123"
 
 #: ../plugins/lotus-123/plugin.xml.in.h:3
-#, fuzzy
 msgid "Lotus 123 (*.wk1, *.wks, *.123)"
-msgstr "Lotus 123 (*.wk1)"
+msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
 
 #: ../plugins/lpsolve/gnm-lpsolve.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "The LPSolve exporter is not available."
-msgstr "Типова функція збереження недоступна."
+msgstr "Засіб експортування LPSolve є недоступним."
 
 #: ../plugins/lpsolve/lpsolve-write.c:329
 msgid "Writing lpsolve file..."
-msgstr ""
+msgstr "Записуємо файл lpsolve…"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:1
 msgid "LPSolve Linear Program Solver Interface"
-msgstr ""
+msgstr "Інтерфейс до розв'язувача задач лінійного програмування LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:2
 msgid "Solver Interface to LPSolve"
-msgstr ""
+msgstr "Інтерфейс розв'язувача для LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:3
 msgid "LPSolve Linear Program Solver"
-msgstr ""
+msgstr "Розв'язувач задач лінійного програмування LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:4
-#, fuzzy
 msgid "LPSolve"
-msgstr "Зберегти"
+msgstr "LPSolve"
 
 #: ../plugins/mps/mps.c:191
 msgid "Program Name"
@@ -1333,28 +1286,26 @@ msgid "Invalid line in ROWS section"
 msgstr "Не вдалось відобразити файл в пам'яті."
 
 #: ../plugins/mps/mps.c:229
-#, fuzzy, c-format
+#, c-format
 msgid "Duplicate rows name %s"
-msgstr "_Дублювати"
+msgstr "Дублювання назв рядків %s"
 
 #: ../plugins/mps/mps.c:247
-#, fuzzy
 msgid "Duplicate objective row"
-msgstr "_Дублювати"
+msgstr "Дублювання цільового рядка"
 
 #: ../plugins/mps/mps.c:257
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid row type %s"
-msgstr "Невірний шаблонний файл: %s"
+msgstr "Некоректний тип рядка %s"
 
 #: ../plugins/mps/mps.c:271
 msgid "Missing objective row"
 msgstr ""
 
 #: ../plugins/mps/mps.c:296
-#, fuzzy
 msgid "Invalid marker"
-msgstr "Невірний шаблон пошуку."
+msgstr "Некоректний маркер"
 
 #: ../plugins/mps/mps.c:346
 #, c-format
@@ -1362,9 +1313,9 @@ msgid "Invalid row name, %s, in columns"
 msgstr ""
 
 #: ../plugins/mps/mps.c:413
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid bounds type %s"
-msgstr "Невірний шаблонний файл: %s"
+msgstr "Некоректний тип обмежень %s"
 
 #: ../plugins/mps/mps.c:429
 #, c-format
@@ -1378,9 +1329,8 @@ msgstr ""
 
 #. ----------------------------------------
 #: ../plugins/mps/mps.c:590 ../src/tools/gnm-solver.c:1879
-#, fuzzy
 msgid "Constraint"
-msgstr "Часові рамки"
+msgstr "Обмеження"
 
 #: ../plugins/mps/mps.c:591 ../plugins/mps/mps.c:653
 #: ../src/dialogs/dialog-doc-metadata.c:1910
@@ -1465,7 +1415,7 @@ msgstr "Помилка внутрішнього типу"
 #: ../plugins/openoffice/openoffice-read.c:678
 #, fuzzy, c-format
 msgid "Invalid integer '%s', for '%s'"
-msgstr "Невірна кількість аргументів"
+msgstr "Некоректна кількість аргументів"
 
 #: ../plugins/openoffice/openoffice-read.c:693
 #, c-format
@@ -1920,8 +1870,8 @@ msgid "page"
 msgstr ""
 
 #: ../plugins/openoffice/openoffice-write.c:5243
-#, fuzzy
 #: ../plugins/openoffice/openoffice-write.c:5255
+#, fuzzy
 msgid "pages"
 msgstr "сторінки"
 
@@ -1936,15 +1886,15 @@ msgid "time"
 msgstr "час"
 
 #: ../plugins/openoffice/openoffice-write.c:5246
-#: ../plugins/openoffice/openoffice-write.c:5258 ../src/ssconvert.c:118
+#: ../plugins/openoffice/openoffice-write.c:5258 ../src/ssconvert.c:119
 #: ../src/ssdiff.c:61
 #, fuzzy
 msgid "file"
 msgstr "Зразок"
 
 #: ../plugins/openoffice/openoffice-write.c:5247
-#, fuzzy
 #: ../plugins/openoffice/openoffice-write.c:5259
+#, fuzzy
 msgid "path"
 msgstr "шлях"
 
@@ -2466,7 +2416,7 @@ msgstr ""
 #: ../src/dialogs/dialog-search.c:437 ../src/dialogs/dialog-stf-export.c:594
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
 #: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:577
-#: ../src/workbook.c:1052 ../src/workbook.c:1082
+#: ../src/workbook.c:1057 ../src/workbook.c:1087
 msgid "Sheet"
 msgstr "Аркуш"
 
@@ -6112,7 +6062,6 @@ msgid "Column"
 msgstr "Стовпчик"
 
 #: ../src/dialogs/dialog-data-slicer.c:143 ../src/dialogs/dialog-stf.ui.h:31
-#, fuzzy
 msgid "Data"
 msgstr "Дані"
 
@@ -6287,7 +6236,6 @@ msgstr "Зв'язати з:"
 #. IMPORTANT: OBEY THE ORDER 0 - 3 - 2 - 1
 #: ../src/dialogs/dialog-doc-metadata.c:2228
 #: ../src/dialogs/doc-meta-data.ui.h:14 ../src/dialogs/hf-config.ui.h:18
-#, fuzzy
 msgid "File"
 msgstr "Файл"
 
@@ -6301,7 +6249,8 @@ msgstr "Властивості"
 #: ../src/dialogs/dialog-function-select.c:1284
 #: ../src/dialogs/dialog-plugin-manager.c:710
 #: ../src/dialogs/dialog-sheet-compare.c:713
-#: ../src/dialogs/doc-meta-data.ui.h:29 ../src/ssconvert.c:389
+#: ../src/dialogs/doc-meta-data.ui.h:29 ../src/ssconvert.c:398
+#: ../src/ssconvert.c:431
 msgid "Description"
 msgstr "Опис"
 
@@ -6652,9 +6601,9 @@ msgid "Plugin name"
 msgstr "Назва рисунка"
 
 #. Translate these?
-#: ../src/dialogs/dialog-plugin-manager.c:714 ../src/ssconvert.c:102
+#: ../src/dialogs/dialog-plugin-manager.c:714 ../src/ssconvert.c:103
+#: ../src/ssconvert.c:126 ../src/ssconvert.c:397 ../src/ssconvert.c:430
 #, fuzzy
-#: ../src/ssconvert.c:125 ../src/ssconvert.c:388
 msgid "ID"
 msgstr "Ід."
 
@@ -6773,7 +6722,6 @@ msgid "Copy and Paste"
 msgstr "Копіювати та вставити"
 
 #: ../src/dialogs/dialog-preferences.c:1225
-#, fuzzy
 msgid "Screen"
 msgstr "Екран"
 
@@ -7489,7 +7437,6 @@ msgid "Added"
 msgstr "Додано"
 
 #: ../src/dialogs/dialog-sheet-compare.c:273
-#| msgid "Remove"
 msgid "Removed"
 msgstr "Вилучено"
 
@@ -7534,8 +7481,8 @@ msgid "Fill"
 msgstr "Заповнення"
 
 #: ../src/dialogs/dialog-sheet-compare.c:382
-#, fuzzy
 #: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3716
+#, fuzzy
 msgid "Justify"
 msgstr "По ширині"
 
@@ -7551,8 +7498,8 @@ msgid "Distributed"
 msgstr "Дискретне"
 
 #: ../src/dialogs/dialog-sheet-compare.c:393
-#, fuzzy
 #: ../src/dialogs/autofilter-top10.ui.h:3 ../src/dialogs/cell-format.ui.h:40
+#, fuzzy
 msgid "Top"
 msgstr "Вгорі"
 
@@ -7591,7 +7538,7 @@ msgid "Right-to-left"
 msgstr "Справа ліворуч"
 
 #: ../src/dialogs/dialog-sheet-compare.c:408
-#: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:767
+#: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:776
 #, fuzzy
 msgid "Auto"
 msgstr "Авто"
@@ -7638,9 +7585,8 @@ msgstr ""
 
 #. xgettext : "Lock" is short for locked.  Keep this short.
 #: ../src/dialogs/dialog-sheet-order.c:706
-#, fuzzy
 msgid "Lock"
-msgstr "Заблокувати"
+msgstr "Замок"
 
 #. xgettext : "Viz" is short for visibility.  Keep this short.
 #: ../src/dialogs/dialog-sheet-order.c:719
@@ -8153,7 +8099,6 @@ msgid "Input"
 msgstr "Вхід"
 
 #: ../src/dialogs/advanced-filter.ui.h:6 ../src/dialogs/anova-one.ui.h:13
-#, fuzzy
 #: ../src/dialogs/anova-two.ui.h:9 ../src/dialogs/chi-squared.ui.h:15
 #: ../src/dialogs/consolidate.ui.h:13 ../src/dialogs/correlation.ui.h:11
 #: ../src/dialogs/covariance.ui.h:11 ../src/dialogs/descriptive-stats.ui.h:21
@@ -8167,6 +8112,7 @@ msgstr "Вхід"
 #: ../src/dialogs/sign-test.ui.h:16 ../src/dialogs/simulation.ui.h:19
 #: ../src/dialogs/variance-tests.ui.h:9
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:6
+#, fuzzy
 msgid "Output"
 msgstr "Вивід"
 
@@ -8208,7 +8154,6 @@ msgstr "(згруповано за %1)"
 #: ../src/dialogs/one-mean-test.ui.h:5
 #: ../src/dialogs/principal-components.ui.h:6 ../src/dialogs/rank.ui.h:6
 #: ../src/dialogs/sampling.ui.h:6 ../src/dialogs/sign-test.ui.h:5
-#| msgid "_Columns"
 msgctxt "groupby"
 msgid "_Columns"
 msgstr "Стовпчики"
@@ -8222,7 +8167,6 @@ msgstr "Стовпчики"
 #: ../src/dialogs/normality-tests.ui.h:8 ../src/dialogs/one-mean-test.ui.h:7
 #: ../src/dialogs/principal-components.ui.h:8 ../src/dialogs/rank.ui.h:8
 #: ../src/dialogs/sampling.ui.h:8 ../src/dialogs/sign-test.ui.h:7
-#| msgid "_Rows"
 msgctxt "groupby"
 msgid "_Rows"
 msgstr "Рядки"
@@ -9064,14 +9008,12 @@ msgstr "Групувати/Розгрупувати"
 
 #. Group Columns
 #: ../src/dialogs/colrow.ui.h:3
-#| msgid "_Columns"
 msgctxt "group"
 msgid "_Columns"
 msgstr "Стовпчики"
 
 #. Group Rows
 #: ../src/dialogs/colrow.ui.h:5
-#| msgid "_Rows"
 msgctxt "group"
 msgid "_Rows"
 msgstr "Рядки"
@@ -10463,7 +10405,7 @@ msgstr "Сторінка"
 #: ../src/dialogs/hf-config.ui.h:13
 #, fuzzy
 msgid "Insert the total number of pages"
-msgstr "Невірна кількість аргументів"
+msgstr "Некоректна кількість аргументів"
 
 #: ../src/dialogs/hf-config.ui.h:14
 #, fuzzy
@@ -11441,9 +11383,8 @@ msgid "Save?"
 msgstr "Зберегти"
 
 #: ../src/dialogs/quit.ui.h:15 ../src/dialogs/recent.ui.h:5
-#, fuzzy
 msgid "Document"
-msgstr "Формат"
+msgstr "Документ"
 
 #: ../src/dialogs/quit.ui.h:16
 msgid "Unsaved"
@@ -12201,7 +12142,6 @@ msgid "Old Name:"
 msgstr "Стара назва"
 
 #: ../src/dialogs/sheet-rename.ui.h:3
-#| msgid "New Name"
 msgid "New Name:"
 msgstr "Нова назва:"
 
@@ -12250,14 +12190,12 @@ msgstr "Вибірка"
 
 #. Shuffle metod: Columns
 #: ../src/dialogs/shuffle.ui.h:5
-#| msgid "_Columns"
 msgctxt "shuffle"
 msgid "_Columns"
 msgstr "Стовпчики"
 
 #. Shuffle metod: Columns
 #: ../src/dialogs/shuffle.ui.h:7
-#| msgid "_Rows"
 msgctxt "shuffle"
 msgid "_Rows"
 msgstr "Рядки"
@@ -13344,7 +13282,7 @@ msgstr "Невідомий аркуш \"%s\""
 #: ../src/gutils.c:992
 #, fuzzy, c-format
 msgid "Invalid export option \"%s\" for format %s"
-msgstr "Невірна кількість аргументів"
+msgstr "Некоректна кількість аргументів"
 
 #: ../src/hlink.c:289
 #, fuzzy
@@ -13506,7 +13444,7 @@ msgstr ""
 msgid "[FILE ...]"
 msgstr "ФАЙЛ"
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1266 ../src/ssdiff.c:936
+#: ../src/main-application.c:127 ../src/ssconvert.c:1390 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
 #, fuzzy, c-format
 msgid ""
@@ -13768,7 +13706,6 @@ msgid "Gnumeric Print Range"
 msgstr "Gnumeric"
 
 #: ../src/print.c:1891
-#| msgid "Printing failed"
 msgid "Print to File"
 msgstr "Друкувати у файл"
 
@@ -14154,7 +14091,7 @@ msgstr "С_терти"
 msgid "Print"
 msgstr "Друкувати"
 
-#: ../src/sheet-object-component.c:182 ../src/sheet-object-graph.c:287
+#: ../src/sheet-object-component.c:182 ../src/sheet-object-graph.c:296
 #: ../src/sheet-object-image.c:287
 #, fuzzy, c-format
 msgid "Unknown failure while saving image"
@@ -14164,28 +14101,34 @@ msgstr "Помилка під час збереження файлу."
 msgid "Save as"
 msgstr "Зберегти як"
 
-#: ../src/sheet-object-component.c:268 ../src/sheet-object-graph.c:398
+#: ../src/sheet-object-component.c:268 ../src/sheet-object-graph.c:407
 #: ../src/sheet-object-image.c:344
 #, fuzzy
 msgid "_Save As Image"
 msgstr "З_берегти як зображення"
 
-#: ../src/sheet-object-graph.c:399
+#: ../src/sheet-object-graph.c:288
+#, fuzzy, c-format
+#| msgid "Unknown error"
+msgid "Unknown image format"
+msgstr "Невідома помилка"
+
+#: ../src/sheet-object-graph.c:408
 msgid "Open in _New Window"
 msgstr ""
 
-#: ../src/sheet-object-graph.c:400
+#: ../src/sheet-object-graph.c:409
 #, fuzzy
 msgid "Copy to New Graph S_heet"
 msgstr "Аркуш"
 
-#: ../src/sheet-object-graph.c:763
+#: ../src/sheet-object-graph.c:772
 #, fuzzy
 msgid "Series as:"
 msgstr "Назва серій"
 
 #. Translators: Series as "Columns"
-#: ../src/sheet-object-graph.c:769
+#: ../src/sheet-object-graph.c:778
 #, fuzzy
 #| msgid "Columns"
 msgctxt "graph"
@@ -14193,17 +14136,17 @@ msgid "Columns"
 msgstr "Стовпчики"
 
 #. Translators: Series as "Rows"
-#: ../src/sheet-object-graph.c:771
+#: ../src/sheet-object-graph.c:780
 #, fuzzy
 msgctxt "graph"
 msgid "Rows"
 msgstr "Рядки"
 
-#: ../src/sheet-object-graph.c:775
+#: ../src/sheet-object-graph.c:784
 msgid "Use first series as shared abscissa"
 msgstr ""
 
-#: ../src/sheet-object-graph.c:778
+#: ../src/sheet-object-graph.c:787
 #, fuzzy
 msgid "New graph sheet"
 msgstr "Аркуш"
@@ -14355,213 +14298,222 @@ msgstr "Вставити рядки"
 msgid "Delete Rows"
 msgstr "Стерти рядки"
 
-#: ../src/ssconvert.c:78 ../src/ssdiff.c:53 ../src/ssgrep.c:158
+#: ../src/ssconvert.c:79 ../src/ssdiff.c:53 ../src/ssgrep.c:158
 #: ../src/ssindex.c:45
 msgid "Display program version"
 msgstr "Показати версію програми"
 
-#: ../src/ssconvert.c:85
+#: ../src/ssconvert.c:86
 msgid "Be somewhat more verbose during conversion"
 msgstr ""
 
-#: ../src/ssconvert.c:94 ../src/ssindex.c:66
+#: ../src/ssconvert.c:95 ../src/ssindex.c:66
 msgid "Optionally specify an encoding for imported content"
 msgstr ""
 
-#: ../src/ssconvert.c:95 ../src/ssindex.c:67
+#: ../src/ssconvert.c:96 ../src/ssindex.c:67
 msgid "ENCODING"
 msgstr "КОДУВАННЯ"
 
-#: ../src/ssconvert.c:101
+#: ../src/ssconvert.c:102
 msgid "Optionally specify which importer to use"
 msgstr ""
 
-#: ../src/ssconvert.c:108
+#: ../src/ssconvert.c:109
 msgid "List the available importers"
 msgstr ""
 
-#: ../src/ssconvert.c:117
+#: ../src/ssconvert.c:118
 msgid "Merge listed files (all same format) to make this file"
 msgstr ""
 
-#: ../src/ssconvert.c:124
+#: ../src/ssconvert.c:125
 msgid "Optionally specify which exporter to use"
 msgstr ""
 
-#: ../src/ssconvert.c:131
+#: ../src/ssconvert.c:132
 msgid "Detailed instructions for the chosen exporter"
 msgstr ""
 
-#: ../src/ssconvert.c:132
+#: ../src/ssconvert.c:133
 #, fuzzy
 msgid "string"
 msgstr "рядок"
 
-#: ../src/ssconvert.c:138
+#: ../src/ssconvert.c:139
 msgid "List the available exporters"
 msgstr ""
 
-#: ../src/ssconvert.c:145
+#: ../src/ssconvert.c:146
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time"
 msgstr ""
 
-#: ../src/ssconvert.c:152
+#: ../src/ssconvert.c:153
 #, fuzzy
 msgid "Export graphs"
 msgstr "Формат - час"
 
-#: ../src/ssconvert.c:159
+#: ../src/ssconvert.c:160
+msgid "List the available image formats"
+msgstr ""
+
+#: ../src/ssconvert.c:167
 msgid "Change the contents of a cell before writing --set A12=2"
 msgstr ""
 
-#: ../src/ssconvert.c:166
+#: ../src/ssconvert.c:174
 #, fuzzy
 msgid "Recalculate all cells before writing the result"
 msgstr "Вибрати всі комірки в таблиці"
 
-#: ../src/ssconvert.c:173
+#: ../src/ssconvert.c:181
 msgid "Resize to given ROWSxCOLS"
 msgstr ""
 
-#: ../src/ssconvert.c:185
+#: ../src/ssconvert.c:193
 #, fuzzy
 #| msgid "Paste the clipboard"
 msgid "Output via the clipboard"
 msgstr "Вставити кишеню"
 
-#: ../src/ssconvert.c:192
+#: ../src/ssconvert.c:200
 msgid "The range to export"
 msgstr ""
 
-#: ../src/ssconvert.c:199
+#: ../src/ssconvert.c:207
 #, fuzzy
 msgid "Goal seek areas"
 msgstr "Пошук цілі..."
 
-#: ../src/ssconvert.c:206
+#: ../src/ssconvert.c:214
 msgid "Run the solver"
 msgstr ""
 
-#: ../src/ssconvert.c:213
+#: ../src/ssconvert.c:221
 msgid "Tool test specs"
 msgstr ""
 
-#: ../src/ssconvert.c:288
+#: ../src/ssconvert.c:296 ../src/ssconvert.c:903
 #, fuzzy
 msgid "Cannot parse export options."
 msgstr "Форматування стовпчика"
 
-#: ../src/ssconvert.c:321
+#: ../src/ssconvert.c:330
 #, c-format
 msgid ""
 "Selected exporter (%s) does not have the ability to split a workbook into "
 "sheets.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:333
+#: ../src/ssconvert.c:342
 #, c-format
 msgid ""
 "Selected exporter (%s) does not have the ability to export a subset of "
 "sheets.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:340
+#: ../src/ssconvert.c:349
 #, c-format
 msgid "Selected exporter (%s) can only export one sheet at a time.\n"
 msgstr ""
 
 #. FIXME: && nexpr2-is-not-the-same-as-nexpr
-#: ../src/ssconvert.c:509
+#: ../src/ssconvert.c:544
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:588
+#: ../src/ssconvert.c:623
 #, fuzzy, c-format
 msgid "Adding sheets from %s\n"
 msgstr "Невідомий аркуш \"%s\""
 
-#: ../src/ssconvert.c:670
+#: ../src/ssconvert.c:716
 #, fuzzy, c-format
 msgid "Failed to create solver"
 msgstr "Неможливо створити тимчасовий файл."
 
-#: ../src/ssconvert.c:685
+#: ../src/ssconvert.c:731
 #, c-format
 msgid "Solver reached time or iteration limit\n"
 msgstr ""
 
-#: ../src/ssconvert.c:689
+#: ../src/ssconvert.c:735
 #, c-format
 msgid "Solver ran, but failed"
 msgstr ""
 
-#: ../src/ssconvert.c:701
+#: ../src/ssconvert.c:747
 #, fuzzy, c-format
 msgid "Solver: %s\n"
 msgstr "Пошук розв'язання..."
 
-#: ../src/ssconvert.c:930
+#: ../src/ssconvert.c:878
+#, fuzzy, c-format
+msgid "Invalid export option \"%s=%s\" for image export"
+msgstr "Некоректна кількість аргументів"
+
+#: ../src/ssconvert.c:1054
 #, fuzzy, c-format
 msgid "Failed to set cell %s\n"
 msgstr "Неможливо створити тимчасовий файл."
 
-#: ../src/ssconvert.c:962
+#: ../src/ssconvert.c:1086
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:982
+#: ../src/ssconvert.c:1106
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:988
+#: ../src/ssconvert.c:1112
 #, fuzzy, c-format
 msgid "Using exporter %s\n"
 msgstr "Неправильний вираз"
 
-#: ../src/ssconvert.c:994
+#: ../src/ssconvert.c:1118
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1004
+#: ../src/ssconvert.c:1128
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
 "Try --list-importers to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1037 ../src/ssconvert.c:1188
+#: ../src/ssconvert.c:1161 ../src/ssconvert.c:1312
 #, fuzzy, c-format
 #| msgid "Load file"
 msgid "Loading %s failed\n"
 msgstr "Завантажити файл"
 
-#: ../src/ssconvert.c:1089
+#: ../src/ssconvert.c:1213
 #, fuzzy, c-format
 msgid "Resizing to %dx%d\n"
 msgstr "Перейменувати цей аркуш"
 
-#: ../src/ssconvert.c:1101
+#: ../src/ssconvert.c:1225
 #, fuzzy, c-format
 msgid "Resizing of sheet %s failed\n"
 msgstr "Перейменувати цей аркуш"
 
-#: ../src/ssconvert.c:1254 ../src/ssconvert.c:1331
+#: ../src/ssconvert.c:1378 ../src/ssconvert.c:1457
 msgid "INFILE [OUTFILE]"
 msgstr ""
 
-#: ../src/ssconvert.c:1273
+#: ../src/ssconvert.c:1397
 #, fuzzy, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -14572,12 +14524,12 @@ msgstr ""
 "Каталог даних: \"%s\"\n"
 "Каталог бібліотек: \"%s\"\n"
 
-#: ../src/ssconvert.c:1279
+#: ../src/ssconvert.c:1403
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1329 ../src/ssdiff.c:993 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1455 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr ""
@@ -15068,11 +15020,11 @@ msgid "Test of Homogeneity"
 msgstr ""
 
 #: ../src/tools/analysis-exp-smoothing.c:112
-#, fuzzy
 #: ../src/tools/analysis-exp-smoothing.c:291
 #: ../src/tools/analysis-exp-smoothing.c:478
 #: ../src/tools/analysis-exp-smoothing.c:722
 #: ../src/tools/analysis-exp-smoothing.c:1045
+#, fuzzy
 msgid "\"α =\" * 0.000"
 msgstr "α"
 
@@ -15768,7 +15720,7 @@ msgstr "Розширений фільтр..."
 #: ../src/tools/gnm-solver.c:702
 #, fuzzy, c-format
 msgid "Invalid solver target"
-msgstr "Невірна кількість аргументів"
+msgstr "Некоректна кількість аргументів"
 
 #: ../src/tools/gnm-solver.c:714
 #, fuzzy, c-format
@@ -16439,7 +16391,6 @@ msgid "Setup the page settings for your current printer"
 msgstr "Встановити параметри сторінки для вашого поточного принтера"
 
 #: ../src/wbc-gtk-actions.c:2023
-#| msgid "Print Preview"
 msgid "Print Pre_view"
 msgstr "_Попередній перегляд друку"
 
@@ -19141,24 +19092,26 @@ msgid "Can't open '%s' for writing"
 msgstr "Не вдалось відкрити"
 
 #: ../src/workbook-view.c:1407
-msgid "Unsupported file format."
+#, fuzzy, c-format
+#| msgid "Unsupported file format."
+msgid "Unsupported file format for file \"%s\""
 msgstr "Формат файлу не підтримується"
 
-#: ../src/workbook-view.c:1456
+#: ../src/workbook-view.c:1463
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""
 
-#: ../src/workbook.c:309
+#: ../src/workbook.c:314
 #, c-format
 msgid "Book%d.%s"
 msgstr "Книга%d.%s"
 
-#: ../src/workbook.c:1082
+#: ../src/workbook.c:1087
 msgid "Graph"
 msgstr "Графік"
 
-#: ../src/workbook.c:1608
+#: ../src/workbook.c:1613
 #, fuzzy, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
@@ -19166,7 +19119,7 @@ msgstr[0] "Перейменувати цей аркуш"
 msgstr[1] "Перейменувати цей аркуш"
 msgstr[2] ""
 
-#: ../src/workbook.c:1610
+#: ../src/workbook.c:1615
 #, fuzzy, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -19178,7 +19131,7 @@ msgstr[2] ""
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1616
+#: ../src/workbook.c:1621
 #, fuzzy, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
@@ -19186,12 +19139,12 @@ msgstr[0] "Вставити нову таблицю"
 msgstr[1] "Вставити нову таблицю"
 msgstr[2] ""
 
-#: ../src/workbook.c:1618
+#: ../src/workbook.c:1623
 #, fuzzy
 msgid "Changing sheet tab colors"
 msgstr "Зміна формату %s"
 
-#: ../src/workbook.c:1620
+#: ../src/workbook.c:1625
 #, fuzzy
 msgid "Changing sheet properties"
 msgstr "Зміна формату %s"
@@ -19200,7 +19153,7 @@ msgstr "Зміна формату %s"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1627
+#: ../src/workbook.c:1632
 #, fuzzy, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
@@ -19208,12 +19161,12 @@ msgstr[0] "Стерти комірки"
 msgstr[1] "Стерти комірки"
 msgstr[2] ""
 
-#: ../src/workbook.c:1629
+#: ../src/workbook.c:1634
 #, fuzzy
 msgid "Changing sheet order"
 msgstr "Зміна формату %s"
 
-#: ../src/workbook.c:1631
+#: ../src/workbook.c:1636
 #, fuzzy
 msgid "Reorganizing Sheets"
 msgstr "Друкувати аркуші"
@@ -19416,9 +19369,8 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.General.basic.xml.in.h:1
 #: ../templates/autoformat/autoformat.List.basic.xml.in.h:1
-#, fuzzy
 msgid "Basic"
-msgstr "Просте"
+msgstr "Основний"
 
 #: ../templates/autoformat/autoformat.General.basic.xml.in.h:2
 msgid "A basic formal style"
@@ -19426,7 +19378,7 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.General.empty.xml.in.h:1
 msgid "Empty"
-msgstr ""
+msgstr "Порожня"
 
 #: ../templates/autoformat/autoformat.General.empty.xml.in.h:2
 msgid "A fully empty template"
