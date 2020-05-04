@@ -17,6 +17,7 @@ Morten:
 	* Fix CELL crash.  [#479]
 	* Handle export options for ssconvert --export-graphs.
 	* Fix deps crash.  [#480]
+	* Fix chart name roundtrip through XLSX.  [#478]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.46

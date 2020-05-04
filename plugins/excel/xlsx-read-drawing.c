@@ -3200,6 +3200,20 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
+static void
+xlsx_cnvpr (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (!strcmp (attrs[0], "name")) {
+			g_free (state->object_name);
+			state->object_name = g_strdup (attrs[1]);
+		}
+	}
+}
+
+
 /**************************************************************************/
 #define CELL	0
 #define OFFSET	1
@@ -3280,12 +3294,17 @@ xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			g_object_set (state->so, "style", state->cur_style, NULL);
 
 		state->pending_objects = g_slist_prepend (state->pending_objects, state->so);
+
+		if (state->object_name)
+			sheet_object_set_name (state->so, state->object_name);
 	}
 
 	if (state->cur_style) {
 		g_object_unref (state->cur_style);
 		state->cur_style = NULL;
 	}
+	g_free (state->object_name);
+	state->object_name = NULL;
 	state->so = NULL;
 }
 
@@ -3575,7 +3594,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 
     GSF_XML_IN_NODE (TWO_CELL, GRAPHIC_FRAME, XL_NS_SS_DRAW, "graphicFrame", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (GRAPHIC_FRAME, GRAPHIC_PR, XL_NS_SS_DRAW, "nvGraphicFramePr", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (GRAPHIC_PR, CNVPR, XL_NS_SS_DRAW, "cNvPr", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (GRAPHIC_PR, CNVPR, XL_NS_SS_DRAW, "cNvPr", GSF_XML_NO_CONTENT, &xlsx_cnvpr, NULL),
         GSF_XML_IN_NODE (GRAPHIC_PR, GRAPHIC_PR_CHILD, XL_NS_SS_DRAW, "cNvGraphicFramePr", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (GRAPHIC_PR_CHILD, GRAPHIC_LOCKS, XL_NS_DRAW, "graphicFrameLocks", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (GRAPHIC_FRAME, GRAPHIC, XL_NS_DRAW, "graphic", GSF_XML_NO_CONTENT, NULL, NULL),

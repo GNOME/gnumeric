@@ -198,6 +198,7 @@ typedef struct {
 	GODrawingAnchorDir  so_direction;
 	GnmSOAnchorMode so_anchor_mode;
 	GnmExprTop const *link_texpr;
+	char *object_name;
 
 	/* Legacy drawing state */
 	double		  grp_offset[4];

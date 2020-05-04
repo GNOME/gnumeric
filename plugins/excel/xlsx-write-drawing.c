@@ -1432,6 +1432,20 @@ xlsx_write_object_anchor (GsfXMLOut *xml, GnmCellPos const *pos, char const *ele
 	gsf_xml_out_end_element (xml);
 }
 
+static void
+xlsx_write_nvpr (GsfXMLOut *xml, SheetObject *so, int id)
+{
+	// "Non-Visual Properties"
+	char *tmp;
+
+	gsf_xml_out_start_element (xml, "xdr:cNvPr");
+	gsf_xml_out_add_int (xml, "id",  id);
+	g_object_get (so, "name", &tmp, NULL);
+	gsf_xml_out_add_cstr_unchecked (xml, "name", tmp ? tmp : "");
+	g_free (tmp);
+	gsf_xml_out_end_element (xml);
+}
+
 static char const *
 xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			    GSList *objects, GHashTable *zorder)
@@ -1563,19 +1577,12 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 		}
 
 		if (GNM_IS_SO_GRAPH (so)) {
-			char *tmp;
-
 			gsf_xml_out_start_element (xml, "xdr:graphicFrame");
 			gsf_xml_out_add_cstr_unchecked (xml, "macro", "");
 
 			gsf_xml_out_start_element (xml, "xdr:nvGraphicFramePr");
 
-			gsf_xml_out_start_element (xml, "xdr:cNvPr");
-			gsf_xml_out_add_int (xml, "id",  chart_count + 1);
-			tmp = g_strdup_printf ("Chart %d", chart_count++);
-			gsf_xml_out_add_cstr_unchecked (xml, "name", tmp);
-			g_free (tmp);
-			gsf_xml_out_end_element (xml);
+			xlsx_write_nvpr (xml, so, ++chart_count);
 
 			gsf_xml_out_simple_element (xml, "xdr:cNvGraphicFramePr", NULL);
 			gsf_xml_out_end_element (xml); /* </xdr:nvGraphicFramePr> */
@@ -1606,17 +1613,10 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			gsf_xml_out_end_element (xml); /* </a:graphic> */
 			gsf_xml_out_end_element (xml); /* </xdr:graphicFrame> */
 		} else if (GNM_IS_SO_IMAGE (so)) {
-			char *tmp;
-
 			gsf_xml_out_start_element (xml, "xdr:pic");
 
 			gsf_xml_out_start_element (xml, "xdr:nvPicPr");
-			gsf_xml_out_start_element (xml, "xdr:cNvPr");
-			gsf_xml_out_add_int (xml, "id",  pic_count + 1);
-			tmp = g_strdup_printf ("Picture %d", pic_count++);
-			gsf_xml_out_add_cstr_unchecked (xml, "name", tmp);
-			g_free (tmp);
-			gsf_xml_out_end_element (xml); /* </xdr:cNvPr> */
+			xlsx_write_nvpr (xml, so, ++pic_count);
 			gsf_xml_out_start_element (xml, "xdr:cNvPicPr");
 			gsf_xml_out_end_element (xml); /* </xdr:cNvPicPr> */
 			gsf_xml_out_end_element (xml); /* </xdr:nvPicPr> */
@@ -1664,15 +1664,9 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			if (g_object_class_find_property (G_OBJECT_GET_CLASS (so), "style"))
 				g_object_get (so, "style", &style, NULL);
 			if (style) {
-				char *name;
-
-				g_object_get (so, "name", &name, NULL);
 				gsf_xml_out_start_element (xml, "xdr:sp");
 				gsf_xml_out_start_element (xml, "xdr:nvSpPr");
-				gsf_xml_out_start_element (xml, "xdr:cNvPr");
-				gsf_xml_out_add_uint (xml, "id", state->drawing_elem_id++);
-				gsf_xml_out_add_cstr (xml, "name", name ? name : "");
-				gsf_xml_out_end_element (xml); /* </xdr:cNvPr> */
+				xlsx_write_nvpr (xml, so, state->drawing_elem_id++);
 				gsf_xml_out_start_element (xml, "xdr:cNvSpPr");
 				gsf_xml_out_end_element (xml); /* </xdr:cNvSpPr> */
 				gsf_xml_out_end_element (xml); /* </xdr:nvSpPr> */
@@ -1680,7 +1674,6 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 				xlsx_write_go_style_full (xml, style, &sctx);
 				gsf_xml_out_end_element (xml); /* </xdr:sp> */
 				g_object_unref (style);
-				g_free (name);
 			}
 
 			g_free (sctx.start_arrow);

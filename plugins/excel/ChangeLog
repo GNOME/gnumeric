@@ -1,3 +1,11 @@
+2020-05-03  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read-drawing.c (xlsx_drawing_twoCellAnchor_end): Set sheet
+	object name.
+
+	* xlsx-write-drawing.c (xlsx_write_drawing_objects): Write sheet
+	object name for all sheet objects.
+
 2019-11-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.46
