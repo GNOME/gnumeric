@@ -111,6 +111,12 @@ sheet_object_set_print_flag (SheetObject *so, gboolean *print)
 		so->flags &= ~SHEET_OBJECT_PRINT;
 }
 
+gboolean
+sheet_object_get_print_flag (SheetObject *so)
+{
+	return (so->flags & SHEET_OBJECT_PRINT) != 0;
+}
+
 
 static void
 cb_so_size_position (SheetObject *so, SheetControl *sc)

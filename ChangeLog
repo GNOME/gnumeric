@@ -1,3 +1,7 @@
+2020-05-04  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object.c (sheet_object_get_print_flag): New function.
+
 2020-04-29  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (cb_pending_redraw_handler): Do some cheap merging

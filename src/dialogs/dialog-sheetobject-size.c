@@ -257,7 +257,7 @@ cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		cnt++;
 	}
 	if (state->so_print_check_changed) {
-		gboolean val = ((state->so->flags & SHEET_OBJECT_PRINT) != 0);
+		gboolean val = sheet_object_get_print_flag (state->so);
 		undo = go_undo_combine (undo, set_print_flag
 					(state->so,  val));
 		redo = go_undo_combine (redo, set_print_flag
@@ -315,7 +315,7 @@ cb_dialog_so_size_print_check_toggled (GtkToggleButton *togglebutton,
 				       SOSizeState *state)
 {
 	gboolean new_print = !gtk_toggle_button_get_active (togglebutton);
-	gboolean old_print = ((state->so->flags & SHEET_OBJECT_PRINT) != 0);
+	gboolean old_print = sheet_object_get_print_flag (state->so);
 
 	state->so_print_check_changed
 		= (new_print != old_print);
@@ -400,7 +400,7 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 	gtk_spin_button_set_value (state->xspin, 0.);
 	gtk_spin_button_set_value (state->yspin, 0.);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->print_check),
-				      !(state->so->flags & SHEET_OBJECT_PRINT));
+				      !sheet_object_get_print_flag (state->so));
 	gnm_so_anchor_mode_chooser_set_mode (state->modecombo,
 	                                     state->so->anchor.mode);
 	grid = GTK_GRID (gtk_builder_get_object (state->gui, "main-grid"));

@@ -55,6 +55,7 @@ void	      sheet_object_clear_sheet	 (SheetObject *so);
 
 void          sheet_object_set_name      (SheetObject *so, const char *name);
 void          sheet_object_set_print_flag (SheetObject *so, gboolean *print);
+gboolean      sheet_object_get_print_flag (SheetObject *so);
 
 SheetObject  *sheet_object_dup		 (SheetObject const *so);
 gboolean      sheet_object_can_print	 (SheetObject const *so);

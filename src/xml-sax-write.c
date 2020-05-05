@@ -1317,7 +1317,7 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 			so->anchor.base.direction);
 		gsf_xml_out_add_int
 		  (state->output, "Print",
-		   (so->flags & SHEET_OBJECT_PRINT) ? 1 : 0);
+		   sheet_object_get_print_flag (so) ? 1 : 0);
 
 		(*klass->write_xml_sax) (so, state->output, state->convs);
 
