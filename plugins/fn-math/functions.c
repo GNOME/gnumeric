@@ -1275,7 +1275,7 @@ static GnmFuncHelp const help_lambertw[] = {
 	{ GNM_FUNC_HELP_ARG, F_("k:branch")},
 	{ GNM_FUNC_HELP_NOTE, F_("@{k} defaults to 0, the principal branch.") },
 	{ GNM_FUNC_HELP_NOTE, F_("@{k} must be either 0 or -1.") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("The Lambert W function is the inverse function of x=W*exp(W).  There are two (real-valued) branches: k=0 which maps [-1/e;inf) onto [-1,inf); and k=-1 which maps [-1/e;0) unto (-inf;1].") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The Lambert W function is the inverse function of x=W*exp(W).  There are two (real-valued) branches: k=0 which maps [-1/e;inf) onto [-1,inf); and k=-1 which maps [-1/e;0) unto (-inf;-1].") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=LAMBERTW(3)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=LAMBERTW(-1/4,-1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "EXP"},
