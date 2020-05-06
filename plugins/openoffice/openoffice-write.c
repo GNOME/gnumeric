@@ -867,6 +867,8 @@ odf_write_sheet_object_style (GnmOOExport *state, SheetObject *so)
 
 	odf_start_style (state->xml, name, "graphic");
 	gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
+	odf_add_bool (state->xml, STYLE "print-content",
+		      sheet_object_get_print_flag (so));
 	odf_write_gog_style_graphic (state, style, FALSE);
 	gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
 	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
@@ -904,6 +906,8 @@ odf_write_sheet_object_line_style (GnmOOExport *state, SheetObject *so)
 
 	odf_start_style (state->xml, name, "graphic");
 	gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
+	odf_add_bool (state->xml, STYLE "print-content",
+		      sheet_object_get_print_flag (so));
 	if (start_arrow_name != NULL)
 		gsf_xml_out_add_cstr (state->xml, DRAW "marker-start", start_arrow_name);
 	if (end_arrow_name != NULL)

@@ -1,7 +1,13 @@
+2020-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_sheet_object_style): write print-content
+	attribute
+	(odf_write_sheet_object_line_style): write print-content attribute
+
 2020-04-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-    * openoffice-read.c (od_draw_frame_end_full): assign name to sheet object
-    * openoffice-write.c (odf_write_frame_size): write sheet object name
+	* openoffice-read.c (od_draw_frame_end_full): assign name to sheet object
+	* openoffice-write.c (odf_write_frame_size): write sheet object name
 
 2019-11-06  Morten Welinder <terra@gnome.org>
 
@@ -23,12 +29,12 @@
 
 2019-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-    * openoffice-read.c (oo_format_text_append): new, use unless we are dealing with dates or times.
+	* openoffice-read.c (oo_format_text_append): new, use unless we are dealing with dates or times.
     (oo_date_text_append): undo last change
 
 2019-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-    * openoffice-read.c (oo_date_text_append): quote slash
+	* openoffice-read.c (oo_date_text_append): quote slash
 
 2019-05-20  Morten Welinder <terra@gnome.org>
 
