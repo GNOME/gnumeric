@@ -7297,7 +7297,7 @@
 	* ms-excel-read.c (ms_sheet_create_obj) : cut-n-paste-o in line creation
 	  support font color for text boxes.
 	  (excel_palette_get) : just call colour 64 black if it gets this far.
-	    It only happens for shet objects and we need to do more research
+	    It only happens for sheet objects and we need to do more research
 	    on how to handle these.
 	(excel_read_DV) : fix double free
 
@@ -8898,7 +8898,7 @@
 
 	* ms-chart.c (excel_chart_series_write_xml) : Use
 	  gnm_graph_series_add_dimension.
-	(BC_R(seriestext)) : store constant labels as expresions.
+	(BC_R(seriestext)) : store constant labels as expressions.
 
 2001-09-28  Jody Goldberg <jgoldberg@home.com>
 
@@ -12664,7 +12664,7 @@
 	* ms-formula-read.c (make_function): Handle constant symbols.
 
 	* ms-excel-read.c (ms_excel_read_cell): Insert bools as values,
- 	not constant expresssions.
+	not constant expressions.
 	(biff_get_text): Make a little more quiet.
 	(ms_excel_read_cell): Insert strings as values, not via text.
 

@@ -1666,7 +1666,7 @@
 2015-01-14  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_cell_content): When we fail to parse
-	an expresssion, make it a string instead of dropping it on the
+	an expression, make it a string instead of dropping it on the
 	floor.
 
 2015-01-13  Morten Welinder  <terra@gnome.org>

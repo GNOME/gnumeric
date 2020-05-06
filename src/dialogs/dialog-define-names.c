@@ -159,7 +159,7 @@ name_guru_expand_at_iter (NameGuruState *state, GtkTreeIter *iter)
  * @state:
  * @nexpr: expression to be deleted
  *
- * If the expresion that is about to be deleted is being used,
+ * If the expression that is about to be deleted is being used,
  * warn the user about it. Ask if we should proceed or not
  *
  * Returns: %TRUE if users confirms deletion, %FALSE otherwise

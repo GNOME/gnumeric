@@ -264,7 +264,7 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 			{ "edit-copy",		N_("_Copy"),		NULL,  0, cb_so_copy, NULL },
 		};
 		for (i = 0 ; i < G_N_ELEMENTS (so_actions); i++)
-				g_ptr_array_add (actions, (gpointer) (so_actions + i));
+			g_ptr_array_add (actions, (gpointer) (so_actions + i));
 	} else {
 		static SheetObjectAction const so_actions [] = {
 			{ GTK_STOCK_PROPERTIES,	        NULL, NULL,  0, sheet_object_get_editor, sheet_object_can_prop},
@@ -300,7 +300,7 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 void
 sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
 {
-	g_return_if_fail  (NULL != so);
+	g_return_if_fail (NULL != so);
 
 	GNM_SO_CLASS (G_OBJECT_GET_CLASS(so))->populate_menu (so, actions);
 }

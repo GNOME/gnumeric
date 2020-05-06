@@ -1189,7 +1189,7 @@ gnm_sheet_valid_size (int cols, int rows)
  * @cols: (inout): number of columns
  * @rows: (inout): number of rows
  *
- * This function produces a valid sheet valid that is reasonable for data
+ * This function produces a valid sheet size that is reasonable for data
  * of @cols columns by @rows rows.  If possible, this will be a size bigger
  * in both dimensions.  However, that is not always possible and when it is
  * not, the suggested will be smaller in one or both directions.

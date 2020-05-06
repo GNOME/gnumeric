@@ -258,7 +258,7 @@ gnm_expr_new_funcall5 (GnmFunc *func,
  * @op: Unary operator
  * @e: (transfer full): #GnmExpr
  *
- * Returns: (transfer full): Unary expresssion
+ * Returns: (transfer full): Unary expression
  */
 GnmExpr const *
 gnm_expr_new_unary (GnmExprOp op, GnmExpr const *e)
@@ -283,7 +283,7 @@ gnm_expr_new_unary (GnmExprOp op, GnmExpr const *e)
  * @op: Unary operator
  * @r: (transfer full): right operand.
  *
- * Returns: (transfer full): Binary expresssion
+ * Returns: (transfer full): Binary expression
  */
 GnmExpr const *
 gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)

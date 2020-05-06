@@ -5300,7 +5300,7 @@ wbcg_focus_cur_scg (WBCGtk *wbcg)
  * wbcg_cur_scg:
  * @wbcg: #WBCGtk
  *
- * Returns: (transfer none): the current #ShetControlGUI.
+ * Returns: (transfer none): the current #SheetControlGUI.
  **/
 SheetControlGUI *
 wbcg_cur_scg (WBCGtk *wbcg)
