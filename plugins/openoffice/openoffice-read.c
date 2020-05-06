@@ -7628,6 +7628,11 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->other_props,
 				 oo_prop_new_string
 				 ("border", CXML2C(attrs[1])));
+		else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "print-content", &btmp))
+			style->other_props = g_slist_prepend
+				(style->other_props,
+				 oo_prop_new_bool ("do-not-print-content", !btmp));
+
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-marker-outline-colour", &btmp))
 			style->style_props = g_slist_prepend (style->style_props,
 				oo_prop_new_bool ("gnm-auto-marker-outline-colour", btmp));
@@ -10372,9 +10377,15 @@ odf_so_filled (GsfXMLIn *xin, xmlChar const **attrs, gboolean is_oval)
 		if (style_name != NULL) {
 			OOChartStyle *oostyle = g_hash_table_lookup
 				(state->chart.graph_styles, style_name);
-			if (oostyle != NULL)
+			/* since we are using oo_prop_list_has we need to default to FALSE */
+			gboolean has_prop = FALSE;
+			if (oostyle != NULL) {
 				odf_apply_style_props (xin, oostyle->style_props,
 						       style, FALSE);
+				oo_prop_list_has (oostyle->other_props, &has_prop, "do-not-print-content");
+				has_prop =!has_prop;
+				sheet_object_set_print_flag (state->chart.so, &has_prop);
+			}
 		}
 		g_object_set (state->chart.so, "style", style, NULL);
 		g_object_unref (style);

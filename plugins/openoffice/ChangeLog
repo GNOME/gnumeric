@@ -1,5 +1,10 @@
 2020-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_prop_list_has): read style:print-content
+	(odf_so_filled): set print flag
+
+2020-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_sheet_object_style): write print-content
 	attribute
 	(odf_write_sheet_object_line_style): write print-content attribute
