@@ -92,7 +92,7 @@ enum {
 
 static gboolean debug_tab_order;
 static char const *uifilename = NULL;
-static GtkActionEntry const *extra_actions = NULL;
+static GnmActionEntry const *extra_actions = NULL;
 static int extra_actions_nb;
 static guint wbc_gtk_signals[WBC_GTK_LAST_SIGNAL];
 static GObjectClass *parent_class = NULL;
@@ -118,7 +118,7 @@ wbcg_ui_update_end (WBCGtk *wbcg)
 /****************************************************************************/
 
 G_MODULE_EXPORT void
-set_uifilename (char const *name, GtkActionEntry const *actions, int nb)
+set_uifilename (char const *name, GnmActionEntry const *actions, int nb)
 {
 	uifilename = name;
 	extra_actions = actions;
@@ -5060,6 +5060,9 @@ wbc_gtk_init (GObject *obj)
 		"signal::disconnect_proxy", G_CALLBACK (cb_disconnect_proxy), wbcg,
 		"signal::post_activate", G_CALLBACK (cb_post_activate), wbcg,
 		NULL);
+	if (extra_actions)
+		gnm_action_group_add_actions (wbcg->actions, extra_actions,
+		                              extra_actions_nb, wbcg);
 	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->permanent_actions, 0);
 	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->actions, 0);
 	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->font_actions, 0);
@@ -5067,10 +5070,6 @@ wbc_gtk_init (GObject *obj)
 	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->semi_permanent_actions, 0);
 	gtk_window_add_accel_group (wbcg_toplevel (wbcg),
 		gtk_ui_manager_get_accel_group (wbcg->ui));
-
-	if (extra_actions)
-		gtk_action_group_add_actions (wbcg->actions, extra_actions,
-			                      extra_actions_nb, wbcg);
 
 	if (uifilename) {
 		if (strncmp (uifilename, "res:", 4) == 0)

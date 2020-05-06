@@ -7,6 +7,7 @@
 #include <style.h>
 #include <widgets/gnm-expr-entry.h>
 #include <widgets/gnm-notebook.h>
+#include <gui-util.h>
 
 #include <goffice/goffice.h>
 
@@ -168,7 +169,7 @@ gboolean wbc_gtk_load_templates (WBCGtk *gtk);
 
 GtkAction *wbcg_find_action (WBCGtk *wbcg, const char *name);
 
-G_MODULE_EXPORT void set_uifilename (char const *name, GtkActionEntry const *actions, int nb);
+G_MODULE_EXPORT void set_uifilename (char const *name, GnmActionEntry const *actions, int nb);
 
 G_END_DECLS
 

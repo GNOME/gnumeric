@@ -1364,6 +1364,9 @@ cb_add_component_new (GOComponent *component, gpointer wbcg)
 static void
 component_changed_cb (GOComponent *component, gpointer data)
 {
+	/* we nedd to ref the component otherwise it will be destroyed when
+	 it's editor window will be deleted */
+	g_object_ref (component);
 	cb_add_component_new (component, data);
 }
 

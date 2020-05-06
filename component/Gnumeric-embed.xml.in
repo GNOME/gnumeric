@@ -203,6 +203,7 @@
         <menuitem action="ToolsScenarioAdd"/>
       </menu>
       <menuitem action="ToolsSimulation"/>
+      <menuitem action="ToolsCompare"/>
       <separator/>
       <menuitem action="ToolsPlugins"/>
     </menu>
@@ -264,6 +265,7 @@
     </menu>
     <menu name="Data" action="MenuData">
       <menuitem action="DataSort"/>
+      <menuitem action="DataShuffle"/>
       <menu name="Fill" action="MenuEditFill">
         <menuitem action="EditFillAutofill"/>
         <menuitem action="ToolsMerge"/>
@@ -353,7 +355,7 @@
   </toolbar>
   <toolbar _name="FormatToolbar">
     <toolitem action="FontName"/>
-    <toolitem action="FontSize"/>
+    <toolitem action="VFontName"/>
     <toolitem action="FontBold"/>
     <toolitem action="FontItalic"/>
     <toolitem action="FontUnderline"/>

@@ -202,11 +202,17 @@ cb_gognm_save (G_GNUC_UNUSED GtkAction *a, WBCGtk *wbcg)
 		gui_file_save (wbcg, wb_control_view (GNM_WBC (wbcg)));
 }
 
-static GtkActionEntry const actions[] = {
 /* File */
-	{ "FileSaveEmbed", GNM_N_STOCK_SAVE, NULL,
-		NULL, N_("Save the embedded workbook"),
-		G_CALLBACK (cb_gognm_save) }
+static GnmActionEntry const actions[] = {
+/* File */
+	{ .name = "FileSaveEmbed",
+	  .icon = "document-save",
+	  .label = GNM_N_STOCK_SAVE,
+	  .label_context = GNM_STOCK_LABEL_CONTEXT,
+	  .accelerator = "<control>s",
+	  .tooltip = N_("Save the current workbook"),
+	  .callback = G_CALLBACK (cb_gognm_save)
+	}
 };
 
 static void
@@ -246,6 +252,7 @@ go_gnm_component_edit (GOComponent *component)
 	g_object_set_data (G_OBJECT (gognm->edited), "component", gognm);
 	g_signal_connect_swapped (gognm->edited->toplevel, "destroy",
 		G_CALLBACK (cb_editor_destroyed), gognm);
+	gtk_window_set_title (wbcg_toplevel (gognm->edited), _("Embedded spreadsheet"));
 	return wbcg_toplevel (gognm->edited);
 }
 
