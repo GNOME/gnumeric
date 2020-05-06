@@ -1679,7 +1679,12 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			g_free (sctx.start_arrow);
 			g_free (sctx.end_arrow);
 		}
-		gsf_xml_out_simple_element (xml, "xdr:clientData", NULL);
+
+		gsf_xml_out_start_element (xml, "xdr:clientData");
+		if (!sheet_object_get_print_flag (so))
+			xlsx_add_bool (xml, "fPrintsWithSheet", FALSE);
+		gsf_xml_out_end_element (xml); /* </xdr:clientData> */
+
 		gsf_xml_out_end_element (xml); /* </xdr:twoCellAnchor> */
 	}
 	g_slist_free (rIds);

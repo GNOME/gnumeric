@@ -517,6 +517,21 @@ xlsx_draw_color_scrgb (GsfXMLIn *xin, xmlChar const **attrs)
 	color_set_helper (state);
 }
 
+static void
+xlsx_draw_clientdata (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean print = TRUE;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_bool (xin, attrs, "fPrintsWithSheet", &print)) {
+			/* Nothing more */
+		}
+	}
+
+	sheet_object_set_print_flag (state->so, &print);
+}
+
 static GsfXMLInNode const xlsx_chart_drawing_dtd[] =
 {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -3605,7 +3620,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
       GSF_XML_IN_NODE (GRAPHIC_FRAME, TWO_CELL_XFRM, XL_NS_SS_DRAW, "xfrm", GSF_XML_NO_CONTENT, &xlsx_sppr_xfrm, NULL),
         GSF_XML_IN_NODE (TWO_CELL_XFRM, XFRM_OFF, XL_NS_DRAW, "off", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TWO_CELL_XFRM, XFRM_EXT, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (TWO_CELL, CLIENT_DATA, XL_NS_SS_DRAW, "clientData", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (TWO_CELL, CLIENT_DATA, XL_NS_SS_DRAW, "clientData", GSF_XML_NO_CONTENT, &xlsx_draw_clientdata, NULL),
     GSF_XML_IN_NODE (TWO_CELL, CONTENT_PART, XL_NS_SS_DRAW, "contentPart", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (TWO_CELL, CXN_SP, XL_NS_SS_DRAW, "cxnSp", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (TWO_CELL, PICTURE, XL_NS_SS_DRAW, "pic", GSF_XML_NO_CONTENT, &xlsx_drawing_picture, NULL),
