@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2020-04-21 23:59+0000\n"
-"PO-Revision-Date: 2020-05-04 13:15+0300\n"
+"PO-Revision-Date: 2020-05-06 12:13+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2348,9 +2348,8 @@ msgid "On worksheet %s:"
 msgstr "На робочому аркуші %s:"
 
 #: ../plugins/sc/sc.c:112
-#, fuzzy
 msgid "General SC import error"
-msgstr "Помилка внутрішнього типу"
+msgstr "Загальна помилка імпортування SC"
 
 #: ../plugins/sc/sc.c:163
 #, c-format
@@ -2394,9 +2393,8 @@ msgid "MultiPlan (SYLK)"
 msgstr "MultiPlan (SYLK)"
 
 #: ../plugins/sylk/plugin.xml.in.h:2
-#, fuzzy
 msgid "Import/Export for MultiPlan (SYLK) files"
-msgstr "Імпортує файли MultiPlan (SYLK)"
+msgstr "Імпортування/Експортування файлів MultiPlan (SYLK)"
 
 #: ../plugins/sylk/sylk.c:243
 msgid "Multiple values in the same cell"
@@ -2578,9 +2576,9 @@ msgid "System Directory for Autoformats"
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:29
-#, fuzzy
 msgid "This directory contains the pre-installed autoformat templates."
-msgstr "Помилка під час спроби завантажити шаблон автоформату"
+msgstr ""
+"У цьому каталозі містяться попередньо встановлення шаблони автоформату."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:30
 msgid "User Directory for Autoformats"
@@ -2606,7 +2604,7 @@ msgstr "GTKPrintSetting"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:35
 msgid "The configuration of GTKPrintSetting. Do not edit this variable."
-msgstr ""
+msgstr "Налаштування GTKPrintSetting. Не редагуйте цю змінну."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:36
 msgid "Page Header"
@@ -2633,23 +2631,20 @@ msgid "Default Header/Footer Font Size"
 msgstr "Типовий розмір шрифту верхнього/нижнього колонтитула"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:41
-#, fuzzy
 msgid "The default font size for headers and footers."
-msgstr "Типова ширина рядка має бути більша %d."
+msgstr "Типовий розмір шрифту для верхніх і нижніх колонтитулів."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:42
-#, fuzzy
 msgid "Default header/footer font name"
-msgstr "Визначити назву"
+msgstr "Типова назва шрифту для верхніх і нижніх колонтитулів"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:43
 msgid "The default font name for headers and footers."
-msgstr ""
+msgstr "Типова назва шрифту для верхніх і нижніх колонтитулів."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:44
-#, fuzzy
 msgid "The default header/footer font is bold."
-msgstr "Типова ширина рядка має бути більша %d."
+msgstr "Типовий шрифт верхнього/нижнього колонтитула є напівжирним."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:45
 msgid ""
@@ -2710,7 +2705,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:56
 msgid "Default Black and White Printing"
-msgstr ""
+msgstr "Типовий чорно-білий друк"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:57
 msgid ""
@@ -2753,9 +2748,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:64
-#, fuzzy
 msgid "Default Scale Percentage"
-msgstr "Формат - відсотки"
+msgstr "Типовий масштаб у відсотках"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:65
 msgid ""
@@ -2807,16 +2801,15 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:74
 msgid "Preferred Display Unit"
-msgstr ""
+msgstr "Бажана одиниця показу"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:75
 msgid "This string gives the default unit to be used in the page setup dialog."
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:76
-#, fuzzy
 msgid "Default Top Margin"
-msgstr "Визначити назву"
+msgstr "Типове верхнє поле"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:77
 msgid ""
@@ -2825,9 +2818,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:78
-#, fuzzy
 msgid "Default Bottom Margin"
-msgstr "Визначити назву"
+msgstr "Типове нижнє поле"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:79
 msgid ""
@@ -2836,9 +2828,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:80
-#, fuzzy
 msgid "Default Bottom Outside Margin"
-msgstr "Визначити назву"
+msgstr "Типове нижнє зовнішнє поле"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:81
 msgid ""
@@ -2847,9 +2838,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:82
-#, fuzzy
 msgid "Default Top Outside Margin"
-msgstr "Визначити назву"
+msgstr "Типове верхнє зовнішнє поле"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:83
 msgid ""
@@ -2858,9 +2848,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:84
-#, fuzzy
 msgid "Default Left Margin"
-msgstr "Визначити назву"
+msgstr "Типове ліве поле"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:85
 msgid ""
@@ -2869,9 +2858,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:86
-#, fuzzy
 msgid "Default Right Margin"
-msgstr "Визначити назву"
+msgstr "Типове праве поле"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:87
 msgid ""
@@ -2888,11 +2876,12 @@ msgid ""
 "This is the default paper specification. Please use the Print Setup dialog "
 "to edit this value."
 msgstr ""
+"Це типова специфікація паперу. Будь ласка, скористайтеся діалоговим вікном"
+" налаштовування друку для зміни цього значення."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:90
-#, fuzzy
 msgid "Paper orientation"
-msgstr "Операція"
+msgstr "Орієнтація паперу"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:91
 msgid ""
@@ -2961,63 +2950,56 @@ msgid "Text Export String Quoting Rule"
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:105
-#, fuzzy
 msgid "Text Export Formatting Rule"
-msgstr "Форматування стовпчика"
+msgstr "Правило форматування при експортуванні тексту"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:106
 msgid "Text Export Unknown Character Transliteration"
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:107
-#, fuzzy
 msgid "Search &amp; Replace Ignores Case"
-msgstr "Пошук і заміна"
+msgstr "Пошук і заміна з ігнорування регістру"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:108
-#, fuzzy
 msgid "Search &amp; Replace ignores case as default"
-msgstr "Пошук і заміна"
+msgstr "Пошук і заміна із типовим ігноруванням регістру символів"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:109
-#, fuzzy
 msgid "Search &amp; Replace Preserves Case"
-msgstr "Пошук і заміна"
+msgstr "Пошук і заміна зі збереженням регістру"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:110
-#, fuzzy
 msgid "Search &amp; Replace preserves case as default"
-msgstr "Пошук і заміна"
+msgstr "Пошук і заміна із типовим збереженням регістру"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:111
-#, fuzzy
 msgid "Search &amp; Replace Poses Query"
-msgstr "Пошук і заміна"
+msgstr "Пошук і заміна із запитом"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:112
 msgid "Search &amp; Replace poses query before each change as default"
-msgstr ""
+msgstr "Пошук і заміна із типовим запитом щодо кожної зміни"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:113
-#, fuzzy
 msgid "Search &amp; Replace Whole Words Only"
-msgstr "Пошук і заміна"
+msgstr "Пошук і заміна лише цілих слів"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:114
-#, fuzzy
 msgid "Search &amp; Replace replaces whole words only as default"
-msgstr "Пошук і заміна"
+msgstr "Пошук і заміна із типовою заміною лише цілих слів"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:115
-#, fuzzy
 msgid "Search &amp; Replace Scope"
-msgstr "Пошук і заміна"
+msgstr "Діапазон пошуку із заміною"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:116
 msgid ""
 "This is the default scope of Search &amp; Replace. 0: entire workbook; 1: "
 "current sheet; 2: range"
 msgstr ""
+"Типовий діапазон для пошуку із заміною. 0: уся робоча книга; 1: поточний"
+" аркуш; 2: діапазон"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:117
 #, fuzzy
@@ -3294,9 +3276,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:37
-#, fuzzy
 msgid "Format toolbar position"
-msgstr "_Пенали"
+msgstr "Розташування панелі інструментів форматування"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:38
 msgid ""
@@ -3305,9 +3286,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:39
-#, fuzzy
 msgid "Object toolbar visible"
-msgstr "Інше значення"
+msgstr "Видимість панелі інструментів об'єктів"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:40
 msgid ""
@@ -3316,9 +3296,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:41
-#, fuzzy
 msgid "Object toolbar position"
-msgstr "Інше значення"
+msgstr "Розташування панелі інструментів об'єктів"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:42
 msgid ""
@@ -3327,9 +3306,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:43
-#, fuzzy
 msgid "Function Markers"
-msgstr "Вибір шрифту"
+msgstr "Позначки функцій"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:44
 msgid ""
@@ -3338,9 +3316,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:45
-#, fuzzy
 msgid "Extension Markers"
-msgstr "Діапазон комірок"
+msgstr "Позначки розширень"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:46
 msgid ""
@@ -3369,28 +3346,26 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:51
 #: ../src/dialogs/dialog-preferences.c:1069
-#, fuzzy
 msgid "Show Function Name Tooltips"
-msgstr "Функції не існує"
+msgstr "Показувати підказки щодо назв функцій"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:52
 msgid "This variable determines whether to show function name tooltips."
-msgstr ""
+msgstr "Ця змінна визначає, чи слід показувати підказки щодо назв функцій."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:53
 #: ../src/dialogs/dialog-preferences.c:1074
-#, fuzzy
 msgid "Show Function Argument Tooltips"
-msgstr "Ґуру функцій"
+msgstr "Показувати підказки щодо аргументів функцій"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:54
 msgid "This variable determines whether to show function argument tooltips."
 msgstr ""
+"Ця змінна визначає, чи слід показувати підказки щодо аргументів функцій."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:55
-#, fuzzy
 msgid "Enter Direction"
-msgstr "Опис:"
+msgstr "Напрямок для Enter"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:56
 msgid "Which direction pressing Enter will move the edit position."
@@ -3425,9 +3400,8 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:61
 #: ../src/dialogs/dialog-preferences.c:849
-#, fuzzy
 msgid "Default Horizontal Window Size"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Типовий розмір вікна за горизонталлю"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:62
 msgid ""
@@ -3502,9 +3476,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:75
-#, fuzzy
 msgid "Sort is Case-Sensitive"
-msgstr "Регістрова чутливість"
+msgstr "Врахування регістру для упорядковування"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:76
 msgid ""
@@ -3515,9 +3488,8 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
 #: ../src/dialogs/dialog-preferences.c:808
-#, fuzzy
 msgid "Sorting Preserves Formats"
-msgstr "Формати"
+msgstr "Упорядкування зберігає формати"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:78
 msgid ""
@@ -3539,9 +3511,8 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:81
 #: ../src/dialogs/dialog-preferences.c:803
-#, fuzzy
 msgid "Number of Automatic Clauses"
-msgstr "Кількість невдач"
+msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:82
 msgid ""
@@ -3594,9 +3565,8 @@ msgid ""
 msgstr ""
 
 #: ../src/application.c:303
-#, fuzzy
 msgid "Cut Object"
-msgstr "Інше значення"
+msgstr "Вирізати об'єкт"
 
 #: ../src/clipboard.c:488 ../src/clipboard.c:501 ../src/clipboard.c:513
 #: ../src/clipboard.c:523
@@ -3605,7 +3575,7 @@ msgstr "Не вдалось вставити"
 
 #: ../src/clipboard.c:489
 msgid "Contents can only be pasted by value or by link."
-msgstr ""
+msgstr "Дані може бути вставлено лише за значенням або за посиланням."
 
 #: ../src/clipboard.c:497
 #, c-format
@@ -3657,6 +3627,8 @@ msgid ""
 "Inserting these cells would push data off the sheet. Please enlarge the "
 "sheet first."
 msgstr ""
+"Вставлення цих комірок призведе до виходу даних за межі аркуша. Будь ласка,"
+" спочатку збільште аркуш."
 
 #: ../src/cmd-edit.c:426
 #, c-format
@@ -3676,7 +3648,7 @@ msgstr "Зсунути стовпчики %s"
 #: ../src/cmd-edit.c:476
 #, c-format
 msgid "Shift column %s"
-msgstr "Показати стовпчик %s"
+msgstr "Зсунути стовпчик %s"
 
 #: ../src/command-context.c:55
 #, c-format
@@ -3689,34 +3661,35 @@ msgid "Would split an array"
 msgstr ""
 
 #: ../src/command-context.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "Would split merge %s"
-msgstr "Не вдалося завантажити файл %s"
+msgstr ""
 
 #: ../src/commands.c:207
 #, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
 msgstr ""
+"%s заблоковано. Зніміть захист із робочої книги, щоб уможливити редагування."
 
 #: ../src/commands.c:208
 #, c-format
 msgid "%s is locked. Unprotect the sheet to enable editing."
-msgstr ""
+msgstr "%s заблоковано. Зніміть захист із аркуша, щоб уможливити редагування."
 
 #: ../src/commands.c:898
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting expression in %s"
-msgstr "Неправильний вираз"
+msgstr "Вставляємо вираз до %s"
 
 #: ../src/commands.c:990
-#, fuzzy, c-format
+#, c-format
 msgid "Editing style of %s"
-msgstr "Очищення %s в %s"
+msgstr "Стиль редагування %s"
 
 #: ../src/commands.c:993
-#, fuzzy, c-format
+#, c-format
 msgid "Typing \"%s\" in %s"
-msgstr "Набір \"%s%s\" в %s"
+msgstr ""
 
 #: ../src/commands.c:1139 ../src/wbc-gtk-edit.c:161 ../src/wbc-gtk-edit.c:171
 #: ../src/wbc-gtk-edit.c:187 ../src/wbc-gtk-edit.c:208
@@ -3725,19 +3698,18 @@ msgid "Set Text"
 msgstr "Встановити текст"
 
 #: ../src/commands.c:1182
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting array expression in %s"
-msgstr "Вставляння %d рядка перед %s"
+msgstr "Вставляємо вираз масиву у %s"
 
 #: ../src/commands.c:1234
-#, fuzzy, c-format
+#, c-format
 msgid "Creating a Data Table in %s"
-msgstr "Створити список"
+msgstr "Створюємо таблицю даних у %s"
 
 #: ../src/commands.c:1294
-#, fuzzy
 msgid "Ins/Del Column/Row"
-msgstr "Вставити стовпчики"
+msgstr "Вставити/Вилучити стовпчик/рядок"
 
 #: ../src/commands.c:1463
 #, c-format
@@ -3753,13 +3725,13 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: ../src/commands.c:1473
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting %d column before %s"
 msgid_plural "Inserting %d columns before %s"
-msgstr[0] "Вставляння %d стовпчика після %s"
-msgstr[1] "Вставляння %d стовпчика після %s"
-msgstr[2] ""
-msgstr[3] "Вставляння %d стовпчика після %s"
+msgstr[0] "Вставляння %d стовпчика перед %s"
+msgstr[1] "Вставляння %d стовпчиків перед %s"
+msgstr[2] "Вставляння %d стовпчиків перед %s"
+msgstr[3] "Вставляння %d стовпчика перед %s"
 
 #: ../src/commands.c:1492
 #, c-format
@@ -3775,12 +3747,12 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: ../src/commands.c:1502
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting %d row before %s"
 msgid_plural "Inserting %d rows before %s"
 msgstr[0] "Вставляння %d рядка перед %s"
-msgstr[1] "Вставляння %d рядка перед %s"
-msgstr[2] ""
+msgstr[1] "Вставляння %d рядків перед %s"
+msgstr[2] "Вставляння %d рядків перед %s"
 msgstr[3] "Вставляння %d рядка перед %s"
 
 #: ../src/commands.c:1514
@@ -3829,9 +3801,8 @@ msgid "Clearing %s in %s"
 msgstr "Очищення %s в %s"
 
 #: ../src/commands.c:1747
-#, fuzzy
 msgid "Changing Format"
-msgstr "Зміна формату %s"
+msgstr "Зміна формату"
 
 #: ../src/commands.c:1882
 #, c-format
@@ -3839,9 +3810,9 @@ msgid "Changing format of %s"
 msgstr "Зміна формату %s"
 
 #: ../src/commands.c:1969
-#, fuzzy, c-format
+#, c-format
 msgid "Setting Font Style of %s"
-msgstr "Стирання стовпчика %s"
+msgstr "Встановлення стилю шрифту %s"
 
 #: ../src/commands.c:2021
 #, c-format
@@ -3854,34 +3825,34 @@ msgid "Autofitting row %s"
 msgstr "Автопідгін рядка %s"
 
 #: ../src/commands.c:2025
-#, fuzzy, c-format
+#, c-format
 #| msgid "Setting width of column %s to %d pixels"
 msgid "Setting width of column %s to %d pixel"
 msgid_plural "Setting width of column %s to %d pixels"
-msgstr[0] "Зміна ширини стовпчика %s до %d точок"
+msgstr[0] "Зміна ширини стовпчика %s до %d точки"
 msgstr[1] "Зміна ширини стовпчика %s до %d точок"
-msgstr[2] ""
-msgstr[3] "Зміна ширини стовпчика %s до %d точок"
+msgstr[2] "Зміна ширини стовпчика %s до %d точок"
+msgstr[3] "Зміна ширини стовпчика %s до %d точки"
 
 #: ../src/commands.c:2029
-#, fuzzy, c-format
+#, c-format
 #| msgid "Setting height of row %s to %d pixels"
 msgid "Setting height of row %s to %d pixel"
 msgid_plural "Setting height of row %s to %d pixels"
-msgstr[0] "Зміна висоти рядка %s до %d точок"
+msgstr[0] "Зміна висоти рядка %s до %d точки"
 msgstr[1] "Зміна висоти рядка %s до %d точок"
-msgstr[2] ""
-msgstr[3] "Зміна висоти рядка %s до %d точок"
+msgstr[2] "Зміна висоти рядка %s до %d точок"
+msgstr[3] "Зміна висоти рядка %s до %d точки"
 
 #: ../src/commands.c:2034
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of column %s to default"
-msgstr "Зміна ширини стовпчика %s до %d точок"
+msgstr "Встановлення типової ширини стовпчика %s"
 
 #: ../src/commands.c:2037
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of row %s to default"
-msgstr "Зміна висоти рядка %s до %d точок"
+msgstr "Встановлення типової висоти рядка %s"
 
 #: ../src/commands.c:2041
 #, c-format
@@ -3889,52 +3860,51 @@ msgid "Autofitting columns %s"
 msgstr "Автопідгін стовпчиків %s"
 
 #: ../src/commands.c:2042
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting rows %s"
-msgstr "Автопідгін рядка %s"
+msgstr "Автопідгін рядків %s"
 
 #: ../src/commands.c:2045
-#, fuzzy, c-format
+#, c-format
 #| msgid "Setting width of columns %s to %d pixels"
 msgid "Setting width of columns %s to %d pixel"
 msgid_plural "Setting width of columns %s to %d pixels"
-msgstr[0] "Встановлення ширини стовпчиків %s у %d точок"
+msgstr[0] "Встановлення ширини стовпчиків %s у %d точку"
 msgstr[1] "Встановлення ширини стовпчиків %s у %d точок"
-msgstr[2] ""
-msgstr[3] "Встановлення ширини стовпчиків %s у %d точок"
+msgstr[2] "Встановлення ширини стовпчиків %s у %d точок"
+msgstr[3] "Встановлення ширини стовпчиків %s у %d точку"
 
 #: ../src/commands.c:2049
-#, fuzzy, c-format
+#, c-format
 #| msgid "Setting height of rows %s to %d pixels"
 msgid "Setting height of rows %s to %d pixel"
 msgid_plural "Setting height of rows %s to %d pixels"
-msgstr[0] "Встановлення висоти рядків %s у %d точок"
+msgstr[0] "Встановлення висоти рядків %s у %d точку"
 msgstr[1] "Встановлення висоти рядків %s у %d точок"
-msgstr[2] ""
-msgstr[3] "Встановлення висоти рядків %s у %d точок"
+msgstr[2] "Встановлення висоти рядків %s у %d точок"
+msgstr[3] "Встановлення висоти рядків %s у %d точку"
 
 #: ../src/commands.c:2055
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of columns %s to default"
-msgstr "Встановлення ширини стовпчиків %s у %d точок"
+msgstr "Встановлення типової ширини стовпчиків %s"
 
 #: ../src/commands.c:2057
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of rows %s to default"
-msgstr "Встановлення висоти рядків %s у %d точок"
+msgstr "Встановлення типової висоти рядків %s"
 
 #: ../src/commands.c:2084
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting width of %s"
-msgstr "Автопідгін рядка %s"
+msgstr "Автопідгін ширини %s"
 
 #: ../src/commands.c:2084
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting height of %s"
-msgstr "Автопідгін рядка %s"
+msgstr "Автопідгін висоти %s"
 
 #: ../src/commands.c:2158 ../src/dialogs/dialog-preferences.c:1224
-#, fuzzy
 msgid "Sorting"
 msgstr "Впорядкування"
 
@@ -4040,7 +4010,7 @@ msgstr "Переміщення %s"
 
 #: ../src/commands.c:2821 ../src/commands.c:3226
 msgid "is beyond sheet boundaries"
-msgstr ""
+msgstr "виходить за межі аркуша"
 
 #: ../src/commands.c:2879
 #, c-format
@@ -4051,9 +4021,8 @@ msgid ""
 msgstr ""
 
 #: ../src/commands.c:2909
-#, fuzzy
 msgid "Paste Copy"
-msgstr "Вставити тип"
+msgstr "Вставити копію"
 
 #: ../src/commands.c:3121
 #, c-format
@@ -4061,9 +4030,9 @@ msgid "Pasting into %s"
 msgstr "Вставляння в %s"
 
 #: ../src/commands.c:3212
-#, fuzzy, c-format
+#, c-format
 msgid "Do you really want to paste %s copies?"
-msgstr "Ви хочете зберегти книгу %s?"
+msgstr "Ви справді хочете вставити копії %s?"
 
 #. Check arrays or merged regions in src or target regions
 #: ../src/commands.c:3269 ../src/commands.c:3425 ../src/commands.c:3426
@@ -4088,9 +4057,9 @@ msgid "Unmerging %s"
 msgstr "Роз'єднання %s"
 
 #: ../src/commands.c:4035
-#, fuzzy, c-format
+#, c-format
 msgid "Merge and Center %s"
-msgstr "Злиття %s"
+msgstr "Об'єднати і центрувати %s"
 
 #: ../src/commands.c:4035
 #, c-format
@@ -4115,7 +4084,7 @@ msgstr "Зміна типової ширини рядків до %.2f пункт
 #: ../src/commands.c:4609
 #, c-format
 msgid "Zoom %s to %.0f%%"
-msgstr ""
+msgstr "Масштабування %s до %.0f%%"
 
 #: ../src/commands.c:4712
 msgid "Delete Object"
@@ -4131,237 +4100,216 @@ msgid "Name"
 msgstr "Назва"
 
 #: ../src/commands.c:4854
-#, fuzzy
 msgid "Sheet names must be non-empty."
-msgstr "Рядок пошуку не може бути порожнім."
+msgstr "Назви аркушів мають бути непорожніми."
 
 #: ../src/commands.c:4861
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
-msgstr ""
+msgstr "У робочій книзі не може бути двох аркушів із однаковою назвою."
 
 #: ../src/commands.c:4959
-#, fuzzy
 msgid "Resizing sheet"
-msgstr "Перейменувати цей аркуш"
+msgstr "Зміна розмірів аркуша"
 
 #: ../src/commands.c:5112
-#, fuzzy, c-format
+#, c-format
 msgid "Clearing comment of %s"
-msgstr "Зміна формату %s"
+msgstr "Вилучення коментаря %s"
 
 #: ../src/commands.c:5113
-#, fuzzy, c-format
+#, c-format
 msgid "Setting comment of %s"
-msgstr "Стирання стовпчика %s"
+msgstr "Встановлення коментаря %s"
 
 #: ../src/commands.c:5550
-#, fuzzy, c-format
+#, c-format
 msgid "Merging data into %s"
-msgstr "Злиття %s"
+msgstr "Об'єднання дати до %s"
 
 #: ../src/commands.c:5648
-#, fuzzy, c-format
+#, c-format
 msgid "Changing workbook properties"
-msgstr "_Властивості…"
+msgstr "Зміна властивостей робочої книги"
 
 #: ../src/commands.c:5722
-#, fuzzy
 msgid "Pull Object to the Front"
-msgstr "Обмеження:"
+msgstr "Перетягнути об'єкт на передній план"
 
 #: ../src/commands.c:5725
-#, fuzzy
 msgid "Pull Object Forward"
-msgstr "Інше значення"
+msgstr "Перетягнути об'єкт вперед"
 
 #: ../src/commands.c:5728
 msgid "Push Object Backward"
-msgstr ""
+msgstr "Пересунути об'єкт назад"
 
 #: ../src/commands.c:5731
-#, fuzzy
 msgid "Push Object to the Back"
-msgstr "Обмеження:"
+msgstr "Пересунути об'єкт на нижній рівень"
 
 #: ../src/commands.c:5861
-#, fuzzy, c-format
+#, c-format
 msgid "Page Setup For %s"
-msgstr "_Налаштування друку…"
+msgstr "Налаштування сторінки для %s"
 
 #: ../src/commands.c:5863
-#, fuzzy
 msgid "Page Setup For All Sheets"
-msgstr "Друкувати аркуші"
+msgstr "Налаштовування сторінки для усіх аркушів"
 
 #: ../src/commands.c:5987 ../src/commands.c:5998
-#, fuzzy
 msgid "Defined Name"
-msgstr "Визначити назву"
+msgstr "Визначена назва"
 
 #: ../src/commands.c:5988
 msgid "An empty string is not allowed as defined name."
-msgstr ""
+msgstr "Не можна використовувати порожній рядок як визначену назву."
 
 #: ../src/commands.c:5996
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is not allowed as defined name."
-msgstr "вже визначено в аркуші"
+msgstr "«%s» не можна використовувати як визначену назву."
 
 #: ../src/commands.c:6006
-#, fuzzy
 msgid "has a circular reference"
-msgstr "\"%s\" містить циклічне посилання"
+msgstr "містить циклічне посилання"
 
 #: ../src/commands.c:6040
-#, fuzzy, c-format
+#, c-format
 msgid "Define Name %s"
-msgstr "Визначити назву"
+msgstr "Визначити назву %s"
 
 #: ../src/commands.c:6043
 #, c-format
 msgid "Update Name %s"
-msgstr ""
+msgstr "Оновити назву %s"
 
 #: ../src/commands.c:6136
-#, fuzzy, c-format
+#, c-format
 msgid "Remove Name %s"
-msgstr "Визначити назву"
+msgstr "Визначити назву %s"
 
 #: ../src/commands.c:6167
 msgid "Change Scope of Name"
-msgstr ""
+msgstr "Змінити область назви"
 
 #: ../src/commands.c:6216
-#, fuzzy, c-format
+#, c-format
 msgid "Change Scope of Name %s"
-msgstr "Зміна формату %s"
+msgstr "Змінити область назви %s"
 
 #: ../src/commands.c:6282
 msgid "Add scenario"
-msgstr ""
+msgstr "Додати сценарій"
 
 #: ../src/commands.c:6346
 msgid "Scenario Show"
-msgstr ""
+msgstr "Показ сценарію"
 
 #: ../src/commands.c:6404
 msgid "Shuffle Data"
-msgstr ""
+msgstr "Перемішати дані"
 
 #. FIXME?
 #: ../src/commands.c:6508
-#, fuzzy, c-format
+#, c-format
 msgid "Text (%s) to Columns (%s)"
-msgstr "Стерти стовпчики"
+msgstr "Текст (%s) у стовпчики (%s)"
 
 #: ../src/commands.c:6666
-#, fuzzy, c-format
+#, c-format
 msgid "Goal Seek (%s)"
-msgstr "Пошук цілі…"
+msgstr "Пошук цілі (%s)"
 
 #: ../src/commands.c:6832
-#, fuzzy, c-format
+#, c-format
 msgid "Tabulating Dependencies"
-msgstr "Подробиці доповнення"
+msgstr ""
 
 #: ../src/commands.c:6906
-#, fuzzy
 msgid "Reconfigure Graph"
-msgstr "Налаштувати пенали"
+msgstr "Переналаштувати графік"
 
 #: ../src/commands.c:6976
-#, fuzzy
 msgid "Reconfigure Object"
-msgstr "Змінити розміри об'єкта"
+msgstr "Переналаштувати об'єкт"
 
 #: ../src/commands.c:7020
-#, fuzzy
 msgid "Left to Right"
-msgstr "Зліва направо"
+msgstr "Зліва праворуч"
 
 #: ../src/commands.c:7020
-#, fuzzy
 msgid "Right to Left"
-msgstr "Справа наліво"
+msgstr "Справа ліворуч"
 
 #: ../src/commands.c:7182
-#, fuzzy
 msgid "Changing Hyperlink"
-msgstr "Видалити"
+msgstr "Зміна гіперпосилання"
 
 #: ../src/commands.c:7266
-#, fuzzy, c-format
+#, c-format
 msgid "Changing hyperlink of %s"
-msgstr "Зміна формату %s"
+msgstr "Зміна гіперпосилання %s"
 
 #: ../src/commands.c:7351
-#, fuzzy
 msgid "Configure List"
-msgstr "Конфігурація графи відмітки"
+msgstr "Налаштувати список"
 
 #: ../src/commands.c:7422
-#, fuzzy
 msgid "Set Frame Label"
-msgstr "Створити позначку"
+msgstr "Встановити мітку рамки"
 
 #: ../src/commands.c:7493
-#, fuzzy
 msgid "Configure Button"
-msgstr "Створити кнопку"
+msgstr "Налаштувати кнопку"
 
 #: ../src/commands.c:7574
-#, fuzzy
 msgid "Configure Radio Button"
-msgstr "Створити кнопку"
+msgstr "Налаштувати кнопку-варіант"
 
 #: ../src/commands.c:7650
-#, fuzzy
 msgid "Configure Checkbox"
-msgstr "Конфігурація графи відмітки"
+msgstr "Налаштувати поле для позначки"
 
 #: ../src/commands.c:7757 ../src/sheet-object-widget.c:1778
-#, fuzzy
 msgid "Configure Adjustment"
-msgstr "Налаштувати заповнений об'єкт"
+msgstr "Налаштувати коригування"
 
 #: ../src/commands.c:7788
 msgid "Add Filter"
 msgstr "Додати фільтр"
 
 #: ../src/commands.c:7804 ../src/wbc-gtk.c:1631
-#, fuzzy, c-format
+#, c-format
 msgid "Auto Filter blocked by %s"
-msgstr "Розширений фільтр…"
+msgstr "Автофільтрування заблоковано %s"
 
 #: ../src/commands.c:7809 ../src/commands.c:7836 ../src/commands.c:7845
-#, fuzzy
 msgid "AutoFilter"
-msgstr "Розширений фільтр…"
+msgstr "Автофільтр"
 
 #: ../src/commands.c:7837
 msgid "Requires more than 1 row"
-msgstr ""
+msgstr "Потребує понад 1 рядка"
 
 #: ../src/commands.c:7846
-#, fuzzy
 msgid "Unable to create Autofilter"
-msgstr "Неможливо створити об'єкт типу \"%s\""
+msgstr "Не вдалося створити автофільтр"
 
 #: ../src/commands.c:7869
-#, fuzzy, c-format
+#, c-format
 msgid "Add Autofilter to %s"
-msgstr "Розширений фільтр…"
+msgstr "Додати автофільтр до %s"
 
 #: ../src/commands.c:7870
-#, fuzzy, c-format
+#, c-format
 msgid "Extend Autofilter to %s"
-msgstr "Розширений фільтр…"
+msgstr "Розширити автофільтр до %s"
 
 #: ../src/commands.c:7883
-#, fuzzy, c-format
+#, c-format
 msgid "Remove Autofilter from %s"
-msgstr "Видалити поля"
+msgstr "Вилучити автофільтр з %s"
 
 #: ../src/commands.c:7913
 #, c-format
@@ -4374,30 +4322,29 @@ msgstr ""
 
 #: ../src/commands.c:8009 ../src/wbc-gtk.c:1566
 msgid "Remove Column Page Break"
-msgstr ""
+msgstr "Вилучити розрив сторінки за стовпчиками"
 
 #: ../src/commands.c:8009 ../src/wbc-gtk.c:1576
 msgid "Remove Row Page Break"
-msgstr ""
+msgstr "Вилучити розрив сторінки за рядками"
 
 #: ../src/commands.c:8012 ../src/wbc-gtk.c:1569
 msgid "Add Column Page Break"
-msgstr ""
+msgstr "Додати розрив сторінки за стовпчиками"
 
 #: ../src/commands.c:8012 ../src/wbc-gtk.c:1579
 msgid "Add Row Page Break"
-msgstr ""
+msgstr "Додати розрив сторінки за рядками"
 
 #: ../src/consolidate.c:785
-#, fuzzy, c-format
+#, c-format
 msgid "Consolidating to (%s)"
-msgstr "Кореляції"
+msgstr "Консолідуємо до (%s)"
 
 #: ../src/consolidate.c:824 ../src/consolidate.c:827
 #: ../src/dialogs/consolidate.ui.h:1
-#, fuzzy
 msgid "Data Consolidation"
-msgstr "Функції Python"
+msgstr "Консолідація даних"
 
 #: ../src/dialogs/dialog-about.c:38
 msgid ""
@@ -4415,28 +4362,24 @@ msgid "Core"
 msgstr "Ядро"
 
 #: ../src/dialogs/dialog-about.c:60
-#, fuzzy
 msgid "Features"
 msgstr "Можливості"
 
 #: ../src/dialogs/dialog-about.c:61
-#, fuzzy
 msgid "Analytics"
-msgstr "Курсивний"
+msgstr "Аналітика"
 
 #: ../src/dialogs/dialog-about.c:62
-#, fuzzy
 msgid "Import Export"
-msgstr "&Імпортування/Експортування"
+msgstr "Імпортування/Експортування"
 
 #: ../src/dialogs/dialog-about.c:63
-#, fuzzy
 msgid "Scripting"
 msgstr "Скрипти"
 
 #: ../src/dialogs/dialog-about.c:64
 msgid "UI"
-msgstr ""
+msgstr "Інтерфейс"
 
 #: ../src/dialogs/dialog-about.c:65
 msgid "Usability"
@@ -4447,14 +4390,12 @@ msgid "Documentation"
 msgstr "Документація"
 
 #: ../src/dialogs/dialog-about.c:67
-#, fuzzy
 msgid "Translation"
 msgstr "Переклад"
 
 #: ../src/dialogs/dialog-about.c:68
-#, fuzzy
 msgid "QA"
-msgstr "(2000 QA88)"
+msgstr "Забезпечення якості"
 
 #: ../src/dialogs/dialog-about.c:69
 msgid "Art"
@@ -4466,428 +4407,391 @@ msgstr "Пакування"
 
 #: ../src/dialogs/dialog-about.c:79
 msgid "Harald Ashburner"
-msgstr ""
+msgstr "Harald Ashburner"
 
 #: ../src/dialogs/dialog-about.c:80
-#, fuzzy
 msgid "Options pricers"
-msgstr "Операція"
+msgstr ""
 
 #: ../src/dialogs/dialog-about.c:81
 msgid "Sean Atkinson"
-msgstr ""
+msgstr "Sean Atkinson"
 
 #: ../src/dialogs/dialog-about.c:82
-#, fuzzy
 msgid "Functions and X-Base importing."
-msgstr "Sean Atkinson, функції та імпортування з X-Base."
+msgstr "Функції та імпортування з X-Base."
 
 #: ../src/dialogs/dialog-about.c:83
 msgid "Michel Berkelaar"
-msgstr ""
+msgstr "Michel Berkelaar"
 
 #: ../src/dialogs/dialog-about.c:84 ../src/dialogs/dialog-about.c:98
 msgid "Simplex algorithm for Solver (LP Solve)."
-msgstr ""
+msgstr "Симплекс-алгоритм для розв'язувача (LP Solve)."
 
 #: ../src/dialogs/dialog-about.c:85
 msgid "Jean Bréfort"
-msgstr ""
+msgstr "Jean Bréfort"
 
 #: ../src/dialogs/dialog-about.c:86
-#, fuzzy
 msgid "Core charting engine."
-msgstr "Помилка аналізу рядка"
+msgstr "Ядро рушія роботи з діаграмами."
 
 #: ../src/dialogs/dialog-about.c:87
 msgid "Grandma Chema Celorio"
-msgstr ""
+msgstr "Grandma Chema Celorio"
 
 #: ../src/dialogs/dialog-about.c:88
 msgid "Quality Assurance and sheet copy."
-msgstr ""
+msgstr "Забезпечення якості та копіювання аркушів."
 
 #: ../src/dialogs/dialog-about.c:89
-#, fuzzy
 msgid "Frank Chiulli"
-msgstr "Frank Chiulli, підтримка OLE."
+msgstr "Frank Chiulli"
 
 #: ../src/dialogs/dialog-about.c:90
-#, fuzzy
 msgid "OLE2 support."
-msgstr "Arturo Tena, підтримка OLE."
+msgstr "Підтримка OLE2."
 
 #: ../src/dialogs/dialog-about.c:91
-#, fuzzy
 msgid "Kenneth Christiansen"
-msgstr "Kenneth Christiansen, інтернаціоналізація, різне."
+msgstr "Kenneth Christiansen"
 
 #: ../src/dialogs/dialog-about.c:92
-#, fuzzy
 msgid "Localization."
-msgstr "Локалізація"
+msgstr "Локалізація."
 
 #: ../src/dialogs/dialog-about.c:93
 msgid "Zbigniew Chyla"
-msgstr ""
+msgstr "Zbigniew Chyla"
 
 #: ../src/dialogs/dialog-about.c:94
 msgid "Plugin system, localization."
-msgstr ""
+msgstr "Система додатків, локалізація."
 
 #: ../src/dialogs/dialog-about.c:95
 msgid "J.H.M. Dassen (Ray)"
-msgstr ""
+msgstr "J.H.M. Dassen (Ray)"
 
 #: ../src/dialogs/dialog-about.c:96
-#, fuzzy
 msgid "Debian packaging."
-msgstr "J.H.M. Dassen (Ray), пакування debian."
+msgstr "Пакування для Debian."
 
 #: ../src/dialogs/dialog-about.c:97
-#, fuzzy
 msgid "Jeroen Dirks"
-msgstr "Йорданські динари"
+msgstr "Jeroen Dirks"
 
 #: ../src/dialogs/dialog-about.c:99
 msgid "Tom Dyas"
-msgstr ""
+msgstr "Tom Dyas"
 
 #: ../src/dialogs/dialog-about.c:100
-#, fuzzy
 msgid "Original plugin engine."
-msgstr "Початкове значення"
+msgstr "Початковий рушій додатків."
 
 #: ../src/dialogs/dialog-about.c:101
 msgid "Kjell Eikland"
-msgstr ""
+msgstr "Kjell Eikland"
 
 #: ../src/dialogs/dialog-about.c:102 ../src/dialogs/dialog-about.c:130
-#, fuzzy
 msgid "LP-solve"
-msgstr "Зберегти"
+msgstr "LP-solve"
 
 #: ../src/dialogs/dialog-about.c:103
 msgid "Gergo Erdi"
-msgstr ""
+msgstr "Gergo Erdi"
 
 #: ../src/dialogs/dialog-about.c:104
-#, fuzzy
 msgid "Custom UI tools"
-msgstr "Налаштувати нижній колонтитул"
+msgstr "Нетипові інструменти інтерфейсу користувача"
 
 #: ../src/dialogs/dialog-about.c:105
-#, fuzzy
 #| msgid "Jody Goldberg, maintainer."
 msgid "Jody Goldberg"
-msgstr "Jody Goldberg, головний програміст."
+msgstr "Jody Goldberg"
 
 #: ../src/dialogs/dialog-about.c:106
 msgid "John Gotts"
-msgstr ""
+msgstr "John Gotts"
 
 #: ../src/dialogs/dialog-about.c:107
-#, fuzzy
 msgid "RPM packaging"
-msgstr "Вибірка"
+msgstr "Пакування RPM"
 
 #: ../src/dialogs/dialog-about.c:108
-#, fuzzy
 msgid "Andreas J. Gülzow"
-msgstr "Андреас Ґуельзов, хакер."
+msgstr "Andreas J. Gülzow"
 
 #: ../src/dialogs/dialog-about.c:109
 msgid "Statistics and GUI master"
-msgstr ""
+msgstr "Статистична обробка та графічний майстер"
 
 #: ../src/dialogs/dialog-about.c:110
-#, fuzzy
 msgid "Jon Kåre Hellan"
-msgstr "Jon K Hellan, хакер."
+msgstr "Jon Kåre Hellan"
 
 #: ../src/dialogs/dialog-about.c:111
 msgid "UI polish and all round bug fixer"
-msgstr ""
+msgstr "Удосконалення інтерфейсу користувача та виправлення вад"
 
 #: ../src/dialogs/dialog-about.c:112
-#, fuzzy
 #| msgid "Miguel de Icaza, creator."
 msgid "Miguel de Icaza"
-msgstr "Miguel de Icaza, творець."
+msgstr "Miguel de Icaza"
 
 #: ../src/dialogs/dialog-about.c:113
 msgid "Ross Ihaka"
-msgstr ""
+msgstr "Ross Ihaka"
 
 #: ../src/dialogs/dialog-about.c:114
-#, fuzzy
 msgid "Special functions"
-msgstr "Фінансові похідні"
+msgstr "Спеціальні похідні"
 
 #: ../src/dialogs/dialog-about.c:115
 msgid "Jukka-Pekka Iivonen"
-msgstr ""
+msgstr "Jukka-Pekka Iivonen"
 
 #: ../src/dialogs/dialog-about.c:116
 msgid "Solver, lots of worksheet functions, and general trailblazer"
-msgstr ""
+msgstr "Розв'язувач, багато функцій робочих аркушів та загальне новаторство"
 
 #: ../src/dialogs/dialog-about.c:117
 msgid "Jakub Jelínek"
-msgstr ""
+msgstr "Jakub Jelínek"
 
 #: ../src/dialogs/dialog-about.c:118
 msgid "One of the original core contributors"
-msgstr ""
+msgstr "Один із початкових основних учасників розробки"
 
 #: ../src/dialogs/dialog-about.c:119
 msgid "Chris Lahey"
-msgstr ""
+msgstr "Chris Lahey"
 
 #: ../src/dialogs/dialog-about.c:120
-#, fuzzy
 msgid "The original value format engine and libgoffice work"
-msgstr "Chris Lahey, обробка числових форматів."
+msgstr "Початковий рушій форматування значень та робота над libgoffice"
 
 #: ../src/dialogs/dialog-about.c:121
 msgid "Takashi Matsuda"
-msgstr ""
+msgstr "Takashi Matsuda"
 
 #: ../src/dialogs/dialog-about.c:122
-#, fuzzy
 msgid "The original text plugin"
-msgstr "Takashi Matsuda, текстові доповнення."
+msgstr "Початковий текстовий додаток"
 
 #: ../src/dialogs/dialog-about.c:123
 msgid "Michael Meeks"
-msgstr ""
+msgstr "Michael Meeks"
 
 #: ../src/dialogs/dialog-about.c:124
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
 msgstr ""
+"Розпочав створення рушія імпортування та експортування MS Excel також"
+" «GnmStyle»"
 
 #: ../src/dialogs/dialog-about.c:125
 msgid "Lutz Muller"
-msgstr ""
+msgstr "Lutz Muller"
 
 #: ../src/dialogs/dialog-about.c:126
-#, fuzzy
 msgid "SheetObject improvement"
-msgstr "Lutz Muller, удосконалення SheetObject"
+msgstr "Удосконалення SheetObject"
 
 #: ../src/dialogs/dialog-about.c:127
 msgid "Yukihiro Nakai"
-msgstr ""
+msgstr "Yukihiro Nakai"
 
 #: ../src/dialogs/dialog-about.c:128
 msgid "Support for non-Latin languages"
-msgstr ""
+msgstr "Підтримка мов із записом не латинськими літерами"
 
 #: ../src/dialogs/dialog-about.c:129
 msgid "Peter Notebaert"
-msgstr ""
+msgstr "Peter Notebaert"
 
 #: ../src/dialogs/dialog-about.c:131
 msgid "Emmanuel Pacaud"
-msgstr ""
+msgstr "Emmanuel Pacaud"
 
 #: ../src/dialogs/dialog-about.c:132
 msgid "Many plot types for charting engine."
-msgstr ""
+msgstr "Багато типів креслень для рушія діаграм."
 
 #: ../src/dialogs/dialog-about.c:133
-#, fuzzy
 msgid "Federico M. Quintero"
-msgstr "Federico M. Quintero, підтримка полотна."
+msgstr "Federico M. Quintero"
 
 #: ../src/dialogs/dialog-about.c:134
 msgid "canvas support"
-msgstr ""
+msgstr "Підтримка полотна"
 
 #: ../src/dialogs/dialog-about.c:135
 msgid "Mark Probst"
-msgstr ""
+msgstr "Mark Probst"
 
 #: ../src/dialogs/dialog-about.c:136 ../src/dialogs/dialog-about.c:142
-#, fuzzy
 msgid "Guile support"
-msgstr "Ariel Rios, підтримка Guile."
+msgstr "Підтримка Guile"
 
 #: ../src/dialogs/dialog-about.c:137
-#, fuzzy
 msgid "Rasca"
-msgstr "Ранги"
+msgstr "Rasca"
 
 #: ../src/dialogs/dialog-about.c:138
-#, fuzzy
 msgid "HTML, troff, LaTeX exporters"
-msgstr "Rasca, експорт у HTML, troff, LaTeX."
+msgstr "Експорт до HTML, troff, LaTeX"
 
 #: ../src/dialogs/dialog-about.c:139
 msgid "Vincent Renardias"
-msgstr ""
+msgstr "Vincent Renardias"
 
 #: ../src/dialogs/dialog-about.c:140
-#, fuzzy
 msgid "original CSV support, French localization"
-msgstr "Vincent Renardias, підтримка CSV, французька локалізація."
+msgstr "Початкова підтримка CSV, французька локалізація"
 
 #: ../src/dialogs/dialog-about.c:141
 msgid "Ariel Rios"
-msgstr ""
+msgstr "Ariel Rios"
 
 #: ../src/dialogs/dialog-about.c:143
 msgid "Jakub Steiner"
 msgstr "Jakub Steiner"
 
 #: ../src/dialogs/dialog-about.c:144
-#, fuzzy
 msgid "Icons and Images"
-msgstr "Вставити новий"
+msgstr "Піктограми і зображення"
 
 #: ../src/dialogs/dialog-about.c:145
 msgid "Uwe Steinmann"
-msgstr ""
+msgstr "Uwe Steinmann"
 
 #: ../src/dialogs/dialog-about.c:146
 msgid "Paradox Importer"
-msgstr ""
+msgstr "Засіб імпортування з Paradox"
 
 #: ../src/dialogs/dialog-about.c:147
 msgid "Arturo Tena"
-msgstr ""
+msgstr "Arturo Tena"
 
 #: ../src/dialogs/dialog-about.c:148
 msgid "Initial work on OLE2 for libgsf"
-msgstr ""
+msgstr "Початкова роботу над OLE2 у libgsf"
 
 #: ../src/dialogs/dialog-about.c:149
-#, fuzzy
 msgid "Almer S. Tigelaar"
-msgstr "Almer S. Tigelaar, хакер."
+msgstr "Almer S. Tigelaar"
 
 #: ../src/dialogs/dialog-about.c:150
 msgid "Consolidation and Structured Text importer"
-msgstr ""
+msgstr "Консолідація та засіб імпортування структурованого тексту"
 
 #: ../src/dialogs/dialog-about.c:151
-#, fuzzy
 msgid "Bruno Unna"
-msgstr "Bruno Unna, код Excel."
+msgstr "Bruno Unna"
 
 #: ../src/dialogs/dialog-about.c:152
-#, fuzzy
 msgid "Pieces of MS Excel import"
-msgstr "%d рядків для імпорту"
+msgstr "Частина коду для імпортування даних MS Excel"
 
 #: ../src/dialogs/dialog-about.c:153
 msgid "Arief Mulya Utama"
-msgstr ""
+msgstr "Arief Mulya Utama"
 
 #: ../src/dialogs/dialog-about.c:154
-#, fuzzy
 msgid "Telecommunications functions"
-msgstr "Інформація"
+msgstr "Телекомунікаційні функції"
 
 #: ../src/dialogs/dialog-about.c:155
 msgid "Daniel Veillard"
-msgstr ""
+msgstr "Daniel Veillard"
 
 #: ../src/dialogs/dialog-about.c:156
-#, fuzzy
 msgid "Initial XML support"
-msgstr "Daniel Veillard, підтримка XML."
+msgstr "Початкова підтримка XML"
 
 #: ../src/dialogs/dialog-about.c:157
 msgid "Vladimir Vuksan"
-msgstr ""
+msgstr "Vladimir Vuksan"
 
 #: ../src/dialogs/dialog-about.c:158
-#, fuzzy
 msgid "Some financial functions"
-msgstr "Фінансові похідні"
+msgstr "Деякі фінансові функції"
 
 #: ../src/dialogs/dialog-about.c:159
-#, fuzzy
 msgid "Morten Welinder"
-msgstr "Morten Welinder, хакер."
+msgstr "Morten Welinder"
 
 #: ../src/dialogs/dialog-about.c:160
 msgid "All round powerhouse"
-msgstr ""
+msgstr "Рушійна сила проєкту"
 
 #: ../src/dialogs/dialog-about.c:161
 msgid "Kevin Breit"
-msgstr ""
+msgstr "Kevin Breit"
 
 #: ../src/dialogs/dialog-about.c:162
 msgid "Thomas Canty"
-msgstr ""
+msgstr "Thomas Canty"
 
 #: ../src/dialogs/dialog-about.c:163
-#, fuzzy
 msgid "Adrian Custer"
-msgstr "Друкувати"
+msgstr "Adrian Custer"
 
 #: ../src/dialogs/dialog-about.c:164
 msgid "Adrian Likins"
-msgstr ""
+msgstr "Adrian Likins"
 
 #: ../src/dialogs/dialog-about.c:165
 msgid "Aaron Weber"
-msgstr ""
+msgstr "Aaron Weber"
 
 #: ../src/dialogs/dialog-about.c:166
 msgid "Alexander Kirillov"
-msgstr ""
+msgstr "Alexander Kirillov"
 
 #: ../src/dialogs/dialog-about.c:447
-#, fuzzy
 msgid "Gnumeric is the result of"
-msgstr "Домашня сторінка Gnumeric"
+msgstr "Gnumeric є результатом"
 
 #: ../src/dialogs/dialog-about.c:453
 msgid "the efforts of many people."
-msgstr ""
+msgstr "зусиль багатьох людей."
 
 #: ../src/dialogs/dialog-about.c:459
 msgid "Your help is much appreciated!"
-msgstr ""
+msgstr "Будемо раді вашій допомозі!"
 
 #: ../src/dialogs/dialog-about.c:507
 msgid "We apologize if anyone was left out."
-msgstr ""
+msgstr "Вибачте, якщо ми забули когось згадати."
 
 #: ../src/dialogs/dialog-about.c:514
 msgid "Please contact us to correct mistakes."
-msgstr ""
+msgstr "Будь ласка, зв'яжіться із нами, щоб виправити помилки."
 
 #: ../src/dialogs/dialog-about.c:521
-#, fuzzy
 msgid "Report problems at"
-msgstr "пункти"
+msgstr "Про помилки повідомляйте за адресою"
 
 #: ../src/dialogs/dialog-about.c:531 ../src/dialogs/dialog-about.c:537
 msgid "We aim to please!"
-msgstr ""
+msgstr "Задоволення ваших потреб — наша мета!"
 
 #: ../src/dialogs/dialog-about.c:587
-#, fuzzy
 msgid "About Gnumeric"
-msgstr "Gnumeric"
+msgstr "Про Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:590
 msgid "Visit the Gnumeric website"
-msgstr ""
+msgstr "Відвідайте сайт Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:592
-#, fuzzy
 msgid "Copyright © 1998-2018"
-msgstr "Авторські права"
+msgstr "© 1998–2018"
 
 #: ../src/dialogs/dialog-about.c:593
 msgid "Free, Fast, Accurate - Pick Any Three!"
-msgstr ""
+msgstr "Вільний, швидкий, точний — усе разом!"
 
 #: ../src/dialogs/dialog-advanced-filter.c:68
 msgid "The list range is invalid."
@@ -4908,7 +4812,7 @@ msgstr "Вказаний критерій неправильний."
 
 #: ../src/dialogs/dialog-advanced-filter.c:167 ../src/tools/filter.c:242
 msgid "No matching records were found."
-msgstr ""
+msgstr "Не знайдено відповідних записів."
 
 #: ../src/dialogs/dialog-advanced-filter.c:170
 #: ../src/dialogs/dialog-analysis-tools.c:668
@@ -4920,9 +4824,8 @@ msgid "An unexpected error has occurred: %d."
 msgstr "Сталася неочікувана помилка: %d."
 
 #: ../src/dialogs/dialog-advanced-filter.c:205
-#, fuzzy
 msgid "Could not create the Advanced Filter dialog."
-msgstr "Не вдалося створити Ґуру назв."
+msgstr "Не вдалося створити діалогове вікно розширеного фільтрування."
 
 #: ../src/dialogs/dialog-advanced-filter.c:212 ../src/dialogs/dao.ui.h:7
 #, fuzzy
@@ -4987,38 +4890,32 @@ msgid "The output specification is invalid."
 msgstr "Діапазон виводу неправильний."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:215
-#, fuzzy
 msgid "Could not create the Chi Squared Tests tool dialog."
-msgstr "Не вдалося створити Ґуру назв."
+msgstr "Не вдалося створити діалогове вікно інструмента перевірки χ²."
 
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:110
-#, fuzzy
 msgid "The categories range is not valid."
-msgstr "Діапазон критерію неправильний."
+msgstr "Діапазон категорій є некоректним."
 
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:117
-#, fuzzy
 msgid "The number of categories is invalid."
-msgstr "Діапазон виводу неправильний."
+msgstr "Кількість категорій є некоректною."
 
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:256
-#, fuzzy
 msgid "Could not create the Frequency Tool dialog."
-msgstr "Не вдалося створити Ґуру назв."
+msgstr "Не вдалося створити діалогове вікно інструмента частоти."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:112
-#, fuzzy
 msgid "The time column is not valid."
-msgstr "Діапазон списку неправильний."
+msgstr "Вміст стовпчика часу є некоректним."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:124
 msgid "The time column should be part of a single column."
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:134
-#, fuzzy
 msgid "The censorship column is not valid."
-msgstr "Діапазон критерію неправильний."
+msgstr "Стовпчик цензурування є некоректним."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:141
 msgid "The censorship column should be part of a single column."
@@ -5166,13 +5063,12 @@ msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1017
-#, fuzzy
 msgid "Could not create the Fourier Analysis Tool dialog."
-msgstr "Не вдалося створити Ґуру назв."
+msgstr "Не вдалося створити діалогове вікно інструмента аналізу Фур'є."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1145
 msgid "No statistics are selected."
-msgstr ""
+msgstr "Не вибрано статистики."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1155
 msgid "The confidence level should be between 0 and 1."
