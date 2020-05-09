@@ -532,6 +532,19 @@ xlsx_draw_clientdata (GsfXMLIn *xin, xmlChar const **attrs)
 	sheet_object_set_print_flag (state->so, &print);
 }
 
+static void
+xlsx_read_cnvpr (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (!strcmp (attrs[0], "name")) {
+			g_free (state->object_name);
+			state->object_name = g_strdup (attrs[1]);
+		}
+	}
+}
+
 static GsfXMLInNode const xlsx_chart_drawing_dtd[] =
 {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -545,7 +558,7 @@ GSF_XML_IN_NODE_FULL (START, USER_SHAPES, XL_NS_CHART, "userShapes", GSF_XML_NO_
       GSF_XML_IN_NODE_FULL (TO, TO_Y, XL_NS_CHART_DRAW, "y", GSF_XML_CONTENT, FALSE, TRUE, NULL, &xlsx_user_shape_pos, 3),
     GSF_XML_IN_NODE (REL_SIZE_ANCHOR, SHAPE, XL_NS_CHART_DRAW, "sp", GSF_XML_NO_CONTENT, &xlsx_user_shape, &xlsx_user_shape_end),
       GSF_XML_IN_NODE (SHAPE, NV_SP_PR, XL_NS_CHART_DRAW, "nvSpPr", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (NV_SP_PR, C_NV_PR, XL_NS_CHART_DRAW, "cNvPr", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (NV_SP_PR, C_NV_PR, XL_NS_CHART_DRAW, "cNvPr", GSF_XML_NO_CONTENT, &xlsx_read_cnvpr, NULL),
         GSF_XML_IN_NODE (NV_SP_PR, C_NV_SP_PR, XL_NS_CHART_DRAW, "cNvSpPr", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (C_NV_SP_PR, SP_LOCKS, XL_NS_DRAW, "spLocks", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (C_NV_SP_PR, HLINK_CLICK, XL_NS_DRAW, "hlinkClick", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3215,18 +3228,6 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
-static void
-xlsx_cnvpr (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (attrs[0], "name")) {
-			g_free (state->object_name);
-			state->object_name = g_strdup (attrs[1]);
-		}
-	}
-}
 
 
 /**************************************************************************/
@@ -3310,8 +3311,12 @@ xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 		state->pending_objects = g_slist_prepend (state->pending_objects, state->so);
 
-		if (state->object_name)
-			sheet_object_set_name (state->so, state->object_name);
+		// "xlsx" cannot leave out the name.  Treat an
+		// empty name as a missing name
+		sheet_object_set_name (state->so,
+				       state->object_name && *state->object_name
+				       ? state->object_name
+				       : NULL);
 	}
 
 	if (state->cur_style) {
@@ -3580,7 +3585,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
         GSF_XML_IN_NODE (SHAPE_PR, CXN_SP, XL_NS_SS_DRAW, "cxnSp", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (CXN_SP, CXN_SP_PR, XL_NS_SS_DRAW, "nvCxnSpPr", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (CXN_SP_PR, C_NV_CXN_SP, XL_NS_SS_DRAW, "cNvCxnSpPr", GSF_XML_NO_CONTENT, NULL, NULL),
-            GSF_XML_IN_NODE (CXN_SP_PR, C_NV_PR, XL_NS_SS_DRAW, "cNvPr", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (CXN_SP_PR, C_NV_PR, XL_NS_SS_DRAW, "cNvPr", GSF_XML_NO_CONTENT, &xlsx_read_cnvpr, NULL),
               GSF_XML_IN_NODE (C_NV_PR, HLINK_CLICK, XL_NS_DRAW, "hlinkClick", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (CXN_SP, SHAPE_PR, XL_NS_SS_DRAW, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (CXN_SP, SP_XFRM_STYLE, XL_NS_SS_DRAW, "style", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3594,7 +3599,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 	GSF_XML_IN_NODE (TX_BODY, TEXT_PR_P,	XL_NS_DRAW, "p", GSF_XML_2ND, NULL, NULL),
 
       GSF_XML_IN_NODE (SHAPE, NV_SP_PR, XL_NS_SS_DRAW, "nvSpPr", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (NV_SP_PR, C_NV_PR, XL_NS_SS_DRAW, "cNvPr", GSF_XML_2ND, NULL, NULL),
+        GSF_XML_IN_NODE (NV_SP_PR, C_NV_PR, XL_NS_SS_DRAW, "cNvPr", GSF_XML_2ND, &xlsx_read_cnvpr, NULL),
         GSF_XML_IN_NODE (NV_SP_PR, C_NV_SP_PR, XL_NS_SS_DRAW, "cNvSpPr", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (C_NV_SP_PR, SP_LOCKS, XL_NS_DRAW, "spLocks", GSF_XML_NO_CONTENT, NULL, NULL),
 
@@ -3609,7 +3614,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 
     GSF_XML_IN_NODE (TWO_CELL, GRAPHIC_FRAME, XL_NS_SS_DRAW, "graphicFrame", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (GRAPHIC_FRAME, GRAPHIC_PR, XL_NS_SS_DRAW, "nvGraphicFramePr", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (GRAPHIC_PR, CNVPR, XL_NS_SS_DRAW, "cNvPr", GSF_XML_NO_CONTENT, &xlsx_cnvpr, NULL),
+        GSF_XML_IN_NODE (GRAPHIC_PR, CNVPR, XL_NS_SS_DRAW, "cNvPr", GSF_XML_NO_CONTENT, &xlsx_read_cnvpr, NULL),
         GSF_XML_IN_NODE (GRAPHIC_PR, GRAPHIC_PR_CHILD, XL_NS_SS_DRAW, "cNvGraphicFramePr", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (GRAPHIC_PR_CHILD, GRAPHIC_LOCKS, XL_NS_DRAW, "graphicFrameLocks", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (GRAPHIC_FRAME, GRAPHIC, XL_NS_DRAW, "graphic", GSF_XML_NO_CONTENT, NULL, NULL),
