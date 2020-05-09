@@ -1,3 +1,7 @@
+2020-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_image): do not write two names
+
 2020-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_graph): receive style_name
