@@ -2980,10 +2980,10 @@ odf_n_charts (GnmOOExport *state, SheetObject *so)
 }
 
 static void
-odf_write_graph (GnmOOExport *state, SheetObject *so, char const *name)
+odf_write_graph (GnmOOExport *state, SheetObject *so, char const *name,
+		 char const *style_name)
 {
 	GnmParsePos pp;
-	gchar const *style_name = g_hash_table_lookup (state->so_styles, so);
 
 	parse_pos_init_sheet (&pp, state->sheet);
 
@@ -3087,15 +3087,21 @@ odf_write_image (GnmOOExport *state, SheetObject *so, char const *name)
 static void
 odf_write_frame (GnmOOExport *state, SheetObject *so)
 {
+	char const *style_name = g_hash_table_lookup (state->so_styles, so);
+
 	if (GNM_IS_SO_GRAPH (so))
-		odf_write_graph (state, so, g_hash_table_lookup (state->graphs, so));
+		odf_write_graph (state, so, g_hash_table_lookup (state->graphs, so), style_name);
 	else if (GNM_IS_SO_IMAGE (so)) {
 		gsf_xml_out_start_element (state->xml, DRAW "frame");
+		if (style_name != NULL)
+			gsf_xml_out_add_cstr (state->xml, DRAW "style-name", style_name);
 		odf_write_frame_size (state, so);
 		odf_write_image (state, so, g_hash_table_lookup (state->images, so));
 		gsf_xml_out_end_element (state->xml); /*  DRAW "frame" */
 	} else {
 		gsf_xml_out_start_element (state->xml, DRAW "frame");
+		if (style_name != NULL)
+			gsf_xml_out_add_cstr (state->xml, DRAW "style-name", style_name);
 		odf_write_frame_size (state, so);
 		gsf_xml_out_start_element (state->xml, DRAW "text-box");
 		gsf_xml_out_simple_element (state->xml, TEXT "p",

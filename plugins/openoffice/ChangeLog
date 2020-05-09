@@ -1,5 +1,10 @@
 2020-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_graph): receive style_name
+	(odf_write_frame): handle style_name
+
+2020-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_draw_frame_start): read style_name
 	(od_draw_frame_end_full): apply properties from style
 	* openoffice-write.c (odf_write_graph): write style name
