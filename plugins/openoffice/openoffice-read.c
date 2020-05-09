@@ -232,6 +232,7 @@ typedef struct {
 	SheetObject     *so;
 	GSList          *list; /* used by Stock plot and textbox*/
 	char            *name;
+	char            *style_name;
 
 	/* set in plot-area */
 	GogPlot		*plot;
@@ -8154,6 +8155,7 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int last_col = gnm_sheet_get_last_col (state->pos.sheet);
 
 	state->chart.name = NULL;
+	state->chart.style_name = NULL;
 
 	height = width = x = y = 0.;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
@@ -8182,6 +8184,8 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "name"))
 			state->chart.name = g_strdup (CXML2C (attrs[1]));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "style-name"))
+			state->chart.style_name = g_strdup (CXML2C (attrs[1]));
 	}
 
 	frame_offset[0] = x;
@@ -8254,11 +8258,18 @@ od_draw_frame_end_full (GsfXMLIn *xin, gboolean absolute_distance, char const *c
 		state->chart_list = g_slist_prepend ( state->chart_list, ob_off);
 		if (state->chart.name)
 			sheet_object_set_name (state->chart.so, state->chart.name);
-
+		if (state->chart.style_name) {
+			OOChartStyle *oostyle = g_hash_table_lookup
+				(state->chart.graph_styles, state->chart.style_name);
+			if (oostyle != NULL)
+				odf_so_set_props (state, oostyle);
+		}
 		state->chart.so = NULL;
 	}
 	g_free (state->chart.name);
 	state->chart.name = NULL;
+	g_free (state->chart.style_name);
+	state->chart.style_name = NULL;
 }
 
 static void
@@ -13823,6 +13834,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.cell_comment      = NULL;
 	state.sharer = gnm_expr_sharer_new ();
 	state.chart.name = NULL;
+	state.chart.style_name = NULL;
+
 	state.chart.cs_enhanced_path = NULL;
 	state.chart.cs_modifiers = NULL;
 	state.chart.cs_viewbox = NULL;

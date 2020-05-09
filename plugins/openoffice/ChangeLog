@@ -1,5 +1,11 @@
 2020-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_draw_frame_start): read style_name
+	(od_draw_frame_end_full): apply properties from style
+	* openoffice-write.c (odf_write_graph): write style name
+
+2020-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_so_set_props): new
 	(od_style_prop_chart): skip negation
 	(od_draw_control_start): read style name

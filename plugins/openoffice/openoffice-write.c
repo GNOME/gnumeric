@@ -2983,6 +2983,8 @@ static void
 odf_write_graph (GnmOOExport *state, SheetObject *so, char const *name)
 {
 	GnmParsePos pp;
+	gchar const *style_name = g_hash_table_lookup (state->so_styles, so);
+
 	parse_pos_init_sheet (&pp, state->sheet);
 
 	if (name != NULL) {
@@ -3003,6 +3005,8 @@ odf_write_graph (GnmOOExport *state, SheetObject *so, char const *name)
 			while  (l) {
 				char *full_name = g_strdup_printf ("%s-%i/", name, i);
 				gsf_xml_out_start_element (state->xml, DRAW "frame");
+				if (style_name != NULL)
+					gsf_xml_out_add_cstr (state->xml, DRAW "style-name", style_name);
 				if (multichart)
 					odf_write_multi_chart_frame_size (state, so, GOG_OBJECT (l->data),
 									  total_rows, total_columns);
