@@ -1,3 +1,4 @@
+/* vm: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * openoffice-write.c : export OpenOffice OASIS .ods files
@@ -928,24 +929,14 @@ odf_write_sheet_object_styles (GnmOOExport *state)
 
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
-		GSList *objects = sheet_objects_get (sheet, NULL, GNM_SO_FILLED_TYPE), *l;
+		GSList *objects = sheet_objects_get (sheet, NULL, G_TYPE_NONE), *l;
 		for (l = objects; l != NULL; l = l->next) {
 			SheetObject *so = GNM_SO (l->data);
-			char *name = odf_write_sheet_object_style (state, so);
-			g_hash_table_replace (state->so_styles, so, name);
-		}
-		g_slist_free (objects);
-		objects = sheet_objects_get (sheet, NULL, GNM_SO_LINE_TYPE);
-		for (l = objects; l != NULL; l = l->next) {
-			SheetObject *so = GNM_SO (l->data);
-			char *name = odf_write_sheet_object_line_style (state, so);
-			g_hash_table_replace (state->so_styles, so, name);
-		}
-		g_slist_free (objects);
-		objects = sheet_objects_get (sheet, NULL, GNM_SO_PATH_TYPE);
-		for (l = objects; l != NULL; l = l->next) {
-			SheetObject *so = GNM_SO (l->data);
-			char *name = odf_write_sheet_object_style (state, so);
+			char *name;
+			if (GNM_IS_SO_LINE(so))
+				name = odf_write_sheet_object_line_style (state, so);
+			else
+				name = odf_write_sheet_object_style (state, so);
 			g_hash_table_replace (state->so_styles, so, name);
 		}
 		g_slist_free (objects);
@@ -3182,7 +3173,11 @@ odf_write_custom_shape (GnmOOExport *state, SheetObject *so)
 static void
 odf_write_control (GnmOOExport *state, SheetObject *so, char const *id)
 {
+        gchar const *style_name = g_hash_table_lookup (state->so_styles, so);
+
 	gsf_xml_out_start_element (state->xml, DRAW "control");
+	if (style_name != NULL)
+		gsf_xml_out_add_cstr (state->xml, DRAW "style-name", style_name);
 	odf_write_frame_size (state, so);
 	gsf_xml_out_add_cstr (state->xml, DRAW "control", id);
 	gsf_xml_out_end_element (state->xml); /*  DRAW "control" */

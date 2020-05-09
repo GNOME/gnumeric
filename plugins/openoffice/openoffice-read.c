@@ -1,5 +1,4 @@
 /* vm: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * openoffice-read.c : import open/star calc files
  *
@@ -556,6 +555,7 @@ static char const *odf_strunescape (char const *string, GString *target,
 				    G_GNUC_UNUSED GnmConventions const *convs);
 static void odf_sheet_suggest_size (GsfXMLIn *xin, int *cols, int *rows);
 static void oo_prop_list_has (GSList *props, gboolean *threed, char const *tag);
+static void odf_so_set_props (OOParseState *state, OOChartStyle *oostyle);
 
 
 /* Implementations */
@@ -7631,7 +7631,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "print-content", &btmp))
 			style->other_props = g_slist_prepend
 				(style->other_props,
-				 oo_prop_new_bool ("do-not-print-content", !btmp));
+				 oo_prop_new_bool ("print-content", btmp));
 
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "auto-marker-outline-colour", &btmp))
 			style->style_props = g_slist_prepend (style->style_props,
@@ -8298,12 +8298,15 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *name = NULL;
+	char const *style_name = NULL;
 
 	od_draw_frame_start (xin, attrs);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "control"))
 			name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "style-name"))
+			style_name = CXML2C (attrs[1]);
 
 	if (name != NULL) {
 		OOControl *oc = g_hash_table_lookup (state->controls, name);
@@ -8387,6 +8390,12 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 			} else if (oc->t == sheet_widget_frame_get_type ()) {
 				state->chart.so = g_object_new
 					(oc->t, "text", oc->label, NULL);
+			}
+			if (state->chart.so && style_name) {
+				OOChartStyle *oostyle = g_hash_table_lookup
+					(state->chart.graph_styles, style_name);
+				if (oostyle != NULL)
+					odf_so_set_props (state, oostyle);
 			}
 		} else
 			oo_warning (xin, "Undefined control '%s' encountered!", name);
@@ -10353,6 +10362,22 @@ odf_annotation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 /******************************** graphic sheet objects *********************/
 
 static void
+odf_so_set_props (OOParseState *state, OOChartStyle *oostyle)
+{
+	GSList *l;
+	for (l = oostyle->other_props; l != NULL; l = l->next) {
+		OOProp *prop = l->data;
+		if (0 == strcmp ("print-content", prop->name)) {
+			gboolean prop_val;
+			prop_val = g_value_get_boolean (&prop->value);
+			sheet_object_set_print_flag
+				(state->chart.so,
+				 &prop_val);
+		}
+	}
+}
+
+static void
 odf_so_filled (GsfXMLIn *xin, xmlChar const **attrs, gboolean is_oval)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -10377,14 +10402,10 @@ odf_so_filled (GsfXMLIn *xin, xmlChar const **attrs, gboolean is_oval)
 		if (style_name != NULL) {
 			OOChartStyle *oostyle = g_hash_table_lookup
 				(state->chart.graph_styles, style_name);
-			/* since we are using oo_prop_list_has we need to default to FALSE */
-			gboolean has_prop = FALSE;
 			if (oostyle != NULL) {
 				odf_apply_style_props (xin, oostyle->style_props,
 						       style, FALSE);
-				oo_prop_list_has (oostyle->other_props, &has_prop, "do-not-print-content");
-				has_prop =!has_prop;
-				sheet_object_set_print_flag (state->chart.so, &has_prop);
+				odf_so_set_props (state, oostyle);
 			}
 		}
 		g_object_set (state->chart.so, "style", style, NULL);
@@ -10979,6 +11000,7 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 				GOStyle *style = go_style_dup (style0);
 				odf_apply_style_props (xin, oostyle->style_props,
 						       style, FALSE);
+
 				g_object_set (state->chart.so, "style", style, NULL);
 				g_object_unref (style);
 				g_object_unref (style0);
@@ -10990,6 +11012,13 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 					start_marker = g_value_get_string (&prop->value);
 				else if (0 == strcmp ("marker-end", prop->name))
 					end_marker = g_value_get_string (&prop->value);
+				else if (0 == strcmp ("print-content", prop->name)) {
+					gboolean prop_val;
+					prop_val =g_value_get_boolean (&prop->value);
+					sheet_object_set_print_flag
+						(state->chart.so,
+						 &prop_val);
+				}
 			}
 
 			if (start_marker != NULL) {
