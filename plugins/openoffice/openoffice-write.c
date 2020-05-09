@@ -3230,8 +3230,12 @@ odf_write_line (GnmOOExport *state, SheetObject *so)
 	double x1, y1, x2, y2;
 	gchar const *style_name = g_hash_table_lookup (state->so_styles, so);
 	int z;
+	char const *name = NULL;
 
 	gsf_xml_out_start_element (state->xml, DRAW "line");
+	g_object_get (G_OBJECT (so), "name", &name, NULL);
+	if (name)
+	        gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "name", name);
 	if (style_name != NULL)
 		gsf_xml_out_add_cstr (state->xml, DRAW "style-name", style_name);
 	z = g_slist_length (state->sheet->sheet_objects) -

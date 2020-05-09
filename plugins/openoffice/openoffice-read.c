@@ -10903,6 +10903,7 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmRange cell_base;
 	double frame_offset[4];
 	char const *style_name = NULL;
+	char const *name = NULL;
 	gdouble height, width;
 	int z = -1;
 	GnmSOAnchorMode mode;
@@ -10914,6 +10915,8 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					OO_NS_DRAW, "style-name"))
 			style_name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "name"))
+			name = CXML2C (attrs[1]);
 		else if (NULL != oo_attr_distance (xin, attrs,
 					      OO_NS_SVG, "x1",
 					      &x1));
@@ -10996,6 +10999,9 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 				  direction,
 	                          mode);
 	state->chart.so = g_object_new (GNM_SO_LINE_TYPE, NULL);
+
+	if (name)
+		sheet_object_set_name (state->chart.so, name);
 
 	if (style_name != NULL) {
 		OOChartStyle *oostyle = g_hash_table_lookup
