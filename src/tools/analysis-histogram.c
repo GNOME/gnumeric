@@ -1,3 +1,4 @@
+/* vm: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * analysis-histogram.c:
  *
@@ -402,13 +403,47 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 
 		if (info->chart == HISTOGRAM_CHART) {
 			GogObject *axis;
+			GogObject *label;
+			GnmExprTop const *label_string;
+			GOData *data;
 		        axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "X-Axis");
 			go_object_set_property (G_OBJECT (axis), "assigned-format-string-XL",
 						"X-Axis Format", "0.0EE0",
 						NULL, NULL);
+			axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "Y-Axis");
+			label_string = gnm_expr_top_new_constant (value_new_string (_("Frequency Density")));
+			data = gnm_go_data_scalar_new_expr (dao->sheet, label_string);
+			label = gog_object_add_by_name (axis, "Label", NULL);
+			gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
+		} else if (info->chart == COLUMN_CHART) {
+			GogObject *axis;
+			GogObject *label;
+			GnmExprTop const *label_string;
+			GOData *data;
+		        axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "X-Axis");
+			go_object_set_property (G_OBJECT (axis), "assigned-format-string-XL",
+						"X-Axis Format", "0.0EE0",
+						NULL, NULL);
+			axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "Y-Axis");
+			label_string = gnm_expr_top_new_constant (value_new_string (_("Frequency")));
+			data = gnm_go_data_scalar_new_expr (dao->sheet, label_string);
+			label = gog_object_add_by_name (axis, "Label", NULL);
+			gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
+		} else if (info->chart == BAR_CHART) {
+			GogObject *axis;
+			GogObject *label;
+			GnmExprTop const *label_string;
+			GOData *data;
+		        axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "Y-Axis");
+			go_object_set_property (G_OBJECT (axis), "assigned-format-string-XL",
+						"X-Axis Format", "0.0EE0",
+						NULL, NULL);
+			axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "X-Axis");
+			label_string = gnm_expr_top_new_constant (value_new_string (_("Frequency")));
+			data = gnm_go_data_scalar_new_expr (dao->sheet, label_string);
+			label = gog_object_add_by_name (axis, "Label", NULL);
+			gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 		}
-
-
 
 		so = sheet_object_graph_new (graph);
 		g_object_unref (graph);

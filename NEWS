@@ -1,5 +1,8 @@
 Gnumeric 1.12.48
 
+Andreas:
+	* Add axis title to chart in histogram tool. [#408]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.47
 
