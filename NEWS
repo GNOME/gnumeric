@@ -2,6 +2,7 @@ Gnumeric 1.12.48
 
 Andreas:
 	* Add axis title to chart in histogram tool. [#408]
+	* Fix line end marker roundtrip through strict ODF
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47

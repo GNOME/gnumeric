@@ -5877,6 +5877,7 @@ odf_write_arrow_marker_info (GOArrow const *arrow, char const *name, GnmOOExport
 	}
 
 	gsf_xml_out_add_cstr (state->xml, SVG "viewBox", "0 0 20 30");
+	/* FIXME: We should be writing the correct arow head shape rather than a standard fixed one */
 	gsf_xml_out_add_cstr (state->xml, SVG "d", "m10 0-10 30h20z");
 
 	gsf_xml_out_end_element (state->xml); /* </draw:marker> */

@@ -11715,6 +11715,7 @@ oo_marker (GsfXMLIn *xin, xmlChar const **attrs)
         int type = GO_ARROW_NONE;
 	double a = 0., b = 0., c = 0.;
 	char const *name = NULL;
+	gboolean read_gnum_marker_info = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
@@ -11727,13 +11728,17 @@ oo_marker (GsfXMLIn *xin, xmlChar const **attrs)
 					     OO_NS_SVG, "d"))
 			marker->d = g_strdup (CXML2C (attrs[1]));
 		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "arrow-type", &type,
-					    GO_ARROW_KITE, GO_ARROW_OVAL));
+					    GO_ARROW_KITE, GO_ARROW_OVAL))
+			read_gnum_marker_info = TRUE;
 		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
 					"arrow-a", &a));
 		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
 					"arrow-b", &b));
 		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
 					"arrow-c", &c));
+	if (!read_gnum_marker_info && g_str_has_prefix (name, "gnm-arrow-"))
+		sscanf (name, "gnm-arrow-%d-%lf-%lf-%lf", &type, &a, &b, &c);
+
 	if (type != GO_ARROW_NONE) {
 		marker->arrow = g_new0 (GOArrow, 1);
 		go_arrow_init (marker->arrow, type, a, b, c);
