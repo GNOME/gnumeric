@@ -542,7 +542,8 @@ merge_single (Workbook *wb, Workbook *wb2,
 
 		parse_pos_init (&pp, wb, NULL, 0, 0);
 		nexpr2 = expr_name_lookup (&pp, name);
-		if (nexpr2 /* FIXME: && nexpr2-is-not-the-same-as-nexpr */) {
+		 /* FIXME: && nexpr2-is-not-the-same-as-nexpr */
+		if (nexpr2) {
 			g_printerr (_("Name conflict during merge: '%s' appears twice at workbook scope.\n"),
 				    name);
 			g_slist_free (names);

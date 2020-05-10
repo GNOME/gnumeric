@@ -10443,9 +10443,8 @@ msgid "Censored record labels from:"
 msgstr ""
 
 #: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1544
-#, fuzzy
 msgid "to:"
-msgstr "Forfatter:"
+msgstr "til:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:8
 msgid "Define _multiple groups"
@@ -12453,14 +12452,12 @@ msgid "Cancel change"
 msgstr "Opgiv rettelse"
 
 #: ../src/dialogs/wbcg.ui.h:3
-#, fuzzy
 msgid "Accept change"
-msgstr "Ændr ikke"
+msgstr "Accepter rettelse"
 
 #: ../src/dialogs/wbcg.ui.h:4
-#, fuzzy
 msgid "Enter formula..."
-msgstr "A_utoformatér..."
+msgstr "Indsæt formel..."
 
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:1
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:136
@@ -12479,24 +12476,20 @@ msgid "Notebook _Tabs for Sheets"
 msgstr "Notesbogs_faner for ark"
 
 #: ../src/dialogs/workbook-attr.ui.h:3
-#, fuzzy
 msgid "_Horizontal Scrollbar"
 msgstr "_Vandret rullebjælke"
 
 #: ../src/dialogs/workbook-attr.ui.h:4
-#, fuzzy
 msgid "_Vertical Scrollbar"
 msgstr "_Lodret rullebjælke"
 
 #: ../src/dialogs/workbook-attr.ui.h:6
-#, fuzzy
 msgid "_Protect Workbook"
-msgstr "Ny _arbejdsbog"
+msgstr "Beskyt arbejdsbog"
 
 #: ../src/dialogs/workbook-attr.ui.h:7
-#, fuzzy
 msgid "Pa_ssword:"
-msgstr "Nøgleord"
+msgstr "Nøgleord:"
 
 #: ../src/dialogs/workbook-attr.ui.h:9
 #, fuzzy
@@ -12556,40 +12549,40 @@ msgid "Error while opening autoformat template"
 msgstr "Fejl under åbning af skabelon for autoformat"
 
 #: ../src/format-template.c:739
-#, fuzzy, c-format
+#, c-format
 msgid "%d row"
 msgid_plural "%d rows"
-msgstr[0] "Skjulning af rækker"
-msgstr[1] "Skjulning af rækker"
+msgstr[0] "%d række"
+msgstr[1] "%d rækker"
 
 #: ../src/format-template.c:740
 #, c-format
 msgid "%d col"
 msgid_plural "%d cols"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "% kolonne"
+msgstr[1] "%d kolonner"
 
 #: ../src/format-template.c:742
-#, fuzzy, c-format
+#, c-format
 msgid "The target region is too small.  It should be at least %s by %s"
 msgstr ""
 "Målområdet er for småt. Det skal bestå af mindst %d rækker gange %d kolonner"
 
 #: ../src/format-template.c:748
-#, fuzzy, c-format
+#, c-format
 msgid "The target region is too small.  It should be at least %d column wide"
 msgid_plural ""
 "The target region is too small.  It should be at least %d columns wide"
-msgstr[0] "Målområdet er for småt. Det skal mindst være %d kolonner bredt"
-msgstr[1] "Målområdet er for småt. Det skal mindst være %d kolonner bredt"
+msgstr[0] "Målområdet er for lille. Det skal mindst være %d kolonne bredt"
+msgstr[1] "Målområdet er for lille. Det skal mindst være %d kolonner bredt"
 
 #: ../src/format-template.c:754
-#, fuzzy, c-format
+#, c-format
 msgid "The target region is too small.  It should be at least %d row high"
 msgid_plural ""
 "The target region is too small.  It should be at least %d rows high"
-msgstr[0] "Målområdet er for småt. Det skal mindst være %d rækker højt"
-msgstr[1] "Målområdet er for småt. Det skal mindst være %d rækker højt"
+msgstr[0] "Målområdet er for lille. Det skal mindst være %d række højt"
+msgstr[1] "Målområdet er for lille. Det skal mindst være %d rækker højt"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:43
@@ -12694,9 +12687,9 @@ msgstr "Ukendt funktion"
 
 #. xgettext: This represents a made-up translated function name.
 #: ../src/func.c:870
-#, fuzzy, c-format
+#, c-format
 msgid "unknown%d"
-msgstr "ukendt"
+msgstr "ukendt%d"
 
 #: ../src/func.c:1101
 msgid "Boolean"
@@ -12790,8 +12783,8 @@ msgstr ""
 #, fuzzy, c-format
 msgid "%d function in category \"%s\""
 msgid_plural "Group of %d functions in category \"%s\""
-msgstr[0] "Manglende funktionskategorinavn."
-msgstr[1] "Manglende funktionskategorinavn."
+msgstr[0] "%d function i kategori \"%s\"."
+msgstr[1] "Gruppe af %d funktioner in kategori \"%s\"."
 
 #: ../src/gnm-plugin.c:390
 msgid "Missing file name."
@@ -12840,19 +12833,16 @@ msgid "Filled Object Properties"
 msgstr "_Egenskaber..."
 
 #: ../src/gnm-so-line.c:123
-#, fuzzy
 msgid "Line/Arrow Properties"
-msgstr "_Egenskaber..."
+msgstr "Linje/pil-egenskaber..."
 
 #: ../src/gnm-so-polygon.c:160
-#, fuzzy
 msgid "Polygon Properties"
-msgstr "_Egenskaber..."
+msgstr "Polygon-egenskaber..."
 
 #: ../src/gui-clipboard.c:311
-#, fuzzy
 msgid "clipboard"
-msgstr "Indsæt fra klippebordet"
+msgstr "klippebord"
 
 # skal passe med tekst senere (dækker kun over et enkelt tegn, brugerdefineret virker som overkill)
 #: ../src/gui-clipboard.c:1136
@@ -12890,19 +12880,16 @@ msgid "Import Data File"
 msgstr "Importerer en tekstfil"
 
 #: ../src/gui-file.c:365 ../src/gui-file.c:582
-#, fuzzy
 msgid "All Files"
-msgstr "_Fil"
+msgstr "Alle filer"
 
 #: ../src/gui-file.c:373
-#, fuzzy
 msgid "Text Files"
-msgstr "Filer"
+msgstr "Tekstfiler"
 
 #: ../src/gui-file.c:378 ../src/gui-file.c:587
-#, fuzzy
 msgid "Spreadsheets"
-msgstr "Indsæt et nyt regneark"
+msgstr "Regneark"
 
 #: ../src/gui-file.c:381
 #, fuzzy
@@ -12927,14 +12914,12 @@ msgstr ""
 "Vil du gemme det aktive ark kun?"
 
 #: ../src/gui-file.c:533
-#, fuzzy
 msgid "Save the current workbook as"
-msgstr "Gem den aktuelle arbejdsbog"
+msgstr "Gem den aktuelle arbejdsbog i ny fil"
 
 #: ../src/gui-file.c:534
-#, fuzzy
 msgid "Export the current workbook or sheet to"
-msgstr "Gem den aktuelle arbejdsbog"
+msgstr "Exporter den aktuelle arbejdsbog/ark til"
 
 #: ../src/gui-file.c:649 ../src/gui-file.c:666
 #, fuzzy
@@ -12965,7 +12950,7 @@ msgstr ""
 
 #: ../src/gui-file.c:783
 msgid "Overwrite"
-msgstr ""
+msgstr "Overskriv"
 
 #: ../src/gui-file.c:864
 #, c-format
@@ -12993,13 +12978,12 @@ msgid "Multiple errors\n"
 msgstr "Flere fejl"
 
 #: ../src/gui-util.c:1069
-#, fuzzy
 msgid "Question"
-msgstr "Beskrivelse"
+msgstr "Spørgsmål"
 
 #: ../src/gui-util.c:1074
 msgid "Warning"
-msgstr ""
+msgstr "Advarsel"
 
 #: ../src/gui-util.c:1262
 #, c-format
@@ -13037,9 +13021,9 @@ msgid "_OK"
 msgstr "O.k."
 
 #: ../src/gutils.c:972
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown sheet \"%s\""
-msgstr "Ukendt ark '%s'"
+msgstr "Ukendt ark \"%s\""
 
 #: ../src/gutils.c:992
 #, fuzzy, c-format
@@ -13057,19 +13041,17 @@ msgid "Unable to activate the url '%s'"
 msgstr "Kan ikke oprette et objekt af typen “%s”"
 
 #: ../src/hlink.c:559
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open '%s'"
-msgstr "kan ikke åbne filen '%s'"
+msgstr "Kan ikke åbne '%s'"
 
 #: ../src/item-bar.c:858
-#, fuzzy
 msgid "Width:"
-msgstr "Tilpas bredde"
+msgstr "Bredde:"
 
 #: ../src/item-bar.c:858
-#, fuzzy
 msgid "Height"
-msgstr "Rækkehøjde"
+msgstr "Højde:"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
 #: ../src/item-bar.c:863
@@ -13175,9 +13157,8 @@ msgid "Gnumeric Options"
 msgstr "Gnumeric: Datagyldighedskontrol"
 
 #: ../src/libgnumeric.c:195
-#, fuzzy
 msgid "Show Gnumeric Options"
-msgstr "Gnumeric: Datagyldighedskontrol"
+msgstr "Via Gnumeric tilvalg"
 
 #: ../src/main-application.c:61
 msgid "Specify the size and location of the initial window"
@@ -13202,9 +13183,8 @@ msgstr ""
 "Afslut umiddelbart efter indlæsning af de valgte bøger (nyttigt ved test)"
 
 #: ../src/main-application.c:110
-#, fuzzy
 msgid "[FILE ...]"
-msgstr "FIL"
+msgstr "[FIL ...]"
 
 #: ../src/main-application.c:127 ../src/ssconvert.c:1416 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
@@ -13245,9 +13225,9 @@ msgid "Name '%s' does not exist"
 msgstr "Navnet '%s' eksisterer ikke"
 
 #: ../src/parser.y:513
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' cannot be used as a name"
-msgstr "er ikke tilladt som defineret navn"
+msgstr "'%s' er ikke tilladt som defineret navn"
 
 #: ../src/parser.y:571
 #, c-format
@@ -13380,62 +13360,56 @@ msgid ""
 msgstr ""
 
 #: ../src/print.c:1330
-#, fuzzy
 msgid "Preparing to preview"
-msgstr "Vis udskrift"
+msgstr "Gør klar til at vise udskrift"
 
 #: ../src/print.c:1331
-#, fuzzy
 msgid "Preparing to print"
-msgstr "Forbereder gemning..."
+msgstr "Gør klar til at udskrive"
 
 #: ../src/print.c:1421
 #, c-format
 msgid "Creating preview of page %3d"
-msgstr ""
+msgstr "Laver udskrift af side %3d"
 
 #: ../src/print.c:1422
 #, c-format
 msgid "Printing page %3d"
-msgstr ""
+msgstr "Laver udskrift af side %3d"
 
 #: ../src/print.c:1426
 #, c-format
 msgid "Creating preview of page %3d of %3d page"
 msgid_plural "Creating preview of page %3d of %3d pages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Laver udskrift af side %3d ud af %3d side"
+msgstr[1] "Laver udskrift af side %3d ud af %3d sider"
 
 #: ../src/print.c:1429
 #, c-format
 msgid "Printing page %3d of %3d page"
 msgid_plural "Printing page %3d of %3d pages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Laver udskrift af side %3d ud af %3d side"
+msgstr[1] "Laver udskrift af side %3d ud af %3d sider"
 
 #: ../src/print.c:1495
 msgid "_All workbook sheets"
-msgstr ""
+msgstr "_Alle ark"
 
 #: ../src/print.c:1500
-#, fuzzy
 msgid "Also print _hidden sheets"
-msgstr "Kopiér til et nyt _ark"
+msgstr "Udskrive skjulte ark"
 
 #: ../src/print.c:1508
-#, fuzzy
 msgid "A_ctive workbook sheet"
 msgstr "Akt_ivt ark"
 
 #: ../src/print.c:1513
-#, fuzzy
 msgid "_Workbook sheets:"
-msgstr "Arbejdsbog"
+msgstr "Ark:"
 
 #: ../src/print.c:1518
-#, fuzzy
 msgid "Current _selection only"
-msgstr "Klip det markerede fra"
+msgstr "Kun det markerede område"
 
 #: ../src/print.c:1526
 msgid "_Ignore defined print area"
@@ -13447,22 +13421,20 @@ msgstr "fra:"
 
 #: ../src/print.c:1557
 msgid "Ignore all _manual page breaks"
-msgstr ""
+msgstr "Ignorer all manuelle sideskift"
 
 #: ../src/print.c:1857
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create temporary file for printing: %s"
-msgstr "Kan ikke oprette midlertidig fil."
+msgstr "Kan ikke oprette midlertidig fil til udskrivning: %s"
 
 #: ../src/print.c:1875
-#, fuzzy
 msgid "Gnumeric Print Range"
-msgstr "Gnumeric"
+msgstr "Gnumeric Udskriftsområde"
 
 #: ../src/print.c:1891
-#, fuzzy
 msgid "Print to File"
-msgstr "Udskriv den aktive fil"
+msgstr "Udskriv til fil"
 
 #: ../src/search.c:126
 msgid "Searching for regular expressions and numbers are mutually exclusive."
@@ -13793,9 +13765,8 @@ msgid "_Snap to Grid"
 msgstr "_Tilpas til gitter"
 
 #: ../src/sheet-object.c:275
-#, fuzzy
 msgid "_Order"
-msgstr "_Omrokér..."
+msgstr "Rækkefølge"
 
 #: ../src/sheet-object.c:276
 msgid "Pul_l to Front"
@@ -13837,9 +13808,9 @@ msgid "_Save As Image"
 msgstr "_Gem som billede"
 
 #: ../src/sheet-object-graph.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown image format"
-msgstr "Ukendt fejl"
+msgstr "Ukendt billedformat"
 
 #: ../src/sheet-object-graph.c:408
 msgid "Open in _New Window"
@@ -14069,18 +14040,16 @@ msgstr ""
 "ad gangen"
 
 #: ../src/ssconvert.c:155
-#, fuzzy
 msgid "Export graphs"
-msgstr "Eksporter som tekst"
+msgstr "Eksporter grafer"
 
 #: ../src/ssconvert.c:162
-#, fuzzy
 msgid "List the available image formats"
-msgstr "Vis de tilgængelige importfiltre"
+msgstr "Vis de tilgængelige billedformater"
 
 #: ../src/ssconvert.c:169
 msgid "Change the contents of a cell before writing --set A12=2"
-msgstr ""
+msgstr "Opdater indholdet af en celle for export --set A12=2"
 
 #: ../src/ssconvert.c:176
 msgid "Recalculate all cells before writing the result"
@@ -14091,18 +14060,16 @@ msgid "Resize to given ROWSxCOLS"
 msgstr ""
 
 #: ../src/ssconvert.c:195
-#, fuzzy
 msgid "Output via the clipboard"
-msgstr "Indsæt fra klippebordet"
+msgstr "Exporter via klippebordet"
 
 #: ../src/ssconvert.c:202
 msgid "The range to export"
 msgstr "Intervallet at eksportere"
 
 #: ../src/ssconvert.c:209
-#, fuzzy
 msgid "Goal seek areas"
-msgstr "Målsøgning"
+msgstr "Målsøgningsområder"
 
 #: ../src/ssconvert.c:216
 msgid "Run the solver"
@@ -14146,9 +14113,9 @@ msgstr ""
 "arbejdsbogsvirkefelt.\n"
 
 #: ../src/ssconvert.c:625
-#, fuzzy, c-format
+#, c-format
 msgid "Adding sheets from %s\n"
-msgstr "Tilføjelse af %d ark"
+msgstr "Tilføjer ark from %s\n"
 
 #: ../src/ssconvert.c:718
 #, c-format
@@ -14176,9 +14143,9 @@ msgid "Invalid export option \"%s=%s\" for image export"
 msgstr "Ugyldigt tilvalg for pdf-eksportør"
 
 #: ../src/ssconvert.c:1075
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to set cell %s\n"
-msgstr "Fejl ved definering af: '%s'"
+msgstr "Kunne ikke ændre celle %s\n"
 
 #: ../src/ssconvert.c:1112
 #, c-format
@@ -14186,7 +14153,7 @@ msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
-"Ukendt eksportør “%s”.\n"
+"Ukendt eksportør '%s'.\n"
 "Prøv --list-exporters for at se en liste over muligheder.\n"
 
 #: ../src/ssconvert.c:1132
@@ -14195,11 +14162,13 @@ msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
+"Kunne ikke gætte eksportør for '%s'.\n "
+"Prøv --list-exporters for at se en liste over muligheder.\n"
 
 #: ../src/ssconvert.c:1138
-#, fuzzy, c-format
+#, c-format
 msgid "Using exporter %s\n"
-msgstr "Manglende udtryk"
+msgstr "Bruger eksportør %s\n"
 
 #: ../src/ssconvert.c:1144
 #, c-format
@@ -14214,6 +14183,8 @@ msgid ""
 "Unknown importer '%s'.\n"
 "Try --list-importers to see a list of possibilities.\n"
 msgstr ""
+"Ukendt importfilter '%s'.\n"
+"Prøv --list-importers for at se en liste over muligheder.\n"
 
 #: ../src/ssconvert.c:1187 ../src/ssconvert.c:1338
 #, fuzzy, c-format
@@ -14248,7 +14219,7 @@ msgstr ""
 #: ../src/ssconvert.c:1429
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
-msgstr ""
+msgstr "--export-file-per-sheet og --merge-to kan ikke bruges sammen\n"
 
 #: ../src/ssconvert.c:1481 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
@@ -14257,16 +14228,15 @@ msgstr "Brug: %s [TILVALG...] %s\n"
 
 #: ../src/ssdiff.c:60
 msgid "Send output to file"
-msgstr ""
+msgstr "Send uddata to fil"
 
 #: ../src/ssdiff.c:67
 msgid "Output copy highlighting differences"
-msgstr ""
+msgstr "Lav en kopi med forskelle markeret"
 
 #: ../src/ssdiff.c:74
-#, fuzzy
 msgid "Output in xml format"
-msgstr "Tilpasset tidsformat"
+msgstr "Vis i xml format"
 
 #: ../src/ssdiff.c:123
 #, fuzzy, c-format
@@ -14274,24 +14244,23 @@ msgid "%s: Failed to read %s: %s\n"
 msgstr "%s: Kan ikke læse %s: %s\n"
 
 #: ../src/ssdiff.c:172
-#, fuzzy, c-format
+#, c-format
 msgid "Differences for sheet %s:\n"
-msgstr "Arbejdsark:"
+msgstr "Forskelle for ark %s:\n"
 
 #: ../src/ssdiff.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "Sheet %s removed.\n"
-msgstr "Ark er beskyttet."
+msgstr "Ark %s er slettet.\n"
 
 #: ../src/ssdiff.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Sheet %s added.\n"
-msgstr "Ark er beskyttet."
+msgstr "Ark %s er tilføjet.\n"
 
 #: ../src/ssdiff.c:185
-#, fuzzy
 msgid "Sheet order changed.\n"
-msgstr "Ark er beskyttet."
+msgstr "Rækkefølgen af ark er ændret.\n"
 
 #: ../src/ssdiff.c:193
 #, c-format
@@ -14299,29 +14268,29 @@ msgid "Sheet attribute %s changed.\n"
 msgstr ""
 
 #: ../src/ssdiff.c:203
-#, fuzzy, c-format
+#, c-format
 msgid "Column %s changed.\n"
-msgstr "Opgiv rettelse"
+msgstr "Kolonne %s er ændret.\n"
 
 #: ../src/ssdiff.c:206
-#, fuzzy, c-format
+#, c-format
 msgid "Row %d changed.\n"
-msgstr "Opgiv rettelse"
+msgstr "Række %d er ændret.\n"
 
 #: ../src/ssdiff.c:215
-#, fuzzy, c-format
+#, c-format
 msgid "Cell %s changed.\n"
-msgstr "Opgiv rettelse"
+msgstr "Celle %s er ændret.\n"
 
 #: ../src/ssdiff.c:217
 #, c-format
 msgid "Cell %s removed.\n"
-msgstr ""
+msgstr "Cell %s er slettet.\n"
 
 #: ../src/ssdiff.c:219
 #, c-format
 msgid "Cell %s added.\n"
-msgstr ""
+msgstr "Celle %s er tilføjet.\n"
 
 #: ../src/ssdiff.c:230
 #, c-format
@@ -14334,14 +14303,14 @@ msgid "Name %s changed.\n"
 msgstr "Opgiv rettelse"
 
 #: ../src/ssdiff.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Name %s removed.\n"
-msgstr "Ark er beskyttet."
+msgstr "Defineret navn %s er slettet.\n"
 
 #: ../src/ssdiff.c:244
-#, fuzzy, c-format
+#, c-format
 msgid "Name %s added.\n"
-msgstr "Ark er beskyttet."
+msgstr "Defineret navn %s er tilføjet.\n"
 
 #: ../src/ssdiff.c:771
 #, c-format
@@ -14350,18 +14319,18 @@ msgstr ""
 
 #: ../src/ssdiff.c:929 ../src/ssdiff.c:995
 msgid "OLDFILE NEWFILE"
-msgstr ""
+msgstr "GAMMEL-FIL NY-FIL"
 
 #: ../src/ssdiff.c:943
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ssdiff version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Gnumeric version %s.\n"
-"datakatalog := %s\n"
-"bibkatalog := %s\n"
+"ssdiff version '%s'\n"
+"datakatalog := '%s'\n"
+"bibkatalog := '%s'\n"
 
 #: ../src/ssdiff.c:949
 #, c-format
@@ -14369,13 +14338,13 @@ msgid "%s: Only one output format may be specified.\n"
 msgstr ""
 
 #: ../src/ssdiff.c:968
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Failed to create output file: %s\n"
-msgstr "Kunne ikke oprette målsøgnings-dialogen."
+msgstr "Kunne ikke oprette fil: %s\n"
 
 #: ../src/ssgrep.c:61
 msgid "Only print a count of matches per file"
-msgstr ""
+msgstr "Vis kun antallet af resultater per fil"
 
 #: ../src/ssgrep.c:67
 msgid "Search only via the string table, display a count of the references."
@@ -14435,7 +14404,7 @@ msgstr "Søg kun efter hele ord"
 
 #: ../src/ssgrep.c:172
 msgid "Recalculate all cells"
-msgstr "Beregn alle celler igen"
+msgstr "Genberegn alle celler"
 
 #: ../src/ssgrep.c:363
 msgid "result"
@@ -14450,15 +14419,15 @@ msgid "PATTERN INFILE..."
 msgstr "MØNSTER INDFIL..."
 
 #: ../src/ssgrep.c:443
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Gnumeric version %s.\n"
-"datakatalog := %s\n"
-"bibkatalog := %s\n"
+"version '%s'\n"
+"datakatalog := '%s'\n"
+"bibkatalog := '%s'\n"
 
 #: ../src/ssgrep.c:463
 #, c-format
@@ -14468,7 +14437,7 @@ msgstr "%s: Kan ikke læse %s: %s\n"
 #: ../src/ssgrep.c:493
 #, c-format
 msgid "%s: Missing pattern\n"
-msgstr "%s: Mangler mønster\n"
+msgstr "%s: Manglende mønster\n"
 
 #: ../src/ssindex.c:52
 msgid "List MIME types which ssindex is able to read"
@@ -16090,7 +16059,7 @@ msgstr "Opret ny arbejdsbog"
 
 #: ../src/wbc-gtk-actions.c:1991
 msgid "Open a file"
-msgstr "Importerer en fil"
+msgstr "Åbn en fil"
 
 #: ../src/wbc-gtk-actions.c:1999
 msgid "Save the current workbook"

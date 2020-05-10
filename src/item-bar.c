@@ -855,7 +855,7 @@ colrow_tip_setlabel (GnmItemBar *ib, gboolean const is_cols, int size_pixels)
 {
 	if (ib->tip != NULL) {
 		char *buffer, *points, *pixels;
-		char const *label = is_cols ? _("Width:") : _("Height");
+		char const *label = is_cols ? _("Width:") : _("Height:");
 		double const scale = 72. / gnm_app_display_dpi_get (!is_cols);
 		double size_points = scale*size_pixels;
 
