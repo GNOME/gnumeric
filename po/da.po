@@ -12559,14 +12559,14 @@ msgstr[1] "%d rækker"
 #, c-format
 msgid "%d col"
 msgid_plural "%d cols"
-msgstr[0] "% kolonne"
+msgstr[0] "%d kolonne"
 msgstr[1] "%d kolonner"
 
 #: ../src/format-template.c:742
 #, c-format
 msgid "The target region is too small.  It should be at least %s by %s"
 msgstr ""
-"Målområdet er for småt. Det skal bestå af mindst %d rækker gange %d kolonner"
+"Målområdet er for lille. Det skal bestå af mindst %s rækker gange %s kolonner"
 
 #: ../src/format-template.c:748
 #, c-format
@@ -14340,7 +14340,7 @@ msgstr ""
 #: ../src/ssdiff.c:968
 #, c-format
 msgid "%s: Failed to create output file: %s\n"
-msgstr "Kunne ikke oprette fil: %s\n"
+msgstr "%s: Kunne ikke oprette fil: %s\n"
 
 #: ../src/ssgrep.c:61
 msgid "Only print a count of matches per file"
