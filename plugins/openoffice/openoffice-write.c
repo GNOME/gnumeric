@@ -909,10 +909,18 @@ odf_write_sheet_object_line_style (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
 	odf_add_bool (state->xml, STYLE "print-content",
 		      sheet_object_get_print_flag (so));
-	if (start_arrow_name != NULL)
+	if (start_arrow_name != NULL) {
 		gsf_xml_out_add_cstr (state->xml, DRAW "marker-start", start_arrow_name);
-	if (end_arrow_name != NULL)
+		odf_add_bool (state->xml, DRAW "marker-start-center", TRUE);
+		odf_add_pt (state->xml, DRAW "marker-start-width",
+			    start->typ == GO_ARROW_KITE ? 2 * start->c : 2 * start->a);
+	}
+	if (end_arrow_name != NULL) {
 		gsf_xml_out_add_cstr (state->xml, DRAW "marker-end", end_arrow_name);
+		odf_add_bool (state->xml, DRAW "marker-end-center", TRUE);
+		odf_add_pt (state->xml, DRAW "marker-end-width",
+			    end->typ == GO_ARROW_KITE ? 2 * end->c : 2 * end->a);
+	}
 	odf_write_gog_style_graphic (state, style, FALSE);
 	gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
@@ -5866,6 +5874,12 @@ odf_write_fill_images_info (GOImage *image, char const *name, GnmOOExport *state
 static void
 odf_write_arrow_marker_info (GOArrow const *arrow, char const *name, GnmOOExport *state)
 {
+	char *d_string = NULL;
+	char *box_string = NULL;
+	int a = (int) (arrow->a + 0.5);
+	int b = (int) (arrow->b + 0.5);
+	int c = (int) (arrow->c + 0.5);
+
 	gsf_xml_out_start_element (state->xml, DRAW "marker");
 	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "name", name);
 
@@ -5876,9 +5890,35 @@ odf_write_arrow_marker_info (GOArrow const *arrow, char const *name, GnmOOExport
 		go_xml_out_add_double (state->xml, GNMSTYLE "arrow-c", arrow->c);
 	}
 
-	gsf_xml_out_add_cstr (state->xml, SVG "viewBox", "0 0 20 30");
-	/* FIXME: We should be writing the correct arow head shape rather than a standard fixed one */
-	gsf_xml_out_add_cstr (state->xml, SVG "d", "m10 0-10 30h20z");
+	switch (arrow->typ) {
+	case GO_ARROW_NONE:
+		box_string = g_strdup ("-1 -1 1 1");
+		d_string = g_strdup ("M 0,0");
+		break;
+	case GO_ARROW_KITE:
+		box_string = g_strdup_printf
+			("%i 0 %i %i", -c, c, a < b ? b : a);
+		d_string = g_strdup_printf
+			("M 0,0 %i,%i 0,%i %i,%i z", -c, b, a, c, b);
+		break;
+	case GO_ARROW_OVAL:
+		box_string = g_strdup_printf ("%d %d %d %d", -a, -a, a, a);
+		d_string = g_strdup_printf
+			("M 0,0 m %d,0 a %d,%d 0 1,0 %d,0 a %d,%d 0 1,0 %d,0",
+			 -a, a, b, 2*a, a, b, -2 * a);
+		break;
+	default:
+		box_string = g_strdup ("-100 -100 100 100");
+		d_string = g_strdup ("M 0,-100 -100,-50 0,100 100,-50 z");
+		break;
+	}
+
+	if (box_string)
+		gsf_xml_out_add_cstr (state->xml, SVG "viewBox", box_string);
+	if (d_string)
+		gsf_xml_out_add_cstr (state->xml, SVG "d", d_string);
+	g_free (box_string);
+	g_free (d_string);
 
 	gsf_xml_out_end_element (state->xml); /* </draw:marker> */
 }
