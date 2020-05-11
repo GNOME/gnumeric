@@ -6189,9 +6189,8 @@ msgstr ""
 
 #: ../src/dialogs/dialog-doc-metadata.c:1335
 #: ../src/dialogs/dialog-doc-metadata.c:2232
-#, fuzzy
 msgid "Keywords"
-msgstr "Nøgleord:"
+msgstr "Nøgleord"
 
 #: ../src/dialogs/dialog-doc-metadata.c:1601
 msgid "Edit string value directly in above listing."
@@ -7756,9 +7755,8 @@ msgid "Unbounded"
 msgstr "Fortryd"
 
 #: ../src/dialogs/dialog-solver.c:590
-#, fuzzy
 msgid "Ready"
-msgstr "Reelt"
+msgstr "Klar"
 
 #: ../src/dialogs/dialog-solver.c:593
 #, fuzzy
@@ -9047,9 +9045,8 @@ msgstr "Værdi"
 
 # navneord, er knyttet til næste tekst
 #: ../src/dialogs/dao.ui.h:2
-#, fuzzy
 msgid "Formulæ"
-msgstr "_Formater"
+msgstr "formler"
 
 #: ../src/dialogs/dao.ui.h:3
 #, fuzzy
@@ -9061,14 +9058,12 @@ msgid "New _sheet"
 msgstr "_Nyt ark"
 
 #: ../src/dialogs/dao.ui.h:5
-#, fuzzy
 msgid "New _workbook"
 msgstr "Ny _arbejdsbog"
 
 #: ../src/dialogs/dao.ui.h:6
-#, fuzzy
 msgid "Output _range:"
-msgstr "_Uddatainterval:"
+msgstr "_Uddataområde:"
 
 #: ../src/dialogs/dao.ui.h:8
 #, fuzzy
@@ -9204,30 +9199,26 @@ msgid "_K:"
 msgstr "_N:"
 
 #: ../src/dialogs/descriptive-stats.ui.h:17
-#, fuzzy
 msgid "Kth _Smallest"
-msgstr "K'te mindste"
+msgstr "K'te _mindste"
 
 #: ../src/dialogs/descriptive-stats.ui.h:18
-#, fuzzy
 msgid "Kth _Largest"
-msgstr "K-te største"
+msgstr "K-te _største"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:1
 msgid "Unix (linefeed)"
-msgstr ""
+msgstr "Unix (linjeskift)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:2
 msgid "Macintosh before OS X (carriage return)"
-msgstr ""
+msgstr "Macintosh før OS X (vognretur)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:3
-#, fuzzy
 msgid "Windows (carriage return + linefeed)"
 msgstr "Windows (vognretur + linjeskift)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:4
-#, fuzzy
 msgid "Automatic (puts quotes where needed)"
 msgstr "Automatisk (indsætter anførselstegn om nødvendigt)"
 
@@ -9249,7 +9240,7 @@ msgstr "Tabulator"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:9
 msgid "Bang (!)"
-msgstr ""
+msgstr "Udråbstegn (!)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:10
 msgid "Colon (:)"
@@ -9273,7 +9264,7 @@ msgstr "Semikolon (;)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:15
 msgid "Slash (/)"
-msgstr ""
+msgstr "Skråstreg (/)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:17
 #, fuzzy
@@ -9303,9 +9294,8 @@ msgid "Choose sheets to export and determine export ordering of the sheets:"
 msgstr "Vælg ark at eksportere og bestem eksportrækkefølge for arkene:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:24
-#, fuzzy
 msgid "Select all non-empty sheets for export."
-msgstr "Du skal vælge mindst ét ark til eksportering"
+msgstr "Markér all ikke-tomme ark til eksportering"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:25 ../src/dialogs/quit.ui.h:2
 msgid "Select _All"
@@ -9316,9 +9306,8 @@ msgid "Deselect all sheets for export."
 msgstr "Fravælg alle ark til eksport."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:27
-#, fuzzy
 msgid "Select N_one"
-msgstr "Markér _række"
+msgstr "Afmarkér alle"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
@@ -9358,7 +9347,7 @@ msgstr "_Linjeafslutning:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:35
 msgid "_Separator:"
-msgstr "_Separator:"
+msgstr "_Adskillelse:"
 
 # dækker vist betydningen bedst
 #: ../src/dialogs/dialog-stf-export.ui.h:36
@@ -9367,7 +9356,6 @@ msgid "Qu_oting:"
 msgstr "Beskyt værdier:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:37
-#, fuzzy
 msgid "Quote _character:"
 msgstr "Anførselstegn:"
 
@@ -9389,15 +9377,15 @@ msgstr "_Format:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:42 ../src/dialogs/dialog-stf.ui.h:1
 msgid "\""
-msgstr ""
+msgstr "\""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:43 ../src/dialogs/dialog-stf.ui.h:2
 msgid "'"
-msgstr ""
+msgstr "'"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:44 ../src/dialogs/dialog-stf.ui.h:3
 msgid "`"
-msgstr ""
+msgstr "`"
 
 #: ../src/dialogs/dialog-stf.ui.h:4
 msgid "Both sides"
@@ -9580,11 +9568,11 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf.ui.h:45
 msgid "_Ignore initial separators"
-msgstr ""
+msgstr "Se bort fra adskillelsestegn i begyndelsen"
 
 #: ../src/dialogs/dialog-stf.ui.h:46
 msgid "Ignore any separators at the beginning of lines"
-msgstr ""
+msgstr "Se bort fra adskillelsestegn i begyndelsen"
 
 #: ../src/dialogs/dialog-stf.ui.h:47
 msgid "Te_xt indicator: "
@@ -9633,7 +9621,6 @@ msgid "Fixed"
 msgstr "Fast"
 
 #: ../src/dialogs/dialog-stf.ui.h:58
-#, fuzzy
 msgid "Trim:"
 msgstr "Fjern mellemrum:"
 
@@ -9770,9 +9757,8 @@ msgid "The document subject"
 msgstr "Gem dokument"
 
 #: ../src/dialogs/doc-meta-data.ui.h:24
-#, fuzzy
 msgid "The document author"
-msgstr "Gem dokument"
+msgstr "Dokumentforfatter"
 
 #: ../src/dialogs/doc-meta-data.ui.h:25
 #, fuzzy
@@ -9880,14 +9866,12 @@ msgid "C_olumns"
 msgstr "_Kolonner"
 
 #: ../src/dialogs/exp-smoothing.ui.h:9
-#, fuzzy
 msgid "Simple exponential smoothing (Hunter, 1986)"
-msgstr "Eksponentiel udjævning (%s)"
+msgstr "Simpel eksponentiel udjævning (Hunter, 1986)"
 
 #: ../src/dialogs/exp-smoothing.ui.h:10
-#, fuzzy
 msgid "Simple exponential smoothing (Roberts, 1959)"
-msgstr "Eksponentiel udjævning (%s)"
+msgstr "Simpel eksponentiel udjævning (Roberts, 1959)"
 
 #: ../src/dialogs/exp-smoothing.ui.h:11
 #, fuzzy
@@ -9896,11 +9880,11 @@ msgstr "Kunne ikke oprette prøvningsværktøjsvinduet."
 
 #: ../src/dialogs/exp-smoothing.ui.h:12
 msgid "Additive Holt-Winters exponential smoothing"
-msgstr ""
+msgstr "Additiv Holt-Winters eksponentiel udjævning"
 
 #: ../src/dialogs/exp-smoothing.ui.h:13
 msgid "Multiplicative Holt-Winters exponential smoothing"
-msgstr ""
+msgstr "Multiplikativ Holt-Winters eksponentiel udjævning"
 
 #: ../src/dialogs/exp-smoothing.ui.h:15
 #, fuzzy
@@ -9923,32 +9907,31 @@ msgstr ""
 
 #: ../src/dialogs/exp-smoothing.ui.h:19 ../src/dialogs/moving-averages.ui.h:19
 msgid "Include chart"
-msgstr ""
+msgstr "Med graf"
 
 #: ../src/dialogs/exp-smoothing.ui.h:20 ../src/dialogs/moving-averages.ui.h:20
 msgid "_Standard errors"
 msgstr "_Standardfejl"
 
 #: ../src/dialogs/exp-smoothing.ui.h:21 ../src/dialogs/moving-averages.ui.h:21
-#, fuzzy
 msgid "Denominator:"
-msgstr "Dataindsamlingmetode:"
+msgstr "Nævner:"
 
 #: ../src/dialogs/exp-smoothing.ui.h:22 ../src/dialogs/moving-averages.ui.h:22
 msgid "n"
-msgstr ""
+msgstr "n"
 
 #: ../src/dialogs/exp-smoothing.ui.h:23 ../src/dialogs/moving-averages.ui.h:23
 msgid "n−1"
-msgstr ""
+msgstr "n-1"
 
 #: ../src/dialogs/exp-smoothing.ui.h:24 ../src/dialogs/moving-averages.ui.h:24
 msgid "n−2"
-msgstr ""
+msgstr "n-2"
 
 #: ../src/dialogs/exp-smoothing.ui.h:25
 msgid "n−3"
-msgstr ""
+msgstr "n-3"
 
 # Fandt den her:
 # http://projects.gnome.org/gnumeric/doc/sect-dataentryadv-series.shtml
@@ -10054,7 +10037,6 @@ msgid "_Inverse"
 msgstr "I_nvertér"
 
 #: ../src/dialogs/frequency.ui.h:1
-#, fuzzy
 msgid "Frequency Tables"
 msgstr "Hyppighedtabeller"
 
@@ -10086,19 +10068,16 @@ msgid "C_ategories"
 msgstr "K_ategorier"
 
 #: ../src/dialogs/frequency.ui.h:16 ../src/dialogs/histogram.ui.h:27
-#, fuzzy
 msgid "No chart"
-msgstr "nord"
+msgstr "Uden graf"
 
 #: ../src/dialogs/frequency.ui.h:17 ../src/dialogs/histogram.ui.h:28
-#, fuzzy
 msgid "Bar chart"
-msgstr "Kildeområder"
+msgstr "Bjælkegraf"
 
 #: ../src/dialogs/frequency.ui.h:18 ../src/dialogs/histogram.ui.h:29
-#, fuzzy
 msgid "Column chart"
-msgstr "Hovedkolonne"
+msgstr "Kolonnegraf"
 
 #: ../src/dialogs/frequency.ui.h:19 ../src/dialogs/histogram.ui.h:31
 msgid "_Percentages"
@@ -10176,14 +10155,12 @@ msgid "Go To..."
 msgstr "Gå til..."
 
 #: ../src/dialogs/goto.ui.h:2
-#, fuzzy
 msgid "Rows:"
-msgstr "Rækker"
+msgstr "Rækker:"
 
 #: ../src/dialogs/goto.ui.h:3
-#, fuzzy
 msgid "Columns:"
-msgstr "Kolonner"
+msgstr "Kolonner:"
 
 #: ../src/dialogs/hf-config.ui.h:1
 msgid "Enter the format string for each section:"
@@ -10355,9 +10332,8 @@ msgid "HyperLink"
 msgstr "Redigér udtryk"
 
 #: ../src/dialogs/hyperlink.ui.h:2
-#, fuzzy
 msgid "T_ype:"
-msgstr "_Type:"
+msgstr "T_ype:"
 
 #: ../src/dialogs/hyperlink.ui.h:3
 #, fuzzy
@@ -10380,9 +10356,8 @@ msgid "_Web Address:"
 msgstr "Adresse"
 
 #: ../src/dialogs/hyperlink.ui.h:7
-#, fuzzy
 msgid "_File:"
-msgstr "_Fil"
+msgstr "_Fil:"
 
 #: ../src/dialogs/hyperlink.ui.h:8
 #, fuzzy
@@ -10616,9 +10591,8 @@ msgid "Spencer's 15-point moving average"
 msgstr ""
 
 #: ../src/dialogs/moving-averages.ui.h:14
-#, fuzzy
 msgid "_Interval:"
-msgstr "In_terval:"
+msgstr "_Interval:"
 
 #: ../src/dialogs/moving-averages.ui.h:15
 #, fuzzy
@@ -10665,13 +10639,12 @@ msgstr ""
 
 #: ../src/dialogs/normality-tests.ui.h:17 ../src/dialogs/one-mean-test.ui.h:13
 #: ../src/dialogs/sign-test.ui.h:15 ../src/dialogs/variance-tests.ui.h:8
-#, fuzzy
 msgid "Test"
 msgstr "Test"
 
 #: ../src/dialogs/one-mean-test.ui.h:1
 msgid "Claims About a Mean"
-msgstr ""
+msgstr "Udsagn om middelværdi"
 
 #: ../src/dialogs/one-mean-test.ui.h:11
 #, fuzzy
@@ -10700,7 +10673,6 @@ msgid "_All"
 msgstr "_Alt"
 
 #: ../src/dialogs/paste-special.ui.h:5
-#, fuzzy
 msgid "Cont_ent"
 msgstr "Indhold"
 
@@ -10709,7 +10681,6 @@ msgid "Paste the cell contents only, not the formatting"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:7
-#, fuzzy
 msgid "As _Value"
 msgstr "Som værdi"
 
@@ -10742,7 +10713,7 @@ msgstr "Eksempel"
 
 #: ../src/dialogs/paste-special.ui.h:14
 msgid "D_o not change formulæ"
-msgstr ""
+msgstr "Lad formler forblive uændret"
 
 #. Cell operation while paste
 #: ../src/dialogs/paste-special.ui.h:16
@@ -10752,24 +10723,20 @@ msgid "_None"
 msgstr "Ingen"
 
 #: ../src/dialogs/paste-special.ui.h:17
-#, fuzzy
 msgid "A_dd"
-msgstr "Tilføj"
+msgstr "Læg Til"
 
 #: ../src/dialogs/paste-special.ui.h:18
-#, fuzzy
 msgid "_Subtract"
 msgstr "Træk fra"
 
 #: ../src/dialogs/paste-special.ui.h:19
-#, fuzzy
 msgid "M_ultiply"
-msgstr "Gang"
+msgstr "Gang med"
 
 #: ../src/dialogs/paste-special.ui.h:20
-#, fuzzy
 msgid "D_ivide"
-msgstr "Dividér"
+msgstr "Divider med"
 
 #: ../src/dialogs/paste-special.ui.h:21
 #, fuzzy
@@ -10785,7 +10752,6 @@ msgstr "Ingen"
 
 # er i en dialogboks hvor der er plads nok
 #: ../src/dialogs/paste-special.ui.h:24
-#, fuzzy
 msgid "_Transpose"
 msgstr ""
 "Ombyt rækker\n"
@@ -10819,18 +10785,16 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:30
-#, fuzzy
 msgid "Column widths"
-msgstr "Kolonnebredde:"
+msgstr "Kolonnebredder"
 
 #: ../src/dialogs/paste-special.ui.h:31
 msgid "Set column widths of the destination to those of the source"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:32
-#, fuzzy
 msgid "Row heights"
-msgstr "Rækkehøjde"
+msgstr "Rækkehøjder"
 
 #: ../src/dialogs/paste-special.ui.h:33
 msgid "Set row heights of the destination to those of the source"
@@ -10910,14 +10874,12 @@ msgid "Principal Components Analysis"
 msgstr ""
 
 #: ../src/dialogs/print.ui.h:1
-#, fuzzy
 msgid "Page Setup"
-msgstr "Print_eropsætning..."
+msgstr "Sideopsætning..."
 
 #: ../src/dialogs/print.ui.h:2
-#, fuzzy
 msgid "<b>Paper:</b>"
-msgstr "Mønster"
+msgstr "<b>Papir:</b>"
 
 #: ../src/dialogs/print.ui.h:3
 #, fuzzy
@@ -10933,24 +10895,20 @@ msgid "Change Paper Type"
 msgstr ""
 
 #: ../src/dialogs/print.ui.h:6
-#, fuzzy
 msgid "Top margin:"
-msgstr "Definér navne"
+msgstr "Topmargen:"
 
 #: ../src/dialogs/print.ui.h:7
-#, fuzzy
 msgid "Header:"
-msgstr "Sideh_oved:"
+msgstr "Sidehoved:"
 
 #: ../src/dialogs/print.ui.h:8
-#, fuzzy
 msgid "Left margin:"
-msgstr "Venstre del:"
+msgstr "Venstre-margen:"
 
 #: ../src/dialogs/print.ui.h:9
-#, fuzzy
 msgid "Right margin:"
-msgstr "Højre del:"
+msgstr "Højre-margen:"
 
 #: ../src/dialogs/print.ui.h:10
 #, fuzzy
@@ -10958,25 +10916,21 @@ msgid "Footer:"
 msgstr "Side_fod:"
 
 #: ../src/dialogs/print.ui.h:11
-#, fuzzy
 msgid "Bottom margin:"
-msgstr "Definér navne"
+msgstr "Bundmargen:"
 
 # ental ser bedst ud
 #: ../src/dialogs/print.ui.h:12
-#, fuzzy
 msgid "Unit:"
-msgstr "_Enhed:"
+msgstr "Enhed:"
 
 #: ../src/dialogs/print.ui.h:13
-#, fuzzy
 msgid "<b>Center on page:</b>"
-msgstr "Centrér på side"
+msgstr "<b>Centrér på side:</b>"
 
 #: ../src/dialogs/print.ui.h:14
-#, fuzzy
 msgid "<b>O_rientation:</b>"
-msgstr "Orientering"
+msgstr "<b>Orientering:</b>"
 
 #: ../src/dialogs/print.ui.h:15
 msgid "_Horizontally"
@@ -11036,12 +10990,11 @@ msgid "Scale to fit _vertically on"
 msgstr ""
 
 #: ../src/dialogs/print.ui.h:29
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% of normal size"
 msgstr "% af normal størrelse"
 
 #: ../src/dialogs/print.ui.h:30
-#, fuzzy
 msgid "page(s)"
 msgstr "sider"
 
@@ -11052,7 +11005,6 @@ msgid "Scale"
 msgstr "Prøve"
 
 #: ../src/dialogs/print.ui.h:32
-#, fuzzy
 msgid "_Header:"
 msgstr "Sidehoved:"
 
@@ -11070,7 +11022,6 @@ msgid "Fi_rst page number:"
 msgstr "_Første sidetal:"
 
 #: ../src/dialogs/print.ui.h:36
-#, fuzzy
 msgid "Headers and Footers"
 msgstr "Sidehoveder og -fødder"
 
@@ -11101,9 +11052,8 @@ msgid "<b>Print</b>"
 msgstr "Eksempel"
 
 #: ../src/dialogs/print.ui.h:43
-#, fuzzy
 msgid "<b>Page Order</b>"
-msgstr "Mønster"
+msgstr "<b>Siderækkefølge</b>"
 
 #: ../src/dialogs/print.ui.h:44
 msgid "_Grid lines"
@@ -11179,9 +11129,8 @@ msgid "_Discard All"
 msgstr "_Forkast alle"
 
 #: ../src/dialogs/quit.ui.h:7
-#, fuzzy
 msgid "Discard changes in all files"
-msgstr "Forkast ændringer"
+msgstr "Forkast ændringer in alle filer"
 
 #: ../src/dialogs/quit.ui.h:8
 msgid "Don't Quit"
@@ -11216,9 +11165,8 @@ msgid "Document"
 msgstr "Dokument"
 
 #: ../src/dialogs/quit.ui.h:16
-#, fuzzy
 msgid "Unsaved"
-msgstr "Fortryd"
+msgstr "Ikke gemt"
 
 #: ../src/dialogs/random-generation-cor.ui.h:1
 #, fuzzy
@@ -11226,23 +11174,20 @@ msgid "Correlated Random Number Generator"
 msgstr "Generering af tilfældige tal"
 
 #: ../src/dialogs/random-generation-cor.ui.h:2
-#, fuzzy
 msgid "Co_variance Matrix"
-msgstr "Kovarians"
+msgstr "Kovariansmatrix"
 
 #: ../src/dialogs/random-generation-cor.ui.h:3
 msgid "Cholesky _Decomposition of the Covariance Matrix"
 msgstr ""
 
 #: ../src/dialogs/random-generation-cor.ui.h:4
-#, fuzzy
 msgid "_Matrix:"
-msgstr "Maks"
+msgstr "Matrix:"
 
 #: ../src/dialogs/random-generation-cor.ui.h:6
-#, fuzzy
 msgid "Number of _random numbers:"
-msgstr "Antal linjer at importere"
+msgstr "Antal tilfældige tal:"
 
 #: ../src/dialogs/random-generation.ui.h:1
 msgid "Random Number Generation"
@@ -11253,14 +11198,12 @@ msgid "_Distribution:"
 msgstr "_Fordeling:"
 
 #: ../src/dialogs/random-generation.ui.h:4
-#, fuzzy
 msgid "_Number of variables:"
 msgstr "Antal _variable:"
 
 #: ../src/dialogs/random-generation.ui.h:5
-#, fuzzy
 msgid "_Size of sample:"
-msgstr "Prøvningsstørrelse:"
+msgstr "Prøvestørrelse:"
 
 #: ../src/dialogs/rank.ui.h:1
 msgid "Rank and Percentile"
@@ -11279,18 +11222,16 @@ msgid "_Top rank"
 msgstr "_Toprang"
 
 #: ../src/dialogs/recent.ui.h:1
-#, fuzzy
 msgid "Recently Used Documents"
 msgstr "Nyligt brugte filer"
 
 #: ../src/dialogs/recent.ui.h:2
 msgid "Existing only"
-msgstr ""
+msgstr "Kun eksisterende filer"
 
 #: ../src/dialogs/recent.ui.h:3
-#, fuzzy
 msgid "Gnumeric files only"
-msgstr "Gnumeric: Datagyldighedskontrol"
+msgstr "Kun Gnumeric-filer"
 
 #: ../src/dialogs/recent.ui.h:4
 #, fuzzy
@@ -11299,7 +11240,7 @@ msgstr "Gem dokument"
 
 #: ../src/dialogs/recent.ui.h:6
 msgid "Last Used"
-msgstr ""
+msgstr "Sidst brugt"
 
 #: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3609
 #: ../src/tools/analysis-tools.c:3612
@@ -11320,7 +11261,6 @@ msgid "Multiple dependent (y) variables"
 msgstr ""
 
 #: ../src/dialogs/regression.ui.h:9
-#, fuzzy
 msgid "Confidence level:"
 msgstr "Konfidensniveau:"
 
@@ -11368,7 +11308,7 @@ msgstr "Dataindsamlingmetode:"
 #: ../src/dialogs/sampling.ui.h:13
 #, fuzzy
 msgid "Size of sample:"
-msgstr "Prøvningsstørrelse:"
+msgstr "Prøvestørrelse:"
 
 #: ../src/dialogs/sampling.ui.h:14
 msgid "Per_iod:"
@@ -11379,9 +11319,8 @@ msgid "Offset:"
 msgstr ""
 
 #: ../src/dialogs/sampling.ui.h:16
-#, fuzzy
 msgid "Primary direction:"
-msgstr "Retning:"
+msgstr "Primærretning:"
 
 #: ../src/dialogs/sampling.ui.h:17
 #, fuzzy
@@ -11416,9 +11355,8 @@ msgid "_Changing cells:"
 msgstr "_Ved at ændre cellerne: "
 
 #: ../src/dialogs/scenario-add.ui.h:4
-#, fuzzy
 msgid "Comment:"
-msgstr "Kommentar"
+msgstr "Kommentar:"
 
 #: ../src/dialogs/scenario-manager.ui.h:1
 #, fuzzy
@@ -11431,7 +11369,6 @@ msgid "<span weight=\"bold\">Scenarios</span>"
 msgstr "Dokumentsammendragsoplysninger"
 
 #: ../src/dialogs/scenario-manager.ui.h:3
-#, fuzzy
 msgid "Show"
 msgstr "Vis"
 
@@ -11481,12 +11418,10 @@ msgid "Perform this replacement"
 msgstr "Foretag denne erstatning"
 
 #: ../src/dialogs/search-replace.ui.h:7
-#, fuzzy
 msgid "Replacing"
 msgstr "Erstatter"
 
 #: ../src/dialogs/search-replace.ui.h:8
-#, fuzzy
 msgid "By"
 msgstr "Med"
 
@@ -11499,7 +11434,6 @@ msgid "Ask before each change"
 msgstr "Spørg før hver ændring"
 
 #: ../src/dialogs/search-replace.ui.h:11
-#, fuzzy
 msgid "Search & Replace"
 msgstr "Søg og erstat"
 
@@ -11533,7 +11467,6 @@ msgid "Attempt to preserve case of text when replacing"
 msgstr "Forsøg at bevare store og små bogstaver ved erstatning"
 
 #: ../src/dialogs/search-replace.ui.h:19
-#, fuzzy
 msgid "Ma_tch whole words only"
 msgstr "Søg efter hele ord"
 
@@ -11562,9 +11495,8 @@ msgid "Search and replace in current sheet only"
 msgstr "Søg og erstat kun i det aktive ark"
 
 #: ../src/dialogs/search-replace.ui.h:26
-#, fuzzy
 msgid "Ra_nge"
-msgstr "Interval"
+msgstr "Område"
 
 #: ../src/dialogs/search-replace.ui.h:27
 msgid "Search and replace in specified range only"
@@ -11572,7 +11504,7 @@ msgstr "Søg og erstat kun i det angivne interval"
 
 #: ../src/dialogs/search-replace.ui.h:29
 msgid "<span weight=\"bold\">Change Cells Containing</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Søg i celler der indeholder</span>"
 
 #: ../src/dialogs/search-replace.ui.h:30 ../src/dialogs/search.ui.h:19
 msgid "_Strings"
@@ -11608,19 +11540,17 @@ msgstr "Foretag ændringer i cellekommentarer"
 
 #: ../src/dialogs/search-replace.ui.h:38
 msgid "<span weight=\"bold\">Search Text Type</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Søgetekstentype</span>"
 
 #: ../src/dialogs/search-replace.ui.h:39 ../src/dialogs/search.ui.h:38
 msgid "_Plain text"
 msgstr "A_lmindelig tekst"
 
 #: ../src/dialogs/search-replace.ui.h:40 ../src/dialogs/search.ui.h:39
-#, fuzzy
 msgid "The search text is taken literally."
-msgstr "Søgeteksten bliver brugt bogstaveligt"
+msgstr "Søgeteksten bliver taget bogstaveligt"
 
 #: ../src/dialogs/search-replace.ui.h:41 ../src/dialogs/search.ui.h:40
-#, fuzzy
 msgid "Re_gular expression"
 msgstr "Regulært udtryk"
 
@@ -11630,20 +11560,19 @@ msgstr "Søgeteksten er et regulært udtryk"
 
 #: ../src/dialogs/search-replace.ui.h:43
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Diverse</span>"
 
 #: ../src/dialogs/search-replace.ui.h:44 ../src/dialogs/search.ui.h:30
 msgid "_Row major"
-msgstr "H_ovedrække"
+msgstr "Række efter række"
 
 #: ../src/dialogs/search-replace.ui.h:45 ../src/dialogs/search.ui.h:31
 msgid "Search line by line"
 msgstr "Søg linje for linje"
 
 #: ../src/dialogs/search-replace.ui.h:46
-#, fuzzy
 msgid "_Column major"
-msgstr "Hovedkolonne"
+msgstr "Kolonne efter kolonne"
 
 #: ../src/dialogs/search-replace.ui.h:47 ../src/dialogs/search.ui.h:33
 msgid "Search column by column"
@@ -11651,7 +11580,7 @@ msgstr "Søg kolonne for kolonne"
 
 #: ../src/dialogs/search-replace.ui.h:48
 msgid "_Keep strings as strings"
-msgstr ""
+msgstr "Lad strenge forblive strenge"
 
 #: ../src/dialogs/search-replace.ui.h:49
 msgid ""
@@ -11689,7 +11618,6 @@ msgid "_Don't change"
 msgstr "_Ændr ikke"
 
 #: ../src/dialogs/search-replace.ui.h:56
-#, fuzzy
 msgid "Skip cells that would result in errors"
 msgstr "Spring over celler der ville resultere i fejl"
 
@@ -11698,21 +11626,18 @@ msgid "Query for replacement"
 msgstr "Spørg efter erstatning"
 
 #: ../src/dialogs/search-replace.ui.h:58
-#, fuzzy
 msgid "Make _error expression"
-msgstr "Opret et fejludtryk"
+msgstr "Opret en fejlformel"
 
 #: ../src/dialogs/search-replace.ui.h:59
-#, fuzzy
 msgid "Create =ERROR(&quot;...&quot;)"
-msgstr "Opret =ERROR(“…”)"
+msgstr "Opret =ERROR(\"...\")"
 
 #: ../src/dialogs/search-replace.ui.h:60
 msgid "Create =ERROR(\"...\")"
-msgstr "Opret =ERROR(“…”)"
+msgstr "Opret =ERROR(\"...\")"
 
 #: ../src/dialogs/search-replace.ui.h:61
-#, fuzzy
 msgid "Make _string value"
 msgstr "Opret en tekstværdi"
 
@@ -11799,7 +11724,7 @@ msgstr "Diverse"
 
 #: ../src/dialogs/search.ui.h:32
 msgid "C_olumn major"
-msgstr "_Hovedkolonne"
+msgstr "Kolonne efter kolonne"
 
 #: ../src/dialogs/search.ui.h:34
 msgid "Save settings as _default"
@@ -12142,42 +12067,38 @@ msgid "_Link:"
 msgstr "_Henvisning:"
 
 #: ../src/dialogs/so-list.ui.h:3
-#, fuzzy
 msgid "As value"
 msgstr "Som værdi"
 
 #: ../src/dialogs/so-list.ui.h:4
 msgid "As index"
-msgstr ""
+msgstr "Som indeks"
 
 #: ../src/dialogs/so-list.ui.h:5
-#, fuzzy
 msgid "_Content:"
-msgstr "_Indhold:"
+msgstr "Indhold:"
 
 #: ../src/dialogs/solver.ui.h:1
 msgid "≤"
-msgstr ""
+msgstr "≤"
 
 #: ../src/dialogs/solver.ui.h:2
 msgid "≥"
-msgstr ""
+msgstr "≥"
 
 #: ../src/dialogs/solver.ui.h:3
 msgid "="
-msgstr ""
+msgstr "="
 
 #: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:441
 #: ../src/tools/gnm-solver.c:467
-#, fuzzy
 msgid "Int"
-msgstr "Inddata"
+msgstr "Heltal"
 
 #: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:442
 #: ../src/tools/gnm-solver.c:468
-#, fuzzy
 msgid "Bool"
-msgstr "Fed"
+msgstr "Sandhedsværdi"
 
 #: ../src/dialogs/solver.ui.h:6
 msgid "Solver"
@@ -12221,12 +12142,11 @@ msgstr "_Lineær model (LP/MILP)"
 
 #: ../src/dialogs/solver.ui.h:16
 msgid "_Quadratic Model (QP/MIQP)"
-msgstr ""
+msgstr "_Kvadratisk model (QP/MIQP)"
 
 #: ../src/dialogs/solver.ui.h:17
-#, fuzzy
 msgid "_Non-Linear Model"
-msgstr "_Lineær model (LP/MILP)"
+msgstr "_Ikke-lineær model"
 
 #: ../src/dialogs/solver.ui.h:18
 #, fuzzy
@@ -12269,20 +12189,19 @@ msgstr "Begrænsninger"
 
 #: ../src/dialogs/solver.ui.h:27
 msgid "Max _Iterations:"
-msgstr "Maks. _gennemløb:"
+msgstr "Maks. _trin:"
 
 #: ../src/dialogs/solver.ui.h:28
-#, fuzzy
 msgid "Max _Time (sec.):"
-msgstr "Maks:"
+msgstr "Tidsgrænse (s):"
 
 #: ../src/dialogs/solver.ui.h:29
 msgid "The maximum number of steps allowed for the solver"
-msgstr ""
+msgstr "Det maksimale antal trin som algorithmen må tage"
 
 #: ../src/dialogs/solver.ui.h:30
 msgid "The maximum time allowed for the solver"
-msgstr ""
+msgstr "Den maksimale tid som algorithmen må tage"
 
 #: ../src/dialogs/solver.ui.h:31
 msgid "Automatic _Scaling"
@@ -12522,14 +12441,14 @@ msgid "'%s' has a circular reference"
 msgstr "'%s' har en cirkulær henvisning"
 
 #: ../src/expr-name.c:764 ../src/expr-name.c:1015
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is already defined in sheet"
-msgstr "allerede defineret i arket"
+msgstr "'%s' er allerede defineret i arket"
 
 #: ../src/expr-name.c:765 ../src/expr-name.c:1016
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is already defined in workbook"
-msgstr "allerede defineret i arbejdsbog"
+msgstr "'%s' er allerede defineret i arbejdsbog"
 
 #: ../src/expr.c:988
 msgid "Internal type error"
@@ -12610,7 +12529,6 @@ msgstr "Denne funktion er OpenFormula-kompatibel."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:99
-#, fuzzy
 msgid "PRODUCT:product of the given values"
 msgstr "PRODUKT:produktet af de givne værdier"
 
@@ -12650,23 +12568,20 @@ msgstr ""
 #: ../src/func-builtin.c:341
 #, fuzzy
 msgid "IF:conditional expression"
-msgstr "Ugyldigt udtryk"
+msgstr "IF:betinget udtryk"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:343
-#, fuzzy
 msgid "cond:condition"
 msgstr "b:betingelse"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:345
-#, fuzzy
 msgid "trueval:value to use if condition is true"
 msgstr "sand:værdi, hvis @{b} er sand"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:347
-#, fuzzy
 msgid "falseval:value to use if condition is false"
 msgstr "falsk:værdi, hvis @{b} er falsk"
 
@@ -12780,7 +12695,7 @@ msgid "No load_stub method.\n"
 msgstr ""
 
 #: ../src/gnm-plugin.c:281
-#, fuzzy, c-format
+#, c-format
 msgid "%d function in category \"%s\""
 msgid_plural "Group of %d functions in category \"%s\""
 msgstr[0] "%d function i kategori \"%s\"."
@@ -14239,7 +14154,7 @@ msgid "Output in xml format"
 msgstr "Vis i xml format"
 
 #: ../src/ssdiff.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Failed to read %s: %s\n"
 msgstr "%s: Kan ikke læse %s: %s\n"
 
@@ -14298,9 +14213,9 @@ msgid "Style of %s was changed.\n"
 msgstr ""
 
 #: ../src/ssdiff.c:240
-#, fuzzy, c-format
+#, c-format
 msgid "Name %s changed.\n"
-msgstr "Opgiv rettelse"
+msgstr "Defineret navn %s er ændret.\n"
 
 #: ../src/ssdiff.c:242
 #, c-format
@@ -15079,9 +14994,9 @@ msgid "Descriptive Statistics (%s)"
 msgstr "Beskrivende statistikker (%s)"
 
 #: ../src/tools/analysis-tools.c:1327
-#, fuzzy, c-format
+#, c-format
 msgid "Sampling (%s)"
-msgstr "Stikprøveudtagning"
+msgstr "Stikprøveudtagning (%s)"
 
 # stikprøve kolliderer med at det bruges i betydningen "et eksempel"
 #: ../src/tools/analysis-tools.c:1365 ../src/tools/analysis-tools.c:1368
@@ -15099,9 +15014,9 @@ msgstr ""
 "kritisk værdi tosidet"
 
 #: ../src/tools/analysis-tools.c:1596
-#, fuzzy, c-format
+#, c-format
 msgid "z-Test (%s)"
-msgstr "z-test"
+msgstr "z-test (%s)"
 
 #: ../src/tools/analysis-tools.c:1606 ../src/tools/analysis-tools.c:1609
 msgid "z-Test"
@@ -15140,9 +15055,9 @@ msgstr ""
 "P(T<=t) tosidet/t kritisk tosidet"
 
 #: ../src/tools/analysis-tools.c:2188 ../src/tools/analysis-tools.c:2481
-#, fuzzy, c-format
+#, c-format
 msgid "t-Test (%s)"
-msgstr "t-test"
+msgstr "t-test (%s)"
 
 #: ../src/tools/analysis-tools.c:2236
 msgid ""
@@ -15321,23 +15236,22 @@ msgid "Inverse Fourier Transform"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:4536
-#, fuzzy
 msgid "Fourier Transform"
-msgstr "Fourier-analyse"
+msgstr "Fourier-transformation"
 
 #: ../src/tools/analysis-tools.c:4544
-#, fuzzy
 msgid "/Real/Imaginary"
-msgstr "Imaginært"
+msgstr "/Reel/Imaginær"
 
 #: ../src/tools/analysis-tools.c:4592
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Fourierrækker (%s)"
 
+# Ental
 #: ../src/tools/analysis-tools.c:4604 ../src/tools/analysis-tools.c:4607
 msgid "Fourier Series"
-msgstr "Fourierrækker"
+msgstr "Fourierrække"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:137
 msgid "/Rank-Sum/N/U/Ties/Statistic/U-Statistic/p-Value"
@@ -15362,9 +15276,9 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:350
-#, fuzzy, c-format
+#, c-format
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
-msgstr "Normalitetstest (%s)"
+msgstr "Wilcoxon-Mann-Whitney Test  (%s)"
 
 #: ../src/tools/dao.c:181
 msgid "New Sheet"
@@ -15459,28 +15373,24 @@ msgid "Target"
 msgstr "_Listeinterval:"
 
 #: ../src/tools/gnm-solver.c:1661
-#, fuzzy
 msgid "Status"
-msgstr "status"
+msgstr "Status"
 
 #: ../src/tools/gnm-solver.c:1674
-#, fuzzy
 msgid "Minimize"
-msgstr "Minimum"
+msgstr "Minimér"
 
 #: ../src/tools/gnm-solver.c:1677
-#, fuzzy
 msgid "Maximize"
-msgstr "Maksimum"
+msgstr "Maksimér"
 
 #: ../src/tools/gnm-solver.c:1705
-#, fuzzy
 msgid "Lower"
-msgstr "Indlæser"
+msgstr "Nedre"
 
 #: ../src/tools/gnm-solver.c:1706
 msgid "Upper"
-msgstr ""
+msgstr "Upper"
 
 #: ../src/tools/gnm-solver.c:1707 ../src/tools/gnm-solver.c:1750
 #, fuzzy
@@ -15488,31 +15398,28 @@ msgid "Slack"
 msgstr "Sort"
 
 #: ../src/tools/gnm-solver.c:1729
-#, fuzzy
 msgid "At limit"
-msgstr "Grænse"
+msgstr "På grænsen"
 
 #: ../src/tools/gnm-solver.c:1732
-#, fuzzy
 msgid "Outside bounds"
-msgstr "Kanter udenom"
+msgstr "Over grænsen"
 
 #: ../src/tools/gnm-solver.c:1747
-#, fuzzy
 msgid "Condition"
-msgstr "Betingelse:"
+msgstr "Betingelse"
 
 #: ../src/tools/gnm-solver.c:1752 ../src/tools/gnm-solver.c:1888
-#, fuzzy
 msgid "No constraints"
-msgstr "Begrænsninger"
+msgstr "Ingen begrænsninger"
 
 #: ../src/tools/gnm-solver.c:1845
-#, fuzzy
 msgid ""
 "Final\n"
 "Value"
-msgstr "Værdi"
+msgstr ""
+"Endelig\n"
+"Værdi"
 
 #: ../src/tools/gnm-solver.c:1846
 msgid ""
@@ -15521,18 +15428,16 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/gnm-solver.c:1847 ../src/tools/gnm-solver.c:1883
-#, fuzzy
 msgid ""
 "Lower\n"
 "Limit"
-msgstr "Nedre grænse (95 %)"
+msgstr "Nedre\ngrænse"
 
 #: ../src/tools/gnm-solver.c:1848 ../src/tools/gnm-solver.c:1884
-#, fuzzy
 msgid ""
 "Upper\n"
 "Limit"
-msgstr "Øvre grænse (95 %)"
+msgstr "Øvre\ngrænse"
 
 #: ../src/tools/gnm-solver.c:1880
 msgid ""
@@ -15555,14 +15460,12 @@ msgid ""
 msgstr "Begrænsning"
 
 #: ../src/tools/gnm-solver.c:1946
-#, fuzzy
 msgid "Program"
-msgstr "_Program"
+msgstr "Program"
 
 #: ../src/tools/gnm-solver.c:1952
-#, fuzzy
 msgid "Sensitivity"
-msgstr "Skeln mellem store og små bogstaver"
+msgstr "Følsomhed"
 
 #: ../src/tools/gnm-solver.c:2555
 #, c-format
