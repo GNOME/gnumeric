@@ -206,6 +206,7 @@ typedef struct {
 	char *view_box;
 	char * d;
 	GOArrow *arrow;
+	double width;
 } OOMarker;
 
 typedef struct {
@@ -7622,6 +7623,14 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->other_props,
 				 oo_prop_new_string
 				 ("marker-end", CXML2C(attrs[1])));
+		else if (oo_attr_distance (xin, attrs, OO_NS_DRAW, "marker-start-width", &ftmp))
+			style->other_props = g_slist_prepend
+				(style->other_props,
+				 oo_prop_new_double ("marker-start-width", ftmp));
+		else if (oo_attr_distance (xin, attrs, OO_NS_DRAW, "marker-end-width", &ftmp))
+			style->other_props = g_slist_prepend
+				(style->other_props,
+				 oo_prop_new_double ("marker-end-width", ftmp));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					     OO_NS_FO,
 					     "border"))
@@ -10877,19 +10886,53 @@ odf_custom_shape_enhanced_geometry (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static GOArrow *
-odf_get_arrow_marker (OOParseState *state, char const *name)
+odf_get_arrow_marker (OOParseState *state, char const *name, double width)
 {
 	OOMarker *m = g_hash_table_lookup (state->chart.arrow_markers, name);
 
 	if (m != NULL) {
+		GOArrow *arrow;
 		if (m->arrow == NULL) {
 			m->arrow = g_new0 (GOArrow, 1);
-			go_arrow_init_kite (m->arrow, 8, 10, 3);
+			go_arrow_init_kite (m->arrow, 8 * width / 6.,
+					    10 * width / 6., width / 2.);
+			m->width = width;
+			arrow = go_arrow_dup (m->arrow);
+		} else {
+			switch (m->arrow->typ) {
+			case GO_ARROW_KITE:
+			        if (m->arrow->c == 0 || 2 * m->arrow->c == width) {
+					arrow = go_arrow_dup (m->arrow);
+				} else {
+					double ratio =  width / 2. / m->arrow->c;
+					arrow = g_new0 (GOArrow, 1);
+					go_arrow_init_kite
+						(arrow,
+						 m->arrow->a * ratio,
+						 m->arrow->b * ratio,
+						 width/2);
+				}
+				break;
+			case GO_ARROW_OVAL:
+			default:
+			        if (m->arrow->a == 0 || 2 * m->arrow->a == width) {
+					arrow = go_arrow_dup (m->arrow);
+				} else {
+					double ratio =  width / 2. / m->arrow->a;
+					arrow = g_new0 (GOArrow, 1);
+					go_arrow_init_oval
+						(arrow,
+						 width/2,
+						 m->arrow->b * ratio);
+				}
+				break;
+			}
 		}
-		return go_arrow_dup (m->arrow);
+		return arrow;
 	} else {
 		GOArrow *arrow = g_new0 (GOArrow, 1);
-		go_arrow_init_kite (arrow, 8, 10, 3);
+		go_arrow_init_kite (arrow, 8 * width / 6.,
+					    10 * width / 6., width / 2.);
 		return arrow;
 	}
 }
@@ -11010,6 +11053,8 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 			GOStyle *style0;
 			char const *start_marker = NULL;
 			char const *end_marker = NULL;
+			double start_marker_width = 0.;
+			double end_marker_width = 0.;
 			GSList *l;
 
 			g_object_get (state->chart.so, "style", &style0, NULL);
@@ -11029,6 +11074,10 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 					start_marker = g_value_get_string (&prop->value);
 				else if (0 == strcmp ("marker-end", prop->name))
 					end_marker = g_value_get_string (&prop->value);
+				else if (0 == strcmp ("marker-start-width", prop->name))
+					start_marker_width = g_value_get_double (&prop->value);
+				else if (0 == strcmp ("marker-end-width", prop->name))
+					end_marker_width = g_value_get_double (&prop->value);
 				else if (0 == strcmp ("print-content", prop->name)) {
 					gboolean prop_val;
 					prop_val =g_value_get_boolean (&prop->value);
@@ -11039,7 +11088,8 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 
 			if (start_marker != NULL) {
-				GOArrow *arrow = odf_get_arrow_marker (state, start_marker);
+				GOArrow *arrow = odf_get_arrow_marker
+					(state, start_marker, start_marker_width);
 
 				if (arrow != NULL) {
 					g_object_set (G_OBJECT (state->chart.so),
@@ -11048,7 +11098,8 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 				}
 			}
 			if (end_marker != NULL) {
-				GOArrow *arrow = odf_get_arrow_marker (state, end_marker);
+				GOArrow *arrow = odf_get_arrow_marker
+					(state, end_marker, end_marker_width);
 
 				if (arrow != NULL) {
 					g_object_set (G_OBJECT (state->chart.so),
@@ -11742,6 +11793,44 @@ oo_marker (GsfXMLIn *xin, xmlChar const **attrs)
 	if (type != GO_ARROW_NONE) {
 		marker->arrow = g_new0 (GOArrow, 1);
 		go_arrow_init (marker->arrow, type, a, b, c);
+		marker->width = 2. * (type == GO_ARROW_KITE ? c : a);
+	} else {
+		/* At this time we are not implemeting drawing these markers  */
+		/* directly from the SVG string. So we are trying to at least */
+		/* recognize some common LibreOffice markers. Note that the   */
+		/* width will likel be adjusted later.                        */
+		if (0 == strcmp (name, "Circle")) {
+			marker->arrow = g_new0 (GOArrow, 1);
+			go_arrow_init_oval (marker->arrow, 10., 10.);
+			marker->width = 20;
+		} else if (0 == strcmp (name, "Arrow") &&
+			   0 == strcmp (marker->d, "M10 0l-10 30h20z")) {
+			marker->arrow = g_new0 (GOArrow, 1);
+			go_arrow_init_kite (marker->arrow, 30., 30., 10.);
+			marker->width = 20;
+		} else if (0 == strcmp (name, "Diamond") &&
+			   0 == strcmp (marker->d, "M1500 0l1500 3000-1500 3000-1500-3000z")) {
+			marker->arrow = g_new0 (GOArrow, 1);
+			go_arrow_init_kite (marker->arrow, 60., 30., 15.);
+			marker->width = 30;
+		} else if (0 == strcmp (name, "Square_20_45") &&
+			   0 == strcmp (marker->d, "M0 564l564 567 567-567-567-564z")) {
+			marker->arrow = g_new0 (GOArrow, 1);
+			go_arrow_init_kite (marker->arrow, 20., 10., 5.);
+			marker->width = 10;
+		} else if (0 == strcmp (name, "Arrow_20_concave") &&
+			   0 == strcmp (marker->d,
+					"M1013 1491l118 89-567-1580-564 1580 114-85 "
+					"136-68 148-46 161-17 161 13 153 46z")) {
+			marker->arrow = g_new0 (GOArrow, 1);
+			go_arrow_init_kite (marker->arrow, 25., 30., 10.);
+			marker->width = 20;
+		}  else if (0 == strcmp (name, "Symmetric_20_Arrow") &&
+			   0 == strcmp (marker->d, "M564 0l-564 902h1131z")) {
+			marker->arrow = g_new0 (GOArrow, 1);
+			go_arrow_init_kite (marker->arrow, 10., 10., 6.);
+			marker->width = 12;
+		}
 	}
 	if (name != NULL) {
 		g_hash_table_replace (state->chart.arrow_markers,

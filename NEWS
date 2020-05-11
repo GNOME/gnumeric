@@ -4,6 +4,7 @@ Andreas:
 	* Add axis title to chart in histogram tool. [#408]
 	* Fix line end marker roundtrip through strict ODF
 	* Improve export of line markers to ODF for interoperability
+	* Improve line marker handling on import
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47

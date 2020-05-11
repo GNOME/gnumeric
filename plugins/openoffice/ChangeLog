@@ -1,5 +1,12 @@
 2020-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_style_prop_chart): read marker-*-width
+	(odf_get_arrow_marker): adjust marker for its width.
+	(odf_line): apply "marker-*-width
+	(oo_marker): recognize a few LO markers
+
+2020-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_sheet_object_line_style): write marker widths
 	(odf_write_arrow_marker_info): write the correct svg:d
 
