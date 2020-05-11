@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2020-05-10 03:58+0000\n"
-"PO-Revision-Date: 2020-05-10 12:20+0300\n"
+"POT-Creation-Date: 2020-05-10 18:43+0000\n"
+"PO-Revision-Date: 2020-05-11 11:57+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -109,7 +109,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7219
-#: ../plugins/openoffice/openoffice-read.c:13958 ../src/xml-sax-read.c:3516
+#: ../plugins/openoffice/openoffice-read.c:13963 ../src/xml-sax-read.c:3516
 msgid "Reading file..."
 msgstr "Зчитування файлу…"
 
@@ -213,7 +213,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr ""
 
 #: ../plugins/excel/excel-xml-read.c:1217
-#: ../plugins/openoffice/openoffice-read.c:14122 ../src/xml-sax-read.c:3533
+#: ../plugins/openoffice/openoffice-read.c:14127 ../src/xml-sax-read.c:3533
 msgid "XML document not well formed!"
 msgstr "Документ XML сформовано неправильно!"
 
@@ -1835,49 +1835,49 @@ msgstr ""
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Атрибут «%s» має непідтримуване значення «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:11767
+#: ../plugins/openoffice/openoffice-read.c:11772
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
 "Gnumeric's maximum supported sheet size"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:11798
+#: ../plugins/openoffice/openoffice-read.c:11803
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:11803
+#: ../plugins/openoffice/openoffice-read.c:11808
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
 "\"%s\"."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:11813
+#: ../plugins/openoffice/openoffice-read.c:11818
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr ""
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:11819
+#: ../plugins/openoffice/openoffice-read.c:11824
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr "Цей файл пошкоджено — аркуш без назви тепер названо «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:13808
+#: ../plugins/openoffice/openoffice-read.c:13813
 msgid "Unknown mimetype for openoffice file."
 msgstr "Невідомий тип MIME для файла openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:13818
+#: ../plugins/openoffice/openoffice-read.c:13823
 msgid "No stream named content.xml found."
 msgstr "Не знайдено потоку з назвою content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:13968
+#: ../plugins/openoffice/openoffice-read.c:13973
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Некоректні метадані «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:14031
+#: ../plugins/openoffice/openoffice-read.c:14036
 msgid "settings.xml stream is malformed!"
 msgstr "Помилкове форматування потоку settings.xml!"
 
@@ -1917,11 +1917,11 @@ msgstr "файл"
 msgid "path"
 msgstr "шлях"
 
-#: ../plugins/openoffice/openoffice-write.c:9024
+#: ../plugins/openoffice/openoffice-write.c:9025
 msgid "Writing Sheets..."
 msgstr "Записуємо аркуші…"
 
-#: ../plugins/openoffice/openoffice-write.c:9065
+#: ../plugins/openoffice/openoffice-write.c:9066
 msgid "Writing Sheet Objects..."
 msgstr "Записуємо об'єкти аркушів…"
 
@@ -5651,109 +5651,109 @@ msgstr "Розгорнути умовне форматування"
 msgid ""
 "If the cell content is between these two values, a special style is used."
 msgstr ""
-"Якщо у даних комірки міститиметься значення між цими двома значеннями, буде"
-" використано спеціальний стиль."
+"Якщо у даних комірки міститиметься значення між цими двома значеннями, буде "
+"використано спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:869
 msgid ""
 "If the cell content is not between these two values, a special style is used."
 msgstr ""
-"Якщо у даних комірки не міститиметься значення між цими двома значеннями,"
-" буде використано спеціальний стиль."
+"Якщо у даних комірки не міститиметься значення між цими двома значеннями, "
+"буде використано спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:877
 msgid "If the cell content is equal to this value, a special style is used."
 msgstr ""
-"Якщо у даних комірки міститиметься значення, яке дорівнюватиме цьому"
-" значенню, буде використано спеціальний стиль."
+"Якщо у даних комірки міститиметься значення, яке дорівнюватиме цьому "
+"значенню, буде використано спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:885
 msgid ""
 "If the cell content is not equal to this value, a special style is used."
 msgstr ""
-"Якщо у даних комірки міститиметься значення, яке не дорівнюватиме цьому"
-" значенню, буде використано спеціальний стиль."
+"Якщо у даних комірки міститиметься значення, яке не дорівнюватиме цьому "
+"значенню, буде використано спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:893
 msgid "If the cell content is > this value, a special style is used."
 msgstr ""
-"Якщо у даних комірки міститиметься значення, яке буде більшим за це значенню,"
-" буде використано спеціальний стиль."
+"Якщо у даних комірки міститиметься значення, яке буде більшим за це "
+"значенню, буде використано спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:900
 msgid "If the cell content is < this value, a special style is used."
 msgstr ""
-"Якщо у даних комірки міститиметься значення, яке буде меншим за це значенню,"
-" буде використано спеціальний стиль."
+"Якщо у даних комірки міститиметься значення, яке буде меншим за це значенню, "
+"буде використано спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:908
 msgid "If the cell content is ≧ this value, a special style is used."
 msgstr ""
-"Якщо у даних комірки міститиметься значення, яке буде не меншим за це"
-" значенню, буде використано спеціальний стиль."
+"Якщо у даних комірки міститиметься значення, яке буде не меншим за це "
+"значенню, буде використано спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:917
 msgid "If the cell content is ≦ this value, a special style is used."
 msgstr ""
-"Якщо у даних комірки міститиметься значення, яке буде не більшим за це"
-" значенню, буде використано спеціальний стиль."
+"Якщо у даних комірки міститиметься значення, яке буде не більшим за це "
+"значенню, буде використано спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:926
 msgid "If this formula evaluates to TRUE, a special style is used."
 msgstr ""
-"Якщо у даних комірки міститиметься значення рівне ІСТИНА, буде використано"
-" спеціальний стиль."
+"Якщо у даних комірки міститиметься значення рівне ІСТИНА, буде використано "
+"спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:933
 msgid "If the cell content contains this string, a special style is used."
 msgstr ""
-"Якщо у даних комірки міститиметься цей рядок, буде використано спеціальний"
-" стиль."
+"Якщо у даних комірки міститиметься цей рядок, буде використано спеціальний "
+"стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:941
 msgid ""
 "If the cell content does not contain this string, a special style is used."
 msgstr ""
-"Якщо у даних комірки не міститиметься цього рядка, буде використано"
-" спеціальний стиль."
+"Якщо у даних комірки не міститиметься цього рядка, буде використано "
+"спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:949
 msgid "If the cell content begins with this string, a special style is used."
 msgstr ""
-"Якщо дані комірки починатимуться з цього рядка, буде використано спеціальний"
-" стиль."
+"Якщо дані комірки починатимуться з цього рядка, буде використано спеціальний "
+"стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:957
 msgid ""
 "If the cell content does not begin with this string, a special style is used."
 msgstr ""
-"Якщо дані комірки не починатимуться з цього рядка, буде використано"
-" спеціальний стиль."
+"Якщо дані комірки не починатимуться з цього рядка, буде використано "
+"спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:964
 msgid "If the cell content ends with this string, a special style is used."
 msgstr ""
-"Якщо дані комірки завершуватимуться цим рядком, буде використано спеціальний"
-" стиль."
+"Якщо дані комірки завершуватимуться цим рядком, буде використано спеціальний "
+"стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:972
 msgid ""
 "If the cell content does not end  with this string, a special style is used."
 msgstr ""
-"Якщо дані комірки не завершуватимуться цим рядком, буде використано"
-" спеціальний стиль."
+"Якщо дані комірки не завершуватимуться цим рядком, буде використано "
+"спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:980
 msgid "If the cell contains an error value, a special style is used."
 msgstr ""
-"Якщо у даних комірки міститиметься помилкове значення, буде використано"
-" спеціальний стиль."
+"Якщо у даних комірки міститиметься помилкове значення, буде використано "
+"спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:986
 msgid "If the cell does not contain an error value, a special style is used."
 msgstr ""
-"Якщо у даних комірки не міститиметься помилкового значення, буде використано"
-" спеціальний стиль."
+"Якщо у даних комірки не міститиметься помилкового значення, буде використано "
+"спеціальний стиль."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:993
 msgid "If the cell content contains blanks, a special style is used."
@@ -5835,8 +5835,8 @@ msgstr "Встановити стандартну/типову ширину ст
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
-"Встановити ширину стовпчика позначеного фрагмента на <span style='italic'"
-" weight='bold'>%s</span>"
+"Встановити ширину стовпчика позначеного фрагмента на <span style='italic' "
+"weight='bold'>%s</span>"
 
 #: ../src/dialogs/dialog-consolidate.c:188
 #, c-format
@@ -6015,12 +6015,10 @@ msgid "Integer"
 msgstr "Ціле число"
 
 #: ../src/dialogs/dialog-doc-metadata.c:1856
-#| msgid "December"
 msgid "Decimal Number"
 msgstr "Десяткове число"
 
 #: ../src/dialogs/dialog-doc-metadata.c:1857
-#| msgid "FALSE"
 msgid "TRUE/FALSE"
 msgstr "ІСТИНА/ХИБНІСТЬ"
 
@@ -8446,13 +8444,12 @@ msgid "None"
 msgstr "Немає"
 
 #: ../src/dialogs/cell-format.ui.h:48
-#, fuzzy
 msgid "Outline"
 msgstr "Контур"
 
 #: ../src/dialogs/cell-format.ui.h:49
 msgid "Inside Vertical"
-msgstr ""
+msgstr "зсередини вертикально"
 
 #: ../src/dialogs/cell-format.ui.h:50
 msgid "Inside"
@@ -8460,12 +8457,11 @@ msgstr "зсередини"
 
 #: ../src/dialogs/cell-format.ui.h:51
 msgid "Inside Horizontal"
-msgstr ""
+msgstr "зсередини горизонтально"
 
 #: ../src/dialogs/cell-format.ui.h:52
-#, fuzzy
 msgid "<b>Line</b>"
-msgstr "Лінія"
+msgstr "<b>Лінія</b>"
 
 #: ../src/dialogs/cell-format.ui.h:53
 msgid "Style:"
@@ -8473,7 +8469,6 @@ msgstr "Стиль:"
 
 #. Cell border line
 #: ../src/dialogs/cell-format.ui.h:55
-#, fuzzy
 #| msgid "None"
 msgctxt "line"
 msgid "None"
@@ -8484,24 +8479,20 @@ msgid "C_olor:"
 msgstr "_Колір:"
 
 #: ../src/dialogs/cell-format.ui.h:58
-#, fuzzy
 msgid "<b>Background</b>"
-msgstr "Тло"
+msgstr "<b>Тло</b>"
 
 #: ../src/dialogs/cell-format.ui.h:59
-#, fuzzy
 msgid "<b>Sample</b>"
-msgstr "Зразок"
+msgstr "<b>Зразок</b>"
 
 #: ../src/dialogs/cell-format.ui.h:60
-#, fuzzy
 msgid "<b>Pattern</b>"
-msgstr "Шаблон"
+msgstr "<b>Текстура</b>"
 
 #: ../src/dialogs/cell-format.ui.h:61
-#, fuzzy
 msgid "Solid"
-msgstr "Суцільний"
+msgstr "Суцільні"
 
 #: ../src/dialogs/cell-format.ui.h:63
 #, no-c-format
@@ -8529,75 +8520,72 @@ msgid "6.25% Grey"
 msgstr "6.25% сірого"
 
 #: ../src/dialogs/cell-format.ui.h:72
-#, fuzzy
 msgid "Horizontal Stripe"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Горизонтальні смужки"
 
 #: ../src/dialogs/cell-format.ui.h:73
 msgid "Vertical Stripe"
-msgstr ""
+msgstr "Вертикальні смужки"
 
 #: ../src/dialogs/cell-format.ui.h:74
 msgid "Reverse Diagonal Stripe"
-msgstr ""
+msgstr "Зворотні діагональні смужки"
 
 #: ../src/dialogs/cell-format.ui.h:75
 msgid "Diagonal Stripe"
-msgstr ""
+msgstr "Діагональні смужки"
 
 #: ../src/dialogs/cell-format.ui.h:76
 msgid "Diagonal Crosshatch"
-msgstr ""
+msgstr "Діагональні хрестики"
 
 #: ../src/dialogs/cell-format.ui.h:77
 msgid "Thick Diagonal Crosshatch"
-msgstr ""
+msgstr "Товсті діагональні хрестики"
 
 #: ../src/dialogs/cell-format.ui.h:78
-#, fuzzy
 msgid "Thin Horizontal Stripe"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Тонкі горизонтальні смужки"
 
 #: ../src/dialogs/cell-format.ui.h:79
 msgid "Thin Vertical Stripe"
-msgstr ""
+msgstr "Тонкі вертикальні смужки"
 
 #: ../src/dialogs/cell-format.ui.h:80
 msgid "Thin Reverse Diagonal Stripe"
-msgstr ""
+msgstr "Тонкі зворотні діагональні смужки"
 
 #: ../src/dialogs/cell-format.ui.h:81
 msgid "Thin Diagonal Stripe"
-msgstr ""
+msgstr "Тонкі діагональні смужки"
 
 #: ../src/dialogs/cell-format.ui.h:82
 msgid "Thin Horizontal Crosshatch"
-msgstr ""
+msgstr "Тонкі горизонтальні хрестики"
 
 #: ../src/dialogs/cell-format.ui.h:83
 msgid "Thin Diagonal Crosshatch"
-msgstr ""
+msgstr "Тонкі діагональні хрестики"
 
 #: ../src/dialogs/cell-format.ui.h:84
-#, fuzzy
 msgid "Foreground Solid"
-msgstr "Передній план"
+msgstr "Суцільний передній план"
 
 #: ../src/dialogs/cell-format.ui.h:85
 msgid "Small Circles"
-msgstr ""
+msgstr "Малі кола"
 
 #: ../src/dialogs/cell-format.ui.h:86
 msgid "Semi Circles"
-msgstr ""
+msgstr "Напівкола"
 
 #: ../src/dialogs/cell-format.ui.h:87
 msgid "Thatch"
-msgstr ""
+msgstr "Солома"
 
 #: ../src/dialogs/cell-format.ui.h:88
 msgid "Large Circles"
-msgstr ""
+msgstr "Великі кола"
 
 #: ../src/dialogs/cell-format.ui.h:89
 msgid "Bricks"
@@ -8614,87 +8602,76 @@ msgstr "_Сховати"
 #: ../src/dialogs/cell-format.ui.h:93
 msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
+"Блокування комірок або приховування формул стосується лише захищених робочих"
+" аркушів."
 
 #: ../src/dialogs/cell-format.ui.h:94
-#, fuzzy
 msgid "_Protect worksheet"
-msgstr "Поточна дата"
+msgstr "За_хищений робочий аркуш"
 
 #: ../src/dialogs/cell-format.ui.h:96
-#, fuzzy
 msgid "<span weight=\"bold\">Criteria</span>"
-msgstr "Критерій"
+msgstr "<span weight=\"bold\">Критерій</span>"
 
 #: ../src/dialogs/cell-format.ui.h:97
-#, fuzzy
 msgid "Allo_w:"
-msgstr "Все"
+msgstr "Д_озволити:"
 
 #: ../src/dialogs/cell-format.ui.h:98
-#, fuzzy
 msgid "Con_dition:"
-msgstr "Вміст"
+msgstr "_Умова:"
 
 #: ../src/dialogs/cell-format.ui.h:99
-#, fuzzy
 msgid "Ignore _blank cells"
-msgstr "Вставити нові комірки"
+msgstr "Ігнорувати поро_жні комірки"
 
 #: ../src/dialogs/cell-format.ui.h:100
 msgid "I_n-cell dropdown"
-msgstr ""
+msgstr "Спадний список у _комірці"
 
 #: ../src/dialogs/cell-format.ui.h:101
-#, fuzzy
 msgid "<b>Error alerts</b>"
-msgstr "Помилка: немає аркуша"
+msgstr "<b>Попередження про помилку</b>"
 
 #: ../src/dialogs/cell-format.ui.h:102
-#, fuzzy
 msgid "Ac_tion:"
-msgstr "Функція"
+msgstr "Ді_я:"
 
 #: ../src/dialogs/cell-format.ui.h:103
-#, fuzzy
 msgid "Titl_e:"
-msgstr "Файл"
+msgstr "За_головок:"
 
 #: ../src/dialogs/cell-format.ui.h:104
-#, fuzzy
 msgid "_Message:"
-msgstr "П_овідомлення"
+msgstr "П_овідомлення:"
 
 #: ../src/dialogs/cell-format.ui.h:106
 msgid "_Show input message when cell is selected"
-msgstr ""
+msgstr "_Показувати вхідне повідомлення при позначенні комірки"
 
 #: ../src/dialogs/cell-format.ui.h:107
-#, fuzzy
 msgid "Input Message"
-msgstr "Діапазон вводу:"
+msgstr "Вхідне повідомлення"
 
 #: ../src/dialogs/cell-sort.ui.h:1
-#, fuzzy
 msgid "Sort..."
-msgstr "Сортувати"
+msgstr "Упорядкувати…"
 
 #: ../src/dialogs/cell-sort.ui.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Sort Options</span>"
-msgstr "Впорядкувати параметри"
+msgstr "<span weight=\"bold\">Параметри упорядкування</span>"
 
 #: ../src/dialogs/cell-sort.ui.h:3
 msgid "<span weight=\"bold\">Sort Specification</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Специфікація упорядкування</span>"
 
 #: ../src/dialogs/cell-sort.ui.h:4
 msgid "Locale:"
-msgstr "Мова:"
+msgstr "Локаль:"
 
 #: ../src/dialogs/cell-sort.ui.h:5
-#, fuzzy
 msgid "Sorting _preserves formats"
-msgstr "Формати"
+msgstr "Упорядквання з_берігає формати"
 
 #: ../src/dialogs/cell-sort.ui.h:6
 msgid ""
@@ -8722,27 +8699,24 @@ msgid "Range:"
 msgstr "Діапазон:"
 
 #: ../src/dialogs/cell-sort.ui.h:11
-#, fuzzy
 msgid "_Left-Right"
-msgstr "Праворуч"
+msgstr "З_ліва праворуч"
 
 #: ../src/dialogs/cell-sort.ui.h:12
 msgid "Sort columns by the specified rows"
-msgstr ""
+msgstr "Упорядкувати стовпчики за вказаними рядками"
 
 #: ../src/dialogs/cell-sort.ui.h:13
-#, fuzzy
 msgid "_Top-Bottom"
-msgstr "Вгорі та знизу"
+msgstr "З_гори вниз"
 
 #: ../src/dialogs/cell-sort.ui.h:14
-#, fuzzy
 msgid "Sort rows by the specified columns"
-msgstr "Змінити ширину вибраних стовпчиків"
+msgstr "Упорядкувати рядки за вказаними стовпчиками"
 
 #: ../src/dialogs/cell-sort.ui.h:15
 msgid "Move selected field up in the sort order"
-msgstr ""
+msgstr "Пересунути позначене поле вище в упорядкуванні"
 
 #: ../src/dialogs/cell-sort.ui.h:16
 msgid "Move the selected field down in the sort order"
@@ -8767,17 +8741,16 @@ msgid "Contingency Table Analysis"
 msgstr ""
 
 #: ../src/dialogs/chi-squared.ui.h:2
-#, fuzzy
 msgid "_Contingency Table:"
-msgstr "_Зміст"
+msgstr "_Факторна таблиця:"
 
 #: ../src/dialogs/chi-squared.ui.h:12
 msgid "Test of _Homogeneity"
-msgstr ""
+msgstr "Критерій _однорідності"
 
 #: ../src/dialogs/chi-squared.ui.h:13
 msgid "Test of _Independence"
-msgstr ""
+msgstr "Критерій _незалежності"
 
 #: ../src/dialogs/colrow.ui.h:1
 msgid "Group/Ungroup"
@@ -8793,22 +8766,19 @@ msgstr "Стовпчики"
 #: ../src/dialogs/colrow.ui.h:5
 msgctxt "group"
 msgid "_Rows"
-msgstr "Рядки"
+msgstr "_Рядки"
 
 #: ../src/dialogs/col-width.ui.h:1
-#, fuzzy
 msgid "Column Width"
-msgstr "Ширина стовпчика…"
+msgstr "Ширина стовпчика"
 
 #: ../src/dialogs/col-width.ui.h:2
-#, fuzzy
 msgid "_Column width in pixels:"
-msgstr "Ширина стовпчика…"
+msgstr "_Ширина стовпчика у пікселях:"
 
 #: ../src/dialogs/col-width.ui.h:3
-#, fuzzy
 msgid "Column width in points:"
-msgstr "Ширина стовпчика…"
+msgstr "Ширина стовпчика у пунктах:"
 
 #: ../src/dialogs/col-width.ui.h:4 ../src/dialogs/row-height.ui.h:4
 #: ../src/dialogs/sheetobject-size.ui.h:15
@@ -8816,9 +8786,8 @@ msgid "x"
 msgstr "x"
 
 #: ../src/dialogs/col-width.ui.h:5 ../src/dialogs/row-height.ui.h:5
-#, fuzzy
 msgid "_Use Default"
-msgstr "Стерти…"
+msgstr "_Типовий"
 
 #: ../src/dialogs/consolidate.ui.h:2
 msgid "_Function:"
@@ -8826,27 +8795,23 @@ msgstr "_Функція:"
 
 #: ../src/dialogs/consolidate.ui.h:3
 msgid "The function to use when consolidating"
-msgstr ""
+msgstr "Функція, яку буде використано при консолідуванні"
 
 #: ../src/dialogs/consolidate.ui.h:4
-#, fuzzy
 msgid "_Source areas:"
-msgstr "Джерело"
+msgstr "_Області джерела:"
 
 #: ../src/dialogs/consolidate.ui.h:5
-#, fuzzy
 msgid "Clear the list of source areas"
-msgstr "Очистити формати комірки"
+msgstr "Спорожнити список областей джерела"
 
 #: ../src/dialogs/consolidate.ui.h:6
-#, fuzzy
 msgid "Delete the currently selected source area"
-msgstr "Використовувати поточний вибір для створення назв"
+msgstr "Вилучити поточну позначену область джерела"
 
 #: ../src/dialogs/consolidate.ui.h:7
-#, fuzzy
 msgid "Labels in _top row"
-msgstr "Вставити рядки"
+msgstr "Мітки у _верхньому рядку"
 
 #: ../src/dialogs/consolidate.ui.h:8
 msgid ""
@@ -8855,9 +8820,8 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/consolidate.ui.h:9
-#, fuzzy
 msgid "Labels in _left column"
-msgstr "Вставити стовпчики"
+msgstr "Мітки у _лівому стовпчику"
 
 #: ../src/dialogs/consolidate.ui.h:10
 msgid ""
@@ -8866,52 +8830,48 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/consolidate.ui.h:11
-#, fuzzy
 msgid "C_opy labels"
-msgstr "Скопіювати значення"
+msgstr "К_опіювати мітки"
 
 #: ../src/dialogs/consolidate.ui.h:14
-#, fuzzy
 msgid "SUM"
-msgstr "Сума"
+msgstr "SUM"
 
 #: ../src/dialogs/consolidate.ui.h:15
 msgid "MIN"
-msgstr "МІН"
+msgstr "MIN"
 
 #: ../src/dialogs/consolidate.ui.h:16
 msgid "MAX"
-msgstr "МАКС"
+msgstr "MAX"
 
 #: ../src/dialogs/consolidate.ui.h:17
-#, fuzzy
 msgid "AVERAGE"
-msgstr "Середнє"
+msgstr "AVERAGE"
 
 #: ../src/dialogs/consolidate.ui.h:18
 msgid "COUNT"
-msgstr "КІЛЬКІСТЬ"
+msgstr "COUNT"
 
 #: ../src/dialogs/consolidate.ui.h:19
-#, fuzzy
 msgid "PRODUCT"
-msgstr "Продукт"
+msgstr "PRODUCT"
 
 #: ../src/dialogs/consolidate.ui.h:20
 msgid "STDEV"
-msgstr ""
+msgstr "STDEV"
 
 #: ../src/dialogs/consolidate.ui.h:21
 msgid "STDEVP"
-msgstr ""
+msgstr "STDEVP"
 
 #: ../src/dialogs/consolidate.ui.h:22
 msgid "VAR"
-msgstr ""
+msgstr "VAR"
 
 #: ../src/dialogs/consolidate.ui.h:23
 msgid "VARP"
-msgstr ""
+msgstr "VARP"
 
 #: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:699
 #: ../src/tools/analysis-tools.c:702
@@ -8928,63 +8888,52 @@ msgid "Values"
 msgstr "Значення"
 
 #: ../src/dialogs/dao.ui.h:2
-#, fuzzy
 msgid "Formulæ"
-msgstr "Формула"
+msgstr "Формули"
 
 #: ../src/dialogs/dao.ui.h:3
-#, fuzzy
 msgid "<b>Output Placement</b>"
-msgstr "Перегляд друку"
+msgstr "<b>Розташування виведеного</b>"
 
 #: ../src/dialogs/dao.ui.h:4
-#, fuzzy
 msgid "New _sheet"
-msgstr "Аркуш"
+msgstr "Новий _аркуш"
 
 #: ../src/dialogs/dao.ui.h:5
-#, fuzzy
 msgid "New _workbook"
-msgstr "Книга…"
+msgstr "Нова _робоча книга"
 
 #: ../src/dialogs/dao.ui.h:6
-#, fuzzy
 msgid "Output _range:"
-msgstr "Діапазон вводу:"
+msgstr "Діапазон в_иведення:"
 
 #: ../src/dialogs/dao.ui.h:8
-#, fuzzy
 msgid "<b>Output Formatting</b>"
-msgstr "Форматування виводу"
+msgstr "<b>Форматування виведення</b>"
 
 #: ../src/dialogs/dao.ui.h:9
-#, fuzzy
 msgid "A_utofit columns"
-msgstr "Автопідгін стовпчика %s"
+msgstr "Авт_опідгін стовпчиків"
 
 #: ../src/dialogs/dao.ui.h:10
-#, fuzzy
 msgid "C_lear output range"
-msgstr "Діапазон вводу:"
+msgstr "О_чистити діапазон виведення"
 
 #: ../src/dialogs/dao.ui.h:11
-#, fuzzy
 msgid "Retain output range _formatting"
-msgstr "Діапазон вводу:"
+msgstr "Зберегти _форматування діапазону виведення"
 
 #: ../src/dialogs/dao.ui.h:12
-#, fuzzy
 msgid "Retain output range co_mments"
-msgstr "Діапазон вводу:"
+msgstr "Зберегти _коментарі діапазону виведення"
 
 #: ../src/dialogs/dao.ui.h:13
-#, fuzzy
 msgid "_Enter into cells:"
-msgstr "Вставити нові комірки"
+msgstr "_Ввести до комірок:"
 
 #: ../src/dialogs/data-slicer.ui.h:1
 msgid "DataSlicer Guru : Gnumeric"
-msgstr ""
+msgstr "Ґуру DataSlicer: Gnumeric"
 
 #: ../src/dialogs/data-slicer.ui.h:3
 msgid "_Format"
@@ -8995,32 +8944,28 @@ msgid "_Style"
 msgstr "С_тиль"
 
 #: ../src/dialogs/data-slicer.ui.h:5
-#, fuzzy
 msgid "_Aggregation"
-msgstr "Операція"
+msgstr "_Узагальнення"
 
 #: ../src/dialogs/data-slicer.ui.h:6
 msgid "_Layout"
 msgstr "_Компонування"
 
 #: ../src/dialogs/data-table.ui.h:2
-#, fuzzy
 msgid "_Row Input:"
-msgstr "Ціле"
+msgstr "В_хідні рядки:"
 
 #: ../src/dialogs/data-table.ui.h:3
-#, fuzzy
 msgid "Co_lumn Input:"
-msgstr "Стовпчик %s"
+msgstr "Вхідні с_товпчики:"
 
 #: ../src/dialogs/define-name.ui.h:1
-#, fuzzy
 msgid "Define Names"
-msgstr "Визначити назву"
+msgstr "Визначення назв"
 
 #: ../src/dialogs/define-name.ui.h:2 ../src/dialogs/function-select.ui.h:4
 msgid "Erase the search entry."
-msgstr ""
+msgstr "Витерти критерій пошуку."
 
 #: ../src/dialogs/delete-cells.ui.h:1
 msgid "Delete cells"
@@ -9028,88 +8973,80 @@ msgstr "Стерти комірки"
 
 #: ../src/dialogs/delete-cells.ui.h:2
 msgid "<span weight=\"bold\">Delete Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Метод вилучення</span>"
 
 #: ../src/dialogs/delete-cells.ui.h:3
-#, fuzzy
 msgid "Shift cells _left"
 msgstr "Зсунути комірки _ліворуч"
 
 #: ../src/dialogs/delete-cells.ui.h:4
-#, fuzzy
 msgid "Shift cells _up"
 msgstr "Зсунути комірки в_гору"
 
 #: ../src/dialogs/delete-cells.ui.h:5
-#, fuzzy
 msgid "Delete _row(s)"
-msgstr "Стерти рядки"
+msgstr "Вилучити рядки"
 
 #: ../src/dialogs/delete-cells.ui.h:6
-#, fuzzy
 msgid "Delete _column(s)"
-msgstr "Стерти стовпчики"
+msgstr "Ви_лучити стовпчики"
 
 #: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1144
 #: ../src/tools/analysis-tools.c:1147
-#, fuzzy
 msgid "Descriptive Statistics"
-msgstr "_Описова статистика"
+msgstr "Описова статистика"
 
 #: ../src/dialogs/descriptive-stats.ui.h:11
-#, fuzzy
 msgid "S_ummary Statistics"
-msgstr "Зведена статистика"
+msgstr "Зв_едена статистика"
 
 #: ../src/dialogs/descriptive-stats.ui.h:12
 msgid "_Use ssmedian"
-msgstr ""
+msgstr "_Використати ssmedian"
 
 #: ../src/dialogs/descriptive-stats.ui.h:13
 msgid ""
 "Use the ssmedian function with interval width 1 rather than the traditional "
 "median function.  "
 msgstr ""
+"Використати функцію ssmedian із шириною інтервалу 1, а не традиційну функцію"
+" обчислення медіани.  "
 
 #: ../src/dialogs/descriptive-stats.ui.h:14
 msgid "Confidence Interval for the _Mean"
-msgstr ""
+msgstr "Довірчий інтервал для _математичного сподівання"
 
 #: ../src/dialogs/descriptive-stats.ui.h:15
-#, fuzzy
 msgid "(1 - _alpha):"
-msgstr "_Альфа:"
+msgstr "(1 — _альфа):"
 
 #: ../src/dialogs/descriptive-stats.ui.h:16
-#, fuzzy
 msgid "_K:"
-msgstr "_K"
+msgstr "_K:"
 
 #: ../src/dialogs/descriptive-stats.ui.h:17
-#, fuzzy
 msgid "Kth _Smallest"
-msgstr "К-те найменше"
+msgstr "К-те най_менше"
 
 #: ../src/dialogs/descriptive-stats.ui.h:18
-#, fuzzy
 msgid "Kth _Largest"
-msgstr "К-те найбільше"
+msgstr "К-те най_більше"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:1
 msgid "Unix (linefeed)"
-msgstr ""
+msgstr "Unix (переведення рядка)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:2
 msgid "Macintosh before OS X (carriage return)"
-msgstr ""
+msgstr "Macintosh до OS X (повернення каретки)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:3
 msgid "Windows (carriage return + linefeed)"
-msgstr ""
+msgstr "Windows (повернення каретки + переведення рядка)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:4
 msgid "Automatic (puts quotes where needed)"
-msgstr ""
+msgstr "Автоматично (вставляти лапки, де потрібно)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:5
 msgid "Always"
@@ -9120,12 +9057,10 @@ msgid "Never"
 msgstr "Ніколи"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:7
-#, fuzzy
 msgid "Space"
 msgstr "Пробіл"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:8
-#, fuzzy
 msgid "Tab"
 msgstr "Табуляція"
 
@@ -9138,9 +9073,8 @@ msgid "Colon (:)"
 msgstr "Двокрапка (:)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:11
-#, fuzzy
 msgid "Comma (,)"
-msgstr "кома (,)"
+msgstr "Кома (,)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:12
 msgid "Hyphen (-)"
@@ -9164,10 +9098,9 @@ msgstr "Транслітерація"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:18
 msgid "Escape"
-msgstr "Escape"
+msgstr "Екранувати"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:20
-#, fuzzy
 msgid "Raw"
 msgstr "Без обробки"
 
@@ -9176,100 +9109,97 @@ msgid "Preserve"
 msgstr "Зберегти"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:22
-#, fuzzy
 msgid "Export as Text"
-msgstr "Формат - час"
+msgstr "Експортувати як текст"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:23
 msgid "Choose sheets to export and determine export ordering of the sheets:"
 msgstr ""
+"Виберіть аркуші для експортування та визначте порядок експортування аркушів:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:24
-#, fuzzy
 msgid "Select all non-empty sheets for export."
-msgstr "Потрібно вибрати хоча б один аркуш для експорту"
+msgstr "Вибрати усі непорожні аркуші для експортування."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:25 ../src/dialogs/quit.ui.h:2
 msgid "Select _All"
-msgstr "Вибрати все"
+msgstr "Вибрати _усі"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:26
-#, fuzzy
 msgid "Deselect all sheets for export."
-msgstr "Потрібно вибрати хоча б один аркуш для експорту"
+msgstr "Скасувати вибір усіх аркушів для експортування."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:27
-#, fuzzy
 msgid "Select N_one"
-msgstr "Вибрати рядок"
+msgstr "Ні_чого не вибирати"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
 "Move the selected sheet to the top of the list of to be exported sheets to "
 "be exported first."
 msgstr ""
+"Пересунути вибраний аркуш на початок списку експортованих аркушів, щоб його"
+" було експортовано першим."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
 "Raise the selected sheet in the list of to be exported sheets to be exported "
 "earlier."
 msgstr ""
+"Підняти вибраний аркуш у списку експортованих аркушів, щоб його було"
+" експортовано раніше."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
 "Lower the selected sheet in the list of to be exported sheets to be exported "
 "later."
 msgstr ""
+"Опустити вибраний аркуш у списку експортованих аркушів, щоб його було"
+" експортовано пізніше."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
 "Move the selected sheet to the end of the list of to be exported sheets to "
 "be exported last."
 msgstr ""
+"Пересунути вибраний аркуш у кінець списку експортованих аркушів, щоб його"
+" було експортовано останнім."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:32
-#, fuzzy
 msgid "Choose export formatting:"
-msgstr "Форматування стовпчика"
+msgstr "Виберіть форматування експорту:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:33
-#, fuzzy
 msgid "Save as default formatting"
-msgstr "Інформація"
+msgstr "Зберегти як типове форматування"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:34
-#, fuzzy
 msgid "Line _termination:"
-msgstr "_Стандартне відхилення:"
+msgstr "Зав_ершення рядків:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:35
-#, fuzzy
 msgid "_Separator:"
-msgstr "Розділювач:"
+msgstr "_Роздільник:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:36
-#, fuzzy
 msgid "Qu_oting:"
-msgstr "Нічого"
+msgstr "Вз_яття лапок:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:37
-#, fuzzy
 msgid "Quote _character:"
-msgstr "Невідомий оператор"
+msgstr "Си_мвол лапок:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:319
 msgid "Character _encoding:"
 msgstr "_Кодування символів:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:39
-#, fuzzy
 msgid "_Locale"
-msgstr "Логічне"
+msgstr "_Локаль"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:40
-#, fuzzy
 msgid "_Unknown characters:"
-msgstr "Невідомий оператор"
+msgstr "_Невідомі символи:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:41
 msgid "_Format:"
@@ -9277,47 +9207,43 @@ msgstr "_Формат:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:42 ../src/dialogs/dialog-stf.ui.h:1
 msgid "\""
-msgstr ""
+msgstr "\""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:43 ../src/dialogs/dialog-stf.ui.h:2
 msgid "'"
-msgstr ""
+msgstr "'"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:44 ../src/dialogs/dialog-stf.ui.h:3
 msgid "`"
-msgstr ""
+msgstr "`"
 
 #: ../src/dialogs/dialog-stf.ui.h:4
-#, fuzzy
 msgid "Both sides"
-msgstr "двобічна"
+msgstr "З обох боків"
 
 #: ../src/dialogs/dialog-stf.ui.h:5
-#, fuzzy
 msgid "Neither side"
-msgstr "Категорія:"
+msgstr "З жодного з боків"
 
 #: ../src/dialogs/dialog-stf.ui.h:6
 msgid "On left side only"
-msgstr ""
+msgstr "Лише на лівому боці"
 
 #: ../src/dialogs/dialog-stf.ui.h:7
 msgid "On right side only"
-msgstr ""
+msgstr "Лише на правому боці"
 
 #: ../src/dialogs/dialog-stf.ui.h:8
-#, fuzzy
 msgid "Text Import Configuration"
-msgstr "Імпорт текстового файлу (з налаштуванням)"
+msgstr "Налаштування імпортування тексту"
 
 #: ../src/dialogs/dialog-stf.ui.h:9
 msgid "F_inish"
-msgstr ""
+msgstr "Завер_шити"
 
 #: ../src/dialogs/dialog-stf.ui.h:10
-#, fuzzy
 msgid "Source Format"
-msgstr "Джерело"
+msgstr "Формат джерела"
 
 #: ../src/dialogs/dialog-stf.ui.h:11
 msgid "Encoding:"
@@ -9325,96 +9251,100 @@ msgstr "Кодування:"
 
 #: ../src/dialogs/dialog-stf.ui.h:12
 msgid "Line breaks:"
-msgstr ""
+msgstr "Розриви рядків:"
 
 #: ../src/dialogs/dialog-stf.ui.h:13
-#, fuzzy
 msgid "Original data type:"
-msgstr "Початкове значення"
+msgstr "Початковий тип даних:"
 
 #: ../src/dialogs/dialog-stf.ui.h:14
 msgid "_Unix (LF)"
-msgstr ""
+msgstr "_Unix (LF)"
 
 #: ../src/dialogs/dialog-stf.ui.h:15
 msgid "The line feed character (ASCII code 10) breaks lines"
-msgstr ""
+msgstr "Символ переведення рядка (код ASCII 10) розриває рядки"
 
 #: ../src/dialogs/dialog-stf.ui.h:16
 msgid "_Windows (CR+LF)"
-msgstr ""
+msgstr "_Windows (CR+LF)"
 
 #: ../src/dialogs/dialog-stf.ui.h:17
 msgid ""
 "The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
 "lines"
 msgstr ""
+"Послідовність повернення каретки і переведення рядка (коди ASCII 13 і 10)"
+" розриває рядки"
 
 #: ../src/dialogs/dialog-stf.ui.h:18
 msgid "_Mac pre-OS X (CR)"
-msgstr ""
+msgstr "_Mac до-OS X (CR)"
 
 #: ../src/dialogs/dialog-stf.ui.h:19
 msgid "The carriage return character (ASCII code 13) breaks lines"
-msgstr ""
+msgstr "Символ повернення каретки (код ASCII 13) розриває рядки"
 
 #: ../src/dialogs/dialog-stf.ui.h:20
 msgid "_Separated"
-msgstr ""
+msgstr "Від_окремлені"
 
 #: ../src/dialogs/dialog-stf.ui.h:21
 msgid ""
 "Each column in the text is separated by a &apos;separation&apos; character, "
 "e.g. a semicolon."
 msgstr ""
+"Усі стовпчики у тексті відокремлено символом-роздільником, наприклад крапкою"
+" з комою."
 
 #: ../src/dialogs/dialog-stf.ui.h:22
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
+"Усі стовпчики у тексті відокремлено символом-роздільником, наприклад крапкою"
+" з комою."
 
 #: ../src/dialogs/dialog-stf.ui.h:23
-#, fuzzy
 msgid "Fi_xed width"
-msgstr "Ширина лінії"
+msgstr "_Фіксована ширина"
 
 #: ../src/dialogs/dialog-stf.ui.h:24
 msgid "Define the width of each column manually."
-msgstr ""
+msgstr "Визначити ширину кожного стовпчика вручну."
 
 #: ../src/dialogs/dialog-stf.ui.h:25
-#, fuzzy
 msgid "Lines to import"
-msgstr "%d рядків для імпорту"
+msgstr "Рядки для імпортування"
 
 #: ../src/dialogs/dialog-stf.ui.h:26
 msgid "Fr_om line:"
-msgstr ""
+msgstr "_Від рядка:"
 
 #: ../src/dialogs/dialog-stf.ui.h:27
 msgid "_To line: "
-msgstr ""
+msgstr "Д_о рядка: "
 
 #: ../src/dialogs/dialog-stf.ui.h:28
-#, fuzzy
 msgid "Number of lines to import"
-msgstr "%d рядків для імпорту"
+msgstr "Кількість рядків для імпортування"
 
 #: ../src/dialogs/dialog-stf.ui.h:29
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
 msgstr ""
+"Справжня обробка починатиметься з цього рядка. Усі рядки перед ним буде"
+" проігноровано."
 
 #: ../src/dialogs/dialog-stf.ui.h:30
 msgid "Processing ends at this line, any subsequent lines will be ignored."
 msgstr ""
+"Обробка завершується на цьому рядку, усі наступні рядки буде проігноровано."
 
 #: ../src/dialogs/dialog-stf.ui.h:32
-#, fuzzy
 msgid "Main"
-msgstr "Основна"
+msgstr "Основне"
 
 #: ../src/dialogs/dialog-stf.ui.h:33
 msgid "Separators"
@@ -9422,120 +9352,109 @@ msgstr "Розділювачі"
 
 #: ../src/dialogs/dialog-stf.ui.h:34
 msgid "Text indicator"
-msgstr ""
+msgstr "Індикатор тексту"
 
 #: ../src/dialogs/dialog-stf.ui.h:35
-#, fuzzy
 msgid "_Space"
-msgstr "Зберегти"
+msgstr "П_робіл"
 
 #: ../src/dialogs/dialog-stf.ui.h:36
-#, fuzzy
 msgid "_Tab"
-msgstr "синій"
+msgstr "_Табуляція"
 
 #: ../src/dialogs/dialog-stf.ui.h:37
-#, fuzzy
 msgid "_Comma (,)"
-msgstr "Кома (,)"
+msgstr "_Кома (,)"
 
 #: ../src/dialogs/dialog-stf.ui.h:38
-#, fuzzy
 msgid "C_olon (:)"
-msgstr "Двокрапка (:)"
+msgstr "Дв_окрапка (:)"
 
 #: ../src/dialogs/dialog-stf.ui.h:39
 msgid "Semicolo_n (;)"
 msgstr "Крапка _з комою (;)"
 
 #: ../src/dialogs/dialog-stf.ui.h:40
-#, fuzzy
 msgid "_Hyphen (-)"
-msgstr "Мінус (-)"
+msgstr "Де_фіс (-)"
 
 #: ../src/dialogs/dialog-stf.ui.h:41
-#, fuzzy
 msgid "C_ustom"
-msgstr "_Користувач:"
+msgstr "_Нетиповий"
 
 #: ../src/dialogs/dialog-stf.ui.h:42
 msgid "Custom separator, this can be any character."
-msgstr ""
+msgstr "Нетиповий роздільник, може бути будь-яким символом."
 
 #: ../src/dialogs/dialog-stf.ui.h:43
 msgid "S_ee two separators as one"
-msgstr ""
+msgstr "В_важати два роздільника одним"
 
 #: ../src/dialogs/dialog-stf.ui.h:44
 msgid "See two successive separators as one."
-msgstr ""
+msgstr "Вважати два послідовних роздільника одним."
 
 #: ../src/dialogs/dialog-stf.ui.h:45
 msgid "_Ignore initial separators"
-msgstr ""
+msgstr "_Ігнорувати початкові роздільники"
 
 #: ../src/dialogs/dialog-stf.ui.h:46
 msgid "Ignore any separators at the beginning of lines"
-msgstr ""
+msgstr "Ігнорувати будь-які роздільники на початку рядків"
 
 #: ../src/dialogs/dialog-stf.ui.h:47
 msgid "Te_xt indicator: "
-msgstr ""
+msgstr "І_ндикатор тексту: "
 
 #: ../src/dialogs/dialog-stf.ui.h:48
 msgid "_Adjacent text indicators escaped"
-msgstr ""
+msgstr "_Екранування сусідніх текстових індикаторів"
 
 #: ../src/dialogs/dialog-stf.ui.h:49
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
+"Вважати два послідовних текстових індикаторів одним, який не перериває вмісту"
+" комірки."
 
 #: ../src/dialogs/dialog-stf.ui.h:50
 msgid "CSV"
 msgstr "CSV"
 
 #: ../src/dialogs/dialog-stf.ui.h:51
-#, fuzzy
 msgid "_Auto Column Discovery"
-msgstr "Автопідгін стовпчика %s"
+msgstr "_Автовизначення стовпчиків"
 
 #: ../src/dialogs/dialog-stf.ui.h:52
 msgid "Attempt to recognize columns in the text automatically."
-msgstr ""
+msgstr "Намагатися розпізнати стовпчики у тексті автоматично."
 
 #: ../src/dialogs/dialog-stf.ui.h:53
-#, fuzzy
 msgid "_Clear"
 msgstr "О_чистити"
 
 #: ../src/dialogs/dialog-stf.ui.h:54
-#, fuzzy
 msgid "Clear list of columns"
-msgstr "Згорнути стовпчики"
+msgstr "Очистити список стовпчиків"
 
 #. Columns in imported text
 #: ../src/dialogs/dialog-stf.ui.h:56
-#, fuzzy
 #| msgid "Columns"
 msgctxt "import"
 msgid "Columns"
 msgstr "Стовпчики"
 
 #: ../src/dialogs/dialog-stf.ui.h:57
-#, fuzzy
 msgid "Fixed"
-msgstr "Фіксований"
+msgstr "Фіксована"
 
 #: ../src/dialogs/dialog-stf.ui.h:58
-#, fuzzy
 msgid "Trim:"
-msgstr "Трім"
+msgstr "Обрізка:"
 
 #: ../src/dialogs/dialog-stf.ui.h:59
-#, fuzzy
 msgid "Source Locale:"
-msgstr "Джерело"
+msgstr "Локаль джерела:"
 
 #: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4128
 #: ../src/wbc-gtk-actions.c:4147
@@ -9568,91 +9487,74 @@ msgid "_25 %"
 msgstr "_25 %"
 
 #: ../src/dialogs/dialog-zoom.ui.h:12
-#, fuzzy
 msgid "_Fit Selection"
-msgstr "Автозаповнення вибраного"
+msgstr "З_а вибраним"
 
 #: ../src/dialogs/dialog-zoom.ui.h:13
-#, fuzzy
 msgid "_Custom Percentage"
-msgstr "Відсоток"
+msgstr "_Нетиповий відсоток"
 
 #: ../src/dialogs/dialog-zoom.ui.h:14
 msgid "Magnification"
 msgstr "Збільшення"
 
 #: ../src/dialogs/dialog-zoom.ui.h:15
-#, fuzzy
 msgid "Sheets"
-msgstr "Сторінки:"
+msgstr "Аркуші"
 
 #: ../src/dialogs/doc-meta-data.ui.h:1
-#, fuzzy
 msgid "Document Properties"
 msgstr "Властивості документа"
 
 #: ../src/dialogs/doc-meta-data.ui.h:2
-#, fuzzy
 msgid "<b>Information</b>"
-msgstr "Інформація"
+msgstr "<b>Інформація</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:3
-#, fuzzy
 msgid "<b>Name:</b>"
-msgstr "Назва"
+msgstr "<b>Назва:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:4
-#, fuzzy
 msgid "<b>Location:</b>"
-msgstr "Розташування"
+msgstr "<b>Розташування:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:5
-#, fuzzy
 msgid "<b>Created:</b>"
-msgstr "Створено"
+msgstr "<b>Створено:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:6
-#, fuzzy
 msgid "<b>Last Modified:</b>"
-msgstr "Востаннє змінено"
+msgstr "<b>Востаннє змінено:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:7
-#, fuzzy
 msgid "<b>Last Accessed:</b>"
-msgstr "Останній доступ:"
+msgstr "<b>Останній доступ:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:8
-#, fuzzy
 msgid "<b>Owner:</b>"
-msgstr "Власник"
+msgstr "<b>Власник:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:9
-#, fuzzy
 msgid "<b>Group:</b>"
-msgstr "Згрупувати"
+msgstr "<b>Група:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:10
-#, fuzzy
 msgid "<b>Permissions</b>"
-msgstr "Права доступу"
+msgstr "<b>Права доступу</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:11
-#, fuzzy
 msgid "<b>Read</b>"
-msgstr "Читання"
+msgstr "<b>Читання</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:12
-#, fuzzy
 msgid "<b>Write</b>"
-msgstr "запис"
+msgstr "<b>Запис</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:13
-#, fuzzy
 msgid "<b>Other:</b>"
-msgstr "Інше"
+msgstr "<b>Інше:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:15
-#, fuzzy
 msgid "Title:"
 msgstr "Заголовок:"
 
@@ -9674,86 +9576,71 @@ msgstr "Коментарі:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:22
 msgid "The document title (not filename)"
-msgstr ""
+msgstr "Заголовок документа (не назва файла)"
 
 #: ../src/dialogs/doc-meta-data.ui.h:23
-#, fuzzy
 msgid "The document subject"
-msgstr "Поточна дата"
+msgstr "Тема документа"
 
 #: ../src/dialogs/doc-meta-data.ui.h:24
-#, fuzzy
 msgid "The document author"
-msgstr "Поточна дата"
+msgstr "Автор документа"
 
 #: ../src/dialogs/doc-meta-data.ui.h:25
-#, fuzzy
 msgid "The document manager"
-msgstr "Поточна дата"
+msgstr "Менеджер документа"
 
 #: ../src/dialogs/doc-meta-data.ui.h:26
-#, fuzzy
 msgid "The document company"
-msgstr "Формат"
+msgstr "Компанія документа"
 
 #: ../src/dialogs/doc-meta-data.ui.h:27
-#, fuzzy
 msgid "The document category"
-msgstr "Поточна дата"
+msgstr "Категорія документа"
 
 #: ../src/dialogs/doc-meta-data.ui.h:28
-#, fuzzy
 msgid "The document comments"
-msgstr "Формат"
+msgstr "Коментарі до документа"
 
 #: ../src/dialogs/doc-meta-data.ui.h:30
 msgid "Edit item inside the above listing."
-msgstr ""
+msgstr "Редагуйте пункт у наведеному вище списку."
 
 #: ../src/dialogs/doc-meta-data.ui.h:31
-#, fuzzy
 msgid "New Document Property:"
-msgstr "_Властивості…"
+msgstr "Властивість нового документа:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:32
-#, fuzzy
 msgid "Name: "
-msgstr "Назва"
+msgstr "Назва:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:33
-#, fuzzy
 msgid "Type: "
-msgstr "Тип"
+msgstr "Тип:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:36
-#, fuzzy
 msgid "<b>Number of sheets:</b>"
-msgstr "Неділя"
+msgstr "<b>Кількість аркушів:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:37
-#, fuzzy
 msgid "<sheets>"
-msgstr "Аркуші"
+msgstr "<аркуші>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:38
-#, fuzzy
 msgid "<b>Number of cells:</b>"
-msgstr "Неділя"
+msgstr "<b>Кількість комірок:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:39
-#, fuzzy
 msgid "<cells>"
-msgstr "Комірка"
+msgstr "<комірки>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:40
-#, fuzzy
 msgid "<b>Number of pages:</b>"
-msgstr "Кількість сторінок"
+msgstr "<b>Кількість сторінок:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:41
-#, fuzzy
 msgid "<pages>"
-msgstr "_Зображення…"
+msgstr "<сторінки>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:43
 msgid "Recalculation:"
@@ -9773,7 +9660,7 @@ msgstr "Макс. к-ть іт_ерацій:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:47
 msgid "Maximum c_hange:"
-msgstr ""
+msgstr "Максимальна з_міна:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:48
 msgid "_Iteration"
@@ -9801,43 +9688,36 @@ msgid "C_olumns"
 msgstr "Ст_овпчики"
 
 #: ../src/dialogs/exp-smoothing.ui.h:9
-#, fuzzy
 msgid "Simple exponential smoothing (Hunter, 1986)"
-msgstr "_Експоненціальне згладжування"
+msgstr "Просте експоненційне згладжування (Гантер, 1986)"
 
 #: ../src/dialogs/exp-smoothing.ui.h:10
-#, fuzzy
 msgid "Simple exponential smoothing (Roberts, 1959)"
-msgstr "_Експоненціальне згладжування"
+msgstr "Просте експоненційне згладжування (Робертс, 1959)"
 
 #: ../src/dialogs/exp-smoothing.ui.h:11
-#, fuzzy
 msgid "Holt's trend corrected exponential smoothing"
-msgstr "Не вдалося створити діалог експоненціального згладжування."
+msgstr "Експоненційне згладжування з виправленням тенденцій Гольта"
 
 #: ../src/dialogs/exp-smoothing.ui.h:12
-#, fuzzy
 msgid "Additive Holt-Winters exponential smoothing"
-msgstr "Експоненціальне згладжування"
+msgstr "Адитивне експоненційне згладжування Гольта-Вінтерса"
 
 #: ../src/dialogs/exp-smoothing.ui.h:13
 msgid "Multiplicative Holt-Winters exponential smoothing"
-msgstr ""
+msgstr "Мультиплікативне експоненційне згладжування Гольта-Вінтерса"
 
 #: ../src/dialogs/exp-smoothing.ui.h:15
-#, fuzzy
 msgid "_Damping factor (α):"
-msgstr "Вибірка"
+msgstr "_Коефіцієнт згасання (α):"
 
 #: ../src/dialogs/exp-smoothing.ui.h:16
-#, fuzzy
 msgid "Growth damping factor (γ):"
-msgstr "Вибірка"
+msgstr "Збільшення коефіцієнта згасання (γ):"
 
 #: ../src/dialogs/exp-smoothing.ui.h:17
-#, fuzzy
 msgid "Seasonal damping factor (δ):"
-msgstr "Вибірка"
+msgstr "Сезонний коефіцієнт згасання (δ):"
 
 #: ../src/dialogs/exp-smoothing.ui.h:18
 #, fuzzy
@@ -9846,7 +9726,7 @@ msgstr "Розділювачі"
 
 #: ../src/dialogs/exp-smoothing.ui.h:19 ../src/dialogs/moving-averages.ui.h:19
 msgid "Include chart"
-msgstr ""
+msgstr "Включити діаграму"
 
 #: ../src/dialogs/exp-smoothing.ui.h:20 ../src/dialogs/moving-averages.ui.h:20
 msgid "_Standard errors"
@@ -9930,7 +9810,7 @@ msgstr "Одиниця дати:"
 
 #: ../src/dialogs/fill-series.ui.h:14
 msgid "D_ay"
-msgstr ""
+msgstr "Д_ень"
 
 #: ../src/dialogs/fill-series.ui.h:15
 msgid "_Weekday"
@@ -9987,7 +9867,7 @@ msgstr "_Максимальна кількість категорій:"
 
 #: ../src/dialogs/frequency.ui.h:13
 msgid "_Predetermined categories\t"
-msgstr ""
+msgstr "_Попередньо визначені категорії\t"
 
 #: ../src/dialogs/frequency.ui.h:14
 msgid "Category _range:"
@@ -10034,7 +9914,7 @@ msgstr "Вибір функції"
 
 #: ../src/dialogs/function-select.ui.h:2
 msgid "Select a function to insert:"
-msgstr ""
+msgstr "Виберіть функцію для вставлення:"
 
 #: ../src/dialogs/goalseek.ui.h:1
 msgid "GoalSeek"
@@ -10089,7 +9969,6 @@ msgid "Rows:"
 msgstr "Рядки:"
 
 #: ../src/dialogs/goto.ui.h:3
-#| msgid "Columns"
 msgid "Columns:"
 msgstr "Стовпчики:"
 
@@ -13047,7 +12926,9 @@ msgid "Width:"
 msgstr "Ширина:"
 
 #: ../src/item-bar.c:858
-msgid "Height"
+#, fuzzy
+#| msgid "Height"
+msgid "Height:"
 msgstr "Висота"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
@@ -13188,7 +13069,7 @@ msgstr ""
 msgid "[FILE ...]"
 msgstr "ФАЙЛ"
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1416 ../src/ssdiff.c:936
+#: ../src/main-application.c:127 ../src/ssconvert.c:1417 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
 #, fuzzy, c-format
 msgid ""
@@ -14157,7 +14038,7 @@ msgstr ""
 msgid "Tool test specs"
 msgstr ""
 
-#: ../src/ssconvert.c:298 ../src/ssconvert.c:924
+#: ../src/ssconvert.c:298 ../src/ssconvert.c:925
 #, fuzzy
 msgid "Cannot parse export options."
 msgstr "Форматування стовпчика"
@@ -14181,101 +14062,100 @@ msgstr ""
 msgid "Selected exporter (%s) can only export one sheet at a time.\n"
 msgstr ""
 
-#. FIXME: && nexpr2-is-not-the-same-as-nexpr
-#: ../src/ssconvert.c:546
+#: ../src/ssconvert.c:547
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:625
+#: ../src/ssconvert.c:626
 #, fuzzy, c-format
 msgid "Adding sheets from %s\n"
 msgstr "Невідомий аркуш \"%s\""
 
-#: ../src/ssconvert.c:718
+#: ../src/ssconvert.c:719
 #, fuzzy, c-format
 msgid "Failed to create solver"
 msgstr "Неможливо створити тимчасовий файл."
 
-#: ../src/ssconvert.c:733
+#: ../src/ssconvert.c:734
 #, c-format
 msgid "Solver reached time or iteration limit\n"
 msgstr ""
 
-#: ../src/ssconvert.c:737
+#: ../src/ssconvert.c:738
 #, c-format
 msgid "Solver ran, but failed"
 msgstr ""
 
-#: ../src/ssconvert.c:749
+#: ../src/ssconvert.c:750
 #, fuzzy, c-format
 msgid "Solver: %s\n"
 msgstr "Пошук розв'язання…"
 
-#: ../src/ssconvert.c:899
+#: ../src/ssconvert.c:900
 #, fuzzy, c-format
 msgid "Invalid export option \"%s=%s\" for image export"
 msgstr "Некоректна кількість аргументів"
 
-#: ../src/ssconvert.c:1075
+#: ../src/ssconvert.c:1076
 #, fuzzy, c-format
 msgid "Failed to set cell %s\n"
 msgstr "Неможливо створити тимчасовий файл."
 
-#: ../src/ssconvert.c:1112
+#: ../src/ssconvert.c:1113
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1132
+#: ../src/ssconvert.c:1133
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1138
+#: ../src/ssconvert.c:1139
 #, fuzzy, c-format
 msgid "Using exporter %s\n"
 msgstr "Неправильний вираз"
 
-#: ../src/ssconvert.c:1144
+#: ../src/ssconvert.c:1145
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1154
+#: ../src/ssconvert.c:1155
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
 "Try --list-importers to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1187 ../src/ssconvert.c:1338
+#: ../src/ssconvert.c:1188 ../src/ssconvert.c:1339
 #, fuzzy, c-format
 #| msgid "Load file"
 msgid "Loading %s failed\n"
 msgstr "Завантажити файл"
 
-#: ../src/ssconvert.c:1239
+#: ../src/ssconvert.c:1240
 #, fuzzy, c-format
 msgid "Resizing to %dx%d\n"
 msgstr "Перейменувати цей аркуш"
 
-#: ../src/ssconvert.c:1251
+#: ../src/ssconvert.c:1252
 #, fuzzy, c-format
 msgid "Resizing of sheet %s failed\n"
 msgstr "Перейменувати цей аркуш"
 
-#: ../src/ssconvert.c:1404 ../src/ssconvert.c:1483
+#: ../src/ssconvert.c:1405 ../src/ssconvert.c:1484
 msgid "INFILE [OUTFILE]"
 msgstr ""
 
-#: ../src/ssconvert.c:1423
+#: ../src/ssconvert.c:1424
 #, fuzzy, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -14286,12 +14166,12 @@ msgstr ""
 "Каталог даних: \"%s\"\n"
 "Каталог бібліотек: \"%s\"\n"
 
-#: ../src/ssconvert.c:1429
+#: ../src/ssconvert.c:1430
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1481 ../src/ssdiff.c:993 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1482 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr ""
