@@ -9,7 +9,12 @@ typedef enum {
   GTK_FONT_CHOOSER_PROP_FONT_DESC,
   GTK_FONT_CHOOSER_PROP_PREVIEW_TEXT,
   GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY,
-  GTK_FONT_CHOOSER_PROP_LAST
+#if GTK_CHECK_VERSION(3,24,0)
+	GTK_FONT_CHOOSER_PROP_LEVEL,
+  GTK_FONT_CHOOSER_PROP_LANGUAGE,
+  GTK_FONT_CHOOSER_PROP_FONT_FEATURES,
+#endif
+	GTK_FONT_CHOOSER_PROP_LAST
 } GtkFontChooserProp;
 
 static void
@@ -27,6 +32,17 @@ _gtk_font_chooser_install_properties (GObjectClass *klass)
   g_object_class_override_property (klass,
                                     GTK_FONT_CHOOSER_PROP_SHOW_PREVIEW_ENTRY,
                                     "show-preview-entry");
+#if GTK_CHECK_VERSION(3,24,0)
+  g_object_class_override_property (klass,
+                                    GTK_FONT_CHOOSER_PROP_LEVEL,
+                                    "level");
+  g_object_class_override_property (klass,
+                                    GTK_FONT_CHOOSER_PROP_LANGUAGE,
+                                    "language");
+  g_object_class_override_property (klass,
+                                    GTK_FONT_CHOOSER_PROP_FONT_FEATURES,
+                                    "font-features");
+#endif
 }
 
 /*
@@ -661,6 +677,17 @@ gnm_font_button_set_property (GObject      *object,
     case PROP_DIALOG_TYPE:
       font_button->priv->dialog_type = g_value_get_gtype (value);
       break;
+#if GTK_CHECK_VERSION(3,24,0)
+    case GTK_FONT_CHOOSER_PROP_LEVEL:
+	  /* not supported, just to avoid criticals */
+	  break;
+    case GTK_FONT_CHOOSER_PROP_LANGUAGE:
+	  /* not supported, just to avoid criticals */
+	  break;
+    case GTK_FONT_CHOOSER_PROP_FONT_FEATURES:
+	  /* not supported, just to avoid criticals */
+      break;
+#endif
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
       break;
@@ -708,7 +735,20 @@ gnm_font_button_get_property (GObject    *object,
     case PROP_DIALOG_TYPE:
       g_value_set_gtype (value, font_button->priv->dialog_type);
       break;
-    default:
+#if GTK_CHECK_VERSION(3,24,0)
+    case GTK_FONT_CHOOSER_PROP_LEVEL:
+      g_value_set_int (value, GTK_FONT_CHOOSER_LEVEL_FAMILY |
+                              GTK_FONT_CHOOSER_LEVEL_STYLE |
+                              GTK_FONT_CHOOSER_LEVEL_SIZE);
+      break;
+    case GTK_FONT_CHOOSER_PROP_LANGUAGE:
+      g_value_set_string (value, "");
+      break;
+    case GTK_FONT_CHOOSER_PROP_FONT_FEATURES:
+      g_value_set_string (value, "");
+      break;
+#endif
+	  default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
       break;
     }
