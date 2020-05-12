@@ -180,6 +180,18 @@ typedef enum {
 	OO_STYLE_TEXT
 } OOStyleType;
 
+typedef enum {
+	OO_VALUE_TYPE_VOID,
+	OO_VALUE_TYPE_FLOAT,
+	OO_VALUE_TYPE_PERCENTAGE,
+	OO_VALUE_TYPE_CURRENCY,
+	OO_VALUE_TYPE_DATE,
+	OO_VALUE_TYPE_TIME,
+	OO_VALUE_TYPE_BOOLEAN,
+	OO_VALUE_TYPE_STRING
+} OOValueType;
+
+
 typedef struct {
 	GValue value;
 	gchar const *name;
@@ -405,6 +417,7 @@ struct  _OOParseState {
 
 	int		 col_inc, row_inc;
 	gboolean	 content_is_error;
+	OOValueType      value_type;
 
 	GSList          *text_p_stack;
 	oo_text_p_t      text_p_for_cell;
@@ -547,6 +560,19 @@ static OOEnum const odf_chart_classes[] = {
 	{ "gnm:none", 	        OO_PLOT_UNKNOWN },
 	{ NULL,	0 },
 };
+
+static OOEnum const odf_value_types[] = {
+	{ "float",		OO_VALUE_TYPE_FLOAT },
+	{ "percentage",		OO_VALUE_TYPE_PERCENTAGE },
+	{ "currency",   	OO_VALUE_TYPE_CURRENCY },
+	{ "date",		OO_VALUE_TYPE_DATE },
+	{ "time",       	OO_VALUE_TYPE_TIME },
+	{ "boolean",	        OO_VALUE_TYPE_BOOLEAN },
+	{ "string",		OO_VALUE_TYPE_STRING },
+	{ "void",		OO_VALUE_TYPE_VOID },
+	{ NULL,	0 },
+};
+
 
 /* Some  prototypes */
 static GsfXMLInNode const * get_dtd (void);
@@ -3867,6 +3893,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *validation_name = NULL;
 	char const *expr_string;
 	GnmRange tmp;
+	int itmp;
 	int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
 	int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
 	GnmValidation *validation = NULL;
@@ -3877,6 +3904,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->col_inc = 1;
 	state->content_is_error = FALSE;
+	state->value_type = OO_VALUE_TYPE_VOID;
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
 				       &state->col_inc, 0, INT_MAX - state->pos.eval.col))
@@ -3886,6 +3915,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			/* it could have been retained by a consumer/producer who did change */
 			/* the cell value, so we just remember that we saw this attribute.   */
 			possible_error_constant = TRUE;
+		else if (oo_attr_enum (xin, attrs, OO_NS_OFFICE, "value-type", odf_value_types, &itmp))
+			state->value_type = itmp;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "formula")) {
 			OOFormula f_type;
 
@@ -4212,7 +4243,8 @@ oo_add_text_to_cell (OOParseState *state, char const *str, PangoAttrList *attrs)
 	int start = 0;
 	GOFormat *fmt;
 
-	if (state->curr_cell == NULL)
+	if (state->curr_cell == NULL ||
+	    (state->value_type == OO_VALUE_TYPE_VOID && state->ver == OOO_VER_OPENDOC))
 		return;
 
 	if ((NULL != state->curr_cell->value) && VALUE_IS_STRING (state->curr_cell->value)) {
