@@ -1321,7 +1321,7 @@ latex_file_save (GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext *io_context,
 "\\setlength\\gnumericTableWidthComplete{\\gnumericTableWidth+%\n"
 "         \\tabcolsep*\\gumericNumCols*2+\\arrayrulewidth*\\gumericNumCols}\n"
 "\\ifthenelse{\\lengthtest{\\gnumericTableWidthComplete > \\linewidth}}%\n"
-"         {\\def\\gnumericScale{\\ratio{\\linewidth-%\n"
+"         {\\def\\gnumericScale{1*\\ratio{\\linewidth-%\n"
 "                        \\tabcolsep*\\gumericNumCols*2-%\n"
 "                        \\arrayrulewidth*\\gumericNumCols}%\n"
 "{\\gnumericTableWidth}}}%\n"

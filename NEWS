@@ -5,6 +5,7 @@ Andreas:
 	* Fix line end marker roundtrip through strict ODF
 	* Improve export of line markers to ODF for interoperability
 	* Improve line marker handling on import
+    * Fix LaTeX export. [#489]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47
