@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2020-05-12 17:35+0000\n"
-"PO-Revision-Date: 2020-05-13 13:33+0300\n"
+"PO-Revision-Date: 2020-05-14 12:47+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2509,7 +2509,7 @@ msgstr "Автовиправляти назви днів"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:14
 msgid "This variable determines whether to autocorrect names of days"
-msgstr ""
+msgstr "Ця змінна визначає, чи слід автоматично виправляти назви днів"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:15
 msgid "Autocorrect replace"
@@ -2517,16 +2517,16 @@ msgstr "Заміна автокоригування"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:16
 msgid "Activate New Plugins"
-msgstr ""
+msgstr "Активувати нові додатки"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:17
 msgid ""
 "This variable determines whether to activate every new encountered plugin."
-msgstr ""
+msgstr "Ця змінна визначає, чи слід активувати усі виявлені додатки."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:18
 msgid "List of Active Plugins."
-msgstr ""
+msgstr "Список активних додатків."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:19
 msgid ""
@@ -10029,22 +10029,20 @@ msgid "Permit censorship"
 msgstr "Дозволити цензурування"
 
 #: ../src/dialogs/kaplan-meier.ui.h:4
-#, fuzzy
 msgid "Censor co_lumn:"
-msgstr "Вставити стовпчики"
+msgstr "Ст_овпчик цензурування:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:5
 msgid "Censored record labels from:"
 msgstr ""
 
 #: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1544
-#, fuzzy
 msgid "to:"
-msgstr "до"
+msgstr "до:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:8
 msgid "Define _multiple groups"
-msgstr ""
+msgstr "Визначити д_екілька груп"
 
 #: ../src/dialogs/kaplan-meier.ui.h:9
 #, fuzzy
@@ -10057,16 +10055,15 @@ msgstr "_Групи"
 
 #: ../src/dialogs/kaplan-meier.ui.h:11
 msgid "Show graph "
-msgstr ""
+msgstr "Показати графік"
 
 #: ../src/dialogs/kaplan-meier.ui.h:12
 msgid "Include censorship ticks"
-msgstr ""
+msgstr "Включити позначки цензурування"
 
 #: ../src/dialogs/kaplan-meier.ui.h:13
-#, fuzzy
 msgid "Show standard errors"
-msgstr "Стандартна похибка"
+msgstr "Показувати стандартні похибки"
 
 #: ../src/dialogs/kaplan-meier.ui.h:14
 msgid "Show median survival times"
@@ -10088,41 +10085,34 @@ msgstr ""
 #: ../src/dialogs/mean-tests.ui.h:2 ../src/dialogs/sign-test-two.ui.h:2
 #: ../src/dialogs/variance-tests.ui.h:2
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:2
-#, fuzzy
 msgid "Variable _1 range:"
-msgstr "Діапазон змінної 1:"
+msgstr "Діа_пазон змінної 1:"
 
 #: ../src/dialogs/mean-tests.ui.h:3 ../src/dialogs/sign-test-two.ui.h:3
 #: ../src/dialogs/variance-tests.ui.h:3
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:3
-#, fuzzy
 msgid "Variable _2 range:"
-msgstr "Діапазон змінної 2:"
+msgstr "Діапазон з_мінної 2:"
 
 #: ../src/dialogs/mean-tests.ui.h:6
-#, fuzzy
 msgid "Variables are:"
-msgstr "Діапазон змінної 1:"
+msgstr "Змінні:"
 
 #: ../src/dialogs/mean-tests.ui.h:7
-#, fuzzy
 msgid "Population variances are:"
-msgstr "Діапазон змінної 1:"
+msgstr "Дисперсії вибірок:"
 
 #: ../src/dialogs/mean-tests.ui.h:8
-#, fuzzy
 msgid "_Population variances are:"
-msgstr "Діапазон змінної 1:"
+msgstr "Д_испереції вибірок:"
 
 #: ../src/dialogs/mean-tests.ui.h:9
-#, fuzzy
 msgid "Variable _1 population variance:"
-msgstr "Діапазон змінної 1:"
+msgstr "Дисперсія вибірки змінної _1:"
 
 #: ../src/dialogs/mean-tests.ui.h:10
-#, fuzzy
 msgid "Variable _2 population variance:"
-msgstr "Діапазон змінної 2:"
+msgstr "Дисперсія вибірки змінної _2:"
 
 #: ../src/dialogs/mean-tests.ui.h:11
 #, fuzzy
@@ -10136,7 +10126,7 @@ msgstr "Новий особистий"
 
 #: ../src/dialogs/mean-tests.ui.h:13
 msgid "_Known"
-msgstr ""
+msgstr "_Відомий"
 
 #: ../src/dialogs/mean-tests.ui.h:14
 msgid "_Unknown"
@@ -10144,44 +10134,40 @@ msgstr "_Невідомий"
 
 #: ../src/dialogs/mean-tests.ui.h:15
 msgid "E_qual"
-msgstr ""
+msgstr "_Рівні"
 
 #: ../src/dialogs/mean-tests.ui.h:16
 msgid "_Unequal"
-msgstr ""
+msgstr "Н_ерівні"
 
 #: ../src/dialogs/mean-tests.ui.h:17
-#, fuzzy
 msgid "_Populations"
-msgstr "Операція"
+msgstr "Ви_бірки"
 
 #: ../src/dialogs/mean-tests.ui.h:18
 msgid "Hypothesized mean _difference:"
-msgstr ""
+msgstr "Гіпотетична _різниця мат. сподівань:"
 
 #: ../src/dialogs/mean-tests.ui.h:21 ../src/dialogs/variance-tests.ui.h:7
 msgid "0.05"
-msgstr ""
+msgstr "0,05"
 
 #: ../src/dialogs/mean-tests.ui.h:22 ../src/dialogs/sign-test-two.ui.h:11
 msgid "_Test"
 msgstr "_Тест"
 
 #: ../src/dialogs/merge.ui.h:1
-#, fuzzy
 msgid "Merge..."
-msgstr "Об'єднати"
+msgstr "Об'єднати…"
 
 #. start sub menu
 #: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2334
-#, fuzzy
 msgid "_Merge"
 msgstr "_Об'єднати"
 
 #: ../src/dialogs/merge.ui.h:3
-#, fuzzy
 msgid "Merge _Range:"
-msgstr "Діапазон _списку:"
+msgstr "Ді_апазон об'єднання:"
 
 #: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:4002
 #: ../src/tools/analysis-tools.c:4005
@@ -10189,14 +10175,12 @@ msgid "Moving Average"
 msgstr "Рухоме середнє"
 
 #: ../src/dialogs/moving-averages.ui.h:9
-#, fuzzy
 msgid "Simple moving average"
 msgstr "Просте рухоме середнє"
 
 #: ../src/dialogs/moving-averages.ui.h:10
-#, fuzzy
 msgid "Cumulative moving average"
-msgstr "Формат - відсотки"
+msgstr "Накопичувальне рухоме середнє"
 
 #: ../src/dialogs/moving-averages.ui.h:11
 msgid "Weighted moving average"
@@ -10207,24 +10191,20 @@ msgid "Spencer's 15-point moving average"
 msgstr ""
 
 #: ../src/dialogs/moving-averages.ui.h:14
-#, fuzzy
 msgid "_Interval:"
-msgstr "Внутрішня ПОМИЛКА"
+msgstr "І_нтервал:"
 
 #: ../src/dialogs/moving-averages.ui.h:15
-#, fuzzy
 msgid "Other offset"
-msgstr "Інше значення"
+msgstr "Інший зсув"
 
 #: ../src/dialogs/moving-averages.ui.h:16
-#, fuzzy
 msgid "Central moving average"
-msgstr "Переміщення %s"
+msgstr "Центральне рухоме середнє"
 
 #: ../src/dialogs/moving-averages.ui.h:17
-#, fuzzy
 msgid "Prior moving average"
-msgstr "Переміщення %s"
+msgstr "Попереднє рухоме середнє"
 
 #: ../src/dialogs/moving-averages.ui.h:18
 msgid "3"
@@ -10232,152 +10212,134 @@ msgstr "3"
 
 #: ../src/dialogs/normality-tests.ui.h:1
 msgid "Normality Tests"
-msgstr ""
+msgstr "Перевірки нормальності"
 
 #: ../src/dialogs/normality-tests.ui.h:11 ../src/tools/analysis-normality.c:61
 msgid "Anderson-Darling Test"
-msgstr ""
+msgstr "Перевірка Андерсона-Дарлінґа"
 
 #: ../src/dialogs/normality-tests.ui.h:12 ../src/tools/analysis-normality.c:68
 msgid "Cramér-von Mises Test"
-msgstr ""
+msgstr "Перевірка Крамера-фон Мізеса"
 
 #: ../src/dialogs/normality-tests.ui.h:13 ../src/tools/analysis-normality.c:75
 msgid "Lilliefors (Kolmogorov-Smirnov) Test"
-msgstr ""
+msgstr "Перевірка Лілієфорса (Колмогорова-Смірнова)"
 
 #: ../src/dialogs/normality-tests.ui.h:14 ../src/tools/analysis-normality.c:81
 msgid "Shapiro-Francia Test"
-msgstr ""
+msgstr "Перевірка Шапіро-Франція"
 
 #: ../src/dialogs/normality-tests.ui.h:16
 msgid "Create Normal Probability Plot"
-msgstr ""
+msgstr "Створити креслення нормальної ймовірності"
 
 #: ../src/dialogs/normality-tests.ui.h:17 ../src/dialogs/one-mean-test.ui.h:13
 #: ../src/dialogs/sign-test.ui.h:15 ../src/dialogs/variance-tests.ui.h:8
-#, fuzzy
 msgid "Test"
-msgstr "Тест"
+msgstr "Перевірка"
 
 #: ../src/dialogs/one-mean-test.ui.h:1
 msgid "Claims About a Mean"
-msgstr ""
+msgstr "Гіпотези щодо математичного сподівання"
 
 #: ../src/dialogs/one-mean-test.ui.h:11
-#, fuzzy
 msgid "_Predicted Mean:"
-msgstr "Функція"
+msgstr "Про_гнозоване мат. сподівання:"
 
 #: ../src/dialogs/paste-special.ui.h:1
-#, fuzzy
 msgid "Paste Special"
-msgstr "Спеціальне вставлення…"
+msgstr "Спеціальне вставлення"
 
 #: ../src/dialogs/paste-special.ui.h:2
-#, fuzzy
 msgid "Paste _Link"
-msgstr "Вставити посилання"
+msgstr "Вставити п_осилання"
 
 #: ../src/dialogs/paste-special.ui.h:3
-#, fuzzy
 msgid "<b>Paste type</b>"
-msgstr "Шаблон"
+msgstr "<b>Тип вставлення</b>"
 
 #: ../src/dialogs/paste-special.ui.h:4 ../src/wbc-gtk-actions.c:2398
 #: ../src/wbc-gtk-actions.c:2486
 msgid "_All"
-msgstr "Все"
+msgstr "_Все"
 
 #: ../src/dialogs/paste-special.ui.h:5
-#, fuzzy
 msgid "Cont_ent"
-msgstr "Вміст"
+msgstr "В_міст"
 
 #: ../src/dialogs/paste-special.ui.h:6
-#, fuzzy
 msgid "Paste the cell contents only, not the formatting"
-msgstr "Вставити вміст кишені чи буферу вирізання"
+msgstr "Вставити лише вміст комірки, але не форматування"
 
 #: ../src/dialogs/paste-special.ui.h:7
-#, fuzzy
 msgid "As _Value"
-msgstr "Як значення"
+msgstr "Як з_начення"
 
 #: ../src/dialogs/paste-special.ui.h:8
 msgid "Paste the value of expressions rather than the expressions themselves"
-msgstr ""
+msgstr "Вставити значення виразів, а не самі вирази"
 
 #: ../src/dialogs/paste-special.ui.h:9
 msgid "_Formats"
-msgstr "Формати"
+msgstr "_Формати"
 
 #: ../src/dialogs/paste-special.ui.h:10
 msgid "Paste cell formats (number formats, colors, borders, etc.) only"
-msgstr ""
+msgstr "Вставити лише форматування (форматування чисел, кольори, рамку тощо)"
 
 #: ../src/dialogs/paste-special.ui.h:11 ../src/wbc-gtk-actions.c:2409
 msgid "Co_mments"
-msgstr "Коментарі"
+msgstr "К_оментарі"
 
 #: ../src/dialogs/paste-special.ui.h:12
-#, fuzzy
 msgid "Paste cell comments only"
-msgstr "Центрує вміст комірки"
+msgstr "Вставити лише коментарі до комірки"
 
 #: ../src/dialogs/paste-special.ui.h:13
-#, fuzzy
 msgid "<b>Cell operation</b>"
-msgstr "Перегляд друку"
+msgstr "<b>Дії з коміркою</b>"
 
 #: ../src/dialogs/paste-special.ui.h:14
 msgid "D_o not change formulæ"
-msgstr ""
+msgstr "Не з_мінювати формули"
 
 #. Cell operation while paste
 #: ../src/dialogs/paste-special.ui.h:16
-#, fuzzy
 msgctxt "operation"
 msgid "_None"
 msgstr "_Немає"
 
 #: ../src/dialogs/paste-special.ui.h:17
-#, fuzzy
 msgid "A_dd"
 msgstr "_Додати"
 
 #: ../src/dialogs/paste-special.ui.h:18
-#, fuzzy
 msgid "_Subtract"
-msgstr "Відняти"
+msgstr "Відн_яти"
 
 #: ../src/dialogs/paste-special.ui.h:19
-#, fuzzy
 msgid "M_ultiply"
-msgstr "Помножити"
+msgstr "Помно_жити"
 
 #: ../src/dialogs/paste-special.ui.h:20
-#, fuzzy
 msgid "D_ivide"
-msgstr "Поділити"
+msgstr "Поді_лити"
 
 #: ../src/dialogs/paste-special.ui.h:21
-#, fuzzy
 msgid "<b>Region operation</b>"
-msgstr "Перегляд друку"
+msgstr "<b>Дії з областю</b>"
 
 #. Region operation while paste
 #: ../src/dialogs/paste-special.ui.h:23
-#, fuzzy
 #| msgid "None"
 msgctxt "operation"
 msgid "None"
 msgstr "Немає"
 
 #: ../src/dialogs/paste-special.ui.h:24
-#, fuzzy
 msgid "_Transpose"
-msgstr "Перемістити"
+msgstr "_Транспонувати"
 
 #: ../src/dialogs/paste-special.ui.h:25
 msgid ""
@@ -10395,9 +10357,8 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:28
-#, fuzzy
 msgid "Fli_p Vertically"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Відд_зеркалити вертикально"
 
 #: ../src/dialogs/paste-special.ui.h:29
 msgid ""
@@ -10406,27 +10367,24 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:30
-#, fuzzy
 msgid "Column widths"
-msgstr "Ширина стовпчика…"
+msgstr "Ширина стовпчиків"
 
 #: ../src/dialogs/paste-special.ui.h:31
 msgid "Set column widths of the destination to those of the source"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:32
-#, fuzzy
 msgid "Row heights"
-msgstr "Висота рядка…"
+msgstr "Висота рядків"
 
 #: ../src/dialogs/paste-special.ui.h:33
 msgid "Set row heights of the destination to those of the source"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:34
-#, fuzzy
 msgid "Skip _Blanks"
-msgstr "Пропустити порожні"
+msgstr "Пропустити поро_жні"
 
 #: ../src/dialogs/paste-special.ui.h:35
 msgid ""
@@ -10434,37 +10392,32 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:36
-#, fuzzy
 msgid "<b>Options</b>"
-msgstr "Параметри"
+msgstr "<b>Параметри</b>"
 
 #: ../src/dialogs/plugin-manager.ui.h:1
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "Менеджер модулів"
+msgstr "Керування додатками"
 
 #: ../src/dialogs/plugin-manager.ui.h:2
 msgid "Activate _new plugins by default"
-msgstr ""
+msgstr "Типово активувати _нові додатки"
 
 #: ../src/dialogs/plugin-manager.ui.h:3
-#, fuzzy
 msgid "_Activate All"
-msgstr "деактивація"
+msgstr "_Активувати усі"
 
 #: ../src/dialogs/plugin-manager.ui.h:4
-#, fuzzy
 msgid "Plugin List"
-msgstr "Список доповнень"
+msgstr "Список додатків"
 
 #: ../src/dialogs/plugin-manager.ui.h:5
-#, fuzzy
 msgid "Plugin directory:"
-msgstr "Подробиці доповнення"
+msgstr "Каталог додатків:"
 
 #: ../src/dialogs/plugin-manager.ui.h:6
 msgid "Do _not activate this plugin next time I start Gnumeric"
-msgstr ""
+msgstr "_Не активувати цей додаток під час наступного запуску Gnumeric"
 
 #: ../src/dialogs/plugin-manager.ui.h:7
 msgid ""
@@ -10472,50 +10425,49 @@ msgid ""
 "use the check button below, the plugin won't be activated after restarting "
 "Gnumeric (unless needed by another plugin)."
 msgstr ""
+"Додаток не можна вимкнути зараз, оскільки він використовується. Втім, якщо ви"
+" скористаєтеся пунктом для позначки, розташованим нижче, додаток не буде"
+" активовано після перезапуску Gnumeric (якщо у ньому не буде потреби для"
+" запуску іншого додатка)."
 
 #: ../src/dialogs/plugin-manager.ui.h:8
-#, fuzzy
 msgid "Plugin Details"
-msgstr "Подробиці доповнення"
+msgstr "Подробиці щодо додатка"
 
 #: ../src/dialogs/plugin-manager.ui.h:9
 msgid "Directories"
 msgstr "Каталоги"
 
 #: ../src/dialogs/preferences.ui.h:1
-#, fuzzy
 msgid "Gnumeric Preferences"
-msgstr "Електронна таблиця Gnumeric"
+msgstr "Налаштування Gnumeric"
 
 #: ../src/dialogs/principal-components.ui.h:1
 #: ../src/tools/analysis-principal-components.c:225
 #: ../src/tools/analysis-principal-components.c:228
 #: ../src/wbc-gtk-actions.c:2983
 msgid "Principal Components Analysis"
-msgstr ""
+msgstr "Аналіз основних компонентів"
 
 #: ../src/dialogs/print.ui.h:1
-#, fuzzy
 msgid "Page Setup"
 msgstr "Параметри сторінки"
 
 #: ../src/dialogs/print.ui.h:2
-#, fuzzy
 msgid "<b>Paper:</b>"
-msgstr "Папір"
+msgstr "<b>Папір:</b>"
 
 #: ../src/dialogs/print.ui.h:3
-#, fuzzy
 msgid "letter"
-msgstr "Лист"
+msgstr "лист"
 
 #: ../src/dialogs/print.ui.h:4
 msgid "8.5 in wide by 11.0 in high"
-msgstr ""
+msgstr "8,5 дюймів у ширину на 11,0 дюймів у висоту"
 
 #: ../src/dialogs/print.ui.h:5
 msgid "Change Paper Type"
-msgstr ""
+msgstr "Змінити тип паперу"
 
 #: ../src/dialogs/print.ui.h:6
 msgid "Top margin:"
@@ -10542,88 +10494,75 @@ msgid "Bottom margin:"
 msgstr "Нижнє поле:"
 
 #: ../src/dialogs/print.ui.h:12
-#, fuzzy
 msgid "Unit:"
 msgstr "Одиниця:"
 
 #: ../src/dialogs/print.ui.h:13
-#, fuzzy
 msgid "<b>Center on page:</b>"
-msgstr "Кількість"
+msgstr "<b>Центрувати на сторінці:</b>"
 
 #: ../src/dialogs/print.ui.h:14
-#, fuzzy
 msgid "<b>O_rientation:</b>"
-msgstr "_Орієнтація"
+msgstr "<b>_Орієнтація:</b>"
 
 #: ../src/dialogs/print.ui.h:15
 msgid "_Horizontally"
-msgstr ""
+msgstr "_Горизонтально"
 
 #: ../src/dialogs/print.ui.h:16
 msgid "_Vertically"
-msgstr ""
+msgstr "_Вертикально"
 
 #: ../src/dialogs/print.ui.h:17
-#, fuzzy
 msgid "Portrait"
 msgstr "Книжкова"
 
 #: ../src/dialogs/print.ui.h:18
-#, fuzzy
 msgid "Reverse portrait"
-msgstr "Зворотна книжкова"
+msgstr "Обернена книжкова"
 
 #: ../src/dialogs/print.ui.h:19
-#, fuzzy
 msgid "Landscape"
 msgstr "Альбомна"
 
 #: ../src/dialogs/print.ui.h:20
-#, fuzzy
 msgid "Reverse landscape"
-msgstr "Зворотна альбомна"
+msgstr "Обернена альбомна"
 
 #: ../src/dialogs/print.ui.h:22
-#, fuzzy
 msgid "<b>Scale</b>"
-msgstr "Масштаб"
+msgstr "<b>Масштаб</b>"
 
 #: ../src/dialogs/print.ui.h:23
-#, fuzzy
 msgid "_No scaling"
-msgstr "Автоматично"
+msgstr "_Без масштабування"
 
 #: ../src/dialogs/print.ui.h:24
 msgid "_Fixed scaling:"
-msgstr ""
+msgstr "_Фіксоване масштабування:"
 
 #: ../src/dialogs/print.ui.h:25
-#, fuzzy
 msgid "_Automatic scaling:"
-msgstr "Автоматично"
+msgstr "_Автоматичне масштабування:"
 
 #: ../src/dialogs/print.ui.h:26
-#, fuzzy
 msgid "Scale to fit _horizontally on"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Умістити за _горизонталлю на"
 
 #: ../src/dialogs/print.ui.h:27
 msgid "Scale to fit _vertically on"
-msgstr ""
+msgstr "Умістити за _вертикаллю на"
 
 #: ../src/dialogs/print.ui.h:29
 #, no-c-format
 msgid "% of normal size"
-msgstr ""
+msgstr "% звичайного розміру"
 
 #: ../src/dialogs/print.ui.h:30
-#, fuzzy
 msgid "page(s)"
-msgstr "Сторінка %s"
+msgstr "сторінки"
 
 #: ../src/dialogs/print.ui.h:31
-#, fuzzy
 msgid "Scale"
 msgstr "Масштаб"
 
@@ -10636,143 +10575,124 @@ msgid "_Footer:"
 msgstr "_Нижній колонтитул:"
 
 #: ../src/dialogs/print.ui.h:34
-#, fuzzy
 msgid "Configure"
 msgstr "Налаштувати"
 
 #: ../src/dialogs/print.ui.h:35
-#, fuzzy
 msgid "Fi_rst page number:"
-msgstr "Формат - число"
+msgstr "Номер пер_шої сторінки:"
 
 #: ../src/dialogs/print.ui.h:36
-#, fuzzy
 msgid "Headers and Footers"
-msgstr "Порядок сторінок"
+msgstr "Верхні і нижні колонтитули"
 
 #: ../src/dialogs/print.ui.h:37
-#, fuzzy
 msgid "Print _area:"
-msgstr "Перегляд друку"
+msgstr "_Область друку:"
 
 #: ../src/dialogs/print.ui.h:38
-#, fuzzy
 msgid "<b>Titles To Print</b>"
-msgstr "%d рядків для імпорту"
+msgstr "<b>Заголовки для друку</b>"
 
 #: ../src/dialogs/print.ui.h:39
 msgid "_Rows to repeat on the upper region:"
-msgstr ""
+msgstr "_Рядки, які слід повторити у верхній області:"
 
 #: ../src/dialogs/print.ui.h:40
 msgid "_Columns to repeat on the left side:"
-msgstr ""
+msgstr "С_товпчики, які слід повторити ліворуч:"
 
 #: ../src/dialogs/print.ui.h:41
-#, fuzzy
 msgid "Print Area"
-msgstr "Перегляд друку"
+msgstr "Область друку"
 
 #: ../src/dialogs/print.ui.h:42
-#, fuzzy
 msgid "<b>Print</b>"
-msgstr "Друкувати"
+msgstr "<b>Друк</b>"
 
 #: ../src/dialogs/print.ui.h:43
-#, fuzzy
 msgid "<b>Page Order</b>"
-msgstr "Шаблон"
+msgstr "<b>Порядок сторінок</b>"
 
 #: ../src/dialogs/print.ui.h:44
-#, fuzzy
 msgid "_Grid lines"
-msgstr "Прибрати лінії сітки"
+msgstr "Ліні_ї сітки"
 
 #: ../src/dialogs/print.ui.h:45
 msgid "Row and co_lumn headings"
-msgstr ""
+msgstr "Заголовки рядків і ст_овпчиків"
 
 #: ../src/dialogs/print.ui.h:46
 msgid "_Black and white"
-msgstr ""
+msgstr "_Чорне і біле"
 
 #: ../src/dialogs/print.ui.h:47
-#, fuzzy
 msgid "Styles with no content"
-msgstr "Центрує вміст комірки"
+msgstr "Стилі без вмісту"
 
 #: ../src/dialogs/print.ui.h:48
 msgid "Do not print with all sheets"
-msgstr ""
+msgstr "Не друкувати з усіма аркушами"
 
 #: ../src/dialogs/print.ui.h:49
-#, fuzzy
 msgid "_Errors:"
-msgstr "По_милки"
+msgstr "По_милки:"
 
 #: ../src/dialogs/print.ui.h:50
-#, fuzzy
 msgid "Co_mments:"
-msgstr "Коментарі"
+msgstr "_Коментарі:"
 
 #: ../src/dialogs/print.ui.h:51
 msgid "_Down, then right"
-msgstr ""
+msgstr "В_них, потім праворуч"
 
 #: ../src/dialogs/print.ui.h:52
 msgid "R_ight, then down"
-msgstr ""
+msgstr "П_раворуч, потім вниз"
 
 #: ../src/dialogs/print.ui.h:54
-#, fuzzy
 msgid "Apply to all sheets of this _workbook."
-msgstr "В книзі немає таблиць."
+msgstr "Застос_увати до усіх аркушів цієї робочої книги."
 
 #: ../src/dialogs/print.ui.h:55
 msgid "Save as default settings"
-msgstr ""
+msgstr "Зберегти як типові параметри"
 
 #: ../src/dialogs/print.ui.h:56
-#, fuzzy
 msgid "Apply _to:"
-msgstr "Скопіювати формати"
+msgstr "З_астосувати до:"
 
 #: ../src/dialogs/quit.ui.h:1
 msgid "Some Documents have not Been Saved"
-msgstr ""
+msgstr "Деякі документи не було збережено"
 
 #: ../src/dialogs/quit.ui.h:3
-#, fuzzy
 msgid "Select all documents for saving"
-msgstr "Потрібно вибрати хоча б один аркуш для експорту"
+msgstr "Вибрати усі документи для збереження"
 
 #: ../src/dialogs/quit.ui.h:4
-#, fuzzy
 msgid "_Clear Selection"
-msgstr "Автозаповнення вибраного"
+msgstr "О_чистити позначене"
 
 #: ../src/dialogs/quit.ui.h:5
 msgid "Unselect all documents for saving"
-msgstr ""
+msgstr "Скасувати позначення усіх документів для збереження"
 
 #: ../src/dialogs/quit.ui.h:6
-#, fuzzy
 msgid "_Discard All"
-msgstr "Відкинути"
+msgstr "Від_кинути усе"
 
 #: ../src/dialogs/quit.ui.h:7
-#, fuzzy
 msgid "Discard changes in all files"
-msgstr "Відкинути"
+msgstr "Відкинути зміни в усіх файлах"
 
 #: ../src/dialogs/quit.ui.h:8
-#, fuzzy
 msgid "Don't Quit"
 msgstr "Не виходити"
 
 #: ../src/dialogs/quit.ui.h:9
 msgid "Resume editing"
-msgstr ""
+msgstr "Відновити редагування"
 
 #: ../src/dialogs/quit.ui.h:10
 msgid "_Save Selected"
@@ -10780,7 +10700,7 @@ msgstr "Збе_регти позначені"
 
 #: ../src/dialogs/quit.ui.h:11
 msgid "Save selected documents and then quit"
-msgstr ""
+msgstr "Зберегти позначені документи, потім вийти"
 
 #: ../src/dialogs/quit.ui.h:12
 msgid "Save"
@@ -10791,9 +10711,8 @@ msgid "Save document"
 msgstr "Зберегти документ"
 
 #: ../src/dialogs/quit.ui.h:14
-#, fuzzy
 msgid "Save?"
-msgstr "Зберегти"
+msgstr "Зберегти?"
 
 #: ../src/dialogs/quit.ui.h:15 ../src/dialogs/recent.ui.h:5
 msgid "Document"
@@ -10804,87 +10723,76 @@ msgid "Unsaved"
 msgstr "Не збережено"
 
 #: ../src/dialogs/random-generation-cor.ui.h:1
-#, fuzzy
 msgid "Correlated Random Number Generator"
-msgstr "Генератор _випадкових чисел…"
+msgstr "Генератор корельованих випадкових чисел"
 
 #: ../src/dialogs/random-generation-cor.ui.h:2
-#, fuzzy
 msgid "Co_variance Matrix"
-msgstr "Коваріація"
+msgstr "_Коваріаційна матриця"
 
 #: ../src/dialogs/random-generation-cor.ui.h:3
 msgid "Cholesky _Decomposition of the Covariance Matrix"
-msgstr ""
+msgstr "Розк_лад Холецького коваріаційної матриці"
 
 #: ../src/dialogs/random-generation-cor.ui.h:4
 msgid "_Matrix:"
 msgstr "_Матриця:"
 
 #: ../src/dialogs/random-generation-cor.ui.h:6
-#, fuzzy
 msgid "Number of _random numbers:"
-msgstr "%d рядків для імпорту"
+msgstr "Кількість в_ипадкових чисел:"
 
 #: ../src/dialogs/random-generation.ui.h:1
-#, fuzzy
 msgid "Random Number Generation"
-msgstr "Генератор _випадкових чисел…"
+msgstr "Породження випадкових чисел"
 
 #: ../src/dialogs/random-generation.ui.h:2
 msgid "_Distribution:"
-msgstr ""
+msgstr "_Розподіл:"
 
 #: ../src/dialogs/random-generation.ui.h:4
-#, fuzzy
 msgid "_Number of variables:"
-msgstr "_Кількість випробувань:"
+msgstr "_Кількість змінних:"
 
 #: ../src/dialogs/random-generation.ui.h:5
-#, fuzzy
 msgid "_Size of sample:"
-msgstr "_Кількість випробувань:"
+msgstr "Роз_мір вибірки:"
 
 #: ../src/dialogs/rank.ui.h:1
-#, fuzzy
 msgid "Rank and Percentile"
-msgstr "Формат - відсотки"
+msgstr "Ранг і процентиль"
 
 #: ../src/dialogs/rank.ui.h:11
 msgid "Ties:"
-msgstr ""
+msgstr "Збіги:"
 
 #: ../src/dialogs/rank.ui.h:12
-#, fuzzy
 msgid "_Average rank"
-msgstr "Середнє"
+msgstr "Серед_ній ранг"
 
 #: ../src/dialogs/rank.ui.h:13
-#, fuzzy
 msgid "_Top rank"
-msgstr "Ранг"
+msgstr "_Верхній ранг"
 
 #: ../src/dialogs/recent.ui.h:1
 msgid "Recently Used Documents"
-msgstr ""
+msgstr "Нещодавно використані документи"
 
 #: ../src/dialogs/recent.ui.h:2
 msgid "Existing only"
-msgstr ""
+msgstr "Лише наявні"
 
 #: ../src/dialogs/recent.ui.h:3
-#, fuzzy
 msgid "Gnumeric files only"
-msgstr "Gnumeric: Перевірка"
+msgstr "Лише файли Gnumeric"
 
 #: ../src/dialogs/recent.ui.h:4
 msgid "Open document"
 msgstr "Відкрити документ"
 
 #: ../src/dialogs/recent.ui.h:6
-#, fuzzy
 msgid "Last Used"
-msgstr "Востаннє використано"
+msgstr "Останні використані"
 
 #: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3609
 #: ../src/tools/analysis-tools.c:3612
@@ -10902,182 +10810,159 @@ msgstr ""
 
 #: ../src/dialogs/regression.ui.h:4
 msgid "Multiple dependent (y) variables"
-msgstr ""
+msgstr "Декілька залежних змінних (y)"
 
 #: ../src/dialogs/regression.ui.h:9
-#, fuzzy
 msgid "Confidence level:"
-msgstr "Коваріації"
+msgstr "Довірчий рівень:"
 
 #: ../src/dialogs/regression.ui.h:10
 msgid "0.95"
-msgstr ""
+msgstr "0,95"
 
 #: ../src/dialogs/regression.ui.h:11
 msgid "_Force intercept to be zero"
-msgstr ""
+msgstr "П_римусово через початок координат"
 
 #: ../src/dialogs/regression.ui.h:12
-#, fuzzy
 msgid "Calculate residuals"
-msgstr "Формат"
+msgstr ""
 
 #: ../src/dialogs/row-height.ui.h:1
-#, fuzzy
 msgid "Row Height"
-msgstr "Висота рядка:"
+msgstr "Висота рядка"
 
 #: ../src/dialogs/row-height.ui.h:2
-#, fuzzy
 msgid "_Row height in pixels:"
-msgstr "Висота рядка…"
+msgstr "Висота _рядка у пікселях:"
 
 #: ../src/dialogs/row-height.ui.h:3
-#, fuzzy
 msgid "Row height in points:"
-msgstr "Висота рядка…"
+msgstr "Висота рядка у пунктах:"
 
 #: ../src/dialogs/sampling.ui.h:1
 msgid "Sampling"
 msgstr "Дискретизація"
 
 #: ../src/dialogs/sampling.ui.h:11
-#, fuzzy
 msgid "N_umber of samples:"
-msgstr "_Кількість випробувань:"
+msgstr "_Кількість вибірок:"
 
 #: ../src/dialogs/sampling.ui.h:12
-#, fuzzy
 msgid "Sampling method:"
-msgstr "Вибірка"
+msgstr "Метод дискретизації:"
 
 #: ../src/dialogs/sampling.ui.h:13
-#, fuzzy
 msgid "Size of sample:"
-msgstr "_Кількість випробувань:"
+msgstr "Розмір вибірки:"
 
 #: ../src/dialogs/sampling.ui.h:14
 msgid "Per_iod:"
-msgstr ""
+msgstr "П_еріод:"
 
 #: ../src/dialogs/sampling.ui.h:15
-#, fuzzy
 msgid "Offset:"
 msgstr "Зсув:"
 
 #: ../src/dialogs/sampling.ui.h:16
-#, fuzzy
 msgid "Primary direction:"
-msgstr "Опис:"
+msgstr "Основний напрямок:"
 
 #: ../src/dialogs/sampling.ui.h:17
-#, fuzzy
 msgid "Row major"
-msgstr "основний рядка"
+msgstr "Основний рядка"
 
 #: ../src/dialogs/sampling.ui.h:18
-#, fuzzy
 msgid "Column major"
-msgstr "основний стовпчика"
+msgstr "Основний стовпчика"
 
 #: ../src/dialogs/sampling.ui.h:19
 msgid "_Periodic"
-msgstr ""
+msgstr "_Періодично"
 
 #: ../src/dialogs/sampling.ui.h:20
-#, fuzzy
 msgid "_Random"
-msgstr "Випадково"
+msgstr "В_ипадково"
 
 #: ../src/dialogs/scenario-add.ui.h:1
 msgid "Add Scenario"
-msgstr ""
+msgstr "Додати сценарій"
 
 #: ../src/dialogs/scenario-add.ui.h:2
-#, fuzzy
 msgid "Scenario name:"
-msgstr "Назва серій"
+msgstr "Назва сценарію:"
 
 #: ../src/dialogs/scenario-add.ui.h:3
-#, fuzzy
 msgid "_Changing cells:"
-msgstr "Зміна формату %s"
+msgstr "З_міна комірок:"
 
 #: ../src/dialogs/scenario-add.ui.h:4
-#, fuzzy
 msgid "Comment:"
 msgstr "Коментар:"
 
 #: ../src/dialogs/scenario-manager.ui.h:1
 msgid "Scenario Manager"
-msgstr ""
+msgstr "Керування сценаріями"
 
 #: ../src/dialogs/scenario-manager.ui.h:2
 msgid "<span weight=\"bold\">Scenarios</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Сценарії</span>"
 
 #: ../src/dialogs/scenario-manager.ui.h:3
-#, fuzzy
 msgid "Show"
 msgstr "Показати"
 
 #: ../src/dialogs/scenario-manager.ui.h:5
-#, fuzzy
 msgid "Create _Report"
-msgstr "Назва програми"
+msgstr "Створити з_віт"
 
 #: ../src/dialogs/scenario-manager.ui.h:6
 msgid "<span weight=\"bold\">Changing Cells</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Зміна комірок</span>"
 
 #: ../src/dialogs/scenario-manager.ui.h:7
-#, fuzzy
 msgid "<span weight=\"bold\">Comment</span>"
-msgstr "Коментар"
+msgstr "<span weight=\"bold\">Коментар</span>"
 
 #: ../src/dialogs/scenario-manager.ui.h:8 ../src/dialogs/workbook-attr.ui.h:5
-#, fuzzy
 msgid "View"
 msgstr "Перегляд"
 
 #: ../src/dialogs/scenario-manager.ui.h:9
 msgid "<span weight=\"bold\">Reporting</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Звітування</span>"
 
 #: ../src/dialogs/scenario-manager.ui.h:10
-#, fuzzy
 msgid "Result Cells:"
-msgstr "Стерти комірки"
+msgstr "Комірки результатів:"
 
 #: ../src/dialogs/search-replace.ui.h:1
-#, fuzzy
 msgid "Search and Replace Query"
-msgstr "Пошук і заміна"
+msgstr "Запит із пошуку з заміною"
 
 #: ../src/dialogs/search-replace.ui.h:2
 msgid "Perform no more replacements"
-msgstr ""
+msgstr "Більше не замінювати"
 
 #: ../src/dialogs/search-replace.ui.h:3
 msgid "Do not perform this replacement"
-msgstr ""
+msgstr "Не виконувати цієї заміни"
 
 #: ../src/dialogs/search-replace.ui.h:4
 msgid "Perform this replacement"
-msgstr ""
+msgstr "Виконати цю заміну"
 
 #: ../src/dialogs/search-replace.ui.h:7
 msgid "Replacing"
 msgstr "Замінюємо"
 
 #: ../src/dialogs/search-replace.ui.h:8
-#, fuzzy
 msgid "By"
-msgstr "<b>%1</b>"
+msgstr "На"
 
 #: ../src/dialogs/search-replace.ui.h:9
 msgid "_Query"
-msgstr ""
+msgstr "З_апит"
 
 #: ../src/dialogs/search-replace.ui.h:10
 msgid "Ask before each change"
@@ -11096,7 +10981,7 @@ msgstr "Пошук"
 #: ../src/dialogs/search-replace.ui.h:13
 #, fuzzy
 msgid "_Search for"
-msgstr "З_найти: "
+msgstr "Шука_ти:"
 
 #: ../src/dialogs/search-replace.ui.h:14
 msgid "_Replace by"
@@ -11337,7 +11222,7 @@ msgstr ""
 #: ../src/dialogs/search.ui.h:6
 #, fuzzy
 msgid "_Search for:"
-msgstr "З_найти: "
+msgstr "Шука_ти:"
 
 #: ../src/dialogs/search.ui.h:9
 msgid "Match _whole words only"
@@ -11431,7 +11316,7 @@ msgstr "Збіги"
 
 #: ../src/dialogs/sheetobject-size.ui.h:1
 msgid "Size & Position"
-msgstr ""
+msgstr "Розмір і розташування"
 
 #: ../src/dialogs/sheetobject-size.ui.h:2
 #, fuzzy
@@ -11464,7 +11349,6 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/sheetobject-size.ui.h:9
-#, fuzzy
 msgid "_Name:"
 msgstr "_Назва:"
 
@@ -11499,10 +11383,9 @@ msgid "Compare"
 msgstr "Порівняти"
 
 #: ../src/dialogs/sheet-compare.ui.h:4
-#, fuzzy
 #| msgid "Print Sheets"
 msgid "First Sheet"
-msgstr "Друкувати аркуші"
+msgstr "Перший аркуш"
 
 #: ../src/dialogs/sheet-compare.ui.h:5
 #, fuzzy
@@ -11546,7 +11429,7 @@ msgstr "Зміна формату %s"
 #: ../src/dialogs/sheet-rename.ui.h:1
 #, fuzzy
 msgid "Rename Sheet"
-msgstr "Перейменувати цей аркуш"
+msgstr "Перейменувати аркуш"
 
 #: ../src/dialogs/sheet-rename.ui.h:2
 #, fuzzy
@@ -11658,12 +11541,12 @@ msgstr ""
 #: ../src/dialogs/simulation.ui.h:2
 #, fuzzy
 msgid "Input variables:"
-msgstr "Діапазон вводу:"
+msgstr "К-ть вхідних змінних"
 
 #: ../src/dialogs/simulation.ui.h:3
 #, fuzzy
 msgid "Output variables:"
-msgstr "Діапазон вводу:"
+msgstr "К-ть вихідних змінних"
 
 #: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1701
 #: ../src/tools/gnm-solver.c:1842
@@ -11728,7 +11611,7 @@ msgstr "Неділя"
 #: ../src/dialogs/simulation.ui.h:18 ../src/tools/analysis-anova.c:460
 #, fuzzy
 msgid "Summary"
-msgstr "Зведення"
+msgstr "Резюме"
 
 #: ../src/dialogs/so-button.ui.h:1
 #, fuzzy
@@ -11739,11 +11622,10 @@ msgstr "_Властивості…"
 #: ../src/dialogs/so-radiobutton.ui.h:2 ../src/dialogs/so-scrollbar.ui.h:2
 #, fuzzy
 msgid "Link to:"
-msgstr "Прив'язати до…"
+msgstr "Прив'язати до..."
 
 #: ../src/dialogs/so-button.ui.h:3 ../src/dialogs/so-checkbox.ui.h:3
 #: ../src/dialogs/so-frame.ui.h:2 ../src/dialogs/so-radiobutton.ui.h:3
-#, fuzzy
 msgid "Label:"
 msgstr "Мітка:"
 
@@ -11778,7 +11660,7 @@ msgstr ""
 #: ../src/dialogs/so-list.ui.h:5
 #, fuzzy
 msgid "_Content:"
-msgstr "_Зміст"
+msgstr "_Вміст"
 
 #: ../src/dialogs/solver.ui.h:1
 msgid "≤"
@@ -12013,7 +11895,6 @@ msgid "Dependency cells"
 msgstr "Стерти комірки"
 
 #: ../src/dialogs/tabulate.ui.h:4
-#, fuzzy
 msgid "Minimum"
 msgstr "Мінімум"
 
@@ -12106,9 +11987,8 @@ msgid "Wilcoxon-Mann-Whitney Test"
 msgstr ""
 
 #: ../src/dialogs/workbook-attr.ui.h:1
-#, fuzzy
 msgid "View Properties"
-msgstr "_Властивості…"
+msgstr "Переглянути властивості"
 
 #: ../src/dialogs/workbook-attr.ui.h:2
 msgid "Notebook _Tabs for Sheets"
@@ -12256,7 +12136,7 @@ msgstr ""
 
 #: ../src/func-builtin.c:48 ../src/func-builtin.c:105
 msgid "This function is OpenFormula compatible."
-msgstr ""
+msgstr "Ця функція є сумісною із OpenFormula."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:99
@@ -12347,9 +12227,8 @@ msgid "Cell Range"
 msgstr "Діапазон комірок"
 
 #: ../src/func.c:1105
-#, fuzzy
 msgid "Area"
-msgstr "Ділянка"
+msgstr "Площа"
 
 #: ../src/func.c:1107
 #, fuzzy
@@ -12514,7 +12393,7 @@ msgstr ""
 #: ../src/gui-file.c:69
 #, fuzzy
 msgid "Automatically detected"
-msgstr "Автоматично виявляється"
+msgstr "Автовизначення"
 
 #. xgettext: If possible try to use the same mnemonic for
 #. * Advanced and Simple
@@ -12540,7 +12419,6 @@ msgid "Import Data File"
 msgstr "Імпортує файл"
 
 #: ../src/gui-file.c:365 ../src/gui-file.c:582
-#, fuzzy
 msgid "All Files"
 msgstr "усі файли"
 
@@ -12659,21 +12537,18 @@ msgid "The %s plugin is required but is not loaded."
 msgstr ""
 
 #: ../src/gui-util.h:150
-#, fuzzy
 #| msgid "_Open..."
 msgctxt "Stock label"
 msgid "_Open"
 msgstr "_Відкрити"
 
 #: ../src/gui-util.h:153
-#, fuzzy
 #| msgid "_Save"
 msgctxt "Stock label"
 msgid "_Save"
 msgstr "З_берегти"
 
 #: ../src/gui-util.h:156
-#, fuzzy
 #| msgid "Save _As..."
 msgctxt "Stock label"
 msgid "Save _As"
@@ -12723,10 +12598,9 @@ msgid "Width:"
 msgstr "Ширина:"
 
 #: ../src/item-bar.c:858
-#, fuzzy
 #| msgid "Height"
 msgid "Height:"
-msgstr "Висота"
+msgstr "Висота:"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
 #: ../src/item-bar.c:863
@@ -12734,8 +12608,8 @@ msgstr "Висота"
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
 msgstr[0] "%d піксель"
-msgstr[1] "%d пікселі"
-msgstr[2] "%d пікселів"
+msgstr[1] "%d точки"
+msgstr[2] "%d точок"
 msgstr[3] "%d піксель"
 
 #. xgettext: This is input to ngettext based on the integer number of points.
@@ -13008,7 +12882,7 @@ msgstr "Назва файла"
 #: ../src/print-info.c:650
 #, fuzzy
 msgid "Path "
-msgstr "Шлях:"
+msgstr "шлях"
 
 #: ../src/print-info.c:666 ../src/widgets/gnm-fontbutton.c:480
 #, fuzzy
@@ -13166,7 +13040,7 @@ msgstr "(1987 DQ6)"
 
 #: ../src/sheet-autofill.c:918
 msgid "(empty)"
-msgstr ""
+msgstr "(порожньо)"
 
 #: ../src/sheet-control-gui.c:2159 ../src/wbc-gtk-actions.c:378
 #, fuzzy, c-format
@@ -13324,7 +13198,7 @@ msgstr "Показати"
 #: ../src/sheet-control-gui.c:2353
 #, fuzzy
 msgid "Hei_ght..."
-msgstr "_Висота:"
+msgstr "Ви_сота:"
 
 #: ../src/sheet-control-gui.c:2354 ../src/wbc-gtk-actions.c:2854
 #, fuzzy
@@ -13569,7 +13443,6 @@ msgstr "Назва серій"
 
 #. Translators: Series as "Columns"
 #: ../src/sheet-object-graph.c:778
-#, fuzzy
 #| msgid "Columns"
 msgctxt "graph"
 msgid "Columns"
@@ -13776,7 +13649,6 @@ msgid "Detailed instructions for the chosen exporter"
 msgstr ""
 
 #: ../src/ssconvert.c:135
-#, fuzzy
 msgid "string"
 msgstr "рядок"
 
@@ -14264,7 +14136,9 @@ msgstr ""
 #: ../src/stf.c:286 ../src/stf.c:318
 #, fuzzy
 msgid "Text to Columns"
-msgstr "Стерти стовпчики"
+msgstr ""
+"Текст у колонки\n"
+"перетворення тексту у колонки"
 
 #: ../src/stf.c:291
 #, c-format
@@ -14405,9 +14279,8 @@ msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Дисперсійний аналіз: двофакторний з відтворенням"
 
 #: ../src/tools/analysis-anova.c:850
-#, fuzzy
 msgid "ANOVA"
-msgstr "Дисперсійний аналіз"
+msgstr "ANOVA"
 
 #: ../src/tools/analysis-anova.c:853
 #, fuzzy
@@ -14570,7 +14443,7 @@ msgstr ""
 #: ../src/tools/analysis-histogram.c:267
 #, fuzzy
 msgid "\"to\" * \"∞\""
-msgstr "до"
+msgstr "До:"
 
 #. translator note: only translate the
 #. "from" and "above" exclusive of
@@ -14597,7 +14470,6 @@ msgid "Frequency Density"
 msgstr "Частота"
 
 #: ../src/tools/analysis-histogram.c:428 ../src/tools/analysis-histogram.c:442
-#, fuzzy
 msgid "Frequency"
 msgstr "Частота"
 
@@ -14620,7 +14492,6 @@ msgid "/At Risk/Deaths/Probability"
 msgstr ""
 
 #: ../src/tools/analysis-kaplan-meier.c:467 ../src/tools/simulation.c:248
-#, fuzzy
 msgid "Median"
 msgstr "Медіана"
 
@@ -14634,9 +14505,10 @@ msgid "Kaplan-Meier (%s)"
 msgstr "Вибірка"
 
 #: ../src/tools/analysis-kaplan-meier.c:677
+#, fuzzy
 #: ../src/tools/analysis-kaplan-meier.c:680
 msgid "Kaplan-Meier Estimates"
-msgstr ""
+msgstr "Оцінки Каплана-Меєра"
 
 #: ../src/tools/analysis-normality.c:62
 msgid ""
@@ -14951,13 +14823,13 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:2980
 #, fuzzy
 msgid "\"Lower\" 0%"
-msgstr "Низький"
+msgstr "Нижній"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
 #: ../src/tools/analysis-tools.c:2982
 #, fuzzy
 msgid "\"Upper\" 0%"
-msgstr "Верхня межа:"
+msgstr "Верхній"
 
 #: ../src/tools/analysis-tools.c:2991
 msgid ""
@@ -14978,7 +14850,6 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3306
-#, fuzzy
 msgid "Constant"
 msgstr "Стала"
 
@@ -15214,9 +15085,8 @@ msgid "Failed to save linear program"
 msgstr ""
 
 #: ../src/tools/gnm-solver.c:1657
-#, fuzzy
 msgid "Target"
-msgstr "Ціль"
+msgstr "Призначення"
 
 #: ../src/tools/gnm-solver.c:1661
 msgid "Status"
@@ -15239,8 +15109,9 @@ msgid "Upper"
 msgstr "Верхній"
 
 #: ../src/tools/gnm-solver.c:1707 ../src/tools/gnm-solver.c:1750
+#, fuzzy
 msgid "Slack"
-msgstr ""
+msgstr "Залишок"
 
 #: ../src/tools/gnm-solver.c:1729
 #, fuzzy
@@ -15537,8 +15408,9 @@ msgid "Equal"
 msgstr "Прямокутник"
 
 #: ../src/validation.c:74
+#, fuzzy
 msgid "Not Equal"
-msgstr ""
+msgstr "не дорівнює"
 
 #: ../src/validation.c:75
 msgid "Greater Than"
@@ -15801,7 +15673,7 @@ msgstr "Файл"
 
 #: ../src/wbc-gtk-actions.c:1977
 msgid "New From Template"
-msgstr ""
+msgstr "Створити з шаблона"
 
 #: ../src/wbc-gtk-actions.c:1981
 msgid "_New"
@@ -15921,10 +15793,9 @@ msgid "_Toolbars"
 msgstr "_Панелі інструментів"
 
 #: ../src/wbc-gtk-actions.c:2103
-#, fuzzy
 #| msgid "_Object..."
 msgid "_Object"
-msgstr "_Об'єкт…"
+msgstr "_Об'єкт"
 
 #: ../src/wbc-gtk-actions.c:2106
 msgid "S_pecial"
@@ -15984,7 +15855,6 @@ msgid "_Statistics"
 msgstr "Статистика"
 
 #: ../src/wbc-gtk-actions.c:2152
-#, fuzzy
 msgid "_Descriptive Statistics"
 msgstr "_Описова статистика"
 
@@ -16952,7 +16822,7 @@ msgstr "_Експоненціальне згладжування"
 #: ../src/wbc-gtk-actions.c:2990
 #, fuzzy
 msgid "Exponential smoothing..."
-msgstr "Експоненціальне згладжування"
+msgstr "Експоненційне згладжування"
 
 #: ../src/wbc-gtk-actions.c:2994
 #, fuzzy
@@ -17088,16 +16958,18 @@ msgid "Two Factor Analysis of Variance..."
 msgstr "Двофакторний дисперсний аналіз"
 
 #: ../src/wbc-gtk-actions.c:3105
+#, fuzzy
 msgid "Test of _Homogeneity..."
-msgstr ""
+msgstr "Критерій _однорідності"
 
 #: ../src/wbc-gtk-actions.c:3106
 msgid "Chi Squared Test of Homogeneity..."
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3110
+#, fuzzy
 msgid "Test of _Independence..."
-msgstr ""
+msgstr "Критерій _незалежності"
 
 #: ../src/wbc-gtk-actions.c:3111
 msgid "Chi Squared Test of Independence..."
@@ -17823,9 +17695,8 @@ msgid "_Strikethrough"
 msgstr "_Закреслений"
 
 #: ../src/wbc-gtk-actions.c:3684
-#, fuzzy
 msgid "Su_perscript"
-msgstr "Опис"
+msgstr "_Верхній індекс"
 
 #: ../src/wbc-gtk-actions.c:3686
 msgid "Superscript"
@@ -18219,9 +18090,8 @@ msgid "Standard Toolbar"
 msgstr "Стандартна похибка"
 
 #: ../src/wbc-gtk.c:3685
-#, fuzzy
 msgid "Format Toolbar"
-msgstr "_Пенали"
+msgstr "Пенал форматування"
 
 #: ../src/wbc-gtk.c:3686
 #, fuzzy
@@ -18267,7 +18137,7 @@ msgstr "всі"
 #: ../src/widgets/gnm-filter-combo-view.c:172
 #, fuzzy
 msgid "(Top 10...)"
-msgstr "Вгорі"
+msgstr "Вгору"
 
 #: ../src/widgets/gnm-filter-combo-view.c:179
 #, fuzzy
@@ -18425,7 +18295,7 @@ msgstr ""
 
 #: ../src/widgets/gnm-text-view.c:284
 msgid "Wavy"
-msgstr ""
+msgstr "Хвилястий"
 
 #: ../src/widgets/gnm-text-view.c:285
 #, fuzzy
@@ -18513,15 +18383,15 @@ msgstr "Адреса"
 
 #. Translators: "%dC" is a very short format to indicate the number of full columns
 #: ../src/workbook-view.c:415
-#, c-format
+#, fuzzy, c-format
 msgid "%dC"
-msgstr ""
+msgstr "Округ Колумбія"
 
 #. Translators: "%dR" is a very short format to indicate the number of full rows
 #: ../src/workbook-view.c:418
-#, c-format
+#, fuzzy, c-format
 msgid "%dR"
-msgstr ""
+msgstr "Доктор"
 
 #. Translators: "%dR x %dC" is a very short format to indicate the number of rows and columns
 #: ../src/workbook-view.c:421
@@ -18797,7 +18667,7 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.Financial.ice.xml.in.h:1
 msgid "Ice"
-msgstr ""
+msgstr "Лід"
 
 #: ../templates/autoformat/autoformat.Financial.ice.xml.in.h:2
 msgid "Financial style with cold border color"
