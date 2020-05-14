@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2020-05-12 17:35+0000\n"
-"PO-Revision-Date: 2020-05-14 12:47+0300\n"
+"PO-Revision-Date: 2020-05-14 16:53+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -10966,150 +10966,135 @@ msgstr "З_апит"
 
 #: ../src/dialogs/search-replace.ui.h:10
 msgid "Ask before each change"
-msgstr ""
+msgstr "Запитувати перед кожною заміною"
 
 #: ../src/dialogs/search-replace.ui.h:11
-#, fuzzy
 msgid "Search & Replace"
 msgstr "Пошук і заміна"
 
 #: ../src/dialogs/search-replace.ui.h:12 ../src/dialogs/search.ui.h:1
-#, fuzzy
 msgid "Search"
 msgstr "Пошук"
 
 #: ../src/dialogs/search-replace.ui.h:13
-#, fuzzy
 msgid "_Search for"
-msgstr "Шука_ти:"
+msgstr "Шука_ти"
 
 #: ../src/dialogs/search-replace.ui.h:14
 msgid "_Replace by"
-msgstr ""
+msgstr "З_амінити на"
 
 #: ../src/dialogs/search-replace.ui.h:15 ../src/dialogs/search.ui.h:7
-#, fuzzy
 msgid "_Ignore case"
-msgstr "Збільшити"
+msgstr "_Ігнорувати регістр"
 
 #: ../src/dialogs/search-replace.ui.h:16 ../src/dialogs/search.ui.h:8
 msgid "When set, do not distinguish between upper and lower case letters"
-msgstr ""
+msgstr "Якщо позначено, не враховувати регістр літер"
 
 #: ../src/dialogs/search-replace.ui.h:17
 msgid "_Preserve case"
-msgstr ""
+msgstr "З_берегти регістр"
 
 #: ../src/dialogs/search-replace.ui.h:18
 msgid "Attempt to preserve case of text when replacing"
-msgstr ""
+msgstr "Намагатися зберегти регістр літер при заміні"
 
 #: ../src/dialogs/search-replace.ui.h:19
 msgid "Ma_tch whole words only"
-msgstr ""
+msgstr "_Відповідність лише цілим словам"
 
 #: ../src/dialogs/search-replace.ui.h:20 ../src/dialogs/search.ui.h:10
 msgid "Do not consider matches in the middle of words"
-msgstr ""
+msgstr "Не брати до уваги середину слів"
 
 #: ../src/dialogs/search-replace.ui.h:21
-#, fuzzy
 msgid "Scope"
 msgstr "Область"
 
 #: ../src/dialogs/search-replace.ui.h:22 ../src/dialogs/search.ui.h:11
-#, fuzzy
 msgid "_Entire workbook"
-msgstr "Надрукувати книгу"
+msgstr "_Уся робоча книга"
 
 #: ../src/dialogs/search-replace.ui.h:23
 msgid "Search and replace in all cells in the workbook"
-msgstr ""
+msgstr "Пошук і заміна у всіх комірках робочої книги"
 
 #: ../src/dialogs/search-replace.ui.h:24 ../src/dialogs/search.ui.h:13
-#, fuzzy
 msgid "_Current sheet"
-msgstr "Поточна дата"
+msgstr "_Поточний аркуш"
 
 #: ../src/dialogs/search-replace.ui.h:25
 msgid "Search and replace in current sheet only"
-msgstr ""
+msgstr "Шукати і замінювати лише у поточному аркуші"
 
 #: ../src/dialogs/search-replace.ui.h:26
-#, fuzzy
 msgid "Ra_nge"
-msgstr "Діапазон"
+msgstr "Ді_апазон"
 
 #: ../src/dialogs/search-replace.ui.h:27
 msgid "Search and replace in specified range only"
-msgstr ""
+msgstr "Шукати і замінювати лише у вказаному діапазоні"
 
 #: ../src/dialogs/search-replace.ui.h:29
 msgid "<span weight=\"bold\">Change Cells Containing</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Змінювати комірки, що містять</span>"
 
 #: ../src/dialogs/search-replace.ui.h:30 ../src/dialogs/search.ui.h:19
-#, fuzzy
 msgid "_Strings"
-msgstr "Рядок"
+msgstr "_Рядки"
 
 #: ../src/dialogs/search-replace.ui.h:31
 msgid "Perform changes within string values"
-msgstr ""
+msgstr "Виконати зміни у рядкових значеннях"
 
 #: ../src/dialogs/search-replace.ui.h:32 ../src/dialogs/search.ui.h:21
-#, fuzzy
 msgid "_Other values"
-msgstr "Інше значення"
+msgstr "_Інші значення"
 
 #: ../src/dialogs/search-replace.ui.h:33
 msgid "Perform changes within non-string values"
-msgstr ""
+msgstr "Виконати зміни у нерядкових значеннях"
 
 #: ../src/dialogs/search-replace.ui.h:34 ../src/dialogs/search.ui.h:25
-#, fuzzy
 msgid "_Expressions"
-msgstr "Регресія"
+msgstr "Ви_рази"
 
 #: ../src/dialogs/search-replace.ui.h:35
 msgid "Perform changes within expressions"
-msgstr ""
+msgstr "Виконати зміни у виразах"
 
 #: ../src/dialogs/search-replace.ui.h:36 ../src/dialogs/search.ui.h:23
 msgid "_Comments"
 msgstr "_Коментарі"
 
 #: ../src/dialogs/search-replace.ui.h:37
-#, fuzzy
 msgid "Perform changes within cell comments"
-msgstr "Центрує вміст комірки"
+msgstr "Виконати зміни у коментарях до комірок"
 
 #: ../src/dialogs/search-replace.ui.h:38
 msgid "<span weight=\"bold\">Search Text Type</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Тип пошуку тексту</span>"
 
 #: ../src/dialogs/search-replace.ui.h:39 ../src/dialogs/search.ui.h:38
 msgid "_Plain text"
 msgstr "_Звичайний текст"
 
 #: ../src/dialogs/search-replace.ui.h:40 ../src/dialogs/search.ui.h:39
-#, fuzzy
 msgid "The search text is taken literally."
-msgstr "Діапазон пошуку неправильний."
+msgstr "Пошук тексту виконується буквально."
 
 #: ../src/dialogs/search-replace.ui.h:41 ../src/dialogs/search.ui.h:40
 msgid "Re_gular expression"
 msgstr "_Формальний вираз"
 
 #: ../src/dialogs/search-replace.ui.h:42 ../src/dialogs/search.ui.h:41
-#, fuzzy
 msgid "The search text is a regular expression"
-msgstr "Комірка призначення має містити вираз"
+msgstr "Пошук тексту виконується за формальним виразом"
 
 #: ../src/dialogs/search-replace.ui.h:43
-#, fuzzy
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr "Різне"
+msgstr "<span weight=\"bold\">Інше</span>"
 
 #: ../src/dialogs/search-replace.ui.h:44 ../src/dialogs/search.ui.h:30
 msgid "_Row major"
@@ -11117,7 +11102,7 @@ msgstr ""
 
 #: ../src/dialogs/search-replace.ui.h:45 ../src/dialogs/search.ui.h:31
 msgid "Search line by line"
-msgstr ""
+msgstr "Шукати рядок за рядком"
 
 #: ../src/dialogs/search-replace.ui.h:46
 #, fuzzy
@@ -11126,7 +11111,7 @@ msgstr "Стовпчики"
 
 #: ../src/dialogs/search-replace.ui.h:47 ../src/dialogs/search.ui.h:33
 msgid "Search column by column"
-msgstr ""
+msgstr "Шукати стовпчик за стовпчиком"
 
 #: ../src/dialogs/search-replace.ui.h:48
 msgid "_Keep strings as strings"
@@ -11290,27 +11275,25 @@ msgstr "Стовпчик"
 
 #: ../src/dialogs/search.ui.h:34
 msgid "Save settings as _default"
-msgstr ""
+msgstr "Зберегти параметри як _типові"
 
 #: ../src/dialogs/search.ui.h:35
 msgid "These settings are shared with the Search &amp; Replace dialog."
-msgstr ""
+msgstr "Ці параметри є спільними із діалоговим вікно пошуку і заміни."
 
 #: ../src/dialogs/search.ui.h:36
 msgid "These settings are shared with the Search & Replace dialog."
-msgstr ""
+msgstr "Ці параметри є спільними із діалоговим вікно пошуку і заміни."
 
 #: ../src/dialogs/search.ui.h:37
-#, fuzzy
 msgid "Search text is"
-msgstr "Центрувати"
+msgstr "Текст для пошуку"
 
 #: ../src/dialogs/search.ui.h:42
 msgid "_Number"
 msgstr "_Номер"
 
 #: ../src/dialogs/search.ui.h:44
-#, fuzzy
 msgid "Matches"
 msgstr "Збіги"
 
@@ -11319,34 +11302,30 @@ msgid "Size & Position"
 msgstr "Розмір і розташування"
 
 #: ../src/dialogs/sheetobject-size.ui.h:2
-#, fuzzy
 msgid "_Width in pixels:"
-msgstr "Ширина стовпчика…"
+msgstr "_Ширина у пікселях:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:3
-#, fuzzy
 msgid "_Height in pixels:"
-msgstr "Висота рядка…"
+msgstr "_Висота у пікселях:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:4
 msgid "Object position relative to its current position:"
-msgstr ""
+msgstr "Розташування об'єкта відносно його поточного розташування:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:5
-#, fuzzy
 msgid "_x-Offset in pixels:"
-msgstr "Висота рядка…"
+msgstr "Зсув за _x у пікселях:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:6
-#, fuzzy
 msgid "_y-Offset in pixels:"
-msgstr "Висота рядка…"
+msgstr "Зсув за _y у пікселях:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:8
 msgid ""
 "Sheet objects with this property do not print with the remainder of the "
 "sheet."
-msgstr ""
+msgstr "Об'єкти аркуша із цією властивістю не друкуватимуться у решті аркуша."
 
 #: ../src/dialogs/sheetobject-size.ui.h:9
 msgid "_Name:"
@@ -11357,26 +11336,25 @@ msgid ""
 "This name is used by some plugins that provide programmability to address "
 "this object. Most users will not need to set this name. "
 msgstr ""
+"Цю назву буде використано деякими додатками, які надають можливість програмно"
+" керувати цим об'єктом. Для більшості користувачів потреби у визначенні цієї"
+" назви немає."
 
 #: ../src/dialogs/sheetobject-size.ui.h:11
-#, fuzzy
 msgid "Width in points:"
-msgstr "Ширина стовпчика…"
+msgstr "Ширина у пунктах:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:12
-#, fuzzy
 msgid "Height in points:"
-msgstr "Висота рядка…"
+msgstr "Висота у пунктах:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:13
-#, fuzzy
 msgid "x-Offset in points:"
-msgstr "Висота рядка…"
+msgstr "Зсув за x у пунктах:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:14
-#, fuzzy
 msgid "y-Offset in points:"
-msgstr "Висота рядка…"
+msgstr "Зсув за y у пунктах:"
 
 #: ../src/dialogs/sheet-compare.ui.h:1
 msgid "Compare"
@@ -11388,19 +11366,16 @@ msgid "First Sheet"
 msgstr "Перший аркуш"
 
 #: ../src/dialogs/sheet-compare.ui.h:5
-#, fuzzy
 msgid "Second Sheet"
-msgstr "Аркуш"
+msgstr "Другий аркуш"
 
 #: ../src/dialogs/sheet-compare.ui.h:7 ../src/dialogs/solver.ui.h:46
-#, fuzzy
 msgid "Results"
 msgstr "Результати"
 
 #: ../src/dialogs/sheet-order.ui.h:1
-#, fuzzy
 msgid "Manage Sheets"
-msgstr "Перейменувати цей аркуш"
+msgstr "Керування аркушами"
 
 #: ../src/dialogs/sheet-order.ui.h:2 ../src/wbc-gtk-actions.c:2099
 #: ../src/wbc-gtk-actions.c:2281
@@ -11412,43 +11387,36 @@ msgid "A_ppend"
 msgstr "_Додати"
 
 #: ../src/dialogs/sheet-order.ui.h:4
-#, fuzzy
 msgid "Du_plicate"
-msgstr "_Дублювати"
+msgstr "Д_ублювати"
 
 #: ../src/dialogs/sheet-order.ui.h:5
-#, fuzzy
 msgid "Apply _Name Changes"
-msgstr "Скопіювати формати"
+msgstr "Застосувати з_міни назви"
 
 #: ../src/dialogs/sheet-order.ui.h:6
-#, fuzzy
 msgid "_Show advanced sheet properties"
-msgstr "Зміна формату %s"
+msgstr "_Показати додаткові параметри аркуша"
 
 #: ../src/dialogs/sheet-rename.ui.h:1
-#, fuzzy
 msgid "Rename Sheet"
 msgstr "Перейменувати аркуш"
 
 #: ../src/dialogs/sheet-rename.ui.h:2
-#, fuzzy
 #| msgid "Name:"
 msgid "Old Name:"
-msgstr "Стара назва"
+msgstr "Стара назва:"
 
 #: ../src/dialogs/sheet-rename.ui.h:3
 msgid "New Name:"
 msgstr "Нова назва:"
 
 #: ../src/dialogs/sheet-resize.ui.h:1
-#, fuzzy
 msgid "Resize Sheet"
-msgstr "Змінити розміри об'єкта"
+msgstr "Змінити розміри аркуша"
 
 #. Number of 'Columns' in sheet
 #: ../src/dialogs/sheet-resize.ui.h:3
-#, fuzzy
 #| msgid "Columns"
 msgctxt "sheetsize"
 msgid "Columns"
@@ -11456,50 +11424,47 @@ msgstr "Стовпчики"
 
 #. Number of 'Rows' in sheet
 #: ../src/dialogs/sheet-resize.ui.h:5
-#, fuzzy
 msgctxt "sheetsize"
 msgid "Rows"
 msgstr "Рядки"
 
 #: ../src/dialogs/sheet-resize.ui.h:6
 msgid "Apply change to all sheets"
-msgstr ""
+msgstr "Застосувати зміни до усіх аркушів"
 
 #: ../src/dialogs/sheet-resize.ui.h:7
-#, fuzzy
 msgid "Check this to apply the new size to all sheets in the workbook"
-msgstr "В книзі немає таблиць."
+msgstr ""
+"Позначте цей пункт, щоб застосувати новий розмір до усіх аркушів у робочій"
+" книзі"
 
 #: ../src/dialogs/shuffle.ui.h:1
 msgid "Data Shuffling"
-msgstr ""
+msgstr "Перемішування даних"
 
 #: ../src/dialogs/shuffle.ui.h:2
-#, fuzzy
 msgid "Input Range: "
-msgstr "Вхідний діапазон"
+msgstr "Вхідний діапазон:"
 
 #: ../src/dialogs/shuffle.ui.h:3
-#, fuzzy
 msgid "Shuffle Method: "
-msgstr "Вибірка"
+msgstr "Метод перемішування:"
 
 #. Shuffle metod: Columns
 #: ../src/dialogs/shuffle.ui.h:5
 msgctxt "shuffle"
 msgid "_Columns"
-msgstr "Стовпчики"
+msgstr "С_товпчики"
 
 #. Shuffle metod: Columns
 #: ../src/dialogs/shuffle.ui.h:7
 msgctxt "shuffle"
 msgid "_Rows"
-msgstr "Рядки"
+msgstr "_Рядки"
 
 #: ../src/dialogs/shuffle.ui.h:8
-#, fuzzy
 msgid "_Area"
-msgstr "Ділянка %i"
+msgstr "_Область"
 
 #: ../src/dialogs/sign-test-two.ui.h:1
 msgid "Claims About Two Medians (Paired Samples)"
@@ -11522,31 +11487,28 @@ msgstr ""
 
 #: ../src/dialogs/sign-test-two.ui.h:8
 msgid "Hypothesized _difference of medians:"
-msgstr ""
+msgstr "Гіпотетична _різниця медіан:"
 
 #: ../src/dialogs/sign-test.ui.h:1
 msgid "Testing 1 Median"
 msgstr ""
 
 #: ../src/dialogs/sign-test.ui.h:13
-#, fuzzy
 msgid "_Predicted Median:"
-msgstr "Функція"
+msgstr "_Прогноз медіани:"
 
 #. Fill in the header titles.
 #: ../src/dialogs/simulation.ui.h:1 ../src/tools/simulation.c:340
 msgid "Risk Simulation"
-msgstr ""
+msgstr "Моделювання ризиків"
 
 #: ../src/dialogs/simulation.ui.h:2
-#, fuzzy
 msgid "Input variables:"
-msgstr "К-ть вхідних змінних"
+msgstr "Вхідні змінні:"
 
 #: ../src/dialogs/simulation.ui.h:3
-#, fuzzy
 msgid "Output variables:"
-msgstr "К-ть вихідних змінних"
+msgstr "Вихідні змінні:"
 
 #: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1701
 #: ../src/tools/gnm-solver.c:1842
@@ -11558,9 +11520,8 @@ msgid "<span weight=\"bold\">Rounds</span>"
 msgstr ""
 
 #: ../src/dialogs/simulation.ui.h:6
-#, fuzzy
 msgid "<span weight=\"bold\">Limits</span>"
-msgstr "Обмеження"
+msgstr "<span weight=\"bold\">Обмеження</span>"
 
 #: ../src/dialogs/simulation.ui.h:7
 #, fuzzy
@@ -11572,57 +11533,49 @@ msgid "Last round #:"
 msgstr ""
 
 #: ../src/dialogs/simulation.ui.h:9
-#, fuzzy
 msgid "Iterations:"
 msgstr "Ітерацій:"
 
 #: ../src/dialogs/simulation.ui.h:10
-#, fuzzy
 msgid "Max time:"
-msgstr "Максимум:"
+msgstr "Макс. час:"
 
 #: ../src/dialogs/simulation.ui.h:12
-#, fuzzy
 msgid "<b>Simulation summary:</b>"
-msgstr "Підсумковий звіт"
+msgstr "<b>Резюме імітації:</b>"
 
 #: ../src/dialogs/simulation.ui.h:13
 msgid "Prev. Sim."
-msgstr ""
+msgstr "Поп. ім."
 
 #: ../src/dialogs/simulation.ui.h:14
 msgid "Next Sim."
-msgstr ""
+msgstr "Наст. іміт."
 
 #: ../src/dialogs/simulation.ui.h:15
-#, fuzzy
 msgid "Find Min."
-msgstr "Зв'язування"
+msgstr "Знайти мін."
 
 #: ../src/dialogs/simulation.ui.h:16
 msgid "Find Max."
-msgstr ""
+msgstr "Знайти макс."
 
 #: ../src/dialogs/simulation.ui.h:17
-#, fuzzy
 msgid "<b>Summary of results:</b>"
-msgstr "Неділя"
+msgstr "<b>Резюме результатів:</b>"
 
 #: ../src/dialogs/simulation.ui.h:18 ../src/tools/analysis-anova.c:460
-#, fuzzy
 msgid "Summary"
 msgstr "Резюме"
 
 #: ../src/dialogs/so-button.ui.h:1
-#, fuzzy
 msgid "Button Properties"
-msgstr "_Властивості…"
+msgstr "Властивості кнопки"
 
 #: ../src/dialogs/so-button.ui.h:2 ../src/dialogs/so-checkbox.ui.h:2
 #: ../src/dialogs/so-radiobutton.ui.h:2 ../src/dialogs/so-scrollbar.ui.h:2
-#, fuzzy
 msgid "Link to:"
-msgstr "Прив'язати до..."
+msgstr "Прив'язати до:"
 
 #: ../src/dialogs/so-button.ui.h:3 ../src/dialogs/so-checkbox.ui.h:3
 #: ../src/dialogs/so-frame.ui.h:2 ../src/dialogs/so-radiobutton.ui.h:3
@@ -11630,45 +11583,40 @@ msgid "Label:"
 msgstr "Мітка:"
 
 #: ../src/dialogs/so-checkbox.ui.h:1
-#, fuzzy
 msgid "Checkbox Properties"
-msgstr "_Властивості…"
+msgstr "Властивості поля для позначки"
 
 #: ../src/dialogs/so-frame.ui.h:1
-#, fuzzy
 msgid "Frame Properties"
-msgstr "_Властивості…"
+msgstr "Властивості рамки"
 
 #: ../src/dialogs/so-list.ui.h:1
-#, fuzzy
 msgid "List Properties"
-msgstr "_Властивості…"
+msgstr "Властивості списку"
 
 #: ../src/dialogs/so-list.ui.h:2
 msgid "_Link:"
 msgstr "По_силання:"
 
 #: ../src/dialogs/so-list.ui.h:3
-#, fuzzy
 msgid "As value"
 msgstr "Як значення"
 
 #: ../src/dialogs/so-list.ui.h:4
 msgid "As index"
-msgstr ""
+msgstr "Як індекс"
 
 #: ../src/dialogs/so-list.ui.h:5
-#, fuzzy
 msgid "_Content:"
-msgstr "_Вміст"
+msgstr "_Вміст:"
 
 #: ../src/dialogs/solver.ui.h:1
 msgid "≤"
-msgstr ""
+msgstr "≤"
 
 #: ../src/dialogs/solver.ui.h:2
 msgid "≥"
-msgstr ""
+msgstr "≥"
 
 #: ../src/dialogs/solver.ui.h:3
 msgid "="
@@ -11681,44 +11629,40 @@ msgstr "Ціле"
 
 #: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:442
 #: ../src/tools/gnm-solver.c:468
-#, fuzzy
 msgid "Bool"
-msgstr "bool"
+msgstr "Булеве"
 
 #: ../src/dialogs/solver.ui.h:6
 msgid "Solver"
 msgstr "Розв'язувач"
 
 #: ../src/dialogs/solver.ui.h:7
-#, fuzzy
 msgid "Solve"
 msgstr "Розв'язати"
 
 #: ../src/dialogs/solver.ui.h:8
 msgid "Stop the running solver"
-msgstr ""
+msgstr "Зупинити пошук розв'язку"
 
 #: ../src/dialogs/solver.ui.h:9
 msgid "_Set Target Cell:       "
-msgstr ""
+msgstr "_Встановити комірку призначення:       "
 
 #: ../src/dialogs/solver.ui.h:10
 msgid "_Equal To:"
-msgstr ""
+msgstr "_Дорівню:"
 
 #: ../src/dialogs/solver.ui.h:11
 msgid "B_y Changing Cells: "
-msgstr ""
+msgstr "З_міною комірок: "
 
 #: ../src/dialogs/solver.ui.h:12
-#, fuzzy
 msgid "_Max"
-msgstr "Максимум"
+msgstr "_Максимум"
 
 #: ../src/dialogs/solver.ui.h:13
-#, fuzzy
 msgid "M_in"
-msgstr "Мінімум"
+msgstr "М_інімум"
 
 #: ../src/dialogs/solver.ui.h:14
 msgid "Parameters"
@@ -11726,28 +11670,27 @@ msgstr "Параметри"
 
 #: ../src/dialogs/solver.ui.h:15
 msgid "_Linear Model (LP/MILP)"
-msgstr ""
+msgstr "_Лінійна модель (LP/MILP)"
 
 #: ../src/dialogs/solver.ui.h:16
 msgid "_Quadratic Model (QP/MIQP)"
-msgstr ""
+msgstr "_Квадратична модель (QP/MIQP)"
 
 #: ../src/dialogs/solver.ui.h:17
 msgid "_Non-Linear Model"
-msgstr ""
+msgstr "_Нелінійна модель"
 
 #: ../src/dialogs/solver.ui.h:18
-#, fuzzy
 msgid "_Assume Non-Negative"
-msgstr "Фінансові"
+msgstr "Вв_ажати невід'ємними"
 
 #: ../src/dialogs/solver.ui.h:19
 msgid "Assume _Integer (Discrete)"
-msgstr ""
+msgstr "Вважати _цілими (дискретність)"
 
 #: ../src/dialogs/solver.ui.h:20
 msgid "_Algorithm:"
-msgstr ""
+msgstr "_Алгоритм:"
 
 #: ../src/dialogs/solver.ui.h:21
 msgid "Model"
@@ -11755,7 +11698,7 @@ msgstr "Модель"
 
 #: ../src/dialogs/solver.ui.h:22
 msgid "_Left Hand Side:"
-msgstr ""
+msgstr "_Ліва частина:"
 
 #: ../src/dialogs/solver.ui.h:23
 msgid "_Type:"
@@ -11763,7 +11706,7 @@ msgstr "_Тип:"
 
 #: ../src/dialogs/solver.ui.h:24
 msgid "_Right Hand Side:"
-msgstr ""
+msgstr "_Права частина:"
 
 #: ../src/dialogs/solver.ui.h:25
 msgid "Re_place"
@@ -11776,32 +11719,28 @@ msgid "Constraints"
 msgstr "Обмеження"
 
 #: ../src/dialogs/solver.ui.h:27
-#, fuzzy
 msgid "Max _Iterations:"
-msgstr "Операція"
+msgstr "Макс. к-ть _ітерацій:"
 
 #: ../src/dialogs/solver.ui.h:28
-#, fuzzy
 msgid "Max _Time (sec.):"
-msgstr "Максимум:"
+msgstr "Макс. _час (сек.):"
 
 #: ../src/dialogs/solver.ui.h:29
 msgid "The maximum number of steps allowed for the solver"
-msgstr ""
+msgstr "Максимальна дозволена для розв'язувача кількість кроків"
 
 #: ../src/dialogs/solver.ui.h:30
 msgid "The maximum time allowed for the solver"
-msgstr ""
+msgstr "Максимальний дозволений для розв'язувача час розв'язування"
 
 #: ../src/dialogs/solver.ui.h:31
-#, fuzzy
 msgid "Automatic _Scaling"
-msgstr "Автоматично"
+msgstr "Автоматичне _масштабування"
 
 #: ../src/dialogs/solver.ui.h:32
-#, fuzzy
 msgid "Gradient order:"
-msgstr "Друкувати"
+msgstr "Порядок градієнта:"
 
 #: ../src/dialogs/solver.ui.h:33
 msgid ""
@@ -11810,14 +11749,12 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/solver.ui.h:35
-#, fuzzy
 msgid "P_rogram"
-msgstr "Назва програми"
+msgstr "П_рограма"
 
 #: ../src/dialogs/solver.ui.h:36
-#, fuzzy
 msgid "_Sensitivity"
-msgstr "Регістрова чутливість"
+msgstr "_Чутливість"
 
 #: ../src/dialogs/solver.ui.h:37
 msgid "Reports"
@@ -11825,57 +11762,51 @@ msgstr "Звіти"
 
 #: ../src/dialogs/solver.ui.h:38
 msgid "_Do not create scenarios"
-msgstr ""
+msgstr "_Не створювати сценаріїв"
 
 #: ../src/dialogs/solver.ui.h:39
 msgid "_Create a scenario if the optimal solution is found"
-msgstr ""
+msgstr "С_творити сценарій, якщо знайдено оптимальний розв'язок"
 
 #: ../src/dialogs/solver.ui.h:40
 msgid "_Name: "
 msgstr "_Назва: "
 
 #: ../src/dialogs/solver.ui.h:41
-#, fuzzy
 msgid "Scenarios"
-msgstr "Розділювачі"
+msgstr "Сценарії"
 
 #: ../src/dialogs/solver.ui.h:42
-#, fuzzy
 msgid "Solver Status:"
-msgstr "Розділювачі"
+msgstr "Стан розв'язувача:"
 
 #: ../src/dialogs/solver.ui.h:43
 msgid "Problem Status:"
-msgstr ""
+msgstr "Стан задачі:"
 
 #: ../src/dialogs/solver.ui.h:44
-#, fuzzy
 msgid "Objective Value:"
-msgstr "Інше значення"
+msgstr "Цільове значення:"
 
 #: ../src/dialogs/solver.ui.h:45
 msgid "Elapsed Time:"
 msgstr "Час, що минув:"
 
 #: ../src/dialogs/so-radiobutton.ui.h:1
-#, fuzzy
 msgid "Radiobutton Properties"
-msgstr "_Властивості…"
+msgstr "Властивості кнопки-перемикача"
 
 #: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1930
-#, fuzzy
 msgid "Scrollbar Properties"
-msgstr "_Властивості…"
+msgstr "Властивості смужки гортання"
 
 #: ../src/dialogs/so-scrollbar.ui.h:6
 msgid "Increment:"
 msgstr "Приріст:"
 
 #: ../src/dialogs/so-scrollbar.ui.h:7
-#, fuzzy
 msgid "Page:"
-msgstr "Сторінка"
+msgstr "Сторінка:"
 
 #: ../src/dialogs/so-scrollbar.ui.h:8
 msgid "_Horizontal"
@@ -11887,12 +11818,11 @@ msgstr "_Вертикально"
 
 #: ../src/dialogs/tabulate.ui.h:1
 msgid "Tabulate Dependency"
-msgstr ""
+msgstr "Таблювати залежність"
 
 #: ../src/dialogs/tabulate.ui.h:2
-#, fuzzy
 msgid "Dependency cells"
-msgstr "Стерти комірки"
+msgstr "Залежні комірки"
 
 #: ../src/dialogs/tabulate.ui.h:4
 msgid "Minimum"
@@ -11907,27 +11837,24 @@ msgid "Step"
 msgstr "Крок"
 
 #: ../src/dialogs/tabulate.ui.h:7
-#, fuzzy
 msgid "Result cell"
-msgstr "Стерти комірки"
+msgstr "Комірка результатів"
 
 #: ../src/dialogs/tabulate.ui.h:8
-#, fuzzy
 msgid "Tabulation Mode"
-msgstr "Табуляція"
+msgstr "Режим табуляції"
 
 #: ../src/dialogs/tabulate.ui.h:9
-#, fuzzy
 msgid "_Coordinate"
-msgstr "Вміст"
+msgstr "_Координата"
 
 #: ../src/dialogs/tabulate.ui.h:10
 msgid "Make one long list of coordinates and values"
-msgstr ""
+msgstr "Створити один довгий список координат і значень"
 
 #: ../src/dialogs/tabulate.ui.h:11
 msgid "_Visual"
-msgstr ""
+msgstr "_Візуально"
 
 #: ../src/dialogs/tabulate.ui.h:12
 msgid ""
@@ -11939,9 +11866,8 @@ msgid "Claims About Two Variances"
 msgstr ""
 
 #: ../src/dialogs/view.ui.h:1
-#, fuzzy
 msgid "Create New View"
-msgstr "Створити список"
+msgstr "Створити нову панель перегляду"
 
 #: ../src/dialogs/view.ui.h:2
 #, fuzzy
