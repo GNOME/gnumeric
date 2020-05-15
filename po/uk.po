@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2020-05-12 17:35+0000\n"
-"PO-Revision-Date: 2020-05-14 16:53+0300\n"
+"PO-Revision-Date: 2020-05-15 17:35+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -11115,7 +11115,7 @@ msgstr "Шукати стовпчик за стовпчиком"
 
 #: ../src/dialogs/search-replace.ui.h:48
 msgid "_Keep strings as strings"
-msgstr ""
+msgstr "З_берігати рядки як рядки"
 
 #: ../src/dialogs/search-replace.ui.h:49
 msgid ""
@@ -11124,9 +11124,8 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/search-replace.ui.h:50
-#, fuzzy
 msgid "Save the current settings as default settings"
-msgstr "Використовувати поточний вибір для створення назв"
+msgstr "Зберегти поточні параметри як типові"
 
 #: ../src/dialogs/search-replace.ui.h:51
 msgid ""
@@ -11136,135 +11135,122 @@ msgstr ""
 
 #: ../src/dialogs/search-replace.ui.h:52 ../src/dialogs/search.ui.h:43
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:1
-#, fuzzy
 msgid "Advanced"
 msgstr "Додатково"
 
 #: ../src/dialogs/search-replace.ui.h:53
-#, fuzzy
 msgid "_Fail"
-msgstr "Файл"
+msgstr "З_бій"
 
 #: ../src/dialogs/search-replace.ui.h:54
 msgid "Fail without any changes actually being done to any cell"
-msgstr ""
+msgstr "Збій без будь-яких змін у будь-яких інших комірок"
 
 #: ../src/dialogs/search-replace.ui.h:55
-#, fuzzy
 msgid "_Don't change"
-msgstr "Діапазон вводу:"
+msgstr "_Не змінювати"
 
 #: ../src/dialogs/search-replace.ui.h:56
 msgid "Skip cells that would result in errors"
-msgstr ""
+msgstr "Пропускати комірки, обчислення у яких дає помилку"
 
 #: ../src/dialogs/search-replace.ui.h:57
 msgid "Query for replacement"
-msgstr ""
+msgstr "Запит щодо заміни"
 
 #: ../src/dialogs/search-replace.ui.h:58
-#, fuzzy
 msgid "Make _error expression"
-msgstr "Регресія"
+msgstr "Зробити ви_раз помилки"
 
 #: ../src/dialogs/search-replace.ui.h:59
 msgid "Create =ERROR(&quot;...&quot;)"
-msgstr ""
+msgstr "Створити =ERROR(&quot;...&quot;)"
 
 #: ../src/dialogs/search-replace.ui.h:60
 msgid "Create =ERROR(\"...\")"
-msgstr ""
+msgstr "Створити =ERROR(\"...\")"
 
 #: ../src/dialogs/search-replace.ui.h:61
 msgid "Make _string value"
-msgstr ""
+msgstr "Зробити _рядкове значення"
 
 #: ../src/dialogs/search-replace.ui.h:62
 msgid "Turn unparsable entries into string values"
-msgstr ""
+msgstr "Перетворювати непридатні до обробки записи у рядкові значення"
 
 #: ../src/dialogs/search-replace.ui.h:63
-#, fuzzy
 msgid "Error Behaviour"
-msgstr "Помилка: немає аркуша"
+msgstr "Обробка помилок"
 
 #: ../src/dialogs/search.ui.h:2
 msgid "Dismiss search center"
-msgstr ""
+msgstr "Закрити центр пошуку"
 
 #: ../src/dialogs/search.ui.h:3
 msgid "Show previous match"
-msgstr ""
+msgstr "Показати попередній відповідник"
 
 #: ../src/dialogs/search.ui.h:4
 msgid "Show next match"
-msgstr ""
+msgstr "Показати наступний відповідник"
 
 #: ../src/dialogs/search.ui.h:5
 msgid "Start search"
-msgstr ""
+msgstr "Почати пошук"
 
 #: ../src/dialogs/search.ui.h:6
-#, fuzzy
 msgid "_Search for:"
 msgstr "Шука_ти:"
 
 #: ../src/dialogs/search.ui.h:9
 msgid "Match _whole words only"
-msgstr ""
+msgstr "Шукати лише _цілі слова"
 
 #: ../src/dialogs/search.ui.h:12
-#, fuzzy
 msgid "Search in all cells in the workbook"
-msgstr "Зберігає книгу"
+msgstr "Шукати в усіх комірках у робочій книзі"
 
 #: ../src/dialogs/search.ui.h:14
-#, fuzzy
 msgid "Search in current sheet only"
-msgstr "Перейменувати поточний аркуш"
+msgstr "Шукати лише на поточному аркуші"
 
 #: ../src/dialogs/search.ui.h:15
-#, fuzzy
 msgid "_Range"
-msgstr "Діапазон"
+msgstr "Д_іапазон"
 
 #: ../src/dialogs/search.ui.h:16
 msgid "Search in specified range only"
-msgstr ""
+msgstr "Шукати лише у вказаному діапазоні"
 
 #: ../src/dialogs/search.ui.h:18
 msgid "Search cells containing"
-msgstr ""
+msgstr "Шукати комірки, які містять"
 
 #: ../src/dialogs/search.ui.h:20
 msgid "Find text within string values"
-msgstr ""
+msgstr "Знайти текст у рядкових значеннях"
 
 #: ../src/dialogs/search.ui.h:22
 msgid "Find text within non-string values"
-msgstr ""
+msgstr "Знайти текст у нерядкових значеннях"
 
 #: ../src/dialogs/search.ui.h:24
-#, fuzzy
 msgid "Find text within cell comments"
-msgstr "Центрує вміст комірки"
+msgstr "Знайти текст у коментарях комірок"
 
 #: ../src/dialogs/search.ui.h:26
 msgid "Find text within expressions"
-msgstr ""
+msgstr "Знайти текст у виразах"
 
 #: ../src/dialogs/search.ui.h:27
-#, fuzzy
 msgid "_Results"
-msgstr "Стерти комірки"
+msgstr "_Результати"
 
 #: ../src/dialogs/search.ui.h:28
-#, fuzzy
 msgid "Find text within the calculated values of expressions"
-msgstr "Центрує вміст комірки"
+msgstr "Знайти текст у обчислених значеннях виразів"
 
 #: ../src/dialogs/search.ui.h:29
-#, fuzzy
 msgid "Miscellaneous"
 msgstr "Різне"
 
@@ -11468,14 +11454,13 @@ msgstr "_Область"
 
 #: ../src/dialogs/sign-test-two.ui.h:1
 msgid "Claims About Two Medians (Paired Samples)"
-msgstr ""
+msgstr "Гіпотеза щодо двох медіан (пов'язані вибірки)"
 
 #: ../src/dialogs/sign-test-two.ui.h:6 ../src/dialogs/sign-test.ui.h:11
 #: ../src/tools/analysis-sign-test.c:362 ../src/tools/analysis-sign-test.c:365
 #: ../src/tools/analysis-sign-test.c:390 ../src/tools/analysis-sign-test.c:393
-#, fuzzy
 msgid "Sign Test"
-msgstr "Товсте знизу"
+msgstr "Критерій знаків"
 
 #: ../src/dialogs/sign-test-two.ui.h:7 ../src/dialogs/sign-test.ui.h:12
 #: ../src/tools/analysis-signed-rank-test.c:548
@@ -11863,32 +11848,31 @@ msgstr ""
 
 #: ../src/dialogs/variance-tests.ui.h:1
 msgid "Claims About Two Variances"
-msgstr ""
+msgstr "Гіпотеза щодо двох дисперсій"
 
 #: ../src/dialogs/view.ui.h:1
 msgid "Create New View"
 msgstr "Створити нову панель перегляду"
 
 #: ../src/dialogs/view.ui.h:2
-#, fuzzy
 msgid "<b>Location</b>"
 msgstr "<b>Розташування</b>"
 
 #: ../src/dialogs/view.ui.h:3
 msgid "    "
-msgstr ""
+msgstr "    "
 
 #: ../src/dialogs/view.ui.h:4
 msgid "Specified screen:"
-msgstr ""
+msgstr "Вказаний екран:"
 
 #: ../src/dialogs/view.ui.h:5
 msgid "New view will be opened on specified screen"
-msgstr ""
+msgstr "Нову панель перегляду буде відкрито на вказаному екрані"
 
 #: ../src/dialogs/view.ui.h:6
 msgid "_Share cursor position"
-msgstr ""
+msgstr "С_пільне розташування курсора"
 
 #: ../src/dialogs/wbcg.ui.h:2
 msgid "Cancel change"
@@ -11896,21 +11880,18 @@ msgstr "Скасувати зміну"
 
 #: ../src/dialogs/wbcg.ui.h:3
 msgid "Accept change"
-msgstr ""
-"Прийняти зміну\n"
-"прийняття змін"
+msgstr "Прийняти зміну"
 
 #: ../src/dialogs/wbcg.ui.h:4
-#, fuzzy
 msgid "Enter formula..."
-msgstr "Автоформатування…"
+msgstr "Ввести формулу…"
 
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:1
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:136
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:360
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:363
 msgid "Wilcoxon-Mann-Whitney Test"
-msgstr ""
+msgstr "Перевірка Вілкоксона-Манна-Вітні"
 
 #: ../src/dialogs/workbook-attr.ui.h:1
 msgid "View Properties"
@@ -11918,44 +11899,43 @@ msgstr "Переглянути властивості"
 
 #: ../src/dialogs/workbook-attr.ui.h:2
 msgid "Notebook _Tabs for Sheets"
-msgstr ""
+msgstr "В_кладки нотатника для аркушів"
 
 #: ../src/dialogs/workbook-attr.ui.h:3
-#, fuzzy
 msgid "_Horizontal Scrollbar"
-msgstr "Створити панель прокрутки"
+msgstr "_Горизонтальна смужка гортання"
 
 #: ../src/dialogs/workbook-attr.ui.h:4
-#, fuzzy
 msgid "_Vertical Scrollbar"
-msgstr "Створити панель прокрутки"
+msgstr "_Вертикальна смужка гортання"
 
 #: ../src/dialogs/workbook-attr.ui.h:6
-#, fuzzy
 msgid "_Protect Workbook"
-msgstr "Книга…"
+msgstr "За_хистити робочу книгу"
 
 #: ../src/dialogs/workbook-attr.ui.h:7
 msgid "Pa_ssword:"
-msgstr ""
+msgstr "П_ароль:"
 
 #: ../src/dialogs/workbook-attr.ui.h:9
 msgid "A_uto Complete Text in Cells"
-msgstr ""
+msgstr "Ав_томатичне доповнення тексту у комірках"
 
 #: ../src/dialogs/workbook-attr.ui.h:10
 msgid "Show _Formula Cell Markers"
-msgstr ""
+msgstr "Позначати комірки із _формулами"
 
 #: ../src/dialogs/workbook-attr.ui.h:11
 msgid ""
 "This checkbox determines whether each cell containing a spreadsheet formula "
 "is marked with a green top left corner."
 msgstr ""
+"Цей пункт визначає, чи буде позначено кожну комірку, яка містить формулу"
+" електронної таблиці, зеленим кутиком у верхньому лівому куті."
 
 #: ../src/dialogs/workbook-attr.ui.h:12
 msgid "Show _Extension Markers"
-msgstr ""
+msgstr "Позначати _розширення"
 
 #: ../src/dialogs/workbook-attr.ui.h:13
 msgid ""
@@ -11969,14 +11949,14 @@ msgid "'%s' has a circular reference"
 msgstr "\"%s\" містить циклічне посилання"
 
 #: ../src/expr-name.c:764 ../src/expr-name.c:1015
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is already defined in sheet"
-msgstr "вже визначено в аркуші"
+msgstr "«%s» вже визначено на аркуші"
 
 #: ../src/expr-name.c:765 ../src/expr-name.c:1016
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is already defined in workbook"
-msgstr "вже визначено в книзі"
+msgstr "«%s» вже визначено у робочій книзі"
 
 #: ../src/expr.c:988
 msgid "Internal type error"
@@ -11992,33 +11972,34 @@ msgid "Invalid template file: %s"
 msgstr "Невірний шаблонний файл: %s"
 
 #: ../src/format-template.c:539
-#, fuzzy
 msgid "Error while opening autoformat template"
-msgstr "Помилка під час спроби завантажити шаблон автоформату"
+msgstr "Помилка під час спроби відкрити шаблон автоформату"
 
 #: ../src/format-template.c:739
-#, fuzzy, c-format
+#, c-format
 #| msgid "Hide rows"
 msgid "%d row"
 msgid_plural "%d rows"
-msgstr[0] "Прибрати рядки"
-msgstr[1] "Прибрати рядки"
-msgstr[2] ""
-msgstr[3] "Прибрати рядки"
+msgstr[0] "%d ряд"
+msgstr[1] "%d ряд"
+msgstr[2] "%d ряд"
+msgstr[3] "%d ряд"
 
 #: ../src/format-template.c:740
 #, c-format
 msgid "%d col"
 msgid_plural "%d cols"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d ст"
+msgstr[1] "%d ст"
+msgstr[2] "%d ст"
+msgstr[3] "%d ст"
 
 #: ../src/format-template.c:742
 #, c-format
 msgid "The target region is too small.  It should be at least %s by %s"
 msgstr ""
+"Область призначення є надто малою. Розмір області має бути рівним принаймні "
+"%s на %s"
 
 #: ../src/format-template.c:748
 #, c-format
@@ -12043,22 +12024,24 @@ msgstr[3] ""
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:43
 msgid "SUM:sum of the given values"
-msgstr ""
+msgstr "SUM:сума заданих значень"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:45
 msgid "values:a list of values to add"
-msgstr ""
+msgstr "values:список значень, які слід додати"
 
 #: ../src/func-builtin.c:46
 msgid ""
 "SUM computes the sum of all the values and cells referenced in the argument "
 "list."
 msgstr ""
+"SUM обчислює суму усіх значень і комірок, на які є посилання у списку"
+" аргументів."
 
 #: ../src/func-builtin.c:47 ../src/func-builtin.c:104
 msgid "This function is Excel compatible."
-msgstr ""
+msgstr "Ця функція є сумісною із Excel."
 
 #: ../src/func-builtin.c:48 ../src/func-builtin.c:105
 msgid "This function is OpenFormula compatible."
@@ -12067,61 +12050,61 @@ msgstr "Ця функція є сумісною із OpenFormula."
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:99
 msgid "PRODUCT:product of the given values"
-msgstr ""
+msgstr "PRODUCT:добуток заданих значень"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:101
 msgid "values:a list of values to multiply"
-msgstr ""
+msgstr "values:список значень, які слід перемножити"
 
 #: ../src/func-builtin.c:102
 msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
 msgstr ""
+"PRODUCT обчислює добуток усіх значень і комірок, на які є посилання у списку"
+" аргументів."
 
 #: ../src/func-builtin.c:103
 msgid "If all cells are empty, the result will be 0."
-msgstr ""
+msgstr "Якщо усі комірки порожні, результатом буде 0."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:136
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
-msgstr ""
+msgstr "GNUMERIC_VERSION:поточна версія Gnumeric"
 
 #: ../src/func-builtin.c:137
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
-msgstr ""
+msgstr "GNUMERIC_VERSION повертає версію gnumeric у форматі рядка."
 
 #: ../src/func-builtin.c:151
 msgid "TABLE:internal function for data tables"
-msgstr ""
+msgstr "TABLE:внутрішня функція для таблиць даних"
 
 #: ../src/func-builtin.c:152
 msgid "This function should not be called directly."
-msgstr ""
+msgstr "Цю функцію не слід викликати безпосередньо."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:341
-#, fuzzy
 msgid "IF:conditional expression"
-msgstr "Неправильний вираз"
+msgstr "IF:вираз умови"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:343
-#, fuzzy
 msgid "cond:condition"
-msgstr "Вміст"
+msgstr "cond:умова"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:345
 msgid "trueval:value to use if condition is true"
-msgstr ""
+msgstr "trueval:значення, яким слід скористатися, що умова справджується"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:347
 msgid "falseval:value to use if condition is false"
-msgstr ""
+msgstr "falseval:значення, яким слід скористатися, якщо умова не виконується"
 
 #: ../src/func-builtin.c:348
 msgid ""
@@ -12140,9 +12123,9 @@ msgstr "Невідома функція"
 
 #. xgettext: This represents a made-up translated function name.
 #: ../src/func.c:870
-#, fuzzy, c-format
+#, c-format
 msgid "unknown%d"
-msgstr "Невідомий %d"
+msgstr "невідома%d"
 
 #: ../src/func.c:1101
 msgid "Boolean"
@@ -12154,12 +12137,11 @@ msgstr "Діапазон комірок"
 
 #: ../src/func.c:1105
 msgid "Area"
-msgstr "Площа"
+msgstr "Область"
 
 #: ../src/func.c:1107
-#, fuzzy
 msgid "Scalar, Blank, or Error"
-msgstr "Стандартна похибка"
+msgstr "Скаляр, порожнє значення або помилка"
 
 #: ../src/func.c:1109
 msgid "Scalar"
@@ -12171,116 +12153,107 @@ msgid "Any"
 msgstr "Будь-який"
 
 #: ../src/gnm-commands-slicer.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Refreshing DataSlicer in %s"
-msgstr "Створити список"
+msgstr "Оновлення DataSlicer у %s"
 
 #: ../src/gnm-graph-window.c:168
-#, fuzzy
 msgid "Fit"
 msgstr "Вмістити"
 
 #: ../src/gnm-graph-window.c:169
-#, fuzzy
 msgid "Fit Width"
 msgstr "Вмістити за шириною"
 
 #: ../src/gnm-graph-window.c:170
 msgid "Fit Height"
-msgstr "Підібрати за висотою"
+msgstr "Вмістити за висотою"
 
 #: ../src/gnm-graph-window.c:172
-#, fuzzy
 msgid "100%"
-msgstr "_100 %"
+msgstr "100%"
 
 #: ../src/gnm-graph-window.c:173
-#, fuzzy
 msgid "125%"
-msgstr "12"
+msgstr "125%"
 
 #: ../src/gnm-graph-window.c:174
-#, fuzzy
 msgid "150%"
-msgstr "10"
+msgstr "150%"
 
 #: ../src/gnm-graph-window.c:175
-#, fuzzy
 msgid "200%"
-msgstr "20_0 %"
+msgstr "200%"
 
 #: ../src/gnm-graph-window.c:176
-#, fuzzy
 msgid "300%"
-msgstr "20_0 %"
+msgstr "300%"
 
 #: ../src/gnm-graph-window.c:177
-#, fuzzy
 msgid "500%"
-msgstr "_50 %"
+msgstr "500%"
 
 #: ../src/gnm-pane.c:2028
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%.1f x %.1f pts\n"
 "%d x %d pixels"
-msgstr "Ширина: %.2f пнкт (пікселів: %d)"
+msgstr ""
+"%.1f x %.1f пт\n"
+"%d x %d пікселів"
 
 #: ../src/gnm-plugin.c:129
 msgid "Missing function category name."
-msgstr "Відсутня назва категорії функції."
+msgstr "Не вказано назви категорії функції."
 
 #: ../src/gnm-plugin.c:133
-#, fuzzy
 msgid "Function group is empty."
-msgstr "Відсутній ідентифікатор групи функції."
+msgstr "Група функцій є порожньою."
 
 #: ../src/gnm-plugin.c:174
 msgid "No load_stub method.\n"
-msgstr ""
+msgstr "Немає методу load_stub.\n"
 
 #: ../src/gnm-plugin.c:281
-#, fuzzy, c-format
+#, c-format
 msgid "%d function in category \"%s\""
 msgid_plural "Group of %d functions in category \"%s\""
-msgstr[0] "Відсутня назва категорії функції."
-msgstr[1] "Відсутня назва категорії функції."
-msgstr[2] ""
-msgstr[3] "Відсутня назва категорії функції."
+msgstr[0] "%d функція у категорії «%s»"
+msgstr[1] "%d функції у категорії «%s»"
+msgstr[2] "%d функцій у категорії «%s»"
+msgstr[3] "%d функція у категорії «%s»"
 
 #: ../src/gnm-plugin.c:390
 msgid "Missing file name."
 msgstr "Відсутня назва файла."
 
 #: ../src/gnm-plugin.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot read UI description from %s: %s"
-msgstr "Неможливо завантажити інформаційний файл доповнення (\"%s\")."
+msgstr "Не вдалося прочитати опис інтерфейсу з %s: %s"
 
 #. xgettext : %d gives the number of actions. This is input to ngettext.
 #: ../src/gnm-plugin.c:526
 #, c-format
 msgid "User interface with %d action"
 msgid_plural "User interface with %d actions"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Інтерфейс користувача з %d дією"
+msgstr[1] "Інтерфейс користувача з %d діями"
+msgstr[2] "Інтерфейс користувача з %d діями"
+msgstr[3] "Інтерфейс користувача з %d дією"
 
 #: ../src/gnm-plugin.c:652
-#, fuzzy
 msgid "Invalid solver model type."
-msgstr "Невірний шаблон пошуку."
+msgstr "Некоректний тип моделі розв'язувача."
 
 #: ../src/gnm-plugin.c:671
-#, fuzzy
 msgid "Missing fields in plugin file"
-msgstr "Відсутній файл %s"
+msgstr "Не вказано поля у файлі додатка"
 
 #: ../src/gnm-plugin.c:714
 #, c-format
 msgid "Solver Algorithm %s"
-msgstr ""
+msgstr "Алгоритм розв'язувача %s"
 
 #: ../src/gnm-plugin.c:815 ../src/gnm-plugin.c:887 ../src/gnm-plugin.c:933
 #, c-format
@@ -12293,56 +12266,48 @@ msgid "File doesn't contain \"%s\" array."
 msgstr "Файл не містить масиву \"%s\"."
 
 #: ../src/gnm-so-filled.c:175 ../src/gnm-so-path.c:199
-#, fuzzy
 msgid "Filled Object Properties"
-msgstr "_Властивості…"
+msgstr "Властивості заповненого об'єкта"
 
 #: ../src/gnm-so-line.c:123
-#, fuzzy
 msgid "Line/Arrow Properties"
-msgstr "_Властивості…"
+msgstr "Властивості лінії/стрілки"
 
 #: ../src/gnm-so-polygon.c:160
 msgid "Polygon Properties"
 msgstr "Властивості багатокутника"
 
 #: ../src/gui-clipboard.c:311
-#, fuzzy
 msgid "clipboard"
-msgstr "Буфер обміну"
+msgstr "буфер обміну"
 
 #: ../src/gui-clipboard.c:1136
 #, c-format
 msgid "Cut of %s"
-msgstr ""
+msgstr "Вирізка %s"
 
 #: ../src/gui-file.c:69
-#, fuzzy
 msgid "Automatically detected"
 msgstr "Автовизначення"
 
 #. xgettext: If possible try to use the same mnemonic for
 #. * Advanced and Simple
 #: ../src/gui-file.c:208 ../src/gui-file.c:338
-#, fuzzy
 msgid "Advanc_ed"
-msgstr "Відмінити"
+msgstr "Р_озширено"
 
 #: ../src/gui-file.c:211
-#, fuzzy
 msgid "Simpl_e"
-msgstr "Зразок"
+msgstr "Пр_осто"
 
 #: ../src/gui-file.c:308
-#, fuzzy
 #| msgid "Open a spreadsheet"
 msgid "Open Spreadsheet File"
-msgstr "Відкрити таблицю"
+msgstr "Відкриття файла електронної таблиці"
 
 #: ../src/gui-file.c:311
-#, fuzzy
 msgid "Import Data File"
-msgstr "Імпортує файл"
+msgstr "Імпортування файла даних"
 
 #: ../src/gui-file.c:365 ../src/gui-file.c:582
 msgid "All Files"
@@ -12350,19 +12315,19 @@ msgstr "усі файли"
 
 #: ../src/gui-file.c:373
 msgid "Text Files"
-msgstr "Текстові файли"
+msgstr "текстові файли"
 
 #: ../src/gui-file.c:378 ../src/gui-file.c:587
 msgid "Spreadsheets"
-msgstr "Електронні таблиці"
+msgstr "електронні таблиці"
 
 #: ../src/gui-file.c:381
 msgid "Data Files"
-msgstr "Файли даних"
+msgstr "файли даних"
 
 #: ../src/gui-file.c:402 ../src/gui-file.c:611
 msgid "File _type:"
-msgstr "_Тип файлу:"
+msgstr "_Тип файла:"
 
 #: ../src/gui-file.c:460
 msgid ""
@@ -12373,19 +12338,16 @@ msgid ""
 msgstr ""
 
 #: ../src/gui-file.c:533
-#, fuzzy
 #| msgid "Save the current workbook"
 msgid "Save the current workbook as"
-msgstr "Зберегти поточну книгу"
+msgstr "Зберегти поточну робочу книгу як"
 
 #: ../src/gui-file.c:534
-#, fuzzy
 #| msgid "Save the current workbook"
 msgid "Export the current workbook or sheet to"
-msgstr "Зберегти поточну книгу"
+msgstr "Експортувати поточну робочу книгу або аркуш до"
 
 #: ../src/gui-file.c:649 ../src/gui-file.c:666
-#, fuzzy
 msgid "Untitled"
 msgstr "Без назви"
 
@@ -12412,7 +12374,6 @@ msgid ""
 msgstr ""
 
 #: ../src/gui-file.c:783
-#, fuzzy
 msgid "Overwrite"
 msgstr "Перезаписати"
 
@@ -12437,18 +12398,15 @@ msgid ""
 msgstr ""
 
 #: ../src/gui-util.c:46
-#, fuzzy
 msgid "Multiple errors\n"
-msgstr "Множинні помилки"
+msgstr "Множинні помилки\n"
 
 #: ../src/gui-util.c:1069
-#, fuzzy
 #| msgid "Description"
 msgid "Question"
 msgstr "Питання"
 
 #: ../src/gui-util.c:1074
-#, fuzzy
 msgid "Warning"
 msgstr "Попередження"
 
@@ -12460,7 +12418,7 @@ msgstr ""
 #: ../src/gui-util.c:1270
 #, c-format
 msgid "The %s plugin is required but is not loaded."
-msgstr ""
+msgstr "Потрібен додаток %s, але його не завантажено."
 
 #: ../src/gui-util.h:150
 #| msgid "_Open..."
@@ -12481,38 +12439,35 @@ msgid "Save _As"
 msgstr "Зберегти _як"
 
 #: ../src/gui-util.h:159
-#, fuzzy
 #| msgid "C_ancel"
 msgctxt "Stock label"
 msgid "_Cancel"
 msgstr "_Скасувати"
 
 #: ../src/gui-util.h:162
-#, fuzzy
 msgctxt "Stock label"
 msgid "_OK"
 msgstr "_Гаразд"
 
 #: ../src/gutils.c:972
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unknown sheet '%s'"
 msgid "Unknown sheet \"%s\""
-msgstr "Невідомий аркуш \"%s\""
+msgstr "Невідомий аркуш «%s»"
 
 #: ../src/gutils.c:992
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid export option \"%s\" for format %s"
-msgstr "Некоректна кількість аргументів"
+msgstr "Некоректний параметр експортування «%s» для формату %s"
 
 #: ../src/hlink.c:289
-#, fuzzy
 msgid "Link target"
-msgstr "Ціль посилання:"
+msgstr "Ціль посилання"
 
 #: ../src/hlink.c:502
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to activate the url '%s'"
-msgstr "Неможливо створити об'єкт типу \"%s\""
+msgstr "Не вдалося активувати адресу «%s»"
 
 #: ../src/hlink.c:559
 #, c-format
@@ -12530,13 +12485,13 @@ msgstr "Висота:"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
 #: ../src/item-bar.c:863
-#, fuzzy, c-format
+#, c-format
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
-msgstr[0] "%d піксель"
-msgstr[1] "%d точки"
-msgstr[2] "%d точок"
-msgstr[3] "%d піксель"
+msgstr[0] "(%d піксель)"
+msgstr[1] "(%d пікселі)"
+msgstr[2] "(%d пікселів)"
+msgstr[3] "(%d піксель)"
 
 #. xgettext: This is input to ngettext based on the integer number of points.
 #: ../src/item-bar.c:868
@@ -12595,11 +12550,11 @@ msgstr "Відмінити"
 
 #: ../src/item-cursor.c:1102
 msgid "Drag to autofill"
-msgstr ""
+msgstr "Перетягування для автозаповнення"
 
 #: ../src/item-cursor.c:1105
 msgid "Drag to move"
-msgstr ""
+msgstr "Перетягування для пересування"
 
 #: ../src/libgnumeric.c:139
 msgid "Display Gnumeric's version"
@@ -12610,7 +12565,6 @@ msgid "Set the root library directory"
 msgstr "Встановити кореневий каталог бібліотек"
 
 #: ../src/libgnumeric.c:149 ../src/libgnumeric.c:155
-#, fuzzy
 msgid "DIR"
 msgstr "КАТАЛОГ"
 
@@ -12630,14 +12584,12 @@ msgstr ""
 "Каталог бібліотек: \"%s\"\n"
 
 #: ../src/libgnumeric.c:195
-#, fuzzy
 msgid "Gnumeric Options"
-msgstr "Gnumeric: Перевірка"
+msgstr "Параметри Gnumeric"
 
 #: ../src/libgnumeric.c:195
-#, fuzzy
 msgid "Show Gnumeric Options"
-msgstr "Gnumeric: Перевірка"
+msgstr "Показати параметри Gnumeric"
 
 #: ../src/main-application.c:61
 msgid "Specify the size and location of the initial window"
@@ -12653,13 +12605,11 @@ msgstr ""
 
 #: ../src/main-application.c:67
 msgid "Don't display warning dialogs when importing"
-msgstr ""
+msgstr "Не показувати вікон попередження під час імпортування"
 
 #: ../src/main-application.c:76
-#, fuzzy
 msgid "Exit immediately after loading the selected books"
-msgstr ""
-"Завершити негайно після завантаження вибраної книги (корисно для тестування)."
+msgstr "Негайно вийти після завантаження позначених книг"
 
 #: ../src/main-application.c:110
 #, fuzzy
