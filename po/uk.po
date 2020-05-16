@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2020-05-12 17:35+0000\n"
-"PO-Revision-Date: 2020-05-15 17:35+0300\n"
+"PO-Revision-Date: 2020-05-16 12:43+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -126,7 +126,7 @@ msgstr "Невідомий тип значення «%s» у рядку %d. Пр
 #: ../plugins/dif/dif.c:243
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr "Невідоме значення даних \"%s\" в рядку %d. Проігноровано."
+msgstr "Невідоме значення даних «%s» в рядку %d. Проігноровано."
 
 #: ../plugins/dif/dif.c:250
 #, c-format
@@ -714,7 +714,7 @@ msgstr ""
 #: ../plugins/excelplugins/excelplugins.c:947
 #, c-format
 msgid "Unable to open module file \"%s\"."
-msgstr "Неможливо відкрити файл модуля \"%s\"."
+msgstr "Неможливо відкрити файл модуля «%s»."
 
 #: ../plugins/excelplugins/excelplugins.c:952
 #, c-format
@@ -2225,12 +2225,12 @@ msgstr "Не вказано назви модуля Python."
 #: ../plugins/python-loader/python-loader.c:90
 #, c-format
 msgid "Error while opening file \"%s\" for writing."
-msgstr "Помилка під час відкривання файлу \"%s\" для запису."
+msgstr "Помилка під час відкривання файлу «%s» для запису."
 
 #: ../plugins/python-loader/python-loader.c:94
 #, c-format
 msgid "Error while opening file \"%s\" for reading."
-msgstr "Помилка під час відкривання файлу \"%s\" для зчитування."
+msgstr "Помилка під час відкривання файлу «%s» для зчитування."
 
 #: ../plugins/python-loader/python-loader.c:125
 msgid "Cannot create new Python interpreter."
@@ -2239,12 +2239,12 @@ msgstr ""
 #: ../plugins/python-loader/python-loader.c:146
 #, c-format
 msgid "Module \"%s\" doesn't exist."
-msgstr "Модуля \"%s\" не існує."
+msgstr "Модуля «%s» не існує."
 
 #: ../plugins/python-loader/python-loader.c:164
 #, c-format
 msgid "Execution of module \"%s\" failed."
-msgstr "Збій виконання модуля \"%s\"."
+msgstr "Збій виконання модуля «%s»."
 
 #: ../plugins/python-loader/python-loader.c:280
 msgid "Some name"
@@ -2256,25 +2256,25 @@ msgstr "Якась назва"
 #: ../plugins/python-loader/python-loader.c:863
 #, c-format
 msgid "Python file \"%s\" has invalid format."
-msgstr "Python-файл \"%s\" має невірний формат."
+msgstr "Python-файл «%s» має невірний формат."
 
 #: ../plugins/python-loader/python-loader.c:349
 #: ../plugins/python-loader/python-loader.c:447
 #, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr "Файл не містить функцію \"%s\"."
+msgstr "Файл не містить функцію «%s»."
 
 #: ../plugins/python-loader/python-loader.c:753
 #: ../plugins/python-loader/python-loader.c:868
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
-msgstr "Файл не містить словник \"%s\"."
+msgstr "Файл не містить словник «%s»."
 
 #: ../plugins/python-loader/python-loader.c:758
 #: ../plugins/python-loader/python-loader.c:873
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
-msgstr "Об'єкт \"%s\" не є словником."
+msgstr "Об'єкт «%s» не є словником."
 
 #: ../plugins/python-loader/python-loader.c:811 ../src/gnm-plugin.c:859
 #, c-format
@@ -6342,7 +6342,7 @@ msgstr ""
 #: ../src/dialogs/dialog-plugin-manager.c:590
 #, c-format
 msgid "Unknown plugin with id=\"%s\"\n"
-msgstr "Невідомий додаток із ідентифікатором=\"%s\"\n"
+msgstr "Невідомий додаток із ідентифікатором=«%s»\n"
 
 #: ../src/dialogs/dialog-plugin-manager.c:597
 msgid ""
@@ -11946,7 +11946,7 @@ msgstr ""
 #: ../src/expr-name.c:735
 #, c-format
 msgid "'%s' has a circular reference"
-msgstr "\"%s\" містить циклічне посилання"
+msgstr "«%s» містить циклічне посилання"
 
 #: ../src/expr-name.c:764 ../src/expr-name.c:1015
 #, c-format
@@ -12258,12 +12258,12 @@ msgstr "Алгоритм розв'язувача %s"
 #: ../src/gnm-plugin.c:815 ../src/gnm-plugin.c:887 ../src/gnm-plugin.c:933
 #, c-format
 msgid "Module file \"%s\" has invalid format."
-msgstr "Файл модуля \"%s\" має неправильний формат."
+msgstr "Файл модуля «%s» має неправильний формат."
 
 #: ../src/gnm-plugin.c:819 ../src/gnm-plugin.c:890
 #, c-format
 msgid "File doesn't contain \"%s\" array."
-msgstr "Файл не містить масиву \"%s\"."
+msgstr "Файл не містить масиву «%s»."
 
 #: ../src/gnm-so-filled.c:175 ../src/gnm-so-path.c:199
 msgid "Filled Object Properties"
@@ -12579,9 +12579,9 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Версія Gnumeric: \"%s\"\n"
-"Каталог даних: \"%s\"\n"
-"Каталог бібліотек: \"%s\"\n"
+"Версія Gnumeric: «%s»\n"
+"Каталог даних: «%s»\n"
+"Каталог бібліотек: «%s»\n"
 
 #: ../src/libgnumeric.c:195
 msgid "Gnumeric Options"
@@ -12612,13 +12612,12 @@ msgid "Exit immediately after loading the selected books"
 msgstr "Негайно вийти після завантаження позначених книг"
 
 #: ../src/main-application.c:110
-#, fuzzy
 msgid "[FILE ...]"
-msgstr "ФАЙЛ"
+msgstr "[ФАЙЛ ...]"
 
 #: ../src/main-application.c:127 ../src/ssconvert.c:1417 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
@@ -12628,44 +12627,44 @@ msgstr ""
 "параметрів.\n"
 
 #: ../src/parser.y:353
-#, fuzzy, c-format
+#, c-format
 msgid "An array must have at least 1 element"
-msgstr "має бути хоча б одна літера"
+msgstr "У масиві має бути хоча б 1 елемент"
 
 #: ../src/parser.y:379
 #, c-format
 msgid "Arrays must be rectangular"
-msgstr ""
+msgstr "Масиви мають бути прямокутними"
 
 #: ../src/parser.y:405
 #, c-format
 msgid "Constructed ranges use simple references"
-msgstr ""
+msgstr "Похідні діапазони використовують прості посилання"
 
 #: ../src/parser.y:429 ../src/parser.y:448
 #, c-format
 msgid "All entries in the set must be references"
-msgstr ""
+msgstr "Усі записи у наборі мають бути посиланнями"
 
 #: ../src/parser.y:496
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
-msgstr "Назви \"%s\" не існує в аркуші \"%s\""
+msgstr "Назви «%s» не існує в аркуші «%s»"
 
 #: ../src/parser.y:499
-#, fuzzy, c-format
+#, c-format
 msgid "Name '%s' does not exist"
-msgstr "Назви \"%s\" не існує в аркуші \"%s\""
+msgstr "Назви «%s» не існує"
 
 #: ../src/parser.y:513
 #, c-format
 msgid "'%s' cannot be used as a name"
-msgstr ""
+msgstr "«%s» не можна використовувати як назв"
 
 #: ../src/parser.y:571
 #, c-format
 msgid "Unknown sheet '%s'"
-msgstr "Невідомий аркуш \"%s\""
+msgstr "Невідомий аркуш «%s»"
 
 #: ../src/parser.y:676
 #, fuzzy, c-format
@@ -12675,17 +12674,17 @@ msgstr "Неправильний вираз"
 #: ../src/parser.y:723
 #, fuzzy, c-format
 msgid "Name '%s' does not exist in workbook"
-msgstr "Назви \"%s\" не існує в аркуші \"%s\""
+msgstr "Назви «%s» не існує в аркуші «%s»"
 
 #: ../src/parser.y:780
 #, c-format
 msgid "Unknown workbook '%s'"
-msgstr "Невідома книга \"%s\""
+msgstr "Невідома книга «%s»"
 
 #: ../src/parser.y:797
 #, fuzzy, c-format
 msgid "Unknown workbook"
-msgstr "Невідома книга \"%s\""
+msgstr "Невідома книга «%s»"
 
 #: ../src/parser.y:1103 ../src/parser.y:1383
 #, c-format
@@ -13615,7 +13614,7 @@ msgstr ""
 #: ../src/ssconvert.c:626
 #, fuzzy, c-format
 msgid "Adding sheets from %s\n"
-msgstr "Невідомий аркуш \"%s\""
+msgstr "Невідомий аркуш «%s»"
 
 #: ../src/ssconvert.c:719
 #, fuzzy, c-format
@@ -13707,9 +13706,9 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Версія Gnumeric: \"%s\"\n"
-"Каталог даних: \"%s\"\n"
-"Каталог бібліотек: \"%s\"\n"
+"Версія Gnumeric: «%s»\n"
+"Каталог даних: «%s»\n"
+"Каталог бібліотек: «%s»\n"
 
 #: ../src/ssconvert.c:1430
 #, c-format
@@ -13825,9 +13824,9 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Версія Gnumeric: \"%s\"\n"
-"Каталог даних: \"%s\"\n"
-"Каталог бібліотек: \"%s\"\n"
+"Версія Gnumeric: «%s»\n"
+"Каталог даних: «%s»\n"
+"Каталог бібліотек: «%s»\n"
 
 #: ../src/ssdiff.c:949
 #, c-format
@@ -13928,9 +13927,9 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Версія Gnumeric: \"%s\"\n"
-"Каталог даних: \"%s\"\n"
-"Каталог бібліотек: \"%s\"\n"
+"Версія Gnumeric: «%s»\n"
+"Каталог даних: «%s»\n"
+"Каталог бібліотек: «%s»\n"
 
 #: ../src/ssgrep.c:463
 #, fuzzy, c-format
@@ -13963,9 +13962,9 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Версія Gnumeric: \"%s\"\n"
-"Каталог даних: \"%s\"\n"
-"Каталог бібліотек: \"%s\"\n"
+"Версія Gnumeric: «%s»\n"
+"Каталог даних: «%s»\n"
+"Каталог бібліотек: «%s»\n"
 
 #: ../src/stf-export.c:692
 #, fuzzy
@@ -15092,7 +15091,7 @@ msgstr ""
 #: ../src/tools/gnm-solver.c:3154
 #, fuzzy, c-format
 msgid "Unable to locate %s"
-msgstr "Не вдалось відкрити файл \"%s\""
+msgstr "Не вдалось відкрити файл «%s»"
 
 #: ../src/tools/gnm-solver.c:3170
 #, c-format
@@ -15322,17 +15321,17 @@ msgstr "Gnumeric: Перевірка"
 #: ../src/validation.c:557
 #, c-format
 msgid "Cell %s is not permitted to be blank"
-msgstr "Комірка \"%s\" не може бути порожньою"
+msgstr "Комірка «%s» не може бути порожньою"
 
 #: ../src/validation.c:565
 #, fuzzy, c-format
 msgid "Cell %s is not permitted to contain error values"
-msgstr "Комірка \"%s\" не може бути порожньою"
+msgstr "Комірка «%s» не може бути порожньою"
 
 #: ../src/validation.c:576
 #, fuzzy, c-format
 msgid "Cell %s is not permitted to contain strings"
-msgstr "Комірка \"%s\" не може бути порожньою"
+msgstr "Комірка «%s» не може бути порожньою"
 
 #: ../src/validation.c:592
 #, fuzzy, c-format
@@ -15342,7 +15341,7 @@ msgstr "\"%f\" не ціле"
 #: ../src/validation.c:602
 #, c-format
 msgid "'%s' is not a valid date"
-msgstr "\"%s\" не є правильною датою"
+msgstr "«%s» не є правильною датою"
 
 #: ../src/validation.c:626
 #, fuzzy, c-format
@@ -15357,7 +15356,7 @@ msgstr ""
 #: ../src/validation.c:701
 #, fuzzy, c-format
 msgid "%s is out of permitted range"
-msgstr "Комірка \"%s\" не може бути порожньою"
+msgstr "Комірка «%s» не може бути порожньою"
 
 #: ../src/value.c:59
 msgid "#NULL!"
@@ -17197,9 +17196,8 @@ msgid "SpinButton"
 msgstr "Кнопка"
 
 #: ../src/wbc-gtk-actions.c:3345
-#, fuzzy
 msgid "Create a spin button"
-msgstr "Створити кнопку"
+msgstr "Створити лічильник"
 
 #: ../src/wbc-gtk-actions.c:3350
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:1
@@ -17219,7 +17217,6 @@ msgid "Create a combo box"
 msgstr "Створити комбінований список"
 
 #: ../src/wbc-gtk-actions.c:3363
-#, fuzzy
 msgid "Create a line object"
 msgstr "Створити лінію"
 
@@ -17228,7 +17225,6 @@ msgid "Arrow"
 msgstr "Стрілка"
 
 #: ../src/wbc-gtk-actions.c:3369
-#, fuzzy
 msgid "Create an arrow object"
 msgstr "Створити стрілку"
 
@@ -17237,7 +17233,6 @@ msgid "Rectangle"
 msgstr "Прямокутник"
 
 #: ../src/wbc-gtk-actions.c:3375
-#, fuzzy
 msgid "Create a rectangle object"
 msgstr "Створити прямокутник"
 
@@ -17246,7 +17241,6 @@ msgid "Ellipse"
 msgstr "Еліпс"
 
 #: ../src/wbc-gtk-actions.c:3381
-#, fuzzy
 msgid "Create an ellipse object"
 msgstr "Створити еліпс"
 
@@ -17263,9 +17257,8 @@ msgid "Merge a range of cells"
 msgstr "Об'єднати діапазон комірок"
 
 #: ../src/wbc-gtk-actions.c:3406
-#, fuzzy
 msgid "Unmerge"
-msgstr "Об'єднати"
+msgstr "Роз'єднати"
 
 #: ../src/wbc-gtk-actions.c:3407
 msgid "Split merged ranges of cells"
@@ -17296,7 +17289,7 @@ msgstr "Бухгалтерський облік"
 
 #: ../src/wbc-gtk-actions.c:3432
 msgid "Format the selection as accounting"
-msgstr ""
+msgstr "Форматувати позначене як обліковий запис"
 
 #: ../src/wbc-gtk-actions.c:3439
 #, fuzzy
@@ -17416,9 +17409,8 @@ msgid "Display the value of a formula or the formula itself"
 msgstr "Показувати значення формули, чи саму формулу"
 
 #: ../src/wbc-gtk-actions.c:3538
-#, fuzzy
 msgid "_Hide Zeros"
-msgstr "Прибрати нулі"
+msgstr "При_ховати нулі"
 
 #: ../src/wbc-gtk-actions.c:3539
 msgid "Toggle whether or not to display zeros as blanks"
@@ -17457,9 +17449,8 @@ msgid "Display addresses as R1C1 or A1"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3572
-#, fuzzy
 msgid "_Left Align"
-msgstr "Вирівняти ліворуч"
+msgstr "Вирівняти _ліворуч"
 
 #: ../src/wbc-gtk-actions.c:3573 ../src/wbc-gtk-actions.c:3701
 msgid "Align left"
@@ -17547,24 +17538,20 @@ msgid "Double Underline"
 msgstr "Підкреслення"
 
 #: ../src/wbc-gtk-actions.c:3662
-#, fuzzy
 msgid "_Single Low Underline"
-msgstr "Підкреслення"
+msgstr "_Одинарне підкреслення"
 
 #: ../src/wbc-gtk-actions.c:3664
-#, fuzzy
 msgid "Single Low Underline"
-msgstr "Підкреслення"
+msgstr "Одинарне підкреслення"
 
 #: ../src/wbc-gtk-actions.c:3669
-#, fuzzy
 msgid "Double _Low Underline"
-msgstr "Підкреслення"
+msgstr "Под_війне підкреслення"
 
 #: ../src/wbc-gtk-actions.c:3670
-#, fuzzy
 msgid "Double Low Underline"
-msgstr "Підкреслення"
+msgstr "Подвійне підкреслення"
 
 #: ../src/wbc-gtk-actions.c:3676
 msgid "_Strikethrough"
@@ -17579,27 +17566,24 @@ msgid "Superscript"
 msgstr "Верхній індекс"
 
 #: ../src/wbc-gtk-actions.c:3692
-#, fuzzy
 msgid "Subscrip_t"
-msgstr "Упорядкування %s"
+msgstr "Ни_жній індекс"
 
 #: ../src/wbc-gtk-actions.c:3694
 msgid "Subscript"
 msgstr "Нижній індекс"
 
 #: ../src/wbc-gtk-actions.c:3704
-#, fuzzy
 msgid "Fill horizontally"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Заповнити горизонтально"
 
 #: ../src/wbc-gtk-actions.c:3705
-#, fuzzy
 msgid "Justify horizontally"
-msgstr "Встановити горизонтальне вирівнювання"
+msgstr "Розподілити горизонтально"
 
 #: ../src/wbc-gtk-actions.c:3709
 msgid "Align numbers right, and text left"
-msgstr ""
+msgstr "Вирівняти числа праворуч, а текст ліворуч"
 
 #: ../src/wbc-gtk-actions.c:3714
 msgid "Align top"
@@ -17696,9 +17680,9 @@ msgid "_Zoom"
 msgstr "_Масштаб"
 
 #: ../src/wbc-gtk-actions.c:4330
-#, fuzzy, c-format
+#, c-format
 msgid "Setting Font %s"
-msgstr "Стирання стовпчика %s"
+msgstr "Встановлюємо шрифт %s"
 
 #: ../src/wbc-gtk-actions.c:4389
 msgid "Change font"
@@ -17707,15 +17691,15 @@ msgstr "Змінити шрифт"
 #: ../src/wbc-gtk-edit.c:866
 #, c-format
 msgid "%s!%s is locked"
-msgstr ""
+msgstr "%s!%s заблоковано"
 
 #: ../src/wbc-gtk-edit.c:870
 msgid "Unprotect the workbook to enable editing."
-msgstr ""
+msgstr "Зняти захист із робочої книги, щоб уможливити редагування."
 
 #: ../src/wbc-gtk-edit.c:871
 msgid "Unprotect the sheet to enable editing."
-msgstr ""
+msgstr "Зняти захист із аркуша, щоб уможливити редагування."
 
 #: ../src/wbc-gtk-edit.c:890
 msgid "You are about to edit a cell with \"text\" format."
@@ -17728,18 +17712,16 @@ msgid ""
 msgstr ""
 
 #: ../src/wbc-gtk-edit.c:896
-#, fuzzy
 msgid "Remove format"
-msgstr "Видалити поля"
+msgstr "Вилучити форматування"
 
 #: ../src/wbc-gtk-edit.c:901
 msgid "Show this dialog next time."
 msgstr "Показувати це вікно наступного разу."
 
 #: ../src/wbc-gtk.c:514
-#, fuzzy
 msgid "Manage Sheets..."
-msgstr "Перевпорядкувати аркуші…"
+msgstr "Керування аркушами…"
 
 #: ../src/wbc-gtk.c:517
 msgid "Append"
@@ -17771,9 +17753,8 @@ msgid " - Gnumeric"
 msgstr " – Gnumeric"
 
 #: ../src/wbc-gtk.c:1469
-#, fuzzy
 msgid "Invalid format"
-msgstr "Невірний шаблон пошуку."
+msgstr "Некоректне форматування"
 
 #: ../src/wbc-gtk.c:1567
 msgid "Remove the page break to the left of the current column"
@@ -17785,7 +17766,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:1577
 msgid "Remove the page break above the current row"
-msgstr ""
+msgstr "Вилучити розрив сторінки над поточним рядком"
 
 #: ../src/wbc-gtk.c:1580
 msgid "Add a page break above current row"
@@ -17908,9 +17889,8 @@ msgid "END"
 msgstr "END"
 
 #: ../src/wbc-gtk.c:2773
-#, fuzzy
 msgid "Go to Cell..."
-msgstr "Перейти до комірки"
+msgstr "Перейти до комірки…"
 
 #: ../src/wbc-gtk.c:2835
 msgid "Accept change in multiple cells"
@@ -17956,7 +17936,6 @@ msgid "Display toolbar to the right of sheets"
 msgstr "Зробити копію цього аркушу"
 
 #: ../src/wbc-gtk.c:3618
-#, fuzzy
 msgid "Hide"
 msgstr "Приховати"
 
@@ -17980,10 +17959,10 @@ msgid "Show/Hide toolbar %s"
 msgstr "Налаштувати пенали"
 
 #: ../src/wbc-gtk.c:4118
-#, fuzzy, c-format
+#, c-format
 #| msgid "_Contents"
 msgid "Content of %s"
-msgstr "_Зміст"
+msgstr "Вміст %s"
 
 #: ../src/wbc-gtk.c:4133
 #, fuzzy
@@ -18006,19 +17985,16 @@ msgid "Open %s"
 msgstr "Відкрити %s"
 
 #: ../src/widgets/gnm-filter-combo-view.c:167
-#, fuzzy
 msgid "(All)"
-msgstr "всі"
+msgstr "(Усі)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:172
-#, fuzzy
 msgid "(Top 10...)"
-msgstr "Вгору"
+msgstr "(Верхні 10...)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:179
-#, fuzzy
 msgid "(Custom...)"
-msgstr "Користувацький"
+msgstr "(Нетиповий...)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:257
 msgid "(Blanks...)"
@@ -18033,13 +18009,12 @@ msgid "Sans 12"
 msgstr "Sans 12"
 
 #: ../src/widgets/gnm-fontbutton.c:463
-#, fuzzy
 msgid "Dialog Type"
-msgstr "Назва рисунка"
+msgstr "Тип вікна"
 
 #: ../src/widgets/gnm-fontbutton.c:464
 msgid "The type of the dialog"
-msgstr ""
+msgstr "Тип діалогового вікна"
 
 #: ../src/widgets/gnm-fontbutton.c:481
 msgid "The title of the font chooser dialog"
@@ -18090,24 +18065,21 @@ msgid "Whether selected font size is shown in the label"
 msgstr "Чи показується розмір вибраного шрифту у позначці"
 
 #: ../src/widgets/gnm-sheet-slicer-combo-view.c:114
-#, fuzzy
 msgid "<Blank>"
-msgstr "чорний"
+msgstr "<Порожньо>"
 
 #: ../src/widgets/gnm-so-anchor-mode-chooser.c:44
 msgid "Move and resize with cells"
-msgstr ""
+msgstr "Пересунути і змінити розміри разом із комірками"
 
 #: ../src/widgets/gnm-so-anchor-mode-chooser.c:47
-#, fuzzy
 msgid "Move with cells"
-msgstr "Вставити нові комірки"
+msgstr "Пересунути разом із комірками"
 
 #: ../src/widgets/gnm-so-anchor-mode-chooser.c:49
-#, fuzzy
 #| msgid "About this application"
 msgid "Absolute size and position"
-msgstr "Про програму"
+msgstr "Абсолютний розмір і розташування"
 
 #: ../src/widgets/gnm-workbook-sel.c:145
 #, c-format
@@ -18115,59 +18087,65 @@ msgid ""
 "%s\n"
 "<small>%s</small>"
 msgstr ""
+"%s\n"
+"<small>%s</small>"
 
 #: ../src/widgets/gnm-expr-entry.c:904
 #, c-format
 msgid "%s takes no arguments"
-msgstr ""
+msgstr "%s не приймає аргументів"
 
 #: ../src/widgets/gnm-expr-entry.c:908
 #, c-format
 msgid "Too many arguments for %s"
-msgstr ""
+msgstr "Забагато аргументів для %s"
 
 #: ../src/widgets/gnm-expr-entry.c:919
-#, fuzzy
 msgid ""
 "\n"
 "\n"
 "<i>Ctrl-F4 to close tooltip</i>"
-msgstr "Автоформатування…"
+msgstr ""
+"\n"
+"\n"
+"<i>Ctrl-F4 для закриття підказки</i>"
 
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
 #: ../src/widgets/gnm-expr-entry.c:948
-#, fuzzy, c-format
+#, c-format
 msgid "\t%s \t%s\n"
-msgstr "%s версії %s"
+msgstr "\t%s \t%s\n"
 
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
 #: ../src/widgets/gnm-expr-entry.c:953
-#, fuzzy, c-format
+#, c-format
 msgid "✓\t%s \t%s\n"
-msgstr "%s версії %s"
+msgstr "✓\t%s \t%s\n"
 
 #. xgettext: short form for: "type F4-key to complete the name"
 #: ../src/widgets/gnm-expr-entry.c:966
-#, fuzzy
 msgid ""
 "\n"
 "\t<i>F4 to complete</i>"
-msgstr "Автоформатування…"
+msgstr ""
+"\n"
+"\t<i>F4 для завершення</i>"
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
 #: ../src/widgets/gnm-expr-entry.c:969
-#, fuzzy
 msgid ""
 "\n"
 "\t<i>⇧F4 to select</i>"
-msgstr "Автоформатування…"
+msgstr ""
+"\n"
+"\t<i>⇧F4 для позначення</i>"
 
 #: ../src/widgets/gnm-expr-entry.c:2643
 #, c-format
 msgid "Expecting a single range"
-msgstr ""
+msgstr "Мало бути вказано один діапазон"
 
 #: ../src/widgets/gnm-text-view.c:284
 msgid "Wavy"
@@ -18184,9 +18162,8 @@ msgid "Thin"
 msgstr "Тонка"
 
 #: ../src/widgets/gnm-text-view.c:324
-#, fuzzy
 msgid "Ultralight"
-msgstr "Праворуч:"
+msgstr "Надзвичайно світла"
 
 #: ../src/widgets/gnm-text-view.c:325
 msgid "Light"
@@ -18197,9 +18174,8 @@ msgid "Medium"
 msgstr "Середня"
 
 #: ../src/widgets/gnm-text-view.c:328
-#, fuzzy
 msgid "Semibold"
-msgstr "Товстий"
+msgstr "Напівжирна"
 
 #: ../src/widgets/gnm-text-view.c:330
 msgid "Ultrabold"
@@ -18225,25 +18201,23 @@ msgstr "Зменшити відступ"
 #: ../src/workbook-cmd-format.c:178 ../src/workbook-cmd-format.c:185
 #: ../src/workbook-cmd-format.c:193
 msgid "Wrap SORT"
-msgstr ""
+msgstr "Огорнути SORT"
 
 #: ../src/workbook-cmd-format.c:172
-#, fuzzy
 msgid "A single selection is required."
-msgstr "Необхідна назва аркуша"
+msgstr "Слід позначити одну область."
 
 #: ../src/workbook-cmd-format.c:179
 msgid "An n⨯1 or 1⨯n selection is required."
-msgstr ""
+msgstr "Слід позначити блок n⨯1 або 1⨯n."
 
 #: ../src/workbook-cmd-format.c:186
 msgid "There is no point in sorting a single cell."
-msgstr ""
+msgstr "Упорядковувати одну комірку немає сенсу."
 
 #: ../src/workbook-cmd-format.c:194
-#, fuzzy
 msgid "The range to be sorted may not contain any merged cells."
-msgstr "Діапазон призначення містить об'єднані комірки"
+msgstr "У діапазоні упорядкоування не може бути об'єднаних комірок."
 
 #: ../src/workbook-control.c:249
 msgid "Define Name"
@@ -18251,7 +18225,7 @@ msgstr "Визначити назву"
 
 #: ../src/workbook-control.c:282
 msgid "Cannot jump to an invisible sheet"
-msgstr ""
+msgstr "Неможливо перейти до невидимого аркуша"
 
 #: ../src/workbook-control.c:360
 msgid "Address"
@@ -18259,46 +18233,46 @@ msgstr "Адреса"
 
 #. Translators: "%dC" is a very short format to indicate the number of full columns
 #: ../src/workbook-view.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "%dC"
-msgstr "Округ Колумбія"
+msgstr "%dС"
 
 #. Translators: "%dR" is a very short format to indicate the number of full rows
 #: ../src/workbook-view.c:418
-#, fuzzy, c-format
+#, c-format
 msgid "%dR"
-msgstr "Доктор"
+msgstr "%dР"
 
 #. Translators: "%dR x %dC" is a very short format to indicate the number of rows and columns
 #: ../src/workbook-view.c:421
 #, c-format
 msgid "%dR x %dC"
-msgstr "%dR x %dC"
+msgstr "%dР x %dС"
 
 #: ../src/workbook-view.c:1113
 msgid "An unexplained error happened while saving."
-msgstr ""
+msgstr "При спробі зберегти сталася непридатна до пояснення помилка."
 
 #: ../src/workbook-view.c:1137
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open '%s' for writing: %s"
-msgstr "Не вдалось відкрити"
+msgstr "Не вдалося відкрити «%s» для запису: %s"
 
 #: ../src/workbook-view.c:1141
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open '%s' for writing"
-msgstr "Не вдалось відкрити"
+msgstr "Не вдалося відкрити «%s» для запису"
 
 #: ../src/workbook-view.c:1407
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unsupported file format."
 msgid "Unsupported file format for file \"%s\""
-msgstr "Формат файлу не підтримується"
+msgstr "Непідтримуваний формат файлів для файла «%s»"
 
 #: ../src/workbook-view.c:1463
 #, c-format
 msgid "An unexplained error happened while opening %s"
-msgstr ""
+msgstr "При спробі відкрити %s сталася непридатна до пояснення помилка"
 
 #: ../src/workbook.c:314
 #, c-format
@@ -18310,124 +18284,116 @@ msgid "Graph"
 msgstr "Графік"
 
 #: ../src/workbook.c:1613
-#, fuzzy, c-format
+#, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
-msgstr[0] "Перейменувати цей аркуш"
-msgstr[1] "Перейменувати цей аркуш"
-msgstr[2] ""
-msgstr[3] "Перейменувати цей аркуш"
+msgstr[0] "Перейменовуємо %d аркуш"
+msgstr[1] "Перейменовуємо %d аркушів"
+msgstr[2] "Перейменовуємо %d аркушів"
+msgstr[3] "Перейменовуємо аркуш"
 
 #: ../src/workbook.c:1615
-#, fuzzy, c-format
+#, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
-msgstr[0] "Невідомий аркуш \"%s\""
-msgstr[1] "Невідомий аркуш \"%s\""
-msgstr[2] ""
-msgstr[3] "Невідомий аркуш \"%s\""
+msgstr[0] "Додаємо %d аркуш"
+msgstr[1] "Додаємо %d аркуші"
+msgstr[2] "Додаємо %d аркушів"
+msgstr[3] "Додаємо аркуш"
 
 #.
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
 #: ../src/workbook.c:1621
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
-msgstr[0] "Вставити нову таблицю"
-msgstr[1] "Вставити нову таблицю"
-msgstr[2] ""
-msgstr[3] "Вставити нову таблицю"
+msgstr[0] "Вставляємо %d аркуш"
+msgstr[1] "Вставляємо %d аркуші"
+msgstr[2] "Вставляємо %d аркушів"
+msgstr[3] "Вставляємо аркуш"
 
 #: ../src/workbook.c:1623
-#, fuzzy
 msgid "Changing sheet tab colors"
-msgstr "Зміна формату %s"
+msgstr "Змінюємо кольори вкладок аркушів"
 
 #: ../src/workbook.c:1625
-#, fuzzy
 msgid "Changing sheet properties"
-msgstr "Зміна формату %s"
+msgstr "Змінюємо властивості аркушів"
 
 #.
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
 #: ../src/workbook.c:1632
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
-msgstr[0] "Стерти комірки"
-msgstr[1] "Стерти комірки"
-msgstr[2] ""
-msgstr[3] "Стерти комірки"
+msgstr[0] "Вилучаємо %d аркуш"
+msgstr[1] "Вилучаємо %d аркуші"
+msgstr[2] "Вилучаємо %d аркушів"
+msgstr[3] "Вилучаємо аркуш"
 
 #: ../src/workbook.c:1634
-#, fuzzy
 msgid "Changing sheet order"
-msgstr "Зміна формату %s"
+msgstr "Змінюємо порядок аркушів"
 
 #: ../src/workbook.c:1636
-#, fuzzy
 msgid "Reorganizing Sheets"
-msgstr "Друкувати аркуші"
+msgstr "Перевпорядкування аркушів"
 
 #: ../src/xml-sax-read.c:506
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
-msgstr ""
+msgstr "Декілька специфікацій версії. Припускаємо %d"
 
 #: ../src/xml-sax-read.c:679
 msgid "workbook view attribute is incomplete"
-msgstr ""
+msgstr "атрибут перегляду робочої книги є неповним"
 
 #: ../src/xml-sax-read.c:828
 msgid "File has inconsistent SheetNameIndex element."
-msgstr ""
+msgstr "Файл містить несумісний елемент SheetNameIndex."
 
 #: ../src/xml-sax-read.c:2333
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown filter operator \"%s\""
-msgstr "Невідомий оператор"
+msgstr "Невідомий оператор фільтра «%s»"
 
 #: ../src/xml-sax-read.c:2374
-#, fuzzy
 msgid "Missing filter type"
-msgstr "Відсутня назва файла."
+msgstr "Не вказано тип фільтра"
 
 #: ../src/xml-sax-read.c:2387
 msgid "Malformed sheet filter condition"
-msgstr ""
+msgstr "Умова фільтра аркушів із помилковим форматуванням"
 
 #: ../src/xml-sax-read.c:2401
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown filter type \"%s\""
-msgstr "Невідомий аркуш \"%s\""
+msgstr "Невідомий тип фільтра «%s»"
 
 #: ../src/xml-sax-read.c:2422
-#, fuzzy
 msgid "Invalid filter, missing Area"
-msgstr "Неправильний вираз"
+msgstr "Некоректний фільтр — не вказано області"
 
 #: ../src/xml-sax-read.c:2487
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported object type '%s'"
-msgstr "Непідтримуваний тип завантажувача  \"%s\"."
+msgstr "Непідтримуваний тип об'єктів «%s»"
 
 #: ../src/xml-sax-read.c:3800 ../src/xml-sax-write.c:1737
-#, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
-msgstr "Формат файлу Gnumeric"
+msgstr "XML Gnumeric (*.gnumeric)"
 
 #: ../src/xml-sax-write.c:1749
-#, fuzzy
 msgid "Gnumeric XML uncompressed (*.xml)"
-msgstr "Формат файлу Gnumeric"
+msgstr "нестиснений XML Gnumeric (*.xml)"
 
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "A button like template"
-msgstr ""
+msgstr "Кнопкоподібний шаблон"
 
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:3
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:3
@@ -18452,22 +18418,20 @@ msgstr ""
 #: ../templates/autoformat/autoformat.List.green.xml.in.h:3
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:3
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
-#, fuzzy
 msgid "Gnumeric Team"
-msgstr "Gnumeric"
+msgstr "Команда Gnumeric"
 
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:2
 msgid "A 3D list template"
-msgstr ""
+msgstr "Шаблон просторового списку"
 
 #: ../templates/autoformat/autoformat.Classical.cool.xml.in.h:1
-#, fuzzy
 msgid "Cool"
-msgstr "Товстий"
+msgstr "Крутий"
 
 #: ../templates/autoformat/autoformat.Classical.cool.xml.in.h:2
 msgid "Template with a 'cool' look"
-msgstr ""
+msgstr "Шаблон із «крутим» виглядом"
 
 #: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:1
 #: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:1
@@ -18477,16 +18441,15 @@ msgstr "Проста"
 
 #: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:2
 msgid "A simple template with classical look and feel"
-msgstr ""
+msgstr "Простий шаблон із класичним виглядом"
 
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:1
-#, fuzzy
 msgid "Trendy"
-msgstr "Відновити"
+msgstr "Модний"
 
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:2
 msgid "A classical yet colorful template"
-msgstr ""
+msgstr "Класичний, але кольоровий шаблон"
 
 #: ../templates/autoformat/autoformat.Colourful.banana.xml.in.h:1
 msgid "Banana"
@@ -18494,7 +18457,7 @@ msgstr "Банан"
 
 #: ../templates/autoformat/autoformat.Colourful.banana.xml.in.h:2
 msgid "A banana coloured template"
-msgstr ""
+msgstr "Шаблон у кольорах банана"
 
 #: ../templates/autoformat/autoformat.Colourful.black.xml.in.h:1
 msgid "Black"
@@ -18502,7 +18465,7 @@ msgstr "Чорний"
 
 #: ../templates/autoformat/autoformat.Colourful.black.xml.in.h:2
 msgid "Template with a black background"
-msgstr ""
+msgstr "Шаблон із чорним тлом"
 
 #: ../templates/autoformat/autoformat.Colourful.blue.xml.in.h:1
 msgid "Blue"
@@ -18510,7 +18473,7 @@ msgstr "Синій"
 
 #: ../templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
 msgid "A colourful template with mainly blue and teal colours"
-msgstr ""
+msgstr "Кольоровий шаблон із основними синім та синьо-зеленим кольорами"
 
 #: ../templates/autoformat/autoformat.Colourful.orange.xml.in.h:1
 msgid "Orange"
@@ -18518,20 +18481,19 @@ msgstr "Помаранчевий"
 
 #: ../templates/autoformat/autoformat.Colourful.orange.xml.in.h:2
 msgid "Orange template"
-msgstr ""
+msgstr "Помаранчевий шаблон"
 
 #: ../templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:1
 msgid "Vanilla"
-msgstr "Звичайне"
+msgstr "Кремовий"
 
 #: ../templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:2
 msgid "Template with vanilla colour"
-msgstr ""
+msgstr "Шаблон із кремовими кольорами"
 
 #: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:2
-#, fuzzy
 msgid "Simple financial template"
-msgstr "Фінансові похідні"
+msgstr "Простий фінансовий шаблон"
 
 #: ../templates/autoformat/autoformat.Financial.desert.xml.in.h:1
 msgid "Desert"
@@ -18539,7 +18501,7 @@ msgstr "Пустеля"
 
 #: ../templates/autoformat/autoformat.Financial.desert.xml.in.h:2
 msgid "Desert colored financial template"
-msgstr ""
+msgstr "Фінансовий шаблон у кольорах пустелі"
 
 #: ../templates/autoformat/autoformat.Financial.ice.xml.in.h:1
 msgid "Ice"
@@ -18547,15 +18509,15 @@ msgstr "Лід"
 
 #: ../templates/autoformat/autoformat.Financial.ice.xml.in.h:2
 msgid "Financial style with cold border color"
-msgstr ""
+msgstr "Фінансовий шаблон із холодними кольорами рамок"
 
 #: ../templates/autoformat/autoformat.Financial.modern.xml.in.h:1
 msgid "Modern"
-msgstr "Сучасна"
+msgstr "Сучасний"
 
 #: ../templates/autoformat/autoformat.Financial.modern.xml.in.h:2
 msgid "Modern style with financial formatting"
-msgstr ""
+msgstr "Сучасний стиль із фінансовим форматуванням"
 
 #: ../templates/autoformat/autoformat.Financial.purple.xml.in.h:1
 msgid "Purple"
@@ -18563,11 +18525,11 @@ msgstr "Пурпуровий"
 
 #: ../templates/autoformat/autoformat.Financial.purple.xml.in.h:2
 msgid "Financial template with purple borders"
-msgstr ""
+msgstr "Фінансовий шаблон із пурпуровими рамками"
 
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:2
 msgid "An advanced colorless template"
-msgstr ""
+msgstr "Розширений безкольоровий шаблон"
 
 #: ../templates/autoformat/autoformat.General.basic.xml.in.h:1
 #: ../templates/autoformat/autoformat.List.basic.xml.in.h:1
@@ -18576,15 +18538,15 @@ msgstr "Основний"
 
 #: ../templates/autoformat/autoformat.General.basic.xml.in.h:2
 msgid "A basic formal style"
-msgstr ""
+msgstr "Базовий формальний стиль"
 
 #: ../templates/autoformat/autoformat.General.empty.xml.in.h:1
 msgid "Empty"
-msgstr "Порожня"
+msgstr "Порожній"
 
 #: ../templates/autoformat/autoformat.General.empty.xml.in.h:2
 msgid "A fully empty template"
-msgstr ""
+msgstr "Повністю порожній шаблон"
 
 #: ../templates/autoformat/autoformat.General.table.xml.in.h:1
 msgid "Table"
@@ -18592,12 +18554,11 @@ msgstr "Таблиця"
 
 #: ../templates/autoformat/autoformat.General.table.xml.in.h:2
 msgid "Very simple table template with the same border everywhere "
-msgstr ""
+msgstr "Дуже простий шаблон таблиці із однаковими рамками усюди "
 
 #: ../templates/autoformat/autoformat.List.basic.xml.in.h:2
-#, fuzzy
 msgid "A basic list"
-msgstr "Створити список"
+msgstr "Базовий список"
 
 #: ../templates/autoformat/autoformat.List.green.xml.in.h:1
 msgid "Green"
@@ -18605,17 +18566,16 @@ msgstr "Зелений"
 
 #: ../templates/autoformat/autoformat.List.green.xml.in.h:2
 msgid "A green list template"
-msgstr ""
+msgstr "Зелений шаблон списку"
 
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:1
-#, fuzzy
 msgid "Lila"
-msgstr "Лінія"
+msgstr "Бузковий"
 
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:2
 msgid "Lila list template"
-msgstr ""
+msgstr "Бузковий шаблон списку"
 
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "A simple list template"
-msgstr ""
+msgstr "Простий шаблон списку"
