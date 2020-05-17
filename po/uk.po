@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2020-05-12 17:35+0000\n"
-"PO-Revision-Date: 2020-05-16 12:43+0300\n"
+"PO-Revision-Date: 2020-05-17 12:16+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -205,12 +205,12 @@ msgstr "Неочікуваний атрибут %s::%s == «%s»."
 #: ../plugins/excel/excel-xml-read.c:572
 #, c-format
 msgid "Invalid content of ss:data element, expected number, received '%s'"
-msgstr ""
+msgstr "Некоректний вміст елемента ss:data — мало бути число, отримано «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:591
 #, c-format
 msgid "Invalid content of ss:data element, received '%s'"
-msgstr ""
+msgstr "Некоректний вміст елемента ss:data — отримано «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:1217
 #: ../plugins/openoffice/openoffice-read.c:14248 ../src/xml-sax-read.c:3533
@@ -9947,9 +9947,8 @@ msgid "Histogram chart"
 msgstr "Гістограма"
 
 #: ../src/dialogs/histogram.ui.h:32
-#, fuzzy
 msgid "C_umulative answers"
-msgstr "Формат - відсотки"
+msgstr "К_умулятивні відповіді"
 
 #: ../src/dialogs/histogram.ui.h:33
 msgid "Count numbers only"
@@ -10826,7 +10825,7 @@ msgstr "П_римусово через початок координат"
 
 #: ../src/dialogs/regression.ui.h:12
 msgid "Calculate residuals"
-msgstr ""
+msgstr "Обчислити лишки"
 
 #: ../src/dialogs/row-height.ui.h:1
 msgid "Row Height"
@@ -11732,6 +11731,7 @@ msgid ""
 "The number of data points used on each side when doing numerical "
 "differentiation"
 msgstr ""
+"Кількість точок даних з кожного боку при виконанні числового диференціювання"
 
 #: ../src/dialogs/solver.ui.h:35
 msgid "P_rogram"
@@ -12497,12 +12497,12 @@ msgstr[3] "(%d піксель)"
 #: ../src/item-bar.c:868
 #, c-format
 msgid "%d.00 pt"
-msgstr ""
+msgstr "%d.00 пт"
 
 #: ../src/item-bar.c:868
 #, c-format
 msgid "%d.00 pts"
-msgstr ""
+msgstr "%d.00 пт"
 
 #. xgettext: The number of points here is always a fractional number, ie. not an integer.
 #: ../src/item-bar.c:872
@@ -12667,14 +12667,14 @@ msgid "Unknown sheet '%s'"
 msgstr "Невідомий аркуш «%s»"
 
 #: ../src/parser.y:676
-#, fuzzy, c-format
+#, c-format
 msgid "() is an invalid expression"
-msgstr "Неправильний вираз"
+msgstr "() є некоректним виразом"
 
 #: ../src/parser.y:723
-#, fuzzy, c-format
+#, c-format
 msgid "Name '%s' does not exist in workbook"
-msgstr "Назви «%s» не існує в аркуші «%s»"
+msgstr "Назви «%s» у робочій книзі не існує"
 
 #: ../src/parser.y:780
 #, c-format
@@ -12682,14 +12682,14 @@ msgid "Unknown workbook '%s'"
 msgstr "Невідома книга «%s»"
 
 #: ../src/parser.y:797
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown workbook"
-msgstr "Невідома книга «%s»"
+msgstr "Невідома робоча книга"
 
 #: ../src/parser.y:1103 ../src/parser.y:1383
 #, c-format
 msgid "Could not find matching closing quote"
-msgstr ""
+msgstr "Не вдалося знайти відповідну завершальну лапку"
 
 #: ../src/parser.y:1243
 #, c-format
@@ -12750,29 +12750,26 @@ msgid "&[DATE]"
 msgstr "&[DATE]"
 
 #: ../src/print-info.c:638
-#, fuzzy
 msgid "File Name"
 msgstr "Назва файла"
 
 #: ../src/print-info.c:650
-#, fuzzy
 msgid "Path "
-msgstr "шлях"
+msgstr "Шлях"
 
 #: ../src/print-info.c:666 ../src/widgets/gnm-fontbutton.c:480
-#, fuzzy
 msgid "Title"
 msgstr "Заголовок"
 
 #: ../src/print-info.c:925
 #, c-format
 msgid "There is no object with name '%s'"
-msgstr ""
+msgstr "Немає об'єкта із назвою «%s»"
 
 #: ../src/print-info.c:942
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown paper size"
-msgstr "Невідома версія"
+msgstr "Невідомий розмір паперу"
 
 #: ../src/print-info.c:976
 msgid "PDF export"
@@ -12780,24 +12777,24 @@ msgstr "Експорт у PDF"
 
 #: ../src/print.c:698
 msgid "Even one cell is too large for this page."
-msgstr ""
+msgstr "Навіть одна комірка буде надто великою для цієї сторінки."
 
 #: ../src/print.c:989
-#, fuzzy
 msgid "Print Selection"
-msgstr "Автозаповнення вибраного"
+msgstr "Друк вибраного"
 
 #: ../src/print.c:1243
 msgid ""
 "You have chosen more than 1000 pages to preview. This may take a long time. "
 "Do you really want to proceed?"
 msgstr ""
+"Вами вибрано попередній перегляд понад 1000 сторінок. Створення попереднього"
+" перегляду може бути дуже тривалим. Ви справді цього хочете?"
 
 #: ../src/print.c:1330
-#, fuzzy
 #| msgid "Print preview"
 msgid "Preparing to preview"
-msgstr "Перегляд друку"
+msgstr "Готуємо до перегляду"
 
 #: ../src/print.c:1331
 msgid "Preparing to print"
@@ -12806,77 +12803,72 @@ msgstr "Підготовлення до друку"
 #: ../src/print.c:1421
 #, c-format
 msgid "Creating preview of page %3d"
-msgstr ""
+msgstr "Створюємо попередній перегляд сторінки %3d"
 
 #: ../src/print.c:1422
-#, fuzzy, c-format
+#, c-format
 #| msgid "Printing failed"
 msgid "Printing page %3d"
-msgstr "Збій друку"
+msgstr "Друкуємо сторінку %3d"
 
 #: ../src/print.c:1426
 #, c-format
 msgid "Creating preview of page %3d of %3d page"
 msgid_plural "Creating preview of page %3d of %3d pages"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Створюємо попередній перегляд сторінки %3d з %3d сторінки"
+msgstr[1] "Створюємо попередній перегляд сторінки %3d з %3d сторінок"
+msgstr[2] "Створюємо попередній перегляд сторінки %3d з %3d сторінок"
+msgstr[3] "Створюємо попередній перегляд сторінки %3d з %3d сторінки"
 
 #: ../src/print.c:1429
 #, c-format
 msgid "Printing page %3d of %3d page"
 msgid_plural "Printing page %3d of %3d pages"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Друкуємо сторінку %3d з %3d сторінки"
+msgstr[1] "Друкуємо сторінку %3d з %3d сторінок"
+msgstr[2] "Друкуємо сторінку %3d з %3d сторінок"
+msgstr[3] "Друкуємо сторінку %3d з %3d сторінки"
 
 #: ../src/print.c:1495
-#, fuzzy
 msgid "_All workbook sheets"
-msgstr "Зберегти книгу як"
+msgstr "_Усі аркуші робочої книги"
 
 #: ../src/print.c:1500
 msgid "Also print _hidden sheets"
-msgstr ""
+msgstr "Також надрукувати при_ховані аркуші"
 
 #: ../src/print.c:1508
-#, fuzzy
 msgid "A_ctive workbook sheet"
-msgstr "Активний аркуш"
+msgstr "А_ктивний аркуш робочої книги"
 
 #: ../src/print.c:1513
-#, fuzzy
 msgid "_Workbook sheets:"
-msgstr "Книга…"
+msgstr "Аркуші _робочої книги:"
 
 #: ../src/print.c:1518
-#, fuzzy
 msgid "Current _selection only"
-msgstr "Вирізати вибране"
+msgstr "Ли_ше у позначеному фрагменті"
 
 #: ../src/print.c:1526
 msgid "_Ignore defined print area"
-msgstr ""
+msgstr "_Ігнорвувати визначену область друку"
 
 #: ../src/print.c:1533
 msgid "from:"
-msgstr ""
+msgstr "з:"
 
 #: ../src/print.c:1557
 msgid "Ignore all _manual page breaks"
-msgstr ""
+msgstr "Ігнорувати усі визна_чені вручну розриви сторінок"
 
 #: ../src/print.c:1857
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create temporary file for printing: %s"
-msgstr "Неможливо створити тимчасовий файл."
+msgstr "Не вдалося створити тимчасовий файл для друку: %s"
 
 #: ../src/print.c:1875
-#, fuzzy
 msgid "Gnumeric Print Range"
-msgstr "Gnumeric"
+msgstr "Діапазон друку Gnumeric"
 
 #: ../src/print.c:1891
 msgid "Print to File"
@@ -12884,12 +12876,11 @@ msgstr "Друкувати у файл"
 
 #: ../src/search.c:126
 msgid "Searching for regular expressions and numbers are mutually exclusive."
-msgstr ""
+msgstr "Не можна одночасно шукати за формальним виразом і шукати числа."
 
 #: ../src/search.c:130
-#, fuzzy
 msgid "The search text must be a number."
-msgstr "Діапазон пошуку неправильний."
+msgstr "Текст для пошуку має бути числом."
 
 #: ../src/search.c:137
 msgid "You must specify a range to search."
@@ -12902,29 +12893,29 @@ msgstr "Діапазон пошуку неправильний."
 #: ../src/selection.c:418 ../src/wbc-gtk-actions.c:1242
 #, c-format
 msgid "%s does not support multiple ranges"
-msgstr ""
+msgstr "У %s не передбачено підтримки декількох діапазонів"
 
 #. xgettext: This is a C format string where %d will be replaced
 #. by 1, 2, 3, or 4.  A year will then be appended and we'll get
 #. something like 3Q2005.  If that makes no sense in your language,
 #. translate to the empty string.
 #: ../src/sheet-autofill.c:63
-#, fuzzy, c-format
+#, c-format
 msgid "%dQ"
-msgstr "(1987 DQ6)"
+msgstr "%d кв."
 
 #: ../src/sheet-autofill.c:918
 msgid "(empty)"
 msgstr "(порожньо)"
 
 #: ../src/sheet-control-gui.c:2159 ../src/wbc-gtk-actions.c:378
-#, fuzzy, c-format
+#, c-format
 msgid "Remove %d Link"
 msgid_plural "Remove %d Links"
-msgstr[0] "Видалити"
-msgstr[1] "Видалити"
-msgstr[2] ""
-msgstr[3] "Видалити"
+msgstr[0] "Вилучити %d посилання"
+msgstr[1] "Вилучити %d посилання"
+msgstr[2] "Вилучити %d посилань"
+msgstr[3] "Вилучити %d посилання"
 
 #: ../src/sheet-control-gui.c:2245 ../src/sheet-object.c:282
 #: ../src/wbc-gtk-actions.c:2257
@@ -12940,14 +12931,12 @@ msgid "Paste _Special"
 msgstr "Особлива вставка"
 
 #: ../src/sheet-control-gui.c:2256
-#, fuzzy
 msgid "_Insert Cells..."
-msgstr "Вставити нові комірки"
+msgstr "_Вставити комірки…"
 
 #: ../src/sheet-control-gui.c:2259
-#, fuzzy
 msgid "_Delete Cells..."
-msgstr "Стерти комірки"
+msgstr "Ви_лучити комірки…"
 
 #: ../src/sheet-control-gui.c:2262
 msgid "_Insert Column(s)"
@@ -12970,84 +12959,69 @@ msgid "Clear Co_ntents"
 msgstr "Очистити вміст"
 
 #: ../src/sheet-control-gui.c:2284
-#, fuzzy
 msgid "Add _Comment..."
-msgstr "Коментарі"
+msgstr "Додати _коментар…"
 
 #: ../src/sheet-control-gui.c:2286
-#, fuzzy
 msgid "Edit Co_mment..."
-msgstr "Коментарі"
+msgstr "Редагувати ко_ментар…"
 
 #: ../src/sheet-control-gui.c:2288
-#, fuzzy
 msgid "_Remove Comments"
-msgstr "Коментарі"
+msgstr "Ви_лучити коментарі"
 
 #: ../src/sheet-control-gui.c:2291
-#, fuzzy
 msgid "Add _Hyperlink..."
-msgstr "Видалити"
+msgstr "Додати _гіперпосилання…"
 
 #: ../src/sheet-control-gui.c:2294
-#, fuzzy
 msgid "Edit _Hyperlink..."
-msgstr "Видалити"
+msgstr "Редагувати _гіперпосилання…"
 
 #: ../src/sheet-control-gui.c:2297
-#, fuzzy
 msgid "_Remove Hyperlink"
-msgstr "Видалити"
+msgstr "Ви_лучити гіперпосилання"
 
 #: ../src/sheet-control-gui.c:2303
-#, fuzzy
 msgid "_Edit DataSlicer"
-msgstr "Дані…"
+msgstr "_Редагувати DataSlicer"
 
 #: ../src/sheet-control-gui.c:2306
-#, fuzzy
 msgid "_Refresh DataSlicer"
-msgstr "Створити список"
+msgstr "_Освіжити DataSlicer"
 
 #: ../src/sheet-control-gui.c:2310
 msgid "DataSlicer Field _Order "
-msgstr ""
+msgstr "По_рядок полів DataSlicer "
 
 #: ../src/sheet-control-gui.c:2319
-#, fuzzy
 msgid "Up"
-msgstr "Вгору"
+msgstr "Вище"
 
 #: ../src/sheet-control-gui.c:2322
-#, fuzzy
 msgid "Down"
-msgstr "Вниз"
+msgstr "Нижче"
 
 #. end sub menu
 #: ../src/sheet-control-gui.c:2329
-#, fuzzy
 msgid "_Format All Cells..."
-msgstr "Формат комірок…"
+msgstr "_Форматувати усі комірки…"
 
 #: ../src/sheet-control-gui.c:2331
-#, fuzzy
 msgid "C_onditional Formatting..."
-msgstr "_Експоненціальне згладжування"
+msgstr "_Умовне форматування…"
 
 #: ../src/sheet-control-gui.c:2336
-#, fuzzy
 msgid "_Unmerge"
-msgstr "Об'єднати"
+msgstr "_Роз'єднати"
 
 #: ../src/sheet-control-gui.c:2338 ../src/wbc-gtk-actions.c:2805
-#, fuzzy
 msgid "Auto Fit _Width"
-msgstr "_Ширина:"
+msgstr "Авто_ширина"
 
 #: ../src/sheet-control-gui.c:2339 ../src/wbc-gtk-actions.c:2799
-#, fuzzy
 msgid "Auto Fit _Height"
-msgstr "_Висота…"
+msgstr "Ав_товисота"
 
 #. start sub menu
 #: ../src/sheet-control-gui.c:2345 ../src/wbc-gtk-actions.c:2814
@@ -13055,177 +13029,174 @@ msgid "_Width..."
 msgstr "_Ширина…"
 
 #: ../src/sheet-control-gui.c:2346 ../src/wbc-gtk-actions.c:2820
-#, fuzzy
 msgid "_Auto Fit Width"
-msgstr "_Ширина:"
+msgstr "_Автоширина"
 
 #: ../src/sheet-control-gui.c:2347 ../src/sheet-control-gui.c:2355
 #: ../src/wbc-gtk-actions.c:2826 ../src/wbc-gtk-actions.c:2860
 msgid "_Hide"
-msgstr "Прибрати"
+msgstr "При_ховати"
 
 #: ../src/sheet-control-gui.c:2348 ../src/sheet-control-gui.c:2356
 #: ../src/wbc-gtk-actions.c:2833 ../src/wbc-gtk-actions.c:2867
 msgid "_Unhide"
-msgstr "Показати"
+msgstr "По_казати"
 
 #. start sub menu
 #: ../src/sheet-control-gui.c:2353
-#, fuzzy
 msgid "Hei_ght..."
-msgstr "Ви_сота:"
+msgstr "В_исота…"
 
 #: ../src/sheet-control-gui.c:2354 ../src/wbc-gtk-actions.c:2854
-#, fuzzy
 msgid "_Auto Fit Height"
-msgstr "_Висота…"
+msgstr "_Автовисота"
 
 #. xgettext : %d gives the number of links. This is input to ngettext.
 #: ../src/sheet-control-gui.c:2489
-#, fuzzy, c-format
+#, c-format
 msgid "_Remove %d Link"
 msgid_plural "_Remove %d Links"
-msgstr[0] "Видалити"
-msgstr[1] "Видалити"
-msgstr[2] ""
-msgstr[3] "Видалити"
+msgstr[0] "Ви_лучити %d посилання"
+msgstr[1] "Ви_лучити %d посилання"
+msgstr[2] "Ви_лучити %d посилань"
+msgstr[3] "Ви_лучити %d посилання"
 
 #. xgettext : %d gives the number of comments. This is input to ngettext.
 #: ../src/sheet-control-gui.c:2494
-#, fuzzy, c-format
+#, c-format
 msgid "_Remove %d Comment"
 msgid_plural "_Remove %d Comments"
-msgstr[0] "Видалити поля"
-msgstr[1] "Видалити поля"
-msgstr[2] ""
-msgstr[3] "Видалити поля"
+msgstr[0] "Ви_лучити %d коментар"
+msgstr[1] "Ви_лучити %d коментарі"
+msgstr[2] "Ви_лучити %d коментарів"
+msgstr[3] "Ви_лучити %d коментар"
 
 #: ../src/sheet-control-gui.c:2497
-#, fuzzy, c-format
+#, c-format
 msgid "_Insert %d Cell..."
 msgid_plural "_Insert %d Cells..."
-msgstr[0] "Вставити нові комірки"
-msgstr[1] "Вставити нові комірки"
-msgstr[2] ""
-msgstr[3] "Вставити нові комірки"
+msgstr[0] "_Вставити %d комірку…"
+msgstr[1] "_Вставити %d комірки…"
+msgstr[2] "_Вставити %d комірок…"
+msgstr[3] "_Вставити комірку…"
 
 #: ../src/sheet-control-gui.c:2499
-#, fuzzy, c-format
+#, c-format
 msgid "_Delete %d Cell..."
 msgid_plural "_Delete %d Cells..."
-msgstr[0] "Стерти комірки"
-msgstr[1] "Стерти комірки"
-msgstr[2] ""
-msgstr[3] "Стерти комірки"
+msgstr[0] "Ви_лучити %d комірку…"
+msgstr[1] "Ви_лучити %d комірки…"
+msgstr[2] "Ви_лучити %d комірок…"
+msgstr[3] "Ви_лучити комірку…"
 
 #: ../src/sheet-control-gui.c:2505
-#, fuzzy, c-format
+#, c-format
 msgid "_Insert %d Column"
 msgid_plural "_Insert %d Columns"
-msgstr[0] "Вставити стовпчики"
-msgstr[1] "Вставити стовпчики"
-msgstr[2] ""
-msgstr[3] "Вставити стовпчики"
+msgstr[0] "_Вставити %d стовпчик"
+msgstr[1] "_Вставити %d стовпчики"
+msgstr[2] "_Вставити %d стовпчиків"
+msgstr[3] "_Вставити стовпчик"
 
 #: ../src/sheet-control-gui.c:2507
-#, fuzzy, c-format
+#, c-format
 msgid "_Delete %d Column"
 msgid_plural "_Delete %d Columns"
-msgstr[0] "Стерти стовпчики"
-msgstr[1] "Стерти стовпчики"
-msgstr[2] ""
-msgstr[3] "Стерти стовпчики"
+msgstr[0] "Ви_лучити %d стовпчик"
+msgstr[1] "Ви_лучити %d стовпчики"
+msgstr[2] "Ви_лучити %d стовпчиків"
+msgstr[3] "Ви_лучити стовпчик"
 
 #: ../src/sheet-control-gui.c:2510
-#, fuzzy, c-format
+#, c-format
 msgid "_Format %d Column"
 msgid_plural "_Format %d Columns"
-msgstr[0] "Формат - валютний"
-msgstr[1] "Формат - валютний"
-msgstr[2] ""
-msgstr[3] "Формат - валютний"
+msgstr[0] "_Форматувати %d стовпчик"
+msgstr[1] "_Форматувати %d стовпчики"
+msgstr[2] "_Форматувати %d стовпчиків"
+msgstr[3] "_Форматувати стовпчик"
 
 #: ../src/sheet-control-gui.c:2517
-#, fuzzy, c-format
+#, c-format
 msgid "_Insert %d Row"
 msgid_plural "_Insert %d Rows"
-msgstr[0] "Вставити рядки"
-msgstr[1] "Вставити рядки"
-msgstr[2] ""
-msgstr[3] "Вставити рядки"
+msgstr[0] "_Вставити %d рядок"
+msgstr[1] "_Вставити %d рядки"
+msgstr[2] "_Вставити %d рядків"
+msgstr[3] "_Вставити рядок"
 
 #: ../src/sheet-control-gui.c:2519
-#, fuzzy, c-format
+#, c-format
 msgid "_Delete %d Row"
 msgid_plural "_Delete %d Rows"
-msgstr[0] "Стерти рядки"
-msgstr[1] "Стерти рядки"
-msgstr[2] ""
-msgstr[3] "Стерти рядки"
+msgstr[0] "Ви_лучити %d рядок"
+msgstr[1] "Ви_лучити %d рядки"
+msgstr[2] "Ви_лучити %d рядків"
+msgstr[3] "Ви_лучити рядок"
 
 #: ../src/sheet-control-gui.c:2523
-#, fuzzy, c-format
+#, c-format
 msgid "_Format %d Row"
 msgid_plural "_Format %d Rows"
-msgstr[0] "_Формат"
-msgstr[1] "_Формат"
-msgstr[2] ""
-msgstr[3] "_Формат"
+msgstr[0] "_Форматувати %d рядок"
+msgstr[1] "_Форматувати %d рядки"
+msgstr[2] "_Форматувати %d рядків"
+msgstr[3] "_Форматувати рядок"
 
 #: ../src/sheet-control-gui.c:2530
-#, fuzzy, c-format
+#, c-format
 msgid "_Format %d Cell..."
 msgid_plural "_Format %d Cells"
-msgstr[0] "Формат комірок…"
-msgstr[1] "Формат комірок…"
-msgstr[2] ""
-msgstr[3] "Формат комірок…"
+msgstr[0] "_Форматувати %d комірку…"
+msgstr[1] "_Форматувати %d комірки…"
+msgstr[2] "_Форматувати %d комірок…"
+msgstr[3] "_Форматувати комірку…"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
 #: ../src/sheet-control-gui.c:2976
-#, fuzzy, c-format
+#, c-format
 msgid "Duplicate %d Object"
 msgid_plural "Duplicate %d Objects"
-msgstr[0] "_Дублювати"
-msgstr[1] "_Дублювати"
-msgstr[2] ""
-msgstr[3] "_Дублювати"
+msgstr[0] "Дублювати %d об'єкт"
+msgstr[1] "Дублювати %d об'єкти"
+msgstr[2] "Дублювати %d об'єктів"
+msgstr[3] "Дублювати об'єкт"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
 #: ../src/sheet-control-gui.c:2979
-#, fuzzy, c-format
+#, c-format
 msgid "Insert %d Object"
 msgid_plural "Insert %d Objects"
-msgstr[0] "Вставити об'єкт"
-msgstr[1] "Вставити об'єкт"
-msgstr[2] ""
+msgstr[0] "Вставити %d об'єкт"
+msgstr[1] "Вставити %d об'єкти"
+msgstr[2] "Вставити %d об'єктів"
 msgstr[3] "Вставити об'єкт"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
 #: ../src/sheet-control-gui.c:2983
-#, fuzzy, c-format
+#, c-format
 msgid "Move %d Object"
 msgid_plural "Move %d Objects"
-msgstr[0] "Перенести об'єкт"
-msgstr[1] "Перенести об'єкт"
-msgstr[2] ""
-msgstr[3] "Перенести об'єкт"
+msgstr[0] "Пересунути %d об'єкт"
+msgstr[1] "Пересунути %d об'єкти"
+msgstr[2] "Пересунути %d об'єктів"
+msgstr[3] "Пересунути об'єкт"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
 #: ../src/sheet-control-gui.c:2986
-#, fuzzy, c-format
+#, c-format
 msgid "Resize %d Object"
 msgid_plural "Resize %d Objects"
-msgstr[0] "Змінити розміри об'єкта"
-msgstr[1] "Змінити розміри об'єкта"
-msgstr[2] ""
-msgstr[3] "Змінити розміри об'єкта"
+msgstr[0] "Змінити розмір %d об'єкта"
+msgstr[1] "Змінити розмір %d об'єктів"
+msgstr[2] "Змінити розмір %d об'єктів"
+msgstr[3] "Змінити розмір об'єкта"
 
 #. xgettext: this is a by-line for cell comments
 #: ../src/sheet-control-gui.c:3225
-#, fuzzy, c-format
+#, c-format
 msgid "By %s:"
-msgstr "від %s"
+msgstr "За %s:"
 
 #: ../src/sheet-merge.c:78 ../src/wbc-gtk-actions.c:3400
 msgid "Merge"
@@ -13237,40 +13208,40 @@ msgid ""
 "There is already a merged region that intersects\n"
 "%s!%s"
 msgstr ""
+"Вже існує об'єднана область, яка перетинає\n"
+"%s!%s"
 
 #: ../src/sheet-object.c:157
-#, fuzzy
 msgid "Snap object to grid"
-msgstr "Виберіть об'єкт для додавання"
+msgstr "Прив'язка об'єкта до сітки"
 
 #: ../src/sheet-object.c:273
 msgid "Size _& Position"
-msgstr ""
+msgstr "Розм_ір і розташування"
 
 #: ../src/sheet-object.c:274
 msgid "_Snap to Grid"
 msgstr "Прив'_язувати до сітки"
 
 #: ../src/sheet-object.c:275
-#, fuzzy
 msgid "_Order"
-msgstr "Тло"
+msgstr "П_орядок"
 
 #: ../src/sheet-object.c:276
 msgid "Pul_l to Front"
-msgstr ""
+msgstr "Н_а передній план"
 
 #: ../src/sheet-object.c:277
 msgid "Pull _Forward"
-msgstr ""
+msgstr "Ви_ще"
 
 #: ../src/sheet-object.c:278
 msgid "Push _Backward"
-msgstr ""
+msgstr "Н_ижче"
 
 #: ../src/sheet-object.c:279
 msgid "Pus_h to Back"
-msgstr ""
+msgstr "_На задній план"
 
 #: ../src/sheet-object.c:284 ../src/wbc-gtk-actions.c:2067
 msgid "_Delete"
@@ -13282,9 +13253,9 @@ msgstr "Друкувати"
 
 #: ../src/sheet-object-component.c:182 ../src/sheet-object-graph.c:296
 #: ../src/sheet-object-image.c:287
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown failure while saving image"
-msgstr "Помилка під час збереження файлу."
+msgstr "Невідома помилка під час збереження зображення"
 
 #: ../src/sheet-object-component.c:191
 msgid "Save as"
@@ -13292,29 +13263,26 @@ msgstr "Зберегти як"
 
 #: ../src/sheet-object-component.c:268 ../src/sheet-object-graph.c:407
 #: ../src/sheet-object-image.c:344
-#, fuzzy
 msgid "_Save As Image"
 msgstr "З_берегти як зображення"
 
 #: ../src/sheet-object-graph.c:288
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unknown error"
 msgid "Unknown image format"
-msgstr "Невідома помилка"
+msgstr "Невідомий формат зображення"
 
 #: ../src/sheet-object-graph.c:408
 msgid "Open in _New Window"
-msgstr ""
+msgstr "Відкрити у _новому вікні"
 
 #: ../src/sheet-object-graph.c:409
-#, fuzzy
 msgid "Copy to New Graph S_heet"
-msgstr "Аркуш"
+msgstr "Копіювати до нового а_ркуша графіки"
 
 #: ../src/sheet-object-graph.c:772
-#, fuzzy
 msgid "Series as:"
-msgstr "Назва серій"
+msgstr "Послідовності як:"
 
 #. Translators: Series as "Columns"
 #: ../src/sheet-object-graph.c:778
@@ -13325,23 +13293,21 @@ msgstr "Стовпчики"
 
 #. Translators: Series as "Rows"
 #: ../src/sheet-object-graph.c:780
-#, fuzzy
 msgctxt "graph"
 msgid "Rows"
 msgstr "Рядки"
 
 #: ../src/sheet-object-graph.c:784
 msgid "Use first series as shared abscissa"
-msgstr ""
+msgstr "Перша послідовність — спільна абсциса"
 
 #: ../src/sheet-object-graph.c:787
-#, fuzzy
 msgid "New graph sheet"
-msgstr "Аркуш"
+msgstr "Новий графічний аркуш"
 
 #: ../src/sheet-object-widget.c:249
 msgid "Because of GTK bug #705640, a sheet object widget is not being printed."
-msgstr ""
+msgstr "Через ваду GTK 705640, віджет об'єкта аркуша не буде надруковано."
 
 #: ../src/sheet-object-widget.c:402 ../src/wbc-gtk-actions.c:3320
 msgid "Frame"
@@ -13353,50 +13319,41 @@ msgid "Button"
 msgstr "Кнопка"
 
 #: ../src/sheet-object-widget.c:928
-#, fuzzy
 msgid "Pressed Button"
-msgstr "Створити кнопку"
+msgstr "Натиснута кнопка"
 
 #: ../src/sheet-object-widget.c:943
-#, fuzzy
 msgid "Released Button"
-msgstr "Перемикач"
+msgstr "Відпущена кнопка"
 
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:1442
-#, fuzzy
 msgid "Change widget"
-msgstr "Діапазон"
+msgstr "Змінити віджет"
 
 #: ../src/sheet-object-widget.c:1779
-#, fuzzy
 msgid "Adjustment Properties"
-msgstr "_Властивості…"
+msgstr "Властивості коригування"
 
 #: ../src/sheet-object-widget.c:1929
-#, fuzzy
 msgid "Configure Scrollbar"
-msgstr "Створити панель прокрутки"
+msgstr "Налаштувати смужку гортання"
 
 #: ../src/sheet-object-widget.c:2035
-#, fuzzy
 msgid "Configure Spinbutton"
-msgstr "Створити кнопку"
+msgstr "Налаштувати кнопку-лічильник"
 
 #: ../src/sheet-object-widget.c:2036
-#, fuzzy
 msgid "Spinbutton Properties"
-msgstr "_Властивості…"
+msgstr "Властивості кнопки-лічильника"
 
 #: ../src/sheet-object-widget.c:2142
-#, fuzzy
 msgid "Configure Slider"
-msgstr "Конфігурація графи відмітки"
+msgstr "Налаштувати повзунок"
 
 #: ../src/sheet-object-widget.c:2143
-#, fuzzy
 msgid "Slider Properties"
-msgstr "_Властивості…"
+msgstr "Властивості повзунка"
 
 #: ../src/sheet-object-widget.c:2345
 #, c-format
@@ -13405,9 +13362,8 @@ msgstr "Графа для відмітки %d"
 
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:2390
-#, fuzzy
 msgid "Clicking checkbox"
-msgstr "Графа для відмітки"
+msgstr "Клацання на пункті для позначки"
 
 #: ../src/sheet-object-widget.c:2939 ../src/wbc-gtk-actions.c:3392
 msgid "RadioButton"
@@ -13415,14 +13371,12 @@ msgstr "Перемикач"
 
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:2986
-#, fuzzy
 msgid "Clicking radiobutton"
-msgstr "Створити перемикач"
+msgstr "Клацання на перемикачі"
 
 #: ../src/sheet-object-widget.c:3481
-#, fuzzy
 msgid "Clicking in list"
-msgstr "Очищення %s в %s"
+msgstr "Клацання у списку"
 
 #: ../src/sheet-view.c:419
 msgid "Copy"
@@ -13442,9 +13396,8 @@ msgid ""
 msgstr ""
 
 #: ../src/sheet.c:932
-#, fuzzy
 msgid "Display Zeros"
-msgstr "Показати формули"
+msgstr "Показати нулі"
 
 #: ../src/sheet.c:933
 msgid "Control whether zeros are shown are blanked out."
@@ -13493,11 +13446,11 @@ msgstr "Показати версію програми"
 
 #: ../src/ssconvert.c:88
 msgid "Be somewhat more verbose during conversion"
-msgstr ""
+msgstr "Виводити докладніші повідомлення під час перетворення"
 
 #: ../src/ssconvert.c:97 ../src/ssindex.c:66
 msgid "Optionally specify an encoding for imported content"
-msgstr ""
+msgstr "Додатково вказати кодування для імпортованих даних"
 
 #: ../src/ssconvert.c:98 ../src/ssindex.c:67
 msgid "ENCODING"
@@ -13505,11 +13458,11 @@ msgstr "КОДУВАННЯ"
 
 #: ../src/ssconvert.c:104
 msgid "Optionally specify which importer to use"
-msgstr ""
+msgstr "Додатково вказати засіб імпортування, яким слід скористатися"
 
 #: ../src/ssconvert.c:111
 msgid "List the available importers"
-msgstr ""
+msgstr "Список доступних засобів імпортування"
 
 #: ../src/ssconvert.c:120
 msgid "Merge listed files (all same format) to make this file"
@@ -13517,11 +13470,11 @@ msgstr ""
 
 #: ../src/ssconvert.c:127
 msgid "Optionally specify which exporter to use"
-msgstr ""
+msgstr "Додатково вказати засіб експортування, яким слід скористатися"
 
 #: ../src/ssconvert.c:134
 msgid "Detailed instructions for the chosen exporter"
-msgstr ""
+msgstr "Докладні настанови для вибраного засобу експортування"
 
 #: ../src/ssconvert.c:135
 msgid "string"
@@ -13529,63 +13482,60 @@ msgstr "рядок"
 
 #: ../src/ssconvert.c:141
 msgid "List the available exporters"
-msgstr ""
+msgstr "Список доступних засобів експортування"
 
 #: ../src/ssconvert.c:148
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time"
 msgstr ""
+"Експортувати кожен аркуш до окремого файла, якщо у засобі експортування"
+" передбачено підтримку одночасної обробки лише одного аркуша"
 
 #: ../src/ssconvert.c:155
-#, fuzzy
 msgid "Export graphs"
-msgstr "Формат - час"
+msgstr "Експортувати графіки"
 
 #: ../src/ssconvert.c:162
 msgid "List the available image formats"
-msgstr ""
+msgstr "Список доступних форматів зображень"
 
 #: ../src/ssconvert.c:169
 msgid "Change the contents of a cell before writing --set A12=2"
-msgstr ""
+msgstr "Змінити вміст комірки до запису --set A12=2"
 
 #: ../src/ssconvert.c:176
-#, fuzzy
 msgid "Recalculate all cells before writing the result"
-msgstr "Вибрати всі комірки в таблиці"
+msgstr "Переобчислити усі комірки до записування результату"
 
 #: ../src/ssconvert.c:183
 msgid "Resize to given ROWSxCOLS"
-msgstr ""
+msgstr "Змінити розміри до вказаного ROWSxCOLS"
 
 #: ../src/ssconvert.c:195
-#, fuzzy
 #| msgid "Paste the clipboard"
 msgid "Output via the clipboard"
-msgstr "Вставити кишеню"
+msgstr "Виводити дані до буфера обміну даними"
 
 #: ../src/ssconvert.c:202
 msgid "The range to export"
-msgstr ""
+msgstr "Діапазон для експортування"
 
 #: ../src/ssconvert.c:209
-#, fuzzy
 msgid "Goal seek areas"
-msgstr "Пошук цілі…"
+msgstr "Області пошуку цілі"
 
 #: ../src/ssconvert.c:216
 msgid "Run the solver"
-msgstr ""
+msgstr "Запустити розв'язувач"
 
 #: ../src/ssconvert.c:223
 msgid "Tool test specs"
 msgstr ""
 
 #: ../src/ssconvert.c:298 ../src/ssconvert.c:925
-#, fuzzy
 msgid "Cannot parse export options."
-msgstr "Форматування стовпчика"
+msgstr "Не вдалося обробити параметри експортування."
 
 #: ../src/ssconvert.c:332
 #, c-format
@@ -13612,39 +13562,41 @@ msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 
 #: ../src/ssconvert.c:626
-#, fuzzy, c-format
+#, c-format
 msgid "Adding sheets from %s\n"
-msgstr "Невідомий аркуш «%s»"
+msgstr "Додаємо аркуші з %s\n"
 
 #: ../src/ssconvert.c:719
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create solver"
-msgstr "Неможливо створити тимчасовий файл."
+msgstr "Не вдалося створити розв'язувач"
 
 #: ../src/ssconvert.c:734
 #, c-format
 msgid "Solver reached time or iteration limit\n"
 msgstr ""
+"Розв'язувачем перевищено час очікування на результат або обмеження на"
+" кількість ітерацій\n"
 
 #: ../src/ssconvert.c:738
 #, c-format
 msgid "Solver ran, but failed"
-msgstr ""
+msgstr "Розв'язувач було запущено, але його роботу завершено із помилкою"
 
 #: ../src/ssconvert.c:750
-#, fuzzy, c-format
+#, c-format
 msgid "Solver: %s\n"
-msgstr "Пошук розв'язання…"
+msgstr "Розв'язувач: %s\n"
 
 #: ../src/ssconvert.c:900
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid export option \"%s=%s\" for image export"
-msgstr "Некоректна кількість аргументів"
+msgstr "Некоректний параметр експортування «%s=%s» для експортування зображень"
 
 #: ../src/ssconvert.c:1076
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to set cell %s\n"
-msgstr "Неможливо створити тимчасовий файл."
+msgstr "Не вдалося встановити комірку %s\n"
 
 #: ../src/ssconvert.c:1113
 #, c-format
@@ -13661,9 +13613,9 @@ msgid ""
 msgstr ""
 
 #: ../src/ssconvert.c:1139
-#, fuzzy, c-format
+#, c-format
 msgid "Using exporter %s\n"
-msgstr "Неправильний вираз"
+msgstr "З використанням засобу експортування %s\n"
 
 #: ../src/ssconvert.c:1145
 #, c-format
@@ -13678,135 +13630,135 @@ msgid ""
 "Unknown importer '%s'.\n"
 "Try --list-importers to see a list of possibilities.\n"
 msgstr ""
+"Невідомий засіб імпортування «%s».\n"
+"Скористайтеся --list-importers, щоб переглянути список можливих варіантів.\n"
 
 #: ../src/ssconvert.c:1188 ../src/ssconvert.c:1339
-#, fuzzy, c-format
+#, c-format
 #| msgid "Load file"
 msgid "Loading %s failed\n"
-msgstr "Завантажити файл"
+msgstr "Не вдалося завантажити %s\n"
 
 #: ../src/ssconvert.c:1240
-#, fuzzy, c-format
+#, c-format
 msgid "Resizing to %dx%d\n"
-msgstr "Перейменувати цей аркуш"
+msgstr "Змінюємо розміри до %dx%d\n"
 
 #: ../src/ssconvert.c:1252
-#, fuzzy, c-format
+#, c-format
 msgid "Resizing of sheet %s failed\n"
-msgstr "Перейменувати цей аркуш"
+msgstr "Не вдалося змінити розміри аркуша %s\n"
 
 #: ../src/ssconvert.c:1405 ../src/ssconvert.c:1484
 msgid "INFILE [OUTFILE]"
-msgstr ""
+msgstr "ВХІДНИЙ_ФАЙЛ [ВИХІДНИЙ_ФАЙЛ]"
 
 #: ../src/ssconvert.c:1424
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ssconvert version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Версія Gnumeric: «%s»\n"
-"Каталог даних: «%s»\n"
-"Каталог бібліотек: «%s»\n"
+"версія ssconvert «%s»\n"
+"каталог даних := «%s»\n"
+"каталог бібліотек := «%s»\n"
 
 #: ../src/ssconvert.c:1430
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
-msgstr ""
+msgstr "--export-file-per-sheet і --merge-to є неумісними\n"
 
 #: ../src/ssconvert.c:1482 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
-msgstr ""
+msgstr "Користування: %s [ПАРАМЕТР...] %s\n"
 
 #: ../src/ssdiff.c:60
 msgid "Send output to file"
-msgstr ""
+msgstr "Надіслати виведені дані до файла"
 
 #: ../src/ssdiff.c:67
 msgid "Output copy highlighting differences"
-msgstr ""
+msgstr "Вивести копію підсвічених відмінностей"
 
 #: ../src/ssdiff.c:74
-#, fuzzy
 msgid "Output in xml format"
-msgstr "Налаштувати нижній колонтитул"
+msgstr "Вивести дані у форматі xml"
 
 #: ../src/ssdiff.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Failed to read %s: %s\n"
-msgstr "Неможливо створити файл %s\n"
+msgstr "%s: не вдалося прочитати %s: %s\n"
 
 #: ../src/ssdiff.c:172
-#, fuzzy, c-format
+#, c-format
 msgid "Differences for sheet %s:\n"
-msgstr "Зберегти книгу як"
+msgstr "Відмінності для аркуша %s:\n"
 
 #: ../src/ssdiff.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "Sheet %s removed.\n"
-msgstr "Необхідна назва аркуша"
+msgstr "Аркуш %s вилучено.\n"
 
 #: ../src/ssdiff.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Sheet %s added.\n"
-msgstr "Необхідна назва аркуша"
+msgstr "Аркуш %s додано.\n"
 
 #: ../src/ssdiff.c:185
-#, fuzzy
 msgid "Sheet order changed.\n"
-msgstr "Необхідна назва аркуша"
+msgstr "Змінено порядок аркушів.\n"
 
 #: ../src/ssdiff.c:193
 #, c-format
 msgid "Sheet attribute %s changed.\n"
-msgstr ""
+msgstr "Змінено атрибут %s аркуша.\n"
 
 #: ../src/ssdiff.c:203
-#, fuzzy, c-format
+#, c-format
 msgid "Column %s changed.\n"
-msgstr "Стовпчики"
+msgstr "Змінено стовпчик %s.\n"
 
 #: ../src/ssdiff.c:206
 #, c-format
 msgid "Row %d changed.\n"
-msgstr ""
+msgstr "Змінено рядок %d.\n"
 
 #: ../src/ssdiff.c:215
-#, fuzzy, c-format
+#, c-format
 msgid "Cell %s changed.\n"
-msgstr "Діапазон комірок"
+msgstr "Змінено комірку %s.\n"
 
 #: ../src/ssdiff.c:217
 #, c-format
 msgid "Cell %s removed.\n"
-msgstr ""
+msgstr "Вилучено комірку %s.\n"
 
 #: ../src/ssdiff.c:219
 #, c-format
 msgid "Cell %s added.\n"
-msgstr ""
+msgstr "Додано комірку %s.\n"
 
 #: ../src/ssdiff.c:230
 #, c-format
 msgid "Style of %s was changed.\n"
-msgstr ""
+msgstr "Змінено стиль %s.\n"
 
 #: ../src/ssdiff.c:240
-#, fuzzy, c-format
+#, c-format
 msgid "Name %s changed.\n"
-msgstr "Діапазон комірок"
+msgstr "Змінено назву %s.\n"
 
 #: ../src/ssdiff.c:242
 #, c-format
 msgid "Name %s removed.\n"
-msgstr ""
+msgstr "Вилучено назву %s.\n"
 
 #: ../src/ssdiff.c:244
 #, c-format
 msgid "Name %s added.\n"
-msgstr ""
+msgstr "Додано назву %s.\n"
 
 #: ../src/ssdiff.c:771
 #, c-format
@@ -13815,7 +13767,7 @@ msgstr ""
 
 #: ../src/ssdiff.c:929 ../src/ssdiff.c:995
 msgid "OLDFILE NEWFILE"
-msgstr ""
+msgstr "СТАРИЙ_ФАЙЛ НОВИЙ_ФАЙЛ"
 
 #: ../src/ssdiff.c:943
 #, fuzzy, c-format
