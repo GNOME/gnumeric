@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2020-05-12 17:35+0000\n"
-"PO-Revision-Date: 2020-05-17 12:16+0300\n"
+"PO-Revision-Date: 2020-05-17 19:42+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -8122,9 +8122,8 @@ msgid "Alignment"
 msgstr "Вирівнювання"
 
 #: ../src/dialogs/cell-format-cond.ui.h:12
-#, fuzzy
 msgid "Style Overlay:"
-msgstr "Стиль"
+msgstr ""
 
 #: ../src/dialogs/cell-format-cond.ui.h:13
 msgid "_Edit Style"
@@ -9547,9 +9546,8 @@ msgid "Seasonal damping factor (δ):"
 msgstr "Сезонний коефіцієнт згасання (δ):"
 
 #: ../src/dialogs/exp-smoothing.ui.h:18
-#, fuzzy
 msgid "Seasonal period:"
-msgstr "Розділювачі"
+msgstr ""
 
 #: ../src/dialogs/exp-smoothing.ui.h:19 ../src/dialogs/moving-averages.ui.h:19
 msgid "Include chart"
@@ -9585,9 +9583,8 @@ msgid "Fill Series"
 msgstr "Заповнення послідовністю"
 
 #: ../src/dialogs/fill-series.ui.h:2
-#, fuzzy
 msgid "Series in:"
-msgstr "Назва серій"
+msgstr ""
 
 #: ../src/dialogs/fill-series.ui.h:3 ../src/wbc-gtk-actions.c:2135
 #: ../src/wbc-gtk-actions.c:2498
@@ -9878,32 +9875,28 @@ msgid "C_alculated cutoffs"
 msgstr "Об_числені обрізання"
 
 #: ../src/dialogs/histogram.ui.h:12
-#, fuzzy
 msgid "_Number of cutoffs:"
-msgstr "Скопіювати формати"
+msgstr ""
 
 #: ../src/dialogs/histogram.ui.h:13
 msgid "M_inimum cutoff:"
 msgstr ""
 
 #: ../src/dialogs/histogram.ui.h:14
-#, fuzzy
 msgid "Ma_ximum cutoff:"
-msgstr "Gnumeric: Перевірка"
+msgstr ""
 
 #: ../src/dialogs/histogram.ui.h:15
 msgid "_Predetermined cutoffs"
 msgstr ""
 
 #: ../src/dialogs/histogram.ui.h:16
-#, fuzzy
 msgid "Cutoff _range:"
-msgstr "Діапазон вводу:"
+msgstr ""
 
 #: ../src/dialogs/histogram.ui.h:17
-#, fuzzy
 msgid "C_utoffs"
-msgstr "Користувацький"
+msgstr ""
 
 #: ../src/dialogs/histogram.ui.h:18
 msgid "(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)"
@@ -9938,9 +9931,8 @@ msgid "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
 msgstr "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
 
 #: ../src/dialogs/histogram.ui.h:26
-#, fuzzy
 msgid "_Bins"
-msgstr "Двійкове"
+msgstr ""
 
 #: ../src/dialogs/histogram.ui.h:30
 msgid "Histogram chart"
@@ -9963,9 +9955,8 @@ msgid "T_ype:"
 msgstr "Т_ип:"
 
 #: ../src/dialogs/hyperlink.ui.h:3
-#, fuzzy
 msgid "Target _Range:"
-msgstr "Діапазон _списку:"
+msgstr ""
 
 #: ../src/dialogs/hyperlink.ui.h:4
 msgid "Email _Address:"
@@ -10044,9 +10035,8 @@ msgid "Define _multiple groups"
 msgstr "Визначити д_екілька груп"
 
 #: ../src/dialogs/kaplan-meier.ui.h:9
-#, fuzzy
 msgid "Groups column:"
-msgstr "Згрупувати стовпчики %s"
+msgstr ""
 
 #: ../src/dialogs/kaplan-meier.ui.h:10
 msgid "_Groups"
@@ -10114,14 +10104,12 @@ msgid "Variable _2 population variance:"
 msgstr "Дисперсія вибірки змінної _2:"
 
 #: ../src/dialogs/mean-tests.ui.h:11
-#, fuzzy
 msgid "_Paired"
-msgstr "Вставити"
+msgstr ""
 
 #: ../src/dialogs/mean-tests.ui.h:12
-#, fuzzy
 msgid "_Unpaired"
-msgstr "Новий особистий"
+msgstr ""
 
 #: ../src/dialogs/mean-tests.ui.h:13
 msgid "_Known"
@@ -10799,9 +10787,8 @@ msgid "Regression"
 msgstr "Регресія"
 
 #: ../src/dialogs/regression.ui.h:2
-#, fuzzy
 msgid "_Multiple linear regression"
-msgstr "Множинні помилки"
+msgstr ""
 
 #: ../src/dialogs/regression.ui.h:3
 msgid "Multiple 2-_variable regressions"
@@ -11104,9 +11091,8 @@ msgid "Search line by line"
 msgstr "Шукати рядок за рядком"
 
 #: ../src/dialogs/search-replace.ui.h:46
-#, fuzzy
 msgid "_Column major"
-msgstr "Стовпчики"
+msgstr ""
 
 #: ../src/dialogs/search-replace.ui.h:47 ../src/dialogs/search.ui.h:33
 msgid "Search column by column"
@@ -11254,9 +11240,8 @@ msgid "Miscellaneous"
 msgstr "Різне"
 
 #: ../src/dialogs/search.ui.h:32
-#, fuzzy
 msgid "C_olumn major"
-msgstr "Стовпчик"
+msgstr ""
 
 #: ../src/dialogs/search.ui.h:34
 msgid "Save settings as _default"
@@ -11508,9 +11493,8 @@ msgid "<span weight=\"bold\">Limits</span>"
 msgstr "<span weight=\"bold\">Обмеження</span>"
 
 #: ../src/dialogs/simulation.ui.h:7
-#, fuzzy
 msgid "First round #:"
-msgstr "Передній план"
+msgstr ""
 
 #: ../src/dialogs/simulation.ui.h:8
 msgid "Last round #:"
@@ -13764,178 +13748,169 @@ msgstr "Додано назву %s.\n"
 #, c-format
 msgid "%s: Unable to guess exporter to use for %s.\n"
 msgstr ""
+"%s: не вдалося вгадати засіб експортування, яким слід скористатися для %s.\n"
 
 #: ../src/ssdiff.c:929 ../src/ssdiff.c:995
 msgid "OLDFILE NEWFILE"
 msgstr "СТАРИЙ_ФАЙЛ НОВИЙ_ФАЙЛ"
 
 #: ../src/ssdiff.c:943
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ssdiff version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Версія Gnumeric: «%s»\n"
+"Версія ssdiff: «%s»\n"
 "Каталог даних: «%s»\n"
 "Каталог бібліотек: «%s»\n"
 
 #: ../src/ssdiff.c:949
 #, c-format
 msgid "%s: Only one output format may be specified.\n"
-msgstr ""
+msgstr "%s: можна вказувати лише один формат виведення.\n"
 
 #: ../src/ssdiff.c:968
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Failed to create output file: %s\n"
-msgstr "Не вдалося створити діалог автозбереження."
+msgstr "%s: не вдалося створити файл виведення даних: %s\n"
 
 #: ../src/ssgrep.c:61
 msgid "Only print a count of matches per file"
-msgstr ""
+msgstr "Вивести лише кількість відповідників у кожному з файлів"
 
 #: ../src/ssgrep.c:67
 msgid "Search only via the string table, display a count of the references."
-msgstr ""
+msgstr "Шукати лише за допомогою таблиці рядків, показати кількість посилань."
 
 #: ../src/ssgrep.c:74
 msgid "Get patterns from a file, one per line"
-msgstr ""
+msgstr "Отримати взірці з файла, по одному на рядок"
 
 #: ../src/ssgrep.c:81
 msgid "Pattern is a set of fixed strings"
-msgstr ""
+msgstr "Взірець є набором фіксованих рядків"
 
 #: ../src/ssgrep.c:88
 msgid "Print the filename for each match"
-msgstr ""
+msgstr "Вивести назву файла для кожного з відповідників"
 
 #: ../src/ssgrep.c:95
 msgid "Do not print the filename for each match"
-msgstr ""
+msgstr "Не виводити назви файла для кожного з відповідників"
 
 #: ../src/ssgrep.c:102
 msgid "Ignore differences in letter case"
-msgstr ""
+msgstr "Ігнорувати відмінності у регістрі літер"
 
 #: ../src/ssgrep.c:109
 msgid "Print filenames with matches"
-msgstr ""
+msgstr "Вивести назви файлів із відповідниками"
 
 #: ../src/ssgrep.c:116
 msgid "Print filenames without matches"
-msgstr ""
+msgstr "Вивести назви файлів без відповідників"
 
 #: ../src/ssgrep.c:123
-#, fuzzy
 msgid "Print the location of each match"
-msgstr "Вирізати вибране"
+msgstr "Вивести розташування кожного з відповідників"
 
 #: ../src/ssgrep.c:130
 msgid "Suppress all normal output"
-msgstr ""
+msgstr "Придушити усі звичайні виведення"
 
 #: ../src/ssgrep.c:137
-#, fuzzy
 msgid "Search results of expressions too"
-msgstr "Регресія"
+msgstr "Шукати результати і для виразів"
 
 #: ../src/ssgrep.c:144
 msgid "Print the location type of each match"
-msgstr ""
+msgstr "Вивести тип розташування для кожного з відповідників"
 
 #: ../src/ssgrep.c:151
 msgid "Search for cells that do not match"
-msgstr ""
+msgstr "Шукати комірки, які не збігаються"
 
 #: ../src/ssgrep.c:165
 msgid "Match only whole words"
 msgstr "Шукати лише цілі слова"
 
 #: ../src/ssgrep.c:172
-#, fuzzy
 msgid "Recalculate all cells"
-msgstr "Перерахувати"
+msgstr "Переобчислити усі комірки"
 
 #: ../src/ssgrep.c:363
-#, fuzzy
 msgid "result"
-msgstr "Результат"
+msgstr "результат"
 
 #: ../src/ssgrep.c:370
-#, fuzzy
 msgid "comment"
 msgstr "коментар"
 
 #: ../src/ssgrep.c:429
-#, fuzzy
 msgid "PATTERN INFILE..."
-msgstr "ФАЙЛ"
+msgstr "ВЗІРЕЦЬ ВХІДНИЙ_ФАЙЛ…"
 
 #: ../src/ssgrep.c:443
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Версія Gnumeric: «%s»\n"
+"Версія «%s»\n"
 "Каталог даних: «%s»\n"
 "Каталог бібліотек: «%s»\n"
 
 #: ../src/ssgrep.c:463
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Cannot read %s: %s\n"
-msgstr "%s: Неможливо прочитати %s (%s).\n"
+msgstr "%s: не вдалося прочитати %s: %s\n"
 
 #: ../src/ssgrep.c:493
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Missing pattern\n"
-msgstr "Відсутня назва файла."
+msgstr "%s: пропущено взірець\n"
 
 #: ../src/ssindex.c:52
 msgid "List MIME types which ssindex is able to read"
-msgstr ""
+msgstr "Список типів MIME, які може читати ssindex"
 
 #: ../src/ssindex.c:59
-#, fuzzy
 msgid "Index the given files"
-msgstr "Зберегти поточний файл"
+msgstr "Покажчик вказаних файлів"
 
 #: ../src/ssindex.c:252 ../src/ssindex.c:272
-#, fuzzy
 msgid "INFILE..."
-msgstr "ФАЙЛ"
+msgstr "ВХІДНИЙ_ФАЙЛ…"
 
 #: ../src/ssindex.c:266
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ssindex version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Версія Gnumeric: «%s»\n"
+"Версія ssindex «%s»\n"
 "Каталог даних: «%s»\n"
 "Каталог бібліотек: «%s»\n"
 
 #: ../src/stf-export.c:692
-#, fuzzy
 msgid "Error while trying to export file as text"
-msgstr "Помилка під час спроби передконвертувати файл"
+msgstr "Помилка під час спроби експортувати файл як текст"
 
 #: ../src/stf-export.c:726
 msgid "eol must be one of unix, mac, and windows"
-msgstr ""
+msgstr "eol має бути одним із таких значень: unix, mac або windows"
 
 #: ../src/stf-export.c:746
 #, c-format
 msgid "Invalid value for option %s: \"%s\""
-msgstr ""
+msgstr "Некоректне значення параметра %s: «%s»"
 
 #: ../src/stf-export.c:784
-#, fuzzy
 msgid "Text (configurable)"
-msgstr "Імпорт текстового файлу (з налаштуванням)"
+msgstr "Текст (налаштовуваний)"
 
 #. FIXME: What locale?
 #: ../src/stf-parse.c:1353
@@ -13952,89 +13927,81 @@ msgid ""
 msgstr ""
 
 #: ../src/stf.c:129
-#, fuzzy
 msgid "Error while trying to read file"
-msgstr "Помилка при спробі запису cvs-файлу"
+msgstr "Помилка під час спроби читання файла"
 
 #: ../src/stf.c:192
 msgid "This importer can only be used with a GUI."
 msgstr ""
+"Цим засобом імпортування можна користуватися лише з графічним інтерфейсом."
 
 #: ../src/stf.c:286 ../src/stf.c:318
-#, fuzzy
 msgid "Text to Columns"
-msgstr ""
-"Текст у колонки\n"
-"перетворення тексту у колонки"
+msgstr "Текст у стовпчики"
 
 #: ../src/stf.c:291
 #, c-format
 msgid "Only one column of input data can be parsed at a time"
-msgstr ""
+msgstr "Можна обробляти лише один стовпчик вхідних даних за раз"
 
 #: ../src/stf.c:313
 msgid "There is no data to convert"
-msgstr ""
+msgstr "Немає даних для перетворення"
 
 #: ../src/stf.c:333
-#, fuzzy
 msgid "Error while trying to parse data into sheet"
-msgstr "Помилка аналізу даних в аркуші"
+msgstr "Помилка під час спроби обробити дані у аркуш"
 
 #: ../src/stf.c:361
 #, c-format
 msgid "The file contains %d NUL character. It has been changed to a space."
 msgid_plural ""
 "The file contains %d NUL characters. They have been changed to spaces."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "У файлі міститься %d символ NUL. Їх замінено на пробіли."
+msgstr[1] "У файлі міститься %d символи NUL. Їх замінено на пробіли."
+msgstr[2] "У файлі міститься %d символів NUL. Їх замінено на пробіли."
+msgstr[3] "У файлі міститься один символ NUL. Його замінено на пробіли."
 
 #: ../src/stf.c:373
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
-msgstr ""
+msgstr "У файлі містяться некоректно кодовані символи UTF-8 — їх було обрізано"
 
 #: ../src/stf.c:419
 msgid "That file is not in the given encoding."
-msgstr ""
+msgstr "Дані цього файла не записано у вказаному кодуванні."
 
 #: ../src/stf.c:464
 msgid "Some data did not fit on the sheet and was dropped."
-msgstr ""
+msgstr "Частина даних не вміщується на аркуш — її було відкинуто"
 
 #: ../src/stf.c:476
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Помилка аналізу даних в аркуші"
 
 #: ../src/stf.c:505
-#, fuzzy
 msgid "Error while trying to write CSV file"
-msgstr "Помилка при спробі запису cvs-файлу"
+msgstr "Помилка під час спроби записати файл CSV"
 
 #: ../src/stf.c:606
 msgid "Comma or tab separated values (CSV/TSV)"
-msgstr ""
+msgstr "Значення, які відокремлено комами або табуляціями (CSV/TSV)"
 
 #: ../src/stf.c:614
 msgid "Text import (configurable)"
 msgstr "Імпорт текстового файлу (з налаштуванням)"
 
 #: ../src/stf.c:628
-#, fuzzy
 msgid "Comma separated values (CSV)"
-msgstr "Значення, розділені комами (.csv)"
+msgstr "Значення, розділені комами (CSV)"
 
 #: ../src/tools/analysis-anova.c:120
-#, fuzzy
 msgid "ANOVA: Two-Factor Without Replication"
 msgstr "Дисперсійний аналіз: двофакторний без відтворення"
 
 #: ../src/tools/analysis-anova.c:122
-#, fuzzy
 msgid "/Summary/Count/Sum/Average/Variance"
-msgstr "/Кількість/Сума/Середнє/Дисперсія"
+msgstr "/Резюме/Кількість/Сума/Середнє/Дисперсія"
 
 #: ../src/tools/analysis-anova.c:148 ../src/tools/analysis-tools.c:176
 #, c-format
@@ -14049,11 +14016,12 @@ msgstr "Стовпчик %i"
 #: ../src/tools/analysis-anova.c:233 ../src/tools/analysis-anova.c:591
 msgid "\"ANOVA\";[Red]\"Invalid ANOVA: Missing Observations\""
 msgstr ""
+"\"Дисперсійний аналіз\";[Red]\"Некоректний дисперсійний аналіз: не вказано"
+" спостережень\""
 
 #: ../src/tools/analysis-anova.c:238
-#, fuzzy
 msgid "/Source of Variation/Rows/Columns/Error/Total"
-msgstr "/Дисперсний аналіз/Джерело дисперсії/Між групами/В групах/Всього"
+msgstr "/Джерело дисперсії/Рядки/Стовпчики/Помилка/Загалом"
 
 #: ../src/tools/analysis-anova.c:248 ../src/tools/analysis-anova.c:607
 #: ../src/tools/analysis-tools.c:4277
@@ -14063,12 +14031,11 @@ msgstr ""
 
 #: ../src/tools/analysis-anova.c:385 ../src/tools/analysis-anova.c:791
 msgid "Insufficient space available for ANOVA table."
-msgstr ""
+msgstr "Недостатньо місця для таблиці дисперсійного аналізу."
 
 #: ../src/tools/analysis-anova.c:458
-#, fuzzy
 msgid "ANOVA: Two-Factor Fixed Effects With Replication"
-msgstr "Дисперсійний аналіз: двофакторний з відтворенням"
+msgstr ""
 
 #. xgettext: this is a label for the first, second,... level of factor B in an ANOVA
 #: ../src/tools/analysis-anova.c:473
@@ -14091,9 +14058,8 @@ msgid "/Count/Sum/Average/Variance"
 msgstr "/Кількість/Сума/Середнє/Дисперсія"
 
 #: ../src/tools/analysis-anova.c:596
-#, fuzzy
 msgid "/Source of Variation/Factor A/Factor B/Interaction/Error/Total"
-msgstr "/Дисперсний аналіз/Джерело дисперсії/Між групами/В групах/Всього"
+msgstr ""
 
 #: ../src/tools/analysis-anova.c:834
 #, c-format
@@ -14101,29 +14067,27 @@ msgid "Two Factor ANOVA (%s), no replication"
 msgstr ""
 
 #: ../src/tools/analysis-anova.c:835
-#, fuzzy, c-format
+#, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
-msgstr "Дисперсійний аналіз: двофакторний з відтворенням"
+msgstr "Двофакторний дисперсійний аналіз (%s) з відтворенням"
 
 #: ../src/tools/analysis-anova.c:850
 msgid "ANOVA"
 msgstr "ANOVA"
 
 #: ../src/tools/analysis-anova.c:853
-#, fuzzy
 msgid "Two Factor ANOVA"
-msgstr "Дисперсний аналіз: однофакторний"
+msgstr "Двофакторний дисперсний аналіз"
 
 #: ../src/tools/analysis-auto-expression.c:96
-#, fuzzy, c-format
+#, c-format
 msgid "Auto Expression (%s)"
-msgstr "_Вираз: "
+msgstr "Автовираз (%s)"
 
 #: ../src/tools/analysis-auto-expression.c:113
 #: ../src/tools/analysis-auto-expression.c:116
-#, fuzzy
 msgid "Auto Expression"
-msgstr "Вираз"
+msgstr "Автовираз"
 
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
@@ -14164,9 +14128,8 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:478
 #: ../src/tools/analysis-exp-smoothing.c:722
 #: ../src/tools/analysis-exp-smoothing.c:1045
-#, fuzzy
 msgid "\"α =\" * 0.000"
-msgstr "α"
+msgstr "\"α =\" * 0.000"
 
 #: ../src/tools/analysis-exp-smoothing.c:155
 #: ../src/tools/analysis-exp-smoothing.c:334
@@ -14175,9 +14138,9 @@ msgstr "α"
 #: ../src/tools/analysis-exp-smoothing.c:1116
 #: ../src/tools/analysis-frequency.c:144 ../src/tools/analysis-histogram.c:320
 #: ../src/tools/analysis-tools.c:1224 ../src/tools/analysis-tools.c:3753
-#, fuzzy, c-format
+#, c-format
 msgid "Row %d"
-msgstr "рядок %d"
+msgstr "Рядок %d"
 
 #: ../src/tools/analysis-exp-smoothing.c:206
 #: ../src/tools/analysis-exp-smoothing.c:390
@@ -14229,9 +14192,9 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-exp-smoothing.c:1382
-#, fuzzy, c-format
+#, c-format
 msgid "Exponential Smoothing (%s)"
-msgstr "_Експоненціальне згладжування"
+msgstr "Експоненційне згладжування (%s)"
 
 #: ../src/tools/analysis-frequency.c:75
 msgid "/Frequency Table/Category"
@@ -14239,19 +14202,18 @@ msgstr ""
 
 #: ../src/tools/analysis-frequency.c:150 ../src/tools/analysis-histogram.c:326
 #: ../src/tools/analysis-tools.c:1230
-#, fuzzy, c-format
+#, c-format
 msgid "Area %d"
-msgstr "Ділянка %i"
+msgstr "Ділянка %d"
 
 #: ../src/tools/analysis-frequency.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "Frequency Table (%s)"
-msgstr "Частота"
+msgstr "Частотна таблиця (%s)"
 
 #: ../src/tools/analysis-frequency.c:288 ../src/tools/analysis-frequency.c:291
-#, fuzzy
 msgid "Frequency Table"
-msgstr "Частота"
+msgstr "Частотна таблиця"
 
 #. translator note: only translate the
 #. "to below" and "up to" exclusive of
@@ -14268,17 +14230,15 @@ msgstr ""
 #. "to" and "\xe2\x88\x9e" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:267
-#, fuzzy
 msgid "\"to\" * \"∞\""
-msgstr "До:"
+msgstr ""
 
 #. translator note: only translate the
 #. "from" and "above" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:280
-#, fuzzy
 msgid "\"from\" * General"
-msgstr "Формат - гроші"
+msgstr ""
 
 #: ../src/tools/analysis-histogram.c:280
 msgid "\"above\" * General"
@@ -14292,23 +14252,21 @@ msgid "\"from\" * \"−∞\";\"from\" * \"−∞\""
 msgstr ""
 
 #: ../src/tools/analysis-histogram.c:414
-#, fuzzy
 msgid "Frequency Density"
-msgstr "Частота"
+msgstr "Щільність частоти"
 
 #: ../src/tools/analysis-histogram.c:428 ../src/tools/analysis-histogram.c:442
 msgid "Frequency"
 msgstr "Частота"
 
 #: ../src/tools/analysis-histogram.c:478
-#, fuzzy, c-format
+#, c-format
 msgid "Histogram (%s)"
-msgstr "Гістограма"
+msgstr "Гістограма (%s)"
 
 #: ../src/tools/analysis-kaplan-meier.c:100
-#, fuzzy
 msgid "Kaplan-Meier"
-msgstr "Японські єни"
+msgstr "Каплан-Меєр"
 
 #: ../src/tools/analysis-kaplan-meier.c:201
 msgid "/At Risk/Deaths/Censures/Probability"
@@ -14327,12 +14285,11 @@ msgid "/Log-Rank Test/Statistic/Degrees of Freedom/p-Value"
 msgstr ""
 
 #: ../src/tools/analysis-kaplan-meier.c:655
-#, fuzzy, c-format
+#, c-format
 msgid "Kaplan-Meier (%s)"
-msgstr "Вибірка"
+msgstr "Каплан-Меєр (%s)"
 
 #: ../src/tools/analysis-kaplan-meier.c:677
-#, fuzzy
 #: ../src/tools/analysis-kaplan-meier.c:680
 msgid "Kaplan-Meier Estimates"
 msgstr "Оцінки Каплана-Меєра"
@@ -14376,23 +14333,21 @@ msgid "/Alpha/p-Value/Statistic/N/Conclusion"
 msgstr ""
 
 #: ../src/tools/analysis-normality.c:163
-#, fuzzy
 msgid "Not normal"
-msgstr "Нормальне"
+msgstr "Не нормальний"
 
 #: ../src/tools/analysis-normality.c:164
 msgid "Possibly normal"
-msgstr ""
+msgstr "Можливо нормальний"
 
 #: ../src/tools/analysis-normality.c:190
-#, fuzzy, c-format
+#, c-format
 msgid "Normality Test (%s)"
-msgstr "t-тест"
+msgstr "Перевірка нормальності (%s)"
 
 #: ../src/tools/analysis-normality.c:201 ../src/tools/analysis-normality.c:204
-#, fuzzy
 msgid "Normality Test"
-msgstr "Перевірка нормальності…"
+msgstr "Перевірка нормальності"
 
 #: ../src/tools/analysis-one-mean-test.c:67
 msgid ""
@@ -14401,16 +14356,15 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-one-mean-test.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "Student-t Test (%s)"
-msgstr "t-тест"
+msgstr ""
 
 #: ../src/tools/analysis-one-mean-test.c:166
 #: ../src/tools/analysis-one-mean-test.c:169
-#, fuzzy
 #| msgid "Set Text"
 msgid "Student-t Test"
-msgstr "Встановити текст"
+msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:66
 msgid "Principal components analysis has insufficient space."
@@ -14434,9 +14388,8 @@ msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:135
-#, fuzzy
 msgid "Percent of Trace"
-msgstr "Відсоток"
+msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:213
 #, c-format
@@ -14456,9 +14409,9 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-sign-test.c:351 ../src/tools/analysis-sign-test.c:380
-#, fuzzy, c-format
+#, c-format
 msgid "Sign Test (%s)"
-msgstr "z-тест"
+msgstr ""
 
 #: ../src/tools/analysis-signed-rank-test.c:77
 msgid ""
@@ -14482,14 +14435,14 @@ msgstr ""
 
 #: ../src/tools/analysis-signed-rank-test.c:537
 #: ../src/tools/analysis-signed-rank-test.c:566
-#, fuzzy, c-format
+#, c-format
 msgid "Wilcoxon Signed Rank Test (%s)"
-msgstr "z-тест"
+msgstr ""
 
 #: ../src/tools/analysis-tools.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "Bin %i"
-msgstr "Двійкове"
+msgstr ""
 
 #: ../src/tools/analysis-tools.c:186
 #, c-format
@@ -14506,14 +14459,14 @@ msgid "Correlations"
 msgstr "Кореляції"
 
 #: ../src/tools/analysis-tools.c:683
-#, fuzzy, c-format
+#, c-format
 msgid "Correlation (%s)"
-msgstr "Кореляції"
+msgstr "Кореляція (%s)"
 
 #: ../src/tools/analysis-tools.c:738
-#, fuzzy, c-format
+#, c-format
 msgid "Covariance (%s)"
-msgstr "Коваріації"
+msgstr "Коваріація (%s)"
 
 #.
 #. * Note to translators: in the following string and others like it,
@@ -14544,14 +14497,14 @@ msgid "Smallest (%d)"
 msgstr "Найменше (%d)"
 
 #: ../src/tools/analysis-tools.c:1129
-#, fuzzy, c-format
+#, c-format
 msgid "Descriptive Statistics (%s)"
-msgstr "_Описова статистика"
+msgstr "Описова статистика (%s)"
 
 #: ../src/tools/analysis-tools.c:1327
-#, fuzzy, c-format
+#, c-format
 msgid "Sampling (%s)"
-msgstr "Вибірка"
+msgstr ""
 
 #: ../src/tools/analysis-tools.c:1365 ../src/tools/analysis-tools.c:1368
 msgid "Sample"
@@ -14565,9 +14518,9 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:1596
-#, fuzzy, c-format
+#, c-format
 msgid "z-Test (%s)"
-msgstr "z-тест"
+msgstr "z-тест (%s)"
 
 #: ../src/tools/analysis-tools.c:1606 ../src/tools/analysis-tools.c:1609
 msgid "z-Test"
@@ -14599,9 +14552,9 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:2188 ../src/tools/analysis-tools.c:2481
-#, fuzzy, c-format
+#, c-format
 msgid "t-Test (%s)"
-msgstr "t-тест"
+msgstr "t-тест (%s)"
 
 #: ../src/tools/analysis-tools.c:2236
 msgid ""
@@ -14622,9 +14575,9 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:2769
-#, fuzzy, c-format
+#, c-format
 msgid "F-Test (%s)"
-msgstr "F-тест"
+msgstr "F-тест (%s)"
 
 #: ../src/tools/analysis-tools.c:2914
 msgid ""
@@ -14633,14 +14586,12 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:2933
-#, fuzzy
 msgid "Response Variable"
-msgstr "Змінна Y"
+msgstr ""
 
 #: ../src/tools/analysis-tools.c:2967
-#, fuzzy
 msgid "/df/SS/MS/F/Significance of F"
-msgstr "/Степінь свободи/Сума квадратів/Квадрат середнього/F/Значимість F"
+msgstr ""
 
 #: ../src/tools/analysis-tools.c:2974
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
@@ -14648,15 +14599,13 @@ msgstr ""
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
 #: ../src/tools/analysis-tools.c:2980
-#, fuzzy
 msgid "\"Lower\" 0%"
-msgstr "Нижній"
+msgstr ""
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
 #: ../src/tools/analysis-tools.c:2982
-#, fuzzy
 msgid "\"Upper\" 0%"
-msgstr "Верхній"
+msgstr ""
 
 #: ../src/tools/analysis-tools.c:2991
 msgid ""
@@ -14703,19 +14652,18 @@ msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3571
-#, fuzzy, c-format
+#, c-format
 msgid "Regression (%s)"
-msgstr "Регресія"
+msgstr "Регресія (%s)"
 
 #: ../src/tools/analysis-tools.c:3989
-#, fuzzy, c-format
+#, c-format
 msgid "Moving Average (%s)"
-msgstr "_Moving Average"
+msgstr "Рухоме середнє (%s)"
 
 #: ../src/tools/analysis-tools.c:4047
-#, fuzzy
 msgid "Ranks & Percentiles"
-msgstr "Формат - відсотки"
+msgstr "Ранги і процентилі"
 
 #: ../src/tools/analysis-tools.c:4058
 msgid "Point"
@@ -14726,14 +14674,13 @@ msgid "Rank"
 msgstr "Ранг"
 
 #: ../src/tools/analysis-tools.c:4060
-#, fuzzy
 msgid "Percentile Rank"
-msgstr "Відсоток"
+msgstr "Процентильний ранг"
 
 #: ../src/tools/analysis-tools.c:4152
-#, fuzzy, c-format
+#, c-format
 msgid "Ranks (%s)"
-msgstr "Ранги"
+msgstr "Ранги (%s)"
 
 #: ../src/tools/analysis-tools.c:4164 ../src/tools/analysis-tools.c:4167
 msgid "Ranks"
@@ -14758,39 +14705,36 @@ msgstr "/Дисперсний аналіз/Джерело дисперсії/М�
 #: ../src/tools/analysis-tools.c:4489
 #, c-format
 msgid "Single Factor ANOVA (%s)"
-msgstr ""
+msgstr "Однофакторний дисперсійний аналіз (%s)"
 
 #: ../src/tools/analysis-tools.c:4500
 msgid "Anova"
 msgstr "Дисперсійний аналіз"
 
 #: ../src/tools/analysis-tools.c:4503
-#, fuzzy
 msgid "Single Factor ANOVA"
-msgstr "Дисперсний аналіз: однофакторний"
+msgstr "Однофакторний дисперсний аналіз"
 
 #: ../src/tools/analysis-tools.c:4535
 msgid "Inverse Fourier Transform"
-msgstr ""
+msgstr "Обернене перетворення Фур'є"
 
 #: ../src/tools/analysis-tools.c:4536
 msgid "Fourier Transform"
 msgstr "Перетворення Фур’є"
 
 #: ../src/tools/analysis-tools.c:4544
-#, fuzzy
 msgid "/Real/Imaginary"
-msgstr "Січень"
+msgstr "/Дійсне/Уявне"
 
 #: ../src/tools/analysis-tools.c:4592
 #, c-format
 msgid "Fourier Series (%s)"
-msgstr ""
+msgstr "Ряд Фур'є (%s)"
 
 #: ../src/tools/analysis-tools.c:4604 ../src/tools/analysis-tools.c:4607
-#, fuzzy
 msgid "Fourier Series"
-msgstr "Аналіз Фур'є"
+msgstr "Ряд Фур'є"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:137
 msgid "/Rank-Sum/N/U/Ties/Statistic/U-Statistic/p-Value"
@@ -14815,42 +14759,38 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:350
-#, fuzzy, c-format
+#, c-format
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
-msgstr "t-тест"
+msgstr "Перевірка Вілкоксона-Манна-Вітні (%s)"
 
 #: ../src/tools/dao.c:181
-#, fuzzy
 msgid "New Sheet"
-msgstr "Аркуш"
+msgstr "Новий аркуш"
 
 #: ../src/tools/dao.c:184
 msgid "New Workbook"
 msgstr "Нова робоча книга"
 
 #: ../src/tools/dao.c:1013
-#, fuzzy
 msgid "Gnumeric "
-msgstr "Gnumeric"
+msgstr "Gnumeric "
 
 #: ../src/tools/dao.c:1019
-#, fuzzy
 msgid "Worksheet:"
-msgstr "Робочий аркуш"
+msgstr "Робочий аркуш:"
 
 #: ../src/tools/dao.c:1026
 msgid "Report Created: "
-msgstr ""
+msgstr "Створено звіт: "
 
 #: ../src/tools/data-shuffling.c:291
-#, fuzzy
 msgid "Shuffled"
-msgstr "Вибірка"
+msgstr "Перемішано"
 
 #: ../src/tools/fill-series.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "Fill Series (%s)"
-msgstr "Аналіз Фур'є"
+msgstr ""
 
 #: ../src/tools/filter.c:136
 msgid "Filtered"
@@ -14861,50 +14801,49 @@ msgid "/Advanced Filter:/Source Range:/Criteria Range:"
 msgstr ""
 
 #: ../src/tools/filter.c:264
-#, fuzzy, c-format
+#, c-format
 msgid "Advanced Filter (%s)"
-msgstr "Розширений фільтр…"
+msgstr "Розширений фільтр (%s)"
 
 #: ../src/tools/gnm-solver.c:702
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid solver target"
-msgstr "Некоректна кількість аргументів"
+msgstr "Некоректна ціль розв'язувача"
 
 #: ../src/tools/gnm-solver.c:714
-#, fuzzy, c-format
+#, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
-msgstr "Комірка призначення має містити вираз"
+msgstr ""
 
 #: ../src/tools/gnm-solver.c:724
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid solver input range"
-msgstr "Невірний шаблон пошуку."
+msgstr "Некоректний вхідний діапазон розв'язувача"
 
 #: ../src/tools/gnm-solver.c:735
-#, fuzzy, c-format
+#, c-format
 msgid "Input cell %s contains a formula"
-msgstr "Комірка призначення має містити вираз"
+msgstr "Вхідна комірка %s містить формулу"
 
 #: ../src/tools/gnm-solver.c:750
-#, fuzzy, c-format
+#, c-format
 msgid "Solver constraint #%d is invalid"
-msgstr "Діапазон списку неправильний."
+msgstr "Обмеження розв'язувача %d є некоректним"
 
 #: ../src/tools/gnm-solver.c:1163
-#, fuzzy
 #| msgid "Time"
 msgid "Timeout"
-msgstr "Час очікування"
+msgstr ""
 
 #: ../src/tools/gnm-solver.c:1379
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create file for linear program"
-msgstr "Неможливо створити тимчасовий файл."
+msgstr "Не вдалося створити файл для лінійної програми"
 
 #: ../src/tools/gnm-solver.c:1388
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create linear program file"
-msgstr "Неможливо створити тимчасовий файл."
+msgstr "Не вдалося створити файл лінійної програми"
 
 #: ../src/tools/gnm-solver.c:1408
 #, c-format
@@ -14936,82 +14875,77 @@ msgid "Upper"
 msgstr "Верхній"
 
 #: ../src/tools/gnm-solver.c:1707 ../src/tools/gnm-solver.c:1750
-#, fuzzy
 msgid "Slack"
-msgstr "Залишок"
+msgstr ""
 
 #: ../src/tools/gnm-solver.c:1729
-#, fuzzy
 msgid "At limit"
-msgstr "Список"
+msgstr ""
 
 #: ../src/tools/gnm-solver.c:1732
-#, fuzzy
 #| msgid "Outside Borders"
 msgid "Outside bounds"
-msgstr "Зовнішні поля"
+msgstr ""
 
 #: ../src/tools/gnm-solver.c:1747
 msgid "Condition"
 msgstr "Умова"
 
 #: ../src/tools/gnm-solver.c:1752 ../src/tools/gnm-solver.c:1888
-#, fuzzy
 #| msgid "Constraints"
 msgid "No constraints"
-msgstr "Обмеження"
+msgstr "Немає обмежень"
 
 #: ../src/tools/gnm-solver.c:1845
-#, fuzzy
 #| msgid "Final Value"
 msgid ""
 "Final\n"
 "Value"
-msgstr "Остаточне значення"
+msgstr ""
+"Остаточне\n"
+"значення"
 
 #: ../src/tools/gnm-solver.c:1846
-#, fuzzy
 #| msgid "Reduced"
 msgid ""
 "Reduced\n"
 "Cost"
-msgstr "Зменшений"
+msgstr ""
 
 #: ../src/tools/gnm-solver.c:1847 ../src/tools/gnm-solver.c:1883
-#, fuzzy
 msgid ""
 "Lower\n"
 "Limit"
-msgstr "Список"
+msgstr ""
+"Нижня\n"
+"межа"
 
 #: ../src/tools/gnm-solver.c:1848 ../src/tools/gnm-solver.c:1884
-#, fuzzy
 msgid ""
 "Upper\n"
 "Limit"
-msgstr "Список"
+msgstr ""
+"Верхня\n"
+"межа"
 
 #: ../src/tools/gnm-solver.c:1880
-#, fuzzy
 #| msgid "Shadow"
 msgid ""
 "Shadow\n"
 "Price"
-msgstr "Тінь"
+msgstr ""
 
 #: ../src/tools/gnm-solver.c:1881
-#, fuzzy
 msgid ""
 "Constraint\n"
 "LHS"
-msgstr "Обмеження"
+msgstr ""
 
 #: ../src/tools/gnm-solver.c:1882
-#, fuzzy
 msgid ""
 "Constraint\n"
 "RHS"
-msgstr "Обмеження"
+msgstr ""
 
 #: ../src/tools/gnm-solver.c:1946
 msgid "Program"
@@ -15041,51 +14975,49 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/gnm-solver.c:3154
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to locate %s"
-msgstr "Не вдалось відкрити файл «%s»"
+msgstr "Не вдалося знайти %s"
 
 #: ../src/tools/gnm-solver.c:3170
 #, c-format
 msgid "Locate the %s program"
-msgstr ""
+msgstr "Знайти програму %s"
 
 #: ../src/tools/gnm-solver.c:3564
 #, c-format
 msgid "The initial values do not satisfy the constraints."
-msgstr ""
+msgstr "Початкові значення не задовольняють обмежень."
 
 #: ../src/tools/gnm-solver.c:3655
 msgid "Iteration limit exceeded"
-msgstr ""
+msgstr "Перевищено обмеження на ітерації"
 
 #: ../src/tools/random-generator-cor.c:61
 msgid "Cholesky Decomposition of the Covariance Matrix"
-msgstr ""
+msgstr "Розклад Холецького коваріаційної матриці"
 
 #: ../src/tools/random-generator-cor.c:73
 msgid "Uncorrelated Random Variables"
-msgstr ""
+msgstr "Некорельовані випадкові змінні"
 
 #: ../src/tools/random-generator-cor.c:95
 msgid "Correlated Random Variables"
-msgstr ""
+msgstr "Корельовані випадкові змінні"
 
 #: ../src/tools/random-generator-cor.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Correlated Random Numbers (%s)"
-msgstr "Генератор _випадкових чисел…"
+msgstr "Корельовані випадкові числа (%s)"
 
 #: ../src/tools/random-generator-cor.c:148
 #: ../src/tools/random-generator-cor.c:151
-#, fuzzy
 msgid "Correlated Random Numbers"
-msgstr "Генератор _випадкових чисел…"
+msgstr "Корельовані випадкові числа"
 
 #: ../src/tools/random-generator.c:51
-#, fuzzy
 msgid "Generating Random Numbers..."
-msgstr "Генератор _випадкових чисел…"
+msgstr "Породження випадкових чисел…"
 
 #: ../src/tools/random-generator.c:117
 msgid ""
@@ -15108,9 +15040,9 @@ msgid "The probabilities may not all be 0!"
 msgstr "Вірогідність не можу дорівнювати нулю!"
 
 #: ../src/tools/random-generator.c:758
-#, fuzzy, c-format
+#, c-format
 msgid "Random Numbers (%s)"
-msgstr "Генератор _випадкових чисел…"
+msgstr "Випадкові числа (%s)"
 
 #: ../src/tools/simulation.c:91
 msgid ""
@@ -15125,9 +15057,8 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/simulation.c:233
-#, fuzzy
 msgid "Simulation Report"
-msgstr "Підсумковий звіт"
+msgstr "Звіт щодо імітації"
 
 #: ../src/tools/simulation.c:246
 msgid "Mean"
@@ -15223,21 +15154,19 @@ msgstr[3] ""
 #. Note: no entry for GNM_VALIDATION_OP_NONE
 #: ../src/validation.c:71
 msgid "Between"
-msgstr ""
+msgstr "Між"
 
 #: ../src/validation.c:72
 msgid "Not_Between"
-msgstr ""
+msgstr "Не_між"
 
 #: ../src/validation.c:73
-#, fuzzy
 msgid "Equal"
-msgstr "Прямокутник"
+msgstr "Дорівнює"
 
 #: ../src/validation.c:74
-#, fuzzy
 msgid "Not Equal"
-msgstr "не дорівнює"
+msgstr "Не дорівнює"
 
 #: ../src/validation.c:75
 msgid "Greater Than"
@@ -15258,15 +15187,14 @@ msgstr "Менше або дорівнює"
 #: ../src/validation.c:476
 #, c-format
 msgid "Missing formula for validation"
-msgstr ""
+msgstr "Не вказано формули для перевірки"
 
 #: ../src/validation.c:479
 #, c-format
 msgid "Extra formula for validation"
-msgstr ""
+msgstr "Додаткова формула для перевірки"
 
 #: ../src/validation.c:490
-#, fuzzy
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: Перевірка"
 
@@ -15276,19 +15204,19 @@ msgid "Cell %s is not permitted to be blank"
 msgstr "Комірка «%s» не може бути порожньою"
 
 #: ../src/validation.c:565
-#, fuzzy, c-format
+#, c-format
 msgid "Cell %s is not permitted to contain error values"
-msgstr "Комірка «%s» не може бути порожньою"
+msgstr "Комірка %s не може містити помилкові значення"
 
 #: ../src/validation.c:576
-#, fuzzy, c-format
+#, c-format
 msgid "Cell %s is not permitted to contain strings"
-msgstr "Комірка «%s» не може бути порожньою"
+msgstr "Комірка %s не може містити рядки"
 
 #: ../src/validation.c:592
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is not an integer"
-msgstr "\"%f\" не ціле"
+msgstr "«%s» не є цілим числом"
 
 #: ../src/validation.c:602
 #, c-format
@@ -15296,19 +15224,19 @@ msgid "'%s' is not a valid date"
 msgstr "«%s» не є правильною датою"
 
 #: ../src/validation.c:626
-#, fuzzy, c-format
+#, c-format
 msgid "%s does not contain the new value."
-msgstr "Не містить файл книги"
+msgstr "%s не містить нового значення."
 
 #: ../src/validation.c:662
 #, c-format
 msgid "%s is not true."
-msgstr ""
+msgstr "%s не справджується."
 
 #: ../src/validation.c:701
-#, fuzzy, c-format
+#, c-format
 msgid "%s is out of permitted range"
-msgstr "Комірка «%s» не може бути порожньою"
+msgstr "%s лежить поза припустимим діапазоном"
 
 #: ../src/value.c:59
 msgid "#NULL!"
@@ -15343,19 +15271,17 @@ msgid "Default file saver is not available."
 msgstr "Типова функція збереження недоступна."
 
 #: ../src/wbc-gtk-actions.c:208 ../src/wbc-gtk-actions.c:2365
-#, fuzzy
 msgid "Set Print Area"
-msgstr "Перегляд друку"
+msgstr "Встановити область друку"
 
 #: ../src/wbc-gtk-actions.c:212
-#, fuzzy, c-format
+#, c-format
 msgid "Set Print Area to %s"
-msgstr "Кореляція Пірсона"
+msgstr "Встановити область друку %s"
 
 #: ../src/wbc-gtk-actions.c:231 ../src/wbc-gtk-actions.c:2370
-#, fuzzy
 msgid "Clear Print Area"
-msgstr "Друкувати"
+msgstr "Очистити область друку"
 
 #: ../src/wbc-gtk-actions.c:499
 #, c-format
@@ -15387,14 +15313,12 @@ msgid "Insert columns"
 msgstr "Вставити стовпчики"
 
 #: ../src/wbc-gtk-actions.c:980 ../src/wbc-gtk-actions.c:1000
-#, fuzzy
 msgid "Show Detail"
-msgstr "Подробиці про файл"
+msgstr "Показати подробиці"
 
 #: ../src/wbc-gtk-actions.c:980 ../src/wbc-gtk-actions.c:1000
-#, fuzzy
 msgid "Hide Detail"
-msgstr "Подробиці про файл"
+msgstr "Приховати подробиці"
 
 #: ../src/wbc-gtk-actions.c:987
 msgid "can only be performed on an existing group"
@@ -15418,10 +15342,9 @@ msgid "Sort"
 msgstr "Сортувати"
 
 #: ../src/wbc-gtk-actions.c:1397
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Choose object file"
-msgstr "Закрити поточний файл"
+msgstr "Вибрати файл об'єкта"
 
 #: ../src/wbc-gtk-actions.c:1476
 msgid "Set Horizontal Alignment"
@@ -15432,42 +15355,40 @@ msgid "Set Vertical Alignment"
 msgstr "Встановити вертикальне вирівнювання"
 
 #: ../src/wbc-gtk-actions.c:1655
-#, fuzzy
 msgid "Format as General"
-msgstr "Формат - гроші"
+msgstr "Формат – загальний"
 
 #: ../src/wbc-gtk-actions.c:1661
 msgid "Format as Number"
-msgstr "Формат - число"
+msgstr "Формат – число"
 
 #: ../src/wbc-gtk-actions.c:1678
 msgid "Format as Currency"
-msgstr "Формат - валютний"
+msgstr "Формат – валютний"
 
 #: ../src/wbc-gtk-actions.c:1686
-#, fuzzy
 msgid "Format as Accounting"
-msgstr "Формат - науковий"
+msgstr "Формат – обліковий"
 
 #: ../src/wbc-gtk-actions.c:1692 ../src/wbc-gtk-actions.c:1699
 msgid "Format as Percentage"
-msgstr "Формат - відсотки"
+msgstr "Формат – відсотки"
 
 #: ../src/wbc-gtk-actions.c:1707
 msgid "Format as Time"
-msgstr "Формат - час"
+msgstr "Формат – час"
 
 #: ../src/wbc-gtk-actions.c:1714
 msgid "Format as Date"
-msgstr "Формат - дата"
+msgstr "Формат – дата"
 
 #: ../src/wbc-gtk-actions.c:1738
 msgid "Add Borders"
-msgstr "Додати поля"
+msgstr "Додати рамку"
 
 #: ../src/wbc-gtk-actions.c:1738
 msgid "Remove borders"
-msgstr "Видалити поля"
+msgstr "Вилучити рамку"
 
 #: ../src/wbc-gtk-actions.c:1851
 msgid "Increase precision"
@@ -15478,25 +15399,22 @@ msgid "Decrease precision"
 msgstr "Зменшити точність"
 
 #: ../src/wbc-gtk-actions.c:1856
-#, fuzzy
 msgid "Toggle thousands separator"
-msgstr "Розділювач розрядів"
+msgstr "Перемкнути роздільник тисяч"
 
 #: ../src/wbc-gtk-actions.c:1864
-#, fuzzy
 msgid "Copy down"
-msgstr "Скопіювати"
+msgstr "Скопіювати нижче"
 
 #. xgettext: copy from the cell to the left into current cell --
 #. this has nothing whatsoever to do with copyright.
 #: ../src/wbc-gtk-actions.c:1872
-#, fuzzy
 msgid "Copy right"
-msgstr "Вирівняти ліворуч"
+msgstr "Скопіювати праворуч"
 
 #: ../src/wbc-gtk-actions.c:1972
 msgid "_File"
-msgstr "Файл"
+msgstr "_Файл"
 
 #: ../src/wbc-gtk-actions.c:1977
 msgid "New From Template"
@@ -15519,9 +15437,8 @@ msgid "Save the current workbook"
 msgstr "Зберегти поточну книгу"
 
 #: ../src/wbc-gtk-actions.c:2007
-#, fuzzy
 msgid "Save the current workbook with a different name"
-msgstr "Зберегти поточний файл з іншою назвою"
+msgstr "Зберегти поточну робочу книгу із іншою назвою"
 
 #: ../src/wbc-gtk-actions.c:2012
 #, fuzzy
