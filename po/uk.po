@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2020-05-12 17:35+0000\n"
-"PO-Revision-Date: 2020-05-18 13:14+0300\n"
+"PO-Revision-Date: 2020-05-19 10:50+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -250,7 +250,7 @@ msgstr "Помилка під час обробки назви «%s»"
 #: ../plugins/excel/ms-excel-read.c:3862
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
-msgstr ""
+msgstr "Помилковий вираз для назви «%s»: вміст буде втрачено.\n"
 
 #: ../plugins/excel/ms-excel-read.c:3867
 #, c-format
@@ -258,6 +258,8 @@ msgid ""
 "DDE links are not supported yet.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
+"Підтримки посилань DDE ще не передбачено.\n"
+"Назву «%s» буде втрачено.\n"
 
 #: ../plugins/excel/ms-excel-read.c:3871
 #, c-format
@@ -426,10 +428,11 @@ msgstr "Перша редакція ECMA 376 (2006); [MS Excel&#8482; 2007]"
 msgid ""
 "ISO/IEC 29500:2008 &amp; ECMA 376 2nd edition (2008); [MS Excel&#8482; 2010]"
 msgstr ""
+"Друга редакція ISO/IEC 29500:2008 і ECMA 376 (2008); [MS Excel&#8482; 2010]"
 
 #: ../plugins/excel/plugin.xml.in.h:11
 msgid "MS Excel&#8482; (*.xls) requiring encoding specification"
-msgstr ""
+msgstr "MS Excel&#8482; (*.xls) потребує специфікації кодування"
 
 #: ../plugins/excel/xlsx-read-docprops.c:140
 msgid "Corrupt file: Second child element in custom property encountered."
@@ -476,7 +479,7 @@ msgstr "Виявлено одразу атрибути «refreshedDate» і «re
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
-msgstr ""
+msgstr "Пропускаємо некоректну групу полів зведення для поля «%s». Причина: %s"
 
 #: ../plugins/excel/xlsx-read.c:379
 #, c-format
@@ -581,6 +584,7 @@ msgstr "Некоректна комірка %s"
 #: ../plugins/excel/xlsx-read.c:1650
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
+"Ігноруємо специфікацію стовпчиків, у якій не вказано першого і останнього."
 
 #: ../plugins/excel/xlsx-read.c:1787
 #, c-format
@@ -1771,6 +1775,8 @@ msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
 msgstr ""
+"У Gnumeric не передбачено неавтоматичних рівнянь регресії. Використовуємо"
+" автоматичне рівняння замість вказаного."
 
 #: ../plugins/openoffice/openoffice-read.c:9868
 #, c-format
@@ -1780,10 +1786,11 @@ msgstr "Стиль діаграм «%s» не визначено!"
 #: ../plugins/openoffice/openoffice-read.c:10036
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr ""
+"Виявлено пропущені лінії у кресленні. Підтримки таких ліній не передбачено."
 
 #: ../plugins/openoffice/openoffice-read.c:10173
 msgid "Encountered an unknown chart type, trying to create a line plot."
-msgstr ""
+msgstr "Виявлено невідомий тип діаграми. Спробуємо створити лінійний графік."
 
 #: ../plugins/openoffice/openoffice-read.c:10235
 #: ../plugins/openoffice/openoffice-read.c:10276
@@ -1791,17 +1798,18 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:10338
 #, c-format
 msgid "Chart style with name '%s' is missing."
-msgstr ""
+msgstr "Немає стилю діаграми із назвою «%s»."
 
 #: ../plugins/openoffice/openoffice-read.c:10474
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
+"Виявлено непідтримуваний підпис. Підпис перетворено на текстовий прямокутник."
 
 #: ../plugins/openoffice/openoffice-read.c:10547
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
-msgstr ""
+msgstr "Під час обробки формули «%s» назви «%s» виявлено зациклювання"
 
 #: ../plugins/openoffice/openoffice-read.c:10750
 #, c-format
@@ -1845,7 +1853,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:11924
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
-msgstr ""
+msgstr "%s_IN_CORRUPTED_FILE"
 
 #: ../plugins/openoffice/openoffice-read.c:11929
 #, c-format
@@ -1856,7 +1864,7 @@ msgstr ""
 
 #: ../plugins/openoffice/openoffice-read.c:11939
 msgid "SHEET_IN_CORRUPTED_FILE"
-msgstr ""
+msgstr "SHEET_IN_CORRUPTED_FILE"
 
 #. We are missing the table name. This is bad!
 #: ../plugins/openoffice/openoffice-read.c:11945
@@ -2032,9 +2040,13 @@ msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
+"Поле %d у рядку %d, ймовірно, було обрізано. У даних міститься %d символ."
 msgstr[1] ""
+"Поле %d у рядку %d, ймовірно, було обрізано. У даних міститься %d символи."
 msgstr[2] ""
+"Поле %d у рядку %d, ймовірно, було обрізано. У даних міститься %d символів."
 msgstr[3] ""
+"Поле %d у рядку %d, ймовірно, було обрізано. У даних міститься %d символ."
 
 #: ../plugins/paradox/paradox.c:549
 #, c-format
@@ -2132,7 +2144,7 @@ msgstr "Psiconv"
 
 #: ../plugins/psiconv/plugin.xml.in.h:2
 msgid "Imports Psion 5 series Sheet files"
-msgstr ""
+msgstr "Імпортує файли аркушів Psion 5 series"
 
 #: ../plugins/psiconv/plugin.xml.in.h:3
 msgid "Psion (*.psisheet)"
@@ -2156,7 +2168,7 @@ msgstr "Функції Python"
 
 #: ../plugins/py-func/plugin.xml.in.h:2
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
+msgstr "Зразок додатка Python, у якому реалізовано деякі (непотрібні) функції."
 
 #: ../plugins/py-func/plugin.xml.in.h:3
 msgid "Python"
@@ -2164,7 +2176,7 @@ msgstr "Python"
 
 #: ../plugins/python-loader/gnm-py-interpreter.c:253
 msgid "Default interpreter"
-msgstr ""
+msgstr "Типовий інтерпретатор"
 
 #: ../plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -2234,7 +2246,7 @@ msgstr "Помилка під час відкривання файлу «%s» д
 
 #: ../plugins/python-loader/python-loader.c:125
 msgid "Cannot create new Python interpreter."
-msgstr ""
+msgstr "Не вдалося створити інтерпретатор Python."
 
 #: ../plugins/python-loader/python-loader.c:146
 #, c-format
@@ -2284,7 +2296,7 @@ msgstr "Невідома дія: %s"
 #: ../plugins/python-loader/python-loader.c:816
 #, c-format
 msgid "Not a valid function for action: %s"
-msgstr ""
+msgstr "Некоректна функція для дії: %s"
 
 #: ../plugins/qpro/plugin.xml.in.h:1
 msgid "Quattro Pro(tm)"
@@ -2301,12 +2313,12 @@ msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 #: ../plugins/qpro/qpro-read.c:118
 #, c-format
 msgid "File is most likely corrupted.\n"
-msgstr ""
+msgstr "Найімовірніше, файл пошкоджено.\n"
 
 #: ../plugins/qpro/qpro-read.c:870
 #, c-format
 msgid "Invalid zoom %hd %%"
-msgstr ""
+msgstr "Некоректний масштаб %hd %%"
 
 #: ../plugins/qpro/qpro-read.c:912
 #, c-format
@@ -2318,6 +2330,7 @@ msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
 msgstr ""
+"Не вдалося знайти потік даних PerfectOffice_MAIN. Це справді файл Quattro Pro?"
 
 #: ../plugins/sample_datasource/plugin.xml.in.h:1
 msgid "Sample DataSource"
@@ -2325,7 +2338,7 @@ msgstr "Зразок DataSource"
 
 #: ../plugins/sample_datasource/plugin.xml.in.h:2
 msgid "A proof of concept external data source"
-msgstr ""
+msgstr "Технічний зразок зовнішнього джерела даних"
 
 #: ../plugins/sc/plugin.xml.in.h:1
 msgid "SC/XSpread"
@@ -2353,24 +2366,26 @@ msgstr "Загальна помилка імпортування SC"
 msgid ""
 "The cell in row %i and column %i is beyond Gnumeric's maximum sheet size."
 msgstr ""
+"Комірка у рядку %i і стовпчику %i поза максимальними розмірами аркуша"
+" Gnumeric."
 
 #: ../plugins/sc/sc.c:386
 msgid "The sheet is wider than Gnumeric can handle."
-msgstr ""
+msgstr "Аркуш є ширшим за той, з яким може працювати Gnumeric."
 
 #: ../plugins/sc/sc.c:449
 msgid "Encountered precision dependent format without set precision."
-msgstr ""
+msgstr "Виявлено залежний від точності формат без встановлення точності."
 
 #: ../plugins/sc/sc.c:472
 #, c-format
 msgid "Column format %i is undefined."
-msgstr ""
+msgstr "Формат стовпчика %i не визначено."
 
 #: ../plugins/sc/sc.c:798
 #, c-format
 msgid "Unable to parse cmd='%s', str='%s', col=%d, row=%d."
-msgstr ""
+msgstr "Не вдалося обробити cmd='%s', str='%s', col=%d, row=%d."
 
 #: ../plugins/sc/sc.c:933
 msgid "Error parsing line"
@@ -2395,15 +2410,15 @@ msgstr "Імпортування/Експортування файлів MultiPl
 
 #: ../plugins/sylk/sylk.c:243
 msgid "Multiple values in the same cell"
-msgstr ""
+msgstr "Декілька значень у одній комірці"
 
 #: ../plugins/sylk/sylk.c:252 ../plugins/sylk/sylk.c:261
 msgid "Multiple expressions in the same cell"
-msgstr ""
+msgstr "Декілька виразів у одній комірці"
 
 #: ../plugins/sylk/sylk.c:798
 msgid "Missing closing 'E'"
-msgstr ""
+msgstr "Пропущено завершальне «E»"
 
 #: ../plugins/sylk/sylk.c:821 ../src/dialogs/dialog-goto-cell.c:381
 #: ../src/dialogs/dialog-search.c:437 ../src/dialogs/dialog-stf-export.c:594
@@ -2415,16 +2430,16 @@ msgstr "Аркуш"
 
 #: ../plugins/uihello/plugin.xml.in.h:1
 msgid "UI Hello"
-msgstr ""
+msgstr "Тест для інтерфейсу користувача"
 
 #: ../plugins/uihello/plugin.xml.in.h:2
 msgid "Hello World plugin using ui service"
-msgstr ""
+msgstr "Додаток «Привіт, світе!» з використанням служби інтерфейсу"
 
 #: ../plugins/uihello/uihello.c:32
 #, c-format
 msgid "This is message from the \"%s\" plugin."
-msgstr ""
+msgstr "Це повідомлення від додатка «%s»."
 
 #: ../plugins/xbase/boot.c:160
 msgid "Error while opening xbase file."
@@ -2444,50 +2459,56 @@ msgstr "Формат файлу XBase (*.dbf)"
 
 #: ../plugins/xbase/xbase.c:188
 msgid "Failed to read DBF header."
-msgstr ""
+msgstr "Не вдалося прочитати заголовок DBF."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:1
 msgid "List of recently used functions."
-msgstr ""
+msgstr "Список нещодавно використаних функцій."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:2
 msgid ""
 "The function selector keeps a list of recently used functions. This is that "
 "list."
 msgstr ""
+"Засіб вибору функцій зберігає список нещодавно використаних функцій. Це цей"
+" список."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:3
 #: ../src/dialogs/dialog-preferences.c:1084
 msgid "Maximum Length of Recently Used Functions List"
-msgstr ""
+msgstr "Максимальна довжина списку нещодавно використаних функцій"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:4
 msgid ""
 "The function selector keeps a list of recently used functions. This is the "
 "maximum length of that list."
 msgstr ""
+"Засіб вибору функцій зберігає список нещодавно використаних функцій. Це"
+" максимальна довжина цього списку."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:5
 msgid "Autocorrect initial caps"
-msgstr ""
+msgstr "Автовиправлення початкових прописних"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:6
 msgid "This variable determines whether to autocorrect initial caps"
-msgstr ""
+msgstr "Ця змінна визначає, чи слід автоматично виправляти початкові прописні"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:7
 msgid "List of initial caps exceptions"
-msgstr ""
+msgstr "Список виключено для початкових прописних"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:8
 msgid ""
 "The autocorrect engine does not correct the initial caps for words in this "
 "list."
 msgstr ""
+"Рушій автоматичного виправлення не виправлятиме початкові великі літери у"
+" словах з цього списку."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:9
 msgid "Autocorrect first letter"
-msgstr ""
+msgstr "Автовиправлення першої літери"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:10
 msgid "This variable determines whether to autocorrect first letters"
@@ -2502,6 +2523,8 @@ msgid ""
 "The autocorrect engine does not capitalize the first letter of words "
 "following strings in this list."
 msgstr ""
+"Рушій автоматичного виправлення не робитиме початкові літери великими у"
+" словах з наведеного нижче списку."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:13
 msgid "Autocorrect names of days"
@@ -2533,18 +2556,19 @@ msgid ""
 "This list contains all plugins that are supposed to be automatically "
 "activated."
 msgstr ""
+"У цьому списку містяться усі додатки, які має бути активовано автоматично."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:20
 msgid "List of Known Plugins."
-msgstr ""
+msgstr "Список відомих додатків."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:21
 msgid "This list contains all known plugins."
-msgstr ""
+msgstr "У цьому списку містяться усі відомі додатки."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:22
 msgid "List of Plugin File States."
-msgstr ""
+msgstr "Список станів файлів додатків."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:23
 msgid "This list contains all plugin file states."
@@ -2561,16 +2585,18 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:26
 msgid "List of Extra Autoformat Directories."
-msgstr ""
+msgstr "Список додаткових каталогів автоматичного форматування."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:27
 msgid ""
 "This list contains all extra directories containing autoformat templates."
 msgstr ""
+"У цьому списку містяться додаткові каталоги, у яких містяться шаблони"
+" автоматичного форматування."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:28
 msgid "System Directory for Autoformats"
-msgstr ""
+msgstr "Системний каталог для автоформатів"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:29
 msgid "This directory contains the pre-installed autoformat templates."
@@ -2579,21 +2605,25 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:30
 msgid "User Directory for Autoformats"
-msgstr ""
+msgstr "Каталог користувача для автоформатів"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:31
 msgid "The main directory for user specific autoformat templates."
 msgstr ""
+"Головний каталог для шаблонів автоматичного форматування, які визначено"
+" користувачем."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:32
 msgid "Apply print-setup to all sheets"
-msgstr ""
+msgstr "Застосувати налаштування друку до усіх аркушів"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:33
 msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
+"Це значення визначає, чи буде автоматично застосовано параметри діалогового"
+" вікна налаштовування друку до усіх аркушів одночасно."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:34
 msgid "GTKPrintSetting"
@@ -2612,6 +2642,8 @@ msgid ""
 "The default page header for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
+"Типовий верхній колонтитул сторінки для нових документів. Цей заголовок можна"
+" змінювати за допомогою діалогового вікна налаштовування друку."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:38
 msgid "Page Footer"
@@ -2622,6 +2654,8 @@ msgid ""
 "The default page footer for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
+"Типовий нижній колонтитул сторінки для нових документів. Цей заголовок можна"
+" змінювати за допомогою діалогового вікна налаштовування друку."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:40
 msgid "Default Header/Footer Font Size"
@@ -2648,6 +2682,9 @@ msgid ""
 "This value determines whether the default font for headers and footers is "
 "bold."
 msgstr ""
+"Це значення визначає, чи буде типовий шрифт для верхніх і нижніх колонтитулів"
+" є "
+"напівжирним."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:46
 msgid "The default header/footer font is italic."
@@ -2658,6 +2695,9 @@ msgid ""
 "This value determines whether the default font for headers and footers is "
 "italic."
 msgstr ""
+"Це значення визначає, чи буде типовий шрифт для верхніх і нижніх колонтитулів"
+" є "
+"курсивним."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:48
 msgid "Default Horizontal Centering"
@@ -2668,20 +2708,24 @@ msgid ""
 "This value determines whether the default setting in the Print Setup dialog "
 "is to center pages horizontally."
 msgstr ""
+"Це значення визначає, чи буде типово сторінки у діалоговому вікні"
+" налаштовування друку центровано горизонтально."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:50
 msgid "Default Vertical Centering"
-msgstr ""
+msgstr "Типове вертикальне центрування"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:51
 msgid ""
 "This value determines whether the default setting in the Print Setup dialog "
 "is to center pages vertically."
 msgstr ""
+"Це значення визначає, чи буде типово сторінки у діалоговому вікні"
+" налаштовування друку центровано вертикально."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:52
 msgid "Default Grid Line Printing"
-msgstr ""
+msgstr "Типовий друк ліній ґратки"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:53
 msgid ""
@@ -2691,7 +2735,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:54
 msgid "Default Print Cells with Only Styles"
-msgstr ""
+msgstr "Типовий друк комірок, які містять лише стиль"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:55
 msgid ""
@@ -2713,7 +2757,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:58
 msgid "Default Title Printing"
-msgstr ""
+msgstr "Типовий друк заголовка"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:59
 msgid ""
@@ -2756,7 +2800,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:66
 msgid "Default Scaling Width"
-msgstr ""
+msgstr "Типова ширина масштабування"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:67
 msgid ""
@@ -2767,7 +2811,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:68
 msgid "Default Scaling Height"
-msgstr ""
+msgstr "Типова висота масштабування"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:69
 msgid ""
@@ -2778,7 +2822,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:70
 msgid "Default Repeated Top Region"
-msgstr ""
+msgstr "Типове повторення верхньої області"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:71
 msgid ""
@@ -2788,7 +2832,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:72
 msgid "Default Repeated Left Region"
-msgstr ""
+msgstr "Типове повторення лівої області"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:73
 msgid ""
@@ -2888,15 +2932,17 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:92
 msgid "Header/Footer Format (Left Portion)"
-msgstr ""
+msgstr "Формат верхнього/нижнього колонтитула (ліва частина)"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:93
 msgid "Please use the Print Setup dialog to edit this value."
 msgstr ""
+"Будь ласка, скористайтеся для редагування цього значення діалоговим вікном"
+" налаштовування друку."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:94
 msgid "Header/Footer Format (Middle Portion)"
-msgstr ""
+msgstr "Формат верхнього/нижнього колонтитула (середня частина)"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:95
 msgid "Header/Footer Format (Right Portion)"
@@ -2905,7 +2951,7 @@ msgstr "Формат верхнього або нижнього колонтит
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:96
 #: ../src/dialogs/dialog-preferences.c:1079
 msgid "Allow Unfocused Range Selections"
-msgstr ""
+msgstr "Дозволити позначення діапазонів без фокусування"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:97
 msgid ""
@@ -3014,7 +3060,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:121
 msgid "Search &amp; Replace Changes Other Values"
-msgstr ""
+msgstr "Пошук із заміною змінюють інші значення"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:122
 msgid "Search &amp; Replace changes cells containing other values as default"
@@ -3030,11 +3076,11 @@ msgstr "Типово, пошук і заміна змінює коментарі
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:125
 msgid "Search searches in results"
-msgstr ""
+msgstr "Пошук виконується у попередніх результатах"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:126
 msgid "Search searches in results as default"
-msgstr ""
+msgstr "Типово, пошук виконується у попередніх результатах пошуку"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:127
 msgid "Search &amp; Replace Keeps Strings as Strings"
@@ -3085,7 +3131,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:3
 #: ../src/dialogs/dialog-preferences.c:778
 msgid "Show Sheet Name in Undo List"
-msgstr ""
+msgstr "Показувати назву аркуша у списку скасовування дій"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:4
 msgid ""
@@ -3212,7 +3258,7 @@ msgstr "Горизонтальна роздільність"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:28
 msgid "Screen resolution in the horizontal direction."
-msgstr ""
+msgstr "Роздільність екрана у горизонтальному напрямку."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:29
 #: ../src/dialogs/dialog-preferences.c:1023
@@ -3221,7 +3267,7 @@ msgstr "Вертикальна роздільність"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:30
 msgid "Screen resolution in the vertical direction."
-msgstr ""
+msgstr "Роздільність екрана у вертикальному напрямку."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:31
 msgid "Standard toolbar visible"
@@ -3232,6 +3278,8 @@ msgid ""
 "This variable determines whether the standard toolbar should be visible "
 "initially."
 msgstr ""
+"Це змінна визначає, чи має бути показано стандартну панель інструментів"
+" одразу після запуску."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:33
 msgid "Standard toolbar position"
@@ -3348,6 +3396,7 @@ msgstr "Напрямок для Enter"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:56
 msgid "Which direction pressing Enter will move the edit position."
 msgstr ""
+"Напрям, у якому зміщуватиме позицію редагування натискання клавіші Enter."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:57
 msgid "Auto Expression Recalculation Lag"
@@ -3367,7 +3416,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:59
 #: ../src/dialogs/dialog-preferences.c:1054
 msgid "Transition Keys"
-msgstr ""
+msgstr "Клавіші переходу"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
 msgid ""
@@ -3434,7 +3483,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:71
 #: ../src/dialogs/dialog-preferences.c:977
 msgid "Default To Overwriting Files"
-msgstr ""
+msgstr "Типове перезаписування файлів"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
 msgid ""
@@ -3446,6 +3495,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:73
 msgid "List of file savers with disabled extension check."
 msgstr ""
+"Список засобів зберігання файлів із вимкненою перевіркою суфіксів назв."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:74
 msgid ""
@@ -3631,17 +3681,17 @@ msgstr "Зсунути стовпчик %s"
 #: ../src/command-context.c:55
 #, c-format
 msgid "Would split array %s"
-msgstr ""
+msgstr "Поділить масив %s"
 
 #: ../src/command-context.c:58
 #, c-format
 msgid "Would split an array"
-msgstr ""
+msgstr "Поділить масив"
 
 #: ../src/command-context.c:69
 #, c-format
 msgid "Would split merge %s"
-msgstr ""
+msgstr "Поділить об'єднане %s"
 
 #: ../src/commands.c:207
 #, c-format
@@ -3698,9 +3748,21 @@ msgid_plural ""
 "Inserting %i columns before column %s would push data off the sheet. Please "
 "enlarge the sheet first."
 msgstr[0] ""
+"Вставлення %i стовпчика перед стовпчиком %s призведе до виходу даних за межі"
+" аркуша. Будь ласка, "
+"спочатку збільште аркуш."
 msgstr[1] ""
+"Вставлення %i стовпчиків перед стовпчиком %s призведе до виходу даних за межі"
+" аркуша. Будь ласка, "
+"спочатку збільште аркуш."
 msgstr[2] ""
+"Вставлення %i стовпчиків перед стовпчиком %s призведе до виходу даних за межі"
+" аркуша. Будь ласка, "
+"спочатку збільште аркуш."
 msgstr[3] ""
+"Вставлення %i стовпчика перед стовпчиком %s призведе до виходу даних за межі"
+" аркуша. Будь ласка, "
+"спочатку збільште аркуш."
 
 #: ../src/commands.c:1473
 #, c-format
@@ -3720,9 +3782,21 @@ msgid_plural ""
 "Inserting %i rows before row %s would push data off the sheet. Please "
 "enlarge the sheet first."
 msgstr[0] ""
+"Вставлення %i рядка перед рядком %s призведе до виходу даних за межі аркуша."
+" Будь ласка, "
+"спочатку збільште аркуш."
 msgstr[1] ""
+"Вставлення %i рядків перед рядком %s призведе до виходу даних за межі аркуша."
+" Будь ласка, "
+"спочатку збільште аркуш."
 msgstr[2] ""
+"Вставлення %i рядків перед рядком %s призведе до виходу даних за межі аркуша."
+" Будь ласка, "
+"спочатку збільште аркуш."
 msgstr[3] ""
+"Вставлення %i рядка перед рядком %s призведе до виходу даних за межі аркуша."
+" Будь ласка, "
+"спочатку збільште аркуш."
 
 #: ../src/commands.c:1502
 #, c-format
@@ -4198,7 +4272,7 @@ msgstr "Пошук цілі (%s)"
 #: ../src/commands.c:6832
 #, c-format
 msgid "Tabulating Dependencies"
-msgstr ""
+msgstr "Табулювання залежностей"
 
 #: ../src/commands.c:6906
 msgid "Reconfigure Graph"
@@ -4885,7 +4959,7 @@ msgstr "Вміст стовпчика часу є некоректним."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:124
 msgid "The time column should be part of a single column."
-msgstr ""
+msgstr "Стовпчик часу має бути частиною одного стовпчика."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:134
 msgid "The censorship column is not valid."
@@ -4893,11 +4967,11 @@ msgstr "Стовпчик цензурування є некоректним."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:141
 msgid "The censorship column should be part of a single column."
-msgstr ""
+msgstr "Стовпчик цензурування має бути частиною одного стовпчика."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:148
 msgid "The censorship and time columns should have the same height."
-msgstr ""
+msgstr "Висота стовпчиків цензурування та часу має бути однаковою."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:163
 msgid "The groups column is not valid."
@@ -4905,11 +4979,11 @@ msgstr "Стовпчик груп не є коректним."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:169
 msgid "The groups column should be part of a single column."
-msgstr ""
+msgstr "Стовпчик груп має бути частиною одного стовпчика."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:176
 msgid "The groups and time columns should have the same height."
-msgstr ""
+msgstr "Висота стовпчиків груп та часу має бути однаковою."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:480
 #, c-format
@@ -4972,12 +5046,12 @@ msgstr "Другий діапазон вхідних даних є некоре�
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:171
 msgid "The input ranges do not have the same shape."
-msgstr ""
+msgstr "Формат діапазонів вхідних даних є різною."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:255
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:403
 msgid "Could not create the Sign Test Tool dialog."
-msgstr ""
+msgstr "Не вдалося створити діалогове вікно інструмента перевірки знаків."
 
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:84
 msgid "The input range for variable 1 is invalid."
@@ -4990,21 +5064,23 @@ msgstr "Діапазон вхідних даних для змінної 2 є н
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:186
 msgid "Could not create the Wilcoxon-Mann-Whitney Analysis Tool dialog."
 msgstr ""
+"Не вдалося створити діалогове вікно інструмента аналізу"
+" Вілкоксона-Манна-Вітні."
 
 #: ../src/dialogs/dialog-analysis-tools.c:654
 #: ../src/dialogs/dialog-analysis-tools.c:774
 msgid "The selected input rows must have equal size!"
-msgstr ""
+msgstr "Позначені рядки вхідних даних мають бути однакового розміру!"
 
 #: ../src/dialogs/dialog-analysis-tools.c:659
 #: ../src/dialogs/dialog-analysis-tools.c:779
 msgid "The selected input columns must have equal size!"
-msgstr ""
+msgstr "Позначені стовпчики вхідних даних мають бути однакового розміру!"
 
 #: ../src/dialogs/dialog-analysis-tools.c:664
 #: ../src/dialogs/dialog-analysis-tools.c:784
 msgid "The selected input areas must have equal size!"
-msgstr ""
+msgstr "Позначені області вхідних даних мають бути однакового розміру!"
 
 #: ../src/dialogs/dialog-analysis-tools.c:712
 msgid "Could not create the Correlation Tool dialog."
@@ -5181,7 +5257,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:3231
 msgid "The cutoff range is not valid."
-msgstr ""
+msgstr "Діапазон обрізання є некоректним."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3238
 msgid "The number of to be calculated cutoffs is invalid."
@@ -5256,10 +5332,10 @@ msgstr[3] "Показати %3d найбільший запис"
 #, c-format
 msgid "Show the smallest item"
 msgid_plural "Show the %3d smallest items"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Показати %3d найменший запис"
+msgstr[1] "Показати %3d найменших записи"
+msgstr[2] "Показати %3d найменших записів"
+msgstr[3] "Показати найменший запис"
 
 #: ../src/dialogs/dialog-autofilter.c:234
 #, c-format
@@ -6700,7 +6776,7 @@ msgstr "Дискретне"
 
 #: ../src/dialogs/dialog-random-generator.c:110
 msgid "_Value And Probability Input Range:"
-msgstr ""
+msgstr "В_хідний діапазон значень та ймовірностей:"
 
 #: ../src/dialogs/dialog-random-generator.c:116
 msgid "Bernoulli"
@@ -7393,7 +7469,7 @@ msgstr "Виконання"
 
 #: ../src/dialogs/dialog-simulation.c:151
 msgid "Run on"
-msgstr ""
+msgstr "Працює на"
 
 #: ../src/dialogs/dialog-simulation.c:234 ../src/tools/simulation.c:245
 #: ../src/wbc-gtk.c:4058
@@ -7528,7 +7604,7 @@ msgstr "Експорт"
 
 #: ../src/dialogs/dialog-stf-export.c:731
 msgid "This workbook does not contain any exportable content."
-msgstr ""
+msgstr "У цій робочій книзі немає даних, які придатні до експортування."
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:50
 msgid "Autodiscovery did not find any columns in the text. Try manually"
@@ -7705,7 +7781,7 @@ msgstr "Комірка призначення має містити вираз"
 #: ../src/dialogs/dialog-view.c:81
 #, c-format
 msgid "Display \"%s\" could not be opened."
-msgstr ""
+msgstr "Не вдалося відкрити дисплей «%s»."
 
 #: ../src/dialogs/dialog-view.c:159
 msgid "This screen"
@@ -8106,7 +8182,7 @@ msgstr "<b>Новий автор:</b>"
 
 #: ../src/dialogs/cell-comment.ui.h:4
 msgid "_Wrap in properties window"
-msgstr ""
+msgstr "П_еренесення у вікні властивостей"
 
 #: ../src/dialogs/cell-format-cond.ui.h:2
 msgid "E_xpand"
@@ -8130,7 +8206,7 @@ msgstr "Вирівнювання"
 
 #: ../src/dialogs/cell-format-cond.ui.h:12
 msgid "Style Overlay:"
-msgstr ""
+msgstr "Накладка стилю:"
 
 #: ../src/dialogs/cell-format-cond.ui.h:13
 msgid "_Edit Style"
@@ -8174,35 +8250,35 @@ msgstr "Користувацький"
 
 #: ../src/dialogs/cell-format.ui.h:9
 msgid "min <= val <= max         (between)"
-msgstr ""
+msgstr "мін <= знач <= макс       (між)"
 
 #: ../src/dialogs/cell-format.ui.h:10
 msgid "val <= min || max <= val (not between)"
-msgstr ""
+msgstr "знач <= мін || макс <= знач (не між)"
 
 #: ../src/dialogs/cell-format.ui.h:11
 msgid "val == bound                  (equal to)"
-msgstr ""
+msgstr "знач == межа                  (дорівнює)"
 
 #: ../src/dialogs/cell-format.ui.h:12
 msgid "val <> bound                  (not equal to)"
-msgstr ""
+msgstr "знач <> межа                  (не дорівнює)"
 
 #: ../src/dialogs/cell-format.ui.h:13
 msgid "val  >  bound                  (greater than)"
-msgstr ""
+msgstr "знач  >  межа                  (більше)"
 
 #: ../src/dialogs/cell-format.ui.h:14
 msgid "val  <  bound                  (less than)"
-msgstr ""
+msgstr "знач  <  межа                  (менше)"
 
 #: ../src/dialogs/cell-format.ui.h:15
 msgid "val >= bound                  (greater than or equal)"
-msgstr ""
+msgstr "знач >= межа                  (більше або дорівнює)"
 
 #: ../src/dialogs/cell-format.ui.h:16
 msgid "val <= bound                  (less than or equal)"
-msgstr ""
+msgstr "знач <= межа                  (менше або дорівнює)"
 
 #: ../src/dialogs/cell-format.ui.h:18
 msgid "<b>Horizontal alignment</b>"
@@ -8214,7 +8290,7 @@ msgstr "_Загальне"
 
 #: ../src/dialogs/cell-format.ui.h:21
 msgid "Center across _selection"
-msgstr ""
+msgstr "Центрувати за поз_наченим"
 
 #: ../src/dialogs/cell-format.ui.h:22
 msgid "_Indent:"
@@ -8234,7 +8310,7 @@ msgstr "З_аповнити"
 
 #: ../src/dialogs/cell-format.ui.h:27
 msgid "_Justify"
-msgstr ""
+msgstr "Ви_рівняти"
 
 #: ../src/dialogs/cell-format.ui.h:28
 msgid "D_istributed"
@@ -8246,7 +8322,7 @@ msgstr "_Центрувати"
 
 #: ../src/dialogs/cell-format.ui.h:32
 msgid "J_ustify"
-msgstr ""
+msgstr "В_ирівняти"
 
 #: ../src/dialogs/cell-format.ui.h:33
 msgid "_Distributed"
@@ -8262,11 +8338,11 @@ msgstr "_Переносити текст"
 
 #: ../src/dialogs/cell-format.ui.h:36
 msgid "Shrin_k to fit"
-msgstr ""
+msgstr "С_тиснути за розміром"
 
 #: ../src/dialogs/cell-format.ui.h:39
 msgid "Reverse Diagonal"
-msgstr ""
+msgstr "Звортні діагональні"
 
 #: ../src/dialogs/cell-format.ui.h:41
 msgid "Diagonal"
@@ -9883,7 +9959,7 @@ msgstr "Об_числені обрізання"
 
 #: ../src/dialogs/histogram.ui.h:12
 msgid "_Number of cutoffs:"
-msgstr ""
+msgstr "_Кількість обрізань:"
 
 #: ../src/dialogs/histogram.ui.h:13
 msgid "M_inimum cutoff:"
