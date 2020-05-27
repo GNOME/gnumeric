@@ -523,6 +523,9 @@ xlsx_draw_clientdata (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean print = TRUE;
 
+	if (state->so == NULL) /* happens if gnumeric does not support the object */
+		return;
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_bool (xin, attrs, "fPrintsWithSheet", &print)) {
 			/* Nothing more */

@@ -105,6 +105,8 @@ static GQuark	sov_container_quark;
 void
 sheet_object_set_print_flag (SheetObject *so, gboolean *print)
 {
+	g_return_if_fail (GNM_IS_SO (so));
+	
 	if (*print)
 		so->flags |= SHEET_OBJECT_PRINT;
 	else
