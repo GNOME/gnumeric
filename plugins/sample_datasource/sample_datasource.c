@@ -51,6 +51,7 @@ static gboolean debug;
 static int    atl_fd = -1;
 static char * atl_filename = NULL;
 static FILE  *atl_file = NULL;
+static GString *atl_buffer = NULL;
 static guint  atl_source = 0;
 static GHashTable *watched_values = NULL;
 static GHashTable *watchers = NULL;
@@ -107,15 +108,30 @@ cb_watcher_queue_recalc (gpointer key, gpointer value, gpointer closure)
 static gboolean
 cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 {
-	char buf[128];
 	gboolean any = FALSE;
+	size_t used = 0;
 
-	/* quick format ticker:value\n
-	 * there is no notion of a field for now.
-	 */
-	while (fgets (buf, sizeof (buf), atl_file) != NULL) {
-		char *sym = buf;
-		char *value_str = strchr (buf, ':');
+	// quick format ticker:value\n
+	// there is no notion of a field for now.
+	while (TRUE) {
+		char *sym;
+		char *value_str;
+		char *eol;
+		int c;
+
+		while ((c = fgetc (atl_file)) != EOF) {
+			g_string_append_c (atl_buffer, c);
+			if (c == '\n')
+				break;
+		}
+
+		sym = atl_buffer->str + used;
+		eol = strchr (sym, '\n');
+		if (!eol)
+			break;
+		*eol = 0;
+
+		value_str = strchr (sym, ':');
 
 		if (value_str != NULL) {
 			gnm_float val;
@@ -123,7 +139,7 @@ cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 			*value_str++ = '\0';
 
 			val = gnm_strto (value_str, &end);
-			if (sym != end && errno == 0) {
+			if (value_str != end && errno == 0) {
 				WatchedValue *wv = watched_value_fetch (sym);
 				wv->valid = TRUE;
 				wv->value = val;
@@ -135,7 +151,13 @@ cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 					g_printerr ("'%s' <= %" GNM_FORMAT_f "\n", sym, val);
 			}
 		}
+		used += eol - sym + 1;
+		if (used == atl_buffer->len) {
+			g_string_set_size (atl_buffer, 0);
+			used = 0;
+		}
 	}
+	g_string_erase (atl_buffer, 0, used);
 	if (any)
 		gnm_app_recalc ();
 
@@ -241,6 +263,8 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 #endif /* HAVE_MKFIFO */
 		g_free (filename);
 
+	atl_buffer = g_string_new (NULL);
+
 	if (atl_fd >= 0) {
 		atl_file = fdopen (atl_fd, "rb");
 		channel = g_io_channel_unix_new (atl_fd);
@@ -285,6 +309,11 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 	if (atl_file != NULL) {
 		fclose (atl_file);
 		atl_file = NULL;
+	}
+
+	if (atl_buffer) {
+		g_string_free (atl_buffer, TRUE);
+		atl_buffer = NULL;
 	}
 
 	g_hash_table_destroy (watched_values);

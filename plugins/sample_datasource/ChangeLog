@@ -1,3 +1,8 @@
+2020-05-28  Morten Welinder  <terra@gnome.org>
+
+	* sample_datasource.c (cb_atl_input): Buffer a partial line.
+	Recalc at the end, if needed, not for every line.
+
 2020-05-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.47

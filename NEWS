@@ -12,6 +12,7 @@ Jean:
 
 Morten:
 	* Fix performace issue with sample_datasource.  [#491]
+	* Fix partial-line issue with sample_datasource.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47
