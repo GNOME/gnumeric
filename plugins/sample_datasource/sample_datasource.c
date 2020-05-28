@@ -102,13 +102,13 @@ cb_watcher_queue_recalc (gpointer key, gpointer value, gpointer closure)
 {
 	Watcher const *w = key;
 	dependent_queue_recalc (w->dep);
-	gnm_app_recalc ();
 }
 
 static gboolean
 cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 {
 	char buf[128];
+	gboolean any = FALSE;
 
 	/* quick format ticker:value\n
 	 * there is no notion of a field for now.
@@ -130,10 +130,13 @@ cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 
 				g_hash_table_foreach (wv->deps,
 					cb_watcher_queue_recalc, NULL);
+				any = TRUE;
 				g_printerr ("'%s' <= %" GNM_FORMAT_f "\n", sym, val);
 			}
 		}
 	}
+	if (any)
+		gnm_app_recalc ();
 
 	return TRUE;
 }
