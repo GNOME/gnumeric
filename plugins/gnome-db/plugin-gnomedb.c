@@ -19,7 +19,7 @@ view_data_sources (GnmAction const *action, WorkbookControl *wbc)
 			_("Could not run GNOME database configuration tool ('%s')"),
 			argv[0]);
 		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)),
-			GTK_MESSAGE_INFO,  msg);
+				      GTK_MESSAGE_INFO,  "%s", msg);
 		g_free (msg);
 	}
 }

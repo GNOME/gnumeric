@@ -43,7 +43,7 @@ msgstr "Proračuni, analiza, prikazivanje podataka"
 
 #: ../gnumeric.desktop.in.h:5
 msgid "Spreadsheet;"
-msgstr "Tablica"
+msgstr "Tablica;"
 
 #: ../gnumeric.appdata.xml.in.h:1
 msgid ""
