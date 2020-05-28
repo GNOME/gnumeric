@@ -7,6 +7,9 @@ Andreas:
 	* Improve line marker handling on import
 	* Fix LaTeX export. [#489]
 
+Jean:
+	* Fix xlsx object non-import crash.
+
 Morten:
 	* Fix performace issue with sample_datasource.  [#491]
 
