@@ -1,3 +1,12 @@
+2020-05-29  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_top_multiple_as_string): New function.
+
+	* src/graph.c (gnm_go_data_serialize): Use
+	gnm_expr_top_multiple_as_string for vectors.
+	(gnm_go_data_unserialize): Handle "(1,2)" as "1,2" for vectors
+	because we have managed to create files with the former.
+
 2020-05-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object.c (sheet_object_set_print_flag): protect against a NULL

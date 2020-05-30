@@ -2650,7 +2650,10 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	}
 
 	/* Reset the entry in case something changed */
-	str = gnm_expr_top_as_string (texpr, pp, gee_convs (gee));
+	str = (flags & GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS)
+		? gnm_expr_top_multiple_as_string (texpr, pp, gee_convs (gee))
+		: gnm_expr_top_as_string (texpr, pp, gee_convs (gee));
+
 	if (strcmp (str, text)) {
 		SheetControlGUI *scg = wbcg_cur_scg (gee->wbcg);
 		Rangesel const *rs = &gee->rangesel;

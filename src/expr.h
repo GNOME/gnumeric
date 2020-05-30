@@ -215,6 +215,9 @@ char	 *gnm_expr_top_as_string  (GnmExprTop const *texpr,
 				   GnmConventions const *convs);
 void	  gnm_expr_top_as_gstring (GnmExprTop const *texpr,
 				   GnmConventionsOut *out);
+char	 *gnm_expr_top_multiple_as_string  (GnmExprTop const *texpr,
+					    GnmParsePos const *pp,
+					    GnmConventions const *convs);
 
 /*****************************************************************************/
 

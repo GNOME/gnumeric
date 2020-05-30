@@ -3098,6 +3098,33 @@ gnm_expr_top_as_string (GnmExprTop const *texpr,
 	return gnm_expr_as_string (texpr->expr, pp, convs);
 }
 
+// This differs from gnm_expr_as_string in that a top-level set
+// representing multiple expressions is rendered as a comma-separated
+// list of expressions with no outside parenthesis.
+char *
+gnm_expr_top_multiple_as_string  (GnmExprTop const *texpr,
+				  GnmParsePos const *pp,
+				  GnmConventions const *convs)
+{
+	char *res;
+
+	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
+
+	res = gnm_expr_top_as_string (texpr, pp, convs);
+
+	if (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_SET) {
+		// Get rid of '(' and ')'.  This is crude and probably should
+		// have made it into convs, but it'll do.
+		size_t l = strlen (res);
+		if (l >= 2 && res[0] == '(' && res[l - 1] == ')') {
+			g_memmove (res, res + 1, l - 2);
+			res[l - 2] = 0;
+		}
+	}
+
+	return res;
+}
+
 void
 gnm_expr_top_as_gstring (GnmExprTop const *texpr,
 			 GnmConventionsOut *out)

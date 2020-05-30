@@ -1,3 +1,9 @@
+2020-05-29  Morten Welinder  <terra@gnome.org>
+
+	* gnm-expr-entry.c (gnm_expr_entry_parse): Use
+	gnm_expr_top_multiple_as_string when we are dealing with multiple
+	expressions.
+
 2020-05-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* gnm-fontbutton.c (_gtk_font_chooser_install_properties),

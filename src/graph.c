@@ -197,9 +197,12 @@ gnm_go_data_serialize (GOData const *dat, gpointer user)
 		convs = gnm_conventions_default;
 	}
 
-	res = gnm_expr_top_as_string (dep->texpr,
-				      parse_pos_init_dep (&pp, dep),
-				      convs);
+	parse_pos_init_dep (&pp, dep);
+
+	res = GO_IS_DATA_VECTOR (dat)
+		? gnm_expr_top_multiple_as_string (dep->texpr, &pp, convs)
+		: gnm_expr_top_as_string (dep->texpr, &pp, convs);
+
 #if 0
 	g_printerr ("Serializing %s\n", res);
 #endif
@@ -213,6 +216,7 @@ gnm_go_data_unserialize (GOData *dat, char const *str, gpointer user)
 	GnmExprTop const *texpr;
 	GnmParsePos   pp;
 	GnmDependent *dep = gnm_go_data_get_dep (dat);
+	size_t len;
 
 	if (!convs) {
 		g_warning ("NULL convs in gnm_go_data_serialize");
@@ -233,6 +237,16 @@ gnm_go_data_unserialize (GOData *dat, char const *str, gpointer user)
 	                            GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS:
 		                    GNM_EXPR_PARSE_DEFAULT,
 				    convs, NULL);
+	// Bummer.  We have managed to create files containing (1,2)
+	// which should be read as a vector.  See #492
+	if (!texpr && GO_IS_DATA_VECTOR (dat) && ((len = strlen (str)) > 2) &&
+	    str[0] == '(' && str[len - 1] == ')') {
+		char *str2 = g_strndup (str + 1, len - 2);
+		texpr = gnm_expr_parse_str (str2, &pp,
+					    GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS,
+					    convs, NULL);
+		g_free (str2);
+	}
 	if (texpr != NULL) {
 		dependent_set_expr (dep, texpr);
 		gnm_expr_top_unref (texpr);
