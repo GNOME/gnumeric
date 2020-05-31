@@ -2417,7 +2417,7 @@ xml_sax_filter_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2)
 		if (attr_eq (attrs[i], "Area") &&
 		    range_parse (&r, CXML2C (attrs[i + 1]), gnm_sheet_get_size (state->sheet)))
-			state->filter = gnm_filter_new (state->sheet, &r);
+			state->filter = gnm_filter_new (state->sheet, &r, TRUE);
 	if (NULL == state->filter)
 		go_io_warning (state->context, _("Invalid filter, missing Area"));
 }

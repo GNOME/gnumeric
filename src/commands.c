@@ -7838,7 +7838,7 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 				return TRUE;
 			}
 		}
-		f = gnm_filter_new (sv->sheet, &region);
+		f = gnm_filter_new (sv->sheet, &region, FALSE);
 		if (f == NULL) {
 			go_cmd_context_error_invalid
 				(GO_CMD_CONTEXT (wbc),
@@ -7849,7 +7849,6 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 			return TRUE;
 		}
 
-		gnm_filter_remove (f);
 		if (f_old)
 			gnm_filter_attach (f_old, sv->sheet);
 

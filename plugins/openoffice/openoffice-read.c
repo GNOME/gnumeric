@@ -8027,7 +8027,7 @@ oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 		    ref.b.sheet != invalid_sheet) {
 			range_init_rangeref (&r, &ref);
 			if (buttons)
-				state->filter = gnm_filter_new (ref.a.sheet, &r);
+				state->filter = gnm_filter_new (ref.a.sheet, &r, TRUE);
 			expr = gnm_expr_new_constant
 				(value_new_cellrange_r (ref.a.sheet, &r));
 		} else

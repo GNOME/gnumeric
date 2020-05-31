@@ -3929,7 +3929,7 @@ excel_prepare_autofilter (GnmXLImporter *importer, GnmNamedExpr *nexpr)
 				GnmFilter *filter;
 				ExcelReadSheet *esheet;
 
-				filter = gnm_filter_new (r.sheet, &r.range);
+				filter = gnm_filter_new (r.sheet, &r.range, TRUE);
 				expr_name_remove (nexpr);
 
 				for (i = 0 ; i < importer->excel_sheets->len; i++) {

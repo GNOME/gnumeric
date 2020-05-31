@@ -1,5 +1,11 @@
 2020-05-31  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-filter.c (gnm_filter_new): New argument attach.  All
+	callers changed.
+
+	* src/commands.c (cmd_autofilter_add_remove): Don't
+	attach-remove-attach.
+
 	* src/sheet-object.c (cb_create_views): Maintain just one idle
 	source to handle view creating for all objects that need it.
 

@@ -556,6 +556,7 @@ LIBS="$GNUMERIC_LIBS $LIBS"
 
 AC_CHECK_FUNCS(gtk_cell_renderer_text_get_background_set gtk_cell_renderer_text_get_foreground_set gtk_cell_renderer_text_get_editable)
 AC_CHECK_FUNCS(gtk_entry_set_editing_cancelled gtk_icon_theme_add_resource_path)
+AC_CHECK_FUNCS(g_ptr_array_insert)
 
 AC_MSG_CHECKING([for OO_NS_LOCALC_EXT])
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gsf/gsf.h>]],

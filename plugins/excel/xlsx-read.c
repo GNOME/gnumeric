@@ -2313,7 +2313,7 @@ xlsx_CT_AutoFilter_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_range (xin, attrs, "ref", &r))
-			state->filter = gnm_filter_new (state->sheet, &r);
+			state->filter = gnm_filter_new (state->sheet, &r, TRUE);
 	}
 }
 

@@ -77,7 +77,9 @@ GnmFilterCondition *gnm_filter_condition_new_bucket (gboolean top,
 						     double n);
 
 GType                     gnm_filter_get_type       (void);
-GnmFilter		 *gnm_filter_new	    (Sheet *sheet, GnmRange const *r);
+GnmFilter		 *gnm_filter_new	    (Sheet *sheet,
+						     GnmRange const *r,
+						     gboolean attach);
 GnmFilter		 *gnm_filter_dup	    (GnmFilter const *src,
 						     Sheet *sheet);
 GnmFilter *               gnm_filter_ref            (GnmFilter *filter);

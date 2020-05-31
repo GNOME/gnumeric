@@ -633,7 +633,6 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 {
 	/* pretend to fill the cell, then clip the X start later */
 	static double const a_offsets[4] = { .0, .0, 1., 1. };
-	int n;
 	GnmRange tmp;
 	SheetObjectAnchor anchor;
 	GnmFilterCombo *fcombo = g_object_new (GNM_FILTER_COMBO_TYPE, NULL);
@@ -646,11 +645,11 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 	sheet_object_set_anchor (GNM_SO (fcombo), &anchor);
 	sheet_object_set_sheet (GNM_SO (fcombo), filter->sheet);
 
-	g_ptr_array_add (filter->fields, NULL);
-	for (n = filter->fields->len; --n > i ; )
-		g_ptr_array_index (filter->fields, n) =
-			g_ptr_array_index (filter->fields, n - 1);
-	g_ptr_array_index (filter->fields, n) = fcombo;
+#ifdef HAVE_G_PTR_ARRAY_INSERT
+	g_ptr_array_insert (filter->fields, i, fcombo);
+#else
+	go_ptr_array_insert (filter->fields, fcombo, i);
+#endif
 	/* We hold a reference to fcombo */
 }
 
@@ -676,13 +675,14 @@ gnm_filter_attach (GnmFilter *filter, Sheet *sheet)
 
 /**
  * gnm_filter_new:
- * @sheet:
- * @r:
+ * @sheet: #Sheet for which to create the filter.
+ * @r: #GnmRange that the filter covers.
+ * @attach: whether to attach the filter.
  *
- * Init a filter and add it to @sheet
+ * Returns: (transfer full): A new filter.
  **/
 GnmFilter *
-gnm_filter_new (Sheet *sheet, GnmRange const *r)
+gnm_filter_new (Sheet *sheet, GnmRange const *r, gboolean attach)
 {
 	GnmFilter	*filter;
 
@@ -695,8 +695,12 @@ gnm_filter_new (Sheet *sheet, GnmRange const *r)
 	filter->r = *r;
 	filter->fields = g_ptr_array_new ();
 
-	/* This creates the initial ref.  */
-	gnm_filter_attach (filter, sheet);
+	if (attach) {
+		/* This creates the initial ref.  */
+		gnm_filter_attach (filter, sheet);
+	} else {
+		gnm_filter_ref (filter);
+	}
 
 	return filter;
 }

@@ -1027,7 +1027,7 @@ xl_xml_auto_filter_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 		if (end != range)
 		{
 			range_init_rangeref (&r, &rr);
-			filter = gnm_filter_new (state->sheet, &r);
+			filter = gnm_filter_new (state->sheet, &r, TRUE);
 			gnm_filter_reapply (filter);
 		}
 	}
