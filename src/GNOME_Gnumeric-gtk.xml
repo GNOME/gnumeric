@@ -124,7 +124,7 @@
         <menuitem action="NewGOComponent" />
         <menuitem action="GOComponentFromFile" />
       </menu>
-<!-- These don't work yet for Gnome 2 
+<!-- These don't work yet for Gnome 2
 	    <menuitem action="InsertComponent" />
 	    <menuitem action="InsertShapedComponent" />
 	    <separator/>
@@ -165,8 +165,8 @@
 	   <menuitem action="FontDoubleUnderline"/>
 	   <menuitem action="FontSingleLowUnderline"/>
 	   <menuitem action="FontDoubleLowUnderline"/>
-        </menu>      
-      </menu>      
+        </menu>
+      </menu>
       <menu name="FormatColumn" action="MenuFormatColumn">
         <menuitem action="ColumnSize"/>
         <menuitem action="ColumnAutoSize"/>

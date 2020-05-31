@@ -29,7 +29,7 @@ if ($cmd eq 'download') {
 } elsif ($cmd eq 'make-schema-ext') {
     &make_schema_ext ();
     exit 0;
-} 
+}
 
 my $suggest_download = 0;
 if (!-r $schema) {

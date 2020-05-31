@@ -28,12 +28,12 @@ yourself familiar with the GNU coding standards (shipped with most
 GNU/Linux systems as the standards.info file), then read the Linux
 kernel coding standards and ignore Linus' jokes.  Then look at the
 Gtk+ header files to get aquainted on how to write nice header files
-that are almost self documenting. 
+that are almost self documenting.
 
    Remember: Use 8 space tabs for indentation: that will keep your
 code honest as you will be forced to split your routines in more
-modular chunks (as detailed by Linus). 
-   
+modular chunks (as detailed by Linus).
+
    Emacs users can get the default indentation style with this:
   (set-c-style "K&R")
   (setq c-basic-offset 8)
@@ -43,7 +43,7 @@ modular chunks (as detailed by Linus).
 	- Follow the Gtk+ cleanliness conventions for function
 	  prototypes.
 
-	- Follow the Gtk+ namespace convention for function names. 
+	- Follow the Gtk+ namespace convention for function names.
 	  module_submodule_operation
 
 	- Make sure your code does not have a single warning (with the
@@ -62,16 +62,16 @@ modular chunks (as detailed by Linus).
 	- Use g_warning to mark spots that need to be reviewed or are
 	  not finished to let me fix it eventually.
 
-	- It is more important to be correct than to be fast.  
+	- It is more important to be correct than to be fast.
 
 	- Do not optimize unnecesarly.  Do profile, do look for the
 	  weak spots before applying "optimization by feeling".  This
-	  is not a Ouija-based project. 
+	  is not a Ouija-based project.
 
 	- It is more important to keep the code maintainable and
 	  readable than to be fast.  If you have a great idea about
 	  optimizing the code, make sure it is implemented cleanly,
-	  that there is a clean and maintainable way to do it:  
+	  that there is a clean and maintainable way to do it:
 
         - Fast code that is difficult to maintain has no place in
 	  Gnumeric and will be dropped.
@@ -86,7 +86,7 @@ modular chunks (as detailed by Linus).
 	  different currency conventions, number formatting
 	  conventions and different languages.  Use the locale
 	  functions to make sure your code will work on countries that
-	  have different conventions than your country.  
+	  have different conventions than your country.
 
    All of this is to ensure the Gnumeric code will be kept within
 reasonable margins of maintainability for the future: Remember, in two
@@ -98,7 +98,7 @@ various other projects in the GNOME desktop (the document model and
 CORBA service provision).
 
    Cleaning code in Gnumeric is more important than trying not to break
-existing code.  By all means, code clean ups are always welcome. 
+existing code.  By all means, code clean ups are always welcome.
 
 Extra Spreadsheet functions
 ---------------------------
@@ -118,7 +118,7 @@ Make sure that dialogs work well without using the mouse. GnomeDialog
 solves some of this automatically, but by no means all. Some dialogs
 aren't GnomeDialogs at all, and you have to do more work manually.
 
-- Pressing the escape key should dismiss the dialog.  
+- Pressing the escape key should dismiss the dialog.
 
   GnomeDialog does this. If your dialog does not inherit from
   GnomeDialog, write a handler like src/file.c:fs_key_event and
@@ -142,7 +142,7 @@ aren't GnomeDialogs at all, and you have to do more work manually.
 
   The user can navigate to the widget with Alt + <letter>, where
   <letter> is an underlined letter in the widget label. It should
-  ideally be the first, but that's often not possible. 
+  ideally be the first, but that's often not possible.
 
   In glade, you define the accelerator by inserting an "_" in the
   label. Like this: "_File" makes F the accelerator. To make an
@@ -184,7 +184,7 @@ aren't GnomeDialogs at all, and you have to do more work manually.
 
 - The dialog should be a transient child of the window it was popped up
   for. Most window managers will then iconize it with the parent.
-  
+
   For modal GnomeDialogs, gnumeric_dialog_run (workbook, dialog) takes
   care of this. For other dialogs, use gnumeric_set_transient
   (context, window).
@@ -210,16 +210,16 @@ Spacing and border properties can be used to tidy a dialog, but this
 is not much use if everyone uses different values for these properties
 everywhere. For consistency the following rules have been made, all
 dialogs in Gnumeric should adhere to these rules :
- 
+
 - Any container which can contain only a single widget (GtkWindow,
   GtkFrame, etc..) should not have it's border set to anything other than
   0.
- 
+
 - Widgets which can host multiple other widgets must have a border of 4,
   but only when it's not a child of a widget that already has border (or
   spacing) set or the (indirect) child of a GtkWindow (this to avoid a
   superfluous dialog border)
- 
+
 - Spacing should always be set to 4 for GtkTable, VBoxes and HBoxes,
   except for the toplevel VBox or HBox on a dialog which should have a
   spacing of 8. (we don't want to mess with GnomeDialogs default setup)

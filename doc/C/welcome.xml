@@ -249,8 +249,8 @@
   developer releases. These releases are kept as stable as
   possible. However, each release in this series includes changes and
   improvements some of which may be quite large. These new changes may
-  cause the program to crash and loose data. Do not use these releases
-  if you cannot afford to loose any data or work. However, these
+  cause the program to crash and lose data. Do not use these releases
+  if you cannot afford to lose any data or work. However, these
   releases include many new features that can be helpful. If you use
   this series, backup your data often, not just by saving files but by
   renaming them and checking that they can be reopened. If you

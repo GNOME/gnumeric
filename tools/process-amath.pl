@@ -274,7 +274,7 @@ sub non_negative_handler {
     foreach (@$pargs) {
 	my $x = &interpret_number ($_);
 	return undef unless defined ($x) && $x >= 0;
-    }    
+    }
 
     return &def_expr_handler ($f,$pargs);
 }
@@ -285,7 +285,7 @@ sub positive_handler {
     foreach (@$pargs) {
 	my $x = &interpret_number ($_);
 	return undef unless defined ($x) && $x > 0;
-    }    
+    }
 
     return &def_expr_handler ($f,$pargs);
 }

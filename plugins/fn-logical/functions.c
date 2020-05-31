@@ -406,7 +406,7 @@ GnmFuncDescriptor const logical_functions[] = {
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "or", NULL,  help_or, NULL,
-	  gnumeric_or, 
+	  gnumeric_or,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "not", "b",  help_not, gnumeric_not,

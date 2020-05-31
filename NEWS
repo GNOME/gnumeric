@@ -12,7 +12,7 @@ Jean:
 	* Fix in-place graph data problem.  [#492]
 
 Morten:
-	* Fix performace issue with sample_datasource.  [#491]
+	* Fix performance issue with sample_datasource.  [#491]
 	* Fix partial-line issue with sample_datasource.
 	* Fix load of in-place graph data with extra ()s.  [#492]
 
@@ -301,7 +301,7 @@ Gnumeric 1.12.32
 Andreas:
 	* Improve html4.0 fragment export. [#769343]
 	* Fix moving averages, exponential smothing and principal
-	  component tools. [#769659] 
+	  component tools. [#769659]
 
 Jean:
 	* Fix  paradox plugin build with pxlib-0.6.7. [#769319]
@@ -730,7 +730,7 @@ Andreas:
 	* Fix ODF roundtrip of "center accross selection". [#726010]
 	* Improve ODF roundtrip of conditional formats. [#726201]
 	* Fix import & export of cell indent from/to ODF.
-	* Fix ODF roundtrip of underlines. 
+	* Fix ODF roundtrip of underlines.
 
 Jean:
 	* Fix tooltip position for scale or RTL sheets. [#725941]
@@ -792,7 +792,7 @@ Morten:
 	* Fix xls import of cells with long string results.
 	* Fix xls export of long strings in various places.
 	* Fix BIFF7 export of comments.
-	* Improve style handling when expanding sheets. 
+	* Improve style handling when expanding sheets.
 	* Fix xls export of headers and footers.  [Part of #724516]
 	* Fix xls import of headers and footers.  [Part of #724516]
 	* Fix xlsx export of row heights.
@@ -1032,7 +1032,7 @@ Andreas:
 	* Some documentation improvements. [Debian #621735] [Debian #530462]
 	* Fix crash on xlsx import due to external references. [#702407]
 	* Fix reading of conditional formats from xls files. [#702612]
-	* Fix reading of solid fill conditional formats from xlsx files. 
+	* Fix reading of solid fill conditional formats from xlsx files.
 	  [#702615]
 	* Improve xlsx import of new stat function names.
 	* Fix export of FLOOR(x) to xlsx. [Debian #464732]
@@ -3459,7 +3459,7 @@ Morten:
 	* Make sheet duplication handle sheet-local names.
 	* Make sheet duplication change sheet references to point to
 	  the new sheet.  [#158825, #158691]
-	* Fix parsing of new workbook-level named expresions.  [#306686]
+	* Fix parsing of new workbook-level named expressions.  [#306686]
 	* Fix xml loading of names that refer to other names.
 	* Fix crash from old-style file.  [#392054]
 	* Fix cell contents reading from old v7 files.  [#392054]
@@ -4076,11 +4076,11 @@ J.H.M. Dassen (Ray):
 Jody:
 	* Handle ROW/COLUMN with no argument in an array.
 	* Fix problems with row height resizing on win32.  [#163414]
-	* XLS, SAX, & DOM in/out for conditional Formating.
+	* XLS, SAX, & DOM in/out for conditional Formatting.
 	* SAX in/out for input messages.
 	* SAX in for hyperlinks.
-	* Conditional Formating for backgrounds.
-	* Conditional Formating for borders.
+	* Conditional Formatting for backgrounds.
+	* Conditional Formatting for borders.
 	* Store the current settings before previewing.  [#301494]
 	* Fix F4-abs/rel state rotation after R1C1 breakage.
 	* Fix leak in xls chart import.  [#157058]
@@ -4763,7 +4763,7 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=150578
 	* Update the resize handles if the current object's size changes
 	http://bugzilla.gnome.org/show_bug.cgi?id=151144
-	* XL can not handle plots with no data, filter them
+	* XL cannot handle plots with no data, filter them
 	http://bugzilla.gnome.org/show_bug.cgi?id=151150
 	* center ticks for bar/col plots too
 	http://bugzilla.gnome.org/show_bug.cgi?id=143724
@@ -4941,7 +4941,7 @@ Andreas:
 	* Fix GtkFileChooser crash (133069)
 
 Emmanuel Pacaud:
-	* Work on single point formating for charts.
+	* Work on single point formatting for charts.
 	http://bugzilla.gnome.org/show_bug.cgi?id=135621
 	* Fix rounding issue for markers in xy plots and for axis ticks.
 
@@ -5356,7 +5356,7 @@ Jody:
 	* Make chart axis prettier.
 	* Fix crash freeing undo info for a deleted sheet with comments
 	* Fix File -> SendTo
-	* Be more verbose when we can not find the default fonts
+	* Be more verbose when we cannot find the default fonts
 	* Add a grid object for charts
 	* Install the plugin schema in the sample spec file
 	* Require libgsf-1.8.2 to fix backward compatibility with libole2 and
@@ -6090,7 +6090,7 @@ Jody:
 	* Make the location status box smarter about named ranges
 	* Begin support for intersection
 	* Start parsing range sets
-	* Simple OpenOffice importer (expr and content but no formating)
+	* Simple OpenOffice importer (expr and content but no formatting)
 	* Support multi-region version of INDEX
 	* Handle obscure corner case in xbase importer
 
@@ -7077,7 +7077,7 @@ Jody:
 	* Parse using the assigned fmt before checking the builtins.
 	* Enable basic attributes when importing shapes from XL.
 	* Add simple bucketing of range dependencies.
-	* Formating extensions and corrections.
+	* Formatting extensions and corrections.
 	* Some simple recalc tuning speeds things up by a factor of 2.
 	* Basic version of just in time rendering for another factor of 2.
 	* Cleanup the DOM based xml import/export utilities.
@@ -7284,7 +7284,7 @@ Jody:
 	* Support conditional number formats.
 	* Obscure referencing bug.
 	* Scaled printing.
-	* Some number formating bugs.
+	* Some number formatting bugs.
 
 Juan Pablo Mendoza:
 	* Handle {caps,number,scroll}lock.
@@ -7559,13 +7559,13 @@ Jody:
 	* Improve internation keyboard support.
 	* Fix XIRR and friends so that they support blanks.
 	* A few more bugs in printing multiline text.
-	* Correct handling of number formating in intl locales.
-	* Lots of formating bugs.
+	* Correct handling of number formatting in intl locales.
+	* Lots of formatting bugs.
 	* Handle strings used as arguments to numeric operators.
 	* Support for non-cell dependencies.
 	* Improve performance and decrease memory for large row/col resizes.
 	* Bug fixes for ins/del row/col & cut&paste
-	* Locale safe formating.
+	* Locale safe formatting.
 
 John Gill:
 	* Double click fill support.
@@ -8218,7 +8218,7 @@ Jukka:
 Jody:
 	* Added TEXT, HYPERLINK stub, fixed OFFSET, VALUE.
 	* Improve handling of empty cells, and null strings.  Still incomplete.
-	* Partial fix formating/parsing.
+	* Partial fix formatting/parsing.
 	* Bug fixes for Excel import.
 
 Michael:
@@ -8436,7 +8436,7 @@ Nick Lamb
 Jody Goldberg
 	* Supplied many new error and error checking functions.
 	* Vastly improved Excel color loading.
-	* Completed Excel funtion mappings, as far as possible.
+	* Completed Excel function mappings, as far as possible.
 
 Several translations updated: thanks to our translators
 

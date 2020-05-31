@@ -448,7 +448,7 @@ sv_selection_extend_to (SheetView *sv, int col, int row)
 	} else
 		base_row = sv->cursor.base_corner.row;
 
-	/* If nothing was going to change dont redraw */
+	/* If nothing was going to change, don't redraw */
 	if (sv->cursor.move_corner.col == col &&
 	    sv->cursor.move_corner.row == row &&
 	    sv->cursor.base_corner.col == base_col &&
@@ -1497,7 +1497,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 	selections = sv_selection_calc_simplification (sv);
 
 	/* Use the total number of cols vs rows in all of the selected regions.
-	 * We can not use just one in case one of the others happens to be the transpose
+	 * We cannot use just one in case one of the others happens to be the transpose
 	 * eg select A1 + A:B would default_to_cols = FALSE, then produce a vector for each row */
 	num_cols = num_rows = 0;
 	for (ptr = selections; ptr != NULL ; ptr = ptr->next) {

@@ -4666,7 +4666,7 @@
 
 	* src/gui-util.[hc] (gnumeric_notice, gnumeric_notice,
 	gnumeric_dialog_run, gnumeric_error_info_dialog_show): Replace
-	WorkboookControlGUI first paremeter with GtkWindow.
+	WorkbookControlGUI first paremeter with GtkWindow.
 
 	* src/gui-file.c (go_file_is_writable, gui_get_image_save_info,
 	check_multiple_sheet_support_if_needed, do_save_as,

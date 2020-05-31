@@ -54,7 +54,7 @@ test_functions = {
 	'py_capwords': ('s', 'sentence', func_capwords),
 
 	# 'func_bitand' provides 'bitand', which should be called with two
-	# numeric arguments (ff) named 'num1' and 'num2'. 
+	# numeric arguments (ff) named 'num1' and 'num2'.
 	'py_bitand':   ('ff', 'num1, num2', func_bitand)
 }
 

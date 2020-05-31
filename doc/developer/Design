@@ -205,7 +205,7 @@
 	<para>
 	  When a formula is encountered, Gnumeric parses the formula
 	  into a tree structure.  The tree structure is later used to
-	  evaluate the expression at a given location (each cordinate
+	  evaluate the expression at a given location (each coordinate
 	  in a cell references is stored as either an absolute
 	  reference or a relative reference to the cell position).  To
 	  read about the actual implementation of this, look in the

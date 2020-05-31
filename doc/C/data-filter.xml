@@ -131,7 +131,7 @@
      </figure>
 
      <para>``Filter in-place'' writes the new table in-place.  Note
-     that you will loose all the rows in the table that will not match
+     that you will lose all the rows in the table that will not match
      the criteria.  ``Copy to a new location'' copies the selected
      rows into the same sheet but into the specified cell range.  Type
      the cell range into the ``Copy to'' entry if you want this action

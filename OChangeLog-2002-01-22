@@ -170,7 +170,7 @@
 2002-01-15  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (xml_read_cell) : be more robust when faced
-	  with shared expressions that we can not parse.  And try really
+	  with shared expressions that we cannot parse.  And try really
 	  really hard to parse things that are not marked as values, see if we
 	  can parse them as expressions if we ignore the assigned format.
 
@@ -606,7 +606,7 @@
 	  reversed compared to the range list.
 	(cmd_paste_cut) : don't register a cmd for a paste that does nothing.
 
-	* src/gnumeric-canvas.c (gnm_canvas_realize) : formating.
+	* src/gnumeric-canvas.c (gnm_canvas_realize) : formatting.
 
 2001-12-26  Jody Goldberg <jody@gnome.org>
 
@@ -3965,7 +3965,7 @@
 
 	* src/item-cursor.c (item_cursor_draw) : When centering the cursor
 	  with an even width tweak it to make things symetric.
-	Some cosmetic formating and naming issues too.
+	Some cosmetic formatting and naming issues too.
 
 2001-08-07  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 

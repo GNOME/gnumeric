@@ -843,7 +843,7 @@ gnm_style_ref (GnmStyle const *style)
  *
  * Unrefs and _potentially frees_ @style.
  * Takes a _const_ pointer to facilitate life cycles.  The const indicates that
- * the content can not be changed, mainly when handling styles that are in the
+ * the content cannot be changed, mainly when handling styles that are in the
  * style hash.
  **/
 void

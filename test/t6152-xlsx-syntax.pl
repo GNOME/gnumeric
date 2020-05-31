@@ -108,7 +108,7 @@ foreach my $src (@sources) {
     push @check_members, ['xl/sharedStrings.xml',0] if $members{'xl/sharedStrings.xml'};
     foreach my $member (sort keys %members) {
 	if ($member =~ m{^xl/worksheets/sheet\d+\.xml$}) {
-	    push @check_members, [$member,0] 
+	    push @check_members, [$member,0]
 	} elsif ($member =~ m{^xl/comments\d+\.xml$}) {
 	    if ($sml_schema_patched_for_comments) {
 		push @check_members, [$member,0];

@@ -680,7 +680,7 @@ sub test_roundtrip {
 	die "Failed to produce $file_filtered\n" unless -r $file_filtered;
 	&junkfile ($file_filtered) unless $keep;
     }
-    
+
     my $tmp1 = "$tmp.$newext";
     unlink $tmp1;
     &junkfile ($tmp1) unless $keep;
@@ -927,7 +927,7 @@ sub setup_python_environment {
     $ENV{$v} = ($ENV{$v} || '') eq '' ? $dir : $dir . ':' . $ENV{$v};
 
     $ENV{'PYTHONPATH'} = "$topsrc/introspection";
-    
+
     # Don't litter
     $ENV{'PYTHONDONTWRITEBYTECODE'} = 1;
 

@@ -1681,7 +1681,7 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style, GnmRange *r, gboolea
 	}
 
 /* MSTYLE_VALIDATION validations need to be written at a different place and time in ODF  */
-/* MSTYLE_HLINK hyperlinks can not be attached to styles but need to be attached to the cell content */
+/* MSTYLE_HLINK hyperlinks cannot be attached to styles but need to be attached to the cell content */
 }
 
 #undef UNDERLINESPECS

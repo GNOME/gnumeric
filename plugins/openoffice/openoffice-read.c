@@ -3705,7 +3705,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		} else {
 			int last = state->pos.eval.col + repeat_count;
 			for (i = state->pos.eval.col ; i < last; i++ ) {
-				/* I can not find a listing for the default but will
+				/* I cannot find a listing for the default but will
 				 * assume it is TRUE to keep the files rational */
 				if (col_info->size_pts > 0.)
 					sheet_col_set_size_pts (state->pos.sheet, i,
@@ -9017,7 +9017,7 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		g_hash_table_replace (state->chart.named_axes,
 				      g_strdup (chart_name),
 				      state->chart.axis);
-	if (NULL != color_map_name && NULL != state->chart.axis) 
+	if (NULL != color_map_name && NULL != state->chart.axis)
 		g_object_set (G_OBJECT(state->chart.axis), "color-map-name", color_map_name, NULL);
 }
 
@@ -9515,9 +9515,9 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	xmlChar const *label = NULL;
 	OOPlotType plot_type = state->chart.plot_type;
-	gboolean ignore_type_change = (state->chart.plot_type == OO_PLOT_SURFACE || 
+	gboolean ignore_type_change = (state->chart.plot_type == OO_PLOT_SURFACE ||
 				       state->chart.plot_type == OO_PLOT_CONTOUR ||
-				       state->chart.plot_type == OO_PLOT_XL_SURFACE || 
+				       state->chart.plot_type == OO_PLOT_XL_SURFACE ||
 				       state->chart.plot_type == OO_PLOT_XL_CONTOUR);
 	gboolean plot_type_set = FALSE;
 	int tmp;
@@ -9573,12 +9573,12 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 		texpr = odf_parse_range_address_or_expr (xin, cell_range_address);
 		if (NULL != texpr) {
 			GnmValue *val = gnm_expr_top_get_range (texpr);
-			if (val != NULL) { 
+			if (val != NULL) {
 				GnmSheetRange r;
 				gnm_sheet_range_from_value (&r, val);
 				value_release (val);
 				if ((range_width (&r.range) == 1) || (range_height (&r.range) == 1)) {
-					if (state->chart.plot_type == OO_PLOT_SURFACE) 
+					if (state->chart.plot_type == OO_PLOT_SURFACE)
 						plot_type = state->chart.plot_type_default = state->chart.plot_type
 							= OO_PLOT_XL_SURFACE;
 					else
@@ -10104,7 +10104,7 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	int tmp;
 	OOPlotType type = OO_PLOT_UNKNOWN;
-	OOChartStyle	*style = NULL;	
+	OOChartStyle	*style = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "class", odf_chart_classes, &tmp))
@@ -10119,9 +10119,9 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			g_value_set_string (val, CXML2C (attrs[0]));
 			g_object_set_property (G_OBJECT (state->chart.graph), "theme-name", val);
 			g_value_unset (val);
-			g_free (val);			
-		} 
-			
+			g_free (val);
+		}
+
 	state->chart.plot_type = type;
 	state->chart.chart = GOG_CHART (gog_object_add_by_name (
 		GOG_OBJECT (state->chart.graph), "Chart", NULL));
@@ -13204,9 +13204,9 @@ odf_func_concatenate_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_
 
 	if (has_range)
 		return NULL;
-	
+
 	fd = gnm_func_lookup_or_add_placeholder ("CONCATENATE");
-	
+
 	return gnm_expr_new_funcall (fd, args);
 }
 

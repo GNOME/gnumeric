@@ -952,7 +952,7 @@ eat_space (ParserState *state, int res)
 {
 	/* help the user by ignoring pointless spaces after an
 	 * arg_sep.  We know they are going to be errors and
-	 * the spaces can not be operators in this context */
+	 * the spaces cannot be operators in this context */
 	while (*state->ptr == ' ')
 		state->ptr++;
 	return res;

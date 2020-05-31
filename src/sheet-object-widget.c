@@ -4003,8 +4003,8 @@ cb_combo_model_changed (SheetWidgetListBase *swl, GtkComboBox *combo)
 {
 	gtk_combo_box_set_model (GTK_COMBO_BOX (combo), swl->model);
 
-	/* we can not set this until we have a model,
-	 * but after that we can not reset it */
+	/* we cannot set this until we have a model,
+	 * but after that we cannot reset it */
 	if (gtk_combo_box_get_entry_text_column (GTK_COMBO_BOX (combo)) < 0)
 		gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX (combo), 0);
 

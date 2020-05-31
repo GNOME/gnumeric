@@ -1122,7 +1122,7 @@ bin_array_iter_a (GnmEvalPos const *ep,
 {
 	BinOpImplicitIteratorState iter_info;
 
-	/* a must be a cellrange or array, it can not be NULL */
+	/* a must be a cellrange or array, it cannot be NULL */
 	iter_info.ep   = ep;
 	iter_info.func = func;
 	iter_info.user_data = (gpointer) expr;

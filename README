@@ -74,7 +74,7 @@ documentation for these:
 		  discontinuous).
 
 		- Walking selection.
-		  Use return/tab and shift-return/shift-tab to capture 
+		  Use return/tab and shift-return/shift-tab to capture
 		  information in a selection.
 
 		- Fill quickly a region with the same text: just enter
@@ -98,7 +98,7 @@ documentation for these:
 
 		- To make changes to various columns/rows
 		  simultaneously, select the columns and then change
-		  the dimension of one of them.  
+		  the dimension of one of them.
 
 	- Content
 		- Merged Cells
@@ -144,11 +144,11 @@ documentation for these:
 	  expression (it is on the bottom right corner).
 
 	- If you drag a selection with button 3 instead of button one
-	  there is no default action, rather, a menu pops up with 
+	  there is no default action, rather, a menu pops up with
 	  a list of possible options on actions to perform.
 
 	- Gnumeric distinguishes regular text from formulas by preceding
-	  formulas with an equal sign.  So to enter an expression you have	
+	  formulas with an equal sign.  So to enter an expression you have
 	  to enter for example: =1+2.
 
 	- Control-A selects all.
@@ -161,7 +161,7 @@ documentation for these:
 	- Shift-Backspace:  Collapses selection to active cell.
 
 	- Home: move to the beginning of the row.
-	
+
 	- Control-Home: move to the cell A1
 
 	- Control-Enter: copies current edit text to the selected range.

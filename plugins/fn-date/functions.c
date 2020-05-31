@@ -1038,7 +1038,7 @@ In the implementation, we are using g_date_get_weekday which returns
   G_DATE_SATURDAY     = 6,
   G_DATE_SUNDAY       = 7
 } GDateWeekday;
-Since Sunday here is 7 rather than a 0 we need to make appropriate adjustments. 
+Since Sunday here is 7 rather than a 0 we need to make appropriate adjustments.
 
 ***************************************************************************/
 static GnmFuncHelp const help_networkdays[] = {
@@ -1059,7 +1059,7 @@ static GnmFuncHelp const help_networkdays[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static int 
+static int
 networkdays_calc (GDate start_date, int start_serial, int end_serial,
 		  int n_non_weekend, gnm_float *weekends, int nholidays, gnm_float *holidays)
 {
@@ -1221,12 +1221,12 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	if (includes_bad_day) {
-		total_res = networkdays_calc (start_date, start_serial, 
+		total_res = networkdays_calc (start_date, start_serial,
 					      go_date_g_to_serial (&trouble_feb, conv),
 					      n_non_weekend, weekends, nholidays, holidays);
 		if (total_res < 0)
 			goto bad;
-		res = networkdays_calc (trouble_mar, go_date_g_to_serial (&trouble_mar, conv), 
+		res = networkdays_calc (trouble_mar, go_date_g_to_serial (&trouble_mar, conv),
 					end_serial,
 					n_non_weekend, weekends, nholidays, holidays);
 		if (res < 0)

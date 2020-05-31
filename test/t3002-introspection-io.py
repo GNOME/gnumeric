@@ -2,8 +2,8 @@
 # -----------------------------------------------------------------------------
 
 import gi
-gi.require_version('Gnm', '1.12') 
-gi.require_version('GOffice', '0.10') 
+gi.require_version('Gnm', '1.12')
+gi.require_version('GOffice', '0.10')
 from gi.repository import Gnm
 from gi.repository import GOffice
 Gnm.init()

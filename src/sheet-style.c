@@ -681,7 +681,7 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 
 	default_style =  gnm_style_new_default ();
 #if 0
-	/* We can not do this, XL creates full page charts with background
+	/* We cannot do this, XL creates full page charts with background
 	 * 'none' by default.  Then displays that as white. */
 	if (sheet->sheet_type == GNM_SHEET_OBJECT) {
 		gnm_style_set_back_color (default_style,

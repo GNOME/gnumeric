@@ -148,7 +148,7 @@ State of Gnumeric
 			Improved parse errors (leading to validation)
 		Unscheduled
 			Support just in time render and span
-			Conditional formating
+			Conditional formatting
 			Move Cells into a-quadtree
 %page
 

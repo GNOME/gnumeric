@@ -121,7 +121,7 @@ State of Gnumeric
 	Things that did not make it in
 		Use of Gnumeric as Bonobo::{Control,Embeddable}
 		Support just in time render and span
-		Conditional formating
+		Conditional formatting
 %page
 %%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
 

@@ -913,7 +913,7 @@
 2012-02-22  Morten Welinder  <terra@gnome.org>
 
 	* src/io-context-gtk.c (icg_show_gui): Don't pass the splash
-	throught the icon manager for no good reason.
+	through the icon manager for no good reason.
 
 	* src/io-context-gtk.h: Fix namespace issues.
 
@@ -8266,7 +8266,7 @@
 	* tools/win32/moduleset : use the latestest shiniest glib/gtk
 
 	* configure.in : add a GOFFICE_API_VER for use in the .pc file.
-	* libspreadsheet.pc.in : drop the old mising LIBGOFFICE variables, and
+	* libspreadsheet.pc.in : drop the old missing LIBGOFFICE variables, and
 	  use the new tidy ones.
 
 2008-10-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -10257,7 +10257,7 @@
 
 2007-07-26  Jody Goldberg <jody@gnome.org>
 
-	* src/sheet-object-widget.c (cb_combo_model_changed) : we can not set
+	* src/sheet-object-widget.c (cb_combo_model_changed) : we cannot set
 	  the column until we have a model, but we can only set it the first
 	  time.
 
@@ -11428,7 +11428,7 @@
 2007-03-04  Jody Goldberg <jody@gnome.org>
 
 	* src/parse-util.c (gnm_expr_conventions_new_full) : Start
-	  homogenizing the structure so that parsing and formating use shared
+	  homogenizing the structure so that parsing and formatting use shared
 	  gunichar, rather than a semi-random collection of booleans on
 	  import and char * on export.
 	  - ::name_parser renamed ::input.name
@@ -12868,7 +12868,7 @@
 
 	* src/gui-file.c (gui_file_open, gui_file_save_as): Explicitly
 	show the file format box, because go_gtk_file_sel_dialog no longer
-	calls gtk_wiget_show_all.
+	calls gtk_widget_show_all.
 
 	* src/gui-clipboard.c (x_clipboard_get_cb): Ignore SAVE_TARGETS.
 
@@ -14048,7 +14048,7 @@
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=336212
 	* src/func.c (function_iterate_argument_values) : This is ugly but it
-	  seems to do the right thing.  We can not just assume that args to
+	  seems to do the right thing.  We cannot just assume that args to
 	  vararg functions should be evaluated as non-scalars.  It is more
 	  subtle.  Simple range_refs (direct or via a name) are non-scalar,
 	  but general expressions that use a range (A1:A10=3) evaluate

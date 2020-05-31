@@ -2751,7 +2751,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/workbook.c (workbook_menu_edit): add menu oiption for toggling
 	the display of formulas
-	(toggle_formuals_cmd,cb_cell_rerender): new function to toggle the
+	(toggle_formulas_cmd,cb_cell_rerender): new function to toggle the
 	display of formulas
 	(workbook_new): initialize the display formulas option
 
@@ -5521,7 +5521,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	check + move into sheet_style_optimize.
 	(sheet_style_optimize): Add equal range merging.
 	(sheet_style_compute_blank): kill debug.
-	Add new debugging macro throught.
+	Add new debugging macro throughout.
 
 	* src/ranges.c (range_adjacent): add pre-conditions.
 	(range_merge): implement.
@@ -7063,7 +7063,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	Please, try to keep indentation for public functions as the rest
 	of the Gnumeric ones.
 
-	* src/workbook.c: Enable comands Format/Column, Format/Row and
+	* src/workbook.c: Enable commands Format/Column, Format/Row and
 	Format/Sheet.
 	(create_format_toolbar): Add font selector toolbar widget.
 	(change_font_in_selection_cmd): New routine.  Applies a font to a

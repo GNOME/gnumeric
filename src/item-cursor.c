@@ -1082,7 +1082,7 @@ item_cursor_button_pressed (GocItem *item, int button, double x_, double y_)
 		 * call wbcg_edit_finish.
 		 */
 
-		/* scroll wheel events dont have corresponding release events */
+		/* scroll wheel events don't have corresponding release events */
 		if (button > 3)
 			return FALSE;
 
@@ -1091,7 +1091,7 @@ item_cursor_button_pressed (GocItem *item, int button, double x_, double y_)
 			return TRUE;
 
 		if (button != 3) {
-			/* prepare to create fill or drag cursors, but dont until we
+			/* prepare to create fill or drag cursors, but don't until we
 			 * move.  If we did create them here there would be problems
 			 * with race conditions when the new cursors pop into existence
 			 * during a double-click

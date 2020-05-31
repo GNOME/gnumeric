@@ -821,7 +821,7 @@
 
 2001-12-29  Jody Goldberg <jody@gnome.org>
 
-	* mps.c (mps_input_context_new) : formating.
+	* mps.c (mps_input_context_new) : formatting.
 	  init row_hash, col_hash,  col_name_tbl, matrix.
 	(mps_input_context_destroy) : be more careful about errors.
 	(mps_file_open) : handle errors more smoothly.

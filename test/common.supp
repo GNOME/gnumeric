@@ -539,7 +539,7 @@
    dlopen
    Memcheck:Addr4
    ...
-   fun:dlopen   
+   fun:dlopen
 }
 
 {

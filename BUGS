@@ -50,7 +50,7 @@ Misc stuff that should be fixed
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
     - `Add Scenario' Portion of Solver
- 
+
 - cols/rows
     : Make unhide smarter to find hidden regions on either side of
       selected ranges.
@@ -256,11 +256,11 @@ Architecture Changes
 	9.11.7) set direction of views
     9.12) preview grid ??
 	9.12.1) do we need/want the autoformat examples to swap dir ?
- 
+
 10) Functions
     - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
       algorithm, see Knuth.
-    - Suport >100 style for SUBTOTAL
+    - Support >100 style for SUBTOTAL
     - docs
 	: Make 'func is foo compatible' a flag on the importers
 	: need conventions for including markup
@@ -395,7 +395,7 @@ Architecture Changes
 	    6.14.5.4) handle area plot axes
 	    6.14.5.5) radar plot axes
 	    6.14.5.7) label fmt
-	6.14.6) Area Formating
+	6.14.6) Area Formatting
 	    6.14.6.3) Gradient
 	    6.14.6.3) Image
 	6.14.8) labels

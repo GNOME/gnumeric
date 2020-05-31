@@ -4716,11 +4716,11 @@ chart_write_error_bar (XLChartWriteState *s, GogErrorBar *bar, unsigned n,
 		}
 		break;
 	case GOG_ERROR_BAR_TYPE_PERCENT:
-		error = go_data_vector_get_value (vec, 0); /* we loose data :-( */
+		error = go_data_vector_get_value (vec, 0); /* we lose data :-( */
 		value = 1;
 		break;
 	case GOG_ERROR_BAR_TYPE_RELATIVE:
-		error = go_data_vector_get_value (vec, 0) * 100.; /* we loose data :-( */
+		error = go_data_vector_get_value (vec, 0) * 100.; /* we lose data :-( */
 		value = 1;
 		break;
 	default:
@@ -5818,10 +5818,10 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	for (i = GOG_AXIS_X; i < GOG_AXIS_TYPES; i++)
 		state.primary_axis[i] = NULL;
 	for (plots = gog_chart_get_plots (GOG_CHART (state.chart)) ; plots != NULL ; plots = plots->next) {
-		/* XL can not handle plots with no data */
+		/* XL cannot handle plots with no data */
 		cur_plot = GOG_PLOT (plots->data);
 		if (gog_plot_get_series (cur_plot) == NULL) {
-			g_warning ("MS Excel can not handle plots with no data, dropping %s",
+			g_warning ("MS Excel cannot handle plots with no data, dropping %s",
 				gog_object_get_name (plots->data));
 			continue;
 		}

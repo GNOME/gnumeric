@@ -26,14 +26,14 @@
 			</mime-types>
 		</service>
 		<service type="file_saver" id="openoffice" file_extension="ods"
-		         format_level="auto" overwrite_files="TRUE" 
+		         format_level="auto" overwrite_files="TRUE"
 			 mime_type="application/vnd.oasis.opendocument.spreadsheet">
 			<information>
 				<_description>ODF 1.2 strict conformance (*.ods)</_description>
 			</information>
 		</service>
 		<service type="file_saver" id="odf" file_extension="ods"
-		         format_level="auto" overwrite_files="TRUE" 
+		         format_level="auto" overwrite_files="TRUE"
 			 mime_type="application/vnd.oasis.opendocument.spreadsheet">
 			<information>
 				<_description>ODF 1.2 extended conformance (*.ods)</_description>

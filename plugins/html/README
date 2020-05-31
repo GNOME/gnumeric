@@ -1,6 +1,6 @@
 Welcome to the Gnumeric HTML Plugin README.
 
-The HTML plugin supports export to HTML, LaTeX and roff formats. The 
+The HTML plugin supports export to HTML, LaTeX and roff formats. The
 export PS/PDF/EPS functions have been deprecated.
 
 The plugin is published under the GNU GPL.
@@ -62,4 +62,3 @@ Features of the export Roff function:
 
 	- bold, italic
 	- left, right and center alignment
-

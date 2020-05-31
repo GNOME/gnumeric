@@ -370,7 +370,7 @@ wb_view_menus_update (WorkbookView *wbv)
 /**
  * wb_view_selection_desc:
  * @wbv: The view
- * @use_pos: 
+ * @use_pos:
  * @wbc: (allow-none): A #WorkbookControl
  *
  * Load the edit line with the value of the cell in sheet's edit_pos.

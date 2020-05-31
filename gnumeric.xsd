@@ -23,7 +23,7 @@
 	    updated for 1.12.21 in Feb 2015	terra@gnome.org
         </xs:documentation>
     </xs:annotation>
-    
+
     <xs:element name="Workbook" type="gnm:Workbook"/>
 
     <xs:complexType name="Version">
@@ -49,13 +49,13 @@
       <xs:sequence>
 	<!-- ancient files lack this, modern files require it -->
 	<xs:element name="SheetNameIndex"	type="gnm:SheetNameIndex" minOccurs="0" maxOccurs="1"/>
-	
+
 	<xs:element name="Names"		type="gnm:Names" minOccurs="0" maxOccurs="1"/>
-	
+
 	<!-- Deprecated, moved to Calculation and expanded in 1.7.11
 	     Valid value == 1904, anything else == Lotus:1900 -->
 	<xs:element name="DateConvention"	type="xs:int" minOccurs="0" maxOccurs="1"/>
-	
+
 	<!-- preferred height and width -->
 	<xs:element name="Geometry" minOccurs="0" maxOccurs="1">
 	  <xs:complexType>
@@ -76,12 +76,12 @@
 	</xs:element>
       </xs:sequence>
     </xs:group>
-    
+
     <xs:complexType name="Workbook">
       <xs:sequence>
 	<xs:element name="Version"      type="gnm:Version" minOccurs="0" maxOccurs="1"/>
 	<xs:element name="Attributes"	type="gnm:Attributes"/>
-	
+
 	<!-- ignore office:document-meta -->
 	<xs:any minOccurs="0" maxOccurs="unbounded"
 		namespace="##other" processContents="lax"/>
@@ -101,13 +101,13 @@
 	   <xs:attribute name="gnm" type="gnm:namespace" use="required"/> -->
       <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
-    
+
     <!-- How values are mapped to dates.   All date functions are affected -->
     <xs:simpleType name="DateConvention">
       <xs:restriction base="xs:string">
 	<xs:enumeration value="Lotus:1900"/>
             <xs:enumeration value="Apple:1904"/>
-	    
+
 	    <!-- future values. currently treated as Lotus:1900 -->
             <xs:enumeration value="ODF:1899"/>
       </xs:restriction>
@@ -444,7 +444,7 @@
         <xs:attribute name="PrefUnit" type="gnm:print_units"/>
 	<xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
-    
+
     <xs:simpleType name="print_units">
         <xs:restriction base="xs:string">
             <xs:enumeration value="mm"/>
@@ -497,7 +497,7 @@
         <xs:sequence>
             <xs:element name="Font" minOccurs="0" maxOccurs="1">
                 <xs:complexType>
-                    <xs:simpleContent> <!-- Since these might be conditional styles, the atributes are 
+                    <xs:simpleContent> <!-- Since these might be conditional styles, the atributes are
 				       not required -->
                         <xs:extension base="xs:string">
                             <xs:attribute name="Unit"          type="xs:double"	        use="optional"/>
@@ -532,7 +532,7 @@
             </xs:element>
             <xs:element name="StyleBorder" minOccurs="0" maxOccurs="1">
                 <xs:complexType>
-                    <xs:choice minOccurs="0"	maxOccurs="6"> <!-- The order of the last two elements appears to be 
+                    <xs:choice minOccurs="0"	maxOccurs="6"> <!-- The order of the last two elements appears to be
 								    version dependent-->
                         <xs:element name="Top"          type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
                         <xs:element name="Bottom"       type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
@@ -587,14 +587,14 @@
         <xs:attribute name="Format"	  type="xs:string"	use="optional"/>
 	<xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
-    
+
     <xs:complexType name="StyleBorderElement">
         <xs:attribute name="Style" type="gnm:border_style" use="required"/>
         <!-- Color is present when Style is not 0 -->
         <xs:attribute name="Color" type="gnm:color"        use="optional"/>
 	<xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
-    
+
     <xs:simpleType name="border_style">
         <xs:restriction base="xs:integer">
             <!--  0 = NONE
@@ -761,7 +761,7 @@
         <xs:attribute name="Count"        type="xs:integer"            use="optional" default="1"/>
 	<xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
-    
+
     <xs:simpleType name="col_row_margin">
         <xs:restriction base="xs:integer">
             <xs:minInclusive value="0"/>
@@ -785,7 +785,7 @@
         <xs:attribute name="CursorRow" type="xs:nonNegativeInteger" use="required"/>
 	<xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
-    
+
     <xs:attributeGroup name="ObjectAnchor">
         <xs:attribute name="AnchorMode"       type="gnm:anchor_mode" use="optional"/>
 	<xs:attribute name="ObjectBound"      type="xs:string"	use="required"/>
@@ -1027,7 +1027,7 @@
 	<xs:attribute name="type" type="xs:string" use="optional"/>
 	<xs:attribute name="role" type="xs:string" use="optional"/>
     </xs:complexType>
-    
+
     <xs:complexType name="GogProperty" mixed="true">
 	<xs:sequence>
 	    <!-- children are unstructured -->
@@ -1141,7 +1141,7 @@
 	    </xs:element>
        </xs:sequence>
     </xs:complexType>
-    
+
     <xs:simpleType name="ValueType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="10"/> <!-- empty     -->
@@ -1284,7 +1284,7 @@
             <xs:enumeration value="16"/> <!-- boolean -->
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="SolverSide">
         <xs:restriction base="xs:string">
             <xs:pattern value="$?[A-Z]+$?\d+"/>

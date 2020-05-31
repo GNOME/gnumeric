@@ -1325,7 +1325,7 @@
 
 	* Makefile.am: Added lotus-formula.[ch]
 
-	* lotus-formual.[ch]: ditto.
+	* lotus-formula.[ch]: ditto.
 
 	* lotus.c (read_workbook): Changed NAME to INTEGER doh.
 

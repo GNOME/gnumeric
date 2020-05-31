@@ -106,7 +106,7 @@
 				<_description>ISO/IEC 29500:2008 &amp; ECMA 376 2nd edition (2008); [MS Excel&#8482; 2010]</_description>
 			</information>
 		</service>
-		<service type="file_opener" id="excel_enc" priority="200" probe="FALSE" 
+		<service type="file_opener" id="excel_enc" priority="200" probe="FALSE"
 			 encoding_dependent="TRUE">
 			<information>
 				<_description>MS Excel&#8482; (*.xls) requiring encoding specification</_description>

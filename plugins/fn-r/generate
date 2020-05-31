@@ -14,7 +14,7 @@ my %defaults;
     my $of = "of the distribution";
     my @common = ('give_log' =>
 		  "if true, log of the result will be returned instead",
-	      
+
 		  'lower_tail' =>
 		  "if true (the default), the lower tail of the distribution is considered",
 
@@ -134,7 +134,7 @@ my %defaults;
 	 'hypergeometric',
 	 ({ 'r' => "the number of red balls",
 	    'b' => "the number of black balls",
-	    'n' => "the number of balls drawn",	    
+	    'n' => "the number of balls drawn",
 	    @common }),
 	 [ { 'x' => 12, 'r' => 50, 'b' => 450, 'n' => 100 } ],
 	];

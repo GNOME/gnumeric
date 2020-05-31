@@ -34,7 +34,7 @@
     <para>
       So, basically: when doing currency/date/number format
       translation, make sure no other country that uses your language
-      has a different set of rules (when in doubt, just dont touch the
+      has a different set of rules (when in doubt, just don't touch the
       formatting codes and add your localized version to the nn_MM.po
       file).
     </para>

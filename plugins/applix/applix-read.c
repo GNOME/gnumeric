@@ -1152,7 +1152,7 @@ applix_read_cells (ApplixReadState *state)
 
 		cell = sheet_cell_fetch (sheet, pos.col, pos.row);
 
-		/* Apply the formating */
+		/* Apply the formatting */
 		sheet_style_set_pos (sheet, pos.col, pos.row, style);
 		content_type = *ptr;
 		switch (content_type) {

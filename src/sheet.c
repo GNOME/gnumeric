@@ -1554,7 +1554,7 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type,
  * @rows: The requested rows number.
  *
  * Create a new Sheet of type SHEET_DATA, and associate it with @wb.
- * The type can not be changed later
+ * The type cannot be changed later
  *
  * Returns: (transfer full): the newly allocated sheet.
  **/

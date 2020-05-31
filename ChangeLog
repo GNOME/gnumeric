@@ -9,8 +9,8 @@
 
 2020-05-27  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/sheet-object.c (sheet_object_set_print_flag): protect against a NULL
-	object.
+	* src/sheet-object.c (sheet_object_set_print_flag): protect
+	against a NULL object.
 
 2020-05-09  Morten Welinder <terra@gnome.org>
 
@@ -24,8 +24,8 @@
 
 	* component/Gnumeric-embed.xml.in: fix the menus and toolbars.
 	* component/gnumeric.c (go_gnm_component_edit): ditto.
-	* src/wbc-gtk-actions.c (component_changed_cb): don't loose the component
-	before using it.
+	* src/wbc-gtk-actions.c (component_changed_cb): don't lose the
+	component before using it.
 	* src/wbc-gtk-impl.h:fix the menus and toolbars.
 	* src/wbc-gtk.c (set_uifilename), (wbc_gtk_init):  ditto.
 
@@ -59,8 +59,8 @@
 
 2020-04-26  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/sheet-object-component.c (sheet_object_component_new): really fix
-	the component reference count issue.
+	* src/sheet-object-component.c (sheet_object_component_new):
+	really fix the component reference count issue.
 	* src/wbc-gtk-actions.c: ditto.
 
 2020-04-25  Jean Brefort  <jean.brefort@normalesup.org>
@@ -425,7 +425,7 @@
 
 2018-04-13  Morten Welinder  <terra@gnome.org>
 
-	* src/workbook-view.c (workboook_view_save_to_uri): Renamed from
+	* src/workbook-view.c (workbook_view_save_to_uri): Renamed from
 	wb_view_save_to_uri for introspection.
 	(workbook_view_save_to_output): Renamed from
 	wb_view_save_to_output for introspection.

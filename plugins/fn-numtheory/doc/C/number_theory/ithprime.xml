@@ -9,7 +9,7 @@
   <sect3 id="numtheory-ithprime-description">
     <title>Description</title>
     <para>
-      The ithprime function returns the ith prime.  This funtion only
+      The ithprime function returns the ith prime.  This function only
       takes one argument.
     </para>
   </sect3>

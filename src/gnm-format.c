@@ -109,7 +109,7 @@ format_value_common (PangoLayout *layout, GString *str,
 		format = NULL;
 
 	/* Use top left corner of an array result.  This will not work for
-	 * ranges because we dont't have a location */
+	 * ranges because we don't have a location */
 	if (value->v_any.type == VALUE_ARRAY)
 		value = value_area_fetch_x_y (value, 0, 0, NULL);
 

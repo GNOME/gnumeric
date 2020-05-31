@@ -4405,7 +4405,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	if (width <= 0) {	/* Columns are of default width */
 		width = esheet->sheet->cols.default_style.size_pts;
 		hidden = TRUE;
-	} else if (width < 4) /* gnumeric can not draw without a margin */
+	} else if (width < 4) /* gnumeric cannot draw without a margin */
 		width = 4;
 
 	d (1, {

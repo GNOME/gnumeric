@@ -21,7 +21,7 @@
 			</mime-types>
 		</service>
 		<service type="file_saver" id="sylk" file_extension="slk"
-			 save_scope="sheet" format_level="auto" 
+			 save_scope="sheet" format_level="auto"
 			 overwrite_files="TRUE" mime_type="application/x-sylk">
 			<information>
 				<_description>MultiPlan (SYLK)</_description>

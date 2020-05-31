@@ -6892,7 +6892,7 @@
 	* src/collect.c (callback_function_collect) : Treat arrays and ranges
 	  as errors.
 
-	* src/format.c (format_value) : formating a range returns a
+	* src/format.c (format_value) : formatting a range returns a
 	  #VALUE! message.
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) :

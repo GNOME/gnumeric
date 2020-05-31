@@ -1879,7 +1879,7 @@
 2004-07-05  Adrian Custer <acuster@gnome.org>
 
     	* The first major 1.3 edits.
-	* TODO: Addded with list of topics that need some gnum. lovin'.
+	* TODO: Added with list of topics that need some gnum. lovin'.
     	* gnumeric.xml: Start of 1.3 docs. Update versions and
 	  dates. Split into a developer and stable version.
 	* welcome.xml: Update the version number. Split 1.3. Update.

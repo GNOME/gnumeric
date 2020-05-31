@@ -38,7 +38,7 @@ foreach my $srcfile (@ARGV) {
 
 	    print DST;
 	}
-    }    
+    }
 
     print DST '<!--#include virtual="../footer.shtml" -->', "\n";
 

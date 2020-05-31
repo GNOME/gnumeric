@@ -14246,7 +14246,7 @@ msgstr "Oberoendetest"
 msgid "Test of Homogeneity"
 msgstr "Homogenitetstest"
 
-# TODO: Punctuation in 0.000 can not be translated (to comma). Is shown as "0 000"
+# TODO: Punctuation in 0.000 cannot be translated (to comma). Is shown as "0 000"
 #: ../src/tools/analysis-exp-smoothing.c:112
 #: ../src/tools/analysis-exp-smoothing.c:291
 #: ../src/tools/analysis-exp-smoothing.c:478
@@ -14275,7 +14275,7 @@ msgstr "Rad %d"
 msgid "Standard Error"
 msgstr "Standardfel"
 
-# TODO: Punctuation in 0.000 can not be translated (to comma). Is shown as "0 000"
+# TODO: Punctuation in 0.000 cannot be translated (to comma). Is shown as "0 000"
 #: ../src/tools/analysis-exp-smoothing.c:482
 #: ../src/tools/analysis-exp-smoothing.c:726
 #: ../src/tools/analysis-exp-smoothing.c:1049
@@ -14293,7 +14293,7 @@ msgstr ""
 "utjämning kräver minst 2\n"
 "utdatakolumner för varje datamängd."
 
-# TODO: Punctuation in 0.000 can not be translated (to comma). Is shown as "0 000"
+# TODO: Punctuation in 0.000 cannot be translated (to comma). Is shown as "0 000"
 #: ../src/tools/analysis-exp-smoothing.c:730
 #: ../src/tools/analysis-exp-smoothing.c:1053
 msgid "\"δ =\" * 0.000"

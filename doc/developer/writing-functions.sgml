@@ -155,7 +155,7 @@ Gnumeric support three types of functions:
 The difference between the latter two is that eg. the SUM ()
 function will take an indefinate amount of arguments, whereas the
 ERF function is best described ERF(lower limit[,upper_limit]).
-In this instance, it is not worth the complexity of manualy
+In this instance, it is not worth the complexity of manually
 traversing the raw expression tree as in SUM. Instead using the
 standard type checking the argument can be specified as optional,
 and if unspecified a NULL will be passed in the appropriate

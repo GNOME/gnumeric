@@ -255,7 +255,7 @@
 
 2012-11-10  Andreas J Guelzow <aguelzow@pyrshep.ca>
 
-	* handle-conf-options: use enums for stf export setings and add
+	* handle-conf-options: use enums for stf export settings and add
 	custom tests
 
 2012-11-10  Andreas J Guelzow <aguelzow@pyrshep.ca>

@@ -3002,7 +3002,7 @@ msgstr "工作表預設的列數"
 msgid ""
 "The number of rows in each sheet. This setting will be used only in a new "
 "gnumeric session."
-msgstr "每個工作表的列數。本設定只會對新的 Gunmeric 工作階段有效。"
+msgstr "每個工作表的列數。本設定只會對新的 Gnumeric 工作階段有效。"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:23
 msgid "Default Number of columns in a sheet"
@@ -3012,7 +3012,7 @@ msgstr "預設工作表欄數"
 msgid ""
 "The number of columns in each sheet. This setting will be used only in a new "
 "gnumeric session."
-msgstr "每個工作表的欄數。本設定只會對新的 Gunmeric 工作階段有效。"
+msgstr "每個工作表的欄數。本設定只會對新的 Gnumeric 工作階段有效。"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:25
 msgid "Autosave frequency"

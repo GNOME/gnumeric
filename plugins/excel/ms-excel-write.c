@@ -3458,7 +3458,7 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 			EX_SETCOL(data, col);
 			EX_SETXF (data, xf);
 			data[6] &= 0xfc;
-			ms_biff_put_var_write  (ewb->bp, data, 10); /* Yes loose it. */
+			ms_biff_put_var_write  (ewb->bp, data, 10); /* Yes lose it. */
 			ms_biff_put_commit (ewb->bp);
 		}
 		break;

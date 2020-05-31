@@ -4101,7 +4101,7 @@
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (cmd_area_set_text_redo) : fix minor warning from
-	  autoformating.
+	  autoformatting.
 
 2003-01-28  Morten Welinder  <terra@diku.dk>
 
@@ -4235,7 +4235,7 @@
 2003-01-21  Jody Goldberg <jody@gnome.org>
 
 	* src/format.c (append_hour_elapsed) : rewrite to use rounding and to
-	  handle negatives.  Still not really correct and can not handle
+	  handle negatives.  Still not really correct and cannot handle
 	  fractional seconds.
 	(append_minute_elapsed) : ditto.
 	(append_second_elapsed) : ditto.
@@ -5060,7 +5060,7 @@
 
 	* src/sheet-object.c (sheet_object_print) : no warning if the object
 	  does not print.
-	(sheet_object_clone) : nor is it a problem if it can not be cloned.
+	(sheet_object_clone) : nor is it a problem if it cannot be cloned.
 
 	* src/sheet-object-widget.c (sheet_widget_button_set_label) : new.
 	(sheet_widget_checkbox_set_label) : new.
@@ -5281,7 +5281,7 @@
 2002-11-20  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (scg_setup_group_buttons) : The outline
-	  buttons can not take focus.
+	  buttons cannot take focus.
 
 	* src/parse-util.c (rangeref_parse) : fix parsing 3d refs.  When
 	  initializing in case the cell is singleton do not over write the sheet
@@ -8600,7 +8600,7 @@
 	  potentially looking for it.
 
 	* src/workbook-edit.c (wbcg_edit_finish) : Accept text with only a
-	  leading expr char as strings, we know they can not be expressions.
+	  leading expr char as strings, we know they cannot be expressions.
 
 	* src/parse-util.c (gnumeric_char_start_expr_p) : be more lenient
 	  about accepting leading '+' as the start of an expression.
@@ -9857,7 +9857,7 @@
 	* src/libgnumeric.c : move the application specific code from here.
 	* src/main-application.c : to here.
 
-	* configure.in : Addd gobject & gmodule
+	* configure.in : Add gobject & gmodule
 
 2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
@@ -12106,7 +12106,7 @@
 
 	s/GtkType/GType/
 	s/GtkSignalFunc/GCallback/
-	s/gtk_signal_connect/g_signal_connect/  + reformating.
+	s/gtk_signal_connect/g_signal_connect/  + reformatting.
 	s/GTK_CHECK_CAST/G_TYPE_CHECK_INSTANCE_CAST/
 	s/GTK_CHECK_TYPE/G_TYPE_CHECK_CLASS_CAST/
 	s/GTK_CHECK_CLASS_CAST/G_TYPE_CHECK_INSTANCE_TYPE/
@@ -12261,7 +12261,7 @@
 	  format engine should make easiliy accessible.
 
 	* src/expr.c (expr_eval_real) : quick and easy support for autoformat
-	  style formating for percent operator.  Just a quick test to see how
+	  style formatting for percent operator.  Just a quick test to see how
 	  hard it would be, and it wasn't.
 
 	* src/auto-format.c : Convert to StyleFormat.  Nothing actually uses

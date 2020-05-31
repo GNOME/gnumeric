@@ -299,7 +299,7 @@ enumerate_functions (gboolean filter)
  * @filename:
  * @dump_type:
  *
- * A generic utility routine to operate on all funtion defs
+ * A generic utility routine to operate on all function defs
  * in various ways.  @dump_type will change/extend as needed
  * Right now
  * 0 : www.gnumeric.org's function.shtml page

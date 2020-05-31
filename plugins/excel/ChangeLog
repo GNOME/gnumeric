@@ -1,7 +1,7 @@
 2020-05-27  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* xlsx-read-drawing.c (xlsx_draw_clientdata): don't set the print flag if
-	we do not import the object.
+	* xlsx-read-drawing.c (xlsx_draw_clientdata): don't set the print
+	flag if we do not import the object.
 
 2020-05-09  Morten Welinder <terra@gnome.org>
 
@@ -2060,7 +2060,7 @@
 
 2013-02-10  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* xlsx-read-drawing.c (xlsx_drawing_preset_geom): fix uninitialized an 
+	* xlsx-read-drawing.c (xlsx_drawing_preset_geom): fix uninitialized an
 	variable issue. [#693492]
 
 2013-02-05  Jean Brefort  <jean.brefort@normalesup.org>
@@ -4226,7 +4226,7 @@
 2007-09-27  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-read.c : Fix import of existing conditional format types.
-	  We can not handle the computed range formats yet.
+	  We cannot handle the computed range formats yet.
 
 2007-09-24  Jody Goldberg <jody@gnome.org>
 
@@ -5377,7 +5377,7 @@
 	* ms-obj.c (ms_read_TXO) : handle CONTINUES for text
 	(read_pre_biff8_read_text) : renamed from read_pre_biff8_read_str.
 	  Handle continues in text and markup.  The layout is _very_ odd.
-	  It seems that XL can write things it can not read.
+	  It seems that XL can write things it cannot read.
 	(read_pre_biff8_read_name_and_fmla) : handle the name reading inline,
 	  that is different from read_text.  The CONTINUE handling is very
 	  different.
@@ -6088,7 +6088,7 @@
 	http://bugzilla.gnome.org/show_bug.cgi?id=151618
 	* plugins/excel/ms-chart.c (BC_R(end)) : Add the plot to the chart
 	  before setting it up so that the initial setup does not override the
-	  formating
+	  formatting
 
 2004-08-31  Jody Goldberg <jody@gnome.org>
 
@@ -6120,7 +6120,7 @@
 
 2004-08-27  Jody Goldberg <jody@gnome.org>
 
-	* ms-chart.c (ms_excel_chart_write) : MS Xl can not handle plots with
+	* ms-chart.c (ms_excel_chart_write) : MS Xl cannot handle plots with
 	  no data.  Drop them with a warning.
 
 	* ms-excel-write.c (excel_write_workbook) : We only need a header if
@@ -6282,7 +6282,7 @@
 	  log-scale so that we only set them if lookup succeeds.
 	(ms_excel_write_chart) : more work.  gnumeric and OOo can
 	  now import the basic column charts.  XL does not like the colours
-	  and gets the formating wrong, but it can at least read a single
+	  and gets the formatting wrong, but it can at least read a single
 	  chart happilly.
 
 	* ms-excel-write.c (excel_write_chart) : put the spid in the write
@@ -6425,7 +6425,7 @@
 	http://bugzilla.gnome.org/show_bug.cgi?id=136086
 	* ms-excel-write.c (excel_sheet_write_DBCELL) : optimization was a bit
 	  optimistic.  Even if there are no values, we still need to export
-	  rows with visible formating (borders, backgrounds, ...)
+	  rows with visible formatting (borders, backgrounds, ...)
 
 2004-04-21  Morten Welinder  <terra@gnome.org>
 
@@ -7132,7 +7132,7 @@
 
 	* ms-chart.c : remove xml, jump to goffice and disable anything that
 	  does not obviously connect to GOG for now.  All we get are plot
-	  types and series for now, no formating.
+	  types and series for now, no formatting.
 
 2003-05-21  Jody Goldberg <jody@gnome.org>
 
@@ -7465,7 +7465,7 @@
 2002-11-25  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_set_xf) : remove bogus optimization.
-	(excel_set_xf_segment) : ditto.  We can not assume that the default is
+	(excel_set_xf_segment) : ditto.  We cannot assume that the default is
 	  the current format.  See 'Tax2001-23.xls'
 
 2002-11-24  Jody Goldberg <jody@gnome.org>
@@ -8998,11 +8998,11 @@
 
 	* ms-chart.c : clean up debug routines.
 	(BC_R(dataformat)) : Use an extra node to handle pt vs series
-	  level formating.
+	  level formatting.
 	(BC_R(end)) : cleanup dataformats.
 	(excel_chart_series_write_xml) : just link in the new child rather
 	  than creating it here.
-	(BC_R(dataformat)) : handle formating pts vs entire series.
+	(BC_R(dataformat)) : handle formatting pts vs entire series.
 	(BC_R(markerformat)) : implement
 	(BC_R(areaformat)) : implement
 	(BC_R(lineformat)) : implement
@@ -11003,7 +11003,7 @@
 
 1999-11-19  Jon K Hellan  <hellan@acm.org>
 
-	* ms-excel-read.c (ms_excel_read_row): New funtion: Process a BIFF
+	* ms-excel-read.c (ms_excel_read_row): New function: Process a BIFF
 	row info record. Previously in ms_excel_read_cell.
 	(ms_excel_read_colinfo): New function: Process a BIFF column
 	info record. Previously in ms_excel_read_cell.
@@ -12107,7 +12107,7 @@
 	(ms_excel_set_cell_font) : here.
 	(ms_excel_get_xf) : new function split from.
 	(ms_excel_set_cell_xf) : here.
-	(biff_xf_data_new) : dont delay setting the style_format.
+	(biff_xf_data_new) : don't delay setting the style_format.
 	(BIFF_COLINFO) : Attempt to use the XF->font->height as a proxy for
 	  charwidth ??  Anyone have a better idea ?
 
@@ -12152,7 +12152,7 @@
 1999-07-09  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c (ms_excel_read_workbook): Update this with
-	Jody's changes, hope I didn't loose anything.
+	Jody's changes, hope I didn't lose anything.
 
 	* ms-biff.c (ms_biff_query_next_merge): Add test for valid
 	length before reading.
@@ -12289,7 +12289,7 @@
 1999-07-06  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c (ms_excel_read_name): Fix up Names definition
-	offset, start to manualy merge name stuff.
+	offset, start to manually merge name stuff.
 
 	* ole.c: Fix summary reading code: works now, try it on a
 	SummaryInformation stream.
@@ -12306,7 +12306,7 @@
 	  record if the cell contains a string.  The upper left corner
 	  of shared formulas, and all of arrays now format correctly.
 	  (EXTERNNAME) : Rework the handling to apply to biff7 and biff8.
-	  Still only reading the names, not conecting them for real.
+	  Still only reading the names, not connecting them for real.
 
 1999-07-05  Morten Welinder  <terra@diku.dk>
 
@@ -12484,7 +12484,7 @@
 	(ms_excel_get_name) : declare.
 
 	* ms-formula-read.c : switch to new debug scheme.
-	  More verbose warnings for errors so we dont ignore them.
+	  More verbose warnings for errors so we don't ignore them.
 	  (FORMULA_PTG_NAME) : Partial implementation until I have time to look
 	  at the branch.
 	  (FORMULA_PTG_PERCENT) : Guess at this one.
@@ -12517,7 +12517,7 @@
 	Implemented Area PTGs
 
 	* ms-excel-read.c (ms_excel_read_formula): Fix silly
-	bug with broken formuale.
+	bug with broken formulae.
 
 	* ms-biff.c (ms_biff_put_var_seekto): Added seekto
 	API for fiddly biff types.
@@ -12915,7 +12915,7 @@
 1999-05-30  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-write.c: Changed to biff_put_commit
-	throught.
+	throughout.
 	(write_fonts): Added more magic numbers.
 
 	* ms-biff.c (ms_biff_put_commit): Added, and made
@@ -12985,7 +12985,7 @@
 	* ms-excel-read.c: Updated commenting.
 
 	* ms-biff.c (ms_bug_get_padding): Quietened.
-	Implemented 'tell' throught
+	Implemented 'tell' throughout
 	(ms_biff_put_var_commit): Fixed seeking over end.
 
 1999-05-16  Michael Meeks  <michael@ximian.com>
@@ -13014,7 +13014,7 @@
 
 	* ms-excel.[ch] -> ms-excel-read.[ch],
 
-	* ms-formula.[ch] -> ms-formual-read.[ch]
+	* ms-formula.[ch] -> ms-formula-read.[ch]
 
 	* All files incldes updated to obey above.
 
@@ -13376,7 +13376,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	* ms-formula.h (FORMULA_PTG_ARRAY): Added PTG_ARRAY
 
 	* ms-excel.c (ms_excel_read_cell): Added more sensible
-	floating point printing throught.
+	floating point printing throughout.
 
 	* ms-excel.h (MS_EXCEL_DOUBLE_FORMAT): Created to
 	standardise number transfer.
@@ -13431,7 +13431,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 1999-04-13  Michael Meeks <michael@ximian.com>
 
 	* ms-escher.c (esh_header_next): Fixedup to use correct lengths.
-	Various major bits of work, started parsing the heirarchical
+	Various major bits of work, started parsing the hierarchical
 	bitstream. Escher looks better than BIFF, 32bit clean seemingly.
 
 	* ole.c: Copied in updates.

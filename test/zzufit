@@ -130,7 +130,7 @@ while (1) {
 
 sub append_log {
     my ($txt) = @_;
-    
+
     local (*FIL);
     open (FIL, ">>$LOG") or die "$0: Cannot append to $LOG: $!\n";
     print FIL $txt;

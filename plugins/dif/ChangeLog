@@ -944,7 +944,7 @@
 2000-04-20  Jody Goldberg <jgoldberg@home.com>
 
 	* dif.c (dif_parse_dat) : Use sheet_cell_fetch just in case. Some
-	  minor reformating.
+	  minor reformatting.
 	(dif_write_cell) : This is very broken. Remove some unused args.
 	(dif_write_workbook) : Remove setvbuf.  That level of optimization is
 	  not necessary.

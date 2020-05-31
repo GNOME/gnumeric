@@ -97,7 +97,7 @@ autogenargs += ' --disable-static'
 autogenargs += ' --enable-all-warnings'
 autogenargs += ' --enable-maintainer-mode'
 autogenargs += ' --enable-explicit-deps=no'
-autogenargs += ' --prefix='+prefix 
+autogenargs += ' --prefix='+prefix
 
 for _tool in ('AR', 'RANLIB', 'STRIP', 'AS',
               'DLLTOOL', 'OBJDUMP', 'NM', 'WINDRES'):
@@ -113,7 +113,7 @@ module_autogenargs['gettext'] = autogenargs + """ --without-emacs \
                                                   --disable-native-java \
                                                   --enable-relocatable"""
 
-#module_autogenargs['jpeg']   = ' --enable-shared' + ' --disable-static' + ' --prefix='+prefix 
+#module_autogenargs['jpeg']   = ' --enable-shared' + ' --disable-static' + ' --prefix='+prefix
 
 module_autogenargs['glib']	=    autogenargs + """ --enable-explicit-deps=no \
 						  --enable-compile-warnings=no \

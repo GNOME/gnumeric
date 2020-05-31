@@ -1,15 +1,15 @@
-This plugin provides Lotus 123 I/O   
-  
+This plugin provides Lotus 123 I/O
+
         This was originally written by:
 
                  Ulric Eriksson <ulric@edu.stockholm.se>
-  
+
         And then ported to gnumeric, some support code snarfed from Sean Atkinson.
-  
+
         More documentation on the Lotus file format can be found at:
-  
+
         http://www.wotsit.org/ OR http://www.lotus.com/
-  
+
 
 Possibly useful information re character sets:
 

@@ -160,8 +160,8 @@
 	   <menuitem action="FontDoubleUnderline"/>
 	   <menuitem action="FontSingleLowUnderline"/>
 	   <menuitem action="FontDoubleLowUnderline"/>
-        </menu>      
-      </menu>      
+        </menu>
+      </menu>
       <menu name="FormatColumn" action="MenuFormatColumn">
         <menuitem action="ColumnSize"/>
         <menuitem action="ColumnAutoSize"/>

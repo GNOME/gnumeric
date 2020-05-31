@@ -15,7 +15,7 @@ Description                                             Difficulty  Integration
   reflect colour changes.  Reuse the code in goffice
 
 - Audit the help text for all the functions.  Some are	Low	    Low
-  missing or do not conform to the style guides, 
+  missing or do not conform to the style guides,
 
 -------------------------------------------------------------------------------
 Difficulty: an estimate of how hard the task would be for the average hacker.

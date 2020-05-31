@@ -2066,8 +2066,8 @@
 
 2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-function-select.c (dialog_function_select_load_tree): dont load
-	  placeholders
+	* dialog-function-select.c (dialog_function_select_load_tree):
+	don't load placeholders
 
 2010-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
@@ -3348,14 +3348,14 @@
 
 	* dialogs.h (dialog_so_styled): pass both the title and information
 	  on the extent of the properties dialog
-	* dialog-so-styled.c (dialog_so_styled): use the passsed title
+	* dialog-so-styled.c (dialog_so_styled): use the passed title
 
 2009-04-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialogs.h (dialog_so_styled): change arguments
 	* dialog-so-styled.c (DialogSOStyled): add text field
 	(dialog_so_styled_free): free text field
-	(cb_dialog_so_styled_response): pass text if ppropriate
+	(cb_dialog_so_styled_response): pass text if appropriate
 	(cb_dialog_so_styled_text_widget_changed): handle changes to text
 	(dialog_so_styled_text_widget): set up text widget
 	(dialog_so_styled): handle text
@@ -8269,7 +8269,7 @@
 
 	* dialog-stf-preview.c (stf_preview_format_line) : take advantage of
 	  the fact that values in 1.1 store their parse formats so that we don't
-	  loose dates.
+	  lose dates.
 
 2002-10-12  Jody Goldberg <jody@gnome.org>
 
@@ -9098,7 +9098,7 @@
 	* dialog-row-height.glade : added checkbox and spin button
 	* dialog-col-width.glade : ditto
 	* dialogs.h : added dialog_row_height and dialog_col_width
-	* dialog-zoom.glade : fix button formating
+	* dialog-zoom.glade : fix button formatting
 
 2002-04-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

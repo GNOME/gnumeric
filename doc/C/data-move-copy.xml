@@ -320,7 +320,7 @@
     </para>
 
     <para>The first set of choices allow the user to control the
-       data pasted.The user can chose to limit the pasting to only the
+       data pasted.The user can choose to limit the pasting to only the
        cell contents (no cell formatting is copied) or the opposite
        only cell formats copied (no contents). Furthermore, the user
        can insert the selection while transforming all the contents
