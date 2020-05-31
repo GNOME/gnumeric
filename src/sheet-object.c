@@ -45,6 +45,9 @@
 
 #include <string.h>
 
+static guint so_create_view_src;
+static GPtrArray *so_create_view_sos;
+
 /* GType code for SheetObjectAnchor */
 static SheetObjectAnchor *
 sheet_object_anchor_copy (SheetObjectAnchor * soa)
@@ -564,12 +567,18 @@ sheet_object_get_sheet (SheetObject const *so)
 	return so->sheet;
 }
 
-static int
-cb_create_views (SheetObject *so)
+static gboolean
+cb_create_views (void)
 {
-	g_object_set_data (G_OBJECT (so), "create_view_handler", NULL);
-	SHEET_FOREACH_CONTROL (so->sheet, view, control,
-		sc_object_create_view (control, so););
+	unsigned ui, l = so_create_view_sos->len;
+
+	for (ui = 0; ui < l; ui++) {
+		SheetObject *so = g_ptr_array_index (so_create_view_sos, ui);
+		SHEET_FOREACH_CONTROL (so->sheet, view, control,
+				       sc_object_create_view (control, so););
+	}
+	g_ptr_array_set_size (so_create_view_sos, 0);
+	so_create_view_src = 0;
 	return FALSE;
 }
 
@@ -612,9 +621,15 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 	/* FIXME : add a flag to sheet to have sheet_update do this */
 	sheet_objects_max_extent (sheet);
 
-	if (NULL == g_object_get_data (G_OBJECT (so), "create_view_handler")) {
-		guint id = g_idle_add ((GSourceFunc) cb_create_views, so);
-		g_object_set_data (G_OBJECT (so), "create_view_handler", GUINT_TO_POINTER (id));
+	g_ptr_array_add (so_create_view_sos, so);
+	if (!so_create_view_src) {
+		so_create_view_src =
+			g_timeout_add_full (
+				G_PRIORITY_DEFAULT_IDLE,
+				0,
+				(GSourceFunc)cb_create_views,
+				NULL,
+				NULL);
 	}
 
 	return FALSE;
@@ -631,7 +646,7 @@ void
 sheet_object_clear_sheet (SheetObject *so)
 {
 	GSList *ptr;
-	gpointer view_handler;
+	unsigned ui;
 
 	g_return_if_fail (GNM_IS_SO (so));
 
@@ -644,10 +659,11 @@ sheet_object_clear_sheet (SheetObject *so)
 	g_return_if_fail (ptr != NULL);
 
 	/* clear any pending attempts to create views */
-	view_handler = g_object_get_data (G_OBJECT (so), "create_view_handler");
-	if (NULL != view_handler) {
-		g_source_remove (GPOINTER_TO_UINT (view_handler));
-		g_object_set_data (G_OBJECT (so), "create_view_handler", NULL);
+	for (ui = 0; ui < so_create_view_sos->len; ui++) {
+		if (so == g_ptr_array_index (so_create_view_sos, ui)) {
+			g_ptr_array_remove_index (so_create_view_sos, ui);
+			break;
+		}
 	}
 
 	while (so->realized_list != NULL) {
@@ -1922,6 +1938,8 @@ sheet_object_move_do (GSList *objects, GSList *anchors,
 void
 sheet_objects_init (void)
 {
+	so_create_view_sos = g_ptr_array_new ();
+
 	GNM_SO_LINE_TYPE;
 	GNM_SO_FILLED_TYPE;
 	GNM_SO_GRAPH_TYPE;
@@ -1934,4 +1952,19 @@ sheet_objects_init (void)
 	sheet_object_widget_register ();
 	sov_so_quark = g_quark_from_static_string ("SheetObject");
 	sov_container_quark = g_quark_from_static_string ("SheetObjectViewContainer");
+}
+
+/**
+ * sheet_objects_shutdown: (skip)
+ */
+void
+sheet_objects_shutdown (void)
+{
+	if (so_create_view_src != 0) {
+		g_source_remove (so_create_view_src);
+		so_create_view_src = 0;
+	}
+
+	g_ptr_array_free (so_create_view_sos, TRUE);
+	so_create_view_sos = NULL;
 }

@@ -150,6 +150,7 @@ void sheet_object_draw_cairo_sized (SheetObject const *so, cairo_t *cr, double w
 
 /* management routine to register all the builtin object types */
 void sheet_objects_init (void);
+void sheet_objects_shutdown (void);
 G_END_DECLS
 
 #endif /* _GNM_SHEET_OBJECT_H_ */

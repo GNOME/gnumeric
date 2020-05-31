@@ -1,3 +1,8 @@
+2020-05-31  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object.c (cb_create_views): Maintain just one idle
+	source to handle view creating for all objects that need it.
+
 2020-05-29  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_top_multiple_as_string): New function.

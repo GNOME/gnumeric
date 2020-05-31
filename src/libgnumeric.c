@@ -348,6 +348,7 @@ gnm_shutdown (void)
 	gnm_xml_sax_write_shutdown ();
 	gnm_xml_sax_read_shutdown ();
 
+	sheet_objects_shutdown ();
 	gnm_autofill_shutdown ();
 	print_shutdown ();
 	gnm_func_shutdown_ ();
