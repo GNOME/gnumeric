@@ -133,6 +133,7 @@ SheetObject *sheet_object_view_get_so	  (SheetObjectView *sov);
 void	     sheet_object_view_set_bounds (SheetObjectView *sov,
 					   double const *coords,
 					   gboolean visible);
+GocItem     *sheet_object_view_get_item   (SheetObjectView *sov);
 
 /***************************************************************************/
 

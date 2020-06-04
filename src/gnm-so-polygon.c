@@ -48,7 +48,7 @@ typedef SheetObjectClass GnmSOPolygonClass;
 static void
 so_polygon_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	GocItem *view = GOC_ITEM (sov->base.children->data);
+	GocItem *item = sheet_object_view_get_item (sov);
 
 	if (visible) {
 		SheetObject		*so   = sheet_object_view_get_so (sov);
@@ -77,11 +77,11 @@ so_polygon_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean
 			pts->points[i].y = y_translate + y_scale * src[1];
 		}
 
-		goc_item_set (view, "points", pts, NULL);
+		goc_item_set (item, "points", pts, NULL);
 		goc_points_unref (pts);
-		goc_item_show (GOC_ITEM (view));
+		goc_item_show (item);
 	} else
-		goc_item_hide (GOC_ITEM (view));
+		goc_item_hide (item);
 }
 
 static void
@@ -129,7 +129,7 @@ sop_default_style (void)
 static void
 cb_gnm_so_polygon_style_changed (GocItem *view, GnmSOPolygon const *sop)
 {
-	GocItem *item = GOC_ITEM (GOC_GROUP (view)->children->data);
+	GocItem *item = sheet_object_view_get_item (GNM_SO_VIEW (view));
 	GOStyle const *style = sop->style;
 	goc_item_set (item, "style", style, NULL);
 }

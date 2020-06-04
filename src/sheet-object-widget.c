@@ -122,12 +122,8 @@ so_clear_sheet (SheetObject *so)
 static GocWidget *
 get_goc_widget (SheetObjectView *view)
 {
-	GocGroup *group = GOC_GROUP (view);
-
-	if (group == NULL || group->children == NULL)
-		return NULL;
-
-	return GOC_WIDGET (group->children->data);
+	GocItem *item = sheet_object_view_get_item (view);
+	return item ? GOC_WIDGET (item) : NULL;
 }
 
 static void
@@ -156,8 +152,8 @@ so_widget_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean 
 static GdkWindow *
 so_widget_view_get_window (GocItem *item)
 {
-	GocGroup *group = GOC_GROUP (item);
-	return goc_item_get_window (GOC_ITEM (group->children->data));
+	GocItem *item0 = sheet_object_view_get_item (GNM_SO_VIEW (item));
+	return goc_item_get_window (item0);
 }
 
 static void

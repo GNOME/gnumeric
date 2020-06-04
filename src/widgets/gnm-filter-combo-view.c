@@ -333,7 +333,7 @@ filter_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vis
 		if (h > 20.)	/* clip vertically */
 			h = 20.;
 		h /= scale;
-		goc_item_set (GOC_ITEM (view->children->data),
+		goc_item_set (sheet_object_view_get_item (sov),
 			/* put it inside the cell */
 			"x",	  ((coords[2] >= 0.) ? (coords[2] / scale - h + 1) : coords[0] / scale),
 			"y",	  coords [3] / scale - h + 1.,

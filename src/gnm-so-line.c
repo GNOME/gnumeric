@@ -59,7 +59,8 @@ static SheetObjectClass *gnm_so_line_parent_class;
 static void
 so_line_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	GocItem	*view = GOC_ITEM (sov), *item = GOC_ITEM (GOC_GROUP (view)->children->data);
+	GocItem	*view = GOC_ITEM (sov);
+	GocItem *item = sheet_object_view_get_item (sov);
 	SheetObject	*so = sheet_object_view_get_so (sov);
 	GOStyleLine const *style = &GNM_SO_LINE (so)->style->line;
 	double scale = goc_canvas_get_pixels_per_unit (view->canvas);
@@ -128,7 +129,7 @@ cb_gnm_so_line_changed (GnmSOLine const *sol,
 			G_GNUC_UNUSED GParamSpec *pspec,
 			GocItem *item)
 {
-	item = GOC_ITEM (GOC_GROUP (item)->children->data);
+	item = sheet_object_view_get_item (GNM_SO_VIEW (item));
 	goc_item_set (item,
 		      "start-arrow", &sol->start_arrow,
 		      "end-arrow", &sol->end_arrow,

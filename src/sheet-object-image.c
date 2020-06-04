@@ -46,21 +46,21 @@ attr_eq (const xmlChar *a, const char *s)
 static void
 so_image_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	GocItem *view = GOC_ITEM (GOC_GROUP (sov)->children->data);
-	double scale = goc_canvas_get_pixels_per_unit (view->canvas);
+	GocItem *item = sheet_object_view_get_item (sov);
+	double scale = goc_canvas_get_pixels_per_unit (item->canvas);
 
 	if (visible) {
 		double x, y, width, height;
 		double old_x1, old_y1, old_x2, old_y2, old_width, old_height;
-		GdkPixbuf *placeholder = g_object_get_data (G_OBJECT (view), "tile");
+		GdkPixbuf *placeholder = g_object_get_data (G_OBJECT (item), "tile");
 
 		x = MIN (coords [0], coords [2]) / scale;
 		y = MIN (coords [1], coords [3]) / scale;
 		width  = fabs (coords [2] - coords [0]) / scale;
 		height = fabs (coords [3] - coords [1]) / scale;
 
-		goc_item_get_bounds (view, &old_x1, &old_y1, &old_x2, &old_y2);
-		goc_item_set (view,
+		goc_item_get_bounds (item, &old_x1, &old_y1, &old_x2, &old_y2);
+		goc_item_set (item,
 			"x", x,			"y", y,
 			"width",  width,	"height", height,
 			NULL);
@@ -72,13 +72,13 @@ so_image_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean v
 		    (fabs (width - old_width) > 0.5 || fabs (height - old_height) > 0.5)) {
 			GdkPixbuf *newimage = go_gdk_pixbuf_tile (placeholder,
 				(guint)width, (guint)height);
-			goc_item_set (view, "pixbuf", newimage, NULL);
+			goc_item_set (item, "pixbuf", newimage, NULL);
 			g_object_unref (newimage);
 		}
 
-		goc_item_show (view);
+		goc_item_show (item);
 	} else
-		goc_item_hide (view);
+		goc_item_hide (item);
 }
 
 static void

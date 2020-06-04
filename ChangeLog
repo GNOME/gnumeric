@@ -1,3 +1,8 @@
+2020-06-03  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object.c (sheet_object_view_get_item): New function
+	localizing our access to GocGroup::children
+
 2020-05-31  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-filter.c (gnm_filter_new): New argument attach.  All

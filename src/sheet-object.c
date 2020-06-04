@@ -1505,6 +1505,23 @@ sheet_object_view_set_bounds (SheetObjectView *sov,
 }
 
 /**
+ * sheet_object_view_get_item:
+ * @sov: #SheetObjectView
+ *
+ * Returns: (transfer none): the #GocItem implementing @sov
+ **/
+GocItem *
+sheet_object_view_get_item (SheetObjectView *sov)
+{
+	g_return_val_if_fail (GNM_IS_SO_VIEW (sov), NULL);
+
+	if (sov->base.children == NULL)
+		return NULL;
+	return GOC_ITEM (sov->base.children->data);
+}
+
+
+/**
  * sheet_object_view_get_so:
  * @sov: #SheetObjectView
  *

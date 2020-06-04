@@ -84,7 +84,7 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 {
 	CommentView *cv = (CommentView *)sov;
 	GocPoints *points = goc_points_new (3);
-	GocItem *item = GOC_ITEM (GOC_GROUP (sov)->children->data);
+	GocItem *item = sheet_object_view_get_item (sov);
 	if (visible) {
 		SheetObject *so = sheet_object_view_get_so (sov);
 		SheetControlGUI const *scg = GNM_SIMPLE_CANVAS (item->canvas)->scg;

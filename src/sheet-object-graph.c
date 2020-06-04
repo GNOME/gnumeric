@@ -55,22 +55,22 @@
 static void
 so_graph_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	GocItem *view = GOC_ITEM (GOC_GROUP (sov)->children->data);
-	double scale = goc_canvas_get_pixels_per_unit (view->canvas);
+	GocItem *item = sheet_object_view_get_item (sov);
+	double scale = goc_canvas_get_pixels_per_unit (item->canvas);
 
 	if (visible) {
 		goc_item_set (GOC_ITEM (sov),
 			"x", MIN (coords [0], coords[2]) / scale,
 			"y", MIN (coords [3], coords[1]) / scale,
 			NULL);
-		goc_item_set (view,
+		goc_item_set (item,
 			"width", (fabs (coords [2] - coords [0]) + 1.) / scale,
 			"height", (fabs (coords [3] - coords [1]) + 1.) / scale,
 			NULL);
 
-		goc_item_show (view);
+		goc_item_show (item);
 	} else
-		goc_item_hide (view);
+		goc_item_hide (item);
 }
 
 static void
@@ -818,7 +818,8 @@ sheet_object_graph_ensure_size (SheetObject *sog)
 {
 	GList *ptr = sog->realized_list;
 	while (ptr) {
-		cb_post_new_view (GOC_ITEM (GOC_GROUP (ptr->data)->children->data));
+		SheetObjectView *sov = ptr->data;
+		cb_post_new_view (sheet_object_view_get_item (sov));
 		ptr = ptr->next;
 	}
 }

@@ -166,7 +166,7 @@ sscombo_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible
 		if (h > 20.)	/* clip vertically */
 			h = 20.;
 		h /= scale;
-		goc_item_set (GOC_ITEM (view->children->data),
+		goc_item_set (sheet_object_view_get_item (sov),
 			/* put it outside the cell */
 			"x",	  ((coords[2] >= 0.) ? coords[2] / scale : (coords[0] / scale - h + 1.)),
 			"y",	  coords [3] / scale - h + 1.,

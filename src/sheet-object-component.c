@@ -37,8 +37,8 @@
 static void
 so_component_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
-	GocItem *view = GOC_ITEM (GOC_GROUP (sov)->children->data);
-	double scale = goc_canvas_get_pixels_per_unit (view->canvas);
+	GocItem *item = sheet_object_view_get_item (sov);
+	double scale = goc_canvas_get_pixels_per_unit (item->canvas);
 
 	if (visible) {
 		GOComponent *component = sheet_object_component_get_component (sheet_object_view_get_so (sov));
@@ -50,19 +50,19 @@ so_component_view_set_bounds (SheetObjectView *sov, double const *coords, gboole
 		if (component && ! go_component_is_resizable (component)) {
 			go_component_get_size (component, &width, &height);
 
-			goc_item_set (view,
+			goc_item_set (item,
 				"width", width * gnm_app_display_dpi_get (TRUE),
 				"height", height * gnm_app_display_dpi_get (FALSE),
 				NULL);
 		} else
-			goc_item_set (view,
+			goc_item_set (item,
 				"width", (fabs (coords [2] - coords [0]) + 1.) / scale,
 				"height", (fabs (coords [3] - coords [1]) + 1.) / scale,
 				NULL);
 
-		goc_item_show (view);
+		goc_item_show (item);
 	} else
-		goc_item_hide (view);
+		goc_item_hide (item);
 }
 
 typedef SheetObjectView		SOComponentGocView;
