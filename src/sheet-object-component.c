@@ -491,12 +491,14 @@ sheet_object_component_set_component (SheetObject *so, GOComponent *component)
 
 	soc->component = component;
 
-	for (; l; l = l->next)
-		if (l->data) {
-			GocGroup *group = GOC_GROUP (l->data);
-			if (group->children->data)
-				g_object_set (group->children->data, "object", component, NULL);
+	for (; l; l = l->next) {
+		SheetObjectView *sov = l->data;
+		if (sov) {
+			GocItem *item = sheet_object_view_get_item (sov);
+			if (item)
+				g_object_set (item, "object", component, NULL);
 		}
+	}
 	if (component) {
 		g_object_ref (component);
 		go_component_stop_editing (component);
