@@ -49,7 +49,7 @@ GType sheet_object_imageable_get_type (void);
 
 GType sheet_object_exportable_get_type (void);
 
-gboolean      sheet_object_set_sheet	 (SheetObject *so, Sheet *sheet);
+void          sheet_object_set_sheet	 (SheetObject *so, Sheet *sheet);
 Sheet	     *sheet_object_get_sheet	 (SheetObject const *so);
 void	      sheet_object_clear_sheet	 (SheetObject *so);
 

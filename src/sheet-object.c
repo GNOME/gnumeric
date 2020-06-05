@@ -45,6 +45,8 @@
 
 #include <string.h>
 
+static gboolean debug_sheet_objects;
+
 static guint so_create_view_src;
 static GPtrArray *so_create_view_sos;
 
@@ -560,26 +562,25 @@ cb_create_views (void)
  * @sheet:
  *
  * Adds a reference to the object.
- *
- * Returns: %TRUE if there was a problem
  **/
-gboolean
+void
 sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 {
-	g_return_val_if_fail (GNM_IS_SO (so), TRUE);
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_if_fail (GNM_IS_SO (so));
+	g_return_if_fail (IS_SHEET (sheet));
 
 	if (sheet == so->sheet)
-		return FALSE;
+		return;
 
-	g_return_val_if_fail (so->sheet == NULL, TRUE);
-	g_return_val_if_fail (g_slist_find (sheet->sheet_objects, so) == NULL, TRUE);
+	g_return_if_fail (so->sheet == NULL);
+	if (debug_sheet_objects)
+		g_return_if_fail (g_slist_find (sheet->sheet_objects, so) == NULL);
 
 	so->sheet = sheet;
 	if (SO_CLASS (so)->assign_to_sheet &&
 	    SO_CLASS (so)->assign_to_sheet (so, sheet)) {
 		so->sheet = NULL;
-		return TRUE;
+		return;
 	}
 
 	g_object_ref (so);
@@ -603,8 +604,6 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 				NULL,
 				NULL);
 	}
-
-	return FALSE;
 }
 
 /**
@@ -1927,6 +1926,7 @@ sheet_object_move_do (GSList *objects, GSList *anchors,
 void
 sheet_objects_init (void)
 {
+	debug_sheet_objects = gnm_debug_flag ("sheet-objects");
 	so_create_view_sos = g_ptr_array_new ();
 
 	GNM_SO_LINE_TYPE;

@@ -1,5 +1,13 @@
 2020-06-04  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-filter.c (gnm_filter_remove): Remove fields in
+	opposite order of how we add them.
+
+	* src/sheet-object.c (sheet_object_set_sheet): Drop return value
+	that nobody looks at.
+
+2020-06-04  Morten Welinder  <terra@gnome.org>
+
 	* src/sheet-private.h (_SheetPrivate): Add objects_changed flag
 	for updating sheet objects extents.
 

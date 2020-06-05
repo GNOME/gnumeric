@@ -796,7 +796,7 @@ gnm_filter_remove (GnmFilter *filter)
 	}
 	filter->sheet = NULL;
 
-	for (i = 0 ; i < (int)filter->fields->len ; i++) {
+	for (i = filter->fields->len; i-- > 0; ) {
 		SheetObject *so = g_ptr_array_index (filter->fields, i);
 		sheet_object_clear_sheet (so);
 		g_object_unref (so);
