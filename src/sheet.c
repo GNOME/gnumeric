@@ -1976,6 +1976,34 @@ sheet_colrow_fit_gutter (Sheet const *sheet, gboolean is_cols)
 }
 
 /**
+ * sheet_objects_max_extent:
+ * @sheet:
+ *
+ * Utility routine to calculate the maximum extent of objects in this sheet.
+ */
+static void
+sheet_objects_max_extent (Sheet *sheet)
+{
+	GnmCellPos max_pos = { 0, 0 };
+	GSList *ptr;
+
+	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
+		SheetObject *so = GNM_SO (ptr->data);
+
+		if (max_pos.col < so->anchor.cell_bound.end.col)
+			max_pos.col = so->anchor.cell_bound.end.col;
+		if (max_pos.row < so->anchor.cell_bound.end.row)
+			max_pos.row = so->anchor.cell_bound.end.row;
+	}
+
+	if (sheet->max_object_extent.col != max_pos.col ||
+	    sheet->max_object_extent.row != max_pos.row) {
+		sheet->max_object_extent = max_pos;
+		sheet_scrollbar_config (sheet);
+	}
+}
+
+/**
  * sheet_update_only_grid:
  * @sheet: #Sheet
  *
@@ -1990,6 +2018,11 @@ sheet_update_only_grid (Sheet const *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	p = sheet->priv;
+
+	if (p->objects_changed) {
+		p->objects_changed = FALSE;
+		sheet_objects_max_extent ((Sheet *)sheet);
+	}
 
 	/* be careful these can toggle flags */
 	if (p->recompute_max_col_group) {
@@ -2077,6 +2110,7 @@ sheet_update_only_grid (Sheet const *sheet)
 		sheet_scrollbar_config (sheet);
 		p->resize_scrollbar = FALSE;
 	}
+
 	if (p->filters_changed) {
 		p->filters_changed = FALSE;
 		SHEET_FOREACH_CONTROL (sheet, sv, sc,

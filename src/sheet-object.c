@@ -310,34 +310,6 @@ sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
 	GNM_SO_CLASS (G_OBJECT_GET_CLASS(so))->populate_menu (so, actions);
 }
 
-/**
- * sheet_objects_max_extent:
- * @sheet:
- *
- * Utility routine to calculate the maximum extent of objects in this sheet.
- */
-static void
-sheet_objects_max_extent (Sheet *sheet)
-{
-	GnmCellPos max_pos = { 0, 0 };
-	GSList *ptr;
-
-	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
-		SheetObject *so = GNM_SO (ptr->data);
-
-		if (max_pos.col < so->anchor.cell_bound.end.col)
-			max_pos.col = so->anchor.cell_bound.end.col;
-		if (max_pos.row < so->anchor.cell_bound.end.row)
-			max_pos.row = so->anchor.cell_bound.end.row;
-	}
-
-	if (sheet->max_object_extent.col != max_pos.col ||
-	    sheet->max_object_extent.row != max_pos.row) {
-		sheet->max_object_extent = max_pos;
-		sheet_scrollbar_config (sheet);
-	}
-}
-
 void
 sheet_object_set_name (SheetObject *so, const char *name)
 {
@@ -618,8 +590,8 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 		sheet_object_anchor_to_pts (&so->anchor, sheet, x);
 		sheet_object_pts_to_anchor (&so->anchor, sheet, x);
 	}
-	/* FIXME : add a flag to sheet to have sheet_update do this */
-	sheet_objects_max_extent (sheet);
+
+	sheet->priv->objects_changed = TRUE;
 
 	g_ptr_array_add (so_create_view_sos, so);
 	if (!so_create_view_src) {
@@ -681,9 +653,9 @@ sheet_object_clear_sheet (SheetObject *so)
 	so->sheet->sheet_objects = g_slist_remove_link (so->sheet->sheet_objects, ptr);
 	g_slist_free (ptr);
 
-	if (so->anchor.cell_bound.end.col == so->sheet->max_object_extent.col &&
+	if (so->anchor.cell_bound.end.col == so->sheet->max_object_extent.col ||
 	    so->anchor.cell_bound.end.row == so->sheet->max_object_extent.row)
-		sheet_objects_max_extent (so->sheet);
+		so->sheet->priv->objects_changed = TRUE;
 
 	so->sheet = NULL;
 	g_object_unref (so);
@@ -903,7 +875,7 @@ sheet_object_set_anchor (SheetObject *so, SheetObjectAnchor const *anchor)
 
 	so->anchor = *anchor;
 	if (so->sheet != NULL) {
-		sheet_objects_max_extent (so->sheet);
+		so->sheet->priv->objects_changed = TRUE;
 		sheet_object_update_bounds (so, NULL);
 	}
 }
@@ -1198,9 +1170,9 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 		}
 	}
 
-	sheet_objects_max_extent (rinfo->origin_sheet);
+	rinfo->origin_sheet->priv->objects_changed = TRUE;
 	if (change_sheets)
-		sheet_objects_max_extent (rinfo->target_sheet);
+		rinfo->target_sheet->priv->objects_changed = TRUE;
 }
 
 /**

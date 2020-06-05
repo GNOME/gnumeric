@@ -3119,9 +3119,9 @@ gnm_pane_object_register (SheetObject *so, GocItem *view, gboolean selectable)
 }
 
 /**
- * gnm_pane_object_widget_register:
+ * gnm_pane_widget_register:
  * @so: A sheet object
- * @widget: The widget for the sheet object view
+ * @w: The widget for the sheet object view
  * @view: A canvas item acting as a view for @so
  *
  * Setup some standard callbacks for manipulating widgets as views of sheet
@@ -3130,12 +3130,16 @@ gnm_pane_object_register (SheetObject *so, GocItem *view, gboolean selectable)
 void
 gnm_pane_widget_register (SheetObject *so, GtkWidget *w, GocItem *view)
 {
+	// There was a time when this did something.  Right now it does
+	// not, so don't walk the tree.
+#if 0
 	if (GTK_IS_CONTAINER (w)) {
 		GList *ptr, *children = gtk_container_get_children (GTK_CONTAINER (w));
 		for (ptr = children ; ptr != NULL; ptr = ptr->next)
 			gnm_pane_widget_register (so, ptr->data, view);
 		g_list_free (children);
 	}
+#endif
 }
 
 void

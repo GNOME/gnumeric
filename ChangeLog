@@ -1,3 +1,13 @@
+2020-06-04  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-private.h (_SheetPrivate): Add objects_changed flag
+	for updating sheet objects extents.
+
+	* src/sheet-object.c: Don't update sheet object extents right now,
+	just set the flag.
+
+	* src/sheet.c (sheet_update_only_grid): Handle objects_changed.
+
 2020-06-03  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object.c (sheet_object_view_get_item): New function
