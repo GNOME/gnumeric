@@ -15,6 +15,7 @@ Morten:
 	* Fix performance issue with sample_datasource.  [#491]
 	* Fix partial-line issue with sample_datasource.
 	* Fix load of in-place graph data with extra ()s.  [#492]
+	* Fix Ctrl-; cursor position.  [#494]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47

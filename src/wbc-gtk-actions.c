@@ -788,6 +788,7 @@ insert_date_time_common (WBCGtk *wbcg, gboolean do_date, gboolean do_time)
 		char *txt;
 		char *dtxt = NULL;
 		char *ttxt = NULL;
+		GtkEntry *entry;
 
 		if (do_date) {
 			GOFormat *fmt = gnm_format_for_date_editing (cell);
@@ -800,6 +801,8 @@ insert_date_time_common (WBCGtk *wbcg, gboolean do_date, gboolean do_time)
 			ttxt = format_value (fmt, v, -1, date_conv);
 		}
 
+		value_release (v);
+
 		if (do_date && do_time) {
 			txt = g_strconcat (dtxt, " ", ttxt, NULL);
 			g_free (dtxt);
@@ -810,9 +813,13 @@ insert_date_time_common (WBCGtk *wbcg, gboolean do_date, gboolean do_time)
 			txt = ttxt;
 
 		wb_control_edit_line_set (wbc, txt);
-
-		value_release (v);
 		g_free (txt);
+
+		// Explicitly place cursor at end.  Otherwise the cursor
+		// position depends on whether the new contents matches
+		// the old which is weird.
+		entry = wbcg_get_entry (wbcg);
+		gtk_editable_set_position (GTK_EDITABLE (entry), -1);
 	}
 }
 
