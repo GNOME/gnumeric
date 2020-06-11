@@ -2548,8 +2548,8 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 			doc = gsf_xml_in_doc_new (dtd, NULL);
 			gnm_xml_in_doc_dispose_on_exit (&doc);
 		}
-		/* we need to pas state there because xin->user_state might have
-			 changed, see #751217 */
+		// We need to pass state there because xin->user_state might
+		// have changed, see #751217
 		gsf_xml_in_push_state (xin, doc, state,
 			(GsfXMLInExtDtor) gnm_xml_finish_obj, attrs);
 	}
