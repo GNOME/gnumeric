@@ -512,17 +512,13 @@ cb_collect_names (G_GNUC_UNUSED gconstpointer key,
 	*plist = g_slist_prepend (*plist, expr_name_ref (nexpr));
 }
 
-/* Append the sheets of workbook wb2 to workbook wb.  Resize sheets
-   if necessary.  Fix workbook links in sheet if necessary.
-   Merge names in workbook scope (conflicts result in an error). */
 static gboolean
-merge_single (Workbook *wb, Workbook *wb2,
-	      int cmax, int rmax,
-	      GOCmdContext *cc)
+merge_single_names (Workbook *wb, Workbook *wb2, GOCmdContext *cc)
 {
 	/* Move names with workbook scope in wb2 over to wb */
-	GSList *names = g_slist_sort (gnm_named_expr_collection_list (wb2->names),
-				      (GCompareFunc)expr_name_cmp_by_name);
+	GSList *names = g_slist_sort
+		(gnm_named_expr_collection_list (wb2->names),
+		 (GCompareFunc)expr_name_cmp_by_name);
 	GSList *p;
 
 	for (p = names; p; p = p->next) {
@@ -555,6 +551,52 @@ merge_single (Workbook *wb, Workbook *wb2,
 		expr_name_set_pos (nexpr, &newpos);
 	}
 	g_slist_free (names);
+
+	return FALSE;
+}
+
+static gboolean
+merge_single_images (Workbook *wb, Workbook *wb2, GOCmdContext *cc)
+{
+	GHashTable *images = go_doc_get_images (GO_DOC (wb2));
+	GHashTableIter hiter;
+	gpointer key, value;
+
+	if (!images)
+		return FALSE;
+
+	g_hash_table_iter_init (&hiter, images);
+	while (g_hash_table_iter_next (&hiter, &key, &value)) {
+		const char *name = key;
+		GOImage *image = go_doc_get_image (GO_DOC (wb), name);
+
+		if (image) {
+			g_printerr (_("Unhandled image name clash: %s\n"),
+				    name);
+			return TRUE;
+		}
+
+		image = value;
+		go_doc_add_image (GO_DOC (wb), name, image);
+	}
+
+	return FALSE;
+}
+
+
+/* Append the sheets of workbook wb2 to workbook wb.  Resize sheets
+   if necessary.  Fix workbook links in sheet if necessary.
+   Merge names in workbook scope (conflicts result in an error). */
+static gboolean
+merge_single (Workbook *wb, Workbook *wb2,
+	      int cmax, int rmax,
+	      GOCmdContext *cc)
+{
+	if (merge_single_names (wb, wb2, cc))
+		return TRUE;
+
+	if (merge_single_images (wb, wb2, cc))
+		return TRUE;
 
 	while (workbook_sheet_count (wb2) > 0) {
 		/* Remove sheet from incoming workbook */
@@ -596,6 +638,7 @@ merge_single (Workbook *wb, Workbook *wb2,
 		/* Insert and revive the sheet */
 		workbook_sheet_attach_at_pos (wb, sheet, loc);
 		dependents_revive_sheet (sheet);
+
 		g_object_unref (sheet);
 	}
 
