@@ -1,3 +1,8 @@
+2020-06-11  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (merge_single): Also merge document-level
+	images.  Fixes #496.
+
 2020-06-04  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-filter.c (gnm_filter_remove): Remove fields in
