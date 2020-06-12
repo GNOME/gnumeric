@@ -555,47 +555,17 @@ merge_single_names (Workbook *wb, Workbook *wb2, GOCmdContext *cc)
 	return FALSE;
 }
 
-static gboolean
-merge_single_images (Workbook *wb, Workbook *wb2, GOCmdContext *cc)
-{
-	GHashTable *images = go_doc_get_images (GO_DOC (wb2));
-	GHashTableIter hiter;
-	gpointer key, value;
 
-	if (!images)
-		return FALSE;
-
-	g_hash_table_iter_init (&hiter, images);
-	while (g_hash_table_iter_next (&hiter, &key, &value)) {
-		const char *name = key;
-		GOImage *image = go_doc_get_image (GO_DOC (wb), name);
-
-		if (image) {
-			g_printerr (_("Unhandled image name clash: %s\n"),
-				    name);
-			return TRUE;
-		}
-
-		image = value;
-		go_doc_add_image (GO_DOC (wb), name, image);
-	}
-
-	return FALSE;
-}
-
-
-/* Append the sheets of workbook wb2 to workbook wb.  Resize sheets
-   if necessary.  Fix workbook links in sheet if necessary.
-   Merge names in workbook scope (conflicts result in an error). */
+// Append the sheets of workbook wb2 to workbook wb.
+// Resize sheets as necessary.
+// Fix workbook links in sheet if necessary.
+// Merge names in workbook scope (conflicts result in an error).
 static gboolean
 merge_single (Workbook *wb, Workbook *wb2,
 	      int cmax, int rmax,
 	      GOCmdContext *cc)
 {
 	if (merge_single_names (wb, wb2, cc))
-		return TRUE;
-
-	if (merge_single_images (wb, wb2, cc))
 		return TRUE;
 
 	while (workbook_sheet_count (wb2) > 0) {
@@ -606,6 +576,8 @@ merge_single (Workbook *wb, Workbook *wb2,
 		char *sheet_name;
 		gboolean err;
 		GSList *names = NULL;
+		GSList *objects;
+		GSList *l;
 
 		g_object_ref (sheet);
 		workbook_sheet_delete (sheet);
@@ -638,6 +610,22 @@ merge_single (Workbook *wb, Workbook *wb2,
 		/* Insert and revive the sheet */
 		workbook_sheet_attach_at_pos (wb, sheet, loc);
 		dependents_revive_sheet (sheet);
+
+		// Pull the objects out and put them back in so they
+		// notice the change of workbook.
+		objects = g_slist_copy_deep (sheet->sheet_objects,
+					     (GCopyFunc)g_object_ref,
+					     NULL);
+		for (l = objects; l; l = l->next) {
+			SheetObject *so = l->data;
+			sheet_object_clear_sheet (so);
+		}
+		objects = g_slist_reverse (objects);
+		for (l = objects; l; l = l->next) {
+			SheetObject *so = l->data;
+			sheet_object_set_sheet (so, sheet);
+		}
+		g_slist_free_full (objects, g_object_unref);
 
 		g_object_unref (sheet);
 	}
