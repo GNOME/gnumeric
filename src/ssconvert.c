@@ -1246,8 +1246,10 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	}
 
 	if (mergeargs != NULL) {
-		if (merge (wb, mergeargs, fo, io_context, cc))
+		if (merge (wb, mergeargs, fo, io_context, cc)) {
+			res = TRUE;
 			goto out;
+		}
 	}
 
 	if (ssconvert_goal_seek) {
