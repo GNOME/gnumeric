@@ -544,12 +544,20 @@ sheet_object_get_sheet (SheetObject const *so)
 static gboolean
 cb_create_views (void)
 {
-	unsigned ui, l = so_create_view_sos->len;
+	int pass;
 
-	for (ui = 0; ui < l; ui++) {
-		SheetObject *so = g_ptr_array_index (so_create_view_sos, ui);
-		SHEET_FOREACH_CONTROL (so->sheet, view, control,
-				       sc_object_create_view (control, so););
+	for (pass = 1; pass <= 3; pass++) {
+		unsigned ui, l = so_create_view_sos->len;
+		for (ui = 0; ui < l; ui++) {
+			SheetObject *so = g_ptr_array_index (so_create_view_sos, ui);
+			SHEET_FOREACH_CONTROL
+				(so->sheet, view, control,
+				 if (pass == 2)
+					 sc_object_create_view (control, so);
+				 else
+					 sc_freeze_object_view (control, pass == 1);
+					);
+		}
 	}
 	g_ptr_array_set_size (so_create_view_sos, 0);
 	so_create_view_src = 0;
@@ -1486,9 +1494,7 @@ sheet_object_view_get_item (SheetObjectView *sov)
 {
 	g_return_val_if_fail (GNM_IS_SO_VIEW (sov), NULL);
 
-	if (sov->base.children == NULL)
-		return NULL;
-	return GOC_ITEM (sov->base.children->data);
+	return goc_group_get_child (GOC_GROUP (sov), 0);
 }
 
 

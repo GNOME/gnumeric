@@ -27,6 +27,8 @@
 #include <workbook.h>
 #include <sheet.h>
 #include <sheet-private.h>
+#include <sheet-view.h>
+#include <sheet-control.h>
 #include <cell.h>
 #include <expr.h>
 #include <value.h>
@@ -796,12 +798,18 @@ gnm_filter_remove (GnmFilter *filter)
 	}
 	filter->sheet = NULL;
 
+	SHEET_FOREACH_CONTROL
+		(sheet, view, sc, sc_freeze_object_view (sc, TRUE););
+
 	for (i = filter->fields->len; i-- > 0; ) {
 		SheetObject *so = g_ptr_array_index (filter->fields, i);
 		sheet_object_clear_sheet (so);
 		g_object_unref (so);
 	}
 	g_ptr_array_set_size (filter->fields, 0);
+
+	SHEET_FOREACH_CONTROL
+		(sheet, view, sc, sc_freeze_object_view (sc, FALSE););
 }
 
 /**

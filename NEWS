@@ -18,6 +18,7 @@ Morten:
 	* Fix Ctrl-; cursor position.  [#494]
 	* Fix ssconvert --merge-to problem.  [#496]
 	* Fix sheet size paste problem.  [#497]
+	* Speed up really large auto-filters.  [#465]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47

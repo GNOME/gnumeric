@@ -48,6 +48,8 @@ void sc_scale_changed		(SheetControl *sc);
 void sc_show_im_tooltip         (SheetControl *sc,
 				 GnmInputMsg *im, GnmCellPos *pos);
 
+void sc_freeze_object_view      (SheetControl *sc, gboolean freeze);
+
 G_END_DECLS
 
 #endif /* _GNM_SHEET_CONTROL_H_ */

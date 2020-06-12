@@ -205,10 +205,14 @@ cb_gnm_so_path_changed (GnmSOPath const *sop,
 			G_GNUC_UNUSED GParamSpec *pspec,
 			GnmSOPathView *group)
 {
-	GList *ptr = GOC_GROUP (group)->children;
-	for (; ptr && ptr->data; ptr = ptr->next)
-		if (GOC_IS_PATH (ptr->data))
-			cb_gnm_so_path_style_changed (GOC_ITEM (ptr->data), sop);
+	GPtrArray *children = goc_group_get_children (GOC_GROUP (group));
+	unsigned ui;
+	for (ui = 0; ui < children->len; ui++) {
+		GocItem *item = g_ptr_array_index (children, ui);
+		if (GOC_IS_PATH (item))
+			cb_gnm_so_path_style_changed (item, sop);
+	}
+	g_ptr_array_unref (children);
 
 	if (sop->text != NULL && *sop->text != 0) {
 		/* set a font, a very bad solution, but will do until we move to GOString */

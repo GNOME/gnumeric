@@ -36,6 +36,7 @@ typedef struct {
 	void (*scale_changed)		(SheetControl *sc);
 	void (*show_im_tooltip)         (SheetControl *sc,
 					 GnmInputMsg *im, GnmCellPos *pos);
+	void (*freeze_object_view)      (SheetControl *sc, gboolean freeze);
 } SheetControlClass;
 
 #define SHEET_CONTROL_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SHEET_CONTROL_TYPE, SheetControlClass))

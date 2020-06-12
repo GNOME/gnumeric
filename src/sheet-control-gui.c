@@ -3946,6 +3946,14 @@ scg_show_im_tooltip (SheetControl *sc, GnmInputMsg *im, GnmCellPos *pos)
 	}
 }
 
+static void
+scg_freeze_object_view (SheetControl *sc, gboolean freeze)
+{
+	SCG_FOREACH_PANE
+		(GNM_SCG(sc), pane,
+		 GocGroup *g = pane->object_views;
+		 goc_group_freeze (g, freeze););
+}
 
 static void
 scg_class_init (GObjectClass *object_class)
@@ -3974,6 +3982,7 @@ scg_class_init (GObjectClass *object_class)
 	sc_class->object_create_view	   = scg_object_create_view;
 	sc_class->scale_changed		   = scg_scale_changed;
 	sc_class->show_im_tooltip	   = scg_show_im_tooltip;
+	sc_class->freeze_object_view	   = scg_freeze_object_view;
 }
 
 GSF_CLASS (SheetControlGUI, sheet_control_gui,
