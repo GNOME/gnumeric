@@ -1,3 +1,7 @@
+2020-06-12  Morten Welinder  <terra@gnome.org>
+
+	* news-to-html: Improve handling of bug links.
+
 2020-05-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.47

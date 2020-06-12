@@ -9,7 +9,10 @@ die "$0: must specify version number as argument.\n" unless $version;
 my $version2 = $version;
 $version2 =~ s/^(\d+\.\d+)\..*/$1/;
 
-my $bug_prefix = "https://gitlab.gnome.org/GNOME/gnumeric/issues/";
+my $gnumeric_bug_prefix = "https://gitlab.gnome.org/GNOME/gnumeric/issues/";
+my $goffice_bug_prefix = "https://gitlab.gnome.org/GNOME/goffice/issues/";
+my $libgsf_bug_prefix = "https://gitlab.gnome.org/GNOME/libgsf/issues/";
+my $generic_bug_prefix = "https://gitlab.gnome.org/GNOME";
 my $bug_prefix_old = "https://bugzilla.gnome.org/show_bug.cgi?id=";
 my $debian_bug_prefix = "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=";
 my $redhat_bug_prefix = "https://bugzilla.redhat.com/show_bug.cgi?id=";
@@ -93,7 +96,7 @@ sub finish_item {
 	$item .= ".";
     }
     if ($bug) {
-	$item .= " (<a href=\"$bug_prefix$bug\">Bug $bug</a>.)";
+	$item .= " (<a href=\"$bug_prefix_old$bug\">Bug $bug</a>.)";
 	$bug = '';
     }
     $item =~ s/\s+$//;
@@ -104,11 +107,21 @@ sub finish_item {
 sub add_to_item {
     my ($txt) = @_;
 
-    $txt =~ s{Debian\s+\#(\d\d\d\d\d+)}{Debian <a href=\"$debian_bug_prefix$1\"\>Bug $1</a>}g;
-    $txt =~ s{Redhat\s+\#(\d\d\d\d\d+)}{Redhat <a href=\"$redhat_bug_prefix$1\"\>Bug $1</a>}g;
-    $txt =~ s{Ubuntu\s+\#(\d\d\d\d\d+)}{Ubuntu <a href=\"$ubuntu_bug_prefix$1\"\>Bug $1</a>}g;
+    $txt =~ s{Debian\s+\#(\d\d\d\d\d+)\b}{Debian <a href=\"$debian_bug_prefix$1\"\>Bug $1</a>}g;
+    $txt =~ s{Redhat\s+\#(\d\d\d\d\d+)\b}{Redhat <a href=\"$redhat_bug_prefix$1\"\>Bug $1</a>}g;
+    $txt =~ s{Ubuntu\s+\#(\d\d\d\d\d+)\b}{Ubuntu <a href=\"$ubuntu_bug_prefix$1\"\>Bug $1</a>}g;
+    $txt =~ s{Gnumeric \#(\d\d\d+)\b}{<a href=\"$gnumeric_bug_prefix$1\"\>Bug $1</a>}gi;
+    $txt =~ s{Goffice \#(\d\d\d+)\b}{<a href=\"$goffice_bug_prefix$1\"\>Bug $1</a>}gi;
+    $txt =~ s{Libgsf \#(\d\d\d+)\b}{<a href=\"$libgsf_bug_prefix$1\"\>Bug $1</a>}gi;
+
     $txt =~ s{\#(\d\d\d\d\d+)}{<a href=\"$bug_prefix_old$1\"\>Bug $1</a>}g;
-    $txt =~ s{\#(\d\d\d+)}{<a href=\"$bug_prefix$1\"\>Bug $1</a>}g;
+
+    if (m{\#(\d\d\d+)} && $1 > 300) {
+	# Assume Gnumeric bug number
+	$txt =~ s{\#(\d\d\d+)\b}{<a href=\"$gnumeric_bug_prefix$1\"\>Bug $1</a>}gi;
+    } else {
+	$txt =~ s{\#(\d\d+)\b}{<a href=\"$generic_bug_prefix/$module/issues/$1\"\>Bug $1</a>}g;
+    }
 
     $item .= "\n\t      $txt";
     $have_item = 1;
