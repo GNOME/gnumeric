@@ -17,6 +17,7 @@ Morten:
 	* Fix load of in-place graph data with extra ()s.  [#492]
 	* Fix Ctrl-; cursor position.  [#494]
 	* Fix ssconvert --merge-to problem.  [#496]
+	* Fix sheet size paste problem.  [#497]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47

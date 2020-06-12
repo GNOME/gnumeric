@@ -1,3 +1,9 @@
+2020-06-12  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_cell): Relax sanity check a bit.
+	(xml_sax_cell_content): Fix sanity check for position.  Only the
+	relative position matters.  Fixes #497.
+
 2020-06-11  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (merge_single): Also merge document-level

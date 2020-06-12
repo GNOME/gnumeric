@@ -1946,8 +1946,6 @@ static void
 xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	Sheet *sheet = state->sheet;
-
 	int row = -1, col = -1;
 	int rows = -1, cols = -1;
 	int value_type = -1;
@@ -1983,9 +1981,9 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	if (value_type == -1)
 		value_result = NULL;
 
-	XML_CHECK2 (col >= 0 && col < gnm_sheet_get_max_cols (sheet),
+	XML_CHECK2 (col >= 0 && col <= GNM_MAX_COLS - MAX (1, cols),
 		    go_format_unref (value_fmt));
-	XML_CHECK2 (row >= 0 && row < gnm_sheet_get_max_rows (sheet),
+	XML_CHECK2 (row >= 0 && row <= GNM_MAX_ROWS - MAX (1, rows),
 		    go_format_unref (value_fmt));
 
 	if (cols > 0 || rows > 0) {
@@ -2097,9 +2095,8 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	Sheet *sheet = state->sheet;
-
 	gboolean is_new_cell = FALSE, is_post_52_array = FALSE;
-
+	int size_cols, size_rows;
 	GnmParsePos pos;
 	GnmCell *cell = NULL; /* Regular case */
 	GnmCellCopy *cc = NULL; /* Clipboard case */
@@ -2132,17 +2129,28 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (seen_contents)
 		return;
 
-	XML_CHECK (col >= 0 && col < gnm_sheet_get_max_cols (sheet));
-	XML_CHECK (row >= 0 && row < gnm_sheet_get_max_rows (sheet));
+	is_post_52_array = (array_cols > 0) && (array_rows > 0);
+	size_cols = is_post_52_array ? array_cols : 1;
+	size_rows = is_post_52_array ? array_rows : 1;
 
 	maybe_update_progress (xin);
 
 	if (cr) {
-		cc = gnm_cell_copy_new (cr,
-					col - cr->base.col,
-					row - cr->base.row);
+		int x = col - cr->base.col;
+		int y = row - cr->base.row;
+
+		XML_CHECK (x >= 0 &&
+			   x <= gnm_sheet_get_max_cols (sheet) - size_cols);
+		XML_CHECK (y >= 0 &&
+			   y <= gnm_sheet_get_max_rows (sheet) - size_rows);
+		cc = gnm_cell_copy_new (cr, x, y);
 		parse_pos_init (&pos, NULL, sheet, col, row);
 	} else {
+		XML_CHECK (col >= 0 &&
+			   col <= gnm_sheet_get_max_cols (sheet) - size_cols);
+		XML_CHECK (row >= 0 &&
+			   row <= gnm_sheet_get_max_rows (sheet) - size_rows);
+
 		cell = sheet_cell_get (sheet, col, row);
 		is_new_cell = (cell == NULL);
 		if (is_new_cell) {
@@ -2155,7 +2163,6 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	// ----------------------------------------
 
-	is_post_52_array = (array_cols > 0) && (array_rows > 0);
 	if (is_post_52_array && has_contents) {
 		// Array formula
 		g_return_if_fail (content[0] == '=');
