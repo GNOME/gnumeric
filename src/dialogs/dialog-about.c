@@ -106,7 +106,7 @@ static struct {
 	{ N_("John Gotts"),			GNM_PACKAGING,
 		N_("RPM packaging") },
 	{ N_("Andreas J. G\xc3\xbclzow"),	GNM_CORE|GNM_FEATURE_HACKER|GNM_ANALYTICS|GNM_IMPORT_EXPORT|GNM_GUI|GNM_USABILITY|GNM_DOCUMENTATION|GNM_TRANSLATION|GNM_QA,
-		N_("Statistics and GUI master") },
+		N_("Statistics and GUI guru") },
 	{ N_("Jon K\xc3\xa5re Hellan"),	GNM_CORE|GNM_FEATURE_HACKER|GNM_ANALYTICS|GNM_IMPORT_EXPORT|GNM_SCRIPTING|GNM_GUI|GNM_USABILITY|GNM_DOCUMENTATION|GNM_TRANSLATION|GNM_QA,
 		N_("UI polish and all round bug fixer") },
 	{ N_("Miguel de Icaza"), GNM_CORE, NULL },
