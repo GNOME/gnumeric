@@ -662,6 +662,9 @@ merge (Workbook *wb, char const *inputs[],
 	}
 
 	g_slist_free_full (wbs, g_object_unref);
+
+	workbook_share_expressions (wb, TRUE);
+
 	return result;
 }
 

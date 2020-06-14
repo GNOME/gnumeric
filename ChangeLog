@@ -1,3 +1,8 @@
+2020-06-14  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (merge): Trigger expression sharing for merged
+	workbook.
+
 2020-06-12  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_cell): Relax sanity check a bit.
