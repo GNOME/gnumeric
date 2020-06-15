@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2020-05-12 17:35+0000\n"
-"PO-Revision-Date: 2020-05-19 10:50+0300\n"
+"POT-Creation-Date: 2020-06-14 18:38+0000\n"
+"PO-Revision-Date: 2020-06-15 09:46+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -109,7 +109,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7219
-#: ../plugins/openoffice/openoffice-read.c:14084 ../src/xml-sax-read.c:3516
+#: ../plugins/openoffice/openoffice-read.c:14084 ../src/xml-sax-read.c:3523
 msgid "Reading file..."
 msgstr "Зчитування файлу…"
 
@@ -213,7 +213,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Некоректний вміст елемента ss:data — отримано «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:1217
-#: ../plugins/openoffice/openoffice-read.c:14248 ../src/xml-sax-read.c:3533
+#: ../plugins/openoffice/openoffice-read.c:14248 ../src/xml-sax-read.c:3540
 msgid "XML document not well formed!"
 msgstr "Документ XML сформовано неправильно!"
 
@@ -461,11 +461,11 @@ msgstr "Некоректний номер «%s» для вузла %s"
 msgid "Unknown color '%s'"
 msgstr "Невідомий колір «%s»"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3261
+#: ../plugins/excel/xlsx-read-drawing.c:3264
 msgid "Dropping missing object"
 msgstr "Відкидаємо пропущений об'єкт"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3264
+#: ../plugins/excel/xlsx-read-drawing.c:3267
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Відкидаємо об'єкт із неповною прив'язкою %2x"
@@ -936,7 +936,7 @@ msgstr "%s версії %s"
 
 #: ../plugins/fn-info/functions.c:1415 ../src/dialogs/dialog-cell-format.c:880
 #: ../src/dialogs/dialog-cell-format.c:2354
-#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3802
+#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3809
 msgid "Automatic"
 msgstr "Автоматично"
 
@@ -1775,8 +1775,8 @@ msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
 msgstr ""
-"У Gnumeric не передбачено неавтоматичних рівнянь регресії. Використовуємо"
-" автоматичне рівняння замість вказаного."
+"У Gnumeric не передбачено неавтоматичних рівнянь регресії. Використовуємо "
+"автоматичне рівняння замість вказаного."
 
 #: ../plugins/openoffice/openoffice-read.c:9868
 #, c-format
@@ -2330,7 +2330,8 @@ msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
 msgstr ""
-"Не вдалося знайти потік даних PerfectOffice_MAIN. Це справді файл Quattro Pro?"
+"Не вдалося знайти потік даних PerfectOffice_MAIN. Це справді файл Quattro "
+"Pro?"
 
 #: ../plugins/sample_datasource/plugin.xml.in.h:1
 msgid "Sample DataSource"
@@ -2366,8 +2367,8 @@ msgstr "Загальна помилка імпортування SC"
 msgid ""
 "The cell in row %i and column %i is beyond Gnumeric's maximum sheet size."
 msgstr ""
-"Комірка у рядку %i і стовпчику %i поза максимальними розмірами аркуша"
-" Gnumeric."
+"Комірка у рядку %i і стовпчику %i поза максимальними розмірами аркуша "
+"Gnumeric."
 
 #: ../plugins/sc/sc.c:386
 msgid "The sheet is wider than Gnumeric can handle."
@@ -2470,8 +2471,8 @@ msgid ""
 "The function selector keeps a list of recently used functions. This is that "
 "list."
 msgstr ""
-"Засіб вибору функцій зберігає список нещодавно використаних функцій. Це цей"
-" список."
+"Засіб вибору функцій зберігає список нещодавно використаних функцій. Це цей "
+"список."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:3
 #: ../src/dialogs/dialog-preferences.c:1084
@@ -2483,8 +2484,8 @@ msgid ""
 "The function selector keeps a list of recently used functions. This is the "
 "maximum length of that list."
 msgstr ""
-"Засіб вибору функцій зберігає список нещодавно використаних функцій. Це"
-" максимальна довжина цього списку."
+"Засіб вибору функцій зберігає список нещодавно використаних функцій. Це "
+"максимальна довжина цього списку."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:5
 msgid "Autocorrect initial caps"
@@ -2503,8 +2504,8 @@ msgid ""
 "The autocorrect engine does not correct the initial caps for words in this "
 "list."
 msgstr ""
-"Рушій автоматичного виправлення не виправлятиме початкові великі літери у"
-" словах з цього списку."
+"Рушій автоматичного виправлення не виправлятиме початкові великі літери у "
+"словах з цього списку."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:9
 msgid "Autocorrect first letter"
@@ -2523,8 +2524,8 @@ msgid ""
 "The autocorrect engine does not capitalize the first letter of words "
 "following strings in this list."
 msgstr ""
-"Рушій автоматичного виправлення не робитиме початкові літери великими у"
-" словах з наведеного нижче списку."
+"Рушій автоматичного виправлення не робитиме початкові літери великими у "
+"словах з наведеного нижче списку."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:13
 msgid "Autocorrect names of days"
@@ -2591,8 +2592,8 @@ msgstr "Список додаткових каталогів автоматич�
 msgid ""
 "This list contains all extra directories containing autoformat templates."
 msgstr ""
-"У цьому списку містяться додаткові каталоги, у яких містяться шаблони"
-" автоматичного форматування."
+"У цьому списку містяться додаткові каталоги, у яких містяться шаблони "
+"автоматичного форматування."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:28
 msgid "System Directory for Autoformats"
@@ -2610,8 +2611,8 @@ msgstr "Каталог користувача для автоформатів"
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:31
 msgid "The main directory for user specific autoformat templates."
 msgstr ""
-"Головний каталог для шаблонів автоматичного форматування, які визначено"
-" користувачем."
+"Головний каталог для шаблонів автоматичного форматування, які визначено "
+"користувачем."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:32
 msgid "Apply print-setup to all sheets"
@@ -2622,8 +2623,8 @@ msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
-"Це значення визначає, чи буде автоматично застосовано параметри діалогового"
-" вікна налаштовування друку до усіх аркушів одночасно."
+"Це значення визначає, чи буде автоматично застосовано параметри діалогового "
+"вікна налаштовування друку до усіх аркушів одночасно."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:34
 msgid "GTKPrintSetting"
@@ -2642,8 +2643,8 @@ msgid ""
 "The default page header for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
-"Типовий верхній колонтитул сторінки для нових документів. Цей заголовок можна"
-" змінювати за допомогою діалогового вікна налаштовування друку."
+"Типовий верхній колонтитул сторінки для нових документів. Цей заголовок "
+"можна змінювати за допомогою діалогового вікна налаштовування друку."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:38
 msgid "Page Footer"
@@ -2654,8 +2655,8 @@ msgid ""
 "The default page footer for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
-"Типовий нижній колонтитул сторінки для нових документів. Цей заголовок можна"
-" змінювати за допомогою діалогового вікна налаштовування друку."
+"Типовий нижній колонтитул сторінки для нових документів. Цей заголовок можна "
+"змінювати за допомогою діалогового вікна налаштовування друку."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:40
 msgid "Default Header/Footer Font Size"
@@ -2682,9 +2683,8 @@ msgid ""
 "This value determines whether the default font for headers and footers is "
 "bold."
 msgstr ""
-"Це значення визначає, чи буде типовий шрифт для верхніх і нижніх колонтитулів"
-" є "
-"напівжирним."
+"Це значення визначає, чи буде типовий шрифт для верхніх і нижніх "
+"колонтитулів є напівжирним."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:46
 msgid "The default header/footer font is italic."
@@ -2695,9 +2695,8 @@ msgid ""
 "This value determines whether the default font for headers and footers is "
 "italic."
 msgstr ""
-"Це значення визначає, чи буде типовий шрифт для верхніх і нижніх колонтитулів"
-" є "
-"курсивним."
+"Це значення визначає, чи буде типовий шрифт для верхніх і нижніх "
+"колонтитулів є курсивним."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:48
 msgid "Default Horizontal Centering"
@@ -2708,8 +2707,8 @@ msgid ""
 "This value determines whether the default setting in the Print Setup dialog "
 "is to center pages horizontally."
 msgstr ""
-"Це значення визначає, чи буде типово сторінки у діалоговому вікні"
-" налаштовування друку центровано горизонтально."
+"Це значення визначає, чи буде типово сторінки у діалоговому вікні "
+"налаштовування друку центровано горизонтально."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:50
 msgid "Default Vertical Centering"
@@ -2720,8 +2719,8 @@ msgid ""
 "This value determines whether the default setting in the Print Setup dialog "
 "is to center pages vertically."
 msgstr ""
-"Це значення визначає, чи буде типово сторінки у діалоговому вікні"
-" налаштовування друку центровано вертикально."
+"Це значення визначає, чи буде типово сторінки у діалоговому вікні "
+"налаштовування друку центровано вертикально."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:52
 msgid "Default Grid Line Printing"
@@ -2937,8 +2936,8 @@ msgstr "Формат верхнього/нижнього колонтитула 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:93
 msgid "Please use the Print Setup dialog to edit this value."
 msgstr ""
-"Будь ласка, скористайтеся для редагування цього значення діалоговим вікном"
-" налаштовування друку."
+"Будь ласка, скористайтеся для редагування цього значення діалоговим вікном "
+"налаштовування друку."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:94
 msgid "Header/Footer Format (Middle Portion)"
@@ -3048,7 +3047,7 @@ msgstr "Пошук і заміна змінює рядки"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:118
 msgid "Search &amp; Replace changes cells containing strings as default"
-msgstr "Типово, пошук і заміна змінює комірки, що містить рядки"
+msgstr "Типово, пошук і заміна змінює комірки, що містять рядки"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:119
 msgid "Search &amp; Replace Changes Expressions"
@@ -3056,7 +3055,7 @@ msgstr "Пошук і заміна змінює вирази"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:120
 msgid "Search &amp; Replace changes cells containing expressions as default"
-msgstr ""
+msgstr "Типово, пошук і заміна змінює комірки, що містять вирази"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:121
 msgid "Search &amp; Replace Changes Other Values"
@@ -3064,7 +3063,7 @@ msgstr "Пошук із заміною змінюють інші значенн�
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:122
 msgid "Search &amp; Replace changes cells containing other values as default"
-msgstr ""
+msgstr "Типово, пошук і заміна змінює комірки, що містять інші значення"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:123
 msgid "Search &amp; Replace Changes Comments"
@@ -3127,6 +3126,8 @@ msgstr "Стиль панелі інструментів"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:2
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text."
 msgstr ""
+"Стиль панелі інструментів. Коректними значеннями є both, both_horiz, icon та"
+" text."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:3
 #: ../src/dialogs/dialog-preferences.c:778
@@ -3278,8 +3279,8 @@ msgid ""
 "This variable determines whether the standard toolbar should be visible "
 "initially."
 msgstr ""
-"Це змінна визначає, чи має бути показано стандартну панель інструментів"
-" одразу після запуску."
+"Це змінна визначає, чи має бути показано стандартну панель інструментів "
+"одразу після запуску."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:33
 msgid "Standard toolbar position"
@@ -3320,6 +3321,8 @@ msgid ""
 "This variable determines whether the object toolbar should be visible "
 "initially."
 msgstr ""
+"Це змінна визначає, чи має бути показано панель інструментів об'єктів одразу"
+" після запуску."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:41
 msgid "Object toolbar position"
@@ -3348,7 +3351,7 @@ msgstr "Позначки розширень"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:46
 msgid ""
 "This variable determines whether cells with truncated content are marked."
-msgstr ""
+msgstr "Ця змінна визначає, чи буде позначено комірки із обрізаним вмістом."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:47
 #: ../src/dialogs/dialog-preferences.c:1059
@@ -3527,7 +3530,7 @@ msgid ""
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:79
-#: ../src/dialogs/dialog-preferences.c:818 ../src/wbc-gtk-actions.c:3306
+#: ../src/dialogs/dialog-preferences.c:818 ../src/wbc-gtk-actions.c:3313
 msgid "Sort Ascending"
 msgstr "Зростаюче сортування"
 
@@ -3536,6 +3539,8 @@ msgid ""
 "This option determines the initial state of the sort-order button in the "
 "sort dialog."
 msgstr ""
+"Цей параметр визначає початковий стан кнопки сортування-упорядковування у"
+" діалоговому вікні упорядковування."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:81
 #: ../src/dialogs/dialog-preferences.c:803
@@ -3581,6 +3586,8 @@ msgid ""
 "This is the full path to the lp_solve binary that the lpsolve plugin should "
 "use."
 msgstr ""
+"Цей повний шлях до виконуваного файла lp_solve, яким має користуватися"
+" додаток lpsolve."
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:5
 msgid "Full path of glpsol program to use"
@@ -3591,6 +3598,8 @@ msgid ""
 "This is the full path to the glpsol binary that the lpsolve plugin should "
 "use."
 msgstr ""
+"Цей повний шлях до виконуваного файла glpsol, яким має користуватися додаток"
+" lpsolve."
 
 #: ../src/application.c:303
 msgid "Cut Object"
@@ -3748,21 +3757,17 @@ msgid_plural ""
 "Inserting %i columns before column %s would push data off the sheet. Please "
 "enlarge the sheet first."
 msgstr[0] ""
-"Вставлення %i стовпчика перед стовпчиком %s призведе до виходу даних за межі"
-" аркуша. Будь ласка, "
-"спочатку збільште аркуш."
+"Вставлення %i стовпчика перед стовпчиком %s призведе до виходу даних за межі "
+"аркуша. Будь ласка, спочатку збільште аркуш."
 msgstr[1] ""
-"Вставлення %i стовпчиків перед стовпчиком %s призведе до виходу даних за межі"
-" аркуша. Будь ласка, "
-"спочатку збільште аркуш."
+"Вставлення %i стовпчиків перед стовпчиком %s призведе до виходу даних за "
+"межі аркуша. Будь ласка, спочатку збільште аркуш."
 msgstr[2] ""
-"Вставлення %i стовпчиків перед стовпчиком %s призведе до виходу даних за межі"
-" аркуша. Будь ласка, "
-"спочатку збільште аркуш."
+"Вставлення %i стовпчиків перед стовпчиком %s призведе до виходу даних за "
+"межі аркуша. Будь ласка, спочатку збільште аркуш."
 msgstr[3] ""
-"Вставлення %i стовпчика перед стовпчиком %s призведе до виходу даних за межі"
-" аркуша. Будь ласка, "
-"спочатку збільште аркуш."
+"Вставлення %i стовпчика перед стовпчиком %s призведе до виходу даних за межі "
+"аркуша. Будь ласка, спочатку збільште аркуш."
 
 #: ../src/commands.c:1473
 #, c-format
@@ -3782,21 +3787,17 @@ msgid_plural ""
 "Inserting %i rows before row %s would push data off the sheet. Please "
 "enlarge the sheet first."
 msgstr[0] ""
-"Вставлення %i рядка перед рядком %s призведе до виходу даних за межі аркуша."
-" Будь ласка, "
-"спочатку збільште аркуш."
+"Вставлення %i рядка перед рядком %s призведе до виходу даних за межі аркуша. "
+"Будь ласка, спочатку збільште аркуш."
 msgstr[1] ""
-"Вставлення %i рядків перед рядком %s призведе до виходу даних за межі аркуша."
-" Будь ласка, "
-"спочатку збільште аркуш."
+"Вставлення %i рядків перед рядком %s призведе до виходу даних за межі "
+"аркуша. Будь ласка, спочатку збільште аркуш."
 msgstr[2] ""
-"Вставлення %i рядків перед рядком %s призведе до виходу даних за межі аркуша."
-" Будь ласка, "
-"спочатку збільште аркуш."
+"Вставлення %i рядків перед рядком %s призведе до виходу даних за межі "
+"аркуша. Будь ласка, спочатку збільште аркуш."
 msgstr[3] ""
-"Вставлення %i рядка перед рядком %s призведе до виходу даних за межі аркуша."
-" Будь ласка, "
-"спочатку збільште аркуш."
+"Вставлення %i рядка перед рядком %s призведе до виходу даних за межі аркуша. "
+"Будь ласка, спочатку збільште аркуш."
 
 #: ../src/commands.c:1502
 #, c-format
@@ -3827,7 +3828,7 @@ msgstr "Стирання рядків %s"
 msgid "Deleting row %s"
 msgstr "Стирання рядка %s"
 
-#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5057
+#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5091
 msgid "Clear"
 msgstr "Очистити"
 
@@ -4067,6 +4068,9 @@ msgid ""
 "It is possible that some dates could be copied\n"
 "incorrectly."
 msgstr ""
+"Копіювання між файлами із різними параметрами запису дат.\n"
+"Можливе неправильне копіювання деяких\n"
+"дат."
 
 #: ../src/commands.c:2909
 msgid "Paste Copy"
@@ -4319,7 +4323,7 @@ msgstr "Налаштувати кнопку-варіант"
 msgid "Configure Checkbox"
 msgstr "Налаштувати поле для позначки"
 
-#: ../src/commands.c:7757 ../src/sheet-object-widget.c:1778
+#: ../src/commands.c:7757 ../src/sheet-object-widget.c:1774
 msgid "Configure Adjustment"
 msgstr "Налаштувати коригування"
 
@@ -4344,43 +4348,43 @@ msgstr "Потребує понад 1 рядка"
 msgid "Unable to create Autofilter"
 msgstr "Не вдалося створити автофільтр"
 
-#: ../src/commands.c:7869
+#: ../src/commands.c:7868
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr "Додати автофільтр до %s"
 
-#: ../src/commands.c:7870
+#: ../src/commands.c:7869
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Розширити автофільтр до %s"
 
-#: ../src/commands.c:7883
+#: ../src/commands.c:7882
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Вилучити автофільтр з %s"
 
-#: ../src/commands.c:7913
+#: ../src/commands.c:7912
 #, c-format
 msgid "Change filter condition for %s"
 msgstr "Змінити умову фільтрування для %s"
 
-#: ../src/commands.c:7982 ../src/wbc-gtk-actions.c:2390
+#: ../src/commands.c:7981 ../src/wbc-gtk-actions.c:2397
 msgid "Clear All Page Breaks"
 msgstr "Вилучити усі розриви сторінок"
 
-#: ../src/commands.c:8009 ../src/wbc-gtk.c:1566
+#: ../src/commands.c:8008 ../src/wbc-gtk.c:1566
 msgid "Remove Column Page Break"
 msgstr "Вилучити розрив сторінки за стовпчиками"
 
-#: ../src/commands.c:8009 ../src/wbc-gtk.c:1576
+#: ../src/commands.c:8008 ../src/wbc-gtk.c:1576
 msgid "Remove Row Page Break"
 msgstr "Вилучити розрив сторінки за рядками"
 
-#: ../src/commands.c:8012 ../src/wbc-gtk.c:1569
+#: ../src/commands.c:8011 ../src/wbc-gtk.c:1569
 msgid "Add Column Page Break"
 msgstr "Додати розрив сторінки за стовпчиками"
 
-#: ../src/commands.c:8012 ../src/wbc-gtk.c:1579
+#: ../src/commands.c:8011 ../src/wbc-gtk.c:1579
 msgid "Add Row Page Break"
 msgstr "Додати розрив сторінки за рядками"
 
@@ -4404,8 +4408,8 @@ msgid ""
 "\n"
 "Gnumeric comes with absolutely no warranty."
 msgstr ""
-"Gnumeric випущено за умов дотримання GNU General Public License, версії 2 або"
-" 3.\n"
+"Gnumeric випущено за умов дотримання GNU General Public License, версії 2 "
+"або 3.\n"
 "\n"
 "See https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\n"
 "or https://www.gnu.org/licenses/gpl-3.0.html.\n"
@@ -4577,8 +4581,9 @@ msgid "Andreas J. Gülzow"
 msgstr "Andreas J. Gülzow"
 
 #: ../src/dialogs/dialog-about.c:109
-msgid "Statistics and GUI master"
-msgstr "Статистична обробка та графічний майстер"
+#| msgid "Statistics and GUI master"
+msgid "Statistics and GUI guru"
+msgstr "Статистична обробка та графічний гуру"
 
 #: ../src/dialogs/dialog-about.c:110
 msgid "Jon Kåre Hellan"
@@ -4991,7 +4996,7 @@ msgid "Group %d"
 msgstr "Група %d"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:527
-#: ../src/wbc-gtk-actions.c:1028
+#: ../src/wbc-gtk-actions.c:1035
 msgid "Group"
 msgstr "Згрупувати"
 
@@ -5064,8 +5069,8 @@ msgstr "Діапазон вхідних даних для змінної 2 є н
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:186
 msgid "Could not create the Wilcoxon-Mann-Whitney Analysis Tool dialog."
 msgstr ""
-"Не вдалося створити діалогове вікно інструмента аналізу"
-" Вілкоксона-Манна-Вітні."
+"Не вдалося створити діалогове вікно інструмента аналізу Вілкоксона-Манна-"
+"Вітні."
 
 #: ../src/dialogs/dialog-analysis-tools.c:654
 #: ../src/dialogs/dialog-analysis-tools.c:774
@@ -5133,7 +5138,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:1805
 msgid "Could not create the FTest Tool dialog."
-msgstr ""
+msgstr "Не вдалося створити вікно інструмента перевірки Фішера."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1868
 msgid "The requested number of samples is invalid."
@@ -5549,7 +5554,7 @@ msgid "Double Low"
 msgstr "Подвійне низьке"
 
 #: ../src/dialogs/dialog-cell-format.c:469 ../src/dialogs/dialog-search.c:389
-#: ../src/func.c:1097 ../src/wbc-gtk-actions.c:3418
+#: ../src/func.c:1097 ../src/wbc-gtk-actions.c:3425
 msgid "Number"
 msgstr "Число"
 
@@ -5605,13 +5610,13 @@ msgstr "Формат комірок"
 msgid "Border"
 msgstr "Тло"
 
-#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3848
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3855
 msgid "Clear Background"
 msgstr "Очистити тло"
 
 #: ../src/dialogs/dialog-cell-format.c:2358
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:90
-#: ../src/wbc-gtk-actions.c:3850 ../src/wbc-gtk-actions.c:3851
+#: ../src/wbc-gtk-actions.c:3857 ../src/wbc-gtk-actions.c:3858
 msgid "Background"
 msgstr "Тло"
 
@@ -6388,7 +6393,6 @@ msgid "Select Directory"
 msgstr "Виберіть каталог"
 
 #: ../src/dialogs/dialog-plugin-manager.c:273 ../src/gui-file.c:784
-#| msgid "C_ancel"
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -6418,8 +6422,8 @@ msgid ""
 "one:\n"
 "\n"
 msgstr ""
-"Наведені нижче додаткові додатки має бути активовано з метою активації цього"
-" додатка:\n"
+"Наведені нижче додаткові додатки має бути активовано з метою активації цього "
+"додатка:\n"
 "\n"
 
 #: ../src/dialogs/dialog-plugin-manager.c:590
@@ -6480,7 +6484,6 @@ msgid "Default Number of Columns in a Sheet"
 msgstr "Типова кількість стовпчиків на аркуші"
 
 #: ../src/dialogs/dialog-preferences.c:881
-#| msgid "Select all cells in the spreadsheet"
 msgid "By default, mark cells with spreadsheet functions"
 msgstr "Типово, позначати комірки із функціями електронної таблиці"
 
@@ -6630,17 +6633,14 @@ msgid "Time format selection"
 msgstr "Вибір формату часу"
 
 #: ../src/dialogs/dialog-printer-setup.c:2174
-#| msgid "Printing failed"
 msgid "Print as displayed"
 msgstr "Друкувати як на екрані"
 
 #: ../src/dialogs/dialog-printer-setup.c:2175
-#| msgid "Print setup"
 msgid "Print as spaces"
 msgstr "Друкувати як пробіли"
 
 #: ../src/dialogs/dialog-printer-setup.c:2176
-#| msgid "Print Sheets"
 msgid "Print as dashes"
 msgstr "Друкувати як риски"
 
@@ -6654,7 +6654,6 @@ msgid "Do not print"
 msgstr "Не друкувати"
 
 #: ../src/dialogs/dialog-printer-setup.c:2211
-#| msgid "Printing failed"
 msgid "Print in place"
 msgstr "Друкувати на місці"
 
@@ -7001,8 +7000,8 @@ msgstr "Встановити стандартну або типову висот
 msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
-"Встановити висоту рядка позначеного фрагмента до <span style='italic'"
-" weight='bold'>%s</span>"
+"Встановити висоту рядка позначеного фрагмента до <span style='italic' "
+"weight='bold'>%s</span>"
 
 #: ../src/dialogs/dialog-scenarios.c:192 ../src/dialogs/dialog-scenarios.c:228
 msgid "Scenario Summary"
@@ -7085,22 +7084,18 @@ msgid "Background color"
 msgstr "Колір тла"
 
 #: ../src/dialogs/dialog-sheet-compare.c:195
-#| msgid "Pattern"
 msgid "Pattern color"
 msgstr "Колір взірця"
 
 #: ../src/dialogs/dialog-sheet-compare.c:197
-#| msgid "Remove borders"
 msgid "Top border"
 msgstr "Верхня рамка"
 
 #: ../src/dialogs/dialog-sheet-compare.c:198
-#| msgid "Bottom"
 msgid "Bottom border"
 msgstr "Нижня рамка"
 
 #: ../src/dialogs/dialog-sheet-compare.c:199
-#| msgid "Set Borders"
 msgid "Left border"
 msgstr "Ліва рамка"
 
@@ -7121,22 +7116,22 @@ msgid "Font color"
 msgstr "Колір шрифту"
 
 #. ALSO "<control>2"
-#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3633
+#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3640
 #: ../src/widgets/gnm-text-view.c:329
 msgid "Bold"
 msgstr "Товстий"
 
 #. ALSO "<control>3"
-#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3641
+#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3648
 msgid "Italic"
 msgstr "Курсивний"
 
 #. ALSO "<control>4"
-#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3649
+#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3656
 msgid "Underline"
 msgstr "Підкреслення"
 
-#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3678
+#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3685
 msgid "Strikethrough"
 msgstr "Перекреслення"
 
@@ -7170,7 +7165,7 @@ msgstr "Відступ"
 msgid "Rotation"
 msgstr "Обертання"
 
-#: ../src/dialogs/dialog-sheet-compare.c:220 ../src/wbc-gtk-actions.c:2780
+#: ../src/dialogs/dialog-sheet-compare.c:220 ../src/wbc-gtk-actions.c:2787
 msgid "Direction"
 msgstr "Напрямок"
 
@@ -7216,7 +7211,6 @@ msgid "Formatting"
 msgstr "Форматування"
 
 #: ../src/dialogs/dialog-sheet-compare.c:257
-#| msgid "Columns"
 msgid "Columns/Rows"
 msgstr "Стовпчики/Рядки"
 
@@ -7244,18 +7238,18 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: ../src/dialogs/dialog-sheet-compare.c:377 ../src/wbc-gtk-actions.c:3412
+#: ../src/dialogs/dialog-sheet-compare.c:377 ../src/wbc-gtk-actions.c:3419
 msgid "General"
 msgstr "Загальний"
 
 #. start sub menu
 #: ../src/dialogs/dialog-sheet-compare.c:378 ../src/dialogs/cell-format.ui.h:42
-#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3863
+#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3870
 msgid "Left"
 msgstr "Ліворуч"
 
 #: ../src/dialogs/dialog-sheet-compare.c:379 ../src/dialogs/cell-format.ui.h:43
-#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3865
+#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3872
 msgid "Right"
 msgstr "Праворуч"
 
@@ -7265,12 +7259,11 @@ msgid "Center"
 msgstr "За центром"
 
 #: ../src/dialogs/dialog-sheet-compare.c:381
-#| msgid "_Fill"
 msgid "Fill"
 msgstr "Заповнення"
 
 #: ../src/dialogs/dialog-sheet-compare.c:382
-#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3717
+#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3724
 msgid "Justify"
 msgstr "За шириною"
 
@@ -7279,7 +7272,7 @@ msgid "Center across selection"
 msgstr "Центрувати за позначеним"
 
 #: ../src/dialogs/dialog-sheet-compare.c:384
-#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3706
+#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3713
 msgid "Distributed"
 msgstr "Розподілено"
 
@@ -7290,7 +7283,7 @@ msgstr "Вгору"
 
 #: ../src/dialogs/dialog-sheet-compare.c:394
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:44
-#: ../src/wbc-gtk-actions.c:3871
+#: ../src/wbc-gtk-actions.c:3878
 msgid "Bottom"
 msgstr "Вниз"
 
@@ -7725,7 +7718,7 @@ msgstr ""
 "Кодування %s є некоректним для цих даних. Будь ласка, виберіть інше "
 "кодування."
 
-#: ../src/dialogs/dialog-stf-main-page.c:374 ../src/wbc-gtk-actions.c:3362
+#: ../src/dialogs/dialog-stf-main-page.c:374 ../src/wbc-gtk-actions.c:3369
 msgid "Line"
 msgstr "Лінія"
 
@@ -8051,7 +8044,7 @@ msgstr "Кількість або частка:"
 msgid "Items"
 msgstr "Записи"
 
-#: ../src/dialogs/autofilter-top10.ui.h:6 ../src/wbc-gtk-actions.c:3437
+#: ../src/dialogs/autofilter-top10.ui.h:6 ../src/wbc-gtk-actions.c:3444
 msgid "Percentage"
 msgstr "Частка"
 
@@ -8229,14 +8222,14 @@ msgid "In a list"
 msgstr "У списку"
 
 #: ../src/dialogs/cell-format.ui.h:5 ../src/dialogs/hf-config.ui.h:8
-#: ../src/wbc-gtk-actions.c:3449
+#: ../src/wbc-gtk-actions.c:3456
 msgid "Date"
 msgstr "Дата"
 
 #: ../src/dialogs/cell-format.ui.h:6 ../src/dialogs/hf-config.ui.h:10
 #: ../src/tools/analysis-exp-smoothing.c:735
 #: ../src/tools/analysis-exp-smoothing.c:1058
-#: ../src/tools/analysis-kaplan-meier.c:121 ../src/wbc-gtk-actions.c:3455
+#: ../src/tools/analysis-kaplan-meier.c:121 ../src/wbc-gtk-actions.c:3462
 msgid "Time"
 msgstr "Час"
 
@@ -8630,7 +8623,7 @@ msgstr "Пересунути позначене поле вище в упоря�
 
 #: ../src/dialogs/cell-sort.ui.h:16
 msgid "Move the selected field down in the sort order"
-msgstr ""
+msgstr "Пересунути позначене поле нижче в упорядкуванні"
 
 #: ../src/dialogs/cell-sort.ui.h:17
 msgid "Clear all fields from the sort specification"
@@ -8789,7 +8782,7 @@ msgid "Correlation"
 msgstr "Кореляція"
 
 #: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:754
-#: ../src/tools/analysis-tools.c:757 ../src/wbc-gtk-actions.c:2946
+#: ../src/tools/analysis-tools.c:757 ../src/wbc-gtk-actions.c:2953
 msgid "Covariance"
 msgstr "Коваріація"
 
@@ -9365,8 +9358,8 @@ msgstr "Обрізка:"
 msgid "Source Locale:"
 msgstr "Локаль джерела:"
 
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4128
-#: ../src/wbc-gtk-actions.c:4147
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4135
+#: ../src/wbc-gtk-actions.c:4154
 msgid "Zoom"
 msgstr "Масштабування"
 
@@ -9669,12 +9662,12 @@ msgstr "Заповнення послідовністю"
 msgid "Series in:"
 msgstr ""
 
-#: ../src/dialogs/fill-series.ui.h:3 ../src/wbc-gtk-actions.c:2135
-#: ../src/wbc-gtk-actions.c:2498
+#: ../src/dialogs/fill-series.ui.h:3 ../src/wbc-gtk-actions.c:2142
+#: ../src/wbc-gtk-actions.c:2505
 msgid "_Row"
 msgstr "Рядок"
 
-#: ../src/dialogs/fill-series.ui.h:4 ../src/wbc-gtk-actions.c:2492
+#: ../src/dialogs/fill-series.ui.h:4 ../src/wbc-gtk-actions.c:2499
 msgid "_Column"
 msgstr "С_товпчик"
 
@@ -9742,7 +9735,7 @@ msgstr "Ввести як функцію масиву"
 msgid "Quote unknown names"
 msgstr "Брати у лапки невідомі назви"
 
-#: ../src/dialogs/fourier-analysis.ui.h:1 ../src/wbc-gtk-actions.c:2977
+#: ../src/dialogs/fourier-analysis.ui.h:1 ../src/wbc-gtk-actions.c:2984
 msgid "Fourier Analysis"
 msgstr "Аналіз Фур'є"
 
@@ -10188,11 +10181,11 @@ msgstr "Дисперсія вибірки змінної _2:"
 
 #: ../src/dialogs/mean-tests.ui.h:11
 msgid "_Paired"
-msgstr ""
+msgstr "_Парні"
 
 #: ../src/dialogs/mean-tests.ui.h:12
 msgid "_Unpaired"
-msgstr ""
+msgstr "_Непарні"
 
 #: ../src/dialogs/mean-tests.ui.h:13
 msgid "_Known"
@@ -10329,8 +10322,8 @@ msgstr "Вставити п_осилання"
 msgid "<b>Paste type</b>"
 msgstr "<b>Тип вставлення</b>"
 
-#: ../src/dialogs/paste-special.ui.h:4 ../src/wbc-gtk-actions.c:2398
-#: ../src/wbc-gtk-actions.c:2486
+#: ../src/dialogs/paste-special.ui.h:4 ../src/wbc-gtk-actions.c:2405
+#: ../src/wbc-gtk-actions.c:2493
 msgid "_All"
 msgstr "_Все"
 
@@ -10358,7 +10351,7 @@ msgstr "_Формати"
 msgid "Paste cell formats (number formats, colors, borders, etc.) only"
 msgstr "Вставити лише форматування (форматування чисел, кольори, рамку тощо)"
 
-#: ../src/dialogs/paste-special.ui.h:11 ../src/wbc-gtk-actions.c:2409
+#: ../src/dialogs/paste-special.ui.h:11 ../src/wbc-gtk-actions.c:2416
 msgid "Co_mments"
 msgstr "К_оментарі"
 
@@ -10402,7 +10395,6 @@ msgstr "<b>Дії з областю</b>"
 
 #. Region operation while paste
 #: ../src/dialogs/paste-special.ui.h:23
-#| msgid "None"
 msgctxt "operation"
 msgid "None"
 msgstr "Немає"
@@ -10495,10 +10487,10 @@ msgid ""
 "use the check button below, the plugin won't be activated after restarting "
 "Gnumeric (unless needed by another plugin)."
 msgstr ""
-"Додаток не можна вимкнути зараз, оскільки він використовується. Втім, якщо ви"
-" скористаєтеся пунктом для позначки, розташованим нижче, додаток не буде"
-" активовано після перезапуску Gnumeric (якщо у ньому не буде потреби для"
-" запуску іншого додатка)."
+"Додаток не можна вимкнути зараз, оскільки він використовується. Втім, якщо "
+"ви скористаєтеся пунктом для позначки, розташованим нижче, додаток не буде "
+"активовано після перезапуску Gnumeric (якщо у ньому не буде потреби для "
+"запуску іншого додатка)."
 
 #: ../src/dialogs/plugin-manager.ui.h:8
 msgid "Plugin Details"
@@ -10515,7 +10507,7 @@ msgstr "Налаштування Gnumeric"
 #: ../src/dialogs/principal-components.ui.h:1
 #: ../src/tools/analysis-principal-components.c:225
 #: ../src/tools/analysis-principal-components.c:228
-#: ../src/wbc-gtk-actions.c:2983
+#: ../src/wbc-gtk-actions.c:2990
 msgid "Principal Components Analysis"
 msgstr "Аналіз основних компонентів"
 
@@ -11389,9 +11381,9 @@ msgid ""
 "This name is used by some plugins that provide programmability to address "
 "this object. Most users will not need to set this name. "
 msgstr ""
-"Цю назву буде використано деякими додатками, які надають можливість програмно"
-" керувати цим об'єктом. Для більшості користувачів потреби у визначенні цієї"
-" назви немає."
+"Цю назву буде використано деякими додатками, які надають можливість "
+"програмно керувати цим об'єктом. Для більшості користувачів потреби у "
+"визначенні цієї назви немає."
 
 #: ../src/dialogs/sheetobject-size.ui.h:11
 msgid "Width in points:"
@@ -11414,7 +11406,6 @@ msgid "Compare"
 msgstr "Порівняти"
 
 #: ../src/dialogs/sheet-compare.ui.h:4
-#| msgid "Print Sheets"
 msgid "First Sheet"
 msgstr "Перший аркуш"
 
@@ -11430,8 +11421,8 @@ msgstr "Результати"
 msgid "Manage Sheets"
 msgstr "Керування аркушами"
 
-#: ../src/dialogs/sheet-order.ui.h:2 ../src/wbc-gtk-actions.c:2099
-#: ../src/wbc-gtk-actions.c:2281
+#: ../src/dialogs/sheet-order.ui.h:2 ../src/wbc-gtk-actions.c:2106
+#: ../src/wbc-gtk-actions.c:2288
 msgid "_Insert"
 msgstr "Вставка"
 
@@ -11456,7 +11447,6 @@ msgid "Rename Sheet"
 msgstr "Перейменувати аркуш"
 
 #: ../src/dialogs/sheet-rename.ui.h:2
-#| msgid "Name:"
 msgid "Old Name:"
 msgstr "Стара назва:"
 
@@ -11470,7 +11460,6 @@ msgstr "Змінити розміри аркуша"
 
 #. Number of 'Columns' in sheet
 #: ../src/dialogs/sheet-resize.ui.h:3
-#| msgid "Columns"
 msgctxt "sheetsize"
 msgid "Columns"
 msgstr "Стовпчики"
@@ -11488,8 +11477,8 @@ msgstr "Застосувати зміни до усіх аркушів"
 #: ../src/dialogs/sheet-resize.ui.h:7
 msgid "Check this to apply the new size to all sheets in the workbook"
 msgstr ""
-"Позначте цей пункт, щоб застосувати новий розмір до усіх аркушів у робочій"
-" книзі"
+"Позначте цей пункт, щоб застосувати новий розмір до усіх аркушів у робочій "
+"книзі"
 
 #: ../src/dialogs/shuffle.ui.h:1
 msgid "Data Shuffling"
@@ -11569,7 +11558,7 @@ msgstr "Змінні"
 
 #: ../src/dialogs/simulation.ui.h:5
 msgid "<span weight=\"bold\">Rounds</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Раунди</span>"
 
 #: ../src/dialogs/simulation.ui.h:6
 msgid "<span weight=\"bold\">Limits</span>"
@@ -11577,11 +11566,11 @@ msgstr "<span weight=\"bold\">Обмеження</span>"
 
 #: ../src/dialogs/simulation.ui.h:7
 msgid "First round #:"
-msgstr ""
+msgstr "№ першого раунду:"
 
 #: ../src/dialogs/simulation.ui.h:8
 msgid "Last round #:"
-msgstr ""
+msgstr "№ останнього раунду:"
 
 #: ../src/dialogs/simulation.ui.h:9
 msgid "Iterations:"
@@ -11848,7 +11837,7 @@ msgstr "Час, що минув:"
 msgid "Radiobutton Properties"
 msgstr "Властивості кнопки-перемикача"
 
-#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1930
+#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1926
 msgid "Scrollbar Properties"
 msgstr "Властивості смужки гортання"
 
@@ -11997,8 +11986,8 @@ msgid ""
 "This checkbox determines whether each cell containing a spreadsheet formula "
 "is marked with a green top left corner."
 msgstr ""
-"Цей пункт визначає, чи буде позначено кожну комірку, яка містить формулу"
-" електронної таблиці, зеленим кутиком у верхньому лівому куті."
+"Цей пункт визначає, чи буде позначено кожну комірку, яка містить формулу "
+"електронної таблиці, зеленим кутиком у верхньому лівому куті."
 
 #: ../src/dialogs/workbook-attr.ui.h:12
 msgid "Show _Extension Markers"
@@ -12044,7 +12033,6 @@ msgstr "Помилка під час спроби відкрити шаблон 
 
 #: ../src/format-template.c:739
 #, c-format
-#| msgid "Hide rows"
 msgid "%d row"
 msgid_plural "%d rows"
 msgstr[0] "%d ряд"
@@ -12103,8 +12091,8 @@ msgid ""
 "SUM computes the sum of all the values and cells referenced in the argument "
 "list."
 msgstr ""
-"SUM обчислює суму усіх значень і комірок, на які є посилання у списку"
-" аргументів."
+"SUM обчислює суму усіх значень і комірок, на які є посилання у списку "
+"аргументів."
 
 #: ../src/func-builtin.c:47 ../src/func-builtin.c:104
 msgid "This function is Excel compatible."
@@ -12129,8 +12117,8 @@ msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
 msgstr ""
-"PRODUCT обчислює добуток усіх значень і комірок, на які є посилання у списку"
-" аргументів."
+"PRODUCT обчислює добуток усіх значень і комірок, на які є посилання у списку "
+"аргументів."
 
 #: ../src/func-builtin.c:103
 msgid "If all cells are empty, the result will be 0."
@@ -12336,7 +12324,7 @@ msgstr "Файл не містить масиву «%s»."
 msgid "Filled Object Properties"
 msgstr "Властивості заповненого об'єкта"
 
-#: ../src/gnm-so-line.c:123
+#: ../src/gnm-so-line.c:124
 msgid "Line/Arrow Properties"
 msgstr "Властивості лінії/стрілки"
 
@@ -12368,7 +12356,6 @@ msgid "Simpl_e"
 msgstr "Пр_осто"
 
 #: ../src/gui-file.c:308
-#| msgid "Open a spreadsheet"
 msgid "Open Spreadsheet File"
 msgstr "Відкриття файла електронної таблиці"
 
@@ -12405,12 +12392,10 @@ msgid ""
 msgstr ""
 
 #: ../src/gui-file.c:533
-#| msgid "Save the current workbook"
 msgid "Save the current workbook as"
 msgstr "Зберегти поточну робочу книгу як"
 
 #: ../src/gui-file.c:534
-#| msgid "Save the current workbook"
 msgid "Export the current workbook or sheet to"
 msgstr "Експортувати поточну робочу книгу або аркуш до"
 
@@ -12423,6 +12408,8 @@ msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 msgstr ""
+"Вказаний суфікс назви файла не відповідає вбираному типу фалів. Хочете"
+" скористатися ним попри це?"
 
 #: ../src/gui-file.c:769
 msgid "%F %T"
@@ -12469,7 +12456,6 @@ msgid "Multiple errors\n"
 msgstr "Множинні помилки\n"
 
 #: ../src/gui-util.c:1069
-#| msgid "Description"
 msgid "Question"
 msgstr "Питання"
 
@@ -12488,25 +12474,21 @@ msgid "The %s plugin is required but is not loaded."
 msgstr "Потрібен додаток %s, але його не завантажено."
 
 #: ../src/gui-util.h:150
-#| msgid "_Open..."
 msgctxt "Stock label"
 msgid "_Open"
 msgstr "_Відкрити"
 
 #: ../src/gui-util.h:153
-#| msgid "_Save"
 msgctxt "Stock label"
 msgid "_Save"
 msgstr "З_берегти"
 
 #: ../src/gui-util.h:156
-#| msgid "Save _As..."
 msgctxt "Stock label"
 msgid "Save _As"
 msgstr "Зберегти _як"
 
 #: ../src/gui-util.h:159
-#| msgid "C_ancel"
 msgctxt "Stock label"
 msgid "_Cancel"
 msgstr "_Скасувати"
@@ -12518,7 +12500,6 @@ msgstr "_Гаразд"
 
 #: ../src/gutils.c:972
 #, c-format
-#| msgid "Unknown sheet '%s'"
 msgid "Unknown sheet \"%s\""
 msgstr "Невідомий аркуш «%s»"
 
@@ -12546,7 +12527,6 @@ msgid "Width:"
 msgstr "Ширина:"
 
 #: ../src/item-bar.c:858
-#| msgid "Height"
 msgid "Height:"
 msgstr "Висота:"
 
@@ -12582,8 +12562,8 @@ msgid "_Move"
 msgstr "Перемістити"
 
 #: ../src/item-cursor.c:822 ../src/sheet-control-gui.c:2247
-#: ../src/sheet-object.c:264 ../src/sheet-object.c:283
-#: ../src/wbc-gtk-actions.c:2081
+#: ../src/sheet-object.c:271 ../src/sheet-object.c:290
+#: ../src/wbc-gtk-actions.c:2088
 msgid "_Copy"
 msgstr "Скопіювати"
 
@@ -12682,7 +12662,7 @@ msgstr "Негайно вийти після завантаження позна
 msgid "[FILE ...]"
 msgstr "[ФАЙЛ ...]"
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1417 ../src/ssdiff.c:936
+#: ../src/main-application.c:127 ../src/ssconvert.c:1453 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
 #, c-format
 msgid ""
@@ -12855,11 +12835,10 @@ msgid ""
 "You have chosen more than 1000 pages to preview. This may take a long time. "
 "Do you really want to proceed?"
 msgstr ""
-"Вами вибрано попередній перегляд понад 1000 сторінок. Створення попереднього"
-" перегляду може бути дуже тривалим. Ви справді цього хочете?"
+"Вами вибрано попередній перегляд понад 1000 сторінок. Створення попереднього "
+"перегляду може бути дуже тривалим. Ви справді цього хочете?"
 
 #: ../src/print.c:1330
-#| msgid "Print preview"
 msgid "Preparing to preview"
 msgstr "Готуємо до перегляду"
 
@@ -12874,7 +12853,6 @@ msgstr "Створюємо попередній перегляд сторінк�
 
 #: ../src/print.c:1422
 #, c-format
-#| msgid "Printing failed"
 msgid "Printing page %3d"
 msgstr "Друкуємо сторінку %3d"
 
@@ -12957,7 +12935,7 @@ msgstr "Потрібно вказати діапазон пошуку."
 msgid "The search range is invalid."
 msgstr "Діапазон пошуку неправильний."
 
-#: ../src/selection.c:418 ../src/wbc-gtk-actions.c:1242
+#: ../src/selection.c:418 ../src/wbc-gtk-actions.c:1249
 #, c-format
 msgid "%s does not support multiple ranges"
 msgstr "У %s не передбачено підтримки декількох діапазонів"
@@ -12984,12 +12962,12 @@ msgstr[1] "Вилучити %d посилання"
 msgstr[2] "Вилучити %d посилань"
 msgstr[3] "Вилучити %d посилання"
 
-#: ../src/sheet-control-gui.c:2245 ../src/sheet-object.c:282
-#: ../src/wbc-gtk-actions.c:2257
+#: ../src/sheet-control-gui.c:2245 ../src/sheet-object.c:289
+#: ../src/wbc-gtk-actions.c:2264
 msgid "Cu_t"
 msgstr "Вирізати"
 
-#: ../src/sheet-control-gui.c:2249 ../src/wbc-gtk-actions.c:2264
+#: ../src/sheet-control-gui.c:2249 ../src/wbc-gtk-actions.c:2271
 msgid "_Paste"
 msgstr "Вставити"
 
@@ -13082,30 +13060,30 @@ msgstr "_Умовне форматування…"
 msgid "_Unmerge"
 msgstr "_Роз'єднати"
 
-#: ../src/sheet-control-gui.c:2338 ../src/wbc-gtk-actions.c:2805
+#: ../src/sheet-control-gui.c:2338 ../src/wbc-gtk-actions.c:2812
 msgid "Auto Fit _Width"
 msgstr "Авто_ширина"
 
-#: ../src/sheet-control-gui.c:2339 ../src/wbc-gtk-actions.c:2799
+#: ../src/sheet-control-gui.c:2339 ../src/wbc-gtk-actions.c:2806
 msgid "Auto Fit _Height"
 msgstr "Ав_товисота"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2345 ../src/wbc-gtk-actions.c:2814
+#: ../src/sheet-control-gui.c:2345 ../src/wbc-gtk-actions.c:2821
 msgid "_Width..."
 msgstr "_Ширина…"
 
-#: ../src/sheet-control-gui.c:2346 ../src/wbc-gtk-actions.c:2820
+#: ../src/sheet-control-gui.c:2346 ../src/wbc-gtk-actions.c:2827
 msgid "_Auto Fit Width"
 msgstr "_Автоширина"
 
 #: ../src/sheet-control-gui.c:2347 ../src/sheet-control-gui.c:2355
-#: ../src/wbc-gtk-actions.c:2826 ../src/wbc-gtk-actions.c:2860
+#: ../src/wbc-gtk-actions.c:2833 ../src/wbc-gtk-actions.c:2867
 msgid "_Hide"
 msgstr "При_ховати"
 
 #: ../src/sheet-control-gui.c:2348 ../src/sheet-control-gui.c:2356
-#: ../src/wbc-gtk-actions.c:2833 ../src/wbc-gtk-actions.c:2867
+#: ../src/wbc-gtk-actions.c:2840 ../src/wbc-gtk-actions.c:2874
 msgid "_Unhide"
 msgstr "По_казати"
 
@@ -13114,7 +13092,7 @@ msgstr "По_казати"
 msgid "Hei_ght..."
 msgstr "В_исота…"
 
-#: ../src/sheet-control-gui.c:2354 ../src/wbc-gtk-actions.c:2854
+#: ../src/sheet-control-gui.c:2354 ../src/wbc-gtk-actions.c:2861
 msgid "_Auto Fit Height"
 msgstr "_Автовисота"
 
@@ -13265,7 +13243,7 @@ msgstr[3] "Змінити розмір об'єкта"
 msgid "By %s:"
 msgstr "За %s:"
 
-#: ../src/sheet-merge.c:78 ../src/wbc-gtk-actions.c:3400
+#: ../src/sheet-merge.c:78 ../src/wbc-gtk-actions.c:3407
 msgid "Merge"
 msgstr "Об'єднати"
 
@@ -13278,43 +13256,43 @@ msgstr ""
 "Вже існує об'єднана область, яка перетинає\n"
 "%s!%s"
 
-#: ../src/sheet-object.c:157
+#: ../src/sheet-object.c:164
 msgid "Snap object to grid"
 msgstr "Прив'язка об'єкта до сітки"
 
-#: ../src/sheet-object.c:273
+#: ../src/sheet-object.c:280
 msgid "Size _& Position"
 msgstr "Розм_ір і розташування"
 
-#: ../src/sheet-object.c:274
+#: ../src/sheet-object.c:281
 msgid "_Snap to Grid"
 msgstr "Прив'_язувати до сітки"
 
-#: ../src/sheet-object.c:275
+#: ../src/sheet-object.c:282
 msgid "_Order"
 msgstr "П_орядок"
 
-#: ../src/sheet-object.c:276
+#: ../src/sheet-object.c:283
 msgid "Pul_l to Front"
 msgstr "Н_а передній план"
 
-#: ../src/sheet-object.c:277
+#: ../src/sheet-object.c:284
 msgid "Pull _Forward"
 msgstr "Ви_ще"
 
-#: ../src/sheet-object.c:278
+#: ../src/sheet-object.c:285
 msgid "Push _Backward"
 msgstr "Н_ижче"
 
-#: ../src/sheet-object.c:279
+#: ../src/sheet-object.c:286
 msgid "Pus_h to Back"
 msgstr "_На задній план"
 
-#: ../src/sheet-object.c:284 ../src/wbc-gtk-actions.c:2067
+#: ../src/sheet-object.c:291 ../src/wbc-gtk-actions.c:2074
 msgid "_Delete"
 msgstr "С_терти"
 
-#: ../src/sheet-object.c:286 ../src/wbc-gtk-actions.c:2030
+#: ../src/sheet-object.c:293 ../src/wbc-gtk-actions.c:2037
 msgid "Print"
 msgstr "Друкувати"
 
@@ -13335,7 +13313,6 @@ msgstr "З_берегти як зображення"
 
 #: ../src/sheet-object-graph.c:288
 #, c-format
-#| msgid "Unknown error"
 msgid "Unknown image format"
 msgstr "Невідомий формат зображення"
 
@@ -13353,7 +13330,6 @@ msgstr "Послідовності як:"
 
 #. Translators: Series as "Columns"
 #: ../src/sheet-object-graph.c:778
-#| msgid "Columns"
 msgctxt "graph"
 msgid "Columns"
 msgstr "Стовпчики"
@@ -13372,76 +13348,76 @@ msgstr "Перша послідовність — спільна абсциса"
 msgid "New graph sheet"
 msgstr "Новий графічний аркуш"
 
-#: ../src/sheet-object-widget.c:249
+#: ../src/sheet-object-widget.c:245
 msgid "Because of GTK bug #705640, a sheet object widget is not being printed."
 msgstr "Через ваду GTK 705640, віджет об'єкта аркуша не буде надруковано."
 
-#: ../src/sheet-object-widget.c:402 ../src/wbc-gtk-actions.c:3320
+#: ../src/sheet-object-widget.c:398 ../src/wbc-gtk-actions.c:3327
 msgid "Frame"
 msgstr "Кадр"
 
-#: ../src/sheet-object-widget.c:898 ../src/wbc-gtk-actions.c:3386
+#: ../src/sheet-object-widget.c:894 ../src/wbc-gtk-actions.c:3393
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:1
 msgid "Button"
 msgstr "Кнопка"
 
-#: ../src/sheet-object-widget.c:928
+#: ../src/sheet-object-widget.c:924
 msgid "Pressed Button"
 msgstr "Натиснута кнопка"
 
-#: ../src/sheet-object-widget.c:943
+#: ../src/sheet-object-widget.c:939
 msgid "Released Button"
 msgstr "Відпущена кнопка"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1442
+#: ../src/sheet-object-widget.c:1438
 msgid "Change widget"
 msgstr "Змінити віджет"
 
-#: ../src/sheet-object-widget.c:1779
+#: ../src/sheet-object-widget.c:1775
 msgid "Adjustment Properties"
 msgstr "Властивості коригування"
 
-#: ../src/sheet-object-widget.c:1929
+#: ../src/sheet-object-widget.c:1925
 msgid "Configure Scrollbar"
 msgstr "Налаштувати смужку гортання"
 
-#: ../src/sheet-object-widget.c:2035
+#: ../src/sheet-object-widget.c:2031
 msgid "Configure Spinbutton"
 msgstr "Налаштувати кнопку-лічильник"
 
-#: ../src/sheet-object-widget.c:2036
+#: ../src/sheet-object-widget.c:2032
 msgid "Spinbutton Properties"
 msgstr "Властивості кнопки-лічильника"
 
-#: ../src/sheet-object-widget.c:2142
+#: ../src/sheet-object-widget.c:2138
 msgid "Configure Slider"
 msgstr "Налаштувати повзунок"
 
-#: ../src/sheet-object-widget.c:2143
+#: ../src/sheet-object-widget.c:2139
 msgid "Slider Properties"
 msgstr "Властивості повзунка"
 
-#: ../src/sheet-object-widget.c:2345
+#: ../src/sheet-object-widget.c:2341
 #, c-format
 msgid "CheckBox %d"
 msgstr "Графа для відмітки %d"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:2390
+#: ../src/sheet-object-widget.c:2386
 msgid "Clicking checkbox"
 msgstr "Клацання на пункті для позначки"
 
-#: ../src/sheet-object-widget.c:2939 ../src/wbc-gtk-actions.c:3392
+#: ../src/sheet-object-widget.c:2935 ../src/wbc-gtk-actions.c:3399
 msgid "RadioButton"
 msgstr "Перемикач"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:2986
+#: ../src/sheet-object-widget.c:2982
 msgid "Clicking radiobutton"
 msgstr "Клацання на перемикачі"
 
-#: ../src/sheet-object-widget.c:3481
+#: ../src/sheet-object-widget.c:3477
 msgid "Clicking in list"
 msgstr "Клацання у списку"
 
@@ -13478,31 +13454,31 @@ msgstr "Показувати сітку"
 msgid "Control whether the grid is shown."
 msgstr ""
 
-#: ../src/sheet.c:3764
+#: ../src/sheet.c:3798
 msgid "Target region contains merged cells"
 msgstr "Діапазон призначення містить об'єднані комірки"
 
-#: ../src/sheet.c:3830
+#: ../src/sheet.c:3864
 msgid "cannot operate on merged cells"
 msgstr "неможливо оперувати на об'єднаних комірках"
 
-#: ../src/sheet.c:3843
+#: ../src/sheet.c:3877
 msgid "cannot operate on array formulæ"
 msgstr "неможливо оперувати на формулах масиву"
 
-#: ../src/sheet.c:5480
+#: ../src/sheet.c:5514
 msgid "Insert Columns"
 msgstr "Вставити стовпчики"
 
-#: ../src/sheet.c:5498
+#: ../src/sheet.c:5532
 msgid "Delete Columns"
 msgstr "Стерти стовпчики"
 
-#: ../src/sheet.c:5516
+#: ../src/sheet.c:5550
 msgid "Insert Rows"
 msgstr "Вставити рядки"
 
-#: ../src/sheet.c:5534
+#: ../src/sheet.c:5568
 msgid "Delete Rows"
 msgstr "Стерти рядки"
 
@@ -13556,8 +13532,8 @@ msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time"
 msgstr ""
-"Експортувати кожен аркуш до окремого файла, якщо у засобі експортування"
-" передбачено підтримку одночасної обробки лише одного аркуша"
+"Експортувати кожен аркуш до окремого файла, якщо у засобі експортування "
+"передбачено підтримку одночасної обробки лише одного аркуша"
 
 #: ../src/ssconvert.c:155
 msgid "Export graphs"
@@ -13580,7 +13556,6 @@ msgid "Resize to given ROWSxCOLS"
 msgstr "Змінити розміри до вказаного ROWSxCOLS"
 
 #: ../src/ssconvert.c:195
-#| msgid "Paste the clipboard"
 msgid "Output via the clipboard"
 msgstr "Виводити дані до буфера обміну даними"
 
@@ -13600,7 +13575,7 @@ msgstr "Запустити розв'язувач"
 msgid "Tool test specs"
 msgstr ""
 
-#: ../src/ssconvert.c:298 ../src/ssconvert.c:925
+#: ../src/ssconvert.c:298 ../src/ssconvert.c:959
 msgid "Cannot parse export options."
 msgstr "Не вдалося обробити параметри експортування."
 
@@ -13623,75 +13598,75 @@ msgstr ""
 msgid "Selected exporter (%s) can only export one sheet at a time.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:547
+#: ../src/ssconvert.c:543
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:626
+#: ../src/ssconvert.c:657
 #, c-format
 msgid "Adding sheets from %s\n"
 msgstr "Додаємо аркуші з %s\n"
 
-#: ../src/ssconvert.c:719
+#: ../src/ssconvert.c:753
 #, c-format
 msgid "Failed to create solver"
 msgstr "Не вдалося створити розв'язувач"
 
-#: ../src/ssconvert.c:734
+#: ../src/ssconvert.c:768
 #, c-format
 msgid "Solver reached time or iteration limit\n"
 msgstr ""
-"Розв'язувачем перевищено час очікування на результат або обмеження на"
-" кількість ітерацій\n"
+"Розв'язувачем перевищено час очікування на результат або обмеження на "
+"кількість ітерацій\n"
 
-#: ../src/ssconvert.c:738
+#: ../src/ssconvert.c:772
 #, c-format
 msgid "Solver ran, but failed"
 msgstr "Розв'язувач було запущено, але його роботу завершено із помилкою"
 
-#: ../src/ssconvert.c:750
+#: ../src/ssconvert.c:784
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Розв'язувач: %s\n"
 
-#: ../src/ssconvert.c:900
+#: ../src/ssconvert.c:934
 #, c-format
 msgid "Invalid export option \"%s=%s\" for image export"
 msgstr "Некоректний параметр експортування «%s=%s» для експортування зображень"
 
-#: ../src/ssconvert.c:1076
+#: ../src/ssconvert.c:1110
 #, c-format
 msgid "Failed to set cell %s\n"
 msgstr "Не вдалося встановити комірку %s\n"
 
-#: ../src/ssconvert.c:1113
+#: ../src/ssconvert.c:1147
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1133
+#: ../src/ssconvert.c:1167
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1139
+#: ../src/ssconvert.c:1173
 #, c-format
 msgid "Using exporter %s\n"
 msgstr "З використанням засобу експортування %s\n"
 
-#: ../src/ssconvert.c:1145
+#: ../src/ssconvert.c:1179
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1155
+#: ../src/ssconvert.c:1189
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13700,27 +13675,26 @@ msgstr ""
 "Невідомий засіб імпортування «%s».\n"
 "Скористайтеся --list-importers, щоб переглянути список можливих варіантів.\n"
 
-#: ../src/ssconvert.c:1188 ../src/ssconvert.c:1339
+#: ../src/ssconvert.c:1222 ../src/ssconvert.c:1375
 #, c-format
-#| msgid "Load file"
 msgid "Loading %s failed\n"
 msgstr "Не вдалося завантажити %s\n"
 
-#: ../src/ssconvert.c:1240
+#: ../src/ssconvert.c:1276
 #, c-format
 msgid "Resizing to %dx%d\n"
 msgstr "Змінюємо розміри до %dx%d\n"
 
-#: ../src/ssconvert.c:1252
+#: ../src/ssconvert.c:1288
 #, c-format
 msgid "Resizing of sheet %s failed\n"
 msgstr "Не вдалося змінити розміри аркуша %s\n"
 
-#: ../src/ssconvert.c:1405 ../src/ssconvert.c:1484
+#: ../src/ssconvert.c:1441 ../src/ssconvert.c:1520
 msgid "INFILE [OUTFILE]"
 msgstr "ВХІДНИЙ_ФАЙЛ [ВИХІДНИЙ_ФАЙЛ]"
 
-#: ../src/ssconvert.c:1424
+#: ../src/ssconvert.c:1460
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13731,12 +13705,12 @@ msgstr ""
 "каталог даних := «%s»\n"
 "каталог бібліотек := «%s»\n"
 
-#: ../src/ssconvert.c:1430
+#: ../src/ssconvert.c:1466
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr "--export-file-per-sheet і --merge-to є несумісними\n"
 
-#: ../src/ssconvert.c:1482 ../src/ssdiff.c:993 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1518 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Користування: %s [ПАРАМЕТР...] %s\n"
@@ -14099,8 +14073,8 @@ msgstr "Стовпчик %i"
 #: ../src/tools/analysis-anova.c:233 ../src/tools/analysis-anova.c:591
 msgid "\"ANOVA\";[Red]\"Invalid ANOVA: Missing Observations\""
 msgstr ""
-"\"Дисперсійний аналіз\";[Red]\"Некоректний дисперсійний аналіз: не вказано"
-" спостережень\""
+"\"Дисперсійний аналіз\";[Red]\"Некоректний дисперсійний аналіз: не вказано "
+"спостережень\""
 
 #: ../src/tools/analysis-anova.c:238
 msgid "/Source of Variation/Rows/Columns/Error/Total"
@@ -14238,7 +14212,7 @@ msgstr "Стандартна похибка"
 #: ../src/tools/analysis-exp-smoothing.c:726
 #: ../src/tools/analysis-exp-smoothing.c:1049
 msgid "\"γ =\" * 0.000"
-msgstr ""
+msgstr "\"γ =\" * 0.000"
 
 #: ../src/tools/analysis-exp-smoothing.c:646
 #: ../src/tools/analysis-exp-smoothing.c:649
@@ -14251,7 +14225,7 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:730
 #: ../src/tools/analysis-exp-smoothing.c:1053
 msgid "\"δ =\" * 0.000"
-msgstr ""
+msgstr "\"δ =\" * 0.000"
 
 #: ../src/tools/analysis-exp-smoothing.c:768
 #: ../src/tools/analysis-exp-smoothing.c:1093
@@ -14314,25 +14288,25 @@ msgstr ""
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:267
 msgid "\"to\" * \"∞\""
-msgstr ""
+msgstr "\"до\" * \"∞\""
 
 #. translator note: only translate the
 #. "from" and "above" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:280
 msgid "\"from\" * General"
-msgstr ""
+msgstr "\"від\" * General"
 
 #: ../src/tools/analysis-histogram.c:280
 msgid "\"above\" * General"
-msgstr ""
+msgstr "\"над\" * General"
 
 #. translator note: only translate the
 #. "from" and "\xe2\x88\x92\xe2\x88\x9e" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:287
 msgid "\"from\" * \"−∞\";\"from\" * \"−∞\""
-msgstr ""
+msgstr "\"від\" * \"−∞\";\"від\" * \"−∞\""
 
 #: ../src/tools/analysis-histogram.c:414
 msgid "Frequency Density"
@@ -14445,7 +14419,6 @@ msgstr "t-перевірка Стьюдента (%s)"
 
 #: ../src/tools/analysis-one-mean-test.c:166
 #: ../src/tools/analysis-one-mean-test.c:169
-#| msgid "Set Text"
 msgid "Student-t Test"
 msgstr "t-перевірка Стьюдента"
 
@@ -14914,7 +14887,6 @@ msgid "Solver constraint #%d is invalid"
 msgstr "Обмеження розв'язувача %d є некоректним"
 
 #: ../src/tools/gnm-solver.c:1163
-#| msgid "Time"
 msgid "Timeout"
 msgstr "Час очікування"
 
@@ -14966,7 +14938,6 @@ msgid "At limit"
 msgstr ""
 
 #: ../src/tools/gnm-solver.c:1732
-#| msgid "Outside Borders"
 msgid "Outside bounds"
 msgstr ""
 
@@ -14975,12 +14946,10 @@ msgid "Condition"
 msgstr "Умова"
 
 #: ../src/tools/gnm-solver.c:1752 ../src/tools/gnm-solver.c:1888
-#| msgid "Constraints"
 msgid "No constraints"
 msgstr "Немає обмежень"
 
 #: ../src/tools/gnm-solver.c:1845
-#| msgid "Final Value"
 msgid ""
 "Final\n"
 "Value"
@@ -14989,7 +14958,6 @@ msgstr ""
 "значення"
 
 #: ../src/tools/gnm-solver.c:1846
-#| msgid "Reduced"
 msgid ""
 "Reduced\n"
 "Cost"
@@ -15012,7 +14980,6 @@ msgstr ""
 "межа"
 
 #: ../src/tools/gnm-solver.c:1880
-#| msgid "Shadow"
 msgid ""
 "Shadow\n"
 "Price"
@@ -15357,7 +15324,7 @@ msgstr "#N/A"
 msgid "Default file saver is not available."
 msgstr "Типова функція збереження недоступна."
 
-#: ../src/wbc-gtk-actions.c:208 ../src/wbc-gtk-actions.c:2365
+#: ../src/wbc-gtk-actions.c:208 ../src/wbc-gtk-actions.c:2372
 msgid "Set Print Area"
 msgstr "Встановити область друку"
 
@@ -15366,7 +15333,7 @@ msgstr "Встановити область друку"
 msgid "Set Print Area to %s"
 msgstr "Встановити область друку %s"
 
-#: ../src/wbc-gtk-actions.c:231 ../src/wbc-gtk-actions.c:2370
+#: ../src/wbc-gtk-actions.c:231 ../src/wbc-gtk-actions.c:2377
 msgid "Clear Print Area"
 msgstr "Очистити область друку"
 
@@ -15391,31 +15358,31 @@ msgstr "Коментар в комірці %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: ../src/wbc-gtk-actions.c:855
+#: ../src/wbc-gtk-actions.c:862
 msgid "Insert rows"
 msgstr "Вставити рядки"
 
-#: ../src/wbc-gtk-actions.c:872
+#: ../src/wbc-gtk-actions.c:879
 msgid "Insert columns"
 msgstr "Вставити стовпчики"
 
-#: ../src/wbc-gtk-actions.c:980 ../src/wbc-gtk-actions.c:1000
+#: ../src/wbc-gtk-actions.c:987 ../src/wbc-gtk-actions.c:1007
 msgid "Show Detail"
 msgstr "Показати подробиці"
 
-#: ../src/wbc-gtk-actions.c:980 ../src/wbc-gtk-actions.c:1000
+#: ../src/wbc-gtk-actions.c:987 ../src/wbc-gtk-actions.c:1007
 msgid "Hide Detail"
 msgstr "Приховати подробиці"
 
-#: ../src/wbc-gtk-actions.c:987
+#: ../src/wbc-gtk-actions.c:994
 msgid "can only be performed on an existing group"
 msgstr "може бути здійснено лише на наявній групі"
 
-#: ../src/wbc-gtk-actions.c:1028
+#: ../src/wbc-gtk-actions.c:1035
 msgid "Ungroup"
 msgstr "Розгрупувати"
 
-#: ../src/wbc-gtk-actions.c:1082
+#: ../src/wbc-gtk-actions.c:1089
 #, c-format
 msgid ""
 "Unable to start the help browser (%s).\n"
@@ -15424,1554 +15391,1546 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:1243
+#: ../src/wbc-gtk-actions.c:1250
 msgid "Sort"
 msgstr "Сортувати"
 
-#: ../src/wbc-gtk-actions.c:1397
-#| msgid "Close the current file"
+#: ../src/wbc-gtk-actions.c:1404
 msgid "Choose object file"
 msgstr "Вибрати файл об'єкта"
 
-#: ../src/wbc-gtk-actions.c:1476
+#: ../src/wbc-gtk-actions.c:1483
 msgid "Set Horizontal Alignment"
 msgstr "Встановити горизонтальне вирівнювання"
 
-#: ../src/wbc-gtk-actions.c:1510
+#: ../src/wbc-gtk-actions.c:1517
 msgid "Set Vertical Alignment"
 msgstr "Встановити вертикальне вирівнювання"
 
-#: ../src/wbc-gtk-actions.c:1655
+#: ../src/wbc-gtk-actions.c:1662
 msgid "Format as General"
 msgstr "Формат – загальний"
 
-#: ../src/wbc-gtk-actions.c:1661
+#: ../src/wbc-gtk-actions.c:1668
 msgid "Format as Number"
 msgstr "Формат – число"
 
-#: ../src/wbc-gtk-actions.c:1678
+#: ../src/wbc-gtk-actions.c:1685
 msgid "Format as Currency"
 msgstr "Формат – валютний"
 
-#: ../src/wbc-gtk-actions.c:1686
+#: ../src/wbc-gtk-actions.c:1693
 msgid "Format as Accounting"
 msgstr "Формат – обліковий"
 
-#: ../src/wbc-gtk-actions.c:1692 ../src/wbc-gtk-actions.c:1699
+#: ../src/wbc-gtk-actions.c:1699 ../src/wbc-gtk-actions.c:1706
 msgid "Format as Percentage"
 msgstr "Формат – відсотки"
 
-#: ../src/wbc-gtk-actions.c:1707
+#: ../src/wbc-gtk-actions.c:1714
 msgid "Format as Time"
 msgstr "Формат – час"
 
-#: ../src/wbc-gtk-actions.c:1714
+#: ../src/wbc-gtk-actions.c:1721
 msgid "Format as Date"
 msgstr "Формат – дата"
 
-#: ../src/wbc-gtk-actions.c:1738
+#: ../src/wbc-gtk-actions.c:1745
 msgid "Add Borders"
 msgstr "Додати рамку"
 
-#: ../src/wbc-gtk-actions.c:1738
+#: ../src/wbc-gtk-actions.c:1745
 msgid "Remove borders"
 msgstr "Вилучити рамку"
 
-#: ../src/wbc-gtk-actions.c:1851
+#: ../src/wbc-gtk-actions.c:1858
 msgid "Increase precision"
 msgstr "Збільшити точність"
 
-#: ../src/wbc-gtk-actions.c:1854
+#: ../src/wbc-gtk-actions.c:1861
 msgid "Decrease precision"
 msgstr "Зменшити точність"
 
-#: ../src/wbc-gtk-actions.c:1856
+#: ../src/wbc-gtk-actions.c:1863
 msgid "Toggle thousands separator"
 msgstr "Перемкнути роздільник тисяч"
 
-#: ../src/wbc-gtk-actions.c:1864
+#: ../src/wbc-gtk-actions.c:1871
 msgid "Copy down"
 msgstr "Скопіювати нижче"
 
 #. xgettext: copy from the cell to the left into current cell --
 #. this has nothing whatsoever to do with copyright.
-#: ../src/wbc-gtk-actions.c:1872
+#: ../src/wbc-gtk-actions.c:1879
 msgid "Copy right"
 msgstr "Скопіювати праворуч"
 
-#: ../src/wbc-gtk-actions.c:1972
+#: ../src/wbc-gtk-actions.c:1979
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/wbc-gtk-actions.c:1977
+#: ../src/wbc-gtk-actions.c:1984
 msgid "New From Template"
 msgstr "Створити з шаблона"
 
-#: ../src/wbc-gtk-actions.c:1981
+#: ../src/wbc-gtk-actions.c:1988
 msgid "_New"
 msgstr "Нова"
 
-#: ../src/wbc-gtk-actions.c:1983
+#: ../src/wbc-gtk-actions.c:1990
 msgid "Create a new workbook"
 msgstr "Створити нову книгу"
 
-#: ../src/wbc-gtk-actions.c:1991
+#: ../src/wbc-gtk-actions.c:1998
 msgid "Open a file"
 msgstr "Відкрити файл"
 
-#: ../src/wbc-gtk-actions.c:1999
+#: ../src/wbc-gtk-actions.c:2006
 msgid "Save the current workbook"
 msgstr "Зберегти поточну книгу"
 
-#: ../src/wbc-gtk-actions.c:2007
+#: ../src/wbc-gtk-actions.c:2014
 msgid "Save the current workbook with a different name"
 msgstr "Зберегти поточну робочу книгу із іншою назвою"
 
-#: ../src/wbc-gtk-actions.c:2012
+#: ../src/wbc-gtk-actions.c:2019
 msgid "Sen_d To..."
 msgstr "_Надіслати до…"
 
-#: ../src/wbc-gtk-actions.c:2013
+#: ../src/wbc-gtk-actions.c:2020
 msgid "Send the current file via email"
 msgstr "Надіслати поточний файл електронною поштою"
 
-#: ../src/wbc-gtk-actions.c:2018
+#: ../src/wbc-gtk-actions.c:2025
 msgid "Page Set_up..."
 msgstr "_Попередній перегляд…"
 
-#: ../src/wbc-gtk-actions.c:2019
+#: ../src/wbc-gtk-actions.c:2026
 msgid "Setup the page settings for your current printer"
 msgstr "Встановити параметри сторінки для вашого поточного принтера"
 
-#: ../src/wbc-gtk-actions.c:2024
+#: ../src/wbc-gtk-actions.c:2031
 msgid "Print Pre_view"
 msgstr "_Попередній перегляд друку"
 
-#: ../src/wbc-gtk-actions.c:2025
+#: ../src/wbc-gtk-actions.c:2032
 msgid "Print preview"
 msgstr "Перегляд друку"
 
-#: ../src/wbc-gtk-actions.c:2032
+#: ../src/wbc-gtk-actions.c:2039
 msgid "Print the current file"
 msgstr "Надрукувати поточний файл."
 
-#: ../src/wbc-gtk-actions.c:2036
+#: ../src/wbc-gtk-actions.c:2043
 msgid "Print Area & Breaks"
 msgstr "Область друку і розриви"
 
-#: ../src/wbc-gtk-actions.c:2039
+#: ../src/wbc-gtk-actions.c:2046
 msgid "Full _History..."
 msgstr "Увесь _журнал…"
 
-#: ../src/wbc-gtk-actions.c:2040
+#: ../src/wbc-gtk-actions.c:2047
 msgid "Access previously used file"
 msgstr "Доступ до раніше використаного файла"
 
-#: ../src/wbc-gtk-actions.c:2045
+#: ../src/wbc-gtk-actions.c:2052
 msgid "_Close"
 msgstr "Закрити"
 
-#: ../src/wbc-gtk-actions.c:2047
+#: ../src/wbc-gtk-actions.c:2054
 msgid "Close the current file"
 msgstr "Закрити поточний файл"
 
-#: ../src/wbc-gtk-actions.c:2052
+#: ../src/wbc-gtk-actions.c:2059
 msgid "_Quit"
 msgstr "Ви_йти"
 
-#: ../src/wbc-gtk-actions.c:2054
+#: ../src/wbc-gtk-actions.c:2061
 msgid "Quit the application"
 msgstr "Вийти з програми"
 
-#: ../src/wbc-gtk-actions.c:2059
+#: ../src/wbc-gtk-actions.c:2066
 msgid "_Edit"
 msgstr "Виправити"
 
-#: ../src/wbc-gtk-actions.c:2063
+#: ../src/wbc-gtk-actions.c:2070
 msgid "C_lear"
 msgstr "Очистити"
 
-#: ../src/wbc-gtk-actions.c:2070
+#: ../src/wbc-gtk-actions.c:2077
 msgid "_Modify"
 msgstr "З_мінити"
 
-#: ../src/wbc-gtk-actions.c:2073
+#: ../src/wbc-gtk-actions.c:2080
 msgid "S_heet"
 msgstr "Аркуш"
 
-#: ../src/wbc-gtk-actions.c:2076
+#: ../src/wbc-gtk-actions.c:2083
 msgid "_Select"
 msgstr "Вибрати"
 
-#: ../src/wbc-gtk-actions.c:2083
+#: ../src/wbc-gtk-actions.c:2090
 msgid "Copy the selection"
 msgstr "Скопіювати вибране"
 
-#: ../src/wbc-gtk-actions.c:2089
+#: ../src/wbc-gtk-actions.c:2096
 msgid "_View"
 msgstr "Вигляд"
 
-#: ../src/wbc-gtk-actions.c:2092
+#: ../src/wbc-gtk-actions.c:2099
 msgid "_Windows"
 msgstr "Вік_на"
 
-#: ../src/wbc-gtk-actions.c:2095
+#: ../src/wbc-gtk-actions.c:2102
 msgid "_Toolbars"
 msgstr "_Панелі інструментів"
 
-#: ../src/wbc-gtk-actions.c:2103
-#| msgid "_Object..."
+#: ../src/wbc-gtk-actions.c:2110
 msgid "_Object"
 msgstr "_Об'єкт"
 
-#: ../src/wbc-gtk-actions.c:2106
+#: ../src/wbc-gtk-actions.c:2113
 msgid "S_pecial"
 msgstr "Спеціальна"
 
-#: ../src/wbc-gtk-actions.c:2110
+#: ../src/wbc-gtk-actions.c:2117
 msgid "Func_tion Wrapper"
 msgstr "Обгортка ф_ункції"
 
-#: ../src/wbc-gtk-actions.c:2113
+#: ../src/wbc-gtk-actions.c:2120
 msgid "_Name..."
 msgstr "_Назва…"
 
-#: ../src/wbc-gtk-actions.c:2115
+#: ../src/wbc-gtk-actions.c:2122
 msgid "Insert a defined name"
 msgstr "Вставити визначену назву"
 
-#: ../src/wbc-gtk-actions.c:2120
+#: ../src/wbc-gtk-actions.c:2127
 msgid "F_ormat"
 msgstr "Формат"
 
-#: ../src/wbc-gtk-actions.c:2123
+#: ../src/wbc-gtk-actions.c:2130
 msgid "_Cells"
 msgstr "_Комірки"
 
-#: ../src/wbc-gtk-actions.c:2126
+#: ../src/wbc-gtk-actions.c:2133
 msgid "_Text"
 msgstr "_Текст"
 
-#: ../src/wbc-gtk-actions.c:2129 ../src/wbc-gtk-actions.c:3647
+#: ../src/wbc-gtk-actions.c:2136 ../src/wbc-gtk-actions.c:3654
 msgid "_Underline"
 msgstr "_Підкреслений"
 
-#: ../src/wbc-gtk-actions.c:2132
+#: ../src/wbc-gtk-actions.c:2139
 msgid "C_olumn"
 msgstr "Стовпчик"
 
-#: ../src/wbc-gtk-actions.c:2138 ../src/wbc-gtk-actions.c:2287
+#: ../src/wbc-gtk-actions.c:2145 ../src/wbc-gtk-actions.c:2294
 msgid "_Sheet"
 msgstr "Аркуш"
 
-#: ../src/wbc-gtk-actions.c:2142
+#: ../src/wbc-gtk-actions.c:2149
 msgid "_Tools"
 msgstr "Інструменти"
 
-#: ../src/wbc-gtk-actions.c:2145
+#: ../src/wbc-gtk-actions.c:2152
 msgid "Sce_narios"
 msgstr "С_ценарії"
 
-#: ../src/wbc-gtk-actions.c:2149
+#: ../src/wbc-gtk-actions.c:2156
 msgid "_Statistics"
 msgstr "С_татистика"
 
-#: ../src/wbc-gtk-actions.c:2152
+#: ../src/wbc-gtk-actions.c:2159
 msgid "_Descriptive Statistics"
 msgstr "_Описова статистика"
 
-#: ../src/wbc-gtk-actions.c:2155
+#: ../src/wbc-gtk-actions.c:2162
 msgid "Fre_quency Tables"
 msgstr "_Частотні таблиці"
 
-#: ../src/wbc-gtk-actions.c:2158
+#: ../src/wbc-gtk-actions.c:2165
 msgid "De_pendent Observations"
 msgstr "З_алежні спостереження"
 
-#: ../src/wbc-gtk-actions.c:2161
+#: ../src/wbc-gtk-actions.c:2168
 msgid "F_orecast"
 msgstr "Про_гноз"
 
-#: ../src/wbc-gtk-actions.c:2164
+#: ../src/wbc-gtk-actions.c:2171
 msgid "_One Sample Tests"
 msgstr "Од_новибіркові перевірки"
 
-#: ../src/wbc-gtk-actions.c:2167
+#: ../src/wbc-gtk-actions.c:2174
 msgid "Claims About a Me_dian"
 msgstr "Гіпотези щодо мед_іан"
 
-#: ../src/wbc-gtk-actions.c:2170
+#: ../src/wbc-gtk-actions.c:2177
 msgid "_Two Sample Tests"
 msgstr "Дв_овибіркові перевірки"
 
-#: ../src/wbc-gtk-actions.c:2173
+#: ../src/wbc-gtk-actions.c:2180
 msgid "Claims About Two Me_dians"
 msgstr "Гіпотези щодо двох м_едіан"
 
-#: ../src/wbc-gtk-actions.c:2176
+#: ../src/wbc-gtk-actions.c:2183
 msgid "Claims About Two _Means"
 msgstr "Гіпотези щодо _математичних сподівань"
 
-#: ../src/wbc-gtk-actions.c:2179
+#: ../src/wbc-gtk-actions.c:2186
 msgid "_Multiple Sample Tests"
 msgstr "_Багатовибіркові перевірки."
 
-#: ../src/wbc-gtk-actions.c:2182
+#: ../src/wbc-gtk-actions.c:2189
 msgid "_ANOVA"
 msgstr "_Дисперсійний аналіз"
 
-#: ../src/wbc-gtk-actions.c:2185
+#: ../src/wbc-gtk-actions.c:2192
 msgid "Contin_gency Table"
 msgstr "Таблиця спр_яженості"
 
-#: ../src/wbc-gtk-actions.c:2189
+#: ../src/wbc-gtk-actions.c:2196
 msgid "_Data"
 msgstr "_Дані"
 
-#: ../src/wbc-gtk-actions.c:2192
+#: ../src/wbc-gtk-actions.c:2199
 msgid "_Filter"
 msgstr "_Фільтр"
 
-#: ../src/wbc-gtk-actions.c:2195
+#: ../src/wbc-gtk-actions.c:2202
 msgid "F_ill"
 msgstr "З_аповнення"
 
-#: ../src/wbc-gtk-actions.c:2198
+#: ../src/wbc-gtk-actions.c:2205
 msgid "_Random Generators"
 msgstr "Генератори _випадкових чисел"
 
-#: ../src/wbc-gtk-actions.c:2201
+#: ../src/wbc-gtk-actions.c:2208
 msgid "_Group and Outline"
 msgstr "_Група і схема"
 
-#: ../src/wbc-gtk-actions.c:2204
+#: ../src/wbc-gtk-actions.c:2211
 msgid "Import _Data"
 msgstr "Імпортувати д_ані"
 
-#: ../src/wbc-gtk-actions.c:2207
+#: ../src/wbc-gtk-actions.c:2214
 msgid "E_xport Data"
 msgstr "Е_кспортувати дані"
 
-#: ../src/wbc-gtk-actions.c:2210
+#: ../src/wbc-gtk-actions.c:2217
 msgid "Data S_licer"
 msgstr "З_різ даних"
 
-#: ../src/wbc-gtk-actions.c:2214
+#: ../src/wbc-gtk-actions.c:2221
 msgid "_Help"
 msgstr "Довідка"
 
-#: ../src/wbc-gtk-actions.c:2219 ../src/wbc-gtk-actions.c:2415
+#: ../src/wbc-gtk-actions.c:2226 ../src/wbc-gtk-actions.c:2422
 msgid "_Contents"
 msgstr "_Зміст"
 
-#: ../src/wbc-gtk-actions.c:2221
+#: ../src/wbc-gtk-actions.c:2228
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr "Відкрити вікно перегляду документації з Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2226
+#: ../src/wbc-gtk-actions.c:2233
 msgid "_Functions"
 msgstr "_Функції"
 
-#: ../src/wbc-gtk-actions.c:2227
+#: ../src/wbc-gtk-actions.c:2234
 msgid "Functions help"
 msgstr "Довідка з функцій"
 
-#: ../src/wbc-gtk-actions.c:2231
+#: ../src/wbc-gtk-actions.c:2238
 msgid "Gnumeric on the _Web"
 msgstr "Gnumeric в і_нтернеті"
 
-#: ../src/wbc-gtk-actions.c:2232
+#: ../src/wbc-gtk-actions.c:2239
 msgid "Browse to Gnumeric's website"
 msgstr "Перегляд сайта Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2236
+#: ../src/wbc-gtk-actions.c:2243
 msgid "_Live Assistance"
 msgstr "_Інтерактивна допомога"
 
-#: ../src/wbc-gtk-actions.c:2237
+#: ../src/wbc-gtk-actions.c:2244
 msgid "See if anyone is available to answer questions"
 msgstr "Спробувати знайти когось, кому можна задати питання"
 
-#: ../src/wbc-gtk-actions.c:2241
+#: ../src/wbc-gtk-actions.c:2248
 msgid "Report a _Problem"
 msgstr "Сповістити про _проблему"
 
-#: ../src/wbc-gtk-actions.c:2242
+#: ../src/wbc-gtk-actions.c:2249
 msgid "Report problem"
 msgstr "Повідомити про проблему"
 
-#: ../src/wbc-gtk-actions.c:2247
+#: ../src/wbc-gtk-actions.c:2254
 msgid "_About"
 msgstr "_Про програму"
 
-#: ../src/wbc-gtk-actions.c:2248
+#: ../src/wbc-gtk-actions.c:2255
 msgid "About this application"
 msgstr "Про програму"
 
-#: ../src/wbc-gtk-actions.c:2259
+#: ../src/wbc-gtk-actions.c:2266
 msgid "Cut the selection"
 msgstr "Вирізати вибране"
 
-#: ../src/wbc-gtk-actions.c:2266
+#: ../src/wbc-gtk-actions.c:2273
 msgid "Paste the clipboard"
 msgstr "Вставити кишеню"
 
-#: ../src/wbc-gtk-actions.c:2276
+#: ../src/wbc-gtk-actions.c:2283
 msgid "_Manage Sheets..."
 msgstr "_Керування аркушами…"
 
-#: ../src/wbc-gtk-actions.c:2277
+#: ../src/wbc-gtk-actions.c:2284
 msgid "Manage the sheets in this workbook"
 msgstr "Керування аркушами у цій робочій книзі"
 
-#: ../src/wbc-gtk-actions.c:2282 ../src/wbc-gtk-actions.c:2288
+#: ../src/wbc-gtk-actions.c:2289 ../src/wbc-gtk-actions.c:2295
 msgid "Insert a new sheet"
 msgstr "Вставити нову таблицю"
 
-#: ../src/wbc-gtk-actions.c:2292
+#: ../src/wbc-gtk-actions.c:2299
 msgid "_Append"
 msgstr "_Додати"
 
-#: ../src/wbc-gtk-actions.c:2293
+#: ../src/wbc-gtk-actions.c:2300
 msgid "Append a new sheet"
 msgstr "Дописати новий аркуш"
 
-#: ../src/wbc-gtk-actions.c:2297
+#: ../src/wbc-gtk-actions.c:2304
 msgid "_Duplicate"
 msgstr "_Дублювати"
 
-#: ../src/wbc-gtk-actions.c:2298
+#: ../src/wbc-gtk-actions.c:2305
 msgid "Make a copy of the current sheet"
 msgstr "Зробити копію поточного аркуша"
 
-#: ../src/wbc-gtk-actions.c:2302
+#: ../src/wbc-gtk-actions.c:2309
 msgid "_Remove"
 msgstr "Видалити"
 
-#: ../src/wbc-gtk-actions.c:2303
+#: ../src/wbc-gtk-actions.c:2310
 msgid "Irrevocably remove an entire sheet"
 msgstr "Безповоротне видалення всієї таблиці"
 
-#: ../src/wbc-gtk-actions.c:2307
+#: ../src/wbc-gtk-actions.c:2314
 msgid "Re_name..."
 msgstr "Пере_йменувати…"
 
-#: ../src/wbc-gtk-actions.c:2308
+#: ../src/wbc-gtk-actions.c:2315
 msgid "Rename the current sheet"
 msgstr "Перейменувати поточний аркуш"
 
-#: ../src/wbc-gtk-actions.c:2312 ../src/wbc-gtk.c:521
+#: ../src/wbc-gtk-actions.c:2319 ../src/wbc-gtk.c:521
 msgid "Resize..."
 msgstr "Змінити розмір…"
 
-#: ../src/wbc-gtk-actions.c:2313
+#: ../src/wbc-gtk-actions.c:2320
 msgid "Change the size of the current sheet"
 msgstr "Змінити розмір поточного аркуша"
 
-#: ../src/wbc-gtk-actions.c:2320
+#: ../src/wbc-gtk-actions.c:2327
 msgid "_New View..."
 msgstr "Н_ова панель перегляду…"
 
-#: ../src/wbc-gtk-actions.c:2321
+#: ../src/wbc-gtk-actions.c:2328
 msgid "Create a new view of the workbook"
 msgstr "Створити нову панель перегляду робочої книги"
 
-#: ../src/wbc-gtk-actions.c:2328
+#: ../src/wbc-gtk-actions.c:2335
 msgid "View _Properties..."
 msgstr "_Властивості перегляду…"
 
-#: ../src/wbc-gtk-actions.c:2329
+#: ../src/wbc-gtk-actions.c:2336
 msgid "Modify the view properties"
 msgstr "Зміна властивостей перегляду"
 
-#: ../src/wbc-gtk-actions.c:2335
+#: ../src/wbc-gtk-actions.c:2342
 msgid "View _Statusbar"
 msgstr "Перегляд с_мужки стану"
 
-#: ../src/wbc-gtk-actions.c:2336
+#: ../src/wbc-gtk-actions.c:2343
 msgid "Toggle visibility of statusbar"
 msgstr "Перемкнути видимість смужки стану"
 
-#: ../src/wbc-gtk-actions.c:2344
+#: ../src/wbc-gtk-actions.c:2351
 msgid "F_ull Screen"
 msgstr "На в_есь екран"
 
-#: ../src/wbc-gtk-actions.c:2346
+#: ../src/wbc-gtk-actions.c:2353
 msgid "Switch to or from full screen mode"
 msgstr "Перемкнутися у повноекранний режим або вимкнути цей режим"
 
-#: ../src/wbc-gtk-actions.c:2358
+#: ../src/wbc-gtk-actions.c:2365
 msgid "Document Proper_ties..."
 msgstr "В_ластивості документа…"
 
-#: ../src/wbc-gtk-actions.c:2359
+#: ../src/wbc-gtk-actions.c:2366
 msgid "Edit document properties"
 msgstr "Редагувати властивості документа"
 
-#: ../src/wbc-gtk-actions.c:2366
+#: ../src/wbc-gtk-actions.c:2373
 msgid "Use the current selection as print area"
 msgstr "Використати поточну позначену область як область друку"
 
-#: ../src/wbc-gtk-actions.c:2371
+#: ../src/wbc-gtk-actions.c:2378
 msgid "Undefine the print area"
 msgstr "Скасувати визначення області друку"
 
-#: ../src/wbc-gtk-actions.c:2375
+#: ../src/wbc-gtk-actions.c:2382
 msgid "Show Print Area"
 msgstr "Показати область друку"
 
-#: ../src/wbc-gtk-actions.c:2376
+#: ../src/wbc-gtk-actions.c:2383
 msgid "Select the print area"
 msgstr "Вибрати область друку"
 
-#: ../src/wbc-gtk-actions.c:2380
+#: ../src/wbc-gtk-actions.c:2387
 msgid "Set Column Page Break"
 msgstr "Встановити розрив сторінки за стовпчиком"
 
-#: ../src/wbc-gtk-actions.c:2381
+#: ../src/wbc-gtk-actions.c:2388
 msgid "Split the page to the left of this column"
 msgstr "Розділити сторінку ліворуч від цього стовпчика"
 
-#: ../src/wbc-gtk-actions.c:2385
+#: ../src/wbc-gtk-actions.c:2392
 msgid "Set Row Page Break"
 msgstr "Встановити розрив сторінки за рядком"
 
-#: ../src/wbc-gtk-actions.c:2386
+#: ../src/wbc-gtk-actions.c:2393
 msgid "Split the page above this row"
 msgstr "Розділити сторінку над цим рядком"
 
-#: ../src/wbc-gtk-actions.c:2391
+#: ../src/wbc-gtk-actions.c:2398
 msgid "Remove all manual pagebreaks from this sheet"
 msgstr "Вилучити з цього аркуша усі встановлені вручну розриви сторінок"
 
-#: ../src/wbc-gtk-actions.c:2399
+#: ../src/wbc-gtk-actions.c:2406
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Очистити формати, коментарі та вміст комірки"
 
-#: ../src/wbc-gtk-actions.c:2403
+#: ../src/wbc-gtk-actions.c:2410
 msgid "_Formats & Hyperlinks"
 msgstr "_Формати і гіперпосилання"
 
-#: ../src/wbc-gtk-actions.c:2404
+#: ../src/wbc-gtk-actions.c:2411
 msgid "Clear the selected cells' formats and hyperlinks"
 msgstr "Зняти форматування і гіперпосилання з позначених комірок"
 
-#: ../src/wbc-gtk-actions.c:2410
+#: ../src/wbc-gtk-actions.c:2417
 msgid "Delete the selected cells' comments"
 msgstr "Вилучити коментарі з позначених комірок"
 
-#: ../src/wbc-gtk-actions.c:2416
+#: ../src/wbc-gtk-actions.c:2423
 msgid "Clear the selected cells' contents"
 msgstr "Очистити вміст комірки"
 
-#: ../src/wbc-gtk-actions.c:2421
+#: ../src/wbc-gtk-actions.c:2428
 msgid "A_ll Filtered Rows"
 msgstr "_Усі фільтровані рядки"
 
-#: ../src/wbc-gtk-actions.c:2422
+#: ../src/wbc-gtk-actions.c:2429
 msgid ""
 "Clear the selected cells' formats, comments, and contents in the filtered "
 "rows"
 msgstr ""
-"Очистити формати, коментарі та вміст позначених комірок у фільтрованих"
-" фільтрованих рядках"
+"Очистити формати, коментарі та вміст позначених комірок у фільтрованих "
+"фільтрованих рядках"
 
-#: ../src/wbc-gtk-actions.c:2426
+#: ../src/wbc-gtk-actions.c:2433
 msgid "F_ormats & Hyperlinks in Filtered Rows"
 msgstr "Фо_мати і гіперпосилання у фільтрованих рядках"
 
-#: ../src/wbc-gtk-actions.c:2427
+#: ../src/wbc-gtk-actions.c:2434
 msgid "Clear the selected cells' formats and hyperlinks in the filtered rows"
 msgstr ""
-"Зняти форматування і гіперпосилання з позначених комірок у фільтрованих рядках"
+"Зняти форматування і гіперпосилання з позначених комірок у фільтрованих "
+"рядках"
 
-#: ../src/wbc-gtk-actions.c:2432
+#: ../src/wbc-gtk-actions.c:2439
 msgid "Comme_nts in Filtered Rows"
 msgstr "Коме_нтарі у фільтрованих рядках"
 
-#: ../src/wbc-gtk-actions.c:2433
+#: ../src/wbc-gtk-actions.c:2440
 msgid "Delete the selected cells' comments in the filtered rows"
 msgstr "Вилучити коментарі позначених комірок у фільтрованих рядках"
 
-#: ../src/wbc-gtk-actions.c:2438
+#: ../src/wbc-gtk-actions.c:2445
 msgid "Content_s of Filtered Rows"
 msgstr "В_міст фільтрованих рядків"
 
-#: ../src/wbc-gtk-actions.c:2439
+#: ../src/wbc-gtk-actions.c:2446
 msgid "Clear the selected cells' contents in the filtered rows"
 msgstr "Очистити вміст комірок у фільтрованих рядках"
 
-#: ../src/wbc-gtk-actions.c:2447 ../src/wbc-gtk-actions.c:2686
+#: ../src/wbc-gtk-actions.c:2454 ../src/wbc-gtk-actions.c:2693
 msgid "_Rows"
 msgstr "_Рядки"
 
-#: ../src/wbc-gtk-actions.c:2448
+#: ../src/wbc-gtk-actions.c:2455
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Вилучити рядки, що містять позначені комірки"
 
-#: ../src/wbc-gtk-actions.c:2454 ../src/wbc-gtk-actions.c:2679
+#: ../src/wbc-gtk-actions.c:2461 ../src/wbc-gtk-actions.c:2686
 msgid "_Columns"
 msgstr "С_товпчики"
 
-#: ../src/wbc-gtk-actions.c:2455
+#: ../src/wbc-gtk-actions.c:2462
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Вилучити стовпчики, що містять позначені комірки"
 
-#: ../src/wbc-gtk-actions.c:2459 ../src/wbc-gtk-actions.c:2472
-#: ../src/wbc-gtk-actions.c:2664 ../src/wbc-gtk-actions.c:2671
+#: ../src/wbc-gtk-actions.c:2466 ../src/wbc-gtk-actions.c:2479
+#: ../src/wbc-gtk-actions.c:2671 ../src/wbc-gtk-actions.c:2678
 msgid "C_ells..."
 msgstr "_Комірки…"
 
-#: ../src/wbc-gtk-actions.c:2461 ../src/wbc-gtk-actions.c:2474
+#: ../src/wbc-gtk-actions.c:2468 ../src/wbc-gtk-actions.c:2481
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Вилучити позначені комірки, зсунувши інші на їхнє місце"
 
-#: ../src/wbc-gtk-actions.c:2466
+#: ../src/wbc-gtk-actions.c:2473
 msgid "_Hyperlinks"
 msgstr "_Гіперпосилання"
 
-#: ../src/wbc-gtk-actions.c:2467
+#: ../src/wbc-gtk-actions.c:2474
 msgid "Delete the selected cells' hyperlinks"
 msgstr "Вилучити посилання з позначених комірок"
 
-#: ../src/wbc-gtk-actions.c:2488
+#: ../src/wbc-gtk-actions.c:2495
 msgid "Select all cells in the spreadsheet"
 msgstr "Вибрати всі комірки в таблиці"
 
-#: ../src/wbc-gtk-actions.c:2494
+#: ../src/wbc-gtk-actions.c:2501
 msgid "Select an entire column"
 msgstr "Вибрати весь стовпчик"
 
-#: ../src/wbc-gtk-actions.c:2500
+#: ../src/wbc-gtk-actions.c:2507
 msgid "Select an entire row"
 msgstr "Вибрати весь рядок"
 
-#: ../src/wbc-gtk-actions.c:2505
+#: ../src/wbc-gtk-actions.c:2512
 msgid "Arra_y"
 msgstr "М_асив"
 
-#: ../src/wbc-gtk-actions.c:2507
+#: ../src/wbc-gtk-actions.c:2514
 msgid "Select an array of cells"
 msgstr "Вибрати масив комірок"
 
-#: ../src/wbc-gtk-actions.c:2511
+#: ../src/wbc-gtk-actions.c:2518
 msgid "_Depends"
 msgstr "За_лежить"
 
-#: ../src/wbc-gtk-actions.c:2513
+#: ../src/wbc-gtk-actions.c:2520
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Вибрати усі комірки які залежать від поточної."
 
-#: ../src/wbc-gtk-actions.c:2517
+#: ../src/wbc-gtk-actions.c:2524
 msgid "_Inputs"
 msgstr "В_хідні дані"
 
-#: ../src/wbc-gtk-actions.c:2519
+#: ../src/wbc-gtk-actions.c:2526
 msgid "Select all the cells are used by the current edit cell"
 msgstr "Позначити усі комірки, які використано у поточній редагованій комірці"
 
-#: ../src/wbc-gtk-actions.c:2524
+#: ../src/wbc-gtk-actions.c:2531
 msgid "Next _Object"
 msgstr "Наступний _об'єкт"
 
-#: ../src/wbc-gtk-actions.c:2526
+#: ../src/wbc-gtk-actions.c:2533
 msgid "Select the next sheet object"
 msgstr "Позначити наступний об'єкт аркуша"
 
-#: ../src/wbc-gtk-actions.c:2532 ../src/wbc-gtk.c:2768
+#: ../src/wbc-gtk-actions.c:2539 ../src/wbc-gtk.c:2768
 msgid "Go to Top"
 msgstr "Перейти догори"
 
-#: ../src/wbc-gtk-actions.c:2533
+#: ../src/wbc-gtk-actions.c:2540
 msgid "Go to the top of the data"
 msgstr "Перейти до верхньої частини даних"
 
-#: ../src/wbc-gtk-actions.c:2538 ../src/wbc-gtk.c:2769
+#: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2769
 msgid "Go to Bottom"
 msgstr "Перейти донизу"
 
-#: ../src/wbc-gtk-actions.c:2539
+#: ../src/wbc-gtk-actions.c:2546
 msgid "Go to the bottom of the data"
 msgstr "Перейти до нижньої частини даних"
 
-#: ../src/wbc-gtk-actions.c:2544 ../src/wbc-gtk.c:2770
+#: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2770
 msgid "Go to First"
 msgstr "Перейти до першої"
 
-#: ../src/wbc-gtk-actions.c:2545
+#: ../src/wbc-gtk-actions.c:2552
 msgid "Go to the first data cell"
 msgstr "Перейти до першої комірки даних"
 
-#: ../src/wbc-gtk-actions.c:2550 ../src/wbc-gtk.c:2771
+#: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2771
 msgid "Go to Last"
 msgstr "Перейти до останньої"
 
-#: ../src/wbc-gtk-actions.c:2551
+#: ../src/wbc-gtk-actions.c:2558
 msgid "Go to the last data cell"
 msgstr "Перейти до останньої комірки даних"
 
-#: ../src/wbc-gtk-actions.c:2556
+#: ../src/wbc-gtk-actions.c:2563
 msgid "_Go to Cell..."
 msgstr "Пе_рейти до комірки…"
 
-#: ../src/wbc-gtk-actions.c:2558
+#: ../src/wbc-gtk-actions.c:2565
 msgid "Jump to a specified cell"
 msgstr "Перейти до вказаної комірки"
 
-#: ../src/wbc-gtk-actions.c:2564 ../src/wbc-gtk-actions.c:2566
+#: ../src/wbc-gtk-actions.c:2571 ../src/wbc-gtk-actions.c:2573
 msgid "Go to Current Cell Indicator"
 msgstr "Перейти до індикатора поточної комірки"
 
-#: ../src/wbc-gtk-actions.c:2572
+#: ../src/wbc-gtk-actions.c:2579
 msgid "Repeat"
 msgstr "Повторити"
 
-#: ../src/wbc-gtk-actions.c:2574
+#: ../src/wbc-gtk-actions.c:2581
 msgid "Repeat the previous action"
 msgstr "Повторити попередню дію"
 
-#: ../src/wbc-gtk-actions.c:2579
+#: ../src/wbc-gtk-actions.c:2586
 msgid "P_aste Special..."
 msgstr "Спеціальна вставка…"
 
-#: ../src/wbc-gtk-actions.c:2581
+#: ../src/wbc-gtk-actions.c:2588
 msgid "Paste with optional filters and transformations"
 msgstr "Вставка з необов'язковими фільтрами та перетвореннями"
 
-#: ../src/wbc-gtk-actions.c:2587 ../src/wbc-gtk-actions.c:2718
+#: ../src/wbc-gtk-actions.c:2594 ../src/wbc-gtk-actions.c:2725
 msgid "Co_mment..."
 msgstr "_Коментувати…"
 
-#: ../src/wbc-gtk-actions.c:2588
+#: ../src/wbc-gtk-actions.c:2595
 msgid "Edit the selected cell's comment"
 msgstr "Редагувати коментар до вибраних комірок"
 
-#: ../src/wbc-gtk-actions.c:2593 ../src/wbc-gtk-actions.c:2724
+#: ../src/wbc-gtk-actions.c:2600 ../src/wbc-gtk-actions.c:2731
 msgid "Hyper_link..."
 msgstr "Гіп_ерпосилання…"
 
-#: ../src/wbc-gtk-actions.c:2595
+#: ../src/wbc-gtk-actions.c:2602
 msgid "Edit the selected cell's hyperlink"
 msgstr "Редагувати гіперпосилання у позначеній комірці"
 
-#: ../src/wbc-gtk-actions.c:2600
+#: ../src/wbc-gtk-actions.c:2607
 msgid "_Auto generate names..."
 msgstr "Автостворення назв…"
 
-#: ../src/wbc-gtk-actions.c:2601
+#: ../src/wbc-gtk-actions.c:2608
 msgid "Use the current selection to create names"
 msgstr "Використовувати поточний вибір для створення назв"
 
-#: ../src/wbc-gtk-actions.c:2608
+#: ../src/wbc-gtk-actions.c:2615
 msgid "S_earch..."
 msgstr "По_шук…"
 
-#: ../src/wbc-gtk-actions.c:2610
+#: ../src/wbc-gtk-actions.c:2617
 msgid "Search for something"
 msgstr "Шукати щось"
 
-#: ../src/wbc-gtk-actions.c:2615
+#: ../src/wbc-gtk-actions.c:2622
 msgid "Search _& Replace..."
 msgstr "Пошук із заміно_ю…"
 
-#: ../src/wbc-gtk-actions.c:2617
+#: ../src/wbc-gtk-actions.c:2624
 msgid "Search for something and replace it with something else"
 msgstr "Пошук чогось із заміною на щось інше"
 
-#: ../src/wbc-gtk-actions.c:2622
+#: ../src/wbc-gtk-actions.c:2629
 msgid "Recalculate"
 msgstr "Перерахувати"
 
-#: ../src/wbc-gtk-actions.c:2624
+#: ../src/wbc-gtk-actions.c:2631
 msgid "Recalculate the spreadsheet"
 msgstr "Перерахувати таблицю"
 
-#: ../src/wbc-gtk-actions.c:2630
+#: ../src/wbc-gtk-actions.c:2637
 msgid "Preferences..."
 msgstr "Налаштування…"
 
-#: ../src/wbc-gtk-actions.c:2631
+#: ../src/wbc-gtk-actions.c:2638
 msgid "Change Gnumeric Preferences"
 msgstr "Змінити налаштування Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2637 ../src/wbc-gtk.c:1601
+#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1601
 msgid "_Freeze Panes"
 msgstr "За_фіксувати панелі"
 
-#: ../src/wbc-gtk-actions.c:2638 ../src/wbc-gtk.c:1604
+#: ../src/wbc-gtk-actions.c:2645 ../src/wbc-gtk.c:1604
 msgid "Freeze the top left of the sheet"
 msgstr "Зафіксувати верхній лівий кут аркуша"
 
 #. dubious
-#: ../src/wbc-gtk-actions.c:2643
+#: ../src/wbc-gtk-actions.c:2650
 msgid "_Zoom..."
 msgstr "Масштаб…"
 
-#: ../src/wbc-gtk-actions.c:2644
+#: ../src/wbc-gtk-actions.c:2651
 msgid "Zoom the spreadsheet in or out"
 msgstr "Збільшення та зменшення масштабу таблиці"
 
-#: ../src/wbc-gtk-actions.c:2649
+#: ../src/wbc-gtk-actions.c:2656
 msgid "Zoom _In"
 msgstr "З_більшити"
 
-#: ../src/wbc-gtk-actions.c:2651
+#: ../src/wbc-gtk-actions.c:2658
 msgid "Increase the zoom to make things larger"
 msgstr "Збільшити масштаб, щоб зробити усе більшим"
 
-#: ../src/wbc-gtk-actions.c:2656
+#: ../src/wbc-gtk-actions.c:2663
 msgid "Zoom _Out"
 msgstr "З_меншити"
 
-#: ../src/wbc-gtk-actions.c:2658
+#: ../src/wbc-gtk-actions.c:2665
 msgid "Decrease the zoom to make things smaller"
 msgstr "Зменшити масштаб, щоб зробити усе меншим"
 
-#: ../src/wbc-gtk-actions.c:2666 ../src/wbc-gtk-actions.c:2673
+#: ../src/wbc-gtk-actions.c:2673 ../src/wbc-gtk-actions.c:2680
 msgid "Insert new cells"
 msgstr "Вставити нові комірки"
 
-#: ../src/wbc-gtk-actions.c:2680
+#: ../src/wbc-gtk-actions.c:2687
 msgid "Insert new columns"
 msgstr "Вставити нові стовпчики"
 
-#: ../src/wbc-gtk-actions.c:2687
+#: ../src/wbc-gtk-actions.c:2694
 msgid "Insert new rows"
 msgstr "Вставити нові рядки"
 
-#: ../src/wbc-gtk-actions.c:2693
+#: ../src/wbc-gtk-actions.c:2700
 msgid "C_hart..."
 msgstr "Д_іаграма…"
 
-#: ../src/wbc-gtk-actions.c:2694
+#: ../src/wbc-gtk-actions.c:2701
 msgid "Insert a Chart"
 msgstr "Вставити діаграму"
 
-#: ../src/wbc-gtk-actions.c:2699
+#: ../src/wbc-gtk-actions.c:2706
 msgid "_New..."
 msgstr "_Створити…"
 
-#: ../src/wbc-gtk-actions.c:2700
-#| msgid "Inserts a Bonobo object"
+#: ../src/wbc-gtk-actions.c:2707
 msgid "Insert a new Goffice component object"
 msgstr "Уставити новий об'єкт компонента Goffice"
 
-#: ../src/wbc-gtk-actions.c:2705
+#: ../src/wbc-gtk-actions.c:2712
 msgid "_From File..."
 msgstr "З _файла…"
 
-#: ../src/wbc-gtk-actions.c:2706
+#: ../src/wbc-gtk-actions.c:2713
 msgid "Insert a new Goffice component object from a file"
 msgstr "Вставити новий об'єкт компонента Goffice з файла"
 
-#: ../src/wbc-gtk-actions.c:2711
+#: ../src/wbc-gtk-actions.c:2718
 msgid "_Image..."
 msgstr "_Зображення…"
 
-#: ../src/wbc-gtk-actions.c:2712
+#: ../src/wbc-gtk-actions.c:2719
 msgid "Insert an image"
 msgstr "Вставити зображення"
 
-#: ../src/wbc-gtk-actions.c:2719
+#: ../src/wbc-gtk-actions.c:2726
 msgid "Insert a comment"
 msgstr "Вставити коментар"
 
-#: ../src/wbc-gtk-actions.c:2726
+#: ../src/wbc-gtk-actions.c:2733
 msgid "Insert a Hyperlink"
 msgstr "Вставити гіперпосилання"
 
-#: ../src/wbc-gtk-actions.c:2731
+#: ../src/wbc-gtk-actions.c:2738
 msgid "Sort (_Descending)"
 msgstr "Сортування за с_паданням"
 
-#: ../src/wbc-gtk-actions.c:2732
+#: ../src/wbc-gtk-actions.c:2739
 msgid "Wrap with SORT (descending)"
 msgstr "Огорнути у SORT (за спаданням)"
 
-#: ../src/wbc-gtk-actions.c:2737
+#: ../src/wbc-gtk-actions.c:2744
 msgid "Sort (_Ascending)"
 msgstr "Сортування за з_ростанням"
 
-#: ../src/wbc-gtk-actions.c:2738
+#: ../src/wbc-gtk-actions.c:2745
 msgid "Wrap with SORT (ascending)"
 msgstr "Огорнути у SORT (за зростанням)"
 
-#: ../src/wbc-gtk-actions.c:2744
-#| msgid "Current _date"
+#: ../src/wbc-gtk-actions.c:2751
 msgid "Current _Date"
 msgstr "Пото_чна дата"
 
-#: ../src/wbc-gtk-actions.c:2746
+#: ../src/wbc-gtk-actions.c:2753
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Вставити поточну дату у вибрані комірки"
 
-#: ../src/wbc-gtk-actions.c:2751
-#| msgid "Current _time"
+#: ../src/wbc-gtk-actions.c:2758
 msgid "Current _Time"
 msgstr "Поточний _час"
 
-#: ../src/wbc-gtk-actions.c:2753
+#: ../src/wbc-gtk-actions.c:2760
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Вставити поточний час у вибрані комірки"
 
-#: ../src/wbc-gtk-actions.c:2758
+#: ../src/wbc-gtk-actions.c:2765
 msgid "Current D_ate and Time"
 msgstr "Поточна д_ата і час"
 
-#: ../src/wbc-gtk-actions.c:2760
+#: ../src/wbc-gtk-actions.c:2767
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Вставити поточну дату і час у позначені комірки"
 
-#: ../src/wbc-gtk-actions.c:2766
+#: ../src/wbc-gtk-actions.c:2773
 msgid "_Names..."
 msgstr "_Назви…"
 
-#: ../src/wbc-gtk-actions.c:2768
+#: ../src/wbc-gtk-actions.c:2775
 msgid "Edit defined names for expressions"
 msgstr "Редагувати визначені назви для виразу"
 
-#: ../src/wbc-gtk-actions.c:2774
+#: ../src/wbc-gtk-actions.c:2781
 msgid "_Autoformat..."
 msgstr "Автоформатування…"
 
-#: ../src/wbc-gtk-actions.c:2775
+#: ../src/wbc-gtk-actions.c:2782
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Сформатувати ділянку комірок відповідно до визначеного шаблону"
 
-#: ../src/wbc-gtk-actions.c:2781
+#: ../src/wbc-gtk-actions.c:2788
 msgid "Toggle sheet direction, left-to-right vs right-to-left"
 msgstr "Перемкнути напрям аркуша; зліва праворуч або справа ліворуч"
 
-#: ../src/wbc-gtk-actions.c:2787
+#: ../src/wbc-gtk-actions.c:2794
 msgid "_Format..."
 msgstr "_Формат…"
 
-#: ../src/wbc-gtk-actions.c:2789
+#: ../src/wbc-gtk-actions.c:2796
 msgid "Modify the formatting of the selected cells"
 msgstr "Змінити форматування вибраних комірок"
 
-#: ../src/wbc-gtk-actions.c:2793
+#: ../src/wbc-gtk-actions.c:2800
 msgid "_Conditional Formatting..."
 msgstr "_Умовне форматування…"
 
-#: ../src/wbc-gtk-actions.c:2794
-#| msgid "Modify the formatting of the selected cells"
+#: ../src/wbc-gtk-actions.c:2801
 msgid "Modify the conditional formatting of the selected cells"
 msgstr "Змінити умовне форматування позначених комірок"
 
-#: ../src/wbc-gtk-actions.c:2800
+#: ../src/wbc-gtk-actions.c:2807
 msgid "Ensure rows are just tall enough to display content of selection"
 msgstr "Забезпечити достатню висоту рядків для показу вмісту позначеного"
 
-#: ../src/wbc-gtk-actions.c:2806
+#: ../src/wbc-gtk-actions.c:2813
 msgid "Ensure columns are just wide enough to display content of selection"
 msgstr "Забезпечити достатню ширину стовпчиків для показу вмісту позначеного"
 
-#: ../src/wbc-gtk-actions.c:2815
+#: ../src/wbc-gtk-actions.c:2822
 msgid "Change width of the selected columns"
 msgstr "Змінити ширину вибраних стовпчиків"
 
-#: ../src/wbc-gtk-actions.c:2821
+#: ../src/wbc-gtk-actions.c:2828
 msgid "Ensure columns are just wide enough to display their content"
 msgstr "Забезпечити достатню ширину стовпчиків для показу їхнього вмісту"
 
-#: ../src/wbc-gtk-actions.c:2828
+#: ../src/wbc-gtk-actions.c:2835
 msgid "Hide the selected columns"
 msgstr "Приховати вибрані стовпчики"
 
-#: ../src/wbc-gtk-actions.c:2835
+#: ../src/wbc-gtk-actions.c:2842
 msgid "Make any hidden columns in the selection visible"
 msgstr "Зробити приховані стовпчики у вибраному видимими"
 
-#: ../src/wbc-gtk-actions.c:2840
+#: ../src/wbc-gtk-actions.c:2847
 msgid "_Standard Width"
 msgstr "Стандартна ширина"
 
-#: ../src/wbc-gtk-actions.c:2841
+#: ../src/wbc-gtk-actions.c:2848
 msgid "Change the default column width"
 msgstr "Змінити типову ширину стовпчика"
 
-#: ../src/wbc-gtk-actions.c:2848
+#: ../src/wbc-gtk-actions.c:2855
 msgid "H_eight..."
 msgstr "_Висота…"
 
-#: ../src/wbc-gtk-actions.c:2849
+#: ../src/wbc-gtk-actions.c:2856
 msgid "Change height of the selected rows"
 msgstr "Змінити висоту вибраних рядків"
 
-#: ../src/wbc-gtk-actions.c:2855
+#: ../src/wbc-gtk-actions.c:2862
 msgid "Ensure rows are just tall enough to display their content"
 msgstr "Забезпечити достатню висоту рядків для показу їхнього вмісту"
 
-#: ../src/wbc-gtk-actions.c:2862
+#: ../src/wbc-gtk-actions.c:2869
 msgid "Hide the selected rows"
 msgstr "Приховати вибрані рядки"
 
-#: ../src/wbc-gtk-actions.c:2869
+#: ../src/wbc-gtk-actions.c:2876
 msgid "Make any hidden rows in the selection visible"
 msgstr "Зробити всі приховані рядки у вибраному видимими"
 
-#: ../src/wbc-gtk-actions.c:2874
+#: ../src/wbc-gtk-actions.c:2881
 msgid "_Standard Height"
 msgstr "Стандартна висота"
 
-#: ../src/wbc-gtk-actions.c:2875
+#: ../src/wbc-gtk-actions.c:2882
 msgid "Change the default row height"
 msgstr "Змінити типову висоту рядка"
 
-#: ../src/wbc-gtk-actions.c:2881
+#: ../src/wbc-gtk-actions.c:2888
 msgid "_Plug-ins..."
 msgstr "Доповнення…"
 
-#: ../src/wbc-gtk-actions.c:2882
+#: ../src/wbc-gtk-actions.c:2889
 msgid "Manage available plugin modules"
 msgstr "Керування доступними доповненнями."
 
-#: ../src/wbc-gtk-actions.c:2886
+#: ../src/wbc-gtk-actions.c:2893
 msgid "Auto _Correct..."
 msgstr "Автокоригування…"
 
-#: ../src/wbc-gtk-actions.c:2887
+#: ../src/wbc-gtk-actions.c:2894
 msgid "Automatically perform simple spell checking"
 msgstr "Автоматично виконувати просту перевірку орфографії"
 
-#: ../src/wbc-gtk-actions.c:2891
+#: ../src/wbc-gtk-actions.c:2898
 msgid "_Auto Save..."
 msgstr "Автозбереження…"
 
-#: ../src/wbc-gtk-actions.c:2892
+#: ../src/wbc-gtk-actions.c:2899
 msgid "Automatically save the current document at regular intervals"
 msgstr "Автоматично регулярно зберігати документ"
 
-#: ../src/wbc-gtk-actions.c:2896
+#: ../src/wbc-gtk-actions.c:2903
 msgid "_Goal Seek..."
 msgstr "Пошук цілі…"
 
-#: ../src/wbc-gtk-actions.c:2897
+#: ../src/wbc-gtk-actions.c:2904
 msgid "Iteratively recalculate to find a target value"
 msgstr "Інтерактивний перерахунок для пошуку цільового значення"
 
-#: ../src/wbc-gtk-actions.c:2901
+#: ../src/wbc-gtk-actions.c:2908
 msgid "_Solver..."
 msgstr "Пошук розв'язання…"
 
-#: ../src/wbc-gtk-actions.c:2902
+#: ../src/wbc-gtk-actions.c:2909
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Інтерактивний перерахунок з обмеженнями для отримання цільового значення"
 
-#: ../src/wbc-gtk-actions.c:2906
+#: ../src/wbc-gtk-actions.c:2913
 msgid "Si_mulation..."
 msgstr "Імі_тація…"
 
-#: ../src/wbc-gtk-actions.c:2907
+#: ../src/wbc-gtk-actions.c:2914
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2912
+#: ../src/wbc-gtk-actions.c:2919
 msgid "Compare Sheets..."
 msgstr "Порівняти аркуші…"
 
-#: ../src/wbc-gtk-actions.c:2913
+#: ../src/wbc-gtk-actions.c:2920
 msgid "Find differences between two sheets"
 msgstr "Знайти відмінності між двома аркушами"
 
-#: ../src/wbc-gtk-actions.c:2919
+#: ../src/wbc-gtk-actions.c:2926
 msgid "_View..."
 msgstr "П_ерегляд…"
 
-#: ../src/wbc-gtk-actions.c:2920
+#: ../src/wbc-gtk-actions.c:2927
 msgid "View, delete and report different scenarios"
 msgstr "Переглянути, вилучити і створити звіт за різними сценаріями"
 
-#: ../src/wbc-gtk-actions.c:2924
+#: ../src/wbc-gtk-actions.c:2931
 msgid "_Add..."
 msgstr "_Додати…"
 
-#: ../src/wbc-gtk-actions.c:2925
+#: ../src/wbc-gtk-actions.c:2932
 msgid "Add a new scenario"
 msgstr "Додати новий сценарій"
 
-#: ../src/wbc-gtk-actions.c:2932
+#: ../src/wbc-gtk-actions.c:2939
 msgid "_Sampling..."
 msgstr "Ви_бірка…"
 
-#: ../src/wbc-gtk-actions.c:2933
+#: ../src/wbc-gtk-actions.c:2940
 msgid "Periodic and random samples"
 msgstr "Періодичні і випадкові вибірки"
 
-#: ../src/wbc-gtk-actions.c:2940
+#: ../src/wbc-gtk-actions.c:2947
 msgid "_Correlation..."
 msgstr "_Кореляція…"
 
-#: ../src/wbc-gtk-actions.c:2941
+#: ../src/wbc-gtk-actions.c:2948
 msgid "Pearson Correlation"
 msgstr "Кореляція Пірсона"
 
-#: ../src/wbc-gtk-actions.c:2945
+#: ../src/wbc-gtk-actions.c:2952
 msgid "Co_variance..."
 msgstr "Ко_варіація…"
 
-#: ../src/wbc-gtk-actions.c:2950
+#: ../src/wbc-gtk-actions.c:2957
 msgid "_Descriptive Statistics..."
 msgstr "_Описова статистика…"
 
-#: ../src/wbc-gtk-actions.c:2951
+#: ../src/wbc-gtk-actions.c:2958
 msgid "Various summary statistics"
 msgstr "Різна зведена статистика"
 
-#: ../src/wbc-gtk-actions.c:2958
+#: ../src/wbc-gtk-actions.c:2965
 msgid "Fre_quency Tables..."
 msgstr "_Частотні таблиці…"
 
-#: ../src/wbc-gtk-actions.c:2959
+#: ../src/wbc-gtk-actions.c:2966
 msgid "Frequency tables for non-numeric data"
 msgstr "Частотні таблиці для нечислових даних"
 
-#: ../src/wbc-gtk-actions.c:2963
+#: ../src/wbc-gtk-actions.c:2970
 msgid "_Histogram..."
 msgstr "_Гістограма…"
 
-#: ../src/wbc-gtk-actions.c:2964
+#: ../src/wbc-gtk-actions.c:2971
 msgid "Various frequency tables for numeric data"
 msgstr "Різноманітні частотні таблиці для числових даних"
 
-#: ../src/wbc-gtk-actions.c:2968
+#: ../src/wbc-gtk-actions.c:2975
 msgid "Ranks And _Percentiles..."
 msgstr "Ранги і п_роцентилі…"
 
-#: ../src/wbc-gtk-actions.c:2969
+#: ../src/wbc-gtk-actions.c:2976
 msgid "Ranks, placements and percentiles"
 msgstr "Ранги, розташування та процентилі"
 
-#: ../src/wbc-gtk-actions.c:2976
+#: ../src/wbc-gtk-actions.c:2983
 msgid "_Fourier Analysis..."
 msgstr "Аналіз _Фур'є…"
 
-#: ../src/wbc-gtk-actions.c:2982
+#: ../src/wbc-gtk-actions.c:2989
 msgid "Principal Components Analysis..."
 msgstr "Аналіз основних компонентів…"
 
-#: ../src/wbc-gtk-actions.c:2989
+#: ../src/wbc-gtk-actions.c:2996
 msgid "_Exponential Smoothing..."
 msgstr "_Експоненційне згладжування…"
 
-#: ../src/wbc-gtk-actions.c:2990
+#: ../src/wbc-gtk-actions.c:2997
 msgid "Exponential smoothing..."
 msgstr "Експоненційне згладжування…"
 
-#: ../src/wbc-gtk-actions.c:2994
+#: ../src/wbc-gtk-actions.c:3001
 msgid "_Moving Average..."
 msgstr "_Рухоме середнє…"
 
-#: ../src/wbc-gtk-actions.c:2995
+#: ../src/wbc-gtk-actions.c:3002
 msgid "Moving average..."
 msgstr "Рухоме середнє…"
 
-#: ../src/wbc-gtk-actions.c:2999
+#: ../src/wbc-gtk-actions.c:3006
 msgid "_Regression..."
 msgstr "_Регресія…"
 
-#: ../src/wbc-gtk-actions.c:3000
+#: ../src/wbc-gtk-actions.c:3007
 msgid "Regression Analysis"
 msgstr "Регресивний аналіз"
 
-#: ../src/wbc-gtk-actions.c:3004
+#: ../src/wbc-gtk-actions.c:3011
 msgid "_Kaplan-Meier Estimates..."
 msgstr "Оцінки _Каплана-Меєра…"
 
-#: ../src/wbc-gtk-actions.c:3005
+#: ../src/wbc-gtk-actions.c:3012
 msgid "Creation of Kaplan-Meier Survival Curves"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3012
+#: ../src/wbc-gtk-actions.c:3019
 msgid "_Normality Tests..."
 msgstr "П_еревірки нормальності…"
 
-#: ../src/wbc-gtk-actions.c:3013
+#: ../src/wbc-gtk-actions.c:3020
 msgid "Testing a sample for normality"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3017
+#: ../src/wbc-gtk-actions.c:3024
 msgid "Claims About a _Mean..."
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3018
+#: ../src/wbc-gtk-actions.c:3025
 msgid "Testing the value of a mean"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3025 ../src/wbc-gtk-actions.c:3072
+#: ../src/wbc-gtk-actions.c:3032 ../src/wbc-gtk-actions.c:3079
 msgid "_Sign Test..."
 msgstr "Критерій з_наків…"
 
-#: ../src/wbc-gtk-actions.c:3026 ../src/wbc-gtk-actions.c:3031
+#: ../src/wbc-gtk-actions.c:3033 ../src/wbc-gtk-actions.c:3038
 msgid "Testing the value of a median"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3030 ../src/wbc-gtk-actions.c:3077
+#: ../src/wbc-gtk-actions.c:3037 ../src/wbc-gtk-actions.c:3084
 msgid "_Wilcoxon Signed Rank Test..."
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3038
+#: ../src/wbc-gtk-actions.c:3045
 msgid "Claims About Two _Variances"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3039
+#: ../src/wbc-gtk-actions.c:3046
 msgid "Comparing two population variances"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3046
+#: ../src/wbc-gtk-actions.c:3053
 msgid "_Paired Samples..."
 msgstr "_Парні вибірки…"
 
-#: ../src/wbc-gtk-actions.c:3047
+#: ../src/wbc-gtk-actions.c:3054
 msgid "Comparing two population means for two paired samples"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3052
+#: ../src/wbc-gtk-actions.c:3059
 msgid "Unpaired Samples, _Equal Variances..."
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3053
+#: ../src/wbc-gtk-actions.c:3060
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3058
+#: ../src/wbc-gtk-actions.c:3065
 msgid "Unpaired Samples, _Unequal Variances..."
 msgstr "Непов'язані вибірки, _нерівні дисперсії…"
 
-#: ../src/wbc-gtk-actions.c:3059
+#: ../src/wbc-gtk-actions.c:3066
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3064
+#: ../src/wbc-gtk-actions.c:3071
 msgid "Unpaired Samples, _Known Variances..."
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3065
+#: ../src/wbc-gtk-actions.c:3072
 msgid "Comparing two population means from populations with known variances"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3073 ../src/wbc-gtk-actions.c:3078
+#: ../src/wbc-gtk-actions.c:3080 ../src/wbc-gtk-actions.c:3085
 msgid "Comparing the values of two medians of paired observations"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3082
+#: ../src/wbc-gtk-actions.c:3089
 msgid "Wilcoxon-_Mann-Whitney Test..."
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3083
+#: ../src/wbc-gtk-actions.c:3090
 msgid "Comparing the values of two medians of unpaired observations"
 msgstr "Порівняння значень двох медіан непов'язаних спостережень"
 
-#: ../src/wbc-gtk-actions.c:3092
+#: ../src/wbc-gtk-actions.c:3099
 msgid "_One Factor..."
 msgstr "_Однофакторний…"
 
-#: ../src/wbc-gtk-actions.c:3093
+#: ../src/wbc-gtk-actions.c:3100
 msgid "One Factor Analysis of Variance..."
 msgstr "Однофакторний дисперсійний аналіз…"
 
-#: ../src/wbc-gtk-actions.c:3097
+#: ../src/wbc-gtk-actions.c:3104
 msgid "_Two Factor..."
 msgstr "_Двофакторний…"
 
-#: ../src/wbc-gtk-actions.c:3098
+#: ../src/wbc-gtk-actions.c:3105
 msgid "Two Factor Analysis of Variance..."
 msgstr "Двофакторний дисперсійний аналіз…"
 
-#: ../src/wbc-gtk-actions.c:3105
+#: ../src/wbc-gtk-actions.c:3112
 msgid "Test of _Homogeneity..."
 msgstr "Перевірка _однорідності…"
 
-#: ../src/wbc-gtk-actions.c:3106
+#: ../src/wbc-gtk-actions.c:3113
 msgid "Chi Squared Test of Homogeneity..."
 msgstr "χ²-перевірка однорідності…"
 
-#: ../src/wbc-gtk-actions.c:3110
+#: ../src/wbc-gtk-actions.c:3117
 msgid "Test of _Independence..."
 msgstr "Перевірка _незалежності…"
 
-#: ../src/wbc-gtk-actions.c:3111
+#: ../src/wbc-gtk-actions.c:3118
 msgid "Chi Squared Test of Independence..."
 msgstr "χ²-перевірка незалежності…"
 
-#: ../src/wbc-gtk-actions.c:3118
+#: ../src/wbc-gtk-actions.c:3125
 msgid "_Sort..."
 msgstr "_Упорядкувати…"
 
-#: ../src/wbc-gtk-actions.c:3119
+#: ../src/wbc-gtk-actions.c:3126
 msgid "Sort the selected region"
 msgstr "Упорядкування позначеної області"
 
-#: ../src/wbc-gtk-actions.c:3123
+#: ../src/wbc-gtk-actions.c:3130
 msgid "Sh_uffle..."
 msgstr "Перемі_шати…"
 
-#: ../src/wbc-gtk-actions.c:3124
+#: ../src/wbc-gtk-actions.c:3131
 msgid "Shuffle cells, rows or columns"
 msgstr "Перемішати комірки, рядки або стовпчики"
 
-#: ../src/wbc-gtk-actions.c:3128
+#: ../src/wbc-gtk-actions.c:3135
 msgid "_Validate..."
 msgstr "_Перевірити…"
 
-#: ../src/wbc-gtk-actions.c:3129
+#: ../src/wbc-gtk-actions.c:3136
 msgid "Validate input with preset criteria"
 msgstr "Перевірити вхідні дані за допомогою попередньо визначених критеріїв"
 
-#: ../src/wbc-gtk-actions.c:3133
+#: ../src/wbc-gtk-actions.c:3140
 msgid "T_ext to Columns..."
 msgstr "Т_екст у стовпчики…"
 
-#: ../src/wbc-gtk-actions.c:3134
+#: ../src/wbc-gtk-actions.c:3141
 msgid "Parse the text in the selection into data"
 msgstr "Перетворити позначений текст на дані"
 
-#: ../src/wbc-gtk-actions.c:3138
+#: ../src/wbc-gtk-actions.c:3145
 msgid "_Consolidate..."
 msgstr "_Консолідувати…"
 
-#: ../src/wbc-gtk-actions.c:3139
+#: ../src/wbc-gtk-actions.c:3146
 msgid "Consolidate regions using a function"
 msgstr "Консолідувати області за допомогою функції"
 
-#: ../src/wbc-gtk-actions.c:3143
+#: ../src/wbc-gtk-actions.c:3150
 msgid "_Table..."
 msgstr "_Таблиця…"
 
-#: ../src/wbc-gtk-actions.c:3144
+#: ../src/wbc-gtk-actions.c:3151
 msgid "Create a Data Table to evaluate a function with multiple inputs"
 msgstr ""
-"Створити таблицю даних для обчислення функції із декількома наборами вхідних"
-" даних"
+"Створити таблицю даних для обчислення функції із декількома наборами вхідних "
+"даних"
 
-#: ../src/wbc-gtk-actions.c:3148
+#: ../src/wbc-gtk-actions.c:3155
 msgid "E_xport into Other Format..."
 msgstr "Е_кспортувати до іншого формату…"
 
-#: ../src/wbc-gtk-actions.c:3149
-#| msgid "Save the current workbook"
+#: ../src/wbc-gtk-actions.c:3156
 msgid "Export the current workbook or sheet"
 msgstr "Експортувати поточну робочу книгу або аркуш"
 
-#: ../src/wbc-gtk-actions.c:3153
+#: ../src/wbc-gtk-actions.c:3160
 msgid "Export as _Text File..."
 msgstr "Експортувати як _текстовий файл…"
 
-#: ../src/wbc-gtk-actions.c:3154
-#| msgid "Print the current file"
+#: ../src/wbc-gtk-actions.c:3161
 msgid "Export the current sheet as a text file"
 msgstr "Експортувати поточний аркуш як текстовий файл"
 
-#: ../src/wbc-gtk-actions.c:3158
+#: ../src/wbc-gtk-actions.c:3165
 msgid "Export as _CSV File..."
 msgstr "Експорт_увати як файл CSV…"
 
-#: ../src/wbc-gtk-actions.c:3159
-#| msgid "Print the current file"
+#: ../src/wbc-gtk-actions.c:3166
 msgid "Export the current sheet as a csv file"
 msgstr "Експортувати поточний аркуш як файл csv"
 
-#: ../src/wbc-gtk-actions.c:3163 ../src/wbc-gtk.c:1722
+#: ../src/wbc-gtk-actions.c:3170 ../src/wbc-gtk.c:1722
 msgid "Repeat Export"
 msgstr "Повторити експортування"
 
-#: ../src/wbc-gtk-actions.c:3165 ../src/wbc-gtk.c:1718 ../src/wbc-gtk.c:1722
+#: ../src/wbc-gtk-actions.c:3172 ../src/wbc-gtk.c:1718 ../src/wbc-gtk.c:1722
 msgid "Repeat the last data export"
 msgstr "Повторити останнє експортування даних"
 
-#: ../src/wbc-gtk-actions.c:3171
+#: ../src/wbc-gtk-actions.c:3178
 msgid "Auto_fill"
 msgstr "Авто_заповнення"
 
-#: ../src/wbc-gtk-actions.c:3172
+#: ../src/wbc-gtk-actions.c:3179
 msgid "Automatically fill the current selection"
 msgstr "Автоматично заповнювати поточний вибір"
 
-#: ../src/wbc-gtk-actions.c:3176
+#: ../src/wbc-gtk-actions.c:3183
 msgid "_Merge..."
 msgstr "_Об'єднати…"
 
-#: ../src/wbc-gtk-actions.c:3177
+#: ../src/wbc-gtk-actions.c:3184
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
-"Об'єднує стовпчикові дані до аркуша зі створенням дублікатів аркуші для"
-" кожного рядка"
+"Об'єднує стовпчикові дані до аркуша зі створенням дублікатів аркуші для "
+"кожного рядка"
 
-#: ../src/wbc-gtk-actions.c:3181
+#: ../src/wbc-gtk-actions.c:3188
 msgid "_Tabulate Dependency..."
 msgstr "_Табулювати залежність…"
 
-#: ../src/wbc-gtk-actions.c:3182
+#: ../src/wbc-gtk-actions.c:3189
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
-"Створити таблицю у якій значення комірок буде встановлено на основі функції"
-" від значень у інших комірках"
+"Створити таблицю у якій значення комірок буде встановлено на основі функції "
+"від значень у інших комірках"
 
-#: ../src/wbc-gtk-actions.c:3186
+#: ../src/wbc-gtk-actions.c:3193
 msgid "_Series..."
 msgstr "_Послідовності…"
 
-#: ../src/wbc-gtk-actions.c:3187
+#: ../src/wbc-gtk-actions.c:3194
 msgid "Fill according to a linear or exponential series"
 msgstr "Заповнити відповідно до лінійних або експоненційних послідовностей"
 
-#: ../src/wbc-gtk-actions.c:3191
+#: ../src/wbc-gtk-actions.c:3198
 msgid "_Uncorrelated..."
 msgstr "_Некорельовані…"
 
-#: ../src/wbc-gtk-actions.c:3192
+#: ../src/wbc-gtk-actions.c:3199
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Створити набір випадкових чисел із вибраним розподілом"
 
-#: ../src/wbc-gtk-actions.c:3196
+#: ../src/wbc-gtk-actions.c:3203
 msgid "_Correlated..."
 msgstr "_Корельовані…"
 
-#: ../src/wbc-gtk-actions.c:3197
+#: ../src/wbc-gtk-actions.c:3204
 msgid "Generate variates for correlated normal distributed random variables"
 msgstr ""
-"Створити випадкові значення для корельованих нормально розподілених"
-" випадкових змінних"
+"Створити випадкові значення для корельованих нормально розподілених "
+"випадкових змінних"
 
-#: ../src/wbc-gtk-actions.c:3201
+#: ../src/wbc-gtk-actions.c:3208
 msgid "Fill Downwards"
 msgstr "Заповнити вниз"
 
-#: ../src/wbc-gtk-actions.c:3203
+#: ../src/wbc-gtk-actions.c:3210
 msgid "Copy the content from the top row to the cells below"
 msgstr "Копіювати вміст з верхнього рядка до комірок під ним"
 
-#: ../src/wbc-gtk-actions.c:3207
+#: ../src/wbc-gtk-actions.c:3214
 msgid "Fill to Right"
 msgstr "Заповнити праворуч"
 
-#: ../src/wbc-gtk-actions.c:3209
+#: ../src/wbc-gtk-actions.c:3216
 msgid "Copy the content from the left column to the cells on the right"
 msgstr "Копіювати вміст з лівого стовпчика до комірок праворуч від нього"
 
-#: ../src/wbc-gtk-actions.c:3217
+#: ../src/wbc-gtk-actions.c:3224
 msgid "_Hide Detail"
 msgstr "При_ховати подробиці"
 
-#: ../src/wbc-gtk-actions.c:3218
+#: ../src/wbc-gtk-actions.c:3225
 msgid "Collapse an outline group"
 msgstr "Згорнути групу схеми"
 
-#: ../src/wbc-gtk-actions.c:3223
+#: ../src/wbc-gtk-actions.c:3230
 msgid "_Show Detail"
 msgstr "По_казати подробиці"
 
-#: ../src/wbc-gtk-actions.c:3224
+#: ../src/wbc-gtk-actions.c:3231
 msgid "Uncollapse an outline group"
 msgstr "Розгорнути групу схеми"
 
-#: ../src/wbc-gtk-actions.c:3229
+#: ../src/wbc-gtk-actions.c:3236
 msgid "_Group..."
 msgstr "З_групувати…"
 
-#: ../src/wbc-gtk-actions.c:3231
+#: ../src/wbc-gtk-actions.c:3238
 msgid "Add an outline group"
 msgstr "Додати групу схеми"
 
-#: ../src/wbc-gtk-actions.c:3236
+#: ../src/wbc-gtk-actions.c:3243
 msgid "_Ungroup..."
 msgstr "Розгрупувати…"
 
-#: ../src/wbc-gtk-actions.c:3238
+#: ../src/wbc-gtk-actions.c:3245
 msgid "Remove an outline group"
 msgstr "Вилучити групу схеми"
 
-#: ../src/wbc-gtk-actions.c:3245 ../src/wbc-gtk.c:1643
+#: ../src/wbc-gtk-actions.c:3252 ../src/wbc-gtk.c:1643
 msgid "Add _Auto Filter"
 msgstr "Додати до _автофільтрування"
 
-#: ../src/wbc-gtk-actions.c:3246
+#: ../src/wbc-gtk-actions.c:3253
 msgid "Add or remove a filter"
 msgstr "Додати або вилучити фільтр"
 
-#: ../src/wbc-gtk-actions.c:3250
+#: ../src/wbc-gtk-actions.c:3257
 msgid "_Clear Advanced Filter"
 msgstr "_Очистити розширений фільтр"
 
-#: ../src/wbc-gtk-actions.c:3251
+#: ../src/wbc-gtk-actions.c:3258
 msgid "Show all rows hidden by an advanced filter"
 msgstr "Показати усі рядки, які було приховано розширеним фільтруванням"
 
-#: ../src/wbc-gtk-actions.c:3255
+#: ../src/wbc-gtk-actions.c:3262
 msgid "Advanced _Filter..."
 msgstr "Розширений фільтр…"
 
-#: ../src/wbc-gtk-actions.c:3256
+#: ../src/wbc-gtk-actions.c:3263
 msgid "Filter data with given criteria"
 msgstr "Фільтр даних за вказаними критеріями"
 
-#: ../src/wbc-gtk-actions.c:3261
+#: ../src/wbc-gtk-actions.c:3268
 msgid "Import _Text File..."
 msgstr "Імпортувати _текстовий файл…"
 
-#: ../src/wbc-gtk-actions.c:3262
+#: ../src/wbc-gtk-actions.c:3269
 msgid "Import data from a text file"
 msgstr "Імпортувати дані з текстового файла"
 
-#: ../src/wbc-gtk-actions.c:3266
+#: ../src/wbc-gtk-actions.c:3273
 msgid "Import _Other File..."
 msgstr "Імпортувати _інший файл…"
 
-#: ../src/wbc-gtk-actions.c:3267
+#: ../src/wbc-gtk-actions.c:3274
 msgid "Import data from a file"
 msgstr "Імпортувати дані з файла"
 
-#: ../src/wbc-gtk-actions.c:3274
+#: ../src/wbc-gtk-actions.c:3281
 msgid "Add _Data Slicer"
 msgstr "Додати _розділювач даних"
 
-#: ../src/wbc-gtk-actions.c:3275
+#: ../src/wbc-gtk-actions.c:3282
 msgid "Create a data slicer"
 msgstr "Створити розділювач даних"
 
-#: ../src/wbc-gtk-actions.c:3279
+#: ../src/wbc-gtk-actions.c:3286
 msgid "_Refresh"
 msgstr "_Оновити"
 
-#: ../src/wbc-gtk-actions.c:3280
+#: ../src/wbc-gtk-actions.c:3287
 msgid "Regenerate a data slicer from the source data"
 msgstr "Повторно створити розділювач даних з даних джерела"
 
-#: ../src/wbc-gtk-actions.c:3284
+#: ../src/wbc-gtk-actions.c:3291
 msgid "_Edit Data Slicer..."
 msgstr "_Редагувати розділювач даних…"
 
-#: ../src/wbc-gtk-actions.c:3285
+#: ../src/wbc-gtk-actions.c:3292
 msgid "Adjust a data slicer"
 msgstr "Скоригувати розділювач даних"
 
-#: ../src/wbc-gtk-actions.c:3292 ../src/wbc-gtk.c:4057
+#: ../src/wbc-gtk-actions.c:3299 ../src/wbc-gtk.c:4057
 #: ../src/workbook-view.c:855
 msgid "Sum"
 msgstr "Сума"
 
-#: ../src/wbc-gtk-actions.c:3294
+#: ../src/wbc-gtk-actions.c:3301
 msgid "Sum into the current cell"
 msgstr "Сума в поточній комірці."
 
-#: ../src/wbc-gtk-actions.c:3299
+#: ../src/wbc-gtk-actions.c:3306
 msgid "_Function..."
 msgstr "_Функція…"
 
-#: ../src/wbc-gtk-actions.c:3300
+#: ../src/wbc-gtk-actions.c:3307
 msgid "Edit a function in the current cell"
 msgstr "Редагувати функцію у поточній комірці"
 
-#: ../src/wbc-gtk-actions.c:3307
+#: ../src/wbc-gtk-actions.c:3314
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
@@ -16979,11 +16938,11 @@ msgstr ""
 "Відсортувати вибраний діапазон у зростаючому порядку ґрунтуючись на першому "
 "вибраному стовпчику."
 
-#: ../src/wbc-gtk-actions.c:3312
+#: ../src/wbc-gtk-actions.c:3319
 msgid "Sort Descending"
 msgstr "Спадаюче сортування"
 
-#: ../src/wbc-gtk-actions.c:3313
+#: ../src/wbc-gtk-actions.c:3320
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -16991,501 +16950,501 @@ msgstr ""
 "Відсортувати вибраний діапазон у спадаючому порядку ґрунтуючись на першому "
 "вибраному стовпчику."
 
-#: ../src/wbc-gtk-actions.c:3321
+#: ../src/wbc-gtk-actions.c:3328
 msgid "Create a frame"
 msgstr "Створити кадр"
 
-#: ../src/wbc-gtk-actions.c:3326
+#: ../src/wbc-gtk-actions.c:3333
 msgid "Checkbox"
 msgstr "Графа для відмітки"
 
-#: ../src/wbc-gtk-actions.c:3327
+#: ../src/wbc-gtk-actions.c:3334
 msgid "Create a checkbox"
 msgstr "Створити графу для відмітки"
 
-#: ../src/wbc-gtk-actions.c:3332
+#: ../src/wbc-gtk-actions.c:3339
 msgid "Scrollbar"
 msgstr "Панель прокрутки"
 
-#: ../src/wbc-gtk-actions.c:3333
+#: ../src/wbc-gtk-actions.c:3340
 msgid "Create a scrollbar"
 msgstr "Створити панель прокрутки"
 
-#: ../src/wbc-gtk-actions.c:3338
+#: ../src/wbc-gtk-actions.c:3345
 msgid "Slider"
 msgstr "Повзунок"
 
-#: ../src/wbc-gtk-actions.c:3339
+#: ../src/wbc-gtk-actions.c:3346
 msgid "Create a slider"
 msgstr "Створити повзунок"
 
-#: ../src/wbc-gtk-actions.c:3344
+#: ../src/wbc-gtk-actions.c:3351
 msgid "SpinButton"
 msgstr "Кнопка-лічильник"
 
-#: ../src/wbc-gtk-actions.c:3345
+#: ../src/wbc-gtk-actions.c:3352
 msgid "Create a spin button"
 msgstr "Створити лічильник"
 
-#: ../src/wbc-gtk-actions.c:3350
+#: ../src/wbc-gtk-actions.c:3357
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:1
 msgid "List"
 msgstr "Список"
 
-#: ../src/wbc-gtk-actions.c:3351
+#: ../src/wbc-gtk-actions.c:3358
 msgid "Create a list"
 msgstr "Створити список"
 
-#: ../src/wbc-gtk-actions.c:3356
+#: ../src/wbc-gtk-actions.c:3363
 msgid "Combo Box"
 msgstr "Комбінований список"
 
-#: ../src/wbc-gtk-actions.c:3357
+#: ../src/wbc-gtk-actions.c:3364
 msgid "Create a combo box"
 msgstr "Створити комбінований список"
 
-#: ../src/wbc-gtk-actions.c:3363
+#: ../src/wbc-gtk-actions.c:3370
 msgid "Create a line object"
 msgstr "Створити лінію"
 
-#: ../src/wbc-gtk-actions.c:3368
+#: ../src/wbc-gtk-actions.c:3375
 msgid "Arrow"
 msgstr "Стрілка"
 
-#: ../src/wbc-gtk-actions.c:3369
+#: ../src/wbc-gtk-actions.c:3376
 msgid "Create an arrow object"
 msgstr "Створити стрілку"
 
-#: ../src/wbc-gtk-actions.c:3374
+#: ../src/wbc-gtk-actions.c:3381
 msgid "Rectangle"
 msgstr "Прямокутник"
 
-#: ../src/wbc-gtk-actions.c:3375
+#: ../src/wbc-gtk-actions.c:3382
 msgid "Create a rectangle object"
 msgstr "Створити прямокутник"
 
-#: ../src/wbc-gtk-actions.c:3380
+#: ../src/wbc-gtk-actions.c:3387
 msgid "Ellipse"
 msgstr "Еліпс"
 
-#: ../src/wbc-gtk-actions.c:3381
+#: ../src/wbc-gtk-actions.c:3388
 msgid "Create an ellipse object"
 msgstr "Створити еліпс"
 
-#: ../src/wbc-gtk-actions.c:3387
+#: ../src/wbc-gtk-actions.c:3394
 msgid "Create a button"
 msgstr "Створити кнопку"
 
-#: ../src/wbc-gtk-actions.c:3393
+#: ../src/wbc-gtk-actions.c:3400
 msgid "Create a radio button"
 msgstr "Створити перемикач"
 
-#: ../src/wbc-gtk-actions.c:3401
+#: ../src/wbc-gtk-actions.c:3408
 msgid "Merge a range of cells"
 msgstr "Об'єднати діапазон комірок"
 
-#: ../src/wbc-gtk-actions.c:3406
+#: ../src/wbc-gtk-actions.c:3413
 msgid "Unmerge"
 msgstr "Роз'єднати"
 
-#: ../src/wbc-gtk-actions.c:3407
+#: ../src/wbc-gtk-actions.c:3414
 msgid "Split merged ranges of cells"
 msgstr "Розбити об'єднані діапазони комірок"
 
-#: ../src/wbc-gtk-actions.c:3414
+#: ../src/wbc-gtk-actions.c:3421
 msgid "Format the selection as General"
 msgstr "Форматувати позначене як загальні дані"
 
-#: ../src/wbc-gtk-actions.c:3420
+#: ../src/wbc-gtk-actions.c:3427
 msgid "Format the selection as numbers"
 msgstr "Форматувати позначене як числа"
 
-#: ../src/wbc-gtk-actions.c:3424
+#: ../src/wbc-gtk-actions.c:3431
 msgid "Currency"
 msgstr "Валюта"
 
-#: ../src/wbc-gtk-actions.c:3426
+#: ../src/wbc-gtk-actions.c:3433
 msgid "Format the selection as currency"
 msgstr "Форматувати позначене як валюту"
 
-#: ../src/wbc-gtk-actions.c:3431
+#: ../src/wbc-gtk-actions.c:3438
 msgid "Accounting"
 msgstr "Бухгалтерський облік"
 
-#: ../src/wbc-gtk-actions.c:3432
+#: ../src/wbc-gtk-actions.c:3439
 msgid "Format the selection as accounting"
 msgstr "Форматувати позначене як фінансові дані"
 
-#: ../src/wbc-gtk-actions.c:3439
+#: ../src/wbc-gtk-actions.c:3446
 msgid "Format the selection as percentage"
 msgstr "Форматувати позначене як значення відсотків"
 
-#: ../src/wbc-gtk-actions.c:3443
+#: ../src/wbc-gtk-actions.c:3450
 msgid "Scientific"
 msgstr "Науковий"
 
-#: ../src/wbc-gtk-actions.c:3445
+#: ../src/wbc-gtk-actions.c:3452
 msgid "Format the selection as scientific"
 msgstr "Форматувати позначене як наукові дані"
 
-#: ../src/wbc-gtk-actions.c:3451
+#: ../src/wbc-gtk-actions.c:3458
 msgid "Format the selection as date"
 msgstr "Форматувати позначене як дату"
 
-#: ../src/wbc-gtk-actions.c:3457
+#: ../src/wbc-gtk-actions.c:3464
 msgid "Format the selection as time"
 msgstr "Форматувати позначене як час"
 
-#: ../src/wbc-gtk-actions.c:3461
+#: ../src/wbc-gtk-actions.c:3468
 msgid "AddBorders"
 msgstr "Додати рамки"
 
-#: ../src/wbc-gtk-actions.c:3463
+#: ../src/wbc-gtk-actions.c:3470
 msgid "Add a border around the selection"
 msgstr "Додати рамку навколо позначеного фрагмента"
 
-#: ../src/wbc-gtk-actions.c:3467
+#: ../src/wbc-gtk-actions.c:3474
 msgid "ClearBorders"
 msgstr "Вилучити рамку"
 
-#: ../src/wbc-gtk-actions.c:3469
+#: ../src/wbc-gtk-actions.c:3476
 msgid "Clear the border around the selection"
 msgstr "Вилучити рамку навколо позначеного фрагмента"
 
-#: ../src/wbc-gtk-actions.c:3475
+#: ../src/wbc-gtk-actions.c:3482
 msgid "Thousands Separator"
 msgstr "Розділовий знак тисячних розрядів"
 
-#: ../src/wbc-gtk-actions.c:3476
+#: ../src/wbc-gtk-actions.c:3483
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr ""
-"Встановити формат позначених комірок так, щоб до нього було включено"
-" роздільник тисяч"
+"Встановити формат позначених комірок так, щоб до нього було включено "
+"роздільник тисяч"
 
-#: ../src/wbc-gtk-actions.c:3481
+#: ../src/wbc-gtk-actions.c:3488
 msgid "Increase Precision"
 msgstr "Збільшити точність"
 
-#: ../src/wbc-gtk-actions.c:3482
+#: ../src/wbc-gtk-actions.c:3489
 msgid "Increase the number of decimals displayed"
 msgstr "Збільшити кількість десяткових знаків, які буде показано"
 
-#: ../src/wbc-gtk-actions.c:3487
+#: ../src/wbc-gtk-actions.c:3494
 msgid "Decrease Precision"
 msgstr "Зменшити точність"
 
-#: ../src/wbc-gtk-actions.c:3488
+#: ../src/wbc-gtk-actions.c:3495
 msgid "Decrease the number of decimals displayed"
 msgstr "Зменшити кількість десяткових знаків, які буде показано"
 
-#: ../src/wbc-gtk-actions.c:3497
+#: ../src/wbc-gtk-actions.c:3504
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Зменшити відступ і вирівняти вміст ліворуч"
 
-#: ../src/wbc-gtk-actions.c:3503
+#: ../src/wbc-gtk-actions.c:3510
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Збільшити відступ і вирівняти вміст ліворуч"
 
-#: ../src/wbc-gtk-actions.c:3511
+#: ../src/wbc-gtk-actions.c:3518
 msgid "Display _Outlines"
 msgstr "Показати с_хеми"
 
-#: ../src/wbc-gtk-actions.c:3513
+#: ../src/wbc-gtk-actions.c:3520
 msgid "Toggle whether or not to display outline groups"
 msgstr "Увімкнути або вимкнути показ груп схем"
 
-#: ../src/wbc-gtk-actions.c:3518
+#: ../src/wbc-gtk-actions.c:3525
 msgid "Outlines _Below"
 msgstr "Схема в_низу"
 
-#: ../src/wbc-gtk-actions.c:3519
+#: ../src/wbc-gtk-actions.c:3526
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Увімкнути або вимкнути показ схем рядків згори або знизу"
 
-#: ../src/wbc-gtk-actions.c:3524
+#: ../src/wbc-gtk-actions.c:3531
 msgid "Outlines _Right"
 msgstr "Схеми _праворуч"
 
-#: ../src/wbc-gtk-actions.c:3525
+#: ../src/wbc-gtk-actions.c:3532
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Увімкнути або вимкнути показ схем стовпчиків ліворуч або праворуч"
 
-#: ../src/wbc-gtk-actions.c:3531
+#: ../src/wbc-gtk-actions.c:3538
 msgid "Display _Formulæ"
 msgstr "Показати формули"
 
-#: ../src/wbc-gtk-actions.c:3533
+#: ../src/wbc-gtk-actions.c:3540
 msgid "Display the value of a formula or the formula itself"
 msgstr "Показувати значення формули, чи саму формулу"
 
-#: ../src/wbc-gtk-actions.c:3538
+#: ../src/wbc-gtk-actions.c:3545
 msgid "_Hide Zeros"
 msgstr "При_ховати нулі"
 
-#: ../src/wbc-gtk-actions.c:3539
+#: ../src/wbc-gtk-actions.c:3546
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Перемикання між відображенням нулів і пропусків"
 
-#: ../src/wbc-gtk-actions.c:3544
+#: ../src/wbc-gtk-actions.c:3551
 msgid "Hide _Gridlines"
 msgstr "Прибрати лінії сітки"
 
-#: ../src/wbc-gtk-actions.c:3545
+#: ../src/wbc-gtk-actions.c:3552
 msgid "Toggle whether or not to display gridlines"
 msgstr "Перемикання відображення сітки"
 
-#: ../src/wbc-gtk-actions.c:3550
+#: ../src/wbc-gtk-actions.c:3557
 msgid "Hide _Column Headers"
 msgstr "Приховати заголовки стовпчиків"
 
-#: ../src/wbc-gtk-actions.c:3551
+#: ../src/wbc-gtk-actions.c:3558
 msgid "Toggle whether or not to display column headers"
 msgstr "Показати/прибрати заголовки стовпчиків"
 
-#: ../src/wbc-gtk-actions.c:3556
+#: ../src/wbc-gtk-actions.c:3563
 msgid "Hide _Row Headers"
 msgstr "Приховати заголовки рядка"
 
-#: ../src/wbc-gtk-actions.c:3557
+#: ../src/wbc-gtk-actions.c:3564
 msgid "Toggle whether or not to display row headers"
 msgstr "Перемикання відображення заголовків рядків"
 
-#: ../src/wbc-gtk-actions.c:3564
+#: ../src/wbc-gtk-actions.c:3571
 msgid "Use R1C1 N_otation "
 msgstr "Поз_начення Р1С1"
 
-#: ../src/wbc-gtk-actions.c:3565
+#: ../src/wbc-gtk-actions.c:3572
 msgid "Display addresses as R1C1 or A1"
 msgstr "Показувати адреси як Р1С1 або A1"
 
-#: ../src/wbc-gtk-actions.c:3572
+#: ../src/wbc-gtk-actions.c:3579
 msgid "_Left Align"
 msgstr "Вирівняти _ліворуч"
 
-#: ../src/wbc-gtk-actions.c:3573 ../src/wbc-gtk-actions.c:3701
+#: ../src/wbc-gtk-actions.c:3580 ../src/wbc-gtk-actions.c:3708
 msgid "Align left"
 msgstr "Вирівняти ліворуч"
 
-#: ../src/wbc-gtk-actions.c:3579
+#: ../src/wbc-gtk-actions.c:3586
 msgid "_Center"
 msgstr "За _центром"
 
-#: ../src/wbc-gtk-actions.c:3580 ../src/wbc-gtk-actions.c:3702
+#: ../src/wbc-gtk-actions.c:3587 ../src/wbc-gtk-actions.c:3709
 msgid "Center horizontally"
 msgstr "За центром горизонтально"
 
-#: ../src/wbc-gtk-actions.c:3586
+#: ../src/wbc-gtk-actions.c:3593
 msgid "_Right Align"
 msgstr "Вирівняти _праворуч"
 
-#: ../src/wbc-gtk-actions.c:3587 ../src/wbc-gtk-actions.c:3703
+#: ../src/wbc-gtk-actions.c:3594 ../src/wbc-gtk-actions.c:3710
 msgid "Align right"
 msgstr "Вирівняти праворуч"
 
-#: ../src/wbc-gtk-actions.c:3593
+#: ../src/wbc-gtk-actions.c:3600
 msgid "_Center Across Selection"
 msgstr "_Центрувати уздовж позначеного"
 
-#: ../src/wbc-gtk-actions.c:3594 ../src/wbc-gtk-actions.c:3707
+#: ../src/wbc-gtk-actions.c:3601 ../src/wbc-gtk-actions.c:3714
 msgid "Center horizontally across the selection"
 msgstr "Центрувати горизонтально уздовж позначеного"
 
-#: ../src/wbc-gtk-actions.c:3599
+#: ../src/wbc-gtk-actions.c:3606
 msgid "_Merge and Center"
 msgstr "_Об'єднати і центрувати"
 
-#: ../src/wbc-gtk-actions.c:3600
+#: ../src/wbc-gtk-actions.c:3607
 msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "Об'єднати позначене у одну комірку і центрувати горизонтально."
 
-#: ../src/wbc-gtk-actions.c:3609
+#: ../src/wbc-gtk-actions.c:3616
 msgid "Align _Top"
 msgstr "Вирівняти в_гору"
 
-#: ../src/wbc-gtk-actions.c:3610
+#: ../src/wbc-gtk-actions.c:3617
 msgid "Align Top"
 msgstr "Вирівняти за верхнім краєм"
 
-#: ../src/wbc-gtk-actions.c:3615
+#: ../src/wbc-gtk-actions.c:3622
 msgid "_Vertically Center"
 msgstr "_Вертикально центрувати"
 
-#: ../src/wbc-gtk-actions.c:3616
+#: ../src/wbc-gtk-actions.c:3623
 msgid "Vertically Center"
 msgstr "Вертикально за центром"
 
-#: ../src/wbc-gtk-actions.c:3621
+#: ../src/wbc-gtk-actions.c:3628
 msgid "Align _Bottom"
 msgstr "Вирівняти в_низ"
 
-#: ../src/wbc-gtk-actions.c:3622
+#: ../src/wbc-gtk-actions.c:3629
 msgid "Align Bottom"
 msgstr "Вирівняти за нижнім краєм"
 
-#: ../src/wbc-gtk-actions.c:3631
+#: ../src/wbc-gtk-actions.c:3638
 msgid "_Bold"
 msgstr "_Напівжирний"
 
-#: ../src/wbc-gtk-actions.c:3639
+#: ../src/wbc-gtk-actions.c:3646
 msgid "_Italic"
 msgstr "_Курсив"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:3655
+#: ../src/wbc-gtk-actions.c:3662
 msgid "_Double Underline"
 msgstr "П_одвійне підкреслення"
 
-#: ../src/wbc-gtk-actions.c:3657
+#: ../src/wbc-gtk-actions.c:3664
 msgid "Double Underline"
 msgstr "Подвійне підкреслення"
 
-#: ../src/wbc-gtk-actions.c:3662
+#: ../src/wbc-gtk-actions.c:3669
 msgid "_Single Low Underline"
 msgstr "_Одинарне підкреслення"
 
-#: ../src/wbc-gtk-actions.c:3664
+#: ../src/wbc-gtk-actions.c:3671
 msgid "Single Low Underline"
 msgstr "Одинарне підкреслення"
 
-#: ../src/wbc-gtk-actions.c:3669
+#: ../src/wbc-gtk-actions.c:3676
 msgid "Double _Low Underline"
 msgstr "Под_війне підкреслення"
 
-#: ../src/wbc-gtk-actions.c:3670
+#: ../src/wbc-gtk-actions.c:3677
 msgid "Double Low Underline"
 msgstr "Подвійне підкреслення"
 
-#: ../src/wbc-gtk-actions.c:3676
+#: ../src/wbc-gtk-actions.c:3683
 msgid "_Strikethrough"
 msgstr "_Закреслений"
 
-#: ../src/wbc-gtk-actions.c:3684
+#: ../src/wbc-gtk-actions.c:3691
 msgid "Su_perscript"
 msgstr "_Верхній індекс"
 
-#: ../src/wbc-gtk-actions.c:3686
+#: ../src/wbc-gtk-actions.c:3693
 msgid "Superscript"
 msgstr "Верхній індекс"
 
-#: ../src/wbc-gtk-actions.c:3692
+#: ../src/wbc-gtk-actions.c:3699
 msgid "Subscrip_t"
 msgstr "Ни_жній індекс"
 
-#: ../src/wbc-gtk-actions.c:3694
+#: ../src/wbc-gtk-actions.c:3701
 msgid "Subscript"
 msgstr "Нижній індекс"
 
-#: ../src/wbc-gtk-actions.c:3704
+#: ../src/wbc-gtk-actions.c:3711
 msgid "Fill horizontally"
 msgstr "Заповнити горизонтально"
 
-#: ../src/wbc-gtk-actions.c:3705
+#: ../src/wbc-gtk-actions.c:3712
 msgid "Justify horizontally"
 msgstr "Розподілити горизонтально"
 
-#: ../src/wbc-gtk-actions.c:3709
+#: ../src/wbc-gtk-actions.c:3716
 msgid "Align numbers right, and text left"
 msgstr "Вирівняти числа праворуч, а текст ліворуч"
 
-#: ../src/wbc-gtk-actions.c:3714
+#: ../src/wbc-gtk-actions.c:3721
 msgid "Align top"
 msgstr "Притиснути догори"
 
-#: ../src/wbc-gtk-actions.c:3715
+#: ../src/wbc-gtk-actions.c:3722
 msgid "Center vertically"
 msgstr "По центру вертикально"
 
-#: ../src/wbc-gtk-actions.c:3716
+#: ../src/wbc-gtk-actions.c:3723
 msgid "Align bottom"
 msgstr "Притиснути донизу"
 
-#: ../src/wbc-gtk-actions.c:3718
+#: ../src/wbc-gtk-actions.c:3725
 msgid "Align distributed"
 msgstr "Вирівняти і розподілити"
 
-#: ../src/wbc-gtk-actions.c:3741 ../src/wbc-gtk-actions.c:3742
+#: ../src/wbc-gtk-actions.c:3748 ../src/wbc-gtk-actions.c:3749
 msgid "Horizontal Alignment"
 msgstr "Горизонтальне вирівнювання"
 
-#: ../src/wbc-gtk-actions.c:3752 ../src/wbc-gtk-actions.c:3753
+#: ../src/wbc-gtk-actions.c:3759 ../src/wbc-gtk-actions.c:3760
 msgid "Vertical Alignment"
 msgstr "Вертикальне вирівнювання"
 
-#: ../src/wbc-gtk-actions.c:3791
+#: ../src/wbc-gtk-actions.c:3798
 msgid "Set Foreground Color"
 msgstr "Встановити колір переднього плану"
 
-#: ../src/wbc-gtk-actions.c:3805 ../src/wbc-gtk-actions.c:3806
+#: ../src/wbc-gtk-actions.c:3812 ../src/wbc-gtk-actions.c:3813
 msgid "Foreground"
 msgstr "Передній план"
 
 #. Set background to NONE
-#: ../src/wbc-gtk-actions.c:3841
+#: ../src/wbc-gtk-actions.c:3848
 msgid "Set Background Color"
 msgstr "Встановити колір тла"
 
-#: ../src/wbc-gtk-actions.c:3864
+#: ../src/wbc-gtk-actions.c:3871
 msgid "Clear Borders"
 msgstr "Очистити поля"
 
-#: ../src/wbc-gtk-actions.c:3867
+#: ../src/wbc-gtk-actions.c:3874
 msgid "All Borders"
 msgstr "Всі поля"
 
-#: ../src/wbc-gtk-actions.c:3868
+#: ../src/wbc-gtk-actions.c:3875
 msgid "Outside Borders"
 msgstr "Зовнішні поля"
 
-#: ../src/wbc-gtk-actions.c:3869
+#: ../src/wbc-gtk-actions.c:3876
 msgid "Thick Outside Borders"
 msgstr "Товсті зовнішні поля"
 
-#: ../src/wbc-gtk-actions.c:3872
+#: ../src/wbc-gtk-actions.c:3879
 msgid "Double Bottom"
 msgstr "Подвійне знизу"
 
-#: ../src/wbc-gtk-actions.c:3873
+#: ../src/wbc-gtk-actions.c:3880
 msgid "Thick Bottom"
 msgstr "Товсте знизу"
 
-#: ../src/wbc-gtk-actions.c:3875
+#: ../src/wbc-gtk-actions.c:3882
 msgid "Top and Bottom"
 msgstr "Вгорі та знизу"
 
-#: ../src/wbc-gtk-actions.c:3876
+#: ../src/wbc-gtk-actions.c:3883
 msgid "Top and Double Bottom"
 msgstr "Вгорі та подвійне знизу"
 
-#: ../src/wbc-gtk-actions.c:3877
+#: ../src/wbc-gtk-actions.c:3884
 msgid "Top and Thick Bottom"
 msgstr "Вгорі та товсте знизу"
 
-#: ../src/wbc-gtk-actions.c:3962
+#: ../src/wbc-gtk-actions.c:3969
 msgid "Set Borders"
 msgstr "Встановити поля"
 
-#: ../src/wbc-gtk-actions.c:3970 ../src/wbc-gtk-actions.c:3971
+#: ../src/wbc-gtk-actions.c:3977 ../src/wbc-gtk-actions.c:3978
 msgid "Borders"
 msgstr "Поля"
 
-#: ../src/wbc-gtk-actions.c:4067
+#: ../src/wbc-gtk-actions.c:4074
 msgid "Redo the undone action"
 msgstr "Повторити відмінену операцію"
 
-#: ../src/wbc-gtk-actions.c:4072
+#: ../src/wbc-gtk-actions.c:4079
 msgid "Undo the last action"
 msgstr "Відмінити останню операцію"
 
-#: ../src/wbc-gtk-actions.c:4126
+#: ../src/wbc-gtk-actions.c:4133
 msgid "_Zoom"
 msgstr "_Масштаб"
 
-#: ../src/wbc-gtk-actions.c:4330
+#: ../src/wbc-gtk-actions.c:4337
 #, c-format
 msgid "Setting Font %s"
 msgstr "Встановлюємо шрифт %s"
 
-#: ../src/wbc-gtk-actions.c:4389
+#: ../src/wbc-gtk-actions.c:4396
 msgid "Change font"
 msgstr "Змінити шрифт"
 
@@ -17745,7 +17704,6 @@ msgstr "Показати/Приховати панель інструменті�
 
 #: ../src/wbc-gtk.c:4118
 #, c-format
-#| msgid "_Contents"
 msgid "Content of %s"
 msgstr "Вміст %s"
 
@@ -17859,7 +17817,6 @@ msgid "Move with cells"
 msgstr "Пересунути разом із комірками"
 
 #: ../src/widgets/gnm-so-anchor-mode-chooser.c:49
-#| msgid "About this application"
 msgid "Absolute size and position"
 msgstr "Абсолютний розмір і розташування"
 
@@ -17934,7 +17891,6 @@ msgid "Wavy"
 msgstr "Хвилястий"
 
 #: ../src/widgets/gnm-text-view.c:285
-#| msgid "Single"
 msgid "Low Single"
 msgstr "Нижня одинарна"
 
@@ -18046,7 +18002,6 @@ msgstr "Не вдалося відкрити «%s» для запису"
 
 #: ../src/workbook-view.c:1407
 #, c-format
-#| msgid "Unsupported file format."
 msgid "Unsupported file format for file \"%s\""
 msgstr "Непідтримуваний формат файлів для файла «%s»"
 
@@ -18137,34 +18092,34 @@ msgstr "атрибут перегляду робочої книги є непо�
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Файл містить несумісний елемент SheetNameIndex."
 
-#: ../src/xml-sax-read.c:2333
+#: ../src/xml-sax-read.c:2340
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Невідомий оператор фільтра «%s»"
 
-#: ../src/xml-sax-read.c:2374
+#: ../src/xml-sax-read.c:2381
 msgid "Missing filter type"
 msgstr "Не вказано тип фільтра"
 
-#: ../src/xml-sax-read.c:2387
+#: ../src/xml-sax-read.c:2394
 msgid "Malformed sheet filter condition"
 msgstr "Умова фільтра аркушів із помилковим форматуванням"
 
-#: ../src/xml-sax-read.c:2401
+#: ../src/xml-sax-read.c:2408
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Невідомий тип фільтра «%s»"
 
-#: ../src/xml-sax-read.c:2422
+#: ../src/xml-sax-read.c:2429
 msgid "Invalid filter, missing Area"
 msgstr "Некоректний фільтр — не вказано області"
 
-#: ../src/xml-sax-read.c:2487
+#: ../src/xml-sax-read.c:2494
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Непідтримуваний тип об'єктів «%s»"
 
-#: ../src/xml-sax-read.c:3800 ../src/xml-sax-write.c:1737
+#: ../src/xml-sax-read.c:3807 ../src/xml-sax-write.c:1737
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "XML Gnumeric (*.gnumeric)"
 
