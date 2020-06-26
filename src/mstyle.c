@@ -1006,7 +1006,7 @@ gnm_style_linked_sheet_changed (GnmStyle *style)
 
 /**
  * gnm_style_link_sheet:
- * @style:
+ * @style: (transfer full):
  * @sheet:
  *
  * ABSORBS a reference to the style and sets the link count to 1.
