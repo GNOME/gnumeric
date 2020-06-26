@@ -105,7 +105,7 @@ age_renderer_func (GtkTreeViewColumn *tree_column,
 	g_return_if_fail (GO_IS_DOC (doc));
 
 	if (go_doc_is_dirty (doc)) {
-		int quitting_time = GPOINTER_TO_INT
+		time_t quitting_time = GPOINTER_TO_SIZE
 			(g_object_get_data (G_OBJECT (tree_column),
 					    "quitting_time"));
 		int age = quitting_time -
@@ -244,7 +244,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 	int res;
 	gboolean quit;
 	GObject *age_column;
-	int quitting_time = g_get_real_time () / 1000000;
+	time_t quitting_time = g_get_real_time () / 1000000;
 
 	gui = gnm_gtk_builder_load ("res:ui/quit.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
@@ -296,7 +296,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 
 	age_column = gtk_builder_get_object (gui, "age_column");
 	g_object_set_data (age_column, "quitting_time",
-			   GINT_TO_POINTER (quitting_time));
+			   GSIZE_TO_POINTER (quitting_time));
 	gtk_tree_view_column_set_cell_data_func
 		(GTK_TREE_VIEW_COLUMN (age_column),
 		 GTK_CELL_RENDERER (gtk_builder_get_object (gui, "age_renderer")),

@@ -19,6 +19,7 @@ Morten:
 	* Fix ssconvert --merge-to problem.  [#496]
 	* Fix sheet size paste problem.  [#497]
 	* Speed up really large auto-filters.  [#465]
+	* Fix 2038 problem on quit.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47
