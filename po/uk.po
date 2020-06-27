@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2020-06-14 18:38+0000\n"
-"PO-Revision-Date: 2020-06-15 09:46+0300\n"
+"POT-Creation-Date: 2020-06-27 17:36+0000\n"
+"PO-Revision-Date: 2020-06-27 21:04+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3118,6 +3118,8 @@ msgid ""
 "This is the default error behavior of Search &amp; Replace indicated by an "
 "integer from 0 to 4."
 msgstr ""
+"Це типова поведінка у відповідь на помилку у засобі пошуку із заміною."
+" Визначається цілим числом від 0 до 4."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:1
 msgid "Toolbar Style"
@@ -3126,8 +3128,8 @@ msgstr "Стиль панелі інструментів"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:2
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text."
 msgstr ""
-"Стиль панелі інструментів. Коректними значеннями є both, both_horiz, icon та"
-" text."
+"Стиль панелі інструментів. Коректними значеннями є both, both_horiz, icon та "
+"text."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:3
 #: ../src/dialogs/dialog-preferences.c:778
@@ -3139,6 +3141,8 @@ msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
 msgstr ""
+"Ця змінна визначає, чи має бути показано назви аркушів у списку скасовування"
+" і поновлення дій."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:5
 #: ../src/dialogs/dialog-preferences.c:768
@@ -3162,6 +3166,8 @@ msgstr "Кількість пунктів у списку скасовуванн
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
+"Ця змінна визначає максимальну кількість записів у списку скасовування і"
+" поновлення дій."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:9
 msgid "Length of the Undo Descriptors"
@@ -3321,8 +3327,8 @@ msgid ""
 "This variable determines whether the object toolbar should be visible "
 "initially."
 msgstr ""
-"Це змінна визначає, чи має бути показано панель інструментів об'єктів одразу"
-" після запуску."
+"Це змінна визначає, чи має бути показано панель інструментів об'єктів одразу "
+"після запуску."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:41
 msgid "Object toolbar position"
@@ -3343,6 +3349,8 @@ msgid ""
 "This variable determines whether cells containing spreadsheet function are "
 "marked."
 msgstr ""
+"Ця змінна визначає, чи буде позначено комірки, у яких містяться функції"
+" електронної таблиці."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:45
 msgid "Extension Markers"
@@ -3372,6 +3380,8 @@ msgid ""
 "This variable determines the minimum number of characters required for "
 "autocompletion."
 msgstr ""
+"Ця змінна визначає мінімальну кількість символів для вмикання автоматичного"
+" доповнення."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:51
 #: ../src/dialogs/dialog-preferences.c:1069
@@ -3403,7 +3413,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:57
 msgid "Auto Expression Recalculation Lag"
-msgstr ""
+msgstr "Затримка автоматичного повторного обчислення виразу"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
 msgid ""
@@ -3539,13 +3549,13 @@ msgid ""
 "This option determines the initial state of the sort-order button in the "
 "sort dialog."
 msgstr ""
-"Цей параметр визначає початковий стан кнопки сортування-упорядковування у"
-" діалоговому вікні упорядковування."
+"Цей параметр визначає початковий стан кнопки сортування-упорядковування у "
+"діалоговому вікні упорядковування."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:81
 #: ../src/dialogs/dialog-preferences.c:803
 msgid "Number of Automatic Clauses"
-msgstr ""
+msgstr "Кількість автоматичних умов"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:82
 msgid ""
@@ -3586,8 +3596,8 @@ msgid ""
 "This is the full path to the lp_solve binary that the lpsolve plugin should "
 "use."
 msgstr ""
-"Цей повний шлях до виконуваного файла lp_solve, яким має користуватися"
-" додаток lpsolve."
+"Цей повний шлях до виконуваного файла lp_solve, яким має користуватися "
+"додаток lpsolve."
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:5
 msgid "Full path of glpsol program to use"
@@ -3598,8 +3608,8 @@ msgid ""
 "This is the full path to the glpsol binary that the lpsolve plugin should "
 "use."
 msgstr ""
-"Цей повний шлях до виконуваного файла glpsol, яким має користуватися додаток"
-" lpsolve."
+"Цей повний шлях до виконуваного файла glpsol, яким має користуватися додаток "
+"lpsolve."
 
 #: ../src/application.c:303
 msgid "Cut Object"
@@ -3828,7 +3838,7 @@ msgstr "Стирання рядків %s"
 msgid "Deleting row %s"
 msgstr "Стирання рядка %s"
 
-#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5091
+#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5096
 msgid "Clear"
 msgstr "Очистити"
 
@@ -3967,12 +3977,16 @@ msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
 msgstr ""
+"Ви справді хочете приховати усі стовпчики? Якщо ви це зробите, скасувати"
+" приховування можна за допомогою пункту меню «Формат → Стовпчик → Показати»"
 
 #: ../src/commands.c:2347
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
 msgstr ""
+"Ви справді хочете приховати усі рядки? Якщо ви це зробите, скасувати"
+" приховування можна за допомогою пункту меню «Формат → Рядок → Показати»"
 
 #: ../src/commands.c:2367
 msgid "Unhide columns"
@@ -4581,7 +4595,6 @@ msgid "Andreas J. Gülzow"
 msgstr "Andreas J. Gülzow"
 
 #: ../src/dialogs/dialog-about.c:109
-#| msgid "Statistics and GUI master"
 msgid "Statistics and GUI guru"
 msgstr "Статистична обробка та графічний гуру"
 
@@ -4844,8 +4857,9 @@ msgid "Visit the Gnumeric website"
 msgstr "Відвідайте сайт Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:592
-msgid "Copyright © 1998-2018"
-msgstr "© 1998–2018"
+#| msgid "Copyright © 1998-2018"
+msgid "Copyright © 1998-2020"
+msgstr "© 1998–2020"
 
 #: ../src/dialogs/dialog-about.c:593
 msgid "Free, Fast, Accurate - Pick Any Three!"
@@ -5040,6 +5054,7 @@ msgstr "Сталася неочікувана помилка."
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:169
 msgid "Could not create the Principal Components Analysis Tool dialog."
 msgstr ""
+"Не вдалося створити діалогове вікно інструмента аналізу головних компонентів."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:89
 msgid "The predicted median should be a number."
@@ -5258,7 +5273,7 @@ msgstr "Вказаний зсув є некоректним."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3110
 msgid "Could not create the Moving Average Tool dialog."
-msgstr ""
+msgstr "Не вдалося створити вікно інструмента рухомого середнього."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3231
 msgid "The cutoff range is not valid."
@@ -5266,7 +5281,7 @@ msgstr "Діапазон обрізання є некоректним."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3238
 msgid "The number of to be calculated cutoffs is invalid."
-msgstr ""
+msgstr "Кількість обрізань, які слід обчислити, є некоректною."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3381
 msgid "Could not create the Histogram Tool dialog."
@@ -6000,11 +6015,11 @@ msgstr "<нова назва>"
 
 #: ../src/dialogs/dialog-define-names.c:851
 msgid "Why would you want to define a name for the empty string?"
-msgstr ""
+msgstr "Навіщо вам встановлювати назву для порожнього рядка?"
 
 #: ../src/dialogs/dialog-define-names.c:876
 msgid "Why would you want to define a name to be #NAME?"
-msgstr ""
+msgstr "Навіщо вам визначати назву як #NAME?"
 
 #: ../src/dialogs/dialog-define-names.c:970
 msgid "This name is already in use!"
@@ -6048,7 +6063,7 @@ msgstr "Невідомо"
 #: ../src/dialogs/dialog-doc-metadata.c:861
 #, c-format
 msgid "Transform function of G_TYPE_STRING to %s is required!\n"
-msgstr ""
+msgstr "Слід вказати функцію перетворення G_TYPE_STRING на %s!\n"
 
 #: ../src/dialogs/dialog-doc-metadata.c:1335
 #: ../src/dialogs/dialog-doc-metadata.c:2232
@@ -8627,11 +8642,11 @@ msgstr "Пересунути позначене поле нижче в упор�
 
 #: ../src/dialogs/cell-sort.ui.h:17
 msgid "Clear all fields from the sort specification"
-msgstr ""
+msgstr "Вилучити усі поля у специфікації упорядковування"
 
 #: ../src/dialogs/cell-sort.ui.h:18
 msgid "Remove the selected field from the sort specification"
-msgstr ""
+msgstr "Вилучити позначене поле зі специфікації упорядковування"
 
 #: ../src/dialogs/cell-sort.ui.h:19
 msgid ""
@@ -8641,7 +8656,7 @@ msgstr ""
 
 #: ../src/dialogs/chi-squared.ui.h:1
 msgid "Contingency Table Analysis"
-msgstr ""
+msgstr "Аналіз таблиці спряженості"
 
 #: ../src/dialogs/chi-squared.ui.h:2
 msgid "_Contingency Table:"
@@ -10145,7 +10160,7 @@ msgstr "_Параметри"
 
 #: ../src/dialogs/mean-tests.ui.h:1
 msgid "Claims About Two Means"
-msgstr ""
+msgstr "Твердження щодо двох математичних сподівань"
 
 #: ../src/dialogs/mean-tests.ui.h:2 ../src/dialogs/sign-test-two.ui.h:2
 #: ../src/dialogs/variance-tests.ui.h:2
@@ -10251,7 +10266,7 @@ msgstr "Зважене рухоме середнє"
 
 #: ../src/dialogs/moving-averages.ui.h:12
 msgid "Spencer's 15-point moving average"
-msgstr ""
+msgstr "15-точкове рухоме середнє Спенсера"
 
 #: ../src/dialogs/moving-averages.ui.h:14
 msgid "_Interval:"
@@ -12408,8 +12423,8 @@ msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 msgstr ""
-"Вказаний суфікс назви файла не відповідає вбираному типу фалів. Хочете"
-" скористатися ним попри це?"
+"Вказаний суфікс назви файла не відповідає вбираному типу фалів. Хочете "
+"скористатися ним попри це?"
 
 #: ../src/gui-file.c:769
 msgid "%F %T"
@@ -13454,31 +13469,31 @@ msgstr "Показувати сітку"
 msgid "Control whether the grid is shown."
 msgstr ""
 
-#: ../src/sheet.c:3798
+#: ../src/sheet.c:3803
 msgid "Target region contains merged cells"
 msgstr "Діапазон призначення містить об'єднані комірки"
 
-#: ../src/sheet.c:3864
+#: ../src/sheet.c:3869
 msgid "cannot operate on merged cells"
 msgstr "неможливо оперувати на об'єднаних комірках"
 
-#: ../src/sheet.c:3877
+#: ../src/sheet.c:3882
 msgid "cannot operate on array formulæ"
 msgstr "неможливо оперувати на формулах масиву"
 
-#: ../src/sheet.c:5514
+#: ../src/sheet.c:5519
 msgid "Insert Columns"
 msgstr "Вставити стовпчики"
 
-#: ../src/sheet.c:5532
+#: ../src/sheet.c:5537
 msgid "Delete Columns"
 msgstr "Стерти стовпчики"
 
-#: ../src/sheet.c:5550
+#: ../src/sheet.c:5555
 msgid "Insert Rows"
 msgstr "Вставити рядки"
 
-#: ../src/sheet.c:5568
+#: ../src/sheet.c:5573
 msgid "Delete Rows"
 msgstr "Стерти рядки"
 
