@@ -589,7 +589,7 @@ dialog_about (WBCGtk *wbcg)
 			  "website", PACKAGE_URL,
 			  "website-label", _("Visit the Gnumeric website"),
 			  "logo-icon-name", "gnumeric",
-			  "copyright", _("Copyright \xc2\xa9 1998-2018"),
+			  "copyright", _("Copyright \xc2\xa9 1998-2020"),
 			  "comments", _("Free, Fast, Accurate - Pick Any Three!"),
 			  "license", _(LICENSE_TEXT),
 			  "wrap-license", TRUE,
