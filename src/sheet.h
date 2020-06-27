@@ -7,6 +7,7 @@
 #include <pango/pango.h>
 #include <goffice/goffice.h>
 #include <libgnumeric.h>
+#include <style-border.h>
 
 G_BEGIN_DECLS
 
@@ -364,7 +365,8 @@ GOUndo *     sheet_range_set_markup_undo (GnmSheetRange *sr,
 void	     sheet_apply_style	    (Sheet  *sheet, GnmRange const *range, GnmStyle *style);
 GOUndo *     sheet_apply_style_undo (GnmSheetRange *sr,
 				     GnmStyle      *style);
-void	     sheet_apply_border	    (Sheet  *sheet, GnmRange const *range, GnmBorder **borders);
+void	     sheet_apply_border	    (Sheet  *sheet, GnmRange const *range,
+				     GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX]);
 void	     sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
 void         sheet_cell_queue_respan (GnmCell *cell);
 void	     sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, GnmSpanCalcFlags flags);

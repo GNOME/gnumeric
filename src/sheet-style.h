@@ -27,7 +27,7 @@ GnmStyle *sheet_style_find  		(Sheet const *sheet, GnmStyle *st);
 void	 sheet_style_get_row		(Sheet const *sheet, GnmStyleRow *sr);
 GnmStyle **sheet_style_get_row2		(Sheet const *sheet, int row);
 void	 sheet_style_apply_border	(Sheet *sheet, GnmRange const *range,
-					 GnmBorder **borders);
+					 GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX]);
 void	 sheet_style_apply_range	(Sheet *sheet, GnmRange const *range,
 					 GnmStyle *pstyle);
 void	 sheet_style_apply_range2	(Sheet *sheet, GnmRange const *range,

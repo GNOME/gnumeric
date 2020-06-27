@@ -1813,11 +1813,16 @@ sheet_apply_style_undo (GnmSheetRange *sr,
 }
 
 
-
+/**
+ * sheet_apply_border:
+ * @sheet: #Sheet to change
+ * @range: #GnmRange around which to place borders
+ * @borders: (array fixed-size=8): Border styles to set.
+ */
 void
-sheet_apply_border (Sheet       *sheet,
+sheet_apply_border (Sheet *sheet,
 		    GnmRange const *range,
-		    GnmBorder **borders)
+		    GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX])
 {
 	GnmSpanCalcFlags spanflags = GNM_SPANCALC_RE_RENDER | GNM_SPANCALC_RESIZE;
 	sheet_style_apply_border (sheet, range, borders);

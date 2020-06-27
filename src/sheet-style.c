@@ -1800,9 +1800,9 @@ apply_border (Sheet *sheet, GnmRange const *r,
 
 /**
  * sheet_style_apply_border:
- * @sheet:
- * @range:
- * @borders:
+ * @sheet: #Sheet to change
+ * @range: #GnmRange around which to place borders
+ * @borders: (array fixed-size=8): Border styles to set.
  *
  * When a user applies a border to a region we attempt to remove the border
  * from the opposing side to avoid overlapping border specifications.
@@ -1811,9 +1811,9 @@ apply_border (Sheet *sheet, GnmRange const *r,
  * of the range offset upwards.
  */
 void
-sheet_style_apply_border (Sheet       *sheet,
+sheet_style_apply_border (Sheet *sheet,
 			  GnmRange const *range,
-			  GnmBorder **borders)
+			  GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX])
 {
 	GnmStyle *pstyle = NULL;
 
