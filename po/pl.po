@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-21 10:47+0200\n"
-"PO-Revision-Date: 2020-06-21 10:48+0200\n"
+"POT-Creation-Date: 2020-06-28 12:27+0200\n"
+"PO-Revision-Date: 2020-06-28 12:28+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -3960,7 +3960,7 @@ msgstr "Usuwanie rzędów %s"
 msgid "Deleting row %s"
 msgstr "Usuwanie rzędu %s"
 
-#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5091
+#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5096
 msgid "Clear"
 msgstr "Wyczyść"
 
@@ -4973,8 +4973,8 @@ msgid "Visit the Gnumeric website"
 msgstr "Witryna programu Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:592
-msgid "Copyright © 1998-2018"
-msgstr "Copyright © 1998-2018"
+msgid "Copyright © 1998-2020"
+msgstr "Copyright © 1998-2020"
 
 #: ../src/dialogs/dialog-about.c:593
 msgid "Free, Fast, Accurate - Pick Any Three!"
@@ -13600,31 +13600,31 @@ msgstr "Wyświetlenie siatki"
 msgid "Control whether the grid is shown."
 msgstr "Kontrola, czy siatka jest wyświetlana."
 
-#: ../src/sheet.c:3798
+#: ../src/sheet.c:3803
 msgid "Target region contains merged cells"
 msgstr "Obszar docelowy zawiera scalone komórki"
 
-#: ../src/sheet.c:3864
+#: ../src/sheet.c:3869
 msgid "cannot operate on merged cells"
 msgstr "nie można działać na scalonych komórkach"
 
-#: ../src/sheet.c:3877
+#: ../src/sheet.c:3882
 msgid "cannot operate on array formulæ"
 msgstr "nie można działać na wyrażeniach tablicowych"
 
-#: ../src/sheet.c:5514
+#: ../src/sheet.c:5519
 msgid "Insert Columns"
 msgstr "Wstaw kolumny"
 
-#: ../src/sheet.c:5532
+#: ../src/sheet.c:5537
 msgid "Delete Columns"
 msgstr "Usuń kolumny"
 
-#: ../src/sheet.c:5550
+#: ../src/sheet.c:5555
 msgid "Insert Rows"
 msgstr "Wstaw rzędy"
 
-#: ../src/sheet.c:5568
+#: ../src/sheet.c:5573
 msgid "Delete Rows"
 msgstr "Usuń rzędy"
 
