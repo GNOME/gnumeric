@@ -1,3 +1,8 @@
+2020-06-27  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (link_unlink_cellrange_dep): Take a GnmRange,
+	not a DependencyRange.
+
 2020-06-14  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (merge): Trigger expression sharing for merged

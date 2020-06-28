@@ -954,11 +954,13 @@ link_unlink_single_dep (GnmDependent *dep, GnmCellPos const *pos,
 
 static void
 link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
-		DependencyRange const *r)
+		GnmRange const *r)
 {
-	int i = BUCKET_OF_ROW (r->range.start.row);
-	int end = BUCKET_OF_ROW (r->range.end.row);
-	DependencyRange r2 = *r;
+	int i = BUCKET_OF_ROW (r->start.row);
+	int end = BUCKET_OF_ROW (r->end.row);
+	DependencyRange dr;
+
+	dr.range = *r;
 
 	/*
 	 * It is possible to see ranges bigger than the sheet when
@@ -970,15 +972,15 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		DependencyRange *result;
 
 		/* Restrict range to bucket.  */
-		r2.range.start.row = MAX (r->range.start.row, BUCKET_START_ROW (i));
-		r2.range.end.row = MIN (r->range.end.row, BUCKET_END_ROW (i));
+		dr.range.start.row = MAX (r->start.row, BUCKET_START_ROW (i));
+		dr.range.end.row = MIN (r->end.row, BUCKET_END_ROW (i));
 
 		if (deps->range_hash[i] == NULL)
 			deps->range_hash[i] = g_hash_table_new (
 				(GHashFunc)  deprange_hash,
 				(GEqualFunc) deprange_equal);
 		else {
-			result = g_hash_table_lookup (deps->range_hash[i], &r2);
+			result = g_hash_table_lookup (deps->range_hash[i], &dr);
 			if (result) {
 				/* Inserts if it is not already there */
 				micro_hash_insert (&result->deps, dep);
@@ -988,7 +990,7 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 
 		/* Create a new DependencyRange structure */
 		result = go_mem_chunk_alloc (deps->range_pool);
-		*result = r2;
+		*result = dr;
 		micro_hash_init (&result->deps, dep);
 		g_hash_table_insert (deps->range_hash[i], result, result);
 	}
@@ -996,14 +998,15 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 
 static void
 unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
-		  DependencyRange const *r)
+		  GnmRange const *r)
 {
-	int i = BUCKET_OF_ROW (r->range.start.row);
-	int end = BUCKET_OF_ROW (r->range.end.row);
-	DependencyRange r2 = *r;
+	int i = BUCKET_OF_ROW (r->start.row);
+	int end = BUCKET_OF_ROW (r->end.row);
+	DependencyRange dr;
 
 	if (!deps)
 		return;
+	dr.range = *r;
 
 	end = MIN (end, deps->buckets - 1);
 
@@ -1011,10 +1014,10 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		DependencyRange *result;
 
 		/* Restrict range to bucket.  */
-		r2.range.start.row = MAX (r->range.start.row, BUCKET_START_ROW (i));
-		r2.range.end.row = MIN (r->range.end.row, BUCKET_END_ROW (i));
+		dr.range.start.row = MAX (r->start.row, BUCKET_START_ROW (i));
+		dr.range.end.row = MIN (r->end.row, BUCKET_END_ROW (i));
 
-		result = g_hash_table_lookup (deps->range_hash[i], &r2);
+		result = g_hash_table_lookup (deps->range_hash[i], &dr);
 		if (result) {
 			micro_hash_remove (&result->deps, dep);
 			if (micro_hash_is_empty (&result->deps)) {
@@ -1028,7 +1031,7 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 
 static inline void
 link_unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
-		       DependencyRange const *r, gboolean qlink)
+		       GnmRange const *r, gboolean qlink)
 {
 	if (qlink)
 		link_range_dep (deps, dep, r);
@@ -1041,12 +1044,12 @@ link_unlink_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 			   GnmCellRef const *a, GnmCellRef const *b,
 			   gboolean qlink)
 {
-	DependencyRange range;
+	GnmRange range;
 	GnmDependentFlags flag = DEPENDENT_NO_FLAG;
 
-	gnm_cellpos_init_cellref (&range.range.start, a, pos, dep->sheet);
-	gnm_cellpos_init_cellref (&range.range.end, b, pos, dep->sheet);
-	range_normalize (&range.range);
+	gnm_cellpos_init_cellref (&range.start, a, pos, dep->sheet);
+	gnm_cellpos_init_cellref (&range.end, b, pos, dep->sheet);
+	range_normalize (&range);
 
 	if (a->sheet != NULL) {
 		if (a->sheet != dep->sheet)
