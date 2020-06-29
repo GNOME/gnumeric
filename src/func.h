@@ -56,7 +56,6 @@ GnmFuncGroup *gnm_func_group_fetch (char const *name,
  * Without intersection or iteration support
  *	r : cell range	content is _NOT_ guaranteed to have been evaluated yet
  *	A : area	either range or array (as above)
- *	a : array
  *	? : anything
  *
  *  For optional arguments do:
