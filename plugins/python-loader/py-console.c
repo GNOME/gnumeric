@@ -1,3 +1,4 @@
+
 /*
  * py-console.c: Python console.
  *
@@ -120,6 +121,20 @@ app_cline_entered (GnmPyCommandLine *cline)
 	g_return_if_fail (app != NULL);
 
 	cmd = g_strstrip (g_strdup (gtk_entry_get_text (GTK_ENTRY (cline))));
+	while (*cmd == ' ')
+		cmd++;
+	if (!strncmp (cmd, "quit", 4)) {
+		/* check if the non space character is a left bracket */
+		char *cur = cmd + 4;
+		while (*cur && g_unichar_isspace (g_utf8_get_char (cur)))
+			cur = g_utf8_next_char (cur);
+		if (*cur == '(') {
+			/* don't close gnumeric, just the console */
+			gtk_widget_destroy (app->win);
+			app = NULL;
+			return;
+		}
+	}
 	msg = g_strdup_printf (">>> %s\n", cmd);
 	app_text_print (msg, FORMAT_COMMAND, FALSE);
 	g_free (msg);

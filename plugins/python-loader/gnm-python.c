@@ -121,6 +121,7 @@ gnm_python_object_get (GOErrorInfo **err)
 {
 	GO_INIT_RET_ERROR_INFO (err);
 	if (!Py_IsInitialized ()) {
+		PyImport_AppendInittab ("Gnumeric", py_initgnumeric);
 		Py_Initialize ();
 #ifdef WITH_THREAD
 		PyEval_InitThreads ();

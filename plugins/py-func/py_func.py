@@ -15,7 +15,7 @@ def func_printf(format, *args):
 	try:
 		val = format % args
 	except TypeError:
-		raise GnumericError, GnumericErrorVALUE
+		raise GnumericError(GnumericErrorVALUE)
 	else:
 		return val
 

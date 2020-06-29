@@ -10,6 +10,7 @@ Andreas:
 Jean:
 	* Fix xlsx object non-import crash.
 	* Fix in-place graph data problem.  [#492]
+	* Port to Python3. [#419]
 
 Morten:
 	* Fix performance issue with sample_datasource.  [#491]

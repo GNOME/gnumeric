@@ -1,3 +1,7 @@
+2020-06-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.ac: port to Python3. [#419]
+
 2020-06-27  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (link_unlink_cellrange_dep): Take a GnmRange,

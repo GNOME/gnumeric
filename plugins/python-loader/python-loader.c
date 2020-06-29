@@ -29,6 +29,7 @@
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>
+
 #include <glib/gstdio.h>
 
 #include <stdlib.h>
@@ -287,7 +288,7 @@ gplp_func_file_open (G_GNUC_UNUSED GOFileOpener const *fo,
 		open_result = PyObject_CallFunction
 			(loader_data->python_func_file_open,
 			 (char *) "NO",
-			 py_new_Sheet_object (sheet), input_wrapper);
+			 pygobject_new (G_OBJECT (sheet)), input_wrapper);
 		Py_DECREF (input_wrapper);
 	}
 	if (open_result != NULL) {
@@ -388,7 +389,7 @@ gplp_func_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOPluginService *servi
 
 	saver_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
-	py_workbook = py_new_Workbook_object (wb_view_get_workbook (wb_view));
+	py_workbook = pygobject_new (G_OBJECT (wb_view_get_workbook (wb_view)));
 	output_wrapper = pygobject_new (G_OBJECT (output));
 	if (output_wrapper != NULL) {
 		/* wrapping adds a reference */
@@ -533,6 +534,11 @@ call_python_function_nodes (GnmFuncEvalInfo *ei,
 	return ret_value;
 }
 
+static void FuncHelpDestructor (PyObject *object)
+{
+	g_free (PyCapsule_GetPointer (object, "FuncHelp"));
+}
+
 static GnmFuncHelp const *
 python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *python_fn,
                                    const gchar *fn_name)
@@ -552,11 +558,11 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 			PyFunction_Check (python_fn)
 			? ((PyFunctionObject *) python_fn)->func_doc
 			: NULL;
-		if (python_fn_help != NULL && PyString_Check (python_fn_help)) {
+		if (python_fn_help != NULL && PyUnicode_Check (python_fn_help)) {
 			guint n = 0;
 			GnmFuncHelp *new_help = NULL;
 			gboolean arg_names_written = FALSE;
-			char const *help_text = PyString_AsString (python_fn_help);
+			char const *help_text = PyUnicode_AsUTF8 (python_fn_help);
 
 			if (g_str_has_prefix (help_text, "@GNM_FUNC_HELP_NAME@")) {
 				/* New-style documentation */
@@ -623,7 +629,7 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 			if (python_arg_names != NULL && !arg_names_written) {
 				/* We only try this if we did not get argument  */
 				/* descriptions via the new style documentation */
-				char const *arg_names = PyString_AsString (python_arg_names);
+				char const *arg_names = PyUnicode_AsUTF8 (python_arg_names);
 				if (arg_names != NULL && arg_names[0] != '\0') {
 					gchar **args = g_strsplit (arg_names, ",", 0);
 					guint nitems = g_strv_length (args), nstart = n, i;
@@ -644,7 +650,7 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 			new_help[n-1].type = GNM_FUNC_HELP_END;
 			new_help[n-1].text = NULL;
 
-			cobject_help_value = PyCObject_FromVoidPtr (new_help, &g_free);
+			cobject_help_value = PyCapsule_New (new_help, "FuncHelp", FuncHelpDestructor);
 			PyDict_SetItemString (python_fn_info_dict, help_attr_name, cobject_help_value);
 		}
 	}
@@ -652,7 +658,7 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 	if (cobject_help_value == NULL)
 		return NULL;
 
-	return (GnmFuncHelp const *) PyCObject_AsVoidPtr (cobject_help_value);
+	return (GnmFuncHelp const *) PyCapsule_GetPointer (cobject_help_value, "FuncHelp");
 }
 
 static void
@@ -682,12 +688,12 @@ gplp_func_load_stub (GOPluginService *service,
 
 		if (PyTuple_Size (fn_info_obj) == 3 &&
 		    (python_args = PyTuple_GetItem (fn_info_obj, 0)) != NULL &&
-			PyString_Check (python_args) &&
+			PyUnicode_Check (python_args) &&
 		    (python_fn = PyTuple_GetItem (fn_info_obj, 2)) != NULL &&
 		    PyCallable_Check (python_fn)) {
 			GnmFuncHelp const *help = python_function_get_gnumeric_help
 				(loader_data->python_fn_info_dict, python_fn, name);
-			gnm_func_set_fixargs (func, call_python_function_args, PyString_AsString (python_args));
+			gnm_func_set_fixargs (func, call_python_function_args, PyUnicode_AsUTF8 (python_args));
 			gnm_func_set_help (func, help, -1);
 			gnm_func_set_impl_status (func, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC);
 			g_object_set_data (G_OBJECT (func), SERVICE_KEY, service);
@@ -817,7 +823,7 @@ gplp_func_exec_action (GOPluginService *service,
 		return;
 	}
 	ret = PyObject_CallFunction (fn, (char *) "N",
-				     py_new_Gui_object (WBC_GTK (wbc)));
+				     pygobject_new (G_OBJECT (WBC_GTK (wbc))));
 	if (ret == NULL) {
 		*ret_error = go_error_info_new_str (py_exc_to_string ());
 		PyErr_Clear ();

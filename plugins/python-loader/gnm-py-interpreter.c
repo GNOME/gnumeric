@@ -21,7 +21,7 @@ struct _GnmPyInterpreter {
 	GObject parent_instance;
 
 	PyThreadState *py_thread_state;
-	PyObject      *stringio_class;
+	PyTypeObject *stringio_class;
 	GOPlugin *plugin;
 };
 
@@ -77,7 +77,7 @@ gnm_py_interpreter_class_init (GObjectClass *gobject_class)
 		G_TYPE_NONE, 0);
 }
 
-static char *plugin_argv[] = {(char *) "/dev/null/python/is/buggy/gnumeric", NULL};
+static wchar_t *plugin_argv[] = {(wchar_t *) L"/dev/null/python/is/buggy/gnumeric", NULL};
 
 GnmPyInterpreter *
 gnm_py_interpreter_new (GOPlugin *plugin)
@@ -99,7 +99,9 @@ gnm_py_interpreter_new (GOPlugin *plugin)
 	interpreter->plugin = plugin;
 
 	PySys_SetArgv (G_N_ELEMENTS (plugin_argv) - 1, plugin_argv);
-	py_initgnumeric (interpreter);
+	gnm_py_interpreter_switch_to (interpreter);
+	if (plugin != NULL)
+		py_gnumeric_add_plugin (py_initgnumeric (), interpreter);
 
 	return interpreter;
 }
@@ -140,7 +142,7 @@ run_print_string (const char *cmd, PyObject *stdout_obj)
 	v = PyRun_String ((char *) cmd, Py_single_input, d, d);
 	if (!v)
 		PyErr_Print ();
-	if (Py_FlushLine () != 0)
+	if (PyFile_WriteString ("\n", stdout_obj) != 0)
 		PyErr_Clear ();
 	if (v && v != Py_None && stdout_obj) {
 		if (PyFile_WriteObject (v, stdout_obj, Py_PRINT_RAW) != 0)
@@ -171,26 +173,30 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 	sys_module_dict = PyModule_GetDict (sys_module);
 	g_return_if_fail (sys_module_dict != NULL);
 	if (interpreter->stringio_class == NULL) {
-		PyObject *stringio_module, *stringio_module_dict;
+		PyObject *stringio_module, *stringio_module_dict, *sublist;
 
-		stringio_module = PyImport_ImportModule ((char *) "StringIO");
+		sublist = PyList_New (0);
+		PyList_Insert (sublist, 0, PyUnicode_FromString ((char const *) "StringIO"));
+		stringio_module = PyImport_ImportModule ((char const *) "io");
+		Py_DECREF (sublist);
 		if (stringio_module == NULL)
 			PyErr_Print ();
 		g_return_if_fail (stringio_module != NULL);
 		stringio_module_dict = PyModule_GetDict (stringio_module);
 		g_return_if_fail (stringio_module_dict != NULL);
-		interpreter->stringio_class
-			= PyDict_GetItemString (stringio_module_dict,
-						(char *) "StringIO");
+		interpreter->stringio_class	= 
+				(PyTypeObject *) PyDict_GetItemString (stringio_module_dict,
+													   (char *) "StringIO");
 		g_return_if_fail (interpreter->stringio_class != NULL);
 		Py_INCREF (interpreter->stringio_class);
 	}
 	if (opt_stdout != NULL) {
-		stdout_obj = PyInstance_New(interpreter->stringio_class,
+		stdout_obj = PyType_GenericNew(interpreter->stringio_class,
 					    NULL, NULL);
 		if (stdout_obj == NULL)
 			PyErr_Print ();
 		g_return_if_fail (stdout_obj != NULL);
+		PyObject_CallMethod (stdout_obj, (char *) "__init__", NULL);
 		saved_stdout_obj = PyDict_GetItemString (sys_module_dict,
 							 (char *) "stdout");
 		g_return_if_fail (saved_stdout_obj != NULL);
@@ -199,11 +205,12 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 				      stdout_obj);
 	}
 	if (opt_stderr != NULL) {
-		stderr_obj = PyInstance_New(interpreter->stringio_class,
+		stderr_obj = PyType_GenericNew(interpreter->stringio_class,
 					    NULL, NULL);
 		if (stderr_obj == NULL)
 			PyErr_Print ();
 		g_return_if_fail (stderr_obj != NULL);
+		PyObject_CallMethod (stderr_obj, (char *) "__init__", NULL);
 		saved_stderr_obj = PyDict_GetItemString (sys_module_dict,
 							 (char *) "stderr");
 		g_return_if_fail (saved_stderr_obj != NULL);
@@ -218,8 +225,8 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		Py_DECREF (saved_stdout_obj);
 		py_str = PyObject_CallMethod (stdout_obj, (char *) "getvalue",
 					      NULL);
-		if (py_str && PyString_Check (py_str))
-			*opt_stdout = g_strdup (PyString_AsString (py_str));
+		if (py_str && PyUnicode_Check (py_str))
+			*opt_stdout = g_strdup (PyUnicode_AsUTF8 (py_str));
 		else
 			*opt_stdout = NULL;
 		if (py_str == NULL)
@@ -232,8 +239,8 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		Py_DECREF (saved_stderr_obj);
 		py_str = PyObject_CallMethod (stderr_obj, (char *) "getvalue",
 					      NULL);
-		if (py_str && PyString_Check (py_str))
-			*opt_stderr = g_strdup (PyString_AsString (py_str));
+		if (py_str && PyUnicode_Check (py_str))
+			*opt_stderr = g_strdup (PyUnicode_AsUTF8 (py_str));
 		else
 			*opt_stderr = NULL;
 		if (py_str == NULL)

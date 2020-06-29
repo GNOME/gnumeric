@@ -900,21 +900,17 @@ AM_CONDITIONAL(HAVE_PYTHON_GI, test "x$have_python_gi" = "xyes")
 
 
 if test "x$python_msg" = xyes; then
-    # We're checking for python2 here, but we are likely to find python3.
-    # That's by design.
-    # Python2 is dead (or at least dying).
-    BIG_CHECKING([for python = 2.x])
+    BIG_CHECKING([for python = 3.x])
     [PY_VERSION=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:3])'`
      major_ver=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:1])'`]
-    if test "x$major_ver" = "x2"; then
+    if test "x$major_ver" = "x3"; then
 	AC_MSG_RESULT(yes)
 	if test "x$with_native_win32" = xyes ; then
-	    # 2.x on linux, 2x on win32
+	    # 3.x on linux, 3x on win32
 	    PY_VERSION=`echo $PY_VERSION | sed -e 's/\\.//'`
 	fi
     else
 	AC_MSG_RESULT([no. $PYTHON is version $PY_VERSION])
-	python_msg="No.  This doesn't work with python3+ yet.  No ETA."
     fi
 fi
 
