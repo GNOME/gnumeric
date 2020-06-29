@@ -368,7 +368,7 @@ gnm_func_set_varargs (GnmFunc *func, GnmFuncNodes fn, const char *spec)
 		const char *q = strchr (spec, '.'); // "..."
 		if (p) func->min_args = p - spec;
 		if (!q) func->min_args = strlen (spec) - (p != NULL);
-	}		
+	}
 }
 
 /**

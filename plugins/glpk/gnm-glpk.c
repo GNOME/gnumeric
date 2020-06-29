@@ -128,7 +128,7 @@ gnm_glpk_detect_version (GnmGlpk *lp,
 		if (gnm_solver_debug ())
 			g_printerr ("Detected version 4.58 file format\n");
 		goto out;
-	}	
+	}
 
 out:
 	// Extra seek due to gsf bug
@@ -441,7 +441,7 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 				sensitivity->constraints[cidx].high = high;
 			}
 		}
-		
+
 		g_strfreev (items);
 		g_strfreev (items2);
 

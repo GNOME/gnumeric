@@ -330,7 +330,7 @@ call_python_function (PyObject *python_fn, GnmEvalPos const *eval_pos, gint n_ar
 	gboolean eval_pos_set;
 
 	g_return_val_if_fail (python_fn != NULL && PyCallable_Check (python_fn), NULL);
-	
+
 	python_args = PyTuple_New (n_args);
 	g_return_val_if_fail (python_args != NULL, NULL);
 	for (i = 0; i < n_args; i++) {

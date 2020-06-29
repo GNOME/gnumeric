@@ -97,7 +97,7 @@ xlsx_write_series_dim (XLSXWriteState *state, GsfXMLOut *xml, GogSeries const *s
 				break;
 		if (dim == (int) desc->num_dim)
 			return;
-	}	
+	}
 	dat = gog_dataset_get_dim (GOG_DATASET (series), dim);
 	if (NULL != dat) {
 		GnmExprTop const *texpr = gnm_go_data_get_expr (dat);

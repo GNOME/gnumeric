@@ -46,7 +46,7 @@ typedef struct {
 	const GnmDiffActions *actions;
 	gboolean diff_found;
 	gboolean error;
-	
+
 	Sheet *old_sheet, *new_sheet;
 	GnmRange common_range;
 
@@ -317,7 +317,7 @@ diff_names (GnmDiffIState *istate,
 	else
 		// Hmm...  It's not terribly important where we get them
 		convs = sheet_get_conventions (workbook_sheet_by_index (istate->new_wb, 0));
-		
+
 	old_names = g_slist_sort (old_names, (GCompareFunc)cb_expr_name_by_name);
 	new_names = g_slist_sort (new_names, (GCompareFunc)cb_expr_name_by_name);
 

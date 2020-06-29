@@ -323,7 +323,7 @@ rosenbrock_iter (GnmNlsolve *nl)
 
 	// Give gcc a few hints.
 	g_assert (n >= 0 && n < (1<<20));
-	
+
 	if (nl->tentative) {
 		nl->tentative--;
 		if (nl->tentative == 0) {

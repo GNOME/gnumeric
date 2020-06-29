@@ -184,7 +184,7 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		g_return_if_fail (stringio_module != NULL);
 		stringio_module_dict = PyModule_GetDict (stringio_module);
 		g_return_if_fail (stringio_module_dict != NULL);
-		interpreter->stringio_class	= 
+		interpreter->stringio_class	=
 				(PyTypeObject *) PyDict_GetItemString (stringio_module_dict,
 													   (char *) "StringIO");
 		g_return_if_fail (interpreter->stringio_class != NULL);
