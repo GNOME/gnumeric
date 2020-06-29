@@ -1283,8 +1283,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 	if (ei->func_call->func == fn_if && iter_count == -1)
 		return gnumeric_if2 (ei, argc, argv, flags);
 
-	pass_flags = (flags &
-		      (GNM_EXPR_EVAL_ARRAY_CONTEXT));
+	pass_flags = (flags & 0); // Nothing right now.
 
 	for (i = 0; i < argc; i++) {
 		char arg_type = fn_def->arg_types[i];

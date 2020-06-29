@@ -3367,22 +3367,33 @@ gnm_expr_top_eval (GnmExprTop const *texpr,
 		res = gnm_expr_top_eval_array_corner (texpr, pos, flags);
 	else if (gnm_expr_top_is_array_elem (texpr, NULL, NULL))
 		res = gnm_expr_top_eval_array_elem (texpr, pos, flags);
-	else if ((flags & GNM_EXPR_EVAL_ARRAY_CONTEXT) && !eval_pos_is_array_context (pos)) {
-		// Array context out of the blue.  Fake it.
-		GnmEvalPos pos2;
-		GnmExprTop const *fake = gnm_expr_top_new_array_corner (1, 1, NULL);
-		((GnmExpr *)(fake->expr))->array_corner.expr = texpr->expr; // Patch in our expr
-		pos2 = *pos;
-		pos2.array_texpr = fake;
-		res = gnm_expr_eval (texpr->expr, &pos2, flags);
-		((GnmExpr *)(fake->expr))->array_corner.expr = NULL;
-		gnm_expr_top_unref (fake);
-	} else
+	else
 		res = gnm_expr_eval (texpr->expr, pos, flags);
 	gnm_app_recalc_finish ();
 
 	return res;
 }
+
+GnmValue *
+gnm_expr_top_eval_fake_array (GnmExprTop const *texpr,
+			      GnmEvalPos const *pos,
+			      GnmExprEvalFlags flags)
+{
+	if (eval_pos_is_array_context (pos))
+		return gnm_expr_top_eval (texpr, pos, flags);
+	else {
+		GnmEvalPos pos2 = *pos;
+		GnmExprTop const *fake = gnm_expr_top_new_array_corner (1, 1, NULL);
+		GnmValue *res;
+		((GnmExpr *)(fake->expr))->array_corner.expr = texpr->expr; // Patch in our expr
+		pos2.array_texpr = fake;
+		res = gnm_expr_eval (texpr->expr, &pos2, flags);
+		((GnmExpr *)(fake->expr))->array_corner.expr = NULL;
+		gnm_expr_top_unref (fake);
+		return res;
+	}
+}
+
 
 static GSList *
 gnm_insert_unique (GSList *list, gpointer data)

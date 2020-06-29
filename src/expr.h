@@ -219,6 +219,10 @@ char	 *gnm_expr_top_multiple_as_string  (GnmExprTop const *texpr,
 					    GnmParsePos const *pp,
 					    GnmConventions const *convs);
 
+GnmValue *gnm_expr_top_eval_fake_array (GnmExprTop const *texpr,
+					GnmEvalPos const *pos,
+					GnmExprEvalFlags flags);
+
 /*****************************************************************************/
 
 GType             gnm_expr_sharer_get_type (void);

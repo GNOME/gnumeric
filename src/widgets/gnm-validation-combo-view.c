@@ -108,10 +108,9 @@ vcombo_create_list (SheetObject *so,
 	g_return_val_if_fail (sv != NULL, NULL);
 
 	eval_pos_init_editpos (&ep, sv);
-	v = gnm_expr_top_eval (val->deps[0].texpr, &ep,
-			       GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
-			       GNM_EXPR_EVAL_PERMIT_EMPTY |
-			       GNM_EXPR_EVAL_ARRAY_CONTEXT);
+	v = gnm_expr_top_eval_fake_array (val->deps[0].texpr, &ep,
+					  GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+					  GNM_EXPR_EVAL_PERMIT_EMPTY);
 	if (NULL == v)
 		return NULL;
 

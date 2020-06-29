@@ -565,8 +565,10 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 				for (cur = l; cur != NULL; cur = cur->next)
 					value_release (cur->data);
 			}
-			vec->val = gnm_expr_top_eval (vec->dep.texpr, &ep,
-				GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY | GNM_EXPR_EVAL_ARRAY_CONTEXT);
+			vec->val = gnm_expr_top_eval_fake_array
+				(vec->dep.texpr, &ep,
+				 GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+				 GNM_EXPR_EVAL_PERMIT_EMPTY);
 		}
 		g_slist_free (l);
 	}
