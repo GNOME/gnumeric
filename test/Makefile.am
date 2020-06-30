@@ -62,6 +62,7 @@ TESTS =	t1000-statfuns.pl			\
 	t1900-array.pl				\
 	t1901-regress.pl			\
 	t1902-array-intersection.pl		\
+	t1903-intersection-tests.pl		\
 	t2000-names-insdel.pl			\
 	t2001-func-help.pl			\
 	t2002-nonascii-numbers.pl		\

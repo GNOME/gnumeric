@@ -232,6 +232,7 @@ my @dist_corpus =
      "$samples/formula-tests.gnumeric",
      "$samples/graph-tests.gnumeric",
      "$samples/hlink-tests.gnumeric",
+     "$samples/intersection-tests.gnumeric",
      "$samples/merge-tests.gnumeric",
      "$samples/names-tests.gnumeric",
      "$samples/number-tests.gnumeric",

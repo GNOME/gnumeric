@@ -21,6 +21,7 @@ Morten:
 	* Fix sheet size paste problem.  [#497]
 	* Speed up really large auto-filters.  [#465]
 	* Fix 2038 problem on quit.
+	* Improve tests.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47
