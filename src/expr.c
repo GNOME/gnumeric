@@ -848,6 +848,8 @@ handle_empty (GnmValue *res, GnmExprEvalFlags flags)
  *
  * Always release the value passed in.
  *
+ * NOTE: This should match link_unlink_constant.
+ *
  * Return value:
  *     If the intersection succeeded return a duplicate of the value
  *     at the intersection point.  This value needs to be freed.
@@ -883,20 +885,21 @@ value_intersection (GnmValue *v, GnmEvalPos const *pos)
 			col = r.start.col;
 			row = r.start.row;
 			found = TRUE;
-		} else if (r.start.row == r.end.row) {
-			if (r.start.col <= col && col <= r.end.col) {
-				row = r.start.row;
-				found = TRUE;
-			} else if (r.start.col == r.end.col) {
-				col = r.start.col;
-				row = r.start.row;
-				found = TRUE;
-			}
-		} else if (r.start.col == r.end.col) {
-			if (r.start.row <= row && row <= r.end.row) {
-				col = r.start.col;
-				found = TRUE;
-			}
+		} else if (range_is_singleton (&r)) {
+			// A single cell
+			col = r.start.col;
+			row = r.start.row;
+			found = TRUE;
+		} else if (r.start.row == r.end.row &&
+			   r.start.col <= col && col <= r.end.col) {
+			// A horizontal sliver
+			row = r.start.row;
+			found = TRUE;
+		} else if (r.start.col == r.end.col &&
+			   r.start.row <= row && row <= r.end.row) {
+			// A vertical sliver
+			col = r.start.col;
+			found = TRUE;
 		}
 		if (found) {
 			GnmCell *cell = sheet_cell_get (

@@ -22,6 +22,7 @@ Morten:
 	* Speed up really large auto-filters.  [#465]
 	* Fix 2038 problem on quit.
 	* Improve tests.
+	* Improve dependency tracking for implicit intersection. [#501]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47
