@@ -7,4 +7,4 @@ use GnumericTest;
 
 my $file = "intersection-tests.gnumeric";
 &message ("Check that $file evaluates correctly.");
-&test_sheet_calc ("$samples/$file", "B1:B3", sub { /(\bTRUE\b\s*){3}/ });
+&test_sheet_calc ("$samples/$file", "B1:B5", sub { /^(\bTRUE\b\s*)*$/ });
