@@ -1877,47 +1877,28 @@ cell_queue_recalc (GnmCell *cell)
 	}
 }
 
-typedef struct {
-	int col, row;
-	GnmDepFunc func;
-	gpointer user;
-} search_rangedeps_closure_t;
-
-static void
-cb_search_rangedeps (gpointer key, G_GNUC_UNUSED gpointer value,
-		     gpointer closure)
-{
-	search_rangedeps_closure_t const *c = closure;
-	DependencyRange const *deprange = key;
-	GnmRange const *range = &(deprange->range);
-
-#if 0
-	/* When things get slow this is a good test to enable */
-	static int counter = 0;
-	if ((++counter % 100000) == 0)
-		g_printerr ("%d\n", counter / 100000);
-#endif
-
-	if (range_contains (range, c->col, c->row)) {
-		GnmDepFunc func = c->func;
-		micro_hash_foreach_dep (deprange->deps, dep,
-			(func) (dep, c->user););
-	}
-}
-
 static void
 cell_foreach_range_dep (GnmCell const *cell, GnmDepFunc func, gpointer user)
 {
-	search_rangedeps_closure_t closure;
+	Sheet *sheet = cell->base.sheet;
 	GHashTable *bucket =
-		cell->base.sheet->deps->range_hash[BUCKET_OF_ROW (cell->pos.row)];
+		sheet->deps->range_hash[BUCKET_OF_ROW (cell->pos.row)];
+	GHashTableIter hiter;
+	gpointer key;
 
-	if (bucket != NULL) {
-		closure.col = cell->pos.col;
-		closure.row = cell->pos.row;
-		closure.func = func;
-		closure.user = user;
-		g_hash_table_foreach (bucket, &cb_search_rangedeps, &closure);
+	if (!bucket)
+		return;
+
+	g_hash_table_iter_init (&hiter, bucket);
+	while (g_hash_table_iter_next (&hiter, &key, NULL)) {
+		DependencyRange const *deprange = key;
+		GnmRange const *range = &(deprange->range);
+
+		if (!range_contains (range, cell->pos.col, cell->pos.row))
+			continue;
+
+		micro_hash_foreach_dep (deprange->deps, dep,
+					func (dep, user););
 	}
 }
 
