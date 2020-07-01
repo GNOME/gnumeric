@@ -172,7 +172,7 @@ cpu_sanity_check (void)
 
 	_FPU_GETCW (state);
 	if ((state & mask) != _FPU_EXTENDED) {
-		// Evidently currentlly happinging when Windows runs Linux
+		// Evidently currently happinging when Windows runs Linux
 		// binaries.  See bug 794515.
 		g_warning ("Sanity check failed!  The cpu is not in \"extended\" mode as it should be.  Attempting to fix, but expect trouble.");
 		state = (state & ~mask) | _FPU_EXTENDED;
