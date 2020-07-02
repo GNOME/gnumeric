@@ -3004,6 +3004,22 @@ gnm_dep_container_new (Sheet *sheet)
 {
 	GnmDepContainer *deps = g_new (GnmDepContainer, 1);
 
+	if (gnm_debug_flag ("dep-buckets")) {
+		int r, lastb = 0;
+		g_assert (bucket_start_row (0) == 0);
+		g_assert (bucket_end_row (0) >= 0);
+		g_assert (bucket_of_row (0) == 0);
+		for (r = 1; r < gnm_sheet_get_max_rows (sheet); r++) {
+			int b = bucket_of_row (r);
+			if (b > lastb)
+				g_printerr ("%d -> %d\n", r, b);
+			g_assert (b == lastb || b == lastb + 1);
+			g_assert (bucket_start_row (b) <= r);
+			g_assert (r <= bucket_end_row (b));
+			lastb = b;
+		}
+	}
+
 	deps->head = deps->tail = NULL;
 
 	deps->buckets = 1 + bucket_of_row (gnm_sheet_get_last_row (sheet));
