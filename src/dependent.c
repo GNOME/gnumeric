@@ -2,7 +2,7 @@
  * dependent.c:  Manage calculation dependencies between objects
  *
  * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
- * Copyright (C) 2006-2013 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2006-2020 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -84,9 +84,24 @@ static GOMemChunk *cset_pool;
 /* Maps between row numbers and bucket numbers.  */
 
 #define BUCKET_SIZE	1024
-#define BUCKET_OF_ROW(row) ((row) / BUCKET_SIZE)
-#define BUCKET_START_ROW(b) ((b) * BUCKET_SIZE)
-#define BUCKET_END_ROW(b) ((b) * BUCKET_SIZE + (BUCKET_SIZE - 1))
+
+static inline int
+bucket_of_row (unsigned row)
+{
+	return row / BUCKET_SIZE;
+}
+
+static inline int
+bucket_start_row (unsigned b)
+{
+	return b * BUCKET_SIZE;
+}
+
+static inline int
+bucket_end_row (int b)
+{
+	return bucket_start_row (b + 1) - 1;
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -963,8 +978,8 @@ static void
 link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		GnmRange const *r)
 {
-	int i = BUCKET_OF_ROW (r->start.row);
-	int end = BUCKET_OF_ROW (r->end.row);
+	int i = bucket_of_row (r->start.row);
+	int end = bucket_of_row (r->end.row);
 	DependencyRange dr;
 
 	dr.range = *r;
@@ -979,8 +994,8 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		DependencyRange *result;
 
 		/* Restrict range to bucket.  */
-		dr.range.start.row = MAX (r->start.row, BUCKET_START_ROW (i));
-		dr.range.end.row = MIN (r->end.row, BUCKET_END_ROW (i));
+		dr.range.start.row = MAX (r->start.row, bucket_start_row (i));
+		dr.range.end.row = MIN (r->end.row, bucket_end_row (i));
 
 		if (deps->range_hash[i] == NULL)
 			deps->range_hash[i] = g_hash_table_new (
@@ -1007,8 +1022,8 @@ static void
 unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		  GnmRange const *r)
 {
-	int i = BUCKET_OF_ROW (r->start.row);
-	int end = BUCKET_OF_ROW (r->end.row);
+	int i = bucket_of_row (r->start.row);
+	int end = bucket_of_row (r->end.row);
 	DependencyRange dr;
 
 	if (!deps)
@@ -1021,8 +1036,8 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		DependencyRange *result;
 
 		/* Restrict range to bucket.  */
-		dr.range.start.row = MAX (r->start.row, BUCKET_START_ROW (i));
-		dr.range.end.row = MIN (r->end.row, BUCKET_END_ROW (i));
+		dr.range.start.row = MAX (r->start.row, bucket_start_row (i));
+		dr.range.end.row = MIN (r->end.row, bucket_end_row (i));
 
 		result = g_hash_table_lookup (deps->range_hash[i], &dr);
 		if (result) {
@@ -1882,7 +1897,7 @@ cell_foreach_range_dep (GnmCell const *cell, GnmDepFunc func, gpointer user)
 {
 	Sheet *sheet = cell->base.sheet;
 	GHashTable *bucket =
-		sheet->deps->range_hash[BUCKET_OF_ROW (cell->pos.row)];
+		sheet->deps->range_hash[bucket_of_row (cell->pos.row)];
 	GHashTableIter hiter;
 	gpointer key;
 
@@ -1957,8 +1972,8 @@ sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->deps != NULL);
 
-	sb = r ? BUCKET_OF_ROW (r->start.row) : 0;
-	eb = r ? BUCKET_OF_ROW (r->end.row) : sheet->deps->buckets - 1;
+	sb = r ? bucket_of_row (r->start.row) : 0;
+	eb = r ? bucket_of_row (r->end.row) : sheet->deps->buckets - 1;
 
 	/* mark the contained depends dirty non recursively */
 	SHEET_FOREACH_DEPENDENT (sheet, dep, {
@@ -2253,9 +2268,9 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 		(GHFunc) &cb_single_contained_collect,
 		(gpointer)&collect);
 	{
-		int const first = BUCKET_OF_ROW (r->start.row);
+		int const first = bucket_of_row (r->start.row);
 		GHashTable *hash;
-		for (i = BUCKET_OF_ROW (r->end.row); i >= first ; i--) {
+		for (i = bucket_of_row (r->end.row); i >= first ; i--) {
 			hash = sheet->deps->range_hash[i];
 			if (hash != NULL)
 				g_hash_table_foreach (hash,
@@ -2991,7 +3006,7 @@ gnm_dep_container_new (Sheet *sheet)
 
 	deps->head = deps->tail = NULL;
 
-	deps->buckets = 1 + BUCKET_OF_ROW (gnm_sheet_get_last_row (sheet));
+	deps->buckets = 1 + bucket_of_row (gnm_sheet_get_last_row (sheet));
 	deps->range_hash  = g_new0 (GHashTable *, deps->buckets);
 	deps->range_pool  = go_mem_chunk_new ("range pool",
 					       sizeof (DependencyRange),
@@ -3013,7 +3028,7 @@ gnm_dep_container_new (Sheet *sheet)
 void
 gnm_dep_container_resize (GnmDepContainer *deps, int rows)
 {
-	int i, buckets = 1 + BUCKET_OF_ROW (rows - 1);
+	int i, buckets = 1 + bucket_of_row (rows - 1);
 
 	for (i = buckets; i < deps->buckets; i++) {
 		GHashTable *hash = deps->range_hash[i];
@@ -3188,13 +3203,13 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 
 	gnm_dep_container_sanity_check (deps);
 
-	for (i = deps->buckets - 1; i >= 0 ; i--) {
+	for (i = 0; i < deps->buckets; i++) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL && g_hash_table_size (hash) > 0) {
 			g_printerr ("  Bucket %d (rows %d-%d): Range hash size %d: range over which cells in list depend\n",
 				    i,
-				    BUCKET_START_ROW (i) + 1,
-				    BUCKET_END_ROW (i) + 1,
+				    bucket_start_row (i) + 1,
+				    bucket_end_row (i) + 1,
 				    g_hash_table_size (hash));
 			g_hash_table_foreach (hash,
 					      dump_range_dep,
