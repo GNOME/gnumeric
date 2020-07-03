@@ -25,6 +25,7 @@ Morten:
 	* Improve dependency tracking for implicit intersection. [#501]
 	* Fix format dialog issue.  [#503]
 	* Re-tune style quad tree.  [#234]
+	* Re-tune dependency bucket system.  [#502]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47

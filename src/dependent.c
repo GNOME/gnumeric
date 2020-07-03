@@ -83,18 +83,51 @@ static GOMemChunk *cset_pool;
 /* ------------------------------------------------------------------------- */
 /* Maps between row numbers and bucket numbers.  */
 
-#define BUCKET_SIZE	1024
+// The bucket size grows with row number:
+//
+// * The first 8 buckets have size 128
+// * The next 8 buckets have size 256
+// * The next 8 buckets have size 512
+// * Etc.
+//
+// A 64k row sheet will have 49 buckets; a 1M row sheet will have 81.
+
+#define BUCKET_BASE_SIZE_BITS 7
+#define BUCKET_BASE_SIZE (1 << BUCKET_BASE_SIZE_BITS)
 
 static inline int
 bucket_of_row (unsigned row)
 {
-	return row / BUCKET_SIZE;
+	unsigned sb, sb0, i;
+
+#ifdef __GNUC__
+	// Super block
+	sb = __builtin_clz (1u) -
+		__builtin_clz (1u + row / (8 * BUCKET_BASE_SIZE));
+
+	// Super block start
+	sb0 = ((1u << sb) - 1) * (8 * BUCKET_BASE_SIZE);
+#else
+	sb0 = 0;
+	for (sb = 0; TRUE; sb++) {
+		unsigned next_sb0 = ((2u << sb) - 1) * (8 * BUCKET_BASE_SIZE);
+		if (row < next_sb0)
+			break;
+		sb0 = next_sb0;
+	}
+#endif
+	// Index (0-7) within super block
+	i = (row - sb0) >> (BUCKET_BASE_SIZE_BITS + sb);
+
+	return (int)(sb * 8 + i);
 }
 
 static inline int
 bucket_start_row (unsigned b)
 {
-	return b * BUCKET_SIZE;
+	unsigned sb = b / 8;
+	unsigned sb0 = ((1u << sb) - 1) * (8 * BUCKET_BASE_SIZE);
+	return (int)(sb0 + ((b & 7) << (BUCKET_BASE_SIZE_BITS + sb)));
 }
 
 static inline int
