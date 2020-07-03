@@ -157,6 +157,9 @@ struct _GnmSheetStyleData {
 };
 
 static gboolean debug_style_optimize;
+static gboolean debug_style_optimize_verbose;
+static gboolean debug_style_split;
+static gboolean debug_style_apply;
 
 typedef struct {
 	GnmSheetSize const *ss;
@@ -164,8 +167,7 @@ typedef struct {
 } CellTileOptimize;
 
 static void
-cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
-		    int ccol, int crow);
+cell_tile_optimize (CellTile **tile, CellTileOptimize *data);
 
 
 /*
@@ -295,6 +297,10 @@ rstyle_apply (GnmStyle **old, ReplacementStyle *rs, GnmRange const *r)
 	g_return_if_fail (old != NULL);
 	g_return_if_fail (rs != NULL);
 
+	if (debug_style_apply)
+		g_printerr ("rstyle_apply for %s\n",
+			    range_as_string (r));
+
 	if (rs->pstyle != NULL) {
 		/* Cache the merged styles keeping a reference to the originals
 		 * just in case all instances change.
@@ -335,117 +341,178 @@ sheet_style_clear_style_dependents (Sheet *sheet, GnmRange const *r)
 
 /****************************************************************************/
 
-/* If you change this, change the tile_{widths,heights} here
- * and GNM_MAX_COLS and GNM_MAX_ROWS in gnumeric.h */
-#define TILE_TOP_LEVEL 6
-
-#define TILE_SIZE_COL 8
-#define	TILE_SIZE_ROW 16
-
 typedef enum {
-	TILE_UNDEFINED	= -1,
 	TILE_SIMPLE	=  0,
 	TILE_COL	=  1,
 	TILE_ROW	=  2,
-	TILE_MATRIX	=  3,
-	TILE_PTR_MATRIX	=  4
+	TILE_MATRIX	=  3
 } CellTileType;
-static int const tile_size[/*type*/] = {
-	1,				/* TILE_SIMPLE */
-	TILE_SIZE_COL,			/* TILE_COL */
-	TILE_SIZE_ROW,			/* TILE_ROW */
-	TILE_SIZE_COL * TILE_SIZE_ROW	/* TILE_MATRIX */
-};
-static int const tile_col_count[/*type*/] = {
-	1,				/* TILE_SIMPLE */
-	TILE_SIZE_COL,			/* TILE_COL */
-	1,				/* TILE_ROW */
-	TILE_SIZE_COL,			/* TILE_MATRIX */
-	TILE_SIZE_COL			/* TILE_PTR_MATRIX */
-};
-static int const tile_row_count[/*type*/] = {
-	1,				/* TILE_SIMPLE */
-	1,				/* TILE_COL */
-	TILE_SIZE_ROW,			/* TILE_ROW */
-	TILE_SIZE_ROW,			/* TILE_MATRIX */
-	TILE_SIZE_ROW			/* TILE_PTR_MATRIX */
-};
+
+/* String version of type for debug.  */
 static const char * const tile_type_str[/*type*/] = {
-	"simple", "col", "row", "matrix", "ptr-matrix"
-};
-static int const tile_widths[/*level*/] = {
-	1,
-	TILE_SIZE_COL,
-	TILE_SIZE_COL * TILE_SIZE_COL,
-	TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL,
-	TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL,
-	TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL,
-	TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL,
-	TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL
-};
-static int const tile_heights[/*level*/] = {
-	1,
-	TILE_SIZE_ROW,
-	TILE_SIZE_ROW * TILE_SIZE_ROW,
-	TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW,
-	TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW,
-	TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW,
-	TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW,
-	TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW
+	"simple", "col", "row", "matrix"
 };
 
-typedef struct {
-	CellTileType const type;
-	GnmStyle *style[1];
-} CellTileStyleSimple;
-typedef struct {
-	CellTileType const type;
-	GnmStyle *style[TILE_SIZE_COL];
-} CellTileStyleCol;
-typedef struct {
-	CellTileType const type;
-	GnmStyle *style[TILE_SIZE_ROW];
-} CellTileStyleRow;
-typedef struct {
-	CellTileType const type;
-	GnmStyle *style[TILE_SIZE_COL * TILE_SIZE_ROW];
-} CellTileStyleMatrix;
-typedef struct {
-	CellTileType const type;
-	CellTile	*ptr[TILE_SIZE_COL * TILE_SIZE_ROW];
-} CellTilePtrMatrix;
+enum {
+	TILE_X_BITS = 3,
+	TILE_X_SIZE = (1 << TILE_X_BITS),
+
+	TILE_Y_BITS = 4,
+	TILE_Y_SIZE = (1 << TILE_Y_BITS),
+
+	TILE_XY_SIZE = TILE_X_SIZE * TILE_Y_SIZE
+};
+
+
+static int const tile_size_[/*type*/] = {
+	1,		/* TILE_SIMPLE */
+	TILE_X_SIZE,	/* TILE_COL */
+	TILE_Y_SIZE,	/* TILE_ROW */
+	TILE_XY_SIZE	/* TILE_MATRIX */
+};
+
+/* The total number of subitems in the tile.  */
+#define TILE_SUB_COUNT(ctt) (tile_size_[ctt])
+
+/* The number of subitems in the tile for the col and row directions as bits. */
+#define TILE_COL_BITS(ctt) (((ctt) & 1) ? TILE_X_BITS : 0)
+#define TILE_ROW_BITS(ctt) (((ctt) & 2) ? TILE_Y_BITS : 0)
+
+#define CELL_TILE_STRUCT(n_) struct {		\
+	CellTileType type;			\
+	guint32 x, y, w, h;			\
+	gpointer ptrs[n_];			\
+}
+
+typedef CELL_TILE_STRUCT(1) CellTileSimple;
+typedef CELL_TILE_STRUCT(TILE_X_SIZE) CellTileCol;
+typedef CELL_TILE_STRUCT(TILE_Y_SIZE) CellTileRow;
+typedef CELL_TILE_STRUCT(TILE_XY_SIZE) CellTileMatrix;
 
 union _CellTile {
-	CellTileType const type;
-	CellTileStyleSimple	style_any;
-	CellTileStyleSimple	style_simple;
-	CellTileStyleCol	style_col;
-	CellTileStyleRow	style_row;
-	CellTileStyleMatrix	style_matrix;
-	CellTilePtrMatrix	ptr_matrix;
+	CellTileMatrix	any;
+	CellTileSimple	simple;
+	CellTileCol	col;
+	CellTileRow	row;
+	CellTileMatrix	matrix;
 };
+
+// Pointers stored in CellTile and be either CellTile pointers or GnmStyle
+// pointers.  To distinguish the two cases, we set the lowest bit for the
+// GnmStyle case.
+//
+// The access functions here are very, very basic.  They read or set an entry
+// leaving all considerations of ownership up to the caller.
+
+// lvalue
+#define TILE_NTH_TILE_L(tile_,n_) (*((CellTile**)&((tile_)->any.ptrs[(n_)])))
+
+static inline CellTile *
+tile_nth_tile (CellTile const *tile, guint n)
+{
+	return tile->any.ptrs[n];
+}
+
+static inline void
+tile_set_nth_tile (CellTile *tile, guint n, CellTile *tile2)
+{
+	tile->any.ptrs[n] = tile2;
+}
+
+static inline GnmStyle *
+tile_nth_style (CellTile const *tile, guint n)
+{
+	return (GnmStyle*)((char*)(tile->any.ptrs[n]) - 1);
+}
+
+static inline void
+tile_set_nth_style (CellTile *tile, guint n, GnmStyle *st)
+{
+	tile->any.ptrs[n] = (char*)st + 1;
+}
+
+static inline void
+tile_set_nth_style_link (CellTile *tile, guint n, GnmStyle *st)
+{
+	gnm_style_link (st);
+	tile_set_nth_style (tile, n, st);
+}
+
+static inline gboolean
+tile_nth_is_style (const CellTile *tile, guint n)
+{
+	return (GPOINTER_TO_UINT((tile)->any.ptrs[n]) & 1u) != 0;
+}
+
+static inline gboolean
+tile_nth_is_tile (const CellTile *tile, guint n)
+{
+	return (GPOINTER_TO_UINT(tile->any.ptrs[n]) & 1u) == 0;
+}
+
+// Big tiles should always be split into matrix.
+static inline gboolean
+tile_is_big (const CellTile *tile)
+{
+	return tile->any.h > 65536;
+}
+
+static const char *
+tile_describe (const CellTile *tile)
+{
+	static char *d = NULL;
+	GnmRange r;
+
+	g_free (d);
+	range_init (&r,
+		    tile->any.x, tile->any.y,
+		    tile->any.x + tile->any.w - 1,
+		    tile->any.y + tile->any.h - 1);
+
+	d = g_strdup_printf ("%s (%s %dx%d)",
+			     range_as_string (&r),
+			     tile_type_str[tile->any.type],
+			     tile->any.w, tile->any.h);
+	return d;
+}
+
+static void
+cell_tile_dump (CellTile *tile)
+{
+	CellTileType type = tile->any.type;
+	int i, N = TILE_SUB_COUNT (type);
+	const char *indent = "";
+
+	g_printerr ("%s%s\n", indent, tile_describe (tile));
+
+	for (i = 0; i < N; i++) {
+		if (tile_nth_is_tile (tile, i))
+			cell_tile_dump (tile_nth_tile (tile, i));
+		else {
+			g_printerr ("%2d/%2d: %p\n", i, N, tile_nth_style (tile, i));
+		}
+	}
+}
+
+/* ------------------------------------------------------------------------- */
+
 
 static int active_sheet_count;
 #if USE_TILE_POOLS
-static GOMemChunk *tile_pools[5];
+static GOMemChunk *tile_pools[4];
 #define CHUNK_ALLOC(T,ctt) ((T*)go_mem_chunk_alloc (tile_pools[(ctt)]))
 #define CHUNK_FREE(ctt,v) go_mem_chunk_free (tile_pools[(ctt)], (v))
 #else
-static const size_t tile_type_sizeof[5] = {
-	sizeof (CellTileStyleSimple),
-	sizeof (CellTileStyleCol),
-	sizeof (CellTileStyleRow),
-	sizeof (CellTileStyleMatrix),
-	sizeof (CellTilePtrMatrix)
+static const size_t tile_type_sizeof[4] = {
+	sizeof (CellTileSimple),
+	sizeof (CellTileCol),
+	sizeof (CellTileRow),
+	sizeof (CellTileMatrix)
 };
 static int tile_allocations = 0;
-#if 1
+
 #define CHUNK_ALLOC(T,ctt) (tile_allocations++, (T*)g_slice_alloc (tile_type_sizeof[(ctt)]))
 #define CHUNK_FREE(ctt,v) (tile_allocations--, g_slice_free1 (tile_type_sizeof[(ctt)], (v)))
-#else
-#define CHUNK_ALLOC(T,ctt) (tile_allocations++, (T*)g_malloc (tile_type_sizeof[(ctt)]))
-#define CHUNK_FREE(ctt,v) (tile_allocations--, g_free ((v)))
-#endif
 #endif
 
 
@@ -458,219 +525,138 @@ static void
 cell_tile_dtor (CellTile *tile)
 {
 	CellTileType t;
+	int i;
 
 	g_return_if_fail (tile != NULL);
 
-	t = tile->type;
-	if (t == TILE_PTR_MATRIX) {
-		int i = TILE_SIZE_COL * TILE_SIZE_ROW;
-		while (--i >= 0) {
-			cell_tile_dtor (tile->ptr_matrix.ptr[i]);
-			tile->ptr_matrix.ptr[i] = NULL;
+	t = tile->any.type;
+	i = TILE_SUB_COUNT (t);
+	while (--i >= 0) {
+		if (tile_nth_is_tile (tile, i)) {
+			CellTile *sub = tile_nth_tile (tile, i);
+			if (sub) {
+				cell_tile_dtor (sub);
+				tile_set_nth_tile (tile, i, NULL);
+			}
+		} else {
+			gnm_style_unlink (tile_nth_style (tile, i));
+			tile_set_nth_style (tile, i, NULL);
 		}
-	} else if (TILE_SIMPLE <= t && t <= TILE_MATRIX) {
-		int i = tile_size[t];
-		while (--i >= 0) {
-			gnm_style_unlink (tile->style_any.style[i]);
-			tile->style_any.style[i] = NULL;
-		}
-	} else {
-		g_return_if_fail (FALSE); /* don't free anything */
 	}
 
-	*((CellTileType *)&(tile->type)) = TILE_UNDEFINED; /* poison it */
+	tile->any.type = -1; /* poison it */
 	CHUNK_FREE (t, tile);
 }
 
-static CellTile *
-cell_tile_style_new (GnmStyle *style, CellTileType t)
+static void
+cell_tile_sanity_check (CellTile const *tile)
 {
-	CellTile *res = CHUNK_ALLOC (CellTile, t);
-	*((CellTileType *)&(res->type)) = t;
+	CellTileType type = tile->any.type;
+	int const corner_col = tile->any.x;
+	int const corner_row = tile->any.y;
+	int const width = tile->any.w;
+	int const height = tile->any.h;
+	int w1 = width >> TILE_COL_BITS (type);
+	int h1 = height >> TILE_ROW_BITS (type);
+	int cmask = (type & TILE_COL) ? TILE_X_SIZE - 1 : 0;
+	int rshift = (type & TILE_COL) ? TILE_X_BITS : 0;
+	int i, N = TILE_SUB_COUNT (type);
 
-	if (style != NULL) {
-		int i = tile_size[t];
-		gnm_style_link_multiple (style, i);
-		while (--i >= 0)
-			res->style_any.style[i] = style;
+	for (i = 0; i < N; i++) {
+		int const c = i & cmask;
+		int const r = i >> rshift;
+
+		if (tile_nth_is_tile (tile, i)) {
+			CellTile *sub = tile_nth_tile (tile, i);
+			g_return_if_fail ((int)sub->any.x == corner_col + c * w1);
+			g_return_if_fail ((int)sub->any.y == corner_row + r * h1);
+			g_return_if_fail ((int)sub->any.w == w1);
+			g_return_if_fail ((int)sub->any.h == h1);
+		} else {
+			GnmStyle *st = tile_nth_style (tile, i);
+			/* Do something with the style.  */
+			gnm_style_link (st);
+			gnm_style_unlink (st);
+		}
+
 	}
+
+}
+
+
+
+static CellTile *
+cell_tile_new (CellTileType t, int x, int y, int w, int h)
+{
+	CellTile *res;
+
+	res = CHUNK_ALLOC (CellTile, t);
+	res->any.type = t;
+	res->any.x = x;
+	res->any.y = y;
+	res->any.w = w;
+	res->any.h = h;
 
 	return res;
 }
 
 static CellTile *
-cell_tile_ptr_matrix_new (CellTile *t)
+cell_tile_new_like (CellTileType t, const CellTile *like)
 {
-	CellTilePtrMatrix *res;
+	g_return_val_if_fail (like != NULL, NULL);
 
-	g_return_val_if_fail (t != NULL, NULL);
-	g_return_val_if_fail (TILE_SIMPLE <= t->type &&
-			      TILE_MATRIX >= t->type, NULL);
-
-	res = CHUNK_ALLOC (CellTilePtrMatrix, TILE_PTR_MATRIX);
-	*((CellTileType *)&(res->type)) = TILE_PTR_MATRIX;
-
-	/* TODO:
-	 * If we wanted to get fancy we could use self similarity to decrease
-	 * the number of subtiles.  However, this would increase the cost of
-	 * applying changes later so I'm not sure it is worth the effort.
-	 */
-	switch (t->type) {
-	case TILE_SIMPLE: {
-		int i = TILE_SIZE_COL * TILE_SIZE_ROW;
-		while (--i >= 0)
-			res->ptr[i] = cell_tile_style_new (
-				t->style_simple.style[0], TILE_SIMPLE);
-		break;
-	}
-	case TILE_COL: {
-		int i, r, c;
-		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r)
-			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
-				res->ptr[i++] = cell_tile_style_new (
-					t->style_col.style[c], TILE_SIMPLE);
-		break;
-	}
-	case TILE_ROW: {
-		int i, r, c;
-		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r)
-			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
-				res->ptr[i++] = cell_tile_style_new (
-					t->style_row.style[r], TILE_SIMPLE);
-		break;
-	}
-	case TILE_MATRIX: {
-		int i = TILE_SIZE_COL * TILE_SIZE_ROW;
-		while (--i >= 0)
-			res->ptr[i] = cell_tile_style_new (
-				t->style_matrix.style[i], TILE_SIMPLE);
-		break;
-	}
-	default: ;
-	}
-
-	return (CellTile *)res;
-}
-
-static CellTile *
-cell_tile_matrix_set (CellTile *t)
-{
-	int r, c;
-	CellTileStyleMatrix *res;
-
-	g_return_val_if_fail (t != NULL, NULL);
-	g_return_val_if_fail (TILE_SIMPLE <= t->type &&
-			      TILE_MATRIX >= t->type, NULL);
-
-	if (t->type == TILE_MATRIX)
-		return t;
-
-	res = (CellTileStyleMatrix *)cell_tile_style_new (NULL, TILE_MATRIX);
-
-	switch (t->type) {
-	case TILE_SIMPLE: {
-		GnmStyle *tmp = t->style_simple.style[0];
-		int i = TILE_SIZE_COL * TILE_SIZE_ROW;
-		gnm_style_link_multiple (tmp, i);
-		while (--i >= 0)
-			res->style[i] = tmp;
-		break;
-	}
-
-	case TILE_COL: {
-		int i = 0;
-		for (r = 0; r < TILE_SIZE_ROW; ++r)
-			for (c = 0; c < TILE_SIZE_COL; ++c)
-				gnm_style_link (res->style[i++] =
-						t->style_col.style[c]);
-		break;
-	}
-
-	case TILE_ROW: {
-		int i = 0;
-		for (r = 0; r < TILE_SIZE_ROW; ++r) {
-			GnmStyle *tmp = t->style_row.style[r];
-			gnm_style_link_multiple (tmp, TILE_SIZE_COL);
-			for (c = 0; c < TILE_SIZE_COL; ++c)
-				res->style[i++] = tmp;
-		}
-		break;
-	}
-
-	case TILE_MATRIX:
-	default:
-		g_assert_not_reached();
-	}
-
-	cell_tile_dtor (t);
-
-	return (CellTile *)res;
+	return cell_tile_new (t,
+			      like->any.x, like->any.y,
+			      like->any.w, like->any.h);
 }
 
 /****************************************************************************/
 
 static void
-sheet_style_sanity_check (void)
-{
-	unsigned c, r;
-	int i;
-
-	for (c = 1, i = 0; i <= TILE_TOP_LEVEL; i++) {
-		g_assert (c < G_MAXUINT / TILE_SIZE_COL);
-		c *= TILE_SIZE_COL;
-	}
-	g_assert (c >= GNM_MAX_COLS);
-
-	for (r = 1, i = 0; i <= TILE_TOP_LEVEL; i++) {
-		g_assert (r < G_MAXUINT / TILE_SIZE_COL);
-		r *= TILE_SIZE_ROW;
-	}
-	g_assert (r >= GNM_MAX_ROWS);
-
-	g_assert (G_N_ELEMENTS (tile_heights) > TILE_TOP_LEVEL + 1);
-
-	g_assert (G_N_ELEMENTS (tile_widths) > TILE_TOP_LEVEL + 1);
-}
-
-static void
 sheet_style_init_size (Sheet *sheet, int cols, int rows)
 {
 	GnmStyle *default_style;
-	int lc = 0, lr = 0, w = TILE_SIZE_COL, h = TILE_SIZE_ROW;
+	int lc = 0, lr = 0, w = TILE_X_SIZE, h = TILE_Y_SIZE;
 
 	while (w < cols) {
-		w *= TILE_SIZE_COL;
+		w *= TILE_X_SIZE;
 		lc++;
 	}
 	while (h < rows) {
-		h *= TILE_SIZE_ROW;
+		h *= TILE_Y_SIZE;
 		lr++;
 	}
 	sheet->tile_top_level = MAX (lc, lr);
+#if 1
+	/*
+	 * This isn't needed per se, but taking it out causes slight
+	 * differences in the style regions generated for some files
+	 * and the test suite therefore fails.  There are basically
+	 * many different ways to represent a sheet's style in the
+	 * form of rectangles.
+	 */
+	lc  = lr = sheet->tile_top_level;
+#endif
 
 	if (active_sheet_count++ == 0) {
 #if USE_TILE_POOLS
 		tile_pools[TILE_SIMPLE] =
 			go_mem_chunk_new ("simple tile pool",
-					   sizeof (CellTileStyleSimple),
+					   sizeof (CellTileSimple),
 					   16 * 1024 - 128);
 		tile_pools[TILE_COL] =
 			go_mem_chunk_new ("column tile pool",
-					   sizeof (CellTileStyleCol),
+					   sizeof (CellTileCol),
 					   16 * 1024 - 128);
 		tile_pools[TILE_ROW] =
 			go_mem_chunk_new ("row tile pool",
-					   sizeof (CellTileStyleRow),
+					   sizeof (CellTileRow),
 					   16 * 1024 - 128);
 		tile_pools[TILE_MATRIX] =
 			go_mem_chunk_new ("matrix tile pool",
-					   sizeof (CellTileStyleMatrix),
+					   sizeof (CellTileMatrix),
 					   MAX (16 * 1024 - 128,
-						100 * sizeof (CellTileStyleMatrix)));
-
-		/* If this fails one day, just make two pools.  */
-		g_assert (sizeof (CellTileStyleMatrix) == sizeof (CellTilePtrMatrix));
-		tile_pools[TILE_PTR_MATRIX] = tile_pools[TILE_MATRIX];
+						100 * sizeof (CellTileMatrix)));
 #endif
 	}
 
@@ -692,8 +678,12 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 	sheet->style_data->default_style =
 		sheet_style_find (sheet, default_style);
 	sheet->style_data->styles =
-		cell_tile_style_new (sheet->style_data->default_style,
-				     TILE_SIMPLE);
+		cell_tile_new (TILE_SIMPLE,
+			       0, 0,
+			       1 << (TILE_X_BITS * (1 + lc)),
+			       1 << (TILE_Y_BITS * (1 + lr)));
+	tile_set_nth_style_link (sheet->style_data->styles, 0,
+				 sheet->style_data->default_style);
 }
 
 void
@@ -702,9 +692,20 @@ sheet_style_init (Sheet *sheet)
 	int cols = gnm_sheet_get_max_cols (sheet);
 	int rows = gnm_sheet_get_max_rows (sheet);
 
-	debug_style_optimize = gnm_debug_flag ("style-optimize");
+	/*
+	 * We use the lower bit of pointers to mark styles.  For that to
+	 * work, we need a guarantee that pointers cannot be aligned to
+	 * char size.
+	 */
+	g_assert (G_MEM_ALIGN > 1);
 
-	sheet_style_sanity_check ();
+	debug_style_optimize_verbose =
+		gnm_debug_flag ("style-optimize-verbose");
+	debug_style_optimize =
+		debug_style_optimize_verbose ||
+		gnm_debug_flag ("style-optimize");
+	debug_style_split = gnm_debug_flag ("style-split");
+	debug_style_apply = gnm_debug_flag ("style-apply");
 
 	sheet_style_init_size (sheet, cols, rows);
 }
@@ -806,10 +807,6 @@ sheet_style_shutdown (Sheet *sheet)
 					    cb_tile_pool_leak, NULL);
 		go_mem_chunk_destroy (tile_pools[TILE_MATRIX], FALSE);
 		tile_pools[TILE_MATRIX] = NULL;
-
-		/* If this fails one day, just make two pools.  */
-		g_assert (sizeof (CellTileStyleMatrix) == sizeof (CellTilePtrMatrix));
-		tile_pools[TILE_PTR_MATRIX] = NULL;
 #else
 		if (tile_allocations)
 			g_printerr ("Leaking %d style tiles.\n", tile_allocations);
@@ -892,279 +889,305 @@ sheet_style_update_grid_color (Sheet const *sheet)
 
 /****************************************************************************/
 
-static gboolean
-tile_is_uniform (CellTile const *tile)
+/*
+ * Extract a part of *tile and place it in dst at location dsti.
+ */
+static void
+cell_tile_extract (CellTile *dst, int dsti,
+		   CellTile **tile, int ex, int ey, int ew, int eh)
 {
-	const int s = tile_size[tile->type];
-	GnmStyle const *st = tile->style_any.style[0];
-	int i;
+	CellTileType type = (*tile)->any.type;
+	int const corner_col = (*tile)->any.x;
+	int const corner_row = (*tile)->any.y;
+	int const width = (*tile)->any.w;
+	int const height = (*tile)->any.h;
+	int i = -1, N = TILE_SUB_COUNT (type);
 
-	for (i = 1; i < s; i++)
-		if (tile->style_any.style[i] != st)
-			return FALSE;
+	if (ew == width && eh == height) {
+		CellTile *res = *tile;
+		g_return_if_fail (ex == (int)res->any.x);
+		g_return_if_fail (ey == (int)res->any.y);
+		*tile = NULL;
+		tile_set_nth_tile (dst, dsti, res);
+		return;
+	}
 
-	return TRUE;
+	switch (type) {
+	case TILE_SIMPLE:
+		i = 0;
+		break;
+
+	case TILE_COL:
+		if (ew == width / TILE_X_SIZE)
+			i = (ex - corner_col) / ew;
+		else if (ew == width && eh == height / TILE_Y_SIZE) {
+			/* One row of entire TILE_COL tile.  */
+			CellTile *res = cell_tile_new (TILE_COL,
+						       ex, ey, ew, eh);
+			int w1 = width / TILE_X_SIZE;
+			for (i = 0; i < N; i++)
+				cell_tile_extract (res, i,
+						   tile,
+						   ex + i * w1, ey,
+						   w1, eh);
+			tile_set_nth_tile (dst, dsti, res);
+			return;
+		} else
+			g_assert_not_reached ();
+		break;
+
+	case TILE_ROW:
+		if (eh == height / TILE_Y_SIZE)
+			i = (ey - corner_row) / eh;
+		else if (ew == width / TILE_X_SIZE && eh == height) {
+			/* One column of entire TILE_ROW tile.  */
+			CellTile *res = cell_tile_new (TILE_ROW,
+						       ex, ey, ew, eh);
+			int h1 = height / TILE_Y_SIZE;
+			for (i = 0; i < N; i++)
+				cell_tile_extract (res, i,
+						   tile,
+						   ex, ey + i * h1,
+						   ew, h1);
+			tile_set_nth_tile (dst, dsti, res);
+			return;
+		} else
+			g_assert_not_reached ();
+		break;
+
+	case TILE_MATRIX:
+		if (ew == width / TILE_X_SIZE && eh == height / TILE_Y_SIZE) {
+			int c = (ex - corner_col) / ew;
+			int r = (ey - corner_row) / eh;
+			i = r * TILE_X_SIZE + c;
+		} else
+			g_assert_not_reached ();
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	g_return_if_fail (i >= 0 && i < TILE_SUB_COUNT (type));;
+
+	if (tile_nth_is_tile (*tile, i))
+		cell_tile_extract (dst, dsti,
+				   &TILE_NTH_TILE_L (*tile, i),
+				   ex, ey, ew, eh);
+	else {
+		GnmStyle *st = tile_nth_style (*tile, i);
+		tile_set_nth_style_link (dst, dsti, st);
+	}
 }
 
 static void
-vector_apply_pstyle (CellTile *tile, ReplacementStyle *rs,
-		     int cc, int cr, int level, GnmRange const *indic)
+cell_tile_split (CellTile **tile, CellTileType t)
 {
-	const CellTileType type = tile->type;
-	const int ncols = tile_col_count[type];
-	const int nrows = tile_row_count[type];
-	const int w1 = tile_widths[level + 1] / ncols;
-	const int h1 = tile_heights[level + 1] / nrows;
-	const int fcol = indic->start.col;
-	const int frow = indic->start.row;
-	const int lcol = MIN (ncols - 1, indic->end.col);
-	const int lrow = MIN (nrows - 1, indic->end.row);
-	GnmSheetSize const *ss = gnm_sheet_get_size (rs->sheet);
-	int r, c;
-	GnmRange rng;
+	CellTileType type = (*tile)->any.type;
+	CellTile *res;
+	int i, N = TILE_SUB_COUNT (t);
+	int cmask = (t & TILE_COL) ? TILE_X_SIZE - 1 : 0;
+	int rshift = (t & TILE_COL) ? TILE_X_BITS : 0;
+	int const corner_col = (*tile)->any.x;
+	int const corner_row = (*tile)->any.y;
+	int const width = (*tile)->any.w;
+	int const height = (*tile)->any.h;
+	int w1 = width >> TILE_COL_BITS (t);
+	int h1 = height >> TILE_ROW_BITS (t);
+	int jmask = TILE_SUB_COUNT (type) - 1;
+	int jshift = (type & TILE_ROW) ? TILE_X_BITS : 0;
 
-	for (r = frow; r <= lrow; r++) {
-		GnmStyle **st = tile->style_any.style + ncols * r;
-		rng.start.row = cr + h1 * r;
-		rng.end.row = MIN (rng.start.row + (h1 - 1),
-				   ss->max_rows - 1);
-		for (c = fcol; c <= lcol; c++) {
-			rng.start.col = cc + w1 * c;
-			rng.end.col = MIN (rng.start.col + (w1 - 1),
-					   ss->max_cols - 1);
-			rstyle_apply (st + c, rs, &rng);
-		}
-	}
-}
+	g_return_if_fail ((type & ~t) == 0);
 
-/*
- * Determine whether before applying a style in the area of apply_to
- * one needs to split the tile column-wise.
- *
- * If FALSE is returned then the tile need to be split to a TILE_PTR_MATRIX
- * because the current level is not fine-grained enough.
- *
- * If TRUE is returned, TILE_SIMPLE needs to be split into TILE_COL and
- * TILE_ROW needs to be split into TILE_MATRIX.  TILE_COL and TILE_MATRIX
- * should be kept.  In indic, the inclusive post-split indicies of the
- * range will be returned.
- *
- * If apply_to covers the entire tile, TRUE will be returned and the judgement
- * on splitting above should be ignored.  The indices in indic will be as-if
- * the split was done.
- */
-static gboolean
-col_indicies (int corner_col, int w, GnmRange const *apply_to,
-	      GnmRange *indec)
-{
-	int i, tmp;
-
-	i = apply_to->start.col - corner_col;
-	if (i <= 0)
-		indec->start.col = 0;
-	else {
-		tmp = i / w;
-		if (i != tmp * w)
-			return FALSE;
-		indec->start.col = tmp;
-	}
-
-	i = 1 + apply_to->end.col - corner_col;
-	tmp = i / w;
-	if (tmp >= TILE_SIZE_COL)
-		indec->end.col = TILE_SIZE_COL - 1;
-	else {
-		if (i != tmp * w)
-			return FALSE;
-		indec->end.col = tmp - 1;
-	}
-
-	return TRUE;
-}
-
-/* See docs for col_indicies.  Swap cols and rows.  */
-static gboolean
-row_indicies (int corner_row, int h, GnmRange const *apply_to,
-	      GnmRange *indic)
-{
-	int i, tmp;
-
-	i = apply_to->start.row - corner_row;
-	if (i <= 0)
-		indic->start.row = 0;
-	else {
-		int tmp = i / h;
-		if (i != tmp * h)
-			return FALSE;
-		indic->start.row = tmp;
-	}
-
-	i = 1 + apply_to->end.row - corner_row;
-	tmp = i / h;
-	if (tmp >= TILE_SIZE_ROW)
-		indic->end.row = TILE_SIZE_ROW - 1;
-	else {
-		if (i != tmp * h)
-			return FALSE;
-		indic->end.row = tmp - 1;
-	}
-
-	return TRUE;
-}
-
-/*
- * cell_tile_apply: This is the primary logic for making changing areas in the
- * tree.  It could be further optimised if it becomes a bottle neck.
- */
-static void
-cell_tile_apply (CellTile **tile, int level,
-		 int corner_col, int corner_row,
-		 GnmRange const *apply_to,
-		 ReplacementStyle *rs)
-{
-	int const width = tile_widths[level+1];
-	int const height = tile_heights[level+1];
-	int const w = tile_widths[level];
-	int const h = tile_heights[level];
-	gboolean const full_width = (apply_to->start.col <= corner_col &&
-				     apply_to->end.col >= (corner_col+width-1));
-	gboolean const full_height = (apply_to->start.row <= corner_row &&
-				      apply_to->end.row >= (corner_row+height-1));
-	GnmRange indic;
-	CellTileType type;
-	int c, r, i;
-
-	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);
-	g_return_if_fail (tile != NULL);
-	g_return_if_fail (*tile != NULL);
-
-	type = (*tile)->type;
-	g_return_if_fail (TILE_SIMPLE <= type && type <= TILE_PTR_MATRIX);
-
-	/* applying the same style to part of a simple-tile is a nop */
-	if (type == TILE_SIMPLE &&
-	    (*tile)->style_simple.style[0] == rs->new_style)
+	if (type == t)
 		return;
 
 	/*
-	 * Indices for the whole tile assuming a split to matrix.
-	 * We can still use these indices if we don't split either way.
+	 * from     to        jmask   jshift
+	 * --------------------------------------------
+	 * simple   col       0       -
+	 * simple   row       0       -
+	 * simple   matrix    0       -
+	 * col      matrix    TXS-1   0
+	 * row      matrix    TYS-1   TXB
 	 */
-	indic.start.col = 0;
-	indic.start.row = 0;
-	indic.end.col = TILE_SIZE_COL - 1;
-	indic.end.row = TILE_SIZE_ROW - 1;
 
-	if (type == TILE_PTR_MATRIX)
-		goto drill_down;
-	else if (full_width && full_height)
-		goto apply;
-	else if (full_height) {
-		if (!col_indicies (corner_col, w, apply_to, &indic))
-			goto split_to_ptr_matrix;
+	if (debug_style_split)
+		g_printerr ("Splitting %s into a %s\n",
+			    tile_describe (*tile),
+			    tile_type_str[t]);
 
-		switch (type) {
-		case TILE_SIMPLE: {
-			CellTile *res;
-			type = TILE_COL;
-			res = cell_tile_style_new (
-				(*tile)->style_simple.style[0],
-				type);
-			cell_tile_dtor (*tile);
-			*tile = res;
-			/* Fall through */
-		}
-		case TILE_COL:
-		case TILE_MATRIX:
-			goto apply;
-		case TILE_ROW:
-			goto split_to_matrix;
-		default:
-			g_assert_not_reached ();
-		}
-	} else if (full_width) {
-		if (!row_indicies (corner_row, h, apply_to, &indic))
-			goto split_to_ptr_matrix;
-		switch (type) {
-		case TILE_SIMPLE: {
-			CellTile *res;
+	res = cell_tile_new_like (t, *tile);
 
-			type = TILE_ROW;
-			res = cell_tile_style_new (
-				(*tile)->style_simple.style[0],
-				type);
-			cell_tile_dtor (*tile);
-			*tile = res;
-			/* Fall through */
+	for (i = 0; i < N; i++) {
+		int j = (i >> jshift) & jmask;
+		int const c = i & cmask;
+		int const r = i >> rshift;
+
+		if (tile_nth_is_tile (*tile, j)) {
+			CellTile *subsrc = tile_nth_tile (*tile, j);
+			cell_tile_extract
+				(res, i,
+				 &subsrc,
+				 corner_col + c * w1, corner_row + r * h1,
+				 w1, h1);
+		} else {
+			GnmStyle *st = tile_nth_style (*tile, j);
+			tile_set_nth_style_link (res, i, st);
 		}
-		case TILE_ROW:
-		case TILE_MATRIX:
-			goto apply;
-		case TILE_COL:
-			goto split_to_matrix;
-		default:
-			g_assert_not_reached ();
-		}
-	} else {
-		if (col_indicies (corner_col, w, apply_to, &indic) &&
-		    row_indicies (corner_row, h, apply_to, &indic))
-			goto split_to_matrix;
-		else
-			goto split_to_ptr_matrix;
 	}
 
-	g_assert_not_reached ();
+	cell_tile_dtor (*tile);
+	*tile = res;
+}
 
-split_to_matrix:
-	*tile = cell_tile_matrix_set (*tile);
+/*
+ * cell_tile_apply: This is the primary logic for making changing to areas in
+ * the tree.  It could be further optimised if it becomes a bottle neck.
+ */
+static void
+cell_tile_apply (CellTile **tile, GnmRange const *apply_to,
+		 ReplacementStyle *rs)
+{
+	int const corner_col = (*tile)->any.x;
+	int const corner_row = (*tile)->any.y;
+	int const width = (*tile)->any.w;
+	int const height = (*tile)->any.h;
+	gboolean const full_width = (apply_to->start.col <= corner_col &&
+				     apply_to->end.col >= corner_col+width-1);
+	gboolean const full_height = (apply_to->start.row <= corner_row &&
+				      apply_to->end.row >= corner_row+height-1);
+	CellTileType type = (*tile)->any.type;
+	GnmSheetSize const *ss = gnm_sheet_get_size (rs->sheet);
 
-apply:
-	vector_apply_pstyle (*tile, rs, corner_col, corner_row, level, &indic);
+	g_return_if_fail (TILE_SIMPLE <= type && type <= TILE_MATRIX);
 
-try_optimize:
+	/* applying the existing style to part of a simple-tile is a nop */
+	if (type == TILE_SIMPLE &&
+	    tile_nth_is_style (*tile, 0) &&
+	    tile_nth_style (*tile, 0) == rs->new_style)
+		return;
+
+	// Split tile in either or both directions if we don't apply
+	// the new style to the whole direction.
 	{
-		CellTileOptimize cto;
-		cto.ss = gnm_sheet_get_size (rs->sheet);
-		cto.recursion = FALSE;
-		cell_tile_optimize (tile, level, &cto, corner_col, corner_row);
-	}
-	return;
+		CellTileType newtype = type;
+		if (!full_width)
+			newtype |= TILE_COL;
+		if (!full_height)
+			newtype |= TILE_ROW;
 
-split_to_ptr_matrix:
-	/*
-	 * We get here when apply_to's corners are not on a TILE_MATRIX grid.
-	 * Split to pointer matrix whose element tiles will have a finer grid.
-	 */
-	g_return_if_fail (type != TILE_PTR_MATRIX);
+		// Really large sheets will typically not use the full range
+		// so split in both directions so we don't risk making single
+		// columns spanning the whole sheet.
+		if (type != newtype && tile_is_big (*tile)) {
+			newtype = TILE_MATRIX;
+		}
+
+		cell_tile_split (tile, newtype);
+		type = newtype;
+	}
+
+	/* Drill down into parts and apply.  */
 	{
-		CellTile *res = cell_tile_ptr_matrix_new (*tile);
-		cell_tile_dtor (*tile);
-		*tile = res;
-		type = TILE_PTR_MATRIX;
-	}
+		int i, N = TILE_SUB_COUNT (type);
+		int cmask = (type & TILE_COL) ? TILE_X_SIZE - 1 : 0;
+		int rshift = (type & TILE_COL) ? TILE_X_BITS : 0;
+		int w1 = width >> TILE_COL_BITS (type);
+		int h1 = height >> TILE_ROW_BITS (type);
 
-drill_down:
-	g_return_if_fail (type == TILE_PTR_MATRIX);
-	for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r, i += TILE_SIZE_COL) {
-		int const cr = corner_row + h*r;
-		if (cr > apply_to->end.row)
-			break;
-		if ((cr + h) <= apply_to->start.row)
-			continue;
+		for (i = 0; i < N; i++) {
+			int const c = i & cmask;
+			int const r = i >> rshift;
+			int const cc = corner_col + w1 * c;
+			int const cr = corner_row + h1 * r;
 
-		for (c = 0 ; c < TILE_SIZE_COL ; ++c) {
-			int const cc = corner_col + w*c;
-			if (cc > apply_to->end.col)
+			if (cr > apply_to->end.row)
 				break;
-			if ((cc + w) <= apply_to->start.col)
+			if (cr + h1 <= apply_to->start.row) {
+				i |= cmask;
+				continue;
+			}
+
+			if (cc > apply_to->end.col) {
+				i |= cmask;
+				continue;
+			}
+			if (cc + w1 <= apply_to->start.col)
 				continue;
 
-			cell_tile_apply ((*tile)->ptr_matrix.ptr + i + c,
-					 level - 1, cc, cr, apply_to, rs);
+			/* If we apply to a partial tile, make it a pointer */
+			if (!tile_nth_is_tile (*tile, i) &&
+			    (cc < apply_to->start.col ||
+			     cc + w1 - 1 > apply_to->end.col ||
+			     cr < apply_to->start.row ||
+			     cr + h1 - 1 > apply_to->end.row)) {
+				GnmStyle *st = tile_nth_style (*tile, i);
+				CellTile *sub = cell_tile_new
+					(TILE_SIMPLE, cc, cr, w1, h1);
+				tile_set_nth_style (sub, 0, st);
+				if (debug_style_split)
+					g_printerr ("Adding a pointer to %s\n",
+						    tile_describe (*tile));
+				tile_set_nth_tile (*tile, i, sub);
+			}
+
+			if (tile_nth_is_tile (*tile, i))
+				cell_tile_apply (&TILE_NTH_TILE_L (*tile, i),
+						 apply_to, rs);
+			else {
+				GnmStyle *st = tile_nth_style (*tile, i);
+				GnmRange rng;
+
+				range_init (&rng,
+					    cc, cr,
+					    MIN (ss->max_cols - 1, cc + w1 - 1),
+					    MIN (ss->max_rows - 1, cr + h1 - 1));
+				rstyle_apply (&st, rs, &rng);
+				tile_set_nth_style (*tile, i, st);
+			}
 		}
 	}
-	goto try_optimize;
+
+	/* Try optimize.  */
+	{
+		CellTileOptimize cto;
+		cto.ss = ss;
+		cto.recursion = FALSE;
+		cell_tile_optimize (tile, &cto);
+	}
 }
+
+static void
+sheet_style_apply (GnmRange const *apply_to, ReplacementStyle *rs)
+{
+	Sheet *sheet = rs->sheet;
+	GnmSheetSize const *ss = gnm_sheet_get_size (sheet);
+	GnmRange r = *apply_to;
+	CellTile **tile = &sheet->style_data->styles;
+
+	/* Do nothing on inverted ranges.  */
+	if (r.start.col > r.end.col || r.start.row > r.end.row)
+		return;
+
+	/* Extend ranges to top tile's end if they end at sheet boundary.  */
+	if (r.end.col >= ss->max_cols - 1)
+		r.end.col = (*tile)->any.w - 1;
+	if (r.end.row >= ss->max_rows - 1)
+		r.end.row = (*tile)->any.h - 1;
+
+	if (debug_style_apply) {
+		g_printerr ("Applying %s style to %s!%s\n",
+			    (rs->new_style ? "full" : "partial"),
+			    sheet->name_unquoted,
+			    range_as_string (&r));
+		gnm_style_dump (rs->new_style ? rs->new_style : rs->pstyle);
+	}
+	cell_tile_apply (tile, &r, rs);
+	if (debug_style_apply)
+		cell_tile_sanity_check (*tile);
+}
+
 
 /* Handler for foreach_tile.
  *
@@ -1176,100 +1199,49 @@ typedef void (*ForeachTileFunc) (GnmStyle *style,
 				 int width, int height,
 				 GnmRange const *apply_to, gpointer user);
 static void
-foreach_tile_r (CellTile *tile, int level,
-		int corner_col, int corner_row,
-		GnmRange const *apply_to,
-		ForeachTileFunc handler,
-		gpointer user)
+foreach_tile_r (CellTile *tile, GnmRange const *apply_to,
+		ForeachTileFunc handler, gpointer user)
 {
-	int const width = tile_widths[level+1];
-	int const height = tile_heights[level+1];
-	int const w = tile_widths[level];
-	int const h = tile_heights[level];
-	int c, r, i, last;
+	CellTileType type = tile->any.type;
+	int i, N = TILE_SUB_COUNT (type);
+	int cmask = (type & TILE_COL) ? TILE_X_SIZE - 1 : 0;
+	int rshift = (type & TILE_COL) ? TILE_X_BITS : 0;
+	int const corner_col = tile->any.x;
+	int const corner_row = tile->any.y;
+	int const width = tile->any.w;
+	int const height = tile->any.h;
+	int w1 = width >> TILE_COL_BITS (type);
+	int h1 = height >> TILE_ROW_BITS (type);
 
-	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);
-	g_return_if_fail (tile != NULL);
+	for (i = 0; i < N; i++) {
+		int const c = i & cmask;
+		int const r = i >> rshift;
+		int const cc = corner_col + w1 * c;
+		int const cr = corner_row + h1 * r;
 
-	switch (tile->type) {
-	case TILE_SIMPLE:
-		handler (tile->style_simple.style[0],
-			 corner_col, corner_row, width, height,
-			 apply_to, user);
-		break;
-
-	case TILE_COL:
-		if (apply_to != NULL) {
-			c = (apply_to->start.col - corner_col) / w;
-			if (c < 0)
-				c = 0;
-			last = (apply_to->end.col - corner_col) / w + 1;
-			if (last > TILE_SIZE_COL)
-				last = TILE_SIZE_COL;
-		} else {
-			c = 0;
-			last = TILE_SIZE_COL;
-		}
-		for (; c < last ; ++c)
-			handler (tile->style_col.style[c],
-				 corner_col + c*w, corner_row, w, height,
-				 apply_to, user);
-		break;
-
-	case TILE_ROW:
-		if (apply_to != NULL) {
-			r = (apply_to->start.row - corner_row) / h;
-			if (r < 0)
-				r = 0;
-			last = (apply_to->end.row - corner_row) / h + 1;
-			if (last > TILE_SIZE_ROW)
-				last = TILE_SIZE_ROW;
-		} else {
-			r = 0;
-			last = TILE_SIZE_ROW;
-		}
-		for (; r < last ; ++r)
-			handler (tile->style_row.style[r],
-				 corner_col, corner_row + r*h, width, h,
-				 apply_to, user);
-		break;
-
-	case TILE_MATRIX:
-	case TILE_PTR_MATRIX:
-		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r, i += TILE_SIZE_COL) {
-			int const cr = corner_row + h*r;
-			if (apply_to) {
-				if (cr > apply_to->end.row)
-					break;
-				if ((cr + h) <= apply_to->start.row)
-					continue;
+		if (apply_to) {
+			if (cr > apply_to->end.row)
+				break;
+			if (cr + h1 <= apply_to->start.row) {
+				i |= cmask;
+				continue;
 			}
 
-			for (c = 0 ; c < TILE_SIZE_COL ; ++c) {
-				int const cc = corner_col + w*c;
-				if (apply_to) {
-					if (cc > apply_to->end.col)
-						break;
-					if ((cc + w) <= apply_to->start.col)
-						continue;
-				}
-
-				if (tile->type == TILE_MATRIX) {
-					handler (tile->style_matrix.style[r*TILE_SIZE_COL+c],
-						 corner_col + c * w,
-						 corner_row + r * h,
-						 w, h, apply_to, user);
-				} else {
-					foreach_tile_r (
-						tile->ptr_matrix.ptr[c + r*TILE_SIZE_COL],
-						level-1, cc, cr, apply_to, handler, user);
-				}
+			if (cc > apply_to->end.col) {
+				i |= cmask;
+				continue;
 			}
+			if (cc + w1 <= apply_to->start.col)
+				continue;
 		}
-		break;
 
-	default:
-		g_warning ("Adaptive Quad Tree corruption !");
+		if (tile_nth_is_tile (tile, i))
+			foreach_tile_r (tile_nth_tile (tile, i),
+					apply_to, handler, user);
+		else
+			handler (tile_nth_style (tile, i),
+				 cc, cr, w1, h1,
+				 apply_to, user);
 	}
 }
 
@@ -1278,7 +1250,6 @@ foreach_tile (Sheet const *sheet, GnmRange const *apply_to,
 	      ForeachTileFunc handler, gpointer user)
 {
 	foreach_tile_r (sheet->style_data->styles,
-			sheet->tile_top_level, 0, 0,
 			apply_to, handler, user);
 }
 
@@ -1287,58 +1258,11 @@ foreach_tile (Sheet const *sheet, GnmRange const *apply_to,
  * does not need all the bells and whistles because it operates on single cells.
  */
 static void
-cell_tile_apply_pos (CellTile **tile, int level,
-		     int col, int row,
-		     ReplacementStyle *rs)
+cell_tile_apply_pos (CellTile **tile, int col, int row, ReplacementStyle *rs)
 {
-	CellTile *tmp;
-	CellTileType type;
 	GnmRange rng;
-
-	g_return_if_fail (col >= 0);
-	g_return_if_fail (col < gnm_sheet_get_max_cols (rs->sheet));
-	g_return_if_fail (row >= 0);
-	g_return_if_fail (row < gnm_sheet_get_max_rows (rs->sheet));
-
 	range_init (&rng, col, row, col, row);
-
-tail_recursion:
-	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);
-	g_return_if_fail (tile != NULL);
-	g_return_if_fail (*tile != NULL);
-
-	tmp = *tile;
-	type = tmp->type;
-	g_return_if_fail (TILE_SIMPLE <= type && type <= TILE_PTR_MATRIX);
-
-	if (level > 0) {
-		int const w = tile_widths[level];
-		int const c = col / w;
-		int const h = tile_heights[level];
-		int const r = row / h;
-
-		if (type != TILE_PTR_MATRIX) {
-			/* applying the same style to part of a simple-tile is a nop */
-			if (type == TILE_SIMPLE &&
-			    (*tile)->style_simple.style[0] == rs->new_style)
-				return;
-
-			tmp = cell_tile_ptr_matrix_new (tmp);
-			cell_tile_dtor (*tile);
-			*tile = tmp;
-		}
-		tile = tmp->ptr_matrix.ptr + r * TILE_SIZE_COL + c;
-		level--;
-		col -= c*w;
-		row -= r*h;
-		goto tail_recursion;
-	} else if (type != TILE_MATRIX)
-		*tile = tmp = cell_tile_matrix_set (tmp);
-
-	g_return_if_fail (tmp->type == TILE_MATRIX);
-	rstyle_apply (tmp->style_matrix.style + row * TILE_SIZE_COL + col,
-		      rs,
-		      &rng);
+	sheet_style_apply (&rng, rs);
 }
 
 /**
@@ -1369,9 +1293,7 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
 	range_ensure_sanity (&r, sheet);
 
 	rstyle_ctor_style (&rs, style, sheet);
-	cell_tile_apply (&sheet->style_data->styles,
-			 sheet->tile_top_level, 0, 0,
-			 &r, &rs);
+	sheet_style_apply (&r, &rs);
 	rstyle_dtor (&rs);
 }
 
@@ -1430,9 +1352,7 @@ sheet_style_apply_pos (Sheet *sheet, int col, int row, GnmStyle *pstyle)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	rstyle_ctor_pstyle (&rs, pstyle, sheet);
-	cell_tile_apply_pos (&sheet->style_data->styles,
-			     sheet->tile_top_level, col, row,
-			     &rs);
+	cell_tile_apply_pos (&sheet->style_data->styles, col, row, &rs);
 	rstyle_dtor (&rs);
 }
 /**
@@ -1453,9 +1373,7 @@ sheet_style_set_pos (Sheet *sheet, int col, int row,
 	g_return_if_fail (IS_SHEET (sheet));
 
 	rstyle_ctor_style (&rs, style, sheet);
-	cell_tile_apply_pos (&sheet->style_data->styles,
-			     sheet->tile_top_level, col, row,
-			     &rs);
+	cell_tile_apply_pos (&sheet->style_data->styles, col, row, &rs);
 	rstyle_dtor (&rs);
 }
 
@@ -1487,42 +1405,29 @@ sheet_style_default (Sheet const *sheet)
 GnmStyle const *
 sheet_style_get (Sheet const *sheet, int col, int row)
 {
-	int level = sheet->tile_top_level;
 	CellTile *tile = sheet->style_data->styles;
 
 	while (1) {
-		int width = tile_widths[level];
-		int height = tile_heights[level];
-		int c = col / width;
-		int r = row / height;
+		int c = (col - tile->any.x) * TILE_X_SIZE / tile->any.w;
+		int r = (row - tile->any.y) * TILE_Y_SIZE / tile->any.h;
+		int i;
 
-		g_return_val_if_fail (tile != NULL, NULL);
-		g_return_val_if_fail (0 <= c && c < TILE_SIZE_COL, NULL);
-		g_return_val_if_fail (0 <= r && r < TILE_SIZE_ROW, NULL);
+		g_return_val_if_fail (0 <= c && c < TILE_X_SIZE, NULL);
+		g_return_val_if_fail (0 <= r && r < TILE_Y_SIZE, NULL);
 
-		switch (tile->type) {
-		case TILE_SIMPLE:
-			return tile->style_simple.style[0];
-		case TILE_COL:
-			return tile->style_col.style[c];
-		case TILE_ROW:
-			return tile->style_row.style[r];
-		case TILE_MATRIX:
-			return tile->style_matrix.style[r * TILE_SIZE_COL + c];
-
-		case TILE_PTR_MATRIX:
-			g_return_val_if_fail (level > 0, NULL);
-
-			level--;
-			tile = tile->ptr_matrix.ptr[r * TILE_SIZE_COL + c];
-			col -= c * width;
-			row -= r * height;
-			continue;
-
+		switch (tile->any.type) {
 		default:
-			g_warning ("Adaptive Quad Tree corruption !");
-			return NULL;
+			g_assert_not_reached ();
+		case TILE_SIMPLE: i = 0; break;
+		case TILE_COL:    i = c; break;
+		case TILE_ROW:    i = r; break;
+		case TILE_MATRIX: i = r * TILE_X_SIZE + c; break;
 		}
+
+		if (tile_nth_is_tile (tile, i))
+			tile = tile_nth_tile (tile, i);
+		else
+			return tile_nth_style (tile, i);
 	}
 }
 
@@ -1588,58 +1493,64 @@ style_row (GnmStyle const *style, int start_col, int end_col,
 }
 
 static void
-get_style_row (CellTile const *tile, int level,
-	       int corner_col, int corner_row,
-	       GnmStyleRow *sr)
+get_style_row (CellTile const *tile, GnmStyleRow *sr)
 {
-	int const width = tile_widths[level+1];
-	int const w = tile_widths[level];
-	int const h = tile_heights[level];
+	int const corner_col = tile->any.x;
+	int const corner_row = tile->any.y;
+	int const width = tile->any.w;
+	int const height = tile->any.h;
+	int const w = width / TILE_X_SIZE;
+	int const h = height / TILE_Y_SIZE;
 	int r = 0;
 	CellTileType t;
 
-	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);
 	g_return_if_fail (tile != NULL);
 
-	t = tile->type;
+	t = tile->any.type;
 
-	if (t != TILE_SIMPLE && t != TILE_COL) {
-		r = (sr->row > corner_row) ? (sr->row - corner_row)/ h : 0;
-		g_return_if_fail (r < TILE_SIZE_ROW);
+	if (t & TILE_ROW) {
+		r = (sr->row > corner_row) ? (sr->row - corner_row) / h : 0;
+		g_return_if_fail (r < TILE_Y_SIZE);
 	}
 
-	if (t == TILE_ROW || t == TILE_SIMPLE) {
-		style_row (tile->style_any.style[r],
-			   corner_col, corner_col + width - 1, sr, TRUE);
-	} else {
+	switch (t) {
+	case TILE_SIMPLE:
+	case TILE_ROW:
+		if (tile_nth_is_tile (tile, r))
+			get_style_row (tile_nth_tile (tile, r), sr);
+		else
+			style_row (tile_nth_style (tile, r),
+				   corner_col, corner_col + width - 1,
+				   sr, TRUE);
+		break;
+
+	case TILE_COL:
+	case TILE_MATRIX: {
 		/* find the start and end */
 		int c;
 		int last_c = (sr->end_col - corner_col) / w;
-		if (last_c >= TILE_SIZE_COL)
-			last_c = TILE_SIZE_COL-1;
+		int cc = corner_col;
+		if (last_c >= TILE_X_SIZE)
+			last_c = TILE_X_SIZE-1;
 		if (sr->start_col > corner_col) {
 			c = (sr->start_col - corner_col) / w;
-			corner_col += c * w;
+			cc += c * w;
 		} else
 			c = 0;
 
-		corner_row += h*r;
-
-		if (t != TILE_PTR_MATRIX) {
-			GnmStyle * const *styles = tile->style_any.style + r*TILE_SIZE_COL;
-
-			for ( ; c <= last_c ; c++, corner_col += w)
-				style_row (styles[c],
-					   corner_col, corner_col + w - 1, sr, TRUE);
-		} else {
-			CellTile * const *tiles = tile->ptr_matrix.ptr + r*TILE_SIZE_COL;
-
-			g_return_if_fail (level > 0);
-
-			for ( level-- ; c <= last_c ; c++, corner_col += w)
-				get_style_row (tiles[c], level,
-					       corner_col, corner_row, sr);
+		for ( ; c <= last_c ; c++, cc += w) {
+			int i = c + r * TILE_X_SIZE;
+			if (tile_nth_is_tile (tile, i))
+				get_style_row (tile_nth_tile (tile, i), sr);
+			else
+				style_row (tile_nth_style (tile, i),
+					   cc, cc + w - 1, sr, TRUE);
 		}
+		break;
+	}
+
+	default:
+		g_assert_not_reached ();
 	}
 }
 
@@ -1664,7 +1575,7 @@ sheet_style_get_row (Sheet const *sheet, GnmStyleRow *sr)
 
 	sr->sheet = sheet;
 	sr->vertical[sr->start_col] = gnm_style_border_none ();
-	get_style_row (sheet->style_data->styles, sheet->tile_top_level, 0, 0, sr);
+	get_style_row (sheet->style_data->styles, sr);
 }
 
 static void
@@ -1766,9 +1677,7 @@ sheet_style_apply_range (Sheet *sheet, GnmRange const *range, GnmStyle *pstyle)
 	range_ensure_sanity (&r, sheet);
 
 	rstyle_ctor_pstyle (&rs, pstyle, sheet);
-	cell_tile_apply (&sheet->style_data->styles,
-			 sheet->tile_top_level, 0, 0,
-			 &r, &rs);
+	sheet_style_apply (&r, &rs);
 	rstyle_dtor (&rs);
 }
 
@@ -2923,10 +2832,12 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 		g_printerr ("Total of %d ranges:\n", data.accum->len);
 	for (ui = data.accum->len; ui-- > 0; ) {
 		GnmStyleRegion *sr = g_ptr_array_index (data.accum, ui);
-		if (debug_style_list ())
+		if (debug_style_list ()) {
 			g_printerr ("  %s %p\n",
 				    range_as_string (&sr->range),
 				    sr->style);
+			gnm_style_dump (sr->style);
+		}
 		res = g_slist_prepend (res, sr);
 	}
 
@@ -3207,195 +3118,61 @@ sheet_style_range_foreach (Sheet const *sheet, GnmRange const *r,
 /* ------------------------------------------------------------------------- */
 
 static void
-cell_tile_dump (CellTile **tile, int level, CellTileOptimize *data,
-		int ccol, int crow)
+cell_tile_optimize (CellTile **tile, CellTileOptimize *data)
 {
-	CellTileType type;
-	int const w = tile_widths[level];
-	int const h = tile_heights[level];
-	GnmRange rng;
-	const char *indent = "";
+	int i, N = TILE_SUB_COUNT ((*tile)->any.type);
 
-	type = (*tile)->type;
-
-	range_init (&rng,
-		    ccol, crow,
-		    MIN (ccol + tile_widths[level + 1] - 1,
-			 data->ss->max_cols - 1),
-		    MIN (crow + tile_heights[level + 1] - 1,
-			 data->ss->max_rows - 1));
-
-	g_printerr ("%s%s: type %s\n",
-		    indent,
-		    range_as_string (&rng),
-		    tile_type_str[type]);
-
-	if (type == TILE_PTR_MATRIX) {
-		int i;
-
-		for (i = 0; i < TILE_SIZE_COL * TILE_SIZE_ROW; i++) {
-			CellTile **subtile = (*tile)->ptr_matrix.ptr + i;
-			int c = i % TILE_SIZE_COL;
-			int r = i / TILE_SIZE_COL;
-			cell_tile_dump (subtile, level - 1, data,
-					ccol + w * c,
-					crow + h * r);
-		}
-	} else {
-#if 0
-		int i;
-
-		for (i = 0; i < tile_size[type]; i++) {
-			g_printerr ("%s: %d %p\n",
-				    indent,
-				    i,
-				    (*tile)->style_any.style[i]);
-		}
-#endif
+	// If requested, do recursion first
+	if (data->recursion) {
+		for (i = 0; i < N; i++)
+			if (tile_nth_is_tile (*tile, i))
+				cell_tile_optimize (&TILE_NTH_TILE_L (*tile, i),
+						    data);
 	}
-}
 
-/* ------------------------------------------------------------------------- */
-
-static void
-cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
-		    int ccol, int crow)
-{
-	CellTileType type;
-	int const w = tile_widths[level];
-	int const h = tile_heights[level];
-	CellTile *res;
-	int i;
-	GnmRange rng;
-
-	type = (*tile)->type;
-	if (type == TILE_SIMPLE)
-		return;
-
-	range_init (&rng,
-		    ccol, crow,
-		    MIN (ccol + tile_widths[level + 1] - 1,
-			 data->ss->max_cols - 1),
-		    MIN (crow + tile_heights[level + 1] - 1,
-			 data->ss->max_rows - 1));
-
-	switch (type) {
-	case TILE_COL:
-	case TILE_ROW:
-		if (!tile_is_uniform (*tile))
-			return;
-
-		type = TILE_SIMPLE;
-		break;
-
-	case TILE_PTR_MATRIX: {
-		gboolean all_simple = TRUE;
-		int i;
-
-		for (i = 0; i < TILE_SIZE_COL * TILE_SIZE_ROW; i++) {
-			CellTile **subtile = (*tile)->ptr_matrix.ptr + i;
-			if (data->recursion) {
-				int c = i % TILE_SIZE_COL;
-				int r = i / TILE_SIZE_COL;
-				cell_tile_optimize (subtile, level - 1, data,
-						    ccol + w * c,
-						    crow + h * r);
+	// Change pointers to TILE_SIMPLE to direct styles.
+	for (i = 0; i < N; i++) {
+		if (tile_nth_is_tile (*tile, i)) {
+			CellTile *sub = tile_nth_tile (*tile, i);
+			if (sub->any.type == TILE_SIMPLE) {
+				GnmStyle *st = tile_nth_style (sub, 0);
+				if (debug_style_optimize)
+					g_printerr ("Removing pointer from %s\n",
+						    tile_describe (sub));
+				tile_set_nth_style_link (*tile, i, st);
+				cell_tile_dtor (sub);
 			}
-			if ((*subtile)->type != TILE_SIMPLE)
-				all_simple = FALSE;
 		}
-		if (!all_simple)
-			return;
-
-		res = cell_tile_style_new (NULL, TILE_MATRIX);
-		for (i = 0; i < TILE_SIZE_COL * TILE_SIZE_ROW; i++) {
-			CellTile *subtile = (*tile)->ptr_matrix.ptr[i];
-			GnmStyle *st = subtile->style_simple.style[0];
-			gnm_style_link (st);
-			res->style_matrix.style[i] = st;
-		}
-
-		if (debug_style_optimize)
-			g_printerr ("Turning %s (%dx%d) from a %s into a %s\n",
-				    range_as_string (&rng),
-				    range_width (&rng), range_height (&rng),
-				    tile_type_str[(*tile)->type],
-				    tile_type_str[res->type]);
-		cell_tile_dtor (*tile);
-		*tile = res;
-
-		/* Fall through */
 	}
 
-	case TILE_MATRIX: {
-		gboolean csame = TRUE;
-		gboolean rsame = TRUE;
-		int c, r, i;
-
-		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r, i += TILE_SIZE_COL) {
-			for (c = 0 ; c < TILE_SIZE_COL ; ++c) {
-				if (rsame && c &&
-				    !gnm_style_eq ((*tile)->style_matrix.style[i + c],
-						   (*tile)->style_matrix.style[i    ])) {
-					rsame = FALSE;
-					if (!csame)
-						return;
-				}
-				if (csame && r &&
-				    !gnm_style_eq ((*tile)->style_matrix.style[i + c],
-						   (*tile)->style_matrix.style[    c])) {
-					csame = FALSE;
-					if (!rsame)
-						return;
-				}
+	// If everything is the same style, simplify to TILE_SIMPLE.
+	if (N > 1 && tile_nth_is_style (*tile, 0)) {
+		gboolean all_same_style = TRUE;
+		GnmStyle *st0 = tile_nth_style (*tile, 0);
+		for (i = 1; i < N; i++) {
+			if (tile_nth_is_tile (*tile, i) ||
+			    tile_nth_style (*tile, i) != st0) {
+				all_same_style = FALSE;
+				break;
 			}
 		}
 
-		if (csame && rsame)
-			type = TILE_SIMPLE;
-		else if (csame) {
-			type = TILE_COL;
-		} else {
-			type = TILE_ROW;
+		if (all_same_style) {
+			// Change to a TILE_SIMPLE which is likely to be
+			// further changed into a direct style one level up.
+			CellTile *res = cell_tile_new_like (TILE_SIMPLE, *tile);
+			tile_set_nth_style_link (res, 0, st0);
+			if (debug_style_optimize)
+				g_printerr ("Turning %s into a %s\n",
+					    tile_describe (*tile),
+					    tile_type_str[res->any.type]);
+			cell_tile_dtor (*tile);
+			*tile = res;
+			return;
 		}
-		break;
+
+		// TODO: Consider Matrix -> Col/Row, except when tile_is_big.
 	}
-
-	default:
-		g_assert_not_reached ();
-	}
-
-	if (debug_style_optimize)
-		g_printerr ("Turning %s (%dx%d) from a %s into a %s\n",
-			    range_as_string (&rng),
-			    range_width (&rng), range_height (&rng),
-			    tile_type_str[(*tile)->type],
-			    tile_type_str[type]);
-
-	res = cell_tile_style_new (NULL, type);
-	switch (type) {
-	case TILE_SIMPLE:
-		res->style_simple.style[0] = (*tile)->style_any.style[0];
-		break;
-	case TILE_ROW:
-		for (i = 0; i < TILE_SIZE_ROW; i++)
-			res->style_row.style[i] =
-				(*tile)->style_matrix.style[i * TILE_SIZE_COL];
-		break;
-	case TILE_COL:
-		for (i = 0; i < TILE_SIZE_COL; i++)
-			res->style_col.style[i] =
-				(*tile)->style_matrix.style[i];
-		break;
-	default:
-		g_assert_not_reached ();
-	}
-
-	for (i = 0; i < tile_size[type]; i++)
-		gnm_style_link (res->style_any.style[i]);
-
-	cell_tile_dtor (*tile);
-	*tile = res;
 }
 
 static GSList *
@@ -3490,17 +3267,14 @@ sheet_style_optimize (Sheet *sheet)
 
 	if (debug_style_optimize) {
 		g_printerr ("Optimizing %s\n", sheet->name_unquoted);
-		cell_tile_dump (&sheet->style_data->styles,
-				sheet->tile_top_level, &data,
-				0, 0);
+		if (debug_style_optimize_verbose)
+			cell_tile_dump (sheet->style_data->styles);
 	}
 
 	verify = gnm_debug_flag ("style-optimize-verify");
 	pre = verify ? sample_styles (sheet) : NULL;
 
-	cell_tile_optimize (&sheet->style_data->styles,
-			    sheet->tile_top_level, &data,
-			    0, 0);
+	cell_tile_optimize (&sheet->style_data->styles, &data);
 
 	if (debug_style_optimize)
 		g_printerr ("Optimizing %s...done\n", sheet->name_unquoted);
