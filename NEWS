@@ -23,6 +23,7 @@ Morten:
 	* Fix 2038 problem on quit.
 	* Improve tests.
 	* Improve dependency tracking for implicit intersection. [#501]
+	* Fix format dialog issue.  [#503]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47

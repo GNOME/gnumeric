@@ -1,3 +1,9 @@
+2020-07-03  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_impl): When we have
+	inconsistent format for the selection on entry, allow "ok" to set
+	general right away.  Fixes #503.
+
 2020-05-09  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.47

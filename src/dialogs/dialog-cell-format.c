@@ -2477,6 +2477,11 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 				gtk_widget_hide (widget);
 		}
 
+	// If we have conflicts then allow setting General right away
+	if (state->conflicts & (1 << MSTYLE_FORMAT))
+		cb_number_format_changed (NULL,
+					  go_format_as_XL (go_format_general ()),
+					  state);
 
 	gnm_restore_window_geometry (GTK_WINDOW (state->dialog),
 					  CELL_FORMAT_KEY);
@@ -2499,7 +2504,7 @@ cb_check_cell_format (GnmCellIter const *iter, gpointer user)
 		gnm_style_set_format (state->style, fmt);
 		return NULL;
 	} else {
-		state->conflicts |= MSTYLE_FORMAT;
+		state->conflicts |= (1 << MSTYLE_FORMAT);
 		return VALUE_TERMINATE;
 	}
 }
@@ -2538,7 +2543,7 @@ fmt_dialog_selection_type (SheetView *sv,
 	state->conflicts = sheet_style_find_conflicts (state->sheet, &r,
 		&(state->style), state->borders);
 
-	if ((state->conflicts & MSTYLE_FORMAT) == 0 &&
+	if ((state->conflicts & (1 << MSTYLE_FORMAT)) == 0 &&
 	    go_format_is_general (gnm_style_get_format (state->style))) {
 		sheet_foreach_cell_in_range (state->sheet,
 					     CELL_ITER_IGNORE_BLANK,
