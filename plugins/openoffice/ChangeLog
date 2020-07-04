@@ -1,6 +1,9 @@
+2020-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+    * openoffice-read.c: Adddraw_control to draw:g
+
 2020-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_cell_start): do not ignore teh value-type
+	* openoffice-read.c (oo_cell_start): do not ignore the value-type
 	a missing value type means the cell is empty/blank
 
 2020-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
