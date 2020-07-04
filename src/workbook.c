@@ -1400,15 +1400,33 @@ workbook_set_1904 (Workbook *wb, gboolean base1904)
 GnmSheetSize const *
 workbook_get_sheet_size (Workbook const *wb)
 {
-	if (wb == NULL || workbook_sheet_count (wb) == 0) {
-		static const GnmSheetSize max_size = {
-			GNM_MAX_COLS, GNM_MAX_ROWS
-		};
+	GnmSheetSize res;
+	static const GnmSheetSize max_size = {
+		GNM_MAX_COLS, GNM_MAX_ROWS
+	};
 
+	int i, n;
+	gboolean uniform = TRUE;
+
+	n = wb ? workbook_sheet_count (wb) : 0;
+	if (n == 0)
 		return &max_size;
+
+	res = *gnm_sheet_get_size (workbook_sheet_by_index (wb, 0));
+	for (i = 1; i < n; i++) {
+		Sheet *sheet = workbook_sheet_by_index (wb, i);
+		GnmSheetSize const *ss = gnm_sheet_get_size (sheet);
+		if (ss->max_cols != res.max_cols ||
+		    ss->max_rows != res.max_rows) {
+			uniform = FALSE;
+			break;
+		}
 	}
 
-	return gnm_sheet_get_size (workbook_sheet_by_index (wb, 0));
+	if (uniform)
+		return gnm_sheet_get_size (workbook_sheet_by_index (wb, 0));
+	else
+		return &max_size; // It's unclear what to do
 }
 
 /* ------------------------------------------------------------------------- */

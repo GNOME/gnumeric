@@ -26,6 +26,7 @@ Morten:
 	* Fix format dialog issue.  [#503]
 	* Re-tune style quad tree.  [#234]
 	* Re-tune dependency bucket system.  [#502]
+	* Fix global name parsing problem with non-uniform sheet sizing.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47
