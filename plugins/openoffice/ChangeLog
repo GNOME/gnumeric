@@ -1,5 +1,6 @@
 2020-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
-    * openoffice-read.c: Adddraw_control to draw:g
+
+	* openoffice-read.c: Add draw_control to draw:g
 
 2020-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
