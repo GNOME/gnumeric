@@ -5652,7 +5652,7 @@
 	* ms-excel-write.c (excel_write_COLINFO) : patch a minor leak.
 
 	* boot.c (excel_read_metadata) : close the meta data streams.
-	(excel_file_open) : let the summary props overide the document.
+	(excel_file_open) : let the summary props override the document.
 
 2005-04-10  Jean Brefort  <jean.brefort@normalesup.org>
 
@@ -13654,7 +13654,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 1999-03-11  Michael Meeks  <michael@ximian.com>
 
 	* ms-ole.c (ms_ole_destroy, ms_ole_new): Killed debug
-	output before we are sure its an OLE file.
+	output before we are sure it's an OLE file.
 
 1999-03-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 

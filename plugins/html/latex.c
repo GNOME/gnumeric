@@ -1283,7 +1283,7 @@ file_saver_sheet_get_extent (Sheet *sheet)
  * @filename:         where we'll write.
  *
  * This writes the top sheet of a Gnumeric workbook to a LaTeX2e longtable. We
- * check for merges here, then call the function latex2e_write_multicolum_cell()
+ * check for merges here, then call the function latex2e_write_multicolumn_cell()
  * to render the format and contents of the cell.
  */
 void

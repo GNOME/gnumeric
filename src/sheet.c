@@ -3155,7 +3155,7 @@ sheet_cell_set_value (GnmCell *cell, GnmValue *v)
  * @row: row number
  * @v: #GnmValue
  *
- * Set the the value of the cell at (@col,@row) to @v.
+ * Set the value of the cell at (@col,@row) to @v.
  *
  * The value is rendered and spans are calculated.  It queues a redraw
  * and checks to see if the edit region or selection content changed.

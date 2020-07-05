@@ -742,7 +742,7 @@ gnm_command_push_undo (WorkbookControl *wbc, GObject *obj)
 
 /*
  * command_undo_sheet_delete deletes the sheet without deleting the current cmd.
- * returns true if is indeed deleted the sheet.
+ * returns true if it indeed deleted the sheet.
  * Note: only call this for a sheet of your current workbook from the undo procedure
  */
 
@@ -5964,7 +5964,7 @@ cmd_define_name_finalize (GObject *cmd)
  * @descriptor: optional descriptor.
  *
  * If the @name has never been defined in context @pp create a new name
- * If its a placeholder assign @texpr to it and make it real
+ * If it is a placeholder, assign @texpr to it and make it real
  * If it already exists as a real name just assign @expr.
  *
  * Returns: %TRUE if there was a problem, %FALSE otherwise.

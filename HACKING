@@ -64,7 +64,7 @@ modular chunks (as detailed by Linus).
 
 	- It is more important to be correct than to be fast.
 
-	- Do not optimize unnecesarly.  Do profile, do look for the
+	- Do not optimize unnecessarly.  Do profile, do look for the
 	  weak spots before applying "optimization by feeling".  This
 	  is not a Ouija-based project.
 

@@ -779,7 +779,7 @@
 2015-02-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_series_lines): don't use
-	gog_object_get_child_by_name since it may return the wrong objects. Get teh correct
+	gog_object_get_child_by_name since it may return the wrong objects. Get the correct
 	style name.
 
 2015-02-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -1633,7 +1633,7 @@
 	(oo_cell_content_end): ditto
 	(odf_preparse_table_end): save the extent with the sheet
 	(openoffice_file_open): the extra tables are always at the end, and
-	everything is in the corect order
+	everything is in the correct order
 
 2013-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

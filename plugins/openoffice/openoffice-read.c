@@ -403,7 +403,7 @@ typedef struct {
 struct  _OOParseState {
 	GOIOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
-	OOVer		 ver;		/* Its an OOo v1.0 or v2.0? */
+	OOVer		 ver;		/* Is it an OOo v1.0 or v2.0? */
 	gnm_float	 ver_odf;	/* specific ODF version */
 	GsfInfile	*zip;		/* Reference to the open file, to load graphs and images*/
 	OOChartInfo	 chart;

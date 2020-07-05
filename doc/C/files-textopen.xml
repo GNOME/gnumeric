@@ -240,7 +240,7 @@
     <para>
       This complex situation generally does not impact users.  &gnum;
       has been designed to deal with most of the complexity. Many
-      kinds of flies, such as the &gnum; file format itself, describe
+      kinds of files, such as the &gnum; file format itself, describe
       their encoding scheme internally in such a way that it can be
       easily recognized. &gnum; also provides an easy approach to
       changing the encoding scheme in case this proves necessary.

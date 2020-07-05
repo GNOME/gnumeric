@@ -607,7 +607,7 @@ gnm_conf_set_page_setup (GtkPageSetup *setup)
 /**
  * gnm_conf_get_printer_decoration_font:
  *
- * Returns: (transfer full): a style appropriate for for headers and
+ * Returns: (transfer full): a style appropriate font for headers and
  * footers.
  */
 GnmStyle *

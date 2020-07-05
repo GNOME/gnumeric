@@ -236,7 +236,7 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t **stats,
 
 	/*
 	 * Set this to fool the autofit_column function.  (It will be
-	 * overwriten).
+	 * overwritten).
 	 */
 	dao_set_cell (dao, 0, 0, "A");
 

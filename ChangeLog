@@ -901,7 +901,7 @@
 2016-06-28  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_options_guess_formats): Handle lines
-	of different lenghts.
+	of different lengths.
 
 2016-06-21  Morten Welinder  <terra@gnome.org>
 

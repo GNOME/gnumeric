@@ -288,7 +288,7 @@ gnm_sheet_merge_get_adjacent (Sheet const *sheet, GnmCellPos const *pos,
  * @sheet: #Sheet to query
  * @pos: cellpos if top left corner
  *
- * Returns: (transfer none): a merged #GnmRange covering @pos if is the
+ * Returns: (transfer none): a merged #GnmRange covering @pos if it is the
  * top-left corner of a merged region.
  */
 GnmRange const *

@@ -8378,7 +8378,7 @@
 
 	* dialog-graph-guru.c (dialog_graph_guru) : forward port the type
 	  selector from guppi and convert it to use treeview in place of
-	  clist.  Still doesn't do much, but its a start.
+	  clist.  Still doesn't do much, but it is a start.
 
 2002-09-01  Jody Goldberg <jody@gnome.org>
 
