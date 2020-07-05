@@ -1304,7 +1304,7 @@ workbook_sheet_rename (Workbook *wb,
  * @is_undo: undo vs redo
  * @cmd: command
  *
- * Returns: the 1 based index of the @key command, or 0 if it is not found
+ * Returns: the 1 based index of the @cmd command, or 0 if it is not found
  * (which would be a programmer error).
  **/
 unsigned
