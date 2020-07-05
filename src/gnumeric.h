@@ -19,9 +19,11 @@ G_BEGIN_DECLS
 #define GNM_MIN_ROWS 0x80
 #define GNM_MIN_COLS 0x80
 
-/*
- * Note: more than 364238 columns will introduce a column named TRUE.
- */
+// Note: more than 364238 columns will introduce a column named TRUE.
+
+struct _GnmSheetSize {
+	int max_cols, max_rows;
+};
 
 typedef enum {
 	GNM_SHEET_VISIBILITY_VISIBLE,

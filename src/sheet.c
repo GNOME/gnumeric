@@ -1247,6 +1247,8 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	if (old_cols == cols && old_rows == rows)
 		return;
 
+	sheet->workbook->sheet_size_cached = FALSE;
+
 	/* ---------------------------------------- */
 	/* Gather styles we want to copy into new areas.  */
 

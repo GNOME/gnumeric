@@ -13,9 +13,6 @@ G_BEGIN_DECLS
 
 GNM_VAR_DECL Sheet *invalid_sheet;
 
-struct _GnmSheetSize {
-	int max_cols, max_rows;
-};
 GType gnm_sheet_size_get_type (void);
 
 struct _ColRowCollection {

@@ -16,6 +16,9 @@ struct _Workbook {
 	GHashTable *sheet_order_dependents;
 	GHashTable *sheet_local_functions;
 
+	gboolean sheet_size_cached;
+	GnmSheetSize sheet_size;
+
 	gboolean is_placeholder;
 
 	GOFileFormatLevel  file_format_level;

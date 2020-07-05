@@ -224,6 +224,7 @@ workbook_init (GObject *object)
 	wb->is_placeholder = FALSE;
 	wb->wb_views = NULL;
 	wb->sheets = g_ptr_array_new ();
+	wb->sheet_size_cached = FALSE;
 	wb->sheet_hash_private = g_hash_table_new (g_str_hash, g_str_equal);
 	wb->sheet_order_dependents = NULL;
 	wb->sheet_local_functions = NULL;
@@ -1013,6 +1014,7 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 	g_hash_table_insert (wb->sheet_hash_private,
 			     new_sheet->name_case_insensitive,
 			     new_sheet);
+	wb->sheet_size_cached = FALSE;
 
 	WORKBOOK_FOREACH_VIEW (wb, view,
 		wb_view_sheet_add (view, new_sheet););
@@ -1135,6 +1137,7 @@ workbook_sheet_delete (Sheet *sheet)
 	/* All is fine, remove the sheet */
 	pre_sheet_index_change (wb);
 	g_ptr_array_remove_index (wb->sheets, sheet_index);
+	wb->sheet_size_cached = FALSE;
 	workbook_sheet_index_update (wb, sheet_index);
 	sheet->index_in_wb = -1;
 	g_hash_table_remove (wb->sheet_hash_private, sheet->name_case_insensitive);
@@ -1393,40 +1396,40 @@ workbook_set_1904 (Workbook *wb, gboolean base1904)
 
 /**
  * workbook_get_sheet_size:
- * @wb: #Workbook
+ * @wb: (nullable): #Workbook
  *
- * Returns: (transfer none): the current sheet size for @wb.
+ * Returns: (transfer none): the current sheet size for @wb.  If sheets are
+ * not of uniform size, this will be some size that is big enough in both
+ * directions for all sheets.  That size isn't necessarily one that could
+ * be used to create a new sheet.
  **/
 GnmSheetSize const *
 workbook_get_sheet_size (Workbook const *wb)
 {
-	GnmSheetSize res;
 	static const GnmSheetSize max_size = {
 		GNM_MAX_COLS, GNM_MAX_ROWS
 	};
+	int n = wb ? workbook_sheet_count (wb) : 0;
 
-	int i, n;
-	gboolean uniform = TRUE;
-
-	n = wb ? workbook_sheet_count (wb) : 0;
 	if (n == 0)
 		return &max_size;
 
-	res = *gnm_sheet_get_size (workbook_sheet_by_index (wb, 0));
-	for (i = 1; i < n; i++) {
-		Sheet *sheet = workbook_sheet_by_index (wb, i);
-		GnmSheetSize const *ss = gnm_sheet_get_size (sheet);
-		if (ss->max_cols != res.max_cols ||
-		    ss->max_rows != res.max_rows) {
-			uniform = FALSE;
-			break;
+	if (!wb->sheet_size_cached) {
+		Workbook *wb1 = (Workbook *)wb;
+		int i;
+
+		wb1->sheet_size = *gnm_sheet_get_size (workbook_sheet_by_index (wb, 0));
+		for (i = 1; i < n; i++) {
+			Sheet *sheet = workbook_sheet_by_index (wb, i);
+			GnmSheetSize const *ss = gnm_sheet_get_size (sheet);
+			wb1->sheet_size.max_cols = MAX (wb->sheet_size.max_cols, ss->max_cols);
+			wb1->sheet_size.max_rows = MAX (wb->sheet_size.max_rows, ss->max_rows);
 		}
+
+		wb1->sheet_size_cached = TRUE;
 	}
 
-	if (uniform)
-		return gnm_sheet_get_size (workbook_sheet_by_index (wb, 0));
-	else
-		return &max_size; // It's unclear what to do
+	return &wb->sheet_size;
 }
 
 /* ------------------------------------------------------------------------- */
