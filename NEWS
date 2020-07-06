@@ -6,6 +6,7 @@ Andreas:
 	* Improve export of line markers to ODF for interoperability
 	* Improve line marker handling on import
 	* Fix LaTeX export. [#489]
+    * When reading an ODF file make all sheets of equal size. [#505]
 
 Jean:
 	* Fix xlsx object non-import crash.

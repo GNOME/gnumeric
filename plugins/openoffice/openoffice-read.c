@@ -13920,6 +13920,9 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	GError		*err = NULL;
 	int i;
 	gboolean         content_malformed = FALSE;
+	GSList          *l;
+	int              max_rows = 0;
+	int              max_cols = 0;
 
 	zip = gsf_infile_zip_new (input, &err);
 	if (zip == NULL) {
@@ -14113,6 +14116,28 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	gsf_xml_in_doc_free (doc);
 	odf_clear_conventions (&state); /* contain references to xin */
 	state.sheet_order = g_slist_reverse (state.sheet_order);
+
+	/* We want to make all sheets the same size (see bug 505 on gitlab) */
+	l = state.sheet_order;
+	while (l != NULL) {
+		sheet_order_t *sot;
+		sot = (sheet_order_t *)(l->data);
+		if (sot->cols > max_cols)
+			max_cols = sot->cols;
+		if (sot->rows > max_rows)
+			max_rows = sot->rows;
+		l = l->next;
+	}
+	l = state.sheet_order;
+	while (l != NULL) {
+		sheet_order_t *sot;
+		gboolean perr = FALSE;
+		sot = (sheet_order_t *)(l->data);
+		if ((sot->cols < max_cols) || (sot->rows < max_rows))
+			g_object_unref (gnm_sheet_resize (sot->sheet, max_cols, max_rows,
+							  NULL, &perr));
+		l = l->next;
+	}
 
 	if (NULL != styles) {
 		GsfXMLInDoc *doc = gsf_xml_in_doc_new (styles_dtd,
