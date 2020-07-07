@@ -1,3 +1,7 @@
+2020-07-06  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (bucket_start_row): Improve performance.
+
 2020-07-04  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_get_sheet_size): When sheets are not

@@ -93,24 +93,26 @@ static GOMemChunk *cset_pool;
 // A 64k row sheet will have 49 buckets; a 1M row sheet will have 81.
 
 #define BUCKET_BASE_SIZE_BITS 7
-#define BUCKET_BASE_SIZE (1 << BUCKET_BASE_SIZE_BITS)
+#define BUCKET_BASE_SIZE (1u << BUCKET_BASE_SIZE_BITS)
+#define BUCKET_REP_BITS 3
+#define BUCKET_REP (1u << BUCKET_REP_BITS)
 
 static inline int
 bucket_of_row (unsigned row)
 {
 	unsigned sb, sb0, i;
+	unsigned sbs = BUCKET_REP * BUCKET_BASE_SIZE;
 
 #ifdef __GNUC__
 	// Super block
-	sb = __builtin_clz (1u) -
-		__builtin_clz (1u + row / (8 * BUCKET_BASE_SIZE));
+	sb = __builtin_clz (1u) - __builtin_clz (1u + row / sbs);
 
 	// Super block start
-	sb0 = ((1u << sb) - 1) * (8 * BUCKET_BASE_SIZE);
+	sb0 = (sbs << sb) - sbs;
 #else
 	sb0 = 0;
 	for (sb = 0; TRUE; sb++) {
-		unsigned next_sb0 = ((2u << sb) - 1) * (8 * BUCKET_BASE_SIZE);
+		unsigned next_sb0 = ((2u << sb) - 1) * sbs;
 		if (row < next_sb0)
 			break;
 		sb0 = next_sb0;
@@ -119,15 +121,15 @@ bucket_of_row (unsigned row)
 	// Index (0-7) within super block
 	i = (row - sb0) >> (BUCKET_BASE_SIZE_BITS + sb);
 
-	return (int)(sb * 8 + i);
+	return (int)(sb * BUCKET_REP + i);
 }
 
 static inline int
 bucket_start_row (unsigned b)
 {
-	unsigned sb = b / 8;
-	unsigned sb0 = ((1u << sb) - 1) * (8 * BUCKET_BASE_SIZE);
-	return (int)(sb0 + ((b & 7) << (BUCKET_BASE_SIZE_BITS + sb)));
+	unsigned sb = b / BUCKET_REP;
+	unsigned s = ((BUCKET_REP + (b % BUCKET_REP)) << sb) - BUCKET_REP;
+	return (int)(s << BUCKET_BASE_SIZE_BITS);
 }
 
 static inline int
@@ -859,7 +861,7 @@ micro_hash_is_empty (MicroHash const *hash_table)
 /*************************************************************************/
 
 #define micro_hash_foreach_dep(dc, dep, code) do {			\
-        guint i_ = dc.num_elements;					\
+	guint i_ = dc.num_elements;					\
 	if (i_ <= MICRO_HASH_FEW) {					\
 		const gpointer *e_ = (i_ == 1) ? &dc.u.one : dc.u.few;	\
 		while (i_-- > 0) {					\
@@ -1014,6 +1016,7 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 	int i = bucket_of_row (r->start.row);
 	int end = bucket_of_row (r->end.row);
 	DependencyRange dr;
+	int next_start;
 
 	dr.range = *r;
 
@@ -1023,12 +1026,18 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 	 */
 	end = MIN (end, deps->buckets - 1);
 
+	if (i > end)
+		return;
+
+	next_start = bucket_start_row (i);
 	for ( ; i <= end; i++) {
 		DependencyRange *result;
+		int start = next_start;
+		next_start = bucket_start_row (i + 1);
 
 		/* Restrict range to bucket.  */
-		dr.range.start.row = MAX (r->start.row, bucket_start_row (i));
-		dr.range.end.row = MIN (r->end.row, bucket_end_row (i));
+		dr.range.start.row = MAX (r->start.row, start);
+		dr.range.end.row = MIN (r->end.row, next_start - 1);
 
 		if (deps->range_hash[i] == NULL)
 			deps->range_hash[i] = g_hash_table_new (
@@ -1058,6 +1067,7 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 	int i = bucket_of_row (r->start.row);
 	int end = bucket_of_row (r->end.row);
 	DependencyRange dr;
+	int next_start;
 
 	if (!deps)
 		return;
@@ -1065,12 +1075,18 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 
 	end = MIN (end, deps->buckets - 1);
 
+	if (i > end)
+		return;
+
+	next_start = bucket_start_row (i);
 	for ( ; i <= end; i++) {
 		DependencyRange *result;
+		int start = next_start;
+		next_start = bucket_start_row (i + 1);
 
 		/* Restrict range to bucket.  */
-		dr.range.start.row = MAX (r->start.row, bucket_start_row (i));
-		dr.range.end.row = MIN (r->end.row, bucket_end_row (i));
+		dr.range.start.row = MAX (r->start.row, start);
+		dr.range.end.row = MIN (r->end.row, next_start - 1);
 
 		result = g_hash_table_lookup (deps->range_hash[i], &dr);
 		if (result) {
@@ -1235,8 +1251,8 @@ link_unlink_expr_dep (GnmEvalPos *ep, GnmExpr const *tree, DepLinkFlags flags)
 	case GNM_EXPR_OP_RANGE_CTOR:  /* See #562363 */
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
-		return link_unlink_expr_dep (ep, tree->binary.value_a, flags) |
-		       link_unlink_expr_dep (ep, tree->binary.value_b, flags);
+		return (link_unlink_expr_dep (ep, tree->binary.value_a, flags) |
+			link_unlink_expr_dep (ep, tree->binary.value_b, flags));
 	case GNM_EXPR_OP_ANY_UNARY:
 		return link_unlink_expr_dep (ep, tree->unary.value, flags);
 	case GNM_EXPR_OP_CELLREF:
