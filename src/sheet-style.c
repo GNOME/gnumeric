@@ -2,7 +2,7 @@
  * sheet-style.c: storage mechanism for styles and eventually cells.
  *
  * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
- * Copyright 2013 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2013-2020 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
