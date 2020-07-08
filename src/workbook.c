@@ -250,6 +250,7 @@ workbook_init (GObject *object)
 	wb->during_destruction = FALSE;
 	wb->being_reordered    = FALSE;
 	wb->recursive_dirty_enabled = TRUE;
+	wb->being_loaded = FALSE;
 
 	gnm_app_workbook_list_add (wb);
 }

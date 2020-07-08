@@ -28,6 +28,7 @@ Morten:
 	* Re-tune style quad tree.  [#234]
 	* Re-tune dependency bucket system.  [#502]
 	* Fix global name parsing problem with non-uniform sheet sizing.
+	* Avoid style dependency redraw during file load.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47

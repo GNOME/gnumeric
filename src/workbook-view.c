@@ -1377,8 +1377,10 @@ workbook_view_new_from_input (GsfInput *input,
 
 		/* disable recursive dirtying while loading */
 		old = workbook_enable_recursive_dirty (new_wb, FALSE);
+		new_wb->being_loaded = TRUE;
 		go_file_opener_open (file_opener, encoding, io_context,
 		                     GO_VIEW (new_wbv), input);
+		new_wb->being_loaded = FALSE;
 		workbook_enable_recursive_dirty (new_wb, old);
 
 		if (go_io_error_occurred (io_context)) {

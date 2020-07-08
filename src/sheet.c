@@ -3384,8 +3384,14 @@ sheet_queue_redraw_range (Sheet *sheet, GnmRange const *range)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range != NULL);
 
+	if (sheet->workbook->being_loaded) {
+		if (debug_redraw)
+			g_printerr ("Ignoring redraw of %s during loading\n", range_as_string (range));
+		return;
+	}
+
 	if (debug_redraw)
-		g_printerr ("Adding %s\n", range_as_string (range));
+		g_printerr ("Adding redraw %s\n", range_as_string (range));
 
 	g_array_append_val (sheet->pending_redraw, *range);
 

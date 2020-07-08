@@ -1,3 +1,8 @@
+2020-07-07  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_queue_redraw_range): Ignore requests during
+	loading of a file.
+
 2020-07-06  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (bucket_start_row): Improve performance.

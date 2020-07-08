@@ -45,6 +45,7 @@ struct _Workbook {
 	gboolean during_destruction;
 	gboolean being_reordered;
 	gboolean recursive_dirty_enabled;
+	gboolean being_loaded;
 };
 
 typedef struct {
