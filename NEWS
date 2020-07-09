@@ -6,7 +6,7 @@ Andreas:
 	* Improve export of line markers to ODF for interoperability
 	* Improve line marker handling on import
 	* Fix LaTeX export. [#489]
-    * When reading an ODF file make all sheets of equal size. [#505]
+	* When reading an ODF file make all sheets of equal size. [#505]
 
 Jean:
 	* Fix xlsx object non-import crash.
@@ -29,6 +29,7 @@ Morten:
 	* Re-tune dependency bucket system.  [#502]
 	* Fix global name parsing problem with non-uniform sheet sizing.
 	* Avoid style dependency redraw during file load.
+	* Tend to dead kittens.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47

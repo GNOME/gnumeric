@@ -3120,7 +3120,7 @@ gnm_expr_top_multiple_as_string  (GnmExprTop const *texpr,
 		// have made it into convs, but it'll do.
 		size_t l = strlen (res);
 		if (l >= 2 && res[0] == '(' && res[l - 1] == ')') {
-			g_memmove (res, res + 1, l - 2);
+			memmove (res, res + 1, l - 2);
 			res[l - 2] = 0;
 		}
 	}

@@ -1121,9 +1121,7 @@ gnm_solver_stop (GnmSolver *sol, GError **err)
 static double
 current_time (void)
 {
-	GTimeVal now;
-	g_get_current_time (&now);
-	return now.tv_sec + (now.tv_usec / 1e6);
+	return g_get_monotonic_time () / 1e6;
 }
 
 

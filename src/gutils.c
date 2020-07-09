@@ -699,13 +699,9 @@ void
 gnm_insert_meta_date (GODoc *doc, char const *name)
 {
 	GValue *value = g_new0 (GValue, 1);
-	GTimeVal tm;
 	GsfTimestamp *ts = gsf_timestamp_new ();
 
-	g_get_current_time (&tm);
-	tm.tv_usec = 0L;
-
-	gsf_timestamp_set_time (ts, tm.tv_sec);
+	gsf_timestamp_set_time (ts, g_get_real_time () / 1000000);
 	g_value_init (value, GSF_TIMESTAMP_TYPE);
 	gsf_timestamp_to_value (ts, value);
 	gsf_timestamp_free (ts);

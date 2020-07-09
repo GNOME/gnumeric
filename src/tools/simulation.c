@@ -396,12 +396,12 @@ simulation_tool (WorkbookControl        *wbc,
 		for (i = 0; i < sim->n_iterations; i++) {
 			err = recompute_outputs (sim, outputs, i, round);
 			if (i % 100 == 99) {
-				g_get_current_time (&sim->end);
-				if (sim->end.tv_sec - sim->start.tv_sec >
+				sim->end = g_get_monotonic_time ();
+				if ((sim->end - sim->start) / 1e6 >
 				    sim->max_time) {
 					err = _("Maximum time exceeded. "
 						"Simulation was not "
-						"completed. ");
+						"completed.");
 					goto out;
 				}
 			}

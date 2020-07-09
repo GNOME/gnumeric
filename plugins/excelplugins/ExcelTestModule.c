@@ -118,7 +118,7 @@ static void copy_construct_xloper(XLOPER*x,const XLOPER*y){
 	if (NULL!=x){
 		x->xltype=xltypeMissing;
 		if(NULL!=y){
-			g_memmove(x,y,sizeof(XLOPER));
+			memmove(x,y,sizeof(XLOPER));
 			switch(y->xltype & xltypeType){
 			case xltypeStr:
 				x->val.str=duplicate_pascal_string(y->val.str);

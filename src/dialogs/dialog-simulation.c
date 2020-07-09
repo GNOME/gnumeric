@@ -180,10 +180,7 @@ update_log (SimulationState *state, simulation_t *sim)
 			break;
 		case 4:
 			g_string_append_printf (buf, "%.2" GNM_FORMAT_g,
-						sim->end.tv_sec -
-						sim->start.tv_sec +
-						(sim->end.tv_usec -
-						 sim->start.tv_usec) /
+						(sim->end - sim->start) /
 						(gnm_float) G_USEC_PER_SEC);
 			break;
 		case 5:
@@ -336,10 +333,9 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = go_gtk_builder_get_widget (state->gui, "max-time");
 	sim.max_time = gtk_spin_button_get_value (GTK_SPIN_BUTTON (w)) - 1;
 
-	g_get_current_time (&sim.start);
-	err = simulation_tool (GNM_WBC (state->wbcg),
-			       &dao, &sim);
-	g_get_current_time (&sim.end);
+	sim.start = g_get_monotonic_time ();
+	err = simulation_tool (GNM_WBC (state->wbcg), &dao, &sim);
+	sim.end = g_get_monotonic_time ();
 
 	if (err == NULL) {
 		results_sim_index = sim.first_round;

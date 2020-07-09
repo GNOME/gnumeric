@@ -102,10 +102,7 @@ xlsx_map_to_date_core (GsfXMLOut *output, GValue const *val)
 	} else {
 		GsfTimestamp * ts = gsf_timestamp_new ();
 		char *str;
-		GTimeVal tm;
-		g_get_current_time (&tm);
-		tm.tv_usec = 0L;
-		gsf_timestamp_set_time (ts, tm.tv_sec);
+		gsf_timestamp_set_time (ts, g_get_real_time () / 1000000);
 		str = gsf_timestamp_as_string (ts);
 		gsf_xml_out_add_cstr (output, NULL, str);
 		g_free (str);

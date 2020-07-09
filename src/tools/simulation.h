@@ -45,7 +45,7 @@ typedef struct {
 	GSList   *list_outputs;
 	gchar    **cellnames;
 
-	GTimeVal          start, end;
+	gint64 start, end;
 
 	simstats_t **stats;
 } simulation_t;
