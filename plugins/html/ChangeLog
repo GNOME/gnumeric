@@ -1793,7 +1793,7 @@
 	* html.c (html_write_wb_html32, html_write_wb_html40): Ditto.
 
 	* latex.c (html_write_wb_latex, html_write_wb_latex2e)): Call
-	gnumeric_error_save on failure. Dont't panic on missing style.
+	gnumeric_error_save on failure. Don't panic on missing style.
 
 2000-01-29  Jon K Hellan  <hellan@acm.org>
 

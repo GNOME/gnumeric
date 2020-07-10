@@ -10445,7 +10445,7 @@
 2007-07-12  Jody Goldberg <jody@gnome.org>
 
 	* src/parse-util.c (gnm_conventions_new_full) : init input.range_ref
-	  here so that all implemenations have something.  Fixes crash on oleo
+	  here so that all implementations have something.  Fixes crash on oleo
 	  import.
 	(parse_util_init) : not here.
 

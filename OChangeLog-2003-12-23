@@ -881,7 +881,7 @@
 	  invocation before there is a notebook.
 	(wbcg_menu_state_update) : enable and disable clipboard operations
 	  depending on object editing state.
-	(cb_edit_cut) : remove asymetry of deleting during the cut command.
+	(cb_edit_cut) : remove asymmetry of deleting during the cut command.
 	(workbook_create_standard_toolbar) : store the clipboard toolbar
 	  widgets for the non-bonobo case.
 	(workbook_control_gui_init) : store the clipboard menu items for the
@@ -2686,7 +2686,7 @@
 	  However, there aren't many choices other than fixing libgnomeui
 	  which is just too long a wait.
 	(cb_edit_paste_special) : move call to cmd_paste_to_selection in to
-	  the dialog like every other implemntation.
+	  the dialog like every other implementation.
 	(wbcg_finalize) :  Use g_signal_handlers_disconnect_by_func in place
 	  of the deprecated gtk_signal_disconnect_by_func.
 	(workbook_setup_sheets) : Use gtk_notebook_set_show_border (FALSE) in
@@ -2901,7 +2901,7 @@
 	  decision to use default position on the last visible, not last full.
 
 	* src/gnumeric-pane.c (cb_sheet_object_canvas_event) : don't freak out
-	  if we can't edit the seleted object.
+	  if we can't edit the selected object.
 
 	* src/xml-io.c (xml_read_style) : target needs a function, it is not a
 	  GObject::param.
@@ -9900,7 +9900,7 @@
 
 2002-04-15  Jon K Hellan  <hellan@acm.org>
 
-	* src/.cvsignore: Ingore gnumeric-component
+	* src/.cvsignore: Ignore gnumeric-component
 
 2002-04-15  Jon K Hellan  <hellan@acm.org>
 

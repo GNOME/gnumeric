@@ -67,7 +67,7 @@ cell_draw_simplify_attributes (GnmRenderedValue *rv)
  *  ' ' == space for contents
  *
  * @h_center: The number of pango units from x1 marking the logical center
- *             of the cell.  NOTE This can be asymetric.  Passing
+ *             of the cell.  NOTE This can be asymmetric.  Passing
  *             <= 0 will use width / 2
  */
 gboolean

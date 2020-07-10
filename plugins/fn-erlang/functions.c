@@ -66,7 +66,7 @@ calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 {
 	gnm_float gos;
 
-	/* extra guards wont hurt, right? */
+	/* extra guards won't hurt, right? */
 	if (circuits < 1 || traffic < 0)
 		return -1;
 

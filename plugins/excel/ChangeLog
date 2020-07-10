@@ -7885,7 +7885,7 @@
 	* ms-chart.c (BC_R) : handle empty text.
 
 	* boot.c : simplify now that IOContext inherits from CommandContext
-	  Move the metadata export here for symetry with the import.
+	  Move the metadata export here for symmetry with the import.
 
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
@@ -9013,7 +9013,7 @@
 2001-09-14  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-chart.c (excel_chart_series_write_xml) : Use the gal routines for
-	  symetry with the guppi implementation.
+	symmetry with the guppi implementation.
 
 2001-09-09  Jody Goldberg <jgoldberg@home.com>
 
@@ -13016,7 +13016,7 @@
 
 	* ms-formula.[ch] -> ms-formula-read.[ch]
 
-	* All files incldes updated to obey above.
+	* All files includes updated to obey above.
 
 	* ms-biff.c (ms_biff_put_new): Implemented,
 	(ms_biff_put_destroy): Implemented.

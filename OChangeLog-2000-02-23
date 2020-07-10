@@ -500,7 +500,7 @@
 	  main work.  Document.
 	(sheet_select_all) : sheet_selection_append_range -> sheet_selection_add_range.
 	(sheet_selection_extend_{horizontal, vertical} : Merge in to
-	  sheet_seletion_extend and fix.
+	  sheet_selection_extend and fix.
 	(sheet_selection_set) : Switch to the new scheme.
 	(sheet_selection_reset) : sheet_selection_append -> sheet_selection_add.
 	  Use edit_pos.
@@ -2342,7 +2342,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
  	Tools menu.
 
 	* src/dialogs/dialog-solver.c (constr_add_click): Made the solver
-	dialog to disapear when adding constraints.
+	dialog to disappear when adding constraints.
 
 	* src/dialogs/dialog-solver.c (constr_delete_click): Implemented
  	the delete button of constraints.
@@ -6169,7 +6169,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/xml-io.c (xml_write_print_info): Actually add print order,
  	paper name, and orientation to the output instead of just leaking
  	them.
-	(xml_set_value_double): Don't throw away precicion; save using
+	(xml_set_value_double): Don't throw away precision; save using
  	more sane formats.
 
 1999-10-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
@@ -7049,7 +7049,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/workbook-cmd.c: New file.  Moved a bunch of commands here,
 	and move to be moved.
-	Implemented the set money format;   Implemented the percent formt.
+	Implemented the set money format;   Implemented the percent format.
 
 1999-09-16  Miguel de Icaza  <miguel@gnu.org>
 

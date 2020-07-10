@@ -287,7 +287,7 @@
 
 2011-03-30  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* python-loader.c: fix cals to gnm_func_get_name().
+	* python-loader.c: fix calls to gnm_func_get_name().
 
 2011-03-24  Morten Welinder <terra@gnome.org>
 

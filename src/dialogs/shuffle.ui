@@ -114,7 +114,7 @@
             </child>
             <child>
               <object class="GtkRadioButton" id="shuffle_cols">
-                <property name="label" translatable="yes" context="shuffle" comments="Shuffle metod: Columns">_Columns</property>
+                <property name="label" translatable="yes" context="shuffle" comments="Shuffle method: Columns">_Columns</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -134,7 +134,7 @@
             </child>
             <child>
               <object class="GtkRadioButton" id="shuffle_rows">
-                <property name="label" translatable="yes" context="shuffle" comments="Shuffle metod: Columns">_Rows</property>
+                <property name="label" translatable="yes" context="shuffle" comments="Shuffle method: Columns">_Rows</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>

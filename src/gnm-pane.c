@@ -1166,7 +1166,7 @@ cb_pane_drag_end (GtkWidget *widget, GdkDragContext *context,
 }
 
 /*
- * Move the rubber bands back to original position when curser leaves
+ * Move the rubber bands back to original position when cursor leaves
  * the scg, but not when it moves to another pane. We use object data,
  * and rely on gtk sending drag_move to the new widget before sending
  * drag_leave to the old one.

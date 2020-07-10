@@ -2892,7 +2892,7 @@
 
 2001-09-18  Jody Goldberg <jgoldberg@home.com>
 
-	* src/cell-draw.c (cell_draw) : implemenent a bit of just in time
+	* src/cell-draw.c (cell_draw) : implement a bit of just in time
 	  rendering.
 	* src/print-cell.c (print_cell) : ditto.
 	* src/cell.c (cell_eval_content) : ditto.
@@ -3964,7 +3964,7 @@
 2001-08-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_draw) : When centering the cursor
-	  with an even width tweak it to make things symetric.
+	  with an even width tweak it to make things symmetric.
 	Some cosmetic formatting and naming issues too.
 
 2001-08-07  Lutz Müller <urc8@rz.uni-karlsruhe.de>

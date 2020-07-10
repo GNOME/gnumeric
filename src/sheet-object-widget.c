@@ -4115,10 +4115,10 @@ GSF_CLASS (SheetWidgetCombo, sheet_widget_combo,
 /**************************************************************************/
 
 /**
- * sheet_widget_init_clases:
+ * sheet_object_widget_register:
  * @void:
  *
- * Initilize the classes for the sheet-object-widgets. We need to initalize
+ * Initialize the classes for the sheet-object-widgets. We need to initialize
  * them before we try loading a sheet that might contain sheet-object-widgets
  **/
 void

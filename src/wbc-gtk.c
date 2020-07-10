@@ -911,7 +911,7 @@ cb_notebook_switch_page (G_GNUC_UNUSED GtkNotebook *notebook_,
 			gnm_notebook_set_current_page (wbcg->bnotebook,
 						       prev);
 		else
-			/* Looks silly, but is really neccesarry */
+			/* Looks silly, but is really necessary */
 			gnm_notebook_set_current_page (wbcg->bnotebook,
 						       page_num);
 

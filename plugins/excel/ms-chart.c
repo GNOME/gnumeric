@@ -2735,7 +2735,7 @@ BC_R(end)(XLChartHandler const *handle,
 			}
 			g_slist_free (axisZ);
 
-			/* examine the first series to retreive categories */
+			/* examine the first series to retrieve categories */
 			if (s->series->len == 0)
 				goto not_a_matrix;
 			eseries = g_ptr_array_index (s->series, 0);

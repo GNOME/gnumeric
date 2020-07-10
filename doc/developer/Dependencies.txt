@@ -193,7 +193,7 @@ this it would be necessary to move the eval_queue to a per-sheet entity, and
 putting a locking / signaling mechanism on the queue such that inter-sheet
 dependencies could be prepended to the queue (thus ensuring rapid
 evaluation), and waited on safely. Since each cell is evaluated but once
-per re-calc, it would then be safe to read the Cell's value when it dissapeared
+per re-calc, it would then be safe to read the Cell's value when it dissappeared
 from the eval_queue.
 
 5.3    GnmExpr recursion

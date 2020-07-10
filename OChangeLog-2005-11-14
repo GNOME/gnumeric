@@ -3657,7 +3657,7 @@
 2004-11-05  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : ctrl+alt is the
-	  logic place to do symetric movement with the new layout.
+	  logic place to do symmetric movement with the new layout.
 
 2004-11-04  Stepan Kasal  <kasal@ucw.cz>
 
@@ -4400,7 +4400,7 @@
 
 2004-09-26  Jody Goldberg <jody@gnome.org>
 
-	* src/gnumeric-pane.c (gnm_pane_object_move) :  handle symetric
+	* src/gnumeric-pane.c (gnm_pane_object_move) :  handle symmetric
 	  movement via ctrl-click and object duplicate via ctrl-click on
 	  acetate
 
@@ -5172,7 +5172,7 @@
 
 	* src/parser.y : Add distinct productions for array elements with
 	  {1\2\3;4\5\6} vs {1,2,3;4,5,6}
-	(build_array) : add some error messages empty and asymetric arrays.
+	(build_array) : add some error messages empty and asymmetric arrays.
 
 2004-07-22  Jody Goldberg <jody@gnome.org>
 

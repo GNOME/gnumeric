@@ -166,7 +166,7 @@ cb_item_cursor_animation (GnmItemCursor *ic)
 	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
 		goc_canvas_c2w (item->canvas, ic->outline.x2 / scale, ic->outline.y2 / scale, &x0, &y1);
 		goc_canvas_c2w (item->canvas, ic->outline.x1 / scale, ic->outline.y1 / scale, &x1, &y0);
-		x0--; /* because of the +.5, things are not symetric */
+		x0--; /* because of the +.5, things are not symmetric */
 		x1--;
 	} else {
 		goc_canvas_c2w (item->canvas, ic->outline.x1 / scale, ic->outline.y1 / scale, &x0, &y0);
@@ -294,7 +294,7 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
 		goc_canvas_c2w (item->canvas, ic->outline.x2 / scale, ic->outline.y2 / scale, &x0, &y1);
 		goc_canvas_c2w (item->canvas, ic->outline.x1 / scale, ic->outline.y1 / scale, &x1, &y0);
-		x0--; /* because of the +.5, things are not symetric */
+		x0--; /* because of the +.5, things are not symmetric */
 		x1--;
 	} else {
 		goc_canvas_c2w (item->canvas, ic->outline.x1 / scale, ic->outline.y1 / scale, &x0, &y0);

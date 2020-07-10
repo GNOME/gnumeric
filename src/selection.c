@@ -38,7 +38,7 @@
  * @sv:
  * @mode:
  *
- * Create the simplified seelction list if necessary
+ * Create the simplified selection list if necessary
  *
  * Returns: the simplified version
  **/

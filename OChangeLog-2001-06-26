@@ -2554,7 +2554,7 @@
 	* src/sheet-object.h: add the header for clone_sheet
 
 	* src/sheet-object.c (sheet_object_clone): implement
-	(sheet_object_clone_sheet): implemnt.
+	(sheet_object_clone_sheet): implement.
 
 	* src/sheet-object-widget.c (SOW_MAKE_TYPE): add read_xml, write_xml
 	and clone methods to macro
@@ -4565,7 +4565,7 @@
 2001-02-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_draw) : Center content on the cell with the
-	  content, not on the width of the span (think about asymetric column
+	  content, not on the width of the span (think about asymmetric column
 	  widths on the left and right.
 	* src/print-cell.c (print_cell) : Ditto.
 
@@ -5631,7 +5631,7 @@
 
 	* src/sheet-control-gui.c (horizontal_scroll_event,
 	vertical_scroll_event): Fix bug: Pressing both left and right
-	button would pop up a tooltip that couldnt be removed.
+	button would pop up a tooltip that couldn't be removed.
 
 2001-01-07  Jon K Hellan  <hellan@acm.org>
 
@@ -8092,7 +8092,7 @@
 2000-10-28  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/clipboard.c:
-	(x_selection_to_cell_region): Correct 'char' into 'unsigned char' so the eror
+	(x_selection_to_cell_region): Correct 'char' into 'unsigned char' so the error
 	message will display the correct ASCII decimal.
 
 	* src/stf.c:

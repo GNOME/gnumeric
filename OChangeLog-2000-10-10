@@ -2531,7 +2531,7 @@
 2000-06-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c: Implemented COUPDAYS for basis 0,
- 	2, 3, and 4 (basis 1 is still not implented).
+	2, 3, and 4 (basis 1 is still not implemented).
 
 2000-06-23  Morten Welinder  <terra@diku.dk>
 
@@ -3959,7 +3959,7 @@
 
 	* src/sheet-autofill.c (autofill_cell) : Init the RewriteInfo::type.
 
-	* src/clipboard.c (paste_cell) : Cells need acurate locations before
+	* src/clipboard.c (paste_cell) : Cells need accurate locations before
 	  relocation.  This is not pretty, but it is functional.
 
 2000-05-16  Karl Eichwalder  <ke@suse.de>

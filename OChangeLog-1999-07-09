@@ -4020,7 +4020,7 @@ Tue Mar 23 14:00:37 CET 1999 Daniel Veillard <Daniel.Veillard@w3.org>
 	we are realized.
 
 	* src/workbook.c (sheet_label_button_press): We need to do the
-	page flipping ourselves, as the GtkNotebook wont take events if
+	page flipping ourselves, as the GtkNotebook won't take events if
 	they are not for a window it knows about.
 
 	* src/widget-editable-label.c (el_button_press_event): Forward
@@ -5708,7 +5708,7 @@ Wed Sep 16 23:56:59 EDT 1998 Daniel Veillard <Daniel.Veillard@w3.org>
 
 1998-09-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	* src/gnumeric-sheet.c (gnumeric_sheet_realize): Fix: initilaize
+	* src/gnumeric-sheet.c (gnumeric_sheet_realize): Fix: initialize
 	the GdkWindow pointer after we have invoked our parent method.
 
 	* src/cursors.c: New file.  Loads the various cursors used by
@@ -5832,7 +5832,7 @@ Wed Sep 16 23:56:59 EDT 1998 Daniel Veillard <Daniel.Veillard@w3.org>
 	hotkeys were processed (c-a specifically is annoying and all of
 	the control-keys were being consumed before reaching the
 	item-edit).
-	(gnumeric_sheet_key): implemenet control-space
+	(gnumeric_sheet_key): implement control-space
 
 	* src/dialog-cell-format.c (create_align_page): Connect to the
 	toggled signal of auto return.

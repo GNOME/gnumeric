@@ -2787,7 +2787,7 @@
 
 2009-11-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* normality-tests.glade: add more test seelction buttons
+	* normality-tests.glade: add more test selection buttons
 	* dialog-analysis-tool-normality.c (normality_tool_ok_clicked_cb):
 	  handle additional test selections
 
@@ -3374,7 +3374,7 @@
 
 2009-04-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-doc-metadata.c (dialog_doc_metadata_set_gsf_prop): avoid unneccessary
+	* dialog-doc-metadata.c (dialog_doc_metadata_set_gsf_prop): avoid unnecessary
 	property changes
 
 2009-04-10  Jean Brefort  <jean.brefort@normalesup.org>
@@ -3444,7 +3444,7 @@
 	* kaplan-meier.glade: stock button names should not be translated
 	* function-select.glade: ditto
 	* sheet-order.glade: ditto
-	* doc-meta-data.glade: don't include unneccessary translatable labels
+	* doc-meta-data.glade: don't include unnecessary translatable labels
 
 2009-03-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
@@ -4884,7 +4884,7 @@
 
 2006-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-zoom.glade: remove unneccessary &-signs #311206
+	* dialog-zoom.glade: remove unnecessary &-signs #311206
 
 2006-06-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
@@ -5155,7 +5155,7 @@
 2005-10-04  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c (setup_pattern_button) : The width dominates
-	  the height on asymetric pixmaps like the line samples.  Use the
+	  the height on asymmetric pixmaps like the line samples.  Use the
 	  width of the xpms rather than the target height.  This makes double
 	  visible as double again.
 
