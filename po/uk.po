@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2020-06-27 17:36+0000\n"
-"PO-Revision-Date: 2020-06-27 21:04+0300\n"
+"POT-Creation-Date: 2020-07-09 22:42+0000\n"
+"PO-Revision-Date: 2020-07-10 09:06+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -109,7 +109,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7219
-#: ../plugins/openoffice/openoffice-read.c:14084 ../src/xml-sax-read.c:3523
+#: ../plugins/openoffice/openoffice-read.c:14091 ../src/xml-sax-read.c:3523
 msgid "Reading file..."
 msgstr "Зчитування файлу…"
 
@@ -213,7 +213,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Некоректний вміст елемента ss:data — отримано «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:1217
-#: ../plugins/openoffice/openoffice-read.c:14248 ../src/xml-sax-read.c:3540
+#: ../plugins/openoffice/openoffice-read.c:14277 ../src/xml-sax-read.c:3540
 msgid "XML document not well formed!"
 msgstr "Документ XML сформовано неправильно!"
 
@@ -1347,27 +1347,27 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr "Некоректна назва рядка, %s, у розділі правих частин або діапазонів"
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:590 ../src/tools/gnm-solver.c:1879
+#: ../plugins/mps/mps.c:590 ../src/tools/gnm-solver.c:1877
 msgid "Constraint"
 msgstr "Обмеження"
 
 #: ../plugins/mps/mps.c:591 ../plugins/mps/mps.c:653
 #: ../src/dialogs/dialog-doc-metadata.c:1910
-#: ../src/dialogs/dialog-simulation.c:218 ../src/tools/gnm-solver.c:1659
-#: ../src/tools/gnm-solver.c:1704 ../src/tools/gnm-solver.c:1748
+#: ../src/dialogs/dialog-simulation.c:215 ../src/tools/gnm-solver.c:1657
+#: ../src/tools/gnm-solver.c:1702 ../src/tools/gnm-solver.c:1746
 msgid "Value"
 msgstr "Значення"
 
 #: ../plugins/mps/mps.c:592 ../src/dialogs/dialog-formula-guru.c:895
-#: ../src/dialogs/dialog-search.c:437 ../src/tools/gnm-solver.c:1660
+#: ../src/dialogs/dialog-search.c:437 ../src/tools/gnm-solver.c:1658
 msgid "Type"
 msgstr "Тип"
 
-#: ../plugins/mps/mps.c:593 ../src/tools/gnm-solver.c:1749
+#: ../plugins/mps/mps.c:593 ../src/tools/gnm-solver.c:1747
 msgid "Limit"
 msgstr "Обмеження"
 
-#: ../plugins/mps/mps.c:651 ../src/dialogs/dialog-simulation.c:233
+#: ../plugins/mps/mps.c:651 ../src/dialogs/dialog-simulation.c:230
 msgid "Variable"
 msgstr "Змінна"
 
@@ -1872,20 +1872,20 @@ msgstr "SHEET_IN_CORRUPTED_FILE"
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr "Цей файл пошкоджено — аркуш без назви тепер названо «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:13934
+#: ../plugins/openoffice/openoffice-read.c:13941
 msgid "Unknown mimetype for openoffice file."
 msgstr "Невідомий тип MIME для файла openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:13944
+#: ../plugins/openoffice/openoffice-read.c:13951
 msgid "No stream named content.xml found."
 msgstr "Не знайдено потоку з назвою content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:14094
+#: ../plugins/openoffice/openoffice-read.c:14101
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Некоректні метадані «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:14157
+#: ../plugins/openoffice/openoffice-read.c:14186
 msgid "settings.xml stream is malformed!"
 msgstr "Помилкове форматування потоку settings.xml!"
 
@@ -2174,7 +2174,7 @@ msgstr "Зразок додатка Python, у якому реалізовано
 msgid "Python"
 msgstr "Python"
 
-#: ../plugins/python-loader/gnm-py-interpreter.c:253
+#: ../plugins/python-loader/gnm-py-interpreter.c:260
 msgid "Default interpreter"
 msgstr "Типовий інтерпретатор"
 
@@ -2190,110 +2190,110 @@ msgstr "Це доповнення надає підтримку доповнен
 msgid "Python console"
 msgstr "Консоль «Python»"
 
-#: ../plugins/python-loader/py-console.c:90
+#: ../plugins/python-loader/py-console.c:91
 #, c-format
 msgid "*** Interpreter: %s\n"
 msgstr "*** Інтерпретатор: %s\n"
 
-#: ../plugins/python-loader/py-console.c:159
+#: ../plugins/python-loader/py-console.c:174
 msgid "Gnumeric Python console"
 msgstr "Консоль Python Gnumeric"
 
-#: ../plugins/python-loader/py-console.c:168
+#: ../plugins/python-loader/py-console.c:183
 msgid "E_xecute in:"
 msgstr "Ви_конати у:"
 
-#: ../plugins/python-loader/py-console.c:213
+#: ../plugins/python-loader/py-console.c:228
 msgid "C_ommand:"
 msgstr "К_оманда:"
 
-#: ../plugins/python-loader/py-gnumeric.c:251
+#: ../plugins/python-loader/py-gnumeric.c:151
 msgid "Python list is not an array"
 msgstr "Список Python не є масивом"
 
-#: ../plugins/python-loader/py-gnumeric.c:258
+#: ../plugins/python-loader/py-gnumeric.c:158
 #, c-format
 msgid "Unsupported Python type: %s"
 msgstr "Тип, що не підтримується python: %s"
 
-#: ../plugins/python-loader/py-gnumeric.c:285
+#: ../plugins/python-loader/py-gnumeric.c:185
 msgid "Unknown error"
 msgstr "Невідома помилка"
 
-#: ../plugins/python-loader/py-gnumeric.c:291
+#: ../plugins/python-loader/py-gnumeric.c:191
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "Виключення Python (%s: %s)"
 
-#: ../plugins/python-loader/py-gnumeric.c:295
+#: ../plugins/python-loader/py-gnumeric.c:195
 #, c-format
 msgid "Python exception (%s)"
 msgstr "Виключення Python (%s)"
 
-#: ../plugins/python-loader/python-loader.c:72
+#: ../plugins/python-loader/python-loader.c:73
 msgid "Python module name not given."
 msgstr "Не вказано назви модуля Python."
 
-#: ../plugins/python-loader/python-loader.c:90
+#: ../plugins/python-loader/python-loader.c:91
 #, c-format
 msgid "Error while opening file \"%s\" for writing."
 msgstr "Помилка під час відкривання файлу «%s» для запису."
 
-#: ../plugins/python-loader/python-loader.c:94
+#: ../plugins/python-loader/python-loader.c:95
 #, c-format
 msgid "Error while opening file \"%s\" for reading."
 msgstr "Помилка під час відкривання файлу «%s» для зчитування."
 
-#: ../plugins/python-loader/python-loader.c:125
+#: ../plugins/python-loader/python-loader.c:126
 msgid "Cannot create new Python interpreter."
 msgstr "Не вдалося створити інтерпретатор Python."
 
-#: ../plugins/python-loader/python-loader.c:146
+#: ../plugins/python-loader/python-loader.c:147
 #, c-format
 msgid "Module \"%s\" doesn't exist."
 msgstr "Модуля «%s» не існує."
 
-#: ../plugins/python-loader/python-loader.c:164
+#: ../plugins/python-loader/python-loader.c:165
 #, c-format
 msgid "Execution of module \"%s\" failed."
 msgstr "Збій виконання модуля «%s»."
 
-#: ../plugins/python-loader/python-loader.c:280
+#: ../plugins/python-loader/python-loader.c:281
 msgid "Some name"
 msgstr "Якась назва"
 
-#: ../plugins/python-loader/python-loader.c:345
-#: ../plugins/python-loader/python-loader.c:442
-#: ../plugins/python-loader/python-loader.c:748
-#: ../plugins/python-loader/python-loader.c:863
+#: ../plugins/python-loader/python-loader.c:346
+#: ../plugins/python-loader/python-loader.c:443
+#: ../plugins/python-loader/python-loader.c:754
+#: ../plugins/python-loader/python-loader.c:869
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Python-файл «%s» має невірний формат."
 
-#: ../plugins/python-loader/python-loader.c:349
-#: ../plugins/python-loader/python-loader.c:447
+#: ../plugins/python-loader/python-loader.c:350
+#: ../plugins/python-loader/python-loader.c:448
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Файл не містить функцію «%s»."
 
-#: ../plugins/python-loader/python-loader.c:753
-#: ../plugins/python-loader/python-loader.c:868
+#: ../plugins/python-loader/python-loader.c:759
+#: ../plugins/python-loader/python-loader.c:874
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Файл не містить словник «%s»."
 
-#: ../plugins/python-loader/python-loader.c:758
-#: ../plugins/python-loader/python-loader.c:873
+#: ../plugins/python-loader/python-loader.c:764
+#: ../plugins/python-loader/python-loader.c:879
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Об'єкт «%s» не є словником."
 
-#: ../plugins/python-loader/python-loader.c:811 ../src/gnm-plugin.c:859
+#: ../plugins/python-loader/python-loader.c:817 ../src/gnm-plugin.c:859
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Невідома дія: %s"
 
-#: ../plugins/python-loader/python-loader.c:816
+#: ../plugins/python-loader/python-loader.c:822
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "Некоректна функція для дії: %s"
@@ -2425,7 +2425,7 @@ msgstr "Пропущено завершальне «E»"
 #: ../src/dialogs/dialog-search.c:437 ../src/dialogs/dialog-stf-export.c:594
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
 #: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:577
-#: ../src/workbook.c:1057 ../src/workbook.c:1087
+#: ../src/workbook.c:1060 ../src/workbook.c:1090
 msgid "Sheet"
 msgstr "Аркуш"
 
@@ -3118,8 +3118,8 @@ msgid ""
 "This is the default error behavior of Search &amp; Replace indicated by an "
 "integer from 0 to 4."
 msgstr ""
-"Це типова поведінка у відповідь на помилку у засобі пошуку із заміною."
-" Визначається цілим числом від 0 до 4."
+"Це типова поведінка у відповідь на помилку у засобі пошуку із заміною. "
+"Визначається цілим числом від 0 до 4."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:1
 msgid "Toolbar Style"
@@ -3141,8 +3141,8 @@ msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
 msgstr ""
-"Ця змінна визначає, чи має бути показано назви аркушів у списку скасовування"
-" і поновлення дій."
+"Ця змінна визначає, чи має бути показано назви аркушів у списку скасовування "
+"і поновлення дій."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:5
 #: ../src/dialogs/dialog-preferences.c:768
@@ -3166,8 +3166,8 @@ msgstr "Кількість пунктів у списку скасовуванн
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
-"Ця змінна визначає максимальну кількість записів у списку скасовування і"
-" поновлення дій."
+"Ця змінна визначає максимальну кількість записів у списку скасовування і "
+"поновлення дій."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:9
 msgid "Length of the Undo Descriptors"
@@ -3349,8 +3349,8 @@ msgid ""
 "This variable determines whether cells containing spreadsheet function are "
 "marked."
 msgstr ""
-"Ця змінна визначає, чи буде позначено комірки, у яких містяться функції"
-" електронної таблиці."
+"Ця змінна визначає, чи буде позначено комірки, у яких містяться функції "
+"електронної таблиці."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:45
 msgid "Extension Markers"
@@ -3380,8 +3380,8 @@ msgid ""
 "This variable determines the minimum number of characters required for "
 "autocompletion."
 msgstr ""
-"Ця змінна визначає мінімальну кількість символів для вмикання автоматичного"
-" доповнення."
+"Ця змінна визначає мінімальну кількість символів для вмикання автоматичного "
+"доповнення."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:51
 #: ../src/dialogs/dialog-preferences.c:1069
@@ -3838,7 +3838,7 @@ msgstr "Стирання рядків %s"
 msgid "Deleting row %s"
 msgstr "Стирання рядка %s"
 
-#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5096
+#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5104
 msgid "Clear"
 msgstr "Очистити"
 
@@ -3977,16 +3977,16 @@ msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
 msgstr ""
-"Ви справді хочете приховати усі стовпчики? Якщо ви це зробите, скасувати"
-" приховування можна за допомогою пункту меню «Формат → Стовпчик → Показати»"
+"Ви справді хочете приховати усі стовпчики? Якщо ви це зробите, скасувати "
+"приховування можна за допомогою пункту меню «Формат → Стовпчик → Показати»"
 
 #: ../src/commands.c:2347
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
 msgstr ""
-"Ви справді хочете приховати усі рядки? Якщо ви це зробите, скасувати"
-" приховування можна за допомогою пункту меню «Формат → Рядок → Показати»"
+"Ви справді хочете приховати усі рядки? Якщо ви це зробите, скасувати "
+"приховування можна за допомогою пункту меню «Формат → Рядок → Показати»"
 
 #: ../src/commands.c:2367
 msgid "Unhide columns"
@@ -4160,7 +4160,7 @@ msgstr "Вилучити об'єкт"
 #: ../src/dialogs/dialog-doc-metadata.c:1903
 #: ../src/dialogs/dialog-formula-guru.c:891
 #: ../src/dialogs/dialog-function-select.c:1279
-#: ../src/dialogs/dialog-scenarios.c:521 ../src/dialogs/dialog-simulation.c:213
+#: ../src/dialogs/dialog-scenarios.c:521 ../src/dialogs/dialog-simulation.c:210
 #: ../src/dialogs/dialog-zoom.c:194 ../src/format-template.c:216
 msgid "Name"
 msgstr "Назва"
@@ -4857,7 +4857,6 @@ msgid "Visit the Gnumeric website"
 msgstr "Відвідайте сайт Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:592
-#| msgid "Copyright © 1998-2018"
 msgid "Copyright © 1998-2020"
 msgstr "© 1998–2020"
 
@@ -6284,8 +6283,8 @@ msgstr "Рівень робочої книги"
 
 #: ../src/dialogs/dialog-goto-cell.c:387 ../src/dialogs/dialog-search.c:437
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1658
-#: ../src/tools/gnm-solver.c:1703 ../src/tools/gnm-solver.c:1844
+#: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1656
+#: ../src/tools/gnm-solver.c:1701 ../src/tools/gnm-solver.c:1842
 msgid "Cell"
 msgstr "Комірка"
 
@@ -7479,31 +7478,31 @@ msgstr "Виконання"
 msgid "Run on"
 msgstr "Працює на"
 
-#: ../src/dialogs/dialog-simulation.c:234 ../src/tools/simulation.c:245
+#: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:245
 #: ../src/wbc-gtk.c:4058
 msgid "Min"
 msgstr "Мінімум"
 
-#: ../src/dialogs/dialog-simulation.c:234 ../src/wbc-gtk.c:4060
+#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4060
 msgid "Average"
 msgstr "Середнє"
 
-#: ../src/dialogs/dialog-simulation.c:234 ../src/tools/simulation.c:247
+#: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:247
 #: ../src/wbc-gtk.c:4059
 msgid "Max"
 msgstr "Максимум"
 
-#: ../src/dialogs/dialog-simulation.c:314
+#: ../src/dialogs/dialog-simulation.c:311
 msgid "Invalid variable range was given"
 msgstr "Вказано некоректний діапазон змінних"
 
-#: ../src/dialogs/dialog-simulation.c:328
+#: ../src/dialogs/dialog-simulation.c:325
 msgid ""
 "First round number should be less than or equal to the number of the last "
 "round."
 msgstr ""
 
-#: ../src/dialogs/dialog-simulation.c:420
+#: ../src/dialogs/dialog-simulation.c:416
 msgid "Could not create the Simulation dialog."
 msgstr "Не вдалося створити вікно імітації."
 
@@ -7533,11 +7532,11 @@ msgstr ""
 msgid "Changing solver parameters"
 msgstr "Зміна параметрів розв'язувача"
 
-#: ../src/dialogs/dialog-solver.c:548 ../src/tools/gnm-solver.c:1685
+#: ../src/dialogs/dialog-solver.c:548 ../src/tools/gnm-solver.c:1683
 msgid "Feasible"
 msgstr "Досяжний"
 
-#: ../src/dialogs/dialog-solver.c:552 ../src/tools/gnm-solver.c:1688
+#: ../src/dialogs/dialog-solver.c:552 ../src/tools/gnm-solver.c:1686
 msgid "Optimal"
 msgstr "Оптимальний"
 
@@ -11566,8 +11565,8 @@ msgstr "Вхідні змінні:"
 msgid "Output variables:"
 msgstr "Вихідні змінні:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1701
-#: ../src/tools/gnm-solver.c:1842
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1699
+#: ../src/tools/gnm-solver.c:1840
 msgid "Variables"
 msgstr "Змінні"
 
@@ -11768,8 +11767,8 @@ msgid "Re_place"
 msgstr "За_мінити"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1744
-#: ../src/tools/gnm-solver.c:1876
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1742
+#: ../src/tools/gnm-solver.c:1874
 msgid "Constraints"
 msgstr "Обмеження"
 
@@ -12029,11 +12028,11 @@ msgstr "«%s» вже визначено на аркуші"
 msgid "'%s' is already defined in workbook"
 msgstr "«%s» вже визначено у робочій книзі"
 
-#: ../src/expr.c:988
+#: ../src/expr.c:991
 msgid "Internal type error"
 msgstr "Помилка внутрішнього типу"
 
-#: ../src/expr.c:1662
+#: ../src/expr.c:1665
 msgid "Unknown evaluation error"
 msgstr "Невідома помилка у виразі"
 
@@ -12513,12 +12512,12 @@ msgctxt "Stock label"
 msgid "_OK"
 msgstr "_Гаразд"
 
-#: ../src/gutils.c:972
+#: ../src/gutils.c:968
 #, c-format
 msgid "Unknown sheet \"%s\""
 msgstr "Невідомий аркуш «%s»"
 
-#: ../src/gutils.c:992
+#: ../src/gutils.c:988
 #, c-format
 msgid "Invalid export option \"%s\" for format %s"
 msgstr "Некоректний параметр експортування «%s» для формату %s"
@@ -13469,31 +13468,31 @@ msgstr "Показувати сітку"
 msgid "Control whether the grid is shown."
 msgstr ""
 
-#: ../src/sheet.c:3803
+#: ../src/sheet.c:3811
 msgid "Target region contains merged cells"
 msgstr "Діапазон призначення містить об'єднані комірки"
 
-#: ../src/sheet.c:3869
+#: ../src/sheet.c:3877
 msgid "cannot operate on merged cells"
 msgstr "неможливо оперувати на об'єднаних комірках"
 
-#: ../src/sheet.c:3882
+#: ../src/sheet.c:3890
 msgid "cannot operate on array formulæ"
 msgstr "неможливо оперувати на формулах масиву"
 
-#: ../src/sheet.c:5519
+#: ../src/sheet.c:5527
 msgid "Insert Columns"
 msgstr "Вставити стовпчики"
 
-#: ../src/sheet.c:5537
+#: ../src/sheet.c:5545
 msgid "Delete Columns"
 msgstr "Стерти стовпчики"
 
-#: ../src/sheet.c:5555
+#: ../src/sheet.c:5563
 msgid "Insert Rows"
 msgstr "Вставити рядки"
 
-#: ../src/sheet.c:5573
+#: ../src/sheet.c:5581
 msgid "Delete Rows"
 msgstr "Стерти рядки"
 
@@ -14885,6 +14884,8 @@ msgstr "Некоректна ціль розв'язувача"
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr ""
+"Комірка призначення, %s, має містити формулу, обчислення за якою даватимуть"
+" число"
 
 #: ../src/tools/gnm-solver.c:724
 #, c-format
@@ -14901,70 +14902,70 @@ msgstr "Вхідна комірка %s містить формулу"
 msgid "Solver constraint #%d is invalid"
 msgstr "Обмеження розв'язувача %d є некоректним"
 
-#: ../src/tools/gnm-solver.c:1163
+#: ../src/tools/gnm-solver.c:1161
 msgid "Timeout"
 msgstr "Час очікування"
 
-#: ../src/tools/gnm-solver.c:1379
+#: ../src/tools/gnm-solver.c:1377
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Не вдалося створити файл для лінійної програми"
 
-#: ../src/tools/gnm-solver.c:1388
+#: ../src/tools/gnm-solver.c:1386
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Не вдалося створити файл лінійної програми"
 
-#: ../src/tools/gnm-solver.c:1408
+#: ../src/tools/gnm-solver.c:1406
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Не вдалося зберегти лінійну програму"
 
-#: ../src/tools/gnm-solver.c:1657
+#: ../src/tools/gnm-solver.c:1655
 msgid "Target"
 msgstr "Призначення"
 
-#: ../src/tools/gnm-solver.c:1661
+#: ../src/tools/gnm-solver.c:1659
 msgid "Status"
 msgstr "Стан"
 
-#: ../src/tools/gnm-solver.c:1674
+#: ../src/tools/gnm-solver.c:1672
 msgid "Minimize"
 msgstr "Мінімізувати"
 
-#: ../src/tools/gnm-solver.c:1677
+#: ../src/tools/gnm-solver.c:1675
 msgid "Maximize"
 msgstr "Максимізувати"
 
-#: ../src/tools/gnm-solver.c:1705
+#: ../src/tools/gnm-solver.c:1703
 msgid "Lower"
 msgstr "Нижній"
 
-#: ../src/tools/gnm-solver.c:1706
+#: ../src/tools/gnm-solver.c:1704
 msgid "Upper"
 msgstr "Верхній"
 
-#: ../src/tools/gnm-solver.c:1707 ../src/tools/gnm-solver.c:1750
+#: ../src/tools/gnm-solver.c:1705 ../src/tools/gnm-solver.c:1748
 msgid "Slack"
-msgstr ""
+msgstr "Залишок"
 
-#: ../src/tools/gnm-solver.c:1729
+#: ../src/tools/gnm-solver.c:1727
 msgid "At limit"
-msgstr ""
+msgstr "На межі"
 
-#: ../src/tools/gnm-solver.c:1732
+#: ../src/tools/gnm-solver.c:1730
 msgid "Outside bounds"
-msgstr ""
+msgstr "Зовнішні межі"
 
-#: ../src/tools/gnm-solver.c:1747
+#: ../src/tools/gnm-solver.c:1745
 msgid "Condition"
 msgstr "Умова"
 
-#: ../src/tools/gnm-solver.c:1752 ../src/tools/gnm-solver.c:1888
+#: ../src/tools/gnm-solver.c:1750 ../src/tools/gnm-solver.c:1886
 msgid "No constraints"
 msgstr "Немає обмежень"
 
-#: ../src/tools/gnm-solver.c:1845
+#: ../src/tools/gnm-solver.c:1843
 msgid ""
 "Final\n"
 "Value"
@@ -14972,13 +14973,15 @@ msgstr ""
 "Остаточне\n"
 "значення"
 
-#: ../src/tools/gnm-solver.c:1846
+#: ../src/tools/gnm-solver.c:1844
 msgid ""
 "Reduced\n"
 "Cost"
 msgstr ""
+"Нормована\n"
+"вартість"
 
-#: ../src/tools/gnm-solver.c:1847 ../src/tools/gnm-solver.c:1883
+#: ../src/tools/gnm-solver.c:1845 ../src/tools/gnm-solver.c:1881
 msgid ""
 "Lower\n"
 "Limit"
@@ -14986,7 +14989,7 @@ msgstr ""
 "Нижня\n"
 "межа"
 
-#: ../src/tools/gnm-solver.c:1848 ../src/tools/gnm-solver.c:1884
+#: ../src/tools/gnm-solver.c:1846 ../src/tools/gnm-solver.c:1882
 msgid ""
 "Upper\n"
 "Limit"
@@ -14994,13 +14997,15 @@ msgstr ""
 "Верхня\n"
 "межа"
 
-#: ../src/tools/gnm-solver.c:1880
+#: ../src/tools/gnm-solver.c:1878
 msgid ""
 "Shadow\n"
 "Price"
 msgstr ""
+"Тіньова\n"
+"ціна"
 
-#: ../src/tools/gnm-solver.c:1881
+#: ../src/tools/gnm-solver.c:1879
 msgid ""
 "Constraint\n"
 "LHS"
@@ -15008,7 +15013,7 @@ msgstr ""
 "Ліва частина\n"
 "обмеження"
 
-#: ../src/tools/gnm-solver.c:1882
+#: ../src/tools/gnm-solver.c:1880
 msgid ""
 "Constraint\n"
 "RHS"
@@ -15016,25 +15021,27 @@ msgstr ""
 "Права частина\n"
 "обмеження"
 
-#: ../src/tools/gnm-solver.c:1946
+#: ../src/tools/gnm-solver.c:1944
 msgid "Program"
 msgstr "Програма"
 
-#: ../src/tools/gnm-solver.c:1952
+#: ../src/tools/gnm-solver.c:1950
 msgid "Sensitivity"
 msgstr "Чутливість"
 
-#: ../src/tools/gnm-solver.c:2555
+#: ../src/tools/gnm-solver.c:2553
 #, c-format
 msgid "Target cell did not evaluate to a number."
-msgstr ""
+msgstr "Обчислення у комірці призначення не дають числового значення."
 
-#: ../src/tools/gnm-solver.c:2563
+#: ../src/tools/gnm-solver.c:2561
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr ""
+"Здається, значення у комірці призначення не залежить від значень у вхідних"
+" комірках лінійним чином."
 
-#: ../src/tools/gnm-solver.c:3150
+#: ../src/tools/gnm-solver.c:3148
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -15042,23 +15049,27 @@ msgid ""
 "\n"
 "Would you like to locate it yourself?"
 msgstr ""
+"Gnumeric не вдалося знайти програму <i>%s</i>, яка потрібна для роботи"
+" розв'язувача <i>%s</i>. Докладніші відомості: %s.\n"
+"\n"
+"Хочете знайти програму власноруч?"
 
-#: ../src/tools/gnm-solver.c:3154
+#: ../src/tools/gnm-solver.c:3152
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Не вдалося знайти %s"
 
-#: ../src/tools/gnm-solver.c:3170
+#: ../src/tools/gnm-solver.c:3168
 #, c-format
 msgid "Locate the %s program"
 msgstr "Знайти програму %s"
 
-#: ../src/tools/gnm-solver.c:3564
+#: ../src/tools/gnm-solver.c:3562
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Початкові значення не задовольняють обмежень."
 
-#: ../src/tools/gnm-solver.c:3655
+#: ../src/tools/gnm-solver.c:3653
 msgid "Iteration limit exceeded"
 msgstr "Перевищено обмеження на ітерації"
 
@@ -15093,12 +15104,16 @@ msgid ""
 "The probability input range contains a non-numeric value.\n"
 "All probabilities must be non-negative numbers."
 msgstr ""
+"Вхідний діапазон ймовірностей містить нечислове значення.\n"
+"Усі ймовірності мають бути невід'ємними числами."
 
 #: ../src/tools/random-generator.c:125
 msgid ""
 "The probability input range contains a negative number.\n"
 "All probabilities must be non-negative!"
 msgstr ""
+"Вхідний діапазон ймовірностей містить від'ємне число.\n"
+"Усі ймовірності мають бути невід'ємними!"
 
 #: ../src/tools/random-generator.c:140
 msgid "None of the values in the value range may be empty!"
@@ -15118,12 +15133,17 @@ msgid ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
 "last round # is too high)."
 msgstr ""
+"Не вдалося отримати числового значення для вхідної змінної. Перевірте вашу"
+" модель (можливо, номер останнього циклу є надто великим)."
 
 #: ../src/tools/simulation.c:116
 msgid ""
 "Output variable did not yield to a numeric value. Check the output variables "
 "in your model (maybe your last round # is too high)."
 msgstr ""
+"Не вдалося отримати числового значення для змінної-результату. Перевірте"
+" змінні-результати у вашій моделі (можливо, номер останнього циклу є надто"
+" великим)."
 
 #: ../src/tools/simulation.c:233
 msgid "Simulation Report"
@@ -15175,7 +15195,7 @@ msgstr "Верхня межа (95%)"
 
 #: ../src/tools/simulation.c:326
 msgid "SUMMARY OF SIMULATION ROUND #"
-msgstr ""
+msgstr "РЕЗЮМЕ ЦИКЛУ ІМІТАЦІЇ №"
 
 #: ../src/tools/simulation.c:340
 msgid "Report"
@@ -15186,7 +15206,8 @@ msgid "(Input) "
 msgstr "(Вхід) "
 
 #: ../src/tools/simulation.c:402
-msgid "Maximum time exceeded. Simulation was not completed. "
+#| msgid "Maximum time exceeded. Simulation was not completed. "
+msgid "Maximum time exceeded. Simulation was not completed."
 msgstr "Перевищено обмеження на максимальний час. Імітацію не завершено."
 
 #: ../src/tools/tabulate.c:162
@@ -15204,10 +15225,10 @@ msgstr "Табуляція"
 #, c-format
 msgid "%d row of %d matches"
 msgid_plural "%d rows of %d match"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "відповідним є %d рядок з %d"
+msgstr[1] "відповідними є %d рядки з %d"
+msgstr[2] "відповідними є %d рядків з %d"
+msgstr[3] "відповідним є %d рядок з %d"
 
 #. xgettext: The %d gives the number of rows that match.
 #. This is input to ngettext.
@@ -15215,10 +15236,10 @@ msgstr[3] ""
 #, c-format
 msgid "%d row matches"
 msgid_plural "%d rows match"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "відповідним є %d рядок"
+msgstr[1] "відповідними є %d рядки"
+msgstr[2] "відповідними є %d рядків"
+msgstr[3] "відповідним є %d рядок"
 
 #. Note: no entry for GNM_VALIDATION_OP_NONE
 #: ../src/validation.c:71
@@ -15405,6 +15426,10 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Не вдалося запустити допоміжний навігатор (%s).\n"
+"Повідомлення про помилку від системи: \n"
+"\n"
+"%s"
 
 #: ../src/wbc-gtk-actions.c:1250
 msgid "Sort"
@@ -16561,7 +16586,7 @@ msgstr "Оцінки _Каплана-Меєра…"
 
 #: ../src/wbc-gtk-actions.c:3012
 msgid "Creation of Kaplan-Meier Survival Curves"
-msgstr ""
+msgstr "Створення кривих виживання Каплана-Меєра"
 
 #: ../src/wbc-gtk-actions.c:3019
 msgid "_Normality Tests..."
@@ -16569,15 +16594,15 @@ msgstr "П_еревірки нормальності…"
 
 #: ../src/wbc-gtk-actions.c:3020
 msgid "Testing a sample for normality"
-msgstr ""
+msgstr "Перевірка вибірки на нормальність"
 
 #: ../src/wbc-gtk-actions.c:3024
 msgid "Claims About a _Mean..."
-msgstr ""
+msgstr "Гіпотези щодо _математичного сподівання..."
 
 #: ../src/wbc-gtk-actions.c:3025
 msgid "Testing the value of a mean"
-msgstr ""
+msgstr "Перевірка значення математичного сподівання"
 
 #: ../src/wbc-gtk-actions.c:3032 ../src/wbc-gtk-actions.c:3079
 msgid "_Sign Test..."
@@ -16585,7 +16610,7 @@ msgstr "Критерій з_наків…"
 
 #: ../src/wbc-gtk-actions.c:3033 ../src/wbc-gtk-actions.c:3038
 msgid "Testing the value of a median"
-msgstr ""
+msgstr "Перевірка значення медіани"
 
 #: ../src/wbc-gtk-actions.c:3037 ../src/wbc-gtk-actions.c:3084
 msgid "_Wilcoxon Signed Rank Test..."
@@ -16593,11 +16618,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3045
 msgid "Claims About Two _Variances"
-msgstr ""
+msgstr "Гіпотеза щодо двох _дисперсій"
 
 #: ../src/wbc-gtk-actions.c:3046
 msgid "Comparing two population variances"
-msgstr ""
+msgstr "Порівняння дисперсій двох сукупностей"
 
 #: ../src/wbc-gtk-actions.c:3053
 msgid "_Paired Samples..."
@@ -16606,16 +16631,19 @@ msgstr "_Парні вибірки…"
 #: ../src/wbc-gtk-actions.c:3054
 msgid "Comparing two population means for two paired samples"
 msgstr ""
+"Порівняння математичних сподівань двох сукупностей для двох парних вибірок"
 
 #: ../src/wbc-gtk-actions.c:3059
 msgid "Unpaired Samples, _Equal Variances..."
-msgstr ""
+msgstr "Непарні вибірки, _рівні дисперсії…"
 
 #: ../src/wbc-gtk-actions.c:3060
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances"
 msgstr ""
+"Порівняння математичних сподівань двох сукупностей для двох непарних вибірок"
+" з сукупностей із рівними дисперсіями"
 
 #: ../src/wbc-gtk-actions.c:3065
 msgid "Unpaired Samples, _Unequal Variances..."
@@ -16626,14 +16654,18 @@ msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances"
 msgstr ""
+"Порівняння математичних сподівань двох сукупностей для двох непарних вибірок"
+" з сукупностей із нерівними дисперсіями"
 
 #: ../src/wbc-gtk-actions.c:3071
 msgid "Unpaired Samples, _Known Variances..."
-msgstr ""
+msgstr "Непарні вибірки, _відомі дисперсії…"
 
 #: ../src/wbc-gtk-actions.c:3072
 msgid "Comparing two population means from populations with known variances"
 msgstr ""
+"Порівняння математичних сподівань двох сукупностей з сукупностей із відомими"
+" дисперсіями"
 
 #: ../src/wbc-gtk-actions.c:3080 ../src/wbc-gtk-actions.c:3085
 msgid "Comparing the values of two medians of paired observations"
@@ -18015,26 +18047,26 @@ msgstr "Не вдалося відкрити «%s» для запису: %s"
 msgid "Can't open '%s' for writing"
 msgstr "Не вдалося відкрити «%s» для запису"
 
-#: ../src/workbook-view.c:1407
+#: ../src/workbook-view.c:1409
 #, c-format
 msgid "Unsupported file format for file \"%s\""
 msgstr "Непідтримуваний формат файлів для файла «%s»"
 
-#: ../src/workbook-view.c:1463
+#: ../src/workbook-view.c:1465
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "При спробі відкрити %s сталася непридатна до пояснення помилка"
 
-#: ../src/workbook.c:314
+#: ../src/workbook.c:316
 #, c-format
 msgid "Book%d.%s"
 msgstr "Книга%d.%s"
 
-#: ../src/workbook.c:1087
+#: ../src/workbook.c:1090
 msgid "Graph"
 msgstr "Графік"
 
-#: ../src/workbook.c:1613
+#: ../src/workbook.c:1635
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
@@ -18043,7 +18075,7 @@ msgstr[1] "Перейменовуємо %d аркушів"
 msgstr[2] "Перейменовуємо %d аркушів"
 msgstr[3] "Перейменовуємо аркуш"
 
-#: ../src/workbook.c:1615
+#: ../src/workbook.c:1637
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -18056,7 +18088,7 @@ msgstr[3] "Додаємо аркуш"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1621
+#: ../src/workbook.c:1643
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
@@ -18065,11 +18097,11 @@ msgstr[1] "Вставляємо %d аркуші"
 msgstr[2] "Вставляємо %d аркушів"
 msgstr[3] "Вставляємо аркуш"
 
-#: ../src/workbook.c:1623
+#: ../src/workbook.c:1645
 msgid "Changing sheet tab colors"
 msgstr "Змінюємо кольори вкладок аркушів"
 
-#: ../src/workbook.c:1625
+#: ../src/workbook.c:1647
 msgid "Changing sheet properties"
 msgstr "Змінюємо властивості аркушів"
 
@@ -18077,7 +18109,7 @@ msgstr "Змінюємо властивості аркушів"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1632
+#: ../src/workbook.c:1654
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
@@ -18086,11 +18118,11 @@ msgstr[1] "Вилучаємо %d аркуші"
 msgstr[2] "Вилучаємо %d аркушів"
 msgstr[3] "Вилучаємо аркуш"
 
-#: ../src/workbook.c:1634
+#: ../src/workbook.c:1656
 msgid "Changing sheet order"
 msgstr "Змінюємо порядок аркушів"
 
-#: ../src/workbook.c:1636
+#: ../src/workbook.c:1658
 msgid "Reorganizing Sheets"
 msgstr "Перевпорядкування аркушів"
 
