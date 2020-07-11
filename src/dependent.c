@@ -1636,7 +1636,7 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr)
 		flags = link_single_dep (&dyn->base, pos, &rr->a);
 		dyn->singles = g_slist_prepend (dyn->singles, gnm_rangeref_dup (rr));
 	} else {
-		flags = link_unlink_cellrange_dep (&dyn->base, pos, &rr->a, &rr->b, TRUE);
+		flags = link_unlink_cellrange_dep (&dyn->base, pos, &rr->a, &rr->b, DEP_LINK_LINK);
 		dyn->ranges = g_slist_prepend (dyn->ranges, gnm_rangeref_dup (rr));
 	}
 	if (flags & DEPENDENT_HAS_3D)
@@ -3015,7 +3015,7 @@ dynamic_dep_free (DynamicDep *dyn)
 	for (ptr = dyn->ranges ; ptr != NULL ; ptr = ptr->next) {
 		GnmRangeRef *rr = ptr->data;
 		link_unlink_cellrange_dep (&dyn->base, pos,
-					   &rr->a, &rr->b, FALSE);
+					   &rr->a, &rr->b, DEP_LINK_UNLINK);
 		g_free (rr);
 	}
 	g_slist_free (dyn->ranges);
