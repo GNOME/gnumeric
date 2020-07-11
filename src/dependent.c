@@ -2211,14 +2211,6 @@ cb_single_contained_collect (DependencySingle const *depsingle,
 			}});
 }
 
-static void
-cb_collect_names (GnmNamedExpr *nexpr,
-		  G_GNUC_UNUSED gpointer value,
-		  GSList **l)
-{
-	*l = g_slist_prepend (*l, nexpr);
-}
-
 struct cb_remote_names {
 	GSList *names;
 	Workbook *wb;
@@ -3159,11 +3151,9 @@ dependent_debug_name (GnmDependent const *dep, GString *target)
 
 
 static void
-dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value, gpointer sheet_)
+dump_range_dep (DependencyRange const *deprange, Sheet *sheet, GHashTable *alldeps)
 {
-	DependencyRange const *deprange = key;
 	GnmRange const *range = &(deprange->range);
-	Sheet *sheet = sheet_;
 	GString *target = g_string_sized_new (10000);
 	gboolean first = TRUE;
 
@@ -3176,6 +3166,7 @@ dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value, gpointer sheet_)
 			first = FALSE;
 		else
 			g_string_append (target, ", ");
+		g_hash_table_remove (alldeps, dep);
 		dependent_debug_name_for_sheet (dep, sheet, target);
 	});
 	g_string_append_c (target, ')');
@@ -3185,10 +3176,8 @@ dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value, gpointer sheet_)
 }
 
 static void
-dump_single_dep (gpointer key, G_GNUC_UNUSED gpointer value, gpointer sheet_)
+dump_single_dep (DependencySingle *depsingle, Sheet *sheet, GHashTable *alldeps)
 {
-	DependencySingle *depsingle = key;
-	Sheet *sheet = sheet_;
 	GString *target = g_string_sized_new (10000);
 	gboolean first = TRUE;
 
@@ -3201,6 +3190,7 @@ dump_single_dep (gpointer key, G_GNUC_UNUSED gpointer value, gpointer sheet_)
 			first = FALSE;
 		else
 			g_string_append (target, ", ");
+		g_hash_table_remove (alldeps, dep);
 		dependent_debug_name_for_sheet (dep, sheet, target);
 	});
 
@@ -3209,11 +3199,8 @@ dump_single_dep (gpointer key, G_GNUC_UNUSED gpointer value, gpointer sheet_)
 }
 
 static void
-dump_dynamic_dep (gpointer key, G_GNUC_UNUSED gpointer value,
-		  G_GNUC_UNUSED gpointer closure)
+dump_dynamic_dep (GnmDependent *dep, DynamicDep *dyn, GHashTable *alldeps)
 {
-	GnmDependent *dep = key;
-	DynamicDep *dyn = value;
 	GSList *l;
 	GnmParsePos pp;
 	GnmConventionsOut out;
@@ -3228,6 +3215,7 @@ dump_dynamic_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 
 	g_string_append (out.accum, "    ");
 	dependent_debug_name (dep, out.accum);
+	g_hash_table_remove (alldeps, dep); // ???
 	g_string_append (out.accum, " -> ");
 	dependent_debug_name (&dyn->base, out.accum);
 	g_string_append (out.accum, " { c=");
@@ -3263,46 +3251,64 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 			Sheet *sheet)
 {
 	int i;
+	GHashTable *alldeps;
 
 	g_return_if_fail (deps != NULL);
 
 	gnm_dep_container_sanity_check (deps);
 
+	alldeps = g_hash_table_new (g_direct_hash, g_direct_equal);
+	SHEET_FOREACH_DEPENDENT (sheet, dep, g_hash_table_insert (alldeps, dep, dep););
+
 	for (i = 0; i < deps->buckets; i++) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL && g_hash_table_size (hash) > 0) {
+			GHashTableIter hiter;
+			gpointer key;
+
 			g_printerr ("  Bucket %d (rows %d-%d): Range hash size %d: range over which cells in list depend\n",
 				    i,
 				    bucket_start_row (i) + 1,
 				    bucket_end_row (i) + 1,
 				    g_hash_table_size (hash));
-			g_hash_table_foreach (hash,
-					      dump_range_dep,
-					      sheet);
+			g_hash_table_iter_init (&hiter, hash);
+			while (g_hash_table_iter_next (&hiter, &key, NULL)) {
+				DependencyRange *deprange = key;
+				dump_range_dep (deprange, sheet, alldeps);
+			}
 		}
 	}
 
 	if (deps->single_hash && g_hash_table_size (deps->single_hash) > 0) {
+		GHashTableIter hiter;
+		gpointer key;
+
 		g_printerr ("  Single hash size %d: cell on which list of cells depend\n",
 			    g_hash_table_size (deps->single_hash));
-		g_hash_table_foreach (deps->single_hash,
-				      dump_single_dep,
-				      sheet);
+
+		g_hash_table_iter_init (&hiter, deps->single_hash);
+		while (g_hash_table_iter_next (&hiter, &key, NULL)) {
+			DependencySingle *depsingle = key;
+			dump_single_dep (depsingle, sheet, alldeps);
+		}
 	}
 
 	if (deps->dynamic_deps && g_hash_table_size (deps->dynamic_deps) > 0) {
+		GHashTableIter hiter;
+		gpointer key, value;
+
 		g_printerr ("  Dynamic hash size %d: cells that depend on dynamic dependencies\n",
 			    g_hash_table_size (deps->dynamic_deps));
-		g_hash_table_foreach (deps->dynamic_deps,
-				      dump_dynamic_dep, NULL);
+		g_hash_table_iter_init (&hiter, deps->dynamic_deps);
+		while (g_hash_table_iter_next (&hiter, &key, &value)) {
+			GnmDependent *dep = key;
+			DynamicDep *dyn = value;
+			dump_dynamic_dep (dep, dyn, alldeps);
+		}
 	}
 
 	if (deps->referencing_names && g_hash_table_size (deps->referencing_names) > 0) {
-		GSList *l, *names = NULL;
-
-		g_hash_table_foreach (deps->referencing_names,
-				      (GHFunc)cb_collect_names,
-				      &names);
+		GList *l, *names = g_hash_table_get_keys (deps->referencing_names);
 
 		g_printerr ("  Names whose expressions explicitly reference this sheet\n    ");
 		for (l = names; l; l = l->next) {
@@ -3311,8 +3317,25 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 				    expr_name_name (nexpr),
 				    l->next ? ", " : "\n");
 		}
-		g_slist_free (names);
+		g_list_free (names);
 	}
+
+	if (g_hash_table_size (alldeps) > 0) {
+		GHashTableIter hiter;
+		gpointer key;
+
+		g_printerr ("  Dependencies of sheet not listed above:\n");
+		g_hash_table_iter_init (&hiter, alldeps);
+		while (g_hash_table_iter_next (&hiter, &key, NULL)) {
+			GnmDependent *dep = key;
+			GString *str = g_string_new (NULL);
+			dependent_debug_name (dep, str);
+			g_printerr ("    %s\n", str->str);
+			g_string_free (str, TRUE);
+		}
+	}
+
+	g_hash_table_destroy (alldeps);
 }
 
 void
