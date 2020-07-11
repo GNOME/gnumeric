@@ -31,6 +31,8 @@
 #include <goffice/goffice.h>
 #include <string.h>
 
+static gboolean debug_style_deps;
+
 #define DEBUG_STYLES
 #ifndef USE_MSTYLE_POOL
 #define USE_MSTYLE_POOL 1
@@ -2314,15 +2316,6 @@ gnm_style_get_cond_style (GnmStyle const *style, int ix)
 }
 
 
-static gboolean
-debug_style_deps (void)
-{
-	static int debug = -1;
-	if (debug < 0)
-		debug = gnm_debug_flag ("style-deps");
-	return debug;
-}
-
 /*
  * Just a simple version for now.  We can also ignore most function
  * calls[1] and self-references[2].
@@ -2366,7 +2359,7 @@ gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 	if (sc) {
 		GPtrArray const *conds = gnm_style_conditions_details (sc);
 		guint ui;
-		if (debug_style_deps ())
+		if (debug_style_deps)
 			g_printerr ("Linking %s for %p\n",
 				    range_as_string (r), style);
 		for (ui = 0; conds && ui < conds->len; ui++) {
@@ -2415,7 +2408,7 @@ gnm_style_unlink_dependents (GnmStyle *style, GnmRange const *r)
 
 		if (dep->sheet->being_destructed ||
 		    range_contains (r, pos->col, pos->row)) {
-			if (debug_style_deps ())
+			if (debug_style_deps)
 				g_printerr ("Unlinking %s for %p\n",
 					    cellpos_as_string (pos), style);
 			dependent_set_expr (dep, NULL);
@@ -2783,6 +2776,8 @@ gnm_style_dump (GnmStyle const *style)
 void
 gnm_style_init (void)
 {
+	debug_style_deps = gnm_debug_flag ("style-deps");
+
 #if USE_MSTYLE_POOL
 	gnm_style_pool =
 		go_mem_chunk_new ("style pool",
