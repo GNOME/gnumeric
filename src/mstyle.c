@@ -2357,11 +2357,12 @@ gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 		? gnm_style_get_conditions (style)
 		: NULL;
 	if (sc) {
+		GnmParsePos pp;
 		GPtrArray const *conds = gnm_style_conditions_details (sc);
 		guint ui;
-		if (debug_style_deps)
-			g_printerr ("Linking %s for %p\n",
-				    range_as_string (r), style);
+
+		parse_pos_init (&pp, NULL, sheet, r->start.col, r->start.row);
+
 		for (ui = 0; conds && ui < conds->len; ui++) {
 			GnmStyleCond const *c = g_ptr_array_index (conds, ui);
 			guint ei;
@@ -2369,9 +2370,29 @@ gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 			for (ei = 0; ei < 2; ei++) {
 				GnmExprTop const *texpr =
 					gnm_style_cond_get_expr (c, ei);
-				if (!texpr ||
-				    cond_expr_harmless (texpr->expr))
+				char *s = NULL;
+				if (!texpr)
 					continue;
+
+				if (debug_style_deps)
+					s = gnm_expr_top_as_string (texpr, &pp,
+								    sheet_get_conventions (sheet));
+
+				if (cond_expr_harmless (texpr->expr)) {
+					if (debug_style_deps) {
+						g_printerr ("Not linking %s %d:%d for %p: %s (harmless)\n",
+							    range_as_string (r), ui, ei, style, s);
+						g_free (s);
+					}
+					continue;
+				}
+
+				if (debug_style_deps) {
+					g_printerr ("Linking %s %d:%d for %p: %s\n",
+						    range_as_string (r), ui, ei, style, s);
+					g_free (s);
+				}
+
 				if (!style->deps)
 					style->deps = g_ptr_array_new ();
 				gnm_dep_style_dependency
