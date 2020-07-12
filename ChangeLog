@@ -1,3 +1,7 @@
+2020-07-12  Morten Welinder  <terra@gnome.org>
+
+	* src/sstest.c (test_recalc): New test for dependency tracking.
+
 2020-07-07  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_queue_redraw_range): Ignore requests during

@@ -3492,6 +3492,90 @@ test_random (void)
 	mark_test_end (test_name);
 }
 
+static GPtrArray *
+get_cell_values (GPtrArray *cells)
+{
+	GPtrArray *values = g_ptr_array_new_with_free_func ((GDestroyNotify)value_release);
+	unsigned ui;
+	for (ui = 0; ui < cells->len; ui++) {
+		GnmCell *cell = g_ptr_array_index (cells, ui);
+		g_ptr_array_add (values, value_dup (cell->value));
+	}
+	return values;
+}
+
+static void
+test_recalc (GOCmdContext *cc, const char *url)
+{
+	GOIOContext *io_context = go_io_context_new (cc);
+	WorkbookView *wbv = workbook_view_new_from_uri (url, NULL, io_context, NULL);
+	Workbook *wb = wb_view_get_workbook (wbv);
+	GPtrArray *cells, *base_values;
+	unsigned ui;
+
+	workbook_recalc_all (wb);
+
+	cells = g_ptr_array_new ();
+	WORKBOOK_FOREACH_SHEET (wb, sheet, {
+		GPtrArray *scells = sheet_cells (sheet, NULL);	
+		unsigned ui;
+		for (ui = 0; ui < scells->len; ui++)
+			g_ptr_array_add (cells, g_ptr_array_index (scells, ui));
+		});
+	base_values = get_cell_values (cells);
+
+	g_printerr ("Changing the contents of %d cells, one at a time...\n", cells->len);
+
+	for (ui = 0; ui < cells->len; ui++) {
+		GnmCell *cell = g_ptr_array_index (cells, ui);
+		char *old = NULL;
+		GPtrArray *values;
+		unsigned ui2;
+
+		if (gnm_cell_is_array (cell)) {
+			// Bail for now
+			continue;
+		}
+
+		if (gnm_cell_has_expr (cell)) {
+			old = gnm_cell_get_entered_text (cell);
+			sheet_cell_set_text (cell, "123", NULL);
+		} else {
+			sheet_cell_set_text (cell, "=2+2", NULL);
+		}
+		// Forcibly recalc the whole book
+		workbook_recalc_all (wb);
+
+		if (old) {
+			sheet_cell_set_text (cell, old, NULL);
+			g_free (old);
+		} else {
+			sheet_cell_set_value (cell, value_dup (g_ptr_array_index (base_values, ui)));
+		}
+		workbook_recalc (wb);
+
+		values = get_cell_values (cells);
+		for (ui2 = 0; ui2 < cells->len; ui2++) {
+			GnmCell const *cell2 = g_ptr_array_index (cells, ui2);
+			GnmValue const *val1 = g_ptr_array_index (base_values, ui2);
+			GnmValue const *val2 = g_ptr_array_index (values, ui2);
+			if (value_equal (val1, val2))
+				continue;
+
+			g_printerr ("When changing %s!%s:\b", cell_name (cell));
+			g_printerr ("  Value of %s before: %s\n", cell_name (cell2), value_peek_string (val1));
+			g_printerr ("  Value of %s after : %s\n", cell_name (cell2), value_peek_string (val2));
+			g_printerr ("\n");
+		}
+		g_ptr_array_unref (values);
+	}
+
+	g_ptr_array_free (cells, TRUE);
+	g_ptr_array_free (base_values, TRUE);
+	g_object_unref (wb);
+	g_object_unref (io_context);
+}
+
 /* ------------------------------------------------------------------------- */
 
 #define MAYBE_DO(name) if (strcmp (testname, "all") != 0 && strcmp (testname, (name)) != 0) { } else
@@ -3539,24 +3623,22 @@ main (int argc, char const **argv)
 		/* FIXME: What do we want to do here? */
 		go_error_info_free (plugin_errs);
 	}
-	g_object_unref (cc);
-	cc = NULL;
 
 	if (func_state_file) {
 		function_dump_defs (func_state_file, 0);
-		return 0;
+		goto done;
 	}
 	if (func_def_file) {
 		function_dump_defs (func_def_file, 1);
-		return 0;
+		goto done;
 	}
 	if (ext_refs_file) {
 		function_dump_defs (ext_refs_file, 4);
-		return 0;
+		goto done;
 	}
 	if (samples_file) {
 		function_dump_defs (samples_file, 5);
-		return 0;
+		goto done;
 	}
 
 	testname = argv[1];
@@ -3569,9 +3651,18 @@ main (int argc, char const **argv)
 	MAYBE_DO ("test_func_help") test_func_help ();
 	MAYBE_DO ("test_nonascii_numbers") test_nonascii_numbers ();
 	MAYBE_DO ("test_random") test_random ();
+	if (argc > 2) {
+		MAYBE_DO ("test_recalc") {
+			char *url = go_shell_arg_to_uri (argv[2]);
+			test_recalc (cc, url);
+			g_free (url);
+		}
+	}
 
 	/* ---------------------------------------- */
 
+done:
+	g_object_unref (cc);
 	gnm_shutdown ();
 	gnm_pre_parse_shutdown ();
 
