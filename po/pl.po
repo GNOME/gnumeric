@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-28 12:27+0200\n"
-"PO-Revision-Date: 2020-06-28 12:28+0200\n"
+"POT-Creation-Date: 2020-07-12 13:20+0200\n"
+"PO-Revision-Date: 2020-07-12 13:21+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -113,7 +113,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7219
-#: ../plugins/openoffice/openoffice-read.c:14084 ../src/xml-sax-read.c:3523
+#: ../plugins/openoffice/openoffice-read.c:14091 ../src/xml-sax-read.c:3523
 msgid "Reading file..."
 msgstr "Odczytywanie pliku…"
 
@@ -221,7 +221,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Nieprawidłowa zawartość elementu ss:data, otrzymano „%s”"
 
 #: ../plugins/excel/excel-xml-read.c:1217
-#: ../plugins/openoffice/openoffice-read.c:14248 ../src/xml-sax-read.c:3540
+#: ../plugins/openoffice/openoffice-read.c:14277 ../src/xml-sax-read.c:3540
 msgid "XML document not well formed!"
 msgstr "Niepoprawna składnia dokumentu XML."
 
@@ -1363,27 +1363,27 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr "Nieprawidłowa nazwa rzędu, %s, w sekcji rhs/zakresach"
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:590 ../src/tools/gnm-solver.c:1879
+#: ../plugins/mps/mps.c:590 ../src/tools/gnm-solver.c:1877
 msgid "Constraint"
 msgstr "Ograniczenie"
 
 #: ../plugins/mps/mps.c:591 ../plugins/mps/mps.c:653
 #: ../src/dialogs/dialog-doc-metadata.c:1910
-#: ../src/dialogs/dialog-simulation.c:218 ../src/tools/gnm-solver.c:1659
-#: ../src/tools/gnm-solver.c:1704 ../src/tools/gnm-solver.c:1748
+#: ../src/dialogs/dialog-simulation.c:215 ../src/tools/gnm-solver.c:1657
+#: ../src/tools/gnm-solver.c:1702 ../src/tools/gnm-solver.c:1746
 msgid "Value"
 msgstr "Wartość"
 
 #: ../plugins/mps/mps.c:592 ../src/dialogs/dialog-formula-guru.c:895
-#: ../src/dialogs/dialog-search.c:437 ../src/tools/gnm-solver.c:1660
+#: ../src/dialogs/dialog-search.c:437 ../src/tools/gnm-solver.c:1658
 msgid "Type"
 msgstr "Typ"
 
-#: ../plugins/mps/mps.c:593 ../src/tools/gnm-solver.c:1749
+#: ../plugins/mps/mps.c:593 ../src/tools/gnm-solver.c:1747
 msgid "Limit"
 msgstr "Ograniczenie"
 
-#: ../plugins/mps/mps.c:651 ../src/dialogs/dialog-simulation.c:233
+#: ../plugins/mps/mps.c:651 ../src/dialogs/dialog-simulation.c:230
 msgid "Variable"
 msgstr "Zmienna"
 
@@ -1548,8 +1548,8 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr "Wyrażenie „%s” nie zaczyna się od rozpoznanego znaku"
 
 #: ../plugins/openoffice/openoffice-read.c:2457
-#: ../plugins/openoffice/openoffice-write.c:5268
-#: ../plugins/openoffice/openoffice-write.c:5280 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-write.c:5270
+#: ../plugins/openoffice/openoffice-write.c:5282 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "komórka"
 
@@ -1889,64 +1889,64 @@ msgstr "ARKUSZ_W_USZKODZONYM_PLIKU"
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr "Plik jest uszkodzony z nienazwanym arkuszem, teraz nazwanym „%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:13934
+#: ../plugins/openoffice/openoffice-read.c:13941
 msgid "Unknown mimetype for openoffice file."
 msgstr "Nieznany typ MIME dla pliku OpenOffice."
 
-#: ../plugins/openoffice/openoffice-read.c:13944
+#: ../plugins/openoffice/openoffice-read.c:13951
 msgid "No stream named content.xml found."
 msgstr "Nie odnaleziono potoku o nazwie content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:14094
+#: ../plugins/openoffice/openoffice-read.c:14101
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Nieprawidłowe metadane „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:14157
+#: ../plugins/openoffice/openoffice-read.c:14186
 msgid "settings.xml stream is malformed!"
 msgstr "Potok settings.xml jest błędnie sformatowany."
 
-#: ../plugins/openoffice/openoffice-write.c:5261
-#: ../plugins/openoffice/openoffice-write.c:5273
+#: ../plugins/openoffice/openoffice-write.c:5263
+#: ../plugins/openoffice/openoffice-write.c:5275
 msgid "tab"
 msgstr "karta"
 
-#: ../plugins/openoffice/openoffice-write.c:5262
-#: ../plugins/openoffice/openoffice-write.c:5274
+#: ../plugins/openoffice/openoffice-write.c:5264
+#: ../plugins/openoffice/openoffice-write.c:5276
 msgid "page"
 msgstr "strona"
 
-#: ../plugins/openoffice/openoffice-write.c:5263
-#: ../plugins/openoffice/openoffice-write.c:5275
+#: ../plugins/openoffice/openoffice-write.c:5265
+#: ../plugins/openoffice/openoffice-write.c:5277
 msgid "pages"
 msgstr "strony"
 
-#: ../plugins/openoffice/openoffice-write.c:5264
-#: ../plugins/openoffice/openoffice-write.c:5276
+#: ../plugins/openoffice/openoffice-write.c:5266
+#: ../plugins/openoffice/openoffice-write.c:5278
 msgid "date"
 msgstr "data"
 
-#: ../plugins/openoffice/openoffice-write.c:5265
-#: ../plugins/openoffice/openoffice-write.c:5277
+#: ../plugins/openoffice/openoffice-write.c:5267
+#: ../plugins/openoffice/openoffice-write.c:5279
 msgid "time"
 msgstr "czas"
 
-#: ../plugins/openoffice/openoffice-write.c:5266
-#: ../plugins/openoffice/openoffice-write.c:5278 ../src/ssconvert.c:121
+#: ../plugins/openoffice/openoffice-write.c:5268
+#: ../plugins/openoffice/openoffice-write.c:5280 ../src/ssconvert.c:121
 #: ../src/ssdiff.c:61
 msgid "file"
 msgstr "plik"
 
-#: ../plugins/openoffice/openoffice-write.c:5267
-#: ../plugins/openoffice/openoffice-write.c:5279
+#: ../plugins/openoffice/openoffice-write.c:5269
+#: ../plugins/openoffice/openoffice-write.c:5281
 msgid "path"
 msgstr "ścieżka"
 
-#: ../plugins/openoffice/openoffice-write.c:9065
+#: ../plugins/openoffice/openoffice-write.c:9067
 msgid "Writing Sheets..."
 msgstr "Zapisywanie arkuszy…"
 
-#: ../plugins/openoffice/openoffice-write.c:9106
+#: ../plugins/openoffice/openoffice-write.c:9108
 msgid "Writing Sheet Objects..."
 msgstr "Zapisywanie obiektów arkusza…"
 
@@ -2199,7 +2199,7 @@ msgstr ""
 msgid "Python"
 msgstr "Python"
 
-#: ../plugins/python-loader/gnm-py-interpreter.c:253
+#: ../plugins/python-loader/gnm-py-interpreter.c:260
 msgid "Default interpreter"
 msgstr "Domyślny interpreter"
 
@@ -2215,110 +2215,110 @@ msgstr "Ta wtyczka dostarcza obsługę wtyczek języka Python"
 msgid "Python console"
 msgstr "Konsola języka Python"
 
-#: ../plugins/python-loader/py-console.c:90
+#: ../plugins/python-loader/py-console.c:91
 #, c-format
 msgid "*** Interpreter: %s\n"
 msgstr "*** Interpreter: %s\n"
 
-#: ../plugins/python-loader/py-console.c:159
+#: ../plugins/python-loader/py-console.c:174
 msgid "Gnumeric Python console"
 msgstr "Konsola języka Python programu Gnumeric"
 
-#: ../plugins/python-loader/py-console.c:168
+#: ../plugins/python-loader/py-console.c:183
 msgid "E_xecute in:"
 msgstr "_Wykonywanie w:"
 
-#: ../plugins/python-loader/py-console.c:213
+#: ../plugins/python-loader/py-console.c:228
 msgid "C_ommand:"
 msgstr "P_olecenie:"
 
-#: ../plugins/python-loader/py-gnumeric.c:251
+#: ../plugins/python-loader/py-gnumeric.c:151
 msgid "Python list is not an array"
 msgstr "Lista języka Python nie jest tablicą"
 
-#: ../plugins/python-loader/py-gnumeric.c:258
+#: ../plugins/python-loader/py-gnumeric.c:158
 #, c-format
 msgid "Unsupported Python type: %s"
 msgstr "Nieobsługiwany typ języka Python: %s"
 
-#: ../plugins/python-loader/py-gnumeric.c:285
+#: ../plugins/python-loader/py-gnumeric.c:185
 msgid "Unknown error"
 msgstr "Nieznany błąd"
 
-#: ../plugins/python-loader/py-gnumeric.c:291
+#: ../plugins/python-loader/py-gnumeric.c:191
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "Wyjątek języka Python (%s: %s)"
 
-#: ../plugins/python-loader/py-gnumeric.c:295
+#: ../plugins/python-loader/py-gnumeric.c:195
 #, c-format
 msgid "Python exception (%s)"
 msgstr "Wyjątek języka Python (%s)"
 
-#: ../plugins/python-loader/python-loader.c:72
+#: ../plugins/python-loader/python-loader.c:73
 msgid "Python module name not given."
 msgstr "Nie podano nazwy modułu języka Python."
 
-#: ../plugins/python-loader/python-loader.c:90
+#: ../plugins/python-loader/python-loader.c:91
 #, c-format
 msgid "Error while opening file \"%s\" for writing."
 msgstr "Błąd podczas otwierania pliku „%s” do zapisu."
 
-#: ../plugins/python-loader/python-loader.c:94
+#: ../plugins/python-loader/python-loader.c:95
 #, c-format
 msgid "Error while opening file \"%s\" for reading."
 msgstr "Błąd podczas otwierania pliku „%s” do odczytu."
 
-#: ../plugins/python-loader/python-loader.c:125
+#: ../plugins/python-loader/python-loader.c:126
 msgid "Cannot create new Python interpreter."
 msgstr "Nie można utworzyć nowego interpretera języka Python."
 
-#: ../plugins/python-loader/python-loader.c:146
+#: ../plugins/python-loader/python-loader.c:147
 #, c-format
 msgid "Module \"%s\" doesn't exist."
 msgstr "Moduł „%s” nie istnieje."
 
-#: ../plugins/python-loader/python-loader.c:164
+#: ../plugins/python-loader/python-loader.c:165
 #, c-format
 msgid "Execution of module \"%s\" failed."
 msgstr "Wykonanie modułu „%s” się nie powiodło."
 
-#: ../plugins/python-loader/python-loader.c:280
+#: ../plugins/python-loader/python-loader.c:281
 msgid "Some name"
 msgstr "Jakaś nazwa"
 
-#: ../plugins/python-loader/python-loader.c:345
-#: ../plugins/python-loader/python-loader.c:442
-#: ../plugins/python-loader/python-loader.c:748
-#: ../plugins/python-loader/python-loader.c:863
+#: ../plugins/python-loader/python-loader.c:346
+#: ../plugins/python-loader/python-loader.c:443
+#: ../plugins/python-loader/python-loader.c:754
+#: ../plugins/python-loader/python-loader.c:869
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Plik języka Python „%s” ma nieprawidłowy format."
 
-#: ../plugins/python-loader/python-loader.c:349
-#: ../plugins/python-loader/python-loader.c:447
+#: ../plugins/python-loader/python-loader.c:350
+#: ../plugins/python-loader/python-loader.c:448
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Plik nie zawiera funkcji „%s”."
 
-#: ../plugins/python-loader/python-loader.c:753
-#: ../plugins/python-loader/python-loader.c:868
+#: ../plugins/python-loader/python-loader.c:759
+#: ../plugins/python-loader/python-loader.c:874
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Plik nie zawiera słownika „%s”."
 
-#: ../plugins/python-loader/python-loader.c:758
-#: ../plugins/python-loader/python-loader.c:873
+#: ../plugins/python-loader/python-loader.c:764
+#: ../plugins/python-loader/python-loader.c:879
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Obiekt „%s” nie jest słownikiem."
 
-#: ../plugins/python-loader/python-loader.c:811 ../src/gnm-plugin.c:859
+#: ../plugins/python-loader/python-loader.c:817 ../src/gnm-plugin.c:859
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Nieznane działanie: %s"
 
-#: ../plugins/python-loader/python-loader.c:816
+#: ../plugins/python-loader/python-loader.c:822
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "Nieprawidłowa funkcja dla działania: %s"
@@ -2450,7 +2450,7 @@ msgstr "Brak zamykające „E”"
 #: ../src/dialogs/dialog-search.c:437 ../src/dialogs/dialog-stf-export.c:594
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
 #: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:577
-#: ../src/workbook.c:1057 ../src/workbook.c:1087
+#: ../src/workbook.c:1060 ../src/workbook.c:1090
 msgid "Sheet"
 msgstr "Arkusz"
 
@@ -3960,7 +3960,7 @@ msgstr "Usuwanie rzędów %s"
 msgid "Deleting row %s"
 msgstr "Usuwanie rzędu %s"
 
-#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5096
+#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5104
 msgid "Clear"
 msgstr "Wyczyść"
 
@@ -4277,7 +4277,7 @@ msgstr "Usuń obiekt"
 #: ../src/dialogs/dialog-doc-metadata.c:1903
 #: ../src/dialogs/dialog-formula-guru.c:891
 #: ../src/dialogs/dialog-function-select.c:1279
-#: ../src/dialogs/dialog-scenarios.c:521 ../src/dialogs/dialog-simulation.c:213
+#: ../src/dialogs/dialog-scenarios.c:521 ../src/dialogs/dialog-simulation.c:210
 #: ../src/dialogs/dialog-zoom.c:194 ../src/format-template.c:216
 msgid "Name"
 msgstr "Nazwa"
@@ -6386,8 +6386,8 @@ msgstr "Poziom zeszytu"
 
 #: ../src/dialogs/dialog-goto-cell.c:387 ../src/dialogs/dialog-search.c:437
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1658
-#: ../src/tools/gnm-solver.c:1703 ../src/tools/gnm-solver.c:1844
+#: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1656
+#: ../src/tools/gnm-solver.c:1701 ../src/tools/gnm-solver.c:1842
 msgid "Cell"
 msgstr "Komórka"
 
@@ -7580,25 +7580,25 @@ msgstr "Czas działania"
 msgid "Run on"
 msgstr "Działa"
 
-#: ../src/dialogs/dialog-simulation.c:234 ../src/tools/simulation.c:245
+#: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:245
 #: ../src/wbc-gtk.c:4058
 msgid "Min"
 msgstr "Minimum"
 
-#: ../src/dialogs/dialog-simulation.c:234 ../src/wbc-gtk.c:4060
+#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4060
 msgid "Average"
 msgstr "Średnia"
 
-#: ../src/dialogs/dialog-simulation.c:234 ../src/tools/simulation.c:247
+#: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:247
 #: ../src/wbc-gtk.c:4059
 msgid "Max"
 msgstr "Maksimum"
 
-#: ../src/dialogs/dialog-simulation.c:314
+#: ../src/dialogs/dialog-simulation.c:311
 msgid "Invalid variable range was given"
 msgstr "Podano nieprawidłowy zakres zmiennej"
 
-#: ../src/dialogs/dialog-simulation.c:328
+#: ../src/dialogs/dialog-simulation.c:325
 msgid ""
 "First round number should be less than or equal to the number of the last "
 "round."
@@ -7606,7 +7606,7 @@ msgstr ""
 "Liczba pierwszej rundy powinna być niższa niż lub równa liczbie ostatniej "
 "rundy."
 
-#: ../src/dialogs/dialog-simulation.c:420
+#: ../src/dialogs/dialog-simulation.c:416
 msgid "Could not create the Simulation dialog."
 msgstr "Nie można utworzyć okna symulacji."
 
@@ -7638,11 +7638,11 @@ msgstr ""
 msgid "Changing solver parameters"
 msgstr "Zmienianie parametrów solvera"
 
-#: ../src/dialogs/dialog-solver.c:548 ../src/tools/gnm-solver.c:1685
+#: ../src/dialogs/dialog-solver.c:548 ../src/tools/gnm-solver.c:1683
 msgid "Feasible"
 msgstr "Wykonalny"
 
-#: ../src/dialogs/dialog-solver.c:552 ../src/tools/gnm-solver.c:1688
+#: ../src/dialogs/dialog-solver.c:552 ../src/tools/gnm-solver.c:1686
 msgid "Optimal"
 msgstr "Optymalny"
 
@@ -11628,13 +11628,13 @@ msgstr "Zakres wejściowy: "
 msgid "Shuffle Method: "
 msgstr "Metoda przekładania: "
 
-#. Shuffle metod: Columns
+#. Shuffle method: Columns
 #: ../src/dialogs/shuffle.ui.h:5
 msgctxt "shuffle"
 msgid "_Columns"
 msgstr "_Kolumny"
 
-#. Shuffle metod: Columns
+#. Shuffle method: Columns
 #: ../src/dialogs/shuffle.ui.h:7
 msgctxt "shuffle"
 msgid "_Rows"
@@ -11687,8 +11687,8 @@ msgstr "Zmienne wejściowe:"
 msgid "Output variables:"
 msgstr "Zmienne wyjściowe:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1701
-#: ../src/tools/gnm-solver.c:1842
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1699
+#: ../src/tools/gnm-solver.c:1840
 msgid "Variables"
 msgstr "Zmienne"
 
@@ -11889,8 +11889,8 @@ msgid "Re_place"
 msgstr "_Zastąp"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1744
-#: ../src/tools/gnm-solver.c:1876
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1742
+#: ../src/tools/gnm-solver.c:1874
 msgid "Constraints"
 msgstr "Ograniczenia"
 
@@ -12155,11 +12155,11 @@ msgstr "Już określono „%s” w arkuszu"
 msgid "'%s' is already defined in workbook"
 msgstr "Już określono „%s” w zeszycie"
 
-#: ../src/expr.c:988
+#: ../src/expr.c:991
 msgid "Internal type error"
 msgstr "Wewnętrzny błąd typu"
 
-#: ../src/expr.c:1662
+#: ../src/expr.c:1665
 msgid "Unknown evaluation error"
 msgstr "Nieznany błąd obliczeń"
 
@@ -12656,26 +12656,26 @@ msgctxt "Stock label"
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/gutils.c:972
+#: ../src/gutils.c:968
 #, c-format
 msgid "Unknown sheet \"%s\""
 msgstr "Nieznany arkusz „%s”"
 
-#: ../src/gutils.c:992
+#: ../src/gutils.c:988
 #, c-format
 msgid "Invalid export option \"%s\" for format %s"
 msgstr "Nieprawidłowa opcja eksportu „%s” dla formatu %s"
 
-#: ../src/hlink.c:289
+#: ../src/hlink.c:288
 msgid "Link target"
 msgstr "Cel odnośnika"
 
-#: ../src/hlink.c:502
+#: ../src/hlink.c:501
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Nie można aktywować adresu URL „%s”"
 
-#: ../src/hlink.c:559
+#: ../src/hlink.c:558
 #, c-format
 msgid "Unable to open '%s'"
 msgstr "Nie można otworzyć „%s”"
@@ -13600,31 +13600,31 @@ msgstr "Wyświetlenie siatki"
 msgid "Control whether the grid is shown."
 msgstr "Kontrola, czy siatka jest wyświetlana."
 
-#: ../src/sheet.c:3803
+#: ../src/sheet.c:3811
 msgid "Target region contains merged cells"
 msgstr "Obszar docelowy zawiera scalone komórki"
 
-#: ../src/sheet.c:3869
+#: ../src/sheet.c:3877
 msgid "cannot operate on merged cells"
 msgstr "nie można działać na scalonych komórkach"
 
-#: ../src/sheet.c:3882
+#: ../src/sheet.c:3890
 msgid "cannot operate on array formulæ"
 msgstr "nie można działać na wyrażeniach tablicowych"
 
-#: ../src/sheet.c:5519
+#: ../src/sheet.c:5527
 msgid "Insert Columns"
 msgstr "Wstaw kolumny"
 
-#: ../src/sheet.c:5537
+#: ../src/sheet.c:5545
 msgid "Delete Columns"
 msgstr "Usuń kolumny"
 
-#: ../src/sheet.c:5555
+#: ../src/sheet.c:5563
 msgid "Insert Rows"
 msgstr "Wstaw rzędy"
 
-#: ../src/sheet.c:5573
+#: ../src/sheet.c:5581
 msgid "Delete Rows"
 msgstr "Usuń rzędy"
 
@@ -15121,70 +15121,70 @@ msgstr "Komórka wejściowa %s zawiera formułę"
 msgid "Solver constraint #%d is invalid"
 msgstr "Ograniczenie solvera #%d jest nieprawidłowe"
 
-#: ../src/tools/gnm-solver.c:1163
+#: ../src/tools/gnm-solver.c:1161
 msgid "Timeout"
 msgstr "Ograniczenie czasu"
 
-#: ../src/tools/gnm-solver.c:1379
+#: ../src/tools/gnm-solver.c:1377
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Utworzenie pliku dla programu liniowego się nie powiodło"
 
-#: ../src/tools/gnm-solver.c:1388
+#: ../src/tools/gnm-solver.c:1386
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Utworzenie pliku programu liniowego się nie powiodło"
 
-#: ../src/tools/gnm-solver.c:1408
+#: ../src/tools/gnm-solver.c:1406
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Zapisanie programu liniowego się nie powiodło"
 
-#: ../src/tools/gnm-solver.c:1657
+#: ../src/tools/gnm-solver.c:1655
 msgid "Target"
 msgstr "Cel"
 
-#: ../src/tools/gnm-solver.c:1661
+#: ../src/tools/gnm-solver.c:1659
 msgid "Status"
 msgstr "Stan"
 
-#: ../src/tools/gnm-solver.c:1674
+#: ../src/tools/gnm-solver.c:1672
 msgid "Minimize"
 msgstr "Zminimalizuj"
 
-#: ../src/tools/gnm-solver.c:1677
+#: ../src/tools/gnm-solver.c:1675
 msgid "Maximize"
 msgstr "Zmaksymalizuj"
 
-#: ../src/tools/gnm-solver.c:1705
+#: ../src/tools/gnm-solver.c:1703
 msgid "Lower"
 msgstr "Dolne"
 
-#: ../src/tools/gnm-solver.c:1706
+#: ../src/tools/gnm-solver.c:1704
 msgid "Upper"
 msgstr "Górne"
 
-#: ../src/tools/gnm-solver.c:1707 ../src/tools/gnm-solver.c:1750
+#: ../src/tools/gnm-solver.c:1705 ../src/tools/gnm-solver.c:1748
 msgid "Slack"
 msgstr "Luźny"
 
-#: ../src/tools/gnm-solver.c:1729
+#: ../src/tools/gnm-solver.c:1727
 msgid "At limit"
 msgstr "Na granicy"
 
-#: ../src/tools/gnm-solver.c:1732
+#: ../src/tools/gnm-solver.c:1730
 msgid "Outside bounds"
 msgstr "Zewnętrzne krawędzie"
 
-#: ../src/tools/gnm-solver.c:1747
+#: ../src/tools/gnm-solver.c:1745
 msgid "Condition"
 msgstr "Warunek"
 
-#: ../src/tools/gnm-solver.c:1752 ../src/tools/gnm-solver.c:1888
+#: ../src/tools/gnm-solver.c:1750 ../src/tools/gnm-solver.c:1886
 msgid "No constraints"
 msgstr "Brak ograniczeń"
 
-#: ../src/tools/gnm-solver.c:1845
+#: ../src/tools/gnm-solver.c:1843
 msgid ""
 "Final\n"
 "Value"
@@ -15192,7 +15192,7 @@ msgstr ""
 "Ostateczna\n"
 "wartość"
 
-#: ../src/tools/gnm-solver.c:1846
+#: ../src/tools/gnm-solver.c:1844
 msgid ""
 "Reduced\n"
 "Cost"
@@ -15200,7 +15200,7 @@ msgstr ""
 "Zmniejszony\n"
 "koszt"
 
-#: ../src/tools/gnm-solver.c:1847 ../src/tools/gnm-solver.c:1883
+#: ../src/tools/gnm-solver.c:1845 ../src/tools/gnm-solver.c:1881
 msgid ""
 "Lower\n"
 "Limit"
@@ -15208,7 +15208,7 @@ msgstr ""
 "Dolne\n"
 "ograniczenie"
 
-#: ../src/tools/gnm-solver.c:1848 ../src/tools/gnm-solver.c:1884
+#: ../src/tools/gnm-solver.c:1846 ../src/tools/gnm-solver.c:1882
 msgid ""
 "Upper\n"
 "Limit"
@@ -15216,7 +15216,7 @@ msgstr ""
 "Górne\n"
 "ograniczenie"
 
-#: ../src/tools/gnm-solver.c:1880
+#: ../src/tools/gnm-solver.c:1878
 msgid ""
 "Shadow\n"
 "Price"
@@ -15224,7 +15224,7 @@ msgstr ""
 "Zacieniowana\n"
 "cena"
 
-#: ../src/tools/gnm-solver.c:1881
+#: ../src/tools/gnm-solver.c:1879
 msgid ""
 "Constraint\n"
 "LHS"
@@ -15232,7 +15232,7 @@ msgstr ""
 "Ograniczenie\n"
 "LHS"
 
-#: ../src/tools/gnm-solver.c:1882
+#: ../src/tools/gnm-solver.c:1880
 msgid ""
 "Constraint\n"
 "RHS"
@@ -15240,25 +15240,25 @@ msgstr ""
 "Ograniczenie\n"
 "RHS"
 
-#: ../src/tools/gnm-solver.c:1946
+#: ../src/tools/gnm-solver.c:1944
 msgid "Program"
 msgstr "Program"
 
-#: ../src/tools/gnm-solver.c:1952
+#: ../src/tools/gnm-solver.c:1950
 msgid "Sensitivity"
 msgstr "Rozróżnianie"
 
-#: ../src/tools/gnm-solver.c:2555
+#: ../src/tools/gnm-solver.c:2553
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr "Komórka docelowa nie zwraca liczby."
 
-#: ../src/tools/gnm-solver.c:2563
+#: ../src/tools/gnm-solver.c:2561
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr "Komórka docelowa nie zależy liniowo od komórek wejściowych."
 
-#: ../src/tools/gnm-solver.c:3150
+#: ../src/tools/gnm-solver.c:3148
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -15271,22 +15271,22 @@ msgstr ""
 "\n"
 "Odnaleźć go ręcznie?"
 
-#: ../src/tools/gnm-solver.c:3154
+#: ../src/tools/gnm-solver.c:3152
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Nie można odnaleźć %s"
 
-#: ../src/tools/gnm-solver.c:3170
+#: ../src/tools/gnm-solver.c:3168
 #, c-format
 msgid "Locate the %s program"
 msgstr "Znajdź program %s"
 
-#: ../src/tools/gnm-solver.c:3564
+#: ../src/tools/gnm-solver.c:3562
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Wartości początkowe nie zaspokajają ograniczeń."
 
-#: ../src/tools/gnm-solver.c:3655
+#: ../src/tools/gnm-solver.c:3653
 msgid "Iteration limit exceeded"
 msgstr "Przekroczono ograniczenie iteracji"
 
@@ -15422,8 +15422,8 @@ msgid "(Input) "
 msgstr "(Wejście) "
 
 #: ../src/tools/simulation.c:402
-msgid "Maximum time exceeded. Simulation was not completed. "
-msgstr "Przekroczono czas maksymalny. Symulacja nie została ukończona. "
+msgid "Maximum time exceeded. Simulation was not completed."
+msgstr "Przekroczono czas maksymalny. Symulacja nie została ukończona."
 
 #: ../src/tools/tabulate.c:162
 msgid "Tabulation"
@@ -18261,26 +18261,26 @@ msgstr "Nie można otworzyć „%s” do zapisania: %s"
 msgid "Can't open '%s' for writing"
 msgstr "Nie można otworzyć „%s” do zapisania"
 
-#: ../src/workbook-view.c:1407
+#: ../src/workbook-view.c:1409
 #, c-format
 msgid "Unsupported file format for file \"%s\""
 msgstr "Nieobsługiwany format pliku dla „%s”"
 
-#: ../src/workbook-view.c:1463
+#: ../src/workbook-view.c:1465
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Wystąpił nierozpoznany błąd podczas otwierania %s"
 
-#: ../src/workbook.c:314
+#: ../src/workbook.c:316
 #, c-format
 msgid "Book%d.%s"
 msgstr "Zeszyt%d.%s"
 
-#: ../src/workbook.c:1087
+#: ../src/workbook.c:1090
 msgid "Graph"
 msgstr "Wykres"
 
-#: ../src/workbook.c:1613
+#: ../src/workbook.c:1635
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
@@ -18288,7 +18288,7 @@ msgstr[0] "Zmienianie nazwy arkusza"
 msgstr[1] "Zmienianie nazwy %d arkuszy"
 msgstr[2] "Zmienianie nazwy %d arkuszy"
 
-#: ../src/workbook.c:1615
+#: ../src/workbook.c:1637
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -18300,7 +18300,7 @@ msgstr[2] "Dodawanie %d arkuszy"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1621
+#: ../src/workbook.c:1643
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
@@ -18308,11 +18308,11 @@ msgstr[0] "Wstawianie arkusza"
 msgstr[1] "Wstawianie %d arkuszy"
 msgstr[2] "Wstawianie %d arkuszy"
 
-#: ../src/workbook.c:1623
+#: ../src/workbook.c:1645
 msgid "Changing sheet tab colors"
 msgstr "Zmienianie kolorów kart arkusza"
 
-#: ../src/workbook.c:1625
+#: ../src/workbook.c:1647
 msgid "Changing sheet properties"
 msgstr "Zmienianie właściwości arkusza"
 
@@ -18320,7 +18320,7 @@ msgstr "Zmienianie właściwości arkusza"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1632
+#: ../src/workbook.c:1654
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
@@ -18328,11 +18328,11 @@ msgstr[0] "Usuwanie arkusza"
 msgstr[1] "Usuwanie %d arkuszy"
 msgstr[2] "Usuwanie %d arkuszy"
 
-#: ../src/workbook.c:1634
+#: ../src/workbook.c:1656
 msgid "Changing sheet order"
 msgstr "Zmienianie kolejności arkuszy"
 
-#: ../src/workbook.c:1636
+#: ../src/workbook.c:1658
 msgid "Reorganizing Sheets"
 msgstr "Reorganizowanie arkuszy"
 
@@ -18376,11 +18376,11 @@ msgstr "Nieprawidłowy filtr, brak obszaru"
 msgid "Unsupported object type '%s'"
 msgstr "Nieobsługiwany typ obiektu „%s”"
 
-#: ../src/xml-sax-read.c:3807 ../src/xml-sax-write.c:1737
+#: ../src/xml-sax-read.c:3807 ../src/xml-sax-write.c:1736
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "XML programu Gnumeric (*.gnumeric)"
 
-#: ../src/xml-sax-write.c:1749
+#: ../src/xml-sax-write.c:1748
 msgid "Gnumeric XML uncompressed (*.xml)"
 msgstr "Nieskompresowany XML programu Gnumeric (*.xml)"
 
