@@ -1230,7 +1230,7 @@ link_unlink_funcall (GnmEvalPos *ep, GnmExprFunction const *call, DepLinkFlags f
 	int i;
 	GnmFuncEvalInfo fei;
 	GnmDependentFlags flag;
-	DepLinkFlags pass = (flags & DEP_LINK_LINK);
+	DepLinkFlags pass = (flags & (DEP_LINK_LINK | DEP_LINK_UNLINK));
 
 	gnm_func_load_if_stub (call->func);
 	fei.pos = ep;
