@@ -1,3 +1,7 @@
+2020-07-12  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_write_frame_size): Plug leak.
+
 2020-07-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (openoffice_file_open): Make all read sheets the same size
