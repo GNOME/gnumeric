@@ -3519,9 +3519,15 @@ test_recalc (GOCmdContext *cc, const char *url)
 	WORKBOOK_FOREACH_SHEET (wb, sheet, {
 		GPtrArray *scells = sheet_cells (sheet, NULL);	
 		unsigned ui;
-		for (ui = 0; ui < scells->len; ui++)
-			g_ptr_array_add (cells, g_ptr_array_index (scells, ui));
-		});
+		for (ui = 0; ui < scells->len; ui++) {
+			GnmCell *cell = g_ptr_array_index (scells, ui);
+			g_ptr_array_add (cells, cell);
+			if (gnm_cell_has_expr (cell) &&
+			    gnm_expr_top_is_volatile (cell->base.texpr))
+				g_printerr ("NOTE: %s!%s is volatile.\n",
+					    cell->base.sheet->name_unquoted,
+					    cell_name (cell));
+		}});
 	base_values = get_cell_values (cells);
 
 	g_printerr ("Changing the contents of %d cells, one at a time...\n", cells->len);
@@ -3562,9 +3568,12 @@ test_recalc (GOCmdContext *cc, const char *url)
 			if (value_equal (val1, val2))
 				continue;
 
-			g_printerr ("When changing %s!%s:\b", cell_name (cell));
-			g_printerr ("  Value of %s before: %s\n", cell_name (cell2), value_peek_string (val1));
-			g_printerr ("  Value of %s after : %s\n", cell_name (cell2), value_peek_string (val2));
+			g_printerr ("When changing %s!%s:\n",
+				    cell->base.sheet->name_unquoted, cell_name (cell));
+			g_printerr ("  Value of %s!%s before: %s\n",
+				    cell2->base.sheet->name_unquoted, cell_name (cell2), value_peek_string (val1));
+			g_printerr ("  Value of %s!%s after : %s\n",
+				    cell2->base.sheet->name_unquoted, cell_name (cell2), value_peek_string (val2));
 			g_printerr ("\n");
 		}
 		g_ptr_array_unref (values);
