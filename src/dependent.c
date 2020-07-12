@@ -1179,8 +1179,10 @@ link_unlink_constant (GnmEvalPos *ep, GnmValue const *v, DepLinkFlags flags)
 	if (!dependent_is_cell (ep->dep))
 		goto everything; // Must figure out semantics first
 
-	if ((flags & DEP_LINK_NON_SCALAR) &&
-	    eval_pos_is_array_context (ep))
+	if (flags & DEP_LINK_NON_SCALAR)
+		goto everything;
+
+	if (eval_pos_is_array_context (ep))
 		goto everything; // Potential implicit iteration -- bail
 
 	// Inspiration from value_intersection:
@@ -1246,6 +1248,10 @@ link_unlink_funcall (GnmEvalPos *ep, GnmExprFunction const *call, DepLinkFlags f
 			? DEP_LINK_NON_SCALAR
 			: 0;
 
+		if (0)
+			g_printerr ("%s, arg %d: %c\n",
+				    gnm_func_get_name (call->func, FALSE),
+				    i, t);
 		flag |= link_unlink_expr_dep (ep, call->argv[i], pass | extra);
 	}
 	return flag;
