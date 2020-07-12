@@ -34,7 +34,7 @@ struct _WorkbookView {
 		char *descr;
 		GnmValue *value;
 		gboolean use_max_precision;
-		GnmDependent dep;
+		GnmDepManaged dep;
 		gulong sheet_detached_sig;
 	} auto_expr;
 

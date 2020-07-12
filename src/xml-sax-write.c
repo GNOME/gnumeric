@@ -570,8 +570,7 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 
 	if (gnm_style_is_element_set (style, MSTYLE_VALIDATION) &&
 	    NULL != (v = gnm_style_get_validation (style))) {
-		GnmParsePos pp;
-		char *tmp;
+		unsigned ui;
 
 		gsf_xml_out_start_element (state->output, GNM "Validation");
 		gsf_xml_out_add_enum (state->output, "Style",
@@ -600,17 +599,17 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 		if (v->msg != NULL && v->msg->str[0] != '\0')
 			gsf_xml_out_add_cstr (state->output, "Message", v->msg->str);
 
-		parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
-
-		if (v->deps[0].texpr != NULL &&
-		    (tmp = gnm_expr_top_as_string (v->deps[0].texpr, &pp, state->convs)) != NULL) {
-			gsf_xml_out_simple_element (state->output, GNM "Expression0", tmp);
-			g_free (tmp);
-		}
-		if (v->deps[1].texpr != NULL &&
-		    (tmp = gnm_expr_top_as_string (v->deps[1].texpr, &pp, state->convs)) != NULL) {
-			gsf_xml_out_simple_element (state->output, GNM "Expression1", tmp);
-			g_free (tmp);
+		for (ui = 0; ui < G_N_ELEMENTS (v->deps); ui++) {
+			GnmExprTop const *texpr = dependent_managed_get_expr (&v->deps[ui]);
+			if (texpr) {
+				const char *elem = ui == 0 ? GNM "Expression0" : GNM "Expression1";
+				char *tmp;
+				GnmParsePos pp;
+				parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
+				tmp = gnm_expr_top_as_string (texpr, &pp, state->convs);
+				gsf_xml_out_simple_element (state->output, elem, tmp);
+				g_free (tmp);
+			}
 		}
 		gsf_xml_out_end_element (state->output); /* </Validation> */
 	}
@@ -1178,7 +1177,7 @@ xml_write_scenario (GnmOutputXML *state, GnmScenario const *sc)
 		out.pp    = &pp;
 		out.convs = state->convs;
 
-		gnm_expr_top_as_gstring (sci->dep.texpr, &out);
+		gnm_expr_top_as_gstring (dependent_managed_get_expr (&sci->dep), &out);
 		gsf_xml_out_add_cstr (state->output, "Range", str->str);
 
 		if (val) {

@@ -38,7 +38,7 @@ typedef enum {
 
 typedef struct {
 	GnmStyle	 *overlay;
-	GnmDependent      deps[2];
+	GnmDepManaged     deps[2];
 	GnmStyleCondOp	  op;
 } GnmStyleCond;
 

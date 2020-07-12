@@ -339,6 +339,15 @@ static const GnmDependentClass managed_dep_class = {
 	managed_dep_debug_name,
 };
 
+static GnmCellPos *managed_dep_pos (GnmDependent const *dep);
+static const GnmDependentClass managed_pos_dep_class = {
+	dummy_dep_eval,
+	NULL,
+	NULL,
+	managed_dep_pos,
+	managed_dep_debug_name,
+};
+
 static void style_dep_eval (GnmDependent *dep);
 static GSList *style_dep_changed (GnmDependent *dep);
 static GnmCellPos *style_dep_pos (GnmDependent const *dep);
@@ -370,6 +379,7 @@ dependent_types_init (void)
 	g_ptr_array_add	(dep_classes, (gpointer)&dynamic_dep_class);
 	g_ptr_array_add	(dep_classes, (gpointer)&name_dep_class);
 	g_ptr_array_add	(dep_classes, (gpointer)&managed_dep_class);
+	g_ptr_array_add	(dep_classes, (gpointer)&managed_pos_dep_class);
 	g_ptr_array_add	(dep_classes, (gpointer)&style_dep_class);
 
 #if USE_POOLS
@@ -1450,19 +1460,36 @@ cell_dep_debug_name (GnmDependent const *dep, GString *target)
  * the dependency system so it follows row/column insert/delete nicely.
  *
  * The expression being managed is typically a cell range, but can be any
- * expression.  Everything is interpreted relative to A1 in the sheet.
+ * expression.  There are two versions: only with a position and one without.
+ * In the no-position version, everything is interpreted relative to A1 in the
+ * sheet.
  */
 
 void
-dependent_managed_init (GnmDependent *dep, Sheet *sheet)
+dependent_managed_init (GnmDepManaged *dep, Sheet *sheet)
 {
 	memset (dep, 0, sizeof (*dep));
-	dep->flags = DEPENDENT_MANAGED;
-	dep->sheet = sheet;
+	dep->base.flags = DEPENDENT_MANAGED;
+	dep->base.sheet = sheet;
 }
 
 void
-dependent_managed_set_expr (GnmDependent *dep, GnmExprTop const *texpr)
+dependent_managed_pos_init (GnmDepManaged *dep, Sheet *sheet, GnmCellPos const *pos)
+{
+	dependent_managed_init (dep, sheet);
+	dep->base.flags = DEPENDENT_MANAGED_POS;
+	dep->pos = *pos;
+}
+
+GnmExprTop const *
+dependent_managed_get_expr (GnmDepManaged const *dep)
+{
+	g_return_val_if_fail (dep != NULL, NULL);
+	return dep->base.texpr;
+}
+
+void
+dependent_managed_set_expr (GnmDepManaged *dep, GnmExprTop const *texpr)
 {
 	g_return_if_fail (dep != NULL);
 #if 0
@@ -1470,13 +1497,13 @@ dependent_managed_set_expr (GnmDependent *dep, GnmExprTop const *texpr)
 	g_return_if_fail (dependent_type (dep) == DEPENDENT_MANAGED);
 #endif
 
-	dependent_set_expr (dep, texpr);
-	if (texpr && dep->sheet)
-		dependent_link (dep);
+	dependent_set_expr (&dep->base, texpr);
+	if (texpr && dep->base.sheet)
+		dependent_link (&dep->base);
 }
 
 void
-dependent_managed_set_sheet (GnmDependent *dep, Sheet *sheet)
+dependent_managed_set_sheet (GnmDepManaged *dep, Sheet *sheet)
 {
 	GnmExprTop const *texpr;
 
@@ -1486,14 +1513,14 @@ dependent_managed_set_sheet (GnmDependent *dep, Sheet *sheet)
 	g_return_if_fail (dependent_type (dep) == DEPENDENT_MANAGED);
 #endif
 
-	if (dep->sheet == sheet)
+	if (dep->base.sheet == sheet)
 		return;
 
-	texpr = dep->texpr;
+	texpr = dep->base.texpr;
 	if (texpr) gnm_expr_top_ref (texpr);
-	dependent_set_expr (dep, NULL);
+	dependent_set_expr (&dep->base, NULL);
 	/* We're now unlinked from everything. */
-	dep->sheet = sheet;
+	dep->base.sheet = sheet;
 	dependent_managed_set_expr (dep, texpr);
 	if (texpr) gnm_expr_top_unref (texpr);
 }
@@ -1502,6 +1529,12 @@ static void
 managed_dep_debug_name (GnmDependent const *dep, GString *target)
 {
 	g_string_append_printf (target, "Managed%p", (void *)dep);
+}
+
+static GnmCellPos *
+managed_dep_pos (GnmDependent const *dep)
+{
+	return &((GnmDepManaged*)dep)->pos;
 }
 
 /*****************************************************************************/

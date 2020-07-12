@@ -3904,7 +3904,7 @@ cb_auto_expr_cell_changed (GtkWidget *item, WBCGtk *wbcg)
 		      NULL);
 
 	/* Now we have the expression set.  */
-	texpr = wbv->auto_expr.dep.texpr;
+	texpr = wbv->auto_expr.dep.base.texpr;
 	v = gnm_expr_top_get_constant (texpr);
 	if (v)
 		g_object_set (wbv,

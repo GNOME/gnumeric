@@ -1,4 +1,3 @@
-
 /*
  * hlink.c: hyperlink support
  *
@@ -267,7 +266,7 @@ typedef struct { GnmHLinkClass hlink; } GnmHLinkCurWBClass;
 typedef struct {
 	GnmHLink hlink;
 
-	GnmDependent dep;
+	GnmDepManaged dep;
 } GnmHLinkCurWB;
 #define GNM_HLINK_CUR_WB(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), gnm_hlink_cur_wb_get_type (), GnmHLinkCurWB))
 
@@ -349,7 +348,7 @@ static const char *
 gnm_hlink_cur_wb_get_target (GnmHLink const *lnk)
 {
 	GnmHLinkCurWB *hlcwb = (GnmHLinkCurWB *)lnk;
-	GnmExprTop const *texpr = hlcwb->dep.texpr;
+	GnmExprTop const *texpr = dependent_managed_get_expr (&hlcwb->dep);
 	char *tgt = NULL;
 	Sheet *sheet = lnk->sheet;
 
@@ -436,7 +435,7 @@ gnm_hlink_get_range_target (GnmHLink const *lnk, GnmSheetRange *sr)
 		return FALSE;
 
 	hlcwb = (GnmHLinkCurWB *)lnk;
-	texpr = hlcwb->dep.texpr;
+	texpr = dependent_managed_get_expr (&hlcwb->dep);
 	if (!texpr)
 		return FALSE;
 	vr = gnm_expr_top_get_range (texpr);
@@ -474,7 +473,7 @@ gnm_hlink_get_target_expr (GnmHLink const *lnk)
 		return NULL;
 
 	hlcwb = (GnmHLinkCurWB *)lnk;
-	return hlcwb->dep.texpr;
+	return dependent_managed_get_expr (&hlcwb->dep);
 }
 
 

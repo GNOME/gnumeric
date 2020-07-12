@@ -157,15 +157,15 @@ gnm_solver_constraint_dup (GnmSolverConstraint *c, Sheet *sheet)
 {
 	GnmSolverConstraint *res = gnm_solver_constraint_new (sheet);
 	res->type = c->type;
-	dependent_managed_set_expr (&res->lhs, c->lhs.texpr);
-	dependent_managed_set_expr (&res->rhs, c->rhs.texpr);
+	dependent_managed_set_expr (&res->lhs, c->lhs.base.texpr);
+	dependent_managed_set_expr (&res->rhs, c->rhs.base.texpr);
 	return res;
 }
 
 static GnmSolverConstraint *
 gnm_solver_constraint_dup1 (GnmSolverConstraint *c)
 {
-	return gnm_solver_constraint_dup (c, c->lhs.sheet);
+	return gnm_solver_constraint_dup (c, c->lhs.base.sheet);
 }
 
 GType
@@ -185,9 +185,9 @@ gnm_solver_constraint_equal (GnmSolverConstraint const *a,
 			     GnmSolverConstraint const *b)
 {
 	return (a->type == b->type &&
-		gnm_expr_top_equal (a->lhs.texpr, b->lhs.texpr) &&
+		gnm_expr_top_equal (a->lhs.base.texpr, b->lhs.base.texpr) &&
 		(!gnm_solver_constraint_has_rhs (a) ||
-		 gnm_expr_top_equal (a->rhs.texpr, b->rhs.texpr)));
+		 gnm_expr_top_equal (a->rhs.base.texpr, b->rhs.base.texpr)));
 }
 
 gboolean
@@ -273,7 +273,7 @@ gnm_solver_constraint_valid (GnmSolverConstraint const *c,
 GnmValue const *
 gnm_solver_constraint_get_lhs (GnmSolverConstraint const *c)
 {
-	GnmExprTop const *texpr = c->lhs.texpr;
+	GnmExprTop const *texpr = c->lhs.base.texpr;
 	return texpr ? gnm_expr_top_get_constant (texpr) : NULL;
 }
 
@@ -299,7 +299,7 @@ gnm_solver_constraint_set_lhs (GnmSolverConstraint *c, GnmValue *v)
 GnmValue const *
 gnm_solver_constraint_get_rhs (GnmSolverConstraint const *c)
 {
-	GnmExprTop const *texpr = c->rhs.texpr;
+	GnmExprTop const *texpr = c->rhs.base.texpr;
 	return texpr ? gnm_expr_top_get_constant (texpr) : NULL;
 }
 
@@ -416,7 +416,7 @@ gnm_solver_constraint_side_as_str (GnmSolverConstraint const *c,
 {
 	GnmExprTop const *texpr;
 
-	texpr = lhs ? c->lhs.texpr : c->rhs.texpr;
+	texpr = lhs ? c->lhs.base.texpr : c->rhs.base.texpr;
 	if (texpr) {
 		GnmConventionsOut out;
 		GnmParsePos pp;
@@ -521,8 +521,8 @@ gnm_solver_param_dup (GnmSolverParameters *src, Sheet *new_sheet)
 	GSList *l;
 
 	dst->problem_type = src->problem_type;
-	dependent_managed_set_expr (&dst->target, src->target.texpr);
-	dependent_managed_set_expr (&dst->input, src->input.texpr);
+	dependent_managed_set_expr (&dst->target, src->target.base.texpr);
+	dependent_managed_set_expr (&dst->input, src->input.base.texpr);
 
 	g_free (dst->options.scenario_name);
 	dst->options = src->options;
@@ -551,8 +551,8 @@ gnm_solver_param_equal (GnmSolverParameters const *a,
 
 	if (a->sheet != b->sheet ||
 	    a->problem_type != b->problem_type ||
-	    !gnm_expr_top_equal (a->target.texpr, b->target.texpr) ||
-	    !gnm_expr_top_equal (a->input.texpr, b->input.texpr) ||
+	    !gnm_expr_top_equal (a->target.base.texpr, b->target.base.texpr) ||
+	    !gnm_expr_top_equal (a->input.base.texpr, b->input.base.texpr) ||
 	    a->options.max_time_sec != b->options.max_time_sec ||
 	    a->options.max_iter != b->options.max_iter ||
 	    a->options.algorithm != b->options.algorithm ||
@@ -587,8 +587,8 @@ gnm_solver_param_equal (GnmSolverParameters const *a,
 GnmValue const *
 gnm_solver_param_get_input (GnmSolverParameters const *sp)
 {
-	return sp->input.texpr
-		? gnm_expr_top_get_constant (sp->input.texpr)
+	return sp->input.base.texpr
+		? gnm_expr_top_get_constant (sp->input.base.texpr)
 		: NULL;
 }
 
@@ -662,8 +662,8 @@ gnm_solver_param_set_target (GnmSolverParameters *sp, GnmCellRef const *cr)
 const GnmCellRef *
 gnm_solver_param_get_target (GnmSolverParameters const *sp)
 {
-	return sp->target.texpr
-		? gnm_expr_top_get_cellref (sp->target.texpr)
+	return sp->target.base.texpr
+		? gnm_expr_top_get_cellref (sp->target.base.texpr)
 		: NULL;
 }
 

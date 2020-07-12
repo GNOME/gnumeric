@@ -1945,9 +1945,9 @@ fmt_dialog_init_validation_page (FormatState *state)
 		parse_pos_init (&pp, state->sheet->workbook, state->sheet,
 			state->sv->edit_pos.col, state->sv->edit_pos.row);
 		gnm_expr_entry_load_from_expr (state->validation.expr0.entry,
-					       v->deps[0].texpr, &pp);
+					       v->deps[0].base.texpr, &pp);
 		gnm_expr_entry_load_from_expr (state->validation.expr1.entry,
-					       v->deps[1].texpr, &pp);
+					       v->deps[1].base.texpr, &pp);
 	}
 
 	cb_validation_sensitivity (NULL, state);

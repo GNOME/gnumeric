@@ -7,7 +7,7 @@
 /* ------------------------------------------------------------------------- */
 
 typedef struct {
-	GnmDependent dep;
+	GnmDepManaged dep;
 	GnmValue *value;
 } GnmScenarioItem;
 

@@ -45,7 +45,7 @@ struct _GnmValidation {
 
 	GOString         *title;
 	GOString         *msg;
-	GnmDependent      deps[2];
+	GnmDepManaged     deps[2];
 	ValidationStyle   style;
 	ValidationType	  type;
 	ValidationOp	  op;

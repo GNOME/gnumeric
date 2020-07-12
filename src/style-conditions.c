@@ -107,7 +107,7 @@ gnm_style_cond_is_valid (GnmStyleCond const *cond)
 	N = gnm_style_cond_op_operands (cond->op);
 	for (ui = 0; ui < G_N_ELEMENTS (cond->deps); ui++) {
 		gboolean need = (ui < N);
-		gboolean have = (cond->deps[ui].texpr != NULL);
+		gboolean have = (dependent_managed_get_expr (&cond->deps[ui]) != NULL);
 		if (have != need)
 			return FALSE;
 	}
@@ -147,7 +147,7 @@ gnm_style_cond_dup (GnmStyleCond const *src)
 	dst = gnm_style_cond_new (src->op, gnm_style_cond_get_sheet (src));
 	gnm_style_cond_set_overlay (dst, src->overlay);
 	for (ui = 0; ui < 2; ui++)
-		gnm_style_cond_set_expr (dst, src->deps[ui].texpr, ui);
+		gnm_style_cond_set_expr (dst, dependent_managed_get_expr (&src->deps[ui]), ui);
 
 	return dst;
 }
@@ -191,7 +191,7 @@ Sheet *
 gnm_style_cond_get_sheet (GnmStyleCond const *cond)
 {
 	g_return_val_if_fail (cond != NULL, NULL);
-	return cond->deps[0].sheet;
+	return cond->deps[0].base.sheet;
 }
 
 void
@@ -219,7 +219,7 @@ gnm_style_cond_get_expr (GnmStyleCond const *cond, unsigned idx)
 	g_return_val_if_fail (cond != NULL, NULL);
 	g_return_val_if_fail (idx < G_N_ELEMENTS (cond->deps), NULL);
 
-	return cond->deps[idx].texpr;
+	return dependent_managed_get_expr (&cond->deps[idx]);
 }
 
 void
@@ -566,11 +566,11 @@ gnm_style_cond_eval (GnmStyleCond const *cond, GnmValue const *cv,
 
 	switch (gnm_style_cond_op_operands (cond->op)) {
 	case 2:
-		val1 = gnm_expr_top_eval (cond->deps[1].texpr, ep,
+		val1 = gnm_expr_top_eval (cond->deps[1].base.texpr, ep,
 					  GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 		/* Fall through */
 	case 1:
-		val0 = gnm_expr_top_eval (cond->deps[0].texpr, ep,
+		val0 = gnm_expr_top_eval (cond->deps[0].base.texpr, ep,
 					  GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 		/* Fall through */
 	case 0:
@@ -674,10 +674,10 @@ gnm_style_cond_equal (GnmStyleCond const *ca, GnmStyleCond const *cb,
 
 	N = gnm_style_cond_op_operands (ca->op);
 	for (oi = 0; oi < N; oi++) {
-		if (!relax_sheet && ca->deps[oi].sheet != cb->deps[oi].sheet)
+		if (!relax_sheet && ca->deps[oi].base.sheet != cb->deps[oi].base.sheet)
 			return FALSE;
-		if (!gnm_expr_top_equal (ca->deps[oi].texpr,
-					 cb->deps[oi].texpr))
+		if (!gnm_expr_top_equal (ca->deps[oi].base.texpr,
+					 cb->deps[oi].base.texpr))
 			return FALSE;
 	}
 

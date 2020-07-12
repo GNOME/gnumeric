@@ -2042,9 +2042,9 @@ xlsx_write_validation (XLValInputPair const *vip, G_GNUC_UNUSED gpointer dummy, 
 	if (NULL != vip->v) {
 		GnmRange const *first = vip->ranges->data;
 		xlsx_write_validation_expr (info, &first->start,
-			"formula1", vip->v->deps[0].texpr);
+			"formula1", vip->v->deps[0].base.texpr);
 		xlsx_write_validation_expr (info, &first->start,
-			"formula2", vip->v->deps[1].texpr);
+			"formula2", vip->v->deps[1].base.texpr);
 	}
 
 	gsf_xml_out_end_element (info->xml); /*  </dataValidation> */

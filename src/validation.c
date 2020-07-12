@@ -326,7 +326,7 @@ gnm_validation_dup (GnmValidation *v)
 			      NULL, NULL,
 			      v->allow_blank, v->use_dropdown);
 	for (i = 0; i < 2; i++)
-		gnm_validation_set_expr (dst, v->deps[i].texpr, i);
+		gnm_validation_set_expr (dst, v->deps[i].base.texpr, i);
 	return dst;
 }
 
@@ -358,7 +358,7 @@ gnm_validation_equal (GnmValidation const *a, GnmValidation const *b,
 		return FALSE;
 
 	for (i = 0; i < 2; i++)
-		if (!gnm_expr_top_equal (a->deps[i].texpr, b->deps[i].texpr))
+		if (!gnm_expr_top_equal (a->deps[i].base.texpr, b->deps[i].base.texpr))
 			return FALSE;
 
 	return TRUE;
@@ -420,7 +420,7 @@ Sheet *
 gnm_validation_get_sheet (GnmValidation const *v)
 {
 	g_return_val_if_fail (v != NULL, NULL);
-	return v->deps[0].sheet;
+	return v->deps[0].base.sheet;
 }
 
 void
@@ -471,7 +471,7 @@ gnm_validation_is_ok (GnmValidation const *v)
 	}
 
 	for (i = 0 ; i < 2 ; i++)
-		if (v->deps[i].texpr == NULL) {
+		if (v->deps[i].base.texpr == NULL) {
 			if (i < nops)
 				return g_error_new (1, 0, N_("Missing formula for validation"));
 		} else {
@@ -609,7 +609,7 @@ gnm_validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 		break;
 
 	case GNM_VALIDATION_TYPE_IN_LIST: {
-		GnmExprTop const *texpr = v->deps[0].texpr;
+		GnmExprTop const *texpr = v->deps[0].base.texpr;
 		if (texpr) {
 			GnmValue *list = gnm_expr_top_eval
 				(texpr, &ep,
@@ -642,7 +642,7 @@ gnm_validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 
 	case GNM_VALIDATION_TYPE_CUSTOM: {
 		gboolean valid;
-		GnmExprTop const *texpr = v->deps[0].texpr;
+		GnmExprTop const *texpr = v->deps[0].base.texpr;
 
 		if (!texpr)
 			return GNM_VALIDATION_STATUS_VALID;
@@ -675,7 +675,7 @@ gnm_validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 
 	nok = 0;
 	for (i = 0; i < opinfo[v->op].nops; i++) {
-		GnmExprTop const *texpr_i = v->deps[i].texpr;
+		GnmExprTop const *texpr_i = v->deps[i].base.texpr;
 		GnmExprTop const *texpr;
 		GnmValue *cres;
 

@@ -539,9 +539,9 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 	    sv == NULL)
 		return;
 
-	if (wbv->auto_expr.dep.sheet != NULL &&
-	    wbv->auto_expr.dep.texpr != NULL) {
-		texpr = wbv->auto_expr.dep.texpr;
+	if (wbv->auto_expr.dep.base.sheet != NULL &&
+	    wbv->auto_expr.dep.base.texpr != NULL) {
+		texpr = wbv->auto_expr.dep.base.texpr;
 		gnm_expr_top_ref (texpr);
 	} else if (wbv->auto_expr.func != NULL) {
 		sv_selection_apply (sv, &accumulate_regions, FALSE, &selection);
@@ -672,12 +672,12 @@ wb_view_auto_expr_eval_pos (WorkbookView *wbv, GnmEvalPos const *ep)
 	Sheet *sheet = ep ? ep->sheet : NULL;
 
 	if (wbv->auto_expr.sheet_detached_sig) {
-		g_signal_handler_disconnect (wbv->auto_expr.dep.sheet,
+		g_signal_handler_disconnect (wbv->auto_expr.dep.base.sheet,
 					     wbv->auto_expr.sheet_detached_sig);
 		wbv->auto_expr.sheet_detached_sig = 0;
 	}
 
-	dependent_set_expr (&wbv->auto_expr.dep, NULL);
+	dependent_managed_set_expr (&wbv->auto_expr.dep, NULL);
 	dependent_managed_set_sheet (&wbv->auto_expr.dep, sheet);
 
 	if (sheet) {

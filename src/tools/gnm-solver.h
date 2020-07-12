@@ -61,10 +61,10 @@ struct GnmSolverConstraint_ {
 	GnmSolverConstraintType type;
 
 	/* Must be a range.  */
-	GnmDependent lhs;
+	GnmDepManaged lhs;
 
 	/* Must be a constant or a range.  */
-	GnmDependent rhs;
+	GnmDepManaged rhs;
 };
 
 GType gnm_solver_constraint_get_type (void);
@@ -131,8 +131,8 @@ struct GnmSolverParameters_ {
 	Sheet *sheet;
 
 	GnmSolverProblemType problem_type;
-	GnmDependent target;
-	GnmDependent input;
+	GnmDepManaged target;
+	GnmDepManaged input;
 	GSList *constraints;
 	GnmSolverOptions options;
 };

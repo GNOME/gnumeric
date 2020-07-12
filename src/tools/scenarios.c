@@ -59,8 +59,8 @@ gnm_scenario_item_free (GnmScenarioItem *sci)
 static GnmScenarioItem *
 gnm_scenario_item_dup (GnmScenarioItem *src)
 {
-	GnmScenarioItem *dst = gnm_scenario_item_new (src->dep.sheet);
-	dependent_managed_set_expr (&dst->dep, src->dep.texpr);
+	GnmScenarioItem *dst = gnm_scenario_item_new (src->dep.base.sheet);
+	dependent_managed_set_expr (&dst->dep, src->dep.base.texpr);
 	dst->value = value_dup (src->value);
 	return dst;
 }
@@ -83,7 +83,7 @@ gnm_scenario_item_set_range (GnmScenarioItem *sci, const GnmSheetRange *sr)
 {
 	if (sr) {
 		GnmValue *v = value_new_cellrange_r
-			(sr->sheet != sci->dep.sheet ? sr->sheet : NULL,
+			(sr->sheet != sci->dep.base.sheet ? sr->sheet : NULL,
 			 &sr->range);
 		GnmExprTop const *texpr = gnm_expr_top_new_constant (v);
 		dependent_managed_set_expr (&sci->dep, texpr);
@@ -105,7 +105,7 @@ gnm_scenario_item_valid (const GnmScenarioItem *sci, GnmSheetRange *sr)
 	GnmExprTop const *texpr;
 	GnmValue const *vr;
 
-	if (!sci || !((texpr = sci->dep.texpr)))
+	if (!sci || !((texpr = sci->dep.base.texpr)))
 		return FALSE;
 
 	vr = gnm_expr_top_get_constant (texpr);
@@ -291,7 +291,7 @@ gnm_scenario_get_range_str (const GnmScenario *sc)
 			continue;
 		if (str->len)
 			g_string_append_c (str, ',');
-		vrange = gnm_expr_top_get_constant (sci->dep.texpr);
+		vrange = gnm_expr_top_get_constant (sci->dep.base.texpr);
 		g_string_append (str, value_peek_string (vrange));
 	}
 
