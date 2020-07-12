@@ -1239,7 +1239,7 @@ link_unlink_funcall (GnmEvalPos *ep, GnmExprFunction const *call, DepLinkFlags f
 	fei.func_call = call;
 	flag = gnm_func_link_dep (call->func, &fei, (flags & DEP_LINK_LINK) != 0);
 	if (flag & DEPENDENT_IGNORE_ARGS)
-		return flag; // ??? Mask out DEPENDENT_IGNORE_ARGS?
+		return (flag & ~DEPENDENT_IGNORE_ARGS);
 
 	for (i = 0; i < call->argc; i++) {
 		char t = gnm_func_get_arg_type (call->func, i);
