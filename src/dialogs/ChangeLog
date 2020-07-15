@@ -1,3 +1,14 @@
+2020-07-15  Morten Welinder  <terra@gnome.org>
+
+	* dialog-doc-metadata.c
+	(dialog_doc_metadata_init_properties_page): Fix 64-bit crash.
+	(dialog_doc_metadata_init): Don't register GValue transformations
+	-- they are global and interfere with graph saving, see #510.
+	(dialog_doc_metadata_get_prop_val): Handle GValue-to-string here.
+	Plug leak.
+	(dialog_doc_metadata_set_gsf_prop_val): Handle string-to-GValue
+	here.
+
 2020-07-03  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_impl): When we have

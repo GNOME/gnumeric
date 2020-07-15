@@ -260,19 +260,17 @@ dialog_doc_metadata_get_value_type (GValue *value)
 
 	default:
 		/* Check if it is a GsfDocPropVector or GsfTimeStamp */
-		{
-			if (VAL_IS_GSF_TIMESTAMP (value))
-				val_type = GSF_TIMESTAMP_TYPE;
-			else if (VAL_IS_GSF_DOCPROP_VECTOR (value))
-				val_type = GSF_DOCPROP_VECTOR_TYPE;
-			else {
-				g_printerr ("GType %s (%i) not handled in metadata dialog.\n",
-					    g_type_name (val_type), (int) val_type);
-				val_type = G_TYPE_INVALID;
-			}
-
-			break;
+		if (VAL_IS_GSF_TIMESTAMP (value))
+			val_type = GSF_TIMESTAMP_TYPE;
+		else if (VAL_IS_GSF_DOCPROP_VECTOR (value))
+			val_type = GSF_DOCPROP_VECTOR_TYPE;
+		else {
+			g_printerr ("GType %s (%i) not handled in metadata dialog.\n",
+				    g_type_name (val_type), (int) val_type);
+			val_type = G_TYPE_INVALID;
 		}
+
+		break;
 	}
 	return val_type;
 }
@@ -287,22 +285,19 @@ dialog_doc_metadata_get_value_type (GValue *value)
  */
 
 static void
-dialog_doc_metadata_transform_str_to_timestamp (const GValue *string_value,
+dialog_doc_metadata_transform_str_to_timestamp (const char *str,
 						GValue       *timestamp_value)
 {
 	time_t s;
 	gnm_float serial;
 	gint int_serial;
 	GsfTimestamp *gt;
-	gchar const *str;
 	GnmValue *conversion;
 	GOFormat *fmt;
 
-	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
 	g_return_if_fail (VAL_IS_GSF_TIMESTAMP (timestamp_value));
 
 	fmt = go_format_new_from_XL ("yyyy-mm-dd hh:mm:ss");
-	str = g_value_get_string (string_value);
 	conversion = format_match_number (str, fmt, NULL);
 	go_format_unref (fmt);
 	if (conversion) {
@@ -327,64 +322,16 @@ dialog_doc_metadata_transform_str_to_timestamp (const GValue *string_value,
 }
 
 static void
-dialog_doc_metadata_transform_str_to_float (const GValue *string_value,
-					    GValue       *float_value)
+dialog_doc_metadata_transform_str_to_docprop_vect (const char *str,
+						   GValue     *docprop_value)
 {
-	gnm_float x;
-	gchar const *str;
-	GnmValue *conversion;
-
-	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
-	g_return_if_fail (G_VALUE_HOLDS_FLOAT (float_value));
-
-	str = g_value_get_string (string_value);
-	conversion = format_match_number (str, NULL, NULL);
-	if (conversion) {
-		x = value_get_as_float (conversion);
-		value_release (conversion);
-	} else
-		x = 0.;
-
-	g_value_set_float (float_value, x);
-}
-
-static void
-dialog_doc_metadata_transform_str_to_boolean (const GValue *string_value,
-					      GValue       *b_value)
-{
-	gboolean x, err;
-	gchar const *str;
-	GnmValue *conversion;
-
-	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
-	g_return_if_fail (G_VALUE_HOLDS_BOOLEAN (b_value));
-
-	str = g_value_get_string (string_value);
-	conversion = format_match_number (str, NULL, NULL);
-	if (conversion) {
-		x = value_get_as_bool (conversion, &err);
-		value_release (conversion);
-		if (err)
-			x = FALSE;
-	} else
-		x = FALSE;
-
-	g_value_set_boolean (b_value, x);
-}
-
-static void
-dialog_doc_metadata_transform_str_to_docprop_vect (const GValue *string_value,
-						   GValue       *docprop_value)
-{
-	char const *str, *s;
+	char const *s;
 	GsfDocPropVector *gdpv;
 	GValue *value;
 
-	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
 	g_return_if_fail (VAL_IS_GSF_DOCPROP_VECTOR (docprop_value));
 
 	gdpv = gsf_docprop_vector_new ();
-	str = g_value_get_string (string_value);
 
 	while (*str == ' ') {str++;}
 
@@ -471,38 +418,6 @@ dialog_doc_metadata_transform_timestamp_to_str (const GValue *timestamp_value,
 	if (timestamp != NULL)
 		g_value_take_string (string_value,
 				     time2str_go (timestamp->timet));
-}
-
-static void
-dialog_doc_metadata_transform_float_to_str (const GValue *float_value,
-					    GValue       *string_value)
-{
-	gnm_float x;
-	char *str;
-	GOFormat *fmt;
-
-	g_return_if_fail (G_VALUE_HOLDS_FLOAT (float_value));
-	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
-
-	x = g_value_get_float (float_value);
-
-	fmt = go_format_general ();
-	str = go_format_value (fmt, x);
-	g_value_take_string (string_value, str);
-}
-
-static void
-dialog_doc_metadata_transform_boolean_to_str (const GValue *b_value,
-					      GValue       *string_value)
-{
-	gboolean x;
-
-	g_return_if_fail (G_VALUE_HOLDS_BOOLEAN (b_value));
-	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
-
-	x = g_value_get_boolean (b_value);
-
-	g_value_set_static_string (string_value, x ? _("TRUE") : _("FALSE"));
 }
 
 static gchar*
@@ -828,16 +743,11 @@ dialog_doc_metadata_set_gsf_prop_val (DialogDocMetaData *state,
 	/* such as from string to double, so we do that ourselves */
 	switch (t) {
 	case G_TYPE_STRING:
-		g_value_set_string (prop_value, g_strdup (str_val));
-		break;
+		g_value_set_string (prop_value, str_val);
+		return;
 	case G_TYPE_DOUBLE:
 	case G_TYPE_FLOAT: {
-		GnmParsePos pos;
-		GnmValue *val = NULL;
-		GnmExprTop const *texpr = NULL;
-		parse_pos_init_sheet (&pos, workbook_sheet_by_index (state->wb, 0));
-		parse_text_value_or_expr (&pos, str_val,
-					  &val, &texpr);
+		GnmValue *val = format_match_number (str_val, NULL, workbook_date_conv (state->wb));
 		if (val != NULL) {
 			gnm_float fl = value_get_as_float (val);
 			value_release (val);
@@ -846,21 +756,34 @@ dialog_doc_metadata_set_gsf_prop_val (DialogDocMetaData *state,
 			else
 				g_value_set_float (prop_value, fl);
 		}
-		if (texpr)
-			gnm_expr_top_unref (texpr);
-		break;
+		return;
 	}
-	default:
-		if (g_value_type_transformable (t, G_TYPE_STRING)) {
-			GValue string_value = G_VALUE_INIT;
-			g_value_init (&string_value, G_TYPE_STRING);
-			g_value_set_string (&string_value, g_strdup (str_val));
-			g_value_transform (&string_value, prop_value);
-			g_value_unset (&string_value);
-		} else
-			g_printerr (_("Transform function of G_TYPE_STRING to %s is required!\n"),
-				    g_type_name (t));
-		break;
+	case G_TYPE_INT:
+		g_value_set_int (prop_value, strtol (str_val, NULL, 10));
+		return;
+	case G_TYPE_UINT:
+		g_value_set_uint (prop_value, strtoul (str_val, NULL, 10));
+		return;
+	case G_TYPE_BOOLEAN: {
+		GnmValue *val = format_match_number (str_val, NULL, workbook_date_conv (state->wb));
+		gboolean b = FALSE;
+		if (val != NULL) {
+			gboolean err;
+			b = value_get_as_bool (val, &err);
+			value_release (val);
+		}
+		g_value_set_boolean (prop_value, b);
+		return;
+	}
+	}
+
+	if (t == GSF_TIMESTAMP_TYPE) {
+		dialog_doc_metadata_transform_str_to_timestamp (str_val, prop_value);
+	} else if (t == GSF_DOCPROP_VECTOR_TYPE) {
+		dialog_doc_metadata_transform_str_to_docprop_vect (str_val, prop_value);
+	} else {
+		g_printerr (_("Transform function of G_TYPE_STRING to %s is required!\n"),
+			    g_type_name (t));
 	}
 }
 
@@ -1645,19 +1568,57 @@ dialog_doc_metadata_get_prop_val (G_GNUC_UNUSED DialogDocMetaData *state,
 {
 	GValue str_value = G_VALUE_INIT;
 	gboolean ret = FALSE;
+	GType t;
+	char *s;
 
 	g_return_val_if_fail (prop_value != NULL, NULL);
 
 	g_value_init (&str_value, G_TYPE_STRING);
+	t = G_VALUE_TYPE (prop_value);
+	switch (t) {
+	case G_TYPE_INT:
+	case G_TYPE_UINT:
+	case G_TYPE_STRING:
+		ret = g_value_transform (prop_value, &str_value);
+		break;
 
-	ret = g_value_transform (prop_value, &str_value);
+	case G_TYPE_BOOLEAN: {
+		gboolean b = g_value_get_boolean (prop_value);
+		g_value_set_string (&str_value, go_locale_boolean_name (b));
+		ret = TRUE;
+		break;
+	}
+
+	case G_TYPE_FLOAT:
+	case G_TYPE_DOUBLE: {
+		double d = (t == G_TYPE_FLOAT)
+			? g_value_get_float (prop_value)
+			: g_value_get_double (prop_value);
+		GString *res = g_string_new (NULL);
+		go_dtoa (res, "!g", d);
+		g_value_set_string (&str_value, res->str);
+		g_string_free (res, TRUE);
+		ret = TRUE;
+		break;
+	}
+	}
+
+	if (t == GSF_TIMESTAMP_TYPE) {
+		dialog_doc_metadata_transform_timestamp_to_str (prop_value, &str_value);
+		ret = TRUE;
+	} else if (t == GSF_DOCPROP_VECTOR_TYPE) {
+		dialog_doc_metadata_transform_docprop_vect_to_str (prop_value, &str_value);
+		ret = TRUE;
+	}
 
 	if (ret == FALSE) {
 		g_warning ("Metadata tag '%s' holds unrecognized value type.", prop_name);
 		return NULL;
 	}
 
-	return g_value_dup_string (&str_value);
+	s = g_value_dup_string (&str_value);
+	g_value_unset (&str_value);
+	return s;
 }
 
 /**
@@ -1890,7 +1851,7 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 						      G_TYPE_STRING,
 						      G_TYPE_STRING,
 						      G_TYPE_BOOLEAN,
-						      G_TYPE_INT);
+						      G_TYPE_GTYPE);
 
 	gtk_tree_view_set_model (state->properties,
 				 GTK_TREE_MODEL (state->properties_store));
@@ -2338,40 +2299,6 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 	g_signal_connect (selection,
 			  "changed",
 			  G_CALLBACK (cb_dialog_doc_metadata_selection_changed), state);
-
-
-	/* Register g_value_transform functions */
-	g_value_register_transform_func (G_TYPE_STRING,
-					 GSF_TIMESTAMP_TYPE,
-					 dialog_doc_metadata_transform_str_to_timestamp);
-
-	g_value_register_transform_func (G_TYPE_STRING,
-					 G_TYPE_FLOAT,
-					 dialog_doc_metadata_transform_str_to_float);
-
-	g_value_register_transform_func (G_TYPE_STRING,
-					 GSF_DOCPROP_VECTOR_TYPE,
-					 dialog_doc_metadata_transform_str_to_docprop_vect);
-
-	g_value_register_transform_func (G_TYPE_STRING,
-					 G_TYPE_BOOLEAN,
-					 dialog_doc_metadata_transform_str_to_boolean);
-
-	g_value_register_transform_func (GSF_TIMESTAMP_TYPE,
-					 G_TYPE_STRING,
-					 dialog_doc_metadata_transform_timestamp_to_str);
-
-	g_value_register_transform_func (GSF_DOCPROP_VECTOR_TYPE,
-					 G_TYPE_STRING,
-					 dialog_doc_metadata_transform_docprop_vect_to_str);
-
-	g_value_register_transform_func (G_TYPE_FLOAT,
-					 G_TYPE_STRING,
-					 dialog_doc_metadata_transform_float_to_str);
-
-	g_value_register_transform_func (G_TYPE_BOOLEAN,
-					 G_TYPE_STRING,
-					 dialog_doc_metadata_transform_boolean_to_str);
 
 	for (i = 0; page_info[i].page > -1; i++) {
 		const page_info_t *this_page =  &page_info[i];

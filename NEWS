@@ -30,6 +30,7 @@ Morten:
 	* Fix global name parsing problem with non-uniform sheet sizing.
 	* Avoid style dependency redraw during file load.
 	* Tend to dead kittens.
+	* Fix metadata dialog.  [#510]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47
