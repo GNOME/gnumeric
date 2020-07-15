@@ -1792,7 +1792,7 @@ gnm_cell_eval_content (GnmCell *cell)
 		char *str = gnm_expr_top_as_string
 			(cell->base.texpr,
 			 parse_pos_init_cell (&pp, cell),
-			 NULL);
+			 sheet_get_conventions (cell->base.sheet));
 		g_printerr ("{\nEvaluating %s!%s: %s;\n",
 			    cell->base.sheet->name_quoted, cell_name (cell),
 			    str);
@@ -3367,10 +3367,19 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 		g_hash_table_iter_init (&hiter, alldeps);
 		while (g_hash_table_iter_next (&hiter, &key, NULL)) {
 			GnmDependent *dep = key;
-			GString *str = g_string_new (NULL);
-			dependent_debug_name (dep, str);
-			g_printerr ("    %s\n", str->str);
-			g_string_free (str, TRUE);
+			GString *nstr = g_string_new (NULL);
+			GnmParsePos pp;
+			char *estr;
+
+			parse_pos_init_dep (&pp, dep);
+			estr = dep->texpr
+				? gnm_expr_top_as_string (dep->texpr, &pp, sheet_get_conventions (dep->sheet))
+				: g_strdup ("(null)");
+
+			dependent_debug_name (dep, nstr);
+			g_printerr ("    %s: %s\n", nstr->str, estr);
+			g_string_free (nstr, TRUE);
+			g_free (estr);
 		}
 	}
 
