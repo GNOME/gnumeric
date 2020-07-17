@@ -54,6 +54,8 @@ int       gnm_range_compare (GnmRange const *a, GnmRange const *b);
 				 ((x) >= (r)->start.col) && \
 				 ((x) <= (r)->end.col))
 
+void gnm_range_simplify (GArray *arr);
+
 /*
  * Quickly Test if a range is valid
  */

@@ -1279,3 +1279,66 @@ gnm_range_get_type (void)
 			 (GBoxedFreeFunc)g_free);
 	return t;
 }
+
+static gboolean
+merge_ranges (GnmRange *a, GnmRange const *b)
+{
+	if (a->start.row == b->start.row &&
+	    a->end.row == b->end.row &&
+	    a->end.col + 1 >= b->start.col) {
+		// "a" is just left of "b", possibly with overlap
+		a->end.col = MAX (a->end.col, b->end.col);
+		return TRUE;
+	}
+
+	if (a->start.col == b->start.col &&
+	    a->end.col == b->end.col &&
+	    a->end.row + 1 >= b->start.row) {
+		// "a" is just on top of "b", possibly with overlap
+		a->end.row = MAX (a->end.row, b->end.row);
+		return TRUE;
+	}
+
+	if (range_contained (b, a)) {
+		// "b" is inside "a"
+		return TRUE;
+	}
+
+	// Punt.
+	return FALSE;
+}
+
+static gboolean
+try_merge_pair (GArray *arr, unsigned ui1, unsigned ui2)
+{
+	GnmRange *ra = &g_array_index (arr, GnmRange, ui1);
+	GnmRange *rb = &g_array_index (arr, GnmRange, ui2);
+
+	if (merge_ranges (ra, rb)) {
+		g_array_remove_index (arr, ui2);
+		return TRUE;
+	} else
+		return FALSE;
+}
+
+/**
+ * gnm_range_simplify:
+ * @arr: (element-type GnmRange) (inout): array of ranges to simplify
+ *
+ * Simplifies the array of ranges by merging small ranges into larger ones.
+ */
+void
+gnm_range_simplify (GArray *arr)
+{
+	unsigned ui;
+
+	if (arr->len < 2)
+		return;
+
+	g_array_sort (arr, (GCompareFunc) gnm_range_compare);
+	// Two cheap passes through the ranges.
+	for (ui = arr->len - 1; ui > 0; ui--)
+		try_merge_pair (arr, ui - 1, ui);
+	for (ui = arr->len - 1; ui > 0; ui--)
+		try_merge_pair (arr, ui - 1, ui);
+}
