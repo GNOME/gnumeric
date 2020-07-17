@@ -55,7 +55,8 @@
 
 enum {
 	PROP_0,
-	PROP_RECALC_MODE
+	PROP_RECALC_MODE,
+	PROP_BEING_LOADED
 };
 enum {
 	SHEET_ORDER_CHANGED,
@@ -265,6 +266,9 @@ workbook_get_property (GObject *object, guint property_id,
 	case PROP_RECALC_MODE:
 		g_value_set_boolean (value, wb->recalc_auto);
 		break;
+	case PROP_BEING_LOADED:
+		g_value_set_boolean (value, wb->being_loaded);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -280,6 +284,9 @@ workbook_set_property (GObject *object, guint property_id,
 	switch (property_id) {
 	case PROP_RECALC_MODE:
 		workbook_set_recalcmode (wb, g_value_get_boolean (value));
+		break;
+	case PROP_BEING_LOADED:
+		wb->being_loaded = g_value_get_boolean (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -347,6 +354,14 @@ workbook_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("recalc-mode",
 				       P_("Recalc mode"),
 				       P_("Enable automatic recalculation."),
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+
+        g_object_class_install_property (gobject_class, PROP_BEING_LOADED,
+		 g_param_spec_boolean ("being-loaded",
+				       P_("Being loaded"),
+				       P_("Workbook is currently being loaded."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
