@@ -1,3 +1,9 @@
+2020-07-16  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnm_dialog_setup_destroy_handlers): Fix
+	potential 64-bit problem.
+	(cb_gnm_dialog_setup_destroy_handlers): Ditto.
+
 2020-07-12  Morten Welinder  <terra@gnome.org>
 
 	* src/sstest.c (test_recalc): New test for dependency tracking.

@@ -31,6 +31,7 @@ Morten:
 	* Avoid style dependency redraw during file load.
 	* Tend to dead kittens.
 	* Fix metadata dialog.  [#510]
+	* Fix potential 64-bit problem with signals.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47

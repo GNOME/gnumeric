@@ -1129,7 +1129,7 @@ cb_gnm_dialog_setup_destroy_handlers (G_GNUC_UNUSED GtkWidget *widget,
 
 	for (i = 0; i < (int)os->len; i += 2) {
 		GObject *obj = g_ptr_array_index (os, i);
-		guint s = GPOINTER_TO_UINT (g_ptr_array_index (os, i + 1));
+		gulong s = GPOINTER_TO_SIZE (g_ptr_array_index (os, i + 1));
 		g_signal_handler_disconnect (obj, s);
 	}
 
@@ -1156,33 +1156,33 @@ gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
 		what |= GNM_DIALOG_DESTROY_SHEET_REMOVED;
 
 	if (what & GNM_DIALOG_DESTROY_SHEET_REMOVED) {
-		guint s = g_signal_connect_swapped
+		gulong s = g_signal_connect_swapped
 			(G_OBJECT (wb),
 			 "sheet_deleted",
 			 G_CALLBACK (gtk_widget_destroy),
 			 dialog);
 		g_ptr_array_add (os, wb);
-		g_ptr_array_add (os, GUINT_TO_POINTER (s));
+		g_ptr_array_add (os, GSIZE_TO_POINTER (s));
 	}
 
 	if (what & GNM_DIALOG_DESTROY_SHEET_ADDED) {
-		guint s = g_signal_connect_swapped
+		gulong s = g_signal_connect_swapped
 			(G_OBJECT (wb),
 			 "sheet_added",
 			 G_CALLBACK (gtk_widget_destroy),
 			 dialog);
 		g_ptr_array_add (os, wb);
-		g_ptr_array_add (os, GUINT_TO_POINTER (s));
+		g_ptr_array_add (os, GSIZE_TO_POINTER (s));
 	}
 
 	if (what & GNM_DIALOG_DESTROY_SHEETS_REORDERED) {
-		guint s = g_signal_connect_swapped
+		gulong s = g_signal_connect_swapped
 			(G_OBJECT (wb),
 			 "sheet_order_changed",
 			 G_CALLBACK (gtk_widget_destroy),
 			 dialog);
 		g_ptr_array_add (os, wb);
-		g_ptr_array_add (os, GUINT_TO_POINTER (s));
+		g_ptr_array_add (os, GSIZE_TO_POINTER (s));
 	}
 
 	for (i = 0; i < N; i++) {
@@ -1191,13 +1191,13 @@ gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
 
 		if ((what & GNM_DIALOG_DESTROY_SHEET_RENAMED) ||
 		    (current && (what & GNM_DIALOG_DESTROY_CURRENT_SHEET_RENAMED))) {
-			guint s = g_signal_connect_swapped
+			gulong s = g_signal_connect_swapped
 				(G_OBJECT (this_sheet),
 				 "notify::name",
 				 G_CALLBACK (gtk_widget_destroy),
 				 dialog);
 			g_ptr_array_add (os, this_sheet);
-			g_ptr_array_add (os, GUINT_TO_POINTER (s));
+			g_ptr_array_add (os, GSIZE_TO_POINTER (s));
 		}
 	}
 
