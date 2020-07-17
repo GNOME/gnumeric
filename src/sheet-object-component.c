@@ -87,7 +87,6 @@ static GSF_CLASS (SOComponentGocView, so_component_goc_view,
 typedef struct {
 	SheetObject  base;
 	GOComponent	*component;
-	guint changed_signal;
 } SheetObjectComponent;
 typedef SheetObjectClass SheetObjectComponentClass;
 

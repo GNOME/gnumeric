@@ -274,7 +274,7 @@ cb_page_select (G_GNUC_UNUSED GtkNotebook *notebook,
 static void
 cb_notebook_destroy (GtkWidget *nb, gpointer page_sig_ptr)
 {
-	g_signal_handler_disconnect (nb, GPOINTER_TO_UINT (page_sig_ptr));
+	g_signal_handler_disconnect (nb, GPOINTER_TO_SIZE (page_sig_ptr));
 }
 
 /*
@@ -2276,7 +2276,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 		NULL
 	};
 
-	int page_signal;
+	gulong page_signal;
 	int i, selected;
 	char const *name;
 	gboolean has_back;
@@ -2325,7 +2325,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno, gint pages)
 		G_CALLBACK (cb_page_select), NULL);
 	g_signal_connect (G_OBJECT (state->notebook),
 		"destroy",
-		G_CALLBACK (cb_notebook_destroy), GINT_TO_POINTER (page_signal));
+		G_CALLBACK (cb_notebook_destroy), GSIZE_TO_POINTER (page_signal));
 
 	/* Setup border line pattern buttons & select the 1st button */
 	for (i = MSTYLE_BORDER_TOP; i < MSTYLE_BORDER_DIAGONAL; i++) {
