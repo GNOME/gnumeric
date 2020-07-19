@@ -2233,7 +2233,7 @@ cb_workbook_debug_info (WBCGtk *wbcg)
 	if (gnm_debug_flag ("expr-sharer")) {
 		GnmExprSharer *es = workbook_share_expressions (wb, FALSE);
 		gnm_expr_sharer_report (es);
-		gnm_expr_sharer_destroy (es);
+		gnm_expr_sharer_unref (es);
 	}
 
 	if (gnm_debug_flag ("style-optimize")) {

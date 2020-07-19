@@ -227,7 +227,7 @@ GnmValue *gnm_expr_top_eval_fake_array (GnmExprTop const *texpr,
 
 GType             gnm_expr_sharer_get_type (void);
 GnmExprSharer *   gnm_expr_sharer_new  (void);
-void              gnm_expr_sharer_destroy (GnmExprSharer *es);
+void              gnm_expr_sharer_unref (GnmExprSharer *es);
 GnmExprTop const *gnm_expr_sharer_share (GnmExprSharer *es, GnmExprTop const *texpr);
 void              gnm_expr_sharer_report (GnmExprSharer *es);
 

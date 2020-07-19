@@ -2712,7 +2712,7 @@ do_deps_destroy (Sheet *sheet)
 	 * are going to be deleted.  However, it is necessary to catch
 	 * all the different life cycles.
 	 */
-	gnm_named_expr_collection_free (sheet->names);
+	gnm_named_expr_collection_unref (sheet->names);
 	sheet->names = NULL;
 
 	deps = sheet->deps;
@@ -2923,7 +2923,7 @@ dependents_workbook_destroy (Workbook *wb)
 		g_hash_table_destroy (wb->sheet_order_dependents);
 		wb->sheet_order_dependents = NULL;
 	}
-	gnm_named_expr_collection_free (wb->names);
+	gnm_named_expr_collection_unref (wb->names);
 	wb->names = NULL;
 
 	WORKBOOK_FOREACH_SHEET (wb, sheet, do_deps_destroy (sheet););

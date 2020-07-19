@@ -3510,7 +3510,7 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 		g_slist_free (real_order);
 	}
 
-	gnm_expr_sharer_destroy (importer->expr_sharer);
+	gnm_expr_sharer_unref (importer->expr_sharer);
 
 	g_hash_table_destroy (importer->boundsheet_data_by_stream);
 	importer->boundsheet_data_by_stream = NULL;

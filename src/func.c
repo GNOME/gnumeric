@@ -172,7 +172,7 @@ split_at_colon (char const *s, char **rest)
 /* ------------------------------------------------------------------------- */
 
 static void
-gnm_func_group_free (GnmFuncGroup *fn_group)
+gnm_func_group_unref (GnmFuncGroup *fn_group)
 {
 	g_return_if_fail (fn_group != NULL);
 	g_return_if_fail (fn_group->functions == NULL);
@@ -200,7 +200,7 @@ gnm_func_group_get_type (void)
 	if (t == 0) {
 		t = g_boxed_type_register_static ("GnmFuncGroup",
 			 (GBoxedCopyFunc)gnm_func_group_ref,
-			 (GBoxedFreeFunc)gnm_func_group_free);
+			 (GBoxedFreeFunc)gnm_func_group_unref);
 	}
 	return t;
 }
@@ -283,7 +283,7 @@ gnm_func_group_remove_func (GnmFuncGroup *fn_group, GnmFunc *func)
 		categories = g_list_remove (categories, fn_group);
 		if (unknown_cat == fn_group)
 			unknown_cat = NULL;
-		gnm_func_group_free (fn_group);
+		gnm_func_group_unref (fn_group);
 	}
 }
 

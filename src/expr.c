@@ -2905,7 +2905,7 @@ gnm_expr_sharer_new (void)
 }
 
 void
-gnm_expr_sharer_destroy (GnmExprSharer *es)
+gnm_expr_sharer_unref (GnmExprSharer *es)
 {
 	if (!es || es->ref_count-- > 1)
 		return;
@@ -2928,7 +2928,7 @@ gnm_expr_sharer_get_type (void)
 	if (t == 0) {
 		t = g_boxed_type_register_static ("GnmExprSharer",
 			 (GBoxedCopyFunc)gnm_expr_sharer_ref,
-			 (GBoxedFreeFunc)gnm_expr_sharer_destroy);
+			 (GBoxedFreeFunc)gnm_expr_sharer_unref);
 	}
 	return t;
 }

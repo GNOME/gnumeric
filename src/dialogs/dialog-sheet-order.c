@@ -1359,7 +1359,7 @@ dialog_sheet_order_changed (SheetManager *state)
 		cmd_reorganize_sheets (wbc, old_state, NULL);
 		update_undo (state, wbc);
 	} else
-		workbook_sheet_state_free (old_state);
+		workbook_sheet_state_unref (old_state);
 
 	workbook_signals_unblock (state);
 }

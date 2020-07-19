@@ -4800,9 +4800,9 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 	CmdReorganizeSheets *me = CMD_REORGANIZE_SHEETS (cmd);
 
 	if (me->old)
-		workbook_sheet_state_free (me->old);
+		workbook_sheet_state_unref (me->old);
 	if (me->new)
-		workbook_sheet_state_free (me->new);
+		workbook_sheet_state_unref (me->new);
 
 	gnm_command_finalize (cmd);
 }

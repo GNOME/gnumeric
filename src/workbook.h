@@ -90,7 +90,7 @@ void workbook_detach_view (WorkbookView *wbv);
 
 GType workbook_sheet_state_get_type (void);
 WorkbookSheetState *workbook_sheet_state_new (Workbook const *wb);
-void workbook_sheet_state_free (WorkbookSheetState *wss);
+void workbook_sheet_state_unref (WorkbookSheetState *wss);
 void workbook_sheet_state_restore (Workbook *wb, WorkbookSheetState const *wss);
 int workbook_sheet_state_size	(WorkbookSheetState const *wss);
 char *workbook_sheet_state_diff (WorkbookSheetState const *wss_a,

@@ -777,7 +777,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 				 workbook_sheet_state_new (wb),
 				 (GOUndoBinaryFunc)workbook_sheet_state_restore,
 				 NULL,
-				 (GFreeFunc)workbook_sheet_state_free);
+				 (GFreeFunc)workbook_sheet_state_unref);
 			undo = go_undo_combine (undo, undo_report);
 
 			create_report (sol, state);
@@ -787,7 +787,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 				 workbook_sheet_state_new (wb),
 				 (GOUndoBinaryFunc)workbook_sheet_state_restore,
 				 NULL,
-				 (GFreeFunc)workbook_sheet_state_free);
+				 (GFreeFunc)workbook_sheet_state_unref);
 			redo = go_undo_combine (redo, redo_report);
 		}
 

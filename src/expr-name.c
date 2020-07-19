@@ -221,7 +221,7 @@ gnm_named_expr_collection_new (void)
 }
 
 /**
- * gnm_named_expr_collection_free:
+ * gnm_named_expr_collection_unref:
  * @names: The collection of names
  *
  * Frees names defined in the local scope.
@@ -232,7 +232,7 @@ gnm_named_expr_collection_new (void)
  *           to sheet1.  That will remain!
  **/
 void
-gnm_named_expr_collection_free (GnmNamedExprCollection *names)
+gnm_named_expr_collection_unref (GnmNamedExprCollection *names)
 {
 	if (names != NULL && names->ref_count-- < 2) {
 		g_hash_table_destroy (names->names);
@@ -326,7 +326,7 @@ gnm_named_expr_collection_get_type (void)
 	if (t == 0) {
 		t = g_boxed_type_register_static ("GnmNamedExprCollection",
 			 (GBoxedCopyFunc)gnm_named_expr_collection_ref,
-			 (GBoxedFreeFunc)gnm_named_expr_collection_free);
+			 (GBoxedFreeFunc)gnm_named_expr_collection_unref);
 	}
 	return t;
 }

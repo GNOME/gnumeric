@@ -14253,7 +14253,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	if (state.openformula_handlermap)
 		g_hash_table_destroy (state.openformula_handlermap);
 	g_object_unref (contents);
-	gnm_expr_sharer_destroy (state.sharer);
+	gnm_expr_sharer_unref (state.sharer);
 	g_free (state.chart.cs_enhanced_path);
 	g_free (state.chart.cs_modifiers);
 	g_free (state.chart.cs_viewbox);

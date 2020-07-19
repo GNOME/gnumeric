@@ -690,7 +690,7 @@ workbook_share_expressions (Workbook *wb, gboolean freeit)
 	}
 
 	if (freeit) {
-		gnm_expr_sharer_destroy (es);
+		gnm_expr_sharer_unref (es);
 		es = NULL;
 	}
 
@@ -1482,7 +1482,7 @@ workbook_sheet_state_new (const Workbook *wb)
 }
 
 void
-workbook_sheet_state_free (WorkbookSheetState *wss)
+workbook_sheet_state_unref (WorkbookSheetState *wss)
 {
 	int i;
 
@@ -1515,7 +1515,7 @@ workbook_sheet_state_get_type (void)
 	if (t == 0) {
 		t = g_boxed_type_register_static ("WorkbookSheetState",
 			 (GBoxedCopyFunc)workbook_sheet_state_ref,
-			 (GBoxedFreeFunc)workbook_sheet_state_free);
+			 (GBoxedFreeFunc)workbook_sheet_state_unref);
 	}
 	return t;
 }

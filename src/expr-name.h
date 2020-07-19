@@ -67,7 +67,7 @@ GOUndo *expr_name_set_expr_undo_new (GnmNamedExpr *nexpr);
 
 GType gnm_named_expr_collection_get_type (void);
 GnmNamedExprCollection *gnm_named_expr_collection_new (void);
-void gnm_named_expr_collection_free (GnmNamedExprCollection *names);
+void gnm_named_expr_collection_unref (GnmNamedExprCollection *names);
 void gnm_named_expr_collection_unlink (GnmNamedExprCollection *names);
 void gnm_named_expr_collection_relink (GnmNamedExprCollection *names);
 void gnm_named_expr_collection_foreach (GnmNamedExprCollection *names,
