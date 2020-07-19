@@ -2616,21 +2616,20 @@ static void
 xlsx_cond_fmt_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmStyle *style = NULL;
-	GSList   *ptr;
 
 	if (NULL != state->conditions) {
-		style = gnm_style_new ();
+		GSList   *ptr;
+		GnmStyle *style = gnm_style_new ();
 		gnm_style_set_conditions (style, state->conditions);
 		for (ptr = state->cond_regions ; ptr != NULL ; ptr = ptr->next) {
+			GnmRange *r = ptr->data;
 			gnm_style_ref (style);
-			sheet_style_apply_range	(state->sheet, ptr->data, style);
-			g_free (ptr->data);
+			sheet_style_apply_range	(state->sheet, r, style);
 		}
 		gnm_style_unref (style);
-	} else for (ptr = state->cond_regions ; ptr != NULL ; ptr = ptr->next)
-		g_free (ptr->data);
-	g_slist_free (state->cond_regions);
+		state->conditions = NULL;
+	}
+	g_slist_free_full (state->cond_regions, g_free);
 	state->cond_regions = NULL;
 }
 
