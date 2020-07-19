@@ -1062,15 +1062,6 @@ gnm_style_link (GnmStyle *style)
 }
 
 void
-gnm_style_link_multiple (GnmStyle *style, int count)
-{
-	g_return_if_fail (style->link_count > 0);
-
-	style->link_count += count;
-	d(("multiple link %p + %d = %d\n", style, count, style->link_count));
-}
-
-void
 gnm_style_unlink (GnmStyle *style)
 {
 	g_return_if_fail (style->link_count > 0);

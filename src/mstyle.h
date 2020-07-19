@@ -72,7 +72,6 @@ void        gnm_style_unref         (GnmStyle const *style);
 
 GnmStyle   *gnm_style_link_sheet    (GnmStyle *style, Sheet *sheet);
 void        gnm_style_link          (GnmStyle *style);
-void        gnm_style_link_multiple (GnmStyle *style, int count);
 void        gnm_style_unlink        (GnmStyle *style);
 void        gnm_style_abandon_link  (GnmStyle *style);
 
