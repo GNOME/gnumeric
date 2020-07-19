@@ -131,25 +131,40 @@ gnm_style_cond_new (GnmStyleCondOp op, Sheet *sheet)
 }
 
 /**
- * gnm_style_cond_dup:
+ * gnm_style_cond_dup_to:
  * @src: #GnmStyleCond
+ * @sheet: Sheet that the duplicate should live on
  *
  * Returns: (transfer full): the newly allocated #GnmStyleCond.
  **/
-GnmStyleCond *
-gnm_style_cond_dup (GnmStyleCond const *src)
+static GnmStyleCond *
+gnm_style_cond_dup_to (GnmStyleCond const *src, Sheet *sheet)
 {
 	GnmStyleCond *dst;
 	unsigned ui;
 
 	g_return_val_if_fail (src != NULL, NULL);
 
-	dst = gnm_style_cond_new (src->op, gnm_style_cond_get_sheet (src));
+	dst = gnm_style_cond_new (src->op, sheet);
 	gnm_style_cond_set_overlay (dst, src->overlay);
 	for (ui = 0; ui < 2; ui++)
 		gnm_style_cond_set_expr (dst, dependent_managed_get_expr (&src->deps[ui]), ui);
 
 	return dst;
+}
+
+/**
+ * gnm_style_cond_dup:
+ * @src: #GnmStyleCond
+ *
+ * Returns: (transfer full): the newly allocated #GnmStyleCond.
+ **/
+static GnmStyleCond *
+gnm_style_cond_dup (GnmStyleCond const *src)
+{
+	g_return_val_if_fail (src != NULL, NULL);
+
+	return gnm_style_cond_dup_to (src, gnm_style_cond_get_sheet (src));
 }
 
 void
@@ -192,18 +207,6 @@ gnm_style_cond_get_sheet (GnmStyleCond const *cond)
 {
 	g_return_val_if_fail (cond != NULL, NULL);
 	return cond->deps[0].base.sheet;
-}
-
-void
-gnm_style_cond_set_sheet (GnmStyleCond *cond, Sheet *sheet)
-{
-	int ui;
-
-	g_return_if_fail (cond != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	for (ui = 0; ui < 2; ui++)
-		dependent_managed_set_sheet (&cond->deps[ui], sheet);
 }
 
 /**
@@ -732,6 +735,36 @@ gnm_style_conditions_new (Sheet *sheet)
 }
 
 /**
+ * gnm_style_conditions_dup_to:
+ * @sc: (nullable): the #GnmStyleConditions to duplicate.
+ * @sheet: Sheet that the duplicate should live on
+ *
+ * Returns: (transfer full) (nullable): the duplicated #GnmStyleConditions.
+ **/
+GnmStyleConditions *
+gnm_style_conditions_dup_to (GnmStyleConditions const *sc, Sheet *sheet)
+{
+	GnmStyleConditions *dup;
+	GPtrArray const *ga;
+	if (sc == NULL)
+		return NULL;
+
+	dup = gnm_style_conditions_new (sheet);
+	ga = gnm_style_conditions_details (sc);
+	if (ga != NULL) {
+		guint i;
+		GPtrArray *ga_dup = g_ptr_array_sized_new (ga->len);
+		for (i = 0; i < ga->len; i++) {
+			GnmStyleCond *cond = g_ptr_array_index (ga, i);
+			g_ptr_array_add (ga_dup, gnm_style_cond_dup_to (cond, sheet));
+		}
+		dup->conditions = ga_dup;
+	}
+	return dup;
+}
+
+
+/**
  * gnm_style_conditions_dup:
  * @sc: (nullable): the #GnmStyleConditions to duplicate.
  *
@@ -740,23 +773,9 @@ gnm_style_conditions_new (Sheet *sheet)
 GnmStyleConditions *
 gnm_style_conditions_dup (GnmStyleConditions const *sc)
 {
-	GnmStyleConditions *dup;
-	GPtrArray const *ga;
-	if (sc == NULL)
-		return NULL;
-
-	dup = gnm_style_conditions_new (gnm_style_conditions_get_sheet (sc));
-	ga = gnm_style_conditions_details (sc);
-	if (ga != NULL) {
-		guint i;
-		GPtrArray *ga_dup = g_ptr_array_sized_new (ga->len);
-		for (i = 0; i < ga->len; i++) {
-			GnmStyleCond *cond = g_ptr_array_index (ga, i);
-			g_ptr_array_add (ga_dup, gnm_style_cond_dup (cond));
-		}
-		dup->conditions = ga_dup;
-	}
-	return dup;
+	return sc
+		? gnm_style_conditions_dup_to (sc, gnm_style_conditions_get_sheet (sc))
+		: NULL;
 }
 
 #define MIX(H) do {				\
@@ -845,24 +864,6 @@ gnm_style_conditions_get_sheet (GnmStyleConditions const *sc)
 	g_return_val_if_fail (sc != NULL, NULL);
 	return sc->sheet;
 }
-
-void
-gnm_style_conditions_set_sheet (GnmStyleConditions *sc, Sheet *sheet)
-{
-	GPtrArray const *ga;
-	unsigned ui;
-
-	g_return_if_fail (sc != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	sc->sheet = sheet;
-	ga = gnm_style_conditions_details (sc);
-	for (ui = 0; ga && ui < ga->len; ui++) {
-		GnmStyleCond *cond = g_ptr_array_index (ga, ui);
-		gnm_style_cond_set_sheet (cond, sheet);
-	}
-}
-
 
 /**
  * gnm_style_conditions_details:

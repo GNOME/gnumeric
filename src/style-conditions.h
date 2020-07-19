@@ -45,7 +45,6 @@ typedef struct {
 GType         gnm_style_cond_get_type (void);
 GnmStyleCond *gnm_style_cond_new (GnmStyleCondOp op, Sheet *sheet);
 void gnm_style_cond_free (GnmStyleCond *cond);
-GnmStyleCond *gnm_style_cond_dup (GnmStyleCond const *src);
 gboolean      gnm_style_cond_is_valid (GnmStyleCond const *cond);
 
 void          gnm_style_cond_set_overlay (GnmStyleCond *cond,
@@ -61,11 +60,11 @@ GnmExprTop const *gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond);
 void gnm_style_cond_canonicalize (GnmStyleCond *cond);
 
 Sheet      *gnm_style_cond_get_sheet (GnmStyleCond const *cond);
-void        gnm_style_cond_set_sheet (GnmStyleCond *cond, Sheet *sheet);
 
 GType         gnm_style_conditions_get_type (void);
 GnmStyleConditions *gnm_style_conditions_new  (Sheet *sheet);
 GnmStyleConditions *gnm_style_conditions_dup  (GnmStyleConditions const *sc);
+GnmStyleConditions *gnm_style_conditions_dup_to (GnmStyleConditions const *sc, Sheet *sheet);
 GPtrArray const *gnm_style_conditions_details (GnmStyleConditions const *sc);
 void	      gnm_style_conditions_insert  (GnmStyleConditions *sc,
 					    GnmStyleCond const *cond,
@@ -78,8 +77,6 @@ int	      gnm_style_conditions_eval    (GnmStyleConditions const *sc,
 					    GnmEvalPos const *pos);
 
 Sheet      *gnm_style_conditions_get_sheet (GnmStyleConditions const *sc);
-void        gnm_style_conditions_set_sheet (GnmStyleConditions *sc,
-					    Sheet *sheet);
 
 guint32     gnm_style_conditions_hash      (GnmStyleConditions const *sc);
 

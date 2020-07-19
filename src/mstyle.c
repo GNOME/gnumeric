@@ -1000,8 +1000,7 @@ gnm_style_linked_sheet_changed (GnmStyle *style)
 	if (elem_is_set (style, MSTYLE_CONDITIONS) &&
 	    style->conditions &&
 	    gnm_style_conditions_get_sheet (style->conditions) != sheet) {
-		GnmStyleConditions *new_c = gnm_style_conditions_dup (style->conditions);
-		gnm_style_conditions_set_sheet (new_c, sheet);
+		GnmStyleConditions *new_c = gnm_style_conditions_dup_to (style->conditions, sheet);
 		gnm_style_set_conditions (style, new_c);
 	}
 }
