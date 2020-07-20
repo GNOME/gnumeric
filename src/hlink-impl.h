@@ -16,7 +16,6 @@ typedef struct {
 	GObjectClass obj;
 
 	gboolean (*Activate) (GnmHLink *lnk, WBCGtk *wbcg);
-	void (*set_sheet) (GnmHLink *lnk, Sheet *sheet);
 	void (*set_target) (GnmHLink *lnk, const char *target);
 	const char * (*get_target) (GnmHLink const *lnk);
 } GnmHLinkClass;

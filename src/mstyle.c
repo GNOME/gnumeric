@@ -991,8 +991,7 @@ gnm_style_linked_sheet_changed (GnmStyle *style)
 	if (elem_is_set (style, MSTYLE_HLINK) &&
 	    style->hlink &&
 	    gnm_hlink_get_sheet (style->hlink) != sheet) {
-		GnmHLink *new_l = gnm_hlink_dup (style->hlink);
-		gnm_hlink_set_sheet (new_l, sheet);
+		GnmHLink *new_l = gnm_hlink_dup_to (style->hlink, sheet);
 		gnm_style_set_hlink (style, new_l);
 	}
 

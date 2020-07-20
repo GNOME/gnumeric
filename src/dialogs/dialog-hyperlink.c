@@ -382,13 +382,13 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 	wb_control_sheet_focus (GNM_WBC (state->wbcg), state->sheet);
 
 	if (target) {
-		gnm_hlink_set_sheet (state->link, state->sheet);
-		gnm_hlink_set_target (state->link, target);
+		GnmHLink *new_link = gnm_hlink_dup_to (state->link, state->sheet);
+		gnm_hlink_set_target (new_link, target);
 		tip = dhl_get_tip (state, target);
-		gnm_hlink_set_tip (state->link, tip);
+		gnm_hlink_set_tip (new_link, tip);
 		g_free (tip);
 		style = gnm_style_new ();
-		gnm_style_set_hlink (style, g_object_ref (state->link));
+		gnm_style_set_hlink (style, new_link);
 		gnm_style_set_font_uline (style, UNDERLINE_SINGLE);
 		gnm_style_set_font_color (style, gnm_color_new_go (GO_COLOR_BLUE));
 

@@ -20,7 +20,7 @@ GnmHLink	*gnm_sheet_hlink_find   (Sheet const *sheet, GnmCellPos const *pos);
 GType gnm_hlink_get_type (void);
 
 GnmHLink *gnm_hlink_new (GType typ, Sheet *sheet);
-GnmHLink *gnm_hlink_dup (GnmHLink *lnk);
+GnmHLink *gnm_hlink_dup_to (GnmHLink *lnk, Sheet *sheet);
 
 gboolean  gnm_hlink_equal (GnmHLink const *a, GnmHLink const *b, gboolean relax_sheet);
 
@@ -33,7 +33,6 @@ const char	*gnm_hlink_get_tip    (GnmHLink const *lnk);
 void		 gnm_hlink_set_tip    (GnmHLink *lnk, gchar const *tip);
 
 Sheet *gnm_hlink_get_sheet (GnmHLink *lnk);
-void gnm_hlink_set_sheet (GnmHLink *lnk, Sheet *sheet);
 
 GType gnm_hlink_cur_wb_get_type (void);
 GType gnm_hlink_url_get_type (void);

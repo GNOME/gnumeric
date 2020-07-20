@@ -39,10 +39,16 @@
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gnm-i18n.h>
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GNM_HLINK_TYPE, GnmHLinkClass)
 
 static GObjectClass *gnm_hlink_parent_class;
+
+enum {
+	PROP_0,
+	PROP_SHEET,
+};
 
 /*
  * WARNING WARNING WARNING
@@ -93,12 +99,6 @@ gnm_hlink_finalize (GObject *obj)
 }
 
 static void
-gnm_hlink_base_set_sheet (GnmHLink *lnk, Sheet *sheet)
-{
-	lnk->sheet = sheet;
-}
-
-static void
 gnm_hlink_base_set_target (GnmHLink *lnk, gchar const *target)
 {
 	gchar *tmp = g_strdup (target);
@@ -113,6 +113,24 @@ gnm_hlink_base_get_target (GnmHLink const *lnk)
 }
 
 static void
+gnm_hlink_base_set_property (GObject *object, guint property_id,
+			     GValue const *value, GParamSpec *pspec)
+{
+	GnmHLink *hlink = (GnmHLink *)object;
+
+	switch (property_id) {
+	case PROP_SHEET:
+		// Construction-time only
+		hlink->sheet = g_value_get_object (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+
+static void
 gnm_hlink_class_init (GObjectClass *object_class)
 {
 	GnmHLinkClass *hlink_class = (GnmHLinkClass *)object_class;
@@ -120,7 +138,16 @@ gnm_hlink_class_init (GObjectClass *object_class)
 	gnm_hlink_parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->finalize = gnm_hlink_finalize;
-	hlink_class->set_sheet = gnm_hlink_base_set_sheet;
+	object_class->set_property = gnm_hlink_base_set_property;
+	g_object_class_install_property (object_class, PROP_SHEET,
+		g_param_spec_object ("sheet",
+				     P_("Parent sheet"),
+				     P_("The sheet in which the link lives"),
+				     GNM_SHEET_TYPE,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_WRITABLE |
+				     G_PARAM_CONSTRUCT_ONLY));
+
 	hlink_class->set_target = gnm_hlink_base_set_target;
 	hlink_class->get_target = gnm_hlink_base_get_target;
 }
@@ -196,40 +223,29 @@ gnm_hlink_get_sheet (GnmHLink *lnk)
 	return lnk->sheet;
 }
 
-void
-gnm_hlink_set_sheet (GnmHLink *lnk, Sheet *sheet)
-{
-	g_return_if_fail (GNM_IS_HLINK (lnk));
-	GET_CLASS (lnk)->set_sheet (lnk, sheet);
-}
-
 GnmHLink *
 gnm_hlink_new (GType typ, Sheet *sheet)
 {
-	GnmHLink *lnk;
-
 	g_return_val_if_fail (typ != 0, NULL);
 	g_return_val_if_fail (g_type_is_a (typ, GNM_HLINK_TYPE), NULL);
 	g_return_val_if_fail (!G_TYPE_IS_ABSTRACT (typ), NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	lnk = g_object_new (typ, NULL);
-	gnm_hlink_set_sheet (lnk, sheet);
-	return lnk;
+	return g_object_new (typ, "sheet", sheet, NULL);
 }
 
 /**
- * gnm_hlink_dup:
+ * gnm_hlink_dup_to:
  * @lnk: Existing link
+ * @sheet: target sheet
  *
  * Returns: (transfer full): A duplicate link.
  */
 GnmHLink *
-gnm_hlink_dup (GnmHLink *lnk)
+gnm_hlink_dup_to (GnmHLink *lnk, Sheet *sheet)
 {
-	GnmHLink *new_lnk = g_object_new (G_OBJECT_TYPE (lnk), NULL);
+	GnmHLink *new_lnk = gnm_hlink_new (G_OBJECT_TYPE (lnk), sheet);
 
-	gnm_hlink_set_sheet (new_lnk, lnk->sheet);
 	gnm_hlink_set_target (new_lnk, gnm_hlink_get_target (lnk));
 	gnm_hlink_set_tip (new_lnk, lnk->tip);
 
@@ -302,15 +318,6 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WBCGtk *wbcg)
 }
 
 static void
-gnm_hlink_cur_wb_set_sheet (GnmHLink *lnk, Sheet *sheet)
-{
-	GnmHLinkCurWB *hlcwb = (GnmHLinkCurWB *)lnk;
-	((GnmHLinkClass*)gnm_hlink_cur_wb_parent_class)
-		->set_sheet (lnk, sheet);
-	dependent_managed_set_sheet (&hlcwb->dep, sheet);
-}
-
-static void
 gnm_hlink_cur_wb_set_target (GnmHLink *lnk, const char *target)
 {
 	GnmHLinkCurWB *hlcwb = (GnmHLinkCurWB *)lnk;
@@ -339,6 +346,7 @@ gnm_hlink_cur_wb_set_target (GnmHLink *lnk, const char *target)
 		}
 	}
 
+	dependent_managed_set_sheet (&hlcwb->dep, lnk->sheet);
 	dependent_managed_set_expr (&hlcwb->dep, texpr);
 	if (texpr)
 		gnm_expr_top_unref (texpr);
@@ -394,7 +402,6 @@ gnm_hlink_cur_wb_class_init (GObjectClass *object_class)
 
 	object_class->finalize = gnm_hlink_cur_wb_finalize;
 	hlink_class->Activate = gnm_hlink_cur_wb_activate;
-	hlink_class->set_sheet = gnm_hlink_cur_wb_set_sheet;
 	hlink_class->set_target = gnm_hlink_cur_wb_set_target;
 	hlink_class->get_target = gnm_hlink_cur_wb_get_target;
 }
