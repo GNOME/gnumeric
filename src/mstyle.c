@@ -984,8 +984,7 @@ gnm_style_linked_sheet_changed (GnmStyle *style)
 	if (elem_is_set (style, MSTYLE_VALIDATION) &&
 	    style->validation &&
 	    gnm_validation_get_sheet (style->validation) != sheet) {
-		GnmValidation *new_v = gnm_validation_dup (style->validation);
-		gnm_validation_set_sheet (new_v, sheet);
+		GnmValidation *new_v = gnm_validation_dup_to (style->validation, sheet);
 		gnm_style_set_validation (style, new_v);
 	}
 
