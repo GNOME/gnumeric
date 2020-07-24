@@ -153,21 +153,18 @@ void dependent_managed_set_sheet (GnmDepManaged *dep, Sheet *sheet);
 	}							\
   } while (0)
 
-#define DEPENDENT_MAKE_TYPE(t, set_expr_handler)		\
-guint								\
-t ## _get_dep_type (void)					\
-{								\
-	static guint32 type = 0;				\
-	if (type == 0) {					\
-		static GnmDependentClass klass;			\
-		klass.eval	 = &t ## _eval;			\
-		klass.set_expr	 = set_expr_handler;		\
-		klass.changed	 = NULL;			\
-		klass.pos	 = NULL;			\
-		klass.debug_name = &t ## _debug_name;		\
-		type = dependent_type_register (&klass);	\
-	}							\
-	return type;						\
+#define DEPENDENT_MAKE_TYPE(t,...)					\
+guint									\
+t ## _get_dep_type (void)						\
+{									\
+	static guint32 type = 0;					\
+	if (type == 0) {						\
+		static GnmDependentClass klass = { __VA_ARGS__ };	\
+		klass.eval	 = &t ## _eval;				\
+		klass.debug_name = &t ## _debug_name;			\
+		type = dependent_type_register (&klass);		\
+	}								\
+	return type;							\
 }
 
 void dependent_debug_name (GnmDependent const *dep, GString *target);

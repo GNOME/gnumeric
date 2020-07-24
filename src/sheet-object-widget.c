@@ -866,7 +866,7 @@ button_debug_name (GnmDependent const *dep, GString *target)
 	g_string_append_printf (target, "Button%p", (void *)dep);
 }
 
-static DEPENDENT_MAKE_TYPE (button, NULL)
+static DEPENDENT_MAKE_TYPE (button, .eval = button_eval, .debug_name = button_debug_name )
 
 static void
 sheet_widget_button_init_full (SheetWidgetButton *swb,
@@ -1412,7 +1412,7 @@ adjustment_debug_name (GnmDependent const *dep, GString *target)
 	g_string_append_printf (target, "Adjustment%p", (void *)dep);
 }
 
-static DEPENDENT_MAKE_TYPE (adjustment, NULL)
+static DEPENDENT_MAKE_TYPE (adjustment, .eval = adjustment_eval, .debug_name = adjustment_debug_name )
 
 static void
 cb_adjustment_widget_value_changed (GtkWidget *widget,
@@ -2328,7 +2328,7 @@ checkbox_debug_name (GnmDependent const *dep, GString *target)
 	g_string_append_printf (target, "Checkbox%p", (void *)dep);
 }
 
-static DEPENDENT_MAKE_TYPE (checkbox, NULL)
+static DEPENDENT_MAKE_TYPE (checkbox, .eval = checkbox_eval, .debug_name = checkbox_debug_name)
 
 static void
 sheet_widget_checkbox_init_full (SheetWidgetCheckbox *swc,
@@ -2920,7 +2920,7 @@ radio_button_debug_name (GnmDependent const *dep, GString *target)
 	g_string_append_printf (target, "RadioButton%p", (void *)dep);
 }
 
-static DEPENDENT_MAKE_TYPE (radio_button, NULL)
+static DEPENDENT_MAKE_TYPE (radio_button, .eval = radio_button_eval, .debug_name = radio_button_debug_name)
 
 static void
 sheet_widget_radio_button_init_full (SheetWidgetRadioButton *swrb,
@@ -3536,7 +3536,7 @@ list_output_debug_name (GnmDependent const *dep, GString *target)
 	g_string_append_printf (target, "ListOutput%p", (void *)dep);
 }
 
-static DEPENDENT_MAKE_TYPE (list_output, NULL)
+static DEPENDENT_MAKE_TYPE (list_output, .eval = list_output_eval, .debug_name = list_output_debug_name)
 
 /*-----------*/
 static GnmValue *
@@ -3589,7 +3589,7 @@ list_content_debug_name (GnmDependent const *dep, GString *target)
 	g_string_append_printf (target, "ListContent%p", (void *)dep);
 }
 
-static DEPENDENT_MAKE_TYPE (list_content, NULL)
+static DEPENDENT_MAKE_TYPE (list_content, .eval = list_content_eval, .debug_name = list_content_debug_name)
 
 /*-----------*/
 
