@@ -3173,12 +3173,18 @@ dependent_debug_name_for_sheet (GnmDependent const *dep, Sheet *sheet,
 	t = dependent_type (dep);
 	klass = g_ptr_array_index (dep_classes, t);
 	klass->debug_name (dep, target);
+
+	if (dependent_has_pos (dep) && !dependent_is_cell (dep)) {
+		g_string_append_c (target, '@');
+		g_string_append (target, cellpos_as_string (dependent_pos (dep)));
+	}
 }
 
 
 /**
  * dependent_debug_name:
  * @dep: The dependent we are interested in.
+ * @target: (inout): location to append @dep's name.
  *
  * A useful little debugging utility.
  */

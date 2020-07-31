@@ -1241,6 +1241,7 @@ gnm_style_cmp (GnmStyle const *a, GnmStyle const *b)
 	return a < b ? -1 : +1;
 }
 
+#undef CMP_TRY_NUMBER_RAW
 #undef CMP_TRY_NUMBER
 #undef CMP_TRY_COLOR
 
@@ -2252,7 +2253,7 @@ gnm_style_get_input_msg (GnmStyle const *style)
 /**
  * gnm_style_set_conditions:
  * @style: #GnmStyle to change
- * @sc: (transfer full): #GnmStyleConditions
+ * @sc: (transfer full) (nullable): #GnmStyleConditions
  *
  * This sets conditional style for @style.
  **/
