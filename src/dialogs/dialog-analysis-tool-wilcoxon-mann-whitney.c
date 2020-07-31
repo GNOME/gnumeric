@@ -52,12 +52,14 @@
 
 #define WILCOXON_MANN_WHITNEY_KEY "analysistools-principal-components-dialog"
 
+#if 0
 static char const * const grouped_by_group[] = {
 	"grouped_by_row",
 	"grouped_by_col",
 	"grouped_by_area",
 	NULL
 };
+#endif
 
 static void
 wilcoxon_mann_whitney_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,

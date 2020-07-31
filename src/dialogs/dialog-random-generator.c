@@ -692,6 +692,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 				     &data->param.uniform.upper_limit, TRUE);
 		break;
 	}
+	(void)err;
 
 	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
 				state->base.sheet,

@@ -143,12 +143,11 @@ random_cor_tool_ok_clicked_cb (GtkWidget *button, RandomCorToolState *state)
 {
 	data_analysis_output_t  *dao;
 	tools_data_random_cor_t  *data;
-	gint err;
 
 	data = g_new0 (tools_data_random_cor_t, 1);
 
 	dao  = parse_output ((GnmGenericToolState *)state, NULL);
-	err = entry_to_int (GTK_ENTRY (state->count_entry), &data->count, FALSE);
+	(void)entry_to_int (GTK_ENTRY (state->count_entry), &data->count, FALSE);
 	data->matrix = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
