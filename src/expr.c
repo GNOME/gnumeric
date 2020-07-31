@@ -2738,7 +2738,7 @@ do_expr_walk (GnmExpr const *expr, GnmExprWalkerFunc walker, GnmExprWalk *data)
  * @walker: (scope call): callback for each sub-expression
  * @user: user data pointer
  *
- * Returns: (transfer full) (allow-none): transformed expression.
+ * Returns: (transfer full) (nullable): transformed expression.
  *
  * This function walks the expression and calls the walker function for
  * each subexpression.  If the walker returns a non-%NULL expression,
