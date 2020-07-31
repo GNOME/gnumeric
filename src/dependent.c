@@ -3288,6 +3288,7 @@ dump_dynamic_dep (GnmDependent *dep, DynamicDep *dyn, GHashTable *alldeps)
 /**
  * gnm_dep_container_dump:
  * @deps:
+ * @sheet:
  *
  * A useful utility for checking the state of the dependency data structures.
  */

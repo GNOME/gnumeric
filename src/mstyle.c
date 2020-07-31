@@ -2156,7 +2156,7 @@ gnm_style_get_contents_hidden (GnmStyle const *style)
 /**
  * gnm_style_set_validation:
  * @style: #GnmStyle to change
- * @v: (transfer full): #GnmValidation
+ * @v: (transfer full) (nullable): #GnmValidation
  **/
 void
 gnm_style_set_validation (GnmStyle *style, GnmValidation *v)
@@ -2173,7 +2173,7 @@ gnm_style_set_validation (GnmStyle *style, GnmValidation *v)
  * gnm_style_get_validation:
  * @style: #GnmStyle to query
  *
- * Returns: (transfer none):
+ * Returns: (transfer none) (nullable):
  **/
 GnmValidation const *
 gnm_style_get_validation (GnmStyle const *style)
@@ -2470,6 +2470,8 @@ add_attr (PangoAttrList *attrs, PangoAttribute *attr)
 /**
  * gnm_style_generate_attrs:
  * @style: style to query
+ * @context: the context for the attributes
+ * @zoom: zoom level
  *
  * Returns: (transfer full): a #PangoAttrList with attributes matching
  * @style.  Attributes where the default will serve are not included.
