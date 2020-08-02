@@ -13921,8 +13921,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	int i;
 	gboolean         content_malformed = FALSE;
 	GSList          *l;
-	int              max_rows = 0;
-	int              max_cols = 0;
+	int              max_rows = GNM_MIN_ROWS;
+	int              max_cols = GNM_MIN_COLS;
 
 	zip = gsf_infile_zip_new (input, &err);
 	if (zip == NULL) {
@@ -14133,9 +14133,11 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		sheet_order_t *sot;
 		gboolean perr = FALSE;
 		sot = (sheet_order_t *)(l->data);
-		if ((sot->cols < max_cols) || (sot->rows < max_rows))
-			g_object_unref (gnm_sheet_resize (sot->sheet, max_cols, max_rows,
-							  NULL, &perr));
+		if ((sot->cols < max_cols) || (sot->rows < max_rows)) {
+			GOUndo *undo = gnm_sheet_resize (sot->sheet, max_cols, max_rows,
+							  NULL, &perr);
+			if (undo) g_object_unref (undo);
+		}
 		l = l->next;
 	}
 
