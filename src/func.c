@@ -311,16 +311,16 @@ gnm_func_create_arg_names (GnmFunc *func)
 }
 
 gboolean
-gnm_func_is_varargs (GnmFunc *func)
+gnm_func_is_varargs (GnmFunc const *func)
 {
-	gnm_func_load_if_stub (func);
+	gnm_func_load_if_stub ((GnmFunc *)func);
 	return func->fn_type == GNM_FUNC_TYPE_NODES;
 }
 
 gboolean
-gnm_func_is_fixargs (GnmFunc *func)
+gnm_func_is_fixargs (GnmFunc const *func)
 {
-	gnm_func_load_if_stub (func);
+	gnm_func_load_if_stub ((GnmFunc *)func);
 	return func->fn_type == GNM_FUNC_TYPE_ARGS;
 }
 
@@ -410,7 +410,7 @@ gnm_func_set_fixargs (GnmFunc *func, GnmFuncArgs fn, const char *spec)
  * Returns: (transfer none) (array length=n) (nullable): @func's help items.
  */
 GnmFuncHelp const *
-gnm_func_get_help (GnmFunc *func, int *n)
+gnm_func_get_help (GnmFunc const *func, int *n)
 {
 	if (n) *n = 0;
 
@@ -621,7 +621,7 @@ gnm_func_lookup_prefix (char const *prefix, Workbook *scope, gboolean trans)
  * Returns: (transfer none): the translation domain for @func's help text.
  */
 char const *
-gnm_func_get_translation_domain (GnmFunc *func)
+gnm_func_get_translation_domain (GnmFunc const *func)
 {
 	g_return_val_if_fail (GNM_IS_FUNC (func), NULL);
 	return func->tdomain->str;
@@ -658,7 +658,7 @@ gnm_func_set_translation_domain (GnmFunc *func, const char *tdomain)
  * domain.
  */
 char const *
-gnm_func_gettext (GnmFunc *func, const char *str)
+gnm_func_gettext (GnmFunc const *func, const char *str)
 {
 	g_return_val_if_fail (GNM_IS_FUNC (func), NULL);
 	g_return_val_if_fail (str != NULL, NULL);
@@ -668,7 +668,7 @@ gnm_func_gettext (GnmFunc *func, const char *str)
 
 
 GnmFuncFlags
-gnm_func_get_flags (GnmFunc *func)
+gnm_func_get_flags (GnmFunc const *func)
 {
 	g_return_val_if_fail (GNM_IS_FUNC (func), GNM_FUNC_SIMPLE);
 	return func->flags;
@@ -682,7 +682,7 @@ gnm_func_set_flags (GnmFunc *func, GnmFuncFlags f)
 }
 
 GnmFuncImplStatus
-gnm_func_get_impl_status (GnmFunc *func)
+gnm_func_get_impl_status (GnmFunc const *func)
 {
 	g_return_val_if_fail (GNM_IS_FUNC (func), GNM_FUNC_IMPL_STATUS_UNIMPLEMENTED);
 	return func->impl_status;
@@ -697,7 +697,7 @@ gnm_func_set_impl_status (GnmFunc *func, GnmFuncImplStatus st)
 
 
 GnmFuncTestStatus
-gnm_func_get_test_status (GnmFunc *func)
+gnm_func_get_test_status (GnmFunc const *func)
 {
 	g_return_val_if_fail (GNM_IS_FUNC (func), GNM_FUNC_TEST_STATUS_UNKNOWN);
 	return func->test_status;
@@ -1022,12 +1022,12 @@ gnm_func_get_name (GnmFunc const *func, gboolean localized)
  * Returns: (transfer none): the description of the function
  **/
 char const *
-gnm_func_get_description (GnmFunc *func)
+gnm_func_get_description (GnmFunc const *func)
 {
 	gint i;
 	g_return_val_if_fail (func != NULL, NULL);
 
-	gnm_func_load_if_stub (func);
+	gnm_func_load_if_stub ((GnmFunc *)func);
 
 	for (i = 0; i < func->help_count; i++) {
 		const char *desc;
@@ -1051,13 +1051,13 @@ gnm_func_get_description (GnmFunc *func)
  * For a vararg function, the maximum will be set to G_MAXINT.
  **/
 void
-gnm_func_count_args (GnmFunc *func, int *min, int *max)
+gnm_func_count_args (GnmFunc const *func, int *min, int *max)
 {
 	g_return_if_fail (min != NULL);
 	g_return_if_fail (max != NULL);
 	g_return_if_fail (func != NULL);
 
-	gnm_func_load_if_stub (func);
+	gnm_func_load_if_stub ((GnmFunc *)func);
 
 	*min = func->min_args;
 	*max = func->max_args;
@@ -1071,11 +1071,11 @@ gnm_func_count_args (GnmFunc *func, int *min, int *max)
  * Returns: the type of the argument
  **/
 char
-gnm_func_get_arg_type (GnmFunc *func, int arg_idx)
+gnm_func_get_arg_type (GnmFunc const *func, int arg_idx)
 {
 	g_return_val_if_fail (func != NULL, '?');
 
-	gnm_func_load_if_stub (func);
+	gnm_func_load_if_stub ((GnmFunc *)func);
 
 	g_return_val_if_fail (arg_idx >= 0 && arg_idx < func->max_args, '?');
 
@@ -1090,7 +1090,7 @@ gnm_func_get_arg_type (GnmFunc *func, int arg_idx)
  * Return value: (transfer none): the type of the argument as a string
  **/
 char const *
-gnm_func_get_arg_type_string (GnmFunc *func, int arg_idx)
+gnm_func_get_arg_type_string (GnmFunc const *func, int arg_idx)
 {
 	switch (gnm_func_get_arg_type (func, arg_idx)) {
 	case 'f':
@@ -1144,12 +1144,12 @@ gnm_func_get_arg_name (GnmFunc const *func, guint arg_idx)
  * Returns: (transfer none): the description of the argument
  **/
 char const *
-gnm_func_get_arg_description (GnmFunc *func, guint arg_idx)
+gnm_func_get_arg_description (GnmFunc const *func, guint arg_idx)
 {
 	gint i;
 	g_return_val_if_fail (func != NULL, NULL);
 
-	gnm_func_load_if_stub (func);
+	gnm_func_load_if_stub ((GnmFunc *)func);
 
 	for (i = 0; i < func->help_count; i++) {
 		gchar const *desc;

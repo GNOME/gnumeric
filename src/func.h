@@ -216,26 +216,26 @@ GnmFunc	   *gnm_func_inc_usage	     (GnmFunc *func);
 void	    gnm_func_dec_usage	     (GnmFunc *func);
 gboolean    gnm_func_get_in_use      (GnmFunc *func);
 
-char const *gnm_func_get_translation_domain (GnmFunc *func);
+char const *gnm_func_get_translation_domain (GnmFunc const *func);
 void        gnm_func_set_translation_domain (GnmFunc *func,
 					     const char *tdomain);
-char const *gnm_func_gettext         (GnmFunc *func, const char *str);
+char const *gnm_func_gettext         (GnmFunc const *func, const char *str);
 
-GnmFuncFlags gnm_func_get_flags      (GnmFunc *func);
+GnmFuncFlags gnm_func_get_flags      (GnmFunc const *func);
 void        gnm_func_set_flags       (GnmFunc *func, GnmFuncFlags f);
 
 
-GnmFuncImplStatus gnm_func_get_impl_status (GnmFunc *func);
+GnmFuncImplStatus gnm_func_get_impl_status (GnmFunc const *func);
 void        gnm_func_set_impl_status (GnmFunc *func, GnmFuncImplStatus st);
 
-GnmFuncTestStatus gnm_func_get_test_status (GnmFunc *func);
+GnmFuncTestStatus gnm_func_get_test_status (GnmFunc const *func);
 void        gnm_func_set_test_status (GnmFunc *func, GnmFuncTestStatus st);
 
 GnmFuncGroup*gnm_func_get_function_group (GnmFunc *func);
 void        gnm_func_set_function_group (GnmFunc *func, GnmFuncGroup *group);
 
-gboolean    gnm_func_is_varargs      (GnmFunc *func);
-gboolean    gnm_func_is_fixargs      (GnmFunc *func);
+gboolean    gnm_func_is_varargs      (GnmFunc const *func);
+gboolean    gnm_func_is_fixargs      (GnmFunc const *func);
 
 void        gnm_func_set_stub        (GnmFunc *func);
 void        gnm_func_set_varargs     (GnmFunc *func, GnmFuncNodes fn,
@@ -243,7 +243,7 @@ void        gnm_func_set_varargs     (GnmFunc *func, GnmFuncNodes fn,
 void        gnm_func_set_fixargs     (GnmFunc *func, GnmFuncArgs fn,
 				      const char *spec);
 
-GnmFuncHelp const *gnm_func_get_help (GnmFunc *func, int *n);
+GnmFuncHelp const *gnm_func_get_help (GnmFunc const *func, int *n);
 void        gnm_func_set_help (GnmFunc *func, GnmFuncHelp const *help, int n);
 
 GnmDependentFlags gnm_func_link_dep (GnmFunc *func, GnmFuncEvalInfo *ei, gboolean qlink);
@@ -266,12 +266,12 @@ GnmFunc    *gnm_func_add_placeholder_localized (char const *gname, char const *l
 GnmFunc	   *gnm_func_lookup_or_add_placeholder (char const *name);
 
 /* TODO */
-char const *gnm_func_get_description (GnmFunc *func);
-void        gnm_func_count_args    (GnmFunc *func, gint *min, int *max);
-char        gnm_func_get_arg_type  (GnmFunc *func, gint arg_idx);
-char const *gnm_func_get_arg_type_string  (GnmFunc *func, gint arg_idx);
+char const *gnm_func_get_description (GnmFunc const *func);
+void        gnm_func_count_args    (GnmFunc const *func, gint *min, int *max);
+char        gnm_func_get_arg_type  (GnmFunc const *func, gint arg_idx);
+char const *gnm_func_get_arg_type_string  (GnmFunc const *func, gint arg_idx);
 char       *gnm_func_get_arg_name  (GnmFunc const *func, guint arg_idx);
-char const *gnm_func_get_arg_description (GnmFunc *func, guint arg_idx);
+char const *gnm_func_get_arg_description (GnmFunc const *func, guint arg_idx);
 char       *gnm_func_convert_markup_to_pango (char const *desc,
 					      GtkWidget *target);
 
