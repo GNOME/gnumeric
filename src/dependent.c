@@ -1264,12 +1264,19 @@ link_unlink_expr_dep (GnmEvalPos *ep, GnmExpr const *tree, DepLinkFlags flags)
 	g_return_val_if_fail (tree != NULL, DEPENDENT_NO_FLAG);
 
 	switch (GNM_EXPR_GET_OPER (tree)) {
-	case GNM_EXPR_OP_RANGE_CTOR:  /* See #562363 */
+	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
+		return (link_unlink_expr_dep (ep, tree->binary.value_a, flags) |
+			link_unlink_expr_dep (ep, tree->binary.value_b, flags));
 	case GNM_EXPR_OP_ANY_BINARY:
+		// See comments in function_iterate_argument_values
+		if (!eval_pos_is_array_context (ep))
+			flags &= ~DEP_LINK_NON_SCALAR;
 		return (link_unlink_expr_dep (ep, tree->binary.value_a, flags) |
 			link_unlink_expr_dep (ep, tree->binary.value_b, flags));
 	case GNM_EXPR_OP_ANY_UNARY:
+		if (!eval_pos_is_array_context (ep))
+			flags &= ~DEP_LINK_NON_SCALAR;
 		return link_unlink_expr_dep (ep, tree->unary.value, flags);
 	case GNM_EXPR_OP_CELLREF:
 		return link_unlink_single_dep (ep->dep, dependent_pos (ep->dep), &tree->cellref.ref, flags);
