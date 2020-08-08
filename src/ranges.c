@@ -193,7 +193,7 @@ range_init_cellpos_size (GnmRange *r,
 }
 
 /**
- * range_init:
+ * range_init: (skip)
  * @r: A #GnmRange to change
  * @start_col: Column
  * @start_row: Row
@@ -217,6 +217,24 @@ range_init (GnmRange *r, int start_col, int start_row,
 	r->end.row   = end_row;
 
 	return r;
+}
+
+/**
+ * range_init_gi: (rename-to range_init)
+ * @r: A #GnmRange to change
+ * @start_col: Column
+ * @start_row: Row
+ * @end_col: Column
+ * @end_row: Row
+ *
+ * Updates @r to start at (@start_col,@start_row) and end
+ * at (@end_col,@end_row).
+ */
+void
+range_init_gi (GnmRange *r, int start_col, int start_row,
+	       int end_col, int end_row)
+{
+	range_init (r, start_col, start_row, end_col, end_row);
 }
 
 /**

@@ -32,6 +32,7 @@ Morten:
 	* Tend to dead kittens.
 	* Fix metadata dialog.  [#510]
 	* Fix potential 64-bit problem with signals.
+	* Fix GnmRange introspection.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.47
