@@ -40,7 +40,7 @@
  *
  * Updates @r to fill @sheet in its entirety.
  *
- * Returns: (skip) (transfer none): @r
+ * Returns: (type void): @r
  */
 GnmRange *
 range_init_full_sheet (GnmRange *r, Sheet const *sheet)
@@ -61,7 +61,7 @@ range_init_full_sheet (GnmRange *r, Sheet const *sheet)
  *
  * Updates @r to span full columns @start_col through @end_col completely.
  *
- * Returns: (skip) (transfer none): @r
+ * Returns: (type void): @r
  */
 GnmRange *
 range_init_cols (GnmRange *r, Sheet const *sheet, int start_col, int end_col)
@@ -82,7 +82,7 @@ range_init_cols (GnmRange *r, Sheet const *sheet, int start_col, int end_col)
  *
  * Updates @r to span full rows @start_row through @end_row completely.
  *
- * Returns: (skip) (transfer none): @r
+ * Returns: (type void): @r
  */
 GnmRange *
 range_init_rows (GnmRange *r, Sheet const *sheet, int start_row, int end_row)
@@ -100,7 +100,7 @@ range_init_rows (GnmRange *r, Sheet const *sheet, int start_row, int end_row)
  *
  * Updates @r to a meaningless range
  *
- * Returns: (skip) (transfer none): @r
+ * Returns: (type void): @r
  */
 GnmRange *
 range_init_invalid (GnmRange *r)
@@ -119,7 +119,7 @@ range_init_invalid (GnmRange *r)
  *
  * Updates @r to be the same as the range part of @rr.
  *
- * Returns: (skip) (transfer none): @r
+ * Returns: (type void): @r
  */
 GnmRange *
 range_init_rangeref (GnmRange *range, GnmRangeRef const *rr)
@@ -141,7 +141,7 @@ range_init_rangeref (GnmRange *range, GnmRangeRef const *rr)
  *
  * Updates @r to be the same as the cell range of @v.
  *
- * Returns: (skip) (transfer none): @r
+ * Returns: (type void): @r
  */
 GnmRange *
 range_init_value (GnmRange *range, GnmValue const *v)
@@ -159,7 +159,7 @@ range_init_value (GnmRange *range, GnmValue const *v)
  *
  * Updates @r to be the singleton range of @pos
  *
- * Returns: (skip) (transfer none): @r
+ * Returns: (type void): @r
  */
 GnmRange *
 range_init_cellpos (GnmRange *r, GnmCellPos const *pos)
@@ -179,7 +179,7 @@ range_init_cellpos (GnmRange *r, GnmCellPos const *pos)
  *
  * Updates @r to start at @start and spanning @cols columns and @rows rows.
  *
- * Returns: (skip) (transfer none): @r
+ * Returns: (type void): @r
  */
 GnmRange *
 range_init_cellpos_size (GnmRange *r,
@@ -193,7 +193,7 @@ range_init_cellpos_size (GnmRange *r,
 }
 
 /**
- * range_init: (skip)
+ * range_init:
  * @r: A #GnmRange to change
  * @start_col: Column
  * @start_row: Row
@@ -203,7 +203,7 @@ range_init_cellpos_size (GnmRange *r,
  * Updates @r to start at (@start_col,@start_row) and end
  * at (@end_col,@end_row).
  *
- * Returns: (skip) (transfer none): @r
+ * Returns: (type void): @r
  */
 GnmRange *
 range_init (GnmRange *r, int start_col, int start_row,
@@ -217,24 +217,6 @@ range_init (GnmRange *r, int start_col, int start_row,
 	r->end.row   = end_row;
 
 	return r;
-}
-
-/**
- * range_init_gi: (rename-to range_init)
- * @r: A #GnmRange to change
- * @start_col: Column
- * @start_row: Row
- * @end_col: Column
- * @end_row: Row
- *
- * Updates @r to start at (@start_col,@start_row) and end
- * at (@end_col,@end_row).
- */
-void
-range_init_gi (GnmRange *r, int start_col, int start_row,
-	       int end_col, int end_row)
-{
-	range_init (r, start_col, start_row, end_col, end_row);
 }
 
 /**

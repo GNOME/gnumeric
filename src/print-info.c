@@ -294,20 +294,18 @@ load_formats (void)
  * gnm_print_info_load_defaults:
  * @pi: #GnmPrintInformation
  *
- * Returns: (skip) (transfer none): @pi
- *
  * NOTE: This reads from a globally stored configuration. If a
  *       configuration is stored along with a sheet then that will
  *       override these global defaults.
  */
-GnmPrintInformation *
+void
 gnm_print_info_load_defaults (GnmPrintInformation *res)
 {
 	GSList *list;
 	GtkPrintSettings *settings;
 
 	if (res->page_setup != NULL)
-		return res;
+		return;
 
 	res->page_setup = gnm_conf_get_page_setup ();
 
@@ -353,8 +351,6 @@ gnm_print_info_load_defaults (GnmPrintInformation *res)
 	settings = gnm_conf_get_print_settings ();
 	print_info_set_from_settings (res, settings);
 	g_object_unref (settings);
-
-	return res;
 }
 
 /**
@@ -384,9 +380,8 @@ gnm_print_information_new (gboolean load_defaults)
 	res->print_range = GNM_PRINT_ACTIVE_SHEET;
 
 	if (load_defaults)
-		return gnm_print_info_load_defaults (res);
-	else
-		return res;
+		gnm_print_info_load_defaults (res);
+	return res;
 }
 
 /*

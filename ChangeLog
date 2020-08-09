@@ -1,3 +1,8 @@
+2020-08-08  Morten Welinder  <terra@gnome.org>
+
+	* src/print-info.c (gnm_print_info_load_defaults): Don't return a
+	value.
+
 2020-07-16  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnm_dialog_setup_destroy_handlers): Fix
