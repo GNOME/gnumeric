@@ -742,7 +742,7 @@ msgstr "La càrrega de mòduls dinàmica no està implementada en aquest sistema
 #: ../plugins/excelplugins/excelplugins.c:947
 #, c-format
 msgid "Unable to open module file \"%s\"."
-msgstr "No s'ha pogut obrir el fitxer del mòdul \"%s\"."
+msgstr "No s'ha pogut obrir el fitxer del mòdul «%s»."
 
 #: ../plugins/excelplugins/excelplugins.c:952
 #, c-format
@@ -1702,7 +1702,7 @@ msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
 msgstr ""
-"Gnumeric no admet que hi hagin estils diferents per a les pàgines de "
+"Gnumeric no admet que hi hagi estils diferents per a les pàgines de "
 "l'esquerra. S'ignorarà aquest estil."
 
 #. For OOO_VER_1 this may be acceptable
@@ -1722,7 +1722,7 @@ msgstr "S'ha trobat l'estil de contorn de Gnumeric desconegut «%s»."
 #: ../plugins/openoffice/openoffice-read.c:6758
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
-msgstr "El tipus de final de línia desconegut «%s»  es predeterminarà a NONE."
+msgstr "El tipus de final de línia desconegut «%s»  es predeterminarà a NONE"
 
 #: ../plugins/openoffice/openoffice-read.c:6843
 #, c-format
@@ -1891,7 +1891,7 @@ msgid ""
 "Gnumeric's maximum supported sheet size"
 msgstr ""
 "La mida de full de %i columnes i %i files utilitzada en aquest fitxer "
-"depassa la mida de full màxima admesa pel Gnumeric."
+"depassa la mida de full màxima admesa pel Gnumeric"
 
 #: ../plugins/openoffice/openoffice-read.c:11924
 #, c-format
@@ -3247,7 +3247,7 @@ msgstr "Estil de la barra d'eines"
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text."
 msgstr ""
 "Estil de la barra d'eines. Els valors vàlids són both, both_horiz, icon i "
-"text"
+"text."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:3
 #: ../src/dialogs/dialog-preferences.c:778
@@ -3362,7 +3362,7 @@ msgid ""
 "Gnumeric session."
 msgstr ""
 "El nombre de files de cada full. Aquesta configuració només s'utilitzarà en "
-"una nova sessió del Gnumeric. "
+"una nova sessió del Gnumeric."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:23
 msgid "Default Number of columns in a sheet"
@@ -3374,7 +3374,7 @@ msgid ""
 " Gnumeric session."
 msgstr ""
 "El nombre de columnes de cada full. Aquesta configuració només s'utilitzarà "
-"en una nova sessió del Gnumeric. "
+"en una nova sessió del Gnumeric."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:25
 msgid "Autosave frequency"
@@ -3530,7 +3530,7 @@ msgstr "Aquesta variable determina si es mostren indicadors de nom de funció."
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:53
 #: ../src/dialogs/dialog-preferences.c:1074
 msgid "Show Function Argument Tooltips"
-msgstr "Mostra indicadors d'argument de funció."
+msgstr "Mostra indicadors d'argument de funció"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:54
 msgid "This variable determines whether to show function argument tooltips."
@@ -4491,7 +4491,7 @@ msgstr "Configura un botó de ràdio"
 
 #: ../src/commands.c:7650
 msgid "Configure Checkbox"
-msgstr "Configura la casella"
+msgstr "Configura la casella de selecció"
 
 #: ../src/commands.c:7757 ../src/sheet-object-widget.c:1774
 msgid "Configure Adjustment"
@@ -5023,7 +5023,7 @@ msgstr "El rang de llista no és vàlid."
 
 #: ../src/dialogs/dialog-advanced-filter.c:78
 msgid "The criteria range is invalid."
-msgstr "El rang del criteri no és vàlid."
+msgstr "El rang dels criteris no és vàlid."
 
 #: ../src/dialogs/dialog-advanced-filter.c:86
 #: ../src/dialogs/dialog-simulation.c:85
@@ -5032,7 +5032,7 @@ msgstr "El rang de sortida no és vàlid."
 
 #: ../src/dialogs/dialog-advanced-filter.c:161 ../src/tools/filter.c:244
 msgid "The given criteria are invalid."
-msgstr "El criteri donat no és vàlid."
+msgstr "Els criteris donats no són vàlids."
 
 #: ../src/dialogs/dialog-advanced-filter.c:167 ../src/tools/filter.c:242
 msgid "No matching records were found."
@@ -5756,7 +5756,7 @@ msgstr "Origen"
 
 #: ../src/dialogs/dialog-cell-format.c:1727
 msgid "Criteria"
-msgstr "Criteri"
+msgstr "Criteris"
 
 #: ../src/dialogs/dialog-cell-format.c:1742
 #: ../src/dialogs/dialog-cell-format.c:1751 ../src/dialogs/so-scrollbar.ui.h:4
@@ -6453,7 +6453,7 @@ msgid ""
 "Middle click once to select this cell"
 msgstr ""
 "Feu clic amb el botó primari per seguir aquest enllaç.\n"
-"Feu clic amb el botó central per seleccionar la cel·la."
+"Feu clic amb el botó central per seleccionar la cel·la"
 
 #: ../src/dialogs/dialog-hyperlink.c:185
 msgid "Not a range or name"
@@ -7848,7 +7848,7 @@ msgstr "Ajusta automàticament"
 msgid ""
 "If this checkbox is selected, column %i will be imported into Gnumeric."
 msgstr ""
-"Si aquesta casella està seleccionada, se importarà la columna %i al "
+"Si aquesta casella de selecció està seleccionada, se importarà la columna %i al "
 "Gnumeric."
 
 #: ../src/dialogs/dialog-stf-format-page.c:630
@@ -7856,7 +7856,7 @@ msgid ""
 "If this checkbox is selected, the width of the column will be adjusted to "
 "the longest entry."
 msgstr ""
-"Si aquesta casella està seleccionada, s'ajustarà l'amplada de la columna a "
+"Si aquesta casella de selecció està seleccionada, s'ajustarà l'amplada de la columna a "
 "l'entrada més llarga."
 
 #: ../src/dialogs/dialog-stf-format-page.c:753
@@ -7986,7 +7986,7 @@ msgstr "Rang de _llista:"
 
 #: ../src/dialogs/advanced-filter.ui.h:3
 msgid "_Criteria range:"
-msgstr "Rang de _criteri:"
+msgstr "Rang de _criteris:"
 
 #: ../src/dialogs/advanced-filter.ui.h:4
 msgid "_Unique records only"
@@ -8682,7 +8682,7 @@ msgstr "_Protegeix el full de treball"
 
 #: ../src/dialogs/cell-format.ui.h:96
 msgid "<span weight=\"bold\">Criteria</span>"
-msgstr "<span weight=\"bold\">Criteri</span>"
+msgstr "<span weight=\"bold\">Criteris</span>"
 
 #: ../src/dialogs/cell-format.ui.h:97
 msgid "Allo_w:"
@@ -8812,7 +8812,7 @@ msgid ""
 "Adds any fields in the range box to the left to the sort criteria or allows "
 "selection of fields from a menu."
 msgstr ""
-"Afegeix els camps en el diàleg a l'esquerra del criteri d'ordenació o permet"
+"Afegeix els camps en el diàleg a l'esquerra dels criteris d'ordenació o permet"
 " seleccionar camps d'un menú."
 
 #: ../src/dialogs/chi-squared.ui.h:1
@@ -11375,7 +11375,7 @@ msgid ""
 "look like numbers or expressions"
 msgstr ""
 "En definir, els valors de les cadenes es mantindran iguals després del "
-"reemplaçament, encara que semblin nombres o expressions."
+"reemplaçament, encara que semblin nombres o expressions"
 
 #: ../src/dialogs/search-replace.ui.h:50
 msgid "Save the current settings as default settings"
@@ -12245,8 +12245,8 @@ msgstr[1] "%d files"
 #, c-format
 msgid "%d col"
 msgid_plural "%d cols"
-msgstr[0] "%d col."
-msgstr[1] "%d col."
+msgstr[0] "%d columna"
+msgstr[1] "%d columnes"
 
 #: ../src/format-template.c:742
 #, c-format
@@ -12919,7 +12919,7 @@ msgstr "El nom «%s» no existeix"
 #: ../src/parser.y:513
 #, c-format
 msgid "'%s' cannot be used as a name"
-msgstr "No es pot utilitzar «%s» com a nom."
+msgstr "No es pot utilitzar «%s» com a nom"
 
 #: ../src/parser.y:571
 #, c-format
@@ -13024,7 +13024,7 @@ msgstr "Títol"
 #: ../src/print-info.c:925
 #, c-format
 msgid "There is no object with name '%s'"
-msgstr "No hi ha cap objecte anomenat «%s»."
+msgstr "No hi ha cap objecte anomenat «%s»"
 
 #: ../src/print-info.c:942
 #, c-format
@@ -13585,7 +13585,7 @@ msgstr "Casella de selecció %d"
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:2386
 msgid "Clicking checkbox"
-msgstr "S'està fent clic en el quadre de verificació"
+msgstr "S'està fent clic en la casella de selecció"
 
 #: ../src/sheet-object-widget.c:2935 ../src/wbc-gtk-actions.c:3399
 msgid "RadioButton"
@@ -14892,7 +14892,7 @@ msgid ""
 "Error/Adjusted "
 "R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
-"/Sortida Resum//Estadístiques de regressió/R múltiple/R quadràtica/Error "
+"/Sortida resum//Estadístiques de regressió/R múltiple/R quadràtica/Error "
 "estàndard/R quadràtica "
 "ajustada/Observacions//ANOVA//Regressió/Residual/Total///Intercepció"
 
@@ -14930,7 +14930,7 @@ msgid ""
 msgstr ""
 "La probabilitat d’observar una estadística t\n"
 "el valor absolut de la qual sigui almenys tan gran\n"
-"com el valor absolut de la estadística t\n"
+"com el valor absolut de l'estadística t\n"
 "realment observada, suposant que la hipòtesi\n"
 "nul·la sigui realment certa."
 
@@ -14962,19 +14962,19 @@ msgstr ""
 
 #: ../src/tools/analysis-tools.c:3473
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
-msgstr "/SUMMARY OUTPUT//Independent Variable//Observations"
+msgstr "/Sortida resum//Variable independent//Observations"
 
 #: ../src/tools/analysis-tools.c:3478
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
-msgstr "/SUMMARY OUTPUT//Response Variable//Observations"
+msgstr "/Sortida resum//Variable de resposta//Observations"
 
 #: ../src/tools/analysis-tools.c:3484
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
-msgstr "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
+msgstr "/Variable de resposta/R^2/Pendent/Intercepció/F/F significativa"
 
 #: ../src/tools/analysis-tools.c:3490
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
-msgstr "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
+msgstr "/Variable independent/R^2/Pendent/Intercepció/F/F significativa"
 
 #: ../src/tools/analysis-tools.c:3571
 #, c-format
@@ -15131,7 +15131,7 @@ msgstr "Filtrat"
 
 #: ../src/tools/filter.c:196
 msgid "/Advanced Filter:/Source Range:/Criteria Range:"
-msgstr "/Advanced Filter:/Source Range:/Criteria Range:"
+msgstr "/Filtre avançat:/Rang font:/Rang dels criteris:"
 
 #: ../src/tools/filter.c:264
 #, c-format
@@ -15141,7 +15141,7 @@ msgstr "Filtre avançat (%s)"
 #: ../src/tools/gnm-solver.c:702
 #, c-format
 msgid "Invalid solver target"
-msgstr "La destinació del resoledor no és vàlida."
+msgstr "La destinació del resoledor no és vàlida"
 
 #: ../src/tools/gnm-solver.c:714
 #, c-format
@@ -15153,7 +15153,7 @@ msgstr ""
 #: ../src/tools/gnm-solver.c:724
 #, c-format
 msgid "Invalid solver input range"
-msgstr "El rang d'entrada del resoledor no és vàlid."
+msgstr "El rang d'entrada del resoledor no és vàlid"
 
 #: ../src/tools/gnm-solver.c:735
 #, c-format
@@ -15447,11 +15447,11 @@ msgstr "Confiança (95%)"
 
 #: ../src/tools/simulation.c:257
 msgid "Lower Limit (95%)"
-msgstr "Limit inferior (95%)"
+msgstr "Límit inferior (95%)"
 
 #: ../src/tools/simulation.c:258
 msgid "Upper Limit (95%)"
-msgstr "Limit superior (95%)"
+msgstr "Límit superior (95%)"
 
 #: ../src/tools/simulation.c:326
 msgid "SUMMARY OF SIMULATION ROUND #"
@@ -16356,35 +16356,35 @@ msgstr "Vés a la part superior"
 
 #: ../src/wbc-gtk-actions.c:2540
 msgid "Go to the top of the data"
-msgstr "Ves a la part superior de les dades"
+msgstr "Vés a la part superior de les dades"
 
 #: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2769
 msgid "Go to Bottom"
-msgstr "Ves a la part inferior"
+msgstr "Vés a la part inferior"
 
 #: ../src/wbc-gtk-actions.c:2546
 msgid "Go to the bottom of the data"
-msgstr "Ves a la part inferior de les dades"
+msgstr "Vés a la part inferior de les dades"
 
 #: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2770
 msgid "Go to First"
-msgstr "Ves a la primera"
+msgstr "Vés a la primera"
 
 #: ../src/wbc-gtk-actions.c:2552
 msgid "Go to the first data cell"
-msgstr "Ves a la primera cel·la de dades"
+msgstr "Vés a la primera cel·la de dades"
 
 #: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2771
 msgid "Go to Last"
-msgstr "Ves a la darrera"
+msgstr "Vés a la darrera"
 
 #: ../src/wbc-gtk-actions.c:2558
 msgid "Go to the last data cell"
-msgstr "Ves a la darrera cel·la de dades"
+msgstr "Vés a la darrera cel·la de dades"
 
 #: ../src/wbc-gtk-actions.c:2563
 msgid "_Go to Cell..."
-msgstr "_Ves a la cel·la..."
+msgstr "_Vés a la cel·la..."
 
 #: ../src/wbc-gtk-actions.c:2565
 msgid "Jump to a specified cell"
@@ -16392,7 +16392,7 @@ msgstr "Salta a una cel·la específica"
 
 #: ../src/wbc-gtk-actions.c:2571 ../src/wbc-gtk-actions.c:2573
 msgid "Go to Current Cell Indicator"
-msgstr "Ves a l'indicador de cel·la actual"
+msgstr "Vés a l'indicador de cel·la actual"
 
 #: ../src/wbc-gtk-actions.c:2579
 msgid "Repeat"
@@ -17965,7 +17965,7 @@ msgstr "FINAL"
 
 #: ../src/wbc-gtk.c:2773
 msgid "Go to Cell..."
-msgstr "Ves a la cel·la..."
+msgstr "Vés a la cel·la..."
 
 #: ../src/wbc-gtk.c:2835
 msgid "Accept change in multiple cells"
