@@ -1,3 +1,7 @@
+2020-08-12  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.48
+
 2020-08-08  Morten Welinder  <terra@gnome.org>
 
 	* src/print-info.c (gnm_print_info_load_defaults): Don't return a

@@ -1,3 +1,7 @@
+2020-08-12  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.48
+
 2020-05-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-read-drawing.c (xlsx_draw_clientdata): don't set the print

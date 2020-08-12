@@ -1,3 +1,7 @@
+2020-08-12  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.48
+
 2020-07-12  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_write_frame_size): Plug leak.
