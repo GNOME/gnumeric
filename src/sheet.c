@@ -28,6 +28,7 @@
 #include <command-context.h>
 #include <sheet-control.h>
 #include <sheet-style.h>
+#include <sheet-conditions.h>
 #include <workbook-priv.h>
 #include <workbook-control.h>
 #include <workbook-view.h>
@@ -708,6 +709,8 @@ gnm_sheet_constructed (GObject *obj)
 
 	range_init_full_sheet (&sheet->priv->unhidden_region, sheet);
 	sheet_style_init (sheet);
+
+	sheet_conditions_init (sheet);
 
 	sheet->deps = gnm_dep_container_new (sheet);
 
@@ -4964,6 +4967,7 @@ gnm_sheet_finalize (GObject *obj)
 	}
 
 	sheet_style_shutdown (sheet);
+	sheet_conditions_uninit (sheet);
 
 	if (sheet->pending_redraw_src) {
 		g_source_remove (sheet->pending_redraw_src);

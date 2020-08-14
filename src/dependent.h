@@ -31,8 +31,6 @@ typedef enum {
 	DEPENDENT_DYNAMIC_DEP	   = 0x00000002,	/* builtin type */
 	DEPENDENT_NAME		   = 0x00000003,	/* builtin pseudo type */
 	DEPENDENT_MANAGED	   = 0x00000004,	/* builtin type */
-	DEPENDENT_MANAGED_POS	   = 0x00000005,	/* builtin type */
-	DEPENDENT_STYLE		   = 0x00000006,	/* builtin type */
 	DEPENDENT_TYPE_MASK	   = 0x00000fff,
 
 	/* Linked into the workbook wide expression list */
@@ -116,11 +114,6 @@ void dependents_revive_sheet      (Sheet *sheet);
 void workbook_queue_all_recalc	  (Workbook *wb);
 void workbook_queue_volatile_recalc (Workbook *wb);
 
-void gnm_dep_style_dependency (Sheet *sheet,
-			       GnmExprTop const *texpr,
-			       GnmRange const *r,
-			       GPtrArray *accum);
-
 GnmDepContainer *gnm_dep_container_new  (Sheet *sheet);
 void		 gnm_dep_container_dump	(GnmDepContainer const *deps,
 					 Sheet *sheet);
@@ -132,16 +125,14 @@ void             gnm_dep_container_resize (GnmDepContainer *deps, int rows);
 
 typedef struct {
 	GnmDependent base;
-	GnmCellPos pos;
 } GnmDepManaged;
 
 void dependent_managed_init (GnmDepManaged *dep, Sheet *sheet);
-void dependent_managed_pos_init (GnmDepManaged *dep, Sheet *sheet, GnmCellPos const *pos);
 void dependent_managed_set_expr (GnmDepManaged *dep, GnmExprTop const *texpr);
 GnmExprTop const *dependent_managed_get_expr (GnmDepManaged const *dep);
 void dependent_managed_set_sheet (GnmDepManaged *dep, Sheet *sheet);
 
-
+// ----------------------------------------------------------------------------
 
 #define DEPENDENT_CONTAINER_FOREACH_DEPENDENT(dc, dep, code)	\
   do {								\

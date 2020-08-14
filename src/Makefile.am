@@ -447,6 +447,7 @@ libspreadsheet_la_SOURCES =		\
 	sf-gamma.c				\
 	sf-trig.c				\
 	sheet-autofill.c			\
+	sheet-conditions.c			\
 	sheet-control-gui.c			\
 	sheet-control.c		  		\
 	sheet-diff.c		  		\
@@ -586,6 +587,7 @@ libspreadsheet_include_HEADERS =		\
 	sf-gamma.h				\
 	sf-trig.h				\
 	sheet-autofill.h			\
+	sheet-conditions.h			\
 	sheet-control-gui-priv.h		\
 	sheet-control-gui.h			\
 	sheet-control-priv.h			\

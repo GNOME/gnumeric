@@ -6,7 +6,8 @@
 
 G_BEGIN_DECLS
 
-/* This is persisted directly in .gnumeric files, DO NOT REMOVE OR REORDER */
+// The values here are persisted directly in .gnumeric files as numbers.
+// DO NOT REMOVE OR REORDER ANYTHING
 typedef enum {
 	/* Cell Value */
 	GNM_STYLE_COND_BETWEEN,
@@ -37,8 +38,14 @@ typedef enum {
 } GnmStyleCondOp;
 
 typedef struct {
+	GnmDependent base;
+	GnmCellPos pos;
+	GnmDependent *dep_cont;
+} GnmStyleCondDep;
+
+typedef struct {
 	GnmStyle	 *overlay;
-	GnmDepManaged     deps[2];
+	GnmStyleCondDep   deps[2];
 	GnmStyleCondOp	  op;
 } GnmStyleCond;
 
@@ -60,6 +67,10 @@ GnmExprTop const *gnm_style_cond_get_alternate_expr (GnmStyleCond const *cond);
 void gnm_style_cond_canonicalize (GnmStyleCond *cond);
 
 Sheet      *gnm_style_cond_get_sheet (GnmStyleCond const *cond);
+char       *gnm_style_cond_as_string (GnmStyleCond const *cond);
+
+
+
 
 GType         gnm_style_conditions_get_type (void);
 GnmStyleConditions *gnm_style_conditions_new  (Sheet *sheet);
@@ -83,6 +94,10 @@ guint32     gnm_style_conditions_hash      (GnmStyleConditions const *sc);
 gboolean    gnm_style_conditions_equal     (GnmStyleConditions const *sca,
 					    GnmStyleConditions const *scb,
 					    gboolean relax_sheet);
+
+GnmCellPos const *gnm_style_conditions_get_pos   (GnmStyleConditions const *sc);
+void        gnm_style_conditions_set_pos   (GnmStyleConditions *sc,
+					    GnmCellPos const *pos);
 
 G_END_DECLS
 

@@ -902,7 +902,8 @@ gnm_range_equal (const GnmRange *a, const GnmRange *b)
  * Returns: a value that is negative if range @a comes before range @b;
  * zero if the two ranges are equal; positive if range @a comes after
  * range @b.  The order imposed is lexicographical by starting row,
- * then column, then ending row, then column.
+ * then column, then ending row, then column.  In other words, the order
+ * is A1, B1, A2, B2.
  */
 int
 gnm_range_compare (GnmRange const *a, GnmRange const *b)
@@ -912,6 +913,18 @@ gnm_range_compare (GnmRange const *a, GnmRange const *b)
 	if (!i) i = a->start.col - b->start.col;
 	if (!i) i = a->end.row - b->end.row;
 	if (!i) i = a->end.col - b->end.col;
+	return i;
+}
+
+// Alternative with order A1, A2, B1, B2
+static int
+gnm_range_compare_alt (GnmRange const *a, GnmRange const *b)
+{
+	int i = 0;
+	if (!i) i = a->start.col - b->start.col;
+	if (!i) i = a->start.row - b->start.row;
+	if (!i) i = a->end.col - b->end.col;
+	if (!i) i = a->end.row - b->end.row;
 	return i;
 }
 
@@ -1339,6 +1352,10 @@ gnm_range_simplify (GArray *arr)
 	// Two cheap passes through the ranges.
 	for (ui = arr->len - 1; ui > 0; ui--)
 		try_merge_pair (arr, ui - 1, ui);
+	for (ui = arr->len - 1; ui > 0; ui--)
+		try_merge_pair (arr, ui - 1, ui);
+
+	g_array_sort (arr, (GCompareFunc) gnm_range_compare_alt);
 	for (ui = arr->len - 1; ui > 0; ui--)
 		try_merge_pair (arr, ui - 1, ui);
 }

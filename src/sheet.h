@@ -49,6 +49,8 @@ struct _Sheet {
 
 	GnmSheetStyleData *style_data; /* See sheet-style.c */
 
+	GnmSheetConditionsData *conditions; // See sheet-conditions.c
+
 	ColRowCollection cols, rows;
 
 	GHashTable  *cell_hash;	/* The cells in hashed format */

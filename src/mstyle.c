@@ -16,6 +16,7 @@
 #include <style-font.h>
 #include <style-color.h>
 #include <style-conditions.h>
+#include <sheet-conditions.h>
 #include <validation.h>
 #include <pattern.h>
 #include <hlink.h>
@@ -1041,6 +1042,14 @@ gnm_style_link_sheet (GnmStyle *style, Sheet *sheet)
 	style = link_border_colors (style, auto_color, style_is_orig);
 	style_color_unref (auto_color);
 
+	if (elem_is_set (style, MSTYLE_CONDITIONS) && style->conditions) {
+		// We actually change the style here, but the resulting
+		// ->conditions should be equivalent.
+		GnmStyleConditions *sc_new = sheet_conditions_share_conditions_add (style->conditions);
+		if (sc_new)
+			gnm_style_set_conditions (style, g_object_ref (sc_new));
+	}
+
 	style->linked_sheet = sheet;
 	style->link_count = 1;
 
@@ -1066,6 +1075,8 @@ gnm_style_unlink (GnmStyle *style)
 
 	d(("unlink %p = %d\n", style, style->link_count-1));
 	if (style->link_count-- == 1) {
+		if (elem_is_set (style, MSTYLE_CONDITIONS) && style->conditions)
+			sheet_conditions_share_conditions_remove (style->conditions);
 		sheet_style_unlink (style->linked_sheet, style);
 		style->linked_sheet = NULL;
 		gnm_style_unref (style);
@@ -2304,27 +2315,6 @@ gnm_style_get_cond_style (GnmStyle const *style, int ix)
 	return g_ptr_array_index (style->cond_styles, ix);
 }
 
-
-/*
- * Just a simple version for now.  We can also ignore most function
- * calls[1] and self-references[2].
- *
- * [1] Excluding volatile (TODAY, ...) and those that can create references
- * outside the arguments (INDIRECT).
- *
- * [2] References that print like A1 when used in A1.
- */
-static gboolean
-cond_expr_harmless (GnmExpr const *expr)
-{
-	GnmValue const *v = gnm_expr_get_constant (expr);
-	if (v && !VALUE_IS_CELLRANGE (v))
-		return TRUE;
-
-	return FALSE;
-}
-
-
 void
 gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 {
@@ -2336,78 +2326,45 @@ gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 
 	sheet = style->linked_sheet;
 
-	/*
-	 * Conditional formatting.
-	 *
-	 * We need to trigger a reformatting of the cell if a cell referenced
-	 * by the condition changes.
-	 */
+	// ----------------------------------------
+
+	// Conditional formatting.
+	//
+	// We need to trigger a reformatting of the cell if a cell referenced
+	// by the condition changes.
 	sc = elem_is_set (style, MSTYLE_CONDITIONS)
 		? gnm_style_get_conditions (style)
 		: NULL;
 	if (sc) {
-		GnmParsePos pp;
-		GPtrArray const *conds = gnm_style_conditions_details (sc);
-		guint ui;
-
-		parse_pos_init (&pp, NULL, sheet, r->start.col, r->start.row);
-
-		for (ui = 0; conds && ui < conds->len; ui++) {
-			GnmStyleCond const *c = g_ptr_array_index (conds, ui);
-			guint ei;
-
-			for (ei = 0; ei < 2; ei++) {
-				GnmExprTop const *texpr =
-					gnm_style_cond_get_expr (c, ei);
-				char *s = NULL;
-				if (!texpr)
-					continue;
-
-				if (debug_style_deps)
-					s = gnm_expr_top_as_string (texpr, &pp,
-								    sheet_get_conventions (sheet));
-
-				if (cond_expr_harmless (texpr->expr)) {
-					if (debug_style_deps) {
-						g_printerr ("Not linking %s %d:%d for %p: %s (harmless)\n",
-							    range_as_string (r), ui, ei, style, s);
-						g_free (s);
-					}
-					continue;
-				}
-
-				if (debug_style_deps) {
-					g_printerr ("Linking %s %d:%d for %p: %s\n",
-						    range_as_string (r), ui, ei, style, s);
-					g_free (s);
-				}
-
-				if (!style->deps)
-					style->deps = g_ptr_array_new ();
-				gnm_dep_style_dependency
-					(sheet, texpr, r, style->deps);
-			}
-		}
+		sheet_conditions_add (sheet, r, style);
 	}
 
-	/*
-	 * Validations.
-	 *
-	 * We can probably ignore those.  If a dependent cell changes such
-	 * that a validation condition is no longer satisfied, it is
-	 * grandfathered in as valid.
-	 */
-
-	/* The style owns the deps.  */
+	// ----------------------------------------
+	// Validations.
+	//
+	// We can probably ignore those.  If a dependent cell changes such
+	// that a validation condition is no longer satisfied, it is
+	// grandfathered in as valid.
 }
 
 void
 gnm_style_unlink_dependents (GnmStyle *style, GnmRange const *r)
 {
 	unsigned ui, k;
+	GnmStyleConditions *sc;
+	Sheet *sheet;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (r != NULL);
+
+	sheet = style->linked_sheet;
+
+	sc = elem_is_set (style, MSTYLE_CONDITIONS)
+		? gnm_style_get_conditions (style)
+		: NULL;
+	if (sc) {
+		sheet_conditions_remove (sheet, r, style);
+	}
 
 	if (!style->deps)
 		return;

@@ -28,7 +28,6 @@
 #include <cell.h>
 #include <value.h>
 #include <sheet.h>
-#include <parse-util.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <func.h>
@@ -51,6 +50,12 @@ debug_style_conds (void)
 		debug = gnm_debug_flag ("style-conds");
 	return debug;
 }
+
+// ----------------------------------------------------------------------------
+
+static guint gscd_get_dep_type (void);
+
+// ----------------------------------------------------------------------------
 
 static unsigned
 gnm_style_cond_op_operands (GnmStyleCondOp op)
@@ -84,7 +89,6 @@ gnm_style_cond_op_operands (GnmStyleCondOp op)
 	g_assert_not_reached ();
 }
 
-
 /**
  * gnm_style_cond_is_valid:
  * @cond: #GnmStyleCond
@@ -107,7 +111,7 @@ gnm_style_cond_is_valid (GnmStyleCond const *cond)
 	N = gnm_style_cond_op_operands (cond->op);
 	for (ui = 0; ui < G_N_ELEMENTS (cond->deps); ui++) {
 		gboolean need = (ui < N);
-		gboolean have = (dependent_managed_get_expr (&cond->deps[ui]) != NULL);
+		gboolean have = (cond->deps[ui].base.texpr != NULL);
 		if (have != need)
 			return FALSE;
 	}
@@ -125,8 +129,10 @@ gnm_style_cond_new (GnmStyleCondOp op, Sheet *sheet)
 
 	res = g_new0 (GnmStyleCond, 1);
 	res->op = op;
-	for (ui = 0; ui < 2; ui++)
-		dependent_managed_init (&res->deps[ui], sheet);
+	for (ui = 0; ui < 2; ui++) {
+		res->deps[ui].base.flags = gscd_get_dep_type ();
+		res->deps[ui].base.sheet = sheet;
+	}
 	return res;
 }
 
@@ -148,7 +154,7 @@ gnm_style_cond_dup_to (GnmStyleCond const *src, Sheet *sheet)
 	dst = gnm_style_cond_new (src->op, sheet);
 	gnm_style_cond_set_overlay (dst, src->overlay);
 	for (ui = 0; ui < 2; ui++)
-		gnm_style_cond_set_expr (dst, dependent_managed_get_expr (&src->deps[ui]), ui);
+		gnm_style_cond_set_expr (dst, src->deps[ui].base.texpr, ui);
 
 	return dst;
 }
@@ -222,7 +228,7 @@ gnm_style_cond_get_expr (GnmStyleCond const *cond, unsigned idx)
 	g_return_val_if_fail (cond != NULL, NULL);
 	g_return_val_if_fail (idx < G_N_ELEMENTS (cond->deps), NULL);
 
-	return dependent_managed_get_expr (&cond->deps[idx]);
+	return cond->deps[idx].base.texpr;
 }
 
 void
@@ -233,7 +239,9 @@ gnm_style_cond_set_expr (GnmStyleCond *cond,
 	g_return_if_fail (cond != NULL);
 	g_return_if_fail (idx < G_N_ELEMENTS (cond->deps));
 
-	dependent_managed_set_expr (&cond->deps[idx], texpr);
+	dependent_set_expr (&cond->deps[idx].base, texpr);
+	if (texpr)
+		dependent_link (&cond->deps[idx].base);
 }
 
 void
@@ -559,21 +567,24 @@ case_insensitive_has_fix (GnmValue const *vs, GnmValue const *vp,
 
 
 static gboolean
-gnm_style_cond_eval (GnmStyleCond const *cond, GnmValue const *cv,
+gnm_style_cond_eval (GnmStyleCond *cond, GnmValue const *cv,
 		     GnmEvalPos const *ep)
 {
 	gboolean negate = FALSE;
 	gboolean res;
 	GnmValue *val0 = NULL;
 	GnmValue *val1 = NULL;
+	GnmEvalPos epos = *ep;
 
 	switch (gnm_style_cond_op_operands (cond->op)) {
 	case 2:
-		val1 = gnm_expr_top_eval (cond->deps[1].base.texpr, ep,
+		epos.dep = &cond->deps[1].base;
+		val1 = gnm_expr_top_eval (cond->deps[1].base.texpr, &epos,
 					  GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 		/* Fall through */
 	case 1:
-		val0 = gnm_expr_top_eval (cond->deps[0].base.texpr, ep,
+		epos.dep = &cond->deps[0].base;
+		val0 = gnm_expr_top_eval (cond->deps[0].base.texpr, &epos,
 					  GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 		/* Fall through */
 	case 0:
@@ -687,6 +698,91 @@ gnm_style_cond_equal (GnmStyleCond const *ca, GnmStyleCond const *cb,
 	return TRUE;
 }
 
+static void
+gnm_style_cond_set_pos (GnmStyleCond *sc, GnmCellPos const *pos)
+{
+	unsigned oi, N;
+
+	N = gnm_style_cond_op_operands (sc->op);
+	for (oi = 0; oi < N; oi++) {
+		gboolean qlink = dependent_is_linked (&sc->deps[oi].base);
+		if (qlink)
+			dependent_unlink (&sc->deps[oi].base);
+		sc->deps[oi].pos = *pos;
+		if (qlink)
+			dependent_link (&sc->deps[oi].base);
+	}
+}
+
+// For debugging purposes
+char *
+gnm_style_cond_as_string (GnmStyleCond const *cond)
+{
+	unsigned oi, N;
+	static const char * const ops[] = {
+		"between", "not-between",
+		"equal", "not-equal",
+		"greater-than", "less-then",
+		"greater-than-or-equal", "less-than-or-equal",
+		"is-true",
+		NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+		"contains", "does-not-contain",
+		"begins-with", "does-not-begin-with",
+		"end-with", "does-not-end-with",
+		"is-error", "is-not-error",
+		"contains-blank", "does-not-contain-blank"
+	};
+	GString *str = g_string_new (ops[cond->op]);
+	Sheet *sheet = gnm_style_cond_get_sheet (cond);
+	GnmConventions const *convs = sheet_get_conventions (sheet);
+
+	N = gnm_style_cond_op_operands (cond->op);
+	for (oi = 0; oi < N; oi++) {
+		char *s;
+		GnmParsePos pp;
+
+		parse_pos_init_dep (&pp, &cond->deps[oi].base);
+		s = gnm_expr_top_as_string (gnm_style_cond_get_expr (cond, oi),
+					    &pp,
+					    convs);
+		g_string_append_c (str, ' ');
+		g_string_append (str, s);
+		g_free (s);
+	}
+	return g_string_free (str, FALSE);
+}
+
+// ----------------------------------------------------------------------------
+
+static void
+gscd_eval (GnmDependent *dep)
+{
+	// Nothing yet
+}
+
+static GSList *
+gscd_changed (GnmDependent *dep)
+{
+	GnmStyleCondDep const *scd = (GnmStyleCondDep const *)dep;
+	return scd->dep_cont ? g_slist_prepend (NULL, scd->dep_cont) : NULL;
+}
+
+static GnmCellPos *
+gscd_pos (GnmDependent const *dep)
+{
+	return &((GnmStyleCondDep *)dep)->pos;
+}
+
+static void
+gscd_debug_name (GnmDependent const *dep, GString *target)
+{
+	g_string_append_printf (target, "StyleCondDep/%p", (void *)dep);
+}
+
+
+static DEPENDENT_MAKE_TYPE(gscd, .eval = gscd_eval, .changed = gscd_changed, .pos = gscd_pos, .debug_name =  gscd_debug_name)
+
+// ----------------------------------------------------------------------------
 
 static void
 gnm_style_conditions_finalize (GObject *obj)
@@ -1001,7 +1097,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 	}
 
 	for (i = 0 ; i < conds->len ; i++) {
-		GnmStyleCond const *cond = g_ptr_array_index (conds, i);
+		GnmStyleCond *cond = g_ptr_array_index (conds, i);
 		gboolean use_this = gnm_style_cond_eval (cond, cv, ep);
 
 		if (use_this) {
@@ -1017,4 +1113,55 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 
 	value_release (cv);
 	return -1;
+}
+
+
+/**
+ * gnm_style_conditions_set_pos:
+ * @sc: #GnmStyleConditions
+ * @pos: new position
+ *
+ * Sets the position of @sc, i.e., the position at which relative addresses
+ * in the conditions will be evaluated.
+ **/
+void
+gnm_style_conditions_set_pos (GnmStyleConditions *sc,
+			      GnmCellPos const *pos)
+{
+	GPtrArray const *ga;
+	unsigned ui;
+
+	g_return_if_fail (sc != NULL);
+
+	ga = gnm_style_conditions_details (sc);
+	for (ui = 0; ui < (ga ? ga->len : 0u); ui++) {
+		GnmStyleCond *cond = g_ptr_array_index (ga, ui);
+		gnm_style_cond_set_pos (cond, pos);
+	}
+}
+
+/**
+ * gnm_style_conditions_get_pos:
+ * @sc: #GnmStyleConditions
+ *
+ * Returns: (transfer none) (nullable): The position at which relative
+ * addresses in the conditions will be evaluated.  This may be %NULL if
+ * no conditions require a position.
+ **/
+GnmCellPos const *
+gnm_style_conditions_get_pos (GnmStyleConditions const *sc)
+{
+	GPtrArray const *ga;
+	unsigned ui;
+
+	g_return_val_if_fail (sc != NULL, NULL);
+
+	ga = gnm_style_conditions_details (sc);
+	for (ui = 0; ui < (ga ? ga->len : 0u); ui++) {
+		GnmStyleCond *cond = g_ptr_array_index (ga, ui);
+		int N = gnm_style_cond_op_operands (cond->op);
+		if (N > 0)
+			return dependent_pos (&cond->deps[0].base);
+	}
+	return NULL;
 }

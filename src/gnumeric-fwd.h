@@ -71,6 +71,7 @@ typedef struct _GnmSearchReplace	GnmSearchReplace;
 typedef struct _GnmSheetSize		GnmSheetSize;
 typedef struct _GnmSheetSlicer		GnmSheetSlicer;
 typedef struct _GnmSheetStyleData       GnmSheetStyleData;
+typedef struct GnmSheetConditionsData_  GnmSheetConditionsData;
 typedef struct _GnmSortData		GnmSortData;
 typedef struct _GnmStfExport GnmStfExport;
 typedef struct _GnmStyle		GnmStyle;

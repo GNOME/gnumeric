@@ -339,32 +339,6 @@ static const GnmDependentClass managed_dep_class = {
 	managed_dep_debug_name,
 };
 
-static GnmCellPos *managed_dep_pos (GnmDependent const *dep);
-static const GnmDependentClass managed_pos_dep_class = {
-	dummy_dep_eval,
-	NULL,
-	NULL,
-	managed_dep_pos,
-	managed_dep_debug_name,
-};
-
-static void style_dep_eval (GnmDependent *dep);
-static GSList *style_dep_changed (GnmDependent *dep);
-static GnmCellPos *style_dep_pos (GnmDependent const *dep);
-static void style_dep_debug_name (GnmDependent const *dep, GString *target);
-static const GnmDependentClass style_dep_class = {
-	style_dep_eval,
-	NULL,
-	style_dep_changed,
-	style_dep_pos,
-	style_dep_debug_name,
-};
-typedef struct {
-	GnmDependent base;
-	GnmCellPos pos;
-} GnmStyleDependent;
-
-
 static GPtrArray *dep_classes = NULL;
 
 void
@@ -379,8 +353,6 @@ dependent_types_init (void)
 	g_ptr_array_add	(dep_classes, (gpointer)&dynamic_dep_class);
 	g_ptr_array_add	(dep_classes, (gpointer)&name_dep_class);
 	g_ptr_array_add	(dep_classes, (gpointer)&managed_dep_class);
-	g_ptr_array_add	(dep_classes, (gpointer)&managed_pos_dep_class);
-	g_ptr_array_add	(dep_classes, (gpointer)&style_dep_class);
 
 #if USE_POOLS
 	micro_few_pool =
@@ -1371,44 +1343,6 @@ workbook_unlink_3d_dep (GnmDependent *dep)
 	g_hash_table_remove (wb->sheet_order_dependents, dep);
 }
 
-/**
- * gnm_dep_style_dependency:
- * @sheet:
- * @texpr:
- * @r:
- * @accum: (inout) (transfer full) (element-type GnmDependent):
- **/
-void
-gnm_dep_style_dependency (Sheet *sheet,
-			  GnmExprTop const *texpr,
-			  GnmRange const *r,
-			  GPtrArray *accum)
-{
-	int row, col;
-
-	/*
-	 * FIXME: Maybe do better for an expression that is just an
-	 * absolute ref.
-	 */
-
-	for (row = r->start.row; row <= r->end.row; row++) {
-		for (col = r->start.col; col <= r->end.col; col++) {
-			GnmStyleDependent *sd = g_new0 (GnmStyleDependent, 1);
-			GnmDependent *dep = &sd->base;
-
-			dep->sheet = sheet;
-			dep->flags = DEPENDENT_STYLE;
-			dep->texpr = NULL;
-			sd->pos.col = col;
-			sd->pos.row = row;
-
-			dependent_set_expr (dep, texpr);
-			dependent_link (dep);
-			g_ptr_array_add (accum, dep);
-		}
-	}
-}
-
 /*****************************************************************************/
 
 static void
@@ -1486,14 +1420,6 @@ dependent_managed_init (GnmDepManaged *dep, Sheet *sheet)
 	dep->base.sheet = sheet;
 }
 
-void
-dependent_managed_pos_init (GnmDepManaged *dep, Sheet *sheet, GnmCellPos const *pos)
-{
-	dependent_managed_init (dep, sheet);
-	dep->base.flags = DEPENDENT_MANAGED_POS;
-	dep->pos = *pos;
-}
-
 GnmExprTop const *
 dependent_managed_get_expr (GnmDepManaged const *dep)
 {
@@ -1542,82 +1468,6 @@ static void
 managed_dep_debug_name (GnmDependent const *dep, GString *target)
 {
 	g_string_append_printf (target, "Managed%p", (void *)dep);
-}
-
-static GnmCellPos *
-managed_dep_pos (GnmDependent const *dep)
-{
-	return &((GnmDepManaged*)dep)->pos;
-}
-
-/*****************************************************************************/
-
-static gboolean
-debug_style_deps (void)
-{
-	static int debug = -1;
-	if (debug < 0)
-		debug = gnm_debug_flag ("style-deps");
-	return debug;
-}
-
-static void
-style_dep_unrender (GnmDependent *dep, const char *what)
-{
-	GnmCellPos const *pos = dependent_pos (dep);
-	GnmCell *cell;
-	Sheet *sheet = dep->sheet;
-	GnmRange r;
-
-	if (debug_style_deps ())
-		g_printerr ("StyleDep %p at %s %s\n",
-			    dep, cellpos_as_string (pos), what);
-
-	/*
-	 * If the cell exists, unrender it so format changes can take
-	 * effect.
-	 */
-	cell = sheet_cell_get (sheet, pos->col, pos->row);
-	if (cell)
-		gnm_cell_unrender (cell);
-
-	// Redraws may involve computation (via conditional styling,
-	// for example) so doing it now is no good.  See #480 for a
-	// particular nasty example involving conditional styling and
-	// dynamic dependents.
-	range_init_cellpos (&r, pos);
-	sheet_queue_redraw_range (sheet, &r);
-}
-
-static void
-style_dep_eval (GnmDependent *dep)
-{
-	/*
-	 * It is possible that the cell has been rendered between ::changed
-	 * was called and now.
-	 */
-	style_dep_unrender (dep, "being evaluated");
-}
-
-static GSList *
-style_dep_changed (GnmDependent *dep)
-{
-	style_dep_unrender (dep, "changed");
-	return NULL;
-}
-
-static GnmCellPos *
-style_dep_pos (GnmDependent const *dep)
-{
-	return &((GnmStyleDependent*)dep)->pos;
-}
-
-static void
-style_dep_debug_name (GnmDependent const *dep, GString *target)
-{
-	g_string_append_printf (target, "StyleDep@%s[%p]",
-				cellpos_as_string (style_dep_pos (dep)),
-				dep);
 }
 
 /*****************************************************************************/
@@ -3311,7 +3161,10 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 	gnm_dep_container_sanity_check (deps);
 
 	alldeps = g_hash_table_new (g_direct_hash, g_direct_equal);
-	SHEET_FOREACH_DEPENDENT (sheet, dep, g_hash_table_insert (alldeps, dep, dep););
+	SHEET_FOREACH_DEPENDENT (sheet, dep,
+				 if (!dependent_is_cell (dep))
+					 g_hash_table_insert (alldeps, dep, dep);
+	);
 
 	for (i = 0; i < deps->buckets; i++) {
 		GHashTable *hash = deps->range_hash[i];
@@ -3350,7 +3203,7 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 		GHashTableIter hiter;
 		gpointer key, value;
 
-		g_printerr ("  Dynamic hash size %d: cells that depend on dynamic dependencies\n",
+		g_printerr ("  Dynamic hash size %d: dependents that depend on dynamic dependencies\n",
 			    g_hash_table_size (deps->dynamic_deps));
 		g_hash_table_iter_init (&hiter, deps->dynamic_deps);
 		while (g_hash_table_iter_next (&hiter, &key, &value)) {
@@ -3377,7 +3230,7 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 		GHashTableIter hiter;
 		gpointer key;
 
-		g_printerr ("  Dependencies of sheet not listed above:\n");
+		g_printerr ("  Dependencies of sheet not listed above (excluding cells):\n");
 		g_hash_table_iter_init (&hiter, alldeps);
 		while (g_hash_table_iter_next (&hiter, &key, NULL)) {
 			GnmDependent *dep = key;
