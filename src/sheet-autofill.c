@@ -861,7 +861,7 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 			int limit_y = afe->last.row - pos->row + 1;
                         int cols, rows;
 
-			gnm_expr_top_get_array_size (texpr, &cols, &rows);
+			gnm_expr_top_get_array_size (src_texpr, &cols, &rows);
                         cols = MIN (limit_x, cols);
                         rows = MIN (limit_y, rows);
 
