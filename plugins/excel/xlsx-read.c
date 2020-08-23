@@ -1331,10 +1331,15 @@ xlsx_cell_val_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	char		*end;
 	long		 i;
 
+	if (*xin->content->str == 0) {
+		// See #517
+		state->val = value_new_empty ();
+		return;
+	}
+
 	switch (state->pos_type) {
 	case XLXS_TYPE_NUM :
-		if (*xin->content->str)
-			state->val = value_new_float (gnm_strto (xin->content->str, &end));
+		state->val = value_new_float (gnm_strto (xin->content->str, &end));
 		break;
 	case XLXS_TYPE_SST_STR :
 		i = xlsx_relaxed_strtol (xin->content->str, &end, 10);
@@ -1536,6 +1541,11 @@ xlsx_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 	} else if (NULL != state->val)
 		gnm_cell_assign_value (cell, state->val);
+
+	// We use an empty value as an indicator for "no value"
+	if (VALUE_IS_EMPTY (state->val)) {
+		cell_queue_recalc (cell);
+	}
 
 	state->texpr = NULL;
 	state->val = NULL;
