@@ -1,3 +1,8 @@
+2020-08-29  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_xml_end_element_check): New function to
+	ensure we have closed all tags.
+
 2020-08-12  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.48
