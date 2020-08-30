@@ -104,6 +104,7 @@ struct GnmSheetConditionsData_ {
 	GHashTable *linked_conditions;
 
 	gulong sig_being_loaded;
+	gpointer sig_being_loaded_object;
 };
 
 static void update_group (CSGroup *g);
@@ -155,12 +156,17 @@ sheet_conditions_init (Sheet *sheet)
 		((GHashFunc)gnm_style_conditions_hash,
 		 (GCompareFunc)sc_equal);
 
-	cd->sig_being_loaded = sheet->workbook
-		? g_signal_connect_swapped (G_OBJECT (sheet->workbook),
-					    "notify::being-loaded",
-					    G_CALLBACK (cb_being_loaded),
-					    sheet)
-		: 0; // a preview grid sheet
+	cd->sig_being_loaded_object = sheet->workbook;
+	if (cd->sig_being_loaded_object) {
+		cd->sig_being_loaded =
+			g_signal_connect_swapped (G_OBJECT (cd->sig_being_loaded_object),
+						  "notify::being-loaded",
+						  G_CALLBACK (cb_being_loaded),
+						  sheet);
+		// We can't grab a ref to the workbook as that would introduce a ref loop.
+		g_object_add_weak_pointer (cd->sig_being_loaded_object,
+					   &cd->sig_being_loaded_object);
+	}
 }
 
 
@@ -169,9 +175,12 @@ sheet_conditions_uninit (Sheet *sheet)
 {
 	GnmSheetConditionsData *cd = sheet->conditions;
 
-	if (cd->sig_being_loaded) {
-		g_signal_handler_disconnect (sheet->workbook, cd->sig_being_loaded);
+	if (cd->sig_being_loaded_object) {
+		g_signal_handler_disconnect (cd->sig_being_loaded_object, cd->sig_being_loaded);
+		g_object_remove_weak_pointer (cd->sig_being_loaded_object,
+					      &cd->sig_being_loaded_object);
 		cd->sig_being_loaded = 0;
+		cd->sig_being_loaded_object = NULL;
 	}
 
 	if (g_hash_table_size (cd->groups) > 0)
