@@ -731,6 +731,7 @@ sub test_valgrind {
     local (%ENV) = %ENV;
     $ENV{'G_DEBUG'} .= ':gc-friendly:resident-modules';
     $ENV{'G_SLICE'} = 'always-malloc';
+    $ENV{'PYTHONMALLOC'} = 'malloc';
     delete $ENV{'VALGRIND_OPTS'};
 
     my $outfile = 'valgrind.log';
