@@ -846,7 +846,7 @@ msgstr "Funcions d'enginyeria"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:2
 msgid "Functions for complex numbers, base conversions, and more"
-msgstr "Funcions per a números complexos, conversions de base, i més"
+msgstr "Funcions per a nombres complexos, conversions de base, i més"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:3
 msgid "Engineering"
@@ -2042,7 +2042,7 @@ msgstr "Assigna memòria per al nom de la columna."
 #: ../plugins/paradox/paradox.c:355
 #, c-format
 msgid "Could not allocate memory for %d. field name."
-msgstr "No s'ha pogut assignar memòria per al nom del camp %d.."
+msgstr "No s'ha pogut assignar memòria per al nom del camp %d."
 
 #: ../plugins/paradox/paradox.c:365
 #, c-format
@@ -7848,7 +7848,7 @@ msgstr "Ajusta automàticament"
 msgid ""
 "If this checkbox is selected, column %i will be imported into Gnumeric."
 msgstr ""
-"Si aquesta casella de selecció està seleccionada, se importarà la columna %i al "
+"Si aquesta casella de selecció està seleccionada, s'importarà la columna %i al "
 "Gnumeric."
 
 #: ../src/dialogs/dialog-stf-format-page.c:630
@@ -11730,7 +11730,7 @@ msgstr "_Diferència hipotètica de les medianes:"
 
 #: ../src/dialogs/sign-test.ui.h:1
 msgid "Testing 1 Median"
-msgstr "Se està provant una mediana"
+msgstr "S'està provant una mediana"
 
 #: ../src/dialogs/sign-test.ui.h:13
 msgid "_Predicted Median:"
@@ -12187,7 +12187,7 @@ msgid ""
 "This checkbox determines whether each cell containing a spreadsheet formula "
 "is marked with a green top left corner."
 msgstr ""
-"Aquesta casella determina si les cel·les que contenen fórmules de full de "
+"Aquesta casella de selecció determina si les cel·les que contenen fórmules de full de "
 "càlcul es marquen en verd a la cantonada superior esquerra."
 
 #: ../src/dialogs/workbook-attr.ui.h:12
@@ -12199,7 +12199,7 @@ msgid ""
 "This checkbox determines whether small red arrows indicate that the content "
 "has been truncated in that direction."
 msgstr ""
-"Aquesta casella determina si el contingut s'ha retallat en la direcció "
+"Aquesta casella de selecció determina si el contingut s'ha retallat en la direcció "
 "indicada per les fletxetes vermelles."
 
 #: ../src/expr-name.c:735
@@ -12680,7 +12680,7 @@ msgstr "Avís"
 #: ../src/gui-util.c:1262
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
-msgstr "No es pot trobar el connector necessari amb l'identificador %s. "
+msgstr "No es pot trobar el connector necessari amb l'identificador %s."
 
 #: ../src/gui-util.c:1270
 #, c-format
@@ -13529,7 +13529,7 @@ msgstr "Full de gràfic nou"
 #: ../src/sheet-object-widget.c:245
 msgid ""
 "Because of GTK bug #705640, a sheet object widget is not being printed."
-msgstr "A causa del error GTK #705640, no s'imprimirà un giny del full."
+msgstr "A causa de l'error GTK #705640, no s'imprimirà un giny del full."
 
 #: ../src/sheet-object-widget.c:398 ../src/wbc-gtk-actions.c:3327
 msgid "Frame"
