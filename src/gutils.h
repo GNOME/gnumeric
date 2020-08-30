@@ -60,6 +60,7 @@ void gnm_hash_table_foreach_ordered (GHashTable *h,
 				     gpointer user);
 
 void gnm_xml_in_doc_dispose_on_exit (GsfXMLInDoc **pdoc);
+void gnm_xml_out_end_element_check (GsfXMLOut *xout, char const *id);
 
 Sheet *gnm_file_saver_get_sheet (GOFileSaver const *fs,
 				 WorkbookView const *wbv);

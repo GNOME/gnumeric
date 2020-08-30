@@ -219,17 +219,6 @@ static void odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *styl
 static void odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style);
 
 
-static void
-odf_xml_end_element_check (GsfXMLOut *xout, char const *id)
-{
-	while (TRUE) {
-		const char *cid = gsf_xml_out_end_element (xout);
-		if (g_str_equal (cid, id))
-			return;
-		g_critical ("Unbalanced xml tags while writing, please report");
-	}
-}
-
 /*****************************************************************************/
 
 #define PROGRESS_STEPS 500
@@ -5103,7 +5092,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 				gsf_xml_out_end_element (state->xml); /* </gnm:selections> */
 			}
 		}
-		gsf_xml_out_end_element (state->xml); /* </table:table> */
+		gnm_xml_out_end_element_check (state->xml, TABLE "table");
 
 		has_autofilters |= (sheet->filters != NULL);
 		odf_update_progress (state, state->sheet_progress);
@@ -5130,7 +5119,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_end_element (state->xml); /* </office:spreadsheet> */
 	gsf_xml_out_end_element (state->xml); /* </office:body> */
 
-	odf_xml_end_element_check (state->xml, OFFICE "document-content");
+	gnm_xml_out_end_element_check (state->xml, OFFICE "document-content");
 	g_object_unref (state->xml);
 	state->xml = NULL;
 }
@@ -5823,7 +5812,7 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 	odf_write_automatic_styles (state);
 	odf_write_master_styles (state);
 
-	odf_xml_end_element_check (state->xml, OFFICE "document-styles");
+	gnm_xml_out_end_element_check (state->xml, OFFICE "document-styles");
 
 	g_object_unref (state->xml);
 	state->xml = NULL;
@@ -6357,7 +6346,7 @@ odf_write_settings (GnmOOExport *state, GsfOutput *child)
 	odf_write_ooo_settings (state);
 
 	gsf_xml_out_end_element (state->xml); /* </office:settings> */
-	odf_xml_end_element_check (state->xml, OFFICE "document-settings");
+	gnm_xml_out_end_element_check (state->xml, OFFICE "document-settings");
 	g_object_unref (state->xml);
 	state->xml = NULL;
 }

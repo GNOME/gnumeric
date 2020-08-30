@@ -1400,7 +1400,7 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 	xml_write_solver (state);
 	xml_write_scenarios (state);
 
-	gsf_xml_out_end_element (state->output); /* </gnm:Sheet> */
+	gnm_xml_out_end_element_check (state->output, GNM "Sheet");
 	state->sheet = NULL;
 }
 

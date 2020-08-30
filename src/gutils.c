@@ -852,6 +852,29 @@ gnm_xml_in_doc_dispose_on_exit (GsfXMLInDoc **pdoc)
 	gutils_xml_in_docs = g_slist_prepend (gutils_xml_in_docs, pdoc);
 }
 
+/**
+ * gnm_xml_out_end_element_check:
+ * @xout: #GsfXMLOut sink
+ * @id: expected tag being closed
+ *
+ * Closes an xml tag, expected it to be @id.  If it is not, tags will
+ * continue to be closed until the expected one is found in the hope
+ * that getting back to sync will make the result less corrupted.
+ */
+void
+gnm_xml_out_end_element_check (GsfXMLOut *xout, char const *id)
+{
+	while (TRUE) {
+		const char *cid = gsf_xml_out_end_element (xout);
+		if (!cid)
+			return;
+		if (g_str_equal (cid, id))
+			return;
+		g_critical ("Unbalanced xml tags while writing, please report");
+	}
+}
+
+
 /* ------------------------------------------------------------------------- */
 
 /**
