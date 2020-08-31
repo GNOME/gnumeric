@@ -1,3 +1,9 @@
+2020-08-30  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_store_this_named_style): Handle the same
+	style showing up more than once.  (Fallout from conditional
+	formatting changes.)
+
 2020-08-29  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_xml_end_element_check): New function to

@@ -1792,20 +1792,28 @@ odf_save_this_style_with_name (GnmStyleRegion *sr, char const *name, GnmOOExport
 static void
 odf_store_this_named_style (GnmStyle *style, char const *name, GnmRange *r, GnmOOExport *state)
 {
-	char *real_name;
+	char *real_name = NULL;
+	const char *old_name;
 	GnmStyleConditions const *sc;
 
-	if (name == NULL) {
+	old_name = g_hash_table_lookup (state->named_cell_styles, style);
+
+	if (name) {
+		if (old_name)
+			g_warning ("Unexpected style name reuse.");
+		real_name = g_strdup (name);
+	} else if (!old_name) {
 		int i = g_hash_table_size (state->named_cell_styles);
                 /* All styles referenced by a style:map need to be named, so in that case */
 		/* we make up a name, that ought to look nice */
 		real_name = g_strdup_printf ("Gnumeric-%i", i);
-	} else
-		real_name = g_strdup (name);
+	}
 
-	g_hash_table_insert (state->named_cell_styles, style, real_name);
+	if (!old_name)
+		g_hash_table_insert (state->named_cell_styles, style, real_name);
+
 	g_hash_table_insert (state->named_cell_style_regions, gnm_style_region_new (r, style),
-			     g_strdup (real_name));
+			     g_strdup (old_name ? old_name : real_name));
 
 	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
 	    NULL != (sc = gnm_style_get_conditions (style))) {
