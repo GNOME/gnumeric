@@ -928,7 +928,7 @@ sub setup_python_environment {
     $dir = "$top_builddir/src/.libs";
     $ENV{$v} = ($ENV{$v} || '') eq '' ? $dir : $dir . ':' . $ENV{$v};
 
-    $ENV{'PYTHONPATH'} = "$topsrc/introspection";
+    $ENV{'GNM_TEST_INTROSPECTION_DIR'} = &make_absolute ("$topsrc/introspection/gi/overrides");
 
     # Don't litter
     $ENV{'PYTHONDONTWRITEBYTECODE'} = 1;

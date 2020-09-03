@@ -1,5 +1,7 @@
-#!/usr/bin/python3
+#!/usr/bin/python3 -B
 # -----------------------------------------------------------------------------
+
+import GnumericTest
 
 import gi
 gi.require_version('Gnm', '1.12')
