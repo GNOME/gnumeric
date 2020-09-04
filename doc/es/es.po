@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: HEAD\n"
-"POT-Creation-Date: 2018-11-18 01:00+0000\n"
+"POT-Creation-Date: 2020-07-06 16:33+0000\n"
 "PO-Revision-Date: 2019-06-07 13:01+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
@@ -365,7 +365,7 @@ msgstr ""
 #. (itstool) path: chapter/title
 #: C/gnumeric.xml:514
 msgid "Welcome!"
-msgstr "Bienvenido"
+msgstr "Bienvenido/a"
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:5
@@ -632,7 +632,7 @@ msgid ""
 "developer releases. These releases are kept as stable as possible. However, "
 "each release in this series includes changes and improvements some of which "
 "may be quite large. These new changes may cause the program to crash and "
-"loose data. Do not use these releases if you cannot afford to loose any data "
+"lose data. Do not use these releases if you cannot afford to lose any data "
 "or work. However, these releases include many new features that can be "
 "helpful. If you use this series, backup your data often, not just by saving "
 "files but by renaming them and checking that they can be reopened. If you "
@@ -12458,10 +12458,10 @@ msgstr ""
 #: C/gnumeric.xml:322
 msgid ""
 "The first set of choices allow the user to control the data pasted.The user "
-"can chose to limit the pasting to only the cell contents (no cell formatting "
-"is copied) or the opposite only cell formats copied (no contents). "
-"Furthermore, the user can insert the selection while transforming all the "
-"contents into values only. Formulas will be replaced by their values."
+"can choose to limit the pasting to only the cell contents (no cell "
+"formatting is copied) or the opposite only cell formats copied (no "
+"contents). Furthermore, the user can insert the selection while transforming "
+"all the contents into values only. Formulas will be replaced by their values."
 msgstr ""
 
 #. (itstool) path: sect2/para
@@ -13089,7 +13089,6 @@ msgstr ""
 
 #. (itstool) path: row/entry
 #: C/gnumeric.xml:379
-#| msgid "30-Sep-199"
 msgid "30-Sep-1998"
 msgstr "30-Sep-1998"
 
@@ -14376,7 +14375,7 @@ msgstr ""
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:133
 msgid ""
-"``Filter in-place'' writes the new table in-place. Note that you will loose "
+"``Filter in-place'' writes the new table in-place. Note that you will lose "
 "all the rows in the table that will not match the criteria. ``Copy to a new "
 "location'' copies the selected rows into the same sheet but into the "
 "specified cell range. Type the cell range into the ``Copy to'' entry if you "
@@ -15912,7 +15911,7 @@ msgid ""
 "iterations, the better the estimate of the output value.  However, this also "
 "takes more time to run.  A Max time value is specified in seconds where the "
 "simulation will end without output if an individual simulation takes longer "
-"then the Max time allotted.  If this occurs (see <xref linkend=\"fig-"
+"than the Max time allotted.  If this occurs (see <xref linkend=\"fig-"
 "analysis-simulation-maximumtime-dialog\"/>), the options are to either "
 "increase the Max time value, or decrease the number of iterations.  A more "
 "drastic option is to change the model so that fewer calculations or samples "
@@ -34939,7 +34938,7 @@ msgstr ""
 msgid ""
 "This complex situation generally does not impact users. "
 "<application>Gnumeric</application> has been designed to deal with most of "
-"the complexity. Many kinds of flies, such as the <application>Gnumeric</"
+"the complexity. Many kinds of files, such as the <application>Gnumeric</"
 "application> file format itself, describe their encoding scheme internally "
 "in such a way that it can be easily recognized. <application>Gnumeric</"
 "application> also provides an easy approach to changing the encoding scheme "
