@@ -1,5 +1,5 @@
 # Brazilian Portuguese translation for gnumeric-functions
-# Copyright (C) 2019 gnumeric-functions's COPYRIGHT HOLDER
+# Copyright (C) 2020 gnumeric-functions's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnumeric package.
 # E. A. Tacão <tacao@conectiva.com.br>, 2000.
 # Juan Carlos Castro y Castro <jcastro@vialink.com.br>, 2001.
@@ -7,22 +7,22 @@
 # Afonso Celso Medina <medina@maua.br>, 2004, 2005.
 # Juan Diego Martins da Costa Cruz <juan.martins@academico.ifrn.edu.br>, 2013, 2014.
 # Rodrigo Abumansur <abu_mansur@hotmail.com>, 2015.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2018-2019.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2018-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2019-01-04 23:49+0000\n"
-"PO-Revision-Date: 2019-03-10 11:12-0300\n"
+"POT-Creation-Date: 2020-05-27 14:21+0000\n"
+"PO-Revision-Date: 2020-09-12 10:43-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
-"Language-Team: Portuguese - Brazil <gnome-pt_br-list@gnome.org>\n"
+"Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
-"X-Generator: Gtranslator 3.31.90\n"
+"X-Generator: Gtranslator 3.36.0\n"
 "X-Project-Style: gnome\n"
 
 #: ../plugins/fn-christian-date/functions.c:131
@@ -167,15 +167,15 @@ msgstr "Se @{i} não é nem “i” nem “j”, COMPLEX retorna #VALOR!"
 #: ../plugins/fn-eng/functions.c:463 ../plugins/fn-eng/functions.c:486
 #: ../plugins/fn-eng/functions.c:509 ../plugins/fn-eng/functions.c:529
 #: ../plugins/fn-eng/functions.c:1474 ../plugins/fn-eng/functions.c:1497
-#: ../plugins/fn-info/functions.c:94 ../plugins/fn-info/functions.c:1288
-#: ../plugins/fn-info/functions.c:1354 ../plugins/fn-info/functions.c:1442
-#: ../plugins/fn-info/functions.c:1460 ../plugins/fn-info/functions.c:1482
-#: ../plugins/fn-info/functions.c:1509 ../plugins/fn-info/functions.c:1536
-#: ../plugins/fn-info/functions.c:1573 ../plugins/fn-info/functions.c:1589
-#: ../plugins/fn-info/functions.c:1611 ../plugins/fn-info/functions.c:1628
-#: ../plugins/fn-info/functions.c:1646 ../plugins/fn-info/functions.c:1663
-#: ../plugins/fn-info/functions.c:1685 ../plugins/fn-info/functions.c:1714
-#: ../plugins/fn-info/functions.c:1733 ../plugins/fn-info/functions.c:1770
+#: ../plugins/fn-info/functions.c:94 ../plugins/fn-info/functions.c:1294
+#: ../plugins/fn-info/functions.c:1360 ../plugins/fn-info/functions.c:1448
+#: ../plugins/fn-info/functions.c:1466 ../plugins/fn-info/functions.c:1488
+#: ../plugins/fn-info/functions.c:1515 ../plugins/fn-info/functions.c:1542
+#: ../plugins/fn-info/functions.c:1579 ../plugins/fn-info/functions.c:1595
+#: ../plugins/fn-info/functions.c:1617 ../plugins/fn-info/functions.c:1634
+#: ../plugins/fn-info/functions.c:1652 ../plugins/fn-info/functions.c:1669
+#: ../plugins/fn-info/functions.c:1691 ../plugins/fn-info/functions.c:1720
+#: ../plugins/fn-info/functions.c:1739 ../plugins/fn-info/functions.c:1776
 #: ../plugins/fn-logical/functions.c:49 ../plugins/fn-logical/functions.c:100
 #: ../plugins/fn-logical/functions.c:128 ../plugins/fn-logical/functions.c:370
 #: ../plugins/fn-logical/functions.c:388 ../plugins/fn-math/functions.c:194
@@ -192,23 +192,23 @@ msgstr "Se @{i} não é nem “i” nem “j”, COMPLEX retorna #VALOR!"
 #: ../plugins/fn-math/functions.c:939 ../plugins/fn-math/functions.c:958
 #: ../plugins/fn-math/functions.c:999 ../plugins/fn-math/functions.c:1040
 #: ../plugins/fn-math/functions.c:1166 ../plugins/fn-math/functions.c:1223
-#: ../plugins/fn-math/functions.c:1256 ../plugins/fn-math/functions.c:1304
-#: ../plugins/fn-math/functions.c:1342 ../plugins/fn-math/functions.c:1378
-#: ../plugins/fn-math/functions.c:1510 ../plugins/fn-math/functions.c:1553
-#: ../plugins/fn-math/functions.c:1601 ../plugins/fn-math/functions.c:1715
-#: ../plugins/fn-math/functions.c:1733 ../plugins/fn-math/functions.c:1780
-#: ../plugins/fn-math/functions.c:1841 ../plugins/fn-math/functions.c:1887
-#: ../plugins/fn-math/functions.c:1920 ../plugins/fn-math/functions.c:1957
-#: ../plugins/fn-math/functions.c:1992 ../plugins/fn-math/functions.c:2027
-#: ../plugins/fn-math/functions.c:2064 ../plugins/fn-math/functions.c:2143
-#: ../plugins/fn-math/functions.c:2168 ../plugins/fn-math/functions.c:2195
-#: ../plugins/fn-math/functions.c:2221 ../plugins/fn-math/functions.c:2245
-#: ../plugins/fn-math/functions.c:2286 ../plugins/fn-math/functions.c:2331
-#: ../plugins/fn-math/functions.c:2458 ../plugins/fn-math/functions.c:2706
-#: ../plugins/fn-math/functions.c:2750 ../plugins/fn-math/functions.c:2793
-#: ../plugins/fn-math/functions.c:2836 ../plugins/fn-math/functions.c:2893
-#: ../plugins/fn-math/functions.c:3083 ../plugins/fn-math/functions.c:3181
-#: ../plugins/fn-math/functions.c:3226 ../plugins/fn-random/functions.c:46
+#: ../plugins/fn-math/functions.c:1256 ../plugins/fn-math/functions.c:1305
+#: ../plugins/fn-math/functions.c:1343 ../plugins/fn-math/functions.c:1379
+#: ../plugins/fn-math/functions.c:1511 ../plugins/fn-math/functions.c:1554
+#: ../plugins/fn-math/functions.c:1602 ../plugins/fn-math/functions.c:1716
+#: ../plugins/fn-math/functions.c:1734 ../plugins/fn-math/functions.c:1781
+#: ../plugins/fn-math/functions.c:1842 ../plugins/fn-math/functions.c:1888
+#: ../plugins/fn-math/functions.c:1921 ../plugins/fn-math/functions.c:1958
+#: ../plugins/fn-math/functions.c:1993 ../plugins/fn-math/functions.c:2028
+#: ../plugins/fn-math/functions.c:2065 ../plugins/fn-math/functions.c:2144
+#: ../plugins/fn-math/functions.c:2169 ../plugins/fn-math/functions.c:2196
+#: ../plugins/fn-math/functions.c:2222 ../plugins/fn-math/functions.c:2246
+#: ../plugins/fn-math/functions.c:2287 ../plugins/fn-math/functions.c:2332
+#: ../plugins/fn-math/functions.c:2459 ../plugins/fn-math/functions.c:2707
+#: ../plugins/fn-math/functions.c:2751 ../plugins/fn-math/functions.c:2794
+#: ../plugins/fn-math/functions.c:2837 ../plugins/fn-math/functions.c:2894
+#: ../plugins/fn-math/functions.c:3084 ../plugins/fn-math/functions.c:3182
+#: ../plugins/fn-math/functions.c:3227 ../plugins/fn-random/functions.c:46
 #: ../plugins/fn-random/functions.c:247 ../plugins/fn-stat/functions.c:82
 #: ../plugins/fn-stat/functions.c:109 ../plugins/fn-stat/functions.c:135
 #: ../plugins/fn-stat/functions.c:162 ../plugins/fn-stat/functions.c:272
@@ -483,7 +483,6 @@ msgstr ""
 "ramo estão no eixo real, menor que -1 e maior do que 1."
 
 #: ../plugins/fn-complex/functions.c:760
-#| msgid "IMARCCOS:the complex arccosine of the complex number "
 msgid "IMARCCOS:the complex arccosine of the complex number"
 msgstr "IMARCCOS:o arco-cosseno complexo do número complexo"
 
@@ -496,7 +495,6 @@ msgstr ""
 "de ramo estão no eixo real, menor que -1 e maior do que 1."
 
 #: ../plugins/fn-complex/functions.c:786
-#| msgid "IMARCTAN:the complex arctangent of the complex number "
 msgid "IMARCTAN:the complex arctangent of the complex number"
 msgstr "IMARCTAN:a arco-tangente complexa do número complexo"
 
@@ -1228,9 +1226,9 @@ msgstr ""
 #: ../plugins/fn-eng/functions.c:384 ../plugins/fn-eng/functions.c:831
 #: ../plugins/fn-financial/functions.c:1312 ../plugins/fn-math/functions.c:563
 #: ../plugins/fn-math/functions.c:1167 ../plugins/fn-math/functions.c:1194
-#: ../plugins/fn-math/functions.c:1638 ../plugins/fn-math/functions.c:1658
-#: ../plugins/fn-math/functions.c:2379 ../plugins/fn-math/functions.c:3043
-#: ../plugins/fn-math/functions.c:3243 ../plugins/fn-stat/functions.c:1694
+#: ../plugins/fn-math/functions.c:1639 ../plugins/fn-math/functions.c:1659
+#: ../plugins/fn-math/functions.c:2380 ../plugins/fn-math/functions.c:3044
+#: ../plugins/fn-math/functions.c:3244 ../plugins/fn-stat/functions.c:1694
 #: ../plugins/fn-stat/functions.c:2599 ../plugins/fn-stat/functions.c:4958
 #: ../plugins/fn-string/functions.c:306 ../plugins/fn-string/functions.c:390
 #: ../plugins/fn-string/functions.c:517 ../plugins/fn-string/functions.c:1205
@@ -2505,7 +2503,7 @@ msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr ""
 "BASE:sequência de dígitos que representam o número @{n} na base de @{b}"
 
-#: ../plugins/fn-eng/functions.c:206 ../plugins/fn-math/functions.c:1507
+#: ../plugins/fn-eng/functions.c:206 ../plugins/fn-math/functions.c:1508
 #: ../plugins/fn-numtheory/numtheory.c:683
 #: ../plugins/fn-numtheory/numtheory.c:713
 msgid "n:integer"
@@ -2606,7 +2604,7 @@ msgid "DEC2OCT:octal representation of the decimal number @{x}"
 msgstr "DEC2OCT:representação octal do número decimal @{x}"
 
 #: ../plugins/fn-eng/functions.c:336 ../plugins/fn-eng/functions.c:359
-#: ../plugins/fn-math/functions.c:1506
+#: ../plugins/fn-math/functions.c:1507
 msgid "x:integer"
 msgstr "x:inteiro"
 
@@ -2789,14 +2787,14 @@ msgstr "CONVERT:uma medida convertida"
 #: ../plugins/fn-math/functions.c:1080 ../plugins/fn-math/functions.c:1111
 #: ../plugins/fn-math/functions.c:1135 ../plugins/fn-math/functions.c:1219
 #: ../plugins/fn-math/functions.c:1255 ../plugins/fn-math/functions.c:1274
-#: ../plugins/fn-math/functions.c:1399 ../plugins/fn-math/functions.c:1441
-#: ../plugins/fn-math/functions.c:1570 ../plugins/fn-math/functions.c:1656
-#: ../plugins/fn-math/functions.c:1696 ../plugins/fn-math/functions.c:1714
-#: ../plugins/fn-math/functions.c:1919 ../plugins/fn-math/functions.c:1954
-#: ../plugins/fn-math/functions.c:1991 ../plugins/fn-math/functions.c:2026
-#: ../plugins/fn-math/functions.c:2166 ../plugins/fn-math/functions.c:2216
-#: ../plugins/fn-math/functions.c:2240 ../plugins/fn-math/functions.c:2281
-#: ../plugins/fn-math/functions.c:2328 ../plugins/fn-stat/functions.c:436
+#: ../plugins/fn-math/functions.c:1400 ../plugins/fn-math/functions.c:1442
+#: ../plugins/fn-math/functions.c:1571 ../plugins/fn-math/functions.c:1657
+#: ../plugins/fn-math/functions.c:1697 ../plugins/fn-math/functions.c:1715
+#: ../plugins/fn-math/functions.c:1920 ../plugins/fn-math/functions.c:1955
+#: ../plugins/fn-math/functions.c:1992 ../plugins/fn-math/functions.c:2027
+#: ../plugins/fn-math/functions.c:2167 ../plugins/fn-math/functions.c:2217
+#: ../plugins/fn-math/functions.c:2241 ../plugins/fn-math/functions.c:2282
+#: ../plugins/fn-math/functions.c:2329 ../plugins/fn-stat/functions.c:436
 #: ../plugins/fn-stat/functions.c:527 ../plugins/fn-stat/functions.c:588
 #: ../plugins/fn-stat/functions.c:979 ../plugins/fn-stat/functions.c:1048
 #: ../plugins/fn-stat/functions.c:1111 ../plugins/fn-stat/functions.c:1253
@@ -4786,33 +4784,33 @@ msgstr ""
 "  value          \t\tRetorna o conteúdo da célula em @{célula}.\n"
 "  width          \t\tRetorna a largura da coluna."
 
-#: ../plugins/fn-info/functions.c:1176
+#: ../plugins/fn-info/functions.c:1182
 msgid "EXPRESSION:expression in @{cell} as a string"
 msgstr "EXPRESSION:expressão em @{célula} como uma string"
 
-#: ../plugins/fn-info/functions.c:1177
+#: ../plugins/fn-info/functions.c:1183
 msgid "cell:a cell reference"
 msgstr "célula:uma referência de célula"
 
-#: ../plugins/fn-info/functions.c:1178
+#: ../plugins/fn-info/functions.c:1184
 msgid "If @{cell} contains no expression, EXPRESSION returns empty."
 msgstr ""
 "Se @{célula} não contiver qualquer expressão, EXPRESSION retorna vazio."
 
-#: ../plugins/fn-info/functions.c:1213
+#: ../plugins/fn-info/functions.c:1219
 msgid "GET.FORMULA:the formula in @{cell} as a string"
 msgstr "GET.FORMULA:a fórmula na @{célula} como uma string"
 
-#: ../plugins/fn-info/functions.c:1214 ../plugins/fn-info/functions.c:1256
-#: ../plugins/fn-info/functions.c:1827
+#: ../plugins/fn-info/functions.c:1220 ../plugins/fn-info/functions.c:1262
+#: ../plugins/fn-info/functions.c:1833
 msgid "cell:the referenced cell"
 msgstr "célula:a célula referenciada"
 
-#: ../plugins/fn-info/functions.c:1215
+#: ../plugins/fn-info/functions.c:1221
 msgid "GET.FORMULA is the OpenFormula function FORMULA."
 msgstr "GET.FORMULA é a função FORMULA do OpenFormula."
 
-#: ../plugins/fn-info/functions.c:1216
+#: ../plugins/fn-info/functions.c:1222
 msgid ""
 "If A1 is empty and A2 contains =B1+B2, then\n"
 "GET.FORMULA(A2) yields '=B1+B2' and\n"
@@ -4822,37 +4820,37 @@ msgstr ""
 "GET.FORMULA (A2) retorna \"=B1+B2\" e\n"
 "GET.FORMULA (A1) retorna \"\"."
 
-#: ../plugins/fn-info/functions.c:1255
+#: ../plugins/fn-info/functions.c:1261
 msgid "ISFORMULA:TRUE if @{cell} contains a formula"
 msgstr "ISFORMULA:VERDADEIRO se @{célula} contém uma fórmula"
 
-#: ../plugins/fn-info/functions.c:1257
+#: ../plugins/fn-info/functions.c:1263
 msgid "ISFORMULA is OpenFormula compatible."
 msgstr "ISFORMULA é compatível com OpenFormula."
 
-#: ../plugins/fn-info/functions.c:1286
+#: ../plugins/fn-info/functions.c:1292
 msgid "COUNTBLANK:the number of blank cells in @{range}"
 msgstr "COUNTBLANK:o número de células em branco no @{faixa}"
 
-#: ../plugins/fn-info/functions.c:1287
+#: ../plugins/fn-info/functions.c:1293
 msgid "range:a cell range"
 msgstr "faixa:um intervalo de células"
 
-#: ../plugins/fn-info/functions.c:1289
+#: ../plugins/fn-info/functions.c:1295
 msgid "COUNTBLANK(A1:A20) returns the number of blank cell in A1:A20."
 msgstr "COUNTBLANK (A1:A20) retorna o número de células em branco em A1:A20."
 
-#: ../plugins/fn-info/functions.c:1341
+#: ../plugins/fn-info/functions.c:1347
 msgid ""
 "INFO:information about the current operating environment according to @{type}"
 msgstr ""
 "INFO:informações sobre o ambiente operacional atual de acordo com @{tipo}"
 
-#: ../plugins/fn-info/functions.c:1343
+#: ../plugins/fn-info/functions.c:1349
 msgid "type:string giving the type of information requested"
 msgstr "tipo:string dando o tipo de informação solicitada"
 
-#: ../plugins/fn-info/functions.c:1344
+#: ../plugins/fn-info/functions.c:1350
 msgid ""
 "INFO returns information about the current operating environment according "
 "to @{type}:\n"
@@ -4876,35 +4874,35 @@ msgstr ""
 "  system       \t\tRetorna o nome do ambiente.\n"
 "  totmem       \t\tRetorna a quantidade de memória total disponível."
 
-#: ../plugins/fn-info/functions.c:1440
+#: ../plugins/fn-info/functions.c:1446
 msgid "ISERROR:TRUE if @{value} is any error value"
 msgstr "ISERROR:VERDADEIRO se @{valor} é qualquer valor de erro"
 
-#: ../plugins/fn-info/functions.c:1441 ../plugins/fn-info/functions.c:1459
-#: ../plugins/fn-info/functions.c:1481 ../plugins/fn-info/functions.c:1571
-#: ../plugins/fn-info/functions.c:1609 ../plugins/fn-info/functions.c:1627
-#: ../plugins/fn-info/functions.c:1644 ../plugins/fn-info/functions.c:1683
-#: ../plugins/fn-info/functions.c:1713 ../plugins/fn-info/functions.c:1763
+#: ../plugins/fn-info/functions.c:1447 ../plugins/fn-info/functions.c:1465
+#: ../plugins/fn-info/functions.c:1487 ../plugins/fn-info/functions.c:1577
+#: ../plugins/fn-info/functions.c:1615 ../plugins/fn-info/functions.c:1633
+#: ../plugins/fn-info/functions.c:1650 ../plugins/fn-info/functions.c:1689
+#: ../plugins/fn-info/functions.c:1719 ../plugins/fn-info/functions.c:1769
 msgid "value:a value"
 msgstr "valor:um valor"
 
-#: ../plugins/fn-info/functions.c:1458
+#: ../plugins/fn-info/functions.c:1464
 msgid "ISNA:TRUE if @{value} is the #N/A error value"
 msgstr "ISNA:VERDADEIRO se @{valor} é o valor de erro #N/D"
 
-#: ../plugins/fn-info/functions.c:1480
+#: ../plugins/fn-info/functions.c:1486
 msgid "ISERR:TRUE if @{value} is any error value except #N/A"
 msgstr "ISERR:VERDADEIRO se @{valor} é qualquer valor de erro exceto #N/D"
 
-#: ../plugins/fn-info/functions.c:1499
+#: ../plugins/fn-info/functions.c:1505
 msgid "ERROR.TYPE:the type of @{error}"
 msgstr "ERROR.TYPE:o tipo de @{erro}"
 
-#: ../plugins/fn-info/functions.c:1500
+#: ../plugins/fn-info/functions.c:1506
 msgid "error:an error"
 msgstr "erro:um erro"
 
-#: ../plugins/fn-info/functions.c:1501
+#: ../plugins/fn-info/functions.c:1507
 msgid ""
 "ERROR.TYPE returns an error number corresponding to the given error value.  "
 "The error numbers for error values are:\n"
@@ -4926,23 +4924,23 @@ msgstr ""
 "\t#NUM!    \t6\n"
 "\t#N/D     \t\t7"
 
-#: ../plugins/fn-info/functions.c:1535
+#: ../plugins/fn-info/functions.c:1541
 msgid "NA:the error value #N/A"
 msgstr "NA:o valor de erro #N/D"
 
-#: ../plugins/fn-info/functions.c:1553
+#: ../plugins/fn-info/functions.c:1559
 msgid "ERROR:the error with the given @{name}"
 msgstr "ERROR:o erro com o dado @{nome}"
 
-#: ../plugins/fn-info/functions.c:1554
+#: ../plugins/fn-info/functions.c:1560
 msgid "name:string"
 msgstr "nome:string"
 
-#: ../plugins/fn-info/functions.c:1570
+#: ../plugins/fn-info/functions.c:1576
 msgid "ISBLANK:TRUE if @{value} is blank"
 msgstr "ISBLANK:VERDADEIRO se @{valor} está em branco"
 
-#: ../plugins/fn-info/functions.c:1572
+#: ../plugins/fn-info/functions.c:1578
 msgid ""
 "This function checks if a value is blank.  Empty cells are blank, but empty "
 "strings are not."
@@ -4950,32 +4948,32 @@ msgstr ""
 "Esta função verifica se um valor está em branco. As células vazias estão em "
 "branco, mas vazio cordas não são."
 
-#: ../plugins/fn-info/functions.c:1587
+#: ../plugins/fn-info/functions.c:1593
 msgid "ISEVEN:TRUE if @{n} is even"
 msgstr "ISEVEN:VERDADEIRO se @{n} é ainda"
 
-#: ../plugins/fn-info/functions.c:1588 ../plugins/fn-info/functions.c:1662
-#: ../plugins/fn-math/functions.c:1442
+#: ../plugins/fn-info/functions.c:1594 ../plugins/fn-info/functions.c:1668
+#: ../plugins/fn-math/functions.c:1443
 msgid "n:number"
 msgstr "n:número"
 
-#: ../plugins/fn-info/functions.c:1608
+#: ../plugins/fn-info/functions.c:1614
 msgid "ISLOGICAL:TRUE if @{value} is a logical value"
 msgstr "ISLOGICAL:VERDADEIRO se @{valor} é um valor lógico"
 
-#: ../plugins/fn-info/functions.c:1610
+#: ../plugins/fn-info/functions.c:1616
 msgid "This function checks if a value is either TRUE or FALSE."
 msgstr "Esta função verifica se um valor é VERDADEIRO ou FALSO."
 
-#: ../plugins/fn-info/functions.c:1626
+#: ../plugins/fn-info/functions.c:1632
 msgid "ISNONTEXT:TRUE if @{value} is not text"
 msgstr "ISNONTEXT:VERDADEIRO se @{valor} é um valor lógico"
 
-#: ../plugins/fn-info/functions.c:1643
+#: ../plugins/fn-info/functions.c:1649
 msgid "ISNUMBER:TRUE if @{value} is a number"
 msgstr "ISNUMBER:TRUE se @{valor} é um número"
 
-#: ../plugins/fn-info/functions.c:1645
+#: ../plugins/fn-info/functions.c:1651
 msgid ""
 "This function checks if a value is a number.  Neither TRUE nor FALSE are "
 "numbers for this purpose."
@@ -4983,27 +4981,27 @@ msgstr ""
 "Essa função verifica se um valor é um número. Nem verdadeiro nem falso são "
 "números para essa finalidade."
 
-#: ../plugins/fn-info/functions.c:1661
+#: ../plugins/fn-info/functions.c:1667
 msgid "ISODD:TRUE if @{n} is odd"
 msgstr "ISODD:VERDADEIRO se @{n} é ímpar"
 
-#: ../plugins/fn-info/functions.c:1682
+#: ../plugins/fn-info/functions.c:1688
 msgid "ISREF:TRUE if @{value} is a reference"
 msgstr "ISREF:VERDADEIRO se  @{valor} é uma referência"
 
-#: ../plugins/fn-info/functions.c:1684
+#: ../plugins/fn-info/functions.c:1690
 msgid "This function checks if a value is a cell reference."
 msgstr "Esta função verifica se um valor é uma referência de célula."
 
-#: ../plugins/fn-info/functions.c:1712
+#: ../plugins/fn-info/functions.c:1718
 msgid "ISTEXT:TRUE if @{value} is text"
 msgstr "ISTEXT:VERDADEIRO se @{valor} é um texto"
 
-#: ../plugins/fn-info/functions.c:1730
+#: ../plugins/fn-info/functions.c:1736
 msgid "N:@{text} converted to a number"
 msgstr "N:@{texto} convertido para um número"
 
-#: ../plugins/fn-info/functions.c:1731 ../plugins/fn-string/functions.c:368
+#: ../plugins/fn-info/functions.c:1737 ../plugins/fn-string/functions.c:368
 #: ../plugins/fn-string/functions.c:584 ../plugins/fn-string/functions.c:724
 #: ../plugins/fn-string/functions.c:768 ../plugins/fn-string/functions.c:895
 #: ../plugins/fn-string/functions.c:1120 ../plugins/fn-string/functions.c:1167
@@ -5011,19 +5009,19 @@ msgstr "N:@{texto} convertido para um número"
 msgid "text:string"
 msgstr "texto:string"
 
-#: ../plugins/fn-info/functions.c:1732
+#: ../plugins/fn-info/functions.c:1738
 msgid "If @{text} contains non-numerical text, 0 is returned."
 msgstr "Se @{texto} contém texto não numérico, 0 é retornado."
 
-#: ../plugins/fn-info/functions.c:1735
+#: ../plugins/fn-info/functions.c:1741
 msgid "=N(\"eleven\")"
 msgstr "=N(“onze”)"
 
-#: ../plugins/fn-info/functions.c:1762
+#: ../plugins/fn-info/functions.c:1768
 msgid "TYPE:a number indicating the data type of @{value}"
 msgstr "TYPE:um número que indica o tipo de dados de @{valor}"
 
-#: ../plugins/fn-info/functions.c:1764
+#: ../plugins/fn-info/functions.c:1770
 msgid ""
 "TYPE returns a number indicating the data type of @{value}:\n"
 "1  \t= number\n"
@@ -5039,27 +5037,27 @@ msgstr ""
 "16 \t= erro\n"
 "64 \t= vetor"
 
-#: ../plugins/fn-info/functions.c:1803
+#: ../plugins/fn-info/functions.c:1809
 msgid "GETENV:the value of execution environment variable @{name}"
 msgstr "GETENV:o valor da variável de ambiente de execução @{nome}"
 
-#: ../plugins/fn-info/functions.c:1804
+#: ../plugins/fn-info/functions.c:1810
 msgid "name:the name of the environment variable"
 msgstr "nome:o nome da variável de ambiente"
 
-#: ../plugins/fn-info/functions.c:1805
+#: ../plugins/fn-info/functions.c:1811
 msgid "If a variable called @{name} does not exist, #N/A will be returned."
 msgstr "Se uma variável chamada @{nome} não existe, #N/D será retornado."
 
-#: ../plugins/fn-info/functions.c:1806
+#: ../plugins/fn-info/functions.c:1812
 msgid "Variable names are case sensitive."
 msgstr "Os nomes de variáveis diferenciam caractere maiúsculo de minúsculo."
 
-#: ../plugins/fn-info/functions.c:1826
+#: ../plugins/fn-info/functions.c:1832
 msgid "GET.LINK:the target of the hyperlink attached to @{cell} as a string"
 msgstr "GET.LINK:o alvo do hyperlink anexado a @{célula} como uma string"
 
-#: ../plugins/fn-info/functions.c:1828
+#: ../plugins/fn-info/functions.c:1834
 msgid ""
 "The value return is not updated automatically when the link attached to "
 "@{cell} changes but requires a recalculation."
@@ -5949,8 +5947,8 @@ msgid "wolfram:InverseCotangent.html"
 msgstr "wolfram:InverseCotangent.html"
 
 #: ../plugins/fn-math/functions.c:424 ../plugins/fn-math/functions.c:833
-#: ../plugins/fn-math/functions.c:889 ../plugins/fn-math/functions.c:1605
-#: ../plugins/fn-math/functions.c:1642 ../plugins/fn-math/functions.c:1682
+#: ../plugins/fn-math/functions.c:889 ../plugins/fn-math/functions.c:1606
+#: ../plugins/fn-math/functions.c:1643 ../plugins/fn-math/functions.c:1683
 msgid "wiki:en:Trigonometric_functions"
 msgstr "wiki:pt:Função_trigonométrica"
 
@@ -6232,8 +6230,8 @@ msgid "COS:the cosine of @{x}"
 msgstr "COS:o cosseno de #{x}"
 
 #: ../plugins/fn-math/functions.c:830 ../plugins/fn-math/functions.c:938
-#: ../plugins/fn-math/functions.c:1600 ../plugins/fn-math/functions.c:1636
-#: ../plugins/fn-math/functions.c:1676 ../plugins/fn-math/functions.c:1886
+#: ../plugins/fn-math/functions.c:1601 ../plugins/fn-math/functions.c:1637
+#: ../plugins/fn-math/functions.c:1677 ../plugins/fn-math/functions.c:1887
 msgid "x:angle in radians"
 msgstr "x:ângulo em radianos"
 
@@ -6246,7 +6244,7 @@ msgid "COSPI:the cosine of Pi*@{x}"
 msgstr "COSPI:o cosseno de Pi*@{x}"
 
 #: ../plugins/fn-math/functions.c:850 ../plugins/fn-math/functions.c:903
-#: ../plugins/fn-math/functions.c:1619 ../plugins/fn-math/functions.c:1903
+#: ../plugins/fn-math/functions.c:1620 ../plugins/fn-math/functions.c:1904
 msgid "x:number of half turns"
 msgstr "x:número de meias voltas"
 
@@ -6274,8 +6272,8 @@ msgstr "COTH:a cotangente hiperbólica de @{x}"
 msgid "wolfram:HyperbolicCotangent.html"
 msgstr "wolfram:HyperbolicCotangent.html"
 
-#: ../plugins/fn-math/functions.c:924 ../plugins/fn-math/functions.c:1662
-#: ../plugins/fn-math/functions.c:1702
+#: ../plugins/fn-math/functions.c:924 ../plugins/fn-math/functions.c:1663
+#: ../plugins/fn-math/functions.c:1703
 msgid "wiki:en:Hyperbolic_function"
 msgstr "wiki:pt:Função_hiperbólica"
 
@@ -6318,7 +6316,6 @@ msgid "GAMMALN:natural logarithm of the Gamma function"
 msgstr "GAMMALN:logaritmo natural da função Gama"
 
 #: ../plugins/fn-math/functions.c:1062
-#| msgid "GAMMA:the Digamma function"
 msgid "DIGAMMA:the Digamma function"
 msgstr "DIGAMMA:a função Digama"
 
@@ -6357,7 +6354,7 @@ msgid "BETA:Euler beta function"
 msgstr "BETA:função beta de Euler"
 
 #: ../plugins/fn-math/functions.c:1112 ../plugins/fn-math/functions.c:1136
-#: ../plugins/fn-math/functions.c:1400
+#: ../plugins/fn-math/functions.c:1401
 msgid "y:number"
 msgstr "y:número"
 
@@ -6406,7 +6403,7 @@ msgid "COMBIN:binomial coefficient"
 msgstr "COMBIN:coeficiente binomial"
 
 #: ../plugins/fn-math/functions.c:1160 ../plugins/fn-math/functions.c:1192
-#: ../plugins/fn-math/functions.c:2452
+#: ../plugins/fn-math/functions.c:2453
 msgid "n:non-negative integer"
 msgstr "n:número inteiro não negativo"
 
@@ -6486,41 +6483,51 @@ msgstr "@{k} tem como padrão 0, o ramo principal."
 msgid "@{k} must be either 0 or -1."
 msgstr "@{k} deve ser 0 ou -1."
 
-#: ../plugins/fn-math/functions.c:1299
+#: ../plugins/fn-math/functions.c:1278
+msgid ""
+"The Lambert W function is the inverse function of x=W*exp(W).  There are two "
+"(real-valued) branches: k=0 which maps [-1/e;inf) onto [-1,inf); and k=-1 "
+"which maps [-1/e;0) unto (-inf;-1]."
+msgstr ""
+"A função Lambert W é a função inversa de x=W*exp(W). Existem dois "
+"ramificações (com valor real): k=0 que mapeia [-1/e;inf) em [-1,inf); e k=-1 "
+"que mapeia [-1/e;0) em (-inf;-1]."
+
+#: ../plugins/fn-math/functions.c:1300
 msgid "LOG:logarithm of @{x} with base @{base}"
 msgstr "LOG:logaritmo @{x} com a base @{base}"
 
-#: ../plugins/fn-math/functions.c:1300 ../plugins/fn-math/functions.c:1340
-#: ../plugins/fn-math/functions.c:1375 ../plugins/fn-math/functions.c:1462
-#: ../plugins/fn-math/functions.c:1484
+#: ../plugins/fn-math/functions.c:1301 ../plugins/fn-math/functions.c:1341
+#: ../plugins/fn-math/functions.c:1376 ../plugins/fn-math/functions.c:1463
+#: ../plugins/fn-math/functions.c:1485
 msgid "x:positive number"
 msgstr "x:número positivo"
 
-#: ../plugins/fn-math/functions.c:1301
+#: ../plugins/fn-math/functions.c:1302
 msgid "base:base of the logarithm, defaults to 10"
 msgstr "base:base do logaritmo, o padrão é 10"
 
-#: ../plugins/fn-math/functions.c:1302
+#: ../plugins/fn-math/functions.c:1303
 msgid "@{base} must be positive and not equal to 1."
 msgstr "@{base} deve ser positiva e não é igual a 1."
 
-#: ../plugins/fn-math/functions.c:1303
+#: ../plugins/fn-math/functions.c:1304
 msgid "If @{x} ≤ 0, LOG returns #NUM! error."
 msgstr "Se @{x} ≤ 0, LOG retorna erro #NUM!."
 
-#: ../plugins/fn-math/functions.c:1339
+#: ../plugins/fn-math/functions.c:1340
 msgid "LN:the natural logarithm of @{x}"
 msgstr "LN:o logaritmo natural de @{x}"
 
-#: ../plugins/fn-math/functions.c:1341
+#: ../plugins/fn-math/functions.c:1342
 msgid "If @{x} ≤ 0, LN returns #NUM! error."
 msgstr "Se @{x} ≤ 0, LN retorna erro #NUM!."
 
-#: ../plugins/fn-math/functions.c:1374
+#: ../plugins/fn-math/functions.c:1375
 msgid "LN1P:LN(1+@{x})"
 msgstr "LN1P:LN(1+@{x})"
 
-#: ../plugins/fn-math/functions.c:1376
+#: ../plugins/fn-math/functions.c:1377
 msgid ""
 "LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating "
 "LN(1+@{x})."
@@ -6528,98 +6535,98 @@ msgstr ""
 "LN1P calcula LN(1+@{x}), mas dando origem a uma precisão maior do que "
 "avaliar LN(1+@{x})."
 
-#: ../plugins/fn-math/functions.c:1377
+#: ../plugins/fn-math/functions.c:1378
 msgid "If @{x} ≤ -1, LN returns #NUM! error."
 msgstr "Se @{x} ≤ -1 LN retorna erro #NUM!."
 
-#: ../plugins/fn-math/functions.c:1398
+#: ../plugins/fn-math/functions.c:1399
 msgid ""
 "POWER:the value of @{x} raised to the power @{y} raised to the power of 1/"
 "@{z}"
 msgstr ""
 "POWER:o valor de @{x} elevado à potência de @{y} elevado à potência de 1/@{z}"
 
-#: ../plugins/fn-math/functions.c:1401
+#: ../plugins/fn-math/functions.c:1402
 msgid "z:number"
 msgstr "z:número"
 
-#: ../plugins/fn-math/functions.c:1402
+#: ../plugins/fn-math/functions.c:1403
 msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
 msgstr "Se @{x} e @{y} igual a 0, POWER retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:1403
+#: ../plugins/fn-math/functions.c:1404
 msgid "If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!"
 msgstr "Se @{x} = 0 e @{y} < 0, POWER retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:1404
+#: ../plugins/fn-math/functions.c:1405
 msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
 msgstr "Se @{x} < 0 e @{y} não é um número inteiro, POWER retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:1405
+#: ../plugins/fn-math/functions.c:1406
 msgid "@{z} defaults to 1"
 msgstr "@{z} padrão para 1"
 
-#: ../plugins/fn-math/functions.c:1406
+#: ../plugins/fn-math/functions.c:1407
 msgid "If @{z} is not a positive integer, POWER returns #NUM!"
 msgstr "Se @{z} não é um número inteiro positivo, POWER retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:1407
+#: ../plugins/fn-math/functions.c:1408
 msgid "If @{x} < 0, @{y} is odd, and @{z} is even, POWER returns #NUM!"
 msgstr "Se @{x} < 0, @{y} é estranho, e @{z} é ainda, POWER retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:1440
+#: ../plugins/fn-math/functions.c:1441
 msgid "POCHHAMMER:the value of GAMMA(@{x}+@{n})/GAMMA(@{x})"
 msgstr "POCHHAMMER:o valor de GAMMA(@{x}+@{n})/GAMMA(@{x})"
 
-#: ../plugins/fn-math/functions.c:1461
+#: ../plugins/fn-math/functions.c:1462
 msgid "LOG2:the base-2 logarithm of @{x}"
 msgstr "LOG2:o logaritmo de base 2 de @{x}"
 
-#: ../plugins/fn-math/functions.c:1463
+#: ../plugins/fn-math/functions.c:1464
 msgid "If @{x} ≤ 0, LOG2 returns #NUM!"
 msgstr "Se @{x} ≤ 0, LOG2 retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:1483
+#: ../plugins/fn-math/functions.c:1484
 msgid "LOG10:the base-10 logarithm of @{x}"
 msgstr "LOG10:o logaritmo de base 10 de @{x}"
 
-#: ../plugins/fn-math/functions.c:1485
+#: ../plugins/fn-math/functions.c:1486
 msgid "If @{x} ≤ 0, LOG10 returns #NUM!"
 msgstr "Se @{x} ≤ 0, LOG10 retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:1505
+#: ../plugins/fn-math/functions.c:1506
 msgid "MOD:the remainder of @{x} under division by @{n}"
 msgstr "MOD:o restante de @{x} sob a divisão por @{n}"
 
-#: ../plugins/fn-math/functions.c:1508
+#: ../plugins/fn-math/functions.c:1509
 msgid "MOD function returns the remainder when @{x} is divided by @{n}."
 msgstr "MOD função retorna o resto quando @{x} é dividido por @{n}."
 
-#: ../plugins/fn-math/functions.c:1509
+#: ../plugins/fn-math/functions.c:1510
 msgid "If @{n} is 0, MOD returns #DIV/0!"
 msgstr "Se @{n} é 0, MOD retorna #DIV/0!"
 
-#: ../plugins/fn-math/functions.c:1551
+#: ../plugins/fn-math/functions.c:1552
 msgid "RADIANS:the number of radians equivalent to @{x} degrees"
 msgstr "RADIANS:o número de equivalentes de radianos @{x} graus"
 
-#: ../plugins/fn-math/functions.c:1552
+#: ../plugins/fn-math/functions.c:1553
 msgid "x:angle in degrees"
 msgstr "x:ângulo em graus"
 
-#: ../plugins/fn-math/functions.c:1569
+#: ../plugins/fn-math/functions.c:1570
 msgid "REDUCEPI:reduce modulo Pi divided by a power of 2"
 msgstr "REDUCEPI:módulo de redução Pi por uma potência de 2"
 
-#: ../plugins/fn-math/functions.c:1571
+#: ../plugins/fn-math/functions.c:1572
 msgid "e:scale"
 msgstr "e:escala"
 
-#: ../plugins/fn-math/functions.c:1572
+#: ../plugins/fn-math/functions.c:1573
 msgid "q:get lower bits of quotient, defaults to FALSE"
 msgstr "q:obtém bits inferiores do quociente, padrão é FALSE"
 
-#: ../plugins/fn-math/functions.c:1574
+#: ../plugins/fn-math/functions.c:1575
 msgid ""
 "This function returns a value, xr, such that @{x}=xr+j*Pi/2^@{e} where j is "
 "an integer and the absolute value of xr does not exceed Pi/2^(@{e}+1).  If "
@@ -6631,7 +6638,7 @@ msgstr ""
 "argumento opcional @(q) for VERDADEIRO, retorna os @e+1 bits menores de j. A "
 "redução é realizada como se estivesse usando um valor exato de Pi."
 
-#: ../plugins/fn-math/functions.c:1575
+#: ../plugins/fn-math/functions.c:1576
 msgid ""
 "The lowest valid @{e} is -1 representing reduction modulo 2*Pi; the highest "
 "is 7 representing reduction modulo Pi/256."
@@ -6639,165 +6646,165 @@ msgstr ""
 "O menor @{e} válido é -1 representando o módulo de redução 2*Pi; o mais alto "
 "é 7 representação o módulo de redução Pi/256."
 
-#: ../plugins/fn-math/functions.c:1599
+#: ../plugins/fn-math/functions.c:1600
 msgid "SIN:the sine of @{x}"
 msgstr "SIN:o seno de @{x}"
 
-#: ../plugins/fn-math/functions.c:1604
+#: ../plugins/fn-math/functions.c:1605
 msgid "wolfram:Sine.html"
 msgstr "wolfram:Sine.html"
 
-#: ../plugins/fn-math/functions.c:1618
+#: ../plugins/fn-math/functions.c:1619
 msgid "SINPI:the sine of Pi*@{x}"
 msgstr "SINPI:o seno de Pi*@{x}"
 
-#: ../plugins/fn-math/functions.c:1635
+#: ../plugins/fn-math/functions.c:1636
 msgid "CSC:the cosecant of @{x}"
 msgstr "CSC:a cossecante de @{x}"
 
-#: ../plugins/fn-math/functions.c:1637 ../plugins/fn-math/functions.c:1657
-#: ../plugins/fn-math/functions.c:1677 ../plugins/fn-math/functions.c:1697
+#: ../plugins/fn-math/functions.c:1638 ../plugins/fn-math/functions.c:1658
+#: ../plugins/fn-math/functions.c:1678 ../plugins/fn-math/functions.c:1698
 msgid "This function is not Excel compatible."
 msgstr "Esta função não é compatível com o Excel."
 
-#: ../plugins/fn-math/functions.c:1641
+#: ../plugins/fn-math/functions.c:1642
 msgid "wolfram:Cosecant.html"
 msgstr "wolfram:Cosecant.html"
 
-#: ../plugins/fn-math/functions.c:1655
+#: ../plugins/fn-math/functions.c:1656
 msgid "CSCH:the hyperbolic cosecant of @{x}"
 msgstr "CSCH:a co-secante hiperbólica de @{x}"
 
-#: ../plugins/fn-math/functions.c:1661
+#: ../plugins/fn-math/functions.c:1662
 msgid "wolfram:HyperbolicCosecant.html"
 msgstr "wolfram:HyperbolicCosecant.html"
 
-#: ../plugins/fn-math/functions.c:1675
+#: ../plugins/fn-math/functions.c:1676
 msgid "SEC:Secant"
 msgstr "SEC:Secante"
 
-#: ../plugins/fn-math/functions.c:1678
+#: ../plugins/fn-math/functions.c:1679
 msgid "SEC(@{x}) is exported to OpenFormula as 1/COS(@{x})."
 msgstr "SEC(@{x}) é exportada para OpenFormula como 1/COS(@{x})."
 
-#: ../plugins/fn-math/functions.c:1681
+#: ../plugins/fn-math/functions.c:1682
 msgid "wolfram:Secant.html"
 msgstr "wolfram:Secant.html"
 
-#: ../plugins/fn-math/functions.c:1695
+#: ../plugins/fn-math/functions.c:1696
 msgid "SECH:the hyperbolic secant of @{x}"
 msgstr "SECH:a secante hiperbólica de @{X}"
 
-#: ../plugins/fn-math/functions.c:1698
+#: ../plugins/fn-math/functions.c:1699
 msgid "SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x})."
 msgstr "SECH(@{x}) é exportada para OpenFormula como 1/COSH(@{x})."
 
-#: ../plugins/fn-math/functions.c:1701
+#: ../plugins/fn-math/functions.c:1702
 msgid "wolfram:HyperbolicSecant.html"
 msgstr "wolfram:HyperbolicSecant.html"
 
-#: ../plugins/fn-math/functions.c:1713
+#: ../plugins/fn-math/functions.c:1714
 msgid "SINH:the hyperbolic sine of @{x}"
 msgstr "SINH:o seno hiperbólico de @{x}"
 
-#: ../plugins/fn-math/functions.c:1731
+#: ../plugins/fn-math/functions.c:1732
 msgid "SQRT:square root of @{x}"
 msgstr "SQRT:raiz quadrada de @{x}"
 
-#: ../plugins/fn-math/functions.c:1732 ../plugins/fn-math/functions.c:2194
+#: ../plugins/fn-math/functions.c:1733 ../plugins/fn-math/functions.c:2195
 msgid "x:non-negative number"
 msgstr "x:número não-negativo"
 
-#: ../plugins/fn-math/functions.c:1734
+#: ../plugins/fn-math/functions.c:1735
 msgid "If @{x} is negative, SQRT returns #NUM!"
 msgstr "Se @{x} é negativo, SQRT retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:1753
+#: ../plugins/fn-math/functions.c:1754
 msgid "SUMA:sum of all values and cells referenced"
 msgstr "SUMA:soma de todos os valores e células referenciado"
 
-#: ../plugins/fn-math/functions.c:1754 ../plugins/fn-math/functions.c:1778
+#: ../plugins/fn-math/functions.c:1755 ../plugins/fn-math/functions.c:1779
 msgid "area0:first cell area"
 msgstr "área0:área da primeira célula"
 
-#: ../plugins/fn-math/functions.c:1755 ../plugins/fn-math/functions.c:1779
+#: ../plugins/fn-math/functions.c:1756 ../plugins/fn-math/functions.c:1780
 msgid "area1:second cell area"
 msgstr "área1:área da segunda célula"
 
-#: ../plugins/fn-math/functions.c:1777
+#: ../plugins/fn-math/functions.c:1778
 msgid "SUMSQ:sum of the squares of all values and cells referenced"
 msgstr "SUMSQ:soma dos quadrados de todos os valores e células referenciadas"
 
-#: ../plugins/fn-math/functions.c:1837
+#: ../plugins/fn-math/functions.c:1838
 msgid ""
 "MULTINOMIAL:multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},…,@{xn})"
 msgstr ""
 "MULTINOMIAL:coeficiente multinomial (@{x1}+⋯+@{xn}) escolha (@{x1},…,@{xn})"
 
-#: ../plugins/fn-math/functions.c:1838
+#: ../plugins/fn-math/functions.c:1839
 msgid "x1:first number"
 msgstr "x1:primeiro número"
 
-#: ../plugins/fn-math/functions.c:1839
+#: ../plugins/fn-math/functions.c:1840
 msgid "x2:second number"
 msgstr "x2:segundo número"
 
-#: ../plugins/fn-math/functions.c:1840
+#: ../plugins/fn-math/functions.c:1841
 msgid "xn:nth number"
 msgstr "xn:enésimo número"
 
-#: ../plugins/fn-math/functions.c:1844
+#: ../plugins/fn-math/functions.c:1845
 msgid "wiki:en:Multinomial_theorem"
 msgstr "wiki:pt:Teorema_multinomial"
 
-#: ../plugins/fn-math/functions.c:1862
+#: ../plugins/fn-math/functions.c:1863
 msgid "G_PRODUCT:product of all the values and cells referenced"
 msgstr "G_PRODUCT:produto de todos os valores e células referenciados"
 
-#: ../plugins/fn-math/functions.c:1863
+#: ../plugins/fn-math/functions.c:1864
 msgid "x1:number"
 msgstr "x1:número"
 
-#: ../plugins/fn-math/functions.c:1864
+#: ../plugins/fn-math/functions.c:1865
 msgid "x2:number"
 msgstr "x2:número"
 
-#: ../plugins/fn-math/functions.c:1865
+#: ../plugins/fn-math/functions.c:1866
 msgid "Empty cells are ignored and the empty product is 1."
 msgstr "As células vazias são ignoradas e o produto vazio é 1."
 
-#: ../plugins/fn-math/functions.c:1885
+#: ../plugins/fn-math/functions.c:1886
 msgid "TAN:the tangent of @{x}"
 msgstr "TAN:a tangente de @{x}"
 
-#: ../plugins/fn-math/functions.c:1902
+#: ../plugins/fn-math/functions.c:1903
 msgid "TANPI:the tangent of Pi*@{x}"
 msgstr "TANPI:a tangente de Pi*@{x}"
 
-#: ../plugins/fn-math/functions.c:1918
+#: ../plugins/fn-math/functions.c:1919
 msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr "TANh:a tangente de hiperbólico @{x}"
 
-#: ../plugins/fn-math/functions.c:1935
+#: ../plugins/fn-math/functions.c:1936
 msgid "PI:the constant 𝜋"
 msgstr "PI:a constante 𝜋"
 
-#: ../plugins/fn-math/functions.c:1936
+#: ../plugins/fn-math/functions.c:1937
 msgid ""
 "This function is Excel compatible, but it returns 𝜋 with a better precision."
 msgstr ""
 "Esta função é compatível com o Excel, mas ele retorna 𝜋 com uma precisão "
 "melhor."
 
-#: ../plugins/fn-math/functions.c:1953
+#: ../plugins/fn-math/functions.c:1954
 msgid "TRUNC:@{x} truncated to @{d} digits"
 msgstr "TRUNC:@{x} truncado para @{d} dígitos"
 
-#: ../plugins/fn-math/functions.c:1955
+#: ../plugins/fn-math/functions.c:1956
 msgid "d:non-negative integer, defaults to 0"
 msgstr "d:número inteiro não negativo, o padrão é 0"
 
-#: ../plugins/fn-math/functions.c:1956
+#: ../plugins/fn-math/functions.c:1957
 msgid ""
 "If @{d} is omitted or negative then it defaults to zero. If it is not an "
 "integer then it is truncated to an integer."
@@ -6805,27 +6812,27 @@ msgstr ""
 "Se @{d} é omitido ou negativo, em seguida, o padrão é zero. Se ele não é um "
 "inteiro, então ele será truncado para um número inteiro."
 
-#: ../plugins/fn-math/functions.c:1990
+#: ../plugins/fn-math/functions.c:1991
 msgid "EVEN:@{x} rounded away from 0 to the next even integer"
 msgstr "EVEN:@{x} arredondado do 0 até o próximo número inteiro par"
 
-#: ../plugins/fn-math/functions.c:2025
+#: ../plugins/fn-math/functions.c:2026
 msgid "ODD:@{x} rounded away from 0 to the next odd integer"
 msgstr "ODD:@{x} arredondado do 0 até o próximo número inteiro ímpar"
 
-#: ../plugins/fn-math/functions.c:2060
+#: ../plugins/fn-math/functions.c:2061
 msgid "FACTDOUBLE:double factorial"
 msgstr "FACTDOUBLE:fatorial duplo"
 
-#: ../plugins/fn-math/functions.c:2061
+#: ../plugins/fn-math/functions.c:2062
 msgid "x:non-negative integer"
 msgstr "x:número inteiro não negativo"
 
-#: ../plugins/fn-math/functions.c:2062
+#: ../plugins/fn-math/functions.c:2063
 msgid "FACTDOUBLE function returns the double factorial @{x}!!"
 msgstr "FACTDOUBLE função retorna o fatorial duplo @{x}!!"
 
-#: ../plugins/fn-math/functions.c:2063
+#: ../plugins/fn-math/functions.c:2064
 msgid ""
 "If @{x} is not an integer, it is truncated. If @{x} is negative, FACTDOUBLE "
 "returns #NUM!"
@@ -6833,11 +6840,11 @@ msgstr ""
 "Se @{x} não é um número inteiro, será truncado. Se @{x} é negativo, "
 "FACTDOUBLE retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:2097
+#: ../plugins/fn-math/functions.c:2098
 msgid "FIB:Fibonacci numbers"
 msgstr "FIB:números de Fibonacci"
 
-#: ../plugins/fn-math/functions.c:2098 ../plugins/fn-numtheory/numtheory.c:258
+#: ../plugins/fn-math/functions.c:2099 ../plugins/fn-numtheory/numtheory.c:258
 #: ../plugins/fn-numtheory/numtheory.c:291
 #: ../plugins/fn-numtheory/numtheory.c:325
 #: ../plugins/fn-numtheory/numtheory.c:358
@@ -6849,11 +6856,11 @@ msgstr "FIB:números de Fibonacci"
 msgid "n:positive integer"
 msgstr "n:inteiro positivo"
 
-#: ../plugins/fn-math/functions.c:2099
+#: ../plugins/fn-math/functions.c:2100
 msgid "FIB(@{n}) is the @{n}th Fibonacci number."
 msgstr "FIB(@{n}) é o @{n}º número de Fibonacci."
 
-#: ../plugins/fn-math/functions.c:2100
+#: ../plugins/fn-math/functions.c:2101
 msgid ""
 "If @{n} is not an integer, it is truncated. If it is negative or zero FIB "
 "returns #NUM!"
@@ -6861,19 +6868,19 @@ msgstr ""
 "Se @{n} não é um número inteiro, será truncado. Se for negativo ou zero FIB "
 "retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:2138
+#: ../plugins/fn-math/functions.c:2139
 msgid "QUOTIENT:integer portion of a division"
 msgstr "QUOTIENT:Parte inteira de uma divisão"
 
-#: ../plugins/fn-math/functions.c:2139
+#: ../plugins/fn-math/functions.c:2140
 msgid "numerator:integer"
 msgstr "numerador:inteiro"
 
-#: ../plugins/fn-math/functions.c:2140
+#: ../plugins/fn-math/functions.c:2141
 msgid "denominator:non-zero integer"
 msgstr "denominador:diferente de zero inteiro"
 
-#: ../plugins/fn-math/functions.c:2141
+#: ../plugins/fn-math/functions.c:2142
 msgid ""
 "QUOTIENT yields the integer portion of the division @{numerator}/"
 "@{denominator}.\n"
@@ -6884,30 +6891,30 @@ msgstr ""
 "QUOTIENT (@{numerador},@{denominador})⨉@{denominador}+MOD(@{numerador},"
 "@{denominador})=@{numerador}"
 
-#: ../plugins/fn-math/functions.c:2165
+#: ../plugins/fn-math/functions.c:2166
 msgid "SIGN:sign of @{x}"
 msgstr "SIGN:sinal de @{x}"
 
-#: ../plugins/fn-math/functions.c:2167
+#: ../plugins/fn-math/functions.c:2168
 msgid ""
 "SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negative."
 msgstr ""
 "SIGN retorna 1 se o @{x} é positivo e ele retorna -1 se @{x} é negativo."
 
-#: ../plugins/fn-math/functions.c:2192
+#: ../plugins/fn-math/functions.c:2193
 msgid "SQRTPI:the square root of @{x} times 𝜋"
 msgstr "SQRTPI:a raiz quadrada de @{x} vezes 𝜋"
 
-#: ../plugins/fn-math/functions.c:2215
+#: ../plugins/fn-math/functions.c:2216
 msgid "ROUNDDOWN:@{x} rounded towards 0"
 msgstr "ROUNDDOWN:@{x} arredondado em direção a 0"
 
-#: ../plugins/fn-math/functions.c:2217 ../plugins/fn-math/functions.c:2241
-#: ../plugins/fn-math/functions.c:2282
+#: ../plugins/fn-math/functions.c:2218 ../plugins/fn-math/functions.c:2242
+#: ../plugins/fn-math/functions.c:2283
 msgid "d:integer, defaults to 0"
 msgstr "d:número inteiro, o padrão é 0"
 
-#: ../plugins/fn-math/functions.c:2218
+#: ../plugins/fn-math/functions.c:2219
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded toward 0 to the given number "
 "of digits.\n"
@@ -6921,11 +6928,11 @@ msgstr ""
 "Se @{d} é menor que zero, @{x} é arredondado em direção a 0 para o lado "
 "esquerdo do ponto decimal"
 
-#: ../plugins/fn-math/functions.c:2239
+#: ../plugins/fn-math/functions.c:2240
 msgid "ROUND:rounded @{x}"
 msgstr "ROUND:@{x} arredondado"
 
-#: ../plugins/fn-math/functions.c:2242
+#: ../plugins/fn-math/functions.c:2243
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded to the given number of "
 "digits.\n"
@@ -6937,11 +6944,11 @@ msgstr ""
 "Se @{d} é menor que zero, @{x} é arredondado para o lado esquerdo do ponto "
 "decimal"
 
-#: ../plugins/fn-math/functions.c:2280
+#: ../plugins/fn-math/functions.c:2281
 msgid "ROUNDUP:@{x} rounded away from 0"
 msgstr "ROUNDUP:@{x} arredondado para longe de 0"
 
-#: ../plugins/fn-math/functions.c:2283
+#: ../plugins/fn-math/functions.c:2284
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded away from 0 to the given "
 "number of digits.\n"
@@ -6955,27 +6962,27 @@ msgstr ""
 "Se @{d} é menor que zero, @{x} é arredondado para longe de 0 para o lado "
 "esquerdo do ponto decimal"
 
-#: ../plugins/fn-math/functions.c:2327
+#: ../plugins/fn-math/functions.c:2328
 msgid "MROUND:@{x} rounded to a multiple of @{m}"
 msgstr "MROUND:@{x} arredondado para um múltiplo de @{m}"
 
-#: ../plugins/fn-math/functions.c:2329
+#: ../plugins/fn-math/functions.c:2330
 msgid "m:number"
 msgstr "m:número"
 
-#: ../plugins/fn-math/functions.c:2330
+#: ../plugins/fn-math/functions.c:2331
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
 msgstr "Se @{x} e @{m} tem sinal diferente, MROUND retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:2373
+#: ../plugins/fn-math/functions.c:2374
 msgid "ARABIC:the Roman numeral @{roman} as number"
 msgstr "ARABIC:o numeral romano @{romano} como número"
 
-#: ../plugins/fn-math/functions.c:2374
+#: ../plugins/fn-math/functions.c:2375
 msgid "roman:Roman numeral"
 msgstr "romano:numeral romano"
 
-#: ../plugins/fn-math/functions.c:2375
+#: ../plugins/fn-math/functions.c:2376
 msgid ""
 "Any Roman symbol to the left of a larger symbol (directly or indirectly) "
 "reduces the final value by the symbol amount, otherwise, it increases the "
@@ -6985,15 +6992,15 @@ msgstr ""
 "indiretamente) reduz o valor final pela quantidade símbolo, de outra forma, "
 "aumenta o valor final pelo montante do símbolo."
 
-#: ../plugins/fn-math/functions.c:2451
+#: ../plugins/fn-math/functions.c:2452
 msgid "ROMAN:@{n} as a roman numeral text"
 msgstr "ROMAN:@{n} como um texto numeral romano"
 
-#: ../plugins/fn-math/functions.c:2453
+#: ../plugins/fn-math/functions.c:2454
 msgid "type:0,1,2,3,or 4, defaults to 0"
 msgstr "tipo:0,1,2,3 ou 4, o padrão é 0"
 
-#: ../plugins/fn-math/functions.c:2454
+#: ../plugins/fn-math/functions.c:2455
 msgid ""
 "ROMAN returns the arabic number @{n} as a roman numeral text.\n"
 "If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
@@ -7006,21 +7013,21 @@ msgstr ""
 "o tipo 1 e tipo 3 é mais conciso do que o tipo 2. Tipo 4 é um tipo "
 "simplificado."
 
-#: ../plugins/fn-math/functions.c:2701
+#: ../plugins/fn-math/functions.c:2702
 msgid "SUMX2MY2:sum of the difference of squares"
 msgstr "SUMX2MY2:soma da diferença dos quadrados"
 
-#: ../plugins/fn-math/functions.c:2702 ../plugins/fn-math/functions.c:2744
-#: ../plugins/fn-math/functions.c:2787
+#: ../plugins/fn-math/functions.c:2703 ../plugins/fn-math/functions.c:2745
+#: ../plugins/fn-math/functions.c:2788
 msgid "array0:first cell area"
 msgstr "matriz0:área da primeira célula"
 
-#: ../plugins/fn-math/functions.c:2703 ../plugins/fn-math/functions.c:2745
-#: ../plugins/fn-math/functions.c:2788
+#: ../plugins/fn-math/functions.c:2704 ../plugins/fn-math/functions.c:2746
+#: ../plugins/fn-math/functions.c:2789
 msgid "array1:second cell area"
 msgstr "matriz0:área da segunda célula"
 
-#: ../plugins/fn-math/functions.c:2704
+#: ../plugins/fn-math/functions.c:2705
 msgid ""
 "SUMX2MY2 function returns the sum of the difference of squares of "
 "corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
@@ -7028,8 +7035,8 @@ msgstr ""
 "SUMX2MY2 função retorna a soma da diferença dos quadrados de Os valores "
 "correspondentes em duas matrizes. A equação de SUMX2MY2 é SUM(x^2-y^2)."
 
-#: ../plugins/fn-math/functions.c:2707 ../plugins/fn-math/functions.c:2751
-#: ../plugins/fn-math/functions.c:2794
+#: ../plugins/fn-math/functions.c:2708 ../plugins/fn-math/functions.c:2752
+#: ../plugins/fn-math/functions.c:2795
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
 "and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39."
@@ -7037,15 +7044,15 @@ msgstr ""
 "Vamos supor que as células A1, A2, …, A5 contêm os números 11, 15, 17, 21, e "
 "43 e as células B1, B2, …, B5 números de preensão 13, 22, 31, 33, e 39."
 
-#: ../plugins/fn-math/functions.c:2708
+#: ../plugins/fn-math/functions.c:2709
 msgid "Then SUMX2MY2(A1:A5,B1:B5) yields -1299."
 msgstr "Então SUMX2MY2(A1:A5;B1:B5) retorna -1299."
 
-#: ../plugins/fn-math/functions.c:2743
+#: ../plugins/fn-math/functions.c:2744
 msgid "SUMX2PY2:sum of the sum of squares"
 msgstr "SUMX2PY2:soma de a soma dos quadrados"
 
-#: ../plugins/fn-math/functions.c:2746
+#: ../plugins/fn-math/functions.c:2747
 msgid ""
 "SUMX2PY2 function returns the sum of the sum of squares of corresponding "
 "values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2)."
@@ -7053,7 +7060,7 @@ msgstr ""
 "Função SUMX2PY2 retorna a soma da soma dos quadrados dos correspondentes Os "
 "valores em duas matrizes. A equação de SUMX2PY2 é SUM(x^2+y^2)."
 
-#: ../plugins/fn-math/functions.c:2748
+#: ../plugins/fn-math/functions.c:2749
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMX2PY2 "
 "returns #N/A.\n"
@@ -7063,15 +7070,15 @@ msgstr ""
 "retorna #N/D.\n"
 "Strings e células vazias são simplesmente ignoradas."
 
-#: ../plugins/fn-math/functions.c:2752
+#: ../plugins/fn-math/functions.c:2753
 msgid "Then SUMX2PY2(A1:A5,B1:B5) yields 7149."
 msgstr "Então SUMX2PY2(A1:A5;B1:B5) retorna 7149."
 
-#: ../plugins/fn-math/functions.c:2786
+#: ../plugins/fn-math/functions.c:2787
 msgid "SUMXMY2:sum of the squares of differences"
 msgstr "SOMAXMY2:soma dos quadrados das diferenças"
 
-#: ../plugins/fn-math/functions.c:2789
+#: ../plugins/fn-math/functions.c:2790
 msgid ""
 "SUMXMY2 function returns the sum of the squares of the differences of "
 "corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
@@ -7079,7 +7086,7 @@ msgstr ""
 "SUMXMY2 função retorna a soma dos quadrados das diferenças de valores "
 "correspondentes em duas matrizes. A equação de SUMXMY2 é SUM((x-y)^2)."
 
-#: ../plugins/fn-math/functions.c:2791
+#: ../plugins/fn-math/functions.c:2792
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMXMY2 "
 "returns #N/A.\n"
@@ -7089,31 +7096,31 @@ msgstr ""
 "retorna #N/D.\n"
 "Strings e células vazias são simplesmente ignoradas."
 
-#: ../plugins/fn-math/functions.c:2795
+#: ../plugins/fn-math/functions.c:2796
 msgid "Then SUMXMY2(A1:A5,B1:B5) yields 409."
 msgstr "Então SUMXMY2(A1:A5;B1:B5) retorna 409."
 
-#: ../plugins/fn-math/functions.c:2831
+#: ../plugins/fn-math/functions.c:2832
 msgid "SERIESSUM:sum of a power series at @{x}"
 msgstr "SERIESSUM:soma de uma série de potências em @{x}"
 
-#: ../plugins/fn-math/functions.c:2832
+#: ../plugins/fn-math/functions.c:2833
 msgid "x:number where to evaluate the power series"
 msgstr "x:número onde avaliar a série de potência"
 
-#: ../plugins/fn-math/functions.c:2833
+#: ../plugins/fn-math/functions.c:2834
 msgid "n:non-negative integer, exponent of the lowest term of the series"
 msgstr "n:número inteiro não negativo, expoente do menor termo da série"
 
-#: ../plugins/fn-math/functions.c:2834
+#: ../plugins/fn-math/functions.c:2835
 msgid "m:increment to each exponent"
 msgstr "m:para cada incremento expoente"
 
-#: ../plugins/fn-math/functions.c:2835
+#: ../plugins/fn-math/functions.c:2836
 msgid "coeff:coefficients of the power series"
 msgstr "coefic:coeficientes da série de potência"
 
-#: ../plugins/fn-math/functions.c:2837
+#: ../plugins/fn-math/functions.c:2838
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, "
 "2.98, 3.42, and 4.33."
@@ -7121,23 +7128,23 @@ msgstr ""
 "Vamos supor que as células A1, A2, …, A5 contêm os números 1,23, 2,32, 2,98, "
 "3,42 e 4,33."
 
-#: ../plugins/fn-math/functions.c:2838
+#: ../plugins/fn-math/functions.c:2839
 msgid "Then SERIESSUM(2,1,2.23,A1:A5) evaluates as 5056.37439843926"
 msgstr "Então SERIESSUM(2;1;2,23;A1:A5) avalia como 5056,37439843926"
 
-#: ../plugins/fn-math/functions.c:2889
+#: ../plugins/fn-math/functions.c:2890
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE:a matriz inversa de @{matriz}"
 
-#: ../plugins/fn-math/functions.c:2890 ../plugins/fn-math/functions.c:3179
+#: ../plugins/fn-math/functions.c:2891 ../plugins/fn-math/functions.c:3180
 msgid "matrix:a square matrix"
 msgstr "matriz:uma matriz quadrada"
 
-#: ../plugins/fn-math/functions.c:2891
+#: ../plugins/fn-math/functions.c:2892
 msgid "If @{matrix} is not invertible, MINVERSE returns #NUM!"
 msgstr "Se @{matriz} não pode ser invertida, MINVERSE retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:2892
+#: ../plugins/fn-math/functions.c:2893
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, MINVERSE "
 "returns #VALUE!"
@@ -7145,30 +7152,30 @@ msgstr ""
 "Se @{matriz} não contém um número igual de colunas e linhas, MINVERSE "
 "retorna #VALOR!"
 
-#: ../plugins/fn-math/functions.c:2926
+#: ../plugins/fn-math/functions.c:2927
 msgid "MPSEUDOINVERSE:the pseudo-inverse matrix of @{matrix}"
 msgstr "MPSEUDOINVERSE:a matriz pseudo-inversa de @{matriz}"
 
-#: ../plugins/fn-math/functions.c:2927
+#: ../plugins/fn-math/functions.c:2928
 msgid "matrix:a matrix"
 msgstr "matriz:uma matriz"
 
-#: ../plugins/fn-math/functions.c:2928
+#: ../plugins/fn-math/functions.c:2929
 msgid "threshold:a relative size threshold for discarding eigenvalues"
 msgstr "limite:um limite de tamanho relativo para descartando valores próprios"
 
-#: ../plugins/fn-math/functions.c:2963
+#: ../plugins/fn-math/functions.c:2964
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite "
 "@{matrix}"
 msgstr ""
 "CHOLESKY:a decomposição de Cholesky da simétrica definida positiva @{matriz}"
 
-#: ../plugins/fn-math/functions.c:2964
+#: ../plugins/fn-math/functions.c:2965
 msgid "matrix:a symmetric positive definite matrix"
 msgstr "matriz:uma matriz definida positiva simétrica"
 
-#: ../plugins/fn-math/functions.c:2965
+#: ../plugins/fn-math/functions.c:2966
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
@@ -7176,7 +7183,7 @@ msgstr ""
 "Se o algoritmo de Cholesky-Banachiewicz aplicado a @{matriz} falhar, "
 "Cholesky retorna #NUM!"
 
-#: ../plugins/fn-math/functions.c:2966
+#: ../plugins/fn-math/functions.c:2967
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
@@ -7184,27 +7191,27 @@ msgstr ""
 "Se @{matriz} não contém um número igual de colunas e linhas, CHOLESKY "
 "retorna #VALOR!"
 
-#: ../plugins/fn-math/functions.c:3041
+#: ../plugins/fn-math/functions.c:3042
 msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr "MUNIT:o @{n} por @{n} matriz de identidade"
 
-#: ../plugins/fn-math/functions.c:3042
+#: ../plugins/fn-math/functions.c:3043
 msgid "n:size of the matrix"
 msgstr "n:o tamanho da matriz"
 
-#: ../plugins/fn-math/functions.c:3079
+#: ../plugins/fn-math/functions.c:3080
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr "MMULT:o produto da matriz de @{mat1} e @{mat2}"
 
-#: ../plugins/fn-math/functions.c:3080
+#: ../plugins/fn-math/functions.c:3081
 msgid "mat1:a matrix"
 msgstr "mat1:uma matriz"
 
-#: ../plugins/fn-math/functions.c:3081
+#: ../plugins/fn-math/functions.c:3082
 msgid "mat2:a matrix"
 msgstr "mat2:uma matriz"
 
-#: ../plugins/fn-math/functions.c:3082
+#: ../plugins/fn-math/functions.c:3083
 msgid ""
 "The number of columns in @{mat1} must equal the number of rows in @{mat2}; "
 "otherwise #VALUE! is returned.  The result of MMULT is an array, in which "
@@ -7216,31 +7223,31 @@ msgstr ""
 "matriz, no qual o número de linhas é o mesmo que em @{mat1}), e o número de "
 "colunas é o mesmo que em (@{mat2})."
 
-#: ../plugins/fn-math/functions.c:3122
+#: ../plugins/fn-math/functions.c:3123
 msgid "LINSOLVE:solve linear equation"
 msgstr "LINSOLVE:resolver a equação linear"
 
-#: ../plugins/fn-math/functions.c:3123 ../plugins/fn-stat/functions.c:3516
+#: ../plugins/fn-math/functions.c:3124 ../plugins/fn-stat/functions.c:3516
 msgid "A:a matrix"
 msgstr "A:uma matriz"
 
-#: ../plugins/fn-math/functions.c:3124
+#: ../plugins/fn-math/functions.c:3125
 msgid "B:a matrix"
 msgstr "B:uma matriz"
 
-#: ../plugins/fn-math/functions.c:3126
+#: ../plugins/fn-math/functions.c:3127
 msgid "Solves the equation @{A}*X=@{B} and returns X."
 msgstr "Resolve a equação @{A}*X=@{B} e retorna X."
 
-#: ../plugins/fn-math/functions.c:3127
+#: ../plugins/fn-math/functions.c:3128
 msgid "If the matrix @{A} is singular, #VALUE! is returned."
 msgstr "Se a matriz @{A} é singular, #VALOR! é retornado."
 
-#: ../plugins/fn-math/functions.c:3178
+#: ../plugins/fn-math/functions.c:3179
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:o determinante da matriz @{matriz}"
 
-#: ../plugins/fn-math/functions.c:3180
+#: ../plugins/fn-math/functions.c:3181
 msgid ""
 "Let us assume that A1,...,A4 contain numbers 2, 3, 7, and 3; B1,..., B4 4, "
 "2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then "
@@ -7250,11 +7257,11 @@ msgstr ""
 "1; C1,…,C4 9, 4, 3; e 2; e D1,…,D4 7, 3, 6, e 5. Depois MDETERM(A1:D4) "
 "origina 148."
 
-#: ../plugins/fn-math/functions.c:3210
+#: ../plugins/fn-math/functions.c:3211
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT:multiplica componentes e adiciona os resultados"
 
-#: ../plugins/fn-math/functions.c:3212 ../plugins/fn-math/functions.c:3235
+#: ../plugins/fn-math/functions.c:3213 ../plugins/fn-math/functions.c:3236
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -7262,11 +7269,11 @@ msgstr ""
 "Multiplica correspondente entradas de dados nas matrizes ou intervalos de "
 "dados, e em seguida, retorna a soma desses produtos."
 
-#: ../plugins/fn-math/functions.c:3215
+#: ../plugins/fn-math/functions.c:3216
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Se uma entrada não for numérico, o valor zero é usado em seu lugar."
 
-#: ../plugins/fn-math/functions.c:3216 ../plugins/fn-math/functions.c:3239
+#: ../plugins/fn-math/functions.c:3217 ../plugins/fn-math/functions.c:3240
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -7274,7 +7281,7 @@ msgstr ""
 "Se matrizes ou argumentos de intervalo não têm as mesmas dimensões, retornar "
 "#VALOR! erro."
 
-#: ../plugins/fn-math/functions.c:3218
+#: ../plugins/fn-math/functions.c:3219
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
@@ -7282,39 +7289,39 @@ msgstr ""
 "Esta função ignora logicos, então o uso de SUMPRODUCT(A1:A5>0) não vai "
 "funcionar. Em vez disso, use SUMPRODUCT(--(A1:A5>0))"
 
-#: ../plugins/fn-math/functions.c:3227
+#: ../plugins/fn-math/functions.c:3228
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr "Esta função não é compatível com OpenFormula. Use ODF.SUMPRODUCT vez."
 
-#: ../plugins/fn-math/functions.c:3233
+#: ../plugins/fn-math/functions.c:3234
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
 msgstr "ODF.SUMPRODUCT:multiplica componentes e adiciona os resultados"
 
-#: ../plugins/fn-math/functions.c:3238
+#: ../plugins/fn-math/functions.c:3239
 msgid "If an entry is not numeric or logical, the value zero is used instead."
 msgstr ""
 "Se uma entrada não for numérico ou lógico, o valor zero é usado em vez disso."
 
-#: ../plugins/fn-math/functions.c:3241
+#: ../plugins/fn-math/functions.c:3242
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr "Esta função é diferente da SUMPRODUCT considerando booleanos."
 
-#: ../plugins/fn-math/functions.c:3242
+#: ../plugins/fn-math/functions.c:3243
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr ""
 "Esta função não é compatível com o Excel. Em vez disso, use SUMPRODUCT."
 
 # https://pt.wikipedia.org/wiki/Autovalores_e_autovetores
-#: ../plugins/fn-math/functions.c:3377
+#: ../plugins/fn-math/functions.c:3378
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:autovalores e autovetores da @{matriz} simétrica"
 
-#: ../plugins/fn-math/functions.c:3378
+#: ../plugins/fn-math/functions.c:3379
 msgid "matrix:a symmetric matrix"
 msgstr "matriz:uma matriz simétrica"
 
-#: ../plugins/fn-math/functions.c:3379
+#: ../plugins/fn-math/functions.c:3380
 msgid ""
 "If @{matrix} is not symmetric, matching off-diagonal cells will be averaged "
 "on the assumption that the non-symmetry is caused by unimportant rounding "
@@ -7324,7 +7331,7 @@ msgstr ""
 "serão calculadas com base na hipótese de que a não-simetria é causada por "
 "erros de arredondamento sem importância."
 
-#: ../plugins/fn-math/functions.c:3380
+#: ../plugins/fn-math/functions.c:3381
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
