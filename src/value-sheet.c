@@ -64,7 +64,7 @@ value_dump (GnmValue const *value)
 		g_print ("CellRange\n");
 		if (sheet && sheet->name_unquoted)
 			g_print ("%s:", sheet->name_quoted);
-		else
+		else if (sheet)
 			g_print ("%p :", (void *)sheet);
 		g_print ("%s%s%s%s\n",
 			(c->col_relative ? "":"$"), col_name(c->col),
@@ -72,7 +72,7 @@ value_dump (GnmValue const *value)
 		c = &value->v_range.cell.b;
 		if (sheet && sheet->name_quoted)
 			g_print ("%s:", sheet->name_unquoted);
-		else
+		else if (sheet)
 			g_print ("%p :", (void *)sheet);
 		g_print ("%s%s%s%s\n",
 			(c->col_relative ? "":"$"), col_name(c->col),
