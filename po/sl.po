@@ -10579,7 +10579,7 @@ msgstr "_Deli"
 
 #: ../src/dialogs/paste-special.ui.h:21
 msgid "<b>Region operation</b>"
-msgstr "<b>Izbran obseg</>"
+msgstr "<b>Izbran obseg</b>"
 
 #. Region operation while paste
 #: ../src/dialogs/paste-special.ui.h:23
@@ -10643,7 +10643,7 @@ msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:36
 msgid "<b>Options</b>"
-msgstr "<b>Možnosti<b>"
+msgstr "<b>Možnosti</b>"
 
 #: ../src/dialogs/plugin-manager.ui.h:1
 msgid "Plugin Manager"
