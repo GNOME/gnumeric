@@ -1726,7 +1726,7 @@ stf_parse_options_guess_csv (char const *data)
 
 	res = stf_parse_options_new ();
 	stf_parse_options_set_type (res, PARSE_TYPE_CSV);
-	stf_parse_options_set_trim_spaces (res, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
+	stf_parse_options_set_trim_spaces (res, TRIM_TYPE_NEVER);
 	stf_parse_options_csv_set_indicator_2x_is_single (res, TRUE);
 	stf_parse_options_csv_set_duplicates (res, FALSE);
 	stf_parse_options_csv_set_trim_seps (res, FALSE);

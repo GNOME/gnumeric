@@ -1,5 +1,8 @@
 2020-10-04  Morten Welinder  <terra@gnome.org>
 
+	* src/stf-parse.c (stf_parse_options_guess_csv): Don't trim
+	spaces, see https://tools.ietf.org/html/rfc4180#section-2
+
 	* src/workbook-view.c (workbook_view_save_as): If we don't get a
 	modtime from the url, don't try to do anything with in.  Notably
 	happens with fd://1
