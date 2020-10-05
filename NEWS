@@ -4,6 +4,7 @@ Morten:
 	* Rework conditional styling's upper level.
 	* Fix autofill array critical.  [#511]
 	* Handle missing values in xlsx.  [#517]
+	* Fix critical when using fd://1.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48

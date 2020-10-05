@@ -1,3 +1,9 @@
+2020-10-04  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (workbook_view_save_as): If we don't get a
+	modtime from the url, don't try to do anything with in.  Notably
+	happens with fd://1
+
 2020-08-12  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

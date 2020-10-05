@@ -1220,10 +1220,12 @@ workbook_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 				go_doc_set_pristine (GO_DOC (wb), FALSE);
 
 				modtime = get_uri_modtime (NULL, uri);
-				go_doc_set_modtime (GO_DOC (wb), modtime);
-				if (gnm_debug_flag ("modtime"))
-					g_printerr ("Modtime set\n");
-				g_date_time_unref (modtime);
+				if (modtime) {
+					go_doc_set_modtime (GO_DOC (wb), modtime);
+					if (gnm_debug_flag ("modtime"))
+						g_printerr ("Modtime set\n");
+					g_date_time_unref (modtime);
+				}
 			}
 		} else
 			workbook_set_last_export_uri (wb, uri);
