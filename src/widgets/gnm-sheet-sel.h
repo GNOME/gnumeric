@@ -36,7 +36,7 @@ typedef struct GnmSheetSel_ GnmSheetSel;
 
 GtkWidget *gnm_sheet_sel_new (void);
 
-void       gnm_sheet_sel_set_sheets (GnmSheetSel *ss, GSList *sheets);
+void       gnm_sheet_sel_set_sheets (GnmSheetSel *ss, GPtrArray *sheets);
 
 void       gnm_sheet_sel_link (GnmSheetSel *ss, GnmWorkbookSel *wbs);
 

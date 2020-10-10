@@ -160,7 +160,8 @@ void
 dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 {
 	ZoomState *state;
-	GSList *l, *sheets;
+	GPtrArray *sheets;
+	unsigned ui;
 	int i, row, cur_row;
 	gboolean is_custom = TRUE;
 	GtkRadioButton *radio;
@@ -200,9 +201,9 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 
 	sheets = workbook_sheets (wb_control_get_workbook (GNM_WBC (wbcg)));
 	cur_row = row = 0;
-	for (l = sheets; l; l = l->next) {
+	for (ui = 0; ui < sheets->len; ui++) {
 		GtkTreeIter iter;
-		Sheet *this_sheet = l->data;
+		Sheet *this_sheet = g_ptr_array_index (sheets, ui);
 
 		gtk_list_store_append (state->sheet_list_model, &iter);
 		gtk_list_store_set (state->sheet_list_model,
@@ -215,7 +216,7 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 			cur_row = row;
 		row++;
 	}
-	g_slist_free (sheets);
+	g_ptr_array_unref (sheets);
 
 	{
 		GtkTreePath *path = gtk_tree_path_new_from_indices (cur_row, -1);

@@ -1972,65 +1972,6 @@ cb_accept_input_selected_merged (WBCGtk *wbcg)
 	}
 }
 
-/* static void */
-/* cb_accept_input_sheets_collector (Sheet *sheet, GSList **n) */
-/* { */
-/* 	if (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE) */
-/* 		(*n) = g_slist_prepend (*n, sheet); */
-/* } */
-
-/* static void */
-/* cb_accept_input_sheets (WBCGtk *wbcg) */
-/* { */
-/* 	GSList *sheets = workbook_sheets  */
-/* 		(wb_control_get_workbook (GNM_WBC (wbcg))); */
-/* 	GSList *vis_sheets = NULL; */
-
-/* 	g_slist_foreach (sheets,  */
-/* 			 (GFunc) cb_accept_input_sheets_collector, */
-/* 			 &vis_sheets); */
-
-/* 	wbcg_edit_multisheet_finish (wbcg, WBC_EDIT_ACCEPT, NULL, vis_sheets); */
-
-/* 	g_slist_free (sheets); */
-/* 	g_slist_free (vis_sheets); */
-/* } */
-
-/* static void */
-/* cb_accept_input_menu_sensitive_sheets_counter (Sheet *sheet, gint *n) */
-/* { */
-/* 	if (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE) */
-/* 		(*n)++; */
-/* } */
-
-/* static gboolean  */
-/* cb_accept_input_menu_sensitive_sheets (WBCGtk *wbcg)  */
-/* { */
-/* 	GSList *sheets = workbook_sheets  */
-/* 		(wb_control_get_workbook (GNM_WBC (wbcg))); */
-/* 	gint n = 0; */
-
-/* 	g_slist_foreach (sheets,  */
-/* 			 (GFunc) cb_accept_input_menu_sensitive_sheets_counter, */
-/* 			 &n); */
-/* 	g_slist_free (sheets); */
-/* 	return (n > 1); */
-/* } */
-
-/* static gboolean  */
-/* cb_accept_input_menu_sensitive_selected_sheets (WBCGtk *wbcg)  */
-/* { */
-/* 	GSList *sheets = workbook_sheets  */
-/* 		(wb_control_get_workbook (GNM_WBC (wbcg))); */
-/* 	gint n = 0; */
-
-/* 	g_slist_foreach (sheets,  */
-/* 			 (GFunc) cb_accept_input_menu_sensitive_sheets_counter, */
-/* 			 &n); */
-/* 	g_slist_free (sheets); */
-/* 	return (n > 2); */
-/* } */
-
 static gboolean
 cb_accept_input_menu_sensitive_selected_cells (WBCGtk *wbcg)
 {

@@ -104,7 +104,6 @@ init_scale (GtkWidget *scale, int N, int lo, int hi)
 static void
 cb_ok_clicked (ResizeState *state)
 {
-	GSList *sheets, *l;
 	GSList *changed_sheets = NULL;
 	WorkbookControl *wbc;
 	Workbook *wb;
@@ -116,12 +115,14 @@ cb_ok_clicked (ResizeState *state)
 		(GTK_TOGGLE_BUTTON (state->all_sheets_button));
 
 	wbc = GNM_WBC (state->wbcg);
+	wb = wb_control_get_workbook (wbc);
 
 	if (all_sheets) {
-		wb = wb_control_get_workbook (wbc);
-		sheets = workbook_sheets (wb);
-		for (l = sheets; l; l = l->next) {
-			Sheet *this_sheet = l->data;
+		GPtrArray *sheets = workbook_sheets (wb);
+		unsigned ui;
+
+		for (ui = 0; ui < sheets->len; ui++) {
+			Sheet *this_sheet = g_ptr_array_index (sheets, ui);
 
 			if (this_sheet == state->sheet)
 				continue;
@@ -132,7 +133,7 @@ cb_ok_clicked (ResizeState *state)
 
 			changed_sheets = g_slist_prepend (changed_sheets, this_sheet);
 		}
-		g_slist_free (sheets);
+		g_ptr_array_unref (sheets);
 	}
 
 	if (changed_sheets ||

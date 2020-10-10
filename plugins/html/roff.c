@@ -85,7 +85,8 @@ void
 roff_file_save (GOFileSaver const *fs, GOIOContext *io_context,
                 WorkbookView const *wb_view, GsfOutput *output)
 {
-	GSList *sheets, *ptr;
+	GPtrArray *sheets;
+	unsigned ui;
 	GnmCell *cell;
 	int row, col, fontsize, v_size;
 	Workbook *wb = wb_view_get_workbook (wb_view);
@@ -95,8 +96,8 @@ roff_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	gsf_output_printf (output, ".\\\" TROFF file\n");
 	gsf_output_printf (output, ".fo ''%%''\n");
 	sheets = workbook_sheets (wb);
-	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
-		Sheet *sheet = ptr->data;
+	for (ui = 0; ui < sheets->len; ui++) {
+		Sheet *sheet = g_ptr_array_index (sheets, ui);
 		GnmRange r = sheet_get_extent (sheet, FALSE, TRUE);
 
 		gsf_output_printf (output, "%s\n\n", sheet->name_unquoted);
@@ -188,5 +189,5 @@ roff_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		}
 		gsf_output_printf (output, ".TE\n\n");
 	}
-	g_slist_free (sheets);
+	g_ptr_array_unref (sheets);
 }

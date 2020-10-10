@@ -33,9 +33,17 @@ GType	    gnm_cell_get_type (void);
 /*
  * GnmCell state checking
  */
+#ifdef __GI_SCANNER__
+gboolean gnm_cell_has_expr (GnmCell const *cell);
+#else
+inline gboolean
+gnm_cell_has_expr (GnmCell const *cell) {
+	return cell->base.texpr != NULL;
+}
+#endif
+
 #define	    gnm_cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_NEEDS_RECALC)
 #define	    gnm_cell_expr_is_linked(cell)	((cell)->base.flags & DEPENDENT_IS_LINKED)
-#define	    gnm_cell_has_expr(cell)		((cell)->base.texpr != NULL)
 #define	    gnm_cell_is_merged(cell)	((cell)->base.flags & GNM_CELL_IS_MERGED)
 gboolean    gnm_cell_is_empty	  (GnmCell const *cell);
 gboolean    gnm_cell_is_blank	  (GnmCell const *cell); /* empty, or "" */

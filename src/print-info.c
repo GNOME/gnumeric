@@ -892,8 +892,9 @@ cb_set_pdf_option (const char *key, const char *value,
 
 	if (strcmp (key, "object") == 0) {
 		GPtrArray *objects = g_object_get_data (G_OBJECT (wb), "pdf-objects");
-		GSList *sheets = workbook_sheets (wb);
+		GPtrArray *sheets = workbook_sheets (wb);
 		gboolean object_seen = FALSE;
+		unsigned ui;
 
 		if (!objects) {
 			objects = g_ptr_array_new ();
@@ -902,8 +903,8 @@ cb_set_pdf_option (const char *key, const char *value,
 						(GDestroyNotify)g_ptr_array_unref);
 		}
 
-		for (; sheets != NULL; sheets = sheets->next) {
-			Sheet *sheet = sheets->data;
+		for (ui = 0; ui < sheets->len; ui++) {
+			Sheet *sheet = g_ptr_array_index (sheets, ui);
 			GSList *sobjects = sheet->sheet_objects;
 			for (; sobjects != NULL; sobjects = sobjects->next) {
 				SheetObject *so = sobjects->data;
@@ -915,6 +916,9 @@ cb_set_pdf_option (const char *key, const char *value,
 				}
 			}
 		}
+
+		g_ptr_array_unref (sheets);
+
 		if (!object_seen) {
 			*err = g_error_new (go_error_invalid (), 0,
 					    _("There is no object with name "

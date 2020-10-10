@@ -1127,3 +1127,15 @@ gnm_cell_get_type (void)
 
     return type_cell;
 }
+
+// Provide the external version of inline functions, used mainly for
+// introspection
+
+/**
+ * gnm_cell_has_expr:
+ * @cell: #GnmCell
+ *
+ * Returns: %TRUE if @cell has an expression or %FALSE if it is empty
+ * or contains a value.
+ */
+extern inline gboolean gnm_cell_has_expr (GnmCell const *cell);

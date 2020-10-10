@@ -175,17 +175,17 @@ gnm_sheet_sel_new (void)
  * @sheets: (element-type Sheet) (transfer none): sheets
  */
 void
-gnm_sheet_sel_set_sheets (GnmSheetSel *ss, GSList *sheets)
+gnm_sheet_sel_set_sheets (GnmSheetSel *ss, GPtrArray *sheets)
 {
 	GtkMenu *menu;
-	GSList *l;
+	unsigned ui;
 
 	g_return_if_fail (GNM_IS_SHEET_SEL (ss));
 
         menu = GTK_MENU (gtk_menu_new ());
 
-	for (l = sheets; l; l = l->next) {
-		Sheet *sheet = l->data;
+	for (ui = 0; ui < sheets->len; ui++) {
+		Sheet *sheet = g_ptr_array_index (sheets, ui);
 		GtkWidget *item =
 			gtk_check_menu_item_new_with_label
 			(sheet->name_unquoted);
@@ -198,8 +198,8 @@ gnm_sheet_sel_set_sheets (GnmSheetSel *ss, GSList *sheets)
 	gtk_widget_show_all (GTK_WIDGET (menu));
 	go_option_menu_set_menu (&ss->parent, GTK_WIDGET (menu));
 
-	if (sheets)
-		gnm_sheet_sel_set_sheet (ss, sheets->data);
+	if (sheets->len > 0)
+		gnm_sheet_sel_set_sheet (ss, g_ptr_array_index (sheets, 0));
 }
 
 static void
@@ -208,12 +208,10 @@ cb_wb_changed (GnmWorkbookSel *wbs,
 	       GnmSheetSel *ss)
 {
 	Workbook *wb = gnm_workbook_sel_get_workbook (wbs);
-	GSList *sheets = wb ? workbook_sheets (wb) : NULL;
+	GPtrArray *sheets = wb ? workbook_sheets (wb) : NULL;
 	// FIXME: sort?
 	gnm_sheet_sel_set_sheets (ss, sheets);
-	if (sheets)
-		gnm_sheet_sel_set_sheet (ss, sheets->data);
-	g_slist_free (sheets);
+	g_ptr_array_unref (sheets);
 }
 
 void

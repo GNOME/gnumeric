@@ -7,6 +7,7 @@
 G_BEGIN_DECLS
 
 struct _Workbook {
+#ifndef __GI_SCANNER__
 	GODoc	doc;
 
 	GPtrArray *wb_views;
@@ -46,6 +47,7 @@ struct _Workbook {
 	gboolean being_reordered;
 	gboolean recursive_dirty_enabled;
 	gboolean being_loaded;
+#endif
 };
 
 typedef struct {

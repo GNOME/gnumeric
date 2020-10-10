@@ -129,8 +129,9 @@ static void
 workbook_dispose (GObject *wb_object)
 {
 	Workbook *wb = WORKBOOK (wb_object);
-	GSList *sheets, *ptr;
 	GSList *controls = NULL;
+	GPtrArray *sheets;
+	unsigned ui;
 
 	wb->during_destruction = TRUE;
 
@@ -163,11 +164,13 @@ workbook_dispose (GObject *wb_object)
 	dependents_workbook_destroy (wb);
 
 	/* Copy the set of sheets, the list changes under us. */
-	sheets = workbook_sheets (wb);
+	sheets = g_ptr_array_sized_new (wb->sheets->len);
+	memcpy (sheets->pdata, wb->sheets->pdata,
+		wb->sheets->len * sizeof (gpointer));
 
 	/* Remove all contents while all sheets still exist */
-	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
-		Sheet *sheet = ptr->data;
+	for (ui = 0; ui < sheets->len; ui++) {
+		Sheet *sheet = g_ptr_array_index (sheets, ui);
 		GnmRange r;
 
 		sheet->being_destructed = TRUE;
@@ -181,11 +184,11 @@ workbook_dispose (GObject *wb_object)
 	}
 
 	/* Now remove the sheets themselves */
-	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
-		Sheet *sheet = ptr->data;
+	for (ui = 0; ui < sheets->len; ui++) {
+		Sheet *sheet = g_ptr_array_index (sheets, ui);
 		workbook_sheet_delete (sheet);
 	}
-	g_slist_free (sheets);
+	g_ptr_array_unref (sheets);
 
 	// Now get rid of the control refs
 	g_slist_free_full (controls, g_object_unref);
@@ -829,21 +832,11 @@ workbook_detach_view (WorkbookView *wbv)
  *
  * Returns: (element-type Sheet) (transfer container): the sheets list.
  */
-GSList *
+GPtrArray *
 workbook_sheets (Workbook const *wb)
 {
-	GSList *list = NULL;
-
 	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), NULL);
-
-	if (wb->sheets) {
-		int i = wb->sheets->len;
-		while (i-- > 0)
-			list = g_slist_prepend (list,
-				g_ptr_array_index (wb->sheets, i));
-	}
-
-	return list;
+	return g_ptr_array_ref (wb->sheets);
 }
 
 int
