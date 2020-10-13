@@ -11,7 +11,7 @@ from gi.repository import GOffice
 Gnm.init()
 
 # A context for reporting errors to stderr
-cc = Gnm.CmdContextStderr.new ()
+cc = Gnm.CmdContextStderr()
 
 # Load plugins
 Gnm.plugins_init(cc)

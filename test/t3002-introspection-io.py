@@ -15,7 +15,7 @@ src_uri = GOffice.filename_to_uri (sys.argv[1])
 dst_uri = GOffice.filename_to_uri (sys.argv[2])
 
 # A context for reporting errors to stderr
-cc = Gnm.CmdContextStderr.new()
+cc = Gnm.CmdContextStderr()
 
 # Load plugins
 Gnm.plugins_init(cc)
