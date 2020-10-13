@@ -1,3 +1,11 @@
+2020-10-12  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-priv.h: Introspection doesn't like empty structs so
+	throw it a bone.
+
+	* src/stf-parse.c (stf_parse_options_guess_csv): Don't get
+	confused over quotes in quoted text.  Fixes #537.
+
 2020-10-04  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_options_guess_csv): Don't trim

@@ -7,9 +7,9 @@
 G_BEGIN_DECLS
 
 struct _Workbook {
-#ifndef __GI_SCANNER__
 	GODoc	doc;
 
+#ifndef __GI_SCANNER__
 	GPtrArray *wb_views;
 
 	GPtrArray  *sheets;

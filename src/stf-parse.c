@@ -1768,26 +1768,43 @@ stf_parse_options_guess_csv (char const *data)
 	if (quoteline) {
 		const char *p0 = my_utf8_strchr (quoteline, stringind);
 		const char *p = p0;
+		gboolean inquote;
 
 		if (gnm_debug_flag ("stf"))
 			g_printerr ("quoteline = [%s]\n", quoteline);
 
-		do {
-			p = g_utf8_next_char (p);
-		} while (*p && g_utf8_get_char (p) != stringind);
+		p = g_utf8_next_char (p);
+		inquote = TRUE;
+		while (inquote) {
+			gunichar c = g_utf8_get_char (p);
+			if (c == stringind) {
+				p = g_utf8_next_char (p);
+				if (g_utf8_get_char (p) == stringind)
+					p = g_utf8_next_char (p);
+				else
+					inquote = FALSE;
+			} else if (c == 0)
+				break;
+			else
+				p = g_utf8_next_char (p);
+		}
+
 		if (*p) p = g_utf8_next_char (p);
 		while (*p && g_unichar_isspace (g_utf8_get_char (p)))
 			p = g_utf8_next_char (p);
-		if (*p) {
+		if (*p && g_utf8_get_char (p) != stringind &&
+		    g_unichar_ispunct (g_utf8_get_char (p))) {
 			// Use the character after the quote.
-			if (g_unichar_ispunct (g_utf8_get_char (p)))
-				sep = g_strndup (p, g_utf8_next_char (p) - p);
+			sep = g_strndup (p, g_utf8_next_char (p) - p);
 		} else {
 			/* Try to use character before the quote.  */
 			while (p0 > quoteline && !sep) {
+				gunichar uc;
 				p = p0;
 				p0 = g_utf8_prev_char (p0);
-				if (!g_unichar_isspace (g_utf8_get_char (p0)))
+				uc = g_utf8_get_char (p0);
+				if (g_unichar_ispunct (uc) &&
+				    uc != stringind)
 					sep = g_strndup (p0, p - p0);
 			}
 		}

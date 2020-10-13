@@ -165,8 +165,8 @@ workbook_dispose (GObject *wb_object)
 
 	/* Copy the set of sheets, the list changes under us. */
 	sheets = g_ptr_array_sized_new (wb->sheets->len);
-	memcpy (sheets->pdata, wb->sheets->pdata,
-		wb->sheets->len * sizeof (gpointer));
+	for (ui = 0; ui < wb->sheets->len; ui++)
+		g_ptr_array_add (sheets, g_ptr_array_index (wb->sheets, ui));
 
 	/* Remove all contents while all sheets still exist */
 	for (ui = 0; ui < sheets->len; ui++) {
