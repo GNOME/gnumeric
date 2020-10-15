@@ -1386,6 +1386,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 			if (text && *text) {
 				GnmCell *cell = sheet_cell_fetch (sheet, col, row);
 				if (!go_format_is_text (fmt) &&
+				    text[0] != '=' && text[0] != '\'' &&
 				    lcol < parseoptions->formats_decimal->len &&
 				    g_ptr_array_index (parseoptions->formats_decimal, lcol)) {
 					GOFormatFamily fam;
@@ -1398,7 +1399,6 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 						v = value_new_string (text);
 					sheet_cell_set_value (cell, v);
 				} else {
-
 					stf_cell_set_text (cell, text);
 				}
 			}
@@ -2003,8 +2003,9 @@ stf_parse_options_guess_formats (StfParseOptions_t *po, char const *data)
 			GPtrArray *line = g_ptr_array_index (lines, lno);
 			const char *data = col < line->len ? g_ptr_array_index (line, col) : "";
 			unsigned prev_possible = possible;
+			gunichar c0 = g_utf8_get_char (data);
 
-			if (*data == 0 || data[0] == '\'')
+			if (c0 == 0 || c0 == '\'' || c0 == '=')
 				continue;
 
 			do_check_date (data, STF_GUESS_DATE_DMY, FALSE, FALSE, &possible, date_conv);

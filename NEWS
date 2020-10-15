@@ -7,6 +7,7 @@ Morten:
 	* Fix critical when using fd://1.
 	* Don't trim spaces for csv files as per rfc 4180.  [#528]
 	* Fix cvs separator guessing problem with quotes.  [#537]
+	* Improve handling of expressions in csv files.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48

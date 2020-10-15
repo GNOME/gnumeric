@@ -1,3 +1,9 @@
+2020-10-15  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_sheet): Don't try to parse entries
+	with single quote or equal sign as numbers; use stf_cell_set_text.
+	(stf_parse_options_guess_formats): Skip entries with '=' also.
+
 2020-10-12  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-priv.h: Introspection doesn't like empty structs so
