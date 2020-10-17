@@ -557,9 +557,6 @@ gnm_sog_bounds_changed (SheetObject *so)
 			sheet_object_position_pts_get (so, coords);
 			gog_graph_set_size (sog->graph, fabs (coords[2] - coords[0]),
 					    fabs (coords[3] - coords[1]));
-		} else {
-			/*FIXME: get dimensions from print settings */
-			gog_graph_set_size (sog->graph, 400., 300.);
 		}
 	}
 }
