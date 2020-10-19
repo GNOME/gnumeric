@@ -751,7 +751,7 @@
   &gnum; is maintained in the GNOME
   bugzilla database. This list can be accessed using <ulink
   type="http"
-  url="http://bugzilla.gnome.org/buglist.cgi?product=Gnumeric&amp;bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=NEEDINFO&amp;bug_status=REOPENED&amp;order=bugs.bug_id">this
+  url="https://gitlab.gnome.org/GNOME/gnumeric/-/issues">this
   bugzilla query</ulink>. 
 </para>
         

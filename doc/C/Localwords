@@ -36,7 +36,6 @@ bitwise
 bivariate
 boolean
 booleans
-bugzilla
 checkbox
 checkboxes
 dataset
@@ -44,6 +43,7 @@ datasets
 datasource
 dpkg
 fakeroot
+gitlab
 ghostscript
 ghostview
 gconf
