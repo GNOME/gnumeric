@@ -28,7 +28,6 @@ missing
 mkinstalldirs
 ylwrap
 gnumeric.appdata.xml
-gnumeric.keys
 gnumeric.spec
 gnumeric.desktop
 gnumeric.desktop.in
