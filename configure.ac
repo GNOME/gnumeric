@@ -1167,7 +1167,6 @@ dnl
 dnl These are changed in gutils.c for WIN32 packages
 AC_SUBST(gnumeric_datadir, '${datadir}/gnumeric/${VERSION}')
 AC_SUBST(gnumeric_libdir, '${libdir}/gnumeric/${VERSION}')
-AC_SUBST(gnumeric_icondir, '${datadir}/pixmaps/gnumeric')
 AC_SUBST(gnumeric_localedir, '${prefix}/${DATADIRNAME}/locale')
 dnl
 AC_SUBST(gnumeric_plugindir, '${gnumeric_libdir}/plugins')

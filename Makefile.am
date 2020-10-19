@@ -5,7 +5,7 @@ XML_I18N_XML_KIND = --pass-through
 # We used to distribute old ChangeLog files too.
 change_logs = ChangeLog
 
-CLEANFILES = gnumeric.desktop gnumeric.keys gnumeric.appdata.xml
+CLEANFILES = gnumeric.desktop gnumeric.appdata.xml
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DATA)
 
 # Flags for distcheck, mostly to install things that nominally go under the
@@ -25,7 +25,6 @@ EXTRA_DIST = \
 	COPYING COPYING-gpl2 COPYING-gpl3 \
 	gnumeric.appdata.xml.in	\
 	gnumeric.desktop.in	\
-	gnumeric.keys.in	\
 	gnumeric.mime		\
 	gnumeric.spec		\
 	gnumeric.xsd		\
