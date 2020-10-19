@@ -1189,7 +1189,6 @@ AC_DEFINE(GNM_API_VERSION, "GNUMERIC_API_VER",
 	[The API version number of this release])
 
 AC_OUTPUT([
-gnumeric.spec
 Makefile
 libspreadsheet.pc
 icons/Makefile

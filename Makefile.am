@@ -26,7 +26,6 @@ EXTRA_DIST = \
 	gnumeric.appdata.xml.in	\
 	gnumeric.desktop.in	\
 	gnumeric.mime		\
-	gnumeric.spec		\
 	gnumeric.xsd		\
 	intltool-extract.in	\
 	intltool-merge.in	\
