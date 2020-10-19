@@ -2521,8 +2521,8 @@
               <para>
                 <guimenuitem>Report a Problem</guimenuitem> &mdash;
                 This menu entry allows the user to launch a web
-                browser and open the page on GNOME's Bugzilla bug
-                entry system for the &gnum; program. This page
+                browser and open the page on GNOME's GitLab issue/
+				        bug entry system for the &gnum; program. This page
                 includes instructions on submitting reports of
                 problems. The first time a user reports a problem,
                 they will be asked to login to the system.

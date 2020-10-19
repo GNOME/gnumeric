@@ -221,7 +221,7 @@
   <para>
      If you have some comments or suggestions regarding this application or
      documentation, need help, or want to report a bug, please contact us!
-     Either via the <ulink url="http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric" type="http">web</ulink>.
+     Either via the <ulink url="https://gitlab.gnome.org/GNOME/gnumeric/-/issues/new" type="http">web</ulink>.
      or on the mailing list
   </para>
 

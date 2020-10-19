@@ -38,7 +38,7 @@
 
   <para>
     The &gnum; project uses a world wide
-    web system called <application>Bugzilla</application> to collect
+    web system called <application>GitLab</application> to collect
     reports of program errors and then to track these errors until
     they are finally fixed. The system was developed as part of the
     <application>Mozilla</application> web browser project, which
@@ -52,7 +52,7 @@
     understanding of the problem to be able to provide a detailed
     statement explaining the problem exactly. Next, the user must open
     an account with the GNOME project's
-    <application>Bugzilla</application> system. Finally, the user must
+    <application>GitLab</application> system. Finally, the user must
     submit the statement of the problem, ideally, along with some
     information about the computer setup being used by the person
     experiencing the problem.
@@ -61,12 +61,12 @@
   <para>
     The explanation given below should be sufficient to file a
     report. For more detailed
-    instructions, the main page of GNOME's bugzilla can be found at
-    <ulink type="http" url="http://bugzilla.gnome.org/">
-      <uri>http://bugzilla.gnome.org/</uri>
+    instructions, the main page of GNOME's GitLab can be found at
+    <ulink type="http" url="https://gitlab.gnome.org/GNOME">
+      <uri>https://gitlab.gnome.org/GNOME</uri>
     </ulink> and instructions can be found at 
-    <ulink type="http" url="http://bugzilla.gnome.org/bug-HOWTO.html">
-      <uri>http://bugzilla.gnome.org/bug-HOWTO.html</uri>
+    <ulink type="http" url="https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines">
+      <uri>https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines</uri>
     </ulink>.
   </para>
 
@@ -97,24 +97,24 @@
 
 
 
-<sect1 id="sect-bugs-bugzilla_account">
+<sect1 id="sect-bugs-gitlab_account">
   <title>Opening an account</title>
 
     <para>
-      The first time a user uses <application>Bugzilla</application>,
+      The first time a user uses <application>Gitlab</application>,
       they must create an account. This account is needed to allow
       users to be informed of the status of the bug as it is tracked
       by the system from submission to resolution. The only
-      requirement for opening a <application>Bugzilla</application>
+      requirement for opening a <application>Gitlab</application>
       account is the possession of a valid email address through which
       the user can receive a password.
     </para>
 
-  <sect2 id="sect-bugs-bugzilla_account-create">
+  <sect2 id="sect-bugs-gitlab_account-create">
     <title>Creating a new account</title>
 
     <para>
-      Users of <application>Bugzilla</application> are automatically
+      Users of <application>Gitlab</application> are automatically
       redirected to a login page, unless they have previously logged
       into the system and accepted a 'cookie' with which they identify
       themselves. The login page has a link called "Create a new
@@ -123,7 +123,7 @@
 
     <para>
       Alternatively, by clicking on this <ulink type="http"
-      url="http://bugzilla.gnome.org/createaccount.cgi">link</ulink>,
+      url="https://gitlab.com/users/sign_in#register-pane">link</ulink>,
       users can follow a shortcut directly to the account creation
       page.
     </para>
@@ -141,25 +141,25 @@
 
   </sect2>
 
-  <sect2 id="sect-bugs-bugzilla_account-login">
+  <sect2 id="sect-bugs-gitlab_account-login">
     <title>Logging into the account</title>
 
     <para>
       After creating an account, users can visit the bug entry
       <ulink type="http" 
-      url="http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric">page
+      url="https://gitlab.gnome.org/GNOME/gnumeric/-/issues/new">page
       </ulink>
       for &gnum;. Here
       users are asked to login with their email address and
-      password. After logging in, <application>Bugzilla</application>
+      password. After logging in, <application>GitLab</application>
       will present a page to add a bug report.
    </para>
 
    <note>
      <para>
-       A user who accepts cookies from <literal>bugzilla.gnome.org</literal>
+       A user who accepts cookies from <literal>gitlab.gnome.org</literal>
        will only have to give a password the first time they visit
-       GNOME's <application>Bugzilla</application>. During all future
+       GNOME's <application>GitLab</application>. During all future
        visits, GNOME will recognize the cookie and thereby identify
        the user.
      </para>
@@ -179,9 +179,9 @@
       <para>
         In order to file a report of a problem with
         &gnum;, a
-        <application>Bugzilla</application> account is
+        <application>GitLab</application> account is
         necessary. Please see the previous section, <xref
-        linkend="sect-bugs-bugzilla_account" />, for an explanation of
+        linkend="sect-bugs-gitlab_account" />, for an explanation of
         how to open an account.
       </para>
     </warning>
@@ -204,33 +204,33 @@
       <guibutton>Commit</guibutton> button.
     </para>
 
-  <sect2 id="sect-bugs-bugzilla_access">
-    <title>Accessing the GNOME project's Bugzilla</title>
+  <sect2 id="sect-bugs-gitlab_access">
+    <title>Accessing the GNOME project's GitLab</title>
 
     <para>
       There are several ways to file a bug report through
-      <application>Bugzilla</application>.
+      <application>GitLab</application>.
     </para>
 
     <para>
        One of the entries in the <guimenu>Help</guimenu> menu is
       called <guimenuitem>Report a Problem</guimenuitem>. This menu
       entry should cause a browser window to launch and open
-      <application>Bugzilla</application> to the
+      <application>GitLab</application> to the
       &gnum; page.
     </para>
 
     <para>
       Alternatively, users can click on this <ulink type="http"
-      url="http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric">
+      url="https://gitlab.gnome.org/GNOME/gnumeric/-/issues/new">
       link</ulink> to access the &gnum;
-      page in <application>Bugzilla</application>.
+      page in <application>Gitlab</application>.
     </para>
 
     <para>
       If neither of those shortcuts work, the user must use a web
       browser to access the following location:
-<screen>http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric
+<screen>https://gitlab.gnome.org/GNOME/gnumeric/-/issues/new
 </screen>
       The simplest way would be to use the mouse to copy the text and
       paste that text into the location bar of a web browser.
@@ -239,9 +239,9 @@
     <para>
       The user may be asked to login, by giving their account name and
       their password, when they begin their browser session with
-      <application>Bugzilla</application>. See <xref
-      linkend="sect-bugs-bugzilla_account-login" /> for an explanation
-      of how to login to <application>Bugzilla</application>.
+      <application>GitLab</application>. See <xref
+      linkend="sect-bugs-gitlab_account-login" /> for an explanation
+      of how to login to <application>GitLab</application>.
     </para>
 
   </sect2>
@@ -300,7 +300,7 @@ a user
     <para>
       The <emphasis>Product</emphasis> should be set to
       &gnum; since the GNOME version of
-      <application>Bugzilla</application> is used for all the different
+      <application>GitLab</application> is used for all the different
       programs in the project.
     </para>
 
@@ -573,7 +573,7 @@ a user
 
       <para>
         In order to submit the bug report into
-        <application>Bugzilla</application>, once all of the important
+        <application>GitLab</application>, once all of the important
         fields have been submitted, simply click on the
         <guibutton>Commit</guibutton> button.
       </para>
@@ -596,9 +596,9 @@ a user
 	  A user can choose not to be notified when changes to reports
 	  are submitted. The user preference page can be accessed <ulink
 	  type="http"
-	  url="http://bugzilla.gnome.org/userprefs.cgi">here</ulink> at the
+	  url="https://gitlab.gnome.org/profile/notifications">here</ulink> at the
 	  following URL.
-<screen>http://bugzilla.gnome.org/userprefs.cgi
+<screen>https://gitlab.gnome.org/profile/notifications
 </screen>
        </para>
      </note>
@@ -623,12 +623,12 @@ a user
         To use this shortcut, first open a new bug report, then fill
         out only the fields that will apply to all the future bugs
         being reported and then click on the button labelled "Bookmark
-        these values". <application>Bugzilla</application> will then
+        these values". <application>GitLab</application> will then
         construct a template and will provide a link which can be
         saved for future use just as any other page on the web can be
         saved as a bookmark. To use these values, simply clicking on
         the bookmark will open the &gnum;
-        page of <application>Bugzilla</application> with the common
+        page of <application>GitLab</application> with the common
         fields already filled out.
       </para>
 

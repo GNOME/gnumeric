@@ -17,7 +17,7 @@
     Collaborative process:
       -start by submitting patches
        checkout/code/checkbuild/diff/send patch to Jody or list or
-      bugzilla
+      gitlab
 
       -graduate to git access
 
