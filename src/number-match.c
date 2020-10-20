@@ -109,6 +109,7 @@ static struct {
 	GORegexp re_yyyymmdd1;
 	GORegexp re_yyyymmdd2;
 	GORegexp re_yyyymmdd3;
+	GORegexp re_yyyymmdd4;
 	GORegexp re_mmddyyyy;
 	GORegexp re_mmdd;
 	GORegexp re_hhmmss1;
@@ -127,6 +128,7 @@ datetime_locale_clear (void)
 	go_regfree (&datetime_locale.re_yyyymmdd1);
 	go_regfree (&datetime_locale.re_yyyymmdd2);
 	go_regfree (&datetime_locale.re_yyyymmdd3);
+	go_regfree (&datetime_locale.re_yyyymmdd4);
 	go_regfree (&datetime_locale.re_mmddyyyy);
 	go_regfree (&datetime_locale.re_mmdd);
 	go_regfree (&datetime_locale.re_hhmmss1);
@@ -262,6 +264,16 @@ datetime_locale_setup (char const *lc_time)
 	 */
 	datetime_locale_setup1 (&datetime_locale.re_yyyymmdd3,
 				"^(\\d\\d\\d\\d)[-/.](\\d+)[-/.](\\d+)\\b");
+
+	/*
+	 * "2000-Oct-10"
+	 */
+	s = g_strconcat ("^(\\d\\d\\d\\d)[-/.](",
+			 p_MMM->str,
+			 ")[-/.](\\d+)\\b",
+			 NULL);
+	datetime_locale_setup1 (&datetime_locale.re_yyyymmdd4, s);
+	g_free (s);
 
 	/*
 	 * "01/31/2001"    [Jan 31] if month_before_day
@@ -763,6 +775,20 @@ format_match_datetime (char const *text,
 		year = handle_year (text, match + 1);
 		month = handle_month (text, match + 2);
 		day = handle_day (text, match + 3);
+		if (valid_dmy (day, month, year)) {
+			date_format = g_strdup ("yyyy-mmm-dd");
+			text += match[0].rm_eo;
+			goto got_date;
+		}
+	}
+
+	/* ^(\d\d\d\d)[-/.](MMM)[-/.](\d+)\b */
+	/*  1              2         15      */
+	if (dig1 > 0 &&  /* Exclude zero.  */
+	    go_regexec (&datetime_locale.re_yyyymmdd4, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		year = handle_year (text, match + 1);
+		month = find_month (match + 3);
+		day = handle_day (text, match + 15);
 		if (valid_dmy (day, month, year)) {
 			date_format = g_strdup ("yyyy-mmm-dd");
 			text += match[0].rm_eo;
