@@ -8777,7 +8777,7 @@ msgstr "Rang:"
 
 #: ../src/dialogs/cell-sort.ui.h:11
 msgid "_Left-Right"
-msgstr "Esquerra-_Dreta"
+msgstr "Esquerra-_dreta"
 
 #: ../src/dialogs/cell-sort.ui.h:12
 msgid "Sort columns by the specified rows"
@@ -17647,7 +17647,7 @@ msgstr "Sup_eríndex"
 
 #: ../src/wbc-gtk-actions.c:3693
 msgid "Superscript"
-msgstr "Sup_eríndex"
+msgstr "Superíndex"
 
 #: ../src/wbc-gtk-actions.c:3699
 msgid "Subscrip_t"
@@ -17655,7 +17655,7 @@ msgstr "Su_bíndex"
 
 #: ../src/wbc-gtk-actions.c:3701
 msgid "Subscript"
-msgstr "Su_bíndex"
+msgstr "Subíndex"
 
 #: ../src/wbc-gtk-actions.c:3711
 msgid "Fill horizontally"
@@ -18617,7 +18617,7 @@ msgstr "Verd"
 
 #: ../templates/autoformat/autoformat.List.green.xml.in.h:2
 msgid "A green list template"
-msgstr "Una plantilla de llista verd"
+msgstr "Una plantilla de llista verda"
 
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:1
 msgid "Lila"
