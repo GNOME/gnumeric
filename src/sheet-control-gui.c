@@ -2527,7 +2527,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEvent *event,
 	}
 	if (!popup_elements[POPUPITEM_FORMAT].allocated_name && !full_sheet) {
 		char const *format;
-		format = ngettext ("_Format %d Cell...", "_Format %d Cells", n_cells);
+		format = ngettext ("_Format %d Cell...", "_Format %d Cells...", n_cells);
 		popup_elements[POPUPITEM_FORMAT].allocated_name = g_strdup_printf (format, n_cells);
 	}
 
