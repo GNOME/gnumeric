@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2020-05-28 23:15+0000\n"
-"PO-Revision-Date: 2020-10-17 18:01+0700\n"
+"POT-Creation-Date: 2020-11-22 12:50+0000\n"
+"PO-Revision-Date: 2020-12-10 16:07+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: GNOME Indonesian Translation Team <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: ../plugins/fn-christian-date/functions.c:131
 msgid ""
@@ -977,8 +977,9 @@ msgid "year:year of date"
 msgstr "year:tahun tanggal"
 
 #: ../plugins/fn-date/functions.c:74
+#, fuzzy
 msgid "month:month of year"
-msgstr "month:bulan dalam tahun"
+msgstr "year-month-day"
 
 #: ../plugins/fn-date/functions.c:75
 msgid "day:day of month"
@@ -1052,8 +1053,9 @@ msgid "DATEVALUE:the date part of a date and time serial value"
 msgstr "DATEVALUE:bagian tanggal dari sebuah nilai seri tanggal dan waktu"
 
 #: ../plugins/fn-date/functions.c:192 ../plugins/fn-date/functions.c:487
+#, fuzzy
 msgid "serial:date and time serial value"
-msgstr "serial:nilai seri tanggal dan waktu"
+msgstr "DATEVALUE:bagian tanggal dari sebuah nilai seri tanggal dan waktu"
 
 #: ../plugins/fn-date/functions.c:193
 msgid ""
@@ -1069,18 +1071,21 @@ msgstr "DATEDIF:selisih antar tanggal"
 #: ../plugins/fn-date/functions.c:210 ../plugins/fn-date/functions.c:717
 #: ../plugins/fn-date/functions.c:1046 ../plugins/fn-date/functions.c:1358
 #: ../plugins/fn-date/functions.c:1388
+#, fuzzy
 msgid "start_date:starting date serial value"
-msgstr "start_date:nilai seri tanggal awal"
+msgstr "DATE:membuat sebuah nilai seri tanggal"
 
 #: ../plugins/fn-date/functions.c:211 ../plugins/fn-date/functions.c:718
 #: ../plugins/fn-date/functions.c:1047 ../plugins/fn-date/functions.c:1359
 #: ../plugins/fn-date/functions.c:1387
+#, fuzzy
 msgid "end_date:ending date serial value"
-msgstr "end_date:nilai seri tanggal akhir"
+msgstr "DATE:membuat sebuah nilai seri tanggal"
 
 #: ../plugins/fn-date/functions.c:212
+#, fuzzy
 msgid "interval:counting unit"
-msgstr "interval:satuan penghitungan"
+msgstr "method:metoda penghitungan"
 
 #: ../plugins/fn-date/functions.c:213
 msgid ""
@@ -1662,20 +1667,24 @@ msgid "call_put_flag:'c' for a call and 'p' for a put"
 msgstr "call_put_flag: ' c ' untuk panggilan dan ' p ' untuk Put"
 
 #: ../plugins/fn-derivatives/options.c:45
+#, fuzzy
 msgid "spot:spot price"
-msgstr "spot:harga spot"
+msgstr "F-Spot"
 
 #: ../plugins/fn-derivatives/options.c:46
+#, fuzzy
 msgid "strike:strike price"
-msgstr "strike:harga strike"
+msgstr "Coret"
 
 #: ../plugins/fn-derivatives/options.c:47
+#, fuzzy
 msgid "time:time to maturity in years"
-msgstr "waktu:waktu untuk jatuh tempo dalam tahun"
+msgstr "Jangkauan pencarian untuk pencarian berbasis waktu dalam tahun"
 
 #: ../plugins/fn-derivatives/options.c:48
+#, fuzzy
 msgid "time:time to maturity in days"
-msgstr "waktu:waktu untuk jatuh tempo dalam hari"
+msgstr "waktu: waktu jatuh tempo di hari"
 
 #: ../plugins/fn-derivatives/options.c:49
 #, fuzzy
@@ -1757,8 +1766,9 @@ msgid "b:limit for second random variable"
 msgstr "b:batas bagi variabel acak kedua"
 
 #: ../plugins/fn-derivatives/options.c:193
+#, fuzzy
 msgid "rho:correlation of the two random variables"
-msgstr "rho:korelasi dari dua variabel acak"
+msgstr "Rho: korelasi dua variabel acak"
 
 #: ../plugins/fn-derivatives/options.c:194
 #, fuzzy
@@ -2456,8 +2466,9 @@ msgstr "spot2: harga spot aset 2"
 
 #: ../plugins/fn-derivatives/options.c:1666
 #: ../plugins/fn-derivatives/options.c:1710
+#, fuzzy
 msgid "qty1:quantity of asset 1"
-msgstr "qty1:kuantitas aset 1"
+msgstr "qty1: kuantitas aset 1"
 
 #: ../plugins/fn-derivatives/options.c:1667
 #: ../plugins/fn-derivatives/options.c:1711
@@ -7212,30 +7223,24 @@ msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
 msgstr "Jika kedua @ {x} dan @ {y} sama 0, POWER kembali #NUM!"
 
 #: ../plugins/fn-math/functions.c:1404
-#, fuzzy
 msgid "If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!"
-msgstr "Jika @ {x} = 0 dan @ {y} < 0, POWER mengembalikan #DIV/0!"
+msgstr "Jika @{x} = 0 dan @{y} < 0, POWER mengembalikan #DIV/0!"
 
 #: ../plugins/fn-math/functions.c:1405
-#, fuzzy
 msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
-msgstr ""
-"Jika @ {x} < 0 dan @ {y} bukan bilangan bulat, POWER mengembalikan #NUM!"
+msgstr "Jika @{x} < 0 dan @{y} bukan bilangan bulat, POWER mengembalikan #NUM!"
 
 #: ../plugins/fn-math/functions.c:1406
 msgid "@{z} defaults to 1"
 msgstr "@{z} nilai baku 1"
 
 #: ../plugins/fn-math/functions.c:1407
-#, fuzzy
 msgid "If @{z} is not a positive integer, POWER returns #NUM!"
-msgstr "Jika @ {z} bukan bilangan bulat positif, POWER mengembalikan #NUM!"
+msgstr "Jika @{z} bukan bilangan bulat positif, POWER mengembalikan #NUM!"
 
 #: ../plugins/fn-math/functions.c:1408
-#, fuzzy
 msgid "If @{x} < 0, @{y} is odd, and @{z} is even, POWER returns #NUM!"
-msgstr ""
-"Jika @ {x} < 0, @ {y} aneh, dan @ {z} bahkan, POWER mengembalikan #NUM!"
+msgstr "Jika @{x} < 0, @{y} ganjil, dan @{z} genap, POWER mengembalikan #NUM!"
 
 #: ../plugins/fn-math/functions.c:1441
 #, fuzzy
@@ -10945,7 +10950,7 @@ msgstr "a:parameter skala"
 #: ../plugins/fn-stat/functions.c:1255 ../plugins/fn-stat/functions.c:1290
 #: ../plugins/fn-stat/functions.c:1333 ../plugins/fn-stat/functions.c:1934
 msgid "beta:scale parameter"
-msgstr "beta:parameter skala"
+msgstr "beta:parameter skala "
 
 #: ../plugins/fn-stat/functions.c:1052 ../plugins/fn-stat/functions.c:1459
 #: ../plugins/fn-stat/functions.c:1939 ../plugins/fn-stat/functions.c:2159
@@ -11892,14 +11897,12 @@ msgstr ""
 "mean dari sampel yang diberikan"
 
 #: ../plugins/fn-stat/functions.c:2590
-#, fuzzy
 msgid "ref:data set (sample)"
-msgstr "Tak ada data yang ditata"
+msgstr "ref:set data (sampel)"
 
 #: ../plugins/fn-stat/functions.c:2591
-#, fuzzy
 msgid "x:population mean"
-msgstr "Populasi:"
+msgstr "x:rata-rata populasi"
 
 #: ../plugins/fn-stat/functions.c:2592
 #, fuzzy
@@ -12084,9 +12087,8 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3040 ../plugins/fn-stat/functions.c:3082
 #: ../plugins/fn-stat/functions.c:3127 ../plugins/fn-stat/functions.c:3170
-#, fuzzy
 msgid "array:data points"
-msgstr "data_array:nilai-nilai data"
+msgstr "array:titik data"
 
 #: ../plugins/fn-stat/functions.c:3041 ../plugins/fn-stat/functions.c:3083
 #, fuzzy
@@ -12147,9 +12149,8 @@ msgid "If @{quart} is not an integer, it is truncated."
 msgstr "quart,qt"
 
 #: ../plugins/fn-stat/functions.c:3134
-#, fuzzy
 msgid "Then QUARTILE(A1:A5,1) equals 17.3."
-msgstr "Then QUARTILE(A1:A5,1) equals 17.3."
+msgstr "Maka QUARTILE(A1:A5,1) sama dengan 17,3."
 
 #: ../plugins/fn-stat/functions.c:3169
 #, fuzzy
@@ -12166,9 +12167,8 @@ msgid "quart:a number from 1 to 3, indicating which quartile to calculate"
 msgstr "1 hingga 3, menunjukkan Kuartil untuk menghitung jumlah"
 
 #: ../plugins/fn-stat/functions.c:3177
-#, fuzzy
 msgid "Then QUARTILE.EXC(A1:A5,1) equals 14.35."
-msgstr "Then QUARTILE(A1:A5,1) equals 17.3."
+msgstr "Make QUARTILE.EXC(A1:A5,1) sama dengan 14,35."
 
 #: ../plugins/fn-stat/functions.c:3215
 #, fuzzy
@@ -12180,14 +12180,12 @@ msgstr ""
 "populasi"
 
 #: ../plugins/fn-stat/functions.c:3217 ../plugins/fn-stat/functions.c:3274
-#, fuzzy
 msgid "array1:sample from the first population"
-msgstr "array1:sample from the first population"
+msgstr "array1:sampel dari populasi pertama"
 
 #: ../plugins/fn-stat/functions.c:3218 ../plugins/fn-stat/functions.c:3275
-#, fuzzy
 msgid "array2:sample from the second population"
-msgstr "array2:sample from the second population"
+msgstr "array2:sampel dari populasi kedua"
 
 #: ../plugins/fn-stat/functions.c:3223
 #, fuzzy
@@ -12259,9 +12257,8 @@ msgstr ""
 "equals 0.113821797."
 
 #: ../plugins/fn-stat/functions.c:3447
-#, fuzzy
 msgid "FREQUENCY:frequency table"
-msgstr "/Tabel Frekuensi/Kategori"
+msgstr "FREQUENCY:tabel frekuensi"
 
 #: ../plugins/fn-stat/functions.c:3448
 msgid "data_array:data values"
@@ -12272,9 +12269,8 @@ msgid "bins_array:array of cutoff values"
 msgstr "bins_array:array dari nilai-nilai ambang potong"
 
 #: ../plugins/fn-stat/functions.c:3450
-#, fuzzy
 msgid "The results are given as an array."
-msgstr "Array pita"
+msgstr "Hasilnya diberikan sebagai larik."
 
 #: ../plugins/fn-stat/functions.c:3451
 #, fuzzy
@@ -12385,9 +12381,8 @@ msgstr ""
 "{known_xs}, fungsi ini mengembalikan #NUM! Kesalahan."
 
 #: ../plugins/fn-stat/functions.c:3829
-#, fuzzy
 msgid "LOGREG:the logarithmic regression"
-msgstr "Regresi logaritmik"
+msgstr "LOGREG:regresi logaritma"
 
 #: ../plugins/fn-stat/functions.c:3831 ../plugins/fn-stat/functions.c:4287
 #, fuzzy
@@ -12729,14 +12724,12 @@ msgstr ""
 "\t11 VARP"
 
 #: ../plugins/fn-stat/functions.c:4566
-#, fuzzy
 msgid "ref1:first value"
-msgstr "value1:nilai pertama"
+msgstr "ref1:nilai pertama"
 
 #: ../plugins/fn-stat/functions.c:4567
-#, fuzzy
 msgid "ref2:second value"
-msgstr "value2:nilai kedua"
+msgstr "ref2:nilai kedua"
 
 #: ../plugins/fn-stat/functions.c:4569
 #, fuzzy
@@ -12763,14 +12756,12 @@ msgid "CRONBACH:Cronbach's alpha"
 msgstr "CRONBACH:alfa Cronbach"
 
 #: ../plugins/fn-stat/functions.c:4643
-#, fuzzy
 msgid "ref1:first data set"
-msgstr "Tampilkan penggalan data pertama"
+msgstr "ref1:set data pertama"
 
 #: ../plugins/fn-stat/functions.c:4644
-#, fuzzy
 msgid "ref2:second data set"
-msgstr "Tak ada data yang ditata"
+msgstr "ref2:set data kedua"
 
 #: ../plugins/fn-stat/functions.c:4741
 #, fuzzy
@@ -12782,9 +12773,8 @@ msgstr ""
 "distribusi binomial"
 
 #: ../plugins/fn-stat/functions.c:4742
-#, fuzzy
 msgid "k:number of trials"
-msgstr "J_umlah Percobaan:"
+msgstr "k:cacah uji coba"
 
 #: ../plugins/fn-stat/functions.c:4743
 #, fuzzy
@@ -13010,9 +13000,8 @@ msgstr ""
 "CHAR(@{x}) mengembalikan karakter CP1252 (Windows-1252) dengan kode @{x}."
 
 #: ../plugins/fn-string/functions.c:55
-#, fuzzy
 msgid "x:code point"
-msgstr "Koordinat x titik pertama path"
+msgstr "x:titik kode"
 
 #: ../plugins/fn-string/functions.c:56
 msgid "CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}."
@@ -13067,9 +13056,8 @@ msgid ""
 msgstr "UNICHAR: karakter Unicode yang diwakili oleh titik kode Unicode @ {x}"
 
 #: ../plugins/fn-string/functions.c:104
-#, fuzzy
 msgid "x:Unicode code point"
-msgstr "Koordinat x titik pertama path"
+msgstr "x:titik kode Unicode"
 
 #: ../plugins/fn-string/functions.c:131
 #, fuzzy
@@ -13105,14 +13093,12 @@ msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
 msgstr "EXACT: TRUE jika @ {string1} persis sama dengan @ {string2}"
 
 #: ../plugins/fn-string/functions.c:247
-#, fuzzy
 msgid "string1:first string"
-msgstr "STRING"
+msgstr "string1:string pertama"
 
 #: ../plugins/fn-string/functions.c:248
-#, fuzzy
 msgid "string2:second string"
-msgstr "second:detik"
+msgstr "string2:string kedua"
 
 #: ../plugins/fn-string/functions.c:266
 #, fuzzy
@@ -13123,9 +13109,8 @@ msgstr "Tidak mengerti karakter \"%s\" kenapa ada dibuntut string \"%s\""
 #: ../plugins/fn-string/functions.c:302 ../plugins/fn-string/functions.c:334
 #: ../plugins/fn-string/functions.c:386 ../plugins/fn-string/functions.c:426
 #: ../plugins/fn-string/functions.c:513 ../plugins/fn-string/functions.c:549
-#, fuzzy
 msgid "s:the string"
-msgstr "String geometri tak valid \"%s\"\n"
+msgstr "s:string"
 
 #: ../plugins/fn-string/functions.c:283
 #, fuzzy
@@ -13222,9 +13207,8 @@ msgstr ""
 "terdiri dari @ {length} karakter"
 
 #: ../plugins/fn-string/functions.c:387
-#, fuzzy
 msgid "position:the starting position"
-msgstr "_Posisi:"
+msgstr "position:posisi awal"
 
 #: ../plugins/fn-string/functions.c:388
 #, fuzzy
@@ -13255,14 +13239,12 @@ msgstr ""
 "{Start}"
 
 #: ../plugins/fn-string/functions.c:470 ../plugins/fn-string/functions.c:797
-#, fuzzy
 msgid "string1:search string"
-msgstr "Cari string"
+msgstr "string1:string pencarian"
 
 #: ../plugins/fn-string/functions.c:471 ../plugins/fn-string/functions.c:798
-#, fuzzy
 msgid "string2:search field"
-msgstr "Klik di dalam ruas pencarian."
+msgstr "string2:bidang pencarian"
 
 #: ../plugins/fn-string/functions.c:472 ../plugins/fn-string/functions.c:1451
 #, fuzzy
@@ -13311,15 +13293,13 @@ msgstr "CONCATENATE: rangkaian string @ {S1}, @ {S2},..."
 
 #: ../plugins/fn-string/functions.c:603 ../plugins/fn-string/functions.c:624
 #: ../plugins/fn-string/functions.c:645
-#, fuzzy
 msgid "s1:first string"
-msgstr "STRING"
+msgstr "s1:string pertama"
 
 #: ../plugins/fn-string/functions.c:604 ../plugins/fn-string/functions.c:625
 #: ../plugins/fn-string/functions.c:646
-#, fuzzy
 msgid "s2:second string"
-msgstr "second:detik"
+msgstr "s2:string kedua"
 
 #: ../plugins/fn-string/functions.c:623
 #, fuzzy
@@ -13338,14 +13318,12 @@ msgid ""
 msgstr "TEXTJOIN: rangkaian string @ {S1}, @ {S2},... dibatasi oleh @ {del}"
 
 #: ../plugins/fn-string/functions.c:643
-#, fuzzy
 msgid "del:delimiter"
-msgstr "del: pembatas"
+msgstr "del:pembatas"
 
 #: ../plugins/fn-string/functions.c:644
-#, fuzzy
 msgid "blank:ignore blanks"
-msgstr "kosong: Abaikan kosong"
+msgstr "blank:abaikan kosong"
 
 #: ../plugins/fn-string/functions.c:723
 #, fuzzy
@@ -13353,9 +13331,8 @@ msgid "REPT:@{num} repetitions of string @{text}"
 msgstr "REPT: @ {num} pengulangan string @ {text}"
 
 #: ../plugins/fn-string/functions.c:725
-#, fuzzy
 msgid "num:non-negative integer"
-msgstr "x:bilangan bulat non negatif"
+msgstr "num:bilangan bulat non negatif"
 
 #: ../plugins/fn-string/functions.c:767
 msgid "CLEAN:@{text} with any non-printable characters removed"
@@ -13377,9 +13354,8 @@ msgstr ""
 "Cari: posisi pertama @ {string1} di @ {string2} berikut posisi @ {Start}"
 
 #: ../plugins/fn-string/functions.c:799 ../plugins/fn-string/functions.c:1408
-#, fuzzy
 msgid "start:starting position, defaults to 1"
-msgstr "Start: mulai posisi, default ke 1"
+msgstr "start:posisi awal, baku ke 1"
 
 #: ../plugins/fn-string/functions.c:834
 #, fuzzy
@@ -13387,14 +13363,12 @@ msgid "FIXED:formatted string representation of @{num}"
 msgstr "TETAP: representasi string berformat @ {num}"
 
 #: ../plugins/fn-string/functions.c:835 ../plugins/fn-string/functions.c:1333
-#, fuzzy
 msgid "num:number"
-msgstr "row_num:nomor baris"
+msgstr "num:angka"
 
 #: ../plugins/fn-string/functions.c:836
-#, fuzzy
 msgid "decimals:number of decimals"
-msgstr "Desimal"
+msgstr "desimal:cacah desimal"
 
 #: ../plugins/fn-string/functions.c:837
 #, fuzzy
@@ -13418,14 +13392,12 @@ msgstr ""
 "digantikan oleh @ {New}"
 
 #: ../plugins/fn-string/functions.c:938 ../plugins/fn-string/functions.c:989
-#, fuzzy
 msgid "old:original text"
-msgstr "Mengembalikan teks pada ukuran semula"
+msgstr "old:teks asli"
 
 #: ../plugins/fn-string/functions.c:939
-#, fuzzy
 msgid "start:starting position"
-msgstr "Posisi pangkal sumbu"
+msgstr "start:posisi awal"
 
 #: ../plugins/fn-string/functions.c:940
 #, fuzzy
@@ -13434,9 +13406,8 @@ msgstr "Cacah karakter dari satu tab"
 
 #: ../plugins/fn-string/functions.c:941 ../plugins/fn-string/functions.c:992
 #: ../plugins/fn-string/functions.c:1261
-#, fuzzy
 msgid "new:replacement string"
-msgstr "String Pengganti"
+msgstr "new:string pengganti"
 
 #: ../plugins/fn-string/functions.c:987
 #, fuzzy
@@ -13471,23 +13442,20 @@ msgstr ""
 "T:@{value} jika dan hanya jika @{value} adalah teks, bila tidak maka kosong"
 
 #: ../plugins/fn-string/functions.c:1043
-#, fuzzy
 msgid "value:original value"
-msgstr "Kembalikan ke nilai asli"
+msgstr "value:nilai asli"
 
 #: ../plugins/fn-string/functions.c:1065
 msgid "TEXT:@{value} as a string formatted as @{format}"
 msgstr "TEXT:@{value} sebagai string yang diformat sebagai @{format}"
 
 #: ../plugins/fn-string/functions.c:1066
-#, fuzzy
 msgid "value:value to be formatted"
-msgstr "TEXT:@{value} sebagai string yang diformat sebagai @{format}"
+msgstr "value:nilai yang akan diformat"
 
 #: ../plugins/fn-string/functions.c:1067
-#, fuzzy
 msgid "format:desired format"
-msgstr "_Format sebagai..."
+msgstr "format:format yang diinginkan"
 
 #: ../plugins/fn-string/functions.c:1119
 msgid "TRIM:@{text} with only single spaces between words"
@@ -13502,9 +13470,8 @@ msgid "NUMBERVALUE:numeric value of @{text}"
 msgstr "NUMBERVALUE:nilai numerik dari @{text}"
 
 #: ../plugins/fn-string/functions.c:1201
-#, fuzzy
 msgid "separator:decimal separator"
-msgstr "Pemisah"
+msgstr "separator:pemisah desimal"
 
 #: ../plugins/fn-string/functions.c:1202
 msgid ""
@@ -13520,14 +13487,12 @@ msgid "SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}"
 msgstr "SUBSTITUTE:@{text} dengan semua kemunculan @{old} diganti oleh @{new}"
 
 #: ../plugins/fn-string/functions.c:1259 ../plugins/fn-string/functions.c:1643
-#, fuzzy
 msgid "text:original text"
-msgstr "Mengembalikan teks pada ukuran semula"
+msgstr "teks:teks asli"
 
 #: ../plugins/fn-string/functions.c:1260
-#, fuzzy
 msgid "old:string to be replaced"
-msgstr "Disini, suatu \"$\" digantikan dengan string pencarian"
+msgstr "old:string yang akan diganti"
 
 #: ../plugins/fn-string/functions.c:1262
 msgid ""
@@ -13542,9 +13507,8 @@ msgid "DOLLAR:@{num} formatted as currency"
 msgstr "DOLLAR:@{num} diformat sebagai mata uang"
 
 #: ../plugins/fn-string/functions.c:1334
-#, fuzzy
 msgid "decimals:decimals"
-msgstr "Desimal"
+msgstr "decimal:desimal"
 
 #: ../plugins/fn-string/functions.c:1404
 msgid ""
@@ -13554,14 +13518,12 @@ msgstr ""
 "SEARCH:lokasi dari string @{search} dalam @{text} setelah posisi @{start}"
 
 #: ../plugins/fn-string/functions.c:1406 ../plugins/fn-string/functions.c:1449
-#, fuzzy
 msgid "search:search string"
-msgstr "Cari string"
+msgstr "search:string cari"
 
 #: ../plugins/fn-string/functions.c:1407 ../plugins/fn-string/functions.c:1450
-#, fuzzy
 msgid "text:search field"
-msgstr "Klik di dalam ruas pencarian."
+msgstr "text:bidang pencarian"
 
 #: ../plugins/fn-string/functions.c:1409 ../plugins/fn-string/functions.c:1452
 msgid ""
@@ -13576,13 +13538,8 @@ msgstr ""
 "imbuhi simbol dengan ~ di depannya."
 
 #: ../plugins/fn-string/functions.c:1414 ../plugins/fn-string/functions.c:1457
-#, fuzzy
 msgid "This search is not case sensitive."
-msgstr ""
-"Opsi <em>Cocok huruf besar/kecil</em> memungkinkan Anda menyatakan apakah "
-"Anda ingin pencarian Anda membedakan huruf besar kecil. Bila opsi ini "
-"dipilih, pencarian akan membedakan huruf besar kecil. Bila tidak, pencarian "
-"tidak membedakan huruf besar kecil."
+msgstr "Pencarian ini tidak peka huruf besar/kecil."
 
 #: ../plugins/fn-string/functions.c:1415
 msgid "If @{search} is not found, SEARCH returns #VALUE!"
@@ -13780,9 +13737,8 @@ msgid "PERIODOGRAM:periodogram of the given data"
 msgstr "ordinates:ordinat dari titik data yang diberikan"
 
 #: ../plugins/fn-tsa/functions.c:562
-#, fuzzy
 msgid "ordinates:ordinates of the given data"
-msgstr "ordinates:ordinat dari titik data yang diberikan"
+msgstr "ordinates:ordinat dari data yang diberikan"
 
 #: ../plugins/fn-tsa/functions.c:563
 #, fuzzy
@@ -13802,9 +13758,8 @@ msgid "interpolation:method of interpolation, defaults to none"
 msgstr "interpolation:metoda interpolasi, nilai baku nihil"
 
 #: ../plugins/fn-tsa/functions.c:566
-#, fuzzy
 msgid "number:number of interpolated data points"
-msgstr "Banyaknya titik yang diperlukan untuk memicu gestur"
+msgstr "number:cacah titik data yang diinterpolasi"
 
 #: ../plugins/fn-tsa/functions.c:567
 #, fuzzy
@@ -13936,23 +13891,20 @@ msgid "EXECSQL:result of executing @{sql} in the libgda data source @{dsn}"
 msgstr "EXECSQL:hasil mengeksekusi @{sql} dalam sumber data libgda @{dsn}"
 
 #: ../plugins/gda/plugin-gda.c:374 ../plugins/gda/plugin-gda.c:450
-#, fuzzy
 msgid "dsn:libgda data source"
-msgstr "Manajemen DSN (sumber data)"
+msgstr "dsn:sumber data libgda"
 
 #: ../plugins/gda/plugin-gda.c:375 ../plugins/gda/plugin-gda.c:451
 msgid "username:user name to access @{dsn}"
 msgstr "username:nama pengguna untuk mengakses @{dsn}"
 
 #: ../plugins/gda/plugin-gda.c:376 ../plugins/gda/plugin-gda.c:452
-#, fuzzy
 msgid "password:password to access @{dsn} as @{username}"
-msgstr "Ketik nama pengguna dan sandi Anda"
+msgstr "password:password untuk mengakses @{dsn} sebagai @{username}"
 
 #: ../plugins/gda/plugin-gda.c:377
-#, fuzzy
 msgid "sql:SQL command"
-msgstr "SQL"
+msgstr "sql:perintah SQL"
 
 #: ../plugins/gda/plugin-gda.c:378 ../plugins/gda/plugin-gda.c:454
 msgid "Before using EXECSQL, you need to set up a libgda data source."
@@ -13965,9 +13917,8 @@ msgid "READDBTABLE:all rows of the table @{table} in @{dsn}"
 msgstr "Format: readDBTable(dsn,pengguna,kata-sandi,tabel)"
 
 #: ../plugins/gda/plugin-gda.c:453
-#, fuzzy
 msgid "table:SQL table to retrieve"
-msgstr "Table: SQL tabel untuk mengambil"
+msgstr "table:tabel SQL yang akan diambil"
 
 #: ../plugins/sample_datasource/sample_datasource.c:224
 #, fuzzy
