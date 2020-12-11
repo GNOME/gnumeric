@@ -1125,7 +1125,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	GOFileOpener *fo = NULL;
 	char *infile = go_shell_arg_to_uri (inarg);
 	char *outfile = outarg ? go_shell_arg_to_uri (outarg) : NULL;
-	WorkbookView *wbv;
+	WorkbookView *wbv = NULL;
 	GOIOContext *io_context = NULL;
 	Workbook *wb = NULL;
 	GOFileSaveScope fsscope;
