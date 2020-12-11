@@ -1332,6 +1332,8 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	}
 
  out:
+	if (wbv)
+		wb = wb_view_get_workbook (wbv);
 	if (wb)
 		g_object_unref (wb);
 	if (io_context)
