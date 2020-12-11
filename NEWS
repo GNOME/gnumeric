@@ -12,6 +12,7 @@ Morten:
 	* Fix cvs separator guessing problem with quotes.  [#537]
 	* Improve handling of expressions in csv files.
 	* Plug ssconvert leak.  [#546]
+	* Fix bogus time match for "3.a".  [#545]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48

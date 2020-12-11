@@ -301,7 +301,7 @@ datetime_locale_setup (char const *lc_time)
 	/* ^(((\d+):)?(\d+):)?(\d+.\d*)\s*$ */
 	s = g_strconcat ("^(((\\d+):)?(\\d+):)?(\\d+",
 			 p_decimal->str,
-			 ".\\d*)\\s*$",
+			 "\\d*)\\s*$",
 			 NULL);
 	datetime_locale_setup1 (&datetime_locale.re_hhmmssds, s);
 	g_free (s);
