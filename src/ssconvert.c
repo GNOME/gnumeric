@@ -837,7 +837,7 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 		data->base.range_2 = GET_ARG (RANGE_ARG, "y", value_new_error_REF (NULL));
 		data->base.labels = GET_ARG (atoi, "labels", FALSE);
 		data->base.alpha = GET_ARG (atof, "alpha", 0.05);
-		data->group_by = GET_ARG ((group_by_t), "grouped-by", GROUPED_BY_COL);
+		data->group_by = GET_ARG ((group_by_t)atoi, "grouped-by", GROUPED_BY_COL);
 		data->intercept = GET_ARG (atoi, "intercept", TRUE);
 		data->multiple_regression = GET_ARG (atoi, "multiple", TRUE);
 		data->multiple_y = GET_ARG (atoi, "multiple-y", FALSE);
@@ -851,7 +851,7 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 
 		data->base.input = GET_ARG (RANGE_LIST_ARG, "data", NULL);
 		data->base.labels = GET_ARG (atoi, "labels", FALSE);
-		data->base.group_by = GET_ARG ((group_by_t), "grouped-by", GROUPED_BY_COL);
+		data->base.group_by = GET_ARG ((group_by_t)atoi, "grouped-by", GROUPED_BY_COL);
 		data->alpha = GET_ARG (atof, "alpha", 0.05);
 
 		engine = analysis_tool_anova_single_engine;
