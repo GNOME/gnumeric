@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2020-12-10 09:09+0000\n"
-"PO-Revision-Date: 2020-12-10 16:45+0700\n"
+"PO-Revision-Date: 2020-12-16 11:23+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesia <gnome@i15n.org>\n"
 "Language: id\n"
@@ -38,23 +38,20 @@ msgid "Calculation, Analysis, and Visualization of Information"
 msgstr "Kalkulasi, Analisis, dan Visualisasi Informasi"
 
 #: ../gnumeric.desktop.in.h:5
-#, fuzzy
-#| msgid "Spreadsheet"
 msgid "Spreadsheet;"
-msgstr "Lembar Kerja"
+msgstr "Lembar Kerja;"
 
 #: ../gnumeric.appdata.xml.in.h:1
 msgid "The Gnumeric Spreadsheet"
 msgstr "Lembar Kerja Gnumeric"
 
 #: ../gnumeric.appdata.xml.in.h:2
-#, fuzzy
 msgid ""
 "Gnumeric is a spreadsheet application for interactive manipulation of data."
-msgstr "Gnumeric adalah aplikasi spreadsheet untuk manipulasi data interaktif."
+msgstr ""
+"Gnumeric adalah aplikasi lembar kerja untuk manipulasi data interaktif."
 
 #: ../gnumeric.appdata.xml.in.h:3
-#, fuzzy
 msgid ""
 "Gnumeric aims to provide high-accuracy computations, expressive graphs, and "
 "a wide selection of statistical analysis tools. Gnumeric can share files "
@@ -62,7 +59,7 @@ msgid ""
 msgstr ""
 "Gnumeric bertujuan untuk memberikan perhitungan akurasi tinggi, grafik "
 "ekspresif, dan berbagai pilihan alat analisis statistik. Gnumeric dapat "
-"berbagi file dengan Microsoft Excel dan program yang mendukung standar ODS."
+"berbagi berkas dengan Microsoft Excel dan program yang mendukung standar ODS."
 
 #: ../gnumeric.appdata.xml.in.h:4
 msgid "A High-Precision Spreadsheet Program"
@@ -178,7 +175,7 @@ msgstr "Kesalahan saat menyimpan berkas DIF."
 
 #: ../plugins/dif/plugin.xml.in.h:1
 msgid "Data Interchange Format (DIF) module"
-msgstr "modul Data Interchange Format (DIF)"
+msgstr "Modul Data Interchange Format (DIF)"
 
 #: ../plugins/dif/plugin.xml.in.h:2
 msgid ""
@@ -497,16 +494,14 @@ msgid "Invalid integer '%s' for attribute %s"
 msgstr "Integer '%s' tak valid bagi atribut %s"
 
 #: ../plugins/excel/xlsx-read.c:543
-#, fuzzy, c-format
-#| msgid "Integer '%s' is out of range, for attribute %s"
+#, c-format
 msgid "Unsigned integer '%s' is out of range, for attribute %s"
-msgstr "Integer '%s' di luar jangkauan, bagi atribut %s"
+msgstr "Bilangan bulat tak bertanda '%s' di luar jangkauan, bagi atribut %s"
 
 #: ../plugins/excel/xlsx-read.c:547
-#, fuzzy, c-format
-#| msgid "Invalid integer '%s' for attribute %s"
+#, c-format
 msgid "Invalid unsigned integer '%s' for attribute %s"
-msgstr "Integer '%s' tak valid bagi atribut %s"
+msgstr "Bilangan bulat tak bertanda '%s' tak valid bagi atribut %s"
 
 #: ../plugins/excel/xlsx-read.c:603
 #, c-format
@@ -708,13 +703,12 @@ msgstr ""
 "%s."
 
 #: ../plugins/excelplugins/excelplugins.c:706
-#, fuzzy
 msgid ""
 "Excel plugin loader / xlfRegister: the second and third argument must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
-"Excel plugin loader/xlfRegister: argumen kedua dan ketiga harus string (DLL "
-"nama [diabaikan], diekspor nama [wajib], jenis string [wajib])."
+"Excel plugin loader/xlfRegister: argumen kedua dan ketiga harus string (nama "
+"DLL[diabaikan],nama diekspor[wajib],string tipe[wajib])."
 
 #: ../plugins/excelplugins/excelplugins.c:935
 msgid "Dynamic module loading is not supported on this system."
@@ -751,16 +745,15 @@ msgid "Excel plugins"
 msgstr "Plugin Excel"
 
 #: ../plugins/excelplugins/plugin.xml.in.h:2
-#, fuzzy
 msgid ""
 "Adapter interface to load Excel plugins (also known as XLLs). Only "
 "operational for worksheet functions that expect only arguments of LPXLOPER "
 "type (type 'P' or 'R') and return an LPXLOPER (type 'P' or 'R')."
 msgstr ""
-"Antarmuka adapter untuk memuat plugin Excel (juga dikenal sebagai XLLs). "
-"Hanya operasional untuk fungsi worksheet yang hanya mengharapkan argumen "
-"jenis LPXLOPER (ketik ' P ' atau ' R ') dan mengembalikan LPXLOPER (ketik ' "
-"P ' atau ' R ')."
+"Antarmuka adapter untuk memuat pengaya Excel (juga dikenal sebagai XLL). "
+"Hanya operasional untuk fungsi lembar kerja yang hanya mengharapkan argumen "
+"jenis LPXLOPER (tipe 'P' atau 'R') dan mengembalikan LPXLOPER (tipe 'P' atau "
+"'R')."
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:1
 msgid "Christian Date Functions"
@@ -958,7 +951,7 @@ msgstr "Sistem tidak dikenal"
 
 #: ../plugins/fn-info/functions.c:1440
 msgid "Unknown info_type"
-msgstr "info_type tidak dikenal"
+msgstr "Info_type tidak dikenal"
 
 #: ../plugins/fn-info/functions.c:1704
 msgid "Invalid number of arguments"
@@ -1148,10 +1141,9 @@ msgid "Failed to create file for solution"
 msgstr "Gagal membuat berkas untuk solusi"
 
 #: ../plugins/glpk/gnm-glpk.c:544
-#, fuzzy, c-format
-#| msgid "Failed to create file for solution"
+#, c-format
 msgid "Failed to create file for sensitivity report"
-msgstr "Gagal membuat berkas untuk solusi"
+msgstr "Gagal membuat berkas untuk laporan sensitivitas"
 
 #: ../plugins/glpk/gnm-glpk.c:602 ../plugins/lpsolve/gnm-lpsolve.c:427
 #, c-format
@@ -1251,7 +1243,7 @@ msgstr "XHTML (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:8
 msgid "XHTML range - for export to clipboard"
-msgstr "kisaran XHTML- untuk ekspor ke clipboard"
+msgstr "Kisaran XHTML- untuk ekspor ke papan klip"
 
 #: ../plugins/html/plugin.xml.in.h:9
 msgid "LaTeX 2e (*.tex)"
@@ -1262,10 +1254,8 @@ msgid "LaTeX 2e (*.tex) table fragment"
 msgstr "Fragmen tabel LaTeX 2e (*.tex)"
 
 #: ../plugins/html/plugin.xml.in.h:11
-#, fuzzy
-#| msgid "LaTeX 2e (*.tex) table fragment"
 msgid "LaTeX 2e (*.tex) table fragment of visible rows"
-msgstr "Fragmen tabel LaTeX 2e (*.tex)"
+msgstr "Fragmen tabel LaTeX 2e (*.tex) dari baris yang terlihat"
 
 #: ../plugins/html/plugin.xml.in.h:12
 msgid "TROFF (*.me)"
@@ -1413,10 +1403,9 @@ msgid "This solver does not handle discrete variables."
 msgstr "Pemecah ini tidak mendukung variabel diskret."
 
 #: ../plugins/nlsolve/gnm-nlsolve.c:111
-#, fuzzy, c-format
-#| msgid "This solver does not handle discrete variables."
+#, c-format
 msgid "This solver does not handle equality constraints."
-msgstr "Pemecah ini tidak mendukung variabel diskret."
+msgstr "Pemecah ini tidak mendukung konstrain kesetaraan."
 
 #. -------------------------------------------------------------------------
 #: ../plugins/nlsolve/plugin.xml.in.h:1
@@ -1819,7 +1808,6 @@ msgid "Chart style with name '%s' is missing."
 msgstr "Gaya bagan dengan nama '%s' hilang."
 
 #: ../plugins/openoffice/openoffice-read.c:10474
-#, fuzzy
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
@@ -1973,14 +1961,12 @@ msgid "Open Document Format (*.sxc, *.ods)"
 msgstr "Open Document Format (*.sxc, *.ods)"
 
 #: ../plugins/openoffice/plugin.xml.in.h:4
-#, fuzzy
 msgid "ODF 1.2 strict conformance (*.ods)"
-msgstr "ODF 1,2 ketat kesesuaian (*. ODS)"
+msgstr "Kesesuaian ketat ODF 1.2 (*.ods)"
 
 #: ../plugins/openoffice/plugin.xml.in.h:5
-#, fuzzy
 msgid "ODF 1.2 extended conformance (*.ods)"
-msgstr "ODF 1,2 diperpanjang kesesuaian (*. ODS)"
+msgstr "Kesesuaian ODF 1.2 yang diperluas (*.ods)"
 
 #: ../plugins/paradox/paradox.c:66 ../plugins/paradox/paradox.c:116
 msgid "Error while opening Paradox file."
@@ -2028,8 +2014,7 @@ msgstr "Tak bisa mengalokasikan memori bagi %d. nama ruas."
 
 # typo: unexpectetly -> unexpectedly
 #: ../plugins/paradox/paradox.c:365
-#, fuzzy, c-format
-#| msgid "%d. field specification ended unexpectetly."
+#, c-format
 msgid "%d. field specification ended unexpectedly."
 msgstr "%d. spesifikasi ruas berakhir tak disangka."
 
@@ -2250,12 +2235,12 @@ msgstr "Kesalahan tak dikenal"
 #: ../plugins/python-loader/py-gnumeric.c:191
 #, c-format
 msgid "Python exception (%s: %s)"
-msgstr "eksepsi Python (%s: %s)"
+msgstr "Eksepsi Python (%s: %s)"
 
 #: ../plugins/python-loader/py-gnumeric.c:195
 #, c-format
 msgid "Python exception (%s)"
-msgstr "eksepsi Python (%s)"
+msgstr "Eksepsi Python (%s)"
 
 #: ../plugins/python-loader/python-loader.c:73
 msgid "Python module name not given."
@@ -2401,9 +2386,8 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Lembaran lebih lebar daripada yang dapat ditangani Gnumeric."
 
 #: ../plugins/sc/sc.c:449
-#, fuzzy
 msgid "Encountered precision dependent format without set precision."
-msgstr "Mengalami format tergantung presisi tanpa menetapkan presisi."
+msgstr "Menemui format bergantung presisi tanpa presisi yang ditetapkan."
 
 #: ../plugins/sc/sc.c:472
 #, c-format
@@ -2483,7 +2467,7 @@ msgstr "Impor berkas XBase"
 
 #: ../plugins/xbase/plugin.xml.in.h:3
 msgid "Xbase (*.dbf) file format"
-msgstr "berkas format Xbase (*.dbf)"
+msgstr "Format berkas Xbase (*.dbf)"
 
 #: ../plugins/xbase/xbase.c:188
 msgid "Failed to read DBF header."
@@ -2646,8 +2630,8 @@ msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
-"Nilai ini menentukan apakah secara default dialog seting printer berlaku "
-"pada semua lembaran secara bersamaan."
+"Nilai ini menentukan apakah secara baku dialog seting printer berlaku pada "
+"semua lembaran secara bersamaan."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:34
 msgid "GTKPrintSetting"
@@ -2678,24 +2662,24 @@ msgid ""
 "The default page footer for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
-"Footer halaman default untuk dokumen baru yang bisa diubah menggunakan "
-"dialog seting halaman."
+"Footer halaman baku untuk dokumen baru yang bisa diubah menggunakan dialog "
+"seting halaman."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:40
 msgid "Default Header/Footer Font Size"
-msgstr "Ukuran Font Header/Footer Default"
+msgstr "Ukuran Fonta Header/Footer Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:41
 msgid "The default font size for headers and footers."
-msgstr "Ukuran font default untuk header dan footer."
+msgstr "Ukuran fonta baku untuk header dan footer."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:42
 msgid "Default header/footer font name"
-msgstr "Nama font header/footer default"
+msgstr "Nama fonta header/footer baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:43
 msgid "The default font name for headers and footers."
-msgstr "Nama font default untuk header dan footer."
+msgstr "Nama fonta baku untuk header dan footer."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:44
 msgid "The default header/footer font is bold."
@@ -2723,7 +2707,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:48
 msgid "Default Horizontal Centering"
-msgstr "Penengahan Horisontal Default"
+msgstr "Penengahan Horizontal Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:49
 msgid ""
@@ -2735,7 +2719,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:50
 msgid "Default Vertical Centering"
-msgstr "Penengahan Vertikal Default"
+msgstr "Penengahan Vertikal Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:51
 msgid ""
@@ -2747,7 +2731,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:52
 msgid "Default Grid Line Printing"
-msgstr "Pencetakan Garis Grid Default"
+msgstr "Pencetakan Garis Kisi Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:53
 msgid ""
@@ -2760,7 +2744,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:54
 msgid "Default Print Cells with Only Styles"
-msgstr "Cetak Sel Default Hanya dengan Gaya"
+msgstr "Cetak Sel Baku Hanya dengan Gaya"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:55
 msgid ""
@@ -2774,7 +2758,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:56
 msgid "Default Black and White Printing"
-msgstr "Cetak Hitam-Putih Default"
+msgstr "Cetak Hitam-Putih DefaBakuult"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:57
 msgid ""
@@ -2788,7 +2772,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:58
 msgid "Default Title Printing"
-msgstr "Pencetakan Judul Default"
+msgstr "Pencetakan Judul Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:59
 msgid ""
@@ -2802,7 +2786,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:60
 msgid "Default Print Direction"
-msgstr "Arah Cetak Default"
+msgstr "Arah Cetak Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:61
 msgid ""
@@ -2816,7 +2800,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:62
 msgid "Default Scale Type"
-msgstr "Tipe Skala Default"
+msgstr "Tipe Skala Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:63
 msgid ""
@@ -2830,7 +2814,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:64
 msgid "Default Scale Percentage"
-msgstr "Persentasi Skala Default"
+msgstr "Persentasi Skala Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:65
 msgid ""
@@ -2843,7 +2827,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:66
 msgid "Default Scaling Width"
-msgstr "Lebar Skala Default"
+msgstr "Lebar Skala Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:67
 msgid ""
@@ -2857,7 +2841,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:68
 msgid "Default Scaling Height"
-msgstr "Tinggi Skala Default"
+msgstr "Tinggi Skala Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:69
 msgid ""
@@ -2871,7 +2855,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:70
 msgid "Default Repeated Top Region"
-msgstr "Pengulangan Wilyahan Atas Default"
+msgstr "Pengulangan Wilyahan Atas Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:71
 msgid ""
@@ -2884,7 +2868,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:72
 msgid "Default Repeated Left Region"
-msgstr "Pengulangan Wilayah Kiri Default"
+msgstr "Pengulangan Wilayah Kiri Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:73
 msgid ""
@@ -2906,19 +2890,19 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:76
 msgid "Default Top Margin"
-msgstr "Batas Atas Default"
+msgstr "Batas Puncak Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:77
 msgid ""
 "This value gives the default number of points from the top of a page to the "
 "start of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
-"Nilai ini memberikan jumlah point default dari atas halaman ke awal tubuh "
-"teks. Harap gunakan dialog Seting Cetak untuk mengubah nilai ini."
+"Nilai ini memberikan banyaknya poin baku dari puncak halaman ke awal tubuh "
+"teks. Harap gunakan dialog Penyiapan Cetak untuk mengubah nilai ini."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:78
 msgid "Default Bottom Margin"
-msgstr "Batas Bawah Default"
+msgstr "Batas Dasar Baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:79
 msgid ""
@@ -3042,14 +3026,12 @@ msgstr ""
 "untuk entri ini bahkan jika entri tidak memiliki fokus keyboard."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:98
-#, fuzzy
 msgid "Text Export String Indicator"
-msgstr "Indikator string perangkat kamera"
+msgstr "Indikator String Ekspor Teks"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:99
-#, fuzzy
 msgid "Please use the Text Export dialog to edit this value."
-msgstr "Harap gunakan dialog Seting Cetak untuk mengubah nilai ini."
+msgstr "Silakan gunakan dialog Ekspor Teks untuk menyunting nilai ini."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:100
 msgid "Text Export Field Separator"
@@ -3093,9 +3075,8 @@ msgid "Search &amp; Replace ignores case as default"
 msgstr "Secara baku Cari &amp; Ganti mengabaikan besar kecil huruf"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:109
-#, fuzzy
 msgid "Search &amp; Replace Preserves Case"
-msgstr "Cari &amp; Ganti Mengabaikan Huruf Besar Kecil"
+msgstr "Cari &amp; Ganti Mempertimbangkan Huruf Besar Kecil"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:110
 msgid "Search &amp; Replace preserves case as default"
@@ -3112,9 +3093,8 @@ msgstr ""
 "Secara baku Cari &amp; Ganti memposisikan kuiri sebelum setiap perubahan"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:113
-#, fuzzy
 msgid "Search &amp; Replace Whole Words Only"
-msgstr "Cari &amp; Ganti Mengabaikan Huruf Besar Kecil"
+msgstr "Cari &amp; Ganti Hanya Seluruh Kata"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:114
 msgid "Search &amp; Replace replaces whole words only as default"
@@ -3171,14 +3151,12 @@ msgid "Search &amp; Replace changes comments as default"
 msgstr "Secara baku Cari &amp; Ganti mengubah komentar"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:125
-#, fuzzy
 msgid "Search searches in results"
-msgstr "Cocokkan huruf besar kecil dalam hasil pencarian."
+msgstr "Mencari pencarian dalam hasil"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:126
-#, fuzzy
 msgid "Search searches in results as default"
-msgstr "Hasil Cari Ekspresi"
+msgstr "Mencari pencarian dalam hasil sebagai baku"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:127
 msgid "Search &amp; Replace Keeps Strings as Strings"
@@ -3236,10 +3214,9 @@ msgid "Toolbar Style"
 msgstr "Gaya Toolbar"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:2
-#, fuzzy
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text."
 msgstr ""
-"Gaya Toolbar. Nilai-nilai sah adalah keduanya, both_horiz, ikon, dan teks"
+"Gaya Bilah Alat. Nilai-nilai sah adalah both, both_horiz, icon, dan text."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:3
 #: ../src/dialogs/dialog-preferences.c:778
@@ -3343,26 +3320,24 @@ msgid "Default Number of rows in a sheet"
 msgstr "Cacah baris baku dalam lembaran"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:22
-#, fuzzy
 msgid ""
 "The number of rows in each sheet. This setting will be used only in a new "
 "Gnumeric session."
 msgstr ""
-"Jumlah baris di setiap lembar. Pengaturan ini akan digunakan hanya dalam "
-"sesi Gnumeric baru."
+"Cacah baris di setiap lembar. Pengaturan ini akan digunakan hanya dalam sesi "
+"Gnumeric baru."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:23
 msgid "Default Number of columns in a sheet"
 msgstr "Cacah kolom baku dalam lembaran"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:24
-#, fuzzy
 msgid ""
 "The number of columns in each sheet. This setting will be used only in a new "
 "Gnumeric session."
 msgstr ""
-"Jumlah kolom di setiap lembar. Pengaturan ini akan digunakan hanya dalam "
-"sesi Gnumeric baru."
+"Cacah kolom di setiap lembar. Pengaturan ini akan digunakan hanya dalam sesi "
+"Gnumeric baru."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:25
 msgid "Autosave frequency"
@@ -3836,13 +3811,12 @@ msgid "Unable to paste into selection"
 msgstr "Tidak bisa menempelkan ke dalam pilihan"
 
 #: ../src/cmd-edit.c:418 ../src/cmd-edit.c:467
-#, fuzzy
 msgid ""
 "Inserting these cells would push data off the sheet. Please enlarge the "
 "sheet first."
 msgstr ""
-"Memasukkan sel ini akan mendorong data dari lembaran. Silakan memperbesar "
-"lembaran pertama."
+"Menyisipkan sel ini akan mendorong data ke luar dari lembar. Silakan "
+"terlebih dahulu memperbesar lembar."
 
 #: ../src/cmd-edit.c:426
 #, c-format
@@ -3875,9 +3849,9 @@ msgid "Would split an array"
 msgstr "Ingin memecah sebuah array"
 
 #: ../src/command-context.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "Would split merge %s"
-msgstr "Ingin memecah array %s"
+msgstr "Ingin memecah penggabungan %s"
 
 #: ../src/commands.c:207
 #, c-format
@@ -3890,19 +3864,19 @@ msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr "%s terkunci. Buka proteksi lembaran agar bisa mengubahnya."
 
 #: ../src/commands.c:898
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting expression in %s"
-msgstr "Galat dalam ekspresi filter"
+msgstr "Menyisipkan ekspresi dalam %s"
 
 #: ../src/commands.c:990
-#, fuzzy, c-format
+#, c-format
 msgid "Editing style of %s"
-msgstr "Mengubah gaya dalam %s"
+msgstr "Menyunting gaya dari %s"
 
 #: ../src/commands.c:993
-#, fuzzy, c-format
+#, c-format
 msgid "Typing \"%s\" in %s"
-msgstr "Mengetikkan \"%s%s\" dalam %s"
+msgstr "Mengetikkan \"%s\" dalam %s"
 
 #: ../src/commands.c:1139 ../src/wbc-gtk-edit.c:161 ../src/wbc-gtk-edit.c:171
 #: ../src/wbc-gtk-edit.c:187 ../src/wbc-gtk-edit.c:208
@@ -4092,14 +4066,14 @@ msgid "Setting height of rows %s to default"
 msgstr "Menyeting tinggi baris %s ke default"
 
 #: ../src/commands.c:2084
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting width of %s"
-msgstr "Lebar jendela"
+msgstr "Otomatis paskan lebar %s"
 
 #: ../src/commands.c:2084
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting height of %s"
-msgstr "Tinggi jendela"
+msgstr "Otomatis paskan tinggi %s"
 
 #: ../src/commands.c:2158 ../src/dialogs/dialog-preferences.c:1224
 msgid "Sorting"
@@ -4240,9 +4214,9 @@ msgid "Pasting into %s"
 msgstr "Menempelkan ke dalam %s"
 
 #: ../src/commands.c:3212
-#, fuzzy, c-format
+#, c-format
 msgid "Do you really want to paste %s copies?"
-msgstr "Apakah Anda benar-benar ingin menambahkan \"%s\" untuk pemilihan?"
+msgstr "Apakah Anda benar-benar ingin menempelkan %s salinan?"
 
 #. Check arrays or merged regions in src or target regions
 #: ../src/commands.c:3269 ../src/commands.c:3425 ../src/commands.c:3426
@@ -6103,11 +6077,11 @@ msgstr "%s ke %s"
 
 #: ../src/dialogs/dialog-cell-sort.c:756
 msgid "no available column"
-msgstr "Tidak tersedia kolom"
+msgstr "tidak ada kolom yang tersedia"
 
 #: ../src/dialogs/dialog-cell-sort.c:756
 msgid "no available row"
-msgstr "Tidak tersedia baris"
+msgstr "tidak ada baris yang tersedia"
 
 #: ../src/dialogs/dialog-cell-sort.c:1007
 msgid "Header"
@@ -18916,7 +18890,7 @@ msgstr "Definisikan Nama"
 
 #: ../src/workbook-control.c:282
 msgid "Cannot jump to an invisible sheet"
-msgstr "Tidak bisa melompat ke lembar yang tidak tampak."
+msgstr "Tak bisa melompat ke lembar yang tak terlihat"
 
 #: ../src/workbook-control.c:360
 msgid "Address"
