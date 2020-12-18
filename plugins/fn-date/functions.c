@@ -410,7 +410,10 @@ static GnmFuncHelp const help_now[] = {
 static GnmValue *
 gnumeric_now (GnmFuncEvalInfo *ei, G_GNUC_UNUSED GnmValue const * const *argv)
 {
-	return value_new_float (go_date_timet_to_serial_raw (time (NULL), DATE_CONV (ei->pos)));
+	guint64 t = g_get_real_time ();
+	double r = go_date_timet_to_serial_raw (t / 1000000, DATE_CONV (ei->pos));
+	r += (t % 1000000) / (24 * 60 * 60 * 1000000.0);
+	return value_new_float (r);
 }
 
 /***************************************************************************/

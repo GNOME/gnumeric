@@ -1,3 +1,7 @@
+2020-12-18  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_now): Use 1us resolution.
+
 2020-08-12  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.48
