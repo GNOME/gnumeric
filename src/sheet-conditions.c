@@ -466,7 +466,7 @@ collect_group_deps_rr (GnmRangeRef const *rr, CollectGroupDepsState *state,
 	    rr->b.col_relative && rr->b.col == 0 &&
 	    rr->b.row_relative && rr->b.row == 0) {
 		// Ignore references to the cell itself -- the recalc
-		// dependency is enought to update everything.
+		// dependency is enough to update everything.
 		if (debug_sheet_conds)
 			g_printerr ("Self reference\n");
 		return;
