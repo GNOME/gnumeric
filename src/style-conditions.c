@@ -764,6 +764,9 @@ static GSList *
 gscd_changed (GnmDependent *dep)
 {
 	GnmStyleCondDep const *scd = (GnmStyleCondDep const *)dep;
+	if (debug_style_conds ()) {
+		g_printerr ("Changed StyleCondDep/%p\n", dep);
+	}
 	return scd->dep_cont ? g_slist_prepend (NULL, scd->dep_cont) : NULL;
 }
 

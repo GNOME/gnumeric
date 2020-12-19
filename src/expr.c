@@ -93,7 +93,7 @@ gnm_expr_new_constant (GnmValue *v)
  * gnm_expr_new_funcallv: (skip)
  * @func: #GnmFunc
  * @argc: argument count
- * @argv: (array length=argc): transfers everything
+ * @argv: (in) (transfer full) (array length=argc): transfers everything
  *
  * Returns: (transfer full): function call expression.
  */

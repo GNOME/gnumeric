@@ -1,3 +1,10 @@
+2020-12-18  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-conditions.c (update_group): Fix eval pos -- it's
+	different for each range, even if we hang everything on the same
+	dep.  Don't use a set for dependency -- that only works right in
+	array mode -- but use a call to SUM instead.
+
 2020-10-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-graph.c (gnm_sog_bounds_changed): fix graph size issue

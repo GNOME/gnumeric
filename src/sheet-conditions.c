@@ -646,19 +646,25 @@ update_group (CSGroup *g)
 		unsigned ix;
 		for (ix = 0; ix < G_N_ELEMENTS (cond->deps); ix++) {
 			GnmExprTop const *te = gnm_style_cond_get_expr (cond, ix);
-			if (te) {
-				unsigned ri;
-				eval_pos_init_dep (&state.epos, &cond->deps[ix].base);
-				for (ri = 0; ri < g->ranges->len; ri++) {
-					state.r = &g_array_index (g->ranges, GnmRange, ri);
-					collect_group_deps (te->expr, &state, CGD_NO_FLAGS);
-				}
+			unsigned ri;
+			if (!te)
+				continue;
+
+			eval_pos_init_dep (&state.epos, &cond->deps[ix].base);
+			for (ri = 0; ri < g->ranges->len; ri++) {
+				state.r = &g_array_index (g->ranges, GnmRange, ri);
+				state.epos.eval = state.r->start;
+				collect_group_deps (te->expr, &state, CGD_NO_FLAGS);
 			}
 		}
 	}
-	texpr = state.deps
-		? gnm_expr_top_new (gnm_expr_new_set (state.deps))
-		: gnm_expr_top_new_constant (value_new_error_REF (NULL));
+
+	if (state.deps == NULL)
+		texpr = gnm_expr_top_new_constant (value_new_error_REF (NULL));
+	else {
+		GnmFunc *f = gnm_func_lookup ("SUM", NULL);
+		texpr = gnm_expr_top_new (gnm_expr_new_funcall (f, state.deps));
+	}
 	set_group_pos_and_expr (g, pos, texpr);
 	gnm_expr_top_unref (texpr);
 }
@@ -678,6 +684,10 @@ csgd_changed (GnmDependent *dep)
 	CSGroup *g = (CSGroup *)gd; // Since the dep is first
 	Sheet *sheet = dep->sheet;
 	unsigned ri;
+
+	if (debug_sheet_conds) {
+		g_printerr ("Changed CSGroup/%p\n", (void *)dep);
+	}
 
 	for (ri = 0; ri < g->ranges->len; ri++) {
 		GnmRange *r = &g_array_index (g->ranges, GnmRange, ri);
