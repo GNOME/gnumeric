@@ -517,8 +517,10 @@ everything:
 
 	// Ignore wrapping for now.
 	rr2 = *rr;
-	rr2.b.col += W - 1;
-	rr2.b.row += H - 1;
+	if (rr->b.col_relative)
+		rr2.b.col += W - 1;
+	if (rr->b.row_relative)
+		rr2.b.row += H - 1;
 
 	state->deps = gnm_expr_list_prepend
 		(state->deps,
@@ -691,9 +693,9 @@ csgd_changed (GnmDependent *dep)
 
 	for (ri = 0; ri < g->ranges->len; ri++) {
 		GnmRange *r = &g_array_index (g->ranges, GnmRange, ri);
+		sheet_range_unrender (sheet, r);
 		// FIXME:
 		// sheet_range_calc_spans ???
-		// or other unrender
 		sheet_queue_redraw_range (sheet, r);
 	}
 

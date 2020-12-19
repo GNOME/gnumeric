@@ -184,6 +184,7 @@ GPtrArray  *sheet_cell_positions (Sheet *sheet, gboolean comments);
 GPtrArray  *sheet_cells          (Sheet *sheet, const GnmRange *r);
 
 void        sheet_recompute_spans_for_col     (Sheet *sheet, int col);
+void        sheet_range_unrender (Sheet *sheet, GnmRange const *r);
 
 gboolean    sheet_is_region_empty	      (Sheet *sheet, GnmRange const *r);
 gboolean    sheet_is_cell_empty		      (Sheet *sheet, int col, int row);

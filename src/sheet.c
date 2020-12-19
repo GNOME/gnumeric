@@ -369,6 +369,29 @@ cb_clear_rendered_cells (G_GNUC_UNUSED gpointer ignored, GnmCell *cell)
 	}
 }
 
+/**
+ * sheet_range_unrender:
+ * @sheet: sheet to change
+ * @r: (nullable): range to unrender
+ *
+ * Unrenders all cells in the given range.  If @r is %NULL, the all cells
+ * in the sheet are unrendered.
+ */
+void
+sheet_range_unrender (Sheet *sheet, GnmRange const *r)
+{
+	GPtrArray *cells = sheet_cells (sheet, r);
+	unsigned ui;
+
+	for (ui = 0; ui < cells->len; ui++) {
+		GnmCell *cell = g_ptr_array_index (cells, ui);
+		gnm_cell_unrender (cell);
+	}
+
+	g_ptr_array_unref (cells);
+}
+
+
 static void
 sheet_scale_changed (Sheet *sheet, gboolean cols_rescaled, gboolean rows_rescaled)
 {
