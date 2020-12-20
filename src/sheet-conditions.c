@@ -279,6 +279,7 @@ sheet_conditions_dump (Sheet *sheet)
 	GnmSheetConditionsData *cd = sheet->conditions;
 	GHashTableIter hiter;
 	gpointer value;
+	int N = 0;
 
 	g_printerr ("Conditional styling for sheet %s:\n", sheet->name_unquoted);
 	g_hash_table_iter_init (&hiter, cd->groups);
@@ -287,6 +288,11 @@ sheet_conditions_dump (Sheet *sheet)
 		unsigned ui, ri;
 		GPtrArray const *ga;
 		GnmCellPos const *pos;
+		char *s;
+		GnmParsePos pp;
+
+		if (N > 0)
+			g_printerr ("\n");
 
 		pos = gnm_style_conditions_get_pos (g->conds);
 		g_printerr ("  Conditions at %s\n",
@@ -304,6 +310,16 @@ sheet_conditions_dump (Sheet *sheet)
 			GnmRange *r = &g_array_index (g->ranges, GnmRange, ri);
 			g_printerr ("    [%d] %s\n", ri, range_as_string (r));
 		}
+
+		g_printerr ("  Dependent expression:\n");
+		parse_pos_init_dep (&pp, &g->dep.base);
+		s = gnm_expr_top_as_string (g->dep.base.texpr,
+					    &pp,
+					    sheet_get_conventions (sheet));
+		g_printerr ("    %s\n", s);
+		g_free (s);
+
+		N++;
 	}
 }
 
@@ -358,6 +374,7 @@ sheet_conditions_remove (Sheet *sheet, GnmRange const *r, GnmStyle *style)
 		return;
 	}
 
+	g_printerr ("Removing style %p from %s\n", style, range_as_string (r));
 	g = find_group (cd, style);
 	if (!g) {
 		g_warning ("Removing conditional style we don't have?");
@@ -521,6 +538,11 @@ everything:
 		rr2.b.col += W - 1;
 	if (rr->b.row_relative)
 		rr2.b.row += H - 1;
+
+	// Don't include sheet if we don't have to.  This makes
+	// debugging output easier to read.
+	if (a_sheet == state->sheet && b_sheet == state->sheet)
+		rr2.a.sheet = rr2.b.sheet = NULL;
 
 	state->deps = gnm_expr_list_prepend
 		(state->deps,
