@@ -419,7 +419,7 @@ main (int argc, char const **argv)
 	GOptionContext	*ocontext;
 	GError		*error = NULL;
 	int		 i, N;
-	const char *argv_stdin[] = { "fd://1", NULL };
+	const char *argv_stdin[] = { "fd://0", NULL };
 
 	/* No code before here, we need to init threads */
 	argv = gnm_pre_parse_init (argc, argv);

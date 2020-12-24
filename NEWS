@@ -3,6 +3,9 @@ Gnumeric 1.12.49
 Jean:
 	* Fix graph size issue when the graph is in its own sheet. [#516]
 
+JohnDenker:
+	* Fix ssgrep problem when used as a filter.  [#552]
+
 Morten:
 	* Rework conditional styling's upper level.
 	* Fix autofill array critical.  [#511]
