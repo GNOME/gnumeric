@@ -25,12 +25,14 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2020-07-25 10:19+0000\n"
 "PO-Revision-Date: 2020-07-28 14:49+0000\n"
-"Last-Translator: Miquel-Àngel Burgos i Fradeja <miquel.angel.burgos@gmail.com>, 2020\n"
-"Language-Team: Catalan (https://www.transifex.com/softcatala/teams/62837/ca/)\n"
+"Last-Translator: Miquel-Àngel Burgos i Fradeja <miquel.angel.burgos@gmail."
+"com>, 2020\n"
+"Language-Team: Catalan (https://www.transifex.com/softcatala/teams/62837/"
+"ca/)\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
@@ -213,7 +215,7 @@ msgstr "No s'han trobat fluxos de llibres de treball ni de llibres."
 
 #: ../plugins/excel/boot.c:286
 msgid "Preparing to save..."
-msgstr "S'està preparant per desar..."
+msgstr "S'està preparant per a desar..."
 
 #: ../plugins/excel/boot.c:298
 msgid "Saving file..."
@@ -353,8 +355,8 @@ msgstr "TITLE"
 #: ../plugins/excel/ms-excel-write.c:225
 #, c-format
 msgid ""
-"Some content will be lost when saving.  This format only supports %u column,"
-" and this workbook has %d"
+"Some content will be lost when saving.  This format only supports %u column, "
+"and this workbook has %d"
 msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u "
 "columns, and this workbook has %d"
@@ -374,8 +376,8 @@ msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u rows, "
 "and this workbook has %d"
 msgstr[0] ""
-"Alguns continguts es perdran en desar. Aquest format només permet %u fila, i"
-" aquest llibre de treball en té %d"
+"Alguns continguts es perdran en desar. Aquest format només permet %u fila, i "
+"aquest llibre de treball en té %d"
 msgstr[1] ""
 "Alguns continguts es perdran en desar. Aquest format només permet %u files, "
 "i aquest llibre de treball en té %d"
@@ -397,8 +399,8 @@ msgstr "Funció malmesa"
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
-"Massa paràmetres per a la funció «%s». L'MS Excel només pot gestionar-ne %d,"
-" no %d"
+"Massa paràmetres per a la funció «%s». L'MS Excel només pot gestionar-ne %d, "
+"no %d"
 
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "MS Excel (tm)"
@@ -558,8 +560,7 @@ msgstr "L'atribut «%s» no és vàlid i la unitat «%s» és desconeguda"
 #: ../plugins/openoffice/openoffice-read.c:1320
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
-msgstr ""
-"L'atribut «%s» no és vàlid. S'esperava una distància i s'ha rebut «%s»"
+msgstr "L'atribut «%s» no és vàlid. S'esperava una distància i s'ha rebut «%s»"
 
 #: ../plugins/excel/xlsx-read.c:1032
 #, c-format
@@ -728,12 +729,11 @@ msgstr ""
 #: ../plugins/excelplugins/excelplugins.c:706
 msgid ""
 "Excel plugin loader / xlfRegister: the second and third argument must be "
-"strings (DLL name[ignored],exported name[mandatory],types "
-"string[mandatory])."
+"strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Carregador de connectors d'Excel / xlfRegister: el segon i el tercer "
-"arguments han de ser cadenes (DLL name[ignored],exported "
-"name[mandatory],types string[mandatory])."
+"arguments han de ser cadenes (DLL name[ignored],exported name[mandatory],"
+"types string[mandatory])."
 
 #: ../plugins/excelplugins/excelplugins.c:935
 msgid "Dynamic module loading is not supported on this system."
@@ -777,8 +777,8 @@ msgid ""
 msgstr ""
 "Interfície adaptadora per a carregar connectors d'Excel (coneguts també com "
 "a XLL). Opera únicament amb funcions de full de càlcul que esperen només "
-"arguments del tipus LPXLOPER (tipus «P» o «R») i retornen un LPXLOPER (tipus"
-" «P» o «R»)."
+"arguments del tipus LPXLOPER (tipus «P» o «R») i retornen un LPXLOPER (tipus "
+"«P» o «R»)."
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:1
 msgid "Christian Date Functions"
@@ -1042,8 +1042,8 @@ msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also holds "
 "some simple bitwise operations."
 msgstr ""
-"Diverses utilitats bàsiques per nombres primers, pi, phi, sigma. També conté"
-" algunes operacions bit a bit bàsiques."
+"Diverses utilitats bàsiques per nombres primers, pi, phi, sigma. També conté "
+"algunes operacions bit a bit bàsiques."
 
 #: ../plugins/fn-numtheory/plugin.xml.in.h:3
 msgid "Bitwise Operations"
@@ -1057,8 +1057,7 @@ msgstr "Funcions estadístiques"
 msgid ""
 "Statistical Functions with naming and calling conventions from The R Project"
 msgstr ""
-"Funcions estadístiques amb un nom i convencions de crida segons el Projecte "
-"R"
+"Funcions estadístiques amb un nom i convencions de crida segons el Projecte R"
 
 #: ../plugins/fn-r/plugin.xml.in.h:3 ../plugins/fn-stat/plugin.xml.in.h:2
 #: ../src/dialogs/dialog-doc-metadata.c:2190
@@ -1090,8 +1089,8 @@ msgid "Functions for manipulating strings"
 msgstr "Funcions per a tractar cadenes"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
-#: ../src/dialogs/dialog-doc-metadata.c:1815
-#: ../src/dialogs/dialog-search.c:387 ../src/func.c:1099
+#: ../src/dialogs/dialog-doc-metadata.c:1815 ../src/dialogs/dialog-search.c:387
+#: ../src/func.c:1099
 msgid "String"
 msgstr "Cadena"
 
@@ -1586,10 +1585,12 @@ msgstr "S'ha trobat un estil de validació no definit: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:2922
 #, c-format
-msgid "Unsupported validation condition encountered: \"%s\" with base address: \"%s\""
+msgid ""
+"Unsupported validation condition encountered: \"%s\" with base address: \"%s"
+"\""
 msgstr ""
-"S'ha trobat una condició de validació no implementada: «%s», amb l'adreça de"
-" base: «%s»"
+"S'ha trobat una condició de validació no implementada: «%s», amb l'adreça de "
+"base: «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:3588
 #, c-format
@@ -1619,8 +1620,7 @@ msgstr ""
 
 #: ../plugins/openoffice/openoffice-read.c:4154
 msgid "Invalid array expression does not specify number of rows."
-msgstr ""
-"L'expressió de vector no és vàlida i no especifica el nombre de files."
+msgstr "L'expressió de vector no és vàlida i no especifica el nombre de files."
 
 #: ../plugins/openoffice/openoffice-read.c:4165
 #, c-format
@@ -1791,8 +1791,8 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:8384
 #, c-format
 msgid ""
-"Invalid value-type '%s' advertised for 'form:value' attribute in 'form"
-":value-range' element."
+"Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
+"range' element."
 msgstr ""
 "S'ha anunciat el tipus de valor no vàlid «%s» per a l'atribut «form:value» "
 "de l'element «form:value-range»."
@@ -1848,8 +1848,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:10547
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
-msgstr ""
-"S'ha trobat un bucle infinit en processar la fórmula «%s» del nom «%s»"
+msgstr "S'ha trobat un bucle infinit en processar la fórmula «%s» del nom «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:10750
 #, c-format
@@ -2025,8 +2024,7 @@ msgstr "No s'ha pogut assignar memòria per a les definicions dels camps."
 #: ../plugins/paradox/paradox.c:334
 msgid "First line of sheet must contain database specification."
 msgstr ""
-"La primera línia del full ha de contenir l'especificació de la base de "
-"dades."
+"La primera línia del full ha de contenir l'especificació de la base de dades."
 
 #: ../plugins/paradox/paradox.c:349
 msgid ""
@@ -2379,8 +2377,8 @@ msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
 msgstr ""
-"No s'ha pogut trobar el flux PerfectOffice_MAIN. Assegureu-vos que es tracti"
-" d'un fitxer Quattro Pro"
+"No s'ha pogut trobar el flux PerfectOffice_MAIN. Assegureu-vos que es tracti "
+"d'un fitxer Quattro Pro"
 
 #: ../plugins/sample_datasource/plugin.xml.in.h:1
 msgid "Sample DataSource"
@@ -2610,8 +2608,7 @@ msgstr "Llista dels connectors actius."
 msgid ""
 "This list contains all plugins that are supposed to be automatically "
 "activated."
-msgstr ""
-"Aquesta llista conté tots els connectors que s'activen automàticament."
+msgstr "Aquesta llista conté tots els connectors que s'activen automàticament."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:20
 msgid "List of Known Plugins."
@@ -2693,8 +2690,8 @@ msgid ""
 "The default page header for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
-"La capçalera de pàgina per defecte per a nous documents que es pot modificar"
-" usant el diàleg de configuració de la pàgina."
+"La capçalera de pàgina per defecte per a nous documents que es pot modificar "
+"usant el diàleg de configuració de la pàgina."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:38
 msgid "Page Footer"
@@ -2705,8 +2702,8 @@ msgid ""
 "The default page footer for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
-"El peu de pàgina per defecte per a nous documents que es pot modificar usant"
-" el diàleg de configuració de la pàgina."
+"El peu de pàgina per defecte per a nous documents que es pot modificar usant "
+"el diàleg de configuració de la pàgina."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:40
 msgid "Default Header/Footer Font Size"
@@ -2745,8 +2742,8 @@ msgid ""
 "This value determines whether the default font for headers and footers is "
 "italic."
 msgstr ""
-"Aquest valor determina si el tipus de lletra predeterminat del nou llibre de"
-" treball està en cursiva."
+"Aquest valor determina si el tipus de lletra predeterminat del nou llibre de "
+"treball està en cursiva."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:48
 msgid "Default Horizontal Centering"
@@ -2771,8 +2768,7 @@ msgid ""
 "is to center pages vertically."
 msgstr ""
 "Aquest valor determina si el quadre de diàleg de configuració de la "
-"impressió està configurat per defecte per a centrar les pàgines "
-"verticalment."
+"impressió està configurat per defecte per a centrar les pàgines verticalment."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:52
 msgid "Default Grid Line Printing"
@@ -2785,8 +2781,8 @@ msgid ""
 msgstr ""
 "Aquest valor determina si el quadre de diàleg de configuració de la "
 "impressió està configurat per defecte per a imprimir les línies de la "
-"graella. Utilitzeu el quadre de diàleg de configuració de la impressió per a"
-" editar aquest valor."
+"graella. Utilitzeu el quadre de diàleg de configuració de la impressió per a "
+"editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:54
 msgid "Default Print Cells with Only Styles"
@@ -2798,8 +2794,8 @@ msgid ""
 "to print empty but formatted cells. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
-"El valor predeterminat, referit a si s'han d'imprimir les cel·les formatades"
-" però buides. Utilitzeu el quadre de diàleg de configuració de la impressió "
+"El valor predeterminat, referit a si s'han d'imprimir les cel·les formatades "
+"però buides. Utilitzeu el quadre de diàleg de configuració de la impressió "
 "per a editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:56
@@ -2812,8 +2808,8 @@ msgid ""
 "to print in only black and white. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
-"El valor predeterminat, referit a si s'ha d'imprimir només en blanc i negre."
-" Utilitzeu el quadre de diàleg de configuració de la impressió per editar "
+"El valor predeterminat, referit a si s'ha d'imprimir només en blanc i negre. "
+"Utilitzeu el quadre de diàleg de configuració de la impressió per a editar "
 "aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:58
@@ -2828,7 +2824,7 @@ msgid ""
 msgstr ""
 "El valor predeterminat, referit a si s'ha d'imprimir la capçalera de les "
 "files i les columnes. Utilitzeu el quadre de diàleg de configuració de la "
-"impressió per editar aquest valor."
+"impressió per a editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:60
 msgid "Default Print Direction"
@@ -2842,7 +2838,7 @@ msgid ""
 msgstr ""
 "El valor predeterminat, referit a si s'ha d'imprimir primer a la dreta i "
 "després a baix. Utilitzeu el quadre de diàleg de configuració de la "
-"impressió per editar aquest valor."
+"impressió per a editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:62
 msgid "Default Scale Type"
@@ -2855,8 +2851,8 @@ msgid ""
 "edit this value."
 msgstr ""
 "El valor predeterminat, referit a si s'ha d'escalar la pàgina un cert "
-"percentatge per imprimir-la. Utilitzeu el quadre de diàleg de configuració "
-"de la impressió per editar aquest valor."
+"percentatge per a imprimir-la. Utilitzeu el quadre de diàleg de configuració "
+"de la impressió per a editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:64
 msgid "Default Scale Percentage"
@@ -2868,7 +2864,7 @@ msgid ""
 "use the Print Setup dialog to edit this value."
 msgstr ""
 "El percentatge pel qual s'escalarà cada pàgina impresa. Utilitzeu el quadre "
-"de diàleg de configuració de la impressió per editar aquest valor."
+"de diàleg de configuració de la impressió per a editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:66
 msgid "Default Scaling Width"
@@ -2891,8 +2887,8 @@ msgstr "Alçada d'escala predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:69
 msgid ""
-"This value determines the maximum number of pages that make up the height of"
-" a printout of the current sheet. The sheet will be reduced to fit within "
+"This value determines the maximum number of pages that make up the height of "
+"a printout of the current sheet. The sheet will be reduced to fit within "
 "this height. This value can be changed in the Page Setup dialog."
 msgstr ""
 "Aquest valor determina el nombre màxim de pàgines que conformen l'alçada "
@@ -2909,7 +2905,7 @@ msgid ""
 "This string gives the default region to be repeated at the top of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
 msgstr ""
-"Aquesta cadena dona la regió predeterminada per repetir a la part superior "
+"Aquesta cadena dona la regió predeterminada per a repetir a la part superior "
 "de cada full imprès. Utilitzeu el diàleg de configuració d'impressió per a "
 "editar aquest valor."
 
@@ -2922,17 +2918,16 @@ msgid ""
 "This string gives the default region to be repeated at the left of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
 msgstr ""
-"Aquesta cadena dona la regió predeterminada per repetir a l'esquerra de cada"
-" full imprès. Utilitzeu el diàleg de configuració d'impressió per a editar "
-"aquest valor."
+"Aquesta cadena dona la regió predeterminada per a repetir a l'esquerra de "
+"cada full imprès. Utilitzeu el diàleg de configuració d'impressió per a "
+"editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:74
 msgid "Preferred Display Unit"
 msgstr "Unitat de visualització preferida"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:75
-msgid ""
-"This string gives the default unit to be used in the page setup dialog."
+msgid "This string gives the default unit to be used in the page setup dialog."
 msgstr ""
 "Aquesta cadena estableix la unitat per defecte a utilitzar en el diàleg de "
 "configuració de la pàgina."
@@ -2948,7 +2943,7 @@ msgid ""
 msgstr ""
 "El nombre de punts per defecte des de la part superior d'una pàgina fins al "
 "començament del cos. Utilitzeu el quadre de diàleg de configuració de la "
-"impressió per editar aquest valor."
+"impressió per a editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:78
 msgid "Default Bottom Margin"
@@ -2960,7 +2955,7 @@ msgid ""
 "the end of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "El nombre de punts des de la part inferior d'una pàgina fins al final del "
-"cos. Utilitzeu el quadre de diàleg de configuració de la impressió per "
+"cos. Utilitzeu el quadre de diàleg de configuració de la impressió per a "
 "editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:80
@@ -2973,8 +2968,8 @@ msgid ""
 "the end of the footer. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "El nombre de punts per defecte des de la part inferior d'una pàgina fins al "
-"final del peu de pàgina. Utilitzeu el quadre de diàleg de configuració de la"
-" impressió per a editar aquest valor."
+"final del peu de pàgina. Utilitzeu el quadre de diàleg de configuració de la "
+"impressió per a editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:82
 msgid "Default Top Outside Margin"
@@ -2987,7 +2982,7 @@ msgid ""
 msgstr ""
 "El nombre de punts des de la part superior d'una pàgina fins a la part "
 "superior de la capçalera. Utilitzeu el quadre de diàleg de configuració de "
-"la impressió per editar aquest valor."
+"la impressió per a editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:84
 msgid "Default Left Margin"
@@ -2995,8 +2990,8 @@ msgstr "Marge esquerre predeterminat"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:85
 msgid ""
-"This value gives the default number of points from the left of a page to the"
-" left of the body. Please use the Print Setup dialog to edit this value."
+"This value gives the default number of points from the left of a page to the "
+"left of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "El nombre de punts per defecte des de la part esquerra d'una pàgina fins al "
 "començament del cos. Utilitzeu el quadre de diàleg de configuració de la "
@@ -3013,7 +3008,7 @@ msgid ""
 msgstr ""
 "El nombre de punts per defecte des de la part dreta d'una pàgina fins al "
 "començament del cos. Utilitzeu el quadre de diàleg de configuració de la "
-"impressió per editar aquest valor."
+"impressió per a editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:88
 msgid "Paper"
@@ -3025,7 +3020,7 @@ msgid ""
 "to edit this value."
 msgstr ""
 "L'especificació per defecte del paper. Utilitzeu el quadre de diàleg de "
-"configuració de la impressió per editar aquest valor."
+"configuració de la impressió per a editar aquest valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:90
 msgid "Paper orientation"
@@ -3067,8 +3062,8 @@ msgid ""
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even if the entry does not have keyboard focus."
 msgstr ""
-"Alguns diàlegs contenen només un camp d'entrada que permet fer seleccions de"
-" rang en el llibre de treball. En establir aquesta variable a CERT, la "
+"Alguns diàlegs contenen només un camp d'entrada que permet fer seleccions de "
+"rang en el llibre de treball. En establir aquesta variable a CERT, la "
 "selecció es dirigeix a aquesta entrada encara que l'entrada no tingui focus "
 "de teclat."
 
@@ -3201,11 +3196,11 @@ msgstr "Cerca i reemplaça manté les cadenes com a cadenes"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:128
 msgid ""
-"Search &amp; Replace keeps strings as strings even if they look like numbers"
-" as default"
+"Search &amp; Replace keeps strings as strings even if they look like numbers "
+"as default"
 msgstr ""
-"Cerca i reemplaça manté les cadenes com a cadenes encara que semblin nombres"
-" per defecte"
+"Cerca i reemplaça manté les cadenes com a cadenes encara que semblin nombres "
+"per defecte"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:129
 msgid "Search &amp; Replace Search Type"
@@ -3275,7 +3270,7 @@ msgid ""
 "total size exceeds this configurable value."
 msgstr ""
 "Aquest valor determina la longitud de la cadena de desfer. Cada acció "
-"d'edició té una mida associada, per comparar-la amb els requeriments de "
+"d'edició té una mida associada, per a comparar-la amb els requeriments de "
 "memòria d'una simple edició de cel·la (amb mida 1). La llista de desfer es "
 "retalla quan la mida total excedeixi aquest valor configurable."
 
@@ -3288,8 +3283,8 @@ msgstr "Nombre d'elements de desfer"
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
-"Aquest valor determina el nombre màxim d'elements en la llista de "
-"desfer/tornar a fer."
+"Aquest valor determina el nombre màxim d'elements en la llista de desfer/"
+"tornar a fer."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:9
 msgid "Length of the Undo Descriptors"
@@ -3297,11 +3292,11 @@ msgstr "Longitud dels descriptors de desfer"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:10
 msgid ""
-"This value is indicative of the maximum length of the command descriptors in"
-" the undo and redo chains."
+"This value is indicative of the maximum length of the command descriptors in "
+"the undo and redo chains."
 msgstr ""
-"Aquest valor indica la longitud màxima dels descriptors de les ordres en les"
-" cadenes de desfer i refer."
+"Aquest valor indica la longitud màxima dels descriptors de les ordres en les "
+"cadenes de desfer i refer."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:11
 msgid "Default Font Size"
@@ -3370,8 +3365,8 @@ msgstr "Nombre per defecte de columnes dels fulls"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:24
 msgid ""
-"The number of columns in each sheet. This setting will be used only in a new"
-" Gnumeric session."
+"The number of columns in each sheet. This setting will be used only in a new "
+"Gnumeric session."
 msgstr ""
 "El nombre de columnes de cada full. Aquesta configuració només s'utilitzarà "
 "en una nova sessió del Gnumeric."
@@ -3471,8 +3466,8 @@ msgid ""
 "This variable determines where the object toolbar should be shown. 0 is "
 "left, 1 is right, 2 is top."
 msgstr ""
-"Aquesta variable determina on s'ha de mostrar la barra d'eines d'objectes. 0"
-" és esquerra, 1 és dreta, 2 és dalt."
+"Aquesta variable determina on s'ha de mostrar la barra d'eines d'objectes. 0 "
+"és esquerra, 1 és dreta, 2 és dalt."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:43
 msgid "Function Markers"
@@ -3574,8 +3569,8 @@ msgstr "Tecles de transició"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
 msgid ""
-"This variable determines whether transition keys are set on. Transition keys"
-" are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into "
+"This variable determines whether transition keys are set on. Transition keys "
+"are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into "
 "page movement rather than jumping to the start/end of series."
 msgstr ""
 "Aquesta variable determina si les tecles de transició estan activades. Les "
@@ -3625,8 +3620,8 @@ msgstr "Nivell de compressió per defecte dels fitxers Gnumeric"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:68
 msgid ""
-"This integer (between 0 and 9) specifies the amount of compression performed"
-" by Gnumeric when saving files in the default file format. 0 is minimal "
+"This integer (between 0 and 9) specifies the amount of compression performed "
+"by Gnumeric when saving files in the default file format. 0 is minimal "
 "compression while 9 is maximal compression."
 msgstr ""
 "Aquest enter (entre 0 i 9) especifica el nivell de compressió realitzat pel "
@@ -3659,8 +3654,8 @@ msgid ""
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
-"Abans que se sobreescrigui un fitxer, el Gnumeric mostrarà un diàleg d'avís."
-" L'activació d'aquesta opció farà que el botó de sobreescriure del diàleg "
+"Abans que se sobreescrigui un fitxer, el Gnumeric mostrarà un diàleg d'avís. "
+"L'activació d'aquesta opció farà que el botó de sobreescriure del diàleg "
 "sigui el botó per defecte."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:73
@@ -3678,7 +3673,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:75
 msgid "Sort is Case-Sensitive"
-msgstr "L'ordenació diferencia majúscules i minúscules"
+msgstr "L'ordenació distingeix majúscules i minúscules"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:76
 msgid ""
@@ -3688,8 +3683,8 @@ msgid ""
 msgstr ""
 "En activar aquesta opció els botons d'ordenació de la barra d'eines fan una "
 "ordenació que distingeix entre majúscules i minúscules, i activarà l'estat "
-"inicial de la casella de selecció per cercar diferenciant entre majúscules i"
-" minúscules en el diàleg d'ordenació."
+"inicial de la casella de selecció per a cercar diferenciant entre majúscules "
+"i minúscules en el diàleg d'ordenació."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
 #: ../src/dialogs/dialog-preferences.c:808
@@ -3728,11 +3723,11 @@ msgstr "Nombre de clàusules automàtiques"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:82
 msgid ""
 "When selecting a sort region in the sort dialog, sort clauses are "
-"automatically added. This number determines the maximum number of clauses to"
-" be added automatically."
+"automatically added. This number determines the maximum number of clauses to "
+"be added automatically."
 msgstr ""
-"En seleccionar una regió d'ordenació en el diàleg d'ordenació, les clàusules"
-" d'ordenació s'afegeixen automàticament. Aquest nombre determina el nombre "
+"En seleccionar una regió d'ordenació en el diàleg d'ordenació, les clàusules "
+"d'ordenació s'afegeixen automàticament. Aquest nombre determina el nombre "
 "màxim de clàusules a afegir automàticament."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:83
@@ -3809,7 +3804,8 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"la destinació no conté un múltiple parell de les columnes d'origen (%d contra %d)\n"
+"la destinació no conté un múltiple parell de les columnes d'origen (%d "
+"contra %d)\n"
 "\n"
 "Proveu de seleccionar una única cel·la o una àrea de la mateixa forma i mida."
 
@@ -3820,7 +3816,8 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"la destinació no conté un múltiple parell de les files d'origen (%d contra %d)\n"
+"la destinació no conté un múltiple parell de les files d'origen (%d contra "
+"%d)\n"
 "\n"
 "Proveu de seleccionar una única cel·la o una àrea de la mateixa forma i mida."
 
@@ -3900,7 +3897,7 @@ msgstr ""
 #: ../src/commands.c:208
 #, c-format
 msgid "%s is locked. Unprotect the sheet to enable editing."
-msgstr "%s està bloquejada. Desbloquegeu el full per habilitar-ne l'edició."
+msgstr "%s està bloquejada. Desbloquegeu el full per a habilitar-ne l'edició."
 
 #: ../src/commands.c:898
 #, c-format
@@ -3962,8 +3959,8 @@ msgstr[1] "S'estan inserint %d columnes abans de %s"
 #: ../src/commands.c:1492
 #, c-format
 msgid ""
-"Inserting %i row before row %s would push data off the sheet. Please enlarge"
-" the sheet first."
+"Inserting %i row before row %s would push data off the sheet. Please enlarge "
+"the sheet first."
 msgid_plural ""
 "Inserting %i rows before row %s would push data off the sheet. Please "
 "enlarge the sheet first."
@@ -4315,9 +4312,8 @@ msgstr "Suprimir l'objecte"
 #: ../src/dialogs/dialog-doc-metadata.c:1864
 #: ../src/dialogs/dialog-formula-guru.c:891
 #: ../src/dialogs/dialog-function-select.c:1279
-#: ../src/dialogs/dialog-scenarios.c:521
-#: ../src/dialogs/dialog-simulation.c:210 ../src/dialogs/dialog-zoom.c:194
-#: ../src/format-template.c:216
+#: ../src/dialogs/dialog-scenarios.c:521 ../src/dialogs/dialog-simulation.c:210
+#: ../src/dialogs/dialog-zoom.c:194 ../src/format-template.c:216
 msgid "Name"
 msgstr "Nom"
 
@@ -4570,14 +4566,16 @@ msgstr "Consolidació de les dades"
 
 #: ../src/dialogs/dialog-about.c:38
 msgid ""
-"Gnumeric is available under the GNU General Public License, version 2 or 3 at your option.\n"
+"Gnumeric is available under the GNU General Public License, version 2 or 3 "
+"at your option.\n"
 "\n"
 "See https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\n"
 "or https://www.gnu.org/licenses/gpl-3.0.html.\n"
 "\n"
 "Gnumeric comes with absolutely no warranty."
 msgstr ""
-"Gnumeric és disponible sota la Llicència Pública General GNU, versió 2 o 3, segons la vostra preferència.\n"
+"Gnumeric és disponible sota la Llicència Pública General GNU, versió 2 o 3, "
+"segons la vostra preferència.\n"
 "\n"
 "Consulteu https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\n"
 "o https://www.gnu.org/licenses/gpl-3.0.html.\n"
@@ -5142,8 +5140,7 @@ msgstr "La columna de censura hauria de formar part d'una columna única."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:148
 msgid "The censorship and time columns should have the same height."
-msgstr ""
-"Les columnes de censura i de temps haurien de tenir la mateixa alçada."
+msgstr "Les columnes de censura i de temps haurien de tenir la mateixa alçada."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:163
 msgid "The groups column is not valid."
@@ -5388,13 +5385,11 @@ msgstr "Variables _Y:"
 msgid "_X variable:"
 msgstr "Variable _X:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2385
-#: ../src/dialogs/regression.ui.h:5
+#: ../src/dialogs/dialog-analysis-tools.c:2385 ../src/dialogs/regression.ui.h:5
 msgid "_X variables:"
 msgstr "Variables _X:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2387
-#: ../src/dialogs/regression.ui.h:6
+#: ../src/dialogs/dialog-analysis-tools.c:2387 ../src/dialogs/regression.ui.h:6
 msgid "_Y variable:"
 msgstr "Variable _Y:"
 
@@ -5485,8 +5480,8 @@ msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
-"El rang d'entrada introduït hauria de contenir almenys dues files de dades i"
-" les etiquetes."
+"El rang d'entrada introduït hauria de contenir almenys dues files de dades i "
+"les etiquetes."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3668
 msgid "The given input range should contain at least two rows of data."
@@ -5567,8 +5562,7 @@ msgid "Column %s (\"%s\")"
 msgstr "Columna %s («%s»)"
 
 #: ../src/dialogs/dialog-autofilter.c:391
-#: ../src/dialogs/dialog-autofilter.c:491
-#: ../src/dialogs/dialog-cell-sort.c:135
+#: ../src/dialogs/dialog-autofilter.c:491 ../src/dialogs/dialog-cell-sort.c:135
 #: ../src/dialogs/dialog-sheet-compare.c:312
 #, c-format
 msgid "Column %s"
@@ -5808,8 +5802,8 @@ msgid ""
 "You did not add the defined conditional format. Do you really want to close "
 "the conditional formatting dialog?"
 msgstr ""
-"No heu afegit el format condicional definit. Esteu segur que voleu tancar el"
-" diàleg de format condicional?"
+"No heu afegit el format condicional definit. Esteu segur que voleu tancar el "
+"diàleg de format condicional?"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:238
 msgid "(defined)"
@@ -5924,8 +5918,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-cell-format-cond.c:869
 msgid ""
-"If the cell content is not between these two values, a special style is "
-"used."
+"If the cell content is not between these two values, a special style is used."
 msgstr ""
 "Si el contingut de la cel·la no és entre aquests dos valors, s'utilitza un "
 "estil especial."
@@ -5940,32 +5933,28 @@ msgstr ""
 msgid ""
 "If the cell content is not equal to this value, a special style is used."
 msgstr ""
-"Si el contingut de la cel·la no és igual a aquest valor, s'utilitza un estil"
-" especial."
+"Si el contingut de la cel·la no és igual a aquest valor, s'utilitza un estil "
+"especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:893
 msgid "If the cell content is > this value, a special style is used."
 msgstr ""
-"Si el contingut de la cel·la és > aquest valor, s'utilitza un estil "
-"especial."
+"Si el contingut de la cel·la és > aquest valor, s'utilitza un estil especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:900
 msgid "If the cell content is < this value, a special style is used."
 msgstr ""
-"Si el contingut de la cel·la és < aquest valor, s'utilitza un estil "
-"especial."
+"Si el contingut de la cel·la és < aquest valor, s'utilitza un estil especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:908
 msgid "If the cell content is ≧ this value, a special style is used."
 msgstr ""
-"Si el contingut de la cel·la és ≧ aquest valor, s'utilitza un estil "
-"especial."
+"Si el contingut de la cel·la és ≧ aquest valor, s'utilitza un estil especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:917
 msgid "If the cell content is ≦ this value, a special style is used."
 msgstr ""
-"Si el contingut de la cel·la és ≦ aquest valor, s'utilitza un estil "
-"especial."
+"Si el contingut de la cel·la és ≦ aquest valor, s'utilitza un estil especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:926
 msgid "If this formula evaluates to TRUE, a special style is used."
@@ -5984,13 +5973,12 @@ msgstr "Si la cel·la no conté aquesta cadena, s'utilitza un estil especial."
 #: ../src/dialogs/dialog-cell-format-cond.c:949
 msgid "If the cell content begins with this string, a special style is used."
 msgstr ""
-"Si el contingut de la cel·la comença per aquesta cadena, s'utilitza un estil"
-" especial."
+"Si el contingut de la cel·la comença per aquesta cadena, s'utilitza un estil "
+"especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:957
 msgid ""
-"If the cell content does not begin with this string, a special style is "
-"used."
+"If the cell content does not begin with this string, a special style is used."
 msgstr ""
 "Si el contingut de la cel·la no comença per aquesta cadena, s'utilitza un "
 "estil especial."
@@ -6014,8 +6002,7 @@ msgstr "Si la cel·la conté un valor d'error, s'utilitza un estil especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:986
 msgid "If the cell does not contain an error value, a special style is used."
-msgstr ""
-"Si la cel·la no conté cap valor d'error, s'utilitza un estil especial."
+msgstr "Si la cel·la no conté cap valor d'error, s'utilitza un estil especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:993
 msgid "If the cell content contains blanks, a special style is used."
@@ -6081,7 +6068,7 @@ msgstr "Fila/columna"
 
 #: ../src/dialogs/dialog-cell-sort.c:1033
 msgid "Case Sensitive"
-msgstr "Diferencia entre majúscules i minúscules"
+msgstr "Distingeix entre majúscules i minúscules"
 
 #: ../src/dialogs/dialog-cell-sort.c:1053
 msgid "By Value"
@@ -6094,8 +6081,7 @@ msgstr "Estableix l'amplada de la columna per defecte/estàndard"
 #: ../src/dialogs/dialog-col-width.c:226
 #, c-format
 msgid ""
-"Set column width of selection on <span style='italic' "
-"weight='bold'>%s</span>"
+"Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 "Estableix l'amplada de columna de la selecció en <span style='italic' "
 "weight='bold'>%s</span>"
@@ -6166,8 +6152,7 @@ msgstr "Taula de dades"
 msgid "Could not create the Data Table definition dialog."
 msgstr "No s'ha pogut crear el diàleg de definició de la taula de dades."
 
-#: ../src/dialogs/dialog-define-names.c:394
-#: ../src/dialogs/sheet-compare.ui.h:2
+#: ../src/dialogs/dialog-define-names.c:394 ../src/dialogs/sheet-compare.ui.h:2
 msgid "Workbook"
 msgstr "Llibre de treball"
 
@@ -6445,7 +6430,7 @@ msgstr "Cel·la"
 
 #: ../src/dialogs/dialog-goto-cell.c:455
 msgid "Could not create the goto dialog."
-msgstr "No s'ha pogut crear el diàleg per anar a un lloc."
+msgstr "No s'ha pogut crear el diàleg per a anar a un lloc."
 
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
@@ -6453,7 +6438,7 @@ msgid ""
 "Middle click once to select this cell"
 msgstr ""
 "Feu clic amb el botó primari per seguir aquest enllaç.\n"
-"Feu clic amb el botó central per seleccionar la cel·la"
+"Feu clic amb el botó central per a seleccionar la cel·la"
 
 #: ../src/dialogs/dialog-hyperlink.c:185
 msgid "Not a range or name"
@@ -6490,7 +6475,7 @@ msgstr "Enllaç web"
 
 #: ../src/dialogs/dialog-hyperlink.c:320
 msgid "Browse to the specified URL"
-msgstr "Vés a l'URL especificada"
+msgstr "Ves a l'URL especificat"
 
 #: ../src/dialogs/dialog-hyperlink.c:396
 msgid "Add Hyperlink"
@@ -6528,8 +6513,8 @@ msgstr "%i camps no són part de la zona de la fusió"
 #: ../src/dialogs/dialog-merge.c:273
 #, c-format
 msgid ""
-"The data columns range in length from %i to %i. Shall we trim the lengths to"
-" %i and proceed?"
+"The data columns range in length from %i to %i. Shall we trim the lengths to "
+"%i and proceed?"
 msgstr ""
 "El rang de la longitud de les columnes de dades està entre %i i %i. Voleu "
 "que es retallin les longituds fins a %i i continuar?"
@@ -6589,7 +6574,8 @@ msgstr "S'han produït errors quan s'activaven els connectors"
 
 #: ../src/dialogs/dialog-plugin-manager.c:584
 msgid ""
-"The following extra plugins must be activated in order to activate this one:\n"
+"The following extra plugins must be activated in order to activate this "
+"one:\n"
 "\n"
 msgstr ""
 "Els següents connectors addicionals s'han d'activar per a poder activar-lo:\n"
@@ -7196,7 +7182,7 @@ msgstr "Nom d'escenari invàlid"
 
 #: ../src/dialogs/dialog-scenarios.c:378
 msgid "Could not create the Scenario Add dialog."
-msgstr "No s'ha pogut crear el diàleg per afegir escenaris."
+msgstr "No s'ha pogut crear el diàleg per a afegir escenaris."
 
 #: ../src/dialogs/dialog-scenarios.c:413
 #, c-format
@@ -7214,7 +7200,7 @@ msgstr "No s'ha pogut crear el diàleg dels escenaris."
 #: ../src/dialogs/dialog-search-replace.c:181
 #: ../src/dialogs/dialog-search.c:261
 msgid "You must select some cell types to search."
-msgstr "Heu de seleccionar algun tipus de cel·la per cercar."
+msgstr "Heu de seleccionar algun tipus de cel·la per a cercar."
 
 #: ../src/dialogs/dialog-search.c:372
 msgid "Comment"
@@ -7405,15 +7391,13 @@ msgid "General"
 msgstr "General"
 
 #. start sub menu
-#: ../src/dialogs/dialog-sheet-compare.c:378
-#: ../src/dialogs/cell-format.ui.h:42 ../src/sheet-control-gui.c:2313
-#: ../src/wbc-gtk-actions.c:3870
+#: ../src/dialogs/dialog-sheet-compare.c:378 ../src/dialogs/cell-format.ui.h:42
+#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3870
 msgid "Left"
 msgstr "Esquerra"
 
-#: ../src/dialogs/dialog-sheet-compare.c:379
-#: ../src/dialogs/cell-format.ui.h:43 ../src/sheet-control-gui.c:2316
-#: ../src/wbc-gtk-actions.c:3872
+#: ../src/dialogs/dialog-sheet-compare.c:379 ../src/dialogs/cell-format.ui.h:43
+#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3872
 msgid "Right"
 msgstr "Dreta"
 
@@ -7451,18 +7435,16 @@ msgstr "Superior"
 msgid "Bottom"
 msgstr "Inferior"
 
-#: ../src/dialogs/dialog-sheet-compare.c:403
-#: ../src/dialogs/cell-format.ui.h:45 ../src/widgets/gnm-text-view.c:281
+#: ../src/dialogs/dialog-sheet-compare.c:403 ../src/dialogs/cell-format.ui.h:45
+#: ../src/widgets/gnm-text-view.c:281
 msgid "None"
 msgstr "Cap"
 
-#: ../src/dialogs/dialog-sheet-compare.c:403
-#: ../src/widgets/gnm-text-view.c:282
+#: ../src/dialogs/dialog-sheet-compare.c:403 ../src/widgets/gnm-text-view.c:282
 msgid "Single"
 msgstr "Simple"
 
-#: ../src/dialogs/dialog-sheet-compare.c:403
-#: ../src/widgets/gnm-text-view.c:283
+#: ../src/dialogs/dialog-sheet-compare.c:403 ../src/widgets/gnm-text-view.c:283
 msgid "Double"
 msgstr "Doble"
 
@@ -7765,7 +7747,7 @@ msgstr "Exporta"
 
 #: ../src/dialogs/dialog-stf-export.c:731
 msgid "This workbook does not contain any exportable content."
-msgstr "Aquest llibre de treball no té continguts per exportar."
+msgstr "Aquest llibre de treball no té continguts per a exportar."
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:50
 msgid "Autodiscovery did not find any columns in the text. Try manually"
@@ -7845,19 +7827,18 @@ msgstr "Ajusta automàticament"
 
 #: ../src/dialogs/dialog-stf-format-page.c:622
 #, c-format
-msgid ""
-"If this checkbox is selected, column %i will be imported into Gnumeric."
+msgid "If this checkbox is selected, column %i will be imported into Gnumeric."
 msgstr ""
-"Si aquesta casella de selecció està seleccionada, s'importarà la columna %i al "
-"Gnumeric."
+"Si aquesta casella de selecció està seleccionada, s'importarà la columna %i "
+"al Gnumeric."
 
 #: ../src/dialogs/dialog-stf-format-page.c:630
 msgid ""
 "If this checkbox is selected, the width of the column will be adjusted to "
 "the longest entry."
 msgstr ""
-"Si aquesta casella de selecció està seleccionada, s'ajustarà l'amplada de la columna a "
-"l'entrada més llarga."
+"Si aquesta casella de selecció està seleccionada, s'ajustarà l'amplada de la "
+"columna a l'entrada més llarga."
 
 #: ../src/dialogs/dialog-stf-format-page.c:753
 #: ../src/dialogs/dialog-stf-preview.h:23
@@ -8718,7 +8699,7 @@ msgstr "_Missatge:"
 
 #: ../src/dialogs/cell-format.ui.h:106
 msgid "_Show input message when cell is selected"
-msgstr "Mo_stra el missatge d'entrada quan es seleccioni la cel·la"
+msgstr "Mo_stra el missatge d'entrada quan se seleccioni la cel·la"
 
 #: ../src/dialogs/cell-format.ui.h:107
 msgid "Input Message"
@@ -8761,8 +8742,8 @@ msgstr "El _rang d'ordenació té una capçalera"
 
 #: ../src/dialogs/cell-sort.ui.h:8
 msgid ""
-"The first row or column of the range is excluded from sorting and assumed to"
-" contain column or row headers."
+"The first row or column of the range is excluded from sorting and assumed to "
+"contain column or row headers."
 msgstr ""
 "La primera fila o columna del rang s'exclou de l'ordenació i hauria de "
 "contenir capçaleres de columna o fila."
@@ -8812,8 +8793,8 @@ msgid ""
 "Adds any fields in the range box to the left to the sort criteria or allows "
 "selection of fields from a menu."
 msgstr ""
-"Afegeix els camps en el diàleg a l'esquerra dels criteris d'ordenació o permet"
-" seleccionar camps d'un menú."
+"Afegeix els camps en el diàleg a l'esquerra dels criteris d'ordenació o "
+"permet seleccionar camps d'un menú."
 
 #: ../src/dialogs/chi-squared.ui.h:1
 msgid "Contingency Table Analysis"
@@ -8894,8 +8875,8 @@ msgstr "Etique_tes a la fila superior"
 
 #: ../src/dialogs/consolidate.ui.h:8
 msgid ""
-"The top row contains labels, these will not be consolidated, but used as key"
-" for comparison"
+"The top row contains labels, these will not be consolidated, but used as key "
+"for comparison"
 msgstr ""
 "La fila superior conté etiquetes, que no es consolidaran, però s'usaran com "
 "a clau per a les comparacions"
@@ -8906,8 +8887,8 @@ msgstr "Etiquetes a _la columna esquerra"
 
 #: ../src/dialogs/consolidate.ui.h:10
 msgid ""
-"The left column contains labels, these will not be consolidated, but used as"
-" key for comparison"
+"The left column contains labels, these will not be consolidated, but used as "
+"key for comparison"
 msgstr ""
 "La columna esquerra conté etiquetes, que no es consolidaran, però s'usaran "
 "com a clau per a les comparacions"
@@ -9056,7 +9037,7 @@ msgstr "Suprimeix cel·les"
 
 #: ../src/dialogs/delete-cells.ui.h:2
 msgid "<span weight=\"bold\">Delete Method</span>"
-msgstr "<span weight=\"bold\">Mètode per eliminar</span>"
+msgstr "<span weight=\"bold\">Mètode per a eliminar</span>"
 
 #: ../src/dialogs/delete-cells.ui.h:3
 msgid "Shift cells _left"
@@ -9202,7 +9183,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:24
 msgid "Select all non-empty sheets for export."
-msgstr "Selecciona per exportar tots els fulls que no estiguin buits."
+msgstr "Selecciona per a exportar tots els fulls que no estiguin buits."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:25 ../src/dialogs/quit.ui.h:2
 msgid "Select _All"
@@ -9210,7 +9191,7 @@ msgstr "Seleccion_a-ho tot"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:26
 msgid "Deselect all sheets for export."
-msgstr "Desfés la selecció de fulls per exportar."
+msgstr "Desfés la selecció de fulls per a exportar."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:27
 msgid "Select N_one"
@@ -9221,23 +9202,23 @@ msgid ""
 "Move the selected sheet to the top of the list of to be exported sheets to "
 "be exported first."
 msgstr ""
-"Mou el full seleccionat al començament de la llista de fulls per exportar "
+"Mou el full seleccionat al començament de la llista de fulls per a exportar "
 "perquè s'exporti el primer."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported"
-" earlier."
+"Raise the selected sheet in the list of to be exported sheets to be exported "
+"earlier."
 msgstr ""
-"Puja el full seleccionat en la llista de fulls per exportar perquè s'exporti"
-" més aviat."
+"Puja el full seleccionat en la llista de fulls per a exportar perquè "
+"s'exporti més aviat."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported"
-" later."
+"Lower the selected sheet in the list of to be exported sheets to be exported "
+"later."
 msgstr ""
-"Baixa el full seleccionat en la llista de fulls per exportar perquè "
+"Baixa el full seleccionat en la llista de fulls per a exportar perquè "
 "s'exporti més tard."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
@@ -9245,7 +9226,7 @@ msgid ""
 "Move the selected sheet to the end of the list of to be exported sheets to "
 "be exported last."
 msgstr ""
-"Mou el full seleccionat al final de la llista de fulls per exportar perquè "
+"Mou el full seleccionat al final de la llista de fulls per a exportar perquè "
 "s'exporti l'últim."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:32
@@ -9354,11 +9335,11 @@ msgstr "_Windows (CR+LF)"
 
 #: ../src/dialogs/dialog-stf.ui.h:17
 msgid ""
-"The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks"
-" lines"
+"The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
+"lines"
 msgstr ""
-"La seqüència de retorn de carro i nova línia (codis ASCII 13 i 10) finalitza"
-" línies"
+"La seqüència de retorn de carro i nova línia (codis ASCII 13 i 10) finalitza "
+"línies"
 
 #: ../src/dialogs/dialog-stf.ui.h:18
 msgid "_Mac pre-OS X (CR)"
@@ -9398,7 +9379,7 @@ msgstr "Defineix l'amplada de cada columna manualment."
 
 #: ../src/dialogs/dialog-stf.ui.h:25
 msgid "Lines to import"
-msgstr "Línies per importar"
+msgstr "Línies per a importar"
 
 #: ../src/dialogs/dialog-stf.ui.h:26
 msgid "Fr_om line:"
@@ -9410,15 +9391,15 @@ msgstr "_Fins a la línia: "
 
 #: ../src/dialogs/dialog-stf.ui.h:28
 msgid "Number of lines to import"
-msgstr "Nombre de línies per importar"
+msgstr "Nombre de línies per a importar"
 
 #: ../src/dialogs/dialog-stf.ui.h:29
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
 msgstr ""
-"El processament real s'iniciarà en aquesta línia, s'ignorarà qualsevol línia"
-" anterior."
+"El processament real s'iniciarà en aquesta línia, s'ignorarà qualsevol línia "
+"anterior."
 
 #: ../src/dialogs/dialog-stf.ui.h:30
 msgid "Processing ends at this line, any subsequent lines will be ignored."
@@ -9991,7 +9972,7 @@ msgstr "Selector de funcions"
 
 #: ../src/dialogs/function-select.ui.h:2
 msgid "Select a function to insert:"
-msgstr "Seleccioneu una funció per inserir:"
+msgstr "Seleccioneu una funció per a inserir:"
 
 #: ../src/dialogs/goalseek.ui.h:1
 msgid "GoalSeek"
@@ -10039,7 +10020,7 @@ msgstr "Solució:"
 
 #: ../src/dialogs/goto.ui.h:1
 msgid "Go To..."
-msgstr "Vés a..."
+msgstr "Ves a..."
 
 #: ../src/dialogs/goto.ui.h:2
 msgid "Rows:"
@@ -10680,8 +10661,8 @@ msgid ""
 "Gnumeric (unless needed by another plugin)."
 msgstr ""
 "No es pot desactivar el connector perquè encara s'està utilitzant. Si "
-"utilitzeu la casella de verificació de més avall, el connector no s'activarà"
-" després de reiniciar el Gnumeric (a no ser que un altre connector el "
+"utilitzeu la casella de verificació de més avall, el connector no s'activarà "
+"després de reiniciar el Gnumeric (a no ser que un altre connector el "
 "necessiti)."
 
 #: ../src/dialogs/plugin-manager.ui.h:8
@@ -11191,7 +11172,7 @@ msgstr "Cel·les resultants:"
 
 #: ../src/dialogs/search-replace.ui.h:1
 msgid "Search and Replace Query"
-msgstr "Consulta per cercar i reemplaçar"
+msgstr "Consulta per a cercar i reemplaçar"
 
 #: ../src/dialogs/search-replace.ui.h:2
 msgid "Perform no more replacements"
@@ -11412,7 +11393,7 @@ msgstr "Omet les cel·les que resultarien en errors"
 
 #: ../src/dialogs/search-replace.ui.h:57
 msgid "Query for replacement"
-msgstr "Consulta per reemplaçar"
+msgstr "Consulta per a reemplaçar"
 
 #: ../src/dialogs/search-replace.ui.h:58
 msgid "Make _error expression"
@@ -11580,7 +11561,7 @@ msgid ""
 "This name is used by some plugins that provide programmability to address "
 "this object. Most users will not need to set this name. "
 msgstr ""
-"Certs connectors que proporcionen programabilitat per abordar l'objecte "
+"Certs connectors que proporcionen programabilitat per a abordar l'objecte "
 "utilitzen aquest nom. La majoria d'usuaris no han d'establir aquest nom."
 
 #: ../src/dialogs/sheetobject-size.ui.h:11
@@ -12187,8 +12168,8 @@ msgid ""
 "This checkbox determines whether each cell containing a spreadsheet formula "
 "is marked with a green top left corner."
 msgstr ""
-"Aquesta casella de selecció determina si les cel·les que contenen fórmules de full de "
-"càlcul es marquen en verd a la cantonada superior esquerra."
+"Aquesta casella de selecció determina si les cel·les que contenen fórmules "
+"de full de càlcul es marquen en verd a la cantonada superior esquerra."
 
 #: ../src/dialogs/workbook-attr.ui.h:12
 msgid "Show _Extension Markers"
@@ -12199,8 +12180,8 @@ msgid ""
 "This checkbox determines whether small red arrows indicate that the content "
 "has been truncated in that direction."
 msgstr ""
-"Aquesta casella de selecció determina si el contingut s'ha retallat en la direcció "
-"indicada per les fletxetes vermelles."
+"Aquesta casella de selecció determina si el contingut s'ha retallat en la "
+"direcció indicada per les fletxetes vermelles."
 
 #: ../src/expr-name.c:735
 #, c-format
@@ -12251,8 +12232,7 @@ msgstr[1] "%d columnes"
 #: ../src/format-template.c:742
 #, c-format
 msgid "The target region is too small.  It should be at least %s by %s"
-msgstr ""
-"La regió de destinació és massa petita. Ha de ser almenys de %s per %s"
+msgstr "La regió de destinació és massa petita. Ha de ser almenys de %s per %s"
 
 #: ../src/format-template.c:748
 #, c-format
@@ -12260,11 +12240,11 @@ msgid "The target region is too small.  It should be at least %d column wide"
 msgid_plural ""
 "The target region is too small.  It should be at least %d columns wide"
 msgstr[0] ""
-"La regió de destinació és massa petita. Ha de tenir una amplada d'almenys %d"
-" columna"
+"La regió de destinació és massa petita. Ha de tenir una amplada d'almenys %d "
+"columna"
 msgstr[1] ""
-"La regió de destinació és massa petita. Ha de tenir una amplada d'almenys %d"
-" columnes"
+"La regió de destinació és massa petita. Ha de tenir una amplada d'almenys %d "
+"columnes"
 
 #: ../src/format-template.c:754
 #, c-format
@@ -12365,8 +12345,8 @@ msgstr "falseval: valor a utilitzar si la condició no es compleix"
 
 #: ../src/func-builtin.c:348
 msgid ""
-"This function first evaluates the condition.  If the result is true, it will"
-" then evaluate and return the second argument.  Otherwise, it will evaluate "
+"This function first evaluates the condition.  If the result is true, it will "
+"then evaluate and return the second argument.  Otherwise, it will evaluate "
 "and return the last argument."
 msgstr ""
 "Aquesta funció primer de tot avalua la condició. Si el resultat és cert, "
@@ -12587,11 +12567,14 @@ msgstr "_Tipus de fitxer:"
 #: ../src/gui-file.c:460
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
-"If you want to save all sheets, save them in separate files or select different file format.\n"
+"If you want to save all sheets, save them in separate files or select "
+"different file format.\n"
 "Do you want to save only current sheet?"
 msgstr ""
-"El format de fitxer seleccionat no suporta desar múltiples fulls en un únic fitxer.\n"
-"Si voleu desar tots els fulls, deseu-los en fitxers separats o seleccioneu un format de fitxer diferent.\n"
+"El format de fitxer seleccionat no suporta desar múltiples fulls en un únic "
+"fitxer.\n"
+"Si voleu desar tots els fulls, deseu-los en fitxers separats o seleccioneu "
+"un format de fitxer diferent.\n"
 "Voleu desar només el full actual?"
 
 #: ../src/gui-file.c:533
@@ -12608,8 +12591,8 @@ msgstr "Sense títol"
 
 #: ../src/gui-file.c:698
 msgid ""
-"The given file extension does not match the chosen file type. Do you want to"
-" use this name anyway?"
+"The given file extension does not match the chosen file type. Do you want to "
+"use this name anyway?"
 msgstr ""
 "L'extensió del fitxer proporcionada no concorda amb la del tipus de fitxer "
 "escollit. Voleu utilitzar aquest nom de totes maneres?"
@@ -12621,14 +12604,16 @@ msgstr "%F %T"
 #: ../src/gui-file.c:777
 #, c-format
 msgid ""
-"The file you are about to save has changed on disk. If you continue, you will overwrite someone else's changes.\n"
+"The file you are about to save has changed on disk. If you continue, you "
+"will overwrite someone else's changes.\n"
 "\n"
 "File: <b>%s</b>\n"
 "Location: %s\n"
 "\n"
 "Last modified: <b>%s</b>\n"
 msgstr ""
-"El fitxer que esteu a punt de desar ha canviat al disc. Si continueu, sobreescriureu els canvis d'algú altre.\n"
+"El fitxer que esteu a punt de desar ha canviat al disc. Si continueu, "
+"sobreescriureu els canvis d'algú altre.\n"
 "\n"
 "Fitxer: <b>%s</b>\n"
 "Ubicació: %s\n"
@@ -12654,8 +12639,8 @@ msgid ""
 "Do you want to export this workbook to the location '<b>%s</b>' using the "
 "'<b>%s</b>' exporter?"
 msgstr ""
-"Voleu exportar aquest llibre de treball a la ubicació «<b>%s</b>» utilitzant"
-" l'exportador «<b>%s</b>»?"
+"Voleu exportar aquest llibre de treball a la ubicació «<b>%s</b>» utilitzant "
+"l'exportador «<b>%s</b>»?"
 
 #: ../src/gui-file.c:895
 msgid ""
@@ -12814,7 +12799,7 @@ msgstr "Arrossegueu per auto emplenar"
 
 #: ../src/item-cursor.c:1105
 msgid "Drag to move"
-msgstr "Arrossegueu per moure"
+msgstr "Arrossegueu per a moure"
 
 #: ../src/libgnumeric.c:139
 msgid "Display Gnumeric's version"
@@ -12883,7 +12868,8 @@ msgid ""
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 "%s\n"
-"Executeu '%s --help' per veure una llista completa de les opcions disponibles\n"
+"Executeu '%s --help' per a veure una llista completa de les opcions "
+"disponibles\n"
 "a la línia d'ordres.\n"
 
 #: ../src/parser.y:353
@@ -13048,8 +13034,8 @@ msgid ""
 "You have chosen more than 1000 pages to preview. This may take a long time. "
 "Do you really want to proceed?"
 msgstr ""
-"Heu triat previsualitzar més de 1000 pàgines. Això pot trigar molt de temps."
-" Esteu segur que voleu continuar?"
+"Heu triat previsualitzar més de 1000 pàgines. Això pot trigar molt de temps. "
+"Esteu segur que voleu continuar?"
 
 #: ../src/print.c:1330
 msgid "Preparing to preview"
@@ -13130,8 +13116,7 @@ msgstr "Imprimeix a un fitxer"
 
 #: ../src/search.c:126
 msgid "Searching for regular expressions and numbers are mutually exclusive."
-msgstr ""
-"Les cerques de nombres i expressions regulars són mútuament excloents."
+msgstr "Les cerques de nombres i expressions regulars són mútuament excloents."
 
 #: ../src/search.c:130
 msgid "The search text must be a number."
@@ -13139,11 +13124,11 @@ msgstr "El text de cerca ha de ser un nombre."
 
 #: ../src/search.c:137
 msgid "You must specify a range to search."
-msgstr "Heu d'especificar el rang per cercar."
+msgstr "Heu d'especificar el rang per a cercar."
 
 #: ../src/search.c:141
 msgid "The search range is invalid."
-msgstr "El rang per cercar no és vàlid."
+msgstr "El rang per a cercar no és vàlid."
 
 #: ../src/selection.c:418 ../src/wbc-gtk-actions.c:1249
 #, c-format
@@ -13527,8 +13512,7 @@ msgid "New graph sheet"
 msgstr "Full de gràfic nou"
 
 #: ../src/sheet-object-widget.c:245
-msgid ""
-"Because of GTK bug #705640, a sheet object widget is not being printed."
+msgid "Because of GTK bug #705640, a sheet object widget is not being printed."
 msgstr "A causa de l'error GTK #705640, no s'imprimirà un giny del full."
 
 #: ../src/sheet-object-widget.c:398 ../src/wbc-gtk-actions.c:3327
@@ -13778,8 +13762,8 @@ msgid ""
 "Selected exporter (%s) does not have the ability to export a subset of "
 "sheets.\n"
 msgstr ""
-"L'exportador seleccionat (%s) no té la capacitat d'exportar un subconjunt de"
-" fulls.\n"
+"L'exportador seleccionat (%s) no té la capacitat d'exportar un subconjunt de "
+"fulls.\n"
 
 #: ../src/ssconvert.c:351
 #, c-format
@@ -13821,8 +13805,7 @@ msgstr "Resoledor: %s\n"
 #: ../src/ssconvert.c:934
 #, c-format
 msgid "Invalid export option \"%s=%s\" for image export"
-msgstr ""
-"L'opció d'exportació «%s=%s» no és vàlida per a l'exportació d'imatges"
+msgstr "L'opció d'exportació «%s=%s» no és vàlida per a l'exportació d'imatges"
 
 #: ../src/ssconvert.c:1110
 #, c-format
@@ -14155,8 +14138,8 @@ msgstr "S'ha produït un error en exportar el fitxer com a text"
 #: ../src/stf-export.c:726
 msgid "eol must be one of unix, mac, and windows"
 msgstr ""
-"El caràcter de finalització de línia (EOL) ha de ser vàlid per a Unix, Mac o"
-" Windows"
+"El caràcter de finalització de línia (EOL) ha de ser vàlid per a Unix, Mac o "
+"Windows"
 
 #: ../src/stf-export.c:746
 #, c-format
@@ -14170,8 +14153,8 @@ msgstr "Text (configurable)"
 #. FIXME: What locale?
 #: ../src/stf-parse.c:1353
 msgid ""
-"There are more rows of data than there is room for in the sheet.  Extra rows"
-" will be ignored."
+"There are more rows of data than there is room for in the sheet.  Extra rows "
+"will be ignored."
 msgstr ""
 "Hi ha més files de dades que espai en el full. S'ignoraran les files "
 "addicionals."
@@ -14204,7 +14187,7 @@ msgstr "Només es pot processar una columna de dades d'entrada a la vegada"
 
 #: ../src/stf.c:313
 msgid "There is no data to convert"
-msgstr "No hi ha cap dada per convertir"
+msgstr "No hi ha cap dada per a convertir"
 
 #: ../src/stf.c:333
 msgid "Error while trying to parse data into sheet"
@@ -14348,11 +14331,13 @@ msgstr "Expressió automàtica"
 #. remain since these are Excel-style format strings
 #: ../src/tools/analysis-chi-squared.c:63
 msgid "[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
-msgstr "[>=5]\"Prova d'independència\";[<5][Red]\"Prova d'independència no vàlida\""
+msgstr ""
+"[>=5]\"Prova d'independència\";[<5][Red]\"Prova d'independència no vàlida\""
 
 #: ../src/tools/analysis-chi-squared.c:64
 msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
-msgstr "[>=5]\"Prova d'homogeneïtat\";[<5][Red]\"Prova d'homogeneïtat no vàlida\""
+msgstr ""
+"[>=5]\"Prova d'homogeneïtat\";[<5][Red]\"Prova d'homogeneïtat no vàlida\""
 
 #: ../src/tools/analysis-chi-squared.c:67
 msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
@@ -14678,19 +14663,19 @@ msgstr "Anàlisi dels components principals (%s)"
 
 #: ../src/tools/analysis-sign-test.c:72
 msgid ""
-"/Sign Test/Median/Predicted Median/Test Statistic/N/α/P(T≤t) one-"
-"tailed/P(T≤t) two-tailed"
+"/Sign Test/Median/Predicted Median/Test Statistic/N/α/P(T≤t) one-tailed/"
+"P(T≤t) two-tailed"
 msgstr ""
-"/Sign Test/Median/Predicted Median/Test Statistic/N/α/P(T≤t) one-"
-"tailed/P(T≤t) two-tailed"
+"/Sign Test/Median/Predicted Median/Test Statistic/N/α/P(T≤t) one-tailed/"
+"P(T≤t) two-tailed"
 
 #: ../src/tools/analysis-sign-test.c:214
 msgid ""
-"/Sign Test/Median/Predicted Difference/Test Statistic/N/α/P(T≤t) one-"
-"tailed/P(T≤t) two-tailed"
+"/Sign Test/Median/Predicted Difference/Test Statistic/N/α/P(T≤t) one-tailed/"
+"P(T≤t) two-tailed"
 msgstr ""
-"/Sign Test/Median/Predicted Difference/Test Statistic/N/α/P(T≤t) one-"
-"tailed/P(T≤t) two-tailed"
+"/Sign Test/Median/Predicted Difference/Test Statistic/N/α/P(T≤t) one-tailed/"
+"P(T≤t) two-tailed"
 
 #: ../src/tools/analysis-sign-test.c:351 ../src/tools/analysis-sign-test.c:380
 #, c-format
@@ -14699,11 +14684,11 @@ msgstr "Prova dels signes (%s)"
 
 #: ../src/tools/analysis-signed-rank-test.c:77
 msgid ""
-"/Wilcoxon Signed Rank Test/Median/Predicted Median/N/S−/S+/Test "
-"Statistic/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
+"/Wilcoxon Signed Rank Test/Median/Predicted Median/N/S−/S+/Test Statistic/α/"
+"P(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr ""
-"/Wilcoxon Signed Rank Test/Median/Predicted Median/N/S−/S+/Test "
-"Statistic/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
+"/Wilcoxon Signed Rank Test/Median/Predicted Median/N/S−/S+/Test Statistic/α/"
+"P(T≤t) one-tailed/P(T≤t) two-tailed"
 
 #: ../src/tools/analysis-signed-rank-test.c:233
 #: ../src/tools/analysis-signed-rank-test.c:501
@@ -14766,8 +14751,8 @@ msgstr "Covariàncies (%s)"
 #. * The items are bundled like this to increase translation context.
 #: ../src/tools/analysis-tools.c:840
 msgid ""
-"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample "
-"Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
+"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
+"Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 "/Mitjana/Error estàndard/Mediana/Mode/Desviació estàndard/Variància de "
 "mostra/Curtosi/Esbiaix/Rang/Mínim/Màxim/Suma/Compta"
@@ -14803,13 +14788,13 @@ msgstr "Mostra"
 
 #: ../src/tools/analysis-tools.c:1409
 msgid ""
-"/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean"
-" Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
+"/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
+"Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
-"/Mitjana/Variància coneguda/Observacions/Diferència mitjana "
-"hipotètica/Diferència mitjana observada/z/P (Z<=z) una cua/z crítica una "
-"cua/P (Z<=z) dues cues/z crítica dues cues"
+"/Mitjana/Variància coneguda/Observacions/Diferència mitjana hipotètica/"
+"Diferència mitjana observada/z/P (Z<=z) una cua/z crítica una cua/P (Z<=z) "
+"dues cues/z crítica dues cues"
 
 #: ../src/tools/analysis-tools.c:1596
 #, c-format
@@ -14822,14 +14807,14 @@ msgstr "Test-z"
 
 #: ../src/tools/analysis-tools.c:1660
 msgid ""
-"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean "
-"Difference/Observed Mean Difference/Variance of the Differences/df/t Stat/P "
-"(T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
+"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
+"Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
+"tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
 "/Mitjana/Variància/Observacions/Correlació Pearson/Diferència mitjana "
-"hipotètica/Diferència mitjana observada/Variància de les "
-"diferències/df/Estadística t/P (T<=t) una cua/t Crítica una cua/P (T<=t) "
-"dues cues/t crítica dues cues"
+"hipotètica/Diferència mitjana observada/Variància de les diferències/df/"
+"Estadística t/P (T<=t) una cua/t Crítica una cua/P (T<=t) dues cues/t "
+"crítica dues cues"
 
 #: ../src/tools/analysis-tools.c:1888
 #, c-format
@@ -14844,9 +14829,9 @@ msgstr "Test-t"
 
 #: ../src/tools/analysis-tools.c:1939
 msgid ""
-"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean "
-"Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical "
-"one-tail/P (T<=t) two-tail/t Critical two-tail"
+"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
+"Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
+"(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 "/Mitjana/Variància/Observacions/Variància combinada/Diferència mitjana "
 "hipotètica/Diferència mitjana observada/df/Estadístic t/P (T<=t) una cua/t "
@@ -14860,8 +14845,8 @@ msgstr "Test-t (%s)"
 #: ../src/tools/analysis-tools.c:2236
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
-"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-"
-"tail/t Critical two-tail"
+"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
+"t Critical two-tail"
 msgstr ""
 "/Mitjana/Variància/Observacions/Diferència mitjana hipotètica/Diferència "
 "mitjana observada /df/Estadística t/P (T<=t) una cua/t crítica una cua/P "
@@ -14874,12 +14859,11 @@ msgstr "Test-F"
 
 #: ../src/tools/analysis-tools.c:2531
 msgid ""
-"/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P"
-" (f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
+"/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
+"(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
-"/Mitjana/Variància/Observacions/df/F/P (F<=f) cua dreta/F crítica cua "
-"dreta/P (f<=F) cua esquerra/F crítica cua esquerra/P dues cues/F crítica "
-"dues cues"
+"/Mitjana/Variància/Observacions/df/F/P (F<=f) cua dreta/F crítica cua dreta/"
+"P (f<=F) cua esquerra/F crítica cua esquerra/P dues cues/F crítica dues cues"
 
 #: ../src/tools/analysis-tools.c:2769
 #, c-format
@@ -14888,13 +14872,12 @@ msgstr "Test-F (%s)"
 
 #: ../src/tools/analysis-tools.c:2914
 msgid ""
-"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard "
-"Error/Adjusted "
-"R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
+"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
+"Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 "/Sortida resum//Estadístiques de regressió/R múltiple/R quadràtica/Error "
-"estàndard/R quadràtica "
-"ajustada/Observacions//ANOVA//Regressió/Residual/Total///Intercepció"
+"estàndard/R quadràtica ajustada/Observacions//ANOVA//Regressió/Residual/"
+"Total///Intercepció"
 
 #: ../src/tools/analysis-tools.c:2933
 msgid "Response Variable"
@@ -15307,11 +15290,13 @@ msgstr ""
 #: ../src/tools/gnm-solver.c:3148
 #, c-format
 msgid ""
-"Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> solver.  For more information see %s.\n"
+"Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
+"solver.  For more information see %s.\n"
 "\n"
 "Would you like to locate it yourself?"
 msgstr ""
-"El Gnumeric no pot localitzar el programa <i>%s</i> necessari per al resoledor <i>%s</i>. Per a més informació, vegeu %s.\n"
+"El Gnumeric no pot localitzar el programa <i>%s</i> necessari per al "
+"resoledor <i>%s</i>. Per a més informació, vegeu %s.\n"
 "\n"
 "Voleu localitzar-lo?"
 
@@ -15391,16 +15376,16 @@ msgstr "Nombres aleatoris (%s)"
 
 #: ../src/tools/simulation.c:91
 msgid ""
-"Input variable did not yield to a numeric value. Check the model (maybe your"
-" last round # is too high)."
+"Input variable did not yield to a numeric value. Check the model (maybe your "
+"last round # is too high)."
 msgstr ""
 "El valor d'entrada no és un valor numèric. Comproveu el model (potser "
 "l'últim valor de ronda és massa alt)."
 
 #: ../src/tools/simulation.c:116
 msgid ""
-"Output variable did not yield to a numeric value. Check the output variables"
-" in your model (maybe your last round # is too high)."
+"Output variable did not yield to a numeric value. Check the output variables "
+"in your model (maybe your last round # is too high)."
 msgstr ""
 "El valor de sortida no és un valor numèric. Comproveu els valors de sortida "
 "en el vostre model (potser l'últim valor de ronda és massa alt)."
@@ -15532,12 +15517,12 @@ msgstr "Menor o igual que"
 #: ../src/validation.c:463
 #, c-format
 msgid "Missing formula for validation"
-msgstr "Manca la fórmula per validar"
+msgstr "Manca la fórmula per a validar"
 
 #: ../src/validation.c:466
 #, c-format
 msgid "Extra formula for validation"
-msgstr "Fórmula addicional per validar"
+msgstr "Fórmula addicional per a validar"
 
 #: ../src/validation.c:477
 msgid "Gnumeric: Validation"
@@ -16044,7 +16029,7 @@ msgstr "Ajuda de les funcions"
 
 #: ../src/wbc-gtk-actions.c:2238
 msgid "Gnumeric on the _Web"
-msgstr "Vés a la _web del Gnumeric"
+msgstr "Ves a la _web del Gnumeric"
 
 #: ../src/wbc-gtk-actions.c:2239
 msgid "Browse to Gnumeric's website"
@@ -16056,7 +16041,7 @@ msgstr "A_ssistència"
 
 #: ../src/wbc-gtk-actions.c:2244
 msgid "See if anyone is available to answer questions"
-msgstr "Mira si alguna persona està disponible per respondre preguntes"
+msgstr "Mira si alguna persona està disponible per a respondre preguntes"
 
 #: ../src/wbc-gtk-actions.c:2248
 msgid "Report a _Problem"
@@ -16352,35 +16337,35 @@ msgstr "Selecciona l'objecte següent del full"
 
 #: ../src/wbc-gtk-actions.c:2539 ../src/wbc-gtk.c:2768
 msgid "Go to Top"
-msgstr "Vés a la part superior"
+msgstr "Ves a la part superior"
 
 #: ../src/wbc-gtk-actions.c:2540
 msgid "Go to the top of the data"
-msgstr "Vés a la part superior de les dades"
+msgstr "Ves a la part superior de les dades"
 
 #: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2769
 msgid "Go to Bottom"
-msgstr "Vés a la part inferior"
+msgstr "Ves a la part inferior"
 
 #: ../src/wbc-gtk-actions.c:2546
 msgid "Go to the bottom of the data"
-msgstr "Vés a la part inferior de les dades"
+msgstr "Ves a la part inferior de les dades"
 
 #: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2770
 msgid "Go to First"
-msgstr "Vés a la primera"
+msgstr "Ves a la primera"
 
 #: ../src/wbc-gtk-actions.c:2552
 msgid "Go to the first data cell"
-msgstr "Vés a la primera cel·la de dades"
+msgstr "Ves a la primera cel·la de dades"
 
 #: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2771
 msgid "Go to Last"
-msgstr "Vés a la darrera"
+msgstr "Ves a la darrera"
 
 #: ../src/wbc-gtk-actions.c:2558
 msgid "Go to the last data cell"
-msgstr "Vés a la darrera cel·la de dades"
+msgstr "Ves a la darrera cel·la de dades"
 
 #: ../src/wbc-gtk-actions.c:2563
 msgid "_Go to Cell..."
@@ -16392,7 +16377,7 @@ msgstr "Salta a una cel·la específica"
 
 #: ../src/wbc-gtk-actions.c:2571 ../src/wbc-gtk-actions.c:2573
 msgid "Go to Current Cell Indicator"
-msgstr "Vés a l'indicador de cel·la actual"
+msgstr "Ves a l'indicador de cel·la actual"
 
 #: ../src/wbc-gtk-actions.c:2579
 msgid "Repeat"
@@ -16432,7 +16417,7 @@ msgstr "Gener_a els noms automàticament..."
 
 #: ../src/wbc-gtk-actions.c:2608
 msgid "Use the current selection to create names"
-msgstr "Utilitza la selecció actual per crear els noms"
+msgstr "Utilitza la selecció actual per a crear els noms"
 
 #: ../src/wbc-gtk-actions.c:2615
 msgid "S_earch..."
@@ -16489,7 +16474,7 @@ msgstr "Au_gmenta"
 
 #: ../src/wbc-gtk-actions.c:2658
 msgid "Increase the zoom to make things larger"
-msgstr "Augmenta la visualització per augmentar de mida"
+msgstr "Augmenta la visualització per a augmentar de mida"
 
 #: ../src/wbc-gtk-actions.c:2663
 msgid "Zoom _Out"
@@ -16497,7 +16482,7 @@ msgstr "_Redueix"
 
 #: ../src/wbc-gtk-actions.c:2665
 msgid "Decrease the zoom to make things smaller"
-msgstr "Redueix la visualització per disminuir la mida"
+msgstr "Redueix la visualització per a disminuir la mida"
 
 #: ../src/wbc-gtk-actions.c:2673 ../src/wbc-gtk-actions.c:2680
 msgid "Insert new cells"
@@ -16630,13 +16615,13 @@ msgstr "Modifica el format condicional de les cel·les seleccionades"
 #: ../src/wbc-gtk-actions.c:2807
 msgid "Ensure rows are just tall enough to display content of selection"
 msgstr ""
-"Assegura't que les files són prou altes per mostrar el contingut de la "
+"Assegura't que les files són prou altes per a mostrar el contingut de la "
 "selecció"
 
 #: ../src/wbc-gtk-actions.c:2813
 msgid "Ensure columns are just wide enough to display content of selection"
 msgstr ""
-"Assegura't que les columnes són prou amples per mostrar el contingut de la "
+"Assegura't que les columnes són prou amples per a mostrar el contingut de la "
 "selecció"
 
 #: ../src/wbc-gtk-actions.c:2822
@@ -16646,7 +16631,7 @@ msgstr "Canvia l'amplada de les columnes seleccionades"
 #: ../src/wbc-gtk-actions.c:2828
 msgid "Ensure columns are just wide enough to display their content"
 msgstr ""
-"Assegura't que les columnes són prou amples per mostrar el seu contingut"
+"Assegura't que les columnes són prou amples per a mostrar el seu contingut"
 
 #: ../src/wbc-gtk-actions.c:2835
 msgid "Hide the selected columns"
@@ -16674,7 +16659,7 @@ msgstr "Canvia l'alçada de les files seleccionades"
 
 #: ../src/wbc-gtk-actions.c:2862
 msgid "Ensure rows are just tall enough to display their content"
-msgstr "Assegura't que les files són prou altes per mostrar el seu contingut"
+msgstr "Assegura't que les files són prou altes per a mostrar el seu contingut"
 
 #: ../src/wbc-gtk-actions.c:2869
 msgid "Hide the selected rows"
@@ -16722,7 +16707,7 @@ msgstr "Ob_jectiu de cerca..."
 
 #: ../src/wbc-gtk-actions.c:2904
 msgid "Iteratively recalculate to find a target value"
-msgstr "Recalcula iterativament per trobar un valor de destinació"
+msgstr "Recalcula iterativament per a trobar un valor de destinació"
 
 #: ../src/wbc-gtk-actions.c:2908
 msgid "_Solver..."
@@ -16731,7 +16716,7 @@ msgstr "_Resoledor..."
 #: ../src/wbc-gtk-actions.c:2909
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
-"Recalcula iterativament les restriccions per acostar-se a un valor destí"
+"Recalcula iterativament les restriccions per a acostar-se a un valor destí"
 
 #: ../src/wbc-gtk-actions.c:2913
 msgid "Si_mulation..."
@@ -16742,7 +16727,7 @@ msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
-"Proves alternatives de decisió tot utilitzant la simulació Monte Carlo per "
+"Proves alternatives de decisió tot utilitzant la simulació Monte Carlo per a "
 "trobar probables sortides i riscos associats"
 
 #: ../src/wbc-gtk-actions.c:2919
@@ -17083,8 +17068,7 @@ msgstr "_Fusiona..."
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
-"Fusiona les dades columnars en un full creant fulls duplicats per a cada "
-"fila"
+"Fusiona les dades columnars en un full creant fulls duplicats per a cada fila"
 
 #: ../src/wbc-gtk-actions.c:3188
 msgid "_Tabulate Dependency..."
@@ -17373,11 +17357,11 @@ msgstr "Divideix els rangs fusionats de les cel·les"
 
 #: ../src/wbc-gtk-actions.c:3421
 msgid "Format the selection as General"
-msgstr "Dóna a la selecció el format general"
+msgstr "Dona a la selecció el format general"
 
 #: ../src/wbc-gtk-actions.c:3427
 msgid "Format the selection as numbers"
-msgstr "Dóna a la selecció el format de nombre"
+msgstr "Dona a la selecció el format de nombre"
 
 #: ../src/wbc-gtk-actions.c:3431
 msgid "Currency"
@@ -17385,7 +17369,7 @@ msgstr "Moneda"
 
 #: ../src/wbc-gtk-actions.c:3433
 msgid "Format the selection as currency"
-msgstr "Dóna a la selecció el format de moneda"
+msgstr "Dona a la selecció el format de moneda"
 
 #: ../src/wbc-gtk-actions.c:3438
 msgid "Accounting"
@@ -17393,11 +17377,11 @@ msgstr "Financer"
 
 #: ../src/wbc-gtk-actions.c:3439
 msgid "Format the selection as accounting"
-msgstr "Dóna a la selecció el format de comptabilitat"
+msgstr "Dona a la selecció el format de comptabilitat"
 
 #: ../src/wbc-gtk-actions.c:3446
 msgid "Format the selection as percentage"
-msgstr "Dóna a la selecció el format de percentatge"
+msgstr "Dona a la selecció el format de percentatge"
 
 #: ../src/wbc-gtk-actions.c:3450
 msgid "Scientific"
@@ -17405,15 +17389,15 @@ msgstr "Científic"
 
 #: ../src/wbc-gtk-actions.c:3452
 msgid "Format the selection as scientific"
-msgstr "Dóna a la selecció un format científic"
+msgstr "Dona a la selecció un format científic"
 
 #: ../src/wbc-gtk-actions.c:3458
 msgid "Format the selection as date"
-msgstr "Dóna a la selecció un format de data"
+msgstr "Dona a la selecció un format de data"
 
 #: ../src/wbc-gtk-actions.c:3464
 msgid "Format the selection as time"
-msgstr "Dóna a la selecció un format d'hora"
+msgstr "Dona a la selecció un format d'hora"
 
 #: ../src/wbc-gtk-actions.c:3468
 msgid "AddBorders"
@@ -17438,7 +17422,7 @@ msgstr "Separador de milers"
 #: ../src/wbc-gtk-actions.c:3483
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr ""
-"Defineix el format de les cel·les seleccionades per incloure separadors de "
+"Defineix el format de les cel·les seleccionades per a incloure separadors de "
 "milers"
 
 #: ../src/wbc-gtk-actions.c:3488
@@ -17778,11 +17762,11 @@ msgstr "%s!%s està blocat"
 
 #: ../src/wbc-gtk-edit.c:870
 msgid "Unprotect the workbook to enable editing."
-msgstr "Desprotegeix el llibre de treball per habilitar-ne l'edició."
+msgstr "Desprotegeix el llibre de treball per a habilitar-ne l'edició."
 
 #: ../src/wbc-gtk-edit.c:871
 msgid "Unprotect the sheet to enable editing."
-msgstr "Desprotegeix el full per habilitar-ne l'edició."
+msgstr "Desprotegeix el full per a habilitar-ne l'edició."
 
 #: ../src/wbc-gtk-edit.c:890
 msgid "You are about to edit a cell with \"text\" format."
@@ -17965,7 +17949,7 @@ msgstr "FINAL"
 
 #: ../src/wbc-gtk.c:2773
 msgid "Go to Cell..."
-msgstr "Vés a la cel·la..."
+msgstr "Ves a la cel·la..."
 
 #: ../src/wbc-gtk.c:2835
 msgid "Accept change in multiple cells"
