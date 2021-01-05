@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2021-01-03 16:30+0000\n"
-"PO-Revision-Date: 2021-01-05 11:02+0200\n"
+"PO-Revision-Date: 2021-01-05 11:12+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -12113,6 +12113,8 @@ msgstr "_Візуально"
 msgid ""
 "Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
+"Скористайтеся нижніми даними як першим джерелом, правими — як другим, а"
+" декількома аркушами — як третім"
 
 #: ../src/dialogs/variance-tests.ui.h:1
 msgid "Claims About Two Variances"
@@ -12623,6 +12625,11 @@ msgid ""
 "different file format.\n"
 "Do you want to save only current sheet?"
 msgstr ""
+"У вибраному форматі файлів не передбачено підтримки зберігання декількох"
+" аркушів у одному файлі.\n"
+"Якщо ви хочете зберегти усі аркуші, збережіть їх до окремих файлів або"
+" виберіть інший формат файлів.\n"
+"Хочете зберегти лише поточний аркуш?"
 
 #: ../src/gui-file.c:533
 msgid "Save the current workbook as"
@@ -14390,7 +14397,7 @@ msgstr "/Джерело дисперсії/Фактор A/Фактор B/Вза�
 #: ../src/tools/analysis-anova.c:834
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
-msgstr ""
+msgstr "Двофакторний дисперсійний аналіз (%s) без відтворення"
 
 #: ../src/tools/analysis-anova.c:835
 #, c-format
@@ -14420,14 +14427,16 @@ msgstr "Автовираз"
 #: ../src/tools/analysis-chi-squared.c:63
 msgid "[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
 msgstr ""
+"[>=5]\"Перевірка незалежності\";[<5][Red]\"Некоректна перевірка незалежності\""
 
 #: ../src/tools/analysis-chi-squared.c:64
 msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
 msgstr ""
+"[>=5]\"Перевірка однорідності\";[<5][Red]\"Некоректна перевірка однорідності\""
 
 #: ../src/tools/analysis-chi-squared.c:67
 msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
-msgstr ""
+msgstr "/Статистика перевірки/Степені свободи/p-значення/Критичне значення"
 
 #: ../src/tools/analysis-chi-squared.c:176
 #, c-format
@@ -14499,7 +14508,7 @@ msgstr "\"δ =\" * 0.000"
 #: ../src/tools/analysis-exp-smoothing.c:768
 #: ../src/tools/analysis-exp-smoothing.c:1093
 msgid "/Level/Trend/Seasonal Adjustment"
-msgstr ""
+msgstr "/Рівень/Тенденція/Сезонне коригування"
 
 #: ../src/tools/analysis-exp-smoothing.c:963
 #: ../src/tools/analysis-exp-smoothing.c:966
@@ -14524,7 +14533,7 @@ msgstr "Експоненційне згладжування (%s)"
 
 #: ../src/tools/analysis-frequency.c:75
 msgid "/Frequency Table/Category"
-msgstr ""
+msgstr "/Таблиця частот/Категорія"
 
 #: ../src/tools/analysis-frequency.c:150 ../src/tools/analysis-histogram.c:326
 #: ../src/tools/analysis-tools.c:1230
@@ -14596,11 +14605,11 @@ msgstr "Каплан-Меєр"
 
 #: ../src/tools/analysis-kaplan-meier.c:201
 msgid "/At Risk/Deaths/Censures/Probability"
-msgstr ""
+msgstr "/У зоні ризику/Летальні випадки/Цензура/Ймовірність"
 
 #: ../src/tools/analysis-kaplan-meier.c:207
 msgid "/At Risk/Deaths/Probability"
-msgstr ""
+msgstr "/У зоні ризику/Летальні випадки/Ймовірність"
 
 #: ../src/tools/analysis-kaplan-meier.c:467 ../src/tools/simulation.c:248
 msgid "Median"
