@@ -487,7 +487,7 @@ static void
 stf_write_csv (GOFileSaver const *fs, GOIOContext *context,
 	       GoView const *view, GsfOutput *output)
 {
-	Sheet *sheet;
+	GPtrArray *sheets;
 	WorkbookView *wbv = GNM_WORKBOOK_VIEW (view);
 
 	GnmStfExport *config = g_object_new
@@ -496,9 +496,14 @@ stf_write_csv (GOFileSaver const *fs, GOIOContext *context,
 		 "quoting-triggers", ", \t\n\"",
 		 NULL);
 
-	sheet = gnm_file_saver_get_sheet (fs, wbv);
-	if (sheet)
-		gnm_stf_export_options_sheet_list_add (config, sheet);
+	sheets = gnm_file_saver_get_sheets (fs, wbv, FALSE);
+	if (sheets) {
+		unsigned ui;
+		for (ui = 0; ui < sheets->len; ui++) {
+			Sheet *sheet = g_ptr_array_index (sheets, ui);
+			gnm_stf_export_options_sheet_list_add (config, sheet);
+		}
+	}
 
 	if (gnm_stf_export (config) == FALSE)
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),

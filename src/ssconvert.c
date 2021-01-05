@@ -1131,6 +1131,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	GOFileSaveScope fsscope;
 	GPtrArray *sheet_sel = NULL;
 	GnmRangeRef const *range = NULL;
+	gboolean user_selected_sheets;
 
 	if (ssconvert_object_export) {
 		if (ssconvert_export_id)
@@ -1302,8 +1303,11 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				     wb,
 				     ssconvert_range);
 
+	user_selected_sheets =
+		!!g_object_get_data (G_OBJECT (wb), SSCONVERT_SHEET_SET_KEY);
+
 	if (ssconvert_one_file_per_sheet ||
-	    fsscope == GO_FILE_SAVE_SHEET ||
+	    (fsscope == GO_FILE_SAVE_SHEET && !user_selected_sheets) ||
 	    range) {
 		Sheet *def_sheet = NULL;
 

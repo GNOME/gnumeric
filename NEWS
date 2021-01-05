@@ -17,6 +17,8 @@ Morten:
 	* Plug ssconvert leak.  [#546]
 	* Fix bogus time match for "3.a".  [#545]
 	* Use 1us resolution for NOW.  [#549]
+	* Fix ssconvert sheet selection for csv.  [#555]
+	* Test suite improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48
