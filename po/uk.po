@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2021-01-03 16:30+0000\n"
-"PO-Revision-Date: 2021-01-04 18:41+0200\n"
+"PO-Revision-Date: 2021-01-05 11:02+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -8917,6 +8917,8 @@ msgid ""
 "The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
+"Верхній рядок містить мітки — їх буде не консолідовано, а використано як ключ"
+" для порівняння"
 
 #: ../src/dialogs/consolidate.ui.h:9
 msgid "Labels in _left column"
@@ -8927,6 +8929,8 @@ msgid ""
 "The left column contains labels, these will not be consolidated, but used as "
 "key for comparison"
 msgstr ""
+"Лівий стовпчик містить мітки — їх буде не консолідовано, а використано як"
+" ключ для порівняння"
 
 #: ../src/dialogs/consolidate.ui.h:11
 msgid "C_opy labels"
@@ -9819,7 +9823,7 @@ msgstr "Сезонний коефіцієнт згасання (δ):"
 
 #: ../src/dialogs/exp-smoothing.ui.h:18
 msgid "Seasonal period:"
-msgstr ""
+msgstr "Сезонний період:"
 
 #: ../src/dialogs/exp-smoothing.ui.h:19 ../src/dialogs/moving-averages.ui.h:19
 msgid "Include chart"
@@ -9856,7 +9860,7 @@ msgstr "Заповнення послідовністю"
 
 #: ../src/dialogs/fill-series.ui.h:2
 msgid "Series in:"
-msgstr ""
+msgstr "Послідовність у:"
 
 #: ../src/dialogs/fill-series.ui.h:3 ../src/wbc-gtk-actions.c:2142
 #: ../src/wbc-gtk-actions.c:2505
@@ -10152,23 +10156,23 @@ msgstr "_Кількість обрізань:"
 
 #: ../src/dialogs/histogram.ui.h:13
 msgid "M_inimum cutoff:"
-msgstr ""
+msgstr "М_інімум обрізання:"
 
 #: ../src/dialogs/histogram.ui.h:14
 msgid "Ma_ximum cutoff:"
-msgstr ""
+msgstr "М_аксимум обрізання:"
 
 #: ../src/dialogs/histogram.ui.h:15
 msgid "_Predetermined cutoffs"
-msgstr ""
+msgstr "_Попередньо визначені обрізання"
 
 #: ../src/dialogs/histogram.ui.h:16
 msgid "Cutoff _range:"
-msgstr ""
+msgstr "_Діапазон обрізання:"
 
 #: ../src/dialogs/histogram.ui.h:17
 msgid "C_utoffs"
-msgstr ""
+msgstr "О_брізання"
 
 #: ../src/dialogs/histogram.ui.h:18
 msgid "(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)"
@@ -10204,7 +10208,7 @@ msgstr "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
 
 #: ../src/dialogs/histogram.ui.h:26
 msgid "_Bins"
-msgstr ""
+msgstr "_Групування"
 
 #: ../src/dialogs/histogram.ui.h:30
 msgid "Histogram chart"
@@ -10216,7 +10220,7 @@ msgstr "К_умулятивні відповіді"
 
 #: ../src/dialogs/histogram.ui.h:33
 msgid "Count numbers only"
-msgstr ""
+msgstr "Рахувати лише числа"
 
 #: ../src/dialogs/hyperlink.ui.h:1
 msgid "HyperLink"
@@ -10228,7 +10232,7 @@ msgstr "Т_ип:"
 
 #: ../src/dialogs/hyperlink.ui.h:3
 msgid "Target _Range:"
-msgstr ""
+msgstr "Цільовий _діапазон:"
 
 #: ../src/dialogs/hyperlink.ui.h:4
 msgid "Email _Address:"
@@ -10296,7 +10300,7 @@ msgstr "Ст_овпчик цензурування:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:5
 msgid "Censored record labels from:"
-msgstr ""
+msgstr "Цензуровані мітки записів з:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1544
 msgid "to:"
@@ -10328,11 +10332,11 @@ msgstr "Показувати стандартні похибки"
 
 #: ../src/dialogs/kaplan-meier.ui.h:14
 msgid "Show median survival times"
-msgstr ""
+msgstr "Показувати медіанну виживаність"
 
 #: ../src/dialogs/kaplan-meier.ui.h:15
 msgid "Perform Log-Rank (Mantel-Haenszel) Test"
-msgstr ""
+msgstr "Виконати логрангову перевірку (Мантеля-Гензеля)"
 
 #: ../src/dialogs/kaplan-meier.ui.h:16 ../src/dialogs/regression.ui.h:13
 #: ../src/dialogs/sampling.ui.h:23
@@ -10603,6 +10607,8 @@ msgstr "_Транспонувати"
 msgid ""
 "Transpose the source during the paste so columns become rows and vice versa"
 msgstr ""
+"Транспонувати початкові дані під час вставлення так, щоб стовпчики стали"
+" рядками, і навпаки"
 
 #: ../src/dialogs/paste-special.ui.h:26
 msgid "Flip Hori_zontally"
@@ -10613,6 +10619,8 @@ msgid ""
 "Flip the source horizontally during the paste so the first column becomes "
 "the last and vice versa"
 msgstr ""
+"Віддзеркалити початкові дані горизонтально під час вставлення так, щоб перший"
+" стовпчик став останнім, і навпаки"
 
 #: ../src/dialogs/paste-special.ui.h:28
 msgid "Fli_p Vertically"
@@ -10623,6 +10631,8 @@ msgid ""
 "Flip the source vertically during the paste so the first row becomes the "
 "last and vice versa"
 msgstr ""
+"Віддзеркалити початкові дані вертикально під час вставлення так, щоб перший"
+" рядок став останнім, і навпаки"
 
 #: ../src/dialogs/paste-special.ui.h:30
 msgid "Column widths"
@@ -10630,7 +10640,7 @@ msgstr "Ширина стовпчиків"
 
 #: ../src/dialogs/paste-special.ui.h:31
 msgid "Set column widths of the destination to those of the source"
-msgstr ""
+msgstr "Зробити ширини стовпчиків призначення такими самими, як ширини джерела"
 
 #: ../src/dialogs/paste-special.ui.h:32
 msgid "Row heights"
@@ -10638,7 +10648,7 @@ msgstr "Висота рядків"
 
 #: ../src/dialogs/paste-special.ui.h:33
 msgid "Set row heights of the destination to those of the source"
-msgstr ""
+msgstr "Зробити висоти рядків призначення такими самими, як ширини джерела"
 
 #: ../src/dialogs/paste-special.ui.h:34
 msgid "Skip _Blanks"
@@ -10648,6 +10658,8 @@ msgstr "Пропустити поро_жні"
 msgid ""
 "When the source of the paste is a blank cell, leave the target unchanged"
 msgstr ""
+"Якщо у джерелі вставлення комірка є порожньою, не змінювати вмісту комірки"
+" призначення"
 
 #: ../src/dialogs/paste-special.ui.h:36
 msgid "<b>Options</b>"
@@ -11059,11 +11071,11 @@ msgstr "Регресія"
 
 #: ../src/dialogs/regression.ui.h:2
 msgid "_Multiple linear regression"
-msgstr ""
+msgstr "_Кратна лінійна регресія"
 
 #: ../src/dialogs/regression.ui.h:3
 msgid "Multiple 2-_variable regressions"
-msgstr ""
+msgstr "Кратні 2-_змінні регресії"
 
 #: ../src/dialogs/regression.ui.h:4
 msgid "Multiple dependent (y) variables"
@@ -11355,7 +11367,7 @@ msgstr "<span weight=\"bold\">Інше</span>"
 
 #: ../src/dialogs/search-replace.ui.h:44 ../src/dialogs/search.ui.h:30
 msgid "_Row major"
-msgstr ""
+msgstr "Основний _рядок"
 
 #: ../src/dialogs/search-replace.ui.h:45 ../src/dialogs/search.ui.h:31
 msgid "Search line by line"
@@ -11363,7 +11375,7 @@ msgstr "Шукати рядок за рядком"
 
 #: ../src/dialogs/search-replace.ui.h:46
 msgid "_Column major"
-msgstr ""
+msgstr "Основний с_товпчик"
 
 #: ../src/dialogs/search-replace.ui.h:47 ../src/dialogs/search.ui.h:33
 msgid "Search column by column"
@@ -11378,6 +11390,8 @@ msgid ""
 "When set, string values will remain as such after replacement, even if they "
 "look like numbers or expressions"
 msgstr ""
+"Якщо позначено, рядкові значення лишатимуться такими після заміни, навіть"
+" якщо вони виглядають як числа або вирази"
 
 #: ../src/dialogs/search-replace.ui.h:50
 msgid "Save the current settings as default settings"
@@ -11388,6 +11402,8 @@ msgid ""
 "When set, the current settings will be saved as the default settings for "
 "future invocations of this and the Search dialog."
 msgstr ""
+"Якщо позначено, поточні параметри буде збережено як типові параметри для"
+" наступних викликів і діалогового вікна пошуку."
 
 #: ../src/dialogs/search-replace.ui.h:52 ../src/dialogs/search.ui.h:43
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:1
@@ -11512,7 +11528,7 @@ msgstr "Різне"
 
 #: ../src/dialogs/search.ui.h:32
 msgid "C_olumn major"
-msgstr ""
+msgstr "Основний ст_овпчик"
 
 #: ../src/dialogs/search.ui.h:34
 msgid "Save settings as _default"
@@ -11720,7 +11736,7 @@ msgstr "Критерій знаків"
 #: ../src/tools/analysis-signed-rank-test.c:576
 #: ../src/tools/analysis-signed-rank-test.c:579
 msgid "Wilcoxon Signed Rank Test"
-msgstr ""
+msgstr "Знако-рангова перевірка Вілкоксона"
 
 #: ../src/dialogs/sign-test-two.ui.h:8
 msgid "Hypothesized _difference of medians:"
@@ -11728,7 +11744,7 @@ msgstr "Гіпотетична _різниця медіан:"
 
 #: ../src/dialogs/sign-test.ui.h:1
 msgid "Testing 1 Median"
-msgstr ""
+msgstr "Перевірка першої медіани"
 
 #: ../src/dialogs/sign-test.ui.h:13
 msgid "_Predicted Median:"
