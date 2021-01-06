@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2021-01-03 16:30+0000\n"
-"PO-Revision-Date: 2021-01-05 11:12+0200\n"
+"PO-Revision-Date: 2021-01-05 15:34+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -10717,7 +10717,7 @@ msgstr "Налаштування Gnumeric"
 #: ../src/tools/analysis-principal-components.c:228
 #: ../src/wbc-gtk-actions.c:2990
 msgid "Principal Components Analysis"
-msgstr "Аналіз основних компонентів"
+msgstr "Метод головних компонент"
 
 #: ../src/dialogs/print.ui.h:1
 msgid "Page Setup"
@@ -14499,6 +14499,9 @@ msgid ""
 "smoothing requires at least 2\n"
 "output columns for each data set."
 msgstr ""
+"Експоненційне згладжування з виправленням тенденцій\n"
+"Гольта потребує принаймні 2 стовпчиків для виведення\n"
+"результатів для кожного набору даних."
 
 #: ../src/tools/analysis-exp-smoothing.c:730
 #: ../src/tools/analysis-exp-smoothing.c:1053
@@ -14517,6 +14520,9 @@ msgid ""
 "smoothing method requires at least 4\n"
 "output columns for each data set."
 msgstr ""
+"Адитивне експоненційне згладжування Гольта-Вінтерса\n"
+"потребує принаймні 4 стовпчиків для виведення\n"
+"результатів для кожного набору даних."
 
 #: ../src/tools/analysis-exp-smoothing.c:1337
 #: ../src/tools/analysis-exp-smoothing.c:1340
@@ -14525,6 +14531,9 @@ msgid ""
 "smoothing method requires at least 4\n"
 "output columns for each data set."
 msgstr ""
+"Мультиплікативне експоненційне згладжування Гольта-Вінтерса\n"
+"потребує принаймні 4 стовпчиків для виведення\n"
+"результатів для кожного набору даних."
 
 #: ../src/tools/analysis-exp-smoothing.c:1382
 #, c-format
@@ -14555,11 +14564,11 @@ msgstr "Частотна таблиця"
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:178
 msgid "\"to below\" * General"
-msgstr ""
+msgstr "\"до нижче\" * General"
 
 #: ../src/tools/analysis-histogram.c:178
 msgid "\"up to\" * General"
-msgstr ""
+msgstr "\"до вище\" * General"
 
 #. translator note: only translate the
 #. "to" and "\xe2\x88\x9e" exclusive of
@@ -14617,7 +14626,7 @@ msgstr "Медіана"
 
 #: ../src/tools/analysis-kaplan-meier.c:530
 msgid "/Log-Rank Test/Statistic/Degrees of Freedom/p-Value"
-msgstr ""
+msgstr "/Логрангова перевірка/Статистика/Степені свободи/p-значення"
 
 #: ../src/tools/analysis-kaplan-meier.c:655
 #, c-format
@@ -14635,6 +14644,9 @@ msgid ""
 "the sample size must be at\n"
 "least 8."
 msgstr ""
+"Для перевірки Андерсона-Дарлінґа\n"
+"розмір вибірки має бути не\n"
+"меншим за 8."
 
 #: ../src/tools/analysis-normality.c:69
 msgid ""
@@ -14642,12 +14654,17 @@ msgid ""
 "the sample size must be at\n"
 "least 8."
 msgstr ""
+"Для перевірки Крамера-фон-Мізеса\n"
+"розмір вибірки має бути не\n"
+"меншим за 8."
 
 #: ../src/tools/analysis-normality.c:76
 msgid ""
 "For the Lilliefors (Kolmogorov-Smirnov) Test\n"
 "the sample size must be at least 5."
 msgstr ""
+"Для застосування критерію Лілієфорса (Колмогорова-Смірнова)\n"
+"розмір вибірки має бути не меншим за 5."
 
 #: ../src/tools/analysis-normality.c:82
 msgid ""
@@ -14655,6 +14672,9 @@ msgid ""
 "the sample size must be at\n"
 "least 5 and at most 5000."
 msgstr ""
+"Для перевірки Шапіро-Франція\n"
+"розмір вибірки має бути не\n"
+"меншим за 5 і не більшим за 5000."
 
 #. xgettext:
 #. * Note to translators: in the following string and others like it,
@@ -14665,7 +14685,7 @@ msgstr ""
 #.
 #: ../src/tools/analysis-normality.c:123
 msgid "/Alpha/p-Value/Statistic/N/Conclusion"
-msgstr ""
+msgstr "/ɑ/p-значення/Статистика/N/Висновок"
 
 #: ../src/tools/analysis-normality.c:163
 msgid "Not normal"
@@ -14689,6 +14709,8 @@ msgid ""
 "/Student-t Test/N/Observed Mean/Hypothesized Mean/Observed Variance/Test "
 "Statistic/df/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr ""
+"/t-перевірка Стьюдента/N/Емпіричне середнє/Припущення середнього/Емпірична"
+" дисперсія/Статистика перевірки/df/α/P(T≤t) одностороння/P(T≤t) двостороння"
 
 #: ../src/tools/analysis-one-mean-test.c:155
 #, c-format
@@ -14702,7 +14724,7 @@ msgstr "t-перевірка Стьюдента"
 
 #: ../src/tools/analysis-principal-components.c:66
 msgid "Principal components analysis has insufficient space."
-msgstr ""
+msgstr "Недостатньо місця для методу головних компонент."
 
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
@@ -14711,6 +14733,8 @@ msgid ""
 "\"Principal Components Analysis\";[Red]\"Principal Components Analysis is "
 "invalid.\""
 msgstr ""
+"\"Метод головних компонент\";[Red]\"Некоректне застосування методу головних"
+" компонент.\""
 
 #: ../src/tools/analysis-principal-components.c:103
 #: ../src/tools/analysis-tools.c:726
@@ -14719,28 +14743,32 @@ msgstr "Коваріації"
 
 #: ../src/tools/analysis-principal-components.c:130
 msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
-msgstr ""
+msgstr "/К-ть/МС/Дисперсія//Власні значення/Власні вектори"
 
 #: ../src/tools/analysis-principal-components.c:135
 msgid "Percent of Trace"
-msgstr ""
+msgstr "Частка сліду"
 
 #: ../src/tools/analysis-principal-components.c:213
 #, c-format
 msgid "Principal Components Analysis (%s)"
-msgstr ""
+msgstr "Метод головних компонент (%s)"
 
 #: ../src/tools/analysis-sign-test.c:72
 msgid ""
 "/Sign Test/Median/Predicted Median/Test Statistic/N/α/P(T≤t) one-tailed/"
 "P(T≤t) two-tailed"
 msgstr ""
+"/Критерій знаків/Медіана/Прогнозована медіана/Статистика перевірки/N/α/P(T≤t)"
+" одностороння/P(T≤t) двостороння"
 
 #: ../src/tools/analysis-sign-test.c:214
 msgid ""
 "/Sign Test/Median/Predicted Difference/Test Statistic/N/α/P(T≤t) one-tailed/"
 "P(T≤t) two-tailed"
 msgstr ""
+"/Критерій знаків/Медіана/Прогнозована різниця/Статистика перевірки/N/α/P(T≤t)"
+" одностороння/P(T≤t) двостороння"
 
 #: ../src/tools/analysis-sign-test.c:351 ../src/tools/analysis-sign-test.c:380
 #, c-format
@@ -14752,6 +14780,8 @@ msgid ""
 "/Wilcoxon Signed Rank Test/Median/Predicted Median/N/S−/S+/Test Statistic/α/"
 "P(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr ""
+"/Знако-рангова перевірка Вілкоксона/Медіана/Прогнозована"
+" медіана/N/S−/S+/Статистика перевірки/α/P(T≤t) одностороння/P(T≤t) двостороння"
 
 #: ../src/tools/analysis-signed-rank-test.c:233
 #: ../src/tools/analysis-signed-rank-test.c:501
@@ -14759,6 +14789,8 @@ msgid ""
 "This p-value is calculated by a normal approximation.\n"
 "It is only valid if the sample size is at least 12."
 msgstr ""
+"Це p-значення обчислено з використанням нормального наближення.\n"
+"Воно є чинним лише для вибірок розміром у принаймні 12."
 
 #: ../src/tools/analysis-signed-rank-test.c:292
 msgid ""
@@ -14766,17 +14798,20 @@ msgid ""
 "Median Difference/N/S−/S+/Test Statistic/α/P(T≤t) one-tailed/P(T≤t) two-"
 "tailed"
 msgstr ""
+"/Зн-рангова перевірка Вілкоксона/Медіана/Емпірична різниця"
+" медіан/Прогнозована різниця медіан/N/S−/S+/Статистика перевірки/α/P(T≤t)"
+" одностороння/P(T≤t) двостороння"
 
 #: ../src/tools/analysis-signed-rank-test.c:537
 #: ../src/tools/analysis-signed-rank-test.c:566
 #, c-format
 msgid "Wilcoxon Signed Rank Test (%s)"
-msgstr ""
+msgstr "Знако-рангова перевірка Вілкоксона (%s)"
 
 #: ../src/tools/analysis-tools.c:182
 #, c-format
 msgid "Bin %i"
-msgstr ""
+msgstr "Група %i"
 
 #: ../src/tools/analysis-tools.c:186
 #, c-format
@@ -14814,11 +14849,13 @@ msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
+"/МС/Стандартна похибка/Медіана/Мода/Стандартне відхилення/Дисперсія"
+" вибірки/Ексцес/Асиметрія/Діапазон/Мінімум/Максимум/Сума/Кількість"
 
 #: ../src/tools/analysis-tools.c:974
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
-msgstr ""
+msgstr "/%%%s%%%% Неперервна інтеграція для МС з/до"
 
 #: ../src/tools/analysis-tools.c:1105
 #, c-format
@@ -14838,11 +14875,11 @@ msgstr "Описова статистика (%s)"
 #: ../src/tools/analysis-tools.c:1327
 #, c-format
 msgid "Sampling (%s)"
-msgstr ""
+msgstr "Поділ на вибірки (%s)"
 
 #: ../src/tools/analysis-tools.c:1365 ../src/tools/analysis-tools.c:1368
 msgid "Sample"
-msgstr "Зразок"
+msgstr "Вибірка"
 
 #: ../src/tools/analysis-tools.c:1409
 msgid ""
@@ -14850,6 +14887,9 @@ msgid ""
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
+"/МС/Відома дисперсія/Спостереження/Гіпотетична середня різниця/Емпірична"
+" середня різниця/z/P (Z<=z) одностороння/Критичне z, одностороння/P (Z<=z)"
+" двостороння/Критичне z, двостороння"
 
 #: ../src/tools/analysis-tools.c:1596
 #, c-format
@@ -14866,11 +14906,15 @@ msgid ""
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
+"/МС/Дисперсія/Спостереження/Кореляція Пірсона/Гіпотетична середня"
+" різниця/Емпірична середня різниця/Дисперсія різниць/df/t-статистика/P (T<=t)"
+" одностороння/Критичне t, одностороння/P (T<=t) двостороння/Критичне t,"
+" двостороння"
 
 #: ../src/tools/analysis-tools.c:1888
 #, c-format
 msgid "t-Test, paired (%s)"
-msgstr ""
+msgstr "t-тест, пов'язані (%s)"
 
 #: ../src/tools/analysis-tools.c:1898 ../src/tools/analysis-tools.c:1901
 #: ../src/tools/analysis-tools.c:2198 ../src/tools/analysis-tools.c:2201
@@ -14884,6 +14928,10 @@ msgid ""
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
+"/МС/Дисперсія/Спостереження/Об'єднана дисперсія/Гіпотетична середня"
+" різниця/Емпірична середня різниця/df/t-статистика/P (T<=t)"
+" одностороння/Критичне t, одностороння/P (T<=t) двостороння/"
+"Критичне t, двостороння"
 
 #: ../src/tools/analysis-tools.c:2188 ../src/tools/analysis-tools.c:2481
 #, c-format
@@ -14896,6 +14944,10 @@ msgid ""
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
+"/МС/Дисперсія/Спостереження/Гіпотетична середня різниця/Емпірична середня"
+" різниця/df/t-статистика/P (T<=t) одностороння/Критичне t, одностороння/P (T<"
+"=t) двостороння/"
+"Критичне t, двостороння"
 
 #: ../src/tools/analysis-tools.c:2530 ../src/tools/analysis-tools.c:2779
 #: ../src/tools/analysis-tools.c:2782
@@ -14907,6 +14959,10 @@ msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
+"/МС/Дисперсія/Спостереження/df/F/P (F<=f) правостороння/Критичне F,"
+" правостороння/P "
+"(f<=F) лівостороння/Критичне F, лівостороння/P двостороння/Критичне F"
+" двостороння"
 
 #: ../src/tools/analysis-tools.c:2769
 #, c-format
@@ -14918,28 +14974,31 @@ msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
+"/ЗАГАЛЬНИЙ РЕЗУЛЬТАТ//Регресійна статистика/Коефіцієнт кореляції"
+" R/R²/Стандартна похибка/Скориговане R²/Спостереження//ANOVA//Регресія/Залишок"
+"/Загалом///Перетин"
 
 #: ../src/tools/analysis-tools.c:2933
 msgid "Response Variable"
-msgstr ""
+msgstr "Відгук"
 
 #: ../src/tools/analysis-tools.c:2967
 msgid "/df/SS/MS/F/Significance of F"
-msgstr ""
+msgstr "/df/СК/СКВ/F/Значимість F"
 
 #: ../src/tools/analysis-tools.c:2974
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
-msgstr ""
+msgstr "/Коефіцієнти/Стандартна похибка/t-статистика/p-значення"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
 #: ../src/tools/analysis-tools.c:2980
 msgid "\"Lower\" 0%"
-msgstr ""
+msgstr "\"Нижня\" 0%"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
 #: ../src/tools/analysis-tools.c:2982
 msgid "\"Upper\" 0%"
-msgstr ""
+msgstr "\"Верхня\" 0%"
 
 #: ../src/tools/analysis-tools.c:2991
 msgid ""
@@ -14949,6 +15008,11 @@ msgid ""
 "observed t-statistic, assuming the null\n"
 "hypothesis is in fact true."
 msgstr ""
+"Ймовірність спостереження t-статистики,\n"
+"чиє значення за модулем буде не меншим\n"
+"за значення за модулем t-статистики зі\n"
+"спостережень, у припущенні, що справджується\n"
+"нульова гіпотеза."
 
 #: ../src/tools/analysis-tools.c:2998
 msgid ""
@@ -14958,6 +15022,11 @@ msgid ""
 "is, the proportion of the sum of\n"
 "squares explained by the model."
 msgstr ""
+"Це значення не є квадратом R,\n"
+"а є нецентрованою версією\n"
+"коефіцієнта визначеності; тобто\n"
+"часткою суми квадратів, які\n"
+"описуються моделлю."
 
 #: ../src/tools/analysis-tools.c:3306
 msgid "Constant"
@@ -14968,22 +15037,24 @@ msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
 msgstr ""
+"/Прогноз//Залишок/Впливи/Внутрішньо студентизований/Зовнішньо"
+" студентизований/p-значення"
 
 #: ../src/tools/analysis-tools.c:3473
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
-msgstr ""
+msgstr "/ЗАГАЛЬНИЙ РЕЗУЛЬТАТ//Незалежна змінна//Спостереження"
 
 #: ../src/tools/analysis-tools.c:3478
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
-msgstr ""
+msgstr "/ЗАГАЛЬНИЙ РЕЗУЛЬТАТ//Відгук//Спостереження"
 
 #: ../src/tools/analysis-tools.c:3484
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
-msgstr ""
+msgstr "/Відгук/R²/Нахил/Перетин/F/Значимість F"
 
 #: ../src/tools/analysis-tools.c:3490
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
-msgstr ""
+msgstr "/Незалежна змінна/R²/Нахил/Перетин/F/Значимість F"
 
 #: ../src/tools/analysis-tools.c:3571
 #, c-format
@@ -15072,7 +15143,7 @@ msgstr "Ряд Фур'є"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:137
 msgid "/Rank-Sum/N/U/Ties/Statistic/U-Statistic/p-Value"
-msgstr ""
+msgstr "/Ранг-сума/N/U/Звʼязки/Статистика/U-статистика/p-значення"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:298
 msgid ""
@@ -15082,6 +15153,11 @@ msgid ""
 "at least 15 observations in each\n"
 "population, and few if any ties."
 msgstr ""
+"Це p-значення обчислено з використанням\n"
+"нормального наближення, тому воно є\n"
+"чинними лише для великих вибірок із\n"
+"принаймні 15 спостереженнями для кожного\n"
+"сукупності і незначної кількості зв'язків (якщо такі є)."
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:306
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:311
@@ -15091,6 +15167,9 @@ msgid ""
 "for the third column of output,\n"
 "this value is not calculated."
 msgstr ""
+"Оскільки для третього стовпчика\n"
+"результатів недостатньо місця,\n"
+"це значення не обчислено."
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:350
 #, c-format
@@ -15124,7 +15203,7 @@ msgstr "Перемішано"
 #: ../src/tools/fill-series.c:375
 #, c-format
 msgid "Fill Series (%s)"
-msgstr ""
+msgstr "Заповнення послідовністю (%s)"
 
 #: ../src/tools/filter.c:136
 msgid "Filtered"
@@ -15132,7 +15211,7 @@ msgstr "Фільтровано"
 
 #: ../src/tools/filter.c:196
 msgid "/Advanced Filter:/Source Range:/Criteria Range:"
-msgstr ""
+msgstr "/Додатковий фільтр:/Діапазон джерела:/Критеріальний діапазон:"
 
 #: ../src/tools/filter.c:264
 #, c-format
@@ -15647,6 +15726,13 @@ msgid ""
 "\n"
 "The replace has been aborted and nothing has been changed."
 msgstr ""
+"У комірці %s зараз міститься\n"
+"        %s,\n"
+"вміст мало бути замінено на\n"
+"        %s,\n"
+"але такий вміст є некоректним.\n"
+"\n"
+"Замінювання було перервано — ніяких змін не внесено."
 
 #: ../src/wbc-gtk-actions.c:538
 #, c-format
@@ -16734,6 +16820,8 @@ msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
+"Перевірка альтернатив вибору за допомогою імітації Монте-Карло для визначення"
+" можливих результатів та пов'язаних із ними ризиків"
 
 #: ../src/wbc-gtk-actions.c:2919
 msgid "Compare Sheets..."
@@ -16817,7 +16905,7 @@ msgstr "Аналіз _Фур'є…"
 
 #: ../src/wbc-gtk-actions.c:2989
 msgid "Principal Components Analysis..."
-msgstr "Аналіз основних компонентів…"
+msgstr "Метод головних компонент…"
 
 #: ../src/wbc-gtk-actions.c:2996
 msgid "_Exponential Smoothing..."
@@ -16877,7 +16965,7 @@ msgstr "Перевірка значення медіани"
 
 #: ../src/wbc-gtk-actions.c:3037 ../src/wbc-gtk-actions.c:3084
 msgid "_Wilcoxon Signed Rank Test..."
-msgstr ""
+msgstr "Знако-рангова перевірка _Вілкоксона…"
 
 #: ../src/wbc-gtk-actions.c:3045
 msgid "Claims About Two _Variances"
@@ -16932,11 +17020,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3080 ../src/wbc-gtk-actions.c:3085
 msgid "Comparing the values of two medians of paired observations"
-msgstr ""
+msgstr "Порівняння значень двох медіан пов'язаних спостережень"
 
 #: ../src/wbc-gtk-actions.c:3089
 msgid "Wilcoxon-_Mann-Whitney Test..."
-msgstr ""
+msgstr "Перевірка Вілкоксона-_Манна-Вітні…"
 
 #: ../src/wbc-gtk-actions.c:3090
 msgid "Comparing the values of two medians of unpaired observations"
@@ -17780,6 +17868,8 @@ msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
 msgstr ""
+"Втім, зараз у комірці немає тексту. Тому, якщо ви виконаєте редагування"
+" вмісту, його буде перетворено на текст."
 
 #: ../src/wbc-gtk-edit.c:896
 msgid "Remove format"
