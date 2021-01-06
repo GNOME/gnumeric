@@ -19,6 +19,7 @@ Morten:
 	* Use 1us resolution for NOW.  [#549]
 	* Fix ssconvert sheet selection for csv.  [#555]
 	* Test suite improvements.
+	* Fix ods import problem with irregular sheet sizes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48

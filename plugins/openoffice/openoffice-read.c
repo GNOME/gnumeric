@@ -14128,6 +14128,10 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 			max_rows = sot->rows;
 		l = l->next;
 	}
+
+	if (!gnm_sheet_valid_size (max_cols, max_rows))
+		gnm_sheet_suggest_size (&max_cols, &max_rows);
+
 	l = state.sheet_order;
 	while (l != NULL) {
 		sheet_order_t *sot;
