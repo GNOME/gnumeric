@@ -2074,8 +2074,22 @@ odf_fix_en_collect (G_GNUC_UNUSED gconstpointer key_,
 				here[i] = '_';
 		}
 	}
+
+	// If the name is inherently invalid ("19" as in #557) then mangle
+	// it first.
+	if (!expr_name_validate (str->str)) {
+		g_string_insert (str, 0, "NAME");
+		if (!expr_name_validate (str->str)) {
+			char *p;
+			for (p = str->str; *p; p++)
+				if (!g_ascii_isalnum (*p))
+					*p = 'X';
+		}
+	}
+
 	while (!odf_fix_en_validate (str->str, fen))
 		g_string_append_c (str, '_');
+
 	odf_fix_expr_names_t_add (fen, name, g_string_free (str, FALSE));
 }
 

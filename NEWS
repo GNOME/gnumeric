@@ -20,6 +20,7 @@ Morten:
 	* Fix ssconvert sheet selection for csv.  [#555]
 	* Test suite improvements.
 	* Fix ods import problem with irregular sheet sizes.
+	* Fix ods import problem with crazy named expressions.  [#557]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48
