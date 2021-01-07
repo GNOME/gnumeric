@@ -11725,13 +11725,21 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
 				hsm = g_value_get_int (item);
 
+			/* We are not implementing SplitMode == 1 */
+			if (hsm != 2) hsm = 0;
+			if (vsm != 2) vsm = 0;
+
 			if (vsm > 0 || hsm > 0)  {
-				item = g_hash_table_lookup (hash, "VerticalSplitPosition");
-				if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
-					vsp = g_value_get_int (item);
-				item = g_hash_table_lookup (hash, "HorizontalSplitPosition");
-				if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
-					hsp = g_value_get_int (item);
+				if (vsm > 0) {
+					item = g_hash_table_lookup (hash, "VerticalSplitPosition");
+					if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
+						vsp = g_value_get_int (item);
+				} else vsp = 0;
+				if (hsm > 0) {
+					item = g_hash_table_lookup (hash, "HorizontalSplitPosition");
+					if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT))
+						hsp = g_value_get_int (item);
+				} else hsp = 0;
 				if (vsp > 0 || hsp > 0) {
 					GnmCellPos fpos = {0, 0};
 					pos.col = hsp;

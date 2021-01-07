@@ -1,5 +1,9 @@
 Gnumeric 1.12.49
 
+Andreas:
+	* Do not try to turn all of LibreOffice's SplitModes into frozen
+	panes [file of #557]
+
 Jean:
 	* Fix graph size issue when the graph is in its own sheet. [#516]
 
