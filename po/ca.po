@@ -1245,7 +1245,7 @@ msgstr "HTML i TeX"
 
 #: ../plugins/html/plugin.xml.in.h:2
 msgid "Import/Export of HTML, TeX, DVI, roff"
-msgstr "Importació/exportació de HTML, TeX, DVI, roff"
+msgstr "Importació/exportació d'HTML, TeX, DVI, roff"
 
 #: ../plugins/html/plugin.xml.in.h:3
 msgid "HTML (*.html, *.htm)"
@@ -1722,7 +1722,7 @@ msgstr "S'ha trobat l'estil de contorn de Gnumeric desconegut «%s»."
 #: ../plugins/openoffice/openoffice-read.c:6758
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
-msgstr "El tipus de final de línia desconegut «%s»  es predeterminarà a NONE"
+msgstr "El tipus de final de línia desconegut «%s» es predeterminarà a NONE"
 
 #: ../plugins/openoffice/openoffice-read.c:6843
 #, c-format
@@ -3757,7 +3757,7 @@ msgid ""
 "package installed."
 msgstr ""
 "Aquest paràmetre determina si els fitxers creats amb LaTeX utilitzen UTF-8 "
-"(unicode) o ISO-8859-1 (Latin1). Per usar fitxers UTF-8, heu de tenir "
+"(unicode) o ISO-8859-1 (Latin1). Per a usar fitxers UTF-8, heu de tenir "
 "instal·lat el paquet ucs LaTeX."
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:3
@@ -6304,7 +6304,7 @@ msgstr "No s'ha pogut crear el diàleg de les propietats."
 
 #: ../src/dialogs/dialog-fill-series.c:251
 msgid "Could not create the Fill Series dialog."
-msgstr "No s'ha pogut crear el diàleg de les sèries per omplir."
+msgstr "No s'ha pogut crear el diàleg de les sèries per a omplir."
 
 #: ../src/dialogs/dialog-formula-guru.c:322
 #, c-format
@@ -6437,7 +6437,7 @@ msgid ""
 "Left click once to follow this link.\n"
 "Middle click once to select this cell"
 msgstr ""
-"Feu clic amb el botó primari per seguir aquest enllaç.\n"
+"Feu clic amb el botó primari per a seguir aquest enllaç.\n"
 "Feu clic amb el botó central per a seleccionar la cel·la"
 
 #: ../src/dialogs/dialog-hyperlink.c:185
@@ -7576,7 +7576,7 @@ msgstr "Estableix les propietats de l'objecte"
 
 #: ../src/dialogs/dialog-shuffle.c:148
 msgid "Could not create the Data Shuffling dialog."
-msgstr "No s'ha pogut crear el diàleg per mesclar dades."
+msgstr "No s'ha pogut crear el diàleg per a mesclar dades."
 
 #: ../src/dialogs/dialog-simulation.c:67
 msgid "The input variable range is invalid."
@@ -7857,8 +7857,8 @@ msgstr "Columna %d"
 #, c-format
 msgid "%d of %d line to import"
 msgid_plural "%d of %d lines to import"
-msgstr[0] "%d de %d línia per importar"
-msgstr[1] "%d de %d línies per importar"
+msgstr[0] "%d de %d línia per a importar"
+msgstr[1] "%d de %d línies per a importar"
 
 #: ../src/dialogs/dialog-stf-main-page.c:178
 #, c-format
@@ -9817,7 +9817,7 @@ msgstr "n-3"
 #: ../src/dialogs/fill-series.ui.h:1 ../src/tools/fill-series.c:385
 #: ../src/tools/fill-series.c:388
 msgid "Fill Series"
-msgstr "Sèries per omplir"
+msgstr "Sèries per a omplir"
 
 #: ../src/dialogs/fill-series.ui.h:2
 msgid "Series in:"
@@ -15106,7 +15106,7 @@ msgstr "Barrejat"
 #: ../src/tools/fill-series.c:375
 #, c-format
 msgid "Fill Series (%s)"
-msgstr "Sèries per omplir (%s)"
+msgstr "Sèries per a omplir (%s)"
 
 #: ../src/tools/filter.c:136
 msgid "Filtered"
