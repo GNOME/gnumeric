@@ -7526,7 +7526,7 @@ msgstr "Files"
 #: ../src/dialogs/dialog-sheet-order.c:752
 msgctxt "sheetlist"
 msgid "Cols"
-msgstr "Col."
+msgstr "Columnes"
 
 #: ../src/dialogs/dialog-sheet-order.c:760
 msgid "Current Name"
@@ -8320,7 +8320,7 @@ msgstr "<b>Antic autor:</b>"
 
 #: ../src/dialogs/cell-comment.ui.h:3
 msgid "<b>New Author:</b>"
-msgstr "<b>Nou autor:</b>"
+msgstr "<b>Autor nou:</b>"
 
 #: ../src/dialogs/cell-comment.ui.h:4
 msgid "_Wrap in properties window"
@@ -9366,7 +9366,7 @@ msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
-"Cada columna al text es troba separada per un caràcter de 'separació', p. "
+"Cada columna al text es troba separada per un caràcter de «separació», p. "
 "ex. un punt i coma."
 
 #: ../src/dialogs/dialog-stf.ui.h:23
@@ -11803,7 +11803,7 @@ msgstr "Etiqueta:"
 
 #: ../src/dialogs/so-checkbox.ui.h:1
 msgid "Checkbox Properties"
-msgstr "Propietats de la casella de verificació"
+msgstr "Propietats de la casella de selecció"
 
 #: ../src/dialogs/so-frame.ui.h:1
 msgid "Frame Properties"
@@ -16369,7 +16369,7 @@ msgstr "Ves a la darrera cel·la de dades"
 
 #: ../src/wbc-gtk-actions.c:2563
 msgid "_Go to Cell..."
-msgstr "_Vés a la cel·la..."
+msgstr "_Ves a la cel·la..."
 
 #: ../src/wbc-gtk-actions.c:2565
 msgid "Jump to a specified cell"
@@ -17786,7 +17786,7 @@ msgstr "Suprimeix el format"
 
 #: ../src/wbc-gtk-edit.c:901
 msgid "Show this dialog next time."
-msgstr "Mostra aquest diàleg la propera vegada."
+msgstr "Mostra aquest diàleg la pròxima vegada."
 
 #: ../src/wbc-gtk.c:514
 msgid "Manage Sheets..."
