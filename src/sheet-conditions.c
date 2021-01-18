@@ -200,7 +200,7 @@ sheet_conditions_uninit (Sheet *sheet)
 
 /**
  * sheet_conditions_share_conditions_add:
- * @conds: (transfer none): 
+ * @conds: (transfer none):
  *
  * Returns: (transfer none) (nullable): Conditions equivalent to @conds, or
  * %NULL if @conds had not been seen before.
@@ -227,7 +227,7 @@ sheet_conditions_share_conditions_add (GnmStyleConditions *conds)
 
 /**
  * sheet_conditions_share_conditions_remove:
- * @conds: (transfer none): 
+ * @conds: (transfer none):
  *
  * This notifies the sheet conditions manager that one use of the shared
  * conditions has gone away.
@@ -374,7 +374,7 @@ sheet_conditions_remove (Sheet *sheet, GnmRange const *r, GnmStyle *style)
 		return;
 	}
 
-	g_printerr ("Removing style %p from %s\n", style, range_as_string (r));
+	//g_printerr ("Removing style %p from %s\n", style, range_as_string (r));
 	g = find_group (cd, style);
 	if (!g) {
 		g_warning ("Removing conditional style we don't have?");
@@ -432,6 +432,58 @@ sheet_conditions_remove (Sheet *sheet, GnmRange const *r, GnmStyle *style)
 		cd->needs_simplify = TRUE;
 	else if (g)
 		simplify_group (g);
+}
+
+// ----------------------------------------------------------------------------
+
+static void
+lu1 (GnmDependent *dep, gboolean qlink)
+{
+	if (dep == NULL || dep->texpr == NULL ||
+	    qlink == !!dependent_is_linked (dep))
+		return;
+
+	if (qlink)
+		dependent_link (dep);
+	else
+		dependent_unlink (dep);
+}
+
+void
+sheet_conditions_link_unlink_dependents (Sheet *sheet,
+					 GnmRange const *r,
+					 gboolean qlink)
+{
+	GnmSheetConditionsData *cd = sheet->conditions;
+	GHashTableIter hiter;
+	gpointer value;
+
+	g_hash_table_iter_init (&hiter, cd->groups);
+	while (g_hash_table_iter_next (&hiter, NULL, &value)) {
+		CSGroup *g = value;
+		unsigned ui, ri;
+		gboolean overlap = (r == NULL);
+		GPtrArray const *ga;
+
+		for (ri = 0; !overlap && ri < g->ranges->len; ri++) {
+			GnmRange const *r1 = &g_array_index (g->ranges, GnmRange, ri);
+			if (range_overlap (r, r1))
+				overlap = TRUE;
+		}
+
+		if (!overlap)
+			continue;
+
+		lu1 (&g->dep.base, qlink);
+
+		ga = gnm_style_conditions_details (g->conds);
+		for (ui = 0; ui < (ga ? ga->len : 0u); ui++) {
+			GnmStyleCond *cond = g_ptr_array_index (ga, ui);
+			unsigned ix;
+			for (ix = 0; ix < G_N_ELEMENTS (cond->deps); ix++)
+				lu1 (&cond->deps[ix].base, qlink);
+		}
+	}
 }
 
 // ----------------------------------------------------------------------------

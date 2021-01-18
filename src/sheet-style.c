@@ -328,17 +328,6 @@ rstyle_apply (GnmStyle **old, ReplacementStyle *rs, GnmRange const *r)
 	}
 }
 
-void
-sheet_style_clear_style_dependents (Sheet *sheet, GnmRange const *r)
-{
-	GSList *styles = sh_all_styles (sheet->style_data->style_hash);
-	g_slist_foreach (styles,
-			 (GFunc)gnm_style_unlink_dependents,
-			 (gpointer)r);
-	g_slist_free (styles);
-}
-
-
 /****************************************************************************/
 
 typedef enum {

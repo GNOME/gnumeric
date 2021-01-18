@@ -108,8 +108,6 @@ void	  sheet_style_unlink (Sheet *sheet, GnmStyle *st);
 
 void      sheet_style_optimize (Sheet *sheet);
 
-void      sheet_style_clear_style_dependents (Sheet *sheet, GnmRange const *r);
-
 G_END_DECLS
 
 #endif /* _GNM_SHEET_STYLE_H_ */

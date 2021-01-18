@@ -18,6 +18,10 @@ void sheet_conditions_remove (Sheet *sheet, GnmRange const *r, GnmStyle *style);
 void sheet_conditions_simplify (Sheet *sheet);
 void sheet_conditions_dump (Sheet *sheet);
 
+void sheet_conditions_link_unlink_dependents (Sheet *sheet,
+					      GnmRange const *r,
+					      gboolean qlink);
+
 G_END_DECLS
 
 #endif

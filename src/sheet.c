@@ -5392,8 +5392,8 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	parse_pos_init_sheet (&reloc_info.pos, sheet);
 
-	/* 2. Get rid of style dependents, see #741197.  */
-	sheet_style_clear_style_dependents (sheet, &change_zone);
+	// 2. Get rid of style dependents, see #741197.
+	sheet_conditions_link_unlink_dependents (sheet, &change_zone, FALSE);
 
 	/* 3. Invalidate references to kill zone.  */
 	if (is_insert) {
@@ -5431,6 +5431,7 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
 
 	/* 7. Move formatting.  */
 	sheet_style_insdel_colrow (&reloc_info);
+	sheet_conditions_link_unlink_dependents (sheet, NULL, TRUE);
 
 	/* 8. Move objects.  */
 	sheet_objects_relocate (&reloc_info, FALSE, pundo);
