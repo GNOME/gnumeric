@@ -105,8 +105,6 @@ struct _GnmStyle {
 	GnmInputMsg		*input_msg;
 	GnmStyleConditions	*conditions;
 	GPtrArray		*cond_styles;
-
-	GPtrArray *deps;
 };
 
 #define elem_changed(style, elem) do { (style)->changed |= (1u << (elem)); } while(0)
@@ -869,12 +867,6 @@ gnm_style_unref (GnmStyle const *style)
 		clear_conditional_merges (unconst);
 		gnm_style_clear_pango (unconst);
 		gnm_style_clear_font (unconst);
-
-		if (style->deps) {
-			if (style->deps->len > 0)
-				g_warning ("Leftover style deps!");
-			g_ptr_array_free (style->deps, TRUE);
-		}
 
 		CHUNK_FREE (gnm_style_pool, unconst);
 	}
@@ -2350,7 +2342,6 @@ gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 void
 gnm_style_unlink_dependents (GnmStyle *style, GnmRange const *r)
 {
-	unsigned ui, k;
 	GnmStyleConditions *sc;
 	Sheet *sheet;
 
@@ -2366,27 +2357,7 @@ gnm_style_unlink_dependents (GnmStyle *style, GnmRange const *r)
 		sheet_conditions_remove (sheet, r, style);
 	}
 
-	if (!style->deps)
-		return;
-
-	for (ui = k = 0; ui < style->deps->len; ui++) {
-		GnmDependent *dep = g_ptr_array_index (style->deps, ui);
-		GnmCellPos const *pos = dependent_pos (dep);
-
-		if (dep->sheet->being_destructed ||
-		    range_contains (r, pos->col, pos->row)) {
-			if (debug_style_deps)
-				g_printerr ("Unlinking %s for %p\n",
-					    cellpos_as_string (pos), style);
-			dependent_set_expr (dep, NULL);
-			g_free (dep);
-		} else {
-			g_ptr_array_index (style->deps, k) = dep;
-			k++;
-		}
-	}
-
-	g_ptr_array_set_size (style->deps, k);
+	// Validation -- see gnm_style_link_dependents
 }
 
 
