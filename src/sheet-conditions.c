@@ -246,7 +246,7 @@ sheet_conditions_share_conditions_remove (GnmStyleConditions *conds)
 	else if (n == 1)
 		g_hash_table_remove (cd->linked_conditions, conds);
 	else
-		g_warning ("We're confused with sheet condition usage.");
+		g_warning ("We're confused with sheet condition usage (%d).", n);
 }
 
 // ----------------------------------------------------------------------------

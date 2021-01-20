@@ -991,7 +991,13 @@ gnm_style_linked_sheet_changed (GnmStyle *style)
 	if (elem_is_set (style, MSTYLE_CONDITIONS) &&
 	    style->conditions &&
 	    gnm_style_conditions_get_sheet (style->conditions) != sheet) {
+		sheet_conditions_share_conditions_remove (style->conditions);
 		GnmStyleConditions *new_c = gnm_style_conditions_dup_to (style->conditions, sheet);
+		GnmStyleConditions *new_sc = sheet_conditions_share_conditions_add (new_c);
+		if (new_sc) {
+			g_object_unref (new_c);
+			new_c = new_sc;
+		}
 		gnm_style_set_conditions (style, new_c);
 	}
 }
