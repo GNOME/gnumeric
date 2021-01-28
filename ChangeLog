@@ -1,5 +1,10 @@
 2021-01-28  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-object-graph.c (gnm_sog_bounds_changed): Make sure to
+	tell the graph about the new size.
+	(gnm_sog_set_sheet): Tell the graph object about the initial size.
+	(sheet_object_graph_set_gog): Ditto.
+
 	* src/number-match.c (format_match_decimal_number_with_locale): If
 	the thousands separator is a space character, allow plain space
 	also.

@@ -26,6 +26,7 @@ Morten:
 	* Fix ods import problem with irregular sheet sizes.
 	* Fix ods import problem with crazy named expressions.  [#557]
 	* Allow plain space as 1000s separator in FR locale.
+	* Fix graph size problem affecting image output.  [#507]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48

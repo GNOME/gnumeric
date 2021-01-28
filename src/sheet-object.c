@@ -1753,7 +1753,6 @@ sheet_object_write_image (SheetObject const *so, char const *format, double reso
 
 	GNM_SO_IMAGEABLE_CLASS (so)->write_image (so, format, resolution,
 							output, err);
-
 }
 
 /**

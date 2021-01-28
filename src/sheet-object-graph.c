@@ -520,12 +520,31 @@ gnm_sog_foreach_dep (SheetObject *so,
 		sog_data_foreach_dep (so, ptr->data, func, user);
 }
 
+static void
+sog_update_graph_size (SheetObjectGraph *sog)
+{
+	double coords[4];
+	SheetObject *so = GNM_SO (sog);
+
+	if (sog->graph == NULL || so->sheet == NULL)
+		return;
+
+	sheet_object_position_pts_get (so, coords);
+	gog_graph_set_size (sog->graph,
+			    fabs (coords[2] - coords[0]),
+			    fabs (coords[3] - coords[1]));
+}
+
 static gboolean
 gnm_sog_set_sheet (SheetObject *so, Sheet *sheet)
 {
 	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
-	if (sog->graph != NULL)
+
+	if (sog->graph != NULL) {
 		sog_datas_set_sheet (sog, sheet);
+		sog_update_graph_size (sog);
+	}
+
 	return FALSE;
 }
 
@@ -551,14 +570,8 @@ gnm_sog_bounds_changed (SheetObject *so)
 	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 
 	/* If it has not been realized there is no renderer yet */
-	if (sog->renderer != NULL) {
-		double coords [4];
-		if (so->sheet->sheet_type == GNM_SHEET_DATA) {
-			sheet_object_position_pts_get (so, coords);
-			gog_graph_set_size (sog->graph, fabs (coords[2] - coords[0]),
-					    fabs (coords[3] - coords[1]));
-		}
-	}
+	if (sog->renderer != NULL)
+		sog_update_graph_size (sog);
 }
 
 static void
@@ -697,6 +710,8 @@ sheet_object_graph_set_gog (SheetObject *so, GogGraph *graph)
 		g_object_set (sog->renderer, "model", graph, NULL);
 	else
 		sog->renderer = gog_renderer_new (sog->graph);
+
+	sog_update_graph_size (sog);
 }
 
 static void
