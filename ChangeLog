@@ -1,3 +1,9 @@
+2021-01-28  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (format_match_decimal_number_with_locale): If
+	the thousands separator is a space character, allow plain space
+	also.
+
 2021-01-19  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (gnm_style_linked_sheet_changed): Make sure to tell

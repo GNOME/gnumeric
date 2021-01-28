@@ -994,6 +994,24 @@ format_match_fraction (char const *text, int *denlen, gboolean mixed_only)
 	return value_new_float (f);
 }
 
+// Are we looking at a thousands separator?  (FR has a narrow space as the
+// separator.  In that case we allow a plain space too.  We could allow any
+// whitespace, but allowing \n, \r, \t, and \f certainly feels wrong.)
+static gboolean
+is_thousands_sep (const char *text, GString const *thousand, gboolean space1000)
+{
+	if (strncmp (thousand->str, text, thousand->len) == 0)
+		text += thousand->len;
+	else if (space1000 && *text == ' ')
+		text++;
+	else
+		return FALSE;
+
+	return (g_ascii_isdigit (text[0]) &&
+		g_ascii_isdigit (text[1]) &&
+		g_ascii_isdigit (text[2]));
+}
+
 
 GnmValue *
 format_match_decimal_number_with_locale (char const *text, GOFormatFamily *family,
@@ -1008,9 +1026,16 @@ format_match_decimal_number_with_locale (char const *text, GOFormatFamily *famil
 	GString *numstr = g_string_sized_new (20);
 	gboolean last_was_digit = FALSE;
 	gboolean allow1000 = (thousand != NULL) && (thousand->len != 0);
+	gboolean space1000;
 
 	g_return_val_if_fail (curr != NULL, NULL);
 	g_return_val_if_fail (decimal != NULL, NULL);
+
+	// If thousands separator is a single whitespace character, treat
+	// any whitespace character as such.
+	space1000 = allow1000 &&
+		g_utf8_strlen (thousand->str, thousand->len) == 1 &&
+		g_unichar_isspace (g_utf8_get_char (thousand->str));
 
 	while (*text) {
 		gunichar uc = g_utf8_get_char (text);
@@ -1050,11 +1075,8 @@ format_match_decimal_number_with_locale (char const *text, GOFormatFamily *famil
 
 		if (last_was_digit &&
 		    allow1000 &&
-		    strncmp (thousand->str, text, thousand->len) == 0 &&
-		    g_ascii_isdigit (text[thousand->len]) &&
-		    g_ascii_isdigit (text[thousand->len + 1]) &&
-		    g_ascii_isdigit (text[thousand->len + 2])) {
-			text += thousand->len;
+		    is_thousands_sep (text, thousand, space1000)) {
+			text = g_utf8_next_char (text);
 			continue;
 		}
 

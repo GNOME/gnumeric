@@ -25,6 +25,7 @@ Morten:
 	* Test suite improvements.
 	* Fix ods import problem with irregular sheet sizes.
 	* Fix ods import problem with crazy named expressions.  [#557]
+	* Allow plain space as 1000s separator in FR locale.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48
