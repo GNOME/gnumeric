@@ -510,7 +510,7 @@
 	* dialog-cell-format.c (dialog_cell_format_select_style): fix returns
 	without value
 
-2013-05-29  Morten Welinder  <mwelinder@gmail.com>
+2013-05-29  Morten Welinder  <terra@gnome.org>
 
 	* dialog-about.c (create_animation): Avoid creating a GList with
 	bad ->prev pointers.
