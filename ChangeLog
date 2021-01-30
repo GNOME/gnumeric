@@ -1,3 +1,7 @@
+2021-01-30  Morten Welinder  <terra@gnome.org>
+
+	* autogen.sh: check that YELP_HELP_INIT has been expanded.
+
 2021-01-28  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-graph.c (gnm_sog_bounds_changed): Make sure to

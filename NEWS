@@ -27,6 +27,7 @@ Morten:
 	* Fix ods import problem with crazy named expressions.  [#557]
 	* Allow plain space as 1000s separator in FR locale.
 	* Fix graph size problem affecting image output.  [#507]
+	* Check for yelp in autogen.  [#558]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48

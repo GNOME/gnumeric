@@ -54,6 +54,12 @@ xml_file_name='^((schemas|templates)/.+|[^/]+)\.in$|\.(glade|xml)(\.in)?$'
 ) >$srcdir/po-functions/POTFILES.skip
 
 
+if grep '^YELP_HELP_INIT' $srcdir/configure >/dev/null; then
+    echo "It looks like yelp support is not available." 1>&2
+    exit 1
+fi
+
+
 if [ "$NOCONFIGURE" = "" ]; then
         $srcdir/configure "$@" || exit 1
 
