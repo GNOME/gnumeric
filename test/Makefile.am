@@ -69,6 +69,7 @@ TESTS =	t1000-statfuns.pl			\
 	t2003-random-generators.pl		\
 	t2004-insdel-colrow.pl			\
 	t2005-recalc.pl				\
+	t2006-cond-format-deps.pl		\
 	t2800-style-optimizer.pl		\
 	t5800-csv-date.pl			\
 	t5801-csv-number.pl			\
