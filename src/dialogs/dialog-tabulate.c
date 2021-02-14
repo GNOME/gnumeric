@@ -119,7 +119,7 @@ get_grid_float_entry (GtkGrid *g, int y, int x, GnmCell *cell, gnm_float *number
 	g_return_val_if_fail (GTK_IS_ENTRY (w), 3);
 
 	*wp = GTK_ENTRY (w);
-	format = gnm_style_get_format (gnm_cell_get_style (cell));
+	format = gnm_cell_get_format (cell);
 
 	return (with_default?
 	        entry_to_float_with_format_default (*wp, number, TRUE, format,

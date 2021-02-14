@@ -1241,7 +1241,7 @@ stf_cell_set_text (GnmCell *cell, char const *text)
 {
 	GnmExprTop const *texpr;
 	GnmValue *val;
-	GOFormat const *fmt = gnm_style_get_format (gnm_cell_get_style (cell));
+	GOFormat const *fmt = gnm_cell_get_format (cell);
 	const GODateConventions *date_conv = sheet_date_conv (cell->base.sheet);
 
 	if (!go_format_is_text (fmt) && *text == '=' && text[1] != 0) {

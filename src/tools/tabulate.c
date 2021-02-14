@@ -63,17 +63,6 @@ tabulation_eval (G_GNUC_UNUSED Workbook *wb, int dims, gnm_float const *x,
 		: value_new_error_VALUE (NULL);
 }
 
-static GOFormat const *
-my_get_format (GnmCell const *cell)
-{
-	GOFormat const *format = gnm_style_get_format (gnm_cell_get_style (cell));
-
-	if (go_format_is_general (format) &&
-	    cell->value != NULL && VALUE_FMT (cell->value) != NULL)
-		return VALUE_FMT (cell->value);
-	return format;
-}
-
 /**
  * do_tabulation:
  * @wbc: control
@@ -90,7 +79,7 @@ do_tabulation (WorkbookControl *wbc,
 	GSList *sheet_idx = NULL;
 	Sheet *sheet = NULL;
 	gboolean sheetdim = (!data->with_coordinates && data->dims >= 3);
-	GOFormat const *targetformat = my_get_format (data->target);
+	GOFormat const *targetformat = gnm_cell_get_format (data->target);
 	int row = 0;
 
 	gnm_float *values = g_new (gnm_float, data->dims);
@@ -112,7 +101,7 @@ do_tabulation (WorkbookControl *wbc,
 
 			values[i] = data->minima[i];
 			index[i] = 0;
-			formats[i] = my_get_format (data->cells[i]);
+			formats[i] = gnm_cell_get_format (data->cells[i]);
 			old_values[i] = value_dup (data->cells[i]->value);
 
 			/* Silently truncate at the edges.  */
@@ -133,7 +122,7 @@ do_tabulation (WorkbookControl *wbc,
 	if (sheetdim) {
 		int dim = 2;
 		gnm_float val = data->minima[dim];
-		GOFormat const *sf = my_get_format (data->cells[dim]);
+		GOFormat const *sf = gnm_cell_get_format (data->cells[dim]);
 		int i;
 
 		sheets = g_new (Sheet *, counts[dim]);
