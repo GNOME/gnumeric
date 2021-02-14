@@ -1,17 +1,17 @@
 # Hungarian translation for gnumeric.
-# Copyright (C) 2000, 2005, 2006, 2015, 2016, 2017, 2018, 2020 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2005, 2006, 2015, 2016, 2017, 2018, 2020, 2021 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
 #
 # Emese Kovács <emese at gnome dot hu>, 2000.
 # András Timár <timar at gnome dot hu>, 2000.
 # Gábor Kelemen <kelemeng at gnome dot hu>, 2005, 2006, 2018.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2015, 2016, 2017, 2018, 2020.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2015, 2016, 2017, 2018, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2020-07-15 22:35+0000\n"
-"PO-Revision-Date: 2020-09-13 01:09+0200\n"
+"POT-Creation-Date: 2020-12-11 01:43+0000\n"
+"PO-Revision-Date: 2021-02-14 02:00+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -220,7 +220,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Az ss:data elem tartalma érvénytelen, „%s” érkezett."
 
 #: ../plugins/excel/excel-xml-read.c:1217
-#: ../plugins/openoffice/openoffice-read.c:14277 ../src/xml-sax-read.c:3540
+#: ../plugins/openoffice/openoffice-read.c:14279 ../src/xml-sax-read.c:3540
 msgid "XML document not well formed!"
 msgstr "Az XML-dokumentum nem megfelelően formázott!"
 
@@ -286,50 +286,50 @@ msgid "No password supplied"
 msgstr "Nem adott meg jelszót"
 
 #: ../plugins/excel/ms-excel-util.c:698
-#: ../plugins/openoffice/openoffice-read.c:6257 ../src/print-info.c:674
+#: ../plugins/openoffice/openoffice-read.c:6257 ../src/print-info.c:669
 msgid "TAB"
 msgstr "LAP"
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:6303 ../src/print-info.c:675
+#: ../plugins/openoffice/openoffice-read.c:6303 ../src/print-info.c:670
 msgid "PAGE"
 msgstr "OLDAL"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:6310 ../src/print-info.c:676
+#: ../plugins/openoffice/openoffice-read.c:6310 ../src/print-info.c:671
 msgid "PAGES"
 msgstr "OLDALAK"
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:6289 ../src/print-info.c:677
+#: ../plugins/openoffice/openoffice-read.c:6289 ../src/print-info.c:672
 msgid "DATE"
 msgstr "DÁTUM"
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:6296 ../src/print-info.c:678
+#: ../plugins/openoffice/openoffice-read.c:6296 ../src/print-info.c:673
 msgid "TIME"
 msgstr "IDŐ"
 
 #: ../plugins/excel/ms-excel-util.c:703
 #: ../plugins/openoffice/openoffice-read.c:6337
-#: ../plugins/openoffice/openoffice-read.c:6344 ../src/print-info.c:679
+#: ../plugins/openoffice/openoffice-read.c:6344 ../src/print-info.c:674
 #: ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "FÁJL"
 
 #: ../plugins/excel/ms-excel-util.c:704
 #: ../plugins/openoffice/openoffice-read.c:6335
-#: ../plugins/openoffice/openoffice-read.c:6340 ../src/print-info.c:680
+#: ../plugins/openoffice/openoffice-read.c:6340 ../src/print-info.c:675
 msgid "PATH"
 msgstr "ÚTVONAL"
 
-#: ../plugins/excel/ms-excel-util.c:706 ../src/print-info.c:681
+#: ../plugins/excel/ms-excel-util.c:706 ../src/print-info.c:676
 msgid "CELL"
 msgstr "CELLA"
 
 #. ???
 #: ../plugins/excel/ms-excel-util.c:707
-#: ../plugins/openoffice/openoffice-read.c:6388 ../src/print-info.c:682
+#: ../plugins/openoffice/openoffice-read.c:6388 ../src/print-info.c:677
 msgid "TITLE"
 msgstr "CÍM"
 
@@ -553,7 +553,7 @@ msgstr "Ismeretlen témaszín: %d"
 msgid "Undefined number format id '%s'"
 msgstr "Meghatározatlan számformátum-azonosító: „%s”"
 
-#: ../plugins/excel/xlsx-read.c:1272 ../plugins/excel/xlsx-read.c:3368
+#: ../plugins/excel/xlsx-read.c:1272 ../plugins/excel/xlsx-read.c:3377
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Érvénytelen szín („%s”) az rgb attribútumnál"
@@ -568,102 +568,102 @@ msgstr "Meghatározatlan stílusrekord: „%d”"
 msgid "Undefined partial style record '%d'"
 msgstr "Meghatározatlan részleges stílusrekord: „%d”"
 
-#: ../plugins/excel/xlsx-read.c:1349
+#: ../plugins/excel/xlsx-read.c:1354
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Érvénytelen sst hivatkozás: „%s”"
 
-#: ../plugins/excel/xlsx-read.c:1516
+#: ../plugins/excel/xlsx-read.c:1521
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Érvénytelen cella: „%s”"
 
-#: ../plugins/excel/xlsx-read.c:1650
+#: ../plugins/excel/xlsx-read.c:1660
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 "Az elsőt vagy utolsót meg nem határozó oszlopinformációk figyelmen kívül "
 "hagyása."
 
-#: ../plugins/excel/xlsx-read.c:1787
+#: ../plugins/excel/xlsx-read.c:1797
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
 msgstr "Papír az XLSX fájlból: %ipt⨉%ipt"
 
-#: ../plugins/excel/xlsx-read.c:1791
+#: ../plugins/excel/xlsx-read.c:1801
 #, c-format
 msgid "Paper from XLSX file, #%i"
 msgstr "Papír az XLSX fájlból, #%i"
 
-#: ../plugins/excel/xlsx-read.c:2252
+#: ../plugins/excel/xlsx-read.c:2262
 #: ../plugins/openoffice/openoffice-read.c:2913
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Érvénytelen adatellenőrzés figyelmen kívül hagyása, ugyanis: %s"
 
-#: ../plugins/excel/xlsx-read.c:2775
+#: ../plugins/excel/xlsx-read.c:2784
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr ""
 "A(z) „%s” típus kezeletlen feltételes formátumának figyelmen kívül hagyása"
 
-#: ../plugins/excel/xlsx-read.c:3185
+#: ../plugins/excel/xlsx-read.c:3194
 msgid "Unknown type of hyperlink"
 msgstr "Ismeretlen hiperhivatkozás típus"
 
-#: ../plugins/excel/xlsx-read.c:3228
+#: ../plugins/excel/xlsx-read.c:3237
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr ""
 "Értelmezhetetlen „ext” kiterjesztés található a következő névtérben: „%s”"
 
-#: ../plugins/excel/xlsx-read.c:3237
+#: ../plugins/excel/xlsx-read.c:3246
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr "Értelmezhetetlen „ext” kiterjesztés található hiányzó névtérrel"
 
-#: ../plugins/excel/xlsx-read.c:3699
+#: ../plugins/excel/xlsx-read.c:3708
 msgid "Ignoring a sheet without a name"
 msgstr "Névtelen munkalap figyelmen kívül hagyása"
 
-#: ../plugins/excel/xlsx-read.c:3783
+#: ../plugins/excel/xlsx-read.c:3792
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Nem sikerült a név meghatározása: %s"
 
-#: ../plugins/excel/xlsx-read.c:3845
+#: ../plugins/excel/xlsx-read.c:3854
 msgid "Unable to resolve external relationship"
 msgstr "Nem lehet feloldani a külső kapcsolatot"
 
-#: ../plugins/excel/xlsx-read.c:4039
+#: ../plugins/excel/xlsx-read.c:4048
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Hiányzó részazonosító a következő munkalapnál: „%s”"
 
-#: ../plugins/excel/xlsx-read.c:4064
+#: ../plugins/excel/xlsx-read.c:4073
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "„%s” munkalap olvasása…"
 
-#: ../plugins/excel/xlsx-read.c:4072
+#: ../plugins/excel/xlsx-read.c:4081
 msgid "Reading comments..."
 msgstr "Megjegyzések olvasása…"
 
-#: ../plugins/excel/xlsx-read.c:5212
+#: ../plugins/excel/xlsx-read.c:5221
 msgid "Reading shared strings..."
 msgstr "Osztott szövegek olvasása…"
 
-#: ../plugins/excel/xlsx-read.c:5221
+#: ../plugins/excel/xlsx-read.c:5230
 msgid "Reading theme..."
 msgstr "Téma olvasása…"
 
-#: ../plugins/excel/xlsx-read.c:5230
+#: ../plugins/excel/xlsx-read.c:5239
 msgid "Reading styles..."
 msgstr "Stílusok olvasása…"
 
-#: ../plugins/excel/xlsx-read.c:5235
+#: ../plugins/excel/xlsx-read.c:5244
 msgid "Reading workbook..."
 msgstr "Munkafüzet olvasása…"
 
-#: ../plugins/excel/xlsx-read.c:5245
+#: ../plugins/excel/xlsx-read.c:5254
 msgid "No workbook stream found."
 msgstr "Nem található munkafüzet adatfolyam."
 
@@ -1547,8 +1547,8 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr "A(z) „%s” kifejezés nem felismert karakterrel kezdődik"
 
 #: ../plugins/openoffice/openoffice-read.c:2457
-#: ../plugins/openoffice/openoffice-write.c:5272
-#: ../plugins/openoffice/openoffice-write.c:5284 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-write.c:5280
+#: ../plugins/openoffice/openoffice-write.c:5292 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "cella"
 
@@ -1912,51 +1912,51 @@ msgstr "Nem található content.xml nevű adatfolyam."
 msgid "Invalid metadata '%s'"
 msgstr "Érvénytelen metaadatok: „%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:14186
+#: ../plugins/openoffice/openoffice-read.c:14188
 msgid "settings.xml stream is malformed!"
 msgstr "A settings.xml adatfolyam helytelenül formázott!"
 
-#: ../plugins/openoffice/openoffice-write.c:5265
-#: ../plugins/openoffice/openoffice-write.c:5277
+#: ../plugins/openoffice/openoffice-write.c:5273
+#: ../plugins/openoffice/openoffice-write.c:5285
 msgid "tab"
 msgstr "lap"
 
-#: ../plugins/openoffice/openoffice-write.c:5266
-#: ../plugins/openoffice/openoffice-write.c:5278
+#: ../plugins/openoffice/openoffice-write.c:5274
+#: ../plugins/openoffice/openoffice-write.c:5286
 msgid "page"
 msgstr "oldal"
 
-#: ../plugins/openoffice/openoffice-write.c:5267
-#: ../plugins/openoffice/openoffice-write.c:5279
+#: ../plugins/openoffice/openoffice-write.c:5275
+#: ../plugins/openoffice/openoffice-write.c:5287
 msgid "pages"
 msgstr "oldal"
 
-#: ../plugins/openoffice/openoffice-write.c:5268
-#: ../plugins/openoffice/openoffice-write.c:5280
+#: ../plugins/openoffice/openoffice-write.c:5276
+#: ../plugins/openoffice/openoffice-write.c:5288
 msgid "date"
 msgstr "dátum"
 
-#: ../plugins/openoffice/openoffice-write.c:5269
-#: ../plugins/openoffice/openoffice-write.c:5281
+#: ../plugins/openoffice/openoffice-write.c:5277
+#: ../plugins/openoffice/openoffice-write.c:5289
 msgid "time"
 msgstr "idő"
 
-#: ../plugins/openoffice/openoffice-write.c:5270
-#: ../plugins/openoffice/openoffice-write.c:5282 ../src/ssconvert.c:121
+#: ../plugins/openoffice/openoffice-write.c:5278
+#: ../plugins/openoffice/openoffice-write.c:5290 ../src/ssconvert.c:121
 #: ../src/ssdiff.c:61
 msgid "file"
 msgstr "fájl"
 
-#: ../plugins/openoffice/openoffice-write.c:5271
-#: ../plugins/openoffice/openoffice-write.c:5283
+#: ../plugins/openoffice/openoffice-write.c:5279
+#: ../plugins/openoffice/openoffice-write.c:5291
 msgid "path"
 msgstr "útvonal"
 
-#: ../plugins/openoffice/openoffice-write.c:9069
+#: ../plugins/openoffice/openoffice-write.c:9078
 msgid "Writing Sheets..."
 msgstr "Munkalapok írása…"
 
-#: ../plugins/openoffice/openoffice-write.c:9110
+#: ../plugins/openoffice/openoffice-write.c:9119
 msgid "Writing Sheet Objects..."
 msgstr "Munkalapobjektumok írása…"
 
@@ -2454,8 +2454,8 @@ msgstr "Hiányzó lezáró „E”"
 #: ../plugins/sylk/sylk.c:821 ../src/dialogs/dialog-goto-cell.c:381
 #: ../src/dialogs/dialog-search.c:437 ../src/dialogs/dialog-stf-export.c:594
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
-#: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:577
-#: ../src/workbook.c:1060 ../src/workbook.c:1090
+#: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:572
+#: ../src/workbook.c:1068 ../src/workbook.c:1098
 msgid "Sheet"
 msgstr "Munkalap"
 
@@ -4010,7 +4010,7 @@ msgstr "%s sorok törlése"
 msgid "Deleting row %s"
 msgstr "%s sor törlése"
 
-#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5104
+#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5061
 msgid "Clear"
 msgstr "Törlés"
 
@@ -4325,7 +4325,7 @@ msgstr "Objektum törlése"
 #: ../src/dialogs/dialog-formula-guru.c:891
 #: ../src/dialogs/dialog-function-select.c:1279
 #: ../src/dialogs/dialog-scenarios.c:521 ../src/dialogs/dialog-simulation.c:210
-#: ../src/dialogs/dialog-zoom.c:194 ../src/format-template.c:216
+#: ../src/dialogs/dialog-zoom.c:195 ../src/format-template.c:216
 msgid "Name"
 msgstr "Név"
 
@@ -4509,7 +4509,7 @@ msgstr "Igazítás beállítása"
 msgid "Add Filter"
 msgstr "Szűrő hozzáadása"
 
-#: ../src/commands.c:7804 ../src/wbc-gtk.c:1631
+#: ../src/commands.c:7804 ../src/wbc-gtk.c:1632
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "%s által blokkolt automatikus szűrő"
@@ -4550,19 +4550,19 @@ msgstr "Szűrőfeltétel megváltoztatása ennél: %s"
 msgid "Clear All Page Breaks"
 msgstr "Minden oldaltörés törlése"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1566
+#: ../src/commands.c:8008 ../src/wbc-gtk.c:1567
 msgid "Remove Column Page Break"
 msgstr "Oszlop oldaltörés eltávolítása"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1576
+#: ../src/commands.c:8008 ../src/wbc-gtk.c:1577
 msgid "Remove Row Page Break"
 msgstr "Sor oldaltörés eltávolítása"
 
-#: ../src/commands.c:8011 ../src/wbc-gtk.c:1569
+#: ../src/commands.c:8011 ../src/wbc-gtk.c:1570
 msgid "Add Column Page Break"
 msgstr "Oszlop oldaltörés hozzáadása"
 
-#: ../src/commands.c:8011 ../src/wbc-gtk.c:1579
+#: ../src/commands.c:8011 ../src/wbc-gtk.c:1580
 msgid "Add Row Page Break"
 msgstr "Sor oldaltörés hozzáadása"
 
@@ -4759,7 +4759,6 @@ msgid "Andreas J. Gülzow"
 msgstr "Andreas J. Gülzow"
 
 #: ../src/dialogs/dialog-about.c:109
-#| msgid "Statistics and GUI master"
 msgid "Statistics and GUI guru"
 msgstr "Statisztikák és grafikus felhasználói felület varázsló"
 
@@ -5020,7 +5019,6 @@ msgid "Visit the Gnumeric website"
 msgstr "A Gnumeric weblapjának megtekintése"
 
 #: ../src/dialogs/dialog-about.c:592
-#| msgid "Copyright © 1998-2018"
 msgid "Copyright © 1998-2020"
 msgstr "Copyright © 1998-2020"
 
@@ -5105,7 +5103,7 @@ msgstr "Az alfa értéknek 0 és 1 közötti számnak kell lennie."
 #: ../src/dialogs/dialog-analysis-tool-one-mean.c:106
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:82
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:108
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:97
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:99
 #: ../src/dialogs/dialog-analysis-tools.c:598
 #: ../src/dialogs/dialog-analysis-tools.c:1187
 #: ../src/dialogs/dialog-analysis-tools.c:1906
@@ -5211,7 +5209,7 @@ msgstr ""
 "Nem sikerült létrehozni a Student-féle t-próba eszköz párbeszédablakot."
 
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:128
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:146
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:148
 #, c-format
 msgid "An unexpected error has occurred."
 msgstr "Váratlan hiba történt."
@@ -5237,15 +5235,15 @@ msgstr "A bemeneti tartományok nem ugyanazzal az alakkal rendelkeznek."
 msgid "Could not create the Sign Test Tool dialog."
 msgstr "Nem sikerült létrehozni az előjel próba eszköz párbeszédablakot."
 
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:84
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:86
 msgid "The input range for variable 1 is invalid."
 msgstr "Az 1. változó bemeneti tartománya érvénytelen."
 
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:89
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:91
 msgid "The input range for variable 2 is invalid."
 msgstr "A 2. változó bemeneti tartománya érvénytelen."
 
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:186
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:188
 msgid "Could not create the Wilcoxon-Mann-Whitney Analysis Tool dialog."
 msgstr ""
 "Nem sikerült létrehozni a Wilcoxon-Mann-Whitney elemzés eszköz "
@@ -6523,7 +6521,7 @@ msgstr "Hiperhivatkozás eltávolítása"
 msgid "Could not create the hyperlink dialog."
 msgstr "Nem sikerült létrehozni a hiperhivatkozás párbeszédablakot."
 
-#: ../src/dialogs/dialog-insert-cells.c:123 ../src/wbc-gtk.c:516
+#: ../src/dialogs/dialog-insert-cells.c:123 ../src/wbc-gtk.c:517
 msgid "Insert"
 msgstr "Beszúrás"
 
@@ -6915,7 +6913,7 @@ msgstr "A mátrixnak szimmetrikusnak, pozitív definitnek kell lennie."
 msgid "The number of random numbers requested is invalid."
 msgstr "A kért véletlenszámok száma érvénytelen."
 
-#: ../src/dialogs/dialog-random-generator-cor.c:219
+#: ../src/dialogs/dialog-random-generator-cor.c:218
 msgid "Could not create the Correlated Random Tool dialog."
 msgstr "Nem sikerült létrehozni a korrelált véletlen eszköz párbeszédablakot."
 
@@ -7147,7 +7145,7 @@ msgstr "nű érték:"
 msgid "Weibull"
 msgstr "Weibull"
 
-#: ../src/dialogs/dialog-random-generator.c:845
+#: ../src/dialogs/dialog-random-generator.c:846
 msgid "Could not create the Random Tool dialog."
 msgstr "Nem sikerült létrehozni a véletlen eszköz párbeszédablakot."
 
@@ -7495,7 +7493,7 @@ msgid "Right-to-left"
 msgstr "Jobbról balra"
 
 #: ../src/dialogs/dialog-sheet-compare.c:408
-#: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:776
+#: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:773
 msgid "Auto"
 msgstr "Automatikus"
 
@@ -7645,16 +7643,16 @@ msgid "Run on"
 msgstr "Futtatva"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:245
-#: ../src/wbc-gtk.c:4058
+#: ../src/wbc-gtk.c:4007
 msgid "Min"
 msgstr "Minimum"
 
-#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4060
+#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4009
 msgid "Average"
 msgstr "Átlag"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4059
+#: ../src/wbc-gtk.c:4008
 msgid "Max"
 msgstr "Maximum"
 
@@ -12723,26 +12721,26 @@ msgctxt "Stock label"
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/gutils.c:968
+#: ../src/gutils.c:991
 #, c-format
 msgid "Unknown sheet \"%s\""
 msgstr "Ismeretlen munkalap: „%s”"
 
-#: ../src/gutils.c:988
+#: ../src/gutils.c:1011
 #, c-format
 msgid "Invalid export option \"%s\" for format %s"
 msgstr "Érvénytelen „%s” exportálási beállítás a formátumhoz: %s"
 
-#: ../src/hlink.c:288
+#: ../src/hlink.c:304
 msgid "Link target"
 msgstr "Hivatkozás célja"
 
-#: ../src/hlink.c:501
+#: ../src/hlink.c:508
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Nem lehet bekapcsolni a(z) „%s” URL-t"
 
-#: ../src/hlink.c:558
+#: ../src/hlink.c:565
 #, c-format
 msgid "Unable to open '%s'"
 msgstr "Nem nyitható meg: „%s”"
@@ -12752,7 +12750,6 @@ msgid "Width:"
 msgstr "Szélesség:"
 
 #: ../src/item-bar.c:858
-#| msgid "Height"
 msgid "Height:"
 msgstr "Magasság:"
 
@@ -12886,7 +12883,7 @@ msgstr "Azonnali kilépés a kijelölt könyvek betöltése után"
 msgid "[FILE ...]"
 msgstr "[FÁJL …]"
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1453 ../src/ssdiff.c:936
+#: ../src/main-application.c:127 ../src/ssconvert.c:1455 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
 #, c-format
 msgid ""
@@ -13003,7 +13000,7 @@ msgid "Unexpected token %c"
 msgstr "Váratlan jelsor: %c"
 
 #: ../src/print-info.c:233 ../src/print-info.c:236 ../src/print-info.c:237
-#: ../src/print-info.c:351
+#: ../src/print-info.c:349
 msgid "Page &[PAGE]"
 msgstr "&[PAGE]. oldal"
 
@@ -13012,7 +13009,7 @@ msgid "Page &[PAGE] of &[PAGES]"
 msgstr "&[PAGE]. oldal, összesen &[PAGES]"
 
 #: ../src/print-info.c:235 ../src/print-info.c:236 ../src/print-info.c:237
-#: ../src/print-info.c:239 ../src/print-info.c:344
+#: ../src/print-info.c:239 ../src/print-info.c:342
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
@@ -13020,29 +13017,29 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: ../src/print-info.c:638
+#: ../src/print-info.c:633
 msgid "File Name"
 msgstr "Fájlnév"
 
-#: ../src/print-info.c:650
+#: ../src/print-info.c:645
 msgid "Path "
 msgstr "Útvonal "
 
-#: ../src/print-info.c:666 ../src/widgets/gnm-fontbutton.c:480
+#: ../src/print-info.c:661 ../src/widgets/gnm-fontbutton.c:480
 msgid "Title"
 msgstr "Cím"
 
-#: ../src/print-info.c:925
+#: ../src/print-info.c:924
 #, c-format
 msgid "There is no object with name '%s'"
 msgstr "Nincs „%s” nevű objektum"
 
-#: ../src/print-info.c:942
+#: ../src/print-info.c:941
 #, c-format
 msgid "Unknown paper size"
 msgstr "Ismeretlen papírméret"
 
-#: ../src/print-info.c:976
+#: ../src/print-info.c:975
 msgid "PDF export"
 msgstr "PDF exportálás"
 
@@ -13388,10 +13385,12 @@ msgstr[1] "%d sor _formázása"
 
 #: ../src/sheet-control-gui.c:2530
 #, c-format
+#| msgid "_Format %d Cell..."
+#| msgid_plural "_Format %d Cells"
 msgid "_Format %d Cell..."
-msgid_plural "_Format %d Cells"
-msgstr[0] "%d cella f_ormázása…"
-msgstr[1] "%d cella f_ormázása…"
+msgid_plural "_Format %d Cells..."
+msgstr[0] "%d cella _formázása…"
+msgstr[1] "%d cella _formázása…"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
 #: ../src/sheet-control-gui.c:2976
@@ -13484,24 +13483,23 @@ msgstr "_Törlés"
 msgid "Print"
 msgstr "Nyomtatás"
 
-#: ../src/sheet-object-component.c:182 ../src/sheet-object-graph.c:296
+#: ../src/sheet-object-component.c:181 ../src/sheet-object-graph.c:296
 #: ../src/sheet-object-image.c:287
 #, c-format
 msgid "Unknown failure while saving image"
 msgstr "Ismeretlen hiba a kép mentése közben"
 
-#: ../src/sheet-object-component.c:191
+#: ../src/sheet-object-component.c:190
 msgid "Save as"
 msgstr "Mentés másként"
 
-#: ../src/sheet-object-component.c:268 ../src/sheet-object-graph.c:407
+#: ../src/sheet-object-component.c:267 ../src/sheet-object-graph.c:407
 #: ../src/sheet-object-image.c:344
 msgid "_Save As Image"
 msgstr "Mentés _képként"
 
 #: ../src/sheet-object-graph.c:288
 #, c-format
-#| msgid "Unknown error"
 msgid "Unknown image format"
 msgstr "Ismeretlen képformátum"
 
@@ -13513,27 +13511,27 @@ msgstr "Megnyitás új _ablakban"
 msgid "Copy to New Graph S_heet"
 msgstr "Másolás új grafikonmunkalapra"
 
-#: ../src/sheet-object-graph.c:772
+#: ../src/sheet-object-graph.c:769
 msgid "Series as:"
 msgstr "Adatsorok mint:"
 
 #. Translators: Series as "Columns"
-#: ../src/sheet-object-graph.c:778
+#: ../src/sheet-object-graph.c:775
 msgctxt "graph"
 msgid "Columns"
 msgstr "Oszlopok"
 
 #. Translators: Series as "Rows"
-#: ../src/sheet-object-graph.c:780
+#: ../src/sheet-object-graph.c:777
 msgctxt "graph"
 msgid "Rows"
 msgstr "Sorok"
 
-#: ../src/sheet-object-graph.c:784
+#: ../src/sheet-object-graph.c:781
 msgid "Use first series as shared abscissa"
 msgstr "Első adatsorok használata osztott abszcisszaként"
 
-#: ../src/sheet-object-graph.c:787
+#: ../src/sheet-object-graph.c:784
 msgid "New graph sheet"
 msgstr "Új grafikonmunkalap"
 
@@ -13621,7 +13619,7 @@ msgid "Cut"
 msgstr "Kivágás"
 
 #. Oh, yeah?
-#: ../src/sheet.c:872
+#: ../src/sheet.c:875
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13632,47 +13630,47 @@ msgstr ""
 "támogatásával lett lefordítva. Az IGAZ nevű oszlophoz való hozzáférés\n"
 "ütközhet az azonos nevű állandóval. Furcsaságra számíthat."
 
-#: ../src/sheet.c:932
+#: ../src/sheet.c:935
 msgid "Display Zeros"
 msgstr "Nullák megjelenítése"
 
-#: ../src/sheet.c:933
+#: ../src/sheet.c:936
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Azt vezérli, hogy a nullák megjelenjenek-e vagy üresek legyenek."
 
-#: ../src/sheet.c:938
+#: ../src/sheet.c:941
 msgid "Display Grid"
 msgstr "Rács megjelenítése"
 
-#: ../src/sheet.c:939
+#: ../src/sheet.c:942
 msgid "Control whether the grid is shown."
 msgstr "Azt vezérli, hogy megjelenjen-e a rács."
 
-#: ../src/sheet.c:3811
+#: ../src/sheet.c:3767
 msgid "Target region contains merged cells"
 msgstr "A célterület egyesített cellákat tartalmaz"
 
-#: ../src/sheet.c:3877
+#: ../src/sheet.c:3833
 msgid "cannot operate on merged cells"
 msgstr "nem működik egyesített cellákon"
 
-#: ../src/sheet.c:3890
+#: ../src/sheet.c:3846
 msgid "cannot operate on array formulæ"
 msgstr "nem működik tömbképleteken"
 
-#: ../src/sheet.c:5527
+#: ../src/sheet.c:5484
 msgid "Insert Columns"
 msgstr "Oszlopok beszúrása"
 
-#: ../src/sheet.c:5545
+#: ../src/sheet.c:5502
 msgid "Delete Columns"
 msgstr "Oszlopok törlése"
 
-#: ../src/sheet.c:5563
+#: ../src/sheet.c:5520
 msgid "Insert Rows"
 msgstr "Sorok beszúrása"
 
-#: ../src/sheet.c:5581
+#: ../src/sheet.c:5538
 msgid "Delete Rows"
 msgstr "Sorok törlése"
 
@@ -13736,7 +13734,6 @@ msgid "Export graphs"
 msgstr "Grafikonok exportálása"
 
 #: ../src/ssconvert.c:162
-#| msgid "List the available importers"
 msgid "List the available image formats"
 msgstr "Az elérhető képformátumok felsorolása"
 
@@ -13834,7 +13831,6 @@ msgstr "Megoldó: %s\n"
 
 #: ../src/ssconvert.c:934
 #, c-format
-#| msgid "Invalid export option \"%s\" for format %s"
 msgid "Invalid export option \"%s=%s\" for image export"
 msgstr "Érvénytelen „%s=%s” exportálási beállítás a képexportáláshoz"
 
@@ -13888,7 +13884,7 @@ msgstr ""
 "Próbálja a --list-importers kapcsolót a lehetőségek listájának "
 "megtekintéséhez.\n"
 
-#: ../src/ssconvert.c:1222 ../src/ssconvert.c:1375
+#: ../src/ssconvert.c:1222 ../src/ssconvert.c:1377
 #, c-format
 msgid "Loading %s failed\n"
 msgstr "%s betöltése sikertelen\n"
@@ -13903,11 +13899,11 @@ msgstr "Átméretezés erre: %dx%d\n"
 msgid "Resizing of sheet %s failed\n"
 msgstr "%s munkalap átméretezése meghiúsult\n"
 
-#: ../src/ssconvert.c:1441 ../src/ssconvert.c:1520
+#: ../src/ssconvert.c:1443 ../src/ssconvert.c:1522
 msgid "INFILE [OUTFILE]"
 msgstr "BEFÁJL [KIFÁJL]"
 
-#: ../src/ssconvert.c:1460
+#: ../src/ssconvert.c:1462
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13918,12 +13914,12 @@ msgstr ""
 "adatkönyvtár := „%s”\n"
 "programkönyvtár := „%s”\n"
 
-#: ../src/ssconvert.c:1466
+#: ../src/ssconvert.c:1468
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr "az --export-file-per-sheet és a --merge-to nem kompatibilisek\n"
 
-#: ../src/ssconvert.c:1518 ../src/ssdiff.c:993 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1520 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Használat: %s [KAPCSOLÓ…] %s\n"
@@ -14535,12 +14531,10 @@ msgid "\"from\" * \"−∞\";\"from\" * \"−∞\""
 msgstr "\"ettől\" * \"−∞\";\"ettől\" * \"−∞\""
 
 #: ../src/tools/analysis-histogram.c:414
-#| msgid "Frequency Tables"
 msgid "Frequency Density"
 msgstr "Gyakoriságsűrűség"
 
 #: ../src/tools/analysis-histogram.c:428 ../src/tools/analysis-histogram.c:442
-#| msgid "Frequency Table"
 msgid "Frequency"
 msgstr "Gyakoriság"
 
@@ -15456,7 +15450,7 @@ msgstr "Csúcsosság"
 msgid "Range"
 msgstr "Tartomány"
 
-#: ../src/tools/simulation.c:255 ../src/wbc-gtk.c:4061
+#: ../src/tools/simulation.c:255 ../src/wbc-gtk.c:4010
 msgid "Count"
 msgstr "Darabszám"
 
@@ -15485,7 +15479,6 @@ msgid "(Input) "
 msgstr "(Bemenet) "
 
 #: ../src/tools/simulation.c:402
-#| msgid "Maximum time exceeded. Simulation was not completed. "
 msgid "Maximum time exceeded. Simulation was not completed."
 msgstr "A maximális idő túllépve. A szimuláció nem fejeződött be."
 
@@ -15549,56 +15542,56 @@ msgstr "Nagyobb mint vagy egyenlő"
 msgid "Less than or Equal"
 msgstr "Kisebb mint vagy egyenlő"
 
-#: ../src/validation.c:476
+#: ../src/validation.c:463
 #, c-format
 msgid "Missing formula for validation"
 msgstr "Hiányzó képlet az ellenőrzéshez"
 
-#: ../src/validation.c:479
+#: ../src/validation.c:466
 #, c-format
 msgid "Extra formula for validation"
 msgstr "További képlet az ellenőrzéshez"
 
-#: ../src/validation.c:490
+#: ../src/validation.c:477
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: Ellenőrzés"
 
-#: ../src/validation.c:557
+#: ../src/validation.c:544
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "A(z) %s cellánál nincs megengedve, hogy üres legyen"
 
-#: ../src/validation.c:565
+#: ../src/validation.c:552
 #, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "A(z) %s cellánál nincs megengedve, hogy hibaértékeket tartalmazzon"
 
-#: ../src/validation.c:576
+#: ../src/validation.c:563
 #, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "A(z) %s cellánál nincs megengedve, hogy szövegeket tartalmazzon"
 
-#: ../src/validation.c:592
+#: ../src/validation.c:579
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "„%s” nem egész"
 
-#: ../src/validation.c:602
+#: ../src/validation.c:589
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "„%s” nem érvényes dátum"
 
-#: ../src/validation.c:626
+#: ../src/validation.c:613
 #, c-format
 msgid "%s does not contain the new value."
 msgstr "%s nem tartalmazza az új értéket."
 
-#: ../src/validation.c:662
+#: ../src/validation.c:649
 #, c-format
 msgid "%s is not true."
 msgstr "%s nem igaz."
 
-#: ../src/validation.c:701
+#: ../src/validation.c:688
 #, c-format
 msgid "%s is out of permitted range"
 msgstr "%s kívül esik a megengedett tartományon"
@@ -15631,7 +15624,7 @@ msgstr "#SZÁM!"
 msgid "#N/A"
 msgstr "#N/A"
 
-#: ../src/wbc-gtk-actions.c:183 ../src/workbook-view.c:1273
+#: ../src/wbc-gtk-actions.c:183 ../src/workbook-view.c:1275
 msgid "Default file saver is not available."
 msgstr "Az alapértelmezett fájlmentő nem érhető el."
 
@@ -16147,7 +16140,7 @@ msgstr "Átne_vezés…"
 msgid "Rename the current sheet"
 msgstr "A jelenlegi munkalap átnevezése"
 
-#: ../src/wbc-gtk-actions.c:2319 ../src/wbc-gtk.c:521
+#: ../src/wbc-gtk-actions.c:2319 ../src/wbc-gtk.c:522
 msgid "Resize..."
 msgstr "Át_méretezés…"
 
@@ -16368,7 +16361,7 @@ msgstr "Következő _objektum"
 msgid "Select the next sheet object"
 msgstr "A következő munkalapobjektum kijelölése"
 
-#: ../src/wbc-gtk-actions.c:2539 ../src/wbc-gtk.c:2768
+#: ../src/wbc-gtk-actions.c:2539 ../src/wbc-gtk.c:2716
 msgid "Go to Top"
 msgstr "Ugrás a tetejéhez"
 
@@ -16376,7 +16369,7 @@ msgstr "Ugrás a tetejéhez"
 msgid "Go to the top of the data"
 msgstr "Ugrás az adatok tetejéhez"
 
-#: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2769
+#: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2717
 msgid "Go to Bottom"
 msgstr "Ugrás az aljához"
 
@@ -16384,7 +16377,7 @@ msgstr "Ugrás az aljához"
 msgid "Go to the bottom of the data"
 msgstr "Ugrás az adatok aljához"
 
-#: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2770
+#: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2718
 msgid "Go to First"
 msgstr "Ugrás az elsőhöz"
 
@@ -16392,7 +16385,7 @@ msgstr "Ugrás az elsőhöz"
 msgid "Go to the first data cell"
 msgstr "Ugrás az első adatcellához"
 
-#: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2771
+#: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2719
 msgid "Go to Last"
 msgstr "Ugrás az utolsóhoz"
 
@@ -16484,11 +16477,11 @@ msgstr "Beállítások…"
 msgid "Change Gnumeric Preferences"
 msgstr "A Gnumeric beállításainak megváltoztatása"
 
-#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1601
+#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1602
 msgid "_Freeze Panes"
 msgstr "_Ablaktáblák befagyasztása"
 
-#: ../src/wbc-gtk-actions.c:2645 ../src/wbc-gtk.c:1604
+#: ../src/wbc-gtk-actions.c:2645 ../src/wbc-gtk.c:1605
 msgid "Freeze the top left of the sheet"
 msgstr "A munkalap bal felső részének befagyasztása"
 
@@ -17075,11 +17068,11 @@ msgstr "Exportálás _CSV-fájlként…"
 msgid "Export the current sheet as a csv file"
 msgstr "A jelenlegi munkalap exportálása CSV-fájlként"
 
-#: ../src/wbc-gtk-actions.c:3170 ../src/wbc-gtk.c:1722
+#: ../src/wbc-gtk-actions.c:3170 ../src/wbc-gtk.c:1723
 msgid "Repeat Export"
 msgstr "Exportálás ismétlése"
 
-#: ../src/wbc-gtk-actions.c:3172 ../src/wbc-gtk.c:1718 ../src/wbc-gtk.c:1722
+#: ../src/wbc-gtk-actions.c:3172 ../src/wbc-gtk.c:1719 ../src/wbc-gtk.c:1723
 msgid "Repeat the last data export"
 msgstr "Az utolsó adatexportálás ismétlése"
 
@@ -17182,7 +17175,7 @@ msgstr "_Szétbontás…"
 msgid "Remove an outline group"
 msgstr "Egy körvonalcsoport eltávolítása"
 
-#: ../src/wbc-gtk-actions.c:3252 ../src/wbc-gtk.c:1643
+#: ../src/wbc-gtk-actions.c:3252 ../src/wbc-gtk.c:1644
 msgid "Add _Auto Filter"
 msgstr "_Automatikus szűrő hozzáadása"
 
@@ -17246,7 +17239,7 @@ msgstr "Adatszeletelő _szerkesztése…"
 msgid "Adjust a data slicer"
 msgstr "Adatszeletelő módosítása"
 
-#: ../src/wbc-gtk-actions.c:3299 ../src/wbc-gtk.c:4057
+#: ../src/wbc-gtk-actions.c:3299 ../src/wbc-gtk.c:4006
 #: ../src/workbook-view.c:855
 msgid "Sum"
 msgstr "Összeg"
@@ -17815,182 +17808,182 @@ msgstr "Formázás eltávolítása"
 msgid "Show this dialog next time."
 msgstr "A párbeszédablak megjelenítése következő alkalommal."
 
-#: ../src/wbc-gtk.c:514
+#: ../src/wbc-gtk.c:515
 msgid "Manage Sheets..."
 msgstr "Munkalapok kezelése…"
 
-#: ../src/wbc-gtk.c:517
+#: ../src/wbc-gtk.c:518
 msgid "Append"
 msgstr "Hozzáfűzés"
 
-#: ../src/wbc-gtk.c:518
+#: ../src/wbc-gtk.c:519
 msgid "Duplicate"
 msgstr "Kettőzés"
 
-#: ../src/wbc-gtk.c:519
+#: ../src/wbc-gtk.c:520
 msgid "Remove"
 msgstr "Eltávolítás"
 
-#: ../src/wbc-gtk.c:520
+#: ../src/wbc-gtk.c:521
 msgid "Rename"
 msgstr "Átnevezés"
 
-#: ../src/wbc-gtk.c:522
+#: ../src/wbc-gtk.c:523
 msgid "Select"
 msgstr "Kijelölés"
 
-#: ../src/wbc-gtk.c:523
+#: ../src/wbc-gtk.c:524
 msgid "Select (sorted)"
 msgstr "Kijelölés (rendezett)"
 
-#: ../src/wbc-gtk.c:1308
+#: ../src/wbc-gtk.c:1309
 msgid " - Gnumeric"
 msgstr " - Gnumeric"
 
-#: ../src/wbc-gtk.c:1469
+#: ../src/wbc-gtk.c:1470
 msgid "Invalid format"
 msgstr "Érvénytelen formátum"
 
-#: ../src/wbc-gtk.c:1567
+#: ../src/wbc-gtk.c:1568
 msgid "Remove the page break to the left of the current column"
 msgstr "Oldaltörés eltávolítása a jelenlegi oszlop bal oldalánál"
 
-#: ../src/wbc-gtk.c:1570
+#: ../src/wbc-gtk.c:1571
 msgid "Add a page break to the left of the current column"
 msgstr "Oldaltörés hozzáadása a jelenlegi oszlop bal oldalánál"
 
-#: ../src/wbc-gtk.c:1577
+#: ../src/wbc-gtk.c:1578
 msgid "Remove the page break above the current row"
 msgstr "Oldaltörés eltávolítása a jelenlegi sor fölött"
 
-#: ../src/wbc-gtk.c:1580
+#: ../src/wbc-gtk.c:1581
 msgid "Add a page break above current row"
 msgstr "Oldaltörés hozzáadása a jelenlegi sor fölött"
 
-#: ../src/wbc-gtk.c:1600
+#: ../src/wbc-gtk.c:1601
 msgid "Un_freeze Panes"
 msgstr "_Ablaktáblák befagyasztásának megszüntetése"
 
-#: ../src/wbc-gtk.c:1603
+#: ../src/wbc-gtk.c:1604
 msgid "Unfreeze the top left of the sheet"
 msgstr "A munkalap bal felső részén lévő befagyasztás megszüntetése"
 
-#: ../src/wbc-gtk.c:1621
+#: ../src/wbc-gtk.c:1622
 #, c-format
 msgid "Extend _Auto Filter to %s"
 msgstr "_Automatikus szűrő kiterjesztése erre: %s"
 
-#: ../src/wbc-gtk.c:1623
+#: ../src/wbc-gtk.c:1624
 msgid "Extend the existing filter."
 msgstr "A meglévő szűrő kiterjesztése."
 
-#: ../src/wbc-gtk.c:1633
+#: ../src/wbc-gtk.c:1634
 msgid "The selection intersects an existing auto filter."
 msgstr "A kijelölés egy meglévő automatikus szűrőt metsz."
 
-#: ../src/wbc-gtk.c:1642
+#: ../src/wbc-gtk.c:1643
 msgid "Remove _Auto Filter"
 msgstr "_Automatikus szűrő eltávolítása"
 
-#: ../src/wbc-gtk.c:1645
+#: ../src/wbc-gtk.c:1646
 msgid "Remove a filter"
 msgstr "Egy szűrő eltávolítása"
 
-#: ../src/wbc-gtk.c:1646
+#: ../src/wbc-gtk.c:1647
 msgid "Add a filter"
 msgstr "Egy szűrő hozzáadása"
 
-#: ../src/wbc-gtk.c:1714
+#: ../src/wbc-gtk.c:1715
 #, c-format
 msgid "Repeat Export to %s"
 msgstr "Exportálás ismétlése ebbe: %s"
 
-#: ../src/wbc-gtk.c:1727
+#: ../src/wbc-gtk.c:1728
 msgid "Remove _Data Slicer"
 msgstr "_Adatszeletelő eltávolítása"
 
-#: ../src/wbc-gtk.c:1728
+#: ../src/wbc-gtk.c:1729
 msgid "Create _Data Slicer"
 msgstr "_Adatszeletelő létrehozása"
 
-#: ../src/wbc-gtk.c:1730
+#: ../src/wbc-gtk.c:1731
 msgid "Remove a Data Slicer"
 msgstr "Adatszeletelő eltávolítása"
 
-#: ../src/wbc-gtk.c:1731
+#: ../src/wbc-gtk.c:1732
 msgid "Create a Data Slicer"
 msgstr "Adatszeletelő létrehozása"
 
-#: ../src/wbc-gtk.c:1744
+#: ../src/wbc-gtk.c:1745
 msgid "_Redo"
 msgstr "Új_ra"
 
-#: ../src/wbc-gtk.c:1745
+#: ../src/wbc-gtk.c:1746
 msgid "_Undo"
 msgstr "_Visszavonás"
 
-#: ../src/wbc-gtk.c:1775
+#: ../src/wbc-gtk.c:1776
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Bezárás előtt menti a(z) „%s” munkafüzet változásait?"
 
-#: ../src/wbc-gtk.c:1780
+#: ../src/wbc-gtk.c:1781
 msgid "Save changes to workbook before closing?"
 msgstr "Bezárás előtt menti a munkafüzet változásait?"
 
-#: ../src/wbc-gtk.c:1787
+#: ../src/wbc-gtk.c:1788
 msgid "If you close without saving, changes will be discarded."
 msgstr "Ha mentés nélkül zárja be, akkor a változások eldobásra kerülnek."
 
-#: ../src/wbc-gtk.c:1790
+#: ../src/wbc-gtk.c:1791
 msgid "Discard"
 msgstr "Eldobás"
 
-#: ../src/wbc-gtk.c:1792
+#: ../src/wbc-gtk.c:1793
 msgid "Don't close"
 msgstr "Ne zárja be"
 
-#: ../src/wbc-gtk.c:2080
+#: ../src/wbc-gtk.c:2022
 msgid "Enter in current cell"
 msgstr "Beírás a jelenlegi cellába"
 
-#: ../src/wbc-gtk.c:2082
+#: ../src/wbc-gtk.c:2024
 msgid "Enter in current cell without autocorrection"
 msgstr "Beírás a jelenlegi cellába automatikus javítás nélkül"
 
-#: ../src/wbc-gtk.c:2089
+#: ../src/wbc-gtk.c:2031
 msgid "Enter in current range merged"
 msgstr "Beírás a jelenlegi egyesített tartományba"
 
-#: ../src/wbc-gtk.c:2092
+#: ../src/wbc-gtk.c:2034
 msgid "Enter in selected ranges"
 msgstr "Beírás a kijelölt tartományokba"
 
-#: ../src/wbc-gtk.c:2094
+#: ../src/wbc-gtk.c:2036
 msgid "Enter in selected ranges as array"
 msgstr "Beírás a kijelölt tartományokba tömbként"
 
-#: ../src/wbc-gtk.c:2504
+#: ../src/wbc-gtk.c:2452
 msgid "END"
 msgstr "BEFEJEZÉS"
 
-#: ../src/wbc-gtk.c:2773
+#: ../src/wbc-gtk.c:2721
 msgid "Go to Cell..."
 msgstr "Ugrás cellához…"
 
-#: ../src/wbc-gtk.c:2835
+#: ../src/wbc-gtk.c:2783
 msgid "Accept change in multiple cells"
 msgstr "Változtatás elfogadása több cellában"
 
-#: ../src/wbc-gtk.c:2907 ../src/wbc-gtk.c:2927
+#: ../src/wbc-gtk.c:2856 ../src/wbc-gtk.c:2876
 msgid "_Re-Edit"
 msgstr "Új_raszerkesztés"
 
-#: ../src/wbc-gtk.c:2909 ../src/wbc-gtk.c:2916
+#: ../src/wbc-gtk.c:2858 ../src/wbc-gtk.c:2865
 msgid "_Discard"
 msgstr "_Eldobás"
 
-#: ../src/wbc-gtk.c:2914 ../src/wbc-gtk.c:2929
+#: ../src/wbc-gtk.c:2863 ../src/wbc-gtk.c:2878
 msgid "_Accept"
 msgstr "El_fogadás"
 
@@ -18000,64 +17993,64 @@ msgstr "El_fogadás"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3289
+#: ../src/wbc-gtk.c:3238
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
 "A(z) „%s” menüben a(z) „%s” billentyű van használatban „%s” és „%s” esetén "
 "egyaránt."
 
-#: ../src/wbc-gtk.c:3588
+#: ../src/wbc-gtk.c:3537
 msgid "Display toolbar above sheets"
 msgstr "Eszköztár megjelenítése a munkalapok fölött"
 
-#: ../src/wbc-gtk.c:3589
+#: ../src/wbc-gtk.c:3538
 msgid "Display toolbar to the left of sheets"
 msgstr "Eszköztár megjelenítése a munkalapok bal oldalánál"
 
-#: ../src/wbc-gtk.c:3590
+#: ../src/wbc-gtk.c:3539
 msgid "Display toolbar to the right of sheets"
 msgstr "Eszköztár megjelenítése a munkalapok jobb oldalánál"
 
-#: ../src/wbc-gtk.c:3618
+#: ../src/wbc-gtk.c:3567
 msgid "Hide"
 msgstr "Elrejtés"
 
-#: ../src/wbc-gtk.c:3684
+#: ../src/wbc-gtk.c:3633
 msgid "Standard Toolbar"
 msgstr "Szabványos eszköztár"
 
-#: ../src/wbc-gtk.c:3685
+#: ../src/wbc-gtk.c:3634
 msgid "Format Toolbar"
 msgstr "Formázás eszköztár"
 
-#: ../src/wbc-gtk.c:3686
+#: ../src/wbc-gtk.c:3635
 msgid "Object Toolbar"
 msgstr "Objektum eszköztár"
 
-#: ../src/wbc-gtk.c:3700
+#: ../src/wbc-gtk.c:3649
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "%s eszköztár megjelenítése/elrejtése"
 
-#: ../src/wbc-gtk.c:4118
+#: ../src/wbc-gtk.c:4067
 #, c-format
 msgid "Content of %s"
 msgstr "%s tartalma"
 
-#: ../src/wbc-gtk.c:4133
+#: ../src/wbc-gtk.c:4082
 msgid "Use Maximum Precision"
 msgstr "Legnagyobb pontosság használata"
 
-#: ../src/wbc-gtk.c:4145
+#: ../src/wbc-gtk.c:4094
 msgid "Insert Formula Below"
 msgstr "Képlet beszúrása alá"
 
-#: ../src/wbc-gtk.c:4151
+#: ../src/wbc-gtk.c:4100
 msgid "Insert Formula to Side"
 msgstr "Képlet beszúrása oldalra"
 
-#: ../src/wbc-gtk.c:4237
+#: ../src/wbc-gtk.c:4186
 #, c-format
 msgid "Open %s"
 msgstr "%s megnyitása"
@@ -18338,34 +18331,33 @@ msgstr "„%s” nem nyitható meg írásra: %s"
 msgid "Can't open '%s' for writing"
 msgstr "„%s” nem nyitható meg írásra"
 
-#: ../src/workbook-view.c:1409
+#: ../src/workbook-view.c:1411
 #, c-format
-#| msgid "Unsupported file format."
 msgid "Unsupported file format for file \"%s\""
 msgstr "Nem támogatott fájlformátum a(z) „%s” fájlnál"
 
-#: ../src/workbook-view.c:1465
+#: ../src/workbook-view.c:1467
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Megmagyarázhatatlan hiba történt a(z) %s megnyitása közben"
 
-#: ../src/workbook.c:316
+#: ../src/workbook.c:326
 #, c-format
 msgid "Book%d.%s"
 msgstr "Munkafüzet%d.%s"
 
-#: ../src/workbook.c:1090
+#: ../src/workbook.c:1098
 msgid "Graph"
 msgstr "Grafikon"
 
-#: ../src/workbook.c:1635
+#: ../src/workbook.c:1643
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
 msgstr[0] "Munkalap átnevezése"
 msgstr[1] "%d munkalap átnevezése"
 
-#: ../src/workbook.c:1637
+#: ../src/workbook.c:1645
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -18376,18 +18368,18 @@ msgstr[1] "%d munkalap hozzáadása"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1643
+#: ../src/workbook.c:1651
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
 msgstr[0] "Munkalap beszúrása"
 msgstr[1] "%d munkalap beszúrása"
 
-#: ../src/workbook.c:1645
+#: ../src/workbook.c:1653
 msgid "Changing sheet tab colors"
 msgstr "Munkalapfül színeinek megváltoztatása"
 
-#: ../src/workbook.c:1647
+#: ../src/workbook.c:1655
 msgid "Changing sheet properties"
 msgstr "Munkalap tulajdonságainak megváltoztatása"
 
@@ -18395,18 +18387,18 @@ msgstr "Munkalap tulajdonságainak megváltoztatása"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1654
+#: ../src/workbook.c:1662
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
 msgstr[0] "Munkalap törlése"
 msgstr[1] "%d munkalap törlése"
 
-#: ../src/workbook.c:1656
+#: ../src/workbook.c:1664
 msgid "Changing sheet order"
 msgstr "Munkalapsorrend megváltoztatása"
 
-#: ../src/workbook.c:1658
+#: ../src/workbook.c:1666
 msgid "Reorganizing Sheets"
 msgstr "Munkalapok újraszervezése"
 
