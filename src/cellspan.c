@@ -236,7 +236,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	g_return_if_fail (cell != NULL);
 
 	sheet = cell->base.sheet;
-	style = gnm_cell_get_style (cell);
+	style = gnm_cell_get_effective_style (cell);
 	h_align = gnm_style_default_halign (style, cell);
 
         /*

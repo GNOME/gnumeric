@@ -1,3 +1,12 @@
+2021-02-14  Morten Welinder  <terra@gnome.org>
+
+	* src/cell.c (gnm_cell_get_effective_style): New function to
+	resolve conditional styling.
+
+	* src/rendered-value.c (gnm_rendered_value_new): Use
+	gnm_cell_get_effective_style instead of doing it by hand.
+
+
 2021-01-30  Morten Welinder  <terra@gnome.org>
 
 	* autogen.sh: check that YELP_HELP_INIT has been expanded.

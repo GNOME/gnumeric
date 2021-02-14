@@ -931,7 +931,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 	GnmStyleBorderType right_border = GNM_STYLE_BORDER_NONE;
 
 	/* Print the cell according to its style. */
-	GnmStyle const *style = gnm_cell_get_style (cell);
+	GnmStyle const *style = gnm_cell_get_effective_style (cell);
 	gboolean hidden = gnm_style_get_contents_hidden (style);
 
 	g_return_if_fail (style != NULL);
@@ -1515,7 +1515,7 @@ latex_file_save (GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext *io_context,
 static void
 latex2e_table_write_cell (GsfOutput *output, GnmCell *cell)
 {
-	GnmStyle const *style = gnm_cell_get_style (cell);
+	GnmStyle const *style = gnm_cell_get_effective_style (cell);
 
 	if (gnm_style_get_contents_hidden (style))
 		return;

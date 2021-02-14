@@ -22,6 +22,7 @@
 #include <number-match.h>
 #include <sheet-style.h>
 #include <parse-util.h>
+#include <style-conditions.h>
 
 #include <goffice/goffice.h>
 
@@ -1002,6 +1003,36 @@ gnm_cell_get_style (GnmCell const *cell)
 }
 
 /**
+ * gnm_cell_get_effective_style:
+ * @cell: #GnmCell to query
+ *
+ * Returns: (transfer none): the fully qualified style for @cell, taking any
+ * conditional formats into account.
+ */
+GnmStyle const *
+gnm_cell_get_effective_style (GnmCell const *cell)
+{
+	GnmStyleConditions *conds;
+	GnmStyle const *mstyle;
+
+	g_return_val_if_fail (cell != NULL, NULL);
+
+	mstyle = gnm_cell_get_style (cell);
+	conds = gnm_style_get_conditions (mstyle);
+	if (conds) {
+		GnmEvalPos ep;
+		int res;
+		eval_pos_init_cell (&ep, cell);
+
+		res = gnm_style_conditions_eval (conds, &ep);
+		if (res >= 0)
+			mstyle = gnm_style_get_cond_style (mstyle, res);
+	}
+	return mstyle;
+}
+
+
+/**
  * gnm_cell_get_format_given_style: (skip)
  * @cell: #GnmCell to query
  * @style: (nullable): #GnmStyle for @cell.
@@ -1017,7 +1048,7 @@ gnm_cell_get_format_given_style (GnmCell const *cell, GnmStyle const *style)
 	g_return_val_if_fail (cell != NULL, go_format_general ());
 
 	if (style == NULL)
-		style = gnm_cell_get_style (cell);
+		style = gnm_cell_get_effective_style (cell);
 
 	fmt = gnm_style_get_format (style);
 
@@ -1040,7 +1071,8 @@ gnm_cell_get_format_given_style (GnmCell const *cell, GnmStyle const *style)
 GOFormat const *
 gnm_cell_get_format (GnmCell const *cell)
 {
-	return gnm_cell_get_format_given_style (cell, NULL);
+	GnmStyle const *mstyle = gnm_cell_get_effective_style (cell);
+	return gnm_cell_get_format_given_style (cell, mstyle);
 }
 
 static GnmValue *

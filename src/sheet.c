@@ -2644,7 +2644,7 @@ cb_max_cell_height (GnmCellIter const *iter, struct cb_fit *data)
 		 * that they are all the same height, more or less.
 		 */
 		Sheet const *sheet = cell->base.sheet;
-		height =  gnm_style_get_pango_height (gnm_cell_get_style (cell),
+		height =  gnm_style_get_pango_height (gnm_cell_get_effective_style (cell),
 						      sheet->rendered_values->context,
 						      sheet->last_zoom_factor_used);
 	} else {
