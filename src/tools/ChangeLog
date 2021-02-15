@@ -1,3 +1,8 @@
+2021-02-15  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_solver_prepare): Always run update_derived
+	here as someone could have changed the parameters underneath us.
+
 2020-08-12  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.48

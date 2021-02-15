@@ -1063,6 +1063,8 @@ gnm_solver_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 	g_return_val_if_fail (GNM_IS_SOLVER (sol), FALSE);
 	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_READY, FALSE);
 
+	gnm_solver_update_derived (sol);
+
 	g_signal_emit (sol, solver_signals[SOL_SIG_PREPARE], 0, wbc, err, &res);
 	return res;
 }
