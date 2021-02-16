@@ -29,6 +29,7 @@ Morten:
 	* Fix graph size problem affecting image output.  [#507]
 	* Check for yelp in autogen.  [#558]
 	* Fix ssconvert problem with conditional styles.
+	* Move from style regions to style classes in css.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48

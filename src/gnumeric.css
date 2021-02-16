@@ -33,14 +33,14 @@ GnmItemGrid:selected {
 }
 
 /* Function markers are enabled from View->View Properties->Cell Markers */
-GnmItemGrid function-marker {
+GnmItemGrid.function-marker {
   color: #80ff80;
   border-color: #555555;
   /* See also GnmPane */
 }
 
 /* This is the divider between panes when an area is frozen.  */
-GnmItemGrid pane-divider {
+GnmItemGrid.pane-divider {
   color: #333333;
 
   /* This isn't working well yet: */
@@ -223,7 +223,7 @@ GtkDialog GtkTextView.function-help {
 /* This is the vertical line used in the fixed-width part of the stf */
 /* import dialog to show where a new column division will be placed */
 
-GtkDialog#stf-import fixed-format-ruler {
+GtkDialog.fixed-format-ruler {
   color: red;
 }
 
@@ -276,6 +276,10 @@ box > box > toolbar {
 box > box:last-child > toolbar {
     padding-top: 1pt;
     padding-bottom: 1pt;
+}
+
+dialog.fixed-format-ruler {
+  color: red;
 }
 
 /* ------------------------------------------------------------------------- */

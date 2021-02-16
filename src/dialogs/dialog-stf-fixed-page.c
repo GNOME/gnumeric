@@ -564,7 +564,7 @@ cb_treeview_draw (GtkWidget *widget,
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (pagedata->dialog));
 	gtk_style_context_save (context);
-	gtk_style_context_add_region (context, "fixed-format-ruler", 0);
+	gtk_style_context_add_class (context, "fixed-format-ruler");
 	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
 				     &ruler_color);
 	gtk_style_context_restore (context);
