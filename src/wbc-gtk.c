@@ -2367,10 +2367,17 @@ cb_screen_changed (GtkWidget *widget)
 
 	data = g_object_get_data (app, app_key);
 	if (!data) {
-		const char *resource = "/org/gnumeric/gnumeric/ui/gnumeric.css";
-		GBytes *cssbytes = g_resources_lookup_data (resource, 0, NULL);
-		const char *csstext = g_bytes_get_data (cssbytes, NULL);
 		gboolean debug = gnm_debug_flag ("css");
+		gboolean q_dark = gnm_theme_is_dark (widget);
+		const char *resource = "/org/gnumeric/gnumeric/ui/gnumeric.css";
+		GBytes *cssbytes;
+		char *csstext;
+		GHashTable *vars = g_hash_table_new (g_str_hash, g_str_equal);
+
+		cssbytes = g_resources_lookup_data (resource, 0, NULL);
+		if (q_dark)
+			g_hash_table_insert (vars, "DARK", "1");
+		csstext = gnm_cpp (g_bytes_get_data (cssbytes, NULL), vars);
 
 		data = g_new (struct css_provider_data, 1);
 		data->css = gtk_css_provider_new ();
@@ -2386,6 +2393,7 @@ cb_screen_changed (GtkWidget *widget)
 		gtk_css_provider_load_from_data	(data->css, csstext, -1, NULL);
 		g_object_set_data_full (app, app_key, data, cb_unload_providers);
 		g_bytes_unref (cssbytes);
+		g_free (csstext);
 	}
 
 	if (screen && !g_slist_find (data->screens, screen)) {

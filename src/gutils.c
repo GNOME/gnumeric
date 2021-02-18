@@ -1014,3 +1014,75 @@ gnm_file_saver_common_export_option (GOFileSaver const *fs,
 
 	return TRUE;
 }
+
+
+static int
+gnm_cpp_expr (const char *expr, G_GNUC_UNUSED GHashTable *vars)
+{
+	int vmajor, vminor, vmicro;
+
+	while (g_ascii_isspace (*expr))
+		expr++;
+
+	if (sscanf (expr, "GTK_CHECK_VERSION (%d,%d,%d) ", &vmajor, &vminor, &vmicro) == 3) {
+		return gtk_check_version (vmajor, vminor, vmicro) ? 0 : 1;
+	}
+
+	g_warning ("Unhandled cpp expression %s", expr);
+	return 0;
+}
+
+
+char *
+gnm_cpp (const char *src, GHashTable *vars)
+{
+	GString *res = g_string_new (NULL);
+	GString *ifdefs = g_string_new ("1");
+
+	while (*src) {
+		const char *end;
+
+		end = strchr (src, '\n');
+		if (end)
+			end++;
+		else
+			end = src + strlen (src);
+
+		if (*src == '#') {
+			if (strncmp (src, "#ifdef ", 7) == 0 || strncmp (src, "#ifndef ", 8) == 0) {
+				int is_not = (src[3] == 'n');
+				const char *var = src + 7 + is_not;
+				char *w;
+				gboolean res;
+
+				while (g_ascii_isspace (*var))
+					var++;
+				src = var;
+				while (g_ascii_isalnum (*src))
+					src++;
+				w = g_strndup (var, src - var);
+				res = is_not ^ !!g_hash_table_lookup (vars, w);
+				g_string_append_c (ifdefs, ifdefs->str[ifdefs->len - 1] && res);
+				g_free (w);
+			} else if (strncmp (src, "#if ", 4) == 0) {
+				gboolean res = gnm_cpp_expr (src + 4, vars) > 0;
+				g_string_append_c (ifdefs, ifdefs->str[ifdefs->len - 1] && res);
+			} else if (strncmp (src, "#else", 5) == 0) {
+				ifdefs->str[ifdefs->len - 1] =
+					!ifdefs->str[ifdefs->len - 1] &&
+					ifdefs->str[ifdefs->len - 2];
+			} else if (strncmp (src, "#endif", 6) == 0 && ifdefs->len > 1) {
+				g_string_set_size (ifdefs, ifdefs->len - 1);
+			} else {
+				g_warning ("cpp failure");
+			}
+		} else {
+			if (ifdefs->str[ifdefs->len - 1])
+				g_string_append_len (res, src, end - src);
+		}
+		src = end;
+	}
+
+	g_string_free (ifdefs, TRUE);
+	return g_string_free (res, FALSE);
+}

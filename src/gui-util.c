@@ -1404,4 +1404,22 @@ gnm_get_link_color (G_GNUC_UNUSED GtkWidget *widget, GdkRGBA *res)
 }
 #endif /* GTK_STATE_FLAG_LINK */
 
+gboolean
+gnm_theme_is_dark (GtkWidget *widget)
+{
+	GtkStyleContext *context;
+	GdkRGBA fg_color;
+	double lum;
+
+	context = gtk_widget_get_style_context (widget);
+	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &fg_color);
+
+	// One of many possible versions.
+	lum = 0.299 * fg_color.red + 0.587 * fg_color.green + 0.114 * fg_color.blue;
+
+	// Theme is dark if fg is light.
+	return lum > 0.5;
+}
+
+
 // ----------------------------------------------------------------------------

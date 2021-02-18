@@ -190,17 +190,6 @@ GocItem.object-size.rubber-band {
 }
 
 /* ------------------------------------------------------------------------- */
-/* Auto filter in two versions: the first one for "all", second for others.  */
-
-GtkArrow.auto-filter {
-  color: black;
-}
-
-GtkArrow.auto-filter:active {
-  color: yellow;
-}
-
-/* ------------------------------------------------------------------------- */
 /* GnmNotebookButton is the sheet name buttons used to select sheets.  */
 
 GnmNotebookButton:active {
@@ -219,24 +208,7 @@ GtkDialog GtkTextView.function-help {
   -GtkWidget-link-color: #4040ff;
 }
 
-/* ------------------------------------------------------------------------- */
-/* This is the vertical line used in the fixed-width part of the stf */
-/* import dialog to show where a new column division will be placed */
-
-GtkDialog.fixed-format-ruler {
-  color: red;
-}
-
-/* ------------------------------------------------------------------------- */
-/* Extra space around multiple toolbars adds up quickly so avoid it. */
-
-GtkBox.toolbarzone GtkToolbar {
-  padding: 0px;
-}
-GtkBox.toolbarzone GtkToolbar * {
-  padding: 1px;
-}
-
+#if GTK_CHECK_VERSION(3,20,0)
 /* ------------------------------------------------------------------------- */
 /* Styles for Gtk+ 3.20 and later */
 /* ------------------------------------------------------------------------- */
@@ -256,8 +228,8 @@ button.itembar, button.itembar * {
 
 /* The whole column/row selected. */
 button:active.itembar, button:active.itembar * {
-  color: red;
-  font-weight: bold;
+    color: red;
+    font-weight: bold;
 }
 
 /* Some, but not all, of a column/row selected. */
@@ -278,8 +250,46 @@ box > box:last-child > toolbar {
     padding-bottom: 1pt;
 }
 
+/* This is the vertical line used in the fixed-width part of the stf */
+/* import dialog to show where a new column division will be placed */
 dialog.fixed-format-ruler {
   color: red;
 }
+
+/* Auto filter in two versions: the first one for "all", second for others.  */
+/* Not working: */
+arrow.auto-filter {
+  color: black;
+}
+arrow.auto-filter:active {
+  color: yellow;
+}
+
+#else
+
+/* Extra space around multiple toolbars adds up quickly so avoid it. */
+GtkBox.toolbarzone GtkToolbar {
+  padding: 0px;
+}
+GtkBox.toolbarzone GtkToolbar * {
+  padding: 1px;
+}
+
+/* This is the vertical line used in the fixed-width part of the stf */
+/* import dialog to show where a new column division will be placed */
+GtkDialog.fixed-format-ruler {
+  color: red;
+}
+
+/* Auto filter in two versions: the first one for "all", second for others.  */
+GtkArrow.auto-filter {
+  color: black;
+}
+
+GtkArrow.auto-filter:active {
+  color: yellow;
+}
+
+#endif
 
 /* ------------------------------------------------------------------------- */

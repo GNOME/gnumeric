@@ -74,6 +74,8 @@ gboolean gnm_file_saver_common_export_option (GOFileSaver const *fs,
 					      const char *value,
 					      GError **err);
 
+char *gnm_cpp (const char *src, GHashTable *vars);
+
 G_END_DECLS
 
 #endif /* _GNM_GUTILS_H_ */
