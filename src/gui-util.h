@@ -189,6 +189,9 @@ void gnm_style_context_get_color (GtkStyleContext *context,
 void gnm_get_link_color (GtkWidget *widget, GdkRGBA *res);
 gboolean gnm_theme_is_dark (GtkWidget *widget);
 
+void gnm_css_debug_color (const char *name, const GdkRGBA *color);
+void gnm_css_debug_int (const char *name, int i);
+
 G_END_DECLS
 
 #endif /* _GNM_GUI_UTIL_H_ */

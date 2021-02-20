@@ -71,12 +71,14 @@ comment_view_reload_style (CommentView *cv)
 	context = goc_item_get_style_context (item);
 	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
 				     &cv->comment_indicator_color);
+	gnm_css_debug_color ("comment-indicator.color", &cv->comment_indicator_color);
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (pane));
 	gtk_widget_style_get (GTK_WIDGET (pane),
 			      "comment-indicator-size",
 			      &cv->comment_indicator_size,
 			      NULL);
+	gnm_css_debug_int ("comment-indicator.size", cv->comment_indicator_size);
 }
 
 static void

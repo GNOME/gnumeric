@@ -1373,6 +1373,33 @@ gnm_action_group_add_action (GtkActionGroup *group, GtkAction *act)
 	gtk_action_group_add_action_with_accel (group, act, NULL);
 }
 
+
+static int gnm_debug_css = -1;
+
+
+void
+gnm_css_debug_color (const char *name,
+		     const GdkRGBA *color)
+{
+	if (gnm_debug_css < 0) gnm_debug_css = gnm_debug_flag ("css");
+
+	if (gnm_debug_css) {
+		char *ctxt = gdk_rgba_to_string (color);
+		g_printerr ("css %s = %s\n", name, ctxt);
+		g_free (ctxt);
+	}
+}
+
+void
+gnm_css_debug_int (const char *name, int i)
+{
+	if (gnm_debug_css < 0) gnm_debug_css = gnm_debug_flag ("css");
+
+	if (gnm_debug_css)
+		g_printerr ("css %s = %d\n", name, i);
+}
+
+
 void
 gnm_style_context_get_color (GtkStyleContext *context,
 			     GtkStateFlags state,
@@ -1388,21 +1415,18 @@ gnm_style_context_get_color (GtkStyleContext *context,
 	gtk_style_context_restore (context);
 }
 
-#if GTK_CHECK_VERSION(3,12,0)
 void
 gnm_get_link_color (GtkWidget *widget, GdkRGBA *res)
 {
+#if GTK_CHECK_VERSION(3,12,0)
 	GtkStyleContext *ctxt = gtk_widget_get_style_context (widget);
 	gnm_style_context_get_color (ctxt, GTK_STATE_FLAG_LINK, res);
-}
 #else
-void
-gnm_get_link_color (G_GNUC_UNUSED GtkWidget *widget, GdkRGBA *res)
-{
+	(void)widget;
 	gdk_rgba_parse (res, "blue");
-#warning GTK_STATE_FLAG_LINK is undefined, using color blue
+#endif
+	gnm_css_debug_color ("link.color", res);
 }
-#endif /* GTK_STATE_FLAG_LINK */
 
 gboolean
 gnm_theme_is_dark (GtkWidget *widget)
@@ -1410,6 +1434,7 @@ gnm_theme_is_dark (GtkWidget *widget)
 	GtkStyleContext *context;
 	GdkRGBA fg_color;
 	double lum;
+	gboolean dark;
 
 	context = gtk_widget_get_style_context (widget);
 	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &fg_color);
@@ -1418,7 +1443,10 @@ gnm_theme_is_dark (GtkWidget *widget)
 	lum = 0.299 * fg_color.red + 0.587 * fg_color.green + 0.114 * fg_color.blue;
 
 	// Theme is dark if fg is light.
-	return lum > 0.5;
+	dark = lum > 0.5;
+	gnm_css_debug_int ("theme.dark", dark);
+
+	return dark;
 }
 
 

@@ -976,6 +976,9 @@ gnm_pane_class_init (GnmPaneClass *klass)
 	widget_class->key_release_event	   = gnm_pane_key_release;
 	widget_class->focus_in_event	   = gnm_pane_focus_in;
 	widget_class->focus_out_event	   = gnm_pane_focus_out;
+#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
+	gtk_widget_class_set_css_name (widget_class, "pane");
+#endif
 
 	gtk_widget_class_install_style_property
 		(widget_class,
@@ -2107,6 +2110,13 @@ gnm_pane_size_guide_start (GnmPane *pane,
 	if (is_colrow_resize)
 		gtk_style_context_add_class (context, "end");
 	gnm_style_context_get_color (context, GTK_STATE_FLAG_SELECTED, &rgba);
+	if (gnm_debug_flag ("css")) {
+		char *name = g_strconcat ("pane.", guide_class, ".", colrow_class,
+					  (is_colrow_resize ? ".resize" : ""),
+					  ".color", NULL);
+		gnm_css_debug_color (name, &rgba);
+		g_free (name);
+	}
 	go_color_from_gdk_rgba (&rgba, &style->line.color);
 
 	if (is_colrow_resize) {

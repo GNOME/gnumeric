@@ -110,6 +110,12 @@ static const char * const selection_styles[3] = {
 	"button.itembar:active"
 };
 
+static const char * const selection_style_names[3] = {
+	"itembar.color",
+	"itembar.color.hover",
+	"itembar.color.selected"
+};
+
 static void
 ib_reload_color_style (GnmItemBar *ib)
 {
@@ -119,11 +125,13 @@ ib_reload_color_style (GnmItemBar *ib)
 
 	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
 				     &ib->grouping_color);
+	gnm_css_debug_color ("item-bar.grouping-color", &ib->grouping_color);
 
 	for (ui = 0; ui < G_N_ELEMENTS (selection_type_flags); ui++) {
 		GtkStateFlags state = selection_type_flags[ui];
 		gnm_style_context_get_color
 			(context, state, &ib->selection_colors[ui]);
+		gnm_css_debug_color (selection_style_names[ui], &ib->selection_colors[ui]);
 	}
 }
 
@@ -312,6 +320,7 @@ item_bar_realize (GocItem *item)
 					    ? GDK_SB_H_DOUBLE_ARROW
 					    : GDK_SB_V_DOUBLE_ARROW);
 
+	ib_reload_color_style (ib);
 	gnm_item_bar_calc_size (ib);
 }
 
@@ -418,8 +427,6 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr,
 	gtk_style_context_save (ctxt);
 	goc_canvas_c2w (item->canvas, x_0, y_0, &x0, &y0);
 	goc_canvas_c2w (item->canvas, x_1, y_1, &x1, &y1);
-
-	ib_reload_color_style (ib);
 
 	if (ib->is_col_header) {
 		int const inc = gnm_item_bar_group_size (ib, sheet->cols.max_outline_level);

@@ -112,21 +112,6 @@ GnmItemBar:hover {
 }
 
 /* ------------------------------------------------------------------------- */
-/* The resize guide used when resizing columns or rows.  This can be
-   subclassed with "row" or "col" as well as with "start" or "end".  */
-GnmPane GocLine.resize-guide {
-  color: black;
-  /* See also GnmPane */
-}
-
-/* The resize guide used when resizing panes.  This can be subclassed with
-   "row" or "col".  */
-GnmPane GocLine.pane-resize-guide {
-  color: #c0c0c0;
-  /* See also GnmPane */
-}
-
-/* ------------------------------------------------------------------------- */
 /* This GtkDrawingArea is the select-all button above the row buttons.  */
 
 GtkDrawingArea.button.all {
@@ -196,17 +181,6 @@ GnmNotebookButton:active {
   font-weight: bold;
 }
 
-/* ------------------------------------------------------------------------- */
-/* Functions' arguments link-like appearance in pseudo-tooltips.  */
-
-GtkTextView.pseudo-tooltip.function-help {
-  -GtkWidget-link-color: #4040ff;
-}
-
-/* Ditto in the function selector.  */
-GtkDialog GtkTextView.function-help {
-  -GtkWidget-link-color: #4040ff;
-}
 
 #if GTK_CHECK_VERSION(3,20,0)
 /* ------------------------------------------------------------------------- */
@@ -224,6 +198,8 @@ button.itembar, button.itembar * {
   font-family: Sans;
   font-style: normal;
   font-variant: normal;
+  /* Could set background-image and background-color here, but it is
+     probably better to stick to the theme.  */
 }
 
 /* The whole column/row selected. */
@@ -255,6 +231,20 @@ box > box:last-child > toolbar {
 dialog.fixed-format-ruler {
   color: red;
 }
+
+/* The resize guide used when resizing columns or rows.  This can be
+   subclassed with "row" or "col" as well as with "start" or "end".  */
+pane GocLine.resize-guide {
+  color: black;
+}
+
+/* The resize guide used when resizing panes.  This can be subclassed with
+   "row" or "col".  */
+pane GocLine.pane-resize-guide {
+  color: #c0c0c0;
+  /* See also GnmPane */
+}
+
 
 /* Auto filter in two versions: the first one for "all", second for others.  */
 /* Not working: */
@@ -288,6 +278,29 @@ GtkArrow.auto-filter {
 
 GtkArrow.auto-filter:active {
   color: yellow;
+}
+
+/* Functions' arguments link-like appearance in pseudo-tooltips.  */
+GtkTextView.pseudo-tooltip.function-help {
+  -GtkWidget-link-color: #4040ff;
+}
+/* Ditto in the function selector.  */
+GtkDialog GtkTextView.function-help {
+  -GtkWidget-link-color: #4040ff;
+}
+
+/* The resize guide used when resizing columns or rows.  This can be
+   subclassed with "row" or "col" as well as with "start" or "end".  */
+GnmPane GocLine.resize-guide {
+  color: yellow;
+  /* See also GnmPane */
+}
+
+/* The resize guide used when resizing panes.  This can be subclassed with
+   "row" or "col".  */
+GnmPane GocLine.pane-resize-guide {
+  color: #c0c0c0;
+  /* See also GnmPane */
 }
 
 #endif
