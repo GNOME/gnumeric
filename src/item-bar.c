@@ -105,15 +105,10 @@ static const GtkStateFlags selection_type_flags[3] = {
 };
 
 static const char * const selection_styles[3] = {
+	// Caution!  assuming a fixed prefix
 	"button.itembar",
 	"button.itembar:hover",
 	"button.itembar:active"
-};
-
-static const char * const selection_style_names[3] = {
-	"itembar.color",
-	"itembar.color.hover",
-	"itembar.color.selected"
 };
 
 static void
@@ -131,7 +126,14 @@ ib_reload_color_style (GnmItemBar *ib)
 		GtkStateFlags state = selection_type_flags[ui];
 		gnm_style_context_get_color
 			(context, state, &ib->selection_colors[ui]);
-		gnm_css_debug_color (selection_style_names[ui], &ib->selection_colors[ui]);
+		if (gnm_debug_flag ("css")) {
+			char *name = g_strdup_printf
+				("itembar.%s%s.color",
+				 ib->is_col_header ? "col" : "row",
+				 selection_styles[ui] + strlen (selection_styles[0]));
+			gnm_css_debug_color (name, &ib->selection_colors[ui]);
+			g_free (name);
+		}
 	}
 }
 

@@ -3,9 +3,10 @@
 /* GnmPane is the canvas we use for sheets.  We store custom properties
    here because there is no un-deprecated way to store them for the
    canvas items which aren't widgets.  */
-GnmPane {
+GnmPane,
+pane {
   -GnmPane-function-indicator-size: 10px;
-  -GnmPane-cell-comment-indicator-size: 6px;
+  -GnmPane-comment-indicator-size: 6px;
   -GnmPane-resize-guide-width: 1px;
   -GnmPane-pane-resize-guide-width: 7px;
   -GnmPane-control-circle-size: 5px;
@@ -32,11 +33,16 @@ GnmItemGrid:selected {
   background-color: lavender;
 }
 
+GnmItemGrid.grid,
+GnmPreviewGrid.grid {
+    color: #c7c7c7;
+}
+
 /* Function markers are enabled from View->View Properties->Cell Markers */
 GnmItemGrid.function-marker {
   color: #80ff80;
   border-color: #555555;
-  /* See also GnmPane */
+  /* Size defined for GnmPane */
 }
 
 /* This is the divider between panes when an area is frozen.  */

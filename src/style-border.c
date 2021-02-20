@@ -145,7 +145,7 @@ gnm_style_border_none (void)
 	if (border_none == NULL) {
 		border_none = g_new0 (GnmBorder, 1);
 		border_none->line_type = GNM_STYLE_BORDER_NONE;
-		border_none->color = style_color_grid ();
+		border_none->color = style_color_grid (NULL);
 		border_none->begin_margin = border_none->end_margin = border_none->width = 0;
 		border_none->ref_count = 1;
 		/* Note: not in the hash.  */

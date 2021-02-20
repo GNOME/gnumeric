@@ -9,11 +9,11 @@
 #include <gnumeric.h>
 #include <style-color.h>
 #include <style-border.h>
+#include <gui-util.h>
 
 static GHashTable *style_color_hash;
 static GnmColor *sc_black;
 static GnmColor *sc_white;
-static GnmColor *sc_grid;
 static GnmColor *sc_auto_back;
 static GnmColor *sc_auto_font;
 static GnmColor *sc_auto_pattern;
@@ -113,11 +113,19 @@ style_color_white (void)
 }
 
 GnmColor *
-style_color_grid (void)
+style_color_grid (GtkStyleContext *context)
 {
-	if (!sc_grid)
-		sc_grid = gnm_color_new_rgb8 (0xc7, 0xc7, 0xc7);
-	return style_color_ref (sc_grid);
+	if (context) {
+		GdkRGBA color;
+		gtk_style_context_save (context);
+		gtk_style_context_add_class (context, "grid");
+		gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
+					     &color);
+		gnm_css_debug_color ("grid.color", &color);
+		gtk_style_context_restore (context);
+		return gnm_color_new_gdk (&color);
+	} else
+		return gnm_color_new_rgb8 (0xc7, 0xc7, 0xc7);
 }
 
 /*
@@ -245,9 +253,6 @@ gnm_color_shutdown (void)
 
 	style_color_unref (sc_white);
 	sc_white = NULL;
-
-	style_color_unref (sc_grid);
-	sc_grid = NULL;
 
 	style_color_unref (sc_auto_back);
 	sc_auto_back = NULL;

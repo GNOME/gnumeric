@@ -33,6 +33,7 @@ Morten:
 	* Implement #ifdef for built-in css.
 	* Dead kitten in css.
 	* Improve the drawing of filter combos.
+	* Allow theming of grid color.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48

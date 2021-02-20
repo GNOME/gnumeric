@@ -519,7 +519,7 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr,
 			row_calc_spans ((ColRowInfo *)ri, row, sheet);
 	}
 
-	sheet_style_update_grid_color (sheet);
+	sheet_style_update_grid_color (sheet, ctxt);
 
 	/* Fill entire region with default background (even past far edge) */
 	cairo_save (cr);

@@ -225,7 +225,7 @@ preview_grid_draw_region (GocItem const *item, cairo_t *cr,
 
 	int *colwidths = NULL;
 
-	gnm_style_border_none_set_color (style_color_grid ());
+	gnm_style_border_none_set_color (style_color_grid (goc_item_get_style_context (item)));
 
 	/*
 	 * allocate a single blob of memory for all 8 arrays of pointers.

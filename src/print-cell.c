@@ -337,7 +337,7 @@ gnm_gtk_print_cell_range (cairo_t *context,
 			break;
 	}
 
-	sheet_style_update_grid_color (sheet);
+	sheet_style_update_grid_color (sheet, NULL);
 
 	/* Get ordered list of merged regions */
 	merged_active = merged_active_seen = merged_used = NULL;

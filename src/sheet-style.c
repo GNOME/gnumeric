@@ -856,11 +856,11 @@ sheet_style_get_auto_pattern_color (Sheet const *sheet)
  * is used for the grid.
  */
 void
-sheet_style_update_grid_color (Sheet const *sheet)
+sheet_style_update_grid_color (Sheet const *sheet, GtkStyleContext *context)
 {
 	GnmColor *default_auto = style_color_auto_pattern ();
 	GnmColor *sheet_auto = sheet_style_get_auto_pattern_color (sheet);
-	GnmColor *grid_color = style_color_grid ();
+	GnmColor *grid_color = style_color_grid (context);
 	GnmColor *new_color;
 
 	new_color = (style_color_equal (default_auto, sheet_auto)

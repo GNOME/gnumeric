@@ -31,7 +31,7 @@ void      style_color_unref    (GnmColor *sc);
 gint      style_color_equal    (GnmColor const *a, GnmColor const *b);
 GnmColor *style_color_black    (void);
 GnmColor *style_color_white    (void);
-GnmColor *style_color_grid     (void);
+GnmColor *style_color_grid     (GtkStyleContext *context);
 
 /****************************************************************/
 /* Internal */
