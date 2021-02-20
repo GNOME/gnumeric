@@ -285,30 +285,45 @@ fcombo_create_list (SheetObject *so,
 static void
 fcombo_arrow_format (GnmFilterCombo *fcombo, GtkWidget *arrow)
 {
-	if (gtk_widget_get_parent (arrow)) {
+	gboolean is_active = (fcombo->cond != NULL);
+	GtkWidget *button = gtk_widget_get_parent (arrow);
+
+	if (button) {
 		char *desc = NULL;
-		if (NULL != fcombo->cond) {
+		if (is_active) {
+			// Presumably we could cook up a description of the filter
+			// here.
 		}
 		if (desc) {
-			gtk_widget_set_tooltip_text (gtk_widget_get_parent (arrow), desc);
+			gtk_widget_set_tooltip_text (button, desc);
 			g_free (desc);
 		}
 	}
 
-	gtk_arrow_set (GTK_ARROW (arrow),
-		fcombo->cond != NULL ? GTK_ARROW_RIGHT : GTK_ARROW_DOWN,
-		GTK_SHADOW_IN);
-	if (fcombo->cond)
-		gtk_widget_set_state_flags (arrow, GTK_STATE_FLAG_ACTIVE, FALSE);
+	if (is_active)
+		gtk_widget_set_state_flags (arrow, GTK_STATE_FLAG_ACTIVE | GTK_STATE_FLAG_CHECKED, FALSE);
 	else
-		gtk_widget_unset_state_flags (arrow, GTK_STATE_FLAG_ACTIVE);
+		gtk_widget_unset_state_flags (arrow, GTK_STATE_FLAG_ACTIVE | GTK_STATE_FLAG_CHECKED);
+}
+
+static gboolean
+fcombo_draw_arrow (GtkWidget *widget, cairo_t *cr, gpointer data)
+{
+	GtkStyleContext *context = gtk_widget_get_style_context (widget);
+	guint width = gtk_widget_get_allocated_width (widget);
+	guint height = gtk_widget_get_allocated_height (widget);
+	gtk_render_background (context, cr, 0, 0, width, height);
+	gtk_render_expander (context, cr, 0, 0, width, height);
+	return FALSE;
 }
 
 static GtkWidget *
 fcombo_create_arrow (SheetObject *so)
 {
 	GnmFilterCombo *fcombo = GNM_FILTER_COMBO (so);
-	GtkWidget *arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_IN);
+	GtkWidget *arrow = gtk_drawing_area_new ();
+	g_signal_connect (G_OBJECT (arrow), "draw",
+			  G_CALLBACK (fcombo_draw_arrow), NULL);
 	gtk_style_context_add_class (gtk_widget_get_style_context (arrow),
 				     "auto-filter");
 	fcombo_arrow_format (fcombo, arrow);

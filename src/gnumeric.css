@@ -242,17 +242,15 @@ pane GocLine.resize-guide {
    "row" or "col".  */
 pane GocLine.pane-resize-guide {
   color: #c0c0c0;
-  /* See also GnmPane */
 }
 
 
 /* Auto filter in two versions: the first one for "all", second for others.  */
-/* Not working: */
-arrow.auto-filter {
+button > *.auto-filter {
   color: black;
 }
-arrow.auto-filter:active {
-  color: yellow;
+button > *.auto-filter:active {
+  color: #ff6000;
 }
 
 #else
@@ -272,12 +270,11 @@ GtkDialog.fixed-format-ruler {
 }
 
 /* Auto filter in two versions: the first one for "all", second for others.  */
-GtkArrow.auto-filter {
+GtkDrawingArea.auto-filter {
   color: black;
 }
-
-GtkArrow.auto-filter:active {
-  color: yellow;
+GtkDrawingArea.auto-filter:active {
+  color: #ff6000;
 }
 
 /* Functions' arguments link-like appearance in pseudo-tooltips.  */
@@ -292,7 +289,7 @@ GtkDialog GtkTextView.function-help {
 /* The resize guide used when resizing columns or rows.  This can be
    subclassed with "row" or "col" as well as with "start" or "end".  */
 GnmPane GocLine.resize-guide {
-  color: yellow;
+  color: black;
   /* See also GnmPane */
 }
 

@@ -32,6 +32,7 @@ Morten:
 	* Move from style regions to style classes in css.
 	* Implement #ifdef for built-in css.
 	* Dead kitten in css.
+	* Improve the drawing of filter combos.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48

@@ -1,3 +1,9 @@
+2021-02-20  Morten Welinder  <terra@gnome.org>
+
+	* gnm-filter-combo-view.c (fcombo_create_arrow): Use a drawing
+	area and draw as an expander, not an arrow.  GtkArrow is
+	deprecated and is, in any case, not the right visual here.
+
 2020-08-12  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.48
