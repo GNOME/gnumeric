@@ -6,6 +6,7 @@ Andreas:
 
 Jean:
 	* Fix graph size issue when the graph is in its own sheet. [#516]
+	* Fix one more graph size issue when the graph is in its own sheet. [#565]
 
 JohnDenker:
 	* Fix ssgrep problem when used as a filter.  [#552]

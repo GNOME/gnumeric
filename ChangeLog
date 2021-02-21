@@ -1,3 +1,8 @@
+2021-02-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-graph.c (gnm_sog_bounds_changed): don't take anchors
+	into account when updating the graph inside a graph sheet. [#565]
+
 2021-02-14  Morten Welinder  <terra@gnome.org>
 
 	* src/cell.c (gnm_cell_get_effective_style): New function to

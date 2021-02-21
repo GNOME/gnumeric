@@ -570,7 +570,7 @@ gnm_sog_bounds_changed (SheetObject *so)
 	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 
 	/* If it has not been realized there is no renderer yet */
-	if (sog->renderer != NULL)
+	if (sog->renderer != NULL && so->sheet->sheet_type == GNM_SHEET_DATA)
 		sog_update_graph_size (sog);
 }
 
