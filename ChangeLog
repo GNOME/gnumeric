@@ -1,3 +1,10 @@
+2021-02-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* src/sheet-object-graph.c (sog_update_graph_size),
+	(gnm_sog_bounds_changed):
+
 2021-02-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-graph.c (gnm_sog_bounds_changed): don't take anchors

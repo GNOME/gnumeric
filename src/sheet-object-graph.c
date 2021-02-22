@@ -526,7 +526,8 @@ sog_update_graph_size (SheetObjectGraph *sog)
 	double coords[4];
 	SheetObject *so = GNM_SO (sog);
 
-	if (sog->graph == NULL || so->sheet == NULL)
+	if (sog->graph == NULL || so->sheet == NULL ||
+	    so->sheet->sheet_type != GNM_SHEET_DATA)
 		return;
 
 	sheet_object_position_pts_get (so, coords);
@@ -570,7 +571,7 @@ gnm_sog_bounds_changed (SheetObject *so)
 	SheetObjectGraph *sog = GNM_SO_GRAPH (so);
 
 	/* If it has not been realized there is no renderer yet */
-	if (sog->renderer != NULL && so->sheet->sheet_type == GNM_SHEET_DATA)
+	if (sog->renderer != NULL)
 		sog_update_graph_size (sog);
 }
 
