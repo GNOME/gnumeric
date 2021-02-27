@@ -398,8 +398,7 @@ command_undo (WorkbookControl *wbc)
 
 		update_after_action (cmd->sheet, wbc);
 
-		if (!cmd->workbook_modified_before_do)
-			go_doc_set_dirty (GO_DOC (wb), FALSE);
+		go_doc_set_state (GO_DOC (wb), cmd->state_before_do);
 
 		/*
 		 * A few commands clear the undo queue.  For those, we do not
@@ -449,8 +448,7 @@ command_redo (WorkbookControl *wbc)
 
 	g_object_ref (cmd);
 
-	cmd->workbook_modified_before_do =
-		go_doc_is_dirty (wb_control_get_doc (wbc));
+	cmd->state_before_do = go_doc_get_state (wb_control_get_doc (wbc));
 
 	/* TRUE indicates a failure to redo.  Leave the command where it is */
 	if (!klass->redo_cmd (cmd, wbc)) {
@@ -720,8 +718,7 @@ gnm_command_push_undo (WorkbookControl *wbc, GObject *obj)
 	g_return_val_if_fail (wbc != NULL, TRUE);
 
 	cmd = GNM_COMMAND (obj);
-	cmd->workbook_modified_before_do =
-		go_doc_is_dirty (wb_control_get_doc (wbc));
+	cmd->state_before_do = go_doc_get_state (wb_control_get_doc (wbc));
 
 	g_return_val_if_fail (cmd != NULL, TRUE);
 

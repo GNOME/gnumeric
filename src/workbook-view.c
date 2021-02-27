@@ -1215,6 +1215,8 @@ workbook_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 			if (go_doc_set_uri (GO_DOC (wb), uri)) {
 				GDateTime *modtime;
 
+				go_doc_set_saved_state (GO_DOC (wb),
+							go_doc_get_state (GO_DOC (wb)));
 				go_doc_set_dirty (GO_DOC (wb), FALSE);
 				/* See 634792.  */
 				go_doc_set_pristine (GO_DOC (wb), FALSE);
@@ -1286,6 +1288,8 @@ workbook_view_save (WorkbookView *wbv, GOCmdContext *context)
 		if (gnm_debug_flag ("modtime"))
 			g_printerr ("Modtime set\n");
 		g_date_time_unref (modtime);
+		go_doc_set_saved_state (GO_DOC (wb),
+					go_doc_get_state (GO_DOC (wb)));
 		go_doc_set_dirty (GO_DOC (wb), FALSE);
 	}
 	if (has_error || has_warning)
@@ -1399,7 +1403,9 @@ workbook_view_new_from_input (GsfInput *input,
 			workbook_queue_volatile_recalc (new_wb);
 			workbook_recalc (new_wb);
 			workbook_update_graphs (new_wb);
-			go_doc_set_dirty (GO_DOC (new_wb), FALSE);
+			go_doc_set_saved_state
+				(GO_DOC (new_wb),
+				 go_doc_get_state (GO_DOC (new_wb)));
 			if (uri && workbook_get_file_exporter (new_wb))
 				workbook_set_last_export_uri
 					(new_wb, uri);

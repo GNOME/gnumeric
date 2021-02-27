@@ -40,7 +40,7 @@ typedef struct {
 	char const *cmd_descriptor;
 
 	/* State of workbook before the commands was undo.  */
-	gboolean workbook_modified_before_do;
+	guint64 state_before_do;
 } GnmCommand;
 
 typedef gboolean (* UndoCmd)   (GnmCommand *self, WorkbookControl *wbc);

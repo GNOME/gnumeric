@@ -5169,7 +5169,7 @@ sheet_mark_dirty (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	if (sheet->workbook)
-		go_doc_set_dirty (GO_DOC (sheet->workbook), TRUE);
+		workbook_mark_dirty (sheet->workbook);
 }
 
 /****************************************************************************/

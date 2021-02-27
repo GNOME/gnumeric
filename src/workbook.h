@@ -16,6 +16,8 @@ GType       workbook_get_type            (void);
 Workbook   *workbook_new                 (void);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
 
+void        workbook_mark_dirty          (Workbook *wb);
+
 /* Sheet support routines */
 GPtrArray  *workbook_sheets              (Workbook const *wb);
 int         workbook_sheet_count         (Workbook const *wb);

@@ -463,10 +463,18 @@ workbook_new_with_sheets (int sheet_count)
 		gnm_sheet_suggest_size (&cols, &rows);
 	while (sheet_count-- > 0)
 		workbook_sheet_add (wb, -1, cols, rows);
-	go_doc_set_dirty (GO_DOC (wb), FALSE);
+	// Restore to pristine state
+	go_doc_set_state (GO_DOC (wb), go_doc_get_saved_state (GO_DOC (wb)));
 	go_doc_set_pristine (GO_DOC (wb), TRUE);
 	return wb;
 }
+
+void
+workbook_mark_dirty (Workbook *wb)
+{
+	go_doc_bump_state (GO_DOC (wb));
+}
+
 
 /**
  * workbook_set_saveinfo:
@@ -1031,7 +1039,7 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 	/* Do not signal until after adding the views [#314208] */
 	post_sheet_index_change (wb);
 
-	go_doc_set_dirty (GO_DOC (wb), TRUE);
+	workbook_mark_dirty (wb);
 }
 
 /**
@@ -1159,7 +1167,7 @@ workbook_sheet_delete (Sheet *sheet)
 	g_object_unref (sheet);
 
 	if (!wb->during_destruction)
-		go_doc_set_dirty (GO_DOC (wb), TRUE);
+		workbook_mark_dirty (wb);
 	g_signal_emit (G_OBJECT (wb), signals[SHEET_DELETED], 0);
 
 	if (!wb->during_destruction)
@@ -1204,7 +1212,7 @@ workbook_sheet_move (Sheet *sheet, int direction)
 
 	post_sheet_index_change (wb);
 
-	go_doc_set_dirty (GO_DOC (wb), TRUE);
+	workbook_mark_dirty (wb);
 }
 
 /**
