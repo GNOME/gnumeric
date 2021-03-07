@@ -1370,7 +1370,7 @@ sheet_style_set_pos (Sheet *sheet, int col, int row,
  * sheet_style_default:
  * @sheet:
  *
- * Returns a reference to default style for a sheet.
+ * Returns: (transfer full): default style for the sheet.
  **/
 GnmStyle *
 sheet_style_default (Sheet const *sheet)
