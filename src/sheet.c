@@ -719,7 +719,6 @@ gnm_sheet_constructed (GObject *obj)
 	Sheet *sheet = SHEET (obj);
 	int ht;
 	GnmStyle *style;
-	PangoContext *context;
 
 	if (parent_class->constructed)
 		parent_class->constructed (obj);
@@ -776,10 +775,9 @@ gnm_sheet_constructed (GObject *obj)
 	}
 
 	style = sheet_style_default (sheet);
-	context = gnm_pango_context_get ();
-	ht = gnm_style_get_pango_height (style, context, 1);
+	ht = gnm_style_get_pango_height (style,
+					 sheet->rendered_values->context, 1);
 	gnm_style_unref (style);
-	g_object_unref (context);
 	ht += GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
 	if (ht > sheet_row_get_default_size_pixels (sheet)) {
 		sheet_row_set_default_size_pixels (sheet, ht);
@@ -863,6 +861,7 @@ gnm_sheet_init (Sheet *sheet)
 
 	sheet->rows.max_used = -1;
 	sheet->rows.info = g_ptr_array_new ();
+	// 12.75 might be overwritten later
 	sheet_row_set_default_size_pts (sheet, 12.75);
 
 	sheet->print_info = gnm_print_information_new (FALSE);
