@@ -717,6 +717,9 @@ static void
 gnm_sheet_constructed (GObject *obj)
 {
 	Sheet *sheet = SHEET (obj);
+	int ht;
+	GnmStyle *style;
+	PangoContext *context;
 
 	if (parent_class->constructed)
 		parent_class->constructed (obj);
@@ -770,6 +773,16 @@ gnm_sheet_constructed (GObject *obj)
 	}
 	default:
 		g_assert_not_reached ();
+	}
+
+	style = sheet_style_default (sheet);
+	context = gnm_pango_context_get ();
+	ht = gnm_style_get_pango_height (style, context, 1);
+	gnm_style_unref (style);
+	g_object_unref (context);
+	ht += GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
+	if (ht > sheet_row_get_default_size_pixels (sheet)) {
+		sheet_row_set_default_size_pixels (sheet, ht);
 	}
 
 	sheet_scale_changed (sheet, TRUE, TRUE);
@@ -5744,6 +5757,13 @@ sheet_colrow_default_calc (Sheet *sheet, double units,
 		: &sheet->rows.default_style;
 
 	g_return_if_fail (units > 0.);
+
+	if (gnm_debug_flag ("colrow")) {
+		g_printerr ("Setting default %s size to %g%s\n",
+			    is_cols ? "column" : "row",
+			    units,
+			    is_pts ? "pts" : "px");
+	}
 
 	cri->is_default	= TRUE;
 	cri->hard_size	= FALSE;
