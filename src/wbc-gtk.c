@@ -2161,6 +2161,40 @@ dump_size_tree (GtkWidget *w, gpointer indent_)
 
 
 static void
+dump_colrow_sizes (Sheet *sheet)
+{
+	static const char *what[2] = { "col", "row" };
+	int pass;
+	for (pass = 0; pass < 2; pass++) {
+		gboolean is_cols = (pass == 0);
+		ColRowCollection *crc = is_cols ? &sheet->cols : &sheet->rows;
+		int i;
+
+		g_printerr ("Dumping %s sizes, max_used=%d\n",
+			    what[pass], crc->max_used);
+		for (i = -1; i <= crc->max_used; i++) {
+			ColRowInfo const *cri = (i >= 0)
+				? sheet_colrow_get (sheet, i, is_cols)
+				: sheet_colrow_get_default (sheet, is_cols);
+			g_printerr ("%s %5d : ", what[pass], i);
+			if (cri == NULL) {
+				g_printerr ("default\n");
+			} else {
+				g_printerr ("pts=%-6g  px=%-3d%s%s%s%s%s%s\n",
+					    cri->size_pts, cri->size_pixels,
+					    cri->is_default ? "  def" : "",
+					    cri->is_collapsed ? "  clps" : "",
+					    cri->hard_size ? "  hard" : "",
+					    cri->visible ? "  viz" : "",
+					    cri->in_filter ? "  filt" : "",
+					    cri->in_advanced_filter ? "  afilt" : "");
+			}
+		}
+	}
+}
+
+
+static void
 cb_workbook_debug_info (WBCGtk *wbcg)
 {
 	Workbook *wb = wb_control_get_workbook (GNM_WBC (wbcg));
@@ -2170,6 +2204,10 @@ cb_workbook_debug_info (WBCGtk *wbcg)
 
 	if (gnm_debug_flag ("deps")) {
 		dependents_dump (wb);
+	}
+
+	if (gnm_debug_flag ("colrow")) {
+		dump_colrow_sizes (wbcg_cur_sheet (wbcg));
 	}
 
 	if (gnm_debug_flag ("expr-sharer")) {
@@ -2376,7 +2414,9 @@ cb_screen_changed (GtkWidget *widget)
 
 		cssbytes = g_resources_lookup_data (resource, 0, NULL);
 		if (q_dark)
-			g_hash_table_insert (vars, "DARK", "1");
+			g_hash_table_insert (vars,
+					     (gpointer)"DARK",
+					     (gpointer)"1");
 		csstext = gnm_cpp (g_bytes_get_data (cssbytes, NULL), vars);
 
 		data = g_new (struct css_provider_data, 1);
@@ -2801,6 +2841,7 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	debug_button = GET_GUI_ITEM ("debug_button");
 	if (gnm_debug_flag ("notebook-size") ||
 	    gnm_debug_flag ("deps") ||
+	    gnm_debug_flag ("colrow") ||
 	    gnm_debug_flag ("expr-sharer") ||
 	    gnm_debug_flag ("style-optimize") ||
 	    gnm_debug_flag ("sheet-conditions") ||
