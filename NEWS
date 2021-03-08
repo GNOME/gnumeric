@@ -37,6 +37,7 @@ Morten:
 	* Allow theming of grid color.
 	* Fix dirty-tracking.  [#554]
 	* Plug ods write leak.
+	* Disable cs documentation translation due to itstool/libxml2 bug.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48
