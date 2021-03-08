@@ -6,7 +6,7 @@ use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
 my $src = "$samples/formats.xls";
-&report_skip ("file $src does not exist") unless -r $src;
+&GnumericTest::report_skip ("file $src does not exist") unless -r $src;
 
 # Text formats
 for (['csv', 'Gnumeric_stf:stf_csv'],
