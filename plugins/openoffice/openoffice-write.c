@@ -3248,7 +3248,7 @@ odf_write_line (GnmOOExport *state, SheetObject *so)
 	double x1, y1, x2, y2;
 	gchar const *style_name = g_hash_table_lookup (state->so_styles, so);
 	int z;
-	char const *name = NULL;
+	char *name = NULL;
 
 	gsf_xml_out_start_element (state->xml, DRAW "line");
 	g_object_get (G_OBJECT (so), "name", &name, NULL);
