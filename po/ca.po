@@ -11955,7 +11955,7 @@ msgstr "El temps màxim permès al resoledor"
 
 #: ../src/dialogs/solver.ui.h:31
 msgid "Automatic _Scaling"
-msgstr "E_scalat Automàtic"
+msgstr "E_scalat automàtic"
 
 #: ../src/dialogs/solver.ui.h:32
 msgid "Gradient order:"
@@ -13449,7 +13449,7 @@ msgstr "Mou al _darrere"
 
 #: ../src/sheet-object.c:286
 msgid "Pus_h to Back"
-msgstr "Prem per _tornar"
+msgstr "Prem per a _tornar"
 
 #: ../src/sheet-object.c:291 ../src/wbc-gtk-actions.c:2074
 msgid "_Delete"
