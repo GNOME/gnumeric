@@ -1,3 +1,7 @@
+2021-03-08  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_write_line): Plug leak.
+
 2021-01-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_apply_ooo_table_config): we can only handle splitmode == 2.

@@ -3252,8 +3252,10 @@ odf_write_line (GnmOOExport *state, SheetObject *so)
 
 	gsf_xml_out_start_element (state->xml, DRAW "line");
 	g_object_get (G_OBJECT (so), "name", &name, NULL);
-	if (name)
+	if (name) {
 	        gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "name", name);
+		g_free (name);
+	}
 	if (style_name != NULL)
 		gsf_xml_out_add_cstr (state->xml, DRAW "style-name", style_name);
 	z = g_slist_length (state->sheet->sheet_objects) -

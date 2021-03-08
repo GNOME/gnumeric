@@ -36,6 +36,7 @@ Morten:
 	* Improve the drawing of filter combos.
 	* Allow theming of grid color.
 	* Fix dirty-tracking.  [#554]
+	* Plug ods write leak.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.48
