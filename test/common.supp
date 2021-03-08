@@ -956,3 +956,9 @@
    ...
    fun:g_simple_async_result_complete
 }
+
+{
+   gdk_pixbuf_has_alpha_bitfield
+   Memcheck:Cond
+   fun:gdk_pixbuf_add_alpha
+}
