@@ -8,7 +8,24 @@ DISTCLEANFILES=
 @YELP_HELP_RULES@
 
 HELP_ID=gnumeric
-HELP_LINGUAS=cs de es sv
+
+## Unfortunately, I have to turn off "cs" translations.  I am unable to
+## release without.  The cause is an itstool and/or libxml2 bug that causes
+## the build process to crash, see
+##
+##    https://github.com/itstool/itstool/issues/22
+##
+## You can turn "cs" back on for yourself, but please do not commit such
+## a change.
+##
+## I apologize for having to do this, especially since distributions that
+## patch itstool and/or libxml2 probably won't notice and undo this.  The
+## net result is likely to be that the cs translation does not reach users.
+##
+## Morten Welinder, 20210308.  (If that seems like a long time ago and
+## if the bug link suggests improvement in the situation, feel free to
+## discuss with me on the gnumeric mailing list.)
+HELP_LINGUAS=de es sv
 HELP_FILES=gnumeric.xml
 
 HELP_EXTRA=					\
