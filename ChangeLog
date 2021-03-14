@@ -1,5 +1,9 @@
 2021-03-14  Morten Welinder <terra@gnome.org>
 
+	* configure.ac: Post-release bump.
+
+2021-03-14  Morten Welinder <terra@gnome.org>
+
 	* Release 1.12.49
 
 2021-02-22  Jean Brefort  <jean.brefort@normalesup.org>
