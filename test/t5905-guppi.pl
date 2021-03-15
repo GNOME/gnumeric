@@ -9,4 +9,4 @@ use GnumericTest;
 my $mode = ((shift @ARGV) || "check");
 
 &message ("Check the guppi graph importer.");
-&test_importer ("$samples/b66666-guppi.gnumeric", "4f9552b87482dfa330ed251dffef467939478244", $mode);
+&test_importer ("$samples/b66666-guppi.gnumeric", "e7d2f225b9fc36dae36291d4d2fa848d39e7b006", $mode);
