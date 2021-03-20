@@ -307,6 +307,7 @@ sub sstest {
     my $expected = shift @_;
 
     my $cmd = &quotearg ($sstest, $test);
+    print STDERR "# $cmd\n" if $verbose;
     my $actual = `$cmd 2>&1`;
     my $err = $?;
     die "Failed command: $cmd\n" if $err;
@@ -810,6 +811,7 @@ sub test_ssindex {
 
     {
 	my $cmd = &quotearg ($ssindex, "--index", $file);
+	print STDERR "# $cmd\n" if $verbose;
 	my $output = `$cmd 2>&1 >'$xmlfile'`;
 	my $err = $?;
 	&dump_indented ($output);
