@@ -2135,7 +2135,7 @@ cmd_sort_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	GnmPasteTarget pt;
 
 	paste_target_init (&pt, data->sheet, data->range,
-			   PASTE_CONTENTS | PASTE_FORMATS |
+			   PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS |
 			   (data->retain_formats ? PASTE_FORMATS : 0));
 	clipboard_paste_region (me->old_contents,
 				&pt,

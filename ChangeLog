@@ -1,3 +1,7 @@
+2021-03-19  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_sort_undo): Paste cell comments too.
+
 2021-03-14  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
