@@ -172,7 +172,7 @@ gplp_load_base (GOPluginLoader *loader, GOErrorInfo **ret_error)
 
 	modules = PyImport_GetModuleDict ();
 	g_return_if_fail (modules != NULL);
-	main_module = PyDict_GetItemString (modules, (char *) "__main__");
+	main_module = PyDict_GetItemString (modules, "__main__");
 	g_return_if_fail (main_module != NULL);
 	main_module_dict = PyModule_GetDict (main_module);
 	g_return_if_fail (main_module_dict != NULL);
@@ -241,7 +241,7 @@ gplp_func_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GOPluginService *ser
 		g_object_unref (input);
 		probe_result = PyObject_CallFunction
 			(loader_data->python_func_file_probe,
-			 (char *) "O", input_wrapper);
+			 "O", input_wrapper);
 		Py_DECREF (input_wrapper);
 	}
 	if (probe_result != NULL) {
@@ -287,7 +287,7 @@ gplp_func_file_open (G_GNUC_UNUSED GOFileOpener const *fo,
 		g_object_unref (input);
 		open_result = PyObject_CallFunction
 			(loader_data->python_func_file_open,
-			 (char *) "NO",
+			 "NO",
 			 pygobject_new (G_OBJECT (sheet)), input_wrapper);
 		Py_DECREF (input_wrapper);
 	}
@@ -396,7 +396,7 @@ gplp_func_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOPluginService *servi
 		g_object_unref (output);
 		save_result = PyObject_CallFunction
 			(saver_data->python_func_file_save,
-			 (char *) "NO", py_workbook, output_wrapper);
+			 "NO", py_workbook, output_wrapper);
 		Py_DECREF (output_wrapper);
 	}
 	if (save_result != NULL) {
@@ -488,7 +488,7 @@ call_python_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
 	fn_info_tuple = PyDict_GetItemString (loader_data->python_fn_info_dict,
-	                                      (gchar *) gnm_func_get_name (fndef, FALSE));
+	                                      gnm_func_get_name (fndef, FALSE));
 	g_assert (fn_info_tuple != NULL);
 	python_fn = PyTuple_GetItem (fn_info_tuple, 2);
 	gnm_func_count_args (fndef, &min_n_args, &max_n_args);
@@ -518,7 +518,7 @@ call_python_function_nodes (GnmFuncEvalInfo *ei,
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
 	python_fn = PyDict_GetItemString (loader_data->python_fn_info_dict,
-	                                  (gchar *) gnm_func_get_name (fndef, FALSE));
+	                                  gnm_func_get_name (fndef, FALSE));
 
 	values = g_new (GnmValue *, argc);
 	for (i = 0; i < argc; i++) {
@@ -548,7 +548,7 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 	PyObject *python_arg_names;
 	PyObject *fn_info_obj;
 
-	fn_info_obj = PyDict_GetItemString (python_fn_info_dict, (gchar *) fn_name);
+	fn_info_obj = PyDict_GetItemString (python_fn_info_dict, fn_name);
 	python_arg_names = PyTuple_GetItem (fn_info_obj, 1);
 
 	help_attr_name = g_strdup_printf ("_CGnumericHelp_%s", fn_name);
@@ -676,7 +676,7 @@ gplp_func_load_stub (GOPluginService *service,
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
 	fn_info_obj = PyDict_GetItemString (loader_data->python_fn_info_dict,
-					    (gchar *)name);
+					    name);
 	if (fn_info_obj == NULL) {
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 		return;
@@ -822,7 +822,7 @@ gplp_func_exec_action (GOPluginService *service,
 			_("Not a valid function for action: %s"), action->id);
 		return;
 	}
-	ret = PyObject_CallFunction (fn, (char *) "N",
+	ret = PyObject_CallFunction (fn, "N",
 				     pygobject_new (G_OBJECT (WBC_GTK (wbc))));
 	if (ret == NULL) {
 		*ret_error = go_error_info_new_str (py_exc_to_string ());
