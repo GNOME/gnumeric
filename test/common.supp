@@ -962,3 +962,20 @@
    Memcheck:Cond
    fun:gdk_pixbuf_add_alpha
 }
+
+{
+   Python-init-leaks1
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:Py_InitializeEx
+}
+
+{
+   Python-init-leaks2
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:realloc
+   fun:_Py_EncodeUTF8Ex
+   fun:_PyUnicode_InitEncodings
+}
