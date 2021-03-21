@@ -139,11 +139,11 @@ static void
 run_print_string (const char *cmd, PyObject *stdout_obj)
 {
 	PyObject *m, *d, *v;
-	m = PyImport_AddModule ((char *) "__main__");
+	m = PyImport_AddModule ("__main__");
 	if (m == NULL)
 		return;
 	d = PyModule_GetDict (m);
-	v = PyRun_String ((char *) cmd, Py_single_input, d, d);
+	v = PyRun_String (cmd, Py_single_input, d, d);
 	if (!v)
 		PyErr_Print ();
 	if (PyFile_WriteString ("\n", stdout_obj) != 0)
@@ -170,7 +170,7 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 
 	gnm_py_interpreter_switch_to (interpreter);
 
-	sys_module = PyImport_AddModule ((char *) "sys");
+	sys_module = PyImport_AddModule ("sys");
 	if (sys_module == NULL)
 		PyErr_Print ();
 	g_return_if_fail (sys_module != NULL);
@@ -180,8 +180,8 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		PyObject *stringio_module, *stringio_module_dict, *sublist;
 
 		sublist = PyList_New (0);
-		PyList_Insert (sublist, 0, PyUnicode_FromString ((char const *) "StringIO"));
-		stringio_module = PyImport_ImportModule ((char const *) "io");
+		PyList_Insert (sublist, 0, PyUnicode_FromString ("StringIO"));
+		stringio_module = PyImport_ImportModule ("io");
 		Py_DECREF (sublist);
 		if (stringio_module == NULL)
 			PyErr_Print ();
@@ -190,7 +190,7 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		g_return_if_fail (stringio_module_dict != NULL);
 		interpreter->stringio_class	=
 				(PyTypeObject *) PyDict_GetItemString (stringio_module_dict,
-													   (char *) "StringIO");
+								       "StringIO");
 		g_return_if_fail (interpreter->stringio_class != NULL);
 		Py_INCREF (interpreter->stringio_class);
 	}
@@ -200,12 +200,12 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		if (stdout_obj == NULL)
 			PyErr_Print ();
 		g_return_if_fail (stdout_obj != NULL);
-		PyObject_CallMethod (stdout_obj, (char *) "__init__", NULL);
+		PyObject_CallMethod (stdout_obj, "__init__", NULL);
 		saved_stdout_obj = PyDict_GetItemString (sys_module_dict,
-							 (char *) "stdout");
+							 "stdout");
 		g_return_if_fail (saved_stdout_obj != NULL);
 		Py_INCREF (saved_stdout_obj);
-		PyDict_SetItemString (sys_module_dict, (char *) "stdout",
+		PyDict_SetItemString (sys_module_dict, "stdout",
 				      stdout_obj);
 	}
 	if (opt_stderr != NULL) {
@@ -214,20 +214,20 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		if (stderr_obj == NULL)
 			PyErr_Print ();
 		g_return_if_fail (stderr_obj != NULL);
-		PyObject_CallMethod (stderr_obj, (char *) "__init__", NULL);
+		PyObject_CallMethod (stderr_obj, "__init__", NULL);
 		saved_stderr_obj = PyDict_GetItemString (sys_module_dict,
-							 (char *) "stderr");
+							 "stderr");
 		g_return_if_fail (saved_stderr_obj != NULL);
 		Py_INCREF (saved_stderr_obj);
-		PyDict_SetItemString (sys_module_dict, (char *) "stderr",
+		PyDict_SetItemString (sys_module_dict, "stderr",
 				      stderr_obj);
 	}
 	run_print_string (cmd, stdout_obj);
 	if (opt_stdout != NULL) {
-		PyDict_SetItemString (sys_module_dict, (char *) "stdout",
+		PyDict_SetItemString (sys_module_dict, "stdout",
 				      saved_stdout_obj);
 		Py_DECREF (saved_stdout_obj);
-		py_str = PyObject_CallMethod (stdout_obj, (char *) "getvalue",
+		py_str = PyObject_CallMethod (stdout_obj, "getvalue",
 					      NULL);
 		if (py_str && PyUnicode_Check (py_str))
 			*opt_stdout = g_strdup (PyUnicode_AsUTF8 (py_str));
@@ -238,10 +238,10 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		Py_DECREF (stdout_obj);
 	}
 	if (opt_stderr != NULL) {
-		PyDict_SetItemString (sys_module_dict, (char *) "stderr",
+		PyDict_SetItemString (sys_module_dict, "stderr",
 				      saved_stderr_obj);
 		Py_DECREF (saved_stderr_obj);
-		py_str = PyObject_CallMethod (stderr_obj, (char *) "getvalue",
+		py_str = PyObject_CallMethod (stderr_obj, "getvalue",
 					      NULL);
 		if (py_str && PyUnicode_Check (py_str))
 			*opt_stderr = g_strdup (PyUnicode_AsUTF8 (py_str));
