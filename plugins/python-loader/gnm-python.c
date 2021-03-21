@@ -79,6 +79,7 @@ gnm_python_finalize (GObject *obj)
 		);
 		g_slist_free (ints);
 		gnm_py_interpreter_switch_to (gpy->default_interpreter);
+		GO_SLIST_REMOVE (gpy->interpreters, gpy->default_interpreter);
 		g_object_unref (gpy->default_interpreter);
 		gpy->default_interpreter = NULL;
 	}

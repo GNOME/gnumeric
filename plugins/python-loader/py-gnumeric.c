@@ -78,12 +78,25 @@ Module Gnumeric:
 
 */
 
+
+// Like PyDict_SetItemString, but takes ownership of val
+static void
+gnm_py_dict_store (PyObject *dict, const char *key, PyObject *val)
+{
+	PyDict_SetItemString (dict, key, val);
+	Py_DECREF (val);
+}
+
+
+
+
+
 #define GNUMERIC_MODULE \
 	(PyImport_AddModule ("Gnumeric"))
 #define GNUMERIC_MODULE_GET(key) \
 	PyDict_GetItemString (PyModule_GetDict (GNUMERIC_MODULE), (key))
 #define GNUMERIC_MODULE_SET(key, val) \
-	PyDict_SetItemString (PyModule_GetDict (GNUMERIC_MODULE), (key), val)
+	gnm_py_dict_store (PyModule_GetDict (GNUMERIC_MODULE), (key), val)
 #define SET_EVAL_POS(val) \
 	GNUMERIC_MODULE_SET ("Gnumeric_eval_pos", PyCapsule_New (val, "eval_pos", NULL))
 #define UNSET_EVAL_POS \
@@ -107,7 +120,7 @@ py_obj_to_gnm_value (const GnmEvalPos *eval_pos, PyObject *py_val)
 	} else if (py_val_type == (PyObject *) &py_Boolean_object_type) {
 		ret_val = value_new_bool (py_Boolean_as_gboolean ((py_Boolean_object *) py_val));
 	} else if (PyLong_Check (py_val)) {
-		ret_val = value_new_int ((gint) PyLong_AsLong (py_val));
+		ret_val = value_new_float ((gnm_float)PyLong_AsLong (py_val));
 	} else if (PyFloat_Check (py_val)) {
 		ret_val = value_new_float ((gnm_float) PyFloat_AsDouble (py_val));
 	} else if (PyUnicode_Check (py_val)) {
@@ -832,7 +845,7 @@ init_err (PyObject *module_dict, const char *name, GnmStdError e)
 {
 	GnmValue *v = value_new_error_std (NULL, e);
 
-	PyDict_SetItemString
+	gnm_py_dict_store
 		(module_dict, name,
 		 PyUnicode_FromString (v->v_err.mesg->str));
 
@@ -841,7 +854,7 @@ init_err (PyObject *module_dict, const char *name, GnmStdError e)
 
 
 PyObject *
-py_initgnumeric ()
+py_initgnumeric (void)
 {
 	PyObject *module_dict;
 
@@ -862,12 +875,12 @@ py_initgnumeric ()
 	GnmModule = PyModule_Create (&GnmModuleDef);
 	module_dict = PyModule_GetDict (GnmModule);
 
-	(void) PyDict_SetItemString
+	gnm_py_dict_store
 		(module_dict, "TRUE", py_new_Boolean_object (TRUE));
-	(void) PyDict_SetItemString
+	gnm_py_dict_store
 		(module_dict, "FALSE", py_new_Boolean_object (FALSE));
 
-	(void) PyDict_SetItemString
+	gnm_py_dict_store
 		(module_dict, "GnumericError",
 		 PyErr_NewException ("Gnumeric.GnumericError",
 				     NULL, NULL));
@@ -880,11 +893,22 @@ py_initgnumeric ()
 	init_err (module_dict, "GnumericErrorNUM", GNM_ERROR_NUM);
 	init_err (module_dict, "GnumericErrorNA", GNM_ERROR_NA);
 
-	(void) PyDict_SetItemString
+	gnm_py_dict_store
 		(module_dict, "functions",
 		 py_new_GnumericFuncDict_object (module_dict));
 
 	return GnmModule;
+}
+
+void
+py_gnumeric_shutdown (void)
+{
+	if (GnmModule) {
+		// At least clear the module.  We leak a ref somewhere.
+		PyDict_Clear (PyModule_GetDict (GnmModule));
+		Py_DECREF (GnmModule);
+		GnmModule = NULL;
+	}
 }
 
 void
@@ -905,7 +929,7 @@ py_gnumeric_add_plugin (PyObject *module, GnmPyInterpreter *interpreter)
 			name[i] = '_';
 	key = g_strconcat ("plugin_", name, "_info", NULL);
  	py_pinfo = py_new_GnmPlugin_object (pinfo);
-	(void) PyDict_SetItemString (module_dict, key, py_pinfo);
+	gnm_py_dict_store (module_dict, key, py_pinfo);
 	g_free (name);
 	g_free (key);
 }

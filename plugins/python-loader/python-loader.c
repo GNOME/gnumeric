@@ -547,6 +547,7 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 	PyObject *cobject_help_value;
 	PyObject *python_arg_names;
 	PyObject *fn_info_obj;
+	GnmFuncHelp const *res = NULL;
 
 	fn_info_obj = PyDict_GetItemString (python_fn_info_dict, fn_name);
 	python_arg_names = PyTuple_Check (fn_info_obj)
@@ -657,10 +658,13 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 		}
 	}
 	g_free (help_attr_name);
-	if (cobject_help_value == NULL)
-		return NULL;
 
-	return (GnmFuncHelp const *) PyCapsule_GetPointer (cobject_help_value, "FuncHelp");
+	if (cobject_help_value) {
+		res = (GnmFuncHelp const *) PyCapsule_GetPointer (cobject_help_value, "FuncHelp");
+		Py_DECREF (cobject_help_value);
+	}
+
+	return res;
 }
 
 static void

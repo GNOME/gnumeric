@@ -8,6 +8,8 @@
 #include <gnumeric-fwd.h>
 
 PyObject *py_initgnumeric (void);
+void py_gnumeric_shutdown (void);
+
 void      py_gnumeric_add_plugin (PyObject *module, GnmPyInterpreter *interpreter);
 
 GnmValue *call_python_function	 (PyObject *python_fn,

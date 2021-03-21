@@ -17,6 +17,14 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+// Like PyDict_SetItemString, but takes ownership of val
+static void
+gnm_py_dict_store (PyObject *dict, const char *key, PyObject *val)
+{
+	PyDict_SetItemString (dict, key, val);
+	Py_DECREF (val);
+}
+
 struct _GnmPyInterpreter {
 	GObject parent_instance;
 
@@ -100,8 +108,9 @@ gnm_py_interpreter_new (GOPlugin *plugin)
 	interpreter->plugin = plugin;
 	PySys_SetArgv (G_N_ELEMENTS (plugin_argv) - 1, plugin_argv);
 
-	if (plugin != NULL)
+	if (plugin != NULL) {
 		py_gnumeric_add_plugin (py_initgnumeric (), interpreter);
+	}
 
 	return interpreter;
 }
@@ -196,7 +205,7 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 	}
 	if (opt_stdout != NULL) {
 		stdout_obj = PyType_GenericNew(interpreter->stringio_class,
-					    NULL, NULL);
+					       NULL, NULL);
 		if (stdout_obj == NULL)
 			PyErr_Print ();
 		g_return_if_fail (stdout_obj != NULL);
@@ -205,7 +214,7 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 							 "stdout");
 		g_return_if_fail (saved_stdout_obj != NULL);
 		Py_INCREF (saved_stdout_obj);
-		PyDict_SetItemString (sys_module_dict, "stdout",
+		gnm_py_dict_store (sys_module_dict, "stdout",
 				      stdout_obj);
 	}
 	if (opt_stderr != NULL) {
@@ -219,12 +228,12 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 							 "stderr");
 		g_return_if_fail (saved_stderr_obj != NULL);
 		Py_INCREF (saved_stderr_obj);
-		PyDict_SetItemString (sys_module_dict, "stderr",
+		gnm_py_dict_store (sys_module_dict, "stderr",
 				      stderr_obj);
 	}
 	run_print_string (cmd, stdout_obj);
 	if (opt_stdout != NULL) {
-		PyDict_SetItemString (sys_module_dict, "stdout",
+		gnm_py_dict_store (sys_module_dict, "stdout",
 				      saved_stdout_obj);
 		Py_DECREF (saved_stdout_obj);
 		py_str = PyObject_CallMethod (stdout_obj, "getvalue",
@@ -238,7 +247,7 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		Py_DECREF (stdout_obj);
 	}
 	if (opt_stderr != NULL) {
-		PyDict_SetItemString (sys_module_dict, "stderr",
+		gnm_py_dict_store (sys_module_dict, "stderr",
 				      saved_stderr_obj);
 		Py_DECREF (saved_stderr_obj);
 		py_str = PyObject_CallMethod (stderr_obj, "getvalue",

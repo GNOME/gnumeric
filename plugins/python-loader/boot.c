@@ -9,6 +9,7 @@
 #include "gnm-py-interpreter.h"
 #include "python-loader.h"
 #include "py-console.h"
+#include <py-gnumeric.h>
 #include <gnm-plugin.h>
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
@@ -38,4 +39,10 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gnm_py_command_line_register_type (module);
 	gnm_py_interpreter_selector_register_type (module);
 	gnm_python_plugin_loader_register_type (module);
+}
+
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+{
+	py_gnumeric_shutdown ();
 }

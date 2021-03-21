@@ -1,5 +1,8 @@
 2021-03-21  Morten Welinder  <terra@gnome.org>
 
+	* py-gnumeric.c (py_obj_to_gnm_value): Handle python ints via
+	gnm_float, not int, so we handle larger numbers.
+
 	* python-loader.c (gplp_unload_service_function_group): Clear
 	python_fn_info_dict after unref so we don't do it again.
 	(python_function_get_gnumeric_help): Check for tuple before using.
