@@ -79,11 +79,11 @@ Module Gnumeric:
 */
 
 #define GNUMERIC_MODULE \
-	(PyImport_AddModule ((char *) "Gnumeric"))
+	(PyImport_AddModule ("Gnumeric"))
 #define GNUMERIC_MODULE_GET(key) \
-	PyDict_GetItemString (PyModule_GetDict (GNUMERIC_MODULE), (char *) (key))
+	PyDict_GetItemString (PyModule_GetDict (GNUMERIC_MODULE), (key))
 #define GNUMERIC_MODULE_SET(key, val) \
-	PyDict_SetItemString (PyModule_GetDict (GNUMERIC_MODULE), (char *) (key), val)
+	PyDict_SetItemString (PyModule_GetDict (GNUMERIC_MODULE), (key), val)
 #define SET_EVAL_POS(val) \
 	GNUMERIC_MODULE_SET ("Gnumeric_eval_pos", PyCapsule_New (val, "eval_pos", NULL))
 #define UNSET_EVAL_POS \
@@ -224,7 +224,7 @@ gnm_value_to_py_obj (const GnmEvalPos *eval_pos, const GnmValue *val)
 	g_return_val_if_fail (eval_pos != NULL, NULL);
 	g_return_val_if_fail (val != NULL, NULL);
 
-    switch (val->v_any.type) {
+	switch (val->v_any.type) {
 	case VALUE_BOOLEAN:
 		py_val = py_new_Boolean_object (value_get_as_checked_bool (val));
 		break;
@@ -403,7 +403,7 @@ py_new_Boolean_object (gboolean value)
 
 static PyTypeObject py_Boolean_object_type = {
 	PyVarObject_HEAD_INIT(NULL, 0)
-	.tp_name = (char *) "Boolean",
+	.tp_name = "Boolean",
 	.tp_basicsize = sizeof (py_Boolean_object),
 	.tp_dealloc = (destructor) &py_Boolean_object_dealloc,
 	.tp_str = (reprfunc) py_Boolean_object_str
@@ -442,9 +442,9 @@ py_CellRef_object_getattr (py_CellRef_object *self, gchar *name)
 	PyObject *result;
 
 	if (strcmp (name, "col") == 0) {
-		result = Py_BuildValue ((char *) "i", self->cell_ref.col);
+		result = Py_BuildValue ("i", self->cell_ref.col);
 	} else if (strcmp (name, "row") == 0) {
-		result = Py_BuildValue ((char *) "i", self->cell_ref.row);
+		result = Py_BuildValue ("i", self->cell_ref.row);
 	} else if (strcmp (name, "sheet") == 0) {
 		if (self->cell_ref.sheet)
 			result = pygobject_new (G_OBJECT (self->cell_ref.sheet));
@@ -453,11 +453,11 @@ py_CellRef_object_getattr (py_CellRef_object *self, gchar *name)
 			result = Py_None;
 		}
 	} else if (strcmp (name, "col_relative") == 0) {
-		result = Py_BuildValue ((char *) "i",
-				      self->cell_ref.col_relative ? 1 : 0);
+		result = Py_BuildValue ("i",
+					self->cell_ref.col_relative ? 1 : 0);
 	} else if (strcmp (name, "row_relative") == 0) {
-		result = Py_BuildValue ((char *) "i",
-				      self->cell_ref.row_relative ? 1 : 0);
+		result = Py_BuildValue ("i",
+					self->cell_ref.row_relative ? 1 : 0);
 	} else {
 		result = PyObject_CallMethod ((PyObject *) self, name, NULL);
 	}
@@ -487,7 +487,7 @@ py_new_CellRef_object (GnmCellRef const *cell_ref)
 
 static PyTypeObject py_CellRef_object_type = {
 	PyVarObject_HEAD_INIT(NULL, 0)
-	.tp_name = (char *) "CellRef",
+	.tp_name = "CellRef",
 	.tp_basicsize = sizeof (py_CellRef_object),
 	.tp_dealloc = (destructor) &py_CellRef_object_dealloc,
 	.tp_getattr = (getattrfunc) &py_CellRef_object_getattr,
@@ -512,7 +512,7 @@ static PyObject *
 py_RangeRef_get_tuple_method (py_RangeRef_object *self, PyObject *args);
 
 static struct PyMethodDef py_RangeRef_object_methods[] = {
-	{(char *) "get_tuple", (PyCFunction) py_RangeRef_get_tuple_method,
+	{"get_tuple", (PyCFunction) py_RangeRef_get_tuple_method,
 	 METH_VARARGS},
 	{NULL, NULL}
 };
@@ -526,11 +526,11 @@ py_RangeRef_as_RangeRef (py_RangeRef_object *self)
 static PyObject *
 py_RangeRef_get_tuple_method (py_RangeRef_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, (char *) ":get_tuple")) {
+	if (!PyArg_ParseTuple (args, ":get_tuple")) {
 		return NULL;
 	}
 
-	return Py_BuildValue ((char *) "(O&O&)",
+	return Py_BuildValue ("(O&O&)",
 			      py_new_CellRef_object, &self->range_ref.a,
 			      py_new_CellRef_object, &self->range_ref.b);
 }
@@ -569,7 +569,7 @@ py_new_RangeRef_object (const GnmRangeRef *range_ref)
 
 static PyTypeObject py_RangeRef_object_type = {
 	PyVarObject_HEAD_INIT(NULL, 0)
-	.tp_name = (char *) "RangeRef",
+	.tp_name = "RangeRef",
 	.tp_basicsize = sizeof (py_RangeRef_object),
 	.tp_dealloc = (destructor) &py_RangeRef_object_dealloc,
 	.tp_getattr = (getattrfunc) &py_RangeRef_object_getattr,
@@ -639,7 +639,7 @@ py_new_GnumericFunc_object (GnmFunc *fn_def, const GnmEvalPos *opt_eval_pos)
 
 static PyTypeObject py_GnumericFunc_object_type = {
 	PyVarObject_HEAD_INIT(NULL,0)
-	.tp_name = (char *) "GnumericFunc",
+	.tp_name = "GnumericFunc",
 	.tp_basicsize = sizeof (py_GnumericFunc_object),
 	.tp_dealloc = (destructor) &py_GnumericFunc_object_dealloc,
 	.tp_call = (ternaryfunc) py_GnumericFunc_call
@@ -661,7 +661,7 @@ py_GnumericFuncDict_subscript (py_GnumericFuncDict_object *self, PyObject *key)
 	gchar *fn_name;
 	GnmFunc *fn_def;
 
-	if (!PyArg_Parse(key, (char *) "s", &fn_name)) {
+	if (!PyArg_Parse(key, "s", &fn_name)) {
 		return NULL;
 	}
 
@@ -704,7 +704,7 @@ PyMappingMethods py_GnumericFuncDict_mapping_methods = {
 
 static PyTypeObject py_GnumericFuncDict_object_type = {
 	PyVarObject_HEAD_INIT(NULL, 0)
-	.tp_name = (char *) "GnumericFuncDict",
+	.tp_name = "GnumericFuncDict",
 	.tp_basicsize = sizeof (py_GnumericFuncDict_object),
 	.tp_dealloc = (destructor) &py_GnumericFuncDict_object_dealloc,
 	.tp_as_mapping = &py_GnumericFuncDict_mapping_methods
@@ -729,13 +729,13 @@ static PyObject *
 py_GnmPlugin_get_description_method (py_GnmPlugin_object *self, PyObject *args);
 
 static struct PyMethodDef py_GnmPlugin_object_methods[] = {
-	{(char *) "get_dir_name",
+	{"get_dir_name",
 	 (PyCFunction) py_GnmPlugin_get_dir_name_method,    METH_VARARGS},
-	{(char *) "get_id",
+	{"get_id",
 	 (PyCFunction) py_GnmPlugin_get_id_method,          METH_VARARGS},
-	{(char *) "get_name",
+	{"get_name",
 	 (PyCFunction) py_GnmPlugin_get_name_method,        METH_VARARGS},
-	{(char *) "get_description",
+	{"get_description",
 	 (PyCFunction) py_GnmPlugin_get_description_method, METH_VARARGS},
 	{NULL, NULL}
 };
@@ -743,7 +743,7 @@ static struct PyMethodDef py_GnmPlugin_object_methods[] = {
 static PyObject *
 py_GnmPlugin_get_dir_name_method (py_GnmPlugin_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, (char *) ":get_dir_name")) {
+	if (!PyArg_ParseTuple (args, ":get_dir_name")) {
 		return NULL;
 	}
 
@@ -753,7 +753,7 @@ py_GnmPlugin_get_dir_name_method (py_GnmPlugin_object *self, PyObject *args)
 static PyObject *
 py_GnmPlugin_get_id_method (py_GnmPlugin_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, (char *) ":get_id")) {
+	if (!PyArg_ParseTuple (args, ":get_id")) {
 		return NULL;
 	}
 
@@ -763,7 +763,7 @@ py_GnmPlugin_get_id_method (py_GnmPlugin_object *self, PyObject *args)
 static PyObject *
 py_GnmPlugin_get_name_method (py_GnmPlugin_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, (char *) ":get_name")) {
+	if (!PyArg_ParseTuple (args, ":get_name")) {
 		return NULL;
 	}
 
@@ -773,7 +773,7 @@ py_GnmPlugin_get_name_method (py_GnmPlugin_object *self, PyObject *args)
 static PyObject *
 py_GnmPlugin_get_description_method (py_GnmPlugin_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, (char *) ":get_description")) {
+	if (!PyArg_ParseTuple (args, ":get_description")) {
 		return NULL;
 	}
 
@@ -820,7 +820,7 @@ py_new_GnmPlugin_object (GOPlugin *pinfo)
 
 static PyTypeObject py_GnmPlugin_object_type = {
 	PyVarObject_HEAD_INIT(&PyType_Type, 0)
-	.tp_name = (char *) "GOPlugin",
+	.tp_name = "GOPlugin",
 	.tp_basicsize = sizeof (py_GnmPlugin_object),
 	.tp_dealloc = (destructor) &py_GnmPlugin_object_dealloc,
 	.tp_getattr = (getattrfunc) &py_GnmPlugin_object_getattr,
@@ -833,7 +833,7 @@ init_err (PyObject *module_dict, const char *name, GnmStdError e)
 	GnmValue *v = value_new_error_std (NULL, e);
 
 	PyDict_SetItemString
-		(module_dict, (char *)name,
+		(module_dict, name,
 		 PyUnicode_FromString (v->v_err.mesg->str));
 
 	value_release (v);
@@ -847,7 +847,7 @@ py_initgnumeric ()
 
 	static struct PyModuleDef GnmModuleDef = {
 		PyModuleDef_HEAD_INIT,	/* m_base */
-		(char *) "Gnumeric",	/* m_name */
+		"Gnumeric",	/* m_name */
 		0,	/* m_doc */
 		0,	/* m_ size */
 		0,	/* m_methods */
@@ -863,13 +863,13 @@ py_initgnumeric ()
 	module_dict = PyModule_GetDict (GnmModule);
 
 	(void) PyDict_SetItemString
-		(module_dict, (char *) "TRUE", py_new_Boolean_object (TRUE));
+		(module_dict, "TRUE", py_new_Boolean_object (TRUE));
 	(void) PyDict_SetItemString
-		(module_dict, (char *) "FALSE", py_new_Boolean_object (FALSE));
+		(module_dict, "FALSE", py_new_Boolean_object (FALSE));
 
 	(void) PyDict_SetItemString
-		(module_dict, (char *) "GnumericError",
-		 PyErr_NewException ((char *) "Gnumeric.GnumericError",
+		(module_dict, "GnumericError",
+		 PyErr_NewException ("Gnumeric.GnumericError",
 				     NULL, NULL));
 
 	init_err (module_dict, "GnumericErrorNULL", GNM_ERROR_NULL);
@@ -881,7 +881,7 @@ py_initgnumeric ()
 	init_err (module_dict, "GnumericErrorNA", GNM_ERROR_NA);
 
 	(void) PyDict_SetItemString
-		(module_dict, (char *) "functions",
+		(module_dict, "functions",
 		 py_new_GnumericFuncDict_object (module_dict));
 
 	return GnmModule;
