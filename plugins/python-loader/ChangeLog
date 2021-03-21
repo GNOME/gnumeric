@@ -1,3 +1,15 @@
+2021-03-21  Morten Welinder  <terra@gnome.org>
+
+	* python-loader.c (gplp_unload_service_function_group): Clear
+	python_fn_info_dict after unref so we don't do it again.
+	(python_function_get_gnumeric_help): Check for tuple before using.
+
+	* gnm-py-interpreter.c (gnm_py_interpreter_new): Restore state
+	after Py_NewInterpreter.
+
+	* gnm-python.c (gnm_python_finalize): Copy list of interpreters as
+	it will change underneath us.
+
 2021-03-14  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.49

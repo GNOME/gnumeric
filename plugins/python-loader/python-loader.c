@@ -489,7 +489,7 @@ call_python_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
 	fn_info_tuple = PyDict_GetItemString (loader_data->python_fn_info_dict,
 	                                      gnm_func_get_name (fndef, FALSE));
-	g_assert (fn_info_tuple != NULL);
+	g_assert (fn_info_tuple != NULL && PyTuple_Check (fn_info_tuple));
 	python_fn = PyTuple_GetItem (fn_info_tuple, 2);
 	gnm_func_count_args (fndef, &min_n_args, &max_n_args);
 	for (n_args = min_n_args; n_args < max_n_args && args[n_args] != NULL; n_args++) {
@@ -549,7 +549,9 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 	PyObject *fn_info_obj;
 
 	fn_info_obj = PyDict_GetItemString (python_fn_info_dict, fn_name);
-	python_arg_names = PyTuple_GetItem (fn_info_obj, 1);
+	python_arg_names = PyTuple_Check (fn_info_obj)
+		? PyTuple_GetItem (fn_info_obj, 1)
+		: NULL;
 
 	help_attr_name = g_strdup_printf ("_CGnumericHelp_%s", fn_name);
 	cobject_help_value = PyDict_GetItemString (python_fn_info_dict, help_attr_name);
@@ -782,6 +784,7 @@ gplp_unload_service_function_group (GOPluginLoader *loader,
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
 	Py_DECREF (loader_data->python_fn_info_dict);
+	loader_data->python_fn_info_dict = NULL;
 }
 
 typedef struct {

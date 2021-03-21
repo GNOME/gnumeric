@@ -88,18 +88,18 @@ gnm_py_interpreter_new (GOPlugin *plugin)
 	g_return_val_if_fail (plugin == NULL || GO_IS_PLUGIN (plugin), NULL);
 
 	if (plugin != NULL) {
+		PyThreadState* main_ = PyThreadState_Get ();
 		py_thread_state = Py_NewInterpreter ();
+		PyThreadState_Swap (main_);
 	} else {
 		py_thread_state = PyThreadState_Get ();
 	}
-	g_return_val_if_fail (py_thread_state != NULL, NULL);
 
 	interpreter = g_object_new (GNM_PY_INTERPRETER_TYPE, NULL);
 	interpreter->py_thread_state = py_thread_state;
 	interpreter->plugin = plugin;
-
 	PySys_SetArgv (G_N_ELEMENTS (plugin_argv) - 1, plugin_argv);
-	gnm_py_interpreter_switch_to (interpreter);
+
 	if (plugin != NULL)
 		py_gnumeric_add_plugin (py_initgnumeric (), interpreter);
 
@@ -112,8 +112,10 @@ gnm_py_interpreter_destroy (GnmPyInterpreter *interpreter,
 {
 	g_return_if_fail (GNM_IS_PY_INTERPRETER (interpreter));
 
-	gnm_py_interpreter_switch_to (interpreter);
-	Py_EndInterpreter (interpreter->py_thread_state);
+	if (interpreter->plugin != NULL) {
+		gnm_py_interpreter_switch_to (interpreter);
+		Py_EndInterpreter (interpreter->py_thread_state);
+	}
 	(void) PyThreadState_Swap (new_interpreter->py_thread_state);
 	interpreter->py_thread_state = NULL;
 	g_object_unref (interpreter);
@@ -124,10 +126,12 @@ gnm_py_interpreter_switch_to (GnmPyInterpreter *interpreter)
 {
 	g_return_if_fail (GNM_IS_PY_INTERPRETER (interpreter));
 
-	if (PyThreadState_Get ()->interp != interpreter->py_thread_state->interp) {
+	if (PyThreadState_Get () != interpreter->py_thread_state) {
+		// g_printerr ("Switching to %p\n", interpreter->py_thread_state);
 		(void) PyThreadState_Swap (interpreter->py_thread_state);
-		g_signal_emit (
-			interpreter, signals[SET_CURRENT_SIGNAL], 0);
+		g_signal_emit (interpreter, signals[SET_CURRENT_SIGNAL], 0);
+	} else {
+		// g_printerr ("Not switching to %p\n", PyThreadState_Get ());
 	}
 }
 

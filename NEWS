@@ -2,6 +2,7 @@ Gnumeric 1.12.50
 
 Morten:
 	* Fix undo problem with sorting and cell comments.
+	* Python loader cleanups.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.49

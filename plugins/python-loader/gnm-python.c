@@ -71,11 +71,13 @@ gnm_python_finalize (GObject *obj)
 
 	g_source_remove_by_user_data (gnm_python_obj);
 	if (gpy->default_interpreter != NULL) {
-		GO_SLIST_FOREACH (gpy->interpreters, GnmPyInterpreter, interpreter,
+		GSList *ints = g_slist_copy (gpy->interpreters);
+		GO_SLIST_FOREACH (ints, GnmPyInterpreter, interpreter,
 			if (interpreter != gpy->default_interpreter) {
 				gnm_py_interpreter_destroy (interpreter, gpy->default_interpreter);
 			}
 		);
+		g_slist_free (ints);
 		gnm_py_interpreter_switch_to (gpy->default_interpreter);
 		g_object_unref (gpy->default_interpreter);
 		gpy->default_interpreter = NULL;
@@ -122,7 +124,7 @@ gnm_python_object_get (GOErrorInfo **err)
 	GO_INIT_RET_ERROR_INFO (err);
 	if (!Py_IsInitialized ()) {
 		PyImport_AppendInittab ("Gnumeric", py_initgnumeric);
-		Py_Initialize ();
+		Py_InitializeEx (1);
 #ifdef WITH_THREAD
 		PyEval_InitThreads ();
 #endif
