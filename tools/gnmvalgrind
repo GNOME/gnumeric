@@ -37,6 +37,8 @@ if ($seen_leak_check) {
     &add_debug_flag ('GNM_DEBUG', 'close-displays');
 }
 
+$ENV{'PYTHONMALLOC'} = 'malloc';
+
 push @cmd, 'valgrind';
 push @cmd, '--num-callers=40' unless $seen_num_callers;
 push @cmd, "--suppressions=$topsrc/test/common.supp";
