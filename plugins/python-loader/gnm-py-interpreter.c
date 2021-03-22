@@ -214,12 +214,12 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 							 "stdout");
 		g_return_if_fail (saved_stdout_obj != NULL);
 		Py_INCREF (saved_stdout_obj);
-		gnm_py_dict_store (sys_module_dict, "stdout",
-				      stdout_obj);
+		PyDict_SetItemString (sys_module_dict, "stdout", stdout_obj);
+		// We still own a ref to stdout_obj
 	}
 	if (opt_stderr != NULL) {
 		stderr_obj = PyType_GenericNew(interpreter->stringio_class,
-					    NULL, NULL);
+					       NULL, NULL);
 		if (stderr_obj == NULL)
 			PyErr_Print ();
 		g_return_if_fail (stderr_obj != NULL);
@@ -228,16 +228,13 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 							 "stderr");
 		g_return_if_fail (saved_stderr_obj != NULL);
 		Py_INCREF (saved_stderr_obj);
-		gnm_py_dict_store (sys_module_dict, "stderr",
-				      stderr_obj);
+		PyDict_SetItemString (sys_module_dict, "stderr", stderr_obj);
+		// We still own a ref to stderr_obj
 	}
 	run_print_string (cmd, stdout_obj);
 	if (opt_stdout != NULL) {
-		gnm_py_dict_store (sys_module_dict, "stdout",
-				      saved_stdout_obj);
-		Py_DECREF (saved_stdout_obj);
-		py_str = PyObject_CallMethod (stdout_obj, "getvalue",
-					      NULL);
+		gnm_py_dict_store (sys_module_dict, "stdout", saved_stdout_obj);
+		py_str = PyObject_CallMethod (stdout_obj, "getvalue", NULL);
 		if (py_str && PyUnicode_Check (py_str))
 			*opt_stdout = g_strdup (PyUnicode_AsUTF8 (py_str));
 		else
@@ -247,11 +244,8 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		Py_DECREF (stdout_obj);
 	}
 	if (opt_stderr != NULL) {
-		gnm_py_dict_store (sys_module_dict, "stderr",
-				      saved_stderr_obj);
-		Py_DECREF (saved_stderr_obj);
-		py_str = PyObject_CallMethod (stderr_obj, "getvalue",
-					      NULL);
+		gnm_py_dict_store (sys_module_dict, "stderr", saved_stderr_obj);
+		py_str = PyObject_CallMethod (stderr_obj, "getvalue", NULL);
 		if (py_str && PyUnicode_Check (py_str))
 			*opt_stderr = g_strdup (PyUnicode_AsUTF8 (py_str));
 		else
