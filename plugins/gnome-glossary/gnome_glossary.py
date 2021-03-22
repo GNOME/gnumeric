@@ -26,7 +26,7 @@ def save_sheet_as_po(sheet, output):
 		elif definition:
 			entries[-1]['definition'] = '%s\n%s' % (entries[-1]['definition'], definition)
 	for e in entries:
-		print e
+		print(e)
 		output.write(len('\n'), '\n')
 		for d in string.split(e['definition'], '\n'):
 			str = '#. %s\n' % d
@@ -42,4 +42,4 @@ def po_file_save(wb, output):
 			save_sheet_as_po (sheet, output)
 			break
 	else:
-		raise GnumericError, 'Could not find Gnome Glossary sheet'
+		raise GnumericError('Could not find Gnome Glossary sheet')
