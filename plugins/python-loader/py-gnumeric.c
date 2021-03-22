@@ -31,11 +31,6 @@
 
 static PyObject *GnmModule = NULL;
 
-static PyTypeObject py_Boolean_object_type;
-typedef struct _py_Boolean_object py_Boolean_object;
-static PyObject *py_new_Boolean_object (gboolean value);
-static gboolean py_Boolean_as_gboolean (py_Boolean_object *self);
-
 static PyTypeObject py_CellRef_object_type;
 typedef struct _py_CellRef_object py_CellRef_object;
 
@@ -117,8 +112,8 @@ py_obj_to_gnm_value (const GnmEvalPos *eval_pos, PyObject *py_val)
 		ret_val = value_new_empty ();
 	} else if (py_val == Py_None) {
 		ret_val = value_new_empty ();
-	} else if (py_val_type == (PyObject *) &py_Boolean_object_type) {
-		ret_val = value_new_bool (py_Boolean_as_gboolean ((py_Boolean_object *) py_val));
+	} else if (PyBool_Check (py_val)) {
+		ret_val = value_new_bool (py_val == Py_True);
 	} else if (PyLong_Check (py_val)) {
 		ret_val = value_new_float ((gnm_float)PyLong_AsLong (py_val));
 	} else if (PyFloat_Check (py_val)) {
@@ -239,7 +234,8 @@ gnm_value_to_py_obj (const GnmEvalPos *eval_pos, const GnmValue *val)
 
 	switch (val->v_any.type) {
 	case VALUE_BOOLEAN:
-		py_val = py_new_Boolean_object (value_get_as_checked_bool (val));
+		py_val = value_get_as_checked_bool (val) ? Py_True : Py_False;
+		Py_INCREF (py_val);
 		break;
 	case VALUE_FLOAT:
 		py_val = PyFloat_FromDouble (value_get_as_float (val));
@@ -372,55 +368,6 @@ call_python_function (PyObject *python_fn, GnmEvalPos const *eval_pos, gint n_ar
 	return ret_value;
 }
 
-
-/*
- * Boolean
- */
-
-struct _py_Boolean_object {
-	PyObject_HEAD
-	gboolean value;
-};
-
-static gboolean
-py_Boolean_as_gboolean (py_Boolean_object *self)
-{
-	return self->value;
-}
-
-static PyObject *
-py_Boolean_object_str (py_Boolean_object *self)
-{
-	return PyUnicode_FromString (self->value ? "True" : "False");
-}
-
-static void
-py_Boolean_object_dealloc (py_Boolean_object *self)
-{
-	PyObject_Del (self);
-}
-
-static PyObject *
-py_new_Boolean_object (gboolean value)
-{
-	py_Boolean_object *self;
-
-	self = PyObject_NEW (py_Boolean_object, &py_Boolean_object_type);
-	if (self == NULL) {
-		return NULL;
-	}
-	self->value = value;
-
-	return (PyObject *) self;
-}
-
-static PyTypeObject py_Boolean_object_type = {
-	PyVarObject_HEAD_INIT(NULL, 0)
-	.tp_name = "Boolean",
-	.tp_basicsize = sizeof (py_Boolean_object),
-	.tp_dealloc = (destructor) &py_Boolean_object_dealloc,
-	.tp_str = (reprfunc) py_Boolean_object_str
-};
 
 /*
  * CellRef
@@ -875,10 +822,9 @@ py_initgnumeric (void)
 	GnmModule = PyModule_Create (&GnmModuleDef);
 	module_dict = PyModule_GetDict (GnmModule);
 
-	gnm_py_dict_store
-		(module_dict, "TRUE", py_new_Boolean_object (TRUE));
-	gnm_py_dict_store
-		(module_dict, "FALSE", py_new_Boolean_object (FALSE));
+	// For historical reasons.  New code use python True/False.
+	gnm_py_dict_store (module_dict, "TRUE", PyBool_FromLong (TRUE));
+	gnm_py_dict_store (module_dict, "FALSE", PyBool_FromLong (FALSE));
 
 	gnm_py_dict_store
 		(module_dict, "GnumericError",

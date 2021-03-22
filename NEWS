@@ -3,6 +3,7 @@ Gnumeric 1.12.50
 Morten:
 	* Fix undo problem with sorting and cell comments.
 	* Python loader cleanups.
+	* Use Python's bool type instead of rolling our own.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.49
