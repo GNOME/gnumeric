@@ -402,9 +402,9 @@ py_CellRef_object_getattr (py_CellRef_object *self, gchar *name)
 	PyObject *result;
 
 	if (strcmp (name, "col") == 0) {
-		result = Py_BuildValue ("i", self->cell_ref.col);
+		result = PyLong_FromLong (self->cell_ref.col);
 	} else if (strcmp (name, "row") == 0) {
-		result = Py_BuildValue ("i", self->cell_ref.row);
+		result = PyLong_FromLong (self->cell_ref.row);
 	} else if (strcmp (name, "sheet") == 0) {
 		if (self->cell_ref.sheet)
 			result = pygobject_new (G_OBJECT (self->cell_ref.sheet));
@@ -413,11 +413,9 @@ py_CellRef_object_getattr (py_CellRef_object *self, gchar *name)
 			result = Py_None;
 		}
 	} else if (strcmp (name, "col_relative") == 0) {
-		result = Py_BuildValue ("i",
-					self->cell_ref.col_relative ? 1 : 0);
+		result = PyBool_FromLong (self->cell_ref.col_relative);
 	} else if (strcmp (name, "row_relative") == 0) {
-		result = Py_BuildValue ("i",
-					self->cell_ref.row_relative ? 1 : 0);
+		result = PyBool_FromLong (self->cell_ref.row_relative);
 	} else {
 		result = PyObject_CallMethod ((PyObject *) self, name, NULL);
 	}
@@ -472,8 +470,7 @@ static PyObject *
 py_RangeRef_get_tuple_method (py_RangeRef_object *self, PyObject *args);
 
 static struct PyMethodDef py_RangeRef_object_methods[] = {
-	{"get_tuple", (PyCFunction) py_RangeRef_get_tuple_method,
-	 METH_VARARGS},
+	{"get_tuple", (PyCFunction) py_RangeRef_get_tuple_method, METH_VARARGS},
 	{NULL, NULL}
 };
 
@@ -611,7 +608,7 @@ static PyTypeObject py_GnumericFunc_object_type = {
 
 struct _py_GnumericFuncDict_object {
 	PyObject_HEAD
-	PyObject *module_dict;
+	// PyObject *module_dict;
 };
 
 
@@ -644,22 +641,13 @@ py_GnumericFuncDict_object_dealloc (py_GnumericFuncDict_object *self)
 static PyObject *
 py_new_GnumericFuncDict_object (PyObject *module_dict)
 {
-	py_GnumericFuncDict_object *self;
-
-	self = PyObject_NEW (py_GnumericFuncDict_object, &py_GnumericFuncDict_object_type);
-	if (self == NULL) {
-		return NULL;
-	}
-
-	self->module_dict = module_dict;
-
-	return (PyObject *) self;
+	return (PyObject*) PyObject_NEW (py_GnumericFuncDict_object, &py_GnumericFuncDict_object_type);
 }
 
 PyMappingMethods py_GnumericFuncDict_mapping_methods = {
-	0, /* mp_length */
-	(binaryfunc) py_GnumericFuncDict_subscript, /* mp_subscript */
-	0  /* mp_ass_subscript */
+	.mp_length = NULL,
+	.mp_subscript = (binaryfunc) py_GnumericFuncDict_subscript,
+	.mp_ass_subscript = NULL
 };
 
 static PyTypeObject py_GnumericFuncDict_object_type = {
@@ -807,14 +795,7 @@ py_initgnumeric (void)
 
 	static struct PyModuleDef GnmModuleDef = {
 		PyModuleDef_HEAD_INIT,	/* m_base */
-		"Gnumeric",	/* m_name */
-		0,	/* m_doc */
-		0,	/* m_ size */
-		0,	/* m_methods */
-		0,	/* m_reload */
-		0,	/* m_traverse */
-		0,	/* m_clear */
-		0,	/* m_free */
+		.m_name = "Gnumeric",
 	};
 
 	if (GnmModule)
