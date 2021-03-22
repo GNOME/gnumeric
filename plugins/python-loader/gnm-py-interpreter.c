@@ -60,10 +60,7 @@ gnm_py_interpreter_finalize (GObject *obj)
 {
 	GnmPyInterpreter *interpreter = GNM_PY_INTERPRETER (obj);
 
-	if (interpreter->stringio_class != NULL) {
-		Py_DECREF (interpreter->stringio_class);
-	}
-
+	Py_CLEAR (interpreter->stringio_class);
 	parent_class->finalize (obj);
 }
 
@@ -161,9 +158,7 @@ run_print_string (const char *cmd, PyObject *stdout_obj)
 		if (PyFile_WriteObject (v, stdout_obj, Py_PRINT_RAW) != 0)
 			PyErr_Clear ();
 	}
-	if (v) {
-		Py_DECREF (v);
-	}
+	Py_XDECREF (v);
 }
 
 void

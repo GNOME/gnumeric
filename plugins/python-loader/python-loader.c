@@ -242,8 +242,8 @@ gplp_func_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GOPluginService *ser
 		probe_result = PyObject_CallFunction
 			(loader_data->python_func_file_probe,
 			 "O", input_wrapper);
-		Py_DECREF (input_wrapper);
 	}
+	Py_XDECREF (input_wrapper);
 	if (probe_result != NULL) {
 		result = PyObject_IsTrue (probe_result);
 		Py_DECREF (probe_result);
@@ -335,8 +335,7 @@ gplp_load_service_file_opener (GOPluginLoader *loader,
 		loader_data = g_new (ServiceLoaderDataFileOpener, 1);
 		loader_data->python_func_file_probe = python_func_file_probe;
 		loader_data->python_func_file_open = python_func_file_open;
-		if (python_func_file_probe != NULL)
-			Py_INCREF (loader_data->python_func_file_probe);
+		Py_XINCREF (loader_data->python_func_file_probe);
 		Py_INCREF (loader_data->python_func_file_open);
 		g_object_set_data_full
 			(G_OBJECT (service), "loader_data", loader_data,
@@ -787,8 +786,7 @@ gplp_unload_service_function_group (GOPluginLoader *loader,
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
-	Py_DECREF (loader_data->python_fn_info_dict);
-	loader_data->python_fn_info_dict = NULL;
+	Py_CLEAR (loader_data->python_fn_info_dict);
 }
 
 typedef struct {

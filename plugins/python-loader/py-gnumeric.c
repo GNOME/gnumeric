@@ -852,8 +852,7 @@ py_gnumeric_shutdown (void)
 	if (GnmModule) {
 		// At least clear the module.  We leak a ref somewhere.
 		PyDict_Clear (PyModule_GetDict (GnmModule));
-		Py_DECREF (GnmModule);
-		GnmModule = NULL;
+		Py_CLEAR (GnmModule);
 	}
 }
 
