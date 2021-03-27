@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2021-02-22 07:51+0000\n"
-"PO-Revision-Date: 2021-02-25 21:36+0100\n"
+"POT-Creation-Date: 2021-02-25 20:42+0000\n"
+"PO-Revision-Date: 2021-03-27 22:03+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -13451,11 +13451,11 @@ msgstr "Konfigurera rullningslist"
 
 #: ../src/sheet-object-widget.c:2031
 msgid "Configure Spinbutton"
-msgstr "Konfigurera snurrknapp"
+msgstr "Konfigurera stegningsruta"
 
 #: ../src/sheet-object-widget.c:2032
 msgid "Spinbutton Properties"
-msgstr "Egenskaper för snurrknapp"
+msgstr "Egenskaper för stegningsruta"
 
 #: ../src/sheet-object-widget.c:2138
 msgid "Configure Slider"
@@ -17162,11 +17162,11 @@ msgstr "Skapa ett skjutreglage"
 
 #: ../src/wbc-gtk-actions.c:3351
 msgid "SpinButton"
-msgstr "Snurrknapp"
+msgstr "Stegningsruta"
 
 #: ../src/wbc-gtk-actions.c:3352
 msgid "Create a spin button"
-msgstr "Skapa en snurrknapp"
+msgstr "Skapa en stegningsruta"
 
 #: ../src/wbc-gtk-actions.c:3357
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:1
