@@ -298,7 +298,7 @@ AC_ARG_WITH(gda,
 	fi
 )
 if test "$try_gda" = true; then
-	PKG_CHECK_MODULES(GDA, [libgda-5.0 >= 5.0.0, libgda-ui-5.0 >= 5.0.0],
+	PKG_CHECK_MODULES(GDA, [libgda-6.0 >= 6.0.0, libgda-ui-6.0 >= 6.0.0],
 		[gda_msg=yes],
 		[gda_msg="NO.  libgda problem"])
 	if test "$gda_msg" = yes; then
