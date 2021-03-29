@@ -3176,10 +3176,13 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 				 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink")) {
 			const char *url = gsf_open_pkg_rel_get_target (rel);
 			if (url) {
-				if (0 == strncmp (url, "mailto:", 7))
+				if (!g_ascii_strncasecmp (url, "mailto:", 7))
 					link_type = gnm_hlink_email_get_type ();
-				else
+				else if (!g_ascii_strncasecmp (url, "http:", 5) ||
+					 !g_ascii_strncasecmp (url, "https:", 6))
 					link_type = gnm_hlink_url_get_type ();
+				else
+					link_type = gnm_hlink_external_get_type ();
 				target = location
 					? g_strconcat (url, "#", location, NULL)
 					: g_strdup (url);

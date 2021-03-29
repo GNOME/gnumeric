@@ -2094,7 +2094,9 @@ xlsx_write_hlink (GnmHLink const *lnk, GSList *ranges, XLSXClosure *info)
 	gchar const *tip = gnm_hlink_get_tip (lnk);
 	GType const t = G_OBJECT_TYPE (lnk);
 
-	if (target && g_type_is_a (t, gnm_hlink_url_get_type ())) {
+	if (target &&
+	    (g_type_is_a (t, gnm_hlink_url_get_type ()) ||
+	     GNM_IS_HLINK_EXTERNAL (lnk))) {
 		// URLs, including email.
 
 		char *hash = strchr (target, '#');
