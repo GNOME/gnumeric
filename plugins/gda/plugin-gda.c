@@ -69,9 +69,9 @@ gnm_value_new_from_gda (GValue const *gval,
 
 	if (t == GDA_TYPE_TIME) {
 		GdaTime const *time = gda_value_get_time (gval);
-		res = value_new_float ( (time->hour +
-					 (time->minute +
-					  time->second / 60.) / 60.) / 24.),
+		res = value_new_float ( (g_date_time_get_hour (time) +
+					 (g_date_time_get_minute (time) +
+					  g_date_time_get_second (time) / 60.) / 60.) / 24.),
 		value_set_fmt (res, go_format_default_time ());
 		return res;
 	}
@@ -527,7 +527,7 @@ view_data_sources (GnmAction const *action, WorkbookControl *wbc)
 {
 	char *argv[2];
 
-	argv[0] = gda_get_application_exec_path ("gda-control-center");
+	argv[0] = "/usr/bin/env gda-control-center-6.0";
 	argv[1] = NULL;
 	if (!g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL)) {
 		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_INFO,
