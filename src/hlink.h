@@ -15,6 +15,9 @@ G_BEGIN_DECLS
 #define GNM_HLINK_URL(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_HLINK_URL_TYPE, GnmHLinkURL))
 #define GNM_IS_HLINK_URL(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_HLINK_URL_TYPE))
 
+#define GNM_HLINK_EXTERNAL_TYPE		(gnm_hlink_external_get_type ())
+#define GNM_IS_HLINK_EXTERNAL(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_HLINK_EXTERNAL_TYPE))
+
 GnmHLink	*gnm_sheet_hlink_find   (Sheet const *sheet, GnmCellPos const *pos);
 
 GType gnm_hlink_get_type (void);

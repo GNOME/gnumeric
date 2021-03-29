@@ -1,3 +1,7 @@
+2021-03-29  Morten Welinder  <terra@gnome.org>
+
+	* src/hlink.h (GNM_HLINK_EXTERNAL_TYPE): Add checker macro.
+
 2021-03-19  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_sort_undo): Paste cell comments too.

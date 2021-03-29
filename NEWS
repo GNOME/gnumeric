@@ -4,6 +4,7 @@ Morten:
 	* Fix undo problem with sorting and cell comments.
 	* Python loader cleanups.
 	* Use Python's bool type instead of rolling our own.
+	* Export also file links to html.  [#569]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.49

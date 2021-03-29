@@ -282,10 +282,17 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 	char *rendered_string;
 	gboolean hidden = gnm_style_get_contents_hidden (style);
 	GnmHLink* hlink = gnm_style_get_hlink (style);
-	const guchar* hlink_target = NULL;
+	char* hlink_target = NULL;
 
-	if (hlink && GNM_IS_HLINK_URL (hlink)) {
-		hlink_target = gnm_hlink_get_target (hlink);
+	if (hlink) {
+		const char *target = gnm_hlink_get_target (hlink);
+		if (GNM_IS_HLINK_URL (hlink)) {
+			hlink_target = go_url_encode (target, 1);
+		} else if (GNM_IS_HLINK_EXTERNAL (hlink)) {
+			char *et = go_url_encode (target, 1);
+			hlink_target = g_strconcat ("file://", et, NULL);
+			g_free (et);
+		}
 	}
 
 	if (version == HTML32 && hidden)
@@ -319,8 +326,10 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 			}
 		}
 
-		if (hlink_target)
+		if (hlink_target) {
 			gsf_output_printf (output, "<a href=\"%s\">", hlink_target);
+			g_free (hlink_target);
+		}
 
 		if (cell != NULL) {
 			const PangoAttrList * markup = NULL;
