@@ -55,6 +55,7 @@
 #include <gnm-so-line.h>
 #include <sheet-object-image.h>
 #include <number-match.h>
+#include <func.h>
 #include "dead-kittens.h"
 
 #include <goffice/goffice.h>
@@ -1198,10 +1199,16 @@ xlsx_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 	texpr = gnm_expr_parse_str (expr_str, pp,
 		GNM_EXPR_PARSE_DEFAULT, state->convs,
 		parse_error_init (&err));
-	if (NULL == texpr)
+	if (NULL == texpr) {
 		xlsx_warning (xin, "At %s: '%s' %s",
 			      parsepos_as_string (pp),
 			      expr_str, err.err->message);
+		texpr = gnm_expr_top_new
+			(gnm_expr_new_funcall1
+			 (gnm_func_lookup_or_add_placeholder ("ERROR"),
+			  gnm_expr_new_constant
+			  (value_new_string (expr_str))));
+	}
 	parse_error_free (&err);
 
 	return texpr;

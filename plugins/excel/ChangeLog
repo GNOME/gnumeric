@@ -1,3 +1,9 @@
+2021-04-11  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_parse_expr): Turn expressons we cannot parse
+	into ERROR("formula") instead of dropping them on the floor.  See
+	#574.
+
 2021-03-29  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_CT_HyperLinks): Also handle file:// links.

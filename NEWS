@@ -6,6 +6,7 @@ Morten:
 	* Use Python's bool type instead of rolling our own.
 	* Export file:// links to html.  [#569]
 	* Export file:// links to xlsx.  [#569]
+	* Improve handling of invalid formulae from xlsx.  [#574]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.49
