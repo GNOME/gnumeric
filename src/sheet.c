@@ -5509,7 +5509,7 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
  * @col: At which position we want to insert
  * @count: The number of columns to be inserted
  * @pundo: (out): (transfer full): (allow-none): undo closure
- * @cc:
+ * @cc: The command context
  **/
 gboolean
 sheet_insert_cols (Sheet *sheet, int col, int count,
@@ -5595,7 +5595,7 @@ cb_collect_cell (GnmCellIter const *iter, gpointer user)
 
 /**
  * sheet_move_range:
- * @cc:
+ * @cc: The command context
  * @rinfo:
  * @pundo: (out) (optional) (transfer full): undo object
  *
