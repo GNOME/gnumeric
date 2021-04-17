@@ -276,7 +276,7 @@ gnm_py_interpreter_compare (gconstpointer a, gconstpointer b)
 {
 	const GnmPyInterpreter *int_a = a, *int_b = b;
 
-	if (int_a->plugin == NULL && int_b->plugin == NULL) {
+	if (int_a->plugin == int_b->plugin) {
 		return 0;
 	} else if (int_a->plugin == NULL) {
 		return -1;
