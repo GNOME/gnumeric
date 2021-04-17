@@ -98,6 +98,9 @@ int workbook_sheet_state_size	(WorkbookSheetState const *wss);
 char *workbook_sheet_state_diff (WorkbookSheetState const *wss_a,
 				 WorkbookSheetState const *wss_b);
 
+// For bindings only!
+GSList *gnm_workbook_sheets0 (Workbook const *wb);
+
 #define WORKBOOK_FOREACH_SHEET(wb, sheet, code)				\
   do {									\
 	  const Workbook *wb_ = (wb);					\

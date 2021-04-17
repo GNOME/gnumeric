@@ -833,7 +833,7 @@ workbook_detach_view (WorkbookView *wbv)
 /*****************************************************************************/
 
 /**
- * workbook_sheets:
+ * workbook_sheets: (skip)
  * @wb: #Workbook
  *
  * Get an ordered list of the sheets in the workbook
@@ -845,6 +845,33 @@ workbook_sheets (Workbook const *wb)
 {
 	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), NULL);
 	return g_ptr_array_ref (wb->sheets);
+}
+
+// Alternate version for the sake of introspection which is unhappy with
+// the GPtrArray api.
+
+/**
+ * gnm_workbook_sheets0: (rename-to workbook_sheets)
+ * @wb: #Workbook
+ *
+ * Get an ordered list of the sheets in the workbook
+ *
+ * Returns: (element-type Sheet) (transfer full): the sheets list.
+ */
+GSList *
+gnm_workbook_sheets0 (Workbook const *wb)
+{
+	GSList *res = NULL;
+	unsigned ui;
+
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), NULL);
+
+	for (ui = wb->sheets->len; ui--; ) {
+		Sheet *sheet = g_ptr_array_index (wb->sheets, ui);
+		res = g_slist_prepend (res, g_object_ref (sheet));
+	}
+
+	return g_slist_reverse (res);
 }
 
 int
