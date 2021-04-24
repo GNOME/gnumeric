@@ -901,8 +901,8 @@ AM_CONDITIONAL(HAVE_PYTHON_GI, test "x$have_python_gi" = "xyes")
 
 if test "x$python_msg" = xyes; then
     BIG_CHECKING([for python = 3.x])
-    [PY_VERSION=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:3])'`
-     major_ver=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:1])'`]
+    [PY_VERSION=`$PYTHON -c 'import sys; sys.stdout.write("{:d}.{:d}".format(*sys.version_info))'`
+     major_ver=`$PYTHON -c 'import sys ; sys.stdout.write(str(sys.version_info[0]))'`]
     if test "x$major_ver" = "x3"; then
 	AC_MSG_RESULT(yes)
 	if test "x$with_native_win32" = xyes ; then
