@@ -103,6 +103,7 @@ typedef struct {
 	char const *output;
 } translate_t;
 static const translate_t translate_table[] = {
+#if 0
 	{ "General", "G" },
 	{ "0", "F0" },
 	{ "#,##0", ",0" },
@@ -117,6 +118,7 @@ static const translate_t translate_table[] = {
 	{ "0.00e+00", "S2" },
 	{ "# ?/?", "G" },
 	{ "# ?" "?/?" "?", "G" },   /* Don't accidentally use trigraphs here. */
+#endif
 	{ "m/d/yy", "D4" },
 	{ "m/d/yy h:mm", "D4" },
 	{ "mm/dd/yy", "D4" },
@@ -138,9 +140,11 @@ translate_cell_format (GOFormat const *format)
 	int i;
 	const char *fmt;
 	const int translate_table_count = G_N_ELEMENTS (translate_table);
+	gboolean exact;
+	GOFormatDetails details;
 
 	if (format == NULL)
-		return value_new_string ("G");
+		goto fallback;
 
 	fmt = go_format_as_XL (format);
 
@@ -155,14 +159,41 @@ translate_cell_format (GOFormat const *format)
 		}
 	}
 
-#warning "FIXME: CELL('format',...) isn't right"
-	/*
-	 * 1. The above lookup should be done with respect to just the
-	 *    first of format alternatives.
-	 * 2. I don't think colour should count.
-	 * 3. We should add a dash if there are more alternatives.
-	 */
+	go_format_get_details (format, &details, &exact);
+	if (0 && !exact) {
+		g_printerr ("Inexact for %s\n", fmt);
+		goto fallback;
+	}
 
+	switch (details.family) {
+	case GO_FORMAT_NUMBER:
+		return value_new_string_nocopy
+			(g_strdup_printf
+			 ("%c%d",
+			  details.thousands_sep ? ',' : 'F',
+			  details.num_decimals));
+	case GO_FORMAT_CURRENCY:
+	case GO_FORMAT_ACCOUNTING:
+		return value_new_string_nocopy
+			(g_strdup_printf
+			 ("C%d%s",
+			  details.num_decimals,
+			  details.negative_red ? "-" : ""));
+	case GO_FORMAT_PERCENTAGE:
+		return value_new_string_nocopy
+			(g_strdup_printf
+			 ("P%d",
+			  details.num_decimals));
+	case GO_FORMAT_SCIENTIFIC:
+		return value_new_string_nocopy
+			(g_strdup_printf
+			 ("S%d",
+			  details.num_decimals));
+	default:
+		goto fallback;
+	}
+
+fallback:
 	return value_new_string ("G");
 }
 
