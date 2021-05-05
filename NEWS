@@ -9,6 +9,7 @@ Morten:
 	* Improve handling of invalid formulae from xlsx.  [#574]
 	* Introspection fixes.
 	* Improve CELL("format",...)  [#576]
+	* wk4 import improvements.  (For no good reason.)
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.49
