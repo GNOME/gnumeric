@@ -39,6 +39,8 @@
 #define LOTUS_STRING                 0x33
 
 /* Stuff observed in new formats only: */
+#define LOTUS_SHEETCELLPTR           0x5
+#define LOTUS_SHEETLAYOUT            0x6
 #define LOTUS_COLW4                  0x7
 #define LOTUS_HIDDENCOL              0x8
 #define LOTUS_USER_RANGE             0x9
@@ -52,6 +54,7 @@
 #define LOTUS_EXTENDED_FLOAT         0x17    /* wk4...  */
 #define LOTUS_SMALLNUM               0x18    /* wk3,wk4 */
 #define LOTUS_FORMULA3               0x19    /* wk3,wk4 */
+#define LOTUS_FORMULASTRING          0x1a    /* wk3,wk4 */
 #define LOTUS_STYLE                  0x1b
 #define LOTUS_DTLABELMISC            0x1c
 #define LOTUS_CPA                    0x1f

@@ -28,6 +28,8 @@
 #include <parse-util.h>
 #include <sheet-style.h>
 #include <sheet-object-cell-comment.h>
+#include <sheet-view.h>
+#include <selection.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
@@ -932,7 +934,6 @@ lotus_extfloat (guint64 mant, guint16 signexp)
 {
 	int exp = (signexp & 0x7fff) - 16383;
 	int sign = (signexp & 0x8000) ? -1 : 1;
-	/* FIXME: Special values may indicate NaN, +/- inf */
 	/*
 	 * NOTE: if gnm_float is "double", then passing the first argument
 	 * to gnm_ldexp will perform rounding from 64-bit integer to
@@ -947,8 +948,19 @@ lotus_extfloat (guint64 mant, guint16 signexp)
 GnmValue *
 lotus_load_treal (gconstpointer p)
 {
+	const guint8 *pc = p;
+
+	if (pc[9] == 0xff && pc[8] == 0xff) {
+		switch (pc[7]) {
+		case 0x00: return value_new_empty ();
+		case 0xc0: return value_new_error_VALUE (NULL);
+		case 0xd0: return value_new_error_NA (NULL);
+		case 0xe0: return value_new_string (""); // Supplied in FORMULASTRING
+		}
+	}
+
 	return lotus_extfloat (GSF_LE_GET_GUINT64 (p),
-			       GSF_LE_GET_GUINT16 ((const char *)p + 8));
+			       GSF_LE_GET_GUINT16 (pc + 8));
 }
 
 static GnmValue *
@@ -1958,6 +1970,31 @@ lotus_read_new (LotusState *state, record_t *r)
 		case LOTUS_EOF:
 			goto done;
 
+		case LOTUS_SHEETCELLPTR: CHECK_RECORD_SIZE (== 16) {
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[0]);
+			int row = GSF_LE_GET_GUINT16 (r->data + 4);
+			int col = r->data[6];
+			int left = r->data[7];
+			int top = GSF_LE_GET_GUINT16 (r->data + 8);
+			SheetView *sv = sheet_get_view (sheet, state->wbv);
+			GnmCellPos edit;
+			edit.col = col;
+			edit.row = row;
+			sv_selection_set (sv, &edit, col, row, col, row);
+			gnm_sheet_view_set_initial_top_left (sv, left, top);
+			break;
+		}
+
+		case LOTUS_SHEETLAYOUT: CHECK_RECORD_SIZE (== 5) {
+			// Despite the name, this stores default col width
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[0]);
+			guint8 chars = r->data[4];
+			// Very approximate
+			double size = lotus_twips_to_points (chars * (20 * 72 / 11));
+			sheet_col_set_default_size_pts (sheet, size);
+			break;
+		}
+
 		case LOTUS_COLW4: CHECK_RECORD_SIZE (>= 4) {
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[0]);
 			int i, n = (r->len - 4) / 2;
@@ -2307,6 +2344,16 @@ lotus_read_new (LotusState *state, record_t *r)
 				value_release (curval);
 
 			gnm_expr_top_unref (texpr);
+			break;
+		}
+
+		case LOTUS_FORMULASTRING: CHECK_RECORD_SIZE (>= 5) {
+			int row = GSF_LE_GET_GUINT16 (r->data);
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
+			int col = r->data[3];
+			char *s = g_strndup (r->data + 4, r->len - 5);
+			GnmCell *cell = lotus_cell_fetch (state, sheet, col, row);
+			gnm_cell_assign_value (cell, value_new_string_nocopy (s));
 			break;
 		}
 
