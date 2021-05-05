@@ -6,6 +6,9 @@
  *    Michael Meeks (mmeeks@gnu.org)
  *    Stephen Wood (saw@genhomepage.com)
  *    Morten Welinder (terra@gnome.org)
+ *
+ * Docs are scarce.
+ * https://www.mettalogic.co.uk/tim/l123/l123r4.html
  **/
 #include <gnumeric-config.h>
 #include <gnumeric.h>
@@ -1955,6 +1958,20 @@ lotus_read_new (LotusState *state, record_t *r)
 		case LOTUS_EOF:
 			goto done;
 
+		case LOTUS_COLW4: CHECK_RECORD_SIZE (>= 4) {
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[0]);
+			int i, n = (r->len - 4) / 2;
+			for (i = 0; i < n; i++) {
+				guint8 col = r->data[4 + 2 * i];
+				guint8 chars = r->data[5 + 2 * i];
+				gboolean value_set = TRUE;
+				// Very approximate
+				double size = lotus_twips_to_points (chars * (20 * 72 / 11));
+				sheet_col_set_size_pts (sheet, col, size, value_set);
+			}
+			break;
+		}
+
 		case LOTUS_FORMAT: CHECK_RECORD_SIZE (>= 2) {
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[0]);
 			guint8 subtype = GSF_LE_GET_GUINT8 (r->data + 1);
@@ -2187,16 +2204,29 @@ lotus_read_new (LotusState *state, record_t *r)
 				break;
 			}
 
+			case 0x36b0: CHECK_RECORD_SIZE (> 5) {
+				// Sheet name
+				guint8 sheetno = GSF_LE_GET_GUINT8 (r->data + 2);
+				char *name = g_strndup (r->data + 4, r->len - 5);
+				Sheet *sheet = lotus_get_sheet (state->wb, sheetno);
+				g_object_set (sheet, "name", name, NULL);
+				g_free (name);
+				break;
+			}
+
 			default:
 				g_printerr ("Unknown style record 0x%x/%04x of length %d.\n",
 					 r->type, subtype,
 					 r->len);
 
-			case 0xfab: /* Edge style */
-			case 0xfb4: /* Interior style */
-			case 0xfc9: /* Frame style */
-			case 0xfe6: /* Named style */
-			case 0xffa: /* Style pool */
+			case 0x07d7: // Row height
+			case 0x0fab: // Edge style
+			case 0x0fb4: // Interior style
+			case 0x0fc9: // Frame style
+			case 0x0fe6: // Background style
+			case 0x0ff0: // Text style
+			case 0x0ffa: // Style pool
+			case 0x32e7: // Named style
 				break;
 			}
 			break;

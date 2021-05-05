@@ -39,6 +39,8 @@
 #define LOTUS_STRING                 0x33
 
 /* Stuff observed in new formats only: */
+#define LOTUS_COLW4                  0x7
+#define LOTUS_HIDDENCOL              0x8
 #define LOTUS_USER_RANGE             0x9
 #define LOTUS_SYSTEMRANGE            0xa
 #define LOTUS_ZEROFORCE              0xb
