@@ -10,6 +10,7 @@ Morten:
 	* Introspection fixes.
 	* Improve CELL("format",...)  [#576]
 	* wk4 import improvements.  (For no good reason.)
+	* Fix some -fsanitize=undefined problems.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.49

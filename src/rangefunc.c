@@ -490,7 +490,7 @@ gnm_range_adtest    (gnm_float const *xs, int n, gnm_float *pvalue,
 		total = - n - total/n;
 		g_free (ys);
 
-		total *= (1 + 0.75 / n + 2.25 / (n * n));
+		total *= (1 + 0.75 / n + 2.25 / ((gnm_float)n * n));
 		if (total < 0.2)
 			p = 1. - gnm_exp (-13.436 + 101.14 * total - 223.73 * total * total);
 		else if (total < 0.34)

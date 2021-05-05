@@ -1,3 +1,11 @@
+2021-05-05  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_cells): Avoid undefined behaviour.
+
+2021-05-04  Morten Welinder  <terra@gnome.org>
+
+	* src/rangefunc.c (gnm_range_adtest): Avoid integer overflow.
+
 2021-03-29  Morten Welinder  <terra@gnome.org>
 
 	* src/hlink.h (GNM_HLINK_EXTERNAL_TYPE): Add checker macro.

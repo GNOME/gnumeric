@@ -670,11 +670,12 @@ workbook_cells (Workbook *wb, gboolean comments, GnmSheetVisibility vis)
 			continue;
 
 		scells = sheet_cell_positions (sheet, comments);
-		g_ptr_array_set_size (cells, oldlen + scells->len);
-		memcpy (&g_ptr_array_index (cells, oldlen),
-			&g_ptr_array_index (scells, 0),
-			scells->len * sizeof (GnmEvalPos *));
-
+		if (scells->len) {
+			g_ptr_array_set_size (cells, oldlen + scells->len);
+			memcpy (&g_ptr_array_index (cells, oldlen),
+				&g_ptr_array_index (scells, 0),
+				scells->len * sizeof (GnmEvalPos *));
+		}
 		g_ptr_array_free (scells, TRUE);
 	});
 
