@@ -815,17 +815,6 @@ static GnmFuncHelp const help_workday[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static gint
-float_compare (gnm_float const *a, gnm_float const *b)
-{
-        if (*a < *b)
-                return -1;
-	else if (*a == *b)
-		return 0;
-	else
-		return 1;
-}
-
 static GnmValue *
 gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
@@ -838,7 +827,7 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float const default_weekends[] = {1.,0.,0.,0.,0.,0.,1.};
 	int nholidays, nweekends, n_non_weekend = 0;
 	GDateWeekday weekday;
-	int serial;
+	int serial = 0;
 	int i;
 
 	datetime_value_to_g (&date, argv[0], conv);
@@ -886,14 +875,14 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		holidays = collect_floats_value (argv[2], ei->pos,
 						 COLLECT_COERCE_STRINGS |
 						 COLLECT_IGNORE_BOOLS |
-						 COLLECT_IGNORE_BLANKS,
+						 COLLECT_IGNORE_BLANKS |
+						 COLLECT_SORT,
 						 &nholidays, &result);
 		if (result) {
 			if (weekends != default_weekends)
 				g_free (weekends);
 			return result;
 		}
-		qsort (holidays, nholidays, sizeof (holidays[0]), (void *) &float_compare);
 
 		for (i = j = 0; i < nholidays; i++) {
 			gnm_float s = holidays[i];
@@ -1187,14 +1176,14 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		holidays = collect_floats_value (argv[2], ei->pos,
 						 COLLECT_COERCE_STRINGS |
 						 COLLECT_IGNORE_BOOLS |
-						 COLLECT_IGNORE_BLANKS,
+						 COLLECT_IGNORE_BLANKS |
+						 COLLECT_SORT,
 						 &nholidays, &result);
 		if (result) {
 			if (weekends != default_weekends)
 				g_free (weekends);
 			return result;
 		}
-		qsort (holidays, nholidays, sizeof (holidays[0]), (void *) &float_compare);
 
 		for (i = j = 0; i < nholidays; i++) {
 			gnm_float s = holidays[i];

@@ -412,7 +412,7 @@ gnm_range_rsq_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *r
 }
 
 /* Most-common element.  (The one whose first occurrence comes first in
-   case of several equally common.  */
+   case of several equally common.)  */
 int
 gnm_range_mode (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -478,7 +478,7 @@ gnm_range_adtest    (gnm_float const *xs, int n, gnm_float *pvalue,
 		gnm_float p;
 		gnm_float *ys;
 
-		ys = range_sort (xs, n);
+		ys = gnm_range_sort (xs, n);
 
 		for (i = 0; i < n; i++) {
 			gnm_float val = (pnorm (ys[i], mu, sigma, TRUE, TRUE) +

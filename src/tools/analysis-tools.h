@@ -252,8 +252,6 @@ void prepare_input_range (GSList **input_range, group_by_t group_by);
 const GnmExpr *make_cellref (int dx, int dy);
 const GnmExpr *make_rangeref (int dx0, int dy0, int dx1, int dy1);
 
-gnm_float *range_sort (gnm_float const *xs, int n);
-
 void set_cell_text_row (data_analysis_output_t *dao,
 			int col, int row, const char *text);
 void set_cell_text_col (data_analysis_output_t *dao,

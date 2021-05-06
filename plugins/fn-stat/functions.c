@@ -5027,7 +5027,7 @@ gnumeric_lkstest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		gnm_float val;
 		gnm_float stat;
 
-		ys = range_sort (xs, n);
+		ys = gnm_range_sort (xs, n);
 
 		val = pnorm (ys[0], mu, sigma, TRUE, FALSE);
 		dplus = 1./(gnm_float)n - val;
@@ -5138,7 +5138,7 @@ gnumeric_sftest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		gnm_float *ys;
 		gnm_float *zs;
 
-		ys = range_sort (xs, n);
+		ys = gnm_range_sort (xs, n);
 		zs = g_new (gnm_float, n);
 
 		for (i = 0; i < n; i++)
@@ -5226,7 +5226,7 @@ gnumeric_cvmtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		gnm_float p;
 		gnm_float *ys;
 
-		ys = range_sort (xs, n);
+		ys = gnm_range_sort (xs, n);
 
 		for (i = 0; i < n; i++) {
 			gnm_float val = pnorm (ys[i], mu, sigma, TRUE, FALSE);

@@ -441,32 +441,6 @@ gnm_check_input_range_list_homogeneity (GSList *input_range)
 
 /***** Some general routines ***********************************************/
 
-static gint
-float_compare (gnm_float const *a, gnm_float const *b)
-{
-        if (*a < *b)
-                return -1;
-        else if (*a == *b)
-                return 0;
-        else
-                return 1;
-}
-
-gnm_float *
-range_sort (gnm_float const *xs, int n)
-{
-	if (n <= 0)
-		return NULL;
-	else {
-		gnm_float *ys = g_new (gnm_float, n);
-		memcpy (ys, xs, n * sizeof (gnm_float));
-		qsort (ys, n, sizeof (ys[0]),
-		       (int (*) (const void *, const void *))&float_compare);
-		return ys;
-	}
-}
-
-
 /*
  * Set a column of text from a string like "/first/second/third" or "|foo|bar|baz".
  */
