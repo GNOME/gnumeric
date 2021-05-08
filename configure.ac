@@ -900,17 +900,13 @@ AM_CONDITIONAL(HAVE_PYTHON_GI, test "x$have_python_gi" = "xyes")
 
 
 if test "x$python_msg" = xyes; then
-    BIG_CHECKING([for python = 3.x])
-    [PY_VERSION=`$PYTHON -c 'import sys; sys.stdout.write("{:d}.{:d}".format(*sys.version_info))'`
-     major_ver=`$PYTHON -c 'import sys ; sys.stdout.write(str(sys.version_info[0]))'`]
-    if test "x$major_ver" = "x3"; then
+    BIG_CHECKING([for python >= 3.x])
+    [major_ver=`$PYTHON -c 'import sys ; sys.stdout.write(str(sys.version_info[0]))'`]
+    if test "$major_ver" -ge 3; then
 	AC_MSG_RESULT(yes)
-	if test "x$with_native_win32" = xyes ; then
-	    # 3.x on linux, 3x on win32
-	    PY_VERSION=`echo $PY_VERSION | sed -e 's/\\.//'`
-	fi
     else
-	AC_MSG_RESULT([no. $PYTHON is version $PY_VERSION])
+        pyversion=`$PYTHON --version`
+	AC_MSG_RESULT([no. $PYTHON is $pyversion])
     fi
 fi
 
@@ -953,13 +949,15 @@ if test "x$python_msg" = xyes; then
     if test "x$PY_LIB_DIR" = x; then
 	if test "x$with_native_win32" = xyes ; then
 	    PY_LIB_DIR="$PY_PREFIX/libs"
+	    PY_DASHLPYTHON=FIXME
 	else
 	    PY_LIB_DIR=`$PYTHON -c 'import sys ; import distutils.sysconfig ; sys.stdout.write(distutils.sysconfig.get_config_var("LIBPL"))'`
+	    PY_DASHLPYTHON=`$PYTHON -c 'import sys ; import distutils.sysconfig ; sys.stdout.write(distutils.sysconfig.get_config_var("BLDLIBRARY"))'`
 	fi
     fi
 
     GNM_PY_CFLAGS="$PY_INCLUDES $PYGOBJECT_CFLAGS"
-    GNM_PY_LDFLAGS="-L$PY_LIB_DIR -lpython$PY_VERSION $PYGOBJECT_LIBS"
+    GNM_PY_LDFLAGS="-L$PY_LIB_DIR $PY_DASHLPYTHON $PYGOBJECT_LIBS"
     python_msg="yes (using $PYTHON)"
 elif test "x$with_python" = "xyes"; then
 		AC_MSG_ERROR([$python_msg])
