@@ -201,23 +201,26 @@ item_grid_realize (GocItem *item)
 {
 	GdkDisplay *display;
 	GnmItemGrid *ig;
-	GdkPixbuf *cursor_cross_pixbuf;
+	cairo_surface_t *cursor_cross;
+	GtkWidget *widget;
 
 	parent_class->realize (item);
 
 	ig = GNM_ITEM_GRID (item);
 	ig_reload_style (ig);
 
-	display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
+	widget = GTK_WIDGET (item->canvas);
+	display = gtk_widget_get_display (widget);
 	ig->cursor_link  = gdk_cursor_new_for_display (display, GDK_HAND2);
-	cursor_cross_pixbuf =
-		gtk_icon_theme_load_icon (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (item->canvas))),
-					  "cursor-cross", 32, 0, NULL);
+	cursor_cross =
+		gtk_icon_theme_load_surface (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget)),
+					     "cursor-cross", 32,
+					     gtk_widget_get_scale_factor (widget),
+					     gtk_widget_get_window (widget),
+					     0, NULL);
 	ig->cursor_cross =
-		gdk_cursor_new_from_pixbuf (display,
-					    cursor_cross_pixbuf,
-					    17, 17);
-	g_object_unref (cursor_cross_pixbuf);
+		gdk_cursor_new_from_surface (display, cursor_cross, 17, 17);
+	cairo_surface_destroy (cursor_cross);
 	cb_cursor_motion (ig);
 }
 

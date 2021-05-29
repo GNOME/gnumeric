@@ -162,6 +162,7 @@
     <file>icons/32x32/actions/gnumeric-format-valign-justify.png</file>
     <file>icons/32x32/actions/gnumeric-format-valign-top.png</file>
     <file>icons/48x48/actions/gnumeric-protection-yes-dialog.png</file>
+    <file>icons/64x64/actions/cursor-cross.png</file>
     <file alias="images/line_pattern_dash_dot.png">src/pixmaps/line_pattern_dash_dot.png</file>
     <file alias="images/line_pattern_dash_dot_dot.png">src/pixmaps/line_pattern_dash_dot_dot.png</file>
     <file alias="images/line_pattern_dashed.png">src/pixmaps/line_pattern_dashed.png</file>
