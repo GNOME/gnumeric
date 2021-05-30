@@ -11,6 +11,7 @@ Morten:
 	* Improve CELL("format",...)  [#576]
 	* wk4 import improvements.  (For no good reason.)
 	* Fix some -fsanitize=undefined problems.
+	* Improve excel-specific xlsx import of validation.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.49

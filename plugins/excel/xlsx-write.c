@@ -2016,8 +2016,9 @@ xlsx_write_validation (XLValInputPair const *vip, G_GNUC_UNUSED gpointer dummy, 
 
 		if (vip->v->allow_blank)
 			xlsx_add_bool (info->xml, "allowBlank", TRUE);
-		if (vip->v->use_dropdown)
-			xlsx_add_bool (info->xml, "showDropDown", TRUE);
+
+		// Inverted sense
+		xlsx_add_bool (info->xml, "showDropDown", !vip->v->use_dropdown);
 
 		if (NULL != vip->v->title)
 			gsf_xml_out_add_cstr (info->xml, "errorTitle", vip->v->title->str);

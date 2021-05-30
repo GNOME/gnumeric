@@ -287,6 +287,8 @@ static GsfXMLInNS const xlsx_ns[] = {
 	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.openxmlformats.org/spreadsheetml/2006/7/main"),		  /* Office 12 BETA-2 Technical Refresh */
 	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.openxmlformats.org/spreadsheetml/2006/5/main"),		  /* Office 12 BETA-2 */
 	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.microsoft.com/office/excel/2006/2"),			  /* Office 12 BETA-1 Technical Refresh */
+	GSF_XML_IN_NS (XL_NS_MSSS,	"http://schemas.microsoft.com/office/excel/2006/main"),	                  /* Office 14??? */
+	GSF_XML_IN_NS (XL_NS_SS,        "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main"),         /* Office 14??? */
 	GSF_XML_IN_NS (XL_NS_SS_DRAW,	"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing"),	  /* Office 12 BETA-2 */
 	GSF_XML_IN_NS (XL_NS_SS_DRAW,	"http://schemas.openxmlformats.org/drawingml/2006/3/spreadsheetDrawing"), /* Office 12 BETA-2 Technical Refresh */
 	GSF_XML_IN_NS (XL_NS_CHART,	"http://schemas.openxmlformats.org/drawingml/2006/3/chart"),		  /* Office 12 BETA-2 */
@@ -2239,17 +2241,20 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	state->validation_regions = g_slist_reverse (
 		xlsx_parse_sqref (xin, refs));
 
-	if (NULL == state->validation_regions)
-		return;
-
-	if (showErrorMessage) {
+	if (state->validation_regions) {
 		GnmRange const *r = state->validation_regions->data;
 		state->pos = r->start;
+	} else {
+		state->pos.col = state->pos.row = 0;
+	}
+
+	if (showErrorMessage) {
 		state->validation = gnm_validation_new
 			(val_style, val_type, val_op,
 			 state->sheet,
 			 errorTitle, error,
-			 NULL, NULL, allowBlank, showDropDown);
+			 NULL, NULL, allowBlank, !showDropDown);
+		// Note: inverted sense of showDropDown
 	}
 
 	if (showInputMessage && (NULL != promptTitle || NULL != prompt))
@@ -2300,11 +2305,24 @@ xlsx_CT_DataValidation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xlsx_CT_DataValidation_sqref_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	const char *s = xin->content->str;
+
+	state->validation_regions =
+		g_slist_concat (
+			g_slist_reverse (xlsx_parse_sqref (xin, s)),
+			state->validation_regions);
+}
+
+static void
 xlsx_validation_expr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmParsePos pp;
 	GnmExprTop const *texpr;
+	int i = xin->node->user_data.v_int;
 
 	if (state->validation == NULL)
 		return;
@@ -2314,8 +2332,7 @@ xlsx_validation_expr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->pos.col, state->pos.row);
 	texpr = xlsx_parse_expr (xin, xin->content->str, &pp);
 	if (NULL != texpr) {
-		gnm_validation_set_expr (state->validation, texpr,
-			xin->node->user_data.v_int);
+		gnm_validation_set_expr (state->validation, texpr, i);
 		gnm_expr_top_unref (texpr);
 	}
 }
@@ -3254,7 +3271,8 @@ xlsx_ext_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	if (!warned)
 		xlsx_warning (xin,
 			      _("Encountered uninterpretable \"ext\" extension with missing namespace"));
-	gsf_xml_in_set_silent_unknowns (xin, TRUE);
+	if (!gnm_debug_flag ("xlsxext"))
+		gsf_xml_in_set_silent_unknowns (xin, TRUE);
 }
 
 static void
@@ -3459,9 +3477,17 @@ xlsx_rich_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static GsfXMLInNode const xlsx_sheet_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, &xlsx_CT_worksheet, 0),
-  GSF_XML_IN_NODE (SHEET, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (EXTLST, EXTITEM, XL_NS_SS, "ext", GSF_XML_NO_CONTENT, &xlsx_ext_begin, &xlsx_ext_end),
+  GSF_XML_IN_NODE_FULL (SHEET, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+    GSF_XML_IN_NODE_FULL (EXTLST, EXTITEM, XL_NS_SS, "ext", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_ext_begin, &xlsx_ext_end, 0),
       GSF_XML_IN_NODE (EXTITEM, EXT_TABTEXTCOLOR, XL_NS_GNM_EXT, "tabTextColor", GSF_XML_NO_CONTENT, &xlsx_ext_tabtextcolor, NULL),
+      GSF_XML_IN_NODE_FULL (EXTITEM, EXT_DataValidations, XL_NS_SS, "dataValidations", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+	GSF_XML_IN_NODE (EXT_DataValidations, EXT_DataValidation, XL_NS_SS, "dataValidation", GSF_XML_NO_CONTENT,
+			 &xlsx_CT_DataValidation_begin, &xlsx_CT_DataValidation_end),
+	  GSF_XML_IN_NODE_FULL (EXT_DataValidation, DATAVAL_FORMULA1, XL_NS_SS, "formula1", GSF_XML_NO_CONTENT, FALSE, FALSE, NULL, NULL, 0),
+            GSF_XML_IN_NODE_FULL (DATAVAL_FORMULA1, DATAVAL_F1, XL_NS_MSSS, "f", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_validation_expr, 0),
+	  GSF_XML_IN_NODE_FULL (EXT_DataValidation, DATAVAL_FORMULA2, XL_NS_SS, "formula2", GSF_XML_NO_CONTENT, FALSE, FALSE, NULL, NULL, 1),
+            GSF_XML_IN_NODE_FULL (DATAVAL_FORMULA2, DATAVAL_F2, XL_NS_MSSS, "f", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_validation_expr, 1),
+	  GSF_XML_IN_NODE (EXT_DataValidation, DATAVAL_SQREF, XL_NS_MSSS, "sqref", GSF_XML_CONTENT, NULL, xlsx_CT_DataValidation_sqref_end),
   GSF_XML_IN_NODE (SHEET, PROPS, XL_NS_SS, "sheetPr", GSF_XML_NO_CONTENT, &xlsx_CT_SheetPr, NULL),
     GSF_XML_IN_NODE (PROPS, OUTLINE_PROPS, XL_NS_SS, "outlinePr", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (PROPS, TAB_COLOR, XL_NS_SS, "tabColor", GSF_XML_NO_CONTENT, &xlsx_sheet_tabcolor, NULL),
