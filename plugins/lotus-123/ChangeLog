@@ -1,3 +1,7 @@
+2021-06-10  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.50
+
 2021-05-04  Morten Welinder  <terra@gnome.org>
 
 	* lotus.c (lotus_read_new): Parse wk4 row widths.  Parse sheet

@@ -1,3 +1,7 @@
+2021-06-10  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.50
+
 2021-03-29  Morten Welinder  <terra@gnome.org>
 
 	* html.c (html_write_cell_content): Export also external (file)
