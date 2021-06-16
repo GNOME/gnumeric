@@ -775,13 +775,12 @@ gnm_auto_fmt_filter_edges (GnmFT const *origft)
 {
 	GSList *ptr;
 	GnmFT *ft = gnm_ft_clone (origft);
-	GnmFTMember *member;
 	gboolean is_edge, l = FALSE, r = FALSE, t = FALSE, b = FALSE;
 
 	for (ptr = ft->members; ptr != NULL ; ) {
-		member = ptr->data;
+		GnmFTMember *member = ptr->data;
 		ptr = ptr->next;
-		if (!member->direction == FREQ_DIRECTION_NONE)
+		if (member->direction != FREQ_DIRECTION_NONE)
 			continue;
 
 		is_edge = FALSE;
