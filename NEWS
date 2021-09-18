@@ -1,5 +1,8 @@
 Gnumeric 1.12.51
 
+Jean:
+	* Fix error bars when data are in a multi-column array. [#594]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.50
 

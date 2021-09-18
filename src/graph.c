@@ -854,35 +854,16 @@ static double
 gnm_go_data_vector_get_value (GODataVector *dat, unsigned i)
 {
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
-	GnmValue *v;
-	GnmEvalPos ep;
-	gboolean valid = FALSE;
 
 	if (vec->val == NULL)
 		gnm_go_data_vector_load_len (dat);
 
-	if (VALUE_IS_ARRAY (vec->val)) {
-		if ((dat->base.flags & GO_DATA_CACHE_IS_VALID) == 0)
-			gnm_go_data_vector_load_values (dat);
-		return dat->values[i];
-	} else {
-		eval_pos_init_dep (&ep, &vec->dep);
-		v = value_dup (vec->as_col
-			? value_area_get_x_y (vec->val, 0, i, &ep)
-			: value_area_get_x_y (vec->val, i, 0, &ep));
-		if (NULL == v)
-			return go_nan;
+	if (dat->len <= 0)
+		return go_nan;
 
-		v = value_coerce_to_number (v, &valid, &ep);
-		if (valid) {
-			gnm_float res = value_get_as_float (v);
-			value_release (v);
-			return res;
-		}
-		value_release (v);
-	}
-	return go_nan;
-
+	if ((dat->base.flags & GO_DATA_CACHE_IS_VALID) == 0)
+		gnm_go_data_vector_load_values (dat);
+	return (i < (unsigned) dat->len)? dat->values[i]: go_nan;
 }
 
 struct string_closure {
