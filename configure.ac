@@ -668,12 +668,12 @@ AC_ARG_WITH(long_double,
 			have_erfcl=$ac_cv_func_erfcl
 			])
 
-		if $have_erfl = no; then
+		if test $have_erfl = no; then
 			AC_DEFINE(GNM_SUPPLIES_ERFL, 1,
 				 [Define if Gnumeric supplies the erfl function]
 				 )
 		fi
-		if $have_erfcl = no; then
+		if test $have_erfcl = no; then
 			AC_DEFINE(GNM_SUPPLIES_ERFCL, 1,
 				 [Define if Gnumeric supplies the erfcl function]
 				 )
