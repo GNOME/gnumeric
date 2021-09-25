@@ -2,6 +2,7 @@ Gnumeric 1.12.51
 
 Jean:
 	* Fix error bars when data are in a multi-column array. [#594]
+	* Always set the GO_DATA_HAS_VALUE flag when needed. [#595]
 
 Morten:
 	* Fix --with-long-double configuration.

@@ -1,3 +1,8 @@
+2021-09-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_load_values): make sure that the
+	GO_DATA_HAS_VALUE flag is always set when needed. Fixes #595.
+
 2021-09-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_vector_get_value): fix error bars when data

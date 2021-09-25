@@ -848,6 +848,9 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 	dat->minimum = minimum;
 	dat->maximum = maximum;
 	dat->base.flags |= GO_DATA_CACHE_IS_VALID;
+	if (go_finite (minimum) && go_finite (maximum) && minimum <= maximum)
+		dat->base.flags |= GO_DATA_HAS_VALUE;
+
 }
 
 static double
