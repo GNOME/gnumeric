@@ -52,6 +52,7 @@
 #include <workbook-view.h>
 #include <workbook.h>
 #include <parse-util.h>
+#include <gutils.h>
 
 #include <goffice/goffice.h>
 
@@ -1666,6 +1667,9 @@ applix_read (GOIOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	int res;
 	ApplixReadState	state;
 	GSList *ptr, *renamed_sheets;
+	GnmLocale	*locale;
+
+	locale = gnm_push_C_locale ();
 
 	/* Init the state variable */
 	state.input	  = (GsfInputTextline *)gsf_input_textline_new (src);
@@ -1735,4 +1739,5 @@ applix_read (GOIOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 
 	gnm_conventions_unref (state.convs);
 	gsf_iconv_close (state.converter);
+	gnm_pop_C_locale (locale);
 }

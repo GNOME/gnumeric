@@ -6,6 +6,7 @@ Jean:
 
 Morten:
 	* Fix --with-long-double configuration.
+	* Fix applix import/locale problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.50
