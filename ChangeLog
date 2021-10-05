@@ -1,3 +1,7 @@
+2021-10-04  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (link_unlink_funcall): Ignore excess arguments.
+
 2021-09-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_vector_load_values): make sure that the

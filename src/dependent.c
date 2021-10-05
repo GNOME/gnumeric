@@ -1205,6 +1205,7 @@ link_unlink_funcall (GnmEvalPos *ep, GnmExprFunction const *call, DepLinkFlags f
 	GnmFuncEvalInfo fei;
 	GnmDependentFlags flag;
 	DepLinkFlags pass = (flags & (DEP_LINK_LINK | DEP_LINK_UNLINK));
+	int amin, amax;
 
 	gnm_func_load_if_stub (call->func);
 	fei.pos = ep;
@@ -1213,7 +1214,9 @@ link_unlink_funcall (GnmEvalPos *ep, GnmExprFunction const *call, DepLinkFlags f
 	if (flag & DEPENDENT_IGNORE_ARGS)
 		return (flag & ~DEPENDENT_IGNORE_ARGS);
 
-	for (i = 0; i < call->argc; i++) {
+	gnm_func_count_args (call->func, &amin, &amax);
+
+	for (i = 0; i < call->argc && i < amax; i++) {
 		char t = gnm_func_get_arg_type (call->func, i);
 		DepLinkFlags extra =
 			(t == 'A' || t == 'r' || t == '?')
