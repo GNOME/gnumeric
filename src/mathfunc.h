@@ -39,6 +39,7 @@ gnm_float gnm_logcf (gnm_float x, gnm_float i, gnm_float d);
 gnm_float expmx2h (gnm_float x);
 gnm_float gnm_agm(gnm_float a, gnm_float b);
 gnm_float gnm_lambert_w(gnm_float x, int k);
+gnm_float gnm_ilog (gnm_float x, gnm_float b);
 
 /* "d": density.  */
 /* "p": distribution function.  */

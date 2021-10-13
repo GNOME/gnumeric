@@ -6041,3 +6041,70 @@ gnm_owent (gnm_float h, gnm_float a)
 }
 
 /* ------------------------------------------------------------------------- */
+
+gnm_float
+gnm_ilog (gnm_float x, gnm_float b)
+{
+	if (gnm_isnan (x) || x < 0 ||
+	    gnm_isnan (b) || b == 1 || b <= 0 || b == gnm_pinf)
+		return gnm_nan;
+
+	if (x == 0)
+		return b < 1 ? gnm_pinf : gnm_ninf;
+
+	if (x == gnm_pinf)
+		return b < 1 ? gnm_ninf : gnm_pinf;
+
+	if (b == 2) {
+		int e;
+		gnm_float m = gnm_frexp (x, &e);
+		(void)m;
+		return e - 1;
+	}
+
+	if (b == 10) {
+		if (x >= 1 && x <= 1e22) {
+			// This code relies on 10^i being exact
+			int l10 = (int)(gnm_log10 (x));
+			if (gnm_pow10 (l10) > x)
+				l10++;
+			return l10;
+		} else {
+			void *state = gnm_quad_start ();
+			GnmQuad qx, q10, qlog10, qfudge;
+
+			gnm_quad_init (&q10, 10);
+			gnm_quad_log (&qlog10, &q10);
+
+			gnm_quad_init (&qx, x);
+			gnm_quad_log (&qx, &qx);
+			gnm_quad_div (&qx, &qx, &qlog10);
+
+			// This looks bad, but actually isn't because the
+			// true logarithm cannot be too close to an integer
+			// while still being less.
+			//
+			// Let eps = 1ulp for 10^i (roughly 10^i * GNM_EPSILON)
+			//
+			// log10(10^i-eps) =
+			//    i + log10(1-eps/10^i) =
+			//    1 - eps/10^i/log(10) + O((eps/10^i)^2)
+			// As long as we add something smaller than
+			// eps/10^i/log(10) (roughly GNM_EPSILON/3), we
+			// should be fine.  *should*
+			// Verification needed.
+			gnm_quad_init (&qfudge, GNM_EPSILON / 32);
+			gnm_quad_add (&qx, &qx, &qfudge);
+			gnm_quad_floor (&qx, &qx);
+
+			gnm_quad_end (state);
+
+			return gnm_quad_value (&qx);
+		}
+	}
+
+	// Not implemented.
+	return gnm_nan;
+}
+
+/* ------------------------------------------------------------------------- */

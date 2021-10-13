@@ -1339,6 +1339,37 @@ gnumeric_log (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_ilog[] = {
+	{ GNM_FUNC_HELP_NAME, F_("ILOG:integer logarithm of @{x} with base @{base}")},
+	{ GNM_FUNC_HELP_ARG, F_("x:positive number")},
+	{ GNM_FUNC_HELP_ARG, F_("base:base of the logarithm, defaults to 10")},
+	{ GNM_FUNC_HELP_NOTE, F_("@{base} must be positive and not equal to 1.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} \xe2\x89\xa4 0, LOG returns #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("This function returns the logarithm of @{x} using @{base} rounded down to nearest integer.  Unlike FLOOR(LOG(@{x},@{base})), this function is not subject error of representation of the intermediate result.") },
+	{ GNM_FUNC_HELP_NOTE, F_("This function is not implemented for all possible value.  #VALUE! will be returned for such arguments.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ILOG(2^32,2)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=LOG(10^15)" },
+	{ GNM_FUNC_HELP_SEEALSO, "LOG"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_ilog (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float base = argv[1] ? value_get_as_float (argv[1]) : 10;
+
+	if (base == 1. || base <= 0.)
+		return value_new_error_NUM (ei->pos);
+
+	if (x <= 0.0)
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (gnm_ilog (x, base));
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_ln[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LN:the natural logarithm of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:positive number")},
@@ -3618,6 +3649,9 @@ GnmFuncDescriptor const math_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "igamma",    "ff|bbb",  help_igamma,
 	  gnumeric_igamma, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "ilog",     "f|f",  help_ilog,
+	  gnumeric_ilog, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "int",     "f",     help_int,
 	  gnumeric_int, NULL,
