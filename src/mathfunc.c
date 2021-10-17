@@ -6062,45 +6062,46 @@ gnm_ilog (gnm_float x, gnm_float b)
 		return e - 1;
 	}
 
-	if (b == 10) {
-		if (x >= 1 && x <= 1e22) {
-			// This code relies on 10^i being exact
-			int l10 = (int)(gnm_log10 (x));
-			if (gnm_pow10 (l10) > x)
-				l10++;
-			return l10;
-		} else {
-			void *state = gnm_quad_start ();
-			GnmQuad qx, q10, qlog10, qfudge;
+	if (b == 10 && x >= 1 && x <= 1e22) {
+		// This code relies on 10^i being exact
+		gnm_float l10 = gnm_log10 (x);
+		int il10 = (int)l10;
+		if (l10 == il10 && x < gnm_pow10 (il10))
+			il10--;
+		return il10;
+	}
 
-			gnm_quad_init (&q10, 10);
-			gnm_quad_log (&qlog10, &q10);
+	if (b == gnm_floor (b)) {
+		void *state = gnm_quad_start ();
+		GnmQuad qx, qb, qlogb, qfudge;
 
-			gnm_quad_init (&qx, x);
-			gnm_quad_log (&qx, &qx);
-			gnm_quad_div (&qx, &qx, &qlog10);
+		gnm_quad_init (&qb, b);
+		gnm_quad_log (&qlogb, &qb);
 
-			// This looks bad, but actually isn't because the
-			// true logarithm cannot be too close to an integer
-			// while still being less.
-			//
-			// Let eps = 1ulp for 10^i (roughly 10^i * GNM_EPSILON)
-			//
-			// log10(10^i-eps) =
-			//    i + log10(1-eps/10^i) =
-			//    1 - eps/10^i/log(10) + O((eps/10^i)^2)
-			// As long as we add something smaller than
-			// eps/10^i/log(10) (roughly GNM_EPSILON/3), we
-			// should be fine.  *should*
-			// Verification needed.
-			gnm_quad_init (&qfudge, GNM_EPSILON / 32);
-			gnm_quad_add (&qx, &qx, &qfudge);
-			gnm_quad_floor (&qx, &qx);
+		gnm_quad_init (&qx, x);
+		gnm_quad_log (&qx, &qx);
+		gnm_quad_div (&qx, &qx, &qlogb);
 
-			gnm_quad_end (state);
+		// This looks bad, but actually isn't because the
+		// true logarithm cannot be too close to an integer
+		// while still being less.
+		//
+		// Let eps = 1ulp for 10^i (roughly 10^i * GNM_EPSILON)
+		//
+		// log10(10^i-eps) =
+		//    i + log10(1-eps/10^i) =
+		//    1 - eps/10^i/log(10) + O((eps/10^i)^2)
+		// As long as we add something smaller than
+		// eps/10^i/log(10) (roughly GNM_EPSILON/3), we
+		// should be fine.  *should*
+		// Verification needed.
+		gnm_quad_init (&qfudge, GNM_EPSILON / 32);
+		gnm_quad_add (&qx, &qx, &qfudge);
+		gnm_quad_floor (&qx, &qx);
 
-			return gnm_quad_value (&qx);
-		}
+		gnm_quad_end (state);
+
+		return gnm_quad_value (&qx);
 	}
 
 	// Not implemented.
