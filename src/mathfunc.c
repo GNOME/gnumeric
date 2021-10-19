@@ -6045,6 +6045,8 @@ gnm_owent (gnm_float h, gnm_float a)
 gnm_float
 gnm_ilog (gnm_float x, gnm_float b)
 {
+	int be;
+
 	if (gnm_isnan (x) || x < 0 ||
 	    gnm_isnan (b) || b == 1 || b <= 0 || b == gnm_pinf)
 		return gnm_nan;
@@ -6055,11 +6057,12 @@ gnm_ilog (gnm_float x, gnm_float b)
 	if (x == gnm_pinf)
 		return b < 1 ? gnm_ninf : gnm_pinf;
 
-	if (b == 2) {
+	// The the base is 2^i for i>0 then matters are simple
+	if (gnm_frexp (b, &be) == 0.5 && be >= 2) {
 		int e;
 		gnm_float m = gnm_frexp (x, &e);
 		(void)m;
-		return e - 1;
+		return (e - 1) / (be - 1);
 	}
 
 	if (b == 10 && x >= 1 && x <= 1e22) {
@@ -6082,20 +6085,21 @@ gnm_ilog (gnm_float x, gnm_float b)
 		gnm_quad_log (&qx, &qx);
 		gnm_quad_div (&qx, &qx, &qlogb);
 
-		// This looks bad, but actually isn't because the
-		// true logarithm cannot be too close to an integer
-		// while still being less.
+		// We have computed log_b(x) and we need to take the
+		// floor of that.  But we have rounding errors, so we
+		// need to answer the question of how close can b^i
+		// get to a floating point number while still being
+		// less that said number?
 		//
-		// Let eps = 1ulp for 10^i (roughly 10^i * GNM_EPSILON)
+		// For double with 2<=b<=100000, the answer seems to
+		// be about 1 part in 10^23.  (For 5561^13 if you must
+		// know.)
 		//
-		// log10(10^i-eps) =
-		//    i + log10(1-eps/10^i) =
-		//    1 - eps/10^i/log(10) + O((eps/10^i)^2)
-		// As long as we add something smaller than
-		// eps/10^i/log(10) (roughly GNM_EPSILON/3), we
-		// should be fine.  *should*
-		// Verification needed.
-		gnm_quad_init (&qfudge, GNM_EPSILON / 32);
+		// The GnmQuad precision is better than 1 in 10^30, so
+		// we have quite some room to work with.  But deep down
+		// we're hoping for the best.
+
+		gnm_quad_init (&qfudge, qx.h * (256 * GNM_EPSILON * GNM_EPSILON));
 		gnm_quad_add (&qx, &qx, &qfudge);
 		gnm_quad_floor (&qx, &qx);
 
