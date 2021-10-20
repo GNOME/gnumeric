@@ -220,6 +220,8 @@ my @dist_corpus =
      "$samples/ttest.xls",
      "$samples/chitest.xls",
      "$samples/vdb.gnumeric",
+     "$samples/cronbach.gnumeric",
+     "$samples/ilog.gnumeric",
      "$samples/numbermatch.gnumeric",
      "$samples/numtheory.gnumeric",
      "$samples/solver/afiro.mps",

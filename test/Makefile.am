@@ -58,6 +58,7 @@ TESTS =	t1000-statfuns.pl			\
 	t1105-gamma.pl				\
 	t1106-vdb.pl				\
 	t1107-cronbach.pl			\
+	t1107-ilog.pl				\
 	t1800-operators.pl			\
 	t1900-array.pl				\
 	t1901-regress.pl			\
