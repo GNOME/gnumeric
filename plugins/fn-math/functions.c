@@ -2373,7 +2373,6 @@ static GnmFuncHelp const help_mround[] = {
 static GnmValue *
 gnumeric_mround (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float const accuracy_limit = 0.0000003;
 	gnm_float number, multiple;
 	gnm_float div, mod;
 	int     sign = 1;
@@ -2396,10 +2395,9 @@ gnumeric_mround (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	mod = gnm_fmod (number, multiple);
-	div = number - mod;
+	div = (mod >= multiple / 2 ? multiple : 0) + (number - mod);
 
-	return value_new_float (sign * (
-					div + ((mod + accuracy_limit >= multiple / 2) ? multiple : 0)));
+	return value_new_float (sign * div);
 }
 
 /***************************************************************************/

@@ -9,6 +9,7 @@ Morten:
 	* Fix applix import/locale problem.
 	* Make sure CEIL doesn't return -0.  [#603]
 	* Add ILOG function.  [#591]
+	* Fix MROUND.  [#604]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.50
