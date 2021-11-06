@@ -75,7 +75,7 @@ typedef long double gnm_float;
 #define gnm_nan go_nanl
 #define gnm_ninf go_ninfl
 #define gnm_pinf go_pinfl
-#define gnm_pow powl
+#define gnm_pow go_powl
 #define gnm_pow10 go_pow10l
 #define gnm_pow2 go_pow2l
 #define gnm_render_general go_render_generall
@@ -193,7 +193,7 @@ typedef double gnm_float;
 #define gnm_nan go_nan
 #define gnm_ninf go_ninf
 #define gnm_pinf go_pinf
-#define gnm_pow pow
+#define gnm_pow go_pow
 #define gnm_pow10 go_pow10
 #define gnm_pow2 go_pow2
 #define gnm_render_general go_render_general
