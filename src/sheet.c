@@ -6706,7 +6706,7 @@ gnm_sheet_set_solver_params (Sheet *sheet, GnmSolverParameters *param)
 
 /**
  * gnm_sheet_scenario_new: (skip)
- * @sheet:  #Sheet
+ * @sheet: #Sheet
  * @name: the new scenario name.
  *
  * Returns: (transfer full): the newly created #GnmScenario.
@@ -6762,7 +6762,7 @@ gnm_sheet_scenario_new (Sheet *sheet, const char *name)
 
 /**
  * gnm_sheet_scenario_find:
- * @sheet:  #Sheet
+ * @sheet: #Sheet
  * @name: the scenario name.
  *
  * Returns: (transfer none): the newly created #GnmScenario.
@@ -6786,7 +6786,7 @@ gnm_sheet_scenario_find (Sheet *sheet, const char *name)
 
 /**
  * gnm_sheet_scenario_add:
- * @sheet:  #Sheet
+ * @sheet: #Sheet
  * @sc: (transfer full): #GnmScenario
  *
  **/

@@ -2949,7 +2949,7 @@ sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
  * @corner: The top-left corner (in LTR mode)
  * @l: #GnmStyleList
  * @range_modify: (scope call):
- * @data: user data
+ * @data: user data
  *
  * Overwrites the styles of the ranges given by @corner with the content of
  * @list. Optionally transposing the ranges

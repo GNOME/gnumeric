@@ -1217,7 +1217,7 @@ global_range_list_parse (Sheet *sheet, char const *str)
  * @ep:
  * @flags:
  * @handler: (scope call):
- * @closure: user data.
+ * @closure: user data.
  *
  * Returns: (transfer none):
  **/

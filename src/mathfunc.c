@@ -5983,7 +5983,7 @@ gnm_owent_helper (gnm_float h, gnm_float a)
 }
 
 /*
- * See "Fast and Accurate Calculation of Owen’s T-Function" by
+ * See "Fast and Accurate Calculation of Owen's T-Function" by
  * Mike Patefield and David Tandy.  Journal of Statistical Software,
  * Volume 5, Issue 5, July 2000.
  *
