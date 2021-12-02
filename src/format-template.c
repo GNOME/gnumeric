@@ -936,7 +936,7 @@ cb_format_hash_style (GnmFT *ft, GnmRange *r, GnmStyle *mstyle, gpointer user)
 			key.col = col;
 			key.row = row;
 			g_hash_table_insert (table,
-					     g_memdup (&key, sizeof (key)),
+					     go_memdup (&key, sizeof (key)),
 					     gnm_style_dup (mstyle));
 		}
 

@@ -524,7 +524,7 @@ range_split_ranges (GnmRange const *hard, GnmRange const *soft)
 GnmRange *
 gnm_range_dup (GnmRange const *r)
 {
-	return g_memdup (r, sizeof (*r));
+	return go_memdup (r, sizeof (*r));
 }
 
 /**

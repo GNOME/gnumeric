@@ -890,7 +890,7 @@ sheet_object_set_anchor (SheetObject *so, SheetObjectAnchor const *anchor)
 SheetObjectAnchor *
 sheet_object_anchor_dup	(SheetObjectAnchor const *src)
 {
-	SheetObjectAnchor *res = g_memdup (src, sizeof (SheetObjectAnchor));
+	SheetObjectAnchor *res = go_memdup (src, sizeof (SheetObjectAnchor));
 	return res;
 }
 

@@ -3585,7 +3585,7 @@ gnm_iter_solver_set_solution (GnmIterSolver *isol)
 
 	result->quality = GNM_SOLVER_RESULT_FEASIBLE;
 	result->value = sol->flip_sign ? 0 - isol->yk : isol->yk;
-	result->solution = g_memdup (isol->xk, n * sizeof (gnm_float));
+	result->solution = go_memdup (isol->xk, n * sizeof (gnm_float));
 	g_object_set (sol, "result", result, NULL);
 	g_object_unref (result);
 

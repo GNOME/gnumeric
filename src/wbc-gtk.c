@@ -4117,7 +4117,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEvent *event, WBCGtk *wbcg)
 	item = gtk_menu_item_new_with_label (cell_item);
 	g_free (cell_item);
 	g_object_set_data_full (G_OBJECT (item),
-				"evalpos", g_memdup (&ep, sizeof (ep)),
+				"evalpos", go_memdup (&ep, sizeof (ep)),
 				(GDestroyNotify)g_free);
 	g_signal_connect (G_OBJECT (item), "activate",
 		G_CALLBACK (cb_auto_expr_cell_changed), wbcg);

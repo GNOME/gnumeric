@@ -264,7 +264,7 @@ cb_save_sizes (GtkWidget *dialog,
 					(GDestroyNotify)g_hash_table_destroy);
 	}
 
-	r = g_memdup (allocation, sizeof (*allocation));
+	r = go_memdup (allocation, sizeof (*allocation));
 	if (window)
 		gdk_window_get_position (gtk_widget_get_window (dialog), &r->x, &r->y);
 

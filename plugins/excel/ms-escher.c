@@ -157,7 +157,7 @@ ms_escher_blip_new (guint8 *data, guint32 len, char const *type, gboolean copy)
 	blip->type = type;
 	blip->data_len = len;
 	blip->needs_free = TRUE;
-	blip->data = copy ? g_memdup (data, len) : data;
+	blip->data = copy ? go_memdup (data, len) : data;
 
 	return blip;
 }
@@ -824,7 +824,7 @@ ms_escher_read_ClientAnchor (MSEscherState *state, MSEscherHeader *h)
 	gsf_mem_dump (data, MS_ANCHOR_SIZE);
 #endif
 	if (data) {
-		guint8 *anchor = g_memdup (data, MS_ANCHOR_SIZE);
+		guint8 *anchor = go_memdup (data, MS_ANCHOR_SIZE);
 
 		ms_escher_header_add_attr (h,
 			ms_obj_attr_new_ptr (MS_OBJ_ATTR_ANCHOR, anchor));

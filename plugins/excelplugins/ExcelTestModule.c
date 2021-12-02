@@ -57,7 +57,7 @@ static char * pascal_string_from_c_string(const char *s){
 ;
 
 static char * duplicate_pascal_string(const char *s){
-	return NULL==s?NULL:g_memdup(s,s[0]+1);
+	return NULL==s?NULL:go_memdup(s,s[0]+1);
 }
 
 #define CASE( x ) case (x): return #x

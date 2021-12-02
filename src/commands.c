@@ -1187,13 +1187,13 @@ cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
 	redo = gnm_cell_set_array_formula_undo (sr, texpr);
 	redo = go_undo_combine
 		(go_undo_binary_new
-		 (sheet, g_memdup (r, sizeof (*r)),
+		 (sheet, go_memdup (r, sizeof (*r)),
 		  (GOUndoBinaryFunc) colrow_autofit_col,
 		  NULL, g_free),
 		 redo);
 	redo  = go_undo_combine
 		(go_undo_binary_new
-		 (sheet, g_memdup (r, sizeof (*r)),
+		 (sheet, go_memdup (r, sizeof (*r)),
 		  (GOUndoBinaryFunc) colrow_autofit_row,
 		  NULL, g_free),
 		 redo);

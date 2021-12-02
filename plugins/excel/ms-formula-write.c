@@ -353,7 +353,7 @@ write_string (PolishData *pd, gchar const *txt)
 		} else {
 			const char *endcut = g_utf8_offset_to_pointer (p, CHUNK_LEN);
 			size_t cutlen = endcut - p;
-			char *cut = g_memdup (p, cutlen + 1);
+			char *cut = go_memdup (p, cutlen + 1);
 			cut[cutlen] = 0;
 			write_string1 (pd, cut);
 			g_free (cut);

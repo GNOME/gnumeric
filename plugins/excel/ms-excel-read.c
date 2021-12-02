@@ -2881,7 +2881,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 		 */
 		sf->key = cell->pos;
 		sf->is_array = is_array;
-		sf->data = data_len > 0 ? g_memdup (data, data_len + array_data_len) : NULL;
+		sf->data = data_len > 0 ? go_memdup (data, data_len + array_data_len) : NULL;
 		sf->data_len = data_len;
 		sf->array_data_len = array_data_len;
 		sf->being_parsed = FALSE;

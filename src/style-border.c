@@ -226,7 +226,7 @@ gnm_style_border_fetch (GnmStyleBorderType		 line_type,
 		border_hash = g_hash_table_new (style_border_hash,
 						style_border_equal);
 
-	border = g_memdup (&key, sizeof (key));
+	border = go_memdup (&key, sizeof (key));
 	border->ref_count = 1;
 	border->width = gnm_style_border_get_width (line_type);
 	if (border->line_type == GNM_STYLE_BORDER_DOUBLE) {

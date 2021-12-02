@@ -59,7 +59,7 @@ gnm_cell_pos_get_type (void)
 static GnmEvalPos *
 gnm_eval_pos_dup (GnmEvalPos *ep)
 {
-	return g_memdup (ep, sizeof (*ep));
+	return go_memdup (ep, sizeof (*ep));
 }
 
 GType
@@ -218,7 +218,7 @@ eval_pos_is_array_context (GnmEvalPos const *ep)
 static GnmParsePos *
 gnm_parse_pos_dup (GnmParsePos *pp)
 {
-	return g_memdup (pp, sizeof (*pp));
+	return go_memdup (pp, sizeof (*pp));
 }
 
 GType
@@ -353,7 +353,7 @@ parse_pos_init_sheet (GnmParsePos *pp, Sheet const *sheet)
 static GnmCellRef *
 gnm_cellref_dup (GnmCellRef *cr)
 {
-	return g_memdup (cr, sizeof (*cr));
+	return go_memdup (cr, sizeof (*cr));
 }
 
 GType

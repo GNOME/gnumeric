@@ -3702,7 +3702,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (col_info != NULL) {
 		if (state->default_style.columns == NULL && repeat_count > max_cols/2) {
 			int const last = state->pos.eval.col + repeat_count;
-			state->default_style.columns = g_memdup (col_info, sizeof (*col_info));
+			state->default_style.columns = go_memdup (col_info, sizeof (*col_info));
 			state->default_style.columns->count = repeat_count;
 			sheet_col_set_default_size_pts (state->pos.sheet,
 							state->default_style.columns->size_pts);
@@ -3827,7 +3827,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (row_info != NULL) {
 		if (state->default_style.rows == NULL && repeat_count > max_rows/2) {
 			int const last = state->pos.eval.row + repeat_count;
-			state->default_style.rows = g_memdup (row_info, sizeof (*row_info));
+			state->default_style.rows = go_memdup (row_info, sizeof (*row_info));
 			state->default_style.rows->count = repeat_count;
 			sheet_row_set_default_size_pts (state->pos.sheet,
 							state->default_style.rows->size_pts);
@@ -14362,7 +14362,7 @@ create_preparse_dtd (const GsfXMLInNode *orig, const GsfXMLInNode *overrides)
 
 	}
 
-	res = g_memdup (orig, (N + 1) * sizeof (GsfXMLInNode));
+	res = go_memdup (orig, (N + 1) * sizeof (GsfXMLInNode));
 	for (i = 0; i < N; i++) {
 		res[i].start = NULL;
 		res[i].end = NULL;

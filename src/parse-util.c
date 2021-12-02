@@ -50,7 +50,7 @@
 static GnmLexerItem *
 gnm_lexer_item_copy (GnmLexerItem *li)
 {
-	return g_memdup (li, sizeof (*li));
+	return go_memdup (li, sizeof (*li));
 }
 
 GType

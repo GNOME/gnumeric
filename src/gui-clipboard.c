@@ -895,7 +895,7 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 
 			*size = osize;
 			if (*size == osize) {
-				ret = g_memdup (data, *size);
+				ret = go_memdup (data, *size);
 			} else {
 				g_warning ("Overflow");	/* Far fetched! */
 			}
@@ -1000,7 +1000,7 @@ object_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 
 	*size = osize;
 	if (*size == osize)
-		ret = g_memdup (gsf_output_memory_get_bytes (omem), *size);
+		ret = go_memdup (gsf_output_memory_get_bytes (omem), *size);
 	else
 		g_warning ("Overflow");	/* Far fetched! */
 	gsf_output_close (output);
@@ -1175,7 +1175,7 @@ gnm_x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt)
 
 	ctxt = g_new (GnmGtkClipboardCtxt, 1);
 	ctxt->wbcg = wbcg;
-	ctxt->paste_target = g_memdup (pt, sizeof (*pt));
+	ctxt->paste_target = go_memdup (pt, sizeof (*pt));
 
 	/* Query the formats, This will callback x_targets_received */
 	gtk_clipboard_request_targets (clipboard,

@@ -247,7 +247,7 @@ setup_range (GObject *obj, const char *key, Workbook *wb, const char *rtxt)
 		exit (1);
 	}
 
-	rrc = g_memdup (&rr, sizeof (rr));
+	rrc = go_memdup (&rr, sizeof (rr));
 	g_object_set_data_full (obj, key, rrc, g_free);
 
 	return rrc;

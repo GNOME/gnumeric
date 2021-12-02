@@ -3308,7 +3308,7 @@ calc_ttest_paired (gnm_float const *xs, gnm_float const *ys, int n,
 		return 1;
 
 	/* zs = xs - ys */
-	zs = g_memdup (xs, n * sizeof (*xs));
+	zs = go_memdup (xs, n * sizeof (*xs));
 	for (i = 0; i < n; i++)
 		zs[i] -= ys[i];
 
@@ -4344,7 +4344,7 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			goto out;
 	} else {
 		/* @{new_x}'s is assumed to be the same as @{known_x}'s */
-		nxs = g_memdup (xs, n * sizeof (gnm_float));
+		nxs = go_memdup (xs, n * sizeof (gnm_float));
 		nnx = n;
 	}
 

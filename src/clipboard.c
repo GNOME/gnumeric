@@ -86,7 +86,7 @@ gnm_cell_copy_get_type (void)
 static GnmPasteTarget *
 gnm_paste_target_copy (GnmPasteTarget *pt)
 {
-	return g_memdup (pt, sizeof (*pt));
+	return go_memdup (pt, sizeof (*pt));
 }
 
 GType

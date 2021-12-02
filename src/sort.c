@@ -350,9 +350,9 @@ gnm_sort_data_copy   (GnmSortData *data)
 
 	g_return_val_if_fail (data != NULL, NULL);
 
-	result = g_memdup (data, sizeof (GnmSortData));
-	result->range = g_memdup (result->range, sizeof (GnmRange));
-	result->clauses = g_memdup (result->clauses,
+	result = go_memdup (data, sizeof (GnmSortData));
+	result->range = go_memdup (result->range, sizeof (GnmRange));
+	result->clauses = go_memdup (result->clauses,
 				    result->num_clause * sizeof (GnmSortClause));
 	result->locale = g_strdup (result->locale);
 

@@ -499,7 +499,7 @@ ms_biff_query_next (BiffQuery *q)
 		// Turn this on to debug memory access beyond record
 		// end.
 		q->non_decrypted_data_malloced = q->data_malloced;
-		q->data = g_memdup (q->data, q->length);
+		q->data = go_memdup (q->data, q->length);
 		q->data_malloced = TRUE;
 #endif
 	}
