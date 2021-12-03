@@ -472,7 +472,7 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 				*constp = TRUE;
 				return ce->data;
 			}
-			return go_memdup (ce->data, *n * sizeof (gnm_float));
+			return go_memdup_n (ce->data, *n, sizeof (gnm_float));
 		}
 	}
 
@@ -531,7 +531,7 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 			*constp = TRUE;
 			ce->data = cl.data;
 		} else
-			ce->data = go_memdup (cl.data, MAX (1, *n) * sizeof (gnm_float));
+			ce->data = go_memdup_n (cl.data, MAX (1, *n), sizeof (gnm_float));
 		prune_caches ();
 
 		/*
@@ -857,8 +857,8 @@ collect_float_pairs (GnmValue const *vx, GnmValue const *vy,
 				*xs1 = ce->data_y;
 				*constp = TRUE;
 			} else {
-				*xs0 = go_memdup (ce->data_x, *n * sizeof (gnm_float));
-				*xs1 = go_memdup (ce->data_y, *n * sizeof (gnm_float));
+				*xs0 = go_memdup_n (ce->data_x, *n, sizeof (gnm_float));
+				*xs1 = go_memdup_n (ce->data_y, *n, sizeof (gnm_float));
 			}
 		} else {
 			if (constp)

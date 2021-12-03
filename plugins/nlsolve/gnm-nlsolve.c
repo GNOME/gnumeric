@@ -363,7 +363,7 @@ rosenbrock_iter (GnmNlsolve *nl)
 			: gnm_abs (isol->xk[i]) * eps;
 	}
 
-	xkm1 = go_memdup (isol->xk, n * sizeof (gnm_float));
+	xkm1 = go_memdup_n (isol->xk, n, sizeof (gnm_float));
 
 	state = g_new0 (char, n);
 

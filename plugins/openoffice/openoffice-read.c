@@ -14362,7 +14362,7 @@ create_preparse_dtd (const GsfXMLInNode *orig, const GsfXMLInNode *overrides)
 
 	}
 
-	res = go_memdup (orig, (N + 1) * sizeof (GsfXMLInNode));
+	res = go_memdup_n (orig, N + 1, sizeof (GsfXMLInNode));
 	for (i = 0; i < N; i++) {
 		res[i].start = NULL;
 		res[i].end = NULL;

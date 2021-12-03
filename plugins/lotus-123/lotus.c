@@ -1042,7 +1042,7 @@ lotus_rldb_new (int ndims, const int *dims, LotusRLDB *top)
 		g_printerr (") rldb.\n");
 #endif
 		top = res;
-		res->dims = go_memdup (dims, ndims * sizeof (*dims));
+		res->dims = go_memdup_n (dims, ndims, sizeof (*dims));
 		res->definitions = g_hash_table_new_full
 			(g_direct_hash,
 			 g_direct_equal,

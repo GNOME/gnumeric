@@ -1069,7 +1069,7 @@ gee_duplicate_lexer_items (GnmLexerItem *gli)
 		n++;
 	}
 
-	return go_memdup (gli, n * sizeof (GnmLexerItem));
+	return go_memdup_n (gli, n, sizeof (GnmLexerItem));
 }
 
 static void

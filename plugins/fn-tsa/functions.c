@@ -488,8 +488,8 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (!gnm_range_increasing (vals0, n0)) {
 		gboolean switched = TRUE;
 		if (constp) {
-			vals0 = go_memdup (vals0, sizeof(gnm_float) * n0);
-			vals1 = go_memdup (vals1, sizeof(gnm_float) * n0);
+			vals0 = go_memdup_n (vals0, n0, sizeof(gnm_float));
+			vals1 = go_memdup_n (vals1, n0, sizeof(gnm_float));
 			constp = FALSE;
 		}
 		while (switched) {
