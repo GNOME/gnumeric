@@ -11,6 +11,7 @@ Morten:
 	* Add ILOG function.  [#591]
 	* Fix MROUND.  [#604]
 	* Take evasive action re g_memdup.
+	* Fix inter-gnumeric array formula paste crash.  [#606]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.50

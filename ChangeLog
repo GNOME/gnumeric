@@ -1,3 +1,10 @@
+2021-12-26  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_cell_set_array_expr): Take position as
+	argument; fix non-cell case.
+	(xml_sax_cell_content): Fix crash on inter-gnumeric array formula
+	paste.  [#606]
+
 2021-10-04  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (link_unlink_funcall): Ignore excess arguments.
