@@ -2419,6 +2419,8 @@ cb_screen_changed (GtkWidget *widget)
 					     (gpointer)"1");
 		csstext = gnm_cpp (g_bytes_get_data (cssbytes, NULL), vars);
 
+		g_hash_table_destroy (vars);
+
 		data = g_new (struct css_provider_data, 1);
 		data->css = gtk_css_provider_new ();
 		data->screens = NULL;
