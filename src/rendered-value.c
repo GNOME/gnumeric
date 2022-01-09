@@ -395,7 +395,8 @@ gnm_rendered_value_new (GnmCell const *cell,
 				rv_adjust_attributes (c_markup, zoom, tscale, rise);
 			}
 
-			pango_attr_list_splice (attrs, (PangoAttrList *)markup, 0, 0);
+			// See #607
+			pango_attr_list_splice (attrs, (PangoAttrList *)markup, 0, INT_MAX / 2);
 			pango_attr_list_unref (orig);
 			pango_attr_list_unref (c_markup);
 		}

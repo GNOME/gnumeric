@@ -1,3 +1,10 @@
+2022-01-09  Morten Welinder  <terra@gnome.org>
+
+	* src/rendered-value.c (gnm_rendered_value_new): Work around Pango
+	bug 653, see Gnumeric bug 607.  Pango is fixing the issue, but we
+	need to deal with the situation.  In the long run, something based
+	on pango_attr_list_change should probably be used.
+
 2021-12-26  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_cell_set_array_expr): Take position as
