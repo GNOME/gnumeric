@@ -12,6 +12,7 @@ Morten:
 	* Fix MROUND.  [#604]
 	* Take evasive action re g_memdup.
 	* Fix inter-gnumeric array formula paste crash.  [#606]
+	* Avoid re-querying file existance for recent files.  [Part of #602]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.50

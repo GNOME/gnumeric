@@ -70,6 +70,7 @@ struct _GnmApp {
 
 	GtkRecentManager *recent;
 	gulong           recent_sig;
+	GHashTable       *file_exists_cache;
 
 	gboolean         shutting_down;
 	gboolean         initial_open_complete;
@@ -614,6 +615,30 @@ compare_mru (GtkRecentInfo *a, GtkRecentInfo *b)
 	return ta < tb;
 }
 
+
+// Test whether a file exists, but cache the result.  We want to avoid
+// repeatedly querying file that may reside on non-responsive network
+// shars.
+static gboolean
+gnm_app_file_exists (const char *filename)
+{
+	gpointer val;
+	gboolean res;
+
+	if (g_hash_table_lookup_extended (app->file_exists_cache,
+					  (gpointer)filename,
+					  NULL, &val))
+		res = val != NULL;
+	else {
+		res = g_file_test (filename, G_FILE_TEST_EXISTS);
+		g_hash_table_insert (app->file_exists_cache,
+				     g_strdup (filename),
+				     GUINT_TO_POINTER (res));
+	}
+	return res;
+}
+
+
 /**
  * gnm_app_history_get_list:
  *
@@ -662,7 +687,7 @@ gnm_app_history_get_list (int max_elements)
 
 		if (want_it) {
 			char *filename = go_filename_from_uri (uri);
-			if (filename && !g_file_test (filename, G_FILE_TEST_EXISTS))
+			if (filename && !gnm_app_file_exists (filename))
 				want_it = FALSE;
 			g_free (filename);
 		}
@@ -736,6 +761,10 @@ gnm_app_finalize (GObject *obj)
 	application->clipboard_cut_range = NULL;
 
 	application->recent = NULL;
+	if (application->file_exists_cache) {
+		g_hash_table_destroy (application->file_exists_cache);
+		application->file_exists_cache = NULL;
+	}
 
 	if (app == application)
 		app = NULL;
@@ -894,6 +923,9 @@ gnm_app_init (GObject *obj)
 					 G_CALLBACK (cb_recent_changed),
 					 gnm_app, 0);
 	}
+
+	gnm_app->file_exists_cache =
+		g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	app = gnm_app;
 }
