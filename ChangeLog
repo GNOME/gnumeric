@@ -2,6 +2,7 @@
 
 	* src/mstyle.c (gnm_style_linked_sheet_changed): Add missing ref.
 	Fixes #597.
+	(gnm_style_merge): Mark elements from overlay as set in base.
 
 2022-01-09  Morten Welinder  <terra@gnome.org>
 

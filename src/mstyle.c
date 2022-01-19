@@ -1338,6 +1338,7 @@ gnm_style_merge (GnmStyle *base, GnmStyle const *overlay)
 		if (elem_is_set (overlay, i)) {
 			elem_clear_contents (base, i);
 			elem_assign_contents (base, overlay, i);
+			elem_set (base, i);
 			elem_changed (base, i);
 		}
 }
