@@ -183,7 +183,7 @@ sheet_style_unlink (Sheet *sheet, GnmStyle *st)
 
 /**
  * sheet_style_find:
- * @sheet: (transfer full): the sheet
+ * @sheet: (transfer none): the sheet
  * @st: (transfer full): a style
  *
  * Looks up a style from the sheets collection.  Linking if necessary.
