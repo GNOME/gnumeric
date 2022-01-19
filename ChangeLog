@@ -1,3 +1,8 @@
+2022-01-19  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (gnm_style_linked_sheet_changed): Add missing ref.
+	Fixes #597.
+
 2022-01-09  Morten Welinder  <terra@gnome.org>
 
 	* src/rendered-value.c (gnm_rendered_value_new): Work around Pango

@@ -562,21 +562,22 @@ elem_clear_contents (GnmStyle *style, GnmStyleElement elem)
 	case MSTYLE_FONT_NAME:		go_string_unref (style->font_detail.name); return;
 	case MSTYLE_FORMAT:		go_format_unref (style->format); return;
 	case MSTYLE_VALIDATION:
-		if (style->validation)
+		if (style->validation) {
 			gnm_validation_unref (style->validation);
+			style->validation = NULL;
+		}
 		return;
 	case MSTYLE_HLINK:
-		if (style->hlink)
-			g_object_unref (style->hlink);
+		g_clear_object (&style->hlink);
 		return;
 	case MSTYLE_INPUT_MSG:
-		if (style->input_msg)
-			g_object_unref (style->input_msg);
+		g_clear_object (&style->input_msg);
 		return;
 	case MSTYLE_CONDITIONS:
 		if (style->conditions) {
 			clear_conditional_merges (style);
 			g_object_unref (style->conditions);
+			style->conditions = NULL;
 		}
 		return;
 	default:
@@ -998,7 +999,7 @@ gnm_style_linked_sheet_changed (GnmStyle *style)
 		new_sc = sheet_conditions_share_conditions_add (new_c);
 		if (new_sc) {
 			g_object_unref (new_c);
-			new_c = new_sc;
+			new_c = g_object_ref (new_sc);
 		}
 		gnm_style_set_conditions (style, new_c);
 	}
@@ -1006,8 +1007,11 @@ gnm_style_linked_sheet_changed (GnmStyle *style)
 
 /**
  * gnm_style_link_sheet:
- * @style: (transfer full):
- * @sheet:
+ * @style: (transfer full): the style for which we need to set the sheet
+ * @sheet: the new sheet
+ *
+ * Returns: (transfer full): new style which may or may not be identical
+ * to the incoming.
  *
  * ABSORBS a reference to the style and sets the link count to 1.
  *
