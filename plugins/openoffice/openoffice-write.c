@@ -3072,11 +3072,9 @@ odf_write_image (GnmOOExport *state, SheetObject *so, char const *name)
 	if (name != NULL) {
 		char *image_type;
 		char *fullname;
-		GOImage *image = NULL;
 
 		g_object_get (G_OBJECT (so),
 			      "image-type", &image_type,
-			      "image", &image,
 			      NULL);
 
 		fullname = g_strdup_printf ("Pictures/%s.%s", name, image_type);
