@@ -24,12 +24,11 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>BITAND</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
+        <synopsis><function>BITAND</function>(<parameter>values</parameter>,<parameter/>…)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>a</parameter>: non-negative integer</para>
-        <para><parameter>b</parameter>: non-negative integer</para>
+        <para><parameter>values</parameter>: non-negative integers</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -93,12 +92,11 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>BITOR</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
+        <synopsis><function>BITOR</function>(<parameter>values</parameter>,<parameter/>…)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>a</parameter>: non-negative integer</para>
-        <para><parameter>b</parameter>: non-negative integer</para>
+        <para><parameter>values</parameter>: non-negative integers</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -162,12 +160,11 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>BITXOR</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
+        <synopsis><function>BITXOR</function>(<parameter>values</parameter>,<parameter/>…)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>a</parameter>: non-negative integer</para>
-        <para><parameter>b</parameter>: non-negative integer</para>
+        <para><parameter>values</parameter>: non-negative integers</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -297,7 +294,7 @@
           <function>IMARCCOS</function>
         </refname>
         <refpurpose>
-        the complex arccosine of the complex number 
+        the complex arccosine of the complex number
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -633,7 +630,7 @@
           <function>IMARCTAN</function>
         </refname>
         <refpurpose>
-        the complex arctangent of the complex number 
+        the complex arctangent of the complex number
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -705,7 +702,7 @@
           <function>IMARGUMENT</function>
         </refname>
         <refpurpose>
-        the argument theta of the complex number <parameter>z</parameter> 
+        the argument theta of the complex number <parameter>z</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11411,6 +11408,33 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-DIGAMMA">
+      <refmeta>
+        <refentrytitle>
+          <function>DIGAMMA</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>DIGAMMA</function>
+        </refname>
+        <refpurpose>
+        the Digamma function
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>DIGAMMA</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: number</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-GAMMA"><function>GAMMA</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-EIGEN">
       <refmeta>
         <refentrytitle>
@@ -11903,6 +11927,38 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-ILOG">
+      <refmeta>
+        <refentrytitle>
+          <function>ILOG</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>ILOG</function>
+        </refname>
+        <refpurpose>
+        integer logarithm of <parameter>x</parameter> with base <parameter>base</parameter>
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ILOG</function>(<parameter>x</parameter>,<parameter>base</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: positive number</para>
+        <para><parameter>base</parameter>: base of the logarithm, defaults to 10</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para><parameter>base</parameter> must be positive and not equal to 1. If <parameter>x</parameter> ≤ 0, LOG returns #NUM! error. This function returns the logarithm of <parameter>x</parameter> using <parameter>base</parameter> rounded down to nearest integer.  Unlike FLOOR(LOG(<parameter>x</parameter>,<parameter>base</parameter>)), this function is not subject error of representation of the intermediate result. This function is not implemented for all possible value.  #VALUE! will be returned for such arguments.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-LOG"><function>LOG</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-INT">
       <refmeta>
         <refentrytitle>
@@ -11959,6 +12015,10 @@
         <title>Arguments</title>
         <para><parameter>x</parameter>: number</para>
         <para><parameter>k</parameter>: branch</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>The Lambert W function is the inverse function of x=W*exp(W).  There are two (real-valued) branches: k=0 which maps [-1/e;inf) onto [-1,inf); and k=-1 which maps [-1/e;0) unto (-inf;-1].</para>
       </refsect1>
       <refsect1>
         <title>Note</title>

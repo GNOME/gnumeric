@@ -1,9 +1,8 @@
 @CATEGORY=Bitwise Operations
 @FUNCTION=BITAND
 @SHORTDESC=bitwise and
-@SYNTAX=BITAND(a,b)
-@ARGUMENTDESCRIPTION=@{a}: non-negative integer
-@{b}: non-negative integer
+@SYNTAX=BITAND(values,…)
+@ARGUMENTDESCRIPTION=@{values}: non-negative integers
 @DESCRIPTION=BITAND returns the bitwise and of the binary representations of its arguments.
 @SEEALSO=BITOR,BITXOR
 
@@ -20,9 +19,8 @@
 @CATEGORY=Bitwise Operations
 @FUNCTION=BITOR
 @SHORTDESC=bitwise or
-@SYNTAX=BITOR(a,b)
-@ARGUMENTDESCRIPTION=@{a}: non-negative integer
-@{b}: non-negative integer
+@SYNTAX=BITOR(values,…)
+@ARGUMENTDESCRIPTION=@{values}: non-negative integers
 @DESCRIPTION=BITOR returns the bitwise or of the binary representations of its arguments.
 @SEEALSO=BITXOR,BITAND
 
@@ -39,9 +37,8 @@
 @CATEGORY=Bitwise Operations
 @FUNCTION=BITXOR
 @SHORTDESC=bitwise exclusive or
-@SYNTAX=BITXOR(a,b)
-@ARGUMENTDESCRIPTION=@{a}: non-negative integer
-@{b}: non-negative integer
+@SYNTAX=BITXOR(values,…)
+@ARGUMENTDESCRIPTION=@{values}: non-negative integers
 @DESCRIPTION=BITXOR returns the bitwise exclusive or of the binary representations of its arguments.
 @SEEALSO=BITOR,BITAND
 
@@ -75,7 +72,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCCOS
-@SHORTDESC=the complex arccosine of the complex number 
+@SHORTDESC=the complex arccosine of the complex number
 @SYNTAX=IMARCCOS(z)
 @ARGUMENTDESCRIPTION=@{z}: a complex number
 @DESCRIPTION=IMARCCOS returns the complex arccosine of the complex number @{z}. The branch cuts are on the real axis, less than -1 and greater than 1.
@@ -159,7 +156,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARCTAN
-@SHORTDESC=the complex arctangent of the complex number 
+@SHORTDESC=the complex arctangent of the complex number
 @SYNTAX=IMARCTAN(z)
 @ARGUMENTDESCRIPTION=@{z}: a complex number
 @DESCRIPTION=IMARCTAN returns the complex arctangent of the complex number @{z}. The branch cuts are on the imaginary axis, below -i and above i.
@@ -177,7 +174,7 @@
 
 @CATEGORY=Complex
 @FUNCTION=IMARGUMENT
-@SHORTDESC=the argument theta of the complex number @{z} 
+@SHORTDESC=the argument theta of the complex number @{z}
 @SYNTAX=IMARGUMENT(z)
 @ARGUMENTDESCRIPTION=@{z}: a complex number
 @DESCRIPTION=The argument theta of a complex number is its angle in radians from the real axis.
@@ -1713,7 +1710,7 @@ The depreciation coefficient used is:
 @{basis}: calendar basis
 @DESCRIPTION=DURATION calculates the (Macaulay) duration of a security.
 @NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly). If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
-@SEEALSO=MDURATION, G_DURATION
+@SEEALSO=MDURATION,G_DURATION
 
 @CATEGORY=Finance
 @FUNCTION=EFFECT
@@ -3476,6 +3473,13 @@ The depreciation coefficient used is:
 @SEEALSO=RADIANS,PI
 
 @CATEGORY=Mathematics
+@FUNCTION=DIGAMMA
+@SHORTDESC=the Digamma function
+@SYNTAX=DIGAMMA(x)
+@ARGUMENTDESCRIPTION=@{x}: number
+@SEEALSO=GAMMA
+
+@CATEGORY=Mathematics
 @FUNCTION=EIGEN
 @SHORTDESC=eigenvalues and eigenvectors of the symmetric @{matrix}
 @SYNTAX=EIGEN(matrix)
@@ -3607,6 +3611,15 @@ The depreciation coefficient used is:
 @SEEALSO=GAMMA,IMIGAMMA
 
 @CATEGORY=Mathematics
+@FUNCTION=ILOG
+@SHORTDESC=integer logarithm of @{x} with base @{base}
+@SYNTAX=ILOG(x,base)
+@ARGUMENTDESCRIPTION=@{x}: positive number
+@{base}: base of the logarithm, defaults to 10
+@NOTE=@{base} must be positive and not equal to 1. If @{x} ≤ 0, LOG returns #NUM! error. This function returns the logarithm of @{x} using @{base} rounded down to nearest integer.  Unlike FLOOR(LOG(@{x},@{base})), this function is not subject error of representation of the intermediate result. This function is not implemented for all possible value.  #VALUE! will be returned for such arguments.
+@SEEALSO=LOG
+
+@CATEGORY=Mathematics
 @FUNCTION=INT
 @SHORTDESC=largest integer not larger than @{x}
 @SYNTAX=INT(x)
@@ -3620,6 +3633,7 @@ The depreciation coefficient used is:
 @SYNTAX=LAMBERTW(x,k)
 @ARGUMENTDESCRIPTION=@{x}: number
 @{k}: branch
+@DESCRIPTION=The Lambert W function is the inverse function of x=W*exp(W).  There are two (real-valued) branches: k=0 which maps [-1/e;inf) onto [-1,inf); and k=-1 which maps [-1/e;0) unto (-inf;-1].
 @NOTE=@{k} defaults to 0, the principal branch. @{k} must be either 0 or -1.
 @SEEALSO=EXP
 
@@ -4123,7 +4137,7 @@ Strings and empty cells are simply ignored.
 @SYNTAX=ISPRIME(n)
 @ARGUMENTDESCRIPTION=@{n}: positive integer
 @DESCRIPTION=ISPRIME returns TRUE if @{n} is prime and FALSE otherwise.
-@SEEALSO=NT_D, NT_SIGMA
+@SEEALSO=NT_D,NT_SIGMA
 
 @CATEGORY=Number Theory
 @FUNCTION=ITHPRIME
@@ -4512,7 +4526,7 @@ The successive use of the simulation tool also requires that you give to the too
 @ARGUMENTDESCRIPTION=@{number1}: first value
 @{number2}: second value
 @EXCEL=This function is Excel compatible.
-@SEEALSO=SUM, COUNT
+@SEEALSO=SUM,COUNT
 
 @CATEGORY=Statistics
 @FUNCTION=AVERAGEA
@@ -4558,7 +4572,7 @@ The successive use of the simulation tool also requires that you give to the too
 @{b}: optional upper bound, defaults to 1
 @NOTE=If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error. If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error. If @{a} >= @{b} this function returns a #NUM! error.
 @EXCEL=This function is Excel compatible.
-@SEEALSO=BETAINV, BETA.DIST
+@SEEALSO=BETAINV,BETA.DIST
 
 @CATEGORY=Statistics
 @FUNCTION=BETAINV
@@ -6516,7 +6530,7 @@ The distinction between half-width and full-width characters is described in htt
 @SYNTAX=LENB(s)
 @ARGUMENTDESCRIPTION=@{s}: the string
 @EXCEL=This function is Excel compatible.
-@SEEALSO=CHAR, CODE, LEN
+@SEEALSO=CHAR,CODE,LEN
 
 @CATEGORY=String
 @FUNCTION=LOWER
