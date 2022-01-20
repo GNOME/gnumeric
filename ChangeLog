@@ -1,3 +1,7 @@
+2022-01-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.51
+
 2022-01-19  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (gnm_style_linked_sheet_changed): Add missing ref.
