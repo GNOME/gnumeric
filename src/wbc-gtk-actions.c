@@ -3610,20 +3610,22 @@ static GnmActionEntry const actions[] = {
 #warning "Add justify"
 #warning "h/v distributed?"
 
-#warning "Get vertical alignment icons"
 	{ .name = "AlignTop",
+	  .icon = "gnumeric-format-valign-top",
 	  .toggle = TRUE,
 	  .label = N_("Align _Top"),
 	  .tooltip = N_("Align Top"),
 	  .callback = G_CALLBACK (cb_align_top)
 	},
 	{ .name = "AlignVCenter",
+	  .icon = "gnumeric-format-valign-center",
 	  .toggle = TRUE,
 	  .label = N_("_Vertically Center"),
 	  .tooltip = N_("Vertically Center"),
 	  .callback = G_CALLBACK (cb_align_vcenter)
 	},
 	{ .name = "AlignBottom",
+	  .icon = "gnumeric-format-valign-bottom",
 	  .toggle = TRUE,
 	  .label = N_("Align _Bottom"),
 	  .tooltip = N_("Align Bottom"),
@@ -3718,11 +3720,12 @@ static GOActionComboPixmapsElement const halignment_combo_info[] = {
 	{ NULL, NULL }
 };
 static GOActionComboPixmapsElement const valignment_combo_info[] = {
-	{ N_("Align top"),		"gnumeric-format-valign-top",			GNM_VALIGN_TOP },
+	{ N_("Align top"),		"gnumeric-format-valign-top",		GNM_VALIGN_TOP },
 	{ N_("Center vertically"),	"gnumeric-format-valign-center",	GNM_VALIGN_CENTER },
-	{ N_("Align bottom"),		"gnumeric-format-valign-bottom",		GNM_VALIGN_BOTTOM },
-	{ N_("Justify"),		"gnumeric-format-valign-justify",		GNM_VALIGN_JUSTIFY },
-	{ N_("Align distributed"),	"gnumeric-format-valign-distributed",		GNM_VALIGN_DISTRIBUTED },
+	{ N_("Align bottom"),		"gnumeric-format-valign-bottom",	GNM_VALIGN_BOTTOM },
+	{ N_("Justify"),		"gnumeric-format-valign-justify",	GNM_VALIGN_JUSTIFY },
+	// Reuse "center" icon as I don't know what this one is
+	{ N_("Align distributed"),	"gnumeric-format-valign-center",	GNM_VALIGN_DISTRIBUTED },
 	{ NULL, NULL}
 };
 

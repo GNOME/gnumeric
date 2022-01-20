@@ -371,6 +371,8 @@
     <toolitem action="CenterAcrossSelection"/>
     <toolitem action="FormatMergeCells"/>
     <toolitem action="FormatUnmergeCells"/>
+    <!-- Just a selector for vertical alignment.  -->
+    <toolitem action="VAlignmentSelector"/>
     <separator/>
     <toolitem action="FormatAsAccounting"/>
     <toolitem action="FormatAsPercentage"/>

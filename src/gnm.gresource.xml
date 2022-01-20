@@ -118,6 +118,10 @@
     <file>icons/24x24/actions/gnumeric-format-precision-decrease.png</file>
     <file>icons/24x24/actions/gnumeric-format-precision-increase.png</file>
     <file>icons/24x24/actions/gnumeric-format-thousand-separator.png</file>
+    <file>icons/24x24/actions/gnumeric-format-valign-bottom.png</file>
+    <file>icons/24x24/actions/gnumeric-format-valign-center.png</file>
+    <file>icons/24x24/actions/gnumeric-format-valign-justify.png</file>
+    <file>icons/24x24/actions/gnumeric-format-valign-top.png</file>
     <file>icons/24x24/actions/gnumeric-formulaguru.png</file>
     <file>icons/24x24/actions/gnumeric-graphguru.png</file>
     <file>icons/24x24/actions/gnumeric-group.png</file>

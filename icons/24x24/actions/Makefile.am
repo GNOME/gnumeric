@@ -41,6 +41,10 @@ internalicons =						\
 	gnumeric-format-precision-decrease.png		\
 	gnumeric-format-precision-increase.png		\
 	gnumeric-format-thousand-separator.png		\
+	gnumeric-format-valign-bottom.png		\
+	gnumeric-format-valign-center.png		\
+	gnumeric-format-valign-justify.png		\
+	gnumeric-format-valign-top.png			\
 	gnumeric-formulaguru.png			\
 	gnumeric-graphguru.png				\
 	gnumeric-group.png				\
