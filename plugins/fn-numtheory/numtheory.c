@@ -27,6 +27,7 @@
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
 #include <limits.h>
+#include <collect.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -606,73 +607,123 @@ gnumeric_nt_pi (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 static GnmFuncHelp const help_bitor[] = {
 	{ GNM_FUNC_HELP_NAME, F_("BITOR:bitwise or")},
-	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
-	{ GNM_FUNC_HELP_ARG, F_("b:non-negative integer")},
+	{ GNM_FUNC_HELP_ARG, F_("values:non-negative integers")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITOR returns the bitwise or of the binary representations of its arguments.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=BITOR(9,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITXOR,BITAND"},
 	{ GNM_FUNC_HELP_END }
 };
 
-static GnmValue *
-func_bitor (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+static int
+gnm_range_bitor (gnm_float const *xs, int n, gnm_float *res)
 {
-	gnm_float l = value_get_as_float (argv[0]);
-	gnm_float r = value_get_as_float (argv[1]);
+	int i;
+	guint64 acc = 0;
 
-	if (l < 0 || l > bit_max || r < 0 || r > bit_max)
-		return value_new_error_NUM (ei->pos);
+	*res = 0;
 
-        return value_new_float ((guint64)l | (guint64)r);
+	for (i = 0; i < n; i++) {
+		gnm_float x = gnm_fake_floor (xs[i]);
+		if (x < 0 || x > bit_max)
+			return 1;
+		acc |= (guint64)x;
+	}
+
+	*res = acc;
+	return 0;
+}
+
+static GnmValue *
+func_bitor (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	return float_range_function (argc, argv, ei,
+				     gnm_range_bitor,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_ZEROONE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     GNM_ERROR_VALUE);
 }
 
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_bitxor[] = {
 	{ GNM_FUNC_HELP_NAME, F_("BITXOR:bitwise exclusive or")},
-	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
-	{ GNM_FUNC_HELP_ARG, F_("b:non-negative integer")},
+	{ GNM_FUNC_HELP_ARG, F_("values:non-negative integers")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITXOR returns the bitwise exclusive or of the binary representations of its arguments.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=BITXOR(9,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITOR,BITAND"},
 	{ GNM_FUNC_HELP_END }
 };
 
-static GnmValue *
-func_bitxor (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+static int
+gnm_range_bitxor (gnm_float const *xs, int n, gnm_float *res)
 {
-	gnm_float l = value_get_as_float (argv[0]);
-	gnm_float r = value_get_as_float (argv[1]);
+	int i;
+	guint64 acc = 0;
 
-	if (l < 0 || l > bit_max || r < 0 || r > bit_max)
-		return value_new_error_NUM (ei->pos);
+	*res = 0;
 
-        return value_new_float ((guint64)l ^ (guint64)r);
+	for (i = 0; i < n; i++) {
+		gnm_float x = gnm_fake_floor (xs[i]);
+		if (x < 0 || x > bit_max)
+			return 1;
+		acc ^= (guint64)x;
+	}
+
+	*res = acc;
+	return 0;
+}
+
+static GnmValue *
+func_bitxor (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	return float_range_function (argc, argv, ei,
+				     gnm_range_bitxor,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_ZEROONE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     GNM_ERROR_VALUE);
 }
 
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_bitand[] = {
 	{ GNM_FUNC_HELP_NAME, F_("BITAND:bitwise and")},
-	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
-	{ GNM_FUNC_HELP_ARG, F_("b:non-negative integer")},
+	{ GNM_FUNC_HELP_ARG, F_("values:non-negative integers")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITAND returns the bitwise and of the binary representations of its arguments.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=BITAND(9,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITOR,BITXOR"},
 	{ GNM_FUNC_HELP_END }
 };
 
+static int
+gnm_range_bitand (gnm_float const *xs, int n, gnm_float *res)
+{
+	int i;
+	guint64 acc = 0;
+
+	*res = 0;
+
+	for (i = 0; i < n; i++) {
+		gnm_float x = gnm_fake_floor (xs[i]);
+		if (x < 0 || x > bit_max)
+			return 1;
+		acc &= (guint64)x;
+	}
+
+	*res = acc;
+	return 0;
+}
 
 static GnmValue *
-func_bitand (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+func_bitand (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
-	gnm_float l = value_get_as_float (argv[0]);
-	gnm_float r = value_get_as_float (argv[1]);
-
-	if (l < 0 || l > bit_max || r < 0 || r > bit_max)
-		return value_new_error_NUM (ei->pos);
-
-        return value_new_float ((guint64)l & (guint64)r);
+	return float_range_function (argc, argv, ei,
+				     gnm_range_bitand,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_ZEROONE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     GNM_ERROR_VALUE);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -780,14 +831,14 @@ const GnmFuncDescriptor num_theory_functions[] = {
 };
 
 const GnmFuncDescriptor bitwise_functions[] = {
-	{"bitor",     "ff", help_bitor,
-	 &func_bitor,     NULL,
+	{"bitor", NULL, help_bitor,
+	 NULL, &func_bitor,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{"bitxor",    "ff", help_bitxor,
-	 &func_bitxor,    NULL,
+	{"bitxor", NULL, help_bitxor,
+	 NULL, &func_bitxor,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{"bitand",    "ff", help_bitand,
-	 &func_bitand,    NULL,
+	{"bitand", NULL, help_bitand,
+	 NULL,  &func_bitand,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{"bitlshift", "ff", help_bitlshift,
 	 &func_bitlshift, NULL,

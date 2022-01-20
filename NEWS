@@ -15,6 +15,7 @@ Morten:
 	* Avoid re-querying file existance for recent files.  [Part of #602]
 	* Fix rich-text rendering (based on work of Jean).  [#607]
 	* Fix crash with conditional styling.  [#597]
+	* Extend BITOR, BITAND, BITXOR to any numbers of arguments.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.50
