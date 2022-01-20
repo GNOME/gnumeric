@@ -1,10 +1,10 @@
-# Copyright © 1998, 1999, 2000, 2001, 2002, 2017, 2019, 2020, 2021 Free Software Foundation, Inc.
+# Copyright © 1998, 1999, 2000, 2001, 2002, 2017, 2019, 2020, 2021, 2022 Free Software Foundation, Inc.
 # Richard Hult <rhult@codefactory.se>, 1999, 2000, 2001.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Christian Rose <menthos@menthos.com>, 2000, 2001, 2002.
 # Jörgen Tegnér <jorgen.tegner@telia.com>, 2001.
 # Jan Morén <jan.moren@lucs.lu.se>, 2002.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2019, 2020, 2021.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2019, 2020, 2021, 2022.
 # Josef Andersson <l10nl18nswejan@gmail.com>, 2017.
 #
 # Regler:
@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2021-10-13 00:44+0000\n"
-"PO-Revision-Date: 2021-12-31 02:31+0100\n"
+"POT-Creation-Date: 2022-01-20 03:52+0000\n"
+"PO-Revision-Date: 2022-01-20 18:53+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -222,11 +222,11 @@ msgstr "Om @{i} varken är ”i” eller ”j” returnerar COMPLEX #VÄRDE!"
 #: ../plugins/fn-math/functions.c:2203 ../plugins/fn-math/functions.c:2230
 #: ../plugins/fn-math/functions.c:2256 ../plugins/fn-math/functions.c:2280
 #: ../plugins/fn-math/functions.c:2321 ../plugins/fn-math/functions.c:2366
-#: ../plugins/fn-math/functions.c:2493 ../plugins/fn-math/functions.c:2741
-#: ../plugins/fn-math/functions.c:2785 ../plugins/fn-math/functions.c:2828
-#: ../plugins/fn-math/functions.c:2871 ../plugins/fn-math/functions.c:2928
-#: ../plugins/fn-math/functions.c:3118 ../plugins/fn-math/functions.c:3216
-#: ../plugins/fn-math/functions.c:3261 ../plugins/fn-random/functions.c:46
+#: ../plugins/fn-math/functions.c:2491 ../plugins/fn-math/functions.c:2739
+#: ../plugins/fn-math/functions.c:2783 ../plugins/fn-math/functions.c:2826
+#: ../plugins/fn-math/functions.c:2869 ../plugins/fn-math/functions.c:2926
+#: ../plugins/fn-math/functions.c:3116 ../plugins/fn-math/functions.c:3214
+#: ../plugins/fn-math/functions.c:3259 ../plugins/fn-random/functions.c:46
 #: ../plugins/fn-random/functions.c:247 ../plugins/fn-stat/functions.c:82
 #: ../plugins/fn-stat/functions.c:109 ../plugins/fn-stat/functions.c:135
 #: ../plugins/fn-stat/functions.c:162 ../plugins/fn-stat/functions.c:272
@@ -1244,8 +1244,8 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1312 ../plugins/fn-math/functions.c:563
 #: ../plugins/fn-math/functions.c:1170 ../plugins/fn-math/functions.c:1197
 #: ../plugins/fn-math/functions.c:1673 ../plugins/fn-math/functions.c:1693
-#: ../plugins/fn-math/functions.c:2414 ../plugins/fn-math/functions.c:3078
-#: ../plugins/fn-math/functions.c:3278 ../plugins/fn-stat/functions.c:1694
+#: ../plugins/fn-math/functions.c:2412 ../plugins/fn-math/functions.c:3076
+#: ../plugins/fn-math/functions.c:3276 ../plugins/fn-stat/functions.c:1694
 #: ../plugins/fn-stat/functions.c:2599 ../plugins/fn-stat/functions.c:4958
 #: ../plugins/fn-string/functions.c:306 ../plugins/fn-string/functions.c:390
 #: ../plugins/fn-string/functions.c:517 ../plugins/fn-string/functions.c:1205
@@ -2495,8 +2495,8 @@ msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr "BASE:sträng av siffror som representerar talet @{n} i basen @{b}"
 
 #: ../plugins/fn-eng/functions.c:206 ../plugins/fn-math/functions.c:1542
-#: ../plugins/fn-numtheory/numtheory.c:683
-#: ../plugins/fn-numtheory/numtheory.c:713
+#: ../plugins/fn-numtheory/numtheory.c:734
+#: ../plugins/fn-numtheory/numtheory.c:764
 msgid "n:integer"
 msgstr "n:heltal"
 
@@ -5409,7 +5409,7 @@ msgstr "HLOOKUP:sök efter @{värde} i den första raden av @{intervall}"
 
 #: ../plugins/fn-lookup/functions.c:1090
 msgid "row:1-based row offset indicating the return values "
-msgstr "rad:1-baserad radförskjutning indikerandes returvärdena "
+msgstr "rad:1-baserad radförskjutning indikerande returvärdena "
 
 #: ../plugins/fn-lookup/functions.c:1093
 msgid ""
@@ -6382,7 +6382,7 @@ msgid "COMBIN:binomial coefficient"
 msgstr "COMBIN:binomialkoefficient"
 
 #: ../plugins/fn-math/functions.c:1163 ../plugins/fn-math/functions.c:1195
-#: ../plugins/fn-math/functions.c:2487
+#: ../plugins/fn-math/functions.c:2485
 msgid "n:non-negative integer"
 msgstr "n:icke-negativt heltal"
 
@@ -6843,15 +6843,15 @@ msgstr ""
 msgid "FIB:Fibonacci numbers"
 msgstr "FIB:Fibonaccital"
 
-#: ../plugins/fn-math/functions.c:2133 ../plugins/fn-numtheory/numtheory.c:258
-#: ../plugins/fn-numtheory/numtheory.c:291
-#: ../plugins/fn-numtheory/numtheory.c:325
-#: ../plugins/fn-numtheory/numtheory.c:358
-#: ../plugins/fn-numtheory/numtheory.c:399
-#: ../plugins/fn-numtheory/numtheory.c:431
-#: ../plugins/fn-numtheory/numtheory.c:491
-#: ../plugins/fn-numtheory/numtheory.c:547
-#: ../plugins/fn-numtheory/numtheory.c:578
+#: ../plugins/fn-math/functions.c:2133 ../plugins/fn-numtheory/numtheory.c:259
+#: ../plugins/fn-numtheory/numtheory.c:292
+#: ../plugins/fn-numtheory/numtheory.c:326
+#: ../plugins/fn-numtheory/numtheory.c:359
+#: ../plugins/fn-numtheory/numtheory.c:400
+#: ../plugins/fn-numtheory/numtheory.c:432
+#: ../plugins/fn-numtheory/numtheory.c:492
+#: ../plugins/fn-numtheory/numtheory.c:548
+#: ../plugins/fn-numtheory/numtheory.c:579
 msgid "n:positive integer"
 msgstr "n:positivt heltal"
 
@@ -6971,15 +6971,15 @@ msgstr "m:tal"
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
 msgstr "Om @{x} och @{m} har olika tecken returnerar MROUND #NUM!"
 
-#: ../plugins/fn-math/functions.c:2408
+#: ../plugins/fn-math/functions.c:2406
 msgid "ARABIC:the Roman numeral @{roman} as number"
 msgstr "ARABIC:den romerska siffran @{romersk} som ett tal"
 
-#: ../plugins/fn-math/functions.c:2409
+#: ../plugins/fn-math/functions.c:2407
 msgid "roman:Roman numeral"
 msgstr "romersk:romersk siffra"
 
-#: ../plugins/fn-math/functions.c:2410
+#: ../plugins/fn-math/functions.c:2408
 msgid ""
 "Any Roman symbol to the left of a larger symbol (directly or indirectly) "
 "reduces the final value by the symbol amount, otherwise, it increases the "
@@ -6989,15 +6989,15 @@ msgstr ""
 "indirekt) minskar det slutliga värdet med symbolens värde. I andra fall ökar "
 "den det slutliga värdet med symbolens värde."
 
-#: ../plugins/fn-math/functions.c:2486
+#: ../plugins/fn-math/functions.c:2484
 msgid "ROMAN:@{n} as a roman numeral text"
 msgstr "ROMAN:@{n} som en romersk numerisk text"
 
-#: ../plugins/fn-math/functions.c:2488
+#: ../plugins/fn-math/functions.c:2486
 msgid "type:0,1,2,3,or 4, defaults to 0"
 msgstr "typ:0,1,2,3 eller 4, standardvärde 0"
 
-#: ../plugins/fn-math/functions.c:2489
+#: ../plugins/fn-math/functions.c:2487
 msgid ""
 "ROMAN returns the arabic number @{n} as a roman numeral text.\n"
 "If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
@@ -7009,21 +7009,21 @@ msgstr ""
 "Typ 1 är mer koncis än klassiska typen, typ 2 är mer koncis än typ 1 och typ "
 "3 är mer koncis än typ 2. Typ 4 är en förenklad typ."
 
-#: ../plugins/fn-math/functions.c:2736
+#: ../plugins/fn-math/functions.c:2734
 msgid "SUMX2MY2:sum of the difference of squares"
 msgstr "SUMX2MY2:summan av skillnaderna av tal i kvadrat"
 
-#: ../plugins/fn-math/functions.c:2737 ../plugins/fn-math/functions.c:2779
-#: ../plugins/fn-math/functions.c:2822
+#: ../plugins/fn-math/functions.c:2735 ../plugins/fn-math/functions.c:2777
+#: ../plugins/fn-math/functions.c:2820
 msgid "array0:first cell area"
 msgstr "vektor0:första cellarean"
 
-#: ../plugins/fn-math/functions.c:2738 ../plugins/fn-math/functions.c:2780
-#: ../plugins/fn-math/functions.c:2823
+#: ../plugins/fn-math/functions.c:2736 ../plugins/fn-math/functions.c:2778
+#: ../plugins/fn-math/functions.c:2821
 msgid "array1:second cell area"
 msgstr "vektor1:andra cellarean"
 
-#: ../plugins/fn-math/functions.c:2739
+#: ../plugins/fn-math/functions.c:2737
 msgid ""
 "SUMX2MY2 function returns the sum of the difference of squares of "
 "corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
@@ -7031,8 +7031,8 @@ msgstr ""
 "SUMX2MY2-funktionen returnerar summan av skillnaderna av tal i kvadrat "
 "motsvarande värden i två vektorer. Ekvationen av SUMX2MY2 är SUM(x^2-y^2)."
 
-#: ../plugins/fn-math/functions.c:2742 ../plugins/fn-math/functions.c:2786
-#: ../plugins/fn-math/functions.c:2829
+#: ../plugins/fn-math/functions.c:2740 ../plugins/fn-math/functions.c:2784
+#: ../plugins/fn-math/functions.c:2827
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
 "and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39."
@@ -7040,15 +7040,15 @@ msgstr ""
 "Anta att cellerna A1, A2, ..., A5 innehåller siffrorna 11, 15, 17, 21 och 43 "
 "och att cellerna B1, B2, ..., B5 har siffrorna 13, 22, 31, 33 och 39."
 
-#: ../plugins/fn-math/functions.c:2743
+#: ../plugins/fn-math/functions.c:2741
 msgid "Then SUMX2MY2(A1:A5,B1:B5) yields -1299."
 msgstr "SUMX2MY2(A1:A5,B1:B5) ger då -1299."
 
-#: ../plugins/fn-math/functions.c:2778
+#: ../plugins/fn-math/functions.c:2776
 msgid "SUMX2PY2:sum of the sum of squares"
 msgstr "SUMX2MY2:summan av summan av talen i kvadrat"
 
-#: ../plugins/fn-math/functions.c:2781
+#: ../plugins/fn-math/functions.c:2779
 msgid ""
 "SUMX2PY2 function returns the sum of the sum of squares of corresponding "
 "values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2)."
@@ -7056,7 +7056,7 @@ msgstr ""
 "SUMX2PY2-funktionen returnerar summan av kvadratsumman av motsvarande värden "
 "i två vektorer. Ekvationen för SUMX2PY2 är SUM(x^2+y^2)."
 
-#: ../plugins/fn-math/functions.c:2783
+#: ../plugins/fn-math/functions.c:2781
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMX2PY2 "
 "returns #N/A.\n"
@@ -7066,15 +7066,15 @@ msgstr ""
 "#-.\n"
 "Strängar och tomma celler ignoreras helt."
 
-#: ../plugins/fn-math/functions.c:2787
+#: ../plugins/fn-math/functions.c:2785
 msgid "Then SUMX2PY2(A1:A5,B1:B5) yields 7149."
 msgstr "Då ger SUMX2PY2(A1:A5,B1:B5) talet 7149."
 
-#: ../plugins/fn-math/functions.c:2821
+#: ../plugins/fn-math/functions.c:2819
 msgid "SUMXMY2:sum of the squares of differences"
 msgstr "SUMXMY2:summan av kvadrater av skillnader"
 
-#: ../plugins/fn-math/functions.c:2824
+#: ../plugins/fn-math/functions.c:2822
 msgid ""
 "SUMXMY2 function returns the sum of the squares of the differences of "
 "corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
@@ -7082,7 +7082,7 @@ msgstr ""
 "SUMXMY2-funktionen returnerar summan av kvadratskillnaderna för motsvarande "
 "värden i två vektorer. Ekvationen för SUMXMY2 är SUM((x-y)^2)."
 
-#: ../plugins/fn-math/functions.c:2826
+#: ../plugins/fn-math/functions.c:2824
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMXMY2 "
 "returns #N/A.\n"
@@ -7092,31 +7092,31 @@ msgstr ""
 "#-.\n"
 "Strängar och tomma celler ignoreras helt."
 
-#: ../plugins/fn-math/functions.c:2830
+#: ../plugins/fn-math/functions.c:2828
 msgid "Then SUMXMY2(A1:A5,B1:B5) yields 409."
 msgstr "Då ger SUMXMY2(A1:A5,B1:B5) resultatet 409."
 
-#: ../plugins/fn-math/functions.c:2866
+#: ../plugins/fn-math/functions.c:2864
 msgid "SERIESSUM:sum of a power series at @{x}"
 msgstr "SERIESSUM:summan av potensserien vid @{x}"
 
-#: ../plugins/fn-math/functions.c:2867
+#: ../plugins/fn-math/functions.c:2865
 msgid "x:number where to evaluate the power series"
 msgstr "x:siffra för var potensserien ska utvärderas"
 
-#: ../plugins/fn-math/functions.c:2868
+#: ../plugins/fn-math/functions.c:2866
 msgid "n:non-negative integer, exponent of the lowest term of the series"
 msgstr "n:icke-negativt heltal, exponenten för den lägsta termen i serien"
 
-#: ../plugins/fn-math/functions.c:2869
+#: ../plugins/fn-math/functions.c:2867
 msgid "m:increment to each exponent"
 msgstr "m:ökning på varje exponent"
 
-#: ../plugins/fn-math/functions.c:2870
+#: ../plugins/fn-math/functions.c:2868
 msgid "coeff:coefficients of the power series"
 msgstr "koeff:koefficienterna för potensserien"
 
-#: ../plugins/fn-math/functions.c:2872
+#: ../plugins/fn-math/functions.c:2870
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, "
 "2.98, 3.42, and 4.33."
@@ -7124,23 +7124,23 @@ msgstr ""
 "Anta att cellerna A1, A2, ..., A5 innehåller siffrorna 1,23; 2,32; 2,98; "
 "3,42 och 4,33."
 
-#: ../plugins/fn-math/functions.c:2873
+#: ../plugins/fn-math/functions.c:2871
 msgid "Then SERIESSUM(2,1,2.23,A1:A5) evaluates as 5056.37439843926"
 msgstr "Då utvärderas SERIESSUM(2;1;2,23;A1:A5) som 5056,37439843926"
 
-#: ../plugins/fn-math/functions.c:2924
+#: ../plugins/fn-math/functions.c:2922
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE:matrisinversen av @{matris}"
 
-#: ../plugins/fn-math/functions.c:2925 ../plugins/fn-math/functions.c:3214
+#: ../plugins/fn-math/functions.c:2923 ../plugins/fn-math/functions.c:3212
 msgid "matrix:a square matrix"
 msgstr "matris:en kvadratisk matris"
 
-#: ../plugins/fn-math/functions.c:2926
+#: ../plugins/fn-math/functions.c:2924
 msgid "If @{matrix} is not invertible, MINVERSE returns #NUM!"
 msgstr "Om @{matris} inte är inverterbar returnerar MINVERSE #NUM!"
 
-#: ../plugins/fn-math/functions.c:2927
+#: ../plugins/fn-math/functions.c:2925
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, MINVERSE "
 "returns #VALUE!"
@@ -7148,19 +7148,19 @@ msgstr ""
 "Om @{matris} inte innehåller lika många kolumner som rader returnerar "
 "MINVERSE #VÄRDE!"
 
-#: ../plugins/fn-math/functions.c:2961
+#: ../plugins/fn-math/functions.c:2959
 msgid "MPSEUDOINVERSE:the pseudo-inverse matrix of @{matrix}"
 msgstr "MPSEUDOINVERSE:den pseudoinversa matrisen för @{matris}"
 
-#: ../plugins/fn-math/functions.c:2962
+#: ../plugins/fn-math/functions.c:2960
 msgid "matrix:a matrix"
 msgstr "matris:en matris"
 
-#: ../plugins/fn-math/functions.c:2963
+#: ../plugins/fn-math/functions.c:2961
 msgid "threshold:a relative size threshold for discarding eigenvalues"
 msgstr "tröskelvärde:ett relativt tröskelvärde för att förkasta eigenvärden"
 
-#: ../plugins/fn-math/functions.c:2998
+#: ../plugins/fn-math/functions.c:2996
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite "
 "@{matrix}"
@@ -7168,11 +7168,11 @@ msgstr ""
 "CHOLESKY:Cholesky-dekompositionen för en symmetrisk positivt definit "
 "@{matris}"
 
-#: ../plugins/fn-math/functions.c:2999
+#: ../plugins/fn-math/functions.c:2997
 msgid "matrix:a symmetric positive definite matrix"
 msgstr "matris:en symmetrisk positivt definit matris"
 
-#: ../plugins/fn-math/functions.c:3000
+#: ../plugins/fn-math/functions.c:2998
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
@@ -7180,7 +7180,7 @@ msgstr ""
 "Om Cholesky-Banachiewicz-algoritmen tillämpad på @{matris} misslyckas "
 "returnerar Cholesky #NUM!"
 
-#: ../plugins/fn-math/functions.c:3001
+#: ../plugins/fn-math/functions.c:2999
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
@@ -7188,28 +7188,28 @@ msgstr ""
 "Om @{matris} inte innehåller lika många kolumner som rader returnerar "
 "CHOLESKY #VÄRDE!"
 
-#: ../plugins/fn-math/functions.c:3076
+#: ../plugins/fn-math/functions.c:3074
 msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr "MUNIT:en @{n}×@{n}-identitetsmatris"
 
-#: ../plugins/fn-math/functions.c:3077
+#: ../plugins/fn-math/functions.c:3075
 msgid "n:size of the matrix"
 msgstr "n:storleken på matrisen"
 
-#: ../plugins/fn-math/functions.c:3114
+#: ../plugins/fn-math/functions.c:3112
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr "MMULT:matrisprodukten av @{mat1} och @{mat2}"
 
-#: ../plugins/fn-math/functions.c:3115
+#: ../plugins/fn-math/functions.c:3113
 msgid "mat1:a matrix"
 msgstr "mat1:en matris"
 
-#: ../plugins/fn-math/functions.c:3116
+#: ../plugins/fn-math/functions.c:3114
 msgid "mat2:a matrix"
 msgstr "mat2:en matris"
 
 # TODO: unbalanced parantheses
-#: ../plugins/fn-math/functions.c:3117
+#: ../plugins/fn-math/functions.c:3115
 msgid ""
 "The number of columns in @{mat1} must equal the number of rows in @{mat2}; "
 "otherwise #VALUE! is returned.  The result of MMULT is an array, in which "
@@ -7221,31 +7221,31 @@ msgstr ""
 "antalet rader är samma som i (@{mat1}), och antalet kolumner är samma som i "
 "(@{mat2})."
 
-#: ../plugins/fn-math/functions.c:3157
+#: ../plugins/fn-math/functions.c:3155
 msgid "LINSOLVE:solve linear equation"
 msgstr "LINSOLVE:lös linjär ekvation"
 
-#: ../plugins/fn-math/functions.c:3158 ../plugins/fn-stat/functions.c:3516
+#: ../plugins/fn-math/functions.c:3156 ../plugins/fn-stat/functions.c:3516
 msgid "A:a matrix"
 msgstr "A:en matris"
 
-#: ../plugins/fn-math/functions.c:3159
+#: ../plugins/fn-math/functions.c:3157
 msgid "B:a matrix"
 msgstr "B:en matris"
 
-#: ../plugins/fn-math/functions.c:3161
+#: ../plugins/fn-math/functions.c:3159
 msgid "Solves the equation @{A}*X=@{B} and returns X."
 msgstr "Löser ekvationen @{A}*X=@{B} och returnerar X."
 
-#: ../plugins/fn-math/functions.c:3162
+#: ../plugins/fn-math/functions.c:3160
 msgid "If the matrix @{A} is singular, #VALUE! is returned."
 msgstr "Om matris @{A} är singulär returneras #VÄRDE!."
 
-#: ../plugins/fn-math/functions.c:3213
+#: ../plugins/fn-math/functions.c:3211
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:determinanten av matrisen @{matris}"
 
-#: ../plugins/fn-math/functions.c:3215
+#: ../plugins/fn-math/functions.c:3213
 msgid ""
 "Let us assume that A1,...,A4 contain numbers 2, 3, 7, and 3; B1,..., B4 4, "
 "2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then "
@@ -7255,11 +7255,11 @@ msgstr ""
 "och 1; C1,…,C4 9, 4, 3 och 2; samt D1,…,D4 7, 3, 6 och 5. Då ger MDETERM(A1:"
 "D4) 148."
 
-#: ../plugins/fn-math/functions.c:3245
+#: ../plugins/fn-math/functions.c:3243
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT:multiplicerar komponenter och lägger ihop resultaten"
 
-#: ../plugins/fn-math/functions.c:3247 ../plugins/fn-math/functions.c:3270
+#: ../plugins/fn-math/functions.c:3245 ../plugins/fn-math/functions.c:3268
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -7267,11 +7267,11 @@ msgstr ""
 "Multiplicerar motsvarande dataposter i de givna vektorerna eller intervallen "
 "och returnerar summan av dessa produkter."
 
-#: ../plugins/fn-math/functions.c:3250
+#: ../plugins/fn-math/functions.c:3248
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Om en post inte är numerisk används nollvärdet istället."
 
-#: ../plugins/fn-math/functions.c:3251 ../plugins/fn-math/functions.c:3274
+#: ../plugins/fn-math/functions.c:3249 ../plugins/fn-math/functions.c:3272
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -7279,7 +7279,7 @@ msgstr ""
 "Om vektorer eller intervallargument inte har samma dimensioner returneras "
 "felet #VÄRDE!."
 
-#: ../plugins/fn-math/functions.c:3253
+#: ../plugins/fn-math/functions.c:3251
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
@@ -7287,40 +7287,40 @@ msgstr ""
 "Denna funktion ignorerar logik, så att använda SUMPRODUCT(A1:A5>0) kommer "
 "inte att fungera. Använd istället SUMPRODUCT(--(A1:A5>0))"
 
-#: ../plugins/fn-math/functions.c:3262
+#: ../plugins/fn-math/functions.c:3260
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr ""
 "Denna funktion är inte OpenFormula-kompatibel. Använd ODF.SUMPRODUCT "
 "istället."
 
-#: ../plugins/fn-math/functions.c:3268
+#: ../plugins/fn-math/functions.c:3266
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
 msgstr "ODF.SUMPRODUCT:multiplicerar komponenter och lägger ihop resultaten"
 
-#: ../plugins/fn-math/functions.c:3273
+#: ../plugins/fn-math/functions.c:3271
 msgid "If an entry is not numeric or logical, the value zero is used instead."
 msgstr "Om en post inte är numerisk eller logisk används nollvärdet istället."
 
-#: ../plugins/fn-math/functions.c:3276
+#: ../plugins/fn-math/functions.c:3274
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr ""
 "Denna funktion skiljer sig från SUMPRODUCT genom att även titta på booleska "
 "värden."
 
-#: ../plugins/fn-math/functions.c:3277
+#: ../plugins/fn-math/functions.c:3275
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr "Denna funktion är inte Excel-kompatibel. Använd SUMPRODUCT istället."
 
-#: ../plugins/fn-math/functions.c:3412
+#: ../plugins/fn-math/functions.c:3410
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:eigenvärden och eigenvektorer för en symmetrisk @{matris}"
 
-#: ../plugins/fn-math/functions.c:3413
+#: ../plugins/fn-math/functions.c:3411
 msgid "matrix:a symmetric matrix"
 msgstr "matris:en symmetrisk matris"
 
-#: ../plugins/fn-math/functions.c:3414
+#: ../plugins/fn-math/functions.c:3412
 msgid ""
 "If @{matrix} is not symmetric, matching off-diagonal cells will be averaged "
 "on the assumption that the non-symmetry is caused by unimportant rounding "
@@ -7329,7 +7329,7 @@ msgstr ""
 "Om @{matris} inte är symmetrisk, kommer matchande celler utanför diagonalen "
 "att medelviktas med antagandet att icke-symmetrin orsakats av avrundningsfel."
 
-#: ../plugins/fn-math/functions.c:3415
+#: ../plugins/fn-math/functions.c:3413
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
@@ -7337,19 +7337,19 @@ msgstr ""
 "Om @{matris} inte innehåller lika många kolumner som rader returnerar EIGEN "
 "#VÄRDE!"
 
-#: ../plugins/fn-numtheory/numtheory.c:257
+#: ../plugins/fn-numtheory/numtheory.c:258
 msgid "NT_OMEGA:Number of distinct prime factors"
 msgstr "NT_OMEGA:Antal olika primtalsfaktorer"
 
-#: ../plugins/fn-numtheory/numtheory.c:259
+#: ../plugins/fn-numtheory/numtheory.c:260
 msgid "Returns the number of distinct prime factors without multiplicity."
 msgstr "Returnerar antalet olika primtalsfaktorer utan antal upprepningar."
 
-#: ../plugins/fn-numtheory/numtheory.c:290
+#: ../plugins/fn-numtheory/numtheory.c:291
 msgid "NT_PHI:Euler's totient function"
 msgstr "NT_PHI:Eulers fi-funktion"
 
-#: ../plugins/fn-numtheory/numtheory.c:292
+#: ../plugins/fn-numtheory/numtheory.c:293
 msgid ""
 "Euler's totient function gives the number of integers less than or equal to "
 "@{n} that are relatively prime (coprime) to @{n}."
@@ -7357,23 +7357,23 @@ msgstr ""
 "Eulers fi-funktion ger antalet heltal mindre än eller lika med @{n} som är "
 "relativt prima (coprime) till @{n}."
 
-#: ../plugins/fn-numtheory/numtheory.c:295
+#: ../plugins/fn-numtheory/numtheory.c:296
 msgid "wiki:en:Euler's_totient_function"
 msgstr "wiki:sv:Eulers_fi-funktion"
 
-#: ../plugins/fn-numtheory/numtheory.c:324
+#: ../plugins/fn-numtheory/numtheory.c:325
 msgid "NT_RADICAL:Radical function"
 msgstr "NT_RADICAL:radikalfunktion"
 
-#: ../plugins/fn-numtheory/numtheory.c:326
+#: ../plugins/fn-numtheory/numtheory.c:327
 msgid "The function computes the product of its distinct prime factors"
 msgstr "Funktionen beräknar produkten av dess olika primtalsfaktorer"
 
-#: ../plugins/fn-numtheory/numtheory.c:357
+#: ../plugins/fn-numtheory/numtheory.c:358
 msgid "NT_MU:Möbius mu function"
 msgstr "NT_MU:Möbius mu-funktion"
 
-#: ../plugins/fn-numtheory/numtheory.c:360
+#: ../plugins/fn-numtheory/numtheory.c:361
 msgid ""
 "NT_MU function (Möbius mu function) returns 0  if @{n} is divisible by the "
 "square of a prime. Otherwise, if @{n} has an odd  number of different prime "
@@ -7385,101 +7385,93 @@ msgstr ""
 "antal olika primfaktorer, och returnerar 1 om @{n} har ett jämnt antal olika "
 "primfaktorer. Om @{n} = 1 returnerar NT_MU 1."
 
-#: ../plugins/fn-numtheory/numtheory.c:367
+#: ../plugins/fn-numtheory/numtheory.c:368
 msgid "wiki:en:Möbius_function"
 msgstr "wiki:en:Möbius_function"
 
-#: ../plugins/fn-numtheory/numtheory.c:368
+#: ../plugins/fn-numtheory/numtheory.c:369
 msgid "wolfram:MoebiusFunction.html"
 msgstr "wolfram:MoebiusFunction.html"
 
-#: ../plugins/fn-numtheory/numtheory.c:398
+#: ../plugins/fn-numtheory/numtheory.c:399
 msgid "NT_D:number of divisors"
 msgstr "NT_D:antal delare"
 
-#: ../plugins/fn-numtheory/numtheory.c:400
+#: ../plugins/fn-numtheory/numtheory.c:401
 msgid "NT_D calculates the number of divisors of @{n}."
 msgstr "NT_D beräknar antalet delare till @{n}."
 
-#: ../plugins/fn-numtheory/numtheory.c:430
+#: ../plugins/fn-numtheory/numtheory.c:431
 msgid "NT_SIGMA:sigma function"
 msgstr "NT_SIGMA:sigmafunktion"
 
-#: ../plugins/fn-numtheory/numtheory.c:432
+#: ../plugins/fn-numtheory/numtheory.c:433
 msgid "NT_SIGMA calculates the sum of the divisors of @{n}."
 msgstr "NT_SIGMA beräknar summan av delarna till @{n}."
 
-#: ../plugins/fn-numtheory/numtheory.c:435
+#: ../plugins/fn-numtheory/numtheory.c:436
 msgid "wiki:en:Divisor_function"
 msgstr "wiki:en:Divisor_function"
 
-#: ../plugins/fn-numtheory/numtheory.c:464
+#: ../plugins/fn-numtheory/numtheory.c:465
 msgid "ITHPRIME:@{i}th prime"
 msgstr "ITHPRIME:@{i}:e primtalet"
 
-#: ../plugins/fn-numtheory/numtheory.c:465
+#: ../plugins/fn-numtheory/numtheory.c:466
 msgid "i:positive integer"
 msgstr "i:positivt heltal"
 
-#: ../plugins/fn-numtheory/numtheory.c:466
+#: ../plugins/fn-numtheory/numtheory.c:467
 msgid "ITHPRIME finds the @{i}th prime."
 msgstr "ITHPRIME hittar det @{i}:e primtalet."
 
-#: ../plugins/fn-numtheory/numtheory.c:490
+#: ../plugins/fn-numtheory/numtheory.c:491
 msgid "ISPRIME:whether @{n} is prime"
 msgstr "ISPRIME:huruvida @{n} är ett primtal"
 
-#: ../plugins/fn-numtheory/numtheory.c:492
+#: ../plugins/fn-numtheory/numtheory.c:493
 msgid "ISPRIME returns TRUE if @{n} is prime and FALSE otherwise."
 msgstr "ISPRIME returnerar SANT om @{n} är ett primtal och FALSKT annars."
 
-#: ../plugins/fn-numtheory/numtheory.c:495
+#: ../plugins/fn-numtheory/numtheory.c:496
 msgid "wolfram:PrimeNumber.html"
 msgstr "wolfram:PrimeNumber.html"
 
-#: ../plugins/fn-numtheory/numtheory.c:546
+#: ../plugins/fn-numtheory/numtheory.c:547
 msgid "PFACTOR:smallest prime factor"
 msgstr "PFACTOR:minsta primtalsfaktor"
 
-#: ../plugins/fn-numtheory/numtheory.c:548
+#: ../plugins/fn-numtheory/numtheory.c:549
 msgid "PFACTOR finds the smallest prime factor of its argument."
 msgstr "PFACTOR hittar den minsta primtalsfaktorn för sitt argument."
 
-#: ../plugins/fn-numtheory/numtheory.c:549
+#: ../plugins/fn-numtheory/numtheory.c:550
 msgid ""
 "The argument @{n} must be at least 2. Otherwise a #VALUE! error is returned."
 msgstr ""
 "Argumentet @{n} måste vara åtminstone 2. Annars returneras felet #VÄRDE!."
 
-#: ../plugins/fn-numtheory/numtheory.c:577
+#: ../plugins/fn-numtheory/numtheory.c:578
 msgid "NT_PI:number of primes upto @{n}"
 msgstr "NT_PI:antal primtal upp till @{n}"
 
-#: ../plugins/fn-numtheory/numtheory.c:579
+#: ../plugins/fn-numtheory/numtheory.c:580
 msgid "NT_PI returns the number of primes less than or equal to @{n}."
 msgstr "NT_PI returnerar antalet primtal mindre än eller lika med @{n}."
 
-#: ../plugins/fn-numtheory/numtheory.c:582
+#: ../plugins/fn-numtheory/numtheory.c:583
 msgid "wolfram:PrimeCountingFunction.html"
 msgstr "wolfram:PrimeCountingFunction.html"
 
-#: ../plugins/fn-numtheory/numtheory.c:608
+#: ../plugins/fn-numtheory/numtheory.c:609
 msgid "BITOR:bitwise or"
 msgstr "BITOR:bitvist eller"
 
-#: ../plugins/fn-numtheory/numtheory.c:609
-#: ../plugins/fn-numtheory/numtheory.c:633
-#: ../plugins/fn-numtheory/numtheory.c:657
-#: ../plugins/fn-numtheory/numtheory.c:682
-#: ../plugins/fn-numtheory/numtheory.c:712
-msgid "a:non-negative integer"
-msgstr "a:icke-negativt heltal"
-
 #: ../plugins/fn-numtheory/numtheory.c:610
-#: ../plugins/fn-numtheory/numtheory.c:634
-#: ../plugins/fn-numtheory/numtheory.c:658
-msgid "b:non-negative integer"
-msgstr "b:icke-negativt heltal"
+#: ../plugins/fn-numtheory/numtheory.c:651
+#: ../plugins/fn-numtheory/numtheory.c:692
+msgid "values:non-negative integers"
+msgstr "värden:icke-negativa heltal"
 
 #: ../plugins/fn-numtheory/numtheory.c:611
 msgid ""
@@ -7488,11 +7480,11 @@ msgstr ""
 "BITOR returnerar det bitvisa ”eller” av de binära representationerna av dess "
 "argument."
 
-#: ../plugins/fn-numtheory/numtheory.c:632
+#: ../plugins/fn-numtheory/numtheory.c:650
 msgid "BITXOR:bitwise exclusive or"
 msgstr "BITXOR:bitvist exklusivt eller"
 
-#: ../plugins/fn-numtheory/numtheory.c:635
+#: ../plugins/fn-numtheory/numtheory.c:652
 msgid ""
 "BITXOR returns the bitwise exclusive or of the binary representations of its "
 "arguments."
@@ -7500,11 +7492,11 @@ msgstr ""
 "BITXOR returnerar det bitvisa ”exklusiva eller” av de binära "
 "representationerna av dess argument."
 
-#: ../plugins/fn-numtheory/numtheory.c:656
+#: ../plugins/fn-numtheory/numtheory.c:691
 msgid "BITAND:bitwise and"
 msgstr "BITAND:bitvist och"
 
-#: ../plugins/fn-numtheory/numtheory.c:659
+#: ../plugins/fn-numtheory/numtheory.c:693
 msgid ""
 "BITAND returns the bitwise and of the binary representations of its "
 "arguments."
@@ -7512,11 +7504,16 @@ msgstr ""
 "BITAND returnerar det bitvisa ”och” av de binära representationerna av dess "
 "argument."
 
-#: ../plugins/fn-numtheory/numtheory.c:681
+#: ../plugins/fn-numtheory/numtheory.c:732
 msgid "BITLSHIFT:bit-shift to the left"
 msgstr "BITLSHIFT:bitskifta till vänster"
 
-#: ../plugins/fn-numtheory/numtheory.c:684
+#: ../plugins/fn-numtheory/numtheory.c:733
+#: ../plugins/fn-numtheory/numtheory.c:763
+msgid "a:non-negative integer"
+msgstr "a:icke-negativt heltal"
+
+#: ../plugins/fn-numtheory/numtheory.c:735
 msgid ""
 "BITLSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the left."
@@ -7524,7 +7521,7 @@ msgstr ""
 "BITLSHIFT returnerar den binära representationen för @{a} skiftad @{n} "
 "positioner till vänster."
 
-#: ../plugins/fn-numtheory/numtheory.c:685
+#: ../plugins/fn-numtheory/numtheory.c:736
 msgid ""
 "If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) "
 "positions."
@@ -7532,11 +7529,11 @@ msgstr ""
 "Om @{n} är negativ, skiftar BITLSHIFT bitarna till höger ABS(@{n}) "
 "positioner."
 
-#: ../plugins/fn-numtheory/numtheory.c:711
+#: ../plugins/fn-numtheory/numtheory.c:762
 msgid "BITRSHIFT:bit-shift to the right"
 msgstr "BITRSHIFT:bitskifta till höger"
 
-#: ../plugins/fn-numtheory/numtheory.c:714
+#: ../plugins/fn-numtheory/numtheory.c:765
 msgid ""
 "BITRSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the right."
@@ -7544,7 +7541,7 @@ msgstr ""
 "BITRSHIFT returnerar den binära representationen för @{a} skiftad @{n} "
 "positioner till höger."
 
-#: ../plugins/fn-numtheory/numtheory.c:715
+#: ../plugins/fn-numtheory/numtheory.c:766
 msgid ""
 "If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) "
 "positions."
@@ -12411,6 +12408,9 @@ msgstr ""
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
 "Det här är inte avsett att vara allmänt aktiverat och är OFF som standard."
+
+#~ msgid "b:non-negative integer"
+#~ msgstr "b:icke-negativt heltal"
 
 #, fuzzy
 #~ msgid ""
