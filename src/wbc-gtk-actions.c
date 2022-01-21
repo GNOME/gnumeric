@@ -4015,7 +4015,8 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 		  WBCGtk *gtk,
 		  char const *tooltip,
 		  char const *icon_name,
-		  char const *accel, const char *alt_accel)
+		  char const *accel, const char *alt_accel,
+		  const char *label)
 {
 	*haction = g_object_new
 		(go_action_combo_stack_get_type (),
@@ -4024,6 +4025,7 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 		 "icon-name", icon_name,
 		 "sensitive", FALSE,
 		 "visible-vertical", FALSE,
+		 "label", label,
 		 NULL);
 	gtk_action_group_add_action_with_accel
 		(gtk->semi_permanent_actions,
@@ -4038,6 +4040,7 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 		 "icon-name", icon_name,
 		 "sensitive", FALSE,
 		 "visible-horizontal", FALSE,
+		 "label", label,
 		 NULL);
 	gtk_action_group_add_action_with_accel
 		(gtk->semi_permanent_actions,
@@ -4075,12 +4078,14 @@ wbc_gtk_init_undo_redo (WBCGtk *gtk)
 		&gtk->redo_haction, "Redo", G_CALLBACK (cb_redo_activated),
 		&gtk->redo_vaction, "VRedo", G_CALLBACK (command_redo),
 		gtk, _("Redo the undone action"),
-		"edit-redo", "<control>y", "<control><shift>z");
+		"edit-redo", "<control>y", "<control><shift>z",
+		_("Redo"));
 	create_undo_redo (
 		&gtk->undo_haction, "Undo", G_CALLBACK (cb_undo_activated),
 		&gtk->undo_vaction, "VUndo", G_CALLBACK (command_undo),
 		gtk, _("Undo the last action"),
-		"edit-undo", "<control>z", NULL);
+		"edit-undo", "<control>z", NULL,
+		_("Undo"));
 }
 
 /****************************************************************************/
@@ -4154,6 +4159,7 @@ wbc_gtk_init_zoom (WBCGtk *wbcg)
 	wbcg->zoom_vaction =
 		g_object_new (GTK_TYPE_ACTION,
 			      "name", "VZoom",
+			      "label", _("_Zoom"),
 			      "tooltip", _("Zoom"),
 			      "icon-name", "zoom-in",
 			      "visible-horizontal", FALSE,

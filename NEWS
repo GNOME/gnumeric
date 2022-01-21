@@ -3,6 +3,7 @@ Gnumeric 1.12.52
 Morten:
 	* Attach the vertical alignment selector to the toolbar.
 	* Improve the toolbar styling a bit.
+	* Fix toolbar overflow menu's labeling.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51
