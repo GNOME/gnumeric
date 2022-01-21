@@ -27,6 +27,10 @@
     <file>icons/16x16/actions/gnumeric-format-border-rev-diag.png</file>
     <file>icons/16x16/actions/gnumeric-format-border-right.png</file>
     <file>icons/16x16/actions/gnumeric-format-border-top.png</file>
+    <file>icons/16x16/actions/gnumeric-format-valign-bottom.png</file>
+    <file>icons/16x16/actions/gnumeric-format-valign-center.png</file>
+    <file>icons/16x16/actions/gnumeric-format-valign-justify.png</file>
+    <file>icons/16x16/actions/gnumeric-format-valign-top.png</file>
     <file>icons/16x16/actions/gnumeric-formulaguru.png</file>
     <file>icons/16x16/actions/gnumeric-graphguru.png</file>
     <file>icons/16x16/actions/gnumeric-group.png</file>

@@ -25,6 +25,10 @@ internalicons =					\
 	gnumeric-format-border-rev-diag.png	\
 	gnumeric-format-border-right.png	\
 	gnumeric-format-border-top.png		\
+	gnumeric-format-valign-bottom.png	\
+	gnumeric-format-valign-center.png	\
+	gnumeric-format-valign-justify.png	\
+	gnumeric-format-valign-top.png		\
 	gnumeric-formulaguru.png		\
 	gnumeric-graphguru.png			\
 	gnumeric-group.png			\
