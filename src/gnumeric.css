@@ -280,6 +280,12 @@ toolbar combobox button.combo box {
     padding-right: 2px;
 }
 
+/* The zoom entry box shows digits only so no need for padding.  */
+toolbar combobox entry.combo {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
 #else
 
 /* Extra space around multiple toolbars adds up quickly so avoid it. */
