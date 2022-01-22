@@ -1,5 +1,5 @@
 # Swedish messages for Gnumeric.
-# Copyright © 1998-2021 Free Software Foundation, Inc.
+# Copyright © 1998-2022 Free Software Foundation, Inc.
 # Richard Hult <rhult@codefactory.se>, 1999, 2000, 2001.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Christian Rose <menthos@menthos.com>, 2000, 2001, 2002.
@@ -7,7 +7,7 @@
 # Jan Morén <jan.moren@lucs.lu.se>, 2002.
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Josef Andersson <josef.andersson@fripost.org>, 2016, 2018.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2021.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2021, 2022.
 # Sebastian Rasmussen <sebras@gmail.com>, 2017.
 #
 # Svenska statistikfrämjandet har en ordlista som är till stor hjälp
@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2021-02-25 20:42+0000\n"
-"PO-Revision-Date: 2021-03-27 22:03+0100\n"
+"POT-Creation-Date: 2022-01-22 00:28+0000\n"
+"PO-Revision-Date: 2022-01-22 01:49+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -45,7 +45,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:552
@@ -97,25 +97,25 @@ msgstr "Ett kalkylprogram med hög precision"
 msgid "The Gnumeric Team"
 msgstr "Gnumeric-utvecklarna"
 
-#: ../plugins/applix/applix-read.c:124
+#: ../plugins/applix/applix-read.c:125
 msgid "Parse error while reading Applix file."
 msgstr "Tolkningsfel vid läsning av Applix-fil."
 
-#: ../plugins/applix/applix-read.c:345
+#: ../plugins/applix/applix-read.c:346
 msgid "Missing characters for character encoding"
 msgstr "Tecken saknas för teckenkodning"
 
-#: ../plugins/applix/applix-read.c:349
+#: ../plugins/applix/applix-read.c:350
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
 msgstr "Ogiltiga tecken för teckenkodningen ”%c%c”"
 
-#: ../plugins/applix/applix-read.c:1225
+#: ../plugins/applix/applix-read.c:1226
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
 msgstr "Uttrycket började inte med ”=” ? ”%s”"
 
-#: ../plugins/applix/applix-read.c:1236
+#: ../plugins/applix/applix-read.c:1237
 #, c-format
 msgid ""
 "%s!%s : unable to parse '%s'\n"
@@ -500,188 +500,188 @@ msgstr "Stötte på både attributen ”refreshedDate” och refreshedDateIso”
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr "Hoppar över ogiltig pivotfältsgrupp för fältet ”%s” eftersom : %s"
 
-#: ../plugins/excel/xlsx-read.c:379
+#: ../plugins/excel/xlsx-read.c:382
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "”%s” är skadad!"
 
-#: ../plugins/excel/xlsx-read.c:471
+#: ../plugins/excel/xlsx-read.c:474
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "Okänt uppräkningstypvärde ”%s” för attributet %s"
 
-#: ../plugins/excel/xlsx-read.c:514 ../plugins/excel/xlsx-read.c:573
-#: ../plugins/excel/xlsx-read.c:664
+#: ../plugins/excel/xlsx-read.c:517 ../plugins/excel/xlsx-read.c:576
+#: ../plugins/excel/xlsx-read.c:667
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "Heltalet ”%s” är utanför intervallet för attributet %s"
 
-#: ../plugins/excel/xlsx-read.c:518 ../plugins/excel/xlsx-read.c:577
-#: ../plugins/excel/xlsx-read.c:672
+#: ../plugins/excel/xlsx-read.c:521 ../plugins/excel/xlsx-read.c:580
+#: ../plugins/excel/xlsx-read.c:675
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "Ogiltigt heltal ”%s” för attributet %s"
 
-#: ../plugins/excel/xlsx-read.c:543
+#: ../plugins/excel/xlsx-read.c:546
 #, c-format
 msgid "Unsigned integer '%s' is out of range, for attribute %s"
 msgstr "Teckenlöst heltal ”%s” är utanför intervallet för attributet %s"
 
-#: ../plugins/excel/xlsx-read.c:547
+#: ../plugins/excel/xlsx-read.c:550
 #, c-format
 msgid "Invalid unsigned integer '%s' for attribute %s"
 msgstr "Ogiltigt teckenlöst heltal ”%s” för attributet %s"
 
-#: ../plugins/excel/xlsx-read.c:603
+#: ../plugins/excel/xlsx-read.c:606
 #, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
 msgstr "Ogiltigt RRGGBB-färg ”%s” för attributet %s"
 
-#: ../plugins/excel/xlsx-read.c:634
+#: ../plugins/excel/xlsx-read.c:637
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Ogiltig siffra ”%s” för attributet %s"
 
-#: ../plugins/excel/xlsx-read.c:698
+#: ../plugins/excel/xlsx-read.c:701
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "Ogiltig cellposition ”%s” för attributet %s"
 
-#: ../plugins/excel/xlsx-read.c:721
+#: ../plugins/excel/xlsx-read.c:724
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Ogiltigt intervall ”%s” för attributet %s"
 
-#: ../plugins/excel/xlsx-read.c:795
+#: ../plugins/excel/xlsx-read.c:798
 #: ../plugins/openoffice/openoffice-read.c:1315
 #: ../plugins/openoffice/openoffice-read.c:1393
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Ogiltigt attribut ”%s”; okänd enhet %s"
 
-#: ../plugins/excel/xlsx-read.c:800 ../plugins/excel/xlsx-read.c:807
+#: ../plugins/excel/xlsx-read.c:803 ../plugins/excel/xlsx-read.c:810
 #: ../plugins/openoffice/openoffice-read.c:1320
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Ogiltigt attribut ”%s”, förväntade avstånd, fick ”%s”"
 
-#: ../plugins/excel/xlsx-read.c:1032
+#: ../plugins/excel/xlsx-read.c:1035
 #, c-format
 msgid "Unknown theme color %d"
 msgstr "Okänd temafärg %d"
 
-#: ../plugins/excel/xlsx-read.c:1178
+#: ../plugins/excel/xlsx-read.c:1181
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Odefinierat talformat-id ”%s”"
 
-#: ../plugins/excel/xlsx-read.c:1272 ../plugins/excel/xlsx-read.c:3377
+#: ../plugins/excel/xlsx-read.c:1281 ../plugins/excel/xlsx-read.c:3405
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Ogiltig färg ”%s” för attributet rgb"
 
-#: ../plugins/excel/xlsx-read.c:1302 ../plugins/excel/xlsx-read.c:1311
+#: ../plugins/excel/xlsx-read.c:1311 ../plugins/excel/xlsx-read.c:1320
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Odefinierad stilpost ”%d”"
 
-#: ../plugins/excel/xlsx-read.c:1320
+#: ../plugins/excel/xlsx-read.c:1329
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Odefinierad partiell stilpost ”%d”"
 
-#: ../plugins/excel/xlsx-read.c:1354
+#: ../plugins/excel/xlsx-read.c:1363
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Ogiltig sst-ref ”%s”"
 
-#: ../plugins/excel/xlsx-read.c:1521
+#: ../plugins/excel/xlsx-read.c:1530
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Ogiltig cell %s"
 
-#: ../plugins/excel/xlsx-read.c:1660
+#: ../plugins/excel/xlsx-read.c:1669
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Ignorerar kolumninformation som inte specificerar först eller sist."
 
-#: ../plugins/excel/xlsx-read.c:1797
+#: ../plugins/excel/xlsx-read.c:1806
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
 msgstr "Papper från XLSX-fil: %ipt⨉%ipt"
 
-#: ../plugins/excel/xlsx-read.c:1801
+#: ../plugins/excel/xlsx-read.c:1810
 #, c-format
 msgid "Paper from XLSX file, #%i"
 msgstr "Papper från XLSX-fil, #%i"
 
-#: ../plugins/excel/xlsx-read.c:2262
+#: ../plugins/excel/xlsx-read.c:2274
 #: ../plugins/openoffice/openoffice-read.c:2927
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorerar ogiltig datavalidering eftersom: %s"
 
-#: ../plugins/excel/xlsx-read.c:2784
+#: ../plugins/excel/xlsx-read.c:2808
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorerar ohanterat villkorat format av typen ”%s”"
 
-#: ../plugins/excel/xlsx-read.c:3194
+#: ../plugins/excel/xlsx-read.c:3221
 msgid "Unknown type of hyperlink"
 msgstr "Okänd länktyp"
 
-#: ../plugins/excel/xlsx-read.c:3237
+#: ../plugins/excel/xlsx-read.c:3264
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr "Påträffade otolkbar utökning ”ext” i namnrymden ”%s”"
 
-#: ../plugins/excel/xlsx-read.c:3246
+#: ../plugins/excel/xlsx-read.c:3273
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr "Påträffade otolkbar utökning ”ext” med saknad namnrymd"
 
-#: ../plugins/excel/xlsx-read.c:3708
+#: ../plugins/excel/xlsx-read.c:3744
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorerar ett blad utan ett namn"
 
-#: ../plugins/excel/xlsx-read.c:3792
+#: ../plugins/excel/xlsx-read.c:3828
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Misslyckades med att definiera namn: %s"
 
-#: ../plugins/excel/xlsx-read.c:3854
+#: ../plugins/excel/xlsx-read.c:3890
 msgid "Unable to resolve external relationship"
 msgstr "Det går inte att lösa extern relation"
 
-#: ../plugins/excel/xlsx-read.c:4048
+#: ../plugins/excel/xlsx-read.c:4084
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Saknar del-id för bladet ”%s”"
 
-#: ../plugins/excel/xlsx-read.c:4073
+#: ../plugins/excel/xlsx-read.c:4109
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Läser blad ”%s”…"
 
-#: ../plugins/excel/xlsx-read.c:4081
+#: ../plugins/excel/xlsx-read.c:4117
 msgid "Reading comments..."
 msgstr "Läser kommentarer…"
 
-#: ../plugins/excel/xlsx-read.c:5221
+#: ../plugins/excel/xlsx-read.c:5257
 msgid "Reading shared strings..."
 msgstr "Läser delade strängar…"
 
-#: ../plugins/excel/xlsx-read.c:5230
+#: ../plugins/excel/xlsx-read.c:5266
 msgid "Reading theme..."
 msgstr "Läser tema…"
 
-#: ../plugins/excel/xlsx-read.c:5239
+#: ../plugins/excel/xlsx-read.c:5275
 msgid "Reading styles..."
 msgstr "Läser stilar…"
 
-#: ../plugins/excel/xlsx-read.c:5244
+#: ../plugins/excel/xlsx-read.c:5280
 msgid "Reading workbook..."
 msgstr "Läser arbetsbok…"
 
-#: ../plugins/excel/xlsx-read.c:5254
+#: ../plugins/excel/xlsx-read.c:5290
 msgid "No workbook stream found."
 msgstr "Ingen arbetsbok funnen."
 
@@ -948,39 +948,39 @@ msgstr "Funktioner som manipulerar hebreiska datum"
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1374 ../plugins/fn-info/functions.c:1390
+#: ../plugins/fn-info/functions.c:1405 ../plugins/fn-info/functions.c:1421
 #: ../src/dialogs/workbook-attr.ui.h:8
 msgid "Unimplemented"
 msgstr "Inte implementerad"
 
-#: ../plugins/fn-info/functions.c:1398
+#: ../plugins/fn-info/functions.c:1429
 msgid "Unknown version"
 msgstr "Okänd version"
 
-#: ../plugins/fn-info/functions.c:1400
+#: ../plugins/fn-info/functions.c:1431
 #, c-format
 msgid "%s version %s"
 msgstr "%s version %s"
 
-#: ../plugins/fn-info/functions.c:1415 ../src/dialogs/dialog-cell-format.c:880
+#: ../plugins/fn-info/functions.c:1446 ../src/dialogs/dialog-cell-format.c:880
 #: ../src/dialogs/dialog-cell-format.c:2354
-#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3809
+#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3814
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: ../plugins/fn-info/functions.c:1415
+#: ../plugins/fn-info/functions.c:1446
 msgid "Manual"
 msgstr "Manuell"
 
-#: ../plugins/fn-info/functions.c:1425
+#: ../plugins/fn-info/functions.c:1456
 msgid "Unknown system"
 msgstr "Okänt system"
 
-#: ../plugins/fn-info/functions.c:1440
+#: ../plugins/fn-info/functions.c:1471
 msgid "Unknown info_type"
 msgstr "Okänd info_typ"
 
-#: ../plugins/fn-info/functions.c:1704
+#: ../plugins/fn-info/functions.c:1735
 msgid "Invalid number of arguments"
 msgstr "Ogiltigt antal argument"
 
@@ -2214,7 +2214,7 @@ msgstr ""
 msgid "Python"
 msgstr "Python"
 
-#: ../plugins/python-loader/gnm-py-interpreter.c:260
+#: ../plugins/python-loader/gnm-py-interpreter.c:262
 msgid "Default interpreter"
 msgstr "Standardtolk"
 
@@ -2247,25 +2247,25 @@ msgstr "E_xekvera i:"
 msgid "C_ommand:"
 msgstr "K_ommando:"
 
-#: ../plugins/python-loader/py-gnumeric.c:151
+#: ../plugins/python-loader/py-gnumeric.c:159
 msgid "Python list is not an array"
 msgstr "Python-listan är inte en vektor"
 
-#: ../plugins/python-loader/py-gnumeric.c:158
+#: ../plugins/python-loader/py-gnumeric.c:166
 #, c-format
 msgid "Unsupported Python type: %s"
 msgstr "Python-typen stöds inte: %s"
 
-#: ../plugins/python-loader/py-gnumeric.c:185
+#: ../plugins/python-loader/py-gnumeric.c:193
 msgid "Unknown error"
 msgstr "Okänt fel"
 
-#: ../plugins/python-loader/py-gnumeric.c:191
+#: ../plugins/python-loader/py-gnumeric.c:199
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "Python-undantag (%s: %s)"
 
-#: ../plugins/python-loader/py-gnumeric.c:195
+#: ../plugins/python-loader/py-gnumeric.c:203
 #, c-format
 msgid "Python exception (%s)"
 msgstr "Python-undantag (%s)"
@@ -2302,38 +2302,38 @@ msgstr "Körning av modulen ”%s” misslyckades."
 msgid "Some name"
 msgstr "Något namn"
 
-#: ../plugins/python-loader/python-loader.c:346
-#: ../plugins/python-loader/python-loader.c:443
-#: ../plugins/python-loader/python-loader.c:754
-#: ../plugins/python-loader/python-loader.c:869
+#: ../plugins/python-loader/python-loader.c:345
+#: ../plugins/python-loader/python-loader.c:442
+#: ../plugins/python-loader/python-loader.c:759
+#: ../plugins/python-loader/python-loader.c:874
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Python-filen ”%s” har ett ogiltigt format."
 
-#: ../plugins/python-loader/python-loader.c:350
-#: ../plugins/python-loader/python-loader.c:448
+#: ../plugins/python-loader/python-loader.c:349
+#: ../plugins/python-loader/python-loader.c:447
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Filen innehåller inte funktionen ”%s”."
 
-#: ../plugins/python-loader/python-loader.c:759
-#: ../plugins/python-loader/python-loader.c:874
+#: ../plugins/python-loader/python-loader.c:764
+#: ../plugins/python-loader/python-loader.c:879
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Filen innehåller inte ordboken ”%s”."
 
-#: ../plugins/python-loader/python-loader.c:764
-#: ../plugins/python-loader/python-loader.c:879
+#: ../plugins/python-loader/python-loader.c:769
+#: ../plugins/python-loader/python-loader.c:884
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objektet ”%s” är inte en ordbok."
 
-#: ../plugins/python-loader/python-loader.c:817 ../src/gnm-plugin.c:859
+#: ../plugins/python-loader/python-loader.c:822 ../src/gnm-plugin.c:859
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Okänd åtgärd: %s"
 
-#: ../plugins/python-loader/python-loader.c:822
+#: ../plugins/python-loader/python-loader.c:827
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "Inte en giltig funktion för åtgärden: %s"
@@ -2464,7 +2464,7 @@ msgstr "Saknar avslutande ”E”"
 #: ../src/dialogs/dialog-search.c:437 ../src/dialogs/dialog-stf-export.c:594
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
 #: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:572
-#: ../src/workbook.c:1068 ../src/workbook.c:1098
+#: ../src/workbook.c:1104 ../src/workbook.c:1134
 msgid "Sheet"
 msgstr "Blad"
 
@@ -3737,7 +3737,7 @@ msgstr ""
 "Detta är hela sökvägen till binären för glpsol som insticksmodulen för "
 "lpsolve ska använda."
 
-#: ../src/application.c:303
+#: ../src/application.c:304
 msgid "Cut Object"
 msgstr "Klipp ut objekt"
 
@@ -3848,44 +3848,44 @@ msgstr "%s är låst. Ta bort skyddet på arbetsboken för att tillåta redigeri
 msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr "%s är låst. Ta bort skyddet på bladet för att tillåta redigering."
 
-#: ../src/commands.c:898
+#: ../src/commands.c:895
 #, c-format
 msgid "Inserting expression in %s"
 msgstr "Infogar uttryck i %s"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: ../src/commands.c:990
+#: ../src/commands.c:987
 #, c-format
 msgid "Editing style of %s"
 msgstr "Redigerar stil i %s"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: ../src/commands.c:993
+#: ../src/commands.c:990
 #, c-format
 msgid "Typing \"%s\" in %s"
 msgstr "Inmatning av ”%s” i %s"
 
-#: ../src/commands.c:1139 ../src/wbc-gtk-edit.c:161 ../src/wbc-gtk-edit.c:171
+#: ../src/commands.c:1136 ../src/wbc-gtk-edit.c:161 ../src/wbc-gtk-edit.c:171
 #: ../src/wbc-gtk-edit.c:187 ../src/wbc-gtk-edit.c:208
 #: ../src/wbc-gtk-edit.c:222
 msgid "Set Text"
 msgstr "Ställ in text"
 
-#: ../src/commands.c:1182
+#: ../src/commands.c:1179
 #, c-format
 msgid "Inserting array expression in %s"
 msgstr "Infogning av vektoruttryck i %s"
 
-#: ../src/commands.c:1234
+#: ../src/commands.c:1231
 #, c-format
 msgid "Creating a Data Table in %s"
 msgstr "Skapa en datatabell i %s"
 
-#: ../src/commands.c:1294
+#: ../src/commands.c:1291
 msgid "Ins/Del Column/Row"
 msgstr "Infoga/ta bort kolumn/rad"
 
-#: ../src/commands.c:1463
+#: ../src/commands.c:1460
 #, c-format
 msgid ""
 "Inserting %i column before column %s would push data off the sheet. Please "
@@ -3900,14 +3900,14 @@ msgstr[1] ""
 "Att infoga %i kolumner före kolumn %s skulle knuffa ut data utanför "
 "kalkylbladet. Förstora kalkylbladet först."
 
-#: ../src/commands.c:1473
+#: ../src/commands.c:1470
 #, c-format
 msgid "Inserting %d column before %s"
 msgid_plural "Inserting %d columns before %s"
 msgstr[0] "Infogar %d kolumn före %s"
 msgstr[1] "Infogar %d kolumner före %s"
 
-#: ../src/commands.c:1492
+#: ../src/commands.c:1489
 #, c-format
 msgid ""
 "Inserting %i row before row %s would push data off the sheet. Please enlarge "
@@ -3922,161 +3922,161 @@ msgstr[1] ""
 "Att infoga %i rader före rad %s skulle knuffa ut data utanför bladet. "
 "Förstora kalkylbladet först."
 
-#: ../src/commands.c:1502
+#: ../src/commands.c:1499
 #, c-format
 msgid "Inserting %d row before %s"
 msgid_plural "Inserting %d rows before %s"
 msgstr[0] "Infogar %d rad före %s"
 msgstr[1] "Infogar %d rader före %s"
 
-#: ../src/commands.c:1514
+#: ../src/commands.c:1511
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Borttagning av kolumnerna %s"
 
-#: ../src/commands.c:1515
+#: ../src/commands.c:1512
 #, c-format
 msgid "Deleting column %s"
 msgstr "Borttagning av kolumn %s"
 
-#: ../src/commands.c:1525
+#: ../src/commands.c:1522
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Borttagning av raderna %s"
 
-#: ../src/commands.c:1526
+#: ../src/commands.c:1523
 #, c-format
 msgid "Deleting row %s"
 msgstr "Borttagning av rad %s"
 
-#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5084
+#: ../src/commands.c:1586 ../src/commands.c:1587 ../src/sheet.c:5096
 msgid "Clear"
 msgstr "Töm"
 
-#: ../src/commands.c:1602
+#: ../src/commands.c:1599
 msgid "contents"
 msgstr "innehåll"
 
-#: ../src/commands.c:1604
+#: ../src/commands.c:1601
 msgid "formats"
 msgstr "format"
 
-#: ../src/commands.c:1606
+#: ../src/commands.c:1603
 msgid "comments"
 msgstr "kommentarer"
 
-#: ../src/commands.c:1621
+#: ../src/commands.c:1618
 msgid "all"
 msgstr "alla"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: ../src/commands.c:1627
+#: ../src/commands.c:1624
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Tömmande av %s i %s"
 
-#: ../src/commands.c:1747
+#: ../src/commands.c:1744
 msgid "Changing Format"
 msgstr "Byter format"
 
-#: ../src/commands.c:1882
+#: ../src/commands.c:1879
 #, c-format
 msgid "Changing format of %s"
 msgstr "Byter format på %s"
 
-#: ../src/commands.c:1969
+#: ../src/commands.c:1966
 #, c-format
 msgid "Setting Font Style of %s"
 msgstr "Sättande typsnittsstilen för %s"
 
-#: ../src/commands.c:2021
+#: ../src/commands.c:2018
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Autopassar kolumn %s"
 
-#: ../src/commands.c:2022
+#: ../src/commands.c:2019
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Autopassar rad %s"
 
-#: ../src/commands.c:2025
+#: ../src/commands.c:2022
 #, c-format
 msgid "Setting width of column %s to %d pixel"
 msgid_plural "Setting width of column %s to %d pixels"
 msgstr[0] "Ställer in bredden på kolumn %s till %d bildpunkt"
 msgstr[1] "Ställer in bredden på kolumn %s till %d bildpunkter"
 
-#: ../src/commands.c:2029
+#: ../src/commands.c:2026
 #, c-format
 msgid "Setting height of row %s to %d pixel"
 msgid_plural "Setting height of row %s to %d pixels"
 msgstr[0] "Ställer in höjd på rad %s till %d bildpunkt"
 msgstr[1] "Ställer in höjd på rad %s till %d bildpunkter"
 
-#: ../src/commands.c:2034
+#: ../src/commands.c:2031
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Ställer in bredden på kolumn %s till standardbredd"
 
-#: ../src/commands.c:2037
+#: ../src/commands.c:2034
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Ställer in höjd på rad %s till standardhöjd"
 
-#: ../src/commands.c:2041
+#: ../src/commands.c:2038
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Autopassar kolumner %s"
 
-#: ../src/commands.c:2042
+#: ../src/commands.c:2039
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Autopassar rader %s"
 
-#: ../src/commands.c:2045
+#: ../src/commands.c:2042
 #, c-format
 msgid "Setting width of columns %s to %d pixel"
 msgid_plural "Setting width of columns %s to %d pixels"
 msgstr[0] "Ställer in bredd på kolumner %s till %d bildpunkt"
 msgstr[1] "Ställer in bredd på kolumner %s till %d bildpunkter"
 
-#: ../src/commands.c:2049
+#: ../src/commands.c:2046
 #, c-format
 msgid "Setting height of rows %s to %d pixel"
 msgid_plural "Setting height of rows %s to %d pixels"
 msgstr[0] "Ställer in höjd på rader %s till %d bildpunkt"
 msgstr[1] "Ställer in höjd på rader %s till %d bildpunkter"
 
-#: ../src/commands.c:2055
+#: ../src/commands.c:2052
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Ställer in bredd på kolumner %s till standardbredden"
 
-#: ../src/commands.c:2057
+#: ../src/commands.c:2054
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Ställer in höjd på rader %s till standardhöjden"
 
-#: ../src/commands.c:2084
+#: ../src/commands.c:2081
 #, c-format
 msgid "Autofitting width of %s"
 msgstr "Anpassar automatiskt bredden för %s"
 
-#: ../src/commands.c:2084
+#: ../src/commands.c:2081
 #, c-format
 msgid "Autofitting height of %s"
 msgstr "Anpassar automatiskt höjden för %s"
 
-#: ../src/commands.c:2158 ../src/dialogs/dialog-preferences.c:1224
+#: ../src/commands.c:2155 ../src/dialogs/dialog-preferences.c:1224
 msgid "Sorting"
 msgstr "Sortering"
 
-#: ../src/commands.c:2181
+#: ../src/commands.c:2178
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorterar %s"
 
-#: ../src/commands.c:2343
+#: ../src/commands.c:2340
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
@@ -4084,7 +4084,7 @@ msgstr ""
 "Är du säker på att du vill dölja alla kolumner? Om du väljer detta kan du "
 "göra dem synliga igen med menyvalet ”Formatera→Kolumn→Visa”."
 
-#: ../src/commands.c:2347
+#: ../src/commands.c:2344
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
@@ -4092,94 +4092,94 @@ msgstr ""
 "Är du säker på att du vill dölja alla rader? Om du väljer detta kan du göra "
 "dem synliga igen genom menyvalet ”Formatera→Rad→Visa”."
 
-#: ../src/commands.c:2367
+#: ../src/commands.c:2364
 msgid "Unhide columns"
 msgstr "Visa kolumner"
 
-#: ../src/commands.c:2367
+#: ../src/commands.c:2364
 msgid "Hide columns"
 msgstr "Dölj kolumner"
 
-#: ../src/commands.c:2368
+#: ../src/commands.c:2365
 msgid "Unhide rows"
 msgstr "Visa rader"
 
-#: ../src/commands.c:2368
+#: ../src/commands.c:2365
 msgid "Hide rows"
 msgstr "Dölj rader"
 
-#: ../src/commands.c:2448
+#: ../src/commands.c:2445
 msgid "Expand columns"
 msgstr "Fäll ut kolumner"
 
-#: ../src/commands.c:2448
+#: ../src/commands.c:2445
 msgid "Collapse columns"
 msgstr "Fäll ihop kolumner"
 
-#: ../src/commands.c:2449
+#: ../src/commands.c:2446
 msgid "Expand rows"
 msgstr "Fäll ut rader"
 
-#: ../src/commands.c:2449
+#: ../src/commands.c:2446
 msgid "Collapse rows"
 msgstr "Fäll ihop rader"
 
-#: ../src/commands.c:2473
+#: ../src/commands.c:2470
 #, c-format
 msgid "Show column outline %d"
 msgstr "Visa kolumnutdrag %d"
 
-#: ../src/commands.c:2473
+#: ../src/commands.c:2470
 #, c-format
 msgid "Show row outline %d"
 msgstr "Visa radutdrag %d"
 
-#: ../src/commands.c:2542
+#: ../src/commands.c:2539
 msgid "Those columns are already grouped"
 msgstr "Dessa kolumner är redan grupperade"
 
-#: ../src/commands.c:2543
+#: ../src/commands.c:2540
 msgid "Those rows are already grouped"
 msgstr "Dessa rader är redan grupperade"
 
-#: ../src/commands.c:2566
+#: ../src/commands.c:2563
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "De kolumnerna är inte grupperade, du kan inte avgruppera dem"
 
-#: ../src/commands.c:2567
+#: ../src/commands.c:2564
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "De raderna är inte grupperade, du kan inte avgruppera dem"
 
-#: ../src/commands.c:2580
+#: ../src/commands.c:2577
 #, c-format
 msgid "Group columns %s"
 msgstr "Gruppera kolumner %s"
 
-#: ../src/commands.c:2580
+#: ../src/commands.c:2577
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Avgruppera kolumner %s"
 
-#: ../src/commands.c:2582
+#: ../src/commands.c:2579
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Gruppera rader %d:%d"
 
-#: ../src/commands.c:2582
+#: ../src/commands.c:2579
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Avgruppera rader %d:%d"
 
-#: ../src/commands.c:2811
+#: ../src/commands.c:2808
 #, c-format
 msgid "Moving %s"
 msgstr "Flyttar %s"
 
-#: ../src/commands.c:2821 ../src/commands.c:3226
+#: ../src/commands.c:2818 ../src/commands.c:3223
 msgid "is beyond sheet boundaries"
 msgstr "är utanför bladets gränser"
 
-#: ../src/commands.c:2879
+#: ../src/commands.c:2876
 #, c-format
 msgid ""
 "Copying between files with different date conventions.\n"
@@ -4190,77 +4190,77 @@ msgstr ""
 "Det är möjligt att vissa datum kan kopieras\n"
 "felaktigt."
 
-#: ../src/commands.c:2909
+#: ../src/commands.c:2906
 msgid "Paste Copy"
 msgstr "Klistra in kopia"
 
-#: ../src/commands.c:3121
+#: ../src/commands.c:3118
 #, c-format
 msgid "Pasting into %s"
 msgstr "Klistrar in i %s"
 
-#: ../src/commands.c:3212
+#: ../src/commands.c:3209
 #, c-format
 msgid "Do you really want to paste %s copies?"
 msgstr "Vill du klistra in %s kopior?"
 
 #. Check arrays or merged regions in src or target regions
-#: ../src/commands.c:3269 ../src/commands.c:3425 ../src/commands.c:3426
+#: ../src/commands.c:3266 ../src/commands.c:3422 ../src/commands.c:3423
 #: ../src/item-cursor.c:1024 ../src/wbc-gtk-actions.c:580
 msgid "Autofill"
 msgstr "Autofyll"
 
 #. Changed in initial redo.
-#: ../src/commands.c:3448
+#: ../src/commands.c:3445
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofyllning av %s"
 
-#: ../src/commands.c:3748
+#: ../src/commands.c:3745
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatering av %s"
 
-#: ../src/commands.c:3866
+#: ../src/commands.c:3863
 #, c-format
 msgid "Unmerging %s"
 msgstr "Splittring av %s"
 
-#: ../src/commands.c:4035
+#: ../src/commands.c:4032
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Sammanfoga och centrera %s"
 
-#: ../src/commands.c:4035
+#: ../src/commands.c:4032
 #, c-format
 msgid "Merging %s"
 msgstr "Sammanfogning av %s"
 
 #. Corrected below.
-#: ../src/commands.c:4403 ../src/dialogs/search-replace.ui.h:5
+#: ../src/commands.c:4400 ../src/dialogs/search-replace.ui.h:5
 msgid "Search and Replace"
 msgstr "Sök och ersätt"
 
-#: ../src/commands.c:4496
+#: ../src/commands.c:4493
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Inställning av standardbredd på kolumner till %.2f punkter"
 
-#: ../src/commands.c:4497
+#: ../src/commands.c:4494
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Inställning av standardhöjd på rader till %.2f punkter"
 
-#: ../src/commands.c:4609
+#: ../src/commands.c:4606
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Inzoomning av %s till %.0f%%"
 
-#: ../src/commands.c:4712
+#: ../src/commands.c:4709
 msgid "Delete Object"
 msgstr "Ta bort objekt"
 
-#: ../src/commands.c:4854 ../src/commands.c:5925
+#: ../src/commands.c:4851 ../src/commands.c:5922
 #: ../src/dialogs/dialog-doc-metadata.c:1864
 #: ../src/dialogs/dialog-formula-guru.c:891
 #: ../src/dialogs/dialog-function-select.c:1279
@@ -4269,240 +4269,240 @@ msgstr "Ta bort objekt"
 msgid "Name"
 msgstr "Namn"
 
-#: ../src/commands.c:4854
+#: ../src/commands.c:4851
 msgid "Sheet names must be non-empty."
 msgstr "Bladnamnen får inte vara tomma."
 
-#: ../src/commands.c:4861
+#: ../src/commands.c:4858
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "En arbetsbok kan inte ha två kalkylblad med samma namn."
 
-#: ../src/commands.c:4959
+#: ../src/commands.c:4956
 msgid "Resizing sheet"
 msgstr "Byter storlek på blad"
 
-#: ../src/commands.c:5112
+#: ../src/commands.c:5109
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Tömning av kommentar för %s"
 
-#: ../src/commands.c:5113
+#: ../src/commands.c:5110
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Sättande av kommentar till %s"
 
-#: ../src/commands.c:5550
+#: ../src/commands.c:5547
 #, c-format
 msgid "Merging data into %s"
 msgstr "Sammanfogning av data i %s"
 
-#: ../src/commands.c:5648
+#: ../src/commands.c:5645
 #, c-format
 msgid "Changing workbook properties"
 msgstr "Ändrar arbetsbokegenskaper"
 
-#: ../src/commands.c:5722
+#: ../src/commands.c:5719
 msgid "Pull Object to the Front"
 msgstr "Flytta objektet överst"
 
-#: ../src/commands.c:5725
+#: ../src/commands.c:5722
 msgid "Pull Object Forward"
 msgstr "Flytta objektet framåt"
 
-#: ../src/commands.c:5728
+#: ../src/commands.c:5725
 msgid "Push Object Backward"
 msgstr "Flytta objektet bakåt"
 
-#: ../src/commands.c:5731
+#: ../src/commands.c:5728
 msgid "Push Object to the Back"
 msgstr "Flytta objektet underst"
 
-#: ../src/commands.c:5861
+#: ../src/commands.c:5858
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Sidegenskaper för %s"
 
-#: ../src/commands.c:5863
+#: ../src/commands.c:5860
 msgid "Page Setup For All Sheets"
 msgstr "Sidegenskaper för alla blad"
 
-#: ../src/commands.c:5987 ../src/commands.c:5998
+#: ../src/commands.c:5984 ../src/commands.c:5995
 msgid "Defined Name"
 msgstr "Definierat namn"
 
-#: ../src/commands.c:5988
+#: ../src/commands.c:5985
 msgid "An empty string is not allowed as defined name."
 msgstr "En tom sträng är inte tillåten som ett definierat namn."
 
-#: ../src/commands.c:5996
+#: ../src/commands.c:5993
 #, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr "”%s” är inte tillåtet som ett definierat namn."
 
-#: ../src/commands.c:6006
+#: ../src/commands.c:6003
 msgid "has a circular reference"
 msgstr "har en cirkelreferens"
 
-#: ../src/commands.c:6040
+#: ../src/commands.c:6037
 #, c-format
 msgid "Define Name %s"
 msgstr "Definiera namn %s"
 
-#: ../src/commands.c:6043
+#: ../src/commands.c:6040
 #, c-format
 msgid "Update Name %s"
 msgstr "Uppdatera namn %s"
 
-#: ../src/commands.c:6136
+#: ../src/commands.c:6133
 #, c-format
 msgid "Remove Name %s"
 msgstr "Ta bort namnet %s"
 
-#: ../src/commands.c:6167
+#: ../src/commands.c:6164
 msgid "Change Scope of Name"
 msgstr "Ändra namnomfång"
 
-#: ../src/commands.c:6216
+#: ../src/commands.c:6213
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr "Ändra namnomfång %s"
 
-#: ../src/commands.c:6282
+#: ../src/commands.c:6279
 msgid "Add scenario"
 msgstr "Lägg till scenario"
 
-#: ../src/commands.c:6346
+#: ../src/commands.c:6343
 msgid "Scenario Show"
 msgstr "Scenarievisning"
 
-#: ../src/commands.c:6404
+#: ../src/commands.c:6401
 msgid "Shuffle Data"
 msgstr "Blanda data"
 
 #. FIXME?
-#: ../src/commands.c:6508
+#: ../src/commands.c:6505
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) till kolumner (%s)"
 
-#: ../src/commands.c:6666
+#: ../src/commands.c:6663
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Målsök (%s)"
 
-#: ../src/commands.c:6832
+#: ../src/commands.c:6829
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Tabulerar beroenden"
 
-#: ../src/commands.c:6906
+#: ../src/commands.c:6903
 msgid "Reconfigure Graph"
 msgstr "Konfigurera om graf"
 
-#: ../src/commands.c:6976
+#: ../src/commands.c:6973
 msgid "Reconfigure Object"
 msgstr "Konfigurera om objekt"
 
-#: ../src/commands.c:7020
+#: ../src/commands.c:7017
 msgid "Left to Right"
 msgstr "Vänster till höger"
 
-#: ../src/commands.c:7020
+#: ../src/commands.c:7017
 msgid "Right to Left"
 msgstr "Höger till vänster"
 
-#: ../src/commands.c:7182
+#: ../src/commands.c:7179
 msgid "Changing Hyperlink"
 msgstr "Ändra länk"
 
-#: ../src/commands.c:7266
+#: ../src/commands.c:7263
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Byter länk för %s"
 
-#: ../src/commands.c:7351
+#: ../src/commands.c:7348
 msgid "Configure List"
 msgstr "Konfigurera list"
 
-#: ../src/commands.c:7422
+#: ../src/commands.c:7419
 msgid "Set Frame Label"
 msgstr "Ange rametikett"
 
-#: ../src/commands.c:7493
+#: ../src/commands.c:7490
 msgid "Configure Button"
 msgstr "Konfigurera knapp"
 
-#: ../src/commands.c:7574
+#: ../src/commands.c:7571
 msgid "Configure Radio Button"
 msgstr "Konfigurera radioknapp"
 
-#: ../src/commands.c:7650
+#: ../src/commands.c:7647
 msgid "Configure Checkbox"
 msgstr "Konfigurera kryssruta"
 
-#: ../src/commands.c:7757 ../src/sheet-object-widget.c:1774
+#: ../src/commands.c:7754 ../src/sheet-object-widget.c:1774
 msgid "Configure Adjustment"
 msgstr "Konfigurera justering"
 
-#: ../src/commands.c:7788
+#: ../src/commands.c:7785
 msgid "Add Filter"
 msgstr "Lägg till filter"
 
-#: ../src/commands.c:7804 ../src/wbc-gtk.c:1632
+#: ../src/commands.c:7801 ../src/wbc-gtk.c:1632
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Autofilter blockerat av %s"
 
-#: ../src/commands.c:7809 ../src/commands.c:7836 ../src/commands.c:7845
+#: ../src/commands.c:7806 ../src/commands.c:7833 ../src/commands.c:7842
 msgid "AutoFilter"
 msgstr "Autofilter"
 
-#: ../src/commands.c:7837
+#: ../src/commands.c:7834
 msgid "Requires more than 1 row"
 msgstr "Kräver mer än en rad"
 
-#: ../src/commands.c:7846
+#: ../src/commands.c:7843
 msgid "Unable to create Autofilter"
 msgstr "Det går inte att skapa autofilter"
 
-#: ../src/commands.c:7868
+#: ../src/commands.c:7865
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr "Lägg till autofilter till %s"
 
-#: ../src/commands.c:7869
+#: ../src/commands.c:7866
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Utöka autofilter för %s"
 
-#: ../src/commands.c:7882
+#: ../src/commands.c:7879
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Ta bort autofilter från %s"
 
-#: ../src/commands.c:7912
+#: ../src/commands.c:7909
 #, c-format
 msgid "Change filter condition for %s"
 msgstr "Ändra filtervillkor för %s"
 
-#: ../src/commands.c:7981 ../src/wbc-gtk-actions.c:2397
+#: ../src/commands.c:7978 ../src/wbc-gtk-actions.c:2397
 msgid "Clear All Page Breaks"
 msgstr "Töm alla sidbrytningar"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1567
+#: ../src/commands.c:8005 ../src/wbc-gtk.c:1567
 msgid "Remove Column Page Break"
 msgstr "Ta bort kolumnsidbrytning"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1577
+#: ../src/commands.c:8005 ../src/wbc-gtk.c:1577
 msgid "Remove Row Page Break"
 msgstr "Ta bort radsidbrytning"
 
-#: ../src/commands.c:8011 ../src/wbc-gtk.c:1570
+#: ../src/commands.c:8008 ../src/wbc-gtk.c:1570
 msgid "Add Column Page Break"
 msgstr "Lägg till kolumnsidbrytning"
 
-#: ../src/commands.c:8011 ../src/wbc-gtk.c:1580
+#: ../src/commands.c:8008 ../src/wbc-gtk.c:1580
 msgid "Add Row Page Break"
 msgstr "Lägg till radsidbrytning"
 
@@ -5726,13 +5726,13 @@ msgstr "Formatera celler"
 msgid "Border"
 msgstr "Kant"
 
-#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3855
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3860
 msgid "Clear Background"
 msgstr "Töm bakgrund"
 
 #: ../src/dialogs/dialog-cell-format.c:2358
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:90
-#: ../src/wbc-gtk-actions.c:3857 ../src/wbc-gtk-actions.c:3858
+#: ../src/wbc-gtk-actions.c:3862 ../src/wbc-gtk-actions.c:3863
 msgid "Background"
 msgstr "Bakgrund"
 
@@ -6041,14 +6041,14 @@ msgstr "Filter"
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2352
-#: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2896
+#: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2870
 msgid "Row"
 msgstr "Rad"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2344
-#: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2897
+#: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2871
 msgid "Column"
 msgstr "Kolumn"
 
@@ -6616,7 +6616,7 @@ msgstr "Autokorrigera"
 #: ../src/dialogs/dialog-preferences.c:1215
 #: ../src/dialogs/dialog-sheet-compare.c:206
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
-#: ../src/widgets/gnm-fontbutton.c:1198
+#: ../src/wbc-gtk-actions.c:4405 ../src/widgets/gnm-fontbutton.c:1198
 msgid "Font"
 msgstr "Typsnitt"
 
@@ -6628,7 +6628,7 @@ msgstr "Filer"
 msgid "Tools"
 msgstr "Verktyg"
 
-#: ../src/dialogs/dialog-preferences.c:1218
+#: ../src/dialogs/dialog-preferences.c:1218 ../src/wbc-gtk-actions.c:4090
 msgid "Undo"
 msgstr "Ångra"
 
@@ -7192,22 +7192,22 @@ msgid "Font color"
 msgstr "Typsnittsfärg"
 
 #. ALSO "<control>2"
-#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3640
+#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3644
 #: ../src/widgets/gnm-text-view.c:329
 msgid "Bold"
 msgstr "Fetstil"
 
 #. ALSO "<control>3"
-#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3648
+#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3652
 msgid "Italic"
 msgstr "Kursiv"
 
 #. ALSO "<control>4"
-#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3656
+#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3660
 msgid "Underline"
 msgstr "Understrykning"
 
-#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3685
+#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3689
 msgid "Strikethrough"
 msgstr "Genomstrykning"
 
@@ -7321,12 +7321,12 @@ msgstr "Allmänt"
 
 #. start sub menu
 #: ../src/dialogs/dialog-sheet-compare.c:378 ../src/dialogs/cell-format.ui.h:42
-#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3870
+#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3875
 msgid "Left"
 msgstr "Vänster"
 
 #: ../src/dialogs/dialog-sheet-compare.c:379 ../src/dialogs/cell-format.ui.h:43
-#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3872
+#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3877
 msgid "Right"
 msgstr "Höger"
 
@@ -7340,7 +7340,7 @@ msgid "Fill"
 msgstr "Fyll"
 
 #: ../src/dialogs/dialog-sheet-compare.c:382
-#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3724
+#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3728
 msgid "Justify"
 msgstr "Justera"
 
@@ -7349,7 +7349,7 @@ msgid "Center across selection"
 msgstr "Centrera över markering"
 
 #: ../src/dialogs/dialog-sheet-compare.c:384
-#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3713
+#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3717
 msgid "Distributed"
 msgstr "Distribuerad"
 
@@ -7360,7 +7360,7 @@ msgstr "Överkant"
 
 #: ../src/dialogs/dialog-sheet-compare.c:394
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:44
-#: ../src/wbc-gtk-actions.c:3878
+#: ../src/wbc-gtk-actions.c:3883
 msgid "Bottom"
 msgstr "Underkant"
 
@@ -7540,16 +7540,16 @@ msgid "Run on"
 msgstr "Kör på"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:245
-#: ../src/wbc-gtk.c:4015
+#: ../src/wbc-gtk.c:4058
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4017
+#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4060
 msgid "Average"
 msgstr "Medelvärde"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4016
+#: ../src/wbc-gtk.c:4059
 msgid "Max"
 msgstr "Max"
 
@@ -7773,7 +7773,7 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:791
 #: ../src/tools/analysis-exp-smoothing.c:1116
 #: ../src/tools/analysis-frequency.c:147 ../src/tools/analysis-histogram.c:323
-#: ../src/tools/analysis-tools.c:1227 ../src/tools/analysis-tools.c:3756
+#: ../src/tools/analysis-tools.c:1201 ../src/tools/analysis-tools.c:3730
 #, c-format
 msgid "Column %d"
 msgstr "Kolumn %d"
@@ -8858,13 +8858,13 @@ msgstr "VAR"
 msgid "VARP"
 msgstr "VARP"
 
-#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:699
-#: ../src/tools/analysis-tools.c:702
+#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:673
+#: ../src/tools/analysis-tools.c:676
 msgid "Correlation"
 msgstr "Korrelation"
 
-#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:754
-#: ../src/tools/analysis-tools.c:757 ../src/wbc-gtk-actions.c:2953
+#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:728
+#: ../src/tools/analysis-tools.c:731 ../src/wbc-gtk-actions.c:2953
 msgid "Covariance"
 msgstr "Kovarians"
 
@@ -8976,8 +8976,8 @@ msgstr "Ta bort _rad(er)"
 msgid "Delete _column(s)"
 msgstr "Ta bort _kolumn(er)"
 
-#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1144
-#: ../src/tools/analysis-tools.c:1147
+#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1118
+#: ../src/tools/analysis-tools.c:1121
 msgid "Descriptive Statistics"
 msgstr "Deskriptiv statistik"
 
@@ -9436,8 +9436,8 @@ msgstr "Plocka bort:"
 msgid "Source Locale:"
 msgstr "Källområde:"
 
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4135
-#: ../src/wbc-gtk-actions.c:4154
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4145
+#: ../src/wbc-gtk-actions.c:4165
 msgid "Zoom"
 msgstr "Zooma"
 
@@ -10311,8 +10311,8 @@ msgstr "_Sammanfoga"
 msgid "Merge _Range:"
 msgstr "Sammanslagnings_intervall:"
 
-#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:4002
-#: ../src/tools/analysis-tools.c:4005
+#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3976
+#: ../src/tools/analysis-tools.c:3979
 msgid "Moving Average"
 msgstr "Glidande medelvärde"
 
@@ -10940,8 +10940,8 @@ msgstr "Öppna dokument"
 msgid "Last Used"
 msgstr "Senast använda"
 
-#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3609
-#: ../src/tools/analysis-tools.c:3612
+#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3583
+#: ../src/tools/analysis-tools.c:3586
 msgid "Regression"
 msgstr "Regression"
 
@@ -11555,13 +11555,13 @@ msgstr "Nytt namn:"
 msgid "Resize Sheet"
 msgstr "Ändra storlek på bladet"
 
-#. Number of 'Columns' in sheet
+#. Number of
 #: ../src/dialogs/sheet-resize.ui.h:3
 msgctxt "sheetsize"
 msgid "Columns"
 msgstr "Kolumner"
 
-#. Number of 'Rows' in sheet
+#. Number of
 #: ../src/dialogs/sheet-resize.ui.h:5
 msgctxt "sheetsize"
 msgid "Rows"
@@ -13498,7 +13498,7 @@ msgid "Cut"
 msgstr "Klipp ut"
 
 #. Oh, yeah?
-#: ../src/sheet.c:898
+#: ../src/sheet.c:910
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13510,47 +13510,47 @@ msgstr ""
 "med namn TRUE kan krocka med konstanten med samma namn. Förvänta\n"
 "dig egendomligheter."
 
-#: ../src/sheet.c:958
+#: ../src/sheet.c:970
 msgid "Display Zeros"
 msgstr "Visa nollor"
 
-#: ../src/sheet.c:959
+#: ../src/sheet.c:971
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Bestämmer om nollor ska visas eller visa blankt."
 
-#: ../src/sheet.c:964
+#: ../src/sheet.c:976
 msgid "Display Grid"
 msgstr "Visa rutnät"
 
-#: ../src/sheet.c:965
+#: ../src/sheet.c:977
 msgid "Control whether the grid is shown."
 msgstr "Bestämmer om rutnätet ska visas."
 
-#: ../src/sheet.c:3790
+#: ../src/sheet.c:3802
 msgid "Target region contains merged cells"
 msgstr "Målregionen innehåller sammanfogade celler"
 
-#: ../src/sheet.c:3856
+#: ../src/sheet.c:3868
 msgid "cannot operate on merged cells"
 msgstr "kan inte operera på sammanfogade celler"
 
-#: ../src/sheet.c:3869
+#: ../src/sheet.c:3881
 msgid "cannot operate on array formulæ"
 msgstr "kan inte operera på vektorformler"
 
-#: ../src/sheet.c:5508
+#: ../src/sheet.c:5520
 msgid "Insert Columns"
 msgstr "Infoga kolumner"
 
-#: ../src/sheet.c:5526
+#: ../src/sheet.c:5538
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: ../src/sheet.c:5544
+#: ../src/sheet.c:5556
 msgid "Insert Rows"
 msgstr "Infoga rader"
 
-#: ../src/sheet.c:5562
+#: ../src/sheet.c:5574
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
@@ -14161,7 +14161,7 @@ msgid "/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Variationskälla/Rader/Kolumner/Fel/Total"
 
 #: ../src/tools/analysis-anova.c:248 ../src/tools/analysis-anova.c:607
-#: ../src/tools/analysis-tools.c:4277
+#: ../src/tools/analysis-tools.c:4251
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-värde/F-kritisk"
 
@@ -14275,7 +14275,7 @@ msgstr "\"α =\" * 0.000"
 #: ../src/tools/analysis-exp-smoothing.c:791
 #: ../src/tools/analysis-exp-smoothing.c:1116
 #: ../src/tools/analysis-frequency.c:144 ../src/tools/analysis-histogram.c:320
-#: ../src/tools/analysis-tools.c:1224 ../src/tools/analysis-tools.c:3753
+#: ../src/tools/analysis-tools.c:1198 ../src/tools/analysis-tools.c:3727
 #, c-format
 msgid "Row %d"
 msgstr "Rad %d"
@@ -14285,7 +14285,7 @@ msgstr "Rad %d"
 #: ../src/tools/analysis-exp-smoothing.c:610
 #: ../src/tools/analysis-exp-smoothing.c:932
 #: ../src/tools/analysis-exp-smoothing.c:1299
-#: ../src/tools/analysis-kaplan-meier.c:212 ../src/tools/analysis-tools.c:3928
+#: ../src/tools/analysis-kaplan-meier.c:212 ../src/tools/analysis-tools.c:3902
 msgid "Standard Error"
 msgstr "Standardfel"
 
@@ -14350,7 +14350,7 @@ msgid "/Frequency Table/Category"
 msgstr "/Frekvenstabell/Kategori"
 
 #: ../src/tools/analysis-frequency.c:150 ../src/tools/analysis-histogram.c:326
-#: ../src/tools/analysis-tools.c:1230
+#: ../src/tools/analysis-tools.c:1204
 #, c-format
 msgid "Area %d"
 msgstr "Område %d"
@@ -14541,7 +14541,7 @@ msgstr ""
 "\"Principalkomponentanalys\";[Red]\"Principalkomponentanalys är ogiltig.\""
 
 #: ../src/tools/analysis-principal-components.c:103
-#: ../src/tools/analysis-tools.c:726
+#: ../src/tools/analysis-tools.c:700
 msgid "Covariances"
 msgstr "Kovarianser"
 
@@ -14626,16 +14626,16 @@ msgstr "Område %i"
 msgid "Variable %i"
 msgstr "Variabel %i"
 
-#: ../src/tools/analysis-tools.c:671
+#: ../src/tools/analysis-tools.c:645
 msgid "Correlations"
 msgstr "Korrelationer"
 
-#: ../src/tools/analysis-tools.c:683
+#: ../src/tools/analysis-tools.c:657
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Korrelation (%s)"
 
-#: ../src/tools/analysis-tools.c:738
+#: ../src/tools/analysis-tools.c:712
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Kovarians (%s)"
@@ -14647,7 +14647,7 @@ msgstr "Kovarians (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:840
+#: ../src/tools/analysis-tools.c:814
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -14655,36 +14655,36 @@ msgstr ""
 "/Medelvärde/Standardfel/Median/Typvärde/Standardavvikelse/Provvarians/"
 "Kurtosis/Skevhet/Intervall/Minimum/Maximum/Summa/Antal"
 
-#: ../src/tools/analysis-tools.c:974
+#: ../src/tools/analysis-tools.c:948
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% KI för medelvärdet från/till"
 
-#: ../src/tools/analysis-tools.c:1105
+#: ../src/tools/analysis-tools.c:1079
 #, c-format
 msgid "Largest (%d)"
 msgstr "Största (%d)"
 
-#: ../src/tools/analysis-tools.c:1112
+#: ../src/tools/analysis-tools.c:1086
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Minsta (%d)"
 
-#: ../src/tools/analysis-tools.c:1129
+#: ../src/tools/analysis-tools.c:1103
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Deskriptiv statistik (%s)"
 
-#: ../src/tools/analysis-tools.c:1327
+#: ../src/tools/analysis-tools.c:1301
 #, c-format
 msgid "Sampling (%s)"
 msgstr "Urval (%s)"
 
-#: ../src/tools/analysis-tools.c:1365 ../src/tools/analysis-tools.c:1368
+#: ../src/tools/analysis-tools.c:1339 ../src/tools/analysis-tools.c:1342
 msgid "Sample"
 msgstr "Urval"
 
-#: ../src/tools/analysis-tools.c:1409
+#: ../src/tools/analysis-tools.c:1383
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -14694,16 +14694,16 @@ msgstr ""
 "Observerad medelvärdesskillnad/z/P (Z<=z) ensvansad/z kritiskt ensvansad/P "
 "(Z<=z) tvåsvansad/z-kritiskt tvåsvansad"
 
-#: ../src/tools/analysis-tools.c:1596
+#: ../src/tools/analysis-tools.c:1570
 #, c-format
 msgid "z-Test (%s)"
 msgstr "z-Test (%s)"
 
-#: ../src/tools/analysis-tools.c:1606 ../src/tools/analysis-tools.c:1609
+#: ../src/tools/analysis-tools.c:1580 ../src/tools/analysis-tools.c:1583
 msgid "z-Test"
 msgstr "z-Test"
 
-#: ../src/tools/analysis-tools.c:1660
+#: ../src/tools/analysis-tools.c:1634
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
@@ -14714,18 +14714,18 @@ msgstr ""
 "t-stat/P (T<=t) ensvansad/t kritiskt ensvansad/P (T<=t) tvåsvansad/t "
 "kritiskt tvåsvansad"
 
-#: ../src/tools/analysis-tools.c:1888
+#: ../src/tools/analysis-tools.c:1862
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "t-test, parat (%s)"
 
-#: ../src/tools/analysis-tools.c:1898 ../src/tools/analysis-tools.c:1901
-#: ../src/tools/analysis-tools.c:2198 ../src/tools/analysis-tools.c:2201
-#: ../src/tools/analysis-tools.c:2491 ../src/tools/analysis-tools.c:2494
+#: ../src/tools/analysis-tools.c:1872 ../src/tools/analysis-tools.c:1875
+#: ../src/tools/analysis-tools.c:2172 ../src/tools/analysis-tools.c:2175
+#: ../src/tools/analysis-tools.c:2465 ../src/tools/analysis-tools.c:2468
 msgid "t-Test"
 msgstr "t-test"
 
-#: ../src/tools/analysis-tools.c:1939
+#: ../src/tools/analysis-tools.c:1913
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -14735,12 +14735,12 @@ msgstr ""
 "medelvärdesskillnad/Observerad medelvärdesskillnad/df/t-stat/P (T<=t) "
 "ensvansad/t kritiskt ensvansad/P (T<=t) tvåsvansad/t kritiskt tvåsvansad"
 
-#: ../src/tools/analysis-tools.c:2188 ../src/tools/analysis-tools.c:2481
+#: ../src/tools/analysis-tools.c:2162 ../src/tools/analysis-tools.c:2455
 #, c-format
 msgid "t-Test (%s)"
 msgstr "t-test (%s)"
 
-#: ../src/tools/analysis-tools.c:2236
+#: ../src/tools/analysis-tools.c:2210
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -14750,12 +14750,12 @@ msgstr ""
 "Observerad medelvärdesskillnad/df/t-stat/P (T<=t) ensvansad/t kritiskt "
 "ensvansad/P (T<=t) tvåsvansad/t kritiskt tvåsvansad"
 
-#: ../src/tools/analysis-tools.c:2530 ../src/tools/analysis-tools.c:2779
-#: ../src/tools/analysis-tools.c:2782
+#: ../src/tools/analysis-tools.c:2504 ../src/tools/analysis-tools.c:2753
+#: ../src/tools/analysis-tools.c:2756
 msgid "F-Test"
 msgstr "F-test"
 
-#: ../src/tools/analysis-tools.c:2531
+#: ../src/tools/analysis-tools.c:2505
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -14764,12 +14764,12 @@ msgstr ""
 "högersvansad/P (f<=F) vänstersvansad/F kritiskt vänstersvansad/P tvåsvansad/"
 "F kritiskt tvåsvansad"
 
-#: ../src/tools/analysis-tools.c:2769
+#: ../src/tools/analysis-tools.c:2743
 #, c-format
 msgid "F-Test (%s)"
 msgstr "F-test (%s)"
 
-#: ../src/tools/analysis-tools.c:2914
+#: ../src/tools/analysis-tools.c:2888
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -14778,29 +14778,29 @@ msgstr ""
 "Justerad R-kvadrat/Observationer//ANOVA//Regression/Residual/Total///"
 "Intercept"
 
-#: ../src/tools/analysis-tools.c:2933
+#: ../src/tools/analysis-tools.c:2907
 msgid "Response Variable"
 msgstr "Svarsvariabel"
 
-#: ../src/tools/analysis-tools.c:2967
+#: ../src/tools/analysis-tools.c:2941
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/F-signifikans"
 
-#: ../src/tools/analysis-tools.c:2974
+#: ../src/tools/analysis-tools.c:2948
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr "/Koefficienter/Standardfel/t-statistik/P-värde"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2980
+#: ../src/tools/analysis-tools.c:2954
 msgid "\"Lower\" 0%"
 msgstr "\"Nedre\" 0%"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2982
+#: ../src/tools/analysis-tools.c:2956
 msgid "\"Upper\" 0%"
 msgstr "\"Övre\" 0%"
 
-#: ../src/tools/analysis-tools.c:2991
+#: ../src/tools/analysis-tools.c:2965
 msgid ""
 "Probability of observing a t-statistic\n"
 "whose absolute value is at least as large\n"
@@ -14814,7 +14814,7 @@ msgstr ""
 "observerade t-statistikan, förutsatt att noll-\n"
 "hypotesen är sann."
 
-#: ../src/tools/analysis-tools.c:2998
+#: ../src/tools/analysis-tools.c:2972
 msgid ""
 "This value is not the square of R\n"
 "but the uncentered version of the\n"
@@ -14828,11 +14828,11 @@ msgstr ""
 "säga, proportionen av summan av\n"
 "kvadrater förklarat av modellen."
 
-#: ../src/tools/analysis-tools.c:3306
+#: ../src/tools/analysis-tools.c:3280
 msgid "Constant"
 msgstr "Konstant"
 
-#: ../src/tools/analysis-tools.c:3311
+#: ../src/tools/analysis-tools.c:3285
 msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
@@ -14840,104 +14840,104 @@ msgstr ""
 "/Prediktion//Residual/Hävstångsnivå/Internt studentiserad/Externt "
 "studentiserad/p-värde"
 
-#: ../src/tools/analysis-tools.c:3473
+#: ../src/tools/analysis-tools.c:3447
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr "/SAMMANFATTNINGSUTDATA//oberoende variabel//Observationer"
 
-#: ../src/tools/analysis-tools.c:3478
+#: ../src/tools/analysis-tools.c:3452
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr "/SAMMANFATTNINGSUTDATA//Responsvariabel//Observationer"
 
-#: ../src/tools/analysis-tools.c:3484
+#: ../src/tools/analysis-tools.c:3458
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Responsvariabel/R^2/lutning/Intercept/F/Signifikans för f"
 
-#: ../src/tools/analysis-tools.c:3490
+#: ../src/tools/analysis-tools.c:3464
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Oberoende variabel/R^2/Lutning/Intercept/F/Signifikans för F"
 
-#: ../src/tools/analysis-tools.c:3571
+#: ../src/tools/analysis-tools.c:3545
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regression (%s)"
 
-#: ../src/tools/analysis-tools.c:3989
+#: ../src/tools/analysis-tools.c:3963
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Glidande medelvärde (%s)"
 
-#: ../src/tools/analysis-tools.c:4047
+#: ../src/tools/analysis-tools.c:4021
 msgid "Ranks & Percentiles"
 msgstr "Ranger och percentiler"
 
-#: ../src/tools/analysis-tools.c:4058
+#: ../src/tools/analysis-tools.c:4032
 msgid "Point"
 msgstr "Punkt"
 
-#: ../src/tools/analysis-tools.c:4059
+#: ../src/tools/analysis-tools.c:4033
 msgid "Rank"
 msgstr "Rang"
 
-#: ../src/tools/analysis-tools.c:4060
+#: ../src/tools/analysis-tools.c:4034
 msgid "Percentile Rank"
 msgstr "Percentilsrang"
 
-#: ../src/tools/analysis-tools.c:4152
+#: ../src/tools/analysis-tools.c:4126
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Ranger (%s)"
 
-#: ../src/tools/analysis-tools.c:4164 ../src/tools/analysis-tools.c:4167
+#: ../src/tools/analysis-tools.c:4138 ../src/tools/analysis-tools.c:4141
 msgid "Ranks"
 msgstr "Ranger"
 
-#: ../src/tools/analysis-tools.c:4199
+#: ../src/tools/analysis-tools.c:4173
 msgid "Anova: Single Factor"
 msgstr "Anova: en faktor"
 
-#: ../src/tools/analysis-tools.c:4200 ../src/tools/simulation.c:334
+#: ../src/tools/analysis-tools.c:4174 ../src/tools/simulation.c:334
 msgid "SUMMARY"
 msgstr "SAMMANFATTNING"
 
-#: ../src/tools/analysis-tools.c:4203
+#: ../src/tools/analysis-tools.c:4177
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupper/Antal/Summa/Medelvärde/Varians"
 
-#: ../src/tools/analysis-tools.c:4271
+#: ../src/tools/analysis-tools.c:4245
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Variationskälla/Mellan grupper/Inom grupper/Total"
 
-#: ../src/tools/analysis-tools.c:4489
+#: ../src/tools/analysis-tools.c:4463
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Enkelfaktors-ANOVA (%s)"
 
-#: ../src/tools/analysis-tools.c:4500
+#: ../src/tools/analysis-tools.c:4474
 msgid "Anova"
 msgstr "Anova"
 
-#: ../src/tools/analysis-tools.c:4503
+#: ../src/tools/analysis-tools.c:4477
 msgid "Single Factor ANOVA"
 msgstr "Enkelfaktors-ANOVA"
 
-#: ../src/tools/analysis-tools.c:4535
+#: ../src/tools/analysis-tools.c:4509
 msgid "Inverse Fourier Transform"
 msgstr "Omvänd Fouriertransform"
 
-#: ../src/tools/analysis-tools.c:4536
+#: ../src/tools/analysis-tools.c:4510
 msgid "Fourier Transform"
 msgstr "Fouriertransformering"
 
-#: ../src/tools/analysis-tools.c:4544
+#: ../src/tools/analysis-tools.c:4518
 msgid "/Real/Imaginary"
 msgstr "/Reell/Imaginär"
 
-#: ../src/tools/analysis-tools.c:4592
+#: ../src/tools/analysis-tools.c:4566
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Fourierserier (%s)"
 
-#: ../src/tools/analysis-tools.c:4604 ../src/tools/analysis-tools.c:4607
+#: ../src/tools/analysis-tools.c:4578 ../src/tools/analysis-tools.c:4581
 msgid "Fourier Series"
 msgstr "Fourierserier"
 
@@ -15311,7 +15311,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Område"
 
-#: ../src/tools/simulation.c:255 ../src/wbc-gtk.c:4018
+#: ../src/tools/simulation.c:255 ../src/wbc-gtk.c:4061
 msgid "Count"
 msgstr "Antal"
 
@@ -15486,7 +15486,7 @@ msgstr "#NUM!"
 msgid "#N/A"
 msgstr "#-"
 
-#: ../src/wbc-gtk-actions.c:183 ../src/workbook-view.c:1275
+#: ../src/wbc-gtk-actions.c:183 ../src/workbook-view.c:1277
 msgid "Default file saver is not available."
 msgstr "Standardfilspararen är inte tillgänglig."
 
@@ -15794,7 +15794,7 @@ msgstr "_Celler"
 msgid "_Text"
 msgstr "_Text"
 
-#: ../src/wbc-gtk-actions.c:2136 ../src/wbc-gtk-actions.c:3654
+#: ../src/wbc-gtk-actions.c:2136 ../src/wbc-gtk-actions.c:3658
 msgid "_Underline"
 msgstr "_Understrykning"
 
@@ -16220,7 +16220,7 @@ msgstr "Nästa _objekt"
 msgid "Select the next sheet object"
 msgstr "Markera nästa bladobjekt"
 
-#: ../src/wbc-gtk-actions.c:2539 ../src/wbc-gtk.c:2724
+#: ../src/wbc-gtk-actions.c:2539 ../src/wbc-gtk.c:2766
 msgid "Go to Top"
 msgstr "Gå till toppen"
 
@@ -16228,7 +16228,7 @@ msgstr "Gå till toppen"
 msgid "Go to the top of the data"
 msgstr "Gå till översta data"
 
-#: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2725
+#: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2767
 msgid "Go to Bottom"
 msgstr "Gå till botten"
 
@@ -16236,7 +16236,7 @@ msgstr "Gå till botten"
 msgid "Go to the bottom of the data"
 msgstr "Gå till nedersta data"
 
-#: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2726
+#: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2768
 msgid "Go to First"
 msgstr "Gå till första"
 
@@ -16244,7 +16244,7 @@ msgstr "Gå till första"
 msgid "Go to the first data cell"
 msgstr "Gå till den första datacellen"
 
-#: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2727
+#: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2769
 msgid "Go to Last"
 msgstr "Gå till sista"
 
@@ -17095,7 +17095,7 @@ msgstr "_Redigera ett datautsnitt…"
 msgid "Adjust a data slicer"
 msgstr "Justera ett datautsnitt"
 
-#: ../src/wbc-gtk-actions.c:3299 ../src/wbc-gtk.c:4014
+#: ../src/wbc-gtk-actions.c:3299 ../src/wbc-gtk.c:4057
 #: ../src/workbook-view.c:855
 msgid "Sum"
 msgstr "Summa"
@@ -17318,314 +17318,327 @@ msgstr "Minska noggrannhet"
 msgid "Decrease the number of decimals displayed"
 msgstr "Minska antalet visade decimaler"
 
-#: ../src/wbc-gtk-actions.c:3504
+#: ../src/wbc-gtk-actions.c:3502
+msgid "Decrease Indentation"
+msgstr "Minska indrag"
+
+#: ../src/wbc-gtk-actions.c:3505
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Minska indrag och vänsterjustera innehållet"
 
-#: ../src/wbc-gtk-actions.c:3510
+#: ../src/wbc-gtk-actions.c:3509
+msgid "Increase Indentation"
+msgstr "Öka indrag"
+
+#: ../src/wbc-gtk-actions.c:3512
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Öka indrag och vänsterjustera innehållet"
 
-#: ../src/wbc-gtk-actions.c:3518
+#: ../src/wbc-gtk-actions.c:3520
 msgid "Display _Outlines"
 msgstr "Visa _konturer"
 
-#: ../src/wbc-gtk-actions.c:3520
+#: ../src/wbc-gtk-actions.c:3522
 msgid "Toggle whether or not to display outline groups"
 msgstr "Växla huruvida konturgrupper ska visas"
 
-#: ../src/wbc-gtk-actions.c:3525
+#: ../src/wbc-gtk-actions.c:3527
 msgid "Outlines _Below"
 msgstr "Konturer _nedanför"
 
-#: ../src/wbc-gtk-actions.c:3526
+#: ../src/wbc-gtk-actions.c:3528
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Växla huruvida radkonturer ska visas överst eller nederst"
 
-#: ../src/wbc-gtk-actions.c:3531
+#: ../src/wbc-gtk-actions.c:3533
 msgid "Outlines _Right"
 msgstr "Konturer till _höger"
 
-#: ../src/wbc-gtk-actions.c:3532
+#: ../src/wbc-gtk-actions.c:3534
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Växla huruvida kolumnkonturer ska visas till vänster eller höger"
 
-#: ../src/wbc-gtk-actions.c:3538
+#: ../src/wbc-gtk-actions.c:3540
 msgid "Display _Formulæ"
 msgstr "Visa _formler"
 
-#: ../src/wbc-gtk-actions.c:3540
+#: ../src/wbc-gtk-actions.c:3542
 msgid "Display the value of a formula or the formula itself"
 msgstr "Visa värdet på en formel eller själva formeln"
 
-#: ../src/wbc-gtk-actions.c:3545
+#: ../src/wbc-gtk-actions.c:3547
 msgid "_Hide Zeros"
 msgstr "Dölj _nollor"
 
-#: ../src/wbc-gtk-actions.c:3546
+#: ../src/wbc-gtk-actions.c:3548
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Växla huruvida nollor ska visas som blanksteg"
 
-#: ../src/wbc-gtk-actions.c:3551
+#: ../src/wbc-gtk-actions.c:3553
 msgid "Hide _Gridlines"
 msgstr "Dölj r_utnät"
 
-#: ../src/wbc-gtk-actions.c:3552
+#: ../src/wbc-gtk-actions.c:3554
 msgid "Toggle whether or not to display gridlines"
 msgstr "Växla huruvida rutnätslinjer ska visas"
 
-#: ../src/wbc-gtk-actions.c:3557
+#: ../src/wbc-gtk-actions.c:3559
 msgid "Hide _Column Headers"
 msgstr "Dölj _kolumnrubriker"
 
-#: ../src/wbc-gtk-actions.c:3558
+#: ../src/wbc-gtk-actions.c:3560
 msgid "Toggle whether or not to display column headers"
 msgstr "Växla huruvida kolumnrubriker ska visas"
 
-#: ../src/wbc-gtk-actions.c:3563
+#: ../src/wbc-gtk-actions.c:3565
 msgid "Hide _Row Headers"
 msgstr "Dölj _radrubriker"
 
-#: ../src/wbc-gtk-actions.c:3564
+#: ../src/wbc-gtk-actions.c:3566
 msgid "Toggle whether or not to display row headers"
 msgstr "Växla huruvida radrubriker ska visas"
 
-#: ../src/wbc-gtk-actions.c:3571
+#: ../src/wbc-gtk-actions.c:3573
 msgid "Use R1C1 N_otation "
 msgstr "Använd R1C1-n_otation "
 
-#: ../src/wbc-gtk-actions.c:3572
+#: ../src/wbc-gtk-actions.c:3574
 msgid "Display addresses as R1C1 or A1"
 msgstr "Visa adresser som R1C1 eller A1"
 
-#: ../src/wbc-gtk-actions.c:3579
+#: ../src/wbc-gtk-actions.c:3581
 msgid "_Left Align"
 msgstr "_Vänsterjustera"
 
-#: ../src/wbc-gtk-actions.c:3580 ../src/wbc-gtk-actions.c:3708
+#: ../src/wbc-gtk-actions.c:3582 ../src/wbc-gtk-actions.c:3712
 msgid "Align left"
 msgstr "Justera vänster"
 
-#: ../src/wbc-gtk-actions.c:3586
+#: ../src/wbc-gtk-actions.c:3588
 msgid "_Center"
 msgstr "_Centrera"
 
-#: ../src/wbc-gtk-actions.c:3587 ../src/wbc-gtk-actions.c:3709
+#: ../src/wbc-gtk-actions.c:3589 ../src/wbc-gtk-actions.c:3713
 msgid "Center horizontally"
 msgstr "Centrera vågrätt"
 
-#: ../src/wbc-gtk-actions.c:3593
+#: ../src/wbc-gtk-actions.c:3595
 msgid "_Right Align"
 msgstr "_Högerjustera"
 
-#: ../src/wbc-gtk-actions.c:3594 ../src/wbc-gtk-actions.c:3710
+#: ../src/wbc-gtk-actions.c:3596 ../src/wbc-gtk-actions.c:3714
 msgid "Align right"
 msgstr "Justera höger"
 
-#: ../src/wbc-gtk-actions.c:3600
+#: ../src/wbc-gtk-actions.c:3602
 msgid "_Center Across Selection"
 msgstr "_Centrera över valda"
 
-#: ../src/wbc-gtk-actions.c:3601 ../src/wbc-gtk-actions.c:3714
+#: ../src/wbc-gtk-actions.c:3603 ../src/wbc-gtk-actions.c:3718
 msgid "Center horizontally across the selection"
 msgstr "Centrera vågrätt över markeringen"
 
-#: ../src/wbc-gtk-actions.c:3606
+#: ../src/wbc-gtk-actions.c:3608
 msgid "_Merge and Center"
 msgstr "Slå _ihop och centrera"
 
-#: ../src/wbc-gtk-actions.c:3607
+#: ../src/wbc-gtk-actions.c:3609
 msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "Sammanfoga markeringen till en cell och centrera vågrätt."
 
-#: ../src/wbc-gtk-actions.c:3616
+#: ../src/wbc-gtk-actions.c:3618
 msgid "Align _Top"
 msgstr "Justera _överkant"
 
-#: ../src/wbc-gtk-actions.c:3617
+#: ../src/wbc-gtk-actions.c:3619
 msgid "Align Top"
 msgstr "Justera överkant"
 
-#: ../src/wbc-gtk-actions.c:3622
+#: ../src/wbc-gtk-actions.c:3625
 msgid "_Vertically Center"
 msgstr "Centrera _lodrätt"
 
-#: ../src/wbc-gtk-actions.c:3623
+#: ../src/wbc-gtk-actions.c:3626
 msgid "Vertically Center"
 msgstr "Centrera lodrätt"
 
-#: ../src/wbc-gtk-actions.c:3628
+#: ../src/wbc-gtk-actions.c:3632
 msgid "Align _Bottom"
 msgstr "Justera _underkant"
 
-#: ../src/wbc-gtk-actions.c:3629
+#: ../src/wbc-gtk-actions.c:3633
 msgid "Align Bottom"
 msgstr "Justera underkant"
 
-#: ../src/wbc-gtk-actions.c:3638
+#: ../src/wbc-gtk-actions.c:3642
 msgid "_Bold"
 msgstr "_Fetstil"
 
-#: ../src/wbc-gtk-actions.c:3646
+#: ../src/wbc-gtk-actions.c:3650
 msgid "_Italic"
 msgstr "_Kursiv"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:3662
+#: ../src/wbc-gtk-actions.c:3666
 msgid "_Double Underline"
 msgstr "_Dubbel understrykning"
 
-#: ../src/wbc-gtk-actions.c:3664
+#: ../src/wbc-gtk-actions.c:3668
 msgid "Double Underline"
 msgstr "Dubbel understrykning"
 
-#: ../src/wbc-gtk-actions.c:3669
+#: ../src/wbc-gtk-actions.c:3673
 msgid "_Single Low Underline"
 msgstr "_Enkel låg understrykning"
 
-#: ../src/wbc-gtk-actions.c:3671
+#: ../src/wbc-gtk-actions.c:3675
 msgid "Single Low Underline"
 msgstr "Enkel låg understrykning"
 
-#: ../src/wbc-gtk-actions.c:3676
+#: ../src/wbc-gtk-actions.c:3680
 msgid "Double _Low Underline"
 msgstr "Dubbe_l låg understrykning"
 
-#: ../src/wbc-gtk-actions.c:3677
+#: ../src/wbc-gtk-actions.c:3681
 msgid "Double Low Underline"
 msgstr "Dubbel låg understrykning"
 
-#: ../src/wbc-gtk-actions.c:3683
+#: ../src/wbc-gtk-actions.c:3687
 msgid "_Strikethrough"
 msgstr "Genomstry_kning"
 
-#: ../src/wbc-gtk-actions.c:3691
+#: ../src/wbc-gtk-actions.c:3695
 msgid "Su_perscript"
 msgstr "U_pphöjd"
 
-#: ../src/wbc-gtk-actions.c:3693
+#: ../src/wbc-gtk-actions.c:3697
 msgid "Superscript"
 msgstr "Upphöjd"
 
-#: ../src/wbc-gtk-actions.c:3699
+#: ../src/wbc-gtk-actions.c:3703
 msgid "Subscrip_t"
 msgstr "N_edsänkt"
 
-#: ../src/wbc-gtk-actions.c:3701
+#: ../src/wbc-gtk-actions.c:3705
 msgid "Subscript"
 msgstr "Nedsänkt"
 
-#: ../src/wbc-gtk-actions.c:3711
+#: ../src/wbc-gtk-actions.c:3715
 msgid "Fill horizontally"
 msgstr "Fyll vågrätt"
 
-#: ../src/wbc-gtk-actions.c:3712
+#: ../src/wbc-gtk-actions.c:3716
 msgid "Justify horizontally"
 msgstr "Justera vågrätt"
 
-#: ../src/wbc-gtk-actions.c:3716
+#: ../src/wbc-gtk-actions.c:3720
 msgid "Align numbers right, and text left"
 msgstr "Högerjustera siffror och vänsterjustera text"
 
-#: ../src/wbc-gtk-actions.c:3721
+#: ../src/wbc-gtk-actions.c:3725
 msgid "Align top"
 msgstr "Justera överkant"
 
-#: ../src/wbc-gtk-actions.c:3722
+#: ../src/wbc-gtk-actions.c:3726
 msgid "Center vertically"
 msgstr "Centrera lodrätt"
 
-#: ../src/wbc-gtk-actions.c:3723
+#: ../src/wbc-gtk-actions.c:3727
 msgid "Align bottom"
 msgstr "Justera underkant"
 
-#: ../src/wbc-gtk-actions.c:3725
+#. Reuse "center" icon as I don't know what this one is
+#: ../src/wbc-gtk-actions.c:3730
 msgid "Align distributed"
 msgstr "Justera distribuerade"
 
-#: ../src/wbc-gtk-actions.c:3748 ../src/wbc-gtk-actions.c:3749
+#: ../src/wbc-gtk-actions.c:3753 ../src/wbc-gtk-actions.c:3754
 msgid "Horizontal Alignment"
 msgstr "Vågrät justering"
 
-#: ../src/wbc-gtk-actions.c:3759 ../src/wbc-gtk-actions.c:3760
+#: ../src/wbc-gtk-actions.c:3764 ../src/wbc-gtk-actions.c:3765
 msgid "Vertical Alignment"
 msgstr "Lodrät justering"
 
-#: ../src/wbc-gtk-actions.c:3798
+#: ../src/wbc-gtk-actions.c:3803
 msgid "Set Foreground Color"
 msgstr "Ställ in förgrundsfärg"
 
-#: ../src/wbc-gtk-actions.c:3812 ../src/wbc-gtk-actions.c:3813
+#: ../src/wbc-gtk-actions.c:3817 ../src/wbc-gtk-actions.c:3818
 msgid "Foreground"
 msgstr "Förgrund"
 
 #. Set background to NONE
-#: ../src/wbc-gtk-actions.c:3848
+#: ../src/wbc-gtk-actions.c:3853
 msgid "Set Background Color"
 msgstr "Ställ in bakgrundsfärg"
 
-#: ../src/wbc-gtk-actions.c:3871
+#: ../src/wbc-gtk-actions.c:3876
 msgid "Clear Borders"
 msgstr "Ta bort kanter"
 
-#: ../src/wbc-gtk-actions.c:3874
+#: ../src/wbc-gtk-actions.c:3879
 msgid "All Borders"
 msgstr "Alla kanter"
 
-#: ../src/wbc-gtk-actions.c:3875
+#: ../src/wbc-gtk-actions.c:3880
 msgid "Outside Borders"
 msgstr "Kanter omkring"
 
-#: ../src/wbc-gtk-actions.c:3876
+#: ../src/wbc-gtk-actions.c:3881
 msgid "Thick Outside Borders"
 msgstr "Tjocka kanter omkring"
 
-#: ../src/wbc-gtk-actions.c:3879
+#: ../src/wbc-gtk-actions.c:3884
 msgid "Double Bottom"
 msgstr "Dubbel underkant"
 
-#: ../src/wbc-gtk-actions.c:3880
+#: ../src/wbc-gtk-actions.c:3885
 msgid "Thick Bottom"
 msgstr "Tjock underkant"
 
-#: ../src/wbc-gtk-actions.c:3882
+#: ../src/wbc-gtk-actions.c:3887
 msgid "Top and Bottom"
 msgstr "Över- och underkant"
 
-#: ../src/wbc-gtk-actions.c:3883
+#: ../src/wbc-gtk-actions.c:3888
 msgid "Top and Double Bottom"
 msgstr "Överkant och dubbel underkant"
 
-#: ../src/wbc-gtk-actions.c:3884
+#: ../src/wbc-gtk-actions.c:3889
 msgid "Top and Thick Bottom"
 msgstr "Överkant och tjock underkant"
 
-#: ../src/wbc-gtk-actions.c:3969
+#: ../src/wbc-gtk-actions.c:3974
 msgid "Set Borders"
 msgstr "Ställ in kanter"
 
-#: ../src/wbc-gtk-actions.c:3977 ../src/wbc-gtk-actions.c:3978
+#: ../src/wbc-gtk-actions.c:3982 ../src/wbc-gtk-actions.c:3983
 msgid "Borders"
 msgstr "Kanter"
 
-#: ../src/wbc-gtk-actions.c:4074
+#: ../src/wbc-gtk-actions.c:4082
 msgid "Redo the undone action"
 msgstr "Gör om ångraåtgärden"
 
-#: ../src/wbc-gtk-actions.c:4079
+#: ../src/wbc-gtk-actions.c:4084
+msgid "Redo"
+msgstr "Gör om"
+
+#: ../src/wbc-gtk-actions.c:4088
 msgid "Undo the last action"
 msgstr "Ångra den senaste åtgärden"
 
-#: ../src/wbc-gtk-actions.c:4133
+#: ../src/wbc-gtk-actions.c:4143 ../src/wbc-gtk-actions.c:4164
 msgid "_Zoom"
 msgstr "_Zooma"
 
-#: ../src/wbc-gtk-actions.c:4337
+#: ../src/wbc-gtk-actions.c:4349
 #, c-format
 msgid "Setting Font %s"
 msgstr "Sätter typsnittet till %s"
 
-#: ../src/wbc-gtk-actions.c:4396
+#: ../src/wbc-gtk-actions.c:4409
 msgid "Change font"
 msgstr "Ändrar typsnitt"
 
@@ -17817,27 +17830,27 @@ msgstr "Ange inom markerade intervall"
 msgid "Enter in selected ranges as array"
 msgstr "Ange inom markerade intervall som en vektor"
 
-#: ../src/wbc-gtk.c:2460
+#: ../src/wbc-gtk.c:2502
 msgid "END"
 msgstr "SLUT"
 
-#: ../src/wbc-gtk.c:2729
+#: ../src/wbc-gtk.c:2771
 msgid "Go to Cell..."
 msgstr "Gå till cell..."
 
-#: ../src/wbc-gtk.c:2791
+#: ../src/wbc-gtk.c:2833
 msgid "Accept change in multiple cells"
 msgstr "Acceptera ändring i fler celler"
 
-#: ../src/wbc-gtk.c:2864 ../src/wbc-gtk.c:2884
+#: ../src/wbc-gtk.c:2907 ../src/wbc-gtk.c:2927
 msgid "_Re-Edit"
 msgstr "Redigera _om"
 
-#: ../src/wbc-gtk.c:2866 ../src/wbc-gtk.c:2873
+#: ../src/wbc-gtk.c:2909 ../src/wbc-gtk.c:2916
 msgid "_Discard"
 msgstr "_Förkasta"
 
-#: ../src/wbc-gtk.c:2871 ../src/wbc-gtk.c:2886
+#: ../src/wbc-gtk.c:2914 ../src/wbc-gtk.c:2929
 msgid "_Accept"
 msgstr "_Acceptera"
 
@@ -17847,62 +17860,62 @@ msgstr "_Acceptera"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3246
+#: ../src/wbc-gtk.c:3289
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "I menyn \"%s\" används nyckeln \"%s\" för både \"%s\" och \"%s\"."
 
-#: ../src/wbc-gtk.c:3545
+#: ../src/wbc-gtk.c:3588
 msgid "Display toolbar above sheets"
 msgstr "Visa verktygsfält ovanför blad"
 
-#: ../src/wbc-gtk.c:3546
+#: ../src/wbc-gtk.c:3589
 msgid "Display toolbar to the left of sheets"
 msgstr "Visa verktygsfält till vänster om blad"
 
-#: ../src/wbc-gtk.c:3547
+#: ../src/wbc-gtk.c:3590
 msgid "Display toolbar to the right of sheets"
 msgstr "Visa verktygsfält till höger om blad"
 
-#: ../src/wbc-gtk.c:3575
+#: ../src/wbc-gtk.c:3618
 msgid "Hide"
 msgstr "Dölj"
 
-#: ../src/wbc-gtk.c:3641
+#: ../src/wbc-gtk.c:3684
 msgid "Standard Toolbar"
 msgstr "Standardverktygsfält"
 
-#: ../src/wbc-gtk.c:3642
+#: ../src/wbc-gtk.c:3685
 msgid "Format Toolbar"
 msgstr "Formatverktygsfält"
 
-#: ../src/wbc-gtk.c:3643
+#: ../src/wbc-gtk.c:3686
 msgid "Object Toolbar"
 msgstr "Objektverktygsfält"
 
-#: ../src/wbc-gtk.c:3657
+#: ../src/wbc-gtk.c:3700
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Dölj/visa verktygsfält %s"
 
-#: ../src/wbc-gtk.c:4075
+#: ../src/wbc-gtk.c:4118
 #, c-format
 msgid "Content of %s"
 msgstr "Innehåll i %s"
 
-#: ../src/wbc-gtk.c:4090
+#: ../src/wbc-gtk.c:4133
 msgid "Use Maximum Precision"
 msgstr "Använd maximal noggrannhet"
 
-#: ../src/wbc-gtk.c:4102
+#: ../src/wbc-gtk.c:4145
 msgid "Insert Formula Below"
 msgstr "Infoga formel nedan"
 
-#: ../src/wbc-gtk.c:4108
+#: ../src/wbc-gtk.c:4151
 msgid "Insert Formula to Side"
 msgstr "Infoga formel på sidan"
 
-#: ../src/wbc-gtk.c:4194
+#: ../src/wbc-gtk.c:4237
 #, c-format
 msgid "Open %s"
 msgstr "Öppna %s"
@@ -18183,12 +18196,12 @@ msgstr "Kan inte öppna \"%s\" för att skriva: %s"
 msgid "Can't open '%s' for writing"
 msgstr "Kan inte öppna ”%s” för att skriva"
 
-#: ../src/workbook-view.c:1411
+#: ../src/workbook-view.c:1417
 #, c-format
 msgid "Unsupported file format for file \"%s\""
 msgstr "Filformatet stöds inte för filen ”%s”"
 
-#: ../src/workbook-view.c:1467
+#: ../src/workbook-view.c:1473
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Ett oförklarat fel inträffade vid öppnande av %s"
@@ -18198,18 +18211,18 @@ msgstr "Ett oförklarat fel inträffade vid öppnande av %s"
 msgid "Book%d.%s"
 msgstr "Blad%d.%s"
 
-#: ../src/workbook.c:1098
+#: ../src/workbook.c:1134
 msgid "Graph"
 msgstr "Graf"
 
-#: ../src/workbook.c:1643
+#: ../src/workbook.c:1679
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
 msgstr[0] "Byter namn på blad"
 msgstr[1] "Byter namn på %d blad"
 
-#: ../src/workbook.c:1645
+#: ../src/workbook.c:1681
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -18220,18 +18233,18 @@ msgstr[1] "Lägger till %d blad"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1651
+#: ../src/workbook.c:1687
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
 msgstr[0] "Infogar blad"
 msgstr[1] "Infogar %d blad"
 
-#: ../src/workbook.c:1653
+#: ../src/workbook.c:1689
 msgid "Changing sheet tab colors"
 msgstr "Byter färg på flikar"
 
-#: ../src/workbook.c:1655
+#: ../src/workbook.c:1691
 msgid "Changing sheet properties"
 msgstr "Ändrar bladegenskaper"
 
@@ -18239,18 +18252,18 @@ msgstr "Ändrar bladegenskaper"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1662
+#: ../src/workbook.c:1698
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
 msgstr[0] "Tar bort blad"
 msgstr[1] "Tar bort %d blad"
 
-#: ../src/workbook.c:1664
+#: ../src/workbook.c:1700
 msgid "Changing sheet order"
 msgstr "Ändrar bladordning"
 
-#: ../src/workbook.c:1666
+#: ../src/workbook.c:1702
 msgid "Reorganizing Sheets"
 msgstr "Ändring av ordning av blad"
 
