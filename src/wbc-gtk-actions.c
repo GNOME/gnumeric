@@ -3499,12 +3499,14 @@ static GnmActionEntry const actions[] = {
 	/* Gtk marks these accelerators as invalid because they use Tab
 	 * enable them manually in gnm-pane.c */
 	{ .name = "FormatDecreaseIndent",
+	  .label = N_("Decrease Indentation"),
 	  .icon = "format-indent-less",
 	  .accelerator = "<control><alt><shift>Tab",
 	  .tooltip = N_("Decrease the indent, and align the contents to the left"),
 	  .callback = G_CALLBACK (cb_format_dec_indent)
 	},
 	{ .name = "FormatIncreaseIndent",
+	  .label = N_("Increase Indentation"),
 	  .icon = "format-indent-more",
 	  .accelerator = "<control><alt>Tab",
 	  .tooltip = N_("Increase the indent, and align the contents to the left"),
@@ -3757,7 +3759,7 @@ wbc_gtk_init_alignments (WBCGtk *wbcg)
 	gnm_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->halignment));
 
 	wbcg->valignment = go_action_combo_pixmaps_new ("VAlignmentSelector",
-						       valignment_combo_info, 1, 3);
+						       valignment_combo_info, 5, 1);
 	g_object_set (G_OBJECT (wbcg->valignment),
 		      "label", _("Vertical Alignment"),
 		      "tooltip", _("Vertical Alignment"),
@@ -4281,6 +4283,7 @@ gnm_font_action_create_tool_item (GtkAction *action)
 		 NULL);
 	GtkWidget *but = g_object_new
 		(gnm_font_button_get_type(),
+		 "name", "font",
 		 "dialog-type", GO_TYPE_FONT_SEL_DIALOG,
 		 "show-preview-entry", TRUE,
 		 "show-style", FALSE,
@@ -4399,6 +4402,7 @@ wbc_gtk_init_font_name (WBCGtk *gtk, gboolean horiz)
 {
 	GtkAction *act = g_object_new
 		(horiz ? gnm_font_action_get_type () : GTK_TYPE_ACTION,
+		 "label", _("Font"),
 		 "visible-vertical", !horiz,
 		 "visible-horizontal", horiz,
 		 "name", (horiz ? "FontName" : "VFontName"),

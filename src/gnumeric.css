@@ -259,31 +259,43 @@ button > *.auto-filter:active {
   color: #ff6000;
 }
 
-toolbar gocombobox {
+toolbar.horizontal gocombobox {
     /* Some spacing to make the arrow appear closer to the (correct) button */
     padding-left: 3px;
     padding-right: 3px;
     margin: 0;
 }
 
-toolbar gocombobox button.toggle {
+toolbar.horizontal gocombobox button.toggle {
     padding: 0;
 }
 
-toolbar combobox button.combo {
+toolbar.horizontal combobox button.combo {
     padding: 0;
 }
 
-toolbar combobox button.combo box {
+toolbar.horizontal combobox button.combo box {
     padding: 0;
     /* Unsure why something isn't symmetric.  */
     padding-right: 2px;
 }
 
 /* The zoom entry box shows digits only so no need for padding.  */
-toolbar combobox entry.combo {
+toolbar.horizontal combobox entry.combo {
     padding-top: 0;
     padding-bottom: 0;
+}
+
+/* The font button should not be so tall.  */
+toolbar.horizontal button#font {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Squeeze hard -- vertical space is at a premium.  */
+toolbar.vertical button {
+    padding-top: 1pt;
+    padding-bottom: 1pt;
 }
 
 #else
