@@ -4,6 +4,7 @@ Morten:
 	* Attach the vertical alignment selector to the toolbar.
 	* Improve the toolbar styling a bit.
 	* Fix toolbar overflow menu's labeling.
+	* Many improvements to vertical toolbars.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51
