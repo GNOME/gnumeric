@@ -1,3 +1,8 @@
+2022-01-21  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-actions.c: In vertical toolbar mode, show a combo
+	instead of individual horizontal alignment entries.
+
 2022-01-20  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

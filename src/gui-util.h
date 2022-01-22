@@ -172,6 +172,10 @@ typedef struct
 	const gchar *tooltip;
 	GCallback callback;
 
+	// Visibility.
+	guint hide_horizontal : 1;
+	guint hide_vertical : 1;
+
 	/* Fields for toggles.  */
 	guint toggle : 1;
 	guint is_active : 1;

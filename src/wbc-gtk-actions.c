@@ -3580,6 +3580,7 @@ static GnmActionEntry const actions[] = {
 	  .icon = "format-justify-left",
 	  .label = N_("_Left Align"),
 	  .tooltip = N_("Align left"),
+	  .hide_vertical = TRUE,
 	  .callback = G_CALLBACK (cb_align_left)
 	},
 	{ .name = "AlignCenter",
@@ -3587,6 +3588,7 @@ static GnmActionEntry const actions[] = {
 	  .icon = "format-justify-center",
 	  .label = N_("_Center"),
 	  .tooltip = N_("Center horizontally"),
+	  .hide_vertical = TRUE,
 	  .callback = G_CALLBACK (cb_align_center)
 	},
 	{ .name = "AlignRight",
@@ -3594,6 +3596,7 @@ static GnmActionEntry const actions[] = {
 	  .icon = "format-justify-right",
 	  .label = N_("_Right Align"),
 	  .tooltip = N_("Align right"),
+	  .hide_vertical = TRUE,
 	  .callback = G_CALLBACK (cb_align_right)
 	},
 	{ .name = "CenterAcrossSelection",
@@ -3601,12 +3604,14 @@ static GnmActionEntry const actions[] = {
 	  .icon = "gnumeric-center-across-selection",
 	  .label = N_("_Center Across Selection"),
 	  .tooltip = N_("Center horizontally across the selection"),
+	  .hide_vertical = TRUE,
 	  .callback = G_CALLBACK (cb_center_across_selection)
 	},
 	{ .name = "MergeAndCenter",
 	  .toggle = TRUE,
 	  .label = N_("_Merge and Center"),
 	  .tooltip = N_("Merge the selection into 1 cell, and center horizontally."),
+	  .hide_vertical = TRUE,
 	  .callback = G_CALLBACK (cb_merge_and_center)
 	},
 #warning "Add justify"
@@ -3617,6 +3622,7 @@ static GnmActionEntry const actions[] = {
 	  .toggle = TRUE,
 	  .label = N_("Align _Top"),
 	  .tooltip = N_("Align Top"),
+	  .hide_vertical = TRUE,
 	  .callback = G_CALLBACK (cb_align_top)
 	},
 	{ .name = "AlignVCenter",
@@ -3624,6 +3630,7 @@ static GnmActionEntry const actions[] = {
 	  .toggle = TRUE,
 	  .label = N_("_Vertically Center"),
 	  .tooltip = N_("Vertically Center"),
+	  .hide_vertical = TRUE,
 	  .callback = G_CALLBACK (cb_align_vcenter)
 	},
 	{ .name = "AlignBottom",
@@ -3631,6 +3638,7 @@ static GnmActionEntry const actions[] = {
 	  .toggle = TRUE,
 	  .label = N_("Align _Bottom"),
 	  .tooltip = N_("Align Bottom"),
+	  .hide_vertical = TRUE,
 	  .callback = G_CALLBACK (cb_align_bottom)
 	},
 };
@@ -3752,6 +3760,7 @@ wbc_gtk_init_alignments (WBCGtk *wbcg)
 	g_object_set (G_OBJECT (wbcg->halignment),
 		      "label", _("Horizontal Alignment"),
 		      "tooltip", _("Horizontal Alignment"),
+		      "visible-horizontal", FALSE,
 		      NULL);
 	g_signal_connect (G_OBJECT (wbcg->halignment),
 		"activate",

@@ -1347,7 +1347,11 @@ gnm_action_group_add_actions (GtkActionGroup *group,
 			a = gtk_action_new (name, label, tip, NULL);
 		}
 
-		g_object_set (a, "icon-name", entry->icon, NULL);
+		g_object_set (a,
+			      "icon-name", entry->icon,
+			      "visible-horizontal", !entry->hide_horizontal,
+			      "visible-vertical", !entry->hide_vertical,
+			      NULL);
 
 		if (entry->callback) {
 			GClosure *closure =
