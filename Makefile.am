@@ -46,8 +46,11 @@ appdatadir = $(datadir)/appdata
 appdata_in_files = gnumeric.appdata.xml.in
 appdata_DATA = gnumeric.appdata.xml
 
+# Don't set the date inside this xml file.  We want reproducible builds.
 gnumeric.appdata.xml: gnumeric.appdata.xml.in Makefile $(INTLTOOL_MERGE) $(POFILES_FULL)
-	LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
+	LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
+	sed -e 's/##VERSION##/@VERSION@/' <$@.tmp >$@
+	rm -f $@.tmp
 
 Applicationsdir = $(datadir)/applications/
 Applications_in_files = gnumeric.desktop.in

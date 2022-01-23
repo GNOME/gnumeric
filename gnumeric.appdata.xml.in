@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2014-2016 Morten Welinder <terra@gnome.org> -->
+<!-- Copyright 2014-2022 Morten Welinder <terra@gnome.org> -->
 <application>
 <_name>The Gnumeric Spreadsheet</_name>
-<id type="desktop">gnumeric.desktop</id>
+<id type="desktop">org.gnumeric.gnumeric</id>
 <metadata_license>CC0-1.0</metadata_license>
 <!-- No idea what the SPDX ID for this is.  -->
 <project_license>GPL-2.0 or GPL-3.0</project_license>
@@ -17,6 +17,41 @@ files with Microsoft Excel and programs supporting the ODS standard.</_p>
 <screenshots>
 <screenshot type="default">https://gitlab.gnome.org/GNOME/gnumeric-web/raw/master/screenshots/gnumeric-sample.png</screenshot>
 </screenshots>
+<provides>
+  <mediatype>application/x-gnumeric</mediatype>
+  <mediatype>application/vnd.ms-excel</mediatype>
+  <mediatype>application/excel</mediatype>
+  <mediatype>application/msexcel</mediatype>
+  <mediatype>application/x-excel</mediatype>
+  <mediatype>application/x-ms-excel</mediatype>
+  <mediatype>application/x-msexcel</mediatype>
+  <mediatype>application/x-xls</mediatype>
+  <mediatype>application/xls</mediatype>
+  <mediatype>application/x-dos_ms_excel</mediatype>
+  <mediatype>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</mediatype>
+  <mediatype>application/tab-separated-values</mediatype>
+  <mediatype>text/csv</mediatype>
+  <mediatype>text/x-csv</mediatype>
+  <mediatype>text/spreadsheet</mediatype>
+  <mediatype>text/tab-separated-values</mediatype>
+  <mediatype>application/vnd.lotus-1-2-3</mediatype>
+  <mediatype>application/x-123</mediatype>
+  <mediatype>application/vnd.sun.xml.calc</mediatype>
+  <mediatype>application/vnd.sun.xml.calc.template</mediatype>
+  <mediatype>application/x-applix-spreadsheet</mediatype>
+  <mediatype>application/x-mps</mediatype>
+  <mediatype>application/x-oleo</mediatype>
+  <mediatype>application/x-planperfect</mediatype>
+  <mediatype>application/x-quattropro</mediatype>
+  <mediatype>application/x-sc</mediatype>
+  <mediatype>application/x-sylk</mediatype>
+  <mediatype>application/x-dbase</mediatype>
+  <mediatype>application/x-dbf</mediatype>
+  <mediatype>application/x-xbase</mediatype>
+  <mediatype>application/vnd.oasis.opendocument.spreadsheet</mediatype>
+  <binary>gnumeric</binary>
+  <binary>ssconvert</binary>
+</provides>
 <updatecontact>gnumeric-list@gnome.org</updatecontact>
   <kudos>
     <kudo>HiDpiIcon</kudo>
@@ -29,7 +64,7 @@ files with Microsoft Excel and programs supporting the ODS standard.</_p>
   <url type="donation">http://www.amnestyusa.org/</url>
   <url type="help">https://help.gnome.org/users/gnumeric/stable/gnumeric.html</url>
   <releases>
-    <release version="@VERSION@" date="2021-06-10" />
+    <release version="##VERSION##" date="2021-06-10" />
   </releases>
   <content_rating type="oars-1.1" />
 </application>
