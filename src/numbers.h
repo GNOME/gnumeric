@@ -27,7 +27,7 @@ long double erfl (long double x);
 #endif
 
 #ifdef GNM_SUPPLIES_ERFCL
-long double erfl (long double x);
+long double erfcl (long double x);
 #endif
 
 typedef long double gnm_float;
