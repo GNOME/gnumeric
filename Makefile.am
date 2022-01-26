@@ -42,7 +42,7 @@ libspreadsheet-@GNUMERIC_API_VER@.pc: libspreadsheet.pc
 @INTLTOOL_DESKTOP_RULE@
 @INTLTOOL_XML_RULE@
 
-appdatadir = $(datadir)/appdata
+appdatadir = $(datadir)/metainfo
 appdata_in_files = gnumeric.appdata.xml.in
 appdata_DATA = gnumeric.appdata.xml
 
