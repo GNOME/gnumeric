@@ -992,6 +992,16 @@ gnm_pane_class_init (GnmPaneClass *klass)
 
 	gtk_widget_class_install_style_property
 		(widget_class,
+		 g_param_spec_int ("extension-indicator-size",
+				   P_("Extension Indicator Size"),
+				   P_("Size of cell extension indicator"),
+				   0,
+				   G_MAXINT,
+				   100,
+				   G_PARAM_READABLE));
+
+	gtk_widget_class_install_style_property
+		(widget_class,
 		 g_param_spec_int ("comment-indicator-size",
 				   P_("comment Indicator Size"),
 				   P_("Size of comment indicator"),

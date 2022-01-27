@@ -270,7 +270,7 @@ preview_grid_draw_region (GocItem const *item, cairo_t *cr,
 			if (!gnm_cell_is_empty (cell))
 				cell_draw (cell, cr,
 					   x, y, colwidths[col], row_height,
-					   -1, FALSE);
+					   -1, FALSE, NULL);
 
 			x += colwidths[col];
 		}

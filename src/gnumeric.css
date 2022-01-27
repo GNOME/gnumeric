@@ -7,6 +7,7 @@ GnmPane,
 pane {
   -GnmPane-function-indicator-size: 10px;
   -GnmPane-comment-indicator-size: 6px;
+  -GnmPane-extension-indicator-size: 12px;
   -GnmPane-resize-guide-width: 1px;
   -GnmPane-pane-resize-guide-width: 7px;
   -GnmPane-control-circle-size: 5px;
@@ -43,6 +44,12 @@ GnmItemGrid.function-marker {
   color: #80ff80;
   border-color: #555555;
   /* Size defined for GnmPane */
+}
+
+/* Extension markers are enabled from View->View Properties->Cell Markers */
+GnmItemGrid.extension-marker {
+    color: rgba(255,0,0,0.7);
+    /* Size defined for GnmPane */
 }
 
 /* This is the divider between panes when an area is frozen.  */

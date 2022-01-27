@@ -85,6 +85,7 @@ struct _GnmItemGrid {
 	GdkRGBA pane_divider_color;
 	int pane_divider_width;
 
+	GnmCellDrawStyle cell_draw_style;
 };
 typedef GocItemClass GnmItemGridClass;
 static GocItemClass *parent_class;
@@ -115,6 +116,13 @@ ig_reload_style (GnmItemGrid *ig)
 	gtk_style_context_restore (context);
 
 	gtk_style_context_save (context);
+	gtk_style_context_add_class (context, "extension-marker");
+	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
+				     &ig->cell_draw_style.extension_marker_color);
+	gnm_css_debug_color ("extension-marker.color", &ig->cell_draw_style.extension_marker_color);
+	gtk_style_context_restore (context);
+
+	gtk_style_context_save (context);
 	gtk_style_context_add_class (context, "pane-divider");
 	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
 				     &ig->pane_divider_color);
@@ -132,6 +140,12 @@ ig_reload_style (GnmItemGrid *ig)
 			      &ig->function_marker_size,
 			      NULL);
 	gnm_css_debug_int ("function-marker.size", ig->function_marker_size);
+
+	gtk_widget_style_get (GTK_WIDGET (pane),
+			      "extension-indicator-size",
+			      &ig->cell_draw_style.extension_marker_size,
+			      NULL);
+	gnm_css_debug_int ("extension-marker.size", ig->cell_draw_style.extension_marker_size);
 }
 
 static void
@@ -364,14 +378,14 @@ item_grid_draw_merged_range (cairo_t *cr, GnmItemGrid *ig,
 						      r - l, b - t, dir);
 			cell_draw (cell, cr,
 				   l, t, r - l, b - t, -1,
-				   show_extension_markers);
+				   show_extension_markers, &ig->cell_draw_style);
 		} else {
 			if (show_function_cell_markers)
 				draw_function_marker (ig, cell, cr, r, t,
 						      l - r, b - t, dir);
 			cell_draw (cell, cr,
 				   r, t, l - r, b - t, -1,
-				   show_extension_markers);
+				   show_extension_markers, &ig->cell_draw_style);
 		}
 	}
 	if (dir > 0)
@@ -754,7 +768,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 					cell_draw (cell, cr,
 						   x, y, ci->size_pixels,
 						   ri->size_pixels, -1,
-						   show_extension_markers);
+						   show_extension_markers, &ig->cell_draw_style);
 				}
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are going to draw have been drawn.  No need
@@ -811,8 +825,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 				cell_draw (cell, cr,
 					   real_x, y, tmp_width,
 					   ri->size_pixels, center_offset,
-					   show_extension_markers);
-
+					   show_extension_markers, &ig->cell_draw_style);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 

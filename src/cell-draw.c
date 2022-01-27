@@ -331,37 +331,43 @@ cell_finish_layout (GnmCell *cell, GnmRenderedValue *rv,
 
 
 static void
-cell_draw_extension_mark_bottom (cairo_t *cr, int x1, int y1, int height, int h_center)
+cell_draw_extension_mark_bottom (cairo_t *cr, GnmCellDrawStyle const *style,
+				 int x1, int y1, int height, int h_center)
 {
-	cairo_set_source_rgba (cr, 1, 0, 0, 0.7);
+	double s = style->extension_marker_size;
+	gdk_cairo_set_source_rgba (cr, &style->extension_marker_color);
 	cairo_new_path (cr);
 	cairo_move_to (cr, x1 + h_center, y1 + height);
-	cairo_rel_line_to (cr, -3, -3);
-	cairo_rel_line_to (cr, 6, 0);
+	cairo_rel_line_to (cr, s / -2, s / -2);
+	cairo_rel_line_to (cr, s, 0);
 	cairo_close_path (cr);
 	cairo_fill (cr);
 }
 
 static void
-cell_draw_extension_mark_left (cairo_t *cr, int x1, int y1, int height)
+cell_draw_extension_mark_left (cairo_t *cr, GnmCellDrawStyle const *style,
+			       int x1, int y1, int height)
 {
-	cairo_set_source_rgba (cr, 1, 0, 0, 0.7);
+	double s = style->extension_marker_size;
+	gdk_cairo_set_source_rgba (cr, &style->extension_marker_color);
 	cairo_new_path (cr);
 	cairo_move_to (cr, x1, y1 + height/2);
-	cairo_rel_line_to (cr, 3, -3);
-	cairo_rel_line_to (cr, 0, 6);
+	cairo_rel_line_to (cr, s / 2, s / -2);
+	cairo_rel_line_to (cr, 0, s);
 	cairo_close_path (cr);
 	cairo_fill (cr);
 }
 
 static void
-cell_draw_extension_mark_right (cairo_t *cr, int x1, int y1, int width, int height)
+cell_draw_extension_mark_right (cairo_t *cr, GnmCellDrawStyle const *style,
+				int x1, int y1, int width, int height)
 {
-	cairo_set_source_rgba (cr, 1, 0, 0, 0.7);
+	double s = style->extension_marker_size;
+	gdk_cairo_set_source_rgba (cr, &style->extension_marker_color);
 	cairo_new_path (cr);
 	cairo_move_to (cr, x1 + width, y1 + height/2);
-	cairo_rel_line_to (cr, -3, -3);
-	cairo_rel_line_to (cr, 0, 6);
+	cairo_rel_line_to (cr, s / -2, s / -2);
+	cairo_rel_line_to (cr, 0, s);
 	cairo_close_path (cr);
 	cairo_fill (cr);
 
@@ -369,23 +375,25 @@ cell_draw_extension_mark_right (cairo_t *cr, int x1, int y1, int width, int heig
 
 
 static void
-cell_draw_h_extension_markers (cairo_t *cr, GnmRenderedValue *rv,
+cell_draw_h_extension_markers (cairo_t *cr,
+			       GnmCellDrawStyle const *style,
+			       GnmRenderedValue *rv,
 			       int x1, int y1,
 			       int width, int height)
 {
 	switch (rv->effective_halign) {
 	case GNM_HALIGN_GENERAL:
 	case GNM_HALIGN_LEFT:
-		cell_draw_extension_mark_right (cr, x1, y1, width, height);
+		cell_draw_extension_mark_right (cr, style, x1, y1, width, height);
 		break;
 	case GNM_HALIGN_RIGHT:
-		cell_draw_extension_mark_left (cr, x1, y1, height);
+		cell_draw_extension_mark_left (cr, style, x1, y1, height);
 		break;
 	case GNM_HALIGN_DISTRIBUTED:
 	case GNM_HALIGN_CENTER:
 	case GNM_HALIGN_CENTER_ACROSS_SELECTION:
-		cell_draw_extension_mark_right (cr, x1, y1, width, height);
-		cell_draw_extension_mark_left (cr, x1, y1, height);
+		cell_draw_extension_mark_right (cr, style, x1, y1, width, height);
+		cell_draw_extension_mark_left (cr, style, x1, y1, height);
 		break;
 	case GNM_HALIGN_FILL:
 	default:
@@ -395,13 +403,14 @@ cell_draw_h_extension_markers (cairo_t *cr, GnmRenderedValue *rv,
 
 static void
 cell_draw_v_extension_markers (cairo_t *cr,
+			       GnmCellDrawStyle const *style,
 			       int x1, int y1,
 			       int width, int height,
 			       int h_center)
 {
 	if (h_center == -1)
 		h_center = width / 2;
-	cell_draw_extension_mark_bottom (cr, x1, y1, height, h_center);
+	cell_draw_extension_mark_bottom (cr, style, x1, y1, height, h_center);
 }
 
 /**
@@ -413,17 +422,20 @@ cell_draw_v_extension_markers (cairo_t *cr,
  * @width: including margins and leading grid line
  * @height: including margins and leading grid line
  * @h_center:
- * @show_extension_markers:
+ * @style: (nullable):
  **/
 void
 cell_draw (GnmCell const *cell, cairo_t *cr,
 	   int x1, int y1, int width, int height, int h_center,
-	   gboolean show_extension_markers)
+	   gboolean show_extension_markers,
+	   GnmCellDrawStyle const *style)
 {
 	GOColor fore_color;
 	gint x;
 	gint y;
 	GnmRenderedValue *rv;
+
+	g_return_if_fail (!show_extension_markers || style != NULL);
 
 	/* Get the sizes exclusive of margins and grids */
 	/* Note: +1 because size_pixels includes leading gridline.  */
@@ -485,7 +497,7 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 			    width < PANGO_PIXELS (rv->layout_natural_width)) {
 				cairo_save (cr);
 				cell_draw_h_extension_markers
-					(cr, rv,
+					(cr, style, rv,
 					 x1 + 1 + GNM_COL_MARGIN,
 					 y1 + 1 + GNM_ROW_MARGIN,
 					 width, height);
@@ -496,7 +508,8 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 			    height < PANGO_PIXELS (rv->layout_natural_height)) {
 				cairo_save (cr);
 				cell_draw_v_extension_markers
-					(cr, x1 + 1 + GNM_COL_MARGIN,
+					(cr, style,
+					 x1 + 1 + GNM_COL_MARGIN,
 					 y1 + 1 + GNM_ROW_MARGIN,
 					 width, height, h_center);
 				cairo_restore (cr);

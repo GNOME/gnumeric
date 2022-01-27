@@ -2426,7 +2426,7 @@ cb_screen_changed (GtkWidget *widget)
 		data->screens = NULL;
 
 		if (debug)
-			g_printerr ("Loading style from %s\n", resource);
+			g_printerr ("Loading style from resource %s\n", resource);
 		else
 			g_signal_connect (data->css, "parsing-error",
 					  G_CALLBACK (cb_css_parse_error),

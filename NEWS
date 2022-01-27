@@ -5,6 +5,8 @@ Morten:
 	* Improve the toolbar styling a bit.
 	* Fix toolbar overflow menu's labeling.
 	* Many improvements to vertical toolbars.
+	* Install appdata file in new location [#612]
+	* Allow styling of cell extension indicators.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51
