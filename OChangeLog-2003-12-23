@@ -9798,7 +9798,7 @@
 	* src/expr-name.c (expr_name_add): Plug leaks.
 
 	* src/gnumeric-graph.c: Resurrect enough so that the excel plugin
-	will load.  This doens't mean things will work!
+	will load.  This doesn't mean things will work!
 
 	* src/func-builtin.c (func_builtin_init): New file.  Some stuff
 	from src/functions/fn-math.c imported.

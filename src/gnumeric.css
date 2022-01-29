@@ -96,7 +96,7 @@ CommentView {
 GnmItemEdit {
   background-color: #ffffe0;
 
-  /* This doens't seem to kick in.  We seem to get the color from the
+  /* This doesn't seem to kick in.  We seem to get the color from the
      style.  */
   color: black;
 }
