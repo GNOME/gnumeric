@@ -127,14 +127,14 @@ GnmItemBar:hover {
 /* ------------------------------------------------------------------------- */
 /* This GtkDrawingArea is the select-all button above the row buttons.  */
 
-GtkDrawingArea.button.all {
+GtkDrawingArea.button.all, widget.button.all {
 }
 
 /* ------------------------------------------------------------------------- */
 
 /* GnmNotebook is a fake notebook holding just the sheet tabs area */
 
-GnmNotebook {
+GnmNotebook, notebook.buttons {
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -190,7 +190,8 @@ GocItem.object-size.rubber-band {
 /* ------------------------------------------------------------------------- */
 /* GnmNotebookButton is the sheet name buttons used to select sheets.  */
 
-GnmNotebookButton:active {
+GnmNotebookButton:active,
+notebook.buttons tab label {
   font-weight: bold;
 }
 
@@ -229,12 +230,12 @@ button:hover.itembar, button:hover.itembar * {
 
 
 /* Small padding between and around toolbars, but not double between */
-box > box > toolbar {
+box > box > toolbar.horizontal {
     padding-top: 1pt;
     padding-bottom: 0pt;
 }
 
-box > box:last-child > toolbar {
+box > box:last-child > toolbar.horizontal {
     padding-top: 1pt;
     padding-bottom: 1pt;
 }

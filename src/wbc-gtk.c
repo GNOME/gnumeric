@@ -975,11 +975,14 @@ static void
 wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 {
 	GtkWidget *placeholder;
+	GtkStyleContext *context;
 
 	wbcg->bnotebook = g_object_new (GNM_NOTEBOOK_TYPE,
 					"can-focus", FALSE,
 					NULL);
 	g_object_ref (wbcg->bnotebook);
+	context = gtk_widget_get_style_context (GTK_WIDGET (wbcg->bnotebook));
+	gtk_style_context_add_class (context, "buttons");
 
 	g_signal_connect_after (G_OBJECT (wbcg->bnotebook),
 		"switch_page",

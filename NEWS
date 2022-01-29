@@ -7,6 +7,7 @@ Morten:
 	* Many improvements to vertical toolbars.
 	* Install appdata file in new location [#612]
 	* Allow styling of cell extension indicators.
+	* Restore bolding of active sheet tab.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51
