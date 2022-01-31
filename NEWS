@@ -8,6 +8,8 @@ Morten:
 	* Install appdata file in new location [#612]
 	* Allow styling of cell extension indicators.
 	* Restore bolding of active sheet tab.
+	* Fix import of mildly broken print settings in xlsx files from
+	  OnlyOffice.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51

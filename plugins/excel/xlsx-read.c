@@ -1967,7 +1967,8 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmPrintInformation *pi = state->sheet->print_info;
 	int orient, paper_code = 0, scale, tmp_int;
-	gboolean orient_set = FALSE, first_page_number = TRUE, tmp_bool;
+	unsigned first_page = pi->start_page;
+	gboolean orient_set = FALSE, use_first_page_number = TRUE, tmp_bool;
 	gnm_float width = 0., height = 0.;
 	static EnumVal const orientation_types[] = {
 		{ "default",	GTK_PAGE_ORIENTATION_PORTRAIT },
@@ -2021,7 +2022,7 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 		else if (attr_bool (xin, attrs, "draft", &tmp_bool))
 			pi->print_as_draft = tmp_bool;
-		else if (attr_int (xin, attrs, "firstPageNumber", &(pi->start_page)))
+		else if (attr_uint (xin, attrs, "firstPageNumber", &first_page))
 			;
 		else if (attr_int (xin, attrs, "fitToHeight", &(pi->scaling.dim.rows)))
 			;
@@ -2030,12 +2031,15 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_int (xin, attrs, "scale", &scale)) {
 			pi->scaling.percentage.x = scale;
 			pi->scaling.percentage.y = scale;
-		} else if (attr_bool (xin, attrs, "useFirstPageNumber", &first_page_number))
+		} else if (attr_bool (xin, attrs, "useFirstPageNumber", &use_first_page_number))
 			;
 	}
 
-	if (!first_page_number)
-		pi->start_page = -1;
+	// "OnlyOffice" has been seen producing files with UINT_MAX as the first page number.
+	// Clearly they meant not to use it, so we cut off a INT_MAX.
+	pi->start_page = use_first_page_number && first_page < INT_MAX
+		? (int)first_page
+		: -1;
 
 	if (!xlsx_set_paper_from_code (pi, paper_code) && width > 0.0 && height > 0.0)
 		gtk_page_setup_set_paper_size (pi->page_setup,
