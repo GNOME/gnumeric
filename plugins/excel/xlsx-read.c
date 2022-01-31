@@ -892,9 +892,9 @@ simple_string (G_GNUC_UNUSED GsfXMLIn *xin, xmlChar const **attrs)
  * TODO : Can we merge the code ?
  *	  Will the 'indexedColors' look like a palette ?
  */
-static struct {
+static const struct {
 	guint8 r, g, b;
-} xlsx_default_palette_v8 [] = {
+} xlsx_default_palette_v8[] = {
 	{  0,  0,  0}, {255,255,255}, {255,  0,  0}, {  0,255,  0},
 	{  0,  0,255}, {255,255,  0}, {255,  0,255}, {  0,255,255},
 
