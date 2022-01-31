@@ -2022,7 +2022,15 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 		else if (attr_bool (xin, attrs, "draft", &tmp_bool))
 			pi->print_as_draft = tmp_bool;
-		else if (attr_uint (xin, attrs, "firstPageNumber", &first_page))
+		else if (strcmp (attrs[0], "firstPageNumber") == 0 &&
+			 attrs[1][0] == '-') {
+			// Supposed to be unsigned but we see a negative.
+			// Parse and then see -1 (which will map to don't-use
+			// a few steps down the line).
+			int p = -1;
+			(void)attr_int (xin, attrs, "firstPageNumber", &p);
+			first_page = (unsigned)-1;
+		} else if (attr_uint (xin, attrs, "firstPageNumber", &first_page))
 			;
 		else if (attr_int (xin, attrs, "fitToHeight", &(pi->scaling.dim.rows)))
 			;
