@@ -242,14 +242,14 @@ newton_improve (GnmNlsolve *nl, gnm_float *xs)
 			ok = TRUE;
 		} else {
 			if (nl->debug)
-				g_printerr ("Full newton step would go to %g\n", y2);
+				g_printerr ("Full newton step would go to %" GNM_FORMAT_g "\n", y2);
 
 			f = gnm_solver_line_search
 				(sol, xs, d, FALSE, 0.75, 1, 0.01, &y2);
 
 			if (f > 0 && f < 1 && y2 < isol->yk) {
 				if (nl->debug)
-					g_printerr ("Accepting reduced newton step with f=%g\n", f);
+					g_printerr ("Accepting reduced newton step with f=%" GNM_FORMAT_g "\n", f);
 				for (i = 0; i < n; i++)
 					isol->xk[i] = xs[i] + f * d[i];
 				isol->yk = y2;
@@ -453,7 +453,9 @@ rosenbrock_iter (GnmNlsolve *nl)
 			for (i = 0; i < n; i++) {
 				nl->xi[0][i] = A[0][i] / div;
 				if (!gnm_finite (nl->xi[0][i])) {
-					g_printerr ("%g %g %g\n",
+					g_printerr ("%" GNM_FORMAT_g
+						    " %" GNM_FORMAT_g
+						    " %" GNM_FORMAT_g "\n",
 						    div, A[0][i], nl->xi[0][i]);
 					g_assert (gnm_finite (nl->xi[0][i]));
 				}
