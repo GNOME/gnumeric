@@ -5349,7 +5349,7 @@ gnm_matrix_multiply (GnmMatrix *C, const GnmMatrix *A, const GnmMatrix *B)
 
 	for (r = 0; r < C->rows; r++) {
 		for (c = 0; c < C->cols; c++) {
-			go_accumulator_clear (acc);
+			gnm_accumulator_clear (acc);
 			for (i = 0; i < A->cols; ++i) {
 				GnmQuad p;
 				gnm_quad_mul12 (&p,

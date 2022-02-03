@@ -140,6 +140,7 @@ typedef long double gnm_float;
 #define GnmAccumulator GOAccumulatorl
 #define gnm_accumulator_start go_accumulator_startl
 #define gnm_accumulator_end go_accumulator_endl
+#define gnm_accumulator_clear go_accumulator_clearl
 #define gnm_accumulator_new go_accumulator_newl
 #define gnm_accumulator_free go_accumulator_freel
 #define gnm_accumulator_add go_accumulator_addl
@@ -258,6 +259,7 @@ typedef double gnm_float;
 #define GnmAccumulator GOAccumulator
 #define gnm_accumulator_start go_accumulator_start
 #define gnm_accumulator_end go_accumulator_end
+#define gnm_accumulator_clear go_accumulator_clear
 #define gnm_accumulator_new go_accumulator_new
 #define gnm_accumulator_free go_accumulator_free
 #define gnm_accumulator_add go_accumulator_add
