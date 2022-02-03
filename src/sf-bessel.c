@@ -2531,15 +2531,15 @@ gnm_bessel_phi (gnm_float z, gnm_float nu, int *n_pi_4)
 
 	if (debug) g_printerr ("Phi[%g,%g]\n", nu, z);
 
-	go_quad_init (&qz, z);
-	go_quad_init (&qnu, nu);
+	gnm_quad_init (&qz, z);
+	gnm_quad_init (&qnu, nu);
 
 	// qzm2 = 1 / (z * z)
-	go_quad_mul12 (&qzm2, z, z);
-	go_quad_div (&qzm2, &gnm_quad_one, &qzm2);
+	gnm_quad_mul12 (&qzm2, z, z);
+	gnm_quad_div (&qzm2, &gnm_quad_one, &qzm2);
 
 	// qnu2 = nu * nu
-	go_quad_mul12 (&qnu2, nu, nu);
+	gnm_quad_mul12 (&qnu2, nu, nu);
 
 	(void)gnm_frexp (z / nu, &N);
 	N = GNM_MANT_DIG / N + 1;
