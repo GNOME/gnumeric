@@ -1635,7 +1635,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int first = -1, last = -1, xf_index;
-	double width = -1.;
+	gnm_float width = -1.;
 	gboolean cust_width = FALSE, best_fit = FALSE, collapsed = FALSE;
 	int i, hidden = -1;
 	int outline = -1;
