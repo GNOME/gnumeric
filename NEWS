@@ -10,6 +10,7 @@ Morten:
 	* Restore bolding of active sheet tab.
 	* Fix import of mildly broken print settings in xlsx files from
 	  OnlyOffice.
+	* Various --with-long-double fixes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51
