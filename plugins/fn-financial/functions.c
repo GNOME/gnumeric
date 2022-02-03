@@ -241,7 +241,7 @@ days_monthly_basis (GnmValue const *issue_date,
 /* Returns the number of coupons to be paid between the settlement
  * and maturity dates.
  */
-static gnm_float
+static double
 coupnum (GDate const *settlement, GDate const *maturity,
 	 GoCouponConvention const *conv)
 {
@@ -271,7 +271,7 @@ coupnum (GDate const *settlement, GDate const *maturity,
 	return (1 + months / (12 / conv->freq));
 }
 
-static gnm_float
+static double
 couppcd (GDate const *settlement, GDate const *maturity,
 	 GoCouponConvention const *conv)
 {
@@ -280,7 +280,7 @@ couppcd (GDate const *settlement, GDate const *maturity,
 	return go_date_g_to_serial (&date, conv->date_conv);
 }
 
-static gnm_float
+static double
 coupncd (GDate const *settlement, GDate const *maturity,
 	 GoCouponConvention const *conv)
 {
@@ -327,8 +327,8 @@ price (GDate *settlement, GDate *maturity, gnm_float rate, gnm_float yield,
 
 static GnmValue *
 func_coup (GnmFuncEvalInfo *ei, GnmValue const * const *argv,
-	   gnm_float (coup_fn) (GDate const *settle, GDate const *mat,
-				GoCouponConvention const *conv))
+	   double (coup_fn) (GDate const *settle, GDate const *mat,
+			     GoCouponConvention const *conv))
 {
         GDate   settlement, maturity;
 	GoCouponConvention conv;
