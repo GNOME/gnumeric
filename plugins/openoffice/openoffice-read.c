@@ -769,8 +769,30 @@ oo_attr_float (GsfXMLIn *xin, xmlChar const * const *attrs,
 }
 
 static gboolean
+oo_attr_double (GsfXMLIn *xin, xmlChar const * const *attrs,
+		int ns_id, char const *name, double *res)
+{
+	char *end;
+	gnm_float tmp;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
+		return FALSE;
+
+	tmp = go_strtod (CXML2C (attrs[1]), &end);
+	if (*end)
+		return oo_warning (xin, _("Invalid attribute '%s', expected number, received '%s'"),
+				   name, attrs[1]);
+	*res = tmp;
+	return TRUE;
+}
+
+static gboolean
 oo_attr_percent (GsfXMLIn *xin, xmlChar const * const *attrs,
-	       int ns_id, char const *name, gnm_float *res)
+		 int ns_id, char const *name, double *res)
 {
 	char *end;
 	gnm_float tmp;
@@ -783,7 +805,7 @@ oo_attr_percent (GsfXMLIn *xin, xmlChar const * const *attrs,
 	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return FALSE;
 
-	tmp = gnm_strto (val, &end);
+	tmp = go_strtod (val, &end);
 	if (end == val || *end != '%' || *(end + 1))
 		return oo_warning (xin,
 				   _("Invalid attribute '%s', expected percentage,"
@@ -1250,7 +1272,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 
 /* returns pts */
 static char const *
-oo_parse_spec_distance (char const *str, gnm_float *pts)
+oo_parse_spec_distance (char const *str, double *pts)
 {
 	double num;
 	char *end = NULL;
@@ -1298,7 +1320,7 @@ oo_parse_spec_distance (char const *str, gnm_float *pts)
 /* returns pts */
 static char const *
 oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
-		  char const *name, gnm_float *pts)
+		  char const *name, double *pts)
 {
 	char const *end = NULL;
 
@@ -1327,7 +1349,7 @@ oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 /* returns pts */
 static char const *
 oo_attr_distance (GsfXMLIn *xin, xmlChar const * const *attrs,
-		  int ns_id, char const *name, gnm_float *pts)
+		  int ns_id, char const *name, double *pts)
 {
 	g_return_val_if_fail (attrs != NULL, NULL);
 	g_return_val_if_fail (attrs[0] != NULL, NULL);
@@ -1340,11 +1362,11 @@ oo_attr_distance (GsfXMLIn *xin, xmlChar const * const *attrs,
 
 static gboolean
 oo_attr_percent_or_distance (GsfXMLIn *xin, xmlChar const * const *attrs,
-			     int ns_id, char const *name, gnm_float *res,
+			     int ns_id, char const *name, double *res,
 			     gboolean *found_percent)
 {
 	char *end;
-	gnm_float tmp;
+	double tmp;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -1369,7 +1391,7 @@ static char const *
 oo_parse_angle (GsfXMLIn *xin, xmlChar const *str,
 		char const *name, int *angle)
 {
-	gnm_float num;
+	double num;
 	char *end = NULL;
 
 	g_return_val_if_fail (str != NULL, NULL);
@@ -4449,7 +4471,7 @@ oo_dash (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GOLineDashType t = GO_LINE_DOT;
 	char const *name = NULL;
-	gnm_float distance = 0., len_dot1 = 0., len_dot2 = 0.;
+	double distance = 0., len_dot1 = 0., len_dot2 = 0.;
 	int n_dots1 = 0, n_dots2 = 2;
 	gboolean found_percent;
 
@@ -4601,7 +4623,7 @@ oo_hatch (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GOPattern *hatch = g_new (GOPattern, 1);
 	char const *hatch_name = NULL;
-	gnm_float distance = -1.0;
+	double distance = -1.0;
 	int angle = 0;
 	char const *style = NULL;
 
@@ -5879,7 +5901,7 @@ odf_header_properties (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean height_set = FALSE;
-	gnm_float pts;
+	double pts;
 	double page_margin;
 	GtkPageSetup *gps;
 
@@ -5903,7 +5925,7 @@ odf_footer_properties (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean height_set = FALSE;
-	gnm_float pts;
+	double pts;
 	double page_margin;
 	GtkPageSetup *gps;
 
@@ -5945,14 +5967,14 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 
 	OOParseState *state = (OOParseState *)xin->user_state;
-	gnm_float pts, height, width;
+	double pts, height, width;
 	gboolean h_set = FALSE, w_set = FALSE;
 	GtkPageSetup *gps;
 	gint tmp;
 	gint orient = GTK_PAGE_ORIENTATION_PORTRAIT;
 	gboolean gnm_style_print = FALSE;
 	gboolean annotations_at_end = FALSE;
-	gnm_float scale_to = 1.;
+	double scale_to = 1.;
 	gint scale_to_x = 0;
 	gint scale_to_y = 0;
 	GnmPrintInformation *pi = state->print.cur_pi;
@@ -6588,7 +6610,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyle *style = state->cur_style.cells->style;
 	gboolean  btmp;
 	int	  tmp;
-	gnm_float tmp_f;
+	double    tmp_f;
 	gboolean  v_alignment_is_fixed = FALSE;
 	int  strike_through_type = -1, strike_through_style = -1;
 	int underline_type = 0;
@@ -6781,7 +6803,7 @@ oo_style_prop_col_row (GsfXMLIn *xin, xmlChar const **attrs)
 		? "column-width" :  "row-height";
 	char const * const use_optimal = (state->cur_style.type == OO_STYLE_COL)
 		? "use-optimal-column-width" : "use-optimal-row-height";
-	gnm_float pts;
+	double pts;
 	gboolean auto_size;
 
 	g_return_if_fail (state->cur_style.col_rows != NULL);
@@ -7188,7 +7210,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	OOChartStyle *style = state->chart.cur_graph_style;
 	gboolean btmp;
 	int	  tmp;
-	gnm_float ftmp;
+	double ftmp;
 	gboolean default_style_has_lines_set = FALSE;
 	gboolean draw_stroke_set = FALSE;
 	gboolean draw_stroke = FALSE; /* to avoid a warning only */
@@ -7250,7 +7272,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 					 "show-negatives", &btmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_bool ("show-negatives", btmp));
-		else if (oo_attr_float (xin, attrs, OO_NS_CHART,
+		else if (oo_attr_double (xin, attrs, OO_NS_CHART,
 					  "minimum", &ftmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_double ("minimum", ftmp));
@@ -7260,8 +7282,8 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->axis_props,
 				 oo_prop_new_string ("minimum-expression",
 						     CXML2C(attrs[1])));
-		else if (oo_attr_float (xin, attrs, OO_NS_CHART,
-					  "maximum", &ftmp))
+		else if (oo_attr_double (xin, attrs, OO_NS_CHART,
+					 "maximum", &ftmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_double ("maximum", ftmp));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT,
@@ -7270,12 +7292,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->axis_props,
 				 oo_prop_new_string ("maximum-expression",
 						     CXML2C(attrs[1])));
-		else if (oo_attr_float (xin, attrs, OO_NS_CHART,
-					  "interval-major", &ftmp))
+		else if (oo_attr_double (xin, attrs, OO_NS_CHART,
+					 "interval-major", &ftmp))
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_double ("interval-major", ftmp));
-		else if (oo_attr_float (xin, attrs, OO_NS_CHART,
-					  "interval-minor-divisor", &ftmp))
+		else if (oo_attr_double (xin, attrs, OO_NS_CHART,
+					 "interval-minor-divisor", &ftmp))
 			style->axis_props = g_slist_prepend
 				(style->axis_props,
 				 oo_prop_new_double ("interval-minor-divisor",
@@ -7305,7 +7327,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->axis_props = g_slist_prepend (style->axis_props,
 							     oo_prop_new_string ("pos-str-expr",
 										 CXML2C(attrs[1])));
-		 else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
+		 else if (oo_attr_double (xin, attrs, OO_GNUM_NS_EXT,
 					  "radius-ratio", &ftmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_double ("radius-ratio", ftmp));
@@ -7607,8 +7629,8 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			{
 				regression_force_intercept_set = TRUE;
 			}
-		else if (oo_attr_float (xin, attrs, OO_NS_LOCALC_EXT,
-					  "regression-intercept-value", &ftmp))
+		else if (oo_attr_double (xin, attrs, OO_NS_LOCALC_EXT,
+					 "regression-intercept-value", &ftmp))
 			regression_force_intercept_value = ftmp;
 #endif
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "regression-affine",
@@ -7785,7 +7807,7 @@ od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	PangoAttribute *attr;
 	int	  tmp;
-	gnm_float size = -1.0;
+	double size = -1.0;
 	int underline_type = 0;
 	int underline_style = 0;
 	gboolean underline_bold = FALSE;
@@ -10151,7 +10173,7 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		for (ptr = style->other_props; ptr; ptr = ptr->next) {
 			OOProp *prop = ptr->data;
 			if (0 == strcmp (prop->name, "border")) {
-				gnm_float pts = 0.;
+				double pts = 0.;
 				const char *border = g_value_get_string (&prop->value);
 				const char *end;
 
@@ -10625,7 +10647,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 			name = g_strndup (formula, here - formula);
 			formula = here;
 			fval = odf_get_cs_formula_value (xin, name, vals, level - 1);
-			g_string_append_printf (gstr, "%.12" GNM_FORMAT_g , fval);
+			g_string_append_printf (gstr, "%.12g", fval);
 			g_free (name);
 			break;
 		case '$':
@@ -10639,7 +10661,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 			if (val == NULL)
 				g_string_append_c (gstr, '0');
 			else
-				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, *val);
+				g_string_append_printf (gstr, "%.12g", *val);
 			break;
 		case 'p':
 			if (g_str_has_prefix (formula, "pi")) {
@@ -10653,7 +10675,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 		case 't':
 			if (g_str_has_prefix (formula, "top")) {
 				formula += 3;
-				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, viewbox_top);
+				g_string_append_printf (gstr, "%.12g", viewbox_top);
 			} else {
 				g_string_append_c (gstr, *formula);
 				formula++;
@@ -10662,7 +10684,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 		case 'b':
 			if (g_str_has_prefix (formula, "bottom")) {
 				formula += 6;
-				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g,
+				g_string_append_printf (gstr, "%.12g",
 							viewbox_top + viewbox_height);
 			} else {
 				g_string_append_c (gstr, *formula);
@@ -10672,7 +10694,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 		case 'l':
 			if (g_str_has_prefix (formula, "left")) {
 				formula += 4;
-				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, viewbox_left);
+				g_string_append_printf (gstr, "%.12g", viewbox_left);
 			} else {
 				g_string_append_c (gstr, *formula);
 				formula++;
@@ -10681,7 +10703,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 		case 'r':
 			if (g_str_has_prefix (formula, "right")) {
 				formula += 5;
-				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g,
+				g_string_append_printf (gstr, "%.12g",
 							viewbox_left + viewbox_width);
 			} else {
 				g_string_append_c (gstr, *formula);
@@ -10691,7 +10713,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 		case 'h':
 			if (g_str_has_prefix (formula, "height")) {
 				formula += 6;
-				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, viewbox_height);
+				g_string_append_printf (gstr, "%.12g", viewbox_height);
 			} else {
 				g_string_append_c (gstr, *formula);
 				formula++;
@@ -10700,7 +10722,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 		case 'w':
 			if (g_str_has_prefix (formula, "width")) {
 				formula += 5;
-				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, viewbox_width);
+				g_string_append_printf (gstr, "%.12g", viewbox_width);
 			} else {
 				g_string_append_c (gstr, *formula);
 				formula++;
@@ -10987,7 +11009,7 @@ static void
 odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	gnm_float x1 = 0., x2 = 0., y1 = 0., y2 = 0.;
+	double x1 = 0., x2 = 0., y1 = 0., y2 = 0.;
 	GODrawingAnchorDir direction;
 	GnmRange cell_base;
 	double frame_offset[4];
@@ -11835,12 +11857,12 @@ oo_marker (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "arrow-type", &type,
 					    GO_ARROW_KITE, GO_ARROW_OVAL))
 			read_gnum_marker_info = TRUE;
-		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
-					"arrow-a", &a));
-		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
-					"arrow-b", &b));
-		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
-					"arrow-c", &c));
+		else if (oo_attr_double (xin, attrs, OO_GNUM_NS_EXT,
+					 "arrow-a", &a));
+		else if (oo_attr_double (xin, attrs, OO_GNUM_NS_EXT,
+					 "arrow-b", &b));
+		else if (oo_attr_double (xin, attrs, OO_GNUM_NS_EXT,
+					 "arrow-c", &c));
 	if (!read_gnum_marker_info && g_str_has_prefix (name, "gnm-arrow-"))
 		sscanf (name, "gnm-arrow-%d-%lf-%lf-%lf", &type, &a, &b, &c);
 
