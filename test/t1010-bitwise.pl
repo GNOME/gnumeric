@@ -7,4 +7,4 @@ use GnumericTest;
 
 my $file = "bitwise.xls";
 &message ("Check that $file evaluates correctly.");
-&test_sheet_calc ("$samples/excel/$file", "B3:B99", sub { /^(\s*Success)+\s*$/i });
+&test_sheet_calc ("$samples/excel/$file", "B2", sub { $_ == 0 });
