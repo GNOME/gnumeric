@@ -136,21 +136,21 @@ val_to_base (GnmFuncEvalInfo *ei,
 
 	case VALUE_FLOAT: {
 		gnm_float val = gnm_fake_trunc (value_get_as_float (vstring ? vstring : value));
-		char buf[GNM_MANT_DIG + 10];
+		char *buf;
 		char *err;
+		gboolean fail;
 
 		value_release (vstring);
 
 		if (val < min_value || val > max_value)
 			return value_new_error_NUM (ei->pos);
 
-		// For long-double we need a better replacement for this
-		g_ascii_formatd (buf, sizeof (buf) - 1,
-				 "%.0f",
-				 (double)val);
-
+		buf = g_strdup_printf ("%.0" GNM_FORMAT_f, val);
 		v = g_ascii_strtoll (buf, &err, src_base);
-		if (*err != 0)
+		fail = (*err != 0);
+		g_free (buf);
+
+		if (fail)
 			return value_new_error_NUM (ei->pos);
 		break;
 	}
