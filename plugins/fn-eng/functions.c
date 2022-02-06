@@ -144,9 +144,10 @@ val_to_base (GnmFuncEvalInfo *ei,
 		if (val < min_value || val > max_value)
 			return value_new_error_NUM (ei->pos);
 
+		// For long-double we need a better replacement for this
 		g_ascii_formatd (buf, sizeof (buf) - 1,
-				 "%.0" GNM_FORMAT_f,
-				 val);
+				 "%.0f",
+				 (double)val);
 
 		v = g_ascii_strtoll (buf, &err, src_base);
 		if (*err != 0)

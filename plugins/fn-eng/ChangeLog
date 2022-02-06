@@ -1,3 +1,8 @@
+2022-02-06  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (val_to_base): Make sure not to pass a long-double
+	format to g_ascii_formatd because it doesn't understand that.
+
 2022-01-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.51
