@@ -13,6 +13,7 @@ Morten:
 	* Various --with-long-double fixes.
 	* Fix BITAND.
 	* Test improvements.
+	* Fix xlsx write for sheet objects with text contents.  [#617]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51

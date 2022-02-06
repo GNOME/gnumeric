@@ -1447,6 +1447,28 @@ xlsx_write_nvpr (GsfXMLOut *xml, SheetObject *so, int id)
 	gsf_xml_out_end_element (xml);
 }
 
+static void
+xlsx_write_drawing_text (XLSXWriteState *stat, GsfXMLOut *xml, const char *text)
+{
+	gsf_xml_out_start_element (xml, "xdr:txBody");
+
+	gsf_xml_out_start_element (xml, "a:bodyPr");
+	// Something likely ought to go here
+	gsf_xml_out_end_element (xml); /* </a:bodyPr> */
+
+	gsf_xml_out_start_element (xml, "a:p");
+	gsf_xml_out_start_element (xml, "a:r");
+
+	gsf_xml_out_simple_element (xml, "a:t", text);
+
+	gsf_xml_out_end_element (xml); /* </a:r> */
+	gsf_xml_out_end_element (xml); /* </a:p> */
+
+	gsf_xml_out_end_element (xml);  // </xdr:txBody>
+}
+
+
+
 static char const *
 xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			    GSList *objects, GHashTable *zorder)
@@ -1640,6 +1662,7 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 			   GNM_IS_SO_FILLED (so)) {
 			GOStyle *style = NULL;
 			XLSXStyleContext sctx;
+			char *text = NULL;
 
 			xlsx_style_context_init (&sctx, state);
 			sctx.spPr_ns = "xdr";
@@ -1664,6 +1687,9 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 
 			if (g_object_class_find_property (G_OBJECT_GET_CLASS (so), "style"))
 				g_object_get (so, "style", &style, NULL);
+			if (g_object_class_find_property (G_OBJECT_GET_CLASS (so), "text"))
+				g_object_get (so, "text", &text, NULL);
+
 			if (style) {
 				gsf_xml_out_start_element (xml, "xdr:sp");
 				gsf_xml_out_start_element (xml, "xdr:nvSpPr");
@@ -1673,9 +1699,15 @@ xlsx_write_drawing_objects (XLSXWriteState *state, GsfOutput *sheet_part,
 				gsf_xml_out_end_element (xml); /* </xdr:nvSpPr> */
 
 				xlsx_write_go_style_full (xml, style, &sctx);
+
+				if (text)
+					xlsx_write_drawing_text (state, xml, text);
+
 				gsf_xml_out_end_element (xml); /* </xdr:sp> */
 				g_object_unref (style);
 			}
+
+			g_free (text);
 
 			g_free (sctx.start_arrow);
 			g_free (sctx.end_arrow);
