@@ -620,8 +620,6 @@ gnm_range_bitor (gnm_float const *xs, int n, gnm_float *res)
 	int i;
 	guint64 acc = 0;
 
-	*res = 0;
-
 	for (i = 0; i < n; i++) {
 		gnm_float x = gnm_fake_floor (xs[i]);
 		if (x < 0 || x > bit_max)
@@ -661,7 +659,8 @@ gnm_range_bitxor (gnm_float const *xs, int n, gnm_float *res)
 	int i;
 	guint64 acc = 0;
 
-	*res = 0;
+	if (n == 0)
+		return 1;
 
 	for (i = 0; i < n; i++) {
 		gnm_float x = gnm_fake_floor (xs[i]);
@@ -700,9 +699,10 @@ static int
 gnm_range_bitand (gnm_float const *xs, int n, gnm_float *res)
 {
 	int i;
-	guint64 acc = 0;
+	guint64 acc = (guint64)-1;
 
-	*res = 0;
+	if (n == 0)
+		return 1;
 
 	for (i = 0; i < n; i++) {
 		gnm_float x = gnm_fake_floor (xs[i]);

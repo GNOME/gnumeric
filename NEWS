@@ -11,6 +11,8 @@ Morten:
 	* Fix import of mildly broken print settings in xlsx files from
 	  OnlyOffice.
 	* Various --with-long-double fixes.
+	* Fix BITAND.
+	* Test improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51
