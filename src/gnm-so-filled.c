@@ -338,8 +338,11 @@ gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 		gsf_xml_out_add_cstr (output, "Label", sof->text);
 		if (sof->markup != NULL) {
 			GOFormat *fmt = go_format_new_markup (sof->markup, TRUE);
-			gsf_xml_out_add_cstr (output, "LabelFormat",
-					      go_format_as_XL (fmt));
+			// Trouble: an empty markup comes back as "@" which
+			// will not parse as markup.  Hack it for now.
+			if (go_format_is_markup (fmt))
+				gsf_xml_out_add_cstr (output, "LabelFormat",
+						      go_format_as_XL (fmt));
 			go_format_unref (fmt);
 		}
 	}
