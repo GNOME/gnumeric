@@ -7,4 +7,4 @@ use GnumericTest;
 
 my $file = "bitwise.xls";
 &message ("Check that $file evaluates correctly.");
-&test_sheet_calc ("$samples/excel/$file", "B2", sub { $_ == 0 });
+&test_sheet_calc ("$samples/excel/$file", "Summary!C5", sub { $_ == 0 });
