@@ -97,7 +97,7 @@
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctrl-$</keycap> Formats the current selection with the default currency
+	<keycap>Ctrl-$</keycap> Formats the current selection as the default currency
       </para>
     </listitem>
     <listitem>
@@ -128,11 +128,6 @@
     <listitem>
       <para>
 	<keycap>Ctrl-_</keycap> Formats the current selection as subscript
-      </para>
-    </listitem>
-    <listitem>
-      <para>
-	<keycap>Ctrl-$</keycap> Formats the current selection as the default currency
       </para>
     </listitem>
 
