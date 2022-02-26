@@ -1041,8 +1041,12 @@ expr_name_set_expr (GnmNamedExpr *nexpr, GnmExprTop const *texpr)
 
 	g_return_if_fail (nexpr != NULL);
 
-	if (texpr == nexpr->texpr)
+	if (texpr == nexpr->texpr) {
+		if (texpr)
+			gnm_expr_top_unref (texpr);
 		return;
+	}
+
 	if (nexpr->texpr != NULL) {
 		GSList *deps = NULL, *junk = NULL;
 

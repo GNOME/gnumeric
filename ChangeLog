@@ -1,3 +1,7 @@
+2022-02-26  Morten Welinder  <terra@gnome.org>
+
+	* src/expr-name.c (expr_name_set_expr): Plug leak.
+
 2022-01-21  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c: In vertical toolbar mode, show a combo
