@@ -960,60 +960,64 @@ static void
 scan_for_XLLs_and_register_functions (const gchar *dir_name)
 {
 	GDir *dir = g_dir_open (dir_name, 0, NULL);
-	gchar *full_entry_name;
 	const gchar *d_name;
-	struct stat d_info;
-	GModule *handle;
-	int stat_success;
-	if (NULL != dir) {
-		while ((d_name = g_dir_read_name (dir)) != NULL) {
-			if ( ! (strcmp (d_name, ".") == 0 || strcmp (d_name, "..") == 0)) {
-				full_entry_name = g_build_filename (dir_name, d_name, NULL);
-				stat_success = g_stat (full_entry_name,&d_info);
-				if (0 == stat_success) {
-					if (S_ISDIR (d_info.st_mode)) {
-						scan_for_XLLs_and_register_functions (full_entry_name);
-					} else {
+
+	if (NULL == dir)
+		return;
+
+	while ((d_name = g_dir_read_name (dir)) != NULL) {
+		gchar *full_entry_name;
+		int stat_success;
+		GStatBuf d_info;
+
+		if (strcmp (d_name, ".") == 0 || strcmp (d_name, "..") == 0)
+			continue;
+
+		full_entry_name = g_build_filename (dir_name, d_name, NULL);
+		stat_success = g_stat (full_entry_name, &d_info);
+		if (0 == stat_success) {
+			if (S_ISDIR (d_info.st_mode)) {
+				scan_for_XLLs_and_register_functions (full_entry_name);
+			} else {
+				GModule *handle;
 #ifdef WIN32
-						SetErrorMode (SEM_FAILCRITICALERRORS); /* avoid message box if library not found */
+				SetErrorMode (SEM_FAILCRITICALERRORS); /* avoid message box if library not found */
 #endif
-						handle = g_module_open (full_entry_name, G_MODULE_BIND_LAZY);
+				handle = g_module_open (full_entry_name, G_MODULE_BIND_LAZY);
 #ifdef WIN32
-						SetErrorMode (0);
+				SetErrorMode (0);
 #endif
-						if (NULL != handle) {
-							XLL*xll = ALLOC_ARRAY (XLL,1);
-							XLAutoOpenFunc xlAutoOpenFunc = NULL;
-							xll->name   = g_strdup (full_entry_name);
-							xll->handle = handle;
-							g_module_symbol (xll->handle, "xlAutoFree", (gpointer) &xll->xlAutoFree);
-							xlAutoOpenFunc = NULL;
-							if (g_module_symbol (xll->handle, "xlAutoOpen", (gpointer) &xlAutoOpenFunc) && xlAutoOpenFunc) {
-								currently_called_xll = xll;
-								xlAutoOpenFunc ();
-								currently_called_xll = NULL;
-								if (0 == xll->number_of_functions) {
-									g_warning (_("No loadable worksheet functions found in XLL/DLL/SO file %s."),full_entry_name);
-								} else {
-									GO_SLIST_PREPEND (XLLs,xll);
-									/* xgettext : %lu gives the number of functions. This is input to ngettext. */
-									g_message (ngettext("Loaded %lu function from XLL/DLL/SO %s.",
-											    "Loaded %lu functions from XLL/DLL/SO %s.",
-											    xll->number_of_functions),
-										   xll->number_of_functions, full_entry_name);
-								}
-							}
-							if (0 == xll->number_of_functions) {
-								free_XLL (xll);
-							}
+				if (NULL != handle) {
+					XLL*xll = ALLOC_ARRAY (XLL,1);
+					XLAutoOpenFunc xlAutoOpenFunc = NULL;
+					xll->name   = g_strdup (full_entry_name);
+					xll->handle = handle;
+					g_module_symbol (xll->handle, "xlAutoFree", (gpointer) &xll->xlAutoFree);
+					xlAutoOpenFunc = NULL;
+					if (g_module_symbol (xll->handle, "xlAutoOpen", (gpointer) &xlAutoOpenFunc) && xlAutoOpenFunc) {
+						currently_called_xll = xll;
+						xlAutoOpenFunc ();
+						currently_called_xll = NULL;
+						if (0 == xll->number_of_functions) {
+							g_warning (_("No loadable worksheet functions found in XLL/DLL/SO file %s."),full_entry_name);
+						} else {
+							GO_SLIST_PREPEND (XLLs,xll);
+							/* xgettext : %lu gives the number of functions. This is input to ngettext. */
+							g_message (ngettext("Loaded %lu function from XLL/DLL/SO %s.",
+									    "Loaded %lu functions from XLL/DLL/SO %s.",
+									    xll->number_of_functions),
+								   xll->number_of_functions, full_entry_name);
 						}
 					}
+					if (0 == xll->number_of_functions) {
+						free_XLL (xll);
+					}
 				}
-				g_free (full_entry_name);
 			}
 		}
-		g_dir_close (dir);
+		g_free (full_entry_name);
 	}
+	g_dir_close (dir);
 }
 
 G_MODULE_EXPORT void
