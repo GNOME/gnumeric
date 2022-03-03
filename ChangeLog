@@ -1,3 +1,9 @@
+2022-03-02  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_colrow_info): Fix problem writing
+	identical columns separated by pristine default columns.  Fixes
+	#619.
+
 2022-02-26  Morten Welinder  <terra@gnome.org>
 
 	* src/expr-name.c (expr_name_set_expr): Plug leak.

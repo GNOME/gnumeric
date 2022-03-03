@@ -15,6 +15,7 @@ Morten:
 	* Test improvements.
 	* Fix xlsx write for sheet objects with text contents.  [#617]
 	* Fix leak.
+	* Fix old problem saving column widths.  [#619]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51

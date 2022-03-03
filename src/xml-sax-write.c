@@ -743,7 +743,9 @@ xml_write_colrow_info (GnmColRowIter const *iter, closure_write_colrow *closure)
 					  closure->is_column);
 
 	closure->rle_count++;
-	if (NULL != iter && col_row_info_equal (prev, iter->cri))
+	if (NULL != iter &&
+	    iter->pos == closure->prev_pos + 1 &&
+	    col_row_info_equal (prev, iter->cri))
 		return FALSE;
 
 	if (closure->prev_pos != -1 && !col_row_info_equal (prev, def)) {
