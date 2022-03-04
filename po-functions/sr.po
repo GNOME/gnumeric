@@ -1,14 +1,14 @@
 # Serbian translation for gnumeric-functions.
-# Courtesy of Prevod.org team (http://www.prevod.org/) -- 2003–2020.
+# Courtesy of Prevod.org team (http://www.prevod.org/) -- 2003–2022.
 # This file is distributed under the same license as the gnumeric package.
 # Slobodan Sredojević <ssl@uns.ns.ac.yu>, 2003.
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013–2021.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013–2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2021-10-13 00:44+0000\n"
-"PO-Revision-Date: 2021-12-30 14:51+0200\n"
+"POT-Creation-Date: 2022-01-20 03:52+0000\n"
+"PO-Revision-Date: 2022-03-04 06:34+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <(nothing)>\n"
 "Language: sr\n"
@@ -199,11 +199,11 @@ msgstr "Ако @{i} није ни „i“ ни „j“, „COMPLEX“ испис
 #: ../plugins/fn-math/functions.c:2203 ../plugins/fn-math/functions.c:2230
 #: ../plugins/fn-math/functions.c:2256 ../plugins/fn-math/functions.c:2280
 #: ../plugins/fn-math/functions.c:2321 ../plugins/fn-math/functions.c:2366
-#: ../plugins/fn-math/functions.c:2493 ../plugins/fn-math/functions.c:2741
-#: ../plugins/fn-math/functions.c:2785 ../plugins/fn-math/functions.c:2828
-#: ../plugins/fn-math/functions.c:2871 ../plugins/fn-math/functions.c:2928
-#: ../plugins/fn-math/functions.c:3118 ../plugins/fn-math/functions.c:3216
-#: ../plugins/fn-math/functions.c:3261 ../plugins/fn-random/functions.c:46
+#: ../plugins/fn-math/functions.c:2491 ../plugins/fn-math/functions.c:2739
+#: ../plugins/fn-math/functions.c:2783 ../plugins/fn-math/functions.c:2826
+#: ../plugins/fn-math/functions.c:2869 ../plugins/fn-math/functions.c:2926
+#: ../plugins/fn-math/functions.c:3116 ../plugins/fn-math/functions.c:3214
+#: ../plugins/fn-math/functions.c:3259 ../plugins/fn-random/functions.c:46
 #: ../plugins/fn-random/functions.c:247 ../plugins/fn-stat/functions.c:82
 #: ../plugins/fn-stat/functions.c:109 ../plugins/fn-stat/functions.c:135
 #: ../plugins/fn-stat/functions.c:162 ../plugins/fn-stat/functions.c:272
@@ -1217,8 +1217,8 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1312 ../plugins/fn-math/functions.c:563
 #: ../plugins/fn-math/functions.c:1170 ../plugins/fn-math/functions.c:1197
 #: ../plugins/fn-math/functions.c:1673 ../plugins/fn-math/functions.c:1693
-#: ../plugins/fn-math/functions.c:2414 ../plugins/fn-math/functions.c:3078
-#: ../plugins/fn-math/functions.c:3278 ../plugins/fn-stat/functions.c:1694
+#: ../plugins/fn-math/functions.c:2412 ../plugins/fn-math/functions.c:3076
+#: ../plugins/fn-math/functions.c:3276 ../plugins/fn-stat/functions.c:1694
 #: ../plugins/fn-stat/functions.c:2599 ../plugins/fn-stat/functions.c:4958
 #: ../plugins/fn-string/functions.c:306 ../plugins/fn-string/functions.c:390
 #: ../plugins/fn-string/functions.c:517 ../plugins/fn-string/functions.c:1205
@@ -2441,8 +2441,8 @@ msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr "BASE:ниска бројева који представљају број @{n} у основи @{b}"
 
 #: ../plugins/fn-eng/functions.c:206 ../plugins/fn-math/functions.c:1542
-#: ../plugins/fn-numtheory/numtheory.c:683
-#: ../plugins/fn-numtheory/numtheory.c:713
+#: ../plugins/fn-numtheory/numtheory.c:734
+#: ../plugins/fn-numtheory/numtheory.c:764
 msgid "n:integer"
 msgstr "n:цео број"
 
@@ -6300,7 +6300,7 @@ msgid "COMBIN:binomial coefficient"
 msgstr "COMBIN:биномни коефицијент"
 
 #: ../plugins/fn-math/functions.c:1163 ../plugins/fn-math/functions.c:1195
-#: ../plugins/fn-math/functions.c:2487
+#: ../plugins/fn-math/functions.c:2485
 msgid "n:non-negative integer"
 msgstr "n:не-негативни цео број"
 
@@ -6411,7 +6411,6 @@ msgid "If @{x} ≤ 0, LOG returns #NUM! error."
 msgstr "Ако је @{x} ≤ 0, „LOG“ исписује грешку #БРОЈ!."
 
 #: ../plugins/fn-math/functions.c:1343
-#| msgid "LOG:logarithm of @{x} with base @{base}"
 msgid "ILOG:integer logarithm of @{x} with base @{base}"
 msgstr "ILOG::логаритам целог броја @{x}-а са основом @{основа}"
 
@@ -6759,15 +6758,15 @@ msgstr ""
 msgid "FIB:Fibonacci numbers"
 msgstr "FIB:Фибонаћијеви бројеви"
 
-#: ../plugins/fn-math/functions.c:2133 ../plugins/fn-numtheory/numtheory.c:258
-#: ../plugins/fn-numtheory/numtheory.c:291
-#: ../plugins/fn-numtheory/numtheory.c:325
-#: ../plugins/fn-numtheory/numtheory.c:358
-#: ../plugins/fn-numtheory/numtheory.c:399
-#: ../plugins/fn-numtheory/numtheory.c:431
-#: ../plugins/fn-numtheory/numtheory.c:491
-#: ../plugins/fn-numtheory/numtheory.c:547
-#: ../plugins/fn-numtheory/numtheory.c:578
+#: ../plugins/fn-math/functions.c:2133 ../plugins/fn-numtheory/numtheory.c:259
+#: ../plugins/fn-numtheory/numtheory.c:292
+#: ../plugins/fn-numtheory/numtheory.c:326
+#: ../plugins/fn-numtheory/numtheory.c:359
+#: ../plugins/fn-numtheory/numtheory.c:400
+#: ../plugins/fn-numtheory/numtheory.c:432
+#: ../plugins/fn-numtheory/numtheory.c:492
+#: ../plugins/fn-numtheory/numtheory.c:548
+#: ../plugins/fn-numtheory/numtheory.c:579
 msgid "n:positive integer"
 msgstr "n:позитиван цео број"
 
@@ -6884,15 +6883,15 @@ msgstr "m:број"
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
 msgstr "Ако @{x} и @{m} имају различит знак, „MROUND“ исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:2408
+#: ../plugins/fn-math/functions.c:2406
 msgid "ARABIC:the Roman numeral @{roman} as number"
 msgstr "ARABIC:римски симбол @{римски} као број"
 
-#: ../plugins/fn-math/functions.c:2409
+#: ../plugins/fn-math/functions.c:2407
 msgid "roman:Roman numeral"
 msgstr "римски:римски симбол"
 
-#: ../plugins/fn-math/functions.c:2410
+#: ../plugins/fn-math/functions.c:2408
 msgid ""
 "Any Roman symbol to the left of a larger symbol (directly or indirectly) "
 "reduces the final value by the symbol amount, otherwise, it increases the "
@@ -6902,15 +6901,15 @@ msgstr ""
 "непосредно) умањује крајњу вредност износу симбола, у супротном, увећава "
 "крајњи износ износом симбола."
 
-#: ../plugins/fn-math/functions.c:2486
+#: ../plugins/fn-math/functions.c:2484
 msgid "ROMAN:@{n} as a roman numeral text"
 msgstr "ROMAN:@{n} као римски бројевни текст"
 
-#: ../plugins/fn-math/functions.c:2488
+#: ../plugins/fn-math/functions.c:2486
 msgid "type:0,1,2,3,or 4, defaults to 0"
 msgstr "врста:0,1,2,3, или 4, подразумева се 0"
 
-#: ../plugins/fn-math/functions.c:2489
+#: ../plugins/fn-math/functions.c:2487
 msgid ""
 "ROMAN returns the arabic number @{n} as a roman numeral text.\n"
 "If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
@@ -6923,21 +6922,21 @@ msgstr ""
 "Врста 1 је тачнија од класичне врсте, врста 2 је тачнија од врсте 1, а врста "
 "3 је тачнија од врсте 2. Врста 4 је поједностављена врста."
 
-#: ../plugins/fn-math/functions.c:2736
+#: ../plugins/fn-math/functions.c:2734
 msgid "SUMX2MY2:sum of the difference of squares"
 msgstr "SUMX2MY2:збир разлике квадрата"
 
-#: ../plugins/fn-math/functions.c:2737 ../plugins/fn-math/functions.c:2779
-#: ../plugins/fn-math/functions.c:2822
+#: ../plugins/fn-math/functions.c:2735 ../plugins/fn-math/functions.c:2777
+#: ../plugins/fn-math/functions.c:2820
 msgid "array0:first cell area"
 msgstr "низ0:област првог поља"
 
-#: ../plugins/fn-math/functions.c:2738 ../plugins/fn-math/functions.c:2780
-#: ../plugins/fn-math/functions.c:2823
+#: ../plugins/fn-math/functions.c:2736 ../plugins/fn-math/functions.c:2778
+#: ../plugins/fn-math/functions.c:2821
 msgid "array1:second cell area"
 msgstr "низ1:област другог поља"
 
-#: ../plugins/fn-math/functions.c:2739
+#: ../plugins/fn-math/functions.c:2737
 msgid ""
 "SUMX2MY2 function returns the sum of the difference of squares of "
 "corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
@@ -6945,8 +6944,8 @@ msgstr ""
 "Функција „SUMX2MY2“ исписује збир разлике коренова одговарајућих вредности у "
 "два низа. Једначина за „SUMX2MY2“ је „SUM(x^2-y^2)“."
 
-#: ../plugins/fn-math/functions.c:2742 ../plugins/fn-math/functions.c:2786
-#: ../plugins/fn-math/functions.c:2829
+#: ../plugins/fn-math/functions.c:2740 ../plugins/fn-math/functions.c:2784
+#: ../plugins/fn-math/functions.c:2827
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
 "and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39."
@@ -6954,15 +6953,15 @@ msgstr ""
 "Претпоставимо да поља A1, A2, ..., A5 садрже бројеве 11, 15, 17, 21 и 43, а "
 "поља B1, B2, ..., B5 13, 22, 31, 33 и 39."
 
-#: ../plugins/fn-math/functions.c:2743
+#: ../plugins/fn-math/functions.c:2741
 msgid "Then SUMX2MY2(A1:A5,B1:B5) yields -1299."
 msgstr "Тада „SUMX2MY2(A1:A5,B1:B5)“ износи -1299."
 
-#: ../plugins/fn-math/functions.c:2778
+#: ../plugins/fn-math/functions.c:2776
 msgid "SUMX2PY2:sum of the sum of squares"
 msgstr "SUMX2PY2:збир збира квадрата"
 
-#: ../plugins/fn-math/functions.c:2781
+#: ../plugins/fn-math/functions.c:2779
 msgid ""
 "SUMX2PY2 function returns the sum of the sum of squares of corresponding "
 "values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2)."
@@ -6970,7 +6969,7 @@ msgstr ""
 "Функција „SUMX2PY2“ исписује збир збира коренова одговарајућих вредности у "
 "два низа. Једначина за „SUMX2PY2“ је „SUM(x^2+y^2)“."
 
-#: ../plugins/fn-math/functions.c:2783
+#: ../plugins/fn-math/functions.c:2781
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMX2PY2 "
 "returns #N/A.\n"
@@ -6980,15 +6979,15 @@ msgstr ""
 "исписује #Н/Д.\n"
 "Ниске и празна поља се једноставно занемарују."
 
-#: ../plugins/fn-math/functions.c:2787
+#: ../plugins/fn-math/functions.c:2785
 msgid "Then SUMX2PY2(A1:A5,B1:B5) yields 7149."
 msgstr "Тада „SUMX2PY2(A1:A5,B1:B5)“ износи 7149."
 
-#: ../plugins/fn-math/functions.c:2821
+#: ../plugins/fn-math/functions.c:2819
 msgid "SUMXMY2:sum of the squares of differences"
 msgstr "SUMXMY2:збир квадрата разлика"
 
-#: ../plugins/fn-math/functions.c:2824
+#: ../plugins/fn-math/functions.c:2822
 msgid ""
 "SUMXMY2 function returns the sum of the squares of the differences of "
 "corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
@@ -6996,7 +6995,7 @@ msgstr ""
 "Функција „SUMXMY2“ исписује збир коренова разлика одговарајућих вредности у "
 "два низа. Једначина за „SUMXMY2“ је „SUM((x-y)^2)“."
 
-#: ../plugins/fn-math/functions.c:2826
+#: ../plugins/fn-math/functions.c:2824
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMXMY2 "
 "returns #N/A.\n"
@@ -7006,31 +7005,31 @@ msgstr ""
 "исписује #Н/Д.\n"
 "Ниске и празна поља се једноставно занемарују."
 
-#: ../plugins/fn-math/functions.c:2830
+#: ../plugins/fn-math/functions.c:2828
 msgid "Then SUMXMY2(A1:A5,B1:B5) yields 409."
 msgstr "Тада „SUMXMY2(A1:A5,B1:B5)“ износи 409."
 
-#: ../plugins/fn-math/functions.c:2866
+#: ../plugins/fn-math/functions.c:2864
 msgid "SERIESSUM:sum of a power series at @{x}"
 msgstr "SERIESSUM:збир степена @{x}"
 
-#: ../plugins/fn-math/functions.c:2867
+#: ../plugins/fn-math/functions.c:2865
 msgid "x:number where to evaluate the power series"
 msgstr "x:број где ће проценити степени низ"
 
-#: ../plugins/fn-math/functions.c:2868
+#: ../plugins/fn-math/functions.c:2866
 msgid "n:non-negative integer, exponent of the lowest term of the series"
 msgstr "n:не-негативни сео број, изложилац најмањег израза у низу"
 
-#: ../plugins/fn-math/functions.c:2869
+#: ../plugins/fn-math/functions.c:2867
 msgid "m:increment to each exponent"
 msgstr "m:увећање за сваки изложилац"
 
-#: ../plugins/fn-math/functions.c:2870
+#: ../plugins/fn-math/functions.c:2868
 msgid "coeff:coefficients of the power series"
 msgstr "коеф:коефицијенти низова степена"
 
-#: ../plugins/fn-math/functions.c:2872
+#: ../plugins/fn-math/functions.c:2870
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, "
 "2.98, 3.42, and 4.33."
@@ -7038,23 +7037,23 @@ msgstr ""
 "Претпоставимо да поља A1, A2, ..., A5 садрже бројеве 1.23, 2.32, 2.98, 3.42 "
 "и 4.33."
 
-#: ../plugins/fn-math/functions.c:2873
+#: ../plugins/fn-math/functions.c:2871
 msgid "Then SERIESSUM(2,1,2.23,A1:A5) evaluates as 5056.37439843926"
 msgstr "Тада се „SERIESSUM(2,1,2.23,A1:A5)“ процењује на 5056.37439843926"
 
-#: ../plugins/fn-math/functions.c:2924
+#: ../plugins/fn-math/functions.c:2922
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE:инверзна матрица @{матрице}"
 
-#: ../plugins/fn-math/functions.c:2925 ../plugins/fn-math/functions.c:3214
+#: ../plugins/fn-math/functions.c:2923 ../plugins/fn-math/functions.c:3212
 msgid "matrix:a square matrix"
 msgstr "матрица:матрица корена"
 
-#: ../plugins/fn-math/functions.c:2926
+#: ../plugins/fn-math/functions.c:2924
 msgid "If @{matrix} is not invertible, MINVERSE returns #NUM!"
 msgstr "Ако @{матрица} није инвертибилна, „MINVERSE“ исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:2927
+#: ../plugins/fn-math/functions.c:2925
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, MINVERSE "
 "returns #VALUE!"
@@ -7062,30 +7061,30 @@ msgstr ""
 "Ако @{матрица} не садржи једнак број колона и редова, „MINVERSE“ исписује "
 "#БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:2961
+#: ../plugins/fn-math/functions.c:2959
 msgid "MPSEUDOINVERSE:the pseudo-inverse matrix of @{matrix}"
 msgstr "MPSEUDOINVERSE:псеудо-инверзна матрица @{матрице}"
 
-#: ../plugins/fn-math/functions.c:2962
+#: ../plugins/fn-math/functions.c:2960
 msgid "matrix:a matrix"
 msgstr "матрица:матрица"
 
-#: ../plugins/fn-math/functions.c:2963
+#: ../plugins/fn-math/functions.c:2961
 msgid "threshold:a relative size threshold for discarding eigenvalues"
 msgstr "померај:померај релативне величине за одбацивање личне вредности"
 
-#: ../plugins/fn-math/functions.c:2998
+#: ../plugins/fn-math/functions.c:2996
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite "
 "@{matrix}"
 msgstr ""
 "CHOLESKY:Чолескијево разлагање симетричне позитивно-одређене @{матрице}"
 
-#: ../plugins/fn-math/functions.c:2999
+#: ../plugins/fn-math/functions.c:2997
 msgid "matrix:a symmetric positive definite matrix"
 msgstr "матрица:симетрична позитивно одређена матрица"
 
-#: ../plugins/fn-math/functions.c:3000
+#: ../plugins/fn-math/functions.c:2998
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
@@ -7093,7 +7092,7 @@ msgstr ""
 "Ако Чолески-Банакјевичев алгоритам примењен на @{матрици} не успе, Чолески "
 "исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:3001
+#: ../plugins/fn-math/functions.c:2999
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
@@ -7101,27 +7100,27 @@ msgstr ""
 "Ако @{матрица} не садржи једнак број колона и редова, „CHOLESKY“ исписује "
 "#БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:3076
+#: ../plugins/fn-math/functions.c:3074
 msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr "MUNIT:матрица идентитета @{n} са @{n}"
 
-#: ../plugins/fn-math/functions.c:3077
+#: ../plugins/fn-math/functions.c:3075
 msgid "n:size of the matrix"
 msgstr "n:величина матрице"
 
-#: ../plugins/fn-math/functions.c:3114
+#: ../plugins/fn-math/functions.c:3112
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr "MMULT:производ матрица @{мат1} и @{мат2}"
 
-#: ../plugins/fn-math/functions.c:3115
+#: ../plugins/fn-math/functions.c:3113
 msgid "mat1:a matrix"
 msgstr "мат1:матрица"
 
-#: ../plugins/fn-math/functions.c:3116
+#: ../plugins/fn-math/functions.c:3114
 msgid "mat2:a matrix"
 msgstr "мат2:матрица"
 
-#: ../plugins/fn-math/functions.c:3117
+#: ../plugins/fn-math/functions.c:3115
 msgid ""
 "The number of columns in @{mat1} must equal the number of rows in @{mat2}; "
 "otherwise #VALUE! is returned.  The result of MMULT is an array, in which "
@@ -7132,31 +7131,31 @@ msgstr ""
 "исписује се #ВРЕДНОСТ!.  Резултат за „MMULT“ је низ, у коме је број редова "
 "исти као у @{mat1}), а број колона је исти као у (@{mat2})."
 
-#: ../plugins/fn-math/functions.c:3157
+#: ../plugins/fn-math/functions.c:3155
 msgid "LINSOLVE:solve linear equation"
 msgstr "LINSOLVE:решавање линеарне једначине"
 
-#: ../plugins/fn-math/functions.c:3158 ../plugins/fn-stat/functions.c:3516
+#: ../plugins/fn-math/functions.c:3156 ../plugins/fn-stat/functions.c:3516
 msgid "A:a matrix"
 msgstr "A:матрица"
 
-#: ../plugins/fn-math/functions.c:3159
+#: ../plugins/fn-math/functions.c:3157
 msgid "B:a matrix"
 msgstr "B:матрица"
 
-#: ../plugins/fn-math/functions.c:3161
+#: ../plugins/fn-math/functions.c:3159
 msgid "Solves the equation @{A}*X=@{B} and returns X."
 msgstr "Решава једначину @{А}*X=@{Б} и исписује X."
 
-#: ../plugins/fn-math/functions.c:3162
+#: ../plugins/fn-math/functions.c:3160
 msgid "If the matrix @{A} is singular, #VALUE! is returned."
 msgstr "Ако је матрица @{А} једна, исписује се #ВРЕДНОСТ!."
 
-#: ../plugins/fn-math/functions.c:3213
+#: ../plugins/fn-math/functions.c:3211
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:детерминанта матрице @{матрица}"
 
-#: ../plugins/fn-math/functions.c:3215
+#: ../plugins/fn-math/functions.c:3213
 msgid ""
 "Let us assume that A1,...,A4 contain numbers 2, 3, 7, and 3; B1,..., B4 4, "
 "2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then "
@@ -7166,11 +7165,11 @@ msgstr ""
 "и 1; C1,...,C4 9, 4, 3; и 2; и D1,...,D4 7, 3, 6, и 5. Тада „MDETERM(A1:D4)“ "
 "исписује 148."
 
-#: ../plugins/fn-math/functions.c:3245
+#: ../plugins/fn-math/functions.c:3243
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT:множи састојке и додаје резултате"
 
-#: ../plugins/fn-math/functions.c:3247 ../plugins/fn-math/functions.c:3270
+#: ../plugins/fn-math/functions.c:3245 ../plugins/fn-math/functions.c:3268
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -7178,11 +7177,11 @@ msgstr ""
 "Множи уносе одговарајућих података у датим низовима или опсезима, а затим "
 "исписује збир тих производа."
 
-#: ../plugins/fn-math/functions.c:3250
+#: ../plugins/fn-math/functions.c:3248
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Ако неки унос није број, онда се користи вредност нула."
 
-#: ../plugins/fn-math/functions.c:3251 ../plugins/fn-math/functions.c:3274
+#: ../plugins/fn-math/functions.c:3249 ../plugins/fn-math/functions.c:3272
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -7190,7 +7189,7 @@ msgstr ""
 "Ако низови или аргументи опсега немају исте димензије, исписује грешку "
 "#ВРЕДНОСТ!."
 
-#: ../plugins/fn-math/functions.c:3253
+#: ../plugins/fn-math/functions.c:3251
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
@@ -7198,42 +7197,42 @@ msgstr ""
 "Ова функција занемарује логику, стога „SUMPRODUCT (A1:A5>0)“ неће радити.  "
 "Уместо тога користите „SUMPRODUCT(--(A1:A5>0))“"
 
-#: ../plugins/fn-math/functions.c:3262
+#: ../plugins/fn-math/functions.c:3260
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr ""
 "Ова функција није сагласна са Отвореном формулом. Уместо ње користите „ODF."
 "SUMPRODUCT“."
 
-#: ../plugins/fn-math/functions.c:3268
+#: ../plugins/fn-math/functions.c:3266
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
 msgstr "ODF.SUMPRODUCT:множи састојке и додаје резултате"
 
-#: ../plugins/fn-math/functions.c:3273
+#: ../plugins/fn-math/functions.c:3271
 msgid "If an entry is not numeric or logical, the value zero is used instead."
 msgstr ""
 "Ако неки унос није број или логичка вредност, онда се користи вредност нула."
 
-#: ../plugins/fn-math/functions.c:3276
+#: ../plugins/fn-math/functions.c:3274
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr ""
 "Ова функција се разликује од „SUMPRODUCT“ зато што разматра логичке "
 "вредности."
 
-#: ../plugins/fn-math/functions.c:3277
+#: ../plugins/fn-math/functions.c:3275
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr ""
 "Ова функција није сагласна са Екселом. Уместо ње користите „SUMPRODUCT“."
 
-#: ../plugins/fn-math/functions.c:3412
+#: ../plugins/fn-math/functions.c:3410
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:лична вредност и лични вектор симетричне @{матрице}"
 
-#: ../plugins/fn-math/functions.c:3413
+#: ../plugins/fn-math/functions.c:3411
 msgid "matrix:a symmetric matrix"
 msgstr "матрица:симетрична матрица"
 
-#: ../plugins/fn-math/functions.c:3414
+#: ../plugins/fn-math/functions.c:3412
 msgid ""
 "If @{matrix} is not symmetric, matching off-diagonal cells will be averaged "
 "on the assumption that the non-symmetry is caused by unimportant rounding "
@@ -7243,26 +7242,26 @@ msgstr ""
 "просеком подразумевања да је несиметрија проузрокована неважним грешкама "
 "заокруживања."
 
-#: ../plugins/fn-math/functions.c:3415
+#: ../plugins/fn-math/functions.c:3413
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
 msgstr ""
 "Ако @{матрица} не садржи једнак број колона и редова, „EIGEN“ исписује #БРОЈ!"
 
-#: ../plugins/fn-numtheory/numtheory.c:257
+#: ../plugins/fn-numtheory/numtheory.c:258
 msgid "NT_OMEGA:Number of distinct prime factors"
 msgstr "NT_OMEGA:Број изразитих простих чинилаца"
 
-#: ../plugins/fn-numtheory/numtheory.c:259
+#: ../plugins/fn-numtheory/numtheory.c:260
 msgid "Returns the number of distinct prime factors without multiplicity."
 msgstr "Исписује број изричитих простих чинилаца без вишеструкости."
 
-#: ../plugins/fn-numtheory/numtheory.c:290
+#: ../plugins/fn-numtheory/numtheory.c:291
 msgid "NT_PHI:Euler's totient function"
 msgstr "NT_PHI:Ојлерова фи функција (φ(n))"
 
-#: ../plugins/fn-numtheory/numtheory.c:292
+#: ../plugins/fn-numtheory/numtheory.c:293
 msgid ""
 "Euler's totient function gives the number of integers less than or equal to "
 "@{n} that are relatively prime (coprime) to @{n}."
@@ -7270,23 +7269,23 @@ msgstr ""
 "Ојлерова фи функција даје број целих бројева који су мањи или једнаки од "
 "@{n} који су релативно прости (узајамно прости) са @{n}."
 
-#: ../plugins/fn-numtheory/numtheory.c:295
+#: ../plugins/fn-numtheory/numtheory.c:296
 msgid "wiki:en:Euler's_totient_function"
 msgstr "вики:ен:Ојлерова_фи_функција (φ(n))"
 
-#: ../plugins/fn-numtheory/numtheory.c:324
+#: ../plugins/fn-numtheory/numtheory.c:325
 msgid "NT_RADICAL:Radical function"
 msgstr "NT_RADICAL:Радикална функција"
 
-#: ../plugins/fn-numtheory/numtheory.c:326
+#: ../plugins/fn-numtheory/numtheory.c:327
 msgid "The function computes the product of its distinct prime factors"
 msgstr "Функција израчунава производ својих изразитих простих чинилаца"
 
-#: ../plugins/fn-numtheory/numtheory.c:357
+#: ../plugins/fn-numtheory/numtheory.c:358
 msgid "NT_MU:Möbius mu function"
 msgstr "NT_MU:Мебијусова ми функција"
 
-#: ../plugins/fn-numtheory/numtheory.c:360
+#: ../plugins/fn-numtheory/numtheory.c:361
 msgid ""
 "NT_MU function (Möbius mu function) returns 0  if @{n} is divisible by the "
 "square of a prime. Otherwise, if @{n} has an odd  number of different prime "
@@ -7298,101 +7297,94 @@ msgstr ""
 "простих чинилаца, „NT_MU“ даје -1, и ако @{n} има непаран број различитих "
 "простих чинилаца, даје 1. Ако је @{n} = 1, „NT_MU“ исписује 1."
 
-#: ../plugins/fn-numtheory/numtheory.c:367
+#: ../plugins/fn-numtheory/numtheory.c:368
 msgid "wiki:en:Möbius_function"
 msgstr "вики:ен:Мебијусова_функција"
 
-#: ../plugins/fn-numtheory/numtheory.c:368
+#: ../plugins/fn-numtheory/numtheory.c:369
 msgid "wolfram:MoebiusFunction.html"
 msgstr "волфрам:Моебијус_функција.html"
 
-#: ../plugins/fn-numtheory/numtheory.c:398
+#: ../plugins/fn-numtheory/numtheory.c:399
 msgid "NT_D:number of divisors"
 msgstr "NT_D:број делилаца"
 
-#: ../plugins/fn-numtheory/numtheory.c:400
+#: ../plugins/fn-numtheory/numtheory.c:401
 msgid "NT_D calculates the number of divisors of @{n}."
 msgstr "„NT_D“ израчунава број делилаца @{n}-а."
 
-#: ../plugins/fn-numtheory/numtheory.c:430
+#: ../plugins/fn-numtheory/numtheory.c:431
 msgid "NT_SIGMA:sigma function"
 msgstr "NT_SIGMA:функција сигма"
 
-#: ../plugins/fn-numtheory/numtheory.c:432
+#: ../plugins/fn-numtheory/numtheory.c:433
 msgid "NT_SIGMA calculates the sum of the divisors of @{n}."
 msgstr "„NT_SIGMA“ израчунава збир делилаца @{n}-а."
 
-#: ../plugins/fn-numtheory/numtheory.c:435
+#: ../plugins/fn-numtheory/numtheory.c:436
 msgid "wiki:en:Divisor_function"
 msgstr "вики:ен:Функција_делиоца"
 
-#: ../plugins/fn-numtheory/numtheory.c:464
+#: ../plugins/fn-numtheory/numtheory.c:465
 msgid "ITHPRIME:@{i}th prime"
 msgstr "ITHPRIME:@{i}-ти прост"
 
-#: ../plugins/fn-numtheory/numtheory.c:465
+#: ../plugins/fn-numtheory/numtheory.c:466
 msgid "i:positive integer"
 msgstr "i:позитиван цео број"
 
-#: ../plugins/fn-numtheory/numtheory.c:466
+#: ../plugins/fn-numtheory/numtheory.c:467
 msgid "ITHPRIME finds the @{i}th prime."
 msgstr "„ITHPRIME“ налази @{i}-ти прост број."
 
-#: ../plugins/fn-numtheory/numtheory.c:490
+#: ../plugins/fn-numtheory/numtheory.c:491
 msgid "ISPRIME:whether @{n} is prime"
 msgstr "ISPRIME:да ли је @{n} прост број"
 
-#: ../plugins/fn-numtheory/numtheory.c:492
+#: ../plugins/fn-numtheory/numtheory.c:493
 msgid "ISPRIME returns TRUE if @{n} is prime and FALSE otherwise."
 msgstr "„ISPRIME“ исписује ТАЧНО ако је @{n} прост број а у супротном НЕТАЧНО."
 
-#: ../plugins/fn-numtheory/numtheory.c:495
+#: ../plugins/fn-numtheory/numtheory.c:496
 msgid "wolfram:PrimeNumber.html"
 msgstr "волфрам:Прост_број.html"
 
-#: ../plugins/fn-numtheory/numtheory.c:546
+#: ../plugins/fn-numtheory/numtheory.c:547
 msgid "PFACTOR:smallest prime factor"
 msgstr "PFACTOR:најмањи чинилац простог броја"
 
-#: ../plugins/fn-numtheory/numtheory.c:548
+#: ../plugins/fn-numtheory/numtheory.c:549
 msgid "PFACTOR finds the smallest prime factor of its argument."
 msgstr "„PFACTOR“ налази најмањи чинилац простог броја његовог аргумента."
 
-#: ../plugins/fn-numtheory/numtheory.c:549
+#: ../plugins/fn-numtheory/numtheory.c:550
 msgid ""
 "The argument @{n} must be at least 2. Otherwise a #VALUE! error is returned."
 msgstr ""
 "Аргумент @{n} мора бити барем 2. У супротном се исписује грешка #ВРЕДНОСТ!."
 
-#: ../plugins/fn-numtheory/numtheory.c:577
+#: ../plugins/fn-numtheory/numtheory.c:578
 msgid "NT_PI:number of primes upto @{n}"
 msgstr "NT_PI:број простих бројева на @{n}"
 
-#: ../plugins/fn-numtheory/numtheory.c:579
+#: ../plugins/fn-numtheory/numtheory.c:580
 msgid "NT_PI returns the number of primes less than or equal to @{n}."
 msgstr "„NT_PI“ исписује број простих бројева мањих или једнаких са @{n}."
 
-#: ../plugins/fn-numtheory/numtheory.c:582
+#: ../plugins/fn-numtheory/numtheory.c:583
 msgid "wolfram:PrimeCountingFunction.html"
 msgstr "волфрам:Функција_бројања_простих_бројева.html"
 
-#: ../plugins/fn-numtheory/numtheory.c:608
+#: ../plugins/fn-numtheory/numtheory.c:609
 msgid "BITOR:bitwise or"
 msgstr "BITOR:бит-по-бит ИЛИ"
 
-#: ../plugins/fn-numtheory/numtheory.c:609
-#: ../plugins/fn-numtheory/numtheory.c:633
-#: ../plugins/fn-numtheory/numtheory.c:657
-#: ../plugins/fn-numtheory/numtheory.c:682
-#: ../plugins/fn-numtheory/numtheory.c:712
-msgid "a:non-negative integer"
-msgstr "a:не-негативни цео број"
-
 #: ../plugins/fn-numtheory/numtheory.c:610
-#: ../plugins/fn-numtheory/numtheory.c:634
-#: ../plugins/fn-numtheory/numtheory.c:658
-msgid "b:non-negative integer"
-msgstr "b:не-негативни цео број"
+#: ../plugins/fn-numtheory/numtheory.c:651
+#: ../plugins/fn-numtheory/numtheory.c:692
+#| msgid "a:non-negative integer"
+msgid "values:non-negative integers"
+msgstr "values:не-негативни цео број"
 
 #: ../plugins/fn-numtheory/numtheory.c:611
 msgid ""
@@ -7400,11 +7392,11 @@ msgid ""
 msgstr ""
 "„BITOR“ исписује бит-по-бит ИЛИ бинарног представљања његових аргумената."
 
-#: ../plugins/fn-numtheory/numtheory.c:632
+#: ../plugins/fn-numtheory/numtheory.c:650
 msgid "BITXOR:bitwise exclusive or"
 msgstr "BITXOR:бит-по-бит искључиво ИЛИ"
 
-#: ../plugins/fn-numtheory/numtheory.c:635
+#: ../plugins/fn-numtheory/numtheory.c:652
 msgid ""
 "BITXOR returns the bitwise exclusive or of the binary representations of its "
 "arguments."
@@ -7412,22 +7404,27 @@ msgstr ""
 "„BITXOR“ исписује бит-по-бит искључиво ИЛИ бинарног представљања његових "
 "аргумената."
 
-#: ../plugins/fn-numtheory/numtheory.c:656
+#: ../plugins/fn-numtheory/numtheory.c:691
 msgid "BITAND:bitwise and"
 msgstr "BITAND:бит-по-бит И"
 
-#: ../plugins/fn-numtheory/numtheory.c:659
+#: ../plugins/fn-numtheory/numtheory.c:693
 msgid ""
 "BITAND returns the bitwise and of the binary representations of its "
 "arguments."
 msgstr ""
 "„BITAND“ исписује бит-по-бит И бинарног представљања његових аргумената."
 
-#: ../plugins/fn-numtheory/numtheory.c:681
+#: ../plugins/fn-numtheory/numtheory.c:732
 msgid "BITLSHIFT:bit-shift to the left"
 msgstr "BITLSHIFT:помак бита на лево"
 
-#: ../plugins/fn-numtheory/numtheory.c:684
+#: ../plugins/fn-numtheory/numtheory.c:733
+#: ../plugins/fn-numtheory/numtheory.c:763
+msgid "a:non-negative integer"
+msgstr "a:не-негативни цео број"
+
+#: ../plugins/fn-numtheory/numtheory.c:735
 msgid ""
 "BITLSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the left."
@@ -7435,7 +7432,7 @@ msgstr ""
 "„BITLSHIFT“ исписује бинарно представљање броја @{a} помереног за @{n} "
 "положаја на лево."
 
-#: ../plugins/fn-numtheory/numtheory.c:685
+#: ../plugins/fn-numtheory/numtheory.c:736
 msgid ""
 "If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) "
 "positions."
@@ -7443,11 +7440,11 @@ msgstr ""
 "Ако је @{n} негативан, „BITLSHIFT“ помера битове на десно за ABS(@{n}) "
 "положаја."
 
-#: ../plugins/fn-numtheory/numtheory.c:711
+#: ../plugins/fn-numtheory/numtheory.c:762
 msgid "BITRSHIFT:bit-shift to the right"
 msgstr "BITRSHIFT:помак бита на десно"
 
-#: ../plugins/fn-numtheory/numtheory.c:714
+#: ../plugins/fn-numtheory/numtheory.c:765
 msgid ""
 "BITRSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the right."
@@ -7455,7 +7452,7 @@ msgstr ""
 "„BITRSHIFT“ исписује бинарно представљање броја @{a} помереног за @{n} "
 "положаја на десно."
 
-#: ../plugins/fn-numtheory/numtheory.c:715
+#: ../plugins/fn-numtheory/numtheory.c:766
 msgid ""
 "If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) "
 "positions."
@@ -12263,6 +12260,9 @@ msgstr ""
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
 "Ово није намеравано да буде опште укључено и подразумевано је ИСКЉУЧЕНО."
+
+#~ msgid "b:non-negative integer"
+#~ msgstr "b:не-негативни цео број"
 
 #~ msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
 #~ msgstr "Ако @{матрица} није симетрична, „EIGEN“ исписује #БРОЈ!"
