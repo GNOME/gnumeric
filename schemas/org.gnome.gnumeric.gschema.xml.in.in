@@ -64,7 +64,7 @@
   </schema>
   <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.workbook" path="/org/gnome/gnumeric/core/workbook/">
     <key name="n-sheet" type="i">
-      <default>3</default>
+      <default>1</default>
       <_summary>Default Number of Sheets</_summary>
       <_description>The number of sheets initially created in a new workbook.</_description>
     </key>

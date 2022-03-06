@@ -16,6 +16,7 @@ Morten:
 	* Fix xlsx write for sheet objects with text contents.  [#617]
 	* Fix leak.
 	* Fix old problem saving column widths.  [#619]
+	* Set default number of sheets to 1.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51
