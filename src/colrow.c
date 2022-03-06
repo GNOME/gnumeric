@@ -61,8 +61,11 @@ col_row_info_get_type (void)
 double
 colrow_compute_pixel_scale (Sheet const *sheet, gboolean horizontal)
 {
-	return (sheet ? sheet->last_zoom_factor_used : 1.0) *
-		gnm_app_display_dpi_get (horizontal) / 72.;
+	double scale = gnm_app_display_dpi_get (horizontal) / 72.0;
+	if (sheet) {
+		scale *= sheet->last_zoom_factor_used;
+	}
+	return scale;
 }
 
 void
@@ -70,6 +73,9 @@ colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
 				gboolean horizontal, double scale)
 {
 	int const margin = horizontal ? 2*GNM_COL_MARGIN : 2*GNM_ROW_MARGIN;
+
+	if (!sheet)
+		g_error ("Why is sheet NULL here?\n");
 
 	if (scale == -1)
 		scale = colrow_compute_pixel_scale (sheet, horizontal);
