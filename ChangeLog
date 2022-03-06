@@ -1,3 +1,8 @@
+2022-03-06  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_colrow_info): Fix last fix.  I
+	accidentally made the run-length encoding break off too early.
+
 2022-03-02  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (xml_write_colrow_info): Fix problem writing
