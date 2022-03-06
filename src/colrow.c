@@ -64,6 +64,8 @@ colrow_compute_pixel_scale (Sheet const *sheet, gboolean horizontal)
 	double scale = gnm_app_display_dpi_get (horizontal) / 72.0;
 	if (sheet) {
 		scale *= sheet->last_zoom_factor_used;
+	} else {
+		g_error ("Why is sheet NULL here?\n");
 	}
 	return scale;
 }
@@ -72,10 +74,9 @@ void
 colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
 				gboolean horizontal, double scale)
 {
-	int const margin = horizontal ? 2*GNM_COL_MARGIN : 2*GNM_ROW_MARGIN;
+	int const margin = horizontal ? 2 * GNM_COL_MARGIN : 2 * GNM_ROW_MARGIN;
 
-	if (!sheet)
-		g_error ("Why is sheet NULL here?\n");
+	g_return_if_fail (IS_SHEET (sheet));
 
 	if (scale == -1)
 		scale = colrow_compute_pixel_scale (sheet, horizontal);
@@ -93,6 +94,8 @@ void
 colrow_compute_pts_from_pixels (ColRowInfo *cri, Sheet const *sheet,
 				gboolean horizontal, double scale)
 {
+	g_return_if_fail (IS_SHEET (sheet));
+
 	if (scale <= 0.)
 		scale = colrow_compute_pixel_scale (sheet, horizontal);
 
@@ -200,10 +203,10 @@ colrow_free (ColRowInfo *cri)
  * @user_data:	A baggage pointer.
  *
  * Iterates through the existing rows or columns within the range supplied.
- * Currently only support left -> right iteration.  If a callback returns
- * %TRUE iteration stops.
+ * Currently only support left-to-right iteration.  If a callback returns
+ * %TRUE, iteration stops.
  **/
-gboolean
+void
 colrow_state_list_foreach (ColRowStateList *list,
 			   Sheet const *sheet, gboolean is_cols,
 			   int base,
@@ -235,10 +238,9 @@ colrow_state_list_foreach (ColRowStateList *list,
 		for (l = 0; l < rle->length; l++) {
 			iter.pos = i++;
 			if (iter.cri && (*callback)(&iter, user_data))
-				return TRUE;
+				return;
 		}
 	}
-	return FALSE;
 }
 
 
@@ -1263,18 +1265,16 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 	}
 }
 
-// Introspection scanner crashes if the following "hide" is removed.
-
-/*hide*
+/**
  * colrow_get_global_outline: (skip)
  * @sheet:
  * @is_cols: %TRUE for columns, %FALSE for rows.
  * @depth:
- * @show: (out):
- * @hide: (out):
+ * @show: (out): columns/rows that need to be shown
+ * @hide: (out): columns/rows that need to be hidden
  *
- * Collect the set of visibility changes required to change the visibility of
- * all outlined columns such that those > @depth are visible.
+ * Collect the sets of visibility changes required to change the visibility of
+ * all outlined columns/rows such that those depth less then  @depth are visible.
  **/
 void
 colrow_get_global_outline (Sheet const *sheet, gboolean is_cols, int depth,

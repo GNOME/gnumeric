@@ -95,7 +95,7 @@ ColRowStateList	*colrow_get_states	     (Sheet *sheet, gboolean is_cols,
 					      int first, int last);
 void		 colrow_set_states	     (Sheet *sheet, gboolean is_cols,
 					      int first, ColRowStateList *states);
-gboolean colrow_state_list_foreach	     (ColRowStateList *list,
+void		 colrow_state_list_foreach   (ColRowStateList *list,
 					      Sheet const *sheet,
 					      gboolean is_cols,
 					      int base,

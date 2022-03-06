@@ -1,4 +1,3 @@
-
 /*
  * xml-sax-write.c : export .gnumeric and the clipboard subset using the sax
  *			like wrappers in libgsf
@@ -30,7 +29,7 @@
 #include <workbook-view.h>
 #include <gnm-format.h>
 #include <workbook.h>
-#include <workbook-priv.h> /* Workbook::names */
+#include <workbook-priv.h>
 #include <cell.h>
 #include <sheet.h>
 #include <sheet-view.h>
