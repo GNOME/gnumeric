@@ -13,7 +13,7 @@ my @sources = &GnumericTest::corpus();
 @sources = grep { !m{(^|/)(chart-tests\.gnumeric|datefuns\.xls|vba-725220\.xls|docs-samples\.gnumeric|numbermatch\.gnumeric)$} } @sources;
 # Avoid slow stuff
 @sources = grep { !m{(^|/)(address\.xls|bitwise\.xls|operator\.xls|linest\.xls)$} } @sources;
-@sources = grep { !m{(^|/)(amath\.gnumeric|gamma\.gnumeric|crlibm\.gnumeric)$} } @sources;
+@sources = grep { !m{(^|/)(amath\.gnumeric|gamma\.gnumeric|crlibm\.gnumeric|ilog\.gnumeric)$} } @sources;
 @sources = grep { !m{(^|/)(numtheory\.gnumeric)$} } @sources;
 # Currently fails, dending investigation
 @sources = grep { !m{(^|/)(arrays\.xls)$} } @sources;
