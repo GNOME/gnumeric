@@ -7,4 +7,4 @@ use GnumericTest;
 
 my $file = "arrays.xls";
 &message ("Check that $file evaluates correctly.");
-&test_sheet_calc ("$samples/$file", "Summary!B2", sub { /TRUE/ });
+&test_sheet_calc ("$samples/$file", "Summary!B1", sub { /TRUE/ });
