@@ -2374,6 +2374,22 @@ static GnmFuncHelp const help_large[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
+static int
+gnm_kth (gnm_float k)
+{
+	if (k < 1)
+		// This just makes us get an error unless we're very
+		// close to 1.
+		k = gnm_fake_floor (k);
+	else
+		k = gnm_fake_ceil (k);
+
+	if (k < 1 || k >= INT_MAX)
+		return 0;
+	else
+		return (int)k;
+}
+
 static GnmValue *
 gnumeric_large (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
@@ -2385,13 +2401,12 @@ gnumeric_large (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      COLLECT_IGNORE_BLANKS |
 					      COLLECT_SORT,
 					      &n, &res);
-	gnm_float k = value_get_as_float (argv[1]);
+	int ki = gnm_kth (value_get_as_float (argv[1]));
 	if (res)
 		return res;
 
-	k = gnm_fake_ceil (k);
-	if (k >= 1 && k <= n)
-		res = value_new_float (xs[n - (int)k]);
+	if (ki >= 1 && ki <= n)
+		res = value_new_float (xs[n - ki]);
 	else
 		res = value_new_error_NUM (ei->pos);
 
@@ -2429,13 +2444,12 @@ gnumeric_small (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      COLLECT_IGNORE_BLANKS |
 					      COLLECT_SORT,
 					      &n, &res);
-	gnm_float k = value_get_as_float (argv[1]);
+	int ki = gnm_kth (value_get_as_float (argv[1]));
 	if (res)
 		return res;
 
-	k = gnm_fake_ceil (k);
-	if (k >= 1 && k <= n)
-		res = value_new_float (xs[(int)k - 1]);
+	if (ki >= 1 && ki <= n)
+		res = value_new_float (xs[ki - 1]);
 	else
 		res = value_new_error_NUM (ei->pos);
 

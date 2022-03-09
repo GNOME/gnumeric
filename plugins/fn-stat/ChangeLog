@@ -1,3 +1,8 @@
+2022-03-09  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_small, gnumeric_large): Fix strange edge
+	error case.
+
 2022-01-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.51
