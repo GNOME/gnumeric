@@ -394,6 +394,11 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	if (draw_xor)
 		cairo_set_operator (cr, CAIRO_OPERATOR_HARD_LIGHT);
 	if (draw_external) {
+		// Correction to make sure we draw the entire thing within
+		// Column A and Row 1.
+		int x0corr = x0 == 0 ? 1 : 0;
+		int y0corr = y0 == 0 ? 1 : 0;
+
 		switch (draw_handle) {
 		/* Auto handle at bottom */
 		case 1:
@@ -402,16 +407,16 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 
 		/* No auto handle */
 		case 0:
-			points [0].x = x1 + 1.5;
-			points [0].y = y1 + 1 - premove;
-			points [1].x = points [0].x;
-			points [1].y = y0 - .5;
-			points [2].x = x0 - .5;
-			points [2].y = y0 - .5;
-			points [3].x = x0 - .5;
-			points [3].y = y1 + 1.5;
-			points [4].x = x1 + 1 - premove;
-			points [4].y = points [3].y;
+			points[0].x = x1 + 1.5;
+			points[0].y = y1 + 1 - premove;
+			points[1].x = points[0].x;
+			points[1].y = y0 - .5 + y0corr;
+			points[2].x = x0 - .5 + x0corr;
+			points[2].y = points[1].y;
+			points[3].x = points[2].x;
+			points[3].y = y1 + 1.5;
+			points[4].x = x1 + 1 - premove;
+			points[4].y = points[3].y;
 			break;
 
 		/* Auto handle at top */
@@ -421,16 +426,16 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 
 		/* Auto handle at top of sheet */
 		case 3:
-			points [0].x = x1 + 1.5;
-			points [0].y = y0 - .5 + AUTO_HANDLE_SPACE;
-			points [1].x = points [0].x;
-			points [1].y = y1 + 1.5;
-			points [2].x = x0 - .5;
-			points [2].y = points [1].y;
-			points [3].x = points [2].x;
-			points [3].y = y0 - .5;
-			points [4].x = x1 + 1 - premove;
-			points [4].y = points [3].y;
+			points[0].x = x1 + 1.5;
+			points[0].y = y0 - .5 + AUTO_HANDLE_SPACE;
+			points[1].x = points[0].x;
+			points[1].y = y1 + 1.5;
+			points[2].x = x0 - .5;
+			points[2].y = points[1].y;
+			points[3].x = points[2].x;
+			points[3].y = y0 - .5;
+			points[4].x = x1 + 1 - premove;
+			points[4].y = points[3].y;
 			break;
 
 		default:
@@ -444,23 +449,23 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 
 	if (draw_external && draw_internal) {
 		if (draw_handle < 2) {
-			points [0].x -= 2;
-			points [1].x -= 2;
-			points [1].y += 2;
-			points [2].x += 2;
-			points [2].y += 2;
-			points [3].x += 2;
-			points [3].y -= 2;
-			points [4].y -= 2;
+			points[0].x -= 2;
+			points[1].x -= 2;
+			points[1].y += 2;
+			points[2].x += 2;
+			points[2].y += 2;
+			points[3].x += 2;
+			points[3].y -= 2;
+			points[4].y -= 2;
 		} else {
-			points [0].x -= 2;
-			points [1].x -= 2;
-			points [1].y -= 2;
-			points [2].x += 2;
-			points [2].y -= 2;
-			points [3].x += 2;
-			points [3].y += 2;
-			points [4].y += 2;
+			points[0].x -= 2;
+			points[1].x -= 2;
+			points[1].y -= 2;
+			points[2].x += 2;
+			points[2].y -= 2;
+			points[3].x += 2;
+			points[3].y += 2;
+			points[4].y += 2;
 		}
 		cairo_move_to (cr, points[0].x, points[0].y);
 		for (i = 1; i < 5; i++)
