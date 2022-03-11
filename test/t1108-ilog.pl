@@ -7,4 +7,4 @@ use GnumericTest;
 
 my $file = "ilog.gnumeric";
 &message ("Check that $file evaluates correctly.");
-&test_sheet_calc ("$samples/$file", "C1", sub { /\bTRUE\b/i });
+&test_sheet_calc ("$samples/$file", "Overview!C1", sub { /\bTRUE\b/i });
