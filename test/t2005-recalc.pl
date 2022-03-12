@@ -15,7 +15,7 @@ my @sources = &GnumericTest::corpus();
 @sources = grep { !m{(^|/)(address\.xls|bitwise\.xls|operator\.xls|linest\.xls)$} } @sources;
 @sources = grep { !m{(^|/)(amath\.gnumeric|gamma\.gnumeric|crlibm\.gnumeric|ilog\.gnumeric)$} } @sources;
 @sources = grep { !m{(^|/)(numtheory\.gnumeric)$} } @sources;
-# Currently fails, dending investigation
+# Currently fails, pending investigation
 @sources = grep { !m{(^|/)(arrays\.xls)$} } @sources;
 
 
