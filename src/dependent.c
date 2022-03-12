@@ -43,6 +43,7 @@
 static gboolean gnm_cell_eval_content (GnmCell *cell);
 static void dependent_changed (GnmDependent *dep);
 static void dependent_clear_dynamic_deps (GnmDependent *dep);
+static const char *dep_name (GnmDependent *dep);
 
 typedef enum {
 	DEP_LINK_NON_SCALAR = 1,
@@ -3054,6 +3055,18 @@ dependent_debug_name (GnmDependent const *dep, GString *target)
 	dependent_debug_name_for_sheet (dep, NULL, target);
 }
 
+static const char *
+dep_name (GnmDependent *dep)
+{
+	static GString *s = NULL;
+	if (!s)
+		s = g_string_new (NULL); // Leaked
+	g_string_truncate (s, 0);
+	dependent_debug_name (dep, s);
+	return s->str;
+}
+
+
 
 static void
 dump_range_dep (DependencyRange const *deprange, Sheet *sheet, GHashTable *alldeps)
@@ -3237,7 +3250,6 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 		g_hash_table_iter_init (&hiter, alldeps);
 		while (g_hash_table_iter_next (&hiter, &key, NULL)) {
 			GnmDependent *dep = key;
-			GString *nstr = g_string_new (NULL);
 			GnmParsePos pp;
 			char *estr;
 
@@ -3246,9 +3258,7 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 				? gnm_expr_top_as_string (dep->texpr, &pp, sheet_get_conventions (dep->sheet))
 				: g_strdup ("(null)");
 
-			dependent_debug_name (dep, nstr);
-			g_printerr ("    %s: %s\n", nstr->str, estr);
-			g_string_free (nstr, TRUE);
+			g_printerr ("    %s: %s\n", dep_name (dep), estr);
 			g_free (estr);
 		}
 	}
