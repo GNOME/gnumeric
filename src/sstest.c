@@ -3527,7 +3527,9 @@ test_recalc (GOCmdContext *cc, const char *url)
 				g_printerr ("NOTE: %s!%s is volatile.\n",
 					    cell->base.sheet->name_unquoted,
 					    cell_name (cell));
-		}});
+		}
+		g_ptr_array_free (scells, TRUE);
+		});
 	base_values = get_cell_values (cells);
 
 	g_printerr ("Changing the contents of %d cells, one at a time...\n", cells->len);
