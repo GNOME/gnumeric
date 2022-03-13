@@ -963,19 +963,11 @@
    fun:gdk_pixbuf_add_alpha
 }
 
+# Python leaks.  Just suppress the whole lot.
 {
-   Python-init-leaks1
+   Python-leaks
    Memcheck:Leak
-   match-leak-kinds: possible
+   match-leak-kinds: all
    ...
-   fun:Py_InitializeEx
-}
-
-{
-   Python-init-leaks2
-   Memcheck:Leak
-   match-leak-kinds: definite
-   fun:realloc
-   fun:_Py_EncodeUTF8Ex
-   fun:_PyUnicode_InitEncodings
+   obj:*/libpython3*
 }
