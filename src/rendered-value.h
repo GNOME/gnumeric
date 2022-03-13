@@ -41,7 +41,7 @@ struct _GnmRenderedRotatedValue {
 
 GnmRenderedValue *gnm_rendered_value_new       (GnmCell const *cell,
 						PangoContext *context,
-						gboolean variable_width,
+						gboolean allow_variable_width,
 						double zoom);
 void              gnm_rendered_value_destroy   (GnmRenderedValue *rv);
 

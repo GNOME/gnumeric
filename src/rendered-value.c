@@ -241,10 +241,12 @@ too_many_digits (const char *s)
 
 /**
  * gnm_rendered_value_new: (skip)
- * @cell:   The cell
- * @variable_width: Allow format to depend on column width.
+ * @cell: The cell
+ * @context: A #PangoContext for text measurement.
+ * @allow_variable_width: Allow format to depend on column width.
+ * @zoom: zoom factor.
  *
- * Formats the value of the cell according to the format style given in @mstyle
+ * Formats the value of the cell according to its style.
  *
  * Returns: a new GnmRenderedValue
  **/
@@ -502,7 +504,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 					 col_width, date_conv, TRUE);
 
 		// If we are formatting a number as General without a limit
-		// on size [i.e., we autofitting a column] then avoid excess
+		// on size [i.e., we are autofitting a column] then avoid excess
 		// precision.  This is somewhat hacky.
 		if (col_width == -1 &&
 		    go_format_is_general (format) &&
