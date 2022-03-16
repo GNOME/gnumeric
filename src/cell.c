@@ -609,8 +609,9 @@ gnm_cell_get_rendered_value (GnmCell const *cell)
 /**
  * gnm_cell_fetch_rendered_value: (skip)
  * @cell: #GnmCell
+ * @allow_variable_width: Allow format to depend on column width.
  *
- * Returns:
+ * Returns: (transfer none): A rendered value for the cell.
  **/
 GnmRenderedValue *
 gnm_cell_fetch_rendered_value (GnmCell const *cell,
