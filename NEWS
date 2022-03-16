@@ -18,6 +18,7 @@ Morten:
 	* Fix old problem saving column widths.  [#619]
 	* Set default number of sheets to 1.
 	* Fix edge error case for SMALL and LARGE.  [#620]
+	* Increase the default column width a bit.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51

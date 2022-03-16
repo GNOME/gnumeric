@@ -781,6 +781,7 @@ gnm_sheet_constructed (GObject *obj)
 	ht += GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
 	if (ht > sheet_row_get_default_size_pixels (sheet)) {
 		sheet_row_set_default_size_pixels (sheet, ht);
+		sheet_col_set_default_size_pixels (sheet, ht * 9 / 2);
 	}
 
 	sheet_scale_changed (sheet, TRUE, TRUE);
