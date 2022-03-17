@@ -19,6 +19,7 @@ Morten:
 	* Set default number of sheets to 1.
 	* Fix edge error case for SMALL and LARGE.  [#620]
 	* Increase the default column width a bit.
+	* Fix xlsx import/export of default column width.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51

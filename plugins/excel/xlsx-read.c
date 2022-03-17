@@ -1778,11 +1778,13 @@ static void
 xlsx_CT_SheetFormatPr (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gnm_float h;
+	gnm_float h, w;
 	int i;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (attr_float (xin, attrs, "defaultRowHeight", &h))
+		if (attr_float (xin, attrs, "defaultColWidth", &w))
+			sheet_col_set_default_size_pts (state->sheet, w);
+		else if (attr_float (xin, attrs, "defaultRowHeight", &h))
 			sheet_row_set_default_size_pts (state->sheet, h);
 		else if (attr_int (xin, attrs, "outlineLevelRow", &i)) {
 			if (i > 0)

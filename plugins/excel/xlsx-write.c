@@ -2941,6 +2941,8 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 	gsf_xml_out_end_element (xml); /* </sheetViews> */
 /*   element sheetFormatPr { CT_SheetFormatPr }?,     */
 	gsf_xml_out_start_element (xml, "sheetFormatPr");
+	go_xml_out_add_double (xml, "defaultColWidth",
+		sheet_col_get_default_size_pts (state->sheet));
 	go_xml_out_add_double (xml, "defaultRowHeight",
 		sheet_row_get_default_size_pts (state->sheet));
 	if (state->sheet->rows.max_outline_level > 0)
