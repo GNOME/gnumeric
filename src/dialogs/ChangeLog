@@ -1,3 +1,8 @@
+2022-03-17  Morten Welinder  <terra@gnome.org>
+
+	* dialog-preferences.c (dialog_pref_select_page): Don't expand the
+	Tools group by default.
+
 2022-01-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.51

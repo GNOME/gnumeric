@@ -1257,7 +1257,7 @@ dialog_pref_select_page (PrefState *state, gchar const *page)
 	page_search_t pst = {NULL, NULL};
 
 	if (page == NULL)
-		page = "Tools";
+		return;
 
 	pst.page = _(page);
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->store),
