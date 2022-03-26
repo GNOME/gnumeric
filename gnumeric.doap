@@ -43,4 +43,11 @@
       <gnome:userid>jbrefort</gnome:userid>
     </foaf:Person>
   </maintainer>
+  <developer>
+    <foaf:Person>
+      <foaf:name>B. S.</foaf:name>
+      <foaf:mbox rdf:resource="mailto:newbie-02@gmx.de" />
+      <gnome:userid>newbie-02</gnome:userid>
+    </foaf:Person>
+  </developer>
 </Project>
