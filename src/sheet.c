@@ -2550,6 +2550,7 @@ sheet_get_printarea (Sheet const *sheet,
 struct cb_fit {
 	int max;
 	gboolean ignore_strings;
+	gboolean only_when_needed;
 };
 
 /* find the maximum width in a range.  */
@@ -2576,8 +2577,32 @@ cb_max_cell_width (GnmCellIter const *iter, struct cb_fit *data)
 
 	/* Variable width cell must be re-rendered */
 	rv = gnm_cell_get_rendered_value (cell);
-	if (rv == NULL || rv->variable_width)
+
+	if (rv == NULL || rv->variable_width) {
+		if (data->only_when_needed && VALUE_IS_FLOAT (cell->value)) {
+			// A numeric cell that already fits does not cause
+			// a column to be widened.
+
+			gnm_float aval = gnm_abs (value_get_as_float (cell->value));
+			GOFormat const *fmt = gnm_cell_get_format (cell);
+			gboolean overflowed;
+
+			if (!rv)
+				rv = gnm_cell_render_value (cell, TRUE);
+			cell_finish_layout (cell, NULL, iter->ci->size_pixels, FALSE);
+
+			overflowed = rv->numeric_overflow;
+			if (go_format_is_general (fmt) &&
+			    aval < 1e8 && aval >= 0.001 &&
+			    strchr (gnm_rendered_value_get_text (rv), 'E'))
+				overflowed = TRUE;
+
+			if (!overflowed)
+				return NULL;
+		}
+
 		gnm_cell_render_value (cell, FALSE);
+	}
 
 	/* Make sure things are as-if drawn.  */
 	cell_finish_layout (cell, NULL, iter->ci->size_pixels, TRUE);
@@ -2595,7 +2620,9 @@ cb_max_cell_width (GnmCellIter const *iter, struct cb_fit *data)
  * @col: the column that we want to query
  * @srow: starting row.
  * @erow: ending row.
- * @ignore_strings: skip cells containing string values.
+ * @ignore_strings: skip cells containing string values.  Currently this
+ * flags doubles as an indicator that numeric cells should only cause a
+ * widening when they would otherwise cause "####" to be displayed.
  *
  * This routine computes the ideal size for the column to make the contents all
  * cells in the column visible.
@@ -2614,6 +2641,7 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col, int srow, int erow,
 
 	data.max = -1;
 	data.ignore_strings = ignore_strings;
+	data.only_when_needed = ignore_strings; // Close enough
 	sheet_foreach_cell_in_region (sheet,
 		CELL_ITER_IGNORE_NONEXISTENT |
 		CELL_ITER_IGNORE_HIDDEN |

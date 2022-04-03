@@ -1,3 +1,8 @@
+2022-04-03  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (cb_max_cell_width): Be less aggressive in column
+	widening.  #621.
+
 2022-03-16  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (gnm_sheet_constructed): When rescaling row height

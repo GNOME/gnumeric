@@ -20,6 +20,7 @@ Morten:
 	* Fix edge error case for SMALL and LARGE.  [#620]
 	* Increase the default column width a bit.
 	* Fix xlsx import/export of default column width.
+	* Be less aggressive with automatic column widening.  [#621]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.51
