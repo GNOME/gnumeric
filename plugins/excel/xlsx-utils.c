@@ -138,9 +138,9 @@ xlsx_func_map_in (GnmConventions const *convs,
 	GnmExpr const * (*handler) (GnmConventions const *convs, Workbook *scope,
 				    GnmExprList *args);
 	GnmFunc  *f;
-	char const *new_name;
 
 	if (0 == g_ascii_strncasecmp (name, "_xlfn.", 6)) {
+		char const *new_name;
 		if (NULL != xconv->xlfn_map &&
 		    NULL != (new_name = g_hash_table_lookup (xconv->xlfn_map, name + 6)))
 			name = new_name;
@@ -617,6 +617,7 @@ xlsx_conventions_new (gboolean output)
 		{ "STDEV.P", "STDEVP" },
 		{ "STDEV.S", "STDEV" },
 		{ "T.TEST", "TTEST" },
+		{ "T.INV", "R.QT" },
 		{ "T.INV.2T", "TINV" },
 		{ "VAR.P", "VARP" },
 		{ "VAR.S", "VAR" },
