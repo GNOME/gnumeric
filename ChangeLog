@@ -1,3 +1,8 @@
+2022-05-05  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_cell_set_array_expr): Fix inter-process
+	array non-corner element problem.  [Part of #634]
+
 2022-04-18  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

@@ -2014,7 +2014,8 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
  */
 static void
 xml_cell_set_array_expr (XMLSaxParseState *state,
-			 GnmCell *cell, GnmCellCopy *cc, GnmParsePos *pp,
+			 GnmCell *cell, GnmCellRegion *cr, GnmCellCopy *cc_corner,
+			 GnmParsePos *pp,
 			 char const *text,
 			 int const cols, int const rows)
 {
@@ -2027,9 +2028,27 @@ xml_cell_set_array_expr (XMLSaxParseState *state,
 	g_return_if_fail (texpr != NULL);
 
 	if (!cell) {
-		cc->texpr = gnm_expr_top_new_array_corner
+		// Clipboard case
+		int col = pp->eval.col;
+		int row = pp->eval.row;
+		int x = col - cr->base.col;
+		int y = row - cr->base.row;
+
+		cc_corner->texpr = gnm_expr_top_new_array_corner
 			(cols, rows, gnm_expr_copy (texpr->expr));
 		gnm_expr_top_unref (texpr);
+
+		for (int c = 0; c < cols; c++) {
+			for (int r = 0; r < rows; r++) {
+				GnmCellCopy *cc;
+
+				if (r + c == 0)
+					continue;
+
+				cc = gnm_cell_copy_new (cr, x + c, y + r);
+				cc->texpr = gnm_expr_top_new_array_elem (c, r);
+			}
+		}
 		return;
 	}
 
@@ -2053,7 +2072,8 @@ xml_cell_set_array_expr (XMLSaxParseState *state,
  */
 static gboolean
 xml_not_used_old_array_spec (XMLSaxParseState *state,
-			     GnmCell *cell, GnmCellCopy *cc, GnmParsePos *pp,
+			     GnmCell *cell, GnmCellRegion *cr, GnmCellCopy *cc,
+			     GnmParsePos *pp,
 			     char const *content)
 {
 	long rows, cols, row, col;
@@ -2083,7 +2103,7 @@ xml_not_used_old_array_spec (XMLSaxParseState *state,
 
 	if (row == 0 && col == 0) {
 		*expr_end = '\0';
-		xml_cell_set_array_expr (state, cell, cc, pp,
+		xml_cell_set_array_expr (state, cell, cr, cc, pp,
 					 content + 2, rows, cols);
 	}
 
@@ -2166,9 +2186,10 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (is_post_52_array && has_contents) {
 		// Array formula
 		g_return_if_fail (content[0] == '=');
-		xml_cell_set_array_expr (state, cell, cc, &pos, content + 1,
+		xml_cell_set_array_expr (state, cell, cr, cc,
+					 &pos, content + 1,
 					 array_cols, array_rows);
-		texpr = cc ? cc->texpr : cell->base.texpr;
+		texpr = cr ? cc->texpr : cell->base.texpr;
 		if (texpr) gnm_expr_top_ref (texpr);
 		goto store_shared;
 	}
@@ -2176,7 +2197,7 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	// ----------------------------------------
 
 	if (has_contents && state->version < GNM_XML_V3 &&
-	    !xml_not_used_old_array_spec (state, cell, cc, &pos, content)) {
+	    !xml_not_used_old_array_spec (state, cell, cr, cc, &pos, content)) {
 		// Very old array syntax -- irrelevant
 		goto done;
 	}
