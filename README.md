@@ -44,9 +44,7 @@ Runtime suggestions:
 ## Mailing lists
 
    There is a mailing list used to discuss Gnumeric, to subscribe
-send a mail to:
-
-	gnumeric-list-request@gnome.org
+send a mail to: gnumeric-list-request@gnome.org
 
    And in the body of the message write "subscribe"
 
