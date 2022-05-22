@@ -548,7 +548,7 @@ xlsx_load_buildin_num_formats (GHashTable *hash)
 		/* 11 */ "0.00E+00",
 		/* 12 */ "# ?/?",
 		/* 13 */ "# ?""?/?""?",	/* silly trick to avoid using a trigraph */
-		/* 14 */ "mm-dd-yy",
+		/* 14 */ NULL, // Locale version of "mm-dd-yy"
 		/* 15 */ "d-mmm-yy",
 		/* 16 */ "d-mmm",
 		/* 17 */ "mmm-yy",
@@ -586,12 +586,20 @@ xlsx_load_buildin_num_formats (GHashTable *hash)
 		/* 49 */ "@"
 	};
 	unsigned int i;
+	GOFormat const *fmt;
 
 	g_return_if_fail (NUM_FORMAT_BASE > (int) G_N_ELEMENTS (std_builtins));
 
 	for (i = 1; i < G_N_ELEMENTS (std_builtins); i++)
 		if (std_builtins[i] != NULL)
 			g_hash_table_insert (hash, g_strdup (std_builtins[i]), GUINT_TO_POINTER (i));
+
+	// Format 14 is locale dependent.  ms-excel-read.c suggests that maybe
+	// 15 should be too, but I cannot verify that anywhere.
+	fmt = go_format_new_magic (GO_FORMAT_MAGIC_SHORT_DATE);
+	g_hash_table_insert (hash, g_strdup (go_format_as_XL (fmt)),
+			     GUINT_TO_POINTER (14));
+	go_format_unref (fmt);
 }
 
 static void

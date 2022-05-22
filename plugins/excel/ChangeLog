@@ -1,3 +1,8 @@
+2022-05-22  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_get_num_fmt): Format 14 is locale dependent.
+	* xlsx-write.c (xlsx_load_buildin_num_formats): Ditto.
+
 2022-04-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.52

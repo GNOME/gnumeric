@@ -1059,7 +1059,7 @@ xlsx_get_num_fmt (GsfXMLIn *xin, char const *id)
 		/* 11 */ "0.00E+00",
 		/* 12 */ "# ?/?",
 		/* 13 */ "# ?""?/?""?",	/* silly trick to avoid using a trigraph */
-		/* 14 */ "mm-dd-yy",
+		/* 14 */ NULL, // Locale version of "mm-dd-yy"
 		/* 15 */ "d-mmm-yy",
 		/* 16 */ "d-mmm",
 		/* 17 */ "mmm-yy",
@@ -1172,13 +1172,20 @@ xlsx_get_num_fmt (GsfXMLIn *xin, char const *id)
 
 	/* builtins */
 	i = strtol (id, &end, 10);
-	if (end != id && *end == '\0' &&
-	    i >= 0 && i < (int) G_N_ELEMENTS (std_builtins) &&
-	    std_builtins[i] != NULL) {
+	if (end == id || *end != 0 || i < 0 || i >= (int) G_N_ELEMENTS (std_builtins))
+		i = -1;
+
+	if (i >= 0 && std_builtins[i] != NULL) {
 		res = go_format_new_from_XL (std_builtins[i]);
+		g_hash_table_replace (state->num_fmts, g_strdup (id), res);
+	} else if (i == 14) {
+		// Format 14 is locale dependent.  ms-excel-read.c suggests that maybe
+		// 15 should be too, but I cannot verify that anywhere.
+		res = go_format_new_magic (GO_FORMAT_MAGIC_SHORT_DATE);
 		g_hash_table_replace (state->num_fmts, g_strdup (id), res);
 	} else
 		xlsx_warning (xin, _("Undefined number format id '%s'"), id);
+
 	return res;
 }
 

@@ -3,6 +3,7 @@ Gnumeric 1.12.53
 Morten:
 	* Fix xlsx import of T.INV.
 	* Fix inter-process array paste problem.  [#634]
+	* Fix problem with xlsx number format 14.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.52
