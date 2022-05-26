@@ -1,4 +1,5 @@
-Gnumeric -- The GNOME spreadsheet
+# Gnumeric
+The GNOME spreadsheet
 Jody Goldberg <jody@gnome.org>
 
 The project aims to become a drop in replacement for proprietary spreadsheets.
@@ -10,10 +11,10 @@ To report Gnumeric bugs, please visit https://gitlab.gnome.org/GNOME/gnumeric/is
 Gnumeric is licensed under the terms of the GNU GPL included in the
 file COPYING.
 
-Requirements
-------------
+## Requirements
 
 You need:				Debian package name
+```	
 	glib		>= 2.40.0	libglib2.0-dev
 	gtk+		>= 3.8.7	libgtk3.0-dev
 	libgsf		>= 1.14.33	libgsf-1-dev
@@ -21,28 +22,29 @@ You need:				Debian package name
 	gnome-xml   	>= 2.4.12	libxml2-dev
 	pango		>= 1.24.0	libpango1.0-dev
 	NOTE: gnome-xml is also known as libxml
-
+```
 Optionally:
+```
 	python		>= 2.0		python-dev
 	pygobject	>= 3.0.0	python-gi-dev
 
 	The GDA plugin, for accessing databases
 	gda		>= 1.3.0	libgda2-dev
 	libgnomedb	>= 1.3.0	libgnomedb2-dev
-
+```
 Currently disabled:
+```
 	guile		>= 1.5	(no maintainer)
-
+```
 Runtime suggestions:
+```
 	'yelp' for help
+```
 
-Mailing lists
--------------
+## Mailing lists
 
    There is a mailing list used to discuss Gnumeric, to subscribe
-send a mail to:
-
-	gnumeric-list-request@gnome.org
+send a mail to: gnumeric-list-request@gnome.org
 
    And in the body of the message write "subscribe"
 
@@ -51,8 +53,7 @@ send a mail to:
 	http://mail.gnome.org/archives/gnumeric-list/
 
 
-Random notes:
--------------
+## Random notes:
 
 This is a partial list of Features implemented in Gnumeric, we need
 documentation for these:
