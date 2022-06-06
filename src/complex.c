@@ -21,53 +21,34 @@
 char *
 gnm_complex_to_string (gnm_complex const *src, char imunit)
 {
-	char *re_buffer = NULL;
-	char *im_buffer = NULL;
-	char const *sign = "";
-	char const *suffix = "";
-	char *res;
-	char suffix_buffer[2];
-	const char *fmt = "%.*" GNM_FORMAT_g;
-	static int digits = -1;
+	GString *res = g_string_new (NULL);
+	gboolean have_real;
 
-	if (digits == -1) {
-		gnm_float l10 = gnm_log10 (FLT_RADIX);
-		digits = (int)gnm_ceil (GNM_MANT_DIG * l10) +
-			(l10 == (int)l10 ? 0 : 1);
-	}
-
-	if (src->re != 0 || src->im == 0) {
-		/* We have a real part.  */
-		re_buffer = g_strdup_printf (fmt, digits, src->re);
+	have_real = src->re != 0 || src->im == 0;
+	if (have_real) {
+		// We have an real part.
+		go_dtoa (res, "!" GNM_FORMAT_G, src->re);
 	}
 
 	if (src->im != 0) {
-		/* We have an imaginary part.  */
-		suffix = suffix_buffer;
-		suffix_buffer[0] = imunit;
-		suffix_buffer[1] = 0;
+		// We have an imaginary part.
 		if (src->im == 1) {
-			if (re_buffer)
-				sign = "+";
+			if (have_real)
+				g_string_append_c (res, '+');
 		} else if (src->im == -1) {
-			sign = "-";
+			g_string_append_c (res, '-');
 		} else {
-			im_buffer = g_strdup_printf (fmt, digits, src->im);
-			if (re_buffer && *im_buffer != '-' && *im_buffer != '+')
-				sign = (src->im >= 0) ? "+" : "-";
+			size_t olen = res->len;
+			go_dtoa (res, "!" GNM_FORMAT_G, src->im);
+			if (have_real &&
+			    res->str[olen] != '-' && res->str[olen] != '+')
+				g_string_insert_c (res, olen,
+						   (src->im >= 0 ? '+' : '-'));
 		}
+		g_string_append_c (res, imunit);
 	}
 
-	res = g_strconcat (re_buffer ? re_buffer : "",
-			   sign,
-			   im_buffer ? im_buffer : "",
-			   suffix,
-			   NULL);
-
-	g_free (re_buffer);
-	g_free (im_buffer);
-
-	return res;
+	return g_string_free (res, FALSE);
 }
 
 /* ------------------------------------------------------------------------- */
