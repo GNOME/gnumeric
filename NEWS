@@ -5,6 +5,7 @@ Morten:
 	* Fix inter-process array paste problem.  [#634]
 	* Fix problem with xlsx number format 14.
 	* Fix problems with complex number rendering.  [#638]
+	* Fix near-denormal parsing case.  [#656]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.52

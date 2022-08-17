@@ -296,7 +296,7 @@ gnm_utf8_strto (const char *s, char **end)
 
 handle_denormal:
 	save_errno = errno;
-	if (res != 0 && gnm_abs (res) < GNM_MIN)
+	if (res != 0 && gnm_abs (res) <= GNM_MIN)
 		errno = 0;
 	else
 		errno = save_errno;
