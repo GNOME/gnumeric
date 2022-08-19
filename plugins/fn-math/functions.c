@@ -2293,14 +2293,19 @@ gnumeric_round (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float digits = argv[1] ? value_get_as_float (argv[1]) : 0;
 
 	if (digits >= 0) {
-		if (digits <= GNM_MAX_EXP) {
-			gnm_float p10 = gnm_pow10 ((int)digits);
-			number = gnm_fake_round (number * p10) / p10;
-		}
+		gnm_float p10 = (digits <= INT_MAX
+				 ? gnm_pow10 ((int)digits)
+				 : gnm_pinf);
+		gnm_float y = number * p10;
+		if (gnm_finite (y))
+			number = gnm_fake_round (y) / p10;
+		else
+			; // nothing -- keep number
 	} else {
-		if (digits >= GNM_MIN_EXP) {
-			/* Keep p10 integer.  */
-			gnm_float p10 = gnm_pow10 ((int)-digits);
+		gnm_float p10 = (-digits <= INT_MAX
+				 ? gnm_pow10 ((int)-digits)
+				 : gnm_pinf);
+		if (gnm_finite (p10)) {
 			number = gnm_fake_round (number / p10) * p10;
 		} else
 			number = 0;
