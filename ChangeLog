@@ -1,3 +1,8 @@
+2022-08-24  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnm_keyed_dialog): Simplify signal handling.
+	Fixes #657, I hope.
+
 2022-08-17  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_utf8_strto): Handle near-denormal case.

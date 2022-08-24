@@ -201,17 +201,17 @@ cb_free_keyed_dialog_context (KeyedDialogContext *ctxt)
 		return;
 	ctxt->freed = TRUE;
 
-	/*
-	 * One of these causes a recursive call which will do nothing due to
-	 * ->freed.
-	 */
-	g_object_set_data (G_OBJECT (ctxt->wbcg), ctxt->key, NULL);
-	g_object_set_data (G_OBJECT (ctxt->dialog), "KeyedDialog", NULL);
+	if (ctxt->wbcg) {
+		WBCGtk *wbcg = ctxt->wbcg;
+		ctxt->wbcg = NULL;
+		g_object_set_data (G_OBJECT (wbcg), ctxt->key, NULL);
+	}
+
 	g_free (ctxt);
 }
 
 static void
-cb_keyed_dialog_destroy (GtkDialog *dialog)
+cb_keyed_dialog_destroy (GtkDialog *dialog, KeyedDialogContext *ctxt)
 {
 	/*
 	 * gtk-builder likes to hold refs on objects.  That interferes
@@ -219,6 +219,14 @@ cb_keyed_dialog_destroy (GtkDialog *dialog)
 	 * Trigger this now.
 	 */
 	g_object_set_data (G_OBJECT (dialog), "state", NULL);
+
+	ctxt->dialog = NULL;
+
+	if (ctxt->wbcg) {
+		WBCGtk *wbcg = ctxt->wbcg;
+		ctxt->wbcg = NULL;
+		g_object_set_data (G_OBJECT (wbcg), ctxt->key, NULL);
+	}
 }
 
 static gint
@@ -329,18 +337,16 @@ gnm_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 	go_dialog_guess_alternative_button_order (GTK_DIALOG (dialog));
 
 	ctxt = g_new (KeyedDialogContext, 1);
-	ctxt->wbcg   = wbcg;
+	ctxt->wbcg = wbcg;
 	ctxt->dialog = GTK_WIDGET (dialog);
-	ctxt->key  = key;
+	ctxt->key = key;
 	ctxt->freed = FALSE;
 	g_object_set_data_full (G_OBJECT (wbcg), key, ctxt,
-				(GDestroyNotify)cb_free_keyed_dialog_context);
-	g_object_set_data_full (G_OBJECT (dialog), "KeyedDialog", ctxt,
 				(GDestroyNotify)cb_free_keyed_dialog_context);
 	g_signal_connect (G_OBJECT (dialog), "key_press_event",
 			  G_CALLBACK (cb_keyed_dialog_keypress), NULL);
 	g_signal_connect (G_OBJECT (dialog), "destroy",
-			  G_CALLBACK (cb_keyed_dialog_destroy), NULL);
+			  G_CALLBACK (cb_keyed_dialog_destroy), ctxt);
 
 	gnm_restore_window_geometry (dialog, key);
 }
@@ -364,7 +370,7 @@ gnm_dialog_raise_if_exists (WBCGtk *wbcg, char const *key)
 
 	/* Ensure we only pop up one copy per workbook */
 	ctxt = g_object_get_data (G_OBJECT (wbcg), key);
-	if (ctxt && GTK_IS_WINDOW (ctxt->dialog)) {
+	if (ctxt && ctxt->dialog && GTK_IS_WINDOW (ctxt->dialog)) {
 		gdk_window_raise (gtk_widget_get_window (ctxt->dialog));
 		return ctxt->dialog;
 	} else

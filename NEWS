@@ -7,6 +7,7 @@ Morten:
 	* Fix problems with complex number rendering.  [#638]
 	* Fix near-denormal parsing case.  [#656]
 	* Fix midly crazy ROUND edge cases.  [#661]
+	* Fix dialog reuse problem.  [#657]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.52
