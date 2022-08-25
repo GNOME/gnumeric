@@ -1988,7 +1988,7 @@ static GnmFuncHelp const help_trunc[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TRUNC:@{x} truncated to @{d} digits")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("d:non-negative integer, defaults to 0")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{d} is omitted or negative then it defaults to zero. If it is not an integer then it is truncated to an integer.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{d} is omitted then it defaults to zero. If it is not an integer then it is truncated to an integer.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=TRUNC(35.12)"},
 	{ GNM_FUNC_HELP_EXAMPLES, "=TRUNC(43.15,1)"},
