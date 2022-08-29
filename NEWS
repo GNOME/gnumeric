@@ -8,6 +8,7 @@ Morten:
 	* Fix near-denormal parsing case.  [#656]
 	* Fix midly crazy ROUND edge cases.  [#661]
 	* Fix dialog reuse problem.  [#657]
+	* Fix sc import problem.  [#663]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.52

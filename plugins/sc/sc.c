@@ -606,7 +606,7 @@ sc_parse_label (ScParseState *state, char const *cmd, char const *str,
 	if (!cell)
 		goto err_out;
 
-	gnm_cell_set_text (cell, s);
+	gnm_cell_set_value (cell, value_new_string (s));
 
 	if (strcmp (cmd, "leftstring") == 0)
 		set_h_align (state->sheet, pos, GNM_HALIGN_LEFT);
