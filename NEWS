@@ -9,6 +9,7 @@ Morten:
 	* Fix midly crazy ROUND edge cases.  [#661]
 	* Fix dialog reuse problem.  [#657]
 	* Fix sc import problem.  [#663]
+	* Work a little hard at avoiding -0.  [#652]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.52

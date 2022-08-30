@@ -118,6 +118,7 @@ value_new_float (gnm_float f)
 {
 	if (gnm_finite (f)) {
 		GnmValueFloat *v = CHUNK_ALLOC (GnmValueFloat, value_float_pool);
+		if (f == 0) f = 0; // Avoid -0
 		*((GnmValueType *)&(v->type)) = VALUE_FLOAT;
 		v->fmt = NULL;
 		v->val = f;

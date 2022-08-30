@@ -1,3 +1,7 @@
+2022-08-29  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (value_new_float): Avoid -0.
+
 2022-08-24  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnm_keyed_dialog): Simplify signal handling.
