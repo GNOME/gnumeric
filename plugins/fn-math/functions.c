@@ -618,9 +618,7 @@ static GnmValue *
 gnumeric_ceil (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
-	gnm_float y = gnm_fake_ceil (x);
-
-	return value_new_float (y == 0 ? 0 : y);
+	return value_new_float (gnm_fake_ceil (x));
 }
 
 /***************************************************************************/
