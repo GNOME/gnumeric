@@ -10,6 +10,7 @@ Morten:
 	* Fix dialog reuse problem.  [#657]
 	* Fix sc import problem.  [#663]
 	* Work a little hard at avoiding -0.  [#652]
+	* Fix html import problem.  [#669]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.52

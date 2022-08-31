@@ -1,3 +1,8 @@
+2022-08-31  Morten Welinder  <terra@gnome.org>
+
+	* html_read.c (html_read_row): Use sheet_cell_set_text so formulas
+	get marked for recalc.
+
 2022-04-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.52
