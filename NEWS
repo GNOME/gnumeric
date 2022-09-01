@@ -11,6 +11,7 @@ Morten:
 	* Fix sc import problem.  [#663]
 	* Work a little hard at avoiding -0.  [#652]
 	* Fix html import problem.  [#669]
+	* Fix reading localc extension for engineering format.  [#659]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.52

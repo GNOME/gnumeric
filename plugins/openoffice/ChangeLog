@@ -1,3 +1,8 @@
+2022-08-31  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_scientific): Read localc-style
+	engineering format.
+
 2022-04-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.52

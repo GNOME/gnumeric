@@ -5585,7 +5585,10 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "engineering",
 				       &engineering))
-			;
+			; // engineering format, Gnumeric-style
+		else if (oo_attr_int (xin, attrs, OO_NS_LOCALC_EXT, "exponent-interval",
+				      &details->exponent_step))
+			; // engineering format, Localc-style
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "literal-E",
 				       &use_literal_E));
 	if (engineering)
