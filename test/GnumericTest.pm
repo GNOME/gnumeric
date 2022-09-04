@@ -620,6 +620,9 @@ my $noframe_filter = "$PERL -p -e '\$_ = \"\" if m{<gnm:SheetWidgetFrame .*/>}'"
 
 my $noasindex_filter = "$PERL -p -e 'if (/gnm:SheetWidget(List|Combo)/) { s{( OutputAsIndex=)\"\\d+\"}{\$1\"0\"}; }'";
 
+my $ods_strict_filter =
+    "$PERL -p -e 's/(placement=\")\\w+(\")/\$1XXX\$2/ if m{<gnm:comments}'";
+
 sub normalize_filter {
     my ($f) = @_;
     return 'cat' unless defined $f;
@@ -631,6 +634,7 @@ sub normalize_filter {
     $f =~ s/\bstd:supersub\b/$supersub_filter/;
     $f =~ s/\bstd:noframewidget\b/$noframe_filter/;
     $f =~ s/\bstd:nocomboasindex\b/$noasindex_filter/;
+    $f =~ s/\bstd:ods_strict\b/$ods_strict_filter/;
 
     return $f;
 }

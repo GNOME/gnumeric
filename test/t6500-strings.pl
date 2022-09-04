@@ -22,6 +22,15 @@ if (&subtest ("ods")) {
 		     'filter2' => 'std:drop_generator');
 }
 
+if (&subtest ("ods-strict")) {
+    &message ("Check string ods strict-conformance roundtrip.");
+    &test_roundtrip ($file,
+		     'format' => 'Gnumeric_OpenCalc:openoffice',
+		     'ext' => "ods",
+		     'filter1' => 'std:ods_strict',
+		     'filter2' => 'std:drop_generator | std:ods_strict');
+}
+
 my $xls_greek_filter = "$PERL -p -C7 -e '1 while (s{\\b(ValueType=\"60\">Greek[ ?]+)[^ ?<]}{\$1?})'";
 
 if (&subtest ("biff7")) {
