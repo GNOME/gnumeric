@@ -1,3 +1,8 @@
+2022-09-04  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_scientific): literal-E needs to default
+	to TRUE so reading strict conformance files gets it.
+
 2022-08-31  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_scientific): Read localc-style

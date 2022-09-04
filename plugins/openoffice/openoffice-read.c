@@ -5562,7 +5562,7 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GOFormatDetails *details;
 	gboolean engineering = FALSE;
-	gboolean use_literal_E = FALSE;
+	gboolean use_literal_E = TRUE;
 
 	if (state->cur_format.accum == NULL)
 		return;
