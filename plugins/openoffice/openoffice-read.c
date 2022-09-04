@@ -5568,6 +5568,7 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	details = go_format_details_new (GO_FORMAT_SCIENTIFIC);
+	details->exponent_sign_forced = TRUE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &details->thousands_sep)) {}
