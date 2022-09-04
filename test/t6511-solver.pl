@@ -24,6 +24,16 @@ if (&subtest ("ods")) {
 		     'filter2' => 'std:drop_generator');
 }
 
+if (&subtest ("ods-strict")) {
+    &message ("Check string ods strict-conformance roundtrip.");
+    &test_roundtrip ($file,
+		     'format' => 'Gnumeric_OpenCalc:openoffice',
+		     'ext' => "ods",
+		     'filter1' => 'std:ods_strict',
+		     'filter2' => 'std:drop_generator | std:ods_strict',
+		     'ignore_failure' => 1);
+}
+
 if (&subtest ("biff7")) {
     # Format is deficient
     &message ("Check solver xls/BIFF7 roundtrip.");

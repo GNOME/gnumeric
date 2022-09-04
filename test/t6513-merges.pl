@@ -31,7 +31,8 @@ if (&subtest ("ods-strict")) {
 		     'format' => 'Gnumeric_OpenCalc:openoffice',
 		     'ext' => "ods",
 		     'filter1' => 'std:ods_strict',
-		     'filter2' => 'std:drop_generator | std:ods_strict');
+		     'filter2' => 'std:drop_generator | std:ods_strict',
+		     'ignore_failure' => 1);
 }
 
 if (&subtest ("biff7")) {

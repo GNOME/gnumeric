@@ -22,6 +22,16 @@ if (&subtest ("ods")) {
 		     'filter2' => 'std:drop_generator');
 }
 
+if (&subtest ("ods-strict")) {
+    &message ("Check string ods strict-conformance roundtrip.");
+    &test_roundtrip ($file,
+		     'format' => 'Gnumeric_OpenCalc:openoffice',
+		     'ext' => "ods",
+		     'filter1' => 'std:ods_strict',
+		     'filter2' => 'std:drop_generator | std:ods_strict',
+		     'ignore_failure' => 1);
+}
+
 # Biff7 only handles a few fixed rotations.
 my $xls_rotation_filter = "$PERL -p -e 's{\\b(Rotation)=\"315\"}{\$1=\"270\"}; s{\\b(Rotation)=\"45\"}{\$1=\"0\"};'";
 
