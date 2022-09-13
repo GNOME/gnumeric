@@ -58,9 +58,8 @@ Applications_DATA = gnumeric.desktop
 
 gnumeric.desktop: gnumeric.desktop.in Makefile $(INTLTOOL_MERGE) $(POFILES_FULL)
 	LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
-	sed -e 's/F_OR_U/U/' <$@.tmp >$@.tmp2
-	sed -e 's/BUGZILLAVERSION/@VERSION@/' <$@.tmp2 >$@
-	rm -f $@.tmp $@.tmp2
+	sed -e 's/F_OR_U/U/' <$@.tmp >$@
+	rm -f $@.tmp
 
 configexecincludedir = $(includedir)/libspreadsheet-@GNUMERIC_API_VER@/spreadsheet
 install-exec-local: gnumeric-features.h
