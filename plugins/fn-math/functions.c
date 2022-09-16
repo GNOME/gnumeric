@@ -1536,8 +1536,8 @@ gnumeric_log10 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_mod[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MOD:the remainder of @{x} under division by @{n}")},
-	{ GNM_FUNC_HELP_ARG, F_("x:integer")},
-	{ GNM_FUNC_HELP_ARG, F_("n:integer")},
+	{ GNM_FUNC_HELP_ARG, F_("x:value")},
+	{ GNM_FUNC_HELP_ARG, F_("n:value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("MOD function returns the remainder when @{x} is divided by @{n}.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} is 0, MOD returns #DIV/0!")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
