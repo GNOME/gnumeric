@@ -41,6 +41,9 @@ XGETTEXT_KEYWORDS = --keyword --keyword=F_
 /^EXTRA_DISTFILES/s/ LINGUAS//
 ' $srcdir/po/Makefile.in.in >$srcdir/po-functions/Makefile.in.in
 
+# Work around intltool bug
+perl -pi -e 's/( \.intltool-merge-cache\b)/\1 .intltool-merge-cache.lock/ if /^\trm\b/;' $srcdir/po/Makefile.in.in
+
 echo "Creating po-functions/POTFILES.{in,skip}."
 rm -f $srcdir/po-functions/POTFILES.in $srcdir/po-functions/POTFILES.skip
 # This regex matches names of XML files:
