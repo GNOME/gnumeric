@@ -1,3 +1,7 @@
+2022-09-17  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.53
+
 2022-08-29  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (value_new_float): Avoid -0.

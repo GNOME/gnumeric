@@ -1,3 +1,7 @@
+2022-09-17  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.53
+
 2022-08-31  Morten Welinder  <terra@gnome.org>
 
 	* html_read.c (html_read_row): Use sheet_cell_set_text so formulas

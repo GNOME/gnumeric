@@ -1,3 +1,7 @@
+2022-09-17  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.53
+
 2022-08-19  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_round): Handle some edge cases.  See #661.
