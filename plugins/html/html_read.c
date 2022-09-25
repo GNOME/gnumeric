@@ -125,10 +125,12 @@ html_append_trim_text (GString *buf, const xmlChar *text)
 static void
 html_rtrim (GString *buf)
 {
+	gchar* last;
+
 	if (buf->len == 0)
 		return;
 
-	gchar* last = g_utf8_prev_char (buf->str + buf->len);
+	last = g_utf8_prev_char (buf->str + buf->len);
 	if (g_unichar_isspace (g_utf8_get_char (last)))
 		g_string_truncate(buf, last - buf->str);
 }
