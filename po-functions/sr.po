@@ -3,21 +3,23 @@
 # This file is distributed under the same license as the gnumeric package.
 # Slobodan Sredojević <ssl@uns.ns.ac.yu>, 2003.
 # Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013–2022.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2022-01-20 03:52+0000\n"
-"PO-Revision-Date: 2022-03-04 06:34+0200\n"
+"POT-Creation-Date: 2022-09-16 01:01+0000\n"
+"PO-Revision-Date: 2022-09-20 03:57+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: Serbian <(nothing)>\n"
+"Language-Team: Serbian <српски <gnome-sr@googlegroups.org>>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 "X-Project-Style: gnome\n"
+"X-Generator: Gtranslator 3.36.0\n"
 
 #: ../plugins/fn-christian-date/functions.c:131
 msgid ""
@@ -155,13 +157,13 @@ msgstr "Ако @{i} није ни „i“ ни „j“, „COMPLEX“ испис
 #: ../plugins/fn-date/functions.c:580 ../plugins/fn-date/functions.c:604
 #: ../plugins/fn-date/functions.c:628 ../plugins/fn-date/functions.c:663
 #: ../plugins/fn-date/functions.c:727 ../plugins/fn-date/functions.c:765
-#: ../plugins/fn-eng/functions.c:236 ../plugins/fn-eng/functions.c:261
-#: ../plugins/fn-eng/functions.c:285 ../plugins/fn-eng/functions.c:314
-#: ../plugins/fn-eng/functions.c:340 ../plugins/fn-eng/functions.c:363
-#: ../plugins/fn-eng/functions.c:413 ../plugins/fn-eng/functions.c:440
-#: ../plugins/fn-eng/functions.c:463 ../plugins/fn-eng/functions.c:486
-#: ../plugins/fn-eng/functions.c:509 ../plugins/fn-eng/functions.c:529
-#: ../plugins/fn-eng/functions.c:1474 ../plugins/fn-eng/functions.c:1497
+#: ../plugins/fn-eng/functions.c:237 ../plugins/fn-eng/functions.c:262
+#: ../plugins/fn-eng/functions.c:286 ../plugins/fn-eng/functions.c:315
+#: ../plugins/fn-eng/functions.c:341 ../plugins/fn-eng/functions.c:364
+#: ../plugins/fn-eng/functions.c:414 ../plugins/fn-eng/functions.c:441
+#: ../plugins/fn-eng/functions.c:464 ../plugins/fn-eng/functions.c:487
+#: ../plugins/fn-eng/functions.c:510 ../plugins/fn-eng/functions.c:530
+#: ../plugins/fn-eng/functions.c:1475 ../plugins/fn-eng/functions.c:1498
 #: ../plugins/fn-info/functions.c:94 ../plugins/fn-info/functions.c:1325
 #: ../plugins/fn-info/functions.c:1391 ../plugins/fn-info/functions.c:1479
 #: ../plugins/fn-info/functions.c:1497 ../plugins/fn-info/functions.c:1519
@@ -178,32 +180,32 @@ msgstr "Ако @{i} није ни „i“ ни „j“, „COMPLEX“ испис
 #: ../plugins/fn-math/functions.c:376 ../plugins/fn-math/functions.c:398
 #: ../plugins/fn-math/functions.c:458 ../plugins/fn-math/functions.c:484
 #: ../plugins/fn-math/functions.c:508 ../plugins/fn-math/functions.c:527
-#: ../plugins/fn-math/functions.c:562 ../plugins/fn-math/functions.c:632
-#: ../plugins/fn-math/functions.c:656 ../plugins/fn-math/functions.c:681
-#: ../plugins/fn-math/functions.c:702 ../plugins/fn-math/functions.c:722
-#: ../plugins/fn-math/functions.c:743 ../plugins/fn-math/functions.c:763
-#: ../plugins/fn-math/functions.c:783 ../plugins/fn-math/functions.c:805
-#: ../plugins/fn-math/functions.c:834 ../plugins/fn-math/functions.c:871
-#: ../plugins/fn-math/functions.c:942 ../plugins/fn-math/functions.c:961
-#: ../plugins/fn-math/functions.c:1002 ../plugins/fn-math/functions.c:1043
-#: ../plugins/fn-math/functions.c:1169 ../plugins/fn-math/functions.c:1226
-#: ../plugins/fn-math/functions.c:1259 ../plugins/fn-math/functions.c:1308
-#: ../plugins/fn-math/functions.c:1377 ../plugins/fn-math/functions.c:1413
-#: ../plugins/fn-math/functions.c:1545 ../plugins/fn-math/functions.c:1588
-#: ../plugins/fn-math/functions.c:1636 ../plugins/fn-math/functions.c:1750
-#: ../plugins/fn-math/functions.c:1768 ../plugins/fn-math/functions.c:1815
-#: ../plugins/fn-math/functions.c:1876 ../plugins/fn-math/functions.c:1922
-#: ../plugins/fn-math/functions.c:1955 ../plugins/fn-math/functions.c:1992
+#: ../plugins/fn-math/functions.c:562 ../plugins/fn-math/functions.c:630
+#: ../plugins/fn-math/functions.c:654 ../plugins/fn-math/functions.c:679
+#: ../plugins/fn-math/functions.c:700 ../plugins/fn-math/functions.c:720
+#: ../plugins/fn-math/functions.c:741 ../plugins/fn-math/functions.c:761
+#: ../plugins/fn-math/functions.c:781 ../plugins/fn-math/functions.c:803
+#: ../plugins/fn-math/functions.c:832 ../plugins/fn-math/functions.c:869
+#: ../plugins/fn-math/functions.c:940 ../plugins/fn-math/functions.c:959
+#: ../plugins/fn-math/functions.c:1000 ../plugins/fn-math/functions.c:1041
+#: ../plugins/fn-math/functions.c:1167 ../plugins/fn-math/functions.c:1224
+#: ../plugins/fn-math/functions.c:1257 ../plugins/fn-math/functions.c:1306
+#: ../plugins/fn-math/functions.c:1375 ../plugins/fn-math/functions.c:1411
+#: ../plugins/fn-math/functions.c:1543 ../plugins/fn-math/functions.c:1586
+#: ../plugins/fn-math/functions.c:1634 ../plugins/fn-math/functions.c:1748
+#: ../plugins/fn-math/functions.c:1766 ../plugins/fn-math/functions.c:1813
+#: ../plugins/fn-math/functions.c:1874 ../plugins/fn-math/functions.c:1920
+#: ../plugins/fn-math/functions.c:1953 ../plugins/fn-math/functions.c:1991
 #: ../plugins/fn-math/functions.c:2027 ../plugins/fn-math/functions.c:2062
 #: ../plugins/fn-math/functions.c:2099 ../plugins/fn-math/functions.c:2178
 #: ../plugins/fn-math/functions.c:2203 ../plugins/fn-math/functions.c:2230
 #: ../plugins/fn-math/functions.c:2256 ../plugins/fn-math/functions.c:2280
-#: ../plugins/fn-math/functions.c:2321 ../plugins/fn-math/functions.c:2366
-#: ../plugins/fn-math/functions.c:2491 ../plugins/fn-math/functions.c:2739
-#: ../plugins/fn-math/functions.c:2783 ../plugins/fn-math/functions.c:2826
-#: ../plugins/fn-math/functions.c:2869 ../plugins/fn-math/functions.c:2926
-#: ../plugins/fn-math/functions.c:3116 ../plugins/fn-math/functions.c:3214
-#: ../plugins/fn-math/functions.c:3259 ../plugins/fn-random/functions.c:46
+#: ../plugins/fn-math/functions.c:2326 ../plugins/fn-math/functions.c:2371
+#: ../plugins/fn-math/functions.c:2496 ../plugins/fn-math/functions.c:2744
+#: ../plugins/fn-math/functions.c:2788 ../plugins/fn-math/functions.c:2831
+#: ../plugins/fn-math/functions.c:2874 ../plugins/fn-math/functions.c:2931
+#: ../plugins/fn-math/functions.c:3121 ../plugins/fn-math/functions.c:3219
+#: ../plugins/fn-math/functions.c:3264 ../plugins/fn-random/functions.c:46
 #: ../plugins/fn-random/functions.c:247 ../plugins/fn-stat/functions.c:82
 #: ../plugins/fn-stat/functions.c:109 ../plugins/fn-stat/functions.c:135
 #: ../plugins/fn-stat/functions.c:162 ../plugins/fn-stat/functions.c:272
@@ -232,17 +234,17 @@ msgstr "Ако @{i} није ни „i“ ни „j“, „COMPLEX“ испис
 #: ../plugins/fn-stat/functions.c:2134 ../plugins/fn-stat/functions.c:2161
 #: ../plugins/fn-stat/functions.c:2190 ../plugins/fn-stat/functions.c:2210
 #: ../plugins/fn-stat/functions.c:2237 ../plugins/fn-stat/functions.c:2368
-#: ../plugins/fn-stat/functions.c:2411 ../plugins/fn-stat/functions.c:2460
-#: ../plugins/fn-stat/functions.c:2540 ../plugins/fn-stat/functions.c:2598
-#: ../plugins/fn-stat/functions.c:2657 ../plugins/fn-stat/functions.c:2681
-#: ../plugins/fn-stat/functions.c:2706 ../plugins/fn-stat/functions.c:2736
-#: ../plugins/fn-stat/functions.c:2761 ../plugins/fn-stat/functions.c:2789
-#: ../plugins/fn-stat/functions.c:2814 ../plugins/fn-stat/functions.c:3044
-#: ../plugins/fn-stat/functions.c:3086 ../plugins/fn-stat/functions.c:3132
-#: ../plugins/fn-stat/functions.c:3175 ../plugins/fn-stat/functions.c:3219
-#: ../plugins/fn-stat/functions.c:3285 ../plugins/fn-stat/functions.c:3454
-#: ../plugins/fn-stat/functions.c:4398 ../plugins/fn-stat/functions.c:4455
-#: ../plugins/fn-stat/functions.c:4503 ../plugins/fn-stat/functions.c:4568
+#: ../plugins/fn-stat/functions.c:2426 ../plugins/fn-stat/functions.c:2474
+#: ../plugins/fn-stat/functions.c:2554 ../plugins/fn-stat/functions.c:2612
+#: ../plugins/fn-stat/functions.c:2671 ../plugins/fn-stat/functions.c:2695
+#: ../plugins/fn-stat/functions.c:2720 ../plugins/fn-stat/functions.c:2750
+#: ../plugins/fn-stat/functions.c:2775 ../plugins/fn-stat/functions.c:2803
+#: ../plugins/fn-stat/functions.c:2828 ../plugins/fn-stat/functions.c:3058
+#: ../plugins/fn-stat/functions.c:3100 ../plugins/fn-stat/functions.c:3146
+#: ../plugins/fn-stat/functions.c:3189 ../plugins/fn-stat/functions.c:3233
+#: ../plugins/fn-stat/functions.c:3299 ../plugins/fn-stat/functions.c:3468
+#: ../plugins/fn-stat/functions.c:4412 ../plugins/fn-stat/functions.c:4469
+#: ../plugins/fn-stat/functions.c:4517 ../plugins/fn-stat/functions.c:4582
 #: ../plugins/fn-string/functions.c:66 ../plugins/fn-string/functions.c:138
 #: ../plugins/fn-string/functions.c:249 ../plugins/fn-string/functions.c:268
 #: ../plugins/fn-string/functions.c:285 ../plugins/fn-string/functions.c:305
@@ -585,7 +587,7 @@ msgstr "IMIGAMMA:непотпуна функција Гама"
 msgid "a:a complex number"
 msgstr "a:комплексни број"
 
-#: ../plugins/fn-complex/functions.c:1109 ../plugins/fn-math/functions.c:1084
+#: ../plugins/fn-complex/functions.c:1109 ../plugins/fn-math/functions.c:1082
 msgid ""
 "lower:if true (the default), the lower incomplete gamma function, otherwise "
 "the upper incomplete gamma function"
@@ -593,7 +595,7 @@ msgstr ""
 "доња:ако је изабрано (основно), доња непотпуна функција гама, у супротном "
 "горња непотпуна функција гама"
 
-#: ../plugins/fn-complex/functions.c:1110 ../plugins/fn-math/functions.c:1085
+#: ../plugins/fn-complex/functions.c:1110 ../plugins/fn-math/functions.c:1083
 msgid ""
 "regularize:if true (the default), the regularized version of the incomplete "
 "gamma function"
@@ -1212,14 +1214,14 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:468 ../plugins/fn-date/functions.c:811
 #: ../plugins/fn-date/functions.c:1047 ../plugins/fn-date/functions.c:1382
-#: ../plugins/fn-eng/functions.c:211 ../plugins/fn-eng/functions.c:315
-#: ../plugins/fn-eng/functions.c:384 ../plugins/fn-eng/functions.c:831
+#: ../plugins/fn-eng/functions.c:212 ../plugins/fn-eng/functions.c:316
+#: ../plugins/fn-eng/functions.c:385 ../plugins/fn-eng/functions.c:832
 #: ../plugins/fn-financial/functions.c:1312 ../plugins/fn-math/functions.c:563
-#: ../plugins/fn-math/functions.c:1170 ../plugins/fn-math/functions.c:1197
-#: ../plugins/fn-math/functions.c:1673 ../plugins/fn-math/functions.c:1693
-#: ../plugins/fn-math/functions.c:2412 ../plugins/fn-math/functions.c:3076
-#: ../plugins/fn-math/functions.c:3276 ../plugins/fn-stat/functions.c:1694
-#: ../plugins/fn-stat/functions.c:2599 ../plugins/fn-stat/functions.c:4958
+#: ../plugins/fn-math/functions.c:1168 ../plugins/fn-math/functions.c:1195
+#: ../plugins/fn-math/functions.c:1671 ../plugins/fn-math/functions.c:1691
+#: ../plugins/fn-math/functions.c:2417 ../plugins/fn-math/functions.c:3081
+#: ../plugins/fn-math/functions.c:3281 ../plugins/fn-stat/functions.c:1694
+#: ../plugins/fn-stat/functions.c:2613 ../plugins/fn-stat/functions.c:4972
 #: ../plugins/fn-string/functions.c:306 ../plugins/fn-string/functions.c:390
 #: ../plugins/fn-string/functions.c:517 ../plugins/fn-string/functions.c:1205
 #: ../plugins/fn-string/functions.c:1521 ../plugins/fn-string/functions.c:1651
@@ -2436,25 +2438,24 @@ msgstr ""
 "Већи @{бр._временских_корака} даје већу тачност али „OPT_BINOMIAL“ је "
 "спорији у израчунавању."
 
-#: ../plugins/fn-eng/functions.c:205
+#: ../plugins/fn-eng/functions.c:206
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr "BASE:ниска бројева који представљају број @{n} у основи @{b}"
 
-#: ../plugins/fn-eng/functions.c:206 ../plugins/fn-math/functions.c:1542
-#: ../plugins/fn-numtheory/numtheory.c:734
+#: ../plugins/fn-eng/functions.c:207 ../plugins/fn-numtheory/numtheory.c:734
 #: ../plugins/fn-numtheory/numtheory.c:764
 msgid "n:integer"
 msgstr "n:цео број"
 
-#: ../plugins/fn-eng/functions.c:207
+#: ../plugins/fn-eng/functions.c:208
 msgid "b:base (2 ≤ @{b} ≤ 36)"
 msgstr "b:основа (2 ≤ @{b} ≤ 36)"
 
-#: ../plugins/fn-eng/functions.c:208
+#: ../plugins/fn-eng/functions.c:209
 msgid "length:minimum length of the resulting string"
 msgstr "дужина:најмања дужина резултирајуће ниске"
 
-#: ../plugins/fn-eng/functions.c:209
+#: ../plugins/fn-eng/functions.c:210
 msgid ""
 "BASE converts @{n} to its string representation in base @{b}. Leading zeroes "
 "will be added to reach the minimum length given by @{length}."
@@ -2462,31 +2463,31 @@ msgstr ""
 "„BASE“ претвара @{n} у његово представљање ниске у основи @{b}. Биће додате "
 "водеће нуле да би се достигла најмања дужина задата @{дужином}."
 
-#: ../plugins/fn-eng/functions.c:234
+#: ../plugins/fn-eng/functions.c:235
 msgid "BIN2DEC:decimal representation of the binary number @{x}"
 msgstr "BIN2DEC:децимално представљање бинарног броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:235 ../plugins/fn-eng/functions.c:257
-#: ../plugins/fn-eng/functions.c:281
+#: ../plugins/fn-eng/functions.c:236 ../plugins/fn-eng/functions.c:258
+#: ../plugins/fn-eng/functions.c:282
 msgid ""
 "x:a binary number, either as a string or as a number involving only the "
 "digits 0 and 1"
 msgstr ""
 "х:бинарни број, било као ниска или као број који обухвата само цифре 0 и 1"
 
-#: ../plugins/fn-eng/functions.c:256
+#: ../plugins/fn-eng/functions.c:257
 msgid "BIN2OCT:octal representation of the binary number @{x}"
 msgstr "BIN2OCT:октално представљање бинарног броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:258 ../plugins/fn-eng/functions.c:282
-#: ../plugins/fn-eng/functions.c:307 ../plugins/fn-eng/functions.c:337
-#: ../plugins/fn-eng/functions.c:360 ../plugins/fn-eng/functions.c:437
-#: ../plugins/fn-eng/functions.c:460 ../plugins/fn-eng/functions.c:483
-#: ../plugins/fn-eng/functions.c:506
+#: ../plugins/fn-eng/functions.c:259 ../plugins/fn-eng/functions.c:283
+#: ../plugins/fn-eng/functions.c:308 ../plugins/fn-eng/functions.c:338
+#: ../plugins/fn-eng/functions.c:361 ../plugins/fn-eng/functions.c:438
+#: ../plugins/fn-eng/functions.c:461 ../plugins/fn-eng/functions.c:484
+#: ../plugins/fn-eng/functions.c:507
 msgid "places:number of digits"
 msgstr "места:број цифара"
 
-#: ../plugins/fn-eng/functions.c:259
+#: ../plugins/fn-eng/functions.c:260
 msgid ""
 "If @{places} is given, BIN2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, BIN2OCT returns #NUM!"
@@ -2494,11 +2495,11 @@ msgstr ""
 "Ако су задата @{места}, „BIN2OCT“ попуњава резултат нулама да достигне тачан "
 "број @{места} цифара. Ако ово није могуће, „BIN2OCT“ исписује #БРОЈ!"
 
-#: ../plugins/fn-eng/functions.c:280
+#: ../plugins/fn-eng/functions.c:281
 msgid "BIN2HEX:hexadecimal representation of the binary number @{x}"
 msgstr "BIN2HEX:хексадецимално представљање бинарног броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:283
+#: ../plugins/fn-eng/functions.c:284
 msgid ""
 "If @{places} is given, BIN2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, BIN2HEX returns #NUM!"
@@ -2506,15 +2507,15 @@ msgstr ""
 "Ако су задата @{места}, „BIN2HEX“ попуњава резултат нулама да достигне тачан "
 "број @{места} цифара. Ако ово није могуће, „BIN2HEX“ исписује #БРОЈ!"
 
-#: ../plugins/fn-eng/functions.c:305
+#: ../plugins/fn-eng/functions.c:306
 msgid "DEC2BIN:binary representation of the decimal number @{x}"
 msgstr "DEC2BIN:бинарно представљање децималног броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:306
+#: ../plugins/fn-eng/functions.c:307
 msgid "x:integer (− 513 < @{x} < 512)"
 msgstr "х:цео број (− 513 < @{x} < 512)"
 
-#: ../plugins/fn-eng/functions.c:308
+#: ../plugins/fn-eng/functions.c:309
 msgid ""
 "If @{places} is given and @{x} is non-negative, DEC2BIN pads the result with "
 "zeros to achieve exactly @{places} digits. If this is not possible, DEC2BIN "
@@ -2524,24 +2525,23 @@ msgstr ""
 "достигне тачан број @{места} цифара. Ако ово није могуће, „DEC2BIN“ исписује "
 "#БРОЈ!"
 
-#: ../plugins/fn-eng/functions.c:312
+#: ../plugins/fn-eng/functions.c:313
 msgid "If @{places} is given and @{x} is negative, @{places} is ignored."
 msgstr "Ако су задата @{места} и @{x} је негативно, @{места} се занемарују."
 
-#: ../plugins/fn-eng/functions.c:313
+#: ../plugins/fn-eng/functions.c:314
 msgid "If @{x} < − 512 or @{x} > 511, DEC2BIN returns #NUM!"
 msgstr "Ако је @{x} < − 512 или @{x} > 511, DEC2BIN исписује #БРОЈ!"
 
-#: ../plugins/fn-eng/functions.c:335
+#: ../plugins/fn-eng/functions.c:336
 msgid "DEC2OCT:octal representation of the decimal number @{x}"
 msgstr "DEC2OCT:октално представљање децималног броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:336 ../plugins/fn-eng/functions.c:359
-#: ../plugins/fn-math/functions.c:1541
+#: ../plugins/fn-eng/functions.c:337 ../plugins/fn-eng/functions.c:360
 msgid "x:integer"
 msgstr "х:цео број"
 
-#: ../plugins/fn-eng/functions.c:338
+#: ../plugins/fn-eng/functions.c:339
 msgid ""
 "If @{places} is given, DEC2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, DEC2OCT returns #NUM!"
@@ -2549,11 +2549,11 @@ msgstr ""
 "Ако су задата @{места}, „DEC2OCT“ попуњава нулама да достигне тачан број "
 "@{места} цифара. Ако ово није могуће, „DEC2OCT“ исписује #БРОЈ!"
 
-#: ../plugins/fn-eng/functions.c:358
+#: ../plugins/fn-eng/functions.c:359
 msgid "DEC2HEX:hexadecimal representation of the decimal number @{x}"
 msgstr "DEC2HEX:хексадецимално представљање децималног броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:361
+#: ../plugins/fn-eng/functions.c:362
 msgid ""
 "If @{places} is given, DEC2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, DEC2HEX returns #NUM!"
@@ -2561,32 +2561,32 @@ msgstr ""
 "Ако су задата @{места}, „DEC2HEX“ попуњава резултат нулама да достигне тачан "
 "број @{места} цифара. Ако ово није могуће, „DEC2HEX“ исписује #БРОЈ!"
 
-#: ../plugins/fn-eng/functions.c:381
+#: ../plugins/fn-eng/functions.c:382
 msgid "DECIMAL:decimal representation of @{x}"
 msgstr "DECIMAL:децимално представљање броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:382
+#: ../plugins/fn-eng/functions.c:383
 msgid "x:number in base @{base}"
 msgstr "х:број у основи @{основа}"
 
-#: ../plugins/fn-eng/functions.c:383
+#: ../plugins/fn-eng/functions.c:384
 msgid "base:base of @{x}, (2 ≤ @{base} ≤ 36)"
 msgstr "основа:основа броја @{x}, (2 ≤ @{основа} ≤ 36)"
 
-#: ../plugins/fn-eng/functions.c:411
+#: ../plugins/fn-eng/functions.c:412
 msgid "OCT2DEC:decimal representation of the octal number @{x}"
 msgstr "OCT2DEC:децимално представљање окталног броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:412 ../plugins/fn-eng/functions.c:436
-#: ../plugins/fn-eng/functions.c:459
+#: ../plugins/fn-eng/functions.c:413 ../plugins/fn-eng/functions.c:437
+#: ../plugins/fn-eng/functions.c:460
 msgid "x:a octal number, either as a string or as a number"
 msgstr "х:октални број, било као ниска или као број"
 
-#: ../plugins/fn-eng/functions.c:435
+#: ../plugins/fn-eng/functions.c:436
 msgid "OCT2BIN:binary representation of the octal number @{x}"
 msgstr "OCT2BIN:бинарно представљање окталног броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:438
+#: ../plugins/fn-eng/functions.c:439
 msgid ""
 "If @{places} is given, OCT2BIN pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, OCT2BIN returns #NUM!"
@@ -2594,11 +2594,11 @@ msgstr ""
 "Ако су задата @{места}, „OCT2BIN“ попуњава резултат нулама да достигне тачан "
 "број @{места} цифара. Ако ово није могуће, „OCT2BIN“ исписује #БРОЈ!"
 
-#: ../plugins/fn-eng/functions.c:458
+#: ../plugins/fn-eng/functions.c:459
 msgid "OCT2HEX:hexadecimal representation of the octal number @{x}"
 msgstr "OCT2HEX:хексадецимално представљање окталног броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:461
+#: ../plugins/fn-eng/functions.c:462
 msgid ""
 "If @{places} is given, OCT2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, OCT2HEX returns #NUM!"
@@ -2606,12 +2606,12 @@ msgstr ""
 "Ако су задата @{места}, „OCT2HEX“ попуњава резултат нулама да достигне тачан "
 "број @{места} цифара. Ако ово није могуће, „OCT2HEX“ исписује #БРОЈ!"
 
-#: ../plugins/fn-eng/functions.c:481
+#: ../plugins/fn-eng/functions.c:482
 msgid "HEX2BIN:binary representation of the hexadecimal number @{x}"
 msgstr "HEX2BIN:бинарно представљање хексадецималног броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:482 ../plugins/fn-eng/functions.c:505
-#: ../plugins/fn-eng/functions.c:528
+#: ../plugins/fn-eng/functions.c:483 ../plugins/fn-eng/functions.c:506
+#: ../plugins/fn-eng/functions.c:529
 msgid ""
 "x:a hexadecimal number, either as a string or as a number if no A to F are "
 "needed"
@@ -2619,7 +2619,7 @@ msgstr ""
 "х:хексадецимални број, било као ниска или као број ако нису потребни ни A до "
 "F"
 
-#: ../plugins/fn-eng/functions.c:484
+#: ../plugins/fn-eng/functions.c:485
 msgid ""
 "If @{places} is given, HEX2BIN pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, HEX2BIN returns #NUM!"
@@ -2627,11 +2627,11 @@ msgstr ""
 "Ако су задата @{места}, „HEX2BIN“ попуњава резултат нулама да достигне тачан "
 "број @{места} цифара. Ако ово није могуће, „HEX2BIN“ исписује #БРОЈ!"
 
-#: ../plugins/fn-eng/functions.c:504
+#: ../plugins/fn-eng/functions.c:505
 msgid "HEX2OCT:octal representation of the hexadecimal number @{x}"
 msgstr "HEX2OCT:октално представљање хексадецималног броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:507
+#: ../plugins/fn-eng/functions.c:508
 msgid ""
 "If @{places} is given, HEX2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, HEX2OCT returns #NUM!"
@@ -2639,26 +2639,26 @@ msgstr ""
 "Ако су задата @{места}, „HEX2OCT“ попуњава резултат нулама да достигне тачан "
 "број @{места} цифара. Ако ово није могуће, „HEX2OCT“ исписује #БРОЈ!"
 
-#: ../plugins/fn-eng/functions.c:527
+#: ../plugins/fn-eng/functions.c:528
 msgid "HEX2DEC:decimal representation of the hexadecimal number @{x}"
 msgstr "HEX2DEC:децимално представљање хексадецималног броја @{x}"
 
-#: ../plugins/fn-eng/functions.c:550
+#: ../plugins/fn-eng/functions.c:551
 msgid ""
 "BESSELI:Modified Bessel function of the first kind of order @{α} at @{x}"
 msgstr "BESSELI:Измењена Беселова функција прве врсте поретка @{α} на @{x}"
 
-#: ../plugins/fn-eng/functions.c:551 ../plugins/fn-eng/functions.c:573
-#: ../plugins/fn-eng/functions.c:596 ../plugins/fn-eng/functions.c:619
+#: ../plugins/fn-eng/functions.c:552 ../plugins/fn-eng/functions.c:574
+#: ../plugins/fn-eng/functions.c:597 ../plugins/fn-eng/functions.c:620
 msgid "X:number"
 msgstr "X:број"
 
-#: ../plugins/fn-eng/functions.c:552 ../plugins/fn-eng/functions.c:574
+#: ../plugins/fn-eng/functions.c:553 ../plugins/fn-eng/functions.c:575
 msgid "α:order (any non-negative number)"
 msgstr "α:поредак (било који не-негативан број)"
 
-#: ../plugins/fn-eng/functions.c:553 ../plugins/fn-eng/functions.c:575
-#: ../plugins/fn-eng/functions.c:598 ../plugins/fn-eng/functions.c:621
+#: ../plugins/fn-eng/functions.c:554 ../plugins/fn-eng/functions.c:576
+#: ../plugins/fn-eng/functions.c:599 ../plugins/fn-eng/functions.c:622
 msgid ""
 "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is "
 "returned."
@@ -2666,61 +2666,61 @@ msgstr ""
 "Ако @{x} или @{α} нису бројеви, исписује се #ВРЕДНОСТ! Ако је @{α} < 0, "
 "исписује се #БРОЈ!."
 
-#: ../plugins/fn-eng/functions.c:554 ../plugins/fn-eng/functions.c:576
-#: ../plugins/fn-eng/functions.c:600 ../plugins/fn-eng/functions.c:623
+#: ../plugins/fn-eng/functions.c:555 ../plugins/fn-eng/functions.c:577
+#: ../plugins/fn-eng/functions.c:601 ../plugins/fn-eng/functions.c:624
 msgid "This function is Excel compatible if only integer orders @{α} are used."
 msgstr ""
 "Ова функција је сагласна са Екселом ако се користе пореци @{α} само целих "
 "бројева."
 
-#: ../plugins/fn-eng/functions.c:557 ../plugins/fn-eng/functions.c:579
-#: ../plugins/fn-eng/functions.c:603 ../plugins/fn-eng/functions.c:626
+#: ../plugins/fn-eng/functions.c:558 ../plugins/fn-eng/functions.c:580
+#: ../plugins/fn-eng/functions.c:604 ../plugins/fn-eng/functions.c:627
 msgid "wiki:en:Bessel_function"
 msgstr "вики:ен:Функција_Бесел"
 
-#: ../plugins/fn-eng/functions.c:572
+#: ../plugins/fn-eng/functions.c:573
 msgid ""
 "BESSELK:Modified Bessel function of the second kind of order @{α} at @{x}"
 msgstr "BESSELK:Измењена Беселова функција друге врсте поретка @{α} на @{x}"
 
-#: ../plugins/fn-eng/functions.c:595
+#: ../plugins/fn-eng/functions.c:596
 msgid "BESSELJ:Bessel function of the first kind of order @{α} at @{x}"
 msgstr "BESSELJ:Беселова функција прве врсте поретка @{α} на @{x}"
 
-#: ../plugins/fn-eng/functions.c:597 ../plugins/fn-eng/functions.c:620
+#: ../plugins/fn-eng/functions.c:598 ../plugins/fn-eng/functions.c:621
 msgid "α:order (any non-negative integer)"
 msgstr "α:поредак (било који не-негативан цео број)"
 
-#: ../plugins/fn-eng/functions.c:618
+#: ../plugins/fn-eng/functions.c:619
 msgid "BESSELY:Bessel function of the second kind of order @{α} at @{x}"
 msgstr "BESSELY:Беселова функција друге врсте поретка @{α} на @{x}"
 
-#: ../plugins/fn-eng/functions.c:641
+#: ../plugins/fn-eng/functions.c:642
 msgid "CONVERT:a converted measurement"
 msgstr "CONVERT:претворено мерење"
 
-#: ../plugins/fn-eng/functions.c:642 ../plugins/fn-eng/functions.c:1450
-#: ../plugins/fn-eng/functions.c:1516 ../plugins/fn-math/functions.c:356
+#: ../plugins/fn-eng/functions.c:643 ../plugins/fn-eng/functions.c:1451
+#: ../plugins/fn-eng/functions.c:1517 ../plugins/fn-math/functions.c:356
 #: ../plugins/fn-math/functions.c:375 ../plugins/fn-math/functions.c:397
 #: ../plugins/fn-math/functions.c:438 ../plugins/fn-math/functions.c:456
 #: ../plugins/fn-math/functions.c:482 ../plugins/fn-math/functions.c:501
 #: ../plugins/fn-math/functions.c:525 ../plugins/fn-math/functions.c:607
-#: ../plugins/fn-math/functions.c:800 ../plugins/fn-math/functions.c:870
-#: ../plugins/fn-math/functions.c:888 ../plugins/fn-math/functions.c:923
-#: ../plugins/fn-math/functions.c:959 ../plugins/fn-math/functions.c:984
-#: ../plugins/fn-math/functions.c:1001 ../plugins/fn-math/functions.c:1025
-#: ../plugins/fn-math/functions.c:1042 ../plugins/fn-math/functions.c:1066
-#: ../plugins/fn-math/functions.c:1083 ../plugins/fn-math/functions.c:1114
-#: ../plugins/fn-math/functions.c:1138 ../plugins/fn-math/functions.c:1222
-#: ../plugins/fn-math/functions.c:1258 ../plugins/fn-math/functions.c:1277
-#: ../plugins/fn-math/functions.c:1434 ../plugins/fn-math/functions.c:1476
-#: ../plugins/fn-math/functions.c:1605 ../plugins/fn-math/functions.c:1691
-#: ../plugins/fn-math/functions.c:1731 ../plugins/fn-math/functions.c:1749
-#: ../plugins/fn-math/functions.c:1954 ../plugins/fn-math/functions.c:1989
+#: ../plugins/fn-math/functions.c:798 ../plugins/fn-math/functions.c:868
+#: ../plugins/fn-math/functions.c:886 ../plugins/fn-math/functions.c:921
+#: ../plugins/fn-math/functions.c:957 ../plugins/fn-math/functions.c:982
+#: ../plugins/fn-math/functions.c:999 ../plugins/fn-math/functions.c:1023
+#: ../plugins/fn-math/functions.c:1040 ../plugins/fn-math/functions.c:1064
+#: ../plugins/fn-math/functions.c:1081 ../plugins/fn-math/functions.c:1112
+#: ../plugins/fn-math/functions.c:1136 ../plugins/fn-math/functions.c:1220
+#: ../plugins/fn-math/functions.c:1256 ../plugins/fn-math/functions.c:1275
+#: ../plugins/fn-math/functions.c:1432 ../plugins/fn-math/functions.c:1474
+#: ../plugins/fn-math/functions.c:1603 ../plugins/fn-math/functions.c:1689
+#: ../plugins/fn-math/functions.c:1729 ../plugins/fn-math/functions.c:1747
+#: ../plugins/fn-math/functions.c:1952 ../plugins/fn-math/functions.c:1987
 #: ../plugins/fn-math/functions.c:2026 ../plugins/fn-math/functions.c:2061
 #: ../plugins/fn-math/functions.c:2201 ../plugins/fn-math/functions.c:2251
-#: ../plugins/fn-math/functions.c:2275 ../plugins/fn-math/functions.c:2316
-#: ../plugins/fn-math/functions.c:2363 ../plugins/fn-stat/functions.c:436
+#: ../plugins/fn-math/functions.c:2275 ../plugins/fn-math/functions.c:2321
+#: ../plugins/fn-math/functions.c:2368 ../plugins/fn-stat/functions.c:436
 #: ../plugins/fn-stat/functions.c:527 ../plugins/fn-stat/functions.c:588
 #: ../plugins/fn-stat/functions.c:979 ../plugins/fn-stat/functions.c:1048
 #: ../plugins/fn-stat/functions.c:1111 ../plugins/fn-stat/functions.c:1253
@@ -2728,21 +2728,21 @@ msgstr "CONVERT:претворено мерење"
 #: ../plugins/fn-stat/functions.c:1455 ../plugins/fn-stat/functions.c:1485
 #: ../plugins/fn-stat/functions.c:1718 ../plugins/fn-stat/functions.c:1932
 #: ../plugins/fn-stat/functions.c:1968 ../plugins/fn-stat/functions.c:2131
-#: ../plugins/fn-stat/functions.c:4773 ../plugins/fn-stat/functions.c:4804
-#: ../plugins/fn-stat/functions.c:4838 ../plugins/fn-stat/functions.c:4858
-#: ../plugins/fn-stat/functions.c:4897 ../plugins/fn-stat/functions.c:4930
+#: ../plugins/fn-stat/functions.c:4787 ../plugins/fn-stat/functions.c:4818
+#: ../plugins/fn-stat/functions.c:4852 ../plugins/fn-stat/functions.c:4872
+#: ../plugins/fn-stat/functions.c:4911 ../plugins/fn-stat/functions.c:4944
 msgid "x:number"
 msgstr "х:број"
 
-#: ../plugins/fn-eng/functions.c:643
+#: ../plugins/fn-eng/functions.c:644
 msgid "from:unit (string)"
 msgstr "из:јединица (ниска)"
 
-#: ../plugins/fn-eng/functions.c:644
+#: ../plugins/fn-eng/functions.c:645
 msgid "to:unit (string)"
 msgstr "у:јединица (ниска)"
 
-#: ../plugins/fn-eng/functions.c:645
+#: ../plugins/fn-eng/functions.c:646
 msgid ""
 "CONVERT returns a conversion from one measurement system to another. @{x} is "
 "a value in @{from} units that is to be converted into @{to} units."
@@ -2750,11 +2750,11 @@ msgstr ""
 "„CONVERT“ исписује претварање из једног система мерења у друго. @{x} је "
 "вредност у јединицама „@{из}“ које ће бити претворене у јединице „@{у}“."
 
-#: ../plugins/fn-eng/functions.c:647
+#: ../plugins/fn-eng/functions.c:648
 msgid "If @{from} and @{to} are different types, CONVERT returns #N/A!"
 msgstr "Ако су @{из} и @{у} различите врсте, „CONVERT“ исписује #Н/Д!"
 
-#: ../plugins/fn-eng/functions.c:648
+#: ../plugins/fn-eng/functions.c:649
 msgid ""
 "@{from} and @{to} can be any of the following:\n"
 "\n"
@@ -3153,29 +3153,29 @@ msgstr ""
 "\t„Mi“  \t\tмеби \t\t2^20\n"
 "\t„ki“  \t\tкиби \t\t2^10"
 
-#: ../plugins/fn-eng/functions.c:830
+#: ../plugins/fn-eng/functions.c:831
 msgid "This function is Excel compatible (except \"picapt\")."
 msgstr "Ова функција је сагласна са Екселом (осим „picapt“)."
 
-#: ../plugins/fn-eng/functions.c:1418
+#: ../plugins/fn-eng/functions.c:1419
 msgid "ERF:Gauss error function"
 msgstr "ERF:Гаусова функција грешке"
 
-#: ../plugins/fn-eng/functions.c:1419
+#: ../plugins/fn-eng/functions.c:1420
 msgid "lower:lower limit of the integral, defaults to 0"
 msgstr "доња:доња граница интеграла, подразумева се 0"
 
-#: ../plugins/fn-eng/functions.c:1420
+#: ../plugins/fn-eng/functions.c:1421
 msgid "upper:upper limit of the integral"
 msgstr "горња:горња граница интеграла"
 
-#: ../plugins/fn-eng/functions.c:1421
+#: ../plugins/fn-eng/functions.c:1422
 msgid ""
 "ERF returns 2/sqrt(π)* integral from @{lower} to @{upper} of exp(-t*t) dt"
 msgstr ""
 "„ERF“ исписује 2/sqrt(π)* интеграл од @{доње} до @{горње} за exp(-t*t) dt"
 
-#: ../plugins/fn-eng/functions.c:1422
+#: ../plugins/fn-eng/functions.c:1423
 msgid ""
 "This function is Excel compatible if two arguments are supplied and neither "
 "is negative."
@@ -3183,55 +3183,55 @@ msgstr ""
 "Ова функција је сагласна са Екселом ако су достављена два аргумента и "
 "ниједан није негативан."
 
-#: ../plugins/fn-eng/functions.c:1427 ../plugins/fn-eng/functions.c:1454
+#: ../plugins/fn-eng/functions.c:1428 ../plugins/fn-eng/functions.c:1455
 msgid "wiki:en:Error_function"
 msgstr "вики:ен:Функција_грешке"
 
-#: ../plugins/fn-eng/functions.c:1449
+#: ../plugins/fn-eng/functions.c:1450
 msgid "ERFC:Complementary Gauss error function"
 msgstr "ERFC:Комплементарна Гаусова функција грешке"
 
-#: ../plugins/fn-eng/functions.c:1451
+#: ../plugins/fn-eng/functions.c:1452
 msgid "ERFC returns 2/sqrt(π)* integral from @{x} to ∞ of exp(-t*t) dt"
 msgstr "„ERFC“ исписује 2/sqrt(π)* интеграл од @{х} до ∞ за exp(-t*t) dt"
 
-#: ../plugins/fn-eng/functions.c:1469
+#: ../plugins/fn-eng/functions.c:1470
 msgid "DELTA:Kronecker delta function"
 msgstr "DELTA:Кронекерова делта функција"
 
-#: ../plugins/fn-eng/functions.c:1470 ../plugins/fn-eng/functions.c:1493
+#: ../plugins/fn-eng/functions.c:1471 ../plugins/fn-eng/functions.c:1494
 msgid "x0:number"
 msgstr "х0:број"
 
-#: ../plugins/fn-eng/functions.c:1471 ../plugins/fn-eng/functions.c:1494
+#: ../plugins/fn-eng/functions.c:1472 ../plugins/fn-eng/functions.c:1495
 msgid "x1:number, defaults to 0"
 msgstr "х1:број, подразумева се 0"
 
-#: ../plugins/fn-eng/functions.c:1472
+#: ../plugins/fn-eng/functions.c:1473
 msgid "DELTA  returns 1 if  @{x1} = @{x0} and 0 otherwise."
 msgstr "„DELTA“ исписује 1 ако је @{x1} = @{x0} а 0 у супротном."
 
-#: ../plugins/fn-eng/functions.c:1473 ../plugins/fn-eng/functions.c:1496
+#: ../plugins/fn-eng/functions.c:1474 ../plugins/fn-eng/functions.c:1497
 msgid "If either argument is non-numeric, #VALUE! is returned."
 msgstr "Ако ниједан аргумент није број, исписује се #ВРЕДНОСТ!."
 
-#: ../plugins/fn-eng/functions.c:1492
+#: ../plugins/fn-eng/functions.c:1493
 msgid "GESTEP:step function with step at @{x1} evaluated at @{x0}"
 msgstr "GESTEP:функција корака са кораком на @{x1} процењено на @{x0}"
 
-#: ../plugins/fn-eng/functions.c:1495
+#: ../plugins/fn-eng/functions.c:1496
 msgid "GESTEP returns 1 if  @{x1} ≤ @{x0} and 0 otherwise."
 msgstr "„GESTEP“ исписује 1 ако је @{x1} ≤ @{x0} а 0 у супротном."
 
-#: ../plugins/fn-eng/functions.c:1515
+#: ../plugins/fn-eng/functions.c:1516
 msgid "HEXREP:hexadecimal representation of numeric value"
 msgstr "HEXREP:хексадецимално представљање бројевне вредности"
 
-#: ../plugins/fn-eng/functions.c:1517
+#: ../plugins/fn-eng/functions.c:1518
 msgid "HEXREP returns a hexadecimal string representation of @{x}."
 msgstr "„HEXREP“ исписује представљање хексадецималне ниске за @{x}."
 
-#: ../plugins/fn-eng/functions.c:1518
+#: ../plugins/fn-eng/functions.c:1519
 msgid ""
 "This is a function meant for debugging.  The layout of the result may change "
 "and even depend on how Gnumeric was compiled."
@@ -3239,19 +3239,19 @@ msgstr ""
 "Ова функција је осмишљена за уклањање грешака.  Распоред резултата може бити "
 "измењен и чак да зависи од начина превођења Гномовог бројевника."
 
-#: ../plugins/fn-eng/functions.c:1546
+#: ../plugins/fn-eng/functions.c:1547
 msgid "INVSUMINV:the reciprocal of the sum of reciprocals of the arguments"
 msgstr "INVSUMINV:реципрочност збира реципрочности аргумената"
 
-#: ../plugins/fn-eng/functions.c:1547
+#: ../plugins/fn-eng/functions.c:1548
 msgid "x0:non-negative number"
 msgstr "х0:не-негативни број"
 
-#: ../plugins/fn-eng/functions.c:1548
+#: ../plugins/fn-eng/functions.c:1549
 msgid "x1:non-negative number"
 msgstr "х1:не-негативни број"
 
-#: ../plugins/fn-eng/functions.c:1549
+#: ../plugins/fn-eng/functions.c:1550
 msgid ""
 "If any of the arguments is negative, #VALUE! is returned.\n"
 "If any argument is zero, the result is zero."
@@ -3259,7 +3259,7 @@ msgstr ""
 "Ако је било који аргумент негативан, исписује се #ВРЕДНОСТ!\n"
 "Ако је неки аргумент нула, резултат је нула."
 
-#: ../plugins/fn-eng/functions.c:1551
+#: ../plugins/fn-eng/functions.c:1552
 msgid ""
 "INVSUMINV sum calculates the reciprocal (the inverse) of the sum of "
 "reciprocals (inverses) of all its arguments."
@@ -4870,7 +4870,7 @@ msgid "ISEVEN:TRUE if @{n} is even"
 msgstr "ISEVEN:ТАЧНО ако је @{n} парно"
 
 #: ../plugins/fn-info/functions.c:1625 ../plugins/fn-info/functions.c:1699
-#: ../plugins/fn-math/functions.c:1477
+#: ../plugins/fn-math/functions.c:1475
 msgid "n:number"
 msgstr "n:број"
 
@@ -5795,7 +5795,7 @@ msgid "GD:Gudermannian function"
 msgstr "GD:Гудерманијанова функција"
 
 #: ../plugins/fn-math/functions.c:309 ../plugins/fn-math/functions.c:420
-#: ../plugins/fn-stat/functions.c:1905
+#: ../plugins/fn-math/functions.c:1539 ../plugins/fn-stat/functions.c:1905
 msgid "x:value"
 msgstr "х:вредност"
 
@@ -5847,9 +5847,9 @@ msgstr "ACOT:инверзни котангенс @{х}"
 msgid "wolfram:InverseCotangent.html"
 msgstr "волфрам:Инверзни_котангенс.html"
 
-#: ../plugins/fn-math/functions.c:424 ../plugins/fn-math/functions.c:836
-#: ../plugins/fn-math/functions.c:892 ../plugins/fn-math/functions.c:1640
-#: ../plugins/fn-math/functions.c:1677 ../plugins/fn-math/functions.c:1717
+#: ../plugins/fn-math/functions.c:424 ../plugins/fn-math/functions.c:834
+#: ../plugins/fn-math/functions.c:890 ../plugins/fn-math/functions.c:1638
+#: ../plugins/fn-math/functions.c:1675 ../plugins/fn-math/functions.c:1715
 msgid "wiki:en:Trigonometric_functions"
 msgstr "вики:ен:Тригонометријске_функције"
 
@@ -5977,24 +5977,24 @@ msgstr "„CEIL(@{x})“ је најмањи цео број који је ве�
 msgid "This function is the OpenFormula function CEILING(@{x})."
 msgstr "Ова функција је функција Отворене функције „CEILING(@{x})“."
 
-#: ../plugins/fn-math/functions.c:629
+#: ../plugins/fn-math/functions.c:627
 msgid "COUNTIF:count of the cells meeting the given @{criteria}"
 msgstr "COUNTIF:број поља који задовољавају дати @{критеријум}"
 
-#: ../plugins/fn-math/functions.c:630 ../plugins/fn-math/functions.c:654
-#: ../plugins/fn-math/functions.c:673 ../plugins/fn-math/functions.c:719
+#: ../plugins/fn-math/functions.c:628 ../plugins/fn-math/functions.c:652
+#: ../plugins/fn-math/functions.c:671 ../plugins/fn-math/functions.c:717
 msgid "range:cell area"
 msgstr "опсег:област поља"
 
-#: ../plugins/fn-math/functions.c:631 ../plugins/fn-math/functions.c:655
+#: ../plugins/fn-math/functions.c:629 ../plugins/fn-math/functions.c:653
 msgid "criteria:condition for a cell to be counted"
 msgstr "критеријум:услов да би поље било убројано"
 
-#: ../plugins/fn-math/functions.c:653
+#: ../plugins/fn-math/functions.c:651
 msgid "COUNTIFS:count of the cells meeting the given @{criteria}"
 msgstr "COUNTIFS:број поља који задовољавају дати @{критеријум}"
 
-#: ../plugins/fn-math/functions.c:672
+#: ../plugins/fn-math/functions.c:670
 msgid ""
 "SUMIF:sum of the cells in @{actual_range} for which the corresponding cells "
 "in the range meet the given @{criteria}"
@@ -6002,15 +6002,15 @@ msgstr ""
 "SUMIF:збир поља у @{тренутном_опсегу} за који одговарајућа поља у опсегу "
 "задовољавају дати @{критеријум}"
 
-#: ../plugins/fn-math/functions.c:674
+#: ../plugins/fn-math/functions.c:672
 msgid "criteria:condition for a cell to be summed"
 msgstr "критеријум:услов да би поље било сабрано"
 
-#: ../plugins/fn-math/functions.c:675 ../plugins/fn-math/functions.c:721
+#: ../plugins/fn-math/functions.c:673 ../plugins/fn-math/functions.c:719
 msgid "actual_range:cell area, defaults to @{range}"
 msgstr "тренутни_опсег:област поља, подразумева се @{опсег}"
 
-#: ../plugins/fn-math/functions.c:676
+#: ../plugins/fn-math/functions.c:674
 msgid ""
 "If the @{actual_range} has a size that differs from the size of @{range}, "
 "@{actual_range} is resized (retaining the top-left corner) to match the size "
@@ -6020,7 +6020,7 @@ msgstr ""
 "мења се величина @{тренутног_опсега} (задржавајући горњи леви угао) да "
 "одговара величини @{опсега}."
 
-#: ../plugins/fn-math/functions.c:698
+#: ../plugins/fn-math/functions.c:696
 msgid ""
 "SUMIFS:sum of the cells in @{actual_range} for which the corresponding cells "
 "in the range meet the given criteria"
@@ -6028,22 +6028,22 @@ msgstr ""
 "SUMIFS:збир поља у @{тренутном_опсегу} за који одговарајућа поља у опсегу "
 "задовољавају дати критеријум"
 
-#: ../plugins/fn-math/functions.c:699 ../plugins/fn-math/functions.c:740
-#: ../plugins/fn-math/functions.c:760 ../plugins/fn-math/functions.c:780
+#: ../plugins/fn-math/functions.c:697 ../plugins/fn-math/functions.c:738
+#: ../plugins/fn-math/functions.c:758 ../plugins/fn-math/functions.c:778
 msgid "actual_range:cell area"
 msgstr "актуелни_опсег:област поља"
 
-#: ../plugins/fn-math/functions.c:700 ../plugins/fn-math/functions.c:741
-#: ../plugins/fn-math/functions.c:761 ../plugins/fn-math/functions.c:781
+#: ../plugins/fn-math/functions.c:698 ../plugins/fn-math/functions.c:739
+#: ../plugins/fn-math/functions.c:759 ../plugins/fn-math/functions.c:779
 msgid "range1:cell area"
 msgstr "опсег1:област поља"
 
-#: ../plugins/fn-math/functions.c:701 ../plugins/fn-math/functions.c:742
-#: ../plugins/fn-math/functions.c:762 ../plugins/fn-math/functions.c:782
+#: ../plugins/fn-math/functions.c:699 ../plugins/fn-math/functions.c:740
+#: ../plugins/fn-math/functions.c:760 ../plugins/fn-math/functions.c:780
 msgid "criteria1:condition for a cell to be included"
 msgstr "критеријум1:услов да би поље било укључено"
 
-#: ../plugins/fn-math/functions.c:718
+#: ../plugins/fn-math/functions.c:716
 msgid ""
 "AVERAGEIF:average of the cells in @{actual range} for which the "
 "corresponding cells in the range meet the given @{criteria}"
@@ -6051,11 +6051,11 @@ msgstr ""
 "AVERAGEIF:просек поља у @{тренутном_опсегу} за који одговарајућа поља у "
 "опсегу задовољавају дати @{критеријум}"
 
-#: ../plugins/fn-math/functions.c:720
+#: ../plugins/fn-math/functions.c:718
 msgid "criteria:condition for a cell to be included"
 msgstr "критеријум:услов да би поље било укључено"
 
-#: ../plugins/fn-math/functions.c:739
+#: ../plugins/fn-math/functions.c:737
 msgid ""
 "AVERAGEIFS:average of the cells in @{actual_range} for which the "
 "corresponding cells in the range meet the given criteria"
@@ -6063,7 +6063,7 @@ msgstr ""
 "AVERAGEIFS:просек поља у @{тренутном_опсегу} за који одговарајућа поља у "
 "опсегу задовољавају дати критеријум"
 
-#: ../plugins/fn-math/functions.c:759
+#: ../plugins/fn-math/functions.c:757
 msgid ""
 "MINIFS:minimum of the cells in @{actual_range} for which the corresponding "
 "cells in the range meet the given criteria"
@@ -6071,7 +6071,7 @@ msgstr ""
 "MINIFS:најмањи број поља у @{тренутном_опсегу} за који одговарајућа поља у "
 "опсегу задовољавају дати критеријум"
 
-#: ../plugins/fn-math/functions.c:779
+#: ../plugins/fn-math/functions.c:777
 msgid ""
 "MAXIFS:maximum of the cells in @{actual_range} for which the corresponding "
 "cells in the range meet the given criteria"
@@ -6079,7 +6079,7 @@ msgstr ""
 "MAXIFS:највећи број поља у @{тренутном_опсегу} за који одговарајућа поља у "
 "опсегу задовољавају дати критеријум"
 
-#: ../plugins/fn-math/functions.c:799
+#: ../plugins/fn-math/functions.c:797
 msgid ""
 "CEILING:nearest multiple of @{significance} whose absolute value is at least "
 "ABS(@{x})"
@@ -6087,12 +6087,12 @@ msgstr ""
 "CEILING:најближи умножак @{значаја} чија је апсолутна вредност најмање "
 "„ABS(@{x})“"
 
-#: ../plugins/fn-math/functions.c:801 ../plugins/fn-math/functions.c:1223
+#: ../plugins/fn-math/functions.c:799 ../plugins/fn-math/functions.c:1221
 msgid ""
 "significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} < 0)"
 msgstr "значај:основни умножак (подразумева се 1 за @{x} > 0 и -1 за @{x} < 0)"
 
-#: ../plugins/fn-math/functions.c:802
+#: ../plugins/fn-math/functions.c:800
 msgid ""
 "CEILING(@{x},@{significance}) is the nearest multiple of @{significance} "
 "whose absolute value is at least ABS(@{x})."
@@ -6100,20 +6100,20 @@ msgstr ""
 "CEILING(@{x},@{significance}) је најближи умножак @{значаја} чија је "
 "апсолутна вредност најмање „ABS(@{x})“."
 
-#: ../plugins/fn-math/functions.c:803
+#: ../plugins/fn-math/functions.c:801
 msgid ""
 "If @{x} or @{significance} is non-numeric, CEILING returns a #VALUE! error."
 msgstr ""
 "Ако је @{x} или @{значај} не-број, „CEILING“ исписује грешку #ВРЕДНОСТИ!."
 
-#: ../plugins/fn-math/functions.c:804
+#: ../plugins/fn-math/functions.c:802
 msgid ""
 "If @{x} and @{significance} have different signs, CEILING returns a #NUM! "
 "error."
 msgstr ""
 "Ако @{x} и @{значај} имају различите знаке, „CEILING“ исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-math/functions.c:806
+#: ../plugins/fn-math/functions.c:804
 msgid ""
 "CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},"
 "@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1)."
@@ -6122,108 +6122,108 @@ msgstr ""
 "„CEILING(@{x},@{significance})“ је функција Отворене функције „CEILING(@{x},"
 "@{significance},1)“."
 
-#: ../plugins/fn-math/functions.c:832
+#: ../plugins/fn-math/functions.c:830
 msgid "COS:the cosine of @{x}"
 msgstr "COS:косинус @{х}"
 
-#: ../plugins/fn-math/functions.c:833 ../plugins/fn-math/functions.c:941
-#: ../plugins/fn-math/functions.c:1635 ../plugins/fn-math/functions.c:1671
-#: ../plugins/fn-math/functions.c:1711 ../plugins/fn-math/functions.c:1921
+#: ../plugins/fn-math/functions.c:831 ../plugins/fn-math/functions.c:939
+#: ../plugins/fn-math/functions.c:1633 ../plugins/fn-math/functions.c:1669
+#: ../plugins/fn-math/functions.c:1709 ../plugins/fn-math/functions.c:1919
 msgid "x:angle in radians"
 msgstr "х:угао у радијанима"
 
-#: ../plugins/fn-math/functions.c:835
+#: ../plugins/fn-math/functions.c:833
 msgid "wolfram:Cosine.html"
 msgstr "волфрам:Косинус.html"
 
-#: ../plugins/fn-math/functions.c:852
+#: ../plugins/fn-math/functions.c:850
 msgid "COSPI:the cosine of Pi*@{x}"
 msgstr "COSPI:косинус 𝜋*@{x}"
 
-#: ../plugins/fn-math/functions.c:853 ../plugins/fn-math/functions.c:906
-#: ../plugins/fn-math/functions.c:1654 ../plugins/fn-math/functions.c:1938
+#: ../plugins/fn-math/functions.c:851 ../plugins/fn-math/functions.c:904
+#: ../plugins/fn-math/functions.c:1652 ../plugins/fn-math/functions.c:1936
 msgid "x:number of half turns"
 msgstr "x:број полуокрета"
 
-#: ../plugins/fn-math/functions.c:869
+#: ../plugins/fn-math/functions.c:867
 msgid "COSH:the hyperbolic cosine of @{x}"
 msgstr "COSH:хиперболички косинус @{х}"
 
-#: ../plugins/fn-math/functions.c:887
+#: ../plugins/fn-math/functions.c:885
 msgid "COT:the cotangent of @{x}"
 msgstr "COT:котангенс @{х}"
 
-#: ../plugins/fn-math/functions.c:891
+#: ../plugins/fn-math/functions.c:889
 msgid "wolfram:Cotangent.html"
 msgstr "волфрам:Котангенс.html"
 
-#: ../plugins/fn-math/functions.c:905
+#: ../plugins/fn-math/functions.c:903
 msgid "COTPI:the cotangent of Pi*@{x}"
 msgstr "COTPI:котангес за 𝜋*@{x}"
 
-#: ../plugins/fn-math/functions.c:922
+#: ../plugins/fn-math/functions.c:920
 msgid "COTH:the hyperbolic cotangent of @{x}"
 msgstr "COTH:хиперболички котангенс @{х}"
 
-#: ../plugins/fn-math/functions.c:926
+#: ../plugins/fn-math/functions.c:924
 msgid "wolfram:HyperbolicCotangent.html"
 msgstr "волфрам:Хиперболички_котангенс.html"
 
-#: ../plugins/fn-math/functions.c:927 ../plugins/fn-math/functions.c:1697
-#: ../plugins/fn-math/functions.c:1737
+#: ../plugins/fn-math/functions.c:925 ../plugins/fn-math/functions.c:1695
+#: ../plugins/fn-math/functions.c:1735
 msgid "wiki:en:Hyperbolic_function"
 msgstr "вики:ен:Хиперболичка_функција"
 
-#: ../plugins/fn-math/functions.c:940
+#: ../plugins/fn-math/functions.c:938
 msgid "DEGREES:equivalent degrees to @{x} radians"
 msgstr "DEGREES:одговарајући степени за @{х} радијана"
 
-#: ../plugins/fn-math/functions.c:958
+#: ../plugins/fn-math/functions.c:956
 msgid "EXP:e raised to the power of @{x}"
 msgstr "EXP:на степен @{х}-а"
 
-#: ../plugins/fn-math/functions.c:960
+#: ../plugins/fn-math/functions.c:958
 msgid "e is the base of the natural logarithm."
 msgstr "е је основа природног логаритма."
 
-#: ../plugins/fn-math/functions.c:983
+#: ../plugins/fn-math/functions.c:981
 msgid "EXPM1:EXP(@{x})-1"
 msgstr "EXPM1:EXP(@{x})-1"
 
-#: ../plugins/fn-math/functions.c:985
+#: ../plugins/fn-math/functions.c:983
 msgid ""
 "This function has a higher resulting precision than evaluating EXP(@{x})-1."
 msgstr "Ова функција има већу тачност резултата него процена EXP(@{x})-1."
 
-#: ../plugins/fn-math/functions.c:1000
+#: ../plugins/fn-math/functions.c:998
 msgid "FACT:the factorial of @{x}, i.e. @{x}!"
 msgstr "FACT:факторијел броја @{х}, тј. @{х}!"
 
-#: ../plugins/fn-math/functions.c:1003
+#: ../plugins/fn-math/functions.c:1001
 msgid "The domain of this function has been extended using the GAMMA function."
 msgstr "Домен ове функције је проширен употребом функције „GAMMA“."
 
-#: ../plugins/fn-math/functions.c:1024
+#: ../plugins/fn-math/functions.c:1022
 msgid "GAMMA:the Gamma function"
 msgstr "GAMMA:функција Гама"
 
-#: ../plugins/fn-math/functions.c:1041
+#: ../plugins/fn-math/functions.c:1039
 msgid "GAMMALN:natural logarithm of the Gamma function"
 msgstr "GAMMALN:природни логаритам функције Гама"
 
-#: ../plugins/fn-math/functions.c:1065
+#: ../plugins/fn-math/functions.c:1063
 msgid "DIGAMMA:the Digamma function"
 msgstr "DIGAMMA:функција Дигама"
 
-#: ../plugins/fn-math/functions.c:1081
+#: ../plugins/fn-math/functions.c:1079
 msgid "IGAMMA:the incomplete Gamma function"
 msgstr "IGAMMA:непотпуна функција Гама"
 
-#: ../plugins/fn-math/functions.c:1082 ../plugins/fn-stat/functions.c:508
+#: ../plugins/fn-math/functions.c:1080 ../plugins/fn-stat/functions.c:508
 msgid "a:number"
 msgstr "a:број"
 
-#: ../plugins/fn-math/functions.c:1086
+#: ../plugins/fn-math/functions.c:1084
 msgid ""
 "real:if true (the default), the real part of the result, otherwise the "
 "imaginary part"
@@ -6231,7 +6231,7 @@ msgstr ""
 "реални:ако је изабрано (основно), реални део резултата, у супротном "
 "имагинарни део"
 
-#: ../plugins/fn-math/functions.c:1087
+#: ../plugins/fn-math/functions.c:1085
 msgid ""
 "The regularized incomplete gamma function is the unregularized incomplete "
 "gamma function divided by GAMMA(@{a})"
@@ -6239,21 +6239,21 @@ msgstr ""
 "Регулисана непотпуна функција гама је нерегулисана непотпуна функција гама "
 "подељена са GAMMA(@{a})"
 
-#: ../plugins/fn-math/functions.c:1088
+#: ../plugins/fn-math/functions.c:1086
 msgid ""
 "This is a real valued function as long as neither @{a} nor @{z} are negative."
 msgstr "Ово функција са реалном вредношћу када ни @{a} ни @{z} нису негативни."
 
-#: ../plugins/fn-math/functions.c:1113
+#: ../plugins/fn-math/functions.c:1111
 msgid "BETA:Euler beta function"
 msgstr "BETA:Ојлерова бета функција"
 
-#: ../plugins/fn-math/functions.c:1115 ../plugins/fn-math/functions.c:1139
-#: ../plugins/fn-math/functions.c:1435
+#: ../plugins/fn-math/functions.c:1113 ../plugins/fn-math/functions.c:1137
+#: ../plugins/fn-math/functions.c:1433
 msgid "y:number"
 msgstr "у:број"
 
-#: ../plugins/fn-math/functions.c:1116
+#: ../plugins/fn-math/functions.c:1114
 msgid ""
 "BETA function returns the value of the Euler beta function extended to all "
 "real numbers except 0 and negative integers."
@@ -6261,23 +6261,23 @@ msgstr ""
 "Функција „BETA“ исписује вредност Ојлерове бета функције проширене на све "
 "стварне бројеве изузев 0 и негативних целих бројева."
 
-#: ../plugins/fn-math/functions.c:1117
+#: ../plugins/fn-math/functions.c:1115
 msgid ""
 "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETA returns #NUM!"
 msgstr ""
 "Ако @{x}, @{y}, или (@{x} + @{y}) јесу не-позитивни цели бројеви, „BETA“ "
 "исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:1121 ../plugins/fn-math/functions.c:1145
+#: ../plugins/fn-math/functions.c:1119 ../plugins/fn-math/functions.c:1143
 msgid "wiki:en:Beta_function"
 msgstr "вики:ен:Функција_бета"
 
-#: ../plugins/fn-math/functions.c:1137
+#: ../plugins/fn-math/functions.c:1135
 msgid ""
 "BETALN:natural logarithm of the absolute value of the Euler beta function"
 msgstr "BETALN:природни логаритам апсолутне вредности Ојлерове бета функције"
 
-#: ../plugins/fn-math/functions.c:1140
+#: ../plugins/fn-math/functions.c:1138
 msgid ""
 "BETALN function returns the natural logarithm of the absolute value of the "
 "Euler beta function extended to all real numbers except 0 and negative "
@@ -6287,7 +6287,7 @@ msgstr ""
 "бета функције проширене на све стварне бројеве изузев 0 и негативних целих "
 "бројева."
 
-#: ../plugins/fn-math/functions.c:1141
+#: ../plugins/fn-math/functions.c:1139
 msgid ""
 "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETALN returns "
 "#NUM!"
@@ -6295,20 +6295,20 @@ msgstr ""
 "Ако @{x}, @{y}, или (@{x} + @{y}) јесу не-позитивни цели бројеви, „BETALN“ "
 "исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:1162
+#: ../plugins/fn-math/functions.c:1160
 msgid "COMBIN:binomial coefficient"
 msgstr "COMBIN:биномни коефицијент"
 
-#: ../plugins/fn-math/functions.c:1163 ../plugins/fn-math/functions.c:1195
-#: ../plugins/fn-math/functions.c:2485
+#: ../plugins/fn-math/functions.c:1161 ../plugins/fn-math/functions.c:1193
+#: ../plugins/fn-math/functions.c:2490
 msgid "n:non-negative integer"
 msgstr "n:не-негативни цео број"
 
-#: ../plugins/fn-math/functions.c:1164 ../plugins/fn-math/functions.c:1196
+#: ../plugins/fn-math/functions.c:1162 ../plugins/fn-math/functions.c:1194
 msgid "k:non-negative integer"
 msgstr "k:не-негативни цео број"
 
-#: ../plugins/fn-math/functions.c:1165
+#: ../plugins/fn-math/functions.c:1163
 msgid ""
 "COMBIN returns the binomial coefficient \"@{n} choose @{k}\", the number of "
 "@{k}-combinations of an @{n}-element set without repetition."
@@ -6316,25 +6316,25 @@ msgstr ""
 "„COMBIN“ исписује биномни коефицијент „@{n} бира @{k}“, број @{k}-"
 "комбинација скупа @{n}-елемента без понављања."
 
-#: ../plugins/fn-math/functions.c:1168
+#: ../plugins/fn-math/functions.c:1166
 msgid "If @{n} is less than @{k} COMBIN returns #NUM!"
 msgstr "Ако је @{n} мање од @{k} „COMBIN“ исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:1173
+#: ../plugins/fn-math/functions.c:1171
 msgid "wiki:en:Binomial_coefficient"
 msgstr "вики:ен:Биномни_коефицијент"
 
-#: ../plugins/fn-math/functions.c:1193
+#: ../plugins/fn-math/functions.c:1191
 msgid ""
 "COMBINA:the number of @{k}-combinations of an @{n}-element set with "
 "repetition"
 msgstr "COMBINA:број @{k}-комбинација скупа @{n}-елемента са понављањем"
 
-#: ../plugins/fn-math/functions.c:1201
+#: ../plugins/fn-math/functions.c:1199
 msgid "wiki:en:Multiset"
 msgstr "вики:ен:Мултискуп"
 
-#: ../plugins/fn-math/functions.c:1221
+#: ../plugins/fn-math/functions.c:1219
 msgid ""
 "FLOOR:nearest multiple of @{significance} whose absolute value is at most "
 "ABS(@{x})"
@@ -6342,7 +6342,7 @@ msgstr ""
 "FLOOR:најближи умножак @{значаја} чија је апсолутна вредност највише "
 "„ABS(@{x})“"
 
-#: ../plugins/fn-math/functions.c:1225
+#: ../plugins/fn-math/functions.c:1223
 msgid ""
 "FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose "
 "absolute value is at most ABS(@{x})"
@@ -6350,7 +6350,7 @@ msgstr ""
 "„FLOOR(@{x},@{значај})“ је најближи умножак @{значаја} чија је апсолутна "
 "вредност највише „ABS(@{x})“"
 
-#: ../plugins/fn-math/functions.c:1227
+#: ../plugins/fn-math/functions.c:1225
 msgid ""
 "FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},"
 "@{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1)."
@@ -6358,27 +6358,27 @@ msgstr ""
 "„FLOOR(@{x})“ се извози у ОДФ као „FLOOR(@{x},SIGN(@{x}),1)“. „FLOOR(@{x},"
 "@{значај})“ је функција Отворене функције „FLOOR(@{x},@{значај},1)“."
 
-#: ../plugins/fn-math/functions.c:1257
+#: ../plugins/fn-math/functions.c:1255
 msgid "INT:largest integer not larger than @{x}"
 msgstr "INT:највећи цео број који није већи од @{х}"
 
-#: ../plugins/fn-math/functions.c:1276
+#: ../plugins/fn-math/functions.c:1274
 msgid "LAMBERTW:the Lambert W function"
 msgstr "LAMBERTW:Ламберт W функција"
 
-#: ../plugins/fn-math/functions.c:1278
+#: ../plugins/fn-math/functions.c:1276
 msgid "k:branch"
 msgstr "k:грана"
 
-#: ../plugins/fn-math/functions.c:1279
+#: ../plugins/fn-math/functions.c:1277
 msgid "@{k} defaults to 0, the principal branch."
 msgstr "@{k} се пребацује на 0, главну грану."
 
-#: ../plugins/fn-math/functions.c:1280
+#: ../plugins/fn-math/functions.c:1278
 msgid "@{k} must be either 0 or -1."
 msgstr "@{k} мора бити или 0 или -1."
 
-#: ../plugins/fn-math/functions.c:1281
+#: ../plugins/fn-math/functions.c:1279
 msgid ""
 "The Lambert W function is the inverse function of x=W*exp(W).  There are two "
 "(real-valued) branches: k=0 which maps [-1/e;inf) onto [-1,inf); and k=-1 "
@@ -6388,33 +6388,33 @@ msgstr ""
 "вредноване) гране: k=0 која мапира [-1/e;inf) над [-1,inf); и k=-1 која "
 "мапира [-1/e;0) под (-inf;-1]."
 
-#: ../plugins/fn-math/functions.c:1303
+#: ../plugins/fn-math/functions.c:1301
 msgid "LOG:logarithm of @{x} with base @{base}"
 msgstr "LOG:логаритам @{x}-а са основом @{основа}"
 
-#: ../plugins/fn-math/functions.c:1304 ../plugins/fn-math/functions.c:1344
-#: ../plugins/fn-math/functions.c:1375 ../plugins/fn-math/functions.c:1410
-#: ../plugins/fn-math/functions.c:1497 ../plugins/fn-math/functions.c:1519
+#: ../plugins/fn-math/functions.c:1302 ../plugins/fn-math/functions.c:1342
+#: ../plugins/fn-math/functions.c:1373 ../plugins/fn-math/functions.c:1408
+#: ../plugins/fn-math/functions.c:1495 ../plugins/fn-math/functions.c:1517
 msgid "x:positive number"
 msgstr "х:позитиван број"
 
-#: ../plugins/fn-math/functions.c:1305 ../plugins/fn-math/functions.c:1345
+#: ../plugins/fn-math/functions.c:1303 ../plugins/fn-math/functions.c:1343
 msgid "base:base of the logarithm, defaults to 10"
 msgstr "основа:основа логаритма, подразумева се 10"
 
-#: ../plugins/fn-math/functions.c:1306 ../plugins/fn-math/functions.c:1346
+#: ../plugins/fn-math/functions.c:1304 ../plugins/fn-math/functions.c:1344
 msgid "@{base} must be positive and not equal to 1."
 msgstr "@{основа} мора бити позитиван број и различит од 1."
 
-#: ../plugins/fn-math/functions.c:1307 ../plugins/fn-math/functions.c:1347
+#: ../plugins/fn-math/functions.c:1305 ../plugins/fn-math/functions.c:1345
 msgid "If @{x} ≤ 0, LOG returns #NUM! error."
 msgstr "Ако је @{x} ≤ 0, „LOG“ исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-math/functions.c:1343
+#: ../plugins/fn-math/functions.c:1341
 msgid "ILOG:integer logarithm of @{x} with base @{base}"
 msgstr "ILOG::логаритам целог броја @{x}-а са основом @{основа}"
 
-#: ../plugins/fn-math/functions.c:1348
+#: ../plugins/fn-math/functions.c:1346
 msgid ""
 "This function returns the logarithm of @{x} using @{base} rounded down to "
 "nearest integer.  Unlike FLOOR(LOG(@{x},@{base})), this function is not "
@@ -6424,7 +6424,7 @@ msgstr ""
 "најближи цео број.  За разлику од „FLOOR(LOG(@{x},@{основа}))“, ова функција "
 "није предмет грешке представљања међурезултата."
 
-#: ../plugins/fn-math/functions.c:1349
+#: ../plugins/fn-math/functions.c:1347
 msgid ""
 "This function is not implemented for all possible value.  #VALUE! will be "
 "returned for such arguments."
@@ -6432,117 +6432,122 @@ msgstr ""
 "Ова функција није примењена за све могуће вредности.  За такве аргументе "
 "даће „#ВРЕДНОСТ!“."
 
-#: ../plugins/fn-math/functions.c:1374
+#: ../plugins/fn-math/functions.c:1372
 msgid "LN:the natural logarithm of @{x}"
 msgstr "LN:природни логаритам @{х}-а"
 
-#: ../plugins/fn-math/functions.c:1376
+#: ../plugins/fn-math/functions.c:1374
 msgid "If @{x} ≤ 0, LN returns #NUM! error."
 msgstr "Ако @{x} ≤ 0, „LN“ исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-math/functions.c:1409
+#: ../plugins/fn-math/functions.c:1407
 msgid "LN1P:LN(1+@{x})"
 msgstr "LN1P:LN(1+@{x})"
 
-#: ../plugins/fn-math/functions.c:1411
+#: ../plugins/fn-math/functions.c:1409
 msgid ""
 "LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating "
 "LN(1+@{x})."
 msgstr ""
 "„LN1P“ израчунава LN(1+@{x}) али даје већу тачност него проценом LN(1+@{x})."
 
-#: ../plugins/fn-math/functions.c:1412
+#: ../plugins/fn-math/functions.c:1410
 msgid "If @{x} ≤ -1, LN returns #NUM! error."
 msgstr "Ако @{x} ≤ -1, „LN“ исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-math/functions.c:1433
+#: ../plugins/fn-math/functions.c:1431
 msgid ""
 "POWER:the value of @{x} raised to the power @{y} raised to the power of 1/"
 "@{z}"
 msgstr "POWER:вредност @{x}-а на степен @{y} на степен 1/@{z}"
 
-#: ../plugins/fn-math/functions.c:1436
+#: ../plugins/fn-math/functions.c:1434
 msgid "z:number"
 msgstr "z:број"
 
-#: ../plugins/fn-math/functions.c:1437
+#: ../plugins/fn-math/functions.c:1435
 msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
 msgstr "Ако су @{x} и @{y} једнаки 0, „POWER“ исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:1438
+#: ../plugins/fn-math/functions.c:1436
 msgid "If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!"
 msgstr "Ако је @{x} = 0 и @{y} < 0, „POWER“ исписује #ДИВ/0!"
 
-#: ../plugins/fn-math/functions.c:1439
+#: ../plugins/fn-math/functions.c:1437
 msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
 msgstr "Ако је @{x} < 0 и @{y} није цео број, „POWER“ исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:1440
+#: ../plugins/fn-math/functions.c:1438
 msgid "@{z} defaults to 1"
 msgstr "@{z} подразумева 1"
 
-#: ../plugins/fn-math/functions.c:1441
+#: ../plugins/fn-math/functions.c:1439
 msgid "If @{z} is not a positive integer, POWER returns #NUM!"
 msgstr "Ако @{z} није позитиван цео број, „POWER“ исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:1442
+#: ../plugins/fn-math/functions.c:1440
 msgid "If @{x} < 0, @{y} is odd, and @{z} is even, POWER returns #NUM!"
 msgstr ""
 "Ако је @{x} < 0, @{y} је непаран, а @{z} је паран, „POWER“ исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:1475
+#: ../plugins/fn-math/functions.c:1473
 msgid "POCHHAMMER:the value of GAMMA(@{x}+@{n})/GAMMA(@{x})"
 msgstr "POCHHAMMER:вредност „GAMMA(@{x}+@{n})/GAMMA(@{x})“"
 
-#: ../plugins/fn-math/functions.c:1496
+#: ../plugins/fn-math/functions.c:1494
 msgid "LOG2:the base-2 logarithm of @{x}"
 msgstr "LOG2:логаритам @{х}-а основе 2"
 
-#: ../plugins/fn-math/functions.c:1498
+#: ../plugins/fn-math/functions.c:1496
 msgid "If @{x} ≤ 0, LOG2 returns #NUM!"
 msgstr "Ако је @{x} ≤ 0, „LOG2“ исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:1518
+#: ../plugins/fn-math/functions.c:1516
 msgid "LOG10:the base-10 logarithm of @{x}"
 msgstr "LOG10:логаритам @{х}-а основе 10"
 
-#: ../plugins/fn-math/functions.c:1520
+#: ../plugins/fn-math/functions.c:1518
 msgid "If @{x} ≤ 0, LOG10 returns #NUM!"
 msgstr "Ако је @{x} ≤ 0, „LOG10“ исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:1540
+#: ../plugins/fn-math/functions.c:1538
 msgid "MOD:the remainder of @{x} under division by @{n}"
 msgstr "MOD:подсетник @{x}-а под дељењем @{n}-ом"
 
-#: ../plugins/fn-math/functions.c:1543
+#: ../plugins/fn-math/functions.c:1540
+#| msgid "v:value"
+msgid "n:value"
+msgstr "n:вредност"
+
+#: ../plugins/fn-math/functions.c:1541
 msgid "MOD function returns the remainder when @{x} is divided by @{n}."
 msgstr "Функција „MOD“ исписује подсетника када је @{x} подељен са @{n}."
 
-#: ../plugins/fn-math/functions.c:1544
+#: ../plugins/fn-math/functions.c:1542
 msgid "If @{n} is 0, MOD returns #DIV/0!"
 msgstr "Ако је @{n} 0, „MOD“ исписује #ДИВ/0!"
 
-#: ../plugins/fn-math/functions.c:1586
+#: ../plugins/fn-math/functions.c:1584
 msgid "RADIANS:the number of radians equivalent to @{x} degrees"
 msgstr "RADIANS:број радијана који одговарају @{х} степенима"
 
-#: ../plugins/fn-math/functions.c:1587
+#: ../plugins/fn-math/functions.c:1585
 msgid "x:angle in degrees"
 msgstr "х:угао у степенима"
 
-#: ../plugins/fn-math/functions.c:1604
+#: ../plugins/fn-math/functions.c:1602
 msgid "REDUCEPI:reduce modulo Pi divided by a power of 2"
 msgstr "REDUCEPI:умањује модул 𝜋 подељен степеном двојке"
 
-#: ../plugins/fn-math/functions.c:1606
+#: ../plugins/fn-math/functions.c:1604
 msgid "e:scale"
 msgstr "e:размера"
 
-#: ../plugins/fn-math/functions.c:1607
+#: ../plugins/fn-math/functions.c:1605
 msgid "q:get lower bits of quotient, defaults to FALSE"
 msgstr "q:добавља ниже битове количника, подразумева НЕТАЧНО"
 
-#: ../plugins/fn-math/functions.c:1609
+#: ../plugins/fn-math/functions.c:1607
 msgid ""
 "This function returns a value, xr, such that @{x}=xr+j*Pi/2^@{e} where j is "
 "an integer and the absolute value of xr does not exceed Pi/2^(@{e}+1).  If "
@@ -6554,7 +6559,7 @@ msgstr ""
 "аргумент @{q} ТАЧНО, даје уместо @e+1 нижe битove од „j“. Умањење се обавља "
 "„као-ако“ коришћењем тачне вредност 𝜋."
 
-#: ../plugins/fn-math/functions.c:1610
+#: ../plugins/fn-math/functions.c:1608
 msgid ""
 "The lowest valid @{e} is -1 representing reduction modulo 2*Pi; the highest "
 "is 7 representing reduction modulo Pi/256."
@@ -6562,169 +6567,178 @@ msgstr ""
 "Најниже важеће @{e} је -1 које представља умањење модула 2*𝜋; највише је 7 "
 "које представља умањење модула 𝜋/256."
 
-#: ../plugins/fn-math/functions.c:1634
+#: ../plugins/fn-math/functions.c:1632
 msgid "SIN:the sine of @{x}"
 msgstr "SIN:синус @{х}"
 
-#: ../plugins/fn-math/functions.c:1639
+#: ../plugins/fn-math/functions.c:1637
 msgid "wolfram:Sine.html"
 msgstr "волфрам:Синус.html"
 
-#: ../plugins/fn-math/functions.c:1653
+#: ../plugins/fn-math/functions.c:1651
 msgid "SINPI:the sine of Pi*@{x}"
 msgstr "SINPI:синус 𝜋*@{x}"
 
-#: ../plugins/fn-math/functions.c:1670
+#: ../plugins/fn-math/functions.c:1668
 msgid "CSC:the cosecant of @{x}"
 msgstr "CSC:косеканс @{х}"
 
-#: ../plugins/fn-math/functions.c:1672 ../plugins/fn-math/functions.c:1692
-#: ../plugins/fn-math/functions.c:1712 ../plugins/fn-math/functions.c:1732
+#: ../plugins/fn-math/functions.c:1670 ../plugins/fn-math/functions.c:1690
+#: ../plugins/fn-math/functions.c:1710 ../plugins/fn-math/functions.c:1730
 msgid "This function is not Excel compatible."
 msgstr "Ова функција није сагласна са Екселом."
 
-#: ../plugins/fn-math/functions.c:1676
+#: ../plugins/fn-math/functions.c:1674
 msgid "wolfram:Cosecant.html"
 msgstr "волфрам:Косеканс.html"
 
-#: ../plugins/fn-math/functions.c:1690
+#: ../plugins/fn-math/functions.c:1688
 msgid "CSCH:the hyperbolic cosecant of @{x}"
 msgstr "CSCH:хиперболички косеканс @{х}"
 
-#: ../plugins/fn-math/functions.c:1696
+#: ../plugins/fn-math/functions.c:1694
 msgid "wolfram:HyperbolicCosecant.html"
 msgstr "волфрам:Хиперболички_косеканс.html"
 
-#: ../plugins/fn-math/functions.c:1710
+#: ../plugins/fn-math/functions.c:1708
 msgid "SEC:Secant"
 msgstr "SEC:Секанс"
 
-#: ../plugins/fn-math/functions.c:1713
+#: ../plugins/fn-math/functions.c:1711
 msgid "SEC(@{x}) is exported to OpenFormula as 1/COS(@{x})."
 msgstr "SEC(@{x}) се извози у Отворену формулу као 1/COS(@{x})."
 
-#: ../plugins/fn-math/functions.c:1716
+#: ../plugins/fn-math/functions.c:1714
 msgid "wolfram:Secant.html"
 msgstr "волфрам:Секанс.html"
 
-#: ../plugins/fn-math/functions.c:1730
+#: ../plugins/fn-math/functions.c:1728
 msgid "SECH:the hyperbolic secant of @{x}"
 msgstr "SECH:хиперболички секанс @{х}"
 
-#: ../plugins/fn-math/functions.c:1733
+#: ../plugins/fn-math/functions.c:1731
 msgid "SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x})."
 msgstr "SECH(@{x}) се извози у Отворену формулу као 1/COSH(@{x})."
 
-#: ../plugins/fn-math/functions.c:1736
+#: ../plugins/fn-math/functions.c:1734
 msgid "wolfram:HyperbolicSecant.html"
 msgstr "волфрам:Хиперболички_секанс.html"
 
-#: ../plugins/fn-math/functions.c:1748
+#: ../plugins/fn-math/functions.c:1746
 msgid "SINH:the hyperbolic sine of @{x}"
 msgstr "SINH:хиперболички синус @{х}"
 
-#: ../plugins/fn-math/functions.c:1766
+#: ../plugins/fn-math/functions.c:1764
 msgid "SQRT:square root of @{x}"
 msgstr "SQRT:квадратни корен @{х}"
 
-#: ../plugins/fn-math/functions.c:1767 ../plugins/fn-math/functions.c:2229
+#: ../plugins/fn-math/functions.c:1765 ../plugins/fn-math/functions.c:2229
 msgid "x:non-negative number"
 msgstr "х:не-негативни број"
 
-#: ../plugins/fn-math/functions.c:1769
+#: ../plugins/fn-math/functions.c:1767
 msgid "If @{x} is negative, SQRT returns #NUM!"
 msgstr "Ако је @{х} негативан, „SQRT“ исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:1788
+#: ../plugins/fn-math/functions.c:1786
 msgid "SUMA:sum of all values and cells referenced"
 msgstr "SUMA:збир свих упутних вредности и поља"
 
-#: ../plugins/fn-math/functions.c:1789 ../plugins/fn-math/functions.c:1813
+#: ../plugins/fn-math/functions.c:1787 ../plugins/fn-math/functions.c:1811
 msgid "area0:first cell area"
 msgstr "област0:област првог поља"
 
-#: ../plugins/fn-math/functions.c:1790 ../plugins/fn-math/functions.c:1814
+#: ../plugins/fn-math/functions.c:1788 ../plugins/fn-math/functions.c:1812
 msgid "area1:second cell area"
 msgstr "област1:област другог поља"
 
-#: ../plugins/fn-math/functions.c:1812
+#: ../plugins/fn-math/functions.c:1810
 msgid "SUMSQ:sum of the squares of all values and cells referenced"
 msgstr "SUMSQ:збир квадрата свих упутних вредности и поља"
 
-#: ../plugins/fn-math/functions.c:1872
+#: ../plugins/fn-math/functions.c:1870
 msgid ""
 "MULTINOMIAL:multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},…,@{xn})"
 msgstr ""
 "MULTINOMIAL:вишеноминални коефицијент (@{x1}+⋯+@{xn}) бира (@{x1},…,@{xn})"
 
-#: ../plugins/fn-math/functions.c:1873
+#: ../plugins/fn-math/functions.c:1871
 msgid "x1:first number"
 msgstr "х1:први број"
 
-#: ../plugins/fn-math/functions.c:1874
+#: ../plugins/fn-math/functions.c:1872
 msgid "x2:second number"
 msgstr "х2:други број"
 
-#: ../plugins/fn-math/functions.c:1875
+#: ../plugins/fn-math/functions.c:1873
 msgid "xn:nth number"
 msgstr "xn:н-ти број"
 
-#: ../plugins/fn-math/functions.c:1879
+#: ../plugins/fn-math/functions.c:1877
 msgid "wiki:en:Multinomial_theorem"
 msgstr "вики:ен:Вишеноминална_теорема"
 
-#: ../plugins/fn-math/functions.c:1897
+#: ../plugins/fn-math/functions.c:1895
 msgid "G_PRODUCT:product of all the values and cells referenced"
 msgstr "G_PRODUCT:производ свих упутних вредности и поља"
 
-#: ../plugins/fn-math/functions.c:1898
+#: ../plugins/fn-math/functions.c:1896
 msgid "x1:number"
 msgstr "х1:број"
 
-#: ../plugins/fn-math/functions.c:1899
+#: ../plugins/fn-math/functions.c:1897
 msgid "x2:number"
 msgstr "х2:број"
 
-#: ../plugins/fn-math/functions.c:1900
+#: ../plugins/fn-math/functions.c:1898
 msgid "Empty cells are ignored and the empty product is 1."
 msgstr "Празна поља се занемарују а празан производ је 1."
 
-#: ../plugins/fn-math/functions.c:1920
+#: ../plugins/fn-math/functions.c:1918
 msgid "TAN:the tangent of @{x}"
 msgstr "TAN:тангенс @{х}"
 
-#: ../plugins/fn-math/functions.c:1937
+#: ../plugins/fn-math/functions.c:1935
 msgid "TANPI:the tangent of Pi*@{x}"
 msgstr "TANPI:тангенс за 𝜋*@{x}"
 
-#: ../plugins/fn-math/functions.c:1953
+#: ../plugins/fn-math/functions.c:1951
 msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr "TANH:хиперболички тангенс @{х}"
 
-#: ../plugins/fn-math/functions.c:1970
+#: ../plugins/fn-math/functions.c:1968
 msgid "PI:the constant 𝜋"
 msgstr "PI:константа 𝜋"
 
-#: ../plugins/fn-math/functions.c:1971
+#: ../plugins/fn-math/functions.c:1969
 msgid ""
 "This function is Excel compatible, but it returns 𝜋 with a better precision."
 msgstr "Ова функција је сагласна са Екселом, али исписује 𝜋 са бољом тачношћу."
 
-#: ../plugins/fn-math/functions.c:1988
+#: ../plugins/fn-math/functions.c:1986
 msgid "TRUNC:@{x} truncated to @{d} digits"
 msgstr "TRUNC:@{х} скраћено на @{d} цифара"
 
-#: ../plugins/fn-math/functions.c:1990
-msgid "d:non-negative integer, defaults to 0"
-msgstr "d:не-негативни цео број, подразумева се 0"
+#: ../plugins/fn-math/functions.c:1988 ../plugins/fn-math/functions.c:2252
+#: ../plugins/fn-math/functions.c:2276 ../plugins/fn-math/functions.c:2322
+msgid "d:integer, defaults to 0"
+msgstr "d:цео број, подразумева се 0"
 
-#: ../plugins/fn-math/functions.c:1991
+#: ../plugins/fn-math/functions.c:1989
+#| msgid ""
+#| "If @{d} is omitted or negative then it defaults to zero. If it is not an "
+#| "integer then it is truncated to an integer."
 msgid ""
-"If @{d} is omitted or negative then it defaults to zero. If it is not an "
-"integer then it is truncated to an integer."
+"If @{d} is omitted then it defaults to zero. If it is not an integer then it "
+"is truncated to an integer."
 msgstr ""
-"Ако је @{d} изостављено или негативно онда се подразумева нула. Ако није цео "
-"број онда се скраћује на цео број."
+"Ако је @{d} изостављено онда се подразумева нула. Ако није цео број онда се "
+"скраћује на цео број."
+
+#: ../plugins/fn-math/functions.c:1990
+msgid ""
+"If @{d} is negative, it refers to number of digits before the decimal point."
+msgstr "Ако је @{d} негативно, односи се на број цифара пре децималног зареза."
 
 #: ../plugins/fn-math/functions.c:2025
 msgid "EVEN:@{x} rounded away from 0 to the next even integer"
@@ -6823,11 +6837,6 @@ msgstr "SQRTPI:квадратни корен @{x}-а пута 𝜋"
 msgid "ROUNDDOWN:@{x} rounded towards 0"
 msgstr "ROUNDDOWN:@{x} заокружен ка 0"
 
-#: ../plugins/fn-math/functions.c:2252 ../plugins/fn-math/functions.c:2276
-#: ../plugins/fn-math/functions.c:2317
-msgid "d:integer, defaults to 0"
-msgstr "d:цео број, подразумева се 0"
-
 #: ../plugins/fn-math/functions.c:2253
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded toward 0 to the given number "
@@ -6855,11 +6864,11 @@ msgstr ""
 "Ако је @{d} нула, @{x} се заокружује на следећи цео број.\n"
 "Ако је @{d} мање од нуле, @{x} се заокружује с лева од децималног зареза"
 
-#: ../plugins/fn-math/functions.c:2315
+#: ../plugins/fn-math/functions.c:2320
 msgid "ROUNDUP:@{x} rounded away from 0"
 msgstr "ROUNDUP:@{x} заокружен од 0"
 
-#: ../plugins/fn-math/functions.c:2318
+#: ../plugins/fn-math/functions.c:2323
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded away from 0 to the given "
 "number of digits.\n"
@@ -6871,27 +6880,27 @@ msgstr ""
 "Ако је @{d} нула, @{x} се заокружује од 0 до следећег целог броја.\n"
 "Ако је @{d} мање од нуле, @{x} се заокружује од 0 с лева од децималног зареза"
 
-#: ../plugins/fn-math/functions.c:2362
+#: ../plugins/fn-math/functions.c:2367
 msgid "MROUND:@{x} rounded to a multiple of @{m}"
 msgstr "MROUND:@{х} заокружено на умножак броја @{m}"
 
-#: ../plugins/fn-math/functions.c:2364
+#: ../plugins/fn-math/functions.c:2369
 msgid "m:number"
 msgstr "m:број"
 
-#: ../plugins/fn-math/functions.c:2365
+#: ../plugins/fn-math/functions.c:2370
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
 msgstr "Ако @{x} и @{m} имају различит знак, „MROUND“ исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:2406
+#: ../plugins/fn-math/functions.c:2411
 msgid "ARABIC:the Roman numeral @{roman} as number"
 msgstr "ARABIC:римски симбол @{римски} као број"
 
-#: ../plugins/fn-math/functions.c:2407
+#: ../plugins/fn-math/functions.c:2412
 msgid "roman:Roman numeral"
 msgstr "римски:римски симбол"
 
-#: ../plugins/fn-math/functions.c:2408
+#: ../plugins/fn-math/functions.c:2413
 msgid ""
 "Any Roman symbol to the left of a larger symbol (directly or indirectly) "
 "reduces the final value by the symbol amount, otherwise, it increases the "
@@ -6901,15 +6910,15 @@ msgstr ""
 "непосредно) умањује крајњу вредност износу симбола, у супротном, увећава "
 "крајњи износ износом симбола."
 
-#: ../plugins/fn-math/functions.c:2484
+#: ../plugins/fn-math/functions.c:2489
 msgid "ROMAN:@{n} as a roman numeral text"
 msgstr "ROMAN:@{n} као римски бројевни текст"
 
-#: ../plugins/fn-math/functions.c:2486
+#: ../plugins/fn-math/functions.c:2491
 msgid "type:0,1,2,3,or 4, defaults to 0"
 msgstr "врста:0,1,2,3, или 4, подразумева се 0"
 
-#: ../plugins/fn-math/functions.c:2487
+#: ../plugins/fn-math/functions.c:2492
 msgid ""
 "ROMAN returns the arabic number @{n} as a roman numeral text.\n"
 "If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
@@ -6922,21 +6931,21 @@ msgstr ""
 "Врста 1 је тачнија од класичне врсте, врста 2 је тачнија од врсте 1, а врста "
 "3 је тачнија од врсте 2. Врста 4 је поједностављена врста."
 
-#: ../plugins/fn-math/functions.c:2734
+#: ../plugins/fn-math/functions.c:2739
 msgid "SUMX2MY2:sum of the difference of squares"
 msgstr "SUMX2MY2:збир разлике квадрата"
 
-#: ../plugins/fn-math/functions.c:2735 ../plugins/fn-math/functions.c:2777
-#: ../plugins/fn-math/functions.c:2820
+#: ../plugins/fn-math/functions.c:2740 ../plugins/fn-math/functions.c:2782
+#: ../plugins/fn-math/functions.c:2825
 msgid "array0:first cell area"
 msgstr "низ0:област првог поља"
 
-#: ../plugins/fn-math/functions.c:2736 ../plugins/fn-math/functions.c:2778
-#: ../plugins/fn-math/functions.c:2821
+#: ../plugins/fn-math/functions.c:2741 ../plugins/fn-math/functions.c:2783
+#: ../plugins/fn-math/functions.c:2826
 msgid "array1:second cell area"
 msgstr "низ1:област другог поља"
 
-#: ../plugins/fn-math/functions.c:2737
+#: ../plugins/fn-math/functions.c:2742
 msgid ""
 "SUMX2MY2 function returns the sum of the difference of squares of "
 "corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
@@ -6944,8 +6953,8 @@ msgstr ""
 "Функција „SUMX2MY2“ исписује збир разлике коренова одговарајућих вредности у "
 "два низа. Једначина за „SUMX2MY2“ је „SUM(x^2-y^2)“."
 
-#: ../plugins/fn-math/functions.c:2740 ../plugins/fn-math/functions.c:2784
-#: ../plugins/fn-math/functions.c:2827
+#: ../plugins/fn-math/functions.c:2745 ../plugins/fn-math/functions.c:2789
+#: ../plugins/fn-math/functions.c:2832
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
 "and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39."
@@ -6953,15 +6962,15 @@ msgstr ""
 "Претпоставимо да поља A1, A2, ..., A5 садрже бројеве 11, 15, 17, 21 и 43, а "
 "поља B1, B2, ..., B5 13, 22, 31, 33 и 39."
 
-#: ../plugins/fn-math/functions.c:2741
+#: ../plugins/fn-math/functions.c:2746
 msgid "Then SUMX2MY2(A1:A5,B1:B5) yields -1299."
 msgstr "Тада „SUMX2MY2(A1:A5,B1:B5)“ износи -1299."
 
-#: ../plugins/fn-math/functions.c:2776
+#: ../plugins/fn-math/functions.c:2781
 msgid "SUMX2PY2:sum of the sum of squares"
 msgstr "SUMX2PY2:збир збира квадрата"
 
-#: ../plugins/fn-math/functions.c:2779
+#: ../plugins/fn-math/functions.c:2784
 msgid ""
 "SUMX2PY2 function returns the sum of the sum of squares of corresponding "
 "values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2)."
@@ -6969,7 +6978,7 @@ msgstr ""
 "Функција „SUMX2PY2“ исписује збир збира коренова одговарајућих вредности у "
 "два низа. Једначина за „SUMX2PY2“ је „SUM(x^2+y^2)“."
 
-#: ../plugins/fn-math/functions.c:2781
+#: ../plugins/fn-math/functions.c:2786
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMX2PY2 "
 "returns #N/A.\n"
@@ -6979,15 +6988,15 @@ msgstr ""
 "исписује #Н/Д.\n"
 "Ниске и празна поља се једноставно занемарују."
 
-#: ../plugins/fn-math/functions.c:2785
+#: ../plugins/fn-math/functions.c:2790
 msgid "Then SUMX2PY2(A1:A5,B1:B5) yields 7149."
 msgstr "Тада „SUMX2PY2(A1:A5,B1:B5)“ износи 7149."
 
-#: ../plugins/fn-math/functions.c:2819
+#: ../plugins/fn-math/functions.c:2824
 msgid "SUMXMY2:sum of the squares of differences"
 msgstr "SUMXMY2:збир квадрата разлика"
 
-#: ../plugins/fn-math/functions.c:2822
+#: ../plugins/fn-math/functions.c:2827
 msgid ""
 "SUMXMY2 function returns the sum of the squares of the differences of "
 "corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
@@ -6995,7 +7004,7 @@ msgstr ""
 "Функција „SUMXMY2“ исписује збир коренова разлика одговарајућих вредности у "
 "два низа. Једначина за „SUMXMY2“ је „SUM((x-y)^2)“."
 
-#: ../plugins/fn-math/functions.c:2824
+#: ../plugins/fn-math/functions.c:2829
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMXMY2 "
 "returns #N/A.\n"
@@ -7005,31 +7014,31 @@ msgstr ""
 "исписује #Н/Д.\n"
 "Ниске и празна поља се једноставно занемарују."
 
-#: ../plugins/fn-math/functions.c:2828
+#: ../plugins/fn-math/functions.c:2833
 msgid "Then SUMXMY2(A1:A5,B1:B5) yields 409."
 msgstr "Тада „SUMXMY2(A1:A5,B1:B5)“ износи 409."
 
-#: ../plugins/fn-math/functions.c:2864
+#: ../plugins/fn-math/functions.c:2869
 msgid "SERIESSUM:sum of a power series at @{x}"
 msgstr "SERIESSUM:збир степена @{x}"
 
-#: ../plugins/fn-math/functions.c:2865
+#: ../plugins/fn-math/functions.c:2870
 msgid "x:number where to evaluate the power series"
 msgstr "x:број где ће проценити степени низ"
 
-#: ../plugins/fn-math/functions.c:2866
+#: ../plugins/fn-math/functions.c:2871
 msgid "n:non-negative integer, exponent of the lowest term of the series"
 msgstr "n:не-негативни сео број, изложилац најмањег израза у низу"
 
-#: ../plugins/fn-math/functions.c:2867
+#: ../plugins/fn-math/functions.c:2872
 msgid "m:increment to each exponent"
 msgstr "m:увећање за сваки изложилац"
 
-#: ../plugins/fn-math/functions.c:2868
+#: ../plugins/fn-math/functions.c:2873
 msgid "coeff:coefficients of the power series"
 msgstr "коеф:коефицијенти низова степена"
 
-#: ../plugins/fn-math/functions.c:2870
+#: ../plugins/fn-math/functions.c:2875
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, "
 "2.98, 3.42, and 4.33."
@@ -7037,23 +7046,23 @@ msgstr ""
 "Претпоставимо да поља A1, A2, ..., A5 садрже бројеве 1.23, 2.32, 2.98, 3.42 "
 "и 4.33."
 
-#: ../plugins/fn-math/functions.c:2871
+#: ../plugins/fn-math/functions.c:2876
 msgid "Then SERIESSUM(2,1,2.23,A1:A5) evaluates as 5056.37439843926"
 msgstr "Тада се „SERIESSUM(2,1,2.23,A1:A5)“ процењује на 5056.37439843926"
 
-#: ../plugins/fn-math/functions.c:2922
+#: ../plugins/fn-math/functions.c:2927
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE:инверзна матрица @{матрице}"
 
-#: ../plugins/fn-math/functions.c:2923 ../plugins/fn-math/functions.c:3212
+#: ../plugins/fn-math/functions.c:2928 ../plugins/fn-math/functions.c:3217
 msgid "matrix:a square matrix"
 msgstr "матрица:матрица корена"
 
-#: ../plugins/fn-math/functions.c:2924
+#: ../plugins/fn-math/functions.c:2929
 msgid "If @{matrix} is not invertible, MINVERSE returns #NUM!"
 msgstr "Ако @{матрица} није инвертибилна, „MINVERSE“ исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:2925
+#: ../plugins/fn-math/functions.c:2930
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, MINVERSE "
 "returns #VALUE!"
@@ -7061,30 +7070,30 @@ msgstr ""
 "Ако @{матрица} не садржи једнак број колона и редова, „MINVERSE“ исписује "
 "#БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:2959
+#: ../plugins/fn-math/functions.c:2964
 msgid "MPSEUDOINVERSE:the pseudo-inverse matrix of @{matrix}"
 msgstr "MPSEUDOINVERSE:псеудо-инверзна матрица @{матрице}"
 
-#: ../plugins/fn-math/functions.c:2960
+#: ../plugins/fn-math/functions.c:2965
 msgid "matrix:a matrix"
 msgstr "матрица:матрица"
 
-#: ../plugins/fn-math/functions.c:2961
+#: ../plugins/fn-math/functions.c:2966
 msgid "threshold:a relative size threshold for discarding eigenvalues"
 msgstr "померај:померај релативне величине за одбацивање личне вредности"
 
-#: ../plugins/fn-math/functions.c:2996
+#: ../plugins/fn-math/functions.c:3001
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite "
 "@{matrix}"
 msgstr ""
 "CHOLESKY:Чолескијево разлагање симетричне позитивно-одређене @{матрице}"
 
-#: ../plugins/fn-math/functions.c:2997
+#: ../plugins/fn-math/functions.c:3002
 msgid "matrix:a symmetric positive definite matrix"
 msgstr "матрица:симетрична позитивно одређена матрица"
 
-#: ../plugins/fn-math/functions.c:2998
+#: ../plugins/fn-math/functions.c:3003
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
@@ -7092,7 +7101,7 @@ msgstr ""
 "Ако Чолески-Банакјевичев алгоритам примењен на @{матрици} не успе, Чолески "
 "исписује #БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:2999
+#: ../plugins/fn-math/functions.c:3004
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
@@ -7100,27 +7109,27 @@ msgstr ""
 "Ако @{матрица} не садржи једнак број колона и редова, „CHOLESKY“ исписује "
 "#БРОЈ!"
 
-#: ../plugins/fn-math/functions.c:3074
+#: ../plugins/fn-math/functions.c:3079
 msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr "MUNIT:матрица идентитета @{n} са @{n}"
 
-#: ../plugins/fn-math/functions.c:3075
+#: ../plugins/fn-math/functions.c:3080
 msgid "n:size of the matrix"
 msgstr "n:величина матрице"
 
-#: ../plugins/fn-math/functions.c:3112
+#: ../plugins/fn-math/functions.c:3117
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr "MMULT:производ матрица @{мат1} и @{мат2}"
 
-#: ../plugins/fn-math/functions.c:3113
+#: ../plugins/fn-math/functions.c:3118
 msgid "mat1:a matrix"
 msgstr "мат1:матрица"
 
-#: ../plugins/fn-math/functions.c:3114
+#: ../plugins/fn-math/functions.c:3119
 msgid "mat2:a matrix"
 msgstr "мат2:матрица"
 
-#: ../plugins/fn-math/functions.c:3115
+#: ../plugins/fn-math/functions.c:3120
 msgid ""
 "The number of columns in @{mat1} must equal the number of rows in @{mat2}; "
 "otherwise #VALUE! is returned.  The result of MMULT is an array, in which "
@@ -7131,31 +7140,31 @@ msgstr ""
 "исписује се #ВРЕДНОСТ!.  Резултат за „MMULT“ је низ, у коме је број редова "
 "исти као у @{mat1}), а број колона је исти као у (@{mat2})."
 
-#: ../plugins/fn-math/functions.c:3155
+#: ../plugins/fn-math/functions.c:3160
 msgid "LINSOLVE:solve linear equation"
 msgstr "LINSOLVE:решавање линеарне једначине"
 
-#: ../plugins/fn-math/functions.c:3156 ../plugins/fn-stat/functions.c:3516
+#: ../plugins/fn-math/functions.c:3161 ../plugins/fn-stat/functions.c:3530
 msgid "A:a matrix"
 msgstr "A:матрица"
 
-#: ../plugins/fn-math/functions.c:3157
+#: ../plugins/fn-math/functions.c:3162
 msgid "B:a matrix"
 msgstr "B:матрица"
 
-#: ../plugins/fn-math/functions.c:3159
+#: ../plugins/fn-math/functions.c:3164
 msgid "Solves the equation @{A}*X=@{B} and returns X."
 msgstr "Решава једначину @{А}*X=@{Б} и исписује X."
 
-#: ../plugins/fn-math/functions.c:3160
+#: ../plugins/fn-math/functions.c:3165
 msgid "If the matrix @{A} is singular, #VALUE! is returned."
 msgstr "Ако је матрица @{А} једна, исписује се #ВРЕДНОСТ!."
 
-#: ../plugins/fn-math/functions.c:3211
+#: ../plugins/fn-math/functions.c:3216
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:детерминанта матрице @{матрица}"
 
-#: ../plugins/fn-math/functions.c:3213
+#: ../plugins/fn-math/functions.c:3218
 msgid ""
 "Let us assume that A1,...,A4 contain numbers 2, 3, 7, and 3; B1,..., B4 4, "
 "2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then "
@@ -7165,11 +7174,11 @@ msgstr ""
 "и 1; C1,...,C4 9, 4, 3; и 2; и D1,...,D4 7, 3, 6, и 5. Тада „MDETERM(A1:D4)“ "
 "исписује 148."
 
-#: ../plugins/fn-math/functions.c:3243
+#: ../plugins/fn-math/functions.c:3248
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT:множи састојке и додаје резултате"
 
-#: ../plugins/fn-math/functions.c:3245 ../plugins/fn-math/functions.c:3268
+#: ../plugins/fn-math/functions.c:3250 ../plugins/fn-math/functions.c:3273
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -7177,11 +7186,11 @@ msgstr ""
 "Множи уносе одговарајућих података у датим низовима или опсезима, а затим "
 "исписује збир тих производа."
 
-#: ../plugins/fn-math/functions.c:3248
+#: ../plugins/fn-math/functions.c:3253
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Ако неки унос није број, онда се користи вредност нула."
 
-#: ../plugins/fn-math/functions.c:3249 ../plugins/fn-math/functions.c:3272
+#: ../plugins/fn-math/functions.c:3254 ../plugins/fn-math/functions.c:3277
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -7189,7 +7198,7 @@ msgstr ""
 "Ако низови или аргументи опсега немају исте димензије, исписује грешку "
 "#ВРЕДНОСТ!."
 
-#: ../plugins/fn-math/functions.c:3251
+#: ../plugins/fn-math/functions.c:3256
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
@@ -7197,42 +7206,42 @@ msgstr ""
 "Ова функција занемарује логику, стога „SUMPRODUCT (A1:A5>0)“ неће радити.  "
 "Уместо тога користите „SUMPRODUCT(--(A1:A5>0))“"
 
-#: ../plugins/fn-math/functions.c:3260
+#: ../plugins/fn-math/functions.c:3265
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr ""
 "Ова функција није сагласна са Отвореном формулом. Уместо ње користите „ODF."
 "SUMPRODUCT“."
 
-#: ../plugins/fn-math/functions.c:3266
+#: ../plugins/fn-math/functions.c:3271
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
 msgstr "ODF.SUMPRODUCT:множи састојке и додаје резултате"
 
-#: ../plugins/fn-math/functions.c:3271
+#: ../plugins/fn-math/functions.c:3276
 msgid "If an entry is not numeric or logical, the value zero is used instead."
 msgstr ""
 "Ако неки унос није број или логичка вредност, онда се користи вредност нула."
 
-#: ../plugins/fn-math/functions.c:3274
+#: ../plugins/fn-math/functions.c:3279
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr ""
 "Ова функција се разликује од „SUMPRODUCT“ зато што разматра логичке "
 "вредности."
 
-#: ../plugins/fn-math/functions.c:3275
+#: ../plugins/fn-math/functions.c:3280
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr ""
 "Ова функција није сагласна са Екселом. Уместо ње користите „SUMPRODUCT“."
 
-#: ../plugins/fn-math/functions.c:3410
+#: ../plugins/fn-math/functions.c:3415
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:лична вредност и лични вектор симетричне @{матрице}"
 
-#: ../plugins/fn-math/functions.c:3411
+#: ../plugins/fn-math/functions.c:3416
 msgid "matrix:a symmetric matrix"
 msgstr "матрица:симетрична матрица"
 
-#: ../plugins/fn-math/functions.c:3412
+#: ../plugins/fn-math/functions.c:3417
 msgid ""
 "If @{matrix} is not symmetric, matching off-diagonal cells will be averaged "
 "on the assumption that the non-symmetry is caused by unimportant rounding "
@@ -7242,7 +7251,7 @@ msgstr ""
 "просеком подразумевања да је несиметрија проузрокована неважним грешкама "
 "заокруживања."
 
-#: ../plugins/fn-math/functions.c:3413
+#: ../plugins/fn-math/functions.c:3418
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
@@ -7380,9 +7389,8 @@ msgid "BITOR:bitwise or"
 msgstr "BITOR:бит-по-бит ИЛИ"
 
 #: ../plugins/fn-numtheory/numtheory.c:610
-#: ../plugins/fn-numtheory/numtheory.c:651
-#: ../plugins/fn-numtheory/numtheory.c:692
-#| msgid "a:non-negative integer"
+#: ../plugins/fn-numtheory/numtheory.c:649
+#: ../plugins/fn-numtheory/numtheory.c:691
 msgid "values:non-negative integers"
 msgstr "values:не-негативни цео број"
 
@@ -7392,11 +7400,11 @@ msgid ""
 msgstr ""
 "„BITOR“ исписује бит-по-бит ИЛИ бинарног представљања његових аргумената."
 
-#: ../plugins/fn-numtheory/numtheory.c:650
+#: ../plugins/fn-numtheory/numtheory.c:648
 msgid "BITXOR:bitwise exclusive or"
 msgstr "BITXOR:бит-по-бит искључиво ИЛИ"
 
-#: ../plugins/fn-numtheory/numtheory.c:652
+#: ../plugins/fn-numtheory/numtheory.c:650
 msgid ""
 "BITXOR returns the bitwise exclusive or of the binary representations of its "
 "arguments."
@@ -7404,11 +7412,11 @@ msgstr ""
 "„BITXOR“ исписује бит-по-бит искључиво ИЛИ бинарног представљања његових "
 "аргумената."
 
-#: ../plugins/fn-numtheory/numtheory.c:691
+#: ../plugins/fn-numtheory/numtheory.c:690
 msgid "BITAND:bitwise and"
 msgstr "BITAND:бит-по-бит И"
 
-#: ../plugins/fn-numtheory/numtheory.c:693
+#: ../plugins/fn-numtheory/numtheory.c:692
 msgid ""
 "BITAND returns the bitwise and of the binary representations of its "
 "arguments."
@@ -9012,15 +9020,15 @@ msgstr "VARP:варијанса читаве популације"
 
 #: ../plugins/fn-stat/functions.c:51 ../plugins/fn-stat/functions.c:76
 #: ../plugins/fn-stat/functions.c:105 ../plugins/fn-stat/functions.c:132
-#: ../plugins/fn-stat/functions.c:2728 ../plugins/fn-stat/functions.c:2757
-#: ../plugins/fn-stat/functions.c:2783 ../plugins/fn-stat/functions.c:2810
+#: ../plugins/fn-stat/functions.c:2742 ../plugins/fn-stat/functions.c:2771
+#: ../plugins/fn-stat/functions.c:2797 ../plugins/fn-stat/functions.c:2824
 msgid "area1:first cell area"
 msgstr "област1:област првог поља"
 
 #: ../plugins/fn-stat/functions.c:52 ../plugins/fn-stat/functions.c:77
 #: ../plugins/fn-stat/functions.c:106 ../plugins/fn-stat/functions.c:133
-#: ../plugins/fn-stat/functions.c:2729 ../plugins/fn-stat/functions.c:2758
-#: ../plugins/fn-stat/functions.c:2784 ../plugins/fn-stat/functions.c:2811
+#: ../plugins/fn-stat/functions.c:2743 ../plugins/fn-stat/functions.c:2772
+#: ../plugins/fn-stat/functions.c:2798 ../plugins/fn-stat/functions.c:2825
 msgid "area2:second cell area"
 msgstr "област2:област другог поља"
 
@@ -9044,7 +9052,7 @@ msgstr "VAR:варијанса узорка датог узорка"
 msgid "VAR is also known as the N-1-variance."
 msgstr "„VAR“ је такође позната као N-1-варијанса."
 
-#: ../plugins/fn-stat/functions.c:79 ../plugins/fn-stat/functions.c:2733
+#: ../plugins/fn-stat/functions.c:79 ../plugins/fn-stat/functions.c:2747
 msgid ""
 "Since the N-1-variance includes Bessel's correction, whereas the N-variance "
 "calculated by VARPA or VARP does not, under reasonable conditions the N-1-"
@@ -9082,7 +9090,7 @@ msgstr "волфрам:Стандардно_одступање.html"
 msgid "STDEVP:population standard deviation of the given population"
 msgstr "STDEVP:стандардно одступање популације дате популације"
 
-#: ../plugins/fn-stat/functions.c:134 ../plugins/fn-stat/functions.c:2812
+#: ../plugins/fn-stat/functions.c:134 ../plugins/fn-stat/functions.c:2826
 msgid "This is also known as the N-standard deviation"
 msgstr "Ово је такође познато као N-стандардно одступање"
 
@@ -9171,10 +9179,10 @@ msgstr ""
 "најближи паран број."
 
 #: ../plugins/fn-stat/functions.c:273 ../plugins/fn-stat/functions.c:787
-#: ../plugins/fn-stat/functions.c:2369 ../plugins/fn-stat/functions.c:2412
-#: ../plugins/fn-stat/functions.c:2600 ../plugins/fn-stat/functions.c:3045
-#: ../plugins/fn-stat/functions.c:3087 ../plugins/fn-stat/functions.c:3133
-#: ../plugins/fn-stat/functions.c:3176
+#: ../plugins/fn-stat/functions.c:2369 ../plugins/fn-stat/functions.c:2427
+#: ../plugins/fn-stat/functions.c:2614 ../plugins/fn-stat/functions.c:3059
+#: ../plugins/fn-stat/functions.c:3101 ../plugins/fn-stat/functions.c:3147
+#: ../plugins/fn-stat/functions.c:3190
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1."
@@ -9212,10 +9220,10 @@ msgid "Strings and empty cells are simply ignored."
 msgstr "Ниске и празне вредности се једноставно занемарују."
 
 #: ../plugins/fn-stat/functions.c:321 ../plugins/fn-stat/functions.c:351
-#: ../plugins/fn-stat/functions.c:381 ../plugins/fn-stat/functions.c:2541
-#: ../plugins/fn-stat/functions.c:3220 ../plugins/fn-stat/functions.c:3286
-#: ../plugins/fn-stat/functions.c:4399 ../plugins/fn-stat/functions.c:4456
-#: ../plugins/fn-stat/functions.c:4508
+#: ../plugins/fn-stat/functions.c:381 ../plugins/fn-stat/functions.c:2555
+#: ../plugins/fn-stat/functions.c:3234 ../plugins/fn-stat/functions.c:3300
+#: ../plugins/fn-stat/functions.c:4413 ../plugins/fn-stat/functions.c:4470
+#: ../plugins/fn-stat/functions.c:4522
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, "
@@ -9286,7 +9294,7 @@ msgstr "Ако је (@{f} + @{t} -1) <= 0 ова функција исписуј
 #: ../plugins/fn-stat/functions.c:1084 ../plugins/fn-stat/functions.c:1336
 #: ../plugins/fn-stat/functions.c:1625 ../plugins/fn-stat/functions.c:1658
 #: ../plugins/fn-stat/functions.c:1692 ../plugins/fn-stat/functions.c:1753
-#: ../plugins/fn-stat/functions.c:4746
+#: ../plugins/fn-stat/functions.c:4760
 msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
 msgstr "Ако је @{p} < 0 или @{p} > 1 ова функција исписује грешку #БРОЈ!."
 
@@ -9429,8 +9437,8 @@ msgstr "MODE:први најопштији број у скупу податак
 #: ../plugins/fn-stat/functions.c:955 ../plugins/fn-stat/functions.c:2029
 #: ../plugins/fn-stat/functions.c:2059 ../plugins/fn-stat/functions.c:2084
 #: ../plugins/fn-stat/functions.c:2107 ../plugins/fn-stat/functions.c:2232
-#: ../plugins/fn-stat/functions.c:2654 ../plugins/fn-stat/functions.c:2678
-#: ../plugins/fn-stat/functions.c:2703
+#: ../plugins/fn-stat/functions.c:2668 ../plugins/fn-stat/functions.c:2692
+#: ../plugins/fn-stat/functions.c:2717
 msgid "number1:first value"
 msgstr "број1:прва вредност"
 
@@ -9442,8 +9450,8 @@ msgstr "број1:прва вредност"
 #: ../plugins/fn-stat/functions.c:956 ../plugins/fn-stat/functions.c:2030
 #: ../plugins/fn-stat/functions.c:2060 ../plugins/fn-stat/functions.c:2085
 #: ../plugins/fn-stat/functions.c:2108 ../plugins/fn-stat/functions.c:2233
-#: ../plugins/fn-stat/functions.c:2655 ../plugins/fn-stat/functions.c:2679
-#: ../plugins/fn-stat/functions.c:2704
+#: ../plugins/fn-stat/functions.c:2669 ../plugins/fn-stat/functions.c:2693
+#: ../plugins/fn-stat/functions.c:2718
 msgid "number2:second value"
 msgstr "број2:друга вредност"
 
@@ -9894,7 +9902,7 @@ msgid "p:probability of success in each trial"
 msgstr "p:вероватноћа успеха у сваком покушају"
 
 #: ../plugins/fn-stat/functions.c:1654 ../plugins/fn-stat/functions.c:1808
-#: ../plugins/fn-stat/functions.c:2157 ../plugins/fn-stat/functions.c:4744
+#: ../plugins/fn-stat/functions.c:2157 ../plugins/fn-stat/functions.c:4758
 msgid ""
 "cumulative:whether to evaluate the mass function or the cumulative "
 "distribution function"
@@ -9946,8 +9954,8 @@ msgstr ""
 "CAUCHY:густина вероватноће или функција збирне расподеле Кошијеве, Лоренцове "
 "или Брајт-Вињерове расподеле"
 
-#: ../plugins/fn-stat/functions.c:1719 ../plugins/fn-stat/functions.c:4774
-#: ../plugins/fn-stat/functions.c:4898
+#: ../plugins/fn-stat/functions.c:1719 ../plugins/fn-stat/functions.c:4788
+#: ../plugins/fn-stat/functions.c:4912
 msgid "a:scale parameter"
 msgstr "a:параметар размере"
 
@@ -9955,7 +9963,7 @@ msgstr "a:параметар размере"
 msgid "If @{a} < 0 this function returns a #NUM! error."
 msgstr "Ако је @{а} < 0 ова функција исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-stat/functions.c:1722 ../plugins/fn-stat/functions.c:4747
+#: ../plugins/fn-stat/functions.c:1722 ../plugins/fn-stat/functions.c:4761
 msgid ""
 "If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! "
 "error."
@@ -10308,9 +10316,9 @@ msgstr ""
 "CF\t= број тачака података испод интервала медијане\n"
 "F\t= број тачака података у интервалу медијане"
 
-#: ../plugins/fn-stat/functions.c:2274 ../plugins/fn-stat/functions.c:3042
-#: ../plugins/fn-stat/functions.c:3084 ../plugins/fn-stat/functions.c:3129
-#: ../plugins/fn-stat/functions.c:3172
+#: ../plugins/fn-stat/functions.c:2274 ../plugins/fn-stat/functions.c:3056
+#: ../plugins/fn-stat/functions.c:3098 ../plugins/fn-stat/functions.c:3143
+#: ../plugins/fn-stat/functions.c:3186
 msgid "If @{array} is empty, this function returns a #NUM! error."
 msgstr "Ако је @{низ} празан, ова функција исписује грешку #БРОЈ!."
 
@@ -10326,19 +10334,19 @@ msgstr ""
 msgid "LARGE:@{k}-th largest value in a data set"
 msgstr "LARGE:@{k}-та највећа вредност у скупу података"
 
-#: ../plugins/fn-stat/functions.c:2363 ../plugins/fn-stat/functions.c:2406
+#: ../plugins/fn-stat/functions.c:2363 ../plugins/fn-stat/functions.c:2421
 msgid "data:data set"
 msgstr "подаци:скуп података"
 
-#: ../plugins/fn-stat/functions.c:2364 ../plugins/fn-stat/functions.c:2407
+#: ../plugins/fn-stat/functions.c:2364 ../plugins/fn-stat/functions.c:2422
 msgid "k:which value to find"
 msgstr "к:коју вредност да нађе"
 
-#: ../plugins/fn-stat/functions.c:2365 ../plugins/fn-stat/functions.c:2408
+#: ../plugins/fn-stat/functions.c:2365 ../plugins/fn-stat/functions.c:2423
 msgid "If data set is empty this function returns a #NUM! error."
 msgstr "Ако је скуп података празан ова функција исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-stat/functions.c:2366 ../plugins/fn-stat/functions.c:2409
+#: ../plugins/fn-stat/functions.c:2366 ../plugins/fn-stat/functions.c:2424
 msgid ""
 "If @{k} <= 0 or @{k} is greater than the number of data items given this "
 "function returns a #NUM! error."
@@ -10350,38 +10358,38 @@ msgstr ""
 msgid "Then LARGE(A1:A5,2) equals 25.9. LARGE(A1:A5,4) equals 17.3."
 msgstr "Тада „LARGE(A1:A5,2)“ износи 25.9. „LARGE(A1:A5,4)“ износи 17.3."
 
-#: ../plugins/fn-stat/functions.c:2405
+#: ../plugins/fn-stat/functions.c:2420
 msgid "SMALL:@{k}-th smallest value in a data set"
 msgstr "SMALL:@{k}-та најмања вредност у скупу података"
 
-#: ../plugins/fn-stat/functions.c:2414
+#: ../plugins/fn-stat/functions.c:2429
 msgid "Then SMALL(A1:A5,2) equals 17.3. SMALL(A1:A5,4) equals 25.9."
 msgstr "Тада „SMALL(A1:A5,2)“ износи 17.3. „SMALL(A1:A5,4)“ износи 25.9."
 
-#: ../plugins/fn-stat/functions.c:2449
+#: ../plugins/fn-stat/functions.c:2463
 msgid ""
 "PROB:probability of an interval for a discrete (and finite) probability "
 "distribution"
 msgstr ""
 "PROB:вероватноћа интервала за изоловану (и коначну) расподелу вероватноће"
 
-#: ../plugins/fn-stat/functions.c:2450
+#: ../plugins/fn-stat/functions.c:2464
 msgid "x_range:possible values"
 msgstr "х_опсег:могуће вредности"
 
-#: ../plugins/fn-stat/functions.c:2451
+#: ../plugins/fn-stat/functions.c:2465
 msgid "prob_range:probabilities of the corresponding values"
 msgstr "опсег_вероватноће:вероватноће одговарајућих вредности"
 
-#: ../plugins/fn-stat/functions.c:2452
+#: ../plugins/fn-stat/functions.c:2466
 msgid "lower_limit:lower interval limit"
 msgstr "доња_граница:доња граница интервала"
 
-#: ../plugins/fn-stat/functions.c:2453
+#: ../plugins/fn-stat/functions.c:2467
 msgid "upper_limit:upper interval limit, defaults to @{lower_limit}"
 msgstr "горња_граница:горња граница интервала, подразумева се @{доња_граница}"
 
-#: ../plugins/fn-stat/functions.c:2454
+#: ../plugins/fn-stat/functions.c:2468
 msgid ""
 "If the sum of the probabilities in @{prob_range} is not equal to 1 this "
 "function returns a #NUM! error."
@@ -10389,7 +10397,7 @@ msgstr ""
 "Ако збир вероватноћа у @{опсегу_вероватноће} није једнак 1 ова функција "
 "исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-stat/functions.c:2456
+#: ../plugins/fn-stat/functions.c:2470
 msgid ""
 "If any value in @{prob_range} is <=0 or > 1, this function returns a #NUM! "
 "error."
@@ -10397,7 +10405,7 @@ msgstr ""
 "Ако је било која вредност у @{опсегу_вероватноће} <=0 или > 1, ова функција "
 "исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-stat/functions.c:2458
+#: ../plugins/fn-stat/functions.c:2472
 msgid ""
 "If @{x_range} and @{prob_range} contain a different number of data entries, "
 "this function returns a #N/A error."
@@ -10405,24 +10413,24 @@ msgstr ""
 "Ако @{x_опсег} и @{опсег_вероватноће} садрже различит број уноса података, "
 "ова функција исписује грешку #Н/Д."
 
-#: ../plugins/fn-stat/functions.c:2535
+#: ../plugins/fn-stat/functions.c:2549
 msgid "STEYX:standard error of the predicted y-value in the regression"
 msgstr "STEYX:стандардна грешка предвиђене y-вредности у назадовању"
 
-#: ../plugins/fn-stat/functions.c:2536 ../plugins/fn-stat/functions.c:3830
-#: ../plugins/fn-stat/functions.c:3946 ../plugins/fn-stat/functions.c:4188
-#: ../plugins/fn-stat/functions.c:4286 ../plugins/fn-stat/functions.c:4390
-#: ../plugins/fn-stat/functions.c:4449 ../plugins/fn-stat/functions.c:4501
+#: ../plugins/fn-stat/functions.c:2550 ../plugins/fn-stat/functions.c:3844
+#: ../plugins/fn-stat/functions.c:3960 ../plugins/fn-stat/functions.c:4202
+#: ../plugins/fn-stat/functions.c:4300 ../plugins/fn-stat/functions.c:4404
+#: ../plugins/fn-stat/functions.c:4463 ../plugins/fn-stat/functions.c:4515
 msgid "known_ys:known y-values"
 msgstr "познати_у-и:познате вредности ипсилона"
 
-#: ../plugins/fn-stat/functions.c:2537 ../plugins/fn-stat/functions.c:3947
-#: ../plugins/fn-stat/functions.c:4391 ../plugins/fn-stat/functions.c:4450
-#: ../plugins/fn-stat/functions.c:4502
+#: ../plugins/fn-stat/functions.c:2551 ../plugins/fn-stat/functions.c:3961
+#: ../plugins/fn-stat/functions.c:4405 ../plugins/fn-stat/functions.c:4464
+#: ../plugins/fn-stat/functions.c:4516
 msgid "known_xs:known x-values"
 msgstr "познати_х-и:познате вредности икса"
 
-#: ../plugins/fn-stat/functions.c:2538
+#: ../plugins/fn-stat/functions.c:2552
 msgid ""
 "If @{known_ys} and @{known_xs} are empty or have a different number of "
 "arguments then this function returns a #N/A error."
@@ -10430,11 +10438,11 @@ msgstr ""
 "Ако су @{познати_y-и} и @{познати_x-и} празни или имају различит број "
 "аргумената онда ова функција исписује грешку #Н/Д."
 
-#: ../plugins/fn-stat/functions.c:2544
+#: ../plugins/fn-stat/functions.c:2558
 msgid "Then STEYX(A1:A5,B1:B5) equals 1.101509979."
 msgstr "Тада „STEYX(A1:A5,B1:B5)“ износи 1.101509979."
 
-#: ../plugins/fn-stat/functions.c:2588
+#: ../plugins/fn-stat/functions.c:2602
 msgid ""
 "ZTEST:the probability of observing a sample mean as large as or larger than "
 "the mean of the given sample"
@@ -10442,15 +10450,15 @@ msgstr ""
 "ZTEST:вероватноћа посматрања средње вредности узорка исте величине као или "
 "веће од средње вредности датог узорка"
 
-#: ../plugins/fn-stat/functions.c:2590
+#: ../plugins/fn-stat/functions.c:2604
 msgid "ref:data set (sample)"
 msgstr "упут:скуп података (узорак)"
 
-#: ../plugins/fn-stat/functions.c:2591
+#: ../plugins/fn-stat/functions.c:2605
 msgid "x:population mean"
 msgstr "х:средња вредност популације"
 
-#: ../plugins/fn-stat/functions.c:2592
+#: ../plugins/fn-stat/functions.c:2606
 msgid ""
 "stddev:population standard deviation, defaults to the sample standard "
 "deviation"
@@ -10458,7 +10466,7 @@ msgstr ""
 "стндодст:стандардно одступање популације, подразумева се стандардно "
 "одступање узорка"
 
-#: ../plugins/fn-stat/functions.c:2593
+#: ../plugins/fn-stat/functions.c:2607
 msgid ""
 "ZTEST calculates the probability of observing a sample mean as large as or "
 "larger than the mean of the given sample for samples drawn from a normal "
@@ -10469,22 +10477,22 @@ msgstr ""
 "нормалне расподеле са средњом вредношћу @{x} и стандардним одступањем "
 "@{стндодст}."
 
-#: ../plugins/fn-stat/functions.c:2596
+#: ../plugins/fn-stat/functions.c:2610
 msgid ""
 "If @{ref} contains less than two data items ZTEST returns #DIV/0! error."
 msgstr ""
 "Ако @{упут} садржи мање од две ставке података „ZTEST“ исписује грешку "
 "#ДИВ/0!."
 
-#: ../plugins/fn-stat/functions.c:2602
+#: ../plugins/fn-stat/functions.c:2616
 msgid "Then ZTEST(A1:A5,20) equals 0.254717826."
 msgstr "Тада „ZTEST(A1:A5,20)“ износи 0.254717826."
 
-#: ../plugins/fn-stat/functions.c:2653
+#: ../plugins/fn-stat/functions.c:2667
 msgid "AVERAGEA:average of all the values and cells"
 msgstr "AVERAGEA:просек свих вредности и поља"
 
-#: ../plugins/fn-stat/functions.c:2677
+#: ../plugins/fn-stat/functions.c:2691
 msgid ""
 "MAXA:largest value, with negative numbers considered smaller than positive "
 "numbers"
@@ -10492,7 +10500,7 @@ msgstr ""
 "MAXA:највећа вредност, са негативним бројевима који се сматрају мањим од "
 "позитивних бројева"
 
-#: ../plugins/fn-stat/functions.c:2702
+#: ../plugins/fn-stat/functions.c:2716
 msgid ""
 "MINA:smallest value, with negative numbers considered smaller than positive "
 "numbers"
@@ -10500,35 +10508,35 @@ msgstr ""
 "MINA:најмања вредност, са негативним бројевима који се сматрају мањим од "
 "позитивних бројева"
 
-#: ../plugins/fn-stat/functions.c:2727
+#: ../plugins/fn-stat/functions.c:2741
 msgid "VARA:sample variance of the given sample"
 msgstr "VARA:варијанса узорка датог узорка"
 
-#: ../plugins/fn-stat/functions.c:2730
+#: ../plugins/fn-stat/functions.c:2744
 msgid "VARA is also known as the N-1-variance."
 msgstr "VARA је такође позната као N-1-варијанса."
 
-#: ../plugins/fn-stat/functions.c:2731
+#: ../plugins/fn-stat/functions.c:2745
 msgid "To get the true variance of a complete population use VARPA."
 msgstr "Да добијете стварну варијансу читаве популације користите VARPA."
 
-#: ../plugins/fn-stat/functions.c:2756
+#: ../plugins/fn-stat/functions.c:2770
 msgid "VARPA:variance of an entire population"
 msgstr "VARPA:варијанса читаве популације"
 
-#: ../plugins/fn-stat/functions.c:2759
+#: ../plugins/fn-stat/functions.c:2773
 msgid "VARPA is also known as the N-variance."
 msgstr "„VARPA“ је такође позната као N-варијанса."
 
-#: ../plugins/fn-stat/functions.c:2781
+#: ../plugins/fn-stat/functions.c:2795
 msgid "STDEVA:sample standard deviation of the given sample"
 msgstr "STDEVA:стандардно одступање узорка датог узорка"
 
-#: ../plugins/fn-stat/functions.c:2785
+#: ../plugins/fn-stat/functions.c:2799
 msgid "STDEVA is also known as the N-1-standard deviation."
 msgstr "STDEVA је такође познато као N-1-стандардно одступање."
 
-#: ../plugins/fn-stat/functions.c:2786
+#: ../plugins/fn-stat/functions.c:2800
 msgid ""
 "To obtain the population standard deviation of a whole population use "
 "STDEVPA."
@@ -10536,11 +10544,11 @@ msgstr ""
 "Да добијете стандардно одступање популације читаве популације користите "
 "STDEVPA."
 
-#: ../plugins/fn-stat/functions.c:2809
+#: ../plugins/fn-stat/functions.c:2823
 msgid "STDEVPA:population standard deviation of an entire population"
 msgstr "STDEVP:стандардно одступање популације читаве популације"
 
-#: ../plugins/fn-stat/functions.c:2834
+#: ../plugins/fn-stat/functions.c:2848
 msgid ""
 "PERCENTRANK:rank of a data point in a data set (Hyndman-Fan method 7: N-1 "
 "basis)"
@@ -10548,30 +10556,30 @@ msgstr ""
 "PERCENTRANK:ранг тачке података у скупу података (Хајндман-Фанов метод 7: "
 "N-1 основе)"
 
-#: ../plugins/fn-stat/functions.c:2835 ../plugins/fn-stat/functions.c:2939
+#: ../plugins/fn-stat/functions.c:2849 ../plugins/fn-stat/functions.c:2953
 msgid "array:range of numeric values"
 msgstr "array:опсег нумеричких вредности"
 
-#: ../plugins/fn-stat/functions.c:2836 ../plugins/fn-stat/functions.c:2940
+#: ../plugins/fn-stat/functions.c:2850 ../plugins/fn-stat/functions.c:2954
 msgid "x:data point to be ranked"
 msgstr "x:тачка података који биће рангирани"
 
-#: ../plugins/fn-stat/functions.c:2837 ../plugins/fn-stat/functions.c:2941
+#: ../plugins/fn-stat/functions.c:2851 ../plugins/fn-stat/functions.c:2955
 msgid "significance:number of significant digits, defaults to 3"
 msgstr "значај:број значајних цифара, подразумева се 3"
 
-#: ../plugins/fn-stat/functions.c:2838 ../plugins/fn-stat/functions.c:2942
+#: ../plugins/fn-stat/functions.c:2852 ../plugins/fn-stat/functions.c:2956
 msgid ""
 "If @{array} contains no data points, this function returns a #NUM! error."
 msgstr ""
 "Ако @{низ} не садржи тачке података, ова функција исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-stat/functions.c:2840 ../plugins/fn-stat/functions.c:2944
+#: ../plugins/fn-stat/functions.c:2854 ../plugins/fn-stat/functions.c:2958
 msgid ""
 "If @{significance} is less than one, this function returns a #NUM! error."
 msgstr "Ако је @{значај} мањи од један, ова функција исписује грешку #NUM!."
 
-#: ../plugins/fn-stat/functions.c:2842 ../plugins/fn-stat/functions.c:2946
+#: ../plugins/fn-stat/functions.c:2856 ../plugins/fn-stat/functions.c:2960
 msgid ""
 "If @{x} exceeds the largest value or is less than the smallest value in "
 "@{array}, this function returns an #N/A error."
@@ -10579,7 +10587,7 @@ msgstr ""
 "Ако @{x} премаши највећу вредност или је мање од најмање вредности у "
 "@{низу}, ова функција исписује грешку #Н/Д."
 
-#: ../plugins/fn-stat/functions.c:2844 ../plugins/fn-stat/functions.c:2948
+#: ../plugins/fn-stat/functions.c:2858 ../plugins/fn-stat/functions.c:2962
 msgid ""
 "If @{x} does not match any of the values in @{array} or @{x} matches more "
 "than once, this function interpolates the returned value."
@@ -10587,7 +10595,7 @@ msgstr ""
 "Ако @{x} не одговара ни једној од вредности у @{низу} или @{x} одговара више "
 "од једној, ова функција умеће исписану вредност."
 
-#: ../plugins/fn-stat/functions.c:2938
+#: ../plugins/fn-stat/functions.c:2952
 msgid ""
 "PERCENTRANK.EXC:rank of a data point in a data set (Hyndman-Fan method 6: N"
 "+1 basis)"
@@ -10595,7 +10603,7 @@ msgstr ""
 "PERCENTRANK.EXC:ранг тачке података у скупу података (Хајндман-Фанов метод "
 "6: N+1 основе)"
 
-#: ../plugins/fn-stat/functions.c:3039
+#: ../plugins/fn-stat/functions.c:3053
 msgid ""
 "PERCENTILE:determines the 100*@{k}-th percentile of the given data points "
 "(Hyndman-Fan method 7: N-1 basis)"
@@ -10603,24 +10611,24 @@ msgstr ""
 "PERCENTILE:одређује 100*@{k}-ти перцентил датих тачака података (Хајндман-"
 "Фанов метод 7: N-1 основе)"
 
-#: ../plugins/fn-stat/functions.c:3040 ../plugins/fn-stat/functions.c:3082
-#: ../plugins/fn-stat/functions.c:3127 ../plugins/fn-stat/functions.c:3170
+#: ../plugins/fn-stat/functions.c:3054 ../plugins/fn-stat/functions.c:3096
+#: ../plugins/fn-stat/functions.c:3141 ../plugins/fn-stat/functions.c:3184
 msgid "array:data points"
 msgstr "низ:тачке података"
 
-#: ../plugins/fn-stat/functions.c:3041 ../plugins/fn-stat/functions.c:3083
+#: ../plugins/fn-stat/functions.c:3055 ../plugins/fn-stat/functions.c:3097
 msgid "k:which percentile to calculate"
 msgstr "k:који перцентил ће се рачунати"
 
-#: ../plugins/fn-stat/functions.c:3043 ../plugins/fn-stat/functions.c:3085
+#: ../plugins/fn-stat/functions.c:3057 ../plugins/fn-stat/functions.c:3099
 msgid "If @{k} < 0 or @{k} > 1, this function returns a #NUM! error."
 msgstr "Ако је @{k} < 0 или @{k} > 1, ова функција исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-stat/functions.c:3046
+#: ../plugins/fn-stat/functions.c:3060
 msgid "Then PERCENTILE(A1:A5,0.42) equals 20.02."
 msgstr "Тада „PERCENTILE(A1:A5,0.42)“ износи 20.02."
 
-#: ../plugins/fn-stat/functions.c:3081
+#: ../plugins/fn-stat/functions.c:3095
 msgid ""
 "PERCENTILE.EXC:determines the 100*@{k}-th percentile of the given data "
 "points (Hyndman-Fan method 6: N+1 basis)"
@@ -10628,22 +10636,22 @@ msgstr ""
 "PERCENTILE.EXC::одређује 100*@{k}-ти перцентил датих тачака података "
 "(Хајндман-Фанов метод 6: N+1 основе)"
 
-#: ../plugins/fn-stat/functions.c:3088
+#: ../plugins/fn-stat/functions.c:3102
 msgid "Then PERCENTILE.EXC(A1:A5,0.42) equals 20.02."
 msgstr "Тада „PERCENTILE.EXC(A1:A5,0.42)“ износи 20.02."
 
-#: ../plugins/fn-stat/functions.c:3126
+#: ../plugins/fn-stat/functions.c:3140
 msgid ""
 "QUARTILE:the @{k}-th quartile of the data points (Hyndman-Fan method 7: N-1 "
 "basis)"
 msgstr ""
 "QUARTILE:@{k}-ти квартал тачака података (Хајндман-Фанов метод 7: N-1 основе)"
 
-#: ../plugins/fn-stat/functions.c:3128
+#: ../plugins/fn-stat/functions.c:3142
 msgid "quart:a number from 0 to 4, indicating which quartile to calculate"
 msgstr "четврт:број од 0 до 4, који указује који квартал биће срачунат"
 
-#: ../plugins/fn-stat/functions.c:3130 ../plugins/fn-stat/functions.c:3173
+#: ../plugins/fn-stat/functions.c:3144 ../plugins/fn-stat/functions.c:3187
 msgid ""
 "If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If "
 "@{quart} = 0, the smallest value of @{array} to be returned."
@@ -10651,15 +10659,15 @@ msgstr ""
 "Ако је @{четврт} < 0 или @{четврт} > 4, ова функција исписује грешку #БРОЈ!. "
 "Ако је @{четврт} = 0, најмања вредност @{низа} за исписивање."
 
-#: ../plugins/fn-stat/functions.c:3131 ../plugins/fn-stat/functions.c:3174
+#: ../plugins/fn-stat/functions.c:3145 ../plugins/fn-stat/functions.c:3188
 msgid "If @{quart} is not an integer, it is truncated."
 msgstr "Ако @{четврт} није цео број, скраћује се."
 
-#: ../plugins/fn-stat/functions.c:3134
+#: ../plugins/fn-stat/functions.c:3148
 msgid "Then QUARTILE(A1:A5,1) equals 17.3."
 msgstr "Тада „QUARTILE(A1:A5,1)“ износи 17.3."
 
-#: ../plugins/fn-stat/functions.c:3169
+#: ../plugins/fn-stat/functions.c:3183
 msgid ""
 "QUARTILE.EXC:the @{k}-th quartile of the data points (Hyndman-Fan method 6: N"
 "+1 basis)"
@@ -10667,15 +10675,15 @@ msgstr ""
 "QUARTILE.EXC::@{k}-ти квартал тачака података (Хајндман-Фанов метод 6: N+1 "
 "основе)"
 
-#: ../plugins/fn-stat/functions.c:3171
+#: ../plugins/fn-stat/functions.c:3185
 msgid "quart:a number from 1 to 3, indicating which quartile to calculate"
 msgstr "quart:број од 1 до 3, који указује који квартал биће срачунат"
 
-#: ../plugins/fn-stat/functions.c:3177
+#: ../plugins/fn-stat/functions.c:3191
 msgid "Then QUARTILE.EXC(A1:A5,1) equals 14.35."
 msgstr "Тада „QUARTILE.EXC(A1:A5,1)“ износи 17.3."
 
-#: ../plugins/fn-stat/functions.c:3215
+#: ../plugins/fn-stat/functions.c:3229
 msgid ""
 "FTEST:p-value for the two-tailed hypothesis test comparing the variances of "
 "two populations"
@@ -10683,19 +10691,19 @@ msgstr ""
 "FTEST:p-вредност за тест претпоставке са два остатка упоређујући варијансу "
 "две популације"
 
-#: ../plugins/fn-stat/functions.c:3217 ../plugins/fn-stat/functions.c:3274
+#: ../plugins/fn-stat/functions.c:3231 ../plugins/fn-stat/functions.c:3288
 msgid "array1:sample from the first population"
 msgstr "низ1:узорак из прве популације"
 
-#: ../plugins/fn-stat/functions.c:3218 ../plugins/fn-stat/functions.c:3275
+#: ../plugins/fn-stat/functions.c:3232 ../plugins/fn-stat/functions.c:3289
 msgid "array2:sample from the second population"
 msgstr "низ2:узорак из друге популације"
 
-#: ../plugins/fn-stat/functions.c:3223
+#: ../plugins/fn-stat/functions.c:3237
 msgid "Then FTEST(A1:A5,B1:B5) equals 0.510815017."
 msgstr "Тада „FTEST(A1:A5,B1:B5)“ износи 0.510815017."
 
-#: ../plugins/fn-stat/functions.c:3272
+#: ../plugins/fn-stat/functions.c:3286
 msgid ""
 "TTEST:p-value for a hypothesis test comparing the means of two populations "
 "using the Student t-distribution"
@@ -10703,11 +10711,11 @@ msgstr ""
 "TTEST:p-вредност за тест хипотезе упоређујући средње вредности две "
 "популације користећи студентову т-расподелу"
 
-#: ../plugins/fn-stat/functions.c:3276
+#: ../plugins/fn-stat/functions.c:3290
 msgid "tails:number of tails to consider"
 msgstr "остаци:број остатака за узимање у обзир"
 
-#: ../plugins/fn-stat/functions.c:3277
+#: ../plugins/fn-stat/functions.c:3291
 msgid ""
 "type:Type of test to perform. 1 indicates a test for paired variables, 2 a "
 "test of unpaired variables with equal variances, and 3 a test of unpaired "
@@ -10717,7 +10725,7 @@ msgstr ""
 "неупарених променљивих са једнаким варијансама, и 3 тест неупарених "
 "променљивих са неједнаким варијансама"
 
-#: ../plugins/fn-stat/functions.c:3280
+#: ../plugins/fn-stat/functions.c:3294
 msgid ""
 "If the data sets contain a different number of data points and the test is "
 "paired (@{type} one), TTEST returns the #N/A error."
@@ -10725,16 +10733,16 @@ msgstr ""
 "Ако скупови података садрже различити број тачака података а проба је "
 "упарена (@{врста} један), „TTEST“ исписује грешку #Н/Д."
 
-#: ../plugins/fn-stat/functions.c:3282
+#: ../plugins/fn-stat/functions.c:3296
 msgid "@{tails} and @{type} are truncated to integers."
 msgstr "@{остаци} и @{врста} се скраћују на целе бројеве."
 
-#: ../plugins/fn-stat/functions.c:3283
+#: ../plugins/fn-stat/functions.c:3297
 msgid "If @{tails} is not one or two, this function returns a #NUM! error."
 msgstr ""
 "Ако @{остатак} није ни један или два, ова функција исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-stat/functions.c:3284
+#: ../plugins/fn-stat/functions.c:3298
 msgid ""
 "If @{type} is any other than one, two, or three, this function returns a "
 "#NUM! error."
@@ -10742,7 +10750,7 @@ msgstr ""
 "Ако је @{врста} било који други а не један, два, или три, ова функција "
 "исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-stat/functions.c:3289
+#: ../plugins/fn-stat/functions.c:3303
 msgid ""
 "Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619. TTEST(A1:A5,B1:B5,2,1) "
 "equals 0.006255239. TTEST(A1:A5,B1:B5,1,2) equals 0.111804322. TTEST(A1:A5,"
@@ -10752,23 +10760,23 @@ msgstr ""
 "износи 0.006255239. „TTEST(A1:A5,B1:B5,1,2)“ износи 0.111804322. „TTEST(A1:"
 "A5,B1:B5,1,3)“ износи 0.113821797."
 
-#: ../plugins/fn-stat/functions.c:3447
+#: ../plugins/fn-stat/functions.c:3461
 msgid "FREQUENCY:frequency table"
 msgstr "FREQUENCY:табела учесталости"
 
-#: ../plugins/fn-stat/functions.c:3448
+#: ../plugins/fn-stat/functions.c:3462
 msgid "data_array:data values"
 msgstr "низ_података:вредности података"
 
-#: ../plugins/fn-stat/functions.c:3449
+#: ../plugins/fn-stat/functions.c:3463
 msgid "bins_array:array of cutoff values"
 msgstr "низ_блокова:низ одсечених вредности"
 
-#: ../plugins/fn-stat/functions.c:3450
+#: ../plugins/fn-stat/functions.c:3464
 msgid "The results are given as an array."
 msgstr "Резултати су дати као низ."
 
-#: ../plugins/fn-stat/functions.c:3451
+#: ../plugins/fn-stat/functions.c:3465
 msgid ""
 "If the @{bins_array} is empty, this function returns the number of data "
 "points in @{data_array}."
@@ -10776,28 +10784,28 @@ msgstr ""
 "Ако је @{низ_блокова} празан, ова функција исписује број тачака података у "
 "@{низу_података}."
 
-#: ../plugins/fn-stat/functions.c:3515
+#: ../plugins/fn-stat/functions.c:3529
 msgid "LEVERAGE:calculate regression leverage"
 msgstr "LEVERAGE:израчунава утицај назадовања"
 
-#: ../plugins/fn-stat/functions.c:3518
+#: ../plugins/fn-stat/functions.c:3532
 msgid ""
 "Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}^T as a column vector."
 msgstr "Исписује дијагоналу од @{A} (@{A}^T @{A})^-1 @{A}^T као вектор ступца."
 
-#: ../plugins/fn-stat/functions.c:3519
+#: ../plugins/fn-stat/functions.c:3533
 msgid "If the matrix is singular, #VALUE! is returned."
 msgstr "Ако је матрица једна, исписује се #ВРЕДНОСТ!."
 
-#: ../plugins/fn-stat/functions.c:3723
+#: ../plugins/fn-stat/functions.c:3737
 msgid "LINEST:multiple linear regression coefficients and statistics"
 msgstr "LINEST:неколико коефицијената и статистика линеарног назадовања"
 
-#: ../plugins/fn-stat/functions.c:3724 ../plugins/fn-stat/functions.c:4041
+#: ../plugins/fn-stat/functions.c:3738 ../plugins/fn-stat/functions.c:4055
 msgid "known_ys:vector of values of dependent variable"
 msgstr "познати_y-и:вектор вредности зависне променљиве"
 
-#: ../plugins/fn-stat/functions.c:3725 ../plugins/fn-stat/functions.c:4042
+#: ../plugins/fn-stat/functions.c:3739 ../plugins/fn-stat/functions.c:4056
 msgid ""
 "known_xs:array of values of independent variables, defaults to a single "
 "vector {1,…,n}"
@@ -10805,21 +10813,21 @@ msgstr ""
 "познати_x-и:низ вредности независних променљивих, подразумева се један "
 "вектор {1,…,n}"
 
-#: ../plugins/fn-stat/functions.c:3726 ../plugins/fn-stat/functions.c:3832
-#: ../plugins/fn-stat/functions.c:4044 ../plugins/fn-stat/functions.c:4190
-#: ../plugins/fn-stat/functions.c:4289
+#: ../plugins/fn-stat/functions.c:3740 ../plugins/fn-stat/functions.c:3846
+#: ../plugins/fn-stat/functions.c:4058 ../plugins/fn-stat/functions.c:4204
+#: ../plugins/fn-stat/functions.c:4303
 msgid "affine:if true, the model contains a constant term, defaults to true"
 msgstr ""
 "афинитет:ако је тачно, модел садржи константан израз, подразумева се тачно"
 
-#: ../plugins/fn-stat/functions.c:3727
+#: ../plugins/fn-stat/functions.c:3741
 msgid ""
 "stats:if true, some additional statistics are provided, defaults to false"
 msgstr ""
 "статистика:ако је тачно, обезбеђује се нешто додатне статистике, подразумева "
 "нетачно"
 
-#: ../plugins/fn-stat/functions.c:3728
+#: ../plugins/fn-stat/functions.c:3742
 msgid ""
 "This function returns an array with the first row giving the regression "
 "coefficients for the independent variables x_m, x_(m-1),…,x_2, x_1 followed "
@@ -10829,7 +10837,7 @@ msgstr ""
 "независне променљиве x_m, x_(m-1),…,x_2, x_1 за којима следи y-пресек ако је "
 "@{афинитет} тачан."
 
-#: ../plugins/fn-stat/functions.c:3731
+#: ../plugins/fn-stat/functions.c:3745
 msgid ""
 "If @{stats} is true, the second row contains the corresponding standard "
 "errors of the regression coefficients. In this case, the third row contains "
@@ -10843,7 +10851,7 @@ msgstr ""
 "вредност и њене степене слободе. На крају, пети ред садржи суму назадовања "
 "квадрата и преосталу суму квадрата."
 
-#: ../plugins/fn-stat/functions.c:3738
+#: ../plugins/fn-stat/functions.c:3752
 msgid ""
 "If @{affine} is false, R^2 is the uncentered version of the coefficient of "
 "determination; that is the proportion of the sum of squares explained by the "
@@ -10852,7 +10860,7 @@ msgstr ""
 "Ако је @{афинитет} нетачан, R^2 је неусредиштено издање коефицијента "
 "детерминације; а то је пропорција збира квадрата које објашњава модел."
 
-#: ../plugins/fn-stat/functions.c:3741 ../plugins/fn-stat/functions.c:4045
+#: ../plugins/fn-stat/functions.c:3755 ../plugins/fn-stat/functions.c:4059
 msgid ""
 "If the length of @{known_ys} does not match the corresponding length of "
 "@{known_xs}, this function returns a #NUM! error."
@@ -10860,15 +10868,15 @@ msgstr ""
 "Ако се дужина @{познатих_y-а} не подудара са одговарајућом дужином "
 "@{познатих_x-а}, ова функција исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-stat/functions.c:3829
+#: ../plugins/fn-stat/functions.c:3843
 msgid "LOGREG:the logarithmic regression"
 msgstr "LOGREG:логаритамско назадовање"
 
-#: ../plugins/fn-stat/functions.c:3831 ../plugins/fn-stat/functions.c:4287
+#: ../plugins/fn-stat/functions.c:3845 ../plugins/fn-stat/functions.c:4301
 msgid "known_xs:known x-values; defaults to the array {1, 2, 3, …}"
 msgstr "познати_x-и:познате x-вредности; подразумева се низ {1, 2, 3, …}"
 
-#: ../plugins/fn-stat/functions.c:3833 ../plugins/fn-stat/functions.c:4191
+#: ../plugins/fn-stat/functions.c:3847 ../plugins/fn-stat/functions.c:4205
 msgid ""
 "stat:if true, extra statistical information will be returned; defaults to "
 "FALSE"
@@ -10876,7 +10884,7 @@ msgstr ""
 "стат:ако је тачно, биће исписани додатни статистички подаци; подразумева се "
 "НЕТАЧНО"
 
-#: ../plugins/fn-stat/functions.c:3834
+#: ../plugins/fn-stat/functions.c:3848
 msgid ""
 "LOGREG function transforms your x's to z=ln(x) and applies the “least "
 "squares” method to fit the linear equation y = m * z + b to your y's and z's "
@@ -10890,7 +10898,7 @@ msgstr ""
 "„LOGREG“ исписује низ који има две колоне и један ред. m се даје у првој "
 "колони а b у другој."
 
-#: ../plugins/fn-stat/functions.c:3842
+#: ../plugins/fn-stat/functions.c:3856
 msgid ""
 "Any extra statistical information is written below m and b in the result "
 "array.  This extra statistical information consists of four rows of data:  "
@@ -10907,8 +10915,8 @@ msgstr ""
 "посматрану вредност и степене слободе.  Последњи ред садржи суму квадрата "
 "регресије и преостали збир квадрата. За @{стат} се подразумева НЕТАЧНО."
 
-#: ../plugins/fn-stat/functions.c:3851 ../plugins/fn-stat/functions.c:4206
-#: ../plugins/fn-stat/functions.c:4298
+#: ../plugins/fn-stat/functions.c:3865 ../plugins/fn-stat/functions.c:4220
+#: ../plugins/fn-stat/functions.c:4312
 msgid ""
 "If @{known_ys} and @{known_xs} have unequal number of data points, this "
 "function returns a #NUM! error."
@@ -10916,13 +10924,13 @@ msgstr ""
 "Ако @{познати_y-и} и @{познати_x-и} имају неједнак број тачака података, ова "
 "функција исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-stat/functions.c:3945
+#: ../plugins/fn-stat/functions.c:3959
 msgid "LOGFIT:logarithmic least square fit (using a trial and error method)"
 msgstr ""
 "LOGFIT:логаритамска попуна најмањег квадрата (користећи метод покушаја и "
 "грешке)"
 
-#: ../plugins/fn-stat/functions.c:3949
+#: ../plugins/fn-stat/functions.c:3963
 msgid ""
 "LOGFIT function applies the “least squares” method to fit the logarithmic "
 "equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. "
@@ -10934,7 +10942,7 @@ msgstr ""
 "подацима. График једначине је логаритамска крива померена водоравно за c и "
 "вероватно пресликана преко y-осе (ако је знак = -1)."
 
-#: ../plugins/fn-stat/functions.c:3955
+#: ../plugins/fn-stat/functions.c:3969
 msgid ""
 "LOGFIT returns an array having five columns and one row. `Sign' is given in "
 "the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 "
@@ -10944,7 +10952,7 @@ msgstr ""
 "колони, „a“, „b“, и „c“ су дати у колони 2, 3 и 4. Колона 5 садржи збир "
 "квадратних остатака."
 
-#: ../plugins/fn-stat/functions.c:3959
+#: ../plugins/fn-stat/functions.c:3973
 msgid ""
 "An error is returned when there are less than 3 different x's or y's, or "
 "when the shape of the point cloud is too different from a ``logarithmic'' "
@@ -10953,7 +10961,7 @@ msgstr ""
 "Грешка се исписује када постоје мање од 3 различитих x-а или y-а, или када "
 "се облик облака тачака исувише разликује од „логаритамског“."
 
-#: ../plugins/fn-stat/functions.c:3962
+#: ../plugins/fn-stat/functions.c:3976
 msgid ""
 "You can use the above formula = a + b * ln(sign * (x - c)) or rearrange it "
 "to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, "
@@ -10963,7 +10971,7 @@ msgstr ""
 "преуредите у = (exp((y - a) / b)) / sign + c да израчунате непознате y или "
 "x, појединачно."
 
-#: ../plugins/fn-stat/functions.c:3967
+#: ../plugins/fn-stat/functions.c:3981
 msgid ""
 "This is non-linear fitting by trial-and-error. The accuracy of `c' is: width "
 "of x-range -> rounded to the next smaller (10^integer), times 0.000001. "
@@ -10973,7 +10981,7 @@ msgstr ""
 "x-опсега → заокружена на следећи мањи (10^цео број), пута 0.000001. Може "
 "бити случајева у којима исписана попуна није најбоља могућа."
 
-#: ../plugins/fn-stat/functions.c:4040
+#: ../plugins/fn-stat/functions.c:4054
 msgid ""
 "TREND:estimates future values of a given data set using a least squares "
 "approximation"
@@ -10981,7 +10989,7 @@ msgstr ""
 "TREND:процењују будуће вредности датог скупа података помоћу апроксимације "
 "најмањих квадрата"
 
-#: ../plugins/fn-stat/functions.c:4043
+#: ../plugins/fn-stat/functions.c:4057
 msgid ""
 "new_xs:array of x-values for which to estimate the y-values; defaults to "
 "@{known_xs}"
@@ -10989,7 +10997,7 @@ msgstr ""
 "нови_x-и:низ x-вредности за које ће се проценити y-вредности; подразумевају "
 "се @{познати_x-и}"
 
-#: ../plugins/fn-stat/functions.c:4047
+#: ../plugins/fn-stat/functions.c:4061
 msgid ""
 "Let us assume that the cells A1, A2, …, A5 contain numbers 11.4, 17.3, 21.3, "
 "25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and "
@@ -10998,19 +11006,19 @@ msgstr ""
 "Претпоставимо да поља A1, A2, …, A5 садрже бројеве 11,4, 17,3, 21,3, 25,9, и "
 "40,1, а поља B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, и 42.7."
 
-#: ../plugins/fn-stat/functions.c:4050
+#: ../plugins/fn-stat/functions.c:4064
 msgid "Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}."
 msgstr "Тада „TREND(A1:A5,B1:B5)“ износи {12.1, 15.7, 21.6, 26.7, 39.7}."
 
-#: ../plugins/fn-stat/functions.c:4187
+#: ../plugins/fn-stat/functions.c:4201
 msgid "LOGEST:exponential least square fit"
 msgstr "LOGEST:експоненцијална попуна најмањег квадрата"
 
-#: ../plugins/fn-stat/functions.c:4189
+#: ../plugins/fn-stat/functions.c:4203
 msgid "known_xs:known x-values; default to an array {1, 2, 3, …}"
 msgstr "познати_x-и:познате x-вредности; подразумева се низ {1, 2, 3, …}"
 
-#: ../plugins/fn-stat/functions.c:4192
+#: ../plugins/fn-stat/functions.c:4206
 msgid ""
 "LOGEST function applies the “least squares” method to fit an exponential "
 "curve of the form\ty = b * m{1}^x{1} * m{2}^x{2}... to your data."
@@ -11019,11 +11027,11 @@ msgstr ""
 "експоненцијалну криву облика\ty = b * m{1}^x{1} * m{2}^x{2}... у вашим "
 "подацима."
 
-#: ../plugins/fn-stat/functions.c:4196
+#: ../plugins/fn-stat/functions.c:4210
 msgid "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }."
 msgstr "„LOGEST“ исписује низ { m{n},m{n-1}, ...,m{1},b }."
 
-#: ../plugins/fn-stat/functions.c:4197
+#: ../plugins/fn-stat/functions.c:4211
 msgid ""
 "Extra statistical information is written below the regression line "
 "coefficients in the result array.  Extra statistical information consists of "
@@ -11041,18 +11049,18 @@ msgstr ""
 "слободе.  Последњи ред садржи суму квадрата регресије и преостали збир "
 "квадрата."
 
-#: ../plugins/fn-stat/functions.c:4285
+#: ../plugins/fn-stat/functions.c:4299
 msgid "GROWTH:exponential growth prediction"
 msgstr "GROWTH:предвиђање експоненцијалног раста"
 
-#: ../plugins/fn-stat/functions.c:4288
+#: ../plugins/fn-stat/functions.c:4302
 msgid ""
 "new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}"
 msgstr ""
 "нови_x-и:x-вредности за које ће се проценити y-вредности; подразумевају се "
 "@{познати_x-и}"
 
-#: ../plugins/fn-stat/functions.c:4290
+#: ../plugins/fn-stat/functions.c:4304
 msgid ""
 "GROWTH function applies the “least squares” method to fit an exponential "
 "curve to your data and predicts the exponential growth by using this curve."
@@ -11061,7 +11069,7 @@ msgstr ""
 "експоненцијалну криву у вашим подацима и да предвиди експоненцијални раст "
 "користећи ову криву."
 
-#: ../plugins/fn-stat/functions.c:4295
+#: ../plugins/fn-stat/functions.c:4309
 msgid ""
 "GROWTH returns an array having one column and a row for each data point in "
 "@{new_xs}."
@@ -11069,7 +11077,7 @@ msgstr ""
 "„GROWTH“ исписује низ који има једну колону и ред за сваку тачку података у "
 "@{новим_xs}."
 
-#: ../plugins/fn-stat/functions.c:4387
+#: ../plugins/fn-stat/functions.c:4401
 msgid ""
 "FORECAST:estimates a future value according to existing values using simple "
 "linear regression"
@@ -11077,11 +11085,11 @@ msgstr ""
 "FORECAST:процењује будућу вредност у складу са постојећим вредностима "
 "користећи једноставну линеарну регресију"
 
-#: ../plugins/fn-stat/functions.c:4389
+#: ../plugins/fn-stat/functions.c:4403
 msgid "x:x-value whose matching y-value should be forecast"
 msgstr "x:x-вредност чија одговарајућа y-вредност треба да се очекује"
 
-#: ../plugins/fn-stat/functions.c:4392
+#: ../plugins/fn-stat/functions.c:4406
 msgid ""
 "This function estimates a future value according to existing values using "
 "simple linear regression."
@@ -11089,8 +11097,8 @@ msgstr ""
 "Ова функција процењује будућу вредност у складу са постојећим вредностима "
 "користећи једноставну линеарну регресију."
 
-#: ../plugins/fn-stat/functions.c:4394 ../plugins/fn-stat/functions.c:4451
-#: ../plugins/fn-stat/functions.c:4504
+#: ../plugins/fn-stat/functions.c:4408 ../plugins/fn-stat/functions.c:4465
+#: ../plugins/fn-stat/functions.c:4518
 msgid ""
 "If @{known_xs} or @{known_ys} contains no data entries or different number "
 "of data entries, this function returns a #N/A error."
@@ -11098,7 +11106,7 @@ msgstr ""
 "Ако @{познати_y-и} или @{познати_x-и} не садрже податке или садрже различит "
 "број уноса података, ова функција исписује грешку #Н/Д."
 
-#: ../plugins/fn-stat/functions.c:4396
+#: ../plugins/fn-stat/functions.c:4410
 msgid ""
 "If the variance of the @{known_xs} is zero, this function returns a #DIV/0 "
 "error."
@@ -11106,15 +11114,15 @@ msgstr ""
 "Ако је варијанса од @{познатог_x-а} нула, ова функција исписује грешку "
 "#ДИВ/0."
 
-#: ../plugins/fn-stat/functions.c:4402
+#: ../plugins/fn-stat/functions.c:4416
 msgid "Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661."
 msgstr "Тада „FORECAST(7,A1:A5,B1:B5)“ износи -10.859397661."
 
-#: ../plugins/fn-stat/functions.c:4448
+#: ../plugins/fn-stat/functions.c:4462
 msgid "INTERCEPT:the intercept of a linear regression line"
 msgstr "INTERCEPT:пресек линије линеарне регресије"
 
-#: ../plugins/fn-stat/functions.c:4453 ../plugins/fn-stat/functions.c:4506
+#: ../plugins/fn-stat/functions.c:4467 ../plugins/fn-stat/functions.c:4520
 msgid ""
 "If the variance of the @{known_xs} is zero, this function returns #DIV/0 "
 "error."
@@ -11122,23 +11130,23 @@ msgstr ""
 "Ако је варијанса од @{познатог_x-а} нула, ова функција исписује грешку "
 "#ДИВ/0."
 
-#: ../plugins/fn-stat/functions.c:4459
+#: ../plugins/fn-stat/functions.c:4473
 msgid "Then INTERCEPT(A1:A5,B1:B5) equals -20.785117212."
 msgstr "Тада „INTERCEPT(A1:A5,B1:B5)“ износи -20.785117212."
 
-#: ../plugins/fn-stat/functions.c:4500
+#: ../plugins/fn-stat/functions.c:4514
 msgid "SLOPE:the slope of a linear regression line"
 msgstr "SLOPE:нагиб линије линеарне регресије"
 
-#: ../plugins/fn-stat/functions.c:4511
+#: ../plugins/fn-stat/functions.c:4525
 msgid "Then SLOPE(A1:A5,B1:B5) equals 1.417959936."
 msgstr "Тада „SLOPE(A1:A5,B1:B5)“ износи 1.417959936."
 
-#: ../plugins/fn-stat/functions.c:4552
+#: ../plugins/fn-stat/functions.c:4566
 msgid "SUBTOTAL:the subtotal of the given list of arguments"
 msgstr "SUBTOTAL:садржана укупност датог списка аргумената"
 
-#: ../plugins/fn-stat/functions.c:4553
+#: ../plugins/fn-stat/functions.c:4567
 msgid ""
 "function_nbr:determines which function to use according to the following "
 "table:\n"
@@ -11168,22 +11176,22 @@ msgstr ""
 "\t10   VAR\n"
 "\t11   VARP"
 
-#: ../plugins/fn-stat/functions.c:4566
+#: ../plugins/fn-stat/functions.c:4580
 msgid "ref1:first value"
 msgstr "реф1:прва вредност"
 
-#: ../plugins/fn-stat/functions.c:4567
+#: ../plugins/fn-stat/functions.c:4581
 msgid "ref2:second value"
 msgstr "реф2:друга вредност"
 
-#: ../plugins/fn-stat/functions.c:4569
+#: ../plugins/fn-stat/functions.c:4583
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, "
 "and 39."
 msgstr ""
 "Претпоставимо да поља A1, A2, ..., A5 садрже бројеве 23, 27, 28, 33, и 39."
 
-#: ../plugins/fn-stat/functions.c:4570
+#: ../plugins/fn-stat/functions.c:4584
 msgid ""
 "Then SUBTOTAL(1,A1:A5) equals 30. SUBTOTAL(6,A1:A5) equals 22378356. "
 "SUBTOTAL(7,A1:A5) equals 6.164414003. SUBTOTAL(9,A1:A5) equals 150. "
@@ -11193,19 +11201,19 @@ msgstr ""
 "„SUBTOTAL(7,A1:A5)“ износи 6.164414003.„SUBTOTAL(9,A1:A5)“ износи 150. "
 "„SUBTOTAL(11,A1:A5)“ износи 30.4."
 
-#: ../plugins/fn-stat/functions.c:4642
+#: ../plugins/fn-stat/functions.c:4656
 msgid "CRONBACH:Cronbach's alpha"
 msgstr "CRONBACH:Кронбахова алфа"
 
-#: ../plugins/fn-stat/functions.c:4643
+#: ../plugins/fn-stat/functions.c:4657
 msgid "ref1:first data set"
 msgstr "реф1:први скуп података"
 
-#: ../plugins/fn-stat/functions.c:4644
+#: ../plugins/fn-stat/functions.c:4658
 msgid "ref2:second data set"
 msgstr "реф2:други скуп података"
 
-#: ../plugins/fn-stat/functions.c:4741
+#: ../plugins/fn-stat/functions.c:4755
 msgid ""
 "GEOMDIST:probability mass or cumulative distribution function of the "
 "geometric distribution"
@@ -11213,59 +11221,59 @@ msgstr ""
 "GEOMDIST:маса вероватноће или функција збирне расподеле геометријске "
 "расподеле"
 
-#: ../plugins/fn-stat/functions.c:4742
+#: ../plugins/fn-stat/functions.c:4756
 msgid "k:number of trials"
 msgstr "k:број покушаја"
 
-#: ../plugins/fn-stat/functions.c:4743
+#: ../plugins/fn-stat/functions.c:4757
 msgid "p:probability of success in any trial"
 msgstr "п:вероватноћа успеха у било ком покушају"
 
-#: ../plugins/fn-stat/functions.c:4745
+#: ../plugins/fn-stat/functions.c:4759
 msgid "If @{k} < 0 this function returns a #NUM! error."
 msgstr "Ако је @{k} < 0 ова функција исписује грешку #БРОЈ!."
 
-#: ../plugins/fn-stat/functions.c:4772
+#: ../plugins/fn-stat/functions.c:4786
 msgid "LOGISTIC:probability density function of the logistic distribution"
 msgstr "LOGISTIC:функција густине вероватноће логистичке расподеле"
 
-#: ../plugins/fn-stat/functions.c:4803
+#: ../plugins/fn-stat/functions.c:4817
 msgid "PARETO:probability density function of the Pareto distribution"
 msgstr "PARETO:функција густине вероватноће Парето расподеле"
 
-#: ../plugins/fn-stat/functions.c:4805
+#: ../plugins/fn-stat/functions.c:4819
 msgid "a:exponent"
 msgstr "a:изложилац"
 
-#: ../plugins/fn-stat/functions.c:4806 ../plugins/fn-stat/functions.c:4899
+#: ../plugins/fn-stat/functions.c:4820 ../plugins/fn-stat/functions.c:4913
 msgid "b:scale parameter"
 msgstr "b:параметар размере"
 
-#: ../plugins/fn-stat/functions.c:4837
+#: ../plugins/fn-stat/functions.c:4851
 msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
 msgstr "RAYLEIGH:функција густине вероватноће Рејлајове расподеле"
 
-#: ../plugins/fn-stat/functions.c:4839 ../plugins/fn-stat/functions.c:4860
+#: ../plugins/fn-stat/functions.c:4853 ../plugins/fn-stat/functions.c:4874
 msgid "sigma:scale parameter"
 msgstr "сигма:параметар размере"
 
-#: ../plugins/fn-stat/functions.c:4857
+#: ../plugins/fn-stat/functions.c:4871
 msgid ""
 "RAYLEIGHTAIL:probability density function of the Rayleigh tail distribution"
 msgstr "RAYLEIGHTAIL:функција густине вероватноће Рејлајове расподеле ostatka"
 
-#: ../plugins/fn-stat/functions.c:4859
+#: ../plugins/fn-stat/functions.c:4873
 msgid "a:lower limit"
 msgstr "a:доња граница"
 
-#: ../plugins/fn-stat/functions.c:4895
+#: ../plugins/fn-stat/functions.c:4909
 msgid ""
 "EXPPOWDIST:the probability density function of the Exponential Power "
 "distribution"
 msgstr ""
 "EXPPOWDIST:функција густине вероватноће расподеле експоненцијалног степена"
 
-#: ../plugins/fn-stat/functions.c:4901
+#: ../plugins/fn-stat/functions.c:4915
 msgid ""
 "This distribution has been recommended for lifetime analysis when a U-shaped "
 "hazard function is desired. This corresponds to rapid failure once the "
@@ -11276,15 +11284,15 @@ msgstr ""
 "опасност U-облика. Ово одговара брзом неуспеху када производ почне да се "
 "трошити након периода сталне или чак побољшане поузданости."
 
-#: ../plugins/fn-stat/functions.c:4929
+#: ../plugins/fn-stat/functions.c:4943
 msgid "LAPLACE:probability density function of the Laplace distribution"
 msgstr "LAPLACE:функција густине вероватноће Лапласове расподеле"
 
-#: ../plugins/fn-stat/functions.c:4931
+#: ../plugins/fn-stat/functions.c:4945
 msgid "a:mean"
 msgstr "a:средња вредност"
 
-#: ../plugins/fn-stat/functions.c:4952
+#: ../plugins/fn-stat/functions.c:4966
 msgid ""
 "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} "
 "objects with repetition allowed"
@@ -11292,36 +11300,36 @@ msgstr ""
 "PERMUTATIONA:број пермутација за @{y} предмета изабраних из @{x} предмета уз "
 "дозвољено понављање"
 
-#: ../plugins/fn-stat/functions.c:4953
+#: ../plugins/fn-stat/functions.c:4967
 msgid "x:total number of objects"
 msgstr "x:укупан број предмета"
 
-#: ../plugins/fn-stat/functions.c:4954
+#: ../plugins/fn-stat/functions.c:4968
 msgid "y:number of selected objects"
 msgstr "y:број изабраних предмета"
 
-#: ../plugins/fn-stat/functions.c:4955
+#: ../plugins/fn-stat/functions.c:4969
 msgid "If both @{x} and @{y} equal 0, PERMUTATIONA returns 1."
 msgstr "Ако су @{x} и @{y} једнаки 0, „PERMUTATIONA“ исписује 1."
 
-#: ../plugins/fn-stat/functions.c:4956
+#: ../plugins/fn-stat/functions.c:4970
 msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
 msgstr "Ако је @{x} < 0 или @{y} < 0 „PERMUTATIONA“ исписује #БРОЈ!"
 
-#: ../plugins/fn-stat/functions.c:4957
+#: ../plugins/fn-stat/functions.c:4971
 msgid "If @{x} or @{y} are not integers, they are truncated."
 msgstr "Ако @{x} или @{y} нису цели бројеви, скраћују се."
 
-#: ../plugins/fn-stat/functions.c:4983
+#: ../plugins/fn-stat/functions.c:4997
 msgid "LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality"
 msgstr "LKSTEST:Лилјефорсов (Колмогоров-Смирнов) тест нормалности"
 
-#: ../plugins/fn-stat/functions.c:4984 ../plugins/fn-stat/functions.c:5101
-#: ../plugins/fn-stat/functions.c:5185 ../plugins/fn-stat/functions.c:5270
+#: ../plugins/fn-stat/functions.c:4998 ../plugins/fn-stat/functions.c:5115
+#: ../plugins/fn-stat/functions.c:5199 ../plugins/fn-stat/functions.c:5284
 msgid "x:array of sample values"
 msgstr "x:низ вредности узорака"
 
-#: ../plugins/fn-stat/functions.c:4985
+#: ../plugins/fn-stat/functions.c:4999
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Lilliefors (Kolmogorov-Smirnov) Test, the second row the test statistic of "
@@ -11331,19 +11339,19 @@ msgstr ""
 "(Колмогоров-Смирновог) теста, други ред пробну статистику теста, а трећи "
 "број посматрања у узорку."
 
-#: ../plugins/fn-stat/functions.c:4987
+#: ../plugins/fn-stat/functions.c:5001
 msgid "If there are less than 5 sample values, LKSTEST returns #VALUE!"
 msgstr "Ако постоји мање од 5 вредности узорака, „LKSTEST“ исписује #ВРЕДНОСТ!"
 
-#: ../plugins/fn-stat/functions.c:4989
+#: ../plugins/fn-stat/functions.c:5003
 msgid "wiki:en:Lilliefors_test"
 msgstr "вики:ен:Лилјефорсов_тест"
 
-#: ../plugins/fn-stat/functions.c:5100
+#: ../plugins/fn-stat/functions.c:5114
 msgid "SFTEST:Shapiro-Francia Test of Normality"
 msgstr "SFTEST:Шапиро-Франћин тест нормалности"
 
-#: ../plugins/fn-stat/functions.c:5102
+#: ../plugins/fn-stat/functions.c:5116
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Shapiro-Francia Test, the second row the test statistic of the test, and the "
@@ -11352,7 +11360,7 @@ msgstr ""
 "Ова функција исписује низ у коме први ред даје p-вредност Шапиро-Франћиног "
 "теста, други ред пробну статистику теста, а трећи број посматрања у узорку."
 
-#: ../plugins/fn-stat/functions.c:5104
+#: ../plugins/fn-stat/functions.c:5118
 msgid ""
 "If there are less than 5 or more than 5000 sample values, SFTEST returns "
 "#VALUE!"
@@ -11360,11 +11368,11 @@ msgstr ""
 "Ако постоји мање од 5 или више од 5000 вредности узорака, „SFTEST“ исписује "
 "#ВРЕДНОСТ!"
 
-#: ../plugins/fn-stat/functions.c:5184
+#: ../plugins/fn-stat/functions.c:5198
 msgid "CVMTEST:Cramér-von Mises Test of Normality"
 msgstr "CVMTEST:Крамер-вон Мизесов тест нормалности"
 
-#: ../plugins/fn-stat/functions.c:5186
+#: ../plugins/fn-stat/functions.c:5200
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Cramér-von Mises Test, the second row the test statistic of the test, and "
@@ -11374,19 +11382,19 @@ msgstr ""
 "Мизесовог теста, други ред пробну статистику теста, а трећи број посматрања "
 "у узорку."
 
-#: ../plugins/fn-stat/functions.c:5188
+#: ../plugins/fn-stat/functions.c:5202
 msgid "If there are less than 8 sample values, CVMTEST returns #VALUE!"
 msgstr "Ако постоји мање од 8 вредности узорака, „CVMTEST“ исписује #ВРЕДНОСТ!"
 
-#: ../plugins/fn-stat/functions.c:5190
+#: ../plugins/fn-stat/functions.c:5204
 msgid "wiki:en:Cramér–von-Mises_criterion"
 msgstr "вики:ен:Крамер–вон-Мизесов_критеријум"
 
-#: ../plugins/fn-stat/functions.c:5269
+#: ../plugins/fn-stat/functions.c:5283
 msgid "ADTEST:Anderson-Darling Test of Normality"
 msgstr "ADTEST:Андерсон-Дарлингов тест нормалности"
 
-#: ../plugins/fn-stat/functions.c:5271
+#: ../plugins/fn-stat/functions.c:5285
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Anderson-Darling Test, the second row the test statistic of the test, and "
@@ -11396,11 +11404,11 @@ msgstr ""
 "Дарлинговог теста, други ред пробну статистику теста, а трећи број "
 "посматрања у узорку."
 
-#: ../plugins/fn-stat/functions.c:5273
+#: ../plugins/fn-stat/functions.c:5287
 msgid "If there are less than 8 sample values, ADTEST returns #VALUE!"
 msgstr "Ако постоји мање од 8 вредности узорака, „ADTEST“ исписује #ВРЕДНОСТ!"
 
-#: ../plugins/fn-stat/functions.c:5275
+#: ../plugins/fn-stat/functions.c:5289
 msgid "wiki:en:Anderson–Darling_test"
 msgstr "вики:ен:Андерсон–Дарлингов_тест"
 
@@ -12260,6 +12268,9 @@ msgstr ""
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
 "Ово није намеравано да буде опште укључено и подразумевано је ИСКЉУЧЕНО."
+
+#~ msgid "d:non-negative integer, defaults to 0"
+#~ msgstr "d:не-негативни цео број, подразумева се 0"
 
 #~ msgid "b:non-negative integer"
 #~ msgstr "b:не-негативни цео број"
