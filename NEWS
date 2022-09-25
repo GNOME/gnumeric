@@ -1,5 +1,9 @@
 Gnumeric 1.12.54
 
+John Denker:
+	* Improve whitespace handling in html import.  [#671]
+
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.53
 

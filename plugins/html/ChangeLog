@@ -1,3 +1,8 @@
+2022-09-25  Morten Welinder  <terra@gnome.org>
+
+	* html_read.c: Improve whitespace handling.  Based on patch from
+	John Denker.  [#671]
+
 2022-09-17  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.53

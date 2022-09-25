@@ -81,25 +81,56 @@ html_get_sheet (char const *name, Workbook *wb)
 	return sheet;
 }
 
+
+/* deletes any initial whitespace */
+/* thereafter, including at the end, */
+/* collapses any run of whitespace to a single space. */
+/* (This may or may not be what you want, e.g. <pre>...</pre>) */
+/* It's up to the caller to deal with the possible final trailing space. */
 static void
-html_append_text (GString *buf, const xmlChar *text)
+html_append_trim_text (GString *buf, const xmlChar *text)
 {
 	const xmlChar *p;
+	const xmlChar *last_sp;
 
 	while (*text) {
-		while (g_unichar_isspace (g_utf8_get_char (text)))
-			text = g_utf8_next_char (text);
-		if (*text) {
-			for (p = text;
-			     *p && !g_unichar_isspace (g_utf8_get_char (p));
-			     p =  g_utf8_next_char (p))
-				;
-			if (buf->len > 0)
-				g_string_append_c (buf, ' ');
-			g_string_append_len (buf, text, p - text);
-			text = p;
+		// collect a run of spaces, if any
+		for (last_sp = p = text;
+		     *p && g_unichar_isspace (g_utf8_get_char (p));
+		     p = g_utf8_next_char (p)) {
+			last_sp = p;
 		}
+		if (buf->len == 0 ||
+		    g_unichar_isspace (g_utf8_get_char (g_utf8_prev_char (buf->str + buf->len)))) {
+			text = p;	      /* skip all the spaces */
+		} else {
+			text = last_sp;	      /* keep the last space */
+		}
+		if (*text) {
+			// collect a run of non-spaces, if any
+			for (/* keep p */;
+			     *p && !g_unichar_isspace (g_utf8_get_char (p));
+			     p =  g_utf8_next_char (p)) {
+			}
+			// here p points to either a space or EoS
+			if (*p) p = g_utf8_next_char (p);
+			// copy the non-spaces and one trailing space if any
+			g_string_append_len (buf, text, p - text);
+		}
+		text = p;
 	}
+}
+
+/* remove one trailing space, if it exists */
+static void
+html_rtrim (GString *buf)
+{
+	if (buf->len == 0)
+		return;
+
+	gchar* last = g_utf8_prev_char (buf->str + buf->len);
+	if (g_unichar_isspace (g_utf8_get_char (last)))
+		g_string_truncate(buf, last - buf->str);
 }
 
 static void
@@ -112,7 +143,7 @@ html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (ptr->type == XML_TEXT_NODE) {
 			if (g_utf8_validate (ptr->content, -1, NULL))
-				html_append_text (buf, ptr->content);
+				html_append_trim_text (buf, ptr->content);
 			else
 				g_string_append (buf, _("[Warning: Invalid text string has been removed.]"));
 		} else if (ptr->type == XML_ELEMENT_NODE) {
@@ -218,7 +249,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 
 			html_read_content (ptr, buf, mstyle, a_buf,
 					   &hrefs, TRUE, doc, tc);
-
+			html_rtrim(buf);
 
 			if (g_slist_length (hrefs) >= 1 &&
 			    buf->len > 0) {
