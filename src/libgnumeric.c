@@ -200,6 +200,20 @@ gnm_get_option_group (void)
 	return group;
 }
 
+// Determine whether help is requested.
+static gboolean
+help_requested (gchar const **argv)
+{
+	for (int i = 1; argv[i]; i++) {
+		const char *a = argv[i];
+		if (g_str_equal (a, "-h") ||
+		    g_str_has_prefix (a, "--help"))
+			return TRUE;
+	}
+	return FALSE;
+}
+
+
 /**
  * gnm_pre_parse_init:
  * @argc:
@@ -252,7 +266,18 @@ gnm_pre_parse_init (int argc, gchar const **argv)
 	 * pull in the real versions and convert them to utf-8 */
 	argv = go_shell_argv_to_glib_encoding (argc, argv);
 
-	g_set_prgname (argv[0]);
+	// This is a mess, see #677.  Basically there are conflicting uses
+	// for the program name set with g_set_prgname.
+	if (help_requested (argv)) {
+		// We want the full path in help messages
+		g_set_prgname (argv[0]);
+	} else {
+		// We want "gnumeric" or "ssconvert" because it, someone, is
+		// used for icon discovery in some cases.
+		char *basename = g_path_get_basename (argv[0]);
+		g_set_prgname (basename);
+		g_free (basename);
+	}
 
 	/* Make stdout line buffered - we only use it for debug info */
 	setvbuf (stdout, NULL, _IOLBF, 0);

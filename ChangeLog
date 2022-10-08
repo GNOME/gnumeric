@@ -1,3 +1,8 @@
+2022-10-08  Morten Welinder  <terra@gnome.org>
+
+	* src/libgnumeric.c (gnm_pre_parse_init): Use basename of argv[0],
+	except when help is requested.  See #677 for details.
+
 2022-09-17  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

@@ -3,6 +3,9 @@ Gnumeric 1.12.54
 John Denker:
 	* Improve whitespace handling in html import.  [#671]
 
+Morten:
+	* Improve various desktop environments' icon discovery.  [#677]
+	  
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.53
