@@ -18,6 +18,7 @@
 				<function name="concat"/>
 				<function name="concatenate"/>
 				<function name="dollar"/>
+				<function name="encodeurl"/>
 				<function name="exact"/>
 				<function name="find"/>
 				<function name="findb"/>

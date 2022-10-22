@@ -5,7 +5,7 @@ John Denker:
 
 Morten:
 	* Improve various desktop environments' icon discovery.  [#677]
-	  
+	* New function ENCODEURL.  [#658]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.53

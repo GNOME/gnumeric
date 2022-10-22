@@ -262,6 +262,23 @@ gnumeric_exact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_encodeurl[] = {
+	{ GNM_FUNC_HELP_NAME, F_("ENCODEURL:encode a string for use in a URL")},
+	{ GNM_FUNC_HELP_ARG, F_("string:string to encode")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ENCODEURL(\"http://www.gnumeric.orc/\")" },
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_encodeurl (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	const char *str = value_peek_string (argv[0]);
+	return value_new_string_nocopy (go_url_encode (str, 1));
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_len[] = {
         { GNM_FUNC_HELP_NAME, F_("LEN:the number of characters of the string @{s}")},
         { GNM_FUNC_HELP_ARG, F_("s:the string")},
@@ -1779,6 +1796,9 @@ GnmFuncDescriptor const string_functions[] = {
         { "dollar",     "f|f",               help_dollar,
 	  gnumeric_dollar, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "encodeurl",      "S",                 help_encodeurl,
+	  gnumeric_encodeurl, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "exact",      "SS",                 help_exact,
 	  gnumeric_exact, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
