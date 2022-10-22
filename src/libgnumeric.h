@@ -22,6 +22,8 @@ void	     gnm_pre_parse_shutdown (void);
 void	     gnm_init		    (void);
 void	     gnm_shutdown	    (void);
 
+char const * gnm_get_argv0          (void);
+
 GOptionGroup *gnm_get_option_group (void);
 
 G_END_DECLS

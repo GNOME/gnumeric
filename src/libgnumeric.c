@@ -213,6 +213,13 @@ help_requested (gchar const **argv)
 	return FALSE;
 }
 
+static char *argv0;
+char const *
+gnm_get_argv0 (void)
+{
+	return argv0;
+}
+
 
 /**
  * gnm_pre_parse_init:
@@ -266,6 +273,8 @@ gnm_pre_parse_init (int argc, gchar const **argv)
 	 * pull in the real versions and convert them to utf-8 */
 	argv = go_shell_argv_to_glib_encoding (argc, argv);
 
+	argv0 = g_strdup (argv[0]);
+
 	// This is a mess, see #677.  Basically there are conflicting uses
 	// for the program name set with g_set_prgname.
 	if (help_requested (argv)) {
@@ -300,6 +309,8 @@ void
 gnm_pre_parse_shutdown (void)
 {
 	go_shell_argv_to_glib_encoding_free ();
+	g_free (argv0);
+	argv0 = NULL;
 }
 
 void

@@ -47,7 +47,7 @@ static GSList *gutils_xml_in_docs;
 static char *
 running_in_tree (void)
 {
-	const char *argv0 = g_get_prgname ();
+	const char *argv0 = gnm_get_argv0 ();
 
 	if (!argv0)
 		return NULL;
