@@ -266,7 +266,7 @@ static GnmFuncHelp const help_encodeurl[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ENCODEURL:encode a string for use in a URL")},
 	{ GNM_FUNC_HELP_ARG, F_("string:string to encode")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, "=ENCODEURL(\"http://www.gnumeric.orc/\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ENCODEURL(\"http://www.gnumeric.org/\")" },
 	{ GNM_FUNC_HELP_END}
 };
 
