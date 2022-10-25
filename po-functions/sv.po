@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2022-09-16 01:01+0000\n"
-"PO-Revision-Date: 2022-09-16 18:01+0200\n"
+"POT-Creation-Date: 2022-10-22 21:38+0000\n"
+"PO-Revision-Date: 2022-10-23 01:07+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -268,17 +268,18 @@ msgstr "Om @{i} varken är ”i” eller ”j” returnerar COMPLEX #VÄRDE!"
 #: ../plugins/fn-stat/functions.c:4517 ../plugins/fn-stat/functions.c:4582
 #: ../plugins/fn-string/functions.c:66 ../plugins/fn-string/functions.c:138
 #: ../plugins/fn-string/functions.c:249 ../plugins/fn-string/functions.c:268
-#: ../plugins/fn-string/functions.c:285 ../plugins/fn-string/functions.c:305
-#: ../plugins/fn-string/functions.c:369 ../plugins/fn-string/functions.c:389
-#: ../plugins/fn-string/functions.c:516 ../plugins/fn-string/functions.c:585
-#: ../plugins/fn-string/functions.c:605 ../plugins/fn-string/functions.c:626
-#: ../plugins/fn-string/functions.c:647 ../plugins/fn-string/functions.c:726
-#: ../plugins/fn-string/functions.c:770 ../plugins/fn-string/functions.c:801
-#: ../plugins/fn-string/functions.c:839 ../plugins/fn-string/functions.c:896
-#: ../plugins/fn-string/functions.c:942 ../plugins/fn-string/functions.c:1044
-#: ../plugins/fn-string/functions.c:1068 ../plugins/fn-string/functions.c:1121
-#: ../plugins/fn-string/functions.c:1168 ../plugins/fn-string/functions.c:1264
-#: ../plugins/fn-string/functions.c:1335 ../plugins/fn-string/functions.c:1418
+#: ../plugins/fn-string/functions.c:285 ../plugins/fn-string/functions.c:302
+#: ../plugins/fn-string/functions.c:322 ../plugins/fn-string/functions.c:386
+#: ../plugins/fn-string/functions.c:406 ../plugins/fn-string/functions.c:533
+#: ../plugins/fn-string/functions.c:602 ../plugins/fn-string/functions.c:622
+#: ../plugins/fn-string/functions.c:643 ../plugins/fn-string/functions.c:664
+#: ../plugins/fn-string/functions.c:743 ../plugins/fn-string/functions.c:787
+#: ../plugins/fn-string/functions.c:818 ../plugins/fn-string/functions.c:856
+#: ../plugins/fn-string/functions.c:913 ../plugins/fn-string/functions.c:959
+#: ../plugins/fn-string/functions.c:1061 ../plugins/fn-string/functions.c:1085
+#: ../plugins/fn-string/functions.c:1138 ../plugins/fn-string/functions.c:1185
+#: ../plugins/fn-string/functions.c:1281 ../plugins/fn-string/functions.c:1352
+#: ../plugins/fn-string/functions.c:1435
 msgid "This function is Excel compatible."
 msgstr "Denna funktion är Excel-kompatibel."
 
@@ -1247,9 +1248,9 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:2417 ../plugins/fn-math/functions.c:3081
 #: ../plugins/fn-math/functions.c:3281 ../plugins/fn-stat/functions.c:1694
 #: ../plugins/fn-stat/functions.c:2613 ../plugins/fn-stat/functions.c:4972
-#: ../plugins/fn-string/functions.c:306 ../plugins/fn-string/functions.c:390
-#: ../plugins/fn-string/functions.c:517 ../plugins/fn-string/functions.c:1205
-#: ../plugins/fn-string/functions.c:1521 ../plugins/fn-string/functions.c:1651
+#: ../plugins/fn-string/functions.c:323 ../plugins/fn-string/functions.c:407
+#: ../plugins/fn-string/functions.c:534 ../plugins/fn-string/functions.c:1222
+#: ../plugins/fn-string/functions.c:1538 ../plugins/fn-string/functions.c:1668
 msgid "This function is OpenFormula compatible."
 msgstr "Denna funktion är kompatibel med OpenFormula."
 
@@ -4981,11 +4982,11 @@ msgstr "ISTEXT:SANT om @{värde} är text"
 msgid "N:@{text} converted to a number"
 msgstr "N:@{text} konverterad till ett tal"
 
-#: ../plugins/fn-info/functions.c:1768 ../plugins/fn-string/functions.c:368
-#: ../plugins/fn-string/functions.c:584 ../plugins/fn-string/functions.c:724
-#: ../plugins/fn-string/functions.c:768 ../plugins/fn-string/functions.c:895
-#: ../plugins/fn-string/functions.c:1120 ../plugins/fn-string/functions.c:1167
-#: ../plugins/fn-string/functions.c:1200 ../plugins/fn-string/functions.c:1516
+#: ../plugins/fn-info/functions.c:1768 ../plugins/fn-string/functions.c:385
+#: ../plugins/fn-string/functions.c:601 ../plugins/fn-string/functions.c:741
+#: ../plugins/fn-string/functions.c:785 ../plugins/fn-string/functions.c:912
+#: ../plugins/fn-string/functions.c:1137 ../plugins/fn-string/functions.c:1184
+#: ../plugins/fn-string/functions.c:1217 ../plugins/fn-string/functions.c:1533
 msgid "text:string"
 msgstr "text:sträng"
 
@@ -11643,29 +11644,37 @@ msgid "string2:second string"
 msgstr "sträng2:andra sträng"
 
 #: ../plugins/fn-string/functions.c:266
+msgid "ENCODEURL:encode a string for use in a URL"
+msgstr "ENCODEURL:koda en sträng för användning i en URL"
+
+#: ../plugins/fn-string/functions.c:267
+msgid "string:string to encode"
+msgstr "sträng:sträng att koda"
+
+#: ../plugins/fn-string/functions.c:283
 msgid "LEN:the number of characters of the string @{s}"
 msgstr "LEN:antal tecken för strängen @{s}"
 
-#: ../plugins/fn-string/functions.c:267 ../plugins/fn-string/functions.c:284
-#: ../plugins/fn-string/functions.c:302 ../plugins/fn-string/functions.c:334
-#: ../plugins/fn-string/functions.c:386 ../plugins/fn-string/functions.c:426
-#: ../plugins/fn-string/functions.c:513 ../plugins/fn-string/functions.c:549
+#: ../plugins/fn-string/functions.c:284 ../plugins/fn-string/functions.c:301
+#: ../plugins/fn-string/functions.c:319 ../plugins/fn-string/functions.c:351
+#: ../plugins/fn-string/functions.c:403 ../plugins/fn-string/functions.c:443
+#: ../plugins/fn-string/functions.c:530 ../plugins/fn-string/functions.c:566
 msgid "s:the string"
 msgstr "s:strängen"
 
-#: ../plugins/fn-string/functions.c:283
+#: ../plugins/fn-string/functions.c:300
 msgid "LENB:the number of bytes in the string @{s}"
 msgstr "LENB:antal byte i strängen @{s}"
 
-#: ../plugins/fn-string/functions.c:301
+#: ../plugins/fn-string/functions.c:318
 msgid "LEFT:the first @{num_chars} characters of the string @{s}"
 msgstr "LEFT:de första @{ant_teck} tecknen i strängen @{s}"
 
-#: ../plugins/fn-string/functions.c:303 ../plugins/fn-string/functions.c:514
+#: ../plugins/fn-string/functions.c:320 ../plugins/fn-string/functions.c:531
 msgid "num_chars:the number of characters to return (defaults to 1)"
 msgstr "ant_teck:antal tecken att returnera (standardvärdet är 1)"
 
-#: ../plugins/fn-string/functions.c:304
+#: ../plugins/fn-string/functions.c:321
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned first "
 "characters are from the right of the string."
@@ -11673,7 +11682,7 @@ msgstr ""
 "Om strängen @{s} är i ett höger-till-vänster-skriftspråk kommer de "
 "returnerade första tecknen att vara från höger av strängen."
 
-#: ../plugins/fn-string/functions.c:333
+#: ../plugins/fn-string/functions.c:350
 msgid ""
 "LEFTB:the first characters of the string @{s} comprising at most "
 "@{num_bytes} bytes"
@@ -11681,14 +11690,14 @@ msgstr ""
 "LEFTB:de första tecknen för strängen @{s} bestående av som mest @{ant_byte} "
 "byte"
 
-#: ../plugins/fn-string/functions.c:335 ../plugins/fn-string/functions.c:428
-#: ../plugins/fn-string/functions.c:550
+#: ../plugins/fn-string/functions.c:352 ../plugins/fn-string/functions.c:445
+#: ../plugins/fn-string/functions.c:567
 msgid "num_bytes:the maximum number of bytes to return (defaults to 1)"
 msgstr "ant_byte:högsta antal byte att returnera (standardvärdet är 1)"
 
-#: ../plugins/fn-string/functions.c:336 ../plugins/fn-string/functions.c:429
-#: ../plugins/fn-string/functions.c:551 ../plugins/fn-string/functions.c:995
-#: ../plugins/fn-string/functions.c:1461
+#: ../plugins/fn-string/functions.c:353 ../plugins/fn-string/functions.c:446
+#: ../plugins/fn-string/functions.c:568 ../plugins/fn-string/functions.c:1012
+#: ../plugins/fn-string/functions.c:1478
 msgid ""
 "The semantics of this function is subject to change as various applications "
 "implement it."
@@ -11696,7 +11705,7 @@ msgstr ""
 "Semantiken för denna funktion ändras allteftersom olika program "
 "implementerar den."
 
-#: ../plugins/fn-string/functions.c:337
+#: ../plugins/fn-string/functions.c:354
 msgid ""
 "If the string is in a right-to-left script, the returned first characters "
 "are from the right of the string."
@@ -11704,9 +11713,9 @@ msgstr ""
 "Om strängen är i ett höger-till-vänster-skriftspråk, är de returnerade "
 "första tecken från den högra sidan av strängen."
 
-#: ../plugins/fn-string/functions.c:338 ../plugins/fn-string/functions.c:430
-#: ../plugins/fn-string/functions.c:474 ../plugins/fn-string/functions.c:553
-#: ../plugins/fn-string/functions.c:996 ../plugins/fn-string/functions.c:1462
+#: ../plugins/fn-string/functions.c:355 ../plugins/fn-string/functions.c:447
+#: ../plugins/fn-string/functions.c:491 ../plugins/fn-string/functions.c:570
+#: ../plugins/fn-string/functions.c:1013 ../plugins/fn-string/functions.c:1479
 msgid ""
 "While this function is syntactically Excel compatible, the differences in "
 "the underlying text encoding will usually yield different results."
@@ -11714,9 +11723,9 @@ msgstr ""
 "Medan denna funktion är syntaktiskt Excel-kompatibel så kommer skillnaderna "
 "i den underliggande textkodningen vanligtvis att ge olika resultat."
 
-#: ../plugins/fn-string/functions.c:339 ../plugins/fn-string/functions.c:432
-#: ../plugins/fn-string/functions.c:476 ../plugins/fn-string/functions.c:554
-#: ../plugins/fn-string/functions.c:998 ../plugins/fn-string/functions.c:1464
+#: ../plugins/fn-string/functions.c:356 ../plugins/fn-string/functions.c:449
+#: ../plugins/fn-string/functions.c:493 ../plugins/fn-string/functions.c:571
+#: ../plugins/fn-string/functions.c:1015 ../plugins/fn-string/functions.c:1481
 msgid ""
 "While this function is OpenFormula compatible, most of its behavior is, at "
 "this time, implementation specific."
@@ -11724,11 +11733,11 @@ msgstr ""
 "Medan denna funktion är OpenFormula-kompatibel så är det mesta av dess "
 "beteende just nu implementationsspecifikt."
 
-#: ../plugins/fn-string/functions.c:367
+#: ../plugins/fn-string/functions.c:384
 msgid "LOWER:a lower-case version of the string @{text}"
 msgstr "LOWER:en gemen version av strängen @{text}"
 
-#: ../plugins/fn-string/functions.c:385
+#: ../plugins/fn-string/functions.c:402
 msgid ""
 "MID:the substring of the string @{s} starting at position @{position} "
 "consisting of @{length} characters"
@@ -11736,15 +11745,15 @@ msgstr ""
 "MID:delsträngen för strängen @{s} med början på position @{position} "
 "bestående av @{längd} tecken"
 
-#: ../plugins/fn-string/functions.c:387
+#: ../plugins/fn-string/functions.c:404
 msgid "position:the starting position"
 msgstr "position:startpositionen"
 
-#: ../plugins/fn-string/functions.c:388
+#: ../plugins/fn-string/functions.c:405
 msgid "length:the number of characters to return"
 msgstr "längd:antal tecken att returnera"
 
-#: ../plugins/fn-string/functions.c:425
+#: ../plugins/fn-string/functions.c:442
 msgid ""
 "MIDB:the characters following the first @{start_pos} bytes comprising at "
 "most @{num_bytes} bytes"
@@ -11752,11 +11761,11 @@ msgstr ""
 "MIDB:tecknen följande första @{startpos} byte, omfattande som mest "
 "@{ant_byte} byte"
 
-#: ../plugins/fn-string/functions.c:427
+#: ../plugins/fn-string/functions.c:444
 msgid "start_pos:the number of the byte with which to start (defaults to 1)"
 msgstr "startpos:siffran för byte att starta med (standard är 1)"
 
-#: ../plugins/fn-string/functions.c:469
+#: ../plugins/fn-string/functions.c:486
 msgid ""
 "FINDB:first byte position of @{string1} in @{string2} following byte "
 "position @{start}"
@@ -11764,27 +11773,27 @@ msgstr ""
 "FINDB:första byteposition av @{sträng1} i @{sträng2} följande byteposition "
 "@{start}"
 
-#: ../plugins/fn-string/functions.c:470 ../plugins/fn-string/functions.c:797
+#: ../plugins/fn-string/functions.c:487 ../plugins/fn-string/functions.c:814
 msgid "string1:search string"
 msgstr "sträng1:söksträng"
 
-#: ../plugins/fn-string/functions.c:471 ../plugins/fn-string/functions.c:798
+#: ../plugins/fn-string/functions.c:488 ../plugins/fn-string/functions.c:815
 msgid "string2:search field"
 msgstr "sträng2:sökfält"
 
-#: ../plugins/fn-string/functions.c:472 ../plugins/fn-string/functions.c:1451
+#: ../plugins/fn-string/functions.c:489 ../plugins/fn-string/functions.c:1468
 msgid "start:starting byte position, defaults to 1"
 msgstr "start:startbyteposition, standard 1"
 
-#: ../plugins/fn-string/functions.c:473 ../plugins/fn-string/functions.c:800
+#: ../plugins/fn-string/functions.c:490 ../plugins/fn-string/functions.c:817
 msgid "This search is case-sensitive."
 msgstr "Denna sökning är skiftlägeskänslig."
 
-#: ../plugins/fn-string/functions.c:512
+#: ../plugins/fn-string/functions.c:529
 msgid "RIGHT:the last @{num_chars} characters of the string @{s}"
 msgstr "RIGHT:de sista @{ant_teck} tecknen i sträng @{s}"
 
-#: ../plugins/fn-string/functions.c:515 ../plugins/fn-string/functions.c:552
+#: ../plugins/fn-string/functions.c:532 ../plugins/fn-string/functions.c:569
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned last "
 "characters are from the left of the string."
@@ -11792,7 +11801,7 @@ msgstr ""
 "Om strängen @{s} är i ett höger-till-vänster-skriftspråk är de returnerade "
 "sista tecken från vänster av strängen."
 
-#: ../plugins/fn-string/functions.c:548
+#: ../plugins/fn-string/functions.c:565
 msgid ""
 "RIGHTB:the last characters of the string @{s} comprising at most "
 "@{num_bytes} bytes"
@@ -11800,59 +11809,59 @@ msgstr ""
 "RIGHTB:de sista tecknen för strängen @{s}, omfattande som mest @{ant_byte} "
 "byte"
 
-#: ../plugins/fn-string/functions.c:583
+#: ../plugins/fn-string/functions.c:600
 msgid "UPPER:an upper-case version of the string @{text}"
 msgstr "UPPER:en versalversion av strängen @{text}"
 
-#: ../plugins/fn-string/functions.c:602
+#: ../plugins/fn-string/functions.c:619
 msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
 msgstr "CONCATENATE:konkateneringen av strängarna @{s1}, @{s2}…"
 
-#: ../plugins/fn-string/functions.c:603 ../plugins/fn-string/functions.c:624
-#: ../plugins/fn-string/functions.c:645
+#: ../plugins/fn-string/functions.c:620 ../plugins/fn-string/functions.c:641
+#: ../plugins/fn-string/functions.c:662
 msgid "s1:first string"
 msgstr "s1:första sträng"
 
-#: ../plugins/fn-string/functions.c:604 ../plugins/fn-string/functions.c:625
-#: ../plugins/fn-string/functions.c:646
+#: ../plugins/fn-string/functions.c:621 ../plugins/fn-string/functions.c:642
+#: ../plugins/fn-string/functions.c:663
 msgid "s2:second string"
 msgstr "s2:andra sträng"
 
-#: ../plugins/fn-string/functions.c:623
+#: ../plugins/fn-string/functions.c:640
 msgid "CONCAT:the concatenation of the strings @{s1}, @{s2},…"
 msgstr "CONCAT:konkateneringen av strängarna @{s1}, @{s2}…"
 
-#: ../plugins/fn-string/functions.c:628
+#: ../plugins/fn-string/functions.c:645
 msgid "This function is identical to CONCATENATE"
 msgstr "Denna funktion är identisk med CONCATENATE"
 
-#: ../plugins/fn-string/functions.c:642
+#: ../plugins/fn-string/functions.c:659
 msgid ""
 "TEXTJOIN:the concatenation of the strings @{s1}, @{s2},… delimited by @{del}"
 msgstr ""
 "TEXTJOIN:konkateneringen av strängarna @{s1}, @{s2},… avgränsad av @{avg}"
 
-#: ../plugins/fn-string/functions.c:643
+#: ../plugins/fn-string/functions.c:660
 msgid "del:delimiter"
 msgstr "avg:avgränsare"
 
-#: ../plugins/fn-string/functions.c:644
+#: ../plugins/fn-string/functions.c:661
 msgid "blank:ignore blanks"
 msgstr "tom:ignorera tomma"
 
-#: ../plugins/fn-string/functions.c:723
+#: ../plugins/fn-string/functions.c:740
 msgid "REPT:@{num} repetitions of string @{text}"
 msgstr "REPT::@{ant} strängupprepningar av @{text}"
 
-#: ../plugins/fn-string/functions.c:725
+#: ../plugins/fn-string/functions.c:742
 msgid "num:non-negative integer"
 msgstr "ant:icke-negativt heltal"
 
-#: ../plugins/fn-string/functions.c:767
+#: ../plugins/fn-string/functions.c:784
 msgid "CLEAN:@{text} with any non-printable characters removed"
 msgstr "CLEAN:@{text} med varje icke utskrivbart tecken borttaget"
 
-#: ../plugins/fn-string/functions.c:769
+#: ../plugins/fn-string/functions.c:786
 msgid ""
 "CLEAN removes non-printable characters from its argument leaving only "
 "regular characters and white-space."
@@ -11860,40 +11869,40 @@ msgstr ""
 "CLEAN tar bort icke utskrivbara tecken från dess argument och lämnar endast "
 "vanliga tecken och blanktecken."
 
-#: ../plugins/fn-string/functions.c:796
+#: ../plugins/fn-string/functions.c:813
 msgid ""
 "FIND:first position of @{string1} in @{string2} following position @{start}"
 msgstr ""
 "FIND:första positionen för @{sträng1} i @{sträng2} efter position @{start}"
 
-#: ../plugins/fn-string/functions.c:799 ../plugins/fn-string/functions.c:1408
+#: ../plugins/fn-string/functions.c:816 ../plugins/fn-string/functions.c:1425
 msgid "start:starting position, defaults to 1"
 msgstr "start:startposition, standard är 1"
 
-#: ../plugins/fn-string/functions.c:834
+#: ../plugins/fn-string/functions.c:851
 msgid "FIXED:formatted string representation of @{num}"
 msgstr "FIXED:formaterad strängrepresentation av @{ant}"
 
-#: ../plugins/fn-string/functions.c:835 ../plugins/fn-string/functions.c:1333
+#: ../plugins/fn-string/functions.c:852 ../plugins/fn-string/functions.c:1350
 msgid "num:number"
 msgstr "ant:tal"
 
-#: ../plugins/fn-string/functions.c:836
+#: ../plugins/fn-string/functions.c:853
 msgid "decimals:number of decimals"
 msgstr "decimaler:antal decimaler"
 
-#: ../plugins/fn-string/functions.c:837
+#: ../plugins/fn-string/functions.c:854
 msgid ""
 "no_commas:TRUE if no thousand separators should be used, defaults to FALSE"
 msgstr ""
 "inga_komman:SANT om inte tusentalsseparatorer ska användas, standard är "
 "FALSKT"
 
-#: ../plugins/fn-string/functions.c:894
+#: ../plugins/fn-string/functions.c:911
 msgid "PROPER:@{text} with initial of each word capitalised"
 msgstr "PROPER:@{text} med början av varje ord versaliserat"
 
-#: ../plugins/fn-string/functions.c:936
+#: ../plugins/fn-string/functions.c:953
 msgid ""
 "REPLACE:string @{old} with @{num} characters starting at @{start} replaced "
 "by @{new}"
@@ -11901,24 +11910,24 @@ msgstr ""
 "REPLACE:strängen @{gammal} med @{ant} tecken vid början @{start} ersatt av "
 "@{ny}"
 
-#: ../plugins/fn-string/functions.c:938 ../plugins/fn-string/functions.c:989
+#: ../plugins/fn-string/functions.c:955 ../plugins/fn-string/functions.c:1006
 msgid "old:original text"
 msgstr "gammal:originaltext"
 
-#: ../plugins/fn-string/functions.c:939
+#: ../plugins/fn-string/functions.c:956
 msgid "start:starting position"
 msgstr "start:startposition"
 
-#: ../plugins/fn-string/functions.c:940
+#: ../plugins/fn-string/functions.c:957
 msgid "num:number of characters to be replaced"
 msgstr "antal:antal tecken att ersätta"
 
-#: ../plugins/fn-string/functions.c:941 ../plugins/fn-string/functions.c:992
-#: ../plugins/fn-string/functions.c:1261
+#: ../plugins/fn-string/functions.c:958 ../plugins/fn-string/functions.c:1009
+#: ../plugins/fn-string/functions.c:1278
 msgid "new:replacement string"
 msgstr "ny:ersättningssträng"
 
-#: ../plugins/fn-string/functions.c:987
+#: ../plugins/fn-string/functions.c:1004
 msgid ""
 "REPLACEB:string @{old} with up to @{num} bytes starting at @{start} replaced "
 "by @{new}"
@@ -11926,15 +11935,15 @@ msgstr ""
 "REPLACEB:sträng @{gammal} med upp till @{ant} byte med början vid @{start} "
 "ersatt av @{ny}"
 
-#: ../plugins/fn-string/functions.c:990
+#: ../plugins/fn-string/functions.c:1007
 msgid "start:starting byte position"
 msgstr "start:byteposition för start"
 
-#: ../plugins/fn-string/functions.c:991
+#: ../plugins/fn-string/functions.c:1008
 msgid "num:number of bytes to be replaced"
 msgstr "antal:antal byte att ersätta"
 
-#: ../plugins/fn-string/functions.c:993
+#: ../plugins/fn-string/functions.c:1010
 msgid ""
 "REPLACEB replaces the string of valid unicode characters starting at the "
 "byte @{start} and ending at @{start}+@{num}-1 with the string @{new}."
@@ -11942,43 +11951,43 @@ msgstr ""
 "REPLACEB ersätter strängen av giltiga unicode-tecken med början vid byte "
 "@{start} och med slut vid @{start}+@{ant}-1 med strängen @{ny}."
 
-#: ../plugins/fn-string/functions.c:1042
+#: ../plugins/fn-string/functions.c:1059
 msgid "T:@{value} if and only if @{value} is text, otherwise empty"
 msgstr "T:@{värde} om och endast om @{värde} är text, annars tom"
 
-#: ../plugins/fn-string/functions.c:1043
+#: ../plugins/fn-string/functions.c:1060
 msgid "value:original value"
 msgstr "värde:originalvärde"
 
-#: ../plugins/fn-string/functions.c:1065
+#: ../plugins/fn-string/functions.c:1082
 msgid "TEXT:@{value} as a string formatted as @{format}"
 msgstr "TEXT:@{värde} som en sträng formaterad @{format}"
 
-#: ../plugins/fn-string/functions.c:1066
+#: ../plugins/fn-string/functions.c:1083
 msgid "value:value to be formatted"
 msgstr "värde:värde att formatera"
 
-#: ../plugins/fn-string/functions.c:1067
+#: ../plugins/fn-string/functions.c:1084
 msgid "format:desired format"
 msgstr "format:önskat format"
 
-#: ../plugins/fn-string/functions.c:1119
+#: ../plugins/fn-string/functions.c:1136
 msgid "TRIM:@{text} with only single spaces between words"
 msgstr "TRIM:@{text} med endast ensamma tomrum mellan ord"
 
-#: ../plugins/fn-string/functions.c:1166
+#: ../plugins/fn-string/functions.c:1183
 msgid "VALUE:numeric value of @{text}"
 msgstr "VALUE:numeriskt värde av @{text}"
 
-#: ../plugins/fn-string/functions.c:1199
+#: ../plugins/fn-string/functions.c:1216
 msgid "NUMBERVALUE:numeric value of @{text}"
 msgstr "NUMBERVALUE:numeriskt värde av @{text}"
 
-#: ../plugins/fn-string/functions.c:1201
+#: ../plugins/fn-string/functions.c:1218
 msgid "separator:decimal separator"
 msgstr "separator:decimalseparator"
 
-#: ../plugins/fn-string/functions.c:1202
+#: ../plugins/fn-string/functions.c:1219
 msgid ""
 "If @{text} does not look like a decimal number, NUMBERVALUE returns the "
 "value VALUE would return (ignoring the given @{separator})."
@@ -11986,19 +11995,19 @@ msgstr ""
 "Om @{text} inte ser ut som ett decimaltal, returnerar NUMBERVALUE värdet som "
 "VALUE skulle returnera (ignorerar given @{separator})."
 
-#: ../plugins/fn-string/functions.c:1258
+#: ../plugins/fn-string/functions.c:1275
 msgid "SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}"
 msgstr "SUBSTITUTE:@{text} med alla förekomster av @{gammal} ersatt av @{ny}"
 
-#: ../plugins/fn-string/functions.c:1259 ../plugins/fn-string/functions.c:1643
+#: ../plugins/fn-string/functions.c:1276 ../plugins/fn-string/functions.c:1660
 msgid "text:original text"
 msgstr "text:originaltext"
 
-#: ../plugins/fn-string/functions.c:1260
+#: ../plugins/fn-string/functions.c:1277
 msgid "old:string to be replaced"
 msgstr "gammal:strängen att ersätta"
 
-#: ../plugins/fn-string/functions.c:1262
+#: ../plugins/fn-string/functions.c:1279
 msgid ""
 "num:if @{num} is specified and a number only the @{num}th occurrence of "
 "@{old} is replaced"
@@ -12006,29 +12015,29 @@ msgstr ""
 "ant:om @{ant} är specificerat och är en siffra ersätts endast @{ant}:e "
 "förekomsten av @{gammal}"
 
-#: ../plugins/fn-string/functions.c:1332
+#: ../plugins/fn-string/functions.c:1349
 msgid "DOLLAR:@{num} formatted as currency"
 msgstr "DOLLAR:@{ant} formaterad som valuta"
 
-#: ../plugins/fn-string/functions.c:1334
+#: ../plugins/fn-string/functions.c:1351
 msgid "decimals:decimals"
 msgstr "decimaler:decimaler"
 
-#: ../plugins/fn-string/functions.c:1404
+#: ../plugins/fn-string/functions.c:1421
 msgid ""
 "SEARCH:the location of the @{search} string within @{text} after position "
 "@{start}"
 msgstr "SEARCH:platsen för strängen @{sök} i @{text} efter positionen @{start}"
 
-#: ../plugins/fn-string/functions.c:1406 ../plugins/fn-string/functions.c:1449
+#: ../plugins/fn-string/functions.c:1423 ../plugins/fn-string/functions.c:1466
 msgid "search:search string"
 msgstr "sök:söksträng"
 
-#: ../plugins/fn-string/functions.c:1407 ../plugins/fn-string/functions.c:1450
+#: ../plugins/fn-string/functions.c:1424 ../plugins/fn-string/functions.c:1467
 msgid "text:search field"
 msgstr "text:sökfält"
 
-#: ../plugins/fn-string/functions.c:1409 ../plugins/fn-string/functions.c:1452
+#: ../plugins/fn-string/functions.c:1426 ../plugins/fn-string/functions.c:1469
 msgid ""
 "@{search} may contain wildcard characters (*) and question marks (?). A "
 "question mark matches any single character, and a wildcard matches any "
@@ -12040,15 +12049,15 @@ msgstr ""
 "inklusive den tomma strängen. För att söka efter * och ?, föregå symbolen "
 "med ~."
 
-#: ../plugins/fn-string/functions.c:1414 ../plugins/fn-string/functions.c:1457
+#: ../plugins/fn-string/functions.c:1431 ../plugins/fn-string/functions.c:1474
 msgid "This search is not case sensitive."
 msgstr "Denna sökning är inte skiftlägeskänslig."
 
-#: ../plugins/fn-string/functions.c:1415
+#: ../plugins/fn-string/functions.c:1432
 msgid "If @{search} is not found, SEARCH returns #VALUE!"
 msgstr "Om @{sök} inte hittas returnerar SEARCH #VÄRDE!"
 
-#: ../plugins/fn-string/functions.c:1416
+#: ../plugins/fn-string/functions.c:1433
 msgid ""
 "If @{start} is less than one or it is greater than the length of @{text}, "
 "SEARCH returns #VALUE!"
@@ -12056,7 +12065,7 @@ msgstr ""
 "Om @{start} är mindre än ett eller är större än längden av @{text}, "
 "returnerar SEARCH #VÄRDE!"
 
-#: ../plugins/fn-string/functions.c:1447
+#: ../plugins/fn-string/functions.c:1464
 msgid ""
 "SEARCHB:the location of the @{search} string within @{text} after byte "
 "position @{start}"
@@ -12064,11 +12073,11 @@ msgstr ""
 "SEARCHB:platsen för strängen @{sök} inom @{text} efter bytepositionen "
 "@{start}"
 
-#: ../plugins/fn-string/functions.c:1458
+#: ../plugins/fn-string/functions.c:1475
 msgid "If @{search} is not found, SEARCHB returns #VALUE!"
 msgstr "Om @{sök} inte hittas returnerar SEARCHB #VÄRDE!"
 
-#: ../plugins/fn-string/functions.c:1459
+#: ../plugins/fn-string/functions.c:1476
 msgid ""
 "If @{start} is less than one or it is greater than the byte length of "
 "@{text}, SEARCHB returns #VALUE!"
@@ -12076,14 +12085,14 @@ msgstr ""
 "Om @{start} är mindre än ett eller är större än bytelängden av @{text}, "
 "returnerar SEARCHB #VÄRDE!"
 
-#: ../plugins/fn-string/functions.c:1515
+#: ../plugins/fn-string/functions.c:1532
 msgid ""
 "ASC:text with full-width katakana and ASCII characters converted to half-"
 "width"
 msgstr ""
 "ASC:text med fullbredds-katakana och ASCII-tecken konverterade till halvbredd"
 
-#: ../plugins/fn-string/functions.c:1517
+#: ../plugins/fn-string/functions.c:1534
 msgid ""
 "ASC converts full-width katakana and ASCII characters to half-width "
 "equivalent characters, copying all others."
@@ -12091,7 +12100,7 @@ msgstr ""
 "ASC konverterar helbreddskatakana och ASCII-tecken till motsvarande "
 "halvbreddstecken och kopierar alla andra."
 
-#: ../plugins/fn-string/functions.c:1518 ../plugins/fn-string/functions.c:1646
+#: ../plugins/fn-string/functions.c:1535 ../plugins/fn-string/functions.c:1663
 msgid ""
 "The distinction between half-width and full-width characters is described in "
 "http://www.unicode.org/reports/tr11/."
@@ -12099,11 +12108,11 @@ msgstr ""
 "Skillnaden mellan halvbredd och helbreddstecken beskrivs i http://www."
 "unicode.org/reports/tr11/."
 
-#: ../plugins/fn-string/functions.c:1519 ../plugins/fn-string/functions.c:1648
+#: ../plugins/fn-string/functions.c:1536 ../plugins/fn-string/functions.c:1665
 msgid "For most strings, this function has the same effect as in Excel."
 msgstr "För de flesta strängar har denna funktion samma effekt som i Excel."
 
-#: ../plugins/fn-string/functions.c:1520
+#: ../plugins/fn-string/functions.c:1537
 msgid ""
 "While in obsolete encodings ASC used to translate between 2-byte and 1-byte "
 "characters, this is not the case in UTF-8."
@@ -12111,14 +12120,14 @@ msgstr ""
 "Även om ASC i föråldrade kodningar används för att översätta mellan 2-byte "
 "och 1-byte-tecken är det inte så för UTF-8."
 
-#: ../plugins/fn-string/functions.c:1642
+#: ../plugins/fn-string/functions.c:1659
 msgid ""
 "JIS:text with half-width katakana and ASCII characters converted to full-"
 "width"
 msgstr ""
 "JIS:text med halvbredds-katakana och ASCII-tecken konverterade till fullbredd"
 
-#: ../plugins/fn-string/functions.c:1644
+#: ../plugins/fn-string/functions.c:1661
 msgid ""
 "JIS converts half-width katakana and ASCII characters to full-width "
 "equivalent characters, copying all others."
@@ -12126,7 +12135,7 @@ msgstr ""
 "JIS konverterar halvbredds-katakana och ASCII-tecken till motsvarande "
 "fullbreddstecken och kopierar alla andra."
 
-#: ../plugins/fn-string/functions.c:1649
+#: ../plugins/fn-string/functions.c:1666
 msgid ""
 "While in obsolete encodings JIS used to translate between 1-byte and 2-byte "
 "characters, this is not the case in UTF-8."
