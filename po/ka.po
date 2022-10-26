@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2022-06-08 18:00+0000\n"
-"PO-Revision-Date: 2022-07-27 17:46+0200\n"
+"POT-Creation-Date: 2022-07-27 15:47+0000\n"
+"PO-Revision-Date: 2022-10-26 21:42+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: \n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:552
@@ -185,7 +185,7 @@ msgstr ""
 
 #: ../plugins/excel/boot.c:298
 msgid "Saving file..."
-msgstr ""
+msgstr "ფაილის შენახვა..."
 
 #: ../plugins/excel/excel-xml-read.c:135 ../src/xml-sax-read.c:461
 #, c-format
@@ -262,7 +262,7 @@ msgstr ""
 
 #: ../plugins/excel/ms-excel-read.c:6385
 msgid "No password supplied"
-msgstr ""
+msgstr "პაროლი შეყვანილი არაა"
 
 #: ../plugins/excel/ms-excel-util.c:698
 #: ../plugins/openoffice/openoffice-read.c:6293 ../src/print-info.c:669
@@ -722,7 +722,7 @@ msgstr ""
 #: ../plugins/fn-date/plugin.xml.in.h:3
 #: ../plugins/fn-hebrew-date/plugin.xml.in.h:3
 msgid "Date/Time"
-msgstr ""
+msgstr "თარიღი / დრო"
 
 #: ../plugins/fn-complex/plugin.xml.in.h:1
 msgid "Complex Functions"
@@ -792,7 +792,7 @@ msgstr ""
 
 #: ../plugins/fn-erlang/plugin.xml.in.h:3
 msgid "Erlang"
-msgstr ""
+msgstr "Erlang"
 
 #: ../plugins/fn-financial/plugin.xml.in.h:1
 msgid "Financial Functions"
@@ -910,7 +910,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1735
 msgid "Invalid number of arguments"
-msgstr ""
+msgstr "არგუმენტების არასწორი რაოდენობა"
 
 #: ../plugins/fn-info/plugin.xml.in.h:1
 msgid "Information Functions"
@@ -3059,7 +3059,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:11
 msgid "Default Font Size"
-msgstr ""
+msgstr "ფონტის ნაგულისხმები ზომა"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:12
 msgid "The default font size for new workbooks."
@@ -4145,7 +4145,7 @@ msgstr ""
 
 #: ../src/commands.c:7785
 msgid "Add Filter"
-msgstr ""
+msgstr "ფილტრის დამატება"
 
 #: ../src/commands.c:7801 ../src/wbc-gtk.c:1635
 #, c-format
@@ -4271,7 +4271,7 @@ msgstr "ხელოვნება"
 
 #: ../src/dialogs/dialog-about.c:70
 msgid "Packaging"
-msgstr ""
+msgstr "შეფუთვა"
 
 #: ../src/dialogs/dialog-about.c:79
 msgid "Harald Ashburner"
@@ -4591,7 +4591,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:161
 msgid "Kevin Breit"
-msgstr ""
+msgstr "Kevin Breit"
 
 #: ../src/dialogs/dialog-about.c:162
 msgid "Thomas Canty"
@@ -5371,7 +5371,7 @@ msgstr "წყარო"
 
 #: ../src/dialogs/dialog-cell-format.c:1727
 msgid "Criteria"
-msgstr ""
+msgstr "კრიტერიუმი"
 
 #: ../src/dialogs/dialog-cell-format.c:1742
 #: ../src/dialogs/dialog-cell-format.c:1751 ../src/dialogs/so-scrollbar.ui.h:4
@@ -5765,7 +5765,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-define-names.c:1155
 msgid "content"
-msgstr ""
+msgstr "შემცველობა"
 
 #: ../src/dialogs/dialog-define-names.c:1225
 msgid "Paste Defined Names"
@@ -5885,7 +5885,7 @@ msgstr "აღწერა"
 #: ../src/dialogs/dialog-doc-metadata.c:2194
 #: ../src/dialogs/doc-meta-data.ui.h:49
 msgid "Calculation"
-msgstr ""
+msgstr "გამოთვლა"
 
 #: ../src/dialogs/dialog-doc-metadata.c:2369
 msgid "Could not create the Properties dialog."
@@ -5918,7 +5918,7 @@ msgstr "ახლახანს _გამოყენებული"
 
 #: ../src/dialogs/dialog-function-select.c:517
 msgid "In Use"
-msgstr ""
+msgstr "გამოყენებულია"
 
 #: ../src/dialogs/dialog-function-select.c:690
 #, c-format
@@ -5931,11 +5931,11 @@ msgstr "არგუმენტები:"
 
 #: ../src/dialogs/dialog-function-select.c:791
 msgid "Note: "
-msgstr ""
+msgstr "შენიშვნა: "
 
 #: ../src/dialogs/dialog-function-select.c:804
 msgid "Examples:"
-msgstr ""
+msgstr "მაგალითები:"
 
 #. Not translated
 #: ../src/dialogs/dialog-function-select.c:823
@@ -6013,7 +6013,7 @@ msgstr ""
 #: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1658
 #: ../src/tools/gnm-solver.c:1703 ../src/tools/gnm-solver.c:1844
 msgid "Cell"
-msgstr ""
+msgstr "უჯრედი"
 
 #: ../src/dialogs/dialog-goto-cell.c:455
 msgid "Could not create the goto dialog."
@@ -6055,7 +6055,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-hyperlink.c:318
 msgid "Web Link"
-msgstr ""
+msgstr "ვებ ბმული"
 
 #: ../src/dialogs/dialog-hyperlink.c:320
 msgid "Browse to the specified URL"
@@ -6126,7 +6126,7 @@ msgstr "პაროლი:"
 
 #: ../src/dialogs/dialog-plugin-manager.c:267
 msgid "Select Directory"
-msgstr ""
+msgstr "აირჩიეთ საქაღალდე"
 
 #: ../src/dialogs/dialog-plugin-manager.c:273 ../src/gui-file.c:784
 msgid "Cancel"
@@ -6495,7 +6495,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-random-generator.c:110
 msgid "Discrete"
-msgstr ""
+msgstr "დისკრეტული"
 
 #: ../src/dialogs/dialog-random-generator.c:110
 msgid "_Value And Probability Input Range:"
@@ -6893,7 +6893,7 @@ msgstr "მიმართულება"
 
 #: ../src/dialogs/dialog-sheet-compare.c:221
 msgid "Wrap"
-msgstr ""
+msgstr "შემოხვევა"
 
 #: ../src/dialogs/dialog-sheet-compare.c:222
 msgid "Shrink-to-fit"
@@ -6914,7 +6914,7 @@ msgstr "შემოწმება"
 
 #: ../src/dialogs/dialog-sheet-compare.c:228
 msgid "Hyperlink"
-msgstr ""
+msgstr "ჰიპერბმული"
 
 #: ../src/dialogs/dialog-sheet-compare.c:229
 msgid "Input message"
@@ -6926,11 +6926,11 @@ msgstr ""
 
 #: ../src/dialogs/dialog-sheet-compare.c:255
 msgid "Cells"
-msgstr ""
+msgstr "უჯრედები"
 
 #: ../src/dialogs/dialog-sheet-compare.c:256
 msgid "Formatting"
-msgstr ""
+msgstr "ფორმატირება"
 
 #: ../src/dialogs/dialog-sheet-compare.c:257
 msgid "Columns/Rows"
@@ -6938,7 +6938,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-sheet-compare.c:263
 msgid "Various"
-msgstr ""
+msgstr "სხვადასხვა"
 
 #: ../src/dialogs/dialog-sheet-compare.c:272
 msgid "Added"
@@ -6987,7 +6987,7 @@ msgstr "შევსება"
 #: ../src/dialogs/dialog-sheet-compare.c:382
 #: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3736
 msgid "Justify"
-msgstr ""
+msgstr "გადამრთეველი"
 
 #: ../src/dialogs/dialog-sheet-compare.c:383
 msgid "Center across selection"
@@ -7182,7 +7182,7 @@ msgstr "აქტივობა"
 
 #: ../src/dialogs/dialog-simulation.c:151
 msgid "Run on"
-msgstr ""
+msgstr "გასაშვები პლატფორმა"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:245
 #: ../src/wbc-gtk.c:4061
@@ -7264,7 +7264,7 @@ msgstr "მომზადება"
 
 #: ../src/dialogs/dialog-solver.c:596
 msgid "Prepared"
-msgstr ""
+msgstr "მომზადებულია"
 
 #: ../src/dialogs/dialog-solver.c:599
 msgid "Running"
@@ -7276,7 +7276,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:607 ../src/gui-util.c:1079
 msgid "Error"
-msgstr ""
+msgstr "შეცდომა"
 
 #: ../src/dialogs/dialog-solver.c:610
 msgid "Cancelled"
@@ -7701,11 +7701,11 @@ msgstr ""
 
 #: ../src/dialogs/autofilter-expression.ui.h:5
 msgid "equals"
-msgstr ""
+msgstr "უდრის"
 
 #: ../src/dialogs/autofilter-expression.ui.h:6
 msgid "does not equal"
-msgstr ""
+msgstr "არ უდრის"
 
 #: ../src/dialogs/autofilter-expression.ui.h:7
 msgid "is greater than"
@@ -7733,19 +7733,19 @@ msgstr ""
 
 #: ../src/dialogs/autofilter-expression.ui.h:13
 msgid "ends with"
-msgstr ""
+msgstr "მთავრდება"
 
 #: ../src/dialogs/autofilter-expression.ui.h:14
 msgid "does not end with"
-msgstr ""
+msgstr "არ მთავრდება"
 
 #: ../src/dialogs/autofilter-expression.ui.h:15
 msgid "contains"
-msgstr ""
+msgstr "შეიცავს"
 
 #: ../src/dialogs/autofilter-expression.ui.h:16
 msgid "does not contain"
-msgstr ""
+msgstr "არ შეიცავს"
 
 #: ../src/dialogs/autofilter-top10.ui.h:2
 msgid "Count or percentage:"
@@ -7821,7 +7821,7 @@ msgstr "ესკიზი"
 
 #: ../src/dialogs/autoformat.ui.h:16
 msgid "Name:"
-msgstr ""
+msgstr "სახელი:"
 
 #: ../src/dialogs/autoformat.ui.h:17 ../src/dialogs/doc-meta-data.ui.h:17
 msgid "Author:"
@@ -7858,7 +7858,7 @@ msgstr ""
 
 #: ../src/dialogs/autosave.ui.h:1
 msgid "Auto Save"
-msgstr ""
+msgstr "ავტომატური შენახვა"
 
 #: ../src/dialogs/autosave.ui.h:2
 msgid "_Automatically save every"
@@ -7890,11 +7890,11 @@ msgstr ""
 
 #: ../src/dialogs/cell-format-cond.ui.h:2
 msgid "E_xpand"
-msgstr ""
+msgstr "_გაფართოება"
 
 #: ../src/dialogs/cell-format-cond.ui.h:3
 msgid "Condition:"
-msgstr ""
+msgstr "მდგომარეობა:"
 
 #: ../src/dialogs/cell-format-cond.ui.h:4
 msgid "Applicable Style Components:"
@@ -8050,7 +8050,7 @@ msgstr ""
 
 #: ../src/dialogs/cell-format.ui.h:41
 msgid "Diagonal"
-msgstr ""
+msgstr "დიაგონალური"
 
 #. Cell border
 #: ../src/dialogs/cell-format.ui.h:47
@@ -8068,7 +8068,7 @@ msgstr ""
 
 #: ../src/dialogs/cell-format.ui.h:50
 msgid "Inside"
-msgstr ""
+msgstr "შიგნიდან"
 
 #: ../src/dialogs/cell-format.ui.h:51
 msgid "Inside Horizontal"
@@ -8279,7 +8279,7 @@ msgstr ""
 
 #: ../src/dialogs/cell-sort.ui.h:4
 msgid "Locale:"
-msgstr ""
+msgstr "ენის კოდი:"
 
 #: ../src/dialogs/cell-sort.ui.h:5
 msgid "Sorting _preserves formats"
@@ -8488,7 +8488,7 @@ msgstr ""
 #: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:673
 #: ../src/tools/analysis-tools.c:676
 msgid "Correlation"
-msgstr ""
+msgstr "კორელაცია"
 
 #: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:728
 #: ../src/tools/analysis-tools.c:731 ../src/wbc-gtk-actions.c:2953
@@ -9089,7 +9089,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-zoom.ui.h:15
 msgid "Sheets"
-msgstr ""
+msgstr "ფურცლები"
 
 #: ../src/dialogs/doc-meta-data.ui.h:1
 msgid "Document Properties"
@@ -9101,11 +9101,11 @@ msgstr ""
 
 #: ../src/dialogs/doc-meta-data.ui.h:3
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>სახელი:</b> %1<br/>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:4
 msgid "<b>Location:</b>"
-msgstr ""
+msgstr "<b>მდებარეობა:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:5
 msgid "<b>Created:</b>"
@@ -9153,11 +9153,11 @@ msgstr "სათაური:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:18
 msgid "Manager:"
-msgstr ""
+msgstr "მმართველი:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:19
 msgid "Company:"
-msgstr ""
+msgstr "კომპანია:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:21
 msgid "Comments:"
@@ -9201,7 +9201,7 @@ msgstr ""
 
 #: ../src/dialogs/doc-meta-data.ui.h:32
 msgid "Name: "
-msgstr ""
+msgstr "სახელი: "
 
 #: ../src/dialogs/doc-meta-data.ui.h:33
 msgid "Type: "
@@ -9241,7 +9241,7 @@ msgstr "ა_ვტომატური"
 
 #: ../src/dialogs/doc-meta-data.ui.h:45
 msgid "_Manual"
-msgstr ""
+msgstr "_ხელით"
 
 #: ../src/dialogs/doc-meta-data.ui.h:46
 msgid "Maximum it_erations:"
@@ -9360,7 +9360,7 @@ msgstr ""
 
 #: ../src/dialogs/fill-series.ui.h:5
 msgid "Type:"
-msgstr ""
+msgstr "ტიპი:"
 
 #: ../src/dialogs/fill-series.ui.h:6
 msgid "_Linear"
@@ -9388,7 +9388,7 @@ msgstr ""
 
 #: ../src/dialogs/fill-series.ui.h:12
 msgid "Series"
-msgstr ""
+msgstr "სერია"
 
 #: ../src/dialogs/fill-series.ui.h:13
 msgid "Date unit:"
@@ -9538,15 +9538,15 @@ msgstr ""
 
 #: ../src/dialogs/goalseek.ui.h:10
 msgid "Current Value:"
-msgstr ""
+msgstr "მიმდინარე მნიშვნელობა:"
 
 #: ../src/dialogs/goalseek.ui.h:11
 msgid "Solution:"
-msgstr ""
+msgstr "გადაწყვეტა:"
 
 #: ../src/dialogs/goto.ui.h:1
 msgid "Go To..."
-msgstr ""
+msgstr "გადასვლა..."
 
 #: ../src/dialogs/goto.ui.h:2
 msgid "Rows:"
@@ -10032,7 +10032,7 @@ msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:9
 msgid "_Formats"
-msgstr ""
+msgstr "_ფორმატები"
 
 #: ../src/dialogs/paste-special.ui.h:10
 msgid "Paste cell formats (number formats, colors, borders, etc.) only"
@@ -10117,7 +10117,7 @@ msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:30
 msgid "Column widths"
-msgstr ""
+msgstr "სვეტის სიგანეები"
 
 #: ../src/dialogs/paste-special.ui.h:31
 msgid "Set column widths of the destination to those of the source"
@@ -10146,7 +10146,7 @@ msgstr ""
 
 #: ../src/dialogs/plugin-manager.ui.h:1
 msgid "Plugin Manager"
-msgstr ""
+msgstr "დამატებების მმართველი"
 
 #: ../src/dialogs/plugin-manager.ui.h:2
 msgid "Activate _new plugins by default"
@@ -10453,7 +10453,7 @@ msgstr ""
 
 #: ../src/dialogs/quit.ui.h:13
 msgid "Save document"
-msgstr ""
+msgstr "დოკუმენტის შენახვა"
 
 #: ../src/dialogs/quit.ui.h:14
 msgid "Save?"
@@ -10714,7 +10714,7 @@ msgstr ""
 
 #: ../src/dialogs/search-replace.ui.h:11
 msgid "Search & Replace"
-msgstr ""
+msgstr "ძებნა და ჩანაცვლება"
 
 #: ../src/dialogs/search-replace.ui.h:12 ../src/dialogs/search.ui.h:1
 msgid "Search"
@@ -11023,11 +11023,11 @@ msgstr ""
 
 #: ../src/dialogs/search.ui.h:44
 msgid "Matches"
-msgstr ""
+msgstr "მატჩები"
 
 #: ../src/dialogs/sheetobject-size.ui.h:1
 msgid "Size & Position"
-msgstr ""
+msgstr "ზომა და მდგომარეობა"
 
 #: ../src/dialogs/sheetobject-size.ui.h:2
 msgid "_Width in pixels:"
@@ -11293,7 +11293,7 @@ msgstr ""
 #: ../src/dialogs/so-button.ui.h:2 ../src/dialogs/so-checkbox.ui.h:2
 #: ../src/dialogs/so-radiobutton.ui.h:2 ../src/dialogs/so-scrollbar.ui.h:2
 msgid "Link to:"
-msgstr ""
+msgstr "მიბმა:"
 
 #: ../src/dialogs/so-button.ui.h:3 ../src/dialogs/so-checkbox.ui.h:3
 #: ../src/dialogs/so-frame.ui.h:2 ../src/dialogs/so-radiobutton.ui.h:3
@@ -11343,20 +11343,20 @@ msgstr ""
 #: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:441
 #: ../src/tools/gnm-solver.c:467
 msgid "Int"
-msgstr ""
+msgstr "მთელი რიცხვი"
 
 #: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:442
 #: ../src/tools/gnm-solver.c:468
 msgid "Bool"
-msgstr ""
+msgstr "ლოგიკური მნიშვნელობა"
 
 #: ../src/dialogs/solver.ui.h:6
 msgid "Solver"
-msgstr ""
+msgstr "ამომხსნელი"
 
 #: ../src/dialogs/solver.ui.h:7
 msgid "Solve"
-msgstr ""
+msgstr "ამოხსნა"
 
 #: ../src/dialogs/solver.ui.h:8
 msgid "Stop the running solver"
@@ -11434,7 +11434,7 @@ msgstr "_ჩანაცვლება"
 #: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1744
 #: ../src/tools/gnm-solver.c:1876
 msgid "Constraints"
-msgstr ""
+msgstr "შეზღუდვები"
 
 #: ../src/dialogs/solver.ui.h:27
 msgid "Max _Iterations:"
@@ -11520,7 +11520,7 @@ msgstr ""
 
 #: ../src/dialogs/so-scrollbar.ui.h:6
 msgid "Increment:"
-msgstr ""
+msgstr "ზრდა:"
 
 #: ../src/dialogs/so-scrollbar.ui.h:7
 msgid "Page:"
@@ -11613,7 +11613,7 @@ msgstr ""
 
 #: ../src/dialogs/wbcg.ui.h:3
 msgid "Accept change"
-msgstr ""
+msgstr "ცვლილების მიღება"
 
 #: ../src/dialogs/wbcg.ui.h:4
 msgid "Enter formula..."
@@ -11628,7 +11628,7 @@ msgstr ""
 
 #: ../src/dialogs/workbook-attr.ui.h:1
 msgid "View Properties"
-msgstr ""
+msgstr "თვისებების ნახვა"
 
 #: ../src/dialogs/workbook-attr.ui.h:2
 msgid "Notebook _Tabs for Sheets"
@@ -11875,15 +11875,15 @@ msgstr ""
 
 #: ../src/gnm-graph-window.c:168
 msgid "Fit"
-msgstr ""
+msgstr "ჩატევა"
 
 #: ../src/gnm-graph-window.c:169
 msgid "Fit Width"
-msgstr ""
+msgstr "სიგანის ჩატევა"
 
 #: ../src/gnm-graph-window.c:170
 msgid "Fit Height"
-msgstr ""
+msgstr "სიმაღლის ჩატევა"
 
 #: ../src/gnm-graph-window.c:172
 msgid "100%"
@@ -11907,7 +11907,7 @@ msgstr "300%"
 
 #: ../src/gnm-graph-window.c:177
 msgid "500%"
-msgstr ""
+msgstr "500%"
 
 #: ../src/gnm-pane.c:2041
 #, c-format
@@ -12139,7 +12139,7 @@ msgstr ""
 #: ../src/gui-util.h:156
 msgctxt "Stock label"
 msgid "Save _As"
-msgstr ""
+msgstr "შეინახე _როგორც"
 
 #: ../src/gui-util.h:159
 msgctxt "Stock label"
@@ -12149,7 +12149,7 @@ msgstr "_გაუქმება"
 #: ../src/gui-util.h:162
 msgctxt "Stock label"
 msgid "_OK"
-msgstr ""
+msgstr "კარგი"
 
 #: ../src/gutils.c:991
 #, c-format
@@ -12539,7 +12539,7 @@ msgstr ""
 
 #: ../src/print.c:1533
 msgid "from:"
-msgstr ""
+msgstr "საიდან:"
 
 #: ../src/print.c:1557
 msgid "Ignore all _manual page breaks"
@@ -13073,7 +13073,7 @@ msgstr ""
 
 #: ../src/sheet.c:5549
 msgid "Insert Columns"
-msgstr ""
+msgstr "სვეტების ჩასმა"
 
 #: ../src/sheet.c:5567
 msgid "Delete Columns"
@@ -13081,7 +13081,7 @@ msgstr ""
 
 #: ../src/sheet.c:5585
 msgid "Insert Rows"
-msgstr ""
+msgstr "მწკრივების ჩასმა"
 
 #: ../src/sheet.c:5603
 msgid "Delete Rows"
@@ -13646,7 +13646,7 @@ msgstr ""
 #: ../src/tools/analysis-anova.c:148 ../src/tools/analysis-tools.c:176
 #, c-format
 msgid "Row %i"
-msgstr ""
+msgstr "მწკრივი %i"
 
 #: ../src/tools/analysis-anova.c:187 ../src/tools/analysis-tools.c:179
 #, c-format
@@ -13850,7 +13850,7 @@ msgstr ""
 
 #: ../src/tools/analysis-frequency.c:288 ../src/tools/analysis-frequency.c:291
 msgid "Frequency Table"
-msgstr ""
+msgstr "სიხშირის ცხრილი"
 
 #. translator note: only translate the
 #. "to below" and "up to" exclusive of
@@ -14686,7 +14686,7 @@ msgstr ""
 
 #: ../src/tools/simulation.c:246
 msgid "Mean"
-msgstr ""
+msgstr "მნიშვნელობა"
 
 #: ../src/tools/simulation.c:249
 msgid "Mode"
@@ -15133,7 +15133,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2083
 msgid "_Select"
-msgstr ""
+msgstr "ყველას მონიშვნა"
 
 #: ../src/wbc-gtk-actions.c:2090
 msgid "Copy the selection"
@@ -15261,7 +15261,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2199
 msgid "_Filter"
-msgstr ""
+msgstr "_ფილტრი"
 
 #: ../src/wbc-gtk-actions.c:2202
 msgid "F_ill"
@@ -16513,7 +16513,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3339
 msgid "Scrollbar"
-msgstr ""
+msgstr "Scrollbar"
 
 #: ../src/wbc-gtk-actions.c:3340
 msgid "Create a scrollbar"
@@ -16818,7 +16818,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3624
 msgid "Align Top"
-msgstr ""
+msgstr "ზემოთ სწორება"
 
 #: ../src/wbc-gtk-actions.c:3631
 msgid "_Vertically Center"
@@ -16834,7 +16834,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3640
 msgid "Align Bottom"
-msgstr ""
+msgstr "ძირის სწორება"
 
 #: ../src/wbc-gtk-actions.c:3650
 msgid "_Bold"
@@ -16920,11 +16920,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3761 ../src/wbc-gtk-actions.c:3762
 msgid "Horizontal Alignment"
-msgstr ""
+msgstr "ჰორიზონტალური  შეთანხმება"
 
 #: ../src/wbc-gtk-actions.c:3773 ../src/wbc-gtk-actions.c:3774
 msgid "Vertical Alignment"
-msgstr ""
+msgstr "ვერტიკალური სწორება"
 
 #: ../src/wbc-gtk-actions.c:3812
 msgid "Set Foreground Color"
@@ -16937,7 +16937,7 @@ msgstr "წინა პლანი"
 #. Set background to NONE
 #: ../src/wbc-gtk-actions.c:3862
 msgid "Set Background Color"
-msgstr ""
+msgstr "ფონის ფერის დაყენება"
 
 #: ../src/wbc-gtk-actions.c:3885
 msgid "Clear Borders"
@@ -17006,7 +17006,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:4418
 msgid "Change font"
-msgstr ""
+msgstr "ფონტის შეცვლა"
 
 #: ../src/wbc-gtk-edit.c:866
 #, c-format
@@ -17045,7 +17045,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:518
 msgid "Append"
-msgstr ""
+msgstr "მიმატება"
 
 #: ../src/wbc-gtk.c:519
 msgid "Duplicate"
@@ -17251,7 +17251,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:3688
 msgid "Format Toolbar"
-msgstr ""
+msgstr "ფორმატირების ზოლი"
 
 #: ../src/wbc-gtk.c:3689
 msgid "Object Toolbar"
@@ -17286,7 +17286,7 @@ msgstr "%s-ის გახსნა"
 
 #: ../src/widgets/gnm-filter-combo-view.c:167
 msgid "(All)"
-msgstr ""
+msgstr "(ყველა)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:172
 msgid "(Top 10...)"
@@ -17776,7 +17776,7 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.Financial.desert.xml.in.h:1
 msgid "Desert"
-msgstr ""
+msgstr "უდაბნო"
 
 #: ../templates/autoformat/autoformat.Financial.desert.xml.in.h:2
 msgid "Desert colored financial template"
@@ -17784,7 +17784,7 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.Financial.ice.xml.in.h:1
 msgid "Ice"
-msgstr ""
+msgstr "ყინული"
 
 #: ../templates/autoformat/autoformat.Financial.ice.xml.in.h:2
 msgid "Financial style with cold border color"
@@ -17792,7 +17792,7 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.Financial.modern.xml.in.h:1
 msgid "Modern"
-msgstr ""
+msgstr "თანამედროვე"
 
 #: ../templates/autoformat/autoformat.Financial.modern.xml.in.h:2
 msgid "Modern style with financial formatting"
