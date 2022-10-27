@@ -918,7 +918,7 @@ if test "x$python_msg" = xyes; then
 	if test "x$with_native_win32" = xyes ; then
 	    PY_INCLUDES="-I$PY_PREFIX/include"
 	else
-	    PY_INCLUDES=`$PYTHON -c 'import sys ; import distutils.sysconfig ; sys.stdout.write("-I" + distutils.sysconfig.get_python_inc()) ; sys.stdout.write(" -I" + distutils.sysconfig.get_python_inc(plat_specific=True))'`
+	    PY_INCLUDES=`$PYTHON-config --includes`
 	fi
     else
 	PY_INCLUDES="-I$PY_INCLUDE_DIR"
@@ -949,15 +949,18 @@ if test "x$python_msg" = xyes; then
     if test "x$PY_LIB_DIR" = x; then
 	if test "x$with_native_win32" = xyes ; then
 	    PY_LIB_DIR="$PY_PREFIX/libs"
+	    PY_LIBS="-L$PY_LIB_DIR"
 	    PY_DASHLPYTHON=FIXME
 	else
-	    PY_LIB_DIR=`$PYTHON -c 'import sys ; import distutils.sysconfig ; sys.stdout.write(distutils.sysconfig.get_config_var("LIBPL"))'`
-	    PY_DASHLPYTHON=`$PYTHON -c 'import sys ; import distutils.sysconfig ; sys.stdout.write(distutils.sysconfig.get_config_var("BLDLIBRARY"))'`
+	    PY_LIBS=`$PYTHON-config --ldflags`
+	    PY_DASHLPYTHON=`$PYTHON -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"), end="");'`
 	fi
+    else
+	PY_LIBS="-L$PY_LIB_DIR"
     fi
 
     GNM_PY_CFLAGS="$PY_INCLUDES $PYGOBJECT_CFLAGS"
-    GNM_PY_LDFLAGS="-L$PY_LIB_DIR $PY_DASHLPYTHON $PYGOBJECT_LIBS"
+    GNM_PY_LDFLAGS="$PY_LIBS $PY_DASHLPYTHON $PYGOBJECT_LIBS"
     python_msg="yes (using $PYTHON)"
 elif test "x$with_python" = "xyes"; then
 		AC_MSG_ERROR([$python_msg])
