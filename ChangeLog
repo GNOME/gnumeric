@@ -1,3 +1,11 @@
+2022-10-29  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-conditions.c (update_group): Fix problem during sheet
+	finalize.
+
+	* src/sheet.c (sheet_destroy_contents): Set cell_hash to NULL
+	after we free it for easier debug.
+
 2022-10-08  Morten Welinder  <terra@gnome.org>
 
 	* src/libgnumeric.c (gnm_pre_parse_init): Use basename of argv[0],

@@ -4943,6 +4943,7 @@ sheet_destroy_contents (Sheet *sheet)
 	/* Remove all the cells */
 	sheet_cell_foreach (sheet, (GHFunc) &cb_remove_allcells, NULL);
 	g_hash_table_destroy (sheet->cell_hash);
+	sheet->cell_hash = NULL;
 
 	/* Delete in ascending order to avoid decrementing max_used each time */
 	for (i = 0; i <= sheet->cols.max_used; ++i)

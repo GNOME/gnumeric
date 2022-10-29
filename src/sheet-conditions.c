@@ -711,6 +711,10 @@ update_group (CSGroup *g)
 		return;
 	}
 
+	// If we are finalizing the sheet, just get out.
+	if (g->dep.base.sheet->deps == NULL)
+		return;
+
 	pos = &g_array_index (g->ranges, GnmRange, 0).start;
 	gnm_style_conditions_set_pos (g->conds, pos);
 
