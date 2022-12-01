@@ -1,3 +1,11 @@
+2022-12-01  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (value_get_as_gstring): When rendering shortest,
+	round-away-from-zero, not to-even.
+
+	* src/complex.c (gnm_complex_to_string): Round
+	away-away-from-zero.
+
 2022-10-29  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-conditions.c (update_group): Fix problem during sheet

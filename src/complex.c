@@ -27,7 +27,7 @@ gnm_complex_to_string (gnm_complex const *src, char imunit)
 	have_real = src->re != 0 || src->im == 0;
 	if (have_real) {
 		// We have an real part.
-		go_dtoa (res, "!" GNM_FORMAT_G, src->re);
+		go_dtoa (res, "!^" GNM_FORMAT_G, src->re);
 	}
 
 	if (src->im != 0) {
@@ -39,7 +39,7 @@ gnm_complex_to_string (gnm_complex const *src, char imunit)
 			g_string_append_c (res, '-');
 		} else {
 			size_t olen = res->len;
-			go_dtoa (res, "!" GNM_FORMAT_G, src->im);
+			go_dtoa (res, "!^" GNM_FORMAT_G, src->im);
 			if (have_real &&
 			    res->str[olen] != '-' && res->str[olen] != '+')
 				g_string_insert_c (res, olen,

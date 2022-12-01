@@ -8,6 +8,7 @@ Morten:
 	* New function ENCODEURL.  [#658]
 	* New libpython configuration.  [#680]
 	* Fix problem relating to sheet remove and conditional format.
+	* Fix inconsistent rounding of half-way cases.  [#638]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.53
