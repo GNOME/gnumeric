@@ -1956,6 +1956,7 @@ xlsx_set_paper_from_code (GnmPrintInformation *pi, int code)
 		GtkPaperSize *ps = gtk_paper_size_new (paper[code].name);
 		if (ps != NULL) {
 			gtk_page_setup_set_paper_size (pi->page_setup, ps);
+			gtk_paper_size_free (ps);
 			return TRUE;
 		}
 	}
@@ -1963,6 +1964,7 @@ xlsx_set_paper_from_code (GnmPrintInformation *pi, int code)
 		GtkPaperSize *ps = xlsx_paper_size (paper[code].width, paper[code].height, paper[code].unit, code);
 		if (ps != NULL) {
 			gtk_page_setup_set_paper_size (pi->page_setup, ps);
+			gtk_paper_size_free (ps);
 			return TRUE;
 		}
 	}
@@ -2058,9 +2060,11 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 		? (int)first_page
 		: -1;
 
-	if (!xlsx_set_paper_from_code (pi, paper_code) && width > 0.0 && height > 0.0)
-		gtk_page_setup_set_paper_size (pi->page_setup,
-					       xlsx_paper_size (width, height, GTK_UNIT_POINTS, 0));
+	if (!xlsx_set_paper_from_code (pi, paper_code) && width > 0.0 && height > 0.0) {
+		GtkPaperSize *ps = xlsx_paper_size (width, height, GTK_UNIT_POINTS, 0);
+		gtk_page_setup_set_paper_size (pi->page_setup, ps);
+		gtk_paper_size_free (ps);
+	}
 	if (orient_set)
 		print_info_set_paper_orientation (pi, orient);
 }
