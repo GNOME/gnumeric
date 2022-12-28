@@ -5,13 +5,16 @@ use strict;
 my $verbose = 1;
 my $program = undef;
 my @cmd = ();
+my $has_pid;
 
 my $topsrc = &find_topsrc ();
 
 for (my $i = 0; $i < @ARGV;) {
     my $a = $ARGV[$i++];
 
-    if ($a !~ /^-/) {
+    if ($a =~ /^-/) {
+	$has_pid = 1 if $a =~ /^--pid=/;
+    } else {
 	if (!-x $a) {
 	    die "$0: failed to understand command line.\n";
 	}
@@ -28,7 +31,7 @@ die "$0: usage $0 [gdb options] gnumeric [gnumeric-options]\n"
 #&add_debug_flag ('G_SLICE', 'always-malloc');
 
 push @cmd, 'gdb';
-push @cmd, "--args";
+push @cmd, "--args" unless $has_pid;
 push @cmd, @ARGV;
 
 print STDERR "Executing ", join (' ', map { &quotearg ($_) } @cmd), "\n" if $verbose;
