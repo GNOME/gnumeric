@@ -661,12 +661,16 @@ gnm_pane_focus_out (GtkWidget *widget, GdkEventFocus *event)
 static void
 gnm_pane_realize (GtkWidget *w)
 {
+	GnmPane *pane = GNM_PANE (w);
+
 	if (GTK_WIDGET_CLASS (parent_klass)->realize)
 		(*GTK_WIDGET_CLASS (parent_klass)->realize) (w);
 
 	gtk_im_context_set_client_window
-		(GNM_PANE (w)->im_context,
+		(pane->im_context,
 		 gtk_widget_get_window (gtk_widget_get_toplevel (w)));
+
+	g_hash_table_remove_all (pane->object_style);
 }
 
 static void
@@ -898,7 +902,19 @@ gnm_pane_dispose (GObject *obj)
 	pane->size_guide.start = NULL;
 	pane->size_guide.points = NULL;
 
+	if (pane->object_style) {
+		g_hash_table_destroy (pane->object_style);
+		pane->object_style = NULL;
+	}
+
 	G_OBJECT_CLASS (parent_klass)->dispose (obj);
+}
+
+static void
+cb_unset_free (GValue *value)
+{
+	g_value_unset (value);
+	g_free (value);
 }
 
 static void
@@ -939,6 +955,10 @@ gnm_pane_init (GnmPane *pane)
 	pane->preedit_length = 0;
 	pane->preedit_attrs    = NULL;
 	pane->im_preedit_started = FALSE;
+
+	pane->object_style = g_hash_table_new_full
+		(g_str_hash, g_str_equal,
+		 g_free, (GDestroyNotify)cb_unset_free);
 
 	gtk_widget_set_can_focus (GTK_WIDGET (canvas), TRUE);
 	gtk_widget_set_can_default (GTK_WIDGET (canvas), TRUE);

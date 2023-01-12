@@ -66,19 +66,45 @@ comment_view_reload_style (CommentView *cv)
 {
 	GocItem *item = GOC_ITEM (cv);
 	GnmPane *pane = GNM_PANE (item->canvas);
-	GtkStyleContext *context;
+	GValue *v;
+	const char *name;
 
-	context = goc_item_get_style_context (item);
-	gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
-				     &cv->comment_indicator_color);
-	gnm_css_debug_color ("comment-indicator.color", &cv->comment_indicator_color);
+	name = "comment-indicator.color";
+	v = g_hash_table_lookup (pane->object_style, name);
+	if (v == NULL) {
+		GtkStyleContext *context;
+		GdkRGBA color;
 
-	context = gtk_widget_get_style_context (GTK_WIDGET (pane));
-	gtk_widget_style_get (GTK_WIDGET (pane),
-			      "comment-indicator-size",
-			      &cv->comment_indicator_size,
-			      NULL);
-	gnm_css_debug_int ("comment-indicator.size", cv->comment_indicator_size);
+		context = goc_item_get_style_context (item);
+		gnm_style_context_get_color (context, GTK_STATE_FLAG_NORMAL,
+					     &color);
+		gnm_css_debug_color ("comment-indicator.color", &color);
+
+		v = g_new0 (GValue, 1);
+		g_value_init (v, GDK_TYPE_RGBA);
+		g_value_set_boxed (v, &color);
+		g_hash_table_insert (pane->object_style, g_strdup (name), v);
+	}
+	cv->comment_indicator_color = *(GdkRGBA const *)g_value_get_boxed (v);
+
+
+	name = "comment-indicator.size";
+	v = g_hash_table_lookup (pane->object_style, name);
+	if (v == NULL) {
+		int size;
+
+		gtk_widget_style_get (GTK_WIDGET (pane),
+				      "comment-indicator-size",
+				      &size,
+				      NULL);
+		gnm_css_debug_int ("comment-indicator.size", size);
+
+		v = g_new0 (GValue, 1);
+		g_value_init (v, G_TYPE_INT);
+		g_value_set_int (v, size);
+		g_hash_table_insert (pane->object_style, g_strdup (name), v);
+	}
+	cv->comment_indicator_size = g_value_get_int (v);
 }
 
 static void
