@@ -3951,8 +3951,8 @@ scg_freeze_object_view (SheetControl *sc, gboolean freeze)
 {
 	SCG_FOREACH_PANE
 		(GNM_SCG(sc), pane,
-		 GocGroup *g = pane->object_views;
-		 goc_group_freeze (g, freeze););
+		 goc_group_freeze (pane->object_views, freeze);
+		 goc_group_freeze (pane->grid_items, freeze););
 }
 
 static void
