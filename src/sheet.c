@@ -2187,7 +2187,7 @@ sheet_update (Sheet const *sheet)
  * @col:    the cell column
  * @row:    the cell row
  *
- * Return value: (nullable): a #GnmCell, or %NULL if the cell does not exist
+ * Returns: (nullable): a #GnmCell, or %NULL if the cell does not exist
  **/
 GnmCell *
 sheet_cell_get (Sheet const *sheet, int col, int row)
@@ -2210,7 +2210,7 @@ sheet_cell_get (Sheet const *sheet, int col, int row)
  * @col:    the cell column
  * @row:    the cell row
  *
- * Return value: a #GnmCell containing at (@col,@row).
+ * Returns: a #GnmCell containing at (@col,@row).
  * If no cell existed at that location before, it is created.
  **/
 GnmCell *
@@ -2404,7 +2404,7 @@ cb_sheet_get_extent (G_GNUC_UNUSED gpointer ignored, gpointer value, gpointer da
  * NOTE: This refers to *visible* contents.  Cells with empty values, including
  * formulas with such values, are *ignored.
  *
- * Return value: the range.
+ * Returns: the range.
  **/
 GnmRange
 sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend, gboolean include_hidden)
@@ -2456,7 +2456,7 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend, gboolean
  *
  * Calculates the area occupied by cells, including empty cells.
  *
- * Return value: the range.
+ * Returns: the range.
  **/
 GnmRange
 sheet_get_cells_extent (Sheet const *sheet)
@@ -5808,14 +5808,74 @@ sheet_colrow_default_calc (Sheet *sheet, double units,
 	}
 }
 
-/************************************************************************/
-/* Col width support routines.
+/**
+ * sheet_colrow_get_distance_pixels:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ * @sheet: The sheet
+ * @from: Starting column/row
+ * @to: Ending column/row, not inclusive
+ *
+ * Returns: the number of pixels between columns/rows @from and @to
+ * measured from the upper left corner.
  */
+gint64
+sheet_colrow_get_distance_pixels (Sheet const *sheet, gboolean is_cols,
+				  int from, int to)
+{
+	ColRowCollection const *collection;
+	int sign = 1;
+	gint64 pixels = 0, dflt;
+	int i;
+
+	g_return_val_if_fail (IS_SHEET (sheet), 1);
+
+	if (from > to) {
+		int const tmp = to;
+		to = from;
+		from = tmp;
+		sign = -1;
+	}
+
+	g_return_val_if_fail (from >= 0, 1);
+	g_return_val_if_fail (to <= colrow_max (is_cols, sheet), 1);
+
+	collection = is_cols ? &sheet->cols : &sheet->rows;
+
+	// Do not use sheet_colrow_foreach, it ignores empties
+	dflt = collection->default_style.size_pixels;
+	for (i = from ; i < to ; ++i) {
+		ColRowSegment const *segment =
+			COLROW_GET_SEGMENT(collection, i);
+
+		if (segment != NULL) {
+			ColRowInfo const *cri = segment->info[COLROW_SUB_INDEX (i)];
+			if (cri == NULL)
+				pixels += dflt;
+			else if (cri->visible)
+				pixels += cri->size_pixels;
+		} else {
+			int segment_end = COLROW_SEGMENT_END (i) + 1;
+			if (segment_end > to)
+				segment_end = to;
+			pixels += dflt * (segment_end - i);
+			i = segment_end - 1;
+		}
+	}
+
+	return pixels * sign;
+}
+
+/************************************************************************/
+// Col width support routines.
+
 
 /**
  * sheet_col_get_distance_pts:
+ * @sheet: The sheet
+ * @from: Starting column
+ * @to: Ending column, not inclusive
  *
- * Return the number of points between from_col to to_col
+ * Returns: the number of points between columns @from and @to
  * measured from the upper left corner.
  */
 double
@@ -5854,46 +5914,24 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 
 /**
  * sheet_col_get_distance_pixels:
+ * @sheet: The sheet
+ * @from: Starting column
+ * @to: Ending column, not inclusive
  *
- * Return the number of pixels between from_col to to_col
+ * Returns: the number of pixels between columns @from and @to
  * measured from the upper left corner.
  */
-int
+gint64
 sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
 {
-	ColRowInfo const *ci;
-	int dflt, pixels = 0, sign = 1;
-	int i;
-
-	g_return_val_if_fail (IS_SHEET (sheet), 1.);
-
-	if (from > to) {
-		int const tmp = to;
-		to = from;
-		from = tmp;
-		sign = -1;
-	}
-
-	g_return_val_if_fail (from >= 0, 1);
-	g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sheet), 1);
-
-	/* Do not use sheet_colrow_foreach, it ignores empties */
-	dflt = sheet_col_get_default_size_pixels (sheet);
-	for (i = from ; i < to ; ++i) {
-		if (NULL == (ci = sheet_col_get (sheet, i)))
-			pixels += dflt;
-		else if (ci->visible)
-			pixels += ci->size_pixels;
-	}
-
-	return pixels * sign;
+	return sheet_colrow_get_distance_pixels (sheet, TRUE, from, to);
 }
 
 /**
  * sheet_col_set_size_pts:
- * @sheet:	 The sheet
- * @col:	 The col
- * @width_pts:	 The desired width in pts
+ * @sheet: The sheet
+ * @col: The col
+ * @width_pts: The desired width in pts
  * @set_by_user: %TRUE if this was done by a user (ie, user manually
  *               set the width)
  *
@@ -5949,8 +5987,9 @@ sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 
 /**
  * sheet_col_get_default_size_pts:
+ * @sheet: The sheet
  *
- * Return the default number of pts in a column, including margins.
+ * Returns: the default number of pts in a column, including margins.
  * This function returns the raw sum, no rounding etc.
  */
 double
@@ -5990,13 +6029,16 @@ sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
 }
 
 /**************************************************************************/
-/* Row height support routines
- */
+// Row height support routines
+
 
 /**
  * sheet_row_get_distance_pts:
+ * @sheet: The sheet
+ * @from: Starting row
+ * @to: Ending row, not inclusive
  *
- * Return the number of points between from_row to to_row
+ * Return: the number of points between rows @from and @to
  * measured from the upper left corner.
  */
 double
@@ -6047,39 +6089,17 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 
 /**
  * sheet_row_get_distance_pixels:
+ * @sheet: The sheet
+ * @from: Starting row
+ * @to: Ending row, not inclusive
  *
- * Return the number of pixels between from_row to to_row
+ * Return: the number of pixels between rows @from and @to
  * measured from the upper left corner.
  */
-int
+gint64
 sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
 {
-	ColRowInfo const *ci;
-	int dflt, pixels = 0, sign = 1;
-	int i;
-
-	g_return_val_if_fail (IS_SHEET (sheet), 1.);
-
-	if (from > to) {
-		int const tmp = to;
-		to = from;
-		from = tmp;
-		sign = -1;
-	}
-
-	g_return_val_if_fail (from >= 0, 1);
-	g_return_val_if_fail (to <= gnm_sheet_get_max_rows (sheet), 1);
-
-	/* Do not use sheet_colrow_foreach, it ignores empties */
-	dflt =  sheet_row_get_default_size_pixels (sheet);
-	for (i = from ; i < to ; ++i) {
-		if (NULL == (ci = sheet_row_get (sheet, i)))
-			pixels += dflt;
-		else if (ci->visible)
-			pixels += ci->size_pixels;
-	}
-
-	return pixels * sign;
+	return sheet_colrow_get_distance_pixels (sheet, FALSE, from, to);
 }
 
 /**
@@ -6151,8 +6171,9 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
 
 /**
  * sheet_row_get_default_size_pts:
+ * @sheet: The sheet
  *
- * Return the default number of units in a row, including margins.
+ * Return: the default number of units in a row, including margins.
  * This function returns the raw sum, no rounding etc.
  */
 double
@@ -6375,7 +6396,8 @@ sheet_dup_filters (Sheet const *src, Sheet *dst)
  * sheet_dup:
  * @source_sheet: #Sheet
  *
- * Create a new Sheet and return it.
+ * Create a duplicate sheet.
+ *
  * Returns: (transfer full): the newly allocated #Sheet.
  **/
 Sheet *
@@ -6466,7 +6488,7 @@ sheet_set_outline_direction (Sheet *sheet, gboolean is_cols)
 
 /**
  * sheet_get_view:
- * @sheet:
+ * @sheet: The sheet
  * @wbv:
  *
  * Find the SheetView corresponding to the supplied @wbv.
@@ -6496,7 +6518,7 @@ cb_queue_respan (GnmColRowIter const *iter, void *user_data)
 
 /**
  * sheet_queue_respan:
- * @sheet:
+ * @sheet: The sheet
  * @start_row:
  * @end_row:
  *
@@ -6520,7 +6542,7 @@ sheet_cell_queue_respan (GnmCell *cell)
 
 /**
  * sheet_get_comment:
- * @sheet: #Sheet const *
+ * @sheet: The sheet
  * @pos: #GnmCellPos const *
  *
  * If there is a cell comment at @pos in @sheet return it.
@@ -6707,11 +6729,13 @@ gnm_sheet_get_size (Sheet const *sheet)
 
 /**
  * gnm_sheet_get_size2:
- * @sheet: #Sheet, might be %NULL
- * @wb: #Workbook, must be non %NULL if @sheet is %NULL
+ * @sheet: (nullable): The sheet
+ * @wb: (nullable): workbook.
  *
- * Returns: (transfer none): the sheet size if @sheet is non %NULL, or the
- * default sheet size for @wb.
+ * Determines the sheet size, either of @sheet if that is non-%NULL or
+ * of @wb's default sheet.  One of @sheet and @wb must be non-%NULL.
+ *
+ * Returns: (transfer none): the sheet size.
  **/
 GnmSheetSize const *
 gnm_sheet_get_size2 (Sheet const *sheet, Workbook const *wb)
@@ -6795,7 +6819,7 @@ gnm_sheet_scenario_new (Sheet *sheet, const char *name)
  * @sheet: #Sheet
  * @name: the scenario name.
  *
- * Returns: (transfer none): the newly created #GnmScenario.
+ * Returns: (transfer none) (nullable): the found scenario, or %NULL.
  **/
 GnmScenario *
 gnm_sheet_scenario_find (Sheet *sheet, const char *name)
@@ -6875,7 +6899,7 @@ gnm_sheet_add_sort_setup (Sheet *sheet, char *key, gpointer setup)
  * @sheet: #Sheet
  * @key:
  *
- * Returns: (transfer none): the found sort setup or %NULL.
+ * Returns: (transfer none) (nullable): the found sort setup or %NULL.
  **/
 gconstpointer
 gnm_sheet_find_sort_setup (Sheet *sheet, char const *key)

@@ -244,9 +244,13 @@ gboolean          sheet_colrow_foreach	   (Sheet const *sheet,
  *
  * _default == The size of all cols/rows that do not have explicit sizes.
  */
+
+gint64  sheet_colrow_get_distance_pixels (Sheet const *sheet, gboolean is_cols,
+					  int from, int to);
+
 /* Col width */
-double  sheet_col_get_distance_pts	  (Sheet const *sheet, int from_col, int to_col);
-int     sheet_col_get_distance_pixels     (Sheet const *sheet, int from_col, int to_col);
+double  sheet_col_get_distance_pts	  (Sheet const *sheet, int from, int to);
+gint64  sheet_col_get_distance_pixels     (Sheet const *sheet, int from, int to);
 void    sheet_col_set_size_pts		  (Sheet *sheet, int col, double width_pts,
 					   gboolean set_by_user);
 void    sheet_col_set_size_pixels	  (Sheet *sheet, int col, int width_pixels,
@@ -257,8 +261,8 @@ void    sheet_col_set_default_size_pts	  (Sheet *sheet, double width_pts);
 void    sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels);
 
 /* Row height */
-double  sheet_row_get_distance_pts	  (Sheet const *sheet, int from_row, int to_row);
-int     sheet_row_get_distance_pixels     (Sheet const *sheet, int from, int to);
+double  sheet_row_get_distance_pts	  (Sheet const *sheet, int from, int to);
+gint64  sheet_row_get_distance_pixels     (Sheet const *sheet, int from, int to);
 void    sheet_row_set_size_pts		  (Sheet *sheet, int row, double height_pts,
 					   gboolean set_by_user);
 void    sheet_row_set_size_pixels	  (Sheet *sheet, int row, int height_pixels,

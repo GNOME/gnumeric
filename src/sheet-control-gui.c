@@ -3343,56 +3343,7 @@ scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 			 int from, int to)
 {
 	Sheet *sheet = scg_sheet (scg);
-	ColRowCollection const *collection;
-	int default_size;
-	int i;
-	gint64 pixels = 0;
-	int sign = 1;
-
-	g_return_val_if_fail (GNM_IS_SCG (scg), 1);
-
-	if (from > to) {
-		int const tmp = to;
-		to = from;
-		from = tmp;
-		sign = -1;
-	}
-
-	g_return_val_if_fail (from >= 0, 1);
-
-	if (is_cols) {
-		g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sheet), 1);
-		collection = &sheet->cols;
-	} else {
-		g_return_val_if_fail (to <= gnm_sheet_get_max_rows (sheet), 1);
-		collection = &sheet->rows;
-	}
-
-	/* Do not use col_row_foreach, it ignores empties.
-	 * Optimize this so that long jumps are not quite so horrific
-	 * for performance.
-	 */
-	default_size = collection->default_style.size_pixels;
-	for (i = from ; i < to ; ++i) {
-		ColRowSegment const *segment =
-			COLROW_GET_SEGMENT(collection, i);
-
-		if (segment != NULL) {
-			ColRowInfo const *cri = segment->info[COLROW_SUB_INDEX (i)];
-			if (cri == NULL)
-				pixels += default_size;
-			else if (cri->visible)
-				pixels += cri->size_pixels;
-		} else {
-			int segment_end = COLROW_SEGMENT_END (i)+1;
-			if (segment_end > to)
-				segment_end = to;
-			pixels += default_size * (segment_end - i);
-			i = segment_end - 1;
-		}
-	}
-
-	return pixels*sign;
+	return sheet_colrow_get_distance_pixels (sheet, is_cols, from, to);
 }
 
 /*************************************************************************/
