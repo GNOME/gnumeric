@@ -1388,17 +1388,15 @@ xml_sax_colrow (GsfXMLIn *xin, xmlChar const **attrs)
 		sheet_col_set_size_pts (state->sheet, pos, size, cri->hard_size);
 		if (state->sheet->cols.max_outline_level < cri->outline_level)
 			state->sheet->cols.max_outline_level = cri->outline_level;
-		/* resize flags are already set only need to copy the sizes */
-		while (--count > 0)
-			col_row_info_copy (sheet_col_fetch (state->sheet, ++pos), cri);
 	} else {
 		sheet_row_set_size_pts (state->sheet, pos, size, cri->hard_size);
 		if (state->sheet->rows.max_outline_level < cri->outline_level)
 			state->sheet->rows.max_outline_level = cri->outline_level;
-		/* resize flags are already set only need to copy the sizes */
-		while (--count > 0)
-			col_row_info_copy (sheet_row_fetch (state->sheet, ++pos), cri);
 	}
+
+	// resize flags are already set only need to copy the sizes
+	while (--count > 0)
+		sheet_colrow_copy_info (state->sheet, ++pos, is_col, cri);
 }
 
 static void

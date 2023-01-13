@@ -41,8 +41,9 @@ GType col_row_info_get_type (void);
 
 struct _ColRowSegment {
 	ColRowInfo *info [COLROW_SEGMENT_SIZE];
-	double	size_pts;
-	int	size_pixels;
+	// These aren't acutally used (or updated) at the moment
+	double	Xsize_pts;
+	int	Xsize_pixels;
 };
 typedef struct _ColRowState {
 	double    size_pts;
@@ -70,7 +71,6 @@ void	colrow_compute_pts_from_pixels (ColRowInfo *cri, Sheet const *sheet,
 gboolean col_row_info_is_default (ColRowInfo const *cri);
 gboolean col_row_info_is_empty   (ColRowInfo const *cri);
 gboolean col_row_info_equal	   (ColRowInfo const *a, ColRowInfo const *b);
-void     col_row_info_copy	   (ColRowInfo *dst, ColRowInfo const *src);
 ColRowInfo *col_row_info_new (void);
 void colrow_free (ColRowInfo *cri);
 

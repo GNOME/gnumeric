@@ -223,6 +223,9 @@ ColRowInfo const *sheet_row_get_info	  (Sheet const *sheet, int row);
 ColRowInfo const *sheet_colrow_get_info	  (Sheet const *sheet,
 					   int colrow, gboolean is_cols);
 
+void sheet_colrow_copy_info               (Sheet *sheet, int colrow,
+					   gboolean is_cols, ColRowInfo const *cri);
+
 gboolean          sheet_colrow_foreach	   (Sheet const *sheet,
 					    gboolean is_cols,
 					    int first, int last,

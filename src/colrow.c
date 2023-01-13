@@ -161,24 +161,6 @@ col_row_info_equal (ColRowInfo const *a, ColRowInfo const *b)
 		a->visible	 == b->visible;
 }
 
-/**
- * col_row_info_copy:
- * @dst: Destination #ColRowInfo
- * @src: Source #ColRowInfo
- *
- * Copy all content, except the position of @src to @dst.
- */
-void
-col_row_info_copy (ColRowInfo *dst, ColRowInfo const *src)
-{
-	dst->size_pts      = src->size_pts;
-	dst->size_pixels   = src->size_pixels;
-	dst->outline_level = src->outline_level;
-	dst->is_collapsed  = src->is_collapsed;
-	dst->hard_size     = src->hard_size;
-	dst->visible       = src->visible;
-}
-
 ColRowInfo *
 col_row_info_new (void)
 {

@@ -3157,8 +3157,8 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 /**
  * sheet_cell_set_text_gi: (rename-to sheet_cell_set_text)
  * @sheet: #Sheet
- * @col: column number
- * @row: row number
+ * @col: Column number
+ * @row: Row number
  * @str: the text to set.
  *
  * Sets the contents of a cell.
@@ -3218,8 +3218,8 @@ sheet_cell_set_value (GnmCell *cell, GnmValue *v)
 /**
  * sheet_cell_set_value_gi: (rename-to sheet_cell_set_value)
  * @sheet: #Sheet
- * @col: column number
- * @row: row number
+ * @col: Column number
+ * @row: Row number
  * @v: #GnmValue
  *
  * Set the value of the cell at (@col,@row) to @v.
@@ -3990,7 +3990,8 @@ sheet_colrow_optimize (Sheet *sheet)
 
 /**
  * sheet_col_get:
- * @col: column number
+ * @sheet: The sheet to query
+ * @col: Column number
  *
  * Returns: (transfer none) (nullable): A #ColRowInfo for the column, or %NULL
  * if none has been allocated yet.
@@ -4012,7 +4013,8 @@ sheet_col_get (Sheet const *sheet, int col)
 
 /**
  * sheet_row_get:
- * @row: row number
+ * @sheet: The sheet to query
+ * @row: Row number
  *
  * Returns: (transfer none) (nullable): A #ColRowInfo for the row, or %NULL
  * if none has been allocated yet.
@@ -4035,14 +4037,15 @@ sheet_row_get (Sheet const *sheet, int row)
 ColRowInfo *
 sheet_colrow_get (Sheet const *sheet, int colrow, gboolean is_cols)
 {
-	if (is_cols)
-		return sheet_col_get (sheet, colrow);
-	return sheet_row_get (sheet, colrow);
+	return is_cols
+		? sheet_col_get (sheet, colrow)
+		: sheet_row_get (sheet, colrow);
 }
 
 /**
  * sheet_col_fetch:
- * @col: column number
+ * @sheet: The sheet to query
+ * @col: Column number
  *
  * Returns: (transfer none): The #ColRowInfo for column @col.  This result
  * will not be the default #ColRowInfo and may be changed.
@@ -4058,7 +4061,8 @@ sheet_col_fetch (Sheet *sheet, int pos)
 
 /**
  * sheet_row_fetch:
- * @row: row number
+ * @sheet: The sheet to query
+ * @row: Row number
  *
  * Returns: (transfer none): The #ColRowInfo for row @row.  This result
  * will not be the default #ColRowInfo and may be changed.
@@ -4075,16 +4079,17 @@ sheet_row_fetch (Sheet *sheet, int pos)
 ColRowInfo *
 sheet_colrow_fetch (Sheet *sheet, int colrow, gboolean is_cols)
 {
-	if (is_cols)
-		return sheet_col_fetch (sheet, colrow);
-	return sheet_row_fetch (sheet, colrow);
+	return is_cols
+		? sheet_col_fetch (sheet, colrow)
+		: sheet_row_fetch (sheet, colrow);
 }
 
 /**
  * sheet_col_get_info:
- * @col: column number
+ * @sheet: The sheet to query
+ * @col: Column number
  *
- * Returns: (transfer none): The #ColRowInfo for column @col.  The may be
+ * Returns: (transfer none): The #ColRowInfo for column @col.  This may be
  * the default #ColRowInfo for columns and should not be changed.
  */
 ColRowInfo const *
@@ -4099,9 +4104,10 @@ sheet_col_get_info (Sheet const *sheet, int col)
 
 /**
  * sheet_row_get_info:
+ * @sheet: The sheet to query
  * @row: column number
  *
- * Returns: (transfer none): The #ColRowInfo for row @row.  The may be
+ * Returns: (transfer none): The #ColRowInfo for row @row.  This may be
  * the default #ColRowInfo for rows and should not be changed.
  */
 ColRowInfo const *
@@ -4121,6 +4127,21 @@ sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
 		? sheet_col_get_info (sheet, colrow)
 		: sheet_row_get_info (sheet, colrow);
 }
+
+void
+sheet_colrow_copy_info (Sheet *sheet, int colrow, gboolean is_cols,
+			ColRowInfo const *cri)
+{
+	ColRowInfo *dst = sheet_colrow_fetch (sheet, colrow, is_cols);
+
+	dst->size_pts      = cri->size_pts;
+	dst->size_pixels   = cri->size_pixels;
+	dst->outline_level = cri->outline_level;
+	dst->is_collapsed  = cri->is_collapsed;
+	dst->hard_size     = cri->hard_size;
+	dst->visible       = cri->visible;
+}
+
 
 /**
  * sheet_colrow_foreach:
@@ -6232,9 +6253,8 @@ static gboolean
 sheet_clone_colrow_info_item (GnmColRowIter const *iter, void *user_data)
 {
 	closure_clone_colrow const *closure = user_data;
-	ColRowInfo *new_colrow = sheet_colrow_fetch (closure->sheet,
-		iter->pos, closure->is_column);
-	col_row_info_copy (new_colrow, iter->cri);
+	sheet_colrow_copy_info (closure->sheet, iter->pos, closure->is_column,
+				iter->cri);
 	return FALSE;
 }
 
