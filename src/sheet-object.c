@@ -547,9 +547,17 @@ cb_create_views (void)
 	int pass;
 
 	for (pass = 1; pass <= 3; pass++) {
+		Sheet const *last_sheet = NULL;
 		unsigned ui, l = so_create_view_sos->len;
 		for (ui = 0; ui < l; ui++) {
 			SheetObject *so = g_ptr_array_index (so_create_view_sos, ui);
+			if (pass != 2 && so->sheet == last_sheet) {
+				// Avoid excessive duplicate freezes.  This is
+				// not essential, but helps with debugging.
+				continue;
+			}
+			last_sheet = so->sheet;
+			// g_printerr ("Pass %d, view #%d\n", pass, ui);
 			SHEET_FOREACH_CONTROL
 				(so->sheet, view, control,
 				 if (pass == 2)
