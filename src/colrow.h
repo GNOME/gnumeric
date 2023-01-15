@@ -36,14 +36,18 @@ GType col_row_info_get_type (void);
 #define COLROW_SEGMENT_START(i)	((i) & ~(0x7f))
 #define COLROW_SEGMENT_END(i)	((i) | 0x7f)
 #define COLROW_SEGMENT_INDEX(i)	((i) >> 7)
+#define COLROW_GET_SEGMENT_INDEX(seg_array, ix) \
+	(g_ptr_array_index ((seg_array)->info, ix))
 #define COLROW_GET_SEGMENT(seg_array, i) \
-	(g_ptr_array_index ((seg_array)->info, COLROW_SEGMENT_INDEX(i)))
+	COLROW_GET_SEGMENT_INDEX(seg_array, COLROW_SEGMENT_INDEX(i))
 
 struct _ColRowSegment {
 	ColRowInfo *info [COLROW_SEGMENT_SIZE];
-	// These aren't acutally used (or updated) at the moment
-	double	Xsize_pts;
-	int	Xsize_pixels;
+
+	// Pixel position of top left corner, i.e., sum of size_pixels for
+	// all visible columns/rows before.  This isn't always valid, see
+	// ColRowCollection.
+	gint64   pixel_start;
 };
 typedef struct _ColRowState {
 	double    size_pts;

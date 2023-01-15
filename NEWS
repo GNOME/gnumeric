@@ -10,7 +10,7 @@ Morten:
 	* Fix problem relating to sheet remove and conditional format.
 	* Fix inconsistent rounding of half-way cases.  [#638]
 	* Plus xlsx leaks.
-	* Cell comment speed-ups.
+	* Cell comment speed-ups.  [#692]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.53

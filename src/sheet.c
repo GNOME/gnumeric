@@ -4128,6 +4128,17 @@ sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
 		: sheet_row_get_info (sheet, colrow);
 }
 
+static void
+gnm_sheet_mark_colrow_changed (Sheet *sheet, int colrow, gboolean is_cols)
+{
+	ColRowCollection *infos = is_cols ? &sheet->cols : &sheet->rows;
+	int ix = COLROW_SEGMENT_INDEX (colrow);
+
+	// Mark anything from ix onwards as invalid
+	infos->last_valid_pixel_start =
+		MIN (infos->last_valid_pixel_start, ix - 1);
+}
+
 void
 sheet_colrow_copy_info (Sheet *sheet, int colrow, gboolean is_cols,
 			ColRowInfo const *cri)
@@ -4140,6 +4151,8 @@ sheet_colrow_copy_info (Sheet *sheet, int colrow, gboolean is_cols,
 	dst->is_collapsed  = cri->is_collapsed;
 	dst->hard_size     = cri->hard_size;
 	dst->visible       = cri->visible;
+
+	gnm_sheet_mark_colrow_changed (sheet, colrow, is_cols);
 }
 
 
@@ -5827,6 +5840,28 @@ sheet_colrow_default_calc (Sheet *sheet, double units,
 		cri->size_pixels = units;
 		colrow_compute_pts_from_pixels (cri, sheet, is_cols, -1);
 	}
+
+	gnm_sheet_mark_colrow_changed (sheet, 0, is_cols); // All, really
+}
+
+static gint64
+sheet_colrow_segment_pixels (ColRowCollection const *collection,
+			     int ix, int six0, int six1)
+{
+	ColRowSegment *segment = COLROW_GET_SEGMENT_INDEX (collection, ix);
+	gint64 pixels = 0;
+
+	if (segment == NULL)
+		return collection->default_style.size_pixels * (six1 - six0);
+
+	for (int i = six0; i < six1; i++) {
+		ColRowInfo const *cri = segment->info[i];
+		if (cri == NULL)
+			pixels += collection->default_style.size_pixels;
+		else if (cri->visible)
+			pixels += cri->size_pixels;
+	}
+	return pixels;
 }
 
 /**
@@ -5843,47 +5878,82 @@ gint64
 sheet_colrow_get_distance_pixels (Sheet const *sheet, gboolean is_cols,
 				  int from, int to)
 {
-	ColRowCollection const *collection;
-	int sign = 1;
-	gint64 pixels = 0, dflt;
-	int i;
+	ColRowCollection *collection;
+	int max, ix, ixv, ix0;
+	gint64 start, dflt;
 
 	g_return_val_if_fail (IS_SHEET (sheet), 1);
+	g_return_val_if_fail (from >= 0 && to >= 0, 1);
 
-	if (from > to) {
-		int const tmp = to;
-		to = from;
-		from = tmp;
-		sign = -1;
+	if (from >= to) {
+		if (from == to)
+			return 0;
+		return -sheet_colrow_get_distance_pixels
+			(sheet, is_cols, to, from);
 	}
 
-	g_return_val_if_fail (from >= 0, 1);
-	g_return_val_if_fail (to <= colrow_max (is_cols, sheet), 1);
-
-	collection = is_cols ? &sheet->cols : &sheet->rows;
-
-	// Do not use sheet_colrow_foreach, it ignores empties
+	collection = (ColRowCollection *)(is_cols ? &sheet->cols : &sheet->rows);
 	dflt = collection->default_style.size_pixels;
-	for (i = from ; i < to ; ++i) {
-		ColRowSegment const *segment =
-			COLROW_GET_SEGMENT(collection, i);
+	ix = COLROW_SEGMENT_INDEX (to);
 
-		if (segment != NULL) {
-			ColRowInfo const *cri = segment->info[COLROW_SUB_INDEX (i)];
-			if (cri == NULL)
-				pixels += dflt;
-			else if (cri->visible)
-				pixels += cri->size_pixels;
-		} else {
-			int segment_end = COLROW_SEGMENT_END (i) + 1;
-			if (segment_end > to)
-				segment_end = to;
-			pixels += dflt * (segment_end - i);
-			i = segment_end - 1;
+	if (ix == COLROW_SEGMENT_INDEX (from)) {
+		// Single-segment optimization.  Not essential.
+		return sheet_colrow_segment_pixels
+			(collection, ix,
+			 COLROW_SUB_INDEX (from), COLROW_SUB_INDEX (to));
+	}
+
+	if (from > 0)
+		return sheet_colrow_get_distance_pixels (sheet, is_cols, 0, to) -
+			sheet_colrow_get_distance_pixels (sheet, is_cols, 0, from);
+
+	max = colrow_max (is_cols, sheet);
+	if (to == max) {
+		int six = COLROW_SUB_INDEX (to - 1) + 1;
+		start = sheet_colrow_get_distance_pixels
+			(sheet, is_cols, 0, to - six);
+		start +=
+			sheet_colrow_segment_pixels
+			(collection, COLROW_SEGMENT_INDEX (to) - 1,
+			 0, six);
+		return start;
+	}
+
+	g_return_val_if_fail (to < max, 1);
+
+	// At this point, 0 <= from < to < max
+
+	// Find the highest ix0 for which we have a valid pixel_start,
+	// but no larger than ix
+	ix0 = ixv = MAX (0, MIN (ix, collection->last_valid_pixel_start));
+	while (ix0 > 0 && COLROW_GET_SEGMENT_INDEX (collection, ix0) == NULL)
+		ix0--;
+
+	// Find start and adjust for default segments
+	start = (ix0 == 0)
+		? 0
+		: (((ColRowSegment *)COLROW_GET_SEGMENT_INDEX (collection, ix0))
+		   ->pixel_start);
+	start += dflt * COLROW_SEGMENT_SIZE * (ixv - ix0);
+
+	while (ix > ixv) {
+		ColRowSegment *segment;
+		gint64 w = sheet_colrow_segment_pixels
+			(collection, ixv, 0, COLROW_SEGMENT_SIZE);
+
+		start += w;
+		ixv++;
+		segment = COLROW_GET_SEGMENT_INDEX (collection, ixv);
+		if (segment) {
+			segment->pixel_start = start;
+			collection->last_valid_pixel_start = ixv;
 		}
 	}
 
-	return pixels * sign;
+	start += sheet_colrow_segment_pixels
+		(collection, ix, 0, COLROW_SUB_INDEX (to));
+
+	return start;
 }
 
 /************************************************************************/
@@ -5999,6 +6069,7 @@ sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 
 	ci->size_pixels = width_pixels;
 	colrow_compute_pts_from_pixels (ci, sheet, TRUE, -1);
+	gnm_sheet_mark_colrow_changed (sheet, col, TRUE);
 
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
@@ -6184,6 +6255,7 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
 
 	ri->size_pixels = height_pixels;
 	colrow_compute_pts_from_pixels (ri, sheet, FALSE, -1);
+	gnm_sheet_mark_colrow_changed (sheet, row, FALSE);
 
 	sheet->priv->recompute_visibility = TRUE;
 	if (sheet->priv->reposition_objects.row > row)

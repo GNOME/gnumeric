@@ -20,6 +20,9 @@ struct _ColRowCollection {
 	ColRowInfo  default_style;
 	GPtrArray * info;
 	int	    max_outline_level;
+
+	// Index into @info of last ColRowSegment with valid pixel_start
+	int         last_valid_pixel_start;
 };
 
 typedef struct _SheetPrivate SheetPrivate;
