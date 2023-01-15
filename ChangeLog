@@ -1,3 +1,8 @@
+2023-01-15  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-pane.c (cb_pane_init_objs): Freeze panes while creating
+	views -- there might be a lot.
+
 2022-12-01  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (value_get_as_gstring): When rendering shortest,

@@ -419,6 +419,8 @@ GOUndo *sheet_clear_region_undo (GnmSheetRange *sr,
 
 SheetView *sheet_get_view (Sheet const *sheet, WorkbookView const *wbv);
 
+void sheet_freeze_object_views (Sheet const *sheet, gboolean qfreeze);
+
 GODateConventions const *sheet_date_conv (Sheet const *sheet);
 
 // Introspection support

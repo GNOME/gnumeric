@@ -6601,6 +6601,15 @@ sheet_get_view (Sheet const *sheet, WorkbookView const *wbv)
 	return NULL;
 }
 
+void
+sheet_freeze_object_views (Sheet const *sheet, gboolean qfreeze)
+{
+	SHEET_FOREACH_CONTROL
+		(sheet, view, control,
+		 sc_freeze_object_view (control, qfreeze););
+}
+
+
 static gboolean
 cb_queue_respan (GnmColRowIter const *iter, void *user_data)
 {

@@ -822,14 +822,18 @@ cb_pane_init_objs (GnmPane *pane)
 	GSList *ptr, *list;
 
 	if (sheet != NULL) {
+		sheet_freeze_object_views (sheet, TRUE);
+
 		/* List is stored in reverse stacking order.  Top of stack is
-		 * first.  On creation new foocanvas item get added to
+		 * first.  On creation new canvas item get added to
 		 * the front, so we need to create the views in reverse order */
 		list = g_slist_reverse (g_slist_copy (sheet->sheet_objects));
 		for (ptr = list; ptr != NULL ; ptr = ptr->next)
 			sheet_object_new_view (ptr->data,
 				(SheetObjectViewContainer *)pane);
 		g_slist_free (list);
+
+		sheet_freeze_object_views (sheet, FALSE);
 	}
 }
 
