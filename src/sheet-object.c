@@ -1241,6 +1241,7 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t,
 		     GOUndo **pundo)
 {
 	GSList *ptr, *next;
+	gboolean any = FALSE;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -1250,10 +1251,18 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t,
 		if ((t == G_TYPE_NONE && G_OBJECT_TYPE (obj) != GNM_FILTER_COMBO_TYPE)
 		    || t == G_OBJECT_TYPE (obj)) {
 			SheetObject *so = GNM_SO (obj);
-			if (r == NULL || range_contained (&so->anchor.cell_bound, r))
+			if (r == NULL || range_contained (&so->anchor.cell_bound, r)) {
+				if (!any) {
+					sheet_freeze_object_views (sheet, TRUE);
+					any = TRUE;
+				}
 				clear_sheet (so, pundo);
+			}
 		}
 	}
+
+	if (any)
+		sheet_freeze_object_views (sheet, FALSE);
 }
 
 /**

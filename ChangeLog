@@ -1,5 +1,8 @@
 2023-01-15  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-object.c (sheet_objects_clear): Freeze the object
+	views, just in case there are a lot of objects to clear.
+
 	* src/gnm-pane.c (cb_pane_init_objs): Freeze panes while creating
 	views -- there might be a lot.
 
