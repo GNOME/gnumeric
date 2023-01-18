@@ -54,13 +54,6 @@ typedef enum {
 
 /* ------------------------------------------------------------------------- */
 
-/*
- * Note: we unconditionally use pools for
- *   deps->range_pool
- *   deps->single_pool
- * since we need the ability to free en masse.
- */
-
 #ifndef USE_POOLS
 #define USE_POOLS 0
 #endif
