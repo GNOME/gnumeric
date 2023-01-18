@@ -2,3 +2,6 @@ Makefile.in
 Makefile
 .deps
 .libs
+clip-tool
+fixup-complex
+process-besseleval

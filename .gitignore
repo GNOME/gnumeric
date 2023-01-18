@@ -48,3 +48,4 @@ doltcompile
 *~
 test-driver
 gtk-doc.make
+*-patch
