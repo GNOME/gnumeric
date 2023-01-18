@@ -5691,6 +5691,9 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 	/* Redraw the src region in case anything was spanning */
 	sheet_redraw_range (rinfo->origin_sheet, &rinfo->origin);
 
+	// 0. Get rid of style dependents
+	sheet_conditions_link_unlink_dependents (rinfo->origin_sheet, &rinfo->origin, FALSE);
+
 	/* 1. invalidate references to any cells in the destination range that
 	 * are not shared with the src.  This must be done before the references
 	 * to from the src range are adjusted because they will point into

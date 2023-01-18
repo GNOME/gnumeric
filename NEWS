@@ -29,6 +29,7 @@ Morten:
 	* Fix reading localc extension for engineering format.  [#659]
 	* Fix strict-conformance ods problem with E-notation.  [#672]
 	* Improve test suite
+	* Fix crash involving moving conditional formats.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.52
