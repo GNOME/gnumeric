@@ -12,11 +12,6 @@ my $rle = 6;
 		  sub {
 		      chomp;
 		      print STDERR "--> $_\n";
-		      my $ok = (/^[-+]?(\d|\.\d)/ && $_ > $rle);
-		      if ($ok) {
-			  print STDERR "Unexpected success.\n";
-		      } else {
-			  print STDERR "Known failure.\n" ;
-			  $ok = 1;
-		      }
+		      return (/^[-+]?(\d|\.\d)/ &&
+			      $_ > $rle);
 		  });
