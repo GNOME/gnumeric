@@ -1,7 +1,7 @@
 -*- mode: m4 -*-
 dnl We require Automake 1.7.2, which requires Autoconf 2.54.
 dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
-AC_PREREQ(2.54)
+AC_PREREQ([2.54])
 AC_CONFIG_MACRO_DIR([m4])
 AX_IS_RELEASE([git-directory])
 
@@ -16,9 +16,7 @@ dnl Emphasize some of the checks.
 m4_define([BIG_CHECKING], [AC_MSG_CHECKING([
 ======== $1])])
 
-AC_INIT([gnumeric], [gnumeric_version_full],
-	[https://gitlab.gnome.org/GNOME/gnumeric/issues],,
-	[http://www.gnumeric.org/])
+AC_INIT([gnumeric],[gnumeric_version_full],[https://gitlab.gnome.org/GNOME/gnumeric/issues],[],[http://www.gnumeric.org/])
 
 AC_CONFIG_SRCDIR(src/sheet.h)
 AM_INIT_AUTOMAKE([dist-bzip2])
@@ -82,7 +80,6 @@ IT_PO_SUBDIR(po-functions)
 dnl We use $host and $host_os:
 AC_CANONICAL_HOST
 
-AC_ISC_POSIX
 AC_PROG_CC
 AC_PROG_CC_C99
 if test "$ac_cv_prog_cc_c99" = no; then
@@ -95,7 +92,6 @@ if test "x$ac_cv_prog_YACC" = x; then
 fi
 
 AC_PROG_LN_S
-AC_HEADER_STDC
 
 LT_PREREQ([2.2.6])
 # Make --disable-static the default
@@ -259,7 +255,8 @@ dnl below.
 AC_SUBST(GETTEXT_PACKAGE, gnumeric-${VERSION})
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 	[The package name, for gettext])
-AM_GLIB_GNU_GETTEXT
+AM_GNU_GETTEXT_VERSION([0.13])
+AM_GNU_GETTEXT([external])
 
 dnl ****************************
 dnl prep the pixmap generator
@@ -494,7 +491,7 @@ dnl config.status is created, a code originating from intltool.m4 creates
 dnl POTFILES again, this time correctly removing the intltool tags.
 dnl config.status then creates po/Makefile, again in two steps.  First,
 dnl po/Makefile.in is created from po/Makefile.in.in the usual way, and then
-dnl a code registered via the obsolete macro AC_OUTPUT_COMMANDS insterts the
+dnl a code registered via the obsolete macro AC_CONFIG_COMMANDS inserts the
 dnl contents of file POTFILES to po/Makefile.
 dnl
 dnl But both glib-gettext and intltool have the dirname "po/" hardwired, so
@@ -1168,7 +1165,7 @@ dnl
 dnl These are changed in gutils.c for WIN32 packages
 AC_SUBST(gnumeric_datadir, '${datadir}/gnumeric/${VERSION}')
 AC_SUBST(gnumeric_libdir, '${libdir}/gnumeric/${VERSION}')
-AC_SUBST(gnumeric_localedir, '${prefix}/${DATADIRNAME}/locale')
+AC_SUBST(gnumeric_localedir, '${localedir}')
 dnl
 AC_SUBST(gnumeric_plugindir, '${gnumeric_libdir}/plugins')
 AC_SUBST(gnumeric_externplugindir, '${libdir}/gnumeric/${GNUMERIC_API_VER}/plugins')
@@ -1189,7 +1186,7 @@ AC_DEFINE(GNM_VERSION_EXTRA, "gnumeric_version_extra",
 AC_DEFINE(GNM_API_VERSION, "GNUMERIC_API_VER",
 	[The API version number of this release])
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 libspreadsheet.pc
 icons/Makefile
@@ -1279,6 +1276,7 @@ tools/win32/moduleset
 tools/win32/gnumeric.nsi
 component/Makefile
 ])
+AC_OUTPUT
 
 echo "
 
