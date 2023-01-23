@@ -7,6 +7,7 @@ configure
 config.sub
 config.log
 config.cache
+config.rpath
 config.status
 config.guess
 ltconfig
