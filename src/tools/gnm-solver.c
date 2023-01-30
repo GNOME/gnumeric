@@ -41,6 +41,8 @@
 
 /* ------------------------------------------------------------------------- */
 
+static gboolean debug_factory;
+
 gboolean
 gnm_solver_debug (void)
 {
@@ -1063,6 +1065,9 @@ gnm_solver_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 	g_return_val_if_fail (GNM_IS_SOLVER (sol), FALSE);
 	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_READY, FALSE);
 
+	if (gnm_solver_debug ())
+		g_printerr ("Prepararing solver\n");
+
 	gnm_solver_update_derived (sol);
 
 	g_signal_emit (sol, solver_signals[SOL_SIG_PREPARE], 0, wbc, err, &res);
@@ -1096,6 +1101,9 @@ gnm_solver_start (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 
 	g_return_val_if_fail (sol->status == GNM_SOLVER_STATUS_PREPARED, FALSE);
 
+	if (gnm_solver_debug ())
+		g_printerr ("Starting solver\n");
+
 	g_signal_emit (sol, solver_signals[SOL_SIG_START], 0, wbc, err, &res);
 	return res;
 }
@@ -1115,6 +1123,9 @@ gnm_solver_stop (GnmSolver *sol, GError **err)
 	gboolean res;
 
 	g_return_val_if_fail (GNM_IS_SOLVER (sol), FALSE);
+
+	if (gnm_solver_debug ())
+		g_printerr ("Stopping solver\n");
 
 	g_signal_emit (sol, solver_signals[SOL_SIG_STOP], 0, err, &res);
 	return res;
@@ -1244,6 +1255,9 @@ gnm_solver_set_reason (GnmSolver *solver, const char *reason)
 
 	g_free (solver->reason);
 	solver->reason = g_strdup (reason);
+
+	if (gnm_solver_debug ())
+		g_printerr ("Reason: %s\n", reason ? reason : "-");
 
 	g_object_notify (G_OBJECT (solver), "reason");
 }
@@ -3734,6 +3748,8 @@ gnm_solver_factory_finalize (GObject *obj)
 static void
 gnm_solver_factory_class_init (GObjectClass *object_class)
 {
+	debug_factory = gnm_debug_flag ("solver-factory");
+
 	gnm_solver_factory_parent_class =
 		g_type_class_peek_parent (object_class);
 
@@ -3808,6 +3824,10 @@ gnm_solver_factory_create (GnmSolverFactory *factory,
 			   GnmSolverParameters *param)
 {
 	g_return_val_if_fail (GNM_IS_SOLVER_FACTORY (factory), NULL);
+
+	if (debug_factory)
+		g_printerr ("Creating solver instance from %s\n",
+			    factory->id);
 	return factory->creator (factory, param, factory->data);
 }
 
@@ -3831,7 +3851,7 @@ cb_compare_factories (GnmSolverFactory *a, GnmSolverFactory *b)
 void
 gnm_solver_db_register (GnmSolverFactory *factory)
 {
-	if (gnm_solver_debug ())
+	if (debug_factory)
 		g_printerr ("Registering %s\n", factory->id);
 	g_object_ref (factory);
 	solvers = g_slist_insert_sorted (solvers, factory,
@@ -3841,7 +3861,7 @@ gnm_solver_db_register (GnmSolverFactory *factory)
 void
 gnm_solver_db_unregister (GnmSolverFactory *factory)
 {
-	if (gnm_solver_debug ())
+	if (debug_factory)
 		g_printerr ("Unregistering %s\n", factory->id);
 	solvers = g_slist_remove (solvers, factory);
 	g_object_unref (factory);
