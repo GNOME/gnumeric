@@ -1,5 +1,8 @@
 Gnumeric 1.12.55
 
+Morten:
+	* Fix problem making new objects invisble.  [#694]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.54
 

@@ -571,9 +571,10 @@ cb_create_views (void)
 			(so->sheet, view, control,
 			 sc_object_create_view (control, so););
 	}
-	g_ptr_array_set_size (so_create_view_sos, 0);
 
 	cb_create_views_helper (so_create_view_sos, FALSE);
+
+	g_ptr_array_set_size (so_create_view_sos, 0);
 
 	so_create_view_src = 0;
 	return FALSE;
