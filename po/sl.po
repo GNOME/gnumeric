@@ -11,17 +11,17 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2022-07-27 15:47+0000\n"
-"PO-Revision-Date: 2022-10-15 10:54+0200\n"
+"PO-Revision-Date: 2023-02-12 23:00+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:552
@@ -1167,7 +1167,7 @@ msgid "Failed to create file for solution"
 msgstr "Ustvarjanje datoteke rešitve je spodletelo"
 
 #: ../plugins/glpk/gnm-glpk.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create file for sensitivity report"
 msgstr "Ustvarjanje datoteke za poročilo o občutljivosti je spodletelo"
 
@@ -1587,11 +1587,11 @@ msgstr "Zaznan je nedoločen slog določanja veljavnosti: %s"
 #: ../plugins/openoffice/openoffice-read.c:2958
 #, c-format
 msgid ""
-"Unsupported validation condition encountered: \"%s\" with base address: \"%s"
-"\""
+"Unsupported validation condition encountered: \"%s\" with base address: "
+"\"%s\""
 msgstr ""
-"Zaznan je nepodprt pogoj določanja veljavnosti: \"%s\" z osnovo naslova: \"%s"
-"\""
+"Zaznan je nepodprt pogoj določanja veljavnosti: \"%s\" z osnovo naslova: "
+"\"%s\""
 
 #: ../plugins/openoffice/openoffice-read.c:3624
 #, c-format
@@ -4567,7 +4567,6 @@ msgid "Data Consolidation"
 msgstr "Računsko združevanje podatkov"
 
 #: ../src/dialogs/dialog-about.c:38
-#, fuzzy
 msgid ""
 "Gnumeric is available under the GNU General Public License, version 2 or 3 "
 "at your option.\n"
@@ -4577,8 +4576,8 @@ msgid ""
 "\n"
 "Gnumeric comes with absolutely no warranty."
 msgstr ""
-"Gnumeric je na voljo pod splošno javno licenco GNU, različico 2 ali 3 po "
-"vaši možnosti.\n"
+"Gnumeric je na voljo pod splošnim javnim dovoljenjem GNU različice 2 ali 3, "
+"po vaši želji.\n"
 "\n"
 "Glejte https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\n"
 "ali https://www.gnu.org/licenses/gpl-3.0.html.\n"
@@ -7336,7 +7335,6 @@ msgid "Wrap"
 msgstr "Prelom"
 
 #: ../src/dialogs/dialog-sheet-compare.c:222
-#, fuzzy
 msgid "Shrink-to-fit"
 msgstr "Skrči na velikost"
 
@@ -14235,10 +14233,7 @@ msgid "Error while trying to parse data into sheet"
 msgstr "napaka med poskusom razčlenjevanja podatkov lista preglednice"
 
 #: ../src/stf.c:361
-#, fuzzy, c-format
-#| msgid "The file contains %d NULL character. It has been changed to a space."
-#| msgid_plural ""
-#| "The file contains %d NULL characters. They have been changed to spaces."
+#, c-format
 msgid "The file contains %d NUL character. It has been changed to a space."
 msgid_plural ""
 "The file contains %d NUL characters. They have been changed to spaces."
