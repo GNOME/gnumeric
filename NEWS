@@ -1,5 +1,8 @@
 Gnumeric 1.12.56
 
+Morten:
+	* FLOOR, CEILING: Improve xl compatibility.  [#703]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.55
 

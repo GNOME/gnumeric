@@ -799,7 +799,7 @@ static GnmFuncHelp const help_ceiling[] = {
 	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} < 0)")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("CEILING(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at least ABS(@{x}).")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{significance} is non-numeric, CEILING returns a #VALUE! error.")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{x} and @{significance} have different signs, CEILING returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is positive and @{significance} is negative, CEILING returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_ODF, F_("CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1).")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=CEILING(2.43,1)" },
@@ -818,7 +818,7 @@ gnumeric_ceiling (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (x == 0 || s == 0)
 		return value_new_int (0);
 
-	if (x / s < 0)
+	if (x > 0 && s < 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_fake_ceil (x / s) * s);
@@ -1221,6 +1221,7 @@ static GnmFuncHelp const help_floor[] = {
 	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} < 0)") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
 			"FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at most ABS(@{x})") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is positive and @{significance} is negative, FLOOR returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_ODF, F_("FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1).")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=FLOOR(0.5)" },
@@ -1243,7 +1244,7 @@ gnumeric_floor (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (s == 0)
 		return value_new_error_DIV0 (ei->pos);
 
-	if (x / s < 0)
+	if (x > 0 && s < 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_fake_floor (x / s) * s);
