@@ -2741,7 +2741,6 @@ odf_expr_conventions_new (GnmOOExport *state)
 	GnmConventions *conv = gnm_conventions_new_full
 		(sizeof (ODFConventions));
 	ODFConventions *oconv = (ODFConventions *)conv;
-	gnm_float l10;
 
 	conv->sheet_name_sep		= '.';
 	conv->arg_sep			= ';';
@@ -2755,9 +2754,12 @@ odf_expr_conventions_new (GnmOOExport *state)
 	conv->output.func               = odf_expr_func_handler;
 	conv->output.boolean            = odf_boolean_handler;
 
-	l10 = gnm_log10 (FLT_RADIX);
-	conv->output.decimal_digits     = (int)gnm_ceil (GNM_MANT_DIG * l10) +
-		                          (l10 == (int)l10 ? 0 : 1);
+	if (!gnm_shortest_rep_in_files ()) {
+		gnm_float l10 = gnm_log10 (FLT_RADIX);
+		conv->output.decimal_digits  =
+			(int)gnm_ceil (GNM_MANT_DIG * l10) +
+			(l10 == (int)l10 ? 0 : 1);
+	}
 
 	oconv->state                    = state;
 

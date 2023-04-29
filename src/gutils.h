@@ -76,6 +76,8 @@ gboolean gnm_file_saver_common_export_option (GOFileSaver const *fs,
 
 char *gnm_cpp (const char *src, GHashTable *vars);
 
+gboolean gnm_shortest_rep_in_files(void);
+
 G_END_DECLS
 
 #endif /* _GNM_GUTILS_H_ */

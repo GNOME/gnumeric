@@ -38,6 +38,7 @@
 #include <expr.h>
 #include <expr-impl.h>
 #include <value.h>
+#include <gutils.h>
 
 typedef struct {
 	GnmConventions base;
@@ -649,10 +650,12 @@ xlsx_conventions_new (gboolean output)
 		g_free, (GDestroyNotify) g_object_unref);
 
 	if (output) {
-		gnm_float l10 = gnm_log10 (FLT_RADIX);
-		convs->output.decimal_digits =
-			(int)gnm_ceil (GNM_MANT_DIG * l10) +
-			(l10 == (int)l10 ? 0 : 1);
+		if (!gnm_shortest_rep_in_files ()) {
+			gnm_float l10 = gnm_log10 (FLT_RADIX);
+			convs->output.decimal_digits =
+				(int)gnm_ceil (GNM_MANT_DIG * l10) +
+				(l10 == (int)l10 ? 0 : 1);
+		}
 
 		convs->output.func      = xlsx_func_map_out;
 
