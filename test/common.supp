@@ -553,6 +553,30 @@
 }
 
 {
+   Pango/FcFontSetSort
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:FcFontSetSort
+}
+
+{
+   Pango/FcFontRenderPrepare
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:FcFontRenderPrepare
+}
+
+{
+   Pango/pango_fc_font_map_load_fontset
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:pango_fc_font_map_load_fontset
+}
+
+{
    Leak/FT_Open_Face1
    Memcheck:Leak
    fun:malloc
