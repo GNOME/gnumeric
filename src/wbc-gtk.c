@@ -1436,7 +1436,10 @@ wbcg_auto_expr_value_changed (WorkbookView *wbv,
 
 		g_string_append (str, " = ");
 
-		if (format) {
+		if (wbv->auto_expr.use_max_precision && VALUE_IS_NUMBER (v)) {
+			// "G" to match what format "General" does.
+			go_dtoa (str, "!" GNM_FORMAT_G, v->v_float.val);
+		} else if (format) {
 			PangoLayout *layout = gtk_widget_create_pango_layout (GTK_WIDGET (wbcg->toplevel), NULL);
 			gsize old_len = str->len;
 			GODateConventions const *date_conv = workbook_date_conv (wb_view_get_workbook (wbv));
@@ -1474,8 +1477,9 @@ wbcg_auto_expr_value_changed (WorkbookView *wbv,
 				break;
 			}
 			g_object_unref (layout);
-		} else
+		} else {
 			g_string_append (str, value_peek_string (v));
+		}
 
 		gtk_label_set_text (lbl, str->str);
 		gtk_label_set_attributes (lbl, attrs);
