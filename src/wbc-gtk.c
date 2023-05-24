@@ -1438,7 +1438,7 @@ wbcg_auto_expr_value_changed (WorkbookView *wbv,
 
 		if (wbv->auto_expr.use_max_precision && VALUE_IS_NUMBER (v)) {
 			// "G" to match what format "General" does.
-			go_dtoa (str, "!" GNM_FORMAT_G, v->v_float.val);
+			go_dtoa (str, "!" GNM_FORMAT_G, value_get_as_float (v));
 		} else if (format) {
 			PangoLayout *layout = gtk_widget_create_pango_layout (GTK_WIDGET (wbcg->toplevel), NULL);
 			gsize old_len = str->len;
