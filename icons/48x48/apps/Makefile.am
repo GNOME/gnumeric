@@ -1,5 +1,5 @@
 icondir = $(datadir)/icons/hicolor/48x48/apps
-icon_DATA = gnumeric.png
+icon_DATA = org.gnumeric.gnumeric.png
 
 internalicons =
 

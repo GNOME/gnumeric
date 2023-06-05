@@ -5,7 +5,7 @@ XML_I18N_XML_KIND = --pass-through
 # We used to distribute old ChangeLog files too.
 change_logs = ChangeLog
 
-CLEANFILES = gnumeric.desktop gnumeric.appdata.xml
+CLEANFILES = org.gnumeric.gnumeric.desktop org.gnumeric.gnumeric.appdata.xml
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DATA)
 
 # Flags for distcheck, mostly to install things that nominally go under the
@@ -23,8 +23,8 @@ DIST_SAMPLES = $(shell (cd $(srcdir)/test && perl -I. -e 'use GnumericTest; fore
 EXTRA_DIST = \
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
 	COPYING COPYING-gpl2 COPYING-gpl3 \
-	gnumeric.appdata.xml.in	\
-	gnumeric.desktop.in	\
+	org.gnumeric.gnumeric.appdata.xml.in	\
+	org.gnumeric.gnumeric.desktop.in	\
 	gnumeric.mime		\
 	gnumeric.xsd		\
 	intltool-extract.in	\
@@ -43,20 +43,20 @@ libspreadsheet-@GNUMERIC_API_VER@.pc: libspreadsheet.pc
 @INTLTOOL_XML_RULE@
 
 appdatadir = $(datadir)/metainfo
-appdata_in_files = gnumeric.appdata.xml.in
-appdata_DATA = gnumeric.appdata.xml
+appdata_in_files = org.gnumeric.gnumeric.appdata.xml.in
+appdata_DATA = org.gnumeric.gnumeric.appdata.xml
 
 # Don't set the date inside this xml file.  We want reproducible builds.
-gnumeric.appdata.xml: gnumeric.appdata.xml.in Makefile $(INTLTOOL_MERGE) $(POFILES_FULL)
+org.gnumeric.gnumeric.appdata.xml: org.gnumeric.gnumeric.appdata.xml.in Makefile $(INTLTOOL_MERGE) $(POFILES_FULL)
 	LC_ALL=C $(INTLTOOL_MERGE) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
 	sed -e 's/##VERSION##/@VERSION@/' <$@.tmp >$@
 	rm -f $@.tmp
 
 Applicationsdir = $(datadir)/applications/
-Applications_in_files = gnumeric.desktop.in
-Applications_DATA = gnumeric.desktop
+Applications_in_files = org.gnumeric.gnumeric.desktop.in
+Applications_DATA = org.gnumeric.gnumeric.desktop
 
-gnumeric.desktop: gnumeric.desktop.in Makefile $(INTLTOOL_MERGE) $(POFILES_FULL)
+org.gnumeric.gnumeric.desktop: org.gnumeric.gnumeric.desktop.in Makefile $(INTLTOOL_MERGE) $(POFILES_FULL)
 	LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
 	sed -e 's/F_OR_U/U/' <$@.tmp >$@
 	rm -f $@.tmp
