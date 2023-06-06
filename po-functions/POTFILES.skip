@@ -18,8 +18,8 @@ schemas/org.gnome.gnumeric.plugin.gschema.xml.in
 sub/schemas/org.gnome.gnumeric.dialogs.gschema.xml.in
 sub/schemas/org.gnome.gnumeric.gschema.xml.in
 sub/schemas/org.gnome.gnumeric.plugin.gschema.xml.in
-gnumeric.desktop.in
-gnumeric.appdata.xml.in
+org.gnumeric.gnumeric.desktop.in
+org.gnumeric.gnumeric.appdata.xml.in
 plugins/applix/plugin.xml.in
 plugins/dif/plugin.xml.in
 plugins/excel/plugin.xml.in

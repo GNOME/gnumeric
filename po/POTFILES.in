@@ -3,8 +3,8 @@
 # Please keep this file sorted alphabetically.
 #
 [encoding: UTF-8]
-gnumeric.desktop.in
-gnumeric.appdata.xml.in
+org.gnumeric.gnumeric.desktop.in
+org.gnumeric.gnumeric.appdata.xml.in
 plugins/applix/applix-read.c
 plugins/applix/plugin.xml.in
 plugins/dif/dif.c
