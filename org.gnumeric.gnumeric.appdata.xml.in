@@ -59,7 +59,7 @@
   <url type="homepage">http://www.gnumeric.org/</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnumeric/issues</url>
   <!-- These guys need your donations more than we do: -->
-  <url type="donation">https://www.amnestyusa.org/</url>
+  <url type="donation">https://www.doctorswithoutborders.org/</url>
   <url type="help">https://help.gnome.org/users/gnumeric/stable/gnumeric.html</url>
   <screenshots>
     <screenshot type="default">
