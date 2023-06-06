@@ -28,9 +28,8 @@ install-sh
 missing
 mkinstalldirs
 ylwrap
-gnumeric.appdata.xml
-gnumeric.desktop
-gnumeric.desktop.in
+org.gnumeric.gnumeric.appdata.xml
+org.gnumeric.gnumeric.desktop
 ID
 tags
 intltool-extract*
