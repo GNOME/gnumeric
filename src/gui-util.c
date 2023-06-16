@@ -533,6 +533,7 @@ gnm_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *widget)
 {
 	GtkWidget *tip, *frame;
 	GdkScreen *screen = gtk_widget_get_screen (ref_widget);
+	GtkWidget *toplevel = gtk_widget_get_toplevel (ref_widget);
 
 	tip = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_type_hint (GTK_WINDOW (tip),
@@ -541,6 +542,7 @@ gnm_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *widget)
 	gtk_window_set_gravity (GTK_WINDOW (tip), GDK_GRAVITY_NORTH_WEST);
 	gtk_window_set_screen (GTK_WINDOW (tip), screen);
 	gtk_widget_set_name (tip, "gtk-tooltip");
+	gtk_window_set_transient_for (GTK_WINDOW (tip), GTK_WINDOW (toplevel));
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
