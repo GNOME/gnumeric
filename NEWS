@@ -1,5 +1,8 @@
 Gnumeric 1.12.56
 
+Hubert Figuière:
+	* Fix tooltip problem on Wayland.
+
 Morten:
 	* FLOOR, CEILING: Improve xl compatibility.  [#703]
 
