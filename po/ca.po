@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2020-07-25 10:19+0000\n"
-"PO-Revision-Date: 2020-07-28 14:49+0000\n"
+"PO-Revision-Date: 2023-08-17 14:49+0000\n"
 "Last-Translator: Miquel-Àngel Burgos i Fradeja <miquel.angel.burgos@gmail."
 "com>, 2020\n"
 "Language-Team: Catalan (https://www.transifex.com/softcatala/teams/62837/"
@@ -3114,11 +3114,11 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:109
 msgid "Search &amp; Replace Preserves Case"
-msgstr "Cerca i reemplaça preserva les majúscules/minúscules"
+msgstr "Cerca i reemplaça conserva les majúscules/minúscules"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:110
 msgid "Search &amp; Replace preserves case as default"
-msgstr "Cerca i reemplaça preserva les majúscules/minúscules per defecte"
+msgstr "Cerca i reemplaça conserva les majúscules/minúscules per defecte"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:111
 msgid "Search &amp; Replace Poses Query"
@@ -3689,7 +3689,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
 #: ../src/dialogs/dialog-preferences.c:808
 msgid "Sorting Preserves Formats"
-msgstr "L'ordenació preserva els formats"
+msgstr "L'ordenació conserva els formats"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:78
 msgid ""
@@ -8723,7 +8723,7 @@ msgstr "Localització:"
 
 #: ../src/dialogs/cell-sort.ui.h:5
 msgid "Sorting _preserves formats"
-msgstr "L'ordenació _preserva els formats"
+msgstr "L'ordenació _conserva els formats"
 
 #: ../src/dialogs/cell-sort.ui.h:6
 msgid ""
@@ -11228,7 +11228,7 @@ msgstr "En definir, no distingeixis entre majúscules i minúscules"
 
 #: ../src/dialogs/search-replace.ui.h:17
 msgid "_Preserve case"
-msgstr "_Preserva majúscula/minúscula"
+msgstr "_Conserva majúscula/minúscula"
 
 #: ../src/dialogs/search-replace.ui.h:18
 msgid "Attempt to preserve case of text when replacing"
@@ -15833,7 +15833,7 @@ msgstr "_Surt"
 
 #: ../src/wbc-gtk-actions.c:2061
 msgid "Quit the application"
-msgstr "Tanca l'aplicació"
+msgstr "Surt de l'aplicació"
 
 #: ../src/wbc-gtk-actions.c:2066
 msgid "_Edit"
