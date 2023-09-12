@@ -837,7 +837,7 @@ handle_empty (GnmValue *res, GnmExprEvalFlags flags)
 
 /**
  * value_intersection:
- * @v: a VALUE_CELLRANGE or VALUE_ARRAY
+ * @v: (transfer full): a VALUE_CELLRANGE or VALUE_ARRAY
  * @pos:
  *
  * Handle the implicit union of a single row or column with the eval position.
