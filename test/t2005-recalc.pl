@@ -9,6 +9,7 @@ use GnumericTest;
 
 $GnumericTest::default_corpus = 'random:20';
 my @sources = &GnumericTest::corpus();
+push @sources, &GnumericTest::corpus('/recalc/');
 # Must avoid volatile functions
 @sources = grep { !m{(^|/)(chart-tests\.gnumeric|datefuns\.xls|vba-725220\.xls|docs-samples\.gnumeric|numbermatch\.gnumeric)$} } @sources;
 # Avoid slow stuff
@@ -17,7 +18,6 @@ my @sources = &GnumericTest::corpus();
 @sources = grep { !m{(^|/)(numtheory\.gnumeric)$} } @sources;
 # Currently fails, pending investigation
 @sources = grep { !m{(^|/)(arrays\.xls)$} } @sources;
-
 
 my $nskipped = 0;
 my $ngood = 0;

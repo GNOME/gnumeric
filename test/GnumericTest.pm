@@ -251,6 +251,7 @@ my @dist_corpus =
      "$samples/selection-tests.gnumeric",
      "$samples/style-tests.gnumeric",
      "$samples/validation-tests.gnumeric",
+     "$samples/recalc725.gnumeric",
     );
 
 my @full_corpus =
@@ -261,7 +262,7 @@ my @full_corpus =
 sub corpus {
     my ($c) = @_;
 
-    my $corpus = ($c || $user_corpus || $default_corpus);
+    my $corpus = ($c // $user_corpus // $default_corpus);
     if ($corpus eq 'full') {
 	return @full_corpus;
     } elsif ($corpus eq 'dist') {
