@@ -21,6 +21,7 @@ typedef struct {
 	GSList* (*changed) (GnmDependent *dep);
 	GnmCellPos* (*pos) (GnmDependent const *dep);
 	void (*debug_name) (GnmDependent const *dep, GString *target);
+	gboolean q_array_context;
 } GnmDependentClass;
 
 typedef enum {

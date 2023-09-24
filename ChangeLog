@@ -1,3 +1,11 @@
+2023-09-24  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.h (GnmDependentClass): Add q_array_context since
+	certain graph deps are computed in array context.
+
+	* src/dependent.c (dependent_link): Observe q_array_context.
+	(link_unlink_expr_dep): Don't clear array context for operators.
+
 2023-02-02  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

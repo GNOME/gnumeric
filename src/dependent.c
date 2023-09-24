@@ -1238,14 +1238,9 @@ link_unlink_expr_dep (GnmEvalPos *ep, GnmExpr const *tree, DepLinkFlags flags)
 		return (link_unlink_expr_dep (ep, tree->binary.value_a, flags) |
 			link_unlink_expr_dep (ep, tree->binary.value_b, flags));
 	case GNM_EXPR_OP_ANY_BINARY:
-		// See comments in function_iterate_argument_values
-		if (!eval_pos_is_array_context (ep))
-			flags &= ~DEP_LINK_NON_SCALAR;
 		return (link_unlink_expr_dep (ep, tree->binary.value_a, flags) |
 			link_unlink_expr_dep (ep, tree->binary.value_b, flags));
 	case GNM_EXPR_OP_ANY_UNARY:
-		if (!eval_pos_is_array_context (ep))
-			flags &= ~DEP_LINK_NON_SCALAR;
 		return link_unlink_expr_dep (ep, tree->unary.value, flags);
 	case GNM_EXPR_OP_CELLREF:
 		return link_unlink_single_dep (ep->dep, dependent_pos (ep->dep), &tree->cellref.ref, flags);
@@ -1555,6 +1550,8 @@ dependent_link (GnmDependent *dep)
 {
 	Sheet	   *sheet;
 	GnmEvalPos  ep;
+	int t;
+	GnmDependentClass *klass;
 
 	g_return_if_fail (dep != NULL);
 	g_return_if_fail (dep->texpr != NULL);
@@ -1572,9 +1569,15 @@ dependent_link (GnmDependent *dep)
 	else
 		sheet->deps->head = dep; /* first element */
 	sheet->deps->tail = dep;
+
+	t = dependent_type (dep);
+	klass = g_ptr_array_index (dep_classes, t);
+
 	dep->flags |= DEPENDENT_IS_LINKED |
 		link_unlink_expr_dep (eval_pos_init_dep (&ep, dep),
-				      dep->texpr->expr, DEP_LINK_LINK);
+				      dep->texpr->expr,
+				      DEP_LINK_LINK |
+				      (klass->q_array_context ? DEP_LINK_NON_SCALAR : 0));
 
 	if (dep->flags & DEPENDENT_HAS_3D)
 		workbook_link_3d_dep (dep);
