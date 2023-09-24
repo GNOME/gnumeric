@@ -893,6 +893,16 @@
 }
 
 {
+   FONTCONFIG/CONFIGVALUES_LEAK2
+   Memcheck:Leak
+   fun:malloc
+   fun:strdup
+   fun:UnknownInlinedFun
+   fun:FcConfigEvaluate
+   fun:FcConfigValues
+}
+
+{
    FONTCONFIG/VALUES_LEAK
    Memcheck:Leak
    match-leak-kinds: possible
