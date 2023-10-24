@@ -471,6 +471,21 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 		return;
 	}
 
+	// We're looking for tables, but sometimes we get html with no
+	// tables and just text.  Consider that a single-cell table.
+	if (cur->type == XML_TEXT_NODE) {
+		Workbook *wb = wb_view_get_workbook (wb_view);
+		GnmCell *cell;
+		int col = 0;
+
+		tc->row++;
+		if (tc->sheet == NULL)
+			tc->sheet = html_get_sheet (NULL, wb);
+		cell = sheet_cell_fetch (tc->sheet, col + 1, tc->row);
+		sheet_cell_set_text (cell, CXML2C (cur->content), NULL);
+		return;
+	}
+
 	if (cur->type != XML_ELEMENT_NODE)
 		return;
 

@@ -6,6 +6,7 @@ Hubert Figuière:
 Morten:
 	* FLOOR, CEILING: Improve xl compatibility.  [#703]
 	* Fix dependency problems with arrays.  [#725] [#647]
+	* Improve clipboard pasting from firefox.  [#733]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.55
