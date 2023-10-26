@@ -8,6 +8,7 @@ Morten:
 	* Fix dependency problems with arrays.  [#725] [#647]
 	* Improve clipboard pasting from firefox.  [#733]
 	* Fix number-stringification for E-numbers.  [#719]
+	* Improve generation of random integers.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.55

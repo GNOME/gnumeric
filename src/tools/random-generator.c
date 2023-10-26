@@ -217,13 +217,21 @@ tool_random_engine_run_uniform_int (GOCmdContext *gcc, data_analysis_output_t *d
 {
 	int        i, n;
 	gnm_float lower = gnm_floor (param->lower_limit);
-	gnm_float range = gnm_floor (param->upper_limit) - lower;
+	gnm_float upper = gnm_floor (param->upper_limit);
+	gnm_float range = upper - lower;
+	gboolean sane = (range > 0 && range <= G_MAXUINT32);
 
 	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
-			v = gnm_floor (0.5 + range * random_01 ()) + lower;
+			if (sane)
+				v = lower + gnm_random_uniform_int ((guint32)range);
+			else {
+				do {
+					v = gnm_floor (0.5 + range * random_01 ()) + lower;
+				} while (v > upper);
+			}
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}

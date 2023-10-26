@@ -465,7 +465,7 @@ create_animation (AboutState *state)
 		permutation[ui] = ui;
 
 	for (ui = 0; ui < N; ui++) {
-		unsigned pui = (int)(random_01 () * N);
+		unsigned pui = gnm_random_uniform_int (N);
 		unsigned A = permutation[ui];
 		permutation[ui] = permutation[pui];
 		permutation[pui] = A;

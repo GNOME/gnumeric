@@ -287,7 +287,7 @@ mt_setup_win32 (void)
 /* ------------------------------------------------------------------------ */
 
 static gnm_float
-random_01_mersenne (void)
+gnm_random_01_mersenne (void)
 {
 	size_t N = (sizeof (gnm_float) + sizeof (guint32) - 1) / sizeof (guint32);
 	gnm_float res;
@@ -326,7 +326,7 @@ static FILE *random_device_file = NULL;
 #define RANDOM_DEVICE "/dev/urandom"
 
 static gnm_float
-random_01_device (void)
+gnm_random_01_device (void)
 {
 	static size_t bytes_left = 0;
 	static unsigned char data[32 * sizeof (gnm_float)];
@@ -338,13 +338,27 @@ random_01_device (void)
 		if (items <= 0) {
 			g_warning ("Reading from %s failed; reverting to pseudo-random.",
 				   RANDOM_DEVICE);
-			return random_01_mersenne ();
+			return gnm_random_01_mersenne ();
 		}
 		bytes_left += items;
 	}
 
 	bytes_left -= sizeof (gnm_float);
 	return random_01_data (data + bytes_left);
+}
+
+static guint32
+gnm_random_32_device (void)
+{
+	guint32 res;
+
+	if (fread (&res, sizeof (res), 1, random_device_file) != 1) {
+		g_warning ("Reading from %s failed; reverting to pseudo-random.",
+			   RANDOM_DEVICE);
+		res = genrand_int32 ();
+	}
+
+	return res;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -398,9 +412,26 @@ random_01 (void)
 	default:
 		g_assert_not_reached ();
 	case RS_MERSENNE:
-		return random_01_mersenne ();
+		return gnm_random_01_mersenne ();
 	case RS_DEVICE:
-		return random_01_device ();
+		return gnm_random_01_device ();
+	}
+}
+
+static guint32
+random_32 (void)
+{
+	if (random_src == RS_UNDETERMINED)
+		random_01_determine ();
+
+	switch (random_src) {
+	case RS_UNDETERMINED:
+	default:
+		g_assert_not_reached ();
+	case RS_MERSENNE:
+		return genrand_int32 ();
+	case RS_DEVICE:
+		return gnm_random_32_device ();
 	}
 }
 
@@ -1465,3 +1496,30 @@ random_skew_tdist (gnm_float nu, gnm_float a)
 }
 
 /* ------------------------------------------------------------------------ */
+
+/**
+ * gnm_random_uniform_int:
+ * @n: one more than the maximum number in range.
+ *
+ * Returns: a uniformly distributed random non-negative integer less than @n.
+ */
+guint32
+gnm_random_uniform_int (guint32 n)
+{
+	guint32 left;
+
+	g_return_val_if_fail (n > 0, 0);
+
+	// This is the number of value that we need to reject in order to ensure
+	// uniform distribution.  In the worst case we will end up rejecting
+	// about half the numbers but for sane-sized ranges it is practically
+	// zero.
+	left = G_MAXUINT32 % n;
+
+	while (TRUE) {
+		guint32 r = random_32 ();
+		if (r > G_MAXUINT32 - left)
+			continue;
+		return r % n;
+	}
+}

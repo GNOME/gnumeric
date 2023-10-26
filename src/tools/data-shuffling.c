@@ -64,7 +64,7 @@ shuffle_cols (data_shuffling_t *ds)
 	int i;
 
 	for (i = ds->a_col; i <= ds->b_col; i++) {
-		int rnd_col = (int) (ds->cols * random_01 () + ds->a_col);
+		int rnd_col = gnm_random_uniform_int (ds->cols) + ds->a_col;
 
 		if (i != rnd_col)
 			swap_values (ds, i, 0, rnd_col, 0);
@@ -77,7 +77,7 @@ shuffle_rows (data_shuffling_t *ds)
 	int i;
 
 	for (i = ds->a_row; i <= ds->b_row; i++) {
-		int rnd_row = (int) (ds->rows * random_01 () + ds->a_row);
+		int rnd_row = gnm_random_uniform_int (ds->rows) + ds->a_row;
 
 		if (i != rnd_row)
 			swap_values (ds, 0, i, 0, rnd_row);
@@ -92,11 +92,9 @@ shuffle_area (data_shuffling_t *ds)
 	int rnd_row;
 
 	for (i = ds->a_col; i <= ds->b_col; i++) {
-		rnd_col = (int) (ds->cols * random_01 () + ds->a_col);
-
+		rnd_col = gnm_random_uniform_int (ds->cols) + ds->a_col;
 		for (j = ds->a_row; j <= ds->b_row; j++) {
-			rnd_row = (int) (ds->rows * random_01 () + ds->a_row);
-
+			rnd_row = gnm_random_uniform_int (ds->rows) + ds->a_row;
 			swap_values (ds, i, j, rnd_col, rnd_row);
 		}
 	}

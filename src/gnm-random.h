@@ -6,6 +6,9 @@
 G_BEGIN_DECLS
 
 gnm_float random_01             (void);
+
+guint32   gnm_random_uniform_int (guint32 n);
+
 gnm_float random_poisson        (gnm_float lambda);
 gnm_float random_binomial       (gnm_float p, gnm_float trials);
 gnm_float random_negbinom       (gnm_float p, gnm_float f);

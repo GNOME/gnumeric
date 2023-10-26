@@ -142,8 +142,8 @@ gnumeric_randdiscrete (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			goto error;
 	}
 
-	p = random_01 ();
 	if (probs) {
+		p = random_01 ();
 		for (i = 0; i < np; i++) {
 			p -= probs[i];
 			if (p < 0)
@@ -151,7 +151,7 @@ gnumeric_randdiscrete (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		}
 	} else {
 		/* Uniform.  */
-		i = (int)gnm_floor (p * nv);
+		i = gnm_random_uniform_int (nv);
 	}
 
 	/* MIN is needed because of the sum grace.  */
