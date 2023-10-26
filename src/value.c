@@ -1076,9 +1076,16 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 
 	case VALUE_FLOAT:
 		if (conv->output.decimal_digits < 0)
-			go_dtoa (target, "!^" GNM_FORMAT_g, v->v_float.val);
+			go_dtoa (target,
+				 (conv->output.uppercase_E
+				  ? "!^" GNM_FORMAT_G
+				  : "!^" GNM_FORMAT_g),
+				 v->v_float.val);
 		else
-			g_string_append_printf (target, "%.*" GNM_FORMAT_g,
+			g_string_append_printf (target,
+						(conv->output.uppercase_E
+						 ? "%.*" GNM_FORMAT_G
+						 : "%.*" GNM_FORMAT_g),
 						conv->output.decimal_digits,
 						v->v_float.val);
 		return;

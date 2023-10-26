@@ -2753,6 +2753,7 @@ odf_expr_conventions_new (GnmOOExport *state)
 	conv->output.range_ref		= odf_rangeref_as_string;
 	conv->output.func               = odf_expr_func_handler;
 	conv->output.boolean            = odf_boolean_handler;
+	conv->output.uppercase_E        = FALSE;
 
 	if (!gnm_shortest_rep_in_files ()) {
 		gnm_float l10 = gnm_log10 (FLT_RADIX);

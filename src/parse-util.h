@@ -182,6 +182,7 @@ struct _GnmConventions {
 /* Export specific functions ----------------------------------- */
 	struct _GnmConventionsExport {
 		int decimal_digits;
+		gboolean uppercase_E;
 
 		gboolean translated;
 

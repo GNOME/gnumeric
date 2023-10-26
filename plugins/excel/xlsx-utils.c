@@ -656,6 +656,7 @@ xlsx_conventions_new (gboolean output)
 				(int)gnm_ceil (GNM_MANT_DIG * l10) +
 				(l10 == (int)l10 ? 0 : 1);
 		}
+		convs->output.uppercase_E = FALSE;
 
 		convs->output.func      = xlsx_func_map_out;
 

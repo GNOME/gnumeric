@@ -1478,6 +1478,7 @@ gnm_xml_io_conventions (void)
 	res->array_col_sep	= ',';
 	res->array_row_sep	= ';';
 	res->output.translated	= FALSE;
+	res->output.uppercase_E = FALSE;
 
 	if (!gnm_shortest_rep_in_files ()) {
 		gnm_float l10 = gnm_log10 (FLT_RADIX);
