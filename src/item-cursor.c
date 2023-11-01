@@ -489,10 +489,19 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	if (draw_center) {
 		double dashes[2];
 		double phase1 = fmod (phase0 + 0.5, 1);
+		GtkAllocation ca;
 
 		/* Stay in the boundary */
 		x0 += (draw_thick / 2.0);
 		y0 += (draw_thick / 2.0);
+
+		// Cairo has performance problems with large dashed rectangles
+		// so stop slightly offscreen.
+		gtk_widget_get_allocation (GTK_WIDGET (item->canvas), &ca);
+		x0 = MAX (x0, -ca.width / 8);
+		y0 = MAX (y0, -ca.height / 8);
+		x1 = MIN (x1, ca.width * 9 / 8);
+		y1 = MIN (y1, ca.height * 9 / 8);
 
 		cairo_set_line_width (cr, draw_thick);
 		cairo_rectangle (cr, x0, y0, abs (x1 - x0), abs (y1 - y0));

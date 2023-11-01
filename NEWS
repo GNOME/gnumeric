@@ -9,6 +9,7 @@ Morten:
 	* Improve clipboard pasting from firefox.  [#733]
 	* Fix number-stringification for E-numbers.  [#719]
 	* Improve generation of random integers.
+	* Work around cairo performance problem re anting.  [#736]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.55
