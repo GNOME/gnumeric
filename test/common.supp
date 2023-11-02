@@ -577,6 +577,22 @@
 }
 
 {
+   Pango/pango_fc_font_map_load_font
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:pango_fc_font_map_load_font
+}
+
+{
+   Pango/pango_itemize_with_font
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:pango_itemize_with_font
+}
+
+{
    Leak/FT_Open_Face1
    Memcheck:Leak
    fun:malloc
