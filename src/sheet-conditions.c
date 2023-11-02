@@ -374,6 +374,12 @@ sheet_conditions_remove (Sheet *sheet, GnmRange const *r, GnmStyle *style)
 		return;
 	}
 
+	if (!range_valid (r)) {
+		// Inverted range, probably related to style in a tile that
+		// extended past the sheet
+		return;
+	}
+
 	//g_printerr ("Removing style %p from %s\n", style, range_as_string (r));
 	g = find_group (cd, style);
 	if (!g) {
