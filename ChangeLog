@@ -1,3 +1,7 @@
+2023-11-02  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.56
+
 2023-09-24  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.h (GnmDependentClass): Add q_array_context since
