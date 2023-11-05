@@ -13,6 +13,7 @@ Morten:
 	* Fix number-stringification for E-numbers.  [#719]
 	* Improve generation of random integers.
 	* Work around cairo performance problem re anting.  [#736]
+	* Fix HTML export problem with underline.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.55
