@@ -145,9 +145,10 @@ underline_span_pango (html_version_t version, PangoUnderline u)
 
 	switch (u) {
 	case PANGO_UNDERLINE_SINGLE:
-	case PANGO_UNDERLINE_LOW:
 	case PANGO_UNDERLINE_SINGLE_LINE:
 		return "<span class=\"underline\">";
+	case PANGO_UNDERLINE_LOW:
+		return "<span class=\"lowunderline\">";
 	case PANGO_UNDERLINE_DOUBLE:
 	case PANGO_UNDERLINE_DOUBLE_LINE:
 		return "<span class=\"doubleunderline\">";
@@ -158,6 +159,30 @@ underline_span_pango (html_version_t version, PangoUnderline u)
 		return "";
 	}
 }
+
+
+static const char *
+underline_span (html_version_t version, GnmUnderline u)
+{
+	if (u == UNDERLINE_NONE)
+		return "";
+	if (version == HTML32)
+		return "<u>";
+
+	switch (u) {
+	case UNDERLINE_SINGLE:
+		return "<span class=\"underline\">";
+	case UNDERLINE_DOUBLE:
+		return "<span class=\"doubleunderline\">";
+	case UNDERLINE_SINGLE_LOW:
+		return "<span class=\"lowunderline\">";
+	case UNDERLINE_DOUBLE_LOW:
+		return "<span class=\"lowdoubleunderline\">";
+	default:
+		return "";
+	}
+}
+
 
 /*****************************************************************************/
 
@@ -333,8 +358,8 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 			if (gnm_style_get_font_bold (style))
 				gsf_output_puts (output, "<b>");
 			if (gnm_style_get_font_uline (style) != UNDERLINE_NONE) {
-				PangoUnderline u = gnm_translate_underline_to_pango (gnm_style_get_font_uline (style));
-				gsf_output_puts (output, underline_span_pango (version, u));
+				GnmUnderline u = gnm_style_get_font_uline (style);
+				gsf_output_puts (output, underline_span (version, u));
 			}
 			if (font_is_monospaced (style))
 				gsf_output_puts (output, "<tt>");
@@ -785,7 +810,9 @@ html_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 "\ttext-align: left;\n"
 "}\n"
 ".underline { text-decoration: underline; }\n"
+".lowunderline { text-decoration: underline; text-underline-offset: 0.4em; }\n"
 ".doubleunderline { text-decoration: underline double; }\n"
+".lowdoubleunderline { text-decoration: underline double; text-underline-offset: 0.4em; }\n"
 ".errorunderline { text-decoration: underline wavy; }\n"
 "</style>\n"
 "</head>\n<body>\n");
@@ -811,7 +838,9 @@ html_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 "\ttext-align: left;\n"
 "}\n"
 ".underline { text-decoration: underline; }\n"
+".lowunderline { text-decoration: underline; text-underline-offset: 0.4em; }\n"
 ".doubleunderline { text-decoration: underline double; }\n"
+".lowdoubleunderline { text-decoration: underline double; text-underline-offset: 0.4em; }\n"
 ".errorunderline { text-decoration: underline wavy; }\n"
 "</style>\n"
 "</head>\n<body>\n");
