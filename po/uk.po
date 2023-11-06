@@ -2,54 +2,59 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 #
 # Yuri Syrota <rasta@renome.rovno.ua>, 1999.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2022-01-22 00:28+0000\n"
-"PO-Revision-Date: 2022-01-22 09:37+0200\n"
+"POT-Creation-Date: 2023-11-06 01:55+0000\n"
+"PO-Revision-Date: 2023-11-06 09:39+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 20.12.0\n"
 
-#: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
+#: ../org.gnumeric.gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:552
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: ../gnumeric.desktop.in.h:2
+#: ../org.gnumeric.gnumeric.desktop.in.h:2
 msgid "Spreadsheet"
 msgstr "Електронна таблиця"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:3 ../src/main-application.c:254
+#: ../org.gnumeric.gnumeric.desktop.in.h:3 ../src/main-application.c:254
 msgid "Gnumeric Spreadsheet"
 msgstr "Електронна таблиця Gnumeric"
 
-#: ../gnumeric.desktop.in.h:4
+#: ../org.gnumeric.gnumeric.desktop.in.h:4
 msgid "Calculation, Analysis, and Visualization of Information"
 msgstr "Обчислення, аналіз та візуалізація даних"
 
-#: ../gnumeric.desktop.in.h:5
+#: ../org.gnumeric.gnumeric.desktop.in.h:5
 msgid "Spreadsheet;"
 msgstr "Spreadsheet;електронна;таблиця;таблиці;"
 
-#: ../gnumeric.appdata.xml.in.h:1
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:1
 msgid "The Gnumeric Spreadsheet"
 msgstr "Електронна таблиця Gnumeric"
 
-#: ../gnumeric.appdata.xml.in.h:2
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:2
+msgid "A High-Precision Spreadsheet Program"
+msgstr "Електронна таблиця високої точності"
+
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:3
 msgid ""
 "Gnumeric is a spreadsheet application for interactive manipulation of data."
 msgstr "Gnumeric — електронна таблиця для інтерактивної обробки даних."
 
-#: ../gnumeric.appdata.xml.in.h:3
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:4
 msgid ""
 "Gnumeric aims to provide high-accuracy computations, expressive graphs, and "
 "a wide selection of statistical analysis tools. Gnumeric can share files "
@@ -60,11 +65,7 @@ msgstr ""
 "Gnumeric може працювати із файлами Microsoft Excel та програму, у яких "
 "передбачено підтримку стандарту ODS."
 
-#: ../gnumeric.appdata.xml.in.h:4
-msgid "A High-Precision Spreadsheet Program"
-msgstr "Електронна таблиця високої точності"
-
-#: ../gnumeric.appdata.xml.in.h:5
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:5
 msgid "The Gnumeric Team"
 msgstr "Команда Gnumeric"
 
@@ -108,7 +109,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7219
-#: ../plugins/openoffice/openoffice-read.c:14113 ../src/xml-sax-read.c:3523
+#: ../plugins/openoffice/openoffice-read.c:14140 ../src/xml-sax-read.c:3542
 msgid "Reading file..."
 msgstr "Зчитування файлу…"
 
@@ -212,7 +213,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Некоректний вміст елемента ss:data — отримано «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:1217
-#: ../plugins/openoffice/openoffice-read.c:14305 ../src/xml-sax-read.c:3540
+#: ../plugins/openoffice/openoffice-read.c:14332 ../src/xml-sax-read.c:3559
 msgid "XML document not well formed!"
 msgstr "Документ XML сформовано неправильно!"
 
@@ -278,40 +279,40 @@ msgid "No password supplied"
 msgstr "Пароль не надано"
 
 #: ../plugins/excel/ms-excel-util.c:698
-#: ../plugins/openoffice/openoffice-read.c:6271 ../src/print-info.c:669
+#: ../plugins/openoffice/openoffice-read.c:6297 ../src/print-info.c:669
 msgid "TAB"
 msgstr "TAB"
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:6317 ../src/print-info.c:670
+#: ../plugins/openoffice/openoffice-read.c:6343 ../src/print-info.c:670
 msgid "PAGE"
 msgstr "PAGE"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:6324 ../src/print-info.c:671
+#: ../plugins/openoffice/openoffice-read.c:6350 ../src/print-info.c:671
 msgid "PAGES"
 msgstr "PAGES"
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:6303 ../src/print-info.c:672
+#: ../plugins/openoffice/openoffice-read.c:6329 ../src/print-info.c:672
 msgid "DATE"
 msgstr "DATE"
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:6310 ../src/print-info.c:673
+#: ../plugins/openoffice/openoffice-read.c:6336 ../src/print-info.c:673
 msgid "TIME"
 msgstr "TIME"
 
 #: ../plugins/excel/ms-excel-util.c:703
-#: ../plugins/openoffice/openoffice-read.c:6351
-#: ../plugins/openoffice/openoffice-read.c:6358 ../src/print-info.c:674
+#: ../plugins/openoffice/openoffice-read.c:6377
+#: ../plugins/openoffice/openoffice-read.c:6384 ../src/print-info.c:674
 #: ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "FILE"
 
 #: ../plugins/excel/ms-excel-util.c:704
-#: ../plugins/openoffice/openoffice-read.c:6349
-#: ../plugins/openoffice/openoffice-read.c:6354 ../src/print-info.c:675
+#: ../plugins/openoffice/openoffice-read.c:6375
+#: ../plugins/openoffice/openoffice-read.c:6380 ../src/print-info.c:675
 msgid "PATH"
 msgstr "PATH"
 
@@ -321,7 +322,7 @@ msgstr "CELL"
 
 #. ???
 #: ../plugins/excel/ms-excel-util.c:707
-#: ../plugins/openoffice/openoffice-read.c:6402 ../src/print-info.c:677
+#: ../plugins/openoffice/openoffice-read.c:6428 ../src/print-info.c:677
 msgid "TITLE"
 msgstr "TITLE"
 
@@ -478,7 +479,8 @@ msgstr "Виявлено одразу атрибути «refreshedDate» і «re
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
-msgstr "Пропускаємо некоректну групу полів зведення для поля «%s». Причина: %s"
+msgstr ""
+"Пропускаємо некоректну групу полів зведення для поля «%s». Причина: %s"
 
 #: ../plugins/excel/xlsx-read.c:382
 #, c-format
@@ -533,14 +535,14 @@ msgid "Invalid range '%s' for attribute %s"
 msgstr "Некоректний діапазон «%s» для атрибута %s"
 
 #: ../plugins/excel/xlsx-read.c:798
-#: ../plugins/openoffice/openoffice-read.c:1315
-#: ../plugins/openoffice/openoffice-read.c:1393
+#: ../plugins/openoffice/openoffice-read.c:1337
+#: ../plugins/openoffice/openoffice-read.c:1415
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Некоректний атрибут «%s», невідома одиниця «%s»"
 
 #: ../plugins/excel/xlsx-read.c:803 ../plugins/excel/xlsx-read.c:810
-#: ../plugins/openoffice/openoffice-read.c:1320
+#: ../plugins/openoffice/openoffice-read.c:1342
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Некоректний атрибут «%s», очікувана відстань, отримано «%s»"
@@ -550,122 +552,122 @@ msgstr "Некоректний атрибут «%s», очікувана від�
 msgid "Unknown theme color %d"
 msgstr "Невідомий колір теми %d"
 
-#: ../plugins/excel/xlsx-read.c:1181
+#: ../plugins/excel/xlsx-read.c:1187
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Невизначений ідентифікатор форматів чисел «%s»"
 
-#: ../plugins/excel/xlsx-read.c:1281 ../plugins/excel/xlsx-read.c:3405
+#: ../plugins/excel/xlsx-read.c:1288 ../plugins/excel/xlsx-read.c:3430
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Некоректний колір «%s» для атрибута rgb"
 
-#: ../plugins/excel/xlsx-read.c:1311 ../plugins/excel/xlsx-read.c:1320
+#: ../plugins/excel/xlsx-read.c:1318 ../plugins/excel/xlsx-read.c:1327
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Невизначений запис стилю «%d»"
 
-#: ../plugins/excel/xlsx-read.c:1329
+#: ../plugins/excel/xlsx-read.c:1336
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Невизначений частковий запис стилю «%d»"
 
-#: ../plugins/excel/xlsx-read.c:1363
+#: ../plugins/excel/xlsx-read.c:1370
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Некоректне посилання sst «%s»"
 
-#: ../plugins/excel/xlsx-read.c:1530
+#: ../plugins/excel/xlsx-read.c:1537
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Некоректна комірка %s"
 
-#: ../plugins/excel/xlsx-read.c:1669
+#: ../plugins/excel/xlsx-read.c:1676
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 "Ігноруємо специфікацію стовпчиків, у якій не вказано першого і останнього."
 
-#: ../plugins/excel/xlsx-read.c:1806
+#: ../plugins/excel/xlsx-read.c:1815
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
 msgstr "Папір з файла XLSX: %iпт⨉%iпт"
 
-#: ../plugins/excel/xlsx-read.c:1810
+#: ../plugins/excel/xlsx-read.c:1819
 #, c-format
 msgid "Paper from XLSX file, #%i"
 msgstr "Папір з файла XLSX, #%i"
 
-#: ../plugins/excel/xlsx-read.c:2274
-#: ../plugins/openoffice/openoffice-read.c:2927
+#: ../plugins/excel/xlsx-read.c:2299
+#: ../plugins/openoffice/openoffice-read.c:2949
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ігноруємо перевірку на некоректні дані з такої причини: %s"
 
-#: ../plugins/excel/xlsx-read.c:2808
+#: ../plugins/excel/xlsx-read.c:2833
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ігноруємо непридатний до обробки умовний формат типу «%s»"
 
-#: ../plugins/excel/xlsx-read.c:3221
+#: ../plugins/excel/xlsx-read.c:3246
 msgid "Unknown type of hyperlink"
 msgstr "Невідомий тип гіперпосилання"
 
-#: ../plugins/excel/xlsx-read.c:3264
+#: ../plugins/excel/xlsx-read.c:3289
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr ""
 "Виявлено непридатне до інтерпретації розширення «ext» у просторі назв «%s»"
 
-#: ../plugins/excel/xlsx-read.c:3273
+#: ../plugins/excel/xlsx-read.c:3298
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr ""
 "Виявлено непридатне до інтерпретації розширення «ext» без вказаного простору "
 "назв"
 
-#: ../plugins/excel/xlsx-read.c:3744
+#: ../plugins/excel/xlsx-read.c:3769
 msgid "Ignoring a sheet without a name"
 msgstr "Ігноруємо аркуш без назви"
 
-#: ../plugins/excel/xlsx-read.c:3828
+#: ../plugins/excel/xlsx-read.c:3853
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Не вдалося визначити назву: %s"
 
-#: ../plugins/excel/xlsx-read.c:3890
+#: ../plugins/excel/xlsx-read.c:3915
 msgid "Unable to resolve external relationship"
 msgstr "Не вдалося визначити зовнішнє співвідношення"
 
-#: ../plugins/excel/xlsx-read.c:4084
+#: ../plugins/excel/xlsx-read.c:4109
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Пропущено part-id для аркуша «%s»"
 
-#: ../plugins/excel/xlsx-read.c:4109
+#: ../plugins/excel/xlsx-read.c:4134
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Читаємо аркуш «%s»…"
 
-#: ../plugins/excel/xlsx-read.c:4117
+#: ../plugins/excel/xlsx-read.c:4142
 msgid "Reading comments..."
 msgstr "Читаємо коментарі…"
 
-#: ../plugins/excel/xlsx-read.c:5257
+#: ../plugins/excel/xlsx-read.c:5282
 msgid "Reading shared strings..."
 msgstr "Читаємо спільні рядки…"
 
-#: ../plugins/excel/xlsx-read.c:5266
+#: ../plugins/excel/xlsx-read.c:5291
 msgid "Reading theme..."
 msgstr "Читаємо тему…"
 
-#: ../plugins/excel/xlsx-read.c:5275
+#: ../plugins/excel/xlsx-read.c:5300
 msgid "Reading styles..."
 msgstr "Читаємо стилі…"
 
-#: ../plugins/excel/xlsx-read.c:5280
+#: ../plugins/excel/xlsx-read.c:5305
 msgid "Reading workbook..."
 msgstr "Читаємо робочу книгу…"
 
-#: ../plugins/excel/xlsx-read.c:5290
+#: ../plugins/excel/xlsx-read.c:5315
 msgid "No workbook stream found."
 msgstr "Не знайдено потік робочої книги."
 
@@ -736,7 +738,7 @@ msgstr "Неможливо відкрити файл модуля «%s»."
 msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
 msgstr "У модулі «%s» не міститься (символу \"register_actual_excel4v\")."
 
-#: ../plugins/excelplugins/excelplugins.c:996
+#: ../plugins/excelplugins/excelplugins.c:1002
 #, c-format
 msgid "No loadable worksheet functions found in XLL/DLL/SO file %s."
 msgstr ""
@@ -744,7 +746,7 @@ msgstr ""
 "аркушів."
 
 #. xgettext : %lu gives the number of functions. This is input to ngettext.
-#: ../plugins/excelplugins/excelplugins.c:1000
+#: ../plugins/excelplugins/excelplugins.c:1006
 #, c-format
 msgid "Loaded %lu function from XLL/DLL/SO %s."
 msgid_plural "Loaded %lu functions from XLL/DLL/SO %s."
@@ -950,7 +952,7 @@ msgstr "%s версії %s"
 
 #: ../plugins/fn-info/functions.c:1446 ../src/dialogs/dialog-cell-format.c:880
 #: ../src/dialogs/dialog-cell-format.c:2354
-#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3814
+#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3823
 msgid "Automatic"
 msgstr "Автоматично"
 
@@ -978,7 +980,7 @@ msgstr "Інформаційні функції"
 msgid "Functions for inspecting values, cells, and more"
 msgstr "Функції для перевірки значень, комірок тощо"
 
-#: ../plugins/fn-info/plugin.xml.in.h:3 ../src/gui-util.c:1064
+#: ../plugins/fn-info/plugin.xml.in.h:3 ../src/gui-util.c:1072
 msgid "Information"
 msgstr "Інформація"
 
@@ -1063,8 +1065,8 @@ msgid "Functions for generating random numbers"
 msgstr "Функції для породження псевдовипадкових чисел"
 
 #: ../plugins/fn-random/plugin.xml.in.h:3
-#: ../src/dialogs/random-generation.ui.h:3 ../src/tools/random-generator.c:776
-#: ../src/tools/random-generator.c:779
+#: ../src/dialogs/random-generation.ui.h:3 ../src/tools/random-generator.c:784
+#: ../src/tools/random-generator.c:787
 msgid "Random Numbers"
 msgstr "Випадкові числа"
 
@@ -1202,16 +1204,16 @@ msgstr "Забезпечує підтримку зберігання глоса�
 msgid "Gnome Glossary PO file format"
 msgstr "формат файлів PO глосарія Gnome"
 
-#: ../plugins/html/html_read.c:117
+#: ../plugins/html/html_read.c:150
 msgid "[Warning: Invalid text string has been removed.]"
 msgstr "[Попередження: вилучено некоректний текстовий рядок.]"
 
-#: ../plugins/html/html_read.c:156
+#: ../plugins/html/html_read.c:189
 #, c-format
 msgid "[see sheet %s]"
 msgstr "[див. аркуш %s]"
 
-#: ../plugins/html/html_read.c:157
+#: ../plugins/html/html_read.c:190
 msgid ""
 "The original html file is\n"
 "using nested tables."
@@ -1219,7 +1221,7 @@ msgstr ""
 "У початковому файлі HTML\n"
 "використано вкладені таблиці."
 
-#: ../plugins/html/html_read.c:583
+#: ../plugins/html/html_read.c:631
 msgid "Unable to parse the html."
 msgstr "Не вдалося обробити html."
 
@@ -1363,23 +1365,23 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr "Некоректна назва рядка, %s, у розділі правих частин або діапазонів"
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:590 ../src/tools/gnm-solver.c:1879
+#: ../plugins/mps/mps.c:590 ../src/tools/gnm-solver.c:1893
 msgid "Constraint"
 msgstr "Обмеження"
 
 #: ../plugins/mps/mps.c:591 ../plugins/mps/mps.c:653
 #: ../src/dialogs/dialog-doc-metadata.c:1871
-#: ../src/dialogs/dialog-simulation.c:215 ../src/tools/gnm-solver.c:1659
-#: ../src/tools/gnm-solver.c:1704 ../src/tools/gnm-solver.c:1748
+#: ../src/dialogs/dialog-simulation.c:215 ../src/tools/gnm-solver.c:1673
+#: ../src/tools/gnm-solver.c:1718 ../src/tools/gnm-solver.c:1762
 msgid "Value"
 msgstr "Значення"
 
 #: ../plugins/mps/mps.c:592 ../src/dialogs/dialog-formula-guru.c:895
-#: ../src/dialogs/dialog-search.c:437 ../src/tools/gnm-solver.c:1660
+#: ../src/dialogs/dialog-search.c:437 ../src/tools/gnm-solver.c:1674
 msgid "Type"
 msgstr "Тип"
 
-#: ../plugins/mps/mps.c:593 ../src/tools/gnm-solver.c:1749
+#: ../plugins/mps/mps.c:593 ../src/tools/gnm-solver.c:1763
 msgid "Limit"
 msgstr "Обмеження"
 
@@ -1456,231 +1458,232 @@ msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Можливе пошкоджене ціле число «%s» для «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:765
+#: ../plugins/openoffice/openoffice-read.c:787
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr "Некоректний атрибут «%s», очікуване число, отримано «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:789
+#: ../plugins/openoffice/openoffice-read.c:811
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr "Некоректний атрибут «%s», очікувано відсоток, отримано «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:811
+#: ../plugins/openoffice/openoffice-read.c:833
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Некоректний атрибут «%s», очікувано колір, отримано «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1089
+#: ../plugins/openoffice/openoffice-read.c:1111
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Виявлено невідому назву штрихування «%s»!"
 
-#: ../plugins/openoffice/openoffice-read.c:1097
+#: ../plugins/openoffice/openoffice-read.c:1119
 msgid "Hatch fill without hatch name encountered!"
 msgstr "Виявлено заповнення штрихуванням без назви штрихування!"
 
-#: ../plugins/openoffice/openoffice-read.c:1105
+#: ../plugins/openoffice/openoffice-read.c:1127
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Виявлено невідому назву градієнта «%s»!"
 
-#: ../plugins/openoffice/openoffice-read.c:1118
+#: ../plugins/openoffice/openoffice-read.c:1140
 msgid "Gradient fill without gradient name encountered!"
 msgstr "Виявлено заповнення градієнтом без назви градієнта!"
 
-#: ../plugins/openoffice/openoffice-read.c:1126
+#: ../plugins/openoffice/openoffice-read.c:1148
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Виявлено невідому назву заповнення зображенням «%s»!"
 
-#: ../plugins/openoffice/openoffice-read.c:1136
+#: ../plugins/openoffice/openoffice-read.c:1158
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr "Виявлено некоректну специфікацію абсолютного шляху до файла «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:1149
+#: ../plugins/openoffice/openoffice-read.c:1171
 #, c-format
 msgid "Unable to open '%s'."
 msgstr "Не вдалося відкрити «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:1159
-#: ../plugins/openoffice/openoffice-read.c:8672
+#: ../plugins/openoffice/openoffice-read.c:1181
+#: ../plugins/openoffice/openoffice-read.c:8698
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Не вдалося завантажити файл «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:1168
+#: ../plugins/openoffice/openoffice-read.c:1190
 msgid "Image fill without image name encountered!"
 msgstr "Виявлено заповнення зображенням без назви зображення!"
 
-#: ../plugins/openoffice/openoffice-read.c:1398
+#: ../plugins/openoffice/openoffice-read.c:1420
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Некоректний атрибут «%s», очікувано кут, отримано «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1464
+#: ../plugins/openoffice/openoffice-read.c:1486
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Невідомий атрибут «%s», невідоме значення переліку «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1659
+#: ../plugins/openoffice/openoffice-read.c:1681
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Ігноруємо посилання на невідому зовнішню робочу книгу «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1881
+#: ../plugins/openoffice/openoffice-read.c:1903
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Виявлено невідомий стиль тексту з назвою «%s»!"
 
-#: ../plugins/openoffice/openoffice-read.c:2328
+#: ../plugins/openoffice/openoffice-read.c:2350
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "Не вдалося обробити «%s» («%s»)"
 
-#: ../plugins/openoffice/openoffice-read.c:2426
-#: ../plugins/openoffice/openoffice-read.c:3946
+#: ../plugins/openoffice/openoffice-read.c:2448
+#: ../plugins/openoffice/openoffice-read.c:3968
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Виявлено непідтримуваний тип формули: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2432
-#: ../plugins/openoffice/openoffice-read.c:3953
+#: ../plugins/openoffice/openoffice-read.c:2454
+#: ../plugins/openoffice/openoffice-read.c:3975
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Вираз «%s» не починається із розпізнаного символу"
 
-#: ../plugins/openoffice/openoffice-read.c:2471
-#: ../plugins/openoffice/openoffice-write.c:5280
-#: ../plugins/openoffice/openoffice-write.c:5292 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-read.c:2493
+#: ../plugins/openoffice/openoffice-write.c:5283
+#: ../plugins/openoffice/openoffice-write.c:5295 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "комірка"
 
-#: ../plugins/openoffice/openoffice-read.c:2861
+#: ../plugins/openoffice/openoffice-read.c:2883
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr "Підтримки умови перевірки чинності «%s». Її змінено на «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:2910
+#: ../plugins/openoffice/openoffice-read.c:2932
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Виявлено невизначений стиль перевірки: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2936
+#: ../plugins/openoffice/openoffice-read.c:2958
 #, c-format
 msgid ""
-"Unsupported validation condition encountered: \"%s\" with base address: \"%s"
-"\""
+"Unsupported validation condition encountered: \"%s\" with base address: "
+"\"%s\""
 msgstr ""
 "Виявлено непідтримувану умову перевірки чинності: «%s» із базовою адресою: "
 "«%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:3602
+#: ../plugins/openoffice/openoffice-read.c:3624
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Виявлено невідому умову «%s», ігноруємо."
 
-#: ../plugins/openoffice/openoffice-read.c:3684
+#: ../plugins/openoffice/openoffice-read.c:3706
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Ігноруємо дані стовпчиків за стовпчиком %i"
 
-#: ../plugins/openoffice/openoffice-read.c:3788
-#: ../plugins/openoffice/openoffice-read.c:4187
+#: ../plugins/openoffice/openoffice-read.c:3810
+#: ../plugins/openoffice/openoffice-read.c:4209
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Вміст перевищує максимальну підтримувану кількість рядків (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3938
-#: ../plugins/openoffice/openoffice-read.c:6385
+#: ../plugins/openoffice/openoffice-read.c:3960
+#: ../plugins/openoffice/openoffice-read.c:6411
 msgid "Missing expression"
 msgstr "Пропущено вираз"
 
-#: ../plugins/openoffice/openoffice-read.c:4165
+#: ../plugins/openoffice/openoffice-read.c:4187
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Некоректний вираз масиву не вказує кількість стовпчиків."
 
-#: ../plugins/openoffice/openoffice-read.c:4168
+#: ../plugins/openoffice/openoffice-read.c:4190
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Некоректний вираз масиву не вказує кількість рядків."
 
-#: ../plugins/openoffice/openoffice-read.c:4179
+#: ../plugins/openoffice/openoffice-read.c:4201
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "Вміст перевищує максимальну підтримувану кількість стовпчиків (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:4510
+#: ../plugins/openoffice/openoffice-read.c:4532
 msgid "Unnamed dash style encountered."
 msgstr "Виявлено стиль штрихової лінії без назви."
 
-#: ../plugins/openoffice/openoffice-read.c:4528
+#: ../plugins/openoffice/openoffice-read.c:4550
 msgid "Unnamed image fill style encountered."
 msgstr "Виявлено стиль заповнення зображенням без назви."
 
-#: ../plugins/openoffice/openoffice-read.c:4530
+#: ../plugins/openoffice/openoffice-read.c:4552
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "Зі стилем заповнення зображенням «%s» не пов'язано зображення."
 
-#: ../plugins/openoffice/openoffice-read.c:4567
-#: ../plugins/openoffice/openoffice-read.c:4573
+#: ../plugins/openoffice/openoffice-read.c:4589
+#: ../plugins/openoffice/openoffice-read.c:4595
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Не вдалося обробити колір градієнта: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4593
+#: ../plugins/openoffice/openoffice-read.c:4615
 msgid "Unnamed gradient style encountered."
 msgstr "Виявлено стиль градієнта без назви."
 
-#: ../plugins/openoffice/openoffice-read.c:4614
+#: ../plugins/openoffice/openoffice-read.c:4636
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Не вдалося обробити колір штрихування: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4688
+#: ../plugins/openoffice/openoffice-read.c:4710
 msgid "Unnamed hatch encountered!"
 msgstr "Виявлено штрихування без назви!"
 
-#: ../plugins/openoffice/openoffice-read.c:4829
+#: ../plugins/openoffice/openoffice-read.c:4851
 msgid "Duplicate default column style encountered."
 msgstr "Виявлено дублювання типового стилю стовпчиків."
 
-#: ../plugins/openoffice/openoffice-read.c:4845
+#: ../plugins/openoffice/openoffice-read.c:4867
 msgid "Duplicate default row style encountered."
 msgstr "Виявлено дублювання типового стилю рядків."
 
-#: ../plugins/openoffice/openoffice-read.c:4880
+#: ../plugins/openoffice/openoffice-read.c:4902
 msgid "Duplicate default chart/graphics style encountered."
 msgstr "Виявлено дублювання типового стилю діаграм або графіків."
 
-#: ../plugins/openoffice/openoffice-read.c:5375
+#: ../plugins/openoffice/openoffice-read.c:5397
 msgid "Unnamed date style ignored."
 msgstr "Стиль дати без назви проігноровано."
 
-#: ../plugins/openoffice/openoffice-read.c:5761
+#: ../plugins/openoffice/openoffice-read.c:5787
 #, c-format
 msgid "Corrupted file: invalid number format condition [%s]."
 msgstr "Пошкоджений файл: некоректна умова форматування чисел [%s]."
 
-#: ../plugins/openoffice/openoffice-read.c:5779
+#: ../plugins/openoffice/openoffice-read.c:5805
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Пошкоджений файл: стиль чисел без назви проігноровано."
 
-#: ../plugins/openoffice/openoffice-read.c:5801
+#: ../plugins/openoffice/openoffice-read.c:5827
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Здається, файл пошкоджено. Пропущено обов'язкові формати."
 
-#: ../plugins/openoffice/openoffice-read.c:5870
+#: ../plugins/openoffice/openoffice-read.c:5896
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Папір для файла ODF: %iпт⨉%iпт"
 
-#: ../plugins/openoffice/openoffice-read.c:6082
+#: ../plugins/openoffice/openoffice-read.c:6108
 msgid "Missing page layout identifier"
 msgstr "Пропущено ідентифікатор компонування сторінки"
 
-#: ../plugins/openoffice/openoffice-read.c:6109
+#: ../plugins/openoffice/openoffice-read.c:6135
 msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
@@ -1689,35 +1692,35 @@ msgstr ""
 "сторінок. Цей стиль буде проігноровано."
 
 #. For OOO_VER_1 this may be acceptable
-#: ../plugins/openoffice/openoffice-read.c:6134
+#: ../plugins/openoffice/openoffice-read.c:6160
 msgid "Master page style without page layout encountered!"
 msgstr "Виявлено стиль головної сторінки без компонування сторінки!"
 
-#: ../plugins/openoffice/openoffice-read.c:6140
+#: ../plugins/openoffice/openoffice-read.c:6166
 msgid "Master page style without name encountered!"
 msgstr "Виявлено стиль головної сторінки без назви!"
 
-#: ../plugins/openoffice/openoffice-read.c:6433
+#: ../plugins/openoffice/openoffice-read.c:6459
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Виявлено невідомий стиль рамки Gnumeric «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:6772
+#: ../plugins/openoffice/openoffice-read.c:6798
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Невідомий тип розриву «%s», повертаємося до типового — NONE"
 
-#: ../plugins/openoffice/openoffice-read.c:6857
+#: ../plugins/openoffice/openoffice-read.c:6883
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Не вдалося обробити колір вкладки «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:6868
+#: ../plugins/openoffice/openoffice-read.c:6894
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Не вдалося обробити колір тексту вкладки «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:7400
+#: ../plugins/openoffice/openoffice-read.c:7426
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1726,38 +1729,38 @@ msgstr ""
 "Виявлено невідомий тип інтерполяції: «%s», використовуємо замість нього "
 "кубічний сплайн Безьє."
 
-#: ../plugins/openoffice/openoffice-read.c:7409
+#: ../plugins/openoffice/openoffice-read.c:7435
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Виявлено невідомий тип інтерполяції: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:7957
+#: ../plugins/openoffice/openoffice-read.c:7983
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "вираз «%s» @ «%s» не є cellref"
 
-#: ../plugins/openoffice/openoffice-read.c:7973
+#: ../plugins/openoffice/openoffice-read.c:7999
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Вираз «%s» належить до невідомого простору назв"
 
-#: ../plugins/openoffice/openoffice-read.c:8048
+#: ../plugins/openoffice/openoffice-read.c:8074
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Некоректний діапазон бази даних «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:8082
+#: ../plugins/openoffice/openoffice-read.c:8108
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
 msgstr ""
 "У Gnumeric не передбачено підтримку умов автоматичного фільтрування, "
 "поєднаних за допомогою «АБО»."
 
-#: ../plugins/openoffice/openoffice-read.c:8282
+#: ../plugins/openoffice/openoffice-read.c:8308
 #, c-format
 msgid "Moving sheet object from column %i and row %i"
 msgstr "Пересуваємо об'єкт аркуша зі стовпчика %i і рядка %i"
 
-#: ../plugins/openoffice/openoffice-read.c:8356
+#: ../plugins/openoffice/openoffice-read.c:8382
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1766,13 +1769,14 @@ msgstr ""
 "У рядках об'єкта аркуша Gnumeric не передбачено підтримки долученого тексту. "
 "Текст «%s» буде відкинуто."
 
-#: ../plugins/openoffice/openoffice-read.c:8393
-#: ../plugins/openoffice/openoffice-read.c:8432
+#: ../plugins/openoffice/openoffice-read.c:8419
+#: ../plugins/openoffice/openoffice-read.c:8458
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr "Некоректний атрибут «форма:значення», очікувалося число, отримано «%s»"
+msgstr ""
+"Некоректний атрибут «форма:значення», очікувалося число, отримано «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:8398
+#: ../plugins/openoffice/openoffice-read.c:8424
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1781,16 +1785,16 @@ msgstr ""
 "Оголошено про некоректну пару значення-тип «%s» для атрибута «form:value» в "
 "елементі «form:value-range»."
 
-#: ../plugins/openoffice/openoffice-read.c:8857
+#: ../plugins/openoffice/openoffice-read.c:8883
 msgid "Unable to determine manual position for a chart component!"
 msgstr "Не вдалося визначити позицію вручну для компонента діаграми!"
 
-#: ../plugins/openoffice/openoffice-read.c:9136
+#: ../plugins/openoffice/openoffice-read.c:9162
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr "Недостатньо даних у наданому діапазоні (%s) для усіх запитів"
 
-#: ../plugins/openoffice/openoffice-read.c:9863
+#: ../plugins/openoffice/openoffice-read.c:9889
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1798,52 +1802,52 @@ msgstr ""
 "У Gnumeric не передбачено неавтоматичних рівнянь регресії. Використовуємо "
 "автоматичне рівняння замість вказаного."
 
-#: ../plugins/openoffice/openoffice-read.c:9882
+#: ../plugins/openoffice/openoffice-read.c:9908
 #, c-format
 msgid "The chart style \"%s\" is not defined!"
 msgstr "Стиль діаграм «%s» не визначено!"
 
-#: ../plugins/openoffice/openoffice-read.c:10050
+#: ../plugins/openoffice/openoffice-read.c:10076
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr ""
 "Виявлено пропущені лінії у кресленні. Підтримки таких ліній не передбачено."
 
-#: ../plugins/openoffice/openoffice-read.c:10187
+#: ../plugins/openoffice/openoffice-read.c:10213
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr "Виявлено невідомий тип діаграми. Спробуємо створити лінійний графік."
 
-#: ../plugins/openoffice/openoffice-read.c:10249
-#: ../plugins/openoffice/openoffice-read.c:10290
-#: ../plugins/openoffice/openoffice-read.c:10320
-#: ../plugins/openoffice/openoffice-read.c:10352
+#: ../plugins/openoffice/openoffice-read.c:10275
+#: ../plugins/openoffice/openoffice-read.c:10316
+#: ../plugins/openoffice/openoffice-read.c:10346
+#: ../plugins/openoffice/openoffice-read.c:10378
 #, c-format
 msgid "Chart style with name '%s' is missing."
 msgstr "Немає стилю діаграми із назвою «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:10488
+#: ../plugins/openoffice/openoffice-read.c:10514
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
 "Виявлено непідтримуваний підпис. Підпис перетворено на текстовий прямокутник."
 
-#: ../plugins/openoffice/openoffice-read.c:10561
+#: ../plugins/openoffice/openoffice-read.c:10587
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr "Під час обробки формули «%s» назви «%s» виявлено зациклювання"
 
-#: ../plugins/openoffice/openoffice-read.c:10764
+#: ../plugins/openoffice/openoffice-read.c:10790
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Не вдалося обчислити формулу «%s» («%s») назви «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:10769
+#: ../plugins/openoffice/openoffice-read.c:10795
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Не вдалося обробити формулу «%s» («%s») назви «%s»"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:10853
-#: ../plugins/openoffice/openoffice-read.c:10856
+#: ../plugins/openoffice/openoffice-read.c:10879
+#: ../plugins/openoffice/openoffice-read.c:10882
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
@@ -1852,18 +1856,18 @@ msgstr ""
 "Виявлено непідтримувану нетипову форму типу «%s». Форму перетворено на "
 "прямокутник."
 
-#: ../plugins/openoffice/openoffice-read.c:10859
+#: ../plugins/openoffice/openoffice-read.c:10885
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
 "Виявлено непідтримувану нетипову форму. Форму перетворено на прямокутник."
 
-#: ../plugins/openoffice/openoffice-read.c:11257
+#: ../plugins/openoffice/openoffice-read.c:11283
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Атрибут «%s» має непідтримуване значення «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:11915
+#: ../plugins/openoffice/openoffice-read.c:11941
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
@@ -1872,12 +1876,12 @@ msgstr ""
 "Розмір аркуша у %i стовпчиків і %i рядків, які використано у цьому файлів, "
 "перевищує максимальний підтримуваний у Gnumeric розмір аркуша"
 
-#: ../plugins/openoffice/openoffice-read.c:11946
+#: ../plugins/openoffice/openoffice-read.c:11972
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_IN_CORRUPTED_FILE"
 
-#: ../plugins/openoffice/openoffice-read.c:11951
+#: ../plugins/openoffice/openoffice-read.c:11977
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1886,74 +1890,74 @@ msgstr ""
 "Цей файл пошкоджено дублюванням назви аркуша «%s». Тепер аркуш перейменовано "
 "на «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:11961
+#: ../plugins/openoffice/openoffice-read.c:11987
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "SHEET_IN_CORRUPTED_FILE"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:11967
+#: ../plugins/openoffice/openoffice-read.c:11993
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr "Цей файл пошкоджено — аркуш без назви тепер названо «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:13963
+#: ../plugins/openoffice/openoffice-read.c:13990
 msgid "Unknown mimetype for openoffice file."
 msgstr "Невідомий тип MIME для файла openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:13973
+#: ../plugins/openoffice/openoffice-read.c:14000
 msgid "No stream named content.xml found."
 msgstr "Не знайдено потоку з назвою content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:14123
+#: ../plugins/openoffice/openoffice-read.c:14150
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Некоректні метадані «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:14214
+#: ../plugins/openoffice/openoffice-read.c:14241
 msgid "settings.xml stream is malformed!"
 msgstr "Помилкове форматування потоку settings.xml!"
 
-#: ../plugins/openoffice/openoffice-write.c:5273
-#: ../plugins/openoffice/openoffice-write.c:5285
+#: ../plugins/openoffice/openoffice-write.c:5276
+#: ../plugins/openoffice/openoffice-write.c:5288
 msgid "tab"
 msgstr "табуляція"
 
-#: ../plugins/openoffice/openoffice-write.c:5274
-#: ../plugins/openoffice/openoffice-write.c:5286
+#: ../plugins/openoffice/openoffice-write.c:5277
+#: ../plugins/openoffice/openoffice-write.c:5289
 msgid "page"
 msgstr "сторінка"
 
-#: ../plugins/openoffice/openoffice-write.c:5275
-#: ../plugins/openoffice/openoffice-write.c:5287
+#: ../plugins/openoffice/openoffice-write.c:5278
+#: ../plugins/openoffice/openoffice-write.c:5290
 msgid "pages"
 msgstr "сторінки"
 
-#: ../plugins/openoffice/openoffice-write.c:5276
-#: ../plugins/openoffice/openoffice-write.c:5288
+#: ../plugins/openoffice/openoffice-write.c:5279
+#: ../plugins/openoffice/openoffice-write.c:5291
 msgid "date"
 msgstr "дата"
 
-#: ../plugins/openoffice/openoffice-write.c:5277
-#: ../plugins/openoffice/openoffice-write.c:5289
+#: ../plugins/openoffice/openoffice-write.c:5280
+#: ../plugins/openoffice/openoffice-write.c:5292
 msgid "time"
 msgstr "час"
 
-#: ../plugins/openoffice/openoffice-write.c:5278
-#: ../plugins/openoffice/openoffice-write.c:5290 ../src/ssconvert.c:121
+#: ../plugins/openoffice/openoffice-write.c:5281
+#: ../plugins/openoffice/openoffice-write.c:5293 ../src/ssconvert.c:121
 #: ../src/ssdiff.c:61
 msgid "file"
 msgstr "файл"
 
-#: ../plugins/openoffice/openoffice-write.c:5279
-#: ../plugins/openoffice/openoffice-write.c:5291
+#: ../plugins/openoffice/openoffice-write.c:5282
+#: ../plugins/openoffice/openoffice-write.c:5294
 msgid "path"
 msgstr "шлях"
 
-#: ../plugins/openoffice/openoffice-write.c:9078
+#: ../plugins/openoffice/openoffice-write.c:9081
 msgid "Writing Sheets..."
 msgstr "Записуємо аркуші…"
 
-#: ../plugins/openoffice/openoffice-write.c:9119
+#: ../plugins/openoffice/openoffice-write.c:9122
 msgid "Writing Sheet Objects..."
 msgstr "Записуємо об'єкти аркушів…"
 
@@ -2063,7 +2067,8 @@ msgstr "Не вдалося отримати пам'ять для даних з�
 #: ../plugins/paradox/paradox.c:536
 #, c-format
 msgid "Field %d in line %d has possibly been cut off. Data has %d character."
-msgid_plural "Field %d in line %d has possibly been cut off. Data has %d characters."
+msgid_plural ""
+"Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
 "Поле %d у рядку %d, ймовірно, було обрізано. У даних міститься %d символ."
 msgstr[1] ""
@@ -2197,7 +2202,8 @@ msgstr "Функції Python"
 
 #: ../plugins/py-func/plugin.xml.in.h:2
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr "Зразок додатка Python, у якому реалізовано деякі (непотрібні) функції."
+msgstr ""
+"Зразок додатка Python, у якому реалізовано деякі (непотрібні) функції."
 
 #: ../plugins/py-func/plugin.xml.in.h:3
 msgid "Python"
@@ -2909,7 +2915,8 @@ msgid "Preferred Display Unit"
 msgstr "Бажана одиниця показу"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:75
-msgid "This string gives the default unit to be used in the page setup dialog."
+msgid ""
+"This string gives the default unit to be used in the page setup dialog."
 msgstr ""
 "Цей рядок визначає типову одиницю виміру, яку буде використано у діалоговому "
 "вікні налаштовування сторінки."
@@ -3996,7 +4003,7 @@ msgstr "Стирання рядків %s"
 msgid "Deleting row %s"
 msgstr "Стирання рядка %s"
 
-#: ../src/commands.c:1586 ../src/commands.c:1587 ../src/sheet.c:5096
+#: ../src/commands.c:1586 ../src/commands.c:1587 ../src/sheet.c:5160
 msgid "Clear"
 msgstr "Очистити"
 
@@ -4260,7 +4267,7 @@ msgstr "Ви справді хочете вставити копії %s?"
 
 #. Check arrays or merged regions in src or target regions
 #: ../src/commands.c:3266 ../src/commands.c:3422 ../src/commands.c:3423
-#: ../src/item-cursor.c:1024 ../src/wbc-gtk-actions.c:580
+#: ../src/item-cursor.c:1038 ../src/wbc-gtk-actions.c:580
 msgid "Autofill"
 msgstr "Автозаповнення"
 
@@ -4503,7 +4510,7 @@ msgstr "Налаштувати коригування"
 msgid "Add Filter"
 msgstr "Додати фільтр"
 
-#: ../src/commands.c:7801 ../src/wbc-gtk.c:1632
+#: ../src/commands.c:7801 ../src/wbc-gtk.c:1639
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Автофільтрування заблоковано %s"
@@ -4544,19 +4551,19 @@ msgstr "Змінити умову фільтрування для %s"
 msgid "Clear All Page Breaks"
 msgstr "Вилучити усі розриви сторінок"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1567
+#: ../src/commands.c:8005 ../src/wbc-gtk.c:1574
 msgid "Remove Column Page Break"
 msgstr "Вилучити розрив сторінки за стовпчиками"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1577
+#: ../src/commands.c:8005 ../src/wbc-gtk.c:1584
 msgid "Remove Row Page Break"
 msgstr "Вилучити розрив сторінки за рядками"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1570
+#: ../src/commands.c:8008 ../src/wbc-gtk.c:1577
 msgid "Add Column Page Break"
 msgstr "Додати розрив сторінки за стовпчиками"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1580
+#: ../src/commands.c:8008 ../src/wbc-gtk.c:1587
 msgid "Add Row Page Break"
 msgstr "Додати розрив сторінки за рядками"
 
@@ -5015,8 +5022,9 @@ msgid "Visit the Gnumeric website"
 msgstr "Відвідайте сайт Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:592
-msgid "Copyright © 1998-2020"
-msgstr "© 1998–2020"
+#| msgid "Copyright © 1998-2020"
+msgid "Copyright © 1998-2023"
+msgstr "Авторські права © 1998–2020"
 
 #: ../src/dialogs/dialog-about.c:593
 msgid "Free, Fast, Accurate - Pick Any Three!"
@@ -5476,7 +5484,8 @@ msgstr ""
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
-msgstr "Вказаний вхідний діапазон має містити принаймні два стовпчики і мітки."
+msgstr ""
+"Вказаний вхідний діапазон має містити принаймні два стовпчики і мітки."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3659
 msgid "The given input range should contain at least two columns of data."
@@ -5795,13 +5804,13 @@ msgstr "Формат комірок"
 msgid "Border"
 msgstr "Тло"
 
-#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3860
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3869
 msgid "Clear Background"
 msgstr "Очистити тло"
 
 #: ../src/dialogs/dialog-cell-format.c:2358
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:90
-#: ../src/wbc-gtk-actions.c:3862 ../src/wbc-gtk-actions.c:3863
+#: ../src/wbc-gtk-actions.c:3871 ../src/wbc-gtk-actions.c:3872
 msgid "Background"
 msgstr "Тло"
 
@@ -6450,8 +6459,8 @@ msgstr "Рівень робочої книги"
 
 #: ../src/dialogs/dialog-goto-cell.c:387 ../src/dialogs/dialog-search.c:437
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1658
-#: ../src/tools/gnm-solver.c:1703 ../src/tools/gnm-solver.c:1844
+#: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1672
+#: ../src/tools/gnm-solver.c:1717 ../src/tools/gnm-solver.c:1858
 msgid "Cell"
 msgstr "Комірка"
 
@@ -6719,7 +6728,7 @@ msgstr "Автокоригування"
 #: ../src/dialogs/dialog-preferences.c:1215
 #: ../src/dialogs/dialog-sheet-compare.c:206
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
-#: ../src/wbc-gtk-actions.c:4405 ../src/widgets/gnm-fontbutton.c:1198
+#: ../src/wbc-gtk-actions.c:4414 ../src/widgets/gnm-fontbutton.c:1198
 msgid "Font"
 msgstr "Шрифт"
 
@@ -6731,7 +6740,7 @@ msgstr "Файли"
 msgid "Tools"
 msgstr "Інструменти"
 
-#: ../src/dialogs/dialog-preferences.c:1218 ../src/wbc-gtk-actions.c:4090
+#: ../src/dialogs/dialog-preferences.c:1218 ../src/wbc-gtk-actions.c:4099
 msgid "Undo"
 msgstr "Скасувати"
 
@@ -7299,22 +7308,22 @@ msgid "Font color"
 msgstr "Колір шрифту"
 
 #. ALSO "<control>2"
-#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3644
+#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3652
 #: ../src/widgets/gnm-text-view.c:329
 msgid "Bold"
 msgstr "Товстий"
 
 #. ALSO "<control>3"
-#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3652
+#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3660
 msgid "Italic"
 msgstr "Курсивний"
 
 #. ALSO "<control>4"
-#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3660
+#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3668
 msgid "Underline"
 msgstr "Підкреслення"
 
-#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3689
+#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3697
 msgid "Strikethrough"
 msgstr "Перекреслення"
 
@@ -7427,12 +7436,12 @@ msgstr "Загальний"
 
 #. start sub menu
 #: ../src/dialogs/dialog-sheet-compare.c:378 ../src/dialogs/cell-format.ui.h:42
-#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3875
+#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3884
 msgid "Left"
 msgstr "Ліворуч"
 
 #: ../src/dialogs/dialog-sheet-compare.c:379 ../src/dialogs/cell-format.ui.h:43
-#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3877
+#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3886
 msgid "Right"
 msgstr "Праворуч"
 
@@ -7446,7 +7455,7 @@ msgid "Fill"
 msgstr "Заповнення"
 
 #: ../src/dialogs/dialog-sheet-compare.c:382
-#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3728
+#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3736
 msgid "Justify"
 msgstr "За шириною"
 
@@ -7455,7 +7464,7 @@ msgid "Center across selection"
 msgstr "Центрувати за позначеним"
 
 #: ../src/dialogs/dialog-sheet-compare.c:384
-#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3717
+#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3725
 msgid "Distributed"
 msgstr "Розподілено"
 
@@ -7466,7 +7475,7 @@ msgstr "Вгору"
 
 #: ../src/dialogs/dialog-sheet-compare.c:394
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:44
-#: ../src/wbc-gtk-actions.c:3883
+#: ../src/wbc-gtk-actions.c:3892
 msgid "Bottom"
 msgstr "Вниз"
 
@@ -7648,16 +7657,16 @@ msgid "Run on"
 msgstr "Працює на"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:245
-#: ../src/wbc-gtk.c:4058
+#: ../src/wbc-gtk.c:4065
 msgid "Min"
 msgstr "Мінімум"
 
-#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4060
+#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4067
 msgid "Average"
 msgstr "Середнє"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4059
+#: ../src/wbc-gtk.c:4066
 msgid "Max"
 msgstr "Максимум"
 
@@ -7704,11 +7713,11 @@ msgstr ""
 msgid "Changing solver parameters"
 msgstr "Зміна параметрів розв'язувача"
 
-#: ../src/dialogs/dialog-solver.c:548 ../src/tools/gnm-solver.c:1685
+#: ../src/dialogs/dialog-solver.c:548 ../src/tools/gnm-solver.c:1699
 msgid "Feasible"
 msgstr "Досяжний"
 
-#: ../src/dialogs/dialog-solver.c:552 ../src/tools/gnm-solver.c:1688
+#: ../src/dialogs/dialog-solver.c:552 ../src/tools/gnm-solver.c:1702
 msgid "Optimal"
 msgstr "Оптимальний"
 
@@ -7740,7 +7749,7 @@ msgstr "Виконання"
 msgid "Done"
 msgstr "Виконано"
 
-#: ../src/dialogs/dialog-solver.c:607 ../src/gui-util.c:1079
+#: ../src/dialogs/dialog-solver.c:607 ../src/gui-util.c:1087
 msgid "Error"
 msgstr "Помилка"
 
@@ -7864,7 +7873,8 @@ msgstr "Автомасштаб"
 
 #: ../src/dialogs/dialog-stf-format-page.c:622
 #, c-format
-msgid "If this checkbox is selected, column %i will be imported into Gnumeric."
+msgid ""
+"If this checkbox is selected, column %i will be imported into Gnumeric."
 msgstr "Якщо позначено цей пункт, стовпчик %i буде імпортовано до Gnumeric."
 
 #: ../src/dialogs/dialog-stf-format-page.c:630
@@ -9556,8 +9566,8 @@ msgstr "Обрізка:"
 msgid "Source Locale:"
 msgstr "Локаль джерела:"
 
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4145
-#: ../src/wbc-gtk-actions.c:4165
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4154
+#: ../src/wbc-gtk-actions.c:4174
 msgid "Zoom"
 msgstr "Масштабування"
 
@@ -10638,7 +10648,8 @@ msgstr "Ширина стовпчиків"
 
 #: ../src/dialogs/paste-special.ui.h:31
 msgid "Set column widths of the destination to those of the source"
-msgstr "Зробити ширини стовпчиків призначення такими самими, як ширини джерела"
+msgstr ""
+"Зробити ширини стовпчиків призначення такими самими, як ширини джерела"
 
 #: ../src/dialogs/paste-special.ui.h:32
 msgid "Row heights"
@@ -11761,8 +11772,8 @@ msgstr "Вхідні змінні:"
 msgid "Output variables:"
 msgstr "Вихідні змінні:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1701
-#: ../src/tools/gnm-solver.c:1842
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1715
+#: ../src/tools/gnm-solver.c:1856
 msgid "Variables"
 msgstr "Змінні"
 
@@ -11872,13 +11883,13 @@ msgstr "≥"
 msgid "="
 msgstr "="
 
-#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:441
-#: ../src/tools/gnm-solver.c:467
+#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:443
+#: ../src/tools/gnm-solver.c:469
 msgid "Int"
 msgstr "Ціле"
 
-#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:442
-#: ../src/tools/gnm-solver.c:468
+#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:444
+#: ../src/tools/gnm-solver.c:470
 msgid "Bool"
 msgstr "Булеве"
 
@@ -11963,8 +11974,8 @@ msgid "Re_place"
 msgstr "За_мінити"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1744
-#: ../src/tools/gnm-solver.c:1876
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1758
+#: ../src/tools/gnm-solver.c:1890
 msgid "Constraints"
 msgstr "Обмеження"
 
@@ -12273,7 +12284,8 @@ msgstr ""
 #: ../src/format-template.c:748
 #, c-format
 msgid "The target region is too small.  It should be at least %d column wide"
-msgid_plural "The target region is too small.  It should be at least %d columns wide"
+msgid_plural ""
+"The target region is too small.  It should be at least %d columns wide"
 msgstr[0] ""
 "Ця ділянка призначення є надто малою. Ділянка призначення повинна містити "
 "принаймні %d стовпчик у ширину"
@@ -12290,7 +12302,8 @@ msgstr[3] ""
 #: ../src/format-template.c:754
 #, c-format
 msgid "The target region is too small.  It should be at least %d row high"
-msgid_plural "The target region is too small.  It should be at least %d rows high"
+msgid_plural ""
+"The target region is too small.  It should be at least %d rows high"
 msgstr[0] ""
 "Ця ділянка призначення є надто малою. Ділянка призначення повинна містити "
 "принаймні %d рядок у висоту"
@@ -12479,7 +12492,7 @@ msgstr "300%"
 msgid "500%"
 msgstr "500%"
 
-#: ../src/gnm-pane.c:2031
+#: ../src/gnm-pane.c:2065
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -12705,20 +12718,20 @@ msgstr ""
 msgid "Multiple errors\n"
 msgstr "Множинні помилки\n"
 
-#: ../src/gui-util.c:1069
+#: ../src/gui-util.c:1077
 msgid "Question"
 msgstr "Питання"
 
-#: ../src/gui-util.c:1074
+#: ../src/gui-util.c:1082
 msgid "Warning"
 msgstr "Попередження"
 
-#: ../src/gui-util.c:1262
+#: ../src/gui-util.c:1270
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
 msgstr "Потрібен додаток із ідентифікатором %s, але його не знайдено."
 
-#: ../src/gui-util.c:1270
+#: ../src/gui-util.c:1278
 #, c-format
 msgid "The %s plugin is required but is not loaded."
 msgstr "Потрібен додаток %s, але його не завантажено."
@@ -12807,49 +12820,49 @@ msgstr "%d.00 пт"
 msgid "%.2f pts"
 msgstr "%.2f пт"
 
-#: ../src/item-cursor.c:819
+#: ../src/item-cursor.c:833
 msgid "_Move"
 msgstr "Перемістити"
 
-#: ../src/item-cursor.c:822 ../src/sheet-control-gui.c:2247
+#: ../src/item-cursor.c:836 ../src/sheet-control-gui.c:2247
 #: ../src/sheet-object.c:271 ../src/sheet-object.c:290
 #: ../src/wbc-gtk-actions.c:2088
 msgid "_Copy"
 msgstr "Скопіювати"
 
-#: ../src/item-cursor.c:825
+#: ../src/item-cursor.c:839
 msgid "Copy _Formats"
 msgstr "Скопіювати формати"
 
-#: ../src/item-cursor.c:827
+#: ../src/item-cursor.c:841
 msgid "Copy _Values"
 msgstr "Скопіювати значення"
 
-#: ../src/item-cursor.c:832
+#: ../src/item-cursor.c:846
 msgid "Shift _Down and Copy"
 msgstr "Зсунути вниз і скопіювати"
 
-#: ../src/item-cursor.c:834
+#: ../src/item-cursor.c:848
 msgid "Shift _Right and Copy"
 msgstr "Зсунути праворуч і скопіювати"
 
-#: ../src/item-cursor.c:836
+#: ../src/item-cursor.c:850
 msgid "Shift Dow_n and Move"
 msgstr "Зсунути вниз і перенести"
 
-#: ../src/item-cursor.c:838
+#: ../src/item-cursor.c:852
 msgid "Shift Righ_t and Move"
 msgstr "Зсунути праворуч і перенести"
 
-#: ../src/item-cursor.c:843
+#: ../src/item-cursor.c:857
 msgid "C_ancel"
 msgstr "_Скасувати"
 
-#: ../src/item-cursor.c:1102
+#: ../src/item-cursor.c:1116
 msgid "Drag to autofill"
 msgstr "Перетягування для автозаповнення"
 
-#: ../src/item-cursor.c:1105
+#: ../src/item-cursor.c:1119
 msgid "Drag to move"
 msgstr "Перетягування для пересування"
 
@@ -13600,7 +13613,8 @@ msgid "New graph sheet"
 msgstr "Новий графічний аркуш"
 
 #: ../src/sheet-object-widget.c:245
-msgid "Because of GTK bug #705640, a sheet object widget is not being printed."
+msgid ""
+"Because of GTK bug #705640, a sheet object widget is not being printed."
 msgstr "Через ваду GTK 705640, віджет об'єкта аркуша не буде надруковано."
 
 #: ../src/sheet-object-widget.c:398 ../src/wbc-gtk-actions.c:3327
@@ -13681,7 +13695,7 @@ msgid "Cut"
 msgstr "Вирізати"
 
 #. Oh, yeah?
-#: ../src/sheet.c:910
+#: ../src/sheet.c:911
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13693,47 +13707,47 @@ msgstr ""
 "TRUE може призвести до конфлікту із обробником сталої із\n"
 "тією самою назвою. Слід очікувати некоректної поведінки."
 
-#: ../src/sheet.c:970
+#: ../src/sheet.c:971
 msgid "Display Zeros"
 msgstr "Показати нулі"
 
-#: ../src/sheet.c:971
+#: ../src/sheet.c:972
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Керує тим, чи буде показано замість нулів порожні місця."
 
-#: ../src/sheet.c:976
+#: ../src/sheet.c:977
 msgid "Display Grid"
 msgstr "Показувати сітку"
 
-#: ../src/sheet.c:977
+#: ../src/sheet.c:978
 msgid "Control whether the grid is shown."
 msgstr "Керує тим, чи буде показано сітку."
 
-#: ../src/sheet.c:3802
+#: ../src/sheet.c:3831
 msgid "Target region contains merged cells"
 msgstr "Діапазон призначення містить об'єднані комірки"
 
-#: ../src/sheet.c:3868
+#: ../src/sheet.c:3897
 msgid "cannot operate on merged cells"
 msgstr "неможливо оперувати на об'єднаних комірках"
 
-#: ../src/sheet.c:3881
+#: ../src/sheet.c:3910
 msgid "cannot operate on array formulæ"
 msgstr "неможливо оперувати на формулах масиву"
 
-#: ../src/sheet.c:5520
+#: ../src/sheet.c:5584
 msgid "Insert Columns"
 msgstr "Вставити стовпчики"
 
-#: ../src/sheet.c:5538
+#: ../src/sheet.c:5602
 msgid "Delete Columns"
 msgstr "Стерти стовпчики"
 
-#: ../src/sheet.c:5556
+#: ../src/sheet.c:5620
 msgid "Insert Rows"
 msgstr "Вставити рядки"
 
-#: ../src/sheet.c:5574
+#: ../src/sheet.c:5638
 msgid "Delete Rows"
 msgstr "Стерти рядки"
 
@@ -13764,7 +13778,8 @@ msgstr "Список доступних засобів імпортування"
 
 #: ../src/ssconvert.c:120
 msgid "Merge listed files (all same format) to make this file"
-msgstr "Об'єднати файли зі списку (у одному форматі) для створення цього файла"
+msgstr ""
+"Об'єднати файли зі списку (у одному форматі) для створення цього файла"
 
 #: ../src/ssconvert.c:127
 msgid "Optionally specify which exporter to use"
@@ -13896,7 +13911,8 @@ msgstr "Розв'язувач: %s\n"
 #: ../src/ssconvert.c:934
 #, c-format
 msgid "Invalid export option \"%s=%s\" for image export"
-msgstr "Некоректний параметр експортування «%s=%s» для експортування зображень"
+msgstr ""
+"Некоректний параметр експортування «%s=%s» для експортування зображень"
 
 #: ../src/ssconvert.c:1110
 #, c-format
@@ -14284,7 +14300,8 @@ msgstr "Помилка під час спроби обробити дані у �
 #: ../src/stf.c:361
 #, c-format
 msgid "The file contains %d NUL character. It has been changed to a space."
-msgid_plural "The file contains %d NUL characters. They have been changed to spaces."
+msgid_plural ""
+"The file contains %d NUL characters. They have been changed to spaces."
 msgstr[0] "У файлі міститься %d символ NUL. Їх замінено на пробіли."
 msgstr[1] "У файлі міститься %d символи NUL. Їх замінено на пробіли."
 msgstr[2] "У файлі міститься %d символів NUL. Їх замінено на пробіли."
@@ -14293,7 +14310,8 @@ msgstr[3] "У файлі міститься один символ NUL. Його 
 #: ../src/stf.c:373
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
-msgstr "У файлі містяться некоректно кодовані символи UTF-8 — їх було обрізано"
+msgstr ""
+"У файлі містяться некоректно кодовані символи UTF-8 — їх було обрізано"
 
 #: ../src/stf.c:419
 msgid "That file is not in the given encoding."
@@ -14420,16 +14438,17 @@ msgstr "Автовираз"
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
 #: ../src/tools/analysis-chi-squared.c:63
-msgid "[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
+msgid ""
+"[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
 msgstr ""
-"[>=5]\"Перевірка незалежності\";[<5][Red]\"Некоректна перевірка незалежності"
-"\""
+"[>=5]\"Перевірка незалежності\";[<5][Red]\"Некоректна перевірка "
+"незалежності\""
 
 #: ../src/tools/analysis-chi-squared.c:64
 msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
 msgstr ""
-"[>=5]\"Перевірка однорідності\";[<5][Red]\"Некоректна перевірка однорідності"
-"\""
+"[>=5]\"Перевірка однорідності\";[<5][Red]\"Некоректна перевірка "
+"однорідності\""
 
 #: ../src/tools/analysis-chi-squared.c:67
 msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
@@ -15190,7 +15209,7 @@ msgstr "Робочий аркуш:"
 msgid "Report Created: "
 msgstr "Створено звіт: "
 
-#: ../src/tools/data-shuffling.c:291
+#: ../src/tools/data-shuffling.c:289
 msgid "Shuffled"
 msgstr "Перемішано"
 
@@ -15212,97 +15231,97 @@ msgstr "/Додатковий фільтр:/Діапазон джерела:/К�
 msgid "Advanced Filter (%s)"
 msgstr "Розширений фільтр (%s)"
 
-#: ../src/tools/gnm-solver.c:702
+#: ../src/tools/gnm-solver.c:704
 #, c-format
 msgid "Invalid solver target"
 msgstr "Некоректна ціль розв'язувача"
 
-#: ../src/tools/gnm-solver.c:714
+#: ../src/tools/gnm-solver.c:716
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr ""
 "Комірка призначення, %s, має містити формулу, обчислення за якою даватимуть "
 "число"
 
-#: ../src/tools/gnm-solver.c:724
+#: ../src/tools/gnm-solver.c:726
 #, c-format
 msgid "Invalid solver input range"
 msgstr "Некоректний вхідний діапазон розв'язувача"
 
-#: ../src/tools/gnm-solver.c:735
+#: ../src/tools/gnm-solver.c:737
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr "Вхідна комірка %s містить формулу"
 
-#: ../src/tools/gnm-solver.c:750
+#: ../src/tools/gnm-solver.c:752
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "Обмеження розв'язувача %d є некоректним"
 
-#: ../src/tools/gnm-solver.c:1163
+#: ../src/tools/gnm-solver.c:1174
 msgid "Timeout"
 msgstr "Час очікування"
 
-#: ../src/tools/gnm-solver.c:1379
+#: ../src/tools/gnm-solver.c:1393
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Не вдалося створити файл для лінійної програми"
 
-#: ../src/tools/gnm-solver.c:1388
+#: ../src/tools/gnm-solver.c:1402
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Не вдалося створити файл лінійної програми"
 
-#: ../src/tools/gnm-solver.c:1408
+#: ../src/tools/gnm-solver.c:1422
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Не вдалося зберегти лінійну програму"
 
-#: ../src/tools/gnm-solver.c:1657
+#: ../src/tools/gnm-solver.c:1671
 msgid "Target"
 msgstr "Призначення"
 
-#: ../src/tools/gnm-solver.c:1661
+#: ../src/tools/gnm-solver.c:1675
 msgid "Status"
 msgstr "Стан"
 
-#: ../src/tools/gnm-solver.c:1674
+#: ../src/tools/gnm-solver.c:1688
 msgid "Minimize"
 msgstr "Мінімізувати"
 
-#: ../src/tools/gnm-solver.c:1677
+#: ../src/tools/gnm-solver.c:1691
 msgid "Maximize"
 msgstr "Максимізувати"
 
-#: ../src/tools/gnm-solver.c:1705
+#: ../src/tools/gnm-solver.c:1719
 msgid "Lower"
 msgstr "Нижній"
 
-#: ../src/tools/gnm-solver.c:1706
+#: ../src/tools/gnm-solver.c:1720
 msgid "Upper"
 msgstr "Верхній"
 
-#: ../src/tools/gnm-solver.c:1707 ../src/tools/gnm-solver.c:1750
+#: ../src/tools/gnm-solver.c:1721 ../src/tools/gnm-solver.c:1764
 msgid "Slack"
 msgstr "Залишок"
 
-#: ../src/tools/gnm-solver.c:1729
+#: ../src/tools/gnm-solver.c:1743
 msgid "At limit"
 msgstr "На межі"
 
-#: ../src/tools/gnm-solver.c:1732
+#: ../src/tools/gnm-solver.c:1746
 msgid "Outside bounds"
 msgstr "Зовнішні межі"
 
-#: ../src/tools/gnm-solver.c:1747
+#: ../src/tools/gnm-solver.c:1761
 msgid "Condition"
 msgstr "Умова"
 
-#: ../src/tools/gnm-solver.c:1752 ../src/tools/gnm-solver.c:1888
+#: ../src/tools/gnm-solver.c:1766 ../src/tools/gnm-solver.c:1902
 msgid "No constraints"
 msgstr "Немає обмежень"
 
-#: ../src/tools/gnm-solver.c:1845
+#: ../src/tools/gnm-solver.c:1859
 msgid ""
 "Final\n"
 "Value"
@@ -15310,7 +15329,7 @@ msgstr ""
 "Остаточне\n"
 "значення"
 
-#: ../src/tools/gnm-solver.c:1846
+#: ../src/tools/gnm-solver.c:1860
 msgid ""
 "Reduced\n"
 "Cost"
@@ -15318,7 +15337,7 @@ msgstr ""
 "Нормована\n"
 "вартість"
 
-#: ../src/tools/gnm-solver.c:1847 ../src/tools/gnm-solver.c:1883
+#: ../src/tools/gnm-solver.c:1861 ../src/tools/gnm-solver.c:1897
 msgid ""
 "Lower\n"
 "Limit"
@@ -15326,7 +15345,7 @@ msgstr ""
 "Нижня\n"
 "межа"
 
-#: ../src/tools/gnm-solver.c:1848 ../src/tools/gnm-solver.c:1884
+#: ../src/tools/gnm-solver.c:1862 ../src/tools/gnm-solver.c:1898
 msgid ""
 "Upper\n"
 "Limit"
@@ -15334,7 +15353,7 @@ msgstr ""
 "Верхня\n"
 "межа"
 
-#: ../src/tools/gnm-solver.c:1880
+#: ../src/tools/gnm-solver.c:1894
 msgid ""
 "Shadow\n"
 "Price"
@@ -15342,7 +15361,7 @@ msgstr ""
 "Тіньова\n"
 "ціна"
 
-#: ../src/tools/gnm-solver.c:1881
+#: ../src/tools/gnm-solver.c:1895
 msgid ""
 "Constraint\n"
 "LHS"
@@ -15350,7 +15369,7 @@ msgstr ""
 "Ліва частина\n"
 "обмеження"
 
-#: ../src/tools/gnm-solver.c:1882
+#: ../src/tools/gnm-solver.c:1896
 msgid ""
 "Constraint\n"
 "RHS"
@@ -15358,27 +15377,27 @@ msgstr ""
 "Права частина\n"
 "обмеження"
 
-#: ../src/tools/gnm-solver.c:1946
+#: ../src/tools/gnm-solver.c:1960
 msgid "Program"
 msgstr "Програма"
 
-#: ../src/tools/gnm-solver.c:1952
+#: ../src/tools/gnm-solver.c:1966
 msgid "Sensitivity"
 msgstr "Чутливість"
 
-#: ../src/tools/gnm-solver.c:2555
+#: ../src/tools/gnm-solver.c:2569
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr "Обчислення у комірці призначення не дають числового значення."
 
-#: ../src/tools/gnm-solver.c:2563
+#: ../src/tools/gnm-solver.c:2577
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr ""
 "Здається, значення у комірці призначення не залежить від значень у вхідних "
 "комірках лінійним чином."
 
-#: ../src/tools/gnm-solver.c:3150
+#: ../src/tools/gnm-solver.c:3164
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -15391,22 +15410,22 @@ msgstr ""
 "\n"
 "Хочете знайти програму власноруч?"
 
-#: ../src/tools/gnm-solver.c:3154
+#: ../src/tools/gnm-solver.c:3168
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Не вдалося знайти %s"
 
-#: ../src/tools/gnm-solver.c:3170
+#: ../src/tools/gnm-solver.c:3184
 #, c-format
 msgid "Locate the %s program"
 msgstr "Знайти програму %s"
 
-#: ../src/tools/gnm-solver.c:3564
+#: ../src/tools/gnm-solver.c:3578
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Початкові значення не задовольняють обмежень."
 
-#: ../src/tools/gnm-solver.c:3655
+#: ../src/tools/gnm-solver.c:3669
 msgid "Iteration limit exceeded"
 msgstr "Перевищено обмеження на ітерації"
 
@@ -15460,7 +15479,7 @@ msgstr "Жодні значення у діапазоні значень не м
 msgid "The probabilities may not all be 0!"
 msgstr "Вірогідність не можу дорівнювати нулю!"
 
-#: ../src/tools/random-generator.c:758
+#: ../src/tools/random-generator.c:766
 #, c-format
 msgid "Random Numbers (%s)"
 msgstr "Випадкові числа (%s)"
@@ -15514,7 +15533,7 @@ msgstr "Ексцес"
 msgid "Range"
 msgstr "Діапазон"
 
-#: ../src/tools/simulation.c:255 ../src/wbc-gtk.c:4061
+#: ../src/tools/simulation.c:255 ../src/wbc-gtk.c:4068
 msgid "Count"
 msgstr "Кількість"
 
@@ -16000,7 +16019,7 @@ msgstr "_Комірки"
 msgid "_Text"
 msgstr "_Текст"
 
-#: ../src/wbc-gtk-actions.c:2136 ../src/wbc-gtk-actions.c:3658
+#: ../src/wbc-gtk-actions.c:2136 ../src/wbc-gtk-actions.c:3666
 msgid "_Underline"
 msgstr "_Підкреслений"
 
@@ -16427,7 +16446,7 @@ msgstr "Наступний _об'єкт"
 msgid "Select the next sheet object"
 msgstr "Позначити наступний об'єкт аркуша"
 
-#: ../src/wbc-gtk-actions.c:2539 ../src/wbc-gtk.c:2766
+#: ../src/wbc-gtk-actions.c:2539 ../src/wbc-gtk.c:2773
 msgid "Go to Top"
 msgstr "Перейти догори"
 
@@ -16435,7 +16454,7 @@ msgstr "Перейти догори"
 msgid "Go to the top of the data"
 msgstr "Перейти до верхньої частини даних"
 
-#: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2767
+#: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2774
 msgid "Go to Bottom"
 msgstr "Перейти донизу"
 
@@ -16443,7 +16462,7 @@ msgstr "Перейти донизу"
 msgid "Go to the bottom of the data"
 msgstr "Перейти до нижньої частини даних"
 
-#: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2768
+#: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2775
 msgid "Go to First"
 msgstr "Перейти до першої"
 
@@ -16451,7 +16470,7 @@ msgstr "Перейти до першої"
 msgid "Go to the first data cell"
 msgstr "Перейти до першої комірки даних"
 
-#: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2769
+#: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2776
 msgid "Go to Last"
 msgstr "Перейти до останньої"
 
@@ -16543,11 +16562,11 @@ msgstr "Налаштування…"
 msgid "Change Gnumeric Preferences"
 msgstr "Змінити налаштування Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1602
+#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1609
 msgid "_Freeze Panes"
 msgstr "За_фіксувати панелі"
 
-#: ../src/wbc-gtk-actions.c:2645 ../src/wbc-gtk.c:1605
+#: ../src/wbc-gtk-actions.c:2645 ../src/wbc-gtk.c:1612
 msgid "Freeze the top left of the sheet"
 msgstr "Зафіксувати верхній лівий кут аркуша"
 
@@ -17130,11 +17149,11 @@ msgstr "Експорт_увати як файл CSV…"
 msgid "Export the current sheet as a csv file"
 msgstr "Експортувати поточний аркуш як файл csv"
 
-#: ../src/wbc-gtk-actions.c:3170 ../src/wbc-gtk.c:1723
+#: ../src/wbc-gtk-actions.c:3170 ../src/wbc-gtk.c:1730
 msgid "Repeat Export"
 msgstr "Повторити експортування"
 
-#: ../src/wbc-gtk-actions.c:3172 ../src/wbc-gtk.c:1719 ../src/wbc-gtk.c:1723
+#: ../src/wbc-gtk-actions.c:3172 ../src/wbc-gtk.c:1726 ../src/wbc-gtk.c:1730
 msgid "Repeat the last data export"
 msgstr "Повторити останнє експортування даних"
 
@@ -17241,7 +17260,7 @@ msgstr "Розгрупувати…"
 msgid "Remove an outline group"
 msgstr "Вилучити групу схеми"
 
-#: ../src/wbc-gtk-actions.c:3252 ../src/wbc-gtk.c:1644
+#: ../src/wbc-gtk-actions.c:3252 ../src/wbc-gtk.c:1651
 msgid "Add _Auto Filter"
 msgstr "Додати до _автофільтрування"
 
@@ -17305,7 +17324,7 @@ msgstr "_Редагувати розділювач даних…"
 msgid "Adjust a data slicer"
 msgstr "Скоригувати розділювач даних"
 
-#: ../src/wbc-gtk-actions.c:3299 ../src/wbc-gtk.c:4057
+#: ../src/wbc-gtk-actions.c:3299 ../src/wbc-gtk.c:4064
 #: ../src/workbook-view.c:855
 msgid "Sum"
 msgstr "Сума"
@@ -17530,7 +17549,6 @@ msgid "Decrease the number of decimals displayed"
 msgstr "Зменшити кількість десяткових знаків, які буде показано"
 
 #: ../src/wbc-gtk-actions.c:3502
-#| msgid "Decrease Indent"
 msgid "Decrease Indentation"
 msgstr "Зменшити відступ"
 
@@ -17539,7 +17557,6 @@ msgid "Decrease the indent, and align the contents to the left"
 msgstr "Зменшити відступ і вирівняти вміст ліворуч"
 
 #: ../src/wbc-gtk-actions.c:3509
-#| msgid "Increase Indent"
 msgid "Increase Indentation"
 msgstr "Збільшити відступ"
 
@@ -17623,236 +17640,235 @@ msgstr "Показувати адреси як Р1С1 або A1"
 msgid "_Left Align"
 msgstr "Вирівняти _ліворуч"
 
-#: ../src/wbc-gtk-actions.c:3582 ../src/wbc-gtk-actions.c:3712
+#: ../src/wbc-gtk-actions.c:3582 ../src/wbc-gtk-actions.c:3720
 msgid "Align left"
 msgstr "Вирівняти ліворуч"
 
-#: ../src/wbc-gtk-actions.c:3588
+#: ../src/wbc-gtk-actions.c:3589
 msgid "_Center"
 msgstr "За _центром"
 
-#: ../src/wbc-gtk-actions.c:3589 ../src/wbc-gtk-actions.c:3713
+#: ../src/wbc-gtk-actions.c:3590 ../src/wbc-gtk-actions.c:3721
 msgid "Center horizontally"
 msgstr "За центром горизонтально"
 
-#: ../src/wbc-gtk-actions.c:3595
+#: ../src/wbc-gtk-actions.c:3597
 msgid "_Right Align"
 msgstr "Вирівняти _праворуч"
 
-#: ../src/wbc-gtk-actions.c:3596 ../src/wbc-gtk-actions.c:3714
+#: ../src/wbc-gtk-actions.c:3598 ../src/wbc-gtk-actions.c:3722
 msgid "Align right"
 msgstr "Вирівняти праворуч"
 
-#: ../src/wbc-gtk-actions.c:3602
+#: ../src/wbc-gtk-actions.c:3605
 msgid "_Center Across Selection"
 msgstr "_Центрувати уздовж позначеного"
 
-#: ../src/wbc-gtk-actions.c:3603 ../src/wbc-gtk-actions.c:3718
+#: ../src/wbc-gtk-actions.c:3606 ../src/wbc-gtk-actions.c:3726
 msgid "Center horizontally across the selection"
 msgstr "Центрувати горизонтально уздовж позначеного"
 
-#: ../src/wbc-gtk-actions.c:3608
+#: ../src/wbc-gtk-actions.c:3612
 msgid "_Merge and Center"
 msgstr "_Об'єднати і центрувати"
 
-#: ../src/wbc-gtk-actions.c:3609
+#: ../src/wbc-gtk-actions.c:3613
 msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "Об'єднати позначене у одну комірку і центрувати горизонтально."
 
-#: ../src/wbc-gtk-actions.c:3618
+#: ../src/wbc-gtk-actions.c:3623
 msgid "Align _Top"
 msgstr "Вирівняти в_гору"
 
-#: ../src/wbc-gtk-actions.c:3619
+#: ../src/wbc-gtk-actions.c:3624
 msgid "Align Top"
 msgstr "Вирівняти за верхнім краєм"
 
-#: ../src/wbc-gtk-actions.c:3625
+#: ../src/wbc-gtk-actions.c:3631
 msgid "_Vertically Center"
 msgstr "_Вертикально центрувати"
 
-#: ../src/wbc-gtk-actions.c:3626
+#: ../src/wbc-gtk-actions.c:3632
 msgid "Vertically Center"
 msgstr "Вертикально за центром"
 
-#: ../src/wbc-gtk-actions.c:3632
+#: ../src/wbc-gtk-actions.c:3639
 msgid "Align _Bottom"
 msgstr "Вирівняти в_низ"
 
-#: ../src/wbc-gtk-actions.c:3633
+#: ../src/wbc-gtk-actions.c:3640
 msgid "Align Bottom"
 msgstr "Вирівняти за нижнім краєм"
 
-#: ../src/wbc-gtk-actions.c:3642
+#: ../src/wbc-gtk-actions.c:3650
 msgid "_Bold"
 msgstr "_Напівжирний"
 
-#: ../src/wbc-gtk-actions.c:3650
+#: ../src/wbc-gtk-actions.c:3658
 msgid "_Italic"
 msgstr "_Курсив"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:3666
+#: ../src/wbc-gtk-actions.c:3674
 msgid "_Double Underline"
 msgstr "П_одвійне підкреслення"
 
-#: ../src/wbc-gtk-actions.c:3668
+#: ../src/wbc-gtk-actions.c:3676
 msgid "Double Underline"
 msgstr "Подвійне підкреслення"
 
-#: ../src/wbc-gtk-actions.c:3673
+#: ../src/wbc-gtk-actions.c:3681
 msgid "_Single Low Underline"
 msgstr "_Одинарне підкреслення"
 
-#: ../src/wbc-gtk-actions.c:3675
+#: ../src/wbc-gtk-actions.c:3683
 msgid "Single Low Underline"
 msgstr "Одинарне підкреслення"
 
-#: ../src/wbc-gtk-actions.c:3680
+#: ../src/wbc-gtk-actions.c:3688
 msgid "Double _Low Underline"
 msgstr "Под_війне підкреслення"
 
-#: ../src/wbc-gtk-actions.c:3681
+#: ../src/wbc-gtk-actions.c:3689
 msgid "Double Low Underline"
 msgstr "Подвійне підкреслення"
 
-#: ../src/wbc-gtk-actions.c:3687
+#: ../src/wbc-gtk-actions.c:3695
 msgid "_Strikethrough"
 msgstr "_Закреслений"
 
-#: ../src/wbc-gtk-actions.c:3695
+#: ../src/wbc-gtk-actions.c:3703
 msgid "Su_perscript"
 msgstr "_Верхній індекс"
 
-#: ../src/wbc-gtk-actions.c:3697
+#: ../src/wbc-gtk-actions.c:3705
 msgid "Superscript"
 msgstr "Верхній індекс"
 
-#: ../src/wbc-gtk-actions.c:3703
+#: ../src/wbc-gtk-actions.c:3711
 msgid "Subscrip_t"
 msgstr "Ни_жній індекс"
 
-#: ../src/wbc-gtk-actions.c:3705
+#: ../src/wbc-gtk-actions.c:3713
 msgid "Subscript"
 msgstr "Нижній індекс"
 
-#: ../src/wbc-gtk-actions.c:3715
+#: ../src/wbc-gtk-actions.c:3723
 msgid "Fill horizontally"
 msgstr "Заповнити горизонтально"
 
-#: ../src/wbc-gtk-actions.c:3716
+#: ../src/wbc-gtk-actions.c:3724
 msgid "Justify horizontally"
 msgstr "Розподілити горизонтально"
 
-#: ../src/wbc-gtk-actions.c:3720
+#: ../src/wbc-gtk-actions.c:3728
 msgid "Align numbers right, and text left"
 msgstr "Вирівняти числа праворуч, а текст ліворуч"
 
-#: ../src/wbc-gtk-actions.c:3725
+#: ../src/wbc-gtk-actions.c:3733
 msgid "Align top"
 msgstr "Притиснути догори"
 
-#: ../src/wbc-gtk-actions.c:3726
+#: ../src/wbc-gtk-actions.c:3734
 msgid "Center vertically"
 msgstr "По центру вертикально"
 
-#: ../src/wbc-gtk-actions.c:3727
+#: ../src/wbc-gtk-actions.c:3735
 msgid "Align bottom"
 msgstr "Притиснути донизу"
 
 #. Reuse "center" icon as I don't know what this one is
-#: ../src/wbc-gtk-actions.c:3730
+#: ../src/wbc-gtk-actions.c:3738
 msgid "Align distributed"
 msgstr "Вирівняти і розподілити"
 
-#: ../src/wbc-gtk-actions.c:3753 ../src/wbc-gtk-actions.c:3754
+#: ../src/wbc-gtk-actions.c:3761 ../src/wbc-gtk-actions.c:3762
 msgid "Horizontal Alignment"
 msgstr "Горизонтальне вирівнювання"
 
-#: ../src/wbc-gtk-actions.c:3764 ../src/wbc-gtk-actions.c:3765
+#: ../src/wbc-gtk-actions.c:3773 ../src/wbc-gtk-actions.c:3774
 msgid "Vertical Alignment"
 msgstr "Вертикальне вирівнювання"
 
-#: ../src/wbc-gtk-actions.c:3803
+#: ../src/wbc-gtk-actions.c:3812
 msgid "Set Foreground Color"
 msgstr "Встановити колір переднього плану"
 
-#: ../src/wbc-gtk-actions.c:3817 ../src/wbc-gtk-actions.c:3818
+#: ../src/wbc-gtk-actions.c:3826 ../src/wbc-gtk-actions.c:3827
 msgid "Foreground"
 msgstr "Передній план"
 
 #. Set background to NONE
-#: ../src/wbc-gtk-actions.c:3853
+#: ../src/wbc-gtk-actions.c:3862
 msgid "Set Background Color"
 msgstr "Встановити колір тла"
 
-#: ../src/wbc-gtk-actions.c:3876
+#: ../src/wbc-gtk-actions.c:3885
 msgid "Clear Borders"
 msgstr "Очистити поля"
 
-#: ../src/wbc-gtk-actions.c:3879
+#: ../src/wbc-gtk-actions.c:3888
 msgid "All Borders"
 msgstr "Всі поля"
 
-#: ../src/wbc-gtk-actions.c:3880
+#: ../src/wbc-gtk-actions.c:3889
 msgid "Outside Borders"
 msgstr "Зовнішні поля"
 
-#: ../src/wbc-gtk-actions.c:3881
+#: ../src/wbc-gtk-actions.c:3890
 msgid "Thick Outside Borders"
 msgstr "Товсті зовнішні поля"
 
-#: ../src/wbc-gtk-actions.c:3884
+#: ../src/wbc-gtk-actions.c:3893
 msgid "Double Bottom"
 msgstr "Подвійне знизу"
 
-#: ../src/wbc-gtk-actions.c:3885
+#: ../src/wbc-gtk-actions.c:3894
 msgid "Thick Bottom"
 msgstr "Товсте знизу"
 
-#: ../src/wbc-gtk-actions.c:3887
+#: ../src/wbc-gtk-actions.c:3896
 msgid "Top and Bottom"
 msgstr "Вгорі та знизу"
 
-#: ../src/wbc-gtk-actions.c:3888
+#: ../src/wbc-gtk-actions.c:3897
 msgid "Top and Double Bottom"
 msgstr "Вгорі та подвійне знизу"
 
-#: ../src/wbc-gtk-actions.c:3889
+#: ../src/wbc-gtk-actions.c:3898
 msgid "Top and Thick Bottom"
 msgstr "Вгорі та товсте знизу"
 
-#: ../src/wbc-gtk-actions.c:3974
+#: ../src/wbc-gtk-actions.c:3983
 msgid "Set Borders"
 msgstr "Встановити поля"
 
-#: ../src/wbc-gtk-actions.c:3982 ../src/wbc-gtk-actions.c:3983
+#: ../src/wbc-gtk-actions.c:3991 ../src/wbc-gtk-actions.c:3992
 msgid "Borders"
 msgstr "Поля"
 
-#: ../src/wbc-gtk-actions.c:4082
+#: ../src/wbc-gtk-actions.c:4091
 msgid "Redo the undone action"
 msgstr "Повторити відмінену операцію"
 
-#: ../src/wbc-gtk-actions.c:4084
-#| msgid "_Redo"
+#: ../src/wbc-gtk-actions.c:4093
 msgid "Redo"
 msgstr "Повторити"
 
-#: ../src/wbc-gtk-actions.c:4088
+#: ../src/wbc-gtk-actions.c:4097
 msgid "Undo the last action"
 msgstr "Відмінити останню операцію"
 
-#: ../src/wbc-gtk-actions.c:4143 ../src/wbc-gtk-actions.c:4164
+#: ../src/wbc-gtk-actions.c:4152 ../src/wbc-gtk-actions.c:4173
 msgid "_Zoom"
 msgstr "_Масштаб"
 
-#: ../src/wbc-gtk-actions.c:4349
+#: ../src/wbc-gtk-actions.c:4358
 #, c-format
 msgid "Setting Font %s"
 msgstr "Встановлюємо шрифт %s"
 
-#: ../src/wbc-gtk-actions.c:4409
+#: ../src/wbc-gtk-actions.c:4418
 msgid "Change font"
 msgstr "Змінити шрифт"
 
@@ -17917,154 +17933,154 @@ msgstr "Позначити"
 msgid "Select (sorted)"
 msgstr "Позначити (упорядковано)"
 
-#: ../src/wbc-gtk.c:1309
+#: ../src/wbc-gtk.c:1312
 msgid " - Gnumeric"
 msgstr " – Gnumeric"
 
-#: ../src/wbc-gtk.c:1470
+#: ../src/wbc-gtk.c:1476
 msgid "Invalid format"
 msgstr "Некоректне форматування"
 
-#: ../src/wbc-gtk.c:1568
+#: ../src/wbc-gtk.c:1575
 msgid "Remove the page break to the left of the current column"
 msgstr "Вилучити розрив сторінки ліворуч від поточного стовпчика"
 
-#: ../src/wbc-gtk.c:1571
+#: ../src/wbc-gtk.c:1578
 msgid "Add a page break to the left of the current column"
 msgstr "Додати розрив сторінки ліворуч від поточного стовпчика"
 
-#: ../src/wbc-gtk.c:1578
+#: ../src/wbc-gtk.c:1585
 msgid "Remove the page break above the current row"
 msgstr "Вилучити розрив сторінки над поточним рядком"
 
-#: ../src/wbc-gtk.c:1581
+#: ../src/wbc-gtk.c:1588
 msgid "Add a page break above current row"
 msgstr "Додати розрив сторінки над поточним рядком"
 
-#: ../src/wbc-gtk.c:1601
+#: ../src/wbc-gtk.c:1608
 msgid "Un_freeze Panes"
 msgstr "Роз_фіксувати панелі"
 
-#: ../src/wbc-gtk.c:1604
+#: ../src/wbc-gtk.c:1611
 msgid "Unfreeze the top left of the sheet"
 msgstr "Зняти фіксування верхнього лівого краю аркуша"
 
-#: ../src/wbc-gtk.c:1622
+#: ../src/wbc-gtk.c:1629
 #, c-format
 msgid "Extend _Auto Filter to %s"
 msgstr "Розширити _автофільтрування на %s"
 
-#: ../src/wbc-gtk.c:1624
+#: ../src/wbc-gtk.c:1631
 msgid "Extend the existing filter."
 msgstr "Розширити наявне фільтрування."
 
-#: ../src/wbc-gtk.c:1634
+#: ../src/wbc-gtk.c:1641
 msgid "The selection intersects an existing auto filter."
 msgstr "Позначений фрагмент перетинається із наявним автофільтруванням."
 
-#: ../src/wbc-gtk.c:1643
+#: ../src/wbc-gtk.c:1650
 msgid "Remove _Auto Filter"
 msgstr "Вилучити _автофільтрування"
 
-#: ../src/wbc-gtk.c:1646
+#: ../src/wbc-gtk.c:1653
 msgid "Remove a filter"
 msgstr "Вилучити фільтрування"
 
-#: ../src/wbc-gtk.c:1647
+#: ../src/wbc-gtk.c:1654
 msgid "Add a filter"
 msgstr "Додати фільтр"
 
-#: ../src/wbc-gtk.c:1715
+#: ../src/wbc-gtk.c:1722
 #, c-format
 msgid "Repeat Export to %s"
 msgstr "Повторити експортування до %s"
 
-#: ../src/wbc-gtk.c:1728
+#: ../src/wbc-gtk.c:1735
 msgid "Remove _Data Slicer"
 msgstr "Вилучити _розділювач даних"
 
-#: ../src/wbc-gtk.c:1729
+#: ../src/wbc-gtk.c:1736
 msgid "Create _Data Slicer"
 msgstr "Створити _розділювач даних"
 
-#: ../src/wbc-gtk.c:1731
+#: ../src/wbc-gtk.c:1738
 msgid "Remove a Data Slicer"
 msgstr "Вилучити розділювач даних"
 
-#: ../src/wbc-gtk.c:1732
+#: ../src/wbc-gtk.c:1739
 msgid "Create a Data Slicer"
 msgstr "Створити розділювач даних"
 
-#: ../src/wbc-gtk.c:1745
+#: ../src/wbc-gtk.c:1752
 msgid "_Redo"
 msgstr "_Повторити"
 
-#: ../src/wbc-gtk.c:1746
+#: ../src/wbc-gtk.c:1753
 msgid "_Undo"
 msgstr "С_касувати"
 
-#: ../src/wbc-gtk.c:1776
+#: ../src/wbc-gtk.c:1783
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Зберегти зміни до робочої книги «%s» перед закриттям вікна програми?"
 
-#: ../src/wbc-gtk.c:1781
+#: ../src/wbc-gtk.c:1788
 msgid "Save changes to workbook before closing?"
 msgstr "Зберегти зміни до робочої книги перед закриттям?"
 
-#: ../src/wbc-gtk.c:1788
+#: ../src/wbc-gtk.c:1795
 msgid "If you close without saving, changes will be discarded."
 msgstr "Якщо ви закриєте вікно без зберігання даних, зміни буде втрачено."
 
-#: ../src/wbc-gtk.c:1791
+#: ../src/wbc-gtk.c:1798
 msgid "Discard"
 msgstr "Відкинути"
 
-#: ../src/wbc-gtk.c:1793
+#: ../src/wbc-gtk.c:1800
 msgid "Don't close"
 msgstr "Не закривати"
 
-#: ../src/wbc-gtk.c:2022
+#: ../src/wbc-gtk.c:2029
 msgid "Enter in current cell"
 msgstr "Ввести до поточної комірки"
 
-#: ../src/wbc-gtk.c:2024
+#: ../src/wbc-gtk.c:2031
 msgid "Enter in current cell without autocorrection"
 msgstr "Ввести до поточної комірки без автовиправлення"
 
-#: ../src/wbc-gtk.c:2031
+#: ../src/wbc-gtk.c:2038
 msgid "Enter in current range merged"
 msgstr "Ввести до поточного діапазону і об'єднати"
 
-#: ../src/wbc-gtk.c:2034
+#: ../src/wbc-gtk.c:2041
 msgid "Enter in selected ranges"
 msgstr "Ввести до позначених діапазонів"
 
-#: ../src/wbc-gtk.c:2036
+#: ../src/wbc-gtk.c:2043
 msgid "Enter in selected ranges as array"
 msgstr "Ввести до позначених діапазонів як масив"
 
-#: ../src/wbc-gtk.c:2502
+#: ../src/wbc-gtk.c:2509
 msgid "END"
 msgstr "END"
 
-#: ../src/wbc-gtk.c:2771
+#: ../src/wbc-gtk.c:2778
 msgid "Go to Cell..."
 msgstr "Перейти до комірки…"
 
-#: ../src/wbc-gtk.c:2833
+#: ../src/wbc-gtk.c:2840
 msgid "Accept change in multiple cells"
 msgstr "Прийняти зміну у декількох комірках"
 
-#: ../src/wbc-gtk.c:2907 ../src/wbc-gtk.c:2927
+#: ../src/wbc-gtk.c:2914 ../src/wbc-gtk.c:2934
 msgid "_Re-Edit"
 msgstr "П_овторно редагувати"
 
-#: ../src/wbc-gtk.c:2909 ../src/wbc-gtk.c:2916
+#: ../src/wbc-gtk.c:2916 ../src/wbc-gtk.c:2923
 msgid "_Discard"
 msgstr "Від_кинути"
 
-#: ../src/wbc-gtk.c:2914 ../src/wbc-gtk.c:2929
+#: ../src/wbc-gtk.c:2921 ../src/wbc-gtk.c:2936
 msgid "_Accept"
 msgstr "При_йняти"
 
@@ -18074,62 +18090,62 @@ msgstr "При_йняти"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3289
+#: ../src/wbc-gtk.c:3296
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "У меню «%s» клавіші «%s» використано одразу для «%s» і «%s»."
 
-#: ../src/wbc-gtk.c:3588
+#: ../src/wbc-gtk.c:3595
 msgid "Display toolbar above sheets"
 msgstr "Показати панель інструментів над аркушами"
 
-#: ../src/wbc-gtk.c:3589
+#: ../src/wbc-gtk.c:3596
 msgid "Display toolbar to the left of sheets"
 msgstr "Показати панель інструментів ліворуч від аркушів"
 
-#: ../src/wbc-gtk.c:3590
+#: ../src/wbc-gtk.c:3597
 msgid "Display toolbar to the right of sheets"
 msgstr "Показати панель інструментів праворуч від аркушів"
 
-#: ../src/wbc-gtk.c:3618
+#: ../src/wbc-gtk.c:3625
 msgid "Hide"
 msgstr "Приховати"
 
-#: ../src/wbc-gtk.c:3684
+#: ../src/wbc-gtk.c:3691
 msgid "Standard Toolbar"
 msgstr "Стандартна панель інструментів"
 
-#: ../src/wbc-gtk.c:3685
+#: ../src/wbc-gtk.c:3692
 msgid "Format Toolbar"
 msgstr "Пенал форматування"
 
-#: ../src/wbc-gtk.c:3686
+#: ../src/wbc-gtk.c:3693
 msgid "Object Toolbar"
 msgstr "Панель інструментів об'єктів"
 
-#: ../src/wbc-gtk.c:3700
+#: ../src/wbc-gtk.c:3707
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Показати/Приховати панель інструментів %s"
 
-#: ../src/wbc-gtk.c:4118
+#: ../src/wbc-gtk.c:4125
 #, c-format
 msgid "Content of %s"
 msgstr "Вміст %s"
 
-#: ../src/wbc-gtk.c:4133
+#: ../src/wbc-gtk.c:4140
 msgid "Use Maximum Precision"
 msgstr "Максимальна точність"
 
-#: ../src/wbc-gtk.c:4145
+#: ../src/wbc-gtk.c:4152
 msgid "Insert Formula Below"
 msgstr "Вставити формулу нижче"
 
-#: ../src/wbc-gtk.c:4151
+#: ../src/wbc-gtk.c:4158
 msgid "Insert Formula to Side"
 msgstr "Вставити формулу збоку"
 
-#: ../src/wbc-gtk.c:4237
+#: ../src/wbc-gtk.c:4244
 #, c-format
 msgid "Open %s"
 msgstr "Відкрити %s"
@@ -18502,38 +18518,38 @@ msgstr "атрибут перегляду робочої книги є непо�
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Файл містить несумісний елемент SheetNameIndex."
 
-#: ../src/xml-sax-read.c:2340
+#: ../src/xml-sax-read.c:2359
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Невідомий оператор фільтра «%s»"
 
-#: ../src/xml-sax-read.c:2381
+#: ../src/xml-sax-read.c:2400
 msgid "Missing filter type"
 msgstr "Не вказано тип фільтра"
 
-#: ../src/xml-sax-read.c:2394
+#: ../src/xml-sax-read.c:2413
 msgid "Malformed sheet filter condition"
 msgstr "Умова фільтра аркушів із помилковим форматуванням"
 
-#: ../src/xml-sax-read.c:2408
+#: ../src/xml-sax-read.c:2427
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Невідомий тип фільтра «%s»"
 
-#: ../src/xml-sax-read.c:2429
+#: ../src/xml-sax-read.c:2448
 msgid "Invalid filter, missing Area"
 msgstr "Некоректний фільтр — не вказано області"
 
-#: ../src/xml-sax-read.c:2494
+#: ../src/xml-sax-read.c:2513
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Непідтримуваний тип об'єктів «%s»"
 
-#: ../src/xml-sax-read.c:3807 ../src/xml-sax-write.c:1736
+#: ../src/xml-sax-read.c:3826 ../src/xml-sax-write.c:1740
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "XML Gnumeric (*.gnumeric)"
 
-#: ../src/xml-sax-write.c:1748
+#: ../src/xml-sax-write.c:1752
 msgid "Gnumeric XML uncompressed (*.xml)"
 msgstr "нестиснений XML Gnumeric (*.xml)"
 
