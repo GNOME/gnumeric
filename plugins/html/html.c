@@ -135,8 +135,31 @@ html_get_back_color (GnmStyle const *style, guint *r, guint *g, guint *b)
 	*b = GO_COLOR_UINT_B (color->go_color);
 }
 
-/*****************************************************************************/
+static const char *
+underline_span_pango (html_version_t version, PangoUnderline u)
+{
+	if (u == PANGO_UNDERLINE_NONE)
+		return "";
+	if (version == HTML32)
+		return "<u>";
 
+	switch (u) {
+	case PANGO_UNDERLINE_SINGLE:
+	case PANGO_UNDERLINE_LOW:
+	case PANGO_UNDERLINE_SINGLE_LINE:
+		return "<span class=\"underline\">";
+	case PANGO_UNDERLINE_DOUBLE:
+	case PANGO_UNDERLINE_DOUBLE_LINE:
+		return "<span class=\"doubleunderline\">";
+	case PANGO_UNDERLINE_ERROR:
+	case PANGO_UNDERLINE_ERROR_LINE:
+		return "<span class=\"errorunderline\">";
+	default:
+		return "";
+	}
+}
+
+/*****************************************************************************/
 
 static void
 cb_html_add_chars (GsfOutput *output, char const *text, int len)
@@ -196,13 +219,14 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 			}
 		}
 		break;
-	case PANGO_ATTR_UNDERLINE :
-		if ((version != HTML40) &&
-		    (((PangoAttrInt *)a)->value != PANGO_UNDERLINE_NONE)) {
-			gsf_output_puts (output, "<u>");
-			closure = "</u>";
+	case PANGO_ATTR_UNDERLINE: {
+		PangoUnderline u = ((PangoAttrInt *)a)->value;
+		if (u != PANGO_UNDERLINE_NONE) {
+			gsf_output_puts (output, underline_span_pango (version, u));
+			closure = (version == HTML32 ? "</u>" : "</span>");
 		}
 		break;
+	}
 	case PANGO_ATTR_FOREGROUND :
 /* 		c = &((PangoAttrColor *)a)->color; */
 /* 		g_string_append_printf (accum, "[color=%02xx%02xx%02x", */
@@ -303,9 +327,10 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 				gsf_output_puts (output, "<i>");
 			if (gnm_style_get_font_bold (style))
 				gsf_output_puts (output, "<b>");
-			if (version != HTML40 &&
-			    gnm_style_get_font_uline (style) != UNDERLINE_NONE)
-				gsf_output_puts (output, "<u>");
+			if (gnm_style_get_font_uline (style) != UNDERLINE_NONE) {
+				PangoUnderline u = gnm_translate_underline_to_pango (gnm_style_get_font_uline (style));
+				gsf_output_puts (output, underline_span_pango (version, u));
+			}
 			if (font_is_monospaced (style))
 				gsf_output_puts (output, "<tt>");
 			if (gnm_style_get_font_strike (style)) {
@@ -381,9 +406,8 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 			}
 			if (font_is_monospaced (style))
 				gsf_output_puts (output, "</tt>");
-			if (version != HTML40 &&
-			    gnm_style_get_font_uline (style) != UNDERLINE_NONE)
-				gsf_output_puts (output, "</u>");
+			if (gnm_style_get_font_uline (style) != UNDERLINE_NONE)
+				gsf_output_puts (output, version == HTML32 ? "</u>" : "</span>");
 			if (gnm_style_get_font_bold (style))
 				gsf_output_puts (output, "</b>");
 			if (gnm_style_get_font_italic (style))
@@ -757,6 +781,9 @@ html_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 "\tfont-size: 14pt;\n"
 "\ttext-align: left;\n"
 "}\n"
+".underline { text-decoration: underline; }\n"
+".doubleunderline { text-decoration: underline; text-decoration-style: double; }\n"
+".errorunderline { text-decoration: underline; text-decoration-style: wavy; }\n"
 "</style>\n"
 "</head>\n<body>\n");
 		break;
@@ -780,6 +807,9 @@ html_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 "\tfont-size: 14pt;\n"
 "\ttext-align: left;\n"
 "}\n"
+".underline { text-decoration: underline; }\n"
+".doubleunderline { text-decoration: underline; text-decoration-style: double; }\n"
+".errorunderline { text-decoration: underline; text-decoration-style: wavy; }\n"
 "</style>\n"
 "</head>\n<body>\n");
 		break;
