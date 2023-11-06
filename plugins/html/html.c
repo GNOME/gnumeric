@@ -5,7 +5,7 @@
  * EMail: thron@gmx.de
  * Copyright (c) 2001-2013 Andreas J. Guelzow
  * EMail: aguelzow@pyrshep.ca
- * Copyright 2013 Morten Welinder <terra@gnone.org>
+ * Copyright 2023 Morten Welinder <terra@gnone.org>
  *
  * Contributors :
  *   Almer. S. Tigelaar <almer1@dds.nl>
@@ -162,15 +162,22 @@ underline_span_pango (html_version_t version, PangoUnderline u)
 /*****************************************************************************/
 
 static void
-cb_html_add_chars (GsfOutput *output, char const *text, int len)
+cb_html_add_chars (GsfOutput *output, char const *text, size_t len)
 {
-	char * str;
+	char buffer[1000];
 
-	g_return_if_fail (len > 0);
+	if (len == 0)
+		return;
 
-	str = g_strndup (text, len);
-	html_print_encoded (output, str);
-	g_free (str);
+	if (len < sizeof (buffer)) {
+		memcpy (buffer, text, len);
+		buffer[len] = 0;
+		html_print_encoded (output, buffer);
+	} else {
+		char * str = g_strndup (text, len);
+		html_print_encoded (output, str);
+		g_free (str);
+	}
 }
 
 static char const *
@@ -262,7 +269,7 @@ html_new_markup (GsfOutput *output, const PangoAttrList *markup, char const *tex
 	PangoAttrIterator * iter;
 	int from, to;
 	int len = strlen (text);
-	GString *closure = g_string_new ("");
+	GString *closure = g_string_new (NULL);
 
 	iter = pango_attr_list_get_iterator ((PangoAttrList *) markup);
 
@@ -273,8 +280,7 @@ html_new_markup (GsfOutput *output, const PangoAttrList *markup, char const *tex
 		pango_attr_iterator_range (iter, &from, &to);
 		from = (from > len) ? len : from; /* Since "from" can be really big! */
 		to = (to > len) ? len : to;       /* Since "to" can be really big!   */
-		if (from > handled)
-			cb_html_add_chars (output, text + handled, from - handled);
+		cb_html_add_chars (output, text + handled, from - handled);
 		list = pango_attr_iterator_get_attrs (iter);
 		for (l = list; l != NULL; l = l->next) {
 			char const *result = cb_html_attrs_as_string (output, l->data, version);
@@ -282,8 +288,7 @@ html_new_markup (GsfOutput *output, const PangoAttrList *markup, char const *tex
 				g_string_prepend (closure, result);
 		}
 		g_slist_free (list);
-		if (to > from)
-			cb_html_add_chars (output, text + from, to - from);
+		cb_html_add_chars (output, text + from, to - from);
 		gsf_output_puts (output, closure->str);
 		handled = to;
 	} while (pango_attr_iterator_next (iter));
@@ -372,10 +377,8 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 				markup = go_format_get_markup (VALUE_FMT (cell->value));
 
 			if (markup != NULL) {
-				GString *str = g_string_new ("");
-				value_get_as_gstring (cell->value, str, NULL);
-				html_new_markup (output, markup, str->str, version);
-				g_string_free (str, TRUE);
+				const char *str = value_peek_string (cell->value);
+				html_new_markup (output, markup, str, version);
 			} else {
 				rendered_string = gnm_cell_get_rendered_text (cell);
 				html_print_encoded (output, rendered_string);
@@ -597,7 +600,7 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 		}
 
 	}
-	if (version == HTML40 || version == HTML40F  || version ==XHTML) {
+	if (version == HTML40 || version == HTML40F  || version == XHTML) {
 		if (style != NULL) {
 			gsf_output_printf (output, " style=\"");
 			if (gnm_style_get_pattern (style) != 0 &&
@@ -782,8 +785,8 @@ html_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 "\ttext-align: left;\n"
 "}\n"
 ".underline { text-decoration: underline; }\n"
-".doubleunderline { text-decoration: underline; text-decoration-style: double; }\n"
-".errorunderline { text-decoration: underline; text-decoration-style: wavy; }\n"
+".doubleunderline { text-decoration: underline double; }\n"
+".errorunderline { text-decoration: underline wavy; }\n"
 "</style>\n"
 "</head>\n<body>\n");
 		break;
@@ -808,8 +811,8 @@ html_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 "\ttext-align: left;\n"
 "}\n"
 ".underline { text-decoration: underline; }\n"
-".doubleunderline { text-decoration: underline; text-decoration-style: double; }\n"
-".errorunderline { text-decoration: underline; text-decoration-style: wavy; }\n"
+".doubleunderline { text-decoration: underline double; }\n"
+".errorunderline { text-decoration: underline wavy; }\n"
 "</style>\n"
 "</head>\n<body>\n");
 		break;
