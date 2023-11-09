@@ -1,5 +1,5 @@
 # Swedish messages for Gnumeric.
-# Copyright © 1998-2022 Free Software Foundation, Inc.
+# Copyright © 1998-2023 Free Software Foundation, Inc.
 # Richard Hult <rhult@codefactory.se>, 1999, 2000, 2001.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Christian Rose <menthos@menthos.com>, 2000, 2001, 2002.
@@ -7,7 +7,7 @@
 # Jan Morén <jan.moren@lucs.lu.se>, 2002.
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Josef Andersson <josef.andersson@fripost.org>, 2016, 2018.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2021, 2022.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2021, 2022, 2023.
 # Sebastian Rasmussen <sebras@gmail.com>, 2017.
 #
 # Svenska statistikfrämjandet har en ordlista som är till stor hjälp
@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2022-01-22 00:28+0000\n"
-"PO-Revision-Date: 2022-01-22 01:49+0100\n"
+"POT-Creation-Date: 2023-11-06 01:55+0000\n"
+"PO-Revision-Date: 2023-11-06 09:05+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -45,40 +45,44 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.4\n"
 
-#: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
+#: ../org.gnumeric.gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:552
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: ../gnumeric.desktop.in.h:2
+#: ../org.gnumeric.gnumeric.desktop.in.h:2
 msgid "Spreadsheet"
 msgstr "Kalkylprogram"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:3 ../src/main-application.c:254
+#: ../org.gnumeric.gnumeric.desktop.in.h:3 ../src/main-application.c:254
 msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric kalkylprogram"
 
-#: ../gnumeric.desktop.in.h:4
+#: ../org.gnumeric.gnumeric.desktop.in.h:4
 msgid "Calculation, Analysis, and Visualization of Information"
 msgstr "Beräkning, analys och visualisering av information"
 
-#: ../gnumeric.desktop.in.h:5
+#: ../org.gnumeric.gnumeric.desktop.in.h:5
 msgid "Spreadsheet;"
 msgstr "Kalkylblad;Kalkylprogram;"
 
-#: ../gnumeric.appdata.xml.in.h:1
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:1
 msgid "The Gnumeric Spreadsheet"
 msgstr "Gnumeric kalkylprogram"
 
-#: ../gnumeric.appdata.xml.in.h:2
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:2
+msgid "A High-Precision Spreadsheet Program"
+msgstr "Ett kalkylprogram med hög precision"
+
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:3
 msgid ""
 "Gnumeric is a spreadsheet application for interactive manipulation of data."
 msgstr "Gnumeric är ett kalkylprogram för interaktiv manipulering av data."
 
-#: ../gnumeric.appdata.xml.in.h:3
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:4
 msgid ""
 "Gnumeric aims to provide high-accuracy computations, expressive graphs, and "
 "a wide selection of statistical analysis tools. Gnumeric can share files "
@@ -89,11 +93,7 @@ msgstr ""
 "Gnumeric kan dela filer med Microsoft Excel och program som använder "
 "standarden ODS."
 
-#: ../gnumeric.appdata.xml.in.h:4
-msgid "A High-Precision Spreadsheet Program"
-msgstr "Ett kalkylprogram med hög precision"
-
-#: ../gnumeric.appdata.xml.in.h:5
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:5
 msgid "The Gnumeric Team"
 msgstr "Gnumeric-utvecklarna"
 
@@ -137,7 +137,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7219
-#: ../plugins/openoffice/openoffice-read.c:14113 ../src/xml-sax-read.c:3523
+#: ../plugins/openoffice/openoffice-read.c:14140 ../src/xml-sax-read.c:3542
 msgid "Reading file..."
 msgstr "Läser fil…"
 
@@ -208,8 +208,8 @@ msgstr "Modul för \"Data Interchange Format\" (DIF)"
 msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
-"Läser och skriver information sparad i formatet \"Data Interchange Format"
-"\" (*.dif)"
+"Läser och skriver information sparad i formatet \"Data Interchange "
+"Format\" (*.dif)"
 
 #: ../plugins/dif/plugin.xml.in.h:3
 msgid "Data Interchange Format (*.dif)"
@@ -243,7 +243,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Ogiltigt innehåll i ss:data-element, var ”%s”"
 
 #: ../plugins/excel/excel-xml-read.c:1217
-#: ../plugins/openoffice/openoffice-read.c:14305 ../src/xml-sax-read.c:3540
+#: ../plugins/openoffice/openoffice-read.c:14332 ../src/xml-sax-read.c:3559
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet är inte korrekt utformat!"
 
@@ -309,40 +309,40 @@ msgid "No password supplied"
 msgstr "Inget lösenord givet"
 
 #: ../plugins/excel/ms-excel-util.c:698
-#: ../plugins/openoffice/openoffice-read.c:6271 ../src/print-info.c:669
+#: ../plugins/openoffice/openoffice-read.c:6297 ../src/print-info.c:669
 msgid "TAB"
 msgstr "TAB"
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:6317 ../src/print-info.c:670
+#: ../plugins/openoffice/openoffice-read.c:6343 ../src/print-info.c:670
 msgid "PAGE"
 msgstr "SIDA"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:6324 ../src/print-info.c:671
+#: ../plugins/openoffice/openoffice-read.c:6350 ../src/print-info.c:671
 msgid "PAGES"
 msgstr "SIDOR"
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:6303 ../src/print-info.c:672
+#: ../plugins/openoffice/openoffice-read.c:6329 ../src/print-info.c:672
 msgid "DATE"
 msgstr "DATUM"
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:6310 ../src/print-info.c:673
+#: ../plugins/openoffice/openoffice-read.c:6336 ../src/print-info.c:673
 msgid "TIME"
 msgstr "TID"
 
 #: ../plugins/excel/ms-excel-util.c:703
-#: ../plugins/openoffice/openoffice-read.c:6351
-#: ../plugins/openoffice/openoffice-read.c:6358 ../src/print-info.c:674
+#: ../plugins/openoffice/openoffice-read.c:6377
+#: ../plugins/openoffice/openoffice-read.c:6384 ../src/print-info.c:674
 #: ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "FIL"
 
 #: ../plugins/excel/ms-excel-util.c:704
-#: ../plugins/openoffice/openoffice-read.c:6349
-#: ../plugins/openoffice/openoffice-read.c:6354 ../src/print-info.c:675
+#: ../plugins/openoffice/openoffice-read.c:6375
+#: ../plugins/openoffice/openoffice-read.c:6380 ../src/print-info.c:675
 msgid "PATH"
 msgstr "SÖKVÄG"
 
@@ -352,7 +352,7 @@ msgstr "CELL"
 
 #. ???
 #: ../plugins/excel/ms-excel-util.c:707
-#: ../plugins/openoffice/openoffice-read.c:6402 ../src/print-info.c:677
+#: ../plugins/openoffice/openoffice-read.c:6428 ../src/print-info.c:677
 msgid "TITLE"
 msgstr "TITEL"
 
@@ -553,14 +553,14 @@ msgid "Invalid range '%s' for attribute %s"
 msgstr "Ogiltigt intervall ”%s” för attributet %s"
 
 #: ../plugins/excel/xlsx-read.c:798
-#: ../plugins/openoffice/openoffice-read.c:1315
-#: ../plugins/openoffice/openoffice-read.c:1393
+#: ../plugins/openoffice/openoffice-read.c:1337
+#: ../plugins/openoffice/openoffice-read.c:1415
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Ogiltigt attribut ”%s”; okänd enhet %s"
 
 #: ../plugins/excel/xlsx-read.c:803 ../plugins/excel/xlsx-read.c:810
-#: ../plugins/openoffice/openoffice-read.c:1320
+#: ../plugins/openoffice/openoffice-read.c:1342
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Ogiltigt attribut ”%s”, förväntade avstånd, fick ”%s”"
@@ -570,118 +570,118 @@ msgstr "Ogiltigt attribut ”%s”, förväntade avstånd, fick ”%s”"
 msgid "Unknown theme color %d"
 msgstr "Okänd temafärg %d"
 
-#: ../plugins/excel/xlsx-read.c:1181
+#: ../plugins/excel/xlsx-read.c:1187
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Odefinierat talformat-id ”%s”"
 
-#: ../plugins/excel/xlsx-read.c:1281 ../plugins/excel/xlsx-read.c:3405
+#: ../plugins/excel/xlsx-read.c:1288 ../plugins/excel/xlsx-read.c:3430
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Ogiltig färg ”%s” för attributet rgb"
 
-#: ../plugins/excel/xlsx-read.c:1311 ../plugins/excel/xlsx-read.c:1320
+#: ../plugins/excel/xlsx-read.c:1318 ../plugins/excel/xlsx-read.c:1327
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Odefinierad stilpost ”%d”"
 
-#: ../plugins/excel/xlsx-read.c:1329
+#: ../plugins/excel/xlsx-read.c:1336
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Odefinierad partiell stilpost ”%d”"
 
-#: ../plugins/excel/xlsx-read.c:1363
+#: ../plugins/excel/xlsx-read.c:1370
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Ogiltig sst-ref ”%s”"
 
-#: ../plugins/excel/xlsx-read.c:1530
+#: ../plugins/excel/xlsx-read.c:1537
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Ogiltig cell %s"
 
-#: ../plugins/excel/xlsx-read.c:1669
+#: ../plugins/excel/xlsx-read.c:1676
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Ignorerar kolumninformation som inte specificerar först eller sist."
 
-#: ../plugins/excel/xlsx-read.c:1806
+#: ../plugins/excel/xlsx-read.c:1815
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
 msgstr "Papper från XLSX-fil: %ipt⨉%ipt"
 
-#: ../plugins/excel/xlsx-read.c:1810
+#: ../plugins/excel/xlsx-read.c:1819
 #, c-format
 msgid "Paper from XLSX file, #%i"
 msgstr "Papper från XLSX-fil, #%i"
 
-#: ../plugins/excel/xlsx-read.c:2274
-#: ../plugins/openoffice/openoffice-read.c:2927
+#: ../plugins/excel/xlsx-read.c:2299
+#: ../plugins/openoffice/openoffice-read.c:2949
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorerar ogiltig datavalidering eftersom: %s"
 
-#: ../plugins/excel/xlsx-read.c:2808
+#: ../plugins/excel/xlsx-read.c:2833
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorerar ohanterat villkorat format av typen ”%s”"
 
-#: ../plugins/excel/xlsx-read.c:3221
+#: ../plugins/excel/xlsx-read.c:3246
 msgid "Unknown type of hyperlink"
 msgstr "Okänd länktyp"
 
-#: ../plugins/excel/xlsx-read.c:3264
+#: ../plugins/excel/xlsx-read.c:3289
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr "Påträffade otolkbar utökning ”ext” i namnrymden ”%s”"
 
-#: ../plugins/excel/xlsx-read.c:3273
+#: ../plugins/excel/xlsx-read.c:3298
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr "Påträffade otolkbar utökning ”ext” med saknad namnrymd"
 
-#: ../plugins/excel/xlsx-read.c:3744
+#: ../plugins/excel/xlsx-read.c:3769
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorerar ett blad utan ett namn"
 
-#: ../plugins/excel/xlsx-read.c:3828
+#: ../plugins/excel/xlsx-read.c:3853
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Misslyckades med att definiera namn: %s"
 
-#: ../plugins/excel/xlsx-read.c:3890
+#: ../plugins/excel/xlsx-read.c:3915
 msgid "Unable to resolve external relationship"
 msgstr "Det går inte att lösa extern relation"
 
-#: ../plugins/excel/xlsx-read.c:4084
+#: ../plugins/excel/xlsx-read.c:4109
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Saknar del-id för bladet ”%s”"
 
-#: ../plugins/excel/xlsx-read.c:4109
+#: ../plugins/excel/xlsx-read.c:4134
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Läser blad ”%s”…"
 
-#: ../plugins/excel/xlsx-read.c:4117
+#: ../plugins/excel/xlsx-read.c:4142
 msgid "Reading comments..."
 msgstr "Läser kommentarer…"
 
-#: ../plugins/excel/xlsx-read.c:5257
+#: ../plugins/excel/xlsx-read.c:5282
 msgid "Reading shared strings..."
 msgstr "Läser delade strängar…"
 
-#: ../plugins/excel/xlsx-read.c:5266
+#: ../plugins/excel/xlsx-read.c:5291
 msgid "Reading theme..."
 msgstr "Läser tema…"
 
-#: ../plugins/excel/xlsx-read.c:5275
+#: ../plugins/excel/xlsx-read.c:5300
 msgid "Reading styles..."
 msgstr "Läser stilar…"
 
-#: ../plugins/excel/xlsx-read.c:5280
+#: ../plugins/excel/xlsx-read.c:5305
 msgid "Reading workbook..."
 msgstr "Läser arbetsbok…"
 
-#: ../plugins/excel/xlsx-read.c:5290
+#: ../plugins/excel/xlsx-read.c:5315
 msgid "No workbook stream found."
 msgstr "Ingen arbetsbok funnen."
 
@@ -751,14 +751,14 @@ msgstr "Det går inte att öppna modulfilen ”%s”."
 msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
 msgstr "Modulen ”%s” innehåller inte (”register_actual_excel4v”-symbolen)."
 
-#: ../plugins/excelplugins/excelplugins.c:996
+#: ../plugins/excelplugins/excelplugins.c:1002
 #, c-format
 msgid "No loadable worksheet functions found in XLL/DLL/SO file %s."
 msgstr ""
 "Inga inläsningsbara kalkylbladsfunktioner hittades i XLL/DLL/SO-filen %s."
 
 #. xgettext : %lu gives the number of functions. This is input to ngettext.
-#: ../plugins/excelplugins/excelplugins.c:1000
+#: ../plugins/excelplugins/excelplugins.c:1006
 #, c-format
 msgid "Loaded %lu function from XLL/DLL/SO %s."
 msgid_plural "Loaded %lu functions from XLL/DLL/SO %s."
@@ -964,7 +964,7 @@ msgstr "%s version %s"
 
 #: ../plugins/fn-info/functions.c:1446 ../src/dialogs/dialog-cell-format.c:880
 #: ../src/dialogs/dialog-cell-format.c:2354
-#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3814
+#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3823
 msgid "Automatic"
 msgstr "Automatisk"
 
@@ -992,7 +992,7 @@ msgstr "Informationsfunktioner"
 msgid "Functions for inspecting values, cells, and more"
 msgstr "Funktioner för inspektion av värden, celler med mera"
 
-#: ../plugins/fn-info/plugin.xml.in.h:3 ../src/gui-util.c:1064
+#: ../plugins/fn-info/plugin.xml.in.h:3 ../src/gui-util.c:1072
 msgid "Information"
 msgstr "Information"
 
@@ -1077,8 +1077,8 @@ msgid "Functions for generating random numbers"
 msgstr "Funktioner för generering av slumptal"
 
 #: ../plugins/fn-random/plugin.xml.in.h:3
-#: ../src/dialogs/random-generation.ui.h:3 ../src/tools/random-generator.c:776
-#: ../src/tools/random-generator.c:779
+#: ../src/dialogs/random-generation.ui.h:3 ../src/tools/random-generator.c:784
+#: ../src/tools/random-generator.c:787
 msgid "Random Numbers"
 msgstr "Slumptal"
 
@@ -1220,16 +1220,16 @@ msgstr "Tillhandahåller stöd för att spara Gnome-ordlistan i .po-filer."
 msgid "Gnome Glossary PO file format"
 msgstr "PO-filformat för Gnome-ordlistan"
 
-#: ../plugins/html/html_read.c:117
+#: ../plugins/html/html_read.c:150
 msgid "[Warning: Invalid text string has been removed.]"
 msgstr "[Varning: Ogiltig textsträng har tagits bort.]"
 
-#: ../plugins/html/html_read.c:156
+#: ../plugins/html/html_read.c:189
 #, c-format
 msgid "[see sheet %s]"
 msgstr "[se blad %s]"
 
-#: ../plugins/html/html_read.c:157
+#: ../plugins/html/html_read.c:190
 msgid ""
 "The original html file is\n"
 "using nested tables."
@@ -1237,7 +1237,7 @@ msgstr ""
 "Den ursprungliga html-filen\n"
 "använder nästlade tabeller."
 
-#: ../plugins/html/html_read.c:583
+#: ../plugins/html/html_read.c:631
 msgid "Unable to parse the html."
 msgstr "Det går inte att tolka html-koden."
 
@@ -1381,23 +1381,23 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr "Ogiltigt radnamn, %s, i rhs-/intervallavsnittet"
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:590 ../src/tools/gnm-solver.c:1879
+#: ../plugins/mps/mps.c:590 ../src/tools/gnm-solver.c:1893
 msgid "Constraint"
 msgstr "Bivillkor"
 
 #: ../plugins/mps/mps.c:591 ../plugins/mps/mps.c:653
 #: ../src/dialogs/dialog-doc-metadata.c:1871
-#: ../src/dialogs/dialog-simulation.c:215 ../src/tools/gnm-solver.c:1659
-#: ../src/tools/gnm-solver.c:1704 ../src/tools/gnm-solver.c:1748
+#: ../src/dialogs/dialog-simulation.c:215 ../src/tools/gnm-solver.c:1673
+#: ../src/tools/gnm-solver.c:1718 ../src/tools/gnm-solver.c:1762
 msgid "Value"
 msgstr "Värde"
 
 #: ../plugins/mps/mps.c:592 ../src/dialogs/dialog-formula-guru.c:895
-#: ../src/dialogs/dialog-search.c:437 ../src/tools/gnm-solver.c:1660
+#: ../src/dialogs/dialog-search.c:437 ../src/tools/gnm-solver.c:1674
 msgid "Type"
 msgstr "Typ"
 
-#: ../plugins/mps/mps.c:593 ../src/tools/gnm-solver.c:1749
+#: ../plugins/mps/mps.c:593 ../src/tools/gnm-solver.c:1763
 msgid "Limit"
 msgstr "Gräns"
 
@@ -1475,230 +1475,231 @@ msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Möjligt skadat heltal ”%s” för ”%s”"
 
 #: ../plugins/openoffice/openoffice-read.c:765
+#: ../plugins/openoffice/openoffice-read.c:787
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr "Ogiltigt attribut ”%s”, förväntade siffra, fick ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:789
+#: ../plugins/openoffice/openoffice-read.c:811
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr "Ogiltigt attribut ”%s”, förväntade procent, fick ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:811
+#: ../plugins/openoffice/openoffice-read.c:833
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Ogiltigt attribut ”%s”, förväntade färg, fick ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:1089
+#: ../plugins/openoffice/openoffice-read.c:1111
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Okänd skrafferingsnamn %s påträffades!"
 
-#: ../plugins/openoffice/openoffice-read.c:1097
+#: ../plugins/openoffice/openoffice-read.c:1119
 msgid "Hatch fill without hatch name encountered!"
 msgstr "Skrafferingsfyllnad utan skrafferingsnamn påträffades!"
 
-#: ../plugins/openoffice/openoffice-read.c:1105
+#: ../plugins/openoffice/openoffice-read.c:1127
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Okänt toningsnamn ”%s” påträffades!"
 
-#: ../plugins/openoffice/openoffice-read.c:1118
+#: ../plugins/openoffice/openoffice-read.c:1140
 msgid "Gradient fill without gradient name encountered!"
 msgstr "Toningsfyllnad utan toningsnamn påträffades!"
 
-#: ../plugins/openoffice/openoffice-read.c:1126
+#: ../plugins/openoffice/openoffice-read.c:1148
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Okänt bildfyllnadsnamn ”%s” påträffades!"
 
-#: ../plugins/openoffice/openoffice-read.c:1136
+#: ../plugins/openoffice/openoffice-read.c:1158
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr "Ogiltig absolut filspecifikation ”%s” påträffades."
 
-#: ../plugins/openoffice/openoffice-read.c:1149
+#: ../plugins/openoffice/openoffice-read.c:1171
 #, c-format
 msgid "Unable to open '%s'."
 msgstr "Det går inte att öppna ”%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:1159
-#: ../plugins/openoffice/openoffice-read.c:8672
+#: ../plugins/openoffice/openoffice-read.c:1181
+#: ../plugins/openoffice/openoffice-read.c:8698
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Det går inte att öppna filen ”%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:1168
+#: ../plugins/openoffice/openoffice-read.c:1190
 msgid "Image fill without image name encountered!"
 msgstr "Bildfyllnad utan bildnamn påträffades!"
 
-#: ../plugins/openoffice/openoffice-read.c:1398
+#: ../plugins/openoffice/openoffice-read.c:1420
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Ogiltigt attribut ”%s”, förväntade vinkel, fick ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:1464
+#: ../plugins/openoffice/openoffice-read.c:1486
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Ogiltigt attribut ”%s”, okänt uppräkningsvärde ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:1659
+#: ../plugins/openoffice/openoffice-read.c:1681
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Ignorerar referensen till okänd extern arbetsbok ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:1881
+#: ../plugins/openoffice/openoffice-read.c:1903
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Okänd textstil med namn ”%s” påträffades!"
 
-#: ../plugins/openoffice/openoffice-read.c:2328
+#: ../plugins/openoffice/openoffice-read.c:2350
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "Det går inte att tolka ”%s” (”%s”)"
 
-#: ../plugins/openoffice/openoffice-read.c:2426
-#: ../plugins/openoffice/openoffice-read.c:3946
+#: ../plugins/openoffice/openoffice-read.c:2448
+#: ../plugins/openoffice/openoffice-read.c:3968
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Formeltyp som inte stöds påträffades: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2432
-#: ../plugins/openoffice/openoffice-read.c:3953
+#: ../plugins/openoffice/openoffice-read.c:2454
+#: ../plugins/openoffice/openoffice-read.c:3975
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Uttrycket ”%s” börjar inte med ett känt tecken"
 
-#: ../plugins/openoffice/openoffice-read.c:2471
-#: ../plugins/openoffice/openoffice-write.c:5280
-#: ../plugins/openoffice/openoffice-write.c:5292 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-read.c:2493
+#: ../plugins/openoffice/openoffice-write.c:5283
+#: ../plugins/openoffice/openoffice-write.c:5295 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "cell"
 
-#: ../plugins/openoffice/openoffice-read.c:2861
+#: ../plugins/openoffice/openoffice-read.c:2883
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr "Valideringsvillkor ”%s” stöds ej. Det har ändrats till ”%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:2910
+#: ../plugins/openoffice/openoffice-read.c:2932
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Odefinierad valideringsstil påträffades: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2936
+#: ../plugins/openoffice/openoffice-read.c:2958
 #, c-format
 msgid ""
-"Unsupported validation condition encountered: \"%s\" with base address: \"%s"
-"\""
+"Unsupported validation condition encountered: \"%s\" with base address: "
+"\"%s\""
 msgstr ""
 "Valideringsvillkor som inte stöds påträffades: ”%s” med basadress: ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:3602
+#: ../plugins/openoffice/openoffice-read.c:3624
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Okänt villkor ”%s” påträffades, ignorerar."
 
-#: ../plugins/openoffice/openoffice-read.c:3684
+#: ../plugins/openoffice/openoffice-read.c:3706
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Ignorera kolumninformation bortom kolumn %i"
 
-#: ../plugins/openoffice/openoffice-read.c:3788
-#: ../plugins/openoffice/openoffice-read.c:4187
+#: ../plugins/openoffice/openoffice-read.c:3810
+#: ../plugins/openoffice/openoffice-read.c:4209
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Stöder innehåll bortom högsta antal rader (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3938
-#: ../plugins/openoffice/openoffice-read.c:6385
+#: ../plugins/openoffice/openoffice-read.c:3960
+#: ../plugins/openoffice/openoffice-read.c:6411
 msgid "Missing expression"
 msgstr "Uttryck saknas"
 
-#: ../plugins/openoffice/openoffice-read.c:4165
+#: ../plugins/openoffice/openoffice-read.c:4187
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Otillåtet fältuttryck anger inte antalet kolumner."
 
-#: ../plugins/openoffice/openoffice-read.c:4168
+#: ../plugins/openoffice/openoffice-read.c:4190
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Ogiltigt fältuttryck anger inte antalet rader."
 
-#: ../plugins/openoffice/openoffice-read.c:4179
+#: ../plugins/openoffice/openoffice-read.c:4201
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "Stöder innehåll bortom högsta antal kolumner (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:4510
+#: ../plugins/openoffice/openoffice-read.c:4532
 msgid "Unnamed dash style encountered."
 msgstr "Ej namngiven tankstrecksstil påträffades."
 
-#: ../plugins/openoffice/openoffice-read.c:4528
+#: ../plugins/openoffice/openoffice-read.c:4550
 msgid "Unnamed image fill style encountered."
 msgstr "Ej namngiven bildfyllnadsstil påträffades."
 
-#: ../plugins/openoffice/openoffice-read.c:4530
+#: ../plugins/openoffice/openoffice-read.c:4552
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "Bildfyllnadsstilen ”%s” har ingen bifogad bild."
 
-#: ../plugins/openoffice/openoffice-read.c:4567
-#: ../plugins/openoffice/openoffice-read.c:4573
+#: ../plugins/openoffice/openoffice-read.c:4589
+#: ../plugins/openoffice/openoffice-read.c:4595
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Det går inte att tolka toningsfärg: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4593
+#: ../plugins/openoffice/openoffice-read.c:4615
 msgid "Unnamed gradient style encountered."
 msgstr "Ej namngiven toningsstil påträffades."
 
-#: ../plugins/openoffice/openoffice-read.c:4614
+#: ../plugins/openoffice/openoffice-read.c:4636
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Det går inte att tolka skrafferingsfärgen: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4688
+#: ../plugins/openoffice/openoffice-read.c:4710
 msgid "Unnamed hatch encountered!"
 msgstr "Ej namngiven skraffering påträffades!"
 
-#: ../plugins/openoffice/openoffice-read.c:4829
+#: ../plugins/openoffice/openoffice-read.c:4851
 msgid "Duplicate default column style encountered."
 msgstr "Duplicerad standardkolumnstil påträffades."
 
-#: ../plugins/openoffice/openoffice-read.c:4845
+#: ../plugins/openoffice/openoffice-read.c:4867
 msgid "Duplicate default row style encountered."
 msgstr "Duplicerad standardradstil påträffades."
 
-#: ../plugins/openoffice/openoffice-read.c:4880
+#: ../plugins/openoffice/openoffice-read.c:4902
 msgid "Duplicate default chart/graphics style encountered."
 msgstr "Duplicerad standarddiagram-/grafikstil påträffades."
 
-#: ../plugins/openoffice/openoffice-read.c:5375
+#: ../plugins/openoffice/openoffice-read.c:5397
 msgid "Unnamed date style ignored."
 msgstr "Ej namngiven datastil ignorerad."
 
-#: ../plugins/openoffice/openoffice-read.c:5761
+#: ../plugins/openoffice/openoffice-read.c:5787
 #, c-format
 msgid "Corrupted file: invalid number format condition [%s]."
 msgstr "Skadad fil: ogiltigt bivillkor för sifferformatering [%s]."
 
-#: ../plugins/openoffice/openoffice-read.c:5779
+#: ../plugins/openoffice/openoffice-read.c:5805
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Skadad fil: ej namngiven sifferstil ignorerad."
 
-#: ../plugins/openoffice/openoffice-read.c:5801
+#: ../plugins/openoffice/openoffice-read.c:5827
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Den här filen verkar skadad, krävda format saknas."
 
-#: ../plugins/openoffice/openoffice-read.c:5870
+#: ../plugins/openoffice/openoffice-read.c:5896
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Papper från ODF-fil: %ipt⨉%ipt"
 
-#: ../plugins/openoffice/openoffice-read.c:6082
+#: ../plugins/openoffice/openoffice-read.c:6108
 msgid "Missing page layout identifier"
 msgstr "Saknar identifierare för sidlayout"
 
-#: ../plugins/openoffice/openoffice-read.c:6109
+#: ../plugins/openoffice/openoffice-read.c:6135
 msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
@@ -1707,35 +1708,35 @@ msgstr ""
 "ignoreras."
 
 #. For OOO_VER_1 this may be acceptable
-#: ../plugins/openoffice/openoffice-read.c:6134
+#: ../plugins/openoffice/openoffice-read.c:6160
 msgid "Master page style without page layout encountered!"
 msgstr "Bassidstil utan sidlayout påträffades!"
 
-#: ../plugins/openoffice/openoffice-read.c:6140
+#: ../plugins/openoffice/openoffice-read.c:6166
 msgid "Master page style without name encountered!"
 msgstr "Bassidstil utan namn påträffades!"
 
-#: ../plugins/openoffice/openoffice-read.c:6433
+#: ../plugins/openoffice/openoffice-read.c:6459
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Okänd Gnumeric-ramstil ”%s” påträffades."
 
-#: ../plugins/openoffice/openoffice-read.c:6772
+#: ../plugins/openoffice/openoffice-read.c:6798
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Okänd sidbrytstyp ”%s”, sätter standardvalet NONE"
 
-#: ../plugins/openoffice/openoffice-read.c:6857
+#: ../plugins/openoffice/openoffice-read.c:6883
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Det går inte att tolka flikfärgen ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:6868
+#: ../plugins/openoffice/openoffice-read.c:6894
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Det går inte att tolka fliktextfärgen ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:7400
+#: ../plugins/openoffice/openoffice-read.c:7426
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1744,36 +1745,36 @@ msgstr ""
 "Okänd interpolationstyp ”%s” påträffades, använder Bezier kubisk spline "
 "istället."
 
-#: ../plugins/openoffice/openoffice-read.c:7409
+#: ../plugins/openoffice/openoffice-read.c:7435
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Okänd interpolationstyp ”%s” påträffades"
 
-#: ../plugins/openoffice/openoffice-read.c:7957
+#: ../plugins/openoffice/openoffice-read.c:7983
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "uttrycket '%s' @ '%s' är inte en cellref"
 
-#: ../plugins/openoffice/openoffice-read.c:7973
+#: ../plugins/openoffice/openoffice-read.c:7999
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Uttrycket ”%s” har okänd namnrymd"
 
-#: ../plugins/openoffice/openoffice-read.c:8048
+#: ../plugins/openoffice/openoffice-read.c:8074
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Ogiltigt DB-omfång ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:8082
+#: ../plugins/openoffice/openoffice-read.c:8108
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
 msgstr "Gnumeric stödjer inte ”or”-ade villkor för automatiska filter."
 
-#: ../plugins/openoffice/openoffice-read.c:8282
+#: ../plugins/openoffice/openoffice-read.c:8308
 #, c-format
 msgid "Moving sheet object from column %i and row %i"
 msgstr "Flyttar bladobjekt från kolumn %i och rad %i"
 
-#: ../plugins/openoffice/openoffice-read.c:8356
+#: ../plugins/openoffice/openoffice-read.c:8382
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1781,13 +1782,13 @@ msgid ""
 msgstr ""
 "Gnumerics bladobjektrader stöder inte bifogad text. Texten ”%s” har kastats."
 
-#: ../plugins/openoffice/openoffice-read.c:8393
-#: ../plugins/openoffice/openoffice-read.c:8432
+#: ../plugins/openoffice/openoffice-read.c:8419
+#: ../plugins/openoffice/openoffice-read.c:8458
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Ogiltigt attribut ”form:value”, förväntade siffra, fick ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:8398
+#: ../plugins/openoffice/openoffice-read.c:8424
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1796,16 +1797,16 @@ msgstr ""
 "Ogiltig värdetyp ”%s” utlyst för ”form:value”-attributet i element ”form:"
 "value-range”."
 
-#: ../plugins/openoffice/openoffice-read.c:8857
+#: ../plugins/openoffice/openoffice-read.c:8883
 msgid "Unable to determine manual position for a chart component!"
 msgstr "Det går inte att bestämma manuell position för en diagramkomponent!"
 
-#: ../plugins/openoffice/openoffice-read.c:9136
+#: ../plugins/openoffice/openoffice-read.c:9162
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr "Inte nog med data i det angivna intervallet (%s) för alla begäran"
 
-#: ../plugins/openoffice/openoffice-read.c:9863
+#: ../plugins/openoffice/openoffice-read.c:9889
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1813,51 +1814,51 @@ msgstr ""
 "Gnumeric stödjer inte icke-automatiska regressionsekvationer. Använder "
 "automatiska ekvationer istället."
 
-#: ../plugins/openoffice/openoffice-read.c:9882
+#: ../plugins/openoffice/openoffice-read.c:9908
 #, c-format
 msgid "The chart style \"%s\" is not defined!"
 msgstr "Diagramstilen ”%s” är inte definierad!"
 
-#: ../plugins/openoffice/openoffice-read.c:10050
+#: ../plugins/openoffice/openoffice-read.c:10076
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Påträffade lodräta streck i en rityta som inte stödjer dem."
 
-#: ../plugins/openoffice/openoffice-read.c:10187
+#: ../plugins/openoffice/openoffice-read.c:10213
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr "Påträffade en okänd diagramtyp, försöker att skapa ett linjediagram."
 
-#: ../plugins/openoffice/openoffice-read.c:10249
-#: ../plugins/openoffice/openoffice-read.c:10290
-#: ../plugins/openoffice/openoffice-read.c:10320
-#: ../plugins/openoffice/openoffice-read.c:10352
+#: ../plugins/openoffice/openoffice-read.c:10275
+#: ../plugins/openoffice/openoffice-read.c:10316
+#: ../plugins/openoffice/openoffice-read.c:10346
+#: ../plugins/openoffice/openoffice-read.c:10378
 #, c-format
 msgid "Chart style with name '%s' is missing."
 msgstr "Diagramstil med namnet ”%s” saknas."
 
-#: ../plugins/openoffice/openoffice-read.c:10488
+#: ../plugins/openoffice/openoffice-read.c:10514
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
 "En text som inte stöds påträffades och konverterades till en textrektangel."
 
-#: ../plugins/openoffice/openoffice-read.c:10561
+#: ../plugins/openoffice/openoffice-read.c:10587
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr "Loop under tolkning av formel ”%s” för namnet ”%s” påträffades"
 
-#: ../plugins/openoffice/openoffice-read.c:10764
+#: ../plugins/openoffice/openoffice-read.c:10790
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Det går inte att utvärdera formel ”%s” (”%s”) för namnet ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:10769
+#: ../plugins/openoffice/openoffice-read.c:10795
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Det går inte att tolka formeln ”%s” (”%s”) för namnet ”%s”"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:10853
-#: ../plugins/openoffice/openoffice-read.c:10856
+#: ../plugins/openoffice/openoffice-read.c:10879
+#: ../plugins/openoffice/openoffice-read.c:10882
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
@@ -1866,19 +1867,19 @@ msgstr ""
 "En form av typen ”%s” som inte stöds påträffades och konverterades till en "
 "rektangel."
 
-#: ../plugins/openoffice/openoffice-read.c:10859
+#: ../plugins/openoffice/openoffice-read.c:10885
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
 "En anpassad form som inte stöds påträffades och konverterades till en "
 "rektangel."
 
-#: ../plugins/openoffice/openoffice-read.c:11257
+#: ../plugins/openoffice/openoffice-read.c:11283
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Attribut ”%s” har värdet ”%s” som inte stöds."
 
-#: ../plugins/openoffice/openoffice-read.c:11915
+#: ../plugins/openoffice/openoffice-read.c:11941
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
@@ -1887,12 +1888,12 @@ msgstr ""
 "Bladstorleken på %i kolumner och %i rader använda i denna fil överträffar "
 "den största bladstorlek som Gnumeric stöder"
 
-#: ../plugins/openoffice/openoffice-read.c:11946
+#: ../plugins/openoffice/openoffice-read.c:11972
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_I_SKADAD_FIL"
 
-#: ../plugins/openoffice/openoffice-read.c:11951
+#: ../plugins/openoffice/openoffice-read.c:11977
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1900,74 +1901,74 @@ msgid ""
 msgstr ""
 "Denna fil är skadad med ett duplicerat bladnamn ”%s”, nu ändrat till ”%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:11961
+#: ../plugins/openoffice/openoffice-read.c:11987
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "BLAD_I_SKADAD_FIL"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:11967
+#: ../plugins/openoffice/openoffice-read.c:11993
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr "Filen är skadad med ett kalkylblad utan namn, nu med namnet ”%s”."
 
-#: ../plugins/openoffice/openoffice-read.c:13963
+#: ../plugins/openoffice/openoffice-read.c:13990
 msgid "Unknown mimetype for openoffice file."
 msgstr "Okänd mimetype för openoffice-fil."
 
-#: ../plugins/openoffice/openoffice-read.c:13973
+#: ../plugins/openoffice/openoffice-read.c:14000
 msgid "No stream named content.xml found."
 msgstr "Ingen ström med namn content.xml kan hittas."
 
-#: ../plugins/openoffice/openoffice-read.c:14123
+#: ../plugins/openoffice/openoffice-read.c:14150
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Ogiltiga metadata ”%s”"
 
-#: ../plugins/openoffice/openoffice-read.c:14214
+#: ../plugins/openoffice/openoffice-read.c:14241
 msgid "settings.xml stream is malformed!"
 msgstr "settings.xml-strömmen är felaktig!"
 
-#: ../plugins/openoffice/openoffice-write.c:5273
-#: ../plugins/openoffice/openoffice-write.c:5285
+#: ../plugins/openoffice/openoffice-write.c:5276
+#: ../plugins/openoffice/openoffice-write.c:5288
 msgid "tab"
 msgstr "flik"
 
-#: ../plugins/openoffice/openoffice-write.c:5274
-#: ../plugins/openoffice/openoffice-write.c:5286
+#: ../plugins/openoffice/openoffice-write.c:5277
+#: ../plugins/openoffice/openoffice-write.c:5289
 msgid "page"
 msgstr "sida"
 
-#: ../plugins/openoffice/openoffice-write.c:5275
-#: ../plugins/openoffice/openoffice-write.c:5287
+#: ../plugins/openoffice/openoffice-write.c:5278
+#: ../plugins/openoffice/openoffice-write.c:5290
 msgid "pages"
 msgstr "sidor"
 
-#: ../plugins/openoffice/openoffice-write.c:5276
-#: ../plugins/openoffice/openoffice-write.c:5288
+#: ../plugins/openoffice/openoffice-write.c:5279
+#: ../plugins/openoffice/openoffice-write.c:5291
 msgid "date"
 msgstr "datum"
 
-#: ../plugins/openoffice/openoffice-write.c:5277
-#: ../plugins/openoffice/openoffice-write.c:5289
+#: ../plugins/openoffice/openoffice-write.c:5280
+#: ../plugins/openoffice/openoffice-write.c:5292
 msgid "time"
 msgstr "tid"
 
-#: ../plugins/openoffice/openoffice-write.c:5278
-#: ../plugins/openoffice/openoffice-write.c:5290 ../src/ssconvert.c:121
+#: ../plugins/openoffice/openoffice-write.c:5281
+#: ../plugins/openoffice/openoffice-write.c:5293 ../src/ssconvert.c:121
 #: ../src/ssdiff.c:61
 msgid "file"
 msgstr "fil"
 
-#: ../plugins/openoffice/openoffice-write.c:5279
-#: ../plugins/openoffice/openoffice-write.c:5291
+#: ../plugins/openoffice/openoffice-write.c:5282
+#: ../plugins/openoffice/openoffice-write.c:5294
 msgid "path"
 msgstr "sökväg"
 
-#: ../plugins/openoffice/openoffice-write.c:9078
+#: ../plugins/openoffice/openoffice-write.c:9081
 msgid "Writing Sheets..."
 msgstr "Skriver blad…"
 
-#: ../plugins/openoffice/openoffice-write.c:9119
+#: ../plugins/openoffice/openoffice-write.c:9122
 msgid "Writing Sheet Objects..."
 msgstr "Skriver bladobjekt…"
 
@@ -3516,9 +3517,9 @@ msgid ""
 msgstr ""
 "Om \"lag\" är 0 räknar Gnumeric om alla automatiska uttryck direkt efter "
 "varje förändring. Är \"lag\" inte noll väntar Gnumeric på fler ändringar "
-"innan uttrycken räknas om. Om \"lag\" är positivt så väntar Gnumeric i \"lag"
-"\" millisekunder och räknar sedan om; om fler ändringar har skett under den "
-"tidsperioden så bearbetas de också nu. Om \"lag\" är negativt så sker "
+"innan uttrycken räknas om. Om \"lag\" är positivt så väntar Gnumeric i "
+"\"lag\" millisekunder och räknar sedan om; om fler ändringar har skett under "
+"den tidsperioden så bearbetas de också nu. Om \"lag\" är negativt så sker "
 "omräkning endast då inga ändringar har hänt i \"lag\" millisekunder."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:59
@@ -3949,7 +3950,7 @@ msgstr "Borttagning av raderna %s"
 msgid "Deleting row %s"
 msgstr "Borttagning av rad %s"
 
-#: ../src/commands.c:1586 ../src/commands.c:1587 ../src/sheet.c:5096
+#: ../src/commands.c:1586 ../src/commands.c:1587 ../src/sheet.c:5160
 msgid "Clear"
 msgstr "Töm"
 
@@ -4206,7 +4207,7 @@ msgstr "Vill du klistra in %s kopior?"
 
 #. Check arrays or merged regions in src or target regions
 #: ../src/commands.c:3266 ../src/commands.c:3422 ../src/commands.c:3423
-#: ../src/item-cursor.c:1024 ../src/wbc-gtk-actions.c:580
+#: ../src/item-cursor.c:1038 ../src/wbc-gtk-actions.c:580
 msgid "Autofill"
 msgstr "Autofyll"
 
@@ -4449,7 +4450,7 @@ msgstr "Konfigurera justering"
 msgid "Add Filter"
 msgstr "Lägg till filter"
 
-#: ../src/commands.c:7801 ../src/wbc-gtk.c:1632
+#: ../src/commands.c:7801 ../src/wbc-gtk.c:1639
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Autofilter blockerat av %s"
@@ -4490,19 +4491,19 @@ msgstr "Ändra filtervillkor för %s"
 msgid "Clear All Page Breaks"
 msgstr "Töm alla sidbrytningar"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1567
+#: ../src/commands.c:8005 ../src/wbc-gtk.c:1574
 msgid "Remove Column Page Break"
 msgstr "Ta bort kolumnsidbrytning"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1577
+#: ../src/commands.c:8005 ../src/wbc-gtk.c:1584
 msgid "Remove Row Page Break"
 msgstr "Ta bort radsidbrytning"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1570
+#: ../src/commands.c:8008 ../src/wbc-gtk.c:1577
 msgid "Add Column Page Break"
 msgstr "Lägg till kolumnsidbrytning"
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1580
+#: ../src/commands.c:8008 ../src/wbc-gtk.c:1587
 msgid "Add Row Page Break"
 msgstr "Lägg till radsidbrytning"
 
@@ -4959,8 +4960,8 @@ msgid "Visit the Gnumeric website"
 msgstr "Besök Gnumerics hemsida"
 
 #: ../src/dialogs/dialog-about.c:592
-msgid "Copyright © 1998-2020"
-msgstr "Copyright © 1998-2020"
+msgid "Copyright © 1998-2023"
+msgstr "Copyright © 1998-2023"
 
 #: ../src/dialogs/dialog-about.c:593
 msgid "Free, Fast, Accurate - Pick Any Three!"
@@ -5726,13 +5727,13 @@ msgstr "Formatera celler"
 msgid "Border"
 msgstr "Kant"
 
-#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3860
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3869
 msgid "Clear Background"
 msgstr "Töm bakgrund"
 
 #: ../src/dialogs/dialog-cell-format.c:2358
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:90
-#: ../src/wbc-gtk-actions.c:3862 ../src/wbc-gtk-actions.c:3863
+#: ../src/wbc-gtk-actions.c:3871 ../src/wbc-gtk-actions.c:3872
 msgid "Background"
 msgstr "Bakgrund"
 
@@ -6013,8 +6014,8 @@ msgstr "Ställ in standardbredden för kolumner"
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
-"Ställ in kolumnbredden av markeringen på <span style='italic' weight='bold'>"
-"%s</span>"
+"Ställ in kolumnbredden av markeringen på <span style='italic' "
+"weight='bold'>%s</span>"
 
 #: ../src/dialogs/dialog-consolidate.c:188
 #, c-format
@@ -6348,8 +6349,8 @@ msgstr "Arbetsboksnivå"
 
 #: ../src/dialogs/dialog-goto-cell.c:387 ../src/dialogs/dialog-search.c:437
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1658
-#: ../src/tools/gnm-solver.c:1703 ../src/tools/gnm-solver.c:1844
+#: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1672
+#: ../src/tools/gnm-solver.c:1717 ../src/tools/gnm-solver.c:1858
 msgid "Cell"
 msgstr "Cell"
 
@@ -6616,7 +6617,7 @@ msgstr "Autokorrigera"
 #: ../src/dialogs/dialog-preferences.c:1215
 #: ../src/dialogs/dialog-sheet-compare.c:206
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
-#: ../src/wbc-gtk-actions.c:4405 ../src/widgets/gnm-fontbutton.c:1198
+#: ../src/wbc-gtk-actions.c:4414 ../src/widgets/gnm-fontbutton.c:1198
 msgid "Font"
 msgstr "Typsnitt"
 
@@ -6628,7 +6629,7 @@ msgstr "Filer"
 msgid "Tools"
 msgstr "Verktyg"
 
-#: ../src/dialogs/dialog-preferences.c:1218 ../src/wbc-gtk-actions.c:4090
+#: ../src/dialogs/dialog-preferences.c:1218 ../src/wbc-gtk-actions.c:4099
 msgid "Undo"
 msgstr "Ångra"
 
@@ -7192,22 +7193,22 @@ msgid "Font color"
 msgstr "Typsnittsfärg"
 
 #. ALSO "<control>2"
-#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3644
+#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3652
 #: ../src/widgets/gnm-text-view.c:329
 msgid "Bold"
 msgstr "Fetstil"
 
 #. ALSO "<control>3"
-#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3652
+#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3660
 msgid "Italic"
 msgstr "Kursiv"
 
 #. ALSO "<control>4"
-#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3660
+#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3668
 msgid "Underline"
 msgstr "Understrykning"
 
-#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3689
+#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3697
 msgid "Strikethrough"
 msgstr "Genomstrykning"
 
@@ -7321,12 +7322,12 @@ msgstr "Allmänt"
 
 #. start sub menu
 #: ../src/dialogs/dialog-sheet-compare.c:378 ../src/dialogs/cell-format.ui.h:42
-#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3875
+#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3884
 msgid "Left"
 msgstr "Vänster"
 
 #: ../src/dialogs/dialog-sheet-compare.c:379 ../src/dialogs/cell-format.ui.h:43
-#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3877
+#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3886
 msgid "Right"
 msgstr "Höger"
 
@@ -7340,7 +7341,7 @@ msgid "Fill"
 msgstr "Fyll"
 
 #: ../src/dialogs/dialog-sheet-compare.c:382
-#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3728
+#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3736
 msgid "Justify"
 msgstr "Justera"
 
@@ -7349,7 +7350,7 @@ msgid "Center across selection"
 msgstr "Centrera över markering"
 
 #: ../src/dialogs/dialog-sheet-compare.c:384
-#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3717
+#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3725
 msgid "Distributed"
 msgstr "Distribuerad"
 
@@ -7360,7 +7361,7 @@ msgstr "Överkant"
 
 #: ../src/dialogs/dialog-sheet-compare.c:394
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:44
-#: ../src/wbc-gtk-actions.c:3883
+#: ../src/wbc-gtk-actions.c:3892
 msgid "Bottom"
 msgstr "Underkant"
 
@@ -7540,16 +7541,16 @@ msgid "Run on"
 msgstr "Kör på"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:245
-#: ../src/wbc-gtk.c:4058
+#: ../src/wbc-gtk.c:4065
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4060
+#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4067
 msgid "Average"
 msgstr "Medelvärde"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4059
+#: ../src/wbc-gtk.c:4066
 msgid "Max"
 msgstr "Max"
 
@@ -7596,11 +7597,11 @@ msgstr ""
 msgid "Changing solver parameters"
 msgstr "Ändrar lösaregenskaper"
 
-#: ../src/dialogs/dialog-solver.c:548 ../src/tools/gnm-solver.c:1685
+#: ../src/dialogs/dialog-solver.c:548 ../src/tools/gnm-solver.c:1699
 msgid "Feasible"
 msgstr "Möjliga"
 
-#: ../src/dialogs/dialog-solver.c:552 ../src/tools/gnm-solver.c:1688
+#: ../src/dialogs/dialog-solver.c:552 ../src/tools/gnm-solver.c:1702
 msgid "Optimal"
 msgstr "Optimala"
 
@@ -7632,7 +7633,7 @@ msgstr "Kör"
 msgid "Done"
 msgstr "Klar"
 
-#: ../src/dialogs/dialog-solver.c:607 ../src/gui-util.c:1079
+#: ../src/dialogs/dialog-solver.c:607 ../src/gui-util.c:1087
 msgid "Error"
 msgstr "Fel"
 
@@ -9436,8 +9437,8 @@ msgstr "Plocka bort:"
 msgid "Source Locale:"
 msgstr "Källområde:"
 
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4145
-#: ../src/wbc-gtk-actions.c:4165
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4154
+#: ../src/wbc-gtk-actions.c:4174
 msgid "Zoom"
 msgstr "Zooma"
 
@@ -11647,8 +11648,8 @@ msgstr "Indatavariabler:"
 msgid "Output variables:"
 msgstr "Utdatavariabler:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1701
-#: ../src/tools/gnm-solver.c:1842
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1715
+#: ../src/tools/gnm-solver.c:1856
 msgid "Variables"
 msgstr "Variabler"
 
@@ -11758,13 +11759,13 @@ msgstr "≥"
 msgid "="
 msgstr "="
 
-#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:441
-#: ../src/tools/gnm-solver.c:467
+#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:443
+#: ../src/tools/gnm-solver.c:469
 msgid "Int"
 msgstr "Heltal"
 
-#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:442
-#: ../src/tools/gnm-solver.c:468
+#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:444
+#: ../src/tools/gnm-solver.c:470
 msgid "Bool"
 msgstr "Boolesk"
 
@@ -11849,8 +11850,8 @@ msgid "Re_place"
 msgstr "Ers_ätt"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1744
-#: ../src/tools/gnm-solver.c:1876
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1758
+#: ../src/tools/gnm-solver.c:1890
 msgid "Constraints"
 msgstr "Bivillkor"
 
@@ -12339,7 +12340,7 @@ msgstr "300%"
 msgid "500%"
 msgstr "500%"
 
-#: ../src/gnm-pane.c:2031
+#: ../src/gnm-pane.c:2065
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -12559,20 +12560,20 @@ msgstr ""
 msgid "Multiple errors\n"
 msgstr "Flera fel\n"
 
-#: ../src/gui-util.c:1069
+#: ../src/gui-util.c:1077
 msgid "Question"
 msgstr "Fråga"
 
-#: ../src/gui-util.c:1074
+#: ../src/gui-util.c:1082
 msgid "Warning"
 msgstr "Varning"
 
-#: ../src/gui-util.c:1262
+#: ../src/gui-util.c:1270
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
 msgstr "Insticksmodulen med id %s krävs men kan inte hittas."
 
-#: ../src/gui-util.c:1270
+#: ../src/gui-util.c:1278
 #, c-format
 msgid "The %s plugin is required but is not loaded."
 msgstr "Insticksmodulen %s krävs men lästes inte in."
@@ -12659,49 +12660,49 @@ msgstr "%d.00 ptr"
 msgid "%.2f pts"
 msgstr "%.2f ptr"
 
-#: ../src/item-cursor.c:819
+#: ../src/item-cursor.c:833
 msgid "_Move"
 msgstr "_Flytta"
 
-#: ../src/item-cursor.c:822 ../src/sheet-control-gui.c:2247
+#: ../src/item-cursor.c:836 ../src/sheet-control-gui.c:2247
 #: ../src/sheet-object.c:271 ../src/sheet-object.c:290
 #: ../src/wbc-gtk-actions.c:2088
 msgid "_Copy"
 msgstr "_Kopiera"
 
-#: ../src/item-cursor.c:825
+#: ../src/item-cursor.c:839
 msgid "Copy _Formats"
 msgstr "Kopiera _formatering"
 
-#: ../src/item-cursor.c:827
+#: ../src/item-cursor.c:841
 msgid "Copy _Values"
 msgstr "Kopiera _värden"
 
-#: ../src/item-cursor.c:832
+#: ../src/item-cursor.c:846
 msgid "Shift _Down and Copy"
 msgstr "Skifta celler _nedåt och kopiera"
 
-#: ../src/item-cursor.c:834
+#: ../src/item-cursor.c:848
 msgid "Shift _Right and Copy"
 msgstr "Skifta celler åt _höger och kopiera"
 
-#: ../src/item-cursor.c:836
+#: ../src/item-cursor.c:850
 msgid "Shift Dow_n and Move"
 msgstr "Skifta celler ne_dåt och flytta"
 
-#: ../src/item-cursor.c:838
+#: ../src/item-cursor.c:852
 msgid "Shift Righ_t and Move"
 msgstr "Skifta celler åt h_öger och flytta"
 
-#: ../src/item-cursor.c:843
+#: ../src/item-cursor.c:857
 msgid "C_ancel"
 msgstr "_Avbryt"
 
-#: ../src/item-cursor.c:1102
+#: ../src/item-cursor.c:1116
 msgid "Drag to autofill"
 msgstr "Dra för att autofylla"
 
-#: ../src/item-cursor.c:1105
+#: ../src/item-cursor.c:1119
 msgid "Drag to move"
 msgstr "Dra för att flytta"
 
@@ -13498,7 +13499,7 @@ msgid "Cut"
 msgstr "Klipp ut"
 
 #. Oh, yeah?
-#: ../src/sheet.c:910
+#: ../src/sheet.c:911
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13510,47 +13511,47 @@ msgstr ""
 "med namn TRUE kan krocka med konstanten med samma namn. Förvänta\n"
 "dig egendomligheter."
 
-#: ../src/sheet.c:970
+#: ../src/sheet.c:971
 msgid "Display Zeros"
 msgstr "Visa nollor"
 
-#: ../src/sheet.c:971
+#: ../src/sheet.c:972
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Bestämmer om nollor ska visas eller visa blankt."
 
-#: ../src/sheet.c:976
+#: ../src/sheet.c:977
 msgid "Display Grid"
 msgstr "Visa rutnät"
 
-#: ../src/sheet.c:977
+#: ../src/sheet.c:978
 msgid "Control whether the grid is shown."
 msgstr "Bestämmer om rutnätet ska visas."
 
-#: ../src/sheet.c:3802
+#: ../src/sheet.c:3831
 msgid "Target region contains merged cells"
 msgstr "Målregionen innehåller sammanfogade celler"
 
-#: ../src/sheet.c:3868
+#: ../src/sheet.c:3897
 msgid "cannot operate on merged cells"
 msgstr "kan inte operera på sammanfogade celler"
 
-#: ../src/sheet.c:3881
+#: ../src/sheet.c:3910
 msgid "cannot operate on array formulæ"
 msgstr "kan inte operera på vektorformler"
 
-#: ../src/sheet.c:5520
+#: ../src/sheet.c:5584
 msgid "Insert Columns"
 msgstr "Infoga kolumner"
 
-#: ../src/sheet.c:5538
+#: ../src/sheet.c:5602
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: ../src/sheet.c:5556
+#: ../src/sheet.c:5620
 msgid "Insert Rows"
 msgstr "Infoga rader"
 
-#: ../src/sheet.c:5574
+#: ../src/sheet.c:5638
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
@@ -14996,7 +14997,7 @@ msgstr "Blad:"
 msgid "Report Created: "
 msgstr "Rapport skapad: "
 
-#: ../src/tools/data-shuffling.c:291
+#: ../src/tools/data-shuffling.c:289
 msgid "Shuffled"
 msgstr "Blandade"
 
@@ -15018,101 +15019,101 @@ msgstr "/Avancerat filter:/Källintervall:/Kriterieintervall:"
 msgid "Advanced Filter (%s)"
 msgstr "Avancerat filter (%s)"
 
-#: ../src/tools/gnm-solver.c:702
+#: ../src/tools/gnm-solver.c:704
 #, c-format
 msgid "Invalid solver target"
 msgstr "Ogiltigt lösarmål"
 
-#: ../src/tools/gnm-solver.c:714
+#: ../src/tools/gnm-solver.c:716
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr "Målcellen %s måste innehålla en formel som utvärderas till ett tal"
 
-#: ../src/tools/gnm-solver.c:724
+#: ../src/tools/gnm-solver.c:726
 #, c-format
 msgid "Invalid solver input range"
 msgstr "Ogiltigt inmatningsintervall för lösare"
 
-#: ../src/tools/gnm-solver.c:735
+#: ../src/tools/gnm-solver.c:737
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr "Indatacellen %s innehåller en formel"
 
-#: ../src/tools/gnm-solver.c:750
+#: ../src/tools/gnm-solver.c:752
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "Lösningsvillkoret #%d är ogiltigt"
 
-#: ../src/tools/gnm-solver.c:1163
+#: ../src/tools/gnm-solver.c:1174
 msgid "Timeout"
 msgstr "Tidsgräns"
 
-#: ../src/tools/gnm-solver.c:1379
+#: ../src/tools/gnm-solver.c:1393
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Misslyckades med att skapa fil för linjärprogrammering"
 
-#: ../src/tools/gnm-solver.c:1388
+#: ../src/tools/gnm-solver.c:1402
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Misslyckades med att skapa fil för linjärprogrammering"
 
-#: ../src/tools/gnm-solver.c:1408
+#: ../src/tools/gnm-solver.c:1422
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Misslyckades med att spara linjärprogrammering"
 
-#: ../src/tools/gnm-solver.c:1657
+#: ../src/tools/gnm-solver.c:1671
 msgid "Target"
 msgstr "Mål"
 
-#: ../src/tools/gnm-solver.c:1661
+#: ../src/tools/gnm-solver.c:1675
 msgid "Status"
 msgstr "Status"
 
-#: ../src/tools/gnm-solver.c:1674
+#: ../src/tools/gnm-solver.c:1688
 msgid "Minimize"
 msgstr "Minimera"
 
-#: ../src/tools/gnm-solver.c:1677
+#: ../src/tools/gnm-solver.c:1691
 msgid "Maximize"
 msgstr "Maximera"
 
-#: ../src/tools/gnm-solver.c:1705
+#: ../src/tools/gnm-solver.c:1719
 msgid "Lower"
 msgstr "Lägre"
 
-#: ../src/tools/gnm-solver.c:1706
+#: ../src/tools/gnm-solver.c:1720
 msgid "Upper"
 msgstr "Övre"
 
-#: ../src/tools/gnm-solver.c:1707 ../src/tools/gnm-solver.c:1750
+#: ../src/tools/gnm-solver.c:1721 ../src/tools/gnm-solver.c:1764
 msgid "Slack"
 msgstr "Spelrum"
 
-#: ../src/tools/gnm-solver.c:1729
+#: ../src/tools/gnm-solver.c:1743
 msgid "At limit"
 msgstr "Vid gräns"
 
-#: ../src/tools/gnm-solver.c:1732
+#: ../src/tools/gnm-solver.c:1746
 msgid "Outside bounds"
 msgstr "Utanför gränser"
 
-#: ../src/tools/gnm-solver.c:1747
+#: ../src/tools/gnm-solver.c:1761
 msgid "Condition"
 msgstr "Villkor"
 
-#: ../src/tools/gnm-solver.c:1752 ../src/tools/gnm-solver.c:1888
+#: ../src/tools/gnm-solver.c:1766 ../src/tools/gnm-solver.c:1902
 msgid "No constraints"
 msgstr "Inga villkor"
 
-#: ../src/tools/gnm-solver.c:1845
+#: ../src/tools/gnm-solver.c:1859
 msgid ""
 "Final\n"
 "Value"
 msgstr "Slutligt värde"
 
-#: ../src/tools/gnm-solver.c:1846
+#: ../src/tools/gnm-solver.c:1860
 msgid ""
 "Reduced\n"
 "Cost"
@@ -15120,7 +15121,7 @@ msgstr ""
 "Reducerad\n"
 "kostnad"
 
-#: ../src/tools/gnm-solver.c:1847 ../src/tools/gnm-solver.c:1883
+#: ../src/tools/gnm-solver.c:1861 ../src/tools/gnm-solver.c:1897
 msgid ""
 "Lower\n"
 "Limit"
@@ -15128,7 +15129,7 @@ msgstr ""
 "Undre\n"
 "gräns"
 
-#: ../src/tools/gnm-solver.c:1848 ../src/tools/gnm-solver.c:1884
+#: ../src/tools/gnm-solver.c:1862 ../src/tools/gnm-solver.c:1898
 msgid ""
 "Upper\n"
 "Limit"
@@ -15136,13 +15137,13 @@ msgstr ""
 "Övre\n"
 "gräns"
 
-#: ../src/tools/gnm-solver.c:1880
+#: ../src/tools/gnm-solver.c:1894
 msgid ""
 "Shadow\n"
 "Price"
 msgstr "Skuggpris"
 
-#: ../src/tools/gnm-solver.c:1881
+#: ../src/tools/gnm-solver.c:1895
 msgid ""
 "Constraint\n"
 "LHS"
@@ -15150,7 +15151,7 @@ msgstr ""
 "Bivillkor\n"
 "LHS"
 
-#: ../src/tools/gnm-solver.c:1882
+#: ../src/tools/gnm-solver.c:1896
 msgid ""
 "Constraint\n"
 "RHS"
@@ -15158,25 +15159,25 @@ msgstr ""
 "Bivillkor\n"
 "RHS"
 
-#: ../src/tools/gnm-solver.c:1946
+#: ../src/tools/gnm-solver.c:1960
 msgid "Program"
 msgstr "Program"
 
-#: ../src/tools/gnm-solver.c:1952
+#: ../src/tools/gnm-solver.c:1966
 msgid "Sensitivity"
 msgstr "Känslighet"
 
-#: ../src/tools/gnm-solver.c:2555
+#: ../src/tools/gnm-solver.c:2569
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr "Målcellen utvärderades inte till ett tal."
 
-#: ../src/tools/gnm-solver.c:2563
+#: ../src/tools/gnm-solver.c:2577
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr "Målcellen verkar inte bero linjärt på inmatningsceller."
 
-#: ../src/tools/gnm-solver.c:3150
+#: ../src/tools/gnm-solver.c:3164
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -15189,22 +15190,22 @@ msgstr ""
 "\n"
 "Vill du peka ut det själv?"
 
-#: ../src/tools/gnm-solver.c:3154
+#: ../src/tools/gnm-solver.c:3168
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Det går inte att finna %s"
 
-#: ../src/tools/gnm-solver.c:3170
+#: ../src/tools/gnm-solver.c:3184
 #, c-format
 msgid "Locate the %s program"
 msgstr "Hitta %s-programmet"
 
-#: ../src/tools/gnm-solver.c:3564
+#: ../src/tools/gnm-solver.c:3578
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Det initiala värdet uppfyller inte bivillkoren."
 
-#: ../src/tools/gnm-solver.c:3655
+#: ../src/tools/gnm-solver.c:3669
 msgid "Iteration limit exceeded"
 msgstr "Iterationsbegränsningen överskriden"
 
@@ -15258,7 +15259,7 @@ msgstr "Inget av värdena i värdeområdet får vara tomt!"
 msgid "The probabilities may not all be 0!"
 msgstr "Sannolikheterna får inte alla vara 0!"
 
-#: ../src/tools/random-generator.c:758
+#: ../src/tools/random-generator.c:766
 #, c-format
 msgid "Random Numbers (%s)"
 msgstr "Slumptal (%s)"
@@ -15311,7 +15312,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Område"
 
-#: ../src/tools/simulation.c:255 ../src/wbc-gtk.c:4061
+#: ../src/tools/simulation.c:255 ../src/wbc-gtk.c:4068
 msgid "Count"
 msgstr "Antal"
 
@@ -15794,7 +15795,7 @@ msgstr "_Celler"
 msgid "_Text"
 msgstr "_Text"
 
-#: ../src/wbc-gtk-actions.c:2136 ../src/wbc-gtk-actions.c:3658
+#: ../src/wbc-gtk-actions.c:2136 ../src/wbc-gtk-actions.c:3666
 msgid "_Underline"
 msgstr "_Understrykning"
 
@@ -16220,7 +16221,7 @@ msgstr "Nästa _objekt"
 msgid "Select the next sheet object"
 msgstr "Markera nästa bladobjekt"
 
-#: ../src/wbc-gtk-actions.c:2539 ../src/wbc-gtk.c:2766
+#: ../src/wbc-gtk-actions.c:2539 ../src/wbc-gtk.c:2773
 msgid "Go to Top"
 msgstr "Gå till toppen"
 
@@ -16228,7 +16229,7 @@ msgstr "Gå till toppen"
 msgid "Go to the top of the data"
 msgstr "Gå till översta data"
 
-#: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2767
+#: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2774
 msgid "Go to Bottom"
 msgstr "Gå till botten"
 
@@ -16236,7 +16237,7 @@ msgstr "Gå till botten"
 msgid "Go to the bottom of the data"
 msgstr "Gå till nedersta data"
 
-#: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2768
+#: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2775
 msgid "Go to First"
 msgstr "Gå till första"
 
@@ -16244,7 +16245,7 @@ msgstr "Gå till första"
 msgid "Go to the first data cell"
 msgstr "Gå till den första datacellen"
 
-#: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2769
+#: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2776
 msgid "Go to Last"
 msgstr "Gå till sista"
 
@@ -16336,11 +16337,11 @@ msgstr "Inställningar…"
 msgid "Change Gnumeric Preferences"
 msgstr "Ändra inställningar för Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1602
+#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1609
 msgid "_Freeze Panes"
 msgstr "_Frys paneler"
 
-#: ../src/wbc-gtk-actions.c:2645 ../src/wbc-gtk.c:1605
+#: ../src/wbc-gtk-actions.c:2645 ../src/wbc-gtk.c:1612
 msgid "Freeze the top left of the sheet"
 msgstr "Frys övre vänstra delen av bladet"
 
@@ -16925,11 +16926,11 @@ msgstr "Exportera som en _CSV-fil…"
 msgid "Export the current sheet as a csv file"
 msgstr "Exportera aktuellt blad som en csv-fil"
 
-#: ../src/wbc-gtk-actions.c:3170 ../src/wbc-gtk.c:1723
+#: ../src/wbc-gtk-actions.c:3170 ../src/wbc-gtk.c:1730
 msgid "Repeat Export"
 msgstr "Upprepa export"
 
-#: ../src/wbc-gtk-actions.c:3172 ../src/wbc-gtk.c:1719 ../src/wbc-gtk.c:1723
+#: ../src/wbc-gtk-actions.c:3172 ../src/wbc-gtk.c:1726 ../src/wbc-gtk.c:1730
 msgid "Repeat the last data export"
 msgstr "Upprepa senaste datexport"
 
@@ -17031,7 +17032,7 @@ msgstr "_Avgruppera…"
 msgid "Remove an outline group"
 msgstr "Ta bort en konturgrupp"
 
-#: ../src/wbc-gtk-actions.c:3252 ../src/wbc-gtk.c:1644
+#: ../src/wbc-gtk-actions.c:3252 ../src/wbc-gtk.c:1651
 msgid "Add _Auto Filter"
 msgstr "Lägg till _autofilter"
 
@@ -17095,7 +17096,7 @@ msgstr "_Redigera ett datautsnitt…"
 msgid "Adjust a data slicer"
 msgstr "Justera ett datautsnitt"
 
-#: ../src/wbc-gtk-actions.c:3299 ../src/wbc-gtk.c:4057
+#: ../src/wbc-gtk-actions.c:3299 ../src/wbc-gtk.c:4064
 #: ../src/workbook-view.c:855
 msgid "Sum"
 msgstr "Summa"
@@ -17410,235 +17411,235 @@ msgstr "Visa adresser som R1C1 eller A1"
 msgid "_Left Align"
 msgstr "_Vänsterjustera"
 
-#: ../src/wbc-gtk-actions.c:3582 ../src/wbc-gtk-actions.c:3712
+#: ../src/wbc-gtk-actions.c:3582 ../src/wbc-gtk-actions.c:3720
 msgid "Align left"
 msgstr "Justera vänster"
 
-#: ../src/wbc-gtk-actions.c:3588
+#: ../src/wbc-gtk-actions.c:3589
 msgid "_Center"
 msgstr "_Centrera"
 
-#: ../src/wbc-gtk-actions.c:3589 ../src/wbc-gtk-actions.c:3713
+#: ../src/wbc-gtk-actions.c:3590 ../src/wbc-gtk-actions.c:3721
 msgid "Center horizontally"
 msgstr "Centrera vågrätt"
 
-#: ../src/wbc-gtk-actions.c:3595
+#: ../src/wbc-gtk-actions.c:3597
 msgid "_Right Align"
 msgstr "_Högerjustera"
 
-#: ../src/wbc-gtk-actions.c:3596 ../src/wbc-gtk-actions.c:3714
+#: ../src/wbc-gtk-actions.c:3598 ../src/wbc-gtk-actions.c:3722
 msgid "Align right"
 msgstr "Justera höger"
 
-#: ../src/wbc-gtk-actions.c:3602
+#: ../src/wbc-gtk-actions.c:3605
 msgid "_Center Across Selection"
 msgstr "_Centrera över valda"
 
-#: ../src/wbc-gtk-actions.c:3603 ../src/wbc-gtk-actions.c:3718
+#: ../src/wbc-gtk-actions.c:3606 ../src/wbc-gtk-actions.c:3726
 msgid "Center horizontally across the selection"
 msgstr "Centrera vågrätt över markeringen"
 
-#: ../src/wbc-gtk-actions.c:3608
+#: ../src/wbc-gtk-actions.c:3612
 msgid "_Merge and Center"
 msgstr "Slå _ihop och centrera"
 
-#: ../src/wbc-gtk-actions.c:3609
+#: ../src/wbc-gtk-actions.c:3613
 msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "Sammanfoga markeringen till en cell och centrera vågrätt."
 
-#: ../src/wbc-gtk-actions.c:3618
+#: ../src/wbc-gtk-actions.c:3623
 msgid "Align _Top"
 msgstr "Justera _överkant"
 
-#: ../src/wbc-gtk-actions.c:3619
+#: ../src/wbc-gtk-actions.c:3624
 msgid "Align Top"
 msgstr "Justera överkant"
 
-#: ../src/wbc-gtk-actions.c:3625
+#: ../src/wbc-gtk-actions.c:3631
 msgid "_Vertically Center"
 msgstr "Centrera _lodrätt"
 
-#: ../src/wbc-gtk-actions.c:3626
+#: ../src/wbc-gtk-actions.c:3632
 msgid "Vertically Center"
 msgstr "Centrera lodrätt"
 
-#: ../src/wbc-gtk-actions.c:3632
+#: ../src/wbc-gtk-actions.c:3639
 msgid "Align _Bottom"
 msgstr "Justera _underkant"
 
-#: ../src/wbc-gtk-actions.c:3633
+#: ../src/wbc-gtk-actions.c:3640
 msgid "Align Bottom"
 msgstr "Justera underkant"
 
-#: ../src/wbc-gtk-actions.c:3642
+#: ../src/wbc-gtk-actions.c:3650
 msgid "_Bold"
 msgstr "_Fetstil"
 
-#: ../src/wbc-gtk-actions.c:3650
+#: ../src/wbc-gtk-actions.c:3658
 msgid "_Italic"
 msgstr "_Kursiv"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:3666
+#: ../src/wbc-gtk-actions.c:3674
 msgid "_Double Underline"
 msgstr "_Dubbel understrykning"
 
-#: ../src/wbc-gtk-actions.c:3668
+#: ../src/wbc-gtk-actions.c:3676
 msgid "Double Underline"
 msgstr "Dubbel understrykning"
 
-#: ../src/wbc-gtk-actions.c:3673
+#: ../src/wbc-gtk-actions.c:3681
 msgid "_Single Low Underline"
 msgstr "_Enkel låg understrykning"
 
-#: ../src/wbc-gtk-actions.c:3675
+#: ../src/wbc-gtk-actions.c:3683
 msgid "Single Low Underline"
 msgstr "Enkel låg understrykning"
 
-#: ../src/wbc-gtk-actions.c:3680
+#: ../src/wbc-gtk-actions.c:3688
 msgid "Double _Low Underline"
 msgstr "Dubbe_l låg understrykning"
 
-#: ../src/wbc-gtk-actions.c:3681
+#: ../src/wbc-gtk-actions.c:3689
 msgid "Double Low Underline"
 msgstr "Dubbel låg understrykning"
 
-#: ../src/wbc-gtk-actions.c:3687
+#: ../src/wbc-gtk-actions.c:3695
 msgid "_Strikethrough"
 msgstr "Genomstry_kning"
 
-#: ../src/wbc-gtk-actions.c:3695
+#: ../src/wbc-gtk-actions.c:3703
 msgid "Su_perscript"
 msgstr "U_pphöjd"
 
-#: ../src/wbc-gtk-actions.c:3697
+#: ../src/wbc-gtk-actions.c:3705
 msgid "Superscript"
 msgstr "Upphöjd"
 
-#: ../src/wbc-gtk-actions.c:3703
+#: ../src/wbc-gtk-actions.c:3711
 msgid "Subscrip_t"
 msgstr "N_edsänkt"
 
-#: ../src/wbc-gtk-actions.c:3705
+#: ../src/wbc-gtk-actions.c:3713
 msgid "Subscript"
 msgstr "Nedsänkt"
 
-#: ../src/wbc-gtk-actions.c:3715
+#: ../src/wbc-gtk-actions.c:3723
 msgid "Fill horizontally"
 msgstr "Fyll vågrätt"
 
-#: ../src/wbc-gtk-actions.c:3716
+#: ../src/wbc-gtk-actions.c:3724
 msgid "Justify horizontally"
 msgstr "Justera vågrätt"
 
-#: ../src/wbc-gtk-actions.c:3720
+#: ../src/wbc-gtk-actions.c:3728
 msgid "Align numbers right, and text left"
 msgstr "Högerjustera siffror och vänsterjustera text"
 
-#: ../src/wbc-gtk-actions.c:3725
+#: ../src/wbc-gtk-actions.c:3733
 msgid "Align top"
 msgstr "Justera överkant"
 
-#: ../src/wbc-gtk-actions.c:3726
+#: ../src/wbc-gtk-actions.c:3734
 msgid "Center vertically"
 msgstr "Centrera lodrätt"
 
-#: ../src/wbc-gtk-actions.c:3727
+#: ../src/wbc-gtk-actions.c:3735
 msgid "Align bottom"
 msgstr "Justera underkant"
 
 #. Reuse "center" icon as I don't know what this one is
-#: ../src/wbc-gtk-actions.c:3730
+#: ../src/wbc-gtk-actions.c:3738
 msgid "Align distributed"
 msgstr "Justera distribuerade"
 
-#: ../src/wbc-gtk-actions.c:3753 ../src/wbc-gtk-actions.c:3754
+#: ../src/wbc-gtk-actions.c:3761 ../src/wbc-gtk-actions.c:3762
 msgid "Horizontal Alignment"
 msgstr "Vågrät justering"
 
-#: ../src/wbc-gtk-actions.c:3764 ../src/wbc-gtk-actions.c:3765
+#: ../src/wbc-gtk-actions.c:3773 ../src/wbc-gtk-actions.c:3774
 msgid "Vertical Alignment"
 msgstr "Lodrät justering"
 
-#: ../src/wbc-gtk-actions.c:3803
+#: ../src/wbc-gtk-actions.c:3812
 msgid "Set Foreground Color"
 msgstr "Ställ in förgrundsfärg"
 
-#: ../src/wbc-gtk-actions.c:3817 ../src/wbc-gtk-actions.c:3818
+#: ../src/wbc-gtk-actions.c:3826 ../src/wbc-gtk-actions.c:3827
 msgid "Foreground"
 msgstr "Förgrund"
 
 #. Set background to NONE
-#: ../src/wbc-gtk-actions.c:3853
+#: ../src/wbc-gtk-actions.c:3862
 msgid "Set Background Color"
 msgstr "Ställ in bakgrundsfärg"
 
-#: ../src/wbc-gtk-actions.c:3876
+#: ../src/wbc-gtk-actions.c:3885
 msgid "Clear Borders"
 msgstr "Ta bort kanter"
 
-#: ../src/wbc-gtk-actions.c:3879
+#: ../src/wbc-gtk-actions.c:3888
 msgid "All Borders"
 msgstr "Alla kanter"
 
-#: ../src/wbc-gtk-actions.c:3880
+#: ../src/wbc-gtk-actions.c:3889
 msgid "Outside Borders"
 msgstr "Kanter omkring"
 
-#: ../src/wbc-gtk-actions.c:3881
+#: ../src/wbc-gtk-actions.c:3890
 msgid "Thick Outside Borders"
 msgstr "Tjocka kanter omkring"
 
-#: ../src/wbc-gtk-actions.c:3884
+#: ../src/wbc-gtk-actions.c:3893
 msgid "Double Bottom"
 msgstr "Dubbel underkant"
 
-#: ../src/wbc-gtk-actions.c:3885
+#: ../src/wbc-gtk-actions.c:3894
 msgid "Thick Bottom"
 msgstr "Tjock underkant"
 
-#: ../src/wbc-gtk-actions.c:3887
+#: ../src/wbc-gtk-actions.c:3896
 msgid "Top and Bottom"
 msgstr "Över- och underkant"
 
-#: ../src/wbc-gtk-actions.c:3888
+#: ../src/wbc-gtk-actions.c:3897
 msgid "Top and Double Bottom"
 msgstr "Överkant och dubbel underkant"
 
-#: ../src/wbc-gtk-actions.c:3889
+#: ../src/wbc-gtk-actions.c:3898
 msgid "Top and Thick Bottom"
 msgstr "Överkant och tjock underkant"
 
-#: ../src/wbc-gtk-actions.c:3974
+#: ../src/wbc-gtk-actions.c:3983
 msgid "Set Borders"
 msgstr "Ställ in kanter"
 
-#: ../src/wbc-gtk-actions.c:3982 ../src/wbc-gtk-actions.c:3983
+#: ../src/wbc-gtk-actions.c:3991 ../src/wbc-gtk-actions.c:3992
 msgid "Borders"
 msgstr "Kanter"
 
-#: ../src/wbc-gtk-actions.c:4082
+#: ../src/wbc-gtk-actions.c:4091
 msgid "Redo the undone action"
 msgstr "Gör om ångraåtgärden"
 
-#: ../src/wbc-gtk-actions.c:4084
+#: ../src/wbc-gtk-actions.c:4093
 msgid "Redo"
 msgstr "Gör om"
 
-#: ../src/wbc-gtk-actions.c:4088
+#: ../src/wbc-gtk-actions.c:4097
 msgid "Undo the last action"
 msgstr "Ångra den senaste åtgärden"
 
-#: ../src/wbc-gtk-actions.c:4143 ../src/wbc-gtk-actions.c:4164
+#: ../src/wbc-gtk-actions.c:4152 ../src/wbc-gtk-actions.c:4173
 msgid "_Zoom"
 msgstr "_Zooma"
 
-#: ../src/wbc-gtk-actions.c:4349
+#: ../src/wbc-gtk-actions.c:4358
 #, c-format
 msgid "Setting Font %s"
 msgstr "Sätter typsnittet till %s"
 
-#: ../src/wbc-gtk-actions.c:4409
+#: ../src/wbc-gtk-actions.c:4418
 msgid "Change font"
 msgstr "Ändrar typsnitt"
 
@@ -17703,154 +17704,154 @@ msgstr "Markera"
 msgid "Select (sorted)"
 msgstr "Markera (sorterad)"
 
-#: ../src/wbc-gtk.c:1309
+#: ../src/wbc-gtk.c:1312
 msgid " - Gnumeric"
 msgstr " - Gnumeric"
 
-#: ../src/wbc-gtk.c:1470
+#: ../src/wbc-gtk.c:1476
 msgid "Invalid format"
 msgstr "Ogiltigt format"
 
-#: ../src/wbc-gtk.c:1568
+#: ../src/wbc-gtk.c:1575
 msgid "Remove the page break to the left of the current column"
 msgstr "Ta bort sidbrytningen till vänster av nuvarande kolumn"
 
-#: ../src/wbc-gtk.c:1571
+#: ../src/wbc-gtk.c:1578
 msgid "Add a page break to the left of the current column"
 msgstr "Lägg till en sidbrytning till vänster av aktuella kolumnen"
 
-#: ../src/wbc-gtk.c:1578
+#: ../src/wbc-gtk.c:1585
 msgid "Remove the page break above the current row"
 msgstr "Ta bort sidbrytningen ovan aktuell rad"
 
-#: ../src/wbc-gtk.c:1581
+#: ../src/wbc-gtk.c:1588
 msgid "Add a page break above current row"
 msgstr "Lägg till en sidbrytning ovan aktuell rad"
 
-#: ../src/wbc-gtk.c:1601
+#: ../src/wbc-gtk.c:1608
 msgid "Un_freeze Panes"
 msgstr "Av_frys paneler"
 
-#: ../src/wbc-gtk.c:1604
+#: ../src/wbc-gtk.c:1611
 msgid "Unfreeze the top left of the sheet"
 msgstr "Avfrys övre vänster på bladet"
 
-#: ../src/wbc-gtk.c:1622
+#: ../src/wbc-gtk.c:1629
 #, c-format
 msgid "Extend _Auto Filter to %s"
 msgstr "Utöka _autofilter till %s"
 
-#: ../src/wbc-gtk.c:1624
+#: ../src/wbc-gtk.c:1631
 msgid "Extend the existing filter."
 msgstr "Utöka befintligt filter."
 
-#: ../src/wbc-gtk.c:1634
+#: ../src/wbc-gtk.c:1641
 msgid "The selection intersects an existing auto filter."
 msgstr "Markeringen överlappar ett existerande automatiskt filter."
 
-#: ../src/wbc-gtk.c:1643
+#: ../src/wbc-gtk.c:1650
 msgid "Remove _Auto Filter"
 msgstr "Ta bort _autofilter"
 
-#: ../src/wbc-gtk.c:1646
+#: ../src/wbc-gtk.c:1653
 msgid "Remove a filter"
 msgstr "Ta bort ett filter"
 
-#: ../src/wbc-gtk.c:1647
+#: ../src/wbc-gtk.c:1654
 msgid "Add a filter"
 msgstr "Lägg till ett filter"
 
-#: ../src/wbc-gtk.c:1715
+#: ../src/wbc-gtk.c:1722
 #, c-format
 msgid "Repeat Export to %s"
 msgstr "Upprepa export till %s"
 
-#: ../src/wbc-gtk.c:1728
+#: ../src/wbc-gtk.c:1735
 msgid "Remove _Data Slicer"
 msgstr "Ta bort _datautsnitt"
 
-#: ../src/wbc-gtk.c:1729
+#: ../src/wbc-gtk.c:1736
 msgid "Create _Data Slicer"
 msgstr "Skapa _datautsnitt"
 
-#: ../src/wbc-gtk.c:1731
+#: ../src/wbc-gtk.c:1738
 msgid "Remove a Data Slicer"
 msgstr "Ta bort ett datautsnitt"
 
-#: ../src/wbc-gtk.c:1732
+#: ../src/wbc-gtk.c:1739
 msgid "Create a Data Slicer"
 msgstr "Skapa ett datautsnitt"
 
-#: ../src/wbc-gtk.c:1745
+#: ../src/wbc-gtk.c:1752
 msgid "_Redo"
 msgstr "_Gör om"
 
-#: ../src/wbc-gtk.c:1746
+#: ../src/wbc-gtk.c:1753
 msgid "_Undo"
 msgstr "_Ångra"
 
-#: ../src/wbc-gtk.c:1776
+#: ../src/wbc-gtk.c:1783
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Spara ändringar i arbetsbok \"%s\" innan stängning?"
 
-#: ../src/wbc-gtk.c:1781
+#: ../src/wbc-gtk.c:1788
 msgid "Save changes to workbook before closing?"
 msgstr "Spara ändringar i arbetsbok innan stängning?"
 
-#: ../src/wbc-gtk.c:1788
+#: ../src/wbc-gtk.c:1795
 msgid "If you close without saving, changes will be discarded."
 msgstr "Om du stänger utan att spara kommer alla ändringar att försvinna."
 
-#: ../src/wbc-gtk.c:1791
+#: ../src/wbc-gtk.c:1798
 msgid "Discard"
 msgstr "Förkasta"
 
-#: ../src/wbc-gtk.c:1793
+#: ../src/wbc-gtk.c:1800
 msgid "Don't close"
 msgstr "Stäng inte"
 
-#: ../src/wbc-gtk.c:2022
+#: ../src/wbc-gtk.c:2029
 msgid "Enter in current cell"
 msgstr "Skriv in i aktuell cell"
 
-#: ../src/wbc-gtk.c:2024
+#: ../src/wbc-gtk.c:2031
 msgid "Enter in current cell without autocorrection"
 msgstr "Ange i aktuell cell utan automatisk rättning"
 
-#: ../src/wbc-gtk.c:2031
+#: ../src/wbc-gtk.c:2038
 msgid "Enter in current range merged"
 msgstr "Ange i aktuell intervall sammanfogat"
 
-#: ../src/wbc-gtk.c:2034
+#: ../src/wbc-gtk.c:2041
 msgid "Enter in selected ranges"
 msgstr "Ange inom markerade intervall"
 
-#: ../src/wbc-gtk.c:2036
+#: ../src/wbc-gtk.c:2043
 msgid "Enter in selected ranges as array"
 msgstr "Ange inom markerade intervall som en vektor"
 
-#: ../src/wbc-gtk.c:2502
+#: ../src/wbc-gtk.c:2509
 msgid "END"
 msgstr "SLUT"
 
-#: ../src/wbc-gtk.c:2771
+#: ../src/wbc-gtk.c:2778
 msgid "Go to Cell..."
 msgstr "Gå till cell..."
 
-#: ../src/wbc-gtk.c:2833
+#: ../src/wbc-gtk.c:2840
 msgid "Accept change in multiple cells"
 msgstr "Acceptera ändring i fler celler"
 
-#: ../src/wbc-gtk.c:2907 ../src/wbc-gtk.c:2927
+#: ../src/wbc-gtk.c:2914 ../src/wbc-gtk.c:2934
 msgid "_Re-Edit"
 msgstr "Redigera _om"
 
-#: ../src/wbc-gtk.c:2909 ../src/wbc-gtk.c:2916
+#: ../src/wbc-gtk.c:2916 ../src/wbc-gtk.c:2923
 msgid "_Discard"
 msgstr "_Förkasta"
 
-#: ../src/wbc-gtk.c:2914 ../src/wbc-gtk.c:2929
+#: ../src/wbc-gtk.c:2921 ../src/wbc-gtk.c:2936
 msgid "_Accept"
 msgstr "_Acceptera"
 
@@ -17860,62 +17861,62 @@ msgstr "_Acceptera"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3289
+#: ../src/wbc-gtk.c:3296
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "I menyn \"%s\" används nyckeln \"%s\" för både \"%s\" och \"%s\"."
 
-#: ../src/wbc-gtk.c:3588
+#: ../src/wbc-gtk.c:3595
 msgid "Display toolbar above sheets"
 msgstr "Visa verktygsfält ovanför blad"
 
-#: ../src/wbc-gtk.c:3589
+#: ../src/wbc-gtk.c:3596
 msgid "Display toolbar to the left of sheets"
 msgstr "Visa verktygsfält till vänster om blad"
 
-#: ../src/wbc-gtk.c:3590
+#: ../src/wbc-gtk.c:3597
 msgid "Display toolbar to the right of sheets"
 msgstr "Visa verktygsfält till höger om blad"
 
-#: ../src/wbc-gtk.c:3618
+#: ../src/wbc-gtk.c:3625
 msgid "Hide"
 msgstr "Dölj"
 
-#: ../src/wbc-gtk.c:3684
+#: ../src/wbc-gtk.c:3691
 msgid "Standard Toolbar"
 msgstr "Standardverktygsfält"
 
-#: ../src/wbc-gtk.c:3685
+#: ../src/wbc-gtk.c:3692
 msgid "Format Toolbar"
 msgstr "Formatverktygsfält"
 
-#: ../src/wbc-gtk.c:3686
+#: ../src/wbc-gtk.c:3693
 msgid "Object Toolbar"
 msgstr "Objektverktygsfält"
 
-#: ../src/wbc-gtk.c:3700
+#: ../src/wbc-gtk.c:3707
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Dölj/visa verktygsfält %s"
 
-#: ../src/wbc-gtk.c:4118
+#: ../src/wbc-gtk.c:4125
 #, c-format
 msgid "Content of %s"
 msgstr "Innehåll i %s"
 
-#: ../src/wbc-gtk.c:4133
+#: ../src/wbc-gtk.c:4140
 msgid "Use Maximum Precision"
 msgstr "Använd maximal noggrannhet"
 
-#: ../src/wbc-gtk.c:4145
+#: ../src/wbc-gtk.c:4152
 msgid "Insert Formula Below"
 msgstr "Infoga formel nedan"
 
-#: ../src/wbc-gtk.c:4151
+#: ../src/wbc-gtk.c:4158
 msgid "Insert Formula to Side"
 msgstr "Infoga formel på sidan"
 
-#: ../src/wbc-gtk.c:4237
+#: ../src/wbc-gtk.c:4244
 #, c-format
 msgid "Open %s"
 msgstr "Öppna %s"
@@ -18280,39 +18281,39 @@ msgstr "attribut för arbetsbokvy är inkomplett"
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Filen har inte ett konsistent SheetNameIndex-element."
 
-#: ../src/xml-sax-read.c:2340
+#: ../src/xml-sax-read.c:2359
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Okänd filteroperator ”%s”"
 
-#: ../src/xml-sax-read.c:2381
+#: ../src/xml-sax-read.c:2400
 msgid "Missing filter type"
 msgstr "Saknar filtertyp"
 
-#: ../src/xml-sax-read.c:2394
+#: ../src/xml-sax-read.c:2413
 msgid "Malformed sheet filter condition"
 msgstr "Felaktigt bladfiltervillkor"
 
-#: ../src/xml-sax-read.c:2408
+#: ../src/xml-sax-read.c:2427
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Okänd filtertyp: ”%s”"
 
 # "Area" är ett attributnamn
-#: ../src/xml-sax-read.c:2429
+#: ../src/xml-sax-read.c:2448
 msgid "Invalid filter, missing Area"
 msgstr "Ogiltigt filter, saknar Area"
 
-#: ../src/xml-sax-read.c:2494
+#: ../src/xml-sax-read.c:2513
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Objekttypen \"%s\" stöds inte"
 
-#: ../src/xml-sax-read.c:3807 ../src/xml-sax-write.c:1736
+#: ../src/xml-sax-read.c:3826 ../src/xml-sax-write.c:1740
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-sax-write.c:1748
+#: ../src/xml-sax-write.c:1752
 msgid "Gnumeric XML uncompressed (*.xml)"
 msgstr "Gnumeric XML dekomprimerad (*.gnumeric)"
 
