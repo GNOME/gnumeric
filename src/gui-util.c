@@ -1330,12 +1330,37 @@ gnm_ag_translate (const char *s, const char *ctxt)
 		: _(s);
 }
 
+typedef struct {
+	char *name;
+	GCallback callback;
+	gpointer user;
+} TimerBounce;
+
+static void
+time_action (GtkAction *a, TimerBounce *b)
+{
+	const char *name = gtk_action_get_name (a);
+	GTimer *timer;
+	double elapsed;
+
+	g_printerr ("Executing command %s...\n", name);
+	timer = g_timer_new ();
+	((void (*) (GtkAction *, gpointer))b->callback)
+		(a, b->user);
+	elapsed = g_timer_elapsed (timer, NULL);
+	g_timer_destroy (timer);
+
+	g_printerr ("Executing command %s...done [%.0fms]\n",
+		    name, 1000 * elapsed);
+}
+
 void
 gnm_action_group_add_actions (GtkActionGroup *group,
 			      GnmActionEntry const *actions, size_t n,
 			      gpointer user)
 {
 	unsigned i;
+	gboolean debug = gnm_debug_flag("time-actions");
 
 	for (i = 0; i < n; i++) {
 		GnmActionEntry const *entry = actions + i;
@@ -1361,11 +1386,21 @@ gnm_action_group_add_actions (GtkActionGroup *group,
 			      "visible-vertical", !entry->hide_vertical,
 			      NULL);
 
-		if (entry->callback) {
-			GClosure *closure =
-				g_cclosure_new (entry->callback, user, NULL);
-			g_signal_connect_closure (a, "activate", closure,
-						  FALSE);
+		if (entry->callback == NULL) {
+			// Nothing
+		} else if (debug) {
+			TimerBounce *b = g_new (TimerBounce, 1);
+			b->callback = entry->callback;
+			b->user = user;
+			g_signal_connect (a, "activate",
+					  G_CALLBACK(time_action), b);
+			g_object_set_data_full (G_OBJECT (a),
+						"timer-hook",
+						b,
+						(GDestroyNotify)g_free);
+		} else {
+			g_signal_connect (a, "activate",
+					  entry->callback, user);
 		}
 
 		gtk_action_group_add_action_with_accel (group,
