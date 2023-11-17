@@ -192,11 +192,43 @@ wbc_gtk_set_action_label (WBCGtk *wbcg,
 }
 
 static void
+wbcg_set_action_feedback (WBCGtk *wbcg,
+			  GtkToggleAction *action, gboolean active)
+{
+	guint sig;
+	gulong handler;
+	gboolean debug = FALSE;
+	const char *name = gtk_action_get_name (GTK_ACTION (action));
+
+	if (active == gtk_toggle_action_get_active (action))
+		return;
+
+	sig = wbcg->updating_ui
+		? g_signal_lookup ("activate", G_TYPE_FROM_INSTANCE (action))
+		: 0;
+	handler = sig
+		? g_signal_handler_find (action, G_SIGNAL_MATCH_ID, sig,
+					 0, NULL, NULL, NULL)
+		: 0;
+	if (handler) {
+		if (debug)
+			g_printerr ("Blocking signal %d for %s\n", sig, name);
+		g_signal_handler_block (action, handler);
+	}
+	gtk_toggle_action_set_active (action, active);
+	if (sig) {
+		if (debug)
+			g_printerr ("Unblocking signal %d %s\n", sig, name);
+		g_signal_handler_unblock (action, handler);
+	}
+}
+
+static void
 wbc_gtk_set_toggle_action_state (WBCGtk *wbcg,
 				 char const *action, gboolean state)
 {
 	GtkAction *a = wbcg_find_action (wbcg, action);
-	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (a), state);
+	wbcg_set_action_feedback (wbcg, GTK_TOGGLE_ACTION (a), state);
 }
 
 /****************************************************************************/
@@ -3147,54 +3179,54 @@ wbc_gtk_style_feedback_real (WorkbookControl *wbc, GnmStyle const *changes)
 		changes = wb_view->current_style;
 
 	if (gnm_style_is_element_set (changes, MSTYLE_FONT_BOLD))
-		gtk_toggle_action_set_active (wbcg->font.bold,
+		wbcg_set_action_feedback (wbcg, wbcg->font.bold,
 			gnm_style_get_font_bold (changes));
 	if (gnm_style_is_element_set (changes, MSTYLE_FONT_ITALIC))
-		gtk_toggle_action_set_active (wbcg->font.italic,
+		wbcg_set_action_feedback (wbcg, wbcg->font.italic,
 			gnm_style_get_font_italic (changes));
 	if (gnm_style_is_element_set (changes, MSTYLE_FONT_UNDERLINE)) {
-		gtk_toggle_action_set_active (wbcg->font.underline,
+		wbcg_set_action_feedback (wbcg, wbcg->font.underline,
 			gnm_style_get_font_uline (changes) == UNDERLINE_SINGLE);
-		gtk_toggle_action_set_active (wbcg->font.d_underline,
+		wbcg_set_action_feedback (wbcg, wbcg->font.d_underline,
 			gnm_style_get_font_uline (changes) == UNDERLINE_DOUBLE);
-		gtk_toggle_action_set_active (wbcg->font.sl_underline,
+		wbcg_set_action_feedback (wbcg, wbcg->font.sl_underline,
 			gnm_style_get_font_uline (changes) == UNDERLINE_SINGLE_LOW);
-		gtk_toggle_action_set_active (wbcg->font.dl_underline,
+		wbcg_set_action_feedback (wbcg, wbcg->font.dl_underline,
 			gnm_style_get_font_uline (changes) == UNDERLINE_DOUBLE_LOW);
 	}
 	if (gnm_style_is_element_set (changes, MSTYLE_FONT_STRIKETHROUGH))
-		gtk_toggle_action_set_active (wbcg->font.strikethrough,
+		wbcg_set_action_feedback (wbcg, wbcg->font.strikethrough,
 			gnm_style_get_font_strike (changes));
 
 	if (gnm_style_is_element_set (changes, MSTYLE_FONT_SCRIPT)) {
-		gtk_toggle_action_set_active (wbcg->font.superscript,
+		wbcg_set_action_feedback (wbcg, wbcg->font.superscript,
 			gnm_style_get_font_script (changes) == GO_FONT_SCRIPT_SUPER);
-		gtk_toggle_action_set_active (wbcg->font.subscript,
+		wbcg_set_action_feedback (wbcg, wbcg->font.subscript,
 			gnm_style_get_font_script (changes) == GO_FONT_SCRIPT_SUB);
 	} else {
-		gtk_toggle_action_set_active (wbcg->font.superscript, FALSE);
-		gtk_toggle_action_set_active (wbcg->font.subscript, FALSE);
+		wbcg_set_action_feedback (wbcg, wbcg->font.superscript, FALSE);
+		wbcg_set_action_feedback (wbcg, wbcg->font.subscript, FALSE);
 	}
 
 	if (gnm_style_is_element_set (changes, MSTYLE_ALIGN_H)) {
 		GnmHAlign align = gnm_style_get_align_h (changes);
-		gtk_toggle_action_set_active (wbcg->h_align.left,
+		wbcg_set_action_feedback (wbcg, wbcg->h_align.left,
 			align == GNM_HALIGN_LEFT);
-		gtk_toggle_action_set_active (wbcg->h_align.center,
+		wbcg_set_action_feedback (wbcg, wbcg->h_align.center,
 			align == GNM_HALIGN_CENTER);
-		gtk_toggle_action_set_active (wbcg->h_align.right,
+		wbcg_set_action_feedback (wbcg, wbcg->h_align.right,
 			align == GNM_HALIGN_RIGHT);
-		gtk_toggle_action_set_active (wbcg->h_align.center_across_selection,
+		wbcg_set_action_feedback (wbcg, wbcg->h_align.center_across_selection,
 			align == GNM_HALIGN_CENTER_ACROSS_SELECTION);
 		go_action_combo_pixmaps_select_id (wbcg->halignment, align);
 	}
 	if (gnm_style_is_element_set (changes, MSTYLE_ALIGN_V)) {
 		GnmVAlign align = gnm_style_get_align_v (changes);
-		gtk_toggle_action_set_active (wbcg->v_align.top,
+		wbcg_set_action_feedback (wbcg, wbcg->v_align.top,
 			align == GNM_VALIGN_TOP);
-		gtk_toggle_action_set_active (wbcg->v_align.bottom,
+		wbcg_set_action_feedback (wbcg, wbcg->v_align.bottom,
 			align == GNM_VALIGN_BOTTOM);
-		gtk_toggle_action_set_active (wbcg->v_align.center,
+		wbcg_set_action_feedback (wbcg, wbcg->v_align.center,
 			align == GNM_VALIGN_CENTER);
 		go_action_combo_pixmaps_select_id (wbcg->valignment, align);
 	}

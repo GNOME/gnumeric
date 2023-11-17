@@ -1,3 +1,8 @@
+2023-11-16  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbcg_set_action_feedback): New function to
+	suppress toggle action signalling while we're updating the ui.
+
 2023-11-02  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
