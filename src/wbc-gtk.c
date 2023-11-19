@@ -2317,63 +2317,84 @@ cb_set_focus (GtkWindow *window, GtkWidget *focus, WBCGtk *wbcg)
 
 /***************************************************************************/
 
+static void
+do_scroll_zoom (WBCGtk *wbcg, gboolean go_back)
+{
+	SheetControlGUI *scg = wbcg_get_scg (wbcg, wbcg_focus_cur_scg (wbcg));
+	Sheet		*sheet = scg_sheet (scg);
+	int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;
+	if ((zoom % 15) != 0) {
+		zoom = 15 * (int)(zoom/15);
+		if (go_back)
+			zoom += 15;
+	} else {
+		if (go_back)
+			zoom += 15;
+		else
+			zoom -= 15;
+	}
+
+	if (0 <= zoom && zoom <= 390)
+		cmd_zoom (GNM_WBC (wbcg), g_slist_append (NULL, sheet),
+			  (double) (zoom + 10) / 100);
+}
+
 static gboolean
 cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 		 WBCGtk *wbcg)
 {
 	SheetControlGUI *scg = wbcg_get_scg (wbcg, wbcg_focus_cur_scg (wbcg));
-	Sheet		*sheet = scg_sheet (scg);
 	/* scroll always operates on pane 0 */
 	GnmPane *pane = scg_pane (scg, 0);
-	gboolean go_horiz = (event->direction == GDK_SCROLL_LEFT ||
-			     event->direction == GDK_SCROLL_RIGHT);
 	gboolean go_back = (event->direction == GDK_SCROLL_UP ||
 			    event->direction == GDK_SCROLL_LEFT);
+	gboolean qsmooth = (event->direction == GDK_SCROLL_SMOOTH);
+	int drow = 0, dcol = 0;
 
-	if (!pane ||
-	    !gtk_widget_get_realized (w) ||
-	    event->direction == GDK_SCROLL_SMOOTH)
+	if (!pane || !gtk_widget_get_realized (w))
 		return FALSE;
 
-	if ((event->state & GDK_SHIFT_MASK))
-		go_horiz = !go_horiz;
+	if ((event->state & GDK_CONTROL_MASK)) {
+		/* zoom */
+		if (qsmooth)
+			return FALSE;
+		do_scroll_zoom (wbcg, go_back);
+		return TRUE;
+	}
 
-	if ((event->state & GDK_CONTROL_MASK)) {	/* zoom */
-		int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;
-
-		if ((zoom % 15) != 0) {
-			zoom = 15 * (int)(zoom/15);
-			if (go_back)
-				zoom += 15;
-		} else {
-			if (go_back)
-				zoom += 15;
-			else
-				zoom -= 15;
-		}
-
-		if (0 <= zoom && zoom <= 390)
-			cmd_zoom (GNM_WBC (wbcg), g_slist_append (NULL, sheet),
-				  (double) (zoom + 10) / 100);
-	} else if (go_horiz) {
-		int col = (pane->last_full.col - pane->first.col) / 4;
-		if (col < 1)
-			col = 1;
-		if (go_back)
-			col = pane->first.col - col;
-		else
-			col = pane->first.col + col;
-		scg_set_left_col (pane->simple.scg, col);
+	if (qsmooth) {
+		gdouble dx, dy;
+		gdouble scale = 10; // ???
+		gdk_event_get_scroll_deltas ((GdkEvent*)event, &dx, &dy);
+		dcol = (int)(dx * scale);
+		drow = (int)(dy * scale);
 	} else {
-		int row = (pane->last_full.row - pane->first.row) / 4;
-		if (row < 1)
-			row = 1;
-		if (go_back)
-			row = pane->first.row - row;
-		else
-			row = pane->first.row + row;
+		gboolean go_horiz = (event->direction == GDK_SCROLL_LEFT ||
+				     event->direction == GDK_SCROLL_RIGHT);
+
+		if ((event->state & GDK_SHIFT_MASK))
+			go_horiz = !go_horiz;
+
+		if (go_horiz) {
+			dcol = (pane->last_full.col - pane->first.col) / 4;
+			dcol = MAX (1, dcol);
+			if (go_back) dcol = -dcol;
+		} else {
+			drow = (pane->last_full.row - pane->first.row) / 4;
+			drow = MAX (1, drow);
+			if (go_back) drow = -drow;
+		}
+	}
+
+	if (dcol) {
+		int col = pane->first.col + dcol;
+		scg_set_left_col (pane->simple.scg, col);
+	}
+	if (drow) {
+		int row = pane->first.row + drow;
 		scg_set_top_row (pane->simple.scg, row);
 	}
+
 	return TRUE;
 }
 

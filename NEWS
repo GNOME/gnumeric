@@ -1,5 +1,8 @@
 Gnumeric 1.12.57
 
+Morten:
+	* Fix touchpad scrolling on Wayland.  [#678]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.56
 
