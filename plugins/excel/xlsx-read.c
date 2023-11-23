@@ -819,7 +819,7 @@ xlsx_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 /* returns pts */
 static gboolean
 attr_distance (GsfXMLIn *xin, xmlChar const **attrs,
-	       char const *target, gnm_float *pts)
+	       char const *target, double *pts)
 {
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -1980,7 +1980,7 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 	int orient, paper_code = 0, scale, tmp_int;
 	unsigned first_page = pi->start_page;
 	gboolean orient_set = FALSE, use_first_page_number = TRUE, tmp_bool;
-	gnm_float width = 0., height = 0.;
+	double width = 0., height = 0.;
 	static EnumVal const orientation_types[] = {
 		{ "default",	GTK_PAGE_ORIENTATION_PORTRAIT },
 		{ "portrait",	GTK_PAGE_ORIENTATION_PORTRAIT },

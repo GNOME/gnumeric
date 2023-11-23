@@ -3589,7 +3589,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 					gsf_xml_out_add_cstr (state->xml, OFFICE "date-value", str);
 				}
 				g_free (str);
-			} else if (go_format_is_time (fmt) && (value_get_as_float (cell->value) >= 0.)) {
+			} else if (go_format_is_time (fmt) && (value_get_as_float (cell->value) >= 0)) {
 				char *str;
 				gsf_xml_out_add_cstr_unchecked (state->xml,
 								OFFICE "value-type", "time");
@@ -5470,7 +5470,7 @@ odf_write_hf (GnmOOExport *state, GnmPrintInformation *pi, char const *id, gbool
 	}
 
 	gsf_xml_out_start_element (state->xml, id);
-	odf_add_bool (state->xml, STYLE "display", hf_height > 0.);
+	odf_add_bool (state->xml, STYLE "display", hf_height > 0);
 
 	odf_write_hf_region (state, hf->left_format, STYLE "region-left");
 	odf_write_hf_region (state, hf->middle_format, STYLE "region-center");
@@ -6081,7 +6081,7 @@ odf_write_dash_info (char const *name, gpointer data, GnmOOExport *state)
 
 		for (; lds->n_dash > i && lds->dash[i] == dot_1; i += 2);
 		gsf_xml_out_add_int (state->xml, DRAW "dots1", n_1);
-		if (dot_1 == 0.)
+		if (dot_1 == 0)
 			dot_1 = scale * 0.2;
 		if (new)
 			odf_add_percent (state->xml, DRAW "dots1-length", dot_1);
@@ -6093,7 +6093,7 @@ odf_write_dash_info (char const *name, gpointer data, GnmOOExport *state)
 			for (i += 2; lds->n_dash > i
 				     && lds->dash[i] == dot_1; i += 2);
 			gsf_xml_out_add_int (state->xml, DRAW "dots2", n_1);
-			if (dot_1 == 0.)
+			if (dot_1 == 0)
 				dot_1 = scale * 0.2;
 			if (new)
 				odf_add_percent (state->xml, DRAW "dots2-length",
@@ -7094,11 +7094,11 @@ odf_write_interpolation_attribute (GnmOOExport *state,
 }
 
 static int
-odf_scale_initial_angle (gnm_float angle)
+odf_scale_initial_angle (double angle)
 {
 	angle = 90 - angle;
 	while (angle < 0)
-		angle += 360.;
+		angle += 360;
 	angle = gnm_fake_round (angle);
 
 	return (((int) angle) % 360);
@@ -7549,7 +7549,7 @@ odf_match_gradient (GOStyle const *old, GOStyle const *new)
 	if (old->fill.gradient.brightness != new->fill.gradient.brightness)
 		return FALSE;
 
-	if (old->fill.gradient.brightness >= 0.)
+	if (old->fill.gradient.brightness >= 0)
 		result = (old->fill.gradient.brightness == new->fill.gradient.brightness);
 	else
 		result = (old->fill.pattern.fore == new->fill.pattern.fore);
@@ -7740,11 +7740,11 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 
 		if (style->line.auto_width && state->with_extension)
 			odf_add_bool (state->xml, GNMSTYLE "auto-width", TRUE);
-		else if (style->line.width == 0.0) {
+		else if (style->line.width == 0) {
 			odf_add_pt (state->xml, SVG "stroke-width", 1.);
 			if (state->with_extension)
 				odf_add_pt (state->xml, GNMSTYLE "stroke-width", 0.);
-		} else if (style->line.width > 0.0)
+		} else if (style->line.width > 0)
 			odf_add_pt (state->xml, SVG "stroke-width",
 				    style->line.width);
 

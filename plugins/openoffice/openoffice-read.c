@@ -302,19 +302,19 @@ typedef struct {
 	OOPlotType		 plot_type_default;
 	SheetObjectAnchor	 anchor;	/* anchor to draw the frame (images or graphs) */
 	double                   frame_offset[4]; /* offset as given in the file */
-	gnm_float                width;   /* This refers to the ODF frame element */
-	gnm_float                height;  /* This refers to the ODF frame element */
+	double                   width;   /* This refers to the ODF frame element */
+	double                   height;  /* This refers to the ODF frame element */
 	gint                     z_index;
 
 	/* Plot Area */
-	gnm_float                plot_area_x;
-	gnm_float                plot_area_y;
-	gnm_float                plot_area_width;
-	gnm_float                plot_area_height;
+	double                   plot_area_x;
+	double                   plot_area_y;
+	double                   plot_area_width;
+	double                   plot_area_height;
 
 	/* Legend */
-	gnm_float                legend_x;
-	gnm_float                legend_y;
+	double                   legend_x;
+	double                   legend_y;
 	GogObjectPosition        legend_flag;
 
 	/* Custom Shape */
@@ -331,7 +331,7 @@ typedef enum {
 	OO_PAGE_BREAK_MANUAL
 } OOPageBreakType;
 typedef struct {
-	gnm_float	 size_pts;
+	double	 size_pts;
 	int	 count;
 	gboolean manual;
 	OOPageBreakType break_before, break_after;
@@ -404,7 +404,7 @@ struct  _OOParseState {
 	GOIOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	OOVer		 ver;		/* Is it an OOo v1.0 or v2.0? */
-	gnm_float	 ver_odf;	/* specific ODF version */
+	double		 ver_odf;	/* specific ODF version */
 	GsfInfile	*zip;		/* Reference to the open file, to load graphs and images*/
 	OOChartInfo	 chart;
 	GSList          *chart_list; /* object_offset_t */
@@ -525,7 +525,7 @@ typedef struct {
 typedef struct {
 	GOColor from;
 	GOColor to;
-	gnm_float brightness;
+	double brightness;
 	unsigned int dir;
 } gradient_info_t;
 
@@ -773,7 +773,7 @@ oo_attr_double (GsfXMLIn *xin, xmlChar const * const *attrs,
 		int ns_id, char const *name, double *res)
 {
 	char *end;
-	gnm_float tmp;
+	double tmp;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -795,7 +795,7 @@ oo_attr_percent (GsfXMLIn *xin, xmlChar const * const *attrs,
 		 int ns_id, char const *name, double *res)
 {
 	char *end;
-	gnm_float tmp;
+	double tmp;
 	const char *val = CXML2C (attrs[1]);
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
@@ -1408,8 +1408,8 @@ oo_parse_angle (GsfXMLIn *xin, xmlChar const *str,
 			num = num * 10. / 9.;
 			end += 4;
 		} else if (0 == strncmp (end, "rad", 3)) {
-			num = gnm_fmod (num, 2 * M_PIgnum);
-			num = num * 180. / M_PIgnum;
+			num = gnm_fmod (num, 2 * M_PI);
+			num = num * 180. / M_PI;
 			end += 3;
 		} else {
 			oo_warning (xin, _("Invalid attribute '%s', unknown unit '%s'"),
@@ -2585,7 +2585,7 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->default_style.rows != NULL)
 		sheet_row_set_default_size_pts (state->pos.sheet,
-							state->default_style.rows->size_pts);
+						state->default_style.rows->size_pts);
 	if (state->default_style.columns != NULL)
 		sheet_col_set_default_size_pts (state->pos.sheet,
 						state->default_style.columns->size_pts);
@@ -3743,7 +3743,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 			for (i = state->pos.eval.col ; i < last; i++ ) {
 				/* I cannot find a listing for the default but will
 				 * assume it is TRUE to keep the files rational */
-				if (col_info->size_pts > 0.)
+				if (col_info->size_pts > 0)
 					sheet_col_set_size_pts (state->pos.sheet, i,
 								col_info->size_pts, col_info->manual);
 				oo_col_row_style_apply_breaks (state, col_info, i, TRUE);
@@ -3866,7 +3866,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 		} else {
 			int const last = state->pos.eval.row + repeat_count;
 			for (i = state->pos.eval.row ; i < last; i++ ) {
-				if (row_info->size_pts > 0.)
+				if (row_info->size_pts > 0)
 					sheet_row_set_size_pts (state->pos.sheet, i,
 								row_info->size_pts, row_info->manual);
 				oo_col_row_style_apply_breaks (state, row_info, i, FALSE);
@@ -4508,13 +4508,13 @@ oo_dash (GsfXMLIn *xin, xmlChar const **attrs)
 	} else if (n_dots2 > 1 && n_dots1 > 1 )
 		t = GO_LINE_DASH_DOT_DOT_DOT; /* no matching dashing available */
 	else if ( n_dots2 == 1 && n_dots1 == 1) {
-		gnm_float max = (len_dot1 < len_dot2) ? len_dot2 : len_dot1;
+		double max = (len_dot1 < len_dot2) ? len_dot2 : len_dot1;
 		if (max > 7.5)
 			t = GO_LINE_DASH_DOT;
 		else
 			t = GO_LINE_S_DASH_DOT;
 	} else {
-		gnm_float max = (len_dot1 < len_dot2) ? len_dot2 : len_dot1;
+		double max = (len_dot1 < len_dot2) ? len_dot2 : len_dot1;
 		int max_dots = (n_dots1 < n_dots2) ? n_dots2 : n_dots1;
 
 		if (max_dots > 2)
@@ -4595,8 +4595,8 @@ oo_gradient (GsfXMLIn *xin, xmlChar const **attrs)
 				oo_warning (xin, _("Unable to parse gradient color: %s"), CXML2C (attrs[1]));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "style"))
 			style = CXML2C (attrs[1]);
-		else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
-					"brightness", &info->brightness));
+		else if (oo_attr_double (xin, attrs, OO_GNUM_NS_EXT,
+					 "brightness", &info->brightness));
 		else if (NULL != oo_attr_angle (xin, attrs, OO_NS_DRAW, "angle", &angle));
 
 	if (name != NULL) {
@@ -4842,7 +4842,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 
 	case OO_STYLE_COL:
 		state->cur_style.col_rows = g_new0 (OOColRowStyle, 1);
-		state->cur_style.col_rows->size_pts = -1.;
+		state->cur_style.col_rows->size_pts = -1;
 		if (name)
 			g_hash_table_replace (state->styles.col,
 				g_strdup (name), state->cur_style.col_rows);
@@ -4858,7 +4858,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 
 	case OO_STYLE_ROW:
 		state->cur_style.col_rows = g_new0 (OOColRowStyle, 1);
-		state->cur_style.col_rows->size_pts = -1.;
+		state->cur_style.col_rows->size_pts = -1;
 		if (name)
 			g_hash_table_replace (state->styles.row,
 				g_strdup (name), state->cur_style.col_rows);
@@ -5513,7 +5513,7 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean grouping = FALSE;
 	int decimal_places = 0;
 	gboolean decimals_specified = FALSE;
-/* 	gnm_float display_factor = 1.; */
+	// double display_factor = 1.;
 	int min_i_digits = 1;
 	int min_i_chars = 1;
 
@@ -5859,7 +5859,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 /*****************************************************************************************************/
 
 static GtkPaperSize *
-odf_get_paper_size (gnm_float width, gnm_float height, gint orient)
+odf_get_paper_size (double width, double height, gint orient)
 {
 	GtkPaperSize *size = NULL;
 	char *name, *display_name;
@@ -6922,7 +6922,7 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static OOProp *
-oo_prop_new_double (char const *name, gnm_float val)
+oo_prop_new_double (char const *name, double val)
 {
 	OOProp *res = g_new0 (OOProp, 1);
 	res->name = name;
@@ -7224,7 +7224,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean percentage_set = FALSE;
 	gboolean regression_force_intercept_set = FALSE;
 	gboolean regression_force_intercept = FALSE;
-	gnm_float regression_force_intercept_value = 0.;
+	double regression_force_intercept_value = 0.;
 	char const *interpolation = NULL;
 	gboolean local_style = FALSE;
 
@@ -8207,7 +8207,7 @@ odf_draw_frame_store_location (OOParseState *state, double *frame_offset, gdoubl
 	state->chart.plot_area_x = 0;
 	state->chart.plot_area_y = 0;
 	state->chart.plot_area_width = width;
-	state->chart.plot_area_height =height;
+	state->chart.plot_area_height = height;
 
 	/* Column width and row heights are not correct */
 	/* yet so we need to save this */
@@ -8637,9 +8637,9 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	for (i = 0; i < OO_CHART_STYLE_INHERITANCE; i++)
 		state->chart.i_plot_styles[i] = NULL;
 
-	if (state->chart.width != go_nan)
+	if (go_finite (state->chart.width))
 		g_object_set (state->chart.graph, "width-pts", state->chart.width, NULL);
-	if (state->chart.height != go_nan)
+	if (go_finite (state->chart.height))
 		g_object_set (state->chart.graph, "height-pts", state->chart.height, NULL);
 
 	pop_hash (&state->chart.saved_graph_styles, &state->chart.graph_styles);
@@ -10816,7 +10816,7 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 
 			while (*next != 0) {
 				char *end  = next;
-				gnm_float x = gnm_strto (next, &end);
+				double x = go_strtod (next, &end);
 				if (end > next) {
 					double *xp = g_new (double, 1);
 					char *name = g_strdup_printf ("$%i", i);
@@ -12120,8 +12120,8 @@ odf_find_version (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_float (xin, attrs, OO_NS_OFFICE,
-					"version", &state->ver_odf));
+		if (oo_attr_double (xin, attrs, OO_NS_OFFICE,
+				   "version", &state->ver_odf));
 }
 
 /**************************************************************************/
@@ -12886,7 +12886,7 @@ odf_func_floor_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED
 		GnmValue const * val = expr_mode->constant.value;
 		if (VALUE_IS_NUMBER (val)) {
 			gnm_float value = value_get_as_float (val);
-			if (value == 0.) {
+			if (value == 0) {
 				gnm_expr_free (expr_mode_one);
 				gnm_expr_list_unref (args);
 				gnm_expr_free (expr_sig);
@@ -12964,7 +12964,7 @@ odf_func_ceiling_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUS
 			GnmValue const * val = expr_mode->constant.value;
 			if (VALUE_IS_NUMBER (val)) {
 				gnm_float value = value_get_as_float (val);
-				if (value == 0.) {
+				if (value == 0) {
 					gnm_expr_free (expr_mode_one);
 					gnm_expr_list_unref (args);
 					return expr_mode_zero;

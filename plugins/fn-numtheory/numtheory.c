@@ -38,7 +38,7 @@ GNM_PLUGIN_MODULE_HEADER;
  * represented in a gnm_float _and_ in a guint64.  (For regular "double",
  * the latter part is irrelevant.)
  */
-static const double bit_max = MIN (1 / GNM_EPSILON, (gnm_float)G_MAXUINT64);
+static const gnm_float bit_max = MIN (1 / GNM_EPSILON, (gnm_float)G_MAXUINT64);
 
 /* ------------------------------------------------------------------------- */
 

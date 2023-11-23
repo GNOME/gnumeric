@@ -1485,14 +1485,14 @@ cell_is_constant (GnmCell *cell, gnm_float *pc)
 	return gnm_finite (*pc);
 }
 
-#define SET_LOWER(l_)						\
-	do {							\
-		sol->min[idx] = MAX (sol->min[idx], (l_));	\
+#define SET_LOWER(l_)							\
+	do {								\
+		sol->min[idx] = MAX (sol->min[idx], (gnm_float)(l_));	\
 	} while (0)
 
-#define SET_UPPER(l_)						\
-	do {							\
-		sol->max[idx] = MIN (sol->max[idx], (l_));	\
+#define SET_UPPER(l_)							\
+	do {								\
+		sol->max[idx] = MIN (sol->max[idx], (gnm_float)(l_));	\
 	} while (0)
 
 
@@ -2152,7 +2152,7 @@ gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs)
 		 * error except, potentially, a single step that crosses an
 		 * integer power of 2.
 		 */
-		dx = 16 * (go_add_epsilon (x0) - x0);
+		dx = 16 * (gnm_add_epsilon (x0) - x0);
 		dy = 0;
 		for (j = -order; j <= order; j++) {
 			gnm_float y;

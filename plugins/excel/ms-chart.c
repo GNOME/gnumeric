@@ -2476,12 +2476,12 @@ xl_axis_get_elem (Sheet *sheet, GogObject *axis, unsigned dim, gchar const *name
 		}
 	} else {
 		double const val = gsf_le_get_double (data);
-		double real_value = (log_scale)? gnm_pow10 (val): val;
+		gnm_float real_value = log_scale ? gnm_pow10 (val) : (gnm_float)val;
 		GnmValue *value = value_new_float (real_value);
 		GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
 		gog_dataset_set_dim (GOG_DATASET (axis), dim,
 			gnm_go_data_scalar_new_expr (sheet, texpr), NULL);
-		d (1, g_printerr ("%s = %f\n", name, real_value););
+		d (1, g_printerr ("%s = %f\n", name, (double)real_value););
 	}
 }
 
@@ -2507,7 +2507,11 @@ BC_R(valuerange)(XLChartHandler const *handle,
 	xl_axis_get_elem (sheet, s->axis, GOG_AXIS_ELEM_MAX,	  "Max Value",		flags&0x02, q->data+ 8, log_scale);
 	xl_axis_get_elem (sheet, s->axis, GOG_AXIS_ELEM_MAJOR_TICK,  "Major Increment",	flags&0x04, q->data+16, log_scale);
 	xl_axis_get_elem (sheet, s->axis, GOG_AXIS_ELEM_MINOR_TICK,  "Minor Increment",	flags&0x08, q->data+24, log_scale);
-	cross = (flags & 0x10)? ((log_scale)? 1.: 0.): ((log_scale)? gnm_pow10 (gsf_le_get_double (q->data + 32)): gsf_le_get_double (q->data + 32));
+	cross = (flags & 0x10)
+		? ((log_scale)? 1.: 0.)
+		: ((log_scale)
+		   ? (go_pow10 (gsf_le_get_double (q->data + 32)))
+		   : gsf_le_get_double (q->data + 32));
 
 	if (flags & 0x40) {
 		g_object_set (s->axis, "invert-axis", TRUE, NULL);

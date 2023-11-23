@@ -1726,8 +1726,9 @@ iterate:
 
 		/* We just completed the last iteration, don't change things */
 		if (iterating && max_iteration-- > 0) {
+			gnm_float tol = cell->base.sheet->workbook->iteration.tolerance;
 			/* If we are within bounds make this the last round */
-			if (value_diff (cell->value, v) < cell->base.sheet->workbook->iteration.tolerance)
+			if (value_diff (cell->value, v) < tol)
 				max_iteration = 0;
 			else {
 #ifdef DEBUG_EVALUATION

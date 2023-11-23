@@ -3425,8 +3425,8 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 
 		d (3, g_printerr ("Writing %g is (%g %g) is int ? %d\n",
 				  (double)val,
-				  (double)(1.0 * gnm_floor (val)),
-				  (double)(1.0 * (val - gnm_floor (val))),
+				  (double)(gnm_floor (val)),
+				  (double)(val - gnm_floor (val)),
 			      is_int););
 
 		/* FIXME : Add test for double of form i/100.0
