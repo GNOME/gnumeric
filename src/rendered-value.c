@@ -717,7 +717,7 @@ gnm_rvc_remove (GnmRenderedValueCollection *rvc, GnmCell const *cell)
 void
 gnm_rendered_value_init (void)
 {
-	sane_digits = (int)gnm_floor (GNM_MANT_DIG * gnm_log10 (FLT_RADIX));
+	sane_digits = (int)gnm_floor (GNM_MANT_DIG * gnm_log10 (GNM_RADIX));
 
 #if USE_RV_POOLS
 	rendered_value_pool =

@@ -1442,7 +1442,7 @@ xml_write_number_system (GnmOutputXML *state)
 	 * number system of the loading Gnumeric is different from the
 	 * number system of the saving Gnumeric.
 	 */
-	gsf_xml_out_add_int (state->output, "FloatRadix", FLT_RADIX);
+	gsf_xml_out_add_int (state->output, "FloatRadix", GNM_RADIX);
 	gsf_xml_out_add_int (state->output, "FloatDigits", GNM_MANT_DIG);
 }
 
@@ -1481,7 +1481,7 @@ gnm_xml_io_conventions (void)
 	res->output.uppercase_E = FALSE;
 
 	if (!gnm_shortest_rep_in_files ()) {
-		gnm_float l10 = gnm_log10 (FLT_RADIX);
+		gnm_float l10 = gnm_log10 (GNM_RADIX);
 		res->output.decimal_digits =
 			(int)gnm_ceil (GNM_MANT_DIG * l10) +
 			(l10 == (int)l10 ? 0 : 1);

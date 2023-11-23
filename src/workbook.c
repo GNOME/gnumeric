@@ -790,7 +790,7 @@ workbook_iteration_max_number (Workbook *wb, int max_number)
 }
 
 void
-workbook_iteration_tolerance (Workbook *wb, double tolerance)
+workbook_iteration_tolerance (Workbook *wb, gnm_float tolerance)
 {
 	g_return_if_fail (GNM_IS_WORKBOOK (wb));
 	g_return_if_fail (tolerance >= 0);

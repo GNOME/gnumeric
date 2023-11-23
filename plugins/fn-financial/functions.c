@@ -2230,7 +2230,7 @@ gnumeric_euroconvert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		gboolean err = FALSE;
 		if (argv[3] != NULL && argv[4] != NULL) {
 			int decimals = value_get_as_int (argv[4]);
-			if (decimals < 3 || decimals > GNM_MAX_EXP)
+			if (decimals < 3 || decimals > 100)
 				return value_new_error_VALUE (ei->pos);
 			else {
 				gnm_float p10 = gnm_pow10 (decimals);

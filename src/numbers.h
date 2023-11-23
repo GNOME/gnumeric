@@ -108,6 +108,7 @@ typedef long double gnm_float;
 #define GNM_MAX		LDBL_MAX
 #define GNM_EPSILON	LDBL_EPSILON
 #define GNM_const(_c)	_c ## L
+#define GNM_RADIX       FLT_RADIX
 
 #define GnmQuad GOQuadl
 #define gnm_quad_acos go_quad_acosl
@@ -228,6 +229,7 @@ typedef double gnm_float;
 #define GNM_MAX		DBL_MAX
 #define GNM_EPSILON	DBL_EPSILON
 #define GNM_const(_c)	_c
+#define GNM_RADIX       FLT_RADIX
 
 #define GnmQuad GOQuad
 #define gnm_quad_acos go_quad_acos

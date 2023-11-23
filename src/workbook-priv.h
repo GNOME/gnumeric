@@ -3,6 +3,7 @@
 
 #include <workbook.h>
 #include <goffice/goffice.h>
+#include <numbers.h>
 
 G_BEGIN_DECLS
 
@@ -38,7 +39,7 @@ struct _Workbook {
 	struct {
 		gboolean enabled;
 		int      max_number;
-		double   tolerance;
+		gnm_float tolerance;
 	} iteration;
 	gboolean recalc_auto;
 	GODateConventions const *date_conv;

@@ -120,7 +120,7 @@ typedef struct {
 	GogObjectPosition compass;
 	GogAxisPosition	  cross;
 	char	*cross_id;
-	gnm_float cross_value;
+	double cross_value;
 	gboolean invert_axis;
 	double logbase;
 
@@ -224,7 +224,7 @@ typedef struct {
 	unsigned int	  sp_type;
 	char		 *chart_tx;
 	gboolean          inhibit_text_pop;
-	gnm_float	  chart_pos[4];  /* x, w, y, h */
+	double		  chart_pos[4];  /* x, w, y, h */
 	gboolean	  chart_pos_mode[4]; /* false: "factor", true: "edge" */
 	gboolean	  chart_pos_target; /* true if "inner" */
 	int               radio_value;
@@ -622,7 +622,7 @@ attr_float (GsfXMLIn *xin, xmlChar const **attrs,
 	    gnm_float *res)
 {
 	char *end;
-	double tmp;
+	gnm_float tmp;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -632,6 +632,30 @@ attr_float (GsfXMLIn *xin, xmlChar const **attrs,
 		return FALSE;
 
 	tmp = gnm_strto (attrs[1], &end);
+	if (*end)
+		return xlsx_warning (xin,
+			_("Invalid number '%s' for attribute %s"),
+			attrs[1], target);
+	*res = tmp;
+	return TRUE;
+}
+
+static gboolean
+attr_double (GsfXMLIn *xin, xmlChar const **attrs,
+	     char const *target,
+	     double *res)
+{
+	char *end;
+	double tmp;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (strcmp (attrs[0], target))
+		return FALSE;
+
+	tmp = go_strtod (attrs[1], &end);
 	if (*end)
 		return xlsx_warning (xin,
 			_("Invalid number '%s' for attribute %s"),
@@ -768,7 +792,7 @@ attr_datetime (GsfXMLIn *xin, xmlChar const **attrs,
 /* returns pts */
 static gboolean
 xlsx_parse_distance (GsfXMLIn *xin, xmlChar const *str,
-		  char const *name, gnm_float *pts)
+		     char const *name, double *pts)
 {
 	double num;
 	char *end = NULL;
@@ -861,10 +885,10 @@ simple_uint (GsfXMLIn *xin, xmlChar const **attrs, unsigned *res)
 }
 
 static gboolean
-simple_float (GsfXMLIn *xin, xmlChar const **attrs, gnm_float *res)
+simple_double (GsfXMLIn *xin, xmlChar const **attrs, double *res)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_float (xin, attrs, "val", res))
+		if (attr_double (xin, attrs, "val", res))
 			return TRUE;
 	return FALSE;
 }
@@ -1277,7 +1301,7 @@ elem_color (GsfXMLIn *xin, xmlChar const **attrs, gboolean allow_alpha)
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	int indx;
 	GOColor c = GO_COLOR_BLACK;
-	gnm_float tint = 0.;
+	double tint = 0.;
 	gboolean has_color = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
@@ -1297,7 +1321,7 @@ elem_color (GsfXMLIn *xin, xmlChar const **attrs, gboolean allow_alpha)
 		} else if (attr_int (xin, attrs, "theme", &indx)) {
 			has_color = TRUE;
 			c = themed_color (xin, indx);
-		} else if (attr_float (xin, attrs, "tint", &tint))
+		} else if (attr_double (xin, attrs, "tint", &tint))
 			; /* Nothing */
 	}
 
@@ -1572,7 +1596,7 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int row = -1, xf_index;
-	gnm_float h = -1.;
+	double h = -1.;
 	int cust_fmt = FALSE, cust_height = FALSE, collapsed = FALSE;
 	int hidden = -1;
 	int outline = -1;
@@ -1581,7 +1605,7 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_int (xin, attrs, "r", &row))
 			;
-		else if (attr_float (xin, attrs, "ht", &h))
+		else if (attr_double (xin, attrs, "ht", &h))
 			;
 		else if (attr_bool (xin, attrs, "customFormat", &cust_fmt))
 			;
@@ -1642,7 +1666,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int first = -1, last = -1, xf_index;
-	gnm_float width = -1.;
+	double width = -1.;
 	gboolean cust_width = FALSE, best_fit = FALSE, collapsed = FALSE;
 	int i, hidden = -1;
 	int outline = -1;
@@ -1653,7 +1677,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 		else if (attr_int (xin, attrs, "max", &last))
 			;
-		else if (attr_float (xin, attrs, "width", &width))
+		else if (attr_double (xin, attrs, "width", &width))
 			/* FIXME FIXME FIXME arbitrary map from 130 pixels to
 			 * the value stored for a column with 130 pixel width*/
 			width *= (130. / 18.5703125) * (72./96.);
@@ -1785,13 +1809,13 @@ static void
 xlsx_CT_SheetFormatPr (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gnm_float h, w;
+	double h, w;
 	int i;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (attr_float (xin, attrs, "defaultColWidth", &w))
+		if (attr_double (xin, attrs, "defaultColWidth", &w))
 			sheet_col_set_default_size_pts (state->sheet, w);
-		else if (attr_float (xin, attrs, "defaultRowHeight", &h))
+		else if (attr_double (xin, attrs, "defaultRowHeight", &h))
 			sheet_row_set_default_size_pts (state->sheet, h);
 		else if (attr_int (xin, attrs, "outlineLevelRow", &i)) {
 			if (i > 0)
@@ -2073,21 +2097,21 @@ static void
 xlsx_CT_PageMargins (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gnm_float margin;
+	double margin;
 	GnmPrintInformation *pi = state->sheet->print_info;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (attr_float (xin, attrs, "left", &margin))
+		if (attr_double (xin, attrs, "left", &margin))
 			print_info_set_margin_left (pi, GO_IN_TO_PT (margin));
-		else if (attr_float (xin, attrs, "right", &margin))
+		else if (attr_double (xin, attrs, "right", &margin))
 			print_info_set_margin_right (pi, GO_IN_TO_PT (margin));
-		else if (attr_float (xin, attrs, "top", &margin))
+		else if (attr_double (xin, attrs, "top", &margin))
 			print_info_set_edge_to_below_header (pi, GO_IN_TO_PT (margin));
-		else if (attr_float (xin, attrs, "bottom", &margin))
+		else if (attr_double (xin, attrs, "bottom", &margin))
 			print_info_set_edge_to_above_footer (pi, GO_IN_TO_PT (margin));
-		else if (attr_float (xin, attrs, "header", &margin))
+		else if (attr_double (xin, attrs, "header", &margin))
 			print_info_set_margin_header (pi, GO_IN_TO_PT (margin));
-		else if (attr_float (xin, attrs, "footer", &margin))
+		else if (attr_double (xin, attrs, "footer", &margin))
 			print_info_set_margin_footer (pi, GO_IN_TO_PT (margin));
 	}
 }
@@ -3135,7 +3159,7 @@ xlsx_CT_Pane (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmCellPos topLeft = { 0, 0 };
 	int tmp;
-	gnm_float xSplit = -1., ySplit = -1.;
+	double xSplit = -1., ySplit = -1.;
 	gboolean frozen = FALSE;
 
 	g_return_if_fail (state->sv != NULL);
@@ -3147,9 +3171,9 @@ xlsx_CT_Pane (GsfXMLIn *xin, xmlChar const **attrs)
 			frozen = (0 == strcmp (attrs[1], "frozen"));
 		else if (attr_pos (xin, attrs, "topLeftCell", &topLeft))
 			;
-		else if (attr_float (xin, attrs, "xSplit", &xSplit))
+		else if (attr_double (xin, attrs, "xSplit", &xSplit))
 			;
-		else if (attr_float (xin, attrs, "ySplit", &ySplit))
+		else if (attr_double (xin, attrs, "ySplit", &ySplit))
 			;
 		else if (attr_enum (xin, attrs, "pane", pane_types, &tmp))
 			state->pane_pos = tmp;
@@ -3358,8 +3382,8 @@ static void
 xlsx_run_size (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gnm_float sz;
-	if (simple_float (xin, attrs, &sz)) {
+	double sz;
+	if (simple_double (xin, attrs, &sz)) {
 		PangoAttribute *attr = pango_attr_size_new (CLAMP (sz, 0.0, 1000.0) * PANGO_SCALE);
 		add_attr (state, attr);
 	}
@@ -4475,8 +4499,8 @@ static void
 xlsx_CT_FontSize (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gnm_float val;
-	if (simple_float (xin, attrs, &val))
+	double val;
+	if (simple_double (xin, attrs, &val))
 		gnm_style_set_font_size	(state->style_accum, val);
 }
 static void

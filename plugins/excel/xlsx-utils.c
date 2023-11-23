@@ -651,7 +651,7 @@ xlsx_conventions_new (gboolean output)
 
 	if (output) {
 		if (!gnm_shortest_rep_in_files ()) {
-			gnm_float l10 = gnm_log10 (FLT_RADIX);
+			gnm_float l10 = gnm_log10 (GNM_RADIX);
 			convs->output.decimal_digits =
 				(int)gnm_ceil (GNM_MANT_DIG * l10) +
 				(l10 == (int)l10 ? 0 : 1);

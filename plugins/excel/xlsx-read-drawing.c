@@ -879,7 +879,7 @@ xlsx_axis_crosses_at (GsfXMLIn *xin, xmlChar const **attrs)
 
 	g_return_if_fail (state->axis.info != NULL);
 
-	simple_float (xin, attrs, &state->axis.info->cross_value);
+	simple_double (xin, attrs, &state->axis.info->cross_value);
 }
 
 static void
@@ -940,7 +940,7 @@ static void
 xlsx_chart_logbase (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gnm_float base;
+	double base;
 
 	/*
 	 * The documented limits are 2-1000.  The example uses 1.0.  *Sigh*
@@ -950,7 +950,7 @@ xlsx_chart_logbase (GsfXMLIn *xin, xmlChar const **attrs)
 	 */
 
 	if (state->axis.info &&
-	    simple_float (xin, attrs, &base) &&
+	    simple_double (xin, attrs, &base) &&
 	    base >= 2 && base <= 1000)
 		state->axis.info->logbase = base;
 }
@@ -1086,10 +1086,10 @@ static void
 xlsx_axis_bound (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gnm_float val;
+	double val;
 	GogAxisElemType et = xin->node->user_data.v_int;
 
-	if (state->axis.info && simple_float (xin, attrs, &val)) {
+	if (state->axis.info && simple_double (xin, attrs, &val)) {
 		state->axis.info->axis_elements[et] = val;
 		state->axis.info->axis_element_set[et] = TRUE;
 	}
@@ -1130,8 +1130,8 @@ static void
 xlsx_axis_custom_unit (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gnm_float f = 1;
-	(void)simple_float (xin, attrs, &f);
+	double f = 1;
+	(void)simple_double (xin, attrs, &f);
 	if (state->axis.obj && f != 0)
 		g_object_set (state->axis.obj, "display-factor", f, NULL);
 }
@@ -1442,9 +1442,9 @@ static void
 xlsx_ser_trendline_intercept (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gnm_float intercept = 1;
+	double intercept = 1;
 
-	(void)simple_float (xin, attrs, &intercept);
+	(void)simple_double (xin, attrs, &intercept);
 	// We don't have _writeable_ yet.
 	if (gnm_object_has_readable_prop (state->cur_obj, "affine", G_TYPE_BOOLEAN, NULL)) {
 		g_object_set (state->cur_obj, "affine", intercept != 0, NULL);
@@ -2326,7 +2326,7 @@ static void
 xlsx_chart_layout_dim (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	simple_float (xin, attrs, state->chart_pos + xin->node->user_data.v_int);
+	simple_double (xin, attrs, state->chart_pos + xin->node->user_data.v_int);
 }
 
 static void

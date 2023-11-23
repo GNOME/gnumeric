@@ -5,6 +5,7 @@
 #include <goffice/goffice.h>
 #include <glib-object.h>
 #include <gui-file.h>
+#include <numbers.h>
 
 G_BEGIN_DECLS
 
@@ -79,7 +80,7 @@ void     workbook_set_recalcmode	 (Workbook *wb, gboolean enable);
 gboolean workbook_get_recalcmode         (Workbook const *wb);
 void     workbook_iteration_enabled	 (Workbook *wb, gboolean enable);
 void     workbook_iteration_max_number	 (Workbook *wb, int max_number);
-void     workbook_iteration_tolerance	 (Workbook *wb, double tolerance);
+void     workbook_iteration_tolerance	 (Workbook *wb, gnm_float tolerance);
 
 GODateConventions const *workbook_date_conv (Workbook const *wb);
 void workbook_set_date_conv (Workbook *wb, GODateConventions const *date_conv);

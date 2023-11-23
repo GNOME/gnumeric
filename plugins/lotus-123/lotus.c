@@ -904,7 +904,7 @@ lotus_lnumber (const record_t *r, int ofs)
 GnmValue *
 lotus_unpack_number (guint32 u)
 {
-	double v = (u >> 6);
+	gnm_float v = (u >> 6);
 
 	if (u & 0x20) v = 0 - v;
 	if (u & 0x10)

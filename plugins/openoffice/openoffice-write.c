@@ -2756,7 +2756,7 @@ odf_expr_conventions_new (GnmOOExport *state)
 	conv->output.uppercase_E        = FALSE;
 
 	if (!gnm_shortest_rep_in_files ()) {
-		gnm_float l10 = gnm_log10 (FLT_RADIX);
+		gnm_float l10 = gnm_log10 (GNM_RADIX);
 		conv->output.decimal_digits  =
 			(int)gnm_ceil (GNM_MANT_DIG * l10) +
 			(l10 == (int)l10 ? 0 : 1);
