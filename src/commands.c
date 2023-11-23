@@ -3202,9 +3202,8 @@ cmd_paste_copy (WorkbookControl *wbc,
 		}
 	}
 
-	if (n_c * (gnm_float)n_r > 10000.) {
-		char *number = g_strdup_printf ("%0.0" GNM_FORMAT_f,
-						(gnm_float)n_c * (gnm_float)n_r);
+	if (n_c * (long)n_r > 10000) {
+		char *number = g_strdup_printf ("%ld",	(long)n_c * n_r);
 		gboolean result = go_gtk_query_yes_no (wbcg_toplevel (WBC_GTK (wbc)), FALSE,
 						       _("Do you really want to paste "
 							 "%s copies?"), number);

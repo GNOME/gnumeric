@@ -79,6 +79,7 @@ typedef long double gnm_float;
 #define gnm_pow10 go_pow10l
 #define gnm_pow2 go_pow2l
 #define gnm_render_general go_render_generall
+#define gnm_round roundl
 #define gnm_sinh sinhl
 #define gnm_sinpi go_sinpil
 #define gnm_sqrt sqrtl
@@ -198,6 +199,7 @@ typedef double gnm_float;
 #define gnm_pow10 go_pow10
 #define gnm_pow2 go_pow2
 #define gnm_render_general go_render_general
+#define gnm_round round
 #define gnm_sinh sinh
 #define gnm_sinpi go_sinpi
 #define gnm_sqrt sqrt

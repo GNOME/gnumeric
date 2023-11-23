@@ -872,7 +872,7 @@ colrow_tip_setlabel (GnmItemBar *ib, gboolean const is_cols, int size_pixels)
 		pixels = g_strdup_printf (ngettext ("(%d pixel)", "(%d pixels)", size_pixels),
 					  size_pixels);
 
-		if (size_points == gnm_floor (size_points))
+		if (size_points == floor (size_points))
 			/* xgettext: This is input to ngettext based on the integer number of points. */
 			points = g_strdup_printf (ngettext (_("%d.00 pt"), _("%d.00 pts"), (int) gnm_floor (size_points)),
 						  (int) gnm_floor (size_points));

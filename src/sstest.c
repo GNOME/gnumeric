@@ -1314,7 +1314,7 @@ test_strtol_reverse (long l)
 }
 
 static int
-test_strtod_ok (const char *s, double d, size_t expected_len)
+test_strtod_ok (const char *s, gnm_float d, size_t expected_len)
 {
 	gnm_float d2;
 	char *end;
@@ -1501,7 +1501,7 @@ rand_fractile_test (gnm_float const *vals, int N, int nf,
 		g_printerr ("Expected counts:");
 		for (i = 1; i <= nf; i++) {
 			gnm_float p = GET_PROB (i) - GET_PROB (i-1);
-			expected[i] = gnm_floor (p * N + 0.5);
+			expected[i] = gnm_round (p * N);
 			g_printerr ("%s%d", (i == 1) ? " " : ", ", expected[i]);
 		}
 		g_printerr (".\n");
@@ -1786,7 +1786,7 @@ test_random_randuniform (int N)
 
 	/* Fractile test */
 	for (i = 1; i < nf; i++)
-		fractiles[i] = param_l + n * i / (double)nf;
+		fractiles[i] = param_l + n * i / (gnm_float)nf;
 	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
 		ok = FALSE;
 

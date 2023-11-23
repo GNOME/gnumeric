@@ -91,7 +91,7 @@ reduce_pi_simple (gnm_float x, int *pk, int kbits)
 		+0x1.c1cd12p-107
 	};
 	int i;
-	gnm_float k = gnm_floor (x * gnm_ldexp (two_over_pi, kbits - 2) + 0.5);
+	gnm_float k = gnm_round (x * gnm_ldexp (two_over_pi, kbits - 2));
 	gnm_float xx = 0;
 
 	g_assert (k < (1 << 26));
