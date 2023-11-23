@@ -125,6 +125,8 @@ TESTS =	t1000-statfuns.pl			\
 	t6590-samples.pl			\
 	t6900-sylk.pl				\
 	t6910-graph-image-svg.pl		\
+	t6920-cplex.pl				\
+	t6921-lpsolve.pl			\
 	t7000-goal-seek.pl			\
 	t7100-solver-blend.pl			\
 	t7101-solver-afiro.pl			\

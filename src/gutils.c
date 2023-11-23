@@ -674,23 +674,7 @@ gnm_debug_flag (const char *flag)
 void
 gnm_string_add_number (GString *buf, gnm_float d)
 {
-	size_t old_len = buf->len;
-	double d2;
-	static int digits;
-
-	if (digits == 0) {
-		gnm_float l10 = gnm_log10 (FLT_RADIX);
-		digits = (int)gnm_ceil (GNM_MANT_DIG * l10) +
-			(l10 == (int)l10 ? 0 : 1);
-	}
-
-	g_string_append_printf (buf, "%.*" GNM_FORMAT_g, digits - 1, d);
-	d2 = gnm_strto (buf->str + old_len, NULL);
-
-	if (d != d2) {
-		g_string_truncate (buf, old_len);
-		g_string_append_printf (buf, "%.*" GNM_FORMAT_g, digits, d);
-	}
+	go_dtoa (buf, "!" GNM_FORMAT_g, d);
 }
 
 /* ------------------------------------------------------------------------- */
