@@ -1033,7 +1033,7 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 #define one_Pa_to_atm   0.9869233e-5
 #define one_Pa_to_mmHg  0.00750061708
 #define one_Pa_to_psi   0.000145037738
-#define one_Pa_to_Torr  (GNM_const (760)/GNM_const (101325))
+#define one_Pa_to_Torr  (GNM_const (760.)/GNM_const (101325.))
 
 	/* Force constants */
 #define one_N_to_dyn    100000

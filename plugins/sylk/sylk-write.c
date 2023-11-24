@@ -344,7 +344,7 @@ sylk_write_sheet (SylkWriter *state)
 		extent.end.row,		extent.end.col);
 
 /* Global options */
-	gsf_output_printf (state->output, "O;%c%d %f",
+	gsf_output_printf (state->output, "O;%c%d %" GNM_FORMAT_f,
 		(state->wb->iteration.enabled ? 'A' : 'G'),
 		state->wb->iteration.max_number,
 		state->wb->iteration.tolerance);
