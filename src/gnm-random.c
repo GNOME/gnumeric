@@ -559,7 +559,7 @@ random_weibull (gnm_float a, gnm_float b)
 
 	do {
 		x = random_01 ();
-	} while (x == 0.0);
+	} while (x == 0);
 
 	z = gnm_pow (-gnm_log (x), 1 / b);
 
@@ -578,7 +578,7 @@ random_laplace (gnm_float a)
 
 	do {
 		u = 2 * random_01 () - 1.0;
-	} while (u == 0.0);
+	} while (u == 0);
 
 	if (u < 0)
 		return a * gnm_log (-u);
@@ -604,7 +604,7 @@ random_rayleigh (gnm_float sigma)
 
 	do {
 		u = random_01 ();
-	} while (u == 0.0);
+	} while (u == 0);
 
 	return sigma * gnm_sqrt (-2.0 * gnm_log (u));
 }
@@ -625,7 +625,7 @@ random_rayleigh_tail (gnm_float a, gnm_float sigma)
 
 	do {
 		u = random_01 ();
-	} while (u == 0.0);
+	} while (u == 0);
 
 	return gnm_sqrt (a * a - 2.0 * sigma * sigma * gnm_log (u));
 }
@@ -654,7 +654,7 @@ gamma_frac (gnm_float a)
 		gnm_float u = random_01 ();
 		do {
 			v = random_01 ();
-		} while (v == 0.0);
+		} while (v == 0);
 
 		if (u < p) {
 			x = gnm_pow (v, 1 / a);
@@ -752,7 +752,7 @@ random_pareto (gnm_float a, gnm_float b)
 
 	do {
 		x = random_01 ();
-	} while (x == 0.0);
+	} while (x == 0);
 
 	return b * gnm_pow (x, -1 / a);
 }
@@ -918,7 +918,7 @@ random_gumbel1 (gnm_float a, gnm_float b)
 
 	do {
 		x = random_01 ();
-	} while (x == 0.0);
+	} while (x == 0);
 
 	return (gnm_log (b) - gnm_log (-gnm_log (x))) / a;
 }
@@ -935,7 +935,7 @@ random_gumbel2 (gnm_float a, gnm_float b)
 
 	do {
 		x = random_01 ();
-	} while (x == 0.0);
+	} while (x == 0);
 
 	return gnm_pow (-b / gnm_log (x), 1 / a);
 }
@@ -968,7 +968,7 @@ random_levy (gnm_float c, gnm_float alpha)
 
 	do {
 		u = random_01 ();
-	} while (u == 0.0);
+	} while (u == 0);
 
 	u = M_PIgnum * (u - 0.5);
 
@@ -1028,7 +1028,7 @@ random_levy_skew (gnm_float c, gnm_float alpha, gnm_float beta)
 
 	do {
 		V = random_01 ();
-	} while (V == 0.0);
+	} while (V == 0);
 
 	V = M_PIgnum * (V - 0.5);
 
@@ -1181,7 +1181,7 @@ random_gaussian_tail (gnm_float a, gnm_float sigma)
 			u = random_01 ();
 			do {
 				v = random_01 ();
-			} while (v == 0.0);
+			} while (v == 0);
 			x = gnm_sqrt (s * s - 2 * gnm_log (v));
 		} while (x * u > s);
 		return x * sigma;
@@ -1418,7 +1418,7 @@ random_landau (void)
 
 	do {
 		X = random_01 ();
-	} while (X == 0.0);
+	} while (X == 0);
 	U = 1000.0 * X;
 	I = U;
 	U = U - I;

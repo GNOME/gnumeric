@@ -418,7 +418,7 @@ rosenbrock_iter (GnmNlsolve *nl)
 				default:
 				case 2:
 					/* No sign change. */
-					d[i] *= 0.5;
+					d[i] *= GNM_const(0.5);
 					break;
 				}
 			}
@@ -475,7 +475,8 @@ rosenbrock_iter (GnmNlsolve *nl)
 					g_printerr ("Tentative move accepted!\n");
 				rosenbrock_tentative_end (nl, TRUE);
 			}
-		} else if (gnm_abs (isol->yk - ykm1) > gnm_abs (ykm1) * 0.01) {
+		} else if (gnm_abs (isol->yk - ykm1) >
+			   gnm_abs (ykm1) * GNM_const(0.01)) {
 			/* A big step.  */
 			nl->smallsteps = 0;
 		} else {

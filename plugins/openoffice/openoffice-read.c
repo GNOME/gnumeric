@@ -1408,8 +1408,8 @@ oo_parse_angle (GsfXMLIn *xin, xmlChar const *str,
 			num = num * 10. / 9.;
 			end += 4;
 		} else if (0 == strncmp (end, "rad", 3)) {
-			num = gnm_fmod (num, 2 * M_PI);
-			num = num * 180. / M_PI;
+			num = fmod (num, 2 * M_PI);
+			num = num * 180 / M_PI;
 			end += 3;
 		} else {
 			oo_warning (xin, _("Invalid attribute '%s', unknown unit '%s'"),

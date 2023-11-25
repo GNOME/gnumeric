@@ -197,8 +197,9 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 	vs = (24 * 60 * 60) * gnm_abs (v - vr);
 
 	needs_date = is_time < 2 && (is_date || gnm_abs (v) >= 1);
-	needs_time = is_time > 0 || gnm_abs (v - vr) > 1e-9;
-	needs_frac_sec = needs_time && gnm_abs (vs - gnm_fake_round (vs)) >= 0.5e-3;
+	needs_time = is_time > 0 || gnm_abs (v - vr) > GNM_const(1e-9);
+	needs_frac_sec = needs_time &&
+		gnm_abs (vs - gnm_fake_round (vs)) >= GNM_const(0.5e-3);
 
 	xlfmt = g_string_new (NULL);
 	if (needs_date) g_string_append (xlfmt, "yyyy/mm/dd");

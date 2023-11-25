@@ -235,7 +235,7 @@ random_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	case BernoulliDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &p_val, FALSE) == 0 &&
-			p_val <= 1.0 && p_val > 0.0;
+			p_val <= 1 && p_val > 0;
 		break;
 	case BetaDistribution:
 		ready = ready &&
@@ -246,30 +246,30 @@ random_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	case PoissonDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		break;
 	case ExponentialDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		break;
 	case ExponentialPowerDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
-			b_float > 0.0;
+			b_float > 0;
 		break;
 	case CauchyDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		break;
 	case ChisqDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		break;
 	case LandauDistribution:
 		ready = TRUE;
@@ -277,118 +277,118 @@ random_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	case LaplaceDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		break;
 	case GaussianTailDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
-			b_float > 0.0;
+			b_float > 0;
 		break;
 	case RayleighDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		break;
 	case RayleighTailDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
-			b_float > 0.0;
+			b_float > 0;
 		break;
 	case ParetoDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
-			b_float > 0.0;
+			b_float > 0;
 		break;
 	case LevyDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
-			b_float > 0.0;
+			b_float > 0;
 		break;
 	case FdistDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
-			b_float > 0.0;
+			b_float > 0;
 		break;
 	case LognormalDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
-			b_float > 0.0;
+			b_float > 0;
 		break;
 	case TdistDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		break;
 	case WeibullDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
-			b_float > 0.0;
+			b_float > 0;
 		break;
 	case GeometricDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &p_val, FALSE) == 0 &&
-			p_val >= 0.0 && p_val <= 1;
+			p_val >= 0 && p_val <= 1;
 		break;
 	case LogarithmicDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &p_val, FALSE) == 0 &&
-			p_val >= 0.0 && p_val <= 1;
+			p_val >= 0 && p_val <= 1;
 		break;
 	case LogisticDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		break;
 	case GammaDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
-			b_float > 0.0;
+			b_float > 0;
 		break;
 	case Gumbel1Distribution:
 	case Gumbel2Distribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
-			a_float > 0.0;
+			a_float > 0;
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
-			b_float > 0.0;
+			b_float > 0;
 		break;
 	case BinomialDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &p_val, FALSE) == 0 &&
 			entry_to_int (GTK_ENTRY (state->par2_entry), &count, FALSE) == 0 &&
-			p_val <= 1.0 && p_val > 0.0 &&
+			p_val <= 1 && p_val > 0 &&
 			count > 0;
 		break;
 	case NegativeBinomialDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &p_val, FALSE) == 0 &&
 			entry_to_int (GTK_ENTRY (state->par2_entry), &count, FALSE) == 0 &&
-			p_val <= 1.0 && p_val > 0.0 &&
+			p_val <= 1 && p_val > 0 &&
 			count > 0;
 		break;
 	case DiscreteDistribution:

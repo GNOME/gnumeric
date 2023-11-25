@@ -13,7 +13,7 @@
 #define SOLVER_PROGRAM "lp_solve"
 #define SOLVER_URL "http://sourceforge.net/projects/lpsolve/"
 #define PRIVATE_KEY "::lpsolve::"
-#define SOLVER_INF 1e30
+#define SOLVER_INF GNM_const(1e30)
 
 typedef struct {
 	GnmSubSolver *parent;
@@ -122,8 +122,8 @@ my_strsplit (const char *line)
 	return (char **)g_ptr_array_free (res, FALSE);
 }
 
-static double
-fixup_inf (double v)
+static gnm_float
+fixup_inf (gnm_float v)
 {
 	if (v <= -SOLVER_INF)
 		return go_ninf;
@@ -170,7 +170,7 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 			gnm_lpsolve_flush_solution (lp);
 			r = gnm_lpsolve_start_solution (lp);
 			r->quality = GNM_SOLVER_RESULT_FEASIBLE;
-			r->value = g_ascii_strtod (line + obj_line_len, NULL);
+			r->value = gnm_ascii_strto (line + obj_line_len, NULL);
 		} else if (lp->section == SEC_UNKNOWN &&
 			   !strncmp (line, val_header_line, val_header_len)) {
 			lp->section = SEC_VALUES;
@@ -182,7 +182,7 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 			lp->section = SEC_DUAL_LIMITS;
 		} else if (lp->section == SEC_VALUES && lp->result) {
 			GnmSolverResult *r = lp->result;
-			double v;
+			gnm_float v;
 			char *space = strchr (line, ' ');
 			GnmCell *cell;
 			int idx;
@@ -201,10 +201,10 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 				continue;
 			}
 
-			v = g_ascii_strtod (space + 1, NULL);
+			v = gnm_ascii_strto (space + 1, NULL);
 			r->solution[idx] = v;
 		} else if (lp->section == SEC_LIMITS) {
-			double low, high;
+			gnm_float low, high;
 			GnmCell *cell;
 			int idx;
 			gchar **items;
@@ -222,8 +222,8 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 			if (idx < 0)
 				goto bad_limit;
 
-			low = fixup_inf (g_ascii_strtod (items[1], NULL));
-			high = fixup_inf (g_ascii_strtod (items[2], NULL));
+			low = fixup_inf (gnm_ascii_strto (items[1], NULL));
+			high = fixup_inf (gnm_ascii_strto (items[2], NULL));
 
 			lp->sensitivity->vars[idx].low = low;
 			lp->sensitivity->vars[idx].high = high;
@@ -238,7 +238,7 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 			lp->section = SEC_UNKNOWN;
 			g_strfreev (items);
 		} else if (lp->section == SEC_DUAL_LIMITS) {
-			double dual, low, high;
+			gnm_float dual, low, high;
 			GnmCell *cell;
 			int idx, cidx;
 			gchar **items;
@@ -258,9 +258,9 @@ cb_read_stdout (GIOChannel *channel, GIOCondition cond, GnmLPSolve *lp)
 				? gnm_sub_solver_find_constraint (lp->parent, items[0])
 				: -1;
 
-			dual = fixup_inf (g_ascii_strtod (items[1], NULL));
-			low = fixup_inf (g_ascii_strtod (items[2], NULL));
-			high = fixup_inf (g_ascii_strtod (items[3], NULL));
+			dual = fixup_inf (gnm_ascii_strto (items[1], NULL));
+			low = fixup_inf (gnm_ascii_strto (items[2], NULL));
+			high = fixup_inf (gnm_ascii_strto (items[3], NULL));
 
 			if (idx >= 0) {
 				lp->sensitivity->vars[idx].reduced_cost = dual;

@@ -84,6 +84,7 @@ typedef long double gnm_float;
 #define gnm_sinpi go_sinpil
 #define gnm_sqrt sqrtl
 #define gnm_strto go_strtold
+#define gnm_ascii_strto go_ascii_strtold
 #define gnm_sub_epsilon go_sub_epsilonl
 #define gnm_tanh tanhl
 #define gnm_tanpi go_tanpil
@@ -205,6 +206,7 @@ typedef double gnm_float;
 #define gnm_sinpi go_sinpi
 #define gnm_sqrt sqrt
 #define gnm_strto go_strtod
+#define gnm_ascii_strto go_ascii_strtod
 #define gnm_sub_epsilon go_sub_epsilon
 #define gnm_tanh tanh
 #define gnm_tanpi go_tanpi

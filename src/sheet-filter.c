@@ -532,7 +532,7 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 							     CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
 							     col, start_row, col, end_row,
 							     (CellIterFunc) cb_filter_find_percentage, &data);
-				offset = (data.high - data.low) * cond->count / 100.;
+				offset = (data.high - data.low) * cond->count / 100;
 				data.high -= offset;
 				data.low  += offset;
 				data.target_sheet = target_sheet;

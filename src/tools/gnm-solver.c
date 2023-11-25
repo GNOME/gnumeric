@@ -1615,7 +1615,7 @@ gnm_solver_update_derived (GnmSolver *sol)
 } while (0)
 
 #define AT_LIMIT(s_,l_) \
-  (gnm_finite (l_) ? gnm_abs ((s_) - (l_)) <= (gnm_abs ((s_)) + gnm_abs ((l_))) / 1e10 : (s_) == (l_))
+	(gnm_finite (l_) ? gnm_abs ((s_) - (l_)) <= (gnm_abs ((s_)) + gnm_abs ((l_))) / GNM_const(1e10) : (s_) == (l_))
 
 #define MARK_BAD(col_)						\
   do {								\
@@ -1795,7 +1795,7 @@ gnm_solver_create_program_report (GnmSolver *solver, const char *name)
 				break;
 			}
 			case GNM_SOLVER_BOOLEAN: {
-				gnm_float c = (cl > 0.5 ? 1 : 0);
+				gnm_float c = (cl > GNM_const(0.5) ? 1 : 0);
 				slack = 0 - gnm_abs (c - cl);
 				break;
 			}
@@ -2551,7 +2551,9 @@ gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
 			if (!gnm_finite (y01))
 				goto fail_calc;
 
-			emax = dy == 0 ? 1e-10 : gnm_abs (dy) / 1e-10;
+			emax = dy == 0
+				? GNM_const(1e-10)
+				: gnm_abs (dy) / GNM_const(1e-10);  // ????
 			e = dy - 2 * (y01 - y0);
 			if (gnm_abs (e) > emax)
 				goto fail_linear;

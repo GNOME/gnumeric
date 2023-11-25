@@ -400,7 +400,7 @@ as_teach_rest (ArithString *as, char const *s, int n, int phase)
 			as->step += as->p10 * as->phases;
 	} else {
 		gnm_float f = as_compute_val (as, n);
-		if (gnm_abs (f - val) > 0.5)
+		if (gnm_abs (f - val) > GNM_const(0.5))
 			return TRUE;
 	}
 

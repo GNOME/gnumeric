@@ -937,7 +937,7 @@ bin_arith (GnmExpr const *expr, GnmEvalPos const *ep,
 		break;
 
 	case GNM_EXPR_OP_DIV:
-		if (vb == 0.0)
+		if (vb == 0)
 			return value_new_error_DIV0 (ep);
 		res = va / vb;
 		break;

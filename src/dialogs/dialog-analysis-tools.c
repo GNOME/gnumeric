@@ -1374,7 +1374,7 @@ ttest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		break;
 	case TTEST_ZTEST:
 		err = entry_to_float (GTK_ENTRY (state->var1_variance), &data->var1, TRUE);
-		if (err != 0 || data->var1 <= 0.0) {
+		if (err != 0 || data->var1 <= 0) {
 			error_in_entry ((GnmGenericToolState *) state, GTK_WIDGET (state->var1_variance),
 					_("Please enter a valid\n"
 					  "population variance for variable 1."));
@@ -1383,7 +1383,7 @@ ttest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			return;
 		}
 		err = entry_to_float (GTK_ENTRY (state->var2_variance), &data->var2, TRUE);
-		if (err != 0 || data->var2 <= 0.0) {
+		if (err != 0 || data->var2 <= 0) {
 			error_in_entry ((GnmGenericToolState *) state, GTK_WIDGET (state->var2_variance),
 					_("Please enter a valid\n"
 					  "population variance for variable 2."));
@@ -1432,7 +1432,7 @@ ttest_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	err = entry_to_float (GTK_ENTRY (state->mean_diff_entry), &mean_diff, FALSE);
 	mean_diff_ready = (err == 0);
 	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha, FALSE);
-	alpha_ready = (err == 0 && alpha > 0.0 && alpha < 1.0);
+	alpha_ready = (err == 0 && alpha > 0 && alpha < 1);
 	input_1_ready = (input_range != NULL);
 	input_2_ready = ((state->base.input_entry_2 == NULL) || (input_range_2 != NULL));
 	output_ready =  gnm_dao_is_ready (GNM_DAO (state->base.gdao));
@@ -1760,7 +1760,7 @@ ftest_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
 	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha, FALSE);
-	alpha_ready = (err == 0 && alpha > 0.0 && alpha < 1.0);
+	alpha_ready = (err == 0 && alpha > 0 && alpha < 1);
 	input_1_ready = (input_range != NULL);
 	input_2_ready = ((state->base.input_entry_2 == NULL) || (input_range_2 != NULL));
 	output_ready = gnm_dao_is_ready (GNM_DAO (state->base.gdao));

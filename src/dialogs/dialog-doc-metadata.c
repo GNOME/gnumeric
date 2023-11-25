@@ -308,7 +308,7 @@ dialog_doc_metadata_transform_str_to_timestamp (const char *str,
 		int_serial = (int)serial;
 		s = go_date_serial_to_timet (int_serial, NULL);
 
-		if (gnm_abs (serial - int_serial) >= 1.0 || s == (time_t)-1) {
+		if (gnm_abs (serial - int_serial) >= 1 || s == (time_t)-1) {
 			s = time (NULL);
 		} else
 			s += (gnm_fake_round (3600 * 24 * (serial - int_serial)));

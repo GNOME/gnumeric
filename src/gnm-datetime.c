@@ -332,7 +332,7 @@ datetime_value_to_seconds (GnmValue const *v, GODateConventions const *conv)
 	d -= gnm_floor (d);
 
 	/* Scale and round.  */
-	secs = (int)(gnm_add_epsilon (d) * DAY_SECONDS + 0.5);
+	secs = (int)(gnm_add_epsilon (d) * DAY_SECONDS + GNM_const(0.5));
 
 	/* We rounded, so we might have gone too far.  */
 	if (secs >= DAY_SECONDS)
