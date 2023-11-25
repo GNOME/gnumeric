@@ -126,7 +126,7 @@ gnm_python_object_get (GOErrorInfo **err)
 	if (!Py_IsInitialized ()) {
 		PyImport_AppendInittab ("Gnumeric", py_initgnumeric);
 		Py_InitializeEx (1);
-#ifdef WITH_THREAD
+#if defined(WITH_THREAD) && PY_VERSION_HEX < 0x03070000
 		PyEval_InitThreads ();
 #endif
 	}
