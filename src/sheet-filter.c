@@ -647,11 +647,7 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 	sheet_object_set_anchor (GNM_SO (fcombo), &anchor);
 	sheet_object_set_sheet (GNM_SO (fcombo), filter->sheet);
 
-#ifdef HAVE_G_PTR_ARRAY_INSERT
 	g_ptr_array_insert (filter->fields, i, fcombo);
-#else
-	go_ptr_array_insert (filter->fields, fcombo, i);
-#endif
 	/* We hold a reference to fcombo */
 }
 
