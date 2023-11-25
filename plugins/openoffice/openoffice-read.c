@@ -4007,8 +4007,9 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			if (val == NULL) {
 				unsigned y, m, d, h, mi;
 				gnm_float s;
-				unsigned n = sscanf (CXML2C (attrs[1]), "%u-%u-%uT%u:%u:%" GNM_SCANF_g,
-						     &y, &m, &d, &h, &mi, &s);
+				int n = gnm_sscanf (CXML2C (attrs[1]),
+						    "%u-%u-%uT%u:%u:%" GNM_SCANF_g,
+						    &y, &m, &d, &h, &mi, &s);
 
 				if (n >= 3) {
 					GDate date;

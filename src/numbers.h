@@ -101,6 +101,7 @@ typedef long double gnm_float;
 #define GNM_FORMAT_g	"Lg"
 #define GNM_FORMAT_G	"LG"
 #define GNM_SCANF_g	"Lg"
+#define gnm_sscanf      sscanf
 #define GNM_DIG		LDBL_DIG
 #define GNM_MANT_DIG	LDBL_MANT_DIG
 #define GNM_MIN_EXP	LDBL_MIN_EXP
@@ -223,6 +224,7 @@ typedef double gnm_float;
 #define GNM_FORMAT_g	"g"
 #define GNM_FORMAT_G	"G"
 #define GNM_SCANF_g	"lg"
+#define gnm_sscanf      sscanf
 #define GNM_DIG		DBL_DIG
 #define GNM_MANT_DIG	DBL_MANT_DIG
 #define GNM_MIN_EXP	DBL_MIN_EXP

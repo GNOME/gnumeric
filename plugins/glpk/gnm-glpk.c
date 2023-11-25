@@ -115,7 +115,7 @@ gnm_glpk_detect_version (GnmGlpk *lp,
 
 	if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
 		goto out;
-	if (sscanf (line, "%u %u", &rows, &cols) == 2 &&
+	if (gnm_sscanf (line, "%u %u", &rows, &cols) == 2 &&
 	    cols == g_hash_table_size (subsol->cell_from_name)) {
 		ver = GLPK_457;
 		if (gnm_solver_debug ())
@@ -152,7 +152,7 @@ gnm_glpk_read_solution_457 (GnmGlpk *lp,
 
 	if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
 		goto fail;
-	if (sscanf (line, "%u %u", &rows, &cols) != 2 ||
+	if (gnm_sscanf (line, "%u %u", &rows, &cols) != 2 ||
 	    cols != g_hash_table_size (subsol->cell_from_name))
 		goto fail;
 
@@ -160,8 +160,8 @@ gnm_glpk_read_solution_457 (GnmGlpk *lp,
 		goto fail;
 
 	if (has_integer
-	    ? sscanf (line, "%d %" GNM_SCANF_g, &pstat, &val) != 2
-	    : sscanf (line, "%d %d %" GNM_SCANF_g, &pstat, &dstat, &val) != 3)
+	    ? gnm_sscanf (line, "%d %" GNM_SCANF_g, &pstat, &val) != 2
+	    : gnm_sscanf (line, "%d %d %" GNM_SCANF_g, &pstat, &dstat, &val) != 3)
 		goto fail;
 
 	result->value = val;
@@ -193,7 +193,7 @@ gnm_glpk_read_solution_457 (GnmGlpk *lp,
 		if (has_integer)
 			continue;
 
-		if (sscanf (line, "%u %" GNM_SCANF_g " %" GNM_SCANF_g,
+		if (gnm_sscanf (line, "%u %" GNM_SCANF_g " %" GNM_SCANF_g,
 			    &rstat, &pval, &dval) != 3)
 			goto fail;
 
@@ -209,8 +209,8 @@ gnm_glpk_read_solution_457 (GnmGlpk *lp,
 			goto fail;
 
 		if (has_integer
-		    ? sscanf (line, "%" GNM_SCANF_g, &pval) != 1
-		    : sscanf (line, "%u %" GNM_SCANF_g " %" GNM_SCANF_g,
+		    ? gnm_sscanf (line, "%" GNM_SCANF_g, &pval) != 1
+		    : gnm_sscanf (line, "%u %" GNM_SCANF_g " %" GNM_SCANF_g,
 			      &cstat, &pval, &dval) != 3)
 			goto fail;
 
@@ -249,12 +249,12 @@ gnm_glpk_read_solution_458 (GnmGlpk *lp,
 	READ_LINE (tl, line);
 
 	if (has_integer) {
-		if (sscanf (line, "s %*s %u %u %c %" GNM_SCANF_g,
-			    &rows, &cols, &pstat, &val) != 4)
+		if (gnm_sscanf (line, "s %*s %u %u %c %" GNM_SCANF_g,
+				&rows, &cols, &pstat, &val) != 4)
 			goto fail;
 	} else {
-		if (sscanf (line, "s %*s %u %u %c %c %" GNM_SCANF_g,
-			    &rows, &cols, &pstat, &dstat, &val) != 5)
+		if (gnm_sscanf (line, "s %*s %u %u %c %c %" GNM_SCANF_g,
+				&rows, &cols, &pstat, &dstat, &val) != 5)
 			goto fail;
 	}
 	if (cols != g_hash_table_size (subsol->cell_from_name))
@@ -285,9 +285,9 @@ gnm_glpk_read_solution_458 (GnmGlpk *lp,
 		READ_LINE (tl, line);
 
 		if ((has_integer
-		     ? sscanf (line, "i %d %" GNM_SCANF_g,
+		     ? gnm_sscanf (line, "i %d %" GNM_SCANF_g,
 			       &r1, &dval) != 2
-		     : sscanf (line, "i %d %c %" GNM_SCANF_g " %" GNM_SCANF_g,
+		     : gnm_sscanf (line, "i %d %c %" GNM_SCANF_g " %" GNM_SCANF_g,
 			       &r1, &rstat, &pval, &dval) != 4) ||
 		    r1 != cidx + 1)
 			goto fail;
@@ -304,10 +304,10 @@ gnm_glpk_read_solution_458 (GnmGlpk *lp,
 		READ_LINE (tl, line);
 
 		if ((has_integer
-		     ? sscanf (line, "j %d %" GNM_SCANF_g,
-			       &c1, &pval) != 2
-		     : sscanf (line, "j %d %c %" GNM_SCANF_g " %" GNM_SCANF_g,
-			       &c1, &cstat, &pval, &dval) != 4) ||
+		     ? gnm_sscanf (line, "j %d %" GNM_SCANF_g,
+				   &c1, &pval) != 2
+		     : gnm_sscanf (line, "j %d %c %" GNM_SCANF_g " %" GNM_SCANF_g,
+				   &c1, &cstat, &pval, &dval) != 4) ||
 		    c1 != cidx + 1)
 			goto fail;
 		// cstat?
