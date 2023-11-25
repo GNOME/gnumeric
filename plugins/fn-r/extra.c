@@ -16,7 +16,7 @@ dsnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gbool
 	if (gnm_isnan (x) || gnm_isnan (shape) || gnm_isnan (location) || gnm_isnan (scale))
 		return gnm_nan;
 
-	if (shape == 0.)
+	if (shape == 0)
 		return dnorm (x, location, scale, give_log);
 	else if (give_log)
 		return M_LN2gnum + dnorm (x, location, scale, TRUE) + pnorm (shape * x, shape * location, scale, TRUE, TRUE);
@@ -33,7 +33,7 @@ psnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gbool
 	    gnm_isnan (location) || gnm_isnan (scale))
 		return gnm_nan;
 
-	if (shape == 0.)
+	if (shape == 0)
 		return pnorm (x, location, scale, lower_tail, log_p);
 
 	/* Normalize */
@@ -66,7 +66,7 @@ psnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gbool
 	 * Negatives can occur due to rounding errors and hopefully for no
 	 * other reason.
 	 */
-	result= CLAMP (result, 0.0, 1.0);
+	result = CLAMP (result, 0, 1);
 
 	if (log_p)
 		return gnm_log (result);
@@ -97,10 +97,10 @@ qsnorm (gnm_float p, gnm_float shape, gnm_float location, gnm_float scale,
 	if (gnm_isnan (p) || gnm_isnan (shape) || gnm_isnan (location) || gnm_isnan (scale))
 		return gnm_nan;
 
-	if (shape == 0.)
+	if (shape == 0)
 		return qnorm (p, location, scale, lower_tail, log_p);
 
-	if (!log_p && p > 0.9) {
+	if (!log_p && p > GNM_const(0.9)) {
 		/* We're far into the tail.  Flip.  */
 		p = 1 - p;
 		lower_tail = !lower_tail;
@@ -125,13 +125,13 @@ dst (gnm_float x, gnm_float n, gnm_float shape, gboolean give_log)
 	if (n <= 0 || gnm_isnan (x) || gnm_isnan (n) || gnm_isnan (shape))
 		return gnm_nan;
 
-	if (shape == 0.)
+	if (shape == 0)
 		return dt (x, n, give_log);
 	else {
 		gnm_float pdf = dt (x, n, give_log);
 		gnm_float cdf = pt (shape * x * gnm_sqrt ((n + 1)/(x * x + n)),
 				    n + 1, TRUE, give_log);
-		return give_log ? (M_LN2gnum + pdf + cdf) : (2. * pdf * cdf);
+		return give_log ? (M_LN2gnum + pdf + cdf) : (2 * pdf * cdf);
 	}
 }
 
@@ -152,7 +152,7 @@ pst (gnm_float x, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean lo
 	if (n <= 0 || gnm_isnan (x) || gnm_isnan (n) || gnm_isnan (shape))
 		return gnm_nan;
 
-	if (shape == 0.)
+	if (shape == 0)
 		return pt (x, n, lower_tail, log_p);
 
 	if (n > 100) {
@@ -189,13 +189,13 @@ pst (gnm_float x, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean lo
 
 	p = 0;
 	while (n > 2) {
-		double a, lb, c, d, pv, v = n - 1;
+		gnm_float a, lb, c, d, pv, v = n - 1;
 
 		d = v == 2
 			? M_LN2gnum - gnm_log (M_PIgnum) + gnm_log (3) / 2
-			: (0.5 + M_LN2gnum / 2 - gnm_log (M_PIgnum) / 2 +
+			: (GNM_const(0.5) + M_LN2gnum / 2 - gnm_log (M_PIgnum) / 2 +
 			   v / 2 * (gnm_log1p (-1 / (v - 1)) + gnm_log (v + 1)) -
-			   0.5 * (gnm_log (v - 2) + gnm_log (v + 1)) +
+			   GNM_const(0.5) * (gnm_log (v - 2) + gnm_log (v + 1)) +
 			   stirlerr (v / 2 - 1) -
 			   stirlerr ((v - 1) / 2));
 
@@ -231,7 +231,7 @@ pst (gnm_float x, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean lo
 	 * Negatives can occur due to rounding errors and hopefully for no
 	 * other reason.
 	 */
-	p = CLAMP (p, 0.0, 1.0);
+	p = CLAMP (p, 0, 1);
 
 	return p;
 }
@@ -260,10 +260,10 @@ qst (gnm_float p, gnm_float n, gnm_float shape,
 	if (n <= 0 || gnm_isnan (p) || gnm_isnan (n) || gnm_isnan (shape))
 		return gnm_nan;
 
-	if (shape == 0.)
+	if (shape == 0)
 		return qt (p, n, lower_tail, log_p);
 
-	if (!log_p && p > 0.9) {
+	if (!log_p && p > GNM_const(0.9)) {
 		/* We're far into the tail.  Flip.  */
 		p = 1 - p;
 		lower_tail = !lower_tail;

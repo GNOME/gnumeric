@@ -224,7 +224,7 @@ static const float bd0_scale[128 + 1][4] = {
   gnm_float d_ = (d);					\
   gnm_float dh_ = gnm_round (d_ * 65536) / 65536;	\
   gnm_float dl_ = d_ - dh_;				\
-  if (0) g_printerr ("Adding %.50g  (%a)\n", d_, d_);	\
+  if (0) g_printerr ("Adding %.50" GNM_FORMAT_g "\n", d_);	\
   L += dl_;						\
   H += dh_;						\
 } while (0)
@@ -6057,7 +6057,7 @@ gnm_ilog (gnm_float x, gnm_float b)
 	if (x == gnm_pinf)
 		return b < 1 ? gnm_ninf : gnm_pinf;
 
-	// The the base is 2^i for i>0 then matters are simple
+	// If the base is 2^i for i>0 then matters are simple
 	if (gnm_frexp (b, &be) == 0.5 && be >= 2) {
 		int e;
 		gnm_float m = gnm_frexp (x, &e);

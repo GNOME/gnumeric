@@ -2593,7 +2593,7 @@ cb_max_cell_width (GnmCellIter const *iter, struct cb_fit *data)
 
 			overflowed = rv->numeric_overflow;
 			if (go_format_is_general (fmt) &&
-			    aval < 1e8 && aval >= 0.001 &&
+			    aval < GNM_const(1e8) && aval >= GNM_const(0.001) &&
 			    (strchr (gnm_rendered_value_get_text (rv), 'E') ||
 			     strchr (gnm_rendered_value_get_text (rv), 'e')))
 				overflowed = TRUE;

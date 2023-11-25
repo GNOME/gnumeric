@@ -401,7 +401,7 @@ xl_xml_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		gnm_style_ref (style);
 		sheet_style_set_range (state->sheet, &r, style);
 	}
-	if (width > 0.)
+	if (width > 0)
 		for (tmp = 0 ; tmp < span ; tmp++)
 			sheet_col_set_size_pts (state->sheet,
 				state->pos.col + tmp, width, !auto_fit);
@@ -440,7 +440,7 @@ xl_xml_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else
 			unknown_attr (xin, attrs, "Row");
 
-	if (height >= 0.)
+	if (height >= 0)
 		for (tmp = 0 ; tmp < span ; tmp++)
 			sheet_row_set_size_pts (state->sheet, state->pos.row+tmp, height, !auto_fit);
 	if (hidden)

@@ -1001,7 +1001,7 @@ value_get_as_bool (GnmValue const *v, gboolean *err)
 	}
 
 	case VALUE_FLOAT:
-		return v->v_float.val != 0.0;
+		return v->v_float.val != 0;
 
 	default:
 		g_warning ("Unhandled value in value_get_as_bool.");

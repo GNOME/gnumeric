@@ -203,7 +203,7 @@ static const gnm_float gnm_gcd_max = 1 / GNM_EPSILON;
 static gnm_float
 gnm_gcd (gnm_float a, gnm_float b)
 {
-	while (b > 0.5) {
+	while (b > GNM_const(0.5)) {
 		gnm_float r = gnm_fmod (a, b);
 		a = b;
 		b = r;
@@ -385,7 +385,7 @@ gnumeric_acos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float t = value_get_as_float (argv[0]);
 
-	if (t < -1.0 || t > 1.0)
+	if (t < -1 || t > 1)
 		return value_new_error_NUM (ei->pos);
 	return value_new_float (gnm_acos (t));
 }
@@ -407,7 +407,7 @@ gnumeric_acosh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float t = value_get_as_float (argv[0]);
 
-	if (t < 1.0)
+	if (t < 1)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_acosh (t));
@@ -469,7 +469,7 @@ gnumeric_asin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float t = value_get_as_float (argv[0]);
 
-	if (t < -1.0 || t > 1.0)
+	if (t < -1 || t > 1)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_asin (t));
@@ -537,7 +537,7 @@ gnumeric_atanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float t = value_get_as_float (argv[0]);
 
-	if (t <= -1.0 || t >= 1.0)
+	if (t <= -1 || t >= 1)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_atanh (value_get_as_float (argv[0])));
@@ -946,7 +946,7 @@ static GnmFuncHelp const help_degrees[] = {
 static GnmValue *
 gnumeric_degrees (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float ((value_get_as_float (argv[0]) * 180.0) /
+	return value_new_float ((value_get_as_float (argv[0]) * 180) /
 				M_PIgnum);
 }
 
@@ -1051,7 +1051,7 @@ gnumeric_gammaln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gboolean x_is_integer = (x == gnm_floor (x));
 
 	if (x < 0 && (x_is_integer ||
-		      gnm_fmod (gnm_floor (-x), 2.0) == 0.0))
+		      gnm_fmod (gnm_floor (-x), 2.0) == 0))
 		return value_new_error_NUM (ei->pos);
 	else
 		return value_new_float (gnm_lgamma (x));
@@ -1318,18 +1318,24 @@ gnumeric_log (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float base = argv[1] ? value_get_as_float (argv[1]) : 10;
 	gnm_float res;
 
-	if (base == 1. || base <= 0.)
+	if (base == 1 || base <= 0)
 		return value_new_error_NUM (ei->pos);
 
-	if (t <= 0.0)
+	if (t <= 0)
 		return value_new_error_NUM (ei->pos);
 
 	if (base == 2)
 		res = gnm_log2 (t);
-	else if (base == 0.5)
-		res = -gnm_log2 (t);
+#if GNM_RADIX % 2 == 0
+	else if (base == GNM_const(0.5))
+		res = -gnm_log2 (t);  // Since 0.5 has exact representation
+#endif
 	else if (base == 10)
 		res = gnm_log10 (t);
+#if GNM_RADIX == 10
+	else if (base == GNM_const(0.1))
+		res = -gnm_log10 (t);  // Since 0.1 has exact representation
+#endif
 	else
 		res = gnm_log (t) / gnm_log (base);
 
@@ -1358,10 +1364,10 @@ gnumeric_ilog (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float base = argv[1] ? value_get_as_float (argv[1]) : 10;
 
-	if (base == 1. || base <= 0.)
+	if (base == 1 || base <= 0)
 		return value_new_error_NUM (ei->pos);
 
-	if (x <= 0.0)
+	if (x <= 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_ilog (x, base));
@@ -1384,7 +1390,7 @@ gnumeric_ln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float t = value_get_as_float (argv[0]);
 
-	if (t <= 0.0)
+	if (t <= 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_log (t));
@@ -1505,7 +1511,7 @@ gnumeric_log2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float t = value_get_as_float (argv[0]);
 
-	if (t <= 0.0)
+	if (t <= 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_log2 (t));
@@ -1527,7 +1533,7 @@ gnumeric_log10 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float t = value_get_as_float (argv[0]);
 
-	if (t <= 0.0)
+	if (t <= 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_log10 (t));
@@ -1680,7 +1686,7 @@ static GnmFuncHelp const help_csc[] = {
 static GnmValue *
 gnumeric_csc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (1./gnm_sin (value_get_as_float (argv[0])));
+	return value_new_float (1 / gnm_sin (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -1700,7 +1706,7 @@ static GnmFuncHelp const help_csch[] = {
 static GnmValue *
 gnumeric_csch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (1./gnm_sinh (value_get_as_float (argv[0])));
+	return value_new_float (1 / gnm_sinh (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -1720,7 +1726,7 @@ static GnmFuncHelp const help_sec[] = {
 static GnmValue *
 gnumeric_sec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (1./gnm_cos (value_get_as_float (argv[0])));
+	return value_new_float (1 / gnm_cos (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -1740,7 +1746,7 @@ static GnmFuncHelp const help_sech[] = {
 static GnmValue *
 gnumeric_sech (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (1./gnm_cosh (value_get_as_float (argv[0])));
+	return value_new_float (1 / gnm_cosh (value_get_as_float (argv[0])));
 }
 /***************************************************************************/
 static GnmFuncHelp const help_sinh[] = {
@@ -2120,7 +2126,7 @@ gnumeric_factdouble (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (inumber & 1) {
 		gnm_float lres = gnm_lgamma (n + 0.5) + n * M_LN2gnum;
 		/* Round as the result ought to be integer.  */
-		res = gnm_floor (0.5 + gnm_exp (lres) / gnm_sqrt (M_PIgnum));
+		res = gnm_round (gnm_exp (lres) / gnm_sqrt (M_PIgnum));
 	} else
 		res = gnm_fact (n) * gnm_pow2 (n);
 
@@ -3350,7 +3356,7 @@ gnumeric_sumproduct_common (gboolean ignore_bools, GnmFuncEvalInfo *ei,
 				case VALUE_BOOLEAN:
 					data[i][y * thissizex + x] =
 						ignore_bools
-						? 0.0
+						? 0
 						: value_get_as_float (v);
 					break;
 				default :

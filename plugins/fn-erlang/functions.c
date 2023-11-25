@@ -78,7 +78,7 @@ calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 		for (cir_iter = 1; cir_iter <= circuits; cir_iter++)
 			gos = (traffic * gos) / (cir_iter + (traffic * gos));
 		if (comp) gos = 1 - gos;
-	} else if (circuits / traffic < 0.9) {
+	} else if (circuits / traffic < GNM_const(0.9)) {
 		gnm_float sum = 0, term = 1, n = circuits;
 		while (n > 1) {
 			term *= n / traffic;
@@ -210,8 +210,8 @@ gnumeric_dimcirc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		high += high;
 	}
 
-	while (high - low > 1.5) {
-		gnm_float mid = gnm_floor ((high + low) / 2 + 0.1);
+	while (high - low > GNM_const(1.5)) {
+		gnm_float mid = gnm_floor ((high + low) / 2 + GNM_const(0.1));
 		gnm_float gos = calculate_gos (traffic, mid, FALSE);
 		if (gos > des_gos)
 			low = mid;

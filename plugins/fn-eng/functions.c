@@ -173,7 +173,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 		if (v == 0)
 			min = max = 1;
 		else
-			min = max = (int)(gnm_log (v + 0.5) /
+			min = max = (int)(gnm_log (v + GNM_const(0.5)) /
 					  gnm_log (dest_base)) + 1;
 	}
 
@@ -191,8 +191,8 @@ val_to_base (GnmFuncEvalInfo *ei,
 	g_string_set_size (buffer, max);
 
 	for (digit = max - 1; digit >= 0; digit--) {
-		int thisdigit = gnm_fmod (v + 0.5, dest_base);
-		v = gnm_floor ((v + 0.5) / dest_base);
+		int thisdigit = gnm_fmod (v + GNM_const(0.5), dest_base);
+		v = gnm_floor ((v + GNM_const(0.5)) / dest_base);
 		buffer->str[digit] =
 			thisdigit["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 	}
@@ -961,7 +961,7 @@ convert_temp (char const *from_unit, char const *to_unit, gnm_float n, GnmValue 
 	}
 
 	/* temperatures below 0K do not exist */
-	if (n < 0.) {
+	if (n < 0) {
 		*v = value_new_error_NUM (ep);
 		return TRUE;
 	}
@@ -1020,43 +1020,43 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 #define one_m_to_ang    GNM_const (1e10)
 #define one_m_to_ly     (1 / GNM_const (9.4607304725808E15))
 #define one_m_to_pc     (GNM_const (1e-16)/GNM_const (3.0856776))
-#define one_m_to_pica   236.2204724409449
+#define one_m_to_pica   GNM_const(236.2204724409449)
 #define one_m_to_Pica   one_m_to_pica * 12
 
 	/* Time constants */
-#define one_yr_to_day   365.25
+#define one_yr_to_day   GNM_const(365.25)
 #define one_yr_to_hr    (24 * one_yr_to_day)
 #define one_yr_to_mn    (60 * one_yr_to_hr)
 #define one_yr_to_sec   (60 * one_yr_to_mn)
 
 	/* Pressure constants */
-#define one_Pa_to_atm   0.9869233e-5
-#define one_Pa_to_mmHg  0.00750061708
-#define one_Pa_to_psi   0.000145037738
+#define one_Pa_to_atm   GNM_const(0.9869233e-5)
+#define one_Pa_to_mmHg  GNM_const(0.00750061708)
+#define one_Pa_to_psi   GNM_const(0.000145037738)
 #define one_Pa_to_Torr  (GNM_const (760.)/GNM_const (101325.))
 
 	/* Force constants */
-#define one_N_to_dyn    100000
-#define one_N_to_lbf    0.224808924
-#define one_N_to_pond   0.00010197
+#define one_N_to_dyn    GNM_const(100000.)
+#define one_N_to_lbf    GNM_const(0.224808924)
+#define one_N_to_pond   GNM_const(0.00010197)
 
 
 	/* Power constants */
-#define one_HP_to_W     745.701
-#define one_PS_to_W     735.49875
+#define one_HP_to_W     GNM_const(745.701)
+#define one_PS_to_W     GNM_const(735.49875)
 
 	/* Energy constants */
-#define one_J_to_e      9999995.193
-#define one_J_to_c      0.239006249
-#define one_J_to_cal    0.238846191
-#define one_J_to_eV     6.2146e+18
+#define one_J_to_e      GNM_const(9999995.193)
+#define one_J_to_c      GNM_const(0.239006249)
+#define one_J_to_cal    GNM_const(0.238846191)
+#define one_J_to_eV     GNM_const(6.2146e+18)
 #define one_J_to_HPh    (GNM_const (1.0) / (3600 * one_HP_to_W))
 #define one_J_to_Wh     (GNM_const (1.0) / 3600)
-#define one_J_to_flb    23.73042222
-#define one_J_to_BTU    0.000947815
+#define one_J_to_flb    GNM_const(23.73042222)
+#define one_J_to_BTU    GNM_const(0.000947815)
 
 	/* Magnetism constants */
-#define one_T_to_ga     10000
+#define one_T_to_ga     GNM_const(10000.)
 
 	/* Liquid measure constants */
 #define one_l_to_uk_gal (GNM_const (1.0) / GNM_const (4.54609))

@@ -331,7 +331,7 @@ static GnmValue *
 gnumeric_left (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
-	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1.0;
+	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1;
 	int icount, newlen;
 
 	if (count < 0)
@@ -364,7 +364,7 @@ static GnmValue *
 gnumeric_leftb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
-	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1.0;
+	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1;
 	int len = strlen (peek);
 	int icount, newlen;
 
@@ -503,7 +503,7 @@ gnumeric_findb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *needle   = value_peek_string (argv[0]);
 	char const *haystack = value_peek_string (argv[1]);
-	gnm_float count      = argv[2] ? value_get_as_float (argv[2]) : 1.0;
+	gnm_float count      = argv[2] ? value_get_as_float (argv[2]) : 1;
 	size_t haystacksize = strlen (haystack);
 	size_t icount;
 	char const *p;
@@ -542,7 +542,7 @@ static GnmValue *
 gnumeric_right (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *os = value_peek_string (argv[0]);
-	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1.0;
+	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1;
 	int icount, slen;
 
 	if (count < 0)
@@ -579,7 +579,7 @@ static GnmValue *
 gnumeric_rightb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
-	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1.0;
+	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1;
 	int len = strlen (peek);
 	int icount;
 	gchar *res;
@@ -826,7 +826,7 @@ gnumeric_find (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *needle   = value_peek_string (argv[0]);
 	char const *haystack = value_peek_string (argv[1]);
-	gnm_float count      = argv[2] ? value_get_as_float (argv[2]) : 1.0;
+	gnm_float count      = argv[2] ? value_get_as_float (argv[2]) : 1;
 	size_t haystacksize = g_utf8_strlen (haystack, -1);
 	size_t icount;
 	char const *p;
@@ -864,7 +864,7 @@ static GnmValue *
 gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float num = value_get_as_float (argv[0]);
-	gnm_float decimals = argv[1] ? value_get_as_float (argv[1]) : 2.0;
+	gnm_float decimals = argv[1] ? value_get_as_float (argv[1]) : 2;
 	gboolean no_commas = argv[2] ? value_get_as_checked_bool (argv[2]) : FALSE;
 	GString *format;
 	GOFormat *fmt;
@@ -1363,7 +1363,7 @@ gnumeric_dollar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmValue *v;
 	char *s;
         gnm_float number = value_get_as_float (argv[0]);
-        gnm_float decimals = argv[1] ? value_get_as_float (argv[1]) : 2.0;
+        gnm_float decimals = argv[1] ? value_get_as_float (argv[1]) : 2;
 	gboolean precedes, space_sep;
 	const GString *curr = go_locale_get_currency (&precedes, &space_sep);
 	GString *fmt_str;
@@ -1446,7 +1446,7 @@ gnumeric_search (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *needle = value_peek_string (argv[0]);
 	char const *haystack = value_peek_string (argv[1]);
-	gnm_float start = argv[2] ? value_get_as_float (argv[2]) : 1.0;
+	gnm_float start = argv[2] ? value_get_as_float (argv[2]) : 1;
 	int res;
 
 	if (start < 1 || start >= INT_MAX)
@@ -1493,7 +1493,7 @@ gnumeric_searchb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *needle = value_peek_string (argv[0]);
 	char const *haystack = value_peek_string (argv[1]);
-	gnm_float start = argv[2] ? value_get_as_float (argv[2]) : 1.0;
+	gnm_float start = argv[2] ? value_get_as_float (argv[2]) : 1;
 	size_t istart;
 	GORegexp r;
 

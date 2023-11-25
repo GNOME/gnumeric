@@ -148,7 +148,7 @@ gnumeric_unix2date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float serial;
 
 	/* Check for overflow.  */
-	if (gnm_abs (futime - utime) >= 1.0)
+	if (gnm_abs (futime - utime) >= 1)
 		return value_new_error_VALUE (ei->pos);
 
 	serial = go_date_timet_to_serial_raw (utime, DATE_CONV (ei->pos));
@@ -178,7 +178,7 @@ gnumeric_date2unix (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	time_t     utime   = go_date_serial_to_timet (serial, DATE_CONV (ei->pos));
 
 	/* Check for overflow.  */
-	if (gnm_abs (fserial - serial) >= 1.0 || utime == (time_t)-1)
+	if (gnm_abs (fserial - serial) >= 1 || utime == (time_t)-1)
 		return value_new_error_VALUE (ei->pos);
 
 	return value_new_int (utime +
@@ -411,8 +411,8 @@ static GnmValue *
 gnumeric_now (GnmFuncEvalInfo *ei, G_GNUC_UNUSED GnmValue const * const *argv)
 {
 	guint64 t = g_get_real_time ();
-	double r = go_date_timet_to_serial_raw (t / 1000000, DATE_CONV (ei->pos));
-	r += (t % 1000000) / (24 * 60 * 60 * 1000000.0);
+	gnm_float r = go_date_timet_to_serial_raw (t / 1000000, DATE_CONV (ei->pos));
+	r += (t % 1000000) / (24 * 60 * 60 * GNM_const(1000000.0));
 	return value_new_float (r);
 }
 
@@ -895,7 +895,7 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			go_date_serial_to_g (&hol, hserial, conv);
 			if (!g_date_valid (&hol))
 				goto bad;
-			if (weekends[g_date_get_weekday (&hol) % 7] != 0.)
+			if (weekends[g_date_get_weekday (&hol) % 7] != 0)
 				continue;
 			holidays[j++] = hserial;
 		}
@@ -1100,7 +1100,7 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GODateConventions const *conv = DATE_CONV (ei->pos);
 	gnm_float *holidays = NULL;
 	gnm_float *weekends = NULL;
-	gnm_float const default_weekends[] = {1.,0.,0.,0.,0.,0.,1.};
+	gnm_float const default_weekends[] = { 1, 0, 0, 0, 0, 0, 1 };
 	int nholidays, nweekends, n_non_weekend = 0;
 	int i;
 	GDateWeekday weekday;
@@ -1202,7 +1202,7 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			if (weekday == G_DATE_SUNDAY)
 				weekday = 0;
 			/* We skip holidays that are on the weekend */
-			if (weekends[weekday] != 0.)
+			if (weekends[weekday] != 0)
 				continue;
 			holidays[j++] = hserial;
 		}

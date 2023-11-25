@@ -1623,7 +1623,7 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (row > 0) {
 		row--;
-		if (h >= 0.)
+		if (h >= 0)
 			sheet_row_set_size_pts (state->sheet, row, h, cust_height);
 		if (hidden > 0)
 			colrow_set_visibility (state->sheet, FALSE, FALSE, row, row);
@@ -2084,7 +2084,7 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 		? (int)first_page
 		: -1;
 
-	if (!xlsx_set_paper_from_code (pi, paper_code) && width > 0.0 && height > 0.0) {
+	if (!xlsx_set_paper_from_code (pi, paper_code) && width > 0 && height > 0) {
 		GtkPaperSize *ps = xlsx_paper_size (width, height, GTK_UNIT_POINTS, 0);
 		gtk_page_setup_set_paper_size (pi->page_setup, ps);
 		gtk_paper_size_free (ps);

@@ -39,6 +39,7 @@
 #include <gnm-datetime.h>
 #include <math.h>
 #include <value.h>
+#include <mathfunc.h>
 #include "sc-fin.h"
 
 
@@ -48,16 +49,16 @@ GetRmz ( gnm_float fZins, gnm_float fZzr, gnm_float fBw, gnm_float fZw,
 {
         gnm_float fRmz;
 
-        if ( fZins == 0.0 )
+        if ( fZins == 0 )
                 fRmz = ( fBw + fZw ) / fZzr;
         else {
-                gnm_float fTerm = gnm_pow ( 1.0 + fZins, fZzr );
+                gnm_float fTerm = pow1p (fZins, fZzr );
                 if ( nF > 0 )
-                        fRmz = ( fZw * fZins / ( fTerm - 1.0 ) + fBw * fZins /
-				 ( 1.0 - 1.0 / fTerm ) ) / ( 1.0 + fZins );
+                        fRmz = ( fZw * fZins / ( fTerm - 1 ) + fBw * fZins /
+				 ( 1 - 1 / fTerm ) ) / ( 1 + fZins );
                 else
-                        fRmz = fZw * fZins / ( fTerm - 1.0 ) + fBw * fZins /
-				( 1.0 - 1.0 / fTerm );
+                        fRmz = fZw * fZins / ( fTerm - 1 ) + fBw * fZins /
+				( 1 - 1 / fTerm );
         }
 
         return -fRmz;
@@ -72,7 +73,7 @@ GetZw ( gnm_float fZins, gnm_float fZzr, gnm_float fRmz, gnm_float fBw,
         if ( fZins == 0.0 )
                 fZw = fBw + fRmz * fZzr;
         else {
-                gnm_float fTerm = gnm_pow ( 1.0 + fZins, fZzr );
+                gnm_float fTerm = pow1p (fZins, fZzr );
                 if ( nF > 0 )
                         fZw = fBw * fTerm + fRmz * ( 1.0 + fZins ) *
 				( fTerm - 1.0 ) / fZins;
@@ -95,7 +96,7 @@ Duration (GDate *nSettle, GDate *nMat, gnm_float fCoup, gnm_float fYield,
 
         fCoup  *= f100 / (gnm_float) nFreq; /* fCoup is used as cash flow */
         fYield /= nFreq;
-        fYield += 1.0;
+        fYield += 1;
 
         for ( t = 1.0 ; t < fNumOfCoups ; t++ )
                 fDur += t * ( fCoup ) / gnm_pow ( fYield, t );
@@ -320,21 +321,21 @@ ScGetGDA (gnm_float fWert, gnm_float fRest, gnm_float fDauer,
         gnm_float fGda, fZins, fAlterWert, fNeuerWert;  /* FIXME: translate? */
 
         fZins = fFaktor / fDauer;
-        if (fZins >= 1.0) {
+        if (fZins >= 1) {
                 fZins = 1.0;
-                if (fPeriode == 1.0)
+                if (fPeriode == 1)
                         fAlterWert = fWert;
                 else
                         fAlterWert = 0.0;
         } else
-                fAlterWert = fWert * gnm_pow (1.0 - fZins, fPeriode - 1.0);
-        fNeuerWert = fWert * gnm_pow (1.0 - fZins, fPeriode);
+                fAlterWert = fWert * pow1p (-fZins, fPeriode - 1);
+        fNeuerWert = fWert * pow1p (-fZins, fPeriode);
 
         if (fNeuerWert < fRest)
                 fGda = fAlterWert - fRest;
         else
                 fGda = fAlterWert - fNeuerWert;
-        if (fGda < 0.0)
+        if (fGda < 0)
                 fGda = 0.0;
         return fGda;
 }
@@ -411,13 +412,13 @@ get_vdb (gnm_float cost, gnm_float salvage, gnm_float life,
 		}
 	} else {
 		gnm_float fPart = 0;
-		double fIntEnd = gnm_ceil (end_period);
+		gnm_float fIntEnd = gnm_ceil (end_period);
 
 		if (start_period > fIntStart) {
                         // First period is partial.  Calculate the excess as
 			// the pro-rata value of the first period as-if it
 			// was not partial.
-                        double tempcost = cost -
+                        gnm_float tempcost = cost -
 				ScInterVDB( cost, salvage, life, life, fIntStart, factor);
                         fPart += (start_period - fIntStart) *
 				ScInterVDB( tempcost, salvage, life, life - fIntStart,
@@ -428,8 +429,8 @@ get_vdb (gnm_float cost, gnm_float salvage, gnm_float life,
                         // Last period is partial.  Calculate the excess as
 			// the pro-rata value of the last period as-if it
 			// was not partial.
-                        double em1 = fIntEnd - 1; // Start of last period
-                        double tempcost = cost -
+                        gnm_float em1 = fIntEnd - 1; // Start of last period
+                        gnm_float tempcost = cost -
                             ScInterVDB (cost, salvage, life, life, em1, factor);
                         fPart += (fIntEnd - end_period) *
                             ScInterVDB (tempcost, salvage, life, life - em1,
