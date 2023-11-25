@@ -1967,8 +1967,8 @@ cb_dialog_doc_metadata_recalc_max_changed (GtkEntry          *entry,
 
 static gboolean
 cb_dialog_doc_metadata_recalc_tolerance_changed (GtkEntry          *entry,
-					   G_GNUC_UNUSED GdkEventFocus *event,
-					   DialogDocMetaData *state)
+						 G_GNUC_UNUSED GdkEventFocus *event,
+						 DialogDocMetaData *state)
 {
 	gnm_float val;
 	if (!entry_to_float (entry, &val, TRUE))
@@ -2014,7 +2014,7 @@ dialog_doc_metadata_init_calculations_page (DialogDocMetaData *state)
 	buf = g_strdup_printf ("%d", state->wb->iteration.max_number);
 	gtk_entry_set_text (state->recalc_max, buf);
 	g_free (buf);
-	buf = g_strdup_printf ("%g", state->wb->iteration.tolerance);
+	buf = g_strdup_printf ("%" GNM_FORMAT_g, state->wb->iteration.tolerance);
 	gtk_entry_set_text (state->recalc_tolerance, buf);
 	g_free (buf);
 

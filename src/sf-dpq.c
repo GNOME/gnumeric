@@ -3,8 +3,8 @@
 #include <mathfunc.h>
 
 #define give_log log_p
-#define R_D__0	(log_p ? gnm_ninf : 0.0)
-#define R_D__1	(log_p ? 0.0 : 1.0)
+#define R_D__0	(log_p ? gnm_ninf : GNM_const(0.0))
+#define R_D__1	(log_p ? GNM_const(0.0) : GNM_const(1.0))
 #define R_DT_0	(lower_tail ? R_D__0 : R_D__1)
 #define R_DT_1	(lower_tail ? R_D__1 : R_D__0)
 #define M_1_SQRT_2PI    GNM_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
@@ -241,7 +241,7 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 		x0 = xlow;
 	else
 		x0 = 0;
-	x0 = gnm_floor (x0 + 0.5);
+	x0 = gnm_round (x0);
 	step = 1 + gnm_floor (gnm_abs (x0) * GNM_EPSILON);
 
 #if 0

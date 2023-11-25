@@ -222,7 +222,7 @@ static const float bd0_scale[128 + 1][4] = {
 
 #define PAIR_ADD(d, H, L) do {				\
   gnm_float d_ = (d);					\
-  gnm_float dh_ = gnm_floor (d_ * 65536 + 0.5) / 65536;	\
+  gnm_float dh_ = gnm_round (d_ * 65536) / 65536;	\
   gnm_float dl_ = d_ - dh_;				\
   if (0) g_printerr ("Adding %.50g  (%a)\n", d_, d_);	\
   L += dl_;						\
@@ -271,9 +271,9 @@ ebd0(gnm_float x, gnm_float M, gnm_float *yh, gnm_float *yl)
 #endif
 
 	r = gnm_frexp (M / x, &e);
-	i = gnm_floor ((r - 0.5) * (2 * N) + 0.5);
+	i = gnm_round ((r - 0.5) * (2 * N));
 	g_assert (i >= 0 && i <= N);
-	f = gnm_floor (S / (0.5 + i / (2.0 * N)) + 0.5);
+	f = gnm_round (S / (0.5 + i / (2.0 * N)));
 	fg = gnm_ldexp (f, -(e + Sb));
 
 	/* We now have (M * fg / x) close to 1.  */
@@ -303,7 +303,7 @@ ebd0(gnm_float x, gnm_float M, gnm_float *yh, gnm_float *yl)
 	}
 
 	ADD1(M);
-	M1 = gnm_floor (M + 0.5);
+	M1 = gnm_round (M);
 	ADD1(-M1 * fg);
 	ADD1(-(M-M1) * fg);
 
@@ -4964,7 +4964,7 @@ expmx2h (gnm_float x)
 		 * anyway).  If we are not using IEEE doubles then this is
 		 * still an improvement over the naive formula.
 		 */
-		gnm_float x1 = gnm_floor (x * 65536 + 0.5) / 65536;
+		gnm_float x1 = gnm_round (x * 65536) / 65536;
 		gnm_float x2 = x - x1;
 		return (gnm_exp (-0.5 * x1 * x1) *
 			gnm_exp ((-0.5 * x2 - x1) * x2));
@@ -5148,7 +5148,7 @@ pow1p (gnm_float x, gnm_float y)
 	else if (y < 0)
 		return 1 / pow1p (x, -y);
 	else {
-		gnm_float x1 = gnm_floor (x * 65536 + 0.5) / 65536;
+		gnm_float x1 = gnm_round (x * 65536) / 65536;
 		gnm_float x2 = x - x1;
 		gnm_float h, l;
 		ebd0 (y, y*(x+1), &h, &l);

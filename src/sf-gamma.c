@@ -1044,7 +1044,7 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 		 * Do this before we do the stepping below which would kill
 		 * up to 4 bits of accuracy of f.
 		 */
-		w = gnm_floor (x + 0.5);
+		w = gnm_round (x);
 		f = x - w;
 		gnm_quad_init (&qx, x);
 

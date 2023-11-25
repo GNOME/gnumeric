@@ -6246,7 +6246,7 @@ odf_write_ooo_settings (GnmOOExport *state)
 		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
 		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "ZoomValue");
 		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
-		gsf_xml_out_add_int (state->xml, NULL, (int) gnm_floor (sheet->last_zoom_factor_used * 100. + 0.5));
+		gsf_xml_out_add_int (state->xml, NULL, (int) gnm_round (sheet->last_zoom_factor_used * 100));
 		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 
 		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
@@ -7135,7 +7135,7 @@ odf_write_plot_style (GnmOOExport *state, GogObject const *plot)
 		} else
 			gsf_xml_out_add_int (state->xml,
 					     CHART "pie-offset",
-					     (default_separation * 100. + 0.5));
+					     round (default_separation * 100));
 	}
 
 	/* Note: horizontal refers to the bars and vertical to  the x-axis */
@@ -7345,7 +7345,7 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 						if (logarithmic)
 							val_minor = gnm_floor(val_minor + 1.5);
 						else
-							val_minor = gnm_floor(val/val_minor + 0.5);
+							val_minor = gnm_round(val / val_minor);
 						gsf_xml_out_add_float
 							(state->xml, CHART "interval-minor-divisor",
 							 val_minor, 0);
@@ -8770,7 +8770,7 @@ odf_write_pie_point (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 					  G_TYPE_DOUBLE, &separation)) {
 		gsf_xml_out_add_int (state->xml,
 				     CHART "pie-offset",
-				     (separation * 100. + 0.5));
+				     round (separation * 100));
 	}
 }
 
