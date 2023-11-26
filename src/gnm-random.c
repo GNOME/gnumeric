@@ -286,83 +286,6 @@ mt_setup_win32 (void)
 
 /* ------------------------------------------------------------------------ */
 
-static gnm_float
-gnm_random_01_mersenne (void)
-{
-	size_t N = (sizeof (gnm_float) + sizeof (guint32) - 1) / sizeof (guint32);
-	gnm_float res;
-
-	do {
-		size_t n;
-
-		res = 0;
-		for (n = 0; n < N; n++)
-			res = (res + genrand_int32()) / 4294967296.0;
-		/*
-		 * It is conceivable that rounding turned the result
-		 * into 1, so repeat in that case.
-		 */
-	} while (res >= 1);
-
-	return res;
-}
-
-/* ------------------------------------------------------------------------ */
-
-static gnm_float
-random_01_data (const unsigned char *data)
-{
-	unsigned ui;
-	gnm_float res = 0;
-
-	for (ui = 0; ui < sizeof (gnm_float); ui++)
-		res = (res + data[ui]) / 256;
-	return res;
-}
-
-/* ------------------------------------------------------------------------ */
-
-static FILE *random_device_file = NULL;
-#define RANDOM_DEVICE "/dev/urandom"
-
-static gnm_float
-gnm_random_01_device (void)
-{
-	static size_t bytes_left = 0;
-	static unsigned char data[32 * sizeof (gnm_float)];
-
-	while (bytes_left < sizeof (gnm_float)) {
-		gssize items = fread (data + bytes_left, 1,
-				      sizeof (data) - bytes_left,
-				      random_device_file);
-		if (items <= 0) {
-			g_warning ("Reading from %s failed; reverting to pseudo-random.",
-				   RANDOM_DEVICE);
-			return gnm_random_01_mersenne ();
-		}
-		bytes_left += items;
-	}
-
-	bytes_left -= sizeof (gnm_float);
-	return random_01_data (data + bytes_left);
-}
-
-static guint32
-gnm_random_32_device (void)
-{
-	guint32 res;
-
-	if (fread (&res, sizeof (res), 1, random_device_file) != 1) {
-		g_warning ("Reading from %s failed; reverting to pseudo-random.",
-			   RANDOM_DEVICE);
-		res = genrand_int32 ();
-	}
-
-	return res;
-}
-
-/* ------------------------------------------------------------------------ */
-
 typedef enum {
 	RS_UNDETERMINED,
 	RS_MERSENNE,
@@ -371,8 +294,11 @@ typedef enum {
 
 static RandomSource random_src = RS_UNDETERMINED;
 
+static FILE *random_device_file = NULL;
+#define RANDOM_DEVICE "/dev/urandom"
+
 static void
-random_01_determine (void)
+random_source_determine (void)
 {
 	char const *seed = g_getenv ("GNUMERIC_PRNG_SEED");
 	if (seed) {
@@ -401,28 +327,25 @@ random_01_determine (void)
 	return;
 }
 
-gnm_float
-random_01 (void)
+static guint32
+gnm_random_32_device (void)
 {
-	if (random_src == RS_UNDETERMINED)
-		random_01_determine ();
+	guint32 res;
 
-	switch (random_src) {
-	case RS_UNDETERMINED:
-	default:
-		g_assert_not_reached ();
-	case RS_MERSENNE:
-		return gnm_random_01_mersenne ();
-	case RS_DEVICE:
-		return gnm_random_01_device ();
+	if (fread (&res, sizeof (res), 1, random_device_file) != 1) {
+		g_warning ("Reading from %s failed; reverting to pseudo-random.",
+			   RANDOM_DEVICE);
+		res = genrand_int32 ();
 	}
+
+	return res;
 }
 
 static guint32
 random_32 (void)
 {
 	if (random_src == RS_UNDETERMINED)
-		random_01_determine ();
+		random_source_determine ();
 
 	switch (random_src) {
 	case RS_UNDETERMINED:
@@ -433,6 +356,31 @@ random_32 (void)
 	case RS_DEVICE:
 		return gnm_random_32_device ();
 	}
+}
+
+/* ------------------------------------------------------------------------ */
+
+gnm_float
+random_01 (void)
+{
+	gnm_float res = 0;
+
+#if GNM_RADIX == 2
+	for (int d = GNM_MANT_DIG; d > 0; d -= 32) {
+		uint32_t bits = random_32 ();
+		if (d >= 32) {
+			res = (res + bits) / 4294967296ull;
+		} else {
+			bits &= ((1 << d) - 1);
+			res = (res + bits) / (1 << d);
+			break;
+		}
+	}
+
+	return res;
+#else
+#error "Code needs fixing here"
+#endif
 }
 
 /* ------------------------------------------------------------------------ */
@@ -542,9 +490,9 @@ random_cauchy (gnm_float a)
 
 	do {
 		u = random_01 ();
-	} while (u == 0.5);
+	} while (u == GNM_const(0.5) || u == 0);
 
-	return a * gnm_tan (M_PIgnum * u);
+	return a * gnm_tanpi (u);
 }
 
 /*
@@ -577,7 +525,7 @@ random_laplace (gnm_float a)
 	gnm_float u;
 
 	do {
-		u = 2 * random_01 () - 1.0;
+		u = 2 * random_01 () - 1;
 	} while (u == 0);
 
 	if (u < 0)
@@ -606,7 +554,7 @@ random_rayleigh (gnm_float sigma)
 		u = random_01 ();
 	} while (u == 0);
 
-	return sigma * gnm_sqrt (-2.0 * gnm_log (u));
+	return sigma * gnm_sqrt (-2 * gnm_log (u));
 }
 
 /*
@@ -627,7 +575,7 @@ random_rayleigh_tail (gnm_float a, gnm_float sigma)
 		u = random_01 ();
 	} while (u == 0);
 
-	return gnm_sqrt (a * a - 2.0 * sigma * sigma * gnm_log (u));
+	return gnm_sqrt (a * a - 2 * sigma * sigma * gnm_log (u));
 }
 
 /* The Gamma distribution of order a>0 is defined by:
@@ -764,8 +712,8 @@ random_pareto (gnm_float a, gnm_float b)
 gnm_float
 random_fdist (gnm_float nu1, gnm_float nu2)
 {
-	gnm_float Y1 = random_gamma (nu1 / 2, 2.0);
-	gnm_float Y2 = random_gamma (nu2 / 2, 2.0);
+	gnm_float Y1 = random_gamma (nu1 / 2, 2);
+	gnm_float Y2 = random_gamma (nu2 / 2, 2);
 
 	return (Y1 * nu2) / (Y2 * nu1);
 }
@@ -970,7 +918,7 @@ random_levy (gnm_float c, gnm_float alpha)
 		u = random_01 ();
 	} while (u == 0);
 
-	u = M_PIgnum * (u - 0.5);
+	u = M_PIgnum * (u - GNM_const(0.5));
 
 	if (alpha == 1) {	      /* cauchy case */
 		t = gnm_tan (u);
@@ -1030,7 +978,7 @@ random_levy_skew (gnm_float c, gnm_float alpha, gnm_float beta)
 		V = random_01 ();
 	} while (V == 0);
 
-	V = M_PIgnum * (V - 0.5);
+	V = M_PIgnum * (V - GNM_const(0.5));
 
 	do {
 		W = random_exponential (1.0);
@@ -1097,7 +1045,7 @@ random_exppow (gnm_float a, gnm_float b)
 		gnm_float v = random_gamma (1 / b, 1.0);
 		gnm_float z = a * gnm_pow (v, 1 / b) ;
 
-		if (u > 0.5)
+		if (u > GNM_const(0.5))
 			return z;
 		else
 			return -z;
@@ -1419,7 +1367,7 @@ random_landau (void)
 	do {
 		X = random_01 ();
 	} while (X == 0);
-	U = 1000.0 * X;
+	U = 1000 * X;
 	I = U;
 	U = U - I;
 
@@ -1427,25 +1375,25 @@ random_landau (void)
 		RANLAN = F[I] + U * (F[I + 1] - F[I]);
 	else if (I >= 7 && I <= 980)
 		RANLAN = F[I] + U * (F[I + 1] - F[I] -
-				     0.25 * (1 - U) * (F[I + 2] - F[I + 1] -
-						       F[I] + F[I - 1]));
+				     GNM_const(0.25) * (1 - U) * (F[I + 2] - F[I + 1] -
+								  F[I] + F[I - 1]));
 	else if (I < 7) {
 		V = gnm_log (X);
 		U = 1 / V;
-		RANLAN = ((0.99858950 + (3.45213058E1 + 1.70854528E1 * U) * U) /
-			  (1 + (3.41760202E1 + 4.01244582 * U) * U)) *
-			( -gnm_log ( -0.91893853 - V) - 1);
+		RANLAN = ((GNM_const(0.99858950) + (GNM_const(3.45213058E1) + GNM_const(1.70854528E1) * U) * U) /
+			  (1 + (GNM_const(3.41760202E1) + GNM_const(4.01244582) * U) * U)) *
+			( -gnm_log ( GNM_const(-0.91893853) - V) - 1);
 	} else {
 		U = 1 - X;
 		V = U * U;
-		if (X <= 0.999)
-			RANLAN = (1.00060006 + 2.63991156E2 *
-				  U + 4.37320068E3 * V) /
-			  ((1 + 2.57368075E2 * U + 3.41448018E3 * V) * U);
+		if (X <= GNM_const(0.999))
+			RANLAN = (GNM_const(1.00060006) + GNM_const(2.63991156E2) *
+				  U + GNM_const(4.37320068E3) * V) /
+				((1 + GNM_const(2.57368075E2) * U + GNM_const(3.41448018E3) * V) * U);
 		else
-			RANLAN = (1.00001538 + 6.07514119E3 * U +
-				  7.34266409E5 * V) /
-			  ((1 + 6.06511919E3 * U + 6.94021044E5 * V) * U);
+			RANLAN = (GNM_const(1.00001538) + GNM_const(6.07514119E3) * U +
+				  GNM_const(7.34266409E5) * V) /
+				((1 + GNM_const(6.06511919E3) * U + GNM_const(6.94021044E5) * V) * U);
 	}
 
 	return RANLAN;
@@ -1466,13 +1414,13 @@ gnm_float
 random_skew_normal (gnm_float a)
 {
 	gnm_float result;
-	gnm_float delta = a / gnm_sqrt(1 + a * a);
+	gnm_float delta = a / gnm_hypot (1, a);
 	gnm_float u = random_normal ();
 	gnm_float v = random_normal ();
 
-	result = delta * u + gnm_sqrt (1-delta*delta) * v;
+	result = delta * u + gnm_sqrt (1 - delta * delta) * v;
 
-	return ((u < 0.) ? -result : result);
+	return (u < 0 ? -result : result);
 }
 
 
