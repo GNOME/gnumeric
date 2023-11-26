@@ -78,7 +78,7 @@ gsl_complex_mul_imag (gnm_complex const *a, gnm_float y, gnm_complex *res)
 void
 gsl_complex_inverse (gnm_complex const *a, gnm_complex *res)
 {                               /* z=1/a */
-        gnm_float s = 1.0 / GNM_CABS (*a);
+        gnm_float s = 1 / GNM_CABS (*a);
 
 	*res = GNM_CMAKE ((GSL_REAL (a) * s) * s, -(GSL_IMAG (a) * s) * s);
 }
@@ -90,10 +90,10 @@ gsl_complex_inverse (gnm_complex const *a, gnm_complex *res)
 static void
 gsl_complex_arcsin_real (gnm_float a, gnm_complex *res)
 {                               /* z = arcsin(a) */
-         if (gnm_abs (a) <= 1.0) {
+         if (gnm_abs (a) <= 1) {
 	         *res = GNM_CMAKE (gnm_asin (a), 0.0);
 	 } else {
-	         if (a < 0.0) {
+	         if (a < 0) {
 		         *res = GNM_CMAKE (-M_PI_2gnum, gnm_acosh (-a));
 		 } else {
 		         *res = GNM_CMAKE (M_PI_2gnum, -gnm_acosh (a));
@@ -112,7 +112,7 @@ gsl_complex_arcsin (gnm_complex const *a, gnm_complex *res)
 	        gnm_float x = gnm_abs (R), y = gnm_abs (I);
 		gnm_float r = gnm_hypot (x + 1, y);
 		gnm_float s = gnm_hypot (x - 1, y);
-		gnm_float A = 0.5 * (r + s);
+		gnm_float A = GNM_const(0.5) * (r + s);
 		gnm_float B = x / A;
 		gnm_float y2 = y * y;
 
@@ -124,12 +124,12 @@ gsl_complex_arcsin (gnm_complex const *a, gnm_complex *res)
 		        real = gnm_asin (B);
 		} else {
 		        if (x <= 1) {
-			        gnm_float D = 0.5 * (A + x) *
+			        gnm_float D = GNM_const(0.5) * (A + x) *
 				        (y2 / (r + x + 1) + (s + (1 - x)));
 				real = gnm_atan (x / gnm_sqrt (D));
 			} else {
 			        gnm_float Apx = A + x;
-				gnm_float D = 0.5 * (Apx / (r + x + 1)
+				gnm_float D = GNM_const(0.5) * (Apx / (r + x + 1)
 						      + Apx / (s + (x - 1)));
 				real = gnm_atan (x / (y * gnm_sqrt (D)));
 			}
@@ -139,10 +139,10 @@ gsl_complex_arcsin (gnm_complex const *a, gnm_complex *res)
 		        gnm_float Am1;
 
 			if (x < 1) {
-			        Am1 = 0.5 * (y2 / (r + (x + 1)) + y2 /
+			        Am1 = GNM_const(0.5) * (y2 / (r + (x + 1)) + y2 /
 					     (s + (1 - x)));
 			} else {
-			        Am1 = 0.5 * (y2 / (r + (x + 1)) +
+			        Am1 = GNM_const(0.5) * (y2 / (r + (x + 1)) +
 					     (s + (x - 1)));
 			}
 
@@ -159,10 +159,10 @@ gsl_complex_arcsin (gnm_complex const *a, gnm_complex *res)
 static void
 gsl_complex_arccos_real (gnm_float a, gnm_complex *res)
 {                               /* z = arccos(a) */
-        if (gnm_abs (a) <= 1.0) {
+        if (gnm_abs (a) <= 1) {
 	        *res = GNM_CMAKE (gnm_acos (a), 0);
 	} else {
-	        if (a < 0.0) {
+	        if (a < 0) {
 		        *res = GNM_CMAKE (M_PIgnum, -gnm_acosh (-a));
 		} else {
 		        *res = GNM_CMAKE (0, gnm_acosh (a));
@@ -182,7 +182,7 @@ gsl_complex_arccos (gnm_complex const *a, gnm_complex *res)
 		gnm_float y = gnm_abs (I);
 		gnm_float r = gnm_hypot (x + 1, y);
 		gnm_float s = gnm_hypot (x - 1, y);
-		gnm_float A = 0.5 * (r + s);
+		gnm_float A = GNM_const(0.5) * (r + s);
 		gnm_float B = x / A;
 		gnm_float y2 = y * y;
 
@@ -195,12 +195,12 @@ gsl_complex_arccos (gnm_complex const *a, gnm_complex *res)
 		        real = gnm_acos (B);
 		} else {
 		        if (x <= 1) {
-			        gnm_float D = 0.5 * (A + x) *
+			        gnm_float D = GNM_const(0.5) * (A + x) *
 				        (y2 / (r + x + 1) + (s + (1 - x)));
 				real = gnm_atan (gnm_sqrt (D) / x);
 			} else {
 			        gnm_float Apx = A + x;
-				gnm_float D = 0.5 * (Apx / (r + x + 1) + Apx /
+				gnm_float D = GNM_const(0.5) * (Apx / (r + x + 1) + Apx /
 						      (s + (x - 1)));
 				real = gnm_atan ((y * gnm_sqrt (D)) / x);
 			}
@@ -209,10 +209,10 @@ gsl_complex_arccos (gnm_complex const *a, gnm_complex *res)
 		        gnm_float Am1;
 
 			if (x < 1) {
-			        Am1 = 0.5 * (y2 / (r + (x + 1)) + y2 /
+			        Am1 = GNM_const(0.5) * (y2 / (r + (x + 1)) + y2 /
 					     (s + (1 - x)));
 			} else {
-			        Am1 = 0.5 * (y2 / (r + (x + 1)) +
+			        Am1 = GNM_const(0.5) * (y2 / (r + (x + 1)) +
 					     (s + (x - 1)));
 			}
 
@@ -247,12 +247,12 @@ gsl_complex_arctan (gnm_complex const *a, gnm_complex *res)
 		/* FIXME: the following cross-over should be optimized but 0.1
 		 * seems to work ok */
 
-		if (gnm_abs (u) < 0.1) {
-		        imag = 0.25 * (gnm_log1p (u) - gnm_log1p (-u));
+		if (gnm_abs (u) < GNM_const(0.1)) {
+		        imag = GNM_const(0.25) * (gnm_log1p (u) - gnm_log1p (-u));
 		} else {
 		        gnm_float A = gnm_hypot (R, I + 1);
 			gnm_float B = gnm_hypot (R, I - 1);
-			imag = 0.5 * gnm_log (A / B);
+			imag = GNM_const(0.5) * gnm_log (A / B);
 		}
 		if (R == 0) {
 		        if (I > 1) {
@@ -263,7 +263,7 @@ gsl_complex_arctan (gnm_complex const *a, gnm_complex *res)
 			        *res = GNM_CMAKE (0, imag);
 			}
 		} else {
-		        *res = GNM_CMAKE (0.5 * gnm_atan2 (2 * R,
+		        *res = GNM_CMAKE (GNM_const(0.5) * gnm_atan2 (2 * R,
 							    ((1 + r) * (1 - r))),
 				      imag);
 		}
@@ -287,7 +287,7 @@ gsl_complex_arccsc (gnm_complex const *a, gnm_complex *res)
 void
 gsl_complex_arccot (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arccot(a) */
-        if (GSL_REAL (a) == 0.0 && GSL_IMAG (a) == 0.0) {
+        if (GSL_REAL (a) == 0 && GSL_IMAG (a) == 0) {
 	        *res = GNM_CMAKE (M_PI_2gnum, 0);
 	} else {
 	        gsl_complex_inverse (a, res);
@@ -320,21 +320,21 @@ gsl_complex_tanh (gnm_complex const *a, gnm_complex *res)
 {                               /* z = tanh(a) */
         gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
-	if (gnm_abs (R) < 1.0) {
+	if (gnm_abs (R) < 1) {
 	         gnm_float D =
 			 gnm_pow (gnm_cos (I), 2.0) +
 			 gnm_pow (gnm_sinh (R), 2.0);
 
 		 *res = GNM_CMAKE (gnm_sinh (R) * gnm_cosh (R) / D,
-			       0.5 * gnm_sin (2 * I) / D);
+			       GNM_const(0.5) * gnm_sin (2 * I) / D);
 	} else {
 	         gnm_float D =
 			 gnm_pow (gnm_cos (I), 2.0) +
 			 gnm_pow (gnm_sinh (R), 2.0);
 		 gnm_float F = 1 + gnm_pow (gnm_cos (I) / gnm_sinh (R), 2.0);
 
-		 *res = GNM_CMAKE (1.0 / (gnm_tanh (R) * F),
-			       0.5 * gnm_sin (2 * I) / D);
+		 *res = GNM_CMAKE (1 / (gnm_tanh (R) * F),
+			       GNM_const(0.5) * gnm_sin (2 * I) / D);
 	}
 }
 
@@ -378,14 +378,14 @@ gsl_complex_arccosh (gnm_complex const *a, gnm_complex *res)
 		*res = GNM_C0;
 	else {
 		gsl_complex_arccos (a, res);
-		gsl_complex_mul_imag (res, GSL_IMAG (res) > 0 ? -1.0 : 1.0, res);
+		gsl_complex_mul_imag (res, GSL_IMAG (res) > 0 ? -1 : 1, res);
 	}
 }
 
 static void
 gsl_complex_arctanh_real (gnm_float a, gnm_complex *res)
 {                               /* z = arctanh(a) */
-        if (a > -1.0 && a < 1.0) {
+        if (a > -1 && a < 1) {
 	        *res = GNM_CMAKE (gnm_atanh (a), 0);
 	} else {
 	        *res = GNM_CMAKE (gnm_acoth (a),
@@ -396,7 +396,7 @@ gsl_complex_arctanh_real (gnm_float a, gnm_complex *res)
 void
 gsl_complex_arctanh (gnm_complex const *a, gnm_complex *res)
 {                               /* z = arctanh(a) */
-        if (GSL_IMAG (a) == 0.0) {
+        if (GSL_IMAG (a) == 0) {
 	        gsl_complex_arctanh_real (GSL_REAL (a), res);
 	} else {
 	         gsl_complex_mul_imag (a, 1.0, res);

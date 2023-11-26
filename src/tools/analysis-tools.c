@@ -2672,7 +2672,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_funcall3
 			 (fd_finv,
 			  gnm_expr_new_constant
-			  (value_new_float (1. - info->alpha)),
+			  (value_new_float (1 - info->alpha)),
 			  make_cellref (0, -5),
 			  arg3));
 	}
@@ -2710,7 +2710,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_funcall3
 			 (fd_finv,
 			  gnm_expr_new_constant
-			  (value_new_float (1 - info->alpha / 2.)),
+			  (value_new_float (1 - info->alpha / 2)),
 			  make_cellref (0, -7),
 			  arg3));
 	}
@@ -2721,7 +2721,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 		 gnm_expr_new_funcall3
 		 (fd_finv,
 		  gnm_expr_new_constant
-		  (value_new_float (info->alpha / 2.)),
+		  (value_new_float (info->alpha / 2)),
 		  make_cellref (-1, -7),
 		  make_cellref (0, -7)));
 
@@ -2957,7 +2957,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	dao_set_align (dao, 5, 15, 5, 15, GNM_HALIGN_LEFT, GNM_VALIGN_TOP);
 	dao_set_align (dao, 6, 15, 6, 15, GNM_HALIGN_RIGHT, GNM_VALIGN_TOP);
 
-	dao_set_cell_float (dao, 5, 15, 1.0 - info->base.alpha);
+	dao_set_cell_float (dao, 5, 15, 1 - info->base.alpha);
 	dao_set_cell_expr (dao, 6, 15, make_cellref (-1, 0));
 	expr_confidence = dao_get_cellref (dao, 5, 15);
 

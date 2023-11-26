@@ -52,7 +52,7 @@ do_row_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 
 
 	for (i = 0; i < info->n; i++) {
-		int steps = (i * info->step_value) + 0.5;
+		int steps = gnm_round (i * info->step_value);
 		int days = (steps / 5) * 7 + steps % 5;
 		GDateWeekday wd;
 
@@ -79,7 +79,7 @@ do_column_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 
 
 	for (i = 0; i < info->n; i++) {
-		int steps = (i * info->step_value) + 0.5;
+		int steps = gnm_round (i * info->step_value);
 		int days = (steps / 5) * 7 + steps % 5;
 		GDateWeekday wd;
 
@@ -234,7 +234,7 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 	if (info->type == FillSeriesTypeDate &&
 	    info->date_unit != FillSeriesUnitDay) {
 		if (info->is_step_set)
-			info->step_value = gnm_floor (info->step_value + 0.5);
+			info->step_value = gnm_round (info->step_value);
 		else    /* FIXME */
 			info->step_value = 1;
 		if (info->is_stop_set) {
@@ -287,7 +287,7 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 					months = (to_year - from_year) * 12 +
 						(to_month - from_month) + 1;
 				length_of_series = months
-					/ (int)(info->step_value + 0.5);
+					/ (int)gnm_round(info->step_value);
 				if (length_of_series < 1)
 					length_of_series = 1;
 			}
@@ -305,7 +305,7 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 				else
 					years = to_year - from_year + 1;
 				length_of_series = years
-					/ (int)(info->step_value + 0.5);
+					/ (int)gnm_round(info->step_value);
 				if (length_of_series < 1)
 					length_of_series = 1;
 			}
