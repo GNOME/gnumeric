@@ -6,33 +6,18 @@
 
 G_BEGIN_DECLS
 
-#ifdef GNM_WITH_LONG_DOUBLE
-#	define gnm_range_sum go_range_suml
-#	define gnm_range_sumsq go_range_sumsql
-#	define gnm_range_average go_range_averagel
-#	define gnm_range_min go_range_minl
-#	define gnm_range_max go_range_maxl
-#	define gnm_range_maxabs go_range_maxabsl
-#	define gnm_range_devsq go_range_devsql
-#	define gnm_range_fractile_inter_sorted go_range_fractile_inter_sortedl
-#	define gnm_range_median_inter go_range_median_interl
-#	define gnm_range_median_inter_sorted go_range_median_inter_sortedl
-#       define gnm_range_increasing go_range_increasingl
-#       define gnm_range_sort go_range_sortl
-#else
-#	define gnm_range_sum go_range_sum
-#	define gnm_range_sumsq go_range_sumsq
-#	define gnm_range_average go_range_average
-#	define gnm_range_min go_range_min
-#	define gnm_range_max go_range_max
-#	define gnm_range_maxabs go_range_maxabs
-#	define gnm_range_devsq go_range_devsq
-#	define gnm_range_fractile_inter_sorted go_range_fractile_inter_sorted
-#	define gnm_range_median_inter go_range_median_inter
-#	define gnm_range_median_inter_sorted go_range_median_inter_sorted
-#       define gnm_range_increasing go_range_increasing
-#       define gnm_range_sort go_range_sort
-#endif
+#define gnm_range_sum GNM_SUFFIX(go_range_sum)
+#define gnm_range_sumsq GNM_SUFFIX(go_range_sumsq)
+#define gnm_range_average GNM_SUFFIX(go_range_average)
+#define gnm_range_min GNM_SUFFIX(go_range_min)
+#define gnm_range_max GNM_SUFFIX(go_range_max)
+#define gnm_range_maxabs GNM_SUFFIX(go_range_maxabs)
+#define gnm_range_devsq GNM_SUFFIX(go_range_devsq)
+#define gnm_range_fractile_inter_sorted GNM_SUFFIX(go_range_fractile_inter_sorted)
+#define gnm_range_median_inter GNM_SUFFIX(go_range_median_inter)
+#define gnm_range_median_inter_sorted GNM_SUFFIX(go_range_median_inter_sorted)
+#define gnm_range_increasing GNM_SUFFIX(go_range_increasing)
+#define gnm_range_sort GNM_SUFFIX(go_range_sort)
 
 int gnm_range_count		(gnm_float const *xs, int n, gnm_float *res);
 

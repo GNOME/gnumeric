@@ -5695,13 +5695,7 @@ gnm_linear_solve (GnmMatrix const *A, const gnm_float *b,
 	g_return_val_if_fail (b != NULL, GO_REG_invalid_dimensions);
 	g_return_val_if_fail (x != NULL, GO_REG_invalid_dimensions);
 
-	return
-#ifdef GNM_WITH_LONG_DOUBLE
-		go_linear_solvel
-#else
-		go_linear_solve
-#endif
-		(A->data, b, A->rows, x);
+	return GNM_SUFFIX(go_linear_solve) (A->data, b, A->rows, x);
 }
 
 GORegressionResult
@@ -5712,13 +5706,7 @@ gnm_linear_solve_multiple (GnmMatrix const *A, GnmMatrix *B)
 	g_return_val_if_fail (A->rows == A->cols, GO_REG_invalid_dimensions);
 	g_return_val_if_fail (A->rows == B->rows, GO_REG_invalid_dimensions);
 
-	return
-#ifdef GNM_WITH_LONG_DOUBLE
-		go_linear_solve_multiplel
-#else
-		go_linear_solve_multiple
-#endif
-		(A->data, B->data, A->rows, B->cols);
+	return GNM_SUFFIX(go_linear_solve_multiple) (A->data, B->data, A->rows, B->cols);
 }
 
 /* ------------------------------------------------------------------------- */

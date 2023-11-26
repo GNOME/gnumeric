@@ -70,21 +70,12 @@ enum {
 	INTERPOLATION_SPLINE_AVG,
 };
 
-#ifdef GNM_WITH_LONG_DOUBLE
-#	define GnmCSpline GOCSplinel
-#	define gnm_cspline_init go_cspline_initl
-#	define gnm_cspline_destroy go_cspline_destroyl
-#	define gnm_cspline_get_value go_cspline_get_valuel
-#	define gnm_cspline_get_values go_cspline_get_valuesl
-#	define gnm_cspline_get_integrals go_cspline_get_integralsl
-#else
-#	define GnmCSpline GOCSpline
-#	define gnm_cspline_init go_cspline_init
-#	define gnm_cspline_destroy go_cspline_destroy
-#	define gnm_cspline_get_value go_cspline_get_value
-#	define gnm_cspline_get_values go_cspline_get_values
-#	define gnm_cspline_get_integrals go_cspline_get_integrals
-#endif
+#define GnmCSpline GNM_SUFFIX(GOCSpline)
+#define gnm_cspline_init GNM_SUFFIX(go_cspline_init)
+#define gnm_cspline_destroy GNM_SUFFIX(go_cspline_destroy)
+#define gnm_cspline_get_value GNM_SUFFIX(go_cspline_get_value)
+#define gnm_cspline_get_values GNM_SUFFIX(go_cspline_get_values)
+#define gnm_cspline_get_integrals GNM_SUFFIX(go_cspline_get_integrals)
 
 #define INTERPOLATIONMETHODS { GNM_FUNC_HELP_DESCRIPTION, F_("Possible interpolation methods are:\n" \
 							     "0: linear;\n" \
@@ -204,7 +195,7 @@ linear_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 	while (j < jmax && targets[0] > absc[j])
 		j++;
 	k = j - 1;
-	slope = (ord[j] - ord[k]) / (absc[j] - absc[k]) / 2.;
+	slope = (ord[j] - ord[k]) / (absc[j] - absc[k]) / 2;
 	for (i = 1; i <= nb_targets; i++) {
 		if (targets[i] < absc[j] || j == jmax) {
 			x0 = targets[i - 1] - absc[k];
@@ -221,12 +212,12 @@ linear_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 		while (j < jmax && targets[i] > absc[++j]) {
 			k++;
 			x0 = absc[j] - absc[k];
-			slope = (ord[j] - ord[k]) / x0 / 2.;
+			slope = (ord[j] - ord[k]) / x0 / 2;
 			res[i - 1] += x0 * (slope * x0 + ord[k]);
 		}
 		if (j > k + 1) {
 			k = j - 1;
-			slope = (ord[j] - ord[k]) / (absc[j] - absc[k]) / 2.;
+			slope = (ord[j] - ord[k]) / (absc[j] - absc[k]) / 2;
 		} else
 			k = j;
 		x0 = targets[i] - absc[k];
@@ -714,7 +705,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			break;
 		case INTERPOLATION_LINEAR_AVG:
 			interpproc = linear_averaging;
-			start = absc[0] - incr / 2.;
+			start = absc[0] - incr / 2;
 			n2 = n1 + 1;
 			break;
 		case INTERPOLATION_STAIRCASE:
@@ -724,7 +715,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			break;
 		case INTERPOLATION_STAIRCASE_AVG:
 			interpproc = staircase_averaging;
-			start = absc[0] - incr / 2.;
+			start = absc[0] - incr / 2;
 			n2 = n1 + 1;
 			break;
 		case INTERPOLATION_SPLINE:
@@ -734,7 +725,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			break;
 		case INTERPOLATION_SPLINE_AVG:
 			interpproc = spline_averaging;
-			start = absc[0] - incr / 2.;
+			start = absc[0] - incr / 2;
 			n2 = n1 + 1;
 			break;
 		default:
@@ -771,19 +762,19 @@ no_absc:
 		gnm_float factor;
 		switch (filter) {
 		case FILTER_BARTLETT:
-			factor = n0 / 2.;
+			factor = n0 / 2;
 			for (i = 0; i < n0; i++)
-				ord[i] *= 1. - gnm_abs ((i / factor - 1));
+				ord[i] *= 1 - gnm_abs ((i / factor - 1));
 			break;
 		case FILTER_HANN:
-			factor = 2. * M_PIgnum / n0;
+			factor = 2 * M_PIgnum / n0;
 			for (i = 0; i < n0; i++)
-				ord[i] *= 0.5 * (1 - gnm_cos (factor * i));
+				ord[i] *= GNM_const(0.5) * (1 - gnm_cos (factor * i));
 			break;
 		case FILTER_WELCH:
-			factor = n0 / 2.;
+			factor = n0 / 2;
 			for (i = 0; i < n0; i++)
-				ord[i] *= 1. - (i / factor - 1.) * (i / factor - 1.);
+				ord[i] *= 1 - (i / factor - 1) * (i / factor - 1);
 			break;
 		}
 	}
