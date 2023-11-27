@@ -3535,6 +3535,9 @@ gnm_float qgeom(gnm_float p, gnm_float prob, gboolean lower_tail, gboolean log_p
 }
 
 /* ------------------------------------------------------------------------ */
+/* --- END MAGIC R SOURCE MARKER --- */
+
+/* ------------------------------------------------------------------------ */
 /*
  * Based on code imported from R by hand.  Heavily modified to enhance
  * accuracy.  See bug 700132.
@@ -3964,9 +3967,6 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
     ans = MIN (ans, 1.0);
     return R_DT_val(ans);
 }
-
-/* ------------------------------------------------------------------------ */
-/* --- END MAGIC R SOURCE MARKER --- */
 
 /* Silly order-of-arguments wrapper.  */
 gnm_float
