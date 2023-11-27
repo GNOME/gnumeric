@@ -36,23 +36,20 @@ Currently disabled:
 Runtime suggestions:
 	'yelp' for help
 
-Mailing lists
--------------
+Support
+-------
 
-   There is a mailing list used to discuss Gnumeric, to subscribe
-send a mail to:
+   There is a support forum to discuss Gnumeric:
 
-	gnumeric-list-request@gnome.org
+	https://discourse.gnome.org/tag/gnumeric
 
-   And in the body of the message write "subscribe"
+   An archive of the defunct former mailing list is available in:
 
-   An archive of the mailing lists is available in:
-
-	http://mail.gnome.org/archives/gnumeric-list/
+	https://mail.gnome.org/archives/gnumeric-list/
 
 
-Random notes:
--------------
+Random notes
+------------
 
 This is a partial list of Features implemented in Gnumeric, we need
 documentation for these:
