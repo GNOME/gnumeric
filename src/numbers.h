@@ -142,6 +142,7 @@ typedef double gnm_float;
 #define gnm_cos GNM_SUFFIX(cos)
 #define gnm_tan GNM_SUFFIX(tan)
 #endif
+#define gnm_trunc GNM_SUFFIX(trunc)
 #define gnm_yn GNM_SUFFIX(yn)
 
 #define GnmQuad GNM_SUFFIX(GOQuad)
