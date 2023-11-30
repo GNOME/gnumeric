@@ -3492,6 +3492,195 @@ test_random (void)
 	mark_test_end (test_name);
 }
 
+static gboolean
+almost_eq (gnm_float a, gnm_float b, gnm_float tol)
+{
+	gnm_float ad = gnm_abs (a - b);
+	if (ad == 0)
+		return TRUE;
+	return ad < MAX (gnm_abs (a), gnm_abs (b)) * tol;
+}
+
+#define BARF(what) do { \
+	g_printerr("Trouble in %s: %s\n", dist->str, what);	\
+	g_printerr("  x=%.12" GNM_FORMAT_g "\n", x);\
+	g_printerr("  prev_d=%.12" GNM_FORMAT_g ", prev_p=%.12" GNM_FORMAT_g "\n", prev_d, prev_p); \
+	g_printerr("  d=%.12" GNM_FORMAT_g ", p=%.12" GNM_FORMAT_g "\n", d, p); \
+} while (0)
+
+#define CHECK_DPQ_DISCRETE() do {					\
+	if (i < LEFT || i > RIGHT ? !(d == 0) : !(d >= 0))		\
+		BARF("d not non-negative");				\
+	if (i < LEFT ? !(p == 0) : (i >= RIGHT ? !(p == 1) : !(p >= prev_p))) \
+		BARF("p not increasing from 0");			\
+	if (i >= RIGHT ? !(p == 1) : !(p <= 1))				\
+		BARF("p not increasing to 1");				\
+	if (!almost_eq (prev_p + d, p, tol))				\
+		BARF("p does not cummulate");				\
+} while(0)
+
+static void
+test_dpq_binom (void)
+{
+	gnm_float param_p = random_01 ();
+	gnm_float param_trials = gnm_floor (1 / (0.0001 + gnm_pow (random_01 (), 4)));
+	int i;
+	gnm_float prev_p = 0;
+	gnm_float prev_d = 0;
+	GString *dist;
+	gnm_float tol = GNM_EPSILON * 1000;
+	gnm_float LEFT, RIGHT;
+
+	dist = g_string_new ("binom(");
+	go_dtoa (dist, "!^" GNM_FORMAT_g, param_p);
+	g_string_append_c (dist, ',');
+	go_dtoa (dist, "!^" GNM_FORMAT_g, param_trials);
+	g_string_append_c (dist, ')');
+
+	LEFT = 0;
+	RIGHT = param_trials;
+
+	for (i = LEFT - 1; i <= RIGHT + 1; i++) {
+		gnm_float x = i;
+		gnm_float d = dbinom (x, param_trials, param_p, FALSE);
+		gnm_float p = pbinom (x, param_trials, param_p, TRUE, FALSE);
+
+		CHECK_DPQ_DISCRETE ();
+
+		prev_d = d;
+		prev_p = p;
+	}
+
+	g_string_free (dist, TRUE);
+}
+
+static void
+test_dpq_geom (void)
+{
+	gnm_float param_p = random_01 ();
+	int i;
+	gnm_float prev_p = 0;
+	gnm_float prev_d = 0;
+	GString *dist;
+	gnm_float tol = GNM_EPSILON * 10;
+	gnm_float LEFT, RIGHT;
+
+	dist = g_string_new ("geom(");
+	go_dtoa (dist, "!^" GNM_FORMAT_g, param_p);
+	g_string_append_c (dist, ')');
+
+	LEFT = 0;
+	RIGHT = gnm_pinf;
+
+	for (i = LEFT - 1; i <= 100 / param_p; i++) {
+		gnm_float x = i;
+		gnm_float d = dgeom (x, param_p, FALSE);
+		gnm_float p = pgeom (x, param_p, TRUE, FALSE);
+
+		CHECK_DPQ_DISCRETE ();
+
+		prev_d = d;
+		prev_p = p;
+	}
+
+	g_string_free (dist, TRUE);
+}
+
+static void
+test_dpq_hypergeom (void)
+{
+	gnm_float param_nr = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 4)));
+	gnm_float param_nb = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 4)));
+	gnm_float param_n = gnm_random_uniform_int (param_nr + param_nb + 1);
+	int i;
+	gnm_float prev_p = 0;
+	gnm_float prev_d = 0;
+	GString *dist;
+	gnm_float tol = GNM_EPSILON * 1000;
+	gnm_float LEFT, RIGHT;
+
+	dist = g_string_new ("hyper(");
+	go_dtoa (dist, "!^" GNM_FORMAT_g, param_nr);
+	g_string_append_c (dist, ',');
+	go_dtoa (dist, "!^" GNM_FORMAT_g, param_nb);
+	g_string_append_c (dist, ',');
+	go_dtoa (dist, "!^" GNM_FORMAT_g, param_n);
+	g_string_append_c (dist, ')');
+
+	LEFT = 0;
+	RIGHT = param_n;
+
+	for (i = LEFT - 1; i <= RIGHT + 1; i++) {
+		gnm_float x = i;
+		gnm_float d = dhyper (x, param_nr, param_nb, param_n, FALSE);
+		gnm_float p = phyper (x, param_nr, param_nb, param_n, TRUE, FALSE);
+
+		CHECK_DPQ_DISCRETE ();
+
+		prev_d = d;
+		prev_p = p;
+	}
+
+	g_string_free (dist, TRUE);
+}
+
+
+static void
+test_dpq_poisson (void)
+{
+	gnm_float param_l = 1 / (0.0001 + gnm_pow (random_01 () / 2, 4));
+	int i;
+	gnm_float prev_p = 0;
+	gnm_float prev_d = 0;
+	GString *dist;
+	gnm_float tol = GNM_EPSILON * 1000;
+	gnm_float LEFT, RIGHT;
+
+	dist = g_string_new ("pois(");
+	go_dtoa (dist, "!^" GNM_FORMAT_g, param_l);
+	g_string_append_c (dist, ')');
+
+	LEFT = 0;
+	RIGHT = gnm_pinf;
+
+	for (i = LEFT - 1; i <= 5 * param_l; i++) {
+		gnm_float x = i;
+		gnm_float d = dpois (x, param_l, FALSE);
+		gnm_float p = ppois (x, param_l, TRUE, FALSE);
+
+		CHECK_DPQ_DISCRETE ();
+
+		prev_d = d;
+		prev_p = p;
+	}
+
+	g_string_free (dist, TRUE);
+}
+
+
+
+static void
+test_dpq (void)
+{
+	const char *test_name = "test_random";
+	//const int N = sstest_fast ? 2000 : 20000;
+	const char *single = g_getenv ("SSTEST_DPQ");
+
+	mark_test_start (test_name);
+
+#define CHECK1(NAME) \
+	do { if (!single || strcmp(single,#NAME) == 0) test_dpq_ ## NAME (); } while (0)
+
+	// Discrete
+	CHECK1 (binom);
+	CHECK1 (geom);
+	CHECK1 (hypergeom);
+	CHECK1 (poisson);
+
+	mark_test_end (test_name);
+}
+
+
 static GPtrArray *
 get_cell_values (GPtrArray *cells)
 {
@@ -3662,6 +3851,7 @@ main (int argc, char const **argv)
 	MAYBE_DO ("test_func_help") test_func_help ();
 	MAYBE_DO ("test_nonascii_numbers") test_nonascii_numbers ();
 	MAYBE_DO ("test_random") test_random ();
+	MAYBE_DO ("test_dpq") test_dpq ();
 	if (argc > 2) {
 		MAYBE_DO ("test_recalc") {
 			char *url = go_shell_arg_to_uri (argv[2]);
