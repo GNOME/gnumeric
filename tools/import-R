@@ -5,23 +5,22 @@ use strict;
 
 my @files =
     ("dpq.h",
-     "ftrunc.c",
-     "dnorm.c",
+     # "ftrunc.c",
+     # "dnorm.c",
      "pnorm.c",
      "qnorm.c",
-     "plnorm.c",
-     "qlnorm.c",
+     # "plnorm.c",
+     # "qlnorm.c",
      "ppois.c",
      # "qpois.c",
-     "stirlerr.c",
-     "bd0.c",
+     # "stirlerr.c",
+     # "bd0.c",
      "dpois.c",
      "dgamma.c",
      "pgamma.c",
      # "qgamma.c", # Not good enough.
-     "chebyshev.c",
-     "lgammacor.c",
-     "lbeta.c",
+     # "chebyshev.c",
+     # "lgammacor.c",
      "dt.c",
      "pt.c",
      "qt.c",
@@ -48,18 +47,18 @@ my @files =
      "pgeom.c",
      "dcauchy.c",
      "pcauchy.c",
-     "bessel.h",
-     "bessel_i.c",
-     "bessel_j.c",
-     "bessel_k.c",
-     "bessel_y.c",
+     # "bessel.h",
+     # "bessel_i.c",
+     # "bessel_j.c",
+     # "bessel_k.c",
+     # "bessel_y.c",
      );
 
 # These are for plugin fn-R.  They are so small it makes no sense to place
 # them elsewhere.
 push @files,
     (
-     "dlnorm.c",
+     # "dlnorm.c",
      "df.c",
      "dchisq.c",
      "qweibull.c",
@@ -101,6 +100,7 @@ sub import_file {
 
     my %defines = ();
     my $incomment = 0; # Stupid.
+    my $victim;
 
     local (*FIL);
     open (*FIL, "<$filename") or
@@ -137,14 +137,30 @@ sub import_file {
 	    # Improve precision of "log(1+x)".
 	    s/\blog\s*\(\s*1\s*\+\s*/gnm_log1p \(/g;
 
+	    # Map explicit long double stuff to gnm_float
+	    s/\bLDOUBLE\b/gnm_float/g;
+	    s/\b(exp|log)l(\s|$|\()/gnm_$1$2/g;
+
 	    s/\bISNAN\b/gnm_isnan/g;
 	    s/\bR_(finite|FINITE)\b/gnm_finite/g;
 	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|ceil|sin|cos|sinh|tan)(\s|$|\()/gnm_$1$2/g;
+	    s/\b(lbeta|tanpi|atanpi|logcf)(\s|$|\()/gnm_$1$2/g;
 	    s/\bfabs\b/gnm_abs/g;
+	    s/\bR_forceint\b/gnm_round/g;
 
 	    s/\bgnm_floor\s*\(\s*([a-z]+)\s*\+\s*1e-7\s*\)/gnm_fake_floor($1)/;
 
+	    # We do not want translators to have to deal with these warnings.
+	    s/\b_\b//;
+
+	    # Whitespace and style fix
+	    s/^ \t/\t/;
+	    s/\bconst\s+static\b/static const/;
+
+	    s{#ifdef (HAVE_ATANPI)}{#if 1 // $1};
+
 	    # Constants.
+	    s/((>|<|>=|<=|==|!=)\s*[0-9]{1,9})\.0*([ \t\)])/$1$3/g;   # Compare against integer
 	    s/\b(M_LN2|M_PI|M_PI_2|M_SQRT2|M_2PI)\b/$1gnum/g;
 	    s/\bDBL_(EPSILON|MIN|MAX)/GNM_$1/g;
 	    s/([-+]?\d*\.(\d{5,})([eE][-+]?\d+)?)/GNM_const\($1\)/g;
@@ -154,11 +170,8 @@ sub import_file {
 	    s~([-+]?\d+\.\d*)(\s*/\s*)([-+e0-9.]+)~GNM_const\($1\)$2$3~;
 
 	    # These are made static.
-	    s/^gnm_float\s+(pbeta_both|bd0|dpois_raw|chebyshev_eval|lgammacor|lbeta|pbeta_raw|dbinom_raw|bessel_[ijky]|bessel_[jy]_ex)\b/static gnm_float $1/;
+	    s/^gnm_float\s+(pbeta_both|bd0|dpois_raw|chebyshev_eval|lgammacor|pbeta_raw|dbinom_raw|bessel_[ijky]|bessel_[jy]_ex|do_search|pgamma_raw)\b/static gnm_float $1/;
 	    s/^int\s+(chebyshev_init)/static int $1/;
-
-	    # Fix a bug...
-	    s/\(\(-37\.5193 < x\) \|\| \(x < 8\.2924\)\)/((-37.5193 < x) && (x < 8.2924))/;
 
 	    # Optimization given our stupid gammafn.
 	    s|> 10|< 10| if /p and q are small: p <= q > 10/;
@@ -182,6 +195,18 @@ sub import_file {
 	    }
 	    s/\bR_Log1_Exp\b/swap_log_tail/g;
 
+	    if ($filename =~ /qnbinom\.c$/) {
+		s/\bdo_search\b/qbinom_do_search/g;
+	    }
+
+	    if ($filename =~ /pnorm\.c$/) {
+		s/\bcp;/cp = gnm_nan;/;
+	    }
+
+	    if ($filename =~ /pgamma\.c$/) {
+		s/^static (gnm_float\ngnm_logcf\b)/$1/;
+	    }
+
 	    if ($filename =~ m|/bessel_i\.c$|) {
 		s/\bgamma_cody\(empal\)/gnm_exp(lgamma1p(nu))/;
 	    }
@@ -193,8 +218,13 @@ sub import_file {
 		$_ = "/* Definition of function $3 removed.  */";
 	    }
 
+	    if ((/^(static\s*)?gnm_float\s*(lgamma1p|logspace_sum|[dpq]nbinom_mu)\s*\(/ && ($victim = $2)) .. /^\}/) {
+		next unless /^\}/;
+		$_ = "/* Definition of function $victim removed.  */";
+	    }
+
 	    if ($filename =~ m|/bessel_j\.c$|) {
-		if (/^\s*const static gnm_float fact\[/) {
+		if (/^\s*static const gnm_float fact\[/) {
 		    while (!/;$/) {
 			$_ .= <FIL>;
 		    }
