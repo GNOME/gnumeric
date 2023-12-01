@@ -198,7 +198,7 @@ gnm_range_kurtosis_m3_est (gnm_float const *xs, int n, gnm_float *res)
 
 	common_den = (gnm_float)(n - 2) * (n - 3);
 	nth = (gnm_float)n * (n + 1) / ((n - 1) * common_den);
-	three = 3.0 * (n - 1) * (n - 1) / common_den;
+	three = GNM_const(3.) * (n - 1) * (n - 1) / common_den;
 
 	*res = x4 * nth - three;
 	return 0;
@@ -256,7 +256,7 @@ product_helper (gnm_float const *xs, int n,
 			e += thise;
 
 			/* Keep 0.5 < |mant| <= 1.  */
-			if (gnm_abs (mant) <= 0.5) {
+			if (gnm_abs (mant) <= GNM_const(0.5)) {
 				mant *= 2;
 				e--;
 			}
@@ -394,7 +394,7 @@ gnm_range_correl_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float
 	// Rounding errors can push us beyond [-1,+1].  Avoid that.
 	// This isn't a great solution, but it'll have to do until
 	// someone comes up with a better approach.
-	c = CLAMP (c, -1.0, +1.0);
+	c = CLAMP (c, -1, +1);
 
 	*res = c;
 	return 0;
@@ -484,21 +484,21 @@ gnm_range_adtest    (gnm_float const *xs, int n, gnm_float *pvalue,
 			gnm_float val = (pnorm (ys[i], mu, sigma, TRUE, TRUE) +
 					 pnorm (ys[n - i - 1],
 						mu, sigma, FALSE, TRUE));
-			total += ((2*i+1)* val);
+			total += ((2 * i + 1) * val);
 		}
 
 		total = - n - total/n;
 		g_free (ys);
 
-		total *= (1 + 0.75 / n + 2.25 / ((gnm_float)n * n));
-		if (total < 0.2)
-			p = 1. - gnm_exp (-13.436 + 101.14 * total - 223.73 * total * total);
-		else if (total < 0.34)
-			p = 1. - gnm_exp (-8.318 + 42.796 * total - 59.938 * total * total);
-		else if (total < 0.6)
-			p = gnm_exp (0.9177 - 4.279  * total - 1.38 * total * total);
+		total *= (1 + GNM_const(0.75) / n + GNM_const(2.25) / ((gnm_float)n * n));
+		if (total < GNM_const(0.20))
+			p = -gnm_expm1 (GNM_const(-13.436) + GNM_const(101.14) * total - GNM_const(223.73) * total * total);
+		else if (total < GNM_const(0.34))
+			p = -gnm_expm1 (GNM_const(-8.318) + GNM_const(42.796) * total - GNM_const(59.938) * total * total);
+		else if (total < GNM_const(0.6))
+			p = gnm_exp (GNM_const(0.9177) - GNM_const(4.279) * total - GNM_const(1.38) * total * total);
 		else
-			p = gnm_exp (1.2937 - 5.709 * total + 0.0186 * total * total);
+			p = gnm_exp (GNM_const(1.2937) - GNM_const(5.709) * total + GNM_const(0.0186) * total * total);
 		if (statistics)
 			*statistics = total;
 		if (pvalue)

@@ -5565,7 +5565,7 @@ gnm_matrix_modified_cholesky (GnmMatrix const *A,
 	for (i = 0; i < n; i++)
 		P[i] = i;
 
-	nu = n == 1 ? 1.0 : gnm_sqrt (n * n - 1);
+	nu = n == 1 ? 1 : gnm_sqrt (n * n - 1);
 	gam = xsi = 0;
 	for (i = 0; i < n; i++) {
 		gnm_float aii = gnm_abs (G->data[i][i]);
@@ -5576,7 +5576,7 @@ gnm_matrix_modified_cholesky (GnmMatrix const *A,
 		}
 	}
 	bsqr = MAX (MAX (gam, xsi / nu), GNM_EPSILON);
-	delta = MAX (gam + xsi, 1.0) * GNM_EPSILON;
+	delta = MAX (gam + xsi, 1) * GNM_EPSILON;
 
 	for (j = 0; j < n; j++) {
 		int q, s;
@@ -6053,7 +6053,7 @@ gnm_ilog (gnm_float x, gnm_float b)
 		return (e - 1) / (be - 1);
 	}
 
-	if (b == 10 && x >= 1 && x <= 1e22) {
+	if (b == 10 && x >= 1 && x <= GNM_const(1e22)) {
 		// This code relies on 10^i being exact
 		gnm_float l10 = gnm_log10 (x);
 		int il10 = (int)l10;

@@ -209,7 +209,7 @@ goal_seek_newton_polish (GnmGoalSeekFunction f, GnmGoalSeekFunction df,
 	int iterations;
 	gnm_float last_df0 = 1;
 	gboolean try_newton = TRUE;
-	gboolean try_square = x0 != 0 && gnm_abs (x0) < 1e10;
+	gboolean try_square = x0 != 0 && gnm_abs (x0) < GNM_const(1e10);
 
 #ifdef DEBUG_GOAL_SEEK
 	g_print ("goal_seek_newton_polish\n");
@@ -235,7 +235,7 @@ goal_seek_newton_polish (GnmGoalSeekFunction f, GnmGoalSeekFunction df,
 			g_print ("polish square: x0=%.20" GNM_FORMAT_g "\n",
 				 x0);
 #endif
-			if (r > 0.5)
+			if (r > GNM_const(0.5))
 				goto nomore_square;
 
 			continue;
@@ -248,7 +248,7 @@ goal_seek_newton_polish (GnmGoalSeekFunction f, GnmGoalSeekFunction df,
 			gnm_float df0, r, x1, y1;
 			GnmGoalSeekStatus status = df
 				? df (x0, &df0, user_data)
-				: fake_df (f, x0, &df0, gnm_abs (x0) / 1e6, data, user_data);
+				: fake_df (f, x0, &df0, gnm_abs (x0) / 1000000, data, user_data);
 			if (status != GOAL_SEEK_OK || df0 == 0)
 				df0 = last_df0;  /* Bogus */
 			else
@@ -274,7 +274,7 @@ goal_seek_newton_polish (GnmGoalSeekFunction f, GnmGoalSeekFunction df,
 			g_print ("polish Newton: x0=%.20" GNM_FORMAT_g "\n",
 				 x0);
 #endif
-			if (r > 0.5)
+			if (r > GNM_const(0.5))
 				goto nomore_newton;
 
 			continue;
@@ -360,11 +360,11 @@ goal_seek_newton (GnmGoalSeekFunction f, GnmGoalSeekFunction df,
 		else {
 			gnm_float xstep;
 
-			if (gnm_abs (x0) < 1e-10)
+			if (gnm_abs (x0) < GNM_const(1e-10))
 				if (data->havexneg && data->havexpos)
-					xstep = gnm_abs (data->xpos - data->xneg) / 1e6;
+					xstep = gnm_abs (data->xpos - data->xneg) / 1000000;
 				else
-					xstep = (data->xmax - data->xmin) / 1e6;
+					xstep = (data->xmax - data->xmin) / 1000000;
 			else
 				xstep = step_factor * gnm_abs (x0);
 
@@ -390,7 +390,7 @@ goal_seek_newton (GnmGoalSeekFunction f, GnmGoalSeekFunction df,
 			 * Overshoot slightly to prevent us from staying on
 			 * just one side of the root.
 			 */
-			x1 = x0 - 1.000001 * y0 / df0;
+			x1 = x0 - GNM_const(1.000001) * y0 / df0;
 
 		stepsize = gnm_abs (x1 - x0) / (gnm_abs (x0) + gnm_abs (x1));
 
@@ -421,7 +421,7 @@ goal_seek_newton (GnmGoalSeekFunction f, GnmGoalSeekFunction df,
 #ifdef DEBUG_GOAL_SEEK
 			g_print ("                                        y1 = %.20" GNM_FORMAT_g "\n", y1);
 #endif
-			if (gnm_abs (y1) >= 0.9 * gnm_abs (y0))
+			if (gnm_abs (y1) >= GNM_const(0.9) * gnm_abs (y0))
 				return GOAL_SEEK_ERROR;
 		}
 
@@ -527,7 +527,7 @@ goal_seek_bisection (GnmGoalSeekFunction f, GnmGoalSeekData *data,
 			gnm_float x0, y0, xstep, df0;
 
 			/* This method is only effective close-in.  */
-			if (stepsize > 0.1) {
+			if (stepsize > GNM_const(0.1)) {
 				method = M_MIDPOINT;
 				goto again;
 			}
@@ -545,7 +545,7 @@ goal_seek_bisection (GnmGoalSeekFunction f, GnmGoalSeekData *data,
 					continue;
 			}
 
-			xstep = gnm_abs (data->xpos - data->xneg) / 1e6;
+			xstep = gnm_abs (data->xpos - data->xneg) / 1000000;
 			status = fake_df (f, x0, &df0, xstep, data, user_data);
 			if (status != GOAL_SEEK_OK)
 				continue;
@@ -557,7 +557,7 @@ goal_seek_bisection (GnmGoalSeekFunction f, GnmGoalSeekData *data,
 			 * Overshoot by 1% to prevent us from staying on
 			 * just one side of the root.
 			 */
-			xmid = x0 - 1.01 * y0 / df0;
+			xmid = x0 - GNM_const(1.01) * y0 / df0;
 		}
 		}
 
@@ -799,7 +799,7 @@ gnm_goal_seek_cell (GnmGoalSeekData *data,
 		gnm_float sigma, mu;
 		int i;
 
-		sigma = MIN (data->xmax - data->xmin, 1e6);
+		sigma = MIN (data->xmax - data->xmin, GNM_const(1e6));
 		mu = (data->xmax + data->xmin) / 2;
 
 		for (i = 0; i < 5; i++) {
@@ -817,7 +817,7 @@ gnm_goal_seek_cell (GnmGoalSeekData *data,
 		gnm_float sigma, mu;
 		int i;
 
-		sigma = MIN (data->xmax - data->xmin, 1e6);
+		sigma = MIN (data->xmax - data->xmin, GNM_const(1e6));
 		mu = data->xmin;
 
 		for (i = 0; i < 5; i++) {
@@ -835,7 +835,7 @@ gnm_goal_seek_cell (GnmGoalSeekData *data,
 		gnm_float sigma, mu;
 		int i;
 
-		sigma = MIN (data->xmax - data->xmin, 1e6);
+		sigma = MIN (data->xmax - data->xmin, GNM_const(1e6));
 		mu = data->xmax;
 
 		for (i = 0; i < 5; i++) {

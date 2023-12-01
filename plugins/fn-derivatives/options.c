@@ -111,13 +111,13 @@ option_type (char const *s)
 static gnm_float
 ncdf (gnm_float x)
 {
-	return pnorm (x, 0.0, 1.0, TRUE, FALSE);
+	return pnorm (x, 0, 1, TRUE, FALSE);
 }
 
 static gnm_float
 npdf (gnm_float x)
 {
-	return dnorm (x, 0.0, 1.0, FALSE);
+	return dnorm (x, 0, 1, FALSE);
 }
 
 static int
@@ -141,29 +141,29 @@ cum_biv_norm_dist1 (gnm_float a, gnm_float b, gnm_float rho)
 
 	static const gnm_float x[] = {0.24840615, 0.39233107, 0.21141819, 0.03324666, 0.00082485334};
 	static const gnm_float y[] = {0.10024215, 0.48281397, 1.0609498, 1.7797294, 2.6697604};
-	a1 = a / gnm_sqrt (2.0 * (1 - (rho * rho)));
-	b1 = b / gnm_sqrt (2.0 * (1 - (rho * rho)));
+	a1 = a / gnm_sqrt (2 * (1 - (rho * rho)));
+	b1 = b / gnm_sqrt (2 * (1 - (rho * rho)));
 
 	if (a <= 0 && b <= 0 && rho <= 0) {
 		for (i = 0; i != 5; ++i) {
 			for (j = 0; j != 5; ++j) {
-				sum = sum + x[i] * x[j] * gnm_exp (a1 * (2.0 * y[i] - a1) + b1 * (2.0 *
+				sum = sum + x[i] * x[j] * gnm_exp (a1 * (2 * y[i] - a1) + b1 * (2 *
 y[j] - b1) + 2 * rho * (y[i] - a1) * (y[j] - b1));
 			}
 		}
-		return gnm_sqrt (1.0 - (rho * rho)) / M_PIgnum * sum;
+		return gnm_sqrt (1 - (rho * rho)) / M_PIgnum * sum;
 	} else if (a <= 0 && b >= 0 && rho >= 0)
 		return ncdf (a) - cum_biv_norm_dist1 (a,-b,-rho);
 	else if (a >= 0 && b <= 0 && rho >= 0)
 		return ncdf (b) - cum_biv_norm_dist1 (-a,b,-rho);
 	else if (a >= 0 && b >= 0 && rho <= 0)
-		return ncdf (a) + ncdf (b) - 1.0 + cum_biv_norm_dist1 (-a,-b,rho);
+		return ncdf (a) + ncdf (b) - 1 + cum_biv_norm_dist1 (-a,-b,rho);
 	else if ((a * b * rho) > 0) {
 		rho1 = (rho * a - b) * Sgn (a) / gnm_sqrt ((a * a) - 2 * rho * a
 							   * b + (b * b));
 		rho2 = (rho * b - a) * Sgn (b) / gnm_sqrt ((a * a) - 2 * rho * a
 							   * b + (b * b));
-		delta = (1.0 - Sgn (a) * Sgn (b)) / 4.0;
+		delta = (1 - Sgn (a) * Sgn (b)) / 4;
 		return (cum_biv_norm_dist1 (a,0.0,rho1) +
 			cum_biv_norm_dist1 (b,0.0,rho2) -
 			delta);
@@ -206,7 +206,7 @@ opt_bs1 (OptionSide side,
 	 gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float v,
 	 gnm_float b)
 {
-	gnm_float d1 = (gnm_log (s / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
+	gnm_float d1 = (gnm_log (s / x) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 	gnm_float d2 = d1 - v * gnm_sqrt (t);
 
 	switch (side) {
@@ -262,7 +262,7 @@ opt_bs_delta1 (OptionSide side,
 	       gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float v, gnm_float b)
 {
 	gnm_float d1 =
-		(gnm_log (s / x) + (b + (v * v) / 2.0) * t) /
+		(gnm_log (s / x) + (b + (v * v) / 2) * t) /
 		(v * gnm_sqrt (t));
 
 	switch (side) {
@@ -270,7 +270,7 @@ opt_bs_delta1 (OptionSide side,
 		return gnm_exp ((b - r) * t) * ncdf (d1);
 
 	case OS_Put:
-		return gnm_exp ((b - r) * t) * (ncdf (d1) - 1.0);
+		return gnm_exp ((b - r) * t) * (ncdf (d1) - 1);
 
 	default:
 		return gnm_nan;
@@ -287,7 +287,7 @@ opt_bs_delta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float t = value_get_as_float (argv[3]);
 	gnm_float r = value_get_as_float (argv[4]);
 	gnm_float v = value_get_as_float (argv[5]);
-	gnm_float b = argv[6] ? value_get_as_float (argv[6]) : 0.0;
+	gnm_float b = argv[6] ? value_get_as_float (argv[6]) : 0;
 	gnm_float gfresult = opt_bs_delta1 (call_put, s, x, t, r, v, b);
 
 	if (gnm_isnan (gfresult))
@@ -320,7 +320,7 @@ opt_bs_gamma1 (gnm_float s,gnm_float x,gnm_float t,gnm_float r,gnm_float v,gnm_f
 {
 	gnm_float d1;
 
-	d1 = (gnm_log (s / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
+	d1 = (gnm_log (s / x) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 	return gnm_exp ((b - r) * t) * npdf (d1) / (s * v * gnm_sqrt (t));
 }
 
@@ -333,7 +333,7 @@ opt_bs_gamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float t = value_get_as_float (argv[2]);
 	gnm_float r = value_get_as_float (argv[3]);
 	gnm_float v = value_get_as_float (argv[4]);
-	gnm_float b = argv[5] ? value_get_as_float (argv[5]) : 0.0;
+	gnm_float b = argv[5] ? value_get_as_float (argv[5]) : 0;
 	gnm_float gfresult = opt_bs_gamma1 (s,x,t,r,v,b);
 	return value_new_float (gfresult);
 }
@@ -363,15 +363,15 @@ static gnm_float
 opt_bs_theta1 (OptionSide side,
 	       gnm_float s,gnm_float x,gnm_float t,gnm_float r,gnm_float v,gnm_float b)
 {
-	gnm_float d1 = (gnm_log (s / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
+	gnm_float d1 = (gnm_log (s / x) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 	gnm_float d2 = d1 - v * gnm_sqrt (t);
 
 	switch (side) {
 	case OS_Call:
-		return -s * gnm_exp ((b - r) * t) * npdf (d1) * v / (2.0 * gnm_sqrt (t)) -
+		return -s * gnm_exp ((b - r) * t) * npdf (d1) * v / (2 * gnm_sqrt (t)) -
 			(b - r) * s * gnm_exp ((b - r) * t) * ncdf (d1) - r * x * gnm_exp (-r * t) * ncdf (d2);
 	case OS_Put:
-		return -s * gnm_exp ((b - r) * t) * npdf (d1) * v / (2.0 * gnm_sqrt (t)) +
+		return -s * gnm_exp ((b - r) * t) * npdf (d1) * v / (2 * gnm_sqrt (t)) +
 			(b - r) * s * gnm_exp ((b - r) * t) * ncdf (-d1) + r * x * gnm_exp (-r * t) * ncdf (-d2);
 	default:
 		return gnm_nan;
@@ -387,7 +387,7 @@ opt_bs_theta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float t = value_get_as_float (argv[3]);
 	gnm_float r = value_get_as_float (argv[4]);
 	gnm_float v = value_get_as_float (argv[5]);
-	gnm_float b = argv[6] ? value_get_as_float (argv[6]) : 0.0;
+	gnm_float b = argv[6] ? value_get_as_float (argv[6]) : 0;
 	gnm_float gfresult = opt_bs_theta1 (call_put, s, x, t, r, v, b);
 
 	if (gnm_isnan (gfresult))
@@ -421,7 +421,7 @@ static gnm_float
 opt_bs_vega1 (gnm_float s, gnm_float x, gnm_float t,
 	      gnm_float r, gnm_float v, gnm_float b)
 {
-	gnm_float d1 = (gnm_log (s / x) + (b + (v * v) / 2.0) * t) /
+	gnm_float d1 = (gnm_log (s / x) + (b + (v * v) / 2) * t) /
 		(v * gnm_sqrt (t));
 	return s * gnm_exp ((b - r) * t) * npdf (d1) * gnm_sqrt (t);
 }
@@ -434,7 +434,7 @@ opt_bs_vega (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float t = value_get_as_float (argv[2]);
 	gnm_float r = value_get_as_float (argv[3]);
 	gnm_float v = value_get_as_float (argv[4]);
-	gnm_float b = argv[5] ? value_get_as_float (argv[5]) : 0.0;
+	gnm_float b = argv[5] ? value_get_as_float (argv[5]) : 0;
 
 	return value_new_float (opt_bs_vega1 (s, x, t, r, v, b));
 }
@@ -466,7 +466,7 @@ static gnm_float
 opt_bs_rho1 (OptionSide side, gnm_float s, gnm_float x,
 	     gnm_float t, gnm_float r, gnm_float v, gnm_float b)
 {
-	gnm_float d1 = (gnm_log (s / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
+	gnm_float d1 = (gnm_log (s / x) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 	gnm_float d2 = d1 - v * gnm_sqrt (t);
 	switch (side) {
 	case OS_Call:
@@ -496,7 +496,7 @@ opt_bs_rho (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float t = value_get_as_float (argv[3]);
 	gnm_float r = value_get_as_float (argv[4]);
 	gnm_float v = value_get_as_float (argv[5]);
-	gnm_float b = argv[6] ? value_get_as_float (argv[6]) : 0.0;
+	gnm_float b = argv[6] ? value_get_as_float (argv[6]) : 0;
 	gnm_float gfresult = opt_bs_rho1 (call_put, s, x, t, r, v, b);
 
 	if (gnm_isnan (gfresult))
@@ -529,7 +529,7 @@ static GnmFuncHelp const help_opt_bs_rho[] = {
 static gnm_float
 opt_bs_carrycost1 (OptionSide side, gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float v, gnm_float b)
 {
-	gnm_float d1 = (gnm_log (s / x) + (b + (v * v) / 2.0) * t) /
+	gnm_float d1 = (gnm_log (s / x) + (b + (v * v) / 2) * t) /
 		(v * gnm_sqrt (t));
 
 	switch (side) {
@@ -551,7 +551,7 @@ opt_bs_carrycost (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float t = value_get_as_float (argv[3]);
 	gnm_float r = value_get_as_float (argv[4]);
 	gnm_float v = value_get_as_float (argv[5]);
-	gnm_float b = argv[6] ? value_get_as_float (argv[6]) : 0.0;
+	gnm_float b = argv[6] ? value_get_as_float (argv[6]) : 0;
 	gnm_float gfresult = opt_bs_carrycost1 (call_put, s, x, t, r, v, b);
 
 	if (gnm_isnan (gfresult))
@@ -588,7 +588,7 @@ opt_garman_kohlhagen1 (OptionSide side,
 		       gnm_float s, gnm_float x, gnm_float t,
 		       gnm_float r, gnm_float rf, gnm_float v)
 {
-	gnm_float d1 = (gnm_log (s / x) + (r - rf + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
+	gnm_float d1 = (gnm_log (s / x) + (r - rf + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 	gnm_float d2 = d1 - v * gnm_sqrt (t);
 	switch (side) {
 	case OS_Call:
@@ -639,7 +639,7 @@ static gnm_float
 opt_french1 (OptionSide side, gnm_float s, gnm_float x, gnm_float tradingt, gnm_float calendart,
 	     gnm_float r, gnm_float v, gnm_float  b)
 {
-	gnm_float d1 = (gnm_log (s / x) + b * calendart + ((v * v) / 2.0) * tradingt) / (v * gnm_sqrt (tradingt));
+	gnm_float d1 = (gnm_log (s / x) + b * calendart + ((v * v) / 2) * tradingt) / (v * gnm_sqrt (tradingt));
 	gnm_float d2 = d1 - v * gnm_sqrt (tradingt);
 
 	switch (side) {
@@ -752,26 +752,26 @@ opt_miltersen_schwartz1 (OptionSide side, gnm_float p_t, gnm_float f_t, gnm_floa
 	gnm_float vz, vxz;
 	gnm_float d1, d2;
 
-	vz = (v_s * v_s) * t1 + 2.0 * v_s * (v_f * rho_sf * 1.0/ kappa_f * (t1 - 1.0/ kappa_f * gnm_exp (-kappa_f * t2) * (gnm_exp (kappa_f * t1) - 1.0))
-					    - v_e * rho_se * 1.0/ kappa_e * (t1 - 1.0/ kappa_e * gnm_exp (-kappa_e * t2) * (gnm_exp (kappa_e * t1) - 1.0)))
-		+ (v_e * v_e) * 1.0/ (kappa_e * kappa_e) * (t1 + 1.0/ (2.0 * kappa_e) * gnm_exp (-2 * kappa_e * t2) * (gnm_exp (2.0 * kappa_e * t1) - 1.0)
-							 - 2.0 * 1.0/ kappa_e * gnm_exp (-kappa_e * t2) * (gnm_exp (kappa_e * t1) - 1.0))
-		+ (v_f * v_f) * 1.0/ (kappa_f * kappa_f) * (t1 + 1.0/ (2.0 * kappa_f) * gnm_exp (-2.0 * kappa_f * t2) * (gnm_exp (2.0 * kappa_f * t1) - 1.0)
-							 - 2.0 * 1.0/ kappa_f * gnm_exp (-kappa_f * t2) * (gnm_exp (kappa_f * t1) - 1.0))
-		- 2.0 * v_e * v_f * rho_ef * 1.0/ kappa_e * 1.0/ kappa_f * (t1 - 1.0/ kappa_e * gnm_exp (-kappa_e * t2) * (gnm_exp (kappa_e * t1) - 1.0)
-									- 1.0/ kappa_f * gnm_exp (-kappa_f * t2) * (gnm_exp (kappa_f * t1) - 1.0)
-									+ 1.0/ (kappa_e + kappa_f) * gnm_exp (-(kappa_e + kappa_f) * t2) * (gnm_exp ((kappa_e + kappa_f) * t1) - 1.0));
+	vz = (v_s * v_s) * t1 + 2 * v_s * (v_f * rho_sf * 1 / kappa_f * (t1 - 1 / kappa_f * gnm_exp (-kappa_f * t2) * (gnm_exp (kappa_f * t1) - 1))
+					    - v_e * rho_se * 1 / kappa_e * (t1 - 1 / kappa_e * gnm_exp (-kappa_e * t2) * (gnm_exp (kappa_e * t1) - 1)))
+		+ (v_e * v_e) * 1 / (kappa_e * kappa_e) * (t1 + 1 / (2 * kappa_e) * gnm_exp (-2 * kappa_e * t2) * (gnm_exp (2 * kappa_e * t1) - 1)
+							 - 2 * 1 / kappa_e * gnm_exp (-kappa_e * t2) * (gnm_exp (kappa_e * t1) - 1))
+		+ (v_f * v_f) * 1 / (kappa_f * kappa_f) * (t1 + 1 / (2 * kappa_f) * gnm_exp (-2 * kappa_f * t2) * (gnm_exp (2 * kappa_f * t1) - 1)
+							 - 2 * 1 / kappa_f * gnm_exp (-kappa_f * t2) * (gnm_exp (kappa_f * t1) - 1))
+		- 2 * v_e * v_f * rho_ef * 1 / kappa_e * 1 / kappa_f * (t1 - 1 / kappa_e * gnm_exp (-kappa_e * t2) * (gnm_exp (kappa_e * t1) - 1)
+									- 1 / kappa_f * gnm_exp (-kappa_f * t2) * (gnm_exp (kappa_f * t1) - 1)
+									+ 1 / (kappa_e + kappa_f) * gnm_exp (-(kappa_e + kappa_f) * t2) * (gnm_exp ((kappa_e + kappa_f) * t1) - 1));
 
-	vxz = v_f * 1.0/ kappa_f * (v_s * rho_sf * (t1 - 1.0/ kappa_f * (1.0 - gnm_exp (-kappa_f * t1)))
-				   + v_f * 1.0/ kappa_f * (t1 - 1.0/ kappa_f * gnm_exp (-kappa_f * t2) * (gnm_exp (kappa_f * t1) - 1.0) - 1.0/ kappa_f * (1 - gnm_exp (-kappa_f * t1))
-							  + 1.0/ (2.0 * kappa_f) * gnm_exp (-kappa_f * t2) * (gnm_exp (kappa_f * t1) - gnm_exp (-kappa_f * t1)))
-				   - v_e * rho_ef * 1.0/ kappa_e * (t1 - 1.0/ kappa_e * gnm_exp (-kappa_e * t2) * (gnm_exp (kappa_e * t1) - 1.0) - 1.0/ kappa_f * (1.0 - gnm_exp (-kappa_f * t1))
-								   + 1.0/ (kappa_e + kappa_f) * gnm_exp (-kappa_e * t2) * (gnm_exp (kappa_e * t1) - gnm_exp (-kappa_f * t1))));
+	vxz = v_f * 1 / kappa_f * (v_s * rho_sf * (t1 - 1 / kappa_f * (1 - gnm_exp (-kappa_f * t1)))
+				   + v_f * 1 / kappa_f * (t1 - 1 / kappa_f * gnm_exp (-kappa_f * t2) * (gnm_exp (kappa_f * t1) - 1) - 1 / kappa_f * (1 - gnm_exp (-kappa_f * t1))
+							  + 1 / (2 * kappa_f) * gnm_exp (-kappa_f * t2) * (gnm_exp (kappa_f * t1) - gnm_exp (-kappa_f * t1)))
+				   - v_e * rho_ef * 1 / kappa_e * (t1 - 1 / kappa_e * gnm_exp (-kappa_e * t2) * (gnm_exp (kappa_e * t1) - 1) - 1 / kappa_f * (1 - gnm_exp (-kappa_f * t1))
+								   + 1 / (kappa_e + kappa_f) * gnm_exp (-kappa_e * t2) * (gnm_exp (kappa_e * t1) - gnm_exp (-kappa_f * t1))));
 
 	vz = gnm_sqrt (vz);
 
-	d1 = (gnm_log (f_t / x) - vxz + (vz * vz) / 2.0) / vz;
-	d2 = (gnm_log (f_t / x) - vxz - (vz * vz) / 2.0) / vz;
+	d1 = (gnm_log (f_t / x) - vxz + (vz * vz) / 2) / vz;
+	d2 = (gnm_log (f_t / x) - vxz - (vz * vz) / 2) / vz;
 
 	switch (side) {
 	case OS_Call:
@@ -852,23 +852,23 @@ static gnm_float opt_rgw1 (gnm_float s, gnm_float x, gnm_float t1, gnm_float t2,
 	infinity = 100000000;
 	epsilon = 0.00001;
 	sx = s - d * gnm_exp (-r * t1);
-	if (d <= (x * (1.0 - gnm_exp (-r * (t2 - t1)))))
+	if (d <= (x * (1 - gnm_exp (-r * (t2 - t1)))))
 		/* Not optimal to exercise */
-		return opt_bs1 (OS_Call, sx, x, t2, r, v,0.0);
+		return opt_bs1 (OS_Call, sx, x, t2, r, v, 0);
 
-	ci = opt_bs1 (OS_Call, s, x, t2 - t1, r, v,0.0);
+	ci = opt_bs1 (OS_Call, s, x, t2 - t1, r, v, 0);
 	HighS = s;
-	while ((ci - HighS - d + x) > 0.0 && HighS < infinity) {
+	while ((ci - HighS - d + x) > 0 && HighS < infinity) {
 
-		HighS *= 2.0;
-		ci = opt_bs1 (OS_Call, HighS, x, t2 - t1, r, v,0.0);
+		HighS *= 2;
+		ci = opt_bs1 (OS_Call, HighS, x, t2 - t1, r, v, 0);
 	}
 	if (HighS > infinity)
-		return opt_bs1 (OS_Call, sx, x, t2, r, v,0.0);
+		return opt_bs1 (OS_Call, sx, x, t2, r, v, 0);
 
 	LowS = 0.0;
-	i = HighS * 0.5;
-	ci = opt_bs1 (OS_Call, i, x, t2 - t1, r, v, 0.0);
+	i = HighS * GNM_const(0.5);
+	ci = opt_bs1 (OS_Call, i, x, t2 - t1, r, v, 0);
 
 	/* search algorithm to find the critical stock price i */
 	while (gnm_abs (ci - i - d + x) > epsilon && HighS - LowS > epsilon) {
@@ -876,13 +876,13 @@ static gnm_float opt_rgw1 (gnm_float s, gnm_float x, gnm_float t1, gnm_float t2,
 			HighS = i;
 		else
 			LowS = i;
-		i = (HighS + LowS) / 2.0;
-		ci = opt_bs1 (OS_Call, i, x, (t2 - t1), r, v, 0.0);
+		i = (HighS + LowS) / 2;
+		ci = opt_bs1 (OS_Call, i, x, (t2 - t1), r, v, 0);
 	}
 
-	a1 = (gnm_log (sx / x) + (r + (v * v) / 2.0) * t2) / (v * gnm_sqrt (t2));
+	a1 = (gnm_log (sx / x) + (r + (v * v) / 2) * t2) / (v * gnm_sqrt (t2));
 	a2 = a1 - v * gnm_sqrt (t2);
-	b1 = (gnm_log (sx / i) + (r + (v * v) / 2.0) * t1) / (v * gnm_sqrt (t1));
+	b1 = (gnm_log (sx / i) + (r + (v * v) / 2) * t1) / (v * gnm_sqrt (t1));
 	b2 = b1 - v * gnm_sqrt (t1);
 
 	gfresult = sx * ncdf (b1) + sx * cum_biv_norm_dist1 (a1, -b1, -gnm_sqrt (t1 / t2))
@@ -978,10 +978,10 @@ opt_baw_call (gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float v, g
 	{
 		sk = NRA_c (x, t, r, v, b);
 		n = 2 * b / (v * v);
-		k = 2 * r / ((v * v) * (1.0 - gnm_exp (-r * t)));
-		d1 = (gnm_log (sk / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
-		q2 = (-(n - 1.0) + gnm_sqrt ((n - 1.0) * (n - 1.0) + 4.0 * k)) / 2.0;
-		a2 = (sk / q2) * (1.0 - gnm_exp ((b - r) * t) * ncdf (d1));
+		k = 2 * r / ((v * v) * (1 - gnm_exp (-r * t)));
+		d1 = (gnm_log (sk / x) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
+		q2 = (-(n - 1) + gnm_sqrt ((n - 1) * (n - 1) + 4 * k)) / 2;
+		a2 = (sk / q2) * (1 - gnm_exp ((b - r) * t) * ncdf (d1));
 		if (s < sk)
 			gfresult = opt_bs1 (OS_Call, s, x, t, r, v, b) + a2 * gnm_pow (s / sk, q2);
 		else
@@ -1009,29 +1009,29 @@ NRA_c (gnm_float x, gnm_float  t, gnm_float r, gnm_float v, gnm_float b)
 	/* Calculation of seed value, si */
 	n = 2 * b / (v * v);
 	m = 2 * r / (v * v);
-	q2u = (-(n - 1.0) + gnm_sqrt (((n - 1.0) * (n - 1.0)) + 4.0 * m)) / 2.0;
-	su = x / (1.0 - 1.0/ q2u);
-	h2 = -(b * t + 2.0 * v * gnm_sqrt (t)) * x / (su - x);
-	si = x + (su - x) * (1.0 - gnm_exp (h2));
+	q2u = (-(n - 1) + gnm_sqrt (((n - 1) * (n - 1)) + 4 * m)) / 2;
+	su = x / (1 - 1 / q2u);
+	h2 = -(b * t + 2 * v * gnm_sqrt (t)) * x / (su - x);
+	si = x + (su - x) * (1 - gnm_exp (h2));
 
-	k = 2 * r / ((v * v) * (1.0 - gnm_exp (-r * t)));
-	d1 = (gnm_log (si / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
-	q2 = (-(n - 1.0) + gnm_sqrt (((n - 1.0) * (n - 1.0)) + 4.0 * k)) / 2.0;
+	k = 2 * r / ((v * v) * (1 - gnm_exp (-r * t)));
+	d1 = (gnm_log (si / x) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
+	q2 = (-(n - 1) + gnm_sqrt (((n - 1) * (n - 1)) + 4 * k)) / 2;
 	LHS = si - x;
-	RHS = opt_bs1 (OS_Call, si, x, t, r, v, b) + (1.0 - gnm_exp ((b - r) * t) * ncdf (d1)) * si / q2;
-	bi = gnm_exp ((b - r) * t) * ncdf (d1) * (1.0 - 1.0/ q2)
-		+ (1.0 - gnm_exp ((b - r) * t) * ncdf (d1) / (v * gnm_sqrt (t))) / q2;
+	RHS = opt_bs1 (OS_Call, si, x, t, r, v, b) + (1 - gnm_exp ((b - r) * t) * ncdf (d1)) * si / q2;
+	bi = gnm_exp ((b - r) * t) * ncdf (d1) * (1 - 1 / q2)
+		+ (1 - gnm_exp ((b - r) * t) * ncdf (d1) / (v * gnm_sqrt (t))) / q2;
 	e = 0.000001;
 
 	/* Newton Raphson algorithm for finding critical price si */
 	while ((gnm_abs (LHS - RHS) / x) > e)
 	{
-		si = (x + RHS - bi * si) / (1.0 - bi);
-		d1 = (gnm_log (si / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
+		si = (x + RHS - bi * si) / (1 - bi);
+		d1 = (gnm_log (si / x) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 		LHS = si - x;
-		RHS = opt_bs1 (OS_Call, si, x, t, r, v, b) + (1.0 - gnm_exp ((b - r) * t) * ncdf (d1)) * si / q2;
-		bi = gnm_exp ((b - r) * t) * ncdf (d1) * (1.0 - 1.0/ q2)
-			+ (1.0 - gnm_exp ((b - r) * t) * npdf (d1) / (v * gnm_sqrt (t))) / q2;
+		RHS = opt_bs1 (OS_Call, si, x, t, r, v, b) + (1 - gnm_exp ((b - r) * t) * ncdf (d1)) * si / q2;
+		bi = gnm_exp ((b - r) * t) * ncdf (d1) * (1 - 1 / q2)
+			+ (1 - gnm_exp ((b - r) * t) * npdf (d1) / (v * gnm_sqrt (t))) / q2;
 	}
 	return si;
 }
@@ -1041,10 +1041,10 @@ opt_baw_put (gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float v, gn
 {
 	gnm_float sk = NRA_p (x, t, r, v, b);
 	gnm_float n = 2 * b / (v * v);
-	gnm_float k = 2 * r / ((v * v) * (1.0 - gnm_exp (-r * t)));
-	gnm_float d1 = (gnm_log (sk / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
-	gnm_float q1 = (-(n - 1.0) - gnm_sqrt (((n - 1.0) * (n - 1.0)) + 4.0 * k)) / 2.0;
-	gnm_float a1 = -(sk / q1) * (1.0 - gnm_exp ((b - r) * t) * ncdf (-d1));
+	gnm_float k = 2 * r / ((v * v) * (1 - gnm_exp (-r * t)));
+	gnm_float d1 = (gnm_log (sk / x) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
+	gnm_float q1 = (-(n - 1) - gnm_sqrt (((n - 1) * (n - 1)) + 4 * k)) / 2;
+	gnm_float a1 = -(sk / q1) * (1 - gnm_exp ((b - r) * t) * ncdf (-d1));
 
 	if (s > sk)
 		return opt_bs1 (OS_Put, s, x, t, r, v, b) + a1 * gnm_pow (s/ sk, q1);
@@ -1067,28 +1067,28 @@ NRA_p (gnm_float x, gnm_float t, gnm_float r, gnm_float v, gnm_float b)
 	/* Calculation of seed value, si */
 	n = 2 * b / (v * v);
 	m = 2 * r / (v * v);
-	q1u = (-(n - 1.0) - gnm_sqrt (((n - 1.0) * (n - 1.0)) + 4.0 * m)) / 2.0;
-	su = x / (1.0 - 1.0/ q1u);
-	h1 = (b * t - 2.0 * v * gnm_sqrt (t)) * x / (x - su);
+	q1u = (-(n - 1) - gnm_sqrt (((n - 1) * (n - 1)) + 4 * m)) / 2;
+	su = x / (1 - 1 / q1u);
+	h1 = (b * t - 2 * v * gnm_sqrt (t)) * x / (x - su);
 	si = su + (x - su) * gnm_exp (h1);
 
-	k = 2 * r / ((v * v) * (1.0 - gnm_exp (-r * t)));
-	d1 = (gnm_log (si / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
-	q1 = (-(n - 1.0) - gnm_sqrt (((n - 1.0) * (n - 1.0)) + 4.0 * k)) / 2.0;
+	k = 2 * r / ((v * v) * (1 - gnm_exp (-r * t)));
+	d1 = (gnm_log (si / x) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
+	q1 = (-(n - 1) - gnm_sqrt (((n - 1) * (n - 1)) + 4 * k)) / 2;
 	LHS = x - si;
-	RHS = opt_bs1 (OS_Put, si, x, t, r, v, b) - (1.0 - gnm_exp ((b - r) * t) * ncdf (-d1)) * si / q1;
-	bi = -gnm_exp ((b - r) * t) * ncdf (-d1) * (1.0 - 1.0/ q1)
-		- (1.0 + gnm_exp ((b - r) * t) * npdf (-d1) / (v * gnm_sqrt (t))) / q1;
+	RHS = opt_bs1 (OS_Put, si, x, t, r, v, b) - (1 - gnm_exp ((b - r) * t) * ncdf (-d1)) * si / q1;
+	bi = -gnm_exp ((b - r) * t) * ncdf (-d1) * (1 - 1 / q1)
+		- (1 + gnm_exp ((b - r) * t) * npdf (-d1) / (v * gnm_sqrt (t))) / q1;
 	e = 0.000001;
 
 	/* Newton Raphson algorithm for finding critical price si */
 	while(gnm_abs (LHS - RHS) / x > e) {
-		si = (x - RHS + bi * si) / (1.0 + bi);
-		d1 = (gnm_log (si / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
+		si = (x - RHS + bi * si) / (1 + bi);
+		d1 = (gnm_log (si / x) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 		LHS = x - si;
-		RHS = opt_bs1 (OS_Put, si, x, t, r, v, b) - (1.0 - gnm_exp ((b - r) * t) * ncdf (-d1)) * si / q1;
-		bi = -gnm_exp ((b - r) * t) * ncdf (-d1) * (1.0 - 1.0/ q1)
-			- (1.0 + gnm_exp ((b - r) * t) * ncdf (-d1) / (v * gnm_sqrt (t))) / q1;
+		RHS = opt_bs1 (OS_Put, si, x, t, r, v, b) - (1 - gnm_exp ((b - r) * t) * ncdf (-d1)) * si / q1;
+		bi = -gnm_exp ((b - r) * t) * ncdf (-d1) * (1 - 1 / q1)
+			- (1 + gnm_exp ((b - r) * t) * ncdf (-d1) / (v * gnm_sqrt (t))) / q1;
 	}
 	return si;
 }
@@ -1117,7 +1117,7 @@ opt_bjer_stens (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float t = value_get_as_float (argv[3]);
 	gnm_float r = value_get_as_float (argv[4]);
 	gnm_float v = value_get_as_float (argv[5]);
-	gnm_float b = argv[6] ? value_get_as_float (argv[6]):0;
+	gnm_float b = argv[6] ? value_get_as_float (argv[6]) : 0;
 	gnm_float gfresult =
 		opt_bjer_stens1 (call_put, s, x, t, r, v, b);
 	return value_new_float (gfresult);
@@ -1144,22 +1144,22 @@ opt_bjer_stens1_c (gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float
 		return opt_bs1 (OS_Call, s, x, t, r, v, b);
 	else {
 		gnm_float Beta =
-			(1.0/ 2.0 - b / (v * v)) +
-			gnm_sqrt (gnm_pow (b / (v * v) - 1.0/ 2.0, 2) + 2 * r / (v * v));
-		gnm_float BInfinity = Beta / (Beta - 1.0) * x;
+			(GNM_const(0.5) - b / (v * v)) +
+			gnm_sqrt (gnm_pow (b / (v * v) - GNM_const(0.5), 2) + 2 * r / (v * v));
+		gnm_float BInfinity = Beta / (Beta - 1) * x;
 		gnm_float B0 = MAX (x, r / (r - b) * x);
-		gnm_float ht = -(b * t + 2.0 * v * gnm_sqrt (t)) * B0 / (BInfinity - B0);
-		gnm_float I = B0 + (BInfinity - B0) * (1.0 - gnm_exp (ht));
+		gnm_float ht = -(b * t + 2 * v * gnm_sqrt (t)) * B0 / (BInfinity - B0);
+		gnm_float I = B0 + (BInfinity - B0) * (1 - gnm_exp (ht));
 		if (s >= I)
 			return s - x;
 		else {
 			gnm_float alpha = (I - x) * gnm_pow (I ,-Beta);
 			return alpha * gnm_pow (s ,Beta) -
 				alpha * phi (s, t, Beta, I, I, r, v, b) +
-				phi (s, t, 1.0, I, I, r, v, b) -
-				phi (s, t, 1.0, x, I, r, v, b) -
-				x * phi (s, t, 0.0, I, I, r, v, b) +
-				x * phi (s, t, 0.0, x, I, r, v, b);
+				phi (s, t, 1, I, I, r, v, b) -
+				phi (s, t, 1, x, I, r, v, b) -
+				x * phi (s, t, 0, I, I, r, v, b) +
+				x * phi (s, t, 0, x, I, r, v, b);
 		}
 	}
 }
@@ -1171,10 +1171,10 @@ phi (gnm_float s, gnm_float t, gnm_float gamma, gnm_float H, gnm_float I, gnm_fl
 	gnm_float d;
 	gnm_float gfresult;
 
-	lambda = (-r + gamma * b + 0.5 * gamma * (gamma - 1.0) * (v * v)) * t;
-	d = -(gnm_log (s / H) + (b + (gamma - 0.5) * (v * v)) * t) / (v * gnm_sqrt (t));
-	kappa = 2 * b / (v * v) + (2.0 * gamma - 1.0);
-	gfresult = gnm_exp (lambda) * gnm_pow (s, gamma) * (ncdf (d) - gnm_pow (I / s, kappa) * ncdf (d - 2.0 * gnm_log (I / s) / (v * gnm_sqrt (t))));
+	lambda = (-r + gamma * b + GNM_const(0.5) * gamma * (gamma - 1) * (v * v)) * t;
+	d = -(gnm_log (s / H) + (b + (gamma - GNM_const(0.5)) * (v * v)) * t) / (v * gnm_sqrt (t));
+	kappa = 2 * b / (v * v) + (2 * gamma - 1);
+	gfresult = gnm_exp (lambda) * gnm_pow (s, gamma) * (ncdf (d) - gnm_pow (I / s, kappa) * ncdf (d - 2 * gnm_log (I / s) / (v * gnm_sqrt (t))));
 
 	return gfresult;
 }
@@ -1279,7 +1279,7 @@ opt_time_switch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	sum = 0.0;
 	n = t / dt;
 	for (i = 1; i < n; ++i) {
-		d = (gnm_log (s / x) + (b - (v * v) / 2.0) * i * dt) / (v * gnm_sqrt (i * dt));
+		d = (gnm_log (s / x) + (b - (v * v) / 2) * i * dt) / (v * gnm_sqrt (i * dt));
 		sum = sum + ncdf (Z * d) * dt;
 	}
 
@@ -1321,8 +1321,8 @@ opt_simple_chooser (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float b = value_get_as_float (argv[5]);
 	gnm_float v = value_get_as_float (argv[6]);
 
-	gnm_float d = (gnm_log (s / x) + (b + (v * v) / 2.0) * t2) / (v * gnm_sqrt (t2));
-	gnm_float y = (gnm_log (s / x) + b * t2 + (v * v) * t1 / 2.0) / (v * gnm_sqrt (t1));
+	gnm_float d = (gnm_log (s / x) + (b + (v * v) / 2) * t2) / (v * gnm_sqrt (t2));
+	gnm_float y = (gnm_log (s / x) + b * t2 + (v * v) * t1 / 2) / (v * gnm_sqrt (t1));
 	gnm_float gfresult =
 		s * gnm_exp ((b - r) * t2) * ncdf ( d) - x * gnm_exp (-r * t2) * ncdf ( d - v * gnm_sqrt (t2)) -
 		s * gnm_exp ((b - r) * t2) * ncdf (-y) + x * gnm_exp (-r * t2) * ncdf (-y + v * gnm_sqrt (t1));
@@ -1364,10 +1364,10 @@ opt_complex_chooser(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float rho1, rho2, I;
 
 	I = opt_crit_val_chooser (s, xc, xp, t, tc, tp, r, b, v);
-	d1 = (gnm_log (s / I) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
+	d1 = (gnm_log (s / I) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 	d2 = d1 - v * gnm_sqrt (t);
-	y1 = (gnm_log (s / xc) + (b + (v * v) / 2.0) * tc) / (v * gnm_sqrt (tc));
-	y2 = (gnm_log (s / xp) + (b + (v * v) / 2.0) * tp) / (v * gnm_sqrt (tp));
+	y1 = (gnm_log (s / xc) + (b + (v * v) / 2) * tc) / (v * gnm_sqrt (tc));
+	y2 = (gnm_log (s / xp) + (b + (v * v) / 2) * tp) / (v * gnm_sqrt (tp));
 	rho1 = gnm_sqrt (t / tc);
 	rho2 = gnm_sqrt (t / tp);
 
@@ -1457,9 +1457,9 @@ opt_on_options (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	I = CriticalValueOptionsOnOptions (call_put, x1, x2, t2 - t1, r, b, v);
 
 	rho = gnm_sqrt (t1 / t2);
-	y1 = (gnm_log (s / I) + (b + (v * v) / 2.0) * t1) / (v * gnm_sqrt (t1));
+	y1 = (gnm_log (s / I) + (b + (v * v) / 2) * t1) / (v * gnm_sqrt (t1));
 	y2 = y1 - v * gnm_sqrt (t1);
-	z1 = (gnm_log (s / x1) + (b + (v * v) / 2.0) * t2) / (v * gnm_sqrt (t2));
+	z1 = (gnm_log (s / x1) + (b + (v * v) / 2) * t2) / (v * gnm_sqrt (t2));
 	z2 = z1 - v * gnm_sqrt (t2);
 
 	if (!strcmp (type_flag, "cc"))
@@ -1534,8 +1534,8 @@ opt_extendible_writer (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float v = value_get_as_float (argv[8]);
 
 	gnm_float rho = gnm_sqrt (t1 / t2);
-	gnm_float z1 = (gnm_log (s / x2) + (b + (v * v) / 2.0) * t2) / (v * gnm_sqrt (t2));
-	gnm_float z2 = (gnm_log (s / x1) + (b + (v * v) / 2.0) * t1) / (v * gnm_sqrt (t1));
+	gnm_float z1 = (gnm_log (s / x2) + (b + (v * v) / 2) * t2) / (v * gnm_sqrt (t2));
+	gnm_float z2 = (gnm_log (s / x1) + (b + (v * v) / 2) * t1) / (v * gnm_sqrt (t1));
 
 	gnm_float gfresult;
 
@@ -1595,8 +1595,8 @@ opt_2_asset_correlation(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float v2 = value_get_as_float (argv[10]);
 	gnm_float rho = value_get_as_float (argv[11]);
 
-	gnm_float y1 = (gnm_log (s1 / x1) + (b1 - (v1 * v1) / 2.0) * t) / (v1 * gnm_sqrt (t));
-	gnm_float y2 = (gnm_log (s2 / x2) + (b2 - (v2 * v2) / 2.0) * t) / (v2 * gnm_sqrt (t));
+	gnm_float y1 = (gnm_log (s1 / x1) + (b1 - (v1 * v1) / 2) * t) / (v1 * gnm_sqrt (t));
+	gnm_float y2 = (gnm_log (s2 / x2) + (b2 - (v2 * v2) / 2) * t) / (v2 * gnm_sqrt (t));
 
 	if (call_put == OS_Call) {
 		return value_new_float (s2 * gnm_exp ((b2 - r) * t)
@@ -1652,7 +1652,7 @@ opt_euro_exchange(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float v, d1, d2;
 
 	v = gnm_sqrt (v1 * v1 + v2 * v2 - 2 * rho * v1 * v2);
-	d1 = (gnm_log (q1 * s1 / (q2 * s2)) + (b1 - b2 + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
+	d1 = (gnm_log (q1 * s1 / (q2 * s2)) + (b1 - b2 + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 	d2 = d1 - v * gnm_sqrt (t);
 
 	return value_new_float (q1 * s1 * gnm_exp ((b1 - r) * t) * ncdf (d1) -
@@ -1744,7 +1744,7 @@ opt_spread_approx(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float v = gnm_sqrt (v1 * v1 + gnm_pow ((v2 * f2 / (f2 + x)), 2) - 2 * rho * v1 * v2 * f2 / (f2 + x));
 	gnm_float F = f1 / (f2 + x);
 
-	return value_new_float (opt_bs1 (call_put_flag, F, 1.0, t, r, v, 0.0) * (f2 + x));
+	return value_new_float (opt_bs1 (call_put_flag, F, 1, t, r, v, 0) * (f2 + x));
 }
 
 static GnmFuncHelp const help_opt_spread_approx[] = {
@@ -1785,7 +1785,7 @@ opt_float_strk_lkbk(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	else
 		return value_new_error_NUM (ei->pos);
 
-	a1 = (gnm_log (s / m) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
+	a1 = (gnm_log (s / m) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 	a2 = a1 - v * gnm_sqrt (t);
 
 	if(OS_Call == call_put_flag)
@@ -1846,9 +1846,9 @@ opt_fixed_strk_lkbk(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	else
 		return value_new_error_VALUE (ei->pos);
 
-	d1 = (gnm_log (s / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
+	d1 = (gnm_log (s / x) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 	d2 = d1 - v * gnm_sqrt (t);
-	e1 = (gnm_log (s / m) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
+	e1 = (gnm_log (s / m) + (b + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 	e2 = e1 - v * gnm_sqrt (t);
 
 	if (OS_Call == call_put_flag && x > m)
@@ -1924,23 +1924,23 @@ opt_binomial(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	dt = t / n;
 	u = gnm_exp (v * gnm_sqrt (dt));
-	d = 1.0 / u;
+	d = 1 / u;
 	p = (gnm_exp (b * dt) - d) / (u - d);
 	Df = gnm_exp (-r * dt);
 
 	for (i = 0; i <= n; ++i) {
 		temp1 = z * (s * gnm_pow (u, i) * gnm_pow (d, (n - i)) - x);
-		value_array[i] = MAX (temp1, 0.0);
+		value_array[i] = MAX (temp1, 0);
 	    }
 
 	for (j = n - 1; j > -1; --j) {
 		for (i = 0; i <= j; ++i) {
 			/*if (0==i)g_printerr("secondloop %d\n",j);*/
 			if (OT_Euro == amer_euro_flag)
-				value_array[i] = (p * value_array[i + 1] + (1.0 - p) * value_array[i]) * Df;
+				value_array[i] = (p * value_array[i + 1] + (1 - p) * value_array[i]) * Df;
 			else if (OT_Amer == amer_euro_flag) {
 				temp1 = (z * (s * gnm_pow (u, i) * gnm_pow (d, (gnm_abs (i - j))) - x));
-				temp2 = (p * value_array[i + 1] + (1.0 - p) * value_array[i]) * Df;
+				temp2 = (p * value_array[i + 1] + (1 - p) * value_array[i]) * Df;
 				value_array[i] = MAX (temp1, temp2);
 			}
 		}

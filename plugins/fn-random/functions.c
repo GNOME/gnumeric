@@ -138,7 +138,7 @@ gnumeric_randdiscrete (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			goto error;
 
 		gnm_range_sum (probs, np, &psum);
-		if (gnm_abs (psum - 1) > 1e-10)
+		if (gnm_abs (psum - 1) > GNM_const(1e-10))
 			goto error;
 	}
 
@@ -267,9 +267,7 @@ gnumeric_randbetween (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	// the same thing.
 	bottom = gnm_ceil (bottom);
 	top = gnm_floor (top);
-
-	// Rounding alert: adding 1 could add 2 after rounding.
-	choices = gnm_ceil ((top - bottom) + 0.875);
+	choices = top - bottom;
 
 	return value_new_float (bottom + gnm_floor (choices * random_01 ()));
 }
@@ -935,7 +933,7 @@ gnumeric_randsnorm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
        	if (stdev < 0)
 		return value_new_error_NUM (ei->pos);
 
-	result = ((alpha == 0.) ? random_normal () : random_skew_normal (alpha));
+	result = ((alpha == 0) ? random_normal () : random_skew_normal (alpha));
 
         return value_new_float (stdev * result + mean);
 }
@@ -959,9 +957,9 @@ static GnmValue *
 gnumeric_randstdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float nu = value_get_as_float (argv[0]);
-	gnm_float alpha = argv[1] ? value_get_as_float (argv[1]) : 0.;
+	gnm_float alpha = argv[1] ? value_get_as_float (argv[1]) : 0;
 
-	return ((alpha == 0.) ? value_new_float (random_tdist (nu))
+	return ((alpha == 0) ? value_new_float (random_tdist (nu))
 		: value_new_float (random_skew_tdist (nu, alpha)));
 }
 
