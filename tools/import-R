@@ -130,7 +130,7 @@ sub import_file {
 	$_ .= <$src> if /^static\s+double\s*$/;
 
 	s/\s+$//;
-	s/^ \t/\t/;
+	s/ +\t/\t/;
 
 	if (!$incomment && m|^\s*/\*| && !m|\*/|) {
 	    $incomment = 1;
@@ -159,7 +159,7 @@ sub import_file {
 
 	    s/\bISNAN\b/gnm_isnan/g;
 	    s/\bR_(finite|FINITE)\b/gnm_finite/g;
-	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|ceil|sin|cos|sinh|tan)(\s|$|\()/gnm_$1$2/g;
+	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|ceil|sin|cos|sinh|tan|sinpi)(\s|$|\()/gnm_$1$2/g;
 	    s/\b(lbeta|tanpi|atanpi|logcf)(\s|$|\()/gnm_$1$2/g;
 	    s/\bfabs\b/gnm_abs/g;
 	    s/\bR_forceint\b/gnm_round/g;
@@ -176,6 +176,8 @@ sub import_file {
 
 	    # Constants.
 	    s/((>|<|>=|<=|==|!=)\s*[0-9]{1,9})\.0*([ \t\)])/$1$3/g;   # Compare against integer
+	    s!([- +*/]=\s*[0-9]{1,9})\.0*\s*;!$1;!g;   # Assignment of integer
+
 	    s/\b(M_LN2|M_PI|M_PI_2|M_SQRT2|M_2PI|M_1_PI)\b/$1gnum/g;
 	    s/\bDBL_(EPSILON|MIN|MAX)/GNM_$1/g;
 	    s/([^%])([-+]?(\d*\.(\d{1,})|\d+\.\d{0,})([eE][-+]?\d+)?)/$1GNM_const\($2\)/g;
@@ -188,7 +190,7 @@ sub import_file {
 	    s/\battribute_hidden\s+//;
 
 	    # These are made static.
-	    s/^gnm_float\s+(pbeta_both|bd0|dpois_raw|chebyshev_eval|lgammacor|pbeta_raw|dbinom_raw|bessel_[ijky]|bessel_[jy]_ex|do_search|pgamma_raw)\b/static gnm_float $1/;
+	    s/^gnm_float\s+(pbeta_both|bd0|dpois_raw|chebyshev_eval|lgammacor|pbeta_raw|dbinom_raw|bessel_[ijky]|bessel_[ijy]_ex|do_search|pgamma_raw)\b/static gnm_float $1/;
 	    s/^int\s+(chebyshev_init)/static int $1/;
 
 	    # Optimization given our stupid gammafn.
@@ -198,6 +200,8 @@ sub import_file {
 	    s/dnorm4/dnorm/g;
 	    s/pnorm5/pnorm/g;
 	    s/qnorm5/qnorm/g;
+	    s/\bR_pow_di\b/gnm_pow/;
+	    s/\bRf_gamma_cody\b/gnm_gamma/;
 
 	    s{^(\#define R_Log1_Exp)}{// $1};
 
@@ -211,7 +215,6 @@ sub import_file {
 	    if ($filename !~ /\bpgamma\.c$/) {
 		# Improve precision of "lgammagnum(x+1)".
 		s/\bgnm_lgamma\s*\(([^()]+)\s*\+\s*GNM_const\(1(\.0*)?\)\s*\)/lgamma1p ($1)/;
-		s/\bgamma_cody\s*\(1\.\s*\+\s*([^()]+)\s*\)/gnm_exp(lgamma1p ($1))/;
 	    }
 	    s/\bR_Log1_Exp\b/swap_log_tail/g;
 
@@ -238,7 +241,7 @@ sub import_file {
 		$_ = "/* Definition of function $3 removed.  */";
 	    }
 
-	    if ((/^(static\s*)?gnm_float\s*(lgamma1p|logspace_sum|[dpq]nbinom_mu)\s*\(/ && ($victim = $2)) .. /^\}/) {
+	    if ((/^(static\s*)?gnm_float\s*(lgamma1p|logspace_sum|[dpq]nbinom_mu|bessel_[ik]_ex)\s*\(/ && ($victim = $2)) .. /^\}/) {
 		next unless /^\}/;
 		$_ = "/* Definition of function $victim removed.  */";
 	    }

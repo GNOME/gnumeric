@@ -11,6 +11,7 @@
 #define M_SQRT_2dPI     GNM_const(0.797884560802865355879892119869)  /* sqrt(2/pi) */
 #define MATHLIB_WARNING2 g_warning
 #define MATHLIB_WARNING4 g_warning
+#define ML_WARNING(typ,what) g_printerr("sf-bessel: trouble in %s\n", (what))
 
 static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo);
 
@@ -230,7 +231,7 @@ static gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
 	return(bessel_i(x, -alpha, expo) +
 	       ((alpha == na) ? /* sin(pi * alpha) = 0 */ 0 :
 		bessel_k(x, -alpha, expo) *
-		((ize == 1)? GNM_const(2.) : GNM_const(2.)*gnm_exp(GNM_const(-2.)*x))/M_PIgnum * sinpi(-alpha)));
+		((ize == 1)? GNM_const(2.) : GNM_const(2.)*gnm_exp(GNM_const(-2.)*x))/M_PIgnum * gnm_sinpi(-alpha)));
     }
     nb = 1 + (int)na;/* nb-1 <= alpha < nb */
     alpha -= (gnm_float)(nb-1);
@@ -261,43 +262,9 @@ static gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
 
 /* modified version of bessel_i that accepts a work array instead of
    allocating one. */
-gnm_float bessel_i_ex(gnm_float x, gnm_float alpha, gnm_float expo, gnm_float *bi)
-{
-    int nb, ncalc, ize;
-    gnm_float na;
-
-#ifdef IEEE_754
-    /* NaNs propagated correctly */
-    if (gnm_isnan(x) || gnm_isnan(alpha)) return x + alpha;
-#endif
-    if (x < 0) {
-	ML_WARNING(ME_RANGE, "bessel_i");
-	return gnm_nan;
-    }
-    ize = (int)expo;
-    na = gnm_floor(alpha);
-    if (alpha < 0) {
 	/* Using Abramowitz & Stegun  9.6.2 & 9.6.6
 	 * this may not be quite optimal (CPU and accuracy wise) */
-	return(bessel_i_ex(x, -alpha, expo, bi) +
-	       ((alpha == na) ? 0 :
-		bessel_k_ex(x, -alpha, expo, bi) *
-		((ize == 1)? GNM_const(2.) : GNM_const(2.)*gnm_exp(GNM_const(-2.)*x))/M_PIgnum * sinpi(-alpha)));
-    }
-    nb = 1 + (int)na;/* nb-1 <= alpha < nb */
-    alpha -= (gnm_float)(nb-1);
-    I_bessel(&x, &alpha, &nb, &ize, bi, &ncalc);
-    if(ncalc != nb) {/* error input */
-	if(ncalc < 0)
-	    MATHLIB_WARNING4(("bessel_i(%" GNM_FORMAT_g "): ncalc (=%d) != nb (=%d); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
-			     x, ncalc, nb, alpha);
-	else
-	    MATHLIB_WARNING2(("bessel_i(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
-			     x, alpha+(gnm_float)nb-1);
-    }
-    x = bi[nb-1];
-    return x;
-}
+/* Definition of function bessel_i_ex removed.  */
 
 static void I_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 		     int *ize, gnm_float *bi, int *ncalc)
@@ -433,7 +400,7 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 	    nbmx = *nb - intx;
 	    n = intx + 1;
 	    en = (gnm_float) (n + n) + twonu;
-	    plast = GNM_const(1.);
+	    plast = 1;
 	    p = en / *x;
 	    /* ------------------------------------------------
 	       Calculate general significance test
@@ -442,7 +409,7 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 	    if (intx << 1 > nsig_BESS * 5) {
 		test = gnm_sqrt(test * p);
 	    } else {
-		test /= R_pow_di(const__, intx);
+		test /= gnm_pow(const__, intx);
 	    }
 	    if (nbmx >= 3) {
 		/* --------------------------------------------------
@@ -454,7 +421,7 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 		nend = *nb - 1;
 		for (k = nstart; k <= nend; ++k) {
 		    n = k;
-		    en += GNM_const(2.);
+		    en += 2;
 		    pold = plast;
 		    plast = p;
 		    p = en * plast / *x + pold;
@@ -471,7 +438,7 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 			nstart = n + 1;
 			do {
 			    ++n;
-			    en += GNM_const(2.);
+			    en += 2;
 			    pold = plast;
 			    plast = p;
 			    p = en * plast / *x + pold;
@@ -487,7 +454,7 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 			test *= GNM_const(.5) - GNM_const(.5) / (bb * bb);
 			p = plast * tover;
 			--n;
-			en -= GNM_const(2.);
+			en -= 2;
 			nend = min0(*nb,n);
 			for (l = nstart; l <= nend; ++l) {
 			    *ncalc = l;
@@ -516,7 +483,7 @@ L90:
 	       -------------------------------------------------------- */
 	    do {
 		++n;
-		en += GNM_const(2.);
+		en += 2;
 		pold = plast;
 		plast = p;
 		p = en * plast / *x + pold;
@@ -527,8 +494,8 @@ L120:
  Initialize the backward recursion and the normalization sum.
  ------------------------------------------------------------------- */
 	    ++n;
-	    en += GNM_const(2.);
-	    bb = GNM_const(0.);
+	    en += 2;
+	    bb = 0;
 	    aa = GNM_const(1.) / p;
 	    em = (gnm_float) n - GNM_const(1.);
 	    empal = em + nu;
@@ -542,7 +509,7 @@ L120:
 		bi[n] = aa;
 		nend = -nend;
 		for (l = 1; l <= nend; ++l) {
-		    bi[n + l] = GNM_const(0.);
+		    bi[n + l] = 0;
 		}
 	    } else {
 		if (nend > 0) {
@@ -553,7 +520,7 @@ L120:
 
 		    for (l = 1; l <= nend; ++l) {
 			--n;
-			en -= GNM_const(2.);
+			en -= 2;
 			cc = bb;
 			bb = aa;
 			/* for x ~= 1500,  sum would overflow to 'inf' here,
@@ -566,15 +533,15 @@ L120:
 			    sum = ldexp(sum,-900);
 			}
 			aa = en * bb / *x + cc;
-			em -= GNM_const(1.);
-			emp2al -= GNM_const(1.);
+			em -= 1;
+			emp2al -= 1;
 			if (n == 1) {
 			    break;
 			}
 			if (n == 2) {
-			    emp2al = GNM_const(1.);
+			    emp2al = 1;
 			}
-			empal -= GNM_const(1.);
+			empal -= 1;
 			sum = (sum + aa * empal) * emp2al / em;
 		    }
 		}
@@ -590,18 +557,18 @@ L120:
 		   Calculate and Store BI[NB-1]
 		   ------------------------------------------------- */
 		--n;
-		en -= GNM_const(2.);
+		en -= 2;
 		bi[n] = en * aa / *x + bb;
 		if (n == 1) {
 		    goto L220;
 		}
-		em -= GNM_const(1.);
+		em -= 1;
 		if (n == 2)
-		    emp2al = GNM_const(1.);
+		    emp2al = 1;
 		else
-		    emp2al -= GNM_const(1.);
+		    emp2al -= 1;
 
-		empal -= GNM_const(1.);
+		empal -= 1;
 		sum = (sum + bi[n] * empal) * emp2al / em;
 	    }
 	    nend = n - 2;
@@ -612,14 +579,14 @@ L120:
 		   ------------------------------------------ */
 		for (l = 1; l <= nend; ++l) {
 		    --n;
-		    en -= GNM_const(2.);
+		    en -= 2;
 		    bi[n] = en * bi[n + 1] / *x + bi[n + 2];
-		    em -= GNM_const(1.);
+		    em -= 1;
 		    if (n == 2)
-			emp2al = GNM_const(1.);
+			emp2al = 1;
 		    else
-			emp2al -= GNM_const(1.);
-		    empal -= GNM_const(1.);
+			emp2al -= 1;
+		    empal -= 1;
 		    sum = (sum + bi[n] * empal) * emp2al / em;
 		}
 	    }
@@ -635,7 +602,7 @@ L230:
 	       Normalize.  Divide all BI[N] by sum.
 	       --------------------------------------------------------- */
 	    if (nu != 0)
-		sum *= (Rf_gamma_cody(GNM_const(1.) + nu) * gnm_pow(*x * GNM_const(.5), -nu));
+		sum *= (gnm_gamma(GNM_const(1.) + nu) * gnm_pow(*x * GNM_const(.5), -nu));
 	    if (*ize == 1)
 		sum *= gnm_exp(-(*x));
 	    aa = enmten_BESS;
@@ -643,7 +610,7 @@ L230:
 		aa *= sum;
 	    for (n = 1; n <= *nb; ++n) {
 		if (bi[n] < aa)
-		    bi[n] = GNM_const(0.);
+		    bi[n] = 0;
 		else
 		    bi[n] /= sum;
 	    }
@@ -652,7 +619,7 @@ L230:
 	    /* -----------------------------------------------------------
 	       Two-term ascending series for small X.
 	       -----------------------------------------------------------*/
-	    aa = GNM_const(1.);
+	    aa = 1;
 	    empal = GNM_const(1.) + nu;
 #ifdef IEEE_754
 	    /* No need to check for underflow */
@@ -661,10 +628,10 @@ L230:
 	    if (*x > enmten_BESS) */
 		halfx = GNM_const(.5) * *x;
 	    else
-	    	halfx = GNM_const(0.);
+		halfx = 0;
 #endif
 	    if (nu != 0)
-		aa = gnm_pow(halfx, nu) / Rf_gamma_cody(empal);
+		aa = gnm_pow(halfx, nu) / gnm_gamma(empal);
 	    if (*ize == 2)
 		aa *= gnm_exp(-(*x));
 	    bb = halfx * halfx;
@@ -674,7 +641,7 @@ L230:
 	    if (*nb > 1) {
 		if (*x == 0) {
 		    for (n = 2; n <= *nb; ++n)
-			bi[n] = GNM_const(0.);
+			bi[n] = 0;
 		} else {
 		    /* -------------------------------------------------
 		       Calculate higher-order functions.
@@ -685,10 +652,10 @@ L230:
 			tover = enmten_BESS / bb;
 		    for (n = 2; n <= *nb; ++n) {
 			aa /= empal;
-			empal += GNM_const(1.);
+			empal += 1;
 			aa *= cc;
 			if (aa <= tover * empal)
-			    bi[n] = aa = GNM_const(0.);
+			    bi[n] = aa = 0;
 			else
 			    bi[n] = aa + aa * bb / empal;
 			if (bi[n] == 0 && *ncalc > n)
@@ -790,35 +757,7 @@ static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
 
 /* modified version of bessel_k that accepts a work array instead of
    allocating one. */
-gnm_float bessel_k_ex(gnm_float x, gnm_float alpha, gnm_float expo, gnm_float *bk)
-{
-    int nb, ncalc, ize;
-
-#ifdef IEEE_754
-    /* NaNs propagated correctly */
-    if (gnm_isnan(x) || gnm_isnan(alpha)) return x + alpha;
-#endif
-    if (x < 0) {
-	ML_WARNING(ME_RANGE, "bessel_k");
-	return gnm_nan;
-    }
-    ize = (int)expo;
-    if(alpha < 0)
-	alpha = -alpha;
-    nb = 1+ (int)gnm_floor(alpha);/* nb-1 <= |alpha| < nb */
-    alpha -= (gnm_float)(nb-1);
-    K_bessel(&x, &alpha, &nb, &ize, bk, &ncalc);
-    if(ncalc != nb) {/* error input */
-      if(ncalc < 0)
-	MATHLIB_WARNING4(("bessel_k(%" GNM_FORMAT_g "): ncalc (=%d) != nb (=%d); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
-			 x, ncalc, nb, alpha);
-      else
-	MATHLIB_WARNING2(("bessel_k(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
-			 x, alpha+(gnm_float)nb-1);
-    }
-    x = bk[nb-1];
-    return x;
-}
+/* Definition of function bessel_k_ex removed.  */
 
 static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 		     int *ize, gnm_float *bk, int *ncalc)
@@ -962,16 +901,16 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 		    bk[i] = gnm_pinf;
 	    } else /* would only have underflow */
 		for(i=0; i < *nb; i++)
-		    bk[i] = GNM_const(0.);
+		    bk[i] = 0;
 	    *ncalc = *nb;
 	    return;
 	}
 	k = 0;
 	if (nu < sqxmin_BESS_K) {
-	    nu = GNM_const(0.);
+	    nu = 0;
 	} else if (nu > GNM_const(.5)) {
 	    k = 1;
-	    nu -= GNM_const(1.);
+	    nu -= 1;
 	}
 	twonu = nu + nu;
 	iend = *nb + k - 1;
@@ -982,8 +921,8 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 	       Calculation of P0 = GAMMA(1+ALPHA) * (2/X)**ALPHA
 			      Q0 = GAMMA(1-ALPHA) * (X/2)**ALPHA
 	       ------------------------------------------------------------ */
-	    d1 = GNM_const(0.); d2 = p[0];
-	    t1 = GNM_const(1.); t2 = q[0];
+	    d1 = 0; d2 = p[0];
+	    t1 = 1; t2 = q[0];
 	    for (i = 2; i <= 7; i += 2) {
 		d1 = c * d1 + p[i - 1];
 		d2 = c * d2 + p[i];
@@ -1001,7 +940,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 	       Calculation of F0 =
 	       ----------------------------------------------------------- */
 	    d1 = r[4];
-	    t1 = GNM_const(1.);
+	    t1 = 1;
 	    for (i = 0; i < 4; ++i) {
 		d1 = c * d1 + r[i];
 		t1 = c * t1 + s[i];
@@ -1010,7 +949,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 	     *	   = f0 * sinh(f1)/f1 */
 	    if (gnm_abs(f1) <= GNM_const(.5)) {
 		f1 *= f1;
-		d2 = GNM_const(0.);
+		d2 = 0;
 		for (i = 0; i < 6; ++i) {
 		    d2 = f1 * d2 + t[i];
 		}
@@ -1040,7 +979,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 			return;
 		    }
 		    bk[0] = ratio * bk[0] / ex;
-		    twonu += GNM_const(2.);
+		    twonu += 2;
 		    ratio = twonu;
 		}
 		*ncalc = 1;
@@ -1057,7 +996,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 			return;
 
 		    bk[i] = ratio / ex;
-		    twonu += GNM_const(2.);
+		    twonu += 2;
 		    ratio = twonu;
 		}
 		*ncalc = 1;
@@ -1066,19 +1005,19 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 		/* ------------------------------------------------------
 		   10^-10 < X <= 1.0
 		   ------------------------------------------------------ */
-		c = GNM_const(1.);
+		c = 1;
 		x2by4 = ex * ex / GNM_const(4.);
 		p0 = GNM_const(.5) * p0;
 		q0 = GNM_const(.5) * q0;
 		d1 = GNM_const(-1.);
-		d2 = GNM_const(0.);
-		bk1 = GNM_const(0.);
-		bk2 = GNM_const(0.);
+		d2 = 0;
+		bk1 = 0;
+		bk2 = 0;
 		f1 = f0;
 		f2 = p0;
 		do {
-		    d1 += GNM_const(2.);
-		    d2 += GNM_const(1.);
+		    d1 += 2;
+		    d2 += 1;
 		    d3 = d1 + d3;
 		    c = x2by4 * c / d2;
 		    f0 = (d2 * f0 + p0 + q0) / d3;
@@ -1114,8 +1053,8 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 	       X > 1.0
 	       ------------------------------------------------------- */
 	    twox = ex + ex;
-	    blpha = GNM_const(0.);
-	    ratio = GNM_const(0.);
+	    blpha = 0;
+	    ratio = 0;
 	    if (ex <= 4) {
 		/* ----------------------------------------------------------
 		   Calculation of K(ALPHA+1,X)/K(ALPHA,X),  1.0 <= X <= 4.0
@@ -1126,7 +1065,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 		d2 -= GNM_const(.5);
 		d2 *= d2;
 		for (i = 2; i <= m; ++i) {
-		    d1 -= GNM_const(2.);
+		    d1 -= 2;
 		    d2 -= d1;
 		    ratio = (d3 + d2) / (twox + d1 - ratio);
 		}
@@ -1142,7 +1081,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 		f1 = GNM_MIN;
 		f0 = (GNM_const(2.) * (c + d2) / ex + GNM_const(.5) * ex / (c + d2 + GNM_const(1.))) * GNM_MIN;
 		for (i = 3; i <= m; ++i) {
-		    d2 -= GNM_const(1.);
+		    d2 -= 1;
 		    f2 = (d3 + d2 + d2) * f0;
 		    blpha = (GNM_const(1.) + d1 / d2) * (f2 + blpha);
 		    f2 = f2 / ex + f1;
@@ -1150,8 +1089,8 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 		    f0 = f2;
 		}
 		f1 = (d3 + GNM_const(2.)) * f0 / ex + f1;
-		d1 = GNM_const(0.);
-		t1 = GNM_const(1.);
+		d1 = 0;
+		t1 = 1;
 		for (i = 1; i <= 7; ++i) {
 		    d1 = c * d1 + p[i - 1];
 		    t1 = c * t1 + q[i - 1];
@@ -1174,8 +1113,8 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 		d2 *= d2;
 		d1 = dm + dm;
 		for (i = 2; i <= m; ++i) {
-		    dm -= GNM_const(1.);
-		    d1 -= GNM_const(2.);
+		    dm -= 1;
+		    d1 -= 2;
 		    d2 -= d1;
 		    ratio = (d3 + d2) / (twox + d1 - ratio);
 		    blpha = (ratio + ratio * blpha) / dm;
@@ -1211,7 +1150,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 	for (i = 2; i <= m; ++i) {
 	    t1 = bk1;
 	    bk1 = bk2;
-	    twonu += GNM_const(2.);
+	    twonu += 2;
 	    if (ex < 1) {
 		if (bk1 >= GNM_MAX / twonu * ex)
 		    break;
@@ -1235,7 +1174,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
 	mplus1 = m + 1;
 	*ncalc = -1;
 	for (i = mplus1; i <= iend; ++i) {
-	    twonu += GNM_const(2.);
+	    twonu += 2;
 	    ratio = twonu / ex + GNM_const(1.)/ratio;
 	    ++j;
 	    if (j >= 1) {

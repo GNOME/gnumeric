@@ -638,7 +638,7 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
 		xnum = (xnum + a[i]) * xsq;
 		xden = (xden + b[i]) * xsq;
 	    }
-	} else xnum = xden = GNM_const(0.0);
+	} else xnum = xden = 0;
 
 	temp = x * (xnum + a[3]) / (xden + b[3]);
 	if(lower)  *cum = GNM_const(0.5) + temp;
@@ -739,8 +739,8 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
 	if(*ccum > -min)*ccum = GNM_const(-0.);
     }
     else {
-	if(*cum < min)	 *cum = GNM_const(0.);
-	if(*ccum < min)	*ccum = GNM_const(0.);
+	if(*cum < min)	 *cum = 0;
+	if(*ccum < min)	*ccum = 0;
     }
 #endif
     return;
@@ -1437,7 +1437,7 @@ pd_lower_cf (gnm_float y, gnm_float d)
 	return (f0);
     }
 
-    if(f0 > 1) f0 = GNM_const(1.);
+    if(f0 > 1) f0 = 1;
     c2 = y;
     c4 = d; /* original (y,d), *not* potentially scaled ones!*/
 
@@ -1941,7 +1941,7 @@ gnm_float pt(gnm_float x, gnm_float n, gboolean lower_tail, gboolean log_p)
 	else return val - M_LN2gnum; /* = log(.5* pbeta(....)) */
     }
     else {
-	val /= GNM_const(2.);
+	val /= 2;
 	return R_D_Cval(val);
     }
 }
@@ -2018,7 +2018,7 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
 	 * 1. finding an upper and lower bound */
 	if(p > 1 - GNM_EPSILON) return gnm_pinf;
 	pp = fmin2(1 - GNM_EPSILON, p * (1 + Eps));
-	for(ux = GNM_const(1.); ux < GNM_MAX && pt(ux, ndf, TRUE, FALSE) < pp; ux *= 2);
+	for(ux = 1; ux < GNM_MAX && pt(ux, ndf, TRUE, FALSE) < pp; ux *= 2);
 	pp = p * (1 - Eps);
 	for(lx =GNM_const(-1.); lx > -GNM_MAX && pt(lx, ndf, TRUE, FALSE) > pp; lx *= 2);
 
@@ -3616,7 +3616,7 @@ gnm_float qexp(gnm_float p, gnm_float scale, gboolean lower_tail, gboolean log_p
 /* Imported src/nmath/qgeom.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998 	     Ross Ihaka
+ *  Copyright (C) 1998	     Ross Ihaka
  *  Copyright (C) 2000--2016 The R Core Team
  *  Copyright (C) 2004--2016 The R Foundation
  *
