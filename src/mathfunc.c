@@ -1579,7 +1579,7 @@ static gnm_float
 ppois_asymp (gnm_float x, gnm_float lambda, gboolean lower_tail, gboolean log_p)
 {
     static const gnm_float coefs_a[8] = {
-	-1e99, /* placeholder used for 1-indexing */
+	GNM_const(-1e99), /* placeholder used for 1-indexing */
 	2/GNM_const(3.),
 	-4/GNM_const(135.),
 	8/GNM_const(2835.),
@@ -1590,7 +1590,7 @@ ppois_asymp (gnm_float x, gnm_float lambda, gboolean lower_tail, gboolean log_p)
     };
 
     static const gnm_float coefs_b[8] = {
-	-1e99, /* placeholder */
+	GNM_const(-1e99), /* placeholder */
 	1/GNM_const(12.),
 	1/GNM_const(288.),
 	-139/GNM_const(51840.),

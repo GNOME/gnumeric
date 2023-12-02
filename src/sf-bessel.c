@@ -148,14 +148,14 @@ And routine specific :
 
 */
 #define nsig_BESS	16
-#define ensig_BESS	1e16
-#define rtnsig_BESS	1e-4
+#define ensig_BESS	GNM_const(1e16)
+#define rtnsig_BESS	GNM_const(1e-4)
 #define enmten_BESS	GNM_const(8.9e-308)
-#define enten_BESS	1e308
+#define enten_BESS	GNM_const(1e308)
 
 #define exparg_BESS	GNM_const(709.)
-#define xlrg_BESS_IJ	1e5
-#define xlrg_BESS_Y	1e8
+#define xlrg_BESS_IJ	GNM_const(1e5)
+#define xlrg_BESS_Y	GNM_const(1e8)
 #define thresh_BESS_Y	GNM_const(16.)
 
 #define xmax_BESS_K	GNM_const(705.342)/* maximal x for UNscaled answer */
