@@ -20,8 +20,30 @@ static inline gnm_float fmax2 (gnm_float x, gnm_float y) { return MAX (x, y); }
 
 
 /* ------------------------------------------------------------------------- */
+/* --- BEGIN MAGIC R SOURCE MARKER --- */
+
+// The following source code was imported from the R project.
+// It was automatically transformed by tools/import-R.
 
 /* Imported src/nmath/bessel.h from R.  */
+/*
+ *  R : A Computer Language for Statistical Data Analysis
+ *  Copyright (C) 2001-2014  R Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, a copy is available at
+ *  https://www.R-project.org/Licenses/
+ */
 
 /* Constants und Documentation that apply to several of the
  * ./bessel_[ijky].c  files */
@@ -41,18 +63,17 @@ static inline gnm_float fmax2 (gnm_float x, gnm_float y) { return MAX (x, y); }
 	    increase CPU time without increasing accuracy.  The
 	    truncation error is limited to a relative error of
 	    T=.5*10^(-NSIG).
-   ENTEN  = 10 ^ K, where K is the largest long such that
+   ENTEN  = 10 ^ K, where K is the largest int such that
 	    ENTEN is machine-representable in working precision
    ENSIG  = 10 ^ NSIG
-   RTNSIG = 10 ^ (-K) for the smallest long K such that
-	    K >= NSIG/4
+   RTNSIG = 10 ^ (-K) for the smallest int K such that K >= NSIG/4
    ENMTEN = Smallest ABS(X) such that X/4 does not underflow
    XINF	  = Largest positive machine number; approximately beta ^ maxexp
-	    == GNM_MAX (defined in  #include <float.h>)
-   SQXMIN = Square root of beta ^ minexp = gnm_sqrt(GNM_MIN)
+	    == DBL_MAX (defined in  #include <float.h>)
+   SQXMIN = Square root of beta ^ minexp = sqrt(DBL_MIN)
 
    EPS	  = The smallest positive floating-point number such that 1.0+EPS > 1.0
-	  = beta ^ (-p)	 == GNM_EPSILON
+	  = beta ^ (-p)	 == DBL_EPSILON
 
 
   For I :
@@ -63,10 +84,11 @@ static inline gnm_float fmax2 (gnm_float x, gnm_float y) { return MAX (x, y); }
 
   For I and J :
 
-   xlrg_IJ = (was = XLARGE). Upper limit on the magnitude of X (when
-	    IZE=2 for I()).  Bear in mind that if ABS(X)=N, then at least
-	    N iterations of the backward recursion will be executed.
-	    The value of 10 ^ 4 is used on every machine.
+   xlrg_IJ = xlrg_BESS_IJ (was = XLARGE). Upper limit on the magnitude of X
+	    (when IZE=2 for I()).  Bear in mind that if floor(abs(x)) =: N, then
+	    at least N iterations of the backward recursion will be executed.
+	    The value of 10 ^ 4 was used till Feb.2009, when it was increased
+	    to 10 ^ 5 (= 1e5).
 
   For j :
    XMIN_J  = Smallest acceptable argument for RBESY; approximately
@@ -78,7 +100,7 @@ static inline gnm_float fmax2 (gnm_float x, gnm_float y) { return MAX (x, y); }
 	    approximately 1/DEL, because the sine and cosine functions
 	    have lost about half of their precision at that point.
 
-   EPS_SINC = Machine number below which gnm_sin(x)/x = 1; approximately SQRT(EPS).
+   EPS_SINC = Machine number below which sin(x)/x = 1; approximately SQRT(EPS).
    THRESH = Lower bound for use of the asymptotic form;
 	    approximately AINT(-LOG10(EPS/2.0))+1.0
 
@@ -127,31 +149,31 @@ And routine specific :
 #define nsig_BESS	16
 #define ensig_BESS	1e16
 #define rtnsig_BESS	1e-4
-#define enmten_BESS	8.9e-308
+#define enmten_BESS	GNM_const(8.9e-308)
 #define enten_BESS	1e308
 
-#define exparg_BESS	709.
+#define exparg_BESS	GNM_const(709.)
 #define xlrg_BESS_IJ	1e5
 #define xlrg_BESS_Y	1e8
-#define thresh_BESS_Y	16.
+#define thresh_BESS_Y	GNM_const(16.)
 
-#define xmax_BESS_K	705.342/* maximal x for UNscaled answer */
+#define xmax_BESS_K	GNM_const(705.342)/* maximal x for UNscaled answer */
 
 
-/* gnm_sqrt(GNM_MIN) =	GNM_const(1.491668e-154) */
-#define sqxmin_BESS_K	1.49e-154
+/* sqrt(DBL_MIN) =	1.491668e-154 */
+#define sqxmin_BESS_K	GNM_const(1.49e-154)
 
-/* x < eps_sinc	 <==>  gnm_sin(x)/x == 1 (particularly "==>");
-  Linux (around 2001-02) gives GNM_const(2.14946906753213e-08)
-  Solaris 2.5.1		 gives GNM_const(2.14911933289084e-08)
+/* x < eps_sinc	 <==>  sin(x)/x == 1 (particularly "==>");
+  Linux (around 2001-02) gives 2.14946906753213e-08
+  Solaris 2.5.1		 gives 2.14911933289084e-08
 */
-#define M_eps_sinc	2.149e-8
+#define M_eps_sinc	GNM_const(2.149e-8)
 
 /* ------------------------------------------------------------------------ */
 /* Imported src/nmath/bessel_i.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998-2001 Ross Ihaka and the R Development Core team.
+ *  Copyright (C) 1998-2014 Ross Ihaka and the R Core team.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -164,9 +186,8 @@ And routine specific :
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
- *  USA.
+ *  along with this program; if not, a copy is available at
+ *  https://www.R-project.org/Licenses/
  */
 
 /*  DESCRIPTION --> see below */
@@ -179,15 +200,18 @@ And routine specific :
 #ifndef MATHLIB_STANDALONE
 #endif
 
-static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
-		     long *ize, gnm_float *bi, long *ncalc);
+#define min0(x, y) (((x) <= (y)) ? (x) : (y))
 
+static void I_bessel(gnm_float *x, gnm_float *alpha, int *nb,
+		     int *ize, gnm_float *bi, int *ncalc);
+
+/* .Internal(besselI(*)) : */
 static gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
 {
-    long nb, ncalc, ize;
-    gnm_float *bi;
+    int nb, ncalc, ize;
+    gnm_float na, *bi;
 #ifndef MATHLIB_STANDALONE
-    char *vmax;
+    const void *vmax;
 #endif
 
 #ifdef IEEE_754
@@ -195,34 +219,36 @@ static gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
     if (gnm_isnan(x) || gnm_isnan(alpha)) return x + alpha;
 #endif
     if (x < 0) {
-	ML_ERROR(ME_RANGE);
+	ML_WARNING(ME_RANGE, "bessel_i");
 	return gnm_nan;
     }
-    ize = (long)expo;
+    ize = (int)expo;
+    na = gnm_floor(alpha);
     if (alpha < 0) {
-	/* Using Abramowitz & Stegun  9.6.2
+	/* Using Abramowitz & Stegun  9.6.2 & 9.6.6
 	 * this may not be quite optimal (CPU and accuracy wise) */
 	return(bessel_i(x, -alpha, expo) +
-	       bessel_k(x, -alpha, expo) * ((ize == 1)? 2. : 2.*gnm_exp(-x))/M_PIgnum
-	       * gnm_sinpi(-alpha));
+	       ((alpha == na) ? /* sin(pi * alpha) = 0 */ 0 :
+		bessel_k(x, -alpha, expo) *
+		((ize == 1)? GNM_const(2.) : GNM_const(2.)*gnm_exp(GNM_const(-2.)*x))/M_PIgnum * sinpi(-alpha)));
     }
-    nb = 1+ (long)gnm_floor(alpha);/* nb-1 <= alpha < nb */
-    alpha -= (nb-1);
+    nb = 1 + (int)na;/* nb-1 <= alpha < nb */
+    alpha -= (gnm_float)(nb-1);
 #ifdef MATHLIB_STANDALONE
     bi = (gnm_float *) calloc(nb, sizeof(gnm_float));
     if (!bi) MATHLIB_ERROR("%s", ("bessel_i allocation error"));
 #else
     vmax = vmaxget();
-    bi = (gnm_float *) R_alloc(nb, sizeof(gnm_float));
+    bi = (gnm_float *) R_alloc((size_t) nb, sizeof(gnm_float));
 #endif
     I_bessel(&x, &alpha, &nb, &ize, bi, &ncalc);
     if(ncalc != nb) {/* error input */
 	if(ncalc < 0)
-	    MATHLIB_WARNING4(("bessel_i(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
+	    MATHLIB_WARNING4(("bessel_i(%" GNM_FORMAT_g "): ncalc (=%d) != nb (=%d); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
 			     x, ncalc, nb, alpha);
 	else
 	    MATHLIB_WARNING2(("bessel_i(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
-			     x, alpha+nb-1);
+			     x, alpha+(gnm_float)nb-1);
     }
     x = bi[nb-1];
 #ifdef MATHLIB_STANDALONE
@@ -233,8 +259,48 @@ static gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
     return x;
 }
 
-static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
-		     long *ize, gnm_float *bi, long *ncalc)
+/* modified version of bessel_i that accepts a work array instead of
+   allocating one. */
+gnm_float bessel_i_ex(gnm_float x, gnm_float alpha, gnm_float expo, gnm_float *bi)
+{
+    int nb, ncalc, ize;
+    gnm_float na;
+
+#ifdef IEEE_754
+    /* NaNs propagated correctly */
+    if (gnm_isnan(x) || gnm_isnan(alpha)) return x + alpha;
+#endif
+    if (x < 0) {
+	ML_WARNING(ME_RANGE, "bessel_i");
+	return gnm_nan;
+    }
+    ize = (int)expo;
+    na = gnm_floor(alpha);
+    if (alpha < 0) {
+	/* Using Abramowitz & Stegun  9.6.2 & 9.6.6
+	 * this may not be quite optimal (CPU and accuracy wise) */
+	return(bessel_i_ex(x, -alpha, expo, bi) +
+	       ((alpha == na) ? 0 :
+		bessel_k_ex(x, -alpha, expo, bi) *
+		((ize == 1)? GNM_const(2.) : GNM_const(2.)*gnm_exp(GNM_const(-2.)*x))/M_PIgnum * sinpi(-alpha)));
+    }
+    nb = 1 + (int)na;/* nb-1 <= alpha < nb */
+    alpha -= (gnm_float)(nb-1);
+    I_bessel(&x, &alpha, &nb, &ize, bi, &ncalc);
+    if(ncalc != nb) {/* error input */
+	if(ncalc < 0)
+	    MATHLIB_WARNING4(("bessel_i(%" GNM_FORMAT_g "): ncalc (=%d) != nb (=%d); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
+			     x, ncalc, nb, alpha);
+	else
+	    MATHLIB_WARNING2(("bessel_i(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
+			     x, alpha+(gnm_float)nb-1);
+    }
+    x = bi[nb-1];
+    return x;
+}
+
+static void I_bessel(gnm_float *x, gnm_float *alpha, int *nb,
+		     int *ize, gnm_float *bi, int *ncalc)
 {
 /* -------------------------------------------------------------------
 
@@ -248,7 +314,8 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
  X     - Non-negative argument for which
 	 I's or exponentially scaled I's (I*EXP(-X))
 	 are to be calculated.	If I's are to be calculated,
-	 X must be less than EXPARG_BESS (see bessel.h).
+	 X must be less than exparg_BESS (IZE=1) or xlrg_BESS_IJ (IZE=2),
+	 (see bessel.h).
  ALPHA - Fractional part of order for which
 	 I's or exponentially scaled I's (I*EXP(-X)) are
 	 to be calculated.  0 <= ALPHA < 1.0.
@@ -329,10 +396,10 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
     /*-------------------------------------------------------------------
       Mathematical constants
       -------------------------------------------------------------------*/
-    const gnm_float const__ = 1.585;
+    static const gnm_float const__ = GNM_const(1.585);
 
     /* Local variables */
-    long nend, intx, nbmx, k, l, n, nstart;
+    int nend, intx, nbmx, k, l, n, nstart;
     gnm_float pold, test,	p, em, en, empal, emp2al, halfx,
 	aa, bb, cc, psave, plast, tover, psavel, sum, nu, twonu;
 
@@ -344,26 +411,29 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
     /*-------------------------------------------------------------------
       Check for X, NB, OR IZE out of range.
       ------------------------------------------------------------------- */
-    if (*nb > 0 && *x >= 0. &&	(0. <= nu && nu < 1.) &&
+    if (*nb > 0 && *x >= 0 &&	(GNM_const(0.) <= nu && nu < 1) &&
 	(1 <= *ize && *ize <= 2) ) {
 
 	*ncalc = *nb;
-	if((*ize == 1 && *x > exparg_BESS) ||
-	   (*ize == 2 && *x > xlrg_BESS_IJ)) {
-	    ML_ERROR(ME_RANGE);
+	if(*ize == 1 && *x > exparg_BESS) {
 	    for(k=1; k <= *nb; k++)
-		bi[k]=gnm_pinf;
+		bi[k]=gnm_pinf; /* the limit *is* = Inf */
 	    return;
 	}
-	intx = (long) (*x);/* --> we will probably fail when *x > LONG_MAX */
-	if (*x >= rtnsig_BESS) { /* "non-small" x */
+	if(*ize == 2 && *x > xlrg_BESS_IJ) {
+	    for(k=1; k <= *nb; k++)
+		bi[k]= GNM_const(0.); /* The limit exp(-x) * I_nu(x) --> 0 : */
+	    return;
+	}
+	intx = (int) (*x);/* fine, since *x <= xlrg_BESS_IJ <<< LONG_MAX */
+	if (*x >= rtnsig_BESS) { /* "non-small" x ( >= 1e-4 ) */
 /* -------------------------------------------------------------------
    Initialize the forward sweep, the P-sequence of Olver
    ------------------------------------------------------------------- */
 	    nbmx = *nb - intx;
 	    n = intx + 1;
 	    en = (gnm_float) (n + n) + twonu;
-	    plast = 1.;
+	    plast = GNM_const(1.);
 	    p = en / *x;
 	    /* ------------------------------------------------
 	       Calculate general significance test
@@ -372,7 +442,7 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	    if (intx << 1 > nsig_BESS * 5) {
 		test = gnm_sqrt(test * p);
 	    } else {
-		test /= gnm_pow(const__, (gnm_float)intx);
+		test /= R_pow_di(const__, intx);
 	    }
 	    if (nbmx >= 3) {
 		/* --------------------------------------------------
@@ -384,7 +454,7 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		nend = *nb - 1;
 		for (k = nstart; k <= nend; ++k) {
 		    n = k;
-		    en += 2.;
+		    en += GNM_const(2.);
 		    pold = plast;
 		    plast = p;
 		    p = en * plast / *x + pold;
@@ -401,12 +471,12 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 			nstart = n + 1;
 			do {
 			    ++n;
-			    en += 2.;
+			    en += GNM_const(2.);
 			    pold = plast;
 			    plast = p;
 			    p = en * plast / *x + pold;
 			}
-			while (p <= 1.);
+			while (p <= 1);
 
 			bb = en / *x;
 			/* ------------------------------------------------
@@ -414,11 +484,11 @@ static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 			   the highest N such that the test is passed.
 			   ------------------------------------------------ */
 			test = pold * plast / ensig_BESS;
-			test *= .5 - .5 / (bb * bb);
+			test *= GNM_const(.5) - GNM_const(.5) / (bb * bb);
 			p = plast * tover;
 			--n;
-			en -= 2.;
-			nend = imin2(*nb,n);
+			en -= GNM_const(2.);
+			nend = min0(*nb,n);
 			for (l = nstart; l <= nend; ++l) {
 			    *ncalc = l;
 			    pold = psavel;
@@ -446,7 +516,7 @@ L90:
 	       -------------------------------------------------------- */
 	    do {
 		++n;
-		en += 2.;
+		en += GNM_const(2.);
 		pold = plast;
 		plast = p;
 		p = en * plast / *x + pold;
@@ -457,12 +527,12 @@ L120:
  Initialize the backward recursion and the normalization sum.
  ------------------------------------------------------------------- */
 	    ++n;
-	    en += 2.;
-	    bb = 0.;
-	    aa = 1. / p;
-	    em = (gnm_float) n - 1.;
+	    en += GNM_const(2.);
+	    bb = GNM_const(0.);
+	    aa = GNM_const(1.) / p;
+	    em = (gnm_float) n - GNM_const(1.);
 	    empal = em + nu;
-	    emp2al = em - 1. + twonu;
+	    emp2al = em - GNM_const(1.) + twonu;
 	    sum = aa * empal * emp2al / em;
 	    nend = n - *nb;
 	    if (nend < 0) {
@@ -472,7 +542,7 @@ L120:
 		bi[n] = aa;
 		nend = -nend;
 		for (l = 1; l <= nend; ++l) {
-		    bi[n + l] = 0.;
+		    bi[n + l] = GNM_const(0.);
 		}
 	    } else {
 		if (nend > 0) {
@@ -480,21 +550,31 @@ L120:
 		       Recur backward via difference equation,
 		       calculating (but not storing) BI[N], until N = NB.
 		       --------------------------------------------------- */
+
 		    for (l = 1; l <= nend; ++l) {
 			--n;
-			en -= 2.;
+			en -= GNM_const(2.);
 			cc = bb;
 			bb = aa;
+			/* for x ~= 1500,  sum would overflow to 'inf' here,
+			 * and the final bi[] /= sum would give 0 wrongly;
+			 * RE-normalize (aa, sum) here -- no need to undo */
+			if(nend > 100 && aa > GNM_const(1e200)) {
+			    /* multiply by  2^-900 = 1.18e-271 */
+			    cc	= ldexp(cc, -900);
+			    bb	= ldexp(bb, -900);
+			    sum = ldexp(sum,-900);
+			}
 			aa = en * bb / *x + cc;
-			em -= 1.;
-			emp2al -= 1.;
+			em -= GNM_const(1.);
+			emp2al -= GNM_const(1.);
 			if (n == 1) {
 			    break;
 			}
 			if (n == 2) {
-			    emp2al = 1.;
+			    emp2al = GNM_const(1.);
 			}
-			empal -= 1.;
+			empal -= GNM_const(1.);
 			sum = (sum + aa * empal) * emp2al / em;
 		    }
 		}
@@ -510,18 +590,18 @@ L120:
 		   Calculate and Store BI[NB-1]
 		   ------------------------------------------------- */
 		--n;
-		en -= 2.;
+		en -= GNM_const(2.);
 		bi[n] = en * aa / *x + bb;
 		if (n == 1) {
 		    goto L220;
 		}
-		em -= 1.;
+		em -= GNM_const(1.);
 		if (n == 2)
-		    emp2al = 1.;
+		    emp2al = GNM_const(1.);
 		else
-		    emp2al -= 1.;
+		    emp2al -= GNM_const(1.);
 
-		empal -= 1.;
+		empal -= GNM_const(1.);
 		sum = (sum + bi[n] * empal) * emp2al / em;
 	    }
 	    nend = n - 2;
@@ -532,21 +612,21 @@ L120:
 		   ------------------------------------------ */
 		for (l = 1; l <= nend; ++l) {
 		    --n;
-		    en -= 2.;
+		    en -= GNM_const(2.);
 		    bi[n] = en * bi[n + 1] / *x + bi[n + 2];
-		    em -= 1.;
+		    em -= GNM_const(1.);
 		    if (n == 2)
-			emp2al = 1.;
+			emp2al = GNM_const(1.);
 		    else
-			emp2al -= 1.;
-		    empal -= 1.;
+			emp2al -= GNM_const(1.);
+		    empal -= GNM_const(1.);
 		    sum = (sum + bi[n] * empal) * emp2al / em;
 		}
 	    }
 	    /* ----------------------------------------------
 	       Calculate BI[1]
 	       -------------------------------------------- */
-	    bi[1] = 2. * empal * bi[2] / *x + bi[3];
+	    bi[1] = GNM_const(2.) * empal * bi[2] / *x + bi[3];
 L220:
 	    sum = sum + sum + bi[1];
 
@@ -554,79 +634,81 @@ L230:
 	    /* ---------------------------------------------------------
 	       Normalize.  Divide all BI[N] by sum.
 	       --------------------------------------------------------- */
-	    if (nu != 0.)
-		sum *= (gnm_exp(lgamma1p (nu)) * gnm_pow(*x * .5, -nu));
+	    if (nu != 0)
+		sum *= (Rf_gamma_cody(GNM_const(1.) + nu) * gnm_pow(*x * GNM_const(.5), -nu));
 	    if (*ize == 1)
 		sum *= gnm_exp(-(*x));
 	    aa = enmten_BESS;
-	    if (sum > 1.)
+	    if (sum > 1)
 		aa *= sum;
 	    for (n = 1; n <= *nb; ++n) {
 		if (bi[n] < aa)
-		    bi[n] = 0.;
+		    bi[n] = GNM_const(0.);
 		else
 		    bi[n] /= sum;
 	    }
 	    return;
-	} else {
+	} else { /* small x  < 1e-4 */
 	    /* -----------------------------------------------------------
 	       Two-term ascending series for small X.
 	       -----------------------------------------------------------*/
-	    aa = 1.;
-	    empal = 1. + nu;
-	    if (*x > enmten_BESS)
-		halfx = .5 * *x;
+	    aa = GNM_const(1.);
+	    empal = GNM_const(1.) + nu;
+#ifdef IEEE_754
+	    /* No need to check for underflow */
+	    halfx = GNM_const(.5) * *x;
+#else
+	    if (*x > enmten_BESS) */
+		halfx = GNM_const(.5) * *x;
 	    else
-		halfx = 0.;
-	    if (nu != 0.)
-		aa = gnm_pow(halfx, nu) / gnm_exp(lgamma1p(nu));
+	    	halfx = GNM_const(0.);
+#endif
+	    if (nu != 0)
+		aa = gnm_pow(halfx, nu) / Rf_gamma_cody(empal);
 	    if (*ize == 2)
 		aa *= gnm_exp(-(*x));
-	    if (*x + 1. > 1.)
-		bb = halfx * halfx;
-	    else
-		bb = 0.;
-
+	    bb = halfx * halfx;
 	    bi[1] = aa + aa * bb / empal;
-	    if (*x != 0. && bi[1] == 0.)
+	    if (*x != 0 && bi[1] == 0)
 		*ncalc = 0;
 	    if (*nb > 1) {
-		if (*x == 0.) {
-		    for (n = 2; n <= *nb; ++n) {
-			bi[n] = 0.;
-		    }
+		if (*x == 0) {
+		    for (n = 2; n <= *nb; ++n)
+			bi[n] = GNM_const(0.);
 		} else {
 		    /* -------------------------------------------------
 		       Calculate higher-order functions.
 		       ------------------------------------------------- */
 		    cc = halfx;
 		    tover = (enmten_BESS + enmten_BESS) / *x;
-		    if (bb != 0.)
+		    if (bb != 0)
 			tover = enmten_BESS / bb;
 		    for (n = 2; n <= *nb; ++n) {
 			aa /= empal;
-			empal += 1.;
+			empal += GNM_const(1.);
 			aa *= cc;
 			if (aa <= tover * empal)
-			    bi[n] = aa = 0.;
+			    bi[n] = aa = GNM_const(0.);
 			else
 			    bi[n] = aa + aa * bb / empal;
-			if (bi[n] == 0. && *ncalc > n)
+			if (bi[n] == 0 && *ncalc > n)
 			    *ncalc = n - 1;
 		    }
 		}
 	    }
 	}
-    } else {
-	*ncalc = imin2(*nb,0) - 1;
+    } else { /* argument out of range */
+	*ncalc = min0(*nb,0) - 1;
     }
 }
+/* Cleaning up done by tools/import-R:  */
+#undef min0
 
 /* ------------------------------------------------------------------------ */
 /* Imported src/nmath/bessel_k.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998-2001 Ross Ihaka and the R Development Core team.
+ *  Copyright (C) 1998-2014 Ross Ihaka and the R Core team.
  *  Copyright (C) 2002-3    The R Foundation
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -640,9 +722,8 @@ L230:
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
- *  USA.
+ *  along with this program; if not, a copy is available at
+ *  https://www.R-project.org/Licenses/
  */
 
 /*  DESCRIPTION --> see below */
@@ -655,15 +736,18 @@ L230:
 #ifndef MATHLIB_STANDALONE
 #endif
 
-static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
-		     long *ize, gnm_float *bk, long *ncalc);
+#define min0(x, y) (((x) <= (y)) ? (x) : (y))
+#define max0(x, y) (((x) <= (y)) ? (y) : (x))
+
+static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
+		     int *ize, gnm_float *bk, int *ncalc);
 
 static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
 {
-    long nb, ncalc, ize;
+    int nb, ncalc, ize;
     gnm_float *bk;
 #ifndef MATHLIB_STANDALONE
-    char *vmax;
+    const void *vmax;
 #endif
 
 #ifdef IEEE_754
@@ -671,29 +755,29 @@ static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
     if (gnm_isnan(x) || gnm_isnan(alpha)) return x + alpha;
 #endif
     if (x < 0) {
-	ML_ERROR(ME_RANGE);
+	ML_WARNING(ME_RANGE, "bessel_k");
 	return gnm_nan;
     }
-    ize = (long)expo;
+    ize = (int)expo;
     if(alpha < 0)
 	alpha = -alpha;
-    nb = 1+ (long)gnm_floor(alpha);/* nb-1 <= |alpha| < nb */
-    alpha -= (nb-1);
+    nb = 1+ (int)gnm_floor(alpha);/* nb-1 <= |alpha| < nb */
+    alpha -= (gnm_float)(nb-1);
 #ifdef MATHLIB_STANDALONE
     bk = (gnm_float *) calloc(nb, sizeof(gnm_float));
     if (!bk) MATHLIB_ERROR("%s", ("bessel_k allocation error"));
 #else
     vmax = vmaxget();
-    bk = (gnm_float *) R_alloc(nb, sizeof(gnm_float));
+    bk = (gnm_float *) R_alloc((size_t) nb, sizeof(gnm_float));
 #endif
     K_bessel(&x, &alpha, &nb, &ize, bk, &ncalc);
     if(ncalc != nb) {/* error input */
       if(ncalc < 0)
-	MATHLIB_WARNING4(("bessel_k(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
+	MATHLIB_WARNING4(("bessel_k(%" GNM_FORMAT_g "): ncalc (=%d) != nb (=%d); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
 			 x, ncalc, nb, alpha);
       else
 	MATHLIB_WARNING2(("bessel_k(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
-			 x, alpha+nb-1);
+			 x, alpha+(gnm_float)nb-1);
     }
     x = bk[nb-1];
 #ifdef MATHLIB_STANDALONE
@@ -704,8 +788,40 @@ static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
     return x;
 }
 
-static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
-		     long *ize, gnm_float *bk, long *ncalc)
+/* modified version of bessel_k that accepts a work array instead of
+   allocating one. */
+gnm_float bessel_k_ex(gnm_float x, gnm_float alpha, gnm_float expo, gnm_float *bk)
+{
+    int nb, ncalc, ize;
+
+#ifdef IEEE_754
+    /* NaNs propagated correctly */
+    if (gnm_isnan(x) || gnm_isnan(alpha)) return x + alpha;
+#endif
+    if (x < 0) {
+	ML_WARNING(ME_RANGE, "bessel_k");
+	return gnm_nan;
+    }
+    ize = (int)expo;
+    if(alpha < 0)
+	alpha = -alpha;
+    nb = 1+ (int)gnm_floor(alpha);/* nb-1 <= |alpha| < nb */
+    alpha -= (gnm_float)(nb-1);
+    K_bessel(&x, &alpha, &nb, &ize, bk, &ncalc);
+    if(ncalc != nb) {/* error input */
+      if(ncalc < 0)
+	MATHLIB_WARNING4(("bessel_k(%" GNM_FORMAT_g "): ncalc (=%d) != nb (=%d); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
+			 x, ncalc, nb, alpha);
+      else
+	MATHLIB_WARNING2(("bessel_k(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
+			 x, alpha+(gnm_float)nb-1);
+    }
+    x = bk[nb-1];
+    return x;
+}
+
+static void K_bessel(gnm_float *x, gnm_float *alpha, int *nb,
+		     int *ize, gnm_float *bk, int *ncalc)
 {
 /*-------------------------------------------------------------------
 
@@ -800,7 +916,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
      *	A = LOG(2) - Euler's constant
      *	D = SQRT(2/PI)
      ---------------------------------------------------------------------*/
-    const gnm_float a = GNM_const(.11593151565841244881);
+    static const gnm_float a = GNM_const(.11593151565841244881);
 
     /*---------------------------------------------------------------------
       P, Q - Approximation for LOG(GAMMA(1+ALPHA))/ALPHA + Euler's constant
@@ -824,11 +940,11 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	    GNM_const(1.9841269840928373686e-4),GNM_const(.0083333333333334751799),
 	    GNM_const(.16666666666666666446) };
     /*---------------------------------------------------------------------*/
-    static const gnm_float estm[6] = { 52.0583,5.7607,2.7782,14.4303,185.3004, 9.3715 };
-    static const gnm_float estf[7] = { 41.8341,7.1075,6.4306,42.511,GNM_const(1.35633),84.5096,20.};
+    static const gnm_float estm[6] = { GNM_const(52.0583),GNM_const(5.7607),GNM_const(2.7782),GNM_const(14.4303),GNM_const(185.3004), GNM_const(9.3715) };
+    static const gnm_float estf[7] = { GNM_const(41.8341),GNM_const(7.1075),GNM_const(6.4306),GNM_const(42.511),GNM_const(1.35633),GNM_const(84.5096),GNM_const(20.)};
 
     /* Local variables */
-    long iend, i, j, k, m, ii, mplus1;
+    int iend, i, j, k, m, ii, mplus1;
     gnm_float x2by4, twox, c, blpha, ratio, wminf;
     gnm_float d1, d2, d3, f0, f1, f2, p0, q0, t1, t2, twonu;
     gnm_float dm, ex, bk1, bk2, nu;
@@ -837,37 +953,37 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 
     ex = *x;
     nu = *alpha;
-    *ncalc = imin2(*nb,0) - 2;
-    if (*nb > 0 && (0. <= nu && nu < 1.) && (1 <= *ize && *ize <= 2)) {
+    *ncalc = min0(*nb,0) - 2;
+    if (*nb > 0 && (GNM_const(0.) <= nu && nu < 1) && (1 <= *ize && *ize <= 2)) {
 	if(ex <= 0 || (*ize == 1 && ex > xmax_BESS_K)) {
 	    if(ex <= 0) {
-		ML_ERROR(ME_RANGE);
+		if(ex < 0) ML_WARNING(ME_RANGE, "K_bessel");
 		for(i=0; i < *nb; i++)
 		    bk[i] = gnm_pinf;
 	    } else /* would only have underflow */
 		for(i=0; i < *nb; i++)
-		    bk[i] = 0.;
+		    bk[i] = GNM_const(0.);
 	    *ncalc = *nb;
 	    return;
 	}
 	k = 0;
 	if (nu < sqxmin_BESS_K) {
-	    nu = 0.;
-	} else if (nu > .5) {
+	    nu = GNM_const(0.);
+	} else if (nu > GNM_const(.5)) {
 	    k = 1;
-	    nu -= 1.;
+	    nu -= GNM_const(1.);
 	}
 	twonu = nu + nu;
 	iend = *nb + k - 1;
 	c = nu * nu;
 	d3 = -c;
-	if (ex <= 1.) {
+	if (ex <= 1) {
 	    /* ------------------------------------------------------------
 	       Calculation of P0 = GAMMA(1+ALPHA) * (2/X)**ALPHA
 			      Q0 = GAMMA(1-ALPHA) * (X/2)**ALPHA
 	       ------------------------------------------------------------ */
-	    d1 = 0.; d2 = p[0];
-	    t1 = 1.; t2 = q[0];
+	    d1 = GNM_const(0.); d2 = p[0];
+	    t1 = GNM_const(1.); t2 = q[0];
 	    for (i = 2; i <= 7; i += 2) {
 		d1 = c * d1 + p[i - 1];
 		d2 = c * d2 + p[i];
@@ -885,16 +1001,16 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	       Calculation of F0 =
 	       ----------------------------------------------------------- */
 	    d1 = r[4];
-	    t1 = 1.;
+	    t1 = GNM_const(1.);
 	    for (i = 0; i < 4; ++i) {
 		d1 = c * d1 + r[i];
 		t1 = c * t1 + s[i];
 	    }
-	    /* d2 := gnm_sinh(f1)/ nu = gnm_sinh(f1)/(f1/f0)
-	     *	   = f0 * gnm_sinh(f1)/f1 */
-	    if (gnm_abs(f1) <= .5) {
+	    /* d2 := sinh(f1)/ nu = sinh(f1)/(f1/f0)
+	     *	   = f0 * sinh(f1)/f1 */
+	    if (gnm_abs(f1) <= GNM_const(.5)) {
 		f1 *= f1;
-		d2 = 0.;
+		d2 = GNM_const(0.);
 		for (i = 0; i < 6; ++i) {
 		    d2 = f1 * d2 + t[i];
 		}
@@ -903,7 +1019,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		d2 = gnm_sinh(f1) / nu;
 	    }
 	    f0 = d2 - nu * d1 / (t1 * p0);
-	    if (ex <= 1e-10) {
+	    if (ex <= GNM_const(1e-10)) {
 		/* ---------------------------------------------------------
 		   X <= 1.0E-10
 		   Calculation of K(ALPHA,X) and X*K(ALPHA+1,X)/K(ALPHA,X)
@@ -924,7 +1040,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 			return;
 		    }
 		    bk[0] = ratio * bk[0] / ex;
-		    twonu += 2.;
+		    twonu += GNM_const(2.);
 		    ratio = twonu;
 		}
 		*ncalc = 1;
@@ -941,7 +1057,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 			return;
 
 		    bk[i] = ratio / ex;
-		    twonu += 2.;
+		    twonu += GNM_const(2.);
 		    ratio = twonu;
 		}
 		*ncalc = 1;
@@ -950,19 +1066,19 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		/* ------------------------------------------------------
 		   10^-10 < X <= 1.0
 		   ------------------------------------------------------ */
-		c = 1.;
-		x2by4 = ex * ex / 4.;
-		p0 = .5 * p0;
-		q0 = .5 * q0;
-		d1 = -1.;
-		d2 = 0.;
-		bk1 = 0.;
-		bk2 = 0.;
+		c = GNM_const(1.);
+		x2by4 = ex * ex / GNM_const(4.);
+		p0 = GNM_const(.5) * p0;
+		q0 = GNM_const(.5) * q0;
+		d1 = GNM_const(-1.);
+		d2 = GNM_const(0.);
+		bk1 = GNM_const(0.);
+		bk2 = GNM_const(0.);
 		f1 = f0;
 		f2 = p0;
 		do {
-		    d1 += 2.;
-		    d2 += 1.;
+		    d1 += GNM_const(2.);
+		    d2 += GNM_const(1.);
 		    d3 = d1 + d3;
 		    c = x2by4 * c / d2;
 		    f0 = (d2 * f0 + p0 + q0) / d3;
@@ -975,7 +1091,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		} while (gnm_abs(t1 / (f1 + bk1)) > GNM_EPSILON ||
 			 gnm_abs(t2 / (f2 + bk2)) > GNM_EPSILON);
 		bk1 = f1 + bk1;
-		bk2 = 2. * (f2 + bk2) / ex;
+		bk2 = GNM_const(2.) * (f2 + bk2) / ex;
 		if (*ize == 2) {
 		    d1 = gnm_exp(ex);
 		    bk1 *= d1;
@@ -983,12 +1099,12 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		}
 		wminf = estf[0] * ex + estf[1];
 	    }
-	} else if (GNM_EPSILON * ex > 1.) {
+	} else if (GNM_EPSILON * ex > 1) {
 	    /* -------------------------------------------------
 	       X > 1./EPS
 	       ------------------------------------------------- */
 	    *ncalc = *nb;
-	    bk1 = 1. / (M_SQRT_2dPI * gnm_sqrt(ex));
+	    bk1 = GNM_const(1.) / (M_SQRT_2dPI * gnm_sqrt(ex));
 	    for (i = 0; i < *nb; ++i)
 		bk[i] = bk1;
 	    return;
@@ -998,19 +1114,19 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	       X > 1.0
 	       ------------------------------------------------------- */
 	    twox = ex + ex;
-	    blpha = 0.;
-	    ratio = 0.;
-	    if (ex <= 4.) {
+	    blpha = GNM_const(0.);
+	    ratio = GNM_const(0.);
+	    if (ex <= 4) {
 		/* ----------------------------------------------------------
 		   Calculation of K(ALPHA+1,X)/K(ALPHA,X),  1.0 <= X <= 4.0
 		   ----------------------------------------------------------*/
 		d2 = gnm_trunc(estm[0] / ex + estm[1]);
-		m = (long) d2;
+		m = (int) d2;
 		d1 = d2 + d2;
-		d2 -= .5;
+		d2 -= GNM_const(.5);
 		d2 *= d2;
 		for (i = 2; i <= m; ++i) {
-		    d1 -= 2.;
+		    d1 -= GNM_const(2.);
 		    d2 -= d1;
 		    ratio = (d3 + d2) / (twox + d1 - ratio);
 		}
@@ -1019,29 +1135,29 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		   recurrence and K(ALPHA,X) from the wronskian
 		   -----------------------------------------------------------*/
 		d2 = gnm_trunc(estm[2] * ex + estm[3]);
-		m = (long) d2;
+		m = (int) d2;
 		c = gnm_abs(nu);
 		d3 = c + c;
-		d1 = d3 - 1.;
+		d1 = d3 - GNM_const(1.);
 		f1 = GNM_MIN;
-		f0 = (2. * (c + d2) / ex + .5 * ex / (c + d2 + 1.)) * GNM_MIN;
+		f0 = (GNM_const(2.) * (c + d2) / ex + GNM_const(.5) * ex / (c + d2 + GNM_const(1.))) * GNM_MIN;
 		for (i = 3; i <= m; ++i) {
-		    d2 -= 1.;
+		    d2 -= GNM_const(1.);
 		    f2 = (d3 + d2 + d2) * f0;
-		    blpha = (1. + d1 / d2) * (f2 + blpha);
+		    blpha = (GNM_const(1.) + d1 / d2) * (f2 + blpha);
 		    f2 = f2 / ex + f1;
 		    f1 = f0;
 		    f0 = f2;
 		}
-		f1 = (d3 + 2.) * f0 / ex + f1;
-		d1 = 0.;
-		t1 = 1.;
+		f1 = (d3 + GNM_const(2.)) * f0 / ex + f1;
+		d1 = GNM_const(0.);
+		t1 = GNM_const(1.);
 		for (i = 1; i <= 7; ++i) {
 		    d1 = c * d1 + p[i - 1];
 		    t1 = c * t1 + q[i - 1];
 		}
 		p0 = gnm_exp(c * (a + c * (p[7] - c * d1 / t1) - gnm_log(ex))) / ex;
-		f2 = (c + .5 - ratio) * f1 / ex;
+		f2 = (c + GNM_const(.5) - ratio) * f1 / ex;
 		bk1 = p0 + (d3 * f0 - f2 + f0 + blpha) / (f2 + f1 + f0) * p0;
 		if (*ize == 1) {
 		    bk1 *= gnm_exp(-ex);
@@ -1053,18 +1169,18 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		   backward recurrence, for  X > 4.0
 		   ----------------------------------------------------------*/
 		dm = gnm_trunc(estm[4] / ex + estm[5]);
-		m = (long) dm;
-		d2 = dm - .5;
+		m = (int) dm;
+		d2 = dm - GNM_const(.5);
 		d2 *= d2;
 		d1 = dm + dm;
 		for (i = 2; i <= m; ++i) {
-		    dm -= 1.;
-		    d1 -= 2.;
+		    dm -= GNM_const(1.);
+		    d1 -= GNM_const(2.);
 		    d2 -= d1;
 		    ratio = (d3 + d2) / (twox + d1 - ratio);
 		    blpha = (ratio + ratio * blpha) / dm;
 		}
-		bk1 = 1. / ((M_SQRT_2dPI + M_SQRT_2dPI * blpha) * gnm_sqrt(ex));
+		bk1 = GNM_const(1.) / ((M_SQRT_2dPI + M_SQRT_2dPI * blpha) * gnm_sqrt(ex));
 		if (*ize == 1)
 		    bk1 *= gnm_exp(-ex);
 		wminf = estf[4] * (ex - gnm_abs(ex - estf[6])) + estf[5];
@@ -1073,7 +1189,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	       Calculation of K(ALPHA+1,X)
 	       from K(ALPHA,X) and  K(ALPHA+1,X)/K(ALPHA,X)
 	       --------------------------------------------------------- */
-	    bk2 = bk1 + bk1 * (nu + .5 - ratio) / ex;
+	    bk2 = bk1 + bk1 * (nu + GNM_const(.5) - ratio) / ex;
 	}
 	/*--------------------------------------------------------------------
 	  Calculation of 'NCALC', K(ALPHA+I,X),	I  =  0, 1, ... , NCALC-1,
@@ -1091,12 +1207,12 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	if (iend == 1)
 	    return;
 
-	m = imin2((long) (wminf - nu),iend);
+	m = min0((int) (wminf - nu),iend);
 	for (i = 2; i <= m; ++i) {
 	    t1 = bk1;
 	    bk1 = bk2;
-	    twonu += 2.;
-	    if (ex < 1.) {
+	    twonu += GNM_const(2.);
+	    if (ex < 1) {
 		if (bk1 >= GNM_MAX / twonu * ex)
 		    break;
 	    } else {
@@ -1119,8 +1235,8 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	mplus1 = m + 1;
 	*ncalc = -1;
 	for (i = mplus1; i <= iend; ++i) {
-	    twonu += 2.;
-	    ratio = twonu / ex + 1 / ratio;
+	    twonu += GNM_const(2.);
+	    ratio = twonu / ex + GNM_const(1.)/ratio;
 	    ++j;
 	    if (j >= 1) {
 		bk[j] = ratio;
@@ -1131,7 +1247,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		bk2 *= ratio;
 	    }
 	}
-	*ncalc = imax2(1, mplus1 - k);
+	*ncalc = max0(1, mplus1 - k);
 	if (*ncalc == 1)
 	    bk[0] = bk2;
 	if (*nb == 1)
@@ -1148,8 +1264,12 @@ L420:
 	}
     }
 }
+/* Cleaning up done by tools/import-R:  */
+#undef max0
+#undef min0
 
 /* ------------------------------------------------------------------------ */
+/* --- END MAGIC R SOURCE MARKER --- */
 
 static gboolean
 bessel_ij_series_domain (gnm_float x, gnm_float v)

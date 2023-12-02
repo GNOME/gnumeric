@@ -39,11 +39,6 @@ my %config =
 	     # "qf.c",
 	     # "pbeta.c",
 	     # "qbeta.c",
-	     # "bessel.h",
-	     # "bessel_i.c",
-	     # "bessel_j.c",
-	     # "bessel_k.c",
-	     # "bessel_y.c",
 	     ],
      },
 
@@ -54,6 +49,15 @@ my %config =
 	     'chebyshev.c',
 	     'lgammacor.c',
 	     'lbeta.c',
+	     ]
+     },
+
+     'src/sf-bessel.c' =>
+     {
+	 'files' => [
+	     'bessel.h',
+	     "bessel_i.c",
+	     "bessel_k.c",
 	     ]
      },
     );
