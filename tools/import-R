@@ -123,11 +123,17 @@ sub import_file {
  	$_ .= <FIL> if /^static\s+double\s*$/;
 
 	s/\s+$//;
+	s/^ \t/\t/;
+
+	if (!$incomment && m|^\s*/\*| && !m|\*/|) {
+	    $incomment = 1;
+	}
+
 	if ($incomment) {
 	    $incomment = 0 if m|\*/|;
 	} else {
 	    my $comment = undef;
-	    $comment = $1 if (s{/(\*.*\*/)}{ MAGIC_C_COMMENT });
+	    $comment = $1 if (s{(/\*.*\*/)}{ MAGIC_C_COMMENT });
 
 	    s/\bdouble\b/gnm_float/g;
 	    s/\bRboolean\b/gboolean/g;
@@ -156,8 +162,7 @@ sub import_file {
 	    # We do not want translators to have to deal with these warnings.
 	    s/\b_\b//;
 
-	    # Whitespace and style fix
-	    s/^ \t/\t/;
+	    # Style fix
 	    s/\bconst\s+static\b/static const/;
 
 	    s{#ifdef (HAVE_ATANPI)}{#if 1 // $1};
@@ -166,8 +171,8 @@ sub import_file {
 	    s/((>|<|>=|<=|==|!=)\s*[0-9]{1,9})\.0*([ \t\)])/$1$3/g;   # Compare against integer
 	    s/\b(M_LN2|M_PI|M_PI_2|M_SQRT2|M_2PI)\b/$1gnum/g;
 	    s/\bDBL_(EPSILON|MIN|MAX)/GNM_$1/g;
-	    s/([-+]?\d*\.(\d{5,})([eE][-+]?\d+)?)/GNM_const\($1\)/g;
-	    s@(\d)\s*/\s*(\d+\.\d*)@$1 / GNM_const\($2\)@g;
+	    s/([^%])([-+]?(\d*\.(\d{1,})|\d+\.\d{0,})([eE][-+]?\d+)?)/$1GNM_const\($2\)/g;
+	    #s@(\d)\s*/\s*(\d+\.\d*)@$1 / GNM_const\($2\)@g;
 
 	    # Fix constant quotients.
 	    s~([-+]?\d+\.\d*)(\s*/\s*)([-+e0-9.]+)~GNM_const\($1\)$2$3~;
@@ -183,6 +188,9 @@ sub import_file {
 	    s/dnorm4/dnorm/g;
 	    s/pnorm5/pnorm/g;
 	    s/qnorm5/qnorm/g;
+
+	    print STDERR if /swap_log_tail/;
+	    s{^(\#define R_Log1_Exp)}{// $1};
 
 	    s/\b(trunc|ftrunc)\b/gnm_trunc/g;
 	    s/\b(lgammafn|lgamma)\b/gnm_lgamma/g;

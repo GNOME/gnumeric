@@ -35,7 +35,7 @@ gnm_float gnm_trunc (gnm_float x);
 gnm_float logspace_add (gnm_float logx, gnm_float logy);
 gnm_float logspace_sub (gnm_float logx, gnm_float logy);
 gnm_float gnm_owent (gnm_float h, gnm_float a);
-gnm_float gnm_logcf (gnm_float x, gnm_float i, gnm_float d);
+gnm_float gnm_logcf (gnm_float x, gnm_float i, gnm_float d, gnm_float tol);
 gnm_float expmx2h (gnm_float x);
 gnm_float gnm_agm(gnm_float a, gnm_float b);
 gnm_float gnm_lambert_w(gnm_float x, int k);

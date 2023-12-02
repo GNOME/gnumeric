@@ -71,7 +71,7 @@ gnm_float lgamma1p (gnm_float a)
 
     /* Abramowitz & Stegun 6.1.33,
      * also  http://functions.wolfram.com/06.11.06.0008.01 */
-    lgam = c * gnm_logcf (-a / 2, N + 2, 1);
+    lgam = c * gnm_logcf (-a / 2, N + 2, 1, GNM_const(1e-14));
     for (i = N - 1; i >= 0; i--)
 	lgam = coeffs[i] - a * lgam;
 
