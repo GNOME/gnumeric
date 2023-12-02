@@ -1471,3 +1471,34 @@ gnm_random_uniform_int (guint32 n)
 		return r % n;
 	}
 }
+
+/**
+ * gnm_random_uniform_integer:
+ * @l: integer lower bound
+ * @h: integer upper bound
+ *
+ * Returns: a uniformly distributed random integer in the range from
+ * @l to @h (inclusively).
+ */
+gnm_float
+gnm_random_uniform_integer (gnm_float l, gnm_float h)
+{
+	gnm_float range, res;
+
+	if (l > h || !gnm_finite (l) || !gnm_finite (h))
+		return gnm_nan;
+
+	range = h - l + 1;
+	if (range < G_MAXUINT32) {
+		do {
+			res = l + gnm_random_uniform_int (range);
+		} while (res > h);
+	} else {
+		// This could be better
+		do {
+			res = l + gnm_floor (range * random_01 ());
+		} while (res > h);
+	}
+
+	return res;
+}

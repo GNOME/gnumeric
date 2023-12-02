@@ -256,7 +256,6 @@ gnumeric_randbetween (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float bottom = value_get_as_float (argv[0]);
 	gnm_float top = value_get_as_float (argv[1]);
-	gnm_float choices;
 
 	if (bottom > top)
 		return value_new_error_NUM (ei->pos);
@@ -267,9 +266,7 @@ gnumeric_randbetween (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	// the same thing.
 	bottom = gnm_ceil (bottom);
 	top = gnm_floor (top);
-	choices = top - bottom;
-
-	return value_new_float (bottom + gnm_floor (choices * random_01 ()));
+	return value_new_float (gnm_random_uniform_integer (bottom, top));
 }
 
 /***************************************************************************/
