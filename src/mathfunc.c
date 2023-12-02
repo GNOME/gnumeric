@@ -3631,7 +3631,7 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
     gnm_float pr_w, binc, qsqz, blb;
     int i, jj;
 
-    qsqz = w * 0.5;
+    qsqz = w * GNM_const(0.5);
 
     /* find (2F(w/2) - 1) ^ cc */
     /* (first term in integral of hartley's form). */
@@ -3641,9 +3641,9 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
      * cancellation for pnorm or squeezing erf's result against 1.
      */
     pr_w = qsqz > 1
-	    ? pow1p (-2.0 * pnorm (qsqz, 0, 1, FALSE, FALSE), cc)
+	    ? pow1p (-2 * pnorm (qsqz, 0, 1, FALSE, FALSE), cc)
 	    : gnm_pow (gnm_erf (qsqz / M_SQRT2gnum), cc);
-    if (pr_w >= 1.0)
+    if (pr_w >= 1)
 	return 1.0;
 
     /* find the integral of second term of hartley's form */
@@ -3654,13 +3654,13 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
     /* blb and bub are lower and upper limits of integration. */
 
     blb = qsqz;
-    binc = 3.0 / gnm_log1p (cc);
+    binc = 3 / gnm_log1p (cc);
 
     /* integrate over each interval */
 
     for (i = 1; TRUE; i++) {
-	gnm_float C = blb + binc * 0.5;
-	gnm_float elsum = 0.0;
+	gnm_float C = blb + binc * GNM_const(0.5);
+	gnm_float elsum = 0;
 
 	/* legendre quadrature with order = nleg */
 
@@ -3674,7 +3674,7 @@ static gnm_float ptukey_wprob(gnm_float w, gnm_float rr, gnm_float cc)
 		xx = -xleg[jj];
 		aa = aleg[jj];
 	    }
-	    v = C + binc * 0.5 * xx;
+	    v = C + binc * GNM_const(0.5) * xx;
 
 	    rinsum = pnorm2 (v - w, v);
 	    elsum += gnm_pow (rinsum, cc - 1) * aa * expmx2h(v);
@@ -3732,9 +3732,9 @@ ptukey_otsum (gnm_float u0, gnm_float u1, gnm_float f2, gnm_float f2lf,
 	};
 	const int nlegq = G_N_ELEMENTS (xlegq) * 2;
 	int jj;
-	gnm_float C = 0.5 * (u0 + u1);
+	gnm_float C = GNM_const(0.5) * (u0 + u1);
 	gnm_float L = u1 - u0;
-	gnm_float otsum = 0.0;
+	gnm_float otsum = 0;
 
 	for (jj = 0; jj < nlegq; jj++) {
 	    gnm_float xx, aa, u, t1, wprb;
@@ -3747,12 +3747,12 @@ ptukey_otsum (gnm_float u0, gnm_float u1, gnm_float f2, gnm_float f2lf,
 		aa = alegq[jj];
 	    }
 
-	    u = xx * (0.5 * L) + C;
+	    u = xx * (GNM_const(0.5) * L) + C;
 
 	    t1 = f2lf + (f2 - 1) * gnm_log(u) - u * f2;
 
 	    wprb = ptukey_wprob(q * gnm_sqrt(u), rr, cc);
-	    otsum += aa * (wprb * (0.5 * L) * gnm_exp(t1));
+	    otsum += aa * (wprb * (GNM_const(0.5) * L) * gnm_exp(t1));
 	}
 
 	if (debug)
@@ -3864,7 +3864,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 
     /* calculate leading constant */
 
-    f2 = df * 0.5;
+    f2 = df * GNM_const(0.5);
     /* gnm_lgamma(u) = log(gamma(u)) */
     f2lf = f2 * gnm_log(f2) - gnm_lgamma(f2);
 
@@ -3964,7 +3964,7 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 
     if (fail)
 	    ML_ERROR(ME_PRECISION);
-    ans = MIN (ans, 1.0);
+    ans = MIN (ans, 1);
     return R_DT_val(ans);
 }
 
@@ -3987,7 +3987,7 @@ qtukey (gnm_float p, gnm_float nmeans, gnm_float df, gnm_float nranges, gboolean
 {
 	gnm_float x0, shape[3];
 
-	if (!log_p && p > 0.9) {
+	if (!log_p && p > GNM_const(0.9)) {
 		/* We're far into the tail.  Flip.  */
 		p = 1 - p;
 		lower_tail = !lower_tail;
@@ -4061,7 +4061,7 @@ logfbit (gnm_float x)
 	 * Are we ever concerned about the relative error involved in this
 	 * function? I don't think so.
 	 */
-	if (x >= 1e10) return 1 / (12 * (x + 1));
+	if (x >= GNM_const(1e10)) return 1 / (12 * (x + 1));
 	else if (x >= 6) {
 		gnm_float x1 = x + 1;
 		gnm_float x2 = 1 / (x1 * x1);
@@ -4098,14 +4098,14 @@ logfbit (gnm_float x)
 static gnm_float
 logfbit1dif (gnm_float x)
 {
-	return (logfbitdif (x) - 1 / (4 * (x + 1) * (x + 2))) / (x + 1.5);
+	return (logfbitdif (x) - 1 / (4 * (x + 1) * (x + 2))) / (x + GNM_const(1.5));
 }
 
 /* Derivative logfbit.  */
 static gnm_float
 logfbit1 (gnm_float x)
 {
-	if (x >= 1e10) return -lfbc1 * gnm_pow (x + 1, -2);
+	if (x >= GNM_const(1e10)) return -lfbc1 * gnm_pow (x + 1, -2);
 	else if (x >= 6) {
 		gnm_float x1 = x + 1;
 		gnm_float x2 = 1 / (x1 * x1);
@@ -4145,7 +4145,7 @@ logfbit3dif (gnm_float x)
 static gnm_float
 logfbit3 (gnm_float x)
 {
-	if (x >= 1e10) return -0.5 * gnm_pow (x + 1, -4);
+	if (x >= GNM_const(1e10)) return GNM_const(-0.5) * gnm_pow (x + 1, -4);
 	else if (x >= 6) {
 		gnm_float x1 = x + 1;
 		gnm_float x2 = 1 / (x1 * x1);
@@ -4184,7 +4184,7 @@ logfbit5dif (gnm_float x)
 static gnm_float
 logfbit5 (gnm_float x)
 {
-	if (x >= 1e10) return -10 * gnm_pow (x + 1, -6);
+	if (x >= GNM_const(1e10)) return -10 * gnm_pow (x + 1, -6);
 	else if (x >= 6) {
 		gnm_float x1 = x + 1;
 		gnm_float x2 = 1 / (x1 * x1);
@@ -4224,7 +4224,7 @@ logfbit7dif (gnm_float x)
 static gnm_float
 logfbit7 (gnm_float x)
 {
-	if (x >= 1e10) return -420 * gnm_pow (x + 1, -8);
+	if (x >= GNM_const(1e10)) return -420 * gnm_pow (x + 1, -8);
 	else if (x >= 6) {
 		gnm_float x1 = x + 1;
 		gnm_float x2 = 1 / (x1 * x1);
@@ -4254,7 +4254,7 @@ logfbit7 (gnm_float x)
 static gnm_float
 lfbaccdif (gnm_float a, gnm_float b)
 {
-	if (a > 0.03 * (a + b))
+	if (a > GNM_const(0.03) * (a + b))
 		return logfbit (a + b) - logfbit (b);
 	else {
 		gnm_float a2 = a * a;
@@ -4269,7 +4269,7 @@ lfbaccdif (gnm_float a, gnm_float b)
 static gnm_float
 compbfunc (gnm_float x, gnm_float a, gnm_float b)
 {
-	const gnm_float sumAcc = 5E-16;
+	const gnm_float sumAcc = GNM_const(5E-16);
 	gnm_float term = x;
 	gnm_float d = 2;
 	gnm_float sum = term / (a + 1);
@@ -4292,7 +4292,7 @@ pbeta_smalla (gnm_float x, gnm_float a, gnm_float b, gboolean lower_tail, gboole
 	assert (b < 1 || (1 + b) * x <= 1);
 #endif
 
-	if (x > 0.5) {
+	if (x > GNM_const(0.5)) {
 		gnm_float olda = a;
 		a = b;
 		b = olda;
@@ -4300,8 +4300,8 @@ pbeta_smalla (gnm_float x, gnm_float a, gnm_float b, gboolean lower_tail, gboole
 		lower_tail = !lower_tail;
 	}
 
-	r = (a + b + 0.5) * log1pmx (a / (1 + b)) +
-		a * (a - 0.5) / (1 + b) +
+	r = (a + b + GNM_const(0.5)) * log1pmx (a / (1 + b)) +
+		a * (a - GNM_const(0.5)) / (1 + b) +
 		lfbaccdif (a, b);
 	r += a * gnm_log ((1 + b) * x) - lgamma1p (a);
 	if (lower_tail) {
@@ -4339,15 +4339,15 @@ static gnm_float
 tdistexp (gnm_float p, gnm_float q, gnm_float logqk2, gnm_float k,
 	  gboolean log_p, gnm_float *approxtdistDens)
 {
-	const gnm_float sumAcc = 5E-16;
-	const gnm_float cfVSmall = 1.0e-14;
+	const gnm_float sumAcc = GNM_const(5E-16);
+	const gnm_float cfVSmall = GNM_const(1.0e-14);
 	const gnm_float lstpi = gnm_log (2 * M_PIgnum) / 2;
 
 	if (gnm_floor (k / 2) * 2 == k) {
-		gnm_float ldens = logqk2 + logfbit (k - 1) - 2 * logfbit (k * 0.5 - 1) - lstpi;
+		gnm_float ldens = logqk2 + logfbit (k - 1) - 2 * logfbit (k * GNM_const(0.5) - 1) - lstpi;
 		*approxtdistDens = R_D_exp (ldens);
 	} else {
-		gnm_float ldens = logqk2 + k * log1pmx (1 / k) + 2 * logfbit ((k - 1) * 0.5) - logfbit (k - 1) - lstpi;
+		gnm_float ldens = logqk2 + k * log1pmx (1 / k) + 2 * logfbit ((k - 1) * GNM_const(0.5)) - logfbit (k - 1) - lstpi;
 		*approxtdistDens = R_D_exp (ldens);
 	}
 
@@ -4367,7 +4367,7 @@ tdistexp (gnm_float p, gnm_float q, gnm_float logqk2, gnm_float k,
 
 		return log_p
 			? logspace_sub (-M_LN2gnum, *approxtdistDens + gnm_log1p (sum) + gnm_log (k * p) / 2)
-			: 0.5 - *approxtdistDens * (sum + 1) * gnm_sqrt (k * p);
+			: GNM_const(0.5) - *approxtdistDens * (sum + 1) * gnm_sqrt (k * p);
 	} else {
 		gnm_float q1 = 2 * (1 + q);
 		gnm_float q8 = 8 * q;
@@ -4453,11 +4453,11 @@ binApprox (gnm_float a, gnm_float b, gnm_float diffFromMean,
 		lower_tail = !lower_tail;
 	}
 
-	n1 = (n + 1.5) * (n + 2.5);
-	coef15 = (-17 + 2 * pq1) / (24 * (n + 1.5));
+	n1 = (n + GNM_const(1.5)) * (n + GNM_const(2.5));
+	coef15 = (-17 + 2 * pq1) / (24 * (n + GNM_const(1.5)));
 	coef25 = (-503 + 4 * pq1 * (19 + pq1)) / (1152 * n1);
 	coef35 = (-315733 + pq1 * (53310 + pq1 * (8196 - 1112 * pq1))) /
-		(414720 * n1 * (n + 3.5));
+		(414720 * n1 * (n + GNM_const(3.5)));
 	elfb = (coef35 + coef25) + coef15;
 	res += ib15 * ((coef35 * ib35 + coef25 * ib25) + coef15);
 
@@ -4479,7 +4479,7 @@ static gnm_float
 binomialTerm (gnm_float i, gnm_float j, gnm_float p, gnm_float q,
 	      gnm_float diffFromMean, gboolean log_p)
 {
-	const gnm_float minLog1Value = -0.79149064;
+	const gnm_float minLog1Value = GNM_const(-0.79149064);
 	gnm_float c1,c2,c3;
 	gnm_float c4,c5,c6,ps,logbinomialTerm,dfm;
 	gnm_float t;
@@ -4523,7 +4523,7 @@ binomialTerm (gnm_float i, gnm_float j, gnm_float p, gnm_float q,
 	logbinomialTerm = c4 + c2 * t - c5 + (c3 * log1pmx (c6) - c6);
 
 	return log_p
-		? logbinomialTerm + 0.5 * gnm_log (c1 / ((c2 + 1) * (c3 + 1) * 2 * M_PIgnum))
+		? logbinomialTerm + GNM_const(0.5) * gnm_log (c1 / ((c2 + 1) * (c3 + 1) * 2 * M_PIgnum))
 		: gnm_exp (logbinomialTerm) * gnm_sqrt (c1 / ((c2 + 1) * (c3 + 1) * 2 * M_PIgnum));
 }
 
@@ -4539,7 +4539,7 @@ binomialcf (gnm_float ii, gnm_float jj, gnm_float pp, gnm_float qq,
 {
 	const gnm_float sumAlways = 0;
 	const gnm_float sumFactor = 6;
-	const gnm_float cfSmall = 1.0e-15;
+	const gnm_float cfSmall = GNM_const(1.0e-15);
 
 	gnm_float prob,p,q,a1,a2,b1,b2,c1,c2,c3,c4,n1,q1,dfm;
 	gnm_float i,j,ni,nj,numb,ip1;
@@ -4591,7 +4591,7 @@ binomialcf (gnm_float ii, gnm_float jj, gnm_float pp, gnm_float qq,
 	}
 
 	if (i > sumAlways) {
-		numb = gnm_floor (sumFactor * gnm_sqrt (p + 0.5) * gnm_exp (gnm_log (n1 * p * q) / 3));
+		numb = gnm_floor (sumFactor * gnm_sqrt (p + GNM_const(0.5)) * gnm_exp (gnm_log (n1 * p * q) / 3));
 		numb = gnm_floor (numb - dfm);
 		if (numb > i) numb = gnm_floor (i);
 	} else
@@ -4667,7 +4667,7 @@ binomial (gnm_float ii, gnm_float jj, gnm_float pp, gnm_float qq,
 {
 	gnm_float mij = fmin2 (ii, jj);
 
-	if (mij > 500 && gnm_abs (diffFromMean) < 0.01 * mij)
+	if (mij > 500 && gnm_abs (diffFromMean) < GNM_const(0.01) * mij)
 		return binApprox (jj - 1, ii, diffFromMean, lower_tail, log_p);
 
 	return binomialcf (ii, jj, pp, qq, diffFromMean, lower_tail, log_p);
@@ -4784,7 +4784,7 @@ qgamma (gnm_float p, gnm_float alpha, gnm_float scale,
 	R_Q_P01_check(p);
 	if (alpha <= 0) ML_ERR_return_NAN;
 
-	if (!log_p && p > 0.9) {
+	if (!log_p && p > GNM_const(0.9)) {
 		/* We're far into the tail.  Flip.  */
 		p = 1 - p;
 		lower_tail = !lower_tail;
@@ -4792,12 +4792,12 @@ qgamma (gnm_float p, gnm_float alpha, gnm_float scale,
 
 	/* Make an initial guess, x0, assuming scale==1.  */
 	v = 2 * alpha;
-	if (v < -1.24 * R_DT_log (p))
+	if (v < GNM_const(-1.24) * R_DT_log (p))
 		x0 = gnm_pow (R_DT_qIv (p) * alpha * gnm_exp (gnm_lgamma (alpha) + alpha * M_LN2gnum),
 			      1 / alpha) / 2;
 	else {
 		gnm_float x1 = qnorm (p, 0, 1, lower_tail, log_p);
-		gnm_float p1 = 0.222222 / v;
+		gnm_float p1 = GNM_const(0.222222) / v;
 		x0 = v * gnm_pow (x1 * gnm_sqrt (p1) + 1 - p1, 3) / 2;
 	}
 
@@ -4849,9 +4849,9 @@ qbeta (gnm_float p, gnm_float pin, gnm_float qin, gboolean lower_tail, gboolean 
 #endif
 	R_Q_P01_check (p);
 
-	if (pin < 0. || qin < 0.) ML_ERR_return_NAN;
+	if (pin < 0 || qin < 0) ML_ERR_return_NAN;
 
-	if (!log_p && p > 0.9) {
+	if (!log_p && p > GNM_const(0.9)) {
 		/* We're far into the tail.  Flip.  */
 		p = 1 - p;
 		lower_tail = !lower_tail;
@@ -4895,14 +4895,14 @@ qf (gnm_float p, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p
 	if (gnm_isnan(p) || gnm_isnan(n1) || gnm_isnan(n2))
 		return p + n1 + n2;
 #endif
-	if (n1 <= 0. || n2 <= 0.) ML_ERR_return_NAN;
+	if (n1 <= 0 || n2 <= 0) ML_ERR_return_NAN;
 
 	R_Q_P01_check(p);
 	if (p == R_DT_0)
 		return 0;
 
 	q = qbeta (p, n2 / 2, n1 / 2, !lower_tail, log_p);
-	if (q < 0.9)
+	if (q < GNM_const(0.9))
 		qc = 1 - q;
 	else
 		qc = qbeta (p, n1 / 2, n2 / 2, lower_tail, log_p);
@@ -4929,7 +4929,7 @@ pbinom2 (gnm_float x0, gnm_float x1, gnm_float n, gnm_float p)
 		return pbinom (x0 - 1, n, p, FALSE, FALSE);
 
 	Pl = pbinom (x0 - 1, n, p, TRUE, FALSE);
-	if (Pl > 0.75) {
+	if (Pl > GNM_const(0.75)) {
 		gnm_float PlC = pbinom (x0 - 1, n, p, FALSE, FALSE);
 		gnm_float PrC = pbinom (x1, n, p, FALSE, FALSE);
 		return PlC - PrC;
@@ -4953,7 +4953,7 @@ expmx2h (gnm_float x)
 	x = gnm_abs (x);
 
 	if (x < 5 || gnm_isnan (x))
-		return gnm_exp (-0.5 * x * x);
+		return gnm_exp (GNM_const(-0.5) * x * x);
 	else if (x >= GNM_MAX_EXP * M_LN2gnum + 10)
 		return 0;
 	else {
@@ -4966,8 +4966,8 @@ expmx2h (gnm_float x)
 		 */
 		gnm_float x1 = gnm_round (x * 65536) / 65536;
 		gnm_float x2 = x - x1;
-		return (gnm_exp (-0.5 * x1 * x1) *
-			gnm_exp ((-0.5 * x2 - x1) * x2));
+		return (gnm_exp (GNM_const(-0.5) * x1 * x1) *
+			gnm_exp ((GNM_const(-0.5) * x2 - x1) * x2));
 	}
 }
 
@@ -5062,9 +5062,9 @@ gnm_lambert_w (gnm_float x, int k)
 		if (x == gnm_pinf)
 			return gnm_pinf;
 		if (x < 0)
-			w = 1.5 * (gnm_sqrt (x + one_over_e) - sqrt_one_over_e);
+			w = GNM_const(1.5) * (gnm_sqrt (x + one_over_e) - sqrt_one_over_e);
 		else if (x < 10)
-			w = gnm_sqrt (x) / 1.7;
+			w = gnm_sqrt (x) / GNM_const(1.7);
 		else {
 			gnm_float l1 = gnm_log (x);
 			gnm_float l2 = gnm_log (l1);
@@ -5075,7 +5075,7 @@ gnm_lambert_w (gnm_float x, int k)
 	} else if (k == -1) {
 		if (x >= 0)
 			return (x == 0) ? gnm_ninf : gnm_nan;
-		if (x < -0.1)
+		if (x < -GNM_const(0.1))
 			w = -1 - 3 * gnm_sqrt (x + one_over_e);
 		else {
 			gnm_float l1 = gnm_log (-x);
@@ -5142,7 +5142,7 @@ pow1p (gnm_float x, gnm_float y)
 	 * and (2) when |x|>1/2 and we have no better algorithm.
 	 */
 
-	if ((x + 1) - x == 1 || gnm_abs (x) > 0.5 ||
+	if ((x + 1) - x == 1 || gnm_abs (x) > GNM_const(0.5) ||
 	    gnm_isnan (x) || gnm_isnan (y))
 		return gnm_pow (1 + x, y);
 	else if (y < 0)
@@ -5715,7 +5715,7 @@ gnm_linear_solve_multiple (GnmMatrix const *A, GnmMatrix *B)
 long double
 erfl (long double x)
 {
-	if (fabsl (x) < 0.125) {
+	if (fabsl (x) < GNM_const(0.125)) {
 		/* For small x the pnorm formula loses precision.  */
 		long double sum = 0;
 		long double term = x * 2 / sqrtl (M_PIgnum);
@@ -5748,13 +5748,13 @@ erfcl (long double x)
 static gnm_float
 gnm_owent_T1 (gnm_float h, gnm_float a, int order)
 {
-	const gnm_float hs = -0.5 * (h * h);
+	const gnm_float hs = GNM_const(-0.5) * (h * h);
 	const gnm_float dhs = gnm_exp (hs);
 	const gnm_float as = a * a;
 	gnm_float aj = a / (M_PIgnum * 2);
 	gnm_float dj = gnm_expm1 (hs);
 	gnm_float gj = hs * dhs;
-	gnm_float res = gnm_atan (a) / (M_PIgnum * 2);
+	gnm_float res = gnm_atanpi (a) / 2;
 	int j;
 
 	for (j = 1; j <= order; j++) {
@@ -5837,7 +5837,7 @@ gnm_owent_T4 (gnm_float h, gnm_float a, int order)
 {
 	const gnm_float hs = h * h;
 	const gnm_float as = -a * a;
-	gnm_float ai = a * gnm_exp (-0.5 * hs * (1 - as)) / (2 * M_PIgnum);
+	gnm_float ai = a * gnm_exp (GNM_const(-0.5) * hs * (1 - as)) / (2 * M_PIgnum);
 	gnm_float yi = 1;
 	gnm_float val = 0;
 	int i;
@@ -5884,7 +5884,7 @@ gnm_owent_T5 (gnm_float h, gnm_float a, int order)
 		0.16793031084546090448E-02
 	};
 	const gnm_float as = a * a;
-	const gnm_float hs = -0.5 * h * h;
+	const gnm_float hs = GNM_const(-0.5) * h * h;
 	gnm_float val = 0;
 	int i;
 
@@ -5906,10 +5906,10 @@ gnm_owent_T6 (gnm_float h, gnm_float a, int order)
 	const gnm_float normhC = 1 - normh;
 	const gnm_float y = 1 - a;
 	const gnm_float r = gnm_atan2 (y, 1 + a);
-	gnm_float val = 0.5 * normh * normhC;
+	gnm_float val = GNM_const(0.5) * normh * normhC;
 
 	if (r != 0)
-		val -= r * gnm_exp (-0.5 * y * h * h / r) / (2 * M_PIgnum);
+		val -= r * gnm_exp (GNM_const(-0.5) * y * h * h / r) / (2 * M_PIgnum);
 
 	return val;
 }
@@ -5917,11 +5917,11 @@ gnm_owent_T6 (gnm_float h, gnm_float a, int order)
 static gnm_float
 gnm_owent_helper (gnm_float h, gnm_float a)
 {
-	static const double hrange[] = {
+	static const gnm_float hrange[] = {
 		0.02, 0.06, 0.09, 0.125, 0.26, 0.4,  0.6,
 		1.6,  1.7,  2.33,  2.4,  3.36, 3.4,  4.8
 	};
-	static const double arange[] = {
+	static const gnm_float arange[] = {
 		0.025, 0.09, 0.15, 0.36, 0.5, 0.9, 0.99999
 	};
 	static const guint8 method[] = {
@@ -5993,9 +5993,9 @@ gnm_owent (gnm_float h, gnm_float a)
 	if (a == 0)
 		res = 0;
 	else if (h == 0)
-		res = gnm_atan (a) / (2 * M_PIgnum);
+		res = gnm_atanpi (a) / 2;
 	else if (a == 1)
-		res = 0.5 * pnorm (h, 0, 1, TRUE, FALSE) *
+		res = GNM_const(0.5) * pnorm (h, 0, 1, TRUE, FALSE) *
 			pnorm (h, 0, 1, FALSE, FALSE);
 	else if (a <= 1)
 		res = gnm_owent_helper (h, a);
@@ -6008,15 +6008,15 @@ gnm_owent (gnm_float h, gnm_float a)
 		 *
 		 * with care to avoid cancellation.
 		 */
-		if (h <= 0.67) {
-			gnm_float nh = 0.5 * gnm_erf (h / M_SQRT2gnum);
-			gnm_float nah = 0.5 * gnm_erf (ah / M_SQRT2gnum);
-			res = 0.25 - nh * nah -
+		if (h <= GNM_const(0.67)) {
+			gnm_float nh = GNM_const(0.5) * gnm_erf (h / M_SQRT2gnum);
+			gnm_float nah = GNM_const(0.5) * gnm_erf (ah / M_SQRT2gnum);
+			res = GNM_const(0.25) - nh * nah -
 				gnm_owent_helper (ah, 1 / a);
 		} else {
 			gnm_float nh = pnorm (h, 0, 1, FALSE, FALSE);
 			gnm_float nah = pnorm (ah, 0, 1, FALSE, FALSE);
-			res = 0.5 * (nh + nah) - nh * nah -
+			res = GNM_const(0.5) * (nh + nah) - nh * nah -
 				gnm_owent_helper (ah, 1 / a);
 		}
 	}
@@ -6046,7 +6046,7 @@ gnm_ilog (gnm_float x, gnm_float b)
 		return b < 1 ? gnm_ninf : gnm_pinf;
 
 	// If the base is 2^i for i>0 then matters are simple
-	if (gnm_frexp (b, &be) == 0.5 && be >= 2) {
+	if (gnm_frexp (b, &be) == GNM_const(0.5) && be >= 2) {
 		int e;
 		gnm_float m = gnm_frexp (x, &e);
 		(void)m;

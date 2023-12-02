@@ -80,9 +80,9 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 			if (have_xlow && have_xhigh)
 				x = (xlow + xhigh) / 2;
 			else if (have_xlow)
-				x = xlow * 1.1;
+				x = xlow * GNM_const(1.1);
 			else
-				x = xhigh / 1.1;
+				x = xhigh / GNM_const(1.1);
 		} else if (have_xlow && have_xhigh) {
 			switch (i % 8) {
 			case 0:
@@ -152,7 +152,7 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 				goto done;
 			}
 
-			if (dpfunc_dx && i % 3 < 2 && (i == 0 || prec < 0.05)) {
+			if (dpfunc_dx && i % 3 < 2 && (i == 0 || prec < GNM_const(0.05))) {
 				gnm_float d = dpfunc_dx (x, shape, log_p);
 				if (log_p) d = gnm_exp (d - px);
 #ifdef DEBUG_pfuncinverter
@@ -164,7 +164,7 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 					 * with getting good points on both
 					 * sides of the root.
 					 */
-					x = x - e / d * 1.000001;
+					x = x - e / d * GNM_const(1.000001);
 					if (x > xlow && x < xhigh) {
 #ifdef DEBUG_pfuncinverter
 						g_printerr ("Newton ok\n");
@@ -264,7 +264,7 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 
 		if (i > 1 && have_xlow && have_xhigh) {
 			gnm_float xmid = gnm_floor ((xlow + xhigh) / 2);
-			if (xmid - xlow < 0.5 ||
+			if (xmid - xlow < GNM_const(0.5) ||
 			    xmid - xlow < gnm_abs (xlow) * GNM_EPSILON) {
 				if (check_left) {
 					/*
@@ -334,7 +334,7 @@ dnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
 	x /= sigma;
 
 	if (give_log)
-		return -(M_LN_SQRT_2PI + 0.5 * x * x + gnm_log (sigma));
+		return -(M_LN_SQRT_2PI + GNM_const(0.5) * x * x + gnm_log (sigma));
 	else if (x > 3 + 2 * gnm_sqrt (gnm_log (GNM_MAX)))
 		/* Far into the tail; x > ~100 for long double  */
 		return 0;
@@ -348,8 +348,8 @@ dnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
 		gnm_float xh = gnm_floor (x * 65536) / 65536;  /* At most 24 bits */
 		gnm_float xl = (x0 - xh * sigma) / sigma;
 		return M_1_SQRT_2PI *
-			gnm_exp (-0.5 * (xh * xh)) *
-			gnm_exp (-xl * (0.5 * xl + xh)) /
+			gnm_exp (GNM_const(-0.5) * (xh * xh)) *
+			gnm_exp (-xl * (GNM_const(0.5) * xl + xh)) /
 			sigma;
 	} else
 		/* Near-center case.  */
@@ -446,7 +446,7 @@ dlnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean give_log)
 	gnm_quad_init (&qs, logsd);
 	gnm_quad_div (&qy, &qy, &qs);
 	gnm_quad_mul (&qy, &qy, &qy);
-	qy.h *= -0.5; qy.l *= -0.5;
+	qy.h *= GNM_const(-0.5); qy.l *= GNM_const(-0.5);
 	gnm_quad_mul (&qt, &qs, &qx);
 	gnm_quad_mul (&qt, &qt, &qsqrt2pi);
 	if (give_log) {
@@ -561,14 +561,14 @@ qcauchy (gnm_float p, gnm_float location, gnm_float scale,
 			p = gnm_exp (p);
 		log_p = FALSE;
 	} else {
-		if (p > 0.5) {
+		if (p > GNM_const(0.5)) {
 			p = 1 - p;
 			lower_tail = !lower_tail;
 		}
 	}
 	x = location + (lower_tail ? -scale : scale) * gnm_cotpi (p);
 
-	if (location != 0 && gnm_abs (x / location) < 0.25) {
+	if (location != 0 && gnm_abs (x / location) < GNM_const(0.25)) {
 		/* Cancellation has occurred.  */
 		gnm_float shape[2];
 		shape[0] = location;
