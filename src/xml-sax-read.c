@@ -660,7 +660,6 @@ xml_sax_calculation (GsfXMLIn *xin, xmlChar const **attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	gboolean b;
 	int	 i;
-	double	 d;
 	gnm_float tol;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)

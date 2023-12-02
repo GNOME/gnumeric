@@ -245,9 +245,9 @@ ebd0(gnm_float x, gnm_float M, gnm_float *yh, gnm_float *yl)
 	int e;
 	int i, j;
 	const int Sb = 10;
-	const double S = 1u << Sb;
+	const gnm_float S = 1u << Sb;
 	const int N = G_N_ELEMENTS(bd0_scale) - 1;
-	const double e4 = GNM_EPSILON * GNM_EPSILON * GNM_EPSILON * GNM_EPSILON;
+	const gnm_float e4 = GNM_EPSILON * GNM_EPSILON * GNM_EPSILON * GNM_EPSILON;
 
 	if (gnm_isnan (x) || gnm_isnan (M)) {
 		*yl = *yh = x;
@@ -271,9 +271,9 @@ ebd0(gnm_float x, gnm_float M, gnm_float *yh, gnm_float *yl)
 #endif
 
 	r = gnm_frexp (M / x, &e);
-	i = gnm_round ((r - 0.5) * (2 * N));
+	i = gnm_round ((r - GNM_const(0.5)) * (2 * N));
 	g_assert (i >= 0 && i <= N);
-	f = gnm_round (S / (0.5 + i / (2.0 * N)));
+	f = gnm_round (S / (GNM_const(0.5) + i / (GNM_const(2.0) * N)));
 	fg = gnm_ldexp (f, -(e + Sb));
 
 	/* We now have (M * fg / x) close to 1.  */
@@ -298,8 +298,8 @@ ebd0(gnm_float x, gnm_float M, gnm_float *yh, gnm_float *yl)
 	 */
 
 	for (j = G_N_ELEMENTS(bd0_scale[i]) - 1; j >= 0; j--) {
-		ADD1(x * bd0_scale[i][j]);      /* Handles x*log(fg*2^e) */
-		ADD1(-x * e * bd0_scale[0][j]); /* Handles x*log(1/2^e) */
+		ADD1(x * (gnm_float)(bd0_scale[i][j]));      /* Handles x*log(fg*2^e) */
+		ADD1(-x * e * (gnm_float)(bd0_scale[0][j])); /* Handles x*log(1/2^e) */
 	}
 
 	ADD1(M);
