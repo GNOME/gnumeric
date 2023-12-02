@@ -3,6 +3,7 @@
 #include <sf-trig.h>
 #include <mathfunc.h>
 
+#define IEEE_754
 #define ML_ERR_return_NAN { return gnm_nan; }
 #define ML_UNDERFLOW (GNM_EPSILON * GNM_EPSILON)
 #define ML_ERROR(cause) do { } while(0)

@@ -4,6 +4,7 @@
 #include <sf-trig.h>
 #include <mathfunc.h>
 
+#define IEEE_754
 #define MATHLIB_STANDALONE
 #define ML_ERROR(cause) do { } while(0)
 #define MATHLIB_ERROR(_a,_b) return gnm_nan;
