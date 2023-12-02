@@ -172,6 +172,7 @@ sub import_file {
 	    s/\b(M_LN2|M_PI|M_PI_2|M_SQRT2|M_2PI)\b/$1gnum/g;
 	    s/\bDBL_(EPSILON|MIN|MAX)/GNM_$1/g;
 	    s/([^%])([-+]?(\d*\.(\d{1,})|\d+\.\d{0,})([eE][-+]?\d+)?)/$1GNM_const\($2\)/g;
+	    s/([ *])([-+]?\d+[eE][-+]?\d+\b)/$1GNM_const\($2\)/g;
 	    #s@(\d)\s*/\s*(\d+\.\d*)@$1 / GNM_const\($2\)@g;
 
 	    # Fix constant quotients.

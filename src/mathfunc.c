@@ -59,6 +59,7 @@
 #define M_1_SQRT_2PI    GNM_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
 #define M_2PIgnum       (2 * M_PIgnum)
 #define M_LN_2PI        GNM_const(1.837877066409345483560659472811)
+#define M_1_PI          GNM_const(0.318309886183790671537767526745)  /* 1/pi */
 
 #define ML_ERROR(cause) do { } while(0)
 #define MATHLIB_WARNING g_warning
@@ -73,7 +74,7 @@ static inline gnm_float fmax2 (gnm_float x, gnm_float y) { return MAX (x, y); }
 #define ML_WARN_return_NAN { return gnm_nan; }
 static void pnorm_both (gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboolean log_p);
 
-# define R_nonint(x) 	  (fabs((x) - gnm_round(x)) > GNM_const(1e-7)*fmax2(1, fabs(x)))
+# define R_nonint(x) 	  (gnm_abs((x) - gnm_round(x)) > GNM_const(1e-7)*fmax2(1, gnm_abs(x)))
 
 /* MW ---------------------------------------------------------------------- */
 
@@ -690,7 +691,7 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
  *
  * Note that we do want symmetry(0), lower/upper -> hence use y
  */
-    else if((log_p && y < 1e170) /* avoid underflow below */
+    else if((log_p && y < GNM_const(1e170)) /* avoid underflow below */
 	/*  ^^^^^ MM FIXME: can speedup for log_p and much larger |x| !
 	 * Then, make use of  Abramowitz & Stegun, 26.2.13, something like
 
@@ -1224,12 +1225,12 @@ gnm_float log1pmx (gnm_float x)
 	    * S(y) = 1/3 + y/5 + y^2/7 + ... = \sum_{k=0}^\infty  y^k / (2k + 3)
 	   */
 	gnm_float r = x / (2 + x), y = r * r;
-	if (gnm_abs(x) < 1e-2) {
+	if (gnm_abs(x) < GNM_const(1e-2)) {
 	    static const gnm_float two = 2;
 	    return r * ((((two / 9 * y + two / 7) * y + two / 5) * y +
 			    two / 3) * y - x);
 	} else {
-	    static const gnm_float tol_logcf = 1e-14;
+	    static const gnm_float tol_logcf = GNM_const(1e-14);
 	    return r * (2 * y * gnm_logcf (y, 3, 2, tol_logcf) - x);
 	}
     }
@@ -1904,7 +1905,7 @@ gnm_float pt(gnm_float x, gnm_float n, gboolean lower_tail, gboolean log_p)
 	return pnorm(x, GNM_const(0.0), GNM_const(1.0), lower_tail, log_p);
 
 #ifdef R_version_le_260
-    if (0 && n > 4e5) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
+    if (n > GNM_const(4e5)) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
 	/* Approx. from	 Abramowitz & Stegun 26.7.8 (p.949) */
 	val = GNM_const(1.)/(GNM_const(4.)*n);
 	return pnorm(x*(GNM_const(1.) - val)/gnm_sqrt(GNM_const(1.) + x*x*GNM_const(2.)*val), GNM_const(0.0), GNM_const(1.0),
@@ -1916,7 +1917,7 @@ gnm_float pt(gnm_float x, gnm_float n, gboolean lower_tail, gboolean log_p)
     /* FIXME: This test is probably losing rather than gaining precision,
      * now that pbeta(*, log_p = TRUE) is much better.
      * Note however that a version of this test *is* needed for x*x > D_MAX */
-    if(nx > 1e100) { /* <==>  x*x > 1e100 * n  */
+    if(nx > GNM_const(1e100)) { /* <==>  x*x > 1e100 * n  */
 	/* Danger of underflow. So use Abramowitz & Stegun 26.5.4
 	   pbeta(z, a, b) ~ z^a(1-z)^b / aB(a,b) ~ z^a / aB(a,b),
 	   with z = 1/nx,  a = n/2,  b= 1/2 :
@@ -2004,8 +2005,8 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
     if (ndf <= 0) ML_WARN_return_NAN;
 
     if (ndf < 1) { /* based on qnt */
-	static const gnm_float accu = 1e-13;
-	static const gnm_float Eps = 1e-11; /* must be > accu */
+	static const gnm_float accu = GNM_const(1e-13);
+	static const gnm_float Eps = GNM_const(1e-11); /* must be > accu */
 
 	gnm_float ux, lx, nx, pp;
 
@@ -2044,7 +2045,7 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
      * The differences are tiny even if x ~ 1e5, and qnorm is not
      * that accurate in the extreme tails.
      */
-    if (ndf > 1e20) return qnorm(p, GNM_const(0.), GNM_const(1.), lower_tail, log_p);
+    if (ndf > GNM_const(1e20)) return qnorm(p, GNM_const(0.), GNM_const(1.), lower_tail, log_p);
 
     P = R_D_qIv(p); /* if exp(p) underflows, we fix below */
 
@@ -2140,7 +2141,7 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
 	    int it=0;
 	    while(it++ < 10 && (y = dt(q, ndf, FALSE)) > 0 &&
 		  gnm_finite(x = (pt(q, ndf, FALSE, FALSE) - P/2) / y) &&
-		  gnm_abs(x) > 1e-14*gnm_abs(q))
+		  gnm_abs(x) > GNM_const(1e-14)*gnm_abs(q))
 		/* Newton (=Taylor 1 term):
 		 *  q += x;
 		 * Taylor 2-term : */
@@ -2569,7 +2570,7 @@ gnm_float qbinom(gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, gb
     /* fuzz to ensure left continuity: */
     p *= 1 - 64*GNM_EPSILON;
 
-    if(n < 1e5) return do_search(y, &z, p, n, pr, 1);
+    if(n < GNM_const(1e5)) return do_search(y, &z, p, n, pr, 1);
     /* Otherwise be a bit cleverer in the search */
     {
 	gnm_float incr = gnm_floor(n * GNM_const(0.001)), oldincr;
@@ -2577,7 +2578,7 @@ gnm_float qbinom(gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, gb
 	    oldincr = incr;
 	    y = do_search(y, &z, p, n, pr, incr);
 	    incr = fmax2(1, gnm_floor(incr/100));
-	} while(oldincr > 1 && incr > n*1e-15);
+	} while(oldincr > 1 && incr > n*GNM_const(1e-15));
 	return y;
     }
 }
@@ -2823,7 +2824,7 @@ gnm_float qnbinom(gnm_float p, gnm_float size, gnm_float prob, gboolean lower_ta
     p *= 1 - 64*GNM_EPSILON;
 
     /* If the C-F value is not too large a simple search is OK */
-    if(y < 1e5) return qbinom_do_search(y, &z, p, size, prob, 1);
+    if(y < GNM_const(1e5)) return qbinom_do_search(y, &z, p, size, prob, 1);
     /* Otherwise be a bit cleverer in the search */
     {
 	gnm_float incr = gnm_floor(y * GNM_const(0.001)), oldincr;
@@ -2831,7 +2832,7 @@ gnm_float qnbinom(gnm_float p, gnm_float size, gnm_float prob, gboolean lower_ta
 	    oldincr = incr;
 	    y = qbinom_do_search(y, &z, p, size, prob, incr);
 	    incr = fmax2(1, gnm_floor(incr/100));
-	} while(oldincr > 1 && incr > y*1e-15);
+	} while(oldincr > 1 && incr > y*GNM_const(1e-15));
 	return y;
     }
 }
@@ -3475,7 +3476,7 @@ gnm_float df(gnm_float x, gnm_float m, gnm_float n, gboolean give_log)
     }
     if (!gnm_finite(n)) /* must be +Inf by now */
 	return(dgamma(x, m/2, GNM_const(2.)/m, give_log));
-    if (m > 1e14) {/* includes +Inf: code below is inaccurate there */
+    if (m > GNM_const(1e14)) {/* includes +Inf: code below is inaccurate there */
 	dens = dgamma(GNM_const(1.)/x, n/2, GNM_const(2.)/n, give_log);
 	return give_log ? dens - 2*gnm_log(x): dens/(x*x);
     }
@@ -3652,7 +3653,7 @@ gnm_float qgeom(gnm_float p, gnm_float prob, gboolean lower_tail, gboolean log_p
     R_Q_P01_boundaries(p, 0, gnm_pinf);
 
 /* add a fuzz to ensure left continuity, but value must be >= 0 */
-    return fmax2(0, gnm_ceil(R_DT_Clog(p) / gnm_log1p(- prob) - 1 - 1e-12));
+    return fmax2(0, gnm_ceil(R_DT_Clog(p) / gnm_log1p(- prob) - 1 - GNM_const(1e-12)));
 }
 
 /* ------------------------------------------------------------------------ */
