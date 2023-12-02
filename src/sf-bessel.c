@@ -17,13 +17,6 @@ static inline int imin2 (int x, int y) { return MIN (x, y); }
 static inline int imax2 (int x, int y) { return MAX (x, y); }
 static inline gnm_float fmax2 (gnm_float x, gnm_float y) { return MAX (x, y); }
 
-static gnm_float
-gnm_cbrt (gnm_float x)
-{
-	gnm_float ar = gnm_pow (gnm_abs (x), 1.0 / 3.0);
-	return x < 0 ? 0 - ar : ar;
-}
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -1126,7 +1119,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	*ncalc = -1;
 	for (i = mplus1; i <= iend; ++i) {
 	    twonu += 2.;
-	    ratio = twonu / ex + 1./ratio;
+	    ratio = twonu / ex + 1 / ratio;
 	    ++j;
 	    if (j >= 1) {
 		bk[j] = ratio;
@@ -1180,7 +1173,7 @@ bessel_ij_series_domain (gnm_float x, gnm_float v)
 	// k'th term if x*x/4 < c*k(v+k).  Let's require two bit decreases
 	// (c=0.25) from k=10.  We ignore the sign of v, see above.
 
-	return (x * x / 4 < 0.25 * 10 * (gnm_abs (v) + 10));
+	return (x * x / 4 < GNM_const(0.25) * 10 * (gnm_abs (v) + 10));
 }
 
 
@@ -1412,7 +1405,7 @@ complex_legendre_integral (size_t N,
 		g_assert_not_reached ();
 	}
 	if (N & 1)
-		g_assert (roots[0] == 0.0);
+		g_assert (roots[0] == 0);
 
 	for (i = 0; i < (N + 1) / 2; i++) {
 		gnm_float r = roots[i];
@@ -1529,12 +1522,12 @@ chebyshev_interpolant (size_t N, gnm_float L, gnm_float H, gnm_float x0,
 	for (j = 0; j < N; j++) {
 		gnm_float cj = 0;
 		for (k = 0; k < N; k++) {
-			gnm_float zj = gnm_cospi ((k + 0.5) / N);
+			gnm_float zj = gnm_cospi ((k + GNM_const(0.5)) / N);
 			gnm_float xj = m + s * zj;
 			gnm_float fxj = f (xj, args);
-			cj += fxj * gnm_cospi (j * (k + 0.5) / N);
+			cj += fxj * gnm_cospi (j * (k + GNM_const(0.5)) / N);
 		}
-		coeffs[j] = cj * 2.0 / N;
+		coeffs[j] = 2 * cj / N;
 	}
 
 	dip1 = 0.0;
@@ -1543,9 +1536,9 @@ chebyshev_interpolant (size_t N, gnm_float L, gnm_float H, gnm_float x0,
 	for (i = N - 1; i >= 1; i--) {
 		dip2 = dip1;
 		dip1 = di;
-		di = 2.0 * x0n * dip1 - dip2 + coeffs[i];
+		di = 2 * x0n * dip1 - dip2 + coeffs[i];
 	}
-	res = x0n * di - dip1 + 0.5 * coeffs[0];
+	res = x0n * di - dip1 + GNM_const(0.5) * coeffs[0];
 
 	g_free (coeffs);
 
@@ -1578,8 +1571,8 @@ debye_u_coeffs (size_t n)
 				c[0] = 1;
 				continue;
 			} else if (i == 1) {
-				c[0] = 1 / 8.0;
-				c[1] = -5 / 24.0;
+				c[0] = 1 / GNM_const(8.0);
+				c[1] = -5 / GNM_const(24.0);
 				continue;
 			}
 
@@ -1590,20 +1583,20 @@ debye_u_coeffs (size_t n)
 
 				// .5tt u_[i-1]'
 				if (j < 3 * i)
-					k += 0.5 * (j-1) * l[((j-1)-(i-1)) / 2];
+					k += GNM_const(0.5) * (j-1) * l[((j-1)-(i-1)) / 2];
 
 				// -.5tttt u[i-1]'
 				if (j > i)
-					k -= 0.5 * (j-3) * l[((j-3)-(i-1)) / 2];
+					k -= GNM_const(0.5) * (j-3) * l[((j-3)-(i-1)) / 2];
 
 				// 1/8*Int[u[i-1]]
 				if (j < 3 * i)
-					k += 0.125 * l[((j-1)-(i-1)) / 2] / j;
+					k += GNM_const(0.125) * l[((j-1)-(i-1)) / 2] / j;
 
 
 				// -5/8*Int[tt*u[i-1]]
 				if (j > i)
-					k -= 0.625 * l[((j-3)-(i-1)) / 2] / j;
+					k -= GNM_const(0.625) * l[((j-3)-(i-1)) / 2] / j;
 
 				c[(j - i) / 2] = k;
 
@@ -1755,11 +1748,11 @@ debye_29_eta1 (gnm_float x, gnm_float nu,
 	// eta1 in three parts such that eta1 = (*r1a + *r1b + Pi * *rpi)
 	// with *r1a small and no rounding errors on the others.
 
-	if (q < 0.1) {
+	if (q < GNM_const(0.1)) {
 		gnm_float r  = 0;
 		gnm_float qq = q * q;
 		unsigned ci;
-		*rpi = -nu / 2 - 0.25;
+		*rpi = -nu / 2 - GNM_const(0.25);
 
 		for (ci = G_N_ELEMENTS(c); ci-- > 0; )
 			r = r * qq + c[ci];
@@ -1817,11 +1810,11 @@ debye_33 (gnm_float x, gnm_float nu, gnm_float eta2, size_t N)
 	gnm_complex sum;
 	gnm_float c = gnm_sqrt (2 / M_PIgnum);
 
-	if (eta2 < gnm_log (GNM_MAX) - 0.01)
+	if (eta2 < gnm_log (GNM_MAX) - GNM_const(0.01))
 		f = - c * gnm_exp (eta2) / gnm_pow (sqdiff, 0.25);
 	else {
 		// Near-overflow panic
-		f = - gnm_exp (gnm_log (c) + eta2 - 0.25 * gnm_log (sqdiff));
+		f = - gnm_exp (gnm_log (c) + eta2 - GNM_const(0.25) * gnm_log (sqdiff));
 	}
 
 	sum = debye_u_sum (x, nu, N, TRUE, FALSE);
@@ -1840,7 +1833,7 @@ integral_83_coshum1 (gnm_float d, gnm_float sinv, gnm_float cosv,
 	gnm_float r = 0, todd, teven, dd, cotv;
 	int i;
 
-	if (gnm_abs (d) > 0.1)
+	if (gnm_abs (d) > GNM_const(0.1))
 		return (d * cosbeta - (sinv - sinbeta)) / sinv;
 
 	cotv = cosv / sinv;
@@ -1926,7 +1919,7 @@ integral_83_integrand (gnm_float v, gnm_float const *args)
 		// Erratum: fix sign of u.  See Watson 8.32
 		if (v < beta)
 			u = -u, sinhu = -sinhu;
-		if (gnm_abs (vmbeta) < 0.1) {
+		if (gnm_abs (vmbeta) < GNM_const(0.1)) {
 			phi1 = integral_83_cosdiff (vmbeta, v, sinbeta, cosbeta) * sinhu +
 				gnm_sinhumu (u) * cosbeta;
 		} else {
@@ -2030,7 +2023,7 @@ integral_105_126 (gnm_float x, gnm_float nu, gboolean qH0)
 	gnm_complex I;
 	gnm_float refx = (nu < x) ? 0 : -gnm_acosh (nu / x);
 	// For the nu~x case, we have sinh(u)-u = u^3/6 + ...
-	gnm_float L = refx - MAX (gnm_cbrt (6 * 50 / ((nu + x) / 2)), 50.0 / MIN (nu, x));
+	gnm_float L = refx - MAX (gnm_cbrt (6 * 50 / ((nu + x) / 2)), 50 / MIN (nu, x));
 	gnm_float H = qH0 ? 0 : -refx;
 
 	complex_shink_integral_range (&L, &H, refx,
@@ -2277,11 +2270,11 @@ hankel1_B2 (gnm_float x, gnm_float nu, size_t N)
 static gnm_complex
 hankel1_A1 (gnm_float x, gnm_float nu)
 {
-	gnm_float rnu = gnm_floor (nu + 0.49); // Close enough
+	gnm_float rnu = gnm_floor (nu + GNM_const(0.49)); // Close enough
 	gnm_float Jnu, Ynu;
 	gboolean use_yn = (gnm_abs (rnu) < 100000 - 1);
 
-	if (gnm_abs (nu - rnu) > 5e-4) {
+	if (gnm_abs (nu - rnu) > GNM_const(5e-4)) {
 		jy_via_j_series (x, nu, &Jnu, &Ynu);
 	} else if (use_yn && nu == rnu) {
 		Jnu = gnm_jn ((int)rnu, x);
@@ -2370,7 +2363,7 @@ hankel1 (gnm_float x, gnm_float nu)
 	cbrtx = gnm_cbrt (x);
 	g = gnm_abs (x - nu) / cbrtx;
 
-	if (x >= 17 && g >= 6.5) {
+	if (x >= 17 && g >= GNM_const(6.5)) {
 		// Algorithm B
 		size_t N;
 		if (g < 7)
@@ -2392,9 +2385,9 @@ hankel1 (gnm_float x, gnm_float nu)
 		// series code uses quad precision.
 		if (bessel_ij_series_domain (x, nu))
 			return hankel1_A1 (x, nu);
-		else if (nu > x && g > 1.5)
+		else if (nu > x && g > GNM_const(1.5))
 			return hankel1_A2 (x, nu);
-		else if (x >= 9 && nu < x && g > 1.5)
+		else if (x >= 9 && nu < x && g > GNM_const(1.5))
 			return hankel1_A3 (x, nu, g);
 		else
 			return hankel1_A4 (x, nu);
@@ -2419,11 +2412,11 @@ bessel_jy_phase_domain (gnm_float x, gnm_float nu)
 	if (ax < 50)
 		return anu < ax / 2;
 	if (ax < 100)
-		return anu < ax / 1.5;
+		return anu < ax / GNM_const(1.5);
 	if (ax < 250)
-		return anu < ax / 1.2;
+		return anu < ax / GNM_const(1.2);
 
-	return anu < ax / 1.1;
+	return anu < ax / GNM_const(1.1);
 }
 
 

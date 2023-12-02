@@ -97,6 +97,7 @@ typedef double gnm_float;
 #define gnm_atanpi GNM_SUFFIX(go_atanpi)
 #define gnm_atan2pi GNM_SUFFIX(go_atan2pi)
 #define gnm_atanh GNM_SUFFIX(atanh)
+#define gnm_cbrt GNM_SUFFIX(cbrt)
 #define gnm_ceil GNM_SUFFIX(ceil)
 #define gnm_cosh GNM_SUFFIX(cosh)
 #define gnm_cospi GNM_SUFFIX(go_cospi)

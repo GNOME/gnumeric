@@ -65,7 +65,7 @@ gnm_float lgamma1p (gnm_float a)
     gnm_float lgam;
     int i;
 
-    if (gnm_abs (a) >= 0.5)
+    if (gnm_abs (a) >= GNM_const(0.5))
 	return gnm_lgamma (a + 1);
 
     /* Abramowitz & Stegun 6.1.33,
@@ -172,10 +172,10 @@ gnm_float stirlerr(gnm_float n)
     };
     gnm_float nn;
 
-    if (n <= 15.0) {
+    if (n <= 15) {
 	nn = n + n;
 	if (nn == (int)nn) return(sferr_halves[(int)nn]);
-	return(lgamma1p (n ) - (n + 0.5)*gnm_log(n) + n - M_LN_SQRT_2PI);
+	return(lgamma1p (n ) - (n + GNM_const(0.5)) * gnm_log(n) + n - M_LN_SQRT_2PI);
     }
 
     nn = n*n;
@@ -251,7 +251,7 @@ static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)
 
     if (n < 1 || n > 1000) ML_ERR_return_NAN;
 
-    if (x < -1.1 || x > 1.1) ML_ERR_return_NAN;
+    if (gnm_abs (x) > GNM_const(1.1)) ML_ERR_return_NAN;
 
     twox = x * 2;
     b2 = b1 = 0;
@@ -261,7 +261,7 @@ static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)
 	b1 = b0;
 	b0 = twox * b1 - b2 + a[n - i];
     }
-    return (b0 - b2) * 0.5;
+    return (b0 - b2) * GNM_const(0.5);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -438,14 +438,14 @@ gnm_float gnm_lbeta(gnm_float a, gnm_float b)
     if (p >= 10) {
 	/* p and q are big. */
 	corr = lgammacor(p) + lgammacor(q) - lgammacor(p + q);
-	return gnm_log(q) * -0.5 + M_LN_SQRT_2PI + corr
-		+ (p - 0.5) * gnm_log(p / (p + q)) + q * gnm_log1p(-p / (p + q));
+	return gnm_log(q) * GNM_const(-0.5) + M_LN_SQRT_2PI + corr
+		+ (p - GNM_const(0.5)) * gnm_log(p / (p + q)) + q * gnm_log1p(-p / (p + q));
     }
     else if (q >= 10) {
 	/* p is small, but q is big. */
 	corr = lgammacor(q) - lgammacor(p + q);
 	return gnm_lgamma(p) + corr + p - p * gnm_log(p + q)
-		+ (q - 0.5) * gnm_log1p(-p / (p + q));
+		+ (q - GNM_const(0.5)) * gnm_log1p(-p / (p + q));
     }
     else
 	/* p and q are small: p <= q < 10. */
@@ -886,7 +886,7 @@ pochhammer (gnm_float x, gnm_float n)
 
 	/* Panic mode.  */
 	g_printerr ("x=%.20g  n=%.20g\n", x, n);
-	lr = ((x - 0.5) * gnm_log1p (n / x) +
+	lr = ((x - GNM_const(0.5)) * gnm_log1p (n / x) +
 	      n * gnm_log (x + n) -
 	      n +
 	      (lgammacor (x + n) - lgammacor (x)));
@@ -990,7 +990,7 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 			gnm_quad_div (mant, &gnm_quad_pi, &b);
 			*exp2 = -*exp2;
 		}
-	} else if (x >= QFACTI_LIMIT - 0.5) {
+	} else if (x >= QFACTI_LIMIT - GNM_const(0.5)) {
 		/*
 		 * Let y = x + 1 = m * 2^e; c = sqrt(2Pi).
 		 *
@@ -1079,7 +1079,7 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 static int
 qgammaf (gnm_float x, GnmQuad *mant, int *exp2)
 {
-	if (x < -1.5 || x > 0.5)
+	if (x < GNM_const(-1.5) || x > GNM_const(0.5))
 		return qfactf (x - 1, mant, exp2);
 	else if (gnm_isnan (x) || x == gnm_floor (x)) {
 		*exp2 = 0;
@@ -1306,7 +1306,7 @@ gnm_complex_gamma (gnm_complex z, int *exp2)
 			q.re += lanczos_denom[i];
 		}
 
-		zmh = GNM_CMAKE (z.re - 0.5, z.im);
+		zmh = GNM_CMAKE (z.re - GNM_const(0.5), z.im);
 		f = GNM_CPOW (GNM_CADD (zmh, GNM_CREAL (lanczos_g)),
 			      GNM_CSCALE (zmh, 0.5));
 
@@ -1862,7 +1862,7 @@ gnm_digamma_asymp (gnm_float x)
 		GNM_const(-26.32566091447594628148156)  // x^-19
 	};
 
-	gnm_float z = x - 0.5, zm2 = 1 / (z * z), zn = z;
+	gnm_float z = x - GNM_const(0.5), zm2 = 1 / (z * z), zn = z;
 	gnm_float eps = GNM_EPSILON * z;
 	gnm_float sum = z;
 	unsigned ui;
@@ -1909,11 +1909,11 @@ gnm_digamma (gnm_float x)
 		// at x+1.
 		return gnm_digamma (x + 1) - 1 / x;
 
-	if (x < x0a - 1.0 / 3.0)
+	if (x < x0a - GNM_const(1.0) / 3)
 		// Series for range [0.46;1.13]
 		return gnm_digamma_series_1 (x);
 
-	if (x < x0a + 1.0 / 3.0)
+	if (x < x0a + GNM_const(1.0) / 3)
 		// Series for range [1.13;1.79] around x0
 		// Take extra care to compute the difference to x0 with a high-
 		// precision version of x0
@@ -1929,7 +1929,7 @@ gnm_digamma (gnm_float x)
 		gnm_float sum = 0;
 		while (x > x0a + 1) {
 			x--;
-			sum += 1.0 / x;
+			sum += 1 / x;
 		}
 		return sum + gnm_digamma (x);
 	}
