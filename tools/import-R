@@ -126,6 +126,9 @@ sub import_file {
 	if ($incomment) {
 	    $incomment = 0 if m|\*/|;
 	} else {
+	    my $comment = undef;
+	    $comment = $1 if (s{/(\*.*\*/)}{ MAGIC_C_COMMENT });
+
 	    s/\bdouble\b/gnm_float/g;
 	    s/\bRboolean\b/gboolean/g;
 
@@ -257,6 +260,10 @@ sub import_file {
 
 	    if ($filename =~ m|/qbeta\.c$| && /xinbta = 0\.5;/) {
 		s/0\.5/(xinbta < lower) ? gnm_sqrt (lower) : 1 - gnm_sqrt (lower)/;
+	    }
+
+	    if (defined $comment) {
+		s{ MAGIC_C_COMMENT }{$comment};
 	    }
 
 	    $incomment = 1 if m|/\*$|;
