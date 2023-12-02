@@ -54,6 +54,7 @@ typedef long double gnm_float;
 #define gnm_lgamma_r lgammal_r
 #define gnm_strto go_strtold
 #define gnm_ascii_strto go_ascii_strtold
+#define gnm_xml_out_add_gnm_float go_xml_out_add_long_double
 
 #else
 
@@ -80,6 +81,7 @@ typedef double gnm_float;
 #define gnm_lgamma_r lgamma_r
 #define gnm_strto go_strtod
 #define gnm_ascii_strto go_ascii_strtod
+#define gnm_xml_out_add_gnm_float go_xml_out_add_double
 
 #endif
 

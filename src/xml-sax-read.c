@@ -147,7 +147,7 @@ gnm_xml_attr_double (xmlChar const * const *attrs, char const *name, double * re
 	tmp = go_strtod (CXML2C (attrs[1]), &end);
 	if (*end) {
 		g_warning ("Invalid attribute '%s', expected double, received '%s'",
-			   name, attrs[1]);
+			   name, CXML2C (attrs[1]));
 		return FALSE;
 	}
 	*res = tmp;
@@ -160,6 +160,29 @@ xml_sax_double (xmlChar const *chars, double *res)
 	char *end;
 	*res = go_strtod (CXML2C (chars), &end);
 	return *end == '\0';
+}
+
+static gboolean
+gnm_xml_attr_float (xmlChar const * const *attrs, char const *name, gnm_float* res)
+{
+	char *end;
+	gnm_float tmp;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (!attr_eq (attrs[0], name))
+		return FALSE;
+
+	tmp = gnm_strto (CXML2C (attrs[1]), &end);
+	if (*end) {
+		g_warning ("Invalid attribute '%s', expected double, received '%s'",
+			   name, CXML2C (attrs[1]));
+		return FALSE;
+	}
+	*res = tmp;
+	return TRUE;
 }
 
 gboolean
@@ -638,6 +661,7 @@ xml_sax_calculation (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean b;
 	int	 i;
 	double	 d;
+	gnm_float tol;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gnm_xml_attr_bool (attrs, "ManualRecalc", &b))
@@ -646,8 +670,8 @@ xml_sax_calculation (GsfXMLIn *xin, xmlChar const **attrs)
 			workbook_iteration_enabled (state->wb, b);
 		else if (gnm_xml_attr_int  (attrs, "MaxIterations", &i))
 			workbook_iteration_max_number (state->wb, i);
-		else if (gnm_xml_attr_double (attrs, "IterationTolerance", &d))
-			workbook_iteration_tolerance (state->wb, d);
+		else if (gnm_xml_attr_float (attrs, "IterationTolerance", &tol))
+			workbook_iteration_tolerance (state->wb, tol);
 		else if (strcmp (CXML2C (attrs[0]), "DateConvention") == 0) {
 			GODateConventions const *date_conv =
 				go_date_conv_from_str (CXML2C (attrs[1]));

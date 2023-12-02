@@ -1501,7 +1501,7 @@ value_diff (GnmValue const *a, GnmValue const *b)
 		case VALUE_EMPTY:
 			if (*a->v_str.val->str == '\0')
 				return 0.;
-			return DBL_MAX;
+			return GNM_MAX;
 
 		/* If both are strings compare as string */
 		case VALUE_STRING:
@@ -1510,7 +1510,7 @@ value_diff (GnmValue const *a, GnmValue const *b)
 
 		case VALUE_FLOAT: case VALUE_BOOLEAN:
 		default:
-			return DBL_MAX;
+			return GNM_MAX;
 		}
 
 	} else if (tb == VALUE_STRING) {
@@ -1522,22 +1522,22 @@ value_diff (GnmValue const *a, GnmValue const *b)
 
 		case VALUE_FLOAT : case VALUE_BOOLEAN:
 		default:
-			return DBL_MAX;
+			return GNM_MAX;
 		}
 	}
 
 	/* Booleans > all numbers (Why did excel do this ?? ) */
 	if (ta == VALUE_BOOLEAN && tb == VALUE_FLOAT)
-		return DBL_MAX;
+		return GNM_MAX;
 	if (tb == VALUE_BOOLEAN && ta == VALUE_FLOAT)
-		return DBL_MAX;
+		return GNM_MAX;
 
 	switch ((ta > tb) ? ta : tb) {
 	case VALUE_EMPTY:	/* Empty Empty compare */
 		return 0.;
 
 	case VALUE_BOOLEAN:
-		return (compare_bool_bool (a, b) == IS_EQUAL) ? 0. : DBL_MAX;
+		return (compare_bool_bool (a, b) == IS_EQUAL) ? 0 : GNM_MAX;
 
 	case VALUE_FLOAT: {
 		gnm_float const da = value_get_as_float (a);

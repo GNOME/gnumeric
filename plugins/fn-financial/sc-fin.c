@@ -70,15 +70,15 @@ GetZw ( gnm_float fZins, gnm_float fZzr, gnm_float fRmz, gnm_float fBw,
 {
         gnm_float fZw;
 
-        if ( fZins == 0.0 )
+        if ( fZins == 0 )
                 fZw = fBw + fRmz * fZzr;
         else {
                 gnm_float fTerm = pow1p (fZins, fZzr );
                 if ( nF > 0 )
-                        fZw = fBw * fTerm + fRmz * ( 1.0 + fZins ) *
-				( fTerm - 1.0 ) / fZins;
+                        fZw = fBw * fTerm + fRmz * ( 1 + fZins ) *
+				( fTerm - 1 ) / fZins;
                 else
-                        fZw = fBw * fTerm + fRmz * ( fTerm - 1.0 ) / fZins;
+                        fZw = fBw * fTerm + fRmz * ( fTerm - 1 ) / fZins;
         }
 
         return -fZw;
@@ -89,21 +89,21 @@ Duration (GDate *nSettle, GDate *nMat, gnm_float fCoup, gnm_float fYield,
 	  gint nFreq, gint nBase, gnm_float fNumOfCoups)
 {
         /* gnm_float  fYearfrac   = yearfrac ( nSettle, nMat, nBase ); */
-        gnm_float  fDur        = 0.0;
-	gnm_float  t, p        = 0.0;
+        gnm_float  fDur        = 0;
+	gnm_float  t, p        = 0;
 
-        const gnm_float f100   = 100.0;
+        const gnm_float f100   = 100;
 
         fCoup  *= f100 / (gnm_float) nFreq; /* fCoup is used as cash flow */
         fYield /= nFreq;
         fYield += 1;
 
-        for ( t = 1.0 ; t < fNumOfCoups ; t++ )
+        for ( t = 1 ; t < fNumOfCoups ; t++ )
                 fDur += t * ( fCoup ) / gnm_pow ( fYield, t );
 
         fDur += fNumOfCoups * ( fCoup + f100 ) / gnm_pow ( fYield, fNumOfCoups );
 
-        for ( t = 1.0 ; t < fNumOfCoups ; t++ )
+        for ( t = 1 ; t < fNumOfCoups ; t++ )
                 p += fCoup / gnm_pow ( fYield, t );
 
         p += ( fCoup + f100 ) / gnm_pow ( fYield, fNumOfCoups );
@@ -126,13 +126,13 @@ get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 
 #define Round(x,y) (go_rint (x))
 
-        fUsePer = 1.0 / fRate;
+        fUsePer = 1 / fRate;
 
-        if (fUsePer < 3.0)
+        if (fUsePer < 3)
                 fAmorCoeff = 1.0;
-        else if (fUsePer < 5.0)
+        else if (fUsePer < 5)
                 fAmorCoeff = 1.5;
-        else if (fUsePer <= 6.0)
+        else if (fUsePer <= 6)
                 fAmorCoeff = 2.0;
         else
                 fAmorCoeff = 2.5;
@@ -147,14 +147,14 @@ get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
                 fNRate = Round ( fRate * fCost, 0 );
                 fRest -= fNRate;
 
-                if ( fRest < 0.0 ) {
+                if ( fRest < 0 ) {
                         switch ( nPer - n ) {
 			case 0:
 			case 1:
-				return value_new_float (Round ( fCost * 0.5,
+				return value_new_float (Round ( fCost / 2,
 								0 ) );
 			default:
-				return value_new_float (0.0);
+				return value_new_float (0);
                         }
                 }
 
@@ -184,7 +184,7 @@ get_amorlinc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
         else if( nPer == nNumOfFullPeriods + 1 )
                 result = fCostDelta - fOneRate * nNumOfFullPeriods - f0Rate;
         else
-                result = 0.0;
+                result = 0;
 
 	return value_new_float ( result );
 }
@@ -197,9 +197,9 @@ GnmValue *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
         gnm_float   fIssMat = yearfrac ( nIssue, nMat, nBase );
         gnm_float   fIssSet = yearfrac ( nIssue, nSettle, nBase );
         gnm_float   fSetMat = yearfrac ( nSettle, nMat, nBase );
-        gnm_float   y       = 1.0 + fIssMat * fRate;
+        gnm_float   y       = 1 + fIssMat * fRate;
 
-        y /= fPrice / 100.0 + fIssSet * fRate;
+        y /= fPrice / 100 + fIssSet * fRate;
         y--;
         y /= fSetMat;
 
@@ -227,7 +227,7 @@ get_mduration (GDate *nSettle, GDate *nMat, gnm_float fCoup,
 	gnm_float fRet = Duration (nSettle, nMat, fCoup, fYield, nFreq, nBase,
 				    fNumOfCoups);
 
-	fRet /= 1.0 + ( fYield / (gnm_float) nFreq );
+	fRet /= 1 + ( fYield / (gnm_float) nFreq );
 
         return value_new_float ( fRet );
 }
@@ -241,9 +241,9 @@ get_cumprinc  (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
         gnm_float fRmz, fKapZ;
 	gint       i;
 
-        fRmz = GetRmz ( fRate, nNumPeriods, fVal, 0.0, nPayType );
+        fRmz = GetRmz ( fRate, nNumPeriods, fVal, 0, nPayType );
 
-        fKapZ = 0.0;
+        fKapZ = 0;
 
 	if ( nStart == 1 ) {
                 if ( nPayType <= 0 )
@@ -275,9 +275,9 @@ get_cumipmt (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
         gnm_float fRmz, fZinsZ;
 	gint       i;
 
-        fRmz = GetRmz ( fRate, nNumPeriods, fVal, 0.0, nPayType );
+        fRmz = GetRmz ( fRate, nNumPeriods, fVal, 0, nPayType );
 
-        fZinsZ = 0.0;
+        fZinsZ = 0;
 
 	if ( nStart == 1 ) {
                 if ( nPayType <= 0 )
@@ -322,11 +322,11 @@ ScGetGDA (gnm_float fWert, gnm_float fRest, gnm_float fDauer,
 
         fZins = fFaktor / fDauer;
         if (fZins >= 1) {
-                fZins = 1.0;
+                fZins = 1;
                 if (fPeriode == 1)
                         fAlterWert = fWert;
                 else
-                        fAlterWert = 0.0;
+                        fAlterWert = 0;
         } else
                 fAlterWert = fWert * pow1p (-fZins, fPeriode - 1);
         fNeuerWert = fWert * pow1p (-fZins, fPeriode);
@@ -336,7 +336,7 @@ ScGetGDA (gnm_float fWert, gnm_float fRest, gnm_float fDauer,
         else
                 fGda = fAlterWert - fNeuerWert;
         if (fGda < 0)
-                fGda = 0.0;
+                fGda = 0;
         return fGda;
 }
 
@@ -372,7 +372,7 @@ ScInterVDB (gnm_float cost, gnm_float salvage, gnm_float life,
                         fTerm = fLia;
 
                 if ( i == nLoopEnd)
-                        fTerm *= ( period + 1.0 - fIntEnd );
+                        fTerm *= ( period + 1 - fIntEnd );
 
                 fVdb += fTerm;
         }
@@ -388,7 +388,7 @@ get_vdb (gnm_float cost, gnm_float salvage, gnm_float life,
 	gnm_float fIntStart = gnm_floor (start_period);
 	gnm_float fIntEnd   = gnm_ceil (end_period);
 
-	fVdb      = 0.0;
+	fVdb      = 0;
 
 	if ( flag ) {
 		int i, nLoopStart, nLoopEnd;
@@ -404,10 +404,10 @@ get_vdb (gnm_float cost, gnm_float salvage, gnm_float life,
 
 			fTerm = ScGetGDA (cost, salvage, life, i, factor);
 			if ( i == nLoopStart+1 )
-				fTerm *= ( MIN( end_period, fIntStart + 1.0 )
+				fTerm *= ( MIN( end_period, fIntStart + 1 )
 					   - start_period );
 			else if ( i == nLoopEnd )
-				fTerm *= ( end_period + 1.0 - fIntEnd );
+				fTerm *= ( end_period + 1 - fIntEnd );
 			fVdb += fTerm;
 		}
 	} else {

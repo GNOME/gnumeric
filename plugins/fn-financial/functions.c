@@ -156,7 +156,7 @@ calculate_pmt (gnm_float rate, gnm_float nper, gnm_float pv, gnm_float fv,
 	pvif = calculate_pvif (rate, nper);
 	fvifa = calculate_fvifa (rate, nper);
 
-        return ((-pv * pvif - fv ) / ((1.0 + rate * type) * fvifa));
+        return ((-pv * pvif - fv ) / ((1 + rate * type) * fvifa));
 }
 
 static gnm_float
@@ -301,7 +301,7 @@ price (GDate *settlement, GDate *maturity, gnm_float rate, gnm_float yield,
 	e = go_coupdays (settlement, maturity, conv);
 	n = coupnum (settlement, maturity, conv);
 
-	den = 100.0 * rate / conv->freq;
+	den = 100 * rate / conv->freq;
 	basem1 = yield / conv->freq;
 	exponent = d / e;
 
@@ -312,7 +312,7 @@ price (GDate *settlement, GDate *maturity, gnm_float rate, gnm_float yield,
 	sum = den * pow1p (basem1, 1 - n - exponent) *
 		pow1pm1 (basem1, n) / basem1;
 
-	first_term = redemption / pow1p (basem1, (n - 1.0 + d / e));
+	first_term = redemption / pow1p (basem1, (n - 1 + d / e));
 	last_term = a / e * den;
 
 	return (first_term + sum - last_term);
@@ -416,8 +416,8 @@ gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	basis          = value_get_basis (argv[6], GO_BASIS_MSRB_30_360);
 	calc_method    = argv[6] ? value_get_as_int (argv[6]) : 1;
 
-        if (rate <= 0.	||
-	    par <= 0.	||
+        if (rate <= 0	||
+	    par <= 0	||
 	    !is_valid_freq (freq)	||
 	    !is_valid_basis (basis)	||
 	    g_date_compare (&issue, &settlement) >= 0)
@@ -553,7 +553,7 @@ gnumeric_received (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (a <= 0 || d <= 0 || !is_valid_basis (basis))
                 return value_new_error_NUM (ei->pos);
 
-	n = 1.0 - (discount * a/d);
+	n = 1 - (discount * a/d);
 	if (n == 0)
 		return value_new_error_NUM (ei->pos);
 
@@ -726,7 +726,7 @@ gnumeric_nominal (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (rate <= 0 || nper < 1)
                 return value_new_error_NUM (ei->pos);
 
-        return value_new_float (nper * pow1pm1 (rate, 1.0 / nper));
+        return value_new_float (nper * pow1pm1 (rate, 1 / nper));
 }
 
 /***************************************************************************/
@@ -799,7 +799,7 @@ gnumeric_db (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	rate  = 1 - gnm_pow ((salvage / cost), (1 / life));
 	rate *= 1000;
-	rate  = gnm_floor (rate + 0.5) / 1000;
+	rate  = gnm_round (rate) / 1000;
 
 	total = cost * rate * month / 12;
 
@@ -924,7 +924,7 @@ gnumeric_syd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
         return value_new_float (((cost - salvage_value) *
 				 (life - period + 1) * 2) /
-				(life * (life + 1.0)));
+				(life * (life + 1)));
 }
 
 /***************************************************************************/
@@ -962,7 +962,7 @@ gnumeric_dollarde (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	 * For a power of 10, this is actually one less than the
 	 * number of digits.
 	 */
-	fdigits = 1 + gnm_floor (gnm_log10 (f - 0.5));
+	fdigits = 1 + gnm_floor (gnm_log10 (f - GNM_const(0.5)));
 
 	res = gnm_floor (x);
 
@@ -1010,7 +1010,7 @@ gnumeric_dollarfr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	 * For a power of 10, this is actually one less than the
 	 * number of digits.
 	 */
-	fdigits = 1 + gnm_floor (gnm_log10 (f - 0.5));
+	fdigits = 1 + gnm_floor (gnm_log10 (f - GNM_const(0.5)));
 
 	res = gnm_floor (x);
 	res += (x - res) * f / gnm_pow10 (fdigits);
@@ -1070,7 +1070,7 @@ gnumeric_mirr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	 * that Excel does.  -- MW.
 	 */
 	res = gnm_pow ((-npv_pos * pow1p (rrate, n)) / (npv_neg * (1 + rrate)),
-		       (1.0 / (n - 1))) - 1.0;
+		       (GNM_const(1.0) / (n - 1))) - 1;
 
 	result = value_new_float (res);
 out:
@@ -1146,7 +1146,7 @@ gnumeric_tbillprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (settlement > maturity || discount < 0 || dsm > 365)
                 return value_new_error_NUM (ei->pos);
 
-	res = 100 * (1.0 - (discount * dsm) / 360.0);
+	res = 100 * (1 - (discount * dsm) / 360);
 
 	return value_new_float (res);
 }
@@ -1180,7 +1180,7 @@ gnumeric_tbillyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (pr <= 0 || dsm <= 0 || dsm > 365)
                 return value_new_error_NUM (ei->pos);
 
-	res = (100.0 - pr) / pr * (360.0 / dsm);
+	res = (100 - pr) / pr * (360 / dsm);
 
 	return value_new_float (res);
 }
@@ -1211,7 +1211,7 @@ typedef struct {
 static GnmGoalSeekStatus
 gnumeric_rate_f (gnm_float rate, gnm_float *y, void *user_data)
 {
-	if (rate > -1.0 && rate != 0) {
+	if (rate > -1 && rate != 0) {
 		gnumeric_rate_t *data = user_data;
 
 		*y = data->pv * calculate_pvif (rate, data->nper) +
@@ -1227,7 +1227,7 @@ gnumeric_rate_f (gnm_float rate, gnm_float *y, void *user_data)
 static GnmGoalSeekStatus
 gnumeric_rate_df (gnm_float rate, gnm_float *y, void *user_data)
 {
-	if (rate > -1.0 && rate != 0.0) {
+	if (rate > -1 && rate != 0) {
 		gnumeric_rate_t *data = user_data;
 
 		*y = -data->pmt * calculate_fvifa (rate, data->nper) / rate +
@@ -1249,11 +1249,11 @@ gnumeric_rate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	udata.nper = value_get_as_int (argv[0]);
 	/* YES ZERO, it's sick but it's XL compatible */
-	udata.pmt  = argv[1] ? value_get_as_float (argv[1]) : 0.0;
+	udata.pmt  = argv[1] ? value_get_as_float (argv[1]) : 0;
 	udata.pv   = value_get_as_float (argv[2]);
-	udata.fv   = argv[3] ? value_get_as_float (argv[3]) : 0.0;
+	udata.fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
 	udata.type = value_get_paytype (argv[4]);
-	rate0      = argv[5] ? value_get_as_float (argv[5]) : 0.1;
+	rate0      = argv[5] ? value_get_as_float (argv[5]) : GNM_const(0.1);
 
 	if (udata.nper <= 0)
 		return value_new_error_NUM (ei->pos);
@@ -1267,9 +1267,11 @@ gnumeric_rate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	goal_seek_initialize (&data);
 
 	data.xmin = MAX (data.xmin,
-			 -gnm_pow (DBL_MAX / 1e10, 1.0 / udata.nper) + 1);
+			 -gnm_pow (GNM_MAX / GNM_const(1e10),
+				   GNM_const(1.0) / udata.nper) + 1);
 	data.xmax = MIN (data.xmax,
-			 gnm_pow (DBL_MAX / 1e10, 1.0 / udata.nper) - 1);
+			 gnm_pow (GNM_MAX / GNM_const(1e10),
+				  GNM_const(1.0) / udata.nper) - 1);
 
 	/* Newton search from guess.  */
 	status = goal_seek_newton (&gnumeric_rate_f, &gnumeric_rate_df,
@@ -1327,10 +1329,10 @@ gnumeric_rri (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (per < 0)
 		return value_new_error_NUM (ei->pos);
-        if (pv == 0. || per == 0.)
+        if (pv == 0 || per == 0)
 		return value_new_error_DIV0 (ei->pos);
 
-	return value_new_float (gnm_pow(fv/pv,1/per)-1.);
+	return value_new_float (gnm_pow (fv / pv, 1 / per) - 1);
 }
 
 
@@ -1401,7 +1403,7 @@ gnumeric_irr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnumeric_irr_t  p;
 	gnm_float      rate0;
 
-	rate0 = argv[1] ? value_get_as_float (argv[1]) : 0.1;
+	rate0 = argv[1] ? value_get_as_float (argv[1]) : GNM_const(0.1);
 
 	p.values = collect_floats_value (argv[0], ei->pos,
 					 COLLECT_IGNORE_STRINGS |
@@ -1416,7 +1418,8 @@ gnumeric_irr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	data.xmin = -1;
 	data.xmax = MIN (data.xmax,
-			 gnm_pow (DBL_MAX / 1e10, 1.0 / p.n) - 1);
+			 gnm_pow (GNM_MAX / GNM_const(1e10),
+				  GNM_const(1.0) / p.n) - 1);
 
 	status = goal_seek_newton (&irr_npv, &irr_npv_df, &data, &p, rate0);
 	if (status != GOAL_SEEK_OK) {
@@ -1487,7 +1490,7 @@ gnumeric_pv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (pvif == 0)
 		return value_new_error_DIV0 (ei->pos);
 
-        return value_new_float ((-fv - pmt * (1.0 + rate * type) * fvifa) /
+        return value_new_float ((-fv - pmt * (1 + rate * type) * fvifa) /
 				pvif);
 }
 
@@ -1581,7 +1584,7 @@ gnumeric_xnpv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	for (i = 0; i < p_n; i++)
 		sum += payments[i] /
-			pow1p (rate, (dates[i] - dates[0]) / 365.0);
+			pow1p (rate, (dates[i] - dates[0]) / 365);
 
 	result = value_new_float (sum);
  out:
@@ -1622,7 +1625,7 @@ xirr_npv (gnm_float rate, gnm_float *y, void *user_data)
 
 		if (d < 0)
 			return GOAL_SEEK_ERROR;
-		sum += p->values[i] / pow1p (rate, d / 365.0);
+		sum += p->values[i] / pow1p (rate, d / 365);
 	}
 
 	*y = sum;
@@ -1674,7 +1677,7 @@ gnm_range_xirr (gnm_float const *xs, const gnm_float *ys,
 static GnmValue *
 gnumeric_xirr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float rate0 = argv[2] ? value_get_as_float (argv[2]) : 0.1;
+	gnm_float rate0 = argv[2] ? value_get_as_float (argv[2]) : GNM_const(0.1);
 
 	return float_range_function2d (argv[0], argv[1],
 				       ei,
@@ -1707,7 +1710,7 @@ gnumeric_fv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float rate = value_get_as_float (argv[0]);
 	gnm_float nper = value_get_as_float (argv[1]);
 	gnm_float pmt  = value_get_as_float (argv[2]);
-	gnm_float pv   = argv[3] ? value_get_as_float (argv[3]) : 0.;
+	gnm_float pv   = argv[3] ? value_get_as_float (argv[3]) : 0;
 	int type       = value_get_paytype (argv[4]);
 	gnm_float pvif, fvifa;
 
@@ -1718,7 +1721,7 @@ gnumeric_fv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	fvifa = calculate_fvifa (rate, nper);
 
         return value_new_float (-((pv * pvif) + pmt *
-				  (1.0 + rate * type) * fvifa));
+				  (1 + rate * type) * fvifa));
 }
 
 /***************************************************************************/
@@ -1875,9 +1878,9 @@ gnumeric_nper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (!is_valid_paytype (type))
 		return value_new_error_VALUE (ei->pos);
 
-	tmp = (pmt * (1.0 + rate * type) - fv * rate) /
-	  (pv * rate + pmt * (1.0 + rate * type));
-	if (tmp <= 0.0)
+	tmp = (pmt * (1 + rate * type) - fv * rate) /
+	  (pv * rate + pmt * (1 + rate * type));
+	if (tmp <= 0)
 		return value_new_error_VALUE (ei->pos);
 
         return value_new_float (gnm_log (tmp) / gnm_log1p (rate));
@@ -2234,14 +2237,14 @@ gnumeric_euroconvert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				return value_new_error_VALUE (ei->pos);
 			else {
 				gnm_float p10 = gnm_pow10 (decimals);
-				inter = gnm_fake_trunc (inter * p10 + 0.5) / p10;
+				inter = gnm_fake_round (inter * p10) / p10;
 			}
 		}
 		inter = inter * c2;
 		if (argv[3] != NULL && !value_get_as_bool (argv[3], &err) && !err) {
 			int decimals = euro_local_rounding (value_peek_string (argv[2]));
 			gnm_float p10 = gnm_pow10 (decimals);
-			inter = gnm_fake_trunc (inter * p10 + 0.5) / p10;
+			inter = gnm_fake_round (inter * p10) / p10;
 		}
 		return value_new_float (inter);
 	} else
@@ -2291,7 +2294,7 @@ gnumeric_price (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
             || g_date_compare (&settlement, &maturity) > 0)
 		return value_new_error_NUM (ei->pos);
 
-        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0)
+        if (rate < 0 || yield < 0 || redemption <= 0)
                 return value_new_error_NUM (ei->pos);
 
 	return value_new_float (price (&settlement, &maturity, rate, yield,
@@ -2357,11 +2360,11 @@ gnumeric_yield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
             || g_date_compare (&udata.settlement, &udata.maturity) > 0)
 		return value_new_error_NUM (ei->pos);
 
-        if (udata.rate < 0.0 || udata.par < 0.0 || udata.redemption <= 0.0)
+        if (udata.rate < 0 || udata.par < 0 || udata.redemption <= 0)
 		return value_new_error_NUM (ei->pos);
 
 	n = coupnum (&udata.settlement, &udata.maturity, &udata.conv);
-	if (n <= 1.0) {
+	if (n <= 1) {
 		gnm_float a = go_coupdaybs (&udata.settlement, &udata.maturity,
 					 &udata.conv);
 		gnm_float d = go_coupdaysnc (&udata.settlement, &udata.maturity,
@@ -2370,11 +2373,11 @@ gnumeric_yield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					 &udata.conv);
 
 		gnm_float coeff = udata.conv.freq * e / d;
-		gnm_float num = (udata.redemption / 100.0  +
+		gnm_float num = (udata.redemption / 100  +
 				  udata.rate / udata.conv.freq)
-			- (udata.par / 100.0  +  (a / e  *
+			- (udata.par / 100  +  (a / e  *
 						  udata.rate / udata.conv.freq));
-		gnm_float den = udata.par / 100.0  +  (a / e  *  udata.rate /
+		gnm_float den = udata.par / 100  +  (a / e  *  udata.rate /
 							udata.conv.freq);
 
 		return value_new_float (num / den * coeff);
@@ -2539,8 +2542,9 @@ date_ratio (GDate const *d1, const GDate *d2, const GDate *d3,
 		if (!g_date_valid (&next_coupon))
 			return gnm_nan;
 		if (g_date_compare (&next_coupon, d2) >= 0) {
-			res += go_date_days_between_basis (&prev_coupon, d2, conv->basis) /
+			gnm_float delta = go_date_days_between_basis (&prev_coupon, d2, conv->basis) /
 				go_coupdays (&prev_coupon, &next_coupon, conv);
+			res += delta;
 			return res;
 		}
 		res += 1;
@@ -2559,8 +2563,8 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 	gnm_float df = go_date_days_between_basis (issue, first_coupon, conv->basis);
 	gnm_float e = go_coupdays (settlement, maturity, conv);
 	int n = (int)coupnum (settlement, maturity, conv);
-	gnm_float scale = 100.0 * rate / conv->freq;
-	gnm_float f = 1.0 + yield / conv->freq;
+	gnm_float scale = 100 * rate / conv->freq;
+	gnm_float f = 1 + yield / conv->freq;
 	gnm_float sum, term1, term2;
 
 	if (ds > e) {
@@ -2593,7 +2597,7 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 		}
 	}
 
-	term1 = redemption / gnm_pow (f, n - 1.0 + ds / e);
+	term1 = redemption / gnm_pow (f, n - 1 + ds / e);
 	term2 = (df / e) / gnm_pow (f, ds / e);
 	sum = gnm_pow (f, -ds / e) *
 		(gnm_pow (f, -n) - 1 / f) / (1 / f - 1);
@@ -2632,7 +2636,7 @@ gnumeric_oddfprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	    || g_date_compare (&first_coupon, &maturity) > 0)
 		return value_new_error_NUM (ei->pos);
 
-        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0)
+        if (rate < 0 || yield < 0 || redemption <= 0)
                 return value_new_error_NUM (ei->pos);
 
 	return value_new_float
@@ -2710,7 +2714,7 @@ gnumeric_oddfyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	    || g_date_compare (&udata.first_coupon, &udata.maturity) > 0)
 		return value_new_error_NUM (ei->pos);
 
-        if (udata.rate < 0.0 || udata.price <= 0.0 || udata.redemption <= 0.0)
+        if (udata.rate < 0 || udata.price <= 0 || udata.redemption <= 0)
                 return value_new_error_NUM (ei->pos);
 
 	goal_seek_initialize (&data);
@@ -2806,7 +2810,7 @@ gnumeric_oddlprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	    g_date_compare (&last_interest, &settlement) > 0)
 		return value_new_error_NUM (ei->pos);
 
-        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0)
+        if (rate < 0 || yield < 0 || redemption <= 0)
                 return value_new_error_NUM (ei->pos);
 
 	return value_new_float
@@ -2884,7 +2888,7 @@ gnumeric_oddlyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	    g_date_compare (&last_interest, &settlement) > 0)
 		return value_new_error_NUM (ei->pos);
 
-        if (rate < 0.0 || price <= 0.0 || redemption <= 0.0)
+        if (rate < 0 || price <= 0 || redemption <= 0)
                 return value_new_error_NUM (ei->pos);
 
 	return value_new_float

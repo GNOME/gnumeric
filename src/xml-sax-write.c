@@ -1457,7 +1457,7 @@ xml_write_calculation (GnmOutputXML *state)
 		"EnableIteration",	state->wb->iteration.enabled);
 	gsf_xml_out_add_int (state->output,
 		"MaxIterations",	state->wb->iteration.max_number);
-	go_xml_out_add_double (state->output,
+	gnm_xml_out_add_gnm_float (state->output,
 		"IterationTolerance",	state->wb->iteration.tolerance);
 	xml_write_date_conventions_as_attr (state,
 					    workbook_date_conv (state->wb));
