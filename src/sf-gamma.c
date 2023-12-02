@@ -3,10 +3,10 @@
 #include <sf-trig.h>
 #include <mathfunc.h>
 
-#define IEEE_754
-#define ML_ERR_return_NAN { return gnm_nan; }
+#define ML_WARN_return_NAN { return gnm_nan; }
 #define ML_UNDERFLOW (GNM_EPSILON * GNM_EPSILON)
 #define ML_ERROR(cause) do { } while(0)
+#define ML_WARNING(typ,what) g_printerr("sf-gamma: trouble in %s\n", (what))
 
 static int qgammaf (gnm_float x, GnmQuad *mant, int *exp2);
 static void pochhammer_small_n (gnm_float x, gnm_float n, GnmQuad *res);
@@ -79,6 +79,10 @@ gnm_float lgamma1p (gnm_float a)
 } /* lgamma1p */
 
 /* ------------------------------------------------------------------------ */
+/* --- BEGIN MAGIC R SOURCE MARKER --- */
+
+// The following source code was imported from the R project.
+// It was automatically transformed by tools/import-R.
 
 /* Imported src/nmath/stirlerr.c from R.  */
 /*
@@ -87,7 +91,7 @@ gnm_float lgamma1p (gnm_float a)
  *    October 23, 2000.
  *
  *  Merge in to R:
- *	Copyright (C) 2000, The R Core Development Team
+ *	Copyright (C) 2000, The R Core Team
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -100,9 +104,8 @@ gnm_float lgamma1p (gnm_float a)
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
- *  USA.
+ *  along with this program; if not, a copy is available at
+ *  https://www.R-project.org/Licenses/
  *
  *
  *  DESCRIPTION
@@ -114,14 +117,14 @@ gnm_float lgamma1p (gnm_float a)
  *        write lgamma!)
  *
  * Merge in to R:
- * Copyright (C) 2000, The R Core Development Team
+ * Copyright (C) 2000, The R Core Team
  * R has lgammafn, and lgamma is not part of ISO C
  */
 
 
-/* stirlerr(n) = gnm_log(n!) - gnm_log( gnm_sqrt(2*pi*n)*(n/e)^n )
- *             = gnm_log Gamma(n+1) - 1/2 * [gnm_log(2*pi) + gnm_log(n)] - n*[gnm_log(n) - 1]
- *             = gnm_log Gamma(n+1) - (n + 1/2) * gnm_log(n) + n - gnm_log(2*pi)/2
+/* stirlerr(n) = log(n!) - log( sqrt(2*pi*n)*(n/e)^n )
+ *             = log Gamma(n+1) - 1/2 * [log(2*pi) + log(n)] - n*[log(n) - 1]
+ *             = log Gamma(n+1) - (n + 1/2) * log(n) + n - log(2*pi)/2
  *
  * see also lgammacor() in ./lgammacor.c  which computes almost the same!
  */
@@ -139,7 +142,7 @@ gnm_float stirlerr(gnm_float n)
   error for 0, 0.5, 1.0, 1.5, ..., 14.5, 15.0.
 */
     static const gnm_float sferr_halves[31] = {
-	0.0, /* n=0 - wrong, place holder only */
+	GNM_const(0.0), /* n=0 - wrong, place holder only */
 	GNM_const(0.1534264097200273452913848),  /* 0.5 */
 	GNM_const(0.0810614667953272582196702),  /* 1.0 */
 	GNM_const(0.0548141210519176538961390),  /* 1.5 */
@@ -176,7 +179,7 @@ gnm_float stirlerr(gnm_float n)
     if (n <= 15) {
 	nn = n + n;
 	if (nn == (int)nn) return(sferr_halves[(int)nn]);
-	return(lgamma1p (n ) - (n + GNM_const(0.5)) * gnm_log(n) + n - M_LN_SQRT_2PI);
+	return(lgamma1p (n ) - (n + GNM_const(0.5))*gnm_log(n) + n - M_LN_SQRT_2PI);
     }
 
     nn = n*n;
@@ -210,9 +213,8 @@ gnm_float stirlerr(gnm_float n)
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- *  02110-1301 USA.
+ *  along with this program; if not, a copy is available at
+ *  https://www.R-project.org/Licenses/
  *
  *  SYNOPSIS
  *
@@ -250,9 +252,9 @@ static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)
     gnm_float b0, b1, b2, twox;
     int i;
 
-    if (n < 1 || n > 1000) ML_ERR_return_NAN;
+    if (n < 1 || n > 1000) ML_WARN_return_NAN;
 
-    if (gnm_abs (x) > GNM_const(1.1)) ML_ERR_return_NAN;
+    if (x < GNM_const(-1.1) || x > GNM_const(1.1)) ML_WARN_return_NAN;
 
     twox = x * 2;
     b2 = b1 = 0;
@@ -270,7 +272,7 @@ static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)
 /*
  *  Mathlib : A C Library of Special Functions
  *  Copyright (C) 1998 Ross Ihaka
- *  Copyright (C) 2000-2001 The R Development Core Team
+ *  Copyright (C) 2000-2001 The R Core Team
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -283,9 +285,8 @@ static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
- *  USA.
+ *  along with this program; if not, a copy is available at
+ *  https://www.R-project.org/Licenses/
  *
  *  SYNOPSIS
  *
@@ -334,39 +335,24 @@ static gnm_float lgammacor(gnm_float x)
 
     gnm_float tmp;
 
-#ifdef NOMORE_FOR_THREADS
-    static int nalgm = 0;
-    static gnm_float xbig = 0, xmax = 0;
-
-    /* Initialize machine dependent constants, the first time gamma() is called.
-	FIXME for threads ! */
-    if (nalgm == 0) {
-	/* For IEEE gnm_float precision : nalgm = 5 */
-	nalgm = chebyshev_init(algmcs, 15, GNM_EPSILON/2);/*was d1mach(3)*/
-	xbig = 1 / gnm_sqrt(GNM_EPSILON/2); /* ~ 94906265.6 for IEEE gnm_float */
-	xmax = gnm_exp(fmin2(gnm_log(GNM_MAX / 12), -gnm_log(12 * GNM_MIN)));
-	/*   = GNM_MAX / 48 ~= 3.745e306 for IEEE gnm_float */
-    }
-#else
-/* For IEEE gnm_float precision GNM_EPSILON = 2^-52 = GNM_const(2.220446049250313e-16) :
+/* For IEEE double precision DBL_EPSILON = 2^-52 = 2.220446049250313e-16 :
  *   xbig = 2 ^ 26.5
- *   xmax = GNM_MAX / 48 =  2^1020 / 3 */
-# define nalgm 5
-# define xbig  GNM_const(94906265.62425156)
-# define xmax  GNM_const(3.745194030963158e306)
-#endif
+ *   xmax = DBL_MAX / 48 =  2^1020 / 3 */
+#define nalgm 5
+#define xbig  GNM_const(94906265.62425156)
+#define xmax  GNM_const(3.745194030963158e306)
 
     if (x < 10)
-	ML_ERR_return_NAN
+	ML_WARN_return_NAN
     else if (x >= xmax) {
-	ML_ERROR(ME_UNDERFLOW);
-	return ML_UNDERFLOW;
+	ML_WARNING(ME_UNDERFLOW, "lgammacor");
+	/* allow to underflow below */
     }
     else if (x < xbig) {
 	tmp = 10 / x;
 	return chebyshev_eval(tmp * tmp * 2 - 1, algmcs, nalgm) / x;
     }
-    else return 1 / (x * 12);
+    return 1 / (x * 12);
 }
 /* Cleaning up done by tools/import-R:  */
 #undef nalgm
@@ -378,7 +364,7 @@ static gnm_float lgammacor(gnm_float x)
 /*
  *  Mathlib : A C Library of Special Functions
  *  Copyright (C) 1998 Ross Ihaka
- *  Copyright (C) 2000 The R Development Core Team
+ *  Copyright (C) 2000-12 The R Core Team
  *  Copyright (C) 2003 The R Foundation
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -392,9 +378,8 @@ static gnm_float lgammacor(gnm_float x)
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
- *  USA.
+ *  along with this program; if not, a copy is available at
+ *  https://www.R-project.org/Licenses/
  *
  *  SYNOPSIS
  *
@@ -403,7 +388,9 @@ static gnm_float lgammacor(gnm_float x)
  *
  *  DESCRIPTION
  *
- *    This function returns the value of the log beta function.
+ *    This function returns the value of the log beta function
+ *
+ *	log B(a,b) = log G(a) + log G(b) - log G(a+b)
  *
  *  NOTES
  *
@@ -416,23 +403,21 @@ gnm_float gnm_lbeta(gnm_float a, gnm_float b)
 {
     gnm_float corr, p, q;
 
-    p = q = a;
-    if(b < p) p = b;/* := min(a,b) */
-    if(b > q) q = b;/* := max(a,b) */
-
 #ifdef IEEE_754
     if(gnm_isnan(a) || gnm_isnan(b))
 	return a + b;
 #endif
+    p = q = a;
+    if(b < p) p = b;/* := min(a,b) */
+    if(b > q) q = b;/* := max(a,b) */
 
     /* both arguments must be >= 0 */
-
     if (p < 0)
-	ML_ERR_return_NAN
+	ML_WARN_return_NAN
     else if (p == 0) {
 	return gnm_pinf;
     }
-    else if (!gnm_finite(q)) {
+    else if (!gnm_finite(q)) { /* q == +Inf */
 	return gnm_ninf;
     }
 
@@ -448,12 +433,16 @@ gnm_float gnm_lbeta(gnm_float a, gnm_float b)
 	return gnm_lgamma(p) + corr + p - p * gnm_log(p + q)
 		+ (q - GNM_const(0.5)) * gnm_log1p(-p / (p + q));
     }
-    else
+    else {
 	/* p and q are small: p <= q < 10. */
-	return gnm_lgamma (p) + gnm_lgamma (q) - gnm_lgamma (p + q);
+	/* R change for very small args */
+	if (p < GNM_const(1e-306)) return gnm_lgamma(p) + (gnm_lgamma(q) - gnm_lgamma(p+q));
+	else return gnm_lgamma (p) + gnm_lgamma (q) - gnm_lgamma (p + q);
+    }
 }
 
 /* ------------------------------------------------------------------------ */
+/* --- END MAGIC R SOURCE MARKER --- */
 
 gnm_float
 gnm_gammax (gnm_float x, int *exp2)

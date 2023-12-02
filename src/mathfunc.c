@@ -59,12 +59,12 @@
 #define M_1_SQRT_2PI    GNM_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
 #define M_2PIgnum       (2 * M_PIgnum)
 #define M_LN_2PI        GNM_const(1.837877066409345483560659472811)
-#define M_1_PI          GNM_const(0.318309886183790671537767526745)  /* 1/pi */
+#define M_1_PIgnum      GNM_const(0.318309886183790671537767526745)  /* 1/pi */
 
 #define ML_ERROR(cause) do { } while(0)
 #define MATHLIB_WARNING g_warning
 #define REprintf g_warning
-#define ML_WARNING(typ,what) g_printerr("mathfunc: %s\n", (what))
+#define ML_WARNING(typ,what) g_printerr("mathfunc: trouble in %s\n", (what))
 
 static inline gnm_float fmin2 (gnm_float x, gnm_float y) { return MIN (x, y); }
 static inline gnm_float fmax2 (gnm_float x, gnm_float y) { return MAX (x, y); }
@@ -996,7 +996,7 @@ static gnm_float dpois_raw(gnm_float x, gnm_float lambda, gboolean give_log)
 	if (!gnm_finite(x)) // lambda < x = +Inf
 	    return R_D__0;
 	// else
-	return(R_D_exp(-lambda + x*gnm_log(lambda) -lgamma1p (x)));
+	return(R_D_exp(-lambda + x*gnm_log(lambda) -gnm_lgamma(x+1)));
     }
     return(R_D_fexp( M_2PIgnum*x, -stirlerr(x)-bd0(x,lambda) ));
 }
@@ -2080,7 +2080,7 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
 
 	else { /* P = 0, but maybe = 2*exp(p) ! */
 	    if(log_p) /* 1/tan(e) ~ 1/e */
-		q = is_neg_lower ? M_1_PI * gnm_exp(-p) : GNM_const(-1.)/(M_PIgnum * gnm_expm1(p));
+		q = is_neg_lower ? M_1_PIgnum * gnm_exp(-p) : GNM_const(-1.)/(M_PIgnum * gnm_expm1(p));
 	    else
 		q = gnm_pinf;
 	}
