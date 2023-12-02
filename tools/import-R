@@ -3,110 +3,106 @@
 
 use strict;
 
-my @files =
-    ("dpq.h",
-     # "ftrunc.c",
-     # "dnorm.c",
-     "pnorm.c",
-     "qnorm.c",
-     # "plnorm.c",
-     # "qlnorm.c",
-     "ppois.c",
-     # "qpois.c",
-     # "stirlerr.c",
-     # "bd0.c",
-     "dpois.c",
-     "dgamma.c",
-     "pgamma.c",
-     # "qgamma.c", # Not good enough.
-     # "chebyshev.c",
-     # "lgammacor.c",
-     "dt.c",
-     "pt.c",
-     "qt.c",
-     # "pf.c",
-     # "qf.c",
-     "pchisq.c",
-     "qchisq.c",
-     "dweibull.c",
-     "pweibull.c",
-     "pbinom.c",
-     "dbinom.c",
-     "qbinom.c",
-     "dnbinom.c",
-     "pnbinom.c",
-     "qnbinom.c",
-     "dbeta.c",
-     # "pbeta.c",
-     # "qbeta.c",
-     "dhyper.c",
-     "phyper.c",
-     "dexp.c",
-     "pexp.c",
-     "dgeom.c",
-     "pgeom.c",
-     "dcauchy.c",
-     "pcauchy.c",
-     # "bessel.h",
-     # "bessel_i.c",
-     # "bessel_j.c",
-     # "bessel_k.c",
-     # "bessel_y.c",
-     );
+my %config =
+    ('src/mathfunc.c' =>
+     {
+	 'files' => [
+	     "dpq.h",
+	     "pnorm.c", "qnorm.c",
+	     "ppois.c", "dpois.c",
+	     "dgamma.c", "pgamma.c",
+	     "dt.c", "pt.c", "qt.c",
+	     "pchisq.c", "qchisq.c",
+	     "dweibull.c", "pweibull.c",
+	     "pbinom.c", "dbinom.c", "qbinom.c",
+	     "dnbinom.c", "pnbinom.c", "qnbinom.c",
+	     "dbeta.c",
+	     "dhyper.c", "phyper.c",
+	     "dexp.c", "pexp.c",
+	     "dgeom.c", "pgeom.c",
+	     "dcauchy.c", "pcauchy.c",
+	     # These are for plugin fn-R.  They are so small it makes no
+	     # sense to place them elsewhere.
+	     "df.c",
+	     "dchisq.c",
+	     "qweibull.c",
+	     "qexp.c",
+	     "qgeom.c",
+	     # old:
+	     # "ftrunc.c",
+	     # "dnorm.c",
+	     # "dlnorm.c", "plnorm.c", "qlnorm.c",
+	     # "qpois.c",
+	     # "stirlerr.c",
+	     # "bd0.c",
+	     # "qgamma.c", # Not good enough.
+	     # "chebyshev.c",
+	     # "lgammacor.c",
+	     # "pf.c",
+	     # "qf.c",
+	     # "pbeta.c",
+	     # "qbeta.c",
+	     # "bessel.h",
+	     # "bessel_i.c",
+	     # "bessel_j.c",
+	     # "bessel_k.c",
+	     # "bessel_y.c",
+	     ],
+     },
+    );
 
-# These are for plugin fn-R.  They are so small it makes no sense to place
-# them elsewhere.
-push @files,
-    (
-     # "dlnorm.c",
-     "df.c",
-     "dchisq.c",
-     "qweibull.c",
-     "qexp.c",
-     "qgeom.c",
-     );
-
-
-my $mathfunc = $ARGV[0];
-my $dir = $ARGV[1];
+my $gnm_dir = $ARGV[0];
+my $r_dir = $ARGV[1];
 my $subdir = "src/nmath";
 
-unless (defined ($mathfunc) && -r $mathfunc &&
-	defined ($dir) && -d "$dir/$subdir") {
-    print STDERR "Usage: $0 mathfunc.c R-directory\n";
+unless (defined ($gnm_dir) && -d $gnm_dir &&
+	defined ($r_dir) && -d "$r_dir/$subdir") {
+    print STDERR "Usage: $0 Gnumeric-dir R-directory\n";
     exit 1;
 }
 
+for my $file (sort keys %config) {
+    print "Updating $file...\n";
 
-my ($prefix,$postfix) = &read_mathfunc ($mathfunc);
+    my $fn = "$gnm_dir/$file";
+    my ($prefix,$postfix) = &read_source_file ($fn);
 
-print $prefix;
-print "\n";
-print "/* The following source code was imported from the R project.  */\n";
-print "/* It was automatically transformed by $0.  */\n";
-print "\n";
+    my $outfile = "$fn.tmp";
+    open (my $dst, '>', $outfile) or
+	die "$0: cannot write $outfile: $!\n";
+    print $dst $prefix;
+    print $dst "\n";
+    print $dst "// The following source code was imported from the R project.\n";
+    print $dst "// It was automatically transformed by $0.\n";
+    print $dst "\n";
 
-foreach my $file (@files) {
-    my $cleandefs = ($file =~ /\.c$/);
-    print "/* Imported $subdir/$file from R.  */\n";
-    &import_file ("$dir/$subdir/$file", $cleandefs);
+    my $pfiles = $config{$file}{'files'};
+    foreach my $file (@$pfiles) {
+	my $cleandefs = ($file =~ /\.c$/);
+	print $dst "/* Imported $subdir/$file from R.  */\n";
+	&import_file ("$r_dir/$subdir/$file", $cleandefs, $dst);
+    }
+
+    print $dst $postfix;
+    close ($dst);
+
+    rename $outfile, $fn;
 }
-print $postfix;
+
 
 # -----------------------------------------------------------------------------
 
 sub import_file {
-    my ($filename,$cleandefs) = @_;
+    my ($filename,$cleandefs,$dst) = @_;
 
     my %defines = ();
     my $incomment = 0; # Stupid.
     my $victim;
 
-    local (*FIL);
-    open (*FIL, "<$filename") or
+    open (my $src, '<', $filename) or
 	die "$0: Cannot read $filename: $!\n";
   LINE:
-    while (<FIL>) {
+    while (<$src>) {
 	if (/^\s*\#\s*ifndef\s+GNUMERIC_VERSION\b/ ... /^\s*\#\s*endif\b.*\bGNUMERIC_VERSION\b/) {
 	    next;
 	}
@@ -120,7 +116,7 @@ sub import_file {
 	    next LINE;
 	}
 
- 	$_ .= <FIL> if /^static\s+double\s*$/;
+ 	$_ .= <$src> if /^static\s+double\s*$/;
 
 	s/\s+$//;
 	s/^ \t/\t/;
@@ -190,7 +186,6 @@ sub import_file {
 	    s/pnorm5/pnorm/g;
 	    s/qnorm5/qnorm/g;
 
-	    print STDERR if /swap_log_tail/;
 	    s{^(\#define R_Log1_Exp)}{// $1};
 
 	    s/\b(trunc|ftrunc)\b/gnm_trunc/g;
@@ -238,7 +233,7 @@ sub import_file {
 	    if ($filename =~ m|/bessel_j\.c$|) {
 		if (/^\s*static const gnm_float fact\[/) {
 		    while (!/;$/) {
-			$_ .= <FIL>;
+			$_ .= <$src>;
 		    }
 		    $_ = '/* removed array fact */';
 		} else {
@@ -278,34 +273,33 @@ sub import_file {
 	    $incomment = 1 if m|/\*$|;
 	}
 
-	print "$_\n";
+	print $dst "$_\n";
     }
-    close (*FIL);
+    close ($src);
 
     if ($cleandefs && keys %defines) {
-	print "/* Cleaning up done by $0:  */\n";
+	print $dst "/* Cleaning up done by $0:  */\n";
 	foreach my $def (sort keys %defines) {
-	    print "#undef $def\n";
+	    print $dst "#undef $def\n";
 	}
     }
 
-    print "\n";
-    print "/* ", ('-' x 72), " */\n";
+    print $dst "\n";
+    print $dst "/* ", ('-' x 72), " */\n";
 }
 
 # -----------------------------------------------------------------------------
 
-sub read_mathfunc {
+sub read_source_file {
     my ($filename) = @_;
 
     my $prefix = '';
     my $postfix = '';
 
-    local (*FIL);
-    open (*FIL, "<$filename") or
+    open (my $src, '<', $filename) or
 	die "$0: Cannot read $filename: $!\n";
     my $state = 'pre';
-    while (<FIL>) {
+    while (<$src>) {
 	if ($state eq 'pre') {
 	    $prefix .= $_;
 	    $state = 'mid' if m"--- BEGIN MAGIC R SOURCE MARKER ---";
@@ -317,7 +311,7 @@ sub read_mathfunc {
 	    $postfix .= $_;
 	}
     }
-    close (*FIL);
+    close ($src);
 
     die "$0: wrong set of magic markers in $filename.\n" if $state ne 'post';
 

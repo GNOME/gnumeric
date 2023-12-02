@@ -334,8 +334,8 @@ bd0(gnm_float x, gnm_float M)
 /* ------------------------------------------------------------------------- */
 /* --- BEGIN MAGIC R SOURCE MARKER --- */
 
-/* The following source code was imported from the R project.  */
-/* It was automatically transformed by tools/import-R.  */
+// The following source code was imported from the R project.
+// It was automatically transformed by tools/import-R.
 
 /* Imported src/nmath/dpq.h from R.  */
 /*
