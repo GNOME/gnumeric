@@ -30,6 +30,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/goffice.h>
+#include <libxml/parser.h>
 
 #include <sys/types.h>
 #include <string.h>
