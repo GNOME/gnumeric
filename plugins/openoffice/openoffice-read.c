@@ -8154,6 +8154,11 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 		GnmFilterCondition *cond = NULL;
 		GnmValue *v = NULL;
 
+		if ((op & GNM_FILTER_OP_TYPE_MASK) == GNM_FILTER_OP_TOP_N) {
+			// These have a value, but no data-type
+			type = VALUE_FLOAT;
+		}
+
 		if (type >= 0 && val_str != NULL)
 			v = value_new_from_string (type, val_str, NULL, FALSE);
 
@@ -8182,10 +8187,12 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 			break;
 
 		case GNM_FILTER_OP_BOTTOM_N_PERCENT:
+		case GNM_FILTER_OP_BOTTOM_N_PERCENT_N:
 		case GNM_FILTER_OP_BOTTOM_N:
 		case GNM_FILTER_OP_TOP_N_PERCENT:
+		case GNM_FILTER_OP_TOP_N_PERCENT_N:
 		case GNM_FILTER_OP_TOP_N:
-			if (v && VALUE_IS_NUMBER(v))
+			if (v && VALUE_IS_NUMBER (v))
 				cond = gnm_filter_condition_new_bucket (
 					0 == (op & GNM_FILTER_OP_BOTTOM_MASK),
 					0 == (op & GNM_FILTER_OP_PERCENT_MASK),
