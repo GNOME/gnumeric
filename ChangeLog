@@ -1,3 +1,16 @@
+2023-12-05  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_filter_field): Fix reversed sense
+	on several fields.
+
+	* src/xml-sax-read.c (xml_sax_filter_condition): Fix badly broken
+	reading of auto-filters.
+
+	* src/sheet-filter.c (gnm_filter_condition_new_bucket): Cap n,
+	so crazy numbers don't cause trouble down the line.
+	(gnm_filter_combo_apply): Fix problem with empty range; fix
+	gnm_float/double mixing.
+
 2023-11-16  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_set_action_feedback): New function to

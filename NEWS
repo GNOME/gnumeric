@@ -3,6 +3,7 @@ Gnumeric 1.12.57
 Morten:
 	* Fix touchpad scrolling on Wayland.  [#678]
 	* Fix ods auto-filter import problem.
+	* Fix xml import and export of auto-filters.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.56

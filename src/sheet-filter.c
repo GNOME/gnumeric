@@ -125,6 +125,12 @@ gnm_filter_condition_new_bucket (gboolean top, gboolean absolute,
 	res->op[0] = GNM_FILTER_OP_TOP_N | (top ? 0 : 1) |
 		(absolute ? 0 : (rel_range ? 2 : 4));
 	res->op[1] = GNM_FILTER_UNUSED;
+
+	if (absolute)
+		n = CLAMP (floor (n), 0, 1000000000);
+	else
+		n = CLAMP (n, 0, 100);
+
 	res->count = n;
 	return res;
 }
@@ -527,12 +533,13 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 				gnm_float	 offset;
 
 				data.find_max = (cond->op[0] & 0x1) ? FALSE : TRUE;
+				data.low = data.high = 0;
 				data.initialized = FALSE;
 				sheet_foreach_cell_in_region (filter->sheet,
-							     CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
-							     col, start_row, col, end_row,
-							     (CellIterFunc) cb_filter_find_percentage, &data);
-				offset = (data.high - data.low) * cond->count / 100;
+							      CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
+							      col, start_row, col, end_row,
+							      (CellIterFunc) cb_filter_find_percentage, &data);
+				offset = (data.high - data.low) * (gnm_float)(cond->count / 100.0);
 				data.high -= offset;
 				data.low  += offset;
 				data.target_sheet = target_sheet;

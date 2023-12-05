@@ -1024,10 +1024,11 @@ xml_write_filter_field (GnmOutputXML *state,
 	case GNM_FILTER_OP_TOP_N:
 		gsf_xml_out_add_cstr_unchecked (state->output, "Type", "bucket");
 		gsf_xml_out_add_bool (state->output, "top",
-			cond->op[0] & 1 ? TRUE : FALSE);
+				      !(cond->op[0] & GNM_FILTER_OP_BOTTOM_MASK));
 		gsf_xml_out_add_bool (state->output, "items",
-			cond->op[0] & 2 ? TRUE : FALSE);
+				      !(cond->op[0] & 2));
 		go_xml_out_add_double (state->output, "count", cond->count);
+		// FIXME: no support for GNM_FILTER_OP_TOP_N_PERCENT_N
 		break;
 	}
 

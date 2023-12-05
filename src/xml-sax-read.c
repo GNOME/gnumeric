@@ -2393,30 +2393,30 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmFilterOp op0 = GNM_FILTER_UNUSED, op1 = GNM_FILTER_UNUSED;
 	GnmFilterCondition *cond = NULL;
 	gboolean top = TRUE, items = TRUE, is_and = FALSE;
-	int i, tmp, cond_num = 0;
+	int tmp, cond_num = 0;
 	double bucket_count = 10.;
 
 	if (NULL == state->filter) return;
 
-	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
-		if (attr_eq (attrs[i], "Type"))   type = CXML2C (attrs[i + 1]);
-		else if (gnm_xml_attr_int (attrs+i, "Index", &cond_num)) ;
-		else if (gnm_xml_attr_bool (attrs, "Top", &top)) ;
-		else if (gnm_xml_attr_bool (attrs, "Items", &items)) ;
-		else if (gnm_xml_attr_double  (attrs, "Count", &bucket_count)) ;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (attr_eq (attrs[0], "Type"))   type = CXML2C (attrs[1]);
+		else if (gnm_xml_attr_int (attrs, "Index", &cond_num)) ;
+		else if (gnm_xml_attr_bool (attrs, "top", &top)) ;
+		else if (gnm_xml_attr_bool (attrs, "items", &items)) ;
+		else if (gnm_xml_attr_double (attrs, "count", &bucket_count));
 		else if (gnm_xml_attr_bool (attrs, "IsAnd", &is_and)) ;
-		else if (attr_eq (attrs[i], "Op0")) xml_sax_filter_operator (state, &op0, attrs[i + 1]);
-		else if (attr_eq (attrs[i], "Op1")) xml_sax_filter_operator (state, &op1, attrs[i + 1]);
+		else if (attr_eq (attrs[0], "Op0")) xml_sax_filter_operator (state, &op0, attrs[1]);
+		else if (attr_eq (attrs[0], "Op1")) xml_sax_filter_operator (state, &op1, attrs[1]);
 		/*
 		 * WARNING WARNING WARING
 		 * Value and ValueType are _reversed_ !!!
 		 * An error in the DOM exporter was propogated to the SAX
 		 * exporter and fixing this reversal would break all old files.
 		 */
-		else if (attr_eq (attrs[i], "ValueType0")) val0 = CXML2C (attrs[i + 1]);
-		else if (attr_eq (attrs[i], "ValueType1")) val1 = CXML2C (attrs[i + 1]);
-		else if (gnm_xml_attr_int (attrs+i, "Value0", &tmp)) vtype0 = tmp;
-		else if (gnm_xml_attr_int (attrs+i, "Value1", &tmp)) vtype1 = tmp;
+		else if (attr_eq (attrs[0], "ValueType0")) val0 = CXML2C (attrs[1]);
+		else if (attr_eq (attrs[0], "ValueType1")) val1 = CXML2C (attrs[1]);
+		else if (gnm_xml_attr_int (attrs, "Value0", &tmp)) vtype0 = tmp;
+		else if (gnm_xml_attr_int (attrs, "Value1", &tmp)) vtype1 = tmp;
 	}
 
 	if (NULL == type) {
@@ -2444,6 +2444,7 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 		cond = gnm_filter_condition_new_single (
 			GNM_FILTER_OP_NON_BLANKS, NULL);
 	} else if (0 == g_ascii_strcasecmp (type, "bucket")) {
+		// FIXME: no support for GNM_FILTER_OP_TOP_N_PERCENT_N
 		cond = gnm_filter_condition_new_bucket
 			(top, items, TRUE, bucket_count);
 	} else {
