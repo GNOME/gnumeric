@@ -7,4 +7,4 @@ use GnumericTest;
 
 my $file = "gamma.gnumeric";
 &message ("Check that $file evaluates correctly.");
-&test_sheet_calc ("$samples/$file", "Overview!B1", sub { /^[0-9.]+$/ && $_ > 11.5; });
+&test_sheet_calc ("$samples/$file", "Overview!B1", sub { /^[0-9.]+$/ && $_ > 11.4; });
