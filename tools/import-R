@@ -45,7 +45,6 @@ my %config =
      'src/sf-gamma.c' =>
      {
 	 'files' => [
-	     'stirlerr.c',
 	     'chebyshev.c',
 	     'lgammacor.c',
 	     'lbeta.c',

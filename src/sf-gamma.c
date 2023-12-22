@@ -80,124 +80,6 @@ gnm_float lgamma1p (gnm_float a)
 } /* lgamma1p */
 
 /* ------------------------------------------------------------------------ */
-/* --- BEGIN MAGIC R SOURCE MARKER --- */
-
-// The following source code was imported from the R project.
-// It was automatically transformed by tools/import-R.
-
-/* Imported src/nmath/stirlerr.c from R.  */
-/*
- *  AUTHOR
- *    Catherine Loader, catherine@research.bell-labs.com.
- *    October 23, 2000.
- *
- *  Merge in to R:
- *	Copyright (C) 2000, The R Core Team
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, a copy is available at
- *  https://www.R-project.org/Licenses/
- *
- *
- *  DESCRIPTION
- *
- *    Computes the log of the error term in Stirling's formula.
- *      For n > 15, uses the series 1/12n - 1/360n^3 + ...
- *      For n <=15, integers or half-integers, uses stored values.
- *      For other n < 15, uses lgamma directly (don't use this to
- *        write lgamma!)
- *
- * Merge in to R:
- * Copyright (C) 2000, The R Core Team
- * R has lgammafn, and lgamma is not part of ISO C
- */
-
-
-/* stirlerr(n) = log(n!) - log( sqrt(2*pi*n)*(n/e)^n )
- *             = log Gamma(n+1) - 1/2 * [log(2*pi) + log(n)] - n*[log(n) - 1]
- *             = log Gamma(n+1) - (n + 1/2) * log(n) + n - log(2*pi)/2
- *
- * see also lgammacor() in ./lgammacor.c  which computes almost the same!
- */
-
-gnm_float stirlerr(gnm_float n)
-{
-
-#define S0 GNM_const(0.083333333333333333333)       /* 1/12 */
-#define S1 GNM_const(0.00277777777777777777778)     /* 1/360 */
-#define S2 GNM_const(0.00079365079365079365079365)  /* 1/1260 */
-#define S3 GNM_const(0.000595238095238095238095238) /* 1/1680 */
-#define S4 GNM_const(0.0008417508417508417508417508)/* 1/1188 */
-
-/*
-  error for 0, 0.5, 1.0, 1.5, ..., 14.5, 15.0.
-*/
-    static const gnm_float sferr_halves[31] = {
-	GNM_const(0.0), /* n=0 - wrong, place holder only */
-	GNM_const(0.1534264097200273452913848),  /* 0.5 */
-	GNM_const(0.0810614667953272582196702),  /* 1.0 */
-	GNM_const(0.0548141210519176538961390),  /* 1.5 */
-	GNM_const(0.0413406959554092940938221),  /* 2.0 */
-	GNM_const(0.03316287351993628748511048), /* 2.5 */
-	GNM_const(0.02767792568499833914878929), /* 3.0 */
-	GNM_const(0.02374616365629749597132920), /* 3.5 */
-	GNM_const(0.02079067210376509311152277), /* 4.0 */
-	GNM_const(0.01848845053267318523077934), /* 4.5 */
-	GNM_const(0.01664469118982119216319487), /* 5.0 */
-	GNM_const(0.01513497322191737887351255), /* 5.5 */
-	GNM_const(0.01387612882307074799874573), /* 6.0 */
-	GNM_const(0.01281046524292022692424986), /* 6.5 */
-	GNM_const(0.01189670994589177009505572), /* 7.0 */
-	GNM_const(0.01110455975820691732662991), /* 7.5 */
-	GNM_const(0.010411265261972096497478567), /* 8.0 */
-	GNM_const(0.009799416126158803298389475), /* 8.5 */
-	GNM_const(0.009255462182712732917728637), /* 9.0 */
-	GNM_const(0.008768700134139385462952823), /* 9.5 */
-	GNM_const(0.008330563433362871256469318), /* 10.0 */
-	GNM_const(0.007934114564314020547248100), /* 10.5 */
-	GNM_const(0.007573675487951840794972024), /* 11.0 */
-	GNM_const(0.007244554301320383179543912), /* 11.5 */
-	GNM_const(0.006942840107209529865664152), /* 12.0 */
-	GNM_const(0.006665247032707682442354394), /* 12.5 */
-	GNM_const(0.006408994188004207068439631), /* 13.0 */
-	GNM_const(0.006171712263039457647532867), /* 13.5 */
-	GNM_const(0.005951370112758847735624416), /* 14.0 */
-	GNM_const(0.005746216513010115682023589), /* 14.5 */
-	GNM_const(0.005554733551962801371038690)  /* 15.0 */
-    };
-    gnm_float nn;
-
-    if (n <= 15) {
-	nn = n + n;
-	if (nn == (int)nn) return(sferr_halves[(int)nn]);
-	return(lgamma1p (n ) - (n + GNM_const(0.5))*gnm_log(n) + n - M_LN_SQRT_2PI);
-    }
-
-    nn = n*n;
-    if (n>500) return((S0-S1/nn)/n);
-    if (n> 80) return((S0-(S1-S2/nn)/nn)/n);
-    if (n> 35) return((S0-(S1-(S2-S3/nn)/nn)/nn)/n);
-    /* 15 < n <= 35 : */
-    return((S0-(S1-(S2-(S3-S4/nn)/nn)/nn)/nn)/n);
-}
-/* Cleaning up done by tools/import-R:  */
-#undef S0
-#undef S1
-#undef S2
-#undef S3
-#undef S4
-
-/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/chebyshev.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
@@ -444,6 +326,86 @@ gnm_float gnm_lbeta(gnm_float a, gnm_float b)
 
 /* ------------------------------------------------------------------------ */
 /* --- END MAGIC R SOURCE MARKER --- */
+
+/* Parts from src/nmath/stirlerr.c from R.
+ * Copyright (C) 2000, The R Core Team
+ */
+gnm_float
+stirlerr (gnm_float n)
+{
+	gnm_float S0 = GNM_const(1.) / 12;
+	gnm_float S1 = GNM_const(1.) / 360;
+	gnm_float S2 = GNM_const(1.) / 1260;
+	gnm_float S3 = GNM_const(1.) / 1680;
+	gnm_float S4 = GNM_const(1.) / 1188;
+	gnm_float S5 = GNM_const(691.) / 360360;
+	gnm_float S6 = GNM_const(1.) / 156;
+	gnm_float S7 = GNM_const(3617.) / 122400;
+	gnm_float S8 = GNM_const(43867.) / 244188;
+
+	static const gnm_float sferr_halves[31] = {
+		(gnm_float)NAN,                          /* 0.0 */
+		GNM_const(0.1534264097200273452913848),  /* 0.5 */
+		GNM_const(0.0810614667953272582196702),  /* 1.0 */
+		GNM_const(0.0548141210519176538961390),  /* 1.5 */
+		GNM_const(0.0413406959554092940938221),  /* 2.0 */
+		GNM_const(0.03316287351993628748511048), /* 2.5 */
+		GNM_const(0.02767792568499833914878929), /* 3.0 */
+		GNM_const(0.02374616365629749597132920), /* 3.5 */
+		GNM_const(0.02079067210376509311152277), /* 4.0 */
+		GNM_const(0.01848845053267318523077934), /* 4.5 */
+		GNM_const(0.01664469118982119216319487), /* 5.0 */
+		GNM_const(0.01513497322191737887351255), /* 5.5 */
+		GNM_const(0.01387612882307074799874573), /* 6.0 */
+		GNM_const(0.01281046524292022692424986), /* 6.5 */
+		GNM_const(0.01189670994589177009505572), /* 7.0 */
+		GNM_const(0.01110455975820691732662991), /* 7.5 */
+		GNM_const(0.010411265261972096497478567), /* 8.0 */
+		GNM_const(0.009799416126158803298389475), /* 8.5 */
+		GNM_const(0.009255462182712732917728637), /* 9.0 */
+		GNM_const(0.008768700134139385462952823), /* 9.5 */
+		GNM_const(0.008330563433362871256469318), /* 10.0 */
+		GNM_const(0.007934114564314020547248100), /* 10.5 */
+		GNM_const(0.007573675487951840794972024), /* 11.0 */
+		GNM_const(0.007244554301320383179543912), /* 11.5 */
+		GNM_const(0.006942840107209529865664152), /* 12.0 */
+		GNM_const(0.006665247032707682442354394), /* 12.5 */
+		GNM_const(0.006408994188004207068439631), /* 13.0 */
+		GNM_const(0.006171712263039457647532867), /* 13.5 */
+		GNM_const(0.005951370112758847735624416), /* 14.0 */
+		GNM_const(0.005746216513010115682023589), /* 14.5 */
+		GNM_const(0.005554733551962801371038690)  /* 15.0 */
+	};
+	gnm_float nn;
+
+	if (!(n > 0))
+		return gnm_nan;
+
+	if (n <= (G_N_ELEMENTS (sferr_halves) - 1) / 2) {
+		gnm_float nn = n + n;
+		if (nn == (int)nn) return (sferr_halves[(int)nn]);
+	}
+
+	nn = n * n;
+
+	// These breakpoints are selected to give a relative error of 2^-53.
+	if (n > GNM_const(3043.)) return (S0-S1/nn)/n;
+	if (n > GNM_const(200.2)) return (S0-(S1-S2/nn)/nn)/n;
+	if (n > GNM_const(55.57)) return (S0-(S1-(S2-S3/nn)/nn)/nn)/n;
+	if (n > GNM_const(27.01)) return (S0-(S1-(S2-(S3-S4/nn)/nn)/nn)/nn)/n;
+	if (n > GNM_const(17.23)) return (S0-(S1-(S2-(S3-(S4-S5/nn)/nn)/nn)/nn)/nn)/n;
+	if (n > GNM_const(12.77)) return (S0-(S1-(S2-(S3-(S4-(S5-S6/nn)/nn)/nn)/nn)/nn)/nn)/n;
+	if (n > GNM_const(10.38)) return (S0-(S1-(S2-(S3-(S4-(S5-(S6-S7/nn)/nn)/nn)/nn)/nn)/nn)/nn)/n;
+	if (n > GNM_const(8.946)) return (S0-(S1-(S2-(S3-(S4-(S5-(S6-(S7-S8/nn)/nn)/nn)/nn)/nn)/nn)/nn)/nn)/n;
+
+	// Adding a boat-load of more terms could get us down to 6-ish,
+	// but no further.  The series is not convergent.
+
+	// Fairly horrible fallback
+	return(lgamma1p (n ) - (n + GNM_const(0.5))*gnm_log(n) + n - M_LN_SQRT_2PI);
+}
+
+
 
 gnm_float
 gnm_gammax (gnm_float x, int *exp2)
