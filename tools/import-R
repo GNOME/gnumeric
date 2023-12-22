@@ -109,6 +109,7 @@ sub import_file {
     my %defines = ();
     my $incomment = 0; # Stupid.
     my $victim;
+    my $removing = 0;
 
     open (my $src, '<', $filename) or
 	die "$0: Cannot read $filename: $!\n";
@@ -132,7 +133,7 @@ sub import_file {
 	s/\s+$//;
 	s/ +\t/\t/;
 
-	if (!$incomment && m|^\s*/\*| && !m|\*/|) {
+	if (!$removing && !$incomment && m|^\s*/\*| && !m|\*/|) {
 	    $incomment = 1;
 	}
 
@@ -242,8 +243,12 @@ sub import_file {
 	    }
 
 	    if ((/^(static\s*)?gnm_float\s*(lgamma1p|logspace_sum|[dpq]nbinom_mu|bessel_[ik]_ex)\s*\(/ && ($victim = $2)) .. /^\}/) {
-		next unless /^\}/;
+		if (!/^\}/) {
+		    $removing = 1;
+		    next;
+		}
 		$_ = "/* Definition of function $victim removed.  */";
+		$removing = 0;
 	    }
 
 	    if ($filename =~ m|/bessel_j\.c$|) {

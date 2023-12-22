@@ -1238,13 +1238,6 @@ gnm_float log1pmx (gnm_float x)
 
 
 /* Compute  log(gamma(a+1))  accurately also for small a (0 < a < 0.5). */
-    /* Abramowitz & Stegun 6.1.33 : for |x| < 2,
-     * <==> log(gamma(1+x)) = -(log(1+x) - x) - gamma*x + x^2 * \sum_{n=0}^\infty c_n (-x)^n
-     * where c_n := (Zeta(n+2) - 1)/(n+2)  = coeffs[n]
-     *
-     * Here, another convergence acceleration trick is used to compute
-     * lgam(x) :=  sum_{n=0..Inf} c_n (-x)^n
-     */
 /* Definition of function lgamma1p removed.  */
 
 
@@ -2642,14 +2635,6 @@ gnm_float dnbinom(gnm_float x, gnm_float size, gnm_float prob, gboolean give_log
     return((give_log) ? gnm_log(p) + ans : p * ans);
 }
 
-    /* originally, just set  prob :=  size / (size + mu)  and called dbinom_raw(),
-     * but that suffers from cancellation when   mu << size  */
-    /* limiting case as size approaches zero is point mass at zero,
-     * even if mu is kept constant. limit distribution does not
-     * have mean mu, though.
-     */
-	/* no unnecessary cancellation inside dbinom_raw, when
-	 * x_ = size and n_ = x+size are so close that n_ - x_ loses accuracy */
 /* Definition of function dnbinom_mu removed.  */
 
 /* ------------------------------------------------------------------------ */
@@ -2702,13 +2687,6 @@ gnm_float pnbinom(gnm_float x, gnm_float size, gnm_float prob, gboolean lower_ta
     return pbeta(prob, size, x + 1, lower_tail, log_p);
 }
 
-    /* return
-     * pbeta(pr, size, x + 1, lower_tail, log_p);  pr = size/(size + mu), 1-pr = mu/(size+mu)
-     *
-     *= pbeta_raw(pr, size, x + 1, lower_tail, log_p)
-     *            x.  pin   qin
-     *=  bratio (pin,  qin, x., 1-x., &w, &wc, &ierr, log_p),  and return w or wc ..
-     *=  bratio (size, x+1, pr, 1-pr, &w, &wc, &ierr, log_p) */
 /* Definition of function pnbinom_mu removed.  */
 
 /* ------------------------------------------------------------------------ */

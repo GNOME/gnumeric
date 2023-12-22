@@ -262,8 +262,6 @@ static gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
 
 /* modified version of bessel_i that accepts a work array instead of
    allocating one. */
-	/* Using Abramowitz & Stegun  9.6.2 & 9.6.6
-	 * this may not be quite optimal (CPU and accuracy wise) */
 /* Definition of function bessel_i_ex removed.  */
 
 static void I_bessel(gnm_float *x, gnm_float *alpha, int *nb,
