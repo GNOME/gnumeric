@@ -168,9 +168,9 @@ IMSUM
 SUMIF
 SUMSQ
 *** TEST7A ***
-$samples/auto-filter-tests.gnumeric:cell:Sheet1!G4:wbc-gtk-actions.c
-$samples/auto-filter-tests.gnumeric:cell:Sheet2!G4:wbc-gtk-actions.c
-$samples/auto-filter-tests.gnumeric:cell:Sheet3!G4:wbc-gtk-actions.c
+$samples/auto-filter-tests.gnumeric:cell:Select1!G4:wbc-gtk-actions.c
+$samples/auto-filter-tests.gnumeric:cell:Select2!G4:wbc-gtk-actions.c
+$samples/auto-filter-tests.gnumeric:cell:SelectNone!G4:wbc-gtk-actions.c
 *** TEST8A ***
 SUMIF
 =sumif(A14:A17,H14)
