@@ -55,6 +55,7 @@ typedef long double gnm_float;
 #define gnm_strto go_strtold
 #define gnm_ascii_strto go_ascii_strtold
 #define gnm_xml_out_add_gnm_float go_xml_out_add_long_double
+#define gnm_unscalbn frexpl
 
 #else
 
@@ -82,6 +83,7 @@ typedef double gnm_float;
 #define gnm_strto go_strtod
 #define gnm_ascii_strto go_ascii_strtod
 #define gnm_xml_out_add_gnm_float go_xml_out_add_double
+#define gnm_unscalbn frexp
 
 #endif
 
@@ -172,6 +174,7 @@ typedef double gnm_float;
 #define gnm_quad_pi GNM_SUFFIX(go_quad_pi)
 #define gnm_quad_2pi GNM_SUFFIX(go_quad_2pi)
 #define gnm_quad_pow GNM_SUFFIX(go_quad_pow)
+#define gnm_quad_scalbn GNM_SUFFIX(go_quad_scalbn)
 #define gnm_quad_sin GNM_SUFFIX(go_quad_sin)
 #define gnm_quad_sinpi GNM_SUFFIX(go_quad_sinpi)
 #define gnm_quad_sqrt GNM_SUFFIX(go_quad_sqrt)

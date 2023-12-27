@@ -1304,8 +1304,7 @@ bessel_ij_series (gnm_float x, gnm_float v, gboolean qj)
 
 	// Clamp won't affect whether we get 0 or inf.
 	e = CLAMP (e, G_MININT, G_MAXINT);
-	qs.h = gnm_ldexp (qs.h, (int)e);
-	qs.l = gnm_ldexp (qs.l, (int)e);
+	gnm_quad_scalbn (&qs, &qs, (int)e);
 
 	gnm_quad_end (state);
 
@@ -2544,10 +2543,11 @@ gnm_quad_reduce_pi (GnmQuad *res, GnmQuad const *a, int p, int *pk)
 		return;
 	}
 
-	if (a->h > gnm_ldexp (1.0, GNM_MANT_DIG))
+	if (a->h > 1 / GNM_EPSILON)
 		g_warning ("Reduced accuracy for very large trigonometric arguments");
 
 	gnm_quad_div (&qk, a, &gnm_quad_pi);
+	// This really needs to be 2^p scaling, but we should do mul
 	qk.h = gnm_ldexp (qk.h, p);
 	qk.l = gnm_ldexp (qk.l, p);
 

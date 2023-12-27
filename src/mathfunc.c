@@ -5084,9 +5084,9 @@ gnm_agm (gnm_float a, gnm_float b)
 			return 0;
 
 		// Underflow or overflow
-		(void)gnm_frexp (a, &ea);
-		(void)gnm_frexp (b, &eb);
-		scale = gnm_ldexp (1, -(ea + eb) / 2);
+		(void)gnm_unscalbn (a, &ea);
+		(void)gnm_unscalbn (b, &eb);
+		scale = gnm_scalbn (1, -(ea + eb) / 2);
 		a *= scale;
 		b *= scale;
 	}
@@ -6168,6 +6168,12 @@ gnm_ilog (gnm_float x, gnm_float b)
 	if (x == gnm_pinf)
 		return b < 1 ? gnm_ninf : gnm_pinf;
 
+	if (b == GNM_RADIX) {
+		int eb;
+		(void)gnm_unscalbn (x, &eb);
+		return eb - 1;
+	}
+
 	// If the base is 2^i for i>0 then matters are simple
 	if (gnm_frexp (b, &be) == GNM_const(0.5) && be >= 2) {
 		int e;
@@ -6176,7 +6182,7 @@ gnm_ilog (gnm_float x, gnm_float b)
 		return (e - 1) / (be - 1);
 	}
 
-	if (b == 10 && x >= 1 && x <= GNM_const(1e22)) {
+	if (GNM_RADIX != 10 && b == 10 && x >= 1 && x <= GNM_const(1e22)) {
 		// This code relies on 10^i being exact
 		gnm_float l10 = gnm_log10 (x);
 		int il10 = (int)l10;

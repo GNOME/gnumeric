@@ -4,12 +4,13 @@
 #include <mathfunc.h>
 
 #define IEEE_754
+#define ML_ERR_return_NAN { return gnm_nan; }
 #define ML_WARN_return_NAN { return gnm_nan; }
 #define ML_UNDERFLOW (GNM_EPSILON * GNM_EPSILON)
 #define ML_ERROR(cause) do { } while(0)
 #define ML_WARNING(typ,what) g_printerr("sf-gamma: trouble in %s\n", (what))
 
-static int qgammaf (gnm_float x, GnmQuad *mant, int *exp2);
+static int qgammaf (gnm_float x, GnmQuad *mant, int *expb);
 static void pochhammer_small_n (gnm_float x, gnm_float n, GnmQuad *res);
 
 
@@ -430,10 +431,10 @@ stirlerr (gnm_float n)
 
 
 gnm_float
-gnm_gammax (gnm_float x, int *exp2)
+gnm_gammax (gnm_float x, int *expb)
 {
 	GnmQuad r;
-	(void) qgammaf (x, &r, exp2);
+	(void) qgammaf (x, &r, expb);
 	return gnm_quad_value (&r);
 }
 
@@ -449,16 +450,16 @@ gnm_gamma (gnm_float x)
 {
 	int e;
 	gnm_float r = gnm_gammax (x, &e);
-	return gnm_ldexp (r, e);
+	return gnm_scalbn (r, e);
 }
 
 /* ------------------------------------------------------------------------- */
 
 gnm_float
-gnm_factx (gnm_float x, int *exp2)
+gnm_factx (gnm_float x, int *expb)
 {
 	GnmQuad r;
-	(void)qfactf (x, &r, exp2);
+	(void)qfactf (x, &r, expb);
 	return gnm_quad_value (&r);
 }
 
@@ -473,14 +474,14 @@ gnm_fact (gnm_float x)
 {
 	int e;
 	gnm_float r = gnm_factx (x, &e);
-	return gnm_ldexp (r, e);
+	return gnm_scalbn (r, e);
 }
 
 /* ------------------------------------------------------------------------- */
 
 /* 0: ok, 1: overflow, 2: nan */
 static int
-qbetaf (gnm_float a, gnm_float b, GnmQuad *mant, int *exp2)
+qbetaf (gnm_float a, gnm_float b, GnmQuad *mant, int *expb)
 {
 	GnmQuad ma, mb, mab;
 	int ea, eb, eab;
@@ -493,7 +494,7 @@ qbetaf (gnm_float a, gnm_float b, GnmQuad *mant, int *exp2)
 
 	if (ab <= 0 && ab == gnm_floor (ab)) {
 		gnm_quad_init (mant, 0);
-		*exp2 = 0;
+		*expb = 0;
 		return 0;
 	}
 
@@ -511,7 +512,7 @@ qbetaf (gnm_float a, gnm_float b, GnmQuad *mant, int *exp2)
 		pochhammer_small_n (a, b, &ma);
 		gnm_quad_div (mant, &mb, &ma);
 		gnm_quad_end (state);
-		*exp2 = eb;
+		*expb = eb;
 		return 0;
 	}
 
@@ -522,7 +523,7 @@ qbetaf (gnm_float a, gnm_float b, GnmQuad *mant, int *exp2)
 		gnm_quad_mul (&ma, &ma, &mb);
 		gnm_quad_div (mant, &ma, &mab);
 		gnm_quad_end (state);
-		*exp2 = ea + eb - eab;
+		*expb = ea + eb - eab;
 		return 0;
 	} else
 		return 1;
@@ -542,7 +543,7 @@ gnm_beta (gnm_float a, gnm_float b)
 	int e;
 
 	switch (qbetaf (a, b, &r, &e)) {
-	case 0: return gnm_ldexp (gnm_quad_value (&r), e);
+	case 0: return gnm_scalbn (gnm_quad_value (&r), e);
 	case 1: return gnm_pinf;
 	default: return gnm_nan;
 	}
@@ -572,7 +573,7 @@ gnm_lbeta3 (gnm_float a, gnm_float b, int *sign)
 	case 0: {
 		gnm_float m = gnm_quad_value (&r);
 		*sign = (m >= 0 ? +1 : -1);
-		return gnm_log (gnm_abs (m)) + e * M_LN2gnum;
+		return gnm_log (gnm_abs (m)) + e * (GNM_RADIX == 2 ? M_LN2gnum : M_LN10gnum);
 	}
 	case 1:
 		/* Overflow */
@@ -819,7 +820,7 @@ pochhammer (gnm_float x, gnm_float n)
 		r = gnm_quad_value (&qr);
 		gnm_quad_end (state);
 
-		return gnm_ldexp (r, de);
+		return gnm_scalbn (r, de);
 	}
 
 	if (x == rx && x <= 0) {
@@ -871,30 +872,27 @@ pochhammer (gnm_float x, gnm_float n)
 /* ------------------------------------------------------------------------- */
 
 static void
-rescale_mant_exp (GnmQuad *mant, int *exp2)
+rescale_mant_exp (GnmQuad *mant, int *expb)
 {
-	GnmQuad s;
 	int e;
-
-	(void)gnm_frexp (gnm_quad_value (mant), &e);
-	*exp2 += e;
-	gnm_quad_init (&s, gnm_ldexp (1.0, -e));
-	gnm_quad_mul (mant, mant, &s);
+	(void)gnm_unscalbn (gnm_quad_value (mant), &e);
+	*expb += e;
+	gnm_quad_scalbn (mant, mant, -e);
 }
 
 /* Tabulate up to, but not including, this number.  */
 #define QFACTI_LIMIT 10000
 
 static gboolean
-qfacti (int n, GnmQuad *mant, int *exp2)
+qfacti (int n, GnmQuad *mant, int *expb)
 {
 	static GnmQuad mants[QFACTI_LIMIT];
-	static int exp2s[QFACTI_LIMIT];
+	static int expbs[QFACTI_LIMIT];
 	static int init = 0;
 
 	if (n < 0 || n >= QFACTI_LIMIT) {
 		*mant = gnm_quad_zero;
-		*exp2 = 0;
+		*expb = 0;
 		return TRUE;
 	}
 
@@ -902,8 +900,8 @@ qfacti (int n, GnmQuad *mant, int *exp2)
 		void *state = gnm_quad_start ();
 
 		if (init == 0) {
-			gnm_quad_init (&mants[0], 0.5);
-			exp2s[0] = 1;
+			gnm_quad_init (&mants[0], GNM_const(1.) / GNM_RADIX);
+			expbs[0] = 1;
 			init++;
 		}
 
@@ -912,8 +910,8 @@ qfacti (int n, GnmQuad *mant, int *exp2)
 
 			gnm_quad_init (&m, init);
 			gnm_quad_mul (&mants[init], &m, &mants[init - 1]);
-			exp2s[init] = exp2s[init - 1];
-			rescale_mant_exp (&mants[init], &exp2s[init]);
+			expbs[init] = expbs[init - 1];
+			rescale_mant_exp (&mants[init], &expbs[init]);
 
 			init++;
 		}
@@ -922,18 +920,18 @@ qfacti (int n, GnmQuad *mant, int *exp2)
 	}
 
 	*mant = mants[n];
-	*exp2 = exp2s[n];
+	*expb = expbs[n];
 	return FALSE;
 }
 
 /* 0: ok, 1: overflow, 2: nan */
 int
-qfactf (gnm_float x, GnmQuad *mant, int *exp2)
+qfactf (gnm_float x, GnmQuad *mant, int *expb)
 {
 	void *state;
 	gboolean res = 0;
 
-	*exp2 = 0;
+	*expb = 0;
 
 	if (gnm_isnan (x) || (x < 0 && x == gnm_floor (x))) {
 		mant->h = mant->l = gnm_nan;
@@ -947,14 +945,14 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 
 	if (x == gnm_floor (x)) {
 		/* 0, 1, 2, ...  */
-		if (!qfacti ((int)x, mant, exp2))
+		if (!qfacti ((int)x, mant, expb))
 			return 0;
 	}
 
 	state = gnm_quad_start ();
 
 	if (x < -1) {
-		if (qfactf (-x - 1, mant, exp2))
+		if (qfactf (-x - 1, mant, expb))
 			res = 1;
 		else {
 			GnmQuad b;
@@ -963,7 +961,7 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 			gnm_quad_sinpi (&b, &b);
 			gnm_quad_mul (&b, &b, mant);
 			gnm_quad_div (mant, &gnm_quad_pi, &b);
-			*exp2 = -*exp2;
+			*expb = -*expb;
 		}
 	} else if (x >= QFACTI_LIMIT - GNM_const(0.5)) {
 		/*
@@ -979,7 +977,7 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 		if (debug) g_printerr ("x=%.20g\n", x);
 
 		gnm_quad_init (&y, x + 1);
-		*exp2 = 0;
+		*expb = 0;
 
 		/* sqrt(2Pi) */
 		gnm_quad_sqrt (&f1, &gnm_quad_2pi);
@@ -988,11 +986,11 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 		/* (y/e)^y */
 		gnm_quad_div (&f2, &y, &gnm_quad_e);
 		gnm_quad_pow (&f2, &ef2, &f2, &y);
-		if (ef2 > G_MAXINT || ef2 < G_MININT) {
+		if (ef2 > G_MAXINT / 2 || ef2 < G_MININT / 2) {
 			res = 1;
 			f2.h = f2.l = gnm_pinf;
 		} else
-			*exp2 += (int)ef2;
+			*expb += (int)ef2;
 		if (debug) g_printerr ("f2=%.20g\n", gnm_quad_value (&f2));
 
 		/* sqrt(y) */
@@ -1007,7 +1005,7 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 		gnm_quad_div (mant, mant, &f3);
 		gnm_quad_mul (mant, mant, &f4);
 
-		if (debug) g_printerr ("G(x+1)=%.20g * 2^%d %s\n", gnm_quad_value (mant), *exp2, res ? "overflow" : "");
+		if (debug) g_printerr ("G(x+1)=%.20g * 2^%d %s\n", gnm_quad_value (mant), *expb, res ? "overflow" : "");
 	} else {
 		GnmQuad s, qx, mFw;
 		gnm_float w, f;
@@ -1039,12 +1037,12 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 			pochhammer_small_n (w + 1, f, &r);
 			gnm_quad_mul (mant, &mFw, &r);
 			gnm_quad_div (mant, mant, &s);
-			*exp2 = eFw;
+			*expb = eFw;
 		}
 	}
 
 	if (res == 0)
-		rescale_mant_exp (mant, exp2);
+		rescale_mant_exp (mant, expb);
 
 	gnm_quad_end (state);
 	return res;
@@ -1052,22 +1050,22 @@ qfactf (gnm_float x, GnmQuad *mant, int *exp2)
 
 /* 0: ok, 1: overflow, 2: nan */
 static int
-qgammaf (gnm_float x, GnmQuad *mant, int *exp2)
+qgammaf (gnm_float x, GnmQuad *mant, int *expb)
 {
 	if (x < GNM_const(-1.5) || x > GNM_const(0.5))
-		return qfactf (x - 1, mant, exp2);
+		return qfactf (x - 1, mant, expb);
 	else if (gnm_isnan (x) || x == gnm_floor (x)) {
-		*exp2 = 0;
+		*expb = 0;
 		mant->h = mant->l = gnm_nan;
 		return 2;
 	} else {
 		void *state = gnm_quad_start ();
 		GnmQuad qx;
 
-		qfactf (x, mant, exp2);
+		qfactf (x, mant, expb);
 		gnm_quad_init (&qx, x);
 		gnm_quad_div (mant, mant, &qx);
-		rescale_mant_exp (mant, exp2);
+		rescale_mant_exp (mant, expb);
 		gnm_quad_end (state);
 		return 0;
 	}
@@ -1101,7 +1099,7 @@ combin (gnm_float n, gnm_float k)
 		gnm_float c;
 		gnm_quad_mul (&m2, &m2, &m3);
 		gnm_quad_div (&m1, &m1, &m2);
-		c = gnm_ldexp (gnm_quad_value (&m1), e1 - e2 - e3);
+		c = gnm_scalbn (gnm_quad_value (&m1), e1 - e2 - e3);
 		gnm_quad_end (state);
 		return c;
 	}
@@ -1244,28 +1242,28 @@ static const guint32 lanczos_denom[G_N_ELEMENTS(lanczos_num)] = {
 /**
  * gnm_complex_gamma:
  * @z: a complex number
- * @exp2: (out) (allow-none): Return location for power of 2.
+ * @expb: (out) (allow-none): Return location for power-of-base
  *
  * Returns: (transfer full): the Gamma function evaluated at @z.
  */
 gnm_complex
-gnm_complex_gamma (gnm_complex z, int *exp2)
+gnm_complex_gamma (gnm_complex z, int *expb)
 {
-	if (exp2)
-		*exp2 = 0;
+	if (expb)
+		*expb = 0;
 
 	if (GNM_CREALP (z)) {
-		return GNM_CREAL (exp2 ? gnm_gammax (z.re, exp2) : gnm_gamma (z.re));
+		return GNM_CREAL (expb ? gnm_gammax (z.re, expb) : gnm_gamma (z.re));
 	} else if (z.re < 0) {
 		/* Gamma(z) = pi / (sin(pi*z) * Gamma(-z+1)) */
 		gnm_complex b = GNM_CMAKE (M_PIgnum * gnm_fmod (z.re, 2),
 					   M_PIgnum * z.im);
 		/* Hmm... sin overflows when b.im is large.  */
 		gnm_complex res = GNM_CDIV (GNM_CREAL (M_PIgnum),
-					    GNM_CMUL (gnm_complex_fact (GNM_CNEG (z), exp2),
+					    GNM_CMUL (gnm_complex_fact (GNM_CNEG (z), expb),
 						      GNM_CSIN (b)));
-		if (exp2)
-			*exp2 = -*exp2;
+		if (expb)
+			*expb = -*expb;
 		return res;
 	} else {
 		gnm_complex zmh, f, p, q;
@@ -1294,22 +1292,22 @@ gnm_complex_gamma (gnm_complex z, int *exp2)
 /**
  * gnm_complex_fact:
  * @z: a complex number
- * @exp2: (out) (allow-none): Return location for power of 2.
+ * @expb: (out) (allow-none): Return location for power-of-base.
  *
  * Returns: (transfer full): the factorial function evaluated at @z.
  */
 gnm_complex
-gnm_complex_fact (gnm_complex z, int *exp2)
+gnm_complex_fact (gnm_complex z, int *expb)
 {
-	if (exp2)
-		*exp2 = 0;
+	if (expb)
+		*expb = 0;
 
 	if (GNM_CREALP (z)) {
-		return GNM_CREAL (exp2 ? gnm_factx (z.re, exp2) : gnm_fact (z.re));
+		return GNM_CREAL (expb ? gnm_factx (z.re, expb) : gnm_fact (z.re));
 	} else {
 		// This formula is valid for all arguments except zero
 		// which we conveniently handled above.
-		return GNM_CMUL (gnm_complex_gamma (z, exp2), z);
+		return GNM_CMUL (gnm_complex_gamma (z, expb), z);
 	}
 }
 
@@ -1372,11 +1370,11 @@ gnm_complex_continued_fraction (gnm_complex *dst, size_t N,
 			if (m == 0)
 				return FALSE;
 
-			(void)gnm_frexp (m, &e);
+			(void)gnm_unscalbn (m, &e);
 			if (debug_cf)
-				g_printerr ("rescale by 2^%d\n", -e);
+				g_printerr ("rescale by %d^%d\n", GNM_RADIX, -e);
 
-			s = gnm_ldexp (1, -e);
+			s = gnm_scalbn (1, -e);
 			A0 = GNM_CSCALE (A0, s);
 			A1 = GNM_CSCALE (A1, s);
 			B0 = GNM_CSCALE (B0, s);
