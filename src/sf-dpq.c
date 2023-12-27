@@ -1,5 +1,6 @@
 #include <gnumeric-config.h>
 #include <sf-dpq.h>
+#include <sf-gamma.h>
 #include <mathfunc.h>
 
 #define give_log log_p
@@ -691,3 +692,158 @@ qrayleigh (gnm_float p, gnm_float scale, gboolean lower_tail, gboolean log_p)
 }
 
 /* ------------------------------------------------------------------------ */
+// log1px3(x) = log(1+x) - x + x^2/2
+//    (In other words, terms x^3 and above from log(1+x).)
+//
+// p(x) = -x+x^/2
+
+static gnm_float
+log1px3 (gnm_float x)
+{
+	// Lift p(x) by 1/2
+	gnm_float c1 = GNM_const(0.6065306597126334);  // Exp[-1/2]
+	gnm_float d1 = GNM_const(0.64872127070012814684865); // (1/c1)/c1
+
+	// Lift p(x) by -p(d1) (ie., b2 = 0.43830162717073367601715756
+	gnm_float c2 = GNM_const(0.6451311644197896784284); // Exp[-b2]
+	gnm_float d2 = GNM_const(0.5500723808612904238765);  // (1/c2)/c2
+
+	gnm_float l0 = GNM_const(-0.5727756120801021849831095);  // 1/f1-1
+	gnm_float l1 = GNM_const(-0.643439019336053015559896);   // 1/f2-1
+	gnm_float l2 = GNM_const(-0.75);                         // 1/f3-1
+	gnm_float l3 = GNM_const(-0.9423152993887941976504422);  // left root of p(x) + log(4)
+
+	if (gnm_isnan (x))
+		return x;
+
+	if (x >= 2) {
+		// Two positive terms
+		return gnm_log1p (x) + x * (x - 2) / 2;
+	}
+
+	// c * (1 + x) = 1 + cx - (1-c) = 1 + c * (x - d)
+
+	if (x >= d1) {
+		// Two positive terms
+		return gnm_log1p (c1 * (x - d1)) + (x - 1) * (x - 1) / 2;
+	}
+
+	if (x >= d2) {
+		// Two positive terms
+		return gnm_log1p (c2 * (x - d2)) + (x - d1) * (x - 1 - (1 - d1)) / 2;
+	}
+
+	if (x > l0)
+		return gnm_taylor_log1p (x, 3);
+
+	// In the following, (l,r) are roots of p(x)+log(f)
+	// We have l<x<0<2<r
+	// Moreover, (1+x)*f <= 1, so two negative terms are added
+
+	if (x > l1) {
+		gnm_float r1 = 2 - l1;
+		gnm_float f1 = GNM_const(2.3406903451108563844727);  // Exp[l1*r1/2]
+		return gnm_log ((1 + x) * f1) + (x - l1) * (x - r1) / 2;
+	}
+
+	if (x > l2) {
+		gnm_float r2 = 2 - l2;
+		gnm_float f2 = GNM_const(2.80456935623722661204591);  // Exp[l2*r2/2]
+		return gnm_log ((1 + x) * f2) + (x - l2) * (x - r2) / 2;
+	}
+
+	if (x > l3) {
+		gnm_float r3 = 2 - l3;
+		gnm_float f3 = 4;                                     // Exp[l3*r3/2]
+		return gnm_log ((1 + x) * f3) + (x - l3) * (x - r3) / 2;
+	}
+
+	// Dominated by logarithm
+	return gnm_log1p (x) + x * (x - 2) / 2;
+}
+
+
+gnm_float
+dpois_raw(gnm_float x, gnm_float lambda, gboolean give_log)
+{
+	gnm_float d, d_l, res;
+
+	// x >= 0 ; integer for dpois(), but not e.g. for pgamma()!
+        // lambda >= 0
+
+	if (isnan (x) || !(lambda >= 0)) return gnm_nan;
+	if (lambda == 0) return( (x == 0) ? R_D__1 : R_D__0 );
+	if (lambda == gnm_pinf) return R_D__0; // including for the case where  x = lambda = +Inf
+	if (x < 0) return R_D__0;
+	if (x <= lambda * GNM_MIN) return give_log ? -lambda : gnm_exp(-lambda);
+
+	d = x - lambda;
+	d_l = d / lambda;
+
+	if (!give_log && x <= 140 && lambda <= 140) {
+		// Not going to overflow
+		gnm_float f1 = gnm_pow (lambda, x);
+		gnm_float f2 = gnm_exp (-lambda);
+		gnm_float f3 = gnm_fact (x);
+		return f1 * f2 / f3;
+	}
+
+	if (!give_log && x <= 1000000 && lambda <= 1000000) {
+		gnm_float e1, e2, res, eres;
+		int e3;
+		GnmQuad qx, ql, qf1, qf2, qf3, qres;
+		void *state = gnm_quad_start ();
+
+		gnm_quad_init (&qx, x);
+		gnm_quad_init (&ql, lambda);
+
+		gnm_quad_pow (&qf1, &e1, &ql, &qx);
+		gnm_quad_negate (&ql, &ql);
+		gnm_quad_exp (&qf2, &e2, &ql);
+		qfactf (x, &qf3, &e3);
+
+		gnm_quad_mul (&qres, &qf1, &qf2);
+		gnm_quad_div (&qres, &qres, &qf3);
+		res = gnm_quad_value (&qres);
+		eres = e1 + e2 - e3;
+
+		gnm_quad_end (state);
+
+		return gnm_scalbn (res, CLAMP (eres, G_MININT, G_MAXINT));
+	}
+
+	if (give_log && lambda <= 1) {
+		gnm_float t1 = x * gnm_log (lambda); // <= 0
+		gnm_float t2 = -lambda;              // <= 0
+		gnm_float t3 = -lgamma1p (x);        // ]-Inf;0.12]
+		// up to 20% cancellation near x = lambda = 0.25
+		return t1 + t2 + t3;
+	}
+
+	// g_printerr ("x=%.16g   l=%.16g    d/l=%.16g\n", x, lambda, d_l);
+	if (x >= GNM_const(0.16) && x <= 2 * lambda) {
+		// If n>=l (i.e., d>=0) then t1-t4 are all negative
+		// and hence no cancellation occurs in the summing.
+		//
+		// If d<0, then t1 is positive and some cancellation
+		// occurs.  However, it looks like |t1| < .2|t2| so
+		// the situation is not bad.
+		gnm_float t1 = -x * log1px3 (d_l);
+		gnm_float t2 = d_l * d_l * GNM_const(0.5) * (d - lambda);
+		gnm_float t3 = gnm_log (2 * M_PIgnum * x) * GNM_const(-0.5);
+		gnm_float t4 = -stirlerr (x);
+
+#if 0
+		g_printerr ("t1=%.16g\n", t1);
+		g_printerr ("t2=%.16g\n", t2);
+		g_printerr ("t3=%.16g\n", t3);
+		g_printerr ("t4=%.16g\n", t4);
+#endif
+		res = t1 + t2 + t3 + t4;
+	} else {
+		res = -bd0 (x, lambda);
+		res -= stirlerr (x);
+		res -= gnm_log (2 * M_PIgnum * x) * GNM_const(0.5);
+	}
+	return give_log ? res : gnm_exp (res);
+}

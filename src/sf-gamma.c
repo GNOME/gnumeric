@@ -327,8 +327,25 @@ gnm_float gnm_lbeta(gnm_float a, gnm_float b)
 /* ------------------------------------------------------------------------ */
 /* --- END MAGIC R SOURCE MARKER --- */
 
+// dstirlerr(x) = stirlerr(x+1) - stirlerr(x)
+// but computed independently.
+static gnm_float
+dstirlerr (gnm_float x)
+{
+	gnm_float xph = x + GNM_const(0.5);
+	if (x < GNM_const(0.5))
+		return 1 - xph * gnm_log1p (1 / x);
+	if (x < 2)
+		return -1 / (2 * x) - xph * log1pmx (1 / x);
+	return -(x + 2) / (12 * x * x * x) - xph * gnm_taylor_log1p (1 / x, 4);
+}
+
+
 /* Parts from src/nmath/stirlerr.c from R.
  * Copyright (C) 2000, The R Core Team
+ *
+ * stirlerr(n) = log(n!) - log( sqrt(2*pi*n)*(n/e)^n )
+ *             = log(n!) - (n + 1/2) * log(n) + n - log(2*pi)/2
  */
 gnm_float
 stirlerr (gnm_float n)
@@ -376,7 +393,7 @@ stirlerr (gnm_float n)
 		GNM_const(0.005746216513010115682023589), /* 14.5 */
 		GNM_const(0.005554733551962801371038690)  /* 15.0 */
 	};
-	gnm_float nn;
+	gnm_float nn, y;
 
 	if (!(n > 0))
 		return gnm_nan;
@@ -401,8 +418,13 @@ stirlerr (gnm_float n)
 	// Adding a boat-load of more terms could get us down to 6-ish,
 	// but no further.  The series is not convergent.
 
-	// Fairly horrible fallback
-	return(lgamma1p (n ) - (n + GNM_const(0.5))*gnm_log(n) + n - M_LN_SQRT_2PI);
+
+	y = 0;
+	while (n < 9) {
+		y -= dstirlerr (n);
+		n++;
+	}
+	return y + stirlerr (n);
 }
 
 

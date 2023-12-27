@@ -323,7 +323,7 @@ ebd0(gnm_float x, gnm_float M, gnm_float *yh, gnm_float *yl)
 #undef ADD1
 
 /* Legacy function.  */
-static gnm_float
+gnm_float
 bd0(gnm_float x, gnm_float M)
 {
 	gnm_float yh, yl;
@@ -983,23 +983,7 @@ gnm_float ppois(gnm_float x, gnm_float lambda, gboolean lower_tail, gboolean log
 
 
 // called also from dgamma.c, pgamma.c, dnbeta.c, dnbinom.c, dnchisq.c :
-static gnm_float dpois_raw(gnm_float x, gnm_float lambda, gboolean give_log)
-{
-    /*       x >= 0 ; integer for dpois(), but not e.g. for pgamma()!
-        lambda >= 0
-    */
-    if (lambda == 0) return( (x == 0) ? R_D__1 : R_D__0 );
-    if (!gnm_finite(lambda)) return R_D__0; // including for the case where  x = lambda = +Inf
-    if (x < 0) return( R_D__0 );
-    if (x <= lambda * GNM_MIN) return(R_D_exp(-lambda) );
-    if (lambda < x * GNM_MIN) {
-	if (!gnm_finite(x)) // lambda < x = +Inf
-	    return R_D__0;
-	// else
-	return(R_D_exp(-lambda + x*gnm_log(lambda) -gnm_lgamma(x+1)));
-    }
-    return(R_D_fexp( M_2PIgnum*x, -stirlerr(x)-bd0(x,lambda) ));
-}
+/* Definition of function dpois_raw removed.  */
 
 gnm_float dpois(gnm_float x, gnm_float lambda, gboolean give_log)
 {
@@ -5280,6 +5264,45 @@ pow1pm1 (gnm_float x, gnm_float y)
 		return gnm_expm1 (y * gnm_log1p (x));
 }
 
+
+/**
+ * gnm_taylor_log1p:
+ * @x: a number
+ * @k: starting term.
+ *
+ * Returns: The taylor series for log(1+@x), except that terms before the @k'th are discarded.
+ */
+gnm_float
+gnm_taylor_log1p (gnm_float x, int k)
+{
+	gnm_float xn[100];
+	gnm_float lim = 0, term, sum = 0;
+	int i;
+
+	// The actual requirement is |x| < 1 going to the edge would be
+	// painfully slow.
+	g_return_val_if_fail (gnm_abs (x) <= 0.5, gnm_nan);
+
+	k = CLAMP (k, 1, (int)G_N_ELEMENTS(xn));
+	if (k == 1)
+		return gnm_log1p (x);
+
+	xn[1] = x;
+	for (i = 2; i < k; i++)
+		xn[i] = xn[i / 2] * xn[(i + 1) / 2];
+
+	for (i = k; i < (int)G_N_ELEMENTS(xn); i++) {
+		xn[i] = xn[i / 2] * xn[(i + 1) / 2];
+		term = xn[i] / ((i & 1) ? i : -i);
+		sum += term;
+		if (i == k)
+			lim = xn[i] * (GNM_EPSILON / 100);
+		else if (gnm_abs (term) <= lim)
+			break;
+	}
+
+	return sum;
+}
 
 /*
  ---------------------------------------------------------------------

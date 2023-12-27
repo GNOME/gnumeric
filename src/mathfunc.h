@@ -28,6 +28,8 @@ G_BEGIN_DECLS
 /* ------------------------------------------------------------------------- */
 
 gnm_float log1pmx (gnm_float x);
+gnm_float bd0(gnm_float x, gnm_float M);
+gnm_float gnm_taylor_log1p (gnm_float x, int k);
 gnm_float swap_log_tail (gnm_float lp);
 gnm_float pow1p (gnm_float x, gnm_float y);
 gnm_float pow1pm1 (gnm_float x, gnm_float y);

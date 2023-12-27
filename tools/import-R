@@ -190,7 +190,7 @@ sub import_file {
 	    s/\battribute_hidden\s+//;
 
 	    # These are made static.
-	    s/^gnm_float\s+(pbeta_both|bd0|dpois_raw|chebyshev_eval|lgammacor|pbeta_raw|dbinom_raw|bessel_[ijky]|bessel_[ijy]_ex|do_search|pgamma_raw)\b/static gnm_float $1/;
+	    s/^gnm_float\s+(pbeta_both|bd0|chebyshev_eval|lgammacor|pbeta_raw|dbinom_raw|bessel_[ijky]|bessel_[ijy]_ex|do_search|pgamma_raw)\b/static gnm_float $1/;
 	    s/^int\s+(chebyshev_init)/static int $1/;
 
 	    # Optimization given our stupid gammafn.
@@ -241,7 +241,7 @@ sub import_file {
 		$_ = "/* Definition of function $3 removed.  */";
 	    }
 
-	    if ((/^(static\s*)?gnm_float\s*(lgamma1p|logspace_sum|[dpq]nbinom_mu|bessel_[ik]_ex)\s*\(/ && ($victim = $2)) .. /^\}/) {
+	    if ((/^(static\s*)?gnm_float\s*(lgamma1p|logspace_sum|[dpq]nbinom_mu|bessel_[ik]_ex|dpois_raw)\s*\(/ && ($victim = $2)) .. /^\}/) {
 		if (!/^\}/) {
 		    $removing = 1;
 		    next;
