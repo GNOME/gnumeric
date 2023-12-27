@@ -705,7 +705,7 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 	warning_options="-Wall -Werror=init-self -Werror=missing-include-dirs \
 			 -Wsign-compare -Werror=pointer-arith \
 			 -Wchar-subscripts -Wwrite-strings \
-			 -Wdeclaration-after-statement -Wnested-externs \
+			 -Wnested-externs \
 			 -Wmissing-noreturn \
 			 -Werror=missing-prototypes -Werror=nested-externs \
 			 -Werror=implicit-function-declaration \
