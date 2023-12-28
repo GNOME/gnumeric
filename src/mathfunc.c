@@ -5281,7 +5281,7 @@ gnm_taylor_log1p (gnm_float x, int k)
 
 	// The actual requirement is |x| < 1 going to the edge would be
 	// painfully slow.
-	g_return_val_if_fail (gnm_abs (x) <= 0.5, gnm_nan);
+	g_return_val_if_fail (gnm_abs (x) <= GNM_const(0.5), gnm_nan);
 
 	k = CLAMP (k, 1, (int)G_N_ELEMENTS(xn));
 	if (k == 1)
@@ -6206,7 +6206,7 @@ gnm_ilog (gnm_float x, gnm_float b)
 		// floor of that.  But we have rounding errors, so we
 		// need to answer the question of how close can b^i
 		// get to a floating point number while still being
-		// less that said number?
+		// more than said number?
 		//
 		// For double with 2<=b<=100000, the answer seems to
 		// be about 1 part in 10^23.  (For 5561^13 if you must
