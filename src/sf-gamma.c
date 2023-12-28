@@ -13,74 +13,12 @@
 static int qgammaf (gnm_float x, GnmQuad *mant, int *expb);
 static void pochhammer_small_n (gnm_float x, gnm_float n, GnmQuad *res);
 
+/* ------------------------------------------------------------------------- */
+/* --- BEGIN MAGIC R SOURCE MARKER --- */
 
-/* Compute  gnm_log(gamma(a+1))  accurately also for small a (0 < a < 0.5). */
-gnm_float lgamma1p (gnm_float a)
-{
-    const gnm_float eulers_const =	 GNM_const(0.5772156649015328606065120900824024);
+// The following source code was imported from the R project.
+// It was automatically transformed by tools/import-R.
 
-    /* coeffs[i] holds (zeta(i+2)-1)/(i+2) , i = 1:N, N = 40 : */
-    const int N = 40;
-    static const gnm_float coeffs[40] = {
-	GNM_const(0.3224670334241132182362075833230126e-0),
-	GNM_const(0.6735230105319809513324605383715000e-1),
-	GNM_const(0.2058080842778454787900092413529198e-1),
-	GNM_const(0.7385551028673985266273097291406834e-2),
-	GNM_const(0.2890510330741523285752988298486755e-2),
-	GNM_const(0.1192753911703260977113935692828109e-2),
-	GNM_const(0.5096695247430424223356548135815582e-3),
-	GNM_const(0.2231547584535793797614188036013401e-3),
-	GNM_const(0.9945751278180853371459589003190170e-4),
-	GNM_const(0.4492623673813314170020750240635786e-4),
-	GNM_const(0.2050721277567069155316650397830591e-4),
-	GNM_const(0.9439488275268395903987425104415055e-5),
-	GNM_const(0.4374866789907487804181793223952411e-5),
-	GNM_const(0.2039215753801366236781900709670839e-5),
-	GNM_const(0.9551412130407419832857179772951265e-6),
-	GNM_const(0.4492469198764566043294290331193655e-6),
-	GNM_const(0.2120718480555466586923135901077628e-6),
-	GNM_const(0.1004322482396809960872083050053344e-6),
-	GNM_const(0.4769810169363980565760193417246730e-7),
-	GNM_const(0.2271109460894316491031998116062124e-7),
-	GNM_const(0.1083865921489695409107491757968159e-7),
-	GNM_const(0.5183475041970046655121248647057669e-8),
-	GNM_const(0.2483674543802478317185008663991718e-8),
-	GNM_const(0.1192140140586091207442548202774640e-8),
-	GNM_const(0.5731367241678862013330194857961011e-9),
-	GNM_const(0.2759522885124233145178149692816341e-9),
-	GNM_const(0.1330476437424448948149715720858008e-9),
-	GNM_const(0.6422964563838100022082448087644648e-10),
-	GNM_const(0.3104424774732227276239215783404066e-10),
-	GNM_const(0.1502138408075414217093301048780668e-10),
-	GNM_const(0.7275974480239079662504549924814047e-11),
-	GNM_const(0.3527742476575915083615072228655483e-11),
-	GNM_const(0.1711991790559617908601084114443031e-11),
-	GNM_const(0.8315385841420284819798357793954418e-12),
-	GNM_const(0.4042200525289440065536008957032895e-12),
-	GNM_const(0.1966475631096616490411045679010286e-12),
-	GNM_const(0.9573630387838555763782200936508615e-13),
-	GNM_const(0.4664076026428374224576492565974577e-13),
-	GNM_const(0.2273736960065972320633279596737272e-13),
-	GNM_const(0.1109139947083452201658320007192334e-13)
-    };
-
-    const gnm_float c = GNM_const(0.2273736845824652515226821577978691e-12);/* zeta(N+2)-1 */
-    gnm_float lgam;
-    int i;
-
-    if (gnm_abs (a) >= GNM_const(0.5))
-	return gnm_lgamma (a + 1);
-
-    /* Abramowitz & Stegun 6.1.33,
-     * also  http://functions.wolfram.com/06.11.06.0008.01 */
-    lgam = c * gnm_logcf (-a / 2, N + 2, 1, GNM_const(1e-14));
-    for (i = N - 1; i >= 0; i--)
-	lgam = coeffs[i] - a * lgam;
-
-    return (a * lgam - eulers_const) * a - log1pmx (a);
-} /* lgamma1p */
-
-/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/chebyshev.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
@@ -974,38 +912,43 @@ qfactf (gnm_float x, GnmQuad *mant, int *expb)
 		gnm_float ef2;
 		gboolean debug = FALSE;
 
-		if (debug) g_printerr ("x=%.20g\n", x);
+		if (debug) g_printerr ("x=%.20" GNM_FORMAT_g "\n", x);
 
 		gnm_quad_init (&y, x + 1);
 		*expb = 0;
 
 		/* sqrt(2Pi) */
 		gnm_quad_sqrt (&f1, &gnm_quad_2pi);
-		if (debug) g_printerr ("f1=%.20g\n", gnm_quad_value (&f1));
+		if (debug) g_printerr ("f1=%.20" GNM_FORMAT_g " + %.20" GNM_FORMAT_g "\n",
+				       f1.h, f1.l);
 
 		/* (y/e)^y */
 		gnm_quad_div (&f2, &y, &gnm_quad_e);
 		gnm_quad_pow (&f2, &ef2, &f2, &y);
+		if (debug) g_printerr ("f2=(%.20" GNM_FORMAT_g " + %.20" GNM_FORMAT_g ") * B^%d\n",
+				       f2.h, f2.l, (int)ef2);
 		if (ef2 > G_MAXINT / 2 || ef2 < G_MININT / 2) {
 			res = 1;
 			f2.h = f2.l = gnm_pinf;
 		} else
 			*expb += (int)ef2;
-		if (debug) g_printerr ("f2=%.20g\n", gnm_quad_value (&f2));
 
 		/* sqrt(y) */
 		gnm_quad_sqrt (&f3, &y);
-		if (debug) g_printerr ("f3=%.20g\n", gnm_quad_value (&f3));
+		if (debug) g_printerr ("f3=%.20" GNM_FORMAT_g " + %.20" GNM_FORMAT_g "\n",
+				       f3.h, f3.l);
 
 		/* E(x) */
 		gamma_error_factor (&f4, &y);
-		if (debug) g_printerr ("f4=%.20g\n", gnm_quad_value (&f4));
+		if (debug) g_printerr ("f4=%.20" GNM_FORMAT_g " + %.20" GNM_FORMAT_g "\n",
+				       f4.h, f4.l);
 
 		gnm_quad_mul (mant, &f1, &f2);
 		gnm_quad_div (mant, mant, &f3);
 		gnm_quad_mul (mant, mant, &f4);
 
-		if (debug) g_printerr ("G(x+1)=%.20g * 2^%d %s\n", gnm_quad_value (mant), *expb, res ? "overflow" : "");
+		if (debug) g_printerr ("G(x+1)=(%.20" GNM_FORMAT_g " + %.20" GNM_FORMAT_g ") * B^%d %s\n",
+				       mant->h, mant->l, *expb, res ? "overflow" : "");
 	} else {
 		GnmQuad s, qx, mFw;
 		gnm_float w, f;

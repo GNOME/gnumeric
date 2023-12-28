@@ -4,7 +4,6 @@
 #include <numbers.h>
 #include <complex.h>
 
-gnm_float lgamma1p (gnm_float a);
 gnm_float stirlerr(gnm_float n);
 
 gnm_float gnm_gamma (gnm_float x);

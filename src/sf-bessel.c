@@ -2516,9 +2516,8 @@ static void
 gnm_quad_reduce_pi (GnmQuad *res, GnmQuad const *a, int p, int *pk)
 {
 	gnm_float k;
-	GnmQuad qk, qa, qb;
+	GnmQuad qk, qa, qb, qtwop;
 	unsigned ui;
-	static const GnmQuad qh = { 0.5, 0 };
 	static const gnm_float pi_parts[] = {
 		+0x1.921fb54442d18p+1,
 		+0x1.1a62633145c04p-53,
@@ -2534,11 +2533,9 @@ gnm_quad_reduce_pi (GnmQuad *res, GnmQuad const *a, int p, int *pk)
 
 	if (a->h < 0) {
 		GnmQuad ma;
-		ma.h = -a->h;
-		ma.l = -a->l;
+		gnm_quad_negate (&ma, a);
 		gnm_quad_reduce_pi (res, &ma, p, pk);
-		res->h = -res->h;
-		res->l = -res->l;
+		gnm_quad_negate (res, res);
 		*pk = (p >= 0) ? (-*pk) & ((1 << (p + 1)) - 1) : 0;
 		return;
 	}
@@ -2547,11 +2544,11 @@ gnm_quad_reduce_pi (GnmQuad *res, GnmQuad const *a, int p, int *pk)
 		g_warning ("Reduced accuracy for very large trigonometric arguments");
 
 	gnm_quad_div (&qk, a, &gnm_quad_pi);
-	// This really needs to be 2^p scaling, but we should do mul
-	qk.h = gnm_ldexp (qk.h, p);
-	qk.l = gnm_ldexp (qk.l, p);
+	// This really needs to be 2^p scaling, ie., it is not radix related.
+	gnm_quad_init (&qtwop, 1 << p);
+	gnm_quad_mul (&qk, &qk, &qtwop);
 
-	gnm_quad_add (&qk, &qk, &qh);
+	gnm_quad_add (&qk, &qk, &gnm_quad_half);
 	gnm_quad_floor (&qk, &qk);
 
 	k = gnm_quad_value (&qk);
@@ -2593,7 +2590,7 @@ gnm_bessel_phi (gnm_float z, gnm_float nu, int *n_pi_4)
 	gnm_quad_mul12 (&qnu2, nu, nu);
 
 	(void)gnm_frexp (z / nu, &N);
-	N = GNM_MANT_DIG / N + 1;
+	N = gnm_ceil (GNM_MANT_DIG * gnm_log2 (GNM_RADIX) / MAX (1, N - 1)) + 1;
 	N = MIN (N, (int)G_N_ELEMENTS (tn_z2n));
 
 	tn_z2n[0] = sn_z2n[0] = gnm_quad_one;

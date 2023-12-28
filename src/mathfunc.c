@@ -1222,7 +1222,76 @@ gnm_float log1pmx (gnm_float x)
 
 
 /* Compute  log(gamma(a+1))  accurately also for small a (0 < a < 0.5). */
-/* Definition of function lgamma1p removed.  */
+gnm_float lgamma1p (gnm_float a)
+{
+    const gnm_float eulers_const =	 GNM_const(0.5772156649015328606065120900824024);
+
+    /* coeffs[i] holds (zeta(i+2)-1)/(i+2) , i = 0:(N-1), N = 40 : */
+    const int N = 40;
+    static const gnm_float coeffs[40] = {
+	GNM_const(0.3224670334241132182362075833230126e-0),/* = (zeta(2)-1)/2 */
+	GNM_const(0.6735230105319809513324605383715000e-1),/* = (zeta(3)-1)/3 */
+	GNM_const(0.2058080842778454787900092413529198e-1),
+	GNM_const(0.7385551028673985266273097291406834e-2),
+	GNM_const(0.2890510330741523285752988298486755e-2),
+	GNM_const(0.1192753911703260977113935692828109e-2),
+	GNM_const(0.5096695247430424223356548135815582e-3),
+	GNM_const(0.2231547584535793797614188036013401e-3),
+	GNM_const(0.9945751278180853371459589003190170e-4),
+	GNM_const(0.4492623673813314170020750240635786e-4),
+	GNM_const(0.2050721277567069155316650397830591e-4),
+	GNM_const(0.9439488275268395903987425104415055e-5),
+	GNM_const(0.4374866789907487804181793223952411e-5),
+	GNM_const(0.2039215753801366236781900709670839e-5),
+	GNM_const(0.9551412130407419832857179772951265e-6),
+	GNM_const(0.4492469198764566043294290331193655e-6),
+	GNM_const(0.2120718480555466586923135901077628e-6),
+	GNM_const(0.1004322482396809960872083050053344e-6),
+	GNM_const(0.4769810169363980565760193417246730e-7),
+	GNM_const(0.2271109460894316491031998116062124e-7),
+	GNM_const(0.1083865921489695409107491757968159e-7),
+	GNM_const(0.5183475041970046655121248647057669e-8),
+	GNM_const(0.2483674543802478317185008663991718e-8),
+	GNM_const(0.1192140140586091207442548202774640e-8),
+	GNM_const(0.5731367241678862013330194857961011e-9),
+	GNM_const(0.2759522885124233145178149692816341e-9),
+	GNM_const(0.1330476437424448948149715720858008e-9),
+	GNM_const(0.6422964563838100022082448087644648e-10),
+	GNM_const(0.3104424774732227276239215783404066e-10),
+	GNM_const(0.1502138408075414217093301048780668e-10),
+	GNM_const(0.7275974480239079662504549924814047e-11),
+	GNM_const(0.3527742476575915083615072228655483e-11),
+	GNM_const(0.1711991790559617908601084114443031e-11),
+	GNM_const(0.8315385841420284819798357793954418e-12),
+	GNM_const(0.4042200525289440065536008957032895e-12),
+	GNM_const(0.1966475631096616490411045679010286e-12),
+	GNM_const(0.9573630387838555763782200936508615e-13),
+	GNM_const(0.4664076026428374224576492565974577e-13),
+	GNM_const(0.2273736960065972320633279596737272e-13),
+	GNM_const(0.1109139947083452201658320007192334e-13)/* = (zeta(40+1)-1)/(40+1) */
+    };
+
+    const gnm_float c = GNM_const(0.2273736845824652515226821577978691e-12);/* zeta(N+2)-1 */
+    const gnm_float tol_logcf = GNM_const(1e-14);
+    gnm_float lgam;
+    int i;
+
+    if (gnm_abs (a) >= GNM_const(0.5))
+	return gnm_lgamma (a + 1);
+
+    /* Abramowitz & Stegun 6.1.33 : for |x| < 2,
+     * <==> log(gamma(1+x)) = -(log(1+x) - x) - gamma*x + x^2 * \sum_{n=0}^\infty c_n (-x)^n
+     * where c_n := (Zeta(n+2) - 1)/(n+2)  = coeffs[n]
+     *
+     * Here, another convergence acceleration trick is used to compute
+     * lgam(x) :=  sum_{n=0..Inf} c_n (-x)^n
+     */
+    lgam = c * gnm_logcf(-a / 2, N + 2, 1, tol_logcf);
+    for (i = N - 1; i >= 0; i--)
+	lgam = coeffs[i] - a * lgam;
+
+    return (a * lgam - eulers_const) * a - log1pmx (a);
+} /* lgamma1p */
 
 
 
@@ -2384,13 +2453,18 @@ static gnm_float dbinom_raw(gnm_float x, gnm_float n, gnm_float p, gnm_float q, 
     if (q == 0) return((x == n) ? R_D__1 : R_D__0);
 
     if (x == 0) {
-	if(n == 0) return R_D__1;
-	lc = (p < GNM_const(0.1)) ? -bd0(n,n*q) - n*p : n*gnm_log(q);
-	return( R_D_exp(lc) );
+	// The smaller of p and q is the most accurate
+	if (p > q)
+		return give_log ? n * gnm_log(q) : gnm_pow (q, n);
+	else
+		return give_log ? n * gnm_log1p (-p) : pow1p (-p, n);
     }
     if (x == n) {
-	lc = (q < GNM_const(0.1)) ? -bd0(n,n*p) - n*q : n*gnm_log(p);
-	return( R_D_exp(lc) );
+	// The smaller of p and q is the most accurate
+	if (p > q)
+		return give_log ? n * gnm_log1p (-q) : pow1p (-q, n);
+	else
+		return give_log ? n * gnm_log (p) : gnm_pow (p, n);
     }
     if (x < 0 || x > n) return( R_D__0 );
 
@@ -5226,7 +5300,7 @@ pow1p (gnm_float x, gnm_float y)
 	 * and (2) when |x|>1/2 and we have no better algorithm.
 	 */
 
-	if ((x + 1) - x == 1 || gnm_abs (x) > GNM_const(0.5) ||
+	if ((x + 1) - 1 == x || gnm_abs (x) > GNM_const(0.5) ||
 	    gnm_isnan (x) || gnm_isnan (y))
 		return gnm_pow (1 + x, y);
 	else if (y < 0)

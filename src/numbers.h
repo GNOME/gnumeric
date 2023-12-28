@@ -164,6 +164,7 @@ typedef double gnm_float;
 #define gnm_quad_expm1 GNM_SUFFIX(go_quad_expm1)
 #define gnm_quad_floor GNM_SUFFIX(go_quad_floor)
 #define gnm_quad_init GNM_SUFFIX(go_quad_init)
+#define gnm_quad_half GNM_SUFFIX(go_quad_half)
 #define gnm_quad_ln2 GNM_SUFFIX(go_quad_ln2)
 #define gnm_quad_ln10 GNM_SUFFIX(go_quad_ln10)
 #define gnm_quad_log GNM_SUFFIX(go_quad_log)
