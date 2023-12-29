@@ -58,7 +58,6 @@
 #define M_SQRT_32       GNM_const(5.656854249492380195206754896838)  /* sqrt(32) */
 #define M_1_SQRT_2PI    GNM_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
 #define M_2PIgnum       (2 * M_PIgnum)
-#define M_LN_2PI        GNM_const(1.837877066409345483560659472811)
 #define M_1_PIgnum      GNM_const(0.318309886183790671537767526745)  /* 1/pi */
 
 #define ML_ERROR(cause) do { } while(0)
@@ -2445,41 +2444,7 @@ gnm_float pbinom(gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gbo
  */
 
 
-static gnm_float dbinom_raw(gnm_float x, gnm_float n, gnm_float p, gnm_float q, gboolean give_log)
-{
-    gnm_float lf, lc;
-
-    if (p == 0) return((x == 0) ? R_D__1 : R_D__0);
-    if (q == 0) return((x == n) ? R_D__1 : R_D__0);
-
-    if (x == 0) {
-	// The smaller of p and q is the most accurate
-	if (p > q)
-		return give_log ? n * gnm_log(q) : gnm_pow (q, n);
-	else
-		return give_log ? n * gnm_log1p (-p) : pow1p (-p, n);
-    }
-    if (x == n) {
-	// The smaller of p and q is the most accurate
-	if (p > q)
-		return give_log ? n * gnm_log1p (-q) : pow1p (-q, n);
-	else
-		return give_log ? n * gnm_log (p) : gnm_pow (p, n);
-    }
-    if (x < 0 || x > n) return( R_D__0 );
-
-    /* n*p or n*q can underflow to zero if n and p or q are small.  This
-       used to occur in dbeta, and gives NaN as from R 2.3.0.  */
-    lc = stirlerr(n) - stirlerr(x) - stirlerr(n-x) - bd0(x,n*p) - bd0(n-x,n*q);
-
-    /* f = (M_2PI*x*(n-x))/n; could overflow or underflow */
-    /* Upto R 2.7.1:
-     * lf = log(M_2PI) + log(x) + log(n-x) - log(n);
-     * -- following is much better for  x << n : */
-    lf = M_LN_2PI + gnm_log(x) + gnm_log1p(- x/n);
-
-    return R_D_exp(lc - GNM_const(0.5)*lf);
-}
+/* Definition of function dbinom_raw removed.  */
 
 gnm_float dbinom(gnm_float x, gnm_float n, gnm_float p, gboolean give_log)
 {

@@ -51,6 +51,7 @@ gnm_float qrayleigh (gnm_float p, gnm_float scale, gboolean lower_tail, gboolean
 /* ------------------------------------------------------------------------- */
 
 gnm_float dpois_raw(gnm_float x, gnm_float lambda, gboolean give_log);
+gnm_float dbinom_raw(gnm_float x, gnm_float n, gnm_float p, gnm_float q, gboolean give_log);
 
 /* ------------------------------------------------------------------------- */
 

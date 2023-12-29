@@ -241,7 +241,7 @@ sub import_file {
 		$_ = "/* Definition of function $3 removed.  */";
 	    }
 
-	    if ((/^(static\s*)?gnm_float\s*(logspace_sum|[dpq]nbinom_mu|bessel_[ik]_ex|dpois_raw)\s*\(/ && ($victim = $2)) .. /^\}/) {
+	    if ((/^(static\s*)?gnm_float\s*(dbinom_raw|logspace_sum|[dpq]nbinom_mu|bessel_[ik]_ex|dpois_raw)\s*\(/ && ($victim = $2)) .. /^\}/) {
 		if (!/^\}/) {
 		    $removing = 1;
 		    next;
@@ -284,34 +284,6 @@ sub import_file {
 
 	    if ($filename =~ m|/qbeta\.c$| && /xinbta = 0\.5;/) {
 		s/0\.5/(xinbta < lower) ? gnm_sqrt (lower) : 1 - gnm_sqrt (lower)/;
-	    }
-
-	    # Patch dbinom_raw for higher accuracy
-	    if ($filename =~ /\bdbinom\.c$/) {
-		if (/if \(x == 0\) \{/ ... /^\s*\}\s*$/) {
-		    if (/^\s*\}\s*$/) {
-			$_ = ("\t// The smaller of p and q is the most accurate\n" .
-			      "\tif (p > q)\n" .
-			      "\t\treturn give_log ? n * gnm_log(q) : gnm_pow (q, n);\n" .
-			      "\telse\n" .
-			      "\t\treturn give_log ? n * gnm_log1p (-p) : pow1p (-p, n);\n" .
-			      $_);
-		    } elsif (!/^\s*if\s/) {
-			next;
-		    }
-		}
-		if (/if \(x == n\) \{/ ... /^\s*\}\s*$/) {
-		    if (/^\s*\}\s*$/) {
-			$_ = ("\t// The smaller of p and q is the most accurate\n" .
-			      "\tif (p > q)\n" .
-			      "\t\treturn give_log ? n * gnm_log1p (-q) : pow1p (-q, n);\n" .
-			      "\telse\n" .
-			      "\t\treturn give_log ? n * gnm_log (p) : gnm_pow (p, n);\n" .
-			      $_);
-		    } elsif (!/^\s*if\s/) {
-			next;
-		    }
-		}
 	    }
 
 	    if (defined $comment) {

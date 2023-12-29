@@ -10,6 +10,8 @@
 #define R_DT_1	(lower_tail ? R_D__1 : R_D__0)
 #define M_1_SQRT_2PI    GNM_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
 #define M_SQRT_2PI GNM_const(2.506628274631000502415765284811045253006986740609938316629923)
+#define M_LN_2PI        GNM_const(1.837877066409345483560659472811)
+#define R_D_exp(x)	(log_p	?  (x)	 : gnm_exp(x))	/* exp(x) */
 
 /* ------------------------------------------------------------------------- */
 
@@ -846,4 +848,67 @@ dpois_raw(gnm_float x, gnm_float lambda, gboolean give_log)
 		res -= gnm_log (2 * M_PIgnum * x) * GNM_const(0.5);
 	}
 	return give_log ? res : gnm_exp (res);
+}
+
+gnm_float
+dbinom_raw (gnm_float x, gnm_float n, gnm_float p, gnm_float q, gboolean give_log)
+{
+	gnm_float lf, lc;
+
+	if (p == 0) return((x == 0) ? R_D__1 : R_D__0);
+	if (q == 0) return((x == n) ? R_D__1 : R_D__0);
+
+	if (x == 0) {
+		// The smaller of p and q is the most accurate
+		if (p > q)
+			return give_log ? n * gnm_log(q) : gnm_pow (q, n);
+		else
+			return give_log ? n * gnm_log1p (-p) : pow1p (-p, n);
+	}
+	if (x == n) {
+		// The smaller of p and q is the most accurate
+		if (p > q)
+			return give_log ? n * gnm_log1p (-q) : pow1p (-q, n);
+		else
+			return give_log ? n * gnm_log (p) : gnm_pow (p, n);
+	}
+	if (x < 0 || x > n) return( R_D__0 );
+
+	if (!give_log) {
+		void *state = gnm_quad_start ();
+		GnmQuad qp, qq, qx, qnmx, qf1, qf2, qf3, qf4, qf5, qres;
+		int e1, e2, e3, bad = 0;
+		gnm_float e4, e5, e;
+
+		gnm_quad_init (&qp, p);
+		gnm_quad_init (&qq, q);
+		gnm_quad_init (&qx, x);
+		gnm_quad_init (&qnmx, n - x);
+
+		bad += qfactf (n, &qf1, &e1);
+		bad += qfactf (x, &qf2, &e2);
+		bad += qfactf (n - x, &qf3, &e3);
+		// FIXME?  We should only use the smaller of p and q
+		gnm_quad_pow (&qf4, &e4, &qp, &qx);
+		gnm_quad_pow (&qf5, &e5, &qq, &qnmx);
+
+		gnm_quad_mul (&qres, &qf2, &qf3);
+		gnm_quad_div (&qres, &qf1, &qres);
+		gnm_quad_mul (&qres, &qres, &qf4);
+		gnm_quad_mul (&qres, &qres, &qf5);
+		e = e4 + e5 + e1 - e2 - e3;
+
+		gnm_quad_end (state);
+
+		if (!bad && gnm_finite (qres.h) && qres.h > 0) {
+			e = CLAMP (e, G_MININT, G_MAXINT);
+			return gnm_scalbn (gnm_quad_value (&qres), e);
+		}
+	}
+
+	// From R:
+	lc = stirlerr(n) - stirlerr(x) - stirlerr(n-x) - bd0(x,n*p) - bd0(n-x,n*q);
+	lf = M_LN_2PI + gnm_log(x) + gnm_log1p(- x/n);
+
+	return R_D_exp(lc - GNM_const(0.5)*lf);
 }
