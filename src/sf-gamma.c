@@ -1016,6 +1016,13 @@ qgammaf (gnm_float x, GnmQuad *mant, int *expb)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * combin:
+ * @n: total number of items
+ * @k: number of items to pick
+ *
+ * Returns: the binomial coefficient of @n and @k.
+ */
 gnm_float
 combin (gnm_float n, gnm_float k)
 {
