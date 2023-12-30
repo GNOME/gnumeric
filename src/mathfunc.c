@@ -6225,7 +6225,7 @@ gnm_ilog (gnm_float x, gnm_float b)
 		// This code relies on 10^i being exact
 		gnm_float l10 = gnm_log10 (x);
 		int il10 = (int)l10;
-		if (l10 == il10 && x < gnm_pow10 (il10))
+		if (x < gnm_pow10 (il10))
 			il10--;
 		return il10;
 	}
