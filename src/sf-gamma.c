@@ -1086,6 +1086,52 @@ permut (gnm_float n, gnm_float k)
 	return pochhammer (n - k + 1, k);
 }
 
+gnm_float
+gnm_fact2 (int x)
+{
+	static gnm_float table[400];
+	static gboolean init = FALSE;
+
+	if (x < 0)
+		return gnm_nan;
+	else if (x >= (int)G_N_ELEMENTS (table)) {
+		int n = x / 2;
+		if (x & 1) {
+			int e1, e2;
+			gnm_float res = gnm_factx (x, &e1) / gnm_factx (n, &e2);
+#if GNM_RADIX == 2
+			return gnm_ldexp (res, e1 - e2 - n);
+#else
+			return gnm_scalbn (gnm_ldexp (res, -n), e1 - e2);
+#endif
+		} else
+			return gnm_ldexp (gnm_fact (n), n);
+	}
+
+	if (!init) {
+		void *state = gnm_quad_start ();
+		GnmQuad p[2];
+
+		gnm_quad_init (&p[0], 1);
+		gnm_quad_init (&p[1], 1);
+		table[0] = table[1] = 1;
+
+		for (unsigned i = 2; i < G_N_ELEMENTS (table); i++) {
+			GnmQuad qi;
+			gnm_quad_init (&qi, i);
+			gnm_quad_mul (&p[i & 1], &p[i & 1], &qi);
+			table[i] = gnm_quad_value (&p[i & 1]);
+			if (isnan (table[i]))
+				table[i] = gnm_pinf;
+		}
+
+		gnm_quad_end (state);
+	}
+
+	return table[x];
+}
+
+
 /* ------------------------------------------------------------------------- */
 
 #ifdef GNM_SUPPLIES_LGAMMA

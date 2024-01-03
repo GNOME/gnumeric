@@ -16,6 +16,8 @@ gnm_complex gnm_complex_fact (gnm_complex z, int *expb);
 gnm_complex gnm_complex_igamma (gnm_complex a, gnm_complex z,
 				gboolean lower, gboolean regularized);
 
+gnm_float gnm_fact2 (int x);
+
 gnm_float gnm_digamma (gnm_float x);
 
 gnm_float gnm_lbeta (gnm_float a, gnm_float b);

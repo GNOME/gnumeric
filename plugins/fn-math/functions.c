@@ -2113,24 +2113,12 @@ static GnmValue *
 gnumeric_factdouble (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 {
-	gnm_float number = value_get_as_float (argv[0]);
-	int inumber, n;
-	gnm_float res;
+	gnm_float x = value_get_as_float (argv[0]);
 
-	if (number < 0)
+	if (x < 0)
 		return value_new_error_NUM (ei->pos);
-
-	inumber = (int)MIN (number, (gnm_float)INT_MAX);
-	n = (inumber + 1) / 2;
-
-	if (inumber & 1) {
-		gnm_float lres = gnm_lgamma (n + 0.5) + n * M_LN2gnum;
-		/* Round as the result ought to be integer.  */
-		res = gnm_round (gnm_exp (lres) / gnm_sqrt (M_PIgnum));
-	} else
-		res = gnm_fact (n) * gnm_pow2 (n);
-
-	return value_new_float (res);
+	else
+		return value_new_float (gnm_fact2 ((int)MIN(x, INT_MAX)));
 }
 
 /***************************************************************************/
