@@ -5320,7 +5320,7 @@ gnm_taylor_log1p (gnm_float x, int k)
 
 	// The actual requirement is |x| < 1 going to the edge would be
 	// painfully slow.
-	g_return_val_if_fail (gnm_abs (x) <= GNM_const(0.5), gnm_nan);
+	g_return_val_if_fail (gnm_abs (x) <= GNM_const(0.58), gnm_nan);
 
 	k = CLAMP (k, 1, (int)G_N_ELEMENTS(xn));
 	if (k == 1)
