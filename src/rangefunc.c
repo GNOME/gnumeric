@@ -225,7 +225,7 @@ gnm_range_harmonic_mean (gnm_float const *xs, int n, gnm_float *res)
 
 static void
 product_helper (gnm_float const *xs, int n,
-		gnm_float *res, int *exp2,
+		gnm_float *res, int *expb,
 		gboolean *zerop, gboolean *anynegp)
 {
 	gnm_float x0 = xs[0];
@@ -234,10 +234,10 @@ product_helper (gnm_float const *xs, int n,
 
 	if (n == 1 || *zerop) {
 		*res = x0;
-		*exp2 = 0;
+		*expb = 0;
 	} else {
 		int e;
-		gnm_float mant = gnm_frexp (x0, &e);
+		gnm_float mant = gnm_unscalbn (x0, &e);
 		int i;
 
 		for (i = 1; i < n; i++) {
@@ -247,22 +247,22 @@ product_helper (gnm_float const *xs, int n,
 			if (x == 0) {
 				*zerop = TRUE;
 				*res = 0;
-				*exp2 = 0;
+				*expb = 0;
 				return;
 			}
 			if (x < 0) *anynegp = TRUE;
 
-			mant *= gnm_frexp (x, &thise);
+			mant *= gnm_unscalbn (x, &thise);
 			e += thise;
 
-			/* Keep 0.5 < |mant| <= 1.  */
-			if (gnm_abs (mant) <= GNM_const(0.5)) {
-				mant *= 2;
+			/* Keep 1/base < |mant| <= 1.  */
+			if (gnm_abs (mant) <= GNM_const(1.) / GNM_RADIX) {
+				mant *= GNM_RADIX;
 				e--;
 			}
 		}
 
-		*exp2 = e;
+		*expb = e;
 		*res = mant;
 	}
 }
@@ -272,21 +272,21 @@ product_helper (gnm_float const *xs, int n,
 int
 gnm_range_geometric_mean (gnm_float const *xs, int n, gnm_float *res)
 {
-	int exp2;
+	int expb;
 	gboolean zerop, anynegp;
 
 	if (n < 1)
 		return 1;
 
-	product_helper (xs, n, res, &exp2, &zerop, &anynegp);
+	product_helper (xs, n, res, &expb, &zerop, &anynegp);
 	if (zerop || anynegp)
-		return 1;
+		return anynegp;
 
-	/* Now compute (res * 2^exp2) ^ (1/n).  */
-	if (exp2 >= 0)
-		*res = gnm_pow (*res * gnm_pow2 (exp2 % n), 1.0 / n) * gnm_pow2 (exp2 / n);
+	/* Now compute (res * base^expb) ^ (1/n).  */
+	if (expb >= 0)
+		*res = gnm_scalbn (gnm_pow (gnm_scalbn (*res, expb % n), 1.0 / n), expb / n);
 	else
-		*res = gnm_pow (*res / gnm_pow2 ((-exp2) % n), 1.0 / n) / gnm_pow2 ((-exp2) / n);
+		*res = gnm_scalbn (gnm_pow (gnm_scalbn (*res, -((-expb) % n)), 1.0 / n), expb / n);
 
 	return 0;
 }
@@ -299,12 +299,12 @@ gnm_range_product (gnm_float const *xs, int n, gnm_float *res)
 	if (n == 0) {
 		*res = 1;
 	} else {
-		int exp2;
+		int expb;
 		gboolean zerop, anynegp;
 
-		product_helper (xs, n, res, &exp2, &zerop, &anynegp);
-		if (exp2)
-			*res = gnm_ldexp (*res, exp2);
+		product_helper (xs, n, res, &expb, &zerop, &anynegp);
+		if (expb)
+			*res = gnm_scalbn (*res, expb);
 	}
 
 	return 0;

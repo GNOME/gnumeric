@@ -131,11 +131,6 @@ static inline gnm_complex GNM_CSCALE(gnm_complex c, gnm_float s)
 {
 	return GNM_CMAKE (c.re * s, c.im * s);
 }
-static inline gnm_complex GNM_CLDEXP(gnm_complex c, gnm_float e)
-{
-	int ie = (int)CLAMP (e, G_MININT, G_MAXINT);
-	return GNM_CMAKE (gnm_ldexp (c.re, ie), gnm_ldexp (c.im, ie));
-}
 
 static inline gnm_complex GNM_CEXPPI(gnm_complex c)
 {
