@@ -1961,6 +1961,136 @@ gnumeric_sort (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	return result;
 }
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_unique[] = {
+	{ GNM_FUNC_HELP_NAME, F_("UNIQUE:unique values in a range or array")},
+	{ GNM_FUNC_HELP_ARG, F_("data:range or array")},
+	{ GNM_FUNC_HELP_ARG, F_("by_col:by column if TRUE, by row otherwise; defaults to FALSE")},
+	{ GNM_FUNC_HELP_ARG, F_("exactly_once:suppress values present multiple times; defaults to FALSE")},
+	{ GNM_FUNC_HELP_SEEALSO, ("SORT")},
+	{ GNM_FUNC_HELP_END }
+};
+
+static gsize
+hash_col_row (GnmValue const *data, GnmEvalPos const * const ep,
+	      gboolean by_col, int i)
+{
+	int size = by_col ? value_area_get_height (data, ep) : value_area_get_width (data, ep);
+	int j;
+	gsize h = 0;
+
+	for (j = 0; j < size; j++) {
+		GnmValue const *v = by_col
+			? value_area_get_x_y (data, i, j, ep)
+			: value_area_get_x_y (data, j, i, ep);
+		h ^= value_hash (v);
+		h ^= h >> 23;
+		h *= 0x2127599bf4325c37ULL;
+	}
+	return h;
+}
+
+static int
+compare_col_row (GnmValue const *data, GnmEvalPos const * const ep,
+		 gboolean by_col, int i1, int i2)
+{
+	int size = by_col ? value_area_get_height (data, ep) : value_area_get_width (data, ep);
+	int j;
+
+	for (j = 0; j < size; j++) {
+		GnmValue const *v1 = by_col
+			? value_area_get_x_y (data, i1, j, ep)
+			: value_area_get_x_y (data, j, i1, ep);
+		GnmValue const *v2 = by_col
+			? value_area_get_x_y (data, i2, j, ep)
+			: value_area_get_x_y (data, j, i2, ep);
+		if (!value_equal (v1, v2))
+			return 1;
+	}
+	return 0;
+}
+
+static GnmValue *
+gnumeric_unique (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	GnmEvalPos const * const ep = ei->pos;
+        GnmValue const * const data = argv[0];
+	gboolean by_col = argv[1] ? value_get_as_checked_bool (argv[1]) : FALSE;
+	gboolean exactly_once = argv[2] ? value_get_as_checked_bool (argv[2]) : FALSE;
+	int i, sx, sy, x, y, count, rcount;
+	guint8 *keep;
+	GnmValue *res;
+	GHashTable *seen;
+
+	sx = value_area_get_width (data, ep);
+	sy = value_area_get_height (data, ep);
+	count = by_col ? sx : sy;
+
+	keep = g_new0 (guint8, count);
+	seen = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+				      NULL, (GDestroyNotify)g_slist_free);
+	for (i = 0; i < count; i++) {
+		gsize h = hash_col_row (data, ep, by_col, i);
+		GSList *l, *items = g_hash_table_lookup (seen, GSIZE_TO_POINTER (h));
+		gboolean found = FALSE;
+
+		for (l = items; l; l = l->next) {
+			int i2 = GPOINTER_TO_INT (l->data);
+			if (compare_col_row (data, ep, by_col, i, i2) == 0) {
+				found = TRUE;
+				if (exactly_once)
+					keep[i2] = 2;
+				break;
+			}
+		}
+		if (!found) {
+			keep[i] = 1;
+			if (items)
+				items->next = g_slist_prepend (items->next, GINT_TO_POINTER (i));
+			else
+				g_hash_table_insert (seen, GSIZE_TO_POINTER (h),
+						     g_slist_prepend (NULL, GINT_TO_POINTER (i)));
+		}
+	}
+
+	rcount = 0;
+	for (i = 0; i < count; i++) {
+		if (exactly_once && keep[i] > 1) keep[i] = 0;
+		rcount += keep[i];
+	}
+
+	if (by_col) {
+		res = value_new_array_empty (rcount, sy);
+		for (i = x = 0; x < sx; x++) {
+			if (!keep[x])
+				continue;
+			for (y = 0; y < sy; y++) {
+				GnmValue const *v = value_area_get_x_y (data, x, y, ep);
+				res->v_array.vals[i][y] = value_dup (v);
+			}
+			i++;
+		}
+	} else {
+		res = value_new_array_empty (sx, rcount);
+		for (i = y = 0; y < sy; y++) {
+			if (!keep[y])
+				continue;
+			for (x = 0; x < sx; x++) {
+				GnmValue const *v = value_area_get_x_y (data, x, y, ep);
+				res->v_array.vals[x][i] = value_dup (v);
+			}
+			i++;
+		}
+	}
+
+	g_hash_table_destroy (seen);
+
+	g_free (keep);
+	return res;
+}
+
 /***************************************************************************/
 
 GnmFuncDescriptor const lookup_functions[] = {
@@ -2017,10 +2147,13 @@ GnmFuncDescriptor const lookup_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "sort",         "r|f",
 	  help_sort, gnumeric_sort, NULL,
-	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_SUBSET, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "transpose", "A",
 	  help_transpose, gnumeric_transpose, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "unique",       "A|bb",
+	  help_unique, gnumeric_unique, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_SUBSET, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "vlookup",   "EAf|bb",
 	  help_vlookup, gnumeric_vlookup, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
