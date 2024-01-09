@@ -1709,6 +1709,7 @@ value_compare_real (GnmValue const *a, GnmValue const *b,
 	return res;
 }
 #undef PAIR
+#undef CPAIR
 
 
 GnmValDiff

@@ -1985,14 +1985,22 @@ hash_col_row (GnmValue const *data, GnmEvalPos const * const ep,
 		GnmValue const *v = by_col
 			? value_area_get_x_y (data, i, j, ep)
 			: value_area_get_x_y (data, j, i, ep);
-		h ^= value_hash (v);
+		gsize h1;
+		if (value_type_of (v) == VALUE_STRING) {
+			char *s = g_utf8_casefold (value_peek_string (v), -1);
+			h1 = g_str_hash (s);
+			g_free (s);
+		} else
+			h1 = value_hash (v);
+
+		h ^= h1;
 		h ^= h >> 23;
 		h *= 0x2127599bf4325c37ULL;
 	}
 	return h;
 }
 
-static int
+static GnmValDiff
 compare_col_row (GnmValue const *data, GnmEvalPos const * const ep,
 		 gboolean by_col, int i1, int i2)
 {
@@ -2003,13 +2011,18 @@ compare_col_row (GnmValue const *data, GnmEvalPos const * const ep,
 		GnmValue const *v1 = by_col
 			? value_area_get_x_y (data, i1, j, ep)
 			: value_area_get_x_y (data, j, i1, ep);
+		GnmValueType t1 = value_type_of (v1);
 		GnmValue const *v2 = by_col
 			? value_area_get_x_y (data, i2, j, ep)
 			: value_area_get_x_y (data, j, i2, ep);
-		if (!value_equal (v1, v2))
-			return 1;
+		GnmValueType t2 = value_type_of (v2);
+
+		return t1 == t2
+			? value_compare (v1, v2, FALSE)
+			: (t1 < t2 ? IS_LESS : IS_GREATER);
 	}
-	return 0;
+
+	return IS_EQUAL;
 }
 
 static GnmValue *
@@ -2038,7 +2051,7 @@ gnumeric_unique (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 		for (l = items; l; l = l->next) {
 			int i2 = GPOINTER_TO_INT (l->data);
-			if (compare_col_row (data, ep, by_col, i, i2) == 0) {
+			if (compare_col_row (data, ep, by_col, i, i2) == IS_EQUAL) {
 				found = TRUE;
 				if (exactly_once)
 					keep[i2] = 2;
@@ -2061,7 +2074,9 @@ gnumeric_unique (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		rcount += keep[i];
 	}
 
-	if (by_col) {
+	if (rcount == 0)
+		res = value_new_error_VALUE (ep);
+	else if (by_col) {
 		res = value_new_array_empty (rcount, sy);
 		for (i = x = 0; x < sx; x++) {
 			if (!keep[x])
