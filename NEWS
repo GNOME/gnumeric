@@ -5,6 +5,7 @@ Morten:
 	* Fix ods auto-filter import problem.
 	* Fix xml import and export of auto-filters.
 	* New UNIQUE function.
+	* New FLT.RADIX and FLT.NEXTAFTER functions (for testing).
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.56

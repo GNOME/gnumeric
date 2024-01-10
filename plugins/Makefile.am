@@ -1,8 +1,8 @@
 SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif qpro \
 	plan-perfect applix openoffice mps
 SUBDIRS_FUNCTIONS = fn-numtheory fn-christian-date fn-database fn-date \
-	fn-eng fn-erlang \
-	fn-financial fn-hebrew-date fn-info fn-logical fn-complex fn-lookup \
+	fn-eng fn-erlang fn-financial fn-flt \
+	fn-hebrew-date fn-info fn-logical fn-complex fn-lookup \
 	fn-math fn-r fn-stat fn-string fn-random fn-tsa fn-derivatives
 SUBDIRS_LOADERS = excelplugins
 SUBDIRS_DATA_SOURCES = sample_datasource

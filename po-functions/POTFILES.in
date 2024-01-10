@@ -23,6 +23,7 @@ plugins/fn-derivatives/options.c
 plugins/fn-eng/functions.c
 plugins/fn-erlang/functions.c
 plugins/fn-financial/functions.c
+plugins/fn-flt/functions.c
 plugins/fn-hebrew-date/functions.c
 plugins/fn-hebrew-date/hdate_strings.c
 plugins/fn-info/functions.c

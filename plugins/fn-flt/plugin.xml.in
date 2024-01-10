@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fnflt">
+	<information>
+		<_name>Floating Point Functions</_name>
+		<_description>Functions manipulating floating point value</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="flt">
+			<_category>Floating Point</_category>
+			<functions textdomain="gnumeric-VERSION-functions">
+				<function name="flt.nextafter"/>
+				<function name="flt.radix"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

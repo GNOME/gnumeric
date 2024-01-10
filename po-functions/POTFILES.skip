@@ -32,6 +32,7 @@ plugins/fn-derivatives/plugin.xml.in
 plugins/fn-eng/plugin.xml.in
 plugins/fn-erlang/plugin.xml.in
 plugins/fn-financial/plugin.xml.in
+plugins/fn-flt/plugin.xml.in
 plugins/fn-hebrew-date/plugin.xml.in
 plugins/fn-info/plugin.xml.in
 plugins/fn-logical/plugin.xml.in

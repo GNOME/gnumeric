@@ -40,6 +40,8 @@ plugins/fn-erlang/functions.c
 plugins/fn-erlang/plugin.xml.in
 plugins/fn-financial/functions.c
 plugins/fn-financial/plugin.xml.in
+plugins/fn-flt/functions.c
+plugins/fn-flt/plugin.xml.in
 plugins/fn-hebrew-date/functions.c
 plugins/fn-hebrew-date/hdate_strings.c
 plugins/fn-hebrew-date/plugin.xml.in

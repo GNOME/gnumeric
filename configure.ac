@@ -1220,6 +1220,7 @@ plugins/fn-derivatives/Makefile
 plugins/fn-eng/Makefile
 plugins/fn-erlang/Makefile
 plugins/fn-financial/Makefile
+plugins/fn-flt/Makefile
 plugins/fn-hebrew-date/Makefile
 plugins/fn-info/Makefile
 plugins/fn-logical/Makefile
