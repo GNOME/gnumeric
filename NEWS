@@ -4,6 +4,7 @@ Morten:
 	* Fix touchpad scrolling on Wayland.  [#678]
 	* Fix ods auto-filter import problem.
 	* Fix xml import and export of auto-filters.
+	* Fix problem with percent-of-range auto-filters with blanks.
 	* New UNIQUE function.
 	* New FLT.RADIX and FLT.NEXTAFTER functions (for testing).
 

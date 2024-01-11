@@ -3,6 +3,7 @@
  * sheet-filter.c: support for 'auto-filters'
  *
  * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2024 Morten Welinder <terra@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -117,6 +118,10 @@ gnm_filter_condition_new_double (GnmFilterOp op0, GnmValue *v0,
 	return res;
 }
 
+// Absolute    RelRange      Result
+// T           -             TOP_N
+// F           T             TOP_N_PERCENT
+// F           F             TOP_N_PERCENT_N
 GnmFilterCondition *
 gnm_filter_condition_new_bucket (gboolean top, gboolean absolute,
 				 gboolean rel_range, double n)
@@ -342,99 +347,54 @@ cb_filter_blanks (GnmCellIter const *iter, Sheet *target_sheet)
 /*****************************************************************************/
 
 typedef struct {
-	unsigned count;
-	unsigned elements;
 	gboolean find_max;
-	GnmValue const **vals;
-	Sheet	*target_sheet;
+	Sheet *target_sheet;
+
+	unsigned elements;
+	GPtrArray *vals;
 } FilterItems;
 
 static GnmValue *
-cb_filter_find_items (GnmCellIter const *iter, FilterItems *data)
+cb_collect_values (GnmCellIter const *iter, FilterItems *data)
 {
-	GnmValue const *v = iter->cell->value;
-	if (data->elements >= data->count) {
-		unsigned j, i = data->elements;
-		GnmValDiff const cond = data->find_max ? IS_GREATER : IS_LESS;
-		while (i-- > 0)
-			if (value_compare (v, data->vals[i], TRUE) == cond) {
-				for (j = 0; j < i ; j++)
-					data->vals[j] = data->vals[j+1];
-				data->vals[i] = v;
-				break;
-			}
-	} else {
-		data->vals [data->elements++] = v;
-		if (data->elements == data->count) {
-			qsort (data->vals, data->elements,
-			       sizeof (GnmValue *),
-			       data->find_max ? value_cmp : value_cmp_reverse);
-		}
-	}
+	GnmValue *v = iter->cell->value;
+	g_ptr_array_add (data->vals, v);
 	return NULL;
 }
 
-static GnmValue *
-cb_hide_unwanted_items (GnmCellIter const *iter, FilterItems const *data)
+static void
+collect_values (FilterItems *data, Sheet *sheet, GnmRange const *range)
 {
-	if (iter->cell != NULL) {
-		int i = data->elements;
-		GnmValue const *v = iter->cell->value;
+	CellIterFlags flags = CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK;
+	data->vals = g_ptr_array_new ();
+	sheet_foreach_cell_in_range (sheet, flags, range,
+				     (CellIterFunc)cb_collect_values, data);
+	g_ptr_array_sort (data->vals,
+			  data->find_max ? value_cmp_reverse : value_cmp);
+}
 
-		while (i-- > 0)
-			if (data->vals[i] == v)
-				return NULL;
-	}
+static GnmValue *
+cb_hide_unwanted_rows (GnmCellIter const *iter, FilterItems const *data)
+{
+	if (iter->cell &&
+	    g_ptr_array_find (data->vals, iter->cell->value, NULL))
+		return NULL;
+
 	colrow_set_visibility (data->target_sheet, FALSE, FALSE,
-		iter->pp.eval.row, iter->pp.eval.row);
+			       iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;
 }
 
-/*****************************************************************************/
-
-typedef struct {
-	gboolean	 initialized, find_max;
-	gnm_float	 low, high;
-	Sheet		*target_sheet;
-} FilterPercentage;
-
-static GnmValue *
-cb_filter_find_percentage (GnmCellIter const *iter, FilterPercentage *data)
+static void
+hide_unwanted_rows (FilterItems *data, Sheet *sheet, GnmRange const *range)
 {
-	if (VALUE_IS_NUMBER (iter->cell->value)) {
-		gnm_float const v = value_get_as_float (iter->cell->value);
-
-		if (data->initialized) {
-			if (data->low > v)
-				data->low = v;
-			else if (data->high < v)
-				data->high = v;
-		} else {
-			data->initialized = TRUE;
-			data->low = data->high = v;
-		}
-	}
-	return NULL;
+	CellIterFlags flags = CELL_ITER_IGNORE_HIDDEN;
+	data->target_sheet = sheet;
+	sheet_foreach_cell_in_range (sheet, flags, range,
+				     (CellIterFunc) cb_hide_unwanted_rows, data);
 }
 
-static GnmValue *
-cb_hide_unwanted_percentage (GnmCellIter const *iter,
-			     FilterPercentage const *data)
-{
-	if (iter->cell != NULL && VALUE_IS_NUMBER (iter->cell->value)) {
-		gnm_float const v = value_get_as_float (iter->cell->value);
-		if (data->find_max) {
-			if (v >= data->high)
-				return NULL;
-		} else {
-			if (v <= data->low)
-				return NULL;
-		}
-	}
-	colrow_set_visibility (data->target_sheet, FALSE, FALSE,
-		iter->pp.eval.row, iter->pp.eval.row);
-	return NULL;
-}
+
 /*****************************************************************************/
 
 int
@@ -460,6 +420,7 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 	GnmFilterCondition const *cond;
 	int col, start_row, end_row;
 	CellIterFlags iter_flags = CELL_ITER_IGNORE_HIDDEN;
+	GnmRange r;
 
 	g_return_if_fail (GNM_IS_FILTER_COMBO (fcombo));
 
@@ -468,6 +429,7 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 	col = sheet_object_get_range (GNM_SO (fcombo))->start.col;
 	start_row = filter->r.start.row + 1;
 	end_row = filter->r.end.row;
+	range_init (&r, col, start_row, col, end_row);
 
 	if (start_row > end_row ||
 	    cond == NULL ||
@@ -490,82 +452,70 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 		if (cond->op[1] != GNM_FILTER_UNUSED)
 			filter_expr_init (&data, 1, cond, filter);
 
-		sheet_foreach_cell_in_region (filter->sheet,
-			iter_flags,
-			col, start_row, col, end_row,
-			(CellIterFunc) cb_filter_expr, &data);
+		sheet_foreach_cell_in_range (filter->sheet, iter_flags, &r,
+					     (CellIterFunc) cb_filter_expr, &data);
 
 		filter_expr_release (&data, 0);
 		if (cond->op[1] != GNM_FILTER_UNUSED)
 			filter_expr_release (&data, 1);
 	} else if (cond->op[0] == GNM_FILTER_OP_BLANKS)
-		sheet_foreach_cell_in_region (filter->sheet,
-			CELL_ITER_IGNORE_HIDDEN,
-			col, start_row, col, end_row,
-			(CellIterFunc) cb_filter_blanks, target_sheet);
+		sheet_foreach_cell_in_range (filter->sheet,
+					     CELL_ITER_IGNORE_HIDDEN,
+					     &r,
+					     (CellIterFunc) cb_filter_blanks, target_sheet);
 	else if (cond->op[0] == GNM_FILTER_OP_NON_BLANKS)
-		sheet_foreach_cell_in_region (filter->sheet,
-			CELL_ITER_IGNORE_HIDDEN,
-			col, start_row, col, end_row,
-			(CellIterFunc) cb_filter_non_blanks, target_sheet);
+		sheet_foreach_cell_in_range (filter->sheet,
+					     CELL_ITER_IGNORE_HIDDEN,
+					     &r,
+					     (CellIterFunc) cb_filter_non_blanks, target_sheet);
 	else if (0x30 == (cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
+		FilterItems data;
+		data.find_max = (cond->op[0] & 0x1) ? FALSE : TRUE;
+		collect_values (&data, filter->sheet, &r);
+
 		if (cond->op[0] & GNM_FILTER_OP_PERCENT_MASK) { /* relative */
 			if (cond->op[0] & GNM_FILTER_OP_REL_N_MASK) {
-				FilterItems data;
-				data.find_max = (cond->op[0] & 0x1) ? FALSE : TRUE;
-				data.elements    = 0;
-				data.count  = 0.5 + cond->count * (end_row - start_row + 1) /100.;
-				if (data.count < 1)
-					data.count = 1;
-				data.vals   = g_new (GnmValue const *, data.count);
-				sheet_foreach_cell_in_region (filter->sheet,
-							     CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
-							     col, start_row, col, end_row,
-							     (CellIterFunc) cb_filter_find_items, &data);
-				data.target_sheet = target_sheet;
-				sheet_foreach_cell_in_region (filter->sheet,
-							     CELL_ITER_IGNORE_HIDDEN,
-							     col, start_row, col, end_row,
-							     (CellIterFunc) cb_hide_unwanted_items, &data);
-				g_free (data.vals);
+				double n = 0.5 + data.vals->len * CLAMP (cond->count, 0.0, 100.0) / 100.0;
+				g_ptr_array_set_size (data.vals, MAX (1, n));
 			} else {
-				FilterPercentage data;
-				gnm_float	 offset;
+				gnm_float low = 0, high = 0, cutoff;
+				gboolean first = TRUE;
+				unsigned ui;
 
-				data.find_max = (cond->op[0] & 0x1) ? FALSE : TRUE;
-				data.low = data.high = 0;
-				data.initialized = FALSE;
-				sheet_foreach_cell_in_region (filter->sheet,
-							      CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
-							      col, start_row, col, end_row,
-							      (CellIterFunc) cb_filter_find_percentage, &data);
-				offset = (data.high - data.low) * (gnm_float)(cond->count / 100.0);
-				data.high -= offset;
-				data.low  += offset;
-				data.target_sheet = target_sheet;
-				sheet_foreach_cell_in_region (filter->sheet,
-							     CELL_ITER_IGNORE_HIDDEN,
-							     col, start_row, col, end_row,
-							     (CellIterFunc) cb_hide_unwanted_percentage, &data);
+				// Find range of values
+				for (ui = 0; ui < data.vals->len; ui++) {
+					GnmValue const *v = g_ptr_array_index (data.vals, ui);
+					gnm_float x;
+					if (!VALUE_IS_NUMBER (v))
+						continue;
+					x = value_get_as_float (v);
+					if (first || x < low) low = x;
+					if (first || x > high) high = x;
+					first = FALSE;
+				}
+
+				cutoff = data.find_max
+					? high - (high - low) * (gnm_float)(cond->count / 100.0)
+					: low + (high - low) * (gnm_float)(cond->count / 100.0);
+
+				// Eliminate values beyond cutoff (as well as anything not a number)
+				for (ui = 0; ui < data.vals->len; ui++) {
+					GnmValue const *v = g_ptr_array_index (data.vals, ui);
+					if (VALUE_IS_NUMBER (v)) {
+						gnm_float x = value_get_as_float (v);
+						if (data.find_max ? x >= cutoff : x <= cutoff)
+							continue;
+					}
+					g_ptr_array_remove_index_fast (data.vals, ui);
+					ui--;
+				}
 			}
 		} else { /* absolute */
-			FilterItems data;
-			data.find_max = (cond->op[0] & 0x1) ? FALSE : TRUE;
-			data.elements    = 0;
-			data.count  = cond->count;
-			data.vals   = g_new (GnmValue const *, data.count);
-
-			sheet_foreach_cell_in_region (filter->sheet,
-				CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
-				col, start_row, col, end_row,
-				(CellIterFunc) cb_filter_find_items, &data);
-			data.target_sheet = target_sheet;
-			sheet_foreach_cell_in_region (filter->sheet,
-				CELL_ITER_IGNORE_HIDDEN,
-				col, start_row, col, end_row,
-				(CellIterFunc) cb_hide_unwanted_items, &data);
-			g_free (data.vals);
+			size_t n = CLAMP (cond->count, 0, data.vals->len);
+			g_ptr_array_set_size (data.vals, n);
 		}
+		hide_unwanted_rows (&data, target_sheet, &r);
+		g_ptr_array_free (data.vals, TRUE);
 	} else
 		g_warning ("Invalid operator %d", cond->op[0]);
 }

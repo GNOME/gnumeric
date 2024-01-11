@@ -1221,6 +1221,7 @@
 	<!-- Only valid for Type=bucket -->
 	<xs:attribute name="top"   type="xs:boolean" use="optional"/> <!-- top vs bottom -->
 	<xs:attribute name="items" type="xs:boolean" use="optional"/> <!-- top n vs top n% -->
+	<xs:attribute name="rel_range" type="xs:boolean"  use="optional"/> <!-- % of range -->
 	<xs:attribute name="count" type="xs:double"  use="optional"/> <!-- top COUNT -->
 
 	<xs:anyAttribute namespace="##other" processContents="lax"/>

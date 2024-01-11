@@ -2,6 +2,7 @@
  * dialog-autofilter.c:  A pair of dialogs for autofilter conditions
  *
  * (c) Copyright 2002 Jody Goldberg <jody@gnome.org>
+ * (C) Copyright 2024 Morten Welinder <terra@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -208,7 +209,7 @@ cb_top10_count_changed (GtkSpinButton *button,
 	/* xgettext : %d gives the number of items in the autofilter. */
 	/* This is input to ngettext. */
 	label = g_strdup_printf (ngettext ("Show the largest item",
-					   "Show the %3d largest items",
+					   "Show the %d largest items",
 					   cval),
 				 cval);
 	gtk_button_set_label (GTK_BUTTON (w),label);
@@ -218,7 +219,7 @@ cb_top10_count_changed (GtkSpinButton *button,
 	/* xgettext : %d gives the number of items in the autofilter. */
 	/* This is input to ngettext. */
 	label = g_strdup_printf (ngettext ("Show the smallest item",
-					   "Show the %3d smallest items",
+					   "Show the %d smallest items",
 					   cval),
 				 cval);
 	gtk_button_set_label (GTK_BUTTON (w),label);
@@ -231,8 +232,8 @@ cb_top10_count_changed (GtkSpinButton *button,
 	/* xgettext : %d gives the percentage of the data range in the autofilter. */
 	/* This is input to ngettext. */
 	label = g_strdup_printf
-		(ngettext ("Show the items in the top %3d%% of the data range",
-			   "Show the items in the top %3d%% of the data range", val),
+		(ngettext ("Show the items in the top %d%% of the data range",
+			   "Show the items in the top %d%% of the data range", val),
 		 val);
 	gtk_button_set_label (GTK_BUTTON (w),label);
 	g_free(label);
@@ -241,8 +242,8 @@ cb_top10_count_changed (GtkSpinButton *button,
 	/* xgettext : %d gives the percentage of the data range in the autofilter. */
 	/* This is input to ngettext. */
 	label = g_strdup_printf
-		(ngettext ("Show the items in the bottom %3d%% of the data range",
-			   "Show the items in the bottom %3d%% of the data range", val),
+		(ngettext ("Show the items in the bottom %d%% of the data range",
+			   "Show the items in the bottom %d%% of the data range", val),
 		 val);
 	gtk_button_set_label (GTK_BUTTON (w),label);
 	g_free(label);
@@ -252,8 +253,8 @@ cb_top10_count_changed (GtkSpinButton *button,
 	/* xgettext : %d gives the percentage of item number in the autofilter. */
 	/* This is input to ngettext. */
 	label = g_strdup_printf
-		(ngettext ("Show the top %3d%% of all items",
-			   "Show the top %3d%% of all items", val),
+		(ngettext ("Show the top %d%% of all items",
+			   "Show the top %d%% of all items", val),
 		 val);
 	gtk_button_set_label (GTK_BUTTON (w),label);
 	g_free(label);
@@ -262,13 +263,11 @@ cb_top10_count_changed (GtkSpinButton *button,
 	/* xgettext : %d gives the percentage of the item number in the autofilter. */
 	/* This is input to ngettext. */
 	label = g_strdup_printf
-		(ngettext ("Show the bottom %3d%% of all items",
-			   "Show the bottom %3d%% of all items", val),
+		(ngettext ("Show the bottom %d%% of all items",
+			   "Show the bottom %d%% of all items", val),
 		 val);
 	gtk_button_set_label (GTK_BUTTON (w),label);
 	g_free(label);
-
-
 }
 
 static void

@@ -3,6 +3,7 @@
  *			like wrappers in libgsf
  *
  * Copyright (C) 2003-2007 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2024 Morten Welinder <terra@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -1026,9 +1027,10 @@ xml_write_filter_field (GnmOutputXML *state,
 		gsf_xml_out_add_bool (state->output, "top",
 				      !(cond->op[0] & GNM_FILTER_OP_BOTTOM_MASK));
 		gsf_xml_out_add_bool (state->output, "items",
-				      !(cond->op[0] & 2));
+				      !(cond->op[0] & GNM_FILTER_OP_PERCENT_MASK));
+		gsf_xml_out_add_bool (state->output, "rel_range",
+				      !(cond->op[0] & GNM_FILTER_OP_REL_N_MASK));
 		go_xml_out_add_double (state->output, "count", cond->count);
-		// FIXME: no support for GNM_FILTER_OP_TOP_N_PERCENT_N
 		break;
 	}
 

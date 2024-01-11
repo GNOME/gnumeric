@@ -1,9 +1,8 @@
-
 /*
  * xml-sax-read.c : a sax based parser.
  *
  * Copyright (C) 2000-2007 Jody Goldberg (jody@gnome.org)
- * Copyright (C) 2007-2009 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2007-2024 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -2392,7 +2391,7 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmValueType vtype0 = VALUE_EMPTY, vtype1 = VALUE_EMPTY;
 	GnmFilterOp op0 = GNM_FILTER_UNUSED, op1 = GNM_FILTER_UNUSED;
 	GnmFilterCondition *cond = NULL;
-	gboolean top = TRUE, items = TRUE, is_and = FALSE;
+	gboolean top = TRUE, items = TRUE, rel_range = TRUE, is_and = FALSE;
 	int tmp, cond_num = 0;
 	double bucket_count = 10.;
 
@@ -2403,6 +2402,7 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_int (attrs, "Index", &cond_num)) ;
 		else if (gnm_xml_attr_bool (attrs, "top", &top)) ;
 		else if (gnm_xml_attr_bool (attrs, "items", &items)) ;
+		else if (gnm_xml_attr_bool (attrs, "rel_range", &rel_range)) ;
 		else if (gnm_xml_attr_double (attrs, "count", &bucket_count));
 		else if (gnm_xml_attr_bool (attrs, "IsAnd", &is_and)) ;
 		else if (attr_eq (attrs[0], "Op0")) xml_sax_filter_operator (state, &op0, attrs[1]);
@@ -2444,9 +2444,8 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 		cond = gnm_filter_condition_new_single (
 			GNM_FILTER_OP_NON_BLANKS, NULL);
 	} else if (0 == g_ascii_strcasecmp (type, "bucket")) {
-		// FIXME: no support for GNM_FILTER_OP_TOP_N_PERCENT_N
 		cond = gnm_filter_condition_new_bucket
-			(top, items, TRUE, bucket_count);
+			(top, items, rel_range, bucket_count);
 	} else {
 		go_io_warning (state->context, _("Unknown filter type \"%s\""), type);
 	}

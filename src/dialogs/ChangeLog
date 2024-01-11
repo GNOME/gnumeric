@@ -1,3 +1,8 @@
+2024-01-11  Morten Welinder  <terra@gnome.org>
+
+	* dialog-autofilter.c (cb_top10_count_changed): Drop the field
+	width ("%3d") in labels.  We aren't trying to align anything.
+
 2023-11-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.56
