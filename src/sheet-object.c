@@ -102,7 +102,7 @@ enum {
 	UNREALIZED,
 	LAST_SIGNAL
 };
-static guint	     signals [LAST_SIGNAL] = { 0 };
+static guint	     signals[LAST_SIGNAL] = { 0 };
 static GObjectClass *parent_klass;
 static GQuark	sov_so_quark;
 static GQuark	sov_container_quark;
@@ -265,7 +265,7 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 {
 	unsigned i;
 	if (so->sheet->sheet_type == GNM_SHEET_OBJECT) {
-		static SheetObjectAction const so_actions [] = {
+		static SheetObjectAction const so_actions[] = {
 			{ "gtk-properties",	NULL,		NULL,  0, sheet_object_get_editor, sheet_object_can_prop},
 			{ NULL,	NULL, NULL, 0, NULL, NULL },
 			{ "edit-copy",		N_("_Copy"),		NULL,  0, cb_so_copy, NULL },
@@ -273,7 +273,7 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 		for (i = 0 ; i < G_N_ELEMENTS (so_actions); i++)
 			g_ptr_array_add (actions, (gpointer) (so_actions + i));
 	} else {
-		static SheetObjectAction const so_actions [] = {
+		static SheetObjectAction const so_actions[] = {
 			{ GTK_STOCK_PROPERTIES,	        NULL, NULL,  0, sheet_object_get_editor, sheet_object_can_prop},
 			{ NULL,	NULL, NULL, 0, NULL, NULL },
 #warning "Two highly dubious icon names here"
@@ -384,7 +384,7 @@ sheet_object_init (GObject *object)
 	so->anchor.base.direction = GOD_ANCHOR_DIR_UNKNOWN;
 
 	for (i = 4; i-- > 0 ;)
-		so->anchor.offset [i] = 0.;
+		so->anchor.offset[i] = 0.;
 }
 
 static void
@@ -419,14 +419,14 @@ sheet_object_class_init (GObjectClass *klass)
 		 g_param_spec_string ("name", NULL, NULL, NULL,
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
-	signals [BOUNDS_CHANGED] = g_signal_new ("bounds-changed",
+	signals[BOUNDS_CHANGED] = g_signal_new ("bounds-changed",
 		GNM_SO_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (SheetObjectClass, bounds_changed),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-	signals [UNREALIZED] = g_signal_new ("unrealized",
+	signals[UNREALIZED] = g_signal_new ("unrealized",
 		GNM_SO_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (SheetObjectClass, unrealized),
@@ -523,7 +523,7 @@ sheet_object_update_bounds (SheetObject *so, GnmCellPos const *pos)
 	else
 		so->flags |= SHEET_OBJECT_IS_VISIBLE;
 
-	g_signal_emit (so, signals [BOUNDS_CHANGED], 0);
+	g_signal_emit (so, signals[BOUNDS_CHANGED], 0);
 }
 
 /**
@@ -667,7 +667,7 @@ sheet_object_clear_sheet (SheetObject *so)
 		so->realized_list = g_list_remove (so->realized_list, so->realized_list->data);
 
 	}
-	g_signal_emit (so, signals [UNREALIZED], 0);
+	g_signal_emit (so, signals[UNREALIZED], 0);
 
 	if (SO_CLASS (so)->remove_from_sheet &&
 	    SO_CLASS (so)->remove_from_sheet (so))
@@ -961,37 +961,37 @@ sheet_object_anchor_to_pts (SheetObjectAnchor const *anchor,
 	r = &anchor->cell_bound;
 
 	if (anchor->mode != GNM_SO_ANCHOR_ABSOLUTE) {
-		res_pts [0] = sheet_col_get_distance_pts (sheet, 0,
+		res_pts[0] = sheet_col_get_distance_pts (sheet, 0,
 			r->start.col);
-		res_pts [1] = sheet_row_get_distance_pts (sheet, 0,
+		res_pts[1] = sheet_row_get_distance_pts (sheet, 0,
 			r->start.row);
 		if (anchor->mode == GNM_SO_ANCHOR_TWO_CELLS) {
-			res_pts [2] = res_pts [0] + sheet_col_get_distance_pts (sheet,
+			res_pts[2] = res_pts[0] + sheet_col_get_distance_pts (sheet,
 				r->start.col, r->end.col);
-			res_pts [3] = res_pts [1] + sheet_row_get_distance_pts (sheet,
+			res_pts[3] = res_pts[1] + sheet_row_get_distance_pts (sheet,
 				r->start.row, r->end.row);
 
-			res_pts [0] += cell_offset_calc_pt (sheet, r->start.col,
-				TRUE, anchor->offset [0]);
-			res_pts [1] += cell_offset_calc_pt (sheet, r->start.row,
-				FALSE, anchor->offset [1]);
-			res_pts [2] += cell_offset_calc_pt (sheet, r->end.col,
-				TRUE, anchor->offset [2]);
-			res_pts [3] += cell_offset_calc_pt (sheet, r->end.row,
-				FALSE, anchor->offset [3]);
+			res_pts[0] += cell_offset_calc_pt (sheet, r->start.col,
+				TRUE, anchor->offset[0]);
+			res_pts[1] += cell_offset_calc_pt (sheet, r->start.row,
+				FALSE, anchor->offset[1]);
+			res_pts[2] += cell_offset_calc_pt (sheet, r->end.col,
+				TRUE, anchor->offset[2]);
+			res_pts[3] += cell_offset_calc_pt (sheet, r->end.row,
+				FALSE, anchor->offset[3]);
 		} else {
-			res_pts [0] += cell_offset_calc_pt (sheet, r->start.col,
-				TRUE, anchor->offset [0]);
-			res_pts [1] += cell_offset_calc_pt (sheet, r->start.row,
-				FALSE, anchor->offset [1]);
-			res_pts[2] = res_pts [0] + anchor->offset [2];
-			res_pts[3] = res_pts [1] + anchor->offset [3];
+			res_pts[0] += cell_offset_calc_pt (sheet, r->start.col,
+				TRUE, anchor->offset[0]);
+			res_pts[1] += cell_offset_calc_pt (sheet, r->start.row,
+				FALSE, anchor->offset[1]);
+			res_pts[2] = res_pts[0] + anchor->offset[2];
+			res_pts[3] = res_pts[1] + anchor->offset[3];
 		}
 	} else {
-		res_pts [0] = anchor->offset [0];
-		res_pts [1] = anchor->offset [1];
-		res_pts[2] = res_pts [0] + anchor->offset [2];
-		res_pts[3] = res_pts [1] + anchor->offset [3];
+		res_pts[0] = anchor->offset[0];
+		res_pts[1] = anchor->offset[1];
+		res_pts[2] = res_pts[0] + anchor->offset[2];
+		res_pts[3] = res_pts[1] + anchor->offset[3];
 	}
 }
 
@@ -1090,15 +1090,15 @@ sheet_object_anchor_to_offset_pts (SheetObjectAnchor const *anchor,
 	r = &anchor->cell_bound;
 
 	if (anchor->mode != GNM_SO_ANCHOR_ABSOLUTE) {
-		res_pts [0] = cell_offset_calc_pt (sheet, r->start.col,
-						   TRUE, anchor->offset [0]);
-		res_pts [1] = cell_offset_calc_pt (sheet, r->start.row,
-						   FALSE, anchor->offset [1]);
+		res_pts[0] = cell_offset_calc_pt (sheet, r->start.col,
+						   TRUE, anchor->offset[0]);
+		res_pts[1] = cell_offset_calc_pt (sheet, r->start.row,
+						   FALSE, anchor->offset[1]);
 		if (anchor->mode == GNM_SO_ANCHOR_TWO_CELLS) {
-			res_pts [2] = cell_offset_calc_pt (sheet, r->end.col,
-							   TRUE, anchor->offset [2]);
-			res_pts [3] = cell_offset_calc_pt (sheet, r->end.row,
-							   FALSE, anchor->offset [3]);
+			res_pts[2] = cell_offset_calc_pt (sheet, r->end.col,
+							   TRUE, anchor->offset[2]);
+			res_pts[3] = cell_offset_calc_pt (sheet, r->end.row,
+							   FALSE, anchor->offset[3]);
 		}
 	}
 }
@@ -1363,9 +1363,9 @@ sheet_object_direction_set (SheetObject *so, gdouble const *coords)
 
 	so->anchor.base.direction = GOD_ANCHOR_DIR_NONE_MASK;
 
-	if (coords [1] < coords [3])
+	if (coords[1] < coords[3])
 		so->anchor.base.direction |= GOD_ANCHOR_DIR_DOWN;
-	if (coords [0] < coords [2])
+	if (coords[0] < coords[2])
 		so->anchor.base.direction |= GOD_ANCHOR_DIR_RIGHT;
 }
 
@@ -1408,11 +1408,11 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 	anchor->cell_bound = *r;
 
 	if (offsets == NULL) {
-		static double const defaultVal [4] = { 0., 0., 0., 0. };
+		static double const defaultVal[4] = { 0., 0., 0., 0. };
 		offsets = defaultVal;
 	}
 	for (i = 4; i-- > 0 ; )
-		anchor->offset[i] = offsets [i];
+		anchor->offset[i] = offsets[i];
 
 	anchor->base.direction = direction;
 	anchor->mode = mode;
