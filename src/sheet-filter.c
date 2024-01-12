@@ -1,4 +1,3 @@
-
 /*
  * sheet-filter.c: support for 'auto-filters'
  *
@@ -69,10 +68,9 @@ gnm_filter_op_needs_value (GnmFilterOp op)
 /**
  * gnm_filter_condition_new_single:
  * @op: #GnmFilterOp
- * @v: #GnmValue
+ * @v: (transfer full) (nullable): #GnmValue
  *
- * Create a new condition with 1 value.
- * Absorbs the reference to @v.
+ * Create a new condition with one value.
  **/
 GnmFilterCondition *
 gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v)
@@ -91,13 +89,12 @@ gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v)
 /**
  * gnm_filter_condition_new_double:
  * @op0: #GnmFilterOp
- * @v0: #GnmValue
+ * @v0: (transfer full) (nullable): #GnmValue
  * @join_with_and:
  * @op1: #GnmFilterOp
- * @v1: #GnmValue
+ * @v1: (transfer full) (nullable): #GnmValue
  *
- * Create a new condition with 2 value.
- * Absorbs the reference to @v0 and @v1.
+ * Create a new condition with two values.
  **/
 GnmFilterCondition *
 gnm_filter_condition_new_double (GnmFilterOp op0, GnmValue *v0,
@@ -770,7 +767,7 @@ gnm_filter_remove (GnmFilter *filter)
  * @filter: #GnmFilter
  * @i: zero-based index
  *
- * Returns: (transfer none): the @i'th condition of @filter
+ * Returns: (transfer none) (nullable): the @i'th condition of @filter
  **/
 GnmFilterCondition const *
 gnm_filter_get_condition (GnmFilter const *filter, unsigned i)
@@ -831,7 +828,7 @@ gnm_filter_update_active (GnmFilter *filter)
  * gnm_filter_set_condition:
  * @filter:
  * @i:
- * @cond: #GnmFilterCondition
+ * @cond: (transfer full) (nullable): #GnmFilterCondition
  * @apply:
  *
  * Change the @i-th condition of @filter to @cond.  If @apply is
@@ -946,7 +943,7 @@ gnm_sheet_filter_intersect_rows (Sheet const *sheet, int from, int to)
 /**
  * gnm_sheet_filter_can_be_extended:
  *
- * Returns: (transfer full): #GnmRange
+ * Returns: (transfer full) (nullable): #GnmRange
  */
 GnmRange *
 gnm_sheet_filter_can_be_extended (G_GNUC_UNUSED Sheet const *sheet,
