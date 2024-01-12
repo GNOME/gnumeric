@@ -1574,7 +1574,7 @@ setup_state (ParserState *pstate, const char *str,
  * @convs: (nullable): #GnmConventions
  * @error: (out) (nullable) (optional): ptr to store details of error.
  *
- * Parse a string. if @error is non-null it will be assumed that the
+ * Parse a string. if @error is non-%NULL it will be assumed that the
  * caller has passed a pointer to a GnmParseError struct AND that it will
  * take responsibility for freeing that struct and its contents.
  * with parse_error_free.

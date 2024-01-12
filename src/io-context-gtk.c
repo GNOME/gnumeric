@@ -1,4 +1,3 @@
-
 /*
  * io-context-gtk.c : gtk based io error context.
  *   It may be used e.g. for displaying progress and error messages

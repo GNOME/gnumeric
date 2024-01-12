@@ -1,4 +1,3 @@
-
 /*
  * ms-obj.c: MS Excel Object support for Gnumeric
  *

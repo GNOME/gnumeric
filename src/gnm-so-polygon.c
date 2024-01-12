@@ -1,4 +1,3 @@
-
 /*
  * gnm-so-polygon.c: Polygons
  *

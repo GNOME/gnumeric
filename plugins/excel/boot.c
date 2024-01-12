@@ -1,4 +1,3 @@
-
 /*
  * boot.c: the external interface to the MS Excel import/export
  *

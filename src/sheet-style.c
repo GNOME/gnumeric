@@ -3076,7 +3076,7 @@ sheet_style_foreach (Sheet const *sheet, GFunc func, gpointer user_data)
 /**
  * sheet_style_range_foreach:
  * @sheet: #Sheet
- * @r: optional range
+ * @r: (nullable): range
  * @func: (scope call): callback.
  * @user_data: user data
  *

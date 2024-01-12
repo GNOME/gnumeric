@@ -1,4 +1,3 @@
-
 /*
  * print-info.c: Print information management.  This keeps
  * track of what the print parameters for a sheet are.

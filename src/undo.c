@@ -75,10 +75,13 @@ GSF_CLASS (GnmUndoColrowRestoreStateGroup, gnm_undo_colrow_restore_state_group,
 
 /**
  * gnm_undo_colrow_restore_state_group_new:
+ * @sheet:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ * @selection:
+ * @saved_state:
  *
- * Returns: a new undo object.
+ * Returns: (transfer full): a new undo object.
  **/
-
 GOUndo *
 gnm_undo_colrow_restore_state_group_new (Sheet *sheet, gboolean is_cols,
 					ColRowIndexList *selection,
@@ -137,10 +140,15 @@ GSF_CLASS (GnmUndoColrowSetSizes, gnm_undo_colrow_set_sizes,
 
 /**
  * gnm_undo_colrow_set_sizes_new:
+ * @sheet:
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ * @selection:
+ * @new_size:
+ * @r: (nullable):
  *
  * If r is non-null and new_size < 0, selection is ignored.
  *
- * Returns: a new undo object.
+ * Returns: (transfer full): a new undo object.
  **/
 
 GOUndo *
@@ -278,12 +286,15 @@ GSF_CLASS (GnmUndoFilterSetCondition, gnm_undo_filter_set_condition,
 
 /**
  * gnm_undo_filter_set_condition_new:
+ * @filter:
+ * @i:
+ * @cond: (nullable):
+ * @retrieve_from_filter:
  *
  * if (retrieve_from_filter), cond is ignored
  *
  * Returns: a new undo object.
  **/
-
 GOUndo *
 gnm_undo_filter_set_condition_new (GnmFilter *filter, unsigned i,
 				   GnmFilterCondition *cond,
@@ -307,4 +318,5 @@ gnm_undo_filter_set_condition_new (GnmFilter *filter, unsigned i,
 
 	return (GOUndo *)ua;
 }
+
 /* ------------------------------------------------------------------------- */

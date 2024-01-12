@@ -1,4 +1,3 @@
-
 Control-Enter after finishing entering some data into a cell
 sets the whole range of selected cells to that value.
 

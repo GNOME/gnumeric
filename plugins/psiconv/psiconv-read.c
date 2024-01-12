@@ -1,4 +1,3 @@
-
 /*
  * psiconv-read.c : Routines to read Psion 5 series Sheet files
  *

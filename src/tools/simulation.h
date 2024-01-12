@@ -1,6 +1,5 @@
-
-#ifndef __SIMULATION_H__
-#define __SIMULATION_H__
+#ifndef TOOLS_SIMULATION_H_
+#define TOOLS_SIMULATION_H_
 
 #include <tools/dao.h>
 
@@ -56,4 +55,3 @@ gchar const *simulation_tool (WorkbookControl        *wbc,
 void   simulation_tool_destroy (simulation_t *sim);
 
 #endif
-

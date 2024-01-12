@@ -1,4 +1,3 @@
-
 /*
  * sort.c : Routines for sorting cell ranges
  *

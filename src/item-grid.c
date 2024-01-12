@@ -1,4 +1,3 @@
-
 /*
  * item-grid.c : A canvas item that is responsible for drawing gridlines and
  *     cell content.  One item per sheet displays all the cells.

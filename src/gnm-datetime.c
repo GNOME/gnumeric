@@ -1,4 +1,3 @@
-
 /*
  * gnm-datetime.c:
  *

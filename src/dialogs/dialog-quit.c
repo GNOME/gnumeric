@@ -1,4 +1,3 @@
-
 /*
  * dialog-quit.c:
  *   Dialog for quit (selecting what to save)

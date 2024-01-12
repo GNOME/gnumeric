@@ -1,4 +1,3 @@
-
 /*
  * sheet-object-widget.c: SheetObject wrappers for simple gtk widgets.
  *

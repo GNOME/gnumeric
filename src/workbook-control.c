@@ -1,4 +1,3 @@
-
 /*
  * workbook-control.c: The base class for the displaying a workbook.
  *

@@ -1,4 +1,3 @@
-
 /*
  * input-msg.c: Input Message
  *

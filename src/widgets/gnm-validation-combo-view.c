@@ -1,4 +1,3 @@
-
 /*
  * gnm-validation-combo-view.c: A canvas object for Validate from list
  * 				in cell combos

@@ -1,4 +1,3 @@
-
 /*
  * commands.c: Handlers to undo & redo commands
  *

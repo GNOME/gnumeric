@@ -1,4 +1,3 @@
-
 /*
  * workbook.c: workbook model and manipulation utilities
  *

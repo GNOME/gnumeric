@@ -1,4 +1,3 @@
-
 /*
  * py-console.c: Python console.
  *

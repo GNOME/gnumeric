@@ -419,9 +419,9 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
  * n:              Output parameter for number of floats.
  *
  * Return value:
- *   NULL in case of strict and a blank.
+ *   %NULL in case of strict and a blank.
  *   A copy of the error in the case of strict and an error.
- *   Non-NULL in case of success.  Then n will be set.
+ *   Non-%NULL in case of success.  Then @n will be set.
  *
  * Evaluate a list of expressions and return the result as an array of
  * gnm_float.

@@ -1,4 +1,3 @@
-
 /*
  * sheet-object-image.c: a wrapper for gdkpixbuf to display images.
  *

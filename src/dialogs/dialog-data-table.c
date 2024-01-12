@@ -1,4 +1,3 @@
-
 /*
  * dialog-data-table.c: Create a Data Table
  *

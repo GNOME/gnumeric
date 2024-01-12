@@ -1,4 +1,3 @@
-
 /* session.c
  * Copyright (C) 2003-2006  Andreas J. Guelzow <aguelzow@taliesin.ca>
  *

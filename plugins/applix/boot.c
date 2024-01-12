@@ -1,4 +1,3 @@
-
 /*
  * boot.c : Installation and bootstraping routines to
  *          register the applix plugin.

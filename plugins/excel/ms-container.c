@@ -1,4 +1,3 @@
-
 /**
  * ms-container.c: A meta container to handle object import for charts,
  *		workbooks and sheets.

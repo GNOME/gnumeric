@@ -1,4 +1,3 @@
-
 /*
  * auto-correct.c:
  *

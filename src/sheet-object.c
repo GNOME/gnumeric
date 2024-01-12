@@ -1322,7 +1322,7 @@ cb_sheet_objects_dup (GnmDependent *dep, SheetObject *so, gpointer user)
  * Clones the objects of the src sheet and attaches them into the dst sheet
  **/
 void
-sheet_objects_dup (Sheet const *src, Sheet *dst, GnmRange *range)
+sheet_objects_dup (Sheet const *src, Sheet *dst, GnmRange const *range)
 {
 	GSList *list;
 

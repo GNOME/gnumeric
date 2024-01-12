@@ -1,4 +1,3 @@
-
 /*
  * sheet-utils.c: Utility routines for Sheet content
  *

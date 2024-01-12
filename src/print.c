@@ -1,4 +1,3 @@
-
 /*
  * print.c: Printing routines for Gnumeric
  *

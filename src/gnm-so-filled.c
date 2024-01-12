@@ -1,4 +1,3 @@
-
 /*
  * gnm-so-filled.c: Boxes, Ovals and Polygons
  *

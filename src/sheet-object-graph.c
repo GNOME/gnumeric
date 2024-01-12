@@ -1,4 +1,3 @@
-
 /*
  * sheet-object-graph.c: Wrapper for GNOME Office graphs in gnumeric
  *

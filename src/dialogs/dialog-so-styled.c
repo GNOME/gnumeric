@@ -1,4 +1,3 @@
-
 /*
  * dialog-so-styled.c: Pref dialog for objects with a GOStyle 'style' property
  *

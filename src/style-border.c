@@ -282,12 +282,11 @@ gnm_style_border_get_orientation (GnmStyleBorderLocation type)
  * gnm_style_border_ref:
  * @border: (nullable): #GnmBorder
  *
- * Returns: (transfer full): a reference to @border
+ * Returns: (transfer full) (nullable): a reference to @border
  */
 GnmBorder *
 gnm_style_border_ref (GnmBorder *border)
 {
-	/* NULL is ok */
 	if (border != NULL) {
 		++border->ref_count;
 		if (0) g_printerr ("style border ref: %p  [color=%p]\n", border, border->color);

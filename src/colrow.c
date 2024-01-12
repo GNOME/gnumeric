@@ -279,7 +279,7 @@ colrow_index_compare (ColRowIndex const * a, ColRowIndex const * b)
  *
  * @list: The list
  * @is_cols: %TRUE for columns, %FALSE for rows.
- * @is_single: If non-null this will be set to %TRUE if there's only a single col/row involved.
+ * @is_single: (out) (optional): %TRUE if there's only a single col/row involved.
  */
 GString *
 colrow_index_list_to_string (ColRowIndexList *list, gboolean is_cols, gboolean *is_single)

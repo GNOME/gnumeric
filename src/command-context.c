@@ -1,4 +1,3 @@
-
 /*
  * command-context.c: Gnumeric specific extensions to GOCmdContext
  *

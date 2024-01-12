@@ -1,4 +1,3 @@
-
 /*
  * rendered-value.c: Management & utility routines for formated
  *     colored text.

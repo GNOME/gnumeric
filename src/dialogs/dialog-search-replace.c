@@ -1,4 +1,3 @@
-
 /*
  * dialog-search-replace.c:
  *   Dialog for entering a search-and-replace query.

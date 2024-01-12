@@ -1,4 +1,3 @@
-
 /*
  * dialog-hyperlink.c: Add or edit a hyperlink
  *

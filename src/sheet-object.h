@@ -103,7 +103,7 @@ GOUndo *sheet_object_move_do     (GSList *objects, GSList *anchors,
 				  gboolean objects_created);
 GSList *sheet_objects_get        (Sheet const *sheet, GnmRange const *r,
 				  GType t);
-void    sheet_objects_dup	 (Sheet const *src, Sheet *dst, GnmRange *range);
+void    sheet_objects_dup	 (Sheet const *src, Sheet *dst, GnmRange const *range);
 
 void     sheet_object_direction_set (SheetObject *so, gdouble const *coords);
 gboolean sheet_object_rubber_band_directly (SheetObject const *so);

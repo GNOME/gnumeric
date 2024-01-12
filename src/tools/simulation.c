@@ -1,4 +1,3 @@
-
 /*
  * simulation.c: Monte Carlo Simulation tool.
  *

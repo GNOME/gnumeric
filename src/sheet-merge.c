@@ -1,4 +1,3 @@
-
 /*
  * sheet-merge.c: merged cell support
  *

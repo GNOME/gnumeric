@@ -1,4 +1,3 @@
-
 /*
  * gnm-so-line.c: Lines, arrows, arcs
  *

@@ -1,4 +1,3 @@
-
 /*
  * cellspan.c: Keep track of the columns on which a cell
  * displays information.

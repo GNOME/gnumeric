@@ -1,4 +1,3 @@
-
 /*
  * sheet-object-cell-comment.c: A SheetObject to support cell comments.
  *

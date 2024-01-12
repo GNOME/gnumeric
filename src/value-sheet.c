@@ -1,4 +1,3 @@
-
 /*
  * value-sheet.c:  Utilies for sheet specific value handling
  *
@@ -150,7 +149,7 @@ value_area_fetch_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
  * An internal routine to get a cell from an array or range.
  * Ensures that elements of CELLRANGE are evaluated
  *
- * If any problems occur a NULL is returned.
+ * If any problems occur a %NULL is returned.
  **/
 GnmValue const *
 value_area_get_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
@@ -222,7 +221,7 @@ cb_wrapper_foreach_cell_in_area (GnmCellIter const *iter, WrapperClosure *wrap)
  * @func: (scope call): #GnmValueIterFunc
  * @user_data:
  *
- * For each existing element in an array or range , invoke the
+ * For each existing element in an array or range, invoke the
  * callback routine.
  *
  * Returns:

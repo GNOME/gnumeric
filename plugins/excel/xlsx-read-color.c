@@ -1,4 +1,3 @@
-
 /* RGBMAX, HSLMAX must each fit in a byte. */
 /* HSLMAX BEST IF DIVISIBLE BY 6 */
 #define  HSLMAX   240 /* H,L, and S vary over 0-HSLMAX */

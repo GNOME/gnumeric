@@ -1,5 +1,3 @@
-/* vm: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * excel-xml-read.c : Read MS Excel 2003 SpreadsheetML
  *

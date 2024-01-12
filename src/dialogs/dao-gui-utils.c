@@ -1,4 +1,3 @@
-
 /*
  * dao-gui-utils.c:
  *

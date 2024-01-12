@@ -1,4 +1,3 @@
-
 /*
  * gnm-cell-combo-view.c: A canvas object for an in-cell combo-box
  *

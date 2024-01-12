@@ -1,4 +1,3 @@
-
 /*
  * wbc-gtk-actions.c: Callbacks and tables for all the menus and stock toolbars
  *

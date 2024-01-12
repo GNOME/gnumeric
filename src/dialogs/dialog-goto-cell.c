@@ -1,4 +1,3 @@
-
 /*
  * dialog-goto-cell.c:  Implements the "goto cell/navigator" functionality
  *

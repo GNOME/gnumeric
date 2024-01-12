@@ -1287,7 +1287,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 
 	for (i = 0; i < argc; i++) {
 		char arg_type = fn_def->arg_types[i];
-		/* expr is always non-null, missing args are encoded as
+		/* expr is always non-NULL, missing args are encoded as
 		 * const = empty */
 		GnmExpr const *expr = argv[i];
 

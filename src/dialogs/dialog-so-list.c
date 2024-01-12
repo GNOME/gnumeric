@@ -1,4 +1,3 @@
-
 /*
  * dialog-so-list.c: A property dialog for lists and combos
  *

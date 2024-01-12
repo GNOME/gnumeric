@@ -1,4 +1,3 @@
-
 /*
  * wbc-gtk.c: A gtk based WorkbookControl
  *

@@ -1,4 +1,3 @@
-/* VIM: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gui-clipboard.c: Implements the X11 based copy/paste operations
  *

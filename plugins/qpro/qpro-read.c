@@ -1,4 +1,3 @@
-
 /*
  * qpro-read.c: Read Quatro Pro files
  *
