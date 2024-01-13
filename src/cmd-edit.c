@@ -42,7 +42,7 @@
 
 /**
  * sv_select_cur_row:
- * @sv: The sheet
+ * @sv: The sheet view
  *
  * Selects an entire row
  */
@@ -64,7 +64,7 @@ sv_select_cur_row (SheetView *sv)
 
 /**
  * sv_select_cur_col:
- * @sv: The sheet
+ * @sv: The sheet view
  *
  * Selects an entire column
  */
@@ -86,7 +86,7 @@ sv_select_cur_col (SheetView *sv)
 
 /**
  * sv_select_cur_array:
- * @sv: The sheet
+ * @sv: The sheet view
  *
  * If the editpos is part of an array clear the selection and select the array.
  **/
@@ -135,7 +135,7 @@ cb_collect_deps (GnmDependent *dep, gpointer user)
 
 /**
  * sv_select_cur_depends:
- * @sv: The sheet
+ * @sv: The sheet view
  *
  * Select all cells that depend on the expression in the current cell.
  */
@@ -225,7 +225,7 @@ sv_select_cur_depends (SheetView *sv)
 
 /**
  * sv_select_cur_inputs:
- * @sv: The sheet
+ * @sv: The sheet view
  *
  * Select all cells that are direct potential inputs to the
  * current cell.
@@ -356,7 +356,8 @@ cmd_paste (WorkbookControl *wbc, GnmPasteTarget const *pt)
 
 /**
  * cmd_paste_to_selection:
- * @dest_sv: The sheet into which things should be pasted
+ * @wbc: workbook control
+ * @dest_sv: (transfer none): The sheet into which things should be pasted
  * @paste_flags: special paste flags (eg transpose)
  *
  * Using the current selection as a target

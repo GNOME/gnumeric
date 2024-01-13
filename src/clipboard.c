@@ -716,8 +716,11 @@ cb_dup_objects (SheetObject const *src, GnmCellRegion *cr)
 
 /**
  * clipboard_copy_range:
+ * @sheet: Sheet to copy from
+ * @r: range to copy
  *
- * Entry point to the clipboard copy code
+ * Returns: (transfer full): the copied contents of the given
+ * range.
  */
 GnmCellRegion *
 clipboard_copy_range (Sheet *sheet, GnmRange const *r)
@@ -823,8 +826,7 @@ clipboard_copy_ranges_undo (Sheet *sheet, GSList *ranges)
  * @sheet: #Sheet
  * @objects: (element-type SheetObject): #GSList
  *
- * Returns a cell region with copies of objects in list.  Caller is responsible
- *	for cellregion_unref-ing the result.
+ * Returns: (transfer full): a cell region with copies of objects in list.
  **/
 GnmCellRegion *
 clipboard_copy_obj (Sheet *sheet, GSList *objects)
@@ -872,7 +874,7 @@ clipboard_copy_obj (Sheet *sheet, GSList *objects)
 	return cr;
 }
 
-GnmPasteTarget*
+GnmPasteTarget *
 paste_target_init (GnmPasteTarget *pt, Sheet *sheet,
 		   GnmRange const *r, GnmPasteFlags flags)
 {
@@ -884,7 +886,7 @@ paste_target_init (GnmPasteTarget *pt, Sheet *sheet,
 
 /**
  * gnm_cell_region_new:
- * @origin_sheet: optionally NULL.
+ * @origin_sheet: (nullable): source sheet
  *
  * A convenience routine to create CellRegions and init the flags nicely.
  */
@@ -1005,8 +1007,7 @@ cb_invalidate_cellcopy (GnmCellCopy *cc, gconstpointer ignore,
  * Invalidate references from cell content, objects or style to @sheet.
  **/
 void
-cellregion_invalidate_sheet (GnmCellRegion *cr,
-			     Sheet *sheet)
+cellregion_invalidate_sheet (GnmCellRegion *cr, Sheet *sheet)
 {
 	GSList *ptr;
 	gboolean save_invalidated;

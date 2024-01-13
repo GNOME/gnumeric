@@ -372,7 +372,7 @@ gnm_expr_is_array (GnmExpr const *expr)
  * Returns: (transfer full): An array corner expression
  **/
 static GnmExpr const *
-gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr)
+gnm_expr_new_array_corner (int cols, int rows, GnmExpr const *expr)
 {
 	GnmExprArrayCorner *ans;
 

@@ -513,8 +513,8 @@ GSF_XML_IN_NODE (START, TEMPLATE, GMR, "FormatTemplate", GSF_XML_NO_CONTENT, NUL
 
 /**
  * gnm_ft_new_from_file:
- * @context:
  * @filename: The filename to load from
+ * @context:
  *
  * Create a new GnmFT and load a template file
  * into it.

@@ -701,9 +701,6 @@ gnm_cell_get_render_color (GnmCell const *cell)
  * gnm_cell_get_entered_text:
  * @cell: the cell from which we want to pull the content from
  *
- * This returns a g_malloc()ed region of memory with a text representation
- * of the cell contents.
- *
  * Returns: (transfer full): a text expression if the cell contains a
  * formula, or a string representation of the value.
  */

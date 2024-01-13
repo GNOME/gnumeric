@@ -36,8 +36,8 @@
  **/
 void
 gnm_complete_construct (GnmComplete *complete,
-		    GnmCompleteMatchNotifyFn notify,
-		    void *notify_closure)
+			GnmCompleteMatchNotifyFn notify,
+			void *notify_closure)
 {
 	complete->notify = notify;
 	complete->notify_closure = notify_closure;
