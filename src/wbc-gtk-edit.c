@@ -54,7 +54,7 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-#define GNM_RESPONSE_REMOVE -1000
+#define GNM_RESPONSE_REMOVE (-1000)
 
 /*
  * Shuts down the auto completion engine

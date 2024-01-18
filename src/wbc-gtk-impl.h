@@ -150,8 +150,8 @@ typedef struct {
 	void (*markup_changed)		(WBCGtk const *wbcg);
 } WBCGtkClass;
 
-#define GNM_RESPONSE_SAVE_ALL -1000
-#define GNM_RESPONSE_DISCARD_ALL -1001
+#define GNM_RESPONSE_SAVE_ALL (-1000)
+#define GNM_RESPONSE_DISCARD_ALL (-1001)
 
 /* Protected functions */
 gboolean wbc_gtk_close		(WBCGtk *wbcg);
