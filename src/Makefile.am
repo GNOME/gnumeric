@@ -16,6 +16,11 @@ INTROSPECTION_COMPILER_ARGS = \
 	--includedir=. \
 	--includedir="${INTROSPECTION_GIRDIR}"
 
+if WITH_DECIMAL64
+  # Very wrong and any actual use will likely crash
+  INTROSPECTION_SCANNER_ARGS += -D_Decimal64=double
+endif
+
 libspreadsheet_includedir = $(includedir)/libspreadsheet-@GNUMERIC_API_VER@/spreadsheet
 
 EXTRA_DIST =

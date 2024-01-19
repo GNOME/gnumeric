@@ -78,6 +78,11 @@ char *gnm_cpp (const char *src, GHashTable *vars);
 
 gboolean gnm_shortest_rep_in_files(void);
 
+#ifdef GNM_SUPPLIES_GNM_SSCANF
+int gnm_sscanf (const char *str, const char *fmt, ...);
+#endif
+
+
 G_END_DECLS
 
 #endif /* _GNM_GUTILS_H_ */

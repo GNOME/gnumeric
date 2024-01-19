@@ -1859,9 +1859,15 @@ gnm_float
 gnm_digamma (gnm_float x)
 {
 	// x0 = x0a + x0b is the positive root
+#if GNM_RADIX == 2
 	gnm_float x0a = GNM_const(1.4616321449683622457627052426687441766262054443359375);
 	gnm_float x0b = GNM_const(9.549995429965697715184199075967050885129598840859878644035380181024307499273372559036557380022743e-17);
-
+#elif GNM_RADIX == 10
+	gnm_float x0a = GNM_const(1.461632144968362);
+	gnm_float x0b = GNM_const(0.341262659542326e-15);
+#else
+#error "Code needs fixing"
+#endif
 	if (gnm_isnan (x))
 		return x;
 

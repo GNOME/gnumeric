@@ -616,9 +616,14 @@ if test "x$with_win32" = "xyes" -o "x$cos_works" = "xno"; then
 fi
 
 float_msg=double
+float_msg_default=yes
 AC_ARG_WITH(long_double,
 	AS_HELP_STRING([--with-long-double], [Use long double for floating point]),
 	[if test "x$withval" = xyes; then
+		if test $float_msg_default = no; then
+		   AC_MSG_ERROR([Incompatible number system options supplied])
+		fi
+
 		SAVE_CFLAGS="$CFLAGS"
 		SAVE_LIBS="$LIBS"
 		CFLAGS="$GNUMERIC_CFLAGS"
@@ -679,12 +684,43 @@ AC_ARG_WITH(long_double,
 		LIBS="$SAVE_LIBS"
 
 		float_msg="long double (EXPERIMENTAL)"
+		float_msg_default=no
 		AC_MSG_WARN([Long double support is experimental -- expect problems])
 		AC_DEFINE(GNM_WITH_LONG_DOUBLE, 1,
 			[Define if the long double type is to be used]
 		)
 	fi]
 )
+
+gnumeric_with_decimal64=false
+AC_ARG_WITH(decimal64,
+	AS_HELP_STRING([--with-decimal], [Use Decimal64 for floating point]),
+	[if test "x$withval" = xyes; then
+		if test $float_msg_default = no; then
+		   AC_MSG_ERROR([Incompatible number system options supplied])
+		fi
+		SAVE_CFLAGS="$CFLAGS"
+		SAVE_LIBS="$LIBS"
+		CFLAGS="$GNUMERIC_CFLAGS"
+		LIBS="$GNUMERIC_LIBS -lm"
+
+		AC_CHECK_FUNCS(go_finiteD,
+			       ,
+			       AC_MSG_ERROR([libgoffice needs to be compiled with Decimal64 support.]))
+		CFLAGS="$SAVE_CFLAGS"
+		LIBS="$SAVE_LIBS"
+		AC_DEFINE(GNM_WITH_DECIMAL64, 1,
+			[Define if the Decimal64 type is to be used]
+		)
+		gnumeric_with_decimal64=true
+		float_msg="Decimal64 (EXPERIMENTAL)"
+		float_msg_default=no
+		AC_MSG_WARN([Decimal64 support is experimental -- expect problems])
+	fi]
+)
+AM_CONDITIONAL(WITH_DECIMAL64, $gnumeric_with_decimal64)
+
+
 
 ## this should come after `AC_PROG_CC'
 set_more_warnings=yes

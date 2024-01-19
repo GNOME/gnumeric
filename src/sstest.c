@@ -1689,17 +1689,17 @@ test_random_rand (int N)
 		ok = FALSE;
 	}
 	T = var_target;
-	if (gnm_abs (var - T) > 0.01) {
+	if (gnm_abs (var - T) > GNM_const(0.01)) {
 		g_printerr ("Var failure.\n");
 		ok = FALSE;
 	}
 	T = skew_target;
-	if (gnm_abs (skew - T) > 0.05) {
+	if (gnm_abs (skew - T) > GNM_const(0.05)) {
 		g_printerr ("Skew failure.\n");
 		ok = FALSE;
 	}
 	T = kurt_target;
-	if (gnm_abs (kurt - T) > 0.05) {
+	if (gnm_abs (kurt - T) > GNM_const(0.05)) {
 		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
 	}
@@ -1725,9 +1725,9 @@ test_random_randuniform (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float lsign = (random_01 () > 0.75 ? 1 : -1);
-	gnm_float param_l = lsign * gnm_floor (1 / (0.0001 + gnm_pow (random_01 (), 4)));
-	gnm_float param_h = param_l + gnm_floor (1 / (0.0001 + gnm_pow (random_01 () / 2, 4)));
+	gnm_float lsign = (random_01 () > GNM_const(0.75) ? 1 : -1);
+	gnm_float param_l = lsign * gnm_floor (1 / (GNM_const(0.0001) + gnm_pow (random_01 (), 4)));
+	gnm_float param_h = param_l + gnm_floor (1 / (GNM_const(0.0001) + gnm_pow (random_01 () / 2, 4)));
 	gnm_float n = param_h - param_l;
 	gnm_float mean_target = (param_l + param_h) / 2;
 	gnm_float var_target = (n * n) / 12;
@@ -1831,28 +1831,28 @@ test_random_randbernoulli (int N)
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
-	if (gnm_abs (mean - p) > 0.01) {
+	if (gnm_abs (mean - p) > GNM_const(0.01)) {
 		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
 	T = var_target;
 	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
-	if (gnm_abs (var - T) > 0.01) {
+	if (gnm_abs (var - T) > GNM_const(0.01)) {
 		g_printerr ("Var failure.\n");
 		ok = FALSE;
 	}
 
 	T = skew_target;
 	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
-	if (!(gnm_abs (skew - T) <= 0.10 * gnm_abs (T))) {
+	if (!(gnm_abs (skew - T) <= GNM_const(0.10) * gnm_abs (T))) {
 		g_printerr ("Skew failure.\n");
 		ok = FALSE;
 	}
 
 	T = kurt_target;
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
-	if (!(gnm_abs (kurt - T) <= 0.15 * gnm_abs (T))) {
+	if (!(gnm_abs (kurt - T) <= GNM_const(0.15) * gnm_abs (T))) {
 		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
 	}
@@ -1962,12 +1962,12 @@ test_random_randnorm (int N)
 	}
 
 	T = mean_target;
-	if (gnm_abs (mean - T) > 0.02) {
+	if (gnm_abs (mean - T) > GNM_const(0.02)) {
 		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 	T = var_target;
-	if (gnm_abs (var - T) > 0.02) {
+	if (gnm_abs (var - T) > GNM_const(0.02)) {
 		g_printerr ("Var failure.\n");
 		ok = FALSE;
 	}
@@ -1978,20 +1978,20 @@ test_random_randnorm (int N)
 	if (!rand_fractile_test (vals, N, nf, fractiles, NULL))
 		ok = FALSE;
 
-	if (adtest < 0.01) {
+	if (adtest < GNM_const(0.01)) {
 		g_printerr ("Anderson Darling Test rejected [%.10" GNM_FORMAT_g "]\n", adtest);
 		ok = FALSE;
 	}
-	if (cvmtest < 0.01) {
+	if (cvmtest < GNM_const(0.01)) {
 		g_printerr ("Cramér-von Mises Test rejected [%.10" GNM_FORMAT_g "]\n", cvmtest);
 		ok = FALSE;
 	}
-	if (lkstest < 0.01) {
+	if (lkstest < GNM_const(0.01)) {
 		g_printerr ("Lilliefors (Kolmogorov-Smirnov) Test rejected [%.10" GNM_FORMAT_g "]\n",
 			    lkstest);
 		ok = FALSE;
 	}
-	if (sftest < 0.01) {
+	if (sftest < GNM_const(0.01)) {
 		g_printerr ("Shapiro-Francia Test rejected [%.10" GNM_FORMAT_g "]\n", sftest);
 		ok = FALSE;
 	}
@@ -2035,14 +2035,14 @@ test_random_randsnorm (int N)
 
 	T = mean_target;
 	g_printerr ("Expected mean: %.10" GNM_FORMAT_g "\n", T);
-	if (gnm_abs (mean - T) > 0.01) {
+	if (gnm_abs (mean - T) > GNM_const(0.01)) {
 		g_printerr ("Mean failure [%.1" GNM_FORMAT_f " stdev]\n", (mean - T) / gnm_sqrt (var_target / N));
 		ok = FALSE;
 	}
 
 	T = var_target;
 	g_printerr ("Expected var: %.10" GNM_FORMAT_g "\n", T);
-	if (gnm_abs (var - T) > 0.01) {
+	if (gnm_abs (var - T) > GNM_const(0.01)) {
 		g_printerr ("Var failure.\n");
 		ok = FALSE;
 	}
@@ -2050,14 +2050,14 @@ test_random_randsnorm (int N)
 	T = mean_target/gnm_sqrt(var_target);
 	T = T*T*T*(4-M_PIgnum)/2;
 	g_printerr ("Expected skew: %.10" GNM_FORMAT_g "\n", T);
-	if (gnm_abs (skew - T) > 0.05) {
+	if (gnm_abs (skew - T) > GNM_const(0.05)) {
 		g_printerr ("Skew failure.\n");
 		ok = FALSE;
 	}
 
 	T = 2*(M_PIgnum - 3)*mean_target*mean_target*mean_target*mean_target/(var_target*var_target);
 	g_printerr ("Expected kurt: %.10" GNM_FORMAT_g "\n", T);
-	if (gnm_abs (kurt - T) > 0.15) {
+	if (gnm_abs (kurt - T) > GNM_const(0.15)) {
 		g_printerr ("Kurt failure.\n");
 		ok = FALSE;
 	}
@@ -2077,7 +2077,7 @@ test_random_randexp (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_l = 1 / (0.0001 + gnm_pow (random_01 () / 2, 4));
+	gnm_float param_l = 1 / (GNM_const(0.0001) + gnm_pow (random_01 () / 2, 4));
 	gnm_float mean_target = param_l;
 	gnm_float var_target = mean_target * mean_target;
 	gnm_float skew_target = 2;
@@ -2154,8 +2154,8 @@ test_random_randgamma (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_shape = gnm_floor (1 / (0.0001 + gnm_pow (random_01 (), 6)));
-	gnm_float param_scale = 0.001 + gnm_pow (random_01 (), 4) * 1000;
+	gnm_float param_shape = gnm_floor (1 / (GNM_const(0.0001) + gnm_pow (random_01 (), 6)));
+	gnm_float param_scale = GNM_const(0.001) + gnm_pow (random_01 (), 4) * 1000;
 	gnm_float mean_target = param_shape * param_scale;
 	gnm_float var_target = mean_target * param_scale;
 	gnm_float skew_target = 2 / gnm_sqrt (param_shape);
@@ -2232,8 +2232,8 @@ test_random_randbeta (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_a = 1 / (0.0001 + gnm_pow (random_01 (), 6));
-	gnm_float param_b = 1 / (0.0001 + gnm_pow (random_01 (), 6));
+	gnm_float param_a = 1 / (GNM_const(0.0001) + gnm_pow (random_01 (), 6));
+	gnm_float param_b = 1 / (GNM_const(0.0001) + gnm_pow (random_01 (), 6));
 	gnm_float s = param_a + param_b;
 	gnm_float mean_target = param_a / s;
 	gnm_float var_target = mean_target * param_b / (s * (s + 1));
@@ -2313,7 +2313,7 @@ test_random_randtdist (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_df = 1 + gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
+	gnm_float param_df = 1 + gnm_floor (1 / (GNM_const(0.01) + gnm_pow (random_01 (), 6)));
 	gnm_float mean_target = 0;
 	gnm_float var_target = param_df > 2 ? param_df / (param_df - 2) : gnm_nan;
 	gnm_float skew_target = param_df > 3 ? 0 : gnm_nan;
@@ -2390,8 +2390,8 @@ test_random_randfdist (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_df1 = 1 + gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
-	gnm_float param_df2 = 1 + gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
+	gnm_float param_df1 = 1 + gnm_floor (1 / (GNM_const(0.01) + gnm_pow (random_01 (), 6)));
+	gnm_float param_df2 = 1 + gnm_floor (1 / (GNM_const(0.01) + gnm_pow (random_01 (), 6)));
 	gnm_float mean_target = param_df2 > 2 ? param_df2 / (param_df2 - 2) : gnm_nan;
 	gnm_float var_target = param_df2 > 4
 		? (2 * param_df2 * param_df2 * (param_df1 + param_df2 - 2) /
@@ -2471,7 +2471,7 @@ test_random_randchisq (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_df = 1 + gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 6)));
+	gnm_float param_df = 1 + gnm_floor (1 / (GNM_const(0.01) + gnm_pow (random_01 (), 6)));
 	gnm_float mean_target = param_df;
 	gnm_float var_target = param_df * 2;
 	gnm_float skew_target = gnm_sqrt (8 / param_df);
@@ -2548,7 +2548,7 @@ test_random_randcauchy (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_scale = 0.001 + gnm_pow (random_01 (), 4) * 1000;
+	gnm_float param_scale = GNM_const(0.001) + gnm_pow (random_01 (), 4) * 1000;
 	gnm_float mean_target = gnm_nan;
 	gnm_float var_target = gnm_nan;
 	gnm_float skew_target = gnm_nan;
@@ -2631,7 +2631,7 @@ test_random_randbinom (int N)
 	gnm_float *vals;
 	gboolean ok;
 	gnm_float param_p = random_01 ();
-	gnm_float param_trials = gnm_floor (1 / (0.0001 + gnm_pow (random_01 (), 4)));
+	gnm_float param_trials = gnm_floor (1 / (GNM_const(0.0001) + gnm_pow (random_01 (), 4)));
 	gnm_float mean_target = param_trials * param_p;
 	gnm_float var_target = mean_target * (1 - param_p);
 	gnm_float skew_target = (1 - 2 * param_p) / gnm_sqrt (var_target);
@@ -2711,7 +2711,7 @@ test_random_randnegbinom (int N)
 	gnm_float *vals;
 	gboolean ok;
 	gnm_float param_p = random_01 ();
-	gnm_float param_fails = gnm_floor (1 / (0.0001 + gnm_pow (random_01 (), 4)));
+	gnm_float param_fails = gnm_floor (1 / (GNM_const(0.0001) + gnm_pow (random_01 (), 4)));
 	/* Warning: these differ from Wikipedia by swapping p and 1-p.  */
 	gnm_float mean_target = param_fails * (1 - param_p) / param_p;
 	gnm_float var_target = mean_target / param_p;
@@ -2791,8 +2791,8 @@ test_random_randhyperg (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_nr = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 4)));
-	gnm_float param_nb = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 4)));
+	gnm_float param_nr = gnm_floor (1 / (GNM_const(0.01) + gnm_pow (random_01 (), 4)));
+	gnm_float param_nb = gnm_floor (1 / (GNM_const(0.01) + gnm_pow (random_01 (), 4)));
 	gnm_float s = param_nr + param_nb;
 	gnm_float param_n = gnm_floor (random_01 () * (s + 1));
 	gnm_float mean_target = param_n * param_nr / s;
@@ -2876,9 +2876,9 @@ test_random_randbetween (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float lsign = (random_01 () > 0.75 ? 1 : -1);
-	gnm_float param_l = lsign * gnm_floor (1 / (0.0001 + gnm_pow (random_01 (), 4)));
-	gnm_float param_h = param_l + gnm_floor (1 / (0.0001 + gnm_pow (random_01 () / 2, 4)));
+	gnm_float lsign = (random_01 () > GNM_const(0.75) ? 1 : -1);
+	gnm_float param_l = lsign * gnm_floor (1 / (GNM_const(0.0001) + gnm_pow (random_01 (), 4)));
+	gnm_float param_h = param_l + gnm_floor (1 / (GNM_const(0.0001) + gnm_pow (random_01 () / 2, 4)));
 	gnm_float n = param_h - param_l + 1;
 	gnm_float mean_target = (param_l + param_h) / 2;
 	gnm_float var_target = (n * n - 1) / 12;
@@ -2948,7 +2948,7 @@ test_random_randpoisson (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float param_l = 1 / (0.0001 + gnm_pow (random_01 () / 2, 4));
+	gnm_float param_l = 1 / (GNM_const(0.0001) + gnm_pow (random_01 () / 2, 4));
 	gnm_float mean_target = param_l;
 	gnm_float var_target = param_l;
 	gnm_float skew_target = 1 / gnm_sqrt (param_l);
@@ -3189,7 +3189,7 @@ test_random_randweibull (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float shape = 1 / (0.0001 + gnm_pow (random_01 () / 2, 2));
+	gnm_float shape = 1 / (GNM_const(0.0001) + gnm_pow (random_01 () / 2, 2));
 	gnm_float scale = 2 * random_01 ();
 	gnm_float mean_target = scale * gnm_gamma (1 + 1 / shape);
 	gnm_float var_target = scale * scale  *
@@ -3274,7 +3274,7 @@ test_random_randlognorm (int N)
 	gnm_float mean, var, skew, kurt;
 	gnm_float *vals;
 	gboolean ok;
-	gnm_float lm = (random_01() - 0.5) / (0.1 + gnm_pow (random_01 () / 2, 2));
+	gnm_float lm = (random_01() - GNM_const(0.5)) / (GNM_const(0.1) + gnm_pow (random_01 () / 2, 2));
 	gnm_float ls = 1 / (1 + gnm_pow (random_01 () / 2, 2));
 	gnm_float mean_target = gnm_exp (lm + ls * ls / 2);
 	gnm_float var_target = gnm_expm1 (ls * ls) * (mean_target * mean_target);
@@ -3523,7 +3523,7 @@ static void
 test_dpq_binom (void)
 {
 	gnm_float param_p = random_01 ();
-	gnm_float param_trials = gnm_floor (1 / (0.0001 + gnm_pow (random_01 (), 4)));
+	gnm_float param_trials = gnm_floor (1 / (GNM_const(0.0001) + gnm_pow (random_01 (), 4)));
 	int i;
 	gnm_float prev_p = 0;
 	gnm_float prev_d = 0;
@@ -3589,8 +3589,8 @@ test_dpq_geom (void)
 static void
 test_dpq_hypergeom (void)
 {
-	gnm_float param_nr = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 4)));
-	gnm_float param_nb = gnm_floor (1 / (0.01 + gnm_pow (random_01 (), 4)));
+	gnm_float param_nr = gnm_floor (1 / (GNM_const(0.01) + gnm_pow (random_01 (), 4)));
+	gnm_float param_nb = gnm_floor (1 / (GNM_const(0.01) + gnm_pow (random_01 (), 4)));
 	gnm_float param_n = gnm_random_uniform_int (param_nr + param_nb + 1);
 	int i;
 	gnm_float prev_p = 0;
@@ -3628,7 +3628,7 @@ test_dpq_hypergeom (void)
 static void
 test_dpq_poisson (void)
 {
-	gnm_float param_l = 1 / (0.0001 + gnm_pow (random_01 () / 2, 4));
+	gnm_float param_l = 1 / (GNM_const(0.0001) + gnm_pow (random_01 () / 2, 4));
 	int i;
 	gnm_float prev_p = 0;
 	gnm_float prev_d = 0;

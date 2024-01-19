@@ -378,6 +378,28 @@ random_01 (void)
 	}
 
 	return res;
+#elif GNM_RADIX == 10
+	static const uint32_t p10[10] = {
+		1, 10, 100, 1000, 10000,
+		100000, 1000000, 10000000, 100000000, 1000000000
+	};
+
+	for (int d = GNM_MANT_DIG; d > 0; d -= 9) {
+		uint32_t bits;
+		do {
+			bits = random_32 () / 4;
+			// Rejecting roughly 7% of cases
+		} while (bits >= 1000000000);
+		if (d >= 9) {
+			res = (res + bits) / GNM_const(1e9);
+		} else {
+			bits %= p10[d];
+			res = (res + bits) / p10[d];
+			break;
+		}
+	}
+
+	return res;
 #else
 #error "Code needs fixing here"
 #endif

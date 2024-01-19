@@ -1340,7 +1340,11 @@ wbcg_update_title (WBCGtk *wbcg)
 	char *title = g_strconcat
 		(go_doc_is_dirty (doc) ? "*" : "",
 		 basename ? basename : doc->uri,
+#ifdef GNM_WITH_DECIMAL64
+		 _(" - Gnumeric [Decimal]"),
+#else
 		 _(" - Gnumeric"),
+#endif
 		 NULL);
 	gtk_window_set_title (wbcg_toplevel (wbcg), title);
 	g_free (title);

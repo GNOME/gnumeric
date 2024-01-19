@@ -17,8 +17,12 @@
 
 /* Define if UI is built */
 #undef GNM_WITH_GTK
+
 /* Define if the long double type is to be used */
 #undef GNM_WITH_LONG_DOUBLE
+
+/* Define if the Decimal64 type is to be used */
+#undef GNM_WITH_DECIMAL64
 
 /* Define to 1 if Gnumeric supplies the `lgamma' function. */
 #undef GNM_SUPPLIES_LGAMMA

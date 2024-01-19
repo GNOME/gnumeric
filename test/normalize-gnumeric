@@ -19,6 +19,11 @@ while (<STDIN>) {
 	s/( office:version=")[.0-9]+(")/$1XXX$2/;
     }
 
+    if (m|^\s*<gnm:Calculation |) {
+	s/\b(FloatRadix=)"\d+"/$1="x"/;
+	s/\b(FloatDigits=)"\d+"/$1="x"/;
+    }
+
     s{(\bxmlns:gnm="http://www.gnumeric.org/v)\d+(\.dtd)"}{$1XX$2};
 
     if (m|^\s*<gnm:PrintInformation>\s*$| .. m|^\s*</gnm:PrintInformation>\s*$|) {

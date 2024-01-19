@@ -1095,3 +1095,125 @@ gnm_shortest_rep_in_files (void)
 		q = g_getenv ("GNM_SHORTREP_FILES") != NULL;
 	return q;
 }
+
+
+#ifdef GNM_SUPPLIES_GNM_SSCANF
+// Miniature scanf that understands _Decimal64 arguments
+// Handles
+// * "%g", "%gl", "%Lg", "%Wg"
+// * "%d", "%u"
+// * "%s", "%c", "%*s"
+// * whitespace
+// * literal characters including "%%"
+// and very little else.
+int
+gnm_sscanf (const char *str, const char *fmt, ...)
+{
+	va_list args;
+	int res = 0;
+	char *tmp = g_new (char, strlen (str) + 1);
+
+	va_start (args, fmt);
+	while (*fmt) {
+		char c = *fmt++;
+		if (c == '%') {
+			int flag_l = 0, flag_L = 0, flag_ast = 0;
+#ifdef GNM_WITH_DECIMAL64
+			int flag_W = 0;
+#endif
+			int nchars;
+
+			if (*fmt == '%') {
+				fmt++;
+				goto regular;
+			}
+
+			while (TRUE) {
+				if (*fmt == '*') { fmt++; flag_ast++; continue; }
+				if (*fmt == 'l') { fmt++; flag_l++; continue; }
+				if (*fmt == 'L') { fmt++; flag_L++; continue; }
+#ifdef GNM_WITH_DECIMAL64
+				if (*fmt == *GNM_SCANF_g) { fmt++; flag_W++; continue; }
+#endif
+				break;
+			}
+
+			if (*fmt != 'c') {
+				while (g_ascii_isspace (*str))
+					str++;
+			}
+
+			if (sscanf (str, (*fmt == 'c' ? "%c%n" : "%s%n"), tmp, &nchars) != 1)
+				break;
+			str += nchars;
+
+			if (flag_ast && *fmt) {
+				fmt++;
+				continue;
+			}
+
+			switch (*fmt++) {
+			case 'e': case 'E': case 'f': case 'F':
+			case 'g': case 'G': case 'a': case 'A':
+#ifdef GNM_WITH_DECIMAL64
+				if (flag_W) {
+					*va_arg(args, _Decimal64 *) = go_strtoDd (tmp, NULL);
+					break;
+				}
+#endif
+				if (flag_L)
+					*va_arg(args, long double *) = go_strtold (tmp, NULL);
+				else if (flag_l)
+					*va_arg(args, double *) = go_strtod (tmp, NULL);
+				else
+					*va_arg(args, float *) = go_strtod (tmp, NULL);
+				break;
+
+			case 'd':
+				if (flag_l) {
+					*va_arg(args, long *) = strtol (tmp, NULL, 10);
+				} else {
+					*va_arg(args, int *) = strtol (tmp, NULL, 10);
+				}
+				break;
+
+			case 'u':
+				if (flag_l) {
+					*va_arg(args, long *) = strtoul (tmp, NULL, 10);
+				} else {
+					*va_arg(args, int *) = strtoul (tmp, NULL, 10);
+				}
+				break;
+
+			case 'c':
+				*va_arg(args, char *) = tmp[0];
+				break;
+
+			default:
+				g_printerr ("Unhandled format character '%c'\n", fmt[-1]);
+				abort();
+			}
+
+			res++;
+		} else if (g_ascii_isspace (c)) {
+			while (g_ascii_isspace (*str))
+				str++;
+		} else {
+		regular:
+			if (*str == c) {
+				str++;
+			} else if (*str == 0) {
+				res = EOF;
+				break;
+			} else {
+				break;
+			}
+		}
+	}
+
+	va_end (args);
+	g_free (tmp);
+
+	return res;
+}
+#endif

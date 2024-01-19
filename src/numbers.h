@@ -57,6 +57,35 @@ typedef long double gnm_float;
 #define gnm_xml_out_add_gnm_float go_xml_out_add_long_double
 #define gnm_unscalbn frexpl
 
+#elif GNM_WITH_DECIMAL64
+
+typedef _Decimal64 gnm_float;
+
+#define GNM_FORMAT_e	"We"
+#define GNM_FORMAT_E	"WE"
+#define GNM_FORMAT_f	"Wf"
+#define GNM_FORMAT_g	"Wg"
+#define GNM_FORMAT_G	"WG"
+#define GNM_SCANF_g	"Wg"
+#undef gnm_sscanf       // No support for _Decimal64 in libc.  Defined in gutils.c
+#define GNM_SUPPLIES_GNM_SSCANF
+#define GNM_DIG		DECIMAL64_DIG
+#define GNM_MANT_DIG	DECIMAL64_MANT_DIG
+#define GNM_MIN_EXP	DECIMAL64_MIN_EXP
+#define GNM_MAX_EXP	DECIMAL64_MAX_EXP
+#define GNM_MIN		DECIMAL64_MIN
+#define GNM_MAX		DECIMAL64_MAX
+#define GNM_EPSILON	DECIMAL64_EPSILON
+#define GNM_const(_c)	_c ## dd
+#define GNM_SUFFIX(x) x ## D
+#define GNM_RADIX       10
+
+#define gnm_lgamma_r lgammaD_r
+#define gnm_strto go_strtoDd
+#define gnm_ascii_strto go_ascii_strtoDd
+#define gnm_xml_out_add_gnm_float go_xml_out_add_decimal64
+#define gnm_unscalbn unscalbnD
+
 #else
 
 typedef double gnm_float;

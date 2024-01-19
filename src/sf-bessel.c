@@ -2519,6 +2519,7 @@ gnm_quad_reduce_pi (GnmQuad *res, GnmQuad const *a, int p, int *pk)
 	GnmQuad qk, qa, qb, qtwop;
 	unsigned ui;
 	static const gnm_float pi_parts[] = {
+#if GNM_RADIX == 2
 		+0x1.921fb54442d18p+1,
 		+0x1.1a62633145c04p-53,
 		+0x1.707344a40938p-104,
@@ -2529,6 +2530,20 @@ gnm_quad_reduce_pi (GnmQuad *res, GnmQuad const *a, int p, int *pk)
 		+0x1.a431b302b0a6cp-362,
 		+0x1.f25f14374fe1p-414,
 		+0x1.ab6b6a8e122fp-465
+#elif GNM_RADIX == 10
+		GNM_const(3.141592653589793),
+		GNM_const(0.2384626433832795e-15),
+		GNM_const(0.0288419716939937e-31),
+		GNM_const(0.5105820974944592e-47),
+		GNM_const(0.3078164062862089e-63),
+		GNM_const(0.9862803482534211e-79),
+		GNM_const(0.7067982148086513e-95),
+		GNM_const(0.2823066470938446e-111),
+		GNM_const(0.0955058223172535e-127),
+		GNM_const(0.9408128481117450e-143)
+#else
+#error "Code needs fixing"
+#endif
 	};
 
 	if (a->h < 0) {
