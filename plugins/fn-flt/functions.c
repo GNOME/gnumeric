@@ -36,7 +36,7 @@ static GnmFuncHelp const help_flt_radix[] = {
         { GNM_FUNC_HELP_NAME, F_("FLT.RADIX:return the floating point system's base")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The FLT.RADIX function returns the base of the floating point number system in use.") },
         { GNM_FUNC_HELP_EXAMPLES, "=FLT.RADIX()" },
-        { GNM_FUNC_HELP_SEEALSO, "FLT.NEXTAFTER"},
+        { GNM_FUNC_HELP_SEEALSO, "FLT.MIN,FLT.MAX"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -44,6 +44,38 @@ static GnmValue *
 gnumeric_flt_radix (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_int (GNM_RADIX);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_flt_min[] = {
+        { GNM_FUNC_HELP_NAME, F_("FLT.MIN:return the smallest positive floating point number")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The FLT.RADIX function returns the smallest positive normal floating point number that can be represented.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=FLT.MIN()" },
+        { GNM_FUNC_HELP_SEEALSO, "FLT.MAX,FLT.RADIX"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_flt_min (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (GNM_MIN);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_flt_max[] = {
+        { GNM_FUNC_HELP_NAME, F_("FLT.MAX:return the largest positive floating point number")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The FLT.RADIX function returns the smallest positive floating point number that can be represented.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=FLT.MAX()" },
+        { GNM_FUNC_HELP_SEEALSO, "FLT.MIN,FLT.RADIX"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_flt_max (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (GNM_MAX);
 }
 
 /***************************************************************************/
@@ -81,13 +113,25 @@ gnumeric_flt_nextafter (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 GnmFuncDescriptor const flt_functions[] = {
+	{ "flt.max", "", help_flt_max,
+	  gnumeric_flt_max, NULL,
+	  GNM_FUNC_SIMPLE,
+	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "flt.min", "", help_flt_min,
+	  gnumeric_flt_min, NULL,
+	  GNM_FUNC_SIMPLE,
+	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "flt.nextafter", "fS", help_flt_nextafter,
 	  gnumeric_flt_nextafter, NULL,
 	  GNM_FUNC_SIMPLE,
-	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "flt.radix", "", help_flt_radix,
 	  gnumeric_flt_radix, NULL,
 	  GNM_FUNC_SIMPLE,
-	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         {NULL}
 };

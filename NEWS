@@ -6,7 +6,8 @@ Morten:
 	* Fix xml import and export of auto-filters.
 	* Fix problem with percent-of-range auto-filters with blanks.
 	* New UNIQUE function.
-	* New FLT.RADIX and FLT.NEXTAFTER functions (for testing).
+	* New FLT.RADIX, FLT.MIN, FLT.MAX, FLT.NEXTAFTER functions (for
+	  testing).
 	* New experimental --with-decimal64 for base-10 math.
 
 --------------------------------------------------------------------------

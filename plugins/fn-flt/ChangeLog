@@ -1,3 +1,7 @@
+2024-01-22  Morten Welinder  <terra@gnome.org>
+
+	* functions.c: New FLT.MIN and FLT.MAX functions.
+
 2024-01-09  Morten Welinder <terra@gnome.org>
 
 	* Initial version

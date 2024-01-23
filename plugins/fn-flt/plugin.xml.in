@@ -11,6 +11,8 @@
 		<service type="function_group" id="flt">
 			<_category>Floating Point</_category>
 			<functions textdomain="gnumeric-VERSION-functions">
+				<function name="flt.max"/>
+				<function name="flt.min"/>
 				<function name="flt.nextafter"/>
 				<function name="flt.radix"/>
 			</functions>
