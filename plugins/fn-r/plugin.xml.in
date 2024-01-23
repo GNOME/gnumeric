@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="Gnumeric_r">
 	<information>
-		<_name>Statistical Functions</_name>
+		<_name>Statistical Functions From R</_name>
 		<_description>Statistical Functions with naming and calling conventions from The R Project</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
