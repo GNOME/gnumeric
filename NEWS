@@ -9,6 +9,7 @@ Morten:
 	* New FLT.RADIX, FLT.MIN, FLT.MAX, FLT.NEXTAFTER functions (for
 	  testing).
 	* New experimental --with-decimal64 for base-10 math.
+	* Fix sheet resize problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.56
