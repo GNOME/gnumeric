@@ -9,4 +9,4 @@ use GnumericTest;
 my $mode = ((shift @ARGV) || "check");
 
 &message ("Check the dif importer.");
-&test_importer ("$samples/dif/sample.dif", "fa0db068f86d909e2a7c9ec6464118b8f3c9a1f4", $mode);
+&test_importer ("$samples/dif/sample.dif", "25c16eb30ea4733c0a2053e75a7d8a2ed4c0894e", $mode);

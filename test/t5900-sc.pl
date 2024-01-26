@@ -9,5 +9,5 @@ use GnumericTest;
 my $mode = ((shift @ARGV) || "check");
 
 &message ("Check the sc importer.");
-&test_importer ("$samples/sc/demo_func", "b4d30a690b639b3f1dd33c2f333120eb171aa4db", $mode);
-&test_importer ("$samples/sc/demo_math", "051bf6597bcd3ba07513aed8b49bf95b6b8f431f", $mode);
+&test_importer ("$samples/sc/demo_func", "4fb115f8b93d5f4ff826a38dc67ca4e74671de6a", $mode);
+&test_importer ("$samples/sc/demo_math", "f63b59828741248ce314b4c4eeba93b0dad1e74d", $mode);
