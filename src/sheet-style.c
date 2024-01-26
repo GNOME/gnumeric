@@ -2161,7 +2161,7 @@ sheet_style_get_extent (Sheet const *sheet, GnmRange *res)
 
 struct cb_nondefault_extent {
 	GnmRange *res;
-	GnmStyle **col_defaults;
+	GPtrArray *col_defaults;
 };
 
 static void
@@ -2177,7 +2177,7 @@ cb_nondefault_extent (GnmStyle *style,
 		int col = corner_col + i;
 		if (col >= apply_to->start.col &&
 		    col <= apply_to->end.col &&
-		    style != user->col_defaults[col]) {
+		    style != g_ptr_array_index (user->col_defaults, col)) {
 			int max_row = MIN (corner_row + height - 1,
 					   apply_to->end.row);
 			int min_row = MAX (corner_row, apply_to->start.row);
@@ -2191,9 +2191,18 @@ cb_nondefault_extent (GnmStyle *style,
 	}
 }
 
+/**
+ * sheet_style_get_nondefault_extent:
+ * @sheet: sheet to inspect
+ * @extent: (inout): extent
+ * @src: range to inspect
+ * @col_defaults: (transfer none) (element-type GnmStyle): defaults styles
+ *
+ * Extends @extent so that it covers any non-default style used.
+ */
 void
 sheet_style_get_nondefault_extent (Sheet const *sheet, GnmRange *extent,
-				   const GnmRange *src, GnmStyle **col_defaults)
+				   const GnmRange *src, GPtrArray *col_defaults)
 {
 	struct cb_nondefault_extent user;
 	user.res = extent;
@@ -2203,7 +2212,7 @@ sheet_style_get_nondefault_extent (Sheet const *sheet, GnmRange *extent,
 
 struct cb_is_default {
 	gboolean res;
-	GnmStyle **col_defaults;
+	GPtrArray *col_defaults;
 };
 
 static void
@@ -2219,13 +2228,22 @@ cb_is_default (GnmStyle *style,
 	width = MIN (width, apply_to->end.col - corner_col + 1);
 
 	for (i = 0; user->res && i < width; i++) {
-		if (style != user->col_defaults[corner_col + i])
+		if (style != g_ptr_array_index (user->col_defaults, corner_col + i))
 			user->res = FALSE;
 	}
 }
 
+/**
+ * sheet_style_is_default:
+ * @sheet: sheet to inspect
+ * @r: range to inspect
+ * @col_defaults: (transfer none) (element-type GnmStyle): defaults styles
+ *
+ * Returns: %TRUE if all styles in the given range are default column styles.
+ */
 gboolean
-sheet_style_is_default (Sheet const *sheet, const GnmRange *r, GnmStyle **col_defaults)
+sheet_style_is_default (Sheet const *sheet, const GnmRange *r,
+			GPtrArray *col_defaults)
 {
 	struct cb_is_default user;
 
@@ -2239,7 +2257,7 @@ sheet_style_is_default (Sheet const *sheet, const GnmRange *r, GnmStyle **col_de
 
 struct cb_get_nondefault {
 	guint8 *res;
-	GnmStyle **col_defaults;
+	GPtrArray *col_defaults;
 };
 
 static void
@@ -2256,7 +2274,7 @@ cb_get_nondefault (GnmStyle *style,
 	height = MIN (height, apply_to->end.row - corner_row + 1);
 
 	for (i = 0; i < width; i++) {
-		if (style != user->col_defaults[corner_col + i]) {
+		if (style != g_ptr_array_index (user->col_defaults, corner_col + i)) {
 			int j;
 			for (j = 0; j < height; j++)
 				user->res[corner_row + j] = 1;
@@ -2265,8 +2283,13 @@ cb_get_nondefault (GnmStyle *style,
 	}
 }
 
+/**
+ * sheet_style_get_nondefault_rows: (skip)
+ * @sheet: sheet to inspect
+ * @col_defaults: (transfer none) (element-type GnmStyle): defaults styles
+ */
 guint8 *
-sheet_style_get_nondefault_rows (Sheet const *sheet, GnmStyle **col_defaults)
+sheet_style_get_nondefault_rows (Sheet const *sheet, GPtrArray *col_defaults)
 {
 	struct cb_get_nondefault user;
 	GnmRange r;
@@ -2318,16 +2341,16 @@ cb_most_common (GnmStyle *style,
  * @is_col: if %TRUE, look for common styles in columns; if %FALSE, look in
  * rows.
  *
- * Returns: an array of styles describing the most common styles, one per column
- * or row.
+ * Returns: (transfer full) (element-type GnmStyle): an array of
+ * styles describing the most common styles, one per column or row.
  */
-GnmStyle **
+GPtrArray *
 sheet_style_most_common (Sheet const *sheet, gboolean is_col)
 {
 	GnmRange r;
 	struct cb_most_common cmc;
 	int *max;
-	GnmStyle **res;
+	GPtrArray *res;
 	GHashTableIter iter;
 	gpointer key, value;
 
@@ -2340,7 +2363,8 @@ sheet_style_most_common (Sheet const *sheet, gboolean is_col)
 	foreach_tile (sheet, &r, cb_most_common, &cmc);
 
 	max = g_new0 (int, cmc.l);
-	res = g_new0 (GnmStyle *, cmc.l);
+	res = g_ptr_array_new_with_free_func ((GDestroyNotify)gnm_style_unref);
+	g_ptr_array_set_size (res, cmc.l);
 	g_hash_table_iter_init (&iter, cmc.h);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
 		int *counts = value;
@@ -2352,12 +2376,14 @@ sheet_style_most_common (Sheet const *sheet, gboolean is_col)
 			   order.  */
 			if (counts[j] > max[j]) {
 				max[j] = counts[j];
-				res[j] = style;
+				g_ptr_array_index (res, j) = style;
 			}
 		}
 	}
 	g_hash_table_destroy (cmc.h);
 	g_free (max);
+
+	g_ptr_array_foreach (res, (GFunc)gnm_style_ref, NULL);
 
 	return res;
 }

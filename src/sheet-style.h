@@ -50,11 +50,11 @@ unsigned int sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 					 GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX]);
 void	 sheet_style_get_extent		(Sheet const *sheet, GnmRange *r);
 void	 sheet_style_get_nondefault_extent (Sheet const *sheet, GnmRange *extent,
-					    const GnmRange *src, GnmStyle **col_defaults);
+					    const GnmRange *src, GPtrArray *col_defaults);
 guint8 * sheet_style_get_nondefault_rows (Sheet const *sheet,
-					  GnmStyle **col_defaults);
+					  GPtrArray *col_defaults);
 
-gboolean sheet_style_is_default         (Sheet const *sheet, const GnmRange *r, GnmStyle **col_defaults);
+gboolean sheet_style_is_default         (Sheet const *sheet, const GnmRange *r, GPtrArray *col_defaults);
 void     style_row_init			(GnmBorder const * * *prev_vert,
 					 GnmStyleRow *sr, GnmStyleRow *next_sr,
 					 int start_col, int end_col,
@@ -67,7 +67,7 @@ void	  sheet_style_range_foreach (Sheet const *sheet, GnmRange const *r,
 				     GHFunc	  func,
 				     gpointer     user_data);
 
-GnmStyle **sheet_style_most_common (Sheet const *sheet, gboolean is_col);
+GPtrArray *sheet_style_most_common (Sheet const *sheet, gboolean is_col);
 
 void sheet_style_init     (Sheet *sheet);
 void sheet_style_resize   (Sheet *sheet, int cols, int rows);

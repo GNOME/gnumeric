@@ -206,7 +206,7 @@ map_color_to_palette (XLExportBase const *xle,
 }
 
 void
-excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
+excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GPtrArray *col_styles,
 		    int maxcols, int maxrows, GOIOContext *io_context)
 {
 	int i;
@@ -2945,7 +2945,7 @@ gather_styles (ExcelWriteState *ewb)
 		sheet_style_foreach (sheet, (GFunc)cb_accum_styles, &ewb->base);
 		for (col = 0; col < cols; col++) {
 			ExcelStyleVariant esv;
-			esv.style = esheet->col_style[col];
+			esv.style = g_ptr_array_index (esheet->col_style, col);
 			esv.variant = 0;
 			esheet->col_xf[col] = two_way_table_key_to_idx
 				(ewb->base.xf.two_way_table, &esv);
@@ -5931,7 +5931,7 @@ excel_sheet_free (ExcelWriteSheet *esheet)
 	style_list_free (esheet->conditions);
 	style_list_free (esheet->hlinks);
 	style_list_free (esheet->validations);
-	g_free (esheet->col_style);
+	g_ptr_array_free (esheet->col_style, TRUE);
 	g_free (esheet->col_xf);
 	g_free (esheet);
 }

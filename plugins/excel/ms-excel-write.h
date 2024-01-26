@@ -46,7 +46,7 @@ typedef struct {
 	guint32		 boundsheetPos;
 	gint32		 max_col, max_row;
 	guint16		*col_xf;
-	GnmStyle	**col_style;
+	GPtrArray       *col_style;
 	GnmStyleList	*conditions, *hlinks, *validations;
 	GSList          *blips, *objects, *graphs, *comments;
 	GHashTable	*commentshash;
@@ -159,7 +159,8 @@ int excel_write_map_errcode (GnmValue const *v);
 
 GHashTable *excel_collect_pivot_caches (Workbook const *wb);
 
-void excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
+void excel_sheet_extent (Sheet const *sheet, GnmRange *extent,
+			 GPtrArray *col_styles,
 			 int maxcols, int maxrows, GOIOContext *io_context);
 
 int excel_font_from_go_font (XLExportBase *ewb, GOFont const *font);

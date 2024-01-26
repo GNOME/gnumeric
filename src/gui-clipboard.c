@@ -449,7 +449,7 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 			// Make a guess.
 
 			GnmRange fullr;
-			GnmStyle **col_defaults =
+			GPtrArray *col_defaults =
 				sheet_style_most_common (tmpsheet, TRUE);
 
 			range_init_full_sheet (&fullr, tmpsheet);
@@ -458,7 +458,7 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 			sheet_style_get_nondefault_extent
 				(tmpsheet, &r, &fullr, col_defaults);
 
-			g_free (col_defaults);
+			g_ptr_array_free (col_defaults, TRUE);
 
 			// Just in case there was absolutely nothing in
 			// tmpsheet:

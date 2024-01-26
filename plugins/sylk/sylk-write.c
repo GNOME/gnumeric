@@ -276,7 +276,7 @@ sylk_write_sheet (SylkWriter *state)
 	GnmRange extent;
 	unsigned ui;
 	GnmRange whole_sheet;
-	GnmStyle **col_defs;
+	GPtrArray *col_defs;
 	ColRowInfo const *cr_def;
 	int col, row;
 
@@ -305,7 +305,7 @@ sylk_write_sheet (SylkWriter *state)
 
 	// Column styles.
 	for (col = extent.start.col; col <= extent.end.col; col++) {
-		sylk_write_style (state, col_defs[col]);
+		sylk_write_style (state, g_ptr_array_index (col_defs, col));
 		gsf_output_printf (state->output, ";C%d\r\n", col + 1);
 	}
 
@@ -363,7 +363,7 @@ sylk_write_sheet (SylkWriter *state)
 	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK, &extent,
 				     (CellIterFunc) cb_sylk_write_cell, state);
 
-	g_free (col_defs);
+	g_ptr_array_free (col_defs, TRUE);
 }
 
 static GnmConventions *

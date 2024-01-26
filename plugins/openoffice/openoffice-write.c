@@ -3717,7 +3717,8 @@ write_col_style (GnmOOExport *state, GnmStyle *col_style, ColRowInfo const *ci,
 }
 
 static void
-odf_write_formatted_columns (GnmOOExport *state, Sheet const *sheet, GnmStyle **col_styles, int from, int to)
+odf_write_formatted_columns (GnmOOExport *state, Sheet const *sheet,
+			     GPtrArray *col_styles, int from, int to)
 {
 	int number_cols_rep;
 	ColRowInfo const *last_ci;
@@ -3726,12 +3727,14 @@ odf_write_formatted_columns (GnmOOExport *state, Sheet const *sheet, GnmStyle **
 
 	gsf_xml_out_start_element (state->xml, TABLE "table-column");
 	number_cols_rep = 1;
-	last_col_style = filter_style (state->default_style_region->style, col_styles[0]);
+	last_col_style = filter_style (state->default_style_region->style,
+				       g_ptr_array_index (col_styles, 0));
 	last_ci = sheet_col_get (sheet, 0);
 	write_col_style (state, last_col_style, last_ci, sheet);
 
 	for (i = from+1; i < to; i++) {
-		GnmStyle *this_col_style = filter_style (state->default_style_region->style, col_styles[i]);
+		GnmStyle *this_col_style = filter_style (state->default_style_region->style,
+							 g_ptr_array_index (col_styles, i));
 		ColRowInfo const *this_ci = sheet_col_get (sheet, i);
 
 		if ((this_col_style == last_col_style) && col_row_info_equal (last_ci, this_ci))
@@ -3833,9 +3836,10 @@ enum {
 };
 
 static void
-odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to,
-			int row_length,
-			GSList **sheet_merges, GnmPageBreaks *pb, GnmStyle **col_styles)
+odf_write_content_rows (GnmOOExport *state, Sheet const *sheet,
+			int from, int to,
+			int row_length,	GSList **sheet_merges,
+			GnmPageBreaks *pb, GPtrArray *col_styles)
 {
 	int row;
 	GPtrArray *all_cells;
@@ -3935,7 +3939,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 				GSList *objects;
 				GnmStyle const *this_style = row_styles
 					? row_styles[col]
-					: col_styles[col];
+					: g_ptr_array_index (col_styles, col);
 
 				current_cell = g_ptr_array_index (all_cells, cno);
 				if (current_cell &&
@@ -4016,7 +4020,7 @@ odf_write_sheet (GnmOOExport *state)
 	Sheet const *sheet = state->sheet;
 	int max_cols = gnm_sheet_get_max_cols (sheet);
 	int max_rows = gnm_sheet_get_max_rows (sheet);
-	GnmStyle **col_styles;
+	GPtrArray *col_styles;
 	GnmRange r;
 	GSList *sheet_merges = NULL;
 	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
@@ -4068,7 +4072,7 @@ odf_write_sheet (GnmOOExport *state)
 					max_cols, &sheet_merges, pb, col_styles);
 
 	g_slist_free_full (sheet_merges, g_free);
-	g_free (col_styles);
+	g_ptr_array_free (col_styles, TRUE);
 
 }
 

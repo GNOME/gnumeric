@@ -1562,7 +1562,7 @@ row_boring (Sheet *sheet, int r)
 
 static void
 xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
-		  GnmRange const *extent, GnmStyle **col_styles)
+		  GnmRange const *extent, GPtrArray *col_styles)
 {
 	int r, c;
 	char *content;
@@ -1661,7 +1661,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 				style = style1 = gnm_style_dup (style);
 				gnm_style_set_format (style1, fmt2);
 			}
-			style_id = style && style != col_styles[c]
+			style_id = style && style != g_ptr_array_index (col_styles, c)
 				? xlsx_get_style_id (state, style)
 				: -1;
 			if (style1)
@@ -2219,7 +2219,7 @@ xlsx_write_col (XLSXWriteState *state, GsfXMLOut *xml,
 }
 
 static void
-xlsx_write_cols (XLSXWriteState *state, GsfXMLOut *xml, GnmStyle **styles)
+xlsx_write_cols (XLSXWriteState *state, GsfXMLOut *xml, GPtrArray *styles)
 {
 	int first_col = 0, i;
 	int last_col = gnm_sheet_get_last_col (state->sheet);
@@ -2229,17 +2229,18 @@ xlsx_write_cols (XLSXWriteState *state, GsfXMLOut *xml, GnmStyle **styles)
 
 	for (i = first_col + 1; i <= last_col; i++) {
 		ColRowInfo const *ci = sheet_col_get_info (state->sheet, i);
-		if (!col_row_info_equal (info, ci) || styles[i] != styles[i - 1]) {
+		if (!col_row_info_equal (info, ci) ||
+		    g_ptr_array_index (styles, i) != g_ptr_array_index (styles, i - 1)) {
 			xlsx_write_col (state, xml, info,
 					first_col, i - 1,
-					styles[i - 1]);
+					g_ptr_array_index (styles, i - 1));
 			info	  = ci;
 			first_col = i;
 		}
 	}
 	xlsx_write_col (state, xml, info,
 			first_col, i - 1,
-			styles[i - 1]);
+			g_ptr_array_index (styles, i - 1));
 
 	gsf_xml_out_end_element (xml); /* </cols> */
 }
@@ -2835,7 +2836,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 	GSList   *drawing_objs, *legacy_drawing_objs, *comments, *others, *objects, *p;
 	char const *chart_drawing_rel_id = NULL;
 	char const *legacy_drawing_rel_id = NULL;
-	GnmStyle **col_styles;
+	GPtrArray *col_styles;
 	GnmPrintInformation *pi = NULL;
 	GHashTable *zorder;
 	int z;
@@ -3033,7 +3034,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 	gsf_output_close (sheet_part);
 	g_object_unref (sheet_part);
 	g_free (name);
-	g_free (col_styles);
+	g_ptr_array_free (col_styles, TRUE);
 
 	state->sheet = NULL;
 

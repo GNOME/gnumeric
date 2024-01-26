@@ -1276,8 +1276,8 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		       GOCmdContext *cc, GOUndo **pundo)
 {
 	int old_cols, old_rows;
-	GnmStyle **common_col_styles = NULL;
-	GnmStyle **common_row_styles = NULL;
+	GPtrArray *common_col_styles = NULL;
+	GPtrArray *common_row_styles = NULL;
 
 	if (pundo) *pundo = NULL;
 
@@ -1295,18 +1295,10 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	/* ---------------------------------------- */
 	/* Gather styles we want to copy into new areas.  */
 
-	if (cols > old_cols) {
-		int r;
+	if (cols > old_cols)
 		common_row_styles = sheet_style_most_common (sheet, FALSE);
-		for (r = 0; r < old_rows; r++)
-			gnm_style_ref (common_row_styles[r]);
-	}
-	if (rows > old_rows) {
-		int c;
+	if (rows > old_rows)
 		common_col_styles = sheet_style_most_common (sheet, TRUE);
-		for (c = 0; c < old_cols; c++)
-			gnm_style_ref (common_col_styles[c]);
-	}
 
 	/* ---------------------------------------- */
 	/* Remove the columns and rows that will disappear.  */
@@ -1437,21 +1429,16 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		int end_r = MIN (old_rows, rows);
 		while (r < end_r) {
 			int r2 = r;
-			GnmStyle *mstyle = common_row_styles[r];
+			GnmStyle *mstyle = g_ptr_array_index (common_row_styles, r);
 			GnmRange rng;
 			while (r2 + 1 < end_r &&
-			       mstyle == common_row_styles[r2 + 1])
+			       mstyle == g_ptr_array_index (common_row_styles, r2 + 1))
 				r2++;
 			range_init (&rng, old_cols, r, cols - 1, r2);
 			gnm_style_ref (mstyle);
 			sheet_apply_style (sheet, &rng, mstyle);
 			r = r2 + 1;
 		}
-
-		for (r = 0; r < old_rows; r++)
-			gnm_style_unref (common_row_styles[r]);
-
-		g_free (common_row_styles);
 	}
 
 	if (rows > old_rows) {
@@ -1459,10 +1446,10 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		int end_c = MIN (old_cols, cols);
 		while (c < end_c) {
 			int c2 = c;
-			GnmStyle *mstyle = common_col_styles[c];
+			GnmStyle *mstyle = g_ptr_array_index (common_col_styles, c);
 			GnmRange rng;
 			while (c2 + 1 < end_c &&
-			       mstyle == common_col_styles[c2 + 1])
+			       mstyle == g_ptr_array_index (common_col_styles, c2 + 1))
 				c2++;
 			range_init (&rng, c, old_rows, c2, rows - 1);
 			gnm_style_ref (mstyle);
@@ -1476,7 +1463,7 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 			 * what style to use down here, but we choose the
 			 * last column style.
 			 */
-			GnmStyle *mstyle = common_col_styles[old_cols - 1];
+			GnmStyle *mstyle = g_ptr_array_index (common_col_styles, old_cols - 1);
 			GnmRange rng;
 
 			range_init (&rng,
@@ -1485,12 +1472,12 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 			gnm_style_ref (mstyle);
 			sheet_apply_style (sheet, &rng, mstyle);
 		}
-
-		for (c = 0; c < old_cols; c++)
-			gnm_style_unref (common_col_styles[c]);
-
-		g_free (common_col_styles);
 	}
+
+	if (common_row_styles)
+		g_ptr_array_free (common_row_styles, TRUE);
+	if (common_col_styles)
+		g_ptr_array_free (common_col_styles, TRUE);
 
 	/* ---------------------------------------- */
 
