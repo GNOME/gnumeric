@@ -65,6 +65,7 @@ my @sources = &GnumericTest::corpus();
 # xmllint hangs on these files.  (Well, amath finishes but takes too
 # long.)
 @sources = grep { !m{(^|/)(amath|crlibm|gamma|numtheory)\.gnumeric$} } @sources;
+@sources = grep { !m{(^|/)(bitwise)\.xls$} } @sources;
 
 my $nskipped = 0;
 my $ngood = 0;
