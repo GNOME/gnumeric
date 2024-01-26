@@ -3882,12 +3882,12 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet,
 
 	/* Find out what rows have style not covered by column styles.  */
 	{
-		guint8 *non_defaults_rows =
+		GByteArray *non_defaults_rows =
 			sheet_style_get_nondefault_rows (sheet, col_styles);
 		for (row = from; row < to; row++)
-			if (non_defaults_rows[row])
+			if (non_defaults_rows->data[row])
 				row_flags[row] |= RF_STYLE;
-		g_free (non_defaults_rows);
+		g_byte_array_free (non_defaults_rows, TRUE);
 	}
 
 	for (row = from; row < to; /* nothing here */) {

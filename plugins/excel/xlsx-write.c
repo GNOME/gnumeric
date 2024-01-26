@@ -1573,7 +1573,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 	GPtrArray *all_cells = sheet_cells (sheet, extent);
 	guint cno = 0;
 	int *boring_count;
-	guint8 *non_defaults_rows = sheet_style_get_nondefault_rows (sheet, col_styles);
+	GByteArray *non_defaults_rows = sheet_style_get_nondefault_rows (sheet, col_styles);
 
 	boring_count = g_new0 (int, extent->end.row + 1);
 	r = extent->end.row;
@@ -1627,7 +1627,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 			int dr, rows = (cell ? cell->pos.row : extent->end.row + 1) - r;
 			rows = MIN (rows, boring_count[r]);
 			for (dr = 0; dr < rows; dr++)
-				if (non_defaults_rows[r + dr])
+				if (non_defaults_rows->data[r + dr])
 					break;
 			rows = MIN (rows, dr);
 			if (rows > 0) {
@@ -1781,7 +1781,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 			gsf_xml_out_end_element (xml); /* </row> */
 	}
 	gsf_xml_out_end_element (xml); /* </sheetData> */
-	g_free (non_defaults_rows);
+	g_byte_array_free (non_defaults_rows, TRUE);
 	g_free (boring_count);
 	g_ptr_array_free (all_cells, TRUE);
 	g_free (cheesy_span);

@@ -222,7 +222,7 @@ sheet_style_find (Sheet const *sheet, GnmStyle *s)
 	return s;
 }
 
-/* Place holder until I merge in the new styles too */
+/* Placeholder until I merge in the new styles too */
 static void
 pstyle_set_border (GnmStyle *st, GnmBorder *border,
 		   GnmStyleBorderLocation side)
@@ -823,7 +823,7 @@ sheet_style_set_auto_pattern_color (Sheet *sheet, GnmColor *pattern_color)
 
 /**
  * sheet_style_get_auto_pattern_color:
- * @sheet: the sheet
+ * @sheet: The sheet
  *
  * Returns: (transfer full): the color for rendering auto colored patterns
  * in this sheet.
@@ -1289,7 +1289,7 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
 /**
  * sheet_style_apply_col:
  * @sheet: #Sheet being changed
- * @col: Column
+ * @col: Column number
  * @style: (transfer full): #GnmStyle
  *
  * NOTE: This is a simple wrapper for now.  When we support col/row styles it
@@ -1307,8 +1307,8 @@ sheet_style_apply_col (Sheet *sheet, int col, GnmStyle *pstyle)
 
 /**
  * sheet_style_apply_row:
- * @sheet:
- * @row:
+ * @sheet: #Sheet being changed
+ * @row: Row number
  * @style: (transfer full): #GnmStyle
  *
  * NOTE: This is a simple wrapper for now.  When we support col/row styles it
@@ -1326,9 +1326,9 @@ sheet_style_apply_row (Sheet  *sheet, int row, GnmStyle *pstyle)
 
 /**
  * sheet_style_apply_pos:
- * @sheet:
- * @col:
- * @row:
+ * @sheet: #Sheet being changed
+ * @col: Column number
+ * @row: Row number
  * @style: (transfer full): #GnmStyle
  *
  * Apply a partial style to a single cell
@@ -1346,9 +1346,9 @@ sheet_style_apply_pos (Sheet *sheet, int col, int row, GnmStyle *pstyle)
 }
 /**
  * sheet_style_set_pos:
- * @sheet:
- * @col:
- * @row:
+ * @sheet: #Sheet being changed
+ * @col: Column number
+ * @row: Row number
  * @style: (transfer full):
  *
  * Change the complete style for a single cell.
@@ -1368,7 +1368,7 @@ sheet_style_set_pos (Sheet *sheet, int col, int row,
 
 /**
  * sheet_style_default:
- * @sheet:
+ * @sheet: #Sheet
  *
  * Returns: (transfer full): default style for the sheet.
  **/
@@ -1385,7 +1385,7 @@ sheet_style_default (Sheet const *sheet)
 /**
  * sheet_style_get:
  * @sheet: #Sheet
- * @col: column number
+ * @col: Column number
  * @row: row number
  *
  * Returns: (transfer none): find the fully qualified style applicable to
@@ -2145,10 +2145,10 @@ cb_style_extent (GnmStyle *style,
 /**
  * sheet_style_get_extent:
  * @sheet: sheet to measure
- * @r: starting range and resulting range
+ * @r: (inout): starting range and resulting range
  *
- * A simple implementation that finds the smallest range containing all visible styles
- * and containing @res.
+ * A simple implementation that finds the smallest range containing
+ * all visible styles and containing @r.
  */
 void
 sheet_style_get_extent (Sheet const *sheet, GnmRange *res)
@@ -2256,7 +2256,7 @@ sheet_style_is_default (Sheet const *sheet, const GnmRange *r,
 }
 
 struct cb_get_nondefault {
-	guint8 *res;
+	GByteArray *res;
 	GPtrArray *col_defaults;
 };
 
@@ -2277,18 +2277,21 @@ cb_get_nondefault (GnmStyle *style,
 		if (style != g_ptr_array_index (user->col_defaults, corner_col + i)) {
 			int j;
 			for (j = 0; j < height; j++)
-				user->res[corner_row + j] = 1;
+				user->res->data[corner_row + j] = 1;
 			break;
 		}
 	}
 }
 
 /**
- * sheet_style_get_nondefault_rows: (skip)
+ * sheet_style_get_nondefault_rows:
  * @sheet: sheet to inspect
  * @col_defaults: (transfer none) (element-type GnmStyle): defaults styles
+ *
+ * Returns: (transfer full): GByteArray with one element per row.  An
+ * element is %TRUE if the row uses a non-default style.
  */
-guint8 *
+GByteArray *
 sheet_style_get_nondefault_rows (Sheet const *sheet, GPtrArray *col_defaults)
 {
 	struct cb_get_nondefault user;
@@ -2296,7 +2299,9 @@ sheet_style_get_nondefault_rows (Sheet const *sheet, GPtrArray *col_defaults)
 
 	range_init_full_sheet (&r, sheet);
 
-	user.res = g_new0 (guint8, gnm_sheet_get_max_rows (sheet));
+	user.res = g_byte_array_new ();
+	g_byte_array_set_size (user.res, gnm_sheet_get_max_rows (sheet));
+	memset (user.res->data, 0, user.res->len);
 	user.col_defaults = col_defaults;
 
 	foreach_tile (sheet, &r, cb_get_nondefault, &user);
@@ -2865,12 +2870,12 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 
 /**
  * sheet_style_get_range:
- * @sheet: the sheet in which to find styles
- * @r:     optional range to scan
+ * @sheet: #Sheet in which to find styles
+ * @r: (nullable): Range to scan
  *
  * Get a list of rectangles and their associated styles.
- * Caller is responsible for freeing.  Note that when a range is given,
- * the resulting ranges are relative to the input range.
+ * Note that when a range is given, the resulting ranges are relative
+ * to the input range.
  *
  * Returns: (transfer full):
  */
@@ -2896,11 +2901,12 @@ style_conditions_filter (GnmStyle const *style)
 
 /**
  * sheet_style_collect_conditions:
- * @sheet:
- * @r:
+ * @sheet: #Sheet
+ * @r: (nullable): Range to scan
  *
- * Returns: (transfer full): a list of areas with conditionals, Caller is
- * responsible for freeing.
+ * Returns: (transfer full): a list of areas with conditionals.
+ * Note that when a range is given, the resulting ranges are relative
+ * to the input range.
  **/
 GnmStyleList *
 sheet_style_collect_conditions (Sheet const *sheet, GnmRange const *r)
@@ -2925,11 +2931,12 @@ style_hlink_filter (GnmStyle const *style)
 
 /**
  * sheet_style_collect_hlinks:
- * @sheet:
- * @r:
+ * @sheet: #Sheet
+ * @r: (nullable): Range to scan
  *
- * Returns: (transfer full): a list of areas with hyperlinks, Caller is
- * responsible for freeing.
+ * Returns: (transfer full): a list of areas with hyperlinks.
+ * Note that when a range is given, the resulting ranges are relative
+ * to the input range.
  **/
 GnmStyleList *
 sheet_style_collect_hlinks (Sheet const *sheet, GnmRange const *r)
@@ -2957,10 +2964,12 @@ style_validation_filter (GnmStyle const *style)
 /**
  * sheet_style_collect_validations:
  * @sheet: the to trawl
- * @r: (allow-none): range to restrict to
+ * @r: (nullable): Range to scan
  *
  * Returns: (transfer full): a list of areas with validation or input
  * message.
+ * Note that when a range is given, the resulting ranges are relative
+ * to the input range.
  **/
 GnmStyleList *
 sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
@@ -3010,7 +3019,7 @@ sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 
 /**
  * style_list_free:
- * @l: the list to free
+ * @l: (transfer full): the list to free
  *
  * Free up the resources in the style list.  This includes unreferencing the
  * styles.
@@ -3024,12 +3033,13 @@ style_list_free (GnmStyleList *list)
 /**
  * style_list_get_style:
  * @l: A style list.
- * @col:
- * @row:
+ * @col: Column number
+ * @row: Row number
  *
  * Attempts to find the style associated with the @pos offset within the 0,0
  * based style list.
- * The resulting style does not have its reference count bumped.
+ *
+ * Returns: (transfer none) (nullable): The style found.
  **/
 GnmStyle const *
 style_list_get_style (GnmStyleList const *list, int col, int row)
@@ -3058,13 +3068,13 @@ cb_find_link (GnmStyle *style,
 
 /**
  * sheet_style_region_contains_link:
- * @sheet:
- * @r:
+ * @sheet: #Sheet
+ * @r: #GnmRange to search for links
  *
- * Utility routine that checks to see if a region contains at least 1 hyper link
- * and returns the 1st one it finds.
+ * Utility routine that checks to see if a region contains at least ones
+ * hyperlink and returns the first one it finds.
  *
- * Returns: (transfer none): the found #GmHLink if any.
+ * Returns: (transfer none) (nullable): the found #GmHLink if any.
  **/
 GnmHLink *
 sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *r)
