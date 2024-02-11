@@ -25,6 +25,7 @@ Morten:
 	* Improve generation of random integers.
 	* Work around cairo performance problem re anting.  [#736]
 	* Fix HTML export problem with underline.
+	* Fix UI problem with redo of expression entry.  [#755]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.55

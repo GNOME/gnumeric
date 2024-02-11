@@ -1,3 +1,7 @@
+2024-02-11  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_range_set_expr_cb): Also redraw.  Fixes #755.
+
 2023-12-05  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (xml_write_filter_field): Fix reversed sense
