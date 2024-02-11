@@ -67,6 +67,7 @@ enum {
 	ATOM_GOFFICE_GRAPH,
 	// ----------
 	ATOM_UTF8_STRING,
+	ATOM_TEXT_PLAIN_UTF8,
 	ATOM_STRING,
 	ATOM_COMPOUND_TEXT,
 	ATOM_TEXT_HTML,
@@ -101,6 +102,7 @@ static const char *const atom_names[] = {
 	"application/x-goffice-graph",
 	// ----------
 	"UTF8_STRING",
+	"text/plain;charset=utf-8",
 	"STRING",
 	"COMPOUND_TEXT",
 	"text/html",
@@ -341,7 +343,8 @@ text_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	/* Nothing on clipboard? */
 	if (sel_len < 0) {
 		;
-	} else if (target == atoms[ATOM_UTF8_STRING]) {
+	} else if (target == atoms[ATOM_UTF8_STRING] ||
+		   target == atoms[ATOM_TEXT_PLAIN_UTF8]) {
 		content = text_to_cell_region (wbcg, (const char *)gtk_selection_data_get_data (sel),
 					       sel_len, "UTF-8", TRUE);
 	} else if (target == atoms[ATOM_COMPOUND_TEXT]) {
@@ -757,6 +760,7 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 	// In order of preference
 	static const int string_fmts[] = {
 		ATOM_UTF8_STRING,
+		ATOM_TEXT_PLAIN_UTF8,
 		ATOM_STRING,
 		ATOM_COMPOUND_TEXT
 	};
@@ -1205,6 +1209,7 @@ is_clipman_target (const char *target)
 		g_str_equal (target, atom_names[ATOM_GOFFICE_GRAPH]) ||
 		g_str_equal (target, atom_names[ATOM_TEXT_HTML]) ||
 		g_str_equal (target, atom_names[ATOM_UTF8_STRING]) ||
+		g_str_equal (target, atom_names[ATOM_TEXT_PLAIN_UTF8]) ||
 		g_str_equal (target, atom_names[ATOM_BIFF8_OO]) ||
 		g_str_equal (target, atom_names[ATOM_IMAGE_SVGXML]) ||
 		g_str_equal (target, atom_names[ATOM_IMAGE_XWMF]) ||
@@ -1291,6 +1296,7 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 #endif
 		}
 		add_target (targets, atom_names[ATOM_UTF8_STRING], 0, INFO_GENERIC_TEXT);
+		add_target (targets, atom_names[ATOM_TEXT_PLAIN_UTF8], 0, INFO_GENERIC_TEXT);
 		add_target (targets, atom_names[ATOM_COMPOUND_TEXT], 0, INFO_GENERIC_TEXT);
 		add_target (targets, atom_names[ATOM_STRING], 0, INFO_GENERIC_TEXT);
 	}
@@ -1431,6 +1437,7 @@ gui_clipboard_test (const char *fmt)
 		info = INFO_GNUMERIC;
 		break;
 	case ATOM_UTF8_STRING:
+	case ATOM_TEXT_PLAIN_UTF8:
 	case ATOM_STRING:
 	case ATOM_COMPOUND_TEXT:
 		info = INFO_GENERIC_TEXT;

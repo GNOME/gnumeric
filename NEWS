@@ -11,6 +11,7 @@ Morten:
 	* New experimental --with-decimal64 for base-10 math.
 	* Fix sheet resize problem.
 	* Fix UI problem with redo of expression entry.  [#755]
+	* Accept ad-hoc clipboard format "text/plain;charset=utf-8".  [#754]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.56
