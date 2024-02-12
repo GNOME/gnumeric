@@ -1,3 +1,7 @@
+2024-02-11  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.57
+
 2023-12-05  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_filter_cond): Fix auto-filter import
