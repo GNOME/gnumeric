@@ -1,5 +1,9 @@
 2024-02-11  Morten Welinder <terra@gnome.org>
 
+	* configure.ac: Post-release bump.
+
+2024-02-11  Morten Welinder <terra@gnome.org>
+
 	* Release 1.12.57
 
 2024-02-11  Morten Welinder  <terra@gnome.org>
