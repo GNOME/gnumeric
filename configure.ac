@@ -171,8 +171,8 @@ gnumeric_reqs="$libspreadsheet_reqs
 	gobject-2.0		>= 2.40.0
 	gmodule-2.0		>= 2.40.0
 	gthread-2.0		>= 2.40.0
-	pango			>= 1.24.0
-	pangocairo		>= 1.24.0
+	pango			>= 1.46.0
+	pangocairo		>= 1.46.0
 "
 libspreadsheet_gtk_reqs="
 	gtk+-3.0		>= 3.8.7
