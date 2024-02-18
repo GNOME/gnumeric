@@ -158,6 +158,7 @@ typedef double gnm_float;
 #define gnm_log2 GNM_SUFFIX(log2)
 #define gnm_modf GNM_SUFFIX(modf)
 #define gnm_nan GNM_SUFFIX(go_nan)
+#define gnm_nextafter GNM_SUFFIX(nextafter)
 #define gnm_ninf GNM_SUFFIX(go_ninf)
 #define gnm_pinf GNM_SUFFIX(go_pinf)
 #define gnm_pow GNM_SUFFIX(go_pow)

@@ -107,7 +107,7 @@ gnumeric_flt_nextafter (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	else
 		return value_new_error_VALUE (ei->pos);
 
-	return value_new_float (nextafter (x, y));
+	return value_new_float (gnm_nextafter (x, y));
 }
 
 /***************************************************************************/
