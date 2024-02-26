@@ -1,5 +1,5 @@
 /*
- * value.c:  Utilies for handling, creating, removing values.
+ * value.c:  Utilities for handling, creating, removing values.
  *
  * Authors:
  *   Miguel de Icaza (miguel@gnu.org).

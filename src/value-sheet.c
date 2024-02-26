@@ -1,5 +1,5 @@
 /*
- * value-sheet.c:  Utilies for sheet specific value handling
+ * value-sheet.c:  Utilities for sheet specific value handling
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org).

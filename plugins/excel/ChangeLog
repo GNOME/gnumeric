@@ -9330,7 +9330,7 @@
 	For Vlad Harchev <hvv@hippo.ru>
 
         * ms-excel-util.h ms-excel-util.c (excel_wcstombs) :
-	  Some utilites to handle encoding changes that fail.
+	  Some utilities to handle encoding changes that fail.
 
         * ms-excel-read.c : Use the utilities.
 

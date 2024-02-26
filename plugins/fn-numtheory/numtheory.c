@@ -521,7 +521,7 @@ gnumeric_isprime (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /*
  * Returns
  *    0 (n <= 1) or (out of bounds)
- *    smallest prime facter
+ *    smallest prime factor
  */
 static guint64
 prime_factor (guint64 n)
@@ -537,7 +537,6 @@ prime_factor (guint64 n)
 			return 0;
 		if (n % p == 0)
 			return p;
-
 	}
 
 	return n;
