@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2020-07-15 22:35+0000\n"
-"PO-Revision-Date: 2020-07-20 21:54+0500\n"
+"POT-Creation-Date: 2024-01-10 02:10+0000\n"
+"PO-Revision-Date: 2024-03-08 11:21+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -16,42 +16,46 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
-#: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
+#: ../org.gnumeric.gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:552
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: ../gnumeric.desktop.in.h:2
+#: ../org.gnumeric.gnumeric.desktop.in.h:2
 msgid "Spreadsheet"
 msgstr "Электрондық кестелер"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:3 ../src/main-application.c:254
+#: ../org.gnumeric.gnumeric.desktop.in.h:3 ../src/main-application.c:254
 msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric электрондық кестесі"
 
-#: ../gnumeric.desktop.in.h:4
+#: ../org.gnumeric.gnumeric.desktop.in.h:4
 msgid "Calculation, Analysis, and Visualization of Information"
 msgstr "Есептеу, талдау, және мәліметті бейнелік түрінде көрсету"
 
-#: ../gnumeric.desktop.in.h:5
+#: ../org.gnumeric.gnumeric.desktop.in.h:5
 msgid "Spreadsheet;"
 msgstr "Spreadsheet;Электрондық кесте;"
 
-#: ../gnumeric.appdata.xml.in.h:1
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:1
 msgid "The Gnumeric Spreadsheet"
 msgstr "Gnumeric электрондық кестелері"
 
-#: ../gnumeric.appdata.xml.in.h:2
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:2
+msgid "A High-Precision Spreadsheet Program"
+msgstr "Жоғары дәлдікті электрондық кесте бағдарламасы"
+
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:3
 msgid ""
 "Gnumeric is a spreadsheet application for interactive manipulation of data."
 msgstr ""
 "Gnumeric — деректерді интерактивті өңдеуге арналған электрондық кесте "
 "қолданбасы."
 
-#: ../gnumeric.appdata.xml.in.h:3
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:4
 msgid ""
 "Gnumeric aims to provide high-accuracy computations, expressive graphs, and "
 "a wide selection of statistical analysis tools. Gnumeric can share files "
@@ -62,33 +66,29 @@ msgstr ""
 "файлдарын Microsoft Excel бағдарламасымен және ODS стандартын қолдайтын "
 "бағдарламалармен ортақ пайдалануға болады."
 
-#: ../gnumeric.appdata.xml.in.h:4
-msgid "A High-Precision Spreadsheet Program"
-msgstr "Жоғары дәлдікті электрондық кесте бағдарламасы"
-
-#: ../gnumeric.appdata.xml.in.h:5
+#: ../org.gnumeric.gnumeric.appdata.xml.in.h:5
 msgid "The Gnumeric Team"
 msgstr "Gnumeric командасы"
 
-#: ../plugins/applix/applix-read.c:124
+#: ../plugins/applix/applix-read.c:125
 msgid "Parse error while reading Applix file."
 msgstr "Applix файлын оқу кезіндегі талдау қатесі."
 
-#: ../plugins/applix/applix-read.c:345
+#: ../plugins/applix/applix-read.c:346
 msgid "Missing characters for character encoding"
 msgstr "Кодталу үшін жоқ таңбалар"
 
-#: ../plugins/applix/applix-read.c:349
+#: ../plugins/applix/applix-read.c:350
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
 msgstr "'%c%c' кодталуы үшін қате таңбалар"
 
-#: ../plugins/applix/applix-read.c:1225
+#: ../plugins/applix/applix-read.c:1226
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
 msgstr "Өрнек басталуы '=' ? '%s' емес"
 
-#: ../plugins/applix/applix-read.c:1236
+#: ../plugins/applix/applix-read.c:1237
 #, c-format
 msgid ""
 "%s!%s : unable to parse '%s'\n"
@@ -110,7 +110,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7219
-#: ../plugins/openoffice/openoffice-read.c:14091 ../src/xml-sax-read.c:3523
+#: ../plugins/openoffice/openoffice-read.c:14148 ../src/xml-sax-read.c:3566
 msgid "Reading file..."
 msgstr "Файлды оқу..."
 
@@ -198,7 +198,7 @@ msgstr "Сақтауға дайындау..."
 msgid "Saving file..."
 msgstr "Файлды сақтау..."
 
-#: ../plugins/excel/excel-xml-read.c:135 ../src/xml-sax-read.c:461
+#: ../plugins/excel/excel-xml-read.c:135 ../src/xml-sax-read.c:484
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Күтпеген атрибут %s::%s == '%s'."
@@ -214,7 +214,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr ""
 
 #: ../plugins/excel/excel-xml-read.c:1217
-#: ../plugins/openoffice/openoffice-read.c:14277 ../src/xml-sax-read.c:3540
+#: ../plugins/openoffice/openoffice-read.c:14340 ../src/xml-sax-read.c:3583
 msgid "XML document not well formed!"
 msgstr "XML құжаты дұрыс пішімделген емес!"
 
@@ -280,52 +280,52 @@ msgid "No password supplied"
 msgstr "Пароль көрсетілмеді"
 
 #: ../plugins/excel/ms-excel-util.c:698
-#: ../plugins/openoffice/openoffice-read.c:6257 ../src/print-info.c:674
+#: ../plugins/openoffice/openoffice-read.c:6298 ../src/print-info.c:669
 msgid "TAB"
 msgstr ""
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:6303 ../src/print-info.c:675
+#: ../plugins/openoffice/openoffice-read.c:6344 ../src/print-info.c:670
 msgid "PAGE"
-msgstr ""
+msgstr "БЕТ"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:6310 ../src/print-info.c:676
+#: ../plugins/openoffice/openoffice-read.c:6351 ../src/print-info.c:671
 msgid "PAGES"
 msgstr ""
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:6289 ../src/print-info.c:677
+#: ../plugins/openoffice/openoffice-read.c:6330 ../src/print-info.c:672
 msgid "DATE"
 msgstr ""
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:6296 ../src/print-info.c:678
+#: ../plugins/openoffice/openoffice-read.c:6337 ../src/print-info.c:673
 msgid "TIME"
 msgstr ""
 
 #: ../plugins/excel/ms-excel-util.c:703
-#: ../plugins/openoffice/openoffice-read.c:6337
-#: ../plugins/openoffice/openoffice-read.c:6344 ../src/print-info.c:679
+#: ../plugins/openoffice/openoffice-read.c:6378
+#: ../plugins/openoffice/openoffice-read.c:6385 ../src/print-info.c:674
 #: ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "FILE"
 
 #: ../plugins/excel/ms-excel-util.c:704
-#: ../plugins/openoffice/openoffice-read.c:6335
-#: ../plugins/openoffice/openoffice-read.c:6340 ../src/print-info.c:680
+#: ../plugins/openoffice/openoffice-read.c:6376
+#: ../plugins/openoffice/openoffice-read.c:6381 ../src/print-info.c:675
 msgid "PATH"
-msgstr ""
+msgstr "ЖОЛ"
 
-#: ../plugins/excel/ms-excel-util.c:706 ../src/print-info.c:681
+#: ../plugins/excel/ms-excel-util.c:706 ../src/print-info.c:676
 msgid "CELL"
 msgstr ""
 
 #. ???
 #: ../plugins/excel/ms-excel-util.c:707
-#: ../plugins/openoffice/openoffice-read.c:6388 ../src/print-info.c:682
+#: ../plugins/openoffice/openoffice-read.c:6429 ../src/print-info.c:677
 msgid "TITLE"
-msgstr ""
+msgstr "АТАУЫ"
 
 #: ../plugins/excel/ms-excel-write.c:225
 #, c-format
@@ -456,188 +456,188 @@ msgstr ""
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:379
+#: ../plugins/excel/xlsx-read.c:382
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "'%s' зақымдалған!"
 
-#: ../plugins/excel/xlsx-read.c:471
+#: ../plugins/excel/xlsx-read.c:474
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:514 ../plugins/excel/xlsx-read.c:573
-#: ../plugins/excel/xlsx-read.c:664
+#: ../plugins/excel/xlsx-read.c:517 ../plugins/excel/xlsx-read.c:576
+#: ../plugins/excel/xlsx-read.c:691
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:518 ../plugins/excel/xlsx-read.c:577
-#: ../plugins/excel/xlsx-read.c:672
+#: ../plugins/excel/xlsx-read.c:521 ../plugins/excel/xlsx-read.c:580
+#: ../plugins/excel/xlsx-read.c:699
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:543
+#: ../plugins/excel/xlsx-read.c:546
 #, c-format
 msgid "Unsigned integer '%s' is out of range, for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:547
+#: ../plugins/excel/xlsx-read.c:550
 #, c-format
 msgid "Invalid unsigned integer '%s' for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:603
+#: ../plugins/excel/xlsx-read.c:606
 #, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:634
+#: ../plugins/excel/xlsx-read.c:637 ../plugins/excel/xlsx-read.c:661
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:698
+#: ../plugins/excel/xlsx-read.c:725
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:721
+#: ../plugins/excel/xlsx-read.c:748
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:795
-#: ../plugins/openoffice/openoffice-read.c:1315
-#: ../plugins/openoffice/openoffice-read.c:1393
+#: ../plugins/excel/xlsx-read.c:820
+#: ../plugins/openoffice/openoffice-read.c:1337
+#: ../plugins/openoffice/openoffice-read.c:1415
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:800 ../plugins/excel/xlsx-read.c:807
-#: ../plugins/openoffice/openoffice-read.c:1320
+#: ../plugins/excel/xlsx-read.c:825 ../plugins/excel/xlsx-read.c:832
+#: ../plugins/openoffice/openoffice-read.c:1342
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1032
+#: ../plugins/excel/xlsx-read.c:1057
 #, c-format
 msgid "Unknown theme color %d"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1178
+#: ../plugins/excel/xlsx-read.c:1209
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1272 ../plugins/excel/xlsx-read.c:3368
+#: ../plugins/excel/xlsx-read.c:1310 ../plugins/excel/xlsx-read.c:3452
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1302 ../plugins/excel/xlsx-read.c:1311
+#: ../plugins/excel/xlsx-read.c:1340 ../plugins/excel/xlsx-read.c:1349
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1320
+#: ../plugins/excel/xlsx-read.c:1358
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1349
+#: ../plugins/excel/xlsx-read.c:1392
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1516
+#: ../plugins/excel/xlsx-read.c:1559
 #, c-format
 msgid "Invalid cell %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1650
+#: ../plugins/excel/xlsx-read.c:1698
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1787
+#: ../plugins/excel/xlsx-read.c:1837
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1791
+#: ../plugins/excel/xlsx-read.c:1841
 #, c-format
 msgid "Paper from XLSX file, #%i"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2252
-#: ../plugins/openoffice/openoffice-read.c:2913
+#: ../plugins/excel/xlsx-read.c:2321
+#: ../plugins/openoffice/openoffice-read.c:2949
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2775
+#: ../plugins/excel/xlsx-read.c:2855
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:3185
+#: ../plugins/excel/xlsx-read.c:3268
 msgid "Unknown type of hyperlink"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:3228
+#: ../plugins/excel/xlsx-read.c:3311
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:3237
+#: ../plugins/excel/xlsx-read.c:3320
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:3699
+#: ../plugins/excel/xlsx-read.c:3791
 msgid "Ignoring a sheet without a name"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:3783
+#: ../plugins/excel/xlsx-read.c:3875
 #, c-format
 msgid "Failed to define name: %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:3845
+#: ../plugins/excel/xlsx-read.c:3937
 msgid "Unable to resolve external relationship"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:4039
+#: ../plugins/excel/xlsx-read.c:4131
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:4064
+#: ../plugins/excel/xlsx-read.c:4156
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:4072
+#: ../plugins/excel/xlsx-read.c:4164
 msgid "Reading comments..."
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:5212
+#: ../plugins/excel/xlsx-read.c:5304
 msgid "Reading shared strings..."
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:5221
+#: ../plugins/excel/xlsx-read.c:5313
 msgid "Reading theme..."
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:5230
+#: ../plugins/excel/xlsx-read.c:5322
 msgid "Reading styles..."
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:5235
+#: ../plugins/excel/xlsx-read.c:5327
 msgid "Reading workbook..."
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:5245
+#: ../plugins/excel/xlsx-read.c:5337
 msgid "No workbook stream found."
 msgstr ""
 
@@ -698,13 +698,13 @@ msgstr ""
 msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
 msgstr ""
 
-#: ../plugins/excelplugins/excelplugins.c:996
+#: ../plugins/excelplugins/excelplugins.c:1002
 #, c-format
 msgid "No loadable worksheet functions found in XLL/DLL/SO file %s."
 msgstr ""
 
 #. xgettext : %lu gives the number of functions. This is input to ngettext.
-#: ../plugins/excelplugins/excelplugins.c:1000
+#: ../plugins/excelplugins/excelplugins.c:1006
 #, c-format
 msgid "Loaded %lu function from XLL/DLL/SO %s."
 msgid_plural "Loaded %lu functions from XLL/DLL/SO %s."
@@ -814,6 +814,18 @@ msgstr ""
 msgid "Interest rate calculations"
 msgstr ""
 
+#: ../plugins/fn-flt/plugin.xml.in.h:1
+msgid "Floating Point Functions"
+msgstr ""
+
+#: ../plugins/fn-flt/plugin.xml.in.h:2
+msgid "Functions manipulating floating point value"
+msgstr ""
+
+#: ../plugins/fn-flt/plugin.xml.in.h:3
+msgid "Floating Point"
+msgstr ""
+
 #. We are using the spellings as included in the
 #. Merriam-Webster dictionary
 #. xgettext: Tishri to Adar II are transliterations of the
@@ -888,39 +900,39 @@ msgstr ""
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1374 ../plugins/fn-info/functions.c:1390
+#: ../plugins/fn-info/functions.c:1405 ../plugins/fn-info/functions.c:1421
 #: ../src/dialogs/workbook-attr.ui.h:8
 msgid "Unimplemented"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1398
+#: ../plugins/fn-info/functions.c:1429
 msgid "Unknown version"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1400
+#: ../plugins/fn-info/functions.c:1431
 #, c-format
 msgid "%s version %s"
 msgstr "%s, нұсқасы %s"
 
-#: ../plugins/fn-info/functions.c:1415 ../src/dialogs/dialog-cell-format.c:880
+#: ../plugins/fn-info/functions.c:1446 ../src/dialogs/dialog-cell-format.c:880
 #: ../src/dialogs/dialog-cell-format.c:2354
-#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3809
+#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3823
 msgid "Automatic"
 msgstr "Автоматты"
 
-#: ../plugins/fn-info/functions.c:1415
+#: ../plugins/fn-info/functions.c:1446
 msgid "Manual"
 msgstr "Қолмен"
 
-#: ../plugins/fn-info/functions.c:1425
+#: ../plugins/fn-info/functions.c:1456
 msgid "Unknown system"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1440
+#: ../plugins/fn-info/functions.c:1471
 msgid "Unknown info_type"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1704
+#: ../plugins/fn-info/functions.c:1735
 msgid "Invalid number of arguments"
 msgstr ""
 
@@ -932,7 +944,7 @@ msgstr ""
 msgid "Functions for inspecting values, cells, and more"
 msgstr ""
 
-#: ../plugins/fn-info/plugin.xml.in.h:3 ../src/gui-util.c:1064
+#: ../plugins/fn-info/plugin.xml.in.h:3 ../src/gui-util.c:1072
 msgid "Information"
 msgstr "Ақпарат"
 
@@ -974,7 +986,7 @@ msgstr ""
 
 #: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:547
 msgid "Mathematics"
-msgstr ""
+msgstr "Математика"
 
 #: ../plugins/fn-numtheory/plugin.xml.in.h:1
 msgid "Number Theory"
@@ -1015,8 +1027,8 @@ msgid "Functions for generating random numbers"
 msgstr ""
 
 #: ../plugins/fn-random/plugin.xml.in.h:3
-#: ../src/dialogs/random-generation.ui.h:3 ../src/tools/random-generator.c:776
-#: ../src/tools/random-generator.c:779
+#: ../src/dialogs/random-generation.ui.h:3 ../src/tools/random-generator.c:775
+#: ../src/tools/random-generator.c:778
 msgid "Random Numbers"
 msgstr ""
 
@@ -1152,22 +1164,22 @@ msgstr ""
 msgid "Gnome Glossary PO file format"
 msgstr ""
 
-#: ../plugins/html/html_read.c:117
+#: ../plugins/html/html_read.c:150
 msgid "[Warning: Invalid text string has been removed.]"
 msgstr ""
 
-#: ../plugins/html/html_read.c:156
+#: ../plugins/html/html_read.c:189
 #, c-format
 msgid "[see sheet %s]"
 msgstr ""
 
-#: ../plugins/html/html_read.c:157
+#: ../plugins/html/html_read.c:190
 msgid ""
 "The original html file is\n"
 "using nested tables."
 msgstr ""
 
-#: ../plugins/html/html_read.c:583
+#: ../plugins/html/html_read.c:631
 msgid "Unable to parse the html."
 msgstr ""
 
@@ -1311,23 +1323,23 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr ""
 
 #. ----------------------------------------
-#: ../plugins/mps/mps.c:590 ../src/tools/gnm-solver.c:1877
+#: ../plugins/mps/mps.c:590 ../src/tools/gnm-solver.c:1893
 msgid "Constraint"
 msgstr ""
 
 #: ../plugins/mps/mps.c:591 ../plugins/mps/mps.c:653
 #: ../src/dialogs/dialog-doc-metadata.c:1871
-#: ../src/dialogs/dialog-simulation.c:215 ../src/tools/gnm-solver.c:1657
-#: ../src/tools/gnm-solver.c:1702 ../src/tools/gnm-solver.c:1746
+#: ../src/dialogs/dialog-simulation.c:215 ../src/tools/gnm-solver.c:1673
+#: ../src/tools/gnm-solver.c:1718 ../src/tools/gnm-solver.c:1762
 msgid "Value"
 msgstr "Мәні"
 
 #: ../plugins/mps/mps.c:592 ../src/dialogs/dialog-formula-guru.c:895
-#: ../src/dialogs/dialog-search.c:437 ../src/tools/gnm-solver.c:1658
+#: ../src/dialogs/dialog-search.c:437 ../src/tools/gnm-solver.c:1674
 msgid "Type"
 msgstr "Түрі"
 
-#: ../plugins/mps/mps.c:593 ../src/tools/gnm-solver.c:1747
+#: ../plugins/mps/mps.c:593 ../src/tools/gnm-solver.c:1763
 msgid "Limit"
 msgstr "Шегі"
 
@@ -1401,481 +1413,482 @@ msgid "Possible corrupted integer '%s' for '%s'"
 msgstr ""
 
 #: ../plugins/openoffice/openoffice-read.c:765
+#: ../plugins/openoffice/openoffice-read.c:787
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:789
+#: ../plugins/openoffice/openoffice-read.c:811
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:811
+#: ../plugins/openoffice/openoffice-read.c:833
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1089
+#: ../plugins/openoffice/openoffice-read.c:1111
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1097
+#: ../plugins/openoffice/openoffice-read.c:1119
 msgid "Hatch fill without hatch name encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1105
+#: ../plugins/openoffice/openoffice-read.c:1127
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1118
+#: ../plugins/openoffice/openoffice-read.c:1140
 msgid "Gradient fill without gradient name encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1126
+#: ../plugins/openoffice/openoffice-read.c:1148
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1136
+#: ../plugins/openoffice/openoffice-read.c:1158
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1149
+#: ../plugins/openoffice/openoffice-read.c:1171
 #, c-format
 msgid "Unable to open '%s'."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1159
-#: ../plugins/openoffice/openoffice-read.c:8658
+#: ../plugins/openoffice/openoffice-read.c:1181
+#: ../plugins/openoffice/openoffice-read.c:8706
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1168
+#: ../plugins/openoffice/openoffice-read.c:1190
 msgid "Image fill without image name encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1398
+#: ../plugins/openoffice/openoffice-read.c:1420
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1464
+#: ../plugins/openoffice/openoffice-read.c:1486
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1659
+#: ../plugins/openoffice/openoffice-read.c:1681
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1881
+#: ../plugins/openoffice/openoffice-read.c:1903
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2314
+#: ../plugins/openoffice/openoffice-read.c:2350
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "'%s' талдау мүмкін емес ('%s')"
 
-#: ../plugins/openoffice/openoffice-read.c:2412
-#: ../plugins/openoffice/openoffice-read.c:3932
+#: ../plugins/openoffice/openoffice-read.c:2448
+#: ../plugins/openoffice/openoffice-read.c:3968
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2418
-#: ../plugins/openoffice/openoffice-read.c:3939
+#: ../plugins/openoffice/openoffice-read.c:2454
+#: ../plugins/openoffice/openoffice-read.c:3975
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2457
-#: ../plugins/openoffice/openoffice-write.c:5272
-#: ../plugins/openoffice/openoffice-write.c:5284 ../src/ssgrep.c:352
+#: ../plugins/openoffice/openoffice-read.c:2493
+#: ../plugins/openoffice/openoffice-write.c:5283
+#: ../plugins/openoffice/openoffice-write.c:5295 ../src/ssgrep.c:352
 msgid "cell"
-msgstr ""
+msgstr "ұяшық"
 
-#: ../plugins/openoffice/openoffice-read.c:2847
+#: ../plugins/openoffice/openoffice-read.c:2883
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2896
+#: ../plugins/openoffice/openoffice-read.c:2932
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2922
+#: ../plugins/openoffice/openoffice-read.c:2958
 #, c-format
 msgid ""
-"Unsupported validation condition encountered: \"%s\" with base address: \"%s"
-"\""
+"Unsupported validation condition encountered: \"%s\" with base address: "
+"\"%s\""
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:3588
+#: ../plugins/openoffice/openoffice-read.c:3624
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:3670
+#: ../plugins/openoffice/openoffice-read.c:3706
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:3774
-#: ../plugins/openoffice/openoffice-read.c:4173
+#: ../plugins/openoffice/openoffice-read.c:3810
+#: ../plugins/openoffice/openoffice-read.c:4210
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:3924
-#: ../plugins/openoffice/openoffice-read.c:6371
+#: ../plugins/openoffice/openoffice-read.c:3960
+#: ../plugins/openoffice/openoffice-read.c:6412
 msgid "Missing expression"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4151
+#: ../plugins/openoffice/openoffice-read.c:4188
 msgid "Invalid array expression does not specify number of columns."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4154
+#: ../plugins/openoffice/openoffice-read.c:4191
 msgid "Invalid array expression does not specify number of rows."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4165
+#: ../plugins/openoffice/openoffice-read.c:4202
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4496
+#: ../plugins/openoffice/openoffice-read.c:4533
 msgid "Unnamed dash style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4514
+#: ../plugins/openoffice/openoffice-read.c:4551
 msgid "Unnamed image fill style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4516
+#: ../plugins/openoffice/openoffice-read.c:4553
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4553
-#: ../plugins/openoffice/openoffice-read.c:4559
+#: ../plugins/openoffice/openoffice-read.c:4590
+#: ../plugins/openoffice/openoffice-read.c:4596
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4579
+#: ../plugins/openoffice/openoffice-read.c:4616
 msgid "Unnamed gradient style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4600
+#: ../plugins/openoffice/openoffice-read.c:4637
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4674
+#: ../plugins/openoffice/openoffice-read.c:4711
 msgid "Unnamed hatch encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4815
+#: ../plugins/openoffice/openoffice-read.c:4852
 msgid "Duplicate default column style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4831
+#: ../plugins/openoffice/openoffice-read.c:4868
 msgid "Duplicate default row style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4866
+#: ../plugins/openoffice/openoffice-read.c:4903
 msgid "Duplicate default chart/graphics style encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:5361
+#: ../plugins/openoffice/openoffice-read.c:5398
 msgid "Unnamed date style ignored."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:5747
+#: ../plugins/openoffice/openoffice-read.c:5788
 #, c-format
 msgid "Corrupted file: invalid number format condition [%s]."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:5765
+#: ../plugins/openoffice/openoffice-read.c:5806
 msgid "Corrupted file: unnamed number style ignored."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:5787
+#: ../plugins/openoffice/openoffice-read.c:5828
 msgid "This file appears corrupted, required formats are missing."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:5856
+#: ../plugins/openoffice/openoffice-read.c:5897
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6068
+#: ../plugins/openoffice/openoffice-read.c:6109
 msgid "Missing page layout identifier"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6095
+#: ../plugins/openoffice/openoffice-read.c:6136
 msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
 msgstr ""
 
 #. For OOO_VER_1 this may be acceptable
-#: ../plugins/openoffice/openoffice-read.c:6120
+#: ../plugins/openoffice/openoffice-read.c:6161
 msgid "Master page style without page layout encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6126
+#: ../plugins/openoffice/openoffice-read.c:6167
 msgid "Master page style without name encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6419
+#: ../plugins/openoffice/openoffice-read.c:6460
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6758
+#: ../plugins/openoffice/openoffice-read.c:6799
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6843
+#: ../plugins/openoffice/openoffice-read.c:6884
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6854
+#: ../plugins/openoffice/openoffice-read.c:6895
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:7386
+#: ../plugins/openoffice/openoffice-read.c:7427
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
 "instead."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:7395
+#: ../plugins/openoffice/openoffice-read.c:7436
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:7943
+#: ../plugins/openoffice/openoffice-read.c:7984
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:7959
+#: ../plugins/openoffice/openoffice-read.c:8000
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8034
+#: ../plugins/openoffice/openoffice-read.c:8075
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8068
+#: ../plugins/openoffice/openoffice-read.c:8109
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8268
+#: ../plugins/openoffice/openoffice-read.c:8316
 #, c-format
 msgid "Moving sheet object from column %i and row %i"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8342
+#: ../plugins/openoffice/openoffice-read.c:8390
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
 "has been dropped."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8379
-#: ../plugins/openoffice/openoffice-read.c:8418
+#: ../plugins/openoffice/openoffice-read.c:8427
+#: ../plugins/openoffice/openoffice-read.c:8466
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8384
+#: ../plugins/openoffice/openoffice-read.c:8432
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
 "range' element."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8843
+#: ../plugins/openoffice/openoffice-read.c:8891
 msgid "Unable to determine manual position for a chart component!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9122
+#: ../plugins/openoffice/openoffice-read.c:9170
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9849
+#: ../plugins/openoffice/openoffice-read.c:9897
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:9868
+#: ../plugins/openoffice/openoffice-read.c:9916
 #, c-format
 msgid "The chart style \"%s\" is not defined!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10036
+#: ../plugins/openoffice/openoffice-read.c:10084
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10173
+#: ../plugins/openoffice/openoffice-read.c:10221
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10235
-#: ../plugins/openoffice/openoffice-read.c:10276
-#: ../plugins/openoffice/openoffice-read.c:10306
-#: ../plugins/openoffice/openoffice-read.c:10338
+#: ../plugins/openoffice/openoffice-read.c:10283
+#: ../plugins/openoffice/openoffice-read.c:10324
+#: ../plugins/openoffice/openoffice-read.c:10354
+#: ../plugins/openoffice/openoffice-read.c:10386
 #, c-format
 msgid "Chart style with name '%s' is missing."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10474
+#: ../plugins/openoffice/openoffice-read.c:10522
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10547
+#: ../plugins/openoffice/openoffice-read.c:10595
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10750
+#: ../plugins/openoffice/openoffice-read.c:10798
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10755
+#: ../plugins/openoffice/openoffice-read.c:10803
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr ""
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:10839
-#: ../plugins/openoffice/openoffice-read.c:10842
+#: ../plugins/openoffice/openoffice-read.c:10887
+#: ../plugins/openoffice/openoffice-read.c:10890
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
 "rectangle."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:10845
+#: ../plugins/openoffice/openoffice-read.c:10893
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:11243
+#: ../plugins/openoffice/openoffice-read.c:11291
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:11893
+#: ../plugins/openoffice/openoffice-read.c:11949
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
 "Gnumeric's maximum supported sheet size"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:11924
+#: ../plugins/openoffice/openoffice-read.c:11980
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:11929
+#: ../plugins/openoffice/openoffice-read.c:11985
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
 "\"%s\"."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:11939
+#: ../plugins/openoffice/openoffice-read.c:11995
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr ""
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:11945
+#: ../plugins/openoffice/openoffice-read.c:12001
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:13941
+#: ../plugins/openoffice/openoffice-read.c:13998
 msgid "Unknown mimetype for openoffice file."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:13951
+#: ../plugins/openoffice/openoffice-read.c:14008
 msgid "No stream named content.xml found."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:14101
+#: ../plugins/openoffice/openoffice-read.c:14158
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Қате '%s' метаақпараты"
 
-#: ../plugins/openoffice/openoffice-read.c:14186
+#: ../plugins/openoffice/openoffice-read.c:14249
 msgid "settings.xml stream is malformed!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-write.c:5265
-#: ../plugins/openoffice/openoffice-write.c:5277
+#: ../plugins/openoffice/openoffice-write.c:5276
+#: ../plugins/openoffice/openoffice-write.c:5288
 msgid "tab"
-msgstr ""
+msgstr "бет"
 
-#: ../plugins/openoffice/openoffice-write.c:5266
-#: ../plugins/openoffice/openoffice-write.c:5278
+#: ../plugins/openoffice/openoffice-write.c:5277
+#: ../plugins/openoffice/openoffice-write.c:5289
 msgid "page"
 msgstr "парақ"
 
-#: ../plugins/openoffice/openoffice-write.c:5267
-#: ../plugins/openoffice/openoffice-write.c:5279
+#: ../plugins/openoffice/openoffice-write.c:5278
+#: ../plugins/openoffice/openoffice-write.c:5290
 msgid "pages"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-write.c:5268
-#: ../plugins/openoffice/openoffice-write.c:5280
+#: ../plugins/openoffice/openoffice-write.c:5279
+#: ../plugins/openoffice/openoffice-write.c:5291
 msgid "date"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-write.c:5269
-#: ../plugins/openoffice/openoffice-write.c:5281
+#: ../plugins/openoffice/openoffice-write.c:5280
+#: ../plugins/openoffice/openoffice-write.c:5292
 msgid "time"
-msgstr ""
+msgstr "уақыт"
 
-#: ../plugins/openoffice/openoffice-write.c:5270
-#: ../plugins/openoffice/openoffice-write.c:5282 ../src/ssconvert.c:121
+#: ../plugins/openoffice/openoffice-write.c:5281
+#: ../plugins/openoffice/openoffice-write.c:5293 ../src/ssconvert.c:121
 #: ../src/ssdiff.c:61
 msgid "file"
 msgstr "файл"
 
-#: ../plugins/openoffice/openoffice-write.c:5271
-#: ../plugins/openoffice/openoffice-write.c:5283
+#: ../plugins/openoffice/openoffice-write.c:5282
+#: ../plugins/openoffice/openoffice-write.c:5294
 msgid "path"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-write.c:9069
+#: ../plugins/openoffice/openoffice-write.c:9081
 msgid "Writing Sheets..."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-write.c:9110
+#: ../plugins/openoffice/openoffice-write.c:9122
 msgid "Writing Sheet Objects..."
 msgstr ""
 
@@ -2111,7 +2124,7 @@ msgstr ""
 msgid "Python"
 msgstr "Python"
 
-#: ../plugins/python-loader/gnm-py-interpreter.c:260
+#: ../plugins/python-loader/gnm-py-interpreter.c:262
 msgid "Default interpreter"
 msgstr ""
 
@@ -2144,25 +2157,25 @@ msgstr ""
 msgid "C_ommand:"
 msgstr "К_оманда:"
 
-#: ../plugins/python-loader/py-gnumeric.c:151
+#: ../plugins/python-loader/py-gnumeric.c:159
 msgid "Python list is not an array"
 msgstr ""
 
-#: ../plugins/python-loader/py-gnumeric.c:158
+#: ../plugins/python-loader/py-gnumeric.c:166
 #, c-format
 msgid "Unsupported Python type: %s"
 msgstr ""
 
-#: ../plugins/python-loader/py-gnumeric.c:185
+#: ../plugins/python-loader/py-gnumeric.c:193
 msgid "Unknown error"
 msgstr "Белгісіз қате"
 
-#: ../plugins/python-loader/py-gnumeric.c:191
+#: ../plugins/python-loader/py-gnumeric.c:199
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr ""
 
-#: ../plugins/python-loader/py-gnumeric.c:195
+#: ../plugins/python-loader/py-gnumeric.c:203
 #, c-format
 msgid "Python exception (%s)"
 msgstr ""
@@ -2199,38 +2212,38 @@ msgstr ""
 msgid "Some name"
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:346
-#: ../plugins/python-loader/python-loader.c:443
-#: ../plugins/python-loader/python-loader.c:754
-#: ../plugins/python-loader/python-loader.c:869
+#: ../plugins/python-loader/python-loader.c:345
+#: ../plugins/python-loader/python-loader.c:442
+#: ../plugins/python-loader/python-loader.c:759
+#: ../plugins/python-loader/python-loader.c:874
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:350
-#: ../plugins/python-loader/python-loader.c:448
+#: ../plugins/python-loader/python-loader.c:349
+#: ../plugins/python-loader/python-loader.c:447
 #, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr ""
-
-#: ../plugins/python-loader/python-loader.c:759
-#: ../plugins/python-loader/python-loader.c:874
-#, c-format
-msgid "File doesn't contain \"%s\" dictionary."
 msgstr ""
 
 #: ../plugins/python-loader/python-loader.c:764
 #: ../plugins/python-loader/python-loader.c:879
 #, c-format
+msgid "File doesn't contain \"%s\" dictionary."
+msgstr ""
+
+#: ../plugins/python-loader/python-loader.c:769
+#: ../plugins/python-loader/python-loader.c:884
+#, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:817 ../src/gnm-plugin.c:859
+#: ../plugins/python-loader/python-loader.c:822 ../src/gnm-plugin.c:859
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Белгісіз әрекет: %s"
 
-#: ../plugins/python-loader/python-loader.c:822
+#: ../plugins/python-loader/python-loader.c:827
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr ""
@@ -2357,8 +2370,8 @@ msgstr ""
 #: ../plugins/sylk/sylk.c:821 ../src/dialogs/dialog-goto-cell.c:381
 #: ../src/dialogs/dialog-search.c:437 ../src/dialogs/dialog-stf-export.c:594
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
-#: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:577
-#: ../src/workbook.c:1060 ../src/workbook.c:1090
+#: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:572
+#: ../src/workbook.c:1104 ../src/workbook.c:1134
 msgid "Sheet"
 msgstr "Парақ"
 
@@ -3474,7 +3487,7 @@ msgid ""
 "use."
 msgstr ""
 
-#: ../src/application.c:303
+#: ../src/application.c:304
 msgid "Cut Object"
 msgstr "Объектті қиып алу"
 
@@ -3574,42 +3587,42 @@ msgstr ""
 msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr ""
 
-#: ../src/commands.c:898
+#: ../src/commands.c:895
 #, c-format
 msgid "Inserting expression in %s"
 msgstr ""
 
-#: ../src/commands.c:990
+#: ../src/commands.c:987
 #, c-format
 msgid "Editing style of %s"
 msgstr ""
 
-#: ../src/commands.c:993
+#: ../src/commands.c:990
 #, c-format
 msgid "Typing \"%s\" in %s"
 msgstr ""
 
-#: ../src/commands.c:1139 ../src/wbc-gtk-edit.c:161 ../src/wbc-gtk-edit.c:171
+#: ../src/commands.c:1136 ../src/wbc-gtk-edit.c:161 ../src/wbc-gtk-edit.c:171
 #: ../src/wbc-gtk-edit.c:187 ../src/wbc-gtk-edit.c:208
 #: ../src/wbc-gtk-edit.c:222
 msgid "Set Text"
 msgstr ""
 
-#: ../src/commands.c:1182
+#: ../src/commands.c:1179
 #, c-format
 msgid "Inserting array expression in %s"
 msgstr ""
 
-#: ../src/commands.c:1234
+#: ../src/commands.c:1231
 #, c-format
 msgid "Creating a Data Table in %s"
 msgstr ""
 
-#: ../src/commands.c:1294
+#: ../src/commands.c:1291
 msgid "Ins/Del Column/Row"
 msgstr ""
 
-#: ../src/commands.c:1463
+#: ../src/commands.c:1460
 #, c-format
 msgid ""
 "Inserting %i column before column %s would push data off the sheet. Please "
@@ -3619,13 +3632,13 @@ msgid_plural ""
 "enlarge the sheet first."
 msgstr[0] ""
 
-#: ../src/commands.c:1473
+#: ../src/commands.c:1470
 #, c-format
 msgid "Inserting %d column before %s"
 msgid_plural "Inserting %d columns before %s"
 msgstr[0] ""
 
-#: ../src/commands.c:1492
+#: ../src/commands.c:1489
 #, c-format
 msgid ""
 "Inserting %i row before row %s would push data off the sheet. Please enlarge "
@@ -3635,254 +3648,254 @@ msgid_plural ""
 "enlarge the sheet first."
 msgstr[0] ""
 
-#: ../src/commands.c:1502
+#: ../src/commands.c:1499
 #, c-format
 msgid "Inserting %d row before %s"
 msgid_plural "Inserting %d rows before %s"
 msgstr[0] ""
 
-#: ../src/commands.c:1514
+#: ../src/commands.c:1511
 #, c-format
 msgid "Deleting columns %s"
 msgstr ""
 
-#: ../src/commands.c:1515
+#: ../src/commands.c:1512
 #, c-format
 msgid "Deleting column %s"
 msgstr ""
 
-#: ../src/commands.c:1525
+#: ../src/commands.c:1522
 #, c-format
 msgid "Deleting rows %s"
 msgstr ""
 
-#: ../src/commands.c:1526
+#: ../src/commands.c:1523
 #, c-format
 msgid "Deleting row %s"
 msgstr ""
 
-#: ../src/commands.c:1589 ../src/commands.c:1590 ../src/sheet.c:5104
+#: ../src/commands.c:1586 ../src/commands.c:1587 ../src/sheet.c:5161
 msgid "Clear"
 msgstr "Тазарту"
 
-#: ../src/commands.c:1602
+#: ../src/commands.c:1599
 msgid "contents"
 msgstr "құрамасы"
 
-#: ../src/commands.c:1604
+#: ../src/commands.c:1601
 msgid "formats"
 msgstr ""
 
-#: ../src/commands.c:1606
+#: ../src/commands.c:1603
 msgid "comments"
 msgstr "түсініктемелер"
 
-#: ../src/commands.c:1621
+#: ../src/commands.c:1618
 msgid "all"
 msgstr "барлығы"
 
-#: ../src/commands.c:1627
+#: ../src/commands.c:1624
 #, c-format
 msgid "Clearing %s in %s"
 msgstr ""
 
-#: ../src/commands.c:1747
+#: ../src/commands.c:1744
 msgid "Changing Format"
 msgstr ""
 
-#: ../src/commands.c:1882
+#: ../src/commands.c:1879
 #, c-format
 msgid "Changing format of %s"
 msgstr ""
 
-#: ../src/commands.c:1969
+#: ../src/commands.c:1966
 #, c-format
 msgid "Setting Font Style of %s"
 msgstr ""
 
-#: ../src/commands.c:2021
+#: ../src/commands.c:2018
 #, c-format
 msgid "Autofitting column %s"
 msgstr ""
 
-#: ../src/commands.c:2022
+#: ../src/commands.c:2019
 #, c-format
 msgid "Autofitting row %s"
 msgstr ""
 
-#: ../src/commands.c:2025
+#: ../src/commands.c:2022
 #, c-format
 msgid "Setting width of column %s to %d pixel"
 msgid_plural "Setting width of column %s to %d pixels"
 msgstr[0] ""
 
-#: ../src/commands.c:2029
+#: ../src/commands.c:2026
 #, c-format
 msgid "Setting height of row %s to %d pixel"
 msgid_plural "Setting height of row %s to %d pixels"
 msgstr[0] ""
 
-#: ../src/commands.c:2034
+#: ../src/commands.c:2031
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr ""
 
-#: ../src/commands.c:2037
+#: ../src/commands.c:2034
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr ""
 
-#: ../src/commands.c:2041
+#: ../src/commands.c:2038
 #, c-format
 msgid "Autofitting columns %s"
 msgstr ""
 
-#: ../src/commands.c:2042
+#: ../src/commands.c:2039
 #, c-format
 msgid "Autofitting rows %s"
 msgstr ""
 
-#: ../src/commands.c:2045
+#: ../src/commands.c:2042
 #, c-format
 msgid "Setting width of columns %s to %d pixel"
 msgid_plural "Setting width of columns %s to %d pixels"
 msgstr[0] ""
 
-#: ../src/commands.c:2049
+#: ../src/commands.c:2046
 #, c-format
 msgid "Setting height of rows %s to %d pixel"
 msgid_plural "Setting height of rows %s to %d pixels"
 msgstr[0] ""
 
-#: ../src/commands.c:2055
+#: ../src/commands.c:2052
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr ""
 
-#: ../src/commands.c:2057
+#: ../src/commands.c:2054
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr ""
 
-#: ../src/commands.c:2084
+#: ../src/commands.c:2081
 #, c-format
 msgid "Autofitting width of %s"
 msgstr ""
 
-#: ../src/commands.c:2084
+#: ../src/commands.c:2081
 #, c-format
 msgid "Autofitting height of %s"
 msgstr ""
 
-#: ../src/commands.c:2158 ../src/dialogs/dialog-preferences.c:1224
+#: ../src/commands.c:2155 ../src/dialogs/dialog-preferences.c:1224
 msgid "Sorting"
 msgstr ""
 
-#: ../src/commands.c:2181
+#: ../src/commands.c:2178
 #, c-format
 msgid "Sorting %s"
 msgstr ""
 
-#: ../src/commands.c:2343
+#: ../src/commands.c:2340
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
 msgstr ""
 
-#: ../src/commands.c:2347
+#: ../src/commands.c:2344
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
 msgstr ""
 
-#: ../src/commands.c:2367
+#: ../src/commands.c:2364
 msgid "Unhide columns"
 msgstr ""
 
-#: ../src/commands.c:2367
+#: ../src/commands.c:2364
 msgid "Hide columns"
 msgstr ""
 
-#: ../src/commands.c:2368
+#: ../src/commands.c:2365
 msgid "Unhide rows"
 msgstr ""
 
-#: ../src/commands.c:2368
+#: ../src/commands.c:2365
 msgid "Hide rows"
 msgstr ""
 
-#: ../src/commands.c:2448
+#: ../src/commands.c:2445
 msgid "Expand columns"
 msgstr ""
 
-#: ../src/commands.c:2448
+#: ../src/commands.c:2445
 msgid "Collapse columns"
 msgstr ""
 
-#: ../src/commands.c:2449
+#: ../src/commands.c:2446
 msgid "Expand rows"
 msgstr ""
 
-#: ../src/commands.c:2449
+#: ../src/commands.c:2446
 msgid "Collapse rows"
 msgstr ""
 
-#: ../src/commands.c:2473
+#: ../src/commands.c:2470
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: ../src/commands.c:2473
+#: ../src/commands.c:2470
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: ../src/commands.c:2542
+#: ../src/commands.c:2539
 msgid "Those columns are already grouped"
 msgstr ""
 
-#: ../src/commands.c:2543
+#: ../src/commands.c:2540
 msgid "Those rows are already grouped"
 msgstr ""
 
-#: ../src/commands.c:2566
+#: ../src/commands.c:2563
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr ""
 
-#: ../src/commands.c:2567
+#: ../src/commands.c:2564
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 
-#: ../src/commands.c:2580
+#: ../src/commands.c:2577
 #, c-format
 msgid "Group columns %s"
 msgstr ""
 
-#: ../src/commands.c:2580
+#: ../src/commands.c:2577
 #, c-format
 msgid "Ungroup columns %s"
 msgstr ""
 
-#: ../src/commands.c:2582
+#: ../src/commands.c:2579
 #, c-format
 msgid "Group rows %d:%d"
 msgstr ""
 
-#: ../src/commands.c:2582
+#: ../src/commands.c:2579
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr ""
 
-#: ../src/commands.c:2811
+#: ../src/commands.c:2808
 #, c-format
 msgid "Moving %s"
 msgstr "%s жылжыту"
 
-#: ../src/commands.c:2821 ../src/commands.c:3226
+#: ../src/commands.c:2818 ../src/commands.c:3222
 msgid "is beyond sheet boundaries"
 msgstr ""
 
-#: ../src/commands.c:2879
+#: ../src/commands.c:2876
 #, c-format
 msgid ""
 "Copying between files with different date conventions.\n"
@@ -3890,319 +3903,319 @@ msgid ""
 "incorrectly."
 msgstr ""
 
-#: ../src/commands.c:2909
+#: ../src/commands.c:2906
 msgid "Paste Copy"
 msgstr ""
 
-#: ../src/commands.c:3121
+#: ../src/commands.c:3118
 #, c-format
 msgid "Pasting into %s"
 msgstr ""
 
-#: ../src/commands.c:3212
+#: ../src/commands.c:3208
 #, c-format
 msgid "Do you really want to paste %s copies?"
 msgstr ""
 
 #. Check arrays or merged regions in src or target regions
-#: ../src/commands.c:3269 ../src/commands.c:3425 ../src/commands.c:3426
-#: ../src/item-cursor.c:1024 ../src/wbc-gtk-actions.c:580
+#: ../src/commands.c:3265 ../src/commands.c:3421 ../src/commands.c:3422
+#: ../src/item-cursor.c:1038 ../src/wbc-gtk-actions.c:580
 msgid "Autofill"
 msgstr ""
 
 #. Changed in initial redo.
-#: ../src/commands.c:3448
+#: ../src/commands.c:3444
 #, c-format
 msgid "Autofilling %s"
 msgstr ""
 
-#: ../src/commands.c:3748
+#: ../src/commands.c:3744
 #, c-format
 msgid "Autoformatting %s"
 msgstr ""
 
-#: ../src/commands.c:3866
+#: ../src/commands.c:3862
 #, c-format
 msgid "Unmerging %s"
 msgstr "%s біріктіруден босату"
 
-#: ../src/commands.c:4035
+#: ../src/commands.c:4031
 #, c-format
 msgid "Merge and Center %s"
 msgstr ""
 
-#: ../src/commands.c:4035
+#: ../src/commands.c:4031
 #, c-format
 msgid "Merging %s"
 msgstr "%s біріктіру"
 
 #. Corrected below.
-#: ../src/commands.c:4403 ../src/dialogs/search-replace.ui.h:5
+#: ../src/commands.c:4399 ../src/dialogs/search-replace.ui.h:5
 msgid "Search and Replace"
 msgstr ""
 
-#: ../src/commands.c:4496
+#: ../src/commands.c:4492
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr ""
 
-#: ../src/commands.c:4497
+#: ../src/commands.c:4493
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr ""
 
-#: ../src/commands.c:4609
+#: ../src/commands.c:4605
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr ""
 
-#: ../src/commands.c:4712
+#: ../src/commands.c:4708
 msgid "Delete Object"
 msgstr "Объектті өшіру"
 
-#: ../src/commands.c:4854 ../src/commands.c:5925
+#: ../src/commands.c:4850 ../src/commands.c:5921
 #: ../src/dialogs/dialog-doc-metadata.c:1864
 #: ../src/dialogs/dialog-formula-guru.c:891
 #: ../src/dialogs/dialog-function-select.c:1279
 #: ../src/dialogs/dialog-scenarios.c:521 ../src/dialogs/dialog-simulation.c:210
-#: ../src/dialogs/dialog-zoom.c:194 ../src/format-template.c:216
+#: ../src/dialogs/dialog-zoom.c:195 ../src/format-template.c:216
 msgid "Name"
 msgstr "Аты"
 
-#: ../src/commands.c:4854
+#: ../src/commands.c:4850
 msgid "Sheet names must be non-empty."
 msgstr ""
 
-#: ../src/commands.c:4861
+#: ../src/commands.c:4857
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr ""
 
-#: ../src/commands.c:4959
+#: ../src/commands.c:4955
 msgid "Resizing sheet"
 msgstr ""
 
-#: ../src/commands.c:5112
+#: ../src/commands.c:5108
 #, c-format
 msgid "Clearing comment of %s"
 msgstr ""
 
-#: ../src/commands.c:5113
+#: ../src/commands.c:5109
 #, c-format
 msgid "Setting comment of %s"
 msgstr ""
 
-#: ../src/commands.c:5550
+#: ../src/commands.c:5546
 #, c-format
 msgid "Merging data into %s"
 msgstr ""
 
-#: ../src/commands.c:5648
+#: ../src/commands.c:5644
 #, c-format
 msgid "Changing workbook properties"
 msgstr ""
 
-#: ../src/commands.c:5722
+#: ../src/commands.c:5718
 msgid "Pull Object to the Front"
 msgstr ""
 
-#: ../src/commands.c:5725
+#: ../src/commands.c:5721
 msgid "Pull Object Forward"
 msgstr ""
 
-#: ../src/commands.c:5728
+#: ../src/commands.c:5724
 msgid "Push Object Backward"
 msgstr ""
 
-#: ../src/commands.c:5731
+#: ../src/commands.c:5727
 msgid "Push Object to the Back"
 msgstr ""
 
-#: ../src/commands.c:5861
+#: ../src/commands.c:5857
 #, c-format
 msgid "Page Setup For %s"
 msgstr ""
 
-#: ../src/commands.c:5863
+#: ../src/commands.c:5859
 msgid "Page Setup For All Sheets"
 msgstr ""
 
-#: ../src/commands.c:5987 ../src/commands.c:5998
+#: ../src/commands.c:5983 ../src/commands.c:5994
 msgid "Defined Name"
 msgstr ""
 
-#: ../src/commands.c:5988
+#: ../src/commands.c:5984
 msgid "An empty string is not allowed as defined name."
 msgstr ""
 
-#: ../src/commands.c:5996
+#: ../src/commands.c:5992
 #, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr ""
 
-#: ../src/commands.c:6006
+#: ../src/commands.c:6002
 msgid "has a circular reference"
 msgstr ""
 
-#: ../src/commands.c:6040
+#: ../src/commands.c:6036
 #, c-format
 msgid "Define Name %s"
 msgstr ""
 
-#: ../src/commands.c:6043
+#: ../src/commands.c:6039
 #, c-format
 msgid "Update Name %s"
 msgstr ""
 
-#: ../src/commands.c:6136
+#: ../src/commands.c:6132
 #, c-format
 msgid "Remove Name %s"
 msgstr ""
 
-#: ../src/commands.c:6167
+#: ../src/commands.c:6163
 msgid "Change Scope of Name"
 msgstr ""
 
-#: ../src/commands.c:6216
+#: ../src/commands.c:6212
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr ""
 
-#: ../src/commands.c:6282
+#: ../src/commands.c:6278
 msgid "Add scenario"
 msgstr ""
 
-#: ../src/commands.c:6346
+#: ../src/commands.c:6342
 msgid "Scenario Show"
 msgstr ""
 
-#: ../src/commands.c:6404
+#: ../src/commands.c:6400
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: ../src/commands.c:6508
+#: ../src/commands.c:6504
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr ""
 
-#: ../src/commands.c:6666
+#: ../src/commands.c:6662
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr ""
 
-#: ../src/commands.c:6832
+#: ../src/commands.c:6828
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr ""
 
-#: ../src/commands.c:6906
+#: ../src/commands.c:6902
 msgid "Reconfigure Graph"
 msgstr ""
 
-#: ../src/commands.c:6976
+#: ../src/commands.c:6972
 msgid "Reconfigure Object"
 msgstr ""
 
-#: ../src/commands.c:7020
+#: ../src/commands.c:7016
 msgid "Left to Right"
 msgstr "Солдан оңға"
 
-#: ../src/commands.c:7020
+#: ../src/commands.c:7016
 msgid "Right to Left"
 msgstr "Оңнан солға"
 
-#: ../src/commands.c:7182
+#: ../src/commands.c:7178
 msgid "Changing Hyperlink"
 msgstr ""
 
-#: ../src/commands.c:7266
+#: ../src/commands.c:7262
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr ""
 
-#: ../src/commands.c:7351
+#: ../src/commands.c:7347
 msgid "Configure List"
 msgstr ""
 
-#: ../src/commands.c:7422
+#: ../src/commands.c:7418
 msgid "Set Frame Label"
 msgstr ""
 
-#: ../src/commands.c:7493
+#: ../src/commands.c:7489
 msgid "Configure Button"
 msgstr ""
 
-#: ../src/commands.c:7574
+#: ../src/commands.c:7570
 msgid "Configure Radio Button"
 msgstr ""
 
-#: ../src/commands.c:7650
+#: ../src/commands.c:7646
 msgid "Configure Checkbox"
 msgstr ""
 
-#: ../src/commands.c:7757 ../src/sheet-object-widget.c:1774
+#: ../src/commands.c:7753 ../src/sheet-object-widget.c:1774
 msgid "Configure Adjustment"
 msgstr ""
 
-#: ../src/commands.c:7788
+#: ../src/commands.c:7784
 msgid "Add Filter"
 msgstr ""
 
-#: ../src/commands.c:7804 ../src/wbc-gtk.c:1631
+#: ../src/commands.c:7800 ../src/wbc-gtk.c:1671
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr ""
 
-#: ../src/commands.c:7809 ../src/commands.c:7836 ../src/commands.c:7845
+#: ../src/commands.c:7805 ../src/commands.c:7832 ../src/commands.c:7841
 msgid "AutoFilter"
 msgstr "Автосүзгі"
 
-#: ../src/commands.c:7837
+#: ../src/commands.c:7833
 msgid "Requires more than 1 row"
 msgstr ""
 
-#: ../src/commands.c:7846
+#: ../src/commands.c:7842
 msgid "Unable to create Autofilter"
 msgstr ""
 
-#: ../src/commands.c:7868
+#: ../src/commands.c:7864
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr ""
 
-#: ../src/commands.c:7869
+#: ../src/commands.c:7865
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr ""
 
-#: ../src/commands.c:7882
+#: ../src/commands.c:7878
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr ""
 
-#: ../src/commands.c:7912
+#: ../src/commands.c:7908
 #, c-format
 msgid "Change filter condition for %s"
 msgstr ""
 
-#: ../src/commands.c:7981 ../src/wbc-gtk-actions.c:2397
+#: ../src/commands.c:7977 ../src/wbc-gtk-actions.c:2397
 msgid "Clear All Page Breaks"
 msgstr ""
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1566
+#: ../src/commands.c:8004 ../src/wbc-gtk.c:1606
 msgid "Remove Column Page Break"
 msgstr ""
 
-#: ../src/commands.c:8008 ../src/wbc-gtk.c:1576
+#: ../src/commands.c:8004 ../src/wbc-gtk.c:1616
 msgid "Remove Row Page Break"
 msgstr ""
 
-#: ../src/commands.c:8011 ../src/wbc-gtk.c:1569
+#: ../src/commands.c:8007 ../src/wbc-gtk.c:1609
 msgid "Add Column Page Break"
 msgstr ""
 
-#: ../src/commands.c:8011 ../src/wbc-gtk.c:1579
+#: ../src/commands.c:8007 ../src/wbc-gtk.c:1619
 msgid "Add Row Page Break"
 msgstr ""
 
@@ -4216,7 +4229,7 @@ msgstr ""
 msgid "Data Consolidation"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:38
+#: ../src/dialogs/dialog-about.c:40
 msgid ""
 "Gnumeric is available under the GNU General Public License, version 2 or 3 "
 "at your option.\n"
@@ -4227,435 +4240,435 @@ msgid ""
 "Gnumeric comes with absolutely no warranty."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:59
+#: ../src/dialogs/dialog-about.c:61
 msgid "Core"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:60
+#: ../src/dialogs/dialog-about.c:62
 msgid "Features"
 msgstr "Мүміндіктері"
 
-#: ../src/dialogs/dialog-about.c:61
+#: ../src/dialogs/dialog-about.c:63
 msgid "Analytics"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:62
+#: ../src/dialogs/dialog-about.c:64
 msgid "Import Export"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:63
+#: ../src/dialogs/dialog-about.c:65
 msgid "Scripting"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:64
+#: ../src/dialogs/dialog-about.c:66
 msgid "UI"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:65
+#: ../src/dialogs/dialog-about.c:67
 msgid "Usability"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:66
+#: ../src/dialogs/dialog-about.c:68
 msgid "Documentation"
 msgstr "Құжаттама"
 
-#: ../src/dialogs/dialog-about.c:67
+#: ../src/dialogs/dialog-about.c:69
 msgid "Translation"
 msgstr "Аударма"
 
-#: ../src/dialogs/dialog-about.c:68
+#: ../src/dialogs/dialog-about.c:70
 msgid "QA"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:69
+#: ../src/dialogs/dialog-about.c:71
 msgid "Art"
 msgstr "Өнер"
 
-#: ../src/dialogs/dialog-about.c:70
+#: ../src/dialogs/dialog-about.c:72
 msgid "Packaging"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:79
+#: ../src/dialogs/dialog-about.c:81
 msgid "Harald Ashburner"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:80
+#: ../src/dialogs/dialog-about.c:82
 msgid "Options pricers"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:81
+#: ../src/dialogs/dialog-about.c:83
 msgid "Sean Atkinson"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:82
+#: ../src/dialogs/dialog-about.c:84
 msgid "Functions and X-Base importing."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:83
+#: ../src/dialogs/dialog-about.c:85
 msgid "Michel Berkelaar"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:84 ../src/dialogs/dialog-about.c:98
+#: ../src/dialogs/dialog-about.c:86 ../src/dialogs/dialog-about.c:100
 msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:85
+#: ../src/dialogs/dialog-about.c:87
 msgid "Jean Bréfort"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:86
+#: ../src/dialogs/dialog-about.c:88
 msgid "Core charting engine."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:87
+#: ../src/dialogs/dialog-about.c:89
 msgid "Grandma Chema Celorio"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:88
+#: ../src/dialogs/dialog-about.c:90
 msgid "Quality Assurance and sheet copy."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:89
+#: ../src/dialogs/dialog-about.c:91
 msgid "Frank Chiulli"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:90
+#: ../src/dialogs/dialog-about.c:92
 msgid "OLE2 support."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:91
+#: ../src/dialogs/dialog-about.c:93
 msgid "Kenneth Christiansen"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:92
+#: ../src/dialogs/dialog-about.c:94
 msgid "Localization."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:93
+#: ../src/dialogs/dialog-about.c:95
 msgid "Zbigniew Chyla"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:94
+#: ../src/dialogs/dialog-about.c:96
 msgid "Plugin system, localization."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:95
+#: ../src/dialogs/dialog-about.c:97
 msgid "J.H.M. Dassen (Ray)"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:96
+#: ../src/dialogs/dialog-about.c:98
 msgid "Debian packaging."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:97
+#: ../src/dialogs/dialog-about.c:99
 msgid "Jeroen Dirks"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:99
+#: ../src/dialogs/dialog-about.c:101
 msgid "Tom Dyas"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:100
+#: ../src/dialogs/dialog-about.c:102
 msgid "Original plugin engine."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:101
+#: ../src/dialogs/dialog-about.c:103
 msgid "Kjell Eikland"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:102 ../src/dialogs/dialog-about.c:130
+#: ../src/dialogs/dialog-about.c:104 ../src/dialogs/dialog-about.c:132
 msgid "LP-solve"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:103
+#: ../src/dialogs/dialog-about.c:105
 msgid "Gergo Erdi"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:104
+#: ../src/dialogs/dialog-about.c:106
 msgid "Custom UI tools"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:105
+#: ../src/dialogs/dialog-about.c:107
 msgid "Jody Goldberg"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:106
+#: ../src/dialogs/dialog-about.c:108
 msgid "John Gotts"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:107
+#: ../src/dialogs/dialog-about.c:109
 msgid "RPM packaging"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:108
+#: ../src/dialogs/dialog-about.c:110
 msgid "Andreas J. Gülzow"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:109
+#: ../src/dialogs/dialog-about.c:111
 msgid "Statistics and GUI guru"
 msgstr "Статистика және интерфейс шебері"
 
-#: ../src/dialogs/dialog-about.c:110
+#: ../src/dialogs/dialog-about.c:112
 msgid "Jon Kåre Hellan"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:111
+#: ../src/dialogs/dialog-about.c:113
 msgid "UI polish and all round bug fixer"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:112
+#: ../src/dialogs/dialog-about.c:114
 msgid "Miguel de Icaza"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:113
+#: ../src/dialogs/dialog-about.c:115
 msgid "Ross Ihaka"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:114
+#: ../src/dialogs/dialog-about.c:116
 msgid "Special functions"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:115
+#: ../src/dialogs/dialog-about.c:117
 msgid "Jukka-Pekka Iivonen"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:116
+#: ../src/dialogs/dialog-about.c:118
 msgid "Solver, lots of worksheet functions, and general trailblazer"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:117
+#: ../src/dialogs/dialog-about.c:119
 msgid "Jakub Jelínek"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:118
+#: ../src/dialogs/dialog-about.c:120
 msgid "One of the original core contributors"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:119
+#: ../src/dialogs/dialog-about.c:121
 msgid "Chris Lahey"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:120
+#: ../src/dialogs/dialog-about.c:122
 msgid "The original value format engine and libgoffice work"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:121
+#: ../src/dialogs/dialog-about.c:123
 msgid "Takashi Matsuda"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:122
+#: ../src/dialogs/dialog-about.c:124
 msgid "The original text plugin"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:123
+#: ../src/dialogs/dialog-about.c:125
 msgid "Michael Meeks"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:124
+#: ../src/dialogs/dialog-about.c:126
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:125
+#: ../src/dialogs/dialog-about.c:127
 msgid "Lutz Muller"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:126
+#: ../src/dialogs/dialog-about.c:128
 msgid "SheetObject improvement"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:127
+#: ../src/dialogs/dialog-about.c:129
 msgid "Yukihiro Nakai"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:128
+#: ../src/dialogs/dialog-about.c:130
 msgid "Support for non-Latin languages"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:129
+#: ../src/dialogs/dialog-about.c:131
 msgid "Peter Notebaert"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:131
+#: ../src/dialogs/dialog-about.c:133
 msgid "Emmanuel Pacaud"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:132
+#: ../src/dialogs/dialog-about.c:134
 msgid "Many plot types for charting engine."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:133
+#: ../src/dialogs/dialog-about.c:135
 msgid "Federico M. Quintero"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:134
+#: ../src/dialogs/dialog-about.c:136
 msgid "canvas support"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:135
+#: ../src/dialogs/dialog-about.c:137
 msgid "Mark Probst"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:136 ../src/dialogs/dialog-about.c:142
+#: ../src/dialogs/dialog-about.c:138 ../src/dialogs/dialog-about.c:144
 msgid "Guile support"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:137
+#: ../src/dialogs/dialog-about.c:139
 msgid "Rasca"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:138
+#: ../src/dialogs/dialog-about.c:140
 msgid "HTML, troff, LaTeX exporters"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:139
+#: ../src/dialogs/dialog-about.c:141
 msgid "Vincent Renardias"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:140
+#: ../src/dialogs/dialog-about.c:142
 msgid "original CSV support, French localization"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:141
+#: ../src/dialogs/dialog-about.c:143
 msgid "Ariel Rios"
 msgstr "Ariel Rios"
 
-#: ../src/dialogs/dialog-about.c:143
+#: ../src/dialogs/dialog-about.c:145
 msgid "Jakub Steiner"
 msgstr "Jakub Steiner"
 
-#: ../src/dialogs/dialog-about.c:144
+#: ../src/dialogs/dialog-about.c:146
 msgid "Icons and Images"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:145
+#: ../src/dialogs/dialog-about.c:147
 msgid "Uwe Steinmann"
 msgstr "Uwe Steinmann"
 
-#: ../src/dialogs/dialog-about.c:146
+#: ../src/dialogs/dialog-about.c:148
 msgid "Paradox Importer"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:147
+#: ../src/dialogs/dialog-about.c:149
 msgid "Arturo Tena"
 msgstr "Arturo Tena"
 
-#: ../src/dialogs/dialog-about.c:148
+#: ../src/dialogs/dialog-about.c:150
 msgid "Initial work on OLE2 for libgsf"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:149
+#: ../src/dialogs/dialog-about.c:151
 msgid "Almer S. Tigelaar"
 msgstr "Almer S. Tigelaar"
 
-#: ../src/dialogs/dialog-about.c:150
+#: ../src/dialogs/dialog-about.c:152
 msgid "Consolidation and Structured Text importer"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:151
+#: ../src/dialogs/dialog-about.c:153
 msgid "Bruno Unna"
 msgstr "Bruno Unna"
 
-#: ../src/dialogs/dialog-about.c:152
+#: ../src/dialogs/dialog-about.c:154
 msgid "Pieces of MS Excel import"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:153
+#: ../src/dialogs/dialog-about.c:155
 msgid "Arief Mulya Utama"
 msgstr "Arief Mulya Utama"
 
-#: ../src/dialogs/dialog-about.c:154
+#: ../src/dialogs/dialog-about.c:156
 msgid "Telecommunications functions"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:155
+#: ../src/dialogs/dialog-about.c:157
 msgid "Daniel Veillard"
 msgstr "Daniel Veillard"
 
-#: ../src/dialogs/dialog-about.c:156
+#: ../src/dialogs/dialog-about.c:158
 msgid "Initial XML support"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:157
+#: ../src/dialogs/dialog-about.c:159
 msgid "Vladimir Vuksan"
 msgstr "Vladimir Vuksan"
 
-#: ../src/dialogs/dialog-about.c:158
+#: ../src/dialogs/dialog-about.c:160
 msgid "Some financial functions"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:159
+#: ../src/dialogs/dialog-about.c:161
 msgid "Morten Welinder"
 msgstr "Morten Welinder"
 
-#: ../src/dialogs/dialog-about.c:160
+#: ../src/dialogs/dialog-about.c:162
 msgid "All round powerhouse"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:161
+#: ../src/dialogs/dialog-about.c:163
 msgid "Kevin Breit"
 msgstr "Kevin Breit"
 
-#: ../src/dialogs/dialog-about.c:162
+#: ../src/dialogs/dialog-about.c:164
 msgid "Thomas Canty"
 msgstr "Thomas Canty"
 
-#: ../src/dialogs/dialog-about.c:163
+#: ../src/dialogs/dialog-about.c:165
 msgid "Adrian Custer"
 msgstr "Adrian Custer"
 
-#: ../src/dialogs/dialog-about.c:164
+#: ../src/dialogs/dialog-about.c:166
 msgid "Adrian Likins"
 msgstr "Adrian Likins"
 
-#: ../src/dialogs/dialog-about.c:165
+#: ../src/dialogs/dialog-about.c:167
 msgid "Aaron Weber"
 msgstr "Aaron Weber"
 
-#: ../src/dialogs/dialog-about.c:166
+#: ../src/dialogs/dialog-about.c:168
 msgid "Alexander Kirillov"
 msgstr "Alexander Kirillov"
 
-#: ../src/dialogs/dialog-about.c:447
+#: ../src/dialogs/dialog-about.c:455
 msgid "Gnumeric is the result of"
 msgstr "Gnumeric - көп адамның"
 
-#: ../src/dialogs/dialog-about.c:453
+#: ../src/dialogs/dialog-about.c:461
 msgid "the efforts of many people."
 msgstr "еңбек нәтижесі."
 
-#: ../src/dialogs/dialog-about.c:459
+#: ../src/dialogs/dialog-about.c:467
 msgid "Your help is much appreciated!"
 msgstr "Көмегіңіз жоғары бағаланады!"
 
-#: ../src/dialogs/dialog-about.c:507
+#: ../src/dialogs/dialog-about.c:515
 msgid "We apologize if anyone was left out."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:514
+#: ../src/dialogs/dialog-about.c:522
 msgid "Please contact us to correct mistakes."
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:521
+#: ../src/dialogs/dialog-about.c:529
 msgid "Report problems at"
 msgstr "Ақаулық жөнінде хабарлау"
 
-#: ../src/dialogs/dialog-about.c:531 ../src/dialogs/dialog-about.c:537
+#: ../src/dialogs/dialog-about.c:539 ../src/dialogs/dialog-about.c:545
 msgid "We aim to please!"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:587
+#: ../src/dialogs/dialog-about.c:595
 msgid "About Gnumeric"
 msgstr "Gnumeric туралы"
 
-#: ../src/dialogs/dialog-about.c:590
+#: ../src/dialogs/dialog-about.c:598
 msgid "Visit the Gnumeric website"
 msgstr "Gnumeric веб сайтын шолу"
 
-#: ../src/dialogs/dialog-about.c:592
-msgid "Copyright © 1998-2020"
+#: ../src/dialogs/dialog-about.c:600
+msgid "Copyright © 1998-2023"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:593
+#: ../src/dialogs/dialog-about.c:601
 msgid "Free, Fast, Accurate - Pick Any Three!"
 msgstr "Еркін, жылдам, тиянақты - кез-келген үшеуін таңдаңыз!"
 
@@ -4736,7 +4749,7 @@ msgstr ""
 #: ../src/dialogs/dialog-analysis-tool-one-mean.c:106
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:82
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:108
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:97
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:99
 #: ../src/dialogs/dialog-analysis-tools.c:598
 #: ../src/dialogs/dialog-analysis-tools.c:1187
 #: ../src/dialogs/dialog-analysis-tools.c:1906
@@ -4839,7 +4852,7 @@ msgid "Could not create the Student-t Test Tool dialog."
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:128
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:146
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:148
 #, c-format
 msgid "An unexpected error has occurred."
 msgstr ""
@@ -4865,15 +4878,15 @@ msgstr ""
 msgid "Could not create the Sign Test Tool dialog."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:84
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:86
 msgid "The input range for variable 1 is invalid."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:89
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:91
 msgid "The input range for variable 2 is invalid."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:186
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:188
 msgid "Could not create the Wilcoxon-Mann-Whitney Analysis Tool dialog."
 msgstr ""
 
@@ -5187,7 +5200,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-autoformat.c:68 ../src/dialogs/wbcg.ui.h:5
 msgid " "
-msgstr " "
+msgstr ""
 
 #: ../src/dialogs/dialog-autoformat.c:68
 msgid "Jan"
@@ -5397,13 +5410,13 @@ msgstr "Ұяшықтар пішімі"
 msgid "Border"
 msgstr "Шекара"
 
-#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3855
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3869
 msgid "Clear Background"
 msgstr "Фонды тазарту"
 
 #: ../src/dialogs/dialog-cell-format.c:2358
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:90
-#: ../src/wbc-gtk-actions.c:3857 ../src/wbc-gtk-actions.c:3858
+#: ../src/wbc-gtk-actions.c:3871 ../src/wbc-gtk-actions.c:3872
 msgid "Background"
 msgstr "Фон"
 
@@ -5700,14 +5713,14 @@ msgstr "Сүзгі"
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2352
-#: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2896
+#: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2870
 msgid "Row"
 msgstr "Жол"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2344
-#: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2897
+#: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2871
 msgid "Column"
 msgstr "Баған"
 
@@ -6006,8 +6019,8 @@ msgstr ""
 
 #: ../src/dialogs/dialog-goto-cell.c:387 ../src/dialogs/dialog-search.c:437
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1656
-#: ../src/tools/gnm-solver.c:1701 ../src/tools/gnm-solver.c:1842
+#: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1672
+#: ../src/tools/gnm-solver.c:1717 ../src/tools/gnm-solver.c:1858
 msgid "Cell"
 msgstr "Ұяшық"
 
@@ -6073,7 +6086,7 @@ msgstr "Гиперсілтемені өшіру"
 msgid "Could not create the hyperlink dialog."
 msgstr ""
 
-#: ../src/dialogs/dialog-insert-cells.c:123 ../src/wbc-gtk.c:516
+#: ../src/dialogs/dialog-insert-cells.c:123 ../src/wbc-gtk.c:549
 msgid "Insert"
 msgstr "Кірістіру"
 
@@ -6262,7 +6275,7 @@ msgstr ""
 #: ../src/dialogs/dialog-preferences.c:1215
 #: ../src/dialogs/dialog-sheet-compare.c:206
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
-#: ../src/widgets/gnm-fontbutton.c:1198
+#: ../src/wbc-gtk-actions.c:4414 ../src/widgets/gnm-fontbutton.c:1198
 msgid "Font"
 msgstr "Қаріп"
 
@@ -6274,7 +6287,7 @@ msgstr "Файлдар"
 msgid "Tools"
 msgstr "Саймандар"
 
-#: ../src/dialogs/dialog-preferences.c:1218
+#: ../src/dialogs/dialog-preferences.c:1218 ../src/wbc-gtk-actions.c:4099
 msgid "Undo"
 msgstr "Болдырмау"
 
@@ -6451,7 +6464,7 @@ msgstr ""
 msgid "The number of random numbers requested is invalid."
 msgstr ""
 
-#: ../src/dialogs/dialog-random-generator-cor.c:219
+#: ../src/dialogs/dialog-random-generator-cor.c:218
 msgid "Could not create the Correlated Random Tool dialog."
 msgstr ""
 
@@ -6683,7 +6696,7 @@ msgstr ""
 msgid "Weibull"
 msgstr ""
 
-#: ../src/dialogs/dialog-random-generator.c:845
+#: ../src/dialogs/dialog-random-generator.c:846
 msgid "Could not create the Random Tool dialog."
 msgstr ""
 
@@ -6832,28 +6845,28 @@ msgid "Font color"
 msgstr "Қаріп түсі"
 
 #. ALSO "<control>2"
-#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3640
+#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3652
 #: ../src/widgets/gnm-text-view.c:329
 msgid "Bold"
 msgstr "Жуан"
 
 #. ALSO "<control>3"
-#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3648
+#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3660
 msgid "Italic"
 msgstr "Көлбеу"
 
 #. ALSO "<control>4"
-#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3656
+#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3668
 msgid "Underline"
 msgstr "Асты сызылған"
 
-#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3685
+#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3697
 msgid "Strikethrough"
 msgstr "Сызып тастау"
 
 #: ../src/dialogs/dialog-sheet-compare.c:211
 msgid "Script"
-msgstr ""
+msgstr "Скрипт"
 
 #: ../src/dialogs/dialog-sheet-compare.c:212
 #: ../src/dialogs/dialog-sheet-compare.c:266
@@ -6960,12 +6973,12 @@ msgstr "Жалпы"
 
 #. start sub menu
 #: ../src/dialogs/dialog-sheet-compare.c:378 ../src/dialogs/cell-format.ui.h:42
-#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3870
+#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3884
 msgid "Left"
 msgstr "Сол жақ"
 
 #: ../src/dialogs/dialog-sheet-compare.c:379 ../src/dialogs/cell-format.ui.h:43
-#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3872
+#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3886
 msgid "Right"
 msgstr "Оң жақ"
 
@@ -6979,7 +6992,7 @@ msgid "Fill"
 msgstr "Толтыру"
 
 #: ../src/dialogs/dialog-sheet-compare.c:382
-#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3724
+#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3736
 msgid "Justify"
 msgstr "Енімен туралау"
 
@@ -6988,7 +7001,7 @@ msgid "Center across selection"
 msgstr "Таңдалғанды қиып алу"
 
 #: ../src/dialogs/dialog-sheet-compare.c:384
-#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3713
+#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3725
 msgid "Distributed"
 msgstr "Таратылған"
 
@@ -6999,7 +7012,7 @@ msgstr "Жоғары"
 
 #: ../src/dialogs/dialog-sheet-compare.c:394
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:44
-#: ../src/wbc-gtk-actions.c:3878
+#: ../src/wbc-gtk-actions.c:3892
 msgid "Bottom"
 msgstr "Төмен"
 
@@ -7017,12 +7030,10 @@ msgid "Double"
 msgstr "Қос"
 
 #: ../src/dialogs/dialog-sheet-compare.c:404
-#| msgid "Single"
 msgid "Single low"
 msgstr ""
 
 #: ../src/dialogs/dialog-sheet-compare.c:404
-#| msgid "Double"
 msgid "Double low"
 msgstr ""
 
@@ -7031,7 +7042,7 @@ msgid "Right-to-left"
 msgstr "Оңнан солға"
 
 #: ../src/dialogs/dialog-sheet-compare.c:408
-#: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:776
+#: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:789
 msgid "Auto"
 msgstr "Авто"
 
@@ -7180,16 +7191,16 @@ msgid "Run on"
 msgstr ""
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:245
-#: ../src/wbc-gtk.c:4058
+#: ../src/wbc-gtk.c:4118
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4060
+#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4120
 msgid "Average"
 msgstr "Average"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4059
+#: ../src/wbc-gtk.c:4119
 msgid "Max"
 msgstr "Максимал"
 
@@ -7233,11 +7244,11 @@ msgstr ""
 msgid "Changing solver parameters"
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:548 ../src/tools/gnm-solver.c:1683
+#: ../src/dialogs/dialog-solver.c:548 ../src/tools/gnm-solver.c:1699
 msgid "Feasible"
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:552 ../src/tools/gnm-solver.c:1686
+#: ../src/dialogs/dialog-solver.c:552 ../src/tools/gnm-solver.c:1702
 msgid "Optimal"
 msgstr "Оптималды"
 
@@ -7269,7 +7280,7 @@ msgstr "Орындалуда"
 msgid "Done"
 msgstr "Дайын"
 
-#: ../src/dialogs/dialog-solver.c:607 ../src/gui-util.c:1079
+#: ../src/dialogs/dialog-solver.c:607 ../src/gui-util.c:1087
 msgid "Error"
 msgstr "Қате"
 
@@ -7406,7 +7417,7 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:791
 #: ../src/tools/analysis-exp-smoothing.c:1116
 #: ../src/tools/analysis-frequency.c:147 ../src/tools/analysis-histogram.c:323
-#: ../src/tools/analysis-tools.c:1227 ../src/tools/analysis-tools.c:3756
+#: ../src/tools/analysis-tools.c:1201 ../src/tools/analysis-tools.c:3730
 #, c-format
 msgid "Column %d"
 msgstr ""
@@ -8478,13 +8489,13 @@ msgstr ""
 msgid "VARP"
 msgstr ""
 
-#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:699
-#: ../src/tools/analysis-tools.c:702
+#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:673
+#: ../src/tools/analysis-tools.c:676
 msgid "Correlation"
 msgstr "Корреляция"
 
-#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:754
-#: ../src/tools/analysis-tools.c:757 ../src/wbc-gtk-actions.c:2953
+#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:728
+#: ../src/tools/analysis-tools.c:731 ../src/wbc-gtk-actions.c:2953
 msgid "Covariance"
 msgstr "Коварианттылық"
 
@@ -8596,8 +8607,8 @@ msgstr ""
 msgid "Delete _column(s)"
 msgstr "Баған(дар)ды өшіру"
 
-#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1144
-#: ../src/tools/analysis-tools.c:1147
+#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1118
+#: ../src/tools/analysis-tools.c:1121
 msgid "Descriptive Statistics"
 msgstr "Сипаттаушы статистика"
 
@@ -9038,8 +9049,8 @@ msgstr ""
 msgid "Source Locale:"
 msgstr ""
 
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4135
-#: ../src/wbc-gtk-actions.c:4154
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4154
+#: ../src/wbc-gtk-actions.c:4174
 msgid "Zoom"
 msgstr "Масштабтау"
 
@@ -9086,7 +9097,7 @@ msgstr "Парақтар"
 
 #: ../src/dialogs/doc-meta-data.ui.h:1
 msgid "Document Properties"
-msgstr ""
+msgstr "Құжат қасиеттері"
 
 #: ../src/dialogs/doc-meta-data.ui.h:2
 msgid "<b>Information</b>"
@@ -9319,7 +9330,7 @@ msgstr ""
 
 #: ../src/dialogs/exp-smoothing.ui.h:22 ../src/dialogs/moving-averages.ui.h:22
 msgid "n"
-msgstr ""
+msgstr "ж"
 
 #: ../src/dialogs/exp-smoothing.ui.h:23 ../src/dialogs/moving-averages.ui.h:23
 msgid "n−1"
@@ -9912,8 +9923,8 @@ msgstr "Бірі_ктіру"
 msgid "Merge _Range:"
 msgstr ""
 
-#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:4002
-#: ../src/tools/analysis-tools.c:4005
+#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:3976
+#: ../src/tools/analysis-tools.c:3979
 msgid "Moving Average"
 msgstr "Жылжымалы орта мәні"
 
@@ -10418,7 +10429,7 @@ msgstr ""
 
 #: ../src/dialogs/quit.ui.h:6
 msgid "_Discard All"
-msgstr ""
+msgstr "Барлығын ел_емеу"
 
 #: ../src/dialogs/quit.ui.h:7
 msgid "Discard changes in all files"
@@ -10514,7 +10525,7 @@ msgstr ""
 
 #: ../src/dialogs/recent.ui.h:1
 msgid "Recently Used Documents"
-msgstr ""
+msgstr "Жуырда қолданылған құжаттар"
 
 #: ../src/dialogs/recent.ui.h:2
 msgid "Existing only"
@@ -10532,8 +10543,8 @@ msgstr ""
 msgid "Last Used"
 msgstr "Соңғы рет қолданылған"
 
-#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3609
-#: ../src/tools/analysis-tools.c:3612
+#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3583
+#: ../src/tools/analysis-tools.c:3586
 msgid "Regression"
 msgstr "Регрессия"
 
@@ -11131,13 +11142,13 @@ msgstr ""
 msgid "Resize Sheet"
 msgstr ""
 
-#. Number of 'Columns' in sheet
+#. Number of
 #: ../src/dialogs/sheet-resize.ui.h:3
 msgctxt "sheetsize"
 msgid "Columns"
 msgstr "Бағандар"
 
-#. Number of 'Rows' in sheet
+#. Number of
 #: ../src/dialogs/sheet-resize.ui.h:5
 msgctxt "sheetsize"
 msgid "Rows"
@@ -11222,8 +11233,8 @@ msgstr ""
 msgid "Output variables:"
 msgstr ""
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1699
-#: ../src/tools/gnm-solver.c:1840
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1715
+#: ../src/tools/gnm-solver.c:1856
 msgid "Variables"
 msgstr "Айнымалылар"
 
@@ -11333,13 +11344,13 @@ msgstr "≥"
 msgid "="
 msgstr "="
 
-#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:441
-#: ../src/tools/gnm-solver.c:467
+#: ../src/dialogs/solver.ui.h:4 ../src/tools/gnm-solver.c:443
+#: ../src/tools/gnm-solver.c:469
 msgid "Int"
 msgstr ""
 
-#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:442
-#: ../src/tools/gnm-solver.c:468
+#: ../src/dialogs/solver.ui.h:5 ../src/tools/gnm-solver.c:444
+#: ../src/tools/gnm-solver.c:470
 msgid "Bool"
 msgstr ""
 
@@ -11424,8 +11435,8 @@ msgid "Re_place"
 msgstr "Алмаст_ыру"
 
 #. ----------------------------------------
-#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1742
-#: ../src/tools/gnm-solver.c:1874
+#: ../src/dialogs/solver.ui.h:26 ../src/tools/gnm-solver.c:1758
+#: ../src/tools/gnm-solver.c:1890
 msgid "Constraints"
 msgstr ""
 
@@ -11586,7 +11597,7 @@ msgstr "<b>Орналасуы</b>"
 
 #: ../src/dialogs/view.ui.h:3
 msgid "    "
-msgstr "    "
+msgstr ""
 
 #: ../src/dialogs/view.ui.h:4
 msgid "Specified screen:"
@@ -11690,7 +11701,7 @@ msgstr ""
 msgid "Unknown evaluation error"
 msgstr ""
 
-#: ../src/file-autoft.c:82
+#: ../src/file-autoft.c:83
 #, c-format
 msgid "Invalid template file: %s"
 msgstr ""
@@ -11855,7 +11866,7 @@ msgstr ""
 #. Missing values will be NULL.
 #: ../src/func.c:1112
 msgid "Any"
-msgstr ""
+msgstr "Кез келген"
 
 #: ../src/gnm-commands-slicer.c:119
 #, c-format
@@ -11898,7 +11909,7 @@ msgstr "300%"
 msgid "500%"
 msgstr ""
 
-#: ../src/gnm-pane.c:2028
+#: ../src/gnm-pane.c:2065
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -12095,20 +12106,20 @@ msgstr ""
 msgid "Multiple errors\n"
 msgstr ""
 
-#: ../src/gui-util.c:1069
+#: ../src/gui-util.c:1077
 msgid "Question"
 msgstr "Сұрақ"
 
-#: ../src/gui-util.c:1074
+#: ../src/gui-util.c:1082
 msgid "Warning"
 msgstr "Ескерту"
 
-#: ../src/gui-util.c:1262
+#: ../src/gui-util.c:1270
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
 msgstr ""
 
-#: ../src/gui-util.c:1270
+#: ../src/gui-util.c:1278
 #, c-format
 msgid "The %s plugin is required but is not loaded."
 msgstr ""
@@ -12116,7 +12127,7 @@ msgstr ""
 #: ../src/gui-util.h:150
 msgctxt "Stock label"
 msgid "_Open"
-msgstr ""
+msgstr "_Ашу"
 
 #: ../src/gui-util.h:153
 msgctxt "Stock label"
@@ -12138,105 +12149,105 @@ msgctxt "Stock label"
 msgid "_OK"
 msgstr "О_К"
 
-#: ../src/gutils.c:968
+#: ../src/gutils.c:975
 #, c-format
 msgid "Unknown sheet \"%s\""
 msgstr "Белгісіз әрекет: %s"
 
-#: ../src/gutils.c:988
+#: ../src/gutils.c:995
 #, c-format
 msgid "Invalid export option \"%s\" for format %s"
 msgstr ""
 
-#: ../src/hlink.c:288
+#: ../src/hlink.c:304
 msgid "Link target"
 msgstr "Сілтеме мақсаты"
 
-#: ../src/hlink.c:501
+#: ../src/hlink.c:508
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr ""
 
-#: ../src/hlink.c:558
+#: ../src/hlink.c:565
 #, c-format
 msgid "Unable to open '%s'"
 msgstr ""
 
-#: ../src/item-bar.c:858
+#: ../src/item-bar.c:867
 msgid "Width:"
 msgstr "Ені:"
 
-#: ../src/item-bar.c:858
+#: ../src/item-bar.c:867
 msgid "Height:"
 msgstr "Биіктігі:"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
-#: ../src/item-bar.c:863
+#: ../src/item-bar.c:872
 #, c-format
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
 msgstr[0] ""
 
 #. xgettext: This is input to ngettext based on the integer number of points.
-#: ../src/item-bar.c:868
+#: ../src/item-bar.c:877
 #, c-format
 msgid "%d.00 pt"
 msgstr ""
 
-#: ../src/item-bar.c:868
+#: ../src/item-bar.c:877
 #, c-format
 msgid "%d.00 pts"
 msgstr ""
 
 #. xgettext: The number of points here is always a fractional number, ie. not an integer.
-#: ../src/item-bar.c:872
+#: ../src/item-bar.c:881
 #, c-format
 msgid "%.2f pts"
 msgstr ""
 
-#: ../src/item-cursor.c:819
+#: ../src/item-cursor.c:833
 msgid "_Move"
 msgstr "Жы_лжыту"
 
-#: ../src/item-cursor.c:822 ../src/sheet-control-gui.c:2247
+#: ../src/item-cursor.c:836 ../src/sheet-control-gui.c:2247
 #: ../src/sheet-object.c:271 ../src/sheet-object.c:290
 #: ../src/wbc-gtk-actions.c:2088
 msgid "_Copy"
 msgstr "_Көшіру"
 
-#: ../src/item-cursor.c:825
+#: ../src/item-cursor.c:839
 msgid "Copy _Formats"
 msgstr ""
 
-#: ../src/item-cursor.c:827
+#: ../src/item-cursor.c:841
 msgid "Copy _Values"
 msgstr ""
 
-#: ../src/item-cursor.c:832
+#: ../src/item-cursor.c:846
 msgid "Shift _Down and Copy"
 msgstr ""
 
-#: ../src/item-cursor.c:834
+#: ../src/item-cursor.c:848
 msgid "Shift _Right and Copy"
 msgstr ""
 
-#: ../src/item-cursor.c:836
+#: ../src/item-cursor.c:850
 msgid "Shift Dow_n and Move"
 msgstr ""
 
-#: ../src/item-cursor.c:838
+#: ../src/item-cursor.c:852
 msgid "Shift Righ_t and Move"
 msgstr ""
 
-#: ../src/item-cursor.c:843
+#: ../src/item-cursor.c:857
 msgid "C_ancel"
 msgstr "Б_ас тарту"
 
-#: ../src/item-cursor.c:1102
+#: ../src/item-cursor.c:1116
 msgid "Drag to autofill"
 msgstr ""
 
-#: ../src/item-cursor.c:1105
+#: ../src/item-cursor.c:1119
 msgid "Drag to move"
 msgstr ""
 
@@ -12296,7 +12307,7 @@ msgstr ""
 msgid "[FILE ...]"
 msgstr ""
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1453 ../src/ssdiff.c:936
+#: ../src/main-application.c:127 ../src/ssconvert.c:1459 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
 #, c-format
 msgid ""
@@ -12412,7 +12423,7 @@ msgid "Unexpected token %c"
 msgstr ""
 
 #: ../src/print-info.c:233 ../src/print-info.c:236 ../src/print-info.c:237
-#: ../src/print-info.c:351
+#: ../src/print-info.c:349
 msgid "Page &[PAGE]"
 msgstr "Парақ &[PAGE]"
 
@@ -12421,7 +12432,7 @@ msgid "Page &[PAGE] of &[PAGES]"
 msgstr ""
 
 #: ../src/print-info.c:235 ../src/print-info.c:236 ../src/print-info.c:237
-#: ../src/print-info.c:239 ../src/print-info.c:344
+#: ../src/print-info.c:239 ../src/print-info.c:342
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
@@ -12429,29 +12440,29 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: ../src/print-info.c:638
+#: ../src/print-info.c:633
 msgid "File Name"
 msgstr "Файл аты"
 
-#: ../src/print-info.c:650
+#: ../src/print-info.c:645
 msgid "Path "
 msgstr "Жолы "
 
-#: ../src/print-info.c:666 ../src/widgets/gnm-fontbutton.c:480
+#: ../src/print-info.c:661 ../src/widgets/gnm-fontbutton.c:480
 msgid "Title"
 msgstr "Атауы"
 
-#: ../src/print-info.c:925
+#: ../src/print-info.c:924
 #, c-format
 msgid "There is no object with name '%s'"
 msgstr ""
 
-#: ../src/print-info.c:942
+#: ../src/print-info.c:941
 #, c-format
 msgid "Unknown paper size"
 msgstr ""
 
-#: ../src/print-info.c:976
+#: ../src/print-info.c:975
 msgid "PDF export"
 msgstr ""
 
@@ -12782,9 +12793,11 @@ msgstr[0] "%d жол_ды пішімдеу"
 
 #: ../src/sheet-control-gui.c:2530
 #, c-format
+#| msgid "_Format %d Cell..."
+#| msgid_plural "_Format %d Cells"
 msgid "_Format %d Cell..."
-msgid_plural "_Format %d Cells"
-msgstr[0] "%d ұяш_ықты пі_шімдеу..."
+msgid_plural "_Format %d Cells..."
+msgstr[0] ""
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
 #: ../src/sheet-control-gui.c:2976
@@ -12871,17 +12884,17 @@ msgstr "Ө_шіру"
 msgid "Print"
 msgstr "Баспаға шығару"
 
-#: ../src/sheet-object-component.c:182 ../src/sheet-object-graph.c:296
+#: ../src/sheet-object-component.c:181 ../src/sheet-object-graph.c:296
 #: ../src/sheet-object-image.c:287
 #, c-format
 msgid "Unknown failure while saving image"
 msgstr ""
 
-#: ../src/sheet-object-component.c:191
+#: ../src/sheet-object-component.c:190
 msgid "Save as"
 msgstr ""
 
-#: ../src/sheet-object-component.c:268 ../src/sheet-object-graph.c:407
+#: ../src/sheet-object-component.c:267 ../src/sheet-object-graph.c:407
 #: ../src/sheet-object-image.c:344
 msgid "_Save As Image"
 msgstr ""
@@ -12899,27 +12912,27 @@ msgstr "Жаңа тере_зеде ашу"
 msgid "Copy to New Graph S_heet"
 msgstr ""
 
-#: ../src/sheet-object-graph.c:772
+#: ../src/sheet-object-graph.c:785
 msgid "Series as:"
 msgstr ""
 
 #. Translators: Series as "Columns"
-#: ../src/sheet-object-graph.c:778
+#: ../src/sheet-object-graph.c:791
 msgctxt "graph"
 msgid "Columns"
 msgstr "Бағандар"
 
 #. Translators: Series as "Rows"
-#: ../src/sheet-object-graph.c:780
+#: ../src/sheet-object-graph.c:793
 msgctxt "graph"
 msgid "Rows"
 msgstr "Жолдар"
 
-#: ../src/sheet-object-graph.c:784
+#: ../src/sheet-object-graph.c:797
 msgid "Use first series as shared abscissa"
 msgstr ""
 
-#: ../src/sheet-object-graph.c:787
+#: ../src/sheet-object-graph.c:800
 msgid "New graph sheet"
 msgstr ""
 
@@ -13005,7 +13018,7 @@ msgid "Cut"
 msgstr "Қиып алу"
 
 #. Oh, yeah?
-#: ../src/sheet.c:872
+#: ../src/sheet.c:911
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13013,47 +13026,47 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: ../src/sheet.c:932
+#: ../src/sheet.c:971
 msgid "Display Zeros"
 msgstr ""
 
-#: ../src/sheet.c:933
+#: ../src/sheet.c:972
 msgid "Control whether zeros are shown are blanked out."
 msgstr ""
 
-#: ../src/sheet.c:938
+#: ../src/sheet.c:977
 msgid "Display Grid"
 msgstr "Торды көрсету"
 
-#: ../src/sheet.c:939
+#: ../src/sheet.c:978
 msgid "Control whether the grid is shown."
 msgstr ""
 
-#: ../src/sheet.c:3811
+#: ../src/sheet.c:3832
 msgid "Target region contains merged cells"
 msgstr ""
 
-#: ../src/sheet.c:3877
+#: ../src/sheet.c:3898
 msgid "cannot operate on merged cells"
 msgstr ""
 
-#: ../src/sheet.c:3890
+#: ../src/sheet.c:3911
 msgid "cannot operate on array formulæ"
 msgstr ""
 
-#: ../src/sheet.c:5527
+#: ../src/sheet.c:5585
 msgid "Insert Columns"
 msgstr "Бағандарды кірістіру"
 
-#: ../src/sheet.c:5545
+#: ../src/sheet.c:5603
 msgid "Delete Columns"
 msgstr "Бағандарды өшіру"
 
-#: ../src/sheet.c:5563
+#: ../src/sheet.c:5621
 msgid "Insert Rows"
 msgstr "Жолдарды кірістіру"
 
-#: ../src/sheet.c:5581
+#: ../src/sheet.c:5639
 msgid "Delete Rows"
 msgstr "Жолдарды өшіру"
 
@@ -13211,59 +13224,59 @@ msgstr ""
 msgid "Failed to set cell %s\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1147
+#: ../src/ssconvert.c:1148
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1167
+#: ../src/ssconvert.c:1168
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1173
+#: ../src/ssconvert.c:1174
 #, c-format
 msgid "Using exporter %s\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1179
+#: ../src/ssconvert.c:1180
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1189
+#: ../src/ssconvert.c:1190
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
 "Try --list-importers to see a list of possibilities.\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1222 ../src/ssconvert.c:1375
+#: ../src/ssconvert.c:1223 ../src/ssconvert.c:1381
 #, c-format
 msgid "Loading %s failed\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1276
+#: ../src/ssconvert.c:1277
 #, c-format
 msgid "Resizing to %dx%d\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1288
+#: ../src/ssconvert.c:1289
 #, c-format
 msgid "Resizing of sheet %s failed\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1441 ../src/ssconvert.c:1520
+#: ../src/ssconvert.c:1447 ../src/ssconvert.c:1526
 msgid "INFILE [OUTFILE]"
 msgstr ""
 
-#: ../src/ssconvert.c:1460
+#: ../src/ssconvert.c:1466
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13271,12 +13284,12 @@ msgid ""
 "libdir := '%s'\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1466
+#: ../src/ssconvert.c:1472
 #, c-format
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr ""
 
-#: ../src/ssconvert.c:1518 ../src/ssdiff.c:993 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1524 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Қолданылуы: %s [OPTION...] %s\n"
@@ -13464,7 +13477,7 @@ msgstr ""
 
 #: ../src/ssgrep.c:370
 msgid "comment"
-msgstr ""
+msgstr "түсіндірме"
 
 #: ../src/ssgrep.c:429
 msgid "PATTERN INFILE..."
@@ -13508,20 +13521,20 @@ msgid ""
 "libdir := '%s'\n"
 msgstr ""
 
-#: ../src/stf-export.c:692
+#: ../src/stf-export.c:693
 msgid "Error while trying to export file as text"
 msgstr ""
 
-#: ../src/stf-export.c:726
+#: ../src/stf-export.c:727
 msgid "eol must be one of unix, mac, and windows"
 msgstr ""
 
-#: ../src/stf-export.c:746
+#: ../src/stf-export.c:747
 #, c-format
 msgid "Invalid value for option %s: \"%s\""
 msgstr ""
 
-#: ../src/stf-export.c:784
+#: ../src/stf-export.c:785
 msgid "Text (configurable)"
 msgstr ""
 
@@ -13588,19 +13601,19 @@ msgstr ""
 msgid "Parse error while trying to parse data into sheet"
 msgstr ""
 
-#: ../src/stf.c:505
+#: ../src/stf.c:510
 msgid "Error while trying to write CSV file"
 msgstr ""
 
-#: ../src/stf.c:606
+#: ../src/stf.c:611
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr ""
 
-#: ../src/stf.c:614
+#: ../src/stf.c:619
 msgid "Text import (configurable)"
 msgstr ""
 
-#: ../src/stf.c:628
+#: ../src/stf.c:633
 msgid "Comma separated values (CSV)"
 msgstr ""
 
@@ -13631,7 +13644,7 @@ msgid "/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
 #: ../src/tools/analysis-anova.c:248 ../src/tools/analysis-anova.c:607
-#: ../src/tools/analysis-tools.c:4277
+#: ../src/tools/analysis-tools.c:4251
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
@@ -13743,7 +13756,7 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:791
 #: ../src/tools/analysis-exp-smoothing.c:1116
 #: ../src/tools/analysis-frequency.c:144 ../src/tools/analysis-histogram.c:320
-#: ../src/tools/analysis-tools.c:1224 ../src/tools/analysis-tools.c:3753
+#: ../src/tools/analysis-tools.c:1198 ../src/tools/analysis-tools.c:3727
 #, c-format
 msgid "Row %d"
 msgstr ""
@@ -13753,7 +13766,7 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:610
 #: ../src/tools/analysis-exp-smoothing.c:932
 #: ../src/tools/analysis-exp-smoothing.c:1299
-#: ../src/tools/analysis-kaplan-meier.c:212 ../src/tools/analysis-tools.c:3928
+#: ../src/tools/analysis-kaplan-meier.c:212 ../src/tools/analysis-tools.c:3902
 msgid "Standard Error"
 msgstr "Стандартты қате"
 
@@ -13807,7 +13820,7 @@ msgid "/Frequency Table/Category"
 msgstr ""
 
 #: ../src/tools/analysis-frequency.c:150 ../src/tools/analysis-histogram.c:326
-#: ../src/tools/analysis-tools.c:1230
+#: ../src/tools/analysis-tools.c:1204
 #, c-format
 msgid "Area %d"
 msgstr ""
@@ -13984,7 +13997,7 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:103
-#: ../src/tools/analysis-tools.c:726
+#: ../src/tools/analysis-tools.c:700
 msgid "Covariances"
 msgstr "Коварианттылықтар"
 
@@ -14059,16 +14072,16 @@ msgstr ""
 msgid "Variable %i"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:671
+#: ../src/tools/analysis-tools.c:645
 msgid "Correlations"
 msgstr "Корреляциялар"
 
-#: ../src/tools/analysis-tools.c:683
+#: ../src/tools/analysis-tools.c:657
 #, c-format
 msgid "Correlation (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:738
+#: ../src/tools/analysis-tools.c:712
 #, c-format
 msgid "Covariance (%s)"
 msgstr ""
@@ -14080,139 +14093,139 @@ msgstr ""
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:840
+#: ../src/tools/analysis-tools.c:814
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:974
+#: ../src/tools/analysis-tools.c:948
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1105
+#: ../src/tools/analysis-tools.c:1079
 #, c-format
 msgid "Largest (%d)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1112
+#: ../src/tools/analysis-tools.c:1086
 #, c-format
 msgid "Smallest (%d)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1129
+#: ../src/tools/analysis-tools.c:1103
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1327
+#: ../src/tools/analysis-tools.c:1301
 #, c-format
 msgid "Sampling (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1365 ../src/tools/analysis-tools.c:1368
+#: ../src/tools/analysis-tools.c:1339 ../src/tools/analysis-tools.c:1342
 msgid "Sample"
 msgstr "Мысалы"
 
-#: ../src/tools/analysis-tools.c:1409
+#: ../src/tools/analysis-tools.c:1383
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1596
+#: ../src/tools/analysis-tools.c:1570
 #, c-format
 msgid "z-Test (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1606 ../src/tools/analysis-tools.c:1609
+#: ../src/tools/analysis-tools.c:1580 ../src/tools/analysis-tools.c:1583
 msgid "z-Test"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1660
+#: ../src/tools/analysis-tools.c:1634
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1888
+#: ../src/tools/analysis-tools.c:1862
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1898 ../src/tools/analysis-tools.c:1901
-#: ../src/tools/analysis-tools.c:2198 ../src/tools/analysis-tools.c:2201
-#: ../src/tools/analysis-tools.c:2491 ../src/tools/analysis-tools.c:2494
+#: ../src/tools/analysis-tools.c:1872 ../src/tools/analysis-tools.c:1875
+#: ../src/tools/analysis-tools.c:2172 ../src/tools/analysis-tools.c:2175
+#: ../src/tools/analysis-tools.c:2465 ../src/tools/analysis-tools.c:2468
 msgid "t-Test"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1939
+#: ../src/tools/analysis-tools.c:1913
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2188 ../src/tools/analysis-tools.c:2481
+#: ../src/tools/analysis-tools.c:2162 ../src/tools/analysis-tools.c:2455
 #, c-format
 msgid "t-Test (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2236
+#: ../src/tools/analysis-tools.c:2210
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2530 ../src/tools/analysis-tools.c:2779
-#: ../src/tools/analysis-tools.c:2782
+#: ../src/tools/analysis-tools.c:2504 ../src/tools/analysis-tools.c:2753
+#: ../src/tools/analysis-tools.c:2756
 msgid "F-Test"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2531
+#: ../src/tools/analysis-tools.c:2505
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2769
+#: ../src/tools/analysis-tools.c:2743
 #, c-format
 msgid "F-Test (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2914
+#: ../src/tools/analysis-tools.c:2888
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2933
+#: ../src/tools/analysis-tools.c:2907
 msgid "Response Variable"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2967
+#: ../src/tools/analysis-tools.c:2941
 msgid "/df/SS/MS/F/Significance of F"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2974
+#: ../src/tools/analysis-tools.c:2948
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr ""
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2980
+#: ../src/tools/analysis-tools.c:2954
 msgid "\"Lower\" 0%"
 msgstr ""
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
-#: ../src/tools/analysis-tools.c:2982
+#: ../src/tools/analysis-tools.c:2956
 msgid "\"Upper\" 0%"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2991
+#: ../src/tools/analysis-tools.c:2965
 msgid ""
 "Probability of observing a t-statistic\n"
 "whose absolute value is at least as large\n"
@@ -14221,7 +14234,7 @@ msgid ""
 "hypothesis is in fact true."
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2998
+#: ../src/tools/analysis-tools.c:2972
 msgid ""
 "This value is not the square of R\n"
 "but the uncentered version of the\n"
@@ -14230,114 +14243,114 @@ msgid ""
 "squares explained by the model."
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3306
+#: ../src/tools/analysis-tools.c:3280
 msgid "Constant"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3311
+#: ../src/tools/analysis-tools.c:3285
 msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3473
+#: ../src/tools/analysis-tools.c:3447
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3478
+#: ../src/tools/analysis-tools.c:3452
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3484
+#: ../src/tools/analysis-tools.c:3458
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3490
+#: ../src/tools/analysis-tools.c:3464
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3571
+#: ../src/tools/analysis-tools.c:3545
 #, c-format
 msgid "Regression (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3989
+#: ../src/tools/analysis-tools.c:3963
 #, c-format
 msgid "Moving Average (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4047
+#: ../src/tools/analysis-tools.c:4021
 msgid "Ranks & Percentiles"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4058
+#: ../src/tools/analysis-tools.c:4032
 msgid "Point"
 msgstr "Нүкте"
 
-#: ../src/tools/analysis-tools.c:4059
+#: ../src/tools/analysis-tools.c:4033
 msgid "Rank"
 msgstr "Рейтинг"
 
-#: ../src/tools/analysis-tools.c:4060
+#: ../src/tools/analysis-tools.c:4034
 msgid "Percentile Rank"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4152
+#: ../src/tools/analysis-tools.c:4126
 #, c-format
 msgid "Ranks (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4164 ../src/tools/analysis-tools.c:4167
+#: ../src/tools/analysis-tools.c:4138 ../src/tools/analysis-tools.c:4141
 msgid "Ranks"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4199
+#: ../src/tools/analysis-tools.c:4173
 msgid "Anova: Single Factor"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4200 ../src/tools/simulation.c:334
+#: ../src/tools/analysis-tools.c:4174 ../src/tools/simulation.c:334
 msgid "SUMMARY"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4203
+#: ../src/tools/analysis-tools.c:4177
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4271
+#: ../src/tools/analysis-tools.c:4245
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4489
+#: ../src/tools/analysis-tools.c:4463
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4500
+#: ../src/tools/analysis-tools.c:4474
 msgid "Anova"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4503
+#: ../src/tools/analysis-tools.c:4477
 msgid "Single Factor ANOVA"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4535
+#: ../src/tools/analysis-tools.c:4509
 msgid "Inverse Fourier Transform"
 msgstr "Кері Фурье түрлендіруі"
 
-#: ../src/tools/analysis-tools.c:4536
+#: ../src/tools/analysis-tools.c:4510
 msgid "Fourier Transform"
 msgstr "Фурье түрлендіруі"
 
-#: ../src/tools/analysis-tools.c:4544
+#: ../src/tools/analysis-tools.c:4518
 msgid "/Real/Imaginary"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4592
+#: ../src/tools/analysis-tools.c:4566
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4604 ../src/tools/analysis-tools.c:4607
+#: ../src/tools/analysis-tools.c:4578 ../src/tools/analysis-tools.c:4581
 msgid "Fourier Series"
 msgstr ""
 
@@ -14388,7 +14401,7 @@ msgstr ""
 msgid "Report Created: "
 msgstr ""
 
-#: ../src/tools/data-shuffling.c:291
+#: ../src/tools/data-shuffling.c:289
 msgid "Shuffled"
 msgstr ""
 
@@ -14410,155 +14423,155 @@ msgstr ""
 msgid "Advanced Filter (%s)"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:702
+#: ../src/tools/gnm-solver.c:704
 #, c-format
 msgid "Invalid solver target"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:714
+#: ../src/tools/gnm-solver.c:716
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:724
+#: ../src/tools/gnm-solver.c:726
 #, c-format
 msgid "Invalid solver input range"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:735
+#: ../src/tools/gnm-solver.c:737
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:750
+#: ../src/tools/gnm-solver.c:752
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1161
+#: ../src/tools/gnm-solver.c:1174
 msgid "Timeout"
 msgstr "Күту уақыты"
 
-#: ../src/tools/gnm-solver.c:1377
+#: ../src/tools/gnm-solver.c:1393
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1386
+#: ../src/tools/gnm-solver.c:1402
 #, c-format
 msgid "Failed to create linear program file"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1406
+#: ../src/tools/gnm-solver.c:1422
 #, c-format
 msgid "Failed to save linear program"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1655
+#: ../src/tools/gnm-solver.c:1671
 msgid "Target"
 msgstr "Мақсаты"
 
-#: ../src/tools/gnm-solver.c:1659
+#: ../src/tools/gnm-solver.c:1675
 msgid "Status"
 msgstr "Қалып-күйі"
 
-#: ../src/tools/gnm-solver.c:1672
+#: ../src/tools/gnm-solver.c:1688
 msgid "Minimize"
 msgstr "Қайыру"
 
-#: ../src/tools/gnm-solver.c:1675
+#: ../src/tools/gnm-solver.c:1691
 msgid "Maximize"
 msgstr "Жазық қылу"
 
-#: ../src/tools/gnm-solver.c:1703
+#: ../src/tools/gnm-solver.c:1719
 msgid "Lower"
 msgstr "Төменгі"
 
-#: ../src/tools/gnm-solver.c:1704
+#: ../src/tools/gnm-solver.c:1720
 msgid "Upper"
 msgstr "Жоғарғы"
 
-#: ../src/tools/gnm-solver.c:1705 ../src/tools/gnm-solver.c:1748
+#: ../src/tools/gnm-solver.c:1721 ../src/tools/gnm-solver.c:1764
 msgid "Slack"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1727
+#: ../src/tools/gnm-solver.c:1743
 msgid "At limit"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1730
+#: ../src/tools/gnm-solver.c:1746
 msgid "Outside bounds"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1745
+#: ../src/tools/gnm-solver.c:1761
 msgid "Condition"
 msgstr "Шарт"
 
-#: ../src/tools/gnm-solver.c:1750 ../src/tools/gnm-solver.c:1886
+#: ../src/tools/gnm-solver.c:1766 ../src/tools/gnm-solver.c:1902
 msgid "No constraints"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1843
+#: ../src/tools/gnm-solver.c:1859
 msgid ""
 "Final\n"
 "Value"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1844
+#: ../src/tools/gnm-solver.c:1860
 msgid ""
 "Reduced\n"
 "Cost"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1845 ../src/tools/gnm-solver.c:1881
+#: ../src/tools/gnm-solver.c:1861 ../src/tools/gnm-solver.c:1897
 msgid ""
 "Lower\n"
 "Limit"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1846 ../src/tools/gnm-solver.c:1882
+#: ../src/tools/gnm-solver.c:1862 ../src/tools/gnm-solver.c:1898
 msgid ""
 "Upper\n"
 "Limit"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1878
+#: ../src/tools/gnm-solver.c:1894
 msgid ""
 "Shadow\n"
 "Price"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1879
+#: ../src/tools/gnm-solver.c:1895
 msgid ""
 "Constraint\n"
 "LHS"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1880
+#: ../src/tools/gnm-solver.c:1896
 msgid ""
 "Constraint\n"
 "RHS"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1944
+#: ../src/tools/gnm-solver.c:1960
 msgid "Program"
 msgstr "Бағдарлама"
 
-#: ../src/tools/gnm-solver.c:1950
+#: ../src/tools/gnm-solver.c:1966
 msgid "Sensitivity"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:2553
+#: ../src/tools/gnm-solver.c:2571
 #, c-format
 msgid "Target cell did not evaluate to a number."
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:2561
+#: ../src/tools/gnm-solver.c:2579
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:3148
+#: ../src/tools/gnm-solver.c:3166
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14567,22 +14580,22 @@ msgid ""
 "Would you like to locate it yourself?"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:3152
+#: ../src/tools/gnm-solver.c:3170
 #, c-format
 msgid "Unable to locate %s"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:3168
+#: ../src/tools/gnm-solver.c:3186
 #, c-format
 msgid "Locate the %s program"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:3562
+#: ../src/tools/gnm-solver.c:3580
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:3653
+#: ../src/tools/gnm-solver.c:3671
 msgid "Iteration limit exceeded"
 msgstr ""
 
@@ -14632,7 +14645,7 @@ msgstr ""
 msgid "The probabilities may not all be 0!"
 msgstr ""
 
-#: ../src/tools/random-generator.c:758
+#: ../src/tools/random-generator.c:757
 #, c-format
 msgid "Random Numbers (%s)"
 msgstr ""
@@ -14681,7 +14694,7 @@ msgstr "Эксцесс"
 msgid "Range"
 msgstr "Ауқым"
 
-#: ../src/tools/simulation.c:255 ../src/wbc-gtk.c:4061
+#: ../src/tools/simulation.c:255 ../src/wbc-gtk.c:4121
 msgid "Count"
 msgstr "Саны"
 
@@ -14713,7 +14726,7 @@ msgstr ""
 msgid "Maximum time exceeded. Simulation was not completed."
 msgstr ""
 
-#: ../src/tools/tabulate.c:162
+#: ../src/tools/tabulate.c:151
 msgid "Tabulation"
 msgstr ""
 
@@ -14771,56 +14784,56 @@ msgstr ""
 msgid "Less than or Equal"
 msgstr ""
 
-#: ../src/validation.c:476
+#: ../src/validation.c:463
 #, c-format
 msgid "Missing formula for validation"
 msgstr ""
 
-#: ../src/validation.c:479
+#: ../src/validation.c:466
 #, c-format
 msgid "Extra formula for validation"
 msgstr ""
 
-#: ../src/validation.c:490
+#: ../src/validation.c:477
 msgid "Gnumeric: Validation"
 msgstr ""
 
-#: ../src/validation.c:557
+#: ../src/validation.c:544
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr ""
 
-#: ../src/validation.c:565
+#: ../src/validation.c:552
 #, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr ""
 
-#: ../src/validation.c:576
+#: ../src/validation.c:563
 #, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr ""
 
-#: ../src/validation.c:592
+#: ../src/validation.c:579
 #, c-format
 msgid "'%s' is not an integer"
 msgstr ""
 
-#: ../src/validation.c:602
+#: ../src/validation.c:589
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr ""
 
-#: ../src/validation.c:626
+#: ../src/validation.c:613
 #, c-format
 msgid "%s does not contain the new value."
 msgstr ""
 
-#: ../src/validation.c:662
+#: ../src/validation.c:649
 #, c-format
 msgid "%s is not true."
 msgstr ""
 
-#: ../src/validation.c:701
+#: ../src/validation.c:688
 #, c-format
 msgid "%s is out of permitted range"
 msgstr ""
@@ -14853,7 +14866,7 @@ msgstr ""
 msgid "#N/A"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:183 ../src/workbook-view.c:1273
+#: ../src/wbc-gtk-actions.c:183 ../src/workbook-view.c:1277
 msgid "Default file saver is not available."
 msgstr ""
 
@@ -15150,7 +15163,7 @@ msgstr "Ұя_шықтар"
 msgid "_Text"
 msgstr "_Мәтін"
 
-#: ../src/wbc-gtk-actions.c:2136 ../src/wbc-gtk-actions.c:3654
+#: ../src/wbc-gtk-actions.c:2136 ../src/wbc-gtk-actions.c:3666
 msgid "_Underline"
 msgstr "Асты сы_зылған"
 
@@ -15358,7 +15371,7 @@ msgstr ""
 msgid "Rename the current sheet"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2319 ../src/wbc-gtk.c:521
+#: ../src/wbc-gtk-actions.c:2319 ../src/wbc-gtk.c:554
 msgid "Resize..."
 msgstr "Өлшемін өзгерту..."
 
@@ -15573,7 +15586,7 @@ msgstr ""
 msgid "Select the next sheet object"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2539 ../src/wbc-gtk.c:2768
+#: ../src/wbc-gtk-actions.c:2539 ../src/wbc-gtk.c:2826
 msgid "Go to Top"
 msgstr ""
 
@@ -15581,7 +15594,7 @@ msgstr ""
 msgid "Go to the top of the data"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2769
+#: ../src/wbc-gtk-actions.c:2545 ../src/wbc-gtk.c:2827
 msgid "Go to Bottom"
 msgstr ""
 
@@ -15589,7 +15602,7 @@ msgstr ""
 msgid "Go to the bottom of the data"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2770
+#: ../src/wbc-gtk-actions.c:2551 ../src/wbc-gtk.c:2828
 msgid "Go to First"
 msgstr ""
 
@@ -15597,7 +15610,7 @@ msgstr ""
 msgid "Go to the first data cell"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2771
+#: ../src/wbc-gtk-actions.c:2557 ../src/wbc-gtk.c:2829
 msgid "Go to Last"
 msgstr ""
 
@@ -15689,11 +15702,11 @@ msgstr "Қалаулар..."
 msgid "Change Gnumeric Preferences"
 msgstr "Gnumeric қалауларын өзгерту"
 
-#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1601
+#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1641
 msgid "_Freeze Panes"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2645 ../src/wbc-gtk.c:1604
+#: ../src/wbc-gtk-actions.c:2645 ../src/wbc-gtk.c:1644
 msgid "Freeze the top left of the sheet"
 msgstr ""
 
@@ -16264,11 +16277,11 @@ msgstr ""
 msgid "Export the current sheet as a csv file"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3170 ../src/wbc-gtk.c:1722
+#: ../src/wbc-gtk-actions.c:3170 ../src/wbc-gtk.c:1762
 msgid "Repeat Export"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3172 ../src/wbc-gtk.c:1718 ../src/wbc-gtk.c:1722
+#: ../src/wbc-gtk-actions.c:3172 ../src/wbc-gtk.c:1758 ../src/wbc-gtk.c:1762
 msgid "Repeat the last data export"
 msgstr ""
 
@@ -16369,7 +16382,7 @@ msgstr ""
 msgid "Remove an outline group"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3252 ../src/wbc-gtk.c:1643
+#: ../src/wbc-gtk-actions.c:3252 ../src/wbc-gtk.c:1683
 msgid "Add _Auto Filter"
 msgstr ""
 
@@ -16433,7 +16446,7 @@ msgstr ""
 msgid "Adjust a data slicer"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3299 ../src/wbc-gtk.c:4057
+#: ../src/wbc-gtk-actions.c:3299 ../src/wbc-gtk.c:4117
 #: ../src/workbook-view.c:855
 msgid "Sum"
 msgstr "Қосындысы"
@@ -16651,314 +16664,330 @@ msgstr ""
 msgid "Decrease the number of decimals displayed"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3504
+#: ../src/wbc-gtk-actions.c:3502
+#| msgid "Decrease Indent"
+msgid "Decrease Indentation"
+msgstr ""
+
+#: ../src/wbc-gtk-actions.c:3505
 msgid "Decrease the indent, and align the contents to the left"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3510
+#: ../src/wbc-gtk-actions.c:3509
+#| msgid "Increase Indent"
+msgid "Increase Indentation"
+msgstr ""
+
+#: ../src/wbc-gtk-actions.c:3512
 msgid "Increase the indent, and align the contents to the left"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3518
+#: ../src/wbc-gtk-actions.c:3520
 msgid "Display _Outlines"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3520
+#: ../src/wbc-gtk-actions.c:3522
 msgid "Toggle whether or not to display outline groups"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3525
+#: ../src/wbc-gtk-actions.c:3527
 msgid "Outlines _Below"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3526
+#: ../src/wbc-gtk-actions.c:3528
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3531
+#: ../src/wbc-gtk-actions.c:3533
 msgid "Outlines _Right"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3532
+#: ../src/wbc-gtk-actions.c:3534
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3538
+#: ../src/wbc-gtk-actions.c:3540
 msgid "Display _Formulæ"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3540
+#: ../src/wbc-gtk-actions.c:3542
 msgid "Display the value of a formula or the formula itself"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3545
+#: ../src/wbc-gtk-actions.c:3547
 msgid "_Hide Zeros"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3546
+#: ../src/wbc-gtk-actions.c:3548
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3551
+#: ../src/wbc-gtk-actions.c:3553
 msgid "Hide _Gridlines"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3552
+#: ../src/wbc-gtk-actions.c:3554
 msgid "Toggle whether or not to display gridlines"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3557
+#: ../src/wbc-gtk-actions.c:3559
 msgid "Hide _Column Headers"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3558
+#: ../src/wbc-gtk-actions.c:3560
 msgid "Toggle whether or not to display column headers"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3563
+#: ../src/wbc-gtk-actions.c:3565
 msgid "Hide _Row Headers"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3564
+#: ../src/wbc-gtk-actions.c:3566
 msgid "Toggle whether or not to display row headers"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3571
+#: ../src/wbc-gtk-actions.c:3573
 msgid "Use R1C1 N_otation "
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3572
+#: ../src/wbc-gtk-actions.c:3574
 msgid "Display addresses as R1C1 or A1"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3579
+#: ../src/wbc-gtk-actions.c:3581
 msgid "_Left Align"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3580 ../src/wbc-gtk-actions.c:3708
+#: ../src/wbc-gtk-actions.c:3582 ../src/wbc-gtk-actions.c:3720
 msgid "Align left"
 msgstr "Солға туралау"
 
-#: ../src/wbc-gtk-actions.c:3586
+#: ../src/wbc-gtk-actions.c:3589
 msgid "_Center"
 msgstr "Ор_тасы"
 
-#: ../src/wbc-gtk-actions.c:3587 ../src/wbc-gtk-actions.c:3709
+#: ../src/wbc-gtk-actions.c:3590 ../src/wbc-gtk-actions.c:3721
 msgid "Center horizontally"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3593
+#: ../src/wbc-gtk-actions.c:3597
 msgid "_Right Align"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3594 ../src/wbc-gtk-actions.c:3710
+#: ../src/wbc-gtk-actions.c:3598 ../src/wbc-gtk-actions.c:3722
 msgid "Align right"
 msgstr "Оңға туралау"
 
-#: ../src/wbc-gtk-actions.c:3600
+#: ../src/wbc-gtk-actions.c:3605
 msgid "_Center Across Selection"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3601 ../src/wbc-gtk-actions.c:3714
+#: ../src/wbc-gtk-actions.c:3606 ../src/wbc-gtk-actions.c:3726
 msgid "Center horizontally across the selection"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3606
+#: ../src/wbc-gtk-actions.c:3612
 msgid "_Merge and Center"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3607
+#: ../src/wbc-gtk-actions.c:3613
 msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3616
+#: ../src/wbc-gtk-actions.c:3623
 msgid "Align _Top"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3617
+#: ../src/wbc-gtk-actions.c:3624
 msgid "Align Top"
 msgstr "Жоғарыға туралау"
 
-#: ../src/wbc-gtk-actions.c:3622
+#: ../src/wbc-gtk-actions.c:3631
 msgid "_Vertically Center"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3623
+#: ../src/wbc-gtk-actions.c:3632
 msgid "Vertically Center"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3628
+#: ../src/wbc-gtk-actions.c:3639
 msgid "Align _Bottom"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3629
+#: ../src/wbc-gtk-actions.c:3640
 msgid "Align Bottom"
 msgstr "Төмен жағымен туралау"
 
-#: ../src/wbc-gtk-actions.c:3638
+#: ../src/wbc-gtk-actions.c:3650
 msgid "_Bold"
 msgstr "_Жуан"
 
-#: ../src/wbc-gtk-actions.c:3646
+#: ../src/wbc-gtk-actions.c:3658
 msgid "_Italic"
 msgstr "Кө_лбеу"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:3662
+#: ../src/wbc-gtk-actions.c:3674
 msgid "_Double Underline"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3664
+#: ../src/wbc-gtk-actions.c:3676
 msgid "Double Underline"
 msgstr "Қос астынан сызу"
 
-#: ../src/wbc-gtk-actions.c:3669
+#: ../src/wbc-gtk-actions.c:3681
 msgid "_Single Low Underline"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3671
+#: ../src/wbc-gtk-actions.c:3683
 msgid "Single Low Underline"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3676
+#: ../src/wbc-gtk-actions.c:3688
 msgid "Double _Low Underline"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3677
+#: ../src/wbc-gtk-actions.c:3689
 msgid "Double Low Underline"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3683
+#: ../src/wbc-gtk-actions.c:3695
 msgid "_Strikethrough"
 msgstr "С_ызылған"
 
-#: ../src/wbc-gtk-actions.c:3691
+#: ../src/wbc-gtk-actions.c:3703
 msgid "Su_perscript"
 msgstr "Үс_тіңгі индекс"
 
-#: ../src/wbc-gtk-actions.c:3693
+#: ../src/wbc-gtk-actions.c:3705
 msgid "Superscript"
 msgstr "Үстіңгі индекс"
 
-#: ../src/wbc-gtk-actions.c:3699
+#: ../src/wbc-gtk-actions.c:3711
 msgid "Subscrip_t"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3701
+#: ../src/wbc-gtk-actions.c:3713
 msgid "Subscript"
 msgstr "Төменгі индекс"
 
-#: ../src/wbc-gtk-actions.c:3711
+#: ../src/wbc-gtk-actions.c:3723
 msgid "Fill horizontally"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3712
+#: ../src/wbc-gtk-actions.c:3724
 msgid "Justify horizontally"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3716
+#: ../src/wbc-gtk-actions.c:3728
 msgid "Align numbers right, and text left"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3721
+#: ../src/wbc-gtk-actions.c:3733
 msgid "Align top"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3722
+#: ../src/wbc-gtk-actions.c:3734
 msgid "Center vertically"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3723
+#: ../src/wbc-gtk-actions.c:3735
 msgid "Align bottom"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3725
+#. Reuse "center" icon as I don't know what this one is
+#: ../src/wbc-gtk-actions.c:3738
 msgid "Align distributed"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3748 ../src/wbc-gtk-actions.c:3749
+#: ../src/wbc-gtk-actions.c:3761 ../src/wbc-gtk-actions.c:3762
 msgid "Horizontal Alignment"
 msgstr "Горизонталды туралау"
 
-#: ../src/wbc-gtk-actions.c:3759 ../src/wbc-gtk-actions.c:3760
+#: ../src/wbc-gtk-actions.c:3773 ../src/wbc-gtk-actions.c:3774
 msgid "Vertical Alignment"
 msgstr "Вертикалды туралау"
 
-#: ../src/wbc-gtk-actions.c:3798
+#: ../src/wbc-gtk-actions.c:3812
 msgid "Set Foreground Color"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3812 ../src/wbc-gtk-actions.c:3813
+#: ../src/wbc-gtk-actions.c:3826 ../src/wbc-gtk-actions.c:3827
 msgid "Foreground"
 msgstr "Алдыңғы көрінісі"
 
 #. Set background to NONE
-#: ../src/wbc-gtk-actions.c:3848
+#: ../src/wbc-gtk-actions.c:3862
 msgid "Set Background Color"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3871
+#: ../src/wbc-gtk-actions.c:3885
 msgid "Clear Borders"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3874
+#: ../src/wbc-gtk-actions.c:3888
 msgid "All Borders"
 msgstr "Барлық шектер"
 
-#: ../src/wbc-gtk-actions.c:3875
+#: ../src/wbc-gtk-actions.c:3889
 msgid "Outside Borders"
 msgstr "Сыртқы шектер"
 
-#: ../src/wbc-gtk-actions.c:3876
+#: ../src/wbc-gtk-actions.c:3890
 msgid "Thick Outside Borders"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3879
+#: ../src/wbc-gtk-actions.c:3893
 msgid "Double Bottom"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3880
+#: ../src/wbc-gtk-actions.c:3894
 msgid "Thick Bottom"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3882
+#: ../src/wbc-gtk-actions.c:3896
 msgid "Top and Bottom"
 msgstr "Үсті мен астында"
 
-#: ../src/wbc-gtk-actions.c:3883
+#: ../src/wbc-gtk-actions.c:3897
 msgid "Top and Double Bottom"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3884
+#: ../src/wbc-gtk-actions.c:3898
 msgid "Top and Thick Bottom"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3969
+#: ../src/wbc-gtk-actions.c:3983
 msgid "Set Borders"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:3977 ../src/wbc-gtk-actions.c:3978
+#: ../src/wbc-gtk-actions.c:3991 ../src/wbc-gtk-actions.c:3992
 msgid "Borders"
 msgstr "Шектер"
 
-#: ../src/wbc-gtk-actions.c:4074
+#: ../src/wbc-gtk-actions.c:4091
 msgid "Redo the undone action"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:4079
+#: ../src/wbc-gtk-actions.c:4093
+#| msgid "_Redo"
+msgid "Redo"
+msgstr "Қайталау"
+
+#: ../src/wbc-gtk-actions.c:4097
 msgid "Undo the last action"
 msgstr "Соңғы әрекетті болдырмау"
 
-#: ../src/wbc-gtk-actions.c:4133
+#: ../src/wbc-gtk-actions.c:4152 ../src/wbc-gtk-actions.c:4173
 msgid "_Zoom"
 msgstr "_Масштаб"
 
-#: ../src/wbc-gtk-actions.c:4337
+#: ../src/wbc-gtk-actions.c:4358
 #, c-format
 msgid "Setting Font %s"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:4396
+#: ../src/wbc-gtk-actions.c:4418
 msgid "Change font"
 msgstr ""
 
@@ -16993,182 +17022,182 @@ msgstr ""
 msgid "Show this dialog next time."
 msgstr "Бұл сұхбатты келесі рет көрсету."
 
-#: ../src/wbc-gtk.c:514
+#: ../src/wbc-gtk.c:547
 msgid "Manage Sheets..."
 msgstr ""
 
-#: ../src/wbc-gtk.c:517
+#: ../src/wbc-gtk.c:550
 msgid "Append"
 msgstr ""
 
-#: ../src/wbc-gtk.c:518
+#: ../src/wbc-gtk.c:551
 msgid "Duplicate"
 msgstr "Көшірмесін жасау"
 
-#: ../src/wbc-gtk.c:519
+#: ../src/wbc-gtk.c:552
 msgid "Remove"
 msgstr "Өшіру"
 
-#: ../src/wbc-gtk.c:520
+#: ../src/wbc-gtk.c:553
 msgid "Rename"
 msgstr "Атын өзгерту"
 
-#: ../src/wbc-gtk.c:522
+#: ../src/wbc-gtk.c:555
 msgid "Select"
 msgstr "Таңдау"
 
-#: ../src/wbc-gtk.c:523
+#: ../src/wbc-gtk.c:556
 msgid "Select (sorted)"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1308
+#: ../src/wbc-gtk.c:1344
 msgid " - Gnumeric"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1469
+#: ../src/wbc-gtk.c:1508
 msgid "Invalid format"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1567
+#: ../src/wbc-gtk.c:1607
 msgid "Remove the page break to the left of the current column"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1570
+#: ../src/wbc-gtk.c:1610
 msgid "Add a page break to the left of the current column"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1577
+#: ../src/wbc-gtk.c:1617
 msgid "Remove the page break above the current row"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1580
+#: ../src/wbc-gtk.c:1620
 msgid "Add a page break above current row"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1600
+#: ../src/wbc-gtk.c:1640
 msgid "Un_freeze Panes"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1603
+#: ../src/wbc-gtk.c:1643
 msgid "Unfreeze the top left of the sheet"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1621
+#: ../src/wbc-gtk.c:1661
 #, c-format
 msgid "Extend _Auto Filter to %s"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1623
+#: ../src/wbc-gtk.c:1663
 msgid "Extend the existing filter."
 msgstr ""
 
-#: ../src/wbc-gtk.c:1633
+#: ../src/wbc-gtk.c:1673
 msgid "The selection intersects an existing auto filter."
 msgstr ""
 
-#: ../src/wbc-gtk.c:1642
+#: ../src/wbc-gtk.c:1682
 msgid "Remove _Auto Filter"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1645
+#: ../src/wbc-gtk.c:1685
 msgid "Remove a filter"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1646
+#: ../src/wbc-gtk.c:1686
 msgid "Add a filter"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1714
+#: ../src/wbc-gtk.c:1754
 #, c-format
 msgid "Repeat Export to %s"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1727
+#: ../src/wbc-gtk.c:1767
 msgid "Remove _Data Slicer"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1728
+#: ../src/wbc-gtk.c:1768
 msgid "Create _Data Slicer"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1730
+#: ../src/wbc-gtk.c:1770
 msgid "Remove a Data Slicer"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1731
+#: ../src/wbc-gtk.c:1771
 msgid "Create a Data Slicer"
 msgstr ""
 
-#: ../src/wbc-gtk.c:1744
+#: ../src/wbc-gtk.c:1784
 msgid "_Redo"
 msgstr "Қа_йталау"
 
-#: ../src/wbc-gtk.c:1745
+#: ../src/wbc-gtk.c:1785
 msgid "_Undo"
 msgstr "Бол_дырмау"
 
-#: ../src/wbc-gtk.c:1775
+#: ../src/wbc-gtk.c:1815
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "'%s' жұмыс кітабына барлық өзгерістерді сақтау керек пе?"
 
-#: ../src/wbc-gtk.c:1780
+#: ../src/wbc-gtk.c:1820
 msgid "Save changes to workbook before closing?"
 msgstr "Жабу алдында жұмыс кітабына өзгерістерді сақтау керек пе?"
 
-#: ../src/wbc-gtk.c:1787
+#: ../src/wbc-gtk.c:1827
 msgid "If you close without saving, changes will be discarded."
 msgstr "Сақтамай жапсаңыз, өзгерістер жоғалады."
 
-#: ../src/wbc-gtk.c:1790
+#: ../src/wbc-gtk.c:1830
 msgid "Discard"
 msgstr "Елемеу"
 
-#: ../src/wbc-gtk.c:1792
+#: ../src/wbc-gtk.c:1832
 msgid "Don't close"
 msgstr "Жаппау"
 
-#: ../src/wbc-gtk.c:2080
+#: ../src/wbc-gtk.c:2061
 msgid "Enter in current cell"
 msgstr ""
 
-#: ../src/wbc-gtk.c:2082
+#: ../src/wbc-gtk.c:2063
 msgid "Enter in current cell without autocorrection"
 msgstr ""
 
-#: ../src/wbc-gtk.c:2089
+#: ../src/wbc-gtk.c:2070
 msgid "Enter in current range merged"
 msgstr ""
 
-#: ../src/wbc-gtk.c:2092
+#: ../src/wbc-gtk.c:2073
 msgid "Enter in selected ranges"
 msgstr ""
 
-#: ../src/wbc-gtk.c:2094
+#: ../src/wbc-gtk.c:2075
 msgid "Enter in selected ranges as array"
 msgstr ""
 
-#: ../src/wbc-gtk.c:2504
+#: ../src/wbc-gtk.c:2562
 msgid "END"
 msgstr "END"
 
-#: ../src/wbc-gtk.c:2773
+#: ../src/wbc-gtk.c:2831
 msgid "Go to Cell..."
 msgstr ""
 
-#: ../src/wbc-gtk.c:2835
+#: ../src/wbc-gtk.c:2893
 msgid "Accept change in multiple cells"
 msgstr ""
 
-#: ../src/wbc-gtk.c:2907 ../src/wbc-gtk.c:2927
+#: ../src/wbc-gtk.c:2967 ../src/wbc-gtk.c:2987
 msgid "_Re-Edit"
 msgstr ""
 
-#: ../src/wbc-gtk.c:2909 ../src/wbc-gtk.c:2916
+#: ../src/wbc-gtk.c:2969 ../src/wbc-gtk.c:2976
 msgid "_Discard"
 msgstr "_Елемеу"
 
-#: ../src/wbc-gtk.c:2914 ../src/wbc-gtk.c:2929
+#: ../src/wbc-gtk.c:2974 ../src/wbc-gtk.c:2989
 msgid "_Accept"
 msgstr "Қа_былдау"
 
@@ -17178,62 +17207,62 @@ msgstr "Қа_былдау"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3289
+#: ../src/wbc-gtk.c:3349
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
 
-#: ../src/wbc-gtk.c:3588
+#: ../src/wbc-gtk.c:3648
 msgid "Display toolbar above sheets"
 msgstr ""
 
-#: ../src/wbc-gtk.c:3589
+#: ../src/wbc-gtk.c:3649
 msgid "Display toolbar to the left of sheets"
 msgstr ""
 
-#: ../src/wbc-gtk.c:3590
+#: ../src/wbc-gtk.c:3650
 msgid "Display toolbar to the right of sheets"
 msgstr ""
 
-#: ../src/wbc-gtk.c:3618
+#: ../src/wbc-gtk.c:3678
 msgid "Hide"
 msgstr "Жасыру"
 
-#: ../src/wbc-gtk.c:3684
+#: ../src/wbc-gtk.c:3744
 msgid "Standard Toolbar"
 msgstr "Қалыпты саймандар панелі"
 
-#: ../src/wbc-gtk.c:3685
+#: ../src/wbc-gtk.c:3745
 msgid "Format Toolbar"
 msgstr ""
 
-#: ../src/wbc-gtk.c:3686
+#: ../src/wbc-gtk.c:3746
 msgid "Object Toolbar"
 msgstr ""
 
-#: ../src/wbc-gtk.c:3700
+#: ../src/wbc-gtk.c:3760
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "%s панелін көрсету/жасыру"
 
-#: ../src/wbc-gtk.c:4118
+#: ../src/wbc-gtk.c:4178
 #, c-format
 msgid "Content of %s"
 msgstr ""
 
-#: ../src/wbc-gtk.c:4133
+#: ../src/wbc-gtk.c:4193
 msgid "Use Maximum Precision"
 msgstr ""
 
-#: ../src/wbc-gtk.c:4145
+#: ../src/wbc-gtk.c:4205
 msgid "Insert Formula Below"
 msgstr ""
 
-#: ../src/wbc-gtk.c:4151
+#: ../src/wbc-gtk.c:4211
 msgid "Insert Formula to Side"
 msgstr ""
 
-#: ../src/wbc-gtk.c:4237
+#: ../src/wbc-gtk.c:4297
 #, c-format
 msgid "Open %s"
 msgstr "%s ашу"
@@ -17505,32 +17534,32 @@ msgstr ""
 msgid "Can't open '%s' for writing"
 msgstr ""
 
-#: ../src/workbook-view.c:1409
+#: ../src/workbook-view.c:1417
 #, c-format
 msgid "Unsupported file format for file \"%s\""
 msgstr "Қолдауы жоқ файл пішімі \"%s\""
 
-#: ../src/workbook-view.c:1465
+#: ../src/workbook-view.c:1473
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""
 
-#: ../src/workbook.c:316
+#: ../src/workbook.c:326
 #, c-format
 msgid "Book%d.%s"
 msgstr ""
 
-#: ../src/workbook.c:1090
+#: ../src/workbook.c:1134
 msgid "Graph"
 msgstr ""
 
-#: ../src/workbook.c:1635
+#: ../src/workbook.c:1679
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
 msgstr[0] ""
 
-#: ../src/workbook.c:1637
+#: ../src/workbook.c:1681
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -17540,17 +17569,17 @@ msgstr[0] ""
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1643
+#: ../src/workbook.c:1687
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
 msgstr[0] ""
 
-#: ../src/workbook.c:1645
+#: ../src/workbook.c:1689
 msgid "Changing sheet tab colors"
 msgstr ""
 
-#: ../src/workbook.c:1647
+#: ../src/workbook.c:1691
 msgid "Changing sheet properties"
 msgstr ""
 
@@ -17558,65 +17587,65 @@ msgstr ""
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1654
+#: ../src/workbook.c:1698
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
 msgstr[0] ""
 
-#: ../src/workbook.c:1656
+#: ../src/workbook.c:1700
 msgid "Changing sheet order"
 msgstr ""
 
-#: ../src/workbook.c:1658
+#: ../src/workbook.c:1702
 msgid "Reorganizing Sheets"
 msgstr ""
 
-#: ../src/xml-sax-read.c:506
+#: ../src/xml-sax-read.c:529
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr ""
 
-#: ../src/xml-sax-read.c:679
+#: ../src/xml-sax-read.c:702
 msgid "workbook view attribute is incomplete"
 msgstr ""
 
-#: ../src/xml-sax-read.c:828
+#: ../src/xml-sax-read.c:851
 msgid "File has inconsistent SheetNameIndex element."
 msgstr ""
 
-#: ../src/xml-sax-read.c:2340
+#: ../src/xml-sax-read.c:2382
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr ""
 
-#: ../src/xml-sax-read.c:2381
+#: ../src/xml-sax-read.c:2423
 msgid "Missing filter type"
 msgstr ""
 
-#: ../src/xml-sax-read.c:2394
+#: ../src/xml-sax-read.c:2436
 msgid "Malformed sheet filter condition"
 msgstr ""
 
-#: ../src/xml-sax-read.c:2408
+#: ../src/xml-sax-read.c:2451
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr ""
 
-#: ../src/xml-sax-read.c:2429
+#: ../src/xml-sax-read.c:2472
 msgid "Invalid filter, missing Area"
 msgstr ""
 
-#: ../src/xml-sax-read.c:2494
+#: ../src/xml-sax-read.c:2537
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr ""
 
-#: ../src/xml-sax-read.c:3807 ../src/xml-sax-write.c:1736
+#: ../src/xml-sax-read.c:3850 ../src/xml-sax-write.c:1741
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr ""
 
-#: ../src/xml-sax-write.c:1748
+#: ../src/xml-sax-write.c:1753
 msgid "Gnumeric XML uncompressed (*.xml)"
 msgstr ""
 
@@ -17750,7 +17779,7 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.Financial.purple.xml.in.h:1
 msgid "Purple"
-msgstr ""
+msgstr "Күлгін"
 
 #: ../templates/autoformat/autoformat.Financial.purple.xml.in.h:2
 msgid "Financial template with purple borders"
