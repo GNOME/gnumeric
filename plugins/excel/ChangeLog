@@ -1,3 +1,8 @@
+2024-03-13  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_numfmt_common): Ignore attempt to override
+	existing formats, notably the implied ones.
+
 2024-02-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.57

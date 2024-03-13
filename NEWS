@@ -3,6 +3,9 @@ Gnumeric 1.12.58
 B.S.:
 	* Fix long-double version of FLT.NEXTAFTER.
 
+Morten:
+	* Fix xlsx import problem with broken file.  [#763]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.57
 

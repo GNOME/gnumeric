@@ -4318,7 +4318,11 @@ xlsx_numfmt_common (GsfXMLIn *xin, xmlChar const **attrs, gboolean apply)
 		GOFormat *gfmt = go_format_new_from_XL (fmt);
 		if (apply)
 			gnm_style_set_format (state->style_accum, gfmt);
-		g_hash_table_replace (state->num_fmts, g_strdup (id), gfmt);
+		if (xlsx_get_num_fmt (xin, id)) {
+			g_printerr ("Ignoring attempt to override number format %s\n", id);
+			go_format_unref (gfmt);
+		} else
+			g_hash_table_replace (state->num_fmts, g_strdup (id), gfmt);
 	}
 }
 
