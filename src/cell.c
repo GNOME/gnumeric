@@ -874,10 +874,12 @@ gnm_cell_get_text_for_editing (GnmCell const * cell,
 			break;
 		}
 
+		default:
 		case GO_FORMAT_NUMBER:
 		case GO_FORMAT_SCIENTIFIC:
 		case GO_FORMAT_CURRENCY:
-		case GO_FORMAT_ACCOUNTING: {
+		case GO_FORMAT_ACCOUNTING:
+		case GO_FORMAT_GENERAL: {
 			GString *new_str = g_string_new (NULL);
 			gnm_render_general (NULL, new_str, go_format_measure_zero,
 					    go_font_metrics_unit, f,
@@ -923,9 +925,6 @@ gnm_cell_get_text_for_editing (GnmCell const * cell,
 			go_format_unref (new_fmt);
 			break;
 		}
-
-		default:
-			break;
 		}
 	}
 

@@ -1,3 +1,8 @@
+2024-03-13  Morten Welinder  <terra@gnome.org>
+
+	* src/cell.c (gnm_cell_get_text_for_editing): If the format family
+	is unknown, render as general.
+
 2024-02-11  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.
