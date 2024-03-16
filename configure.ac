@@ -162,7 +162,7 @@ PKG_PROG_PKG_CONFIG(0.18)
 
 dnl *****************************
 libspreadsheet_reqs="
-	libgoffice-${GOFFICE_API_VER}	>= 0.10.51
+	libgoffice-${GOFFICE_API_VER}	>= 0.10.57
 	libgsf-1		>= 1.14.33
 	libxml-2.0		>= 2.4.12
 "

@@ -17,9 +17,9 @@ You need:				Debian package name
 	glib		>= 2.40.0	libglib2.0-dev
 	gtk+		>= 3.8.7	libgtk3.0-dev
 	libgsf		>= 1.14.33	libgsf-1-dev
-	libgoffice	>= 0.10.42	libgoffice-0-8-dev
+	libgoffice	>= 0.10.57	libgoffice-0-8-dev
 	gnome-xml   	>= 2.4.12	libxml2-dev
-	pango		>= 1.24.0	libpango1.0-dev
+	pango		>= 1.46.0	libpango1.0-dev
 	NOTE: gnome-xml is also known as libxml
 
 Optionally:
