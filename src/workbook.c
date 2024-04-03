@@ -239,7 +239,7 @@ workbook_init (GObject *object)
 	/* default to no iteration */
 	wb->iteration.enabled = TRUE;
 	wb->iteration.max_number = 100;
-	wb->iteration.tolerance = .001;
+	wb->iteration.tolerance = GNM_const(.001);
 	wb->recalc_auto = TRUE;
 
 	workbook_set_1904 (wb, FALSE);

@@ -2407,10 +2407,14 @@ oo_iteration (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	/* <table:iteration table:status="enable"/> */
 	OOParseState *state = (OOParseState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "status"))
 			workbook_iteration_enabled (state->pos.wb,
 				strcmp (CXML2C (attrs[1]), "enable") == 0);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "maximum-difference"))
+			workbook_iteration_tolerance (state->pos.wb,
+						      gnm_strto (CXML2C (attrs[1]), NULL));
+	}
 }
 
 static void

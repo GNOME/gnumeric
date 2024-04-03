@@ -5,6 +5,7 @@ B.S.:
 
 Morten:
 	* Fix xlsx import problem with broken file.  [#763]
+	* Fix ods round trip of iteration tolerance.  [#765]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.57

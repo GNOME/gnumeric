@@ -1,3 +1,7 @@
+2024-04-03  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_init): Fix double-gnm_float confusion.
+
 2024-03-13  Morten Welinder  <terra@gnome.org>
 
 	* src/cell.c (gnm_cell_get_text_for_editing): If the format family

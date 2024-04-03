@@ -1,5 +1,7 @@
 2024-04-03  Morten Welinder  <terra@gnome.org>
 
+	* openoffice-read.c (oo_iteration): Read tolerance.
+
 	* openoffice-write.c (odf_print_spreadsheet_content_prelude):
 	Store iteration tolerance with full precision.
 
