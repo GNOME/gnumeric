@@ -4859,8 +4859,8 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "value-type", "date");
 	gsf_xml_out_end_element (state->xml); /* </table:null-date> */
 	gsf_xml_out_start_element (state->xml, TABLE "iteration");
-	go_xml_out_add_double (state->xml, TABLE "maximum-difference",
-			       state->wb->iteration.tolerance);
+	gnm_xml_out_add_gnm_float (state->xml, TABLE "maximum-difference",
+				   state->wb->iteration.tolerance);
 	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "status",
 					state->wb->iteration.enabled ?  "enable" : "disable");
 	gsf_xml_out_add_int (state->xml, TABLE "steps", state->wb->iteration.max_number);

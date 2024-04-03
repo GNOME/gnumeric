@@ -1,3 +1,8 @@
+2024-04-03  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_print_spreadsheet_content_prelude):
+	Store iteration tolerance with full precision.
+
 2024-02-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.57
