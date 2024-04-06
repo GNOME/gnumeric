@@ -65,8 +65,8 @@
     <ulink type="http" url="https://gitlab.gnome.org/GNOME">
       <uri>https://gitlab.gnome.org/GNOME</uri>
     </ulink> and instructions can be found at 
-    <ulink type="http" url="https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines">
-      <uri>https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines</uri>
+    <ulink type="http" url="https://handbook.gnome.org/issues/reporting.html">
+      <uri>https://handbook.gnome.org/issues/reporting.html</uri>
     </ulink>.
   </para>
 
