@@ -907,7 +907,13 @@ entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float,
 
 	*the_float = value_get_as_float (value);
 	if (update) {
-		char *tmp = format_value (format, value, 16, NULL);
+		char *tmp;
+
+		if (!format || go_format_is_general (format))
+			tmp = value_get_as_string (value);
+		else
+			tmp = format_value (format, value, -1, NULL);
+
 		gtk_entry_set_text (entry, tmp);
 		g_free (tmp);
 	}

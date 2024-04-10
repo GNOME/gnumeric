@@ -2014,9 +2014,14 @@ dialog_doc_metadata_init_calculations_page (DialogDocMetaData *state)
 	buf = g_strdup_printf ("%d", state->wb->iteration.max_number);
 	gtk_entry_set_text (state->recalc_max, buf);
 	g_free (buf);
-	buf = g_strdup_printf ("%" GNM_FORMAT_g, state->wb->iteration.tolerance);
-	gtk_entry_set_text (state->recalc_tolerance, buf);
-	g_free (buf);
+
+	{
+		GnmValue *v = value_new_float (state->wb->iteration.tolerance);
+		buf = value_get_as_string (v);
+		value_release (v);
+		gtk_entry_set_text (state->recalc_tolerance, buf);
+		g_free (buf);
+	}
 
 	g_signal_connect (G_OBJECT (state->recalc_auto),
 			  "toggled",

@@ -6,6 +6,7 @@ B.S.:
 Morten:
 	* Fix xlsx import problem with broken file.  [#763]
 	* Fix ods round trip of iteration tolerance.  [#765]
+	* Fix issues with long doubles in dialogs.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.57

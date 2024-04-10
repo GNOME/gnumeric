@@ -1,3 +1,9 @@
+2024-04-10  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (entry_to_float_with_format): With general
+	format, use value_get_as_string to get shortest representation and
+	don't truncate.
+
 2024-04-03  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_init): Fix double-gnm_float confusion.
