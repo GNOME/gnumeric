@@ -327,7 +327,7 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 		gchar *chosen_dsn = NULL, *auth_string = NULL;
 
 		if (query_connection_info (dsn, user, password, &chosen_dsn, &auth_string) && chosen_dsn) {
-			cnc = gda_connection_open_from_dsn (chosen_dsn, auth_string, options, &error);
+			cnc = gda_connection_open_from_dsn_name (chosen_dsn, auth_string, options, &error);
 			if (!cnc) {
 				g_warning ("Libgda error: %s\n", error->message);
 				g_error_free (error);
