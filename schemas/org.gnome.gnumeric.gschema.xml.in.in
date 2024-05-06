@@ -17,7 +17,7 @@
       <_description>This value determines whether to show the sheet names in the undo and redo lists.</_description>
     </key>
     <key name="size" type="i">
-      <default>100</default>
+      <default>100000</default>
       <_summary>Maximal Undo Size</_summary>
       <_description>This value determines the length of the undo chain. Each editing action has a size associate with it, to compare it with the memory requirements of a simple one-cell edit (size of 1). The undo list will be truncated when its total size exceeds this configurable value.</_description>
     </key>
