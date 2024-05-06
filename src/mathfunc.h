@@ -34,7 +34,6 @@ gnm_float gnm_taylor_log1p (gnm_float x, int k);
 gnm_float swap_log_tail (gnm_float lp);
 gnm_float pow1p (gnm_float x, gnm_float y);
 gnm_float pow1pm1 (gnm_float x, gnm_float y);
-gnm_float gnm_trunc (gnm_float x);
 gnm_float logspace_add (gnm_float logx, gnm_float logy);
 gnm_float logspace_sub (gnm_float logx, gnm_float logy);
 gnm_float gnm_owent (gnm_float h, gnm_float a);
