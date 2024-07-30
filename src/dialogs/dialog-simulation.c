@@ -193,7 +193,7 @@ update_log (SimulationState *state, simulation_t *sim)
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter, 0, txt [i], 1, buf->str, -1);
-		g_string_free (buf, FALSE);
+		g_string_free (buf, TRUE);
 	}
 
 	path = gtk_tree_path_new_from_string ("0");
@@ -238,7 +238,7 @@ update_results_view (simulation_t *sim)
 				   sim->stats [results_sim_index]->max [i]);
 
 	gtk_text_buffer_set_text (results_buffer, buf->str, strlen (buf->str));
-	g_string_free (buf, FALSE);
+	g_string_free (buf, TRUE);
 }
 
 static void

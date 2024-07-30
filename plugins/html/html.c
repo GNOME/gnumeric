@@ -448,7 +448,6 @@ static char *
 html_get_border_style (GnmBorder *border)
 {
 	GString *text = g_string_new (NULL);
-	char *result;
 
 	switch (border->line_type) {
 	case GNM_STYLE_BORDER_THIN:
@@ -502,9 +501,7 @@ html_get_border_style (GnmBorder *border)
 		g_string_append_printf (text, " #%02X%02X%02X", r, g, b);
 	}
 
-	result = text->str;
-	g_string_free (text, FALSE);
-	return result;
+	return g_string_free (text, FALSE);
 }
 
 static void

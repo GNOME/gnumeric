@@ -415,7 +415,7 @@ dialog_scenario_add (WBCGtk *wbcg)
 	gtk_text_buffer_set_text (gtk_text_view_get_buffer
 				  (GTK_TEXT_VIEW (comment_view)), buf->str,
 				  strlen (buf->str));
-	g_string_free (buf, FALSE);
+	g_string_free (buf, TRUE);
 
 	state->base.gdao = NULL;
 

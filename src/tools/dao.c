@@ -1011,7 +1011,7 @@ dao_write_header (data_analysis_output_t *dao, const gchar *toolname,
 	g_string_append_printf (buf, "%s %s %s %s",
 		_("Gnumeric "), toolname, VERSION, title);
 	dao_set_cell (dao, 0, 0, buf->str);
-	g_string_free (buf, FALSE);
+	g_string_free (buf, TRUE);
 
 	buf = g_string_new (NULL);
 	uri = go_doc_get_uri (GO_DOC (sheet->workbook));
@@ -1019,13 +1019,13 @@ dao_write_header (data_analysis_output_t *dao, const gchar *toolname,
 				uri,
 				sheet->name_quoted);
 	dao_set_cell (dao, 0, 1, buf->str);
-	g_string_free (buf, FALSE);
+	g_string_free (buf, TRUE);
 
 	buf = g_string_new (NULL);
 	g_string_append (buf, _("Report Created: "));
 	dao_append_date (buf);
 	dao_set_cell (dao, 0, 2, buf->str);
-	g_string_free (buf, FALSE);
+	g_string_free (buf, TRUE);
 
 	dao_set_bold (dao, 0, 0, 0, 2);
 }
