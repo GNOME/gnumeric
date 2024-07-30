@@ -1064,7 +1064,7 @@ themed_color (GsfXMLIn *xin, gint idx)
 }
 
 static GOFormat *
-xlsx_get_num_fmt (GsfXMLIn *xin, char const *id)
+xlsx_get_num_fmt (GsfXMLIn *xin, char const *id, gboolean quiet)
 {
 	static char const * const std_builtins[] = {
 		/* 0 */	 "General",
@@ -1205,8 +1205,10 @@ xlsx_get_num_fmt (GsfXMLIn *xin, char const *id)
 		// 15 should be too, but I cannot verify that anywhere.
 		res = go_format_new_magic (GO_FORMAT_MAGIC_SHORT_DATE);
 		g_hash_table_replace (state->num_fmts, g_strdup (id), res);
-	} else
-		xlsx_warning (xin, _("Undefined number format id '%s'"), id);
+	} else {
+		if (!quiet)
+			xlsx_warning (xin, _("Undefined number format id '%s'"), id);
+	}
 
 	return res;
 }
@@ -4316,9 +4318,10 @@ xlsx_numfmt_common (GsfXMLIn *xin, xmlChar const **attrs, gboolean apply)
 
 	if (NULL != id && NULL != fmt) {
 		GOFormat *gfmt = go_format_new_from_XL (fmt);
+		g_printerr ("%s %s %p\n", id, fmt, gfmt);
 		if (apply)
 			gnm_style_set_format (state->style_accum, gfmt);
-		if (xlsx_get_num_fmt (xin, id)) {
+		if (xlsx_get_num_fmt (xin, id, TRUE)) {
 			g_printerr ("Ignoring attempt to override number format %s\n", id);
 			go_format_unref (gfmt);
 		} else
@@ -4743,7 +4746,7 @@ xlsx_xf_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (0 == strcmp (attrs[0], "numFmtId")) {
-			GOFormat *fmt = xlsx_get_num_fmt (xin, attrs[1]);
+			GOFormat *fmt = xlsx_get_num_fmt (xin, attrs[1], FALSE);
 			if (NULL != fmt)
 				gnm_style_set_format (accum, fmt);
 		} else if (attr_int (xin, attrs, "fontId", &indx))
