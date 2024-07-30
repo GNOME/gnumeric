@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2024-01-10 02:13+0000\n"
-"PO-Revision-Date: 2024-07-27 18:52+0200\n"
+"PO-Revision-Date: 2024-07-30 13:03+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -385,10 +385,8 @@ msgid "IMEXP:the exponential of the complex number @{z}"
 msgstr "IMEXP: potenc kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:405
-#, fuzzy
-#| msgid "IMARGUMENT:the argument theta of the complex number @{z} "
 msgid "IMARGUMENT:the argument theta of the complex number @{z}"
-msgstr "IMARGUMENT: argument theta kompleksnega števila @{z}"
+msgstr "IMARGUMENT:argument theta kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:407
 msgid ""
@@ -402,7 +400,7 @@ msgstr ""
 msgid ""
 "If @{z} is 0, 0 is returned.  This is different from Excel which returns an "
 "error."
-msgstr "Če je @{z} 0, vrne 0.  To se razlikuje od Excela, ki vrne napako."
+msgstr "Če je @{z} 0, vrne 0.  Pri tem se razlikuje od Excela, ki vrne napako."
 
 #: ../plugins/fn-complex/functions.c:430
 msgid "IMLN:the natural logarithm of the complex number @{z}"
@@ -496,10 +494,8 @@ msgstr ""
 "@{z}. Rezi veje so na realni osi z vrednostmi manj kot -1 in več kot 1."
 
 #: ../plugins/fn-complex/functions.c:760
-#, fuzzy
-#| msgid "IMARCCOS:the complex arccosine of the complex number "
 msgid "IMARCCOS:the complex arccosine of the complex number"
-msgstr "IMARCCOS: kompleksni arkus kosinus kompleksnega števila @{z}"
+msgstr "IMARCCOS: kompleksni arkus kosinus kompleksnega števila"
 
 #: ../plugins/fn-complex/functions.c:762
 msgid ""
@@ -511,10 +507,8 @@ msgstr ""
 "1."
 
 #: ../plugins/fn-complex/functions.c:786
-#, fuzzy
-#| msgid "IMARCTAN:the complex arctangent of the complex number "
 msgid "IMARCTAN:the complex arctangent of the complex number"
-msgstr "IMARCTAN: kompleksni arkus tangens kompleksnega števila @{z}"
+msgstr "IMARCTAN: kompleksni arkus tangens kompleksnega števila"
 
 #: ../plugins/fn-complex/functions.c:788
 msgid ""
@@ -631,16 +625,12 @@ msgstr ""
 "funkcijo gama"
 
 #: ../plugins/fn-complex/functions.c:1111
-#, fuzzy
-#| msgid ""
-#| "The regularized incomplete gamma function is the unregularized incomplete "
-#| "gamma function divided by gamma(@{a})"
 msgid ""
 "The regularized incomplete gamma function is the unregularized incomplete "
 "gamma function divided by GAMMA(@{a})."
 msgstr ""
 "Regularizirana nepopolna funkcija gama je neregularizirana nepopolna "
-"funkcija gama deljena z gamma(@{a})"
+"funkcija gama, deljena z GAMMA(@{a})."
 
 #: ../plugins/fn-complex/functions.c:1138
 msgid "IMSUB:the difference of two complex numbers"
@@ -685,9 +675,9 @@ msgid ""
 "columns of data are fields. The first row of a database contains labels for "
 "each column."
 msgstr ""
-"@{podatkovna zbirka} je podatkovna vrsta v kateri so vrstice podatkov "
-"zapisi, stolpci podatkov pa polja. Prva vrstica podatkovne zbirke vsebuje "
-"naslove vsakega stolpca"
+"@{zbirka_podatkov} je podatkovna vrsta v kateri so vrstice podatkov zapisi, "
+"stolpci podatkov pa polja. Prva vrstica podatkovne zbirke vsebuje naslove "
+"vsakega stolpca"
 
 #: ../plugins/fn-database/functions.c:56
 msgid ""
@@ -708,12 +698,12 @@ msgid ""
 "specifying a value, e. g. \"3\" or \"Jody\". For a record to be considered "
 "it must satisfy all conditions in at least one of the rows of @{criteria}."
 msgstr ""
-"@{kriterij} je podatkovna vrsta, ki določa pogoje. Prva vrstica @{kriterija} "
-"mora vsebovati naslov. Vsak naslov določa polje, na katerem bo uveljavljen "
-"podan pogoj. Vsaka celica pod naslovom določa pogoj kot je \">3\" ali "
-"\"<9\". Pogoj enakosti je mogoče podati enostavno z enoznačno vrednostjo, na "
-"primer \"3\" ali \"Jera\". Z upoštevanje vpisa, mora ta zadostiti vsem "
-"pogojem v vsaj eni vrstici @{kriterija}."
+"@{pogoj} je podatkovna vrsta, ki določa pogoje. Prva vrstica @{pogoja} mora "
+"vsebovati naslov. Vsak naslov določa polje, na katerem bo uveljavljen podan "
+"pogoj. Vsaka celica pod naslovom določa pogoj kot je \">3\" ali \"<9\". "
+"Pogoj enakosti je mogoče podati enostavno z enoznačno vrednostjo, na primer "
+"\"3\" ali \"Jera\". Z upoštevanje vpisa, mora ta zadostiti vsem pogojem v "
+"vsaj eni vrstici @{pogoja}."
 
 #: ../plugins/fn-database/functions.c:72
 msgid ""
@@ -1345,16 +1335,12 @@ msgid "method:numbering system, defaults to 1"
 msgstr "način: številčni sistem, privzeto določen kot 1"
 
 #: ../plugins/fn-date/functions.c:652
-#, fuzzy
-#| msgid ""
-#| "The WEEKDAY function returns the day-of-week of @{date}.  The value of "
-#| "@{method} determines how days are numbered; it defaults to 1. "
 msgid ""
 "The WEEKDAY function returns the day-of-week of @{date}.  The value of "
 "@{method} determines how days are numbered; it defaults to 1."
 msgstr ""
-"Funkcija WEEKDAY vrne dan tedna, kot je določen z @{datumom}. Vrednost "
-"@{načina} določi oštevilčenje; privzeto je določena vrednost 1. "
+"Funkcija WEEKDAY vrne dan tedna, kot je določen z @{date}. Vrednost "
+"@{method} določi oštevilčenje; privzeto je določena vrednost 1."
 
 #: ../plugins/fn-date/functions.c:653
 msgid "If @{method} is 1, then Sunday is 1, Monday is 2, etc."
@@ -2862,7 +2848,6 @@ msgstr ""
 "Če sta @{od} in @{do} različne vrste, funkcija CONVERT vrne napako #N/A!"
 
 #: ../plugins/fn-eng/functions.c:649
-#, fuzzy
 msgid ""
 "@{from} and @{to} can be any of the following:\n"
 "\n"
@@ -3062,203 +3047,6 @@ msgid ""
 "\t'Mi'  \tmebi \t\t2^20\n"
 "\t'ki'  \tkibi \t\t\t2^10"
 msgstr ""
-"@{from} in @{to} sta lahko kar koli od naslednjega:\n"
-"\n"
-"Teža in masa:\n"
-"\t'brton' Imperial ton\n"
-"\t'cwt' ameriški (kratki) stotinec\n"
-"\t'g' Gram\n"
-"\t'grain' Žito\n"
-"\t'hweight' Imperial (dolg) stotež\n"
-"\t'LTON' Imperial ton\n"
-"\t'sg' Polž\n"
-"\t'shweight' ameriški (kratki) stototežek\n"
-"\t'lbm' funt\n"
-"\t'lcwt' Imperial (dolg) stotež\n"
-"\t'u' U (atomska masa)\n"
-"\t'uk_cwt' Imperial (dolgi) stotež\n"
-"\t'uk_ton' Cesarska tona\n"
-"\t'ozm' unča\n"
-"\t'stone' Stone\n"
-"\t'ton' Ton\n"
-"\n"
-"Razdalja:\n"
-"\t'sem' Meter\n"
-"\t'mi' Statutna milja\n"
-"\t'survey_mi' ameriška geodetska milja\n"
-"\t'Nmi' Navtična milja\n"
-"\t'in' Inch\n"
-"\t'ft' Noga\n"
-"\t'yd' dvorišče\n"
-"\t'ell' angleščina Ell\n"
-"\t'ang' Angstrom\n"
-"\t'ly' svetlobno leto\n"
-"\t'pc' Parsec\n"
-"\t'parsec' Parsec\n"
-"\t'Pica' Pica točke\n"
-"\t'Picapt' Pica točke\n"
-"\t'picapt' Pica točke\n"
-"\t'pica' Pica\n"
-"\n"
-"Čas:\n"
-"\t'leto' leto\n"
-"\t'dan' Dan\n"
-"\t'h' ura\n"
-"\t'mn' Minuta\n"
-"\t'sek' Drugič\n"
-"\n"
-"Pritisk:\n"
-"\t'Pa' Pascal\n"
-"\t'psi' PSI\n"
-"\t'atm' Atmosfera\n"
-"\t'Pa' Pascal\n"
-"\t'mmHg' mm živega srebra\n"
-"\t'Torr' Torr\n"
-"\n"
-"Sila:\n"
-"\t'N' Newton\n"
-"\t'dyn' Dyne\n"
-"\t'ribnik' Ribnik\n"
-"\t'lbf' Sila funta\n"
-"\n"
-"Energija:\n"
-"\t'J' Joule\n"
-"\t'e' Erg\n"
-"\t'c' Termodinamična kalorija\n"
-"\t'cal' IT kalorij\n"
-"\t'eV' Elektronvolt\n"
-"\t'HPh' Konjska ura\n"
-"\t'Wh' vatna ura\n"
-"\t'flb' Foot-pound\n"
-"\t'BTU' BTU\n"
-"\n"
-"moč:\n"
-"\t'HP' konjske moči\n"
-"\t'PS' Pferdestärke\n"
-"\t'W' Watt\n"
-"\n"
-"Magnetizem:\n"
-"\t'T' Tesla\n"
-"\t'ga' Gauss\n"
-"\n"
-"Temperatura:\n"
-"\t'C' stopinja Celzija\n"
-"\t'F' stopinja Fahrenheita\n"
-"\t'K' Kelvin\n"
-"\tRankinova stopnja\n"
-"\tStopnja 'Reau' Réaumur\n"
-"\n"
-"Prostornina (tekočinska mera):\n"
-"\t'tsp' Čajna žlička\n"
-"\t'tspm' čajna žlička (moderna, metrična)\n"
-"\t'tbs' Jedilna žlica\n"
-"\t'oz' tekoča unča\n"
-"\t'cup' Pokal\n"
-"\t'pt' Pint\n"
-"\t'us_pt' ameriški pint\n"
-"\t'uk_pt' Imperial pint (UK)\n"
-"\t'qt' Quart\n"
-"\t'uk_qt' cesarski kvart\n"
-"\t'gal' Galon\n"
-"\t'uk_gal' Carska galona\n"
-"\t'BRT' Registrska tona\n"
-"\t'regton' Registrska tona\n"
-"\t'MTON' Merska tona (tovorna tona)\n"
-"\t'l' liter\n"
-"\t'L' liter\n"
-"\t'It' Liter\n"
-"\t'ang3' kubični angstrom\n"
-"\t'ang^3' kubični angstrom\n"
-"\t'barrel' sod ameriške nafte (bbl)\n"
-"\t'bushel' ameriški bušel\n"
-"\t'ft3' Kubični čevlji\n"
-"\t'ft^3' Kubični čevlji\n"
-"\t'in3' Kubični palec\n"
-"\t'in^3' Kubični palec\n"
-"\t'ly3' Kubično svetlobno leto\n"
-"\t'ly^3' Kubično svetlobno leto\n"
-"\t'm3' Kubični meter\n"
-"\t'm^3' Kubični meter\n"
-"\t'mi3' Kubična milja\n"
-"\t'mi^3' Kubična milja\n"
-"\t'yd3' Kubični jard\n"
-"\t'yd^3' Kubični jard\n"
-"\t'Nmi3' kubična navtična milja\n"
-"\t'Nmi^3' kubična navtična milja\n"
-"\t'Picapt3' kubična Pica\n"
-"\t'Picapt^3' Kubična Pica\n"
-"\t'Pica3' Kubična Pica\n"
-"\t'Pica^3' Kubična Pica\n"
-"\n"
-"območje:\n"
-"\t'uk_acre' Mednarodni hektar\n"
-"\t'us_acre' geodetski/statutni hektar ZDA\n"
-"\t'ang2' Kvadratni angstrom\n"
-"\t'ang^2' Kvadratni angstrom\n"
-"\t'ar' Are\n"
-"\t'ha' hektar\n"
-"\t'in2' Kvadratni palci\n"
-"\t'in^2' kvadratnih palcev\n"
-"\t'ly2' Kvadratno svetlobno leto\n"
-"\t'ly^2' Kvadratno svetlobno leto\n"
-"\t'm2' Kvadratni meter\n"
-"\t'm^2' Kvadratni meter\n"
-"\t'Morgen' Morgen (Severnonemška zveza)\n"
-"\t'mi2' Kvadratne milje\n"
-"\t'mi^2' Kvadratne milje\n"
-"\t'Nmi2' Kvadratne navtične milje\n"
-"\t'Nmi^2' Kvadratne morske milje\n"
-"\t'Picapt2' Square Pica\n"
-"\t'Picapt^2' Square Pica\n"
-"\t'Pica2' Square Pica\n"
-"\t'Pica^2' Kvadratna Pica\n"
-"\t'yd2' Kvadratni jardi\n"
-"\t'yd^2' Kvadratni jardi\n"
-"\n"
-"Biti in bajti:\n"
-"\t'bit' Bit\n"
-"\t'bajt' Bajt\n"
-"\n"
-"Hitrost:\n"
-"\t'admkn' Admiralski vozel\n"
-"\t'kn' vozel\n"
-"\t'm/h' Metri na uro\n"
-"\t'm/hr' Metri na uro\n"
-"\t'm/s' Metri na sekundo\n"
-"\t'm/sec' Metri na sekundo\n"
-"\t'mph' Milje na uro\n"
-"\n"
-"Za metrične enote se lahko uporabi katera koli od naslednjih predpon:\n"
-"\t'Y' yotta 1E+24\n"
-"\t'Z' zeta 1E+21\n"
-"\t'E' exa 1E+18\n"
-"\t'P' peta 1E+15\n"
-"\t'T' tera 1E+12\n"
-"\t'G' giga 1E+09\n"
-"\t'M' mega 1E+06\n"
-"\t'k' kilogram 1E+03\n"
-"\t'h' hekto 1E+02\n"
-"\t'e' deca (deka) 1E+01\n"
-"\t'd' odloči 1E-01\n"
-"\t'c' centi 1E-02\n"
-"\t'm' milli 1E-03\n"
-"\t'u' mikro 1E-06\n"
-"\t'n' nano 1E-09\n"
-"\t'p' piko 1E-12\n"
-"\t'f' femto 1E-15\n"
-"\t'a' na 1E-18\n"
-"\t'z' zepto 1E-21\n"
-"\t'y' yocto 1E-24\n"
-"\n"
-"Za bite in bajte se lahko uporabi tudi katera koli od naslednjih predpon:\n"
-"\t'Yi' yobi 2^80\n"
-"\t'Zi' zebi 2^70\n"
-"\t'Ei' exbi 2^60\n"
-"\t'Pi' pebi 2^50\n"
-"\t'Ti' tebi 2^40\n"
-"\t'Gi' gibi 2^30\n"
-"\t'Mi' mebi 2^20\n"
-"\t'ki' kibi 2^10"
 
 #: ../plugins/fn-eng/functions.c:831
 msgid "This function is Excel compatible (except \"picapt\")."
@@ -4139,13 +3927,10 @@ msgid "dates:dates of cash flow"
 msgstr "datumi: datumi pretoka denarja"
 
 #: ../plugins/fn-financial/functions.c:1548
-#, fuzzy
-#| msgid ""
-#| "XNPV calculates the net present value of a cash flow at irregular times"
 msgid ""
 "XNPV calculates the net present value of a cash flow at irregular times."
 msgstr ""
-"Funkcija XNPV izračuna sedanjo neto vrednost pretoka denarja v nedorečenih "
+"Funkcija XNPV izračuna sedanjo neto vrednost denarnega toka v nerednih "
 "časovnih obdobjih."
 
 #: ../plugins/fn-financial/functions.c:1600
@@ -4544,11 +4329,6 @@ msgstr ""
 "AMORLINC: amortizacija sredstev z uporabo francoskih računovodskih načel"
 
 #: ../plugins/fn-financial/functions.c:2968
-#, fuzzy
-#| msgid ""
-#| "AMORLINC calculates the depreciation of an asset using French accounting "
-#| "conventions. Assets purchased in the middle of a period take prorated "
-#| "depreciation into account. "
 msgid ""
 "AMORLINC calculates the depreciation of an asset using French accounting "
 "conventions. Assets purchased in the middle of a period take prorated "
@@ -4556,7 +4336,7 @@ msgid ""
 msgstr ""
 "Funkcija AMORLINC izračuna amortizacijo sredstev z uporabo francoskih "
 "računovodskih načel. Pri sredstvih, pridobljenih na sredini obdobja, se "
-"upošteva sorazmerna porazdelitev amortizacije"
+"upošteva sorazmerna porazdelitev amortizacije."
 
 #: ../plugins/fn-financial/functions.c:2970
 msgid "Named for AMORtissement LINeaire Comptabilite."
@@ -4730,10 +4510,8 @@ msgstr ""
 "vejico."
 
 #: ../plugins/fn-flt/functions.c:52
-#, fuzzy
-#| msgid "NPV:net present value"
 msgid "FLT.NEXTAFTER:next representable value"
-msgstr "NPV: neto sedanja vrednost"
+msgstr "FLT.NEXTAFTER: naslednja reprezentativna vrednost"
 
 #: ../plugins/fn-flt/functions.c:53
 msgid "x:floating point value"
@@ -5160,10 +4938,8 @@ msgid "name:the name of the environment variable"
 msgstr "X: ime okoljske spremenljivke"
 
 #: ../plugins/fn-info/functions.c:1842
-#, fuzzy
-#| msgid "If a variable called @{name} does not exist, #N/A! will be returned."
 msgid "If a variable called @{name} does not exist, #N/A will be returned."
-msgstr "Če spremenljivka @{X} ne obstaja, funkcija vrne napako #N/A!"
+msgstr "Če spremenljivka @{name} ne obstaja, funkcija vrne napako #N/A!"
 
 #: ../plugins/fn-info/functions.c:1843
 msgid "Variable names are case sensitive."
@@ -5302,32 +5078,23 @@ msgid ""
 msgstr "Funkcija vrne prvo vrednost, če je ta napaka vrne drugo vrednost."
 
 #: ../plugins/fn-logical/functions.c:245
-#, fuzzy
-#| msgid "IFNA:test for #NA! error"
 msgid "IFNA:test for #N/A error"
-msgstr "IFNA: preizkus vrnjene napake #NA!."
+msgstr "IFNA: preizkus vrnjene napake #N/A."
 
 #: ../plugins/fn-logical/functions.c:246
-#, fuzzy
-#| msgid "x:value to test for #NA! error"
 msgid "x:value to test for #N/A error"
-msgstr "x: vrednost za preizkus napake #NA!"
+msgstr "x: vrednost za preizkus napake #N/A."
 
 #: ../plugins/fn-logical/functions.c:248
-#, fuzzy
-#| msgid ""
-#| "This function returns the first value, unless that is #NA!, in which case "
-#| "it returns the second."
 msgid ""
 "This function returns the first value, unless that is #N/A, in which case it "
 "returns the second."
 msgstr ""
-"Funkcija vrne prvo vrednost, če to ni napaka #NA!, ko vrne drugo vrednost."
+"Funkcija vrne prvo vrednost, če to ni napaka #N/A, ko vrne drugo vrednost."
 
 #: ../plugins/fn-logical/functions.c:265
-#, fuzzy
 msgid "IFS:multi-branch conditional"
-msgstr "IFS:pogojno za več vej"
+msgstr "IFS: pogojni izbirnik z več vejami"
 
 #: ../plugins/fn-logical/functions.c:266
 msgid "cond1:condition"
@@ -5346,60 +5113,48 @@ msgid "value2:value if @{condition2} is true"
 msgstr "vrednost2:vrednost, če je @{pogoj2} resničen"
 
 #: ../plugins/fn-logical/functions.c:270
-#, fuzzy
-#| msgid ""
-#| "This function returns the cumulative distribution function of the F "
-#| "distribution."
 msgid ""
 "This function returns the value after the first true conditional.  If no "
 "conditional is true, #VALUE! is returned."
-msgstr "Funkcija vrne zbirno funkcijo porazdelitve za F porazdelitev"
+msgstr ""
+"Ta funkcija vrne vrednost za prvim resničnim pogojem.  Če noben pogoj ni "
+"resničen, vrne #VALUE!"
 
 #: ../plugins/fn-logical/functions.c:309
-#, fuzzy
 msgid "SWITCH:multi-branch selector"
-msgstr "SWITCH:izbirnik z več vejami"
+msgstr "SWITCH: izbirnik z več vejami"
 
 #: ../plugins/fn-logical/functions.c:310
 msgid "ref:value"
 msgstr "ref:vrednost"
 
 #: ../plugins/fn-logical/functions.c:311
-#, fuzzy
-#| msgid "ref1:first value"
 msgid "choice1:first choice value"
-msgstr "sklic2: prva vrednost"
+msgstr "Izbira1: vrednost prve izbire"
 
 #: ../plugins/fn-logical/functions.c:312
-#, fuzzy
-#| msgid "value1:first value"
 msgid "value1:first result value"
-msgstr "vrednost1: prva vrednost"
+msgstr "vrednost1: vrednost prvega rezultata"
 
 #: ../plugins/fn-logical/functions.c:313
-#, fuzzy
-#| msgid "ref2:second value"
 msgid "choice2:second choice value"
-msgstr "sklic2: druga vrednost"
+msgstr "Izbira2: vrednost druge izbire"
 
 #: ../plugins/fn-logical/functions.c:314
-#, fuzzy
-#| msgid "value2:second value"
 msgid "value2:second result value"
-msgstr "vrednost2: druga vrednost"
+msgstr "vrednost2: druga vrednost rezultata"
 
 #: ../plugins/fn-logical/functions.c:315
-#, fuzzy
 msgid ""
 "This function compares the reference value, @{ref}, against the choice "
 "values, @{choice1} etc., and returns the corresponding result value when it "
 "finds a match.  The choices may be followed by a default value to use.  If "
 "there are no choices that match and no default value, #N/A is return."
 msgstr ""
-"Ta funkcija primerja referenčno vrednost @{ref} z vrednostmi izbire "
-"@{choice1} itd. in vrne ustrezno vrednost rezultata, ko najde ujemanje.  "
+"Ta funkcija primerja referenčno vrednost @{ref} z izbirnimi vrednostmi "
+"@{choice1} itn. in vrne ustrezno vrednost rezultata, ko najde ujemanje.  "
 "Izbiram lahko sledi privzeta vrednost, ki jo želite uporabiti.  Če ni "
-"možnosti, ki bi se ujemale, in ni privzete vrednosti, se vrne #N/A."
+"možnosti, ki bi se ujemale, in ni privzete vrednosti, vrne #N/A."
 
 #: ../plugins/fn-logical/functions.c:368
 msgid "TRUE:the value TRUE"
@@ -5659,17 +5414,13 @@ msgid "vector:n by 1 or 1 by n range to be searched"
 msgstr "vektor: obseg podatkov n × 1 ali 1 × n za iskanje"
 
 #: ../plugins/fn-lookup/functions.c:1258
-#, fuzzy
-#| msgid ""
-#| "type:+1 (the default) to find the largest value ≤ @{seek}, 0 to find the "
-#| "first value = @{seek}, or-1 to find the smallest value ≥ @{seek}"
 msgid ""
 "type:+1 (the default) to find the largest value ≤ @{seek}, 0 to find the "
 "first value = @{seek}, or -1 to find the smallest value ≥ @{seek}"
 msgstr ""
 "vrsta: vrednost +1 (privzeta vrednost) določa iskanje največje vrednosti ≤ "
-"@{iskalnemu nizu}, 0 za iskanje vrednosti, ki je = @{iskalnemu nizu}, ali pa "
-"-1 za vrednosti ≥ @{iskalnemu nizu}"
+"@{iskalni_niz}, 0 za iskanje vrednosti, ki je = @{iskalni_niz}, ali pa -1 za "
+"vrednosti ≥ @{iskalni_niz}"
 
 #: ../plugins/fn-lookup/functions.c:1261
 msgid "MATCH searches @{vector} for @{seek} and returns the 1-based index."
@@ -5678,10 +5429,6 @@ msgstr ""
 "osnove 1."
 
 #: ../plugins/fn-lookup/functions.c:1262
-#, fuzzy
-#| msgid ""
-#| " For @{type} = -1 the data must be sorted in descending order; for "
-#| "@{type} = +1 the data must be sorted in ascending order."
 msgid ""
 "For @{type} = -1 the data must be sorted in descending order; for @{type} = "
 "+1 the data must be sorted in ascending order."
@@ -5998,10 +5745,8 @@ msgid "UNIQUE:unique values in a range or array"
 msgstr "UNIQUE:enolične vrednosti v obsegu ali matriki"
 
 #: ../plugins/fn-lookup/functions.c:1969
-#, fuzzy
-#| msgid "range:range to search"
 msgid "data:range or array"
-msgstr "podatkovna vrsta: podatkovna vrsta za iskanje"
+msgstr "podatki: obseg ali matrika"
 
 #: ../plugins/fn-lookup/functions.c:1970
 msgid "by_col:by column if TRUE, by row otherwise; defaults to FALSE"
@@ -6226,22 +5971,16 @@ msgid "The order of the arguments may be unexpected."
 msgstr "Razvrstitev argumentov je lahko nepričakovana."
 
 #: ../plugins/fn-math/functions.c:584
-#, fuzzy
-#| msgid "GEOMEAN:geometric mean"
 msgid "AGM:the arithmetic-geometric mean"
-msgstr "GEOMEAN: geometrična strednja vrednost"
+msgstr "AGM: aritmetično-geometrična srednja vrednost"
 
 #: ../plugins/fn-math/functions.c:585
-#, fuzzy
-#| msgid "v:value"
 msgid "a:value"
-msgstr "v: vrednost"
+msgstr "a: vrednost"
 
 #: ../plugins/fn-math/functions.c:586
-#, fuzzy
-#| msgid "v:value"
 msgid "b:value"
-msgstr "v: vrednost"
+msgstr "b: vrednost"
 
 #: ../plugins/fn-math/functions.c:587
 msgid "AGM computes the arithmetic-geometric mean of the two values."
@@ -6275,10 +6014,8 @@ msgid "criteria:condition for a cell to be counted"
 msgstr "kriterij: pogoj, ki določa ali bo celica všteta ali ne"
 
 #: ../plugins/fn-math/functions.c:651
-#, fuzzy
-#| msgid "COUNTIF:count of the cells meeting the given @{criteria}"
 msgid "COUNTIFS:count of the cells meeting the given @{criteria}"
-msgstr "COUNTIF: seštevek celic, ki so skladne s podanim @{kriterijem}"
+msgstr "COUNTIF: število celic, ki so skladne s podanim pogojem @{criteria}"
 
 #: ../plugins/fn-math/functions.c:670
 msgid ""
@@ -6308,37 +6045,27 @@ msgstr ""
 "velikost @{obsega}."
 
 #: ../plugins/fn-math/functions.c:696
-#, fuzzy
-#| msgid ""
-#| "SUMIF:sum of the cells in @{actual_range} for which the corresponding "
-#| "cells in the range meet the given @{criteria}"
 msgid ""
 "SUMIFS:sum of the cells in @{actual_range} for which the corresponding cells "
 "in the range meet the given criteria"
 msgstr ""
-"SUMIF: vsota vrednosti celic v @{dejanski podatkovni vrste}, ki so v "
-"podatkovni vrsti skladne s podanim @{kriterijem}"
+"SUMIFS: vsota celic v @{actual_range}, za katere ustrezne celice v obsegu "
+"izpolnjujejo dane pogoje"
 
 #: ../plugins/fn-math/functions.c:697 ../plugins/fn-math/functions.c:738
 #: ../plugins/fn-math/functions.c:758 ../plugins/fn-math/functions.c:778
-#, fuzzy
-#| msgid "range:cell area"
 msgid "actual_range:cell area"
-msgstr "podatkovna vrsta: podatkovno področje celice"
+msgstr "dejanski_obseg: področje celic"
 
 #: ../plugins/fn-math/functions.c:698 ../plugins/fn-math/functions.c:739
 #: ../plugins/fn-math/functions.c:759 ../plugins/fn-math/functions.c:779
-#, fuzzy
-#| msgid "range:cell area"
 msgid "range1:cell area"
-msgstr "podatkovna vrsta: podatkovno področje celice"
+msgstr "obseg1: območje celic"
 
 #: ../plugins/fn-math/functions.c:699 ../plugins/fn-math/functions.c:740
 #: ../plugins/fn-math/functions.c:760 ../plugins/fn-math/functions.c:780
-#, fuzzy
-#| msgid "criteria:condition for a cell to be included"
 msgid "criteria1:condition for a cell to be included"
-msgstr "kriterij: pogoj za vključitev celice"
+msgstr "pogoj1: pogoj za vključitev celice"
 
 #: ../plugins/fn-math/functions.c:716
 msgid ""
@@ -6353,40 +6080,28 @@ msgid "criteria:condition for a cell to be included"
 msgstr "kriterij: pogoj za vključitev celice"
 
 #: ../plugins/fn-math/functions.c:737
-#, fuzzy
-#| msgid ""
-#| "AVERAGEIF:average of the cells in @{actual range} for which the "
-#| "corresponding cells in the range meet the given @{criteria}"
 msgid ""
 "AVERAGEIFS:average of the cells in @{actual_range} for which the "
 "corresponding cells in the range meet the given criteria"
 msgstr ""
-"AVERAGEIF: povprečna vrednost celic v @{dejanski podatkovni vrste}, ki so v "
-"podatkovni vrsti skladne s podanim @{kriterijem}"
+"AVERAGEIFS: povprečna vrednost celic v @{dejanski_obseg}, za katere ustrezne "
+"celice v obsegu izpolnjujejo dane pogoje"
 
 #: ../plugins/fn-math/functions.c:757
-#, fuzzy
-#| msgid ""
-#| "SUMIF:sum of the cells in @{actual_range} for which the corresponding "
-#| "cells in the range meet the given @{criteria}"
 msgid ""
 "MINIFS:minimum of the cells in @{actual_range} for which the corresponding "
 "cells in the range meet the given criteria"
 msgstr ""
-"SUMIF: vsota vrednosti celic v @{dejanski podatkovni vrste}, ki so v "
-"podatkovni vrsti skladne s podanim @{kriterijem}"
+"MINIFS: najmanj celic v @{dejanskem_obsegu}, za katere ustrezne celice v "
+"obsegu izpolnjujejo dane pogoje"
 
 #: ../plugins/fn-math/functions.c:777
-#, fuzzy
-#| msgid ""
-#| "SUMIF:sum of the cells in @{actual_range} for which the corresponding "
-#| "cells in the range meet the given @{criteria}"
 msgid ""
 "MAXIFS:maximum of the cells in @{actual_range} for which the corresponding "
 "cells in the range meet the given criteria"
 msgstr ""
-"SUMIF: vsota vrednosti celic v @{dejanski podatkovni vrste}, ki so v "
-"podatkovni vrsti skladne s podanim @{kriterijem}"
+"MAXIFS: največ celic v @{dejanski_obseg}, za katere ustrezne celice v obsegu "
+"izpolnjujejo dane pogoje"
 
 #: ../plugins/fn-math/functions.c:797
 msgid ""
@@ -6397,9 +6112,6 @@ msgstr ""
 "vrednost je vsaj ABS(@{x}). "
 
 #: ../plugins/fn-math/functions.c:799 ../plugins/fn-math/functions.c:1221
-#, fuzzy
-#| msgid ""
-#| "significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)"
 msgid ""
 "significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} < 0)"
 msgstr ""
@@ -6422,16 +6134,12 @@ msgstr ""
 "vrne napako #VALUE!."
 
 #: ../plugins/fn-math/functions.c:802
-#, fuzzy
-#| msgid ""
-#| "If @{x} and @{significance} have different signs, CEILING returns a #NUM! "
-#| "error."
 msgid ""
 "If @{x} is positive and @{significance} is negative, CEILING returns a #NUM! "
 "error."
 msgstr ""
-"Če sta @{x} in @{značilno število} različno predznačena, funkcija CEILING "
-"vrne napako #NUM!."
+"Če sta @{x} in @{značilno_število} različno predznačena, funkcija CEILING "
+"vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:804
 msgid ""
@@ -6553,16 +6261,12 @@ msgstr ""
 "rešitve, sicer se beleži imaginarni"
 
 #: ../plugins/fn-math/functions.c:1085
-#, fuzzy
-#| msgid ""
-#| "The regularized incomplete gamma function is the unregularized incomplete "
-#| "gamma function divided by gamma(@{a})"
 msgid ""
 "The regularized incomplete gamma function is the unregularized incomplete "
 "gamma function divided by GAMMA(@{a})"
 msgstr ""
 "Regularizirana nepopolna funkcija gama je neregularizirana nepopolna "
-"funkcija gama deljena z gamma(@{a})"
+"funkcija gama, deljena z GAMMA(@{a})"
 
 #: ../plugins/fn-math/functions.c:1086
 msgid ""
@@ -6679,16 +6383,12 @@ msgstr ""
 "vsaj ABS(@{x})."
 
 #: ../plugins/fn-math/functions.c:1224
-#, fuzzy
-#| msgid ""
-#| "If @{x} and @{significance} have different signs, CEILING returns a #NUM! "
-#| "error."
 msgid ""
 "If @{x} is positive and @{significance} is negative, FLOOR returns a #NUM! "
 "error."
 msgstr ""
-"Če sta @{x} in @{značilno število} različno predznačena, funkcija CEILING "
-"vrne napako #NUM!."
+"Če sta @{x} in @{značilno_število} različno predznačena, funkcija CEILING "
+"vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:1226
 msgid ""
@@ -6704,10 +6404,8 @@ msgid "INT:largest integer not larger than @{x}"
 msgstr "INT: največje celo število, ni ni večje od @{x}"
 
 #: ../plugins/fn-math/functions.c:1275
-#, fuzzy
-#| msgid "GAMMA:the Gamma function"
 msgid "LAMBERTW:the Lambert W function"
-msgstr "GAMMA: funkcija gama"
+msgstr "LAMBERTW: Lambertova W-funkcija"
 
 #: ../plugins/fn-math/functions.c:1277
 msgid "k:branch"
@@ -6718,10 +6416,8 @@ msgid "@{k} defaults to 0, the principal branch."
 msgstr "@{k} je privzeto 0, glavna veja."
 
 #: ../plugins/fn-math/functions.c:1279
-#, fuzzy
-#| msgid "@{x} must be in the range 1 to 255."
 msgid "@{k} must be either 0 or -1."
-msgstr "Vrednost @{x} mora biti v območju od 1 do 255."
+msgstr "@{k} mora biti 0 ali -1."
 
 #: ../plugins/fn-math/functions.c:1280
 msgid ""
@@ -6756,21 +6452,18 @@ msgid "If @{x} ≤ 0, LOG returns #NUM! error."
 msgstr "Če je @{x} ≤ 0, funkcija LOG vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:1348
-#, fuzzy
-#| msgid "LOG:logarithm of @{x} with base @{base}"
 msgid "ILOG:integer logarithm of @{x} with base @{base}"
-msgstr "LOG: logaritem vrednosti @{x} z osnovo @{osnova}"
+msgstr "ILOG: celoštevilski logaritem vrednosti @{x} z osnovo @{osnova}"
 
 #: ../plugins/fn-math/functions.c:1353
-#, fuzzy
 msgid ""
 "This function returns the logarithm of @{x} using @{base} rounded down to "
 "nearest integer.  Unlike FLOOR(LOG(@{x},@{base})), this function is not "
 "subject error of representation of the intermediate result."
 msgstr ""
-"Ta funkcija vrne logaritem @{x} z uporabo @{base}, zaokroženega navzdol na "
-"najbližje celo število.  Za razliko od funkcije FLOOR(LOG(@{x},@{base})) ta "
-"funkcija ni predmet napake pri predstavitvi vmesnega rezultata."
+"Ta funkcija vrne logaritem @{x} z uporabo @{osnove}, zaokroženega navzdol na "
+"najbližje celo število.  Za razliko od funkcije FLOOR(LOG(@{x},@{osnova})) "
+"ta funkcija ni predmet napake pri predstavitvi vmesnega rezultata."
 
 #: ../plugins/fn-math/functions.c:1354
 msgid ""
@@ -6868,7 +6561,7 @@ msgstr "MOD: ostanek vrednosti @{x} pri deljenju s številom @{n}"
 
 #: ../plugins/fn-math/functions.c:1547
 msgid "n:value"
-msgstr "n:vrednost"
+msgstr "n: vrednost"
 
 #: ../plugins/fn-math/functions.c:1548
 msgid "MOD function returns the remainder when @{x} is divided by @{n}."
@@ -6888,22 +6581,18 @@ msgid "x:angle in degrees"
 msgstr "x: kot v stopinjah"
 
 #: ../plugins/fn-math/functions.c:1609
-#, fuzzy
 msgid "REDUCEPI:reduce modulo Pi divided by a power of 2"
-msgstr "REDUCEPI:zmanjša modulo Pi, deljeno z močjo 2"
+msgstr "REDUCEPI: zmanjšajte modulo Pi, deljeno z ekspoentom 2"
 
 #: ../plugins/fn-math/functions.c:1611
 msgid "e:scale"
 msgstr "e:merilo"
 
 #: ../plugins/fn-math/functions.c:1612
-#, fuzzy
-#| msgid "lower:lower limit of the integral, defaults to 0"
 msgid "q:get lower bits of quotient, defaults to FALSE"
-msgstr "spodnja meja: spodnja limita integrala, privzeto določena pri 0."
+msgstr "q:pridobi nižje bite količnika, privzeto je FALSE"
 
 #: ../plugins/fn-math/functions.c:1614
-#, fuzzy
 msgid ""
 "This function returns a value, xr, such that @{x}=xr+j*Pi/2^@{e} where j is "
 "an integer and the absolute value of xr does not exceed Pi/2^(@{e}+1).  If "
@@ -6916,13 +6605,12 @@ msgstr ""
 "izvede kot z uporabo natančne vrednosti Pi."
 
 #: ../plugins/fn-math/functions.c:1615
-#, fuzzy
 msgid ""
 "The lowest valid @{e} is -1 representing reduction modulo 2*Pi; the highest "
 "is 7 representing reduction modulo Pi/256."
 msgstr ""
-"Najnižji veljaven @{e} je -1, ki predstavlja redukcijski modulo 2*Pi; "
-"najvišji je 7, ki predstavlja redukcijski modulo Pi / 256."
+"Najnižji veljaven @{e} je -1, ki predstavlja reducijski modul 2*Pi; najvišji "
+"je 7, ki predstavlja redukcijski modul Pi / 256."
 
 #: ../plugins/fn-math/functions.c:1639
 msgid "SIN:the sine of @{x}"
@@ -7057,10 +6745,8 @@ msgid "TAN:the tangent of @{x}"
 msgstr "TAN: tangenta vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:1942
-#, fuzzy
-#| msgid "TAN:the tangent of @{x}"
 msgid "TANPI:the tangent of Pi*@{x}"
-msgstr "TAN: tangenta vrednosti @{x}"
+msgstr "TANPI: tangens vrednosti Pi*@{x}"
 
 #: ../plugins/fn-math/functions.c:1958
 msgid "TANH:the hyperbolic tangent of @{x}"
@@ -7087,16 +6773,12 @@ msgid "d:integer, defaults to 0"
 msgstr "d: celo število, privzeto je določena vrednost 0"
 
 #: ../plugins/fn-math/functions.c:1996
-#, fuzzy
-#| msgid ""
-#| "If @{d} is omitted or negative then it defaults to zero. If it is not an "
-#| "integer then it is truncated to an integer."
 msgid ""
 "If @{d} is omitted then it defaults to zero. If it is not an integer then it "
 "is truncated to an integer."
 msgstr ""
-"Če je vrednost @{d} izpuščena ali negativna, funkcija vrne vrednost nič. Če "
-"vrednost ni celo število, je število prirezano."
+"Če je vrednost @{d} izpuščena, funkcija vrne vrednost nič. Če vrednost ni "
+"celo število, je število prirezano na celo število."
 
 #: ../plugins/fn-math/functions.c:1997
 msgid ""
@@ -7500,7 +7182,6 @@ msgid "mat2:a matrix"
 msgstr "mat2: matrika 2"
 
 #: ../plugins/fn-math/functions.c:3115
-#, fuzzy
 msgid ""
 "The number of columns in @{mat1} must equal the number of rows in @{mat2}; "
 "otherwise #VALUE! is returned.  The result of MMULT is an array, in which "
@@ -7508,7 +7189,7 @@ msgid ""
 "the same as in (@{mat2})."
 msgstr ""
 "Število stolpcev v @{mat1} mora biti enako številu vrstic v @{mat2}; drugače "
-"vrne napako #VALUE!  Rezultat MMULT je matrika, v kateri je število vrstic "
+"#VALUE! se vrne.  Rezultat MMULT je matrika, v kateri je število vrstic "
 "enako kot v @{mat1}), število stolpcev pa je enako kot v (@{mat2})."
 
 #: ../plugins/fn-math/functions.c:3155
@@ -7614,13 +7295,12 @@ msgid "matrix:a symmetric matrix"
 msgstr "matrika: simetrična matrika"
 
 #: ../plugins/fn-math/functions.c:3412
-#, fuzzy
 msgid ""
 "If @{matrix} is not symmetric, matching off-diagonal cells will be averaged "
 "on the assumption that the non-symmetry is caused by unimportant rounding "
 "errors."
 msgstr ""
-"Če @{matrika} ni simetrična, se ujemajoče se nediagonalne celice povprečijo "
+"Če @{matrix} ni simetrična, se ujemajoče se nediagonalne celice povprečijo "
 "ob predpostavki, da je nesimetrija posledica nepomembnih napak pri "
 "zaokroževanju."
 
@@ -7657,18 +7337,12 @@ msgid "wiki:en:Euler's_totient_function"
 msgstr "wiki:en:Euler's_totient_function"
 
 #: ../plugins/fn-numtheory/numtheory.c:325
-#, fuzzy
-#| msgid "NT_SIGMA:sigma function"
 msgid "NT_RADICAL:Radical function"
-msgstr "NT_SIGMA: funkcija sigma"
+msgstr "NT_RADICAL: funkcija radikala"
 
 #: ../plugins/fn-numtheory/numtheory.c:327
-#, fuzzy
-#| msgid ""
-#| "The HOUR function computes the hour part of the fractional day given by "
-#| "@{time}."
 msgid "The function computes the product of its distinct prime factors"
-msgstr "Funkcija HOUR izračuna urni del obdobja dneva, ki ga določa @{čas}."
+msgstr "Funkcija izračuna zmnožek svojih značilnih praštevilskih faktorjev"
 
 #: ../plugins/fn-numtheory/numtheory.c:358
 msgid "NT_MU:Möbius mu function"
@@ -7774,10 +7448,8 @@ msgstr "BITOR: bitni logični ALI"
 #: ../plugins/fn-numtheory/numtheory.c:610
 #: ../plugins/fn-numtheory/numtheory.c:649
 #: ../plugins/fn-numtheory/numtheory.c:691
-#, fuzzy
-#| msgid "a:non-negative integer"
 msgid "values:non-negative integers"
-msgstr "a: ne-negativno celo število"
+msgstr "vrednosti: ne-negativna cela števila"
 
 #: ../plugins/fn-numtheory/numtheory.c:611
 msgid ""
@@ -8300,68 +7972,47 @@ msgstr ""
 "zbirne geometrične porazdelitve."
 
 #: ../plugins/fn-r/functions.c:636
-#, fuzzy
-#| msgid "R.DBETA:probability density function of the beta distribution"
 msgid "R.DGUMBEL:probability density function of the Gumbel distribution"
-msgstr "R.DBETA: funkcija gostote verjetnosti porazdelitve beta"
+msgstr "R.DGUMBEL:funkcija gostote verjetnosti za Gumblovo porazdelitev"
 
 #: ../plugins/fn-r/functions.c:638 ../plugins/fn-r/functions.c:663
 #: ../plugins/fn-r/functions.c:690
-#, fuzzy
-#| msgid "location:the location parameter of the distribution"
 msgid "mu:the location parameter of freedom of the distribution"
-msgstr "mesto: parameter mesta porazdelitve"
+msgstr "mu:lokacijski parameter svobode porazdelitve"
 
 #: ../plugins/fn-r/functions.c:639 ../plugins/fn-r/functions.c:664
 #: ../plugins/fn-r/functions.c:691
-#, fuzzy
-#| msgid "scale:the scale parameter of the distribution"
 msgid "beta:the scale parameter of freedom of the distribution"
-msgstr "merilo: parameter merila porazdelitve"
+msgstr "beta: parameter merila svobode porazdelitve"
 
 #: ../plugins/fn-r/functions.c:641
-#, fuzzy
-#| msgid ""
-#| "This function returns the probability density function of the beta "
-#| "distribution."
 msgid ""
 "This function returns the probability density function of the Gumbel "
 "distribution."
-msgstr "Funkcija vrne funkcijo gostote verjetnosti porazdelitve beta."
+msgstr "Funkcija vrne funkcijo gostote verjetnosti porazdelitve Gumbel."
 
 #: ../plugins/fn-r/functions.c:661
-#, fuzzy
-#| msgid "R.PBETA:cumulative distribution function of the beta distribution"
 msgid "R.PGUMBEL:cumulative distribution function of the Gumbel distribution"
-msgstr "R.PBETA: zbirna funkcija porazdelitve beta"
+msgstr "R.PGUMBEL:kumulativna porazdelitvena funkcija Gumblove porazdelitve"
 
 #: ../plugins/fn-r/functions.c:667
-#, fuzzy
-#| msgid ""
-#| "This function returns the cumulative distribution function of the beta "
-#| "distribution."
 msgid ""
 "This function returns the cumulative distribution function of the Gumbel "
 "distribution."
-msgstr "Funkcija vrne zbirno funkcijo porazdelitve za porazdelitev beta."
+msgstr ""
+"Ta funkcija vrne kumulativno porazdelitveno funkcijo Gumblove porazdelitve."
 
 #: ../plugins/fn-r/functions.c:688
-#, fuzzy
-#| msgid "R.QBETA:probability quantile function of the beta distribution"
 msgid "R.QGUMBEL:probability quantile function of the Gumbel distribution"
-msgstr "R.QBETA: kvantilna funkcija verjetnosti porazdelitve beta"
+msgstr "R.QGUMBEL: verjetnostna kvantilna funkcija Gumblove porazdelitve"
 
 #: ../plugins/fn-r/functions.c:694
-#, fuzzy
-#| msgid ""
-#| "This function returns the probability quantile function, i.e., the "
-#| "inverse of the cumulative distribution function, of the beta distribution."
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Gumbel distribution."
 msgstr ""
-"Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo "
-"zbirne porazdelitve beta."
+"Ta funkcija vrne verjetnostno kvantilno funkcijo, tj. Inverzno od "
+"kumulativne porazdelitvene funkcije, Gubellove porazdelitve."
 
 #: ../plugins/fn-r/functions.c:715
 msgid ""
@@ -8593,55 +8244,41 @@ msgstr ""
 "zbirne Poissonove porazdelitve."
 
 #: ../plugins/fn-r/functions.c:1116
-#, fuzzy
-#| msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
 msgid "R.DRAYLEIGH:probability density function of the Rayleigh distribution"
-msgstr "RAYLEIGH: funkcija gostote verjetnosti Rayleighove porazdelitve"
+msgstr "R.DRAYLEIGH: funkcija gostote verjetnosti Rayleighove porazdelitve"
 
 #: ../plugins/fn-r/functions.c:1120
-#, fuzzy
-#| msgid ""
-#| "This function returns the probability density function of the F "
-#| "distribution."
 msgid ""
 "This function returns the probability density function of the Rayleigh "
 "distribution."
-msgstr "Funkcija vrne funkcijo gostote verjetnosti F porazdelitve."
+msgstr ""
+"Ta funkcija vrne funkcijo gostote verjetnosti Rayleighove porazdelitve."
 
 #: ../plugins/fn-r/functions.c:1139
-#, fuzzy
-#| msgid "R.PF:cumulative distribution function of the F distribution"
 msgid ""
 "R.PRAYLEIGH:cumulative distribution function of the Rayleigh distribution"
-msgstr "R.PF: zbirna funkcija F porazdelitve"
+msgstr ""
+"R.PRAYLEIGH: kumulativna porazdelitvena funkcija Rayleighove porazdelitve"
 
 #: ../plugins/fn-r/functions.c:1144
-#, fuzzy
-#| msgid ""
-#| "This function returns the cumulative distribution function of the F "
-#| "distribution."
 msgid ""
 "This function returns the cumulative distribution function of the Rayleigh "
 "distribution."
-msgstr "Funkcija vrne zbirno funkcijo porazdelitve za F porazdelitev"
+msgstr ""
+"Ta funkcija vrne kumulativno porazdelitveno funkcijo Rayleighove "
+"porazdelitve."
 
 #: ../plugins/fn-r/functions.c:1164
-#, fuzzy
-#| msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
 msgid "R.QRAYLEIGH:probability quantile function of the Rayleigh distribution"
-msgstr "RAYLEIGH: funkcija gostote verjetnosti Rayleighove porazdelitve"
+msgstr "R.QRAYLEIGH: verjetnostna kvantilna funkcija Rayleighove porazdelitve"
 
 #: ../plugins/fn-r/functions.c:1169
-#, fuzzy
-#| msgid ""
-#| "This function returns the probability quantile function, i.e., the "
-#| "inverse of the cumulative distribution function, of the F distribution."
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Rayleigh distribution."
 msgstr ""
-"Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo "
-"zbirne F porazdelitve."
+"Ta funkcija vrne verjetnostno kvantilno funkcijo, tj. Inverzno od "
+"kumulativne porazdelitvene funkcije, Rayleighove porazdelitve."
 
 #: ../plugins/fn-r/functions.c:1189
 msgid "R.DSNORM:probability density function of the skew-normal distribution"
@@ -9035,16 +8672,12 @@ msgid "RANDWEIBULL:random variate from a Weibull distribution"
 msgstr "RANDWEIBULL: naključna spremenljivka Weibullove porazdelitve"
 
 #: ../plugins/fn-random/functions.c:395
-#, fuzzy
-#| msgid "a:parameter of the Weibull distribution"
 msgid "a:scale parameter of the Weibull distribution"
-msgstr "a: parameter Weibullove porazdelitve"
+msgstr "a: parameter merila Weibullove porazdelitve"
 
 #: ../plugins/fn-random/functions.c:396
-#, fuzzy
-#| msgid "b:parameter of the Weibull distribution"
 msgid "b:shape parameter of the Weibull distribution"
-msgstr "b: parameter Weibullove porazdelitve"
+msgstr "b: parameter oblike Weibullove porazdelitve"
 
 #: ../plugins/fn-random/functions.c:415
 msgid "RANDLAPLACE:random variate from a Laplace distribution"
@@ -9077,16 +8710,12 @@ msgid "RANDGAMMA:random variate from a Gamma distribution"
 msgstr "RANDGAMMA: naključna spremenljivka porazdelitve gama"
 
 #: ../plugins/fn-random/functions.c:475
-#, fuzzy
-#| msgid "a:parameter of the Gamma distribution"
 msgid "a:shape parameter of the Gamma distribution"
-msgstr "a: parameter Gamma porazdelitve"
+msgstr "a: parameter oblike porazdelitve gama"
 
 #: ../plugins/fn-random/functions.c:476
-#, fuzzy
-#| msgid "b:parameter of the Gamma distribution"
 msgid "b:scale parameter of the Gamma distribution"
-msgstr "b: parameter Gamma porazdelitve"
+msgstr "b: parameter merila porazdelitve gama"
 
 #: ../plugins/fn-random/functions.c:477
 msgid "If @{a} ≤ 0, RANDGAMMA returns #NUM!"
@@ -9325,25 +8954,6 @@ msgid "d2:second value"
 msgstr "d2: druga vrednost"
 
 #: ../plugins/fn-random/functions.c:820
-#, fuzzy
-#| msgid ""
-#| "SIMTABLE returns one of the values in the given argument list depending "
-#| "on the round number of the simulation tool. When the simulation tool is "
-#| "not activated, SIMTABLE returns @{d1}.\n"
-#| "With the simulation tool and the SIMTABLE function you can test given "
-#| "decision variables. Each SIMTABLE function contains the possible values "
-#| "of a simulation variable. In most valid simulation models you should have "
-#| "the same number of values @{dN} for all decision variables.  If the "
-#| "simulation is run more rounds than there are values defined, SIMTABLE "
-#| "returns #N/A! error (e.g. if A1 contains `=SIMTABLE(1)' and A2 "
-#| "`=SIMTABLE(1,2)', A1 yields #N/A! error on the second round).\n"
-#| "The successive use of the simulation tool also requires that you give to "
-#| "the tool at least one input variable having RAND() or any other "
-#| "RAND<distribution name>() function in it. On each round, the simulation "
-#| "tool iterates for the given number of rounds over all the input variables "
-#| "to reevaluate them. On each iteration, the values of the output variables "
-#| "are stored, and when the round is completed, descriptive statistical "
-#| "information is created according to the values."
 msgid ""
 "SIMTABLE returns one of the values in the given argument list depending on "
 "the round number of the simulation tool. When the simulation tool is not "
@@ -9598,10 +9208,8 @@ msgid "RANK.AVG:rank of a number in a list of numbers"
 msgstr "RANK.AVG: rang števila v seznamu števil"
 
 #: ../plugins/fn-stat/functions.c:213
-#, fuzzy
-#| msgid "In case of a tie, RANK returns the average rank."
 msgid "In case of a tie, RANK.AVG returns the average rank."
-msgstr "V primeru neodločenosti, funkcija RANK vrne povprečni rang."
+msgstr "V primeru neodločenega izida RANK.AVG vrne povprečno uvrstitev."
 
 #: ../plugins/fn-stat/functions.c:214
 msgid "This function is Excel 2010 compatible."
@@ -9734,10 +9342,8 @@ msgid "Then CORREL(A1:A5,B1:B5) equals 0.996124788."
 msgstr "Izračun funkcije CORREL(A1:A5,B1:B5) vrne rešitev 0.996124788."
 
 #: ../plugins/fn-stat/functions.c:386
-#, fuzzy
-#| msgid "wiki:en:CorrelationCoefficient.html"
 msgid "wolfram:CorrelationCoefficient.html"
-msgstr "wiki:en:CorrelationCoefficient.html"
+msgstr "wolfram:CorrelationCoefficient.html"
 
 #: ../plugins/fn-stat/functions.c:406
 msgid ""
@@ -9951,25 +9557,19 @@ msgid "wolfram:Mode.html"
 msgstr "wolfram:Mode.html"
 
 #: ../plugins/fn-stat/functions.c:632
-#, fuzzy
-#| msgid "MODE:first most common number in the dataset"
 msgid "MODE.MULT:most common numbers in the dataset"
-msgstr "MODE: prva najpogostejša številka v podatkovni množici."
+msgstr "MODE.MULT:najpogostejša števila v naboru podatkov"
 
 #: ../plugins/fn-stat/functions.c:731
 msgid "HARMEAN:harmonic mean"
 msgstr "HARMEAN: harmonična srednja vrednost"
 
 #: ../plugins/fn-stat/functions.c:734
-#, fuzzy
-#| msgid ""
-#| "The harmonic mean of N data points is  N divided by the sum of the "
-#| "reciprocals of the data points)."
 msgid ""
 "The harmonic mean of N data points is N divided by the sum of the "
 "reciprocals of the data points)."
 msgstr ""
-"Harmonično povprečje n podatkovnih točk je vrednost n, deljena z vsoto "
+"Harmonično povprečje N podatkovnih točk je vrednost N, deljena z vsoto "
 "recipročnih vrednosti podatkovnih točk)."
 
 #: ../plugins/fn-stat/functions.c:738
@@ -10101,16 +9701,12 @@ msgstr ""
 "vrsta: ali naj bo ocenjena funkcija gostote ali zbirna funkcija porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:982
-#, fuzzy
-#| msgid ""
-#| "If @{cumulative} is false it will return:\t@{y} * exp (-@{y}*@{x}),"
-#| "otherwise it will return\t1 - exp (-@{y}*@{x})."
 msgid ""
 "If @{cumulative} is false it will return:\t@{y} * exp (-@{y}*@{x}), "
 "otherwise it will return\t1 - exp (-@{y}*@{x})."
 msgstr ""
-"V primeru, da je možnost @{vrsta} logični NAPAK, funkcija vrne:\t@{y} * exp "
-"(-@{y}*@{x}), sicer pa vrne \t1 - exp (-@{y}*@{x})."
+"V primeru, da je možnost @{zbirna_funkcija} FALSE, funkcija vrne:\t@{y} * "
+"exp (-@{y}*@{x}), sicer pa vrne \t1 - exp (-@{y}*@{x})."
 
 #: ../plugins/fn-stat/functions.c:985
 msgid "If @{x} < 0 or @{y} <= 0 this will return an error."
@@ -10584,39 +10180,28 @@ msgid "If @{size} is 0 this function returns a #DIV/0! error."
 msgstr "Če je @{velikost} enaka 0, funkcija vrne napako #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:1910
-#, fuzzy
-#| msgid ""
-#| "CONFIDENCE:margin of error of a confidence interval for the population "
-#| "mean"
 msgid ""
 "CONFIDENCE.T:margin of error of a confidence interval for the population "
 "mean using the Student's t-distribution"
 msgstr ""
-"CONFIDENCE: meja napake intervala zaupanja za srednjo vrednost populacije"
+"CONFIDENCE.T: meja napake intervala zaupanja za srednjo vrednost populacije "
+"z uporabo Studentove t-porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:1913
-#, fuzzy
-#| msgid "stddev:standard deviation"
 msgid "stddev:sample standard deviation"
-msgstr "stddev: standardni odklon"
+msgstr "stdodkl: standardni odklon vzorca"
 
 #: ../plugins/fn-stat/functions.c:1915
-#, fuzzy
-#| msgid "If @{size} < 0 this function returns a #NUM! error."
 msgid "If @{stddev} < 0 or = 0 this function returns a #NUM! error."
-msgstr "Če je @{size} < 0, funkcija vrne napako #NUM!."
+msgstr "Če @{stddev} < 0 ali = 0, ta funkcija vrne napako #NUM!"
 
 #: ../plugins/fn-stat/functions.c:1917
-#, fuzzy
-#| msgid "If @{size} < 0 this function returns a #NUM! error."
 msgid "If @{size} < 1 this function returns a #NUM! error."
-msgstr "Če je @{size} < 0, funkcija vrne napako #NUM!."
+msgstr "Če je @{size} < 0, funkcija vrne napako #NUM!"
 
 #: ../plugins/fn-stat/functions.c:1918
-#, fuzzy
-#| msgid "If @{size} is 0 this function returns a #DIV/0! error."
 msgid "If @{size} is 1 this function returns a #DIV/0! error."
-msgstr "Če je @{velikost} enaka 0, funkcija vrne napako #DIV/0!."
+msgstr "Če je @{velikost} enaka 1, funkcija vrne napako #DIV/0!"
 
 #: ../plugins/fn-stat/functions.c:1943
 msgid "STANDARDIZE:z-score of a value"
@@ -10642,17 +10227,12 @@ msgstr ""
 "WEIBULL: verjetnostna funkcija ali zbirna funkcija Weibullove porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:1975
-#, fuzzy
-#| msgid ""
-#| "If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/"
-#| "@{beta})^@{alpha}),otherwise it will return (@{alpha}/@{beta}^@{alpha}) * "
-#| "@{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha}))."
 msgid ""
 "If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/"
 "@{beta})^@{alpha}), otherwise it will return (@{alpha}/@{beta}^@{alpha}) * "
 "@{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha}))."
 msgstr ""
-"Če je logična vrednost @{izbirne funkcije} PRAV, funkcija vrne: 1 - exp (-"
+"Če je logična vrednost @{zbirne_funkcije} TRUE, funkcija vrne: 1 - exp (-"
 "(@{x}/@{beta})^@{alfa}), sicer pa vrne (@{alfa}/@{beta}^@{alfa}) * @{x}"
 "^(@{alfa}-1) * exp(-(@{x}/@{beta}^@{alfa}))."
 
@@ -10880,24 +10460,20 @@ msgstr ""
 "množice, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2410
-#, fuzzy
-#| msgid "Then LARGE(A1:A5,2) equals 25.9.LARGE(A1:A5,4) equals 17.3."
 msgid "Then LARGE(A1:A5,2) equals 25.9. LARGE(A1:A5,4) equals 17.3."
 msgstr ""
-"Izračun funkcije LARGE(A1:A5,2) vrne rešitev 25.9 in LARGE(A1:A5,4) vrne "
-"rešitev 17.3."
+"Izračun funkcije LARGE(A1:A5,2) vrne rešitev 25,9 in LARGE(A1:A5,4) vrne "
+"rešitev 17.,."
 
 #: ../plugins/fn-stat/functions.c:2459
 msgid "SMALL:@{k}-th smallest value in a data set"
 msgstr "SMALL: @{k}-ta najmanjša vrednost v podatkovni množici"
 
 #: ../plugins/fn-stat/functions.c:2468
-#, fuzzy
-#| msgid "Then SMALL(A1:A5,2) equals 17.3.SMALL(A1:A5,4) equals 25.9."
 msgid "Then SMALL(A1:A5,2) equals 17.3. SMALL(A1:A5,4) equals 25.9."
 msgstr ""
-"Izračun funkcije SMALL(A1:A5,2) vrne rešitev 17.3 in SMALL(A1:A5,4) vrne "
-"rešitev 25.9."
+"Izračun funkcije SMALL(A1:A5,2) vrne rešitev 17,3 in SMALL(A1:A5,4) vrne "
+"rešitev 25,9."
 
 #: ../plugins/fn-stat/functions.c:2502
 msgid ""
@@ -11083,12 +10659,12 @@ msgid "STDEVPA:population standard deviation of an entire population"
 msgstr "STDEVPA: populacijski standardni odklon celotne populacije"
 
 #: ../plugins/fn-stat/functions.c:2887
-#, fuzzy
-#| msgid "PERCENTRANK:rank of a data point in a data set"
 msgid ""
 "PERCENTRANK:rank of a data point in a data set (Hyndman-Fan method 7: N-1 "
 "basis)"
-msgstr "PERCENTRANK: rang podatkovne točke v podatkovni množici"
+msgstr ""
+"PERCENTRANK: rang podatkovne točke v naboru podatkov (Hyndman-Fanova metoda "
+"7: osnova N-1)"
 
 #: ../plugins/fn-stat/functions.c:2888 ../plugins/fn-stat/functions.c:2992
 msgid "array:range of numeric values"
@@ -11116,16 +10692,12 @@ msgstr ""
 "Če je statistična @{značilnost} manjša kot ena, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2895 ../plugins/fn-stat/functions.c:2999
-#, fuzzy
-#| msgid ""
-#| "If @{x} exceeds the largest value or is less than the smallest value in "
-#| "@{array}, this function returns a #NUM! error."
 msgid ""
 "If @{x} exceeds the largest value or is less than the smallest value in "
 "@{array}, this function returns an #N/A error."
 msgstr ""
 "Če @{x} preseže največjo vrednost ali pa je manjši od najmanjše vrednosti v "
-"podatkovnem @{polju}, funkcija vrne napako #NUM!."
+"podatkovnem @{polju}, funkcija vrne napako #N/A."
 
 #: ../plugins/fn-stat/functions.c:2897 ../plugins/fn-stat/functions.c:3001
 msgid ""
@@ -11136,21 +10708,20 @@ msgstr ""
 "sklada več kot enkrat, funkcija vrne interpolirano vrednost."
 
 #: ../plugins/fn-stat/functions.c:2991
-#, fuzzy
-#| msgid "PERCENTRANK:rank of a data point in a data set"
 msgid ""
 "PERCENTRANK.EXC:rank of a data point in a data set (Hyndman-Fan method 6: N"
 "+1 basis)"
-msgstr "PERCENTRANK: rang podatkovne točke v podatkovni množici"
+msgstr ""
+"PERCENTRANK.EXC: rang podatkovne točke v naboru podatkov (Hyndman-Fanova "
+"metoda 6: osnova N+1)"
 
 #: ../plugins/fn-stat/functions.c:3092
-#, fuzzy
-#| msgid ""
-#| "PERCENTILE:determines the  100*@{k}-th percentile of the given data points"
 msgid ""
 "PERCENTILE:determines the 100*@{k}-th percentile of the given data points "
 "(Hyndman-Fan method 7: N-1 basis)"
-msgstr "PERCENTILE: določi 100*@{k}-ti percentil podanih podatkovnih točk"
+msgstr ""
+"PERCENTILE: določa 100*@{k}-ti percentil danih podatkovnih točk (Hyndman-"
+"Fanova metoda 7: osnova N-1)"
 
 #: ../plugins/fn-stat/functions.c:3093 ../plugins/fn-stat/functions.c:3135
 #: ../plugins/fn-stat/functions.c:3180 ../plugins/fn-stat/functions.c:3223
@@ -11170,27 +10741,24 @@ msgid "Then PERCENTILE(A1:A5,0.42) equals 20.02."
 msgstr "Izračun funkcije PERCENTILE(A1:A5,0.42) vrne rešitev 20.02."
 
 #: ../plugins/fn-stat/functions.c:3134
-#, fuzzy
-#| msgid ""
-#| "PERCENTILE:determines the  100*@{k}-th percentile of the given data points"
 msgid ""
 "PERCENTILE.EXC:determines the 100*@{k}-th percentile of the given data "
 "points (Hyndman-Fan method 6: N+1 basis)"
-msgstr "PERCENTILE: določi 100*@{k}-ti percentil podanih podatkovnih točk"
+msgstr ""
+"PERCENTIL.EXC: določa 100*@{k}-ti percentil danih podatkovnih točk (Hyndman-"
+"Fanova metoda 6: osnova N+1)"
 
 #: ../plugins/fn-stat/functions.c:3141
-#, fuzzy
-#| msgid "Then PERCENTILE(A1:A5,0.42) equals 20.02."
 msgid "Then PERCENTILE.EXC(A1:A5,0.42) equals 20.02."
-msgstr "Izračun funkcije PERCENTILE(A1:A5,0.42) vrne rešitev 20.02."
+msgstr "Izračun funkcije PERCENTILE(A1:A5,0.42) vrne rešitev 20,02."
 
 #: ../plugins/fn-stat/functions.c:3179
-#, fuzzy
-#| msgid "QUARTILE:the @{k}-th quartile of the data points"
 msgid ""
 "QUARTILE:the @{k}-th quartile of the data points (Hyndman-Fan method 7: N-1 "
 "basis)"
-msgstr "QUARTILE: @{k}-ti kvartil podatkovnih točk"
+msgstr ""
+"QUARTILE: @{k}-ti kvartil podatkovnih točk (Hyndman-Fanova metoda 7: osnova "
+"N-1)"
 
 #: ../plugins/fn-stat/functions.c:3181
 msgid "quart:a number from 0 to 4, indicating which quartile to calculate"
@@ -11214,24 +10782,20 @@ msgid "Then QUARTILE(A1:A5,1) equals 17.3."
 msgstr "Izračun funkcije QUARTILE(A1:A5,1) vrne rešitev 17,3."
 
 #: ../plugins/fn-stat/functions.c:3222
-#, fuzzy
-#| msgid "QUARTILE:the @{k}-th quartile of the data points"
 msgid ""
 "QUARTILE.EXC:the @{k}-th quartile of the data points (Hyndman-Fan method 6: N"
 "+1 basis)"
-msgstr "QUARTILE: @{k}-ti kvartil podatkovnih točk"
+msgstr ""
+"QUARTILE.EXC: @{k}-ti kvartil podatkovnih točk (Hyndman-Fanova metoda 6: "
+"osnova N+1)"
 
 #: ../plugins/fn-stat/functions.c:3224
-#, fuzzy
-#| msgid "quart:a number from 0 to 4, indicating which quartile to calculate"
 msgid "quart:a number from 1 to 3, indicating which quartile to calculate"
-msgstr "kvartil: število od 0 do 4, ki določa, kateri kvartil bo izračunan"
+msgstr "kvartil: število od 1 do 3, ki določa, kateri kvartil bo izračunan"
 
 #: ../plugins/fn-stat/functions.c:3230
-#, fuzzy
-#| msgid "Then QUARTILE(A1:A5,1) equals 17.3."
 msgid "Then QUARTILE.EXC(A1:A5,1) equals 14.35."
-msgstr "Izračun funkcije QUARTILE(A1:A5,1) vrne rešitev 17,3."
+msgstr "Izračun funkcije QUARTILE.EXC(A1:A5,1) vrne 14,35."
 
 #: ../plugins/fn-stat/functions.c:3268
 msgid ""
@@ -11300,19 +10864,14 @@ msgid ""
 msgstr "Če @{vrsta} ni ne 1, 2, ali 3, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:3342
-#, fuzzy
-#| msgid ""
-#| "Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619.TTEST(A1:A5,B1:B5,2,1) "
-#| "equals 0.006255239.TTEST(A1:A5,B1:B5,1,2) equals 0.111804322.TTEST(A1:A5,"
-#| "B1:B5,1,3) equals 0.113821797."
 msgid ""
 "Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619. TTEST(A1:A5,B1:B5,2,1) "
 "equals 0.006255239. TTEST(A1:A5,B1:B5,1,2) equals 0.111804322. TTEST(A1:A5,"
 "B1:B5,1,3) equals 0.113821797."
 msgstr ""
-"Izračun funkcije TTEST(A1:A5,B1:B5,1,1) vrne rešitev 0.003127619, TTEST(A1:"
-"A5,B1:B5,2,1) vrne rešitev 0.006255239, TTEST(A1:A5,B1:B5,1,2) vrne rešitev "
-"0.111804322 in TTEST(A1:A5,B1:B5,1,3) vrne rešitev 0.113821797."
+"Izračun funkcije TTEST(A1:A5,B1:B5,1,1) vrne rešitev 0,003127619, TTEST(A1:"
+"A5,B1:B5,2,1) vrne rešitev 0,006255239, TTEST(A1:A5,B1:B5,1,2) vrne rešitev "
+"0,111804322 in TTEST(A1:A5,B1:B5,1,3) vrne rešitev 0,113821797."
 
 #: ../plugins/fn-stat/functions.c:3500
 msgid "FREQUENCY:frequency table"
@@ -11393,14 +10952,6 @@ msgstr ""
 "presečišče z osi y, če je @{afino} logično PRAV."
 
 #: ../plugins/fn-stat/functions.c:3784
-#, fuzzy
-#| msgid ""
-#| "If @{stats} is true, the second row contains the corresponding standard "
-#| "errors of the regression coefficients.In this case, the third row "
-#| "contains the R^2 value and the standard error for the predicted value. "
-#| "The fourth row contains the observed F value and its degrees of freedom. "
-#| "Finally, the fifth row contains the regression sum of squares and the "
-#| "residual sum of squares."
 msgid ""
 "If @{stats} is true, the second row contains the corresponding standard "
 "errors of the regression coefficients. In this case, the third row contains "
@@ -11450,13 +11001,6 @@ msgstr ""
 "je NAPAK"
 
 #: ../plugins/fn-stat/functions.c:3887
-#, fuzzy
-#| msgid ""
-#| "LOGREG function transforms your x's to z=ln(x) and applies the “least "
-#| "squares” method to fit the linear equation y = m * z + b to your y's and "
-#| "z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and "
-#| "x's. LOGREG returns an array having two columns and one row. m is given "
-#| "in the first column and b in the second. "
 msgid ""
 "LOGREG function transforms your x's to z=ln(x) and applies the “least "
 "squares” method to fit the linear equation y = m * z + b to your y's and z's "
@@ -11472,15 +11016,6 @@ msgstr ""
 "stolpcu. "
 
 #: ../plugins/fn-stat/functions.c:3895
-#, fuzzy
-#| msgid ""
-#| "Any extra statistical information is written below m and b in the result "
-#| "array.  This extra statistical information consists of four rows of "
-#| "data:  In the first row the standard error values for the coefficients m, "
-#| "b are given.  The second row contains the square of R and the standard "
-#| "error for the y estimate. The third row contains the F-observed value and "
-#| "the degrees of freedom.  The last row contains the regression sum of "
-#| "squares and the residual sum of squares.The default of @{stat} is FALSE."
 msgid ""
 "Any extra statistical information is written below m and b in the result "
 "array.  This extra statistical information consists of four rows of data:  "
@@ -11496,7 +11031,7 @@ msgstr ""
 "podana koeficienta m in b. Druga vrstica vsebuje kvadrat vrednosti R in "
 "standardno oceno y. Tretja vrstica vsebuje vrednost opazovanega F in "
 "prostostne stopnje. V zadnji vrstici je regresijska vsota kvadratov in "
-"preostanek vsote kvadratov. Privzeto možnost @{statistike} ni omogočena."
+"preostanek vsote kvadratov. Privzeto možnost @{statistike} je FALSE."
 
 #: ../plugins/fn-stat/functions.c:3904 ../plugins/fn-stat/functions.c:4259
 #: ../plugins/fn-stat/functions.c:4351
@@ -11547,18 +11082,13 @@ msgstr ""
 "y ali pa, ko je oblika točkovnega oblaka preveč različna od ``logaritemske'."
 
 #: ../plugins/fn-stat/functions.c:4015
-#, fuzzy
-#| msgid ""
-#| "You can use the above formula = a + b * ln(sign * (x - c)) or rearrange "
-#| "it to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, "
-#| "respectively. "
 msgid ""
 "You can use the above formula = a + b * ln(sign * (x - c)) or rearrange it "
 "to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, "
 "respectively."
 msgstr ""
 "Uporabiti je mogoče formulo a + b * ln(sign * (x - c)) ali pa jo preurediti "
-"na (exp((y - a) / b)) / sign + c za izračun neznenih vrednosti y ali x. "
+"v = (exp((y - a) / b)) / sign + c za izračun neznanih vrednosti y ali x."
 
 #: ../plugins/fn-stat/functions.c:4020
 msgid ""
@@ -11783,19 +11313,14 @@ msgstr ""
 "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 23, 27, 28, 33 in 39."
 
 #: ../plugins/fn-stat/functions.c:4623
-#, fuzzy
-#| msgid ""
-#| "Then SUBTOTAL(1,A1:A5) equals 30.SUBTOTAL(6,A1:A5) equals 22378356."
-#| "SUBTOTAL(7,A1:A5) equals 6.164414003.SUBTOTAL(9,A1:A5) equals 150."
-#| "SUBTOTAL(11,A1:A5) equals 30.4."
 msgid ""
 "Then SUBTOTAL(1,A1:A5) equals 30. SUBTOTAL(6,A1:A5) equals 22378356. "
 "SUBTOTAL(7,A1:A5) equals 6.164414003. SUBTOTAL(9,A1:A5) equals 150. "
 "SUBTOTAL(11,A1:A5) equals 30.4."
 msgstr ""
 "Izračun funkcije SUBTOTAL(1,A1:A5) vrne rešitev 30, SUBTOTAL(6,A1:A5) vrne "
-"rešitev 22378356, SUBTOTAL(7,A1:A5) vrne rešitev 6.164414003, SUBTOTAL(9,A1:"
-"A5) vrne rešitev 150 in SUBTOTAL(11,A1:A5) vrne rešitev 30.4."
+"rešitev 22378356, SUBTOTAL(7,A1:A5) vrne rešitev 6,164414003, SUBTOTAL(9,A1:"
+"A5) vrne rešitev 150 in SUBTOTAL(11,A1:A5) vrne rešitev 30,4."
 
 #: ../plugins/fn-stat/functions.c:4695
 msgid "CRONBACH:Cronbach's alpha"
@@ -11918,8 +11443,6 @@ msgstr ""
 "Če je vrednost @{x} < @{y} < 0, funkcija PERMUTATIONA vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:5010
-#, fuzzy
-#| msgid "If @{x} or @{y} are not integers, they are truncated"
 msgid "If @{x} or @{y} are not integers, they are truncated."
 msgstr "Če @{x} ali @{y} nista celi števili, sta ti prirezani."
 
@@ -12119,10 +11642,8 @@ msgid "ENCODEURL:encode a string for use in a URL"
 msgstr "ENCODEURL:kodiranje niza za uporabo v URL-ju"
 
 #: ../plugins/fn-string/functions.c:267
-#, fuzzy
-#| msgid "start:starting position"
 msgid "string:string to encode"
-msgstr "začetek: začetni položaj"
+msgstr "niz: niz za kodiranje"
 
 #: ../plugins/fn-string/functions.c:283
 msgid "LEN:the number of characters of the string @{s}"
@@ -12156,15 +11677,11 @@ msgstr ""
 "Če je niz @{s} zapisan od desne-proti-levi, so vrnjeni znaki z desne strani."
 
 #: ../plugins/fn-string/functions.c:350
-#, fuzzy
-#| msgid ""
-#| "LEFTB:the first characters  of the string @{s} comprising at most "
-#| "@{num_bytes} bytes"
 msgid ""
 "LEFTB:the first characters of the string @{s} comprising at most "
 "@{num_bytes} bytes"
 msgstr ""
-"LEFTB: prvi znaki niza @{s}, sestavljeni iz ne več kot @{števila bajtov}"
+"LEFTB: prvi znaki niza @{s}, sestavljeni iz ne več kot @{num_bytes} bajtov"
 
 #: ../plugins/fn-string/functions.c:352 ../plugins/fn-string/functions.c:445
 #: ../plugins/fn-string/functions.c:567
@@ -12305,21 +11822,17 @@ msgid "s2:second string"
 msgstr "s2: drugi niz"
 
 #: ../plugins/fn-string/functions.c:640
-#, fuzzy
-#| msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
 msgid "CONCAT:the concatenation of the strings @{s1}, @{s2},…"
-msgstr "CONCATENATE: združevanje izpisa nizov @{s1}, @{s2}, …"
+msgstr "CONCAT: združevanje izpisa nizov @{s1}, @{s2}, …"
 
 #: ../plugins/fn-string/functions.c:645
 msgid "This function is identical to CONCATENATE"
 msgstr "Ta funkcija je identična funkciji CONCATENATE"
 
 #: ../plugins/fn-string/functions.c:659
-#, fuzzy
-#| msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
 msgid ""
 "TEXTJOIN:the concatenation of the strings @{s1}, @{s2},… delimited by @{del}"
-msgstr "CONCATENATE: združevanje izpisa nizov @{s1}, @{s2}, …"
+msgstr "TEXTJOIN: združevanje izpisa nizov @{s1}, @{s2}, … ločenih z @{del}"
 
 #: ../plugins/fn-string/functions.c:660
 msgid "del:delimiter"
@@ -12579,10 +12092,6 @@ msgstr ""
 "širine (enobajtne)."
 
 #: ../plugins/fn-string/functions.c:1534
-#, fuzzy
-#| msgid ""
-#| "ASC converts full-width katakana and ASCII characters to half-width "
-#| "equivalent characters, copying all others. "
 msgid ""
 "ASC converts full-width katakana and ASCII characters to half-width "
 "equivalent characters, copying all others."
@@ -12619,10 +12128,6 @@ msgstr ""
 "širine (dvobajtne)."
 
 #: ../plugins/fn-string/functions.c:1661
-#, fuzzy
-#| msgid ""
-#| "JIS converts half-width katakana and ASCII characters to full-width "
-#| "equivalent characters, copying all others. "
 msgid ""
 "JIS converts half-width katakana and ASCII characters to full-width "
 "equivalent characters, copying all others."
@@ -12734,11 +12239,10 @@ msgid "ordinates:ordinates of the given data"
 msgstr "ordinata: navpične koordinate podanih podatkov"
 
 #: ../plugins/fn-tsa/functions.c:554
-#, fuzzy
-#| msgid "filter:windowing function to  be used, defaults to no filter"
 msgid "filter:windowing function to be used, defaults to no filter"
 msgstr ""
-"filter: uporabljena funkcija podatkovnega okna privzeto določena brez filtra"
+"filter: uporabljena funkcija podatkovnega okna, privzeto je določena brez "
+"filtra"
 
 #: ../plugins/fn-tsa/functions.c:555
 msgid ""
