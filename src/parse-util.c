@@ -1206,7 +1206,7 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 			return start; /* TODO syntax error */
 
 		ref = value_error_name (GNM_ERROR_REF, FALSE);
-		if (strncmp (ptr, ref, strlen (ref)) == 0) {
+		if (g_str_has_prefix (ptr, ref)) {
 			res->a.sheet = invalid_sheet;
 			res->a.col = res->a.row = 0;
 			res->a.col_relative = res->a.row_relative = FALSE;

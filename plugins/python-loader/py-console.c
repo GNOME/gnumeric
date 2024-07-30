@@ -137,7 +137,7 @@ app_cline_entered (GnmPyCommandLine *cline)
 	msg = g_strdup_printf (">>> %s\n", cmd);
 	app_text_print (msg, FORMAT_COMMAND, FALSE);
 	g_free (msg);
-	if (strlen (cmd) != 0)
+	if (*cmd)
 		app_run_string (cmd);
 	g_free (cmd);
 	return;

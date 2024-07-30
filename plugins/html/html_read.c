@@ -265,8 +265,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 					h_buf, doc, (htmlNodePtr)hrefs->data);
 				url = g_strndup (
 					CXML2C (h_buf->content), h_buf->use);
-				if (strncmp (url, "mailto:",
-					     strlen ("mailto:")) == 0)
+				if (g_str_has_prefix (url, "mailto:"))
 					lnk = gnm_hlink_new (
 						gnm_hlink_email_get_type (),
 						tc->sheet);

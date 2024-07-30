@@ -38,13 +38,13 @@ xlsx_read_core_keys (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GValue v = G_VALUE_INIT;
 	int count = 0;
 
-	if (strlen (xin->content->str) == 0)
+	if (*xin->content->str == 0)
 		return;
 
 	orig_strs = strs = g_strsplit (xin->content->str, " ", 0);
 	keywords = gsf_docprop_vector_new ();
 
-	while (strs != NULL && *strs != NULL && strlen (*strs) > 0) {
+	while (strs != NULL && *strs != NULL && **strs) {
 		g_value_init (&v, G_TYPE_STRING);
 		g_value_set_string (&v, *strs);
 		gsf_docprop_vector_append (keywords, &v);

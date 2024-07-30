@@ -161,7 +161,7 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 			gtk_tree_model_get (GTK_TREE_MODEL(state->model), &iter,
 					    FUN_ARG_ENTRY, &argument,
 					    -1);
-			if ((argument == NULL  || g_utf8_strlen (argument, -1) == 0) && arg_num > arg_min) {
+			if ((argument == NULL  || *argument == 0) && arg_num > arg_min) {
 				g_free (argument);
 				break;
 			}
@@ -182,7 +182,7 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 				}
 				gtk_tree_path_free (b);
 			}
-			if (argument && strlen (argument) > 0) {
+			if (argument && *argument) {
 				GnmExprTop const *texpr = gnm_expr_parse_str
 					(argument, state->pos,
 					 GNM_EXPR_PARSE_DEFAULT,
@@ -729,7 +729,7 @@ cb_dialog_formula_guru_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 		return;
 	gtk_tree_store_set (state->model, &iter, FUN_ARG_ENTRY, new_text, -1);
 
-	if (g_utf8_strlen (new_text, -1) > 0)
+	if (*new_text)
 		dialog_formula_guru_adjust_varargs (&iter, state);
 
 

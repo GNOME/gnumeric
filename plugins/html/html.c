@@ -509,7 +509,7 @@ html_write_one_border_style_40 (GsfOutput *output, GnmBorder *border, char const
 {
 	char *text;
 	text = html_get_border_style (border);
-	if (text == NULL || strlen (text) == 0)
+	if (text == NULL || *text == 0)
 		return;
 	gsf_output_printf (output, " %s:%s;", border_name, text);
 	g_free (text);

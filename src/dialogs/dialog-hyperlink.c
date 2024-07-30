@@ -135,7 +135,7 @@ dhl_get_tip (HyperlinkState *state, char const *target)
 
 		tip  = gtk_text_buffer_get_text (tb, &start_iter, &end_iter, FALSE);
 
-		if (tip != NULL && strlen (tip) == 0) {
+		if (tip != NULL && *tip == 0) {
 			g_free (tip);
 			tip = NULL;
 		}
@@ -160,7 +160,7 @@ dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 	GnmValue *val;
 
 	*success = FALSE;
-	if (strlen (target) == 0) {
+	if (*target == 0) {
 		*success = TRUE;
 	} else {
 		val = gnm_expr_entry_parse_as_value (gee, sheet);
@@ -203,7 +203,7 @@ dhl_get_target_external (HyperlinkState *state, gboolean *success)
 	const char *target = gtk_entry_get_text (GTK_ENTRY (w));
 
 	*success = TRUE;
-	return strlen (target) > 0 ? g_strdup (target) : NULL;
+	return target[0] ? g_strdup (target) : NULL;
 }
 
 static void
@@ -218,7 +218,7 @@ dhl_set_target_email (HyperlinkState *state, const char* const target)
 	if (!target || *target == '\0')
 		return;
 
-	if( strncmp (target, "mailto:", strlen ("mailto:")) != 0)
+	if (g_str_has_prefix (target, "mailto:"))
 		return;
 
 	cursor = g_strdup (target + strlen ("mailto:"));
@@ -286,7 +286,7 @@ dhl_get_target_url (HyperlinkState *state, gboolean *success)
 	const char *target = gtk_entry_get_text (GTK_ENTRY (w));
 
 	*success = TRUE;
-	return strlen (target) > 0 ? g_strdup (target) : NULL;
+	return target[0] ? g_strdup (target) : NULL;
 }
 
 static struct {

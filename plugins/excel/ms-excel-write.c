@@ -2602,7 +2602,7 @@ formats_init (XLExportBase *ewb)
 	/* Add built-in formats to format table */
 	for (i = 0; i < EXCEL_BUILTIN_FORMAT_LEN; i++) {
 		fmt = excel_builtin_formats[i];
-		if (!fmt || strlen (fmt) == 0)
+		if (!fmt || *fmt == 0)
 			fmt = "General";
 		two_way_table_put (ewb->formats.two_way_table,
 				   go_format_new_from_XL (fmt),

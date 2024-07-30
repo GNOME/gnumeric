@@ -72,7 +72,7 @@ text_matches (GnmCompleteSheet const *cs)
 		return FALSE;
 
 	text = value_peek_string (cs->cell->value);
-	if (strncmp (text, complete->text, strlen (complete->text)) != 0)
+	if (!g_str_has_prefix (text, complete->text))
 		return FALSE;
 
 	(*complete->notify)(text, complete->notify_closure);
@@ -89,7 +89,7 @@ complete_sheet_search_iteration (GnmComplete *complete)
 	    gnm_conf_get_core_gui_editing_autocomplete_min_chars ())
 		return FALSE;
 
-	if (strncmp (cs->current_text, complete->text, strlen (cs->current_text)) != 0)
+	if (!g_str_has_prefix (cs->current_text, complete->text))
 		search_strategy_reset_search (cs);
 
 	for (i = 0; i < SEARCH_STEPS; i++) {

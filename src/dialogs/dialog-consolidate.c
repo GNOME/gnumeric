@@ -99,7 +99,7 @@ adjust_source_areas (ConsolidateState *state)
 					    &iter,
 					    SOURCE_COLUMN, &source,
 					    -1);
-			if (strlen(source) == 0)
+			if (*source == 0)
 				cnt_empty--;
 			g_free (source);
 		} while (gtk_tree_model_iter_next
@@ -180,7 +180,7 @@ construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 				    &iter,
 				    SOURCE_COLUMN, &source,
 				    -1);
-		if (strlen(source) != 0) {
+		if (*source) {
 			range_value = value_new_cellrange_str (state->base.sheet, source);
 
 			if (range_value == NULL) {

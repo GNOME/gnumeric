@@ -108,7 +108,7 @@ autocorrect_initial_caps (const char *src)
 
 				for (l = gnm_conf_get_autocorrect_init_caps_list (); l; l = l->next) {
 					const char *except = l->data;
-					if (strncmp (begin, except, strlen (except)) == 0) {
+					if (g_str_has_prefix (begin, except)) {
 						exception_found = TRUE;
 						break;
 					}

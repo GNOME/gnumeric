@@ -385,7 +385,7 @@ utf8_content_received (GtkClipboard *clipboard, const gchar *text,
 	GnmCellRegion *content = NULL;
 
 	/* Nothing on clipboard? */
-	if (!text || strlen(text) == 0) {
+	if (!text || *text == 0) {
 		;
 	} else {
 		content = text_to_cell_region (wbcg, text, strlen(text), "UTF-8", TRUE);

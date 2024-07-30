@@ -622,13 +622,13 @@ gnm_stf_get_stfe (GObject *obj)
 			GNM_STF_TRANSLITERATE_MODE_TRANS : GNM_STF_TRANSLITERATE_MODE_ESCAPE;
 		GString *triggers = g_string_new (NULL);
 
-		if (strlen (locale) == 0)
+		if (*locale == 0)
 			locale = NULL;
-		if (strlen (encoding) == 0)
+		if (*encoding == 0)
 			encoding = NULL;
 
 		/* Workaround GConf bug #641807. */
-		if (terminator == NULL || strlen (terminator) == 0)
+		if (terminator == NULL || *terminator == 0)
 			terminator = "\n";
 
 		if (quotingmode == GSF_OUTPUT_CSV_QUOTING_MODE_AUTO) {
