@@ -1173,7 +1173,6 @@ sv_selection_apply_in_order (SheetView *sv, SelectionApplyFunc const func,
 char *
 selection_to_string (SheetView *sv, gboolean include_sheet_name_prefix)
 {
-	char    *output;
 	selection_to_string_closure res;
 
 	res.str = g_string_new (NULL);
@@ -1181,9 +1180,7 @@ selection_to_string (SheetView *sv, gboolean include_sheet_name_prefix)
 
 	sv_selection_apply_in_order (sv, &cb_range_to_string, &res);
 
-	output = res.str->str;
-	g_string_free (res.str, FALSE);
-	return output;
+	return g_string_free (res.str, FALSE);
 }
 
 /**
