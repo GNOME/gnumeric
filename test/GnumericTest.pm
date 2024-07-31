@@ -739,7 +739,17 @@ sub test_valgrind {
     local (%ENV) = %ENV;
     $ENV{'G_DEBUG'} .= ':gc-friendly:resident-modules';
     $ENV{'G_SLICE'} = 'always-malloc';
+
+    # Turn off python's crazy malloc that likes to read memory it does
+    # not own.  That will trigger valgrind complaints (or spurious
+    # breakpoints in gdb, for example).
     $ENV{'PYTHONMALLOC'} = 'malloc';
+
+    # Turn off avx versions of libc functions.  Those have a bad habit
+    # of reading beyond the end of the string in a way that tickles
+    # valgrind
+    $ENV{'GLIBC_TUNABLES'} = 'glibc.cpu.hwcaps=-AVX2,-AVX';
+
     delete $ENV{'VALGRIND_OPTS'};
 
     my $outfile = 'valgrind.log';
@@ -776,6 +786,8 @@ sub test_valgrind {
     $cmd = "--leak-check=full $cmd";
     $cmd = "--num-callers=20 $cmd";
     $cmd = "--track-fds=yes $cmd";
+    $cmd = "--enable-debuginfod=yes $cmd";
+
     if ($valhelp =~ /--log-file-exactly=/) {
 	$cmd = "--log-file-exactly=$outfile $cmd";
     } else {
