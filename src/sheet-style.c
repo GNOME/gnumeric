@@ -377,9 +377,10 @@ typedef CELL_TILE_STRUCT(1) CellTileSimple;
 typedef CELL_TILE_STRUCT(TILE_X_SIZE) CellTileCol;
 typedef CELL_TILE_STRUCT(TILE_Y_SIZE) CellTileRow;
 typedef CELL_TILE_STRUCT(TILE_XY_SIZE) CellTileMatrix;
+typedef CELL_TILE_STRUCT(/* unsized */) CellTileAny;
 
 union _CellTile {
-	CellTileMatrix	any;
+	CellTileAny     any;
 	CellTileSimple	simple;
 	CellTileCol	col;
 	CellTileRow	row;
@@ -417,7 +418,8 @@ tile_nth_style (CellTile const *tile, guint n)
 static inline void
 tile_set_nth_style (CellTile *tile, guint n, GnmStyle *st)
 {
-	tile->any.ptrs[n] = (char*)st + 1;
+	CellTileAny *any = (CellTileAny *)tile;
+	any->ptrs[n] = (char*)st + 1;
 }
 
 static inline void
@@ -578,13 +580,15 @@ static CellTile *
 cell_tile_new (CellTileType t, int x, int y, int w, int h)
 {
 	CellTile *res;
+	CellTileAny *any;
 
 	res = CHUNK_ALLOC (CellTile, t);
-	res->any.type = t;
-	res->any.x = x;
-	res->any.y = y;
-	res->any.w = w;
-	res->any.h = h;
+	any = &res->any;
+	any->type = t;
+	any->x = x;
+	any->y = y;
+	any->w = w;
+	any->h = h;
 
 	return res;
 }
@@ -3188,10 +3192,12 @@ cell_tile_optimize (CellTile **tile, CellTileOptimize *data)
 			// further changed into a direct style one level up.
 			CellTile *res = cell_tile_new_like (TILE_SIMPLE, *tile);
 			tile_set_nth_style_link (res, 0, st0);
-			if (debug_style_optimize)
+			if (debug_style_optimize) {
+				CellTileAny const *any = &res->any;
 				g_printerr ("Turning %s into a %s\n",
 					    tile_describe (*tile),
-					    tile_type_str[res->any.type]);
+					    tile_type_str[any->type]);
+			}
 			cell_tile_dtor (*tile);
 			*tile = res;
 			return;
