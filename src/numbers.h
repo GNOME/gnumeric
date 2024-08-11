@@ -50,6 +50,9 @@ typedef long double gnm_float;
 #define GNM_const(_c)	_c ## L
 #define GNM_SUFFIX(x) x ## l
 #define GNM_RADIX       FLT_RADIX
+#define GNM_MAX_10_EXP	LDBL_MAX_10_EXP
+#define GNM_MIN_10_EXP	LDBL_MIN_10_EXP
+#define GNM_MIN_DEN_10_EXP	-4950
 
 #define gnm_lgamma_r lgammal_r
 #define gnm_strto go_strtold
@@ -79,6 +82,9 @@ typedef _Decimal64 gnm_float;
 #define GNM_const(_c)	_c ## dd
 #define GNM_SUFFIX(x) x ## D
 #define GNM_RADIX       10
+#define GNM_MAX_10_EXP	DECIMAL64_MAX_10_EXP
+#define GNM_MIN_10_EXP	DECIMAL64_MIN_10_EXP
+#define GNM_MIN_DEN_10_EXP	-398
 
 #define gnm_lgamma_r lgammaD_r
 #define gnm_strto go_strtoDd
@@ -107,6 +113,9 @@ typedef double gnm_float;
 #define GNM_const(_c)	_c
 #define GNM_SUFFIX(x) x
 #define GNM_RADIX       FLT_RADIX
+#define GNM_MAX_10_EXP	DBL_MAX_10_EXP
+#define GNM_MIN_10_EXP	DBL_MIN_10_EXP
+#define GNM_MIN_DEN_10_EXP	-323
 
 #define gnm_lgamma_r lgamma_r
 #define gnm_strto go_strtod

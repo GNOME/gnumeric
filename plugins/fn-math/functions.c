@@ -1999,7 +1999,7 @@ static GnmFuncHelp const help_trunc[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, "=TRUNC(35.12)"},
 	{ GNM_FUNC_HELP_EXAMPLES, "=TRUNC(43.15,1)"},
 	{ GNM_FUNC_HELP_EXAMPLES, "=TRUNC(43.15,-1)"},
-	{ GNM_FUNC_HELP_SEEALSO, "INT"},
+	{ GNM_FUNC_HELP_SEEALSO, "INT,CEIL,ROUNDDOWN,ROUNDUP,ROUND,FLOOR,CEILING"},
 	{ GNM_FUNC_HELP_END}
 };
 
@@ -2009,16 +2009,25 @@ gnumeric_trunc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float number = value_get_as_float (argv[0]);
 	gnm_float digits = argv[1] ? value_get_as_float (argv[1]) : 0;
 
+	digits = gnm_trunc (digits);
 	if (digits >= 0) {
-		if (digits <= GNM_MAX_EXP) {
+		if (digits <= GNM_MAX_10_EXP) {
 			gnm_float p10 = gnm_pow10 ((int)digits);
-			number = gnm_fake_trunc (number * p10) / p10;
-		}
+			return ((gnm_finite (number * p10))
+				? value_new_float (gnm_fake_trunc (number * p10) / p10)
+				: value_new_float (number));
+		} else if (digits <= -GNM_MIN_DEN_10_EXP) {
+			gnm_float p10n = gnm_pow10 ((int)-digits);
+			return ((gnm_finite (number / p10n))
+				? value_new_float (gnm_fake_trunc (number / p10n) * p10n)
+				: value_new_float (number));
+		} else
+			; // do nothing, keep number
 	} else {
-		if (digits >= GNM_MIN_EXP) {
+		if (digits >= -GNM_MAX_10_EXP) {
 			/* Keep p10 integer.  */
-			gnm_float p10 = gnm_pow10 ((int)-digits);
-			number = gnm_fake_trunc (number / p10) * p10;
+			gnm_float p10n = gnm_pow10 ((int)-digits);
+			number = gnm_fake_trunc (number / p10n) * p10n;
 		} else
 			number = 0;
 	}
@@ -2277,7 +2286,7 @@ static GnmFuncHelp const help_round[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, "=ROUND(-3.3)"},
 	{ GNM_FUNC_HELP_EXAMPLES, "=ROUND(1501.15,1)"},
 	{ GNM_FUNC_HELP_EXAMPLES, "=ROUND(1501.15,-2)"},
-	{ GNM_FUNC_HELP_SEEALSO, "ROUNDDOWN,ROUNDUP"},
+	{ GNM_FUNC_HELP_SEEALSO, "INT,CEIL,TRUNC,ROUNDDOWN,ROUNDUP,FLOOR,CEILING"},
 	{ GNM_FUNC_HELP_END}
 };
 
@@ -2287,23 +2296,32 @@ gnumeric_round (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float number = value_get_as_float (argv[0]);
 	gnm_float digits = argv[1] ? value_get_as_float (argv[1]) : 0;
 
+	digits = gnm_trunc (digits);
 	if (digits >= 0) {
-		gnm_float p10 = (digits <= INT_MAX
-				 ? gnm_pow10 ((int)digits)
-				 : gnm_pinf);
-		gnm_float y = number * p10;
-		if (gnm_finite (y))
-			number = gnm_fake_round (y) / p10;
-		else
-			; // nothing -- keep number
+		if (digits <= GNM_MAX_10_EXP) {
+			gnm_float p10 = gnm_pow10((int)digits);
+			return ((gnm_finite (number * p10))
+				? value_new_float (gnm_fake_round (number * p10) / p10)
+				: value_new_float (number));
+		} else if (digits <= -GNM_MIN_DEN_10_EXP) {
+			gnm_float p10n = gnm_pow10(-(int)digits);
+			return ((gnm_finite (number / p10n))
+				? value_new_float (gnm_fake_round (number / p10n) * p10n)
+				: value_new_float (number));
+		} else
+			; // do nothing, keep number
 	} else {
-		gnm_float p10 = (-digits <= INT_MAX
+		gnm_float p10n = (-digits <= INT_MAX
 				 ? gnm_pow10 ((int)-digits)
 				 : gnm_pinf);
-		if (gnm_finite (p10)) {
-			number = gnm_fake_round (number / p10) * p10;
+		if (gnm_finite (p10n)) {
+			number = gnm_fake_round (number / p10n) * p10n;
 		} else
-			number = 0;
+			number = gnm_abs (number) >= (GNM_const (5.0) * gnm_pow10(-(int)digits - 1))
+				? number >= 0
+					?  p10n
+					: -p10n
+				: 0;
 	}
 
 	return value_new_float (number);
@@ -2323,7 +2341,7 @@ static GnmFuncHelp const help_roundup[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, "=ROUNDUP(-3.3)"},
 	{ GNM_FUNC_HELP_EXAMPLES, "=ROUNDUP(1501.15,1)"},
 	{ GNM_FUNC_HELP_EXAMPLES, "=ROUNDUP(1501.15,-2)"},
-	{ GNM_FUNC_HELP_SEEALSO, "ROUND,ROUNDDOWN,INT"},
+	{ GNM_FUNC_HELP_SEEALSO, "INT,CEIL,TRUNC,ROUNDDOWN,ROUND,FLOOR,CEILING"},
 	{ GNM_FUNC_HELP_END}
 };
 
@@ -2339,18 +2357,37 @@ gnumeric_roundup (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float number = value_get_as_float (argv[0]);
 	gnm_float digits = argv[1] ? value_get_as_float (argv[1]) : 0;
 
+	digits = gnm_trunc (digits);
+	if (number == 0)
+		return value_new_float (number);
+
 	if (digits >= 0) {
-		if (digits <= GNM_MAX_EXP) {
+		if (digits <= GNM_MAX_10_EXP) {
 			gnm_float p10 = gnm_pow10 ((int)digits);
-			number = gnm_fake_roundup (number * p10) / p10;
-		}
-	} else {
-		if (digits >= GNM_MIN_EXP) {
-			/* Keep p10 integer.  */
-			gnm_float p10 = gnm_pow10 ((int)-digits);
-			number = gnm_fake_roundup (number / p10) * p10;
+			return ((gnm_finite (number * p10))
+				? value_new_float (gnm_fake_roundup (number * p10) / p10)
+				: value_new_float (number));
+		} else if (digits <= -GNM_MIN_DEN_10_EXP) {
+			gnm_float p10n = gnm_pow10 ((int)-digits);
+			return ((gnm_finite (number / p10n))
+				? value_new_float (gnm_fake_roundup (number / p10n) * p10n)
+				: value_new_float (number));
 		} else
-			number = 0;
+			; // do nothing, keep number
+	} else {
+		if (digits >= -GNM_MAX_10_EXP) {
+			/* Keep p10 integer.  */
+			gnm_float p10n = gnm_pow10 ((int)-digits);
+			number = gnm_abs (number) > p10n
+				? gnm_fake_roundup (number / p10n) * p10n
+				: number > 0
+					?  p10n
+					: -p10n;
+		} else {
+			number = number > 0
+				? gnm_pinf
+				: gnm_ninf;
+		}
 	}
 
 	return value_new_float (number);

@@ -1,3 +1,7 @@
+2024-04-29  b.s. <newbie-02 (at) gmx (dot) de>
+
+	* src/numbers.h: add '~10_EXP' definitions,
+
 2024-04-10  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (entry_to_float_with_format): With general

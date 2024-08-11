@@ -1,7 +1,9 @@
 Gnumeric 1.12.58
 
-B.S.:
+b.s.:
 	* Fix long-double version of FLT.NEXTAFTER.
+	* cover denormals and excessive digits for TRUNC, ROUNDDOWN,
+	  ROUNDUP and ROUND.  [#770]
 
 Morten:
 	* Fix xlsx import problem with broken file.  [#763]

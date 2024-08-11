@@ -1,3 +1,8 @@
+2024-04-29  b.s. <newbie-02 (at) gmx (dot) de>
+
+	* functions.c (gnumeric_round, gnumeric_trunc, gnumeric_roundup)
+	(gnumeric_rounddown): cover denormals and excessive digits.
+
 2024-02-11  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.57
