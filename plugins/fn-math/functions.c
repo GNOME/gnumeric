@@ -2003,36 +2003,129 @@ static GnmFuncHelp const help_trunc[] = {
 	{ GNM_FUNC_HELP_END}
 };
 
-static GnmValue *
-gnumeric_trunc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+static void
+digit_counts (gnm_float x, int *pa, int *pb, int *pc)
 {
-	gnm_float number = value_get_as_float (argv[0]);
-	gnm_float digits = argv[1] ? value_get_as_float (argv[1]) : 0;
+	// Case 1: |x| >= 1:
+	//    ddddddddd.ddddddddddd
+	//    <---a---> <----c---->    b=0
+	// Case 2: |x| < 1:
+	//    0.000000000ddddddddddd
+	//      <---b---><----c---->   a=0
 
-	digits = gnm_trunc (digits);
+	int e;
+
+	*pa = *pb = *pc = 0;
+	g_return_if_fail (gnm_finite (x) && x != 0);
+
+	x = gnm_abs (x);
+	(void)gnm_unscalbn (x, &e);
+	if (x >= 1) {
+		// Case 1
+		*pa = e;
+#if GNM_RADIX == 2 && GNM_MANT_DIG <= 64
+		guint64 ml = (guint64)(gnm_scalbn (x - gnm_floor (x), 64));
+		*pc = ml ? 64 - __builtin_ctzl (ml) : 0;
+#elif GNM_RADIX == 10 && GNM_MANT_DIG <= 19
+		// Untested
+		guint64 ml = (guint64)(gnm_scalbn (x - gnm_floor (x), 19));
+		if (ml) {
+			*pc = 19;
+			while (ml % 10u == 0)
+				ml /= 10u, (*pc)--;
+		}
+#else
+#error "New code needed"
+#endif
+	} else {
+		// Case 2
+		*pb = -e - 1;
+#if GNM_RADIX == 2 && GNM_MANT_DIG <= 64
+		guint64 ml = (guint64)(gnm_scalbn (x, 64 + (e - 1)));
+		*pc = ml ? 64 - __builtin_ctzl (ml) : 0;
+#elif GNM_RADIX == 10 && GNM_MANT_DIG <= 19
+		// Untested
+		guint64 ml = (guint64)(gnm_scalbn (x, 19 + (e - 1)));
+		if (ml) {
+			*pc = 19;
+			while (ml % 10u == 0)
+				ml /= 10u, (*pc)--;
+		}
+#else
+#error "New code needed"
+#endif
+	}
+}
+
+
+static gnm_float
+gnm_trunc_digits (gnm_float x, int digits)
+{
+	static int dmax = -1;
+
+	if (x == 0 || !gnm_finite (x))
+		return x;
+
+	if (dmax == -1) {
+		gnm_float l10 = gnm_log10 (GNM_RADIX);
+		dmax = (int)gnm_ceil (GNM_MANT_DIG * l10) +
+			(l10 == (int)l10 ? 0 : 1);
+		// binary64 (double): 17
+		// binary80 (long double): 20
+		// decimal64 (_Decimal64): 16
+	}
+
 	if (digits >= 0) {
-		if (digits <= GNM_MAX_10_EXP) {
-			gnm_float p10 = gnm_pow10 ((int)digits);
-			return ((gnm_finite (number * p10))
-				? value_new_float (gnm_fake_trunc (number * p10) / p10)
-				: value_new_float (number));
-		} else if (digits <= -GNM_MIN_DEN_10_EXP) {
-			gnm_float p10n = gnm_pow10 ((int)-digits);
-			return ((gnm_finite (number / p10n))
-				? value_new_float (gnm_fake_trunc (number / p10n) * p10n)
-				: value_new_float (number));
-		} else
-			; // do nothing, keep number
+		// Truncate after <digits> decimals
+
+		int a, b, c;
+		digit_counts (x, &a, &b, &c);
+		// g_printerr ("%.20g  %d %d %d\n", x, a, b, c);
+		// In the following cases we avoid producing a power of 10
+		// that may not be accurate.
+		if (digits >= b + c)
+			return x; // Every truncated digit is 0
+		if (digits >= b + dmax)
+			return x; // Truncation too small to matter
+
+#if GNM_RADIX == 10
+		// Untested
+		gnm_float xp10 = gnm_scalbn (x, digits);
+		return gnm_finite (xp10)
+			? gnm_scalbn (gnm_fake_trunc (xp10), -digits)
+			: x;
+#else
+		// Calculate 10^digits as p10a * p10b where the latter
+		// is most often just 1.  This avoids overflow within the
+		// range we care about and when p10b is 1 it will not
+		// affect accuracy.
+		gnm_float p10a = gnm_pow10 (MIN (digits, GNM_MAX_10_EXP));
+		gnm_float p10b = gnm_pow10 (MAX (0, digits - GNM_MAX_10_EXP));
+		gnm_float xp10 = (x * p10b) * p10a;
+		return gnm_finite (xp10)
+			? (gnm_fake_trunc (xp10) / p10b) / p10a
+			: x;
+#endif
 	} else {
 		if (digits >= -GNM_MAX_10_EXP) {
 			/* Keep p10 integer.  */
 			gnm_float p10n = gnm_pow10 ((int)-digits);
-			number = gnm_fake_trunc (number / p10n) * p10n;
+			return gnm_fake_trunc (x / p10n) * p10n;
 		} else
-			number = 0;
+			return 0;
 	}
+}
 
-	return value_new_float (number);
+
+static GnmValue *
+gnumeric_trunc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float digits = argv[1] ? value_get_as_float (argv[1]) : 0;
+	int idigits;
+
+	idigits = (int)CLAMP(digits, G_MININT, G_MAXINT);
+	return value_new_float (gnm_trunc_digits (x, idigits));
 }
 
 /***************************************************************************/

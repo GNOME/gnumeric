@@ -1,3 +1,11 @@
+2024-08-13  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnm_trunc_digits): Split out from gnumeric_trunc so
+	as not to fix the computation and the interface to Gnumeric's
+	values.  Avoid denormal powers of 10.  Ensure that truncating,
+	say, sqrt(2) to 53 decimals, doesn't actually change anything
+	due to internal rounding errors.
+
 2024-04-29  b.s. <newbie-02 (at) gmx (dot) de>
 
 	* functions.c (gnumeric_round, gnumeric_trunc, gnumeric_roundup)
