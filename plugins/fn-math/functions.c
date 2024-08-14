@@ -2057,6 +2057,40 @@ digit_counts (gnm_float x, int *pa, int *pb, int *pc)
 	}
 }
 
+// Calculate 10^d as f1*f2 where the latter is most often just 1.
+// This avoids overflow within the range we care about and when f2 is 1
+// it will not affect accuracy.
+static void
+gnm_pow10_dual (int d, gnm_float *f1, gnm_float *f2)
+{
+	g_assert (GNM_RADIX == 2);
+	g_return_if_fail (d >= 0);
+
+	if (d <= GNM_MAX_10_EXP) {
+		*f1 = gnm_pow10 (d);
+		*f2 = 1;
+	} else if (GNM_MANT_DIG == 53) {
+		// "double" case with d large enough that 10^d would overflow.
+		//
+		// By a stroke of luck, 10^303 is much more accurately
+		// representable as a double than other useful powers
+		// of 10.  Except the range 0..22, of course.  Anyway,
+		// spitting at 303 nearly eliminates the representation
+		// error for the powers of 10.
+		//
+		// 10^303's bit pattern is
+		//    1.01110...011001|111111111100 * 2^1006
+		// where "|" indicates where a double cuts off
+		*f1 = gnm_pow10 (d - 303);
+		*f2 = GNM_const(1e303);
+	} else {
+		*f1 = gnm_pow10 (MIN (d, GNM_MAX_10_EXP));
+		*f2 = gnm_pow10 (MAX (0, d - GNM_MAX_10_EXP));
+	}
+}
+
+
+
 
 static gnm_float
 gnm_trunc_digits (gnm_float x, int digits)
@@ -2095,12 +2129,8 @@ gnm_trunc_digits (gnm_float x, int digits)
 			? gnm_scalbn (gnm_fake_trunc (xp10), -digits)
 			: x;
 #else
-		// Calculate 10^digits as p10a * p10b where the latter
-		// is most often just 1.  This avoids overflow within the
-		// range we care about and when p10b is 1 it will not
-		// affect accuracy.
-		gnm_float p10a = gnm_pow10 (MIN (digits, GNM_MAX_10_EXP));
-		gnm_float p10b = gnm_pow10 (MAX (0, digits - GNM_MAX_10_EXP));
+		gnm_float p10a, p10b;
+		gnm_pow10_dual (digits, &p10a, &p10b);
 		gnm_float xp10 = (x * p10b) * p10a;
 		return gnm_finite (xp10)
 			? (gnm_fake_trunc (xp10) / p10b) / p10a
