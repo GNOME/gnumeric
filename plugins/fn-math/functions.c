@@ -49,6 +49,13 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
+
+// binary64 (double): 17
+// binary80 (long double): 20
+// decimal64 (_Decimal64): 16
+static int dmax = -1;
+
+
 #define FUNCTION_A_DESC   GNM_FUNC_HELP_DESCRIPTION, F_("Numbers, text and logical values are "	\
 							"included in the calculation too. If the cell contains text or " \
 							"the argument evaluates to FALSE, it is counted as value zero (0). " \
@@ -2039,15 +2046,17 @@ digit_counts (gnm_float x, int *pa, int *pb, int *pc)
 #endif
 	} else {
 		// Case 2
-		*pb = -e - 1;
+		*pb = -(int)gnm_ilog (x, 10) - 1;
 #if GNM_RADIX == 2 && GNM_MANT_DIG <= 64
-		guint64 ml = (guint64)(gnm_scalbn (x, 64 + (e - 1)));
-		*pc = ml ? 64 - __builtin_ctzl (ml) : 0;
+		guint64 ml = (guint64)(gnm_scalbn (x, 64 - e - 1));
+		g_return_if_fail (ml != 0);
+		*pc = -e - 1 + (64 - __builtin_ctzl (ml)) - *pb;
 #elif GNM_RADIX == 10 && GNM_MANT_DIG <= 19
 		// Untested
-		guint64 ml = (guint64)(gnm_scalbn (x, 19 + (e - 1)));
+		guint64 ml = (guint64)(gnm_scalbn (x, 19 - e - 1));
+		g_return_if_fail (ml != 0);
 		if (ml) {
-			*pc = 19;
+			*pc = -e - 1 + 19 - *pb;
 			while (ml % 10u == 0)
 				ml /= 10u, (*pc)--;
 		}
@@ -2089,28 +2098,15 @@ gnm_pow10_dual (int d, gnm_float *f1, gnm_float *f2)
 	}
 }
 
-
-
-
 static gnm_float
-gnm_trunc_digits (gnm_float x, int digits)
+gnm_digit_rounder (gnm_float x, int digits, gnm_float (*func) (gnm_float),
+		   int typ)
 {
-	static int dmax = -1;
-
 	if (x == 0 || !gnm_finite (x))
 		return x;
 
-	if (dmax == -1) {
-		gnm_float l10 = gnm_log10 (GNM_RADIX);
-		dmax = (int)gnm_ceil (GNM_MANT_DIG * l10) +
-			(l10 == (int)l10 ? 0 : 1);
-		// binary64 (double): 17
-		// binary80 (long double): 20
-		// decimal64 (_Decimal64): 16
-	}
-
 	if (digits >= 0) {
-		// Truncate after <digits> decimals
+		// Round to <digits> decimals according to func
 
 		int a, b, c;
 		digit_counts (x, &a, &b, &c);
@@ -2118,31 +2114,53 @@ gnm_trunc_digits (gnm_float x, int digits)
 		// In the following cases we avoid producing a power of 10
 		// that may not be accurate.
 		if (digits >= b + c)
-			return x; // Every truncated digit is 0
+			return x; // Every rounded digit is 0
 		if (digits >= b + dmax)
-			return x; // Truncation too small to matter
+			return x; // Rounding too small to matter
 
 #if GNM_RADIX == 10
 		// Untested
 		gnm_float xp10 = gnm_scalbn (x, digits);
 		return gnm_finite (xp10)
-			? gnm_scalbn (gnm_fake_trunc (xp10), -digits)
+			? gnm_scalbn (func (xp10), -digits)
 			: x;
 #else
 		gnm_float p10a, p10b;
 		gnm_pow10_dual (digits, &p10a, &p10b);
 		gnm_float xp10 = (x * p10b) * p10a;
 		return gnm_finite (xp10)
-			? (gnm_fake_trunc (xp10) / p10b) / p10a
+			? (func (xp10) / p10b) / p10a
 			: x;
 #endif
 	} else {
+		// Round to -<digits> before decimal point according to func
+
 		if (digits >= -GNM_MAX_10_EXP) {
 			/* Keep p10 integer.  */
-			gnm_float p10n = gnm_pow10 ((int)-digits);
-			return gnm_fake_trunc (x / p10n) * p10n;
-		} else
-			return 0;
+			gnm_float p10n = gnm_pow10 (-digits);
+			return func (x / p10n) * p10n;
+		} else {
+			gboolean up;
+			switch (typ) {
+			case 0: // truncate
+				up = FALSE;
+				break;
+			case 1: // round to nearest
+				up = (digits == -(GNM_MAX_10_EXP + 1) &&
+				      gnm_abs (x) >= 5 * gnm_pow10 (-digits - 1));
+				break;
+			case 2: // round up
+				up = TRUE;
+				break;
+			default:
+				g_assert_not_reached();
+			}
+
+			if (up)
+				return x >= 0 ? gnm_pinf : gnm_ninf;
+			else
+				return 0;
+		}
 	}
 }
 
@@ -2152,10 +2170,12 @@ gnumeric_trunc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float digits = argv[1] ? value_get_as_float (argv[1]) : 0;
+	gnm_float y;
 	int idigits;
 
-	idigits = (int)CLAMP(digits, G_MININT, G_MAXINT);
-	return value_new_float (gnm_trunc_digits (x, idigits));
+	idigits = (int)CLAMP(digits, -G_MAXINT, G_MAXINT);
+	y = gnm_digit_rounder (x, idigits, gnm_fake_trunc, 0);
+	return value_new_float (y);
 }
 
 /***************************************************************************/
@@ -2416,38 +2436,14 @@ static GnmFuncHelp const help_round[] = {
 static GnmValue *
 gnumeric_round (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float number = value_get_as_float (argv[0]);
+	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float digits = argv[1] ? value_get_as_float (argv[1]) : 0;
+	gnm_float y;
+	int idigits;
 
-	digits = gnm_trunc (digits);
-	if (digits >= 0) {
-		if (digits <= GNM_MAX_10_EXP) {
-			gnm_float p10 = gnm_pow10((int)digits);
-			return ((gnm_finite (number * p10))
-				? value_new_float (gnm_fake_round (number * p10) / p10)
-				: value_new_float (number));
-		} else if (digits <= -GNM_MIN_DEN_10_EXP) {
-			gnm_float p10n = gnm_pow10(-(int)digits);
-			return ((gnm_finite (number / p10n))
-				? value_new_float (gnm_fake_round (number / p10n) * p10n)
-				: value_new_float (number));
-		} else
-			; // do nothing, keep number
-	} else {
-		gnm_float p10n = (-digits <= INT_MAX
-				 ? gnm_pow10 ((int)-digits)
-				 : gnm_pinf);
-		if (gnm_finite (p10n)) {
-			number = gnm_fake_round (number / p10n) * p10n;
-		} else
-			number = gnm_abs (number) >= (GNM_const (5.0) * gnm_pow10(-(int)digits - 1))
-				? number >= 0
-					?  p10n
-					: -p10n
-				: 0;
-	}
-
-	return value_new_float (number);
+	idigits = (int)CLAMP(digits, -G_MAXINT, G_MAXINT);
+	y = gnm_digit_rounder (x, idigits, gnm_fake_round, 1);
+	return value_new_float (y);
 }
 
 /***************************************************************************/
@@ -2477,43 +2473,14 @@ gnm_fake_roundup (gnm_float x)
 static GnmValue *
 gnumeric_roundup (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float number = value_get_as_float (argv[0]);
+	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float digits = argv[1] ? value_get_as_float (argv[1]) : 0;
+	gnm_float y;
+	int idigits;
 
-	digits = gnm_trunc (digits);
-	if (number == 0)
-		return value_new_float (number);
-
-	if (digits >= 0) {
-		if (digits <= GNM_MAX_10_EXP) {
-			gnm_float p10 = gnm_pow10 ((int)digits);
-			return ((gnm_finite (number * p10))
-				? value_new_float (gnm_fake_roundup (number * p10) / p10)
-				: value_new_float (number));
-		} else if (digits <= -GNM_MIN_DEN_10_EXP) {
-			gnm_float p10n = gnm_pow10 ((int)-digits);
-			return ((gnm_finite (number / p10n))
-				? value_new_float (gnm_fake_roundup (number / p10n) * p10n)
-				: value_new_float (number));
-		} else
-			; // do nothing, keep number
-	} else {
-		if (digits >= -GNM_MAX_10_EXP) {
-			/* Keep p10 integer.  */
-			gnm_float p10n = gnm_pow10 ((int)-digits);
-			number = gnm_abs (number) > p10n
-				? gnm_fake_roundup (number / p10n) * p10n
-				: number > 0
-					?  p10n
-					: -p10n;
-		} else {
-			number = number > 0
-				? gnm_pinf
-				: gnm_ninf;
-		}
-	}
-
-	return value_new_float (number);
+	idigits = (int)CLAMP(digits, -G_MAXINT, G_MAXINT);
+	y = gnm_digit_rounder (x, idigits, gnm_fake_roundup, 2);
+	return value_new_float (y);
 }
 
 /***************************************************************************/
@@ -4007,6 +3974,10 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 			  "derivative", G_CALLBACK (gnumeric_exp_deriv), NULL);
 	g_signal_connect (gnm_func_lookup ("ln", NULL),
 			  "derivative", G_CALLBACK (gnumeric_ln_deriv), NULL);
+
+	gnm_float l10 = gnm_log10 (GNM_RADIX);
+	dmax = (int)gnm_ceil (GNM_MANT_DIG * l10) +
+		(l10 == (int)l10 ? 0 : 1);
 }
 
 G_MODULE_EXPORT void
