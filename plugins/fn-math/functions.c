@@ -2029,7 +2029,7 @@ digit_counts (gnm_float x, int *pa, int *pb, int *pc)
 	(void)gnm_unscalbn (x, &e);
 	if (x >= 1) {
 		// Case 1
-		*pa = e;
+		*pa = e;  // Not actually right unless base==10
 #if GNM_RADIX == 2 && GNM_MANT_DIG <= 64
 		guint64 ml = (guint64)(gnm_scalbn (x - gnm_floor (x), 64));
 		*pc = ml ? 64 - __builtin_ctzl (ml) : 0;
