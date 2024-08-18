@@ -2193,24 +2193,19 @@ static GnmFuncHelp const help_even[] = {
 static GnmValue *
 gnumeric_even (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float number, ceiled;
-	int     sign = 1;
+	gnm_float x = value_get_as_float (argv[0]);
 
-	number = value_get_as_float (argv[0]);
-	if (number < 0) {
-	        sign = -1;
-		number = -number;
+	if (x >= 0) {
+		x = gnm_ceil (x);
+		if (gnm_fmod (x, 2) != 0)
+			x += 1;
+	} else {
+		x = gnm_floor (x);
+		if (gnm_fmod (x, 2) != 0)
+			x -= 1;
 	}
-	ceiled = gnm_ceil (number);
-	if (gnm_fmod (ceiled, 2) == 0)
-	        if (number > ceiled)
-		        number = sign * (ceiled + 2);
-		else
-		        number = sign * ceiled;
-	else
-	        number = sign * (ceiled + 1);
 
-	return value_new_float (number);
+	return value_new_float (x);
 }
 
 /***************************************************************************/
@@ -2221,6 +2216,7 @@ static GnmFuncHelp const help_odd[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ODD(5.4)"},
 	{ GNM_FUNC_HELP_EXAMPLES, "=ODD(-5.4)"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=ODD(0)"},
 	{ GNM_FUNC_HELP_SEEALSO, "EVEN"},
 	{ GNM_FUNC_HELP_END}
 };
@@ -2228,24 +2224,19 @@ static GnmFuncHelp const help_odd[] = {
 static GnmValue *
 gnumeric_odd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float number, ceiled;
-	int     sign = 1;
+	gnm_float x = value_get_as_float (argv[0]);
 
-	number = value_get_as_float (argv[0]);
-	if (number < 0) {
-	        sign = -1;
-		number = -number;
+	if (x >= 0) {
+		x = gnm_ceil (x);
+		if (gnm_fmod (x, 2) == 0)
+			x += 1;
+	} else {
+		x = gnm_floor (x);
+		if (gnm_fmod (x, 2) == 0)
+			x -= 1;
 	}
-	ceiled = gnm_ceil (number);
-	if (gnm_fmod (ceiled, 2) == 1)
-	        if (number > ceiled)
-		        number = sign * (ceiled + 2);
-		else
-		        number = sign * ceiled;
-	else
-		number = sign * (ceiled + 1);
 
-	return value_new_float (number);
+	return value_new_float (x);
 }
 
 /***************************************************************************/
