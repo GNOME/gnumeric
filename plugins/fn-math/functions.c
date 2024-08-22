@@ -2066,19 +2066,20 @@ digit_counts (gnm_float x, int *pa, int *pb, int *pc)
 	}
 }
 
+#if GNM_RADIX == 2
 // Calculate 10^d as f1*f2 where the latter is most often just 1.
 // This avoids overflow within the range we care about and when f2 is 1
 // it will not affect accuracy.
 static void
 gnm_pow10_dual (int d, gnm_float *f1, gnm_float *f2)
 {
-	g_assert (GNM_RADIX == 2);
 	g_return_if_fail (d >= 0);
 
 	if (d <= GNM_MAX_10_EXP) {
 		*f1 = gnm_pow10 (d);
 		*f2 = 1;
-	} else if (GNM_MANT_DIG == 53) {
+	} else {
+#if GNM_MANT_DIG == 53
 		// "double" case with d large enough that 10^d would overflow.
 		//
 		// By a stroke of luck, 10^303 is much more accurately
@@ -2092,11 +2093,18 @@ gnm_pow10_dual (int d, gnm_float *f1, gnm_float *f2)
 		// where "|" indicates where a double cuts off
 		*f1 = gnm_pow10 (d - 303);
 		*f2 = GNM_const(1e303);
-	} else {
+#elif GNM_MANT_DIG == 64
+		// "long double" case with d large enough that 10^d would
+		// overflow.  As above, but less lucky.
+		*f1 = gnm_pow10 (d - 4926);
+		*f2 = GNM_const(1e4926);
+#else
 		*f1 = gnm_pow10 (MIN (d, GNM_MAX_10_EXP));
 		*f2 = gnm_pow10 (MAX (0, d - GNM_MAX_10_EXP));
+#endif
 	}
 }
+#endif
 
 static gnm_float
 gnm_digit_rounder (gnm_float x, int digits, gnm_float (*func) (gnm_float),

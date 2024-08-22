@@ -82,8 +82,8 @@ typedef _Decimal64 gnm_float;
 #define GNM_const(_c)	_c ## dd
 #define GNM_SUFFIX(x) x ## D
 #define GNM_RADIX       10
-#define GNM_MAX_10_EXP	DECIMAL64_MAX_10_EXP
-#define GNM_MIN_10_EXP	DECIMAL64_MIN_10_EXP
+#define GNM_MAX_10_EXP	DECIMAL64_MAX_EXP
+#define GNM_MIN_10_EXP	DECIMAL64_MIN_EXP
 #define GNM_MIN_DEN_10_EXP	-398
 
 #define gnm_lgamma_r lgammaD_r
