@@ -5044,7 +5044,7 @@ wbc_gtk_class_init (GObjectClass *gobject_class)
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
 
-	gtk_window_set_default_icon_name ("gnumeric");
+	gtk_window_set_default_icon_name ("org.gnumeric.gnumeric");
 }
 
 static void
