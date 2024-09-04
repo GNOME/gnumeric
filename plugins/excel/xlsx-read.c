@@ -4318,7 +4318,6 @@ xlsx_numfmt_common (GsfXMLIn *xin, xmlChar const **attrs, gboolean apply)
 
 	if (NULL != id && NULL != fmt) {
 		GOFormat *gfmt = go_format_new_from_XL (fmt);
-		g_printerr ("%s %s %p\n", id, fmt, gfmt);
 		if (apply)
 			gnm_style_set_format (state->style_accum, gfmt);
 		if (xlsx_get_num_fmt (xin, id, TRUE)) {
