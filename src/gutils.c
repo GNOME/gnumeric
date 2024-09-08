@@ -1096,6 +1096,35 @@ gnm_shortest_rep_in_files (void)
 	return q;
 }
 
+// Returns: -1 if no ssconvert selection has been made; 0 if the sheet is not
+// be exported, and 1 with a valid range if a selection has been made for the
+// sheet.
+int
+gnm_export_range_for_sheet (Sheet const *sheet, GnmRange *dest)
+{
+	GnmRangeRef const *rr;
+
+	g_return_val_if_fail (IS_SHEET (sheet), -1);
+	g_return_val_if_fail (dest != NULL, -1);
+
+	rr = g_object_get_data (G_OBJECT (sheet->workbook), "ssconvert-range");
+	if (rr) {
+		GnmEvalPos ep;
+		Sheet *start_sheet, *end_sheet;
+
+		gnm_rangeref_normalize (rr,
+					eval_pos_init_sheet (&ep, sheet),
+					&start_sheet, &end_sheet,
+					dest);
+		if (sheet->index_in_wb >= start_sheet->index_in_wb &&
+		    sheet->index_in_wb <= end_sheet->index_in_wb)
+			return 1;
+	}
+
+	memset (dest, 0, sizeof (*dest));
+	return rr ? 0 : -1;
+}
+
 
 #ifdef GNM_SUPPLIES_GNM_SSCANF
 // Miniature scanf that understands _Decimal64 arguments

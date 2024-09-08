@@ -1256,22 +1256,12 @@ latex2e_print_hhline (GsfOutput *output, GnmStyleBorderType *clines, int n, GnmS
 static GnmRange
 file_saver_sheet_get_extent (Sheet *sheet)
 {
-  	GnmRangeRef *range
-		= g_object_get_data (G_OBJECT (sheet->workbook),
-				     "ssconvert-range");
-	if (range) {
-		Sheet *start_sheet, *end_sheet;
-		GnmEvalPos ep;
-		GnmRange r;
+	GnmRange r;
 
-		gnm_rangeref_normalize (range,
-					eval_pos_init_sheet (&ep, sheet),
-					&start_sheet, &end_sheet,
-					&r);
-		if (start_sheet == sheet)
-			return r;
-	}
-	return sheet_get_extent (sheet, TRUE, TRUE);
+	if (gnm_export_range_for_sheet (sheet, &r) >= 0)
+		return r;
+	else
+		return sheet_get_extent (sheet, TRUE, TRUE);
 }
 
 /**

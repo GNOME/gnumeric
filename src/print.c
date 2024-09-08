@@ -880,10 +880,10 @@ compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet,
 {
 	SheetPrintInfo *spi = g_new0 (SheetPrintInfo, 1);
 
-	spi->sheet = (Sheet *) sheet;
+	spi->sheet = (Sheet *)sheet;
 	spi->selection = selection;
 	spi->ignore_printarea = ignore_printarea;
-	pi->gnmSheets = g_list_append(pi->gnmSheets, spi);
+	pi->gnmSheets = g_list_append (pi->gnmSheets, spi);
 }
 
 static Sheet *
@@ -1759,10 +1759,12 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	gchar *tmp_file_name = NULL;
 	int tmp_file_fd = -1;
 	gboolean preview_via_pdf = FALSE;
-	PrintRange pr_translator[] = {GNM_PRINT_ACTIVE_SHEET, GNM_PRINT_ALL_SHEETS,
-				      GNM_PRINT_ALL_SHEETS, GNM_PRINT_ACTIVE_SHEET,
-				      GNM_PRINT_SHEET_SELECTION, GNM_PRINT_ACTIVE_SHEET,
-				      GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA};
+	static const PrintRange pr_translator[] = {
+		GNM_PRINT_ACTIVE_SHEET, GNM_PRINT_ALL_SHEETS,
+		GNM_PRINT_ALL_SHEETS, GNM_PRINT_ACTIVE_SHEET,
+		GNM_PRINT_SHEET_SELECTION, GNM_PRINT_ACTIVE_SHEET,
+		GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA
+	};
 	GODoc *doc;
 	gchar *output_uri = NULL;
 	gchar const *saved_uri = NULL;

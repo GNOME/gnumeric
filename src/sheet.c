@@ -2524,6 +2524,9 @@ sheet_get_printarea (Sheet const *sheet,
 
 	g_return_val_if_fail (IS_SHEET (sheet), dummy);
 
+	if (gnm_export_range_for_sheet (sheet, &print_area) >= 0)
+		return print_area;
+
 	if (!ignore_printarea) {
 		GnmRange *r = sheet_get_nominal_printarea (sheet);
 		if (r != NULL) {

@@ -283,22 +283,14 @@ stf_export_sheet (GnmStfExport *stfe, Sheet *sheet)
 {
 	int col, row;
 	GnmRange r;
-	GnmRangeRef *range;
+	int exporting;
 
 	g_return_val_if_fail (stfe != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	range = g_object_get_data (G_OBJECT (sheet->workbook), "ssconvert-range");
-	if (range) {
-		Sheet *start_sheet, *end_sheet;
-		GnmEvalPos ep;
-
-		gnm_rangeref_normalize (range,
-					eval_pos_init_sheet (&ep, sheet),
-					&start_sheet, &end_sheet,
-					&r);
-
-		if (start_sheet != sheet)
+	exporting = gnm_export_range_for_sheet (sheet, &r);
+	if (exporting >= 0) {
+		if (exporting == 0)
 			return TRUE;
 	} else
 		r = sheet_get_extent (sheet, FALSE, TRUE);

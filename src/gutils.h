@@ -82,6 +82,11 @@ gboolean gnm_shortest_rep_in_files(void);
 int gnm_sscanf (const char *str, const char *fmt, ...);
 #endif
 
+// Interface for ssconvert --export-range
+int gnm_export_range_for_sheet (Sheet const *sheet, GnmRange *dest);
+
+
+
 
 G_END_DECLS
 

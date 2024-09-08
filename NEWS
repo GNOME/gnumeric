@@ -10,6 +10,7 @@ Morten:
 	* Fix ods round trip of iteration tolerance.  [#765]
 	* Fix issues with long doubles in dialogs.
 	* Leak fixes.
+	* Fix ssconvert --export-range for pdf.  [#783]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.57
