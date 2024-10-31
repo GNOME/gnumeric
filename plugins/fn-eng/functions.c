@@ -236,7 +236,7 @@ static GnmFuncHelp const help_bin2dec[] = {
         { GNM_FUNC_HELP_ARG, F_("x:a binary number, either as a string or as a number involving only the digits 0 and 1") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BIN2DEC(101)" },
-        { GNM_FUNC_HELP_SEEALSO, "DEC2BIN,BIN2OCT,BIN2HEX" },
+        { GNM_FUNC_HELP_SEEALSO, "DEC2BIN,BIN2OCT,BIN2HEX,BASE" },
         { GNM_FUNC_HELP_END}
 };
 
@@ -262,7 +262,7 @@ static GnmFuncHelp const help_bin2oct[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BIN2OCT(110111)" },
         { GNM_FUNC_HELP_EXAMPLES, "=BIN2OCT(110111,4)" },
-        { GNM_FUNC_HELP_SEEALSO, ("OCT2BIN,BIN2DEC,BIN2HEX") },
+        { GNM_FUNC_HELP_SEEALSO, ("OCT2BIN,BIN2DEC,BIN2HEX,BASE") },
         { GNM_FUNC_HELP_END}
 };
 
@@ -286,7 +286,7 @@ static GnmFuncHelp const help_bin2hex[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BIN2HEX(100111)" },
         { GNM_FUNC_HELP_EXAMPLES, "=BIN2HEX(110111,4)" },
-        { GNM_FUNC_HELP_SEEALSO, ("HEX2BIN,BIN2OCT,BIN2DEC") },
+        { GNM_FUNC_HELP_SEEALSO, ("HEX2BIN,BIN2OCT,BIN2DEC,BASE") },
         { GNM_FUNC_HELP_END}
 };
 
@@ -316,7 +316,7 @@ static GnmFuncHelp const help_dec2bin[] = {
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=DEC2BIN(42,6)" },
         { GNM_FUNC_HELP_EXAMPLES, "=DEC2BIN(-42,6)" },
-        { GNM_FUNC_HELP_SEEALSO, ("BIN2DEC,DEC2OCT,DEC2HEX") },
+        { GNM_FUNC_HELP_SEEALSO, ("BIN2DEC,DEC2OCT,DEC2HEX,BASE") },
         { GNM_FUNC_HELP_END}
 };
 
@@ -340,7 +340,7 @@ static GnmFuncHelp const help_dec2oct[] = {
 					"exactly @{places} digits. If this is not possible, DEC2OCT returns #NUM!") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=DEC2OCT(42)" },
-        { GNM_FUNC_HELP_SEEALSO, ("OCT2DEC,DEC2BIN,DEC2HEX") },
+        { GNM_FUNC_HELP_SEEALSO, ("OCT2DEC,DEC2BIN,DEC2HEX,BASE") },
         { GNM_FUNC_HELP_END}
 };
 
@@ -363,7 +363,7 @@ static GnmFuncHelp const help_dec2hex[] = {
 					"exactly @{places} digits. If this is not possible, DEC2HEX returns #NUM!") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=DEC2HEX(42)" },
-        { GNM_FUNC_HELP_SEEALSO, ("HEX2DEC,DEC2BIN,DEC2OCT") },
+        { GNM_FUNC_HELP_SEEALSO, ("HEX2DEC,DEC2BIN,DEC2OCT,BASE") },
         { GNM_FUNC_HELP_END}
 };
 
