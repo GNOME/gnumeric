@@ -1530,7 +1530,9 @@ gnumeric_hexrep (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	static const char hex[16] = "0123456789abcdef";
 
 	/* We don't have a long double version yet.  */
+	memset (data, 0, sizeof(data));
 	GSF_LE_SET_DOUBLE (data, x);
+
 	for (ui = 0; ui < G_N_ELEMENTS (data); ui++) {
 		unsigned char b = data[ui];
 		res[2 * ui] = hex[b >> 4];
