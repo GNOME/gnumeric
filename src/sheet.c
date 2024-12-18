@@ -2285,7 +2285,7 @@ sheet_colrow_group_ungroup (Sheet *sheet, GnmRange const *r,
 		int const new_level = cri->outline_level + step;
 
 		if (new_level >= 0) {
-			col_row_info_set_outline (cri, new_level, FALSE);
+			colrow_info_set_outline (cri, new_level, FALSE);
 			if (new_max < new_level)
 				new_max = new_level;
 		}

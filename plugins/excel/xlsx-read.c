@@ -1628,7 +1628,7 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 		if (hidden > 0)
 			colrow_set_visibility (state->sheet, FALSE, FALSE, row, row);
 		if (outline >= 0)
-			col_row_info_set_outline (sheet_row_fetch (state->sheet, row),
+			colrow_info_set_outline (sheet_row_fetch (state->sheet, row),
 				outline, collapsed);
 
 		if (NULL != style && cust_fmt) {
@@ -1716,7 +1716,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 			sheet_col_set_size_pts (state->sheet, i, width,
 				cust_width && !best_fit);
 		if (outline > 0)
-			col_row_info_set_outline (sheet_col_fetch (state->sheet, i),
+			colrow_info_set_outline (sheet_col_fetch (state->sheet, i),
 				outline, collapsed);
 	}
 	if (NULL != style) {

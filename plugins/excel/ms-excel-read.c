@@ -4310,7 +4310,7 @@ excel_read_ROW (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	if ((unsigned)(flags & 0x17) > 0)
-		col_row_info_set_outline (sheet_row_fetch (esheet->sheet, row),
+		colrow_info_set_outline (sheet_row_fetch (esheet->sheet, row),
 				    (unsigned)(flags & 0x7), flags & 0x10);
 }
 
@@ -4423,7 +4423,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 		sheet_col_set_size_pts (esheet->sheet, i, width,
 					customWidth && !bestFit);
 		if (outline_level > 0 || collapsed)
-			col_row_info_set_outline (sheet_col_fetch (esheet->sheet, i),
+			colrow_info_set_outline (sheet_col_fetch (esheet->sheet, i),
 					    outline_level, collapsed);
 	}
 

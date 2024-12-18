@@ -117,7 +117,7 @@ void		   colrow_restore_state_group	(Sheet *sheet, gboolean is_cols,
 						 ColRowStateGroup *state_groups);
 
 /* Support for Col/Row visibility */
-void             col_row_info_set_outline             (ColRowInfo *cri, int outline_level,
+void             colrow_info_set_outline             (ColRowInfo *cri, int outline_level,
 						 gboolean is_collapsed);
 int		 colrow_find_outline_bound	(Sheet const *sheet, gboolean is_cols,
 						 int index, int depth, gboolean inc);

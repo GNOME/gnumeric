@@ -694,7 +694,7 @@ colrow_set_states (Sheet *sheet, gboolean is_cols,
 				cri->hard_size = state->hard_size;
 				cri->size_pts = state->size_pts;
 				colrow_compute_pixels_from_pts (cri, sheet, is_cols, scale);
-				col_row_info_set_outline (cri, state->outline_level,
+				colrow_info_set_outline (cri, state->outline_level,
 					state->is_collapsed);
 			}
 		}
@@ -1101,7 +1101,7 @@ colrow_set_visibility_list (Sheet *sheet, gboolean is_cols,
 }
 
 /**
- * col_row_info_set_outline:
+ * colrow_info_set_outline:
  * @cri: #ColRowInfo to tweak
  * @outline_level:
  * @is_collapsed:
@@ -1109,7 +1109,7 @@ colrow_set_visibility_list (Sheet *sheet, gboolean is_cols,
  * Adjust the outline state of a col/row
  */
 void
-col_row_info_set_outline (ColRowInfo *cri, int outline_level, gboolean is_collapsed)
+colrow_info_set_outline (ColRowInfo *cri, int outline_level, gboolean is_collapsed)
 {
 	g_return_if_fail (outline_level >= 0);
 
