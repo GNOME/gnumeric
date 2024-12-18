@@ -1084,10 +1084,9 @@ colrow_set_visibility_list (Sheet *sheet, gboolean is_cols,
 			    gboolean visible, ColRowVisList *list)
 {
 	ColRowVisList *ptr;
-	ColRowIndex *info;
 
 	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
-		info = ptr->data;
+		ColRowIndex const *info = ptr->data;
 		colrow_set_visibility (sheet, is_cols, visible,
 				       info->first, info->last);
 	}
@@ -1245,6 +1244,8 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 		if (cri && prev_outline > cri->outline_level)
 			cri->is_collapsed = !visible;
 	}
+
+	gnm_sheet_mark_colrow_changed (sheet, first, is_cols);
 }
 
 /**

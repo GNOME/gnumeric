@@ -235,6 +235,8 @@ gboolean          sheet_colrow_foreach	   (Sheet const *sheet,
 					    ColRowHandler callback,
 					    gpointer user_data);
 
+void gnm_sheet_mark_colrow_changed (Sheet *sheet, int colrow, gboolean is_cols);
+
 /*
  * Definitions of row/col size terminology :
  *

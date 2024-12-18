@@ -11,6 +11,7 @@ Morten:
 	* Fix issues with long doubles in dialogs.
 	* Leak fixes.
 	* Fix ssconvert --export-range for pdf.  [#783]
+	* Fix invisible cursor problem.  [#712]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.57

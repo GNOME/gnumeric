@@ -4126,7 +4126,7 @@ sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
 		: sheet_row_get_info (sheet, colrow);
 }
 
-static void
+void
 gnm_sheet_mark_colrow_changed (Sheet *sheet, int colrow, gboolean is_cols)
 {
 	ColRowCollection *infos = is_cols ? &sheet->cols : &sheet->rows;

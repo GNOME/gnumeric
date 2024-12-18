@@ -1,3 +1,8 @@
+2024-12-18  Morten Welinder  <terra@gnome.org>
+
+	* src/colrow.c (colrow_set_visibility): Invalidate sheet's colrow
+	position cache.  Fixes #712.
+
 2024-04-29  b.s. <newbie-02 (at) gmx (dot) de>
 
 	* src/numbers.h: add '~10_EXP' definitions,
