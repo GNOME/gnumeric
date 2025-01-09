@@ -16,11 +16,23 @@ struct _GnmDependent {
 };
 
 typedef struct {
+	// Evaluate the dep
 	void (*eval)	   (GnmDependent *dep);
+
+	// Change the expression held by the dep.
 	void (*set_expr)   (GnmDependent *dep, GnmExprTop const *new_texpr);
+
+	// Perform actions required when dep changes.  Returns a list of
+	// further deps that should be considered changed.
 	GSList* (*changed) (GnmDependent *dep);
+
+	// In what position in the sheet does the dep sit?  (Optional.)
 	GnmCellPos* (*pos) (GnmDependent const *dep);
+
+	// Append a name for debugging purposes
 	void (*debug_name) (GnmDependent const *dep, GString *target);
+
+	// Is evaluation supposed to happen in array context?
 	gboolean q_array_context;
 } GnmDependentClass;
 
