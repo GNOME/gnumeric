@@ -2734,8 +2734,8 @@ gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
  * @sheet: the sheet where the cell range is evaluated. This really only needed if
  *         the range given does not include a sheet specification.
  *
- * Returns: (element-type GnmValue) (transfer full): a (GSList *)
- *	or NULL on failure.
+ * Returns: (element-type GnmValue) (transfer full): a list of ranges
+ * (as #GnmValue).
  */
 GSList *
 gnm_expr_entry_parse_as_list (GnmExprEntry *gee, Sheet *sheet)

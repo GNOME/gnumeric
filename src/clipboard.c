@@ -888,7 +888,7 @@ paste_target_init (GnmPasteTarget *pt, Sheet *sheet,
  * gnm_cell_region_new:
  * @origin_sheet: (nullable): source sheet
  *
- * A convenience routine to create CellRegions and init the flags nicely.
+ * Returns: (transfer full): a cell region with the flags set nicely.
  */
 GnmCellRegion *
 gnm_cell_region_new (Sheet *origin_sheet)

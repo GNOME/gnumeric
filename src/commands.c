@@ -309,11 +309,10 @@ select_selection (Sheet *sheet, GSList *selection, WorkbookControl *wbc)
 
 /**
  * get_menu_label:
- *     with a list of commands.
  * @cmd_list: The command list to check.
  *
  * Utility routine to get the descriptor associated
- * Returns : A static reference to a descriptor.  DO NOT free this.
+ * Returns: (transfer none): A static reference to a descriptor.
  */
 static char const *
 get_menu_label (GSList *cmd_list)
@@ -576,7 +575,7 @@ command_list_release (GSList *cmd_list)
 /*
  * Truncate the undo list if it is too big.
  *
- * Returns -1 if no truncation was done, or else the number of elements
+ * Returns: -1 if no truncation was done, or else the number of elements
  * left.
  */
 static int
@@ -738,7 +737,7 @@ gnm_command_push_undo (WorkbookControl *wbc, GObject *obj)
 
 /*
  * command_undo_sheet_delete deletes the sheet without deleting the current cmd.
- * returns true if it indeed deleted the sheet.
+ * returns %TRUE if it indeed deleted the sheet.
  * Note: only call this for a sheet of your current workbook from the undo procedure
  */
 
@@ -6110,7 +6109,7 @@ cmd_remove_name_finalize (GObject *cmd)
  * @wbc:
  * @nexpr: name to remove.
  *
- * Returns TRUE on error
+ * Returns: %TRUE on error
  **/
 gboolean
 cmd_remove_name (WorkbookControl *wbc, GnmNamedExpr *nexpr)

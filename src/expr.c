@@ -3439,7 +3439,7 @@ cb_referenced_sheets (GnmExpr const *expr, GnmExprWalk *data)
  * @texpr:
  *
  * Generates a list of the sheets referenced by the supplied expression.
- * Caller must free the list.  Note, that NULL may occur in the result
+ * Caller must free the list.  Note, that %NULL may occur in the result
  * if the expression has a range or cellref without a sheet.
  * Returns: (element-type Sheet) (transfer container): the created list.
  */

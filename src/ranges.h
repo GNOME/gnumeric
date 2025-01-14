@@ -13,7 +13,7 @@ G_BEGIN_DECLS
  *
  * NB. commutative, symmetric, and transitive.
  *
- * Returns: True if both ranges are equal.
+ * Returns: %TRUE if both ranges are equal.
  **/
 #define range_equal(a,b)   ((a)->start.row == (b)->start.row && \
 			    (a)->end.row   == (b)->end.row && \
@@ -47,7 +47,7 @@ int       gnm_range_compare (GnmRange const *a, GnmRange const *b);
  *
  * Determine if a range contains a col,row co-ordinate.
  *
- * Return value: TRUE if co-ordinate contained.
+ * Returns: %TRUE if co-ordinate contained.
  **/
 #define range_contains(r,x,y)	(((y) <= (r)->end.row) && \
 				 ((y) >= (r)->start.row) && \

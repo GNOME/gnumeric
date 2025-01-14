@@ -1124,7 +1124,7 @@ clear_sheet (SheetObject *so, GOUndo **pundo)
  * sheet_objects_relocate:
  * @rinfo: details on what should be moved.
  * @update: Should we do the bound_update now, or leave it for later.
- *		if FALSE honour the move_with_cells flag.
+ *		if %FALSE, honour the move_with_cells flag.
  * @pundo: (optional) (out): add dropped objects to ::objects
  *
  * Uses the relocation info and the anchors to decide whether or not, and how

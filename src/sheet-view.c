@@ -794,7 +794,7 @@ gnm_sheet_view_editpos_in_slicer (SheetView const *sv)
  * @unfrozen_top_left: (nullable): top left corner of the unfrozen region
  *
  * By definition the unfrozen region must be below the frozen.
- * If @frozen_top_left == @unfrozen_top_left or @frozen_top_left == NULL unfreeze
+ * If @frozen_top_left == @unfrozen_top_left or @frozen_top_left == %NULL unfreeze
  **/
 void
 gnm_sheet_view_freeze_panes (SheetView *sv,

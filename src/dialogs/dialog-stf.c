@@ -236,7 +236,7 @@ stf_dialog_editables_enter (StfDialogData *pagedata)
  * This will start the import.
  * (NOTE: you have to free the DialogStfResult_t that this function returns yourself)
  *
- * returns: A DialogStfResult_t struct on success, NULL otherwise.
+ * Returns: A DialogStfResult_t struct on success, %NULL otherwise.
  **/
 DialogStfResult_t*
 stf_dialog (WBCGtk *wbcg,

@@ -12,7 +12,7 @@
  *    The search function should not take too long to run, and try to
  *    search on each step information on its data repository.  When the
  *    data repository information has been extenuated or if a match has
- *    been found, then the method should return FALSE and invoke the
+ *    been found, then the method should return %FALSE and invoke the
  *    notification function that was provided to GnmComplete.
  *
  *

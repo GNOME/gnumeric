@@ -792,8 +792,8 @@ wbcg_edit_add_markup (WBCGtk *wbcg, PangoAttribute *attr)
  * wbcg_edit_get_markup:
  * @wbcg: #WBCGtk
  *
- * Returns: a potentially NULL PangoAttrList of the current markup while
- * editing.  The list belongs to @wbcg and should not be freed.
+ * Returns: (transfer none) (nullable): a PangoAttrList of the current markup while
+ * editing.
  **/
 PangoAttrList *
 wbcg_edit_get_markup (WBCGtk *wbcg, gboolean full)

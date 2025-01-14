@@ -226,7 +226,7 @@ try_auto_date (GnmValue *value, const GOFormat *format,
  * @stfe: an export options struct
  * @cell: the cell to write to the file
  *
- * Return value: return TRUE on success, FALSE otherwise.
+ * Returns: %TRUE on success, %FALSE otherwise.
  **/
 static gboolean
 stf_export_cell (GnmStfExport *stfe, GnmCell *cell)
@@ -276,7 +276,7 @@ stf_export_cell (GnmStfExport *stfe, GnmCell *cell)
  *
  * Writes the @sheet to the callback function
  *
- * Return value: returns TRUE on success, FALSE otherwise
+ * Returns: %TRUE on success, %FALSE otherwise
  **/
 static gboolean
 stf_export_sheet (GnmStfExport *stfe, Sheet *sheet)
@@ -314,7 +314,7 @@ stf_export_sheet (GnmStfExport *stfe, Sheet *sheet)
  *
  * Exports the sheets given in @stfe
  *
- * Return value: TRUE on success, FALSE otherwise
+ * Returns: %TRUE on success, %FALSE otherwise
  **/
 gboolean
 gnm_stf_export (GnmStfExport *stfe)

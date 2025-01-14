@@ -293,7 +293,7 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 
 	/*
 	 * If something went wrong consolidate_construct
-	 * return NULL and sets the state->construct_error to
+	 * return %NULL and sets the state->construct_error to
 	 * a suitable error message
 	 */
 	if (cs == NULL) {

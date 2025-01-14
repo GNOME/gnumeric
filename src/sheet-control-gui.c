@@ -2685,10 +2685,10 @@ cb_scg_object_unselect (SheetObject *so, G_GNUC_UNUSED double *coords, SheetCont
 /**
  * scg_object_unselect:
  * @scg: #SheetControlGUI
- * @so: #SheetObject (optionally NULL)
+ * @so: #SheetObject (nullable)
  *
- * unselect the supplied object, and drop out of edit mode if this is the last
- * one.  If @so == NULL unselect _all_ objects.
+ * Unselect the supplied object, and drop out of edit mode if this is the last
+ * one.  If @so is %NULL unselect _all_ objects.
  **/
 void
 scg_object_unselect (SheetControlGUI *scg, SheetObject *so)

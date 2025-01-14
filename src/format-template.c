@@ -592,7 +592,7 @@ gnm_ft_compare_name (gconstpointer a, gconstpointer b)
  *
  * Filter an mstyle and strip and replace certain elements
  * based on what the user wants to apply.
- * Basically you should pass FALSE as @fill_defaults, unless you want to have
+ * Basically you should pass %FALSE as @fill_defaults, unless you want to have
  * a completely filled style to be returned. If you set @fill_default to TRUE
  * the returned mstyle might have some of its elements 'not set'
  *

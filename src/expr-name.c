@@ -685,16 +685,16 @@ expr_name_queue_deps (GnmNamedExpr *nexpr)
  * expr_name_add: (skip)
  * @pp:
  * @name:
- * @texpr: if texpr == NULL then create a placeholder with value #NAME?
+ * @texpr: (nullable): if texpr is %NULL then create a placeholder with value #NAME?
  * @error_msg: (out) (optional) (nullable):
  * @link_to_container:
  *
  * Absorbs the reference to @texpr.
- * If @error_msg is non NULL it may hold a pointer to a translated descriptive
+ * If @error_msg is non-%NULL it may hold a pointer to a translated descriptive
  * string.  NOTE : caller is responsible for freeing the error message.
  *
  * The reference semantics of the new expression are
- * 1) new names with @link_to_container TRUE are referenced by the container.
+ * 1) new names with @link_to_container %TRUE are referenced by the container.
  *    The caller DOES NOT OWN a reference to the result, and needs to add their
  *    own.
  * 2) if @link_to_container is %FALSE the caller DOES OWN a reference, and
@@ -881,7 +881,7 @@ expr_name_name (GnmNamedExpr const *nexpr)
  * @nexpr: the named expression
  * @new_name: the new name of the expression
  *
- * returns: TRUE on error.
+ * returns: %TRUE on error.
  */
 gboolean
 expr_name_set_name (GnmNamedExpr *nexpr,

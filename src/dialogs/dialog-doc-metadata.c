@@ -552,7 +552,7 @@ dialog_doc_metadata_set_up_permissions (DialogDocMetaData *state)
 	gtk_widget_set_sensitive (GTK_WIDGET (state->others_write), FALSE);
 }
 
- /* @auto_fill : if TRUE and the text is NULL, try to set the label text with an automatic value. */
+ /* @auto_fill : if %TRUE and the text is %NULL, try to set the label text with an automatic value. */
 static void
 dialog_doc_metadata_set_label (DialogDocMetaData *state,
 			       GtkLabel          *label,
