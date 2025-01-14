@@ -335,11 +335,16 @@ it will be output as "19-Apr-1973". With "\fBraw\fR" it will be output as
 
 .TP
 .B transliterate-mode
-How to handle unrepresentable characters (characters that cannot be
-represented in the chosen output character set).
+How to handle unrepresentable characters, i.e., characters that cannot be
+represented in the chosen output character set.
 Acceptable values:
 "\fBtransliterate\fR", or
 "\fBescape\fR".
+The former will rewrite characters that cannot be represented in the output
+character set into an approximation with one or more characters that can.
+See iconv(1) for more details.
+The default is "\fBescape\fR" which will replace an unrepresentable character
+with an escape sequence identifying the unicode code point.
 
 .TP
 .B quoting-mode
