@@ -30,8 +30,12 @@ static gboolean
 cell_draw_simplify_cb (PangoAttribute *attribute,
 		       gboolean *recalc_height)
 {
-	if ((attribute->klass->type == PANGO_ATTR_RISE) ||
-	    (attribute->klass->type == PANGO_ATTR_SCALE)) {
+	gboolean full_width = (attribute->start_index == 0 &&
+			       attribute->end_index > G_MAXINT / 2);
+	// Full-width scale is zooming -- keep that
+
+	if (attribute->klass->type == PANGO_ATTR_RISE ||
+	    (attribute->klass->type == PANGO_ATTR_SCALE && !full_width)) {
 		*recalc_height = TRUE;
 		return TRUE;
 	}
