@@ -41,11 +41,14 @@ cell_draw_simplify_cb (PangoAttribute *attribute,
 static void
 cell_draw_simplify_attributes (GnmRenderedValue *rv)
 {
-	PangoAttrList *pal = pango_layout_get_attributes (rv->layout);
+	PangoAttrList *pal = pango_attr_list_copy (pango_layout_get_attributes (rv->layout));
 	gboolean recalc_height = FALSE;
-	pango_attr_list_unref
-		(pango_attr_list_filter
-		 (pal, (PangoAttrFilterFunc) cell_draw_simplify_cb, &recalc_height));
+	PangoAttrList *excess = pango_attr_list_filter
+		(pal, (PangoAttrFilterFunc) cell_draw_simplify_cb, &recalc_height);
+	pango_attr_list_unref (excess);
+	pango_layout_set_attributes (rv->layout, pal);
+	pango_attr_list_unref (pal);
+
 	if (recalc_height)
 		pango_layout_get_size (rv->layout, NULL,
 				       &rv->layout_natural_height);

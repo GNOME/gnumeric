@@ -12,6 +12,7 @@ Morten:
 	* Leak fixes.
 	* Fix ssconvert --export-range for pdf.  [#783]
 	* Fix invisible cursor problem.  [#712]
+	* Fix zoom problem.  [#707]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.57
