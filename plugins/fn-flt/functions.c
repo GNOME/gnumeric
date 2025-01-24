@@ -50,7 +50,7 @@ gnumeric_flt_radix (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_flt_min[] = {
         { GNM_FUNC_HELP_NAME, F_("FLT.MIN:return the smallest positive floating point number")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("The FLT.RADIX function returns the smallest positive normal floating point number that can be represented.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The FLT.MIN function returns the smallest positive normal floating point number that can be represented.") },
         { GNM_FUNC_HELP_EXAMPLES, "=FLT.MIN()" },
         { GNM_FUNC_HELP_SEEALSO, "FLT.MAX,FLT.RADIX"},
 	{ GNM_FUNC_HELP_END }
@@ -66,7 +66,7 @@ gnumeric_flt_min (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_flt_max[] = {
         { GNM_FUNC_HELP_NAME, F_("FLT.MAX:return the largest positive floating point number")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("The FLT.RADIX function returns the smallest positive floating point number that can be represented.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The FLT.MAX function returns the smallest positive floating point number that can be represented.") },
         { GNM_FUNC_HELP_EXAMPLES, "=FLT.MAX()" },
         { GNM_FUNC_HELP_SEEALSO, "FLT.MIN,FLT.RADIX"},
 	{ GNM_FUNC_HELP_END }
