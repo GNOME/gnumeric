@@ -410,6 +410,7 @@ sheet_scale_changed (Sheet *sheet, gboolean cols_rescaled, gboolean rows_rescale
 		sheet_colrow_foreach (sheet, TRUE, 0, -1,
 				      cb_colrow_compute_pixels_from_pts,
 				      &closure);
+		gnm_sheet_mark_colrow_changed (sheet, 0, TRUE);
 	}
 	if (rows_rescaled) {
 		struct resize_colrow closure;
@@ -423,6 +424,7 @@ sheet_scale_changed (Sheet *sheet, gboolean cols_rescaled, gboolean rows_rescale
 		sheet_colrow_foreach (sheet, FALSE, 0, -1,
 				      cb_colrow_compute_pixels_from_pts,
 				      &closure);
+		gnm_sheet_mark_colrow_changed (sheet, 0, FALSE);
 	}
 
 	sheet_cell_foreach (sheet, (GHFunc)&cb_clear_rendered_cells, NULL);
@@ -4132,6 +4134,15 @@ gnm_sheet_mark_colrow_changed (Sheet *sheet, int colrow, gboolean is_cols)
 	ColRowCollection *infos = is_cols ? &sheet->cols : &sheet->rows;
 	int ix = COLROW_SEGMENT_INDEX (colrow);
 
+	if (gnm_debug_flag ("colrow-pixel-start")) {
+		if (is_cols)
+			g_printerr ("Changed column %s onwards\n",
+				    col_name (colrow));
+		else
+			g_printerr ("Changed row %s onwards\n",
+				    row_name (colrow));
+	}
+
 	// Mark anything from ix onwards as invalid
 	infos->last_valid_pixel_start =
 		MIN (infos->last_valid_pixel_start, ix - 1);
@@ -6047,6 +6058,7 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 
 	ci->size_pts = width_pts;
 	colrow_compute_pixels_from_pts (ci, sheet, TRUE, -1);
+	gnm_sheet_mark_colrow_changed (sheet, col, TRUE);
 
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
@@ -6223,6 +6235,7 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
 
 	ri->size_pts = height_pts;
 	colrow_compute_pixels_from_pts (ri, sheet, FALSE, -1);
+	gnm_sheet_mark_colrow_changed (sheet, row, FALSE);
 
 	sheet->priv->recompute_visibility = TRUE;
 	if (sheet->priv->reposition_objects.row > row)

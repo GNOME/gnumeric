@@ -75,6 +75,7 @@ colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
 				gboolean horizontal, double scale)
 {
 	int const margin = horizontal ? 2 * GNM_COL_MARGIN : 2 * GNM_ROW_MARGIN;
+	int pixels;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -84,10 +85,9 @@ colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
 	if (horizontal && sheet && sheet->display_formulas)
 		scale *= 2;
 
-	cri->size_pixels = (int)(cri->size_pts * scale + 0.5);
-
-	if (cri->size_pixels <= margin)
-		cri->size_pixels = margin + 1;
+	pixels = (int)(cri->size_pts * scale + 0.5);
+	pixels = MAX (pixels, margin + 1);
+	cri->size_pixels = pixels;
 }
 
 void
@@ -215,6 +215,8 @@ colrow_state_list_foreach (ColRowStateList *list,
 		cri.is_collapsed = state->is_collapsed;
 		cri.hard_size = state->hard_size;
 		cri.visible = state->visible;
+		// This is a temporary ColRowInfo so we don't need to
+		// gnm_sheet_mark_colrow_changed
 		colrow_compute_pixels_from_pts (&cri, sheet, is_cols, scale);
 
 		for (l = 0; l < rle->length; l++) {
@@ -700,6 +702,8 @@ colrow_set_states (Sheet *sheet, gboolean is_cols,
 		}
 		offset += rles->length;
 	}
+
+	gnm_sheet_mark_colrow_changed (sheet, first, is_cols);
 
 	/* Notify sheet of pending update */
 	sheet->priv->recompute_visibility = TRUE;

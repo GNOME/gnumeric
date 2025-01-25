@@ -13,6 +13,7 @@ Morten:
 	* Fix ssconvert --export-range for pdf.  [#783]
 	* Fix invisible cursor problem.  [#712]
 	* Fix zoom problem.  [#707]
+	* Fix further zoom problem.  [#794]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.57
