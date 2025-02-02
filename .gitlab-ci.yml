@@ -28,7 +28,7 @@ build-release-tarball:
     - GOFFICE_TAG=`perl -ne 'if (/^\s*libgoffice-.*>=\s*([0-9.]+)/) { my $v = $1; $v =~ s/\./_/g; print "GOFFICE_$v\n"; }' configure.ac`
     - git clone https://gitlab.gnome.org/GNOME/goffice
     - cd goffice
-    - git switch --no-guess ${GOFFICE_TAG} || true
+    - git checkout -d ${GOFFICE_TAG} || true
     - ./autogen.sh --disable-dependency-tracking
     - make -j4
     - make install
