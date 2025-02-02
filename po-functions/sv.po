@@ -1,11 +1,12 @@
-# Copyright © 1998, 1999, 2000, 2001, 2002, 2017, 2019, 2020, 2021, 2022, 2023, 2024 Free Software Foundation, Inc.
+# Copyright © 1998-2002, 2017, 2019-2025 Free Software Foundation, Inc.
 # Richard Hult <rhult@codefactory.se>, 1999, 2000, 2001.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Christian Rose <menthos@menthos.com>, 2000, 2001, 2002.
 # Jörgen Tegnér <jorgen.tegner@telia.com>, 2001.
 # Jan Morén <jan.moren@lucs.lu.se>, 2002.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2019, 2020, 2021, 2022, 2023, 2024.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
 # Josef Andersson <l10nl18nswejan@gmail.com>, 2017.
+# Luna Jernberg <droidbittin@gmail.com>, 2025.
 #
 # Regler:
 #
@@ -28,15 +29,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2024-01-10 02:13+0000\n"
-"PO-Revision-Date: 2024-03-07 22:45+0100\n"
+"POT-Creation-Date: 2025-02-01 22:39+0000\n"
+"PO-Revision-Date: 2025-02-02 01:41+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #: ../plugins/fn-christian-date/functions.c:131
 msgid ""
@@ -196,37 +197,37 @@ msgstr "Om @{i} varken är ”i” eller ”j” returnerar COMPLEX #VÄRDE!"
 #: ../plugins/fn-info/functions.c:1770 ../plugins/fn-info/functions.c:1807
 #: ../plugins/fn-logical/functions.c:49 ../plugins/fn-logical/functions.c:100
 #: ../plugins/fn-logical/functions.c:128 ../plugins/fn-logical/functions.c:370
-#: ../plugins/fn-logical/functions.c:388 ../plugins/fn-math/functions.c:194
-#: ../plugins/fn-math/functions.c:257 ../plugins/fn-math/functions.c:358
-#: ../plugins/fn-math/functions.c:376 ../plugins/fn-math/functions.c:398
-#: ../plugins/fn-math/functions.c:458 ../plugins/fn-math/functions.c:484
-#: ../plugins/fn-math/functions.c:508 ../plugins/fn-math/functions.c:527
-#: ../plugins/fn-math/functions.c:562 ../plugins/fn-math/functions.c:630
-#: ../plugins/fn-math/functions.c:654 ../plugins/fn-math/functions.c:679
-#: ../plugins/fn-math/functions.c:700 ../plugins/fn-math/functions.c:720
-#: ../plugins/fn-math/functions.c:741 ../plugins/fn-math/functions.c:761
-#: ../plugins/fn-math/functions.c:781 ../plugins/fn-math/functions.c:803
-#: ../plugins/fn-math/functions.c:832 ../plugins/fn-math/functions.c:869
-#: ../plugins/fn-math/functions.c:940 ../plugins/fn-math/functions.c:959
-#: ../plugins/fn-math/functions.c:1000 ../plugins/fn-math/functions.c:1041
-#: ../plugins/fn-math/functions.c:1167 ../plugins/fn-math/functions.c:1225
-#: ../plugins/fn-math/functions.c:1258 ../plugins/fn-math/functions.c:1307
-#: ../plugins/fn-math/functions.c:1382 ../plugins/fn-math/functions.c:1418
-#: ../plugins/fn-math/functions.c:1550 ../plugins/fn-math/functions.c:1593
-#: ../plugins/fn-math/functions.c:1641 ../plugins/fn-math/functions.c:1755
-#: ../plugins/fn-math/functions.c:1773 ../plugins/fn-math/functions.c:1820
-#: ../plugins/fn-math/functions.c:1881 ../plugins/fn-math/functions.c:1927
-#: ../plugins/fn-math/functions.c:1960 ../plugins/fn-math/functions.c:1998
-#: ../plugins/fn-math/functions.c:2034 ../plugins/fn-math/functions.c:2069
-#: ../plugins/fn-math/functions.c:2106 ../plugins/fn-math/functions.c:2173
-#: ../plugins/fn-math/functions.c:2198 ../plugins/fn-math/functions.c:2225
-#: ../plugins/fn-math/functions.c:2251 ../plugins/fn-math/functions.c:2275
-#: ../plugins/fn-math/functions.c:2321 ../plugins/fn-math/functions.c:2366
-#: ../plugins/fn-math/functions.c:2491 ../plugins/fn-math/functions.c:2739
-#: ../plugins/fn-math/functions.c:2783 ../plugins/fn-math/functions.c:2826
-#: ../plugins/fn-math/functions.c:2869 ../plugins/fn-math/functions.c:2926
-#: ../plugins/fn-math/functions.c:3116 ../plugins/fn-math/functions.c:3214
-#: ../plugins/fn-math/functions.c:3259 ../plugins/fn-random/functions.c:46
+#: ../plugins/fn-logical/functions.c:388 ../plugins/fn-math/functions.c:201
+#: ../plugins/fn-math/functions.c:264 ../plugins/fn-math/functions.c:365
+#: ../plugins/fn-math/functions.c:383 ../plugins/fn-math/functions.c:405
+#: ../plugins/fn-math/functions.c:465 ../plugins/fn-math/functions.c:491
+#: ../plugins/fn-math/functions.c:515 ../plugins/fn-math/functions.c:534
+#: ../plugins/fn-math/functions.c:569 ../plugins/fn-math/functions.c:637
+#: ../plugins/fn-math/functions.c:661 ../plugins/fn-math/functions.c:686
+#: ../plugins/fn-math/functions.c:707 ../plugins/fn-math/functions.c:727
+#: ../plugins/fn-math/functions.c:748 ../plugins/fn-math/functions.c:768
+#: ../plugins/fn-math/functions.c:788 ../plugins/fn-math/functions.c:810
+#: ../plugins/fn-math/functions.c:839 ../plugins/fn-math/functions.c:876
+#: ../plugins/fn-math/functions.c:947 ../plugins/fn-math/functions.c:966
+#: ../plugins/fn-math/functions.c:1007 ../plugins/fn-math/functions.c:1048
+#: ../plugins/fn-math/functions.c:1174 ../plugins/fn-math/functions.c:1232
+#: ../plugins/fn-math/functions.c:1265 ../plugins/fn-math/functions.c:1314
+#: ../plugins/fn-math/functions.c:1389 ../plugins/fn-math/functions.c:1425
+#: ../plugins/fn-math/functions.c:1557 ../plugins/fn-math/functions.c:1600
+#: ../plugins/fn-math/functions.c:1648 ../plugins/fn-math/functions.c:1762
+#: ../plugins/fn-math/functions.c:1780 ../plugins/fn-math/functions.c:1827
+#: ../plugins/fn-math/functions.c:1888 ../plugins/fn-math/functions.c:1934
+#: ../plugins/fn-math/functions.c:1967 ../plugins/fn-math/functions.c:2005
+#: ../plugins/fn-math/functions.c:2194 ../plugins/fn-math/functions.c:2224
+#: ../plugins/fn-math/functions.c:2257 ../plugins/fn-math/functions.c:2324
+#: ../plugins/fn-math/functions.c:2349 ../plugins/fn-math/functions.c:2376
+#: ../plugins/fn-math/functions.c:2402 ../plugins/fn-math/functions.c:2426
+#: ../plugins/fn-math/functions.c:2457 ../plugins/fn-math/functions.c:2492
+#: ../plugins/fn-math/functions.c:2617 ../plugins/fn-math/functions.c:2865
+#: ../plugins/fn-math/functions.c:2909 ../plugins/fn-math/functions.c:2952
+#: ../plugins/fn-math/functions.c:2995 ../plugins/fn-math/functions.c:3052
+#: ../plugins/fn-math/functions.c:3242 ../plugins/fn-math/functions.c:3340
+#: ../plugins/fn-math/functions.c:3385 ../plugins/fn-random/functions.c:46
 #: ../plugins/fn-random/functions.c:247 ../plugins/fn-stat/functions.c:82
 #: ../plugins/fn-stat/functions.c:109 ../plugins/fn-stat/functions.c:135
 #: ../plugins/fn-stat/functions.c:162 ../plugins/fn-stat/functions.c:272
@@ -613,7 +614,7 @@ msgstr "IMIGAMMA:den ofullständiga Gammafunktionen"
 msgid "a:a complex number"
 msgstr "a:ett komplext tal"
 
-#: ../plugins/fn-complex/functions.c:1109 ../plugins/fn-math/functions.c:1082
+#: ../plugins/fn-complex/functions.c:1109 ../plugins/fn-math/functions.c:1089
 msgid ""
 "lower:if true (the default), the lower incomplete gamma function, otherwise "
 "the upper incomplete gamma function"
@@ -621,7 +622,7 @@ msgstr ""
 "lägre:om sant (standardvärde), är detta den lägre ofullständiga "
 "gammafunktionen, annars den övre ofullständiga gammafunktionen"
 
-#: ../plugins/fn-complex/functions.c:1110 ../plugins/fn-math/functions.c:1083
+#: ../plugins/fn-complex/functions.c:1110 ../plugins/fn-math/functions.c:1090
 msgid ""
 "regularize:if true (the default), the regularized version of the incomplete "
 "gamma function"
@@ -1242,11 +1243,11 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:1047 ../plugins/fn-date/functions.c:1382
 #: ../plugins/fn-eng/functions.c:212 ../plugins/fn-eng/functions.c:316
 #: ../plugins/fn-eng/functions.c:385 ../plugins/fn-eng/functions.c:832
-#: ../plugins/fn-financial/functions.c:1314 ../plugins/fn-math/functions.c:563
-#: ../plugins/fn-math/functions.c:1168 ../plugins/fn-math/functions.c:1195
-#: ../plugins/fn-math/functions.c:1678 ../plugins/fn-math/functions.c:1698
-#: ../plugins/fn-math/functions.c:2412 ../plugins/fn-math/functions.c:3076
-#: ../plugins/fn-math/functions.c:3276 ../plugins/fn-stat/functions.c:1733
+#: ../plugins/fn-financial/functions.c:1314 ../plugins/fn-math/functions.c:570
+#: ../plugins/fn-math/functions.c:1175 ../plugins/fn-math/functions.c:1202
+#: ../plugins/fn-math/functions.c:1685 ../plugins/fn-math/functions.c:1705
+#: ../plugins/fn-math/functions.c:2538 ../plugins/fn-math/functions.c:3202
+#: ../plugins/fn-math/functions.c:3402 ../plugins/fn-stat/functions.c:1733
 #: ../plugins/fn-stat/functions.c:2652 ../plugins/fn-stat/functions.c:5011
 #: ../plugins/fn-string/functions.c:323 ../plugins/fn-string/functions.c:407
 #: ../plugins/fn-string/functions.c:534 ../plugins/fn-string/functions.c:1222
@@ -2495,8 +2496,8 @@ msgstr ""
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr "BASE:sträng av siffror som representerar talet @{n} i basen @{b}"
 
-#: ../plugins/fn-eng/functions.c:207 ../plugins/fn-numtheory/numtheory.c:734
-#: ../plugins/fn-numtheory/numtheory.c:764
+#: ../plugins/fn-eng/functions.c:207 ../plugins/fn-numtheory/numtheory.c:733
+#: ../plugins/fn-numtheory/numtheory.c:763
 msgid "n:integer"
 msgstr "n:heltal"
 
@@ -2757,27 +2758,27 @@ msgid "CONVERT:a converted measurement"
 msgstr "CONVERT:ett konverterat mätvärde"
 
 #: ../plugins/fn-eng/functions.c:643 ../plugins/fn-eng/functions.c:1451
-#: ../plugins/fn-eng/functions.c:1517 ../plugins/fn-math/functions.c:356
-#: ../plugins/fn-math/functions.c:375 ../plugins/fn-math/functions.c:397
-#: ../plugins/fn-math/functions.c:438 ../plugins/fn-math/functions.c:456
-#: ../plugins/fn-math/functions.c:482 ../plugins/fn-math/functions.c:501
-#: ../plugins/fn-math/functions.c:525 ../plugins/fn-math/functions.c:607
-#: ../plugins/fn-math/functions.c:798 ../plugins/fn-math/functions.c:868
-#: ../plugins/fn-math/functions.c:886 ../plugins/fn-math/functions.c:921
-#: ../plugins/fn-math/functions.c:957 ../plugins/fn-math/functions.c:982
-#: ../plugins/fn-math/functions.c:999 ../plugins/fn-math/functions.c:1023
-#: ../plugins/fn-math/functions.c:1040 ../plugins/fn-math/functions.c:1064
-#: ../plugins/fn-math/functions.c:1081 ../plugins/fn-math/functions.c:1112
-#: ../plugins/fn-math/functions.c:1136 ../plugins/fn-math/functions.c:1220
-#: ../plugins/fn-math/functions.c:1257 ../plugins/fn-math/functions.c:1276
-#: ../plugins/fn-math/functions.c:1439 ../plugins/fn-math/functions.c:1481
-#: ../plugins/fn-math/functions.c:1610 ../plugins/fn-math/functions.c:1696
-#: ../plugins/fn-math/functions.c:1736 ../plugins/fn-math/functions.c:1754
-#: ../plugins/fn-math/functions.c:1959 ../plugins/fn-math/functions.c:1994
-#: ../plugins/fn-math/functions.c:2033 ../plugins/fn-math/functions.c:2068
-#: ../plugins/fn-math/functions.c:2196 ../plugins/fn-math/functions.c:2246
-#: ../plugins/fn-math/functions.c:2270 ../plugins/fn-math/functions.c:2316
-#: ../plugins/fn-math/functions.c:2363 ../plugins/fn-stat/functions.c:436
+#: ../plugins/fn-eng/functions.c:1517 ../plugins/fn-math/functions.c:363
+#: ../plugins/fn-math/functions.c:382 ../plugins/fn-math/functions.c:404
+#: ../plugins/fn-math/functions.c:445 ../plugins/fn-math/functions.c:463
+#: ../plugins/fn-math/functions.c:489 ../plugins/fn-math/functions.c:508
+#: ../plugins/fn-math/functions.c:532 ../plugins/fn-math/functions.c:614
+#: ../plugins/fn-math/functions.c:805 ../plugins/fn-math/functions.c:875
+#: ../plugins/fn-math/functions.c:893 ../plugins/fn-math/functions.c:928
+#: ../plugins/fn-math/functions.c:964 ../plugins/fn-math/functions.c:989
+#: ../plugins/fn-math/functions.c:1006 ../plugins/fn-math/functions.c:1030
+#: ../plugins/fn-math/functions.c:1047 ../plugins/fn-math/functions.c:1071
+#: ../plugins/fn-math/functions.c:1088 ../plugins/fn-math/functions.c:1119
+#: ../plugins/fn-math/functions.c:1143 ../plugins/fn-math/functions.c:1227
+#: ../plugins/fn-math/functions.c:1264 ../plugins/fn-math/functions.c:1283
+#: ../plugins/fn-math/functions.c:1446 ../plugins/fn-math/functions.c:1488
+#: ../plugins/fn-math/functions.c:1617 ../plugins/fn-math/functions.c:1703
+#: ../plugins/fn-math/functions.c:1743 ../plugins/fn-math/functions.c:1761
+#: ../plugins/fn-math/functions.c:1966 ../plugins/fn-math/functions.c:2001
+#: ../plugins/fn-math/functions.c:2193 ../plugins/fn-math/functions.c:2223
+#: ../plugins/fn-math/functions.c:2347 ../plugins/fn-math/functions.c:2397
+#: ../plugins/fn-math/functions.c:2421 ../plugins/fn-math/functions.c:2452
+#: ../plugins/fn-math/functions.c:2489 ../plugins/fn-stat/functions.c:436
 #: ../plugins/fn-stat/functions.c:527 ../plugins/fn-stat/functions.c:588
 #: ../plugins/fn-stat/functions.c:979 ../plugins/fn-stat/functions.c:1048
 #: ../plugins/fn-stat/functions.c:1111 ../plugins/fn-stat/functions.c:1253
@@ -3296,19 +3297,19 @@ msgstr ""
 "Detta är en funktion avsedd för felsökning. Resultatets layout kan ändras "
 "samt till och med bero på hur Gnumeric kompilerades."
 
-#: ../plugins/fn-eng/functions.c:1547
+#: ../plugins/fn-eng/functions.c:1549
 msgid "INVSUMINV:the reciprocal of the sum of reciprocals of the arguments"
 msgstr "INVSUMINV:inversen av summan av inverserna av argumenten"
 
-#: ../plugins/fn-eng/functions.c:1548
+#: ../plugins/fn-eng/functions.c:1550
 msgid "x0:non-negative number"
 msgstr "x0:icke-negativt tal"
 
-#: ../plugins/fn-eng/functions.c:1549
+#: ../plugins/fn-eng/functions.c:1551
 msgid "x1:non-negative number"
 msgstr "x1:icke-negativt tal"
 
-#: ../plugins/fn-eng/functions.c:1550
+#: ../plugins/fn-eng/functions.c:1552
 msgid ""
 "If any of the arguments is negative, #VALUE! is returned.\n"
 "If any argument is zero, the result is zero."
@@ -3317,7 +3318,7 @@ msgstr ""
 "Om något argument är noll är resultatet noll."
 
 # TODO: first "sum" can be removed??
-#: ../plugins/fn-eng/functions.c:1552
+#: ../plugins/fn-eng/functions.c:1554
 msgid ""
 "INVSUMINV sum calculates the reciprocal (the inverse) of the sum of "
 "reciprocals (inverses) of all its arguments."
@@ -4642,18 +4643,42 @@ msgstr ""
 "Funktionen FLT.RADIX returnerar basen för flyttalssystemet som används."
 
 #: ../plugins/fn-flt/functions.c:52
+msgid "FLT.MIN:return the smallest positive floating point number"
+msgstr "FLT.MIN:returnera det minsta positiva flyttalsnumret"
+
+#: ../plugins/fn-flt/functions.c:53
+msgid ""
+"The FLT.MIN function returns the smallest positive normal floating point "
+"number that can be represented."
+msgstr ""
+"Funktionen FLT.MIN returnerar det minsta positiva normala flyttalsnumret som "
+"kan representeras."
+
+#: ../plugins/fn-flt/functions.c:68
+msgid "FLT.MAX:return the largest positive floating point number"
+msgstr "FLT.MAX:returnera det största positiva flyttalsnumret"
+
+#: ../plugins/fn-flt/functions.c:69
+msgid ""
+"The FLT.MAX function returns the largest positive floating point number that "
+"can be represented."
+msgstr ""
+"Funktionen FLT.MAX returnerar det största positiva flyttalsnumret som kan "
+"representeras."
+
+#: ../plugins/fn-flt/functions.c:84
 msgid "FLT.NEXTAFTER:next representable value"
 msgstr "FLT.NEXTAFTER:nästa representerbart värde"
 
-#: ../plugins/fn-flt/functions.c:53
+#: ../plugins/fn-flt/functions.c:85
 msgid "x:floating point value"
 msgstr "x:flyttalsvärde"
 
-#: ../plugins/fn-flt/functions.c:54
+#: ../plugins/fn-flt/functions.c:86
 msgid "y:direction"
 msgstr "y:riktning"
 
-#: ../plugins/fn-flt/functions.c:55
+#: ../plugins/fn-flt/functions.c:87
 msgid ""
 "The FLT.NEXTAFTER function returns the next floating point value after @{x} "
 "in the direction of @{y}.  \"+\" and \"-\" are special values for @{y} that "
@@ -4967,7 +4992,7 @@ msgid "ISEVEN:TRUE if @{n} is even"
 msgstr "ISEVEN:SANT om @{n} är jämn"
 
 #: ../plugins/fn-info/functions.c:1625 ../plugins/fn-info/functions.c:1699
-#: ../plugins/fn-math/functions.c:1482
+#: ../plugins/fn-math/functions.c:1489
 msgid "n:number"
 msgstr "n:tal"
 
@@ -5170,8 +5195,8 @@ msgstr "XOR:logisk exklusiv disjunktion"
 
 #: ../plugins/fn-logical/functions.c:177
 msgid ""
-"XOR calculates the logical exclusive disjunction of its arguments @{b0},"
-"@{b1},..."
+"XOR calculates the logical exclusive disjunction of its arguments "
+"@{b0},@{b1},..."
 msgstr ""
 "XOR beräknar logisk exklusiv disjunktion av sina argument @{b0},@{b1},…"
 
@@ -5709,8 +5734,8 @@ msgid ""
 "OFFSET returns the cell range starting at offset (@{row},@{col}) from "
 "@{range} of height @{height} and width @{width}."
 msgstr ""
-"OFFSET returnerar cellintervallet med början på förskjutningen (@{rad},"
-"@{kol}) från @{intervall} med höjd @{höjd} och bredd @{bredd}."
+"OFFSET returnerar cellintervallet med början på förskjutningen "
+"(@{rad},@{kol}) från @{intervall} med höjd @{höjd} och bredd @{bredd}."
 
 #: ../plugins/fn-lookup/functions.c:1551
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
@@ -5868,7 +5893,7 @@ msgid "exactly_once:suppress values present multiple times; defaults to FALSE"
 msgstr ""
 "exakt_en_gång:undertryck värden som finns flera gånger; standard är FALSKT"
 
-#: ../plugins/fn-math/functions.c:52
+#: ../plugins/fn-math/functions.c:59
 msgid ""
 "Numbers, text and logical values are included in the calculation too. If the "
 "cell contains text or the argument evaluates to FALSE, it is counted as "
@@ -5878,76 +5903,76 @@ msgstr ""
 "innehåller text eller om argumentet evalueras till FALSKT, räknas det som "
 "noll (0). Om ett argument evalueras till SANT, räknas det som ett (1)."
 
-#: ../plugins/fn-math/functions.c:189
+#: ../plugins/fn-math/functions.c:196
 msgid "GCD:the greatest common divisor"
 msgstr "GCD:största gemensamma delare"
 
-#: ../plugins/fn-math/functions.c:190 ../plugins/fn-math/functions.c:253
+#: ../plugins/fn-math/functions.c:197 ../plugins/fn-math/functions.c:260
 msgid "n0:positive integer"
 msgstr "n0:positivt heltal"
 
-#: ../plugins/fn-math/functions.c:191 ../plugins/fn-math/functions.c:254
+#: ../plugins/fn-math/functions.c:198 ../plugins/fn-math/functions.c:261
 msgid "n1:positive integer"
 msgstr "n1:positivt heltal"
 
-#: ../plugins/fn-math/functions.c:192
+#: ../plugins/fn-math/functions.c:199
 msgid ""
-"GCD calculates the greatest common divisor of the given numbers @{n0},"
-"@{n1},..., the greatest integer that is a divisor of each argument."
+"GCD calculates the greatest common divisor of the given numbers "
+"@{n0},@{n1},..., the greatest integer that is a divisor of each argument."
 msgstr ""
 "GCD beräknar största gemensamma delare för de givna talen @{n0},@{n1},…, det "
 "största heltalet som är en delare till varje argument."
 
-#: ../plugins/fn-math/functions.c:193 ../plugins/fn-math/functions.c:256
+#: ../plugins/fn-math/functions.c:200 ../plugins/fn-math/functions.c:263
 msgid "If any of the arguments is not an integer, it is truncated."
 msgstr "Om något av argumenten inte är ett heltal trunkeras det."
 
-#: ../plugins/fn-math/functions.c:252
+#: ../plugins/fn-math/functions.c:259
 msgid "LCM:the least common multiple"
 msgstr "LCM:minsta gemensamma multipel"
 
-#: ../plugins/fn-math/functions.c:255
+#: ../plugins/fn-math/functions.c:262
 msgid ""
-"LCM calculates the least common multiple of the given numbers @{n0},"
-"@{n1},..., the smallest integer that is a multiple of each argument."
+"LCM calculates the least common multiple of the given numbers "
+"@{n0},@{n1},..., the smallest integer that is a multiple of each argument."
 msgstr ""
-"LCM beräknar den minsta gemensamma multipeln för de angivna talen @{n0},"
-"@{n1},…, det minsta heltalet som är en multipel av varje argument."
+"LCM beräknar den minsta gemensamma multipeln för de angivna talen "
+"@{n0},@{n1},…, det minsta heltalet som är en multipel av varje argument."
 
-#: ../plugins/fn-math/functions.c:308
+#: ../plugins/fn-math/functions.c:315
 msgid "GD:Gudermannian function"
 msgstr "GD:Gudermanns funktion"
 
-#: ../plugins/fn-math/functions.c:309 ../plugins/fn-math/functions.c:420
-#: ../plugins/fn-math/functions.c:1546 ../plugins/fn-stat/functions.c:1944
+#: ../plugins/fn-math/functions.c:316 ../plugins/fn-math/functions.c:427
+#: ../plugins/fn-math/functions.c:1553 ../plugins/fn-stat/functions.c:1944
 msgid "x:value"
 msgstr "x:värde"
 
-#: ../plugins/fn-math/functions.c:312
+#: ../plugins/fn-math/functions.c:319
 msgid "wolfram:Gudermannian.html"
 msgstr "wolfram:Gudermannian.html"
 
-#: ../plugins/fn-math/functions.c:313
+#: ../plugins/fn-math/functions.c:320
 msgid "wiki:en:Gudermannian_function"
 msgstr "wiki:en:Gudermannian_function"
 
-#: ../plugins/fn-math/functions.c:332
+#: ../plugins/fn-math/functions.c:339
 msgid "HYPOT:the square root of the sum of the squares of the arguments"
 msgstr "HYPOT:kvadratroten av summan av kvadraterna av argumenten"
 
-#: ../plugins/fn-math/functions.c:333
+#: ../plugins/fn-math/functions.c:340
 msgid "n0:number"
 msgstr "n0:tal"
 
-#: ../plugins/fn-math/functions.c:334
+#: ../plugins/fn-math/functions.c:341
 msgid "n1:number"
 msgstr "n1:tal"
 
-#: ../plugins/fn-math/functions.c:355
+#: ../plugins/fn-math/functions.c:362
 msgid "ABS:absolute value"
 msgstr "ABS:absolutbelopp"
 
-#: ../plugins/fn-math/functions.c:357
+#: ../plugins/fn-math/functions.c:364
 msgid ""
 "ABS gives the absolute value of @{x}, i.e. the non-negative number of the "
 "same magnitude as @{x}."
@@ -5955,59 +5980,59 @@ msgstr ""
 "ABS ger absolutbeloppet av @{x}, d.v.s. det icke-negativa talet av samma "
 "magnitud som @{x}."
 
-#: ../plugins/fn-math/functions.c:374
+#: ../plugins/fn-math/functions.c:381
 msgid "ACOS:the arc cosine of @{x}"
 msgstr "ACOS:arcus cosinus för @{x}"
 
-#: ../plugins/fn-math/functions.c:396
+#: ../plugins/fn-math/functions.c:403
 msgid "ACOSH:the hyperbolic arc cosine of @{x}"
 msgstr "ACOSH:hyperbolisk arcus cosinus för @{x}"
 
-#: ../plugins/fn-math/functions.c:419
+#: ../plugins/fn-math/functions.c:426
 msgid "ACOT:inverse cotangent of @{x}"
 msgstr "ACOT:invers cotangens av @{x}"
 
-#: ../plugins/fn-math/functions.c:423
+#: ../plugins/fn-math/functions.c:430
 msgid "wolfram:InverseCotangent.html"
 msgstr "wolfram:InverseCotangent.html"
 
-#: ../plugins/fn-math/functions.c:424 ../plugins/fn-math/functions.c:834
-#: ../plugins/fn-math/functions.c:890 ../plugins/fn-math/functions.c:1645
-#: ../plugins/fn-math/functions.c:1682 ../plugins/fn-math/functions.c:1722
+#: ../plugins/fn-math/functions.c:431 ../plugins/fn-math/functions.c:841
+#: ../plugins/fn-math/functions.c:897 ../plugins/fn-math/functions.c:1652
+#: ../plugins/fn-math/functions.c:1689 ../plugins/fn-math/functions.c:1729
 msgid "wiki:en:Trigonometric_functions"
 msgstr "wiki:sv:Trigonometrisk_funktion"
 
-#: ../plugins/fn-math/functions.c:437
+#: ../plugins/fn-math/functions.c:444
 msgid "ACOTH:the inverse hyperbolic cotangent of @{x}"
 msgstr "ACOTH:invers hyperbolisk cotangens för @{x}"
 
-#: ../plugins/fn-math/functions.c:441
+#: ../plugins/fn-math/functions.c:448
 msgid "wolfram:InverseHyperbolicCotangent.html"
 msgstr "wolfram:InverseHyperbolicCotangent.html"
 
-#: ../plugins/fn-math/functions.c:442
+#: ../plugins/fn-math/functions.c:449
 msgid "wiki:en:Inverse_hyperbolic_function"
 msgstr "wiki:en:Inverse_hyperbolic_function"
 
-#: ../plugins/fn-math/functions.c:455
+#: ../plugins/fn-math/functions.c:462
 msgid "ASIN:the arc sine of @{x}"
 msgstr "ASIN:arcus sinus för @{x}"
 
-#: ../plugins/fn-math/functions.c:457
+#: ../plugins/fn-math/functions.c:464
 msgid ""
 "ASIN calculates the arc sine of @{x}; that is the value whose sine is @{x}."
 msgstr ""
 "ASIN beräknar arcus sinus för @{x}; det vill säga värdet vars sinus är @{x}."
 
-#: ../plugins/fn-math/functions.c:459
+#: ../plugins/fn-math/functions.c:466
 msgid "If @{x} falls outside the range -1 to 1, ASIN returns #NUM!"
 msgstr "Om @{x} är utanför intervallet -1 till 1 returnerar ASIN #NUM!"
 
-#: ../plugins/fn-math/functions.c:481
+#: ../plugins/fn-math/functions.c:488
 msgid "ASINH:the inverse hyperbolic sine of @{x}"
 msgstr "ASINH:invers hyperbolisk sinus för @{x}"
 
-#: ../plugins/fn-math/functions.c:483
+#: ../plugins/fn-math/functions.c:490
 msgid ""
 "ASINH calculates the inverse hyperbolic sine of @{x}; that is the value "
 "whose hyperbolic sine is @{x}."
@@ -6015,11 +6040,11 @@ msgstr ""
 "ASINH beräknar invers hyperbolisk sinus för @{x}; det vill säga värdet vars "
 "hyperboliska sinus är @{x}."
 
-#: ../plugins/fn-math/functions.c:500
+#: ../plugins/fn-math/functions.c:507
 msgid "ATAN:the arc tangent of @{x}"
 msgstr "ATAN:arcus tangens för @{x}"
 
-#: ../plugins/fn-math/functions.c:502
+#: ../plugins/fn-math/functions.c:509
 msgid ""
 "ATAN calculates the arc tangent of @{x}; that is the value whose tangent is "
 "@{x}."
@@ -6027,15 +6052,15 @@ msgstr ""
 "ATAN beräknar arcus tangens för @{x}; det vill säga värdet vars tangens är "
 "@{x}."
 
-#: ../plugins/fn-math/functions.c:505
+#: ../plugins/fn-math/functions.c:512
 msgid "The result will be between −π/2 and +π/2."
 msgstr "Resultatet kommer vara mellan −π/2 och +π/2."
 
-#: ../plugins/fn-math/functions.c:524
+#: ../plugins/fn-math/functions.c:531
 msgid "ATANH:the inverse hyperbolic tangent of @{x}"
 msgstr "ATANH:invers hyperbolisk tangens för @{x}"
 
-#: ../plugins/fn-math/functions.c:526
+#: ../plugins/fn-math/functions.c:533
 msgid ""
 "ATANH calculates the inverse hyperbolic tangent of @{x}; that is the value "
 "whose hyperbolic tangent is @{x}."
@@ -6043,23 +6068,23 @@ msgstr ""
 "ATANH beräknar invers hyperbolisk tangens för @{x}; det vill säga värdet "
 "vars hyperboliska tangens är @{x}."
 
-#: ../plugins/fn-math/functions.c:528
+#: ../plugins/fn-math/functions.c:535
 msgid "If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!"
 msgstr "Om absolutbeloppet av @{x} är större än 1,0 returnerar ATANH #NUM!"
 
-#: ../plugins/fn-math/functions.c:549
+#: ../plugins/fn-math/functions.c:556
 msgid "ATAN2:the arc tangent of the ratio @{y}/@{x}"
 msgstr "ATAN2:arcus tangens för förhållandet @{y}/@{x}"
 
-#: ../plugins/fn-math/functions.c:551
+#: ../plugins/fn-math/functions.c:558
 msgid "x:x-coordinate"
 msgstr "x:x-koordinat"
 
-#: ../plugins/fn-math/functions.c:552
+#: ../plugins/fn-math/functions.c:559
 msgid "y:y-coordinate"
 msgstr "y:y-koordinat"
 
-#: ../plugins/fn-math/functions.c:553
+#: ../plugins/fn-math/functions.c:560
 msgid ""
 "ATAN2 calculates the direction from the origin to the point (@{x},@{y}) as "
 "an angle from the x-axis in radians."
@@ -6067,60 +6092,60 @@ msgstr ""
 "ATAN2 beräknar riktningen från origo till punkten (@{x},@{y}) som en vinkel "
 "från x-axeln i radianer."
 
-#: ../plugins/fn-math/functions.c:557
+#: ../plugins/fn-math/functions.c:564
 msgid "The result will be between −π and +π."
 msgstr "Resultatet kommer vara mellan −π och +π."
 
-#: ../plugins/fn-math/functions.c:560
+#: ../plugins/fn-math/functions.c:567
 msgid "The order of the arguments may be unexpected."
 msgstr "Ordningen av argumenten kan vara oväntad."
 
-#: ../plugins/fn-math/functions.c:584
+#: ../plugins/fn-math/functions.c:591
 msgid "AGM:the arithmetic-geometric mean"
 msgstr "AGM:det aritmetisk-geometriska medelvärdet"
 
-#: ../plugins/fn-math/functions.c:585
+#: ../plugins/fn-math/functions.c:592
 msgid "a:value"
 msgstr "a:värde"
 
-#: ../plugins/fn-math/functions.c:586
+#: ../plugins/fn-math/functions.c:593
 msgid "b:value"
 msgstr "b:värde"
 
-#: ../plugins/fn-math/functions.c:587
+#: ../plugins/fn-math/functions.c:594
 msgid "AGM computes the arithmetic-geometric mean of the two values."
 msgstr "AGM beräknar det aritmetisk-geometriska medelvärdet av de två värdena."
 
-#: ../plugins/fn-math/functions.c:606
+#: ../plugins/fn-math/functions.c:613
 msgid "CEIL:smallest integer larger than or equal to @{x}"
 msgstr "CEIL:minsta heltal större än eller lika med @{x}"
 
-#: ../plugins/fn-math/functions.c:608
+#: ../plugins/fn-math/functions.c:615
 msgid "CEIL(@{x}) is the smallest integer that is at least as large as @{x}."
 msgstr "CEIL(@{x}) är det minsta heltal som är minst lika stort som @{x}."
 
-#: ../plugins/fn-math/functions.c:609
+#: ../plugins/fn-math/functions.c:616
 msgid "This function is the OpenFormula function CEILING(@{x})."
 msgstr "Denna funktion är OpenFormula-funktionen CEILING(@{x})."
 
-#: ../plugins/fn-math/functions.c:627
+#: ../plugins/fn-math/functions.c:634
 msgid "COUNTIF:count of the cells meeting the given @{criteria}"
 msgstr "COUNTIF:antal celler som uppfyller angivna @{kriterier}"
 
-#: ../plugins/fn-math/functions.c:628 ../plugins/fn-math/functions.c:652
-#: ../plugins/fn-math/functions.c:671 ../plugins/fn-math/functions.c:717
+#: ../plugins/fn-math/functions.c:635 ../plugins/fn-math/functions.c:659
+#: ../plugins/fn-math/functions.c:678 ../plugins/fn-math/functions.c:724
 msgid "range:cell area"
 msgstr "intervall:cellområde"
 
-#: ../plugins/fn-math/functions.c:629 ../plugins/fn-math/functions.c:653
+#: ../plugins/fn-math/functions.c:636 ../plugins/fn-math/functions.c:660
 msgid "criteria:condition for a cell to be counted"
 msgstr "kriterier:villkor för att en cell ska räknas"
 
-#: ../plugins/fn-math/functions.c:651
+#: ../plugins/fn-math/functions.c:658
 msgid "COUNTIFS:count of the cells meeting the given @{criteria}"
 msgstr "COUNTIFS:antal celler som uppfyller angivna @{kriterier}"
 
-#: ../plugins/fn-math/functions.c:670
+#: ../plugins/fn-math/functions.c:677
 msgid ""
 "SUMIF:sum of the cells in @{actual_range} for which the corresponding cells "
 "in the range meet the given @{criteria}"
@@ -6128,15 +6153,15 @@ msgstr ""
 "SUMIF:summan av celler i @{verkligt_område} för vilka motsvarande celler i "
 "området uppfyller givna @{kriterier}"
 
-#: ../plugins/fn-math/functions.c:672
+#: ../plugins/fn-math/functions.c:679
 msgid "criteria:condition for a cell to be summed"
 msgstr "kriterier:villkor för att en cell ska summeras"
 
-#: ../plugins/fn-math/functions.c:673 ../plugins/fn-math/functions.c:719
+#: ../plugins/fn-math/functions.c:680 ../plugins/fn-math/functions.c:726
 msgid "actual_range:cell area, defaults to @{range}"
 msgstr "verkligt_område:cellområde, standard är @{intervall}"
 
-#: ../plugins/fn-math/functions.c:674
+#: ../plugins/fn-math/functions.c:681
 msgid ""
 "If the @{actual_range} has a size that differs from the size of @{range}, "
 "@{actual_range} is resized (retaining the top-left corner) to match the size "
@@ -6146,7 +6171,7 @@ msgstr ""
 "ändrar @{verkligt_område} storlek (behåller det övre vänstra hörnet) för att "
 "matcha storleken hos @{område}."
 
-#: ../plugins/fn-math/functions.c:696
+#: ../plugins/fn-math/functions.c:703
 msgid ""
 "SUMIFS:sum of the cells in @{actual_range} for which the corresponding cells "
 "in the range meet the given criteria"
@@ -6154,22 +6179,22 @@ msgstr ""
 "SUMIFS:summan av de celler i @{verkligt_område} för vilka motsvarande celler "
 "i området uppfyller givna kriterier"
 
-#: ../plugins/fn-math/functions.c:697 ../plugins/fn-math/functions.c:738
-#: ../plugins/fn-math/functions.c:758 ../plugins/fn-math/functions.c:778
+#: ../plugins/fn-math/functions.c:704 ../plugins/fn-math/functions.c:745
+#: ../plugins/fn-math/functions.c:765 ../plugins/fn-math/functions.c:785
 msgid "actual_range:cell area"
 msgstr "verkligt_område:cellområde"
 
-#: ../plugins/fn-math/functions.c:698 ../plugins/fn-math/functions.c:739
-#: ../plugins/fn-math/functions.c:759 ../plugins/fn-math/functions.c:779
+#: ../plugins/fn-math/functions.c:705 ../plugins/fn-math/functions.c:746
+#: ../plugins/fn-math/functions.c:766 ../plugins/fn-math/functions.c:786
 msgid "range1:cell area"
 msgstr "intervall1:cellområde"
 
-#: ../plugins/fn-math/functions.c:699 ../plugins/fn-math/functions.c:740
-#: ../plugins/fn-math/functions.c:760 ../plugins/fn-math/functions.c:780
+#: ../plugins/fn-math/functions.c:706 ../plugins/fn-math/functions.c:747
+#: ../plugins/fn-math/functions.c:767 ../plugins/fn-math/functions.c:787
 msgid "criteria1:condition for a cell to be included"
 msgstr "kriterier1:villkor för att en cell ska inkluderas"
 
-#: ../plugins/fn-math/functions.c:716
+#: ../plugins/fn-math/functions.c:723
 msgid ""
 "AVERAGEIF:average of the cells in @{actual range} for which the "
 "corresponding cells in the range meet the given @{criteria}"
@@ -6177,11 +6202,11 @@ msgstr ""
 "AVERAGEIF:medel för cellerna i @{verkligt_område} för vilka motsvarande "
 "celler i området uppfyller givna @{kriterier}"
 
-#: ../plugins/fn-math/functions.c:718
+#: ../plugins/fn-math/functions.c:725
 msgid "criteria:condition for a cell to be included"
 msgstr "kriterier:villkor för att en cell ska inkluderas"
 
-#: ../plugins/fn-math/functions.c:737
+#: ../plugins/fn-math/functions.c:744
 msgid ""
 "AVERAGEIFS:average of the cells in @{actual_range} for which the "
 "corresponding cells in the range meet the given criteria"
@@ -6189,7 +6214,7 @@ msgstr ""
 "AVERAGEIFS:medel för cellerna i @{verkligt_område} för vilka motsvarande "
 "celler i området uppfyller givna kriterier"
 
-#: ../plugins/fn-math/functions.c:757
+#: ../plugins/fn-math/functions.c:764
 msgid ""
 "MINIFS:minimum of the cells in @{actual_range} for which the corresponding "
 "cells in the range meet the given criteria"
@@ -6197,7 +6222,7 @@ msgstr ""
 "MINIFS:minimum för cellerna i @{verkligt_område} för vilka de motsvarande "
 "cellerna i området uppfyller givna kriterier"
 
-#: ../plugins/fn-math/functions.c:777
+#: ../plugins/fn-math/functions.c:784
 msgid ""
 "MAXIFS:maximum of the cells in @{actual_range} for which the corresponding "
 "cells in the range meet the given criteria"
@@ -6205,7 +6230,7 @@ msgstr ""
 "MAXIFS:maximum för cellerna i @{verkligt_område} för vilka de motsvarande "
 "cellerna i området uppfyller givna kriterier"
 
-#: ../plugins/fn-math/functions.c:797
+#: ../plugins/fn-math/functions.c:804
 msgid ""
 "CEILING:nearest multiple of @{significance} whose absolute value is at least "
 "ABS(@{x})"
@@ -6213,13 +6238,13 @@ msgstr ""
 "CEILING:närmsta multipel för @{signifikans} vars absolutbelopp är minst "
 "ABS(@{x})"
 
-#: ../plugins/fn-math/functions.c:799 ../plugins/fn-math/functions.c:1221
+#: ../plugins/fn-math/functions.c:806 ../plugins/fn-math/functions.c:1228
 msgid ""
 "significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} < 0)"
 msgstr ""
 "signifikans:basmultipel (standard är 1 för @{x} > 0 och -1 för @{x} < 0)"
 
-#: ../plugins/fn-math/functions.c:800
+#: ../plugins/fn-math/functions.c:807
 msgid ""
 "CEILING(@{x},@{significance}) is the nearest multiple of @{significance} "
 "whose absolute value is at least ABS(@{x})."
@@ -6227,14 +6252,14 @@ msgstr ""
 "CEILING(@{x},@{signifikans}) är närmsta multipel för @{signifikans} vars "
 "absolutbelopp är minst ABS(@{x})"
 
-#: ../plugins/fn-math/functions.c:801
+#: ../plugins/fn-math/functions.c:808
 msgid ""
 "If @{x} or @{significance} is non-numeric, CEILING returns a #VALUE! error."
 msgstr ""
 "Om @{x} eller @{signifikans} är ickenumeriska, returnerar CEILING ett "
 "#VÄRDE!-fel."
 
-#: ../plugins/fn-math/functions.c:802
+#: ../plugins/fn-math/functions.c:809
 msgid ""
 "If @{x} is positive and @{significance} is negative, CEILING returns a #NUM! "
 "error."
@@ -6242,118 +6267,119 @@ msgstr ""
 "Om @{x} är positiv och @{signifikans} är negativ returnerar CEILING ett "
 "#NUM!-fel."
 
-#: ../plugins/fn-math/functions.c:804
+#: ../plugins/fn-math/functions.c:811
 msgid ""
-"CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},"
-"@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1)."
+"CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). "
+"CEILING(@{x},@{significance}) is the OpenFormula function "
+"CEILING(@{x},@{significance},1)."
 msgstr ""
 "CEILING(@{x}) exporteras till ODF som CEILING(@{x},SIGN(@{x}),1). "
-"CEILING(@{x},@{signifikans}) är OpenFormula-funktionen CEILING(@{x},"
-"@{signifikans},1)."
+"CEILING(@{x},@{signifikans}) är OpenFormula-funktionen "
+"CEILING(@{x},@{signifikans},1)."
 
-#: ../plugins/fn-math/functions.c:830
+#: ../plugins/fn-math/functions.c:837
 msgid "COS:the cosine of @{x}"
 msgstr "COS:cosinus av @{x}"
 
-#: ../plugins/fn-math/functions.c:831 ../plugins/fn-math/functions.c:939
-#: ../plugins/fn-math/functions.c:1640 ../plugins/fn-math/functions.c:1676
-#: ../plugins/fn-math/functions.c:1716 ../plugins/fn-math/functions.c:1926
+#: ../plugins/fn-math/functions.c:838 ../plugins/fn-math/functions.c:946
+#: ../plugins/fn-math/functions.c:1647 ../plugins/fn-math/functions.c:1683
+#: ../plugins/fn-math/functions.c:1723 ../plugins/fn-math/functions.c:1933
 msgid "x:angle in radians"
 msgstr "x:vinkel i radianer"
 
-#: ../plugins/fn-math/functions.c:833
+#: ../plugins/fn-math/functions.c:840
 msgid "wolfram:Cosine.html"
 msgstr "wolfram:Cosine.html"
 
-#: ../plugins/fn-math/functions.c:850
+#: ../plugins/fn-math/functions.c:857
 msgid "COSPI:the cosine of Pi*@{x}"
 msgstr "COSPI:cosinus av pi*@{x}"
 
-#: ../plugins/fn-math/functions.c:851 ../plugins/fn-math/functions.c:904
-#: ../plugins/fn-math/functions.c:1659 ../plugins/fn-math/functions.c:1943
+#: ../plugins/fn-math/functions.c:858 ../plugins/fn-math/functions.c:911
+#: ../plugins/fn-math/functions.c:1666 ../plugins/fn-math/functions.c:1950
 msgid "x:number of half turns"
 msgstr "x:antalet halva varv"
 
-#: ../plugins/fn-math/functions.c:867
+#: ../plugins/fn-math/functions.c:874
 msgid "COSH:the hyperbolic cosine of @{x}"
 msgstr "COSH:hyperbolisk cosinus för @{x}"
 
-#: ../plugins/fn-math/functions.c:885
+#: ../plugins/fn-math/functions.c:892
 msgid "COT:the cotangent of @{x}"
 msgstr "COT:cotangens av @{x}"
 
-#: ../plugins/fn-math/functions.c:889
+#: ../plugins/fn-math/functions.c:896
 msgid "wolfram:Cotangent.html"
 msgstr "wolfram:Cotangent.html"
 
-#: ../plugins/fn-math/functions.c:903
+#: ../plugins/fn-math/functions.c:910
 msgid "COTPI:the cotangent of Pi*@{x}"
 msgstr "COTPI:cotangens av pi*@{x}"
 
-#: ../plugins/fn-math/functions.c:920
+#: ../plugins/fn-math/functions.c:927
 msgid "COTH:the hyperbolic cotangent of @{x}"
 msgstr "COTH:hyperbolisk cotangens för @{x}"
 
-#: ../plugins/fn-math/functions.c:924
+#: ../plugins/fn-math/functions.c:931
 msgid "wolfram:HyperbolicCotangent.html"
 msgstr "wolfram:HyperbolicCotangent.html"
 
-#: ../plugins/fn-math/functions.c:925 ../plugins/fn-math/functions.c:1702
-#: ../plugins/fn-math/functions.c:1742
+#: ../plugins/fn-math/functions.c:932 ../plugins/fn-math/functions.c:1709
+#: ../plugins/fn-math/functions.c:1749
 msgid "wiki:en:Hyperbolic_function"
 msgstr "wiki:sv:Hyperbolisk_funktion"
 
-#: ../plugins/fn-math/functions.c:938
+#: ../plugins/fn-math/functions.c:945
 msgid "DEGREES:equivalent degrees to @{x} radians"
 msgstr "DEGREES:motsvarande antal grader för @{x} radianer"
 
-#: ../plugins/fn-math/functions.c:956
+#: ../plugins/fn-math/functions.c:963
 msgid "EXP:e raised to the power of @{x}"
 msgstr "EXP:e upphöjt till @{x}"
 
-#: ../plugins/fn-math/functions.c:958
+#: ../plugins/fn-math/functions.c:965
 msgid "e is the base of the natural logarithm."
 msgstr "e är basen för den naturliga logaritmen."
 
-#: ../plugins/fn-math/functions.c:981
+#: ../plugins/fn-math/functions.c:988
 msgid "EXPM1:EXP(@{x})-1"
 msgstr "EXPM1:EXP(@{x})-1"
 
-#: ../plugins/fn-math/functions.c:983
+#: ../plugins/fn-math/functions.c:990
 msgid ""
 "This function has a higher resulting precision than evaluating EXP(@{x})-1."
 msgstr ""
 "Denna funktion har större resulterande precision än att evaluera EXP(@{x})-1."
 
-#: ../plugins/fn-math/functions.c:998
+#: ../plugins/fn-math/functions.c:1005
 msgid "FACT:the factorial of @{x}, i.e. @{x}!"
 msgstr "FACT:fakultet för @{x}, d.v.s. @{x}!"
 
-#: ../plugins/fn-math/functions.c:1001
+#: ../plugins/fn-math/functions.c:1008
 msgid "The domain of this function has been extended using the GAMMA function."
 msgstr "Denna funktions domän har utökats med funktionen GAMMA."
 
-#: ../plugins/fn-math/functions.c:1022
+#: ../plugins/fn-math/functions.c:1029
 msgid "GAMMA:the Gamma function"
 msgstr "GAMMA:Gamma-funktionen"
 
-#: ../plugins/fn-math/functions.c:1039
+#: ../plugins/fn-math/functions.c:1046
 msgid "GAMMALN:natural logarithm of the Gamma function"
 msgstr "GAMMALN:naturlig logaritm av Gamma-funktionen"
 
-#: ../plugins/fn-math/functions.c:1063
+#: ../plugins/fn-math/functions.c:1070
 msgid "DIGAMMA:the Digamma function"
 msgstr "DIGAMMA:Digamma-funktionen"
 
-#: ../plugins/fn-math/functions.c:1079
+#: ../plugins/fn-math/functions.c:1086
 msgid "IGAMMA:the incomplete Gamma function"
 msgstr "IGAMMA:den ofullständiga Gammafunktionen"
 
-#: ../plugins/fn-math/functions.c:1080 ../plugins/fn-stat/functions.c:508
+#: ../plugins/fn-math/functions.c:1087 ../plugins/fn-stat/functions.c:508
 msgid "a:number"
 msgstr "a:tal"
 
-#: ../plugins/fn-math/functions.c:1084
+#: ../plugins/fn-math/functions.c:1091
 msgid ""
 "real:if true (the default), the real part of the result, otherwise the "
 "imaginary part"
@@ -6361,7 +6387,7 @@ msgstr ""
 "reell:om sant (standard), den reella delen av resultatet, annars den "
 "imaginära delen"
 
-#: ../plugins/fn-math/functions.c:1085
+#: ../plugins/fn-math/functions.c:1092
 msgid ""
 "The regularized incomplete gamma function is the unregularized incomplete "
 "gamma function divided by GAMMA(@{a})"
@@ -6369,23 +6395,23 @@ msgstr ""
 "Den regulariserade ofullständiga gammafunktionen är den oregulariserade "
 "ofullständiga gammafunktionen dividerat med GAMMA(@{a})"
 
-#: ../plugins/fn-math/functions.c:1086
+#: ../plugins/fn-math/functions.c:1093
 msgid ""
 "This is a real valued function as long as neither @{a} nor @{z} are negative."
 msgstr ""
 "Detta är en reellvärd funktion så länge som varken @{a} eller @{z} är "
 "negativa."
 
-#: ../plugins/fn-math/functions.c:1111
+#: ../plugins/fn-math/functions.c:1118
 msgid "BETA:Euler beta function"
 msgstr "BETA:Euler-betafunktion"
 
-#: ../plugins/fn-math/functions.c:1113 ../plugins/fn-math/functions.c:1137
-#: ../plugins/fn-math/functions.c:1440
+#: ../plugins/fn-math/functions.c:1120 ../plugins/fn-math/functions.c:1144
+#: ../plugins/fn-math/functions.c:1447
 msgid "y:number"
 msgstr "y:tal"
 
-#: ../plugins/fn-math/functions.c:1114
+#: ../plugins/fn-math/functions.c:1121
 msgid ""
 "BETA function returns the value of the Euler beta function extended to all "
 "real numbers except 0 and negative integers."
@@ -6393,23 +6419,23 @@ msgstr ""
 "BETA-funktionen returnerar värdet för Eulers betafunktion utökad till alla "
 "reella tal förutom 0 och negativa heltal."
 
-#: ../plugins/fn-math/functions.c:1115
+#: ../plugins/fn-math/functions.c:1122
 msgid ""
 "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETA returns #NUM!"
 msgstr ""
 "Om @{x}, @{y} eller (@{x} + @{y}) är icke-positiva heltal returnerar BETA "
 "#NUM!"
 
-#: ../plugins/fn-math/functions.c:1119 ../plugins/fn-math/functions.c:1143
+#: ../plugins/fn-math/functions.c:1126 ../plugins/fn-math/functions.c:1150
 msgid "wiki:en:Beta_function"
 msgstr "wiki:en:Beta_function"
 
-#: ../plugins/fn-math/functions.c:1135
+#: ../plugins/fn-math/functions.c:1142
 msgid ""
 "BETALN:natural logarithm of the absolute value of the Euler beta function"
 msgstr "BETALN:naturlig logaritm för absolutbeloppet av Eulers betafunktion"
 
-#: ../plugins/fn-math/functions.c:1138
+#: ../plugins/fn-math/functions.c:1145
 msgid ""
 "BETALN function returns the natural logarithm of the absolute value of the "
 "Euler beta function extended to all real numbers except 0 and negative "
@@ -6419,7 +6445,7 @@ msgstr ""
 "Eulers betafunktion utökad till alla reella tal förutom 0 och negativa "
 "heltal."
 
-#: ../plugins/fn-math/functions.c:1139
+#: ../plugins/fn-math/functions.c:1146
 msgid ""
 "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETALN returns "
 "#NUM!"
@@ -6427,20 +6453,20 @@ msgstr ""
 "Om @{x}, @{y} eller (@{x} + @{y}) är icke-positiva heltal returnerar BETALN "
 "#NUM!"
 
-#: ../plugins/fn-math/functions.c:1160
+#: ../plugins/fn-math/functions.c:1167
 msgid "COMBIN:binomial coefficient"
 msgstr "COMBIN:binomialkoefficient"
 
-#: ../plugins/fn-math/functions.c:1161 ../plugins/fn-math/functions.c:1193
-#: ../plugins/fn-math/functions.c:2485
+#: ../plugins/fn-math/functions.c:1168 ../plugins/fn-math/functions.c:1200
+#: ../plugins/fn-math/functions.c:2611
 msgid "n:non-negative integer"
 msgstr "n:icke-negativt heltal"
 
-#: ../plugins/fn-math/functions.c:1162 ../plugins/fn-math/functions.c:1194
+#: ../plugins/fn-math/functions.c:1169 ../plugins/fn-math/functions.c:1201
 msgid "k:non-negative integer"
 msgstr "k:icke-negativt heltal"
 
-#: ../plugins/fn-math/functions.c:1163
+#: ../plugins/fn-math/functions.c:1170
 msgid ""
 "COMBIN returns the binomial coefficient \"@{n} choose @{k}\", the number of "
 "@{k}-combinations of an @{n}-element set without repetition."
@@ -6448,26 +6474,26 @@ msgstr ""
 "COMBIN returnerar binomialkoefficienten ”@{n} välj @{k}”, antal @{k}-"
 "kombinationer för en {n}-elementmängd utan repetition."
 
-#: ../plugins/fn-math/functions.c:1166
+#: ../plugins/fn-math/functions.c:1173
 msgid "If @{n} is less than @{k} COMBIN returns #NUM!"
 msgstr "Om @{n} är mindre än @{k} returnerar COMBIN #NUM!"
 
-#: ../plugins/fn-math/functions.c:1171
+#: ../plugins/fn-math/functions.c:1178
 msgid "wiki:en:Binomial_coefficient"
 msgstr "wiki:en:binomialkoefficient"
 
-#: ../plugins/fn-math/functions.c:1191
+#: ../plugins/fn-math/functions.c:1198
 msgid ""
 "COMBINA:the number of @{k}-combinations of an @{n}-element set with "
 "repetition"
 msgstr ""
 "COMBINA:antal @{k}-kombinationer för en @{n}-elementmängd med repetition"
 
-#: ../plugins/fn-math/functions.c:1199
+#: ../plugins/fn-math/functions.c:1206
 msgid "wiki:en:Multiset"
 msgstr "wiki:en:Multiset"
 
-#: ../plugins/fn-math/functions.c:1219
+#: ../plugins/fn-math/functions.c:1226
 msgid ""
 "FLOOR:nearest multiple of @{significance} whose absolute value is at most "
 "ABS(@{x})"
@@ -6475,7 +6501,7 @@ msgstr ""
 "FLOOR:närmsta multipel för @{signifikans} vars absolutbelopp är högst "
 "ABS(@{x})"
 
-#: ../plugins/fn-math/functions.c:1223
+#: ../plugins/fn-math/functions.c:1230
 msgid ""
 "FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose "
 "absolute value is at most ABS(@{x})"
@@ -6483,7 +6509,7 @@ msgstr ""
 "FLOOR(@{x},@{signifikans}) är närmsta multipel för @{signifikans} vars "
 "absolutbelopp är som mest ABS(@{x})"
 
-#: ../plugins/fn-math/functions.c:1224
+#: ../plugins/fn-math/functions.c:1231
 msgid ""
 "If @{x} is positive and @{significance} is negative, FLOOR returns a #NUM! "
 "error."
@@ -6491,71 +6517,73 @@ msgstr ""
 "Om @{x} är positiv och @{signifikans} är negativ returnerar FLOOR ett #NUM!-"
 "fel."
 
-#: ../plugins/fn-math/functions.c:1226
+#: ../plugins/fn-math/functions.c:1233
 msgid ""
-"FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},"
-"@{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1)."
+"FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). "
+"FLOOR(@{x},@{significance}) is the OpenFormula function "
+"FLOOR(@{x},@{significance},1)."
 msgstr ""
-"FLOOR(@{x}) exporteras till ODF som FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},"
-"@{signifikans}) är OpenFormula-funktionen FLOOR(@{x},@{signifikans},1)."
+"FLOOR(@{x}) exporteras till ODF som FLOOR(@{x},SIGN(@{x}),1). "
+"FLOOR(@{x},@{signifikans}) är OpenFormula-funktionen "
+"FLOOR(@{x},@{signifikans},1)."
 
-#: ../plugins/fn-math/functions.c:1256
+#: ../plugins/fn-math/functions.c:1263
 msgid "INT:largest integer not larger than @{x}"
 msgstr "INT:största heltal inte större än @{x}"
 
-#: ../plugins/fn-math/functions.c:1275
+#: ../plugins/fn-math/functions.c:1282
 msgid "LAMBERTW:the Lambert W function"
 msgstr "LAMBERTW:Lamberts W-funktion"
 
-#: ../plugins/fn-math/functions.c:1277
+#: ../plugins/fn-math/functions.c:1284
 msgid "k:branch"
 msgstr "k:gren"
 
-#: ../plugins/fn-math/functions.c:1278
+#: ../plugins/fn-math/functions.c:1285
 msgid "@{k} defaults to 0, the principal branch."
 msgstr "@{k} är som standard 0, huvudgrenen."
 
-#: ../plugins/fn-math/functions.c:1279
+#: ../plugins/fn-math/functions.c:1286
 msgid "@{k} must be either 0 or -1."
 msgstr "@{k} måste vara antingen 0 eller -1."
 
-#: ../plugins/fn-math/functions.c:1280
+#: ../plugins/fn-math/functions.c:1287
 msgid ""
 "The Lambert W function is the inverse function of x=W*exp(W).  There are two "
 "(real-valued) branches: k=0 which maps [-1/e;inf) onto [-1,inf); and k=-1 "
 "which maps [-1/e;0) unto (-inf;-1]."
 msgstr ""
 "Lamberts W-funktion är den inversa funktionen av x=W*exp(W). Det finns två "
-"(reellvärda) grenar: k=0 som avbildar [-1/e;oändligheten) på [-1,"
-"oändligheten); och k=-1 som avbildar [-1/e;0) på (-oändligheten;-1]."
+"(reellvärda) grenar: k=0 som avbildar [-1/e;oändligheten) på "
+"[-1,oändligheten); och k=-1 som avbildar [-1/e;0) på (-oändligheten;-1]."
 
-#: ../plugins/fn-math/functions.c:1302
+#: ../plugins/fn-math/functions.c:1309
 msgid "LOG:logarithm of @{x} with base @{base}"
 msgstr "LOG:logaritm av @{x} med basen @{bas}"
 
-#: ../plugins/fn-math/functions.c:1303 ../plugins/fn-math/functions.c:1349
-#: ../plugins/fn-math/functions.c:1380 ../plugins/fn-math/functions.c:1415
-#: ../plugins/fn-math/functions.c:1502 ../plugins/fn-math/functions.c:1524
+#: ../plugins/fn-math/functions.c:1310 ../plugins/fn-math/functions.c:1356
+#: ../plugins/fn-math/functions.c:1387 ../plugins/fn-math/functions.c:1422
+#: ../plugins/fn-math/functions.c:1509 ../plugins/fn-math/functions.c:1531
 msgid "x:positive number"
 msgstr "x:positivt tal"
 
-#: ../plugins/fn-math/functions.c:1304 ../plugins/fn-math/functions.c:1350
+#: ../plugins/fn-math/functions.c:1311 ../plugins/fn-math/functions.c:1357
 msgid "base:base of the logarithm, defaults to 10"
 msgstr "bas:basen på logaritmen, standardvärde 10"
 
-#: ../plugins/fn-math/functions.c:1305 ../plugins/fn-math/functions.c:1351
+#: ../plugins/fn-math/functions.c:1312 ../plugins/fn-math/functions.c:1358
 msgid "@{base} must be positive and not equal to 1."
 msgstr "@{bas} måste vara positiv och inte lika med 1."
 
-#: ../plugins/fn-math/functions.c:1306 ../plugins/fn-math/functions.c:1352
+#: ../plugins/fn-math/functions.c:1313 ../plugins/fn-math/functions.c:1359
 msgid "If @{x} ≤ 0, LOG returns #NUM! error."
 msgstr "Om @{x} ≤ 0 returnerar LOG felet #NUM!."
 
-#: ../plugins/fn-math/functions.c:1348
+#: ../plugins/fn-math/functions.c:1355
 msgid "ILOG:integer logarithm of @{x} with base @{base}"
 msgstr "ILOG:heltalslogaritm av @{x} med basen @{bas}"
 
-#: ../plugins/fn-math/functions.c:1353
+#: ../plugins/fn-math/functions.c:1360
 msgid ""
 "This function returns the logarithm of @{x} using @{base} rounded down to "
 "nearest integer.  Unlike FLOOR(LOG(@{x},@{base})), this function is not "
@@ -6565,7 +6593,7 @@ msgstr ""
 "närmaste heltal. Till skillnad från FLOOR(LOG(@{x},@{bas})) så drabbas denna "
 "funktion inte av representationsfel för mellanliggande resultat."
 
-#: ../plugins/fn-math/functions.c:1354
+#: ../plugins/fn-math/functions.c:1361
 msgid ""
 "This function is not implemented for all possible value.  #VALUE! will be "
 "returned for such arguments."
@@ -6573,120 +6601,120 @@ msgstr ""
 "Denna funktion är inte implementerad för alla möjliga värden. För sådana "
 "argument kommer #VÄRDE! att returneras."
 
-#: ../plugins/fn-math/functions.c:1379
+#: ../plugins/fn-math/functions.c:1386
 msgid "LN:the natural logarithm of @{x}"
 msgstr "LN:naturliga logaritmen för @{x}"
 
-#: ../plugins/fn-math/functions.c:1381
+#: ../plugins/fn-math/functions.c:1388
 msgid "If @{x} ≤ 0, LN returns #NUM! error."
 msgstr "Om @{x} ≤ 0 returnerar LN felet #NUM!."
 
-#: ../plugins/fn-math/functions.c:1414
+#: ../plugins/fn-math/functions.c:1421
 msgid "LN1P:LN(1+@{x})"
 msgstr "LN1P:LN(1+@{x})"
 
-#: ../plugins/fn-math/functions.c:1416
+#: ../plugins/fn-math/functions.c:1423
 msgid ""
 "LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating "
 "LN(1+@{x})."
 msgstr ""
 "LN1P beräknar LN(1+@{x}) men ger större precision än att evaluera LN(1+@{x})."
 
-#: ../plugins/fn-math/functions.c:1417
+#: ../plugins/fn-math/functions.c:1424
 msgid "If @{x} ≤ -1, LN returns #NUM! error."
 msgstr "Om @{x} ≤ -1 returnerar LN felet #NUM!."
 
-#: ../plugins/fn-math/functions.c:1438
+#: ../plugins/fn-math/functions.c:1445
 msgid ""
 "POWER:the value of @{x} raised to the power @{y} raised to the power of 1/"
 "@{z}"
 msgstr "POWER:värdet av @{x} upphöjt till @{y} upphöjt till 1/@{z}"
 
-#: ../plugins/fn-math/functions.c:1441
+#: ../plugins/fn-math/functions.c:1448
 msgid "z:number"
 msgstr "z:tal"
 
-#: ../plugins/fn-math/functions.c:1442
+#: ../plugins/fn-math/functions.c:1449
 msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
 msgstr "Om både @{x} och @{y} är lika med 0 returnerar POWER #NUM!"
 
-#: ../plugins/fn-math/functions.c:1443
+#: ../plugins/fn-math/functions.c:1450
 msgid "If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!"
 msgstr "Om @{x} = 0 och @{y} < 0 returnerar POWER #DIV/0!"
 
-#: ../plugins/fn-math/functions.c:1444
+#: ../plugins/fn-math/functions.c:1451
 msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
 msgstr "Om @{x} < 0 och @{y} inte är ett heltal returnerar POWER #NUM!"
 
-#: ../plugins/fn-math/functions.c:1445
+#: ../plugins/fn-math/functions.c:1452
 msgid "@{z} defaults to 1"
 msgstr "@{z} har standardvärdet 1"
 
-#: ../plugins/fn-math/functions.c:1446
+#: ../plugins/fn-math/functions.c:1453
 msgid "If @{z} is not a positive integer, POWER returns #NUM!"
 msgstr "Om @{z} inte är ett positivt heltal returnerar POWER #NUM!"
 
-#: ../plugins/fn-math/functions.c:1447
+#: ../plugins/fn-math/functions.c:1454
 msgid "If @{x} < 0, @{y} is odd, and @{z} is even, POWER returns #NUM!"
 msgstr "Om @{x} < 0, @{y} är udda, och @{z} är jämn returnerar POWER #NUM!"
 
-#: ../plugins/fn-math/functions.c:1480
+#: ../plugins/fn-math/functions.c:1487
 msgid "POCHHAMMER:the value of GAMMA(@{x}+@{n})/GAMMA(@{x})"
 msgstr "POCHHAMMER:värdet av GAMMA(@{x}+@{n})/GAMMA(@{x})"
 
-#: ../plugins/fn-math/functions.c:1501
+#: ../plugins/fn-math/functions.c:1508
 msgid "LOG2:the base-2 logarithm of @{x}"
 msgstr "LOG2:bas-2-logaritmen av @{x}"
 
-#: ../plugins/fn-math/functions.c:1503
+#: ../plugins/fn-math/functions.c:1510
 msgid "If @{x} ≤ 0, LOG2 returns #NUM!"
 msgstr "Om @{x} ≤ 0 returnerar LOG2 #NUM!"
 
-#: ../plugins/fn-math/functions.c:1523
+#: ../plugins/fn-math/functions.c:1530
 msgid "LOG10:the base-10 logarithm of @{x}"
 msgstr "LOG10:bas-10-logaritmen av @{x}"
 
-#: ../plugins/fn-math/functions.c:1525
+#: ../plugins/fn-math/functions.c:1532
 msgid "If @{x} ≤ 0, LOG10 returns #NUM!"
 msgstr "Om @{x} ≤ 0 returnerar LOG10 #NUM!"
 
-#: ../plugins/fn-math/functions.c:1545
+#: ../plugins/fn-math/functions.c:1552
 msgid "MOD:the remainder of @{x} under division by @{n}"
 msgstr "MOD:resten till @{x} vid division med @{n}"
 
-#: ../plugins/fn-math/functions.c:1547
+#: ../plugins/fn-math/functions.c:1554
 msgid "n:value"
 msgstr "n:värde"
 
-#: ../plugins/fn-math/functions.c:1548
+#: ../plugins/fn-math/functions.c:1555
 msgid "MOD function returns the remainder when @{x} is divided by @{n}."
 msgstr "Funktionen MOD returnerar resten då @{x} delas med @{n}."
 
-#: ../plugins/fn-math/functions.c:1549
+#: ../plugins/fn-math/functions.c:1556
 msgid "If @{n} is 0, MOD returns #DIV/0!"
 msgstr "Om @{n} är 0 returnerar MOD #DIV/0!"
 
-#: ../plugins/fn-math/functions.c:1591
+#: ../plugins/fn-math/functions.c:1598
 msgid "RADIANS:the number of radians equivalent to @{x} degrees"
 msgstr "RADIANS:motsvarande antal radianer för @{x} grader"
 
-#: ../plugins/fn-math/functions.c:1592
+#: ../plugins/fn-math/functions.c:1599
 msgid "x:angle in degrees"
 msgstr "x:vinkel i grader"
 
-#: ../plugins/fn-math/functions.c:1609
+#: ../plugins/fn-math/functions.c:1616
 msgid "REDUCEPI:reduce modulo Pi divided by a power of 2"
 msgstr "REDUCEPI:minska modulo Pi delat med en potens av 2"
 
-#: ../plugins/fn-math/functions.c:1611
+#: ../plugins/fn-math/functions.c:1618
 msgid "e:scale"
 msgstr "e:skala"
 
-#: ../plugins/fn-math/functions.c:1612
+#: ../plugins/fn-math/functions.c:1619
 msgid "q:get lower bits of quotient, defaults to FALSE"
 msgstr "q:hämta lägre bitar för täljare, standard är FALSKT"
 
-#: ../plugins/fn-math/functions.c:1614
+#: ../plugins/fn-math/functions.c:1621
 msgid ""
 "This function returns a value, xr, such that @{x}=xr+j*Pi/2^@{e} where j is "
 "an integer and the absolute value of xr does not exceed Pi/2^(@{e}+1).  If "
@@ -6698,7 +6726,7 @@ msgstr ""
 "valfria argumentet @{q} är SANT, returneras i stället @e+1 lägre bitar av j. "
 "Denna reduktion utförs som om ett precist Pi-värde användes."
 
-#: ../plugins/fn-math/functions.c:1615
+#: ../plugins/fn-math/functions.c:1622
 msgid ""
 "The lowest valid @{e} is -1 representing reduction modulo 2*Pi; the highest "
 "is 7 representing reduction modulo Pi/256."
@@ -6706,167 +6734,167 @@ msgstr ""
 "Det lägsta giltiga @{e} är -1 representerande reduktionsmodulo 2*Pi; det "
 "högsta är 7 representerande reduktionsmodulo Pi/256."
 
-#: ../plugins/fn-math/functions.c:1639
+#: ../plugins/fn-math/functions.c:1646
 msgid "SIN:the sine of @{x}"
 msgstr "SIN:sinus av @{x}"
 
-#: ../plugins/fn-math/functions.c:1644
+#: ../plugins/fn-math/functions.c:1651
 msgid "wolfram:Sine.html"
 msgstr "wolfram:Sine.html"
 
-#: ../plugins/fn-math/functions.c:1658
+#: ../plugins/fn-math/functions.c:1665
 msgid "SINPI:the sine of Pi*@{x}"
 msgstr "SINPI:sinus av pi*@{x}"
 
-#: ../plugins/fn-math/functions.c:1675
+#: ../plugins/fn-math/functions.c:1682
 msgid "CSC:the cosecant of @{x}"
 msgstr "CSC:cosekanten av @{x}"
 
-#: ../plugins/fn-math/functions.c:1677 ../plugins/fn-math/functions.c:1697
-#: ../plugins/fn-math/functions.c:1717 ../plugins/fn-math/functions.c:1737
+#: ../plugins/fn-math/functions.c:1684 ../plugins/fn-math/functions.c:1704
+#: ../plugins/fn-math/functions.c:1724 ../plugins/fn-math/functions.c:1744
 msgid "This function is not Excel compatible."
 msgstr "Denna funktion är inte Excel-kompatibel."
 
-#: ../plugins/fn-math/functions.c:1681
+#: ../plugins/fn-math/functions.c:1688
 msgid "wolfram:Cosecant.html"
 msgstr "wolfram:Cosecant.html"
 
-#: ../plugins/fn-math/functions.c:1695
+#: ../plugins/fn-math/functions.c:1702
 msgid "CSCH:the hyperbolic cosecant of @{x}"
 msgstr "CSCH:hyperbolisk cosekant för @{x}"
 
-#: ../plugins/fn-math/functions.c:1701
+#: ../plugins/fn-math/functions.c:1708
 msgid "wolfram:HyperbolicCosecant.html"
 msgstr "wolfram:HyperbolicCosecant.html"
 
-#: ../plugins/fn-math/functions.c:1715
+#: ../plugins/fn-math/functions.c:1722
 msgid "SEC:Secant"
 msgstr "SEC:Sekant"
 
-#: ../plugins/fn-math/functions.c:1718
+#: ../plugins/fn-math/functions.c:1725
 msgid "SEC(@{x}) is exported to OpenFormula as 1/COS(@{x})."
 msgstr "SEC(@{x}) exporteras till OpenFormula som 1/COS(@{x})."
 
-#: ../plugins/fn-math/functions.c:1721
+#: ../plugins/fn-math/functions.c:1728
 msgid "wolfram:Secant.html"
 msgstr "wolfram:Secant.html"
 
-#: ../plugins/fn-math/functions.c:1735
+#: ../plugins/fn-math/functions.c:1742
 msgid "SECH:the hyperbolic secant of @{x}"
 msgstr "SECH:hyperbolisk sekant för @{x}"
 
-#: ../plugins/fn-math/functions.c:1738
+#: ../plugins/fn-math/functions.c:1745
 msgid "SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x})."
 msgstr "SECH(@{x}) exporteras till OpenFormula som 1/COSH(@{x})."
 
-#: ../plugins/fn-math/functions.c:1741
+#: ../plugins/fn-math/functions.c:1748
 msgid "wolfram:HyperbolicSecant.html"
 msgstr "wolfram:HyperbolicSecant.html"
 
-#: ../plugins/fn-math/functions.c:1753
+#: ../plugins/fn-math/functions.c:1760
 msgid "SINH:the hyperbolic sine of @{x}"
 msgstr "SINH:hyperbolisk sinus för @{x}"
 
-#: ../plugins/fn-math/functions.c:1771
+#: ../plugins/fn-math/functions.c:1778
 msgid "SQRT:square root of @{x}"
 msgstr "SQRT:kvadratrot av @{x}"
 
-#: ../plugins/fn-math/functions.c:1772 ../plugins/fn-math/functions.c:2224
+#: ../plugins/fn-math/functions.c:1779 ../plugins/fn-math/functions.c:2375
 msgid "x:non-negative number"
 msgstr "x:icke-negativt tal"
 
-#: ../plugins/fn-math/functions.c:1774
+#: ../plugins/fn-math/functions.c:1781
 msgid "If @{x} is negative, SQRT returns #NUM!"
 msgstr "Om @{x} är negativ returnerar SQRT #NUM!"
 
-#: ../plugins/fn-math/functions.c:1793
+#: ../plugins/fn-math/functions.c:1800
 msgid "SUMA:sum of all values and cells referenced"
 msgstr "SUMA:summan av alla värden och refererade celler"
 
-#: ../plugins/fn-math/functions.c:1794 ../plugins/fn-math/functions.c:1818
+#: ../plugins/fn-math/functions.c:1801 ../plugins/fn-math/functions.c:1825
 msgid "area0:first cell area"
 msgstr "område0:första cellområdet"
 
-#: ../plugins/fn-math/functions.c:1795 ../plugins/fn-math/functions.c:1819
+#: ../plugins/fn-math/functions.c:1802 ../plugins/fn-math/functions.c:1826
 msgid "area1:second cell area"
 msgstr "område1:andra cellområdet"
 
-#: ../plugins/fn-math/functions.c:1817
+#: ../plugins/fn-math/functions.c:1824
 msgid "SUMSQ:sum of the squares of all values and cells referenced"
 msgstr "SUMSQ:summan av kvadraterna av alla värden och refererade celler"
 
-#: ../plugins/fn-math/functions.c:1877
+#: ../plugins/fn-math/functions.c:1884
 msgid ""
 "MULTINOMIAL:multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},…,@{xn})"
 msgstr ""
 "MULTINOMIAL:multinomialkoefficienten (@{x1}+⋯+@{xn}) välj (@{x1},…,@{xn})"
 
-#: ../plugins/fn-math/functions.c:1878
+#: ../plugins/fn-math/functions.c:1885
 msgid "x1:first number"
 msgstr "x1:första tal"
 
-#: ../plugins/fn-math/functions.c:1879
+#: ../plugins/fn-math/functions.c:1886
 msgid "x2:second number"
 msgstr "x2:andra tal"
 
-#: ../plugins/fn-math/functions.c:1880
+#: ../plugins/fn-math/functions.c:1887
 msgid "xn:nth number"
 msgstr "xn:n:e tal"
 
-#: ../plugins/fn-math/functions.c:1884
+#: ../plugins/fn-math/functions.c:1891
 msgid "wiki:en:Multinomial_theorem"
 msgstr "wiki:en:Multinomial_theorem"
 
-#: ../plugins/fn-math/functions.c:1902
+#: ../plugins/fn-math/functions.c:1909
 msgid "G_PRODUCT:product of all the values and cells referenced"
 msgstr "G_PRODUCT:produkten av alla värden och refererade celler"
 
-#: ../plugins/fn-math/functions.c:1903
+#: ../plugins/fn-math/functions.c:1910
 msgid "x1:number"
 msgstr "x1:tal"
 
-#: ../plugins/fn-math/functions.c:1904
+#: ../plugins/fn-math/functions.c:1911
 msgid "x2:number"
 msgstr "x2:tal"
 
-#: ../plugins/fn-math/functions.c:1905
+#: ../plugins/fn-math/functions.c:1912
 msgid "Empty cells are ignored and the empty product is 1."
 msgstr "Tomma celler ignoreras och den tomma produkten är 1."
 
-#: ../plugins/fn-math/functions.c:1925
+#: ../plugins/fn-math/functions.c:1932
 msgid "TAN:the tangent of @{x}"
 msgstr "TAN:tangens av @{x}"
 
-#: ../plugins/fn-math/functions.c:1942
+#: ../plugins/fn-math/functions.c:1949
 msgid "TANPI:the tangent of Pi*@{x}"
 msgstr "TANPI:tangens av pi*@{x}"
 
-#: ../plugins/fn-math/functions.c:1958
+#: ../plugins/fn-math/functions.c:1965
 msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr "TANH:hyperbolisk tangens för @{x}"
 
-#: ../plugins/fn-math/functions.c:1975
+#: ../plugins/fn-math/functions.c:1982
 msgid "PI:the constant 𝜋"
 msgstr "PI:konstanten 𝜋"
 
 # TODO: "𝜋 with" ->"𝜋  with"
-#: ../plugins/fn-math/functions.c:1976
+#: ../plugins/fn-math/functions.c:1983
 msgid ""
 "This function is Excel compatible, but it returns 𝜋 with a better precision."
 msgstr ""
 "Denna funktion är Excel-kompatibel, men den returnerar 𝜋 med större "
 "precision."
 
-#: ../plugins/fn-math/functions.c:1993
+#: ../plugins/fn-math/functions.c:2000
 msgid "TRUNC:@{x} truncated to @{d} digits"
 msgstr "TRUNC:@{x} trunkerad till @{d} siffror"
 
-#: ../plugins/fn-math/functions.c:1995 ../plugins/fn-math/functions.c:2247
-#: ../plugins/fn-math/functions.c:2271 ../plugins/fn-math/functions.c:2317
+#: ../plugins/fn-math/functions.c:2002 ../plugins/fn-math/functions.c:2398
+#: ../plugins/fn-math/functions.c:2422 ../plugins/fn-math/functions.c:2453
 msgid "d:integer, defaults to 0"
 msgstr "d:heltal, standardvärde 0"
 
-#: ../plugins/fn-math/functions.c:1996
+#: ../plugins/fn-math/functions.c:2003
 msgid ""
 "If @{d} is omitted then it defaults to zero. If it is not an integer then it "
 "is truncated to an integer."
@@ -6874,33 +6902,33 @@ msgstr ""
 "Om @{d} utelämnas används standardvärdet noll. Om det inte är ett heltal "
 "trunkeras det till ett heltal."
 
-#: ../plugins/fn-math/functions.c:1997
+#: ../plugins/fn-math/functions.c:2004
 msgid ""
 "If @{d} is negative, it refers to number of digits before the decimal point."
 msgstr ""
 "Om @{d} är negativt hänvisar det till antalet siffror innan decimaltecknet."
 
-#: ../plugins/fn-math/functions.c:2032
+#: ../plugins/fn-math/functions.c:2192
 msgid "EVEN:@{x} rounded away from 0 to the next even integer"
 msgstr "EVEN:@{x} avrundat bort från 0 till nästa jämna heltal"
 
-#: ../plugins/fn-math/functions.c:2067
+#: ../plugins/fn-math/functions.c:2222
 msgid "ODD:@{x} rounded away from 0 to the next odd integer"
 msgstr "ODD:@{x} avrundat bort från 0 till nästa udda heltal"
 
-#: ../plugins/fn-math/functions.c:2102
+#: ../plugins/fn-math/functions.c:2253
 msgid "FACTDOUBLE:double factorial"
 msgstr "FACTDOUBLE:dubbelfakultet"
 
-#: ../plugins/fn-math/functions.c:2103
+#: ../plugins/fn-math/functions.c:2254
 msgid "x:non-negative integer"
 msgstr "x:icke-negativt heltal"
 
-#: ../plugins/fn-math/functions.c:2104
+#: ../plugins/fn-math/functions.c:2255
 msgid "FACTDOUBLE function returns the double factorial @{x}!!"
 msgstr "Funktionen FACTDOUBLE returnerar dubbelfakulteten @{x}!!"
 
-#: ../plugins/fn-math/functions.c:2105
+#: ../plugins/fn-math/functions.c:2256
 msgid ""
 "If @{x} is not an integer, it is truncated. If @{x} is negative, FACTDOUBLE "
 "returns #NUM!"
@@ -6908,27 +6936,27 @@ msgstr ""
 "Om @{x} inte är ett heltal trunkeras det. Om @{x} är negativt returnerar "
 "FACTDOUBLE #NUM!"
 
-#: ../plugins/fn-math/functions.c:2127
+#: ../plugins/fn-math/functions.c:2278
 msgid "FIB:Fibonacci numbers"
 msgstr "FIB:Fibonaccital"
 
-#: ../plugins/fn-math/functions.c:2128 ../plugins/fn-numtheory/numtheory.c:259
+#: ../plugins/fn-math/functions.c:2279 ../plugins/fn-numtheory/numtheory.c:259
 #: ../plugins/fn-numtheory/numtheory.c:292
 #: ../plugins/fn-numtheory/numtheory.c:326
 #: ../plugins/fn-numtheory/numtheory.c:359
 #: ../plugins/fn-numtheory/numtheory.c:400
 #: ../plugins/fn-numtheory/numtheory.c:432
 #: ../plugins/fn-numtheory/numtheory.c:492
-#: ../plugins/fn-numtheory/numtheory.c:548
-#: ../plugins/fn-numtheory/numtheory.c:579
+#: ../plugins/fn-numtheory/numtheory.c:547
+#: ../plugins/fn-numtheory/numtheory.c:578
 msgid "n:positive integer"
 msgstr "n:positivt heltal"
 
-#: ../plugins/fn-math/functions.c:2129
+#: ../plugins/fn-math/functions.c:2280
 msgid "FIB(@{n}) is the @{n}th Fibonacci number."
 msgstr "FIB(@{n}) är det @{n}:e Fibonaccitalet."
 
-#: ../plugins/fn-math/functions.c:2130
+#: ../plugins/fn-math/functions.c:2281
 msgid ""
 "If @{n} is not an integer, it is truncated. If it is negative or zero FIB "
 "returns #NUM!"
@@ -6936,48 +6964,48 @@ msgstr ""
 "Om @{x} inte är ett heltal trunkeras det. Om det är negativt eller noll "
 "returnerar FIB #NUM!"
 
-#: ../plugins/fn-math/functions.c:2168
+#: ../plugins/fn-math/functions.c:2319
 msgid "QUOTIENT:integer portion of a division"
 msgstr "QUOTIENT:heltalsdel av en division"
 
-#: ../plugins/fn-math/functions.c:2169
+#: ../plugins/fn-math/functions.c:2320
 msgid "numerator:integer"
 msgstr "täljare:heltal"
 
-#: ../plugins/fn-math/functions.c:2170
+#: ../plugins/fn-math/functions.c:2321
 msgid "denominator:non-zero integer"
 msgstr "nämnare:nollskilt heltal"
 
-#: ../plugins/fn-math/functions.c:2171
+#: ../plugins/fn-math/functions.c:2322
 msgid ""
 "QUOTIENT yields the integer portion of the division @{numerator}/"
 "@{denominator}.\n"
-"QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},"
-"@{denominator})=@{numerator}"
+"QUOTIENT (@{numerator},@{denominator})⨉@{denominator}"
+"+MOD(@{numerator},@{denominator})=@{numerator}"
 msgstr ""
 "QUOTIENT ger heltalsdelen av divisionen @{täljare}/@{nämnare}.\n"
-"QUOTIENT (@{täljare},@{nämnare})⨉@{nämnare}+MOD(@{täljare},"
-"@{nämnare})=@{täljare}"
+"QUOTIENT (@{täljare},@{nämnare})⨉@{nämnare}"
+"+MOD(@{täljare},@{nämnare})=@{täljare}"
 
-#: ../plugins/fn-math/functions.c:2195
+#: ../plugins/fn-math/functions.c:2346
 msgid "SIGN:sign of @{x}"
 msgstr "SIGN:tecknet för @{x}"
 
-#: ../plugins/fn-math/functions.c:2197
+#: ../plugins/fn-math/functions.c:2348
 msgid ""
 "SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negative."
 msgstr ""
 "SIGN returnerar 1 om @{x} är positivt och returnerar -1 om @{x} är negativt."
 
-#: ../plugins/fn-math/functions.c:2222
+#: ../plugins/fn-math/functions.c:2373
 msgid "SQRTPI:the square root of @{x} times 𝜋"
 msgstr "SQRTPI:kvadratroten av @{x} gånger 𝜋"
 
-#: ../plugins/fn-math/functions.c:2245
+#: ../plugins/fn-math/functions.c:2396
 msgid "ROUNDDOWN:@{x} rounded towards 0"
 msgstr "ROUNDDOWN:@{x} avrundat mot 0"
 
-#: ../plugins/fn-math/functions.c:2248
+#: ../plugins/fn-math/functions.c:2399
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded toward 0 to the given number "
 "of digits.\n"
@@ -6990,11 +7018,11 @@ msgstr ""
 "Om @{d} är noll, avrundas @{x} mot 0 till nästa heltal.\n"
 "Om @{d} är mindre än noll, avrundas @{x} mot 0 till vänster om decimalpunkten"
 
-#: ../plugins/fn-math/functions.c:2269
+#: ../plugins/fn-math/functions.c:2420
 msgid "ROUND:rounded @{x}"
 msgstr "ROUND:avrundad @{x}"
 
-#: ../plugins/fn-math/functions.c:2272
+#: ../plugins/fn-math/functions.c:2423
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded to the given number of "
 "digits.\n"
@@ -7005,11 +7033,11 @@ msgstr ""
 "Om @{d} är noll, avrundas @{x} till nästa heltal.\n"
 "Om @{d} är mindre än noll, avrundas @{x} till vänster om decimalpunkten"
 
-#: ../plugins/fn-math/functions.c:2315
+#: ../plugins/fn-math/functions.c:2451
 msgid "ROUNDUP:@{x} rounded away from 0"
 msgstr "ROUNDUP:@{x} avrundat bort från 0"
 
-#: ../plugins/fn-math/functions.c:2318
+#: ../plugins/fn-math/functions.c:2454
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded away from 0 to the given "
 "number of digits.\n"
@@ -7023,27 +7051,27 @@ msgstr ""
 "Om @{d} är mindre än noll, avrundas @{x} bort från 0 till vänster om "
 "decimalpunkten"
 
-#: ../plugins/fn-math/functions.c:2362
+#: ../plugins/fn-math/functions.c:2488
 msgid "MROUND:@{x} rounded to a multiple of @{m}"
 msgstr "MROUND:@{x} avrundat till en multipel av @{m}"
 
-#: ../plugins/fn-math/functions.c:2364
+#: ../plugins/fn-math/functions.c:2490
 msgid "m:number"
 msgstr "m:tal"
 
-#: ../plugins/fn-math/functions.c:2365
+#: ../plugins/fn-math/functions.c:2491
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
 msgstr "Om @{x} och @{m} har olika tecken returnerar MROUND #NUM!"
 
-#: ../plugins/fn-math/functions.c:2406
+#: ../plugins/fn-math/functions.c:2532
 msgid "ARABIC:the Roman numeral @{roman} as number"
 msgstr "ARABIC:den romerska siffran @{romersk} som ett tal"
 
-#: ../plugins/fn-math/functions.c:2407
+#: ../plugins/fn-math/functions.c:2533
 msgid "roman:Roman numeral"
 msgstr "romersk:romersk siffra"
 
-#: ../plugins/fn-math/functions.c:2408
+#: ../plugins/fn-math/functions.c:2534
 msgid ""
 "Any Roman symbol to the left of a larger symbol (directly or indirectly) "
 "reduces the final value by the symbol amount, otherwise, it increases the "
@@ -7053,15 +7081,15 @@ msgstr ""
 "indirekt) minskar det slutliga värdet med symbolens värde. I andra fall ökar "
 "den det slutliga värdet med symbolens värde."
 
-#: ../plugins/fn-math/functions.c:2484
+#: ../plugins/fn-math/functions.c:2610
 msgid "ROMAN:@{n} as a roman numeral text"
 msgstr "ROMAN:@{n} som en romersk numerisk text"
 
-#: ../plugins/fn-math/functions.c:2486
+#: ../plugins/fn-math/functions.c:2612
 msgid "type:0,1,2,3,or 4, defaults to 0"
 msgstr "typ:0,1,2,3 eller 4, standardvärde 0"
 
-#: ../plugins/fn-math/functions.c:2487
+#: ../plugins/fn-math/functions.c:2613
 msgid ""
 "ROMAN returns the arabic number @{n} as a roman numeral text.\n"
 "If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
@@ -7073,21 +7101,21 @@ msgstr ""
 "Typ 1 är mer koncis än klassiska typen, typ 2 är mer koncis än typ 1 och typ "
 "3 är mer koncis än typ 2. Typ 4 är en förenklad typ."
 
-#: ../plugins/fn-math/functions.c:2734
+#: ../plugins/fn-math/functions.c:2860
 msgid "SUMX2MY2:sum of the difference of squares"
 msgstr "SUMX2MY2:summan av skillnaderna av tal i kvadrat"
 
-#: ../plugins/fn-math/functions.c:2735 ../plugins/fn-math/functions.c:2777
-#: ../plugins/fn-math/functions.c:2820
+#: ../plugins/fn-math/functions.c:2861 ../plugins/fn-math/functions.c:2903
+#: ../plugins/fn-math/functions.c:2946
 msgid "array0:first cell area"
 msgstr "vektor0:första cellarean"
 
-#: ../plugins/fn-math/functions.c:2736 ../plugins/fn-math/functions.c:2778
-#: ../plugins/fn-math/functions.c:2821
+#: ../plugins/fn-math/functions.c:2862 ../plugins/fn-math/functions.c:2904
+#: ../plugins/fn-math/functions.c:2947
 msgid "array1:second cell area"
 msgstr "vektor1:andra cellarean"
 
-#: ../plugins/fn-math/functions.c:2737
+#: ../plugins/fn-math/functions.c:2863
 msgid ""
 "SUMX2MY2 function returns the sum of the difference of squares of "
 "corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
@@ -7095,8 +7123,8 @@ msgstr ""
 "SUMX2MY2-funktionen returnerar summan av skillnaderna av tal i kvadrat "
 "motsvarande värden i två vektorer. Ekvationen av SUMX2MY2 är SUM(x^2-y^2)."
 
-#: ../plugins/fn-math/functions.c:2740 ../plugins/fn-math/functions.c:2784
-#: ../plugins/fn-math/functions.c:2827
+#: ../plugins/fn-math/functions.c:2866 ../plugins/fn-math/functions.c:2910
+#: ../plugins/fn-math/functions.c:2953
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
 "and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39."
@@ -7104,15 +7132,15 @@ msgstr ""
 "Anta att cellerna A1, A2, ..., A5 innehåller siffrorna 11, 15, 17, 21 och 43 "
 "och att cellerna B1, B2, ..., B5 har siffrorna 13, 22, 31, 33 och 39."
 
-#: ../plugins/fn-math/functions.c:2741
+#: ../plugins/fn-math/functions.c:2867
 msgid "Then SUMX2MY2(A1:A5,B1:B5) yields -1299."
 msgstr "SUMX2MY2(A1:A5,B1:B5) ger då -1299."
 
-#: ../plugins/fn-math/functions.c:2776
+#: ../plugins/fn-math/functions.c:2902
 msgid "SUMX2PY2:sum of the sum of squares"
 msgstr "SUMX2MY2:summan av summan av talen i kvadrat"
 
-#: ../plugins/fn-math/functions.c:2779
+#: ../plugins/fn-math/functions.c:2905
 msgid ""
 "SUMX2PY2 function returns the sum of the sum of squares of corresponding "
 "values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2)."
@@ -7120,7 +7148,7 @@ msgstr ""
 "SUMX2PY2-funktionen returnerar summan av kvadratsumman av motsvarande värden "
 "i två vektorer. Ekvationen för SUMX2PY2 är SUM(x^2+y^2)."
 
-#: ../plugins/fn-math/functions.c:2781
+#: ../plugins/fn-math/functions.c:2907
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMX2PY2 "
 "returns #N/A.\n"
@@ -7130,15 +7158,15 @@ msgstr ""
 "#-.\n"
 "Strängar och tomma celler ignoreras helt."
 
-#: ../plugins/fn-math/functions.c:2785
+#: ../plugins/fn-math/functions.c:2911
 msgid "Then SUMX2PY2(A1:A5,B1:B5) yields 7149."
 msgstr "Då ger SUMX2PY2(A1:A5,B1:B5) talet 7149."
 
-#: ../plugins/fn-math/functions.c:2819
+#: ../plugins/fn-math/functions.c:2945
 msgid "SUMXMY2:sum of the squares of differences"
 msgstr "SUMXMY2:summan av kvadrater av skillnader"
 
-#: ../plugins/fn-math/functions.c:2822
+#: ../plugins/fn-math/functions.c:2948
 msgid ""
 "SUMXMY2 function returns the sum of the squares of the differences of "
 "corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
@@ -7146,7 +7174,7 @@ msgstr ""
 "SUMXMY2-funktionen returnerar summan av kvadratskillnaderna för motsvarande "
 "värden i två vektorer. Ekvationen för SUMXMY2 är SUM((x-y)^2)."
 
-#: ../plugins/fn-math/functions.c:2824
+#: ../plugins/fn-math/functions.c:2950
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMXMY2 "
 "returns #N/A.\n"
@@ -7156,31 +7184,31 @@ msgstr ""
 "#-.\n"
 "Strängar och tomma celler ignoreras helt."
 
-#: ../plugins/fn-math/functions.c:2828
+#: ../plugins/fn-math/functions.c:2954
 msgid "Then SUMXMY2(A1:A5,B1:B5) yields 409."
 msgstr "Då ger SUMXMY2(A1:A5,B1:B5) resultatet 409."
 
-#: ../plugins/fn-math/functions.c:2864
+#: ../plugins/fn-math/functions.c:2990
 msgid "SERIESSUM:sum of a power series at @{x}"
 msgstr "SERIESSUM:summan av potensserien vid @{x}"
 
-#: ../plugins/fn-math/functions.c:2865
+#: ../plugins/fn-math/functions.c:2991
 msgid "x:number where to evaluate the power series"
 msgstr "x:siffra för var potensserien ska utvärderas"
 
-#: ../plugins/fn-math/functions.c:2866
+#: ../plugins/fn-math/functions.c:2992
 msgid "n:non-negative integer, exponent of the lowest term of the series"
 msgstr "n:icke-negativt heltal, exponenten för den lägsta termen i serien"
 
-#: ../plugins/fn-math/functions.c:2867
+#: ../plugins/fn-math/functions.c:2993
 msgid "m:increment to each exponent"
 msgstr "m:ökning på varje exponent"
 
-#: ../plugins/fn-math/functions.c:2868
+#: ../plugins/fn-math/functions.c:2994
 msgid "coeff:coefficients of the power series"
 msgstr "koeff:koefficienterna för potensserien"
 
-#: ../plugins/fn-math/functions.c:2870
+#: ../plugins/fn-math/functions.c:2996
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, "
 "2.98, 3.42, and 4.33."
@@ -7188,23 +7216,23 @@ msgstr ""
 "Anta att cellerna A1, A2, ..., A5 innehåller siffrorna 1,23; 2,32; 2,98; "
 "3,42 och 4,33."
 
-#: ../plugins/fn-math/functions.c:2871
+#: ../plugins/fn-math/functions.c:2997
 msgid "Then SERIESSUM(2,1,2.23,A1:A5) evaluates as 5056.37439843926"
 msgstr "Då utvärderas SERIESSUM(2;1;2,23;A1:A5) som 5056,37439843926"
 
-#: ../plugins/fn-math/functions.c:2922
+#: ../plugins/fn-math/functions.c:3048
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE:matrisinversen av @{matris}"
 
-#: ../plugins/fn-math/functions.c:2923 ../plugins/fn-math/functions.c:3212
+#: ../plugins/fn-math/functions.c:3049 ../plugins/fn-math/functions.c:3338
 msgid "matrix:a square matrix"
 msgstr "matris:en kvadratisk matris"
 
-#: ../plugins/fn-math/functions.c:2924
+#: ../plugins/fn-math/functions.c:3050
 msgid "If @{matrix} is not invertible, MINVERSE returns #NUM!"
 msgstr "Om @{matris} inte är inverterbar returnerar MINVERSE #NUM!"
 
-#: ../plugins/fn-math/functions.c:2925
+#: ../plugins/fn-math/functions.c:3051
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, MINVERSE "
 "returns #VALUE!"
@@ -7212,19 +7240,19 @@ msgstr ""
 "Om @{matris} inte innehåller lika många kolumner som rader returnerar "
 "MINVERSE #VÄRDE!"
 
-#: ../plugins/fn-math/functions.c:2959
+#: ../plugins/fn-math/functions.c:3085
 msgid "MPSEUDOINVERSE:the pseudo-inverse matrix of @{matrix}"
 msgstr "MPSEUDOINVERSE:den pseudoinversa matrisen för @{matris}"
 
-#: ../plugins/fn-math/functions.c:2960
+#: ../plugins/fn-math/functions.c:3086
 msgid "matrix:a matrix"
 msgstr "matris:en matris"
 
-#: ../plugins/fn-math/functions.c:2961
+#: ../plugins/fn-math/functions.c:3087
 msgid "threshold:a relative size threshold for discarding eigenvalues"
 msgstr "tröskelvärde:ett relativt tröskelvärde för att förkasta eigenvärden"
 
-#: ../plugins/fn-math/functions.c:2996
+#: ../plugins/fn-math/functions.c:3122
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite "
 "@{matrix}"
@@ -7232,11 +7260,11 @@ msgstr ""
 "CHOLESKY:Cholesky-dekompositionen för en symmetrisk positivt definit "
 "@{matris}"
 
-#: ../plugins/fn-math/functions.c:2997
+#: ../plugins/fn-math/functions.c:3123
 msgid "matrix:a symmetric positive definite matrix"
 msgstr "matris:en symmetrisk positivt definit matris"
 
-#: ../plugins/fn-math/functions.c:2998
+#: ../plugins/fn-math/functions.c:3124
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
@@ -7244,7 +7272,7 @@ msgstr ""
 "Om Cholesky-Banachiewicz-algoritmen tillämpad på @{matris} misslyckas "
 "returnerar Cholesky #NUM!"
 
-#: ../plugins/fn-math/functions.c:2999
+#: ../plugins/fn-math/functions.c:3125
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
@@ -7252,28 +7280,28 @@ msgstr ""
 "Om @{matris} inte innehåller lika många kolumner som rader returnerar "
 "CHOLESKY #VÄRDE!"
 
-#: ../plugins/fn-math/functions.c:3074
+#: ../plugins/fn-math/functions.c:3200
 msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr "MUNIT:en @{n}×@{n}-identitetsmatris"
 
-#: ../plugins/fn-math/functions.c:3075
+#: ../plugins/fn-math/functions.c:3201
 msgid "n:size of the matrix"
 msgstr "n:storleken på matrisen"
 
-#: ../plugins/fn-math/functions.c:3112
+#: ../plugins/fn-math/functions.c:3238
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr "MMULT:matrisprodukten av @{mat1} och @{mat2}"
 
-#: ../plugins/fn-math/functions.c:3113
+#: ../plugins/fn-math/functions.c:3239
 msgid "mat1:a matrix"
 msgstr "mat1:en matris"
 
-#: ../plugins/fn-math/functions.c:3114
+#: ../plugins/fn-math/functions.c:3240
 msgid "mat2:a matrix"
 msgstr "mat2:en matris"
 
 # TODO: unbalanced parantheses
-#: ../plugins/fn-math/functions.c:3115
+#: ../plugins/fn-math/functions.c:3241
 msgid ""
 "The number of columns in @{mat1} must equal the number of rows in @{mat2}; "
 "otherwise #VALUE! is returned.  The result of MMULT is an array, in which "
@@ -7285,45 +7313,45 @@ msgstr ""
 "antalet rader är samma som i (@{mat1}), och antalet kolumner är samma som i "
 "(@{mat2})."
 
-#: ../plugins/fn-math/functions.c:3155
+#: ../plugins/fn-math/functions.c:3281
 msgid "LINSOLVE:solve linear equation"
 msgstr "LINSOLVE:lös linjär ekvation"
 
-#: ../plugins/fn-math/functions.c:3156 ../plugins/fn-stat/functions.c:3569
+#: ../plugins/fn-math/functions.c:3282 ../plugins/fn-stat/functions.c:3569
 msgid "A:a matrix"
 msgstr "A:en matris"
 
-#: ../plugins/fn-math/functions.c:3157
+#: ../plugins/fn-math/functions.c:3283
 msgid "B:a matrix"
 msgstr "B:en matris"
 
-#: ../plugins/fn-math/functions.c:3159
+#: ../plugins/fn-math/functions.c:3285
 msgid "Solves the equation @{A}*X=@{B} and returns X."
 msgstr "Löser ekvationen @{A}*X=@{B} och returnerar X."
 
-#: ../plugins/fn-math/functions.c:3160
+#: ../plugins/fn-math/functions.c:3286
 msgid "If the matrix @{A} is singular, #VALUE! is returned."
 msgstr "Om matris @{A} är singulär returneras #VÄRDE!."
 
-#: ../plugins/fn-math/functions.c:3211
+#: ../plugins/fn-math/functions.c:3337
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:determinanten av matrisen @{matris}"
 
-#: ../plugins/fn-math/functions.c:3213
+#: ../plugins/fn-math/functions.c:3339
 msgid ""
 "Let us assume that A1,...,A4 contain numbers 2, 3, 7, and 3; B1,..., B4 4, "
 "2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then "
 "MDETERM(A1:D4) yields 148."
 msgstr ""
 "Låt oss anta att A1,…,A4 innehåller talen 2, 3, 7 och 3; B1,…, B4 4, 2, 4 "
-"och 1; C1,…,C4 9, 4, 3 och 2; samt D1,…,D4 7, 3, 6 och 5. Då ger MDETERM(A1:"
-"D4) 148."
+"och 1; C1,…,C4 9, 4, 3 och 2; samt D1,…,D4 7, 3, 6 och 5. Då ger "
+"MDETERM(A1:D4) 148."
 
-#: ../plugins/fn-math/functions.c:3243
+#: ../plugins/fn-math/functions.c:3369
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT:multiplicerar komponenter och lägger ihop resultaten"
 
-#: ../plugins/fn-math/functions.c:3245 ../plugins/fn-math/functions.c:3268
+#: ../plugins/fn-math/functions.c:3371 ../plugins/fn-math/functions.c:3394
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -7331,11 +7359,11 @@ msgstr ""
 "Multiplicerar motsvarande dataposter i de givna vektorerna eller intervallen "
 "och returnerar summan av dessa produkter."
 
-#: ../plugins/fn-math/functions.c:3248
+#: ../plugins/fn-math/functions.c:3374
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Om en post inte är numerisk används nollvärdet i stället."
 
-#: ../plugins/fn-math/functions.c:3249 ../plugins/fn-math/functions.c:3272
+#: ../plugins/fn-math/functions.c:3375 ../plugins/fn-math/functions.c:3398
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -7343,7 +7371,7 @@ msgstr ""
 "Om vektorer eller intervallargument inte har samma dimensioner returneras "
 "felet #VÄRDE!."
 
-#: ../plugins/fn-math/functions.c:3251
+#: ../plugins/fn-math/functions.c:3377
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
@@ -7351,40 +7379,40 @@ msgstr ""
 "Denna funktion ignorerar logik, så att använda SUMPRODUCT(A1:A5>0) kommer "
 "inte att fungera. Använd i stället SUMPRODUCT(--(A1:A5>0))"
 
-#: ../plugins/fn-math/functions.c:3260
+#: ../plugins/fn-math/functions.c:3386
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr ""
 "Denna funktion är inte OpenFormula-kompatibel. Använd ODF.SUMPRODUCT i "
 "stället."
 
-#: ../plugins/fn-math/functions.c:3266
+#: ../plugins/fn-math/functions.c:3392
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
 msgstr "ODF.SUMPRODUCT:multiplicerar komponenter och lägger ihop resultaten"
 
-#: ../plugins/fn-math/functions.c:3271
+#: ../plugins/fn-math/functions.c:3397
 msgid "If an entry is not numeric or logical, the value zero is used instead."
 msgstr "Om en post inte är numerisk eller logisk används nollvärdet i stället."
 
-#: ../plugins/fn-math/functions.c:3274
+#: ../plugins/fn-math/functions.c:3400
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr ""
 "Denna funktion skiljer sig från SUMPRODUCT genom att även titta på booleska "
 "värden."
 
-#: ../plugins/fn-math/functions.c:3275
+#: ../plugins/fn-math/functions.c:3401
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr "Denna funktion är inte Excel-kompatibel. Använd SUMPRODUCT i stället."
 
-#: ../plugins/fn-math/functions.c:3410
+#: ../plugins/fn-math/functions.c:3536
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:eigenvärden och eigenvektorer för en symmetrisk @{matris}"
 
-#: ../plugins/fn-math/functions.c:3411
+#: ../plugins/fn-math/functions.c:3537
 msgid "matrix:a symmetric matrix"
 msgstr "matris:en symmetrisk matris"
 
-#: ../plugins/fn-math/functions.c:3412
+#: ../plugins/fn-math/functions.c:3538
 msgid ""
 "If @{matrix} is not symmetric, matching off-diagonal cells will be averaged "
 "on the assumption that the non-symmetry is caused by unimportant rounding "
@@ -7393,7 +7421,7 @@ msgstr ""
 "Om @{matris} inte är symmetrisk, kommer matchande celler utanför diagonalen "
 "att medelviktas med antagandet att icke-symmetrin orsakats av avrundningsfel."
 
-#: ../plugins/fn-math/functions.c:3413
+#: ../plugins/fn-math/functions.c:3539
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
@@ -7501,54 +7529,54 @@ msgstr "ISPRIME returnerar SANT om @{n} är ett primtal och FALSKT annars."
 msgid "wolfram:PrimeNumber.html"
 msgstr "wolfram:PrimeNumber.html"
 
-#: ../plugins/fn-numtheory/numtheory.c:547
+#: ../plugins/fn-numtheory/numtheory.c:546
 msgid "PFACTOR:smallest prime factor"
 msgstr "PFACTOR:minsta primtalsfaktor"
 
-#: ../plugins/fn-numtheory/numtheory.c:549
+#: ../plugins/fn-numtheory/numtheory.c:548
 msgid "PFACTOR finds the smallest prime factor of its argument."
 msgstr "PFACTOR hittar den minsta primtalsfaktorn för sitt argument."
 
-#: ../plugins/fn-numtheory/numtheory.c:550
+#: ../plugins/fn-numtheory/numtheory.c:549
 msgid ""
 "The argument @{n} must be at least 2. Otherwise a #VALUE! error is returned."
 msgstr ""
 "Argumentet @{n} måste vara åtminstone 2. Annars returneras felet #VÄRDE!."
 
-#: ../plugins/fn-numtheory/numtheory.c:578
+#: ../plugins/fn-numtheory/numtheory.c:577
 msgid "NT_PI:number of primes upto @{n}"
 msgstr "NT_PI:antal primtal upp till @{n}"
 
-#: ../plugins/fn-numtheory/numtheory.c:580
+#: ../plugins/fn-numtheory/numtheory.c:579
 msgid "NT_PI returns the number of primes less than or equal to @{n}."
 msgstr "NT_PI returnerar antalet primtal mindre än eller lika med @{n}."
 
-#: ../plugins/fn-numtheory/numtheory.c:583
+#: ../plugins/fn-numtheory/numtheory.c:582
 msgid "wolfram:PrimeCountingFunction.html"
 msgstr "wolfram:PrimeCountingFunction.html"
 
-#: ../plugins/fn-numtheory/numtheory.c:609
+#: ../plugins/fn-numtheory/numtheory.c:608
 msgid "BITOR:bitwise or"
 msgstr "BITOR:bitvist eller"
 
-#: ../plugins/fn-numtheory/numtheory.c:610
-#: ../plugins/fn-numtheory/numtheory.c:649
-#: ../plugins/fn-numtheory/numtheory.c:691
+#: ../plugins/fn-numtheory/numtheory.c:609
+#: ../plugins/fn-numtheory/numtheory.c:648
+#: ../plugins/fn-numtheory/numtheory.c:690
 msgid "values:non-negative integers"
 msgstr "värden:icke-negativa heltal"
 
-#: ../plugins/fn-numtheory/numtheory.c:611
+#: ../plugins/fn-numtheory/numtheory.c:610
 msgid ""
 "BITOR returns the bitwise or of the binary representations of its arguments."
 msgstr ""
 "BITOR returnerar det bitvisa ”eller” av de binära representationerna av dess "
 "argument."
 
-#: ../plugins/fn-numtheory/numtheory.c:648
+#: ../plugins/fn-numtheory/numtheory.c:647
 msgid "BITXOR:bitwise exclusive or"
 msgstr "BITXOR:bitvist exklusivt eller"
 
-#: ../plugins/fn-numtheory/numtheory.c:650
+#: ../plugins/fn-numtheory/numtheory.c:649
 msgid ""
 "BITXOR returns the bitwise exclusive or of the binary representations of its "
 "arguments."
@@ -7556,11 +7584,11 @@ msgstr ""
 "BITXOR returnerar det bitvisa ”exklusiva eller” av de binära "
 "representationerna av dess argument."
 
-#: ../plugins/fn-numtheory/numtheory.c:690
+#: ../plugins/fn-numtheory/numtheory.c:689
 msgid "BITAND:bitwise and"
 msgstr "BITAND:bitvist och"
 
-#: ../plugins/fn-numtheory/numtheory.c:692
+#: ../plugins/fn-numtheory/numtheory.c:691
 msgid ""
 "BITAND returns the bitwise and of the binary representations of its "
 "arguments."
@@ -7568,16 +7596,16 @@ msgstr ""
 "BITAND returnerar det bitvisa ”och” av de binära representationerna av dess "
 "argument."
 
-#: ../plugins/fn-numtheory/numtheory.c:732
+#: ../plugins/fn-numtheory/numtheory.c:731
 msgid "BITLSHIFT:bit-shift to the left"
 msgstr "BITLSHIFT:bitskifta till vänster"
 
-#: ../plugins/fn-numtheory/numtheory.c:733
-#: ../plugins/fn-numtheory/numtheory.c:763
+#: ../plugins/fn-numtheory/numtheory.c:732
+#: ../plugins/fn-numtheory/numtheory.c:762
 msgid "a:non-negative integer"
 msgstr "a:icke-negativt heltal"
 
-#: ../plugins/fn-numtheory/numtheory.c:735
+#: ../plugins/fn-numtheory/numtheory.c:734
 msgid ""
 "BITLSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the left."
@@ -7585,7 +7613,7 @@ msgstr ""
 "BITLSHIFT returnerar den binära representationen för @{a} skiftad @{n} "
 "positioner till vänster."
 
-#: ../plugins/fn-numtheory/numtheory.c:736
+#: ../plugins/fn-numtheory/numtheory.c:735
 msgid ""
 "If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) "
 "positions."
@@ -7593,11 +7621,11 @@ msgstr ""
 "Om @{n} är negativ, skiftar BITLSHIFT bitarna till höger ABS(@{n}) "
 "positioner."
 
-#: ../plugins/fn-numtheory/numtheory.c:762
+#: ../plugins/fn-numtheory/numtheory.c:761
 msgid "BITRSHIFT:bit-shift to the right"
 msgstr "BITRSHIFT:bitskifta till höger"
 
-#: ../plugins/fn-numtheory/numtheory.c:765
+#: ../plugins/fn-numtheory/numtheory.c:764
 msgid ""
 "BITRSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the right."
@@ -7605,7 +7633,7 @@ msgstr ""
 "BITRSHIFT returnerar den binära representationen för @{a} skiftad @{n} "
 "positioner till höger."
 
-#: ../plugins/fn-numtheory/numtheory.c:766
+#: ../plugins/fn-numtheory/numtheory.c:765
 msgid ""
 "If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) "
 "positions."
@@ -7722,8 +7750,8 @@ msgid ""
 "log_p:if true, the natural logarithm of the probability is given or "
 "returned; defaults to false"
 msgstr ""
-"log_p:om sant returneras den naturliga logaritmen för sannolikheten;"
-"standardvärdet är falskt"
+"log_p:om sant returneras den naturliga logaritmen för "
+"sannolikheten;standardvärdet är falskt"
 
 #: ../plugins/fn-r/functions.c:50
 msgid ""
@@ -9983,8 +10011,8 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1372
 msgid ""
-"The parameterization of this function is different from what is used for, e."
-"g., NORMSDIST.  This is a common source of mistakes, but necessary for "
+"The parameterization of this function is different from what is used for, "
+"e.g., NORMSDIST.  This is a common source of mistakes, but necessary for "
 "compatibility."
 msgstr ""
 "Parametriseringen för denna funktion är annorlunda från vad den används för, "
@@ -10013,8 +10041,8 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1425
 msgid ""
-"The parameterization of this function is different from what is used for, e."
-"g., NORMSINV.  This is a common source of mistakes, but necessary for "
+"The parameterization of this function is different from what is used for, "
+"e.g., NORMSINV.  This is a common source of mistakes, but necessary for "
 "compatibility."
 msgstr ""
 "Parametriseringen för denna funktion är annorlunda från vad den används för, "
@@ -10948,8 +10976,8 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:3342
 msgid ""
 "Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619. TTEST(A1:A5,B1:B5,2,1) "
-"equals 0.006255239. TTEST(A1:A5,B1:B5,1,2) equals 0.111804322. TTEST(A1:A5,"
-"B1:B5,1,3) equals 0.113821797."
+"equals 0.006255239. TTEST(A1:A5,B1:B5,1,2) equals 0.111804322. "
+"TTEST(A1:A5,B1:B5,1,3) equals 0.113821797."
 msgstr ""
 "Då är TTEST(A1:A5;B1:B5;1;1) lika med 0,003127619. TTEST(A1:A5;B1:B5;2;1) är "
 "lika med 0,006255239. TTEST(A1:A5;B1:B5;1;2) är lika med 0,111804322. "
@@ -12164,8 +12192,8 @@ msgid ""
 "The distinction between half-width and full-width characters is described in "
 "http://www.unicode.org/reports/tr11/."
 msgstr ""
-"Skillnaden mellan halvbredd och helbreddstecken beskrivs i http://www."
-"unicode.org/reports/tr11/."
+"Skillnaden mellan halvbredd och helbreddstecken beskrivs i http://"
+"www.unicode.org/reports/tr11/."
 
 #: ../plugins/fn-string/functions.c:1536 ../plugins/fn-string/functions.c:1665
 msgid "For most strings, this function has the same effect as in Excel."
@@ -12717,8 +12745,7 @@ msgstr ""
 #~ "@SEEALSO="
 #~ msgstr ""
 #~ "@FUNCTION=PRICE\n"
-#~ "@SYNTAX=PRICE(avräkning;förfallodag;avkastning;reduceringspris[;frekvens;"
-#~ "bas])\n"
+#~ "@SYNTAX=PRICE(avräkning;förfallodag;avkastning;reduceringspris[;frekvens;bas])\n"
 #~ "@DESCRIPTION=PRICE returnerar priset per $100 värde av en säkerhet. Denna "
 #~ "metod kan endast användas om säkerheten betalar periodisk ränta.\n"
 #~ "\n"
@@ -12743,8 +12770,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=YIELD\n"
-#~ "@SYNTAX=YIELD(settlement,maturity,rate,price,redemption_price,frequency[,"
-#~ "basis])\n"
+#~ "@SYNTAX=YIELD(settlement,maturity,rate,price,redemption_price,frequency[,basis])\n"
 #~ "@DESCRIPTION=YIELD returns the yield on a security that pays periodic "
 #~ "interest.\n"
 #~ "\n"
@@ -12767,8 +12793,7 @@ msgstr ""
 #~ "@SEEALSO="
 #~ msgstr ""
 #~ "@FUNCTION=YIELD\n"
-#~ "@SYNTAX=YIELD(avräkning;förfallodag;räntesats;pris;reduceringspris;"
-#~ "frekvens[;bas])\n"
+#~ "@SYNTAX=YIELD(avräkning;förfallodag;räntesats;pris;reduceringspris;frekvens[;bas])\n"
 #~ "@DESCRIPTION=Använd YIELD för att beräkna avkastningen på en säkerhet som "
 #~ "betalar periodisk ränta.\n"
 #~ "\n"
@@ -12893,8 +12918,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=ODDFPRICE\n"
-#~ "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,"
-#~ "redemption,frequency[,basis])\n"
+#~ "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency[,basis])\n"
 #~ "@DESCRIPTION=ODDFPRICE returns the price per $100 face value of a "
 #~ "security. The security should have an odd short or long first period.\n"
 #~ "\n"
@@ -12919,8 +12943,7 @@ msgstr ""
 #~ "@SEEALSO="
 #~ msgstr ""
 #~ "@FUNCTION=ODDFPRICE\n"
-#~ "@SYNTAX=ODDFPRICE(avräkning;förfallodag;start;första_bet;räntesats;"
-#~ "avkastning;reducering;frekvens[;bas])\n"
+#~ "@SYNTAX=ODDFPRICE(avräkning;förfallodag;start;första_bet;räntesats;avkastning;reducering;frekvens[;bas])\n"
 #~ "@DESCRIPTION=ODDFPRICE returnerar priset per $100 värde av en säkerhet. "
 #~ "Säkerheten måste ha en udda kort eller lång första period.\n"
 #~ "\n"
@@ -12947,8 +12970,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=ODDFYIELD\n"
-#~ "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,"
-#~ "redemption,frequency[,basis])\n"
+#~ "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency[,basis])\n"
 #~ "@DESCRIPTION=ODDFYIELD calculates the yield of a security having an odd "
 #~ "first period.\n"
 #~ "\n"
@@ -12972,8 +12994,7 @@ msgstr ""
 #~ "@SEEALSO="
 #~ msgstr ""
 #~ "@FUNCTION=ODDFYIELD\n"
-#~ "@SYNTAX=ODDFYIELD(avräkning;förfallodag;start;första_bet;räntesats;pr;"
-#~ "reducering;frekvens[;bas])\n"
+#~ "@SYNTAX=ODDFYIELD(avräkning;förfallodag;start;första_bet;räntesats;pr;reducering;frekvens[;bas])\n"
 #~ "@DESCRIPTION=ODDFYIELD beräknar avkastningen på en säkerhet som har en "
 #~ "udda första period.\n"
 #~ "\n"
@@ -12999,8 +13020,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=ODDLPRICE\n"
-#~ "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
-#~ "frequency[,basis])\n"
+#~ "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequency[,basis])\n"
 #~ "@DESCRIPTION=ODDLPRICE calculates the price per $100 face value of a "
 #~ "security that has an odd last coupon period.\n"
 #~ "\n"
@@ -13024,8 +13044,7 @@ msgstr ""
 #~ "@SEEALSO="
 #~ msgstr ""
 #~ "@FUNCTION=ODDLPRICE\n"
-#~ "@SYNTAX=ODDLPRICE(avräkning;förfallodag;senaste_ränta;räntesats;"
-#~ "avkastning;reducering;frekvens[;bas])\n"
+#~ "@SYNTAX=ODDLPRICE(avräkning;förfallodag;senaste_ränta;räntesats;avkastning;reducering;frekvens[;bas])\n"
 #~ "@DESCRIPTION=ODDLPRICE beräknar priset per $100 värde av en säkerhet som "
 #~ "har en udda sista betalningsperiod.\n"
 #~ "\n"
@@ -13051,8 +13070,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=ODDLYIELD\n"
-#~ "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
-#~ "frequency[,basis])\n"
+#~ "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,frequency[,basis])\n"
 #~ "@DESCRIPTION=ODDLYIELD calculates the yield of a security having an odd "
 #~ "last period.\n"
 #~ "\n"
@@ -13076,8 +13094,7 @@ msgstr ""
 #~ "@SEEALSO="
 #~ msgstr ""
 #~ "@FUNCTION=ODDLYIELD\n"
-#~ "@SYNTAX=ODDLYIELD(avräkning;förfallodag;senaste_ränta;räntesats;pr;"
-#~ "reducering;frekvens[;bas])\n"
+#~ "@SYNTAX=ODDLYIELD(avräkning;förfallodag;senaste_ränta;räntesats;pr;reducering;frekvens[;bas])\n"
 #~ "@DESCRIPTION=ODDLYIELD beräknar avkastningen på en säkerhet som har en "
 #~ "udda sista period.\n"
 #~ "\n"
@@ -13103,8 +13120,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=AMORDEGRC\n"
-#~ "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
-#~ "basis])\n"
+#~ "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,basis])\n"
 #~ "@DESCRIPTION=AMORDEGRC: Calculates depreciation for each accounting "
 #~ "period using French accounting conventions.   Assets purchased in the "
 #~ "middle of a period take prorated depreciation into account.  This is "
@@ -13135,8 +13151,7 @@ msgstr ""
 #~ "@SEEALSO=AMORLINC"
 #~ msgstr ""
 #~ "@FUNCTION=AMORDEGRC\n"
-#~ "@SYNTAX=AMORDEGRC(värde;köpdatum;första_period;slutpris;period;hast[;"
-#~ "bas])\n"
+#~ "@SYNTAX=AMORDEGRC(värde;köpdatum;första_period;slutpris;period;hast[;bas])\n"
 #~ "@DESCRIPTION=AMORDEGRC: Räknar ut värdeminskningen för varje "
 #~ "redovisningsperiod enligt franska redovisningsregler. Tillgångar köpta "
 #~ "mitt i en period räknar med den föregångna värdeminskningen. Detta är "
@@ -13168,8 +13183,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=AMORLINC\n"
-#~ "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
-#~ "basis])\n"
+#~ "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,basis])\n"
 #~ "@DESCRIPTION=AMORLINC: Calculates depreciation for each accounting period "
 #~ "using French accounting conventions.   Assets purchased in the middle of "
 #~ "a period take prorated depreciation into account.\n"
@@ -13198,8 +13212,7 @@ msgstr ""
 #~ "@SEEALSO=AMORDEGRC"
 #~ msgstr ""
 #~ "@FUNCTION=AMORLINC\n"
-#~ "@SYNTAX=AMORLINC(värde;köpdatum;första_period;slutpris;period;hast[;"
-#~ "bas])\n"
+#~ "@SYNTAX=AMORLINC(värde;köpdatum;första_period;slutpris;period;hast[;bas])\n"
 #~ "@DESCRIPTION=AMORLINC: Räknar ut värdeminskningen för varje "
 #~ "redovisningsperiod enligt franska redovisningsregler. Tillgångar köpta "
 #~ "mitt i en period räknar med den föregångna värdeminskningen. Namngiven "
@@ -13639,8 +13652,8 @@ msgstr ""
 # FIXME: Någon som förstår detta?
 #~ msgid ""
 #~ "@FUNCTION=OPT_BS\n"
-#~ "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility [,"
-#~ "cost_of_carry])\n"
+#~ "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility "
+#~ "[,cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_BS uses the Black-Scholes model to calculate the price "
 #~ "of a European option using call_put_flag, @call_put_flag, 'c' or 'p' "
 #~ "struck at @strike on an asset with spot price @spot.\n"
@@ -13677,8 +13690,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=OPT_BS_DELTA\n"
-#~ "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility[,"
-#~ "cost_of_carry])\n"
+#~ "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility[,cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the "
 #~ "'delta' of a European option with call_put_flag, @call_put_flag, 'c' or "
 #~ "'p' struck at @strike on an asset with spot price @spot.\n"
@@ -13696,8 +13708,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_BS_DELTA\n"
-#~ "@SYNTAX=OPT_BS_DELTA(fjäril;avista;slag;tid;ränta;volatilitet[;"
-#~ "cost_of_carry)]\n"
+#~ "@SYNTAX=OPT_BS_DELTA(fjäril;avista;slag;tid;ränta;volatilitet[;cost_of_carry)]\n"
 #~ "@DESCRIPTION=OPT_BS_DELTA använder Black-Scholes modell för att beräkna "
 #~ "\"delta\" på en europeisk option med @fjäril \"c\" eller \"p\" slagen vid "
 #~ "@slag på en tillgång med avistan @avista.\n"
@@ -13762,8 +13773,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=OPT_BS_THETA\n"
-#~ "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,volatility[,"
-#~ "cost_of_carry])\n"
+#~ "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,volatility[,cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_BS_THETA uses the Black-Scholes model to calculate the "
 #~ "'theta' of a European option with call_put_flag, @call_put_flag struck at "
 #~ "@strike on an asset with spot price @spot.\n"
@@ -13786,8 +13796,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_VEGA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_BS_THETA\n"
-#~ "@SYNTAX=OPT_BS_THETA(fjäril;avista;slag;tid;ränta;volatilitet[;"
-#~ "cost_of_carry])\n"
+#~ "@SYNTAX=OPT_BS_THETA(fjäril;avista;slag;tid;ränta;volatilitet[;cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_BS_THETA använder Black-Scholes modell för att beräkna "
 #~ "\"theta\" på en europeisk option med @fjäril slagen vid @slag på en "
 #~ "tillgång med avistan @avista.\n"
@@ -13853,8 +13862,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=OPT_BS_RHO\n"
-#~ "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
-#~ "cost_of_carry])\n"
+#~ "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_BS_RHO uses the Black-Scholes model to calculate the "
 #~ "'rho' of a European option with call_put_flag, @call_put_flag struck at "
 #~ "@strike on an asset with spot price @spot.\n"
@@ -13875,8 +13883,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_BS_RHO\n"
-#~ "@SYNTAX=OPT_BS_RHO(fjäril;avista;slag;tid;ränta;volatilitet[;"
-#~ "cost_of_carry])\n"
+#~ "@SYNTAX=OPT_BS_RHO(fjäril;avista;slag;tid;ränta;volatilitet[;cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_BS_RHO använder Black-Scholes modell för att beräkna "
 #~ "\"rho\" på en europeisk option med @fjäril slagen vid @slag på en "
 #~ "tillgång med avistan @avista.\n"
@@ -13898,8 +13905,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=OPT_BS_CARRYCOST\n"
-#~ "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
-#~ "cost_of_carry])\n"
+#~ "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_BS_CARRYCOST uses the Black-Scholes model to calculate "
 #~ "the 'elasticity' of a European option struck at @strike on an asset with "
 #~ "spot price @spot.\n"
@@ -13924,8 +13930,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_BS_CARRYCOST\n"
-#~ "@SYNTAX=OPT_BS_CARRYCOST(fjäril;avista;slag;tid;ränta;volatilitet[;"
-#~ "cost_of_carry])\n"
+#~ "@SYNTAX=OPT_BS_CARRYCOST(fjäril;avista;slag;tid;ränta;volatilitet[;cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_BS_CARRYCOST använder Black-Scholes modell för att "
 #~ "beräkna \"elasticiteten\" på en europeisk option slagen vid @slag på en "
 #~ "tillgång med avistan @avista.\n"
@@ -13952,8 +13957,7 @@ msgstr ""
 # FIXME: Någon som förstår detta?
 #~ msgid ""
 #~ "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
-#~ "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,"
-#~ "foreign_rate,volatility[,cost_of_carry])\n"
+#~ "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,foreign_rate,volatility[,cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_GARMAN_KOHLHAGEN values the theoretical price of a "
 #~ "European currency option struck at @strike on an asset with spot price "
 #~ "@spot.\n"
@@ -13976,8 +13980,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
-#~ "@SYNTAX=OPT_GARMAN_KOHLHAGEN(fjäril;avista;slag;tid;inhemsk_ränta;"
-#~ "utländsk_ränta;volatilitet[;cost_of_carry])\n"
+#~ "@SYNTAX=OPT_GARMAN_KOHLHAGEN(fjäril;avista;slag;tid;inhemsk_ränta;utländsk_ränta;volatilitet[;cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_GARMAN_KOHLHAGEN beräknar det teoretiska priset på en "
 #~ "europeisk valutaoption slagen vid @slag på en tillgång med avistan "
 #~ "@avista.\n"
@@ -14001,8 +14004,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=OPT_FRENCH\n"
-#~ "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,"
-#~ "cost_of_carry])\n"
+#~ "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_FRENCH values the theoretical price of a European option "
 #~ "adjusted for trading day volatility, struck at @strike on an asset with "
 #~ "spot price @spot.\n"
@@ -14024,8 +14026,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_FRENCH\n"
-#~ "@SYNTAX=OPT_FRENCH(fjäril;avista;slag;tid;t2;ränta;volatilitet[;"
-#~ "cost_of_carry])\n"
+#~ "@SYNTAX=OPT_FRENCH(fjäril;avista;slag;tid;t2;ränta;volatilitet[;cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_FRENCH beräknar det teoretiska priset på en europeisk "
 #~ "option justerad för handelsdagsvolatilitet, slagen vid @slag på en "
 #~ "tillgång med avistan @avista.\n"
@@ -14048,8 +14049,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "@FUNCTION=OPT_JUMP_DIFF\n"
-#~ "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,"
-#~ "lambda,gamma)\n"
+#~ "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,gamma)\n"
 #~ "@DESCRIPTION=OPT_JUMP_DIFF models the theoretical price of an option "
 #~ "according to the Jump Diffusion process (Merton).\n"
 #~ "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or "
@@ -14067,8 +14067,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_JUMP_DIFF\n"
-#~ "@SYNTAX=OPT_JUMP_DIFF(fjäril;avista;slag;tid;ränta;volatilitet;lambda;"
-#~ "gamma)\n"
+#~ "@SYNTAX=OPT_JUMP_DIFF(fjäril;avista;slag;tid;ränta;volatilitet;lambda;gamma)\n"
 #~ "@DESCRIPTION=OPT_JUMP_DIFF modellerar det teoretiska priset på en option "
 #~ "enligt hopp-diffusionsprocessen (Merton).\n"
 #~ "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
@@ -14088,8 +14087,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
-#~ "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
-#~ "rho_se,rho_sf,rho_ef,kappa_e,kappa_f)\n"
+#~ "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,rho_se,rho_sf,rho_ef,kappa_e,kappa_f)\n"
 #~ "@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ models the theoretical price of "
 #~ "options on commodities futures according to Miltersen & Schwartz. \n"
 #~ "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or "
@@ -14117,8 +14115,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
-#~ "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(fjäril;p_t;f_t;x;t1;t2;v_s;v_e;v_f;rho_se;"
-#~ "rho_sf;rho_ef;kappa_e;kappa_f)\n"
+#~ "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(fjäril;p_t;f_t;x;t1;t2;v_s;v_e;v_f;rho_se;rho_sf;rho_ef;kappa_e;kappa_f)\n"
 #~ "@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ modellerar det teoretiska priset på "
 #~ "en option enligt Miltersen & Schwartz.\n"
 #~ "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
@@ -14181,8 +14178,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_BAW_AMER\n"
-#~ "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,"
-#~ "volatility)\n"
+#~ "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,volatility)\n"
 #~ "@DESCRIPTION=OPT_BAW_AMER models the theoretical price of an option "
 #~ "according to the Barone Adesie & Whaley approximation. \n"
 #~ "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or "
@@ -14201,8 +14197,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_BAW_AMER\n"
-#~ "@SYNTAX=OPT_BAW_AMER(fjäril;avista;slag;tid;ränta;cost_of_carry;"
-#~ "volatilitet)\n"
+#~ "@SYNTAX=OPT_BAW_AMER(fjäril;avista;slag;tid;ränta;cost_of_carry;volatilitet)\n"
 #~ "@DESCRIPTION=OPT_BAW_AMER modellerar det teoretiska priset på en option "
 #~ "enligt Barone Adesie & Whaley-approximationen.\n"
 #~ "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
@@ -14223,8 +14218,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_BJER_STENS\n"
-#~ "@SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,volatility[,"
-#~ "cost_of_carry])\n"
+#~ "@SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,volatility[,cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_BJER_STENS models the theoretical price of American "
 #~ "options according to the Bjerksund & Stensland approximation technique.\n"
 #~ "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or "
@@ -14243,8 +14237,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_BJER_STENS\n"
-#~ "@SYNTAX=OPT_BJER_STENS(fjäril;avista;slag;tid;ränta;volatilitet[;"
-#~ "cost_of_carry])\n"
+#~ "@SYNTAX=OPT_BJER_STENS(fjäril;avista;slag;tid;ränta;volatilitet[;cost_of_carry])\n"
 #~ "@DESCRIPTION=OPT_BJER_STENS modellerar det teoretiska priset på "
 #~ "amerikanska optioner enligt Bjerksund & Stenslands approximationsteknik.\n"
 #~ "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
@@ -14264,8 +14257,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_EXEC\n"
-#~ "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
-#~ "cost_of_carry,lambda)\n"
+#~ "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,cost_of_carry,lambda)\n"
 #~ "@DESCRIPTION=OPT_EXEC models the theoretical price of executive stock "
 #~ "options @call_put_flag is 'c' or 'p' to indicate whether the option is a "
 #~ "call or a put.\n"
@@ -14286,8 +14278,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_EXEC\n"
-#~ "@SYNTAX=OPT_EXEC(fjäril;avista;slag;tid;ränta;volatilitet;cost_of_carry;"
-#~ "lambda)\n"
+#~ "@SYNTAX=OPT_EXEC(fjäril;avista;slag;tid;ränta;volatilitet;cost_of_carry;lambda)\n"
 #~ "@DESCRIPTION=OPT_EXEC modellerar det teoretiska priset på "
 #~ "ledningsoptioner.\n"
 #~ "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
@@ -14310,8 +14301,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_FORWARD_START\n"
-#~ "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
-#~ "volatility,cost_of_carry)\n"
+#~ "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,volatility,cost_of_carry)\n"
 #~ "@DESCRIPTION=OPT_FORWARD_START models the theoretical price of forward "
 #~ "start options\n"
 #~ " @call_put_flag is 'c' or 'p' to indicate whether the option is a call or "
@@ -14330,8 +14320,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_FORWARD_START\n"
-#~ "@SYNTAX=OPT_FORWARD_START(fjäril;avista;alfa;tid1;tid;ränta;volatilitet;"
-#~ "cost_of_carry)\n"
+#~ "@SYNTAX=OPT_FORWARD_START(fjäril;avista;alfa;tid1;tid;ränta;volatilitet;cost_of_carry)\n"
 #~ "@DESCRIPTION=OPT_FORWARD_START modellerar det teoretiska priset på "
 #~ "framåtvisande startoptioner.\n"
 #~ "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
@@ -14352,8 +14341,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_TIME_SWITCH\n"
-#~ "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
-#~ "cost_of_carry,volatility)\n"
+#~ "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,cost_of_carry,volatility)\n"
 #~ "@DESCRIPTION=OPT_TIME_SWITCH models the theoretical price of time switch "
 #~ "options. (Pechtl 1995)\n"
 #~ "The holder receives @a * @dt for each period dt that the asset price was "
@@ -14375,8 +14363,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_TIME_SWITCH\n"
-#~ "@SYNTAX=OPT_TIME_SWITCH(fjäril;avista;slag;a;tid;m;dt;ränta;cost_of_carry;"
-#~ "volatilitet)\n"
+#~ "@SYNTAX=OPT_TIME_SWITCH(fjäril;avista;slag;a;tid;m;dt;ränta;cost_of_carry;volatilitet)\n"
 #~ "@DESCRIPTION=OPT_TIME_SWITCH modellerar det teoretiska priset på "
 #~ "tidsbytesoptioner (Pechtl 1995).\n"
 #~ "Ägaren får @a * @dt för varje period @dt som tillgångens pris var högre "
@@ -14401,8 +14388,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
-#~ "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
-#~ "cost_of_carry,volatility)\n"
+#~ "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,cost_of_carry,volatility)\n"
 #~ "@DESCRIPTION=OPT_SIMPLE_CHOOSER models the theoretical price of simple "
 #~ "chooser options.\n"
 #~ "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or "
@@ -14420,8 +14406,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
-#~ "@SYNTAX=OPT_SIMPLE_CHOOSER(fjäril;avista;slag;tid1;tid2;ränta;"
-#~ "cost_of_carry;volatilitet)\n"
+#~ "@SYNTAX=OPT_SIMPLE_CHOOSER(fjäril;avista;slag;tid1;tid2;ränta;cost_of_carry;volatilitet)\n"
 #~ "@DESCRIPTION=OPT_SIMPLE_CHOOSER modellerar det teoretiska priset på enkla "
 #~ "valoptioner.\n"
 #~ "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
@@ -14441,8 +14426,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
-#~ "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,"
-#~ "time,time_call,time_put,rate,cost_of_carry,volatility)\n"
+#~ "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,time_call,time_put,rate,cost_of_carry,volatility)\n"
 #~ "@DESCRIPTION=OPT_COMPLEX_CHOOSER models the theoretical price of complex "
 #~ "chooser options.\n"
 #~ "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or "
@@ -14468,8 +14452,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
-#~ "@SYNTAX=OPT_COMPLEX_CHOOSER(fjäril;avista;slag_köp;slag_sälj;tid;tid_köp;"
-#~ "tid_sälj;ränta;cost_of_carry;volatilitet)\n"
+#~ "@SYNTAX=OPT_COMPLEX_CHOOSER(fjäril;avista;slag_köp;slag_sälj;tid;tid_köp;tid_sälj;ränta;cost_of_carry;volatilitet)\n"
 #~ "@DESCRIPTION=OPT_COMPLEX_CHOOSER modellerar det teoretiska priset på "
 #~ "komplexa valoptioner.\n"
 #~ "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
@@ -14497,8 +14480,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_ON_OPTIONS\n"
-#~ "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
-#~ "cost_of_carry,volatility)\n"
+#~ "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,cost_of_carry,volatility)\n"
 #~ "@DESCRIPTION=OPT_ON_OPTIONS models the theoretical price of options on "
 #~ "options.\n"
 #~ "@type_flag is 'cc' for calls on calls, 'cp' for calls on puts, and so on "
@@ -14520,8 +14502,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_ON_OPTIONS\n"
-#~ "@SYNTAX=OPT_ON_OPTIONS(typflagga;avista;slag1;slag2;tid1;tid2;ränta;"
-#~ "cost_of_carry;volatilitet)\n"
+#~ "@SYNTAX=OPT_ON_OPTIONS(typflagga;avista;slag1;slag2;tid1;tid2;ränta;cost_of_carry;volatilitet)\n"
 #~ "@DESCRIPTION=OPT_ON_OPTIONS modellerar det teoretiska priset på optioner "
 #~ "på optioner.\n"
 #~ "@typflagga är \"cc\" för köp på köp, \"cp\" för sälj på köp och så vidare "
@@ -14545,8 +14526,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
-#~ "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,"
-#~ "time2,rate,cost_of_carry,volatility)\n"
+#~ "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,rate,cost_of_carry,volatility)\n"
 #~ "@DESCRIPTION=OPT_EXTENDIBLE_WRITER models the theoretical price of "
 #~ "extendible writer options. These are options that can be exercised at an "
 #~ "initial period, @time1, or their maturity extended to @time2 if the "
@@ -14570,8 +14550,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
-#~ "@SYNTAX=OPT_EXTENDIBLE_WRITER(fjäril;avista;slag1;slag2;tid1;tid2;ränta;"
-#~ "cost_of_carry;volatilitet)\n"
+#~ "@SYNTAX=OPT_EXTENDIBLE_WRITER(fjäril;avista;slag1;slag2;tid1;tid2;ränta;cost_of_carry;volatilitet)\n"
 #~ "@DESCRIPTION=OPT_EXTENDIBLE_WRITER modellerar det teoretiska priset på "
 #~ "utökningsbara utgivaroptioner. Detta är optioner som kan lösas in vid en "
 #~ "tidigare tidpunkt @tid1 eller utöka inlösentiden till @tid2 om optionen "
@@ -14598,8 +14577,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
-#~ "@SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
-#~ "time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)\n"
+#~ "@SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)\n"
 #~ "@DESCRIPTION=OPT_2_ASSET_CORRELATION models the theoretical price of  "
 #~ "options on 2 assets with correlation @rho.\n"
 #~ "The payoff for a call is max(@spot2 - @strike2,0) if @spot1 > @strike1 or "
@@ -14622,8 +14600,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
-#~ "@SYNTAX=OPT_2_ASSET_CORRELATION(fjäril;avista1;avista2;slag1;slag2;tid;"
-#~ "cost_of_carry1;cost_of_carry2;ränta;volatilitet1;volatilitet2;rho)\n"
+#~ "@SYNTAX=OPT_2_ASSET_CORRELATION(fjäril;avista1;avista2;slag1;slag2;tid;cost_of_carry1;cost_of_carry2;ränta;volatilitet1;volatilitet2;rho)\n"
 #~ "@DESCRIPTION=OPT_2_ASSET_CORRELATION modellerar det teoretiska priset på "
 #~ "optioner med två tillgångar med korrelation @rho.\n"
 #~ "Utbetalninen för ett köp är max (@avista2 - @slag2; 0) om @avista1 > "
@@ -14649,8 +14626,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_EURO_EXCHANGE\n"
-#~ "@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
-#~ "cost_of_carry2,volatility1,volatility2,rho)\n"
+#~ "@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,volatility2,rho)\n"
 #~ "@DESCRIPTION=OPT_EURO_EXCHANGE models the theoretical price of a European "
 #~ "option to exchange one asset with quantity @qty2 and spot price @spot2 "
 #~ "for another, with quantity @qty1 and spot price @spot1.\n"
@@ -14668,8 +14644,7 @@ msgstr ""
 #~ "OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_EURO_EXCHANGE\n"
-#~ "@SYNTAX=OPT_EURO_EXCHANGE(avista1;avista2;kvant1;kvant2;tid;ränta;"
-#~ "cost_of_carry1;cost_of_carry2;volatilitet1;volatilitet2;rho)\n"
+#~ "@SYNTAX=OPT_EURO_EXCHANGE(avista1;avista2;kvant1;kvant2;tid;ränta;cost_of_carry1;cost_of_carry2;volatilitet1;volatilitet2;rho)\n"
 #~ "@DESCRIPTION=OPT_EURO_EXCHANGE modellerar det teoretiska priset på en "
 #~ "Europeisk option att växla en tillgång med kvantitet @kvant2 och avista "
 #~ "@avista2 för en annan, med kvantitet @kvant1 och avista @avista1.\n"
@@ -14689,8 +14664,8 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_AMER_EXCHANGE\n"
-#~ "@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
-#~ "cost_of_carry2,volatility1, volatility2, rho)\n"
+#~ "@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1, "
+#~ "volatility2, rho)\n"
 #~ "@DESCRIPTION=OPT_AMER_EXCHANGE models the theoretical price of an "
 #~ "American option to exchange one asset with quantity @qty2 and spot price "
 #~ "@spot2 for another, with quantity @qty1 and spot price @spot1.\n"
@@ -14708,8 +14683,7 @@ msgstr ""
 #~ "OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_AMER_EXCHANGE\n"
-#~ "@SYNTAX=OPT_AMER_EXCHANGE(avista1;avista2;kvant1;kvant2;tid;ränta;"
-#~ "cost_of_carry1;cost_of_carry2;volatilitet1;volatilitet2;rho)\n"
+#~ "@SYNTAX=OPT_AMER_EXCHANGE(avista1;avista2;kvant1;kvant2;tid;ränta;cost_of_carry1;cost_of_carry2;volatilitet1;volatilitet2;rho)\n"
 #~ "@DESCRIPTION=OPT_AMER_EXCHANGE modellerar det teoretiska priset på en "
 #~ "amerikansk option att växla en tillgång med kvantitet @kvant2 och avista "
 #~ "@avista2 för en annan, med kvantitet @kvant1 och avista @avista1.\n"
@@ -14730,8 +14704,8 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_SPREAD_APPROX\n"
-#~ "@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,"
-#~ "time, rate,volatility1,volatility2,rho)\n"
+#~ "@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, "
+#~ "rate,volatility1,volatility2,rho)\n"
 #~ "@DESCRIPTION=OPT_SPREAD_APPROX models the theoretical price of a European "
 #~ "option on the spread between two futures contracts.\n"
 #~ "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or "
@@ -14749,8 +14723,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_SPREAD_APPROX\n"
-#~ "@SYNTAX=OPT_SPREAD_APPROX(fjäril;frampris1;frampris2;slag;tid;ränta;"
-#~ "volatilitet1;volatilitet2;rho)\n"
+#~ "@SYNTAX=OPT_SPREAD_APPROX(fjäril;frampris1;frampris2;slag;tid;ränta;volatilitet1;volatilitet2;rho)\n"
 #~ "@DESCRIPTION=OPT_SPREAD_APPROX modellerar det teoretiska priset på "
 #~ "teoretiska priset på en europeisk option på spridningen mellan två "
 #~ "framtidskontrakt.\n"
@@ -14771,8 +14744,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
-#~ "@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,"
-#~ "rate,cost_of_carry,volatility)\n"
+#~ "@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility)\n"
 #~ "@DESCRIPTION=OPT_FLOAT_STRK_LKBK models the theoretical price of an "
 #~ "option where the holder of the option may exercise on expiry at the most "
 #~ "favourable price observed during the options life of the underlying "
@@ -14796,8 +14768,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
-#~ "@SYNTAX=OPT_FLOAT_STRK_LKBK(fjäril;avista;avista_min;avista_max;tid;ränta;"
-#~ "cost_of_carry;volatilitet)\n"
+#~ "@SYNTAX=OPT_FLOAT_STRK_LKBK(fjäril;avista;avista_min;avista_max;tid;ränta;cost_of_carry;volatilitet)\n"
 #~ "@DESCRIPTION=OPT_FLOAT_STRK_LKBK modellerar det teoretiska priset på en "
 #~ "option där optionens ägare kan nyttja den vid förfallodatumet till det "
 #~ "mest fördelaktiga priset på den underliggande tillgången som observerats "
@@ -14823,8 +14794,7 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
-#~ "@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,"
-#~ "time,rate,cost_of_carry,volatility)\n"
+#~ "@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,volatility)\n"
 #~ "@DESCRIPTION=OPT_FIXED_STRK_LKBK models the theoretical price of an "
 #~ "option where the holder of the option may exercise on expiry at the most "
 #~ "favourable price observed during the options life of the underlying "
@@ -14849,8 +14819,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
-#~ "@SYNTAX=OPT_FIXED_STRK_LKBK(fjäril;avista;avista_min;avista_max;slag;tid;"
-#~ "ränta;cost_of_carry;volatilitet)\n"
+#~ "@SYNTAX=OPT_FIXED_STRK_LKBK(fjäril;avista;avista_min;avista_max;slag;tid;ränta;cost_of_carry;volatilitet)\n"
 #~ "@DESCRIPTION=OPT_FIXED_STRK_LKBK modellerar det teoretiska priset på en "
 #~ "option där optionens ägare kan nyttja den vid förfallodatumet till det "
 #~ "mest fördelaktiga priset på den underliggande tillgången som observerats "
@@ -14900,8 +14869,7 @@ msgstr ""
 #~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 #~ msgstr ""
 #~ "@FUNCTION=OPT_BINOMIAL\n"
-#~ "@SYNTAX=OPT_BINOMIAL(amer_euro_flag;fjäril;tidssteg;avista;slag;tid;ränta;"
-#~ "volatilitet;cost_of_carry)\n"
+#~ "@SYNTAX=OPT_BINOMIAL(amer_euro_flag;fjäril;tidssteg;avista;slag;tid;ränta;volatilitet;cost_of_carry)\n"
 #~ "@DESCRIPTION=OPT_BINOMIAL modellerar det teoretiska priset på antingen en "
 #~ "amerikansk eller europeisk option med hjälp av ett binomialträd.\n"
 #~ "@amer_euro_flag är antingen \"a\" eller \"e\" för att indikera om "
@@ -15290,8 +15258,8 @@ msgstr ""
 #~ msgid ""
 #~ "@FUNCTION=IMARGUMENT\n"
 #~ "@SYNTAX=IMARGUMENT(inumber)\n"
-#~ "@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number, i."
-#~ "e. the angle in radians from the real axis to the representation of the "
+#~ "@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number, "
+#~ "i.e. the angle in radians from the real axis to the representation of the "
 #~ "number in polar coordinates.\n"
 #~ "\n"
 #~ "* If @inumber is not a valid complex number, IMARGUMENT returns #VALUE! "
@@ -18903,8 +18871,7 @@ msgstr ""
 #
 #~ msgid ""
 #~ "@FUNCTION=ACCRINT\n"
-#~ "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,"
-#~ "basis])\n"
+#~ "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
 #~ "@DESCRIPTION=ACCRINT calculates the accrued interest for a security that "
 #~ "pays periodic interest.\n"
 #~ "\n"
@@ -18943,8 +18910,7 @@ msgstr ""
 #~ "@SEEALSO=ACCRINTM"
 #~ msgstr ""
 #~ "@FUNCTION=ACCRINT\n"
-#~ "@SYNTAX=ACCRINT(start;första_ränta;avräkning;hastighet;par;frekvens[;"
-#~ "bas])\n"
+#~ "@SYNTAX=ACCRINT(start;första_ränta;avräkning;hastighet;par;frekvens[;bas])\n"
 #~ "@DESCRIPTION=ACCRINT beräknar den uppräknade räntan för en säkerhet som "
 #~ "betalar periodisk ränta.\n"
 #~ "\n"
@@ -20203,8 +20169,8 @@ msgstr ""
 #~ "\n"
 #~ "@EXAMPLES=\n"
 #~ "Antag att du avsätter SEK 10000 på ett sparkonto med en ränta på 6%, För "
-#~ "att beräkna hur lång tid det kommer att ta för investeringen att dubblas:"
-#~ "i\n"
+#~ "att beräkna hur lång tid det kommer att ta för investeringen att "
+#~ "dubblas:i\n"
 #~ "=NPER(0,06; 0; -10000; 20000; 0), vilket resulterar i 11,895661046. Detta "
 #~ "motsvarar alltså att pengarna har fördubblats precis före det 12:e året.\n"
 #~ "@SEEALSO=PPMT,PV,FV"
@@ -20528,8 +20494,7 @@ msgstr ""
 #~ "@SEEALSO=DURATION,G_DURATION"
 #~ msgstr ""
 #~ "@FUNCTION=MDURATION\n"
-#~ "@SYNTAX=MDURATION(avräkning;förfallodag;kupong;avkastning;frekvens[;"
-#~ "bas])\n"
+#~ "@SYNTAX=MDURATION(avräkning;förfallodag;kupong;avkastning;frekvens[;bas])\n"
 #~ "@DESCRIPTION=MDURATION beräknar Macauleytiden för en säkerhet med "
 #~ "parvärde 100\n"
 #~ "\n"
@@ -23709,8 +23674,8 @@ msgstr ""
 #~ msgstr ""
 #~ "@FUNCTION=RANDDISCRETE\n"
 #~ "@SYNTAX=RANDDISCRETE(@värdeområde[,@sannolikhetsområde])\n"
-#~ "@DESCRIPTION=RANDDISCRETE returnerar ett av värdena i @värdeområde."
-#~ "Sannolikheten för varje värde ges i @sannolikhetsområde.\n"
+#~ "@DESCRIPTION=RANDDISCRETE returnerar ett av värdena i "
+#~ "@värdeområde.Sannolikheten för varje värde ges i @sannolikhetsområde.\n"
 #~ "\n"
 #~ "* Om @sannolikhetsområde utelämnas antas en rektangelfördelad "
 #~ "distribution.\n"
@@ -27054,8 +27019,8 @@ msgstr ""
 #~ "* If @known_x's is omitted, an array {1, 2, 3, ...} is used.\n"
 #~ "* If @known_y's and @known_x's have unequal number of data points, LINEST "
 #~ "returns #NUM! error.\n"
-#~ "* If @const is FALSE, the line will be forced to go through the origin, i."
-#~ "e., b will be zero. The default is TRUE.\n"
+#~ "* If @const is FALSE, the line will be forced to go through the origin, "
+#~ "i.e., b will be zero. The default is TRUE.\n"
 #~ "* The default of @stat is FALSE.\n"
 #~ "\n"
 #~ "@EXAMPLES=\n"
@@ -27339,8 +27304,8 @@ msgstr ""
 #~ "* If @new_x's is omitted, it is assumed to be the same as @known_x's.\n"
 #~ "* If @known_y's and @known_x's have unequal number of data points, GROWTH "
 #~ "returns #NUM! error.\n"
-#~ "* If @const is FALSE, the line will be forced to go through the origin, i."
-#~ "e., b will be zero. The default is TRUE.\n"
+#~ "* If @const is FALSE, the line will be forced to go through the origin, "
+#~ "i.e., b will be zero. The default is TRUE.\n"
 #~ "\n"
 #~ "@EXAMPLES=\n"
 #~ "\n"
@@ -27394,8 +27359,8 @@ msgstr ""
 #~ "\n"
 #~ "* Om @kända_x eller @kända_y innehåller olika antal datapunkter "
 #~ "returnerar FORECAST felvärdet #-.\n"
-#~ "* Om variansen hos @kända_x är noll returnerar FORECAST felvärdet "
-#~ "#DIV/0.\n"
+#~ "* Om variansen hos @kända_x är noll returnerar FORECAST felvärdet #DIV/"
+#~ "0.\n"
 #~ "* Denna funktion är kompatibel med Excel.\n"
 #~ "\n"
 #~ "@EXAMPLES=\n"
@@ -27433,8 +27398,8 @@ msgstr ""
 #~ "\n"
 #~ "* Om @kända_x eller @kända_y inte innehåller några datapunkter eller "
 #~ "innehåller olika antal datapunkter returnerar INTERCEPT felvärdet #-.\n"
-#~ "* Om variansen hos @kända_x är noll returnerar INTERCEPT felvärdet "
-#~ "#DIV/0.\n"
+#~ "* Om variansen hos @kända_x är noll returnerar INTERCEPT felvärdet #DIV/"
+#~ "0.\n"
 #~ "* Denna funktion är kompatibel med Excel.\n"
 #~ "\n"
 #~ "@EXAMPLES=\n"
