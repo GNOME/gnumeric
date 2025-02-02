@@ -27,7 +27,7 @@ build-release-tarball:
     - echo "Downloading and compiling dependency Goffice"
     - git clone https://gitlab.gnome.org/GNOME/goffice
     - cd goffice
-    - echo "TODO: switch to proper branch"
+    - echo "TODO switch to proper branch"
     - ./autogen.sh --disable-dependency-tracking
     - make -j4
     - make install
