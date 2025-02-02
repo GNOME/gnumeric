@@ -24,15 +24,15 @@ build-release-tarball:
     - pwd
     - id
     - printenv
-    - echo Downloading and compiling dependency Goffice
+    - echo "Downloading and compiling dependency Goffice"
     - git clone https://gitlab.gnome.org/GNOME/goffice
     - cd goffice
-    - echo todo: switch to proper branch
+    - echo "TODO: switch to proper branch"
     - ./autogen.sh --disable-dependency-tracking
     - make -j4
     - make install
     - cd ..
-    - echo Compiling Gnumeric proper
+    - echo "Compiling Gnumeric proper"
     - ACVER=`perl -ne '$ep=$1 if /^m4_define.*gnumeric_version_epoch.*\[(\d+)\]/; $ma=$1 if /^m4_define.*gnumeric_version_major.*\[(\d+)\]/; $mi=$1 if /^m4_define.*gnumeric_version_minor.*\[(\S+)\]/; END { print "$ep.$ma.$mi\n"; }' configure.ac`
     - echo ${ACVER}
     - echo ${TARBALL_ARTIFACT_PATH}
