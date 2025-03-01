@@ -1,3 +1,7 @@
+2025-03-01  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.59
+
 2024-04-03  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_iteration): Read tolerance.

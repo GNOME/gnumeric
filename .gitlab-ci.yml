@@ -1,6 +1,6 @@
 include:
-  - component: gitlab.gnome.org/GNOME/citemplates/release-service@release-service-sandbox # <-- instead of @master
-  # - component: "gitlab.gnome.org/GNOME/citemplates/release-service@master"
+  # - component: gitlab.gnome.org/GNOME/citemplates/release-service@release-service-sandbox # <-- instead of @master
+  - component: "gitlab.gnome.org/GNOME/citemplates/release-service@master"
     inputs:
       job-stage: "release"
       dist-job-name: "build-release-tarball"

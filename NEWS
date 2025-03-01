@@ -1,4 +1,4 @@
-Gnumeric 1.12.58
+Gnumeric 1.12.59
 
 b.s.:
 	* Fix long-double version of FLT.NEXTAFTER.
@@ -14,6 +14,12 @@ Morten:
 	* Fix invisible cursor problem.  [#712]
 	* Fix zoom problem.  [#707]
 	* Fix further zoom problem.  [#794]
+
+--------------------------------------------------------------------------
+Gnumeric 1.12.58
+
+Placeholder:
+	* No such release.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.57
