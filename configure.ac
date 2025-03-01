@@ -7,7 +7,7 @@ AX_IS_RELEASE([git-directory])
 
 m4_define([gnumeric_version_epoch], [1])
 m4_define([gnumeric_version_major], [12])
-m4_define([gnumeric_version_minor], [59])
+m4_define([gnumeric_version_minor], [60])
 m4_define([gnumeric_version_extra], [])
 m4_define([gnumeric_version_full],
     [gnumeric_version_epoch.gnumeric_version_major.gnumeric_version_minor[]gnumeric_version_extra])
