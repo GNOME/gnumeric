@@ -8,6 +8,8 @@ use GnumericTest;
 # See test_importer comments for mode definitions.
 my $mode = ((shift @ARGV) || "check");
 
+my $args = { 'mode' => $mode, 'nofont' => 1 };
+
 &message ("Check the sc importer.");
-&test_importer ("$samples/sc/demo_func", "4fb115f8b93d5f4ff826a38dc67ca4e74671de6a", $mode);
-&test_importer ("$samples/sc/demo_math", "f63b59828741248ce314b4c4eeba93b0dad1e74d", $mode);
+&test_importer ("$samples/sc/demo_func", "054ca74cb329d2eb52d1d7728ad5d3b162c34e8c", $args);
+&test_importer ("$samples/sc/demo_math", "29115530871d13a3bbf57c2b220ed6d594a449dc", $args);

@@ -8,5 +8,7 @@ use GnumericTest;
 # See test_importer comments for mode definitions.
 my $mode = ((shift @ARGV) || "check");
 
+my $args = { 'mode' => $mode, 'nofont' => 1 };
+
 &message ("Check the applix importer.");
-&test_importer ("$samples/applix/sample.as", "675de9ea40101d530789b935807e58f8a1f2bb32", $mode);
+&test_importer ("$samples/applix/sample.as", "3169d790e17a77fb0b4eaf4d566626e724256661", $args);

@@ -46,7 +46,7 @@ $sstest = "$top_builddir/src/sstest";
 $ssdiff = "$top_builddir/src/ssdiff";
 $ssgrep = "$top_builddir/src/ssgrep";
 $gnumeric = "$top_builddir/src/gnumeric";
-$normalize_gnumeric = "$PERL $topsrc/test/normalize-gnumeric";
+$normalize_gnumeric = "$topsrc/test/normalize-gnumeric";
 $verbose = 0;
 $default_subtests = '*';
 my $subtests = undef;
@@ -409,7 +409,9 @@ my $import_db = 'import-db';
 #   update-SHA-1: update $0 to show current SHA-1  [validate first!]
 
 sub test_importer {
-    my ($file,$sha1,$mode) = @_;
+    my ($file,$sha1,$args) = @_;
+
+    my $mode = $args->{'mode'};
 
     my $tmp = fileparse ($file);
     ($tmp =~ s/\.[a-zA-Z0-9]+$/.gnumeric/ ) or ($tmp .= '.gnumeric');
@@ -426,7 +428,11 @@ sub test_importer {
     my $code = system ("$ssconvert '$file' '$tmp' 2>&1 | sed -e 's/^/| /'");
     &system_failure ($ssconvert, $code) if $code;
 
-    my $htxt = `zcat -f '$tmp' | $normalize_gnumeric | sha1sum`;
+    my @normalize = ($PERL, $normalize_gnumeric);
+    push @normalize, '--ignore-default-size' if $args->{'nofont'};
+    my $norm = &quotearg (@normalize);
+
+    my $htxt = `zcat -f '$tmp' | $norm | sha1sum`;
     my $newsha1 = lc substr ($htxt, 0, 40);
     die "SHA-1 failure\n" unless $newsha1 =~ /^[0-9a-f]{40}$/;
 
@@ -517,12 +523,12 @@ sub test_exporter {
 
     my $tmp4 = "$tmp.xml";
     &junkfile ($tmp4) unless $keep;
-    $code = system (&quotearg ("zcat", "-f", $tmp1) . "| $normalize_gnumeric >" . &quotearg ($tmp4));
+    $code = system (&quotearg ("zcat", "-f", $tmp1) . "| $PERL $normalize_gnumeric >" . &quotearg ($tmp4));
     &system_failure ('zcat', $code) if $code;
 
     my $tmp5 = "$tmp-new.xml";
     &junkfile ($tmp5) unless $keep;
-    $code = system (&quotearg ("zcat" , "-f", $tmp3) . " | $normalize_gnumeric >" . &quotearg ($tmp5));
+    $code = system (&quotearg ("zcat" , "-f", $tmp3) . " | $PERL $normalize_gnumeric >" . &quotearg ($tmp5));
     &system_failure ('zcat', $code) if $code;
 
     $code = system ('diff', '-u', $tmp4, $tmp5);
@@ -715,14 +721,14 @@ sub test_roundtrip {
     my $tmp_xml = "$tmp.xml";
     unlink $tmp_xml;
     &junkfile ($tmp_xml) unless $keep;
-    $code = system ("zcat -f '$file_filtered' | $normalize_gnumeric | $filter1 >'$tmp_xml'");
+    $code = system ("zcat -f '$file_filtered' | $PERL $normalize_gnumeric | $filter1 >'$tmp_xml'");
     &system_failure ('zcat', $code) if $code;
 
     my $tmp2_xml = "$tmp-new.xml";
     unlink $tmp2_xml;
     &junkfile ($tmp2_xml) unless $keep;
-    # print STDERR "zcat -f '$tmp2' | $normalize_gnumeric | $filter2 >'$tmp2_xml'\n";
-    $code = system ("zcat -f '$tmp2' | $normalize_gnumeric | $filter2 >'$tmp2_xml'");
+    # print STDERR "zcat -f '$tmp2' | $PERL $normalize_gnumeric | $filter2 >'$tmp2_xml'\n";
+    $code = system ("zcat -f '$tmp2' | $PERL $normalize_gnumeric | $filter2 >'$tmp2_xml'");
     &system_failure ('zcat', $code) if $code;
 
     $code = system ('diff', '-u', $tmp_xml, $tmp2_xml);

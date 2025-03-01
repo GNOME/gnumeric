@@ -7,6 +7,14 @@
 # It is a perl script mucking with an xml file.  Think it over.  It is not
 # hard to cheat this, but for purposes of testing code, it is fine.
 
+use Getopt::Long;
+use strict;
+
+my $ignore_default_size = 0;
+
+&GetOptions ("ignore-default-size", \$ignore_default_size,
+    );
+
 my @items;
 my $item = '';
 
@@ -20,8 +28,12 @@ while (<STDIN>) {
     }
 
     if (m|^\s*<gnm:Calculation |) {
-	s/\b(FloatRadix=)"\d+"/$1="x"/;
-	s/\b(FloatDigits=)"\d+"/$1="x"/;
+	s/\b(FloatRadix)="\d+"/$1="x"/;
+	s/\b(FloatDigits)="\d+"/$1="x"/;
+    }
+
+    if ($ignore_default_size && m{^\s*<gnm:(Rows|Cols) }) {
+	s/\b(DefaultSizePts)="[0-9.]+"/$1="x"/;
     }
 
     s{(\bxmlns:gnm="http://www.gnumeric.org/v)\d+(\.dtd)"}{$1XX$2};
