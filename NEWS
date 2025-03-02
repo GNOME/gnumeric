@@ -1,5 +1,8 @@
 Gnumeric 1.12.60
 
+Morten:
+	* Fix problem with whole-column references in ods.  [#797]
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.59
 

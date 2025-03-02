@@ -413,6 +413,7 @@ struct  _OOParseState {
 	GnmComment      *cell_comment;
 	GnmCell         *curr_cell;
 	GnmExprSharer   *sharer;
+	gboolean         preparse;
 
 	int		 col_inc, row_inc;
 	gboolean	 content_is_error;
@@ -1502,14 +1503,21 @@ oo_cellref_check_for_err (GnmCellRef *ref, char const **start)
 	return FALSE;
 }
 
+// range_part:
+// 0: not from range
+// 1: start
+// 2: end
+
 static char const *
 oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp,
-		  gchar **foreign_sheet)
+		  gchar **foreign_sheet,
+		  int range_part)
 {
 	char const *tmp, *ptr = start;
 	GnmSheetSize const *ss;
 	GnmSheetSize ss_max = { GNM_MAX_COLS, GNM_MAX_ROWS};
 	Sheet *sheet;
+	gboolean have_col, have_row;
 
 	if (*ptr != '.') {
 		char *name, *accum;
@@ -1576,22 +1584,34 @@ two_quotes :
 		ref->sheet = NULL;
 	}
 
+	sheet = ref->sheet == invalid_sheet
+		? eval_sheet (ref->sheet, pp->sheet)
+		: pp->sheet;
+	ss = gnm_sheet_get_size2 (sheet, pp->wb);
+
 	tmp = col_parse (ptr, &ss_max, &ref->col, &ref->col_relative);
-	if (!tmp && !oo_cellref_check_for_err (ref, &ptr))
+	have_col = tmp != NULL;
+	if (!tmp && !oo_cellref_check_for_err (ref, &ptr) && range_part == 0)
 		return start;
 	if (tmp)
 		ptr = tmp;
+	else {
+		ref->col = (range_part == 2 ? ss->max_cols - 1 : 0);
+	}
+
 	tmp = row_parse (ptr, &ss_max, &ref->row, &ref->row_relative);
-	if (!tmp && !oo_cellref_check_for_err (ref, &ptr))
+	have_row = tmp != NULL;
+	if (!tmp && !oo_cellref_check_for_err (ref, &ptr) && range_part == 0)
 		return start;
 	if (tmp)
 		ptr = tmp;
+	else
+		ref->row = (range_part == 2 ? ss->max_rows - 1 : 0);
 
 	if (ref->sheet == invalid_sheet)
 		return ptr;
-
-	sheet = eval_sheet (ref->sheet, pp->sheet);
-	ss = gnm_sheet_get_size (sheet);
+	if (!have_col && !have_row)
+		return start;
 
 	if (foreign_sheet == NULL && (ss->max_cols <= ref->col || ss->max_rows <= ref->row)) {
 		int new_cols = ref->col + 1, new_rows = ref->row + 1;
@@ -1651,14 +1671,16 @@ oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
 	ptr = odf_parse_external (start, &external, convs);
 
 	ptr2 = oo_cellref_parse (&ref->a, ptr, pp,
-				 external ? &external_sheet_1 : NULL);
+				 external ? &external_sheet_1 : NULL,
+				 1);
 	if (ptr == ptr2)
 		return start;
 	ptr = ptr2;
 
 	if (*ptr == ':') {
 		ptr2 = oo_cellref_parse (&ref->b, ptr+1, pp,
-					 external ? &external_sheet_2 : NULL);
+					 external ? &external_sheet_2 : NULL,
+					 2);
 		if (ptr2 == ptr + 1)
 			ref->b = ref->a;
 		else
@@ -8064,10 +8086,10 @@ oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 		GnmRangeRef ref;
 		GnmRange r;
 		char const *ptr = oo_cellref_parse
-			(&ref.a, target, &state->pos, NULL);
+			(&ref.a, target, &state->pos, NULL, 0);
 		if (ref.a.sheet != invalid_sheet &&
 		    ':' == *ptr &&
-		    '\0' == *oo_cellref_parse (&ref.b, ptr+1, &state->pos, NULL) &&
+		    '\0' == *oo_cellref_parse (&ref.b, ptr+1, &state->pos, NULL, 0) &&
 		    ref.b.sheet != invalid_sheet) {
 			range_init_rangeref (&r, &ref);
 			if (buttons)
@@ -14168,6 +14190,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		}
 	}
 
+	state.preparse = TRUE;
 	doc  = gsf_xml_in_doc_new ((state.ver == OOO_VER_1)
 				   ? ooo1_content_preparse_dtd
 				   : opendoc_content_preparse_dtd,
@@ -14176,6 +14199,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	gsf_xml_in_doc_free (doc);
 	odf_clear_conventions (&state); /* contain references to xin */
 	state.sheet_order = g_slist_reverse (state.sheet_order);
+	state.preparse = FALSE;
 
 	/* We want to make all sheets the same size (see bug 505 on gitlab) */
 	l = state.sheet_order;
