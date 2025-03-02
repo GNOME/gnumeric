@@ -2,6 +2,7 @@ Gnumeric 1.12.60
 
 Morten:
 	* Fix problem with whole-column references in ods.  [#797]
+	* Export and import of marker fill and outline opacity.  [#796]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59

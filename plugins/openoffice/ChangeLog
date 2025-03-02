@@ -1,6 +1,10 @@
 2025-03-01  Morten Welinder  <terra@gnome.org>
 
+	* openoffice-write.c (odf_write_gog_style_graphic): Write opacity
+	for marker fill and outline.
+
 	* openoffice-read.c (oo_cellref_parse): Parse whole-column references.
+	(odf_apply_style_props): Read opacity for marker fill and outline.
 
 2025-03-01  Morten Welinder <terra@gnome.org>
 

@@ -646,6 +646,12 @@ odf_go_color_to_string (GOColor color)
 				GO_COLOR_UINT_B (color));
 }
 
+static gboolean
+odf_go_color_has_opacity (GOColor color)
+{
+	return GO_COLOR_UINT_A (color) < 255;
+}
+
 static double
 odf_go_color_opacity (GOColor color)
 {
@@ -7766,11 +7772,20 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 			gsf_xml_out_add_cstr (state->xml, SVG "stroke-color", s);
 			g_free (s);
 			if (state->with_extension) {
-				s = odf_go_color_to_string (go_marker_get_outline_color (style->marker.mark));
+				GOColor c = go_marker_get_outline_color (style->marker.mark);
+				s = odf_go_color_to_string (c);
 				gsf_xml_out_add_cstr (state->xml, GNMSTYLE "marker-outline-colour", s);
 				g_free (s);
-				s = odf_go_color_to_string (go_marker_get_fill_color (style->marker.mark));
+				if (odf_go_color_has_opacity (c))
+					odf_add_percent (state->xml, GNMSTYLE "marker-outline-colour-opacity",
+							 odf_go_color_opacity (c));
+
+				c = go_marker_get_fill_color (style->marker.mark);
+				s = odf_go_color_to_string (c);
 				gsf_xml_out_add_cstr (state->xml, GNMSTYLE "marker-fill-colour", s);
+				if (odf_go_color_has_opacity (c))
+					odf_add_percent (state->xml, GNMSTYLE "marker-fill-colour-opacity",
+							 odf_go_color_opacity (c));
 				g_free (s);
 			}
 		} else if (state->with_extension)

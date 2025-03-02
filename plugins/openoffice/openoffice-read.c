@@ -896,7 +896,9 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 	gboolean gnm_auto_width_set = FALSE;
 	char const *stroke_dash = NULL;
 	char const *marker_outline_colour = NULL;
+	double marker_outline_colour_opacity = 1;
 	char const *marker_fill_colour = NULL;
+	double marker_fill_colour_opacity = 1;
 	gboolean gnm_auto_font_set = FALSE;
 	gboolean gnm_auto_font = FALSE;
 	gboolean gnm_foreground_solid = FALSE;
@@ -964,8 +966,12 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 			}
 		} else if (0 == strcmp (prop->name, "marker-outline-colour")) {
 			marker_outline_colour = g_value_get_string (&prop->value);
+		} else if (0 == strcmp (prop->name, "marker-outline-colour-opacity")) {
+			marker_outline_colour_opacity = g_value_get_double (&prop->value);
 		} else if (0 == strcmp (prop->name, "marker-fill-colour")) {
 			marker_fill_colour = g_value_get_string (&prop->value);
+		} else if (0 == strcmp (prop->name, "marker-fill-colour-opacity")) {
+			marker_fill_colour_opacity = g_value_get_double (&prop->value);
 		} else if (0 == strcmp (prop->name, "lines")) {
 			lines_value = g_value_get_boolean (&prop->value);
 		} else if (0 == strcmp (prop->name, "gnm-auto-color")) {
@@ -1223,6 +1229,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 				GOColor color;
 				GdkRGBA rgba;
 				if (gdk_rgba_parse (&rgba, marker_fill_colour)) {
+					rgba.alpha = marker_fill_colour_opacity;
 					go_color_from_gdk_rgba (&rgba, &color);
 					go_marker_set_fill_color (m, color);
 				}
@@ -1236,6 +1243,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 				GOColor color;
 				GdkRGBA rgba;
 				if (gdk_rgba_parse (&rgba, marker_outline_colour)) {
+					rgba.alpha = marker_outline_colour_opacity;
 					go_color_from_gdk_rgba (&rgba, &color);
 					go_marker_set_outline_color (m, color);
 				} else
@@ -7502,12 +7510,22 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("marker-outline-colour",
 						     CXML2C(attrs[1])));
+		} else if (oo_attr_percent (xin, attrs, OO_GNUM_NS_EXT,
+					    "marker-outline-colour-opacity", &ftmp)) {
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_double ("marker-outline-colour-opacity", ftmp));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_GNUM_NS_EXT, "marker-fill-colour")) {
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_string ("marker-fill-colour",
 						     CXML2C(attrs[1])));
+		} else if (oo_attr_percent (xin, attrs, OO_GNUM_NS_EXT,
+					    "marker-fill-colour-opacity", &ftmp)) {
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_double ("marker-fill-colour-opacity", ftmp));
 		} else if (NULL != oo_attr_distance (xin, attrs, OO_NS_SVG,
 						     "stroke-width", &ftmp))
 			style->style_props = g_slist_prepend
