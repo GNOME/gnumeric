@@ -7771,7 +7771,12 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean 
 			char *s = odf_go_color_to_string (color);
 			gsf_xml_out_add_cstr (state->xml, SVG "stroke-color", s);
 			g_free (s);
+
 			if (state->with_extension) {
+				if (odf_go_color_has_opacity (color))
+					odf_add_percent (state->xml, GNMSTYLE "stroke-color-opacity",
+							 odf_go_color_opacity (color));
+
 				GOColor c = go_marker_get_outline_color (style->marker.mark);
 				s = odf_go_color_to_string (c);
 				gsf_xml_out_add_cstr (state->xml, GNMSTYLE "marker-outline-colour", s);

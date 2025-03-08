@@ -899,6 +899,8 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 	double marker_outline_colour_opacity = 1;
 	char const *marker_fill_colour = NULL;
 	double marker_fill_colour_opacity = 1;
+	char const *stroke_color = NULL;
+	double stroke_color_opacity = 1;
 	gboolean gnm_auto_font_set = FALSE;
 	gboolean gnm_auto_font = FALSE;
 	gboolean gnm_foreground_solid = FALSE;
@@ -955,15 +957,9 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 			guint a = 255 * g_value_get_double (&prop->value);
 			style->fill.pattern.back = GO_COLOR_CHANGE_A (style->fill.pattern.back, a);
 		} else if (0 == strcmp (prop->name, "stroke-color")) {
-			GdkRGBA rgba;
-			gchar const *color = g_value_get_string (&prop->value);
-			if (gdk_rgba_parse (&rgba, color)) {
-				style->line.fore = go_color_from_gdk_rgba (&rgba, &style->line.color);
-				style->line.auto_color = FALSE;
-				style->line.auto_fore = FALSE;
-				style->line.pattern = GO_PATTERN_SOLID;
-				stroke_colour_set = TRUE;
-			}
+			stroke_color = g_value_get_string (&prop->value);
+		}else if (0 == strcmp (prop->name, "stroke-color-opacity")) {
+			stroke_color_opacity = g_value_get_double (&prop->value);
 		} else if (0 == strcmp (prop->name, "marker-outline-colour")) {
 			marker_outline_colour = g_value_get_string (&prop->value);
 		} else if (0 == strcmp (prop->name, "marker-outline-colour-opacity")) {
@@ -1088,6 +1084,17 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 	 * Stroke colour is tricky: if we have lines, that is what it
 	 * refers to.  Otherwise it refers to markers.
 	 */
+	if (stroke_color) {
+		GdkRGBA rgba;
+		if (gdk_rgba_parse (&rgba, stroke_color)) {
+			rgba.alpha = stroke_color_opacity;
+			style->line.fore = go_color_from_gdk_rgba (&rgba, &style->line.color);
+			style->line.auto_color = FALSE;
+			style->line.auto_fore = FALSE;
+			style->line.pattern = GO_PATTERN_SOLID;
+			stroke_colour_set = TRUE;
+		}
+	}
 	if (!gnm_auto_color_value_set)
 		gnm_auto_color_value = !stroke_colour_set;
 
@@ -7504,6 +7511,11 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("stroke-color",
 						     CXML2C(attrs[1])));
+		} else if (oo_attr_percent (xin, attrs, OO_GNUM_NS_EXT,
+					    "stroke-color-opacity", &ftmp)) {
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_double ("stroke-color-opacity", ftmp));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_GNUM_NS_EXT, "marker-outline-colour")) {
 			style->style_props = g_slist_prepend
