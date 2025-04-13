@@ -4,6 +4,7 @@ Morten:
 	* Fix problem with whole-column references in ods.  [#797]
 	* ODS Export and import of marker fill and outline opacity.  [#796]
 	* ODS Export and import of graph line stroke opacity.  [#796]
+	* Fix XLSX import for files lacking cell addresses.  [#804]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59

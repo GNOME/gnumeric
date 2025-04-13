@@ -1,3 +1,8 @@
+2025-04-13  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c: use implied cell addresses ("next cell") when the
+	file does not contain addresses.  Fixes #804.
+
 2025-03-01  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.59

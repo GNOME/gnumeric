@@ -1524,7 +1524,7 @@ xlsx_cell_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	int tmp;
 	GnmStyle *style = NULL;
 
-	state->pos.col = state->pos.row = -1;
+	// The implied position is the next cell to the right
 	state->pos_type = XLXS_TYPE_NUM; /* the default */
 	state->val = NULL;
 	state->texpr = NULL;
@@ -1544,6 +1544,7 @@ xlsx_cell_begin (GsfXMLIn *xin, xmlChar const **attrs)
 			state->pos.col, state->pos.row, style);
 	}
 }
+
 static void
 xlsx_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -1552,7 +1553,7 @@ xlsx_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (state->texpr == NULL && state->val == NULL) {
 		/* A cell with only style.  */
-		return;
+		goto done;
 	}
 
 	cell = sheet_cell_fetch (state->sheet, state->pos.col, state->pos.row);
@@ -1589,6 +1590,10 @@ xlsx_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	state->texpr = NULL;
 	state->val = NULL;
+
+done:
+	// The next implies position is one cell to the right
+	state->pos.col++;
 }
 
 static void
@@ -1621,8 +1626,13 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 	}
 
-	if (row > 0) {
+	if (row == -1)
+		row = state->pos.row;
+	else
 		row--;
+	state->pos.col = 0;
+
+	if (row >= 0) {
 		if (h >= 0)
 			sheet_row_set_size_pts (state->sheet, row, h, cust_height);
 		if (hidden > 0)
@@ -1642,6 +1652,14 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	maybe_update_progress (xin);
+}
+
+static void
+xlsx_CT_Row_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	// The next implied row is the one below
+	state->pos.row++;
 }
 
 static void
@@ -3297,8 +3315,13 @@ cb_find_pivots (GsfInput *opkg, GsfOpenPkgRel const *rel, gpointer    user_data)
 static void
 xlsx_CT_worksheet (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
 	gsf_open_pkg_foreach_rel (gsf_xml_in_get_input (xin),
-		&cb_find_pivots, (XLSXReadState *)xin->user_state);
+				  &cb_find_pivots, state);
+	// Reset implied position
+	state->pos.col = 0;
+	state->pos.row = 0;
 }
 
 
@@ -3557,7 +3580,7 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
     GSF_XML_IN_NODE (COLS, COL,	XL_NS_SS, "col", GSF_XML_NO_CONTENT, &xlsx_CT_Col, NULL),
 
   GSF_XML_IN_NODE (SHEET, CONTENT, XL_NS_SS, "sheetData", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (CONTENT, ROW, XL_NS_SS, "row", GSF_XML_NO_CONTENT, &xlsx_CT_Row, NULL),
+    GSF_XML_IN_NODE (CONTENT, ROW, XL_NS_SS, "row", GSF_XML_NO_CONTENT, &xlsx_CT_Row, &xlsx_CT_Row_end),
       GSF_XML_IN_NODE (ROW, CELL, XL_NS_SS, "c", GSF_XML_NO_CONTENT, &xlsx_cell_begin, &xlsx_cell_end),
 	GSF_XML_IN_NODE (CELL, VALUE, XL_NS_SS, "v", GSF_XML_CONTENT, NULL, &xlsx_cell_val_end),
 	GSF_XML_IN_NODE (CELL, FMLA, XL_NS_SS,  "f", GSF_XML_CONTENT, &xlsx_cell_expr_begin, &xlsx_cell_expr_end),
