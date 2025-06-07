@@ -17,7 +17,8 @@ typedef enum {
 
 gboolean gui_file_save_as   (WBCGtk *wbcg, WorkbookView *wbv,
 			     GnmFileSaveAsStyle type,
-			     char const *default_format);
+			     char const *default_format,
+			     gboolean from_save);
 gboolean gui_file_save      (WBCGtk *wbcg, WorkbookView *wbv);
 gboolean gui_file_export_repeat (WBCGtk *wbcg);
 void     gui_file_open      (WBCGtk *wbcg, GnmFileOpenStyle type,

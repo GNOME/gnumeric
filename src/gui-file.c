@@ -518,7 +518,7 @@ out:
 
 gboolean
 gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, GnmFileSaveAsStyle type,
-		  char const *default_format)
+		  char const *default_format, gboolean from_save)
 {
 	GList *savers = NULL, *l;
 	GtkFileChooser *fsel;
@@ -661,8 +661,24 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, GnmFileSaveAsStyle type,
 		g_free (newname);
 	} else {
 		char *basename;
+		char *wb_uri2 = NULL;
+		const char *ext;
 
 		wb_uri = go_doc_get_uri (GO_DOC (wb));
+		ext = go_file_saver_get_extension (fs);
+		if (wb_uri && ext && from_save &&
+		    !go_url_check_extension (wb_uri, ext, NULL)) {
+			// We came from plain save with a format we cannot
+			// save.  Adjust the extension to match what we
+			// are defaulting to save
+			const char *rdot = strrchr (wb_uri, '.');
+			if (rdot)
+				wb_uri = wb_uri2 = g_strdup_printf
+					("%-.*s.%s",
+					 (int)(rdot - wb_uri),
+					 wb_uri,
+					 ext);
+		}
 		if (!wb_uri) wb_uri = _("Untitled");
 		basename = go_basename_from_uri (wb_uri);
 
@@ -677,6 +693,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, GnmFileSaveAsStyle type,
 		gtk_file_chooser_set_uri (fsel, wb_uri);
 
 		g_free (basename);
+		g_free (wb_uri2);
 	}
 
 	while (1) {
@@ -811,7 +828,8 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 
 	if (wb->file_format_level < GO_FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view,
-					 GNM_FILE_SAVE_AS_STYLE_SAVE, NULL);
+					 GNM_FILE_SAVE_AS_STYLE_SAVE, NULL,
+					 TRUE);
 	else {
 		gboolean ok = TRUE;
 		const char *uri = go_doc_get_uri (GO_DOC (wb));

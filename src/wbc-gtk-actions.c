@@ -104,7 +104,7 @@ static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, GNM_FILE_OPEN_STYLE_
 static GNM_ACTION_DEF (cb_file_save)	{ gui_file_save (wbcg, wb_control_view (GNM_WBC (wbcg))); }
 static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as
 		(wbcg, wb_control_view (GNM_WBC (wbcg)),
-		 GNM_FILE_SAVE_AS_STYLE_SAVE, NULL); }
+		 GNM_FILE_SAVE_AS_STYLE_SAVE, NULL, FALSE); }
 
 static GNM_ACTION_DEF (cb_file_sendto) {
 	WorkbookControl *wbc = GNM_WBC (wbcg);
@@ -969,13 +969,17 @@ static GNM_ACTION_DEF (cb_data_slicer_refresh)	{ cmd_slicer_refresh (GNM_WBC (wb
 static GNM_ACTION_DEF (cb_data_slicer_edit)	{ dialog_data_slicer (wbcg, FALSE); }
 static GNM_ACTION_DEF (cb_data_export)	        { gui_file_save_as
 		(wbcg, wb_control_view (GNM_WBC (wbcg)),
-		 GNM_FILE_SAVE_AS_STYLE_EXPORT, NULL); }
+		 GNM_FILE_SAVE_AS_STYLE_EXPORT, NULL, FALSE); }
 static GNM_ACTION_DEF (cb_data_export_text)	        { gui_file_save_as
 		(wbcg, wb_control_view (GNM_WBC (wbcg)),
-		 GNM_FILE_SAVE_AS_STYLE_EXPORT, "Gnumeric_stf:stf_assistant"); }
+		 GNM_FILE_SAVE_AS_STYLE_EXPORT,
+		 "Gnumeric_stf:stf_assistant",
+		 FALSE); }
 static GNM_ACTION_DEF (cb_data_export_csv)	        { gui_file_save_as
 		(wbcg, wb_control_view (GNM_WBC (wbcg)),
-		 GNM_FILE_SAVE_AS_STYLE_EXPORT, "Gnumeric_stf:stf_csv"); }
+		 GNM_FILE_SAVE_AS_STYLE_EXPORT,
+		 "Gnumeric_stf:stf_csv",
+		 FALSE); }
 static GNM_ACTION_DEF (cb_data_export_repeat)	{ gui_file_export_repeat (wbcg); }
 
 static void
