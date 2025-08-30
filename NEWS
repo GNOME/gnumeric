@@ -6,6 +6,7 @@ Morten:
 	* ODS Export and import of graph line stroke opacity.  [#796]
 	* Fix XLSX import for files lacking cell addresses.  [#804]
 	* GUI improvement when saving file loaded from cvs.  [#817]
+	* Improve LOG with base argument.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59

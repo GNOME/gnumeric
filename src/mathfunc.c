@@ -6269,3 +6269,50 @@ gnm_ilog (gnm_float x, gnm_float b)
 }
 
 /* ------------------------------------------------------------------------- */
+
+gnm_float
+gnm_logbase (gnm_float x, gnm_float b)
+{
+	gnm_float l, lr;
+
+	if (gnm_isnan (x) || !gnm_finite (b) || x < 0 || b <= 0 || b == 1)
+		return gnm_nan;
+
+	// A few special cases (only reached when b is sane)
+	if (x == 0)
+		return b < 1 ? gnm_pinf : gnm_ninf;
+	if (x == gnm_pinf)
+		return b < 1 ? gnm_ninf : gnm_pinf;
+
+	if (b == 2)
+		return gnm_log2 (x);
+#if GNM_RADIX % 2 == 0
+	if (b == GNM_const(0.5))
+		return -gnm_log2 (x);  // Since 0.5 has exact representation
+#endif
+
+#if GNM_RADIX == 10
+	if (b == 10)
+		return gnm_log10 (x);  // Don't trust this unless GNM_RADIX == 10
+	if (b == GNM_const(0.1))
+		return 0 - gnm_log10 (x);  // Since 0.1 has exact representation
+#endif
+
+	l = gnm_log (x) / gnm_log (b);
+
+	// If base is not an integer, don't try anything fancy
+	// Ditto for numbers so large we have loss of precision
+	if (b != gnm_floor (b) || x > GNM_const(1.0) / GNM_EPSILON)
+		return l;
+
+	// If result is not near an integer, bail
+	lr = gnm_round (l);
+	if (gnm_abs (l - lr) > GNM_const(1e-8))
+		return l;
+
+	// If the b^lr is a match, use lr as result instead.
+	if (gnm_pow (b, lr) == x)
+		return lr;
+
+	return l;
+}

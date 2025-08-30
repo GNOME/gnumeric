@@ -1323,30 +1323,12 @@ gnumeric_log (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float t = value_get_as_float (argv[0]);
 	gnm_float base = argv[1] ? value_get_as_float (argv[1]) : 10;
-	gnm_float res;
+	gnm_float res = gnm_logbase (t, base);
 
-	if (base == 1 || base <= 0)
-		return value_new_error_NUM (ei->pos);
-
-	if (t <= 0)
-		return value_new_error_NUM (ei->pos);
-
-	if (base == 2)
-		res = gnm_log2 (t);
-#if GNM_RADIX % 2 == 0
-	else if (base == GNM_const(0.5))
-		res = -gnm_log2 (t);  // Since 0.5 has exact representation
-#endif
-	else if (base == 10)
-		res = gnm_log10 (t);
-#if GNM_RADIX == 10
-	else if (base == GNM_const(0.1))
-		res = -gnm_log10 (t);  // Since 0.1 has exact representation
-#endif
+	if (gnm_finite (res))
+		return value_new_float (res);
 	else
-		res = gnm_log (t) / gnm_log (base);
-
-	return value_new_float (res);
+		return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/
@@ -1470,7 +1452,9 @@ gnumeric_power (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		gboolean z_even = gnm_fmod (z, 2.0) == 0;
 		if (z <= 0 || z != gnm_floor (z) || (r < 0 && z_even))
 			return value_new_error_NUM (ei->pos);
-		if (z != 1)
+		if (z == 3)
+			r = gnm_cbrt (r);
+		else if (z != 1)
 			r = (r < 0 ? -1 : +1) * gnm_pow (gnm_abs (r), 1 / z);
 		return value_new_float (r);
 	}
