@@ -17,7 +17,7 @@ GType   wbc_gtk_get_type (void);
 WBCGtk *wbc_gtk_new (WorkbookView *optional_view,
 		     Workbook	  *optional_wb,
 		     GdkScreen	  *optional_screen,
-		     gchar	  *optional_geometry);
+		     const gchar  *optional_geometry);
 
 GtkWindow	*wbcg_toplevel	  (WBCGtk *wbcg);
 void	         wbcg_set_transient (WBCGtk *wbcg,

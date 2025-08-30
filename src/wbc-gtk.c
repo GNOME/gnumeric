@@ -5219,13 +5219,13 @@ wbc_gtk_markup_changer (WBCGtk *wbcg)
  * @optional_screen: (allow-none): #GdkScreen.
  * @optional_geometry: (allow-none): string.
  *
- * Returns: (transfer none): (allow-none):  the new #WBCGtk or %NULL.
+ * Returns: (transfer none): the new #WBCGtk.
  **/
 WBCGtk *
 wbc_gtk_new (WorkbookView *optional_view,
 	     Workbook *optional_wb,
 	     GdkScreen *optional_screen,
-	     gchar *optional_geometry)
+	     const gchar *optional_geometry)
 {
 	Sheet *sheet;
 	WorkbookView *wbv;
