@@ -2623,15 +2623,23 @@ show_gui (WBCGtk *wbcg)
 	gdouble fx, fy;
 	GdkRectangle rect;
 	GdkScreen *screen = wbcg_get_screen (wbcg);
+	gboolean debug = gnm_debug_flag ("window-size");
 
 	/* In a Xinerama setup, we want the geometry of the actual display
 	 * unit, if available. See bug 59902.  */
 	gdk_screen_get_monitor_geometry (screen, 0, &rect);
 	sx = MAX (rect.width, 600);
 	sy = MAX (rect.height, 200);
+	if (debug)
+		g_printerr ("Monitor geometry %dx%d\n", sx, sy);
 
 	fx = gnm_conf_get_core_gui_window_x ();
 	fy = gnm_conf_get_core_gui_window_y ();
+	if (debug)
+		g_printerr ("Configuration scale %gx%g\n", fx, fy);
+
+	if (debug && wbcg->preferred_geometry)
+		g_printerr ("Specified geometry \"%s\"\n", wbcg->preferred_geometry);
 
 	/* Successfully parsed geometry string and urged WM to comply */
 	if (NULL != wbcg->preferred_geometry && NULL != wbcg->toplevel &&
@@ -2643,8 +2651,10 @@ show_gui (WBCGtk *wbcg)
 		   wbv != NULL &&
 		   (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
 		/* Set grid size to preferred width */
-		int pwidth = MIN(wbv->preferred_width, gdk_screen_get_width (screen));
-		int pheight = MIN(wbv->preferred_height, gdk_screen_get_height (screen));
+		int swidth = gdk_screen_get_width (screen);
+		int sheight = gdk_screen_get_height (screen);
+		int pwidth = MIN (wbv->preferred_width, swidth);
+		int pheight = MIN (wbv->preferred_height, sheight);
 		GtkRequisition requisition;
 
 		pwidth = pwidth > 0 ? pwidth : -1;
@@ -2652,10 +2662,20 @@ show_gui (WBCGtk *wbcg)
 		gtk_widget_set_size_request (GTK_WIDGET (wbcg->notebook_area),
 					     pwidth, pheight);
 		gtk_widget_get_preferred_size (GTK_WIDGET (wbcg->toplevel),
-					 &requisition, NULL);
+					       &requisition, NULL);
+		if (debug) {
+			g_printerr ("Screen size %dx%d\n", swidth, sheight);
+			g_printerr ("View's preferred size %dx%d\n",
+				    wbv->preferred_width, wbv->preferred_height);
+			g_printerr ("Toplevel's preferred size %dx%d\n",
+				    requisition.width, requisition.height);
+			g_printerr ("Size request %dx%d\n",
+				    pwidth, pheight);
+		}
+
 		/* We want to test if toplevel is bigger than screen.
 		 * gtk_widget_size_request tells us the space
-		 * allocated to the  toplevel proper, but not how much is
+		 * allocated to the toplevel proper, but not how much is
 		 * need for WM decorations or a possible panel.
 		 *
 		 * The test below should very rarely maximize when there is
@@ -2668,6 +2688,8 @@ show_gui (WBCGtk *wbcg)
 		 */
 		if (requisition.height + 20 > rect.height ||
 		    requisition.width > rect.width) {
+			if (debug)
+				g_printerr ("Maximizing\n");
 			gtk_window_maximize (GTK_WINDOW (wbcg->toplevel));
 		} else {
 			gtk_window_set_default_size
