@@ -6298,7 +6298,10 @@ gnm_logbase (gnm_float x, gnm_float b)
 		return 0 - gnm_log10 (x);  // Since 0.1 has exact representation
 #endif
 
-	l = gnm_log (x) / gnm_log (b);
+	if (b == 10)
+		l = gnm_log10 (x);
+	else
+		l = gnm_log (x) / gnm_log (b);
 
 	// If base is not an integer, don't try anything fancy
 	// Ditto for numbers so large we have loss of precision

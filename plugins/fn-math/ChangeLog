@@ -2,6 +2,7 @@
 
 	* functions.c (gnumeric_log): Move guts to gnn_logbase and improve
 	there.
+	(gnumeric_log10): Use gnm_logbase instead of gnm_log10 directly.
 
 2025-03-01  Morten Welinder <terra@gnome.org>
 

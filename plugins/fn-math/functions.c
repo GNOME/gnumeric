@@ -1527,7 +1527,7 @@ gnumeric_log10 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (t <= 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (gnm_log10 (t));
+	return value_new_float (gnm_logbase (t, 10));
 }
 
 /***************************************************************************/
