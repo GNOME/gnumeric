@@ -21,6 +21,10 @@ You need:				Debian package name
 	gnome-xml   	>= 2.4.12	libxml2-dev
 	pango		>= 1.46.0	libpango1.0-dev
 	NOTE: gnome-xml is also known as libxml
+	yelp                            yelp-tools
+
+Additionally you need a C development setup: a C compiler, bison, make,
+autoconf, automake, libtool, etc.
 
 Optionally:
 	python		>= 2.0		python-dev
@@ -36,6 +40,15 @@ Currently disabled:
 Runtime suggestions:
 	'yelp' for help
 
+
+Configuration for releases:
+	We use a standard "configure" setup.  See INSTALL
+
+Configuration from repository:
+	Use the autogen.sh script.  Options will be forwarded to configure.
+
+
+
 Support
 -------
 
@@ -50,6 +63,8 @@ Support
 
 Random notes
 ------------
+[Hopelessly outdated -- ignore for now]
+
 
 This is a partial list of Features implemented in Gnumeric, we need
 documentation for these:
