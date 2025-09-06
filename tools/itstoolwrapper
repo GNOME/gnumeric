@@ -1,33 +1,61 @@
 #! /usr/bin/perl -w
 
 use strict;
+$| = 1;
 
 my $realitstool = shift @ARGV;
 
-my $tmp;
-END { unlink $tmp if defined $tmp; }
+if (@ARGV > 2 && $ARGV[0] eq '-o' && $ARGV[1] =~ /\.pot$/) {
+    &make_potfile();
+} elsif (@ARGV > 2 && $ARGV[0] eq '-m' && $ARGV[1] =~ /\.mo$/) {
+    &make_mofile();
+} else {
+    &fallback();
+}
 
-if (@ARGV > 2 &&
-    $ARGV[0] eq '-o' &&
-    $ARGV[1] =~ /\.pot/) {
+exit 0;
+
+# -----------------------------------------------------------------------------
+
+sub fallback {
+    &run ($realitstool, @ARGV);
+    exit 1 unless $? == 0;
+}
+
+sub make_potfile {
     my ($dasho, $potfile, $main) = @ARGV;
 
-    $tmp = $main;
-    $tmp =~ s/\.xml$/-tmp.xml/;
+    my $tmp = $main;
+    $tmp =~ s/(\.xml)$/-tmp$1/;
 
-    my @cmd = ("xmllint", "--noent", "-o", $tmp, $main);
-    print STDERR "# [WRAP] Running ", join(" ", @cmd), "\n";
-    system(@cmd);
+    &run ("xmllint", "--noent", "-o", $tmp, $main);
     exit 1 unless $? == 0;
 
-    @cmd = ($realitstool, $dasho, $potfile, $tmp);
-    print STDERR "# [WRAP] Running ", join(" ", @cmd), "\n";
-    system(@cmd);
+    &run ($realitstool, $dasho, $potfile, $tmp);
     exit 1 unless $? == 0;
 
-    exit 0;
-} else {
-    my @cmd = ($realitstool, @ARGV);
+    unlink $tmp;
+}
+
+sub make_mofile {
+    my ($dashm, $mofile, $main) = @ARGV;
+
+    my $tmp = $main;
+    $tmp =~ s/(\.xml)$/-tmp$1/;
+
+    &run ("xmllint", "--noent", "-o", $tmp, $main);
+    exit 1 unless $? == 0;
+
+    &run ($realitstool, $dashm, $mofile, $tmp);
+    exit 1 unless $? == 0;
+
+    unlink $tmp;
+}
+
+# -----------------------------------------------------------------------------
+
+sub run {
+    my @cmd = @_;
     print STDERR "# [WRAP] Running ", join(" ", @cmd), "\n";
-    exec(@cmd);
+    system(@cmd);
 }
