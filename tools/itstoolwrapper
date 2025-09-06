@@ -15,13 +15,19 @@ if (@ARGV > 2 &&
     $tmp = $main;
     $tmp =~ s/\.xml$/-tmp.xml/;
 
-    system("xmllint", "--noent", "-o", $tmp, $main);
+    my @cmd = ("xmllint", "--noent", "-o", $tmp, $main);
+    print STDERR "# [WRAP] Running ", join(" ", @cmd), "\n";
+    system(@cmd);
     exit 1 unless $? == 0;
 
-    system($realitstool, $dasho, $potfile, $tmp);
+    @cmd = ($realitstool, $dasho, $potfile, $tmp);
+    print STDERR "# [WRAP] Running ", join(" ", @cmd), "\n";
+    system(@cmd);
     exit 1 unless $? == 0;
 
     exit 0;
 } else {
-    exec($realitstool, @ARGV);
+    my @cmd = ($realitstool, @ARGV);
+    print STDERR "# [WRAP] Running ", join(" ", @cmd), "\n";
+    exec(@cmd);
 }
