@@ -1,0 +1,27 @@
+#! /usr/bin/perl -w
+
+use strict;
+
+my $realitstool = shift @ARGV;
+
+my $tmp;
+END { unlink $tmp if defined $tmp; }
+
+if (@ARGV > 2 &&
+    $ARGV[0] eq '-o' &&
+    $ARGV[1] =~ /\.pot/) {
+    my ($dasho, $potfile, $main) = @ARGV;
+
+    $tmp = $main;
+    $tmp =~ s/\.xml$/-tmp.xml/;
+
+    system("xmllint", "--noent", "-o", $tmp, $main);
+    exit 1 unless $? == 0;
+
+    system($realitstool, $dasho, $potfile, $tmp);
+    exit 1 unless $? == 0;
+
+    exit 0;
+} else {
+    exec($realitstool, @ARGV);
+}

@@ -7,6 +7,7 @@ Morten:
 	* Fix XLSX import for files lacking cell addresses.  [#804]
 	* GUI improvement when saving file loaded from cvs.  [#817]
 	* Improve LOG with base argument.
+	* Doc system improvements.  [#823]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59

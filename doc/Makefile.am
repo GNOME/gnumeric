@@ -9,6 +9,9 @@ DISTCLEANFILES=
 
 HELP_ID=gnumeric
 
+REALITSTOOL=@ITSTOOL@
+ITSTOOL=$(PERL) $(top_srcdir)/tools/itstoolwrapper "$(REALITSTOOL)"
+
 ## Unfortunately, I have to turn off "cs" translations.  I am unable to
 ## release without.  The cause is an itstool and/or libxml2 bug that causes
 ## the build process to crash, see
@@ -28,7 +31,8 @@ HELP_ID=gnumeric
 HELP_LINGUAS=de es sv
 HELP_FILES=gnumeric.xml
 
-HELP_EXTRA=					\
+HELP_EXTRA=                                    \
+	gnumeric.xml				\
 	about-authors.xml			\
 	about-history.xml			\
 	about-license.xml			\
@@ -602,7 +606,9 @@ gnumeric.pdf:
 		-P latex.encoding=utf8 \
 		-P latex.output.revhistory=0 \
 		-o ../gnumeric.tex $(srcdir)/gnumeric.xml)
-	sed -i -e 's/\xE2\xA8\x89/\\ensuremath{\\times}/' gnumeric.tex
+	sed -i -e 's/T2A,T2D,T1/T2A,T2D,LGR,T1/' gnumeric.tex
+	sed -i -e 's/utf8x/utf8/' gnumeric.tex
+	sed -i -f utf8.sed gnumeric.tex
 	sed -i -e 's/\\begin{verbatim}\([^_]*\)\\end{verbatim}/\\texttt{\1}/g' gnumeric.tex
 	sed -i -e 's/\texttt{\emph{\small{\(.*\)}}}:/\texttt{\emph{\1}}:/g' gnumeric.tex
 	sed -i -e 's/ *>{} */\\ensuremath{{}>{}}/g' gnumeric.tex
@@ -616,7 +622,7 @@ endif
 
 manpagedir   = $(mandir)/man1
 manpage_DATA = gnumeric.1 ssconvert.1 ssindex.1 ssgrep.1 ssdiff.1
-EXTRA_DIST += $(manpage_DATA)
+EXTRA_DIST += $(manpage_DATA) utf8.sed
 
 winhelp_DATA =
 winhelpdir=$(gnumeric_datadir)/$(subdir)
