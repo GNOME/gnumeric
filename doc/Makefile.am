@@ -10,7 +10,8 @@ DISTCLEANFILES=
 HELP_ID=gnumeric
 
 REALITSTOOL=@ITSTOOL@
-ITSTOOL=$(PERL) $(top_srcdir)/tools/itstoolwrapper "$(REALITSTOOL)"
+ITSTOOLWRAPPER=$(abs_top_srcdir)/tools/itstoolwrapper
+ITSTOOL=$(PERL) $(ITSTOOLWRAPPER) "$(REALITSTOOL)"
 
 ## Unfortunately, I have to turn off "cs" translations.  I am unable to
 ## release without.  The cause is an itstool and/or libxml2 bug that causes
