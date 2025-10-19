@@ -283,10 +283,11 @@ gnm_range_geometric_mean (gnm_float const *xs, int n, gnm_float *res)
 		return anynegp;
 
 	/* Now compute (res * base^expb) ^ (1/n).  */
-	if (expb >= 0)
-		*res = gnm_scalbn (gnm_pow (gnm_scalbn (*res, expb % n), 1.0 / n), expb / n);
-	else
-		*res = gnm_scalbn (gnm_pow (gnm_scalbn (*res, -((-expb) % n)), 1.0 / n), expb / n);
+	gnm_float f1 = gnm_pow (*res, GNM_const(1.0) / n);
+	gnm_float f2 = (expb >= 0)
+		? gnm_pow (FLT_RADIX, (gnm_float)(expb % n) / n)
+		: gnm_pow (FLT_RADIX, -(gnm_float)((-expb) % n) / n);
+	*res = gnm_scalbn (f1 * f2, expb / n);
 
 	return 0;
 }

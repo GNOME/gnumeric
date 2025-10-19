@@ -8,6 +8,7 @@ Morten:
 	* GUI improvement when saving file loaded from cvs.  [#817]
 	* Improve LOG with base argument.
 	* Doc system improvements.  [#823]
+	* Fix GEOMEAN problem.  [#829]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59
