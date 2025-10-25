@@ -556,7 +556,7 @@
                 </child>
                 <child>
                   <object class="GtkRadioButton" id="scope_sheet">
-                    <property name="label" translatable="yes">_Current sheet</property>
+                    <property name="label" translatable="yes">C_urrent sheet</property>
                     <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>

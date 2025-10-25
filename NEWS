@@ -9,6 +9,7 @@ Morten:
 	* Improve LOG with base argument.
 	* Doc system improvements.  [#823]
 	* Fix GEOMEAN problem.  [#829]
+	* Fix dialog accel collision.  [#830]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59
