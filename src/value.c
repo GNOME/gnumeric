@@ -435,6 +435,7 @@ value_new_cellrange (GnmCellRef const *a, GnmCellRef const *b,
 
 /**
  * value_new_cellrange_r:
+ * @sheet: Sheet
  * @r: #GnmRange
  *
  * Returns: (transfer full): a new cell range value for @r
@@ -468,8 +469,10 @@ value_new_cellrange_r (Sheet *sheet, GnmRange const *r)
  *         the range given does not include a sheet specification.
  * @str: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3", "R1C1").
  *
- * Parse @str using the convention associated with @sheet.
- * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
+ * Parse @str using the convention associated with @sheet.  The
+ * parsing is done relative to the full sheet.
+ *
+ * Returns: (transfer full) (nullable): a cell-range #GnmValue if the range was
  * successfully parsed or %NULL on failure.
  */
 GnmValue *
@@ -491,10 +494,13 @@ value_new_cellrange_str (Sheet *sheet, char const *str)
  * @pp:  if a relative range is specified, then it will be interpreted relative
  *       to this position (affects only A1-style relative references).
  * @str: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3", "R1C1").
+ * @flags:
  *
- * Parse @str using the convention associated with @sheet.
- * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
- * successfully parsed or %NULL on failure.
+ * Parse @str using the convention associated with @pp's associated
+ * sheet.
+ *
+ * Returns: (transfer full) (nullable): a cell-range #GnmValue if the
+ * range was successfully parsed, or %NULL on failure.
  */
 GnmValue *
 value_new_cellrange_parsepos_str (GnmParsePos const *pp, char const *str,
@@ -1375,11 +1381,12 @@ value_get_rangeref (GnmValue const *v)
 
 /**
  * value_coerce_to_number:
- * @v:
- * @valid:
+ * @v: (transfer full): value to coerce.
+ * @valid: (out): %TRUE is coercion succeeded.
+ * @ep: evaluation position.
  *
- * If the value can be used as a number return that number
- * otherwise free it at return an appropriate error
+ * Returns: (transfer full): coerce @v to a numeric value and return
+ * it.  If it cannot be coerced, return an appropriate error value.
  **/
 GnmValue *
 value_coerce_to_number (GnmValue *v, gboolean *valid, GnmEvalPos const *ep)
