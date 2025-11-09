@@ -80,8 +80,6 @@ gnm_expr_new_constant (GnmValue *v)
 	g_return_val_if_fail (v != NULL, NULL);
 
 	ans = CHUNK_ALLOC (GnmExprConstant, expression_pool_small);
-	if (!ans)
-		return NULL;
 	gnm_expr_constant_init (ans, v);
 
 	return (GnmExpr *)ans;
@@ -104,7 +102,6 @@ gnm_expr_new_funcallv (GnmFunc *func, int argc, GnmExprConstPtr *argv)
 	g_return_val_if_fail (func, NULL);
 
 	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool_small);
-
 	ans->oper = GNM_EXPR_OP_FUNCALL;
 	gnm_func_inc_usage (func);
 	ans->func = func;
@@ -266,9 +263,6 @@ gnm_expr_new_unary (GnmExprOp op, GnmExpr const *e)
 	GnmExprUnary *ans;
 
 	ans = CHUNK_ALLOC (GnmExprUnary, expression_pool_small);
-	if (!ans)
-		return NULL;
-
 	ans->oper = op;
 	ans->value = e;
 
@@ -291,9 +285,6 @@ gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
 	GnmExprBinary *ans;
 
 	ans = CHUNK_ALLOC (GnmExprBinary, expression_pool_small);
-	if (!ans)
-		return NULL;
-
 	ans->oper = op;
 	ans->value_a = l;
 	ans->value_b = r;
@@ -303,22 +294,27 @@ gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
 
 /***************************************************************************/
 
+/**
+ * gnm_expr_new_name:
+ * @name: #GnmNamedExpr
+ * @sheet_scope: (nullable): Sheet scope
+ * @wb_scope: (nullable): Workbook scope
+ *
+ * Returns: (transfer full): name expression.
+ */
 GnmExpr const *
 gnm_expr_new_name (GnmNamedExpr *name,
-		   Sheet *optional_scope, Workbook *optional_wb_scope)
+		   Sheet *sheet_scope, Workbook *wb_scope)
 {
 	GnmExprName *ans;
 
 	ans = CHUNK_ALLOC (GnmExprName, expression_pool_big);
-	if (!ans)
-		return NULL;
-
 	ans->oper = GNM_EXPR_OP_NAME;
 	ans->name = name;
 	expr_name_ref (name);
 
-	ans->optional_scope = optional_scope;
-	ans->optional_wb_scope = optional_wb_scope;
+	ans->optional_scope = sheet_scope;
+	ans->optional_wb_scope = wb_scope;
 
 	return (GnmExpr *)ans;
 }
@@ -337,9 +333,6 @@ gnm_expr_new_cellref (GnmCellRef const *cr)
 	GnmExprCellRef *ans;
 
 	ans = CHUNK_ALLOC (GnmExprCellRef, expression_pool_big);
-	if (!ans)
-		return NULL;
-
 	ans->oper = GNM_EXPR_OP_CELLREF;
 	ans->ref = *cr;
 
@@ -670,8 +663,8 @@ gnm_expr_array_corner_get_type (void)
 
 /**
  * gnm_expr_equal:
- * @a: first #GnmExpr
- * @b: first #GnmExpr
+ * @a: (nullable): first #GnmExpr
+ * @b: (nullable): second #GnmExpr
  *
  * Returns: %TRUE, if the supplied expressions are exactly the
  *   same and %FALSE otherwise.  No eval position is used to see if they
@@ -683,9 +676,8 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 {
 	if (a == b)
 		return TRUE;
-
-	g_return_val_if_fail (a != NULL, FALSE);
-	g_return_val_if_fail (b != NULL, FALSE);
+	if (!a || !b)
+		return FALSE;
 
 	if (GNM_EXPR_GET_OPER (a) != GNM_EXPR_GET_OPER (b))
 		return FALSE;
@@ -846,15 +838,12 @@ handle_empty (GnmValue *res, GnmExprEvalFlags flags)
  * array or not because we can differentiate based on the required type for the
  * argument.
  *
- * Always release the value passed in.
- *
  * NOTE: This should match link_unlink_constant.
  *
- * Return value:
- *     If the intersection succeeded return a duplicate of the value
- *     at the intersection point.  This value needs to be freed.
- *     %NULL if there is no intersection
- * Returns the upper left corner of an array.
+ * Returns: (transfer full): If the intersection succeeded return a
+ * duplicate of the value at the intersection point.  Returns %NULL if
+ * there is no intersection.  If the @v is and array, return the upper
+ * left value.
  **/
 static GnmValue *
 value_intersection (GnmValue *v, GnmEvalPos const *pos)
@@ -3024,7 +3013,7 @@ gnm_expr_top_new_constant (GnmValue *v)
  * gnm_expr_top_new_array_corner:
  * @cols: number of coloums.
  * @rows: number of rows.
- * @expr: expression.
+ * @expr: (transfer full) (nullable): expression.
  *
  * Returns: (transfer full): new array corner expression.
  */
