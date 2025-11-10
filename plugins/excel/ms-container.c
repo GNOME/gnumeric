@@ -67,20 +67,17 @@ ms_container_finalize (MSContainer *container)
 		container->v7.externsheets = NULL;
 	}
 	if (container->v7.externnames != NULL) {
-		for (i = container->v7.externnames->len; i-- > 0 ; )
-			if (g_ptr_array_index (container->v7.externnames, i) != NULL) {
-				GnmNamedExpr *nexpr = g_ptr_array_index (container->v7.externnames, i);
-				if (nexpr != NULL) {
-					/* NAME placeholders need removal, EXTERNNAME placeholders
-					 * will no be active */
-					if (expr_name_is_active (nexpr) &&
-					    expr_name_is_placeholder (nexpr) &&
-					    /* FIXME: Why do we need this?  */
-					    nexpr->ref_count == 2)
-						expr_name_remove (nexpr);
-					expr_name_unref (nexpr);
-				}
+		for (i = container->v7.externnames->len; i-- > 0 ; ) {
+			GnmNamedExpr *nexpr = g_ptr_array_index (container->v7.externnames, i);
+			if (nexpr != NULL) {
+				/* NAME placeholders need removal, EXTERNNAME placeholders
+				 * will no be active */
+				if (expr_name_is_active (nexpr) &&
+				    expr_name_is_placeholder (nexpr))
+					expr_name_remove (nexpr);
+				expr_name_unref (nexpr);
 			}
+		}
 		g_ptr_array_free (container->v7.externnames, TRUE);
 		container->v7.externnames = NULL;
 	}

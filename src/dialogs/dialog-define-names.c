@@ -959,7 +959,7 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	name_guru_parse_pos_init (state, &pp, type);
 	nexpr = expr_name_lookup (&pp, new_text);
 
-	if (nexpr != NULL && !nexpr->is_placeholder) {
+	if (nexpr != NULL && !expr_name_is_placeholder (nexpr)) {
 		Sheet *scope = nexpr->pos.sheet;
 		if ((type == item_type_new_unsaved_wb_name &&
 		     scope == NULL) ||

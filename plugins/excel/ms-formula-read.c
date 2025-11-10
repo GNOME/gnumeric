@@ -1614,10 +1614,10 @@ excel_parse_formula1 (MSContainer const *container,
 				 * names in a file just to be safe */
 				if (1 <= name_idx && name_idx < 256) {
 					char *stub_name = g_strdup_printf ("FwdDecl%d", name_idx);
+					nexpr = expr_name_new (stub_name);
 					if (name_idx >= names->len)
 						g_ptr_array_set_size (names, name_idx);
-					nexpr = g_ptr_array_index (names, name_idx-1) =
-						expr_name_new (stub_name);
+					g_ptr_array_index (names, name_idx - 1) = nexpr;
 					name = gnm_expr_new_name (nexpr, NULL, NULL);
 					d (1, g_printerr ("creating stub '%s'", stub_name););
 					g_free (stub_name);

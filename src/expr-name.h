@@ -13,12 +13,13 @@ struct _GnmNamedExpr {
 	GnmParsePos    pos;
 	GHashTable *dependents;
 	GnmExprTop const *texpr;
-	gboolean    is_placeholder;
 	gboolean    is_hidden;
 	gboolean    is_permanent;
 	gboolean    is_editable;
 	GnmNamedExprCollection *scope;
 };
+
+extern GnmNamedExpr *interesting;
 
 gboolean expr_name_validate (const char *name);
 
@@ -44,7 +45,6 @@ const char *expr_name_name    (GnmNamedExpr const *nexpr);
 gboolean expr_name_set_name   (GnmNamedExpr *nexpr, const char *new_name);
 
 gboolean expr_name_is_placeholder (GnmNamedExpr const *ne);
-void expr_name_set_is_placeholder (GnmNamedExpr *nexpr, gboolean is_placeholder);
 
 char    *expr_name_as_string  (GnmNamedExpr const *nexpr, GnmParsePos const *pp,
 			       GnmConventions const *fmt);

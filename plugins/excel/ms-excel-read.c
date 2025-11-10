@@ -3584,9 +3584,7 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 		/* NAME placeholders need removal, EXTERNNAME
 		 * placeholders will no be active */
 		if (expr_name_is_active (nexpr) &&
-		    expr_name_is_placeholder (nexpr) &&
-		    /* FIXME: Why do we need this? */
-		    nexpr->ref_count == 2) {
+		    expr_name_is_placeholder (nexpr)) {
 			d (1, g_printerr ("Removing name %s\n", expr_name_name (nexpr)););
 			expr_name_remove (nexpr);
 		}
@@ -3672,6 +3670,8 @@ excel_builtin_name (guint8 const *ptr)
 	return NULL;
 }
 
+// This has the same owning convensions as expr_name_add: if link_to_container,
+// then caller will not own the result, otherwise it will
 static GnmNamedExpr *
 excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 		  guint8 const *expr_data, unsigned expr_len,
@@ -4049,7 +4049,6 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		 * after import finishes, which destroys them if they are not
 		 * in use. */
 		if (nexpr != NULL) {
-			expr_name_ref (nexpr);
 			nexpr->is_hidden = (flags & 0x0001) ? TRUE : FALSE;
 
 			/* Undocumented magic.
@@ -4064,11 +4063,17 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		}
 	}
 
-	/* nexpr is potentially NULL if there was an error */
-	if (importer->num_name_records < importer->names->len)
-		g_ptr_array_index (importer->names, importer->num_name_records) = nexpr;
-	else if (importer->num_name_records == importer->names->len)
-		g_ptr_array_add (importer->names, nexpr);
+	// nexpr is potentially NULL if there was an error
+	if (nexpr)
+		expr_name_ref (nexpr);
+	if (importer->num_name_records >= importer->names->len)
+		g_ptr_array_set_size (importer->names, importer->num_name_records + 1);
+	else {
+		GnmNamedExpr *old_nexpr = g_ptr_array_index (importer->names, importer->num_name_records);
+		if (old_nexpr)
+			expr_name_unref (old_nexpr);
+	}
+	g_ptr_array_index (importer->names, importer->num_name_records) = nexpr;
 	importer->num_name_records++;
 
 	d (5, {
