@@ -1757,7 +1757,8 @@ cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			if (re_fit_height)
 				colrow_autofit (me->cmd.sheet, r, FALSE, FALSE,
 						TRUE, FALSE,
-						&os->rows, &os->old_heights);
+						&os->rows, &os->old_heights,
+						TRUE);
 		}
 
 		sheet_flag_style_update_range (me->cmd.sheet, r);
@@ -3011,10 +3012,12 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	if (!is_undo && !me->has_been_through_cycle) {
 		colrow_autofit (me->dst.sheet, &me->dst.range, FALSE, FALSE,
 				TRUE, FALSE,
-				NULL, NULL);
+				NULL, NULL, TRUE);
+
 		colrow_autofit (me->dst.sheet, &me->dst.range, TRUE, TRUE,
 				TRUE, FALSE,
-				NULL, NULL);
+				NULL, NULL,
+				TRUE);
 	}
 
 	if (is_undo) {
@@ -3341,7 +3344,7 @@ cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	colrow_autofit (me->cmd.sheet, &me->dst.range, TRUE, TRUE,
 			TRUE, FALSE,
-			&me->columns, &me->old_widths);
+			&me->columns, &me->old_widths, TRUE);
 
 	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
 	sheet_range_calc_spans (me->dst.sheet, &me->dst.range, GNM_SPANCALC_RENDER);

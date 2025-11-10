@@ -788,14 +788,15 @@ rows_height_update (Sheet *sheet, GnmRange const *range, gboolean shrink)
 	 * just contents.  Empty cells will cause resize also */
 	colrow_autofit (sheet, range, FALSE, FALSE,
 			FALSE, !shrink,
-			NULL, NULL);
+			NULL, NULL,
+			TRUE);
 }
 
 /* ------------------------------------------------------------------------- */
 
 struct cb_autofit {
 	Sheet *sheet;
-	const GnmRange *range;
+	GnmRange range;
 	gboolean ignore_strings;
 	gboolean min_current;
 	gboolean min_default;
@@ -811,7 +812,8 @@ cb_autofit_col (GnmColRowIter const *iter, gpointer data_)
 		return FALSE;
 
 	size = sheet_col_size_fit_pixels (data->sheet, iter->pos,
-		 data->range->start.row, data->range->end.row,
+					  data->range.start.row,
+					  data->range.end.row,
 		 data->ignore_strings);
 	/* FIXME: better idea than this?  */
 	max = 50 * sheet_col_get_default_size_pixels (data->sheet);
@@ -839,7 +841,8 @@ cb_autofit_row (GnmColRowIter const *iter, gpointer data_)
 		return FALSE;
 
 	size = sheet_row_size_fit_pixels (data->sheet, iter->pos,
-		 data->range->start.col, data->range->end.col,
+					  data->range.start.col,
+					  data->range.end.col,
 		 data->ignore_strings);
 	max = 20 * sheet_row_get_default_size_pixels (data->sheet);
 	size = MIN (size, max);
@@ -868,6 +871,8 @@ cb_autofit_row (GnmColRowIter const *iter, gpointer data_)
  *     colrow_restore_state_group.
  * @sizes: (out) (optional): old sizes appropriate for
  *     colrow_restore_state_group.
+ * @reasonable_effort: if %TRUE, this function may skip some cells from really
+ *    big ranges.
  *
  * This function autofits columns or rows in @range as specified by
  * @is_cols.  Only cells in @range are considered for the sizing
@@ -879,25 +884,36 @@ colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
 		gboolean ignore_strings,
 		gboolean min_current, gboolean min_default,
 		ColRowIndexList **indices,
-		ColRowStateGroup **sizes)
+		ColRowStateGroup **sizes,
+		gboolean reasonable_effort)
 {
 	struct cb_autofit data;
 	int a, b;
 	ColRowHandler handler;
 
 	data.sheet = sheet;
-	data.range = range;
+	data.range = *range;
 	data.ignore_strings = ignore_strings;
 	data.min_current = min_current;
 	data.min_default = min_default;
 
+	if (reasonable_effort) {
+		const int MAX_HEIGHT = 10000;
+		const int MAX_WIDTH = 1000;
+
+		if (range_height (&data.range) > MAX_HEIGHT)
+			data.range.end.row = data.range.start.row + MAX_HEIGHT - 1;
+		if (range_width (&data.range) > MAX_WIDTH)
+			data.range.end.col = data.range.start.col + MAX_WIDTH - 1;
+	}
+
 	if (is_cols) {
-		a = range->start.col;
-		b = range->end.col;
+		a = data.range.start.col;
+		b = data.range.end.col;
 		handler = cb_autofit_col;
 	} else {
-		a = range->start.row;
-		b = range->end.row;
+		a = data.range.start.row;
+		b = data.range.end.row;
 		handler = cb_autofit_row;
 	}
 
@@ -923,7 +939,7 @@ void
 colrow_autofit_col (Sheet *sheet, GnmRange *r)
 {
 	colrow_autofit (sheet, r, TRUE, TRUE,
-			TRUE, FALSE, NULL, NULL);
+			TRUE, FALSE, NULL, NULL, TRUE);
 	sheet_foreach_cell_in_region (sheet, CELL_ITER_IGNORE_BLANK,
 				      r->start.col, 0,
 				      r->end.col, -1,
@@ -940,7 +956,7 @@ void
 colrow_autofit_row (Sheet *sheet, GnmRange *r)
 {
 	colrow_autofit (sheet, r, FALSE, FALSE,
-			TRUE, FALSE, NULL, NULL);
+			TRUE, FALSE, NULL, NULL, TRUE);
 }
 
 /*****************************************************************************/

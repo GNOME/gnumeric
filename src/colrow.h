@@ -148,7 +148,8 @@ void             colrow_autofit                 (Sheet *sheet,
 						 gboolean min_current,
 						 gboolean min_default,
 						 ColRowIndexList **indices,
-						 ColRowStateList **sizes);
+						 ColRowStateList **sizes,
+						 gboolean reasonable_effort);
 void             colrow_autofit_col             (Sheet *sheet, GnmRange *r);
 void             colrow_autofit_row             (Sheet *sheet, GnmRange *r);
 

@@ -160,7 +160,7 @@ resize_columns (Sheet *sheet)
 			TRUE, /* Ignore strings */
 			TRUE, /* Don't shrink */
 			TRUE, /* Don't shrink */
-			NULL, NULL);
+			NULL, NULL, TRUE);
 	if (gnm_debug_flag ("stf"))
 		g_printerr ("Auto-fitting columns...  done\n");
 

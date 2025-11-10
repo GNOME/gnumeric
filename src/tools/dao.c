@@ -654,7 +654,8 @@ dao_autofit_these_columns (data_analysis_output_t *dao, int from_col, int to_col
 
 	colrow_autofit (dao->sheet, &r, TRUE,
 			FALSE, dao->autofit_noshrink, FALSE,
-			NULL, NULL);
+			NULL, NULL,
+			TRUE);
 }
 
 /**
@@ -683,7 +684,8 @@ dao_autofit_these_rows (data_analysis_output_t *dao, int from_row, int to_row)
 
 	colrow_autofit (dao->sheet, &r, FALSE,
 			FALSE, dao->autofit_noshrink, FALSE,
-			NULL, NULL);
+			NULL, NULL,
+			TRUE);
 }
 
 void
