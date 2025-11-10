@@ -91,7 +91,7 @@ gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c)
 	 * 0 to FFFF.
 	 *
 	 * Note, that while go_xml_out_add_color exists, we cannot use
-	 * it as it using a 0-255 scaling and always includes alpha.
+	 * it as it is using a 0-255 scaling and always includes alpha.
 	 */
 	unsigned r, g, b, a;
 	char buf[4 * 4 * sizeof (unsigned int) + 1];
@@ -982,7 +982,7 @@ xml_write_filter_expr (GnmOutputXML *state,
 {
 	static char const *filter_cond_name[] = { "eq", "gt", "lt", "gte", "lte", "ne" };
 	/*
-	 * WARNING WARNING WARING
+	 * WARNING WARNING WARNING
 	 * Value and ValueType are _reversed !!!
 	 */
 	static struct { char const *op, *valtype, *val; } filter_expr_attrs[] = {

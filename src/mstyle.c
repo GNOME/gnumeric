@@ -594,7 +594,7 @@ elem_clear_contents (GnmStyle *style, GnmStyleElement elem)
  * Copy any items from @overlay that do not conflict with the values in @accum.
  * If an element had a previous conflict (flagged via @conflicts) it is ignored.
  *
- * Returns @conflicts with any new conflicts added.
+ * Returns: @conflicts with any new conflicts added.
  **/
 unsigned int
 gnm_style_find_conflicts (GnmStyle *accum, GnmStyle const *overlay,
@@ -637,7 +637,7 @@ gnm_style_find_conflicts (GnmStyle *accum, GnmStyle const *overlay,
  *
  * Determine how two fully-qualified styles differ.
  *
- * Returns differences as a bitset of #GnmStyleElement.
+ * Returns: differences as a bitset of #GnmStyleElement.
  **/
 unsigned int
 gnm_style_find_differences (GnmStyle const *a, GnmStyle const *b,
@@ -762,6 +762,13 @@ gnm_style_new_default (void)
 	return new_style;
 }
 
+
+/**
+ * gnm_style_dup:
+ * @src: a #GnmStyle
+ *
+ * Returns: (transfer full): a new style that is a copy of @src
+ **/
 GnmStyle *
 gnm_style_dup (GnmStyle const *src)
 {
@@ -1095,12 +1102,26 @@ gnm_style_abandon_link (GnmStyle *style)
 	style->linked_sheet = NULL;
 }
 
+/**
+ * gnm_style_eq:
+ * @a: (nullable): #GnmStyle
+ * @b: (nullable): #GnmStyle
+ *
+ * Returns: %TRUE, if @a and @b are the same style object.
+ **/
 gboolean
 gnm_style_eq (GnmStyle const *a, GnmStyle const *b)
 {
 	return a == b;
 }
 
+/**
+ * gnm_style_equal:
+ * @a: #GnmStyle
+ * @b: #GnmStyle
+ *
+ * Returns: %TRUE, if the two styles have identical contents.
+ **/
 gboolean
 gnm_style_equal (GnmStyle const *a, GnmStyle const *b)
 {
@@ -1287,6 +1308,13 @@ gnm_style_equal_header (GnmStyle const *a, GnmStyle const *b, gboolean top)
 }
 
 
+/**
+ * gnm_style_is_element_set:
+ * @style: #GnmStyle
+ * @elem: a style element
+ *
+ * Returns: %TRUE, if the style has a value for the given element.
+ */
 gboolean
 gnm_style_is_element_set (GnmStyle const *style, GnmStyleElement elem)
 {
@@ -1309,6 +1337,14 @@ gnm_style_is_complete (GnmStyle const *style)
 	return style->set == ((1u << MSTYLE_ELEMENT_MAX) - 1);
 }
 
+/**
+ * gnm_style_unset_element:
+ * @style: #GnmStyle
+ * @elem: a style element
+ *
+ * Unset the style element @elem from @style.  If the style does not
+ * have the element set, no action is taken.
+ */
 void
 gnm_style_unset_element (GnmStyle *style, GnmStyleElement elem)
 {
@@ -1533,6 +1569,8 @@ gnm_style_get_border (GnmStyle const *style, GnmStyleElement elem)
  * gnm_style_set_pattern:
  * @style: #GnmStyle to change
  * @pattern: pattern code
+ *
+ * Set the pattern of the style.
  **/
 void
 gnm_style_set_pattern (GnmStyle *style, int pattern)
@@ -1546,6 +1584,12 @@ gnm_style_set_pattern (GnmStyle *style, int pattern)
 	style->pattern = pattern;
 }
 
+/**
+ * gnm_style_get_pattern:
+ * @style: #GnmStyle to query
+ *
+ * Returns: the pattern set for the style.
+ **/
 int
 gnm_style_get_pattern (GnmStyle const *style)
 {
@@ -2189,7 +2233,8 @@ gnm_style_set_validation (GnmStyle *style, GnmValidation *v)
  * gnm_style_get_validation:
  * @style: #GnmStyle to query
  *
- * Returns: (transfer none) (nullable):
+ * Returns: (transfer none) (nullable): the validation object for the
+ * style.
  **/
 GnmValidation const *
 gnm_style_get_validation (GnmStyle const *style)
