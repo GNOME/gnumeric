@@ -71,6 +71,8 @@ void gnm_rvc_store (GnmRenderedValueCollection *rvc,
 		    GnmRenderedValue *rv);
 void gnm_rvc_remove (GnmRenderedValueCollection *rvc,
 		     GnmCell const *cell);
+void gnm_rvc_remove_range (GnmRenderedValueCollection *rvc,
+			   Sheet const *sheet, GnmRange const *range);
 
 /* ------------------------------------------------------------------------- */
 

@@ -26,6 +26,7 @@
 #include <colrow.h>
 #include <value.h>
 #include <rendered-value.h>
+#include <ranges.h>
 
 static guint
 col_hash (gconstpointer key)
@@ -418,6 +419,11 @@ row_calc_spans (ColRowInfo *ri, int row, Sheet const *sheet)
 	GnmRange const *merged;
 	GnmCell *cell;
 	int const last = sheet->cols.max_used;
+	GnmRange r;
+
+	// Unrender the whole thing.  We will rerender as needed.
+	range_init_rows (&r, sheet, row, row);
+	gnm_rvc_remove_range (sheet->rendered_values, sheet, &r);
 
 	row_destroy_span (ri);
 	for (col = 0 ; col <= last ; ) {
@@ -431,9 +437,6 @@ row_calc_spans (ColRowInfo *ri, int row, Sheet const *sheet)
 				col++;
 			continue;
 		}
-
-		/* render as necessary */
-		(void)gnm_cell_fetch_rendered_value (cell, TRUE);
 
 		if (gnm_cell_is_merged (cell)) {
 			merged = gnm_sheet_merge_is_corner (sheet, &cell->pos);

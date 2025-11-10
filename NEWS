@@ -12,6 +12,7 @@ Morten:
 	* Fix dialog accel collision.  [#830]
 	* Introspection improvements.
 	* Named expression fixes.  [#833]
+	* Speed up large-range copies.  [#836]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59

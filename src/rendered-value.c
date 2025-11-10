@@ -37,6 +37,7 @@
 #include <parse-util.h>
 #include <workbook.h>
 #include <gutils.h>
+#include <ranges.h>
 
 #include <string.h>
 #include <goffice/goffice.h>
@@ -706,6 +707,24 @@ gnm_rvc_remove (GnmRenderedValueCollection *rvc, GnmCell const *cell)
 {
 	g_return_if_fail (rvc != NULL);
 	g_hash_table_remove (rvc->values, (gpointer)cell);
+}
+
+void
+gnm_rvc_remove_range (GnmRenderedValueCollection *rvc,
+		      Sheet const *sheet, GnmRange const *range)
+{
+	GHashTableIter iter;
+	gpointer key;
+
+	g_return_if_fail (rvc != NULL);
+
+	g_hash_table_iter_init (&iter, rvc->values);
+	while (g_hash_table_iter_next (&iter, &key, NULL)) {
+		GnmCell const *cell = key;
+		if (cell->base.sheet == sheet &&
+		    range_contains (range, cell->pos.col, cell->pos.row))
+			g_hash_table_iter_remove (&iter);
+	}
 }
 
 /* ------------------------------------------------------------------------- */
