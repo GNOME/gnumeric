@@ -19,8 +19,6 @@ struct _GnmNamedExpr {
 	GnmNamedExprCollection *scope;
 };
 
-extern GnmNamedExpr *interesting;
-
 gboolean expr_name_validate (const char *name);
 
 GType         gnm_named_expr_get_type (void);

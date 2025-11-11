@@ -554,8 +554,6 @@ expr_name_lookup (GnmParsePos const *pp, char const *name)
 	return res;
 }
 
-GnmNamedExpr *interesting = NULL;
-
 
 /**
  * expr_name_new:
@@ -580,9 +578,6 @@ expr_name_new (char const *name)
 	nexpr->is_permanent	= FALSE;
 	nexpr->is_editable	= TRUE;
 	nexpr->scope = NULL;
-
-	if (!interesting && g_str_equal ("Print_Area", name))
-		interesting = nexpr;
 
 	if (gnm_debug_flag ("names"))
 		g_printerr ("Created new name %s\n", name);
