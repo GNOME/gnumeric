@@ -4836,7 +4836,7 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 			/* </table:content-validation> */
 		}
 
-		style_list_free (list);
+		sheet_style_list_free (list);
 	}
 
 	if (element_written)

@@ -238,7 +238,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only one guru per workbook. */
-	if (wbc_gtk_get_guru (wbcg))
+	if (wbcg_get_guru (wbcg))
 		return;
 
 	if (gnm_dialog_raise_if_exists (wbcg, SEARCH_REPLACE_KEY))
@@ -342,7 +342,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
-	wbc_gtk_attach_guru (wbcg, GTK_WIDGET (dialog));
+	wbcg_attach_guru (wbcg, GTK_WIDGET (dialog));
 
 	gnm_keyed_dialog (wbcg, GTK_WINDOW (dialog), SEARCH_REPLACE_KEY);
 	gtk_widget_show (GTK_WIDGET (dialog));

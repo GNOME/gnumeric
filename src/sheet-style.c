@@ -731,7 +731,7 @@ sheet_style_resize (Sheet *sheet, int cols, int rows)
 			sheet_style_apply_range2 (sheet, &newr, style);
 	}
 
-	style_list_free	(styles);
+	sheet_style_list_free	(styles);
 }
 
 #if USE_TILE_POOLS
@@ -2054,7 +2054,7 @@ sheet_style_relocate (GnmExprRelocateInfo const *rinfo)
 	corner.col = rinfo->origin.start.col + rinfo->col_offset;
 	corner.row = rinfo->origin.start.row + rinfo->row_offset;
 	sheet_style_set_list (rinfo->target_sheet, &corner, styles, NULL, NULL);
-	style_list_free	(styles);
+	sheet_style_list_free	(styles);
 }
 
 /**
@@ -2115,7 +2115,7 @@ sheet_style_insdel_colrow (GnmExprRelocateInfo const *rinfo)
 
 	if (styles) {
 		sheet_style_set_list (sheet, &corner, styles, NULL, NULL);
-		style_list_free	(styles);
+		sheet_style_list_free	(styles);
 	}
 }
 
@@ -3022,20 +3022,20 @@ sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 }
 
 /**
- * style_list_free:
+ * sheet_style_list_free:
  * @l: (transfer full): the list to free
  *
  * Free up the resources in the style list.  This includes unreferencing the
  * styles.
  */
 void
-style_list_free (GnmStyleList *list)
+sheet_style_list_free (GnmStyleList *list)
 {
 	g_slist_free_full (list, (GDestroyNotify)gnm_style_region_free);
 }
 
 /**
- * style_list_get_style:
+ * sheet_style_list_get_style:
  * @l: A style list.
  * @col: Column number
  * @row: Row number
@@ -3046,7 +3046,7 @@ style_list_free (GnmStyleList *list)
  * Returns: (transfer none) (nullable): The style found.
  **/
 GnmStyle const *
-style_list_get_style (GnmStyleList const *list, int col, int row)
+sheet_style_list_get_style (GnmStyleList const *list, int col, int row)
 {
 	GnmStyleList const *l;
 

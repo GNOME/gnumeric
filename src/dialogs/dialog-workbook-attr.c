@@ -316,7 +316,7 @@ attr_dialog_impl (AttrState *state)
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (dialog),
 		"state", state, (GDestroyNotify) cb_attr_dialog_dialog_destroy);
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       WORKBOOK_ATTRIBUTE_KEY);
 	gtk_widget_show (state->dialog);

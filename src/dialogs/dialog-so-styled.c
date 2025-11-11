@@ -255,6 +255,6 @@ dialog_so_styled (WBCGtk *wbcg, GObject *so, GOStyle *default_style,
 		"state", state, (GDestroyNotify) dialog_so_styled_free);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 		GTK_WINDOW (dialog));
-	wbc_gtk_attach_guru (state->wbcg, dialog);
+	wbcg_attach_guru (state->wbcg, dialog);
 	gtk_widget_show (dialog);
 }

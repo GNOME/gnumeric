@@ -3281,7 +3281,7 @@ not_a_matrix:
 
 	case BIFF_CHART_chart : {
 		GogPlot *plot = GOG_PLOT (gog_object_get_child_by_name (GOG_OBJECT (s->chart), "Plot"));
- 		/* check if the chart has an epty title and the plot only one series,
+		/* check if the chart has an epty title and the plot only one series,
 		 * in that case Excel uses the series label as title */
 		if (plot && g_slist_length (plot->series) == 1) {
 			GogObject *title = gog_object_get_child_by_name (GOG_OBJECT (s->chart), "Title");

@@ -474,7 +474,7 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 					   state->wbcg,
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_dialog_so_size_destroy);
 

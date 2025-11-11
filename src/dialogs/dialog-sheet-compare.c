@@ -894,7 +894,7 @@ dialog_sheet_compare (WBCGtk *wbcg)
 #undef CONNECT
 
 	/* a candidate for merging into attach guru */
-	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+	wbcg_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state,
 				(GDestroyNotify) cb_sheet_compare_destroy);

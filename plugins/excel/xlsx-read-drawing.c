@@ -620,7 +620,7 @@ GSF_XML_IN_NODE_FULL (START, USER_SHAPES, XL_NS_CHART, "userShapes", GSF_XML_NO_
                 GSF_XML_IN_NODE (TEXT_FILL_SOLID, COLOR_SYS, XL_NS_DRAW, "sysClr", GSF_XML_2ND, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_UFILLTX, XL_NS_DRAW, "uFillTx", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_ULNTX, XL_NS_DRAW, "uLnTx", GSF_XML_NO_CONTENT, NULL, NULL),
- 	    GSF_XML_IN_NODE (TX_RICH_FLD, PR_P_PR,	XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (TX_RICH_FLD, PR_P_PR,	XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (PR_P_PR, PR_P_PR_DEF, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
                 GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
                 GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -875,7 +875,7 @@ xlsx_axis_crosses_at (GsfXMLIn *xin, xmlChar const **attrs)
 	   date base. When specified as a child element of catAx, the value is an integer category number, starting with 1
 	   as the first category.
 	*/
- 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	g_return_if_fail (state->axis.info != NULL);
 

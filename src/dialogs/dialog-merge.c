@@ -438,6 +438,6 @@ dialog_merge (WBCGtk *wbcg)
 		"state", state, (GDestroyNotify) cb_merge_destroy);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
-	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+	wbcg_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 }

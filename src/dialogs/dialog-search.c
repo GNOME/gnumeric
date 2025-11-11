@@ -474,7 +474,7 @@ dialog_search (WBCGtk *wbcg)
 
 #ifdef USE_GURU
 	/* Only one guru per workbook. */
-	if (wbc_gtk_get_guru (wbcg))
+	if (wbcg_get_guru (wbcg))
 		return;
 #endif
 
@@ -589,7 +589,7 @@ dialog_search (WBCGtk *wbcg)
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
 #ifdef USE_GURU
-	wbc_gtk_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
+	wbcg_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
 #endif
 	g_object_set_data_full (G_OBJECT (dialog),
 		"state", dd, (GDestroyNotify) free_state);

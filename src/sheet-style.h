@@ -78,8 +78,8 @@ void      sheet_style_set_auto_pattern_color (Sheet  *sheet,
 GnmColor *sheet_style_get_auto_pattern_color (Sheet const *sheet);
 void      sheet_style_update_grid_color      (Sheet const *sheet, GtkStyleContext *context);
 
-GnmStyle const    *style_list_get_style	 (GnmStyleList const *l, int col, int row);
-void		   style_list_free	 (GnmStyleList *l);
+GnmStyle const    *sheet_style_list_get_style (GnmStyleList const *l, int col, int row);
+void		   sheet_style_list_free (GnmStyleList *l);
 GnmStyleList	  *sheet_style_get_range (Sheet const *sheet, GnmRange const *r);
 
 typedef  gboolean (*sheet_style_set_list_cb_t) (GnmRange *range,

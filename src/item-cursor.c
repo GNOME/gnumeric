@@ -567,7 +567,7 @@ item_cursor_distance (GocItem *item, double x, double y,
 	 */
 	if (!goc_item_is_visible (item) ||
 	    ic->style == GNM_ITEM_CURSOR_ANTED ||
-	    wbc_gtk_get_guru (scg_wbcg (ic->scg)) != NULL)
+	    wbcg_get_guru (scg_wbcg (ic->scg)) != NULL)
 		return DBL_MAX;
 
 	*actual_item = NULL;

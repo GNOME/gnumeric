@@ -474,7 +474,7 @@ dialog_tool_init (GnmGenericToolState *state,
 	}
 
 	state->warning = go_gtk_builder_get_widget (state->gui, "warnings");
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_tool_destroy);
 
@@ -2372,7 +2372,7 @@ regression_tool_regression_check_toggled_cb (G_GNUC_UNUSED
 
 	if (gtk_toggle_button_get_active
 	    (GTK_TOGGLE_BUTTON (state->switch_variables_check))) {
- 		gtk_toggle_button_set_active
+		gtk_toggle_button_set_active
 			(GTK_TOGGLE_BUTTON
 			 (state->simple_linear_regression_radio),
 			 TRUE);

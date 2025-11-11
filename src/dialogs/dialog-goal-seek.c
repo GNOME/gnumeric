@@ -424,7 +424,7 @@ dialog_init (GoalSeekState *state)
 	state->old_value = NULL;
 	state->old_cell = NULL;
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_dialog_destroy);
 

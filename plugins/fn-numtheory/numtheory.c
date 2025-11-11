@@ -255,7 +255,7 @@ isprime (guint64 n)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_nt_omega[] = {
- 	{ GNM_FUNC_HELP_NAME, F_("NT_OMEGA:Number of distinct prime factors")},
+	{ GNM_FUNC_HELP_NAME, F_("NT_OMEGA:Number of distinct prime factors")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_NOTE, F_("Returns the number of distinct prime factors without multiplicity.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=NT_PHI(9)" },
@@ -288,7 +288,7 @@ gnumeric_nt_omega (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_phi[] = {
- 	{ GNM_FUNC_HELP_NAME, F_("NT_PHI:Euler's totient function")},
+	{ GNM_FUNC_HELP_NAME, F_("NT_PHI:Euler's totient function")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_NOTE, F_("Euler's totient function gives the number of integers less than or equal to @{n} that are relatively prime (coprime) to @{n}.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=NT_PHI(9)" },
@@ -355,7 +355,7 @@ gnumeric_radical (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_nt_mu[] = {
- 	{ GNM_FUNC_HELP_NAME, F_("NT_MU:Möbius mu function")},
+	{ GNM_FUNC_HELP_NAME, F_("NT_MU:Möbius mu function")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION,
 	  F_("NT_MU function (Möbius mu function) returns 0  if @{n} is "
@@ -462,7 +462,7 @@ gnumeric_sigma (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_ithprime[] = {
- 	{ GNM_FUNC_HELP_NAME, F_("ITHPRIME:@{i}th prime")},
+	{ GNM_FUNC_HELP_NAME, F_("ITHPRIME:@{i}th prime")},
 	{ GNM_FUNC_HELP_ARG, F_("i:positive integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ITHPRIME finds the @{i}th prime.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=ITHPRIME(7)" },
@@ -758,7 +758,7 @@ func_bitlshift (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_bitrshift[] = {
- 	{ GNM_FUNC_HELP_NAME, F_("BITRSHIFT:bit-shift to the right")},
+	{ GNM_FUNC_HELP_NAME, F_("BITRSHIFT:bit-shift to the right")},
 	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
 	{ GNM_FUNC_HELP_ARG, F_("n:integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITRSHIFT returns the binary representations of @{a} shifted @{n} positions to the right.")},

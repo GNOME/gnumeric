@@ -1129,7 +1129,7 @@ dialog_init (SortFlowState *state)
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
 	/* Finish dialog signals */
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state, (GDestroyNotify) cb_dialog_destroy);
 

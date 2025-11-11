@@ -299,7 +299,7 @@ dialog_row_height (WBCGtk *wbcg, gboolean use_default)
 	dialog_row_height_set_mode (use_default, state);
 	dialog_row_height_load_value (state);
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       ROW_HEIGHT_DIALOG_KEY);
 	gtk_widget_show (state->dialog);

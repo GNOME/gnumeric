@@ -372,7 +372,7 @@ static GNM_ACTION_DEF (cb_edit_delete_links)
 
 			styles = sheet_style_collect_hlinks (sheet, r);
 			n_links += g_slist_length (styles);
-			style_list_free (styles);
+			sheet_style_list_free (styles);
 		}
 		format = ngettext ("Remove %d Link", "Remove %d Links", n_links);
 		name = g_strdup_printf (format, n_links);
@@ -3787,7 +3787,7 @@ wbc_gtk_init_alignments (WBCGtk *wbcg)
 static void
 cb_custom_color_created (GOActionComboColor *caction, GtkWidget *dialog, WBCGtk *wbcg)
 {
-	wbc_gtk_attach_guru (wbcg, dialog);
+	wbcg_attach_guru (wbcg, dialog);
 	wbcg_set_transient (wbcg, GTK_WINDOW (dialog));
 }
 

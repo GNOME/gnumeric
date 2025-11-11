@@ -951,7 +951,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 	 * ends the edit.  */
 	if (scg->selected_objects == NULL)
 		wbcg_focus_cur_scg (wbcg);
-	else if (wbc_gtk_get_guru (wbcg) == NULL)
+	else if (wbcg_get_guru (wbcg) == NULL)
 		scg_mode_edit (scg);
 
 	/* If we were already selecting a range of cells for a formula,
@@ -980,7 +980,7 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 	}
 
 	/* While a guru is up ignore clicks */
-	if (wbc_gtk_get_guru (wbcg) != NULL)
+	if (wbcg_get_guru (wbcg) != NULL)
 		return TRUE;
 
 	/* This was a regular click on a cell on the spreadsheet.  Select it.

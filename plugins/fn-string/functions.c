@@ -460,7 +460,7 @@ gnumeric_midb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
 	gnm_float pos = value_get_as_float (argv[1]);
 	gnm_float len = value_get_as_float (argv[2]);
- 	int slen = strlen (peek);
+	int slen = strlen (peek);
 	int ipos, ilen, newlen;
 
 	if ((len < 0) || (pos < 1))
@@ -1030,7 +1030,7 @@ gnumeric_replaceb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float pos = value_get_as_float (argv[1]);
 	gnm_float len = value_get_as_float (argv[2]);
 	char const *new = value_peek_string (argv[3]);
- 	int slen = strlen (old);
+	int slen = strlen (old);
 	int ipos, ilen, newlen;
 	char *res;
 
@@ -1219,7 +1219,7 @@ static GnmFuncHelp const help_numbervalue[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{text} does not look like a decimal number, "
 				 "NUMBERVALUE returns the value VALUE would "
 				 "return (ignoring the given @{separator}).")},
- 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=NUMBERVALUE(\"$1,000\",\",\")" },
         { GNM_FUNC_HELP_SEEALSO, "VALUE"},
         { GNM_FUNC_HELP_END}

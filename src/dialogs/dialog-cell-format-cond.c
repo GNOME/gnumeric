@@ -664,7 +664,7 @@ c_fmt_dialog_condition_setter_tiled (G_GNUC_UNUSED SheetView *sv, GnmRange const
 		gnm_style_unref (state->action.old_style);
 		state->action.old_style = NULL;
 	}
-	style_list_free (list);
+	sheet_style_list_free (list);
 	return TRUE;
 }
 
@@ -1055,7 +1055,7 @@ c_fmt_dialog_condition_collector (G_GNUC_UNUSED SheetView *sv, GnmRange const *r
 			(sr->style, range_as_string (&r), state);
 	}
 
-	style_list_free (list);
+	sheet_style_list_free (list);
 	return TRUE;
 
 }
@@ -1338,7 +1338,7 @@ dialog_cell_format_cond (WBCGtk *wbcg)
 					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 
 	/* a candidate for merging into attach guru */
-	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+	wbcg_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_c_fmt_dialog_dialog_destroy);
 	g_signal_connect (G_OBJECT (dialog), "destroy",

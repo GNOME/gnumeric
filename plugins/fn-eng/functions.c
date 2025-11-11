@@ -552,7 +552,7 @@ static GnmFuncHelp const help_besseli[] = {
         { GNM_FUNC_HELP_ARG, F_("X:number") },
         { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative number)") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. If @{\xce\xb1} < 0, #NUM! is returned.") },
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BESSELI(0.7,3)" },
         { GNM_FUNC_HELP_SEEALSO, "BESSELJ,BESSELK,BESSELY" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Bessel_function") },
@@ -574,7 +574,7 @@ static GnmFuncHelp const help_besselk[] = {
         { GNM_FUNC_HELP_ARG, F_("X:number") },
         { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative number)") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. If @{\xce\xb1} < 0, #NUM! is returned.") },
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BESSELK(3,9)" },
         { GNM_FUNC_HELP_SEEALSO, "BESSELI,BESSELJ,BESSELY" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Bessel_function") },
@@ -598,7 +598,7 @@ static GnmFuncHelp const help_besselj[] = {
         { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative integer)") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. "
 				 "If @{\xce\xb1} < 0, #NUM! is returned.") },
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BESSELJ(0.89,3)" },
         { GNM_FUNC_HELP_SEEALSO, "BESSELI,BESSELK,BESSELY" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Bessel_function") },
@@ -621,7 +621,7 @@ static GnmFuncHelp const help_bessely[] = {
         { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative integer)") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. "
 				 "If @{\xce\xb1} < 0, #NUM! is returned.") },
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BESSELY(4,2)" },
         { GNM_FUNC_HELP_SEEALSO, "BESSELI,BESSELJ,BESSELK" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Bessel_function") },
@@ -828,8 +828,8 @@ static GnmFuncHelp const help_convert[] = {
 					"\t'Gi'  \tgibi \t\t\t2^30\n"
 					"\t'Mi'  \tmebi \t\t2^20\n"
 					"\t'ki'  \tkibi \t\t\t2^10") },
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible (except \"picapt\").") },
- 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible (except \"picapt\").") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CONVERT(3,\"lbm\",\"g\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=CONVERT(5.8,\"m\",\"in\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=CONVERT(7.9,\"cal\",\"J\")" },
@@ -1472,7 +1472,7 @@ static GnmFuncHelp const help_delta[] = {
         { GNM_FUNC_HELP_ARG, F_("x1:number, defaults to 0") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("DELTA  returns 1 if  @{x1} = @{x0} and 0 otherwise.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If either argument is non-numeric, #VALUE! is returned.") },
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=DELTA(42.99,43)" },
         { GNM_FUNC_HELP_SEEALSO, "EXACT,GESTEP" },
         { GNM_FUNC_HELP_END}

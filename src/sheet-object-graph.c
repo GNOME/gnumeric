@@ -815,7 +815,7 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 	gnm_keyed_dialog (wbcg, GTK_WINDOW (dialog), "graph-guru");
 	g_object_set_data_full (G_OBJECT (dialog),
 		"guru", wbcg, (GDestroyNotify) cb_graph_guru_done);
-	wbc_gtk_attach_guru (wbcg, dialog);
+	wbcg_attach_guru (wbcg, dialog);
 	gtk_widget_show (dialog);
 }
 

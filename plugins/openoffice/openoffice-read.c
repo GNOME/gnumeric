@@ -989,7 +989,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 		} else if (0 == strcmp (prop->name, "gnm-auto-dash")) {
 			gnm_auto_dash_set = TRUE;
 			style->line.auto_dash = g_value_get_boolean (&prop->value);
- 		} else if (0 == strcmp (prop->name, "fill-gradient-name"))
+		} else if (0 == strcmp (prop->name, "fill-gradient-name"))
 			gradient_name = g_value_get_string (&prop->value);
 		else if (0 == strcmp (prop->name, "fill-hatch-name"))
 			hatch_name = g_value_get_string (&prop->value);
@@ -11886,7 +11886,7 @@ odf_apply_ooo_config (OOParseState *state)
 		Sheet *sheet = workbook_sheet_by_name (state->pos.wb, name);
 		if (sheet != NULL)
 			wb_view_sheet_focus (state->wb_view, sheet);
- 	}
+	}
 
 	if (NULL == (val = g_hash_table_lookup (hash, "Tables")) ||
 	    !G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE))
@@ -12601,8 +12601,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE (DATA_PILOT_SUBTOTALS, DATA_PILOT_SUBTOTAL, OO_NS_TABLE, "data-pilot-subtotal", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (DATA_PILOT_FIELD, DATA_PILOT_GROUPS, OO_NS_TABLE, "data-pilot-groups", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SPREADSHEET, CONTENT_VALIDATIONS, OO_NS_TABLE, "content-validations", GSF_XML_NO_CONTENT, NULL, NULL),
- 	      GSF_XML_IN_NODE (CONTENT_VALIDATIONS, CONTENT_VALIDATION, OO_NS_TABLE, "content-validation", GSF_XML_NO_CONTENT, &odf_validation, NULL),
- 	        GSF_XML_IN_NODE (CONTENT_VALIDATION, ERROR_MESSAGE, OO_NS_TABLE, "error-message", GSF_XML_NO_CONTENT, &odf_validation_error_message , &odf_validation_error_message_end),
+	      GSF_XML_IN_NODE (CONTENT_VALIDATIONS, CONTENT_VALIDATION, OO_NS_TABLE, "content-validation", GSF_XML_NO_CONTENT, &odf_validation, NULL),
+	        GSF_XML_IN_NODE (CONTENT_VALIDATION, ERROR_MESSAGE, OO_NS_TABLE, "error-message", GSF_XML_NO_CONTENT, &odf_validation_error_message , &odf_validation_error_message_end),
 	            GSF_XML_IN_NODE (ERROR_MESSAGE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &odf_text_content_start, &odf_text_content_end),
   		    GSF_XML_IN_NODE (TEXT_CONTENT, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT,  &odf_text_space, NULL),
 	            GSF_XML_IN_NODE_FULL (TEXT_CONTENT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_text_symbol, NULL, .v_str = "\n"),
@@ -12616,9 +12616,9 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	                GSF_XML_IN_NODE (TEXT_ADDR, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_2ND, NULL, NULL),
 		        GSF_XML_IN_NODE (TEXT_ADDR, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_2ND, NULL, NULL),
 	                GSF_XML_IN_NODE (TEXT_ADDR, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_2ND, NULL, NULL),
- 	        GSF_XML_IN_NODE (CONTENT_VALIDATION, HELP_MESSAGE, OO_NS_TABLE, "help-message", GSF_XML_NO_CONTENT, &odf_validation_help_message , &odf_validation_help_message_end),
+	        GSF_XML_IN_NODE (CONTENT_VALIDATION, HELP_MESSAGE, OO_NS_TABLE, "help-message", GSF_XML_NO_CONTENT, &odf_validation_help_message , &odf_validation_help_message_end),
 	            GSF_XML_IN_NODE (HELP_MESSAGE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_2ND, NULL, NULL),
- 	    GSF_XML_IN_NODE (SPREADSHEET, CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (SPREADSHEET, CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (CALC_SETTINGS, ITERATION, OO_NS_TABLE, "iteration", GSF_XML_NO_CONTENT, &oo_iteration, NULL),
 	      GSF_XML_IN_NODE (CALC_SETTINGS, DATE_CONVENTION, OO_NS_TABLE, "null-date", GSF_XML_NO_CONTENT, &oo_date_convention, NULL),
 	    GSF_XML_IN_NODE (SPREADSHEET, CHART, OO_NS_CHART, "chart", GSF_XML_NO_CONTENT, NULL, NULL),

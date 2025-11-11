@@ -939,7 +939,7 @@ cellregion_unref (GnmCellRegion *cr)
 	if (NULL != cr->row_state)
 		cr->row_state = colrow_state_list_destroy (cr->row_state);
 	if (cr->styles != NULL) {
-		style_list_free (cr->styles);
+		sheet_style_list_free (cr->styles);
 		cr->styles = NULL;
 	}
 	if (cr->merged != NULL) {
@@ -1169,7 +1169,7 @@ cellregion_to_string (GnmCellRegion const *cr,
 
 			cc = cellregion_get_content (cr, col, row);
 			if (cc) {
-				style = style_list_get_style (cr->styles, col, row);
+				style = sheet_style_list_get_style (cr->styles, col, row);
 				fmt = gnm_style_get_format (style);
 
 				if (go_format_is_general (fmt) &&

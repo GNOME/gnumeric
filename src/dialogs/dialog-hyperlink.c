@@ -632,7 +632,7 @@ dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) dhl_free);
 	gtk_widget_show (state->dialog);

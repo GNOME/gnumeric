@@ -1195,7 +1195,7 @@ dialog_solver_init (SolverState *state)
 	dialog_set_sec_button_sensitivity (NULL, state);
 
 /* dialog */
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 
 	g_signal_connect_swapped (G_OBJECT (state->dialog),
 				  "destroy",

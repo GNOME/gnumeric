@@ -721,7 +721,7 @@ xml_write_styles (GnmOutputXML *state)
 		for (ptr = styles; ptr; ptr = ptr->next)
 			xml_write_style_region (state, ptr->data);
 		gsf_xml_out_end_element (state->output);
-		style_list_free (styles);
+		sheet_style_list_free (styles);
 	}
 }
 

@@ -63,11 +63,11 @@ gboolean wbcg_edit_start  (WBCGtk *wbcg,
 void	    wbcg_insert_object		(WBCGtk *wbcg, SheetObject *so);
 void	    wbcg_insert_object_clear	(WBCGtk *wbcg);
 
-void	    wbc_gtk_detach_guru		(WBCGtk *wbcg);
-void	    wbc_gtk_attach_guru		(WBCGtk *wbcg, GtkWidget *guru);
-void	    wbc_gtk_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
+void	    wbcg_detach_guru		(WBCGtk *wbcg);
+void	    wbcg_attach_guru		(WBCGtk *wbcg, GtkWidget *guru);
+void	    wbcg_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
 						   GnmExprEntry *gee);
-GtkWidget  *wbc_gtk_get_guru		(WBCGtk const *wbcg);
+GtkWidget  *wbcg_get_guru		(WBCGtk const *wbcg);
 
 void	    wbcg_auto_complete_destroy  (WBCGtk *wbcg);
 char const *wbcg_edit_get_display_text	(WBCGtk *wbcg);

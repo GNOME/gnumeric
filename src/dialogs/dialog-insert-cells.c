@@ -177,7 +177,7 @@ dialog_insert_cells (WBCGtk *wbcg)
 				     ? "radio_0" : "radio_1")),
 		 TRUE);
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_insert_cell_destroy);
 

@@ -1987,7 +1987,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 
 	pi->canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 
- 	gostyle = go_styled_object_get_style (
+	gostyle = go_styled_object_get_style (
 		GO_STYLED_OBJECT (goc_item_new (goc_canvas_get_root (GOC_CANVAS (pi->canvas)),
 			GOC_TYPE_RECTANGLE,
 			"x",		1. + shadow,
@@ -2794,7 +2794,7 @@ do_setup_main_dialog (PrinterSetupState *state)
 
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_do_print_destroy);
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 }
 
 static PrinterSetupState *
@@ -3009,7 +3009,7 @@ dialog_printer_setup (WBCGtk *wbcg, Sheet *sheet)
 	PrinterSetupState *state;
 
 	/* Only one guru per workbook. */
-	if (wbc_gtk_get_guru (wbcg))
+	if (wbcg_get_guru (wbcg))
 		return;
 
 	/* Only pop up one copy per workbook */

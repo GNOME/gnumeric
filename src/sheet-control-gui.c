@@ -585,7 +585,7 @@ scg_select_all (SheetControlGUI *scg)
 			0, 0, gnm_sheet_get_last_col (sheet), gnm_sheet_get_last_row (sheet));
 		gnm_expr_entry_signal_update (
 			wbcg_get_entry_logical (scg->wbcg), TRUE);
-	} else if (wbc_gtk_get_guru (scg->wbcg) == NULL) {
+	} else if (wbcg_get_guru (scg->wbcg) == NULL) {
 		SheetView *sv = scg_view (scg);
 
 		scg_mode_edit (scg);
@@ -2154,7 +2154,7 @@ context_menu_handler (GnmPopupMenuElement const *element,
 
 			styles = sheet_style_collect_hlinks (sheet, r);
 			n_links += g_slist_length (styles);
-			style_list_free (styles);
+			sheet_style_list_free (styles);
 		}
 		format = ngettext ("Remove %d Link", "Remove %d Links", n_links);
 		name = g_strdup_printf (format, n_links);
@@ -2437,7 +2437,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEvent *event,
 
 		styles = sheet_style_collect_hlinks (sheet, r);
 		n_links += g_slist_length (styles);
-		style_list_free (styles);
+		sheet_style_list_free (styles);
 
 		objs = sheet_objects_get (sheet, r, GNM_CELL_COMMENT_TYPE);
 		n_comments += g_slist_length (objs);
@@ -2593,7 +2593,7 @@ scg_mode_edit (SheetControlGUI *scg)
 		scg_cursor_visible (scg, TRUE);
 	}
 
-	if (wbcg != NULL && wbc_gtk_get_guru (wbcg) != NULL &&
+	if (wbcg != NULL && wbcg_get_guru (wbcg) != NULL &&
 	    scg == wbcg_cur_scg	(wbcg))
 		wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 

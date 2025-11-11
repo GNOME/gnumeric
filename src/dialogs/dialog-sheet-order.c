@@ -1545,7 +1545,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	gtk_widget_set_sensitive (state->apply_names_btn, FALSE);
 
 	/* a candidate for merging into attach guru */
-	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+	wbcg_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_sheet_order_destroy);
 	g_signal_connect (G_OBJECT (state->dialog), "destroy", G_CALLBACK (destroy_cb), NULL);

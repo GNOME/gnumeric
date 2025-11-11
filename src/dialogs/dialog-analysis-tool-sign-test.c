@@ -127,7 +127,7 @@ sign_test_two_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 					  SignTestToolState *state)
 {
         GnmValue *input_range;
- 	gint w, h;
+	gint w, h;
 
 	/* Checking first input range*/
         input_range = gnm_expr_entry_parse_as_value

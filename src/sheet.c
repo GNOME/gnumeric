@@ -6380,7 +6380,7 @@ sheet_dup_styles (Sheet const *src, Sheet *dst)
 
 	styles = sheet_style_get_range (src, range_init_full_sheet (&r, src));
 	sheet_style_set_list (dst, &corner, styles, NULL, NULL);
-	style_list_free	(styles);
+	sheet_style_list_free	(styles);
 }
 
 static void

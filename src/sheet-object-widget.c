@@ -571,7 +571,7 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_frame_config_destroy);
 	g_object_unref (gui);
@@ -989,7 +989,7 @@ cb_button_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widget,
 		     ButtonConfigState *state)
 {
 	/* Note:  half of the set-focus action is handle by the default
-	 *        callback installed by wbc_gtk_attach_guru */
+	 *        callback installed by wbcg_attach_guru */
 
 	/* Force an update of the content in case it needs tweaking (eg make it
 	 * absolute) */
@@ -1112,12 +1112,12 @@ sheet_widget_button_user_config (SheetObject *so, SheetControl *sc)
 	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_button_config_destroy);
 
 	/* Note:  half of the set-focus action is handle by the default */
-	/*        callback installed by wbc_gtk_attach_guru */
+	/*        callback installed by wbcg_attach_guru */
 	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
 		G_CALLBACK (cb_button_set_focus), state);
 	g_object_unref (gui);
@@ -1173,22 +1173,22 @@ sheet_widget_button_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 void
 sheet_widget_button_set_link (SheetObject *so, GnmExprTop const *texpr)
 {
- 	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
- 	dependent_set_expr (&swb->dep, texpr);
- 	if (texpr && swb->dep.sheet)
- 		dependent_link (&swb->dep);
+	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
+	dependent_set_expr (&swb->dep, texpr);
+	if (texpr && swb->dep.sheet)
+		dependent_link (&swb->dep);
 }
 
 GnmExprTop const *
 sheet_widget_button_get_link	 (SheetObject *so)
 {
- 	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
- 	GnmExprTop const *texpr = swb->dep.texpr;
+	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
+	GnmExprTop const *texpr = swb->dep.texpr;
 
- 	if (texpr)
- 		gnm_expr_top_ref (texpr);
+	if (texpr)
+		gnm_expr_top_ref (texpr);
 
- 	return texpr;
+	return texpr;
 }
 
 
@@ -1592,7 +1592,7 @@ cb_adjustment_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widge
 	GtkWidget *ofp;
 
 	/* Note:  half of the set-focus action is handle by the default
-	 *        callback installed by wbc_gtk_attach_guru. */
+	 *        callback installed by wbcg_attach_guru. */
 
 	ofp = state->old_focus
 		? gtk_widget_get_parent (state->old_focus)
@@ -1754,12 +1754,12 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_adjustment_config_destroy);
 
 	/* Note:  half of the set-focus action is handle by the default */
-	/*        callback installed by wbc_gtk_attach_guru           */
+	/*        callback installed by wbcg_attach_guru           */
 	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
 		G_CALLBACK (cb_adjustment_set_focus), state);
 	g_object_unref (gui);
@@ -2438,7 +2438,7 @@ cb_checkbox_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widget,
 	GtkWidget *ofp;
 
 	/* Note:  half of the set-focus action is handle by the default
-	 *        callback installed by wbc_gtk_attach_guru. */
+	 *        callback installed by wbcg_attach_guru. */
 
 	ofp = state->old_focus
 		? gtk_widget_get_parent (state->old_focus)
@@ -2564,12 +2564,12 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_checkbox_config_destroy);
 
 	/* Note:  half of the set-focus action is handle by the default */
-	/*        callback installed by wbc_gtk_attach_guru */
+	/*        callback installed by wbcg_attach_guru */
 	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
 		G_CALLBACK (cb_checkbox_set_focus), state);
 	g_object_unref (gui);
@@ -3130,60 +3130,60 @@ sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
 
 
 typedef struct {
- 	GtkWidget *dialog;
- 	GnmExprEntry *expression;
- 	GtkWidget *label, *value;
+	GtkWidget *dialog;
+	GnmExprEntry *expression;
+	GtkWidget *label, *value;
 
- 	char *old_label;
+	char *old_label;
 	GnmValue *old_value;
- 	GtkWidget *old_focus;
+	GtkWidget *old_focus;
 
- 	WBCGtk  *wbcg;
- 	SheetWidgetRadioButton *swrb;
- 	Sheet		    *sheet;
+	WBCGtk  *wbcg;
+	SheetWidgetRadioButton *swrb;
+	Sheet		    *sheet;
 } RadioButtonConfigState;
 
 static void
 cb_radio_button_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widget,
- 			   RadioButtonConfigState *state)
+			   RadioButtonConfigState *state)
 {
 	GtkWidget *ofp;
 
- 	/* Note:  half of the set-focus action is handle by the default
- 	 *        callback installed by wbc_gtk_attach_guru */
+	/* Note:  half of the set-focus action is handle by the default
+	 *        callback installed by wbcg_attach_guru */
 
 	ofp = state->old_focus
 		? gtk_widget_get_parent (state->old_focus)
 		: NULL;
 
- 	/* Force an update of the content in case it needs tweaking (eg make it
- 	 * absolute) */
- 	if (ofp && GNM_EXPR_ENTRY_IS (ofp)) {
- 		GnmParsePos  pp;
- 		GnmExprTop const *texpr = gnm_expr_entry_parse (
- 			GNM_EXPR_ENTRY (ofp),
- 			parse_pos_init_sheet (&pp, state->sheet),
- 			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
- 		if (texpr != NULL)
- 			gnm_expr_top_unref (texpr);
+	/* Force an update of the content in case it needs tweaking (eg make it
+	 * absolute) */
+	if (ofp && GNM_EXPR_ENTRY_IS (ofp)) {
+		GnmParsePos  pp;
+		GnmExprTop const *texpr = gnm_expr_entry_parse (
+			GNM_EXPR_ENTRY (ofp),
+			parse_pos_init_sheet (&pp, state->sheet),
+			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
+		if (texpr != NULL)
+			gnm_expr_top_unref (texpr);
   	}
- 	state->old_focus = focus_widget;
+	state->old_focus = focus_widget;
 }
 
 static void
 cb_radio_button_config_destroy (RadioButtonConfigState *state)
 {
- 	g_return_if_fail (state != NULL);
+	g_return_if_fail (state != NULL);
 
- 	g_free (state->old_label);
- 	state->old_label = NULL;
+	g_free (state->old_label);
+	state->old_label = NULL;
 
- 	value_release (state->old_value);
- 	state->old_value = NULL;
+	value_release (state->old_value);
+	state->old_value = NULL;
 
- 	state->dialog = NULL;
+	state->dialog = NULL;
 
- 	g_free (state);
+	g_free (state);
 }
 
 static GnmValue *
@@ -3198,37 +3198,37 @@ cb_radio_button_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, RadioButtonC
 {
 	SheetObject *so = GNM_SO (state->swrb);
 	GnmParsePos  pp;
- 	GnmExprTop const *texpr = gnm_expr_entry_parse
+	GnmExprTop const *texpr = gnm_expr_entry_parse
 		(state->expression,
 		 parse_pos_init_sheet (&pp, so->sheet),
 		 NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
- 	gchar const *text = gtk_entry_get_text (GTK_ENTRY (state->label));
- 	gchar const *val = gtk_entry_get_text (GTK_ENTRY (state->value));
+	gchar const *text = gtk_entry_get_text (GTK_ENTRY (state->label));
+	gchar const *val = gtk_entry_get_text (GTK_ENTRY (state->value));
 	GnmValue *new_val = so_parse_value (so, val);
 
- 	cmd_so_set_radio_button (GNM_WBC (state->wbcg), so,
- 				 texpr,
+	cmd_so_set_radio_button (GNM_WBC (state->wbcg), so,
+				 texpr,
 				 g_strdup (state->old_label), g_strdup (text),
 				 value_dup (state->old_value), new_val);
 
- 	gtk_widget_destroy (state->dialog);
+	gtk_widget_destroy (state->dialog);
 }
 
 static void
 cb_radio_button_config_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, RadioButtonConfigState *state)
 {
- 	sheet_widget_radio_button_set_label (GNM_SO (state->swrb),
- 					     state->old_label);
- 	sheet_widget_radio_button_set_value (GNM_SO (state->swrb),
- 					     state->old_value);
- 	gtk_widget_destroy (state->dialog);
+	sheet_widget_radio_button_set_label (GNM_SO (state->swrb),
+					     state->old_label);
+	sheet_widget_radio_button_set_value (GNM_SO (state->swrb),
+					     state->old_value);
+	gtk_widget_destroy (state->dialog);
 }
 
 static void
 cb_radio_button_label_changed (GtkEntry *entry, RadioButtonConfigState *state)
 {
- 	sheet_widget_radio_button_set_label (GNM_SO (state->swrb),
- 					     gtk_entry_get_text (entry));
+	sheet_widget_radio_button_set_label (GNM_SO (state->swrb),
+					     gtk_entry_get_text (entry));
 }
 
 static void
@@ -3238,99 +3238,99 @@ cb_radio_button_value_changed (GtkEntry *entry, RadioButtonConfigState *state)
 	SheetObject *so = GNM_SO (state->swrb);
 	GnmValue *val = so_parse_value (so, text);
 
- 	sheet_widget_radio_button_set_value (so, val);
+	sheet_widget_radio_button_set_value (so, val);
 	value_release (val);
 }
 
 static void
 sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
 {
- 	SheetWidgetRadioButton *swrb = GNM_SOW_RADIO_BUTTON (so);
- 	WBCGtk  *wbcg = scg_wbcg (GNM_SCG (sc));
- 	RadioButtonConfigState *state;
- 	GtkWidget *grid;
+	SheetWidgetRadioButton *swrb = GNM_SOW_RADIO_BUTTON (so);
+	WBCGtk  *wbcg = scg_wbcg (GNM_SCG (sc));
+	RadioButtonConfigState *state;
+	GtkWidget *grid;
 	GString *valstr;
 	GtkBuilder *gui;
 
- 	g_return_if_fail (swrb != NULL);
+	g_return_if_fail (swrb != NULL);
 
 	/* Only pop up one copy per workbook */
- 	if (gnm_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
- 		return;
+	if (gnm_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
+		return;
 
 	gui = gnm_gtk_builder_load ("res:ui/so-radiobutton.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (!gui)
 		return;
- 	state = g_new (RadioButtonConfigState, 1);
- 	state->swrb = swrb;
- 	state->wbcg = wbcg;
- 	state->sheet = sc_sheet	(sc);
- 	state->old_focus = NULL;
+	state = g_new (RadioButtonConfigState, 1);
+	state->swrb = swrb;
+	state->wbcg = wbcg;
+	state->sheet = sc_sheet	(sc);
+	state->old_focus = NULL;
 	state->old_label = g_strdup (swrb->label);
- 	state->old_value = value_dup (swrb->value);
- 	state->dialog = go_gtk_builder_get_widget (gui, "SO-Radiobutton");
+	state->old_value = value_dup (swrb->value);
+	state->dialog = go_gtk_builder_get_widget (gui, "SO-Radiobutton");
 
- 	grid = go_gtk_builder_get_widget (gui, "main-grid");
+	grid = go_gtk_builder_get_widget (gui, "main-grid");
 
- 	state->expression = gnm_expr_entry_new (wbcg, TRUE);
- 	gnm_expr_entry_set_flags (state->expression,
+	state->expression = gnm_expr_entry_new (wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->expression,
 				  GNM_EE_FORCE_ABS_REF | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
 				  GNM_EE_MASK);
- 	gnm_expr_entry_load_from_dep (state->expression, &swrb->dep);
- 	go_atk_setup_label (go_gtk_builder_get_widget (gui, "label_linkto"),
+	gnm_expr_entry_load_from_dep (state->expression, &swrb->dep);
+	go_atk_setup_label (go_gtk_builder_get_widget (gui, "label_linkto"),
 			    GTK_WIDGET (state->expression));
- 	gtk_grid_attach (GTK_GRID (grid),
+	gtk_grid_attach (GTK_GRID (grid),
 	                  GTK_WIDGET (state->expression), 1, 0, 1, 1);
- 	gtk_widget_show (GTK_WIDGET (state->expression));
+	gtk_widget_show (GTK_WIDGET (state->expression));
 
- 	state->label = go_gtk_builder_get_widget (gui, "label_entry");
- 	gtk_entry_set_text (GTK_ENTRY (state->label), swrb->label);
- 	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
- 	state->value = go_gtk_builder_get_widget (gui, "value_entry");
+	state->label = go_gtk_builder_get_widget (gui, "label_entry");
+	gtk_entry_set_text (GTK_ENTRY (state->label), swrb->label);
+	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
+	state->value = go_gtk_builder_get_widget (gui, "value_entry");
 
 	valstr = g_string_new (NULL);
 	value_get_as_gstring (swrb->value, valstr, so->sheet->convs);
- 	gtk_entry_set_text (GTK_ENTRY (state->value), valstr->str);
+	gtk_entry_set_text (GTK_ENTRY (state->value), valstr->str);
 	g_string_free (valstr, TRUE);
 
   	gnm_editable_enters (GTK_WINDOW (state->dialog),
- 				  GTK_WIDGET (state->expression));
- 	gnm_editable_enters (GTK_WINDOW (state->dialog),
- 				  GTK_WIDGET (state->label));
- 	gnm_editable_enters (GTK_WINDOW (state->dialog),
- 				  GTK_WIDGET (state->value));
+				  GTK_WIDGET (state->expression));
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->label));
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->value));
 
- 	g_signal_connect (G_OBJECT (state->label),
+	g_signal_connect (G_OBJECT (state->label),
 			  "changed",
 			  G_CALLBACK (cb_radio_button_label_changed), state);
- 	g_signal_connect (G_OBJECT (state->value),
+	g_signal_connect (G_OBJECT (state->value),
 			  "changed",
 			  G_CALLBACK (cb_radio_button_value_changed), state);
- 	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "ok_button")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "ok_button")),
 			  "clicked",
 			  G_CALLBACK (cb_radio_button_config_ok_clicked), state);
- 	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "cancel_button")),
+	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "cancel_button")),
 			  "clicked",
 			  G_CALLBACK (cb_radio_button_config_cancel_clicked), state);
 
- 	gnm_init_help_button (
- 		go_gtk_builder_get_widget (gui, "help_button"),
- 		GNUMERIC_HELP_LINK_SO_RADIO_BUTTON);
+	gnm_init_help_button (
+		go_gtk_builder_get_widget (gui, "help_button"),
+		GNUMERIC_HELP_LINK_SO_RADIO_BUTTON);
 
- 	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
- 			       SHEET_OBJECT_CONFIG_KEY);
+	gnm_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       SHEET_OBJECT_CONFIG_KEY);
 
- 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
- 	g_object_set_data_full (G_OBJECT (state->dialog),
+	wbcg_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state, (GDestroyNotify) cb_radio_button_config_destroy);
 	g_object_unref (gui);
 
 	/* Note:  half of the set-focus action is handle by the default */
- 	/*        callback installed by wbc_gtk_attach_guru */
- 	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
+	/*        callback installed by wbcg_attach_guru */
+	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
 			  G_CALLBACK (cb_radio_button_set_focus), state);
 
- 	gtk_widget_show (state->dialog);
+	gtk_widget_show (state->dialog);
 }
 
 static void
@@ -3379,13 +3379,13 @@ sheet_widget_radio_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 }
 
 SOW_MAKE_TYPE (radio_button, RadioButton,
- 	       sheet_widget_radio_button_user_config,
+	       sheet_widget_radio_button_user_config,
   	       sheet_widget_radio_button_set_sheet,
   	       so_clear_sheet,
   	       sheet_widget_radio_button_foreach_dep,
- 	       sheet_widget_radio_button_copy,
- 	       sheet_widget_radio_button_write_xml_sax,
- 	       sheet_widget_radio_button_prep_sax_parser,
+	       sheet_widget_radio_button_copy,
+	       sheet_widget_radio_button_write_xml_sax,
+	       sheet_widget_radio_button_prep_sax_parser,
   	       sheet_widget_radio_button_get_property,
   	       sheet_widget_radio_button_set_property,
 	       sheet_widget_radio_button_draw_cairo,
@@ -3741,10 +3741,10 @@ sheet_widget_list_base_get_result_link  (SheetObject const *so)
 	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (so);
 	GnmExprTop const *texpr = swl->output_dep.texpr;
 
- 	if (texpr)
+	if (texpr)
 		gnm_expr_top_ref (texpr);
 
- 	return texpr;
+	return texpr;
 }
 
 GnmExprTop const *
@@ -3753,10 +3753,10 @@ sheet_widget_list_base_get_content_link (SheetObject const *so)
 	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (so);
 	GnmExprTop const *texpr = swl->content_dep.texpr;
 
- 	if (texpr)
+	if (texpr)
 		gnm_expr_top_ref (texpr);
 
- 	return texpr;
+	return texpr;
 }
 
 gboolean

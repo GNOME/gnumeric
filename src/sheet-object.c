@@ -136,7 +136,7 @@ cb_so_size_position (SheetObject *so, SheetControl *sc)
 
 	if (wbcg->edit_line.guru != NULL) {
 		GtkWidget *w = wbcg->edit_line.guru;
-		wbc_gtk_detach_guru (wbcg);
+		wbcg_detach_guru (wbcg);
 		gtk_widget_destroy (w);
 	}
 
@@ -210,7 +210,7 @@ sheet_object_get_editor (SheetObject *so, SheetControl *sc)
 
 	if (wbcg->edit_line.guru != NULL) {
 		GtkWidget *w = wbcg->edit_line.guru;
-		wbc_gtk_detach_guru (wbcg);
+		wbcg_detach_guru (wbcg);
 		gtk_widget_destroy (w);
 	}
 

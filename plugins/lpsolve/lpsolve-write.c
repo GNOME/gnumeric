@@ -207,7 +207,7 @@ lpsolve_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **er
 		go_io_count_progress_update (io_context, 1);
 	}
 
- 	for (l = sp->constraints; l; l = l->next) {
+	for (l = sp->constraints; l; l = l->next) {
 		GnmSolverConstraint *c = l->data;
 		const char *op = NULL;
 		const char *type = NULL;

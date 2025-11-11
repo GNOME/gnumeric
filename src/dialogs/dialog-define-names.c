@@ -1225,7 +1225,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 				      _("Paste Defined Names"));
 		gtk_widget_show_all (GTK_WIDGET (state->dialog));
 	} else {
-		wbc_gtk_attach_guru (state->wbcg, state->dialog);
+		wbcg_attach_guru (state->wbcg, state->dialog);
 		gtk_widget_show (GTK_WIDGET (state->dialog));
 	}
 
@@ -1246,7 +1246,7 @@ dialog_define_names (WBCGtk *wbcg)
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only one guru per workbook. */
-	if (wbc_gtk_get_guru (wbcg))
+	if (wbcg_get_guru (wbcg))
 		return;
 
 	/* Only pop up one copy per workbook */
@@ -1276,7 +1276,7 @@ dialog_paste_names (WBCGtk *wbcg)
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only one guru per workbook. */
-	if (wbc_gtk_get_guru (wbcg))
+	if (wbcg_get_guru (wbcg))
 		return;
 
 	/* Only pop up one copy per workbook */

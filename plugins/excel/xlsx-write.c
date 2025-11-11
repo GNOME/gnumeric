@@ -1940,7 +1940,7 @@ xlsx_write_conditional_formatting (XLSXWriteState *state, GsfXMLOut *xml)
 		gsf_xml_out_end_element (xml); /* </conditionalFormatting> */
 	}
 
-	style_list_free (cond_styles);
+	sheet_style_list_free (cond_styles);
 }
 
 
@@ -2090,7 +2090,7 @@ xlsx_write_validations (XLSXWriteState *state, GsfXMLOut *xml, G_GNUC_UNUSED Gnm
 		gsf_xml_out_end_element (xml); /*  </dataValidations> */
 
 		g_hash_table_destroy (group);
-		style_list_free (validations);
+		sheet_style_list_free (validations);
 	}
 }
 
@@ -2177,7 +2177,7 @@ xlsx_write_hlinks (XLSXWriteState *state, GsfXMLOut *xml, G_GNUC_UNUSED GnmRange
 		gsf_xml_out_end_element (xml); /*  </hyperlinks> */
 
 		g_hash_table_destroy (group);
-		style_list_free (hlinks);
+		sheet_style_list_free (hlinks);
 	}
 }
 

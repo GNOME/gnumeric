@@ -119,7 +119,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		 */
 		if (wbcg->edit_line.guru != NULL) {
 			GtkWidget *w = wbcg->edit_line.guru;
-			wbc_gtk_detach_guru (wbcg);
+			wbcg_detach_guru (wbcg);
 			gtk_widget_destroy (w);
 		}
 
@@ -448,7 +448,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 	if (wbcg->edit_line.guru != NULL) {
 		GtkWidget *w = wbcg->edit_line.guru;
-		wbc_gtk_detach_guru (wbcg);
+		wbcg_detach_guru (wbcg);
 		gtk_widget_destroy (w);
 	}
 
@@ -845,7 +845,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 		return TRUE;
 
 	/* Avoid recursion, and do not begin editing if a guru is up */
-	if (wbcg->inside_editing || wbc_gtk_get_guru (wbcg) != NULL)
+	if (wbcg->inside_editing || wbcg_get_guru (wbcg) != NULL)
 		return TRUE;
 	wbcg->inside_editing = TRUE;
 
@@ -1174,7 +1174,7 @@ wbcg_edit_attach_guru_main (WBCGtk *wbcg, GtkWidget *guru)
 	wb_control_menu_state_update (wbc, MS_GURU_MENU_ITEMS);
 
 	g_signal_connect_object (guru, "destroy",
-		G_CALLBACK (wbc_gtk_detach_guru), wbcg, G_CONNECT_SWAPPED);
+		G_CALLBACK (wbcg_detach_guru), wbcg, G_CONNECT_SWAPPED);
 }
 
 static void
@@ -1191,7 +1191,7 @@ cb_guru_set_focus (G_GNUC_UNUSED GtkWidget *window,
 /****************************************************************************/
 
 void
-wbc_gtk_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
+wbcg_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
 {
 	g_return_if_fail (guru != NULL);
 	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
@@ -1202,7 +1202,7 @@ wbc_gtk_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
 }
 
 void
-wbc_gtk_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
+wbcg_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
 				       GnmExprEntry *gee)
 {
 	g_return_if_fail (guru != NULL);
@@ -1219,7 +1219,7 @@ wbc_gtk_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
 }
 
 void
-wbc_gtk_detach_guru (WBCGtk *wbcg)
+wbcg_detach_guru (WBCGtk *wbcg)
 {
 	WorkbookControl *wbc = GNM_WBC (wbcg);
 
@@ -1238,13 +1238,13 @@ wbc_gtk_detach_guru (WBCGtk *wbcg)
 }
 
 /**
- * wbc_gtk_get_guru:
+ * wbcg_get_guru:
  * @wbcg: #WBCGtk
  *
  * Returns: (transfer none): the guru attached to the workbook view.
  **/
 GtkWidget *
-wbc_gtk_get_guru (WBCGtk const *wbcg)
+wbcg_get_guru (WBCGtk const *wbcg)
 {
 	return wbcg->edit_line.guru;
 }
@@ -1278,7 +1278,7 @@ wbcg_edit_get_display_text (WBCGtk *wbcg)
 }
 
 void
-wbc_gtk_init_editline (WBCGtk *wbcg)
+wbcg_init_editline (WBCGtk *wbcg)
 {
 	g_assert (GNM_IS_WBC_GTK (wbcg));
 	g_assert (wbcg->edit_line.entry == NULL);

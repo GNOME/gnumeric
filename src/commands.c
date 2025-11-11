@@ -1794,7 +1794,7 @@ cmd_format_finalize (GObject *cmd)
 		for (l = me->old_styles ; l != NULL ; l = g_slist_remove (l, l->data)) {
 			CmdFormatOldStyle *os = l->data;
 
-			style_list_free (os->styles);
+			sheet_style_list_free (os->styles);
 			colrow_index_list_destroy (os->rows);
 			colrow_state_group_destroy (os->old_heights);
 			g_free (os);
@@ -2058,7 +2058,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 	undo = gnm_undo_colrow_restore_state_group_new
 		(sheet, is_cols, colrow_index_list_copy (selection), saved_state);
 
- 	redo = gnm_undo_colrow_set_sizes_new (sheet, is_cols, selection, new_size, NULL);
+	redo = gnm_undo_colrow_set_sizes_new (sheet, is_cols, selection, new_size, NULL);
 
 	result = cmd_generic_with_size (wbc, text, size, undo, redo);
 	g_free (text);
@@ -3679,7 +3679,7 @@ cmd_autoformat_finalize (GObject *cmd)
 			CmdAutoFormatOldStyle *os = l->data;
 
 			if (os->styles)
-				style_list_free (os->styles);
+				sheet_style_list_free (os->styles);
 
 			g_free (os);
 		}

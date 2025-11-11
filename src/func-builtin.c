@@ -133,7 +133,7 @@ gnumeric_product (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_gnumeric_version[] = {
 	/* xgettext : see po-functions/README.translators */
- 	{ GNM_FUNC_HELP_NAME, N_("GNUMERIC_VERSION:the current version of Gnumeric")},
+	{ GNM_FUNC_HELP_NAME, N_("GNUMERIC_VERSION:the current version of Gnumeric")},
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("GNUMERIC_VERSION returns the version of gnumeric as a string.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=GNUMERIC_VERSION()" },
 	{ GNM_FUNC_HELP_END }

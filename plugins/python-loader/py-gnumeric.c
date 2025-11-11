@@ -846,7 +846,7 @@ py_gnumeric_add_plugin (PyObject *module, GnmPyInterpreter *interpreter)
 	int i;
 
 	module_dict = PyModule_GetDict (module);
- 	pinfo = gnm_py_interpreter_get_plugin (interpreter);
+	pinfo = gnm_py_interpreter_get_plugin (interpreter);
 	g_return_if_fail (pinfo);
 	name = g_strdup (go_plugin_get_name (pinfo));
 	i = strlen (name);
@@ -854,7 +854,7 @@ py_gnumeric_add_plugin (PyObject *module, GnmPyInterpreter *interpreter)
 		if (name[--i] == ' ')
 			name[i] = '_';
 	key = g_strconcat ("plugin_", name, "_info", NULL);
- 	py_pinfo = py_new_GnmPlugin_object (pinfo);
+	py_pinfo = py_new_GnmPlugin_object (pinfo);
 	gnm_py_dict_store (module_dict, key, py_pinfo);
 	g_free (name);
 	g_free (key);

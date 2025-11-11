@@ -303,7 +303,7 @@ dialog_paste_special (WBCGtk *wbcg)
 	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       GNM_PASTE_SPECIAL_KEY);
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state,
 				(GDestroyNotify) cb_destroy);

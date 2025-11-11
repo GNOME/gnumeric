@@ -462,7 +462,7 @@ static GnmFuncHelp const help_asin[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ASIN:the arc sine of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ASIN calculates the arc sine of @{x}; that is the value whose sine is @{x}.")},
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} falls outside the range -1 to 1, "
 				 "ASIN returns #NUM!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ASIN(0.5)" },
@@ -488,7 +488,7 @@ static GnmFuncHelp const help_asinh[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ASINH:the inverse hyperbolic sine of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ASINH calculates the inverse hyperbolic sine of @{x}; that is the value whose hyperbolic sine is @{x}.")},
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ASINH(0.5)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ASINH(1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "ASIN,ACOSH,SIN,COS"},
@@ -512,7 +512,7 @@ static GnmFuncHelp const help_atan[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("The result will be between "
 				 "\xe2\x88\x92" "\xcf\x80" "/2 and "
 				 "+" "\xcf\x80" "/2.")},
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ATAN(0.5)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ATAN(1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "TAN,COS,SIN,DEGREES,RADIANS"},
@@ -531,7 +531,7 @@ static GnmFuncHelp const help_atanh[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ATANH:the inverse hyperbolic tangent of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ATANH calculates the inverse hyperbolic tangent of @{x}; that is the value whose hyperbolic tangent is @{x}.")},
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ATANH(0.5)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ATANH(0.9)" },
@@ -1004,7 +1004,7 @@ gnumeric_expm1 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_fact[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FACT:the factorial of @{x}, i.e. @{x}!")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_NOTE, F_("The domain of this function has been extended using the GAMMA function.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=FACT(3)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=FACT(9)" },
@@ -1171,7 +1171,7 @@ static GnmFuncHelp const help_combin[] = {
 					" the number of @{k}-combinations of an @{n}-element set "
 					"without repetition.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} is less than @{k} COMBIN returns #NUM!") },
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=COMBIN(8,6)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=COMBIN(6,2)" },
@@ -1262,7 +1262,7 @@ gnumeric_floor (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_int[] = {
 	{ GNM_FUNC_HELP_NAME, F_("INT:largest integer not larger than @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
- 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=INT(7.2)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=INT(-5.5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "CEIL,CEILING,FLOOR,ABS,MOD"},

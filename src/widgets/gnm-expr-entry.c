@@ -2562,14 +2562,14 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
 
 	g_return_val_if_fail (GNM_EXPR_ENTRY_IS (gee), FALSE);
 
-	if (wbc_gtk_get_guru (gee->wbcg) != NULL &&
+	if (wbcg_get_guru (gee->wbcg) != NULL &&
 	    gee == gee->wbcg->edit_line.entry)
 		return FALSE;
 
 	text = gtk_entry_get_text (gee->entry);
 
 	/* We need to be editing an expression */
-	if (wbc_gtk_get_guru (gee->wbcg) == NULL &&
+	if (wbcg_get_guru (gee->wbcg) == NULL &&
 	    gnm_expr_char_start_p (text) == NULL)
 		return FALSE;
 

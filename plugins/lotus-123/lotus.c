@@ -2031,7 +2031,7 @@ lotus_read_new (LotusState *state, record_t *r)
 				cp.col = 0;
 				cp.row = row;
 				sheet_style_set_list  (sheet, &cp, styles, NULL, NULL);
-				style_list_free (styles);
+				sheet_style_list_free (styles);
 
 #if 0
 				g_printerr ("%s's row %d copies style from %s's row %d\n",

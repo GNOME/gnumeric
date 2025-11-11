@@ -121,7 +121,7 @@ wilcoxon_mann_whitney_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data_analysis_output_t  *dao;
 	analysis_tools_data_generic_b_t  *data;
 
- 	GtkWidget *w;
+	GtkWidget *w;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);

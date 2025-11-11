@@ -293,7 +293,7 @@ dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 	dialog_col_width_set_mode (use_default, state);
 	dialog_col_width_load_value (state);
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state, (GDestroyNotify)g_free);
 

@@ -426,7 +426,7 @@ static GnmFuncHelp const help_time[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The TIME function computes the fractional day after midnight at the time given by @{hour}, @{minute}, and @{second}.") },
 	{ GNM_FUNC_HELP_NOTE, F_("While the return value is automatically formatted to look like a time between 0:00 and 24:00, "
 				 "the underlying serial time value is a number between 0 and 1.")},
- 	{ GNM_FUNC_HELP_NOTE, F_("If any of @{hour}, @{minute}, and @{second} is negative, #NUM! is returned")},
+	{ GNM_FUNC_HELP_NOTE, F_("If any of @{hour}, @{minute}, and @{second} is negative, #NUM! is returned")},
         { GNM_FUNC_HELP_EXAMPLES, "=TIME(12,30,2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=TIME(25,100,18)" },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },

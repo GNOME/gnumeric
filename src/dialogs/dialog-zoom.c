@@ -283,7 +283,7 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 			       ZOOM_DIALOG_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_zoom_destroy);
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show (state->dialog);
 
 	gtk_widget_grab_focus (focus_target);

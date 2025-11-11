@@ -918,81 +918,81 @@ static GnmFuncHelp const help_hpfilter[] = {
 static void
 gnm_hpfilter (gnm_float *data, int n, gnm_float lambda, int *err)
 {
- 	gnm_float *a, *b, *c;
- 	int i;
- 	gnm_float lambda6 = 6 * lambda + 1;
- 	gnm_float lambda4 = -4 * lambda;
- 	gnm_float h[5] = {0,0,0,0,0};
- 	gnm_float g[5] = {0,0,0,0,0};
- 	gnm_float j[2] = {0,0};
- 	gnm_float h_b, h_c, denom;
+	gnm_float *a, *b, *c;
+	int i;
+	gnm_float lambda6 = 6 * lambda + 1;
+	gnm_float lambda4 = -4 * lambda;
+	gnm_float h[5] = {0,0,0,0,0};
+	gnm_float g[5] = {0,0,0,0,0};
+	gnm_float j[2] = {0,0};
+	gnm_float h_b, h_c, denom;
 
- 	g_return_if_fail (n > 5);
- 	g_return_if_fail (data != NULL);
- 	g_return_if_fail (err != NULL);
+	g_return_if_fail (n > 5);
+	g_return_if_fail (data != NULL);
+	g_return_if_fail (err != NULL);
 
- 	/* Initializing arrays a, b, and c */
+	/* Initializing arrays a, b, and c */
 
- 	a = g_new (gnm_float, n);
- 	b = g_new (gnm_float, n);
- 	c = g_new (gnm_float, n);
+	a = g_new (gnm_float, n);
+	b = g_new (gnm_float, n);
+	c = g_new (gnm_float, n);
 
- 	a[0] = lambda + 1;
- 	b[0] = -2 * lambda;
- 	c[0] = lambda;
+	a[0] = lambda + 1;
+	b[0] = -2 * lambda;
+	c[0] = lambda;
 
- 	for (i = 1; i < n - 2; i++) {
- 		a[i] = lambda6;
- 		b[i] = lambda4;
- 		c[i] = lambda;
- 	}
+	for (i = 1; i < n - 2; i++) {
+		a[i] = lambda6;
+		b[i] = lambda4;
+		c[i] = lambda;
+	}
 
- 	a[n - 2] = a[1] = lambda6 - lambda;
- 	a[n - 1] = a[0];
- 	b[n - 2] = b[0];
- 	b[n - 1] = 0;
- 	c[n - 2] = 0;
- 	c[n - 1] = 0;
+	a[n - 2] = a[1] = lambda6 - lambda;
+	a[n - 1] = a[0];
+	b[n - 2] = b[0];
+	b[n - 1] = 0;
+	c[n - 2] = 0;
+	c[n - 1] = 0;
 
- 	/* Forward */
- 	for (i = 0; i < n; i++) {
- 		denom = a[i]- h[3]*h[0] - g[4]*g[1];
- 		if (denom == 0) {
- 			*err = GNM_ERROR_DIV0;
- 			goto done;
- 		}
+	/* Forward */
+	for (i = 0; i < n; i++) {
+		denom = a[i]- h[3]*h[0] - g[4]*g[1];
+		if (denom == 0) {
+			*err = GNM_ERROR_DIV0;
+			goto done;
+		}
 
- 		h_b = b[i];
- 		g[0] = h[0];
- 		b[i] = h[0] = (h_b - h[3] * h[1])/denom;
+		h_b = b[i];
+		g[0] = h[0];
+		b[i] = h[0] = (h_b - h[3] * h[1])/denom;
 
- 		h_c = c[i];
- 		g[1] = h[1];
- 		c[i] = h[1] = h_c/denom;
+		h_c = c[i];
+		g[1] = h[1];
+		c[i] = h[1] = h_c/denom;
 
- 		a[i] = (data[i] - g[2]*g[4] - h[2]*h[3])/denom;
+		a[i] = (data[i] - g[2]*g[4] - h[2]*h[3])/denom;
 
- 		g[2] = h[2];
- 		h[2] = a[i];
- 		h[3] = h_b - h[4] * g[0];
- 		g[4] = h[4];
- 		h[4] = h_c;
- 	}
+		g[2] = h[2];
+		h[2] = a[i];
+		h[3] = h_b - h[4] * g[0];
+		g[4] = h[4];
+		h[4] = h_c;
+	}
 
- 	data[n - 1] = j[0] = a[n - 1];
+	data[n - 1] = j[0] = a[n - 1];
 
- 	/* Backwards */
- 	for (i = n - 1; i > 0; i--) {
- 		data[i - 1] = a[i - 1] - b[i - 1] * j[0] - c[i - 1] * j[1];
- 		j[1] = j[0];
- 		j[0] = data[i - 1];
- 	}
+	/* Backwards */
+	for (i = n - 1; i > 0; i--) {
+		data[i - 1] = a[i - 1] - b[i - 1] * j[0] - c[i - 1] * j[1];
+		j[1] = j[0];
+		j[0] = data[i - 1];
+	}
 
  done:
- 	g_free (a);
- 	g_free (b);
- 	g_free (c);
- 	return;
+	g_free (a);
+	g_free (b);
+	g_free (c);
+	return;
 }
 
 static GnmValue *

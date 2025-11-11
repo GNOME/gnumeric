@@ -295,7 +295,7 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only one guru per workbook. */
-	if (wbc_gtk_get_guru (wbcg))
+	if (wbcg_get_guru (wbcg))
 		return;
 
 	if (gnm_dialog_raise_if_exists (wbcg, TABULATE_KEY))
@@ -351,7 +351,7 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
 	gtk_widget_show_all (gtk_dialog_get_content_area (dialog));
-	wbc_gtk_attach_guru (wbcg, GTK_WIDGET (dialog));
+	wbcg_attach_guru (wbcg, GTK_WIDGET (dialog));
 
 	non_model_dialog (wbcg, dialog, TABULATE_KEY);
 }

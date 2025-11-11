@@ -115,7 +115,7 @@ dialog_col_row (WBCGtk *wbcg,  char const *operation,
 
 	gtk_window_set_title (GTK_WINDOW (state->dialog), operation);
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_dialog_col_row_destroy);
 

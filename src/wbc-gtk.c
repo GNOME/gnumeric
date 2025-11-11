@@ -557,7 +557,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEvent *event)
 
 	unsigned int ui;
 	GtkWidget *item, *menu = gtk_menu_new ();
-	GtkWidget *guru = wbc_gtk_get_guru (scg_wbcg (scg));
+	GtkWidget *guru = wbcg_get_guru (scg_wbcg (scg));
 	unsigned int N_visible, pass;
 	GtkWidget *submenus[2 + 1];
 	GSList *scgs = get_all_scgs (scg->wbcg);
@@ -1553,7 +1553,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	SheetView const *sv  = wb_control_cur_sheet_view (wbc);
 	Sheet const *sheet = wb_control_cur_sheet (wbc);
-	gboolean const has_guru = wbc_gtk_get_guru (wbcg) != NULL;
+	gboolean const has_guru = wbcg_get_guru (wbcg) != NULL;
 	gboolean edit_object = scg != NULL &&
 		(scg->selected_objects != NULL || wbcg->new_object != NULL);
 	gboolean has_print_area;
@@ -1721,7 +1721,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 				styles = sheet_style_collect_hlinks
 					(sheet, r);
 				has_links = (styles != NULL);
-				style_list_free (styles);
+				sheet_style_list_free (styles);
 			}
 			if (!has_comments) {
 				objs = sheet_objects_get
@@ -1741,7 +1741,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 			sel_is_vector = (range_width (r) == 1 ||
 					 range_height (r) == 1) &&
 				!range_is_singleton (r);
- 		}
+		}
 		wbc_gtk_set_action_sensitivity
 			(wbcg, "InsertSortDecreasing", sel_is_vector);
 		wbc_gtk_set_action_sensitivity
@@ -2858,7 +2858,7 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 		unsigned int ui;
 		GtkWidget *item, *menu = gtk_menu_new ();
 		gboolean active = (!wbcg_is_editing (wbcg) &&
-				   NULL == wbc_gtk_get_guru (wbcg));
+				   NULL == wbcg_get_guru (wbcg));
 
 		for (ui = 0; ui < G_N_ELEMENTS (cell_selector_actions); ui++) {
 			const struct CellSelectorMenu *it =
@@ -2890,7 +2890,7 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	int len;
 	GtkWidget *debug_button;
 
-	wbc_gtk_init_editline (wbcg);
+	wbcg_init_editline (wbcg);
 	entry = wbcg_get_entry (wbcg);
 
 	/* Set a reasonable width for the selection box. */

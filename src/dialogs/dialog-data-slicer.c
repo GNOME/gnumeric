@@ -291,7 +291,7 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 		GNUMERIC_HELP_LINK_DATA_SLICER);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_dialog_data_slicer_destroy);
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	gnm_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), DIALOG_KEY);
 	gtk_widget_show (state->dialog);
 	g_object_unref (gui);

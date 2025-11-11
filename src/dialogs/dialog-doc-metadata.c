@@ -2323,7 +2323,7 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				GTK_WINDOW (state->dialog));
 
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog), "state",
 		state, (GDestroyNotify) dialog_doc_metadata_free);
 
@@ -2359,7 +2359,7 @@ dialog_doc_metadata_new (WBCGtk *wbcg, int page)
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only one guru per workbook. */
-	if (wbc_gtk_get_guru (wbcg))
+	if (wbcg_get_guru (wbcg))
 		return;
 
 	/* Only pop up one copy per workbook */

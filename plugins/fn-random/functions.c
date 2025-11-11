@@ -91,7 +91,7 @@ static GnmFuncHelp const help_randdiscrete[] = {
         { GNM_FUNC_HELP_DESCRIPTION, F_("RANDDISCRETE returns one of the values in the @{val_range}. "
 					"The probabilities for each value are given in the @{prob_range}.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If the sum of all values in @{prob_range} is not one, RANDDISCRETE returns #NUM!") },
- 	{ GNM_FUNC_HELP_NOTE, F_("If @{val_range} and @{prob_range} are not the same size, RANDDISCRETE returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{val_range} and @{prob_range} are not the same size, RANDDISCRETE returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{val_range} or @{prob_range} is not a range, RANDDISCRETE returns #VALUE!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=RANDDISCRETE({1;3;5;7})" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDDISCRETE({1;3;5;7})" },
@@ -724,7 +724,7 @@ static GnmFuncHelp const help_randlevy[] = {
 					"reduces to the Cauchy (or Lorentzian) distribution.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("For @{\xce\xb1} = 2, @{\xce\xb2}=0, the L\xc3\xa9vy distribution "
 					"reduces to the normal distribution.") },
- 	{ GNM_FUNC_HELP_NOTE, F_("If @{\xce\xb1} \xe2\x89\xa4 0 or @{\xce\xb1} > 2, RANDLEVY returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{\xce\xb1} \xe2\x89\xa4 0 or @{\xce\xb1} > 2, RANDLEVY returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{\xce\xb2} < -1 or @{\xce\xb2} > 1, RANDLEVY returns #NUM!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=RANDLEVY(0.5,0.1,1)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=RANDLEVY(0.5,0.1,1)" },

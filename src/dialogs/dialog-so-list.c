@@ -137,7 +137,7 @@ so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 		"state", state, g_free);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 		GTK_WINDOW (state->dialog));
-	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbcg_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 	g_object_unref (gui);
 
@@ -151,7 +151,7 @@ dialog_so_list (WBCGtk *wbcg, GObject *so)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (wbc_gtk_get_guru (wbcg) ||
+	if (wbcg_get_guru (wbcg) ||
 	    gnm_dialog_raise_if_exists (wbcg, DIALOG_SO_LIST_KEY))
 		return;
 

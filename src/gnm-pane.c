@@ -68,7 +68,7 @@ static GtkTargetEntry const drag_types_out[] = {
 static gboolean
 gnm_pane_guru_key (WBCGtk const *wbcg, GdkEvent *event)
 {
-	GtkWidget *entry, *guru = wbc_gtk_get_guru (wbcg);
+	GtkWidget *entry, *guru = wbcg_get_guru (wbcg);
 
 	if (guru == NULL)
 		return FALSE;
@@ -585,7 +585,7 @@ gnm_pane_key_press (GtkWidget *widget, GdkEventKey *event)
 	/* Object manipulation */
 	if (scg->selected_objects != NULL ||
 	     scg->wbcg->new_object != NULL) {
-		if (wbc_gtk_get_guru (scg->wbcg) == NULL &&
+		if (wbcg_get_guru (scg->wbcg) == NULL &&
 		    gnm_pane_object_key_press (pane, event))
 			return TRUE;
 	}
