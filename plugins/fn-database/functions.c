@@ -91,7 +91,7 @@ GNM_PLUGIN_MODULE_HEADER;
  * Finds the cells from the given column that match the criteria.
  */
 
-#warning  We should really be using find_rows_that_match from value.c
+#warning  We should really be using gnm_criteria_match from value.c
 
 static GSList *
 find_cells_that_match (Sheet *sheet, GnmValue const *database,
@@ -234,7 +234,7 @@ database_float_range_function (GnmFuncEvalInfo *ei,
 	gnm_float fres;
 	GnmValue *res;
 
-	fieldno = find_column_of_field (ei->pos, database, field);
+	fieldno = gnm_criteria_find_column (ei->pos, database, field);
 	if (fieldno < 0)
 		return value_new_error_NUM (ei->pos);
 
@@ -243,7 +243,7 @@ database_float_range_function (GnmFuncEvalInfo *ei,
 	    !VALUE_IS_CELLRANGE (database))
 		return value_new_error_NUM (ei->pos);
 
-	criterias = parse_database_criteria (ei->pos, database, criteria);
+	criterias = gnm_criteria_parse_database (ei->pos, database, criteria);
 	if (criterias == NULL)
 		return value_new_error_NUM (ei->pos);
 
@@ -270,7 +270,7 @@ database_float_range_function (GnmFuncEvalInfo *ei,
 
  out:
 	if (criterias)
-		free_criterias (criterias);
+		gnm_criteria_list_free (criterias);
 	g_free (vals);
 	return res;
 }
@@ -307,12 +307,12 @@ database_value_range_function (GnmFuncEvalInfo *ei,
 		flags = 0;
 		fieldno = -1;
 	} else {
-		fieldno = find_column_of_field (ei->pos, database, field);
+		fieldno = gnm_criteria_find_column (ei->pos, database, field);
 		if (fieldno < 0)
 			return value_new_error_NUM (ei->pos);
 	}
 
-	criterias = parse_database_criteria (ei->pos, database, criteria);
+	criterias = gnm_criteria_parse_database (ei->pos, database, criteria);
 	if (criterias == NULL)
 		return value_new_error_NUM (ei->pos);
 
@@ -337,7 +337,7 @@ database_value_range_function (GnmFuncEvalInfo *ei,
 
  out:
 	if (criterias)
-		free_criterias (criterias);
+		gnm_criteria_list_free (criterias);
 	g_free (vals);
 	return res;
 }
@@ -784,7 +784,7 @@ gnumeric_getpivotdata (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	int  col, row;
 	GnmCell *cell;
 
-	col = find_column_of_field (ei->pos, argv[0], argv[1]);
+	col = gnm_criteria_find_column (ei->pos, argv[0], argv[1]);
 	if (col == -1)
 		return value_new_error_REF (ei->pos);
 

@@ -77,7 +77,7 @@ oldstyle_if_func (GnmFuncEvalInfo *ei, GnmValue const * const *argv,
 	GnmValue const *vals;
 
 	g_ptr_array_add (data, (gpointer)(argv[0]));
-	g_ptr_array_add (crits, parse_criteria (argv[1], date_conv, TRUE));
+	g_ptr_array_add (crits, gnm_criteria_parse (argv[1], date_conv, TRUE));
 
 	if (argv[2]) {
 		vals = argv[2];
@@ -99,7 +99,7 @@ oldstyle_if_func (GnmFuncEvalInfo *ei, GnmValue const * const *argv,
 		insanity = FALSE;
 	}
 
-	res = gnm_ifs_func (data, crits, vals,
+	res = gnm_criteria_ifs_func (data, crits, vals,
 			    fun, err, ei->pos,
 			    flags);
 
@@ -164,7 +164,7 @@ newstyle_if_func (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv,
 			goto out;
 		}
 
-		g_ptr_array_add (crits, parse_criteria (crit, date_conv, TRUE));
+		g_ptr_array_add (crits, gnm_criteria_parse (crit, date_conv, TRUE));
 		value_release (crit);
 	}
 
@@ -174,7 +174,7 @@ newstyle_if_func (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv,
 		goto out;
 	}
 
-	res = gnm_ifs_func (data, crits, vals,
+	res = gnm_criteria_ifs_func (data, crits, vals,
 			    fun, err, ei->pos,
 			    (no_data
 			     ? 0

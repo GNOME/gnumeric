@@ -113,21 +113,21 @@ advanced_filter (WorkbookControl        *wbc,
 	if (!VALUE_IS_CELLRANGE (criteria))
 		return analysis_tools_invalid_field;
 
-	crit = parse_database_criteria (
+	crit = gnm_criteria_parse_database (
 		eval_pos_init_sheet (&ep, wb_control_cur_sheet (wbc)),
 		database, criteria);
 
 	if (crit == NULL)
 		return analysis_tools_invalid_field;
 
-	rows = find_rows_that_match (sheet,
+	rows = gnm_criteria_match (sheet,
 				     database->v_range.cell.a.col,
 				     database->v_range.cell.a.row + 1,
 				     database->v_range.cell.b.col,
 				     database->v_range.cell.b.row,
 				     crit, unique_only_flag);
 
-	free_criterias (crit);
+	gnm_criteria_list_free (crit);
 
 	if (rows == NULL)
 		return analysis_tools_no_records_found;
@@ -206,7 +206,7 @@ analysis_tool_advanced_filter_engine_run (data_analysis_output_t *dao,
 
 	dao->offset_row = 3;
 
-	crit = parse_database_criteria (
+	crit = gnm_criteria_parse_database (
 		eval_pos_init_sheet (&ep, wb_control_cur_sheet (info->base.wbc)),
 		database, criteria);
 
@@ -215,14 +215,14 @@ analysis_tool_advanced_filter_engine_run (data_analysis_output_t *dao,
 		goto finish;
 	}
 
-	rows = find_rows_that_match (database->v_range.cell.a.sheet,
+	rows = gnm_criteria_match (database->v_range.cell.a.sheet,
 				     database->v_range.cell.a.col,
 				     database->v_range.cell.a.row + 1,
 				     database->v_range.cell.b.col,
 				     database->v_range.cell.b.row,
 				     crit, info->unique_only_flag);
 
-	free_criterias (crit);
+	gnm_criteria_list_free (crit);
 
 	if (rows == NULL) {
 		err = analysis_tools_no_records_found;

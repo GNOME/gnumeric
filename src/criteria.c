@@ -229,8 +229,8 @@ criteria_test_nothing (GnmValue const *x, GnmCriteria *crit)
  * Finds a column index of a field.
  */
 int
-find_column_of_field (GnmEvalPos const *ep,
-		      GnmValue const *database, GnmValue const *field)
+gnm_criteria_find_column (GnmEvalPos const *ep,
+			  GnmValue const *database, GnmValue const *field)
 {
         Sheet *sheet;
         GnmCell  *cell;
@@ -315,13 +315,13 @@ gnm_criteria_get_type (void)
 }
 
 /**
- * free_criterias:
+ * gnm_criteria_list_free:
  * @criterias: (element-type GnmCriteria) (transfer full): the criteria to be
  * freed.
  * Frees the allocated memory.
  */
 void
-free_criterias (GSList *criterias)
+gnm_criteria_list_free (GSList *criterias)
 {
         GSList *list = criterias;
 
@@ -336,9 +336,11 @@ free_criterias (GSList *criterias)
 }
 
 /**
- * parse_criteria:
+ * gnm_criteria_parse:
  * @crit_val: #GnmValue
  * @date_conv: #GODateConventions
+ * @anchor_end: if %TRUE, pattern matches are required to match the whole
+ *   contents, not just a prefix.
  *
  * Returns: (transfer full): GnmCriteria which caller must free.
  *
@@ -351,8 +353,8 @@ free_criterias (GSList *criterias)
  * "pattern"
  **/
 GnmCriteria *
-parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv,
-		gboolean anchor_end)
+gnm_criteria_parse (GnmValue const *crit_val, GODateConventions const *date_conv,
+		    gboolean anchor_end)
 {
 	int len;
 	char const *criteria;
@@ -441,7 +443,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 			if (gnm_cell_is_empty (cell))
 				continue;
 
-			cond = parse_criteria (cell->value, date_conv,
+			cond = gnm_criteria_parse (cell->value, date_conv,
 					       anchor_end);
 			cond->column = (field_ind != NULL)
 				? field_ind[j - b_col]
@@ -457,7 +459,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 }
 
 /**
- * parse_database_criteria:
+ * gnm_criteria_parse_database:
  * @ep: #GnmEvalPos
  * @database: #GnmValue
  * @criteria: #GnmValue
@@ -466,7 +468,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
  * Returns: (element-type GnmDBCriteria) (transfer full):
  */
 GSList *
-parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValue const *criteria)
+gnm_criteria_parse_database (GnmEvalPos const *ep, GnmValue const *database, GnmValue const *criteria)
 {
 	Sheet	*sheet;
 	GnmCell	*cell;
@@ -499,7 +501,7 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
 		if (gnm_cell_is_empty (cell))
 			continue;
 		field_ind[i - b_col] =
-			find_column_of_field (ep, database, cell->value);
+			gnm_criteria_find_column (ep, database, cell->value);
 		if (field_ind[i - b_col] == -1) {
 			g_free (field_ind);
 			return NULL;
@@ -514,7 +516,7 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
 }
 
 /**
- * find_rows_that_match:
+ * gnm_criteria_match:
  * @sheet: #Sheet
  * @first_col: first column.
  * @first_row: first row.
@@ -527,9 +529,9 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
  * Returns: (element-type int) (transfer full): the list of matching rows.
  **/
 GSList *
-find_rows_that_match (Sheet *sheet, int first_col, int first_row,
-		      int last_col, int last_row,
-		      GSList *criterias, gboolean unique_only)
+gnm_criteria_match (Sheet *sheet, int first_col, int first_row,
+		    int last_col, int last_row,
+		    GSList *criterias, gboolean unique_only)
 {
 	GSList	     *rows = NULL;
 	GSList const *crit_ptr, *cond_ptr;
@@ -601,7 +603,7 @@ filter_row:
 /****************************************************************************/
 
 /**
- * gnm_ifs_func:
+ * gnm_criteria_ifs_func:
  * @data: (element-type GnmValue):
  * @crits: (element-type GnmCriteria): criteria
  * @vals:
@@ -618,9 +620,9 @@ filter_row:
  * Returns: (transfer full): Function result or error value.
  */
 GnmValue *
-gnm_ifs_func (GPtrArray *data, GPtrArray *crits, GnmValue const *vals,
-	      float_range_function_t fun, GnmStdError err,
-	      GnmEvalPos const *ep, CollectFlags flags)
+gnm_criteria_ifs_func (GPtrArray *data, GPtrArray *crits, GnmValue const *vals,
+		       float_range_function_t fun, GnmStdError err,
+		       GnmEvalPos const *ep, CollectFlags flags)
 {
 	int sx, sy, x, y;
 	unsigned ui, N = 0, nalloc = 0;
@@ -634,7 +636,7 @@ gnm_ifs_func (GPtrArray *data, GPtrArray *crits, GnmValue const *vals,
 		      COLLECT_IGNORE_BOOLS |
 		      COLLECT_IGNORE_BLANKS |
 		      COLLECT_IGNORE_ERRORS)) {
-		g_warning ("unsupported flags in gnm_ifs_func %x", flags);
+		g_warning ("unsupported flags in gnm_criteria_ifs_func %x", flags);
 	}
 
 	sx = value_area_get_width (vals, ep);
