@@ -4049,12 +4049,14 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		 * after import finishes, which destroys them if they are not
 		 * in use. */
 		if (nexpr != NULL) {
+			expr_name_ref (nexpr);
 			nexpr->is_hidden = (flags & 0x0001) ? TRUE : FALSE;
 
 			/* Undocumented magic.
 			 * XL stores a hidden name with the details of an autofilter */
-			if (nexpr->is_hidden && !strcmp (expr_name_name (nexpr), "_FilterDatabase"))
+			if (nexpr->is_hidden && !strcmp (expr_name_name (nexpr), "_FilterDatabase")) {
 				excel_prepare_autofilter (importer, nexpr);
+			}
 			/* g_warning ("flags = %hx, state = %s\n", flags, global ? "global" : "sheet"); */
 
 			else if ((flags & 0xE) == 0xE) /* Function & VB-Proc & Proc */
@@ -4064,8 +4066,6 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 	}
 
 	// nexpr is potentially NULL if there was an error
-	if (nexpr)
-		expr_name_ref (nexpr);
 	if (importer->num_name_records >= importer->names->len)
 		g_ptr_array_set_size (importer->names, importer->num_name_records + 1);
 	else {
