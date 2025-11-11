@@ -3213,7 +3213,7 @@
 2001-03-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (wbcg_sheet_remove_all) : clear the
-	  notebook BEFORE deleting it to avoid updating during destuction.
+	  notebook BEFORE deleting it to avoid updating during destruction.
 
 	* src/cellspan.c (cell_calc_span) : Cells in hidden columns cannot
 	  have spans.
@@ -5871,7 +5871,7 @@
 	* src/item-grid.c (item_grid_draw) : sync drawing with
 	* src/print-cell.c (print_cell_range) : printing.
 	(print_merged_range) : new function, sort of works.  We need to draw
-	  grids AFTER content to avoid this sort of sillyness.
+	  grids AFTER content to avoid this sort of silliness.
 
 2000-12-29  Jody Goldberg <jgoldberg@home.com>
 

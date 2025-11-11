@@ -2206,7 +2206,7 @@
 	* src/file.c (file_format_register_save): Changed to append
 	new types; works round bug in selection.
 
-	* src/expr.c (eval_cell_value): Fix sillyness of top left
+	* src/expr.c (eval_cell_value): Fix silliness of top left
 	corner stuff.
 
 	* src/expr.h: Added const to value_dump
@@ -2348,7 +2348,7 @@
 
 1999-05-08  Michael Meeks  <michael@imaginator.com>
 
-	* web/index.html: Fix sillyness in references.
+	* web/index.html: Fix silliness in references.
 
 	* web/gnumeric-0.25: Remove HTML tags...
 
@@ -3578,7 +3578,7 @@ Tue Mar 23 14:00:37 CET 1999 Daniel Veillard <Daniel.Veillard@w3.org>
 	(ms_excel_sheet_insert): Fixed so no NULL pointers can escape
 	into cell_set_text.
 	(ms_excelReadWorkbook): Removed BIFF Usage chart, its slow.
-	(biff_nasty_font_check_function): Sorts out font sillyness.
+	(biff_nasty_font_check_function): Sorts out font silliness.
 	(biff_xf_data_new): Added cached style_format pointer
 	(biff_xf_data_destroy): unref style_format if allocated.
 

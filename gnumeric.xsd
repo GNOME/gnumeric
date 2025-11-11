@@ -497,7 +497,7 @@
         <xs:sequence>
             <xs:element name="Font" minOccurs="0" maxOccurs="1">
                 <xs:complexType>
-                    <xs:simpleContent> <!-- Since these might be conditional styles, the atributes are
+                    <xs:simpleContent> <!-- Since these might be conditional styles, the attributes are
 				       not required -->
                         <xs:extension base="xs:string">
                             <xs:attribute name="Unit"          type="xs:double"	        use="optional"/>

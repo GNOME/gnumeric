@@ -1244,7 +1244,7 @@
 
 	* src/analysis-tools.c (free_data_set) : delete (obsolete)
 	(set_percent) new utility procedure to set cell format
-	(ranking_tool) rewrite to use new suport functions, to allow
+	(ranking_tool) rewrite to use new support functions, to allow
 	  input references to other sheets, handle ties in ranks
 	  according to statistical practice, set cell format for
 	  percentile
@@ -1401,7 +1401,7 @@
 
 	* src/workbook-control-gui.c (workbook_close_if_user_permits) : fix
 	  the return type.
-	(wbcg_close_control) : don't close if we are being reerence by another
+	(wbcg_close_control) : don't close if we are being reference by another
 	  operation. Fix sense of comparision.
 	(wbcg_delete_event) : now that wbcg_close_control is fixed revert this
 	  to the correct meaning.
@@ -2928,7 +2928,7 @@
 
 	* src/workbook-view.c (wb_view_open_custom) : Use
 	  wb_control_menu_state_sensitivity to enable/disable
-	  the menus and toolbars of the manging contol.
+	  the menus and toolbars of the managing control.
 
 2001-09-17  Jody Goldberg <jgoldberg@home.com>
 
@@ -3269,7 +3269,7 @@
 
 	* src/eval.c (dependent_queue_recalc_list) : fix my breakage and don't
 	  bother recursing for already queued cells.
-	(workbook_queue_all_recalc) : remove sillyness.
+	(workbook_queue_all_recalc) : remove silliness.
 	(dependent_unqueue) : delete unused routine.
 
 	* src/cell.c (cell_cleanout) : remove useless 'in_recalc_queue' flag.
@@ -3372,7 +3372,7 @@
 
 2001-08-27  Jody Goldberg <jgoldberg@home.com>
 
-	* src/gnumeric-graph.c (gnm_graph_vector_set_expr) : remove debuggin
+	* src/gnumeric-graph.c (gnm_graph_vector_set_expr) : remove debugging
 	  cruft.
 
 2001-08-26  Jody Goldberg <jgoldberg@home.com>

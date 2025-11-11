@@ -1378,7 +1378,7 @@ yylex (void)
 		if (end == NULL) {
 			size_t len = strlen (start);
 			g_string_free (s, TRUE);
-  			report_err (state,
+			report_err (state,
 				    g_error_new (1, PERR_MISSING_CLOSING_QUOTE,
 						 _("Could not find matching closing quote")),
 				    start + len, len);

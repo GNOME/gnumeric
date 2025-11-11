@@ -13,7 +13,7 @@ Working on Gnumeric
 code directly to the Git repository, please keep those things in mind.
 While performance is important please note that we do not want to hand tune
 code to shave milliseconds at this point.  Well designed algorithms and data
-strucutures are fertile areas for development, obfuscated code to make a loop
+structures are fertile areas for development, obfuscated code to make a loop
 3% faster is not.  Specifically, this means:
 
 	- Clarity of design and function are paramount
@@ -27,7 +27,7 @@ The Gnumeric coding style.
 yourself familiar with the GNU coding standards (shipped with most
 GNU/Linux systems as the standards.info file), then read the Linux
 kernel coding standards and ignore Linus' jokes.  Then look at the
-Gtk+ header files to get aquainted on how to write nice header files
+Gtk+ header files to get acquainted on how to write nice header files
 that are almost self documenting.
 
    Remember: Use 8 space tabs for indentation: that will keep your
@@ -48,13 +48,13 @@ modular chunks (as detailed by Linus).
 
 	- Make sure your code does not have a single warning (with the
 	  default strong warnings that Gnumeric compiles with) before
-	  your code is submited. (Although we do not advocate -Werror)
+	  your code is submitted. (Although we do not advocate -Werror)
 
 	- Every entry point to a public routine should use the
 	  g_return_if_fail and g_return_val_if_fail macros to verify
 	  that the parameters passed are valid.
 
-	- Under no circunstances use magic variables.  Use typedef
+	- Under no circumstances use magic variables.  Use typedef
 	  enum { ... } type; to create enumerations.  Do not use
 	  integers to hold references to enumerations, the compiler
 	  can help catch various errors.
@@ -64,7 +64,7 @@ modular chunks (as detailed by Linus).
 
 	- It is more important to be correct than to be fast.
 
-	- Do not optimize unnecessarly.  Do profile, do look for the
+	- Do not optimize unnecessarily.  Do profile, do look for the
 	  weak spots before applying "optimization by feeling".  This
 	  is not a Ouija-based project.
 

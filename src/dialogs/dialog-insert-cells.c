@@ -170,7 +170,7 @@ dialog_insert_cells (WBCGtk *wbcg)
 
 	gnm_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "helpbutton"),
-		GNUMERIC_HELP_LINK_INSERT_CELS);
+		GNUMERIC_HELP_LINK_INSERT_CELLS);
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget
 				    (state->gui, cols < rows

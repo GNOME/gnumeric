@@ -3166,7 +3166,7 @@ cb_radio_button_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_wid
 			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 		if (texpr != NULL)
 			gnm_expr_top_unref (texpr);
-  	}
+	}
 	state->old_focus = focus_widget;
 }
 
@@ -3293,7 +3293,7 @@ sheet_widget_radio_button_user_config (SheetObject *so, SheetControl *sc)
 	gtk_entry_set_text (GTK_ENTRY (state->value), valstr->str);
 	g_string_free (valstr, TRUE);
 
-  	gnm_editable_enters (GTK_WINDOW (state->dialog),
+	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->expression));
 	gnm_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->label));
@@ -3380,14 +3380,14 @@ sheet_widget_radio_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 SOW_MAKE_TYPE (radio_button, RadioButton,
 	       sheet_widget_radio_button_user_config,
-  	       sheet_widget_radio_button_set_sheet,
-  	       so_clear_sheet,
-  	       sheet_widget_radio_button_foreach_dep,
+	       sheet_widget_radio_button_set_sheet,
+	       so_clear_sheet,
+	       sheet_widget_radio_button_foreach_dep,
 	       sheet_widget_radio_button_copy,
 	       sheet_widget_radio_button_write_xml_sax,
 	       sheet_widget_radio_button_prep_sax_parser,
-  	       sheet_widget_radio_button_get_property,
-  	       sheet_widget_radio_button_set_property,
+	       sheet_widget_radio_button_get_property,
+	       sheet_widget_radio_button_set_property,
 	       sheet_widget_radio_button_draw_cairo,
 	       {
 		       g_object_class_install_property

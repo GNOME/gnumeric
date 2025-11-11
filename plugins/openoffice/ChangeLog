@@ -3996,8 +3996,8 @@
 	(odf_write_interpolation_attribute): add argument and change all callers
 	(odf_write_scatter_series_style): deleted
 	(odf_write_scatter_series_style_graphic): deleted
-	(odf_write_gog_style_graphic): new atributes
-	(odf_write_gog_style_chart): new atributes
+	(odf_write_gog_style_graphic): new attributes
+	(odf_write_gog_style_chart): new attributes
 	(odf_write_plot): use gog_styles instead of series named styles
 
 2010-08-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -4018,7 +4018,7 @@
 2010-08-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_cell_start): no need to duplicate the style name
-	(od_style_prop_chart): new atribute
+	(od_style_prop_chart): new attribute
 	(oo_plot_series): zero the data point count
 	(oo_series_pt): implement
 	* openoffice-write.c (cmp_data_points): new

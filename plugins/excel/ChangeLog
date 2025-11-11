@@ -13162,7 +13162,7 @@
 	* ms-biff.c (biff_setdouble): Implemented.
 
 	* ms-excel.c (ms_excel_read_cell): BIFF_NUMBER: Removed last
-	vestige of nasty number->text->number sillyness.
+	vestige of nasty number->text->number silliness.
 
 	* Makefile.am (libexcel_a_SOURCES): Added excel.h,
 	ms-excel-write.[ch].

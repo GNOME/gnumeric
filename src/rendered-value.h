@@ -47,7 +47,7 @@ void              gnm_rendered_value_destroy   (GnmRenderedValue *rv);
 
 void              gnm_rendered_value_remeasure (GnmRenderedValue *rv);
 
-/* Return the value as a single string without format infomation.  */
+/* Return the value as a single string without format information.  */
 char const *gnm_rendered_value_get_text (GnmRenderedValue const * rv);
 
 GOColor gnm_rendered_value_get_color (GnmRenderedValue const * rv);

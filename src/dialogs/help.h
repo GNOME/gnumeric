@@ -80,7 +80,7 @@
 #define GNUMERIC_HELP_LINK_HYPERLINK "sect-data-link"
 
 /* dialog-insert-cells.c */
-#define GNUMERIC_HELP_LINK_INSERT_CELS "sect-data-insert"
+#define GNUMERIC_HELP_LINK_INSERT_CELLS "sect-data-insert"
 
 /* dialog-merge.c      */
 #define GNUMERIC_HELP_LINK_DATA_MERGE "sect-data-generate"

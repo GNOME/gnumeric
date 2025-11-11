@@ -1556,7 +1556,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	  to recompute something that is already available.
 
 	* src/xml-io.c (xml_sheet_read) : Move the {freeze,thaw}_redraws here.
-	(xml_read_cell) : Remove the sillyness about removing newlines and
+	(xml_read_cell) : Remove the silliness about removing newlines and
 	  trailing spaces.  Remove the {freeze,thaw}_redraws.
 
 	* src/cell.c (cell_set_text_simple) : Store the rendered value.

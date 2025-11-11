@@ -5,7 +5,7 @@ export PS/PDF/EPS functions have been deprecated.
 
 The plugin is published under the GNU GPL.
 
-Note: None of these export functions supports graphics output!
+Note: None of these export functions support graphics output!
 
 Original Author: rasca (thron@gmx.de)
 
@@ -18,7 +18,7 @@ Features of the export/import HTML functions:
 
 	- exporting tables
 		* all tables are written in one file, but every sheet
-		  gets it's own TABLE-tag
+		  gets its own TABLE-tag
 		* beside the content of the cells it self the following
 		  attributes are exported:
 			- center and right horizontal alignment
