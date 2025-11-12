@@ -546,7 +546,7 @@ gnm_lbeta3 (gnm_float a, gnm_float b, int *sign)
 static void
 gamma_error_factor (GnmQuad *res, const GnmQuad *x)
 {
-	gnm_float num[] = {
+	static const gnm_float num[] = {
 		GNM_const(1.),
 		GNM_const(1.),
 		GNM_const(-139.),
@@ -557,7 +557,7 @@ gamma_error_factor (GnmQuad *res, const GnmQuad *x)
 		GNM_const(-4483131259.),
 		GNM_const(432261921612371.)
 	};
-	gnm_float den[] = {
+	static const gnm_float den[] = {
 		GNM_const(12.),
 		GNM_const(288.),
 		GNM_const(51840.),

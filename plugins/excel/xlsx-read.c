@@ -1869,7 +1869,7 @@ xlsx_paper_size (gdouble width, gdouble height, GtkUnit unit, int code)
 static gboolean
 xlsx_set_paper_from_code (GnmPrintInformation *pi, int code)
 {
-	XLSXPaperDefs paper[] =
+	static const XLSXPaperDefs paper[] =
 		{{ 0 , 0 , 0 , GTK_UNIT_MM , NULL },
 		 { 1 , 8.5 , 11 , GTK_UNIT_INCH , GTK_PAPER_NAME_LETTER },
 		 { 2 , 8.5 , 11 , GTK_UNIT_INCH , GTK_PAPER_NAME_LETTER },

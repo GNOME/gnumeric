@@ -2444,8 +2444,8 @@ xlsx_write_breaks (G_GNUC_UNUSED XLSXWriteState *state, GsfXMLOut *xml, GnmPageB
 static int
 xlsx_find_paper_code (GtkPaperSize *psize)
 {
-	XLSXPaperDefs *paper_defs;
-	XLSXPaperDefs paper[] =
+	XLSXPaperDefs const *paper_defs;
+	static const XLSXPaperDefs paper[] =
 		{{ 74 , 90 , 90 , 205 , GTK_UNIT_MM },
 		 { 38 , 92 , 3.625 , 6.5 , GTK_UNIT_INCH },
 		 { 94 , 97 , 97 , 151 , GTK_UNIT_MM },

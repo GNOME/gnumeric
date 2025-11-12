@@ -2652,10 +2652,10 @@ set_ifmt (G_GNUC_UNUSED GOFormat *format, G_GNUC_UNUSED gboolean was_added,
 int
 excel_write_add_object_format (ExcelWriteState *ewb, GOFormat *format)
 {
-	int ifmt;
+	int ifmt = 0;
 	two_way_table_put (ewb->base.formats.two_way_table,
 	                   /* cast the int* to char* until the API accepts void* there */
-	                   format, TRUE, (AfterPutFunc) set_ifmt, (char*) &ifmt);
+	                   format, TRUE, (AfterPutFunc) set_ifmt, &ifmt);
 	return ifmt;
 }
 

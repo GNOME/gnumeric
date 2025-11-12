@@ -5645,7 +5645,7 @@ static void
 odf_write_page_layout (GnmOOExport *state, GnmPrintInformation *pi,
 		       Sheet const *sheet)
 {
-	static char const *centre_type [] = {
+	static char const *const centre_type [] = {
 		"none"        ,
 		"horizontal"  ,
 		"vertical"    ,
@@ -5956,7 +5956,7 @@ odf_write_gradient_info (GOStyle const *style, char const *name, GnmOOExport *st
 		unsigned int dir;
 		char const *type;
 		int angle;
-	} gradients[] = {
+	} const gradients[] = {
 		{GO_GRADIENT_N_TO_S,"linear", 180},
 		{GO_GRADIENT_S_TO_N, "linear", 0},
 		{GO_GRADIENT_N_TO_S_MIRRORED, "axial", 180},
@@ -6012,7 +6012,7 @@ odf_write_hatch_info (GOPattern *pattern, char const *name, GnmOOExport *state)
 		char const *style;
 		int angle;
 		double distance;
-	} info[] = {
+	} const info[] = {
 		{GO_PATTERN_GREY75, "double", 0, 1.0},
 		{GO_PATTERN_GREY50, "double", 0, 2.0},
 		{GO_PATTERN_GREY25, "double", 0, 3.0},
@@ -7213,7 +7213,7 @@ odf_get_marker (GOMarkerShape m)
 	static struct {
 		guint m;
 		char const *str;
-	} marks [] =
+	} const marks [] =
 		  {{GO_MARKER_NONE, "none"},
 		   {GO_MARKER_SQUARE, "square"},
 		   {GO_MARKER_DIAMOND,"diamond"},
@@ -7643,7 +7643,7 @@ odf_get_border_info (G_GNUC_UNUSED GnmOOExport *state, GOStyle const *style)
 static void
 odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style, gboolean with_border)
 {
-	char const *image_types[] =
+	char const * const image_types[] =
 		{"stretch", "repeat", "no-repeat"};
 
 	if (!style)
@@ -8805,7 +8805,7 @@ odf_fill_chart_props_hash (GnmOOExport *state)
 		void (*odf_write_property) (GnmOOExport *state,
 					    GOStyle const *style,
 					    GogObject const *obj);
-	} props[] = {
+	} const props[] = {
 		{"GogSeriesLines", odf_write_drop},
 		{"GogAxis", odf_write_axis_style},
 		{"GogAxisLine", odf_write_axisline_style},

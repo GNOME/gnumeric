@@ -799,7 +799,7 @@ xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 	static struct {
 		char const *name;
 		GOFormatMagic id;
-	} named_magic_formats [] = {
+	} const named_magic_formats [] = {
 		{ "General Date",        GO_FORMAT_MAGIC_SHORT_DATETIME },
 		{ "Long Date",           GO_FORMAT_MAGIC_LONG_DATE },
 		{ "Medium Date",         GO_FORMAT_MAGIC_MEDIUM_DATE },
@@ -812,7 +812,7 @@ xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 	static struct {
 		char const *name;
 		char const *format;
-	} named_formats [] = {
+	} const named_formats [] = {
 		{ "General Number",     "General" },
 		{ "Currency",       	"$#,##0.00_);[Red](#,##0.00)" },
 		{ "Euro Currency",     	"[$EUR-2]#,##0.00_);[Red](#,##0.00)" },
@@ -1033,7 +1033,7 @@ xl_xml_auto_filter_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 
 /****************************************************************************/
 
-static GsfXMLInNS content_ns[] = {
+static GsfXMLInNS const content_ns[] = {
 	GSF_XML_IN_NS (XL_NS_SS,   "urn:schemas-microsoft-com:office:spreadsheet"),
 	GSF_XML_IN_NS (XL_NS_SS,   "http://schemas.microsoft.com/office/excel/2003/xml"),
 	GSF_XML_IN_NS (XL_NS_O,    "urn:schemas-microsoft-com:office:office"),

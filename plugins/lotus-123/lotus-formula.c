@@ -511,7 +511,7 @@ make_function (LotusState *state, GnmExprList **stack, guint8 const *data, const
 			g_printerr("Encountered lotus opcode %d\n", *data);
 			// "darwin" encoding used
 		}
-		assert(LOTUS_MAX_ORDINAL > 0xff);
+		g_assert(LOTUS_MAX_ORDINAL > 0xff);
 		f = lotus_ordinal_to_info[*data];
 	}
 

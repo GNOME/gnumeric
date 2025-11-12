@@ -348,7 +348,8 @@ latex_fputs_latin (char const *text, GsfOutput *output)
 			    p = rlt;
 			break;
 			/* Are these available only in LaTeX through mathmode? */
-		case '>': case '<': case 'µ':
+		case '>': case '<':
+			// case 'µ': // cannot be correct for utf8
 			gsf_output_printf (output, "$%c$", *p);
 			break;
 
@@ -369,7 +370,7 @@ latex_fputs_latin (char const *text, GsfOutput *output)
  * This escapes any special LaTeX characters from the LaTeX engine,
  * except the ones enclosed in "\L{" and "}".
  *
- * We assume that htis will be set in Mathematics mode.
+ * We assume that this will be set in Mathematics mode.
  */
 static void
 latex_math_fputs_latin (char const *text, GsfOutput *output)

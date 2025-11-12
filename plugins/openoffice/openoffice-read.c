@@ -4606,12 +4606,12 @@ oo_gradient (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *name = NULL;
 	int angle = 0;
 	char const *style = NULL;
-	unsigned int axial_types[] =
+	static const unsigned int axial_types[] =
 		{GO_GRADIENT_S_TO_N_MIRRORED, GO_GRADIENT_SE_TO_NW_MIRRORED,
 		 GO_GRADIENT_E_TO_W_MIRRORED, GO_GRADIENT_NE_TO_SW_MIRRORED,
 		 GO_GRADIENT_N_TO_S_MIRRORED, GO_GRADIENT_NW_TO_SE_MIRRORED,
 		 GO_GRADIENT_W_TO_E_MIRRORED, GO_GRADIENT_SW_TO_NE_MIRRORED};
-	unsigned int linear_types[] =
+	static const unsigned int linear_types[] =
 		{GO_GRADIENT_S_TO_N, GO_GRADIENT_SE_TO_NW,
 		 GO_GRADIENT_E_TO_W, GO_GRADIENT_NE_TO_SW,
 		 GO_GRADIENT_N_TO_S, GO_GRADIENT_NW_TO_SE,

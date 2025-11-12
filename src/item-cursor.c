@@ -114,7 +114,7 @@ ic_reload_style (GnmItemCursor *ic)
 	struct {
 		const char *class;
 		int fore_offset, back_offset;
-	} substyles[] = {
+	} const substyles[] = {
 		{ "normal",
 		  G_STRUCT_OFFSET (GnmItemCursor, normal_color),
 		  -1 },

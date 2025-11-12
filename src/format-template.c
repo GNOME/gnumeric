@@ -495,7 +495,7 @@ template_sax_unknown (GsfXMLIn *xin, xmlChar const *elem, xmlChar const **attrs)
 	return FALSE;
 }
 
-static GsfXMLInNode template_dtd[] = {
+static GsfXMLInNode const template_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE (START, TEMPLATE, GMR, "FormatTemplate", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (TEMPLATE, TEMPLATE_INFORMATION, GMR, "Information", GSF_XML_NO_CONTENT, sax_information, NULL),

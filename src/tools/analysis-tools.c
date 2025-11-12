@@ -3619,7 +3619,7 @@ analysis_tool_moving_average_funcall5 (GnmFunc *fd, GnmExpr const *ex, int y, in
 
 static GnmExpr const *
 analysis_tool_moving_average_weighted_av (GnmFunc *fd_sum, GnmFunc *fd_in, GnmExpr const *ex,
-					  int y, int x, int dy, int dx, int *w)
+					  int y, int x, int dy, int dx, const int *w)
 {
 	GnmExprList *list = NULL;
 
@@ -3851,7 +3851,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		{
 			GnmExpr const *expr_divisor = gnm_expr_new_constant
 				(value_new_int(-3-6-5+3+21+45+67+74+67+46+21+3-5-6-3));
-			int w[] = {-3, -6, -5, 3, 21, 45, 67, 74, 67, 46, 21, 3, -5, -6, -3, 0};
+			static const int w[] = {-3, -6, -5, 3, 21, 45, 67, 74, 67, 46, 21, 3, -5, -6, -3, 0};
 
 			delta_x = 0;
 			delta_y= 0;
