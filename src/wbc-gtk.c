@@ -1859,7 +1859,6 @@ wbcg_close_if_user_permits (WBCGtk *wbcg, WorkbookView *wb_view)
 {
 	gboolean   can_close = TRUE;
 	gboolean   done      = FALSE;
-	int        iteration = 0;
 	int        button = 0;
 	Workbook  *wb = wb_view_get_workbook (wb_view);
 	static int in_can_close;
@@ -1871,7 +1870,6 @@ wbcg_close_if_user_permits (WBCGtk *wbcg, WorkbookView *wb_view)
 	in_can_close = TRUE;
 
 	while (go_doc_is_dirty (GO_DOC (wb)) && !done) {
-		iteration++;
 		button = wbcg_show_save_dialog(wbcg, wb);
 
 		switch (button) {

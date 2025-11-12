@@ -297,11 +297,11 @@ item_bar_update_bounds (GocItem *item)
 	item->x0 = 0;
 	item->y0 = 0;
 	if (ib->is_col_header) {
-		item->x1 = G_MAXINT64/2;
+		item->x1 = GNM_CANVAS_INF;
 		item->y1 = (ib->cell_height + ib->indent);
 	} else {
 		item->x1 = (ib->cell_width  + ib->indent);
-		item->y1 = G_MAXINT64/2;
+		item->y1 = GNM_CANVAS_INF;
 	}
 }
 

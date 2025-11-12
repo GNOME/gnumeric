@@ -507,8 +507,12 @@ make_function (LotusState *state, GnmExprList **stack, guint8 const *data, const
 		if (*data <= WORKS_MAX_ORDINAL)
 			f = works_ordinal_to_info[*data];
 	} else {
-		if (*data <= LOTUS_MAX_ORDINAL)
-			f = lotus_ordinal_to_info[*data];
+		if (*data >= 166) {
+			g_printerr("Encountered lotus opcode %d\n", *data);
+			// "darwin" encoding used
+		}
+		assert(LOTUS_MAX_ORDINAL > 0xff);
+		f = lotus_ordinal_to_info[*data];
 	}
 
 	if (f == NULL) {

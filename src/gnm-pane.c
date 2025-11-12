@@ -1548,11 +1548,11 @@ gnm_pane_redraw_range (GnmPane *pane, GnmRange const *r)
 	x2 = (tmp.end.col < gnm_sheet_get_last_col (sheet))
 		? 4 + 1 + x1 + scg_colrow_distance_get (scg, TRUE,
 							tmp.start.col, tmp.end.col+1)
-		: G_MAXINT64;
+		: GNM_CANVAS_INF;
 	y2 = (tmp.end.row < gnm_sheet_get_last_row (sheet))
 		? 4 + 1 + y1 + scg_colrow_distance_get (scg, FALSE,
 							tmp.start.row, tmp.end.row+1)
-		: G_MAXINT64;
+		: GNM_CANVAS_INF;
 
 	goc_canvas_invalidate (&pane->simple.canvas, (x1-2) / scale, (y1-2) / scale, x2 / scale, y2 / scale);
 }

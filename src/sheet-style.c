@@ -412,14 +412,14 @@ tile_set_nth_tile (CellTile *tile, guint n, CellTile *tile2)
 static inline GnmStyle *
 tile_nth_style (CellTile const *tile, guint n)
 {
-	return (GnmStyle*)((char*)(tile->any.ptrs[n]) - 1);
+	return (GnmStyle*)GSIZE_TO_POINTER(GPOINTER_TO_SIZE(tile->any.ptrs[n]) - 1);
 }
 
 static inline void
 tile_set_nth_style (CellTile *tile, guint n, GnmStyle *st)
 {
 	CellTileAny *any = (CellTileAny *)tile;
-	any->ptrs[n] = (char*)st + 1;
+	any->ptrs[n] = GSIZE_TO_POINTER(GPOINTER_TO_SIZE(st) + 1);
 }
 
 static inline void

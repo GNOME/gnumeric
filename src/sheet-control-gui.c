@@ -163,14 +163,17 @@ scg_redraw_all (SheetControl *sc, gboolean headers)
 
 	SCG_FOREACH_PANE (scg, pane, {
 		goc_canvas_invalidate (GOC_CANVAS (pane),
-			G_MININT64, 0, G_MAXINT64, G_MAXINT64);
+				       -GNM_CANVAS_INF, 0,
+				       GNM_CANVAS_INF, GNM_CANVAS_INF);
 		if (headers) {
 			if (NULL != pane->col.canvas)
 				goc_canvas_invalidate (pane->col.canvas,
-					0, 0, G_MAXINT64, G_MAXINT64);
+						       0, 0,
+						       GNM_CANVAS_INF, GNM_CANVAS_INF);
 			if (NULL != pane->row.canvas)
 				goc_canvas_invalidate (pane->row.canvas,
-					0, 0, G_MAXINT64, G_MAXINT64);
+						       0, 0,
+						       GNM_CANVAS_INF, GNM_CANVAS_INF);
 		}
 	});
 }
@@ -248,11 +251,11 @@ scg_redraw_headers (SheetControl *sc,
 				}
 			}
 			goc_canvas_invalidate (col_canvas,
-				left / scale, 0, right / scale, G_MAXINT64);
+				left / scale, 0, right / scale, GNM_CANVAS_INF);
 		}
 
 		if (row && pane->row.canvas != NULL) {
-			gint64 top = 0, bottom = G_MAXINT64 - 1;
+			gint64 top = 0, bottom = GNM_CANVAS_INF - 1;
 			scale = goc_canvas_get_pixels_per_unit (pane->row.canvas);
 			if (r != NULL) {
 				int const size = r->end.row - r->start.row;
@@ -266,7 +269,7 @@ scg_redraw_headers (SheetControl *sc,
 				}
 			}
 			goc_canvas_invalidate (GOC_CANVAS (pane->row.canvas),
-				0, top / scale, G_MAXINT64, bottom / scale);
+				0, top / scale, GNM_CANVAS_INF, bottom / scale);
 		}
 	}
 }

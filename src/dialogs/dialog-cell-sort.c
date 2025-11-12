@@ -520,7 +520,6 @@ static void
 dialog_cell_sort_load_sort_setup (SortFlowState *state, GnmSortData const *data)
 {
 	int i;
-	GnmSortClause *this = data->clauses;
 	gint base, max, index;
 	Sheet *sheet = state->sel->v_range.cell.a.sheet;
 
@@ -568,7 +567,6 @@ dialog_cell_sort_load_sort_setup (SortFlowState *state, GnmSortData const *data)
 					    -1);
 			state->sort_items++;
 		}
-		this++;
 	}
 	set_button_sensitivity (state);
 }

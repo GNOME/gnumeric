@@ -12826,8 +12826,8 @@ static GsfXMLInNode const ooo1_content_preparse_overrides [] =
 static GsfXMLInNode const *ooo1_content_preparse_dtd;
 
 
-static GsfXMLInNode const *get_dtd () { return opendoc_content_dtd; }
-static GsfXMLInNode const *get_styles_dtd () { return styles_dtd; }
+static GsfXMLInNode const *get_dtd (void) { return opendoc_content_dtd; }
+static GsfXMLInNode const *get_styles_dtd (void) { return styles_dtd; }
 
 /****************************************************************************/
 

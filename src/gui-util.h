@@ -125,6 +125,7 @@ void gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
 					WBCGtk *wbcg,
 					GnmDialogDestroyOptions what);
 
+#define GNM_CANVAS_INF (G_MAXINT64 / 2 >> 10 << 10)
 void gnm_canvas_get_position (GocCanvas *canvas, int *x, int *y,
 			      gint64 px, gint64 py);
 void gnm_canvas_get_screen_position (GocCanvas *canvas,

@@ -15,8 +15,6 @@
 
 static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo);
 
-static inline int imin2 (int x, int y) { return MIN (x, y); }
-static inline int imax2 (int x, int y) { return MAX (x, y); }
 static inline gnm_float fmax2 (gnm_float x, gnm_float y) { return MAX (x, y); }
 
 

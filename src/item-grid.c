@@ -251,8 +251,8 @@ item_grid_update_bounds (GocItem *item)
 {
 	item->x0 = 0;
 	item->y0 = 0;
-	item->x1 = G_MAXINT64/2;
-	item->y1 = G_MAXINT64/2;
+	item->x1 = GNM_CANVAS_INF;
+	item->y1 = GNM_CANVAS_INF;
 }
 
 static void

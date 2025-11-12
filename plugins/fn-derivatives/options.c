@@ -1939,7 +1939,7 @@ opt_binomial(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			if (OT_Euro == amer_euro_flag)
 				value_array[i] = (p * value_array[i + 1] + (1 - p) * value_array[i]) * Df;
 			else if (OT_Amer == amer_euro_flag) {
-				temp1 = (z * (s * gnm_pow (u, i) * gnm_pow (d, (gnm_abs (i - j))) - x));
+				temp1 = z * (s * gnm_pow (u, i) * gnm_pow (d, (gnm_abs ((gnm_float)(i - j)))) - x);
 				temp2 = (p * value_array[i + 1] + (1 - p) * value_array[i]) * Df;
 				value_array[i] = MAX (temp1, temp2);
 			}
