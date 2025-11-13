@@ -748,7 +748,7 @@ static struct cb_watch_bool watch_autocorrect_first_letter = {
 	0, "autocorrect/first-letter",
 	"Autocorrect first letter",
 	"This variable determines whether to autocorrect first letters",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -781,7 +781,7 @@ gnm_conf_get_autocorrect_first_letter_node (void)
 static struct cb_watch_string_list watch_autocorrect_first_letter_list = {
 	0, "autocorrect/first-letter-list",
 	"List of First Letter Exception",
-	"The autocorrect engine does not capitalize the first letter of words following strings in this list.",
+	"The autocorrect engine does not capitalize the first letter of words following strings in this list."
 };
 
 /**
@@ -825,7 +825,7 @@ static struct cb_watch_bool watch_autocorrect_init_caps = {
 	0, "autocorrect/init-caps",
 	"Autocorrect initial caps",
 	"This variable determines whether to autocorrect initial caps",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -858,7 +858,7 @@ gnm_conf_get_autocorrect_init_caps_node (void)
 static struct cb_watch_string_list watch_autocorrect_init_caps_list = {
 	0, "autocorrect/init-caps-list",
 	"List of initial caps exceptions",
-	"The autocorrect engine does not correct the initial caps for words in this list.",
+	"The autocorrect engine does not correct the initial caps for words in this list."
 };
 
 /**
@@ -902,7 +902,7 @@ static struct cb_watch_bool watch_autocorrect_names_of_days = {
 	0, "autocorrect/names-of-days",
 	"Autocorrect names of days",
 	"This variable determines whether to autocorrect names of days",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -936,7 +936,7 @@ static struct cb_watch_bool watch_autocorrect_replace = {
 	0, "autocorrect/replace",
 	"Autocorrect replace",
 	"Autocorrect replace",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -969,7 +969,7 @@ gnm_conf_get_autocorrect_replace_node (void)
 static struct cb_watch_string_list watch_autoformat_extra_dirs = {
 	0, "autoformat/extra-dirs",
 	"List of Extra Autoformat Directories.",
-	"This list contains all extra directories containing autoformat templates.",
+	"This list contains all extra directories containing autoformat templates."
 };
 
 /**
@@ -1013,7 +1013,7 @@ static struct cb_watch_string watch_autoformat_sys_dir = {
 	0, "autoformat/sys-dir",
 	"System Directory for Autoformats",
 	"This directory contains the pre-installed autoformat templates.",
-	"autoformat-templates",
+	"autoformat-templates"
 };
 
 const char *
@@ -1048,7 +1048,7 @@ static struct cb_watch_string watch_autoformat_usr_dir = {
 	0, "autoformat/usr-dir",
 	"User Directory for Autoformats",
 	"The main directory for user specific autoformat templates.",
-	"autoformat-templates",
+	"autoformat-templates"
 };
 
 const char *
@@ -1083,7 +1083,7 @@ static struct cb_watch_bool watch_core_defaultfont_bold = {
 	0, "core/defaultfont/bold",
 	"The default font is bold.",
 	"This value determines whether the default font for a new workbook is bold.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -1117,7 +1117,7 @@ static struct cb_watch_bool watch_core_defaultfont_italic = {
 	0, "core/defaultfont/italic",
 	"The default font is italic.",
 	"This value determines whether the default font for a new workbook is italic.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -1151,7 +1151,7 @@ static struct cb_watch_string watch_core_defaultfont_name = {
 	0, "core/defaultfont/name",
 	"Default font name",
 	"The default font name for new workbooks.",
-	"Sans",
+	"Sans"
 };
 
 const char *
@@ -1186,7 +1186,7 @@ static struct cb_watch_double watch_core_defaultfont_size = {
 	0, "core/defaultfont/size",
 	"Default Font Size",
 	"The default font size for new workbooks.",
-	1, 100, 10,
+	1, 100, 10
 };
 
 double
@@ -1220,7 +1220,7 @@ static struct cb_watch_bool watch_core_file_save_def_overwrite = {
 	0, "core/file/save/def-overwrite",
 	"Default To Overwriting Files",
 	"Before an existing file is being overwritten, Gnumeric will present a warning dialog. Setting this option will make the overwrite button in that dialog the default button.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -1253,7 +1253,7 @@ gnm_conf_get_core_file_save_def_overwrite_node (void)
 static struct cb_watch_string_list watch_core_file_save_extension_check_disabled = {
 	0, "core/file/save/extension-check-disabled",
 	"List of file savers with disabled extension check.",
-	"This list contains the ids of the file savers for which the extension check is disabled.",
+	"This list contains the ids of the file savers for which the extension check is disabled."
 };
 
 /**
@@ -1297,7 +1297,7 @@ static struct cb_watch_bool watch_core_file_save_single_sheet = {
 	0, "core/file/save/single-sheet",
 	"Warn When Exporting Into Single Sheet Format",
 	"Some file formats can contain only a single sheet. This variable determines whether the user will be warned if only a single sheet of a multi-sheet workbook is being saved.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -1331,7 +1331,7 @@ static struct cb_watch_bool watch_core_gui_cells_extension_markers = {
 	0, "core/gui/cells/extension-markers",
 	"Extension Markers",
 	"This variable determines whether cells with truncated content are marked.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -1365,7 +1365,7 @@ static struct cb_watch_bool watch_core_gui_cells_function_markers = {
 	0, "core/gui/cells/function-markers",
 	"Function Markers",
 	"This variable determines whether cells containing spreadsheet function are marked.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -1399,7 +1399,7 @@ static struct cb_watch_bool watch_core_gui_editing_autocomplete = {
 	0, "core/gui/editing/autocomplete",
 	"Autocomplete",
 	"This variable determines whether autocompletion is set on.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -1433,7 +1433,7 @@ static struct cb_watch_int watch_core_gui_editing_autocomplete_min_chars = {
 	0, "core/gui/editing/autocomplete-min-chars",
 	"Minimum Number of Characters for Autocompletion",
 	"This variable determines the minimum number of characters required for autocompletion.",
-	1, 10, 3,
+	1, 10, 3
 };
 
 int
@@ -1467,7 +1467,7 @@ static struct cb_watch_enum watch_core_gui_editing_enter_moves_dir = {
 	0, "core/gui/editing/enter-moves-dir",
 	"Enter Direction",
 	"Which direction pressing Enter will move the edit position.",
-	GO_DIRECTION_DOWN,
+	GO_DIRECTION_DOWN
 };
 
 GODirection
@@ -1501,7 +1501,7 @@ static struct cb_watch_bool watch_core_gui_editing_function_argument_tooltips = 
 	0, "core/gui/editing/function-argument-tooltips",
 	"Show Function Argument Tooltips",
 	"This variable determines whether to show function argument tooltips.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -1535,7 +1535,7 @@ static struct cb_watch_bool watch_core_gui_editing_function_name_tooltips = {
 	0, "core/gui/editing/function-name-tooltips",
 	"Show Function Name Tooltips",
 	"This variable determines whether to show function name tooltips.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -1569,7 +1569,7 @@ static struct cb_watch_int watch_core_gui_editing_recalclag = {
 	0, "core/gui/editing/recalclag",
 	"Auto Expression Recalculation Lag",
 	"If `lag' is 0, Gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow Gnumeric to accumulate more changes before each recalculation. If `lag' is positive, then whenever a change appears, Gnumeric waits `lag' milliseconds and then recalculates; if more changes appear during that period, they are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of |lag| milliseconds.",
-	-5000, 5000, 200,
+	-5000, 5000, 200
 };
 
 int
@@ -1603,7 +1603,7 @@ static struct cb_watch_bool watch_core_gui_editing_transitionkeys = {
 	0, "core/gui/editing/transitionkeys",
 	"Transition Keys",
 	"This variable determines whether transition keys are set on. Transition keys are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into page movement rather than jumping to the start/end of series.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -1637,7 +1637,7 @@ static struct cb_watch_double watch_core_gui_screen_horizontaldpi = {
 	0, "core/gui/screen/horizontaldpi",
 	"Horizontal DPI",
 	"Screen resolution in the horizontal direction.",
-	10, 1000, 96,
+	10, 1000, 96
 };
 
 double
@@ -1671,7 +1671,7 @@ static struct cb_watch_double watch_core_gui_screen_verticaldpi = {
 	0, "core/gui/screen/verticaldpi",
 	"Vertical DPI",
 	"Screen resolution in the vertical direction.",
-	10, 1000, 96,
+	10, 1000, 96
 };
 
 double
@@ -1705,7 +1705,7 @@ static struct cb_watch_int watch_core_gui_toolbars_format_position = {
 	0, "core/gui/toolbars/format-position",
 	"Format toolbar position",
 	"This variable determines where the format toolbar should be shown.  0 is left, 1 is right, 2 is top.",
-	0, 3, 2,
+	0, 3, 2
 };
 
 GtkPositionType
@@ -1739,7 +1739,7 @@ static struct cb_watch_bool watch_core_gui_toolbars_format_visible = {
 	0, "core/gui/toolbars/format-visible",
 	"Format toolbar visible",
 	"This variable determines whether the format toolbar should be visible initially.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -1773,7 +1773,7 @@ static struct cb_watch_int watch_core_gui_toolbars_object_position = {
 	0, "core/gui/toolbars/object-position",
 	"Object toolbar position",
 	"This variable determines where the object toolbar should be shown.  0 is left, 1 is right, 2 is top.",
-	0, 3, 2,
+	0, 3, 2
 };
 
 GtkPositionType
@@ -1807,7 +1807,7 @@ static struct cb_watch_bool watch_core_gui_toolbars_object_visible = {
 	0, "core/gui/toolbars/object-visible",
 	"Object toolbar visible",
 	"This variable determines whether the object toolbar should be visible initially.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -1841,7 +1841,7 @@ static struct cb_watch_int watch_core_gui_toolbars_standard_position = {
 	0, "core/gui/toolbars/standard-position",
 	"Standard toolbar position",
 	"This variable determines where the standard toolbar should be shown.  0 is left, 1 is right, 2 is top.",
-	0, 3, 2,
+	0, 3, 2
 };
 
 GtkPositionType
@@ -1875,7 +1875,7 @@ static struct cb_watch_bool watch_core_gui_toolbars_standard_visible = {
 	0, "core/gui/toolbars/standard-visible",
 	"Standard toolbar visible",
 	"This variable determines whether the standard toolbar should be visible initially.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -1909,7 +1909,7 @@ static struct cb_watch_double watch_core_gui_window_x = {
 	0, "core/gui/window/x",
 	"Default Horizontal Window Size",
 	"This number (between 0.25 and 1.00) gives the horizontal fraction of the screen size covered by the default window.",
-	0.1, 1, 0.75,
+	0.1, 1, 0.75
 };
 
 double
@@ -1943,7 +1943,7 @@ static struct cb_watch_double watch_core_gui_window_y = {
 	0, "core/gui/window/y",
 	"Default Vertical Window Size",
 	"This number (between 0.25 and 1.00) gives the vertical fraction of the screen size covered by the default window.",
-	0.1, 1, 0.75,
+	0.1, 1, 0.75
 };
 
 double
@@ -1977,7 +1977,7 @@ static struct cb_watch_double watch_core_gui_window_zoom = {
 	0, "core/gui/window/zoom",
 	"Default Zoom Factor",
 	"The initial zoom factor for new workbooks.",
-	0.1, 5, 1,
+	0.1, 5, 1
 };
 
 double
@@ -2011,7 +2011,7 @@ static struct cb_watch_bool watch_core_sort_default_ascending = {
 	0, "core/sort/default/ascending",
 	"Sort Ascending",
 	"This option determines the initial state of the sort-order button in the sort dialog.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -2045,7 +2045,7 @@ static struct cb_watch_bool watch_core_sort_default_by_case = {
 	0, "core/sort/default/by-case",
 	"Sort is Case-Sensitive",
 	"Setting this option will cause the sort buttons on the toolbar to perform a case-sensitive sort and determine the initial state of the case-sensitive checkbox in the sort dialog.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -2079,7 +2079,7 @@ static struct cb_watch_bool watch_core_sort_default_retain_formats = {
 	0, "core/sort/default/retain-formats",
 	"Sorting Preserves Formats",
 	"Setting this option will cause the sort buttons on the toolbar to preserve the cell formats while sorting and determines the initial state of the preserve-formats checkbox in the sort dialog.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -2113,7 +2113,7 @@ static struct cb_watch_int watch_core_sort_dialog_max_initial_clauses = {
 	0, "core/sort/dialog/max-initial-clauses",
 	"Number of Automatic Clauses",
 	"When selecting a sort region in the sort dialog, sort clauses are automatically added. This number determines the maximum number of clauses to be added automatically.",
-	0, 256, 10,
+	0, 256, 10
 };
 
 int
@@ -2147,7 +2147,7 @@ static struct cb_watch_int watch_core_workbook_autosave_time = {
 	0, "core/workbook/autosave-time",
 	"Autosave frequency",
 	"The number of seconds between autosaves.",
-	0, 365 * 24 * 60 * 60, 0,
+	0, 365 * 24 * 60 * 60, 0
 };
 
 int
@@ -2181,7 +2181,7 @@ static struct cb_watch_int watch_core_workbook_n_cols = {
 	0, "core/workbook/n-cols",
 	"Default Number of columns in a sheet",
 	"The number of columns in each sheet. This setting will be used only in a new Gnumeric session.",
-	GNM_MIN_COLS, GNM_MAX_COLS, 256,
+	GNM_MIN_COLS, GNM_MAX_COLS, 256
 };
 
 int
@@ -2215,7 +2215,7 @@ static struct cb_watch_int watch_core_workbook_n_rows = {
 	0, "core/workbook/n-rows",
 	"Default Number of rows in a sheet",
 	"The number of rows in each sheet. This setting will be used only in a new Gnumeric session.",
-	GNM_MIN_ROWS, GNM_MAX_ROWS, 65536,
+	GNM_MIN_ROWS, GNM_MAX_ROWS, 65536
 };
 
 int
@@ -2249,7 +2249,7 @@ static struct cb_watch_int watch_core_workbook_n_sheet = {
 	0, "core/workbook/n-sheet",
 	"Default Number of Sheets",
 	"The number of sheets initially created in a new workbook.",
-	1, 64, 3,
+	1, 64, 1
 };
 
 int
@@ -2283,7 +2283,7 @@ static struct cb_watch_int watch_core_xml_compression_level = {
 	0, "core/xml/compression-level",
 	"Default Compression Level For Gnumeric Files",
 	"This integer (between 0 and 9) specifies the amount of compression performed by Gnumeric when saving files in the default file format. 0 is minimal compression while 9 is maximal compression.",
-	0, 9, 9,
+	0, 9, 9
 };
 
 int
@@ -2317,7 +2317,7 @@ static struct cb_watch_bool watch_cut_and_paste_prefer_clipboard = {
 	0, "cut-and-paste/prefer-clipboard",
 	"Prefer CLIPBOARD over PRIMARY selection",
 	"When TRUE, Gnumeric will prefer the modern CLIPBOARD selection over the legacy PRIMARY selections.  Set to FALSE if you have to deal with older applications, like Xterm or Emacs, which set only the PRIMARY selection.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -2351,7 +2351,7 @@ static struct cb_watch_bool watch_dialogs_rs_unfocused = {
 	0, "dialogs/rs/unfocused",
 	"Allow Unfocused Range Selections",
 	"Some dialogs contain only a single entry field that allows range selections in the workbook. Setting this variable to TRUE directs selections to this entry even if the entry does not have keyboard focus.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -2385,7 +2385,7 @@ static struct cb_watch_int watch_functionselector_num_of_recent = {
 	0, "functionselector/num-of-recent",
 	"Maximum Length of Recently Used Functions List",
 	"The function selector keeps a list of recently used functions. This is the maximum length of that list.",
-	0, 40, 12,
+	0, 40, 12
 };
 
 int
@@ -2418,7 +2418,7 @@ gnm_conf_get_functionselector_num_of_recent_node (void)
 static struct cb_watch_string_list watch_functionselector_recentfunctions = {
 	0, "functionselector/recentfunctions",
 	"List of recently used functions.",
-	"The function selector keeps a list of recently used functions. This is that list.",
+	"The function selector keeps a list of recently used functions. This is that list."
 };
 
 /**
@@ -2462,7 +2462,7 @@ static struct cb_watch_string watch_plugin_glpk_glpsol_path = {
 	0, "plugin/glpk/glpsol-path",
 	"Full path of glpsol program to use",
 	"This is the full path to the glpsol binary that the lpsolve plugin should use.",
-	"",
+	""
 };
 
 const char *
@@ -2497,7 +2497,7 @@ static struct cb_watch_bool watch_plugin_latex_use_utf8 = {
 	0, "plugin/latex/use-utf8",
 	"Use UTF-8 in LaTeX Export",
 	"This setting determines whether created LaTeX files use UTF-8 (unicode) or ISO-8859-1 (Latin1). To use the UTF-8 files, you must have the ucs LaTeX package installed.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -2531,7 +2531,7 @@ static struct cb_watch_string watch_plugin_lpsolve_lpsolve_path = {
 	0, "plugin/lpsolve/lpsolve-path",
 	"Full path of lp_solve program to use",
 	"This is the full path to the lp_solve binary that the lpsolve plugin should use.",
-	"",
+	""
 };
 
 const char *
@@ -2566,7 +2566,7 @@ static struct cb_watch_bool watch_plugins_activate_newplugins = {
 	0, "plugins/activate-newplugins",
 	"Activate New Plugins",
 	"This variable determines whether to activate every new encountered plugin.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -2599,7 +2599,7 @@ gnm_conf_get_plugins_activate_newplugins_node (void)
 static struct cb_watch_string_list watch_plugins_active = {
 	0, "plugins/active",
 	"List of Active Plugins.",
-	"This list contains all plugins that are supposed to be automatically activated.",
+	"This list contains all plugins that are supposed to be automatically activated."
 };
 
 /**
@@ -2642,7 +2642,7 @@ gnm_conf_get_plugins_active_node (void)
 static struct cb_watch_string_list watch_plugins_extra_dirs = {
 	0, "plugins/extra-dirs",
 	"List of Extra Plugin Directories.",
-	"This list contains all extra directories containing plugins.",
+	"This list contains all extra directories containing plugins."
 };
 
 /**
@@ -2685,7 +2685,7 @@ gnm_conf_get_plugins_extra_dirs_node (void)
 static struct cb_watch_string_list watch_plugins_file_states = {
 	0, "plugins/file-states",
 	"List of Plugin File States.",
-	"This list contains all plugin file states.",
+	"This list contains all plugin file states."
 };
 
 /**
@@ -2728,7 +2728,7 @@ gnm_conf_get_plugins_file_states_node (void)
 static struct cb_watch_string_list watch_plugins_known = {
 	0, "plugins/known",
 	"List of Known Plugins.",
-	"This list contains all known plugins.",
+	"This list contains all known plugins."
 };
 
 /**
@@ -2772,7 +2772,7 @@ static struct cb_watch_bool watch_printsetup_across_then_down = {
 	0, "printsetup/across-then-down",
 	"Default Print Direction",
 	"This value determines the default setting in the Print Setup dialog whether to print first right then down. Please use the Print Setup dialog to edit this value.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -2806,7 +2806,7 @@ static struct cb_watch_bool watch_printsetup_all_sheets = {
 	0, "printsetup/all-sheets",
 	"Apply print-setup to all sheets",
 	"This value determines whether by default the print set-up dialog applies to all sheets simultaneously.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -2840,7 +2840,7 @@ static struct cb_watch_bool watch_printsetup_center_horizontally = {
 	0, "printsetup/center-horizontally",
 	"Default Horizontal Centering",
 	"This value determines whether the default setting in the Print Setup dialog is to center pages horizontally.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -2874,7 +2874,7 @@ static struct cb_watch_bool watch_printsetup_center_vertically = {
 	0, "printsetup/center-vertically",
 	"Default Vertical Centering",
 	"This value determines whether the default setting in the Print Setup dialog is to center pages vertically.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -2907,7 +2907,7 @@ gnm_conf_get_printsetup_center_vertically_node (void)
 static struct cb_watch_string_list watch_printsetup_footer = {
 	0, "printsetup/footer",
 	"Page Footer",
-	"The default page footer for new documents that can be modified using the\n	page setup dialog.",
+	"The default page footer for new documents that can be modified using the\n	page setup dialog."
 };
 
 /**
@@ -2950,7 +2950,7 @@ gnm_conf_get_printsetup_footer_node (void)
 static struct cb_watch_string_list watch_printsetup_gtk_setting = {
 	0, "printsetup/gtk-setting",
 	"GTKPrintSetting",
-	"The configuration of GTKPrintSetting. Do not edit this variable.",
+	"The configuration of GTKPrintSetting. Do not edit this variable."
 };
 
 /**
@@ -2993,7 +2993,7 @@ gnm_conf_get_printsetup_gtk_setting_node (void)
 static struct cb_watch_string_list watch_printsetup_header = {
 	0, "printsetup/header",
 	"Page Header",
-	"The default page header for new documents that can be modified using the\n	page setup dialog.",
+	"The default page header for new documents that can be modified using the\n	page setup dialog."
 };
 
 /**
@@ -3037,7 +3037,7 @@ static struct cb_watch_bool watch_printsetup_hf_font_bold = {
 	0, "printsetup/hf-font-bold",
 	"The default header/footer font is bold.",
 	"This value determines whether the default font for headers and footers is bold.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -3071,7 +3071,7 @@ static struct cb_watch_bool watch_printsetup_hf_font_italic = {
 	0, "printsetup/hf-font-italic",
 	"The default header/footer font is italic.",
 	"This value determines whether the default font for headers and footers is italic.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -3105,7 +3105,7 @@ static struct cb_watch_string watch_printsetup_hf_font_name = {
 	0, "printsetup/hf-font-name",
 	"Default header/footer font name",
 	"The default font name for headers and footers.",
-	"Sans",
+	"Sans"
 };
 
 const char *
@@ -3140,7 +3140,7 @@ static struct cb_watch_double watch_printsetup_hf_font_size = {
 	0, "printsetup/hf-font-size",
 	"Default Header/Footer Font Size",
 	"The default font size for headers and footers.",
-	1, 100, 10,
+	1, 100, 10
 };
 
 double
@@ -3173,7 +3173,7 @@ gnm_conf_get_printsetup_hf_font_size_node (void)
 static struct cb_watch_string_list watch_printsetup_hf_left = {
 	0, "printsetup/hf-left",
 	"Header/Footer Format (Left Portion)",
-	"Please use the Print Setup dialog to edit this value.",
+	"Please use the Print Setup dialog to edit this value."
 };
 
 /**
@@ -3216,7 +3216,7 @@ gnm_conf_get_printsetup_hf_left_node (void)
 static struct cb_watch_string_list watch_printsetup_hf_middle = {
 	0, "printsetup/hf-middle",
 	"Header/Footer Format (Middle Portion)",
-	"Please use the Print Setup dialog to edit this value.",
+	"Please use the Print Setup dialog to edit this value."
 };
 
 /**
@@ -3259,7 +3259,7 @@ gnm_conf_get_printsetup_hf_middle_node (void)
 static struct cb_watch_string_list watch_printsetup_hf_right = {
 	0, "printsetup/hf-right",
 	"Header/Footer Format (Right Portion)",
-	"Please use the Print Setup dialog to edit this value.",
+	"Please use the Print Setup dialog to edit this value."
 };
 
 /**
@@ -3303,7 +3303,7 @@ static struct cb_watch_double watch_printsetup_margin_bottom = {
 	0, "printsetup/margin-bottom",
 	"Default Bottom Margin",
 	"This value gives the default number of points from the bottom of a page to the end of the body. Please use the Print Setup dialog to edit this value.",
-	0, 10000, 120,
+	0, 10000, 120
 };
 
 double
@@ -3337,7 +3337,7 @@ static struct cb_watch_double watch_printsetup_margin_gtk_bottom = {
 	0, "printsetup/margin-gtk-bottom",
 	"Default Bottom Outside Margin",
 	"This value gives the default number of points from the bottom of a page to the end of the footer. Please use the Print Setup dialog to edit this value.",
-	0, 720, 72,
+	0, 720, 72
 };
 
 double
@@ -3371,7 +3371,7 @@ static struct cb_watch_double watch_printsetup_margin_gtk_left = {
 	0, "printsetup/margin-gtk-left",
 	"Default Left Margin",
 	"This value gives the default number of points from the left of a page to the left of the body. Please use the Print Setup dialog to edit this value.",
-	0, 720, 72,
+	0, 720, 72
 };
 
 double
@@ -3405,7 +3405,7 @@ static struct cb_watch_double watch_printsetup_margin_gtk_right = {
 	0, "printsetup/margin-gtk-right",
 	"Default Right Margin",
 	"This value gives the default number of points from the right of a page to the right of the body. Please use the Print Setup dialog to edit this value.",
-	0, 720, 72,
+	0, 720, 72
 };
 
 double
@@ -3439,7 +3439,7 @@ static struct cb_watch_double watch_printsetup_margin_gtk_top = {
 	0, "printsetup/margin-gtk-top",
 	"Default Top Outside Margin",
 	"This value gives the default number of points from the top of a page to the top of the header. Please use the Print Setup dialog to edit this value.",
-	0, 720, 72,
+	0, 720, 72
 };
 
 double
@@ -3473,7 +3473,7 @@ static struct cb_watch_double watch_printsetup_margin_top = {
 	0, "printsetup/margin-top",
 	"Default Top Margin",
 	"This value gives the default number of points from the top of a page to the start of the body. Please use the Print Setup dialog to edit this value.",
-	0, 10000, 120,
+	0, 10000, 120
 };
 
 double
@@ -3507,7 +3507,7 @@ static struct cb_watch_string watch_printsetup_paper = {
 	0, "printsetup/paper",
 	"Paper",
 	"This is the default paper specification. Please use the Print Setup dialog to edit this value.",
-	"",
+	""
 };
 
 const char *
@@ -3542,7 +3542,7 @@ static struct cb_watch_int watch_printsetup_paper_orientation = {
 	0, "printsetup/paper-orientation",
 	"Paper orientation",
 	"This is the default paper orientation. Please use the Print Setup dialog to edit this value.",
-	GTK_PAGE_ORIENTATION_PORTRAIT, GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE, 0,
+	GTK_PAGE_ORIENTATION_PORTRAIT, GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE, 0
 };
 
 int
@@ -3576,7 +3576,7 @@ static struct cb_watch_enum watch_printsetup_preferred_unit = {
 	0, "printsetup/preferred-unit",
 	"Preferred Display Unit",
 	"This string gives the default unit to be used in the page setup dialog.",
-	GTK_UNIT_MM,
+	GTK_UNIT_MM
 };
 
 GtkUnit
@@ -3610,7 +3610,7 @@ static struct cb_watch_bool watch_printsetup_print_black_n_white = {
 	0, "printsetup/print-black-n-white",
 	"Default Black and White Printing",
 	"This value determines the default setting in the Print Setup dialog whether to print in only black and white. Please use the Print Setup dialog to edit this value.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -3644,7 +3644,7 @@ static struct cb_watch_bool watch_printsetup_print_even_if_only_styles = {
 	0, "printsetup/print-even-if-only-styles",
 	"Default Print Cells with Only Styles",
 	"This value determines the default setting in the Print Setup dialog whether to print empty but formatted cells. Please use the Print Setup dialog to edit this value.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -3678,7 +3678,7 @@ static struct cb_watch_bool watch_printsetup_print_grid_lines = {
 	0, "printsetup/print-grid-lines",
 	"Default Grid Line Printing",
 	"This value determines the default setting in the Print Setup dialog whether print grid lines. Please use the Print Setup dialog to edit this value.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -3712,7 +3712,7 @@ static struct cb_watch_bool watch_printsetup_print_titles = {
 	0, "printsetup/print-titles",
 	"Default Title Printing",
 	"This value determines the default setting in the Print Setup dialog whether to print row and column headers. Please use the Print Setup dialog to edit this value.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -3746,7 +3746,7 @@ static struct cb_watch_string watch_printsetup_repeat_left = {
 	0, "printsetup/repeat-left",
 	"Default Repeated Left Region",
 	"This string gives the default region to be repeated at the left of each printed sheet. Please use the Print Setup dialog to edit this value.",
-	"",
+	""
 };
 
 const char *
@@ -3781,7 +3781,7 @@ static struct cb_watch_string watch_printsetup_repeat_top = {
 	0, "printsetup/repeat-top",
 	"Default Repeated Top Region",
 	"This string gives the default region to be repeated at the top of each printed sheet. Please use the Print Setup dialog to edit this value.",
-	"",
+	""
 };
 
 const char *
@@ -3816,7 +3816,7 @@ static struct cb_watch_int watch_printsetup_scale_height = {
 	0, "printsetup/scale-height",
 	"Default Scaling Height",
 	"This value determines the maximum number of pages that make up the height of a printout of the current sheet. The sheet will be reduced to fit within this height. This value can be changed in the Page Setup dialog.",
-	0, 100, 0,
+	0, 100, 0
 };
 
 int
@@ -3850,7 +3850,7 @@ static struct cb_watch_bool watch_printsetup_scale_percentage = {
 	0, "printsetup/scale-percentage",
 	"Default Scale Type",
 	"This value determines the default setting in the Print Setup dialog whether to scale pages by a given percentage. Please use the Print Setup dialog to edit this value.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -3884,7 +3884,7 @@ static struct cb_watch_double watch_printsetup_scale_percentage_value = {
 	0, "printsetup/scale-percentage-value",
 	"Default Scale Percentage",
 	"This value gives the percentage by which to scale each printed page. Please use the Print Setup dialog to edit this value.",
-	1, 500, 100,
+	1, 500, 100
 };
 
 double
@@ -3918,7 +3918,7 @@ static struct cb_watch_int watch_printsetup_scale_width = {
 	0, "printsetup/scale-width",
 	"Default Scaling Width",
 	"This value determines the maximum number of pages that make up the width of a printout of the current sheet. The sheet will be reduced to fit within this width. This value can be changed in the Page Setup dialog.",
-	0, 100, 0,
+	0, 100, 0
 };
 
 int
@@ -3952,7 +3952,7 @@ static struct cb_watch_bool watch_searchreplace_change_cell_expressions = {
 	0, "searchreplace/change-cell-expressions",
 	"Search & Replace Changes Expressions",
 	"Search & Replace changes cells containing expressions as default",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -3986,7 +3986,7 @@ static struct cb_watch_bool watch_searchreplace_change_cell_other = {
 	0, "searchreplace/change-cell-other",
 	"Search & Replace Changes Other Values",
 	"Search & Replace changes cells containing other values as default",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -4020,7 +4020,7 @@ static struct cb_watch_bool watch_searchreplace_change_cell_strings = {
 	0, "searchreplace/change-cell-strings",
 	"Search & Replace Changes Strings",
 	"Search & Replace changes cells containing strings as default",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -4054,7 +4054,7 @@ static struct cb_watch_bool watch_searchreplace_change_comments = {
 	0, "searchreplace/change-comments",
 	"Search & Replace Changes Comments",
 	"Search & Replace changes comments as default",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -4088,7 +4088,7 @@ static struct cb_watch_bool watch_searchreplace_columnmajor = {
 	0, "searchreplace/columnmajor",
 	"Search & Replace Column Major",
 	"Search & Replace proceeds in column major order as default",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -4122,7 +4122,7 @@ static struct cb_watch_int watch_searchreplace_error_behaviour = {
 	0, "searchreplace/error-behaviour",
 	"Search & Replace Error Behavior",
 	"This is the default error behavior of Search & Replace indicated by an integer from 0 to 4.",
-	0, 4, 0,
+	0, 4, 0
 };
 
 int
@@ -4156,7 +4156,7 @@ static struct cb_watch_bool watch_searchreplace_ignore_case = {
 	0, "searchreplace/ignore-case",
 	"Search & Replace Ignores Case",
 	"Search & Replace ignores case as default",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -4190,7 +4190,7 @@ static struct cb_watch_bool watch_searchreplace_keep_strings = {
 	0, "searchreplace/keep-strings",
 	"Search & Replace Keeps Strings as Strings",
 	"Search & Replace keeps strings as strings even if they look like numbers as default",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -4224,7 +4224,7 @@ static struct cb_watch_bool watch_searchreplace_preserve_case = {
 	0, "searchreplace/preserve-case",
 	"Search & Replace Preserves Case",
 	"Search & Replace preserves case as default",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -4258,7 +4258,7 @@ static struct cb_watch_bool watch_searchreplace_query = {
 	0, "searchreplace/query",
 	"Search & Replace Poses Query",
 	"Search & Replace poses query before each change as default",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -4292,7 +4292,7 @@ static struct cb_watch_int watch_searchreplace_regex = {
 	0, "searchreplace/regex",
 	"Search & Replace Search Type",
 	"This value determines the input type for Search & Replace. 0: text; 1: regular expression; 2: number",
-	0, 2, 0,
+	0, 2, 0
 };
 
 int
@@ -4326,7 +4326,7 @@ static struct cb_watch_int watch_searchreplace_scope = {
 	0, "searchreplace/scope",
 	"Search & Replace Scope",
 	"This is the default scope of Search & Replace. 0: entire workbook; 1: current sheet; 2: range",
-	0, 2, 0,
+	0, 2, 0
 };
 
 int
@@ -4360,7 +4360,7 @@ static struct cb_watch_bool watch_searchreplace_search_results = {
 	0, "searchreplace/search-results",
 	"Search searches in results",
 	"Search searches in results as default",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -4394,7 +4394,7 @@ static struct cb_watch_bool watch_searchreplace_whole_words_only = {
 	0, "searchreplace/whole-words-only",
 	"Search & Replace Whole Words Only",
 	"Search & Replace replaces whole words only as default",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -4428,7 +4428,7 @@ static struct cb_watch_string watch_stf_export_encoding = {
 	0, "stf/export/encoding",
 	"Text Export Encoding",
 	"Please use the Text Export dialog to edit this value.",
-	"",
+	""
 };
 
 const char *
@@ -4463,7 +4463,7 @@ static struct cb_watch_enum watch_stf_export_format = {
 	0, "stf/export/format",
 	"Text Export Formatting Rule",
 	"Please use the Text Export dialog to edit this value.",
-	GNM_STF_FORMAT_AUTO,
+	GNM_STF_FORMAT_AUTO
 };
 
 GnmStfFormatMode
@@ -4497,7 +4497,7 @@ static struct cb_watch_string watch_stf_export_locale = {
 	0, "stf/export/locale",
 	"Text Export Locale",
 	"Please use the Text Export dialog to edit this value.",
-	"",
+	""
 };
 
 const char *
@@ -4532,7 +4532,7 @@ static struct cb_watch_enum watch_stf_export_quoting = {
 	0, "stf/export/quoting",
 	"Text Export String Quoting Rule",
 	"Please use the Text Export dialog to edit this value.",
-	GSF_OUTPUT_CSV_QUOTING_MODE_AUTO,
+	GSF_OUTPUT_CSV_QUOTING_MODE_AUTO
 };
 
 GsfOutputCsvQuotingMode
@@ -4566,7 +4566,7 @@ static struct cb_watch_string watch_stf_export_separator = {
 	0, "stf/export/separator",
 	"Text Export Field Separator",
 	"Please use the Text Export dialog to edit this value.",
-	",",
+	","
 };
 
 const char *
@@ -4601,7 +4601,7 @@ static struct cb_watch_string watch_stf_export_stringindicator = {
 	0, "stf/export/stringindicator",
 	"Text Export String Indicator",
 	"Please use the Text Export dialog to edit this value.",
-	"\"",
+	"\""
 };
 
 const char *
@@ -4636,7 +4636,7 @@ static struct cb_watch_string watch_stf_export_terminator = {
 	0, "stf/export/terminator",
 	"Text Export Record Terminator",
 	"Please use the Text Export dialog to edit this value.",
-	"\n",
+	"\n"
 };
 
 const char *
@@ -4671,7 +4671,7 @@ static struct cb_watch_bool watch_stf_export_transliteration = {
 	0, "stf/export/transliteration",
 	"Text Export Unknown Character Transliteration",
 	"Please use the Text Export dialog to edit this value.",
-	TRUE,
+	TRUE
 };
 
 gboolean
@@ -4705,7 +4705,7 @@ static struct cb_watch_enum watch_toolbar_style = {
 	0, "toolbar-style",
 	"Toolbar Style",
 	"Toolbar Style. Valid values are both, both_horiz, icon, and text.",
-	GTK_TOOLBAR_ICONS,
+	GTK_TOOLBAR_ICONS
 };
 
 GtkToolbarStyle
@@ -4728,7 +4728,7 @@ static struct cb_watch_int watch_undo_max_descriptor_width = {
 	0, "undo/max-descriptor-width",
 	"Length of the Undo Descriptors",
 	"This value is indicative of the maximum length of the command descriptors in the undo and redo chains.",
-	5, 256, 40,
+	5, 256, 40
 };
 
 int
@@ -4762,7 +4762,7 @@ static struct cb_watch_int watch_undo_maxnum = {
 	0, "undo/maxnum",
 	"Number of Undo Items",
 	"This value determines the maximum number of items in the undo/redo list.",
-	0, 10000, 20,
+	0, 10000, 20
 };
 
 int
@@ -4796,7 +4796,7 @@ static struct cb_watch_bool watch_undo_show_sheet_name = {
 	0, "undo/show-sheet-name",
 	"Show Sheet Name in Undo List",
 	"This value determines whether to show the sheet names in the undo and redo lists.",
-	FALSE,
+	FALSE
 };
 
 gboolean
@@ -4830,7 +4830,7 @@ static struct cb_watch_int watch_undo_size = {
 	0, "undo/size",
 	"Maximal Undo Size",
 	"This value determines the length of the undo chain. Each editing action has a size associate with it, to compare it with the memory requirements of a simple one-cell edit (size of 1). The undo list will be truncated when its total size exceeds this configurable value.",
-	1, 1000000, 100,
+	1, 1000000, 100000
 };
 
 int

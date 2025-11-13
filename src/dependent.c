@@ -296,7 +296,7 @@ static const GnmDependentClass cell_dep_class = {
 	cell_dep_set_expr,
 	cell_dep_changed,
 	cell_dep_pos,
-	cell_dep_debug_name,
+	cell_dep_debug_name
 };
 
 static GSList *dynamic_dep_changed (GnmDependent *dep);
@@ -306,7 +306,7 @@ static const GnmDependentClass dynamic_dep_class = {
 	NULL,
 	dynamic_dep_changed,
 	NULL,
-	dynamic_dep_debug_name,
+	dynamic_dep_debug_name
 };
 typedef struct {
 	GnmDependent base;
@@ -321,7 +321,7 @@ static const GnmDependentClass name_dep_class = {
 	NULL,
 	NULL,
 	NULL,
-	name_dep_debug_name,
+	name_dep_debug_name
 };
 
 static void managed_dep_debug_name (GnmDependent const *dep, GString *target);
@@ -330,7 +330,7 @@ static const GnmDependentClass managed_dep_class = {
 	NULL,
 	NULL,
 	NULL,
-	managed_dep_debug_name,
+	managed_dep_debug_name
 };
 
 static GPtrArray *dep_classes = NULL;

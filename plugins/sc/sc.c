@@ -865,7 +865,7 @@ static sc_cmd_t const sc_cmd_list[] = {
 	{ "format", 6,          sc_parse_format, FALSE },
 	{ "set", 3,             sc_parse_set,    FALSE },
 	{ "goto", 4,            sc_parse_goto,   FALSE },
-	{ NULL, 0, NULL, 0 },
+	{ NULL, 0, NULL, 0 }
 };
 
 

@@ -498,7 +498,7 @@ sub create_hcfile {
 	    $cfile .= "\t0, \"$key\",\n";
 	    $cfile .= "\t" . &quote_c_string ($short_desc) . ",\n";
 	    $cfile .= "\t" . &quote_c_string ($long_desc) . ",\n";
-	    $cfile .= "\t$default,\n";
+	    $cfile .= "\t$default\n";
 	    $cfile .= "};\n\n";
 
 	    $cfile .= "$get_head\n";
@@ -523,7 +523,7 @@ sub create_hcfile {
 	    $cfile .= "\t0, \"$key\",\n";
 	    $cfile .= "\t" . &quote_c_string ($short_desc) . ",\n";
 	    $cfile .= "\t" . &quote_c_string ($long_desc) . ",\n";
-	    $cfile .= "\t$min, $max, $default,\n";
+	    $cfile .= "\t$min, $max, $default\n";
 	    $cfile .= "};\n\n";
 
 	    $cfile .= "$get_head\n";
@@ -545,7 +545,7 @@ sub create_hcfile {
 	    $cfile .= "\t0, \"$key\",\n";
 	    $cfile .= "\t" . &quote_c_string ($short_desc) . ",\n";
 	    $cfile .= "\t" . &quote_c_string ($long_desc) . ",\n";
-	    $cfile .= "\t" . &quote_c_string ($default) . ",\n";
+	    $cfile .= "\t" . &quote_c_string ($default) . "\n";
 	    $cfile .= "};\n\n";
 
 	    $cfile .= "$get_head\n";
@@ -567,7 +567,7 @@ sub create_hcfile {
 	    $cfile .= "\t0, \"$key\",\n";
 	    $cfile .= "\t" . &quote_c_string ($short_desc) . ",\n";
 	    $cfile .= "\t" . &quote_c_string ($long_desc) . ",\n";
-	    $cfile .= "\t$default,\n";
+	    $cfile .= "\t$default\n";
 	    $cfile .= "};\n\n";
 
 	    $cfile .= "$get_head\n";
@@ -588,7 +588,7 @@ sub create_hcfile {
 	    $cfile .= "static struct cb_watch_string_list $watch_name = {\n";
 	    $cfile .= "\t0, \"$key\",\n";
 	    $cfile .= "\t" . &quote_c_string ($short_desc) . ",\n";
-	    $cfile .= "\t" . &quote_c_string ($long_desc) . ",\n";
+	    $cfile .= "\t" . &quote_c_string ($long_desc) . "\n";
 	    $cfile .= "};\n\n";
 
 	    $cfile .= "/**\n * gnm_conf_get_$var:\n *\n";
