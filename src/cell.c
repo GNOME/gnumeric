@@ -1168,3 +1168,22 @@ gnm_cell_get_type (void)
  * or contains a value.
  */
 extern inline gboolean gnm_cell_has_expr (GnmCell const *cell);
+
+/**
+ * gnm_cell_needs_recalc:
+ * @cell: #GnmCell
+ *
+ * Returns: %TRUE if @cell needs recalculations.
+ */
+extern inline gboolean gnm_cell_needs_recalc (GnmCell const *cell);
+
+// Internal
+extern inline gboolean gnm_cell_expr_is_linked (GnmCell const *cell);
+
+/**
+ * gnm_cell_is_merged:
+ * @cell: #GnmCell
+ *
+ * Returns: %TRUE if @cell is the corner of a merged region.
+ */
+extern inline gboolean gnm_cell_is_merged (GnmCell const *cell);

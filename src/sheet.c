@@ -7039,3 +7039,42 @@ sheet_date_conv (Sheet const *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	return workbook_date_conv (sheet->workbook);
 }
+
+
+
+// Provide the external version of inline functions, used mainly for
+// introspection
+
+/**
+ * gnm_sheet_get_max_rows:
+ * @sheet: #Sheet
+ *
+ * Returns: the number of rows on this sheet.
+ */
+extern int gnm_sheet_get_max_rows (Sheet const *sheet);
+
+/**
+ * gnm_sheet_get_max_cols:
+ * @sheet: #Sheet
+ *
+ * Returns: the number of columns on this sheet.
+ */
+extern int gnm_sheet_get_max_cols (Sheet const *sheet);
+
+/**
+ * gnm_sheet_get_last_row:
+ * @sheet: #Sheet
+ *
+ * Returns: the row number for the last row on the sheet.  This number
+ * is zero-based.
+ */
+extern int gnm_sheet_get_last_row (Sheet const *sheet);
+
+/**
+ * gnm_sheet_get_last_col:
+ * @sheet: #Sheet
+ *
+ * Returns: the column number for the last row on the sheet.  This
+ * number is zero-based.
+ */
+extern int gnm_sheet_get_last_col (Sheet const *sheet);

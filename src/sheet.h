@@ -150,10 +150,18 @@ GOUndo   *gnm_sheet_resize       (Sheet *sheet, int cols, int rows,
 GnmSheetSize const *gnm_sheet_get_size (Sheet const *sheet);
 GnmSheetSize const *gnm_sheet_get_size2 (Sheet const *sheet,
 					 Workbook const *wb);
-#define gnm_sheet_get_max_rows(sheet) (gnm_sheet_get_size(sheet)->max_rows)
-#define gnm_sheet_get_max_cols(sheet) (gnm_sheet_get_size(sheet)->max_cols)
-#define gnm_sheet_get_last_col(sheet) (gnm_sheet_get_max_cols(sheet) - 1)
-#define gnm_sheet_get_last_row(sheet) (gnm_sheet_get_max_rows(sheet) - 1)
+
+#ifdef __GI_SCANNER__
+int gnm_sheet_get_max_rows (Sheet const *sheet);
+int gnm_sheet_get_max_cols (Sheet const *sheet);
+int gnm_sheet_get_last_row (Sheet const *sheet);
+int gnm_sheet_get_last_col (Sheet const *sheet);
+#else
+inline int gnm_sheet_get_max_rows (Sheet const *sheet) { return gnm_sheet_get_size (sheet)->max_rows; }
+inline int gnm_sheet_get_max_cols (Sheet const *sheet) { return gnm_sheet_get_size (sheet)->max_cols; }
+inline int gnm_sheet_get_last_row (Sheet const *sheet) { return gnm_sheet_get_size (sheet)->max_rows - 1; }
+inline int gnm_sheet_get_last_col (Sheet const *sheet) { return gnm_sheet_get_size (sheet)->max_cols - 1; }
+#endif
 
 /* GnmCell management */
 GnmCell  *sheet_cell_get	 (Sheet const *sheet, int col, int row);

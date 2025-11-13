@@ -35,16 +35,16 @@ GType	    gnm_cell_get_type (void);
  */
 #ifdef __GI_SCANNER__
 gboolean gnm_cell_has_expr (GnmCell const *cell);
+gboolean gnm_cell_needs_recalc (GnmCell const *cell);
+gboolean gnm_cell_expr_is_linked (GnmCell const *cell);
+gboolean gnm_cell_is_merged (GnmCell const *cell);
 #else
-inline gboolean
-gnm_cell_has_expr (GnmCell const *cell) {
-	return cell->base.texpr != NULL;
-}
+inline gboolean gnm_cell_has_expr (GnmCell const *cell) { return cell->base.texpr != NULL; }
+inline gboolean gnm_cell_needs_recalc (GnmCell const *cell) { return (cell->base.flags & DEPENDENT_NEEDS_RECALC) != 0; }
+inline gboolean gnm_cell_expr_is_linked (GnmCell const *cell) { return (cell->base.flags & DEPENDENT_IS_LINKED) != 0; }
+inline gboolean gnm_cell_is_merged (GnmCell const *cell) { return (cell->base.flags & GNM_CELL_IS_MERGED) != 0; }
 #endif
 
-#define	    gnm_cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_NEEDS_RECALC)
-#define	    gnm_cell_expr_is_linked(cell)	((cell)->base.flags & DEPENDENT_IS_LINKED)
-#define	    gnm_cell_is_merged(cell)	((cell)->base.flags & GNM_CELL_IS_MERGED)
 gboolean    gnm_cell_is_empty	  (GnmCell const *cell);
 gboolean    gnm_cell_is_blank	  (GnmCell const *cell); /* empty, or "" */
 GnmValue   *gnm_cell_is_error	  (GnmCell const *cell);
