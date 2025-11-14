@@ -1,7 +1,14 @@
 #! /usr/bin/perl -w
 
 use strict;
+use File::Basename;
 $| = 1;
+
+print STDERR "# [WRAP] Called as ", join(" ", $0, @ARGV), "\n";
+
+my $pwd = `pwd`;
+chomp $pwd;
+print STDERR "# [WRAP] Running in $pwd\n";
 
 my $realitstool = shift @ARGV;
 
@@ -19,7 +26,7 @@ exit 0;
 
 sub fallback {
     &run ($realitstool, @ARGV);
-    exit 1 unless $? == 0;
+    &exit_if_failed ();
 }
 
 sub make_potfile {
@@ -29,10 +36,10 @@ sub make_potfile {
     $tmp =~ s/(\.xml)$/-tmp$1/;
 
     &run ("xmllint", "--noent", "-o", $tmp, $main);
-    exit 1 unless $? == 0;
+    &exit_if_failed ();
 
     &run ($realitstool, $dasho, $potfile, $tmp);
-    exit 1 unless $? == 0;
+    &exit_if_failed ();
 
     unlink $tmp;
 }
@@ -40,14 +47,20 @@ sub make_potfile {
 sub make_mofile {
     my ($dashm, $mofile, $main) = @ARGV;
 
-    my $tmp = $main;
-    $tmp =~ s/(\.xml)$/-tmp$1/;
+    my $rbuilddir = &dirname ($mofile);
+
+    my $tmpbase = &basename ($main);
+    $tmpbase =~ s/(\.xml)$/-tmp$1/;
+    # The ".." here means "somewhere else" because intltool is weird
+    my $tmp = "$rbuilddir/../$tmpbase";
 
     &run ("xmllint", "--noent", "-o", $tmp, $main);
-    exit 1 unless $? == 0;
+    &exit_if_failed ();
 
+    unlink ($tmpbase);
     &run ($realitstool, $dashm, $mofile, $tmp);
-    exit 1 unless $? == 0;
+    &exit_if_failed ();
+    &run ("mv", $tmpbase, &basename ($main));
 
     unlink $tmp;
 }
@@ -58,4 +71,10 @@ sub run {
     my @cmd = @_;
     print STDERR "# [WRAP] Running ", join(" ", @cmd), "\n";
     system(@cmd);
+}
+
+sub exit_if_failed {
+    return if $? == 0;
+    print STDERR "# [WRAP] Failed, exit $?\n";
+    exit 1;
 }

@@ -9,4 +9,5 @@ EXTRA_DIST = dumpdef.pl \
 	gnmvalgrind \
 	embedder \
 	handle-conf-options \
+	itstoolwrapper \
 	biffnames
