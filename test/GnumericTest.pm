@@ -742,6 +742,8 @@ sub test_roundtrip {
 sub test_valgrind {
     my ($cmd,$uselibtool,$qreturn) = @_;
 
+    my $q_distcheck = (&make_absolute($top_builddir) =~ m{/_build/});
+
     local (%ENV) = %ENV;
     $ENV{'G_DEBUG'} .= ':gc-friendly:resident-modules';
     $ENV{'G_SLICE'} = 'always-malloc';
@@ -789,7 +791,8 @@ sub test_valgrind {
 
     # $cmd = "--show-reachable=yes $cmd";
     $cmd = "--show-below-main=yes $cmd";
-    $cmd = "--leak-check=full $cmd";
+    # Due to lack of debug symbols suppressions don't work well
+    $cmd = "--leak-check=" . ($q_distcheck ? "no" : "full") . " $cmd";
     $cmd = "--num-callers=20 $cmd";
     $cmd = "--track-fds=yes $cmd";
     $cmd = "--enable-debuginfod=yes $cmd";
@@ -802,6 +805,7 @@ sub test_valgrind {
     $cmd = "valgrind $cmd";
     $cmd = "../libtool --mode=execute $cmd" if $uselibtool;
 
+    print STDERR "# $cmd\n" if $verbose;
     my $code = system ($cmd);
     &system_failure ('valgrind', $code) if $code;
 
