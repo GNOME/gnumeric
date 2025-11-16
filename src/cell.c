@@ -555,7 +555,7 @@ gnm_cell_array_bound (GnmCell const *cell, GnmRange *res)
 
 /**
  * gnm_cell_is_array:
- * @cell: #GnmCell
+ * @cell: (nullable): #GnmCell
  *
  * Returns %TRUE is @cell is part of an array
  **/
@@ -596,7 +596,8 @@ gnm_cell_is_nonsingleton_array (GnmCell const *cell)
  * gnm_cell_get_rendered_value: (skip)
  * @cell: #GnmCell
  *
- * Returns: (transfer none): The #GnmRenderedValue for the cell.
+ * Returns: (transfer none) (nullable): The #GnmRenderedValue for the cell,
+ * if one currently exists.
  **/
 GnmRenderedValue *
 gnm_cell_get_rendered_value (GnmCell const *cell)
@@ -662,10 +663,13 @@ gnm_cell_render_value (GnmCell const *cell, gboolean allow_variable_width)
 
 /*
  * gnm_cell_get_rendered_text:
+ * @cell: cell to query
  *
  * Warning: use this only when you really want what is displayed on the
  * screen.  If the user has decided to display formulas instead of values
  * then that is what you get.
+ *
+ * Returns: (transfer full): text in cell.
  */
 char *
 gnm_cell_get_rendered_text (GnmCell *cell)
@@ -702,7 +706,9 @@ gnm_cell_get_render_color (GnmCell const *cell)
  * @cell: the cell from which we want to pull the content from
  *
  * Returns: (transfer full): a text expression if the cell contains a
- * formula, or a string representation of the value.
+ * formula, or a string representation of the value.  For formulas this
+ * includes an equals sign.  For values, an initial single quote may
+ * be added to force text interpretation of a string.
  */
 char *
 gnm_cell_get_entered_text (GnmCell const *cell)
