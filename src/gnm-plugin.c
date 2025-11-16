@@ -970,8 +970,7 @@ gplm_service_unload (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 		GnmPluginServiceUICallbacks *cbs = go_plugin_service_get_cbs (s);
 		cbs->plugin_func_exec_action = NULL;
 	} else if (GNM_IS_PLUGIN_SERVICE_SOLVER (s)) {
-		GnmPluginServiceSolverCallbacks *cbs =
-			go_plugin_service_get_cbs (s);
+		GnmPluginServiceSolverCallbacks *cbs = go_plugin_service_get_cbs (s);
 		cbs->creator = NULL;
 		cbs->functional = NULL;
 	} else
