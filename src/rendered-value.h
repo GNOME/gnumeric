@@ -46,6 +46,8 @@ GnmRenderedValue *gnm_rendered_value_new       (GnmCell const *cell,
 void              gnm_rendered_value_destroy   (GnmRenderedValue *rv);
 
 void              gnm_rendered_value_remeasure (GnmRenderedValue *rv);
+int               gnm_rendered_value_get_width (GnmRenderedValue const *rv);
+int               gnm_rendered_value_get_height (GnmRenderedValue const *rv);
 
 /* Return the value as a single string without format information.  */
 char const *gnm_rendered_value_get_text (GnmRenderedValue const * rv);

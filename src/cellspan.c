@@ -232,6 +232,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	ColRowInfo const *ci;
 	GnmRange const *merge_left;
 	GnmRange const *merge_right;
+	GnmRenderedValue *rv;
 
 	g_return_if_fail (cell != NULL);
 
@@ -239,10 +240,12 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	style = gnm_cell_get_effective_style (cell);
 	h_align = gnm_style_default_halign (style, cell);
 
-        /*
+	gnm_cell_eval (cell);
+
+	/*
 	 * Report only one column is used if
 	 *	- Cell is in a hidden col
-	 *	- Cell is a number
+	 *	- Cell is a not a string
 	 *	- Cell is the top left of a merged cell
 	 *	- The text fits inside column (for non center across selection)
 	 *	- The alignment mode are set to "justify"
@@ -255,15 +258,18 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 		return;
 	}
 
+	rv = gnm_cell_fetch_rendered_value (cell, TRUE);
+
 	v_align = gnm_style_get_align_v (style);
 	indented_w = cell_width_pixel = gnm_cell_rendered_width (cell);
 	if (h_align == GNM_HALIGN_LEFT || h_align == GNM_HALIGN_RIGHT) {
-		GnmRenderedValue *rv = gnm_cell_get_rendered_value (cell);
-		char const *text = (rv)? pango_layout_get_text (rv->layout): NULL;
-		PangoDirection dir = (text && *text)? pango_find_base_dir (text, -1): PANGO_DIRECTION_LTR;
+		char const *text = gnm_rendered_value_get_text (rv);
+		PangoDirection dir = (text && *text)
+			? pango_find_base_dir (text, -1)
+			: PANGO_DIRECTION_LTR;
 		if (gnm_style_get_align_h (style) == GNM_HALIGN_GENERAL && dir == PANGO_DIRECTION_RTL)
 			h_align = GNM_HALIGN_RIGHT;
-		indented_w += gnm_cell_rendered_offset (cell);
+		indented_w += rv->indent_left + rv->indent_right;
 		if (sheet->text_is_rtl)
 			h_align = (h_align == GNM_HALIGN_LEFT) ? GNM_HALIGN_RIGHT : GNM_HALIGN_LEFT;
 	}
@@ -419,11 +425,6 @@ row_calc_spans (ColRowInfo *ri, int row, Sheet const *sheet)
 	GnmRange const *merged;
 	GnmCell *cell;
 	int const last = sheet->cols.max_used;
-	GnmRange r;
-
-	// Unrender the whole thing.  We will rerender as needed.
-	range_init_rows (&r, sheet, row, row);
-	gnm_rvc_remove_range (sheet->rendered_values, sheet, &r);
 
 	row_destroy_span (ri);
 	for (col = 0 ; col <= last ; ) {

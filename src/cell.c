@@ -956,9 +956,7 @@ gnm_cell_rendered_height (GnmCell const *cell)
 	g_return_val_if_fail (cell != NULL, 0);
 
 	rv = gnm_cell_get_rendered_value (cell);
-	return rv
-		? PANGO_PIXELS (rv->layout_natural_height)
-		: 0;
+	return rv ?  gnm_rendered_value_get_height (rv) : 0;
 }
 
 /*
@@ -972,9 +970,7 @@ gnm_cell_rendered_width (GnmCell const *cell)
 	g_return_val_if_fail (cell != NULL, 0);
 
 	rv = gnm_cell_get_rendered_value (cell);
-	return rv
-		? PANGO_PIXELS (rv->layout_natural_width)
-		: 0;
+	return rv ?  gnm_rendered_value_get_width (rv) : 0;
 }
 
 int

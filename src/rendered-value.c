@@ -618,6 +618,20 @@ gnm_rendered_value_get_color (GnmRenderedValue const * rv)
 	return rv->go_fore_color;
 }
 
+int
+gnm_rendered_value_get_width (GnmRenderedValue const *rv)
+{
+	g_return_val_if_fail (rv != NULL, 0);
+	return PANGO_PIXELS (rv->layout_natural_width);
+}
+
+int
+gnm_rendered_value_get_height (GnmRenderedValue const *rv)
+{
+	g_return_val_if_fail (rv != NULL, 0);
+	return PANGO_PIXELS (rv->layout_natural_height);
+}
+
 /* ------------------------------------------------------------------------- */
 
 static gboolean
