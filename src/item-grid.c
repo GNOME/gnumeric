@@ -612,9 +612,14 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr,
 					break;
 				}
 			} else {
-				for (col = start_col ; col <= end_col; ++col)
-					next_sr.vertical [col] =
+				GnmBorder const *vert =
+					next_sr.row == gnm_sheet_get_max_rows (sheet)
+					? NULL
+					: none;
+				for (col = start_col ; col <= end_col; ++col) {
+					next_sr.vertical [col] = vert;
 					next_sr.bottom [col] = none;
+				}
 				break;
 			}
 		}
@@ -859,6 +864,13 @@ plain_draw : /* a quick hack to deal with 142267 */
 		styles = sr.styles; sr.styles = next_sr.styles; next_sr.styles = styles;
 
 		y += ri->size_pixels;
+	}
+
+	if (row == gnm_sheet_get_max_rows (sheet)) {
+		// Make sure we get the rid below the last row
+		gnm_style_borders_row_draw (prev_vert, &sr,
+					    cr, start_x, y, y+ri->size_pixels,
+					    colwidths, TRUE, dir);
 	}
 
 	if (ig->bound.start.row > 0 && start_y < 1)
