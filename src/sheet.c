@@ -203,31 +203,12 @@ sheet_set_visibility (Sheet *sheet, GnmSheetVisibility visibility)
 }
 
 static void
-cb_re_render_formulas (G_GNUC_UNUSED gpointer unused,
-		       GnmCell *cell,
-		       G_GNUC_UNUSED gpointer user)
-{
-	if (gnm_cell_has_expr (cell)) {
-		gnm_cell_unrender (cell);
-		sheet_cell_queue_respan (cell);
-	}
-}
-
-static void
-re_render_formulas (Sheet const *sheet)
-{
-	sheet_cell_foreach (sheet, (GHFunc)cb_re_render_formulas, NULL);
-}
-
-static void
 sheet_set_conventions (Sheet *sheet, GnmConventions const *convs)
 {
 	if (sheet->convs == convs)
 		return;
 	gnm_conventions_unref (sheet->convs);
 	sheet->convs = gnm_conventions_ref (convs);
-	if (sheet->display_formulas)
-		re_render_formulas (sheet);
 	SHEET_FOREACH_VIEW (sheet, sv,
 		sv->edit_pos_changed.content = TRUE;);
 	sheet_mark_dirty (sheet);
@@ -360,15 +341,6 @@ cb_colrow_compute_pixels_from_pts (GnmColRowIter const *iter,
 	return FALSE;
 }
 
-static void
-cb_clear_rendered_cells (G_GNUC_UNUSED gpointer ignored, GnmCell *cell)
-{
-	if (gnm_cell_get_rendered_value (cell) != NULL) {
-		sheet_cell_queue_respan (cell);
-		gnm_cell_unrender (cell);
-	}
-}
-
 /**
  * sheet_range_unrender:
  * @sheet: sheet to change
@@ -380,15 +352,7 @@ cb_clear_rendered_cells (G_GNUC_UNUSED gpointer ignored, GnmCell *cell)
 void
 sheet_range_unrender (Sheet *sheet, GnmRange const *r)
 {
-	GPtrArray *cells = sheet_cells (sheet, r);
-	unsigned ui;
-
-	for (ui = 0; ui < cells->len; ui++) {
-		GnmCell *cell = g_ptr_array_index (cells, ui);
-		gnm_cell_unrender (cell);
-	}
-
-	g_ptr_array_unref (cells);
+	gnm_rvc_remove_range (sheet->rendered_values, sheet, r);
 }
 
 
@@ -427,7 +391,8 @@ sheet_scale_changed (Sheet *sheet, gboolean cols_rescaled, gboolean rows_rescale
 		gnm_sheet_mark_colrow_changed (sheet, 0, FALSE);
 	}
 
-	sheet_cell_foreach (sheet, (GHFunc)&cb_clear_rendered_cells, NULL);
+	sheet_range_unrender (sheet, NULL);
+	sheet_queue_respan (sheet, 0, gnm_sheet_get_last_row (sheet));
 	SHEET_FOREACH_CONTROL (sheet, view, control, sc_scale_changed (control););
 }
 
@@ -1614,13 +1579,6 @@ sheet_redraw_all (Sheet const *sheet, gboolean headers)
 	gnm_app_recalc_finish ();
 }
 
-static GnmValue *
-cb_clear_rendered_values (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
-{
-	gnm_cell_unrender (iter->cell);
-	return NULL;
-}
-
 /**
  * sheet_range_calc_spans:
  * @sheet: The sheet,
@@ -1635,9 +1593,7 @@ void
 sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, GnmSpanCalcFlags flags)
 {
 	if (flags & GNM_SPANCALC_RE_RENDER)
-		sheet_foreach_cell_in_range
-			(sheet, CELL_ITER_IGNORE_NONEXISTENT, r,
-			 cb_clear_rendered_values, NULL);
+		sheet_range_unrender (sheet, r);
 	sheet_queue_respan (sheet, r->start.row, r->end.row);
 
 	/* Redraw the new region in case the span changes */

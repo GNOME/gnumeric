@@ -736,7 +736,8 @@ gnm_rvc_remove_range (GnmRenderedValueCollection *rvc,
 	while (g_hash_table_iter_next (&iter, &key, NULL)) {
 		GnmCell const *cell = key;
 		if (cell->base.sheet == sheet &&
-		    range_contains (range, cell->pos.col, cell->pos.row))
+		    (!range ||
+		     range_contains (range, cell->pos.col, cell->pos.row)))
 			g_hash_table_iter_remove (&iter);
 	}
 }
