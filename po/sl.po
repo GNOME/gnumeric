@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2025-10-25 21:20+0000\n"
-"PO-Revision-Date: 2025-10-26 08:09+0100\n"
+"POT-Creation-Date: 2025-11-23 04:32+0000\n"
+"PO-Revision-Date: 2025-11-23 12:39+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -115,7 +115,7 @@ msgstr "Uvažanje datotek preglednice 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7219
+#: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7224
 #: ../plugins/openoffice/openoffice-read.c:14203 ../src/xml-sax-read.c:3565
 msgid "Reading file..."
 msgstr "Branje datoteke ..."
@@ -281,11 +281,11 @@ msgstr ""
 "Povezave OLE še niso podprte.\n"
 "Ime »%s« bo izgubljeno.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6346
+#: ../plugins/excel/ms-excel-read.c:6351
 msgid "external references"
 msgstr "zunanji sklici"
 
-#: ../plugins/excel/ms-excel-read.c:6385
+#: ../plugins/excel/ms-excel-read.c:6390
 msgid "No password supplied"
 msgstr "Geslo ni podano"
 
@@ -380,11 +380,11 @@ msgstr[3] ""
 "podpira le %u vrstice, delovni zvezek pa jih ima %d."
 
 # book : workbook = zvezek : delovni zvezek
-#: ../plugins/excel/ms-excel-write.c:6589
+#: ../plugins/excel/ms-excel-write.c:6588
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Ni mogoče odpreti pretoka »zvezka« za pisanje\n"
 
-#: ../plugins/excel/ms-excel-write.c:6611
+#: ../plugins/excel/ms-excel-write.c:6610
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Ni mogoče odpreti pretoka »delovnega zvezka« za pisanje\n"
 
@@ -975,7 +975,7 @@ msgstr "%s različica %s"
 
 #: ../plugins/fn-info/functions.c:1446 ../src/dialogs/dialog-cell-format.c:880
 #: ../src/dialogs/dialog-cell-format.c:2354
-#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3826
+#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3821
 msgid "Automatic"
 msgstr "Samodejno"
 
@@ -3690,7 +3690,7 @@ msgstr ""
 "označnega polja za ohranjevanje oblikovanja v pogovornem oknu razvrščanja."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:79
-#: ../src/dialogs/dialog-preferences.c:818 ../src/wbc-gtk-actions.c:3316
+#: ../src/dialogs/dialog-preferences.c:818 ../src/wbc-gtk-actions.c:3311
 msgid "Sort Ascending"
 msgstr "Razvrsti naraščajoče"
 
@@ -3999,7 +3999,7 @@ msgstr "Brisanje vrstic %s"
 msgid "Deleting row %s"
 msgstr "Brisanje vrstice %s"
 
-#: ../src/commands.c:1584 ../src/commands.c:1585 ../src/sheet.c:5169
+#: ../src/commands.c:1584 ../src/commands.c:1585 ../src/sheet.c:5125
 msgid "Clear"
 msgstr "Počisti"
 
@@ -4028,27 +4028,27 @@ msgstr "Čiščenje %s v %s"
 msgid "Changing Format"
 msgstr "Spreminjanje oblike"
 
-#: ../src/commands.c:1877
+#: ../src/commands.c:1878
 #, c-format
 msgid "Changing format of %s"
 msgstr "Spreminjanje oblike predmeta %s"
 
-#: ../src/commands.c:1964
+#: ../src/commands.c:1965
 #, c-format
 msgid "Setting Font Style of %s"
 msgstr "Nastavljanje sloga pisave predmeta %s"
 
-#: ../src/commands.c:2016
+#: ../src/commands.c:2017
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Samodejno prilagajanje stolpca %s"
 
-#: ../src/commands.c:2017
+#: ../src/commands.c:2018
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Samodejno prilagajanje vrstice %s"
 
-#: ../src/commands.c:2020
+#: ../src/commands.c:2021
 #, c-format
 msgid "Setting width of column %s to %d pixel"
 msgid_plural "Setting width of column %s to %d pixels"
@@ -4057,7 +4057,7 @@ msgstr[1] "Nastavljanje širine stolpca %s na %d točko."
 msgstr[2] "Nastavljanje širine stolpca %s na %d točki."
 msgstr[3] "Nastavljanje širine stolpca %s na %d točke."
 
-#: ../src/commands.c:2024
+#: ../src/commands.c:2025
 #, c-format
 msgid "Setting height of row %s to %d pixel"
 msgid_plural "Setting height of row %s to %d pixels"
@@ -4066,27 +4066,27 @@ msgstr[1] "Nastavljanje višine vrstice %s na %d točko."
 msgstr[2] "Nastavljanje višine vrstice %s na %d točki."
 msgstr[3] "Nastavljanje višine vrstice %s na %d točke."
 
-#: ../src/commands.c:2029
+#: ../src/commands.c:2030
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Nastavljanje širine stolpca %s na privzeto vrednost"
 
-#: ../src/commands.c:2032
+#: ../src/commands.c:2033
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Nastavljanje višine vrstice %s na privzeto vrednost"
 
-#: ../src/commands.c:2036
+#: ../src/commands.c:2037
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Samodejno prilagajanje stolpcev %s"
 
-#: ../src/commands.c:2037
+#: ../src/commands.c:2038
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Samodejno prilagajanje vrstic %s"
 
-#: ../src/commands.c:2040
+#: ../src/commands.c:2041
 #, c-format
 msgid "Setting width of columns %s to %d pixel"
 msgid_plural "Setting width of columns %s to %d pixels"
@@ -4095,7 +4095,7 @@ msgstr[1] "Nastavljanje privzete širine stolpcev %s na %d točko."
 msgstr[2] "Nastavljanje privzete širine stolpcev %s na %d točki."
 msgstr[3] "Nastavljanje privzete širine stolpcev %s na %d točke."
 
-#: ../src/commands.c:2044
+#: ../src/commands.c:2045
 #, c-format
 msgid "Setting height of rows %s to %d pixel"
 msgid_plural "Setting height of rows %s to %d pixels"
@@ -4104,36 +4104,36 @@ msgstr[1] "Nastavljanje višine vrstic %s na %d točko."
 msgstr[2] "Nastavljanje višine vrstic %s na %d točki."
 msgstr[3] "Nastavljanje višine vrstic %s na %d točke."
 
-#: ../src/commands.c:2050
+#: ../src/commands.c:2051
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Nastavljanje širine stolpcev %s na privzeto vrednost"
 
-#: ../src/commands.c:2052
+#: ../src/commands.c:2053
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Nastavljanje višine vrstic %s na privzeto vrednost"
 
-#: ../src/commands.c:2079
+#: ../src/commands.c:2080
 #, c-format
 msgid "Autofitting width of %s"
 msgstr "Samodejno prilagajanje širine %s"
 
-#: ../src/commands.c:2079
+#: ../src/commands.c:2080
 #, c-format
 msgid "Autofitting height of %s"
 msgstr "Samodejno prilagajanje višine %s"
 
-#: ../src/commands.c:2153 ../src/dialogs/dialog-preferences.c:1224
+#: ../src/commands.c:2154 ../src/dialogs/dialog-preferences.c:1224
 msgid "Sorting"
 msgstr "Razvrščanje"
 
-#: ../src/commands.c:2176
+#: ../src/commands.c:2177
 #, c-format
 msgid "Sorting %s"
 msgstr "Razvrščanje %s"
 
-#: ../src/commands.c:2338
+#: ../src/commands.c:2339
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
@@ -4141,7 +4141,7 @@ msgstr ""
 "Ali ste prepričani, da želite skriti vse stolpce? V kolikor to naredite, "
 "lahko stolpce spet prikažete preko menija 'Oblika→Stolpec→Pokaži'."
 
-#: ../src/commands.c:2342
+#: ../src/commands.c:2343
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
@@ -4149,94 +4149,94 @@ msgstr ""
 "Ali ste prepričani, da želite skriti vse vrstice? V kolikor to naredite, "
 "lahko vrstice spet prikažete preko menija 'Oblika→Vrstica→Pokaži'."
 
-#: ../src/commands.c:2362
+#: ../src/commands.c:2363
 msgid "Unhide columns"
 msgstr "Pokaži stolpce"
 
-#: ../src/commands.c:2362
+#: ../src/commands.c:2363
 msgid "Hide columns"
 msgstr "Skrij stolpce"
 
-#: ../src/commands.c:2363
+#: ../src/commands.c:2364
 msgid "Unhide rows"
 msgstr "Pokaži vrstice"
 
-#: ../src/commands.c:2363
+#: ../src/commands.c:2364
 msgid "Hide rows"
 msgstr "Skrij vrstice"
 
-#: ../src/commands.c:2443
+#: ../src/commands.c:2444
 msgid "Expand columns"
 msgstr "Razširi stolpce"
 
-#: ../src/commands.c:2443
+#: ../src/commands.c:2444
 msgid "Collapse columns"
 msgstr "Zloži stolpce"
 
-#: ../src/commands.c:2444
+#: ../src/commands.c:2445
 msgid "Expand rows"
 msgstr "Razširi vrstice"
 
-#: ../src/commands.c:2444
+#: ../src/commands.c:2445
 msgid "Collapse rows"
 msgstr "Zloži vrstice"
 
-#: ../src/commands.c:2468
+#: ../src/commands.c:2469
 #, c-format
 msgid "Show column outline %d"
 msgstr "Pokaži oris stolpca %d"
 
-#: ../src/commands.c:2468
+#: ../src/commands.c:2469
 #, c-format
 msgid "Show row outline %d"
 msgstr "Pokaži oris vrstice %d"
 
-#: ../src/commands.c:2537
+#: ../src/commands.c:2538
 msgid "Those columns are already grouped"
 msgstr "Ti stolpci so že združeni v skupino"
 
-#: ../src/commands.c:2538
+#: ../src/commands.c:2539
 msgid "Those rows are already grouped"
 msgstr "Te vrstice so že združene v skupino"
 
-#: ../src/commands.c:2561
+#: ../src/commands.c:2562
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Ti stolpci niso skupinjeni, zato jih ni mogoče razdružiti iz skupine."
 
-#: ../src/commands.c:2562
+#: ../src/commands.c:2563
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Te vrstice niso skupinjene, zato jih ni mogoče razdružiti iz skupine."
 
-#: ../src/commands.c:2575
+#: ../src/commands.c:2576
 #, c-format
 msgid "Group columns %s"
 msgstr "Združi stolpce %s"
 
-#: ../src/commands.c:2575
+#: ../src/commands.c:2576
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Razdruži stolpce %s"
 
-#: ../src/commands.c:2577
+#: ../src/commands.c:2578
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Združi vrstice %d:%d"
 
-#: ../src/commands.c:2577
+#: ../src/commands.c:2578
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Razdruži vrstice %d:%d"
 
-#: ../src/commands.c:2806
+#: ../src/commands.c:2807
 #, c-format
 msgid "Moving %s"
 msgstr "Premikanje %s"
 
-#: ../src/commands.c:2816 ../src/commands.c:3220
+#: ../src/commands.c:2817 ../src/commands.c:3223
 msgid "is beyond sheet boundaries"
 msgstr "je izven meja delovnega lista"
 
-#: ../src/commands.c:2874
+#: ../src/commands.c:2875
 #, c-format
 msgid ""
 "Copying between files with different date conventions.\n"
@@ -4247,77 +4247,77 @@ msgstr ""
 "datuma, zato je mogoče, da bodo vrednosti nekaterih celic\n"
 "kopirane napačno."
 
-#: ../src/commands.c:2904
+#: ../src/commands.c:2905
 msgid "Paste Copy"
 msgstr "Kopiranje in lepljenje"
 
-#: ../src/commands.c:3116
+#: ../src/commands.c:3119
 #, c-format
 msgid "Pasting into %s"
 msgstr "Prilepljanje v %s"
 
-#: ../src/commands.c:3206
+#: ../src/commands.c:3209
 #, c-format
 msgid "Do you really want to paste %s copies?"
 msgstr "Ali zares želite prilepiti %s kopij?"
 
 #. Check arrays or merged regions in src or target regions
-#: ../src/commands.c:3263 ../src/commands.c:3419 ../src/commands.c:3420
+#: ../src/commands.c:3266 ../src/commands.c:3422 ../src/commands.c:3423
 #: ../src/item-cursor.c:1038 ../src/wbc-gtk-actions.c:579
 msgid "Autofill"
 msgstr "Samodejno dopolnjenje"
 
 #. Changed in initial redo.
-#: ../src/commands.c:3442
+#: ../src/commands.c:3445
 #, c-format
 msgid "Autofilling %s"
 msgstr "Samodejno dopolnjevanje %s"
 
-#: ../src/commands.c:3742
+#: ../src/commands.c:3745
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Samodejno oblikovanje %s"
 
-#: ../src/commands.c:3860
+#: ../src/commands.c:3863
 #, c-format
 msgid "Unmerging %s"
 msgstr "Razdruževanje %s"
 
-#: ../src/commands.c:4029
+#: ../src/commands.c:4032
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Združi in sredini %s"
 
-#: ../src/commands.c:4029
+#: ../src/commands.c:4032
 #, c-format
 msgid "Merging %s"
 msgstr "Združevanje %s"
 
 #. Corrected below.
-#: ../src/commands.c:4397 ../src/dialogs/search-replace.ui.h:5
+#: ../src/commands.c:4400 ../src/dialogs/search-replace.ui.h:5
 msgid "Search and Replace"
 msgstr "Poišči in zamenjaj"
 
-#: ../src/commands.c:4490
+#: ../src/commands.c:4493
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Nastavljanje privzete širine stolpcev na %.2f točk."
 
-#: ../src/commands.c:4491
+#: ../src/commands.c:4494
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Nastavljanje privzete širine vrstic na %.2f točk."
 
-#: ../src/commands.c:4603
+#: ../src/commands.c:4606
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Približaj %s na %.0f%%"
 
-#: ../src/commands.c:4706
+#: ../src/commands.c:4709
 msgid "Delete Object"
 msgstr "Izbriši predmet"
 
-#: ../src/commands.c:4848 ../src/commands.c:5919
+#: ../src/commands.c:4851 ../src/commands.c:5922
 #: ../src/dialogs/dialog-doc-metadata.c:1864
 #: ../src/dialogs/dialog-formula-guru.c:891
 #: ../src/dialogs/dialog-function-select.c:1279
@@ -4326,240 +4326,232 @@ msgstr "Izbriši predmet"
 msgid "Name"
 msgstr "Ime"
 
-#: ../src/commands.c:4848
+#: ../src/commands.c:4851
 msgid "Sheet names must be non-empty."
 msgstr "Imena delovnih listov ne morejo biti prazna."
 
-#: ../src/commands.c:4855
+#: ../src/commands.c:4858
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "Delovni zvezek ne more imeti dveh delovnih listov z enakim imenom."
 
-#: ../src/commands.c:4953
+#: ../src/commands.c:4956
 msgid "Resizing sheet"
 msgstr "Spreminjanje velikosti delovnega lista"
 
-#: ../src/commands.c:5106
+#: ../src/commands.c:5109
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Odstranjevanje opombe %s"
 
-#: ../src/commands.c:5107
+#: ../src/commands.c:5110
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Dodajanje opombe %s"
 
-#: ../src/commands.c:5544
+#: ../src/commands.c:5547
 #, c-format
 msgid "Merging data into %s"
 msgstr "Združevanje podatkov v %s"
 
-#: ../src/commands.c:5642
+#: ../src/commands.c:5645
 #, c-format
 msgid "Changing workbook properties"
 msgstr "Spreminjanje lastnosti preglednice"
 
-#: ../src/commands.c:5716
+#: ../src/commands.c:5719
 msgid "Pull Object to the Front"
 msgstr "Povleci predmet v ospredje"
 
-#: ../src/commands.c:5719
+#: ../src/commands.c:5722
 msgid "Pull Object Forward"
 msgstr "Povleci predmet naprej"
 
-#: ../src/commands.c:5722
+#: ../src/commands.c:5725
 msgid "Push Object Backward"
 msgstr "Potisni predmet v ozadje"
 
-#: ../src/commands.c:5725
+#: ../src/commands.c:5728
 msgid "Push Object to the Back"
 msgstr "Potisni predmet nazaj"
 
-#: ../src/commands.c:5855
+#: ../src/commands.c:5858
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavitve strani za %s"
 
-#: ../src/commands.c:5857
+#: ../src/commands.c:5860
 msgid "Page Setup For All Sheets"
 msgstr "Nastavitev strani delovnih listov"
 
-#: ../src/commands.c:5981 ../src/commands.c:5992
+#: ../src/commands.c:5984 ../src/commands.c:5995
 msgid "Defined Name"
 msgstr "Določeno ime"
 
-#: ../src/commands.c:5982
+#: ../src/commands.c:5985
 msgid "An empty string is not allowed as defined name."
 msgstr "Prazen niz ni dovoljen kot določeno ime polja."
 
-#: ../src/commands.c:5990
+#: ../src/commands.c:5993
 #, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr "Ime »%s« ni dovoljeno kot določeno ime."
 
-#: ../src/commands.c:6000
+#: ../src/commands.c:6003
 msgid "has a circular reference"
 msgstr "je krožno sklican"
 
-#: ../src/commands.c:6034
+#: ../src/commands.c:6037
 #, c-format
 msgid "Define Name %s"
 msgstr "Določi ime %s"
 
-#: ../src/commands.c:6037
+#: ../src/commands.c:6040
 #, c-format
 msgid "Update Name %s"
 msgstr "Posodobi ime %s"
 
-#: ../src/commands.c:6130
+#: ../src/commands.c:6133
 #, c-format
 msgid "Remove Name %s"
 msgstr "Odstrani ime %s"
 
-#: ../src/commands.c:6161
+#: ../src/commands.c:6164
 msgid "Change Scope of Name"
 msgstr "Spremeni obseg imena"
 
-#: ../src/commands.c:6210
+#: ../src/commands.c:6213
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr "Spremeni obseg imena %s"
 
-#: ../src/commands.c:6276
+#: ../src/commands.c:6279
 msgid "Add scenario"
 msgstr "Dodaj scenarij"
 
-#: ../src/commands.c:6340
+#: ../src/commands.c:6343
 msgid "Scenario Show"
 msgstr "Pokaži scenarij"
 
-#: ../src/commands.c:6398
+#: ../src/commands.c:6401
 msgid "Shuffle Data"
 msgstr "Premešaj podatke"
 
 #. FIXME?
-#: ../src/commands.c:6502
+#: ../src/commands.c:6505
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Besedilo (%s) v stolpce (%s)"
 
-#: ../src/commands.c:6660
+#: ../src/commands.c:6663
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Iskanje cilja (%s)"
 
-#: ../src/commands.c:6826
+#: ../src/commands.c:6829
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Razvrščanje odvisnosti v razpredelnice"
 
-#: ../src/commands.c:6900
+#: ../src/commands.c:6903
 msgid "Reconfigure Graph"
 msgstr "Ponovno nastavi diagram"
 
-#: ../src/commands.c:6970
+#: ../src/commands.c:6973
 msgid "Reconfigure Object"
 msgstr "Ponovno nastavi predmet"
 
-#: ../src/commands.c:7014
-msgid "Left to Right"
-msgstr "Od leve proti desni"
-
-#: ../src/commands.c:7014
-msgid "Right to Left"
-msgstr "Od desne proti levi"
-
-#: ../src/commands.c:7176
+#: ../src/commands.c:7186
 msgid "Changing Hyperlink"
 msgstr "Spreminjanje hiperpovezave"
 
-#: ../src/commands.c:7260
+#: ../src/commands.c:7270
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Spreminjanje hiperpovezave %s"
 
-#: ../src/commands.c:7345
+#: ../src/commands.c:7355
 msgid "Configure List"
 msgstr "Nastavi seznam"
 
-#: ../src/commands.c:7416
+#: ../src/commands.c:7426
 msgid "Set Frame Label"
 msgstr "Določi oznako okvirja"
 
-#: ../src/commands.c:7487
+#: ../src/commands.c:7497
 msgid "Configure Button"
 msgstr "Nastavi gumb"
 
-#: ../src/commands.c:7568
+#: ../src/commands.c:7578
 msgid "Configure Radio Button"
 msgstr "Nastavi izbirni gumb"
 
-#: ../src/commands.c:7644
+#: ../src/commands.c:7654
 msgid "Configure Checkbox"
 msgstr "Nastavi označno polje"
 
-#: ../src/commands.c:7751 ../src/sheet-object-widget.c:1773
+#: ../src/commands.c:7761 ../src/sheet-object-widget.c:1773
 msgid "Configure Adjustment"
 msgstr "Nastavi prilagoditve"
 
-#: ../src/commands.c:7782
+#: ../src/commands.c:7792
 msgid "Add Filter"
 msgstr "Dodaj filter"
 
-#: ../src/commands.c:7798 ../src/wbc-gtk.c:1674
+#: ../src/commands.c:7808 ../src/wbc-gtk.c:1674
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Samodejni filter onemogoča %s"
 
-#: ../src/commands.c:7803 ../src/commands.c:7830 ../src/commands.c:7839
+#: ../src/commands.c:7813 ../src/commands.c:7840 ../src/commands.c:7849
 msgid "AutoFilter"
 msgstr "Samodejni filter"
 
-#: ../src/commands.c:7831
+#: ../src/commands.c:7841
 msgid "Requires more than 1 row"
 msgstr "Zahteva več kot eno izbrano vrstico"
 
-#: ../src/commands.c:7840
+#: ../src/commands.c:7850
 msgid "Unable to create Autofilter"
 msgstr "Ni mogoče ustvariti samodejnega filtra"
 
-#: ../src/commands.c:7862
+#: ../src/commands.c:7872
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr "Dodaj samodejni filter za %s"
 
-#: ../src/commands.c:7863
+#: ../src/commands.c:7873
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Razširi samodejni filter za %s"
 
-#: ../src/commands.c:7876
+#: ../src/commands.c:7886
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Odstrani samodejni filter %s"
 
-#: ../src/commands.c:7906
+#: ../src/commands.c:7916
 #, c-format
 msgid "Change filter condition for %s"
 msgstr "Spremeni pogoje filtriranja za %s"
 
-#: ../src/commands.c:7975 ../src/wbc-gtk-actions.c:2400
+#: ../src/commands.c:7985 ../src/wbc-gtk-actions.c:2395
 msgid "Clear All Page Breaks"
 msgstr "Počisti vse prelome strani"
 
-#: ../src/commands.c:8002 ../src/wbc-gtk.c:1609
+#: ../src/commands.c:8012 ../src/wbc-gtk.c:1609
 msgid "Remove Column Page Break"
 msgstr "Odstrani stolpični prelom strani"
 
-#: ../src/commands.c:8002 ../src/wbc-gtk.c:1619
+#: ../src/commands.c:8012 ../src/wbc-gtk.c:1619
 msgid "Remove Row Page Break"
 msgstr "Odstrani vrstični prelom strani"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1612
+#: ../src/commands.c:8015 ../src/wbc-gtk.c:1612
 msgid "Add Column Page Break"
 msgstr "Dodaj stolpični prelom strani"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1622
+#: ../src/commands.c:8015 ../src/wbc-gtk.c:1622
 msgid "Add Row Page Break"
 msgstr "Dodaj vrstični prelom strani"
 
@@ -5171,7 +5163,7 @@ msgid "Group %d"
 msgstr "Skupina %d"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:527
-#: ../src/wbc-gtk-actions.c:1038
+#: ../src/wbc-gtk-actions.c:1032
 msgid "Group"
 msgstr "Skupina"
 
@@ -5738,7 +5730,7 @@ msgid "Double Low"
 msgstr "Dvojno podčrtano"
 
 #: ../src/dialogs/dialog-cell-format.c:469 ../src/dialogs/dialog-search.c:389
-#: ../src/func.c:1097 ../src/wbc-gtk-actions.c:3428
+#: ../src/func.c:1097 ../src/wbc-gtk-actions.c:3423
 msgid "Number"
 msgstr "Številka"
 
@@ -5796,13 +5788,13 @@ msgstr "Oblika celic"
 msgid "Border"
 msgstr "Obroba"
 
-#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3872
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3867
 msgid "Clear Background"
 msgstr "Počisti ozadje"
 
 #: ../src/dialogs/dialog-cell-format.c:2358
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:90
-#: ../src/wbc-gtk-actions.c:3874 ../src/wbc-gtk-actions.c:3875
+#: ../src/wbc-gtk-actions.c:3869 ../src/wbc-gtk-actions.c:3870
 msgid "Background"
 msgstr "Ozadje"
 
@@ -6058,27 +6050,27 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s v %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:756
+#: ../src/dialogs/dialog-cell-sort.c:754
 msgid "no available column"
 msgstr "stolpca ni na voljo"
 
-#: ../src/dialogs/dialog-cell-sort.c:756
+#: ../src/dialogs/dialog-cell-sort.c:754
 msgid "no available row"
 msgstr "vrstice ni na voljo"
 
-#: ../src/dialogs/dialog-cell-sort.c:1007
+#: ../src/dialogs/dialog-cell-sort.c:1005
 msgid "Header"
 msgstr "Glava"
 
-#: ../src/dialogs/dialog-cell-sort.c:1013
+#: ../src/dialogs/dialog-cell-sort.c:1011
 msgid "Row/Column"
 msgstr "Vrstica/Stolpec"
 
-#: ../src/dialogs/dialog-cell-sort.c:1033
+#: ../src/dialogs/dialog-cell-sort.c:1031
 msgid "Case Sensitive"
 msgstr "Razlikovanje velikosti črk"
 
-#: ../src/dialogs/dialog-cell-sort.c:1053
+#: ../src/dialogs/dialog-cell-sort.c:1051
 msgid "By Value"
 msgstr "po vrednost"
 
@@ -6118,14 +6110,14 @@ msgstr "Filter"
 # 1. meni desnega klika
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2352
+#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2355
 #: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2870
 msgid "Row"
 msgstr "Vrstica"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2344
+#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2347
 #: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2871
 msgid "Column"
 msgstr "Stolpec"
@@ -6434,7 +6426,7 @@ msgstr "Raven delovnega zvezka"
 
 #: ../src/dialogs/dialog-goto-cell.c:386 ../src/dialogs/dialog-search.c:437
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1672
+#: ../src/sheet-control-gui.c:2336 ../src/tools/gnm-solver.c:1672
 #: ../src/tools/gnm-solver.c:1717 ../src/tools/gnm-solver.c:1858
 msgid "Cell"
 msgstr "Celica"
@@ -6704,7 +6696,7 @@ msgstr "Samodejno popravljanje"
 #: ../src/dialogs/dialog-preferences.c:1215
 #: ../src/dialogs/dialog-sheet-compare.c:206
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
-#: ../src/wbc-gtk-actions.c:4417 ../src/widgets/gnm-fontbutton.c:1198
+#: ../src/wbc-gtk-actions.c:4412 ../src/widgets/gnm-fontbutton.c:1198
 msgid "Font"
 msgstr "Pisava"
 
@@ -6716,7 +6708,7 @@ msgstr "Datoteke"
 msgid "Tools"
 msgstr "Orodja"
 
-#: ../src/dialogs/dialog-preferences.c:1218 ../src/wbc-gtk-actions.c:4102
+#: ../src/dialogs/dialog-preferences.c:1218 ../src/wbc-gtk-actions.c:4097
 msgid "Undo"
 msgstr "Razveljavi"
 
@@ -7284,22 +7276,22 @@ msgid "Font color"
 msgstr "Barva pisave"
 
 #. ALSO "<control>2"
-#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3655
+#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3650
 #: ../src/widgets/gnm-text-view.c:329
 msgid "Bold"
 msgstr "Krepko"
 
 #. ALSO "<control>3"
-#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3663
+#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3658
 msgid "Italic"
 msgstr "Ležeče"
 
 #. ALSO "<control>4"
-#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3671
+#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3666
 msgid "Underline"
 msgstr "Podčrtano"
 
-#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3700
+#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3695
 msgid "Strikethrough"
 msgstr "Prečrtano"
 
@@ -7333,7 +7325,7 @@ msgstr "Zamikanje"
 msgid "Rotation"
 msgstr "Vrtenje"
 
-#: ../src/dialogs/dialog-sheet-compare.c:220 ../src/wbc-gtk-actions.c:2790
+#: ../src/dialogs/dialog-sheet-compare.c:220 ../src/wbc-gtk-actions.c:2785
 msgid "Direction"
 msgstr "Smer"
 
@@ -7406,18 +7398,18 @@ msgstr "Da"
 msgid "No"
 msgstr "Ne"
 
-#: ../src/dialogs/dialog-sheet-compare.c:377 ../src/wbc-gtk-actions.c:3422
+#: ../src/dialogs/dialog-sheet-compare.c:377 ../src/wbc-gtk-actions.c:3417
 msgid "General"
 msgstr "Splošno"
 
 #. start sub menu
 #: ../src/dialogs/dialog-sheet-compare.c:378 ../src/dialogs/cell-format.ui.h:42
-#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3887
+#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3882
 msgid "Left"
 msgstr "Levo"
 
 #: ../src/dialogs/dialog-sheet-compare.c:379 ../src/dialogs/cell-format.ui.h:43
-#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3889
+#: ../src/sheet-control-gui.c:2319 ../src/wbc-gtk-actions.c:3884
 msgid "Right"
 msgstr "Desno"
 
@@ -7431,7 +7423,7 @@ msgid "Fill"
 msgstr "Zapolni"
 
 #: ../src/dialogs/dialog-sheet-compare.c:382
-#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3739
+#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3734
 msgid "Justify"
 msgstr "Obojestransko"
 
@@ -7440,7 +7432,7 @@ msgid "Center across selection"
 msgstr "Sredini prek izbora"
 
 #: ../src/dialogs/dialog-sheet-compare.c:384
-#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3728
+#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3723
 msgid "Distributed"
 msgstr "Porazdeljeno"
 
@@ -7451,7 +7443,7 @@ msgstr "Na vrhu"
 
 #: ../src/dialogs/dialog-sheet-compare.c:394
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:44
-#: ../src/wbc-gtk-actions.c:3895
+#: ../src/wbc-gtk-actions.c:3890
 msgid "Bottom"
 msgstr "Na dnu"
 
@@ -7634,16 +7626,16 @@ msgid "Run on"
 msgstr "Zaženi na"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:244
-#: ../src/wbc-gtk.c:4143
+#: ../src/wbc-gtk.c:4141
 msgid "Min"
 msgstr "Najmanj"
 
-#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4145
+#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4143
 msgid "Average"
 msgstr "Povprečje"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:246
-#: ../src/wbc-gtk.c:4144
+#: ../src/wbc-gtk.c:4142
 msgid "Max"
 msgstr "Največ"
 
@@ -7890,7 +7882,7 @@ msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr ""
 "Podatki niso veljavni v kodnem zapisu %s; izbrati je treba drug kodni zapis."
 
-#: ../src/dialogs/dialog-stf-main-page.c:374 ../src/wbc-gtk-actions.c:3372
+#: ../src/dialogs/dialog-stf-main-page.c:374 ../src/wbc-gtk-actions.c:3367
 msgid "Line"
 msgstr "Črta"
 
@@ -8216,7 +8208,7 @@ msgstr "Števec ali odstotek:"
 msgid "Items"
 msgstr "Predmeti"
 
-#: ../src/dialogs/autofilter-top10.ui.h:6 ../src/wbc-gtk-actions.c:3447
+#: ../src/dialogs/autofilter-top10.ui.h:6 ../src/wbc-gtk-actions.c:3442
 msgid "Percentage"
 msgstr "Odstotek"
 
@@ -8394,14 +8386,14 @@ msgid "In a list"
 msgstr "V seznamu"
 
 #: ../src/dialogs/cell-format.ui.h:5 ../src/dialogs/hf-config.ui.h:8
-#: ../src/wbc-gtk-actions.c:3459
+#: ../src/wbc-gtk-actions.c:3454
 msgid "Date"
 msgstr "Datum"
 
 #: ../src/dialogs/cell-format.ui.h:6 ../src/dialogs/hf-config.ui.h:10
 #: ../src/tools/analysis-exp-smoothing.c:735
 #: ../src/tools/analysis-exp-smoothing.c:1058
-#: ../src/tools/analysis-kaplan-meier.c:121 ../src/wbc-gtk-actions.c:3465
+#: ../src/tools/analysis-kaplan-meier.c:121 ../src/wbc-gtk-actions.c:3460
 msgid "Time"
 msgstr "Čas"
 
@@ -8965,7 +8957,7 @@ msgid "Correlation"
 msgstr "Korelacija"
 
 #: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:728
-#: ../src/tools/analysis-tools.c:731 ../src/wbc-gtk-actions.c:2956
+#: ../src/tools/analysis-tools.c:731 ../src/wbc-gtk-actions.c:2951
 msgid "Covariance"
 msgstr "Kovarianca"
 
@@ -9529,8 +9521,8 @@ msgstr "Robljenje:"
 msgid "Source Locale:"
 msgstr "Izvorni jezik:"
 
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4157
-#: ../src/wbc-gtk-actions.c:4177
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4152
+#: ../src/wbc-gtk-actions.c:4172
 msgid "Zoom"
 msgstr "Približanje"
 
@@ -9833,12 +9825,12 @@ msgstr "Zapolni niz"
 msgid "Series in:"
 msgstr "Nizi v:"
 
-#: ../src/dialogs/fill-series.ui.h:3 ../src/wbc-gtk-actions.c:2145
-#: ../src/wbc-gtk-actions.c:2508
+#: ../src/dialogs/fill-series.ui.h:3 ../src/wbc-gtk-actions.c:2140
+#: ../src/wbc-gtk-actions.c:2503
 msgid "_Row"
 msgstr "V_rstica"
 
-#: ../src/dialogs/fill-series.ui.h:4 ../src/wbc-gtk-actions.c:2502
+#: ../src/dialogs/fill-series.ui.h:4 ../src/wbc-gtk-actions.c:2497
 msgid "_Column"
 msgstr "_Stolpec"
 
@@ -9906,7 +9898,7 @@ msgstr "Vnesi kot funkcijo polja"
 msgid "Quote unknown names"
 msgstr "Navedi neznana imena"
 
-#: ../src/dialogs/fourier-analysis.ui.h:1 ../src/wbc-gtk-actions.c:2987
+#: ../src/dialogs/fourier-analysis.ui.h:1 ../src/wbc-gtk-actions.c:2982
 msgid "Fourier Analysis"
 msgstr "_Fouriereva analiza"
 
@@ -10396,7 +10388,7 @@ msgid "Merge..."
 msgstr "Združi ..."
 
 #. start sub menu
-#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2334
+#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2337
 msgid "_Merge"
 msgstr "_Združi"
 
@@ -10494,8 +10486,8 @@ msgstr "Prilepi _povezavo"
 msgid "<b>Paste type</b>"
 msgstr "<b>Prilepi</b>"
 
-#: ../src/dialogs/paste-special.ui.h:4 ../src/wbc-gtk-actions.c:2408
-#: ../src/wbc-gtk-actions.c:2496
+#: ../src/dialogs/paste-special.ui.h:4 ../src/wbc-gtk-actions.c:2403
+#: ../src/wbc-gtk-actions.c:2491
 msgid "_All"
 msgstr "_Vse"
 
@@ -10523,7 +10515,7 @@ msgstr "_Oblikovanje"
 msgid "Paste cell formats (number formats, colors, borders, etc.) only"
 msgstr "Prilepi samo obliko celic (oblika številk, barve, obrobe itn.)"
 
-#: ../src/dialogs/paste-special.ui.h:11 ../src/wbc-gtk-actions.c:2419
+#: ../src/dialogs/paste-special.ui.h:11 ../src/wbc-gtk-actions.c:2414
 msgid "Co_mments"
 msgstr "Opo_mbe"
 
@@ -10685,7 +10677,7 @@ msgstr "Možnosti programa"
 #: ../src/dialogs/principal-components.ui.h:1
 #: ../src/tools/analysis-principal-components.c:225
 #: ../src/tools/analysis-principal-components.c:228
-#: ../src/wbc-gtk-actions.c:2993
+#: ../src/wbc-gtk-actions.c:2988
 msgid "Principal Components Analysis"
 msgstr "Analiza glavnih komponent"
 
@@ -11605,8 +11597,8 @@ msgstr "Rezultati"
 msgid "Manage Sheets"
 msgstr "Upravljanje z delovnimi listi"
 
-#: ../src/dialogs/sheet-order.ui.h:2 ../src/wbc-gtk-actions.c:2109
-#: ../src/wbc-gtk-actions.c:2291
+#: ../src/dialogs/sheet-order.ui.h:2 ../src/wbc-gtk-actions.c:2104
+#: ../src/wbc-gtk-actions.c:2286
 msgid "_Insert"
 msgstr "_Vstavi"
 
@@ -12188,26 +12180,26 @@ msgstr ""
 "Izbrana možnost določa ali naj se z drobnimi rdečimi puščicami v smeri "
 "besedila, označi celica, katere vsebina je prirezana."
 
-#: ../src/expr-name.c:735
+#: ../src/expr-name.c:703
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "»%s« je krožno sklican"
 
-#: ../src/expr-name.c:764 ../src/expr-name.c:1015
+#: ../src/expr-name.c:727 ../src/expr-name.c:969
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "»%s« je na delovnem listu že določen."
 
-#: ../src/expr-name.c:765 ../src/expr-name.c:1016
+#: ../src/expr-name.c:728 ../src/expr-name.c:970
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "»%s« je v delovnem zvezku že določen."
 
-#: ../src/expr.c:991
+#: ../src/expr.c:980
 msgid "Internal type error"
 msgstr "Napaka notranje vrste"
 
-#: ../src/expr.c:1665
+#: ../src/expr.c:1654
 msgid "Unknown evaluation error"
 msgstr "Neznana napaka vrednotenja"
 
@@ -12681,27 +12673,27 @@ msgstr "Zahtevan je vstavek z ID %s, vendar ga ni mogoče najti."
 msgid "The %s plugin is required but is not loaded."
 msgstr "Vstavek %s je zahtevan, vendar ni naložen."
 
-#: ../src/gui-util.h:150
+#: ../src/gui-util.h:151
 msgctxt "Stock label"
 msgid "_Open"
 msgstr "_Odpri"
 
-#: ../src/gui-util.h:153
+#: ../src/gui-util.h:154
 msgctxt "Stock label"
 msgid "_Save"
 msgstr "_Shrani"
 
-#: ../src/gui-util.h:156
+#: ../src/gui-util.h:157
 msgctxt "Stock label"
 msgid "Save _As"
 msgstr "Shrani _kot"
 
-#: ../src/gui-util.h:159
+#: ../src/gui-util.h:160
 msgctxt "Stock label"
 msgid "_Cancel"
 msgstr "_Prekliči"
 
-#: ../src/gui-util.h:162
+#: ../src/gui-util.h:163
 msgctxt "Stock label"
 msgid "_OK"
 msgstr "_V redu"
@@ -12769,9 +12761,9 @@ msgstr "%.2f znakovnih točk"
 msgid "_Move"
 msgstr "Pre_makni"
 
-#: ../src/item-cursor.c:836 ../src/sheet-control-gui.c:2247
+#: ../src/item-cursor.c:836 ../src/sheet-control-gui.c:2250
 #: ../src/sheet-object.c:271 ../src/sheet-object.c:290
-#: ../src/wbc-gtk-actions.c:2091
+#: ../src/wbc-gtk-actions.c:2086
 msgid "_Copy"
 msgstr "_Kopiraj"
 
@@ -13144,7 +13136,7 @@ msgstr "Določiti je treba obseg iskanja."
 msgid "The search range is invalid."
 msgstr "Obseg iskanja je neveljaven."
 
-#: ../src/selection.c:418 ../src/wbc-gtk-actions.c:1252
+#: ../src/selection.c:418 ../src/wbc-gtk-actions.c:1246
 #, c-format
 msgid "%s does not support multiple ranges"
 msgstr "%s ne podpira večkratnih podatkovnih vrst"
@@ -13162,7 +13154,7 @@ msgstr "%dQ"
 msgid "(empty)"
 msgstr "(prazno)"
 
-#: ../src/sheet-control-gui.c:2159 ../src/wbc-gtk-actions.c:377
+#: ../src/sheet-control-gui.c:2162 ../src/wbc-gtk-actions.c:377
 #, c-format
 msgid "Remove %d Link"
 msgid_plural "Remove %d Links"
@@ -13171,142 +13163,142 @@ msgstr[1] "Odstrani %d povezavo"
 msgstr[2] "Odstrani %d povezavi"
 msgstr[3] "Odstrani %d povezave"
 
-#: ../src/sheet-control-gui.c:2245 ../src/sheet-object.c:289
-#: ../src/wbc-gtk-actions.c:2267
+#: ../src/sheet-control-gui.c:2248 ../src/sheet-object.c:289
+#: ../src/wbc-gtk-actions.c:2262
 msgid "Cu_t"
 msgstr "I_zreži"
 
-#: ../src/sheet-control-gui.c:2249 ../src/wbc-gtk-actions.c:2274
+#: ../src/sheet-control-gui.c:2252 ../src/wbc-gtk-actions.c:2269
 msgid "_Paste"
 msgstr "_Prilepi"
 
-#: ../src/sheet-control-gui.c:2251
+#: ../src/sheet-control-gui.c:2254
 msgid "Paste _Special"
 msgstr "Posebno _lepljenje"
 
-#: ../src/sheet-control-gui.c:2256
+#: ../src/sheet-control-gui.c:2259
 msgid "_Insert Cells..."
 msgstr "_Vstavi celice ..."
 
-#: ../src/sheet-control-gui.c:2259
+#: ../src/sheet-control-gui.c:2262
 msgid "_Delete Cells..."
 msgstr "_Izbriši celice ..."
 
-#: ../src/sheet-control-gui.c:2262
+#: ../src/sheet-control-gui.c:2265
 msgid "_Insert Column(s)"
 msgstr "_Vstavi stolpce"
 
-#: ../src/sheet-control-gui.c:2266
+#: ../src/sheet-control-gui.c:2269
 msgid "_Delete Column(s)"
 msgstr "_Izbriši stolpce"
 
-#: ../src/sheet-control-gui.c:2270
+#: ../src/sheet-control-gui.c:2273
 msgid "_Insert Row(s)"
 msgstr "_Vstavi vrstice"
 
-#: ../src/sheet-control-gui.c:2274
+#: ../src/sheet-control-gui.c:2277
 msgid "_Delete Row(s)"
 msgstr "_Izbriši vrstice"
 
-#: ../src/sheet-control-gui.c:2279
+#: ../src/sheet-control-gui.c:2282
 msgid "Clear Co_ntents"
 msgstr "Počisti _vsebino"
 
-#: ../src/sheet-control-gui.c:2284
+#: ../src/sheet-control-gui.c:2287
 msgid "Add _Comment..."
 msgstr "Dodaj _opombo ..."
 
-#: ../src/sheet-control-gui.c:2286
+#: ../src/sheet-control-gui.c:2289
 msgid "Edit Co_mment..."
 msgstr "Uredi o_pombo ..."
 
-#: ../src/sheet-control-gui.c:2288
+#: ../src/sheet-control-gui.c:2291
 msgid "_Remove Comments"
 msgstr "_Odstrani opombe"
 
-#: ../src/sheet-control-gui.c:2291
+#: ../src/sheet-control-gui.c:2294
 msgid "Add _Hyperlink..."
 msgstr "Dodaj _hiperpovezavo ..."
 
-#: ../src/sheet-control-gui.c:2294
+#: ../src/sheet-control-gui.c:2297
 msgid "Edit _Hyperlink..."
 msgstr "Uredi h_iperpovezavo ..."
 
-#: ../src/sheet-control-gui.c:2297
+#: ../src/sheet-control-gui.c:2300
 msgid "_Remove Hyperlink"
 msgstr "_Odstrani hiperpovezavo"
 
-#: ../src/sheet-control-gui.c:2303
+#: ../src/sheet-control-gui.c:2306
 msgid "_Edit DataSlicer"
 msgstr "_Uredi vrtilno razpredelnico"
 
-#: ../src/sheet-control-gui.c:2306
+#: ../src/sheet-control-gui.c:2309
 msgid "_Refresh DataSlicer"
 msgstr "Osveži _vrtilno razpredelnico"
 
-#: ../src/sheet-control-gui.c:2310
+#: ../src/sheet-control-gui.c:2313
 msgid "DataSlicer Field _Order "
 msgstr "_Razvrstitev polj vrtilne razpredelnice"
 
-#: ../src/sheet-control-gui.c:2319
+#: ../src/sheet-control-gui.c:2322
 msgid "Up"
 msgstr "Gor"
 
-#: ../src/sheet-control-gui.c:2322
+#: ../src/sheet-control-gui.c:2325
 msgid "Down"
 msgstr "Dol"
 
 #. end sub menu
-#: ../src/sheet-control-gui.c:2329
+#: ../src/sheet-control-gui.c:2332
 msgid "_Format All Cells..."
 msgstr "Oblikuj _vse celice ..."
 
-#: ../src/sheet-control-gui.c:2331
+#: ../src/sheet-control-gui.c:2334
 msgid "C_onditional Formatting..."
 msgstr "P_ogojno oblikovanje ..."
 
-#: ../src/sheet-control-gui.c:2336
+#: ../src/sheet-control-gui.c:2339
 msgid "_Unmerge"
 msgstr "_Razdruži"
 
-#: ../src/sheet-control-gui.c:2338 ../src/wbc-gtk-actions.c:2815
+#: ../src/sheet-control-gui.c:2341 ../src/wbc-gtk-actions.c:2810
 msgid "Auto Fit _Width"
 msgstr "Samodejno prilagodi _širino"
 
-#: ../src/sheet-control-gui.c:2339 ../src/wbc-gtk-actions.c:2809
+#: ../src/sheet-control-gui.c:2342 ../src/wbc-gtk-actions.c:2804
 msgid "Auto Fit _Height"
 msgstr "Samodejno prilagodi _višino"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2345 ../src/wbc-gtk-actions.c:2824
+#: ../src/sheet-control-gui.c:2348 ../src/wbc-gtk-actions.c:2819
 msgid "_Width..."
 msgstr "_Širina ..."
 
-#: ../src/sheet-control-gui.c:2346 ../src/wbc-gtk-actions.c:2830
+#: ../src/sheet-control-gui.c:2349 ../src/wbc-gtk-actions.c:2825
 msgid "_Auto Fit Width"
 msgstr "_Samodejno prilagodi širini"
 
-#: ../src/sheet-control-gui.c:2347 ../src/sheet-control-gui.c:2355
-#: ../src/wbc-gtk-actions.c:2836 ../src/wbc-gtk-actions.c:2870
+#: ../src/sheet-control-gui.c:2350 ../src/sheet-control-gui.c:2358
+#: ../src/wbc-gtk-actions.c:2831 ../src/wbc-gtk-actions.c:2865
 msgid "_Hide"
 msgstr "_Skrij"
 
-#: ../src/sheet-control-gui.c:2348 ../src/sheet-control-gui.c:2356
-#: ../src/wbc-gtk-actions.c:2843 ../src/wbc-gtk-actions.c:2877
+#: ../src/sheet-control-gui.c:2351 ../src/sheet-control-gui.c:2359
+#: ../src/wbc-gtk-actions.c:2838 ../src/wbc-gtk-actions.c:2872
 msgid "_Unhide"
 msgstr "_Pokaži"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2353
+#: ../src/sheet-control-gui.c:2356
 msgid "Hei_ght..."
 msgstr "_Višina ..."
 
-#: ../src/sheet-control-gui.c:2354 ../src/wbc-gtk-actions.c:2864
+#: ../src/sheet-control-gui.c:2357 ../src/wbc-gtk-actions.c:2859
 msgid "_Auto Fit Height"
 msgstr "_Samodejno prilagodi višini"
 
 #. xgettext : %d gives the number of links. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2489
+#: ../src/sheet-control-gui.c:2492
 #, c-format
 msgid "_Remove %d Link"
 msgid_plural "_Remove %d Links"
@@ -13316,7 +13308,7 @@ msgstr[2] "_Odstrani %d povezavi"
 msgstr[3] "_Odstrani %d povezave"
 
 #. xgettext : %d gives the number of comments. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2494
+#: ../src/sheet-control-gui.c:2497
 #, c-format
 msgid "_Remove %d Comment"
 msgid_plural "_Remove %d Comments"
@@ -13325,7 +13317,7 @@ msgstr[1] "_Odstrani %d opombo"
 msgstr[2] "_Odstrani %d opombi"
 msgstr[3] "_Odstrani %d opombe"
 
-#: ../src/sheet-control-gui.c:2497
+#: ../src/sheet-control-gui.c:2500
 #, c-format
 msgid "_Insert %d Cell..."
 msgid_plural "_Insert %d Cells..."
@@ -13334,7 +13326,7 @@ msgstr[1] "_Vstavi %d celico ..."
 msgstr[2] "_Vstavi %d celici ..."
 msgstr[3] "_Vstavi %d celice ..."
 
-#: ../src/sheet-control-gui.c:2499
+#: ../src/sheet-control-gui.c:2502
 #, c-format
 msgid "_Delete %d Cell..."
 msgid_plural "_Delete %d Cells..."
@@ -13343,7 +13335,7 @@ msgstr[1] "_Izbriši %d celico ..."
 msgstr[2] "_Izbriši %d celici ..."
 msgstr[3] "_Izbriši %d celice ..."
 
-#: ../src/sheet-control-gui.c:2505
+#: ../src/sheet-control-gui.c:2508
 #, c-format
 msgid "_Insert %d Column"
 msgid_plural "_Insert %d Columns"
@@ -13352,7 +13344,7 @@ msgstr[1] "_Vstavi %d stolpec"
 msgstr[2] "_Vstavi %d stolpca"
 msgstr[3] "_Vstavi %d stolpce"
 
-#: ../src/sheet-control-gui.c:2507
+#: ../src/sheet-control-gui.c:2510
 #, c-format
 msgid "_Delete %d Column"
 msgid_plural "_Delete %d Columns"
@@ -13361,7 +13353,7 @@ msgstr[1] "_Izbriši %d stolpec"
 msgstr[2] "_Izbriši %d stolpca"
 msgstr[3] "_Izbriši %d stolpce"
 
-#: ../src/sheet-control-gui.c:2510
+#: ../src/sheet-control-gui.c:2513
 #, c-format
 msgid "_Format %d Column"
 msgid_plural "_Format %d Columns"
@@ -13370,7 +13362,7 @@ msgstr[1] "_Oblikuj %d stolpec"
 msgstr[2] "_Oblikuj %d stolpca"
 msgstr[3] "_Oblikuj %d stolpce"
 
-#: ../src/sheet-control-gui.c:2517
+#: ../src/sheet-control-gui.c:2520
 #, c-format
 msgid "_Insert %d Row"
 msgid_plural "_Insert %d Rows"
@@ -13379,7 +13371,7 @@ msgstr[1] "_Vstavi %d vrstico"
 msgstr[2] "_Vstavi %d vrstici"
 msgstr[3] "_Vstavi %d vrstice"
 
-#: ../src/sheet-control-gui.c:2519
+#: ../src/sheet-control-gui.c:2522
 #, c-format
 msgid "_Delete %d Row"
 msgid_plural "_Delete %d Rows"
@@ -13388,7 +13380,7 @@ msgstr[1] "_Izbriši %d vrstico"
 msgstr[2] "_Izbriši %d vrstici"
 msgstr[3] "_Izbriši %d vrstice"
 
-#: ../src/sheet-control-gui.c:2523
+#: ../src/sheet-control-gui.c:2526
 #, c-format
 msgid "_Format %d Row"
 msgid_plural "_Format %d Rows"
@@ -13397,7 +13389,7 @@ msgstr[1] "_Oblikuj %d vrstico"
 msgstr[2] "_Oblikuj %d vrstici"
 msgstr[3] "_Oblikuj %d vrstice"
 
-#: ../src/sheet-control-gui.c:2530
+#: ../src/sheet-control-gui.c:2533
 #, c-format
 msgid "_Format %d Cell..."
 msgid_plural "_Format %d Cells..."
@@ -13407,7 +13399,7 @@ msgstr[2] "_Oblikuj %d celici …"
 msgstr[3] "_Oblikuj %d celice …"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2976
+#: ../src/sheet-control-gui.c:2979
 #, c-format
 msgid "Duplicate %d Object"
 msgid_plural "Duplicate %d Objects"
@@ -13417,7 +13409,7 @@ msgstr[2] "Podvoji %d predmeta"
 msgstr[3] "Podvoji %d predmete"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2979
+#: ../src/sheet-control-gui.c:2982
 #, c-format
 msgid "Insert %d Object"
 msgid_plural "Insert %d Objects"
@@ -13427,7 +13419,7 @@ msgstr[2] "Vstavi %d predmeta"
 msgstr[3] "Vstavi %d predmete"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2983
+#: ../src/sheet-control-gui.c:2986
 #, c-format
 msgid "Move %d Object"
 msgid_plural "Move %d Objects"
@@ -13437,7 +13429,7 @@ msgstr[2] "Premakni %d predmeta"
 msgstr[3] "Premakni %d predmete"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2986
+#: ../src/sheet-control-gui.c:2989
 #, c-format
 msgid "Resize %d Object"
 msgid_plural "Resize %d Objects"
@@ -13447,12 +13439,12 @@ msgstr[2] "Spremeni velikost %d predmetov"
 msgstr[3] "Spremeni velikost %d predmetov"
 
 #. xgettext: this is a by-line for cell comments
-#: ../src/sheet-control-gui.c:3225
+#: ../src/sheet-control-gui.c:3228
 #, c-format
 msgid "By %s:"
 msgstr "%s:"
 
-#: ../src/sheet-merge.c:77 ../src/wbc-gtk-actions.c:3410
+#: ../src/sheet-merge.c:77 ../src/wbc-gtk-actions.c:3405
 msgid "Merge"
 msgstr "Združi"
 
@@ -13497,11 +13489,11 @@ msgstr "Potisni n_azaj"
 msgid "Pus_h to Back"
 msgstr "Potisni v o_zadje"
 
-#: ../src/sheet-object.c:291 ../src/wbc-gtk-actions.c:2077
+#: ../src/sheet-object.c:291 ../src/wbc-gtk-actions.c:2072
 msgid "_Delete"
 msgstr "_Izbriši"
 
-#: ../src/sheet-object.c:293 ../src/wbc-gtk-actions.c:2040
+#: ../src/sheet-object.c:293 ../src/wbc-gtk-actions.c:2035
 msgid "Print"
 msgstr "Natisni"
 
@@ -13563,11 +13555,11 @@ msgstr ""
 "Zaradi hrošča #705640 v programu GTK gradnika predmeta delovnega lista ni "
 "mogoče natisniti."
 
-#: ../src/sheet-object-widget.c:397 ../src/wbc-gtk-actions.c:3330
+#: ../src/sheet-object-widget.c:397 ../src/wbc-gtk-actions.c:3325
 msgid "Frame"
 msgstr "Okvir"
 
-#: ../src/sheet-object-widget.c:893 ../src/wbc-gtk-actions.c:3396
+#: ../src/sheet-object-widget.c:893 ../src/wbc-gtk-actions.c:3391
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:1
 msgid "Button"
 msgstr "Gumb"
@@ -13619,7 +13611,7 @@ msgstr "Označno polje %d"
 msgid "Clicking checkbox"
 msgstr "Klik označnega polja"
 
-#: ../src/sheet-object-widget.c:2934 ../src/wbc-gtk-actions.c:3402
+#: ../src/sheet-object-widget.c:2934 ../src/wbc-gtk-actions.c:3397
 msgid "RadioButton"
 msgstr "Izbirni gubm"
 
@@ -13641,7 +13633,7 @@ msgid "Cut"
 msgstr "Izreži"
 
 #. Oh, yeah?
-#: ../src/sheet.c:913
+#: ../src/sheet.c:878
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13653,47 +13645,47 @@ msgstr ""
 "do stolpca z imenom PRAV, lahko povzroči spor z logično konstanto\n"
 "z istim imenom. Pričakujte čudno delovanje."
 
-#: ../src/sheet.c:973
+#: ../src/sheet.c:938
 msgid "Display Zeros"
 msgstr "Pokaži ničle"
 
-#: ../src/sheet.c:974
+#: ../src/sheet.c:939
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Ali naj se pokažejo prazna polja za nične vrednosti."
 
-#: ../src/sheet.c:979
+#: ../src/sheet.c:944
 msgid "Display Grid"
 msgstr "Pokaži mrežo"
 
-#: ../src/sheet.c:980
+#: ../src/sheet.c:945
 msgid "Control whether the grid is shown."
 msgstr "Ali naj bo izrisana mreža polj."
 
-#: ../src/sheet.c:3831
+#: ../src/sheet.c:3787
 msgid "Target region contains merged cells"
 msgstr "Ciljne celice vsebujejo tudi združene celice"
 
-#: ../src/sheet.c:3897
+#: ../src/sheet.c:3853
 msgid "cannot operate on merged cells"
 msgstr "ni mogoče izvajati opravil na združenih celicah"
 
-#: ../src/sheet.c:3910
+#: ../src/sheet.c:3866
 msgid "cannot operate on array formulæ"
 msgstr "ni mogoče izvajati opravil na formulah polja"
 
-#: ../src/sheet.c:5593
+#: ../src/sheet.c:5549
 msgid "Insert Columns"
 msgstr "Vstavi stolpce"
 
-#: ../src/sheet.c:5611
+#: ../src/sheet.c:5567
 msgid "Delete Columns"
 msgstr "Izbriši stolpce"
 
-#: ../src/sheet.c:5629
+#: ../src/sheet.c:5585
 msgid "Insert Rows"
 msgstr "Vstavi vrstice"
 
-#: ../src/sheet.c:5647
+#: ../src/sheet.c:5603
 msgid "Delete Rows"
 msgstr "Izbriši vrstice"
 
@@ -15137,15 +15129,15 @@ msgstr "Nov delovni list"
 msgid "New Workbook"
 msgstr "Nova preglednica"
 
-#: ../src/tools/dao.c:1012
+#: ../src/tools/dao.c:1014
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: ../src/tools/dao.c:1018
+#: ../src/tools/dao.c:1020
 msgid "Worksheet:"
 msgstr "Delovni list:"
 
-#: ../src/tools/dao.c:1025
+#: ../src/tools/dao.c:1027
 msgid "Report Created: "
 msgstr "Poročilo ustvarjeno:"
 
@@ -15466,7 +15458,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Obseg"
 
-#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4146
+#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4144
 msgid "Count"
 msgstr "Števec"
 
@@ -15648,7 +15640,7 @@ msgstr "#N/A"
 msgid "Default file saver is not available."
 msgstr "Privzeti shranjevalnik datotek ni na voljo."
 
-#: ../src/wbc-gtk-actions.c:207 ../src/wbc-gtk-actions.c:2375
+#: ../src/wbc-gtk-actions.c:207 ../src/wbc-gtk-actions.c:2370
 msgid "Set Print Area"
 msgstr "Določi območje tiskanja"
 
@@ -15657,7 +15649,7 @@ msgstr "Določi območje tiskanja"
 msgid "Set Print Area to %s"
 msgstr "Določi območje tiskanja za %s"
 
-#: ../src/wbc-gtk-actions.c:230 ../src/wbc-gtk-actions.c:2380
+#: ../src/wbc-gtk-actions.c:230 ../src/wbc-gtk-actions.c:2375
 msgid "Clear Print Area"
 msgstr "Počisti območje tiskanja"
 
@@ -15689,31 +15681,31 @@ msgstr "Opomba v celici %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: ../src/wbc-gtk-actions.c:861
+#: ../src/wbc-gtk-actions.c:855
 msgid "Insert rows"
 msgstr "Vstavi vrstice"
 
-#: ../src/wbc-gtk-actions.c:878
+#: ../src/wbc-gtk-actions.c:872
 msgid "Insert columns"
 msgstr "Vstavi stolpce"
 
-#: ../src/wbc-gtk-actions.c:990 ../src/wbc-gtk-actions.c:1010
+#: ../src/wbc-gtk-actions.c:984 ../src/wbc-gtk-actions.c:1004
 msgid "Show Detail"
 msgstr "Pokaži podrobnost"
 
-#: ../src/wbc-gtk-actions.c:990 ../src/wbc-gtk-actions.c:1010
+#: ../src/wbc-gtk-actions.c:984 ../src/wbc-gtk-actions.c:1004
 msgid "Hide Detail"
 msgstr "Skrij podrobnost"
 
-#: ../src/wbc-gtk-actions.c:997
+#: ../src/wbc-gtk-actions.c:991
 msgid "can only be performed on an existing group"
 msgstr "je mogoče izvesti le na obstoječi skupini"
 
-#: ../src/wbc-gtk-actions.c:1038
+#: ../src/wbc-gtk-actions.c:1032
 msgid "Ungroup"
 msgstr "Razdruži"
 
-#: ../src/wbc-gtk-actions.c:1092
+#: ../src/wbc-gtk-actions.c:1086
 #, c-format
 msgid ""
 "Unable to start the help browser (%s).\n"
@@ -15726,1041 +15718,1081 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/wbc-gtk-actions.c:1253
+#: ../src/wbc-gtk-actions.c:1247
 msgid "Sort"
 msgstr "Razvrsti"
 
-#: ../src/wbc-gtk-actions.c:1407
+#: ../src/wbc-gtk-actions.c:1401
 msgid "Choose object file"
 msgstr "Izbor datoteke predmeta"
 
-#: ../src/wbc-gtk-actions.c:1486
+#: ../src/wbc-gtk-actions.c:1480
 msgid "Set Horizontal Alignment"
 msgstr "Določi vodoravno poravnavo"
 
-#: ../src/wbc-gtk-actions.c:1520
+#: ../src/wbc-gtk-actions.c:1514
 msgid "Set Vertical Alignment"
 msgstr "Določi navpično poravnavo"
 
-#: ../src/wbc-gtk-actions.c:1665
+#: ../src/wbc-gtk-actions.c:1659
 msgid "Format as General"
 msgstr "Oblikuj kot splošni zapis"
 
-#: ../src/wbc-gtk-actions.c:1671
+#: ../src/wbc-gtk-actions.c:1665
 msgid "Format as Number"
 msgstr "Oblikuj kot zapis števila"
 
-#: ../src/wbc-gtk-actions.c:1688
+#: ../src/wbc-gtk-actions.c:1682
 msgid "Format as Currency"
 msgstr "Oblikuj kot zapis za denarne enote"
 
-#: ../src/wbc-gtk-actions.c:1696
+#: ../src/wbc-gtk-actions.c:1690
 msgid "Format as Accounting"
 msgstr "Oblikuj kot računovodski zapis"
 
-#: ../src/wbc-gtk-actions.c:1702 ../src/wbc-gtk-actions.c:1709
+#: ../src/wbc-gtk-actions.c:1696 ../src/wbc-gtk-actions.c:1703
 msgid "Format as Percentage"
 msgstr "Oblikuj kot zapis odstotnega števila"
 
-#: ../src/wbc-gtk-actions.c:1717
+#: ../src/wbc-gtk-actions.c:1711
 msgid "Format as Time"
 msgstr "Oblikuj kot zapis časa"
 
-#: ../src/wbc-gtk-actions.c:1724
+#: ../src/wbc-gtk-actions.c:1718
 msgid "Format as Date"
 msgstr "Oblikuj kot zapis datuma"
 
-#: ../src/wbc-gtk-actions.c:1748
+#: ../src/wbc-gtk-actions.c:1742
 msgid "Add Borders"
 msgstr "Dodaj obrobe"
 
-#: ../src/wbc-gtk-actions.c:1748
+#: ../src/wbc-gtk-actions.c:1742
 msgid "Remove borders"
 msgstr "Odstrani obrobe"
 
-#: ../src/wbc-gtk-actions.c:1861
+#: ../src/wbc-gtk-actions.c:1855
 msgid "Increase precision"
 msgstr "Povečaj natančnost"
 
-#: ../src/wbc-gtk-actions.c:1864
+#: ../src/wbc-gtk-actions.c:1858
 msgid "Decrease precision"
 msgstr "Zmanjšaj natančnost"
 
-#: ../src/wbc-gtk-actions.c:1866
+#: ../src/wbc-gtk-actions.c:1860
 msgid "Toggle thousands separator"
 msgstr "Preklopi ločnice tisočic"
 
-#: ../src/wbc-gtk-actions.c:1874
+#: ../src/wbc-gtk-actions.c:1868
 msgid "Copy down"
 msgstr "Kopiraj navzdol"
 
 #. xgettext: copy from the cell to the left into current cell --
 #. this has nothing whatsoever to do with copyright.
-#: ../src/wbc-gtk-actions.c:1882
+#: ../src/wbc-gtk-actions.c:1876
 msgid "Copy right"
 msgstr "Kopiraj desno"
 
-#: ../src/wbc-gtk-actions.c:1982
+#: ../src/wbc-gtk-actions.c:1963
+msgid "Toggle displaying formulæ"
+msgstr "Preklopi prikaz formul"
+
+#: ../src/wbc-gtk-actions.c:1964
+msgid "Toggle showing zeros"
+msgstr "Preklopi prikaz ničel"
+
+#: ../src/wbc-gtk-actions.c:1965
+msgid "Toggle showing gridlines"
+msgstr "Preklopi prikaz mrežnih črt"
+
+#: ../src/wbc-gtk-actions.c:1966
+msgid "Toggle showing column headers"
+msgstr "Preklopi prikaz glav stolpcev"
+
+#: ../src/wbc-gtk-actions.c:1967
+msgid "Toggle showing row headers"
+msgstr "Preklopi prikaz glav vrstic"
+
+#: ../src/wbc-gtk-actions.c:1968
+msgid "Toggle showing outlines"
+msgstr "Preklopi prikaz orisov"
+
+#: ../src/wbc-gtk-actions.c:1969
+msgid "Toggle where to show outlines vertically"
+msgstr "Preklopi prikaz orisa vrstic navpično"
+
+#: ../src/wbc-gtk-actions.c:1970
+msgid "Toggle where to show outlines horizontally"
+msgstr "Preklopi prikaz orisa vrstic vodoravno"
+
+#: ../src/wbc-gtk-actions.c:1971
+msgid "Toggle whether to show r1c1-style references"
+msgstr "Preklopi prikaz sklicev v slogu v1s1 (r1c1)"
+
+#: ../src/wbc-gtk-actions.c:1972
+msgid "Toggle sheet text direction"
+msgstr "Preklopi smer besedila delovnega lista"
+
+#: ../src/wbc-gtk-actions.c:1977
 msgid "_File"
 msgstr "_Datoteka"
 
-#: ../src/wbc-gtk-actions.c:1987
+#: ../src/wbc-gtk-actions.c:1982
 msgid "New From Template"
 msgstr "Ustvari iz predloge"
 
-#: ../src/wbc-gtk-actions.c:1991
+#: ../src/wbc-gtk-actions.c:1986
 msgid "_New"
 msgstr "_Nova"
 
-#: ../src/wbc-gtk-actions.c:1993
+#: ../src/wbc-gtk-actions.c:1988
 msgid "Create a new workbook"
 msgstr "Ustvari novo preglednico"
 
-#: ../src/wbc-gtk-actions.c:2001
+#: ../src/wbc-gtk-actions.c:1996
 msgid "Open a file"
 msgstr "Odpri datoteko"
 
-#: ../src/wbc-gtk-actions.c:2009
+#: ../src/wbc-gtk-actions.c:2004
 msgid "Save the current workbook"
 msgstr "Shrani trenutno preglednico"
 
-#: ../src/wbc-gtk-actions.c:2017
+#: ../src/wbc-gtk-actions.c:2012
 msgid "Save the current workbook with a different name"
 msgstr "Shrani trenutno preglednico z drugim imenom"
 
-#: ../src/wbc-gtk-actions.c:2022
+#: ../src/wbc-gtk-actions.c:2017
 msgid "Sen_d To..."
 msgstr "Pošlji  _na ..."
 
-#: ../src/wbc-gtk-actions.c:2023
+#: ../src/wbc-gtk-actions.c:2018
 msgid "Send the current file via email"
 msgstr "Pošlji trenutno datoteko preko elektronske pošte"
 
-#: ../src/wbc-gtk-actions.c:2028
+#: ../src/wbc-gtk-actions.c:2023
 msgid "Page Set_up..."
 msgstr "N_astavitve strani ..."
 
-#: ../src/wbc-gtk-actions.c:2029
+#: ../src/wbc-gtk-actions.c:2024
 msgid "Setup the page settings for your current printer"
 msgstr "Nastavitev strani za trenutni tiskalnik"
 
-#: ../src/wbc-gtk-actions.c:2034
+#: ../src/wbc-gtk-actions.c:2029
 msgid "Print Pre_view"
 msgstr "_Predogled tiskanja"
 
-#: ../src/wbc-gtk-actions.c:2035
+#: ../src/wbc-gtk-actions.c:2030
 msgid "Print preview"
 msgstr "Predogled tiskanja"
 
-#: ../src/wbc-gtk-actions.c:2042
+#: ../src/wbc-gtk-actions.c:2037
 msgid "Print the current file"
 msgstr "Natisni trenutno datoteko"
 
-#: ../src/wbc-gtk-actions.c:2046
+#: ../src/wbc-gtk-actions.c:2041
 msgid "Print Area & Breaks"
 msgstr "Območje tiskanja in prelomi"
 
-#: ../src/wbc-gtk-actions.c:2049
+#: ../src/wbc-gtk-actions.c:2044
 msgid "Full _History..."
 msgstr "Seznam _zgodovine ..."
 
-#: ../src/wbc-gtk-actions.c:2050
+#: ../src/wbc-gtk-actions.c:2045
 msgid "Access previously used file"
 msgstr "Odpri prej uporabljeno datoteko"
 
-#: ../src/wbc-gtk-actions.c:2055
+#: ../src/wbc-gtk-actions.c:2050
 msgid "_Close"
 msgstr "_Zapri"
 
-#: ../src/wbc-gtk-actions.c:2057
+#: ../src/wbc-gtk-actions.c:2052
 msgid "Close the current file"
 msgstr "Zapri trenutno datoteko"
 
-#: ../src/wbc-gtk-actions.c:2062
+#: ../src/wbc-gtk-actions.c:2057
 msgid "_Quit"
 msgstr "_Končaj"
 
-#: ../src/wbc-gtk-actions.c:2064
+#: ../src/wbc-gtk-actions.c:2059
 msgid "Quit the application"
 msgstr "Končaj program"
 
-#: ../src/wbc-gtk-actions.c:2069
+#: ../src/wbc-gtk-actions.c:2064
 msgid "_Edit"
 msgstr "_Uredi"
 
-#: ../src/wbc-gtk-actions.c:2073
+#: ../src/wbc-gtk-actions.c:2068
 msgid "C_lear"
 msgstr "Po_čisti"
 
-#: ../src/wbc-gtk-actions.c:2080
+#: ../src/wbc-gtk-actions.c:2075
 msgid "_Modify"
 msgstr "_Spremeni"
 
-#: ../src/wbc-gtk-actions.c:2083
+#: ../src/wbc-gtk-actions.c:2078
 msgid "S_heet"
 msgstr "Delovni _list"
 
-#: ../src/wbc-gtk-actions.c:2086
+#: ../src/wbc-gtk-actions.c:2081
 msgid "_Select"
 msgstr "_Izberi"
 
-#: ../src/wbc-gtk-actions.c:2093
+#: ../src/wbc-gtk-actions.c:2088
 msgid "Copy the selection"
 msgstr "Kopiraj izbrano"
 
-#: ../src/wbc-gtk-actions.c:2099
+#: ../src/wbc-gtk-actions.c:2094
 msgid "_View"
 msgstr "_Pogled"
 
-#: ../src/wbc-gtk-actions.c:2102
+#: ../src/wbc-gtk-actions.c:2097
 msgid "_Windows"
 msgstr "_Okna"
 
-#: ../src/wbc-gtk-actions.c:2105
+#: ../src/wbc-gtk-actions.c:2100
 msgid "_Toolbars"
 msgstr "_Orodne vrstice"
 
-#: ../src/wbc-gtk-actions.c:2113
+#: ../src/wbc-gtk-actions.c:2108
 msgid "_Object"
 msgstr "_Predmet"
 
-#: ../src/wbc-gtk-actions.c:2116
+#: ../src/wbc-gtk-actions.c:2111
 msgid "S_pecial"
 msgstr "Po_sebno"
 
-#: ../src/wbc-gtk-actions.c:2120
+#: ../src/wbc-gtk-actions.c:2115
 msgid "Func_tion Wrapper"
 msgstr "_Ovijalnik funkcij"
 
-#: ../src/wbc-gtk-actions.c:2123
+#: ../src/wbc-gtk-actions.c:2118
 msgid "_Name..."
 msgstr "_Ime ..."
 
-#: ../src/wbc-gtk-actions.c:2125
+#: ../src/wbc-gtk-actions.c:2120
 msgid "Insert a defined name"
 msgstr "Vstavi določeno ime"
 
-#: ../src/wbc-gtk-actions.c:2130
+#: ../src/wbc-gtk-actions.c:2125
 msgid "F_ormat"
 msgstr "_Oblika"
 
-#: ../src/wbc-gtk-actions.c:2133
+#: ../src/wbc-gtk-actions.c:2128
 msgid "_Cells"
 msgstr "_Celice"
 
-#: ../src/wbc-gtk-actions.c:2136
+#: ../src/wbc-gtk-actions.c:2131
 msgid "_Text"
 msgstr "_Besedilo"
 
-#: ../src/wbc-gtk-actions.c:2139 ../src/wbc-gtk-actions.c:3669
+#: ../src/wbc-gtk-actions.c:2134 ../src/wbc-gtk-actions.c:3664
 msgid "_Underline"
 msgstr "_Podčrtano"
 
-#: ../src/wbc-gtk-actions.c:2142
+#: ../src/wbc-gtk-actions.c:2137
 msgid "C_olumn"
 msgstr "_Stolpec"
 
-#: ../src/wbc-gtk-actions.c:2148 ../src/wbc-gtk-actions.c:2297
+#: ../src/wbc-gtk-actions.c:2143 ../src/wbc-gtk-actions.c:2292
 msgid "_Sheet"
 msgstr "Delovni _list"
 
-#: ../src/wbc-gtk-actions.c:2152
+#: ../src/wbc-gtk-actions.c:2147
 msgid "_Tools"
 msgstr "_Orodja"
 
-#: ../src/wbc-gtk-actions.c:2155
+#: ../src/wbc-gtk-actions.c:2150
 msgid "Sce_narios"
 msgstr "Sce_nariji"
 
-#: ../src/wbc-gtk-actions.c:2159
+#: ../src/wbc-gtk-actions.c:2154
 msgid "_Statistics"
 msgstr "_Statistika"
 
-#: ../src/wbc-gtk-actions.c:2162
+#: ../src/wbc-gtk-actions.c:2157
 msgid "_Descriptive Statistics"
 msgstr "_Opisna statistika"
 
-#: ../src/wbc-gtk-actions.c:2165
+#: ../src/wbc-gtk-actions.c:2160
 msgid "Fre_quency Tables"
 msgstr "Frekvenčne razpredelnice"
 
-#: ../src/wbc-gtk-actions.c:2168
+#: ../src/wbc-gtk-actions.c:2163
 msgid "De_pendent Observations"
 msgstr "Od_visna opazovanja"
 
-#: ../src/wbc-gtk-actions.c:2171
+#: ../src/wbc-gtk-actions.c:2166
 msgid "F_orecast"
 msgstr "_Napovedovanje"
 
-#: ../src/wbc-gtk-actions.c:2174
+#: ../src/wbc-gtk-actions.c:2169
 msgid "_One Sample Tests"
 msgstr "_Testi za en vzorec"
 
-#: ../src/wbc-gtk-actions.c:2177
+#: ../src/wbc-gtk-actions.c:2172
 msgid "Claims About a Me_dian"
 msgstr "Trditve o mediani vrednosti"
 
-#: ../src/wbc-gtk-actions.c:2180
+#: ../src/wbc-gtk-actions.c:2175
 msgid "_Two Sample Tests"
 msgstr "_Testi odvisnih vzorcev"
 
-#: ../src/wbc-gtk-actions.c:2183
+#: ../src/wbc-gtk-actions.c:2178
 msgid "Claims About Two Me_dians"
 msgstr "Trditve o dveh _medianih vrednostih"
 
-#: ../src/wbc-gtk-actions.c:2186
+#: ../src/wbc-gtk-actions.c:2181
 msgid "Claims About Two _Means"
 msgstr "Trditve o dveh _povprečnih vrednostih"
 
-#: ../src/wbc-gtk-actions.c:2189
+#: ../src/wbc-gtk-actions.c:2184
 msgid "_Multiple Sample Tests"
 msgstr "_Testi več vzorcev"
 
-#: ../src/wbc-gtk-actions.c:2192
+#: ../src/wbc-gtk-actions.c:2187
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
-#: ../src/wbc-gtk-actions.c:2195
+#: ../src/wbc-gtk-actions.c:2190
 msgid "Contin_gency Table"
 msgstr "_Kontingenčna razpredelnica"
 
-#: ../src/wbc-gtk-actions.c:2199
+#: ../src/wbc-gtk-actions.c:2194
 msgid "_Data"
 msgstr "_Podatki"
 
-#: ../src/wbc-gtk-actions.c:2202
+#: ../src/wbc-gtk-actions.c:2197
 msgid "_Filter"
 msgstr "_Filter"
 
-#: ../src/wbc-gtk-actions.c:2205
+#: ../src/wbc-gtk-actions.c:2200
 msgid "F_ill"
 msgstr "_Zapolni"
 
-#: ../src/wbc-gtk-actions.c:2208
+#: ../src/wbc-gtk-actions.c:2203
 msgid "_Random Generators"
 msgstr "_Ustvarjalniki naključnih vrednosti"
 
-#: ../src/wbc-gtk-actions.c:2211
+#: ../src/wbc-gtk-actions.c:2206
 msgid "_Group and Outline"
 msgstr "_Skupine in oris"
 
-#: ../src/wbc-gtk-actions.c:2214
+#: ../src/wbc-gtk-actions.c:2209
 msgid "Import _Data"
 msgstr "_Uvozi podatke"
 
-#: ../src/wbc-gtk-actions.c:2217
+#: ../src/wbc-gtk-actions.c:2212
 msgid "E_xport Data"
 msgstr "_Izvozi podatke"
 
-#: ../src/wbc-gtk-actions.c:2220
+#: ../src/wbc-gtk-actions.c:2215
 msgid "Data S_licer"
 msgstr "_Vrtilna razpredelnica"
 
-#: ../src/wbc-gtk-actions.c:2224
+#: ../src/wbc-gtk-actions.c:2219
 msgid "_Help"
 msgstr "Pomo_č"
 
-#: ../src/wbc-gtk-actions.c:2229 ../src/wbc-gtk-actions.c:2425
+#: ../src/wbc-gtk-actions.c:2224 ../src/wbc-gtk-actions.c:2420
 msgid "_Contents"
 msgstr "_Vsebina"
 
-#: ../src/wbc-gtk-actions.c:2231
+#: ../src/wbc-gtk-actions.c:2226
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr "Odpre pregledovalnik dokumentacije Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2236
+#: ../src/wbc-gtk-actions.c:2231
 msgid "_Functions"
 msgstr "_Funkcije"
 
-#: ../src/wbc-gtk-actions.c:2237
+#: ../src/wbc-gtk-actions.c:2232
 msgid "Functions help"
 msgstr "Pomoč za funkcije"
 
-#: ../src/wbc-gtk-actions.c:2241
+#: ../src/wbc-gtk-actions.c:2236
 msgid "Gnumeric on the _Web"
 msgstr "Spletna stran Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2242
+#: ../src/wbc-gtk-actions.c:2237
 msgid "Browse to Gnumeric's website"
 msgstr "Brskanje po spletišču Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2246
+#: ../src/wbc-gtk-actions.c:2241
 msgid "_Live Assistance"
 msgstr "Pomoč v _živo"
 
-#: ../src/wbc-gtk-actions.c:2247
+#: ../src/wbc-gtk-actions.c:2242
 msgid "See if anyone is available to answer questions"
 msgstr "Poglejte ali je kdo na voljo za podajanje odgovorov"
 
-#: ../src/wbc-gtk-actions.c:2251
+#: ../src/wbc-gtk-actions.c:2246
 msgid "Report a _Problem"
 msgstr "Poročilo o _napaki"
 
-#: ../src/wbc-gtk-actions.c:2252
+#: ../src/wbc-gtk-actions.c:2247
 msgid "Report problem"
 msgstr "Poročilo o napaki"
 
-#: ../src/wbc-gtk-actions.c:2257
+#: ../src/wbc-gtk-actions.c:2252
 msgid "_About"
 msgstr "_O programu"
 
-#: ../src/wbc-gtk-actions.c:2258
+#: ../src/wbc-gtk-actions.c:2253
 msgid "About this application"
 msgstr "O programu"
 
-#: ../src/wbc-gtk-actions.c:2269
+#: ../src/wbc-gtk-actions.c:2264
 msgid "Cut the selection"
 msgstr "Izreži izbor"
 
-#: ../src/wbc-gtk-actions.c:2276
+#: ../src/wbc-gtk-actions.c:2271
 msgid "Paste the clipboard"
 msgstr "Prilepi iz odložišča"
 
-#: ../src/wbc-gtk-actions.c:2286
+#: ../src/wbc-gtk-actions.c:2281
 msgid "_Manage Sheets..."
 msgstr "_Delovni listi ..."
 
-#: ../src/wbc-gtk-actions.c:2287
+#: ../src/wbc-gtk-actions.c:2282
 msgid "Manage the sheets in this workbook"
 msgstr "Upravljanje delovnih listov v tem delovnem zvezku"
 
-#: ../src/wbc-gtk-actions.c:2292 ../src/wbc-gtk-actions.c:2298
+#: ../src/wbc-gtk-actions.c:2287 ../src/wbc-gtk-actions.c:2293
 msgid "Insert a new sheet"
 msgstr "Vstavi nov delovni list"
 
-#: ../src/wbc-gtk-actions.c:2302
+#: ../src/wbc-gtk-actions.c:2297
 msgid "_Append"
 msgstr "P_ripni"
 
-#: ../src/wbc-gtk-actions.c:2303
+#: ../src/wbc-gtk-actions.c:2298
 msgid "Append a new sheet"
 msgstr "Pripni nov delovni list"
 
-#: ../src/wbc-gtk-actions.c:2307
+#: ../src/wbc-gtk-actions.c:2302
 msgid "_Duplicate"
 msgstr "Po_dvoji"
 
-#: ../src/wbc-gtk-actions.c:2308
+#: ../src/wbc-gtk-actions.c:2303
 msgid "Make a copy of the current sheet"
 msgstr "Ustvari kopijo trenutnega delovnega lista"
 
-#: ../src/wbc-gtk-actions.c:2312
+#: ../src/wbc-gtk-actions.c:2307
 msgid "_Remove"
 msgstr "_Odstrani"
 
-#: ../src/wbc-gtk-actions.c:2313
+#: ../src/wbc-gtk-actions.c:2308
 msgid "Irrevocably remove an entire sheet"
 msgstr "Nepovratno odstrani celotni delovni list"
 
-#: ../src/wbc-gtk-actions.c:2317
+#: ../src/wbc-gtk-actions.c:2312
 msgid "Re_name..."
 msgstr "P_reimenuj ..."
 
-#: ../src/wbc-gtk-actions.c:2318
+#: ../src/wbc-gtk-actions.c:2313
 msgid "Rename the current sheet"
 msgstr "Preimenuj trenutni delovni list"
 
-#: ../src/wbc-gtk-actions.c:2322 ../src/wbc-gtk.c:553
+#: ../src/wbc-gtk-actions.c:2317 ../src/wbc-gtk.c:553
 msgid "Resize..."
 msgstr "Spremeni velikost ..."
 
-#: ../src/wbc-gtk-actions.c:2323
+#: ../src/wbc-gtk-actions.c:2318
 msgid "Change the size of the current sheet"
 msgstr "Spremeni velikost trenutnega delovnega lista"
 
-#: ../src/wbc-gtk-actions.c:2330
+#: ../src/wbc-gtk-actions.c:2325
 msgid "_New View..."
 msgstr "_Ustvari nov pogled ..."
 
-#: ../src/wbc-gtk-actions.c:2331
+#: ../src/wbc-gtk-actions.c:2326
 msgid "Create a new view of the workbook"
 msgstr "Ustvari nov pogled delovnega zvezka na zaslonu"
 
-#: ../src/wbc-gtk-actions.c:2338
+#: ../src/wbc-gtk-actions.c:2333
 msgid "View _Properties..."
 msgstr "Lastnosti _pogleda"
 
-#: ../src/wbc-gtk-actions.c:2339
+#: ../src/wbc-gtk-actions.c:2334
 msgid "Modify the view properties"
 msgstr "Spremeni lastnosti pogleda"
 
-#: ../src/wbc-gtk-actions.c:2345
+#: ../src/wbc-gtk-actions.c:2340
 msgid "View _Statusbar"
 msgstr "Pokaži _vrstico stanja"
 
-#: ../src/wbc-gtk-actions.c:2346
+#: ../src/wbc-gtk-actions.c:2341
 msgid "Toggle visibility of statusbar"
 msgstr "Preklopi vidnost vrstice stanja"
 
-#: ../src/wbc-gtk-actions.c:2354
+#: ../src/wbc-gtk-actions.c:2349
 msgid "F_ull Screen"
 msgstr "_Celozaslonski način"
 
-#: ../src/wbc-gtk-actions.c:2356
+#: ../src/wbc-gtk-actions.c:2351
 msgid "Switch to or from full screen mode"
 msgstr "Preklop med običajnim in celozaslonskim načinom"
 
-#: ../src/wbc-gtk-actions.c:2368
+#: ../src/wbc-gtk-actions.c:2363
 msgid "Document Proper_ties..."
 msgstr "Lastnosti _dokumenta"
 
-#: ../src/wbc-gtk-actions.c:2369
+#: ../src/wbc-gtk-actions.c:2364
 msgid "Edit document properties"
 msgstr "Uredi lastnosti dokumenta"
 
-#: ../src/wbc-gtk-actions.c:2376
+#: ../src/wbc-gtk-actions.c:2371
 msgid "Use the current selection as print area"
 msgstr "Uporabi trenutni izbor celic kot območje tiskanja"
 
-#: ../src/wbc-gtk-actions.c:2381
+#: ../src/wbc-gtk-actions.c:2376
 msgid "Undefine the print area"
 msgstr "Počisti določeno območje tiskanja"
 
-#: ../src/wbc-gtk-actions.c:2385
+#: ../src/wbc-gtk-actions.c:2380
 msgid "Show Print Area"
 msgstr "Pokaži območje tiskanja"
 
-#: ../src/wbc-gtk-actions.c:2386
+#: ../src/wbc-gtk-actions.c:2381
 msgid "Select the print area"
 msgstr "Izberi območje tiskanja"
 
-#: ../src/wbc-gtk-actions.c:2390
+#: ../src/wbc-gtk-actions.c:2385
 msgid "Set Column Page Break"
 msgstr "Nastavi stolpični prelom strani"
 
-#: ../src/wbc-gtk-actions.c:2391
+#: ../src/wbc-gtk-actions.c:2386
 msgid "Split the page to the left of this column"
 msgstr "Razdeli stran na levo od tega stolpca"
 
-#: ../src/wbc-gtk-actions.c:2395
+#: ../src/wbc-gtk-actions.c:2390
 msgid "Set Row Page Break"
 msgstr "Nastiavi vrstični prelom strani"
 
-#: ../src/wbc-gtk-actions.c:2396
+#: ../src/wbc-gtk-actions.c:2391
 msgid "Split the page above this row"
 msgstr "Razdeli stran nad to vrstico"
 
-#: ../src/wbc-gtk-actions.c:2401
+#: ../src/wbc-gtk-actions.c:2396
 msgid "Remove all manual pagebreaks from this sheet"
 msgstr "Odstrani vse ročne prelome strani iz delovnega lista"
 
-#: ../src/wbc-gtk-actions.c:2409
+#: ../src/wbc-gtk-actions.c:2404
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Počisti vsebino, oblikovanje in opombe izbranih celic"
 
-#: ../src/wbc-gtk-actions.c:2413
+#: ../src/wbc-gtk-actions.c:2408
 msgid "_Formats & Hyperlinks"
 msgstr "_Oblikovanje in hiperpovezave"
 
-#: ../src/wbc-gtk-actions.c:2414
+#: ../src/wbc-gtk-actions.c:2409
 msgid "Clear the selected cells' formats and hyperlinks"
 msgstr ""
 "Počisti oblikovanje in hiperpovezave izbranih celic v filtriranih vrsticah"
 
-#: ../src/wbc-gtk-actions.c:2420
+#: ../src/wbc-gtk-actions.c:2415
 msgid "Delete the selected cells' comments"
 msgstr "Izbriši opombe izbranih celic"
 
-#: ../src/wbc-gtk-actions.c:2426
+#: ../src/wbc-gtk-actions.c:2421
 msgid "Clear the selected cells' contents"
 msgstr "Počisti vsebino izbranih celic"
 
-#: ../src/wbc-gtk-actions.c:2431
+#: ../src/wbc-gtk-actions.c:2426
 msgid "A_ll Filtered Rows"
 msgstr "_Vse filtrirane vrstice"
 
-#: ../src/wbc-gtk-actions.c:2432
+#: ../src/wbc-gtk-actions.c:2427
 msgid ""
 "Clear the selected cells' formats, comments, and contents in the filtered "
 "rows"
 msgstr ""
 "Počisti oblikovanje, opombe in vsebino izbranih celic v filtriranih vrsticah"
 
-#: ../src/wbc-gtk-actions.c:2436
+#: ../src/wbc-gtk-actions.c:2431
 msgid "F_ormats & Hyperlinks in Filtered Rows"
 msgstr "_Oblikovanje, hiperpovezave in filtrirane vrstice"
 
-#: ../src/wbc-gtk-actions.c:2437
+#: ../src/wbc-gtk-actions.c:2432
 msgid "Clear the selected cells' formats and hyperlinks in the filtered rows"
 msgstr ""
 "Počisti oblikovanje in hiperpovezave izbranih celic v filtriranih vrsticah"
 
-#: ../src/wbc-gtk-actions.c:2442
+#: ../src/wbc-gtk-actions.c:2437
 msgid "Comme_nts in Filtered Rows"
 msgstr "_Opombe v filtriranih vrsticah"
 
-#: ../src/wbc-gtk-actions.c:2443
+#: ../src/wbc-gtk-actions.c:2438
 msgid "Delete the selected cells' comments in the filtered rows"
 msgstr "Izbriši opombe izbranih celic v filtriranih vrsticah"
 
-#: ../src/wbc-gtk-actions.c:2448
+#: ../src/wbc-gtk-actions.c:2443
 msgid "Content_s of Filtered Rows"
 msgstr "Vsebino _filtriranih vrstic"
 
-#: ../src/wbc-gtk-actions.c:2449
+#: ../src/wbc-gtk-actions.c:2444
 msgid "Clear the selected cells' contents in the filtered rows"
 msgstr "Počisti vsebino izbranih celic v filtriranih vrsticah"
 
-#: ../src/wbc-gtk-actions.c:2457 ../src/wbc-gtk-actions.c:2696
+#: ../src/wbc-gtk-actions.c:2452 ../src/wbc-gtk-actions.c:2691
 msgid "_Rows"
 msgstr "_Vrstice"
 
-#: ../src/wbc-gtk-actions.c:2458
+#: ../src/wbc-gtk-actions.c:2453
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Izbriše vrstice z izbranimi celicami"
 
-#: ../src/wbc-gtk-actions.c:2464 ../src/wbc-gtk-actions.c:2689
+#: ../src/wbc-gtk-actions.c:2459 ../src/wbc-gtk-actions.c:2684
 msgid "_Columns"
 msgstr "_Stolpce"
 
-#: ../src/wbc-gtk-actions.c:2465
+#: ../src/wbc-gtk-actions.c:2460
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Izbriše stolpce z izbranimi celicami"
 
-#: ../src/wbc-gtk-actions.c:2469 ../src/wbc-gtk-actions.c:2482
-#: ../src/wbc-gtk-actions.c:2674 ../src/wbc-gtk-actions.c:2681
+#: ../src/wbc-gtk-actions.c:2464 ../src/wbc-gtk-actions.c:2477
+#: ../src/wbc-gtk-actions.c:2669 ../src/wbc-gtk-actions.c:2676
 msgid "C_ells..."
 msgstr "C_elice ..."
 
-#: ../src/wbc-gtk-actions.c:2471 ../src/wbc-gtk-actions.c:2484
+#: ../src/wbc-gtk-actions.c:2466 ../src/wbc-gtk-actions.c:2479
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Izbriši izbrane celice in premakni druge na njihovo mesto"
 
-#: ../src/wbc-gtk-actions.c:2476
+#: ../src/wbc-gtk-actions.c:2471
 msgid "_Hyperlinks"
 msgstr "_Hiperpovezave"
 
-#: ../src/wbc-gtk-actions.c:2477
+#: ../src/wbc-gtk-actions.c:2472
 msgid "Delete the selected cells' hyperlinks"
 msgstr "Izbriši hiperpovezave v izbranih celicah"
 
-#: ../src/wbc-gtk-actions.c:2498
+#: ../src/wbc-gtk-actions.c:2493
 msgid "Select all cells in the spreadsheet"
 msgstr "Izbor vseh celic delovnega lista"
 
-#: ../src/wbc-gtk-actions.c:2504
+#: ../src/wbc-gtk-actions.c:2499
 msgid "Select an entire column"
 msgstr "Izbor celotnega stolpca"
 
-#: ../src/wbc-gtk-actions.c:2510
+#: ../src/wbc-gtk-actions.c:2505
 msgid "Select an entire row"
 msgstr "Izbor celotne vrstice"
 
-#: ../src/wbc-gtk-actions.c:2515
+#: ../src/wbc-gtk-actions.c:2510
 msgid "Arra_y"
 msgstr "_Polje"
 
-#: ../src/wbc-gtk-actions.c:2517
+#: ../src/wbc-gtk-actions.c:2512
 msgid "Select an array of cells"
 msgstr "Izbor polja celic"
 
-#: ../src/wbc-gtk-actions.c:2521
+#: ../src/wbc-gtk-actions.c:2516
 msgid "_Depends"
 msgstr "_Odvisne"
 
-#: ../src/wbc-gtk-actions.c:2523
+#: ../src/wbc-gtk-actions.c:2518
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Izbere vse celice, ki so odvisne od trenutno izbrane celice"
 
-#: ../src/wbc-gtk-actions.c:2527
+#: ../src/wbc-gtk-actions.c:2522
 msgid "_Inputs"
 msgstr "_Povezave izraza"
 
-#: ../src/wbc-gtk-actions.c:2529
+#: ../src/wbc-gtk-actions.c:2524
 msgid "Select all the cells are used by the current edit cell"
 msgstr "Izbere vse celice, ki jih v izrazu uporablja trenutna celica"
 
-#: ../src/wbc-gtk-actions.c:2534
+#: ../src/wbc-gtk-actions.c:2529
 msgid "Next _Object"
 msgstr "_Naslednji predmet"
 
-#: ../src/wbc-gtk-actions.c:2536
+#: ../src/wbc-gtk-actions.c:2531
 msgid "Select the next sheet object"
 msgstr "Izberi naslednji predmet delovnega lista"
 
-#: ../src/wbc-gtk-actions.c:2542 ../src/wbc-gtk.c:2851
+#: ../src/wbc-gtk-actions.c:2537 ../src/wbc-gtk.c:2849
 msgid "Go to Top"
 msgstr "Pojdi na vrh"
 
-#: ../src/wbc-gtk-actions.c:2543
+#: ../src/wbc-gtk-actions.c:2538
 msgid "Go to the top of the data"
 msgstr "Pojdi na vrhnji podatek"
 
-#: ../src/wbc-gtk-actions.c:2548 ../src/wbc-gtk.c:2852
+#: ../src/wbc-gtk-actions.c:2543 ../src/wbc-gtk.c:2850
 msgid "Go to Bottom"
 msgstr "Pojdi na dno"
 
-#: ../src/wbc-gtk-actions.c:2549
+#: ../src/wbc-gtk-actions.c:2544
 msgid "Go to the bottom of the data"
 msgstr "Pojdi na spodnji podatek"
 
-#: ../src/wbc-gtk-actions.c:2554 ../src/wbc-gtk.c:2853
+#: ../src/wbc-gtk-actions.c:2549 ../src/wbc-gtk.c:2851
 msgid "Go to First"
 msgstr "Pojdi na prvo"
 
-#: ../src/wbc-gtk-actions.c:2555
+#: ../src/wbc-gtk-actions.c:2550
 msgid "Go to the first data cell"
 msgstr "Pojdi na prvo celico s podatki"
 
-#: ../src/wbc-gtk-actions.c:2560 ../src/wbc-gtk.c:2854
+#: ../src/wbc-gtk-actions.c:2555 ../src/wbc-gtk.c:2852
 msgid "Go to Last"
 msgstr "Pojdi na zadnjo"
 
-#: ../src/wbc-gtk-actions.c:2561
+#: ../src/wbc-gtk-actions.c:2556
 msgid "Go to the last data cell"
 msgstr "Pojdi na zadnjo celico s podatki"
 
-#: ../src/wbc-gtk-actions.c:2566
+#: ../src/wbc-gtk-actions.c:2561
 msgid "_Go to Cell..."
 msgstr "Pojdi na _celico ..."
 
-#: ../src/wbc-gtk-actions.c:2568
+#: ../src/wbc-gtk-actions.c:2563
 msgid "Jump to a specified cell"
 msgstr "Pojdi na določeno celico"
 
-#: ../src/wbc-gtk-actions.c:2574 ../src/wbc-gtk-actions.c:2576
+#: ../src/wbc-gtk-actions.c:2569 ../src/wbc-gtk-actions.c:2571
 msgid "Go to Current Cell Indicator"
 msgstr "Pojdi na trenutni kazalnik celic"
 
-#: ../src/wbc-gtk-actions.c:2582
+#: ../src/wbc-gtk-actions.c:2577
 msgid "Repeat"
 msgstr "Ponovi"
 
-#: ../src/wbc-gtk-actions.c:2584
+#: ../src/wbc-gtk-actions.c:2579
 msgid "Repeat the previous action"
 msgstr "Ponovi predhodno dejanje"
 
-#: ../src/wbc-gtk-actions.c:2589
+#: ../src/wbc-gtk-actions.c:2584
 msgid "P_aste Special..."
 msgstr "_Posebno lepljenje ..."
 
-#: ../src/wbc-gtk-actions.c:2591
+#: ../src/wbc-gtk-actions.c:2586
 msgid "Paste with optional filters and transformations"
 msgstr "Prilepi z izbirnimi filtri in pretvorbami"
 
-#: ../src/wbc-gtk-actions.c:2597 ../src/wbc-gtk-actions.c:2728
+#: ../src/wbc-gtk-actions.c:2592 ../src/wbc-gtk-actions.c:2723
 msgid "Co_mment..."
 msgstr "_Opombe ..."
 
-#: ../src/wbc-gtk-actions.c:2598
+#: ../src/wbc-gtk-actions.c:2593
 msgid "Edit the selected cell's comment"
 msgstr "Uredi opombe trenutno izbrane celice"
 
-#: ../src/wbc-gtk-actions.c:2603 ../src/wbc-gtk-actions.c:2734
+#: ../src/wbc-gtk-actions.c:2598 ../src/wbc-gtk-actions.c:2729
 msgid "Hyper_link..."
 msgstr "_Hiperpovezave ..."
 
-#: ../src/wbc-gtk-actions.c:2605
+#: ../src/wbc-gtk-actions.c:2600
 msgid "Edit the selected cell's hyperlink"
 msgstr "Uredi hiperpovezavo trenutno izbrane celice"
 
-#: ../src/wbc-gtk-actions.c:2610
+#: ../src/wbc-gtk-actions.c:2605
 msgid "_Auto generate names..."
 msgstr "_Samodejno ustvari imena ..."
 
-#: ../src/wbc-gtk-actions.c:2611
+#: ../src/wbc-gtk-actions.c:2606
 msgid "Use the current selection to create names"
 msgstr "Uporabi trenutni izbor za ustvarjanje imen"
 
-#: ../src/wbc-gtk-actions.c:2618
+#: ../src/wbc-gtk-actions.c:2613
 msgid "S_earch..."
 msgstr "_Poišči ..."
 
-#: ../src/wbc-gtk-actions.c:2620
+#: ../src/wbc-gtk-actions.c:2615
 msgid "Search for something"
 msgstr "Iskanje podatkov"
 
-#: ../src/wbc-gtk-actions.c:2625
+#: ../src/wbc-gtk-actions.c:2620
 msgid "Search _& Replace..."
 msgstr "Poišči _in zamenjaj ..."
 
-#: ../src/wbc-gtk-actions.c:2627
+#: ../src/wbc-gtk-actions.c:2622
 msgid "Search for something and replace it with something else"
 msgstr "Iskanje niza in zamenjava z novim nizom"
 
-#: ../src/wbc-gtk-actions.c:2632
+#: ../src/wbc-gtk-actions.c:2627
 msgid "Recalculate"
 msgstr "Ponovno izračunaj"
 
-#: ../src/wbc-gtk-actions.c:2634
+#: ../src/wbc-gtk-actions.c:2629
 msgid "Recalculate the spreadsheet"
 msgstr "Ponovno preračunavanje vrednosti delovnega lista"
 
-#: ../src/wbc-gtk-actions.c:2640
+#: ../src/wbc-gtk-actions.c:2635
 msgid "Preferences..."
 msgstr "Možnosti ..."
 
-#: ../src/wbc-gtk-actions.c:2641
+#: ../src/wbc-gtk-actions.c:2636
 msgid "Change Gnumeric Preferences"
 msgstr "Spreminjanje možnosti programa"
 
-#: ../src/wbc-gtk-actions.c:2647 ../src/wbc-gtk.c:1644
+#: ../src/wbc-gtk-actions.c:2642 ../src/wbc-gtk.c:1644
 msgid "_Freeze Panes"
 msgstr "_Zamrzni polje"
 
-#: ../src/wbc-gtk-actions.c:2648 ../src/wbc-gtk.c:1647
+#: ../src/wbc-gtk-actions.c:2643 ../src/wbc-gtk.c:1647
 msgid "Freeze the top left of the sheet"
 msgstr "Zamrzne zgornje levo polje delovnega lista"
 
 #. dubious
-#: ../src/wbc-gtk-actions.c:2653
+#: ../src/wbc-gtk-actions.c:2648
 msgid "_Zoom..."
 msgstr "_Približanje ..."
 
-#: ../src/wbc-gtk-actions.c:2654
+#: ../src/wbc-gtk-actions.c:2649
 msgid "Zoom the spreadsheet in or out"
 msgstr "Približa ali oddalji preglednico"
 
-#: ../src/wbc-gtk-actions.c:2659
+#: ../src/wbc-gtk-actions.c:2654
 msgid "Zoom _In"
 msgstr "_Približaj"
 
-#: ../src/wbc-gtk-actions.c:2661
+#: ../src/wbc-gtk-actions.c:2656
 msgid "Increase the zoom to make things larger"
 msgstr "Približa za navidezno povečanje predmetov"
 
-#: ../src/wbc-gtk-actions.c:2666
+#: ../src/wbc-gtk-actions.c:2661
 msgid "Zoom _Out"
 msgstr "_Oddalji"
 
-#: ../src/wbc-gtk-actions.c:2668
+#: ../src/wbc-gtk-actions.c:2663
 msgid "Decrease the zoom to make things smaller"
 msgstr "Oddalji za navidezno zmanjšanje predmetov"
 
-#: ../src/wbc-gtk-actions.c:2676 ../src/wbc-gtk-actions.c:2683
+#: ../src/wbc-gtk-actions.c:2671 ../src/wbc-gtk-actions.c:2678
 msgid "Insert new cells"
 msgstr "Vstavi nove celice"
 
-#: ../src/wbc-gtk-actions.c:2690
+#: ../src/wbc-gtk-actions.c:2685
 msgid "Insert new columns"
 msgstr "Vstavi nove stolpce"
 
-#: ../src/wbc-gtk-actions.c:2697
+#: ../src/wbc-gtk-actions.c:2692
 msgid "Insert new rows"
 msgstr "Vstavi nove vrstice"
 
-#: ../src/wbc-gtk-actions.c:2703
+#: ../src/wbc-gtk-actions.c:2698
 msgid "C_hart..."
 msgstr "_Diagram ..."
 
-#: ../src/wbc-gtk-actions.c:2704
+#: ../src/wbc-gtk-actions.c:2699
 msgid "Insert a Chart"
 msgstr "Vstavi diagram"
 
-#: ../src/wbc-gtk-actions.c:2709
+#: ../src/wbc-gtk-actions.c:2704
 msgid "_New..."
 msgstr "_Nov ..."
 
-#: ../src/wbc-gtk-actions.c:2710
+#: ../src/wbc-gtk-actions.c:2705
 msgid "Insert a new Goffice component object"
 msgstr "Vstavi nov vstavni predmet GOffice"
 
-#: ../src/wbc-gtk-actions.c:2715
+#: ../src/wbc-gtk-actions.c:2710
 msgid "_From File..."
 msgstr "_Iz datoteke ..."
 
-#: ../src/wbc-gtk-actions.c:2716
+#: ../src/wbc-gtk-actions.c:2711
 msgid "Insert a new Goffice component object from a file"
 msgstr "Vstavi nov vstavni predmet GOffice iz datoteke"
 
-#: ../src/wbc-gtk-actions.c:2721
+#: ../src/wbc-gtk-actions.c:2716
 msgid "_Image..."
 msgstr "_Slika ..."
 
-#: ../src/wbc-gtk-actions.c:2722
+#: ../src/wbc-gtk-actions.c:2717
 msgid "Insert an image"
 msgstr "Vstavi sliko"
 
-#: ../src/wbc-gtk-actions.c:2729
+#: ../src/wbc-gtk-actions.c:2724
 msgid "Insert a comment"
 msgstr "Vstavi opombo"
 
-#: ../src/wbc-gtk-actions.c:2736
+#: ../src/wbc-gtk-actions.c:2731
 msgid "Insert a Hyperlink"
 msgstr "Vstavi hiperpovezavo"
 
-#: ../src/wbc-gtk-actions.c:2741
+#: ../src/wbc-gtk-actions.c:2736
 msgid "Sort (_Descending)"
 msgstr "Razvrsti _padajoče"
 
-#: ../src/wbc-gtk-actions.c:2742
+#: ../src/wbc-gtk-actions.c:2737
 msgid "Wrap with SORT (descending)"
 msgstr "Prelomi z razvrščanjem (padajoče)"
 
-#: ../src/wbc-gtk-actions.c:2747
+#: ../src/wbc-gtk-actions.c:2742
 msgid "Sort (_Ascending)"
 msgstr "Razvrsti _naraščajoče"
 
-#: ../src/wbc-gtk-actions.c:2748
+#: ../src/wbc-gtk-actions.c:2743
 msgid "Wrap with SORT (ascending)"
 msgstr "Prelomi z razvrščanjem (naraščajoče)"
 
-#: ../src/wbc-gtk-actions.c:2754
+#: ../src/wbc-gtk-actions.c:2749
 msgid "Current _Date"
 msgstr "Trenutni _datum"
 
-#: ../src/wbc-gtk-actions.c:2756
+#: ../src/wbc-gtk-actions.c:2751
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Vstavi trenutni datum v izbrane celice"
 
-#: ../src/wbc-gtk-actions.c:2761
+#: ../src/wbc-gtk-actions.c:2756
 msgid "Current _Time"
 msgstr "Trenutni _čas"
 
-#: ../src/wbc-gtk-actions.c:2763
+#: ../src/wbc-gtk-actions.c:2758
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Vstavi trenutni čas v izbrane celice"
 
-#: ../src/wbc-gtk-actions.c:2768
+#: ../src/wbc-gtk-actions.c:2763
 msgid "Current D_ate and Time"
 msgstr "Trenutna _datum in čas"
 
-#: ../src/wbc-gtk-actions.c:2770
+#: ../src/wbc-gtk-actions.c:2765
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Vstavi trenutni datum in čas v izbrane celice"
 
-#: ../src/wbc-gtk-actions.c:2776
+#: ../src/wbc-gtk-actions.c:2771
 msgid "_Names..."
 msgstr "_Imena ..."
 
-#: ../src/wbc-gtk-actions.c:2778
+#: ../src/wbc-gtk-actions.c:2773
 msgid "Edit defined names for expressions"
 msgstr "Spremeni imena za izraze"
 
-#: ../src/wbc-gtk-actions.c:2784
+#: ../src/wbc-gtk-actions.c:2779
 msgid "_Autoformat..."
 msgstr "_Samodejno oblikovanje ..."
 
-#: ../src/wbc-gtk-actions.c:2785
+#: ../src/wbc-gtk-actions.c:2780
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Oblikovanje izbranih celic glede na določeno predlogo"
 
-#: ../src/wbc-gtk-actions.c:2791
+#: ../src/wbc-gtk-actions.c:2786
 msgid "Toggle sheet direction, left-to-right vs right-to-left"
 msgstr ""
 "Preklopi usmerjenost delovnega lista; z leve na desno ali z desne na levo"
 
-#: ../src/wbc-gtk-actions.c:2797
+#: ../src/wbc-gtk-actions.c:2792
 msgid "_Format..."
 msgstr "_Oblika ..."
 
-#: ../src/wbc-gtk-actions.c:2799
+#: ../src/wbc-gtk-actions.c:2794
 msgid "Modify the formatting of the selected cells"
 msgstr "Spreminjanje oblikovanja izbranih celic"
 
-#: ../src/wbc-gtk-actions.c:2803
+#: ../src/wbc-gtk-actions.c:2798
 msgid "_Conditional Formatting..."
 msgstr "_Pogojno oblikovanje ..."
 
-#: ../src/wbc-gtk-actions.c:2804
+#: ../src/wbc-gtk-actions.c:2799
 msgid "Modify the conditional formatting of the selected cells"
 msgstr "Spremeni pogojno oblikovanje izbranih celic"
 
-#: ../src/wbc-gtk-actions.c:2810
+#: ../src/wbc-gtk-actions.c:2805
 msgid "Ensure rows are just tall enough to display content of selection"
 msgstr "Vrstice morajo biti dovolj visoke za prikaz vsebine izbora."
 
-#: ../src/wbc-gtk-actions.c:2816
+#: ../src/wbc-gtk-actions.c:2811
 msgid "Ensure columns are just wide enough to display content of selection"
 msgstr "Stolpci morajo biti dovolj široki za prikaz vsebine izbora."
 
-#: ../src/wbc-gtk-actions.c:2825
+#: ../src/wbc-gtk-actions.c:2820
 msgid "Change width of the selected columns"
 msgstr "Spreminjanje širine izbranih stolpcev"
 
-#: ../src/wbc-gtk-actions.c:2831
+#: ../src/wbc-gtk-actions.c:2826
 msgid "Ensure columns are just wide enough to display their content"
 msgstr "Stolpci morajo biti dovolj široki za popoln prikaz vsebine."
 
-#: ../src/wbc-gtk-actions.c:2838
+#: ../src/wbc-gtk-actions.c:2833
 msgid "Hide the selected columns"
 msgstr "Skrij izbrane stolpce"
 
-#: ../src/wbc-gtk-actions.c:2845
+#: ../src/wbc-gtk-actions.c:2840
 msgid "Make any hidden columns in the selection visible"
 msgstr "Pokaži vse skrite stolpce v izboru"
 
-#: ../src/wbc-gtk-actions.c:2850
+#: ../src/wbc-gtk-actions.c:2845
 msgid "_Standard Width"
 msgstr "_Običajna širina"
 
-#: ../src/wbc-gtk-actions.c:2851
+#: ../src/wbc-gtk-actions.c:2846
 msgid "Change the default column width"
 msgstr "Spremeni privzeto širino stolpca"
 
-#: ../src/wbc-gtk-actions.c:2858
+#: ../src/wbc-gtk-actions.c:2853
 msgid "H_eight..."
 msgstr "_Višina ..."
 
-#: ../src/wbc-gtk-actions.c:2859
+#: ../src/wbc-gtk-actions.c:2854
 msgid "Change height of the selected rows"
 msgstr "Spremeni višino izbranih vrstic"
 
-#: ../src/wbc-gtk-actions.c:2865
+#: ../src/wbc-gtk-actions.c:2860
 msgid "Ensure rows are just tall enough to display their content"
 msgstr "Vrstice morajo biti dovolj visoke za popoln prikaz vsebine."
 
-#: ../src/wbc-gtk-actions.c:2872
+#: ../src/wbc-gtk-actions.c:2867
 msgid "Hide the selected rows"
 msgstr "Skrij izbrane vrstice"
 
-#: ../src/wbc-gtk-actions.c:2879
+#: ../src/wbc-gtk-actions.c:2874
 msgid "Make any hidden rows in the selection visible"
 msgstr "Pokaže vse skrite vrstice v izboru"
 
-#: ../src/wbc-gtk-actions.c:2884
+#: ../src/wbc-gtk-actions.c:2879
 msgid "_Standard Height"
 msgstr "_Običajna višina"
 
-#: ../src/wbc-gtk-actions.c:2885
+#: ../src/wbc-gtk-actions.c:2880
 msgid "Change the default row height"
 msgstr "Spremeni privzeto višino vrstice"
 
-#: ../src/wbc-gtk-actions.c:2891
+#: ../src/wbc-gtk-actions.c:2886
 msgid "_Plug-ins..."
 msgstr "_Vstavki ..."
 
-#: ../src/wbc-gtk-actions.c:2892
+#: ../src/wbc-gtk-actions.c:2887
 msgid "Manage available plugin modules"
 msgstr "Upravljanje z moduli vstavkov na voljo"
 
-#: ../src/wbc-gtk-actions.c:2896
+#: ../src/wbc-gtk-actions.c:2891
 msgid "Auto _Correct..."
 msgstr "_Samodejno popravi ..."
 
-#: ../src/wbc-gtk-actions.c:2897
+#: ../src/wbc-gtk-actions.c:2892
 msgid "Automatically perform simple spell checking"
 msgstr "Samodejno izvedi enostavno črkovanje"
 
-#: ../src/wbc-gtk-actions.c:2901
+#: ../src/wbc-gtk-actions.c:2896
 msgid "_Auto Save..."
 msgstr "_Samodejno shrani ..."
 
-#: ../src/wbc-gtk-actions.c:2902
+#: ../src/wbc-gtk-actions.c:2897
 msgid "Automatically save the current document at regular intervals"
 msgstr "Samodejno shrani trenutni dokument na določen časovni razmik"
 
-#: ../src/wbc-gtk-actions.c:2906
+#: ../src/wbc-gtk-actions.c:2901
 msgid "_Goal Seek..."
 msgstr "_Iskanje cilja ..."
 
-#: ../src/wbc-gtk-actions.c:2907
+#: ../src/wbc-gtk-actions.c:2902
 msgid "Iteratively recalculate to find a target value"
 msgstr "Preračunaj z iteracijo, da najdeš ciljno vrednost"
 
-#: ../src/wbc-gtk-actions.c:2911
+#: ../src/wbc-gtk-actions.c:2906
 msgid "_Solver..."
 msgstr "_Reševalnik ..."
 
-#: ../src/wbc-gtk-actions.c:2912
+#: ../src/wbc-gtk-actions.c:2907
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Preračunaj z iteracijo z omejitvami, da se približaš ciljni vrednosti."
 
-#: ../src/wbc-gtk-actions.c:2916
+#: ../src/wbc-gtk-actions.c:2911
 msgid "Si_mulation..."
 msgstr "Si_mulacija"
 
-#: ../src/wbc-gtk-actions.c:2917
+#: ../src/wbc-gtk-actions.c:2912
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -16768,171 +16800,171 @@ msgstr ""
 "Preizkusi alternativne odločitve z uporabo simulacije Monte Carlo, za "
 "ugotavljanje verjetnih izidov in z njimi povezanih tveganj."
 
-#: ../src/wbc-gtk-actions.c:2922
+#: ../src/wbc-gtk-actions.c:2917
 msgid "Compare Sheets..."
 msgstr "Primerjaj delovne liste ..."
 
-#: ../src/wbc-gtk-actions.c:2923
+#: ../src/wbc-gtk-actions.c:2918
 msgid "Find differences between two sheets"
 msgstr "Poišči razlike med delovnima listoma"
 
-#: ../src/wbc-gtk-actions.c:2929
+#: ../src/wbc-gtk-actions.c:2924
 msgid "_View..."
 msgstr "_Pogled ..."
 
-#: ../src/wbc-gtk-actions.c:2930
+#: ../src/wbc-gtk-actions.c:2925
 msgid "View, delete and report different scenarios"
 msgstr "Pregled, urejanje in poročanje o različnih scenarijih"
 
-#: ../src/wbc-gtk-actions.c:2934
+#: ../src/wbc-gtk-actions.c:2929
 msgid "_Add..."
 msgstr "_Dodaj ..."
 
-#: ../src/wbc-gtk-actions.c:2935
+#: ../src/wbc-gtk-actions.c:2930
 msgid "Add a new scenario"
 msgstr "Dodaj nov scenarij"
 
-#: ../src/wbc-gtk-actions.c:2942
+#: ../src/wbc-gtk-actions.c:2937
 msgid "_Sampling..."
 msgstr "_Vzorčenje ..."
 
-#: ../src/wbc-gtk-actions.c:2943
+#: ../src/wbc-gtk-actions.c:2938
 msgid "Periodic and random samples"
 msgstr "Ponavljajoči in naključni vzorci"
 
-#: ../src/wbc-gtk-actions.c:2950
+#: ../src/wbc-gtk-actions.c:2945
 msgid "_Correlation..."
 msgstr "_Korelacija ..."
 
-#: ../src/wbc-gtk-actions.c:2951
+#: ../src/wbc-gtk-actions.c:2946
 msgid "Pearson Correlation"
 msgstr "Pearsonova korelacija"
 
-#: ../src/wbc-gtk-actions.c:2955
+#: ../src/wbc-gtk-actions.c:2950
 msgid "Co_variance..."
 msgstr "_Kovarianca ..."
 
-#: ../src/wbc-gtk-actions.c:2960
+#: ../src/wbc-gtk-actions.c:2955
 msgid "_Descriptive Statistics..."
 msgstr "_Opisna statistika ..."
 
-#: ../src/wbc-gtk-actions.c:2961
+#: ../src/wbc-gtk-actions.c:2956
 msgid "Various summary statistics"
 msgstr "Različni povzetki statistike"
 
-#: ../src/wbc-gtk-actions.c:2968
+#: ../src/wbc-gtk-actions.c:2963
 msgid "Fre_quency Tables..."
 msgstr "Frek_venčne razpredelnice ..."
 
-#: ../src/wbc-gtk-actions.c:2969
+#: ../src/wbc-gtk-actions.c:2964
 msgid "Frequency tables for non-numeric data"
 msgstr "Frekvenčne razpredelnice za ne-številčne podatke"
 
-#: ../src/wbc-gtk-actions.c:2973
+#: ../src/wbc-gtk-actions.c:2968
 msgid "_Histogram..."
 msgstr "_Histogram ..."
 
-#: ../src/wbc-gtk-actions.c:2974
+#: ../src/wbc-gtk-actions.c:2969
 msgid "Various frequency tables for numeric data"
 msgstr "Različne frekvenčne razpredelnice za številčne podatke"
 
-#: ../src/wbc-gtk-actions.c:2978
+#: ../src/wbc-gtk-actions.c:2973
 msgid "Ranks And _Percentiles..."
 msgstr "Rangi in _percentili"
 
-#: ../src/wbc-gtk-actions.c:2979
+#: ../src/wbc-gtk-actions.c:2974
 msgid "Ranks, placements and percentiles"
 msgstr "Rangi, postavitve in percentili"
 
-#: ../src/wbc-gtk-actions.c:2986
+#: ../src/wbc-gtk-actions.c:2981
 msgid "_Fourier Analysis..."
 msgstr "_Fourierjeva analiza"
 
-#: ../src/wbc-gtk-actions.c:2992
+#: ../src/wbc-gtk-actions.c:2987
 msgid "Principal Components Analysis..."
 msgstr "Analiza glavnih komponent ..."
 
-#: ../src/wbc-gtk-actions.c:2999
+#: ../src/wbc-gtk-actions.c:2994
 msgid "_Exponential Smoothing..."
 msgstr "_Potenčno glajenje ..."
 
-#: ../src/wbc-gtk-actions.c:3000
+#: ../src/wbc-gtk-actions.c:2995
 msgid "Exponential smoothing..."
 msgstr "Potenčno glajenje ..."
 
-#: ../src/wbc-gtk-actions.c:3004
+#: ../src/wbc-gtk-actions.c:2999
 msgid "_Moving Average..."
 msgstr "_Drseče povprečje ..."
 
-#: ../src/wbc-gtk-actions.c:3005
+#: ../src/wbc-gtk-actions.c:3000
 msgid "Moving average..."
 msgstr "Drseče povprečje ..."
 
-#: ../src/wbc-gtk-actions.c:3009
+#: ../src/wbc-gtk-actions.c:3004
 msgid "_Regression..."
 msgstr "_Regresija ..."
 
-#: ../src/wbc-gtk-actions.c:3010
+#: ../src/wbc-gtk-actions.c:3005
 msgid "Regression Analysis"
 msgstr "Analiza regresije"
 
-#: ../src/wbc-gtk-actions.c:3014
+#: ../src/wbc-gtk-actions.c:3009
 msgid "_Kaplan-Meier Estimates..."
 msgstr "_Kaplan-Meierjeva ocena ..."
 
-#: ../src/wbc-gtk-actions.c:3015
+#: ../src/wbc-gtk-actions.c:3010
 msgid "Creation of Kaplan-Meier Survival Curves"
 msgstr "Ustvarjanje Kaplan-Meierjevih krivulj preživetja"
 
-#: ../src/wbc-gtk-actions.c:3022
+#: ../src/wbc-gtk-actions.c:3017
 msgid "_Normality Tests..."
 msgstr "Preizkusi _normalnosti ..."
 
-#: ../src/wbc-gtk-actions.c:3023
+#: ../src/wbc-gtk-actions.c:3018
 msgid "Testing a sample for normality"
 msgstr "Preizkušanje normalnosti vzorca"
 
-#: ../src/wbc-gtk-actions.c:3027
+#: ../src/wbc-gtk-actions.c:3022
 msgid "Claims About a _Mean..."
 msgstr "Trditve o srednje vrednosti ..."
 
-#: ../src/wbc-gtk-actions.c:3028
+#: ../src/wbc-gtk-actions.c:3023
 msgid "Testing the value of a mean"
 msgstr "Preizkus povprečne vrednosti"
 
-#: ../src/wbc-gtk-actions.c:3035 ../src/wbc-gtk-actions.c:3082
+#: ../src/wbc-gtk-actions.c:3030 ../src/wbc-gtk-actions.c:3077
 msgid "_Sign Test..."
 msgstr "Test _znakov ..."
 
-#: ../src/wbc-gtk-actions.c:3036 ../src/wbc-gtk-actions.c:3041
+#: ../src/wbc-gtk-actions.c:3031 ../src/wbc-gtk-actions.c:3036
 msgid "Testing the value of a median"
 msgstr "Preizkušanje mediane vrednosti"
 
-#: ../src/wbc-gtk-actions.c:3040 ../src/wbc-gtk-actions.c:3087
+#: ../src/wbc-gtk-actions.c:3035 ../src/wbc-gtk-actions.c:3082
 msgid "_Wilcoxon Signed Rank Test..."
 msgstr "_Wilcoxonov test predznačenih rangov ..."
 
-#: ../src/wbc-gtk-actions.c:3048
+#: ../src/wbc-gtk-actions.c:3043
 msgid "Claims About Two _Variances"
 msgstr "Trditve za variance dveh populacij"
 
-#: ../src/wbc-gtk-actions.c:3049
+#: ../src/wbc-gtk-actions.c:3044
 msgid "Comparing two population variances"
 msgstr "Primerjava varianc dveh populacij"
 
-#: ../src/wbc-gtk-actions.c:3056
+#: ../src/wbc-gtk-actions.c:3051
 msgid "_Paired Samples..."
 msgstr "_Odvisni vzorci ..."
 
-#: ../src/wbc-gtk-actions.c:3057
+#: ../src/wbc-gtk-actions.c:3052
 msgid "Comparing two population means for two paired samples"
 msgstr "Primerjava povprečnih vrednosti dveh odvisnih vzorcev populacije"
 
-#: ../src/wbc-gtk-actions.c:3062
+#: ../src/wbc-gtk-actions.c:3057
 msgid "Unpaired Samples, _Equal Variances..."
 msgstr "Neodvisni vzorci, _enake variance ..."
 
-#: ../src/wbc-gtk-actions.c:3063
+#: ../src/wbc-gtk-actions.c:3058
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances"
@@ -16940,11 +16972,11 @@ msgstr ""
 "Primerjava povprečnih vrednosti dveh neodvisnih vzorcev populacije z enako "
 "varianco"
 
-#: ../src/wbc-gtk-actions.c:3068
+#: ../src/wbc-gtk-actions.c:3063
 msgid "Unpaired Samples, _Unequal Variances..."
 msgstr "Neodvisni vzorci, _neenake variance ..."
 
-#: ../src/wbc-gtk-actions.c:3069
+#: ../src/wbc-gtk-actions.c:3064
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances"
@@ -16952,845 +16984,845 @@ msgstr ""
 "Primerjava povprečnih vrednosti dveh neodvisnih vzorcev populacije z neenako "
 "varianco"
 
-#: ../src/wbc-gtk-actions.c:3074
+#: ../src/wbc-gtk-actions.c:3069
 msgid "Unpaired Samples, _Known Variances..."
 msgstr "Neodvisni vzorci, _znane variance ..."
 
-#: ../src/wbc-gtk-actions.c:3075
+#: ../src/wbc-gtk-actions.c:3070
 msgid "Comparing two population means from populations with known variances"
 msgstr "Primerjava povprečnih vrednosti dveh vzorcev z znano varianco"
 
-#: ../src/wbc-gtk-actions.c:3083 ../src/wbc-gtk-actions.c:3088
+#: ../src/wbc-gtk-actions.c:3078 ../src/wbc-gtk-actions.c:3083
 msgid "Comparing the values of two medians of paired observations"
 msgstr "Primerjava mediane vrednosti dveh odvisnih opazovanj"
 
-#: ../src/wbc-gtk-actions.c:3092
+#: ../src/wbc-gtk-actions.c:3087
 msgid "Wilcoxon-_Mann-Whitney Test..."
 msgstr "Wilcoxon-_Mann-Whitney Test..."
 
-#: ../src/wbc-gtk-actions.c:3093
+#: ../src/wbc-gtk-actions.c:3088
 msgid "Comparing the values of two medians of unpaired observations"
 msgstr "Primerjava mediane vrednosti dveh neodvisnih opazovanj"
 
-#: ../src/wbc-gtk-actions.c:3102
+#: ../src/wbc-gtk-actions.c:3097
 msgid "_One Factor..."
 msgstr "_En faktor ..."
 
-#: ../src/wbc-gtk-actions.c:3103
+#: ../src/wbc-gtk-actions.c:3098
 msgid "One Factor Analysis of Variance..."
 msgstr "Eno-faktorska analiza variance ..."
 
-#: ../src/wbc-gtk-actions.c:3107
+#: ../src/wbc-gtk-actions.c:3102
 msgid "_Two Factor..."
 msgstr "_Dva faktorja ..."
 
-#: ../src/wbc-gtk-actions.c:3108
+#: ../src/wbc-gtk-actions.c:3103
 msgid "Two Factor Analysis of Variance..."
 msgstr "Dvo-faktorska analiza variance ..."
 
-#: ../src/wbc-gtk-actions.c:3115
+#: ../src/wbc-gtk-actions.c:3110
 msgid "Test of _Homogeneity..."
 msgstr "Test _homogenosti ..."
 
-#: ../src/wbc-gtk-actions.c:3116
+#: ../src/wbc-gtk-actions.c:3111
 msgid "Chi Squared Test of Homogeneity..."
 msgstr "Hi-kvadrat preiskus homogenosti ..."
 
-#: ../src/wbc-gtk-actions.c:3120
+#: ../src/wbc-gtk-actions.c:3115
 msgid "Test of _Independence..."
 msgstr "Test _neodvisnosti ..."
 
-#: ../src/wbc-gtk-actions.c:3121
+#: ../src/wbc-gtk-actions.c:3116
 msgid "Chi Squared Test of Independence..."
 msgstr "Hi-kvadrat preizkus hipoteze neodvisnosti ..."
 
-#: ../src/wbc-gtk-actions.c:3128
+#: ../src/wbc-gtk-actions.c:3123
 msgid "_Sort..."
 msgstr "_Razvrsti ..."
 
-#: ../src/wbc-gtk-actions.c:3129
+#: ../src/wbc-gtk-actions.c:3124
 msgid "Sort the selected region"
 msgstr "Razvrsti izbrano območje"
 
-#: ../src/wbc-gtk-actions.c:3133
+#: ../src/wbc-gtk-actions.c:3128
 msgid "Sh_uffle..."
 msgstr "P_remešaj ..."
 
-#: ../src/wbc-gtk-actions.c:3134
+#: ../src/wbc-gtk-actions.c:3129
 msgid "Shuffle cells, rows or columns"
 msgstr "Premešaj celice, vrstice ali stolpce"
 
-#: ../src/wbc-gtk-actions.c:3138
+#: ../src/wbc-gtk-actions.c:3133
 msgid "_Validate..."
 msgstr "Potrdi _veljavnost ..."
 
-#: ../src/wbc-gtk-actions.c:3139
+#: ../src/wbc-gtk-actions.c:3134
 msgid "Validate input with preset criteria"
 msgstr "Določi veljavnost vnosa z nastavljenimi kriteriji"
 
-#: ../src/wbc-gtk-actions.c:3143
+#: ../src/wbc-gtk-actions.c:3138
 msgid "T_ext to Columns..."
 msgstr "B_esedilo v stolpce ..."
 
-#: ../src/wbc-gtk-actions.c:3144
+#: ../src/wbc-gtk-actions.c:3139
 msgid "Parse the text in the selection into data"
 msgstr "Razčleni besedilo v izboru v podatke"
 
-#: ../src/wbc-gtk-actions.c:3148
+#: ../src/wbc-gtk-actions.c:3143
 msgid "_Consolidate..."
 msgstr "_Računsko združevanje podatkov ..."
 
-#: ../src/wbc-gtk-actions.c:3149
+#: ../src/wbc-gtk-actions.c:3144
 msgid "Consolidate regions using a function"
 msgstr "Računsko združevanje obsegov podatkov z uporabo funkcije"
 
-#: ../src/wbc-gtk-actions.c:3153
+#: ../src/wbc-gtk-actions.c:3148
 msgid "_Table..."
 msgstr "_Razpredelnica ..."
 
-#: ../src/wbc-gtk-actions.c:3154
+#: ../src/wbc-gtk-actions.c:3149
 msgid "Create a Data Table to evaluate a function with multiple inputs"
 msgstr "Ustvari podatkovno razpredelnico za vrednotenje funkcije z več vhodi."
 
-#: ../src/wbc-gtk-actions.c:3158
+#: ../src/wbc-gtk-actions.c:3153
 msgid "E_xport into Other Format..."
 msgstr "_Izvozi v drug zapis ..."
 
-#: ../src/wbc-gtk-actions.c:3159
+#: ../src/wbc-gtk-actions.c:3154
 msgid "Export the current workbook or sheet"
 msgstr "Izvozi trenutni delovni zvezek ali delovni list"
 
-#: ../src/wbc-gtk-actions.c:3163
+#: ../src/wbc-gtk-actions.c:3158
 msgid "Export as _Text File..."
 msgstr "Izvozi kot _besedilno datoteko ..."
 
-#: ../src/wbc-gtk-actions.c:3164
+#: ../src/wbc-gtk-actions.c:3159
 msgid "Export the current sheet as a text file"
 msgstr "Izvozi trenutni delovni list kot besedilno datoteko"
 
-#: ../src/wbc-gtk-actions.c:3168
+#: ../src/wbc-gtk-actions.c:3163
 msgid "Export as _CSV File..."
 msgstr "Izvozi kot datoteko _CSV ..."
 
-#: ../src/wbc-gtk-actions.c:3169
+#: ../src/wbc-gtk-actions.c:3164
 msgid "Export the current sheet as a csv file"
 msgstr "Izvozi trenutni delovni list kot datoteko csv"
 
-#: ../src/wbc-gtk-actions.c:3173 ../src/wbc-gtk.c:1765
+#: ../src/wbc-gtk-actions.c:3168 ../src/wbc-gtk.c:1765
 msgid "Repeat Export"
 msgstr "Ponovno izvozi"
 
-#: ../src/wbc-gtk-actions.c:3175 ../src/wbc-gtk.c:1761 ../src/wbc-gtk.c:1765
+#: ../src/wbc-gtk-actions.c:3170 ../src/wbc-gtk.c:1761 ../src/wbc-gtk.c:1765
 msgid "Repeat the last data export"
 msgstr "Ponovi zadnji izvoz podatkov"
 
-#: ../src/wbc-gtk-actions.c:3181
+#: ../src/wbc-gtk-actions.c:3176
 msgid "Auto_fill"
 msgstr "Samodejno _polnjenje"
 
-#: ../src/wbc-gtk-actions.c:3182
+#: ../src/wbc-gtk-actions.c:3177
 msgid "Automatically fill the current selection"
 msgstr "Samodejno zapolni trenutni izbor"
 
-#: ../src/wbc-gtk-actions.c:3186
+#: ../src/wbc-gtk-actions.c:3181
 msgid "_Merge..."
 msgstr "_Združi ..."
 
-#: ../src/wbc-gtk-actions.c:3187
+#: ../src/wbc-gtk-actions.c:3182
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Združi podatke v stolpcih v delovni list in ustvari podvojene delovne liste "
 "za vsako vrstico."
 
-#: ../src/wbc-gtk-actions.c:3191
+#: ../src/wbc-gtk-actions.c:3186
 msgid "_Tabulate Dependency..."
 msgstr "Razvrščanje _odvisnosti v razpredelnice ..."
 
-#: ../src/wbc-gtk-actions.c:3192
+#: ../src/wbc-gtk-actions.c:3187
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Ustvari razpredelnico vrednosti celic kot funkcijo drugih celic."
 
-#: ../src/wbc-gtk-actions.c:3196
+#: ../src/wbc-gtk-actions.c:3191
 msgid "_Series..."
 msgstr "_Nizi podatkov ..."
 
-#: ../src/wbc-gtk-actions.c:3197
+#: ../src/wbc-gtk-actions.c:3192
 msgid "Fill according to a linear or exponential series"
 msgstr "Zapolni glede na linearni ali eksponentni niz podatkov"
 
-#: ../src/wbc-gtk-actions.c:3201
+#: ../src/wbc-gtk-actions.c:3196
 msgid "_Uncorrelated..."
 msgstr "_Nepovezane spremenljivke."
 
-#: ../src/wbc-gtk-actions.c:3202
+#: ../src/wbc-gtk-actions.c:3197
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Ustvari naključna števila izbrane porazdelitve"
 
-#: ../src/wbc-gtk-actions.c:3206
+#: ../src/wbc-gtk-actions.c:3201
 msgid "_Correlated..."
 msgstr "_Soodnosne spremenljivke"
 
-#: ../src/wbc-gtk-actions.c:3207
+#: ../src/wbc-gtk-actions.c:3202
 msgid "Generate variates for correlated normal distributed random variables"
 msgstr ""
 "Ustvari variate za soodnosne normalno porazdeljene naključne spremenljivke"
 
-#: ../src/wbc-gtk-actions.c:3211
+#: ../src/wbc-gtk-actions.c:3206
 msgid "Fill Downwards"
 msgstr "Zapolni navzdol"
 
-#: ../src/wbc-gtk-actions.c:3213
+#: ../src/wbc-gtk-actions.c:3208
 msgid "Copy the content from the top row to the cells below"
 msgstr "Kopiraj vsebino iz vrhnje vrstice v celice spodaj."
 
-#: ../src/wbc-gtk-actions.c:3217
+#: ../src/wbc-gtk-actions.c:3212
 msgid "Fill to Right"
 msgstr "Zapolni na desno"
 
-#: ../src/wbc-gtk-actions.c:3219
+#: ../src/wbc-gtk-actions.c:3214
 msgid "Copy the content from the left column to the cells on the right"
 msgstr "Kopiraj vsebino iz levega stolpca v celice na desni."
 
-#: ../src/wbc-gtk-actions.c:3227
+#: ../src/wbc-gtk-actions.c:3222
 msgid "_Hide Detail"
 msgstr "_Skrij podrobnosti"
 
-#: ../src/wbc-gtk-actions.c:3228
+#: ../src/wbc-gtk-actions.c:3223
 msgid "Collapse an outline group"
 msgstr "Zloži orisano skupino"
 
-#: ../src/wbc-gtk-actions.c:3233
+#: ../src/wbc-gtk-actions.c:3228
 msgid "_Show Detail"
 msgstr "_Pokaži podrobnosti"
 
-#: ../src/wbc-gtk-actions.c:3234
+#: ../src/wbc-gtk-actions.c:3229
 msgid "Uncollapse an outline group"
 msgstr "Razširi orisano skupino"
 
-#: ../src/wbc-gtk-actions.c:3239
+#: ../src/wbc-gtk-actions.c:3234
 msgid "_Group..."
 msgstr "_Združi v skupino"
 
-#: ../src/wbc-gtk-actions.c:3241
+#: ../src/wbc-gtk-actions.c:3236
 msgid "Add an outline group"
 msgstr "Dodaj zunanjo skupino"
 
-#: ../src/wbc-gtk-actions.c:3246
+#: ../src/wbc-gtk-actions.c:3241
 msgid "_Ungroup..."
 msgstr "_Razdruži"
 
-#: ../src/wbc-gtk-actions.c:3248
+#: ../src/wbc-gtk-actions.c:3243
 msgid "Remove an outline group"
 msgstr "Odstrani zunanjo skupino"
 
-#: ../src/wbc-gtk-actions.c:3255 ../src/wbc-gtk.c:1686
+#: ../src/wbc-gtk-actions.c:3250 ../src/wbc-gtk.c:1686
 msgid "Add _Auto Filter"
 msgstr "Dodaj _samodejni filter"
 
-#: ../src/wbc-gtk-actions.c:3256
+#: ../src/wbc-gtk-actions.c:3251
 msgid "Add or remove a filter"
 msgstr "Dodaj ali odstrani filter"
 
-#: ../src/wbc-gtk-actions.c:3260
+#: ../src/wbc-gtk-actions.c:3255
 msgid "_Clear Advanced Filter"
 msgstr "_Počisti napredni filter"
 
-#: ../src/wbc-gtk-actions.c:3261
+#: ../src/wbc-gtk-actions.c:3256
 msgid "Show all rows hidden by an advanced filter"
 msgstr "Pokaži vse z naprednim filtrom skrite vrstice"
 
-#: ../src/wbc-gtk-actions.c:3265
+#: ../src/wbc-gtk-actions.c:3260
 msgid "Advanced _Filter..."
 msgstr "Napreden _filter ..."
 
-#: ../src/wbc-gtk-actions.c:3266
+#: ../src/wbc-gtk-actions.c:3261
 msgid "Filter data with given criteria"
 msgstr "Filtriraj podatke s podanim kriterijem"
 
-#: ../src/wbc-gtk-actions.c:3271
+#: ../src/wbc-gtk-actions.c:3266
 msgid "Import _Text File..."
 msgstr "Uvozi _besedilno datoteko ..."
 
-#: ../src/wbc-gtk-actions.c:3272
+#: ../src/wbc-gtk-actions.c:3267
 msgid "Import data from a text file"
 msgstr "Uvoz podatkov iz besedilne datoteke"
 
-#: ../src/wbc-gtk-actions.c:3276
+#: ../src/wbc-gtk-actions.c:3271
 msgid "Import _Other File..."
 msgstr "Uvozi _drugo vrsto datoteke ..."
 
-#: ../src/wbc-gtk-actions.c:3277
+#: ../src/wbc-gtk-actions.c:3272
 msgid "Import data from a file"
 msgstr "Uvoz podatkov iz datoteke"
 
 # Pivot tables are called “data slicers” ("pivot tables" has been registered by MS) ???
-#: ../src/wbc-gtk-actions.c:3284
+#: ../src/wbc-gtk-actions.c:3279
 msgid "Add _Data Slicer"
 msgstr "Dodaj _vrtilno razpredelnico"
 
-#: ../src/wbc-gtk-actions.c:3285
+#: ../src/wbc-gtk-actions.c:3280
 msgid "Create a data slicer"
 msgstr "Ustvari vrtilno razpredelnico"
 
-#: ../src/wbc-gtk-actions.c:3289
+#: ../src/wbc-gtk-actions.c:3284
 msgid "_Refresh"
 msgstr "_Osveži"
 
-#: ../src/wbc-gtk-actions.c:3290
+#: ../src/wbc-gtk-actions.c:3285
 msgid "Regenerate a data slicer from the source data"
 msgstr "Ustvari vrtilno razpredelnico iz izvornih podatkov"
 
-#: ../src/wbc-gtk-actions.c:3294
+#: ../src/wbc-gtk-actions.c:3289
 msgid "_Edit Data Slicer..."
 msgstr "_Uredi vrtilno razpredelnico ..."
 
-#: ../src/wbc-gtk-actions.c:3295
+#: ../src/wbc-gtk-actions.c:3290
 msgid "Adjust a data slicer"
 msgstr "Prilagodi vrtilno razpredelnico"
 
-#: ../src/wbc-gtk-actions.c:3302 ../src/wbc-gtk.c:4142
+#: ../src/wbc-gtk-actions.c:3297 ../src/wbc-gtk.c:4140
 #: ../src/workbook-view.c:855
 msgid "Sum"
 msgstr "Vsota"
 
-#: ../src/wbc-gtk-actions.c:3304
+#: ../src/wbc-gtk-actions.c:3299
 msgid "Sum into the current cell"
 msgstr "Seštej vrednost v trenutno izbrano celico"
 
-#: ../src/wbc-gtk-actions.c:3309
+#: ../src/wbc-gtk-actions.c:3304
 msgid "_Function..."
 msgstr "_Funkcija ..."
 
-#: ../src/wbc-gtk-actions.c:3310
+#: ../src/wbc-gtk-actions.c:3305
 msgid "Edit a function in the current cell"
 msgstr "Vstavi in uredi funkcijo trenutne celice"
 
-#: ../src/wbc-gtk-actions.c:3317
+#: ../src/wbc-gtk-actions.c:3312
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
 "Razvrsti izbrani obseg celic naraščajoče po prvem izbranem stolpcu podatkov."
 
-#: ../src/wbc-gtk-actions.c:3322
+#: ../src/wbc-gtk-actions.c:3317
 msgid "Sort Descending"
 msgstr "Razvrsti padajoče"
 
-#: ../src/wbc-gtk-actions.c:3323
+#: ../src/wbc-gtk-actions.c:3318
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr ""
 "Razvrsti izbrani obseg celic padajoče po prvem izbranem stolpcu podatkov."
 
-#: ../src/wbc-gtk-actions.c:3331
+#: ../src/wbc-gtk-actions.c:3326
 msgid "Create a frame"
 msgstr "Ustvari okvir"
 
-#: ../src/wbc-gtk-actions.c:3336
+#: ../src/wbc-gtk-actions.c:3331
 msgid "Checkbox"
 msgstr "Označno polje"
 
-#: ../src/wbc-gtk-actions.c:3337
+#: ../src/wbc-gtk-actions.c:3332
 msgid "Create a checkbox"
 msgstr "Ustvari označno polje"
 
-#: ../src/wbc-gtk-actions.c:3342
+#: ../src/wbc-gtk-actions.c:3337
 msgid "Scrollbar"
 msgstr "Drsnik"
 
-#: ../src/wbc-gtk-actions.c:3343
+#: ../src/wbc-gtk-actions.c:3338
 msgid "Create a scrollbar"
 msgstr "Ustvari drsnik"
 
-#: ../src/wbc-gtk-actions.c:3348
+#: ../src/wbc-gtk-actions.c:3343
 msgid "Slider"
 msgstr "Drsnik"
 
-#: ../src/wbc-gtk-actions.c:3349
+#: ../src/wbc-gtk-actions.c:3344
 msgid "Create a slider"
 msgstr "Ustvari drsnik"
 
-#: ../src/wbc-gtk-actions.c:3354
+#: ../src/wbc-gtk-actions.c:3349
 msgid "SpinButton"
 msgstr "Vrtilni gumb"
 
-#: ../src/wbc-gtk-actions.c:3355
+#: ../src/wbc-gtk-actions.c:3350
 msgid "Create a spin button"
 msgstr "Ustvari vrtilni gumb"
 
-#: ../src/wbc-gtk-actions.c:3360
+#: ../src/wbc-gtk-actions.c:3355
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:1
 msgid "List"
 msgstr "Seznam"
 
-#: ../src/wbc-gtk-actions.c:3361
+#: ../src/wbc-gtk-actions.c:3356
 msgid "Create a list"
 msgstr "Ustvari seznam"
 
-#: ../src/wbc-gtk-actions.c:3366
+#: ../src/wbc-gtk-actions.c:3361
 msgid "Combo Box"
 msgstr "Spustno polje"
 
-#: ../src/wbc-gtk-actions.c:3367
+#: ../src/wbc-gtk-actions.c:3362
 msgid "Create a combo box"
 msgstr "Ustvari spustno polje"
 
-#: ../src/wbc-gtk-actions.c:3373
+#: ../src/wbc-gtk-actions.c:3368
 msgid "Create a line object"
 msgstr "Ustvari črte"
 
-#: ../src/wbc-gtk-actions.c:3378
+#: ../src/wbc-gtk-actions.c:3373
 msgid "Arrow"
 msgstr "Puščica"
 
-#: ../src/wbc-gtk-actions.c:3379
+#: ../src/wbc-gtk-actions.c:3374
 msgid "Create an arrow object"
 msgstr "Ustvari puščico"
 
-#: ../src/wbc-gtk-actions.c:3384
+#: ../src/wbc-gtk-actions.c:3379
 msgid "Rectangle"
 msgstr "Pravokotnik"
 
-#: ../src/wbc-gtk-actions.c:3385
+#: ../src/wbc-gtk-actions.c:3380
 msgid "Create a rectangle object"
 msgstr "Ustvarjanje okvirja ali pravokotnika"
 
-#: ../src/wbc-gtk-actions.c:3390
+#: ../src/wbc-gtk-actions.c:3385
 msgid "Ellipse"
 msgstr "Elipsa"
 
-#: ../src/wbc-gtk-actions.c:3391
+#: ../src/wbc-gtk-actions.c:3386
 msgid "Create an ellipse object"
 msgstr "Ustvarjanje elipse ali kroga"
 
-#: ../src/wbc-gtk-actions.c:3397
+#: ../src/wbc-gtk-actions.c:3392
 msgid "Create a button"
 msgstr "Ustvari gumb"
 
-#: ../src/wbc-gtk-actions.c:3403
+#: ../src/wbc-gtk-actions.c:3398
 msgid "Create a radio button"
 msgstr "Ustvari radijski gumb"
 
-#: ../src/wbc-gtk-actions.c:3411
+#: ../src/wbc-gtk-actions.c:3406
 msgid "Merge a range of cells"
 msgstr "Združi obseg celic"
 
-#: ../src/wbc-gtk-actions.c:3416
+#: ../src/wbc-gtk-actions.c:3411
 msgid "Unmerge"
 msgstr "Razdruži"
 
-#: ../src/wbc-gtk-actions.c:3417
+#: ../src/wbc-gtk-actions.c:3412
 msgid "Split merged ranges of cells"
 msgstr "Razdeli združene celice"
 
-#: ../src/wbc-gtk-actions.c:3424
+#: ../src/wbc-gtk-actions.c:3419
 msgid "Format the selection as General"
 msgstr "Oblikuj izbrane celice kot celice s splošnim oblikovanjem"
 
-#: ../src/wbc-gtk-actions.c:3430
+#: ../src/wbc-gtk-actions.c:3425
 msgid "Format the selection as numbers"
 msgstr "Oblikuj izbrane celice kot celice s številom"
 
-#: ../src/wbc-gtk-actions.c:3434
+#: ../src/wbc-gtk-actions.c:3429
 msgid "Currency"
 msgstr "Valuta"
 
-#: ../src/wbc-gtk-actions.c:3436
+#: ../src/wbc-gtk-actions.c:3431
 msgid "Format the selection as currency"
 msgstr "Oblikuj izbrane celice kot celice z denarnimi enotami"
 
-#: ../src/wbc-gtk-actions.c:3441
+#: ../src/wbc-gtk-actions.c:3436
 msgid "Accounting"
 msgstr "Računovodstvo"
 
-#: ../src/wbc-gtk-actions.c:3442
+#: ../src/wbc-gtk-actions.c:3437
 msgid "Format the selection as accounting"
 msgstr "Oblikuj izbrane celice kot celice z računovodskimi enotami"
 
-#: ../src/wbc-gtk-actions.c:3449
+#: ../src/wbc-gtk-actions.c:3444
 msgid "Format the selection as percentage"
 msgstr "Oblikuj izbrane celice kot celice z odstotnim številom"
 
-#: ../src/wbc-gtk-actions.c:3453
+#: ../src/wbc-gtk-actions.c:3448
 msgid "Scientific"
 msgstr "Znanstveni"
 
-#: ../src/wbc-gtk-actions.c:3455
+#: ../src/wbc-gtk-actions.c:3450
 msgid "Format the selection as scientific"
 msgstr "Oblikuj izbrane celice kot celice s številom v znanstvenem zapisu"
 
-#: ../src/wbc-gtk-actions.c:3461
+#: ../src/wbc-gtk-actions.c:3456
 msgid "Format the selection as date"
 msgstr "Oblikuj izbrane celice kot celice z datumom"
 
-#: ../src/wbc-gtk-actions.c:3467
+#: ../src/wbc-gtk-actions.c:3462
 msgid "Format the selection as time"
 msgstr "Oblikuj izbrane celice kot celice s časom"
 
-#: ../src/wbc-gtk-actions.c:3471
+#: ../src/wbc-gtk-actions.c:3466
 msgid "AddBorders"
 msgstr "Dodaj obrobe"
 
-#: ../src/wbc-gtk-actions.c:3473
+#: ../src/wbc-gtk-actions.c:3468
 msgid "Add a border around the selection"
 msgstr "Dodaj obrobo okoli izbire"
 
-#: ../src/wbc-gtk-actions.c:3477
+#: ../src/wbc-gtk-actions.c:3472
 msgid "ClearBorders"
 msgstr "Počisti obrobe"
 
-#: ../src/wbc-gtk-actions.c:3479
+#: ../src/wbc-gtk-actions.c:3474
 msgid "Clear the border around the selection"
 msgstr "Počisti obrobo okoli izbire"
 
-#: ../src/wbc-gtk-actions.c:3485
+#: ../src/wbc-gtk-actions.c:3480
 msgid "Thousands Separator"
 msgstr "Ločnica tisočic"
 
-#: ../src/wbc-gtk-actions.c:3486
+#: ../src/wbc-gtk-actions.c:3481
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Nastavi obliko izbranih celic na številčno z ločnico tistočic"
 
-#: ../src/wbc-gtk-actions.c:3491
+#: ../src/wbc-gtk-actions.c:3486
 msgid "Increase Precision"
 msgstr "Povečaj natančnost"
 
-#: ../src/wbc-gtk-actions.c:3492
+#: ../src/wbc-gtk-actions.c:3487
 msgid "Increase the number of decimals displayed"
 msgstr "Povečaj število izpisanih decimalnih mest"
 
-#: ../src/wbc-gtk-actions.c:3497
+#: ../src/wbc-gtk-actions.c:3492
 msgid "Decrease Precision"
 msgstr "Zmanjšaj natančnost"
 
-#: ../src/wbc-gtk-actions.c:3498
+#: ../src/wbc-gtk-actions.c:3493
 msgid "Decrease the number of decimals displayed"
 msgstr "Zmanjšaj število izpisanih decimalnih mest"
 
-#: ../src/wbc-gtk-actions.c:3505
+#: ../src/wbc-gtk-actions.c:3500
 msgid "Decrease Indentation"
 msgstr "Zmanjšaj zamik"
 
-#: ../src/wbc-gtk-actions.c:3508
+#: ../src/wbc-gtk-actions.c:3503
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Zmanjšaj zamik in poravnaj vsebino na levo"
 
-#: ../src/wbc-gtk-actions.c:3512
+#: ../src/wbc-gtk-actions.c:3507
 msgid "Increase Indentation"
 msgstr "Povečaj zamik"
 
-#: ../src/wbc-gtk-actions.c:3515
+#: ../src/wbc-gtk-actions.c:3510
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Povečaj zamik in poravnaj vsebino na levo"
 
-#: ../src/wbc-gtk-actions.c:3523
+#: ../src/wbc-gtk-actions.c:3518
 msgid "Display _Outlines"
 msgstr "Prikaži _obrise"
 
-#: ../src/wbc-gtk-actions.c:3525
+#: ../src/wbc-gtk-actions.c:3520
 msgid "Toggle whether or not to display outline groups"
 msgstr "Preklopi prikaz orisa skupin"
 
-#: ../src/wbc-gtk-actions.c:3530
+#: ../src/wbc-gtk-actions.c:3525
 msgid "Outlines _Below"
 msgstr "Obris _spodaj"
 
-#: ../src/wbc-gtk-actions.c:3531
+#: ../src/wbc-gtk-actions.c:3526
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Preklopi prikaz orisa vrstic spodaj ali zgoraj"
 
-#: ../src/wbc-gtk-actions.c:3536
+#: ../src/wbc-gtk-actions.c:3531
 msgid "Outlines _Right"
 msgstr "Obris _desno"
 
-#: ../src/wbc-gtk-actions.c:3537
+#: ../src/wbc-gtk-actions.c:3532
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Preklopi prikaz orisa stolpcev na levi ali na desni"
 
-#: ../src/wbc-gtk-actions.c:3543
+#: ../src/wbc-gtk-actions.c:3538
 msgid "Display _Formulæ"
 msgstr "Pokaži _formule"
 
-#: ../src/wbc-gtk-actions.c:3545
+#: ../src/wbc-gtk-actions.c:3540
 msgid "Display the value of a formula or the formula itself"
 msgstr "Prikaz vrednosti formule ali same formule"
 
-#: ../src/wbc-gtk-actions.c:3550
+#: ../src/wbc-gtk-actions.c:3545
 msgid "_Hide Zeros"
 msgstr "Skrij _ničle"
 
-#: ../src/wbc-gtk-actions.c:3551
+#: ../src/wbc-gtk-actions.c:3546
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Preklopi prikaz ničnih vrednosti kot prazna polja"
 
-#: ../src/wbc-gtk-actions.c:3556
+#: ../src/wbc-gtk-actions.c:3551
 msgid "Hide _Gridlines"
 msgstr "Skrij _mrežne črte"
 
-#: ../src/wbc-gtk-actions.c:3557
+#: ../src/wbc-gtk-actions.c:3552
 msgid "Toggle whether or not to display gridlines"
 msgstr "Preklopi izris mrežnih črt"
 
-#: ../src/wbc-gtk-actions.c:3562
+#: ../src/wbc-gtk-actions.c:3557
 msgid "Hide _Column Headers"
 msgstr "Skrij _glave stolpcev"
 
-#: ../src/wbc-gtk-actions.c:3563
+#: ../src/wbc-gtk-actions.c:3558
 msgid "Toggle whether or not to display column headers"
 msgstr "Preklopi prikaz glav stolpcev"
 
-#: ../src/wbc-gtk-actions.c:3568
+#: ../src/wbc-gtk-actions.c:3563
 msgid "Hide _Row Headers"
 msgstr "Skrij _glave vrstic"
 
-#: ../src/wbc-gtk-actions.c:3569
+#: ../src/wbc-gtk-actions.c:3564
 msgid "Toggle whether or not to display row headers"
 msgstr "Preklopi prikaz glav vrstic"
 
-#: ../src/wbc-gtk-actions.c:3576
+#: ../src/wbc-gtk-actions.c:3571
 msgid "Use R1C1 N_otation "
 msgstr "Uporabi _označevanje R1C1"
 
-#: ../src/wbc-gtk-actions.c:3577
+#: ../src/wbc-gtk-actions.c:3572
 msgid "Display addresses as R1C1 or A1"
 msgstr "Pokaži označevanje celic kot R1C1 ali A1"
 
-#: ../src/wbc-gtk-actions.c:3584
+#: ../src/wbc-gtk-actions.c:3579
 msgid "_Left Align"
 msgstr "Poravnaj _levo"
 
-#: ../src/wbc-gtk-actions.c:3585 ../src/wbc-gtk-actions.c:3723
+#: ../src/wbc-gtk-actions.c:3580 ../src/wbc-gtk-actions.c:3718
 msgid "Align left"
 msgstr "Poravnaj levo"
 
-#: ../src/wbc-gtk-actions.c:3592
+#: ../src/wbc-gtk-actions.c:3587
 msgid "_Center"
 msgstr "_Sredina"
 
-#: ../src/wbc-gtk-actions.c:3593 ../src/wbc-gtk-actions.c:3724
+#: ../src/wbc-gtk-actions.c:3588 ../src/wbc-gtk-actions.c:3719
 msgid "Center horizontally"
 msgstr "Poravnaj na sredini"
 
-#: ../src/wbc-gtk-actions.c:3600
+#: ../src/wbc-gtk-actions.c:3595
 msgid "_Right Align"
 msgstr "Poravnaj _desno"
 
-#: ../src/wbc-gtk-actions.c:3601 ../src/wbc-gtk-actions.c:3725
+#: ../src/wbc-gtk-actions.c:3596 ../src/wbc-gtk-actions.c:3720
 msgid "Align right"
 msgstr "Poravnaj desno"
 
-#: ../src/wbc-gtk-actions.c:3608
+#: ../src/wbc-gtk-actions.c:3603
 msgid "_Center Across Selection"
 msgstr "_Sredini preko izbora"
 
-#: ../src/wbc-gtk-actions.c:3609 ../src/wbc-gtk-actions.c:3729
+#: ../src/wbc-gtk-actions.c:3604 ../src/wbc-gtk-actions.c:3724
 msgid "Center horizontally across the selection"
 msgstr "Poravnaj na sredino preko celotnega izbora"
 
-#: ../src/wbc-gtk-actions.c:3615
+#: ../src/wbc-gtk-actions.c:3610
 msgid "_Merge and Center"
 msgstr "Združi in sredini"
 
-#: ../src/wbc-gtk-actions.c:3616
+#: ../src/wbc-gtk-actions.c:3611
 msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr ""
 "Združi izbrane celice v eno celico in vsebino postavi vodoravno v sredino."
 
-#: ../src/wbc-gtk-actions.c:3626
+#: ../src/wbc-gtk-actions.c:3621
 msgid "Align _Top"
 msgstr "Poravnaj _zgoraj"
 
-#: ../src/wbc-gtk-actions.c:3627
+#: ../src/wbc-gtk-actions.c:3622
 msgid "Align Top"
 msgstr "Poravnaj zgoraj"
 
-#: ../src/wbc-gtk-actions.c:3634
+#: ../src/wbc-gtk-actions.c:3629
 msgid "_Vertically Center"
 msgstr "Sredini _navpično"
 
-#: ../src/wbc-gtk-actions.c:3635
+#: ../src/wbc-gtk-actions.c:3630
 msgid "Vertically Center"
 msgstr "Sredini navpično"
 
-#: ../src/wbc-gtk-actions.c:3642
+#: ../src/wbc-gtk-actions.c:3637
 msgid "Align _Bottom"
 msgstr "Poravnaj _spodaj"
 
-#: ../src/wbc-gtk-actions.c:3643
+#: ../src/wbc-gtk-actions.c:3638
 msgid "Align Bottom"
 msgstr "Poravnaj spodaj"
 
-#: ../src/wbc-gtk-actions.c:3653
+#: ../src/wbc-gtk-actions.c:3648
 msgid "_Bold"
 msgstr "_Krepko"
 
-#: ../src/wbc-gtk-actions.c:3661
+#: ../src/wbc-gtk-actions.c:3656
 msgid "_Italic"
 msgstr "_Ležeče"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:3677
+#: ../src/wbc-gtk-actions.c:3672
 msgid "_Double Underline"
 msgstr "_Dvojno podčrtano"
 
-#: ../src/wbc-gtk-actions.c:3679
+#: ../src/wbc-gtk-actions.c:3674
 msgid "Double Underline"
 msgstr "Dvojno podčrtano"
 
-#: ../src/wbc-gtk-actions.c:3684
+#: ../src/wbc-gtk-actions.c:3679
 msgid "_Single Low Underline"
 msgstr "_Enojno podčrtanje"
 
-#: ../src/wbc-gtk-actions.c:3686
+#: ../src/wbc-gtk-actions.c:3681
 msgid "Single Low Underline"
 msgstr "Enojno podčrtanje"
 
-#: ../src/wbc-gtk-actions.c:3691
+#: ../src/wbc-gtk-actions.c:3686
 msgid "Double _Low Underline"
 msgstr "_Dvojno podčrtanje"
 
-#: ../src/wbc-gtk-actions.c:3692
+#: ../src/wbc-gtk-actions.c:3687
 msgid "Double Low Underline"
 msgstr "Dvojno podčrtanje"
 
-#: ../src/wbc-gtk-actions.c:3698
+#: ../src/wbc-gtk-actions.c:3693
 msgid "_Strikethrough"
 msgstr "Pre_črtano"
 
-#: ../src/wbc-gtk-actions.c:3706
+#: ../src/wbc-gtk-actions.c:3701
 msgid "Su_perscript"
 msgstr "_Nadpisano"
 
-#: ../src/wbc-gtk-actions.c:3708
+#: ../src/wbc-gtk-actions.c:3703
 msgid "Superscript"
 msgstr "Nadpisano"
 
-#: ../src/wbc-gtk-actions.c:3714
+#: ../src/wbc-gtk-actions.c:3709
 msgid "Subscrip_t"
 msgstr "_Podpisano"
 
-#: ../src/wbc-gtk-actions.c:3716
+#: ../src/wbc-gtk-actions.c:3711
 msgid "Subscript"
 msgstr "Podpisano"
 
-#: ../src/wbc-gtk-actions.c:3726
+#: ../src/wbc-gtk-actions.c:3721
 msgid "Fill horizontally"
 msgstr "Zapolni vodoravno"
 
-#: ../src/wbc-gtk-actions.c:3727
+#: ../src/wbc-gtk-actions.c:3722
 msgid "Justify horizontally"
 msgstr "Vodoravno obojestransko poravnaj"
 
-#: ../src/wbc-gtk-actions.c:3731
+#: ../src/wbc-gtk-actions.c:3726
 msgid "Align numbers right, and text left"
 msgstr "Poravnaj števila desno, besedilo pa levo"
 
-#: ../src/wbc-gtk-actions.c:3736
+#: ../src/wbc-gtk-actions.c:3731
 msgid "Align top"
 msgstr "Poravnaj zgoraj"
 
-#: ../src/wbc-gtk-actions.c:3737
+#: ../src/wbc-gtk-actions.c:3732
 msgid "Center vertically"
 msgstr "Poravnaj navpično"
 
-#: ../src/wbc-gtk-actions.c:3738
+#: ../src/wbc-gtk-actions.c:3733
 msgid "Align bottom"
 msgstr "Poravnaj spodaj"
 
 #. Reuse "center" icon as I don't know what this one is
-#: ../src/wbc-gtk-actions.c:3741
+#: ../src/wbc-gtk-actions.c:3736
 msgid "Align distributed"
 msgstr "Poravnaj porazdeljeno"
 
-#: ../src/wbc-gtk-actions.c:3764 ../src/wbc-gtk-actions.c:3765
+#: ../src/wbc-gtk-actions.c:3759 ../src/wbc-gtk-actions.c:3760
 msgid "Horizontal Alignment"
 msgstr "Vodoravna poravnava"
 
-#: ../src/wbc-gtk-actions.c:3776 ../src/wbc-gtk-actions.c:3777
+#: ../src/wbc-gtk-actions.c:3771 ../src/wbc-gtk-actions.c:3772
 msgid "Vertical Alignment"
 msgstr "Navpična poravnava"
 
-#: ../src/wbc-gtk-actions.c:3815
+#: ../src/wbc-gtk-actions.c:3810
 msgid "Set Foreground Color"
 msgstr "Določi barvo pisave"
 
-#: ../src/wbc-gtk-actions.c:3829 ../src/wbc-gtk-actions.c:3830
+#: ../src/wbc-gtk-actions.c:3824 ../src/wbc-gtk-actions.c:3825
 msgid "Foreground"
 msgstr "Pisava"
 
 #. Set background to NONE
-#: ../src/wbc-gtk-actions.c:3865
+#: ../src/wbc-gtk-actions.c:3860
 msgid "Set Background Color"
 msgstr "Določi barvo ozadja"
 
-#: ../src/wbc-gtk-actions.c:3888
+#: ../src/wbc-gtk-actions.c:3883
 msgid "Clear Borders"
 msgstr "Počisti obrobe"
 
-#: ../src/wbc-gtk-actions.c:3891
+#: ../src/wbc-gtk-actions.c:3886
 msgid "All Borders"
 msgstr "Vse obrobe"
 
-#: ../src/wbc-gtk-actions.c:3892
+#: ../src/wbc-gtk-actions.c:3887
 msgid "Outside Borders"
 msgstr "Zunanje obrobe"
 
-#: ../src/wbc-gtk-actions.c:3893
+#: ../src/wbc-gtk-actions.c:3888
 msgid "Thick Outside Borders"
 msgstr "Debele zunanje obrobe"
 
-#: ../src/wbc-gtk-actions.c:3896
+#: ../src/wbc-gtk-actions.c:3891
 msgid "Double Bottom"
 msgstr "Dvojno dno"
 
-#: ../src/wbc-gtk-actions.c:3897
+#: ../src/wbc-gtk-actions.c:3892
 msgid "Thick Bottom"
 msgstr "Debelo dno"
 
-#: ../src/wbc-gtk-actions.c:3899
+#: ../src/wbc-gtk-actions.c:3894
 msgid "Top and Bottom"
 msgstr "Zgoraj in spodaj"
 
-#: ../src/wbc-gtk-actions.c:3900
+#: ../src/wbc-gtk-actions.c:3895
 msgid "Top and Double Bottom"
 msgstr "Zgoraj in dvojno spodaj"
 
-#: ../src/wbc-gtk-actions.c:3901
+#: ../src/wbc-gtk-actions.c:3896
 msgid "Top and Thick Bottom"
 msgstr "Zgoraj in debelo spodaj"
 
-#: ../src/wbc-gtk-actions.c:3986
+#: ../src/wbc-gtk-actions.c:3981
 msgid "Set Borders"
 msgstr "Določi robove"
 
-#: ../src/wbc-gtk-actions.c:3994 ../src/wbc-gtk-actions.c:3995
+#: ../src/wbc-gtk-actions.c:3989 ../src/wbc-gtk-actions.c:3990
 msgid "Borders"
 msgstr "Obrobe"
 
-#: ../src/wbc-gtk-actions.c:4094
+#: ../src/wbc-gtk-actions.c:4089
 msgid "Redo the undone action"
 msgstr "Obnovi razveljavljeno spremembo"
 
-#: ../src/wbc-gtk-actions.c:4096
+#: ../src/wbc-gtk-actions.c:4091
 msgid "Redo"
 msgstr "Ponovi"
 
-#: ../src/wbc-gtk-actions.c:4100
+#: ../src/wbc-gtk-actions.c:4095
 msgid "Undo the last action"
 msgstr "Razveljavi zadnje dejanje"
 
-#: ../src/wbc-gtk-actions.c:4155 ../src/wbc-gtk-actions.c:4176
+#: ../src/wbc-gtk-actions.c:4150 ../src/wbc-gtk-actions.c:4171
 msgid "_Zoom"
 msgstr "_Približaj"
 
-#: ../src/wbc-gtk-actions.c:4361
+#: ../src/wbc-gtk-actions.c:4356
 #, c-format
 msgid "Setting Font %s"
 msgstr "Nastavljanje pisave %s"
 
-#: ../src/wbc-gtk-actions.c:4421
+#: ../src/wbc-gtk-actions.c:4416
 msgid "Change font"
 msgstr "Spremeni pisavo"
 
@@ -17966,47 +17998,47 @@ msgstr "Zavrzi"
 msgid "Don't close"
 msgstr "Ne zapri"
 
-#: ../src/wbc-gtk.c:2064
+#: ../src/wbc-gtk.c:2062
 msgid "Enter in current cell"
 msgstr "Vnos v trenutno celico"
 
-#: ../src/wbc-gtk.c:2066
+#: ../src/wbc-gtk.c:2064
 msgid "Enter in current cell without autocorrection"
 msgstr "Vnos v trenutno celico brez samodejnega popravljanja"
 
-#: ../src/wbc-gtk.c:2073
+#: ../src/wbc-gtk.c:2071
 msgid "Enter in current range merged"
 msgstr "Vstavi v trenutni obseg združeno"
 
-#: ../src/wbc-gtk.c:2076
+#: ../src/wbc-gtk.c:2074
 msgid "Enter in selected ranges"
 msgstr "Vnesi v izbranih podatkovnih vrstah"
 
-#: ../src/wbc-gtk.c:2078
+#: ../src/wbc-gtk.c:2076
 msgid "Enter in selected ranges as array"
 msgstr "Vnesi izbran obseg podatkov kot podatkovno polje"
 
-#: ../src/wbc-gtk.c:2565
+#: ../src/wbc-gtk.c:2563
 msgid "END"
 msgstr "KONEC"
 
-#: ../src/wbc-gtk.c:2856
+#: ../src/wbc-gtk.c:2854
 msgid "Go to Cell..."
 msgstr "Pojdi na celico ..."
 
-#: ../src/wbc-gtk.c:2918
+#: ../src/wbc-gtk.c:2916
 msgid "Accept change in multiple cells"
 msgstr "Sprejmi spremembe v več celicah"
 
-#: ../src/wbc-gtk.c:2992 ../src/wbc-gtk.c:3012
+#: ../src/wbc-gtk.c:2990 ../src/wbc-gtk.c:3010
 msgid "_Re-Edit"
 msgstr "Po_novno uredi"
 
-#: ../src/wbc-gtk.c:2994 ../src/wbc-gtk.c:3001
+#: ../src/wbc-gtk.c:2992 ../src/wbc-gtk.c:2999
 msgid "_Discard"
 msgstr "_Zavrzi"
 
-#: ../src/wbc-gtk.c:2999 ../src/wbc-gtk.c:3014
+#: ../src/wbc-gtk.c:2997 ../src/wbc-gtk.c:3012
 msgid "_Accept"
 msgstr "_Sprejmi"
 
@@ -18016,62 +18048,62 @@ msgstr "_Sprejmi"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3374
+#: ../src/wbc-gtk.c:3372
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "V meniju `%s' je ključ `%s' uporabljen za `%s' in `%s'."
 
-#: ../src/wbc-gtk.c:3673
+#: ../src/wbc-gtk.c:3671
 msgid "Display toolbar above sheets"
 msgstr "Prikaži orodno vrstico nad delovnimi listi"
 
-#: ../src/wbc-gtk.c:3674
+#: ../src/wbc-gtk.c:3672
 msgid "Display toolbar to the left of sheets"
 msgstr "Pokaži orodno vrstico levo od delovnih listov"
 
-#: ../src/wbc-gtk.c:3675
+#: ../src/wbc-gtk.c:3673
 msgid "Display toolbar to the right of sheets"
 msgstr "Pokaži orodno vrstico desno od delovnih listov"
 
-#: ../src/wbc-gtk.c:3703
+#: ../src/wbc-gtk.c:3701
 msgid "Hide"
 msgstr "Skrij"
 
-#: ../src/wbc-gtk.c:3769
+#: ../src/wbc-gtk.c:3767
 msgid "Standard Toolbar"
 msgstr "Običajna orodna vrstica"
 
-#: ../src/wbc-gtk.c:3770
+#: ../src/wbc-gtk.c:3768
 msgid "Format Toolbar"
 msgstr "Orodna vrstica oblikovanja"
 
-#: ../src/wbc-gtk.c:3771
+#: ../src/wbc-gtk.c:3769
 msgid "Object Toolbar"
 msgstr "Orodna vrstica predmetov"
 
-#: ../src/wbc-gtk.c:3785
+#: ../src/wbc-gtk.c:3783
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Pokaži ali skrij orodno vrstico %s"
 
-#: ../src/wbc-gtk.c:4203
+#: ../src/wbc-gtk.c:4201
 #, c-format
 msgid "Content of %s"
 msgstr "Vsebina %s"
 
-#: ../src/wbc-gtk.c:4218
+#: ../src/wbc-gtk.c:4216
 msgid "Use Maximum Precision"
 msgstr "Uporabi največjo natančnost"
 
-#: ../src/wbc-gtk.c:4230
+#: ../src/wbc-gtk.c:4228
 msgid "Insert Formula Below"
 msgstr "Vstavi formulo spodaj"
 
-#: ../src/wbc-gtk.c:4236
+#: ../src/wbc-gtk.c:4234
 msgid "Insert Formula to Side"
 msgstr "Vstavi formulo na stransko celico"
 
-#: ../src/wbc-gtk.c:4322
+#: ../src/wbc-gtk.c:4320
 #, c-format
 msgid "Open %s"
 msgstr "Odpri %s"
