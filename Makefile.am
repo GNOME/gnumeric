@@ -21,7 +21,7 @@ DISTCHECK_CONFIGURE_FLAGS = --without-perl --without-python \
 DIST_SAMPLES = $(shell (cd $(srcdir)/test && perl -I. -e 'use GnumericTest; foreach (&GnumericTest::corpus("dist")) { print "$$_\n"; }'))
 
 EXTRA_DIST = \
-	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
+	README NEWS MAINTAINERS AUTHORS $(change_logs)	\
 	COPYING COPYING-gpl2 COPYING-gpl3 \
 	org.gnumeric.gnumeric.appdata.xml.in	\
 	org.gnumeric.gnumeric.desktop.in	\
