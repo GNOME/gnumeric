@@ -664,12 +664,6 @@ static GNM_ACTION_DEF (cb_repeat)	{ command_repeat (GNM_WBC (wbcg)); }
 
 /****************************************************************************/
 
-static GNM_ACTION_DEF (cb_direction)
-{
-	Sheet *sheet = wb_control_cur_sheet (GNM_WBC (wbcg));
-	cmd_toggle_rtl (GNM_WBC (wbcg), sheet);
-}
-
 static GNM_ACTION_DEF (cb_view_zoom_in)
 {
 	Sheet *sheet = wb_control_cur_sheet (GNM_WBC (wbcg));
@@ -1954,27 +1948,28 @@ static GNM_ACTION_DEF (cb_insert_menu)
 	gtk_action_set_sensitive (action, go_components_get_mime_types () != NULL && scg && scg_sheet (scg)->sheet_type == GNM_SHEET_DATA);
 }
 
-#define TOGGLE_HANDLER(flag,property)					\
+#define TOGGLE_HANDLER(flag, property, desc)				\
 static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
 {									\
-	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));		\
+	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));			\
 									\
 	if (!wbcg->updating_ui) {					\
 		Sheet *sheet = wbcg_cur_sheet (wbcg);			\
-		go_object_toggle (sheet, property);			\
-		sheet_update (sheet);					\
+		cmd_toggle_sheet_property (GNM_WBC (wbcg), sheet,	\
+					   property, _(desc));		\
 	}								\
 }
 
-TOGGLE_HANDLER (display_formulas, "display-formulas")
-TOGGLE_HANDLER (hide_zero, "display-zeros")
-TOGGLE_HANDLER (hide_grid, "display-grid")
-TOGGLE_HANDLER (hide_col_header, "display-column-header")
-TOGGLE_HANDLER (hide_row_header, "display-row-header")
-TOGGLE_HANDLER (display_outlines, "display-outlines")
-TOGGLE_HANDLER (outline_symbols_below, "display-outlines-below")
-TOGGLE_HANDLER (outline_symbols_right, "display-outlines-right")
-TOGGLE_HANDLER (use_r1c1, "use-r1c1")
+TOGGLE_HANDLER (display_formulas, "display-formulas", N_("Toggle displaying formul\303\246"))
+TOGGLE_HANDLER (hide_zero, "display-zeros", N_("Toggle showing zeros"))
+TOGGLE_HANDLER (hide_grid, "display-grid", N_("Toggle showing gridlines"))
+TOGGLE_HANDLER (hide_col_header, "display-column-header", N_("Toggle showing column headers"))
+TOGGLE_HANDLER (hide_row_header, "display-row-header", N_("Toggle showing row headers"))
+TOGGLE_HANDLER (display_outlines, "display-outlines", N_("Toggle showing outlines"))
+TOGGLE_HANDLER (outline_symbols_below, "display-outlines-below", N_("Toggle where to show outlines vertically"))
+TOGGLE_HANDLER (outline_symbols_right, "display-outlines-right", N_("Toggle where to show outlines horizontally"))
+TOGGLE_HANDLER (use_r1c1, "use-r1c1", N_("Toggle whether to show r1c1-style references"))
+TOGGLE_HANDLER (text_is_rtl, "text-is-rtl", N_("Toggle sheet text direction"))
 
 /* Actions that are always sensitive */
 static GnmActionEntry const permanent_actions[] = {
@@ -2789,7 +2784,7 @@ static GnmActionEntry const actions[] = {
 	  .icon = "format-text-direction-ltr",
 	  .label = N_("Direction"),
 	  .tooltip = N_("Toggle sheet direction, left-to-right vs right-to-left"),
-	  .callback = G_CALLBACK (cb_direction)
+	  .callback = G_CALLBACK (cb_sheet_pref_text_is_rtl)
 	},
 
 /* Format -> Cells */

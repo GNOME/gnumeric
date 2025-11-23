@@ -13,6 +13,7 @@ Morten:
 	* Introspection improvements.
 	* Named expression fixes.  [#833]
 	* Speed up large-range copies.  [#836]
+	* Add missing undo/redo for sheet display options.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59

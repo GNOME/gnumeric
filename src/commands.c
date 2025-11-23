@@ -6977,44 +6977,51 @@ cmd_so_component_config (WorkbookControl *wbc, SheetObject *so,
 
 /******************************************************************/
 
-#define CMD_TOGGLE_RTL_TYPE (cmd_toggle_rtl_get_type ())
-#define CMD_TOGGLE_RTL(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_TOGGLE_RTL_TYPE, CmdToggleRTL))
+#define CMD_TOGGLE_SHEET_PROPERTY_TYPE (cmd_toggle_sheet_property_get_type ())
+#define CMD_TOGGLE_SHEET_PROPERTY(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_TOGGLE_SHEET_PROPERTY_TYPE, CmdToggleRTL))
 
-typedef GnmCommand CmdToggleRTL;
+typedef struct {
+	GnmCommand cmd;
+	char *property;
+} CmdToggleRTL;
 
-MAKE_GNM_COMMAND (CmdToggleRTL, cmd_toggle_rtl, NULL)
+MAKE_GNM_COMMAND (CmdToggleRTL, cmd_toggle_sheet_property, NULL)
 
 static gboolean
-cmd_toggle_rtl_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_toggle_sheet_property_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
-	go_object_toggle (cmd->sheet, "text-is-rtl");
+	CmdToggleRTL *ctsp = CMD_TOGGLE_SHEET_PROPERTY (cmd);
+	go_object_toggle (cmd->sheet, ctsp->property);
 	return FALSE;
 }
 
 static gboolean
-cmd_toggle_rtl_undo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_toggle_sheet_property_undo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
-	return cmd_toggle_rtl_redo (cmd, wbc);
+	return cmd_toggle_sheet_property_redo (cmd, wbc);
 }
 
 static void
-cmd_toggle_rtl_finalize (GObject *cmd)
+cmd_toggle_sheet_property_finalize (GObject *cmd)
 {
+	CmdToggleRTL *ctsp = CMD_TOGGLE_SHEET_PROPERTY (cmd);
+	g_free (ctsp->property);
 	gnm_command_finalize (cmd);
 }
 
 gboolean
-cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet)
+cmd_toggle_sheet_property (WorkbookControl *wbc, Sheet *sheet, const char *property, const char *desc)
 {
 	CmdToggleRTL *me;
 
 	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
-	me = g_object_new (CMD_TOGGLE_RTL_TYPE, NULL);
-	me->sheet = sheet;
-	me->size = 1;
-	me->cmd_descriptor = g_strdup (sheet->text_is_rtl ? _("Left to Right") : _("Right to Left"));
+	me = g_object_new (CMD_TOGGLE_SHEET_PROPERTY_TYPE, NULL);
+	me->cmd.sheet = sheet;
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup (desc);
+	me->property = g_strdup (property);
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }

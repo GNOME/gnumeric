@@ -160,7 +160,8 @@ gboolean cmd_goal_seek (WorkbookControl *wbc,
 
 gboolean cmd_tabulate (WorkbookControl *wbc, gpointer data);
 
-gboolean cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet);
+gboolean cmd_toggle_sheet_property (WorkbookControl *wbc, Sheet *sheet,
+				    const char *property, const char *desc);
 
 gboolean cmd_autofilter_add_remove (WorkbookControl *wbc);
 gboolean cmd_autofilter_set_condition (WorkbookControl *wbc,
