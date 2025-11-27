@@ -195,6 +195,11 @@ notebook.buttons tab label {
   font-weight: bold;
 }
 
+progressbar.menu_tooltip_container {
+    font-size: medium;
+    color: @theme_fg_color;
+}
+
 
 #if GTK_CHECK_VERSION(3,20,0)
 /* ------------------------------------------------------------------------- */
