@@ -15,6 +15,7 @@ Morten:
 	* Speed up large-range copies.  [#836]
 	* Add missing undo/redo for sheet display options.
 	* Style the progress bar we use for menu tooltips.
+	* Clean out old references to mailing list and irc.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59

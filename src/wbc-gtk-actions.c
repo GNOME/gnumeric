@@ -2240,7 +2240,7 @@ static GnmActionEntry const permanent_actions[] = {
 	{ .name = "HelpIRC",
 	  .label = N_("_Live Assistance"),
 	  .tooltip = N_("See if anyone is available to answer questions"),
-	  .callback = G_CALLBACK (cb_help_irc)
+	  .callback = G_CALLBACK (cb_help_irc),
 	},
 	{ .name = "HelpBug",
 	  .label = N_("Report a _Problem"),
@@ -4509,6 +4509,12 @@ wbc_gtk_init_actions (WBCGtk *wbcg)
 		GtkAction *act = wbcg_find_action (wbcg, toggles[i].name);
 		G_STRUCT_MEMBER (GtkToggleAction *, wbcg, toggles[i].offset) =
 			(GtkToggleAction*) (act);
+	}
+
+	// Disable this until and unless we have a place to direct it.
+	{
+		GtkAction *a = wbcg_find_action(wbcg, "HelpIRC");
+		gtk_action_set_sensitive (a, FALSE);
 	}
 
 	if (gnm_debug_flag ("actions")) {
