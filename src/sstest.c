@@ -604,14 +604,12 @@ function_dump_defs (char const *filename, int dump_type)
 			g_free (up);
 			g_free (catname);
 			fprintf (output_file,
-				 "<td class=\"%s\"><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s implementation\">%s</a></td>\n",
+				 "<td class=\"%s\">%s</td>\n",
 				 implementation[imst].klass,
-				 fd->name,
 				 implementation[imst].name);
 			fprintf (output_file,
-				 "<td class=\"%s\"><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s testing\">%s</a></td>\n",
+				 "<td class=\"%s\">%s</td>\n",
 				 testing[test].klass,
-				 fd->name,
 				 testing[test].name);
 			fprintf (output_file,"</tr>\n");
 		}
