@@ -2417,11 +2417,11 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>DATEDIF</function> returns the distance from <parameter>start_date</parameter> to <parameter>end_date</parameter> according to the unit specified by <parameter>interval</parameter>.</para>
+        <para><function>DATEDIF</function> returns the distance from <parameter>start_date</parameter> to <parameter>end_date</parameter> according to the unit specified by <parameter>interval</parameter>.  This function exists primarly for compatibility reasons and the semantics is somewhat peculiar.  In particular, the concept of "whole month" is based on whether the ending day is larger than or equal to the beginning day and not on whether a whole calendar month in contained in the interval.  A similar treatment is given to "whole year".</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>interval</parameter> is "y", "m", or "d" then the distance is measured in complete years, months, or days respectively. If <parameter>interval</parameter> is "ym" or "yd" then the distance is measured in complete months or days, respectively, but excluding any difference in years. If <parameter>interval</parameter> is "md" then the distance is measured in complete days but excluding any difference in months.</para>
+        <para>If <parameter>interval</parameter> is "y", "m", or "d" then the distance is measured in whole years, months, or days respectively. If <parameter>interval</parameter> is "ym" or "yd" then the distance is measured in whole months or days, respectively, but excluding any difference covered by whole years. If <parameter>interval</parameter> is "md" then the distance is measured in days but excluding any difference covered by whole months.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -3830,7 +3830,8 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-DEC2BIN"><function>DEC2BIN</function></link>,
         <link linkend="gnumeric-function-BIN2OCT"><function>BIN2OCT</function></link>,
-        <link linkend="gnumeric-function-BIN2HEX"><function>BIN2HEX</function></link>.
+        <link linkend="gnumeric-function-BIN2HEX"><function>BIN2HEX</function></link>,
+        <link linkend="gnumeric-function-BASE"><function>BASE</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -3868,7 +3869,8 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-HEX2BIN"><function>HEX2BIN</function></link>,
         <link linkend="gnumeric-function-BIN2OCT"><function>BIN2OCT</function></link>,
-        <link linkend="gnumeric-function-BIN2DEC"><function>BIN2DEC</function></link>.
+        <link linkend="gnumeric-function-BIN2DEC"><function>BIN2DEC</function></link>,
+        <link linkend="gnumeric-function-BASE"><function>BASE</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -3906,7 +3908,8 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-OCT2BIN"><function>OCT2BIN</function></link>,
         <link linkend="gnumeric-function-BIN2DEC"><function>BIN2DEC</function></link>,
-        <link linkend="gnumeric-function-BIN2HEX"><function>BIN2HEX</function></link>.
+        <link linkend="gnumeric-function-BIN2HEX"><function>BIN2HEX</function></link>,
+        <link linkend="gnumeric-function-BASE"><function>BASE</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -4190,7 +4193,8 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-BIN2DEC"><function>BIN2DEC</function></link>,
         <link linkend="gnumeric-function-DEC2OCT"><function>DEC2OCT</function></link>,
-        <link linkend="gnumeric-function-DEC2HEX"><function>DEC2HEX</function></link>.
+        <link linkend="gnumeric-function-DEC2HEX"><function>DEC2HEX</function></link>,
+        <link linkend="gnumeric-function-BASE"><function>BASE</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -4228,7 +4232,8 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-HEX2DEC"><function>HEX2DEC</function></link>,
         <link linkend="gnumeric-function-DEC2BIN"><function>DEC2BIN</function></link>,
-        <link linkend="gnumeric-function-DEC2OCT"><function>DEC2OCT</function></link>.
+        <link linkend="gnumeric-function-DEC2OCT"><function>DEC2OCT</function></link>,
+        <link linkend="gnumeric-function-BASE"><function>BASE</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -4266,7 +4271,8 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-OCT2DEC"><function>OCT2DEC</function></link>,
         <link linkend="gnumeric-function-DEC2BIN"><function>DEC2BIN</function></link>,
-        <link linkend="gnumeric-function-DEC2HEX"><function>DEC2HEX</function></link>.
+        <link linkend="gnumeric-function-DEC2HEX"><function>DEC2HEX</function></link>,
+        <link linkend="gnumeric-function-BASE"><function>BASE</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -8304,6 +8310,125 @@
       </refsect1>
     </refentry>
   </sect1>
+  <sect1 id="CATEGORY_Floating_Point">
+    <title>Floating Point</title>
+    <refentry id="gnumeric-function-FLT.MAX">
+      <refmeta>
+        <refentrytitle>
+          <function>FLT.MAX</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>FLT.MAX</function>
+        </refname>
+        <refpurpose>
+        return the largest positive floating point number
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>FLT.MAX</function>(<parameter/>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The <function>FLT.MAX</function> function returns the largest positive floating point number that can be represented.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-FLT.MIN"><function>FLT.MIN</function></link>,
+        <link linkend="gnumeric-function-FLT.RADIX"><function>FLT.RADIX</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-FLT.MIN">
+      <refmeta>
+        <refentrytitle>
+          <function>FLT.MIN</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>FLT.MIN</function>
+        </refname>
+        <refpurpose>
+        return the smallest positive floating point number
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>FLT.MIN</function>(<parameter/>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The <function>FLT.MIN</function> function returns the smallest positive normal floating point number that can be represented.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-FLT.MAX"><function>FLT.MAX</function></link>,
+        <link linkend="gnumeric-function-FLT.RADIX"><function>FLT.RADIX</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-FLT.NEXTAFTER">
+      <refmeta>
+        <refentrytitle>
+          <function>FLT.NEXTAFTER</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>FLT.NEXTAFTER</function>
+        </refname>
+        <refpurpose>
+        next representable value
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>FLT.NEXTAFTER</function>(<parameter>x</parameter>,<parameter>y</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: floating point value</para>
+        <para><parameter>y</parameter>: direction</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>The <function>FLT.NEXTAFTER</function> function returns the next floating point value after <parameter>x</parameter> in the direction of <parameter>y</parameter>.  "+" and "-" are special values for <parameter>y</parameter> that represent positive and negative infinity.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-FLT.RADIX"><function>FLT.RADIX</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-FLT.RADIX">
+      <refmeta>
+        <refentrytitle>
+          <function>FLT.RADIX</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>FLT.RADIX</function>
+        </refname>
+        <refpurpose>
+        return the floating point system's base
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>FLT.RADIX</function>(<parameter/>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The <function>FLT.RADIX</function> function returns the base of the floating point number system in use.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-FLT.MIN"><function>FLT.MIN</function></link>,
+        <link linkend="gnumeric-function-FLT.MAX"><function>FLT.MAX</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+  </sect1>
   <sect1 id="CATEGORY_Gnumeric">
     <title>Gnumeric</title>
     <refentry id="gnumeric-function-GNUMERIC_VERSION">
@@ -10227,6 +10352,35 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-UNIQUE">
+      <refmeta>
+        <refentrytitle>
+          <function>UNIQUE</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>UNIQUE</function>
+        </refname>
+        <refpurpose>
+        unique values in a range or array
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>UNIQUE</function>(<parameter>data</parameter>,<parameter>by_col</parameter>,<parameter>exactly_once</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>data</parameter>: range or array</para>
+        <para><parameter>by_col</parameter>: by column if TRUE, by row otherwise; defaults to FALSE</para>
+        <para><parameter>exactly_once</parameter>: suppress values present multiple times; defaults to FALSE</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-SORT"><function>SORT</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-VLOOKUP">
       <refmeta>
         <refentrytitle>
@@ -10919,7 +11073,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>x</parameter> or <parameter>significance</parameter> is non-numeric, <function>CEILING</function> returns a #VALUE! error. If <parameter>x</parameter> and <parameter>significance</parameter> have different signs, <function>CEILING</function> returns a #NUM! error.</para>
+        <para>If <parameter>x</parameter> or <parameter>significance</parameter> is non-numeric, <function>CEILING</function> returns a #VALUE! error. If <parameter>x</parameter> is positive and <parameter>significance</parameter> is negative, <function>CEILING</function> returns a #NUM! error.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -11684,6 +11838,10 @@
       <refsect1>
         <title>Description</title>
         <para><function>FLOOR</function>(<parameter>x</parameter>,<parameter>significance</parameter>) is the nearest multiple of <parameter>significance</parameter> whose absolute value is at most ABS(<parameter>x</parameter>)</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>x</parameter> is positive and <parameter>significance</parameter> is negative, <function>FLOOR</function> returns a #NUM! error.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -12481,8 +12639,8 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>x</parameter>: integer</para>
-        <para><parameter>n</parameter>: integer</para>
+        <para><parameter>x</parameter>: value</para>
+        <para><parameter>n</parameter>: value</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -13012,8 +13170,13 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-function-ROUNDDOWN"><function>ROUNDDOWN</function></link>,
-        <link linkend="gnumeric-function-ROUNDUP"><function>ROUNDUP</function></link>.
+        <para><link linkend="gnumeric-function-INT"><function>INT</function></link>,
+        <link linkend="gnumeric-function-CEIL"><function>CEIL</function></link>,
+        <link linkend="gnumeric-function-TRUNC"><function>TRUNC</function></link>,
+        <link linkend="gnumeric-function-ROUNDDOWN"><function>ROUNDDOWN</function></link>,
+        <link linkend="gnumeric-function-ROUNDUP"><function>ROUNDUP</function></link>,
+        <link linkend="gnumeric-function-FLOOR"><function>FLOOR</function></link>,
+        <link linkend="gnumeric-function-CEILING"><function>CEILING</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -13088,9 +13251,13 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-function-ROUND"><function>ROUND</function></link>,
+        <para><link linkend="gnumeric-function-INT"><function>INT</function></link>,
+        <link linkend="gnumeric-function-CEIL"><function>CEIL</function></link>,
+        <link linkend="gnumeric-function-TRUNC"><function>TRUNC</function></link>,
         <link linkend="gnumeric-function-ROUNDDOWN"><function>ROUNDDOWN</function></link>,
-        <link linkend="gnumeric-function-INT"><function>INT</function></link>.
+        <link linkend="gnumeric-function-ROUND"><function>ROUND</function></link>,
+        <link linkend="gnumeric-function-FLOOR"><function>FLOOR</function></link>,
+        <link linkend="gnumeric-function-CEILING"><function>CEILING</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -13876,11 +14043,11 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>x</parameter>: number</para>
-        <para><parameter>d</parameter>: non-negative integer, defaults to 0</para>
+        <para><parameter>d</parameter>: integer, defaults to 0</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>d</parameter> is omitted or negative then it defaults to zero. If it is not an integer then it is truncated to an integer.</para>
+        <para>If <parameter>d</parameter> is omitted then it defaults to zero. If it is not an integer then it is truncated to an integer. If <parameter>d</parameter> is negative, it refers to number of digits before the decimal point.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -13888,7 +14055,13 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-function-INT"><function>INT</function></link>.
+        <para><link linkend="gnumeric-function-INT"><function>INT</function></link>,
+        <link linkend="gnumeric-function-CEIL"><function>CEIL</function></link>,
+        <link linkend="gnumeric-function-ROUNDDOWN"><function>ROUNDDOWN</function></link>,
+        <link linkend="gnumeric-function-ROUNDUP"><function>ROUNDUP</function></link>,
+        <link linkend="gnumeric-function-ROUND"><function>ROUND</function></link>,
+        <link linkend="gnumeric-function-FLOOR"><function>FLOOR</function></link>,
+        <link linkend="gnumeric-function-CEILING"><function>CEILING</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -21852,6 +22025,32 @@
         <link linkend="gnumeric-function-TEXT"><function>TEXT</function></link>,
         <link linkend="gnumeric-function-VALUE"><function>VALUE</function></link>.
       </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-ENCODEURL">
+      <refmeta>
+        <refentrytitle>
+          <function>ENCODEURL</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>ENCODEURL</function>
+        </refname>
+        <refpurpose>
+        encode a string for use in a URL
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ENCODEURL</function>(<parameter>string</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>string</parameter>: string to encode</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-function-EXACT">

@@ -599,8 +599,8 @@ function_dump_defs (char const *filename, int dump_type)
 				*strchr (catname, ' ') = '_';
 			fprintf (output_file, "<tr class=\"function\">\n");
 			fprintf (output_file,
-				 "<td><a href =\"https://help.gnome.org/users/gnumeric/stable/gnumeric.html#gnumeric-function-%s\">%s</a></td>\n",
-				 up, fd->name);
+				 "<td><a href =\"https://gnome.pages.gitlab.gnome.org/gnumeric/manual/CATEGORY_%s.html#gnumeric-function-%s\">%s</a></td>\n",
+				 catname, up, fd->name);
 			g_free (up);
 			g_free (catname);
 			fprintf (output_file,
