@@ -50,7 +50,8 @@ build-release-tarball:
       - "${TARBALL_ARTIFACT_PATH}"
 
 pages:
-  stage: deploy
+  stage: build
+  needs: ["build-release-tarball"]
   script:
   - mkdir -p public/manual
   - cp -pr doc/C/html/* public/manual/.
