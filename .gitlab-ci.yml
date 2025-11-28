@@ -48,6 +48,7 @@ build-release-tarball:
     when: "always"
     paths:
       - "${TARBALL_ARTIFACT_PATH}"
+      - doc/C/html
 
 pages:
   stage: build
