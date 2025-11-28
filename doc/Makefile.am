@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in.
 
 SUBDIRS =
-EXTRA_DIST=make-func-list.pl
+EXTRA_DIST=make-func-list.pl C/gnumeric-docbook-2-htmlhelp.xsl
 noinst_DATA=
 DISTCLEANFILES=
 
@@ -583,6 +583,14 @@ if ENABLE_PDFDOCS
 noinst_DATA += gnumeric.pdf
 EXTRA_DIST += gnumeric.pdf
 endif
+
+html:
+	mkdir -p C/html
+	(cd C && 							\
+	 xmllint --noent -o gnumeric-tmp.xml gnumeric.xml &&		\
+	 yelp-build html -o html gnumeric-tmp.xml &&			\
+	 rm -f gnumeric-tmp.xml)
+
 
 if ENABLE_PDF_VIA_DBCONTEXT
 gnumeric.pdf:

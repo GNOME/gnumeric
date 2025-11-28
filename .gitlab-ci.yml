@@ -39,6 +39,7 @@ build-release-tarball:
     - echo ${TARBALL_ARTIFACT_PATH}
     - ./autogen.sh --disable-dependency-tracking
     - make -j4
+    - mkdir -p C/html
     - make dist
     - gunzip <"${CI_PROJECT_NAME}-${ACVER}.tar.gz" | xz > ${TARBALL_ARTIFACT_PATH}
     - rm -f "${CI_PROJECT_NAME}-${ACVER}.tar.gz" "${CI_PROJECT_NAME}-${ACVER}.tar.bz2"
@@ -47,3 +48,14 @@ build-release-tarball:
     when: "always"
     paths:
       - "${TARBALL_ARTIFACT_PATH}"
+
+pages:
+  stage: deploy
+  script:
+  - mkdir -p public/manual
+  - cp -pr doc/C/html/* public/manual/.
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
