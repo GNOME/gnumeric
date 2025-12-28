@@ -107,10 +107,18 @@ struct _GnmStyle {
 	GPtrArray		*cond_styles;
 };
 
-#define elem_changed(style, elem) do { (style)->changed |= (1u << (elem)); } while(0)
-#define elem_set(style, elem)	  do { (style)->set |=  (1u << (elem)); } while(0)
-#define elem_unset(style, elem)	  do { (style)->set &= ~(1u << (elem)); } while(0)
-#define elem_is_set(style, elem)  (((style)->set & (1u << (elem))) != 0)
+static inline void elem_changed(GnmStyle *style, GnmStyleElement elem) {
+	style->changed |= (1u << elem);
+}
+static inline void elem_set(GnmStyle *style, GnmStyleElement elem) {
+	style->set |= (1u << elem);
+}
+static inline void elem_unset(GnmStyle *style, GnmStyleElement elem) {
+	style->set &= ~(1u << elem);
+}
+static inline gboolean elem_is_set(GnmStyle const *style, GnmStyleElement elem) {
+	return (style->set & (1u << elem)) != 0;
+}
 
 #define MSTYLE_ANY_BORDER            MSTYLE_BORDER_TOP: \
 				case MSTYLE_BORDER_BOTTOM: \
@@ -118,65 +126,6 @@ struct _GnmStyle {
 				case MSTYLE_BORDER_RIGHT: \
 				case MSTYLE_BORDER_DIAGONAL: \
 				case MSTYLE_BORDER_REV_DIAGONAL
-
-
-#define UNROLLED_FOR(init_,cond_,step_,code_)			\
-do {								\
-	init_;							\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	if (cond_) { code_; step_;				\
-	g_assert_not_reached ();				\
-	}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}	\
-} while (0)
-
 
 
 static char const * const
@@ -1131,10 +1080,10 @@ gnm_style_equal (GnmStyle const *a, GnmStyle const *b)
 		return TRUE;
 	if (a->set != b->set || !gnm_style_equal_XL (a, b))
 		return FALSE;
-	UNROLLED_FOR (i = MSTYLE_VALIDATION, i < MSTYLE_ELEMENT_MAX, i++, {
+	for (i = MSTYLE_VALIDATION; i < MSTYLE_ELEMENT_MAX; i++) {
 		if (elem_is_set (a, i) && !ELEM_IS_EQ (a, b, i))
 			return FALSE;
-	});
+	}
 
 	return TRUE;
 }
@@ -1153,10 +1102,10 @@ gnm_style_equal_XL (GnmStyle const *a, GnmStyle const *b)
 	if ((a->set ^ b->set) & ((1u << MSTYLE_VALIDATION) - 1))
 		return FALSE;
 
-	UNROLLED_FOR (i = MSTYLE_COLOR_BACK, i < MSTYLE_VALIDATION, i++, {
+	for (i = MSTYLE_COLOR_BACK; i < MSTYLE_VALIDATION; i++) {
 		if (elem_is_set (a, i) && !ELEM_IS_EQ (a, b, i))
 			return FALSE;
-	});
+	}
 	return TRUE;
 }
 
