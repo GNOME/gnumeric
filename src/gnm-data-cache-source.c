@@ -196,7 +196,7 @@ GSF_CLASS_FULL (GnmDataCacheSource, gnm_data_cache_source, NULL, NULL,
  *
  * Allocates a new Allocates a new #GnmDataCacheSource
  *
- * Returns : #GODataCacheSource
+ * Returns: #GODataCacheSource
  **/
 GODataCacheSource *
 gnm_data_cache_source_new (Sheet *src_sheet,

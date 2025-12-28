@@ -1308,7 +1308,7 @@ gnm_pane_new (SheetControlGUI *scg,
  * @x: In canvas coords
  * @col_origin: optionally return the canvas coord of the col
  *
- * Returns the column containing canvas coord @x
+ * Returns: the column containing canvas coord @x
  **/
 int
 gnm_pane_find_col (GnmPane const *pane, gint64 x, gint64 *col_origin)
@@ -1358,7 +1358,7 @@ gnm_pane_find_col (GnmPane const *pane, gint64 x, gint64 *col_origin)
  * @y: In canvas coords
  * @row_origin: optionally return the canvas coord of the row
  *
- * Returns the column containing canvas coord @y
+ * Returns: the column containing canvas coord @y
  **/
 int
 gnm_pane_find_row (GnmPane const *pane, gint64 y, gint64 *row_origin)

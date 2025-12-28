@@ -75,7 +75,7 @@ expr_name_validate_a1 (const char *name)
  * expr_name_validate:
  * @name: tentative name
  *
- * returns %TRUE if the given name is valid, %FALSE otherwise.
+ * Returns: %TRUE if the given name is valid, %FALSE otherwise.
  */
 gboolean
 expr_name_validate (const char *name)
@@ -949,8 +949,7 @@ expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr)
  * @nexpr: the named expression
  * @pp: the new position
  *
- * Returns a translated error string which the caller must free if something
- * goes wrong.
+ * Returns: (transfer full): a translated error string in case of errors.
  **/
 char *
 expr_name_set_pos (GnmNamedExpr *nexpr, GnmParsePos const *pp)

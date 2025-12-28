@@ -92,7 +92,7 @@ find_font (const char *font_name)
  * gnm_font_override_codepage:
  * @font_name: The win32 font name
  *
- * Returns a codepage for the named Win32 font, or -1 if no such codepage
+ * Returns: a codepage for the named Win32 font, or -1 if no such codepage
  * is known.
  */
 int
@@ -105,10 +105,11 @@ gnm_font_override_codepage (gchar const *font_name)
 
 /*
  * get_substitute_font:
- * @font_name    The font name
+ * @font_name: The font name
  *
  * Tries to find a gnome font which matches the Excel font.
- * Returns the name of the substitute font if found. Otherwise returns %NULL
+ *
+ * Returns: (nullable): the name of the substitute font if found.
  */
 static gchar const *
 get_substitute_font (gchar const *font_name)

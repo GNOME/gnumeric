@@ -1024,7 +1024,7 @@ global_range_name (Sheet const *sheet, GnmRange const *r)
  * @sheet:
  * @pos:
  *
- * Returns the range name depending on the preference setting.
+ * Returns: the range name depending on the preference setting.
  **/
 char *
 undo_cell_pos_name (Sheet const *sheet, GnmCellPos const *pos)
@@ -1039,7 +1039,7 @@ undo_cell_pos_name (Sheet const *sheet, GnmCellPos const *pos)
  * @sheet:
  * @r:
  *
- * Returns the range name depending on the preference setting.
+ * Returns: the range name depending on the preference setting.
  **/
 char *
 undo_range_name (Sheet const *sheet, GnmRange const *r)

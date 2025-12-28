@@ -325,7 +325,7 @@ sv_selection_row_type (SheetView const *sv, int row)
 
 /*
  * Quick utility routine to test intersect of line segments.
- * Returns : 5 sA == sb eA == eb	a == b
+ * Returns:  5 sA == sb eA == eb	a == b
  *           4 --sA--sb--eb--eA--	a contains b
  *           3 --sA--sb--eA--eb--	overlap left
  *           2 --sb--sA--eA--eb--	b contains a

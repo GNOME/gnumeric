@@ -4482,7 +4482,7 @@ sheet_cell_foreach (Sheet const *sheet, GHFunc callback, gpointer data)
  * sheet_cells_count:
  * @sheet: #Sheet
  *
- * Returns the number of cells with content in the current workbook.
+ * Returns: the number of cells with content in the current workbook.
  **/
 unsigned
 sheet_cells_count (Sheet const *sheet)
@@ -6099,7 +6099,7 @@ sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
  * @from: Starting row
  * @to: Ending row, not inclusive
  *
- * Return: the number of points between rows @from and @to
+ * Returns: the number of points between rows @from and @to
  * measured from the upper left corner.
  */
 double
@@ -6154,7 +6154,7 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
  * @from: Starting row
  * @to: Ending row, not inclusive
  *
- * Return: the number of pixels between rows @from and @to
+ * Returns: the number of pixels between rows @from and @to
  * measured from the upper left corner.
  */
 gint64
@@ -6236,7 +6236,7 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
  * sheet_row_get_default_size_pts:
  * @sheet: The sheet
  *
- * Return: the default number of units in a row, including margins.
+ * Returns: the default number of units in a row, including margins.
  * This function returns the raw sum, no rounding etc.
  */
 double

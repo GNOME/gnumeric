@@ -144,7 +144,7 @@ col_row_info_is_empty (ColRowInfo const *cri)
  * @a: First #ColRowInfo
  * @b: Second #ColRowInfo
  *
- * Returns %TRUE if the infos are equivalent.
+ * Returns: %TRUE if the infos are equivalent.
  **/
 gboolean
 col_row_info_equal (ColRowInfo const *a, ColRowInfo const *b)

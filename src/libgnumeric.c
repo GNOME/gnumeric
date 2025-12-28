@@ -178,13 +178,10 @@ cb_gnm_option_group_post_parse (GOptionContext *context,
 /**
  * gnm_get_option_group: (skip)
  *
- * Returns a #GOptionGroup for the commandline arguments recognized
+ * Returns: a #GOptionGroup for the commandline arguments recognized
  * by libspreadsheet. You should add this group to your #GOptionContext with
  * g_option_context_add_group(), if you are using g_option_context_parse() to
  * parse your commandline arguments.
- *
- * Returns a #GOptionGroup for the commandline arguments recognized
- *   by libspreadsheet
  *
  * Since: 1.8
  **/

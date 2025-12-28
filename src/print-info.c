@@ -355,7 +355,7 @@ gnm_print_info_load_defaults (GnmPrintInformation *res)
 /**
  * gnm_print_information_new:
  *
- * Returns a newly allocated GnmPrintInformation buffer
+ * Returns: a newly allocated #GnmPrintInformation buffer
  *
  */
 GnmPrintInformation *

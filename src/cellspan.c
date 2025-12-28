@@ -139,10 +139,10 @@ cell_unregister_span (GnmCell const * const cell)
  * @ri: The ColRowInfo for the row we are looking up
  * @col: the column position
  *
- * Returns SpanInfo of the spanning cell being display at the
- * column.  Including
+ * Returns: #CellSpanInfo of the spanning cell being displayed at the
+ * column.  This includes including
  *   - the cell whose contents span.
- *   - The first and last col in the span.
+ *   - the first and last column in the span.
  */
 CellSpanInfo const *
 row_span_get (ColRowInfo const * const ri, int const col)

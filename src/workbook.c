@@ -1004,7 +1004,7 @@ workbook_focus_other_sheet (Workbook *wb, Sheet *sheet)
  *
  * Remove the visible #SheetControls of a sheet and shut them down politely.
  *
- * Returns %TRUE if there are any remaining sheets visible
+ * Returns: %TRUE if there are any remaining sheets visible
  **/
 static gboolean
 workbook_sheet_remove_controls (Workbook *wb, Sheet *sheet)
@@ -1374,7 +1374,7 @@ workbook_find_command (Workbook *wb, gboolean is_undo, gpointer cmd)
  *
  * Adjusts the order of the sheets.
  *
- * Returns %FALSE when it was successful
+ * Returns: %FALSE when it was successful
  **/
 gboolean
 workbook_sheet_reorder (Workbook *wb, GSList *new_order)

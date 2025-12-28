@@ -319,9 +319,9 @@ cb_autosave (WBCGtk *wbcg)
  * wbcg_rangesel_possible:
  * @wbcg: the workbook control gui
  *
- * Returns true if the cursor keys should be used to select
+ * Returns: %TRUE if the cursor keys should be used to select
  * a cell range (if the cursor is in a spot in the expression
- * where it makes sense to have a cell reference), false if not.
+ * where it makes sense to have a cell reference), %FALSE if not.
  **/
 gboolean
 wbcg_rangesel_possible (WBCGtk const *wbcg)

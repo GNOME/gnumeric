@@ -257,7 +257,7 @@ gnm_sheet_slicer_overlaps_range (GnmSheetSlicer const *gss, GnmRange const *r)
  * Checks to see if @pos (in absolute position, not relative to @gss' corner)
  * corresponds to a field header.  [Does not add a reference]
  *
- * Returns a #GODataSlicerField or %NULL.
+ * Returns: (nullable): a #GODataSlicerField.
  **/
 GODataSlicerField *
 gnm_sheet_slicer_field_header_at_pos (GnmSheetSlicer const *gss,

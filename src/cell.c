@@ -557,7 +557,7 @@ gnm_cell_array_bound (GnmCell const *cell, GnmRange *res)
  * gnm_cell_is_array:
  * @cell: (nullable): #GnmCell
  *
- * Returns %TRUE is @cell is part of an array
+ * Returns: %TRUE if @cell is part of an array
  **/
 gboolean
 gnm_cell_is_array (GnmCell const *cell)

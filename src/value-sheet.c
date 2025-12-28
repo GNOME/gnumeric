@@ -127,7 +127,7 @@ value_area_get_height (GnmValue const *v, GnmEvalPos const *ep)
  * An internal routine to get a cell from an array or range.
  * Ensures that elements of CELLRANGE are evaluated
  *
- * Returns the element if it exists and is non-empty otherwise returns 0
+ * Returns: (nullable): the element if it exists and is non-empty.
  **/
 GnmValue const *
 value_area_fetch_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)

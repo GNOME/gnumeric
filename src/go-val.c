@@ -81,7 +81,7 @@ go_val_bucketer_validate (GOValBucketer *bucketer)
  *
  * Calculate which bucket @v falls into.
  *
- * Returns -1 on general failure, and 0 for out of range below the start of the domain.
+ * Returns: -1 on general failure, and 0 for out of range below the start of the domain.
  *	Some bucketer types will also create a bucket on the high end for out of range above.
  **/
 int

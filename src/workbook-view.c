@@ -123,7 +123,7 @@ wb_view_get_doc (WorkbookView const *wbv)
  * wb_view_get_index_in_wb:
  * @wbv: #WorkbookView
  *
- * Returns 0 based index of wbv within workbook, or -1 if there is no workbook.
+ * Returns: 0-based index of @wbv within workbook, or -1 if there is no workbook.
  **/
 int
 wb_view_get_index_in_wb (WorkbookView const *wbv)

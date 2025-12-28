@@ -1265,7 +1265,7 @@ auto_complete_matches (WBCGtk *wbcg)
 }
 
 /*
- * Returns the text that must be shown by the editing entry, takes
+ * Returns: the text that must be shown by the editing entry, takes
  * into account the auto-completion text.
  */
 char const *

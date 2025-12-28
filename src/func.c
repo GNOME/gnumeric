@@ -1240,7 +1240,7 @@ free_values (GnmValue **values, int top)
  *
  * Do the guts of calling a function.
  *
- * Returns the result.
+ * Returns: the result.
  **/
 GnmValue *
 function_call_with_exprs (GnmFuncEvalInfo *ei)

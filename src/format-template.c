@@ -981,13 +981,8 @@ format_template_recalc_hash (GnmFT *ft)
  * @row:
  * @col:
  *
- * Returns the GnmStyle associated with coordinates row, col.
+ * Returns: (transfer none): the GnmStyle associated with coordinates row, col.
  * This routine uses the hash to do this.
- * NOTE : You MAY NOT free the result of this operation,
- *        you may also NOT MODIFY the GnmStyle returned.
- *        (make a copy first)
- *
- * Return value: an GnmStyle
  **/
 GnmStyle *
 gnm_ft_get_style (GnmFT *ft, int row, int col)

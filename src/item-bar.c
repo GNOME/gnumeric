@@ -238,7 +238,7 @@ ib_reload_sizing_style (GnmItemBar *ib)
  *
  * Scale fonts and sizes by the pixels_per_unit of the associated sheet.
  *
- * Returns : the size of the fixed dimension.
+ * Returns: the size of the fixed dimension.
  **/
 int
 gnm_item_bar_calc_size (GnmItemBar *ib)
@@ -783,7 +783,7 @@ item_bar_distance (GocItem *item, double x, double y,
  * NOTE : this could easily be optimized.  We need not start at 0 every time.
  *        We could potentially use the routines in gnm-pane.
  *
- * Returns non-%NULL if point (@x,@y) is on a division
+ * Returns: non-%NULL if point (@x,@y) is on a division
  **/
 static ColRowInfo const *
 is_pointer_on_division (GnmItemBar const *ib, gint64 x, gint64 y,
