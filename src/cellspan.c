@@ -240,7 +240,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	style = gnm_cell_get_effective_style (cell);
 	h_align = gnm_style_default_halign (style, cell);
 
-	gnm_cell_eval (cell);
+	gnm_cell_eval ((GnmCell*)cell);
 
 	/*
 	 * Report only one column is used if
