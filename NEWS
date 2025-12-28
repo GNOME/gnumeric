@@ -16,6 +16,7 @@ Morten:
 	* Add missing undo/redo for sheet display options.
 	* Style the progress bar we use for menu tooltips.
 	* Clean out old references to mailing list and irc.
+	* Documentation updates.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59
