@@ -249,10 +249,10 @@ gnm_sheet_merge_contains_pos (Sheet const *sheet, GnmCellPos const *pos)
  * gnm_sheet_merge_get_adjacent:
  * @sheet: The sheet to look in.
  * @pos: the cell to test for adjacent regions.
- * @left: (out): the return for a region on the left
- * @right: (out): the return for a region on the right
+ * @left: (out) (nullable) (transfer none): the return for a region on the left
+ * @right: (out) (nullable) (transfer none): the return for a region on the right
  *
- * Returns (in @left and @right) the nearest regions to either side of @pos.
+ * Determines the nearest regions to either side of @pos.
  */
 void
 gnm_sheet_merge_get_adjacent (Sheet const *sheet, GnmCellPos const *pos,

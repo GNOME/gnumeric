@@ -2680,7 +2680,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
  * A small convenience routine.  Think long and hard before using this.
  * There are lots of parse routines that serve the common case.
  *
- * Returns: The content of the entry.  Caller should not modify the result.
+ * Returns: (transfer none): The content of the entry.
  **/
 char const *
 gnm_expr_entry_get_text	(GnmExprEntry const *gee)
@@ -2694,7 +2694,7 @@ gnm_expr_entry_get_text	(GnmExprEntry const *gee)
  * @gee: GnmExprEntry
  * @sheet: the sheet where the cell range is evaluated.
  *
- * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
+ * Returns: (nullable): #GnmValue of type VALUE_CELLRANGE if the range was
  *	successfully parsed or %NULL on failure.
  */
 GnmValue *
@@ -2735,7 +2735,6 @@ gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
  *         the range given does not include a sheet specification.
  *
  * Returns: (element-type GnmValue) (transfer full): a list of ranges
- * (as #GnmValue).
  */
 GSList *
 gnm_expr_entry_parse_as_list (GnmExprEntry *gee, Sheet *sheet)

@@ -835,8 +835,6 @@ gnm_font_button_get_title (GnmFontButton *font_button)
  * gnm_font_button_get_use_font:
  * @font_button: a #GnmFontButton
  *
- * Returns whether the selected font is used in the label.
- *
  * Returns: whether the selected font is used in the label.
  *
  * Since: 2.4
@@ -881,8 +879,6 @@ gnm_font_button_set_use_font (GnmFontButton *font_button,
  * gnm_font_button_get_use_size:
  * @font_button: a #GnmFontButton
  *
- * Returns whether the selected size is used in the label.
- *
  * Returns: whether the selected size is used in the label.
  *
  * Since: 2.4
@@ -924,8 +920,6 @@ gnm_font_button_set_use_size (GnmFontButton *font_button,
 /**
  * gnm_font_button_get_show_style:
  * @font_button: a #GnmFontButton
- *
- * Returns whether the name of the font style will be shown in the label.
  *
  * Return value: whether the font style will be shown in the label.
  *
@@ -969,8 +963,6 @@ gnm_font_button_set_show_style (GnmFontButton *font_button,
 /**
  * gnm_font_button_get_show_size:
  * @font_button: a #GnmFontButton
- *
- * Returns whether the font size will be shown in the label.
  *
  * Return value: whether the font size will be shown in the label.
  *

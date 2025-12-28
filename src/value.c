@@ -590,7 +590,7 @@ value_new_array_empty (guint cols, guint rows)
 }
 
 /*
- * Returns TRUE, FALSE, or -1.
+ * Returns: TRUE, FALSE, or -1.
  */
 static int
 value_parse_boolean (char const *str, gboolean translated)
@@ -1487,7 +1487,7 @@ compare_error_error (GnmValue const *va, GnmValue const *vb)
  *
  * IGNORES format.
  *
- * Returns a non-negative difference between 2 values
+ * Returns: a non-negative difference between 2 values
  */
 gnm_float
 value_diff (GnmValue const *a, GnmValue const *b)
