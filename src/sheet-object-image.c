@@ -121,9 +121,9 @@ enum {
 /**
  * sheet_object_image_set_image:
  * @soi: #SheetObjectImage
- * @type:
- * @data:
- * @data_len
+ * @type: (nullable): image type
+ * @data: (in) (array length=data_len) (element-type guint8): image data
+ * @data_len: image data length
  *
  * Assign raw data and type to @soi.
  * yet.

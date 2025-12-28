@@ -1201,7 +1201,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 /**
  * sheet_objects_get:
  * @sheet: the sheet.
- * @r: (nullable): #GnmRange to look in
+ * @r: (nullable): #GnmRange to look in, %NULL for full sheet
  * @t: The type of object to lookup, %G_TYPE_NONE for any.
  *
  * Returns: (element-type SheetObject) (transfer container): a list
@@ -1763,7 +1763,7 @@ sheet_object_get_target_list (SheetObject const *so)
  * @so: #SheetObject
  * @format: (nullable): image format to use
  * @resolution: export resolution
- * @output: destination
+ * @output: A #GsfOutput object into which to write
  * @err: (out) (optional) (nullable): error indication
  *
  * Saves a sheet object as an image to @output.  If an error occurs, @err will

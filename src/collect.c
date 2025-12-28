@@ -997,7 +997,7 @@ collect_strings_free (GPtrArray *data)
  * @ep: Evaluation position
  * @flags: #CollectFlags flags describing the collection and interpretation
  * of values from @argv.
- * @error: (out): Error return value
+ * @error: (out) (nullable): Error return value
  *
  * Evaluate a list of expressions and return the result as a #GPtrArray of
  * strings.

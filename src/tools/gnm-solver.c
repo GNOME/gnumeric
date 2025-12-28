@@ -323,10 +323,10 @@ gnm_solver_constraint_set_rhs (GnmSolverConstraint *c, GnmValue *v)
  * @c: GnmSolverConstraint
  * @sp: GnmSolverParameters
  * @i: part index
- * @lhs: (optional) (out): #GnmCell of left-hand side
+ * @lhs: (optional) (out) (nullable) (transfer none): #GnmCell of left-hand side
  * @cl: (optional) (out): constant value of left-hand side
- * @rhs: (optional) (out): #GnmCell of right-hand side
- * @cr: (optional) (out): constant value of left-hand side
+ * @rhs: (optional) (out) (nullable) (transfer none): #GnmCell of right-hand side
+ * @cr: (optional) (out): constant value of right-hand side
  *
  * This splits @c into parts and returns information about the @i'th part.
  * There will be multiple parts when the left-hand side is a cell range.
@@ -1049,7 +1049,7 @@ gnm_solver_set_property (GObject *object, guint property_id,
  * gnm_solver_prepare: (virtual prepare)
  * @sol: solver
  * @wbc: control for user interaction
- * @err: location to store error
+ * @err: (out) (nullable) (optional): location to store error
  *
  * Prepare for solving.  Preparation need not do anything, but may include
  * such tasks as checking that the model is valid for the solver and
@@ -1078,7 +1078,7 @@ gnm_solver_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err)
  * gnm_solver_start: (virtual start)
  * @sol: solver
  * @wbc: control for user interaction
- * @err: location to store error
+ * @err: (out) (nullable) (optional): location to store error
  *
  * Start the solving process.  If needed, the solver will be prepared first.
  *
@@ -1111,7 +1111,7 @@ gnm_solver_start (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 /**
  * gnm_solver_stop: (virtual stop)
  * @sol: solver
- * @err: location to store error
+ * @err: (out) (nullable) (optional): location to store error
  *
  * Terminate the currently-running solver.
  *
@@ -2504,7 +2504,7 @@ gnm_solver_pick_lp_coords (GnmSolver *sol,
  * @ycell: Cell for which to compute coefficients
  * @x1: first coordinate value
  * @x2: second coordinate value
- * @err: error location
+ * @err: (out) (nullable) (optional): location to store error
  *
  * Returns: xxx(transfer full) (nullable): coordinates, or %NULL in case of error.
  * Note: this function is not affected by the flip-sign property, even

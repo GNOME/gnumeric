@@ -177,6 +177,13 @@ gnm_hlink_get_target (GnmHLink const *lnk)
 	return GET_CLASS (lnk)->get_target (lnk);
 }
 
+/**
+ * gnm_hlink_set_target:
+ * @lnk: #GnmHLink
+ * @target: new target url
+ *
+ * Sets @lnk's target url to @target.
+ */
 void
 gnm_hlink_set_target (GnmHLink *lnk, gchar const *target)
 {
@@ -198,6 +205,13 @@ gnm_hlink_get_tip (GnmHLink const *lnk)
 	return lnk->tip;
 }
 
+/**
+ * gnm_hlink_set_tip:
+ * @lnk: #GnmHLink
+ * @tip: new tooltip
+ *
+ * Sets @lnk's tooltip to @tip.
+ */
 void
 gnm_hlink_set_tip (GnmHLink *lnk, gchar const *tip)
 {

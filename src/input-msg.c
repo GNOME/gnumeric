@@ -105,7 +105,7 @@ gnm_input_msg_equal (GnmInputMsg const *a,
  * gnm_input_msg_get_msg:
  * @msg: #GnmInputMsg
  *
- * Returns: (transfer none): The message to show
+ * Returns: (transfer none) (not nullable): The message to show
  **/
 char const *
 gnm_input_msg_get_msg (GnmInputMsg const *msg)
@@ -117,7 +117,8 @@ gnm_input_msg_get_msg (GnmInputMsg const *msg)
  * gnm_input_msg_get_title:
  * @msg: #GnmInputMsg
  *
- * Returns: (transfer none): The title of the message to show
+ * Returns: (transfer none) (not nullable): The title of the message
+ * to show
  **/
 char const  *
 gnm_input_msg_get_title (GnmInputMsg const *msg)
