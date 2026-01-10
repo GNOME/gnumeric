@@ -1,5 +1,5 @@
 #ifndef GNM_SHEET_H_
-# define GNM_SHEET_H_
+#define GNM_SHEET_H_
 
 #include <gnumeric.h>
 #include <colrow.h>

@@ -1,5 +1,5 @@
 #ifndef GNM_WORKBOOK_CONTROL_PRIV_H_
-# define GNM_WORKBOOK_CONTROL_PRIV_H_
+#define GNM_WORKBOOK_CONTROL_PRIV_H_
 
 #include <workbook-control.h>
 #include <goffice/goffice.h>

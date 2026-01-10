@@ -1,5 +1,5 @@
 #ifndef GNM_SESSION_H_
-# define GNM_SESSION_H_
+#define GNM_SESSION_H_
 
 #include <gnumeric.h>
 

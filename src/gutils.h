@@ -1,5 +1,5 @@
 #ifndef GNM_GUTILS_H_
-# define GNM_GUTILS_H_
+#define GNM_GUTILS_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

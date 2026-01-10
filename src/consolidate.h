@@ -1,5 +1,5 @@
 #ifndef GNM_CONSOLIDATE_H_
-# define GNM_CONSOLIDATE_H_
+#define GNM_CONSOLIDATE_H_
 
 #include <gnumeric.h>
 #include <tools/dao.h>

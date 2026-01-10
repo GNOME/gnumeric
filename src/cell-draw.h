@@ -1,5 +1,5 @@
 #ifndef GNM_CELL_DRAW_H_
-# define GNM_CELL_DRAW_H_
+#define GNM_CELL_DRAW_H_
 
 #include <gnumeric.h>
 

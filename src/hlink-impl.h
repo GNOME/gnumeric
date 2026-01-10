@@ -1,5 +1,5 @@
 #ifndef GNM_HLINK_IMPL_H_
-# define GNM_HLINK_IMPL_H_
+#define GNM_HLINK_IMPL_H_
 
 #include <hlink.h>
 

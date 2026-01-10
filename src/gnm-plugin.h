@@ -1,5 +1,5 @@
 #ifndef GNM_PLUGIN_H_
-# define GNM_PLUGIN_H_
+#define GNM_PLUGIN_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

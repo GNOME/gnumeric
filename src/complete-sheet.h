@@ -1,5 +1,5 @@
 #ifndef GNM_COMPLETE_SHEET_H_
-# define GNM_COMPLETE_SHEET_H_
+#define GNM_COMPLETE_SHEET_H_
 
 #include <gnumeric.h>
 #include <complete.h>

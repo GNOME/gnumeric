@@ -1,5 +1,5 @@
 #ifndef GNM_SHEET_AUTOFILL_H_
-# define GNM_SHEET_AUTOFILL_H_
+#define GNM_SHEET_AUTOFILL_H_
 
 #include <gnumeric.h>
 

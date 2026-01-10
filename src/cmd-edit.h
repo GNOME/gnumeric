@@ -1,5 +1,5 @@
 #ifndef GNM_CMD_EDIT_H_
-# define GNM_CMD_EDIT_H_
+#define GNM_CMD_EDIT_H_
 
 #include <gnumeric.h>
 

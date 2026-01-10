@@ -1,5 +1,5 @@
 #ifndef GNM_VALUE_H_
-# define GNM_VALUE_H_
+#define GNM_VALUE_H_
 
 #include <gnumeric.h>
 #include <position.h>

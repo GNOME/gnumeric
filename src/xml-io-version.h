@@ -1,5 +1,5 @@
 #ifndef GNM_XML_IO_VERSION_H_
-# define GNM_XML_IO_VERSION_H_
+#define GNM_XML_IO_VERSION_H_
 
 G_BEGIN_DECLS
 

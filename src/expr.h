@@ -1,5 +1,5 @@
 #ifndef GNM_EXPR_H_
-# define GNM_EXPR_H_
+#define GNM_EXPR_H_
 
 G_BEGIN_DECLS
 

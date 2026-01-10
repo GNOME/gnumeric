@@ -1,5 +1,5 @@
 #ifndef GNM_PRINT_H_
-# define GNM_PRINT_H_
+#define GNM_PRINT_H_
 
 #include <gnumeric.h>
 #include <gsf/gsf-output.h>

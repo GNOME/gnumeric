@@ -1,5 +1,5 @@
 #ifndef GNM_SHEET_CONTROL_GUI_H_
-# define GNM_SHEET_CONTROL_GUI_H_
+#define GNM_SHEET_CONTROL_GUI_H_
 
 #include <gnumeric-fwd.h>
 #include <sheet-control.h>

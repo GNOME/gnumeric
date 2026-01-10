@@ -1,5 +1,5 @@
 #ifndef GNM_CELLSPAN_H_
-# define GNM_CELLSPAN_H_
+#define GNM_CELLSPAN_H_
 
 #include <gnumeric.h>
 

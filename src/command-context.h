@@ -1,5 +1,5 @@
 #ifndef GNM_COMMAND_CONTEXT_H_
-# define GNM_COMMAND_CONTEXT_H_
+#define GNM_COMMAND_CONTEXT_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

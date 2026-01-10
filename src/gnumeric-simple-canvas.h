@@ -1,5 +1,5 @@
 #ifndef GNM_SIMPLE_CANVAS_H_
-# define GNM_SIMPLE_CANVAS_H_
+#define GNM_SIMPLE_CANVAS_H_
 
 #include <gnumeric-fwd.h>
 #include <goffice/goffice.h>

@@ -1,5 +1,5 @@
 #ifndef GNM_SORT_H_
-# define GNM_SORT_H_
+#define GNM_SORT_H_
 
 #include <gnumeric.h>
 

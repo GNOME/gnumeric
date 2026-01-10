@@ -1,5 +1,5 @@
 #ifndef GNM_STF_PARSE_H_
-# define GNM_STF_PARSE_H_
+#define GNM_STF_PARSE_H_
 
 #include <glib.h>
 #include <gnumeric.h>

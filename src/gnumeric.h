@@ -1,5 +1,5 @@
 #ifndef GNM_GNUMERIC_H_
-# define GNM_GNUMERIC_H_
+#define GNM_GNUMERIC_H_
 
 #include <glib.h>
 #include <goffice/goffice.h>

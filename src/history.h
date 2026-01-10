@@ -1,5 +1,5 @@
 #ifndef GNM_HISTORY_H_
-# define GNM_HISTORY_H_
+#define GNM_HISTORY_H_
 
 #include <gnumeric.h>
 

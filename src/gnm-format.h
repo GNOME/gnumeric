@@ -1,5 +1,5 @@
 #ifndef GNM_FORMAT_H_
-# define GNM_FORMAT_H_
+#define GNM_FORMAT_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

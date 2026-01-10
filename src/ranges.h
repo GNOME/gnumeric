@@ -1,5 +1,5 @@
 #ifndef GNM_RANGES_H_
-# define GNM_RANGES_H_
+#define GNM_RANGES_H_
 
 #include <gnumeric.h>
 #include <glib-object.h>

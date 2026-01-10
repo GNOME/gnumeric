@@ -1,5 +1,5 @@
 #ifndef GNM_PANE_IMPL_H_
-# define GNM_PANE_IMPL_H_
+#define GNM_PANE_IMPL_H_
 
 #include <src/gnm-pane.h>
 #include <src/gnumeric-simple-canvas.h>

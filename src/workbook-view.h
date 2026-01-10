@@ -1,5 +1,5 @@
 #ifndef GNM_WORKBOOK_VIEW_H_
-# define GNM_WORKBOOK_VIEW_H_
+#define GNM_WORKBOOK_VIEW_H_
 
 #include <gnumeric.h>
 #include <dependent.h>

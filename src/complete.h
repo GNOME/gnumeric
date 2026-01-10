@@ -1,5 +1,5 @@
 #ifndef GNM_COMPLETE_H_
-# define GNM_COMPLETE_H_
+#define GNM_COMPLETE_H_
 
 #include <glib-object.h>
 #include <gnumeric-fwd.h>

@@ -1,5 +1,5 @@
 #ifndef GNM_COMMANDS_SLICER_H_
-# define GNM_COMMANDS_SLICER_H_
+#define GNM_COMMANDS_SLICER_H_
 
 #include <gnumeric.h>
 

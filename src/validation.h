@@ -1,5 +1,5 @@
 #ifndef GNM_VALIDATION_H_
-# define GNM_VALIDATION_H_
+#define GNM_VALIDATION_H_
 
 #include <gnumeric.h>
 #include <dependent.h>

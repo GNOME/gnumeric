@@ -1,5 +1,5 @@
 #ifndef GNM_PANE_H_
-# define GNM_PANE_H_
+#define GNM_PANE_H_
 
 #include <gnumeric-fwd.h>
 #include <goffice/goffice.h>

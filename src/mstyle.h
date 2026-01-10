@@ -1,5 +1,5 @@
 #ifndef GNM_MSTYLE_H_
-# define GNM_MSTYLE_H_
+#define GNM_MSTYLE_H_
 
 #include <gnumeric.h>
 #include <style.h>

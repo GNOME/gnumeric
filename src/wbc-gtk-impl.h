@@ -1,5 +1,5 @@
 #ifndef GNM_WBC_GTK_IMPL_H_
-# define GNM_WBC_GTK_IMPL_H_
+#define GNM_WBC_GTK_IMPL_H_
 
 #include <gnumeric.h>
 #include <wbc-gtk.h>

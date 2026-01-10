@@ -1,5 +1,5 @@
 #ifndef GNM_GRAPH_WINDOW_H_
-# define GNM_GRAPH_WINDOW_H_
+#define GNM_GRAPH_WINDOW_H_
 
 #include <goffice/goffice.h>
 

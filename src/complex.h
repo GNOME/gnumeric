@@ -1,5 +1,5 @@
 #ifndef GNM_COMPLEX_H_
-# define GNM_COMPLEX_H_
+#define GNM_COMPLEX_H_
 
 #include <numbers.h>
 #include <goffice/goffice.h>

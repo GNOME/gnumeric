@@ -1,5 +1,5 @@
 #ifndef GNM_COLLECT_H_
-# define GNM_COLLECT_H_
+#define GNM_COLLECT_H_
 
 #include <numbers.h>
 #include <gnumeric.h>

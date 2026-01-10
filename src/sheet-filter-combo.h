@@ -1,5 +1,5 @@
 #ifndef GNM_SHEET_FILTER_COMBO_H_
-# define GNM_SHEET_FILTER_COMBO_H_
+#define GNM_SHEET_FILTER_COMBO_H_
 
 #include <sheet-object-impl.h>
 

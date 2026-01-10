@@ -1,5 +1,5 @@
 #ifndef GNM_LIBGNUMERIC_H_
-# define GNM_LIBGNUMERIC_H_
+#define GNM_LIBGNUMERIC_H_
 
 #include <gnumeric.h>
 

@@ -1,5 +1,5 @@
 #ifndef GNM_SEARCH_H_
-# define GNM_SEARCH_H_
+#define GNM_SEARCH_H_
 
 #include <gnumeric.h>
 #include <position.h>

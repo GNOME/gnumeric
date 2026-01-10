@@ -1,5 +1,5 @@
 #ifndef GNM_SHEET_OBJECT_IMAGE_H_
-# define GNM_SHEET_OBJECT_IMAGE_H_
+#define GNM_SHEET_OBJECT_IMAGE_H_
 
 #include <sheet-object.h>
 

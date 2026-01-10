@@ -1,5 +1,5 @@
 #ifndef GNM_GUI_UTIL_H_
-# define GNM_GUI_UTIL_H_
+#define GNM_GUI_UTIL_H_
 
 #include <gnumeric-fwd.h>
 #include <goffice/goffice.h>

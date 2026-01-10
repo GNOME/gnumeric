@@ -1,5 +1,5 @@
 #ifndef GNM_CLIPBOARD_H_
-# define GNM_CLIPBOARD_H_
+#define GNM_CLIPBOARD_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

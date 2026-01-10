@@ -1,5 +1,5 @@
 #ifndef GNM_INPUT_MSG_H_
-# define GNM_INPUT_MSG_H_
+#define GNM_INPUT_MSG_H_
 
 #include <gnumeric.h>
 #include <glib-object.h>

@@ -1,5 +1,5 @@
 #ifndef GNM_SELECTION_H_
-# define GNM_SELECTION_H_
+#define GNM_SELECTION_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

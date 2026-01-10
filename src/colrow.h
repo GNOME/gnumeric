@@ -1,5 +1,5 @@
 #ifndef GNM_COLROW_H_
-# define GNM_COLROW_H_
+#define GNM_COLROW_H_
 
 #include <gnumeric.h>
 

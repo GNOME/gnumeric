@@ -1,5 +1,5 @@
 #ifndef GNM_WORKBOOK_CMD_FORMAT_H_
-# define GNM_WORKBOOK_CMD_FORMAT_H_
+#define GNM_WORKBOOK_CMD_FORMAT_H_
 
 #include <gnumeric.h>
 

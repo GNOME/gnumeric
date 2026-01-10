@@ -1,5 +1,5 @@
 #ifndef GNM_HLINK_H_
-# define GNM_HLINK_H_
+#define GNM_HLINK_H_
 
 #include <gnumeric.h>
 #include <wbc-gtk.h>

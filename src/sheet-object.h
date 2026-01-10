@@ -1,5 +1,5 @@
 #ifndef GNM_SHEET_OBJECT_H_
-# define GNM_SHEET_OBJECT_H_
+#define GNM_SHEET_OBJECT_H_
 
 #include <gnumeric.h>
 #include <gsf/gsf-output.h>

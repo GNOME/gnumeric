@@ -1,5 +1,5 @@
 #ifndef GNM_SHEET_VIEW_H_
-# define GNM_SHEET_VIEW_H_
+#define GNM_SHEET_VIEW_H_
 
 #include <gnumeric.h>
 #include <glib-object.h>

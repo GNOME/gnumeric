@@ -1,5 +1,5 @@
 #ifndef GNM_IO_CONTEXT_GTK_H_
-# define GNM_IO_CONTEXT_GTK_H_
+#define GNM_IO_CONTEXT_GTK_H_
 
 #include <stdarg.h>
 #include <gnumeric-fwd.h>

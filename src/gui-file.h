@@ -1,5 +1,5 @@
 #ifndef GNM_GUI_FILE_H_
-# define GNM_GUI_FILE_H_
+#define GNM_GUI_FILE_H_
 
 #include <gnumeric-fwd.h>
 

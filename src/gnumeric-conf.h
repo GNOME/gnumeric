@@ -1,5 +1,5 @@
 #ifndef GNM_GCONF_H_
-# define GNM_GCONF_H_
+#define GNM_GCONF_H_
 
 #include <gnumeric.h>
 #include <gsf/gsf-output-csv.h>

@@ -1,5 +1,5 @@
 #ifndef GNM_RANGEFUNC_STRINGS_H_
-# define GNM_RANGEFUNC_STRINGS_H_
+#define GNM_RANGEFUNC_STRINGS_H_
 
 #include <numbers.h>
 

@@ -1,5 +1,5 @@
 #ifndef GNM_VALIDATION_COMBO_H_
-# define GNM_VALIDATION_COMBO_H_
+#define GNM_VALIDATION_COMBO_H_
 
 #include <gnm-cell-combo.h>
 

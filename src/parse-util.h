@@ -1,5 +1,5 @@
 #ifndef GNM_PARSE_UTIL_H_
-# define GNM_PARSE_UTIL_H_
+#define GNM_PARSE_UTIL_H_
 
 #include <gnumeric.h>
 #include <libgnumeric.h>

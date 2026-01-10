@@ -1,5 +1,5 @@
 #ifndef GNM_APPLICATION_H_
-# define GNM_APPLICATION_H_
+#define GNM_APPLICATION_H_
 
 #include <gnumeric.h>
 #include <glib-object.h>

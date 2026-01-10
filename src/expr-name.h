@@ -1,5 +1,5 @@
 #ifndef GNM_EXPR_NAME_H_
-# define GNM_EXPR_NAME_H_
+#define GNM_EXPR_NAME_H_
 
 #include <gnumeric.h>
 #include <position.h>

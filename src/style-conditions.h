@@ -1,5 +1,5 @@
 #ifndef GNM_STYLE_CONDITIONS_H_
-# define GNM_STYLE_CONDITIONS_H_
+#define GNM_STYLE_CONDITIONS_H_
 
 #include <gnumeric.h>
 #include <dependent.h>

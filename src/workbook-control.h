@@ -1,5 +1,5 @@
 #ifndef GNM_WORKBOOK_CONTROL_H_
-# define GNM_WORKBOOK_CONTROL_H_
+#define GNM_WORKBOOK_CONTROL_H_
 
 #include <gnumeric.h>
 #include <validation.h>

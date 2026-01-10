@@ -1,5 +1,5 @@
 #ifndef GNM_FUNC_H_
-# define GNM_FUNC_H_
+#define GNM_FUNC_H_
 
 #include <gnumeric.h>
 #include <dependent.h>

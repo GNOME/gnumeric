@@ -1,5 +1,5 @@
 #ifndef GNM_FUNC_BUILTIN_H_
-# define GNM_FUNC_BUILTIN_H_
+#define GNM_FUNC_BUILTIN_H_
 
 #include <func.h>
 

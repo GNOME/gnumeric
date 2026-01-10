@@ -1,5 +1,5 @@
 #ifndef GNM_NUMBER_MATCH_H_
-# define GNM_NUMBER_MATCH_H_
+#define GNM_NUMBER_MATCH_H_
 
 #include <gnumeric.h>
 

@@ -1,5 +1,5 @@
 #ifndef GNM_STF_EXPORT_H_
-# define GNM_STF_EXPORT_H_
+#define GNM_STF_EXPORT_H_
 
 #include <gnumeric.h>
 #include <gsf/gsf-output-csv.h>

@@ -1,5 +1,5 @@
 #ifndef GNM_PATTERN_H_
-# define GNM_PATTERN_H_
+#define GNM_PATTERN_H_
 
 #include <style.h>
 

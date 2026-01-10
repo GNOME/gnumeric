@@ -1,5 +1,5 @@
 #ifndef GNM_PRINT_INFO_H_
-# define GNM_PRINT_INFO_H_
+#define GNM_PRINT_INFO_H_
 
 #include <gnumeric.h>
 #include <print.h>

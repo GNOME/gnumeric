@@ -1,5 +1,5 @@
 #ifndef GNM_DATETIME_H_
-# define GNM_DATETIME_H_
+#define GNM_DATETIME_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

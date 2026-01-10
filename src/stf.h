@@ -1,5 +1,5 @@
 #ifndef GNM_STF_H_
-# define GNM_STF_H_
+#define GNM_STF_H_
 
 #include <gnumeric.h>
 

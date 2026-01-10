@@ -1,5 +1,5 @@
 #ifndef GNM_SHEET_CONTROL_PRIV_H_
-# define GNM_SHEET_CONTROL_PRIV_H_
+#define GNM_SHEET_CONTROL_PRIV_H_
 
 #include <sheet-control.h>
 

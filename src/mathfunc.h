@@ -1,5 +1,5 @@
 #ifndef GNM_MATHFUNC_H_
-# define GNM_MATHFUNC_H_
+#define GNM_MATHFUNC_H_
 
 #include <numbers.h>
 #include <math.h>

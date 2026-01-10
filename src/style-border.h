@@ -1,5 +1,5 @@
 #ifndef GNM_STYLE_BORDER_H_
-# define GNM_STYLE_BORDER_H_
+#define GNM_STYLE_BORDER_H_
 
 #include <gnumeric.h>
 #include <gdk/gdk.h>

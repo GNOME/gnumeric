@@ -1,5 +1,5 @@
 #ifndef GNM_GRAPH_H_
-# define GNM_GRAPH_H_
+#define GNM_GRAPH_H_
 
 #include <gnumeric.h>
 #include <sheet-object.h>

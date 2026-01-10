@@ -1,5 +1,5 @@
 #ifndef GNM_RANGEFUNC_H_
-# define GNM_RANGEFUNC_H_
+#define GNM_RANGEFUNC_H_
 
 #include <numbers.h>
 #include <goffice/goffice.h>

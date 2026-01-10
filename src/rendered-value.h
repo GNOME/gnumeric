@@ -1,5 +1,5 @@
 #ifndef GNM_RENDERED_VALUE_H_
-# define GNM_RENDERED_VALUE_H_
+#define GNM_RENDERED_VALUE_H_
 
 #include <gnumeric.h>
 #include <pango/pango.h>

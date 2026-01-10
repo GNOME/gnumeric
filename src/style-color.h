@@ -1,5 +1,5 @@
 #ifndef GNM_STYLE_COLOR_H_
-# define GNM_STYLE_COLOR_H_
+#define GNM_STYLE_COLOR_H_
 
 #include <gnumeric.h>
 #include <libgnumeric.h>

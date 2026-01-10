@@ -1,5 +1,5 @@
 #ifndef GNM_SO_POLYGON_H_
-# define GNM_SO_POLYGON_H_
+#define GNM_SO_POLYGON_H_
 
 #include   <glib-object.h>
 

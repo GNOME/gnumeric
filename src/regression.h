@@ -1,5 +1,5 @@
 #ifndef GNM_REGRESSION_H_
-# define GNM_REGRESSION_H_
+#define GNM_REGRESSION_H_
 
 #include <numbers.h>
 #include <goffice/goffice.h>

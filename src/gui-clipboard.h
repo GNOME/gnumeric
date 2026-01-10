@@ -1,5 +1,5 @@
 #ifndef GNM_GUI_CLIPBOARD_H_
-# define GNM_GUI_CLIPBOARD_H_
+#define GNM_GUI_CLIPBOARD_H_
 
 #include <gnumeric-fwd.h>
 

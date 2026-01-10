@@ -1,5 +1,5 @@
 #ifndef GNM_EXPR_IMPL_H_
-# define GNM_EXPR_IMPL_H_
+#define GNM_EXPR_IMPL_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

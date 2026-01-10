@@ -1,5 +1,5 @@
 #ifndef GNM_SHEET_MERGE_H_
-# define GNM_SHEET_MERGE_H_
+#define GNM_SHEET_MERGE_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

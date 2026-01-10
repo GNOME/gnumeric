@@ -1,5 +1,5 @@
 #ifndef GNM_CELL_COMBO_H_
-# define GNM_CELL_COMBO_H_
+#define GNM_CELL_COMBO_H_
 
 #include <sheet-object-impl.h>
 

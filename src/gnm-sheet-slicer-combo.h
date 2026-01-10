@@ -1,5 +1,5 @@
 #ifndef GNM_SHEET_SLICER_COMBO_H_
-# define GNM_SHEET_SLICER_COMBO_H_
+#define GNM_SHEET_SLICER_COMBO_H_
 
 #include <gnm-cell-combo.h>
 #include <goffice-data.h>

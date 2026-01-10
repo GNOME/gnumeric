@@ -1,5 +1,5 @@
 #ifndef GNM_SHEET_PRIVATE_H_
-# define GNM_SHEET_PRIVATE_H_
+#define GNM_SHEET_PRIVATE_H_
 
 G_BEGIN_DECLS
 

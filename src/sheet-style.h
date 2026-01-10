@@ -1,5 +1,5 @@
 #ifndef GNM_SHEET_STYLE_H_
-# define GNM_SHEET_STYLE_H_
+#define GNM_SHEET_STYLE_H_
 
 #include <gnumeric.h>
 #include <style-border.h>

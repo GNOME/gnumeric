@@ -1,5 +1,5 @@
 #ifndef GNM_AUTO_FORMAT_H_
-# define GNM_AUTO_FORMAT_H_
+#define GNM_AUTO_FORMAT_H_
 
 #include <gnumeric.h>
 
