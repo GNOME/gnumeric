@@ -18,8 +18,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef G_PLUGIN_FONT_H_
-#define G_PLUGIN_FONT_H_
+#ifndef GNM_PLUGIN_HTML_FONT_H_
+#define GNM_PLUGIN_HTML_FONT_H_
 
 #include <gnumeric.h>
 

@@ -1,5 +1,5 @@
-#ifndef _GNM_COMMAND_CONTEXT_H_
-# define _GNM_COMMAND_CONTEXT_H_
+#ifndef GNM_COMMAND_CONTEXT_H_
+# define GNM_COMMAND_CONTEXT_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>
@@ -18,4 +18,4 @@ GQuark gnm_error_calc  (void);
 
 G_END_DECLS
 
-#endif /* _GNM_COMMAND_CONTEXT_H_ */
+#endif /* GNM_COMMAND_CONTEXT_H_ */

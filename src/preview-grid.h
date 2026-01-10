@@ -1,5 +1,5 @@
-#ifndef _GNM_PREVIEW_GRID_H_
-#define _GNM_PREVIEW_GRID_H_
+#ifndef GNM_PREVIEW_GRID_H_
+#define GNM_PREVIEW_GRID_H_
 
 #include <gnumeric.h>
 #include <glib-object.h>
@@ -14,4 +14,4 @@ GType gnm_preview_grid_get_type (void);
 
 G_END_DECLS
 
-#endif /* _GNM_PREVIEW_GRID_H_ */
+#endif /* GNM_PREVIEW_GRID_H_ */

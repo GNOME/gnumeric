@@ -22,8 +22,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef GNUMERIC_DAO_H
-#define GNUMERIC_DAO_H
+#ifndef GNM_DAO_H_
+#define GNM_DAO_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

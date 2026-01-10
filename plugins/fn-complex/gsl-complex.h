@@ -1,5 +1,5 @@
-#ifndef __GSL_COMPLEX_H__
-#define __GSL_COMPLEX_H__
+#ifndef GNM_PLUGIN_COMPLEX_GSL_H_
+#define GNM_PLUGIN_COMPLEX_GSL_H_
 
 void gsl_complex_inverse  (gnm_complex const *a, gnm_complex *res);
 void gsl_complex_arcsin   (gnm_complex const *a, gnm_complex *res);

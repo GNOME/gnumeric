@@ -17,8 +17,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  **/
 
-#ifndef GNM_WORKBOOK_SEL_H
-#define GNM_WORKBOOK_SEL_H
+#ifndef GNM_WORKBOOK_SEL_H_
+#define GNM_WORKBOOK_SEL_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>
@@ -40,4 +40,4 @@ Workbook  *gnm_workbook_sel_get_workbook (GnmWorkbookSel *wbs);
 
 G_END_DECLS
 
-#endif /* GNM_WORKBOOK_SEL_H */
+#endif /* GNM_WORKBOOK_SEL_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_CONTROL_PRIV_H_
-# define _GNM_SHEET_CONTROL_PRIV_H_
+#ifndef GNM_SHEET_CONTROL_PRIV_H_
+# define GNM_SHEET_CONTROL_PRIV_H_
 
 #include <sheet-control.h>
 
@@ -43,4 +43,4 @@ typedef struct {
 
 G_END_DECLS
 
-#endif /* _GNM_SHEET_CONTROL_PRIV_H_ */
+#endif /* GNM_SHEET_CONTROL_PRIV_H_ */

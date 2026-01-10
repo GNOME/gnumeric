@@ -19,8 +19,8 @@
    along with this program; if not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef CRYPT_MD4_H
-#define CRYPT_MD4_H
+#ifndef GNM_PLUGIN_EXCEL_CRYPT_MD4_H_
+#define GNM_PLUGIN_EXCEL_CRYPT_MD4_H_
 
 void mdfour(unsigned char *out, const unsigned char *in, int n);
 

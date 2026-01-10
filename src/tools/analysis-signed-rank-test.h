@@ -22,8 +22,8 @@
  */
 
 
-#ifndef ANALYSIS_SIGNED_RANK_TEST_H
-#define ANALYSIS_SIGNED_RANK_TEST_H
+#ifndef GNM_TOOLS_ANALYSIS_SIGNED_RANK_TEST_H_
+#define GNM_TOOLS_ANALYSIS_SIGNED_RANK_TEST_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

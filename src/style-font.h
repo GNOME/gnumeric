@@ -1,5 +1,5 @@
-#ifndef _GNM_STYLE_FONT_H_
-# define _GNM_STYLE_FONT_H_
+#ifndef GNM_STYLE_FONT_H_
+# define GNM_STYLE_FONT_H_
 
 #include <gnumeric.h>
 #include <libgnumeric.h>
@@ -45,4 +45,4 @@ PangoContext *gnm_pango_context_get (void);
 
 G_END_DECLS
 
-#endif /* _GNM_STYLE_FONT_H_ */
+#endif /* GNM_STYLE_FONT_H_ */

@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_ANALYSIS_TOOLS_H
-#define GNUMERIC_ANALYSIS_TOOLS_H
+#ifndef GNM_ANALYSIS_TOOLS_H_
+#define GNM_ANALYSIS_TOOLS_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

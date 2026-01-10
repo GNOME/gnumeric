@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_GTK_DEAD_KITTENS_H
-#define GNUMERIC_GTK_DEAD_KITTENS_H
+#ifndef GNM_GTK_DEAD_KITTENS_H_
+#define GNM_GTK_DEAD_KITTENS_H_
 
 #include <gutils.h>
 #include <gdk/gdkkeysyms.h>

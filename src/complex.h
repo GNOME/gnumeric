@@ -1,5 +1,5 @@
-#ifndef _GNM_COMPLEX_H_
-# define _GNM_COMPLEX_H_
+#ifndef GNM_COMPLEX_H_
+# define GNM_COMPLEX_H_
 
 #include <numbers.h>
 #include <goffice/goffice.h>
@@ -141,4 +141,4 @@ static inline gnm_complex GNM_CEXPPI(gnm_complex c)
 
 G_END_DECLS
 
-#endif /* _GNM_COMPLEX_H_ */
+#endif /* GNM_COMPLEX_H_ */

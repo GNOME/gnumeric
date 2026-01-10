@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-#ifndef GNM_SHEET_SLICER_H
-#define GNM_SHEET_SLICER_H
+#ifndef GNM_SHEET_SLICER_H_
+#define GNM_SHEET_SLICER_H_
 
 #include <gnumeric.h>
 #include <goffice-data.h>
@@ -65,4 +65,4 @@ GnmSheetSlicer * gnm_sheet_slicers_at_pos (Sheet const *sheet, GnmCellPos const 
 
 G_END_DECLS
 
-#endif /* GNM_SHEET_SLICER_H */
+#endif /* GNM_SHEET_SLICER_H_ */

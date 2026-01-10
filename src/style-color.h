@@ -1,5 +1,5 @@
-#ifndef _GNM_STYLE_COLOR_H_
-# define _GNM_STYLE_COLOR_H_
+#ifndef GNM_STYLE_COLOR_H_
+# define GNM_STYLE_COLOR_H_
 
 #include <gnumeric.h>
 #include <libgnumeric.h>
@@ -40,4 +40,4 @@ void gnm_color_shutdown (void);
 
 G_END_DECLS
 
-#endif /* _GNM_STYLE_COLOR_H_ */
+#endif /* GNM_STYLE_COLOR_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_FORMAT_TEMPLATE_H_
-# define _GNM_FORMAT_TEMPLATE_H_
+#ifndef GNM_FORMAT_TEMPLATE_H_
+# define GNM_FORMAT_TEMPLATE_H_
 
 #include <gnumeric.h>
 
@@ -137,4 +137,4 @@ gboolean	 gnm_ft_check_valid   (GnmFT *ft, GSList *regions,
 
 G_END_DECLS
 
-#endif /* _GNM_FORMAT_TEMPLATE_H_ */
+#endif /* GNM_FORMAT_TEMPLATE_H_ */

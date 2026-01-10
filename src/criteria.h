@@ -1,5 +1,5 @@
-#ifndef _GNM_CRITERIA_H_
-#define _GNM_CRITERIA_H_
+#ifndef GNM_CRITERIA_H_
+#define GNM_CRITERIA_H_
 
 #include <gnumeric.h>
 #include <position.h>

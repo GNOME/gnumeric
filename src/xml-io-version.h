@@ -1,5 +1,5 @@
-#ifndef _GNM_XML_IO_VERSION_H_
-# define _GNM_XML_IO_VERSION_H_
+#ifndef GNM_XML_IO_VERSION_H_
+# define GNM_XML_IO_VERSION_H_
 
 G_BEGIN_DECLS
 
@@ -27,4 +27,4 @@ typedef enum
 
 G_END_DECLS
 
-#endif /* _GNM_XML_IO_VERSION_H_ */
+#endif /* GNM_XML_IO_VERSION_H_ */

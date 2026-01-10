@@ -24,8 +24,8 @@
  */
 
 
-#ifndef ANALYSIS_EXP_SMOOTHING_H
-#define ANALYSIS_EXP_SMOOTHING_H
+#ifndef GNM_TOOLS_ANALYSIS_EXP_SMOOTHING_H_
+#define GNM_TOOLS_ANALYSIS_EXP_SMOOTHING_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

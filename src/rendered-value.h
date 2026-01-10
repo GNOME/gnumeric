@@ -1,5 +1,5 @@
-#ifndef _GNM_RENDERED_VALUE_H_
-# define _GNM_RENDERED_VALUE_H_
+#ifndef GNM_RENDERED_VALUE_H_
+# define GNM_RENDERED_VALUE_H_
 
 #include <gnumeric.h>
 #include <pango/pango.h>
@@ -83,4 +83,4 @@ void gnm_rendered_value_shutdown (void);
 
 G_END_DECLS
 
-#endif /* _GNM_RENDERED_VALUE_H_ */
+#endif /* GNM_RENDERED_VALUE_H_ */

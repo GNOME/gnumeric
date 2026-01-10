@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_GLPK_BOOT_H
-#define GNUMERIC_GLPK_BOOT_H
+#ifndef GNM_GLPK_BOOT_H_
+#define GNM_GLPK_BOOT_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

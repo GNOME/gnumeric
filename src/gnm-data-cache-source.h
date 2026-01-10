@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-#ifndef GNM_DATA_CACHE_SOURCE_H
-#define GNM_DATA_CACHE_SOURCE_H
+#ifndef GNM_DATA_CACHE_SOURCE_H_
+#define GNM_DATA_CACHE_SOURCE_H_
 
 #include <goffice/goffice.h>
 #include <glib-object.h>
@@ -51,4 +51,4 @@ void		 gnm_data_cache_source_set_name  (GnmDataCacheSource *src, char const *nam
 
 G_END_DECLS
 
-#endif /* GNM_DATA_CACHE_SOURCE_H */
+#endif /* GNM_DATA_CACHE_SOURCE_H_ */

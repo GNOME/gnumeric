@@ -1,8 +1,8 @@
-#ifndef _GNM_COMMANDS_SLICER_H
-# define _GNM_COMMANDS_SLICER_H
+#ifndef GNM_COMMANDS_SLICER_H_
+# define GNM_COMMANDS_SLICER_H_
 
 #include <gnumeric.h>
 
 gboolean cmd_slicer_refresh (WorkbookControl *wbc);
 
-#endif /* _GNM_COMMANDS_SLICER_H */
+#endif /* GNM_COMMANDS_SLICER_H_ */

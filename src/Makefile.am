@@ -735,8 +735,8 @@ gnumeric-paths.h: Makefile
 	@( \
 	echo '/* This file has been automatically generated.  Do not edit. */'; \
 	echo ''; \
-	echo '#ifndef GNUMERIC_PATHS_H'; \
-	echo '#define GNUMERIC_PATHS_H'; \
+	echo '#ifndef GNUMERIC_PATHS_H_'; \
+	echo '#define GNUMERIC_PATHS_H_'; \
 	echo ''; \
 	echo '#define GNUMERIC_PREFIX		"$(prefix)"'; \
 	echo '#define GNUMERIC_SYSCONFDIR	"$(sysconfdir)"'; \
@@ -745,7 +745,7 @@ gnumeric-paths.h: Makefile
 	echo '#define GNUMERIC_LOCALEDIR	"$(gnumeric_localedir)"'; \
 	echo '#define GNUMERIC_EXTERNPLUGINDIR		"$(gnumeric_externplugindir)"'; \
 	echo ''; \
-	echo '#endif /* GNUMERIC_PATHS_H */'; \
+	echo '#endif /* GNUMERIC_PATHS_H_ */'; \
 	) >$@
 
 update-gnumeric-conf:

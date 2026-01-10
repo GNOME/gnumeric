@@ -1,5 +1,5 @@
-#ifndef _GNM_FUNC_H_
-# define _GNM_FUNC_H_
+#ifndef GNM_FUNC_H_
+# define GNM_FUNC_H_
 
 #include <gnumeric.h>
 #include <dependent.h>
@@ -314,4 +314,4 @@ GnmExpr const *gnm_func_derivative (GnmFunc *func,
 
 G_END_DECLS
 
-#endif /* _GNM_FUNC_H_ */
+#endif /* GNM_FUNC_H_ */

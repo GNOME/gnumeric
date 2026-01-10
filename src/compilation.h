@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_GTK_COMPILATION_H
-#define GNUMERIC_GTK_COMPILATION_H
+#ifndef GNM_GTK_COMPILATION_H_
+#define GNM_GTK_COMPILATION_H_
 
 #if defined(__GNUC__)
 #define GNM_BEGIN_KILL_SWITCH_WARNING _Pragma("GCC diagnostic push") _Pragma("GCC diagnostic ignored \"-Wswitch\"")

@@ -1,5 +1,5 @@
-#ifndef _GNM_COMPLETE_H_
-# define _GNM_COMPLETE_H_
+#ifndef GNM_COMPLETE_H_
+# define GNM_COMPLETE_H_
 
 #include <glib-object.h>
 #include <gnumeric-fwd.h>
@@ -39,4 +39,4 @@ GType gnm_complete_get_type  (void);
 
 G_END_DECLS
 
-#endif /* _GNM_COMPLETE_H_ */
+#endif /* GNM_COMPLETE_H_ */

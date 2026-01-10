@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_DIALOG_STF_H
-#define GNUMERIC_DIALOG_STF_H
+#ifndef GNM_DIALOG_STF_H_
+#define GNM_DIALOG_STF_H_
 
 #include <dialogs/dialog-stf-preview.h>
 #include <gui-util.h>
@@ -169,4 +169,4 @@ void    stf_dialog_csv_page_prepare                     (StfDialogData *pagedata
 void    stf_dialog_fixed_page_prepare                   (StfDialogData *pagedata);
 void    stf_dialog_format_page_prepare                  (StfDialogData *pagedata);
 
-#endif /* GNUMERIC_DIALOG_STF_H */
+#endif /* GNM_DIALOG_STF_H_ */

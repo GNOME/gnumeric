@@ -1,5 +1,5 @@
-#ifndef __QPRO_H__
-#define __QPRO_H__
+#ifndef GNM_PLUGIN_QPRO_QPRO_H_
+#define GNM_PLUGIN_QPRO_QPRO_H_
 
 typedef enum {
 	QPRO_BEGINNING_OF_FILE			= 0,
@@ -353,5 +353,4 @@ typedef enum {
 	QPRO_OP_LAST_FUNC = 161
 } QProOperators;
 
-
-#endif /*  __QPRO_H__  */
+#endif

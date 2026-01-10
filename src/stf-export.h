@@ -1,5 +1,5 @@
-#ifndef _GNM_STF_EXPORT_H_
-# define _GNM_STF_EXPORT_H_
+#ifndef GNM_STF_EXPORT_H_
+# define GNM_STF_EXPORT_H_
 
 #include <gnumeric.h>
 #include <gsf/gsf-output-csv.h>
@@ -43,4 +43,4 @@ GOFileSaver *gnm_stf_file_saver_create (gchar const *id);
 
 G_END_DECLS
 
-#endif /* _GNM_STF_EXPORT_H_ */
+#endif /* GNM_STF_EXPORT_H_ */

@@ -15,8 +15,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef GNM_CELL_RENDERER_EXPR_ENTRY_H__
-#define GNM_CELL_RENDERER_EXPR_ENTRY_H__
+#ifndef GNM_CELL_RENDERER_EXPR_ENTRY_H_
+#define GNM_CELL_RENDERER_EXPR_ENTRY_H_
 
 #include <widgets/gnm-cell-renderer-text.h>
 #include <widgets/gnm-expr-entry.h>

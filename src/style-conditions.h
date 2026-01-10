@@ -1,5 +1,5 @@
-#ifndef _GNM_STYLE_CONDITIONS_H_
-# define _GNM_STYLE_CONDITIONS_H_
+#ifndef GNM_STYLE_CONDITIONS_H_
+# define GNM_STYLE_CONDITIONS_H_
 
 #include <gnumeric.h>
 #include <dependent.h>
@@ -101,4 +101,4 @@ void        gnm_style_conditions_set_pos   (GnmStyleConditions *sc,
 
 G_END_DECLS
 
-#endif /* _GNM_STYLE_CONDITIONS_H_ */
+#endif /* GNM_STYLE_CONDITIONS_H_ */

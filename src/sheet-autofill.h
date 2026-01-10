@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_AUTOFILL_H_
-# define _GNM_SHEET_AUTOFILL_H_
+#ifndef GNM_SHEET_AUTOFILL_H_
+# define GNM_SHEET_AUTOFILL_H_
 
 #include <gnumeric.h>
 
@@ -20,4 +20,4 @@ GString *gnm_autofill_hint (Sheet *sheet, gboolean default_increment,
 
 G_END_DECLS
 
-#endif /* _GNM_SHEET_AUTOFILL_H_ */
+#endif /* GNM_SHEET_AUTOFILL_H_ */

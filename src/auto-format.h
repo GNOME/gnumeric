@@ -1,5 +1,5 @@
-#ifndef _GNM_AUTO_FORMAT_H_
-# define _GNM_AUTO_FORMAT_H_
+#ifndef GNM_AUTO_FORMAT_H_
+# define GNM_AUTO_FORMAT_H_
 
 #include <gnumeric.h>
 
@@ -10,4 +10,4 @@ GOFormat const *gnm_auto_style_format_suggest (GnmExprTop const *texpr,
 
 G_END_DECLS
 
-#endif /* _GNM_AUTO_FORMAT_H_ */
+#endif /* GNM_AUTO_FORMAT_H_ */

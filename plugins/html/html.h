@@ -18,8 +18,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef GNUMERIC_PLUGIN_HTML_H
-#define GNUMERIC_PLUGIN_HTML_H
+#ifndef GNM_PLUGIN_HTML_H_
+#define GNM_PLUGIN_HTML_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

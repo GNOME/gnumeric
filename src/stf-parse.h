@@ -1,5 +1,5 @@
-#ifndef _GNM_STF_PARSE_H_
-# define _GNM_STF_PARSE_H_
+#ifndef GNM_STF_PARSE_H_
+# define GNM_STF_PARSE_H_
 
 #include <glib.h>
 #include <gnumeric.h>
@@ -131,4 +131,4 @@ GnmCellRegion	*stf_parse_region			(StfParseOptions_t *parseoptions,
 
 G_END_DECLS
 
-#endif /* _GNM_STF_PARSE_H_ */
+#endif /* GNM_STF_PARSE_H_ */

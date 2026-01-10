@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-#ifndef GNM_COMMAND_IMPL_H
-#define GNM_COMMAND_IMPL_H
+#ifndef GNM_COMMAND_IMPL_H_
+#define GNM_COMMAND_IMPL_H_
 
 #include <gnumeric.h>
 #include <gsf/gsf-impl-utils.h>
@@ -81,4 +81,4 @@ static GSF_CLASS (type, func,						\
 
 G_END_DECLS
 
-#endif /* GNM_COMMAND_IMPL_H */
+#endif /* GNM_COMMAND_IMPL_H_ */

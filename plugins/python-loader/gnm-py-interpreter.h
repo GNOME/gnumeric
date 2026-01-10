@@ -1,5 +1,5 @@
-#ifndef PLUGIN_GNM_PY_INTERPRETER_H
-#define PLUGIN_GNM_PY_INTERPRETER_H
+#ifndef GNM_PLUGIN_GNM_PY_INTERPRETER_H_
+#define GNM_PLUGIN_GNM_PY_INTERPRETER_H_
 
 #include <glib.h>
 #include <gnumeric.h>
@@ -23,4 +23,4 @@ char const       *gnm_py_interpreter_get_name	(GnmPyInterpreter *interpreter);
 GOPlugin        *gnm_py_interpreter_get_plugin	(GnmPyInterpreter *interpreter);
 int               gnm_py_interpreter_compare	(gconstpointer a, gconstpointer b);
 
-#endif /* PLUGIN_GNM_PY_INTERPRETER_H */
+#endif /* GNM_PLUGIN_GNM_PY_INTERPRETER_H_ */

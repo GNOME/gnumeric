@@ -1,5 +1,5 @@
-#ifndef _GNM_COMPLETE_SHEET_H_
-# define _GNM_COMPLETE_SHEET_H_
+#ifndef GNM_COMPLETE_SHEET_H_
+# define GNM_COMPLETE_SHEET_H_
 
 #include <gnumeric.h>
 #include <complete.h>
@@ -35,4 +35,4 @@ GnmComplete *gnm_complete_sheet_new   (Sheet *sheet, int col, int row,
 
 G_END_DECLS
 
-#endif /* _GNM_COMPLETE_SHEET_H_ */
+#endif /* GNM_COMPLETE_SHEET_H_ */

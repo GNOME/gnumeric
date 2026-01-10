@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_OBJECT_GRAPH_H_
-# define _GNM_SHEET_OBJECT_GRAPH_H_
+#ifndef GNM_SHEET_OBJECT_GRAPH_H_
+# define GNM_SHEET_OBJECT_GRAPH_H_
 
 #include <sheet-object.h>
 #include <gnumeric-fwd.h>
@@ -22,4 +22,4 @@ void sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 void	     sheet_object_graph_ensure_size (SheetObject *sog);
 G_END_DECLS
 
-#endif /* _GNM_SHEET_OBJECT_GRAPH_H_ */
+#endif /* GNM_SHEET_OBJECT_GRAPH_H_ */

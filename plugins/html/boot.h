@@ -18,8 +18,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef GNUMERIC_HTML_BOOT_H
-#define GNUMERIC_HTML_BOOT_H
+#ifndef GNM_HTML_BOOT_H_
+#define GNM_HTML_BOOT_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

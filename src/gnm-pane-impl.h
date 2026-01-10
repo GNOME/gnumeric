@@ -1,5 +1,5 @@
-#ifndef _GNM_PANE_IMPL_H_
-# define _GNM_PANE_IMPL_H_
+#ifndef GNM_PANE_IMPL_H_
+# define GNM_PANE_IMPL_H_
 
 #include <src/gnm-pane.h>
 #include <src/gnumeric-simple-canvas.h>
@@ -80,4 +80,4 @@ struct _GnmPane {
 
 G_END_DECLS
 
-#endif /* _GNM_PANE_IMPL_H_ */
+#endif /* GNM_PANE_IMPL_H_ */

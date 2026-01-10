@@ -1,5 +1,5 @@
-#ifndef GNM_EXCEL_CONTAINER_H
-#define GNM_EXCEL_CONTAINER_H
+#ifndef GNM_EXCEL_CONTAINER_H_
+#define GNM_EXCEL_CONTAINER_H_
 
 /**
  * ms-container.h: A meta container to handle object import for charts,
@@ -68,4 +68,4 @@ PangoAttrList	*ms_container_read_markup (MSContainer const *c,
 					   guint8 const *data, size_t txo_len,
 					   char const *str);
 
-#endif /* GNM_EXCEL_CONTAINER_H */
+#endif /* GNM_EXCEL_CONTAINER_H_ */

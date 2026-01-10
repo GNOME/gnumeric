@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_OBJECT_H_
-# define _GNM_SHEET_OBJECT_H_
+#ifndef GNM_SHEET_OBJECT_H_
+# define GNM_SHEET_OBJECT_H_
 
 #include <gnumeric.h>
 #include <gsf/gsf-output.h>
@@ -153,4 +153,4 @@ void sheet_objects_init (void);
 void sheet_objects_shutdown (void);
 G_END_DECLS
 
-#endif /* _GNM_SHEET_OBJECT_H_ */
+#endif /* GNM_SHEET_OBJECT_H_ */

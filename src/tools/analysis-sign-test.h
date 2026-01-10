@@ -22,8 +22,8 @@
  */
 
 
-#ifndef ANALYSIS_SIGN_TEST_H
-#define ANALYSIS_SIGN_TEST_H
+#ifndef GNM_TOOLS_ANALYSIS_SIGN_TEST_H_
+#define GNM_TOOLS_ANALYSIS_SIGN_TEST_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

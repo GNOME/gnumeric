@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_UTILS_H
-# define _GNM_SHEET_UTILS_H
+#ifndef GNM_SHEET_UTILS_H_
+#define GNM_SHEET_UTILS_H_
 
 #include <gnumeric.h>
 
@@ -10,4 +10,4 @@ void gnm_sheet_guess_data_range (Sheet *sheet, GnmRange *region);
 
 G_END_DECLS
 
-#endif /* _GNM_SHEET_UTILS_H */
+#endif

@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_NLSOLVE_BOOT_H
-#define GNUMERIC_NLSOLVE_BOOT_H
+#ifndef GNM_NLSOLVE_BOOT_H_
+#define GNM_NLSOLVE_BOOT_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

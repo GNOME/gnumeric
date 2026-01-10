@@ -1,5 +1,5 @@
-#ifndef _GNM_SELECTION_H_
-# define _GNM_SELECTION_H_
+#ifndef GNM_SELECTION_H_
+# define GNM_SELECTION_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>
@@ -75,4 +75,4 @@ gboolean sv_selection_foreach	 (SheetView *sv,
 
 G_END_DECLS
 
-#endif /* _GNM_SELECTION_H_ */
+#endif /* GNM_SELECTION_H_ */

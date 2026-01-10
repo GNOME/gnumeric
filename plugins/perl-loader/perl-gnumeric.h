@@ -1,5 +1,5 @@
-#ifndef _PERL_GNUMERIC_H
-#define _PERL_GNUMERIC_H
+#ifndef GNM_PLUGIN_PERL_GNUMERIC_H_
+#define GNM_PLUGIN_PERL_GNUMERIC_H_
 
 /*
  * Interface to Gnumeric internal functions.
@@ -38,4 +38,4 @@ GnmValue* perl2value(SV *sv);
 GnmValue* marshal_func (GnmFuncEvalInfo *ei, GnmValue *argv[]);
 #endif
 
-#endif /* _PERL_GNUMERIC_H */
+#endif

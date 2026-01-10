@@ -1,5 +1,5 @@
-#ifndef _GNM_CLIPBOARD_H_
-# define _GNM_CLIPBOARD_H_
+#ifndef GNM_CLIPBOARD_H_
+# define GNM_CLIPBOARD_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>
@@ -123,4 +123,4 @@ void clipboard_shutdown (void);
 
 G_END_DECLS
 
-#endif /* _GNM_CLIPBOARD_H_ */
+#endif /* GNM_CLIPBOARD_H_ */

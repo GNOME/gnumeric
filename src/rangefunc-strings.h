@@ -1,5 +1,5 @@
-#ifndef _GNM_RANGEFUNC_STRINGS_H_
-# define _GNM_RANGEFUNC_STRINGS_H_
+#ifndef GNM_RANGEFUNC_STRINGS_H_
+# define GNM_RANGEFUNC_STRINGS_H_
 
 #include <numbers.h>
 
@@ -9,4 +9,4 @@ int range_concatenate (GPtrArray *data, char **res, gpointer user);
 
 G_END_DECLS
 
-#endif /* _GNM_RANGEFUNC_STRINGS_H_ */
+#endif /* GNM_RANGEFUNC_STRINGS_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_WORKBOOK_CONTROL_PRIV_H_
-# define _GNM_WORKBOOK_CONTROL_PRIV_H_
+#ifndef GNM_WORKBOOK_CONTROL_PRIV_H_
+# define GNM_WORKBOOK_CONTROL_PRIV_H_
 
 #include <workbook-control.h>
 #include <goffice/goffice.h>
@@ -56,4 +56,4 @@ typedef struct {
 
 G_END_DECLS
 
-#endif /* _GNM_WORKBOOK_CONTROL_PRIV_H_ */
+#endif /* GNM_WORKBOOK_CONTROL_PRIV_H_ */

@@ -1,5 +1,5 @@
-#ifndef PY_INTERPRETER_SELECTOR
-#define PY_INTERPRETER_SELECTOR
+#ifndef GNM_PLUGIN_PYTHONLOADER_PY_INTERPRETER_SELECTOR_H_
+#define GNM_PLUGIN_PYTHONLOADER_PY_INTERPRETER_SELECTOR_H_
 
 #include <glib.h>
 #include <gnumeric.h>
@@ -16,4 +16,4 @@ typedef struct _GnmPyInterpreterSelector GnmPyInterpreterSelector;
 GtkWidget         *gnm_py_interpreter_selector_new (GOErrorInfo **err);
 GnmPyInterpreter  *gnm_py_interpreter_selector_get_current (GnmPyInterpreterSelector *sel);
 
-#endif /* PY_INTERPRETER_SELECTOR */
+#endif

@@ -8,8 +8,8 @@
  * (C) 1998-2001 Michael Meeks
  * (C) 2002-2005 Jody Goldberg
  **/
-#ifndef GNM_BIFF_H
-#define GNM_BIFF_H
+#ifndef GNM_PLUGIN_EXCEL_MS_BIFF_H_
+#define GNM_PLUGIN_EXCEL_MS_BIFF_H_
 
 #include "rc4.h"
 
@@ -116,4 +116,4 @@ unsigned ms_biff_max_record_len (BiffPut const *bp);
 
 void ms_biff_put_abs_write (BiffPut *bp, gsf_off_t pos, gconstpointer buf, gsize size);
 
-#endif /* GNM_BIFF_H */
+#endif

@@ -22,8 +22,8 @@
  */
 
 
-#ifndef ANALYSIS_ANOVA_H
-#define ANALYSIS_ANOVA_H
+#ifndef GNM_TOOLS_ANALYSIS_ANOVA_H_
+#define GNM_TOOLS_ANALYSIS_ANOVA_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

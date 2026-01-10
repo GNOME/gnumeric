@@ -1,5 +1,5 @@
-#ifndef _GNM_GCONF_H_
-# define _GNM_GCONF_H_
+#ifndef GNM_GCONF_H_
+# define GNM_GCONF_H_
 
 #include <gnumeric.h>
 #include <gsf/gsf-output-csv.h>
@@ -533,4 +533,4 @@ GOConfNode *gnm_conf_get_undo_dir_node (void);
 
 G_END_DECLS
 
-#endif /* _GNM_GCONF_H_ */
+#endif /* GNM_GCONF_H_ */

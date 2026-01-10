@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_PLUGIN_PARADOX_PARADOX_H
-#define GNUMERIC_PLUGIN_PARADOX_PARADOX_H
+#ifndef GNM_PLUGIN_PARADOX_PARADOX_H_
+#define GNM_PLUGIN_PARADOX_PARADOX_H_
 
 #include <gnumeric.h>
 #include <pxversion.h>

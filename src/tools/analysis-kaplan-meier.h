@@ -22,8 +22,8 @@
  */
 
 
-#ifndef ANALYSIS_KAPLAN_MEIER_H
-#define ANALYSIS_KAPLAN_MEIER_H
+#ifndef GNM_TOOLS_ANALYSIS_KAPLAN_MEIER_H_
+#define GNM_TOOLS_ANALYSIS_KAPLAN_MEIER_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

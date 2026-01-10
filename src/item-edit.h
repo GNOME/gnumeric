@@ -1,5 +1,5 @@
-#ifndef _GNM_ITEM_EDIT_H_
-#define _GNM_ITEM_EDIT_H_
+#ifndef GNM_ITEM_EDIT_H_
+#define GNM_ITEM_EDIT_H_
 
 #include <gnumeric-fwd.h>
 #include <glib-object.h>
@@ -13,4 +13,4 @@ GType gnm_item_edit_get_type (void);
 
 G_END_DECLS
 
-#endif /* _GNM_ITEM_EDIT_H_ */
+#endif /* GNM_ITEM_EDIT_H_ */

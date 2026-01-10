@@ -1,5 +1,5 @@
-#ifndef _GNM_CELL_DRAW_H_
-# define _GNM_CELL_DRAW_H_
+#ifndef GNM_CELL_DRAW_H_
+# define GNM_CELL_DRAW_H_
 
 #include <gnumeric.h>
 
@@ -25,4 +25,4 @@ void cell_draw (GnmCell const *cell, cairo_t* cr,
 
 G_END_DECLS
 
-#endif /* _GNM_CELL_DRAW_H_ */
+#endif /* GNM_CELL_DRAW_H_ */

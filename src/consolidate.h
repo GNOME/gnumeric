@@ -1,5 +1,5 @@
-#ifndef _GNM_CONSOLIDATE_H_
-# define _GNM_CONSOLIDATE_H_
+#ifndef GNM_CONSOLIDATE_H_
+# define GNM_CONSOLIDATE_H_
 
 #include <gnumeric.h>
 #include <tools/dao.h>
@@ -58,4 +58,4 @@ gboolean gnm_tool_consolidate_engine (GOCmdContext *gcc, data_analysis_output_t 
 
 G_END_DECLS
 
-#endif /* _GNM_CONSOLIDATE_H_ */
+#endif /* GNM_CONSOLIDATE_H_ */

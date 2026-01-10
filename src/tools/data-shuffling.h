@@ -1,5 +1,5 @@
-#ifndef __DATA_SHUFFLING_H__
-#define __DATA_SHUFFLING_H__
+#ifndef GNM_TOOLS_DATA_SHUFFLING_H_
+#define GNM_TOOLS_DATA_SHUFFLING_H_
 
 #include <gnumeric.h>
 #include <tools/dao.h>

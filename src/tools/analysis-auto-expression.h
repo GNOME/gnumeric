@@ -22,8 +22,8 @@
  */
 
 
-#ifndef ANALYSIS_AUTO_EXPRESSION_H
-#define ANALYSIS_AUTO_EXPRESSION_H
+#ifndef GNM_TOOLS_ANALYSIS_AUTO_EXPRESSION_H_
+#define GNM_TOOLS_ANALYSIS_AUTO_EXPRESSION_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

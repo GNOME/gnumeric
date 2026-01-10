@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_LPSOLVE_BOOT_H
-#define GNUMERIC_LPSOLVE_BOOT_H
+#ifndef GNM_LPSOLVE_BOOT_H_
+#define GNM_LPSOLVE_BOOT_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

@@ -1,5 +1,5 @@
-#ifndef _GNM_ITEM_CURSOR_H_
-#define _GNM_ITEM_CURSOR_H_
+#ifndef GNM_ITEM_CURSOR_H_
+#define GNM_ITEM_CURSOR_H_
 
 #include <gnumeric-fwd.h>
 #include <glib-object.h>
@@ -25,4 +25,4 @@ void     gnm_item_cursor_reposition     (GnmItemCursor *ic);
 
 G_END_DECLS
 
-#endif /* _GNM_ITEM_CURSOR_H_ */
+#endif /* GNM_ITEM_CURSOR_H_ */

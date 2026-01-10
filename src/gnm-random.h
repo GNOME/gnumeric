@@ -1,5 +1,5 @@
-#ifndef _GNM_RANDOM_H_
-#define _GNM_RANDOM_H_
+#ifndef GNM_RANDOM_H_
+#define GNM_RANDOM_H_
 
 #include <numbers.h>
 

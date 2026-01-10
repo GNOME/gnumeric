@@ -22,8 +22,8 @@
  */
 
 
-#ifndef ANALYSIS_CHI_SQUARED_H
-#define ANALYSIS_CHI_SQUARED_H
+#ifndef GNM_TOOLS_ANALYSIS_CHI_SQUARED_H_
+#define GNM_TOOLS_ANALYSIS_CHI_SQUARED_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

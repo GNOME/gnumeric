@@ -1,5 +1,5 @@
-#ifndef _GNM_WORKBOOK_CONTROL_H_
-# define _GNM_WORKBOOK_CONTROL_H_
+#ifndef GNM_WORKBOOK_CONTROL_H_
+# define GNM_WORKBOOK_CONTROL_H_
 
 #include <gnumeric.h>
 #include <validation.h>
@@ -99,4 +99,4 @@ void wb_control_navigate_to_cell (WorkbookControl *wbc, wb_control_navigator_t t
 
 G_END_DECLS
 
-#endif /* _GNM_WORKBOOK_CONTROL_H_ */
+#endif /* GNM_WORKBOOK_CONTROL_H_ */

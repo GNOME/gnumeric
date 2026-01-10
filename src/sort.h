@@ -1,5 +1,5 @@
-#ifndef _GNM_SORT_H_
-# define _GNM_SORT_H_
+#ifndef GNM_SORT_H_
+# define GNM_SORT_H_
 
 #include <gnumeric.h>
 
@@ -31,4 +31,4 @@ int *gnm_sort_permute_invert (int const *perm, int length);
 
 G_END_DECLS
 
-#endif /* _GNM_SORT_H_ */
+#endif /* GNM_SORT_H_ */

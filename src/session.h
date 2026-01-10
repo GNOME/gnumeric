@@ -1,5 +1,5 @@
-#ifndef _GNM_SESSION_H_
-# define _GNM_SESSION_H_
+#ifndef GNM_SESSION_H_
+# define GNM_SESSION_H_
 
 #include <gnumeric.h>
 
@@ -11,4 +11,4 @@ void gnm_session_init (char const *argv0);
 
 G_END_DECLS
 
-#endif /* _GNM_SESSION_H_ */
+#endif /* GNM_SESSION_H_ */

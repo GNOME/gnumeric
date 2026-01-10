@@ -1,5 +1,5 @@
-#ifndef PLUGIN_PY_GNUMERIC_H
-#define PLUGIN_PY_GNUMERIC_H
+#ifndef GNM_PLUGIN_PY_GNUMERIC_H_
+#define GNM_PLUGIN_PY_GNUMERIC_H_
 
 #include <Python.h>
 #include <glib.h>
@@ -16,4 +16,4 @@ GnmValue *call_python_function	 (PyObject *python_fn,
 				  GnmEvalPos const *eval_pos,
 				  gint n_args, GnmValue const * const *args);
 gchar    *py_exc_to_string	 (void);
-#endif /* PLUGIN_PY_GNUMERIC_H */
+#endif /* GNM_PLUGIN_PY_GNUMERIC_H_ */

@@ -1,5 +1,5 @@
-#ifndef PLUGIN_GNM_PYTHON_H
-#define PLUGIN_GNM_PYTHON_H
+#ifndef GNM_PLUGIN_GNM_PYTHON_H_
+#define GNM_PLUGIN_GNM_PYTHON_H_
 
 #include <glib.h>
 #include <gnumeric.h>
@@ -26,4 +26,4 @@ void gnm_py_command_line_register_type		(GTypeModule *plugin);
 void gnm_py_interpreter_selector_register_type	(GTypeModule *plugin);
 void gnm_python_plugin_loader_register_type	(GTypeModule *plugin);
 
-#endif /* PLUGIN_GNM_PYTHON_H */
+#endif /* GNM_PLUGIN_GNM_PYTHON_H_ */

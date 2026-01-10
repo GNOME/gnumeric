@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_DIALOGS_H
-#define GNUMERIC_DIALOGS_H
+#ifndef GNM_DIALOGS_H_
+#define GNM_DIALOGS_H_
 
 #include <gnumeric.h>
 #include <consolidate.h>
@@ -151,4 +151,4 @@ void    dialog_quit (WBCGtk *wbcg);
 void	dialog_so_size	 (WBCGtk *wbcg, GObject *so);
 
 
-#endif /* GNUMERIC_DIALOGS_H */
+#endif /* GNM_DIALOGS_H_ */

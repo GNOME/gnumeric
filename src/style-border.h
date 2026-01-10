@@ -1,5 +1,5 @@
-#ifndef _GNM_STYLE_BORDER_H_
-# define _GNM_STYLE_BORDER_H_
+#ifndef GNM_STYLE_BORDER_H_
+# define GNM_STYLE_BORDER_H_
 
 #include <gnumeric.h>
 #include <gdk/gdk.h>
@@ -105,4 +105,4 @@ void gnm_style_border_print_diag_gtk (GnmStyle const *style,
 
 G_END_DECLS
 
-#endif /* _GNM_STYLE_BORDER_H_ */
+#endif /* GNM_STYLE_BORDER_H_ */

@@ -12,8 +12,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef GNUMERIC_HELP_H
-#define GNUMERIC_HELP_H
+#ifndef GNM_HELP_H_
+#define GNM_HELP_H_
 
 /* ../sheet-object-widget.c    */
 #define GNUMERIC_HELP_LINK_SO_FRAME	 "sect-graphics-drawings"
@@ -205,4 +205,4 @@
 /* dialog-paste-special.c */
 #define GNUMERIC_HELP_LINK_PASTE_SPECIAL "Edit-Menu"
 
-#endif /* GNUMERIC_HELP_H */
+#endif /* GNM_HELP_H_ */

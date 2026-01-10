@@ -8,8 +8,8 @@
  * (C) 1998-2001 Michael Meeks
  * (C) 2002-2005 Jody Goldberg
  */
-#ifndef GNM_MS_FORMULA_R_H
-#define GNM_MS_FORMULA_R_H
+#ifndef GNM_MS_FORMULA_R_H_
+#define GNM_MS_FORMULA_R_H_
 
 #include <glib.h>
 
@@ -24,4 +24,4 @@ excel_parse_formula (MSContainer const *container,
 		     gboolean shared,
 		     gboolean *array_element);
 
-#endif /* GNM_MS_FORMULA_R_H */
+#endif /* GNM_MS_FORMULA_R_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_COMMAND_CONTEXT_STDERR_H_
-# define _GNM_COMMAND_CONTEXT_STDERR_H_
+#ifndef GNM_COMMAND_CONTEXT_STDERR_H_
+# define GNM_COMMAND_CONTEXT_STDERR_H_
 
 #include <gnumeric.h>
 #include <glib-object.h>
@@ -19,4 +19,4 @@ int		gnm_cmd_context_stderr_get_status (GnmCmdContextStderr *ccs);
 
 G_END_DECLS
 
-#endif /* _GNM_COMMAND_CONTEXT_STDERR_H_ */
+#endif /* GNM_COMMAND_CONTEXT_STDERR_H_ */

@@ -1,5 +1,5 @@
-#ifndef GNM_MS_OBJ_H
-#define GNM_MS_OBJ_H
+#ifndef GNM_MS_OBJ_H_
+#define GNM_MS_OBJ_H_
 
 /**
  * ms-obj.h: MS Excel Graphic Object support for Gnumeric
@@ -217,4 +217,4 @@ void ms_objv8_write_button (BiffPut *bp,
 			    GnmNamedExpr *macro_nexpr);
 
 
-#endif /* GNM_MS_OBJ_H */
+#endif /* GNM_MS_OBJ_H_ */

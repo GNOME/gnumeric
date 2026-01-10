@@ -1,5 +1,5 @@
-#ifndef GNM_CELL_COMBO_VIEW_IMPL_H
-#define GNM_CELL_COMBO_VIEW_IMPL_H
+#ifndef GNM_CELL_COMBO_VIEW_IMPL_H_
+#define GNM_CELL_COMBO_VIEW_IMPL_H_
 
 #include <gnumeric-fwd.h>
 #include <sheet-object-impl.h>
@@ -23,5 +23,5 @@ typedef struct {
 
 GType gnm_ccombo_view_get_type (void);
 
-#endif /* GNM_CELL_COMBO_VIEW_IMPL_H */
+#endif /* GNM_CELL_COMBO_VIEW_IMPL_H_ */
 

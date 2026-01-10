@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_CONTROL_GUI_H_
-# define _GNM_SHEET_CONTROL_GUI_H_
+#ifndef GNM_SHEET_CONTROL_GUI_H_
+# define GNM_SHEET_CONTROL_GUI_H_
 
 #include <gnumeric-fwd.h>
 #include <sheet-control.h>
@@ -122,4 +122,4 @@ WBCGtk *scg_wbcg	(SheetControlGUI const *scg);
 
 G_END_DECLS
 
-#endif /* _GNM_SHEET_CONTROL_GUI_H_ */
+#endif /* GNM_SHEET_CONTROL_GUI_H_ */

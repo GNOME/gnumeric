@@ -1,5 +1,5 @@
-#ifndef _GNM_FILE_AUTOFT_H_
-# define _GNM_FILE_AUTOFT_H_
+#ifndef GNM_FILE_AUTOFT_H_
+# define GNM_FILE_AUTOFT_H_
 
 #include <gnumeric.h>
 #include <format-template.h>
@@ -16,4 +16,4 @@ int gnm_ft_category_group_cmp (gconstpointer a, gconstpointer b);
 
 G_END_DECLS
 
-#endif /* _GNM_FILE_AUTOFT_H_ */
+#endif /* GNM_FILE_AUTOFT_H_ */

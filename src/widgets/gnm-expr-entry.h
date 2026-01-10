@@ -1,5 +1,5 @@
-#ifndef GNM_EXPR_ENTRY_H
-#define GNM_EXPR_ENTRY_H
+#ifndef GNM_EXPR_ENTRY_H_
+#define GNM_EXPR_ENTRY_H_
 
 #include <gnumeric-fwd.h>
 #include <parse-util.h>

@@ -8,8 +8,8 @@
  * (C) 1998-2001 Michael Meeks
  * (C) 2002-2005 Jody Goldberg
  **/
-#ifndef GNM_MS_EXCEL_WRITE_H
-#define GNM_MS_EXCEL_WRITE_H
+#ifndef GNM_MS_EXCEL_WRITE_H_
+#define GNM_MS_EXCEL_WRITE_H_
 
 #include "ms-biff.h"
 #include "ms-excel-biff.h"
@@ -170,4 +170,4 @@ void xls_write_pivot_caches (ExcelWriteState *ewb, GsfOutfile *outfile,
 
 int excel_write_add_object_format (ExcelWriteState *ewb, GOFormat *format);
 
-#endif /* GNM_MS_EXCEL_WRITE_H */
+#endif /* GNM_MS_EXCEL_WRITE_H_ */

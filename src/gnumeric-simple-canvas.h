@@ -1,5 +1,5 @@
-#ifndef _GNM_SIMPLE_CANVAS_H_
-# define _GNM_SIMPLE_CANVAS_H_
+#ifndef GNM_SIMPLE_CANVAS_H_
+# define GNM_SIMPLE_CANVAS_H_
 
 #include <gnumeric-fwd.h>
 #include <goffice/goffice.h>
@@ -26,4 +26,4 @@ void gnm_simple_canvas_grab   (GocItem *item);
 
 G_END_DECLS
 
-#endif /* _GNM_SIMPLE_CANVAS_H_ */
+#endif /* GNM_SIMPLE_CANVAS_H_ */

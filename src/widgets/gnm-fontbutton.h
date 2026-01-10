@@ -23,8 +23,8 @@
  * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
-#ifndef __GNM_FONT_BUTTON_H__
-#define __GNM_FONT_BUTTON_H__
+#ifndef GNM_WIDGETS_FONT_BUTTON_H_
+#define GNM_WIDGETS_FONT_BUTTON_H_
 
 #include <gtk/gtk.h>
 
@@ -91,4 +91,4 @@ void                  gnm_font_button_set_show_size  (GnmFontButton *font_button
 G_END_DECLS
 
 
-#endif /* __GNM_FONT_BUTTON_H__ */
+#endif

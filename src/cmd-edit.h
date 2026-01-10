@@ -1,5 +1,5 @@
-#ifndef _GNM_CMD_EDIT_H_
-# define _GNM_CMD_EDIT_H_
+#ifndef GNM_CMD_EDIT_H_
+# define GNM_CMD_EDIT_H_
 
 #include <gnumeric.h>
 
@@ -24,4 +24,4 @@ void cmd_shift_rows  (WorkbookControl *wbc, Sheet *sheet,
 
 G_END_DECLS
 
-#endif /* _GNM_CMD_EDIT_H_ */
+#endif /* GNM_CMD_EDIT_H_ */

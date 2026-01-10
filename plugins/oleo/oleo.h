@@ -1,5 +1,5 @@
-#ifndef OLEO_H
-#define OLEO_H
+#ifndef GNM_PLUGIN_OLEO_H_
+#define GNM_PLUGIN_OLEO_H_
 
 #include <gnumeric.h>
 

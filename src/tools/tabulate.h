@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_TABULATE_H
-#define GNUMERIC_TABULATE_H
+#ifndef GNM_TABULATE_H_
+#define GNM_TABULATE_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

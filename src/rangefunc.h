@@ -1,5 +1,5 @@
-#ifndef _GNM_RANGEFUNC_H_
-# define _GNM_RANGEFUNC_H_
+#ifndef GNM_RANGEFUNC_H_
+# define GNM_RANGEFUNC_H_
 
 #include <numbers.h>
 #include <goffice/goffice.h>
@@ -51,4 +51,4 @@ int gnm_range_adtest    (gnm_float const *xs, int n, gnm_float *p,
 
 G_END_DECLS
 
-#endif /* _GNM_RANGEFUNC_H_ */
+#endif /* GNM_RANGEFUNC_H_ */

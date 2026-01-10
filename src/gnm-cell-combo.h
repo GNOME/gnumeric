@@ -1,5 +1,5 @@
-#ifndef _GNM_CELL_COMBO_H_
-# define _GNM_CELL_COMBO_H_
+#ifndef GNM_CELL_COMBO_H_
+# define GNM_CELL_COMBO_H_
 
 #include <sheet-object-impl.h>
 
@@ -22,4 +22,4 @@ GType gnm_cell_combo_get_type (void);
 
 G_END_DECLS
 
-#endif /* _GNM_CELL_COMBO_H_ */
+#endif /* GNM_CELL_COMBO_H_ */

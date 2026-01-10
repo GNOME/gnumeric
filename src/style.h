@@ -1,5 +1,5 @@
-#ifndef _GNM_STYLE_H_
-# define _GNM_STYLE_H_
+#ifndef GNM_STYLE_H_
+# define GNM_STYLE_H_
 
 #include <gnumeric.h>
 #include <libgnumeric.h>
@@ -61,4 +61,4 @@ GnmUnderline   gnm_translate_underline_from_pango (PangoUnderline pul);
 
 G_END_DECLS
 
-#endif /* _GNM_STYLE_H_ */
+#endif /* GNM_STYLE_H_ */

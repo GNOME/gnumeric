@@ -1,5 +1,5 @@
-#ifndef _GNM_GRAPH_H_
-# define _GNM_GRAPH_H_
+#ifndef GNM_GRAPH_H_
+# define GNM_GRAPH_H_
 
 #include <gnumeric.h>
 #include <sheet-object.h>
@@ -49,4 +49,4 @@ typedef struct {
 
 G_END_DECLS
 
-#endif /* _GNM_GRAPH_H_ */
+#endif /* GNM_GRAPH_H_ */

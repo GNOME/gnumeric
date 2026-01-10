@@ -22,8 +22,8 @@
  */
 
 
-#ifndef ANALYSIS_FREQUENCY_H
-#define ANALYSIS_FREQUENCY_H
+#ifndef GNM_TOOLS_ANALYSIS_FREQUENCY_H_
+#define GNM_TOOLS_ANALYSIS_FREQUENCY_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

@@ -1,5 +1,5 @@
-#ifndef _GNM_LIBGNUMERIC_H_
-# define _GNM_LIBGNUMERIC_H_
+#ifndef GNM_LIBGNUMERIC_H_
+# define GNM_LIBGNUMERIC_H_
 
 #include <gnumeric.h>
 
@@ -28,4 +28,4 @@ GOptionGroup *gnm_get_option_group (void);
 
 G_END_DECLS
 
-#endif /* _GNM_LIBGNUMERIC_H_ */
+#endif /* GNM_LIBGNUMERIC_H_ */

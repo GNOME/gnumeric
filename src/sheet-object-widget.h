@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_OBJECT_WIDGET_H_
-# define _GNM_SHEET_OBJECT_WIDGET_H_
+#ifndef GNM_SHEET_OBJECT_WIDGET_H_
+# define GNM_SHEET_OBJECT_WIDGET_H_
 
 #include <sheet-object.h>
 #include <pango/pango-attributes.h>
@@ -103,4 +103,4 @@ GtkAdjustment *sheet_widget_list_base_get_adjustment (SheetObject *so);
 
 G_END_DECLS
 
-#endif /* _GNM_SHEET_OBJECT_WIDGET_H_ */
+#endif /* GNM_SHEET_OBJECT_WIDGET_H_ */

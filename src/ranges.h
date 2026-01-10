@@ -1,5 +1,5 @@
-#ifndef _GNM_RANGES_H_
-# define _GNM_RANGES_H_
+#ifndef GNM_RANGES_H_
+# define GNM_RANGES_H_
 
 #include <gnumeric.h>
 #include <glib-object.h>
@@ -130,4 +130,4 @@ gboolean       global_range_contained	  (Sheet const *sheet,
 
 G_END_DECLS
 
-#endif /* _GNM_RANGES_H_ */
+#endif /* GNM_RANGES_H_ */

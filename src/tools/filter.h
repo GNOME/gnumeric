@@ -1,5 +1,5 @@
-#ifndef __FILTER_H__
-#define __FILTER_H__
+#ifndef GNM_TOOLS_FILTER_H_
+#define GNM_TOOLS_FILTER_H_
 
 #include <gnumeric.h>
 #include <tools/dao.h>

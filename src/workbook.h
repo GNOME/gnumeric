@@ -1,5 +1,5 @@
-#ifndef _GNM_WORKBOOK_H_
-# define _GNM_WORKBOOK_H_
+#ifndef GNM_WORKBOOK_H_
+# define GNM_WORKBOOK_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>
@@ -116,4 +116,4 @@ GSList *gnm_workbook_sheets0 (Workbook const *wb);
 
 G_END_DECLS
 
-#endif /* _GNM_WORKBOOK_H_ */
+#endif /* GNM_WORKBOOK_H_ */

@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_PLUGIN_GUILE_GUILE_SUPPORT_H
-#define GNUMERIC_PLUGIN_GUILE_GUILE_SUPPORT_H
+#ifndef GNM_PLUGIN_GUILE_GUILE_SUPPORT_H_
+#define GNM_PLUGIN_GUILE_GUILE_SUPPORT_H_
 
 #include <libguile.h>
 #include <gnumeric.h>

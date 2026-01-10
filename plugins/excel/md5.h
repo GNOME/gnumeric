@@ -18,8 +18,8 @@
    along with this program; if not, write to the Free Software Foundation,
    Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
-#ifndef _MD5_H
-#define _MD5_H 1
+#ifndef GNM_PLUGIN_EXCEL_MD5_H_
+#define GNM_PLUGIN_EXCEL_MD5_H_
 
 #include <stdint.h>
 #include <stddef.h>
@@ -57,4 +57,4 @@ extern void md5_process_block (const void *buffer, size_t len,
 extern void *md5_read_ctx (const struct md5_ctx *ctx, void *resbuf);
 
 
-#endif /* md5.h */
+#endif

@@ -1,5 +1,5 @@
-#ifndef _GNM_NUMBER_MATCH_H_
-# define _GNM_NUMBER_MATCH_H_
+#ifndef GNM_NUMBER_MATCH_H_
+# define GNM_NUMBER_MATCH_H_
 
 #include <gnumeric.h>
 
@@ -23,4 +23,4 @@ GnmValue *format_match_datetime (char const *text,
 
 G_END_DECLS
 
-#endif /* _GNM_NUMBER_MATCH_H_ */
+#endif /* GNM_NUMBER_MATCH_H_ */

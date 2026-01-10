@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_FILTER_COMBO_H_
-# define _GNM_SHEET_FILTER_COMBO_H_
+#ifndef GNM_SHEET_FILTER_COMBO_H_
+# define GNM_SHEET_FILTER_COMBO_H_
 
 #include <sheet-object-impl.h>
 
@@ -23,4 +23,4 @@ int   gnm_filter_combo_index    (GnmFilterCombo *fcombo);
 
 G_END_DECLS
 
-#endif /* _GNM_SHEET_FILTER_COMBO_H_ */
+#endif /* GNM_SHEET_FILTER_COMBO_H_ */

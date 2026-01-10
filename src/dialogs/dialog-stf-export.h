@@ -12,8 +12,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef GNUMERIC_DIALOG_STF_EXPORT_H
-#define GNUMERIC_DIALOG_STF_EXPORT_H
+#ifndef GNM_DIALOG_STF_EXPORT_H_
+#define GNM_DIALOG_STF_EXPORT_H_
 
 #include <gnumeric-fwd.h>
 

@@ -1,5 +1,5 @@
-#ifndef __FILL_SERIES_H__
-#define __FILL_SERIES_H__
+#ifndef GNM_TOOLS_FILL_SERIES_H_
+#define GNM_TOOLS_FILL_SERIES_H_
 
 #include <gnumeric.h>
 #include <tools/dao.h>

@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_PLUGIN_GUILE_SMOB_VALUE_H
-#define GNUMERIC_PLUGIN_GUILE_SMOB_VALUE_H
+#ifndef GNM_PLUGIN_GUILE_SMOB_VALUE_H_
+#define GNM_PLUGIN_GUILE_SMOB_VALUE_H_
 
 /* -*- mode: c; c-basic-offset: 8 -*- */
 

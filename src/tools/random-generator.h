@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_RANDOM_GENERATOR_H
-#define GNUMERIC_RANDOM_GENERATOR_H
+#ifndef GNM_RANDOM_GENERATOR_H_
+#define GNM_RANDOM_GENERATOR_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

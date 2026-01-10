@@ -1,5 +1,5 @@
-#ifndef _GNM_VALUE_H_
-# define _GNM_VALUE_H_
+#ifndef GNM_VALUE_H_
+# define GNM_VALUE_H_
 
 #include <gnumeric.h>
 #include <position.h>
@@ -199,4 +199,4 @@ void value_shutdown (void);
 
 G_END_DECLS
 
-#endif /* _GNM_VALUE_H_ */
+#endif /* GNM_VALUE_H_ */

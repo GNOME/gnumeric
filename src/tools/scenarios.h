@@ -1,5 +1,5 @@
-#ifndef __SCENARIOS_H__
-#define __SCENARIOS_H__
+#ifndef GNM_TOOLS_SCENARIOS_H_
+#define GNM_TOOLS_SCENARIOS_H_
 
 #include <gnumeric.h>
 #include <glib-object.h>

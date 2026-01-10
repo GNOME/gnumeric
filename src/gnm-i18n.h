@@ -1,5 +1,5 @@
-#ifndef _GNM_I18N_H_
-# define _GNM_I18N_H_
+#ifndef GNM_I18N_H_
+#define GNM_I18N_H_
 
 #include <glib/gi18n-lib.h>
 
@@ -12,4 +12,4 @@ G_BEGIN_DECLS
 
 G_END_DECLS
 
-#endif /* _GNM_I18N_H_ */
+#endif

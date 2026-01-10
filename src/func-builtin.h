@@ -1,5 +1,5 @@
-#ifndef _GNM_FUNC_BUILTIN_H_
-# define _GNM_FUNC_BUILTIN_H_
+#ifndef GNM_FUNC_BUILTIN_H_
+# define GNM_FUNC_BUILTIN_H_
 
 #include <func.h>
 
@@ -12,4 +12,4 @@ void gnm_func_builtin_shutdown (void);
 
 G_END_DECLS
 
-#endif /* _GNM_FUNC_BUILTIN_H_ */
+#endif /* GNM_FUNC_BUILTIN_H_ */

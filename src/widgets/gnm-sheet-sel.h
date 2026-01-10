@@ -17,8 +17,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  **/
 
-#ifndef GNM_SHEET_SEL_H
-#define GNM_SHEET_SEL_H
+#ifndef GNM_SHEET_SEL_H_
+#define GNM_SHEET_SEL_H_
 
 #include <gnumeric.h>
 #include <widgets/gnm-workbook-sel.h>
@@ -45,4 +45,4 @@ Sheet     *gnm_sheet_sel_get_sheet (GnmSheetSel *ss);
 
 G_END_DECLS
 
-#endif /* GNM_SHEET_SEL_H */
+#endif /* GNM_SHEET_SEL_H_ */

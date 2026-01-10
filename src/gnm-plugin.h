@@ -1,5 +1,5 @@
-#ifndef _GNM_PLUGIN_H_
-# define _GNM_PLUGIN_H_
+#ifndef GNM_PLUGIN_H_
+# define GNM_PLUGIN_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>
@@ -71,4 +71,4 @@ void gnm_plugins_init (GOCmdContext *c);
 
 G_END_DECLS
 
-#endif /* _GNM_PLUGIN_H_ */
+#endif /* GNM_PLUGIN_H_ */

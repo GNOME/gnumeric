@@ -1,5 +1,5 @@
-#ifndef GNM_SHEET_DIFF_H
-#define GNM_SHEET_DIFF_H
+#ifndef GNM_SHEET_DIFF_H_
+#define GNM_SHEET_DIFF_H_
 
 #include <gnumeric.h>
 
@@ -67,4 +67,4 @@ int gnm_diff_workbooks (const GnmDiffActions *actions, gpointer user,
 
 G_END_DECLS
 
-#endif /* GNM_SHEET_DIFF_H */
+#endif /* GNM_SHEET_DIFF_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_POSITION_H_
-# define _GNM_POSITION_H_
+#ifndef GNM_POSITION_H_
+# define GNM_POSITION_H_
 
 #include <gnumeric.h>
 
@@ -96,4 +96,4 @@ void  gnm_cellpos_init_cellref	(GnmCellPos *cp, GnmCellRef const *cr,
 
 G_END_DECLS
 
-#endif /* _GNM_POSITION_H_ */
+#endif /* GNM_POSITION_H_ */

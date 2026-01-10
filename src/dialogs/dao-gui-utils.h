@@ -22,8 +22,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef GNUMERIC_DAO_GUI_UTILS_H
-#define GNUMERIC_DAO_GUI_UTILS_H
+#ifndef GNM_DAO_GUI_UTILS_H_
+#define GNM_DAO_GUI_UTILS_H_
 
 #include <gnumeric.h>
 #include <tools/dao.h>

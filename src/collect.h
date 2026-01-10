@@ -1,5 +1,5 @@
-#ifndef _GNM_COLLECT_H_
-# define _GNM_COLLECT_H_
+#ifndef GNM_COLLECT_H_
+# define GNM_COLLECT_H_
 
 #include <numbers.h>
 #include <gnumeric.h>
@@ -85,4 +85,4 @@ void gnm_strip_missing (gnm_float* data, int *n, GSList *missing);
 
 G_END_DECLS
 
-#endif /* _GNM_COLLECT_H_ */
+#endif /* GNM_COLLECT_H_ */

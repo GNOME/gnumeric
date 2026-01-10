@@ -12,8 +12,8 @@
 **  <windows.h> before you include this.
 **
 */
-#ifndef xlsdk_xlcall_h
-#define xlsdk_xlcall_h
+#ifndef GNM_PLUGIN_EXCELPLUGINS_XLCALL_H_
+#define GNM_PLUGIN_EXCELPLUGINS_XLCALL_H_
 
 #ifdef __cplusplus
 extern "C" {

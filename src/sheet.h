@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_H_
-# define _GNM_SHEET_H_
+#ifndef GNM_SHEET_H_
+# define GNM_SHEET_H_
 
 #include <gnumeric.h>
 #include <colrow.h>
@@ -469,4 +469,4 @@ do {										\
 
 G_END_DECLS
 
-#endif /* _GNM_SHEET_H_ */
+#endif /* GNM_SHEET_H_ */

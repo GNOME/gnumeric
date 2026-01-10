@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_CONTROL_H_
-# define _GNM_SHEET_CONTROL_H_
+#ifndef GNM_SHEET_CONTROL_H_
+# define GNM_SHEET_CONTROL_H_
 
 #include <gnumeric.h>
 #include <glib-object.h>
@@ -52,4 +52,4 @@ void sc_freeze_object_view      (SheetControl *sc, gboolean freeze);
 
 G_END_DECLS
 
-#endif /* _GNM_SHEET_CONTROL_H_ */
+#endif /* GNM_SHEET_CONTROL_H_ */

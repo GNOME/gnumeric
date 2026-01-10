@@ -1,5 +1,5 @@
-#ifndef GNM_EXCEL_FORMULA_TYPES_H
-#define GNM_EXCEL_FORMULA_TYPES_H
+#ifndef GNM_EXCEL_FORMULA_TYPES_H_
+#define GNM_EXCEL_FORMULA_TYPES_H_
 
 /**
  * formula-types.h: The formula records
@@ -106,4 +106,4 @@ extern ExcelFuncDesc const excel_func_desc[];
 extern GHashTable *excel_func_by_name;
 extern int excel_func_desc_size;
 
-#endif /* GNM_EXCEL_FORMULA_TYPES_H */
+#endif /* GNM_EXCEL_FORMULA_TYPES_H_ */

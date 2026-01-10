@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_GOAL_SEEK_H
-#define GNUMERIC_GOAL_SEEK_H
+#ifndef GNM_GOAL_SEEK_H_
+#define GNM_GOAL_SEEK_H_
 
 #include <numbers.h>
 #include <glib.h>

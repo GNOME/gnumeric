@@ -1,5 +1,5 @@
-#ifndef _GNM_DEPENDENT_H_
-# define _GNM_DEPENDENT_H_
+#ifndef GNM_DEPENDENT_H_
+# define GNM_DEPENDENT_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>
@@ -175,4 +175,4 @@ void dependent_debug_name (GnmDependent const *dep, GString *target);
 
 G_END_DECLS
 
-#endif /* _GNM_DEPENDENT_H_ */
+#endif /* GNM_DEPENDENT_H_ */

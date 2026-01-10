@@ -1,5 +1,5 @@
-#ifndef _GNM_MATHFUNC_H_
-# define _GNM_MATHFUNC_H_
+#ifndef GNM_MATHFUNC_H_
+# define GNM_MATHFUNC_H_
 
 #include <numbers.h>
 #include <math.h>
@@ -170,4 +170,4 @@ void mathfunc_init (void);
 
 G_END_DECLS
 
-#endif /* _GNM_MATHFUNC_H_ */
+#endif /* GNM_MATHFUNC_H_ */

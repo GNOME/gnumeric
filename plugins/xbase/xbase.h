@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_PLUGIN_XBASE_XBASE_H
-#define GNUMERIC_PLUGIN_XBASE_XBASE_H
+#ifndef GNM_PLUGIN_XBASE_XBASE_H_
+#define GNM_PLUGIN_XBASE_XBASE_H_
 
 #include <gnumeric.h>
 

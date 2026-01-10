@@ -1,5 +1,5 @@
-#ifndef _GNM_PARSE_UTIL_H_
-# define _GNM_PARSE_UTIL_H_
+#ifndef GNM_PARSE_UTIL_H_
+# define GNM_PARSE_UTIL_H_
 
 #include <gnumeric.h>
 #include <libgnumeric.h>
@@ -242,4 +242,4 @@ GString	*gnm_expr_conv_quote (GnmConventions const *convs, char const *str);
 
 G_END_DECLS
 
-#endif /* _GNM_PARSE_UTIL_H_ */
+#endif /* GNM_PARSE_UTIL_H_ */

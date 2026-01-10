@@ -1,5 +1,5 @@
-#ifndef _GNM_WBC_GTK_IMPL_H_
-# define _GNM_WBC_GTK_IMPL_H_
+#ifndef GNM_WBC_GTK_IMPL_H_
+# define GNM_WBC_GTK_IMPL_H_
 
 #include <gnumeric.h>
 #include <wbc-gtk.h>
@@ -173,4 +173,4 @@ G_MODULE_EXPORT void set_uifilename (char const *name, GnmActionEntry const *act
 
 G_END_DECLS
 
-#endif /* _GNM_WBC_GTK_IMPL_H_ */
+#endif /* GNM_WBC_GTK_IMPL_H_ */

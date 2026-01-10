@@ -6,8 +6,8 @@
  *
  * (C) 1999-2005 Jon K Hellan
  **/
-#ifndef GNM_MS_EXCEL_UTIL_H
-#define GNM_MS_EXCEL_UTIL_H
+#ifndef GNM_MS_EXCEL_UTIL_H_
+#define GNM_MS_EXCEL_UTIL_H_
 
 #include <glib.h>
 #include <stdlib.h>
@@ -125,4 +125,4 @@ GHashTable *xls_collect_validations  (GnmStyleList *ptr,
 
 /*****************************************************************************/
 
-#endif /* GNM_MS_EXCEL_UTIL_H */
+#endif /* GNM_MS_EXCEL_UTIL_H_ */

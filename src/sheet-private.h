@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_PRIVATE_H_
-# define _GNM_SHEET_PRIVATE_H_
+#ifndef GNM_SHEET_PRIVATE_H_
+# define GNM_SHEET_PRIVATE_H_
 
 G_BEGIN_DECLS
 
@@ -26,4 +26,4 @@ void gnm_sheet_cell_shutdown (void);
 
 G_END_DECLS
 
-#endif /* _GNM_SHEET_PRIVATE_H_ */
+#endif /* GNM_SHEET_PRIVATE_H_ */

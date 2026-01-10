@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_OBJECT_IMPL_H_
-# define _GNM_SHEET_OBJECT_IMPL_H_
+#ifndef GNM_SHEET_OBJECT_IMPL_H_
+# define GNM_SHEET_OBJECT_IMPL_H_
 
 G_BEGIN_DECLS
 
@@ -181,4 +181,4 @@ typedef struct {
 
 G_END_DECLS
 
-#endif /* _GNM_SHEET_OBJECT_IMPL_H_ */
+#endif /* GNM_SHEET_OBJECT_IMPL_H_ */

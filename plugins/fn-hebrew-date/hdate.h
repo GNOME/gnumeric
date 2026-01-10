@@ -19,8 +19,8 @@
  */
 
 
-#ifndef __HDATE_H__
-#define __HDATE_H__
+#ifndef GNM_PLUGIN_HDATE
+#define GNM_PLUGIN_HDATE
 
 #ifdef __cplusplus
 extern "C"

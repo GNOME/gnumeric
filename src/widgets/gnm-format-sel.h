@@ -17,8 +17,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  **/
 
-#ifndef GNM_FORMAT_SEL_H
-#define GNM_FORMAT_SEL_H
+#ifndef GNM_FORMAT_SEL_H_
+#define GNM_FORMAT_SEL_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>
@@ -30,4 +30,4 @@ void       gnm_format_sel_set_value (GOFormatSel *nfs, GnmValue const *value);
 
 G_END_DECLS
 
-#endif /* GNM_FORMAT_SEL_H */
+#endif /* GNM_FORMAT_SEL_H_ */

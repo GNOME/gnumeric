@@ -1,5 +1,5 @@
-#ifndef PY_COMMAND_LINE
-#define PY_COMMAND_LINE
+#ifndef GNM_PLUGIN_PYTHONLOADER_PY_COMMAND_LINE_H_
+#define GNM_PLUGIN_PYTHONLOADER_PY_COMMAND_LINE_H_
 
 #include <glib.h>
 #include <gnumeric.h>
@@ -14,4 +14,4 @@ typedef struct _GnmPyCommandLine GnmPyCommandLine;
 
 GtkWidget         *gnm_py_command_line_new (void);
 
-#endif /* PY_COMMAND_LINE */
+#endif

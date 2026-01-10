@@ -1,5 +1,5 @@
-#ifndef _GNM_UNDO_H_
-#define _GNM_UNDO_H_
+#ifndef GNM_UNDO_H_
+#define GNM_UNDO_H_
 
 #include <gnumeric.h>
 #include <sheet.h>
@@ -95,4 +95,4 @@ GOUndo *gnm_undo_filter_set_condition_new (GnmFilter *filter, unsigned i,
 
 G_END_DECLS
 
-#endif /* _GNM_UNDO_H_ */
+#endif /* GNM_UNDO_H_ */

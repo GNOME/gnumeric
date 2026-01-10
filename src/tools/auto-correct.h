@@ -1,5 +1,5 @@
-#ifndef AUTO_CORRECT_H
-#define AUTO_CORRECT_H
+#ifndef GNM_TOOLS_AUTO_CORRECT_H_
+#define GNM_TOOLS_AUTO_CORRECT_H_
 
 #include <gnumeric.h>
 

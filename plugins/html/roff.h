@@ -18,8 +18,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef GNUMERIC_PLUGIN_ROFF_H
-#define GNUMERIC_PLUGIN_ROFF_H
+#ifndef GNM_PLUGIN_ROFF_H_
+#define GNM_PLUGIN_ROFF_H_
 
 #include <gnumeric.h>
 

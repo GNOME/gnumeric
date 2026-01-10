@@ -1,5 +1,5 @@
-#ifndef _GNM_GNUMERIC_FWD_H_
-#define _GNM_GNUMERIC_FWD_H_
+#ifndef GNM_GNUMERIC_FWD_H_
+#define GNM_GNUMERIC_FWD_H_
 
 #include <glib.h>
 

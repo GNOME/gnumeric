@@ -1,5 +1,5 @@
-#ifndef _GNM_NUMBERS_H_
-# define _GNM_NUMBERS_H_
+#ifndef GNM_NUMBERS_H_
+# define GNM_NUMBERS_H_
 
 #include <gnumeric-features.h>
 #include <goffice/goffice.h>
@@ -244,4 +244,4 @@ gnm_float gnm_tan (gnm_float x);
 
 G_END_DECLS
 
-#endif /* _GNM_NUMBERS_H_ */
+#endif /* GNM_NUMBERS_H_ */

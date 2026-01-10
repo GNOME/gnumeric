@@ -1,5 +1,5 @@
-#ifndef _GNM_COMMANDS_H_
-#define _GNM_COMMANDS_H_
+#ifndef GNM_COMMANDS_H_
+#define GNM_COMMANDS_H_
 
 #include <gnumeric.h>
 #include <tools/tools.h>
@@ -242,4 +242,4 @@ gboolean cmd_resize_sheets      (WorkbookControl *wbc,
 
 G_END_DECLS
 
-#endif /* _GNM_COMMANDS_H_ */
+#endif /* GNM_COMMANDS_H_ */

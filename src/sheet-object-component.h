@@ -17,8 +17,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>
  */
 
-#ifndef _GNM_SHEET_OBJECT_COMPONENT_H_
-#define _GNM_SHEET_OBJECT_COMPONENT_H_
+#ifndef GNM_SHEET_OBJECT_COMPONENT_H_
+#define GNM_SHEET_OBJECT_COMPONENT_H_
 
 #include <sheet-object.h>
 #include <gnumeric-fwd.h>
@@ -38,4 +38,4 @@ void	     sheet_object_component_set_component (SheetObject *soc, GOComponent *c
 
 G_END_DECLS
 
-#endif	/* _GNM_SHEET_OBJECT_COMPONENT_H_ */
+#endif	/* GNM_SHEET_OBJECT_COMPONENT_H_ */

@@ -12,8 +12,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef GNUMERIC_TOOLS_H
-#define GNUMERIC_TOOLS_H
+#ifndef GNM_TOOLS_H_
+#define GNM_TOOLS_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

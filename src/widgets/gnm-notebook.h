@@ -17,8 +17,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  **/
 
-#ifndef __GNM_NOTEBOOK_H__
-#define __GNM_NOTEBOOK_H__
+#ifndef GNM_WIDGETS_NOTEBOOK_H_
+#define GNM_WIDGETS_NOTEBOOK_H_
 
 #include <gtk/gtk.h>
 
@@ -46,4 +46,4 @@ void            gnm_notebook_set_current_page (GnmNotebook *nb, int page);
 void            gnm_notebook_prev_page (GnmNotebook *nb);
 void            gnm_notebook_next_page (GnmNotebook *nb);
 
-#endif /*__GNM_NOTEBOOK_H__*/
+#endif

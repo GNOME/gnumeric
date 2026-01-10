@@ -1,5 +1,5 @@
-#ifndef GNM_DASHED_CANVAS_LINE_H
-#define GNM_DASHED_CANVAS_LINE_H
+#ifndef GNM_DASHED_CANVAS_LINE_H_
+#define GNM_DASHED_CANVAS_LINE_H_
 
 /* dashed Line item for the canvas */
 #include <goffice/goffice.h>

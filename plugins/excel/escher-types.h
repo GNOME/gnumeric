@@ -1,5 +1,5 @@
-#ifndef GNM_EXCEL_ESCHER_TYPES_H
-#define GNM_EXCEL_ESCHER_TYPES_H
+#ifndef GNM_EXCEL_ESCHER_TYPES_H_
+#define GNM_EXCEL_ESCHER_TYPES_H_
 
 /**
  * escher-types.h: A long and dull list of types used
@@ -48,4 +48,4 @@
 #define OleObject		0xf11f
 #define UserDefined		0xf122
 
-#endif /* GNM_EXCEL_ESCHER_TYPES_H */
+#endif /* GNM_EXCEL_ESCHER_TYPES_H_ */

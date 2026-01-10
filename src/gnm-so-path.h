@@ -17,8 +17,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>
  */
 
-#ifndef _GNM_SO_PATH_H_
-# define _GNM_SO_PATH_H_
+#ifndef GNM_SO_PATH_H_
+# define GNM_SO_PATH_H_
 
 #include   <glib-object.h>
 
@@ -30,4 +30,4 @@ GType gnm_so_path_get_type (void);
 
 G_END_DECLS
 
-#endif /* _GNM_SO_PATH_H_ */
+#endif /* GNM_SO_PATH_H_ */

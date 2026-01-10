@@ -19,8 +19,8 @@
  * USA
 */
 
-#ifndef GNM_TEXT_VIEW_H
-#define GNM_TEXT_VIEW_H
+#ifndef GNM_TEXT_VIEW_H_
+#define GNM_TEXT_VIEW_H_
 
 #include <gnumeric-fwd.h>
 

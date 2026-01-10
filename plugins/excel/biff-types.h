@@ -1,5 +1,5 @@
-#ifndef GNM_EXCEL_BIFF_TYPES_H
-#define GNM_EXCEL_BIFF_TYPES_H
+#ifndef GNM_EXCEL_BIFF_TYPES_H_
+#define GNM_EXCEL_BIFF_TYPES_H_
 
 /*
  * biff-types.h: A long and dull list of BIFF types.
@@ -357,4 +357,4 @@ const char *biff_opcode_name (unsigned int opcode);
 /* BIFF types specific to gnumeric */
 #define BIFF_CHART_trendlimits	0x10C0
 
-#endif /* GNM_EXCEL_BIFF_TYPES_H */
+#endif /* GNM_EXCEL_BIFF_TYPES_H_ */

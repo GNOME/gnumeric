@@ -22,8 +22,8 @@
  */
 
 
-#ifndef ANALYSIS_NORMALITY_H
-#define ANALYSIS_NORMALITY_H
+#ifndef GNM_TOOLS_ANALYSIS_NORMALITY_H_
+#define GNM_TOOLS_ANALYSIS_NORMALITY_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

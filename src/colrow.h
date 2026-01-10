@@ -1,5 +1,5 @@
-#ifndef _GNM_COLROW_H_
-# define _GNM_COLROW_H_
+#ifndef GNM_COLROW_H_
+# define GNM_COLROW_H_
 
 #include <gnumeric.h>
 
@@ -155,4 +155,4 @@ void             colrow_autofit_row             (Sheet *sheet, GnmRange *r);
 
 G_END_DECLS
 
-#endif /* _GNM_COLROW_H_ */
+#endif /* GNM_COLROW_H_ */

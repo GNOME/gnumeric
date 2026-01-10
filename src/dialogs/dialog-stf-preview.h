@@ -12,8 +12,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef GNUMERIC_DIALOG_STF_PREVIEW_H
-#define GNUMERIC_DIALOG_STF_PREVIEW_H
+#ifndef GNM_DIALOG_STF_PREVIEW_H_
+#define GNM_DIALOG_STF_PREVIEW_H_
 
 #include <gnumeric-fwd.h>
 #include <stf.h>
@@ -56,4 +56,4 @@ GtkCellRenderer   *stf_preview_get_cell_renderer         (RenderData_t *renderda
 
 void               stf_preview_find_column               (RenderData_t *renderdata, int x, int *pcol, int *dx);
 
-#endif /* GNUMERIC_DIALOG_STF_PREVIEW_H */
+#endif /* GNM_DIALOG_STF_PREVIEW_H_ */

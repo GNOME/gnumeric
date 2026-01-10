@@ -1,5 +1,5 @@
-#ifndef _GNM_REGRESSION_H_
-# define _GNM_REGRESSION_H_
+#ifndef GNM_REGRESSION_H_
+# define GNM_REGRESSION_H_
 
 #include <numbers.h>
 #include <goffice/goffice.h>
@@ -22,4 +22,4 @@ G_BEGIN_DECLS
 
 G_END_DECLS
 
-#endif /* _GNM_REGRESSION_H_ */
+#endif /* GNM_REGRESSION_H_ */

@@ -18,8 +18,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef GNUMERIC_PLUGIN_LATEX_H
-#define GNUMERIC_PLUGIN_LATEX_H
+#ifndef GNM_PLUGIN_LATEX_H_
+#define GNM_PLUGIN_LATEX_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>

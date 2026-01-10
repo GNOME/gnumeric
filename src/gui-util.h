@@ -1,5 +1,5 @@
-#ifndef _GNM_GUI_UTIL_H_
-# define _GNM_GUI_UTIL_H_
+#ifndef GNM_GUI_UTIL_H_
+# define GNM_GUI_UTIL_H_
 
 #include <gnumeric-fwd.h>
 #include <goffice/goffice.h>
@@ -199,4 +199,4 @@ void gnm_css_debug_int (const char *name, int i);
 
 G_END_DECLS
 
-#endif /* _GNM_GUI_UTIL_H_ */
+#endif /* GNM_GUI_UTIL_H_ */

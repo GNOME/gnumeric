@@ -1,5 +1,5 @@
-#ifndef _GNM_CELLSPAN_H_
-# define _GNM_CELLSPAN_H_
+#ifndef GNM_CELLSPAN_H_
+# define GNM_CELLSPAN_H_
 
 #include <gnumeric.h>
 
@@ -23,4 +23,4 @@ void		    row_calc_spans   (ColRowInfo *ri, int row, Sheet const *sheet);
 
 G_END_DECLS
 
-#endif /* _GNM_CELLSPAN_H_ */
+#endif /* GNM_CELLSPAN_H_ */

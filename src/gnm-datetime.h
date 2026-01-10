@@ -1,5 +1,5 @@
-#ifndef _GNM_DATETIME_H_
-# define _GNM_DATETIME_H_
+#ifndef GNM_DATETIME_H_
+# define GNM_DATETIME_H_
 
 #include <gnumeric.h>
 #include <numbers.h>
@@ -34,4 +34,4 @@ void gnm_date_add_years (GDate *d, int n);
 
 G_END_DECLS
 
-#endif /* _GNM_DATETIME_H_ */
+#endif /* GNM_DATETIME_H_ */

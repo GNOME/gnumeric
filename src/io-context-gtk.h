@@ -1,5 +1,5 @@
-#ifndef _GNM_IO_CONTEXT_GTK_H_
-# define _GNM_IO_CONTEXT_GTK_H_
+#ifndef GNM_IO_CONTEXT_GTK_H_
+# define GNM_IO_CONTEXT_GTK_H_
 
 #include <stdarg.h>
 #include <gnumeric-fwd.h>
@@ -24,4 +24,4 @@ void gnm_io_context_gtk_discharge_splash (GnmIOContextGtk *icg);
 
 G_END_DECLS
 
-#endif /* _GNM_IO_CONTEXT_GTK_H_ */
+#endif /* GNM_IO_CONTEXT_GTK_H_ */

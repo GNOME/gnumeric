@@ -1,5 +1,5 @@
-#ifndef GNM_EXCEL_BIFF_H
-#define GNM_EXCEL_BIFF_H
+#ifndef GNM_EXCEL_BIFF_H_
+#define GNM_EXCEL_BIFF_H_
 
 /**
  * ms-excel-biff.h: MS Excel BIFF header for Gnumeric
@@ -82,4 +82,4 @@ typedef struct {
 
 #include "biff-types.h"
 
-#endif /* GNM_EXCEL_BIFF_H */
+#endif /* GNM_EXCEL_BIFF_H_ */

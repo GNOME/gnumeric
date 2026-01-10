@@ -21,8 +21,8 @@
 
 /*****************************************************************************/
 
-#ifndef GNM_XLSX_UTILS_H
-#define GNM_XLSX_UTILS_H
+#ifndef GNM_XLSX_UTILS_H_
+#define GNM_XLSX_UTILS_H_
 
 #include <gnumeric.h>
 
@@ -101,4 +101,4 @@ long xlsx_relaxed_strtol (const char *s, char **endp, int base);
 
 /*****************************************************************************/
 
-#endif /* GNM_XLSX_UTILS_H */
+#endif /* GNM_XLSX_UTILS_H_ */

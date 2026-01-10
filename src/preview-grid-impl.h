@@ -1,5 +1,5 @@
-#ifndef _GNM_PREVIEW_GRID_IMPL_H_
-#define _GNM_PREVIEW_GRID_IMPL_H_
+#ifndef GNM_PREVIEW_GRID_IMPL_H_
+#define GNM_PREVIEW_GRID_IMPL_H_
 
 #include <preview-grid.h>
 #include <goffice/goffice.h>
@@ -33,4 +33,4 @@ typedef struct {
 
 G_END_DECLS
 
-#endif /* _GNM_PREVIEW_GRID_IMPL_H_ */
+#endif /* GNM_PREVIEW_GRID_IMPL_H_ */

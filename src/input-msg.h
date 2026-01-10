@@ -1,5 +1,5 @@
-#ifndef _GNM_INPUT_MSG_H_
-# define _GNM_INPUT_MSG_H_
+#ifndef GNM_INPUT_MSG_H_
+# define GNM_INPUT_MSG_H_
 
 #include <gnumeric.h>
 #include <glib-object.h>
@@ -20,4 +20,4 @@ gboolean     gnm_input_msg_equal     (GnmInputMsg const *a,
 
 G_END_DECLS
 
-#endif /* _GNM_INPUT_MSG_H_ */
+#endif /* GNM_INPUT_MSG_H_ */

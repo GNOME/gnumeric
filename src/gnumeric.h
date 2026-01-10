@@ -1,5 +1,5 @@
-#ifndef _GNM_GNUMERIC_H_
-# define _GNM_GNUMERIC_H_
+#ifndef GNM_GNUMERIC_H_
+# define GNM_GNUMERIC_H_
 
 #include <glib.h>
 #include <goffice/goffice.h>
@@ -90,4 +90,4 @@ typedef enum {
 
 G_END_DECLS
 
-#endif /* _GNM_GNUMERIC_H_ */
+#endif /* GNM_GNUMERIC_H_ */

@@ -1,5 +1,5 @@
-#ifndef TOOLS_SIMULATION_H_
-#define TOOLS_SIMULATION_H_
+#ifndef GNM_TOOLS_SIMULATION_H_
+#define GNM_TOOLS_SIMULATION_H_
 
 #include <tools/dao.h>
 

@@ -17,8 +17,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  **/
 
-#ifndef __GNM_RADIO_BUTTON_H__
-#define __GNM_RADIO_BUTTON_H__
+#ifndef GNM_WIDGETS_RADIO_BUTTON_H_
+#define GNM_WIDGETS_RADIO_BUTTON_H_
 
 #include <gtk/gtk.h>
 
@@ -30,4 +30,4 @@ typedef GtkRadioButton GnmRadioButton;
 
 GType		gnm_radiobutton_get_type	(void);
 
-#endif /*__GNM_RADIO_BUTTON_H__*/
+#endif

@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_OBJECT_IMAGE_H_
-# define _GNM_SHEET_OBJECT_IMAGE_H_
+#ifndef GNM_SHEET_OBJECT_IMAGE_H_
+# define GNM_SHEET_OBJECT_IMAGE_H_
 
 #include <sheet-object.h>
 
@@ -22,4 +22,4 @@ void sheet_object_image_set_crop (SheetObjectImage *soi,
 
 G_END_DECLS
 
-#endif /* _GNM_SHEET_OBJECT_IMAGE_H_ */
+#endif /* GNM_SHEET_OBJECT_IMAGE_H_ */

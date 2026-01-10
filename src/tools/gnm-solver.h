@@ -1,5 +1,5 @@
-#ifndef _TOOLS_GNM_SOLVER_H_
-#define _TOOLS_GNM_SOLVER_H_
+#ifndef GNM_TOOLS_GNM_SOLVER_H_
+#define GNM_TOOLS_GNM_SOLVER_H_
 
 #include <gnumeric.h>
 #include <glib-object.h>
@@ -529,4 +529,4 @@ void gnm_solver_db_unregister (GnmSolverFactory *factory);
 
 G_END_DECLS
 
-#endif /* _TOOLS_GNM_SOLVER_H_ */
+#endif

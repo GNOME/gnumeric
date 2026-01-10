@@ -1,5 +1,5 @@
-#ifndef _GNM_GUI_CLIPBOARD_H_
-# define _GNM_GUI_CLIPBOARD_H_
+#ifndef GNM_GUI_CLIPBOARD_H_
+# define GNM_GUI_CLIPBOARD_H_
 
 #include <gnumeric-fwd.h>
 
@@ -18,4 +18,4 @@ void gui_clipboard_shutdown (void);
 
 G_END_DECLS
 
-#endif /* _GNM_GUI_CLIPBOARD_H_ */
+#endif /* GNM_GUI_CLIPBOARD_H_ */

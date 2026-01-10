@@ -1,5 +1,5 @@
-#ifndef GNM_PYTHON_PLUGIN_LOADER_H
-#define GNM_PYTHON_PLUGIN_LOADER_H
+#ifndef GNM_PYTHON_PLUGIN_LOADER_H_
+#define GNM_PYTHON_PLUGIN_LOADER_H_
 
 #include <glib-object.h>
 
@@ -9,4 +9,4 @@
 
 GType gnm_python_plugin_loader_get_type (void);
 
-#endif /* GNM_PYTHON_PLUGIN_LOADER_H */
+#endif /* GNM_PYTHON_PLUGIN_LOADER_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_ITEM_BAR_H_
-#define _GNM_ITEM_BAR_H_
+#ifndef GNM_ITEM_BAR_H_
+#define GNM_ITEM_BAR_H_
 
 #include <gnumeric-fwd.h>
 #include <glib-object.h>
@@ -18,4 +18,4 @@ PangoFontDescription *item_bar_normal_font (GnmItemBar const *ib);
 
 G_END_DECLS
 
-#endif /* _GNM_ITEM_BAR_H_ */
+#endif /* GNM_ITEM_BAR_H_ */

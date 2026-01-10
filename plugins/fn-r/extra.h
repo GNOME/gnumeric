@@ -1,5 +1,5 @@
-#ifndef GNM_FN_R_EXTRA_H
-#define GNM_FN_R_EXTRA_H
+#ifndef GNM_FN_R_EXTRA_H_
+#define GNM_FN_R_EXTRA_H_
 
 #include <numbers.h>
 #include <glib.h>

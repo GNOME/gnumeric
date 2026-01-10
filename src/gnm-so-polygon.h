@@ -1,5 +1,5 @@
-#ifndef _GNM_SO_POLYGON_H_
-# define _GNM_SO_POLYGON_H_
+#ifndef GNM_SO_POLYGON_H_
+# define GNM_SO_POLYGON_H_
 
 #include   <glib-object.h>
 
@@ -11,4 +11,4 @@ GType gnm_so_polygon_get_type (void);
 
 G_END_DECLS
 
-#endif /* _GNM_SO_POLYGON_H_ */
+#endif /* GNM_SO_POLYGON_H_ */

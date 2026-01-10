@@ -9,8 +9,8 @@
  * (C) 2002-2005 Jody Goldberg
  **/
 
-#ifndef GNM_BOOT_H
-#define GNM_BOOT_H
+#ifndef GNM_PLUGIN_EXCEL_BOOT_H_
+#define GNM_PLUGIN_EXCEL_BOOT_H_
 
 #include <glib.h>
 
@@ -22,4 +22,4 @@ extern gint ms_excel_chart_debug;
 extern gint ms_excel_write_debug;
 extern gint ms_excel_object_debug;
 
-#endif /* GNM_BOOT_H */
+#endif

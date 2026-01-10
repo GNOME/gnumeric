@@ -1,5 +1,5 @@
-#ifndef _GNM_APPLICATION_H_
-# define _GNM_APPLICATION_H_
+#ifndef GNM_APPLICATION_H_
+# define GNM_APPLICATION_H_
 
 #include <gnumeric.h>
 #include <glib-object.h>
@@ -108,4 +108,4 @@ void gnm_app_flag_windows_changed_ (void);
 
 G_END_DECLS
 
-#endif /* _GNM_APPLICATION_H_ */
+#endif /* GNM_APPLICATION_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_FORMAT_H_
-# define _GNM_FORMAT_H_
+#ifndef GNM_FORMAT_H_
+# define GNM_FORMAT_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>
@@ -77,4 +77,4 @@ GOFormat *gnm_format_import (const char *fmt,
 
 G_END_DECLS
 
-#endif /* _GNM_FORMAT_H_ */
+#endif /* GNM_FORMAT_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_HLINK_IMPL_H_
-# define _GNM_HLINK_IMPL_H_
+#ifndef GNM_HLINK_IMPL_H_
+# define GNM_HLINK_IMPL_H_
 
 #include <hlink.h>
 
@@ -22,4 +22,4 @@ typedef struct {
 
 G_END_DECLS
 
-#endif /* _GNM_HLINK_IMPL_H_ */
+#endif /* GNM_HLINK_IMPL_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_EXPR_H_
-# define _GNM_EXPR_H_
+#ifndef GNM_EXPR_H_
+# define GNM_EXPR_H_
 
 G_BEGIN_DECLS
 
@@ -238,4 +238,4 @@ void gnm_expr_shutdown_ (void);
 
 G_END_DECLS
 
-#endif /* _GNM_EXPR_H_ */
+#endif /* GNM_EXPR_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_PRINT_INFO_H_
-# define _GNM_PRINT_INFO_H_
+#ifndef GNM_PRINT_INFO_H_
+# define GNM_PRINT_INFO_H_
 
 #include <gnumeric.h>
 #include <print.h>
@@ -230,4 +230,4 @@ extern GList *gnm_print_hf_formats;
 
 G_END_DECLS
 
-#endif /* _GNM_PRINT_INFO_H_ */
+#endif /* GNM_PRINT_INFO_H_ */

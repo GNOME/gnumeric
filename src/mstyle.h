@@ -1,5 +1,5 @@
-#ifndef _GNM_MSTYLE_H_
-# define _GNM_MSTYLE_H_
+#ifndef GNM_MSTYLE_H_
+# define GNM_MSTYLE_H_
 
 #include <gnumeric.h>
 #include <style.h>
@@ -189,4 +189,4 @@ void gnm_style_dump (GnmStyle const *style);
 
 G_END_DECLS
 
-#endif /* _GNM_MSTYLE_H_ */
+#endif /* GNM_MSTYLE_H_ */

@@ -19,8 +19,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef GNM__CELL_RENDERER_TOGGLE_H__
-#define GNM__CELL_RENDERER_TOGGLE_H__
+#ifndef GNM_CELL_RENDERER_TOGGLE_H_
+#define GNM_CELL_RENDERER_TOGGLE_H_
 
 #include <gtk/gtk.h>
 

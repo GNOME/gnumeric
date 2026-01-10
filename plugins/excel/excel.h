@@ -8,8 +8,8 @@
  * (C) 1998-2001 Michael Meeks
  * (C) 2002-2005 Jody Goldberg
  **/
-#ifndef GNM_MS_EXCEL_H
-#define GNM_MS_EXCEL_H
+#ifndef GNM_MS_EXCEL_H_
+#define GNM_MS_EXCEL_H_
 
 #include <gnumeric.h>
 #include "ms-biff.h"
@@ -42,4 +42,4 @@ extern  char const *excel_builtin_formats[];
 
 #define	CODENAME_KEY	"XL_CODENAME_utf8"
 
-#endif /* GNM_MS_EXCEL_H */
+#endif /* GNM_MS_EXCEL_H_ */

@@ -1,5 +1,5 @@
-#ifndef __SC_FIN_H__
-#define __SC_FIN_H__
+#ifndef GNM_PLUGIN_FIN_SC_FIN_H_
+#define GNM_PLUGIN_FIN_SC_FIN_H_
 
 GnmValue *get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 			 gnm_float fRestVal, gint nPer, gnm_float fRate,
@@ -24,4 +24,3 @@ GnmValue *get_vdb       (gnm_float cost, gnm_float salvage, gnm_float life,
 			 gnm_float factor, gboolean flag);
 
 #endif
-

@@ -1,5 +1,5 @@
-#ifndef _GNM_SHEET_STYLE_H_
-# define _GNM_SHEET_STYLE_H_
+#ifndef GNM_SHEET_STYLE_H_
+# define GNM_SHEET_STYLE_H_
 
 #include <gnumeric.h>
 #include <style-border.h>
@@ -110,4 +110,4 @@ void      sheet_style_optimize (Sheet *sheet);
 
 G_END_DECLS
 
-#endif /* _GNM_SHEET_STYLE_H_ */
+#endif /* GNM_SHEET_STYLE_H_ */

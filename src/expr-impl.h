@@ -1,5 +1,5 @@
-#ifndef _GNM_EXPR_IMPL_H_
-# define _GNM_EXPR_IMPL_H_
+#ifndef GNM_EXPR_IMPL_H_
+# define GNM_EXPR_IMPL_H_
 
 #include <gnumeric.h>
 #include <numbers.h>
@@ -92,4 +92,4 @@ struct _GnmExprSharer {
 
 G_END_DECLS
 
-#endif /* _GNM_EXPR_IMPL_H_ */
+#endif /* GNM_EXPR_IMPL_H_ */

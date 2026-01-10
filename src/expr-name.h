@@ -1,5 +1,5 @@
-#ifndef _GNM_EXPR_NAME_H_
-# define _GNM_EXPR_NAME_H_
+#ifndef GNM_EXPR_NAME_H_
+# define GNM_EXPR_NAME_H_
 
 #include <gnumeric.h>
 #include <position.h>
@@ -82,4 +82,4 @@ gboolean gnm_named_expr_collection_sanity_check (GnmNamedExprCollection *names,
 
 G_END_DECLS
 
-#endif /* _GNM_EXPR_NAME_H_ */
+#endif /* GNM_EXPR_NAME_H_ */

@@ -1,5 +1,5 @@
-#ifndef _LIBSPREADSHEET_CONFIG_H_
-#define _LIBSPREADSHEET_CONFIG_H_
+#ifndef GNM_LIBSPREADSHEET_CONFIG_H_
+#define GNM_LIBSPREADSHEET_CONFIG_H_
 
 /* Manually maintained to hold any compile time flags necessary to use the ABI
  * of libspreadsheet */
@@ -39,4 +39,4 @@
 /* Define to 1 if Gnumeric reduces the argument range of sin/cos/tan */
 #undef GNM_REDUCES_TRIG_RANGE
 
-#endif  /* _LIBSPREADSHEET_CONFIG_H_ */
+#endif  /* GNM_LIBSPREADSHEET_CONFIG_H_ */

@@ -24,8 +24,8 @@
  */
 
 
-#ifndef ANALYSIS_HISTOGRAM_H
-#define ANALYSIS_HISTOGRAM_H
+#ifndef GNM_TOOLS_ANALYSIS_HISTOGRAM_H_
+#define GNM_TOOLS_ANALYSIS_HISTOGRAM_H_
 
 #include <gnumeric.h>
 #include <numbers.h>

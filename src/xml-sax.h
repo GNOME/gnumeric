@@ -1,5 +1,5 @@
-#ifndef _GNM_XML_SAX_H_
-# define _GNM_XML_SAX_H_
+#ifndef GNM_XML_SAX_H_
+#define GNM_XML_SAX_H_
 
 #include <gnumeric.h>
 #include <gsf/gsf-output-memory.h>
@@ -44,4 +44,4 @@ GnmConventions *gnm_xml_io_conventions (void);
 
 G_END_DECLS
 
-#endif /* _GNM_XML_SAX_H_ */
+#endif /* GNM_XML_SAX_H_ */

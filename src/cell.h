@@ -1,5 +1,5 @@
-#ifndef _GNM_CELL_H_
-# define _GNM_CELL_H_
+#ifndef GNM_CELL_H_
+# define GNM_CELL_H_
 
 #include <gnumeric.h>
 #include <dependent.h>
@@ -104,4 +104,4 @@ char *  gnm_cell_get_rendered_text	(GnmCell *cell);
 
 G_END_DECLS
 
-#endif /* _GNM_CELL_H_ */
+#endif /* GNM_CELL_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_WBC_GTK_H_
-# define _GNM_WBC_GTK_H_
+#ifndef GNM_WBC_GTK_H_
+# define GNM_WBC_GTK_H_
 
 #include <gnumeric.h>
 #include <gnumeric-fwd.h>
@@ -85,4 +85,4 @@ void          wbcg_focus_current_cell_indicator (WBCGtk const *wbcg);
 
 G_END_DECLS
 
-#endif /* _GNM_WBC_GTK_H_ */
+#endif /* GNM_WBC_GTK_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_WORKBOOK_CMD_FORMAT_H_
-# define _GNM_WORKBOOK_CMD_FORMAT_H_
+#ifndef GNM_WORKBOOK_CMD_FORMAT_H_
+# define GNM_WORKBOOK_CMD_FORMAT_H_
 
 #include <gnumeric.h>
 
@@ -17,4 +17,4 @@ void workbook_cmd_wrap_sort		   (WorkbookControl *wbc, int type);
 
 G_END_DECLS
 
-#endif /* _GNM_WORKBOOK_CMD_FORMAT_H_ */
+#endif /* GNM_WORKBOOK_CMD_FORMAT_H_ */

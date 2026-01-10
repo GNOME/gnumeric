@@ -1,5 +1,5 @@
-#ifndef _GNM_PRINT_H_
-# define _GNM_PRINT_H_
+#ifndef GNM_PRINT_H_
+# define GNM_PRINT_H_
 
 #include <gnumeric.h>
 #include <gsf/gsf-output.h>
@@ -42,4 +42,4 @@ void gnm_print_sheet_objects (cairo_t *cr,
 
 G_END_DECLS
 
-#endif /* _GNM_PRINT_H_ */
+#endif /* GNM_PRINT_H_ */

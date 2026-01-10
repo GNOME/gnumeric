@@ -1,5 +1,5 @@
-#ifndef _GNM_PATTERN_H_
-# define _GNM_PATTERN_H_
+#ifndef GNM_PATTERN_H_
+# define GNM_PATTERN_H_
 
 #include <style.h>
 
@@ -14,4 +14,4 @@ gboolean    gnm_pattern_background_set	(GnmStyle const *mstyle,
 
 G_END_DECLS
 
-#endif /* _GNM_PATTERN_H_ */
+#endif /* GNM_PATTERN_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_VALIDATION_H_
-# define _GNM_VALIDATION_H_
+#ifndef GNM_VALIDATION_H_
+# define GNM_VALIDATION_H_
 
 #include <gnumeric.h>
 #include <dependent.h>
@@ -99,4 +99,4 @@ ValidationStatus gnm_validation_eval_range (WorkbookControl *wbc,
 
 G_END_DECLS
 
-#endif /* _GNM_VALIDATION_H_ */
+#endif /* GNM_VALIDATION_H_ */

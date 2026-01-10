@@ -1,5 +1,5 @@
-#ifndef _GNM_VALIDATION_COMBO_H_
-# define _GNM_VALIDATION_COMBO_H_
+#ifndef GNM_VALIDATION_COMBO_H_
+# define GNM_VALIDATION_COMBO_H_
 
 #include <gnm-cell-combo.h>
 
@@ -20,4 +20,4 @@ SheetObject *gnm_validation_combo_new    (GnmValidation const *v, SheetView *sv)
 
 G_END_DECLS
 
-#endif /* _GNM_VALIDATION_COMBO_H_ */
+#endif /* GNM_VALIDATION_COMBO_H_ */

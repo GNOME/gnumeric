@@ -8,8 +8,8 @@
  * (C) 1998-2001 Michael Meeks
  * (C) 2002-2005 Jody Goldberg
  */
-#ifndef GNM_MS_FORMULA_WRITE_H
-#define GNM_MS_FORMULA_WRITE_H
+#ifndef GNM_MS_FORMULA_WRITE_H_
+#define GNM_MS_FORMULA_WRITE_H_
 
 #include <gnumeric.h>
 #include "excel.h"
@@ -37,4 +37,4 @@ void excel_write_prep_expr	  (ExcelWriteState *ewb,
 				   GnmExprTop const *texpr);
 void excel_write_prep_sheet	  (ExcelWriteState *ewb, Sheet const *sheet);
 
-#endif /* GNM_MS_FORMULA_W_H */
+#endif /* GNM_MS_FORMULA_W_H_ */

@@ -1,5 +1,5 @@
-#ifndef _GNM_GUTILS_H_
-# define _GNM_GUTILS_H_
+#ifndef GNM_GUTILS_H_
+# define GNM_GUTILS_H_
 
 #include <gnumeric.h>
 #include <goffice/goffice.h>
@@ -90,4 +90,4 @@ int gnm_export_range_for_sheet (Sheet const *sheet, GnmRange *dest);
 
 G_END_DECLS
 
-#endif /* _GNM_GUTILS_H_ */
+#endif /* GNM_GUTILS_H_ */

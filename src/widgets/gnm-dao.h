@@ -17,8 +17,8 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  **/
 
-#ifndef __GNM_DAO_H__
-#define __GNM_DAO_H__
+#ifndef GNM_WIDGETS_DAO_H_
+#define GNM_WIDGETS_DAO_H_
 
 #include <gnumeric-fwd.h>
 #include <gui-util.h>
@@ -42,5 +42,4 @@ void            gnm_dao_load_range (GnmDao *gdao, GnmRange const *range);
 void            gnm_dao_focus_output_range (GnmDao *gdao);
 void            gnm_dao_set_inplace (GnmDao *gdao, gchar *inplace_str);
 
-#endif /*__GNM_DAO_H__*/
-
+#endif
