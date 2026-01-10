@@ -38,15 +38,6 @@
 # include "unlocked-io.h"
 #endif
 
-#if G_BYTE_ORDER == G_BIG_ENDIAN
-# define SWAP(n)							\
-    (((n) << 24) | (((n) & 0xff00) << 8) | (((n) >> 8) & 0xff00) | ((n) >> 24))
-#elif G_BYTE_ORDER == G_LITTLE_ENDIAN
-# define SWAP(n) (n)
-#else
-#error "There's something rotten in Denmark"
-#endif
-
 /* Initialize structure containing state of computation.
    (RFC 1321, 3.3: Step 3)  */
 void
@@ -124,7 +115,7 @@ md5_process_block (const void *buffer, size_t len, struct md5_ctx *ctx)
 #define OP(a, b, c, d, s, T)						\
       do								\
         {								\
-	  a += FF (b, c, d) + (*cwp++ = SWAP (*words)) + T;		\
+	  a += FF (b, c, d) + (*cwp++ = GSF_LE_GET_GUINT32 (words)) + T;		\
 	  ++words;							\
 	  CYCLIC (a, s);						\
 	  a += b;							\
