@@ -17,6 +17,8 @@ Morten:
 	* Style the progress bar we use for menu tooltips.
 	* Clean out old references to mailing list and irc.
 	* Documentation updates.
+	* Print using pango context from GtkPrintContext for constistency
+	  between gui and non-gui.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59

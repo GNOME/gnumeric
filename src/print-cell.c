@@ -53,19 +53,20 @@
 
 static void
 print_cell_gtk (GnmCell const *cell,
-		cairo_t *context,
+		PangoContext *pcontext,
+		cairo_t *cr,
 		double x1, double y1,
 		double width, double height, double h_center,
 		GnmPrintInformation const *pinfo)
 {
-	GnmRenderedValue *rv, *rv100 = NULL;
+	GnmRenderedValue *rv;
 	GOColor fore_color;
 	gint x, y;
 	Sheet *sheet = cell->base.sheet;
 	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
 	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
-
 	gboolean cell_shows_error;
+	gboolean allow_variable_width = TRUE;
 
 	if (cell->base.flags & GNM_CELL_HAS_NEW_EXPR)
 		gnm_cell_eval ((GnmCell *)cell);
@@ -82,8 +83,6 @@ print_cell_gtk (GnmCell const *cell,
 	height -= GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
 	width  -= GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
 
-	rv = gnm_cell_fetch_rendered_value (cell, TRUE);
-
 	/* Create a rendered value for printing */
 	if (cell_shows_error &&
 	    (pinfo->error_display == GNM_PRINT_ERRORS_AS_NA
@@ -95,25 +94,21 @@ print_cell_gtk (GnmCell const *cell,
 		else
 			t_cell->value = value_new_error
 				(NULL,
-				 /* U+2014 U+200A U+2014 */
+				 // EMDASH HAIRSPACE EMDASH
+				 // U+2014 U+200A U+2014
 				 "\342\200\224\342\200\212\342\200\224");
-		rv100 = gnm_rendered_value_new (t_cell,
-						pango_layout_get_context (rv->layout),
-						rv->variable_width,
-						1.0);
-		rv = rv100;
+		rv = gnm_rendered_value_new (t_cell,
+					     pcontext,
+					     allow_variable_width,
+					     1.0);
 		value_release (t_cell->value);
 		t_cell->value = old;
-	} else if (sheet->last_zoom_factor_used != 1) {
-		/*
-		 * We're zoomed and we don't want printing to reflect that.
-		 */
-
-		rv100 = gnm_rendered_value_new ((GnmCell *)cell,
-						pango_layout_get_context (rv->layout),
-						rv->variable_width,
-						1.0);
-		rv = rv100;
+	} else {
+		// Even if we're zoomed we don't want printing to reflect that.
+		rv = gnm_rendered_value_new ((GnmCell *)cell,
+					     pcontext,
+					     allow_variable_width,
+					     1.0);
 	}
 
 	/* Make sure we don't get overflow in print unless we had it in
@@ -127,52 +122,51 @@ print_cell_gtk (GnmCell const *cell,
 			      &fore_color, &x, &y)) {
 
 		/* Clip the printed rectangle */
-		cairo_save (context);
+		cairo_save (cr);
 #ifndef G_OS_WIN32
 		if (!rv->rotation) {
 			/* We do not clip rotated cells.  */
-			cairo_new_path (context);
-			cairo_rectangle (context, x1 + GNM_COL_MARGIN, y1 + GNM_ROW_MARGIN,
+			cairo_new_path (cr);
+			cairo_rectangle (cr, x1 + GNM_COL_MARGIN, y1 + GNM_ROW_MARGIN,
 					 width + 1, height + 1);
-			cairo_clip (context);
+			cairo_clip (cr);
 		}
 #endif
 		/* Set the font colour */
-		cairo_set_source_rgba (context,
+		cairo_set_source_rgba (cr,
 				       GO_COLOR_TO_CAIRO (fore_color));
 
-		cairo_translate (context, x1+0.5, y1);
+		cairo_translate (cr, x1+0.5, y1);
 
 		if (rv->rotation) {
 			GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
 			struct GnmRenderedRotatedValueInfo const *li = rrv->lines;
 			GSList *lines;
 
-			cairo_scale (context, scale_h, scale_v);
-			cairo_move_to (context, 0.,0.);
+			cairo_scale (cr, scale_h, scale_v);
+			cairo_move_to (cr, 0.,0.);
 			for (lines = pango_layout_get_lines (rv->layout);
 			     lines;
 			     lines = lines->next, li++) {
-				cairo_save (context);
-				cairo_move_to (context,
+				cairo_save (cr);
+				cairo_move_to (cr,
 					       PANGO_PIXELS (x + li->dx),
 					       PANGO_PIXELS (- y + li->dy));
-				cairo_rotate (context, rv->rotation * (-M_PI / 180));
-				pango_cairo_show_layout_line (context, lines->data);
-				cairo_restore (context);
+				cairo_rotate (cr, rv->rotation * (-M_PI / 180));
+				pango_cairo_show_layout_line (cr, lines->data);
+				cairo_restore (cr);
 			}
 
 
 		} else {
-			cairo_scale (context, scale_h, scale_v);
-			cairo_move_to (context, x / (double)PANGO_SCALE , - y / (double)PANGO_SCALE);
-			pango_cairo_show_layout (context, rv->layout);
+			cairo_scale (cr, scale_h, scale_v);
+			cairo_move_to (cr, x / (double)PANGO_SCALE , - y / (double)PANGO_SCALE);
+			pango_cairo_show_layout (cr, rv->layout);
 		}
-		cairo_restore(context);
+		cairo_restore (cr);
 	}
 
-	if (rv100)
-		gnm_rendered_value_destroy (rv100);
+	gnm_rendered_value_destroy (rv);
 }
 
 static void
@@ -205,7 +199,8 @@ print_cell_background_gtk (cairo_t *context,
  * segments that are selected.
  */
 static void
-print_merged_range_gtk (cairo_t *context,
+print_merged_range_gtk (PangoContext *pcontext,
+			cairo_t *context,
 			Sheet const *sheet,
 			double start_x, double start_y,
 			GnmRange const *view, GnmRange const *range,
@@ -271,10 +266,10 @@ print_merged_range_gtk (cairo_t *context,
 			row_calc_spans (ri, cell->pos.row, sheet);
 
 		if (sheet->text_is_rtl)
-			print_cell_gtk (cell, context,
+			print_cell_gtk (cell, pcontext, context,
 					r, t, l - r, b - t, -1., pinfo);
 		else
-			print_cell_gtk (cell, context,
+			print_cell_gtk (cell, pcontext, context,
 					l, t, r - l, b - t, -1., pinfo);
 	}
 	gnm_style_border_print_diag_gtk (style, context, l, t, r, b);
@@ -288,7 +283,8 @@ merged_col_cmp (GnmRange const *a, GnmRange const *b)
 
 
 void
-gnm_gtk_print_cell_range (cairo_t *context,
+gnm_gtk_print_cell_range (PangoContext *pcontext,
+			  cairo_t *cr,
 			  Sheet const *sheet, GnmRange *range,
 			  double base_x, double base_y,
 			  GnmPrintInformation const *pinfo)
@@ -423,7 +419,7 @@ gnm_gtk_print_cell_range (cairo_t *context,
 					MERGE_DEBUG (r, " : unused -> active\n");
 
 				if (ci->visible)
-					print_merged_range_gtk (context, sheet,
+					print_merged_range_gtk (pcontext, cr, sheet,
 								base_x, y, &view, r,
 								pinfo);
 				}
@@ -510,7 +506,7 @@ gnm_gtk_print_cell_range (cairo_t *context,
 			if (dir < 0)
 				x -= ci->size_pts * hscale;
 			style = sr.styles [col];
-			print_cell_background_gtk (context, style, col, row, x, y,
+			print_cell_background_gtk (cr, style, col, row, x, y,
 						   ci->size_pts * hscale, ri->size_pts);
 
 			/* Is this part of a span?
@@ -523,7 +519,7 @@ gnm_gtk_print_cell_range (cairo_t *context,
 				/* no need to draw blanks */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!gnm_cell_is_empty (cell))
-					print_cell_gtk (cell, context, x, y,
+					print_cell_gtk (cell, pcontext, cr, x, y,
 							ci->size_pts * hscale,
 							ri->size_pts, -1., pinfo);
 
@@ -569,7 +565,7 @@ gnm_gtk_print_cell_range (cairo_t *context,
 						real_x -= offset;
 				}
 
-				print_cell_gtk (cell, context,
+				print_cell_gtk (cell, pcontext, cr,
 						real_x, y, tmp_width, ri->size_pts,
 						center_offset, pinfo);
 			} else if (col != span->left)
@@ -579,8 +575,8 @@ gnm_gtk_print_cell_range (cairo_t *context,
 				x += ci->size_pts * hscale;
 		}
 		gnm_style_borders_row_print_gtk (prev_vert, &sr,
-					 context, base_x, y, y+ri->size_pts,
-					 sheet, TRUE, dir);
+						 cr, base_x, y, y+ri->size_pts,
+						 sheet, TRUE, dir);
 
 		/* In case there were hidden merges that trailed off the end */
 		while (merged_active != NULL) {
@@ -607,7 +603,7 @@ gnm_gtk_print_cell_range (cairo_t *context,
 		y += ri->size_pts;
 	}
 	gnm_style_borders_row_print_gtk (prev_vert, &sr,
-				 context, base_x, y, y, sheet, FALSE, dir);
+					 cr, base_x, y, y, sheet, FALSE, dir);
 
 	g_slist_free (merged_used);	   /* merges with bottom in view */
 	g_slist_free (merged_active_seen); /* merges with bottom the view */
@@ -615,5 +611,3 @@ gnm_gtk_print_cell_range (cairo_t *context,
 	g_free (sr_array_data);
 	g_return_if_fail (merged_active == NULL);
 }
-
-

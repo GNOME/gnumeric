@@ -36,6 +36,7 @@
 #include <wbc-gtk-impl.h>
 #include <workbook-view.h>
 #include <workbook.h>
+#include <style-font.h>
 
 #include <goffice/goffice.h>
 #include <goffice/component/goffice-component.h>
@@ -83,7 +84,7 @@ static GObjectClass *gognm_parent_klass;
 
 static gboolean
 go_gnm_component_get_data (GOComponent *component, gpointer *data, int *length,
-									void (**clearfunc) (gpointer), gpointer *user_data)
+			   void (**clearfunc) (gpointer), gpointer *user_data)
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	if (gognm->wv) {
@@ -159,6 +160,7 @@ go_gnm_component_render (GOComponent *component, cairo_t *cr, double width_pixel
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	GnmRange range;
+	PangoContext *pcontext = gnm_pango_context_get ();  // Likely bogus
 
 	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (gognm->wv));
 	if (!gognm->sheet)
@@ -170,11 +172,13 @@ go_gnm_component_render (GOComponent *component, cairo_t *cr, double width_pixel
 	cairo_scale (cr, ((double) width_pixels) / gognm->width, ((double) height_pixels) / gognm->height);
 	cairo_rectangle (cr, 0., 0., gognm->width, gognm->height);
 	cairo_clip (cr); /* not sure it is necessary */
-	gnm_gtk_print_cell_range (cr, gognm->sheet, &range, 0., 0.,
+	gnm_gtk_print_cell_range (pcontext, cr, gognm->sheet, &range, 0., 0.,
 				  gognm->sheet->print_info);
 	/* Now render objects */
 	gnm_print_sheet_objects (cr, gognm->sheet, &range, 0., 0.);
 	cairo_restore (cr);
+
+	g_object_unref (pcontext);
 }
 
 static void

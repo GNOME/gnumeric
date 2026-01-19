@@ -7,7 +7,8 @@
 
 G_BEGIN_DECLS
 
-void gnm_gtk_print_cell_range (cairo_t *context,
+void gnm_gtk_print_cell_range (PangoContext *pcontext,
+			       cairo_t *context,
 			       Sheet const *sheet, GnmRange *range,
 			       double base_x, double base_y,
 			       GnmPrintInformation const *pinfo);
