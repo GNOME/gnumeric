@@ -44,7 +44,7 @@ static struct FontInfo {
 	const char *font_name;
 	const char *font_substitute_name;
 	int override_codepage;
-} font_info[] = {
+} const font_info[] = {
         { "Times New Roman",        "Times",          -1 },
         { "Times New Roman CYR",    "Times",          1251 },
         { "Times New Roman Greek",  "Times",          1253 },
@@ -73,7 +73,7 @@ static struct FontInfo {
 	{ "GulimChe",               NULL,             949 }
 };
 
-static struct FontInfo *
+static const struct FontInfo *
 find_font (const char *font_name)
 {
 	unsigned ui;
@@ -98,7 +98,7 @@ find_font (const char *font_name)
 int
 gnm_font_override_codepage (gchar const *font_name)
 {
-	struct FontInfo *fi = find_font (font_name);
+	const struct FontInfo *fi = find_font (font_name);
 	return fi ? fi->override_codepage : -1;
 }
 
@@ -114,7 +114,7 @@ gnm_font_override_codepage (gchar const *font_name)
 static gchar const *
 get_substitute_font (gchar const *font_name)
 {
-	struct FontInfo *fi = find_font (font_name);
+	const struct FontInfo *fi = find_font (font_name);
 	return fi ? fi->font_substitute_name : NULL;
 }
 
