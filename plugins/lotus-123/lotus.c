@@ -561,7 +561,7 @@ lotus_color (guint i)
 
 /* ------------------------------------------------------------------------- */
 
-static gint8
+static const gint8
 lotus_pattern_table[74] = {
 	0,	/* 0	Transparent */
 	-1,	/* 1	SolidForeground */
@@ -2672,7 +2672,7 @@ works_color (guint i)
 	return NULL;
 }
 
-static const gchar* works_data_fmts[]=
+static const gchar* const works_data_fmts[]=
 {
 	"dd.mm.yyyy",
 	"d mmmm yyyy",
@@ -2684,7 +2684,7 @@ static const gchar* works_data_fmts[]=
 	"mmmm"
 };
 
-static const gchar* works_time_fmts[]=
+static const gchar* const works_time_fmts[]=
 {
 	"h:mm AM/PM",
 	"h:mm:ss AM/PM",
@@ -2692,7 +2692,7 @@ static const gchar* works_time_fmts[]=
 	"h:mm:ss"
 };
 
-static const gchar* works_frac_fmts[]=
+static const gchar* const works_frac_fmts[]=
 {
 	"# ?" "?/?" "?" /* silly trick to avoid using a trigraph */,
 	"# ?/4",
