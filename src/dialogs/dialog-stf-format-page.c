@@ -558,11 +558,11 @@ format_page_update_preview (StfDialogData *pagedata)
 	pagedata->format.col_import_array_len = renderdata->colcount;
 
 	pagedata->format.col_autofit_array =
-		g_renew(gboolean, pagedata->format.col_autofit_array,
-			pagedata->format.col_import_array_len);
+		g_renew (gboolean, pagedata->format.col_autofit_array,
+			 pagedata->format.col_import_array_len);
 	pagedata->format.col_import_array =
-		g_renew(gboolean, pagedata->format.col_import_array,
-			pagedata->format.col_import_array_len);
+		g_renew (gboolean, pagedata->format.col_import_array,
+			 pagedata->format.col_import_array_len);
 	old_part = (col_import_array_len_old < pagedata->format.col_import_array_len)
 		? col_import_array_len_old
 		: pagedata->format.col_import_array_len;

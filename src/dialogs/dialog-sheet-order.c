@@ -650,11 +650,11 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 }
 
 static gboolean
-sheet_selection_can_toggle(GtkTreeSelection *selection,
-			   GtkTreeModel *model,
-			   GtkTreePath *path,
-			   gboolean path_currently_selected,
-			   G_GNUC_UNUSED gpointer data)
+sheet_selection_can_toggle (GtkTreeSelection *selection,
+			    GtkTreeModel *model,
+			    GtkTreePath *path,
+			    gboolean path_currently_selected,
+			    G_GNUC_UNUSED gpointer data)
 {
 	GtkTreeIter iter;
 	gboolean is_visible;

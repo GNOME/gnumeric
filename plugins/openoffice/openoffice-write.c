@@ -366,7 +366,7 @@ odf_add_chars_non_white (GnmOOExport *state, char const *text, int len)
 static void
 odf_add_chars (GnmOOExport *state, char const *text, int len, gboolean *white_written)
 {
-	int nw = strcspn(text, " \n\t");
+	int nw = strcspn (text, " \n\t");
 
 	if (nw >= len) {
 		odf_add_chars_non_white (state, text, len);
@@ -384,7 +384,7 @@ odf_add_chars (GnmOOExport *state, char const *text, int len, gboolean *white_wr
 	switch (*text) {
 	case ' ':
 	{
-		int white = strspn(text, " ");
+		int white = strspn (text, " ");
 
 		if (!*white_written) {
 			gsf_xml_out_add_cstr (state->xml, NULL, " ");
@@ -1742,7 +1742,7 @@ odf_find_row_style (GnmOOExport *state, ColRowInfo const *ci, gboolean write)
 			gsf_xml_out_end_element (state->xml); /* </style:style> */
 			return new_style->name;
 		} else {
-			g_warning("We forgot to export a required row style!");
+			g_warning ("We forgot to export a required row style!");
 			return "Missing-Row-Style";
 		}
 	}
@@ -1779,7 +1779,7 @@ odf_find_col_style (GnmOOExport *state, ColRowInfo const *ci, gboolean write)
 			gsf_xml_out_end_element (state->xml); /* </style:style> */
 			return new_style->name;
 		} else {
-			g_warning("We forgot to export a required column style!");
+			g_warning ("We forgot to export a required column style!");
 			return "Missing-Column-Style";
 		}
 	}
@@ -2780,7 +2780,7 @@ odf_cell_is_covered (G_GNUC_UNUSED Sheet const *sheet,
 	GSList *l;
 
 	if (merge_range != NULL) {
-		GnmRange *new_range = g_new(GnmRange, 1);
+		GnmRange *new_range = g_new (GnmRange, 1);
 		*new_range = *merge_range;
 		(*merge_ranges) = g_slist_prepend (*merge_ranges, new_range);
 		return FALSE;
@@ -3093,7 +3093,7 @@ odf_write_image (GnmOOExport *state, SheetObject *so, char const *name)
 		gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
 		gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
 
-		g_free(fullname);
+		g_free (fullname);
 		g_free (image_type);
 	} else
 		g_warning ("Image is missing from hash.");
@@ -3167,7 +3167,7 @@ odf_write_custom_shape (GnmOOExport *state, SheetObject *so)
 	if (path) {
 		char *ps = go_path_to_svg (path);
 		path_string = g_strconcat (ps, " N", NULL);
-		g_free(ps);
+		g_free (ps);
 	}
 	if (paths) {
 		GString *gstr = g_string_new (path_string);
@@ -6391,23 +6391,23 @@ odf_write_graph_manifest (SheetObject *graph, char const *name, GnmOOExport *sta
 		char *realname = g_strdup_printf ("%s-%i", name, i);
 		char *fullname = g_strdup_printf ("%s/", realname);
 		odf_file_entry (state->xml, "application/vnd.oasis.opendocument.chart", fullname);
-		g_free(fullname);
+		g_free (fullname);
 		fullname = g_strdup_printf ("%s/content.xml", realname);
 		odf_file_entry (state->xml, "text/xml", fullname);
-		g_free(fullname);
+		g_free (fullname);
 		fullname = g_strdup_printf ("%s/meta.xml", realname);
 		odf_file_entry (state->xml, "text/xml", fullname);
-		g_free(fullname);
+		g_free (fullname);
 		fullname = g_strdup_printf ("%s/styles.xml", realname);
 		odf_file_entry (state->xml, "text/xml", fullname);
-		g_free(fullname);
+		g_free (fullname);
 		fullname = g_strdup_printf ("Pictures/%s", realname);
 		odf_file_entry (state->xml, "image/svg+xml", fullname);
-		g_free(fullname);
+		g_free (fullname);
 		fullname = g_strdup_printf ("Pictures/%s.png", realname);
 		odf_file_entry (state->xml, "image/png", fullname);
-		g_free(fullname);
-		g_free(realname);
+		g_free (fullname);
+		g_free (realname);
 	}
 }
 
@@ -6424,7 +6424,7 @@ odf_write_image_manifest (SheetObject *image, char const *name, GnmOOExport *sta
 	odf_file_entry (state->xml, mime, fullname);
 
 	g_free (mime);
-	g_free(fullname);
+	g_free (fullname);
 	g_free (image_type);
 
 }

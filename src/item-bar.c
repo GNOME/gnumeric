@@ -884,7 +884,7 @@ colrow_tip_setlabel (GnmItemBar *ib, gboolean const is_cols, int size_pixels)
 		g_free (pixels);
 		g_free (points);
 		gtk_label_set_text (GTK_LABEL (ib->tip), buffer);
-		g_free(buffer);
+		g_free (buffer);
 	}
 }
 

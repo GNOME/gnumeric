@@ -288,7 +288,7 @@ gtv_build_button_underline (GtkWidget *tb, GnmTextView *gtv)
 				  "icon-name", "format-text-underline",
 				  "menu", menu,
 				  NULL);
-	gtk_toolbar_insert(GTK_TOOLBAR(tb), tb_button, -1);
+	gtk_toolbar_insert (GTK_TOOLBAR (tb), tb_button, -1);
 	g_object_set_data (G_OBJECT (tb_button), "underlinevalue",
                            (char *) "PANGO_UNDERLINE_SINGLE");
 	g_signal_connect (G_OBJECT (tb_button), "clicked",
@@ -335,7 +335,7 @@ gtv_build_button_bold (GtkWidget *tb, GnmTextView *gtv)
 				  "icon-name", "format-text-bold",
 				  "menu", menu,
 				  NULL);
-	gtk_toolbar_insert(GTK_TOOLBAR(tb), tb_button, -1);
+	gtk_toolbar_insert (GTK_TOOLBAR (tb), tb_button, -1);
 	g_object_set_data (G_OBJECT (tb_button), "boldvalue",
                            (char *) "PANGO_WEIGHT_BOLD");
 	g_signal_connect (G_OBJECT (tb_button), "clicked",
@@ -435,7 +435,7 @@ gtv_init (GnmTextView *gtv)
 		(tb, gtv,
 		 "format-text-strikethrough",
 		 G_CALLBACK (cb_gtv_set_strikethrough));
-	gtk_toolbar_insert (GTK_TOOLBAR(tb),
+	gtk_toolbar_insert (GTK_TOOLBAR (tb),
 			    gtk_separator_tool_item_new (), -1);
 	gtv->bold = gtv_build_button_bold (tb, gtv);
 	gtv->underline = gtv_build_button_underline (tb, gtv);

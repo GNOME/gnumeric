@@ -270,7 +270,7 @@ mt_setup_win32 (void)
 		return FALSE;
 
 	MyRtlGenRandom = (LPFNRTLGENRANDOM)
-		GetProcAddress(hmod, "SystemFunction036");
+		GetProcAddress (hmod, "SystemFunction036");
 	if (MyRtlGenRandom &&
 	    MyRtlGenRandom (buffer, sizeof (buffer))) {
 		mt_init_by_array (buffer, G_N_ELEMENTS (buffer));

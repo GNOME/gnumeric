@@ -1753,27 +1753,27 @@ cb_dialog_doc_metadata_ppt_name_changed (G_GNUC_UNUSED GtkEntry          *entry,
 		}
 
 		if (t == G_TYPE_INVALID) {
-			g_signal_handlers_block_by_func(G_OBJECT (state->ppt_type),
-							cb_dialog_doc_metadata_ppt_type_changed,
-							state);
+			g_signal_handlers_block_by_func (G_OBJECT (state->ppt_type),
+							 cb_dialog_doc_metadata_ppt_type_changed,
+							 state);
 			gtk_tree_model_foreach (GTK_TREE_MODEL (state->type_store),
 						dialog_doc_metadata_show_all_types, NULL);
 			gtk_tree_model_filter_refilter (state->type_store_filter);
-			g_signal_handlers_unblock_by_func(G_OBJECT (state->ppt_type),
-							  cb_dialog_doc_metadata_ppt_type_changed,
-							  state);
+			g_signal_handlers_unblock_by_func (G_OBJECT (state->ppt_type),
+							   cb_dialog_doc_metadata_ppt_type_changed,
+							   state);
 		} else {
 			gtk_combo_box_set_active_iter (state->ppt_type, NULL);
-			g_signal_handlers_block_by_func(G_OBJECT (state->ppt_type),
-							cb_dialog_doc_metadata_ppt_type_changed,
-							state);
+			g_signal_handlers_block_by_func (G_OBJECT (state->ppt_type),
+							 cb_dialog_doc_metadata_ppt_type_changed,
+							 state);
 			gtk_tree_model_foreach (GTK_TREE_MODEL (state->type_store),
 						dialog_doc_metadata_show_this_type,
 						GINT_TO_POINTER (t));
 			gtk_tree_model_filter_refilter (state->type_store_filter);
-			g_signal_handlers_unblock_by_func(G_OBJECT (state->ppt_type),
-							  cb_dialog_doc_metadata_ppt_type_changed,
-							  state);
+			g_signal_handlers_unblock_by_func (G_OBJECT (state->ppt_type),
+							   cb_dialog_doc_metadata_ppt_type_changed,
+							   state);
 			if (gtk_tree_model_get_iter_first
 			    (GTK_TREE_MODEL (state->type_store_filter), &iter))
 				gtk_combo_box_set_active_iter (state->ppt_type, &iter);
@@ -1827,7 +1827,7 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 
 	/* Intialize Combo Box */
 	/* gtk_combo_box_set_id_column (state->ppt_type, 0); */
-	cell = gtk_cell_renderer_text_new();
+	cell = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->ppt_type), cell, TRUE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->ppt_type), cell, "text", 0, NULL);
 
@@ -1862,11 +1862,11 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 	/* Append Columns */
 	gtk_tree_view_insert_column_with_attributes (state->properties,
 						     0, _("Name"),
-						     gtk_cell_renderer_text_new(),
+						     gtk_cell_renderer_text_new (),
 						     "text", 0,
 						     NULL);
 
-	cell =  gtk_cell_renderer_text_new();
+	cell =  gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (state->properties,
 						     1, _("Value"),
 						     cell,
@@ -1880,7 +1880,7 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 
 	gtk_tree_view_insert_column_with_attributes (state->properties,
 						     2, _("Linked To"),
-						     gtk_cell_renderer_text_new(),
+						     gtk_cell_renderer_text_new (),
 						     "text", 2,
 						     NULL);
 
@@ -2266,7 +2266,7 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 	int i;
 
 	state->wbcg     = wbcg;
-	state->wb       = wb_control_get_workbook (GNM_WBC(wbcg));
+	state->wb       = wb_control_get_workbook (GNM_WBC (wbcg));
 	state->doc      = GO_DOC (state->wb);
 	state->metadata = go_doc_get_meta_data (wb_control_get_doc (GNM_WBC (state->wbcg)));
 

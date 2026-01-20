@@ -1233,7 +1233,7 @@ dialog_descriptive_stat_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (desc_stat_tool_update_sensitivity_cb),
 			      0))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 
@@ -1618,7 +1618,7 @@ dialog_ttest_tool (WBCGtk *wbcg, Sheet *sheet, ttest_type test)
 			      G_CALLBACK (ttest_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 
@@ -1808,7 +1808,7 @@ dialog_ftest_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (ftest_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 
@@ -2066,7 +2066,7 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (sampling_tool_update_sensitivity_cb),
 			      0))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 
@@ -2428,7 +2428,7 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (regression_tool_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 
@@ -2741,7 +2741,7 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (exp_smoothing_tool_update_sensitivity_cb),
 			      0))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 
@@ -3114,7 +3114,7 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (average_tool_update_sensitivity_cb),
 			      0))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 
@@ -3384,7 +3384,7 @@ dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (histogram_tool_update_sensitivity_cb),
 			      0))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 
@@ -3570,7 +3570,7 @@ dialog_anova_single_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (anova_single_tool_update_sensitivity_cb),
 			      0))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 
@@ -3802,7 +3802,7 @@ dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 

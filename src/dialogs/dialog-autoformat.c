@@ -159,7 +159,7 @@ auto_format_grid_class_init (GnmPreviewGridClass *klass)
 
 static GSF_CLASS (AutoFormatGrid, auto_format_grid,
 		  auto_format_grid_class_init, NULL,
-		  gnm_preview_grid_get_type())
+		  gnm_preview_grid_get_type ())
 
 static GocItem *
 auto_format_grid_new (AutoFormatState *state, int i, GnmFT *ft)
@@ -614,7 +614,7 @@ dialog_autoformat (WBCGtk *wbcg)
 		GList *ptr = state->category_groups;
 		GtkListStore* store = gtk_list_store_new (1, G_TYPE_STRING);
 		GtkTreeIter iter;
-		GtkCellRenderer *renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
+		GtkCellRenderer *renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new ();
 		gtk_combo_box_set_model (state->category, GTK_TREE_MODEL (store));
 		g_object_unref (store);
 		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->category), renderer, TRUE);

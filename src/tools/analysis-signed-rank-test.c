@@ -340,7 +340,7 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		   GNM_EXPR_OP_EQUAL,
 		   make_int (1)),
 		  gnm_expr_copy (expr_1),
-		  gnm_expr_new_constant (value_new_string(""))));
+		  gnm_expr_new_constant (value_new_string (""))));
 	dao_set_cell_array_expr (dao, 1, 1, expr);
 
 	expr = gnm_expr_new_funcall1
@@ -352,7 +352,7 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		   GNM_EXPR_OP_EQUAL,
 		   make_int (1)),
 		  gnm_expr_copy (expr_2),
-		  gnm_expr_new_constant (value_new_string(""))));
+		  gnm_expr_new_constant (value_new_string (""))));
 	dao_set_cell_array_expr (dao, 2, 1, expr);
 
 	expr_diff = gnm_expr_new_binary (gnm_expr_copy (expr_1),
@@ -369,7 +369,7 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		    GNM_EXPR_OP_EQUAL,
 		    make_int (1)),
 		   gnm_expr_copy (expr_diff),
-		   gnm_expr_new_constant (value_new_string("")))));
+		   gnm_expr_new_constant (value_new_string ("")))));
 
 	expr = gnm_expr_new_funcall1
 		(fd_sum, gnm_expr_new_binary

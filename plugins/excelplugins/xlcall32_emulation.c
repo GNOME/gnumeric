@@ -57,7 +57,7 @@ G_MODULE_EXPORT int far pascal Excel4v(int xlfn, void* operRes, int count, void*
 }
 
 G_MODULE_EXPORT int far _cdecl Excel4(int xlfn, void* operRes, int count, ...) {
-	void **opers=g_new(void *, MAX(1,count));
+	void **opers=g_new (void *, MAX(1,count));
 	va_list arg_list;
 	int i, res;
         va_start(arg_list,count);

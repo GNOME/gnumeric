@@ -281,7 +281,7 @@ range_as_string (GnmRange const *r)
 		 col_name (r->start.col), row_name (r->start.row));
 
 	if (r->start.col != r->end.col || r->start.row != r->end.row)
-		sprintf (buffer + strlen(buffer), ":%s%s",
+		sprintf (buffer + strlen (buffer), ":%s%s",
 			 col_name (r->end.col), row_name (r->end.row));
 
 	return buffer;

@@ -4055,7 +4055,7 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection,
 
 /******************************************************************/
 
-#define CMD_SEARCH_REPLACE_TYPE		(cmd_search_replace_get_type())
+#define CMD_SEARCH_REPLACE_TYPE		(cmd_search_replace_get_type ())
 #define CMD_SEARCH_REPLACE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SEARCH_REPLACE_TYPE, CmdSearchReplace))
 
 typedef struct {
@@ -4637,7 +4637,7 @@ cmd_objects_restore_location (SheetObject *so, gint location)
 {
 	gint loc = sheet_object_get_stacking (so);
 	if (loc != location)
-		sheet_object_adjust_stacking(so, location - loc);
+		sheet_object_adjust_stacking (so, location - loc);
 }
 
 static gboolean
@@ -5773,7 +5773,7 @@ cmd_print_setup_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		if (me->cmd.sheet->sheet_type == GNM_SHEET_OBJECT)
 			update_sheet_graph_cb (me->cmd.sheet);
 	} else {
-		book = wb_control_get_workbook(wbc);
+		book = wb_control_get_workbook (wbc);
 		n = workbook_sheet_count (book);
 		infos = me->old_pi;
 		g_return_val_if_fail (g_slist_length (infos) == n, TRUE);
@@ -5811,7 +5811,7 @@ cmd_print_setup_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		if (me->cmd.sheet->sheet_type == GNM_SHEET_OBJECT)
 			update_sheet_graph_cb (me->cmd.sheet);
 	} else {
-		book = wb_control_get_workbook(wbc);
+		book = wb_control_get_workbook (wbc);
 		n = workbook_sheet_count (book);
 		for (i = 0 ; i < n ; i++) {
 			Sheet *sheet = workbook_sheet_by_index (book, i);
@@ -7807,7 +7807,7 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 				error = g_strdup_printf
 					(_("Auto Filter blocked by %s"),
 					 name);
-				g_free(name);
+				g_free (name);
 				go_cmd_context_error_invalid
 					(GO_CMD_CONTEXT (wbc),
 					 _("AutoFilter"), error);

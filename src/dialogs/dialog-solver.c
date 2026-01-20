@@ -1007,7 +1007,7 @@ dialog_solver_init (SolverState *state)
 	/* Algorithm */
 	state->algorithm_combo = GTK_COMBO_BOX
 		(go_gtk_builder_get_widget (state->gui, "algorithm_combo"));
-	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
+	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->algorithm_combo), renderer, TRUE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->algorithm_combo), renderer,
 					"text", 0,

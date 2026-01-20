@@ -66,16 +66,16 @@ value_dump (GnmValue const *value)
 		else if (sheet)
 			g_print ("%p :", (void *)sheet);
 		g_print ("%s%s%s%s\n",
-			(c->col_relative ? "":"$"), col_name(c->col),
-			(c->row_relative ? "":"$"), row_name(c->row));
+			(c->col_relative ? "":"$"), col_name (c->col),
+			(c->row_relative ? "":"$"), row_name (c->row));
 		c = &value->v_range.cell.b;
 		if (sheet && sheet->name_quoted)
 			g_print ("%s:", sheet->name_unquoted);
 		else if (sheet)
 			g_print ("%p :", (void *)sheet);
 		g_print ("%s%s%s%s\n",
-			(c->col_relative ? "":"$"), col_name(c->col),
-			(c->row_relative ? "":"$"), row_name(c->row));
+			(c->col_relative ? "":"$"), col_name (c->col),
+			(c->row_relative ? "":"$"), row_name (c->row));
 		break;
 	}
 	default:

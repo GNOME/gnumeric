@@ -202,7 +202,7 @@ dialog_normality_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (normality_tool_update_sensitivity_cb),
 			      0))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 

@@ -56,7 +56,7 @@ expr_name_validate_a1 (const char *name)
 	const char *p = name;
 	gint i;
 
-	for (i = 0; *p && g_ascii_isalpha(p[0]);
+	for (i = 0; *p && g_ascii_isalpha (p[0]);
 	     p = g_utf8_next_char (p))
 		i++;
 	if (i==0 || i>4) /* We want to allow "total2010" and it   */

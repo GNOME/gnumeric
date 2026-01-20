@@ -1468,13 +1468,13 @@ odf_attr_range (GsfXMLIn *xin, xmlChar const * const *attrs, Sheet *sheet, GnmRa
 	g_return_val_if_fail (attrs != NULL, FALSE);
 
 	for (; attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "start-col", &res->start.col, 0, gnm_sheet_get_last_col(sheet)))
+		if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "start-col", &res->start.col, 0, gnm_sheet_get_last_col (sheet)))
 			flags |= 0x1;
-		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "start-row", &res->start.row, 0, gnm_sheet_get_last_row(sheet)))
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "start-row", &res->start.row, 0, gnm_sheet_get_last_row (sheet)))
 			flags |= 0x2;
-		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "end-col", &res->end.col, 0, gnm_sheet_get_last_col(sheet)))
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "end-col", &res->end.col, 0, gnm_sheet_get_last_col (sheet)))
 			flags |= 0x4;
-		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "end-row", &res->end.row, 0, gnm_sheet_get_last_row(sheet)))
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "end-row", &res->end.row, 0, gnm_sheet_get_last_row (sheet)))
 			flags |= 0x8;
 		else
 			return FALSE;
@@ -1926,7 +1926,7 @@ odf_text_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		odf_text_p_add_text
 			(state, xin->content->str + ptr->offset);
 	ptr->offset = 0;
-	l = list = g_slist_reverse(ptr->span_style_list);
+	l = list = g_slist_reverse (ptr->span_style_list);
 	while (l != NULL) {
 		span_style_info_t *ssi = l->data;
 		if (ssi != NULL) {
@@ -4926,7 +4926,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_STYLE_CHART:
 	case OO_STYLE_GRAPHICS:
 		state->chart.plot_type = OO_PLOT_UNKNOWN;
-		cur_style = g_new0(OOChartStyle, 1);
+		cur_style = g_new0 (OOChartStyle, 1);
 		cur_style->axis_props = NULL;
 		cur_style->plot_props = NULL;
 		cur_style->style_props = NULL;
@@ -6959,7 +6959,7 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	style = g_hash_table_lookup (state->styles.cell, style_name);
-	odf_oo_cell_style_attach_condition(state->cur_style.cells, style, condition, base);
+	odf_oo_cell_style_attach_condition (state->cur_style.cells, style, condition, base);
 }
 
 static OOProp *
@@ -7119,7 +7119,7 @@ oo_prop_list_apply_to_axis (GsfXMLIn *xin, GSList *props, GObject *obj)
 	if (interval_major > 0) {
 		data = gnm_go_data_scalar_new_expr
 			(state->chart.src_sheet, gnm_expr_top_new_constant
-			 (value_new_float(interval_major)));
+			 (value_new_float (interval_major)));
 		gog_dataset_set_dim (GOG_DATASET (obj), 2, data, NULL);
 		if (interval_minor_divisor > 1) {
 			if (logarithmic)
@@ -11507,10 +11507,10 @@ odf_selection (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_int_range
 		    (xin, attrs, OO_GNUM_NS_EXT, "cursor-col", &col,
-		     0, gnm_sheet_get_last_col(sheet))) {
+		     0, gnm_sheet_get_last_col (sheet))) {
 		} else if (oo_attr_int_range
 			   (xin, attrs, OO_GNUM_NS_EXT, "cursor-row", &row,
-			    0, gnm_sheet_get_last_row(sheet))) {};
+			    0, gnm_sheet_get_last_row (sheet))) {};
 
 	state->pos.eval.col = col;
 	state->pos.eval.row = row;
@@ -12015,7 +12015,7 @@ odf_preparse_create_sheet (GsfXMLIn *xin)
 	int rows, cols;
 	char *table_name = state->object_name;
 	Sheet *sheet;
-	sheet_order_t *sot = g_new(sheet_order_t, 1);
+	sheet_order_t *sot = g_new (sheet_order_t, 1);
 
 	cols = state->extent_data.col + 1;
 	rows = state->extent_data.row + 1;

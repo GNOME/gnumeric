@@ -30,8 +30,8 @@
  *
  *
  * The LaTeX2e functions are named:
- *		latex_file_save()
- *              latex_table_visible_file_save()
+ *		latex_file_save
+ *              latex_table_visible_file_save
  *              latex_table_file_save
  *
  */
@@ -165,7 +165,7 @@ latex_raw_str(char const *p, GsfOutput *output, gboolean utf8)
 					depth--;
 					if(depth == 0){
 						/* put the string beginning from p_begin to p to output */
-						gsf_output_write(output, p - p_begin, p_begin);
+						gsf_output_write (output, p - p_begin, p_begin);
 						return p;
 					}
 			}
@@ -865,7 +865,7 @@ latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col,
 			latex2e_print_vert_border (output, left_border);
 
 		/* Drop in the left hand format delimiter. */
-		gsf_output_printf (output, "p{\\gnumericCol%s}", col_name(start_col));
+		gsf_output_printf (output, "p{\\gnumericCol%s}", col_name (start_col));
 
 		if (right_border != GNM_STYLE_BORDER_NONE)
 			latex2e_print_vert_border (output, right_border);
@@ -987,7 +987,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			latex2e_print_vert_border (output, left_border);
 
 		/* Drop in the left hand format delimiter. */
-		gsf_output_printf (output, "p{\\gnumericCol%s}", col_name(start_col));
+		gsf_output_printf (output, "p{\\gnumericCol%s}", col_name (start_col));
 
 		if (right_border != GNM_STYLE_BORDER_NONE)
 			latex2e_print_vert_border (output, right_border);
@@ -1105,7 +1105,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 		    cell_format_family == GO_FORMAT_FRACTION ||
 		    cell_format_family == GO_FORMAT_SCIENTIFIC){
 			gsf_output_printf (output, "$");
-			if (gnm_style_get_font_italic(style))
+			if (gnm_style_get_font_italic (style))
 			    gsf_output_printf (output, "\\gnumericmathit{");
 
 			/* Print the cell contents. */
@@ -1113,7 +1113,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			latex_math_fputs (rendered_string, output);
 			g_free (rendered_string);
 
-			if (gnm_style_get_font_italic(style))
+			if (gnm_style_get_font_italic (style))
 			    gsf_output_printf (output, "}");
 			gsf_output_printf (output, "$");
 		} else {
@@ -1419,7 +1419,7 @@ latex_file_save (GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext *io_context,
 			/* Check a merge. */
 			merge_range = gnm_sheet_merge_is_corner (current_sheet, &pos);
 			if (merge_range == NULL) {
-				if (gnm_cell_is_empty(cell))
+				if (gnm_cell_is_empty (cell))
 					latex2e_write_blank_multicolumn_cell(output, col, row,
 									     1, 1,
 							       col - total_range.start.col,
@@ -1436,7 +1436,7 @@ latex_file_save (GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext *io_context,
 			num_merged_cols = merge_range->end.col - merge_range->start.col + 1;
 			num_merged_rows = merge_range->end.row - merge_range->start.row + 1;
 
-			if (gnm_cell_is_empty(cell))
+			if (gnm_cell_is_empty (cell))
 				latex2e_write_blank_multicolumn_cell(output, col, row,
 								     num_merged_cols,
 								     num_merged_rows,

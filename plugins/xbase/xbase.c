@@ -66,7 +66,7 @@ record_seek (XBrecord *record, int whence, gsf_off_t row)
 		offset = record->file->records + 1 - row;
 		break;
 	default:
-		g_warning("record_seek: invalid whence (%d)", whence);
+		g_warning ("record_seek: invalid whence (%d)", whence);
 		return FALSE;
 	}
 	if (offset < 1 || offset > (gsf_off_t)record->file->records)
@@ -309,7 +309,7 @@ xbase_field_new (XBfile *file)
 	field = g_new (XBfield, 1);
 	field->len = buf[16];
 
-	strncpy(field->name, buf, 10);
+	strncpy (field->name, buf, 10);
 	field->name[10] = '\0';
 	if ((p = strchr (field_types, field->type = buf[11])) == NULL)
 		g_warning ("Unrecognised field type '%c'", field->type);

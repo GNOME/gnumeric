@@ -2014,8 +2014,8 @@ gnm_func_class_init (GObjectClass *gobject_class)
 		 G_STRUCT_OFFSET (GnmFuncClass, derivative),
 		 NULL, NULL,
 		 gnm__BOXED__BOXED_BOXED_BOXED,
-		 gnm_expr_get_type(),
-		 3, gnm_expr_get_type(), gnm_eval_pos_get_type(), gnm_expr_deriv_info_get_type());
+		 gnm_expr_get_type (),
+		 3, gnm_expr_get_type (), gnm_eval_pos_get_type (), gnm_expr_deriv_info_get_type ());
 }
 
 GSF_CLASS (GnmFunc, gnm_func,

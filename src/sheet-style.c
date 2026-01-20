@@ -871,7 +871,7 @@ sheet_style_update_grid_color (Sheet const *sheet, GtkStyleContext *context)
 		     ? grid_color : sheet_auto);
 
 	/* Do nothing if we already have the right color */
-	if (gnm_style_border_none()->color != new_color) {
+	if (gnm_style_border_none ()->color != new_color) {
 		style_color_ref (new_color); /* none_set eats the ref */
 		gnm_style_border_none_set_color (new_color);
 	}

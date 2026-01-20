@@ -1799,7 +1799,7 @@ gnumeric_transpose (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	for (r = 0; r < rows; ++r) {
 		res->v_array.vals [r] = g_new (GnmValue *, cols);
 		for (c = 0; c < cols; ++c)
-			res->v_array.vals[r][c] = value_dup(
+			res->v_array.vals[r][c] = value_dup (
 				value_area_get_x_y (matrix, c, r, ep));
 	}
 

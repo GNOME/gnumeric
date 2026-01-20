@@ -1242,7 +1242,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	}
 
 	if (not_acceptable) {
-		GError *msg = g_error_new (go_error_invalid(), 0,
+		GError *msg = g_error_new (go_error_invalid (), 0,
 					   _("%s does not support multiple ranges"),
 					   _("Sort"));
 		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), msg);
@@ -1429,23 +1429,23 @@ create_object (WBCGtk *wbcg, GType t,
 }
 
 static GNM_ACTION_DEF (cmd_create_frame)
-	{ create_object (wbcg, sheet_widget_frame_get_type(), NULL); }
+	{ create_object (wbcg, sheet_widget_frame_get_type (), NULL); }
 static GNM_ACTION_DEF (cmd_create_button)
-	{ create_object (wbcg, sheet_widget_button_get_type(), NULL); }
+	{ create_object (wbcg, sheet_widget_button_get_type (), NULL); }
 static GNM_ACTION_DEF (cmd_create_radiobutton)
-	{ create_object (wbcg, sheet_widget_radio_button_get_type(), NULL); }
+	{ create_object (wbcg, sheet_widget_radio_button_get_type (), NULL); }
 static GNM_ACTION_DEF (cmd_create_scrollbar)
-	{ create_object (wbcg, sheet_widget_scrollbar_get_type(), NULL); }
+	{ create_object (wbcg, sheet_widget_scrollbar_get_type (), NULL); }
 static GNM_ACTION_DEF (cmd_create_slider)
-	{ create_object (wbcg, sheet_widget_slider_get_type(), NULL); }
+	{ create_object (wbcg, sheet_widget_slider_get_type (), NULL); }
 static GNM_ACTION_DEF (cmd_create_spinbutton)
-	{ create_object (wbcg, sheet_widget_spinbutton_get_type(), NULL); }
+	{ create_object (wbcg, sheet_widget_spinbutton_get_type (), NULL); }
 static GNM_ACTION_DEF (cmd_create_checkbox)
-	{ create_object (wbcg, sheet_widget_checkbox_get_type(), NULL); }
+	{ create_object (wbcg, sheet_widget_checkbox_get_type (), NULL); }
 static GNM_ACTION_DEF (cmd_create_list)
-	{ create_object (wbcg, sheet_widget_list_get_type(), NULL); }
+	{ create_object (wbcg, sheet_widget_list_get_type (), NULL); }
 static GNM_ACTION_DEF (cmd_create_combo)
-	{ create_object (wbcg, sheet_widget_combo_get_type(), NULL); }
+	{ create_object (wbcg, sheet_widget_combo_get_type (), NULL); }
 static GNM_ACTION_DEF (cmd_create_line)
 	{ create_object (wbcg, GNM_SO_LINE_TYPE, NULL); }
 static GNM_ACTION_DEF (cmd_create_arrow) {
@@ -4289,7 +4289,7 @@ gnm_font_action_create_tool_item (GtkAction *action)
 		(GTK_TYPE_TOOL_ITEM,
 		 NULL);
 	GtkWidget *but = g_object_new
-		(gnm_font_button_get_type(),
+		(gnm_font_button_get_type (),
 		 "name", "font",
 		 "dialog-type", GO_TYPE_FONT_SEL_DIALOG,
 		 "show-preview-entry", TRUE,
@@ -4328,7 +4328,7 @@ GSF_CLASS (GnmFontAction, gnm_font_action,
 #if 0
 	;
 #endif
-#define GNM_FONT_ACTION(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), gnm_font_action_get_type(), GnmFontAction))
+#define GNM_FONT_ACTION(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), gnm_font_action_get_type (), GnmFontAction))
 
 static void
 cb_font_changed (GtkAction *act, WBCGtk *gtk)
@@ -4513,7 +4513,7 @@ wbc_gtk_init_actions (WBCGtk *wbcg)
 
 	// Disable this until and unless we have a place to direct it.
 	{
-		GtkAction *a = wbcg_find_action(wbcg, "HelpIRC");
+		GtkAction *a = wbcg_find_action (wbcg, "HelpIRC");
 		gtk_action_set_sensitive (a, FALSE);
 	}
 

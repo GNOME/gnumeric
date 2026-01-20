@@ -1028,7 +1028,7 @@ cb_description_clicked (GtkTextBuffer *textbuffer,
 	if (!gtk_text_iter_ends_tag (end, link))
 		gtk_text_iter_forward_to_tag_toggle (end, link);
 
-	data = g_new(cb_dialog_function_select_idle_handler_t, 1);
+	data = g_new (cb_dialog_function_select_idle_handler_t, 1);
 
 	data->name = gtk_text_buffer_get_text (textbuffer, start, end, FALSE);
 	gtk_text_iter_free (start);

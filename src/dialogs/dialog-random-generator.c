@@ -734,7 +734,7 @@ dialog_random_tool_init (RandomToolState *state)
 	state->count_entry = go_gtk_builder_get_widget (state->base.gui, "count_entry");
 	int_to_entry (GTK_ENTRY (state->count_entry), 1);
 
-	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
+	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->distribution_combo), renderer, TRUE);
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->distribution_combo), renderer,
                                         "text", 0,

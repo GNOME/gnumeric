@@ -414,7 +414,7 @@ selection_first_range (SheetView const *sv,
 
 	r = l->data;
 	if (cc != NULL && l->next != NULL) {
-		GError *msg = g_error_new (go_error_invalid(), 0,
+		GError *msg = g_error_new (go_error_invalid (), 0,
 			_("%s does not support multiple ranges"), cmd_name);
 		go_cmd_context_error (cc, msg);
 		g_error_free (msg);
@@ -852,12 +852,12 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 						    b->start.col, b->end.col);
 
 #ifdef DEBUG_SELECTION
-			g_printerr ("col = %d\na = %s", col_intersect, col_name(a->start.col));
+			g_printerr ("col = %d\na = %s", col_intersect, col_name (a->start.col));
 			if (a->start.col != a->end.col)
-				g_printerr (" -> %s", col_name(a->end.col));
-			g_printerr ("\nb = %s", col_name(b->start.col));
+				g_printerr (" -> %s", col_name (a->end.col));
+			g_printerr ("\nb = %s", col_name (b->start.col));
 			if (b->start.col != b->end.col)
-				g_printerr (" -> %s\n", col_name(b->end.col));
+				g_printerr (" -> %s\n", col_name (b->end.col));
 			else
 				g_printerr ("\n");
 #endif

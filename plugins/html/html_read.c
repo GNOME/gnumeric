@@ -132,7 +132,7 @@ html_rtrim (GString *buf)
 
 	last = g_utf8_prev_char (buf->str + buf->len);
 	if (g_unichar_isspace (g_utf8_get_char (last)))
-		g_string_truncate(buf, last - buf->str);
+		g_string_truncate (buf, last - buf->str);
 }
 
 static void
@@ -552,7 +552,7 @@ html_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context,
 		size -= 4;
 		buf = gsf_input_read (input, 4, NULL);
 		if (buf != NULL) {
-			enc = xmlDetectCharEncoding(buf, 4);
+			enc = xmlDetectCharEncoding (buf, 4);
 			switch (enc) {
 #if LIBXML_VERSION < 20702
 			/* Skip byte order mark */
@@ -589,9 +589,9 @@ html_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context,
 				bomlen = 0;
 				/* Try to detect unmarked UTF16LE
 				   (Firefox Windows clipboard, drag data all platforms) */
-				if ((buf[0] >= 0x20 || g_ascii_isspace(buf[0])) &&
+				if ((buf[0] >= 0x20 || g_ascii_isspace (buf[0])) &&
 				    buf[1] == 0 &&
-				    (buf[2] >= 0x20 || g_ascii_isspace(buf[2])) &&
+				    (buf[2] >= 0x20 || g_ascii_isspace (buf[2])) &&
 				    buf[3] == 0)
 					enc =  XML_CHAR_ENCODING_UTF16LE;
 				break;

@@ -259,7 +259,7 @@ dialog_frequency_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (frequency_tool_update_sensitivity_cb),
 			      0))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 

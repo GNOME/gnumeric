@@ -148,8 +148,8 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *kevent,
 	SheetView *sv = sc->view;
 	Sheet *sheet = sv->sheet;
 	WBCGtk *wbcg = scg->wbcg;
-	WorkbookControl * wbc = scg_wbc(scg);
-	Workbook * wb = wb_control_get_workbook(wbc);
+	WorkbookControl * wbc = scg_wbc (scg);
+	Workbook * wb = wb_control_get_workbook (wbc);
 	gboolean delayed_movement = FALSE;
 	gboolean jump_to_bounds;
 	gboolean is_enter = FALSE;

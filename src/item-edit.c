@@ -125,8 +125,8 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	GdkRGBA fcolor;
 	PangoDirection dir = pango_find_base_dir (text, -1);
 	PangoAttrList *entry_attributes
-		= g_object_get_data(G_OBJECT (ie->entry),
-				    "gnm:range-attributes");
+		= g_object_get_data (G_OBJECT (ie->entry),
+				     "gnm:range-attributes");
 
 	if (entry_attributes != NULL) {
 		if (go_pango_attr_list_is_empty (entry_attributes))

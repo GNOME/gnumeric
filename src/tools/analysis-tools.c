@@ -3813,7 +3813,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		case moving_average_type_wma:
 		{
 			GnmExpr const *expr_divisor = gnm_expr_new_constant
-				(value_new_int((info->interval * (info->interval + 1))/2));
+				(value_new_int ((info->interval * (info->interval + 1))/2));
 			int *w = g_new (int, (info->interval + 1));
 			int i;
 
@@ -3850,7 +3850,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		case moving_average_type_spencer_ma:
 		{
 			GnmExpr const *expr_divisor = gnm_expr_new_constant
-				(value_new_int(-3-6-5+3+21+45+67+74+67+46+21+3-5-6-3));
+				(value_new_int (-3-6-5+3+21+45+67+74+67+46+21+3-5-6-3));
 			static const int w[] = {-3, -6, -5, 3, 21, 45, 67, 74, 67, 46, 21, 3, -5, -6, -3, 0};
 
 			delta_x = 0;
@@ -4291,7 +4291,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 
 			sum_wdof_args = gnm_expr_list_append
 				(sum_wdof_args,
-				 gnm_expr_new_binary(
+				 gnm_expr_new_binary (
 					 gnm_expr_copy (expr_count_one),
 					 GNM_EXPR_OP_SUB,
 					 gnm_expr_new_constant

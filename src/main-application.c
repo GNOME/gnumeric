@@ -218,13 +218,13 @@ main (int argc, char const **argv)
 		LPFNATTACHCONSOLE MyAttachConsole;
 		HMODULE hmod;
 
-		if ((hmod = GetModuleHandle("kernel32.dll"))) {
-			MyAttachConsole = (LPFNATTACHCONSOLE) GetProcAddress(hmod, "AttachConsole");
-			if (MyAttachConsole && MyAttachConsole(ATTACH_PARENT_PROCESS)) {
-				freopen("CONOUT$", "w", stdout);
-				freopen("CONOUT$", "w", stderr);
-				dup2(fileno(stdout), 1);
-				dup2(fileno(stderr), 2);
+		if ((hmod = GetModuleHandle ("kernel32.dll"))) {
+			MyAttachConsole = (LPFNATTACHCONSOLE) GetProcAddress (hmod, "AttachConsole");
+			if (MyAttachConsole && MyAttachConsole (ATTACH_PARENT_PROCESS)) {
+				freopen ("CONOUT$", "w", stdout);
+				freopen ("CONOUT$", "w", stderr);
+				dup2 (fileno (stdout), 1);
+				dup2 (fileno (stderr), 2);
 				has_console = TRUE;
 			}
 		}
@@ -352,9 +352,9 @@ main (int argc, char const **argv)
 
 #if defined(G_OS_WIN32)
 	if (has_console) {
-		close(1);
-		close(2);
-		FreeConsole();
+		close (1);
+		close (2);
+		FreeConsole ();
 	}
 #endif
 
@@ -368,7 +368,7 @@ main (int argc, char const **argv)
 	if (gnm_debug_flag ("close-displays")) {
 		GSList *displays;
 
-		gdk_flush();
+		gdk_flush ();
 		while (g_main_context_iteration (NULL, FALSE))
 			;/* nothing */
 

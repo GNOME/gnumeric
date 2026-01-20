@@ -407,9 +407,9 @@ save_formats (void)
 		if (base-- > 0)
 			continue;
 
-		GO_SLIST_PREPEND (left, g_strdup(hf->left_format));
-		GO_SLIST_PREPEND (middle, g_strdup(hf->middle_format));
-		GO_SLIST_PREPEND (right, g_strdup(hf->right_format));
+		GO_SLIST_PREPEND (left, g_strdup (hf->left_format));
+		GO_SLIST_PREPEND (middle, g_strdup (hf->middle_format));
+		GO_SLIST_PREPEND (right, g_strdup (hf->right_format));
 	}
 	GO_SLIST_REVERSE(left);
 	gnm_conf_set_printsetup_hf_left (left);

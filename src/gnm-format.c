@@ -361,7 +361,7 @@ gnm_format_for_date_editing (GnmCell const *cell)
 char *
 gnm_format_frob_slashes (const char *fmt)
 {
-	const GString *df = go_locale_get_date_format();
+	const GString *df = go_locale_get_date_format ();
 	GString *res = g_string_new (NULL);
 	gunichar date_sep = '/';
 	const char *s;

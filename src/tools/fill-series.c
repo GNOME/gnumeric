@@ -274,10 +274,10 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 				GDateMonth    from_month, to_month;
 				gint months;
 
-				from_year = g_date_get_year(&from_date);
-				to_year = g_date_get_year(&to_date);
-				from_month = g_date_get_month(&from_date);
-				to_month = g_date_get_month(&to_date);
+				from_year = g_date_get_year (&from_date);
+				to_year = g_date_get_year (&to_date);
+				from_month = g_date_get_month (&from_date);
+				to_month = g_date_get_month (&to_date);
 				g_date_set_year (&to_date, from_year);
 
 				if (g_date_compare (&from_date, &to_date) > 0)
@@ -287,7 +287,7 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 					months = (to_year - from_year) * 12 +
 						(to_month - from_month) + 1;
 				length_of_series = months
-					/ (int)gnm_round(info->step_value);
+					/ (int)gnm_round (info->step_value);
 				if (length_of_series < 1)
 					length_of_series = 1;
 			}
@@ -297,15 +297,15 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 				GDateYear    from_year, to_year;
 				gint years;
 
-				from_year = g_date_get_year(&from_date);
-				to_year = g_date_get_year(&to_date);
+				from_year = g_date_get_year (&from_date);
+				to_year = g_date_get_year (&to_date);
 				g_date_set_year (&to_date, from_year);
 				if (g_date_compare (&from_date, &to_date) > 0)
 					years = to_year - from_year;
 				else
 					years = to_year - from_year + 1;
 				length_of_series = years
-					/ (int)gnm_round(info->step_value);
+					/ (int)gnm_round (info->step_value);
 				if (length_of_series < 1)
 					length_of_series = 1;
 			}
@@ -324,9 +324,9 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 				break;
 			case FillSeriesTypeGrowth:
 				info->step_value =
-					gnm_exp((gnm_log(info->stop_value
-							 /info->start_value))/
-						(length_of_space - 1));
+					gnm_exp ((gnm_log(info->stop_value
+							  /info->start_value))/
+						 (length_of_space - 1));
 				break;
 			}
 			info->is_step_set = TRUE;

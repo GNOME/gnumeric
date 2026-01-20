@@ -212,7 +212,7 @@ gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	  */
 
 	/* from CELL - limited usefulness! */
-	if (!g_ascii_strcasecmp(info_type, "address")) {
+	if (!g_ascii_strcasecmp (info_type, "address")) {
 		GnmParsePos pp;
 		GnmConventionsOut out;
 		out.accum = g_string_new (NULL);
@@ -221,11 +221,11 @@ gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		cellref_as_string (&out, ref, TRUE);
 		return value_new_string_nocopy (g_string_free (out.accum, FALSE));
 
-	} else if (!g_ascii_strcasecmp(info_type, "sheetname")) {
+	} else if (!g_ascii_strcasecmp (info_type, "sheetname")) {
 		return value_new_string (sheet->name_unquoted);
 
 	/* from later 123 versions - USEFUL! */
-	} else if (!g_ascii_strcasecmp(info_type, "coord")) {
+	} else if (!g_ascii_strcasecmp (info_type, "coord")) {
 		GnmParsePos pp;
 		GnmConventionsOut out;
 		out.accum = g_string_new (NULL);

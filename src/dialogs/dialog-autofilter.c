@@ -213,7 +213,7 @@ cb_top10_count_changed (GtkSpinButton *button,
 					   cval),
 				 cval);
 	gtk_button_set_label (GTK_BUTTON (w),label);
-	g_free(label);
+	g_free (label);
 
 	w = go_gtk_builder_get_widget (state->gui, type_group[1]);
 	/* xgettext : %d gives the number of items in the autofilter. */
@@ -223,7 +223,7 @@ cb_top10_count_changed (GtkSpinButton *button,
 					   cval),
 				 cval);
 	gtk_button_set_label (GTK_BUTTON (w),label);
-	g_free(label);
+	g_free (label);
 
 	if (val > 100)
 		val = 100;
@@ -236,7 +236,7 @@ cb_top10_count_changed (GtkSpinButton *button,
 			   "Show the items in the top %d%% of the data range", val),
 		 val);
 	gtk_button_set_label (GTK_BUTTON (w),label);
-	g_free(label);
+	g_free (label);
 
 	w = go_gtk_builder_get_widget (state->gui, type_group[3]);
 	/* xgettext : %d gives the percentage of the data range in the autofilter. */
@@ -246,7 +246,7 @@ cb_top10_count_changed (GtkSpinButton *button,
 			   "Show the items in the bottom %d%% of the data range", val),
 		 val);
 	gtk_button_set_label (GTK_BUTTON (w),label);
-	g_free(label);
+	g_free (label);
 
 
 	w = go_gtk_builder_get_widget (state->gui, type_group[4]);
@@ -257,7 +257,7 @@ cb_top10_count_changed (GtkSpinButton *button,
 			   "Show the top %d%% of all items", val),
 		 val);
 	gtk_button_set_label (GTK_BUTTON (w),label);
-	g_free(label);
+	g_free (label);
 
 	w = go_gtk_builder_get_widget (state->gui, type_group[5]);
 	/* xgettext : %d gives the percentage of the item number in the autofilter. */
@@ -267,7 +267,7 @@ cb_top10_count_changed (GtkSpinButton *button,
 			   "Show the bottom %d%% of all items", val),
 		 val);
 	gtk_button_set_label (GTK_BUTTON (w),label);
-	g_free(label);
+	g_free (label);
 }
 
 static void

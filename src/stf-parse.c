@@ -53,11 +53,11 @@
 #define SETUP_LOCALE_SWITCH char *oldlocale = NULL
 
 #define START_LOCALE_SWITCH if (parseoptions->locale) {\
-oldlocale = g_strdup(go_setlocale (LC_ALL, NULL)); \
-go_setlocale(LC_ALL, parseoptions->locale);}
+oldlocale = g_strdup (go_setlocale (LC_ALL, NULL)); \
+go_setlocale (LC_ALL, parseoptions->locale);}
 
 #define END_LOCALE_SWITCH if (oldlocale) {\
-go_setlocale(LC_ALL, oldlocale);\
+go_setlocale (LC_ALL, oldlocale);\
 g_free (oldlocale);}
 
 /* Source_t struct, used for interchanging parsing information between the low level parse functions */
@@ -868,7 +868,7 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 	src.position = data;
 	row = 0;
 
-	if ((data_end-data >= 3) && !strncmp(src.position, "\xEF\xBB\xBF", 3)) {
+	if ((data_end-data >= 3) && !strncmp (src.position, "\xEF\xBB\xBF", 3)) {
 		/* Skip over byte-order mark */
 		src.position += 3;
 	}

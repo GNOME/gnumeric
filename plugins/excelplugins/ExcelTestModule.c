@@ -91,7 +91,7 @@ static void destruct_xloper(XLOPER*x){
 	if (NULL!=x){
 		switch(x->xltype & xltypeType){
 		case xltypeNum:							break;
-		case xltypeStr:		g_free(x->val.str); x->val.str=0;	break;
+		case xltypeStr:		g_free (x->val.str); x->val.str=0;	break;
 		case xltypeBool:						break;
 		case xltypeRef:		unsupported_xloper_type(x);		break;
 		case xltypeErr:							break;
@@ -266,7 +266,7 @@ static void registerAllFunctions(void){
     }
     Excel4v(xlfRegister, &xlRet, j+1, excel4vArgs);
     for (j=0;j<29&&NULL!=registration_info[i][j];++j){
-      g_free(excel4vArgs[1+j]->val.str);
+      g_free (excel4vArgs[1+j]->val.str);
     }
   }
 }

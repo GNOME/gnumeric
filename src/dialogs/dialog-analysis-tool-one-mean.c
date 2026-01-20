@@ -226,7 +226,7 @@ dialog_one_mean_test_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (one_mean_test_tool_update_sensitivity_cb),
 			      0))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 

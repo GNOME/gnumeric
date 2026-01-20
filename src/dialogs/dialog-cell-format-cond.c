@@ -605,7 +605,7 @@ c_fmt_dialog_chooser_load_combo (CFormatState *state)
 						   1, cond_types[i].type,
 						   2, cond_types[i].n_expressions,
 						   -1);
-	cell = gtk_cell_renderer_text_new();
+	cell = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->editor.combo), cell, TRUE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->editor.combo), cell, "text", 0, NULL);
 	if (gtk_tree_model_get_iter_first
@@ -1172,7 +1172,7 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 	state->editor.expr_x = GTK_WIDGET (gnm_expr_entry_new (state->wbcg, TRUE));
 	gtk_grid_attach (grid, state->editor.expr_x, 1, 2, 2, 1);
 	gtk_widget_set_hexpand (state->editor.expr_x, TRUE);
-	gtk_widget_show(state->editor.expr_x);
+	gtk_widget_show (state->editor.expr_x);
 	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->editor.expr_x),
 				  GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_CONSTANT_ALLOWED,
@@ -1181,7 +1181,7 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 	state->editor.expr_y = GTK_WIDGET (gnm_expr_entry_new (state->wbcg, TRUE));
 	gtk_grid_attach (grid, state->editor.expr_y, 1, 3, 2, 1);
 	gtk_widget_set_hexpand (state->editor.expr_y, TRUE);
-	gtk_widget_show(state->editor.expr_y);
+	gtk_widget_show (state->editor.expr_y);
 	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->editor.expr_y),
 				  GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_CONSTANT_ALLOWED,

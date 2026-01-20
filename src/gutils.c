@@ -1220,7 +1220,7 @@ gnm_sscanf (const char *str, const char *fmt, ...)
 
 			default:
 				g_printerr ("Unhandled format character '%c'\n", fmt[-1]);
-				abort();
+				abort ();
 			}
 
 			res++;

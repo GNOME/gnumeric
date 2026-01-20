@@ -476,8 +476,8 @@ margin_preview_page_available_size (PrinterSetupState *state,
 		available_size->height = available_size->height + heights[i];
 	}
 
-	g_free(widths);
-	g_free(heights);
+	g_free (widths);
+	g_free (heights);
 
 	/* Account for the spacing between table cells */
 	available_size->width = available_size->width +
@@ -1593,7 +1593,7 @@ hf_attach_insert_date_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 	g_signal_connect
 		(G_OBJECT (item),
 		 "activate", G_CALLBACK (hf_insert_date_cb), hf_state);
-	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("YYYY/MM/DD"), g_free);
+	g_object_set_data_full (G_OBJECT (item), "options", g_strdup ("YYYY/MM/DD"), g_free);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 	gtk_menu_tool_button_set_menu (button, menu);
@@ -1631,7 +1631,7 @@ hf_attach_insert_time_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 	g_signal_connect
 		(G_OBJECT (item),
 		 "activate", G_CALLBACK (hf_insert_time_cb), hf_state);
-	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("HH:MM:SS"), g_free);
+	g_object_set_data_full (G_OBJECT (item), "options", g_strdup ("HH:MM:SS"), g_free);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 	gtk_menu_tool_button_set_menu (button, menu);
@@ -1654,21 +1654,21 @@ hf_attach_insert_cell_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 	g_signal_connect
 		(G_OBJECT (item),
 		 "activate", G_CALLBACK (hf_insert_cell_cb), hf_state);
-	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("A1"), g_free);
+	g_object_set_data_full (G_OBJECT (item), "options", g_strdup ("A1"), g_free);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 	item = gtk_menu_item_new_with_label (_("$A$1 (first cell of this worksheet)"));
 	g_signal_connect
 		(G_OBJECT (item),
 		 "activate", G_CALLBACK (hf_insert_cell_cb), hf_state);
-	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("$A$1"), g_free);
+	g_object_set_data_full (G_OBJECT (item), "options", g_strdup ("$A$1"), g_free);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 	item = gtk_menu_item_new_with_label (_("First Printed Cell Of The Page"));
 	g_signal_connect
 		(G_OBJECT (item),
 		 "activate", G_CALLBACK (hf_insert_cell_cb), hf_state);
-	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("rep|A1"), g_free);
+	g_object_set_data_full (G_OBJECT (item), "options", g_strdup ("rep|A1"), g_free);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 	gtk_menu_tool_button_set_menu (button, menu);
@@ -2091,13 +2091,13 @@ do_setup_hf (PrinterSetupState *state)
 	g_return_if_fail (state != NULL);
 
 	header = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "option-menu-header"));
-	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
+	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (header), renderer, TRUE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (header), renderer,
                                         "text", 0,
                                         NULL);
 	footer = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "option-menu-footer"));
-	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
+	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (footer), renderer, TRUE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (footer), renderer,
                                         "text", 0,
@@ -2191,7 +2191,7 @@ do_setup_error_display (PrinterSetupState *state)
 		if (display_types[i].type == state->pi->error_display)
 			item = i;
 	}
-	cell = gtk_cell_renderer_text_new();
+	cell = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->error_display.combo), cell, TRUE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->error_display.combo),
 				       cell, "text", 0, NULL);
@@ -2226,7 +2226,7 @@ do_setup_comment_display (PrinterSetupState *state)
 		if (display_types[i].type == state->pi->comment_placement)
 			item = i;
 	}
-	cell = gtk_cell_renderer_text_new();
+	cell = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->comment_display.combo), cell, TRUE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->comment_display.combo), cell, "text", 0, NULL);
 	if (gtk_tree_model_iter_nth_child

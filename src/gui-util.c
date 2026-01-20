@@ -880,7 +880,7 @@ entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float,
 
 	if (!need_default) {
 		char *new_text = g_strdup (text);
-		need_default = (0 ==  strlen (g_strstrip(new_text)));
+		need_default = (0 ==  strlen (g_strstrip (new_text)));
 		g_free (new_text);
 	}
 

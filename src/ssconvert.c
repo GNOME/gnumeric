@@ -786,10 +786,10 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
 	}
 }
 
-#define GET_ARG(conv_,name_,def_) (g_hash_table_lookup_extended(args,(name_),NULL,&arg) ? conv_((const char *)arg) : (def_))
-#define RANGE_ARG(s_) value_new_cellrange_str(sheet,(s_))
-#define RANGE_LIST_ARG(s_) g_slist_prepend (NULL, value_new_cellrange_str(sheet,(s_)))
-#define SHEET_ARG(s_) workbook_sheet_by_name(wb,(s_))
+#define GET_ARG(conv_,name_,def_) (g_hash_table_lookup_extended (args, (name_), NULL, &arg) ? conv_((const char *)arg) : (def_))
+#define RANGE_ARG(s_) value_new_cellrange_str (sheet, (s_))
+#define RANGE_LIST_ARG(s_) g_slist_prepend (NULL, value_new_cellrange_str (sheet, (s_)))
+#define SHEET_ARG(s_) workbook_sheet_by_name (wb, (s_))
 
 static void
 run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
@@ -1156,7 +1156,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 			if (*infile) {
 				GString *res = g_string_new (NULL);
 				g_string_append_len (res, infile, ext - infile);
-				g_string_append (res, go_file_saver_get_extension(fs));
+				g_string_append (res, go_file_saver_get_extension (fs));
 				outfile = g_string_free (res, FALSE);
 			}
 		}

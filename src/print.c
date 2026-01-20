@@ -454,7 +454,7 @@ print_hf_element (GtkPrintContext *context, cairo_t *cr,
 	pango_cairo_show_layout (cr, layout);
 
 	g_object_unref (layout);
-	g_free(text);
+	g_free (text);
 }
 
 /*
@@ -1113,7 +1113,7 @@ compute_pages (G_GNUC_UNUSED GtkPrintOperation *operation,
 			Sheet *sheet = workbook_sheet_by_index (wb, i);
 			if (sheet->print_info->do_not_print)
 				continue;
-			if (!sheet_is_visible(sheet))
+			if (!sheet_is_visible (sheet))
 				continue;
 			compute_sheet_pages_add_sheet (pi, sheet,
 						       FALSE, FALSE);
@@ -1136,7 +1136,7 @@ compute_pages (G_GNUC_UNUSED GtkPrintOperation *operation,
 		ct = 0;
 		for (i = 0; i < n; i++){
 			Sheet *sheet = workbook_sheet_by_index (wb, i);
-			if (sheet_is_visible(sheet))
+			if (sheet_is_visible (sheet))
 				ct++;
 			else
 				continue;
@@ -1464,7 +1464,7 @@ workbook_visible_sheet_count (Workbook *wb)
 
 	for (i = 0; i < n; i++) {
 		Sheet *sheet = workbook_sheet_by_index (wb, i);
-		if (sheet_is_visible(sheet))
+		if (sheet_is_visible (sheet))
 			count++;
 	}
 	return count;
@@ -1728,7 +1728,7 @@ gnm_print_uri_change_extension (char const *uri, GtkPrintSettings* settings)
 	gchar *used_ext;
 	gint strip;
 	gchar *res;
-	gint uri_len = strlen(uri);
+	gint uri_len = strlen (uri);
 
 	if (ext == NULL) {
 		ext = "pdf";

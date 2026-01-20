@@ -3435,7 +3435,7 @@ test_random (void)
 	mark_test_start (test_name);
 
 #define CHECK1(NAME,C) \
-	do { if (!single || strcmp(single,#NAME) == 0) test_random_ ## NAME (C); } while (0)
+	do { if (!single || strcmp (single,#NAME) == 0) test_random_ ## NAME (C); } while (0)
 
 	/* Continuous */
 	CHECK1 (rand, N);
@@ -3667,7 +3667,7 @@ test_dpq (void)
 	mark_test_start (test_name);
 
 #define CHECK1(NAME) \
-	do { if (!single || strcmp(single,#NAME) == 0) test_dpq_ ## NAME (); } while (0)
+	do { if (!single || strcmp (single,#NAME) == 0) test_dpq_ ## NAME (); } while (0)
 
 	// Discrete
 	CHECK1 (binom);

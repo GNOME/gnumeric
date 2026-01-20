@@ -50,10 +50,10 @@ gnm_cmd_context_error_splits_array (GOCmdContext *context,
 	GError *err;
 
 	if (array != NULL)
-		err = g_error_new (gnm_error_array(), 1,
+		err = g_error_new (gnm_error_array (), 1,
 			_("Would split array %s"), range_as_string (array));
 	else
-		err = g_error_new (gnm_error_array(), 0,
+		err = g_error_new (gnm_error_array (), 0,
 			_("Would split an array"));
 	go_cmd_context_error (context, err);
 	g_error_free (err);
@@ -64,7 +64,7 @@ gnm_cmd_context_error_splits_merge (GOCmdContext *context,
 				    GnmRange const *merge)
 {
 	GError *err =
-		g_error_new (gnm_error_array(), 1,
+		g_error_new (gnm_error_array (), 1,
 			     _("Would split merge %s"),
 			     range_as_string (merge));
 	go_cmd_context_error (context, err);

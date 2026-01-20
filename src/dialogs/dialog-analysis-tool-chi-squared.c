@@ -220,7 +220,7 @@ dialog_chi_square_tool (WBCGtk *wbcg, Sheet *sheet, gboolean independence)
 			      G_CALLBACK (chi_squared_tool_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
 	{
-		g_free(state);
+		g_free (state);
 		return 0;
 	}
 

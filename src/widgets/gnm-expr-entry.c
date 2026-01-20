@@ -776,7 +776,7 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 	char *text = NULL;
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (gee->entry));
-	gtk_widget_add_events(toplevel, GDK_FOCUS_CHANGE_MASK);
+	gtk_widget_add_events (toplevel, GDK_FOCUS_CHANGE_MASK);
 	if (gee->tooltip.handlerid == 0)
 		gee->tooltip.handlerid = g_signal_connect
 			(G_OBJECT (toplevel), "focus-out-event",
@@ -1806,7 +1806,7 @@ gee_prepare_range (GnmExprEntry const *gee, GnmRangeRef *dst)
 		GnmRange r;
 		GnmRange const *merge;
 		Sheet *start_sheet, *end_sheet;
-		gnm_rangeref_normalize(dst,
+		gnm_rangeref_normalize (dst,
 			eval_pos_init_pos (&ep, gee->sheet, &gee->pp.eval),
 			&start_sheet, &end_sheet,
 			&r);

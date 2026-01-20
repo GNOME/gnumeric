@@ -184,7 +184,7 @@ make_gnm_help (const char *name, int count, SV **SP)
 				if (helptmp[k].type != GNM_FUNC_HELP_END &&
 				    helptmp[k].text)
 					help[i++] = helptmp[k];
-			g_free(helptmp);
+			g_free (helptmp);
 		}
 		help[m].type = GNM_FUNC_HELP_END;
 		help[m].text = NULL;

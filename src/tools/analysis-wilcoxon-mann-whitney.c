@@ -257,7 +257,7 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 			(fd_sqrt,
 			 gnm_expr_new_binary
 			 (gnm_expr_new_binary
-			  (gnm_expr_copy(expr_prod),
+			  (gnm_expr_copy (expr_prod),
 			   GNM_EXPR_OP_MULT,
 			   gnm_expr_new_binary
 			   (gnm_expr_new_binary

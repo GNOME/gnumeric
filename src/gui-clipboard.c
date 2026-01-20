@@ -388,7 +388,7 @@ utf8_content_received (GtkClipboard *clipboard, const gchar *text,
 	if (!text || *text == 0) {
 		;
 	} else {
-		content = text_to_cell_region (wbcg, text, strlen(text), "UTF-8", TRUE);
+		content = text_to_cell_region (wbcg, text, strlen (text), "UTF-8", TRUE);
 	}
 	if (content) {
 		/*

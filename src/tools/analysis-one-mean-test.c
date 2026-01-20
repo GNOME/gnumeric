@@ -88,7 +88,7 @@ analysis_tool_one_mean_test_engine_run (data_analysis_output_t *dao,
 		analysis_tools_write_label (val_org, dao, &info->base, col, 0, col);
 		expr_org = gnm_expr_new_constant (val_org);
 		expr_range_clean = gnm_expr_new_funcall2
-			(fd_iferror, gnm_expr_copy (expr_org), gnm_expr_new_constant (value_new_string("")));
+			(fd_iferror, gnm_expr_copy (expr_org), gnm_expr_new_constant (value_new_string ("")));
 
 		if (first) {
 			dao_set_cell_float (dao, col, 3, info->mean);

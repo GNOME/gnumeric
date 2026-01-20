@@ -1572,11 +1572,11 @@ sheet_object_key_pressed (G_GNUC_UNUSED GtkWidget *w, GdkEventKey *event, SheetC
 	case GDK_KEY_Page_Up:
 		if ((event->state & GDK_CONTROL_MASK) != 0){
 			if ((event->state & GDK_SHIFT_MASK) != 0){
-				WorkbookSheetState * old_state = workbook_sheet_state_new(wb);
+				WorkbookSheetState * old_state = workbook_sheet_state_new (wb);
 				int old_pos = sheet->index_in_wb;
 
 				if (old_pos > 0){
-					workbook_sheet_move(sheet, -1);
+					workbook_sheet_move (sheet, -1);
 					cmd_reorganize_sheets (wbc, old_state, sheet);
 				}
 			} else {
@@ -1590,12 +1590,12 @@ sheet_object_key_pressed (G_GNUC_UNUSED GtkWidget *w, GdkEventKey *event, SheetC
 
 		if ((event->state & GDK_CONTROL_MASK) != 0){
 			if ((event->state & GDK_SHIFT_MASK) != 0){
-				WorkbookSheetState * old_state = workbook_sheet_state_new(wb);
-				int num_sheets = workbook_sheet_count(wb);
+				WorkbookSheetState * old_state = workbook_sheet_state_new (wb);
+				int num_sheets = workbook_sheet_count (wb);
 				gint old_pos = sheet->index_in_wb;
 
 				if (old_pos < num_sheets - 1){
-					workbook_sheet_move(sheet, 1);
+					workbook_sheet_move (sheet, 1);
 					cmd_reorganize_sheets (wbc, old_state, sheet);
 				}
 			} else {
@@ -4165,7 +4165,7 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 		gchar *mime = go_get_mime_type (uri_str);
 		/* Note that we have imperfect detection of mime-type with some
 		 * platforms, e.g. Win32. In the worst case if
-		 * go_get_mime_type() doesn't return "application/x-gnumeric"
+		 * go_get_mime_type () doesn't return "application/x-gnumeric"
 		 * (registry corruption?) it will give "text/plain" and a
 		 * spreadsheet file is assumed. */
 		if (!mime)
@@ -4289,7 +4289,7 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 	}
 }
 
-/*  Keep in sync with gtk_selection_data_targets_include_text() */
+/*  Keep in sync with gtk_selection_data_targets_include_text */
 static gboolean
 is_text_target (gchar *target_type)
 {

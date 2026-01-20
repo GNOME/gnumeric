@@ -216,8 +216,8 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GPtrArray *col_styles,
 	*extent = sheet_get_extent (sheet, FALSE, TRUE);
 
 	range_init (&r, 0, 0,
-		    MAX (maxcols, gnm_sheet_get_max_cols(sheet)) - 1,
-		    MAX (maxrows, gnm_sheet_get_max_rows(sheet)) - 1);
+		    MAX (maxcols, gnm_sheet_get_max_cols (sheet)) - 1,
+		    MAX (maxrows, gnm_sheet_get_max_rows (sheet)) - 1);
 	sheet_style_get_nondefault_extent (sheet, extent, &r, col_styles);
 
 	if (extent->end.col >= maxcols) {
@@ -2936,7 +2936,7 @@ gather_styles (ExcelWriteState *ewb)
 	for (i = 0; i < ewb->esheets->len; i++) {
 		ExcelWriteSheet *esheet = g_ptr_array_index (ewb->esheets, i);
 		Sheet *sheet = esheet->gnum_sheet;
-		int col, cols = MIN (XLS_MaxCol, gnm_sheet_get_max_cols(sheet));
+		int col, cols = MIN (XLS_MaxCol, gnm_sheet_get_max_cols (sheet));
 		GPtrArray *cells = sheet_cells (sheet, NULL);
 		g_ptr_array_foreach (cells,
 				     (GFunc)cb_cell_pre_pass,

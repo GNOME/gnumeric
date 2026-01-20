@@ -189,8 +189,8 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 						 gnm_expr_new_funcall3
 						 (fd_index,
 						  gnm_expr_copy (expr_input),
-						  gnm_expr_new_constant(value_new_int(y)),
-						  gnm_expr_new_constant(value_new_int(x))));
+						  gnm_expr_new_constant (value_new_int (y)),
+						  gnm_expr_new_constant (value_new_int (x))));
 			F = gnm_expr_new_binary (gnm_expr_new_binary (gnm_expr_new_constant
 								      (value_new_int (1)),
 								      GNM_EXPR_OP_SUB,
@@ -373,8 +373,8 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 						 gnm_expr_new_funcall3
 						 (fd_index,
 						  gnm_expr_copy (expr_input),
-						  gnm_expr_new_constant(value_new_int(y)),
-						  gnm_expr_new_constant(value_new_int(x))));
+						  gnm_expr_new_constant (value_new_int (y)),
+						  gnm_expr_new_constant (value_new_int (x))));
 			F = gnm_expr_new_binary (gnm_expr_new_binary (gnm_expr_new_constant
 								      (value_new_int (1)),
 								      GNM_EXPR_OP_SUB,
@@ -576,8 +576,8 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 							 gnm_expr_new_funcall3
 							 (fd_index,
 							  gnm_expr_copy (expr_input),
-							  gnm_expr_new_constant(value_new_int(y)),
-							  gnm_expr_new_constant(value_new_int(x))));
+							  gnm_expr_new_constant (value_new_int (y)),
+							  gnm_expr_new_constant (value_new_int (x))));
 				LB = gnm_expr_new_binary (gnm_expr_new_binary (gnm_expr_new_constant
 									       (value_new_int (1)),
 									       GNM_EXPR_OP_SUB,
@@ -631,9 +631,9 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 								    (gnm_expr_new_funcall2
 								     (fd_sumxmy2,
 								      expr_offset,
-								      gnm_expr_new_binary(make_rangeref (-2, 1 - row, -2, -1),
-											  GNM_EXPR_OP_ADD,
-											  make_rangeref (-1, 1 - row, -1, -1))),
+								      gnm_expr_new_binary (make_rangeref (-2, 1 - row, -2, -1),
+											   GNM_EXPR_OP_ADD,
+											   make_rangeref (-1, 1 - row, -1, -1))),
 								     GNM_EXPR_OP_DIV,
 								     gnm_expr_new_constant (value_new_int
 											    (row - 1 - info->df)))));

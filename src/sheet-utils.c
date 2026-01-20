@@ -72,14 +72,14 @@ gnm_sheet_guess_region (Sheet *sheet, GnmRange *region)
 	region->start.col = col;
 
 	for (col = region->end.col; col >= region->start.col; col--)
-		if (sheet_cell_or_one_below_is_not_empty(sheet, col, region->start.row))
+		if (sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row))
 			break;
 	region->end.col = col;
 
 	/* now find length of longest column */
 	for (col = region->start.col; col <= region->end.col; col++) {
 		offset = 0;
-		if (sheet_is_cell_empty(sheet, col, region->start.row))
+		if (sheet_is_cell_empty (sheet, col, region->start.row))
 			offset = 1;
 		end_row = sheet_find_boundary_vertical (sheet, col,
 			region->start.row + offset, col, 1, TRUE);

@@ -2713,27 +2713,27 @@ works_format_string (guint8 arg)
 	type = arg & 0xf;
 	prec = (arg >> 5) & 7;
 
-	str = g_string_new(NULL);
+	str = g_string_new (NULL);
 
 	switch (type) {
 		case 0: /* fixed */
 		case 2: /* currency */
-			g_string_append(str,"0");
-			append_precision(str,prec);
+			g_string_append (str,"0");
+			append_precision (str, prec);
 			break;
 		case 1: /* exp */
-			g_string_append(str,"0");
-			append_precision(str,prec);
-			g_string_append(str,"E+00");
+			g_string_append (str,"0");
+			append_precision (str, prec);
+			g_string_append (str,"E+00");
 			break;
 		case 3: /* percent */
-			g_string_append(str,"0");
-			append_precision(str,prec);
-			g_string_append(str,"%");
+			g_string_append (str,"0");
+			append_precision (str, prec);
+			g_string_append (str,"%");
 			break;
 		case 4: /* thousands */
-			g_string_append(str,"# ##0");
-			append_precision(str,prec);
+			g_string_append (str,"# ##0");
+			append_precision (str, prec);
 			break;
 		case 5:
 
@@ -2745,38 +2745,38 @@ works_format_string (guint8 arg)
 				case 3:
 				case 4:
 				case 5:
-					g_string_append(str,works_time_fmts[prec-2]);
+					g_string_append (str, works_time_fmts[prec-2]);
 					break;
 			};
 			break;
 		case 6:
-			g_string_append(str,works_data_fmts[prec]);
+			g_string_append (str, works_data_fmts[prec]);
 			break;
 		case 10: /* fixed */
-			g_string_append_len(str,"000000000",prec+1);
+			g_string_append_len (str,"000000000",prec+1);
 			break;
 		case 11: /* fraction (no ...) */
 		case 12: /* fraction */
 			if (type == 11) {
 				if (prec == 0) {
-					g_string_append(str,"# ?/2");
+					g_string_append (str,"# ?/2");
 					break;
 				} else if (prec == 1) {
-					g_string_append(str,"# ?/3");
+					g_string_append (str,"# ?/3");
 					break;
 				}
 			}
-			g_string_append(str,works_frac_fmts[prec]);
+			g_string_append (str, works_frac_fmts[prec]);
 			break;
 		case 13: /* currency + red */
 		case 14: /* thousands + red */
-			g_string_append(str,"# ##0");
-			append_precision(str,prec);
-			g_string_append(str,";[Red]-# ##0"); /* l10n??? */
-			append_precision(str,prec);
+			g_string_append (str,"# ##0");
+			append_precision (str, prec);
+			g_string_append (str,";[Red]-# ##0"); /* l10n??? */
+			append_precision (str, prec);
 			break;
 	}
-	return g_string_free(str, FALSE);
+	return g_string_free (str, FALSE);
 }
 
 static GnmValue *
@@ -2906,7 +2906,7 @@ lotus_read_works (LotusState *state, record_t *r)
 			break;
 		}
 		case LOTUS_BLANK: CHECK_RECORD_SIZE (>= 6) {
-			GnmValue *v = value_new_empty();
+			GnmValue *v = value_new_empty ();
 			int col = GSF_LE_GET_GUINT16 (r->data + 0);
 			int row = GSF_LE_GET_GUINT16 (r->data + 2);
 			int fmt = GSF_LE_GET_GUINT16 (r->data + 4);
@@ -2953,16 +2953,16 @@ lotus_read_works (LotusState *state, record_t *r)
 		}
 
 		case WORKS_FONT: CHECK_RECORD_SIZE (>= 38) {
-			WksFontEntry *font = wks_font_new();
+			WksFontEntry *font = wks_font_new ();
 			int codepage;
 			int fid = fontidx++;
 			int l;
 			font->variant = GSF_LE_GET_GUINT16(r->data + 0);
 			l = strlen (r->data + 2);
 			if (l > 34) l = 34;
-			font->typeface = g_malloc(l + 1);
+			font->typeface = g_malloc (l + 1);
 			/* verify UTF-8? */
-			memcpy(font->typeface, r->data + 2, l);
+			memcpy (font->typeface, r->data + 2, l);
 			font->typeface[l] = 0;
 			font->size = r->data[36];
 
@@ -2997,7 +2997,7 @@ lotus_read_works (LotusState *state, record_t *r)
 
 			style = gnm_style_new ();
 
-			font = g_hash_table_lookup(state->fonts,GUINT_TO_POINTER ((guint)fontid));
+			font = g_hash_table_lookup (state->fonts,GUINT_TO_POINTER ((guint)fontid));
 
 			if (font) {
 				facebits = font->variant;
@@ -3018,7 +3018,7 @@ lotus_read_works (LotusState *state, record_t *r)
 				}
 
 				if (font->typeface)
-					gnm_style_set_font_name(style, font->typeface);
+					gnm_style_set_font_name (style, font->typeface);
 
 				g_hash_table_insert (state->works_style_font,
 						     GUINT_TO_POINTER((guint)styleid),
@@ -3056,16 +3056,16 @@ lotus_read_works (LotusState *state, record_t *r)
 					tmp = GNM_VALIGN_TOP;
 					break;
 			}
-			gnm_style_set_align_v(style, tmp);
+			gnm_style_set_align_v (style, tmp);
 
 			if (align & 0x20) {
-				gnm_style_set_wrap_text(style, TRUE);
+				gnm_style_set_wrap_text (style, TRUE);
 			}
 
-			fmt = works_format_string(r->data[0]);
+			fmt = works_format_string (r->data[0]);
 			if (fmt) {
-				if (*fmt) gnm_style_set_format_text(style, fmt);
-				g_free(fmt);
+				if (*fmt) gnm_style_set_format_text (style, fmt);
+				g_free (fmt);
 			}
 
 #ifdef DEBUG_STYLE

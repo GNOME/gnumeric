@@ -5192,7 +5192,7 @@ sheet_clear_region_cb (GnmSheetRange *sr, int *flags)
  **/
 GOUndo *sheet_clear_region_undo (GnmSheetRange *sr, int clear_flags)
 {
-	int *flags = g_new(int, 1);
+	int *flags = g_new (int, 1);
 	*flags = clear_flags;
 	return go_undo_binary_new
 		(sr, (gpointer)flags,
