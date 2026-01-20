@@ -170,10 +170,10 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 			pagedata->format.col_import_count++;
 			format_page_update_column_selection (pagedata);
 		} else {
-			char *msg = g_strdup_printf(
-				ngettext("A maximum of %d column can be imported.",
-					 "A maximum of %d columns can be imported.",
-					 GNM_MAX_COLS),
+			char *msg = g_strdup_printf (
+				ngettext ("A maximum of %d column can be imported.",
+					  "A maximum of %d columns can be imported.",
+					  GNM_MAX_COLS),
 				GNM_MAX_COLS);
 			gtk_toggle_button_set_active (togglebutton, FALSE);
 			go_gtk_notice_dialog (GTK_WINDOW (pagedata->dialog),

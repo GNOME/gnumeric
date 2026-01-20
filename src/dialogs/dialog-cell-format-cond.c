@@ -606,8 +606,8 @@ c_fmt_dialog_chooser_load_combo (CFormatState *state)
 						   2, cond_types[i].n_expressions,
 						   -1);
 	cell = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->editor.combo), cell, TRUE);
-	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->editor.combo), cell, "text", 0, NULL);
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->editor.combo), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->editor.combo), cell, "text", 0, NULL);
 	if (gtk_tree_model_get_iter_first
 	    (GTK_TREE_MODEL (state->editor.typestore), &iter))
 		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->editor.combo), &iter);
@@ -1273,7 +1273,7 @@ c_fmt_dialog_init_conditions_page (CFormatState *state)
 			      (GnmSelectionFunc)cb_c_format_dialog_range,
 			      str);
 	g_string_truncate (str, str->len -2);
-	gtk_label_set_text(hl, str->str);
+	gtk_label_set_text (hl, str->str);
 	g_string_free (str, TRUE);
 
 	g_signal_connect (G_OBJECT (state->selection), "changed",

@@ -265,7 +265,7 @@ gnm_value_to_py_obj (const GnmEvalPos *eval_pos, const GnmValue *val)
 		break;
 	}
 	case VALUE_ERROR:
-		g_warning ("gnm_value_to_py_obj(): unsupported value type");
+		g_warning ("gnm_value_to_py_obj: unsupported value type");
 	case VALUE_EMPTY:
 		Py_INCREF (Py_None);
 		py_val = Py_None;

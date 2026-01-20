@@ -1319,7 +1319,7 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 	 * PRIMARY */
 	ret = gtk_clipboard_set_with_owner (
 		gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD),
-		&g_array_index(targets,GtkTargetEntry,0), targets->len,
+		&g_array_index (targets,GtkTargetEntry,0), targets->len,
 		x_clipboard_get_cb,
 		x_clipboard_clear_cb,
 		app);
@@ -1331,7 +1331,7 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 			for (ui = 0; ui < targets->len; ui++) {
 				g_printerr ("%s%s",
 					    (ui ? ", " : ""),
-					    g_array_index(targets,GtkTargetEntry,ui).target);
+					    g_array_index (targets,GtkTargetEntry,ui).target);
 			}
 			g_printerr ("\n");
 		}
@@ -1345,7 +1345,7 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 		(void)gtk_clipboard_set_with_owner (
 			gtk_clipboard_get_for_display (display,
 						       GDK_SELECTION_PRIMARY),
-			&g_array_index(targets,GtkTargetEntry,0), targets->len,
+			&g_array_index (targets,GtkTargetEntry,0), targets->len,
 			x_clipboard_get_cb,
 			NULL,
 			app);

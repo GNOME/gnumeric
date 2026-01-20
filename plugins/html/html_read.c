@@ -251,7 +251,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 
 			html_read_content (ptr, buf, mstyle, a_buf,
 					   &hrefs, TRUE, doc, tc);
-			html_rtrim(buf);
+			html_rtrim (buf);
 
 			if (g_slist_length (hrefs) >= 1 &&
 			    buf->len > 0) {
@@ -465,8 +465,8 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 	htmlNodePtr ptr;
 
 	if (cur == NULL) {
-		xmlGenericError(xmlGenericErrorContext,
-				"htmlNodeDumpFormatOutput : node == NULL\n");
+		xmlGenericError (xmlGenericErrorContext,
+				 "htmlNodeDumpFormatOutput : node == NULL\n");
 		return;
 	}
 

@@ -258,7 +258,7 @@ parse_subexpr (const psiconv_formula psi_formula)
 	psiconv_formula psi_form1,psi_form2;
 	GnmExpr const *expr1=NULL,*expr2=NULL;
 
-	switch(psi_formula->type) {
+	switch (psi_formula->type) {
 		/* Translates values */
 		case psiconv_formula_dat_float:
 		case psiconv_formula_dat_int:
@@ -314,7 +314,7 @@ parse_subexpr (const psiconv_formula psi_formula)
 	} else if (kind == 0) {
 		/* Handling data */
 		GnmValue *v = NULL;
-		switch(psi_formula->type) {
+		switch (psi_formula->type) {
 		case psiconv_formula_dat_float:
 			v = value_new_float (psi_formula->data.dat_float);
 			break;
@@ -367,7 +367,7 @@ parse_subexpr (const psiconv_formula psi_formula)
 				return NULL;
 			}
 		}
-		switch(psi_formula->type) {
+		switch (psi_formula->type) {
 		case psiconv_formula_op_lt:
 			return gnm_expr_new_binary (expr1, GNM_EXPR_OP_LT, expr2);
 		case psiconv_formula_op_le:
@@ -393,12 +393,12 @@ parse_subexpr (const psiconv_formula psi_formula)
 		case psiconv_formula_op_neg:
 			return gnm_expr_new_unary (GNM_EXPR_OP_UNARY_NEG, expr1);
 		default:
-			gnm_expr_free(expr1);
-			gnm_expr_free(expr2);
+			gnm_expr_free (expr1);
+			gnm_expr_free (expr2);
 			return NULL;
 		}
 	} else if (kind == 3) {
-		switch(psi_formula->type) {
+		switch (psi_formula->type) {
 		case psiconv_formula_dat_cellref: {
 			GnmCellRef cr;
 			return gnm_expr_new_cellref (p_cellref_init (&cr,
@@ -412,7 +412,7 @@ parse_subexpr (const psiconv_formula psi_formula)
 			if (!(psi_form1 = psiconv_list_get
 			                  (psi_formula->data.fun_operands,0)))
 				return NULL;
-			return parse_subexpr(psi_form1);
+			return parse_subexpr (psi_form1);
 		default:
 			break;
 		}
@@ -481,9 +481,9 @@ add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
 }
 
 static void
-add_cells(Sheet *sheet, const psiconv_sheet_cell_list psi_cells,
-          const psiconv_formula_list psi_formulas,
-          const GnmStyle *default_style)
+add_cells (Sheet *sheet, const psiconv_sheet_cell_list psi_cells,
+	   const psiconv_formula_list psi_formulas,
+	   const GnmStyle *default_style)
 {
 	psiconv_u32 i;
 	psiconv_sheet_cell psi_cell;
@@ -492,7 +492,7 @@ add_cells(Sheet *sheet, const psiconv_sheet_cell_list psi_cells,
 	for (i = 0; i < psiconv_list_length (psi_cells); i++) {
 		/* If psiconv_list_get fails, something is very wrong... */
 		if ((psi_cell = psiconv_list_get(psi_cells,i)))
-			add_cell(sheet, psi_cell, psi_formulas, default_style);
+			add_cell (sheet, psi_cell, psi_formulas, default_style);
 	}
 }
 
@@ -551,7 +551,7 @@ add_worksheet (Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 		g_object_unref (sheet);
 		return;
 	}
-	set_layout (default_style,psi_worksheet->default_layout);
+	set_layout (default_style, psi_worksheet->default_layout);
 
 	/* TODO: Add show_zeros */
 	grid = psi_worksheet->grid;
@@ -565,7 +565,7 @@ add_worksheet (Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 		if (grid->column_heights)
 			set_col_widths (sheet, grid->column_heights);
 	}
-	add_cells(sheet, psi_worksheet->cells, psi_formulas, default_style);
+	add_cells (sheet, psi_worksheet->cells, psi_formulas, default_style);
 
 	/* TODO: What about the NULL? */
 	sheet_flag_recompute_spans (sheet);
@@ -647,7 +647,7 @@ psiconv_read (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 
 	if ((buf = psiconv_stream_to_buffer (input, -1)) == NULL) {
 		go_io_error_info_set (io_context,
-		                            go_error_info_new_str(_("Error while reading psiconv file.")));
+		                            go_error_info_new_str (_("Error while reading psiconv file.")));
 		goto out;
 	}
 
@@ -658,7 +658,7 @@ psiconv_read (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 	if (psiconv_parse (config, buf, &psi_file) != 0) {
 		psi_file = NULL;
 		go_io_error_info_set (io_context,
-		                            go_error_info_new_str(_("Error while parsing Psion file.")));
+		                            go_error_info_new_str (_("Error while parsing Psion file.")));
 		goto out;
 	}
 
@@ -666,7 +666,7 @@ psiconv_read (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 		add_sheetfile (wb, psi_file->file);
 	else
 		go_io_error_info_set (io_context,
-				      go_error_info_new_str(_("This Psion file is not a Sheet file.")));
+				      go_error_info_new_str (_("This Psion file is not a Sheet file.")));
 
 
 out:

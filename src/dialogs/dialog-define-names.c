@@ -223,9 +223,9 @@ cb_name_guru_search (GtkTreeModel *model,
 		gchar *name_n, *name_cf, *text_n, *text_cf;
 
 		text_n = g_utf8_normalize (text, -1, G_NORMALIZE_ALL);
-		text_cf = g_utf8_casefold(text_n, -1);
+		text_cf = g_utf8_casefold (text_n, -1);
 		name_n = g_utf8_normalize (name, -1, G_NORMALIZE_ALL);
-		name_cf = g_utf8_casefold(name_n, -1);
+		name_cf = g_utf8_casefold (name_n, -1);
 		visible = (NULL != g_strstr_len (name_cf, -1, text_cf));
 		g_free (text_n);
 		g_free (text_cf);

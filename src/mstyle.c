@@ -107,16 +107,16 @@ struct _GnmStyle {
 	GPtrArray		*cond_styles;
 };
 
-static inline void elem_changed(GnmStyle *style, GnmStyleElement elem) {
+static inline void elem_changed (GnmStyle *style, GnmStyleElement elem) {
 	style->changed |= (1u << elem);
 }
-static inline void elem_set(GnmStyle *style, GnmStyleElement elem) {
+static inline void elem_set (GnmStyle *style, GnmStyleElement elem) {
 	style->set |= (1u << elem);
 }
-static inline void elem_unset(GnmStyle *style, GnmStyleElement elem) {
+static inline void elem_unset (GnmStyle *style, GnmStyleElement elem) {
 	style->set &= ~(1u << elem);
 }
-static inline gboolean elem_is_set(GnmStyle const *style, GnmStyleElement elem) {
+static inline gboolean elem_is_set (GnmStyle const *style, GnmStyleElement elem) {
 	return (style->set & (1u << elem)) != 0;
 }
 

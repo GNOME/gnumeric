@@ -1729,7 +1729,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 				has_comments = (objs != NULL);
 				g_slist_free (objs);
 			}
-			if((count++ > 1) && has_comments && has_links)
+			if (count++ > 1 && has_comments && has_links)
 				break;
 		}
 		wbc_gtk_set_action_sensitivity

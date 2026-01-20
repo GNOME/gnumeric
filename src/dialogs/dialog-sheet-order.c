@@ -435,7 +435,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 	GdkRGBA *fore, *back;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 	GList *selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
-	gboolean multiple = gtk_tree_model_iter_n_children(GTK_TREE_MODEL (state->model), NULL) > 1;
+	gboolean multiple = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (state->model), NULL) > 1;
 	int cnt_sel = g_list_length (selected_rows);
 	gboolean single_sel = (cnt_sel < 2);
 
@@ -1515,7 +1515,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	create_sheet_list (state);
 	populate_sheet_list (state);
 
-#define CONNECT(o,s,c) g_signal_connect(G_OBJECT(o),s,G_CALLBACK(c),state)
+#define CONNECT(o,s,c) g_signal_connect (G_OBJECT(o),s,G_CALLBACK(c),state)
 	CONNECT (state->up_btn, "clicked", cb_up);
 	CONNECT (state->down_btn, "clicked", cb_down);
 	CONNECT (state->sort_asc_btn, "clicked", cb_asc);

@@ -3687,7 +3687,7 @@ sheet_widget_list_base_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 static GtkWidget *
 sheet_widget_list_base_create_widget (G_GNUC_UNUSED SheetObjectWidget *sow)
 {
-	g_warning("ERROR: sheet_widget_list_base_create_widget SHOULD NEVER BE CALLED (but it has been)!\n");
+	g_warning ("ERROR: sheet_widget_list_base_create_widget SHOULD NEVER BE CALLED (but it has been)!\n");
 	return gtk_frame_new ("invisiwidget(WARNING: I AM A BUG!)");
 }
 

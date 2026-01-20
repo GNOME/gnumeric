@@ -276,7 +276,7 @@ dif_parse_sheet (DifInputContext *ctxt)
 		go_io_error_info_set (ctxt->io_context, go_error_info_new_printf (
 		_("Unexpected end of file at line %d while reading header."),
 		ctxt->line_no));
-	} else if (!dif_parse_data(ctxt)) {
+	} else if (!dif_parse_data (ctxt)) {
 		go_io_error_info_set (ctxt->io_context, go_error_info_new_printf (
 		_("Unexpected end of file at line %d while reading data."),
 		ctxt->line_no));
@@ -339,17 +339,17 @@ dif_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		for (col = r.start.col; col <= r.end.col; col++) {
 			GnmCell *cell = sheet_cell_get (sheet, col, row);
 			if (gnm_cell_is_empty (cell)) {
-				gsf_output_puts(out, "1,0\n" "\"\"\n");
+				gsf_output_puts (out, "1,0\n" "\"\"\n");
 			} else if (VALUE_IS_BOOLEAN (cell->value)) {
 				if (value_get_as_checked_bool (cell->value))
-					gsf_output_puts(out, "0,1\n" "TRUE\n");
+					gsf_output_puts (out, "0,1\n" "TRUE\n");
 				else
-					gsf_output_puts(out, "0,0\n" "FALSE\n");
+					gsf_output_puts (out, "0,0\n" "FALSE\n");
 			} else if (VALUE_IS_ERROR (cell->value)) {
 				if (value_error_classify (cell->value) == GNM_ERROR_NA)
-					gsf_output_puts(out, "0,0\n" "NA\n");
+					gsf_output_puts (out, "0,0\n" "NA\n");
 				else
-					gsf_output_puts(out, "0,0\n" "ERROR\n");
+					gsf_output_puts (out, "0,0\n" "ERROR\n");
 			} else if (VALUE_IS_FLOAT (cell->value))
 				gsf_output_printf (out, "0,%" GNM_FORMAT_g "\n" "V\n",
 					value_get_as_float (cell->value));

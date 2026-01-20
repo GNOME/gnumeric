@@ -1454,7 +1454,7 @@ static GnmFuncHelp const help_column[] = {
 				 "returns #VALUE!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=COLUMN(A1:C4)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=COLUMN(A:C)" },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("column() in G13 equals 7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("COLUMN() in G13 equals 7.") },
 	{ GNM_FUNC_HELP_SEEALSO, "COLUMNS,ROW,ROWS" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1678,7 +1678,7 @@ gnumeric_sheets (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	Workbook const *wb = ei->pos->sheet->workbook;
 	GnmValue const *v = args[0];
 
-	if(v) {
+	if (v) {
 		if (VALUE_IS_CELLRANGE (v)) {
 			GnmRangeRef const *r = &v->v_range.cell;
 			int ans_min, ans_max, a, b;
@@ -1719,7 +1719,7 @@ gnumeric_sheet (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	GnmValue const *v = args[0];
 	int n;
 
-	if(v) {
+	if (v) {
 		if (VALUE_IS_CELLRANGE (v)) {
 			GnmRangeRef const *r = &v->v_range.cell;
 			int a, b;

@@ -458,7 +458,7 @@ applix_get_color (ApplixReadState *state, char **buf)
 	}
 
 	if (num >= 0 && num < (int)state->colors->len)
-		return style_color_ref (g_ptr_array_index(state->colors, num));
+		return style_color_ref (g_ptr_array_index (state->colors, num));
 
 	return style_color_black ();
 }
@@ -1220,7 +1220,7 @@ applix_read_cells (ApplixReadState *state)
 				 * rest of the sheet can be parsed. If we quit, then trailing
 				 * 'Formula ' lines confuse the parser
 				 */
-				(void) parse_error_init(&perr);
+				(void) parse_error_init (&perr);
 				if (*expr_string != '=' && *expr_string != '+') {
 					applix_parse_error (state, _("Expression did not start with '=' ? '%s'"),
 								   expr_string);
@@ -1332,7 +1332,7 @@ applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
 			return applix_parse_error (state, "Invalid row format end col");
 		attr_index = au_strtol (ptr = tmp+1, &tmp);
 		if (tmp != ptr && attr_index >= 2 && attr_index < state->attrs->len+2) {
-			GnmStyle *style = g_ptr_array_index(state->attrs, attr_index-2);
+			GnmStyle *style = g_ptr_array_index (state->attrs, attr_index-2);
 			gnm_style_ref (style);
 			sheet_style_set_range (sheet, &r, style);
 		} else if (attr_index != 1) /* TODO : What the hell is attr 1 ?? */
@@ -1726,11 +1726,11 @@ applix_read (GOIOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	g_ptr_array_free (state.colors, TRUE);
 
 	for (i = state.attrs->len; --i >= 0 ; )
-		gnm_style_unref (g_ptr_array_index(state.attrs, i));
+		gnm_style_unref (g_ptr_array_index (state.attrs, i));
 	g_ptr_array_free (state.attrs, TRUE);
 
 	for (i = state.font_names->len; --i >= 0 ; )
-		g_free (g_ptr_array_index(state.font_names, i));
+		g_free (g_ptr_array_index (state.font_names, i));
 	g_ptr_array_free (state.font_names, TRUE);
 
 	if (state.parse_error != NULL)

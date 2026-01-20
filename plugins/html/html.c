@@ -96,7 +96,7 @@ html_print_encoded (GsfOutput *output, char const *str)
 				break;
 			case '\r':
 				gsf_output_puts (output, "<br>\r");
-				if( *(str+1) == '\n' ) {
+				if (*(str+1) == '\n') {
 					gsf_output_puts (output, "\n");
 					str++;
 				}

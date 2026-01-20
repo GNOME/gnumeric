@@ -1331,7 +1331,7 @@ cb_dialog_doc_metadata_add_clicked (G_GNUC_UNUSED GtkWidget *w,
 	const gchar *value = gtk_entry_get_text (state->ppt_value);
 	gchar *name_trimmed = trim_string (name);
 	GType t = G_TYPE_INVALID; /* we need to initialize that one since
-								gtk_tree_model_get() will only set the low bytes */
+								gtk_tree_model_get will only set the low bytes */
 	GtkTreeIter filter_iter;
 
 	if (gtk_combo_box_get_active_iter (state->ppt_type, &filter_iter)) {
@@ -1828,8 +1828,8 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 	/* Intialize Combo Box */
 	/* gtk_combo_box_set_id_column (state->ppt_type, 0); */
 	cell = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->ppt_type), cell, TRUE);
-	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->ppt_type), cell, "text", 0, NULL);
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->ppt_type), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->ppt_type), cell, "text", 0, NULL);
 
 	for (i = 0; i < G_N_ELEMENTS (ppt_types); i++)
 		gtk_list_store_insert_with_values (state->type_store, NULL, G_MAXINT,

@@ -52,7 +52,7 @@ xlsx_read_core_keys (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		count ++;
 		strs++;
 	}
-	g_strfreev(orig_strs);
+	g_strfreev (orig_strs);
 
 	if (count > 0) {
 		GValue *val = g_new0 (GValue, 1);

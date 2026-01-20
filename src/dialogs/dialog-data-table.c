@@ -142,7 +142,7 @@ dialog_data_table (WBCGtk *wbcg)
 	if (NULL == r)
 		return;
 	if (range_width	(r) <= 1 || range_height (r) <= 1) {
-		GError *msg = g_error_new (go_error_invalid(), 0,
+		GError *msg = g_error_new (go_error_invalid (), 0,
 			_("The selection must have more than 1 column and row to create a Data Table."));
 		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), msg);
 		g_error_free (msg);

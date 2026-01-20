@@ -84,7 +84,7 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 			       "least 5 and at most 5000.");
 		break;
 	default:
-		g_assert_not_reached();
+		g_assert_not_reached ();
 	}
 
 	fd = gnm_func_lookup_or_add_placeholder	(fdname);

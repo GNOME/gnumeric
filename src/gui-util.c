@@ -505,7 +505,7 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEvent *event)
 	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0,
 			(event
 			 ? gdk_event_get_time (event)
-			 : gtk_get_current_event_time()));
+			 : gtk_get_current_event_time ()));
 }
 
 static void
@@ -968,7 +968,7 @@ float_to_entry (GtkEntry *entry, gnm_float the_float)
 {
 	GnmValue *val = value_new_float (the_float);
 	char *text = format_value (NULL, val, 16, NULL);
-	value_release(val);
+	value_release (val);
 	if (text != NULL) {
 		gtk_entry_set_text (entry, text);
 		g_free (text);
@@ -987,7 +987,7 @@ int_to_entry (GtkEntry *entry, gint the_int)
 {
 	GnmValue *val  = value_new_int (the_int);
 	char *text = format_value (NULL, val, 16, NULL);
-	value_release(val);
+	value_release (val);
 	if (text != NULL) {
 		gtk_entry_set_text (entry, text);
 		g_free (text);

@@ -672,7 +672,7 @@ parse_list_last_n (GnmExprList **list, gint n)
 {
 	GnmExprList *l = NULL;
 	while (n-->0)
-		l = gnm_expr_list_prepend (l, parse_list_pop(list));
+		l = gnm_expr_list_prepend (l, parse_list_pop (list));
 	return l;
 }
 
@@ -681,7 +681,7 @@ static void
 parse_list_free (GnmExprList **list)
 {
 	while (*list)
-		gnm_expr_free (parse_list_pop(list));
+		gnm_expr_free (parse_list_pop (list));
 }
 
 static gboolean
@@ -761,12 +761,12 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		}
 
 		if (fd->flags & XL_UNKNOWN)
-			g_warning("This sheet uses an Excel function "
-				  "('%s') for which we do \n"
-				  "not have adequate documentation.  "
-				  "Please forward a copy (if possible) to\n"
-				  "gnumeric-list@gnome.org.  Thanks",
-				  fd->name);
+			g_warning ("This sheet uses an Excel function "
+				   "('%s') for which we do \n"
+				   "not have adequate documentation.  "
+				   "Please forward a copy (if possible) to\n"
+				   "gnumeric-list@gnome.org.  Thanks",
+				   fd->name);
 
 		args = parse_list_last_n (stack, numargs);
 		if (fd->name) {

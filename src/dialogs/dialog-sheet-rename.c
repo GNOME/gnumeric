@@ -80,7 +80,7 @@ gtk_entry_set_size_all_text_visible (GtkEntry *entry)
 	gint min_width;
 	gint actual_width;
 
-	/* Logic borrowed from GtkEntry::gtk_entry_measure() */
+	/* Logic borrowed from GtkEntry::gtk_entry_measure */
 	context = gtk_widget_get_pango_context (GTK_WIDGET (entry));
 	metrics = pango_context_get_metrics (context,
 					     pango_context_get_font_description (context),

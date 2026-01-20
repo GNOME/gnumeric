@@ -2010,7 +2010,7 @@ test_random_randsnorm (int N)
 	gnm_float *vals;
 	gboolean ok;
 	gnm_float alpha = 5;
-	gnm_float delta = alpha/gnm_sqrt(1+alpha*alpha);
+	gnm_float delta = alpha / gnm_sqrt (1+alpha*alpha);
 	gnm_float mean_target = delta * gnm_sqrt (2/M_PIgnum);
 	gnm_float var_target = 1-mean_target*mean_target;
 	char *expr;
@@ -3500,10 +3500,10 @@ almost_eq (gnm_float a, gnm_float b, gnm_float tol)
 }
 
 #define BARF(what) do { \
-	g_printerr("Trouble in %s: %s\n", dist->str, what);	\
-	g_printerr("  x=%.12" GNM_FORMAT_g "\n", x);\
-	g_printerr("  prev_d=%.12" GNM_FORMAT_g ", prev_p=%.12" GNM_FORMAT_g "\n", prev_d, prev_p); \
-	g_printerr("  d=%.12" GNM_FORMAT_g ", p=%.12" GNM_FORMAT_g "\n", d, p); \
+	g_printerr ("Trouble in %s: %s\n", dist->str, what);	\
+	g_printerr ("  x=%.12" GNM_FORMAT_g "\n", x);\
+	g_printerr ("  prev_d=%.12" GNM_FORMAT_g ", prev_p=%.12" GNM_FORMAT_g "\n", prev_d, prev_p); \
+	g_printerr ("  d=%.12" GNM_FORMAT_g ", p=%.12" GNM_FORMAT_g "\n", d, p); \
 } while (0)
 
 #define CHECK_DPQ_DISCRETE() do {					\
@@ -3515,7 +3515,7 @@ almost_eq (gnm_float a, gnm_float b, gnm_float tol)
 		BARF("p not increasing to 1");				\
 	if (!almost_eq (prev_p + d, p, tol))				\
 		BARF("p does not cummulate");				\
-} while(0)
+} while (0)
 
 static void
 test_dpq_binom (void)

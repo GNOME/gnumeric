@@ -338,7 +338,7 @@ sc_parse_set (ScParseState *state, char const *cmd, char const *str,
 	if (options != NULL)
 		for (tmp = options; *tmp != NULL; tmp++)
 			sc_parse_set_handle_option (state, *tmp);
-	g_strfreev(options);
+	g_strfreev (options);
 
 	/* Most of these settings are not applicable to Gnumeric */
 	return TRUE;
@@ -410,7 +410,7 @@ sc_parse_format_get_precision (ScParseState *state, int col)
 {
 	if (state->precision != NULL &&
 	    col < (int)state->precision->len) {
-		return (g_array_index(state->precision, int, col) - 1 );
+		return (g_array_index (state->precision, int, col) - 1 );
 	} else return -1;
 }
 
@@ -427,7 +427,7 @@ sc_parse_format_save_precision (ScParseState *state, int precision,
 		state->precision = g_array_set_size (state->precision, col_to + 1);
 
 	for (col = col_from; col <= col_to; col++)
-		g_array_index(state->precision, int, col) = precision + 1;
+		g_array_index (state->precision, int, col) = precision + 1;
 }
 
 static char *
@@ -464,7 +464,7 @@ static void
 sc_parse_format_set_type (ScParseState *state, int type, int col_from, int col_to)
 {
 	char const *o_format = type >= 0 && (size_t)type < state->formats->len
-		? g_ptr_array_index(state->formats, type)
+		? g_ptr_array_index (state->formats, type)
 		: NULL;
 	int col;
 
@@ -518,7 +518,7 @@ sc_parse_format (ScParseState *state, char const *cmd, char const *str,
 	while (*s == ' ')
 		s++;
 
-	d = sscanf(s, "%i %i %i", &len, &precision, &format_type);
+	d = sscanf (s, "%i %i %i", &len, &precision, &format_type);
 
 	if (d != 3)
 		goto cannotparse;

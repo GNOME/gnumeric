@@ -313,7 +313,7 @@ build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFl
 				? col_row_name (sheet, this_end, index, state->header, TRUE)
 				: col_row_name (sheet, index, this_end, state->header, FALSE);
 
-			str = g_strdup_printf(_("%s to %s"), str_start, str_end);
+			str = g_strdup_printf (_("%s to %s"), str_start, str_end);
 			g_free (str_start);
 			g_free (str_end);
 
@@ -500,7 +500,7 @@ cb_dialog_ok_clicked (SortFlowState *state)
 	text = gnm_expr_entry_get_text (state->range_entry);
 	gnm_sheet_add_sort_setup
 		(data->sheet,
-		 g_strdup((text != NULL && text[0] != '\0') ? text : "Other"),
+		 g_strdup ((text != NULL && text[0] != '\0') ? text : "Other"),
 		 data_copy);
 
 	cmd_sort (GNM_WBC (state->wbcg), data);

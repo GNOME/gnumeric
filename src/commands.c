@@ -138,7 +138,7 @@ gnm_command_finalize (GObject *obj)
 	g_free ((gchar *)cmd->cmd_descriptor);
 	cmd->cmd_descriptor = NULL;
 
-	parent = g_type_class_peek (g_type_parent(G_TYPE_FROM_INSTANCE (obj)));
+	parent = g_type_class_peek (g_type_parent (G_TYPE_FROM_INSTANCE (obj)));
 	(*parent->finalize) (obj);
 }
 
@@ -154,8 +154,8 @@ gnm_cmd_trunc_descriptor (GString *src, gboolean *truncated)
 	if (max_len < 5)
 		max_len = 5;
 
-	while ((pos = strchr(src->str, '\n')) != NULL ||
-	       (pos = strchr(src->str, '\r')) != NULL)
+	while ((pos = strchr (src->str, '\n')) != NULL ||
+	       (pos = strchr (src->str, '\r')) != NULL)
 		*pos = ' ';
 
 	len = g_utf8_strlen (src->str, -1);
@@ -2038,13 +2038,13 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 				: g_strdup_printf (_("Autofitting rows %s"), list->str);
 		else if (new_size >  0)
 			text = is_cols
-				? g_strdup_printf (ngettext("Setting width of columns %s to %d pixel",
-							"Setting width of columns %s to %d pixels",
-							new_size),
+				? g_strdup_printf (ngettext ("Setting width of columns %s to %d pixel",
+							     "Setting width of columns %s to %d pixels",
+							     new_size),
 						   list->str, new_size)
-				: g_strdup_printf (ngettext("Setting height of rows %s to %d pixel",
-							"Setting height of rows %s to %d pixels",
-							new_size),
+				: g_strdup_printf (ngettext ("Setting height of rows %s to %d pixel",
+							     "Setting height of rows %s to %d pixels",
+							     new_size),
 						   list->str, new_size);
 		else text = is_cols
 			     ? g_strdup_printf (
@@ -2871,7 +2871,7 @@ warn_if_date_trouble (WorkbookControl *wbc, GnmCellRegion *cr)
 	/* We would like to show a warning, but it seems we cannot via a context.  */
 	{
 		GError *err;
-		err = g_error_new (go_error_invalid(), 0,
+		err = g_error_new (go_error_invalid (), 0,
 				   _("Copying between files with different date conventions.\n"
 				     "It is possible that some dates could be copied\n"
 				     "incorrectly."));
@@ -4653,7 +4653,7 @@ cmd_objects_delete_undo (GnmCommand *cmd,
 
 	for (l = me->objects, i = 0; l; l = l->next, i++)
 		cmd_objects_restore_location (GNM_SO (l->data),
-					      g_array_index(me->location,
+					      g_array_index (me->location,
 							    gint, i));
 	return FALSE;
 }
@@ -4854,7 +4854,7 @@ cmd_rename_sheet (WorkbookControl *wbc,
 
 	collision = workbook_sheet_by_name (sheet->workbook, new_name);
 	if (collision && collision != sheet) {
-		GError *err = g_error_new (go_error_invalid(), 0,
+		GError *err = g_error_new (go_error_invalid (), 0,
 					   _("A workbook cannot have two sheets with the same name."));
 		go_cmd_context_error (GO_CMD_CONTEXT (wbc), err);
 		g_error_free (err);
@@ -6611,7 +6611,7 @@ MAKE_GNM_COMMAND (CmdGoalSeek, cmd_goal_seek, NULL)
 static gboolean
 cmd_goal_seek_impl (GnmCell *cell, GnmValue *value)
 {
-	sheet_cell_set_value (cell, value_dup(value));
+	sheet_cell_set_value (cell, value_dup (value));
 	return FALSE;
 }
 

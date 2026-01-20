@@ -258,12 +258,12 @@ query_connection_info (const gchar *dsn, const gchar *user, const gchar *passwor
 	gboolean    retval = FALSE;
 
 	/* FIXME: pass a pointer to parent window */
-	dialog = gtk_dialog_new_with_buttons(_("Database Connection"),
-					     NULL,
-					     GTK_DIALOG_MODAL,
-					     GNM_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					     GNM_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-					     NULL);
+	dialog = gtk_dialog_new_with_buttons (_("Database Connection"),
+					      NULL,
+					      GTK_DIALOG_MODAL,
+					      GNM_STOCK_OK, GTK_RESPONSE_ACCEPT,
+					      GNM_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+					      NULL);
 
 	login = gdaui_login_new (NULL);
 
@@ -360,7 +360,7 @@ static GnmValue *
 conn_error (GnmFuncEvalInfo *ei, const gchar *dsn_name)
 {
 	gchar    *tmp = g_strdup_printf (_("Error: could not open connection to %s"), dsn_name);
-	GnmValue *ret = value_new_error(ei->pos, tmp);
+	GnmValue *ret = value_new_error (ei->pos, tmp);
 	g_free (tmp);
 	return ret;
 }

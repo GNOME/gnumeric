@@ -149,17 +149,17 @@ cb_dialog_function_select_search_all (GtkTreeModel *model,
 		gchar *name_n, *name_cf, *text_n, *text_cf;
 
 		text_n = g_utf8_normalize (specs->text, -1, G_NORMALIZE_ALL);
-		text_cf = g_utf8_casefold(text_n, -1);
+		text_cf = g_utf8_casefold (text_n, -1);
 
 		name_n = g_utf8_normalize (name, -1, G_NORMALIZE_ALL);
-		name_cf = g_utf8_casefold(name_n, -1);
+		name_cf = g_utf8_casefold (name_n, -1);
 		visible = (NULL != g_strstr_len (name_cf, -1, text_cf));
 		g_free (name_n);
 		g_free (name_cf);
 
 		if (!visible) {
 			name_n = g_utf8_normalize (desc, -1, G_NORMALIZE_ALL);
-			name_cf = g_utf8_casefold(name_n, -1);
+			name_cf = g_utf8_casefold (name_n, -1);
 			visible = (NULL != g_strstr_len (name_cf, -1, text_cf));
 			g_free (name_n);
 			g_free (name_cf);
@@ -231,10 +231,10 @@ dialog_function_select_cat_changed (G_GNUC_UNUSED GtkComboBox *widget,
 /*************************************************************************/
 
 static gboolean
-cb_dialog_function_load_recent_funcs(GtkTreeModel *model,
-				     G_GNUC_UNUSED GtkTreePath *path,
-				     GtkTreeIter *iter,
-				     gpointer data)
+cb_dialog_function_load_recent_funcs (GtkTreeModel *model,
+				      G_GNUC_UNUSED GtkTreePath *path,
+				      GtkTreeIter *iter,
+				      gpointer data)
 {
 	gpointer this;
 
@@ -650,7 +650,7 @@ make_expr_example (Sheet *sheet, const char *text,
 
 	if (consider_format &&
 	    g_ascii_strncasecmp (text, "TEXT(", 5) == 0 &&
-	    text[strlen(text) - 1] == ')') {
+	    text[strlen (text) - 1] == ')') {
 		char *p;
 		tmp_text = g_strdup (text + 5);
 		p = tmp_text + strlen (tmp_text) - 1;
@@ -715,7 +715,7 @@ make_expr_example (Sheet *sheet, const char *text,
 	gint min, max; \
 	gnm_func_count_args (func, &min, &max);\
 		if (max == G_MAXINT) {	\
-			ADD_BOLD_TEXT(UNICODE_ELLIPSIS, strlen(UNICODE_ELLIPSIS)); \
+			ADD_BOLD_TEXT(UNICODE_ELLIPSIS, strlen (UNICODE_ELLIPSIS)); \
 			ADD_LTEXT("\n",1);				\
 			args_finished = TRUE;				\
 		}							\
@@ -1011,7 +1011,7 @@ cb_description_clicked (GtkTextBuffer *textbuffer,
 	cb_dialog_function_select_idle_handler_t *data;
 
 	if ((mark == NULL) || ((mark_name = gtk_text_mark_get_name (mark)) == NULL)
-	    || (strcmp(mark_name, "selection_bound") != 0))
+	    || (strcmp (mark_name, "selection_bound") != 0))
 		return;
 
 	link = gtk_text_tag_table_lookup

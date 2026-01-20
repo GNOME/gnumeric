@@ -887,7 +887,7 @@ dialog_sheet_compare (WBCGtk *wbcg)
 
 	select_default_sheets (state);
 
-#define CONNECT(o,s,c) g_signal_connect(G_OBJECT(o),s,G_CALLBACK(c),state)
+#define CONNECT(o,s,c) g_signal_connect (G_OBJECT (o), s, G_CALLBACK (c), state)
 	CONNECT (state->cancel_btn, "clicked", cb_cancel_clicked);
 	CONNECT (state->compare_btn, "clicked", cb_compare_clicked);
 	CONNECT (state->results_view, "cursor-changed", cb_cursor_changed);

@@ -6504,8 +6504,8 @@ oo_set_gnm_border  (G_GNUC_UNUSED GsfXMLIn *xin, GnmStyle *style,
 
 	old_border = gnm_style_get_border (style, location);
 	new_border = gnm_style_border_fetch (border_style,
-					     old_border ?
-					     style_color_ref(old_border->color)
+					     old_border
+					     ? style_color_ref (old_border->color)
 					     : style_color_black (),
 					     gnm_style_border_get_orientation (loc));
 	gnm_style_set_border (style, location, new_border);

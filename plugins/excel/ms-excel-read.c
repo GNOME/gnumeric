@@ -472,7 +472,7 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 }
 
 static void
-excel_fill_bmp_header(guint8 *bmphdr, guint8 *data, guint32 len)
+excel_fill_bmp_header (guint8 *bmphdr, guint8 *data, guint32 len)
 {
 	guint bpp;
 	guint offset;
@@ -659,9 +659,9 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 								    attr->v.v_uint - 1);
 			if (blip != NULL) {
 			        if (blip->type && !strcmp (blip->type, "dib")) {
-					guint8 *data = g_malloc(blip->data_len + BMP_HDR_SIZE);
+					guint8 *data = g_malloc (blip->data_len + BMP_HDR_SIZE);
 					if (data) {
-						excel_fill_bmp_header(data, blip->data, blip->data_len);
+						excel_fill_bmp_header (data, blip->data, blip->data_len);
 						memcpy(data + BMP_HDR_SIZE, blip->data, blip->data_len);
 						sheet_object_image_set_image (GNM_SO_IMAGE (so),
 									      blip->type, data, blip->data_len + BMP_HDR_SIZE);
@@ -2539,18 +2539,18 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 		if (xf->pat_foregnd_col >= 24)
 			xf->pat_foregnd_col += 40; /* Defaults */
 		xf->fill_pattern_idx =
-			excel_map_pattern_index_from_excel(data & 0x001f);
+			excel_map_pattern_index_from_excel (data & 0x001f);
 
 		data = GSF_LE_GET_GUINT8 (q->data + 10);
-		xf->border_type[STYLE_BOTTOM] = biff_xf_map_border(data & 0x07);
+		xf->border_type[STYLE_BOTTOM] = biff_xf_map_border (data & 0x07);
 		subdata = data >> 3;
 		xf->border_color[STYLE_BOTTOM] = (subdata==24) ? 64 : subdata;
 		data = GSF_LE_GET_GUINT8 (q->data + 8);
-		xf->border_type[STYLE_TOP] = biff_xf_map_border(data & 0x07);
+		xf->border_type[STYLE_TOP] = biff_xf_map_border (data & 0x07);
 		subdata = data >> 3;
 		xf->border_color[STYLE_TOP] = (subdata==24) ? 64 : subdata;
 		data = GSF_LE_GET_GUINT8 (q->data + 9);
-		xf->border_type[STYLE_LEFT] = biff_xf_map_border(data & 0x07);
+		xf->border_type[STYLE_LEFT] = biff_xf_map_border (data & 0x07);
 		subdata = data >> 3;
 		xf->border_color[STYLE_LEFT] = (subdata==24) ? 64 : subdata;
 		data = GSF_LE_GET_GUINT8 (q->data + 11);
@@ -4456,7 +4456,7 @@ excel_read_os2bmp (BiffQuery *q, guint32 image_len)
 	loader = gdk_pixbuf_loader_new_with_type ("bmp", &err);
 	if (!loader)
 		return NULL;
-	excel_fill_bmp_header(bmphdr, q->data, image_len);
+	excel_fill_bmp_header (bmphdr, q->data, image_len);
 	ret = gdk_pixbuf_loader_write (loader, bmphdr, sizeof bmphdr, &err);
 	if (ret)
 		ret = gdk_pixbuf_loader_write (loader, q->data+8,
@@ -6245,7 +6245,7 @@ excel_read_EXTERNSHEET_v8 (BiffQuery const *q, GnmXLImporter *importer)
 		d (2, g_printerr ("ExternSheet: sup = %hd First sheet 0x%x, Last sheet 0x%x\n",
 				  sup_index, first, last););
 
-		v8 = &g_array_index(importer->v8.externsheet, ExcelExternSheetV8, i);
+		v8 = &g_array_index (importer->v8.externsheet, ExcelExternSheetV8, i);
 		v8->supbook = sup_index;
 		v8->first = supbook_get_sheet (importer, sup_index, first);
 		v8->last  = supbook_get_sheet (importer, sup_index, last);
@@ -6377,7 +6377,7 @@ excel_read_FILEPASS (BiffQuery *q, GnmXLImporter *importer)
 {
 	/* files with workbook protection are encrypted using a
 	 * static password (why ?? ). */
-	if (ms_biff_query_set_decrypt(q, importer->ver, "VelvetSweatshop"))
+	if (ms_biff_query_set_decrypt (q, importer->ver, "VelvetSweatshop"))
 		return NULL;
 
 	while (TRUE) {

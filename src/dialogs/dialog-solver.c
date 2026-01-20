@@ -1016,7 +1016,7 @@ dialog_solver_init (SolverState *state)
 
 	for (i = 0; model_type_group[i]; i++) {
 		const char *bname = model_type_group[i];
-		GtkWidget *w = go_gtk_builder_get_widget(state->gui, bname);
+		GtkWidget *w = go_gtk_builder_get_widget (state->gui, bname);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 					      param->options.model_type ==
 					      (GnmSolverModelType)i);
@@ -1163,16 +1163,16 @@ dialog_solver_init (SolverState *state)
 	}
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		go_gtk_builder_get_widget(state->gui, "max_button")),
+		go_gtk_builder_get_widget (state->gui, "max_button")),
 			param->problem_type == GNM_SOLVER_MAXIMIZE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		go_gtk_builder_get_widget(state->gui, "min_button")),
+		go_gtk_builder_get_widget (state->gui, "min_button")),
 			param->problem_type == GNM_SOLVER_MINIMIZE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		go_gtk_builder_get_widget(state->gui, "no_scenario")),
+		go_gtk_builder_get_widget (state->gui, "no_scenario")),
 			! param->options.add_scenario);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		go_gtk_builder_get_widget(state->gui, "optimal_scenario")),
+		go_gtk_builder_get_widget (state->gui, "optimal_scenario")),
 			param->options.add_scenario);
 
 	state->scenario_name_entry = go_gtk_builder_get_widget

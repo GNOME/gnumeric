@@ -200,7 +200,7 @@ cb_top10_count_changed (GtkSpinButton *button,
 	gchar *label;
 	int cval = val, count;
 
-	count = range_height(&(state->filter->r)) - 1;
+	count = range_height (&(state->filter->r)) - 1;
 
 	if (cval > count)
 		cval = count;
@@ -285,7 +285,7 @@ cb_top10_type_changed (G_GNUC_UNUSED GtkToggleButton *button,
 	} else {
 		gtk_spin_button_set_range
 			(GTK_SPIN_BUTTON (spin), 1.,
-			 range_height(&(state->filter->r)) - 1);
+			 range_height (&(state->filter->r)) - 1);
 		gtk_label_set_text (GTK_LABEL (label), _("Count:"));
 	}
 }
@@ -534,7 +534,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), cond->count);
 	else
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
-				   range_height(&(state->filter->r))/2);
+				   range_height (&(state->filter->r)) / 2);
 	cb_top10_count_changed (GTK_SPIN_BUTTON (w), state);
 	cb_top10_type_changed (NULL, state);
 

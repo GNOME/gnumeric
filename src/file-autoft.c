@@ -200,7 +200,7 @@ add_dir (GSList **pl, const char *dir, const char *base_dir)
  *
  * Returns: (element-type GnmFTCategoryGroup) (transfer full):
  * the list of #GnmFTCategoryGroup which should be freed using
- * gnm_ft_category_group_list_free().
+ * gnm_ft_category_group_list_free.
  **/
 GList *
 gnm_ft_category_group_list_get (void)

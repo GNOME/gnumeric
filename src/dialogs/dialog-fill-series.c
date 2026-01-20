@@ -218,8 +218,8 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 		}
 		if (cell_start && cell_end) {
 			float_to_entry (GTK_ENTRY(state->step_entry),
-					(value_get_as_float(cell_end->value) -
-					 value_get_as_float(cell_start->value))
+					(value_get_as_float (cell_end->value) -
+					 value_get_as_float (cell_start->value))
 					/ (prefer_rows ?
 					   (sel->end.col-sel->start.col) :
 					   (sel->end.row-sel->start.row)));

@@ -97,7 +97,7 @@ walk_resource_path (const char *path, int level, int size)
 			GdkPixbuf *pixbuf = gdk_pixbuf_new_from_resource (subpath, NULL);
 			if (pixbuf && size > 0 && strchr (child, '.')) {
 				char *iconname = g_strdup (child);
-				strchr(iconname, '.')[0] = 0;
+				strchr (iconname, '.')[0] = 0;
 				if (gnm_debug_flag ("icons"))
 					g_printerr ("Defining icon %s at size %d\n", iconname, size);
 				gtk_icon_theme_add_builtin_icon (iconname,
@@ -180,7 +180,7 @@ cb_gnm_option_group_post_parse (GOptionContext *context,
  *
  * Returns: a #GOptionGroup for the commandline arguments recognized
  * by libspreadsheet. You should add this group to your #GOptionContext with
- * g_option_context_add_group(), if you are using g_option_context_parse() to
+ * g_option_context_add_group, if you are using g_option_context_parse to
  * parse your commandline arguments.
  *
  * Since: 1.8

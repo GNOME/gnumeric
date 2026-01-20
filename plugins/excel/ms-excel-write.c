@@ -139,9 +139,9 @@ static guint
 go_color_to_bgr (GOColor const c)
 {
 	guint32 abgr;
-	abgr  = GO_COLOR_UINT_R(c);
-	abgr |= GO_COLOR_UINT_G(c) << 8;
-	abgr |= GO_COLOR_UINT_B(c) << 16;
+	abgr  = GO_COLOR_UINT_R (c);
+	abgr |= GO_COLOR_UINT_G (c) << 8;
+	abgr |= GO_COLOR_UINT_B (c) << 16;
 	return abgr;
 }
 
@@ -222,24 +222,24 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GPtrArray *col_styles,
 
 	if (extent->end.col >= maxcols) {
 		go_io_warning (io_context,
-			ngettext("Some content will be lost when saving.  "
-				 "This format only supports %u column, and "
-				 "this workbook has %d",
-				 "Some content will be lost when saving.  "
-				 "This format only supports %u columns, "
-				 "and this workbook has %d",
-				 maxcols),
+			       ngettext ("Some content will be lost when saving.  "
+					 "This format only supports %u column, and "
+					 "this workbook has %d",
+					 "Some content will be lost when saving.  "
+					 "This format only supports %u columns, "
+					 "and this workbook has %d",
+					 maxcols),
 			  maxcols, extent->end.col);
 		extent->end.col = maxcols - 1;
 	}
 	if (extent->end.row >= maxrows) {
 		go_io_warning (io_context,
-			ngettext("Some content will be lost when saving.  "
-				 "This format only supports %u row, and "
-				 "this workbook has %d",
-				 "Some content will be lost when saving.  "
-				 "This format only supports %u rows, "
-				 "and this workbook has %d",
+			ngettext ("Some content will be lost when saving.  "
+				  "This format only supports %u row, and "
+				  "this workbook has %d",
+				  "Some content will be lost when saving.  "
+				  "This format only supports %u rows, "
+				  "and this workbook has %d",
 				 maxrows),
 			maxrows, extent->end.row);
 		extent->end.row = maxrows - 1;
@@ -943,7 +943,7 @@ write_border (ExcelWriteSheet const *esheet,
 	GnmBorder *b;
 
 	if (!gnm_style_is_element_set (s, elem) ||
-	    NULL == (b = gnm_style_get_border(s, elem)))
+	    NULL == (b = gnm_style_get_border (s, elem)))
 		return TRUE;
 
 	d[pat_offset / 32] |=
@@ -6218,7 +6218,7 @@ excel_write_vector_blip (ExcelWriteState *ewb, BlipInf *blip, const BlipType *bt
 		GSF_LE_SET_GUINT16 (buf + 2, 0xf018 + bt->type);
 		GSF_LE_SET_GUINT32 (buf + 4,
 				    blip->bytes.len + VECTOR_BLIP_HDR_LEN - 8);
-		memcpy(buf + 8, blip->id, sizeof blip->id);
+		memcpy (buf + 8, blip->id, sizeof blip->id);
 		/* buf + 24: uncompressed length */
 		GSF_LE_SET_GUINT32 (buf +  24, blip->uncomp_len);
 		/* buf + 28: metafile bounds (rectangle) */
@@ -6259,7 +6259,7 @@ excel_write_raster_blip (ExcelWriteState *ewb, BlipInf *blip, const BlipType *bt
 		GSF_LE_SET_GUINT16 (buf + 2, 0xf018 + bt->type);
 		GSF_LE_SET_GUINT32 (buf + 4,
 				    blip->bytes.len + BLIP_ID_LEN + 1);
-		memcpy(buf + 8, blip->id, sizeof blip->id);
+		memcpy (buf + 8, blip->id, sizeof blip->id);
 		GSF_LE_SET_GUINT8 (buf + 24, 0xff);
 		ms_biff_put_var_write (bp, buf, sizeof buf);
 
@@ -6320,8 +6320,8 @@ excel_write_blip (ExcelWriteState *ewb, BlipInf *blip)
 		GSF_LE_SET_GUINT8  (buf +  9, mac_type);
 
 		/* id (checksum) */
-		mdfour(blip->id, blip->bytes.data, blip->bytes.len);
-		memcpy(buf + 10, blip->id, sizeof blip->id);
+		mdfour (blip->id, blip->bytes.data, blip->bytes.len);
+		memcpy (buf + 10, blip->id, sizeof blip->id);
 		/* size */
 		GSF_LE_SET_GUINT32  (buf +  28,
 				     blip->bytes.len + blip->header_len - 44);

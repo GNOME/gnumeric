@@ -2181,7 +2181,7 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->base.range_2 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
-	y_h = regression_tool_calc_height(data->base.range_2);
+	y_h = regression_tool_calc_height (data->base.range_2);
 
 	data->group_by = (y_h == 1) ? GROUPED_BY_ROW : GROUPED_BY_COL;
 
@@ -2259,7 +2259,7 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		return;
 	}
 
-	y_h = regression_tool_calc_height(input_range_2);
+	y_h = regression_tool_calc_height (input_range_2);
 	y_w = regression_tool_calc_width (input_range_2);
 	value_release (input_range_2);
 
@@ -2299,7 +2299,7 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		return;
 	}
 
-	x_h = regression_tool_calc_height(input_range);
+	x_h = regression_tool_calc_height (input_range);
 	x_w = regression_tool_calc_width (input_range);
 	value_release (input_range);
 
@@ -3233,7 +3233,7 @@ histogram_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			return;
 		}
 		value_release (input_range_2);
-	} else if (entry_to_int(state->n_entry, &the_n,FALSE) != 0 || the_n <= 0) {
+	} else if (entry_to_int (state->n_entry, &the_n,FALSE) != 0 || the_n <= 0) {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
 					    _("The number of to be calculated cutoffs is invalid."));
 			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
@@ -3287,7 +3287,7 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			(GNM_EXPR_ENTRY (state->base.input_entry_2),
 			 state->base.sheet);
 	} else {
-		entry_to_int(state->n_entry, &data->n,TRUE);
+		entry_to_int (state->n_entry, &data->n,TRUE);
 		data->max_given = (0 == entry_to_float (state->max_entry,
 							    &data->max , TRUE));
 		data->min_given = (0 == entry_to_float (state->min_entry,

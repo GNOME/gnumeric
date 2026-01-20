@@ -576,7 +576,7 @@ gnm_hlink_external_activate (GnmHLink *lnk, WBCGtk *wbcg)
 	g_free (cmd);
 
 	if (err != NULL) {
-		char *msg = g_strdup_printf(_("Unable to open '%s'"), lnk->target);
+		char *msg = g_strdup_printf (_("Unable to open '%s'"), lnk->target);
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbcg),
 					      msg, err->message);
 		g_free (msg);

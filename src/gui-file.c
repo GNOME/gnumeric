@@ -189,7 +189,7 @@ file_opener_find_by_id (GList *openers, char const *id)
 
 	for (l = openers; l != NULL; l = l->next, i++) {
 		if (GO_IS_FILE_OPENER (l->data) &&
-		    strcmp (id, go_file_opener_get_id(l->data)) == 0)
+		    strcmp (id, go_file_opener_get_id (l->data)) == 0)
 			return i;
 	}
 
@@ -900,7 +900,7 @@ gui_file_export_repeat (WBCGtk *wbcg)
 		    go_gtk_dialog_run (GTK_DIALOG (dialog), wbcg_toplevel (wbcg))) {
 			/* We need to copy wb->last_export_uri since it will be reset during saving */
 			gchar *uri = g_strdup (last_uri);
-			if(workbook_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg))) {
+			if (workbook_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg))) {
 				workbook_update_history (wb, GNM_FILE_SAVE_AS_STYLE_EXPORT);
 				g_free (uri);
 				return TRUE;

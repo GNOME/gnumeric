@@ -1529,7 +1529,7 @@ static char *
 odf_strip_brackets (char *string)
 {
 	char *closing;
-	closing = strrchr(string, ']');
+	closing = strrchr (string, ']');
 	if (closing != NULL && *(closing+1) == '\0')
 		*closing = '\0';
 	return ((*string == '[') ? (string + 1) : string);
@@ -1666,7 +1666,7 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style, GnmRange *r, gboolea
 	guint i;
 
 	if ((!is_default) && gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
-		GOFormat const *format = gnm_style_get_format(style);
+		GOFormat const *format = gnm_style_get_format (style);
 		if (format != NULL)
 			odf_write_style_goformat_name (state, format);
 	}
@@ -2791,7 +2791,7 @@ odf_cell_is_covered (G_GNUC_UNUSED Sheet const *sheet,
 
 	*merge_ranges = g_slist_remove_all (*merge_ranges, NULL);
 
-	for (l = *merge_ranges; l != NULL; l = g_slist_next(l)) {
+	for (l = *merge_ranges; l != NULL; l = g_slist_next (l)) {
 		GnmRange *r = l->data;
 		if (r->end.row < row) {
 			/* We do not need this range anymore */
@@ -3468,7 +3468,7 @@ odf_cellspan_is_empty (int col, GnmCell const *ok_span_cell)
 	tmp = sheet_cell_get (sheet, col, row);
 
 	return (tmp == NULL || tmp->value == NULL ||
-		(VALUE_IS_EMPTY (tmp->value) && !gnm_cell_has_expr(tmp)));
+		(VALUE_IS_EMPTY (tmp->value) && !gnm_cell_has_expr (tmp)));
 }
 
 static void
@@ -3971,7 +3971,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet,
 					? odf_sheet_objects_get (sheet, &pos)
 					: NULL;
 
-				if ((!(current_cell && gnm_cell_has_expr(current_cell))) &&
+				if ((!(current_cell && gnm_cell_has_expr (current_cell))) &&
 				    (merge_range == NULL) && (objects == NULL) &&
 				    gnm_cell_is_empty (current_cell) &&
 				    !gnm_style_get_hlink (this_style)) {
@@ -5357,7 +5357,7 @@ odf_hf_region_to_xl_styles (GnmOOExport *state, char const *format)
 	if (format == NULL)
 		return;
 
-	for (p = format; *p; p = g_utf8_next_char(p)) {
+	for (p = format; *p; p = g_utf8_next_char (p)) {
 		if (*p == '&' && p[1] == '[') {
 			char const *start;
 
@@ -5426,7 +5426,7 @@ odf_write_hf_region (GnmOOExport *state, char const *format, char const *id)
 	gsf_xml_out_start_element (state->xml, TEXT "p");
 
 	text = g_string_new (NULL);
-	for (p = format; *p; p = g_utf8_next_char(p)) {
+	for (p = format; *p; p = g_utf8_next_char (p)) {
 		if (*p == '&' && p[1] == '[') {
 			char const *start;
 
@@ -5447,7 +5447,7 @@ odf_write_hf_region (GnmOOExport *state, char const *format, char const *id)
 			} else
 				break;
 		} else
-			g_string_append_len (text, p, g_utf8_next_char(p) - p);
+			g_string_append_len (text, p, g_utf8_next_char (p) - p);
 	}
 	if (text->len > 0)
 		gsf_xml_out_simple_element (state->xml, TEXT "span", text->str);
@@ -5492,7 +5492,7 @@ odf_store_data_style_for_style_with_name (GnmStyleRegion *sr, G_GNUC_UNUSED char
 	GnmStyle const *style = sr->style;
 
 	if (gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
-		GOFormat const *format = gnm_style_get_format(style);
+		GOFormat const *format = gnm_style_get_format (style);
 		if (format != NULL && !go_format_is_markup (format) && !go_format_is_general (format)) {
 			xl_find_format (state, format);
 		}
@@ -7333,7 +7333,7 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 				      GNMSTYLE "chart-maximum-expression", NULL);
 	}
 
-	interval = gog_dataset_get_dim (GOG_DATASET(axis),2);
+	interval = gog_dataset_get_dim (GOG_DATASET (axis),2);
 	if (interval != NULL) {
 		GnmExprTop const *texpr
 			= gnm_go_data_get_expr (interval);
@@ -7342,7 +7342,7 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 			double val = value_get_as_float (texpr->expr->constant.value);
 			go_xml_out_add_double (state->xml, CHART "interval-major", val);
 
-			interval = gog_dataset_get_dim (GOG_DATASET(axis),3);
+			interval = gog_dataset_get_dim (GOG_DATASET (axis),3);
 			if (interval != NULL) {
 				texpr = gnm_go_data_get_expr (interval);
 				if (texpr != NULL &&
@@ -7351,9 +7351,9 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style,
 						(texpr->expr->constant.value);
 					if (val_minor > 0) {
 						if (logarithmic)
-							val_minor = gnm_floor(val_minor + 1.5);
+							val_minor = gnm_floor (val_minor + 1.5);
 						else
-							val_minor = gnm_round(val / val_minor);
+							val_minor = gnm_round (val / val_minor);
 						gsf_xml_out_add_float
 							(state->xml, CHART "interval-minor-divisor",
 							 val_minor, 0);
@@ -7447,7 +7447,7 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 		 char const *id, gboolean allow_content)
 {
 	if (title != NULL && id != NULL) {
-		GOData const *dat = gog_dataset_get_dim (GOG_DATASET(title),0);
+		GOData const *dat = gog_dataset_get_dim (GOG_DATASET (title),0);
 
 		if (dat != NULL) {
 			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
@@ -8442,7 +8442,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 						 GNMSTYLE "title", state->odf_version > 101);
 			else if (state->odf_version > 101) {
 				GOData const *dat =
-					gog_dataset_get_dim (GOG_DATASET(title),0);
+					gog_dataset_get_dim (GOG_DATASET (title),0);
 
 				if (dat != NULL) {
 					GnmExprTop const *texpr

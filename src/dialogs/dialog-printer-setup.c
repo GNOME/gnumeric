@@ -442,7 +442,7 @@ margin_preview_page_available_size (PrinterSetupState *state,
 					 NULL);
 
 		/* Determine the requisition size for the widget */
-		gtk_widget_get_preferred_size (GTK_WIDGET(child_widget), &requisition, NULL);
+		gtk_widget_get_preferred_size (GTK_WIDGET (child_widget), &requisition, NULL);
 
 		/* Find largest widget in each table column */
 		/* Exclude widgets that expand across more than one grid cells
@@ -807,9 +807,9 @@ do_setup_margin (PrinterSetupState *state)
 		state->unit_selector = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list_store));
 		state->unit_model    = GTK_TREE_MODEL (list_store);
 		text_renderer = gtk_cell_renderer_text_new ();
-		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(state->unit_selector),
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->unit_selector),
 					    text_renderer, TRUE);
-		gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT(state->unit_selector),
+		gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (state->unit_selector),
 					       text_renderer, "text", 0);
 
 		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->unit_selector), &current);
@@ -1435,15 +1435,15 @@ add_named_tags (GtkTextBuffer *buffer)
 	GtkTextTag *tag;
 
 	tag = gtk_text_tag_new (HF_TAG_NAME);
-	g_object_set(tag,
-		     "editable", FALSE,
-		     "underline", TRUE,
-		     "underline-set", TRUE,
-		     "weight", PANGO_WEIGHT_BOLD,
-		     "weight-set", TRUE,
-		     "stretch", PANGO_STRETCH_CONDENSED,
-		     "stretch-set", TRUE,
-		     NULL);
+	g_object_set (tag,
+		      "editable", FALSE,
+		      "underline", TRUE,
+		      "underline-set", TRUE,
+		      "weight", PANGO_WEIGHT_BOLD,
+		      "weight-set", TRUE,
+		      "stretch", PANGO_STRETCH_CONDENSED,
+		      "stretch-set", TRUE,
+		      NULL);
 
 	gtk_text_tag_table_add (gtk_text_buffer_get_tag_table (buffer), tag);
 }
@@ -2192,9 +2192,9 @@ do_setup_error_display (PrinterSetupState *state)
 			item = i;
 	}
 	cell = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->error_display.combo), cell, TRUE);
-	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->error_display.combo),
-				       cell, "text", 0, NULL);
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->error_display.combo), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->error_display.combo),
+					cell, "text", 0, NULL);
 	if (gtk_tree_model_iter_nth_child
 	    (GTK_TREE_MODEL (state->error_display.store), &iter, NULL, item))
 		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->error_display.combo), &iter);
@@ -2227,8 +2227,8 @@ do_setup_comment_display (PrinterSetupState *state)
 			item = i;
 	}
 	cell = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->comment_display.combo), cell, TRUE);
-	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->comment_display.combo), cell, "text", 0, NULL);
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->comment_display.combo), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->comment_display.combo), cell, "text", 0, NULL);
 	if (gtk_tree_model_iter_nth_child
 	    (GTK_TREE_MODEL (state->comment_display.store), &iter, NULL, item))
 		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->comment_display.combo), &iter);

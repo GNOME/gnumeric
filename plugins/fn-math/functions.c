@@ -2145,7 +2145,7 @@ gnm_digit_rounder (gnm_float x, int digits, gnm_float (*func) (gnm_float),
 				up = TRUE;
 				break;
 			default:
-				g_assert_not_reached();
+				g_assert_not_reached ();
 			}
 
 			if (up)

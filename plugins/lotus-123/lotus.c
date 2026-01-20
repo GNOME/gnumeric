@@ -2664,7 +2664,7 @@ static const guint8 works_color_table[16][3]={
 static GnmColor *
 works_color (guint i)
 {
-	if (i == 0) return style_color_auto_font();
+	if (i == 0) return style_color_auto_font ();
 	if (i < G_N_ELEMENTS (works_color_table))
 		return gnm_color_new_rgb8 (works_color_table[i][0],
 					     works_color_table[i][1],
@@ -2793,7 +2793,7 @@ works_get_strval (const record_t *r, guint ofs, int fmt, LotusState *state)
 	}
 
 	font = g_hash_table_lookup (state->works_style_font,
-				    GINT_TO_POINTER(fmt));
+				    GINT_TO_POINTER (fmt));
 	converter = font ? font->converter : (GIConv)-1;
 	if (converter == (GIConv)-1)
 		converter = state->works_conv;
@@ -3012,7 +3012,7 @@ lotus_read_works (LotusState *state, record_t *r)
 					gnm_style_set_font_size (style, font->size / 2.0);
 
 				if (font->variant & 0xF0) {
-					color = works_color((font->variant >> 4) & 0xF);
+					color = works_color ((font->variant >> 4) & 0xF);
 					if (color)
 						gnm_style_set_font_color (style, color);
 				}
@@ -3021,7 +3021,7 @@ lotus_read_works (LotusState *state, record_t *r)
 					gnm_style_set_font_name (style, font->typeface);
 
 				g_hash_table_insert (state->works_style_font,
-						     GUINT_TO_POINTER((guint)styleid),
+						     GUINT_TO_POINTER ((guint)styleid),
 						     font);
 			}
 
@@ -3042,7 +3042,7 @@ lotus_read_works (LotusState *state, record_t *r)
 				default:
 					tmp = GNM_HALIGN_GENERAL;
 			}
-			gnm_style_set_align_h(style, tmp);
+			gnm_style_set_align_h (style, tmp);
 
 			tmp = (align >> 6) & 3;
 			switch (tmp) {

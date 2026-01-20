@@ -374,7 +374,7 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs,
 		attr = pango_attr_iterator_get (iter, PANGO_ATTR_FOREGROUND);
 		if (attr) {
 			PangoColor *color = &((PangoAttrColor *) attr)->color;
-			char *buf = g_strdup_printf("ff%02x%02x%02x", color->red >> 8, color->green >> 8, color->blue >> 8);
+			char *buf = g_strdup_printf ("ff%02x%02x%02x", color->red >> 8, color->green >> 8, color->blue >> 8);
 			gsf_xml_out_start_element (xml, "color");
 			gsf_xml_out_add_cstr_unchecked (xml, "rgb", buf);
 			gsf_xml_out_end_element (xml); /* </color> */
