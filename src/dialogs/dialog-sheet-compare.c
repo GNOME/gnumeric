@@ -528,7 +528,7 @@ oldnew_renderer_func (GtkTreeViewColumn *tree_column,
 	} else if (section == SEC_COLROW) {
 		ColRowInfo const *cr =
 			sheet_colrow_get_info (loc->a.sheet, e, is_cols);
-		text = g_strdup_printf (ngettext ("%d pixel", "%d pixels", cr->size_pixels), cr->size_pixels);
+		text = g_strdup_printf ("%.2f pt", cr->size_pts);
 	}
 
 done:
