@@ -6022,6 +6022,26 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 		sheet->priv->reposition_objects.col = col;
 }
 
+/**
+ * sheet_col_set_size_pixels:
+ * @sheet: The sheet
+ * @col: The col
+ * @width_pixels: The desired width in pixels
+ * @set_by_user: %TRUE if this was done by a user (ie, user manually
+ *               set the width)
+ *
+ * Sets width of a col in pixels, INCLUDING left and right margins, and the far
+ * grid line.  This is a low level internal routine.  It does NOT redraw,
+ * or reposition objects.
+ *
+ * As this function uses pixel counts, its usage should be limited to
+ * situations where pixel counts arise from the interaction with the
+ * gui.  File importers should avoid this functions in favour of
+ * sheet_col_set_size_pts.  If the file format stored widths in terms of
+ * pixels they should be treated as nominal pixels and coverted to points
+ * is some way that does not depend on the actual pixel density of the
+ * display.
+ **/
 void
 sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 			   gboolean set_by_user)
@@ -6060,6 +6080,12 @@ sheet_col_get_default_size_pts (Sheet const *sheet)
 	return sheet->cols.default_style.size_pts;
 }
 
+/**
+ * sheet_col_get_default_size_pixels:
+ * @sheet: The sheet
+ *
+ * Returns: the default number of pixels in a column, including margins.
+ */
 int
 sheet_col_get_default_size_pixels (Sheet const *sheet)
 {
@@ -6067,6 +6093,13 @@ sheet_col_get_default_size_pixels (Sheet const *sheet)
 	return sheet->cols.default_style.size_pixels;
 }
 
+/**
+ * sheet_col_set_default_size_pts:
+ * @sheet: The sheet
+ * @width_pts: width in points
+ *
+ * Sets the default width of columns, including margins.
+ */
 void
 sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 {
@@ -6078,6 +6111,17 @@ sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 	sheet_flag_recompute_spans (sheet);
 	sheet->priv->reposition_objects.col = 0;
 }
+
+/**
+ * sheet_col_set_default_size_pixels:
+ * @sheet: The sheet
+ * @width_pixels: width in pixels
+ *
+ * Sets the default width of columns, including margins.
+ *
+ * For restrictions on proper usage see the documentation for
+ * sheet_col_set_size_pixels.
+ */
 void
 sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
 {
@@ -6236,7 +6280,7 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
  * sheet_row_get_default_size_pts:
  * @sheet: The sheet
  *
- * Returns: the default number of units in a row, including margins.
+ * Returns: the default height of rows in points.
  * This function returns the raw sum, no rounding etc.
  */
 double
@@ -6246,6 +6290,12 @@ sheet_row_get_default_size_pts (Sheet const *sheet)
 	return sheet->rows.default_style.size_pts;
 }
 
+/**
+ * sheet_row_get_default_size_pixels:
+ * @sheet: The sheet
+ *
+ * Returns: the default height of a row in pixels.
+ */
 int
 sheet_row_get_default_size_pixels (Sheet const *sheet)
 {
@@ -6253,6 +6303,13 @@ sheet_row_get_default_size_pixels (Sheet const *sheet)
 	return sheet->rows.default_style.size_pixels;
 }
 
+/**
+ * sheet_row_set_default_size_pts:
+ * @sheet: The sheet
+ * @width_pts: width in points
+ *
+ * Sets the default height of rows in points.
+ */
 void
 sheet_row_set_default_size_pts (Sheet *sheet, double height_pts)
 {
@@ -6263,6 +6320,16 @@ sheet_row_set_default_size_pts (Sheet *sheet, double height_pts)
 	sheet->priv->reposition_objects.row = 0;
 }
 
+/**
+ * sheet_row_set_default_size_pixels:
+ * @sheet: The sheet
+ * @height_pixels: width in pixels
+ *
+ * Sets the default height of rows in pixels.
+ *
+ * For restrictions on proper usage see the documentation for
+ * sheet_col_set_size_pixels.
+ */
 void
 sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 {
