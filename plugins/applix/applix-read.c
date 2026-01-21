@@ -985,16 +985,27 @@ applix_parse_cellref (ApplixReadState *state, unsigned char *buffer,
 	return NULL;
 }
 
+// Nominal pixels.  Originally probably true pixels.
 static int
 applix_height_to_pixels (int height)
 {
 	return height+4;
 }
+
+// Nominal pixels.  Originally probably true pixels.
 static int
 applix_width_to_pixels (int width)
 {
 	return width*8 + 3;
 }
+
+static double
+applix_pixels_to_pts (Sheet *sheet, gboolean is_horiz, int pixels)
+{
+	return pixels / colrow_compute_pixel_scale (sheet, is_horiz);
+}
+
+
 
 static int
 applix_read_current_view (ApplixReadState *state, unsigned char *buffer)
@@ -1049,8 +1060,8 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 			if (tmp == ptr || width <= 0)
 				return applix_parse_error (state, "Invalid default column width");
 
-			sheet_col_set_default_size_pixels (sheet,
-				applix_width_to_pixels (width));
+			double pts = applix_pixels_to_pts (sheet, TRUE, applix_width_to_pixels (width));
+			sheet_col_set_default_size_pts (sheet, pts);
 		} else if (!a_strncmp (buffer, "View Default Row Height: ")) {
 			char *ptr, *tmp = buffer + 25;
 			int height = a_strtol (tmp, &ptr);
@@ -1058,8 +1069,8 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 				return applix_parse_error (state, "Invalid default row height");
 
 			/* height + one for the grid line */
-			sheet_row_set_default_size_pixels (sheet,
-				applix_height_to_pixels (height));
+			double pts = applix_pixels_to_pts (sheet, FALSE, applix_height_to_pixels (height));
+			sheet_row_set_default_size_pts (sheet, pts);
 		} else if (!a_strncmp (buffer, "View Row Heights: ")) {
 			char *ptr = buffer + 17;
 			do {
@@ -1081,9 +1092,8 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 				 * bottom margin 1
 				 * size in pixels = val -32768 (sometimes ??)
 				 */
-				sheet_row_set_size_pixels (sheet, row,
-							  applix_height_to_pixels (height),
-							  TRUE);
+				double pts = applix_pixels_to_pts (sheet, FALSE, applix_height_to_pixels (height));
+				sheet_row_set_size_pts (sheet, row, pts, TRUE);
 			} while (ptr[0] == ' ' && g_ascii_isdigit (ptr[1]));
 		} else if (!a_strncmp (buffer, "View Column Widths: ")) {
 			char const *ptr = buffer + 19;
@@ -1102,9 +1112,8 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 				/* These seem to assume
 				 * pixels = 8*width + 3 for the grid lines and margins
 				 */
-				sheet_col_set_size_pixels (sheet, col,
-							   applix_width_to_pixels (width),
-							   TRUE);
+				double pts = applix_pixels_to_pts (sheet, TRUE, applix_width_to_pixels (width));
+				sheet_col_set_size_pts (sheet, col, pts, TRUE);
 			} while (ptr[0] == ' ' && g_ascii_isalpha (ptr[1]));
 		}
 	}
