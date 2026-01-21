@@ -6306,7 +6306,7 @@ sheet_row_get_default_size_pixels (Sheet const *sheet)
 /**
  * sheet_row_set_default_size_pts:
  * @sheet: The sheet
- * @width_pts: width in points
+ * @height_pts: width in points
  *
  * Sets the default height of rows in points.
  */
