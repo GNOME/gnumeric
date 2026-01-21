@@ -811,19 +811,8 @@ latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col,
 				      gint index,
 				      GnmStyleBorderType *borders, Sheet *sheet)
 {
-	int merge_width = 0;
 	GnmStyleBorderType left_border = GNM_STYLE_BORDER_NONE;
 	GnmStyleBorderType right_border = GNM_STYLE_BORDER_NONE;
-
-	if (num_merged_cols > 1 || num_merged_rows > 1) {
-		ColRowInfo const * ci;
-		int i;
-
-		for (i = 0; i < num_merged_cols; i++) {
-			ci = sheet_col_get_info (sheet, start_col + i);
-			merge_width += ci->size_pixels;
-		}
-	}
 
 	if (index == 0) {
 		left_border = *borders;
@@ -927,7 +916,6 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 	gushort r,g,b;
 	gboolean wrap = FALSE;
 	GOFormatFamily cell_format_family;
-	int merge_width = 0;
 	GnmStyleBorderType left_border = GNM_STYLE_BORDER_NONE;
 	GnmStyleBorderType right_border = GNM_STYLE_BORDER_NONE;
 
@@ -936,16 +924,6 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 	gboolean hidden = gnm_style_get_contents_hidden (style);
 
 	g_return_if_fail (style != NULL);
-
-	if (num_merged_cols > 1 || num_merged_rows > 1) {
-		ColRowInfo const * ci;
-		int i;
-
-		for (i = 0; i < num_merged_cols; i++) {
-			ci = sheet_col_get_info (sheet, start_col + i);
-			merge_width += ci->size_pixels;
-		}
-	}
 
 	if (index == 0) {
 		left_border = *borders;
