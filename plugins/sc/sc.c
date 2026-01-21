@@ -369,6 +369,12 @@ sc_parse_format_definition (ScParseState *state, char const *cmd, char const *st
 	return TRUE;
 }
 
+static double
+sc_pixels_to_pts (Sheet *sheet, gboolean is_horiz, int pixels)
+{
+	return pixels / colrow_compute_pixel_scale (sheet, is_horiz);
+}
+
 static void
 sc_parse_format_set_width (ScParseState *state, int len, int col_from, int col_to)
 {
@@ -394,8 +400,9 @@ sc_parse_format_set_width (ScParseState *state, int len, int col_from, int col_t
 	width = PANGO_PIXELS (len * style_font->go.metrics->avg_digit_width) + 4;
 	gnm_style_unref (mstyle);
 
+	double pts = sc_pixels_to_pts (state->sheet, TRUE, width);
 	for (col = col_from; col <= col_to; col++)
-		sheet_col_set_size_pixels (state->sheet, col, width, TRUE);
+		sheet_col_set_size_pts (state->sheet, col, pts, TRUE);
 }
 
 static void
