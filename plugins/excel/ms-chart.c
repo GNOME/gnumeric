@@ -4746,7 +4746,7 @@ chart_write_error_bar (XLChartWriteState *s, GogErrorBar *bar, unsigned n,
 
 /* the data below are invalid, many other invalid code might be used,
 but this is the one xl uses */
-static unsigned char invalid_data[8] = {0xff, 0xff, 0xff, 0xff, 0, 1, 0xff, 0xff};
+static const unsigned char invalid_data[8] = {0xff, 0xff, 0xff, 0xff, 0, 1, 0xff, 0xff};
 
 static gboolean
 chart_write_trend_line (XLChartWriteState *s, GogTrendLine *rc, unsigned n, unsigned parent)
