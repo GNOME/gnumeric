@@ -5790,8 +5790,8 @@ sheet_colrow_default_calc (Sheet *sheet, double units,
 	g_return_if_fail (units > 0.);
 
 	if (gnm_debug_flag ("colrow")) {
-		g_printerr ("Setting default %s size to %g%s\n",
-			    is_cols ? "column" : "row",
+		g_printerr ("Setting default %s to %g%s\n",
+			    is_cols ? "column width" : "row height",
 			    units,
 			    is_pts ? "pts" : "px");
 	}
