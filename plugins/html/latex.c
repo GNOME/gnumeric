@@ -1282,7 +1282,7 @@ latex_file_save (GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext *io_context,
 	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
 		ColRowInfo const * ci;
 		ci = sheet_col_get_info (current_sheet, col);
-		gsf_output_printf (output, "\t%ipt+%%\n", ci->size_pixels * 10 / 12);
+		gsf_output_printf (output, "\t%.1fpt+%%\n", ci->size_pts);
 	}
 	gsf_output_printf (output, "0pt}\n\\def\\gumericNumCols{%i}\n", num_cols);
 
@@ -1313,8 +1313,8 @@ latex_file_save (GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext *io_context,
 		ci = sheet_col_get_info (current_sheet, col);
 		gsf_output_printf (output, "\\ifthenelse{\\isundefined{\\gnumericCol%s}}"
 				   "{\\newlength{\\gnumericCol%s}}{}\\settowidth{\\gnumericCol%s}"
-				   "{\\begin{tabular}{@{}p{%ipt*\\gnumericScale}@{}}x\\end{tabular}}\n",
-				   colname, colname, colname, ci->size_pixels * 10 / 12);
+				   "{\\begin{tabular}{@{}p{%.1fpt*\\gnumericScale}@{}}x\\end{tabular}}\n",
+				   colname, colname, colname, ci->size_pts);
 	}
 
 	/* Start outputting the table. */
