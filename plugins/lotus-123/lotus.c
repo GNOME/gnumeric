@@ -1409,7 +1409,7 @@ lotus_set_colwidth_cb (LotusState *state,
 
 	value_set = (flags & 1) != 0;
 	if (end - start >= gnm_sheet_get_max_cols (sheet))
-		sheet_col_set_default_size_pixels (sheet, size);
+		sheet_col_set_default_size_pts (sheet, size);
 	else {
 		int i;
 		for (i = start; i <= end; i++)
@@ -1454,7 +1454,7 @@ lotus_set_rowheight_cb (LotusState *state,
 
 	value_set = (flags & 1) != 0;
 	if (end - start >= gnm_sheet_get_max_rows (sheet))
-		sheet_row_set_default_size_pixels (sheet, size);
+		sheet_row_set_default_size_pts (sheet, size);
 	else {
 		int i;
 		for (i = start; i <= end; i++)
