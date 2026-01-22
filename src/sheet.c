@@ -748,11 +748,6 @@ gnm_sheet_constructed (GObject *obj)
 	gnm_style_unref (style);
 	sheet->priv->pixels_per_pt = ht / sheet_row_get_default_size_pts (sheet);
 
-	if (FALSE && ht > sheet_row_get_default_size_pixels (sheet)) {
-		sheet_row_set_default_size_pixels (sheet, ht);
-		sheet_col_set_default_size_pixels (sheet, ht * 9 / 2);
-	}
-
 	sheet_scale_changed (sheet, TRUE, TRUE);
 }
 
@@ -834,7 +829,6 @@ gnm_sheet_init (Sheet *sheet)
 
 	sheet->rows.max_used = -1;
 	sheet->rows.info = g_ptr_array_new ();
-	// 12.75 might be overwritten later
 	sheet_row_set_default_size_pts (sheet, 12.75);
 
 	sheet->print_info = gnm_print_information_new (FALSE);
@@ -3995,6 +3989,15 @@ sheet_row_get (Sheet const *sheet, int row)
 	return NULL;
 }
 
+/**
+ * sheet_colrow_get:
+ * @sheet: The sheet to query
+ * @colrow: Columns/row number
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ *
+ * Returns: (transfer none) (nullable): A #ColRowInfo for the column
+ * or row.  %NULL, if none has been allocated yet.
+ */
 ColRowInfo *
 sheet_colrow_get (Sheet const *sheet, int colrow, gboolean is_cols)
 {
@@ -4037,6 +4040,15 @@ sheet_row_fetch (Sheet *sheet, int pos)
 	return cri;
 }
 
+/**
+ * sheet_colrow_fetch:
+ * @sheet: The sheet to query
+ * @colrow: Row number
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ *
+ * Returns: (transfer none): The #ColRowInfo for a column or row.
+ * This result will not be the default #ColRowInfo and may be changed.
+ */
 ColRowInfo *
 sheet_colrow_fetch (Sheet *sheet, int colrow, gboolean is_cols)
 {
@@ -4081,6 +4093,15 @@ sheet_row_get_info (Sheet const *sheet, int row)
 	return &sheet->rows.default_style;
 }
 
+/**
+ * sheet_colrow_get_info:
+ * @sheet: The sheet to query
+ * @colrow: column number
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ *
+ * Returns: (transfer none): The #ColRowInfo for a column or row.
+ * This may be the default #ColRowInfo for rows and should not be changed.
+ */
 ColRowInfo const *
 sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
 {
@@ -4089,6 +4110,14 @@ sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
 		: sheet_row_get_info (sheet, colrow);
 }
 
+/**
+ * gnm_sheet_mark_colrow_changed:
+ * @sheet: The sheet to query
+ * @colrow: column number
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ *
+ * This marks the given column or row as being changed.
+ */
 void
 gnm_sheet_mark_colrow_changed (Sheet *sheet, int colrow, gboolean is_cols)
 {
@@ -4199,7 +4228,7 @@ cell_ordering (gconstpointer a_, gconstpointer b_)
 /**
  * sheet_cells:
  * @sheet: a #Sheet
- * @r: (nullable): a #GnmRange
+ * @r: (nullable): an optional #GnmRange to restrict to
  *
  * Retrieves an array of all cells inside @r.
  * Returns: (element-type GnmCell) (transfer container): the cells array.
@@ -5542,7 +5571,7 @@ sheet_insdel_colrow (Sheet *sheet, int pos, int count,
  * @sheet: #Sheet
  * @col: At which position we want to insert
  * @count: The number of columns to be inserted
- * @pundo: (out): (transfer full): (allow-none): undo closure
+ * @pundo: (out) (transfer full) (allow-none): undo closure
  * @cc: The command context
  **/
 gboolean
@@ -5560,7 +5589,7 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
  * @sheet: The sheet
  * @col:     At which position we want to start deleting columns
  * @count:   The number of columns to be deleted
- * @pundo: (out): (transfer full): (allow-none): undo closure
+ * @pundo: (out) (transfer full) (allow-none): undo closure
  * @cc: The command context
  */
 gboolean
@@ -5578,7 +5607,7 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
  * @sheet: The sheet
  * @row: At which position we want to insert
  * @count: The number of rows to be inserted
- * @pundo: (out): (transfer full): (allow-none): undo closure
+ * @pundo: (out) (transfer full) (allow-none): undo closure
  * @cc: The command context
  */
 gboolean
@@ -5596,7 +5625,7 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
  * @sheet: The sheet
  * @row: At which position we want to start deleting rows
  * @count: The number of rows to be deleted
- * @pundo: (out): (transfer full): (allow-none): undo closure
+ * @pundo: (out) (transfer full) (allow-none): undo closure
  * @cc: The command context
  */
 gboolean
