@@ -10,18 +10,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2025-03-08 18:41+0000\n"
-"PO-Revision-Date: 2025-03-09 10:18+0100\n"
+"POT-Creation-Date: 2026-01-22 03:45+0000\n"
+"PO-Revision-Date: 2026-01-22 10:22+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 3.8\n"
 
 #: ../plugins/fn-christian-date/functions.c:131
 msgid ""
@@ -178,15 +178,15 @@ msgstr "Če @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VALUE!."
 #: ../plugins/fn-eng/functions.c:464 ../plugins/fn-eng/functions.c:487
 #: ../plugins/fn-eng/functions.c:510 ../plugins/fn-eng/functions.c:530
 #: ../plugins/fn-eng/functions.c:1475 ../plugins/fn-eng/functions.c:1498
-#: ../plugins/fn-info/functions.c:94 ../plugins/fn-info/functions.c:1325
-#: ../plugins/fn-info/functions.c:1391 ../plugins/fn-info/functions.c:1479
-#: ../plugins/fn-info/functions.c:1497 ../plugins/fn-info/functions.c:1519
-#: ../plugins/fn-info/functions.c:1546 ../plugins/fn-info/functions.c:1573
-#: ../plugins/fn-info/functions.c:1610 ../plugins/fn-info/functions.c:1626
-#: ../plugins/fn-info/functions.c:1648 ../plugins/fn-info/functions.c:1665
-#: ../plugins/fn-info/functions.c:1683 ../plugins/fn-info/functions.c:1700
-#: ../plugins/fn-info/functions.c:1722 ../plugins/fn-info/functions.c:1751
-#: ../plugins/fn-info/functions.c:1770 ../plugins/fn-info/functions.c:1807
+#: ../plugins/fn-info/functions.c:94 ../plugins/fn-info/functions.c:476
+#: ../plugins/fn-info/functions.c:542 ../plugins/fn-info/functions.c:630
+#: ../plugins/fn-info/functions.c:648 ../plugins/fn-info/functions.c:670
+#: ../plugins/fn-info/functions.c:697 ../plugins/fn-info/functions.c:724
+#: ../plugins/fn-info/functions.c:761 ../plugins/fn-info/functions.c:777
+#: ../plugins/fn-info/functions.c:799 ../plugins/fn-info/functions.c:816
+#: ../plugins/fn-info/functions.c:834 ../plugins/fn-info/functions.c:851
+#: ../plugins/fn-info/functions.c:873 ../plugins/fn-info/functions.c:902
+#: ../plugins/fn-info/functions.c:921 ../plugins/fn-info/functions.c:958
 #: ../plugins/fn-logical/functions.c:49 ../plugins/fn-logical/functions.c:100
 #: ../plugins/fn-logical/functions.c:128 ../plugins/fn-logical/functions.c:370
 #: ../plugins/fn-logical/functions.c:388 ../plugins/fn-math/functions.c:201
@@ -204,22 +204,22 @@ msgstr "Če @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VALUE!."
 #: ../plugins/fn-math/functions.c:1007 ../plugins/fn-math/functions.c:1048
 #: ../plugins/fn-math/functions.c:1174 ../plugins/fn-math/functions.c:1232
 #: ../plugins/fn-math/functions.c:1265 ../plugins/fn-math/functions.c:1314
-#: ../plugins/fn-math/functions.c:1389 ../plugins/fn-math/functions.c:1425
-#: ../plugins/fn-math/functions.c:1557 ../plugins/fn-math/functions.c:1600
-#: ../plugins/fn-math/functions.c:1648 ../plugins/fn-math/functions.c:1762
-#: ../plugins/fn-math/functions.c:1780 ../plugins/fn-math/functions.c:1827
-#: ../plugins/fn-math/functions.c:1888 ../plugins/fn-math/functions.c:1934
-#: ../plugins/fn-math/functions.c:1967 ../plugins/fn-math/functions.c:2005
-#: ../plugins/fn-math/functions.c:2194 ../plugins/fn-math/functions.c:2224
-#: ../plugins/fn-math/functions.c:2257 ../plugins/fn-math/functions.c:2324
-#: ../plugins/fn-math/functions.c:2349 ../plugins/fn-math/functions.c:2376
-#: ../plugins/fn-math/functions.c:2402 ../plugins/fn-math/functions.c:2426
-#: ../plugins/fn-math/functions.c:2457 ../plugins/fn-math/functions.c:2492
-#: ../plugins/fn-math/functions.c:2617 ../plugins/fn-math/functions.c:2865
-#: ../plugins/fn-math/functions.c:2909 ../plugins/fn-math/functions.c:2952
-#: ../plugins/fn-math/functions.c:2995 ../plugins/fn-math/functions.c:3052
-#: ../plugins/fn-math/functions.c:3242 ../plugins/fn-math/functions.c:3340
-#: ../plugins/fn-math/functions.c:3385 ../plugins/fn-random/functions.c:46
+#: ../plugins/fn-math/functions.c:1371 ../plugins/fn-math/functions.c:1407
+#: ../plugins/fn-math/functions.c:1541 ../plugins/fn-math/functions.c:1584
+#: ../plugins/fn-math/functions.c:1632 ../plugins/fn-math/functions.c:1746
+#: ../plugins/fn-math/functions.c:1764 ../plugins/fn-math/functions.c:1811
+#: ../plugins/fn-math/functions.c:1872 ../plugins/fn-math/functions.c:1918
+#: ../plugins/fn-math/functions.c:1951 ../plugins/fn-math/functions.c:1989
+#: ../plugins/fn-math/functions.c:2178 ../plugins/fn-math/functions.c:2208
+#: ../plugins/fn-math/functions.c:2241 ../plugins/fn-math/functions.c:2308
+#: ../plugins/fn-math/functions.c:2333 ../plugins/fn-math/functions.c:2360
+#: ../plugins/fn-math/functions.c:2386 ../plugins/fn-math/functions.c:2410
+#: ../plugins/fn-math/functions.c:2441 ../plugins/fn-math/functions.c:2476
+#: ../plugins/fn-math/functions.c:2601 ../plugins/fn-math/functions.c:2849
+#: ../plugins/fn-math/functions.c:2893 ../plugins/fn-math/functions.c:2936
+#: ../plugins/fn-math/functions.c:2979 ../plugins/fn-math/functions.c:3036
+#: ../plugins/fn-math/functions.c:3226 ../plugins/fn-math/functions.c:3324
+#: ../plugins/fn-math/functions.c:3369 ../plugins/fn-random/functions.c:46
 #: ../plugins/fn-random/functions.c:247 ../plugins/fn-stat/functions.c:82
 #: ../plugins/fn-stat/functions.c:109 ../plugins/fn-stat/functions.c:135
 #: ../plugins/fn-stat/functions.c:162 ../plugins/fn-stat/functions.c:272
@@ -542,8 +542,8 @@ msgid ""
 "@{z}.  The branch cuts are on the imaginary axis, below -i and above i."
 msgstr ""
 "Funkcija IMARCSINH vrne kompleksno hiperbolično vrednost arkus sinusa "
-"kompleksnega števila @{z}. Rezi veje so na imaginarni osi z vrednostmi pod -"
-"i in nad i."
+"kompleksnega števila @{z}. Rezi veje so na imaginarni osi z vrednostmi pod "
+"-i in nad i."
 
 #: ../plugins/fn-complex/functions.c:908
 msgid "IMARCCOSH:the complex hyperbolic arccosine of the complex number @{z}"
@@ -1255,9 +1255,9 @@ msgstr ""
 #: ../plugins/fn-eng/functions.c:385 ../plugins/fn-eng/functions.c:832
 #: ../plugins/fn-financial/functions.c:1314 ../plugins/fn-math/functions.c:570
 #: ../plugins/fn-math/functions.c:1175 ../plugins/fn-math/functions.c:1202
-#: ../plugins/fn-math/functions.c:1685 ../plugins/fn-math/functions.c:1705
-#: ../plugins/fn-math/functions.c:2538 ../plugins/fn-math/functions.c:3202
-#: ../plugins/fn-math/functions.c:3402 ../plugins/fn-stat/functions.c:1733
+#: ../plugins/fn-math/functions.c:1669 ../plugins/fn-math/functions.c:1689
+#: ../plugins/fn-math/functions.c:2522 ../plugins/fn-math/functions.c:3186
+#: ../plugins/fn-math/functions.c:3386 ../plugins/fn-stat/functions.c:1733
 #: ../plugins/fn-stat/functions.c:2652 ../plugins/fn-stat/functions.c:5011
 #: ../plugins/fn-string/functions.c:323 ../plugins/fn-string/functions.c:407
 #: ../plugins/fn-string/functions.c:534 ../plugins/fn-string/functions.c:1222
@@ -2086,38 +2086,38 @@ msgstr ""
 "Model predvideva, da vodstveni zaposleni prodajo svoje opcije podjetju "
 "oziroma zaposlenim, če zapustijo podjetje."
 
-#: ../plugins/fn-derivatives/options.c:1240
+#: ../plugins/fn-derivatives/options.c:1238
 msgid "OPT_FORWARD_START:theoretical price of forward start options"
 msgstr ""
 "OPT_FORWARD_START: teoretična cena opcije z naknadno določeno izvršilno ceno"
 
-#: ../plugins/fn-derivatives/options.c:1243
+#: ../plugins/fn-derivatives/options.c:1241
 msgid ""
 "alpha:fraction setting the strike price at the future date @{time_start}"
 msgstr "alfa: del, ki določa izvršilno ceno na prihodnji @{čas začetka}"
 
-#: ../plugins/fn-derivatives/options.c:1244
+#: ../plugins/fn-derivatives/options.c:1242
 msgid "time_start:time until the option starts in days"
 msgstr "čas začetka: čas do začetka opcije v dneh"
 
-#: ../plugins/fn-derivatives/options.c:1292
+#: ../plugins/fn-derivatives/options.c:1290
 msgid "OPT_TIME_SWITCH:theoretical price of time switch options"
 msgstr "OPT_TIME_SWITCH: teoretična cena časovne opcije"
 
-#: ../plugins/fn-derivatives/options.c:1296
+#: ../plugins/fn-derivatives/options.c:1294
 msgid "a:amount received for each time period"
 msgstr "a: prejeti znesek za vsako časovno obdobje"
 
-#: ../plugins/fn-derivatives/options.c:1298
+#: ../plugins/fn-derivatives/options.c:1296
 msgid "m:number of time units the option has already met the condition"
 msgstr "m: število časovnih enot v katerih opcija že izpolnjuje pogoje"
 
-#: ../plugins/fn-derivatives/options.c:1299
+#: ../plugins/fn-derivatives/options.c:1297
 msgid "dt:agreed upon discrete time period expressed as a fraction of a year"
 msgstr ""
 "dt: določen glede na obdobje diskretnega časa, izraženega kot delež leta"
 
-#: ../plugins/fn-derivatives/options.c:1304
+#: ../plugins/fn-derivatives/options.c:1302
 msgid ""
 "OPT_TIME_SWITCH models the theoretical price of time switch options. (Pechtl "
 "1995). The holder receives @{a} * @{dt} for each period that the asset price "
@@ -2127,47 +2127,47 @@ msgstr ""
 "1995). Lastnik prejme @{a} * @{dt} za vsako obdobje, ko je cena premoženja "
 "večja od @{izvršilne cene} (pri nakupu) ali pod njo (pri prodaji)."
 
-#: ../plugins/fn-derivatives/options.c:1334
+#: ../plugins/fn-derivatives/options.c:1332
 msgid "OPT_SIMPLE_CHOOSER:theoretical price of a simple chooser option"
 msgstr "OPT_SIMPLE_CHOOSER: teoretična cena enostavne izbirne opcije"
 
-#: ../plugins/fn-derivatives/options.c:1338
+#: ../plugins/fn-derivatives/options.c:1336
 msgid "time1:time in years until the holder chooses a put or a call option"
 msgstr "čas1: čas v letih do odločitve o prodaji ali nakupu opcije"
 
-#: ../plugins/fn-derivatives/options.c:1339
+#: ../plugins/fn-derivatives/options.c:1337
 msgid "time2:time in years until the chosen option expires"
 msgstr "čas2: čas v letih do zapadlosti izbranih opcij"
 
-#: ../plugins/fn-derivatives/options.c:1383
+#: ../plugins/fn-derivatives/options.c:1381
 msgid "OPT_COMPLEX_CHOOSER:theoretical price of a complex chooser option"
 msgstr "OPT_COMPLEX_CHOOSER: teoretična cena sestavljene izbirne opcije"
 
-#: ../plugins/fn-derivatives/options.c:1385
+#: ../plugins/fn-derivatives/options.c:1383
 msgid "strike_call:strike price, if exercised as a call option"
 msgstr "izvršen nakup: izvršilna cena, če je izvršen nakup opcije"
 
-#: ../plugins/fn-derivatives/options.c:1386
+#: ../plugins/fn-derivatives/options.c:1384
 msgid "strike_put:strike price, if exercised as a put option"
 msgstr "izvršena prodaja: izvršilna cena, če je izvršena prodaja opcije"
 
-#: ../plugins/fn-derivatives/options.c:1387
+#: ../plugins/fn-derivatives/options.c:1385
 msgid "time:time in years until the holder chooses a put or a call option"
 msgstr "čas: čas v letih do odločitve o prodaji ali nakupu opcije"
 
-#: ../plugins/fn-derivatives/options.c:1388
+#: ../plugins/fn-derivatives/options.c:1386
 msgid "time_call:time in years to maturity of the call option if chosen"
 msgstr "čas nakupa: čas v letih do dospetja nakupa opcije"
 
-#: ../plugins/fn-derivatives/options.c:1389
+#: ../plugins/fn-derivatives/options.c:1387
 msgid "time_put:time in years  to maturity of the put option if chosen"
 msgstr "čas prodaje: čas v letih do dospetja prodaje opcije"
 
-#: ../plugins/fn-derivatives/options.c:1484
+#: ../plugins/fn-derivatives/options.c:1482
 msgid "OPT_ON_OPTIONS:theoretical price of options on options"
 msgstr "OPT_ON_OPTIONS: teoretična cena opcij na opcije"
 
-#: ../plugins/fn-derivatives/options.c:1485
+#: ../plugins/fn-derivatives/options.c:1483
 msgid ""
 "type_flag:'cc' for calls on calls, 'cp' for calls on puts, and so on for "
 "'pc', and 'pp'"
@@ -2175,25 +2175,25 @@ msgstr ""
 "zastavica vrste: 'cc' za nakupne opcije na nakupne opcije, 'cp' za nakupne "
 "opcije na prodajne opcije in tako naprej za 'pc' in 'pp'"
 
-#: ../plugins/fn-derivatives/options.c:1487
+#: ../plugins/fn-derivatives/options.c:1485
 msgid "strike1:strike price at which the option being valued is struck"
 msgstr "Izvršilna cena1: izvršilna vrednost pri kateri se opcija izvrši"
 
-#: ../plugins/fn-derivatives/options.c:1488
+#: ../plugins/fn-derivatives/options.c:1486
 msgid "strike2:strike price at which the underlying option is struck"
 msgstr ""
 "Izvršilna cena1: izvršilna vrednost pri kateri se osnovna vrednost opcije "
 "izvrši"
 
-#: ../plugins/fn-derivatives/options.c:1489
+#: ../plugins/fn-derivatives/options.c:1487
 msgid "time1:time in years to maturity of the option"
 msgstr "čas1: čas v letih do dospetja opcije"
 
-#: ../plugins/fn-derivatives/options.c:1490
+#: ../plugins/fn-derivatives/options.c:1488
 msgid "time2:time in years to the maturity of the underlying option"
 msgstr "čas2: čas v letih do dospetja osnovne vrednosti opcije"
 
-#: ../plugins/fn-derivatives/options.c:1492
+#: ../plugins/fn-derivatives/options.c:1490
 msgid ""
 "cost_of_carry:net cost of holding the underlying asset of the underlying "
 "option"
@@ -2201,7 +2201,7 @@ msgstr ""
 "stroški posedovanja: neto stroški posedovanja oziroma financiranja osnovnih "
 "sredstev osnovne vrednosti opcije"
 
-#: ../plugins/fn-derivatives/options.c:1493
+#: ../plugins/fn-derivatives/options.c:1491
 msgid ""
 "volatility:annualized volatility in price of the underlying asset of the "
 "underlying option"
@@ -2209,7 +2209,7 @@ msgstr ""
 "nestanovitnost: letna mera nestanovitnosti v ceni osnovne vrednosti "
 "premoženja osnovne vrednosti opcije"
 
-#: ../plugins/fn-derivatives/options.c:1494
+#: ../plugins/fn-derivatives/options.c:1492
 msgid ""
 "For common stocks, @{cost_of_carry} is the risk free rate less the dividend "
 "yield."
@@ -2217,20 +2217,20 @@ msgstr ""
 "Pri običajnih delnicah so @{stroški posedovanja} pri donosnosti brez "
 "tveganja manjša od donosnosti."
 
-#: ../plugins/fn-derivatives/options.c:1495
+#: ../plugins/fn-derivatives/options.c:1493
 msgid "@{time2} ≥ @{time1}"
 msgstr "@{čas2} ≥ @{čas1}"
 
-#: ../plugins/fn-derivatives/options.c:1561
+#: ../plugins/fn-derivatives/options.c:1559
 msgid "OPT_EXTENDIBLE_WRITER:theoretical price of extendible writer options"
 msgstr ""
 "OPT_EXTENDIBLE_WRITER: teoretična cena razširjenih izdajateljskih opcij"
 
-#: ../plugins/fn-derivatives/options.c:1564
+#: ../plugins/fn-derivatives/options.c:1562
 msgid "strike1:strike price at which the option is struck"
 msgstr "izvršilna cena1: izvršilna cena, pri kateri je opcija izvršena"
 
-#: ../plugins/fn-derivatives/options.c:1565
+#: ../plugins/fn-derivatives/options.c:1563
 msgid ""
 "strike2:strike price at which the option is re-struck if out of the money at "
 "@{time1}"
@@ -2238,15 +2238,15 @@ msgstr ""
 "izvršilna cena2: izvršilna cena, pri kateri je opcija ponovno izvršena, če "
 "je bila v @{času1} brez notranje vrednosti"
 
-#: ../plugins/fn-derivatives/options.c:1566
+#: ../plugins/fn-derivatives/options.c:1564
 msgid "time1:initial maturity of the option in years"
 msgstr "čas1: začetno dospetje opcije v letih"
 
-#: ../plugins/fn-derivatives/options.c:1567
+#: ../plugins/fn-derivatives/options.c:1565
 msgid "time2:extended maturity in years if chosen"
 msgstr "čas2: razširjeno dospetje v letih, če je možnost izbrana"
 
-#: ../plugins/fn-derivatives/options.c:1571
+#: ../plugins/fn-derivatives/options.c:1569
 msgid ""
 "OPT_EXTENDIBLE_WRITER models the theoretical price of extendible writer "
 "options. These are options that have their maturity extended to @{time2} if "
@@ -2256,7 +2256,7 @@ msgstr ""
 "izdajateljskih opcij. To so opcije z razširjenim dospetjem na kasnejši "
 "@{čas2}, če je opcija v @{času1} brez notranje vrednosti."
 
-#: ../plugins/fn-derivatives/options.c:1613
+#: ../plugins/fn-derivatives/options.c:1611
 msgid ""
 "OPT_2_ASSET_CORRELATION:theoretical price of options on 2 assets with "
 "correlation @{rho}"
@@ -2264,25 +2264,25 @@ msgstr ""
 "OPT_2_ASSET_CORRELATION: teoretična cena opcije dveh vrst sredstev s "
 "soodnosnostjo @{ro}"
 
-#: ../plugins/fn-derivatives/options.c:1615
+#: ../plugins/fn-derivatives/options.c:1613
 msgid "spot1:spot price of the underlying asset of the first option"
 msgstr ""
 "gotovinska cena1: gotovinska cena osnovne vrednosti sredstev prve opcije"
 
-#: ../plugins/fn-derivatives/options.c:1616
+#: ../plugins/fn-derivatives/options.c:1614
 msgid "spot2:spot price of the underlying asset of the second option"
 msgstr ""
 "gotovinska cena2: gotovinska cena osnovne vrednosti sredstev druge opcije"
 
-#: ../plugins/fn-derivatives/options.c:1617
+#: ../plugins/fn-derivatives/options.c:1615
 msgid "strike1:strike prices of the first option"
 msgstr "izvršilna cena1: izvršilna cena prve opcije"
 
-#: ../plugins/fn-derivatives/options.c:1618
+#: ../plugins/fn-derivatives/options.c:1616
 msgid "strike2:strike prices of the second option"
 msgstr "izvršilna cena2: izvršilna cena druge opcije"
 
-#: ../plugins/fn-derivatives/options.c:1620
+#: ../plugins/fn-derivatives/options.c:1618
 msgid ""
 "cost_of_carry1:net cost of holding the underlying asset of the first option "
 "(for common stocks, the risk free rate less the dividend yield)"
@@ -2290,7 +2290,7 @@ msgstr ""
 "stroški posedovanja1: neto stroški posedovanja osnovnih sredstev prve opcije "
 "(pri običajnih delnicah; donosnost brez tveganja je manjša od donosnosti)"
 
-#: ../plugins/fn-derivatives/options.c:1622
+#: ../plugins/fn-derivatives/options.c:1620
 msgid ""
 "cost_of_carry2:net cost of holding the underlying asset of the second option "
 "(for common stocks, the risk free rate less the dividend yield)"
@@ -2299,7 +2299,7 @@ msgstr ""
 "opcije (pri običajnih delnicah; donosnost brez tveganja je manjša od "
 "donosnosti)"
 
-#: ../plugins/fn-derivatives/options.c:1625
+#: ../plugins/fn-derivatives/options.c:1623
 msgid ""
 "volatility1:annualized volatility in price of the underlying asset of the "
 "first option"
@@ -2307,7 +2307,7 @@ msgstr ""
 "nestanovitnost1: letna mera nestanovitnosti v ceni za osnovna sredstva prve "
 "opcije"
 
-#: ../plugins/fn-derivatives/options.c:1626
+#: ../plugins/fn-derivatives/options.c:1624
 msgid ""
 "volatility2:annualized volatility in price of the underlying asset of the "
 "second option"
@@ -2315,11 +2315,11 @@ msgstr ""
 "nestanovitnost2: letna mera nestanovitnosti v ceni za osnovna sredstva druge "
 "opcije"
 
-#: ../plugins/fn-derivatives/options.c:1627
+#: ../plugins/fn-derivatives/options.c:1625
 msgid "rho:correlation between the two underlying assets"
 msgstr "ro: soodnosnost med dvema osnovnima vrednostma sredstev"
 
-#: ../plugins/fn-derivatives/options.c:1628
+#: ../plugins/fn-derivatives/options.c:1626
 msgid ""
 "OPT_2_ASSET_CORRELATION models the theoretical price of options on 2 assets "
 "with correlation @{rho}. The payoff for a call is max(@{spot2} - "
@@ -2333,35 +2333,35 @@ msgstr ""
 "največ (@{izvršilna cena2} - @{gotovinska cena2}, 0), če je @{gotovinska "
 "cena1} < @{izvršilna cena1} oziroma 0, če ni."
 
-#: ../plugins/fn-derivatives/options.c:1663
+#: ../plugins/fn-derivatives/options.c:1661
 msgid ""
 "OPT_EURO_EXCHANGE:theoretical price of a European option to exchange assets"
 msgstr ""
 "OPT_EURO_EXCHANGE: teoretična cena evropske opcije pri menjavi vrednosti "
 "sredstev"
 
-#: ../plugins/fn-derivatives/options.c:1664
-#: ../plugins/fn-derivatives/options.c:1708
+#: ../plugins/fn-derivatives/options.c:1662
+#: ../plugins/fn-derivatives/options.c:1706
 msgid "spot1:spot price of asset 1"
 msgstr "gotovinska cena1: gotovinska cena prvega dela sredstev"
 
-#: ../plugins/fn-derivatives/options.c:1665
-#: ../plugins/fn-derivatives/options.c:1709
+#: ../plugins/fn-derivatives/options.c:1663
+#: ../plugins/fn-derivatives/options.c:1707
 msgid "spot2:spot price of asset 2"
 msgstr "gotovinska cena2: gotovinska cena drugega dela premoženja"
 
-#: ../plugins/fn-derivatives/options.c:1666
-#: ../plugins/fn-derivatives/options.c:1710
+#: ../plugins/fn-derivatives/options.c:1664
+#: ../plugins/fn-derivatives/options.c:1708
 msgid "qty1:quantity of asset 1"
 msgstr "kol1: količina sredstev 1"
 
-#: ../plugins/fn-derivatives/options.c:1667
-#: ../plugins/fn-derivatives/options.c:1711
+#: ../plugins/fn-derivatives/options.c:1665
+#: ../plugins/fn-derivatives/options.c:1709
 msgid "qty2:quantity of asset 2"
 msgstr "kol: količina sredstev 2"
 
-#: ../plugins/fn-derivatives/options.c:1670
-#: ../plugins/fn-derivatives/options.c:1714
+#: ../plugins/fn-derivatives/options.c:1668
+#: ../plugins/fn-derivatives/options.c:1712
 msgid ""
 "cost_of_carry1:net cost of holding asset 1 (for common stocks, the risk free "
 "rate less the dividend yield)"
@@ -2369,8 +2369,8 @@ msgstr ""
 "stroški posedovanja1: neto stroški posedovanja sredstev 1 (pri običajnih "
 "delnicah; donosnost brez tveganja je manjša od donosnosti)"
 
-#: ../plugins/fn-derivatives/options.c:1672
-#: ../plugins/fn-derivatives/options.c:1716
+#: ../plugins/fn-derivatives/options.c:1670
+#: ../plugins/fn-derivatives/options.c:1714
 msgid ""
 "cost_of_carry2:net cost of holding asset 2 (for common stocks, the risk free "
 "rate less the dividend yield)"
@@ -2378,22 +2378,22 @@ msgstr ""
 "stroški posedovanja1: neto stroški posedovanja sredstev 2 (pri običajnih "
 "delnicah; donosnost brez tveganja je manjša od donosnosti)"
 
-#: ../plugins/fn-derivatives/options.c:1674
-#: ../plugins/fn-derivatives/options.c:1718
+#: ../plugins/fn-derivatives/options.c:1672
+#: ../plugins/fn-derivatives/options.c:1716
 msgid "volatility1:annualized volatility in price of asset 1"
 msgstr "nestanovitnost1: letna mera nestanovitnosti cene prvega dela sredstev"
 
-#: ../plugins/fn-derivatives/options.c:1675
-#: ../plugins/fn-derivatives/options.c:1719
+#: ../plugins/fn-derivatives/options.c:1673
+#: ../plugins/fn-derivatives/options.c:1717
 msgid "volatility2:annualized volatility in price of asset 2"
 msgstr "nestanovitnost1: letna mera nestanovitnosti cene drugega dela sredstev"
 
-#: ../plugins/fn-derivatives/options.c:1676
-#: ../plugins/fn-derivatives/options.c:1720
+#: ../plugins/fn-derivatives/options.c:1674
+#: ../plugins/fn-derivatives/options.c:1718
 msgid "rho:correlation between the prices of the two assets"
 msgstr "ro: soodnosnost med cenama dveh delov sredstev"
 
-#: ../plugins/fn-derivatives/options.c:1677
+#: ../plugins/fn-derivatives/options.c:1675
 msgid ""
 "OPT_EURO_EXCHANGE models the theoretical price of a European option to "
 "exchange one asset with quantity @{qty2} and spot price @{spot2} for another "
@@ -2403,14 +2403,14 @@ msgstr ""
 "menjavi določene @{količine2} sredstev z določeno @{gotovinsko ceno2} za "
 "drugo @{količino1} sredstev z drugo @{gotovinsko ceno1}."
 
-#: ../plugins/fn-derivatives/options.c:1707
+#: ../plugins/fn-derivatives/options.c:1705
 msgid ""
 "OPT_AMER_EXCHANGE:theoretical price of an American option to exchange assets"
 msgstr ""
 "OPT_AMER_EXCHANGE: teoretična cena ameriške opcije pri menjavi vrednosti "
 "sredstev"
 
-#: ../plugins/fn-derivatives/options.c:1721
+#: ../plugins/fn-derivatives/options.c:1719
 msgid ""
 "OPT_AMER_EXCHANGE models the theoretical price of an American option to "
 "exchange one asset with quantity @{qty2} and spot price @{spot2} for another "
@@ -2420,7 +2420,7 @@ msgstr ""
 "menjavi določene @{količine2} sredstev z določeno @{gotovinsko ceno2} za "
 "drugo @{količino1} sredstev z drugo @{gotovinsko ceno1}."
 
-#: ../plugins/fn-derivatives/options.c:1751
+#: ../plugins/fn-derivatives/options.c:1749
 msgid ""
 "OPT_SPREAD_APPROX:theoretical price of a European option on the spread "
 "between two futures contracts"
@@ -2428,15 +2428,15 @@ msgstr ""
 "OPT_SPREAD_APPROX: teoretična cena evropske opcije z razmikom med dvema "
 "terminskima pogodbama"
 
-#: ../plugins/fn-derivatives/options.c:1753
+#: ../plugins/fn-derivatives/options.c:1751
 msgid "fut_price1:price of the first futures contract"
 msgstr "prihodnja cena1: cena prve terminske pogodbe"
 
-#: ../plugins/fn-derivatives/options.c:1754
+#: ../plugins/fn-derivatives/options.c:1752
 msgid "fut_price2:price of the second futures contract"
 msgstr "prihodnja cena1: cena druge terminske pogodbe"
 
-#: ../plugins/fn-derivatives/options.c:1758
+#: ../plugins/fn-derivatives/options.c:1756
 msgid ""
 "volatility1:annualized volatility in price of the first underlying futures "
 "contract"
@@ -2444,7 +2444,7 @@ msgstr ""
 "nestanovitnost1: letna mera nestanovitnosti v ceni osnovne vrednosti prve "
 "terminske pogodbe"
 
-#: ../plugins/fn-derivatives/options.c:1759
+#: ../plugins/fn-derivatives/options.c:1757
 msgid ""
 "volatility2:annualized volatility in price of the second underlying futures "
 "contract"
@@ -2452,26 +2452,26 @@ msgstr ""
 "nestanovitnost2: letna mera nestanovitnosti v ceni osnovne vrednosti druge "
 "terminske pogodbe"
 
-#: ../plugins/fn-derivatives/options.c:1760
+#: ../plugins/fn-derivatives/options.c:1758
 msgid "rho:correlation between the two futures contracts"
 msgstr "ro: soodnosnost med dvema terminskima pogodbama"
 
-#: ../plugins/fn-derivatives/options.c:1806
+#: ../plugins/fn-derivatives/options.c:1804
 msgid ""
 "OPT_FLOAT_STRK_LKBK:theoretical price of floating-strike lookback option"
 msgstr "OPT_FLOAT_STRK_LKBK: teoretična cena opcije s plavajočo izvršilno ceno"
 
-#: ../plugins/fn-derivatives/options.c:1809
-#: ../plugins/fn-derivatives/options.c:1873
+#: ../plugins/fn-derivatives/options.c:1807
+#: ../plugins/fn-derivatives/options.c:1871
 msgid "spot_min:minimum spot price of the underlying asset so far observed"
 msgstr "najnižja cena: najnižja določena gotovinska cena osnovnih sredstev"
 
-#: ../plugins/fn-derivatives/options.c:1810
-#: ../plugins/fn-derivatives/options.c:1874
+#: ../plugins/fn-derivatives/options.c:1808
+#: ../plugins/fn-derivatives/options.c:1872
 msgid "spot_max:maximum spot price of the underlying asset so far observed"
 msgstr "najvišja cena: najvišja določena gotovinska cena osnovnih sredstev"
 
-#: ../plugins/fn-derivatives/options.c:1815
+#: ../plugins/fn-derivatives/options.c:1813
 msgid ""
 "OPT_FLOAT_STRK_LKBK determines the theoretical price of a floating-strike "
 "lookback option where the holder of the option may exercise on expiry at the "
@@ -2483,13 +2483,13 @@ msgstr ""
 "najugodnejši doseženi ceni v celotnem obdobju določanja vrednosti osnovnega "
 "sredstva opcije."
 
-#: ../plugins/fn-derivatives/options.c:1870
+#: ../plugins/fn-derivatives/options.c:1868
 msgid "OPT_FIXED_STRK_LKBK:theoretical price of a fixed-strike lookback option"
 msgstr ""
 "OPT_FIXED_STRK_LKBK: teoretična cena povratne opcije z nespremenljivo "
 "izvršilno ceno"
 
-#: ../plugins/fn-derivatives/options.c:1880
+#: ../plugins/fn-derivatives/options.c:1878
 msgid ""
 "OPT_FIXED_STRK_LKBK determines the theoretical price of a fixed-strike "
 "lookback option where the holder of the option may exercise on expiry at the "
@@ -2501,7 +2501,7 @@ msgstr ""
 "zapadlosti po najugodnejši doseženi ceni v celotnem obdobju določanja "
 "vrednosti osnovnega sredstva opcije."
 
-#: ../plugins/fn-derivatives/options.c:1954
+#: ../plugins/fn-derivatives/options.c:1952
 msgid ""
 "OPT_BINOMIAL:theoretical price of either an American or European style "
 "option using a binomial tree"
@@ -2509,19 +2509,19 @@ msgstr ""
 "OPT_BINOMIAL: teoretična cena ameriške ali evropske opcije z uporabo "
 "binomskega drevesa"
 
-#: ../plugins/fn-derivatives/options.c:1955
+#: ../plugins/fn-derivatives/options.c:1953
 msgid ""
 "amer_euro_flag:'a' for an American style option or 'e' for a European style "
 "option"
 msgstr ""
 "zastavica vrste: 'e' za izvedbo v evropskem slogu, 'a' za ameriški slog"
 
-#: ../plugins/fn-derivatives/options.c:1957
+#: ../plugins/fn-derivatives/options.c:1955
 msgid "num_time_steps:number of time steps used in the valuation"
 msgstr ""
 "število časovnih korakov: število časovnih korakov, upoštevanih v oceni"
 
-#: ../plugins/fn-derivatives/options.c:1964
+#: ../plugins/fn-derivatives/options.c:1962
 msgid ""
 "A larger @{num_time_steps} yields greater accuracy but  OPT_BINOMIAL is "
 "slower to calculate."
@@ -2815,14 +2815,14 @@ msgstr "CONVERT: pretvorjena meritev"
 #: ../plugins/fn-math/functions.c:1088 ../plugins/fn-math/functions.c:1119
 #: ../plugins/fn-math/functions.c:1143 ../plugins/fn-math/functions.c:1227
 #: ../plugins/fn-math/functions.c:1264 ../plugins/fn-math/functions.c:1283
-#: ../plugins/fn-math/functions.c:1446 ../plugins/fn-math/functions.c:1488
-#: ../plugins/fn-math/functions.c:1617 ../plugins/fn-math/functions.c:1703
-#: ../plugins/fn-math/functions.c:1743 ../plugins/fn-math/functions.c:1761
-#: ../plugins/fn-math/functions.c:1966 ../plugins/fn-math/functions.c:2001
-#: ../plugins/fn-math/functions.c:2193 ../plugins/fn-math/functions.c:2223
-#: ../plugins/fn-math/functions.c:2347 ../plugins/fn-math/functions.c:2397
-#: ../plugins/fn-math/functions.c:2421 ../plugins/fn-math/functions.c:2452
-#: ../plugins/fn-math/functions.c:2489 ../plugins/fn-stat/functions.c:436
+#: ../plugins/fn-math/functions.c:1428 ../plugins/fn-math/functions.c:1472
+#: ../plugins/fn-math/functions.c:1601 ../plugins/fn-math/functions.c:1687
+#: ../plugins/fn-math/functions.c:1727 ../plugins/fn-math/functions.c:1745
+#: ../plugins/fn-math/functions.c:1950 ../plugins/fn-math/functions.c:1985
+#: ../plugins/fn-math/functions.c:2177 ../plugins/fn-math/functions.c:2207
+#: ../plugins/fn-math/functions.c:2331 ../plugins/fn-math/functions.c:2381
+#: ../plugins/fn-math/functions.c:2405 ../plugins/fn-math/functions.c:2436
+#: ../plugins/fn-math/functions.c:2473 ../plugins/fn-stat/functions.c:436
 #: ../plugins/fn-stat/functions.c:527 ../plugins/fn-stat/functions.c:588
 #: ../plugins/fn-stat/functions.c:979 ../plugins/fn-stat/functions.c:1048
 #: ../plugins/fn-stat/functions.c:1111 ../plugins/fn-stat/functions.c:1253
@@ -4905,34 +4905,34 @@ msgstr ""
 "  value          \t\tVrne vsebino celice v @{celici}.\n"
 "  width          \t\tVrne širino stolpca."
 
-#: ../plugins/fn-info/functions.c:1213
+#: ../plugins/fn-info/functions.c:364
 msgid "EXPRESSION:expression in @{cell} as a string"
 msgstr "EXPRESSION: izraz v @{celici} določen kot niz"
 
-#: ../plugins/fn-info/functions.c:1214
+#: ../plugins/fn-info/functions.c:365
 msgid "cell:a cell reference"
 msgstr "celica: sklic celice"
 
-#: ../plugins/fn-info/functions.c:1215
+#: ../plugins/fn-info/functions.c:366
 msgid "If @{cell} contains no expression, EXPRESSION returns empty."
 msgstr ""
 "Če @{celica} ne vsebuje izraza, funkcija EXPRESSION vrne prazno vrednost."
 
-#: ../plugins/fn-info/functions.c:1250
+#: ../plugins/fn-info/functions.c:401
 msgid "GET.FORMULA:the formula in @{cell} as a string"
 msgstr "GET.FORMULA: formula v @{celici} oblikovana kot niz"
 
-#: ../plugins/fn-info/functions.c:1251 ../plugins/fn-info/functions.c:1293
-#: ../plugins/fn-info/functions.c:1864
+#: ../plugins/fn-info/functions.c:402 ../plugins/fn-info/functions.c:444
+#: ../plugins/fn-info/functions.c:1015
 msgid "cell:the referenced cell"
 msgstr "celica: celica sklica"
 
-#: ../plugins/fn-info/functions.c:1252
+#: ../plugins/fn-info/functions.c:403
 msgid "GET.FORMULA is the OpenFormula function FORMULA."
 msgstr ""
 "Funkcija GET.FORMULA je skladna s funkcijo FORMULA programa OpenFormula."
 
-#: ../plugins/fn-info/functions.c:1253
+#: ../plugins/fn-info/functions.c:404
 msgid ""
 "If A1 is empty and A2 contains =B1+B2, then\n"
 "GET.FORMULA(A2) yields '=B1+B2' and\n"
@@ -4942,37 +4942,37 @@ msgstr ""
 "funkcija GET.FORMULA(A2) vrne '=B1+B2' in\n"
 "funkcija GET.FORMULA(A1) vrne ''."
 
-#: ../plugins/fn-info/functions.c:1292
+#: ../plugins/fn-info/functions.c:443
 msgid "ISFORMULA:TRUE if @{cell} contains a formula"
 msgstr "ISFORMULA: funkcija vrne PRAV, če @{celica} vsebuje formulo"
 
-#: ../plugins/fn-info/functions.c:1294
+#: ../plugins/fn-info/functions.c:445
 msgid "ISFORMULA is OpenFormula compatible."
 msgstr "Funkcija ISFORMULA je združljiva s funkcijo programa OpenFormula."
 
-#: ../plugins/fn-info/functions.c:1323
+#: ../plugins/fn-info/functions.c:474
 msgid "COUNTBLANK:the number of blank cells in @{range}"
 msgstr "COUNTBLANK: število praznih celic v @{obsegu}"
 
-#: ../plugins/fn-info/functions.c:1324
+#: ../plugins/fn-info/functions.c:475
 msgid "range:a cell range"
 msgstr "obseg: obseg celic podatkovne vrste"
 
-#: ../plugins/fn-info/functions.c:1326
+#: ../plugins/fn-info/functions.c:477
 msgid "COUNTBLANK(A1:A20) returns the number of blank cell in A1:A20."
 msgstr ""
 "Funkcija COUNTBLANK(A1:A20) vrne število praznih celic v obsegu A1:A20."
 
-#: ../plugins/fn-info/functions.c:1378
+#: ../plugins/fn-info/functions.c:529
 msgid ""
 "INFO:information about the current operating environment according to @{type}"
 msgstr "INFO: podrobnosti o trenutnem operacijskem okolju glede na @{vrsto}"
 
-#: ../plugins/fn-info/functions.c:1380
+#: ../plugins/fn-info/functions.c:531
 msgid "type:string giving the type of information requested"
 msgstr "vrsta: niz določila zahtevane podrobnosti"
 
-#: ../plugins/fn-info/functions.c:1381
+#: ../plugins/fn-info/functions.c:532
 msgid ""
 "INFO returns information about the current operating environment according "
 "to @{type}:\n"
@@ -4996,37 +4996,37 @@ msgstr ""
 "  system       \t\tVrne ime okolja seje.\n"
 "  totmem       \t\tVrne skupno velikost pomnilnika v bajtih."
 
-#: ../plugins/fn-info/functions.c:1477
+#: ../plugins/fn-info/functions.c:628
 msgid "ISERROR:TRUE if @{value} is any error value"
 msgstr "ISERROR: funkcija vrne PRAV, če je @{vrednost} katerakoli vrsta napake"
 
-#: ../plugins/fn-info/functions.c:1478 ../plugins/fn-info/functions.c:1496
-#: ../plugins/fn-info/functions.c:1518 ../plugins/fn-info/functions.c:1608
-#: ../plugins/fn-info/functions.c:1646 ../plugins/fn-info/functions.c:1664
-#: ../plugins/fn-info/functions.c:1681 ../plugins/fn-info/functions.c:1720
-#: ../plugins/fn-info/functions.c:1750 ../plugins/fn-info/functions.c:1800
+#: ../plugins/fn-info/functions.c:629 ../plugins/fn-info/functions.c:647
+#: ../plugins/fn-info/functions.c:669 ../plugins/fn-info/functions.c:759
+#: ../plugins/fn-info/functions.c:797 ../plugins/fn-info/functions.c:815
+#: ../plugins/fn-info/functions.c:832 ../plugins/fn-info/functions.c:871
+#: ../plugins/fn-info/functions.c:901 ../plugins/fn-info/functions.c:951
 msgid "value:a value"
 msgstr "vrednost: vrednost"
 
-#: ../plugins/fn-info/functions.c:1495
+#: ../plugins/fn-info/functions.c:646
 msgid "ISNA:TRUE if @{value} is the #N/A error value"
 msgstr "ISNA: funkcija vrne PRAV, če je @{vrednost} napaka #N/A"
 
-#: ../plugins/fn-info/functions.c:1517
+#: ../plugins/fn-info/functions.c:668
 msgid "ISERR:TRUE if @{value} is any error value except #N/A"
 msgstr ""
 "ISERR: funkcija vrne PRAV, če je @{vrednost} katerakoli vrsta napake, razen "
 "#N/A"
 
-#: ../plugins/fn-info/functions.c:1536
+#: ../plugins/fn-info/functions.c:687
 msgid "ERROR.TYPE:the type of @{error}"
 msgstr "ERROR.TYPE: vrsta @{napake}"
 
-#: ../plugins/fn-info/functions.c:1537
+#: ../plugins/fn-info/functions.c:688
 msgid "error:an error"
 msgstr "napaka: napaka"
 
-#: ../plugins/fn-info/functions.c:1538
+#: ../plugins/fn-info/functions.c:689
 msgid ""
 "ERROR.TYPE returns an error number corresponding to the given error value.  "
 "The error numbers for error values are:\n"
@@ -5048,23 +5048,23 @@ msgstr ""
 "\t#NUM!    \t6\n"
 "\t#N/A     \t\t7"
 
-#: ../plugins/fn-info/functions.c:1572
+#: ../plugins/fn-info/functions.c:723
 msgid "NA:the error value #N/A"
 msgstr "NA: vrednost napake #N/A"
 
-#: ../plugins/fn-info/functions.c:1590
+#: ../plugins/fn-info/functions.c:741
 msgid "ERROR:the error with the given @{name}"
 msgstr "ERROR: napaka s podanim @{imenom}"
 
-#: ../plugins/fn-info/functions.c:1591
+#: ../plugins/fn-info/functions.c:742
 msgid "name:string"
 msgstr "ime: niz"
 
-#: ../plugins/fn-info/functions.c:1607
+#: ../plugins/fn-info/functions.c:758
 msgid "ISBLANK:TRUE if @{value} is blank"
 msgstr "ISBLANK: funkcija vrne PRAV, če je @{vrednost} prazno polje"
 
-#: ../plugins/fn-info/functions.c:1609
+#: ../plugins/fn-info/functions.c:760
 msgid ""
 "This function checks if a value is blank.  Empty cells are blank, but empty "
 "strings are not."
@@ -5072,32 +5072,32 @@ msgstr ""
 "Funkcija preveri ali je vrednost prazna. Sem sodijo prazne celice, ne pa "
 "tudi prazni nizi."
 
-#: ../plugins/fn-info/functions.c:1624
+#: ../plugins/fn-info/functions.c:775
 msgid "ISEVEN:TRUE if @{n} is even"
 msgstr "ISEVEN: funkcija vrne PRAV, če je @{n} sodo število"
 
-#: ../plugins/fn-info/functions.c:1625 ../plugins/fn-info/functions.c:1699
-#: ../plugins/fn-math/functions.c:1489
+#: ../plugins/fn-info/functions.c:776 ../plugins/fn-info/functions.c:850
+#: ../plugins/fn-math/functions.c:1473
 msgid "n:number"
 msgstr "n: število"
 
-#: ../plugins/fn-info/functions.c:1645
+#: ../plugins/fn-info/functions.c:796
 msgid "ISLOGICAL:TRUE if @{value} is a logical value"
 msgstr "ISLOGICAL: funkcija vrne PRAV, če je @{vrednost} logična vrednost"
 
-#: ../plugins/fn-info/functions.c:1647
+#: ../plugins/fn-info/functions.c:798
 msgid "This function checks if a value is either TRUE or FALSE."
 msgstr "Funkcija preveri ali je vrednost ali PRAV ali NAPAK."
 
-#: ../plugins/fn-info/functions.c:1663
+#: ../plugins/fn-info/functions.c:814
 msgid "ISNONTEXT:TRUE if @{value} is not text"
 msgstr "ISNONTEXT: funkcija vrne PRAV, če @{vrednost} ni besedilo"
 
-#: ../plugins/fn-info/functions.c:1680
+#: ../plugins/fn-info/functions.c:831
 msgid "ISNUMBER:TRUE if @{value} is a number"
 msgstr "ISNUMBER: funkcija vrne PRAV, če je @{vrednost} število"
 
-#: ../plugins/fn-info/functions.c:1682
+#: ../plugins/fn-info/functions.c:833
 msgid ""
 "This function checks if a value is a number.  Neither TRUE nor FALSE are "
 "numbers for this purpose."
@@ -5105,27 +5105,27 @@ msgstr ""
 "Funkcija preveri ali je vrednost število. Pri tem vrednosti PRAV in NAPAK "
 "nista števili."
 
-#: ../plugins/fn-info/functions.c:1698
+#: ../plugins/fn-info/functions.c:849
 msgid "ISODD:TRUE if @{n} is odd"
 msgstr "ISODD: funkcija vrne PRAV, če je @{n} liho število"
 
-#: ../plugins/fn-info/functions.c:1719
+#: ../plugins/fn-info/functions.c:870
 msgid "ISREF:TRUE if @{value} is a reference"
 msgstr "ISREF: funkcija vrne PRAV, če je @{vrednost} sklic"
 
-#: ../plugins/fn-info/functions.c:1721
+#: ../plugins/fn-info/functions.c:872
 msgid "This function checks if a value is a cell reference."
 msgstr "Funkcija preveri ali je vrednost sklic celice."
 
-#: ../plugins/fn-info/functions.c:1749
+#: ../plugins/fn-info/functions.c:900
 msgid "ISTEXT:TRUE if @{value} is text"
 msgstr "ISTEXT: funkcija vrne PRAV, če je @{vrednost} besedilo"
 
-#: ../plugins/fn-info/functions.c:1767
+#: ../plugins/fn-info/functions.c:918
 msgid "N:@{text} converted to a number"
 msgstr "N: @{besedilo} pretvorjeno v številčno vrednost"
 
-#: ../plugins/fn-info/functions.c:1768 ../plugins/fn-string/functions.c:385
+#: ../plugins/fn-info/functions.c:919 ../plugins/fn-string/functions.c:385
 #: ../plugins/fn-string/functions.c:601 ../plugins/fn-string/functions.c:741
 #: ../plugins/fn-string/functions.c:785 ../plugins/fn-string/functions.c:912
 #: ../plugins/fn-string/functions.c:1137 ../plugins/fn-string/functions.c:1184
@@ -5133,19 +5133,19 @@ msgstr "N: @{besedilo} pretvorjeno v številčno vrednost"
 msgid "text:string"
 msgstr "besedilo: niz"
 
-#: ../plugins/fn-info/functions.c:1769
+#: ../plugins/fn-info/functions.c:920
 msgid "If @{text} contains non-numerical text, 0 is returned."
 msgstr "Če vsebuje @{besedilo} ne-številske znake, funkcija vrne vrednost 0."
 
-#: ../plugins/fn-info/functions.c:1772
+#: ../plugins/fn-info/functions.c:923
 msgid "=N(\"eleven\")"
 msgstr "=N(\"eleven\")"
 
-#: ../plugins/fn-info/functions.c:1799
+#: ../plugins/fn-info/functions.c:950
 msgid "TYPE:a number indicating the data type of @{value}"
 msgstr "TYPE: številka, ki določa vrsto @{vrednosti} podatka"
 
-#: ../plugins/fn-info/functions.c:1801
+#: ../plugins/fn-info/functions.c:952
 msgid ""
 "TYPE returns a number indicating the data type of @{value}:\n"
 "1  \t= number\n"
@@ -5161,28 +5161,28 @@ msgstr ""
 "16 \t= napaka\n"
 "64 \t= polje"
 
-#: ../plugins/fn-info/functions.c:1840
+#: ../plugins/fn-info/functions.c:991
 msgid "GETENV:the value of execution environment variable @{name}"
 msgstr "GETENV: vrednost izvedbene okoljske spremenljivke @{X}"
 
-#: ../plugins/fn-info/functions.c:1841
+#: ../plugins/fn-info/functions.c:992
 msgid "name:the name of the environment variable"
 msgstr "X: ime okoljske spremenljivke"
 
-#: ../plugins/fn-info/functions.c:1842
+#: ../plugins/fn-info/functions.c:993
 msgid "If a variable called @{name} does not exist, #N/A will be returned."
 msgstr "Če spremenljivka @{name} ne obstaja, funkcija vrne napako #N/A!"
 
-#: ../plugins/fn-info/functions.c:1843
+#: ../plugins/fn-info/functions.c:994
 msgid "Variable names are case sensitive."
 msgstr "Pri imenih spremenljivk je pomembna velikost črk"
 
-#: ../plugins/fn-info/functions.c:1863
+#: ../plugins/fn-info/functions.c:1014
 msgid "GET.LINK:the target of the hyperlink attached to @{cell} as a string"
 msgstr ""
 "GET.LINK: ciljni naslov hiperpovezave, ki je povezana s @{celico} kot niz"
 
-#: ../plugins/fn-info/functions.c:1865
+#: ../plugins/fn-info/functions.c:1016
 msgid ""
 "The value return is not updated automatically when the link attached to "
 "@{cell} changes but requires a recalculation."
@@ -5281,8 +5281,8 @@ msgstr "XOR: logična izključujoča disjunkcija"
 
 #: ../plugins/fn-logical/functions.c:177
 msgid ""
-"XOR calculates the logical exclusive disjunction of its arguments @{b0},"
-"@{b1},..."
+"XOR calculates the logical exclusive disjunction of its arguments "
+"@{b0},@{b1},..."
 msgstr ""
 "Funkcija XOR izračuna logično izključujočo disjunkcijo argumentov @{b0}, "
 "@{b1}, ..."
@@ -5768,8 +5768,8 @@ msgstr ""
 "Če @{x} ni niti polje niti sklic in ne obseg, funkcija vrne napako #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1457
-msgid "column() in G13 equals 7."
-msgstr "stolpec() celice G13 je enak 7."
+msgid "COLUMN() in G13 equals 7."
+msgstr "COLUMN() celice G13 je enak 7."
 
 #: ../plugins/fn-lookup/functions.c:1497
 msgid "COLUMNNUMBER:column number for the given column called @{name}"
@@ -5830,8 +5830,9 @@ msgid ""
 "OFFSET returns the cell range starting at offset (@{row},@{col}) from "
 "@{range} of height @{height} and width @{width}."
 msgstr ""
-"Funkcija OFFSET vrne obseg celic, ki se začne z odmikom (@{vrstice},"
-"@{stolpca}) od določenega @{obsega} z določeno @{višino} in @{širino}."
+"Funkcija OFFSET vrne obseg celic, ki se začne z odmikom "
+"(@{vrstice},@{stolpca}) od določenega @{obsega} z določeno @{višino} in "
+"@{širino}."
 
 #: ../plugins/fn-lookup/functions.c:1551
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
@@ -6013,12 +6014,12 @@ msgstr "n1: pozitivno celo število"
 
 #: ../plugins/fn-math/functions.c:199
 msgid ""
-"GCD calculates the greatest common divisor of the given numbers @{n0},"
-"@{n1},..., the greatest integer that is a divisor of each argument."
+"GCD calculates the greatest common divisor of the given numbers "
+"@{n0},@{n1},..., the greatest integer that is a divisor of each argument."
 msgstr ""
-"Funkcija GDC izračuna največji skupni delitelj podanih števil @{n0},"
-"@{n1},..., oziroma, največje celo število, s katerim je mogoče brez ostanka "
-"deliti vsak argument."
+"Funkcija GDC izračuna največji skupni delitelj podanih števil "
+"@{n0},@{n1},..., oziroma, največje celo število, s katerim je mogoče brez "
+"ostanka deliti vsak argument."
 
 #: ../plugins/fn-math/functions.c:200 ../plugins/fn-math/functions.c:263
 msgid "If any of the arguments is not an integer, it is truncated."
@@ -6030,11 +6031,11 @@ msgstr "NSV: najmanjši skupni večkratnik"
 
 #: ../plugins/fn-math/functions.c:262
 msgid ""
-"LCM calculates the least common multiple of the given numbers @{n0},"
-"@{n1},..., the smallest integer that is a multiple of each argument."
+"LCM calculates the least common multiple of the given numbers "
+"@{n0},@{n1},..., the smallest integer that is a multiple of each argument."
 msgstr ""
-"Funkcija NSV izračuna najmanjši skupni večkratnik podanih števil @{n0},"
-"@{n1},..., oziroma, najmanjše celo število, ki je večkratnik vsakega "
+"Funkcija NSV izračuna najmanjši skupni večkratnik podanih števil "
+"@{n0},@{n1},..., oziroma, najmanjše celo število, ki je večkratnik vsakega "
 "argumenta."
 
 #: ../plugins/fn-math/functions.c:315
@@ -6042,7 +6043,7 @@ msgid "GD:Gudermannian function"
 msgstr "GD: Gudermannova funkcija"
 
 #: ../plugins/fn-math/functions.c:316 ../plugins/fn-math/functions.c:427
-#: ../plugins/fn-math/functions.c:1553 ../plugins/fn-stat/functions.c:1944
+#: ../plugins/fn-math/functions.c:1537 ../plugins/fn-stat/functions.c:1944
 msgid "x:value"
 msgstr "x: vrednost"
 
@@ -6095,8 +6096,8 @@ msgid "wolfram:InverseCotangent.html"
 msgstr "wolfram:InverseCotangent.html"
 
 #: ../plugins/fn-math/functions.c:431 ../plugins/fn-math/functions.c:841
-#: ../plugins/fn-math/functions.c:897 ../plugins/fn-math/functions.c:1652
-#: ../plugins/fn-math/functions.c:1689 ../plugins/fn-math/functions.c:1729
+#: ../plugins/fn-math/functions.c:897 ../plugins/fn-math/functions.c:1636
+#: ../plugins/fn-math/functions.c:1673 ../plugins/fn-math/functions.c:1713
 msgid "wiki:en:Trigonometric_functions"
 msgstr "wiki:en:Trigonometric_functions"
 
@@ -6375,8 +6376,9 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:811
 msgid ""
-"CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},"
-"@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1)."
+"CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). "
+"CEILING(@{x},@{significance}) is the OpenFormula function "
+"CEILING(@{x},@{significance},1)."
 msgstr ""
 "Funkcija CEILING(@{x}) se izvozi v ODF kot CEILING(@{x},SIGN(@{x}),1). Zapis "
 "CEILING(@{x},@{značilno število}) je enak zapisu v programu OpenFormula "
@@ -6387,8 +6389,8 @@ msgid "COS:the cosine of @{x}"
 msgstr "COS: kosinus vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:838 ../plugins/fn-math/functions.c:946
-#: ../plugins/fn-math/functions.c:1647 ../plugins/fn-math/functions.c:1683
-#: ../plugins/fn-math/functions.c:1723 ../plugins/fn-math/functions.c:1933
+#: ../plugins/fn-math/functions.c:1631 ../plugins/fn-math/functions.c:1667
+#: ../plugins/fn-math/functions.c:1707 ../plugins/fn-math/functions.c:1917
 msgid "x:angle in radians"
 msgstr "x: kot v radianih"
 
@@ -6401,7 +6403,7 @@ msgid "COSPI:the cosine of Pi*@{x}"
 msgstr "COSPI: kosinus vrednosti Pi*@{x}"
 
 #: ../plugins/fn-math/functions.c:858 ../plugins/fn-math/functions.c:911
-#: ../plugins/fn-math/functions.c:1666 ../plugins/fn-math/functions.c:1950
+#: ../plugins/fn-math/functions.c:1650 ../plugins/fn-math/functions.c:1934
 msgid "x:number of half turns"
 msgstr "x: število polovičnih poskusov"
 
@@ -6429,8 +6431,8 @@ msgstr "COTH: hiperbolični kotangens vrednosti @{x}"
 msgid "wolfram:HyperbolicCotangent.html"
 msgstr "wolfram:HyperbolicCotangent.html"
 
-#: ../plugins/fn-math/functions.c:932 ../plugins/fn-math/functions.c:1709
-#: ../plugins/fn-math/functions.c:1749
+#: ../plugins/fn-math/functions.c:932 ../plugins/fn-math/functions.c:1693
+#: ../plugins/fn-math/functions.c:1733
 msgid "wiki:en:Hyperbolic_function"
 msgstr "wiki:en:Hyperbolic_function"
 
@@ -6511,7 +6513,7 @@ msgid "BETA:Euler beta function"
 msgstr "BETA: Eulerjeva funkcija beta"
 
 #: ../plugins/fn-math/functions.c:1120 ../plugins/fn-math/functions.c:1144
-#: ../plugins/fn-math/functions.c:1447
+#: ../plugins/fn-math/functions.c:1429
 msgid "y:number"
 msgstr "y: število"
 
@@ -6562,7 +6564,7 @@ msgid "COMBIN:binomial coefficient"
 msgstr "COMBIN:binominalni koeficient"
 
 #: ../plugins/fn-math/functions.c:1168 ../plugins/fn-math/functions.c:1200
-#: ../plugins/fn-math/functions.c:2611
+#: ../plugins/fn-math/functions.c:2595
 msgid "n:non-negative integer"
 msgstr "n: ne-negativno celo število"
 
@@ -6624,8 +6626,9 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1233
 msgid ""
-"FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},"
-"@{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1)."
+"FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). "
+"FLOOR(@{x},@{significance}) is the OpenFormula function "
+"FLOOR(@{x},@{significance},1)."
 msgstr ""
 "Funkcija FLOOR(@{x}) se izvozi v ODF kot FLOOR(@{x},SIGN(@{x}),1). Zapis "
 "FLOOR(@{x},@{značilno število}) je enak zapisu v programu OpenFormula "
@@ -6665,29 +6668,29 @@ msgstr ""
 msgid "LOG:logarithm of @{x} with base @{base}"
 msgstr "LOG: logaritem vrednosti @{x} z osnovo @{osnova}"
 
-#: ../plugins/fn-math/functions.c:1310 ../plugins/fn-math/functions.c:1356
-#: ../plugins/fn-math/functions.c:1387 ../plugins/fn-math/functions.c:1422
-#: ../plugins/fn-math/functions.c:1509 ../plugins/fn-math/functions.c:1531
+#: ../plugins/fn-math/functions.c:1310 ../plugins/fn-math/functions.c:1338
+#: ../plugins/fn-math/functions.c:1369 ../plugins/fn-math/functions.c:1404
+#: ../plugins/fn-math/functions.c:1493 ../plugins/fn-math/functions.c:1515
 msgid "x:positive number"
 msgstr "x: pozitivno število"
 
-#: ../plugins/fn-math/functions.c:1311 ../plugins/fn-math/functions.c:1357
+#: ../plugins/fn-math/functions.c:1311 ../plugins/fn-math/functions.c:1339
 msgid "base:base of the logarithm, defaults to 10"
 msgstr "osnova: osnova logaritma, privzeto določena na 10"
 
-#: ../plugins/fn-math/functions.c:1312 ../plugins/fn-math/functions.c:1358
+#: ../plugins/fn-math/functions.c:1312 ../plugins/fn-math/functions.c:1340
 msgid "@{base} must be positive and not equal to 1."
 msgstr "@{osnova} mora biti pozitivna vrednost in ne sme biti enaka 1."
 
-#: ../plugins/fn-math/functions.c:1313 ../plugins/fn-math/functions.c:1359
+#: ../plugins/fn-math/functions.c:1313 ../plugins/fn-math/functions.c:1341
 msgid "If @{x} ≤ 0, LOG returns #NUM! error."
 msgstr "Če je @{x} ≤ 0, funkcija LOG vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1355
+#: ../plugins/fn-math/functions.c:1337
 msgid "ILOG:integer logarithm of @{x} with base @{base}"
 msgstr "ILOG: celoštevilski logaritem vrednosti @{x} z osnovo @{osnova}"
 
-#: ../plugins/fn-math/functions.c:1360
+#: ../plugins/fn-math/functions.c:1342
 msgid ""
 "This function returns the logarithm of @{x} using @{base} rounded down to "
 "nearest integer.  Unlike FLOOR(LOG(@{x},@{base})), this function is not "
@@ -6697,7 +6700,7 @@ msgstr ""
 "najbližje celo število.  Za razliko od funkcije FLOOR(LOG(@{x},@{osnova})) "
 "ta funkcija ni predmet napake pri predstavitvi vmesnega rezultata."
 
-#: ../plugins/fn-math/functions.c:1361
+#: ../plugins/fn-math/functions.c:1343
 msgid ""
 "This function is not implemented for all possible value.  #VALUE! will be "
 "returned for such arguments."
@@ -6705,19 +6708,19 @@ msgstr ""
 "Ta funkcija ni izvedena za vse možne vrednosti.  #VALUE! bo vrnjen za takšne "
 "argumente."
 
-#: ../plugins/fn-math/functions.c:1386
+#: ../plugins/fn-math/functions.c:1368
 msgid "LN:the natural logarithm of @{x}"
 msgstr "LN: naravni logaritem vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1388
+#: ../plugins/fn-math/functions.c:1370
 msgid "If @{x} ≤ 0, LN returns #NUM! error."
 msgstr "Če je @{x} ≤ 0, funkcija LN vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1421
+#: ../plugins/fn-math/functions.c:1403
 msgid "LN1P:LN(1+@{x})"
 msgstr "LN1P: LN(1+@{x})"
 
-#: ../plugins/fn-math/functions.c:1423
+#: ../plugins/fn-math/functions.c:1405
 msgid ""
 "LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating "
 "LN(1+@{x})."
@@ -6725,106 +6728,106 @@ msgstr ""
 "Funkcija LN1P izračuna vrednost LN(1+@{x}), vendar je izračun bolj natančen "
 "od neposrednega izračuna LN(1+@{x})."
 
-#: ../plugins/fn-math/functions.c:1424
+#: ../plugins/fn-math/functions.c:1406
 msgid "If @{x} ≤ -1, LN returns #NUM! error."
 msgstr "Če je @{x} ≤ -1, funkcija LN vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1445
+#: ../plugins/fn-math/functions.c:1427
 msgid ""
 "POWER:the value of @{x} raised to the power @{y} raised to the power of 1/"
 "@{z}"
 msgstr "POWER: vrednost @{x} na potenco @{y} na potenco1/@{z}"
 
-#: ../plugins/fn-math/functions.c:1448
+#: ../plugins/fn-math/functions.c:1430
 msgid "z:number"
 msgstr "z: število"
 
-#: ../plugins/fn-math/functions.c:1449
+#: ../plugins/fn-math/functions.c:1431
 msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
 msgstr ""
 "Če sta vrednosti @{x} in @{y} enaki 0, funkcija POWER vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1450
+#: ../plugins/fn-math/functions.c:1432
 msgid "If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!"
 msgstr "Če je vrednost @{x} = 0 in je @{y} < 0, funkcija vrne napako #DIV/0!"
 
-#: ../plugins/fn-math/functions.c:1451
+#: ../plugins/fn-math/functions.c:1433
 msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
 msgstr ""
 "Če @{x} < 0 in @{y} nista celi števili, funkcija POWER vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1452
+#: ../plugins/fn-math/functions.c:1434
 msgid "@{z} defaults to 1"
 msgstr "Vrednost @{z} je privzeto 1"
 
-#: ../plugins/fn-math/functions.c:1453
+#: ../plugins/fn-math/functions.c:1435
 msgid "If @{z} is not a positive integer, POWER returns #NUM!"
 msgstr "Če @{z ni celi pozitivno število, funkcija POWER vrne napako #NUM!"
 
-#: ../plugins/fn-math/functions.c:1454
+#: ../plugins/fn-math/functions.c:1436
 msgid "If @{x} < 0, @{y} is odd, and @{z} is even, POWER returns #NUM!"
 msgstr ""
 "Če je @{x} < 0 in je @{y} liho, @{z} pa sodo število, funkcija POWER vrne "
 "napako #NUM!"
 
-#: ../plugins/fn-math/functions.c:1487
+#: ../plugins/fn-math/functions.c:1471
 msgid "POCHHAMMER:the value of GAMMA(@{x}+@{n})/GAMMA(@{x})"
 msgstr "POCHHAMMER: vrednost GAMMA(@{x}+@{n})/GAMMA(@{x})"
 
-#: ../plugins/fn-math/functions.c:1508
+#: ../plugins/fn-math/functions.c:1492
 msgid "LOG2:the base-2 logarithm of @{x}"
 msgstr "LOG2: dvojiški logaritem vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1510
+#: ../plugins/fn-math/functions.c:1494
 msgid "If @{x} ≤ 0, LOG2 returns #NUM!"
 msgstr "Če je vrednost @{x} ≤ 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1530
+#: ../plugins/fn-math/functions.c:1514
 msgid "LOG10:the base-10 logarithm of @{x}"
 msgstr "LOG10: desetiški logaritem vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1532
+#: ../plugins/fn-math/functions.c:1516
 msgid "If @{x} ≤ 0, LOG10 returns #NUM!"
 msgstr "Če je vrednost @{x} ≤ 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1552
+#: ../plugins/fn-math/functions.c:1536
 msgid "MOD:the remainder of @{x} under division by @{n}"
 msgstr "MOD: ostanek vrednosti @{x} pri deljenju s številom @{n}"
 
-#: ../plugins/fn-math/functions.c:1554
+#: ../plugins/fn-math/functions.c:1538
 msgid "n:value"
 msgstr "n: vrednost"
 
-#: ../plugins/fn-math/functions.c:1555
+#: ../plugins/fn-math/functions.c:1539
 msgid "MOD function returns the remainder when @{x} is divided by @{n}."
 msgstr ""
 "Funkcija MOD vrne preostanek pri deljenju števila @{x} s številom @{n}."
 
-#: ../plugins/fn-math/functions.c:1556
+#: ../plugins/fn-math/functions.c:1540
 msgid "If @{n} is 0, MOD returns #DIV/0!"
 msgstr "Če je vrednost @{n} enaka 0, funkcija vrne napako #DIV/0!"
 
-#: ../plugins/fn-math/functions.c:1598
+#: ../plugins/fn-math/functions.c:1582
 msgid "RADIANS:the number of radians equivalent to @{x} degrees"
 msgstr "RADIANS: število radianov, ki sovpadajo z @{x} kotnimi stopinjami"
 
-#: ../plugins/fn-math/functions.c:1599
+#: ../plugins/fn-math/functions.c:1583
 msgid "x:angle in degrees"
 msgstr "x: kot v stopinjah"
 
-#: ../plugins/fn-math/functions.c:1616
+#: ../plugins/fn-math/functions.c:1600
 msgid "REDUCEPI:reduce modulo Pi divided by a power of 2"
 msgstr "REDUCEPI: zmanjšajte modulo Pi, deljeno z ekspoentom 2"
 
-#: ../plugins/fn-math/functions.c:1618
+#: ../plugins/fn-math/functions.c:1602
 msgid "e:scale"
 msgstr "e:merilo"
 
-#: ../plugins/fn-math/functions.c:1619
+#: ../plugins/fn-math/functions.c:1603
 msgid "q:get lower bits of quotient, defaults to FALSE"
 msgstr "q:pridobi nižje bite količnika, privzeto je FALSE"
 
-#: ../plugins/fn-math/functions.c:1621
+#: ../plugins/fn-math/functions.c:1605
 msgid ""
 "This function returns a value, xr, such that @{x}=xr+j*Pi/2^@{e} where j is "
 "an integer and the absolute value of xr does not exceed Pi/2^(@{e}+1).  If "
@@ -6836,7 +6839,7 @@ msgstr ""
 "argument @{q} TRUE, namesto tega vrne @e+1 nižje bite j.  Redukcija se "
 "izvede kot z uporabo natančne vrednosti Pi."
 
-#: ../plugins/fn-math/functions.c:1622
+#: ../plugins/fn-math/functions.c:1606
 msgid ""
 "The lowest valid @{e} is -1 representing reduction modulo 2*Pi; the highest "
 "is 7 representing reduction modulo Pi/256."
@@ -6844,167 +6847,167 @@ msgstr ""
 "Najnižji veljaven @{e} je -1, ki predstavlja reducijski modul 2*Pi; najvišji "
 "je 7, ki predstavlja redukcijski modul Pi / 256."
 
-#: ../plugins/fn-math/functions.c:1646
+#: ../plugins/fn-math/functions.c:1630
 msgid "SIN:the sine of @{x}"
 msgstr "SIN: sinus vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1651
+#: ../plugins/fn-math/functions.c:1635
 msgid "wolfram:Sine.html"
 msgstr "wolfram:Sine.html"
 
-#: ../plugins/fn-math/functions.c:1665
+#: ../plugins/fn-math/functions.c:1649
 msgid "SINPI:the sine of Pi*@{x}"
 msgstr "SINPI: sinus vrednosti Pi*@{x}"
 
-#: ../plugins/fn-math/functions.c:1682
+#: ../plugins/fn-math/functions.c:1666
 msgid "CSC:the cosecant of @{x}"
 msgstr "CSC: kosekans vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1684 ../plugins/fn-math/functions.c:1704
-#: ../plugins/fn-math/functions.c:1724 ../plugins/fn-math/functions.c:1744
+#: ../plugins/fn-math/functions.c:1668 ../plugins/fn-math/functions.c:1688
+#: ../plugins/fn-math/functions.c:1708 ../plugins/fn-math/functions.c:1728
 msgid "This function is not Excel compatible."
 msgstr "Ta funkcija ni združljiva s funkcijami programa MS Excel."
 
-#: ../plugins/fn-math/functions.c:1688
+#: ../plugins/fn-math/functions.c:1672
 msgid "wolfram:Cosecant.html"
 msgstr "wolfram:Cosecant.html"
 
-#: ../plugins/fn-math/functions.c:1702
+#: ../plugins/fn-math/functions.c:1686
 msgid "CSCH:the hyperbolic cosecant of @{x}"
 msgstr "CSCH:hiperbolični kosekans vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1708
+#: ../plugins/fn-math/functions.c:1692
 msgid "wolfram:HyperbolicCosecant.html"
 msgstr "wolfram:HyperbolicCosecant.html"
 
-#: ../plugins/fn-math/functions.c:1722
+#: ../plugins/fn-math/functions.c:1706
 msgid "SEC:Secant"
 msgstr "SEC: sekans"
 
-#: ../plugins/fn-math/functions.c:1725
+#: ../plugins/fn-math/functions.c:1709
 msgid "SEC(@{x}) is exported to OpenFormula as 1/COS(@{x})."
 msgstr "Funkcija SEC(@{x}) se izvozi v program OpenFormula kot 1/COS(@{x})."
 
-#: ../plugins/fn-math/functions.c:1728
+#: ../plugins/fn-math/functions.c:1712
 msgid "wolfram:Secant.html"
 msgstr "wolfram:Secant.html"
 
-#: ../plugins/fn-math/functions.c:1742
+#: ../plugins/fn-math/functions.c:1726
 msgid "SECH:the hyperbolic secant of @{x}"
 msgstr "SECH: hiperbolični sekans vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1745
+#: ../plugins/fn-math/functions.c:1729
 msgid "SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x})."
 msgstr "Funkcija SECH(@{x}) se izvozi v program OpenFormula kot 1/COSH(@{x})."
 
-#: ../plugins/fn-math/functions.c:1748
+#: ../plugins/fn-math/functions.c:1732
 msgid "wolfram:HyperbolicSecant.html"
 msgstr "wolfram:HyperbolicSecant.html"
 
-#: ../plugins/fn-math/functions.c:1760
+#: ../plugins/fn-math/functions.c:1744
 msgid "SINH:the hyperbolic sine of @{x}"
 msgstr "SINH: hiperbolični sinus vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1778
+#: ../plugins/fn-math/functions.c:1762
 msgid "SQRT:square root of @{x}"
 msgstr "SQRT: kvadratni koren vrednost @{x}"
 
-#: ../plugins/fn-math/functions.c:1779 ../plugins/fn-math/functions.c:2375
+#: ../plugins/fn-math/functions.c:1763 ../plugins/fn-math/functions.c:2359
 msgid "x:non-negative number"
 msgstr "x: ne-negativno število"
 
-#: ../plugins/fn-math/functions.c:1781
+#: ../plugins/fn-math/functions.c:1765
 msgid "If @{x} is negative, SQRT returns #NUM!"
 msgstr "Če je @{x} negativen, funkcija SQRT vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1800
+#: ../plugins/fn-math/functions.c:1784
 msgid "SUMA:sum of all values and cells referenced"
 msgstr "SUMA: vsota vseh vrednosti v sklicanih celicah"
 
-#: ../plugins/fn-math/functions.c:1801 ../plugins/fn-math/functions.c:1825
+#: ../plugins/fn-math/functions.c:1785 ../plugins/fn-math/functions.c:1809
 msgid "area0:first cell area"
 msgstr "obseg0: prvi obseg celic"
 
-#: ../plugins/fn-math/functions.c:1802 ../plugins/fn-math/functions.c:1826
+#: ../plugins/fn-math/functions.c:1786 ../plugins/fn-math/functions.c:1810
 msgid "area1:second cell area"
 msgstr "obseg1: drugi obseg celic"
 
-#: ../plugins/fn-math/functions.c:1824
+#: ../plugins/fn-math/functions.c:1808
 msgid "SUMSQ:sum of the squares of all values and cells referenced"
 msgstr "SUMSQ: vsota kvadratov vseh vrednosti v sklicanih celicah"
 
-#: ../plugins/fn-math/functions.c:1884
+#: ../plugins/fn-math/functions.c:1868
 msgid ""
 "MULTINOMIAL:multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},…,@{xn})"
 msgstr ""
-"MULTINOMIAL: vrne mnogočlenski niz števil (@{x1}+⋯+@{xn}) z izborom (@{x1},…,"
-"@{xn})"
+"MULTINOMIAL: vrne mnogočlenski niz števil (@{x1}+⋯+@{xn}) z izborom "
+"(@{x1},…,@{xn})"
 
-#: ../plugins/fn-math/functions.c:1885
+#: ../plugins/fn-math/functions.c:1869
 msgid "x1:first number"
 msgstr "x1: prvo število"
 
-#: ../plugins/fn-math/functions.c:1886
+#: ../plugins/fn-math/functions.c:1870
 msgid "x2:second number"
 msgstr "x2: drugo število"
 
-#: ../plugins/fn-math/functions.c:1887
+#: ../plugins/fn-math/functions.c:1871
 msgid "xn:nth number"
 msgstr "xn: n-to število"
 
-#: ../plugins/fn-math/functions.c:1891
+#: ../plugins/fn-math/functions.c:1875
 msgid "wiki:en:Multinomial_theorem"
 msgstr "wiki:en:Multinomial_theorem"
 
-#: ../plugins/fn-math/functions.c:1909
+#: ../plugins/fn-math/functions.c:1893
 msgid "G_PRODUCT:product of all the values and cells referenced"
 msgstr "G_PRODUCT: zmnožek vseh vrednosti sklicnih celic"
 
-#: ../plugins/fn-math/functions.c:1910
+#: ../plugins/fn-math/functions.c:1894
 msgid "x1:number"
 msgstr "x1: število"
 
-#: ../plugins/fn-math/functions.c:1911
+#: ../plugins/fn-math/functions.c:1895
 msgid "x2:number"
 msgstr "x2: število"
 
-#: ../plugins/fn-math/functions.c:1912
+#: ../plugins/fn-math/functions.c:1896
 msgid "Empty cells are ignored and the empty product is 1."
 msgstr "Prazne celice so prezrte, njihov zmnožek pa je 1."
 
-#: ../plugins/fn-math/functions.c:1932
+#: ../plugins/fn-math/functions.c:1916
 msgid "TAN:the tangent of @{x}"
 msgstr "TAN: tangenta vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1949
+#: ../plugins/fn-math/functions.c:1933
 msgid "TANPI:the tangent of Pi*@{x}"
 msgstr "TANPI: tangens vrednosti Pi*@{x}"
 
-#: ../plugins/fn-math/functions.c:1965
+#: ../plugins/fn-math/functions.c:1949
 msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr "TANH: hiperbolični tangens vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1982
+#: ../plugins/fn-math/functions.c:1966
 msgid "PI:the constant 𝜋"
 msgstr "PI: konstanta 𝜋"
 
-#: ../plugins/fn-math/functions.c:1983
+#: ../plugins/fn-math/functions.c:1967
 msgid ""
 "This function is Excel compatible, but it returns 𝜋 with a better precision."
 msgstr ""
 "Funkcija je združljiva s programom MS Excel, vendar vrne natančnejšo "
 "vrednost števila 𝜋."
 
-#: ../plugins/fn-math/functions.c:2000
+#: ../plugins/fn-math/functions.c:1984
 msgid "TRUNC:@{x} truncated to @{d} digits"
 msgstr "TRUNC: vrednost @{x} prirezana na @{d} števk"
 
-#: ../plugins/fn-math/functions.c:2002 ../plugins/fn-math/functions.c:2398
-#: ../plugins/fn-math/functions.c:2422 ../plugins/fn-math/functions.c:2453
+#: ../plugins/fn-math/functions.c:1986 ../plugins/fn-math/functions.c:2382
+#: ../plugins/fn-math/functions.c:2406 ../plugins/fn-math/functions.c:2437
 msgid "d:integer, defaults to 0"
 msgstr "d: celo število, privzeto je določena vrednost 0"
 
-#: ../plugins/fn-math/functions.c:2003
+#: ../plugins/fn-math/functions.c:1987
 msgid ""
 "If @{d} is omitted then it defaults to zero. If it is not an integer then it "
 "is truncated to an integer."
@@ -7012,33 +7015,33 @@ msgstr ""
 "Če je vrednost @{d} izpuščena, funkcija vrne vrednost nič. Če vrednost ni "
 "celo število, je število prirezano na celo število."
 
-#: ../plugins/fn-math/functions.c:2004
+#: ../plugins/fn-math/functions.c:1988
 msgid ""
 "If @{d} is negative, it refers to number of digits before the decimal point."
 msgstr ""
 "Če je @{d} negativen, se nanaša na število števk pred decimalno vejico."
 
-#: ../plugins/fn-math/functions.c:2192
+#: ../plugins/fn-math/functions.c:2176
 msgid "EVEN:@{x} rounded away from 0 to the next even integer"
 msgstr "EVEN: @{x} zaokroži število na naslednje sodo celo število"
 
-#: ../plugins/fn-math/functions.c:2222
+#: ../plugins/fn-math/functions.c:2206
 msgid "ODD:@{x} rounded away from 0 to the next odd integer"
 msgstr "ODD: @{x} zaokroži število na naslednje liho celo število"
 
-#: ../plugins/fn-math/functions.c:2253
+#: ../plugins/fn-math/functions.c:2237
 msgid "FACTDOUBLE:double factorial"
 msgstr "FACTDOUBLE: dvojna fakulteta"
 
-#: ../plugins/fn-math/functions.c:2254
+#: ../plugins/fn-math/functions.c:2238
 msgid "x:non-negative integer"
 msgstr "x: ne-negativno celo število"
 
-#: ../plugins/fn-math/functions.c:2255
+#: ../plugins/fn-math/functions.c:2239
 msgid "FACTDOUBLE function returns the double factorial @{x}!!"
 msgstr "Funkcija FACTDOUBLE vrne dvojno fakulteto @{x}!!"
 
-#: ../plugins/fn-math/functions.c:2256
+#: ../plugins/fn-math/functions.c:2240
 msgid ""
 "If @{x} is not an integer, it is truncated. If @{x} is negative, FACTDOUBLE "
 "returns #NUM!"
@@ -7046,11 +7049,11 @@ msgstr ""
 "Če @{x} ni celo število, je vrednost prirezana, če pa je @{x} negativno "
 "število, funkcija FACTDOUBLE vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:2278
+#: ../plugins/fn-math/functions.c:2262
 msgid "FIB:Fibonacci numbers"
 msgstr "FIB: Fibonaccijeva števila"
 
-#: ../plugins/fn-math/functions.c:2279 ../plugins/fn-numtheory/numtheory.c:259
+#: ../plugins/fn-math/functions.c:2263 ../plugins/fn-numtheory/numtheory.c:259
 #: ../plugins/fn-numtheory/numtheory.c:292
 #: ../plugins/fn-numtheory/numtheory.c:326
 #: ../plugins/fn-numtheory/numtheory.c:359
@@ -7062,11 +7065,11 @@ msgstr "FIB: Fibonaccijeva števila"
 msgid "n:positive integer"
 msgstr "n: pozitivno celo število"
 
-#: ../plugins/fn-math/functions.c:2280
+#: ../plugins/fn-math/functions.c:2264
 msgid "FIB(@{n}) is the @{n}th Fibonacci number."
 msgstr "Funkcija FIB (@{n}) vrne naslednje @{n}-to Fibonaccijevo število."
 
-#: ../plugins/fn-math/functions.c:2281
+#: ../plugins/fn-math/functions.c:2265
 msgid ""
 "If @{n} is not an integer, it is truncated. If it is negative or zero FIB "
 "returns #NUM!"
@@ -7074,49 +7077,49 @@ msgstr ""
 "Če @{n} ni celo število, je vrednost prirezana, če pa je število negativno "
 "ali nič, pa funkcija FIB vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:2319
+#: ../plugins/fn-math/functions.c:2303
 msgid "QUOTIENT:integer portion of a division"
 msgstr "QUOTIENT: celoštevilski del deljenja"
 
-#: ../plugins/fn-math/functions.c:2320
+#: ../plugins/fn-math/functions.c:2304
 msgid "numerator:integer"
 msgstr "numerator:celo število"
 
-#: ../plugins/fn-math/functions.c:2321
+#: ../plugins/fn-math/functions.c:2305
 msgid "denominator:non-zero integer"
 msgstr "števec: celo števil, različno od 0"
 
-#: ../plugins/fn-math/functions.c:2322
+#: ../plugins/fn-math/functions.c:2306
 msgid ""
 "QUOTIENT yields the integer portion of the division @{numerator}/"
 "@{denominator}.\n"
-"QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},"
-"@{denominator})=@{numerator}"
+"QUOTIENT (@{numerator},@{denominator})⨉@{denominator}"
+"+MOD(@{numerator},@{denominator})=@{numerator}"
 msgstr ""
 "Funkcija QUOTIENT vrne celoštevilski del deljenja @{števca}/@{imenovalca}.\n"
-"QUOTIENT (@{števec},@{imenovalec})⨉@{imenovalec}+MOD(@{števec},"
-"@{imenovalec})=@{števec}"
+"QUOTIENT (@{števec},@{imenovalec})⨉@{imenovalec}"
+"+MOD(@{števec},@{imenovalec})=@{števec}"
 
-#: ../plugins/fn-math/functions.c:2346
+#: ../plugins/fn-math/functions.c:2330
 msgid "SIGN:sign of @{x}"
 msgstr "SIGN: predznak vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:2348
+#: ../plugins/fn-math/functions.c:2332
 msgid ""
 "SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negative."
 msgstr ""
 "Funkcija SIGN vrne vrednost 1, če je @{x} pozitivno in -1, če je @{x} "
 "negativno število."
 
-#: ../plugins/fn-math/functions.c:2373
+#: ../plugins/fn-math/functions.c:2357
 msgid "SQRTPI:the square root of @{x} times 𝜋"
 msgstr "SQRTPI: kvadratni koren števila @{x} pomnoženo z 𝜋"
 
-#: ../plugins/fn-math/functions.c:2396
+#: ../plugins/fn-math/functions.c:2380
 msgid "ROUNDDOWN:@{x} rounded towards 0"
 msgstr "ROUNDDOWN: vrednost @{x} zaokrožena proti 0"
 
-#: ../plugins/fn-math/functions.c:2399
+#: ../plugins/fn-math/functions.c:2383
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded toward 0 to the given number "
 "of digits.\n"
@@ -7130,11 +7133,11 @@ msgstr ""
 "V primeru, da je @{d} manj kot 0, je @{x} zaokrožen proti 0 na levo stran "
 "decimalne vrednosti."
 
-#: ../plugins/fn-math/functions.c:2420
+#: ../plugins/fn-math/functions.c:2404
 msgid "ROUND:rounded @{x}"
 msgstr "ROUND: zaokrožena vrednost @{x}"
 
-#: ../plugins/fn-math/functions.c:2423
+#: ../plugins/fn-math/functions.c:2407
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded to the given number of "
 "digits.\n"
@@ -7146,11 +7149,11 @@ msgstr ""
 "V primeru, da je @{d} manj kot 0, je @{x} zaokrožen na levo stran decimalne "
 "vrednosti."
 
-#: ../plugins/fn-math/functions.c:2451
+#: ../plugins/fn-math/functions.c:2435
 msgid "ROUNDUP:@{x} rounded away from 0"
 msgstr "ROUNDUP: @{x} zaokrožen na število večje od 0"
 
-#: ../plugins/fn-math/functions.c:2454
+#: ../plugins/fn-math/functions.c:2438
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded away from 0 to the given "
 "number of digits.\n"
@@ -7164,28 +7167,28 @@ msgstr ""
 "V primeru, da je @{d} manj kot 0, je @{x} zaokrožen stran od 0 na levo stran "
 "decimalne vrednosti."
 
-#: ../plugins/fn-math/functions.c:2488
+#: ../plugins/fn-math/functions.c:2472
 msgid "MROUND:@{x} rounded to a multiple of @{m}"
 msgstr "MROUND: vrednost @{x} zaokrožena na večkratnik vrednosti @{m}"
 
-#: ../plugins/fn-math/functions.c:2490
+#: ../plugins/fn-math/functions.c:2474
 msgid "m:number"
 msgstr "m: število"
 
-#: ../plugins/fn-math/functions.c:2491
+#: ../plugins/fn-math/functions.c:2475
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
 msgstr ""
 "Če imata @{x} in @{m} različni predznak, funkcija MROUND vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:2532
+#: ../plugins/fn-math/functions.c:2516
 msgid "ARABIC:the Roman numeral @{roman} as number"
 msgstr "ARABIC: @{rimska} številka podana kot število"
 
-#: ../plugins/fn-math/functions.c:2533
+#: ../plugins/fn-math/functions.c:2517
 msgid "roman:Roman numeral"
 msgstr "rimsko: rimska številka"
 
-#: ../plugins/fn-math/functions.c:2534
+#: ../plugins/fn-math/functions.c:2518
 msgid ""
 "Any Roman symbol to the left of a larger symbol (directly or indirectly) "
 "reduces the final value by the symbol amount, otherwise, it increases the "
@@ -7194,15 +7197,15 @@ msgstr ""
 "Vsak rimski simbol zapisan na levi, večjega simbola (posredno ali "
 "neposredno), zmanjša končno vrednost za vrednost simbola, sicer ga poveča."
 
-#: ../plugins/fn-math/functions.c:2610
+#: ../plugins/fn-math/functions.c:2594
 msgid "ROMAN:@{n} as a roman numeral text"
 msgstr "ROMAN: število @{n} zapisano kot rimska številka"
 
-#: ../plugins/fn-math/functions.c:2612
+#: ../plugins/fn-math/functions.c:2596
 msgid "type:0,1,2,3,or 4, defaults to 0"
 msgstr "vrsta: 0,1,2,3,ali 4, privzeto je določena vrsta 0"
 
-#: ../plugins/fn-math/functions.c:2613
+#: ../plugins/fn-math/functions.c:2597
 msgid ""
 "ROMAN returns the arabic number @{n} as a roman numeral text.\n"
 "If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
@@ -7215,21 +7218,21 @@ msgstr ""
 "Vrsta 1 je bolj natančna kot običajna vrsta, vrsta 2 bolj kot 1 in vrsta 3 "
 "bolj kot 2. Vrsta 4 je poenostavljen zapis."
 
-#: ../plugins/fn-math/functions.c:2860
+#: ../plugins/fn-math/functions.c:2844
 msgid "SUMX2MY2:sum of the difference of squares"
 msgstr "SUMX2MY2: vsota razlike kvadratov"
 
-#: ../plugins/fn-math/functions.c:2861 ../plugins/fn-math/functions.c:2903
-#: ../plugins/fn-math/functions.c:2946
+#: ../plugins/fn-math/functions.c:2845 ../plugins/fn-math/functions.c:2887
+#: ../plugins/fn-math/functions.c:2930
 msgid "array0:first cell area"
 msgstr "polje1: prvi obseg celic"
 
-#: ../plugins/fn-math/functions.c:2862 ../plugins/fn-math/functions.c:2904
-#: ../plugins/fn-math/functions.c:2947
+#: ../plugins/fn-math/functions.c:2846 ../plugins/fn-math/functions.c:2888
+#: ../plugins/fn-math/functions.c:2931
 msgid "array1:second cell area"
 msgstr "polje2: drugi obseg celic"
 
-#: ../plugins/fn-math/functions.c:2863
+#: ../plugins/fn-math/functions.c:2847
 msgid ""
 "SUMX2MY2 function returns the sum of the difference of squares of "
 "corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
@@ -7237,8 +7240,8 @@ msgstr ""
 "Funkcija SUMX2MY2 vrne vsoto razlik kvadratov ustreznih vrednosti dveh "
 "podatkovnih polj. Enačba funkcije SUMX2MY2 je SUM(x^2-y^2)."
 
-#: ../plugins/fn-math/functions.c:2866 ../plugins/fn-math/functions.c:2910
-#: ../plugins/fn-math/functions.c:2953
+#: ../plugins/fn-math/functions.c:2850 ../plugins/fn-math/functions.c:2894
+#: ../plugins/fn-math/functions.c:2937
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
 "and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39."
@@ -7246,15 +7249,15 @@ msgstr ""
 "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 11, 15, 17, 21 in "
 "43, celice B1, B2, ... B5 pa števila 13, 22, 31, 33 in 39."
 
-#: ../plugins/fn-math/functions.c:2867
+#: ../plugins/fn-math/functions.c:2851
 msgid "Then SUMX2MY2(A1:A5,B1:B5) yields -1299."
 msgstr "Izračun funkcije SUMX2MY2(A1:A5,B1:B5) vrne rešitev -1299."
 
-#: ../plugins/fn-math/functions.c:2902
+#: ../plugins/fn-math/functions.c:2886
 msgid "SUMX2PY2:sum of the sum of squares"
 msgstr "SUMX2PY2: vsota vsot kvadratov"
 
-#: ../plugins/fn-math/functions.c:2905
+#: ../plugins/fn-math/functions.c:2889
 msgid ""
 "SUMX2PY2 function returns the sum of the sum of squares of corresponding "
 "values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2)."
@@ -7262,7 +7265,7 @@ msgstr ""
 "Funkcija SUMX2PY2 vrne vsoto vsot kvadratov ustreznih vrednosti dveh "
 "podatkovnih polj. Enačba funkcije SUMX2PY2 je SUM(x^2+y^2)."
 
-#: ../plugins/fn-math/functions.c:2907
+#: ../plugins/fn-math/functions.c:2891
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMX2PY2 "
 "returns #N/A.\n"
@@ -7272,15 +7275,15 @@ msgstr ""
 "SUMX2PY2 vrne napako #N/A!.\n"
 "Nizi in prazne celice so prezirti."
 
-#: ../plugins/fn-math/functions.c:2911
+#: ../plugins/fn-math/functions.c:2895
 msgid "Then SUMX2PY2(A1:A5,B1:B5) yields 7149."
 msgstr "Izračun funkcije SUMX2PY2(A1:A5,B1:B5) vrne rešitev 7149."
 
-#: ../plugins/fn-math/functions.c:2945
+#: ../plugins/fn-math/functions.c:2929
 msgid "SUMXMY2:sum of the squares of differences"
 msgstr "SUMXMY2:vsota kvadratov razlike"
 
-#: ../plugins/fn-math/functions.c:2948
+#: ../plugins/fn-math/functions.c:2932
 msgid ""
 "SUMXMY2 function returns the sum of the squares of the differences of "
 "corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
@@ -7288,7 +7291,7 @@ msgstr ""
 "Funkcija SUMXMY2 vrne vsoto kvadratov razlik ustreznih vrednosti dveh "
 "podatkovnih polj. Enačba funkcije SUMXMY2 je SUM((x-y)^2)."
 
-#: ../plugins/fn-math/functions.c:2950
+#: ../plugins/fn-math/functions.c:2934
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMXMY2 "
 "returns #N/A.\n"
@@ -7298,31 +7301,31 @@ msgstr ""
 "SUMXMY2 vrne napako #N/A!.\n"
 "Nizi in prazne celice so prezrti."
 
-#: ../plugins/fn-math/functions.c:2954
+#: ../plugins/fn-math/functions.c:2938
 msgid "Then SUMXMY2(A1:A5,B1:B5) yields 409."
 msgstr "Izračun funkcije SUMXMY2(A1:A5,B1:B5) vrne rešitev 409."
 
-#: ../plugins/fn-math/functions.c:2990
+#: ../plugins/fn-math/functions.c:2974
 msgid "SERIESSUM:sum of a power series at @{x}"
 msgstr "SERIESSUM: vsota potenčne vrste pri @{x}"
 
-#: ../plugins/fn-math/functions.c:2991
+#: ../plugins/fn-math/functions.c:2975
 msgid "x:number where to evaluate the power series"
 msgstr "x: število za oceno potenčne vrste"
 
-#: ../plugins/fn-math/functions.c:2992
+#: ../plugins/fn-math/functions.c:2976
 msgid "n:non-negative integer, exponent of the lowest term of the series"
 msgstr "n: ne-negativno celo število, potenca okrajšanega ulomka vrste"
 
-#: ../plugins/fn-math/functions.c:2993
+#: ../plugins/fn-math/functions.c:2977
 msgid "m:increment to each exponent"
 msgstr "m: povečanje vsake potence"
 
-#: ../plugins/fn-math/functions.c:2994
+#: ../plugins/fn-math/functions.c:2978
 msgid "coeff:coefficients of the power series"
 msgstr "coeff: koeficienti potenčne vrste"
 
-#: ../plugins/fn-math/functions.c:2996
+#: ../plugins/fn-math/functions.c:2980
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, "
 "2.98, 3.42, and 4.33."
@@ -7330,24 +7333,24 @@ msgstr ""
 "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 1.23, 2.32, 2.98, "
 "3.42 in 4,33."
 
-#: ../plugins/fn-math/functions.c:2997
+#: ../plugins/fn-math/functions.c:2981
 msgid "Then SERIESSUM(2,1,2.23,A1:A5) evaluates as 5056.37439843926"
 msgstr ""
 "Izračun funkcije SERIESSUM(2,1,2.23,A1:A5) vrne rešitev 5056.37439843926"
 
-#: ../plugins/fn-math/functions.c:3048
+#: ../plugins/fn-math/functions.c:3032
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE: inverzna matrika @{matrike}"
 
-#: ../plugins/fn-math/functions.c:3049 ../plugins/fn-math/functions.c:3338
+#: ../plugins/fn-math/functions.c:3033 ../plugins/fn-math/functions.c:3322
 msgid "matrix:a square matrix"
 msgstr "matrika: kvadratna matrika"
 
-#: ../plugins/fn-math/functions.c:3050
+#: ../plugins/fn-math/functions.c:3034
 msgid "If @{matrix} is not invertible, MINVERSE returns #NUM!"
 msgstr "Če @{matrika} ni inverzna, funkcija MINVERSE vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:3051
+#: ../plugins/fn-math/functions.c:3035
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, MINVERSE "
 "returns #VALUE!"
@@ -7355,29 +7358,29 @@ msgstr ""
 "Če @{matrika} nima enakega števila stolpcev in vrstic, funkcija MINVERSE "
 "vrne napako #VALUE!"
 
-#: ../plugins/fn-math/functions.c:3085
+#: ../plugins/fn-math/functions.c:3069
 msgid "MPSEUDOINVERSE:the pseudo-inverse matrix of @{matrix}"
 msgstr "MPSEUDOINVERSE: psevdo-inverzna matrika @{matrike}"
 
-#: ../plugins/fn-math/functions.c:3086
+#: ../plugins/fn-math/functions.c:3070
 msgid "matrix:a matrix"
 msgstr "matrika: matrika"
 
-#: ../plugins/fn-math/functions.c:3087
+#: ../plugins/fn-math/functions.c:3071
 msgid "threshold:a relative size threshold for discarding eigenvalues"
 msgstr "prag: relativna velikost praga za opuščene lastne vrednosti"
 
-#: ../plugins/fn-math/functions.c:3122
+#: ../plugins/fn-math/functions.c:3106
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite "
 "@{matrix}"
 msgstr "CHOLESKY: razcep Choleskega simetrične pozitivne definitne @{matrike}"
 
-#: ../plugins/fn-math/functions.c:3123
+#: ../plugins/fn-math/functions.c:3107
 msgid "matrix:a symmetric positive definite matrix"
 msgstr "matrika: simetrična pozitivna definitna matrika"
 
-#: ../plugins/fn-math/functions.c:3124
+#: ../plugins/fn-math/functions.c:3108
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
@@ -7385,7 +7388,7 @@ msgstr ""
 "Če algoritem razcepa Choleskega uveljavljen na @{matriki} spodleti, funkcija "
 "CHOLESKY vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:3125
+#: ../plugins/fn-math/functions.c:3109
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
@@ -7393,27 +7396,27 @@ msgstr ""
 "Če @{matrika} nima enakega števila stolpcev in vrstic, funkcija CHOLESKY "
 "vrne napako #VALUE!"
 
-#: ../plugins/fn-math/functions.c:3200
+#: ../plugins/fn-math/functions.c:3184
 msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr "MUNIT: enotska matrika @{n} krat @{n}"
 
-#: ../plugins/fn-math/functions.c:3201
+#: ../plugins/fn-math/functions.c:3185
 msgid "n:size of the matrix"
 msgstr "n: razsežnost matrike"
 
-#: ../plugins/fn-math/functions.c:3238
+#: ../plugins/fn-math/functions.c:3222
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr "MMULT:množenje matrik @{mat1} in @{mat2}"
 
-#: ../plugins/fn-math/functions.c:3239
+#: ../plugins/fn-math/functions.c:3223
 msgid "mat1:a matrix"
 msgstr "mat1: matrika 1"
 
-#: ../plugins/fn-math/functions.c:3240
+#: ../plugins/fn-math/functions.c:3224
 msgid "mat2:a matrix"
 msgstr "mat2: matrika 2"
 
-#: ../plugins/fn-math/functions.c:3241
+#: ../plugins/fn-math/functions.c:3225
 msgid ""
 "The number of columns in @{mat1} must equal the number of rows in @{mat2}; "
 "otherwise #VALUE! is returned.  The result of MMULT is an array, in which "
@@ -7424,31 +7427,31 @@ msgstr ""
 "#VALUE! se vrne.  Rezultat MMULT je matrika, v kateri je število vrstic "
 "enako kot v @{mat1}), število stolpcev pa je enako kot v (@{mat2})."
 
-#: ../plugins/fn-math/functions.c:3281
+#: ../plugins/fn-math/functions.c:3265
 msgid "LINSOLVE:solve linear equation"
 msgstr "LINSOLVE: razreši linearni izraz"
 
-#: ../plugins/fn-math/functions.c:3282 ../plugins/fn-stat/functions.c:3569
+#: ../plugins/fn-math/functions.c:3266 ../plugins/fn-stat/functions.c:3569
 msgid "A:a matrix"
 msgstr "A: matrika"
 
-#: ../plugins/fn-math/functions.c:3283
+#: ../plugins/fn-math/functions.c:3267
 msgid "B:a matrix"
 msgstr "B: matrika"
 
-#: ../plugins/fn-math/functions.c:3285
+#: ../plugins/fn-math/functions.c:3269
 msgid "Solves the equation @{A}*X=@{B} and returns X."
 msgstr "Razreši izraz @{A}*x=@{B} in vrne vrednost x."
 
-#: ../plugins/fn-math/functions.c:3286
+#: ../plugins/fn-math/functions.c:3270
 msgid "If the matrix @{A} is singular, #VALUE! is returned."
 msgstr "Če je matrika @{A} singularna, funkcija vrne napako #VALUE!."
 
-#: ../plugins/fn-math/functions.c:3337
+#: ../plugins/fn-math/functions.c:3321
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:determinanta @{matrike}"
 
-#: ../plugins/fn-math/functions.c:3339
+#: ../plugins/fn-math/functions.c:3323
 msgid ""
 "Let us assume that A1,...,A4 contain numbers 2, 3, 7, and 3; B1,..., B4 4, "
 "2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then "
@@ -7459,11 +7462,11 @@ msgstr ""
 "in celice D1, ..., D4 7, 3, 6, in 5. Izračun funkcije MDETERM(A1:D4) vrne "
 "rešitev 148."
 
-#: ../plugins/fn-math/functions.c:3369
+#: ../plugins/fn-math/functions.c:3353
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT: vsota zmnožkov ustreznih delov matrike."
 
-#: ../plugins/fn-math/functions.c:3371 ../plugins/fn-math/functions.c:3394
+#: ../plugins/fn-math/functions.c:3355 ../plugins/fn-math/functions.c:3378
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -7471,11 +7474,11 @@ msgstr ""
 "Zmnoži pripadajoče podatkovne vnose v podanem podatkovnem polju ali obsegu "
 "in vrne vsoto zmnožkov."
 
-#: ../plugins/fn-math/functions.c:3374
+#: ../plugins/fn-math/functions.c:3358
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Če vnos ni številčna vrednost, je uporabljena vrednost 0."
 
-#: ../plugins/fn-math/functions.c:3375 ../plugins/fn-math/functions.c:3398
+#: ../plugins/fn-math/functions.c:3359 ../plugins/fn-math/functions.c:3382
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -7483,7 +7486,7 @@ msgstr ""
 "Če polja ali obsegi vrednosti nimajo enakih razsežnosti, funkcija vrne "
 "napako #VALUE!."
 
-#: ../plugins/fn-math/functions.c:3377
+#: ../plugins/fn-math/functions.c:3361
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
@@ -7491,42 +7494,42 @@ msgstr ""
 "Funkcija ne upošteva logičnih parametrov, zato formula SUMPRODUCT(A1:A5>0) "
 "ne deluje. Uporabiti je treba formulo SUMPRODUCT(--(A1:A5>0))"
 
-#: ../plugins/fn-math/functions.c:3386
+#: ../plugins/fn-math/functions.c:3370
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr ""
 "Ta funkcija ni združljiva s funkcijami programa OpenFormula. Za združljivost "
 "je treba uporabiti funkcijo ODF.SUMPRODUCT."
 
-#: ../plugins/fn-math/functions.c:3392
+#: ../plugins/fn-math/functions.c:3376
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
 msgstr "ODF.SUMPRODUCT: vsota zmnožkov ustreznih delov matrike."
 
-#: ../plugins/fn-math/functions.c:3397
+#: ../plugins/fn-math/functions.c:3381
 msgid "If an entry is not numeric or logical, the value zero is used instead."
 msgstr "Če vnos ni številski ali logični, je uporabljena vrednost 0."
 
-#: ../plugins/fn-math/functions.c:3400
+#: ../plugins/fn-math/functions.c:3384
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr ""
 "Funkcija se loči od funkcije SUMPRODUCT po tem, da upošteva tudi logične "
 "vrednosti."
 
-#: ../plugins/fn-math/functions.c:3401
+#: ../plugins/fn-math/functions.c:3385
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr ""
 "Ta funkcija ni združljiva s funkcijami programa MS Excel. Za združljivost je "
 "treba uporabiti funkcijo SUMPRODUCT."
 
-#: ../plugins/fn-math/functions.c:3536
+#: ../plugins/fn-math/functions.c:3520
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN: lastna vrednost in lastni vektor simetrične @{matrike}"
 
-#: ../plugins/fn-math/functions.c:3537
+#: ../plugins/fn-math/functions.c:3521
 msgid "matrix:a symmetric matrix"
 msgstr "matrika: simetrična matrika"
 
-#: ../plugins/fn-math/functions.c:3538
+#: ../plugins/fn-math/functions.c:3522
 msgid ""
 "If @{matrix} is not symmetric, matching off-diagonal cells will be averaged "
 "on the assumption that the non-symmetry is caused by unimportant rounding "
@@ -7536,7 +7539,7 @@ msgstr ""
 "ob predpostavki, da je nesimetrija posledica nepomembnih napak pri "
 "zaokroževanju."
 
-#: ../plugins/fn-math/functions.c:3539
+#: ../plugins/fn-math/functions.c:3523
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
@@ -9504,8 +9507,8 @@ msgstr ""
 msgid ""
 "Then TRIMMEAN(A1:A5,0.2) equals 23.2 and TRIMMEAN(A1:A5,0.4) equals 21.5."
 msgstr ""
-"Izračun funkcije TRIMMEAN(A1:A5,0.2) vrne rešitev 23.2 in TRIMMEAN(A1:"
-"A5,0.4) vrne rešitev 21.5."
+"Izračun funkcije TRIMMEAN(A1:A5,0.2) vrne rešitev 23.2 in "
+"TRIMMEAN(A1:A5,0.4) vrne rešitev 21.5."
 
 #: ../plugins/fn-stat/functions.c:316
 msgid "COVAR:covariance of two data sets"
@@ -9850,8 +9853,8 @@ msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 "11.4, \"missing\", \"missing\", 25.9, and 40.1."
 msgstr ""
-"Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 11,4, \"prazno polje"
-"\", \"prazno polje\", 25,9 in 40,1. "
+"Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 11,4, \"prazno "
+"polje\", \"prazno polje\", 25,9 in 40,1. "
 
 #: ../plugins/fn-stat/functions.c:813
 msgid "Then COUNTA(A1:A5) equals 5."
@@ -10021,8 +10024,8 @@ msgstr "Če je @{df} < 1, funkcija vrne napako #NUM!."
 msgid ""
 "CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof})."
 msgstr ""
-"Funkcija CHIDIST(@{x},@{df}) je skladna s funkcijo LEGACY.CHIDIST(@{x},"
-"@{df}) programa OpenFormula."
+"Funkcija CHIDIST(@{x},@{df}) je skladna s funkcijo "
+"LEGACY.CHIDIST(@{x},@{df}) programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1138
 msgid "CHIINV:inverse of the survival function of the chi-squared distribution"
@@ -10117,8 +10120,8 @@ msgstr "Če število @{repov} ni ne 1 in ne 2, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1372
 msgid ""
-"The parameterization of this function is different from what is used for, e."
-"g., NORMSDIST.  This is a common source of mistakes, but necessary for "
+"The parameterization of this function is different from what is used for, "
+"e.g., NORMSDIST.  This is a common source of mistakes, but necessary for "
 "compatibility."
 msgstr ""
 "Izločanje značilnic (parametrizacija) te funkcije se razlikuje od tiste, ki "
@@ -10150,8 +10153,8 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1425
 msgid ""
-"The parameterization of this function is different from what is used for, e."
-"g., NORMSINV.  This is a common source of mistakes, but necessary for "
+"The parameterization of this function is different from what is used for, "
+"e.g., NORMSINV.  This is a common source of mistakes, but necessary for "
 "compatibility."
 msgstr ""
 "Izločanje značilnic (parametrizacija) te funkcije se razlikuje od tiste, ki "
@@ -10941,8 +10944,8 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2991
 msgid ""
-"PERCENTRANK.EXC:rank of a data point in a data set (Hyndman-Fan method 6: N"
-"+1 basis)"
+"PERCENTRANK.EXC:rank of a data point in a data set (Hyndman-Fan method 6: "
+"N+1 basis)"
 msgstr ""
 "PERCENTRANK.EXC: rang podatkovne točke v naboru podatkov (Hyndman-Fanova "
 "metoda 6: osnova N+1)"
@@ -11015,8 +11018,8 @@ msgstr "Izračun funkcije QUARTILE(A1:A5,1) vrne rešitev 17,3."
 
 #: ../plugins/fn-stat/functions.c:3222
 msgid ""
-"QUARTILE.EXC:the @{k}-th quartile of the data points (Hyndman-Fan method 6: N"
-"+1 basis)"
+"QUARTILE.EXC:the @{k}-th quartile of the data points (Hyndman-Fan method 6: "
+"N+1 basis)"
 msgstr ""
 "QUARTILE.EXC: @{k}-ti kvartil podatkovnih točk (Hyndman-Fanova metoda 6: "
 "osnova N+1)"
@@ -11098,12 +11101,12 @@ msgstr "Če @{vrsta} ni ne 1, 2, ali 3, funkcija vrne napako #NUM!."
 #: ../plugins/fn-stat/functions.c:3342
 msgid ""
 "Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619. TTEST(A1:A5,B1:B5,2,1) "
-"equals 0.006255239. TTEST(A1:A5,B1:B5,1,2) equals 0.111804322. TTEST(A1:A5,"
-"B1:B5,1,3) equals 0.113821797."
+"equals 0.006255239. TTEST(A1:A5,B1:B5,1,2) equals 0.111804322. "
+"TTEST(A1:A5,B1:B5,1,3) equals 0.113821797."
 msgstr ""
-"Izračun funkcije TTEST(A1:A5,B1:B5,1,1) vrne rešitev 0,003127619, TTEST(A1:"
-"A5,B1:B5,2,1) vrne rešitev 0,006255239, TTEST(A1:A5,B1:B5,1,2) vrne rešitev "
-"0,111804322 in TTEST(A1:A5,B1:B5,1,3) vrne rešitev 0,113821797."
+"Izračun funkcije TTEST(A1:A5,B1:B5,1,1) vrne rešitev 0,003127619, "
+"TTEST(A1:A5,B1:B5,2,1) vrne rešitev 0,006255239, TTEST(A1:A5,B1:B5,1,2) vrne "
+"rešitev 0,111804322 in TTEST(A1:A5,B1:B5,1,3) vrne rešitev 0,113821797."
 
 #: ../plugins/fn-stat/functions.c:3500
 msgid "FREQUENCY:frequency table"
@@ -11551,8 +11554,8 @@ msgid ""
 "SUBTOTAL(11,A1:A5) equals 30.4."
 msgstr ""
 "Izračun funkcije SUBTOTAL(1,A1:A5) vrne rešitev 30, SUBTOTAL(6,A1:A5) vrne "
-"rešitev 22378356, SUBTOTAL(7,A1:A5) vrne rešitev 6,164414003, SUBTOTAL(9,A1:"
-"A5) vrne rešitev 150 in SUBTOTAL(11,A1:A5) vrne rešitev 30,4."
+"rešitev 22378356, SUBTOTAL(7,A1:A5) vrne rešitev 6,164414003, "
+"SUBTOTAL(9,A1:A5) vrne rešitev 150 in SUBTOTAL(11,A1:A5) vrne rešitev 30,4."
 
 #: ../plugins/fn-stat/functions.c:4695
 msgid "CRONBACH:Cronbach's alpha"
