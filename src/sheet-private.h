@@ -18,6 +18,8 @@ struct _SheetPrivate {
 	GnmCellPos	 reposition_objects;
 	unsigned char	 filters_changed;
 	unsigned char	 objects_changed;
+
+	double           pixels_per_pt;
 };
 
 /* for internal use only */

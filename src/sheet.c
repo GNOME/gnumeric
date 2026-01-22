@@ -744,9 +744,11 @@ gnm_sheet_constructed (GObject *obj)
 	style = sheet_style_default (sheet);
 	ht = gnm_style_get_pango_height (style,
 					 sheet->rendered_values->context, 1);
-	gnm_style_unref (style);
 	ht += GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
-	if (ht > sheet_row_get_default_size_pixels (sheet)) {
+	gnm_style_unref (style);
+	sheet->priv->pixels_per_pt = ht / sheet_row_get_default_size_pts (sheet);
+
+	if (FALSE && ht > sheet_row_get_default_size_pixels (sheet)) {
 		sheet_row_set_default_size_pixels (sheet, ht);
 		sheet_col_set_default_size_pixels (sheet, ht * 9 / 2);
 	}
@@ -788,6 +790,9 @@ gnm_sheet_init (Sheet *sheet)
 	/* Init, focus, and load handle setting these if/when necessary */
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
+
+	// Nominal.  Going to get changed.
+	sheet->priv->pixels_per_pt = 4.0 / 3;
 
 	sheet->is_protected = FALSE;
 	sheet->protected_allow.edit_scenarios		= FALSE;

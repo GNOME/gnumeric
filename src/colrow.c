@@ -61,7 +61,8 @@ col_row_info_get_type (void)
 double
 colrow_compute_pixel_scale (Sheet const *sheet, gboolean horizontal)
 {
-	double scale = gnm_app_display_dpi_get (horizontal) / 72.0;
+	// double scale = gnm_app_display_dpi_get (horizontal) / 72.0;
+	double scale = sheet->priv->pixels_per_pt;
 	if (sheet) {
 		scale *= sheet->last_zoom_factor_used;
 	} else {

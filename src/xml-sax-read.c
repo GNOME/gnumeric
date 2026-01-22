@@ -415,6 +415,8 @@ typedef struct {
 	GnmXmlStyleHandler style_handler;
 	gpointer style_handler_user;
 	GsfXMLInDoc *style_handler_doc;
+
+	gboolean hack_colrow_size;
 } XMLSaxParseState;
 
 static void
@@ -579,6 +581,9 @@ xml_sax_version (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (version >= 10700)
 			state->version = GNM_XML_V11;
 	}
+
+	state->hack_colrow_size = (version <= 11259) ||
+		(version == 11260 && (getenv("GNM_HACK_COLROW") != NULL));
 }
 
 static void
@@ -1344,6 +1349,21 @@ xml_sax_sheet_freezepanes (GsfXMLIn *xin, xmlChar const **attrs)
 			&frozen_tl, &unfrozen_tl);
 }
 
+static double
+maybe_hack_colrow_size (XMLSaxParseState *state, double pts, gboolean is_col)
+{
+	double s = (pts /
+		    colrow_compute_pixel_scale (state->sheet, is_col) *
+		    (gnm_app_display_dpi_get (is_col) / 72.0));
+
+	// A weak sanity check
+	if (s >= 1 && s < (is_col ? 200 : 40))
+		pts = s;
+
+	return pts;
+}
+
+
 static void
 xml_sax_cols_rows (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -1360,6 +1380,66 @@ xml_sax_cols_rows (GsfXMLIn *xin, xmlChar const **attrs)
 			else
 				sheet_row_set_default_size_pts (state->sheet, def_size);
 		}
+}
+
+static gboolean
+cb_xml_sax_cols_rows_end (GnmColRowIter const *iter, void *xin_)
+{
+	GsfXMLIn *xin = xin_;
+	gboolean const is_col = xin->node->user_data.v_bool;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	Sheet *sheet = state->sheet;
+
+	double pts = maybe_hack_colrow_size (state, iter->cri->size_pts, is_col);
+	// g_printerr ("%d: %g->%g\n", iter->pos, iter->cri->size_pts, pts);
+
+	(is_col ? sheet_col_set_size_pts : sheet_row_set_size_pts)
+		(sheet, iter->pos, pts, iter->cri->hard_size);
+
+	return FALSE;
+}
+
+static void
+xml_sax_cols_rows_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	gboolean const is_col = xin->node->user_data.v_bool;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	Sheet *sheet = state->sheet;
+
+	if (is_col || !state->hack_colrow_size)
+		return;
+
+	// Don't want to deal with this
+	if (sheet->last_zoom_factor_used != 1)
+		return;
+
+	if (fabs (sheet_row_get_default_size_pts (sheet) - 12.75) < 0.051)
+		// Probably something imported.
+		return;
+
+	// Pre 1.12.60 we used nominal pixels for computing row pixel height
+	// and column pixel width.  Anyone with high-dpi displays (relative
+	// to the nominal 96) will therefore have saved too large point
+	// sizes.  Correct for that here.
+	//
+	// Once resaved, the file will have a higher version number inside
+	// and thus not get here again.
+	//
+	// Note: anyone who has saved with the git version between 1.12.59
+	// and now will have to do the correction by hand.  Run *once*
+	// with GNM_HACK_COLROW=1 to force the correction.
+
+	sheet_colrow_foreach (sheet, TRUE, 0, -1, cb_xml_sax_cols_rows_end, xin);
+	sheet_colrow_foreach (sheet, FALSE, 0, -1, cb_xml_sax_cols_rows_end, xin);
+
+	sheet_row_set_default_size_pts (sheet,
+					maybe_hack_colrow_size (state,
+								sheet_col_get_default_size_pts (sheet),
+								TRUE));
+	sheet_row_set_default_size_pts (sheet,
+					maybe_hack_colrow_size (state,
+								sheet_row_get_default_size_pts (sheet),
+								FALSE));
 }
 
 static void
@@ -3266,7 +3346,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE
 			      GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_colrow, NULL, TRUE),
 
       GSF_XML_IN_NODE_FULL (SHEET, SHEET_ROWS, GNM, "Rows",
-			    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_cols_rows, NULL, FALSE),
+			    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_cols_rows, &xml_sax_cols_rows_end, FALSE),
 	GSF_XML_IN_NODE_FULL (SHEET_ROWS, ROW, GNM, "RowInfo",
 			      GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_colrow, NULL, FALSE),
 

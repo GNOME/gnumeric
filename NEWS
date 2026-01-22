@@ -19,6 +19,7 @@ Morten:
 	* Documentation updates.
 	* Print using pango context from GtkPrintContext for constistency
 	  between gui and non-gui.
+	* GUI files relating to cell sizes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59
