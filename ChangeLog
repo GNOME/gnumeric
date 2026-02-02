@@ -1,3 +1,8 @@
+2026-02-01  Morten Welinder  <terra@gnome.org>
+
+	* src/colrow.c (colrow_set_states): Never restore to NULL as we
+	may have created cells.  See sheet_cell_add_to_hash.
+
 2025-08-29  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (gnm_logbase): New function.

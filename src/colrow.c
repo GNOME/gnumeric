@@ -687,9 +687,12 @@ colrow_set_states (Sheet *sheet, gboolean is_cols,
 				if (segment != NULL) {
 					int const sub = COLROW_SUB_INDEX (i);
 					ColRowInfo *cri = segment->info[sub];
-					if (cri != NULL) {
+					if (cri != NULL && !col_row_info_is_default (cri)) {
 						segment->info[sub] = NULL;
 						colrow_free (cri);
+						// We may have created cells so NULL is
+						// not acceptable.
+						(void)sheet_colrow_fetch (sheet, i, is_cols);
 					}
 				}
 			} else {
