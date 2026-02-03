@@ -6020,7 +6020,7 @@ msgstr ""
 #: ../src/dialogs/dialog-cell-format-cond.c:917
 msgid "If the cell content is ≦ this value, a special style is used."
 msgstr ""
-"Ist der Zelleninhalt größer als oder gleich diesem Wert, wird ein besonderer "
+"Ist der Zelleninhalt kleiner als oder gleich diesem Wert, wird ein besonderer "
 "Stil genutzt."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:926
