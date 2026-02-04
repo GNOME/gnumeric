@@ -136,19 +136,19 @@ msgstr "Manglende tegn for tegnkodning"
 #: ../plugins/applix/applix-read.c:349
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
-msgstr ""
+msgstr "Ugyldige tegn for kodning '%c%c'"
 
 #: ../plugins/applix/applix-read.c:1225
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
-msgstr ""
+msgstr "Udtryk starter ikke med '=' ? '%s'"
 
 #: ../plugins/applix/applix-read.c:1236
 #, c-format
 msgid ""
 "%s!%s : unable to parse '%s'\n"
 "     %s"
-msgstr ""
+msgstr "%s!%s : kan ikke fortolke '%s'\n     %s"
 
 #: ../plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
@@ -165,7 +165,7 @@ msgstr "Applix (*.as)"
 #: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7219
 #: ../plugins/openoffice/openoffice-read.c:14091 ../src/xml-sax-read.c:3523
 msgid "Reading file..."
-msgstr "Læser fil …"
+msgstr "Læser fil..."
 
 #: ../plugins/dif/dif.c:182
 #, c-format
@@ -246,11 +246,11 @@ msgstr "Ingen bøger eller arbejdsbogsstrømme fundet."
 
 #: ../plugins/excel/boot.c:286
 msgid "Preparing to save..."
-msgstr "Forbereder gemning …"
+msgstr "Forbereder gemning..."
 
 #: ../plugins/excel/boot.c:298
 msgid "Saving file..."
-msgstr "Gemmer fil …"
+msgstr "Gemmer fil..."
 
 #: ../plugins/excel/excel-xml-read.c:135 ../src/xml-sax-read.c:461
 #, c-format
@@ -481,19 +481,16 @@ msgid "Corrupt file: Second child element in custom property encountered."
 msgstr ""
 
 #: ../plugins/excel/xlsx-read-docprops.c:257
-#, fuzzy
 msgid "Reading core properties..."
-msgstr "Ændring af arbejdsbogsegenskaber …"
+msgstr "Læser kerneegenskaber..."
 
 #: ../plugins/excel/xlsx-read-docprops.c:274
-#, fuzzy
 msgid "Reading extended properties..."
-msgstr "Ændring af arkegenskaber …"
+msgstr "Læser udvidede egenskaber..."
 
 #: ../plugins/excel/xlsx-read-docprops.c:291
-#, fuzzy
 msgid "Reading custom properties..."
-msgstr "_Egenskaber …"
+msgstr "Læser brugerdefinerede egenskaber..."
 
 #: ../plugins/excel/xlsx-read-drawing.c:372
 #, c-format
@@ -548,14 +545,14 @@ msgid "Invalid integer '%s' for attribute %s"
 msgstr "Ugyldigt heltal '%s' for attribut %s"
 
 #: ../plugins/excel/xlsx-read.c:543
-#, fuzzy, c-format
+#, c-format
 msgid "Unsigned integer '%s' is out of range, for attribute %s"
-msgstr "Heltal '%s' er uden for interval, for attribut %s"
+msgstr "Heltal uden fortegn '%s' er uden for interval, for attribut %s"
 
 #: ../plugins/excel/xlsx-read.c:547
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid unsigned integer '%s' for attribute %s"
-msgstr "Ugyldigt heltal '%s' for attribut %s"
+msgstr "Ugyldigt heltal uden fortegn '%s' for attribut %s"
 
 #: ../plugins/excel/xlsx-read.c:603
 #, c-format
@@ -580,15 +577,15 @@ msgstr "Ugyldigt interval '%s' for attribut %s"
 #: ../plugins/excel/xlsx-read.c:795
 #: ../plugins/openoffice/openoffice-read.c:1315
 #: ../plugins/openoffice/openoffice-read.c:1393
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
-msgstr "Ugyldigt heltal '%s' for attribut %s"
+msgstr "Ugyldig attribut '%s', ukendt enhed '%s'"
 
 #: ../plugins/excel/xlsx-read.c:800 ../plugins/excel/xlsx-read.c:807
 #: ../plugins/openoffice/openoffice-read.c:1320
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
-msgstr ""
+msgstr "Ugyldig attribut '%s', forventede afstand, modtog '%s'"
 
 #: ../plugins/excel/xlsx-read.c:1032
 #, c-format
@@ -608,12 +605,12 @@ msgstr "Ugyldig farve '%s' for attribut rgb"
 #: ../plugins/excel/xlsx-read.c:1302 ../plugins/excel/xlsx-read.c:1311
 #, c-format
 msgid "Undefined style record '%d'"
-msgstr ""
+msgstr "Udefineret stilpost '%d'"
 
 #: ../plugins/excel/xlsx-read.c:1320
 #, c-format
 msgid "Undefined partial style record '%d'"
-msgstr ""
+msgstr "Udefineret delvis stilpost '%d'"
 
 #: ../plugins/excel/xlsx-read.c:1349
 #, c-format
@@ -627,17 +624,17 @@ msgstr "Ugyldig celle %s"
 
 #: ../plugins/excel/xlsx-read.c:1650
 msgid "Ignoring column information that does not specify first or last."
-msgstr ""
+msgstr "Ignorerer kolonneinformation som ikke angiver første eller sidste."
 
 #: ../plugins/excel/xlsx-read.c:1787
 #, c-format
 msgid "Paper from XLSX file: %ipt⨉%ipt"
-msgstr ""
+msgstr "Papir fra XLSX-fil: %ipt⨉%ipt"
 
 #: ../plugins/excel/xlsx-read.c:1791
 #, c-format
 msgid "Paper from XLSX file, #%i"
-msgstr ""
+msgstr "Papir fra XLSX-fil, #%i"
 
 #: ../plugins/excel/xlsx-read.c:2252
 #: ../plugins/openoffice/openoffice-read.c:2913
@@ -657,11 +654,11 @@ msgstr "Ukendt type hyperlink"
 #: ../plugins/excel/xlsx-read.c:3228
 #, c-format
 msgid "Encountered uninterpretable \"ext\" extension in namespace \"%s\""
-msgstr ""
+msgstr "Stødt på ufortolkelig \"ext\"-udvidelse i navnerum \"%s\""
 
 #: ../plugins/excel/xlsx-read.c:3237
 msgid "Encountered uninterpretable \"ext\" extension with missing namespace"
-msgstr ""
+msgstr "Stødt på ufortolkelig \"ext\"-udvidelse med manglende navnerum"
 
 #: ../plugins/excel/xlsx-read.c:3699
 msgid "Ignoring a sheet without a name"
@@ -673,9 +670,8 @@ msgid "Failed to define name: %s"
 msgstr "Fejl ved definering af: '%s'"
 
 #: ../plugins/excel/xlsx-read.c:3845
-#, fuzzy
 msgid "Unable to resolve external relationship"
-msgstr "Kan ikke indsætte i markering"
+msgstr "Kan ikke løse ekstern relation"
 
 #: ../plugins/excel/xlsx-read.c:4039
 #, c-format
@@ -685,27 +681,27 @@ msgstr "Mangler del-id for ark '%s'"
 #: ../plugins/excel/xlsx-read.c:4064
 #, c-format
 msgid "Reading sheet '%s'..."
-msgstr "Læser ark '%s' …"
+msgstr "Læser ark '%s'..."
 
 #: ../plugins/excel/xlsx-read.c:4072
 msgid "Reading comments..."
-msgstr "Læser kommentarer …"
+msgstr "Læser kommentarer..."
 
 #: ../plugins/excel/xlsx-read.c:5212
 msgid "Reading shared strings..."
-msgstr "Læser fælles strenge …"
+msgstr "Læser fælles strenge..."
 
 #: ../plugins/excel/xlsx-read.c:5221
 msgid "Reading theme..."
-msgstr "Læser tema …"
+msgstr "Læser tema..."
 
 #: ../plugins/excel/xlsx-read.c:5230
 msgid "Reading styles..."
-msgstr "Læser stilformer …"
+msgstr "Læser stilformer..."
 
 #: ../plugins/excel/xlsx-read.c:5235
 msgid "Reading workbook..."
-msgstr "Læser fil …"
+msgstr "Læser fil..."
 
 #: ../plugins/excel/xlsx-read.c:5245
 msgid "No workbook stream found."
@@ -732,7 +728,7 @@ msgstr "%s: %s"
 msgid ""
 "Overriding function %s from XLL/DLL/SO file %s with function of the same "
 "name from XLL/DLL/SO file %s."
-msgstr ""
+msgstr "Overskriver funktion %s fra XLL/DLL/SO-fil %s med funktion af samme navn fra XLL/DLL/SO-fil %s."
 
 #: ../plugins/excelplugins/excelplugins.c:649
 #, c-format
@@ -746,17 +742,17 @@ msgid ""
 "provided (DLL name[ignored],exported name[mandatory],types "
 "string[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO "
 "file %s."
-msgstr ""
+msgstr "Excel-udvidelsesmodulindlæser / xlfRegister: mindst tre XLOPER-argumenter skal angives (DLL-navn[ignoreret], eksporteret navn[obligatorisk], typestreng[obligatorisk]). Du angav %d i en funktion indlæst fra XLL/DLL/SO-fil %s."
 
 #: ../plugins/excelplugins/excelplugins.c:706
 msgid ""
 "Excel plugin loader / xlfRegister: the second and third argument must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
-msgstr ""
+msgstr "Excel-udvidelsesmodulindlæser / xlfRegister: det andet og tredje argument skal være strenge (DLL-navn[ignoreret], eksporteret navn[obligatorisk], typestreng[obligatorisk])."
 
 #: ../plugins/excelplugins/excelplugins.c:935
 msgid "Dynamic module loading is not supported on this system."
-msgstr ""
+msgstr "Dynamisk modulindlæsning er ikke understøttet på dette system."
 
 #: ../plugins/excelplugins/excelplugins.c:947
 #, c-format
@@ -791,7 +787,7 @@ msgid ""
 "Adapter interface to load Excel plugins (also known as XLLs). Only "
 "operational for worksheet functions that expect only arguments of LPXLOPER "
 "type (type 'P' or 'R') and return an LPXLOPER (type 'P' or 'R')."
-msgstr ""
+msgstr "Adaptergrænseflade til indlæsning af Excel-udvidelsesmoduler (også kendt som XLL'er). Kun operationel for arkfunktioner der forventer kun argumenter af LPXLOPER-type (type 'P' eller 'R') og returnerer en LPXLOPER (type 'P' eller 'R')."
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:1
 msgid "Christian Date Functions"
@@ -799,7 +795,7 @@ msgstr "Kristne datofunktioner"
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:2
 msgid "Functions manipulating dates of the Christian liturgical calendar"
-msgstr ""
+msgstr "Funktioner til manipulation af datoer i den kristne liturgiske kalender"
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:3
 #: ../plugins/fn-date/plugin.xml.in.h:3
@@ -1121,7 +1117,7 @@ msgstr "For mange data returneret"
 
 #: ../plugins/gda/plugin-gda.c:167
 msgid "Can't obtain data"
-msgstr ""
+msgstr "Kan ikke indhente data"
 
 #. FIXME: pass a pointer to parent window
 #: ../plugins/gda/plugin-gda.c:261
@@ -1156,7 +1152,7 @@ msgstr "Databasefunktioner der tillader modtagelse af data fra en database."
 
 #: ../plugins/gda/plugin.xml.in.h:3 ../plugins/gnome-db/plugin.xml.in.h:3
 msgid "Data Bases..."
-msgstr "Databaser …"
+msgstr "Databaser..."
 
 #: ../plugins/glpk/glpk-write.c:144 ../plugins/lpsolve/lpsolve-write.c:144
 #, c-format
@@ -1165,7 +1161,7 @@ msgstr "Kun linære programmer kan håndteres."
 
 #: ../plugins/glpk/glpk-write.c:355
 msgid "Writing glpk file..."
-msgstr "Skriver glpk-fil …"
+msgstr "Skriver glpk-fil..."
 
 #: ../plugins/glpk/gnm-glpk.c:60
 #, c-format
@@ -1178,9 +1174,9 @@ msgid "Failed to create file for solution"
 msgstr "Kan ikke oprette midlertidig fil til løsning"
 
 #: ../plugins/glpk/gnm-glpk.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create file for sensitivity report"
-msgstr "Kan ikke oprette midlertidig fil til løsning"
+msgstr "Kan ikke oprette fil til følsomhedsrapport"
 
 #: ../plugins/glpk/gnm-glpk.c:602 ../plugins/lpsolve/gnm-lpsolve.c:427
 #, c-format
@@ -1193,19 +1189,19 @@ msgstr ""
 
 #: ../plugins/glpk/plugin.xml.in.h:1
 msgid "GLPK Linear Program Solver Interface"
-msgstr ""
+msgstr "GLPK lineær programløser-grænseflade"
 
 #: ../plugins/glpk/plugin.xml.in.h:2
 msgid "Solver Interface to GLPK"
-msgstr ""
+msgstr "Løsergrænseflade til GLPK"
 
 #: ../plugins/glpk/plugin.xml.in.h:3
 msgid "GLPK Linear Program Solver"
-msgstr ""
+msgstr "GLPK lineær programløser"
 
 #: ../plugins/glpk/plugin.xml.in.h:4
 msgid "GLPK"
-msgstr ""
+msgstr "GLPK"
 
 #: ../plugins/gnome-db/plugin.xml.in.h:1
 msgid "GNOME-DB"
@@ -1213,23 +1209,23 @@ msgstr "GNOME-DB"
 
 #: ../plugins/gnome-db/plugin.xml.in.h:2
 msgid "Database UI services plugin"
-msgstr ""
+msgstr "Database-brugerflade"
 
 #: ../plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
-msgstr "Gnome-ordliste"
+msgstr "GNOME-ordliste"
 
 #: ../plugins/gnome-glossary/plugin.xml.in.h:2
 msgid "It provides support for saving Gnome Glossary in .po files."
-msgstr "Giver understøttelse for gemning af Gnome-ordlisten i .po-filer."
+msgstr "Giver understøttelse for gemning af GNOME-ordlisten i .po-filer."
 
 #: ../plugins/gnome-glossary/plugin.xml.in.h:3
 msgid "Gnome Glossary PO file format"
-msgstr "Gnome-ordlistens PO-filformat"
+msgstr "GNOME-ordlistens PO-filformat"
 
 #: ../plugins/html/html_read.c:117
 msgid "[Warning: Invalid text string has been removed.]"
-msgstr ""
+msgstr "[Advarsel: Ugyldig tekststreng er blevet fjernet.]"
 
 #: ../plugins/html/html_read.c:156
 #, c-format
@@ -1319,7 +1315,7 @@ msgstr "LPSolve er ikke tilgængelig."
 
 #: ../plugins/lpsolve/lpsolve-write.c:329
 msgid "Writing lpsolve file..."
-msgstr "Skriver lpsolve-fil …"
+msgstr "Skriver lpsolve-fil..."
 
 #: ../plugins/lpsolve/plugin.xml.in.h:1
 msgid "LPSolve Linear Program Solver Interface"
@@ -1373,9 +1369,9 @@ msgid "Invalid row name, %s, in columns"
 msgstr "Ugyldig rækkenavn, %s, i kolonner"
 
 #: ../plugins/mps/mps.c:413
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid bounds type %s"
-msgstr "Ugyldig skabelonfil: %s"
+msgstr "Ugyldig intervalgrænsetype %s"
 
 #: ../plugins/mps/mps.c:429
 #, c-format
@@ -1413,9 +1409,8 @@ msgid "Variable"
 msgstr "Variabel"
 
 #: ../plugins/mps/mps.c:673
-#, fuzzy
 msgid "Objective function"
-msgstr "Funktion for mål:"
+msgstr "Målfunktion"
 
 #: ../plugins/mps/mps.c:722
 msgid "Error while reading MPS file."
@@ -1434,14 +1429,14 @@ msgid "Linear and integer program (*.mps) file format"
 msgstr "Lineær og heltals-program (*.mps) filformat"
 
 #: ../plugins/nlsolve/gnm-nlsolve.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "This solver does not handle discrete variables."
-msgstr "Importerer Psion 5 seriens Sheet-filer"
+msgstr "Denne løser håndterer ikke diskrete variabler."
 
 #: ../plugins/nlsolve/gnm-nlsolve.c:111
-#, fuzzy, c-format
+#, c-format
 msgid "This solver does not handle equality constraints."
-msgstr "Importerer Psion 5 seriens Sheet-filer"
+msgstr "Denne løser håndterer ikke lighedsbegrænsninger."
 
 #. -------------------------------------------------------------------------
 #: ../plugins/nlsolve/plugin.xml.in.h:1
@@ -1463,7 +1458,7 @@ msgstr "Importerer Gnu Oleo-dokumenter"
 
 #: ../plugins/oleo/plugin.xml.in.h:3
 msgid "GNU Oleo (*.oleo)"
-msgstr "Gnu Oleo (*.oleo)"
+msgstr "GNU Oleo (*.oleo)"
 
 #: ../plugins/openoffice/openoffice-read.c:652
 msgid "General ODF error"
@@ -1504,23 +1499,23 @@ msgid "Hatch fill without hatch name encountered!"
 msgstr ""
 
 #: ../plugins/openoffice/openoffice-read.c:1105
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown gradient name '%s' encountered!"
-msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
+msgstr "Ukendt gradientnavn '%s' fundet!"
 
 #: ../plugins/openoffice/openoffice-read.c:1118
 msgid "Gradient fill without gradient name encountered!"
 msgstr ""
 
 #: ../plugins/openoffice/openoffice-read.c:1126
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown image fill name '%s' encountered!"
-msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
+msgstr "Ukendt billedudfyldningsnavn '%s' fundet!"
 
 #: ../plugins/openoffice/openoffice-read.c:1136
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
-msgstr ""
+msgstr "Ugyldig absolut filspecifikation '%s' fundet."
 
 #: ../plugins/openoffice/openoffice-read.c:1149
 #, c-format
@@ -1545,7 +1540,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:1464
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
-msgstr ""
+msgstr "Ugyldig attribut '%s', ukendt enum-værdi '%s'"
 
 #: ../plugins/openoffice/openoffice-read.c:1659
 #, c-format
@@ -1553,9 +1548,9 @@ msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr ""
 
 #: ../plugins/openoffice/openoffice-read.c:1881
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
-msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
+msgstr "Ukendt tekststil med navn \"%s\" fundet!"
 
 #: ../plugins/openoffice/openoffice-read.c:2314
 #, c-format
@@ -1587,9 +1582,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/openoffice/openoffice-read.c:2896
-#, fuzzy, c-format
+#, c-format
 msgid "Undefined validation style encountered: %s"
-msgstr "Ukendt værditype %d ved linje %d. Ignorerer."
+msgstr "Udefineret valideringsstil fundet: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:2922
 #, c-format
@@ -1878,7 +1873,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:11924
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
-msgstr "%s_I_ØDELAGT_FIL"
+msgstr "%s_I_BESKADIGET_FIL"
 
 #: ../plugins/openoffice/openoffice-read.c:11929
 #, c-format
@@ -1889,7 +1884,7 @@ msgstr "Denne fil er ødelagt med et duplikat arknavn “%s”, nu omdøbt til �
 
 #: ../plugins/openoffice/openoffice-read.c:11939
 msgid "SHEET_IN_CORRUPTED_FILE"
-msgstr "ARK_I_ØDELAGT_FIL"
+msgstr "ARK_I_BESKADIGET_FIL"
 
 #. We are missing the table name. This is bad!
 #: ../plugins/openoffice/openoffice-read.c:11945
@@ -1952,7 +1947,7 @@ msgstr "sti"
 
 #: ../plugins/openoffice/openoffice-write.c:9069
 msgid "Writing Sheets..."
-msgstr "Skriver ark …"
+msgstr "Skriver ark..."
 
 #: ../plugins/openoffice/openoffice-write.c:9110
 msgid "Writing Sheet Objects..."
@@ -2186,9 +2181,8 @@ msgid "Error while parsing Psion file."
 msgstr "Fejl ved fortolkning af psiconv-fil."
 
 #: ../plugins/psiconv/psiconv-read.c:670
-#, fuzzy
 msgid "This Psion file is not a Sheet file."
-msgstr "Importerer Psion 5 seriens Sheet-filer"
+msgstr "Denne Psion-fil er ikke en Sheet-fil."
 
 #: ../plugins/py-func/plugin.xml.in.h:1
 msgid "Python functions"
@@ -8695,7 +8689,7 @@ msgstr "Indtastningsmeddelelse"
 
 #: ../src/dialogs/cell-sort.ui.h:1
 msgid "Sort..."
-msgstr "Sortér …"
+msgstr "Sortér..."
 
 #: ../src/dialogs/cell-sort.ui.h:2
 msgid "<span weight=\"bold\">Sort Options</span>"
@@ -10040,7 +10034,7 @@ msgstr "Løsning:"
 
 #: ../src/dialogs/goto.ui.h:1
 msgid "Go To..."
-msgstr "Gå til …"
+msgstr "Gå til..."
 
 #: ../src/dialogs/goto.ui.h:2
 msgid "Rows:"
@@ -10437,7 +10431,7 @@ msgstr "Test"
 
 #: ../src/dialogs/merge.ui.h:1
 msgid "Merge..."
-msgstr "Flet …"
+msgstr "Flet..."
 
 #. start sub menu
 #: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2334
@@ -12246,7 +12240,7 @@ msgstr "Acceptér rettelse"
 
 #: ../src/dialogs/wbcg.ui.h:4
 msgid "Enter formula..."
-msgstr "Indsæt formel …"
+msgstr "Indsæt formel..."
 
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:1
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:136
@@ -12967,7 +12961,7 @@ msgstr ""
 
 #: ../src/main-application.c:110
 msgid "[FILE ...]"
-msgstr "[FIL …]"
+msgstr "[FIL...]"
 
 #: ../src/main-application.c:127 ../src/ssconvert.c:1453 ../src/ssdiff.c:936
 #: ../src/ssgrep.c:436 ../src/ssindex.c:259
@@ -13274,11 +13268,11 @@ msgstr "_Avanceret indsætning"
 
 #: ../src/sheet-control-gui.c:2256
 msgid "_Insert Cells..."
-msgstr "Indsæt celler …"
+msgstr "Indsæt celler..."
 
 #: ../src/sheet-control-gui.c:2259
 msgid "_Delete Cells..."
-msgstr "Slet celler …"
+msgstr "Slet celler..."
 
 #: ../src/sheet-control-gui.c:2262
 msgid "_Insert Column(s)"
@@ -13302,11 +13296,11 @@ msgstr "Ryd i_ndhold"
 
 #: ../src/sheet-control-gui.c:2284
 msgid "Add _Comment..."
-msgstr "Tilføj kommentar …"
+msgstr "Tilføj kommentar..."
 
 #: ../src/sheet-control-gui.c:2286
 msgid "Edit Co_mment..."
-msgstr "Ret kommentar …"
+msgstr "Ret kommentar..."
 
 #: ../src/sheet-control-gui.c:2288
 msgid "_Remove Comments"
@@ -13314,11 +13308,11 @@ msgstr "Fjern kommentar"
 
 #: ../src/sheet-control-gui.c:2291
 msgid "Add _Hyperlink..."
-msgstr "Tilføj _hyperlink …"
+msgstr "Tilføj _hyperlink..."
 
 #: ../src/sheet-control-gui.c:2294
 msgid "Edit _Hyperlink..."
-msgstr "Redigér _hyperlink …"
+msgstr "Redigér _hyperlink..."
 
 #: ../src/sheet-control-gui.c:2297
 msgid "_Remove Hyperlink"
@@ -13349,11 +13343,11 @@ msgstr "Ned"
 #. end sub menu
 #: ../src/sheet-control-gui.c:2329
 msgid "_Format All Cells..."
-msgstr "_Formatér alle celler …"
+msgstr "_Formatér alle celler..."
 
 #: ../src/sheet-control-gui.c:2331
 msgid "C_onditional Formatting..."
-msgstr "Betinget formatering …"
+msgstr "Betinget formatering..."
 
 #: ../src/sheet-control-gui.c:2336
 msgid "_Unmerge"
@@ -13370,7 +13364,7 @@ msgstr "Automatisk tilpasning af _højde"
 #. start sub menu
 #: ../src/sheet-control-gui.c:2345 ../src/wbc-gtk-actions.c:2821
 msgid "_Width..."
-msgstr "_Bredde …"
+msgstr "_Bredde..."
 
 #: ../src/sheet-control-gui.c:2346 ../src/wbc-gtk-actions.c:2827
 msgid "_Auto Fit Width"
@@ -13389,7 +13383,7 @@ msgstr "_Vis igen"
 #. start sub menu
 #: ../src/sheet-control-gui.c:2353
 msgid "Hei_ght..."
-msgstr "_Højde …"
+msgstr "_Højde..."
 
 #: ../src/sheet-control-gui.c:2354 ../src/wbc-gtk-actions.c:2861
 msgid "_Auto Fit Height"
@@ -13415,15 +13409,15 @@ msgstr[1] "_Fjern %d kommentarer"
 #, c-format
 msgid "_Insert %d Cell..."
 msgid_plural "_Insert %d Cells..."
-msgstr[0] "_Indsæt %d celle …"
-msgstr[1] "_Indsæt %d celler …"
+msgstr[0] "_Indsæt %d celle..."
+msgstr[1] "_Indsæt %d celler..."
 
 #: ../src/sheet-control-gui.c:2499
 #, c-format
 msgid "_Delete %d Cell..."
 msgid_plural "_Delete %d Cells..."
-msgstr[0] "_Slet %d celle …"
-msgstr[1] "_Slet %d celler …"
+msgstr[0] "_Slet %d celle..."
+msgstr[1] "_Slet %d celler..."
 
 #: ../src/sheet-control-gui.c:2505
 #, c-format
@@ -13472,8 +13466,8 @@ msgstr[1] "_Formatér %d rækker"
 #, c-format
 msgid "_Format %d Cell..."
 msgid_plural "_Format %d Cells"
-msgstr[0] "_Formatér %d celle …"
-msgstr[1] "_Formatér %d celler …"
+msgstr[0] "_Formatér %d celle..."
+msgstr[1] "_Formatér %d celler..."
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
 #: ../src/sheet-control-gui.c:2976
@@ -13997,7 +13991,7 @@ msgstr "--export-file-per-sheet og --merge-to kan ikke bruges sammen\n"
 #: ../src/ssconvert.c:1518 ../src/ssdiff.c:993 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
-msgstr "Brug: %s [TILVALG …] %s\n"
+msgstr "Brug: %s [TILVALG...] %s\n"
 
 #: ../src/ssdiff.c:60
 msgid "Send output to file"
@@ -14189,7 +14183,7 @@ msgstr "kommentar"
 
 #: ../src/ssgrep.c:429
 msgid "PATTERN INFILE..."
-msgstr "MØNSTER INDFIL …"
+msgstr "MØNSTER INDFIL..."
 
 #: ../src/ssgrep.c:443
 #, c-format
@@ -14222,7 +14216,7 @@ msgstr "Indekser de angivne filer"
 
 #: ../src/ssindex.c:252 ../src/ssindex.c:272
 msgid "INFILE..."
-msgstr "INDFIL …"
+msgstr "INDFIL..."
 
 #: ../src/ssindex.c:266
 #, fuzzy, c-format
@@ -15408,7 +15402,7 @@ msgstr "Tilfældige tal"
 #: ../src/tools/random-generator.c:51
 #, fuzzy
 msgid "Generating Random Numbers..."
-msgstr "Tilfældige tal …"
+msgstr "Tilfældige tal..."
 
 #: ../src/tools/random-generator.c:117
 msgid ""
@@ -15848,7 +15842,7 @@ msgstr "Gem den aktuelle fil under et andet navn"
 
 #: ../src/wbc-gtk-actions.c:2019
 msgid "Sen_d To..."
-msgstr "Send _til …"
+msgstr "Send _til..."
 
 #: ../src/wbc-gtk-actions.c:2020
 msgid "Send the current file via email"
@@ -15856,7 +15850,7 @@ msgstr "Send den aktuelle fil med et ebrev"
 
 #: ../src/wbc-gtk-actions.c:2025
 msgid "Page Set_up..."
-msgstr "Side_opsætning …"
+msgstr "Side_opsætning..."
 
 #: ../src/wbc-gtk-actions.c:2026
 msgid "Setup the page settings for your current printer"
@@ -15880,7 +15874,7 @@ msgstr "Udskriftsområde og sidebrud"
 
 #: ../src/wbc-gtk-actions.c:2046
 msgid "Full _History..."
-msgstr "Filhistorie …"
+msgstr "Filhistorie..."
 
 #: ../src/wbc-gtk-actions.c:2047
 msgid "Access previously used file"
@@ -15953,7 +15947,7 @@ msgstr "F_unktionsomslutter"
 
 #: ../src/wbc-gtk-actions.c:2120
 msgid "_Name..."
-msgstr "_Navn …"
+msgstr "_Navn..."
 
 #: ../src/wbc-gtk-actions.c:2122
 msgid "Insert a defined name"
@@ -16143,7 +16137,7 @@ msgstr "Indsæt udklipsholderen"
 
 #: ../src/wbc-gtk-actions.c:2283
 msgid "_Manage Sheets..."
-msgstr "Omrokér _ark …"
+msgstr "Omrokér _ark..."
 
 #: ../src/wbc-gtk-actions.c:2284
 msgid "Manage the sheets in this workbook"
@@ -16179,7 +16173,7 @@ msgstr "Fjern uigenkaldeligt et helt ark"
 
 #: ../src/wbc-gtk-actions.c:2314
 msgid "Re_name..."
-msgstr "_Omdøb …"
+msgstr "_Omdøb..."
 
 #: ../src/wbc-gtk-actions.c:2315
 msgid "Rename the current sheet"
@@ -16187,7 +16181,7 @@ msgstr "Omdøb det aktive ark"
 
 #: ../src/wbc-gtk-actions.c:2319 ../src/wbc-gtk.c:521
 msgid "Resize..."
-msgstr "Størrelse …"
+msgstr "Størrelse..."
 
 #: ../src/wbc-gtk-actions.c:2320
 msgid "Change the size of the current sheet"
@@ -16195,7 +16189,7 @@ msgstr "Ændr størrelsen af det aktive ark"
 
 #: ../src/wbc-gtk-actions.c:2327
 msgid "_New View..."
-msgstr "_Nyt vindue …"
+msgstr "_Nyt vindue..."
 
 #: ../src/wbc-gtk-actions.c:2328
 msgid "Create a new view of the workbook"
@@ -16203,7 +16197,7 @@ msgstr "Opret et nyt vindue for arbejdsbogen"
 
 #: ../src/wbc-gtk-actions.c:2335
 msgid "View _Properties..."
-msgstr "Vis _egenskaber …"
+msgstr "Vis _egenskaber..."
 
 #: ../src/wbc-gtk-actions.c:2336
 #, fuzzy
@@ -16228,7 +16222,7 @@ msgstr "Skift mellem fuldskærm or vindue"
 
 #: ../src/wbc-gtk-actions.c:2365
 msgid "Document Proper_ties..."
-msgstr "Dokument_egenskaber …"
+msgstr "Dokument_egenskaber..."
 
 #: ../src/wbc-gtk-actions.c:2366
 msgid "Edit document properties"
@@ -16352,7 +16346,7 @@ msgstr "Slet kolonnerne der indeholder de markerede celler"
 #: ../src/wbc-gtk-actions.c:2466 ../src/wbc-gtk-actions.c:2479
 #: ../src/wbc-gtk-actions.c:2671 ../src/wbc-gtk-actions.c:2678
 msgid "C_ells..."
-msgstr "C_eller …"
+msgstr "C_eller..."
 
 #: ../src/wbc-gtk-actions.c:2468 ../src/wbc-gtk-actions.c:2481
 msgid "Delete the selected cells, shifting others into their place"
@@ -16449,7 +16443,7 @@ msgstr "Gå til den sidste datacelle"
 #: ../src/wbc-gtk-actions.c:2563
 #, fuzzy
 msgid "_Go to Cell..."
-msgstr "Gå _til celle …"
+msgstr "Gå _til celle..."
 
 #: ../src/wbc-gtk-actions.c:2565
 msgid "Jump to a specified cell"
@@ -16469,7 +16463,7 @@ msgstr "Gentag den sidste handling"
 
 #: ../src/wbc-gtk-actions.c:2586
 msgid "P_aste Special..."
-msgstr "Indsæt med ændringer …"
+msgstr "Indsæt med ændringer..."
 
 #: ../src/wbc-gtk-actions.c:2588
 msgid "Paste with optional filters and transformations"
@@ -16477,7 +16471,7 @@ msgstr "Indsæt med valgbare filtre og transformationer"
 
 #: ../src/wbc-gtk-actions.c:2594 ../src/wbc-gtk-actions.c:2725
 msgid "Co_mment..."
-msgstr "K_ommentar …"
+msgstr "K_ommentar..."
 
 #: ../src/wbc-gtk-actions.c:2595
 msgid "Edit the selected cell's comment"
@@ -16485,7 +16479,7 @@ msgstr "Redigér den valgte celles kommentar"
 
 #: ../src/wbc-gtk-actions.c:2600 ../src/wbc-gtk-actions.c:2731
 msgid "Hyper_link..."
-msgstr "Hyper_link …"
+msgstr "Hyper_link..."
 
 #: ../src/wbc-gtk-actions.c:2602
 #, fuzzy
@@ -16494,7 +16488,7 @@ msgstr "Redigér den valgte celles kommentar"
 
 #: ../src/wbc-gtk-actions.c:2607
 msgid "_Auto generate names..."
-msgstr "_Autogenerér navne …"
+msgstr "_Autogenerér navne..."
 
 #: ../src/wbc-gtk-actions.c:2608
 msgid "Use the current selection to create names"
@@ -16502,7 +16496,7 @@ msgstr "Brug den nuværende markering til at generere navne"
 
 #: ../src/wbc-gtk-actions.c:2615
 msgid "S_earch..."
-msgstr "Søg …"
+msgstr "Søg..."
 
 #: ../src/wbc-gtk-actions.c:2617
 msgid "Search for something"
@@ -16510,7 +16504,7 @@ msgstr "Søg efter noget tekst"
 
 #: ../src/wbc-gtk-actions.c:2622
 msgid "Search _& Replace..."
-msgstr "Søg og erstat …"
+msgstr "Søg og erstat..."
 
 #: ../src/wbc-gtk-actions.c:2624
 msgid "Search for something and replace it with something else"
@@ -16527,7 +16521,7 @@ msgstr "Beregner celleværdierne i regnearket igen"
 
 #: ../src/wbc-gtk-actions.c:2637
 msgid "Preferences..."
-msgstr "Egenskaber …"
+msgstr "Egenskaber..."
 
 #: ../src/wbc-gtk-actions.c:2638
 msgid "Change Gnumeric Preferences"
@@ -16544,7 +16538,7 @@ msgstr "Frys den øverste venstre del af arket"
 #. dubious
 #: ../src/wbc-gtk-actions.c:2650
 msgid "_Zoom..."
-msgstr "_Zoom …"
+msgstr "_Zoom..."
 
 #: ../src/wbc-gtk-actions.c:2651
 msgid "Zoom the spreadsheet in or out"
@@ -16581,7 +16575,7 @@ msgstr "Indsæt nye rækker"
 
 #: ../src/wbc-gtk-actions.c:2700
 msgid "C_hart..."
-msgstr "_Graf …"
+msgstr "_Graf..."
 
 #: ../src/wbc-gtk-actions.c:2701
 msgid "Insert a Chart"
@@ -16589,7 +16583,7 @@ msgstr "Indsæt en graf"
 
 #: ../src/wbc-gtk-actions.c:2706
 msgid "_New..."
-msgstr "_Ny …"
+msgstr "_Ny..."
 
 #: ../src/wbc-gtk-actions.c:2707
 #, fuzzy
@@ -16599,7 +16593,7 @@ msgstr "Indsæt navnet på det aktuelle ark"
 # navneord, er knyttet til næste tekst
 #: ../src/wbc-gtk-actions.c:2712
 msgid "_From File..."
-msgstr "_Fra fil …"
+msgstr "_Fra fil..."
 
 #: ../src/wbc-gtk-actions.c:2713
 msgid "Insert a new Goffice component object from a file"
@@ -16607,7 +16601,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2718
 msgid "_Image..."
-msgstr "_Billede …"
+msgstr "_Billede..."
 
 #: ../src/wbc-gtk-actions.c:2719
 msgid "Insert an image"
@@ -16664,7 +16658,7 @@ msgstr "Indsæt dags dato og det nuværende klokkeslæt i de markerede celler"
 
 #: ../src/wbc-gtk-actions.c:2773
 msgid "_Names..."
-msgstr "_Navne …"
+msgstr "_Navne..."
 
 #: ../src/wbc-gtk-actions.c:2775
 msgid "Edit defined names for expressions"
@@ -16672,7 +16666,7 @@ msgstr "Ret definerede navne for udtryk"
 
 #: ../src/wbc-gtk-actions.c:2781
 msgid "_Autoformat..."
-msgstr "_Autoformatér …"
+msgstr "_Autoformatér..."
 
 #: ../src/wbc-gtk-actions.c:2782
 msgid "Format a region of cells according to a pre-defined template"
@@ -16686,7 +16680,7 @@ msgstr "Skift tekstretning mellem venstre-mod-højre og højre-mod-venstre"
 # navneord, er knyttet til næste tekst
 #: ../src/wbc-gtk-actions.c:2794
 msgid "_Format..."
-msgstr "_Formater …"
+msgstr "_Formater..."
 
 #: ../src/wbc-gtk-actions.c:2796
 msgid "Modify the formatting of the selected cells"
@@ -16694,7 +16688,7 @@ msgstr "Ændr de markerede cellers formatering"
 
 #: ../src/wbc-gtk-actions.c:2800
 msgid "_Conditional Formatting..."
-msgstr "Betinget formatering …"
+msgstr "Betinget formatering..."
 
 #: ../src/wbc-gtk-actions.c:2801
 #, fuzzy
@@ -16741,7 +16735,7 @@ msgstr "Ændr standardbredden på kolonnerne"
 
 #: ../src/wbc-gtk-actions.c:2855
 msgid "H_eight..."
-msgstr "Hø_jde …"
+msgstr "Hø_jde..."
 
 #: ../src/wbc-gtk-actions.c:2856
 msgid "Change height of the selected rows"
@@ -16771,7 +16765,7 @@ msgstr "Ændr standardhøjden på rækkerne"
 
 #: ../src/wbc-gtk-actions.c:2888
 msgid "_Plug-ins..."
-msgstr "_Udvidelsesmoduler …"
+msgstr "_Udvidelsesmoduler..."
 
 #: ../src/wbc-gtk-actions.c:2889
 msgid "Manage available plugin modules"
@@ -16779,7 +16773,7 @@ msgstr "Administrér tilgængelige udvidelsesmoduler"
 
 #: ../src/wbc-gtk-actions.c:2893
 msgid "Auto _Correct..."
-msgstr "Auto_korrektion …"
+msgstr "Auto_korrektion..."
 
 #: ../src/wbc-gtk-actions.c:2894
 msgid "Automatically perform simple spell checking"
@@ -16787,7 +16781,7 @@ msgstr "Udfør automatisk simpel stavekontrol"
 
 #: ../src/wbc-gtk-actions.c:2898
 msgid "_Auto Save..."
-msgstr "_Autogem …"
+msgstr "_Autogem..."
 
 #: ../src/wbc-gtk-actions.c:2899
 msgid "Automatically save the current document at regular intervals"
@@ -16795,7 +16789,7 @@ msgstr "Gem automatisk det aktuelle dokument med regelmæssige intervaller"
 
 #: ../src/wbc-gtk-actions.c:2903
 msgid "_Goal Seek..."
-msgstr "_Målsøgning …"
+msgstr "_Målsøgning..."
 
 #: ../src/wbc-gtk-actions.c:2904
 msgid "Iteratively recalculate to find a target value"
@@ -16803,7 +16797,7 @@ msgstr "Udfører en beregning igen og igen for at opnå en bestemt målværdi"
 
 #: ../src/wbc-gtk-actions.c:2908
 msgid "_Solver..."
-msgstr "_Optimeringsproblemløser …"
+msgstr "_Optimeringsproblemløser..."
 
 #: ../src/wbc-gtk-actions.c:2909
 msgid "Iteratively recalculate with constraints to approach a target value"
@@ -16813,7 +16807,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2913
 msgid "Si_mulation..."
-msgstr "_Simulering …"
+msgstr "_Simulering..."
 
 #: ../src/wbc-gtk-actions.c:2914
 msgid ""
@@ -16823,7 +16817,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2919
 msgid "Compare Sheets..."
-msgstr "Sammenlign ark …"
+msgstr "Sammenlign ark..."
 
 #: ../src/wbc-gtk-actions.c:2920
 msgid "Find differences between two sheets"
@@ -16831,7 +16825,7 @@ msgstr "Find forskelle mellem to ark"
 
 #: ../src/wbc-gtk-actions.c:2926
 msgid "_View..."
-msgstr "_Vis …"
+msgstr "_Vis..."
 
 #: ../src/wbc-gtk-actions.c:2927
 msgid "View, delete and report different scenarios"
@@ -16839,7 +16833,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2931
 msgid "_Add..."
-msgstr "_Tilføj …"
+msgstr "_Tilføj..."
 
 #: ../src/wbc-gtk-actions.c:2932
 #, fuzzy
@@ -16848,7 +16842,7 @@ msgstr "Indsæt ny kolonne"
 
 #: ../src/wbc-gtk-actions.c:2939
 msgid "_Sampling..."
-msgstr "_Stikprøveudtagning …"
+msgstr "_Stikprøveudtagning..."
 
 #: ../src/wbc-gtk-actions.c:2940
 msgid "Periodic and random samples"
@@ -16856,7 +16850,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2947
 msgid "_Correlation..."
-msgstr "_Korrelation …"
+msgstr "_Korrelation..."
 
 #: ../src/wbc-gtk-actions.c:2948
 #, fuzzy
@@ -16865,11 +16859,11 @@ msgstr "Korrelation"
 
 #: ../src/wbc-gtk-actions.c:2952
 msgid "Co_variance..."
-msgstr "Ko_varians …"
+msgstr "Ko_varians..."
 
 #: ../src/wbc-gtk-actions.c:2957
 msgid "_Descriptive Statistics..."
-msgstr "_Beskrivende statistik …"
+msgstr "_Beskrivende statistik..."
 
 #: ../src/wbc-gtk-actions.c:2958
 #, fuzzy
@@ -16878,7 +16872,7 @@ msgstr "Sammendragsstatistik"
 
 #: ../src/wbc-gtk-actions.c:2965
 msgid "Fre_quency Tables..."
-msgstr "_Hyppighedtabeller …"
+msgstr "_Hyppighedtabeller..."
 
 #: ../src/wbc-gtk-actions.c:2966
 #, fuzzy
@@ -16887,7 +16881,7 @@ msgstr "Det givne inddatainterval indeholder data der ikke er tal."
 
 #: ../src/wbc-gtk-actions.c:2970
 msgid "_Histogram..."
-msgstr "_Histogram …"
+msgstr "_Histogram..."
 
 #: ../src/wbc-gtk-actions.c:2971
 msgid "Various frequency tables for numeric data"
@@ -16895,7 +16889,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2975
 msgid "Ranks And _Percentiles..."
-msgstr "Rang og _percentiler …"
+msgstr "Rang og _percentiler..."
 
 #: ../src/wbc-gtk-actions.c:2976
 #, fuzzy
@@ -16904,7 +16898,7 @@ msgstr "Rang, xxx og percentil"
 
 #: ../src/wbc-gtk-actions.c:2983
 msgid "_Fourier Analysis..."
-msgstr "_Fourier-analyse …"
+msgstr "_Fourier-analyse..."
 
 #: ../src/wbc-gtk-actions.c:2989
 msgid "Principal Components Analysis..."
@@ -16912,24 +16906,24 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2996
 msgid "_Exponential Smoothing..."
-msgstr "_Eksponentiel udjævning …"
+msgstr "_Eksponentiel udjævning..."
 
 #: ../src/wbc-gtk-actions.c:2997
 msgid "Exponential smoothing..."
-msgstr "Eksponentiel udjævning …"
+msgstr "Eksponentiel udjævning..."
 
 #: ../src/wbc-gtk-actions.c:3001
 #, fuzzy
 msgid "_Moving Average..."
-msgstr "Rullende gennemsnit …"
+msgstr "Rullende gennemsnit..."
 
 #: ../src/wbc-gtk-actions.c:3002
 msgid "Moving average..."
-msgstr "Rullende gennemsnit …"
+msgstr "Rullende gennemsnit..."
 
 #: ../src/wbc-gtk-actions.c:3006
 msgid "_Regression..."
-msgstr "_Regression …"
+msgstr "_Regression..."
 
 #: ../src/wbc-gtk-actions.c:3007
 msgid "Regression Analysis"
@@ -16945,7 +16939,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3019
 msgid "_Normality Tests..."
-msgstr "_Normalitetstests …"
+msgstr "_Normalitetstests..."
 
 #: ../src/wbc-gtk-actions.c:3020
 msgid "Testing a sample for normality"
@@ -16963,7 +16957,7 @@ msgstr "Tester forskellen mellem 2 middelværdier"
 #: ../src/wbc-gtk-actions.c:3032 ../src/wbc-gtk-actions.c:3079
 #, fuzzy
 msgid "_Sign Test..."
-msgstr "Venstrejustér …"
+msgstr "Venstrejustér..."
 
 #: ../src/wbc-gtk-actions.c:3033 ../src/wbc-gtk-actions.c:3038
 #, fuzzy
@@ -16986,7 +16980,7 @@ msgstr "Populationsvarianser er:"
 #: ../src/wbc-gtk-actions.c:3053
 #, fuzzy
 msgid "_Paired Samples..."
-msgstr "t-Test: To-prøve under antagelse af uens varians …"
+msgstr "t-Test: To-prøve under antagelse af uens varians..."
 
 #: ../src/wbc-gtk-actions.c:3054
 #, fuzzy
@@ -16996,7 +16990,7 @@ msgstr "Populationsvarianser er:"
 #: ../src/wbc-gtk-actions.c:3059
 #, fuzzy
 msgid "Unpaired Samples, _Equal Variances..."
-msgstr "t-Test: To-prøve under antagelse af uens varians …"
+msgstr "t-Test: To-prøve under antagelse af uens varians..."
 
 #: ../src/wbc-gtk-actions.c:3060
 #, fuzzy
@@ -17008,7 +17002,7 @@ msgstr "Populationsvarianser er:"
 #: ../src/wbc-gtk-actions.c:3065
 #, fuzzy
 msgid "Unpaired Samples, _Unequal Variances..."
-msgstr "t-Test: To-prøve under antagelse af uens varians …"
+msgstr "t-Test: To-prøve under antagelse af uens varians..."
 
 #: ../src/wbc-gtk-actions.c:3066
 #, fuzzy
@@ -17020,7 +17014,7 @@ msgstr "Populationsvarianser er:"
 #: ../src/wbc-gtk-actions.c:3071
 #, fuzzy
 msgid "Unpaired Samples, _Known Variances..."
-msgstr "t-Test: To-prøve under antagelse af uens varians …"
+msgstr "t-Test: To-prøve under antagelse af uens varians..."
 
 #: ../src/wbc-gtk-actions.c:3072
 #, fuzzy
@@ -17041,7 +17035,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3099
 msgid "_One Factor..."
-msgstr "_Enkeltfaktor …"
+msgstr "_Enkeltfaktor..."
 
 #: ../src/wbc-gtk-actions.c:3100
 msgid "One Factor Analysis of Variance..."
@@ -17049,7 +17043,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3104
 msgid "_Two Factor..."
-msgstr "_Tofaktor …"
+msgstr "_Tofaktor..."
 
 #: ../src/wbc-gtk-actions.c:3105
 msgid "Two Factor Analysis of Variance..."
@@ -17073,7 +17067,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3125
 msgid "_Sort..."
-msgstr "_Sortér …"
+msgstr "_Sortér..."
 
 #: ../src/wbc-gtk-actions.c:3126
 msgid "Sort the selected region"
@@ -17081,7 +17075,7 @@ msgstr "Sorterer det markerede område"
 
 #: ../src/wbc-gtk-actions.c:3130
 msgid "Sh_uffle..."
-msgstr "Bland …"
+msgstr "Bland..."
 
 #: ../src/wbc-gtk-actions.c:3131
 msgid "Shuffle cells, rows or columns"
@@ -17089,7 +17083,7 @@ msgstr "Bland celler, rækker eller kolonner"
 
 #: ../src/wbc-gtk-actions.c:3135
 msgid "_Validate..."
-msgstr "_Gyldighedskontrol …"
+msgstr "_Gyldighedskontrol..."
 
 # RETMIG: måske indtastning i stedet for dataene
 #: ../src/wbc-gtk-actions.c:3136
@@ -17098,7 +17092,7 @@ msgstr "Kontrollér gyldighed af dataene efter forudangivne kriterier"
 
 #: ../src/wbc-gtk-actions.c:3140
 msgid "T_ext to Columns..."
-msgstr "T_ekst til kolonner …"
+msgstr "T_ekst til kolonner..."
 
 #: ../src/wbc-gtk-actions.c:3141
 msgid "Parse the text in the selection into data"
@@ -17106,7 +17100,7 @@ msgstr "Ombryd teksten i de valgte celler"
 
 #: ../src/wbc-gtk-actions.c:3145
 msgid "_Consolidate..."
-msgstr "F_oren data …"
+msgstr "F_oren data..."
 
 #: ../src/wbc-gtk-actions.c:3146
 msgid "Consolidate regions using a function"
@@ -17114,7 +17108,7 @@ msgstr "Foren områder vha. en funktion"
 
 #: ../src/wbc-gtk-actions.c:3150
 msgid "_Table..."
-msgstr "_Tabel …"
+msgstr "_Tabel..."
 
 #: ../src/wbc-gtk-actions.c:3151
 msgid "Create a Data Table to evaluate a function with multiple inputs"
@@ -17122,7 +17116,7 @@ msgstr "Lav en tabel til at evaluate en funktion med flere argumenter"
 
 #: ../src/wbc-gtk-actions.c:3155
 msgid "E_xport into Other Format..."
-msgstr "Eksportér i andet format …"
+msgstr "Eksportér i andet format..."
 
 #: ../src/wbc-gtk-actions.c:3156
 #, fuzzy
@@ -17131,7 +17125,7 @@ msgstr "Gem den aktuelle arbejdsbog"
 
 #: ../src/wbc-gtk-actions.c:3160
 msgid "Export as _Text File..."
-msgstr "Eksportér som tekstfil …"
+msgstr "Eksportér som tekstfil..."
 
 #: ../src/wbc-gtk-actions.c:3161
 #, fuzzy
@@ -17140,7 +17134,7 @@ msgstr "Udskriv den aktive fil"
 
 #: ../src/wbc-gtk-actions.c:3165
 msgid "Export as _CSV File..."
-msgstr "Eksportér som kommaadskilt fil …"
+msgstr "Eksportér som kommaadskilt fil..."
 
 #: ../src/wbc-gtk-actions.c:3166
 #, fuzzy
@@ -17167,7 +17161,7 @@ msgstr "Udfyld automatisk de aktuelt markerede celler"
 
 #: ../src/wbc-gtk-actions.c:3183
 msgid "_Merge..."
-msgstr "_Flet …"
+msgstr "_Flet..."
 
 #: ../src/wbc-gtk-actions.c:3184
 msgid ""
@@ -17176,7 +17170,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3188
 msgid "_Tabulate Dependency..."
-msgstr "_Tabellér afhængighed …"
+msgstr "_Tabellér afhængighed..."
 
 #: ../src/wbc-gtk-actions.c:3189
 msgid "Make a table of a cell's value as a function of other cells"
@@ -17184,7 +17178,7 @@ msgstr "Lav en tabel over en celles værdi som en funktion af andre celler"
 
 #: ../src/wbc-gtk-actions.c:3193
 msgid "_Series..."
-msgstr "_Rækker …"
+msgstr "_Rækker..."
 
 #: ../src/wbc-gtk-actions.c:3194
 msgid "Fill according to a linear or exponential series"
@@ -17193,7 +17187,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:3198
 #, fuzzy
 msgid "_Uncorrelated..."
-msgstr "_Korrelation …"
+msgstr "_Korrelation..."
 
 #: ../src/wbc-gtk-actions.c:3199
 msgid "Generate random numbers of a selection of distributions"
@@ -17202,7 +17196,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:3203
 #, fuzzy
 msgid "_Correlated..."
-msgstr "_Korrelation …"
+msgstr "_Korrelation..."
 
 #: ../src/wbc-gtk-actions.c:3204
 msgid "Generate variates for correlated normal distributed random variables"
@@ -17243,7 +17237,7 @@ msgstr "Udfold en omridsgruppe"
 # udsagnsord, bydemåde
 #: ../src/wbc-gtk-actions.c:3236
 msgid "_Group..."
-msgstr "_Gruppér …"
+msgstr "_Gruppér..."
 
 #: ../src/wbc-gtk-actions.c:3238
 msgid "Add an outline group"
@@ -17251,7 +17245,7 @@ msgstr "Tilføj en omridsgruppe"
 
 #: ../src/wbc-gtk-actions.c:3243
 msgid "_Ungroup..."
-msgstr "_Afgruppér …"
+msgstr "_Afgruppér..."
 
 #: ../src/wbc-gtk-actions.c:3245
 msgid "Remove an outline group"
@@ -17276,7 +17270,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3262
 msgid "Advanced _Filter..."
-msgstr "Avanceret _filtrering …"
+msgstr "Avanceret _filtrering..."
 
 #: ../src/wbc-gtk-actions.c:3263
 msgid "Filter data with given criteria"
@@ -17284,7 +17278,7 @@ msgstr "Filtrér data efter givne kriterier"
 
 #: ../src/wbc-gtk-actions.c:3268
 msgid "Import _Text File..."
-msgstr "Importér en tekstfil …"
+msgstr "Importér en tekstfil..."
 
 #: ../src/wbc-gtk-actions.c:3269
 #, fuzzy
@@ -17293,7 +17287,7 @@ msgstr "Importerer tekst fra en fil"
 
 #: ../src/wbc-gtk-actions.c:3273
 msgid "Import _Other File..."
-msgstr "Importér anden filtype …"
+msgstr "Importér anden filtype..."
 
 #: ../src/wbc-gtk-actions.c:3274
 #, fuzzy
@@ -17321,7 +17315,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:3291
 #, fuzzy
 msgid "_Edit Data Slicer..."
-msgstr "_Gyldighedskontrol …"
+msgstr "_Gyldighedskontrol..."
 
 #: ../src/wbc-gtk-actions.c:3292
 #, fuzzy
@@ -17339,7 +17333,7 @@ msgstr "Summér til den aktuelle celle."
 
 #: ../src/wbc-gtk-actions.c:3306
 msgid "_Function..."
-msgstr "_Funktion …"
+msgstr "_Funktion..."
 
 #: ../src/wbc-gtk-actions.c:3307
 msgid "Edit a function in the current cell"
@@ -17906,7 +17900,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:514
 msgid "Manage Sheets..."
-msgstr "Omrokér _ark …"
+msgstr "Omrokér _ark..."
 
 #: ../src/wbc-gtk.c:517
 msgid "Append"
@@ -18076,7 +18070,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2773
 msgid "Go to Cell..."
-msgstr "Gå _til celle …"
+msgstr "Gå _til celle..."
 
 #: ../src/wbc-gtk.c:2835
 msgid "Accept change in multiple cells"
@@ -18171,11 +18165,11 @@ msgstr "(Alle)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:172
 msgid "(Top 10...)"
-msgstr "(Top 10 …)"
+msgstr "(Top 10...)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:179
 msgid "(Custom...)"
-msgstr "(Tilpasset …)"
+msgstr "(Tilpasset...)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:257
 msgid "(Blanks...)"
@@ -18528,15 +18522,15 @@ msgstr "Reorganisering af ark"
 #: ../src/xml-sax-read.c:506
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
-msgstr ""
+msgstr "Flere versionsspecifikationer. Antager %d"
 
 #: ../src/xml-sax-read.c:679
 msgid "workbook view attribute is incomplete"
-msgstr ""
+msgstr "arbejdsbogvisningsattribut er ufuldstændig"
 
 #: ../src/xml-sax-read.c:828
 msgid "File has inconsistent SheetNameIndex element."
-msgstr ""
+msgstr "Fil har inkonsistent SheetNameIndex-element."
 
 #: ../src/xml-sax-read.c:2340
 #, c-format
@@ -18549,7 +18543,7 @@ msgstr "Manglende filtertype"
 
 #: ../src/xml-sax-read.c:2394
 msgid "Malformed sheet filter condition"
-msgstr ""
+msgstr "Misdannet arkfilterbetingelse"
 
 #: ../src/xml-sax-read.c:2408
 #, c-format
@@ -18605,16 +18599,15 @@ msgstr "Gnumericholdet"
 
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:2
 msgid "A 3D list template"
-msgstr ""
+msgstr "En 3D-listeskabelon"
 
 #: ../templates/autoformat/autoformat.Classical.cool.xml.in.h:1
-#, fuzzy
 msgid "Cool"
-msgstr "Fed"
+msgstr "Cool"
 
 #: ../templates/autoformat/autoformat.Classical.cool.xml.in.h:2
 msgid "Template with a 'cool' look"
-msgstr ""
+msgstr "Skabelon med et 'cool' udseende"
 
 #: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:1
 #: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:1
@@ -18624,7 +18617,7 @@ msgstr "Enkel"
 
 #: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:2
 msgid "A simple template with classical look and feel"
-msgstr ""
+msgstr "En simpel skabelon med klassisk udseende og følelse"
 
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:1
 msgid "Trendy"
@@ -18656,7 +18649,7 @@ msgstr "Blå"
 
 #: ../templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
 msgid "A colourful template with mainly blue and teal colours"
-msgstr ""
+msgstr "En farverig skabelon med primært blå og tealfarver"
 
 #: ../templates/autoformat/autoformat.Colourful.orange.xml.in.h:1
 msgid "Orange"
@@ -18667,18 +18660,16 @@ msgid "Orange template"
 msgstr "Orange skabelon"
 
 #: ../templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:1
-#, fuzzy
 msgid "Vanilla"
-msgstr "alt"
+msgstr "Vanilje"
 
 #: ../templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:2
 msgid "Template with vanilla colour"
-msgstr ""
+msgstr "Skabelon med vaniljefarve"
 
 #: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:2
-#, fuzzy
 msgid "Simple financial template"
-msgstr "Navn på skabelon"
+msgstr "Simpel finansiel skabelon"
 
 #: ../templates/autoformat/autoformat.Financial.desert.xml.in.h:1
 msgid "Desert"
@@ -18694,7 +18685,7 @@ msgstr "Is"
 
 #: ../templates/autoformat/autoformat.Financial.ice.xml.in.h:2
 msgid "Financial style with cold border color"
-msgstr ""
+msgstr "Finansiel stil med kold kantfarve"
 
 #: ../templates/autoformat/autoformat.Financial.modern.xml.in.h:1
 msgid "Modern"
@@ -18718,13 +18709,12 @@ msgstr "En avanceret farveløs skabelon"
 
 #: ../templates/autoformat/autoformat.General.basic.xml.in.h:1
 #: ../templates/autoformat/autoformat.List.basic.xml.in.h:1
-#, fuzzy
 msgid "Basic"
-msgstr "Kursiv"
+msgstr "Grundlæggende"
 
 #: ../templates/autoformat/autoformat.General.basic.xml.in.h:2
 msgid "A basic formal style"
-msgstr ""
+msgstr "En grundlæggende formel stil"
 
 #: ../templates/autoformat/autoformat.General.empty.xml.in.h:1
 msgid "Empty"
@@ -18752,18 +18742,16 @@ msgstr "grøn"
 
 #: ../templates/autoformat/autoformat.List.green.xml.in.h:2
 msgid "A green list template"
-msgstr ""
+msgstr "En grøn listeskabelon"
 
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:1
 msgid "Lila"
 msgstr "Lilla"
 
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:2
-#, fuzzy
 msgid "Lila list template"
-msgstr "Navn på skabelon"
+msgstr "Lilla listeskabelon"
 
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
-#, fuzzy
 msgid "A simple list template"
-msgstr "Navn på skabelon"
+msgstr "En simpel listeskabelon"
