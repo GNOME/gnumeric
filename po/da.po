@@ -36,8 +36,8 @@
 # iteration -> gennemløb (iteration)
 # nested -> indlejret
 # objective value -> optimeret (funktions)værdi
-#                    jeg kan se på dansk wiki at de kalder det en 
-#                    "formålsfunktion", men det begreb tror jeg ikke 
+#                    jeg kan se på dansk wiki at de kalder det en
+#                    "formålsfunktion", men det begreb tror jeg ikke
 #                    bruges almindeligvis
 # paste special -> avanceret indsætning
 # plugin -> [udvidelses]modul (indstik el. lign. bliver for kryptisk)
@@ -67,7 +67,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-04 10:58-0500\n"
+"POT-Creation-Date: 2026-02-05 09:12-0500\n"
 "PO-Revision-Date: 2020-12-04 22:53+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -5027,8 +5027,7 @@ msgstr "Inputintervallet for variabel 2 er ugyldigt."
 
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:188
 msgid "Could not create the Wilcoxon-Mann-Whitney Analysis Tool dialog."
-msgstr ""
-"Kunne ikke oprette Wilcoxon-Mann-Whitney-analyseværktøjsdialogen."
+msgstr "Kunne ikke oprette Wilcoxon-Mann-Whitney-analyseværktøjsdialogen."
 
 #: ../src/dialogs/dialog-analysis-tools.c:654
 #: ../src/dialogs/dialog-analysis-tools.c:774
@@ -5773,7 +5772,8 @@ msgstr "Hvis celleindholdet indeholder tomme felter, bruges en speciel stil."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:1000
 msgid "If the cell content does not contain blanks, a special style is used."
-msgstr "Hvis celleindholdet ikke indeholder tomme felter, bruges en speciel stil."
+msgstr ""
+"Hvis celleindholdet ikke indeholder tomme felter, bruges en speciel stil."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:1007
 msgid "This is an unknown condition type."
@@ -5789,7 +5789,7 @@ msgstr "Markeringen er <b>ikke</b> homogen med hensyn til betingelser!"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:1271
 msgid "Editing conditional formatting: "
-msgstr ""
+msgstr "Redigering af betinget formatering: "
 
 #: ../src/dialogs/dialog-cell-format-cond.c:1318
 #: ../src/dialogs/cell-format-cond.ui.h:1
@@ -6195,7 +6195,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-hyperlink.c:184
 msgid "Not a range or name"
-msgstr ""
+msgstr "Ikke et interval eller et navn"
 
 #: ../src/dialogs/dialog-hyperlink.c:301
 msgid "Internal Link"
@@ -6204,6 +6204,7 @@ msgstr "Intern henvisning"
 #: ../src/dialogs/dialog-hyperlink.c:303
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
+"Hop til specifikke celler eller navngivet interval i den aktuelle arbejdsbog"
 
 #: ../src/dialogs/dialog-hyperlink.c:307
 msgid "External Link"
@@ -6227,7 +6228,7 @@ msgstr "Weblink"
 
 #: ../src/dialogs/dialog-hyperlink.c:319
 msgid "Browse to the specified URL"
-msgstr ""
+msgstr "Gennemse til den angivne URL"
 
 #: ../src/dialogs/dialog-hyperlink.c:395
 msgid "Add Hyperlink"
@@ -6255,12 +6256,12 @@ msgstr "Kunne ikke oprette indsæt celle-dialogen."
 
 #: ../src/dialogs/dialog-merge.c:254
 msgid "One field is not part of the merge zone!"
-msgstr ""
+msgstr "Et felt er ikke en del af sammenslåningsområdet!"
 
 #: ../src/dialogs/dialog-merge.c:256
 #, c-format
 msgid "%i fields are not part of the merge zone!"
-msgstr ""
+msgstr "%i felter er ikke en del af sammenslåningsområdet!"
 
 #: ../src/dialogs/dialog-merge.c:273
 #, c-format
@@ -6370,7 +6371,7 @@ msgstr "Mappe"
 
 #: ../src/dialogs/dialog-preferences.c:763
 msgid "Length of Undo Descriptors"
-msgstr ""
+msgstr "Længde af fortryd-beskrivelser"
 
 #: ../src/dialogs/dialog-preferences.c:813
 msgid "Sorting is Case-Sensitive"
@@ -6398,7 +6399,7 @@ msgstr "Standardfrekvens for automatisk lagring i sekunder"
 
 #: ../src/dialogs/dialog-preferences.c:993
 msgid "Disable Extension Check for Configurable Text Exporter"
-msgstr ""
+msgstr "Deaktivér filtypenavnskontrol for konfigurerbar teksteksport"
 
 #: ../src/dialogs/dialog-preferences.c:1049
 msgid "Enter _Moves Selection"
@@ -6407,7 +6408,7 @@ msgstr "Enter _flytter markering"
 #. xgettext : see https://en.wikipedia.org/wiki/X_Window_selection#Clipboard
 #: ../src/dialogs/dialog-preferences.c:1113
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
-msgstr ""
+msgstr "Foretræk CLIPBOARD frem for PRIMARY-markering"
 
 #: ../src/dialogs/dialog-preferences.c:1138
 msgid "Capitalize _names of days"
@@ -6514,7 +6515,7 @@ msgstr "$A$1 (første celle i dette arbejdsark)"
 
 #: ../src/dialogs/dialog-printer-setup.c:1667
 msgid "First Printed Cell Of The Page"
-msgstr ""
+msgstr "Første printede celle på siden"
 
 #: ../src/dialogs/dialog-printer-setup.c:1729
 msgid "Custom header configuration"
@@ -6542,7 +6543,7 @@ msgstr "Udskriv som mellemrum"
 
 #: ../src/dialogs/dialog-printer-setup.c:2176
 msgid "Print as dashes"
-msgstr ""
+msgstr "Udskriv som bindestreger"
 
 #: ../src/dialogs/dialog-printer-setup.c:2177
 msgid "Print as #N/A"
@@ -6564,27 +6565,27 @@ msgstr "Udskriv til sidst"
 #: ../src/dialogs/dialog-printer-setup.c:2386
 #, c-format
 msgid "%.0f pixels wide by %.0f pixels tall"
-msgstr ""
+msgstr "%.0f pixels bred og %.0f pixels høj"
 
 #: ../src/dialogs/dialog-printer-setup.c:2389
 #, c-format
 msgid "%.0f points wide by %.0f points tall"
-msgstr ""
+msgstr "%.0f punkter bred og %.0f punkter høj"
 
 #: ../src/dialogs/dialog-printer-setup.c:2392
 #, c-format
 msgid "%.1f in wide by %.1f in tall"
-msgstr ""
+msgstr "%.1f tommer bred og %.1f tommer høj"
 
 #: ../src/dialogs/dialog-printer-setup.c:2395
 #, c-format
 msgid "%.0f mm wide by %.0f mm tall"
-msgstr ""
+msgstr "%.0f mm bred og %.0f mm høj"
 
 #: ../src/dialogs/dialog-printer-setup.c:2398
 #, c-format
 msgid "%.1f wide by %.1f tall"
-msgstr ""
+msgstr "%.1f bred og %.1f høj"
 
 #: ../src/dialogs/dialog-quit.c:79 ../src/dialogs/dialog-recent.c:163
 #, c-format
@@ -6725,11 +6726,11 @@ msgstr "Antal _forsøg"
 
 #: ../src/dialogs/dialog-random-generator.c:122
 msgid "Cauchy"
-msgstr ""
+msgstr "Cauchy"
 
 #: ../src/dialogs/dialog-random-generator.c:124
 msgid "Chisq"
-msgstr ""
+msgstr "Chi-i-anden"
 
 #: ../src/dialogs/dialog-random-generator.c:124
 msgid "_nu Value:"
@@ -6766,7 +6767,7 @@ msgstr "Gaussisk hale"
 #: ../src/dialogs/dialog-random-generator.c:134
 #: ../src/dialogs/dialog-random-generator.c:152
 msgid "_Sigma"
-msgstr ""
+msgstr "_Sigma"
 
 #: ../src/dialogs/dialog-random-generator.c:136
 msgid "Geometric"
@@ -6774,11 +6775,11 @@ msgstr "Geometrisk"
 
 #: ../src/dialogs/dialog-random-generator.c:138
 msgid "Gumbel (Type I)"
-msgstr ""
+msgstr "Gumbel (Type I)"
 
 #: ../src/dialogs/dialog-random-generator.c:140
 msgid "Gumbel (Type II)"
-msgstr ""
+msgstr "Gumbel (Type II)"
 
 #: ../src/dialogs/dialog-random-generator.c:142
 msgid "Landau"
@@ -6790,7 +6791,7 @@ msgstr "Laplace"
 
 #: ../src/dialogs/dialog-random-generator.c:146
 msgid "Levy alpha-Stable"
-msgstr ""
+msgstr "Levy alfa-stabil"
 
 #: ../src/dialogs/dialog-random-generator.c:146
 msgid "_c Value:"
@@ -6802,7 +6803,7 @@ msgstr "_alfa:"
 
 #: ../src/dialogs/dialog-random-generator.c:148
 msgid "Logarithmic"
-msgstr ""
+msgstr "Logaritmisk"
 
 #: ../src/dialogs/dialog-random-generator.c:150
 msgid "Logistic"
@@ -6847,11 +6848,11 @@ msgstr "_Sigma:"
 
 #: ../src/dialogs/dialog-random-generator.c:163
 msgid "Rayleigh Tail"
-msgstr ""
+msgstr "Rayleigh-hale"
 
 #: ../src/dialogs/dialog-random-generator.c:165
 msgid "Student t"
-msgstr ""
+msgstr "Student t"
 
 #: ../src/dialogs/dialog-random-generator.c:165
 msgid "nu Value:"
@@ -6859,7 +6860,7 @@ msgstr "nu-værdi:"
 
 #: ../src/dialogs/dialog-random-generator.c:167
 msgid "Weibull"
-msgstr ""
+msgstr "Weibull"
 
 #: ../src/dialogs/dialog-random-generator.c:846
 msgid "Could not create the Random Tool dialog."
@@ -6937,7 +6938,7 @@ msgstr "Oprettet "
 
 #: ../src/dialogs/dialog-scenarios.c:714
 msgid "Results entry did not contain valid cell names."
-msgstr ""
+msgstr "Resultatpost indeholdt ikke gyldige cellenavne."
 
 #: ../src/dialogs/dialog-scenarios.c:780
 msgid "Could not create the Scenarios dialog."
@@ -7007,7 +7008,7 @@ msgstr "Diagonal kant"
 
 #: ../src/dialogs/dialog-sheet-compare.c:205
 msgid "Font color"
-msgstr ""
+msgstr "Skriftfarve"
 
 #. ALSO "<control>2"
 #: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3650
@@ -7036,7 +7037,7 @@ msgstr "Script"
 #: ../src/dialogs/dialog-sheet-compare.c:212
 #: ../src/dialogs/dialog-sheet-compare.c:266
 msgid "Size"
-msgstr ""
+msgstr "Størrelse"
 
 #: ../src/dialogs/dialog-sheet-compare.c:214 ../src/dialogs/data-slicer.ui.h:7
 #: ../src/dialogs/dialog-stf.ui.h:60
@@ -7065,7 +7066,7 @@ msgstr "Retning"
 
 #: ../src/dialogs/dialog-sheet-compare.c:221
 msgid "Wrap"
-msgstr ""
+msgstr "Ombryd"
 
 #: ../src/dialogs/dialog-sheet-compare.c:222
 msgid "Shrink-to-fit"
@@ -7077,7 +7078,7 @@ msgstr "Låst"
 
 #: ../src/dialogs/dialog-sheet-compare.c:225
 msgid "Hidden"
-msgstr ""
+msgstr "Skjult"
 
 #: ../src/dialogs/dialog-sheet-compare.c:227
 #: ../src/dialogs/cell-format-cond.ui.h:11 ../src/dialogs/cell-format.ui.h:105
@@ -7114,7 +7115,7 @@ msgstr "Diverse"
 
 #: ../src/dialogs/dialog-sheet-compare.c:272
 msgid "Added"
-msgstr ""
+msgstr "Tilføjet"
 
 #: ../src/dialogs/dialog-sheet-compare.c:273
 msgid "Removed"
@@ -7126,7 +7127,7 @@ msgstr "Ændret"
 
 #: ../src/dialogs/dialog-sheet-compare.c:358
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: ../src/dialogs/dialog-sheet-compare.c:358
 msgid "No"
@@ -7226,7 +7227,7 @@ msgstr "Placering"
 
 #: ../src/dialogs/dialog-sheet-compare.c:730
 msgid "Old"
-msgstr ""
+msgstr "Gammel"
 
 #: ../src/dialogs/dialog-sheet-compare.c:740
 msgid "New"
@@ -7234,7 +7235,7 @@ msgstr "Ny"
 
 #: ../src/dialogs/dialog-sheet-order.c:183
 msgid "<b>Note:</b> A sheet name change is pending."
-msgstr ""
+msgstr "<b>Bemærk:</b> En ændring af arknavnet er under udførelse."
 
 #: ../src/dialogs/dialog-sheet-order.c:620
 msgid "At least one sheet must remain visible!"
@@ -7347,7 +7348,7 @@ msgstr "Kørselstid"
 
 #: ../src/dialogs/dialog-simulation.c:151
 msgid "Run on"
-msgstr ""
+msgstr "Kør på"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:244
 #: ../src/wbc-gtk.c:4141
@@ -7365,7 +7366,7 @@ msgstr "Maks"
 
 #: ../src/dialogs/dialog-simulation.c:311
 msgid "Invalid variable range was given"
-msgstr ""
+msgstr "Der blev givet et ugyldigt variabelinterval"
 
 #: ../src/dialogs/dialog-simulation.c:325
 msgid ""
@@ -7391,7 +7392,7 @@ msgstr "Hoved"
 
 #: ../src/dialogs/dialog-so-styled.c:244
 msgid "Tail"
-msgstr ""
+msgstr "Hale"
 
 #: ../src/dialogs/dialog-solver.c:354
 msgid ""
@@ -7409,7 +7410,7 @@ msgstr "Mulig"
 
 #: ../src/dialogs/dialog-solver.c:552 ../src/tools/gnm-solver.c:1702
 msgid "Optimal"
-msgstr ""
+msgstr "Optimal"
 
 #: ../src/dialogs/dialog-solver.c:556
 msgid "Infeasible"
@@ -7458,7 +7459,7 @@ msgstr "Den valgte løsningsalgoritme fungerer ikke."
 
 #: ../src/dialogs/dialog-solver.c:795
 msgid "Running solver"
-msgstr ""
+msgstr "Kører løsningsalgoritme"
 
 #: ../src/dialogs/dialog-solver.c:832
 msgid "Optimal solution created by solver.\n"
@@ -7924,7 +7925,7 @@ msgstr "Antal eller procent:"
 
 #: ../src/dialogs/autofilter-top10.ui.h:5
 msgid "Items"
-msgstr ""
+msgstr "Elementer"
 
 #: ../src/dialogs/autofilter-top10.ui.h:6 ../src/wbc-gtk-actions.c:3442
 msgid "Percentage"
@@ -8058,7 +8059,7 @@ msgstr "<b>Ny forfatter:</b>"
 
 #: ../src/dialogs/cell-comment.ui.h:4
 msgid "_Wrap in properties window"
-msgstr ""
+msgstr "_Ombryd i egenskabsvindue"
 
 #: ../src/dialogs/cell-format-cond.ui.h:2
 msgid "E_xpand"
@@ -8070,7 +8071,7 @@ msgstr "Betingelse:"
 
 #: ../src/dialogs/cell-format-cond.ui.h:4
 msgid "Applicable Style Components:"
-msgstr ""
+msgstr "Anvendelige stilkomponenter:"
 
 #: ../src/dialogs/cell-format-cond.ui.h:5
 msgid "Number Format"
@@ -8090,11 +8091,11 @@ msgstr "_Rediger stil"
 
 #: ../src/dialogs/cell-format.ui.h:1
 msgid "Any Value     (no validation)"
-msgstr ""
+msgstr "Enhver værdi     (ingen validering)"
 
 #: ../src/dialogs/cell-format.ui.h:2
 msgid "Whole numbers"
-msgstr ""
+msgstr "Hele tal"
 
 #: ../src/dialogs/cell-format.ui.h:3
 msgid "Numbers"
@@ -8118,45 +8119,47 @@ msgstr "Tid"
 
 #: ../src/dialogs/cell-format.ui.h:7
 msgid "Text length"
-msgstr ""
+msgstr "Tekstlængde"
 
-# skal passe med tekst senere (dækker kun over et enkelt tegn, brugerdefineret virker som overkill)
-# skal passe med tekst senere (dækker kun over et enkelt tegn, brugerdefineret virker som overkill)
+# skal passe med tekst senere (dækker kun over et enkelt tegn, brugerdefineret
+# virker som overkill)
+# skal passe med tekst senere (dækker kun over et enkelt tegn, brugerdefineret
+# virker som overkill)
 #: ../src/dialogs/cell-format.ui.h:8 ../src/dialogs/dialog-stf-export.ui.h:16
 msgid "Custom"
 msgstr "Tilpasset"
 
 #: ../src/dialogs/cell-format.ui.h:9
 msgid "min <= val <= max         (between)"
-msgstr ""
+msgstr "min <= værdi <= maks         (mellem)"
 
 #: ../src/dialogs/cell-format.ui.h:10
 msgid "val <= min || max <= val (not between)"
-msgstr ""
+msgstr "værdi <= min || maks <= værdi (ikke mellem)"
 
 #: ../src/dialogs/cell-format.ui.h:11
 msgid "val == bound                  (equal to)"
-msgstr ""
+msgstr "værdi == grænse                  (lig med)"
 
 #: ../src/dialogs/cell-format.ui.h:12
 msgid "val <> bound                  (not equal to)"
-msgstr ""
+msgstr "værdi <> grænse                  (ikke lig med)"
 
 #: ../src/dialogs/cell-format.ui.h:13
 msgid "val  >  bound                  (greater than)"
-msgstr ""
+msgstr "værdi  >  grænse                  (større end)"
 
 #: ../src/dialogs/cell-format.ui.h:14
 msgid "val  <  bound                  (less than)"
-msgstr ""
+msgstr "værdi  <  grænse                  (mindre end)"
 
 #: ../src/dialogs/cell-format.ui.h:15
 msgid "val >= bound                  (greater than or equal)"
-msgstr ""
+msgstr "værdi >= grænse                  (større end eller lig med)"
 
 #: ../src/dialogs/cell-format.ui.h:16
 msgid "val <= bound                  (less than or equal)"
-msgstr ""
+msgstr "værdi <= grænse                  (mindre end eller lig med)"
 
 #: ../src/dialogs/cell-format.ui.h:18
 msgid "<b>Horizontal alignment</b>"
@@ -8471,7 +8474,7 @@ msgstr ""
 
 #: ../src/dialogs/cell-sort.ui.h:7
 msgid "Sort range has a _header"
-msgstr ""
+msgstr "Sorteringsinterval har et _sidehoved"
 
 #: ../src/dialogs/cell-sort.ui.h:8
 msgid ""
@@ -8493,7 +8496,7 @@ msgstr "_Venstre-højre"
 
 #: ../src/dialogs/cell-sort.ui.h:12
 msgid "Sort columns by the specified rows"
-msgstr ""
+msgstr "Sortér kolonner efter de angivne rækker"
 
 #: ../src/dialogs/cell-sort.ui.h:13
 msgid "_Top-Bottom"
@@ -8505,7 +8508,7 @@ msgstr "Sortér rækker efter de angivne kolonner"
 
 #: ../src/dialogs/cell-sort.ui.h:15
 msgid "Move selected field up in the sort order"
-msgstr ""
+msgstr "Flyt markeret felt op i sorteringsrækkefølgen"
 
 #: ../src/dialogs/cell-sort.ui.h:16
 msgid "Move the selected field down in the sort order"
@@ -8513,11 +8516,11 @@ msgstr "Flyt det markerede felt ned i sorteringsrækkefølgen"
 
 #: ../src/dialogs/cell-sort.ui.h:17
 msgid "Clear all fields from the sort specification"
-msgstr ""
+msgstr "Ryd alle felter fra sorteringsspecifikationen"
 
 #: ../src/dialogs/cell-sort.ui.h:18
 msgid "Remove the selected field from the sort specification"
-msgstr ""
+msgstr "Fjern det markerede felt fra sorteringsspecifikationen"
 
 #: ../src/dialogs/cell-sort.ui.h:19
 msgid ""
@@ -8527,7 +8530,7 @@ msgstr ""
 
 #: ../src/dialogs/chi-squared.ui.h:1
 msgid "Contingency Table Analysis"
-msgstr ""
+msgstr "Kontingens-tabel-analyse"
 
 #: ../src/dialogs/chi-squared.ui.h:2
 msgid "_Contingency Table:"
@@ -8535,11 +8538,11 @@ msgstr "_Kontingenstabell:"
 
 #: ../src/dialogs/chi-squared.ui.h:12
 msgid "Test of _Homogeneity"
-msgstr ""
+msgstr "Test af _homogenitet"
 
 #: ../src/dialogs/chi-squared.ui.h:13
 msgid "Test of _Independence"
-msgstr ""
+msgstr "Test af _uafhængighed"
 
 #: ../src/dialogs/colrow.ui.h:1
 msgid "Group/Ungroup"
@@ -8572,7 +8575,7 @@ msgstr "Kolonnebredde i punkter:"
 #: ../src/dialogs/col-width.ui.h:4 ../src/dialogs/row-height.ui.h:4
 #: ../src/dialogs/sheetobject-size.ui.h:15
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: ../src/dialogs/col-width.ui.h:5 ../src/dialogs/row-height.ui.h:5
 msgid "_Use Default"
@@ -8628,7 +8631,7 @@ msgstr "K_opiér etiketter"
 
 #: ../src/dialogs/consolidate.ui.h:14
 msgid "SUM"
-msgstr "SUM"
+msgstr ""
 
 #: ../src/dialogs/consolidate.ui.h:15
 msgid "MIN"
@@ -8726,7 +8729,7 @@ msgstr "_Indtast i celler:"
 
 #: ../src/dialogs/data-slicer.ui.h:1
 msgid "DataSlicer Guru : Gnumeric"
-msgstr ""
+msgstr "DataSlicer-guide : Gnumeric"
 
 #: ../src/dialogs/data-slicer.ui.h:3
 msgid "_Format"
@@ -8795,7 +8798,7 @@ msgstr "S_ammendragsstatistik"
 
 #: ../src/dialogs/descriptive-stats.ui.h:12
 msgid "_Use ssmedian"
-msgstr ""
+msgstr "_Brug ssmedian"
 
 #: ../src/dialogs/descriptive-stats.ui.h:13
 msgid ""
@@ -9045,7 +9048,7 @@ msgstr "_Unix (LF)"
 
 #: ../src/dialogs/dialog-stf.ui.h:15
 msgid "The line feed character (ASCII code 10) breaks lines"
-msgstr ""
+msgstr "Linjeforskydningstegnet (ASCII-kode 10) bryder linjer"
 
 #: ../src/dialogs/dialog-stf.ui.h:16
 msgid "_Windows (CR+LF)"
@@ -9059,11 +9062,11 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf.ui.h:18
 msgid "_Mac pre-OS X (CR)"
-msgstr ""
+msgstr "_Mac før OS X (CR)"
 
 #: ../src/dialogs/dialog-stf.ui.h:19
 msgid "The carriage return character (ASCII code 13) breaks lines"
-msgstr ""
+msgstr "Vognreturtegnet (ASCII-kode 13) bryder linjer"
 
 # engelsk original er kryptisk
 #: ../src/dialogs/dialog-stf.ui.h:20
@@ -9156,7 +9159,8 @@ msgstr "Semikolon (_;)"
 msgid "_Hyphen (-)"
 msgstr "_Bindestreg (-)"
 
-# skal passe med tekst senere (dækker kun over et enkelt tegn, brugerdefineret virker som overkill)
+# skal passe med tekst senere (dækker kun over et enkelt tegn, brugerdefineret
+# virker som overkill)
 #: ../src/dialogs/dialog-stf.ui.h:41
 msgid "C_ustom"
 msgstr "_Selvvalgt"
@@ -9357,7 +9361,7 @@ msgstr "Kommentarer:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:22
 msgid "The document title (not filename)"
-msgstr ""
+msgstr "Dokumentets titel (ikke filnavn)"
 
 #: ../src/dialogs/doc-meta-data.ui.h:23
 msgid "The document subject"
@@ -9502,7 +9506,7 @@ msgstr "Sæsonmæssig dæmpningsfaktor (δ):"
 
 #: ../src/dialogs/exp-smoothing.ui.h:18
 msgid "Seasonal period:"
-msgstr ""
+msgstr "Sæsonperiode:"
 
 #: ../src/dialogs/exp-smoothing.ui.h:19 ../src/dialogs/moving-averages.ui.h:19
 msgid "Include chart"
@@ -9620,7 +9624,7 @@ msgstr "Indtast som matrixfunktion"
 
 #: ../src/dialogs/formula-guru.ui.h:3
 msgid "Quote unknown names"
-msgstr ""
+msgstr "Citér ukendte navne"
 
 #: ../src/dialogs/fourier-analysis.ui.h:1 ../src/wbc-gtk-actions.c:2982
 msgid "Fourier Analysis"
@@ -9679,7 +9683,7 @@ msgstr "_Procentdele"
 
 #: ../src/dialogs/frequency.ui.h:20
 msgid "Use e_xact comparisons"
-msgstr ""
+msgstr "Brug nø_jagtige sammenligninger"
 
 #: ../src/dialogs/frequency.ui.h:21 ../src/dialogs/histogram.ui.h:34
 msgid "_Graphs & Options"
@@ -9826,7 +9830,7 @@ msgstr "Indsæt en regnearkscelle"
 
 #: ../src/dialogs/hf-dt-format.ui.h:1
 msgid "<b>Select a date format:</b>"
-msgstr ""
+msgstr "<b>Vælg et datoformat:</b>"
 
 #: ../src/dialogs/histogram.ui.h:1 ../src/tools/analysis-histogram.c:156
 #: ../src/tools/analysis-histogram.c:502 ../src/tools/analysis-histogram.c:505
@@ -9863,35 +9867,35 @@ msgstr "A_fskæringer"
 
 #: ../src/dialogs/histogram.ui.h:18
 msgid "(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)"
-msgstr ""
+msgstr "(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)"
 
 #: ../src/dialogs/histogram.ui.h:19
 msgid "(−∞,∙], (∙,∙], ⋯, (∙,∙], (∙,∞)"
-msgstr ""
+msgstr "(−∞,∙], (∙,∙], ⋯, (∙,∙], (∙,∞)"
 
 #: ../src/dialogs/histogram.ui.h:20
 msgid "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∞)"
-msgstr ""
+msgstr "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∞)"
 
 #: ../src/dialogs/histogram.ui.h:21
 msgid "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∞)"
-msgstr ""
+msgstr "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∞)"
 
 #: ../src/dialogs/histogram.ui.h:22
 msgid "(−∞,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
-msgstr ""
+msgstr "(−∞,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
 
 #: ../src/dialogs/histogram.ui.h:23
 msgid "(−∞,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
-msgstr ""
+msgstr "(−∞,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
 
 #: ../src/dialogs/histogram.ui.h:24
 msgid "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
-msgstr ""
+msgstr "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
 
 #: ../src/dialogs/histogram.ui.h:25
 msgid "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
-msgstr ""
+msgstr "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
 
 #: ../src/dialogs/histogram.ui.h:26
 msgid "_Bins"
@@ -9907,7 +9911,7 @@ msgstr "K_umulative svar"
 
 #: ../src/dialogs/histogram.ui.h:33
 msgid "Count numbers only"
-msgstr ""
+msgstr "Tæl kun tal"
 
 #: ../src/dialogs/hyperlink.ui.h:1
 msgid "HyperLink"
@@ -9979,7 +9983,7 @@ msgstr "_Tidskolonne:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:3
 msgid "Permit censorship"
-msgstr ""
+msgstr "Tillad censur"
 
 #: ../src/dialogs/kaplan-meier.ui.h:4
 msgid "Censor co_lumn:"
@@ -9987,7 +9991,7 @@ msgstr "Censor ko_lonne:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:5
 msgid "Censored record labels from:"
-msgstr ""
+msgstr "Censurerede postetiket ter fra:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1547
 msgid "to:"
@@ -9995,7 +9999,7 @@ msgstr "til:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:8
 msgid "Define _multiple groups"
-msgstr ""
+msgstr "Definér _flere grupper"
 
 #: ../src/dialogs/kaplan-meier.ui.h:9
 msgid "Groups column:"
@@ -10007,11 +10011,11 @@ msgstr "_Grupper"
 
 #: ../src/dialogs/kaplan-meier.ui.h:11
 msgid "Show graph "
-msgstr ""
+msgstr "Vis graf "
 
 #: ../src/dialogs/kaplan-meier.ui.h:12
 msgid "Include censorship ticks"
-msgstr ""
+msgstr "Medtag censurmarkører"
 
 #: ../src/dialogs/kaplan-meier.ui.h:13
 msgid "Show standard errors"
@@ -10019,11 +10023,11 @@ msgstr "Vis standardfejl"
 
 #: ../src/dialogs/kaplan-meier.ui.h:14
 msgid "Show median survival times"
-msgstr ""
+msgstr "Vis median-overlevelsestider"
 
 #: ../src/dialogs/kaplan-meier.ui.h:15
 msgid "Perform Log-Rank (Mantel-Haenszel) Test"
-msgstr ""
+msgstr "Udfør log-rang (Mantel-Haenszel)-test"
 
 #: ../src/dialogs/kaplan-meier.ui.h:16 ../src/dialogs/regression.ui.h:13
 #: ../src/dialogs/sampling.ui.h:23
@@ -10032,7 +10036,7 @@ msgstr "I_ndstillinger"
 
 #: ../src/dialogs/mean-tests.ui.h:1
 msgid "Claims About Two Means"
-msgstr ""
+msgstr "Påstande om to middelværdier"
 
 #: ../src/dialogs/mean-tests.ui.h:2 ../src/dialogs/sign-test-two.ui.h:2
 #: ../src/dialogs/variance-tests.ui.h:2
@@ -10138,7 +10142,7 @@ msgstr "Vægtet glidende gennemsnit"
 
 #: ../src/dialogs/moving-averages.ui.h:12
 msgid "Spencer's 15-point moving average"
-msgstr ""
+msgstr "Spencers 15-punkts glidende gennemsnit"
 
 #: ../src/dialogs/moving-averages.ui.h:14
 msgid "_Interval:"
@@ -10166,23 +10170,23 @@ msgstr "Normalitetstests"
 
 #: ../src/dialogs/normality-tests.ui.h:11 ../src/tools/analysis-normality.c:61
 msgid "Anderson-Darling Test"
-msgstr ""
+msgstr "Anderson-Darling-test"
 
 #: ../src/dialogs/normality-tests.ui.h:12 ../src/tools/analysis-normality.c:68
 msgid "Cramér-von Mises Test"
-msgstr ""
+msgstr "Cramér-von Mises-test"
 
 #: ../src/dialogs/normality-tests.ui.h:13 ../src/tools/analysis-normality.c:75
 msgid "Lilliefors (Kolmogorov-Smirnov) Test"
-msgstr ""
+msgstr "Lilliefors (Kolmogorov-Smirnov)-test"
 
 #: ../src/dialogs/normality-tests.ui.h:14 ../src/tools/analysis-normality.c:81
 msgid "Shapiro-Francia Test"
-msgstr ""
+msgstr "Shapiro-Francia-test"
 
 #: ../src/dialogs/normality-tests.ui.h:16
 msgid "Create Normal Probability Plot"
-msgstr ""
+msgstr "Opret normalfordelingsplot"
 
 #: ../src/dialogs/normality-tests.ui.h:17 ../src/dialogs/one-mean-test.ui.h:13
 #: ../src/dialogs/sign-test.ui.h:15 ../src/dialogs/variance-tests.ui.h:8
@@ -10221,7 +10225,7 @@ msgstr "Indhold"
 
 #: ../src/dialogs/paste-special.ui.h:6
 msgid "Paste the cell contents only, not the formatting"
-msgstr ""
+msgstr "Indsæt kun celleindholdet, ikke formateringen"
 
 #: ../src/dialogs/paste-special.ui.h:7
 msgid "As _Value"
@@ -10229,7 +10233,7 @@ msgstr "Som værdi"
 
 #: ../src/dialogs/paste-special.ui.h:8
 msgid "Paste the value of expressions rather than the expressions themselves"
-msgstr ""
+msgstr "Indsæt værdien af udtryk i stedet for selve udtrykkene"
 
 # navneord, er knyttet til næste tekst
 #: ../src/dialogs/paste-special.ui.h:9
@@ -10238,7 +10242,7 @@ msgstr "_Formater"
 
 #: ../src/dialogs/paste-special.ui.h:10
 msgid "Paste cell formats (number formats, colors, borders, etc.) only"
-msgstr ""
+msgstr "Indsæt kun celleformater (talformater, farver, kanter osv.)"
 
 #: ../src/dialogs/paste-special.ui.h:11 ../src/wbc-gtk-actions.c:2414
 msgid "Co_mments"
@@ -10326,7 +10330,7 @@ msgstr "Kolonnebredder"
 
 #: ../src/dialogs/paste-special.ui.h:31
 msgid "Set column widths of the destination to those of the source"
-msgstr ""
+msgstr "Sæt destinationskolonnebredder til dem fra kilden"
 
 #: ../src/dialogs/paste-special.ui.h:32
 msgid "Row heights"
@@ -10334,7 +10338,7 @@ msgstr "Rækkehøjder"
 
 #: ../src/dialogs/paste-special.ui.h:33
 msgid "Set row heights of the destination to those of the source"
-msgstr ""
+msgstr "Sæt destinationsrækkehøjder til dem fra kilden"
 
 #: ../src/dialogs/paste-special.ui.h:34
 msgid "Skip _Blanks"
@@ -10371,7 +10375,7 @@ msgstr "Modulmappe:"
 
 #: ../src/dialogs/plugin-manager.ui.h:6
 msgid "Do _not activate this plugin next time I start Gnumeric"
-msgstr ""
+msgstr "Aktivér _ikke dette udvidelsesmodul næste gang jeg starter Gnumeric"
 
 #: ../src/dialogs/plugin-manager.ui.h:7
 #, fuzzy
@@ -10401,7 +10405,7 @@ msgstr "Gnumeric-indstillinger"
 #: ../src/tools/analysis-principal-components.c:228
 #: ../src/wbc-gtk-actions.c:2988
 msgid "Principal Components Analysis"
-msgstr ""
+msgstr "Hovedkomponentanalyse"
 
 #: ../src/dialogs/print.ui.h:1
 msgid "Page Setup"
@@ -10417,11 +10421,11 @@ msgstr "bogstav"
 
 #: ../src/dialogs/print.ui.h:4
 msgid "8.5 in wide by 11.0 in high"
-msgstr ""
+msgstr "8,5 tommer bred og 11,0 tommer høj"
 
 #: ../src/dialogs/print.ui.h:5
 msgid "Change Paper Type"
-msgstr ""
+msgstr "Skift papirtype"
 
 #: ../src/dialogs/print.ui.h:6
 msgid "Top margin:"
@@ -10493,7 +10497,7 @@ msgstr "_Ingen skalering"
 
 #: ../src/dialogs/print.ui.h:24
 msgid "_Fixed scaling:"
-msgstr ""
+msgstr "_Fast skalering:"
 
 #: ../src/dialogs/print.ui.h:25
 msgid "_Automatic scaling:"
@@ -10505,7 +10509,7 @@ msgstr "Skalér til at passe _vandret på"
 
 #: ../src/dialogs/print.ui.h:27
 msgid "Scale to fit _vertically on"
-msgstr ""
+msgstr "Skalér til at passe _lodret på"
 
 #: ../src/dialogs/print.ui.h:29
 #, no-c-format
@@ -10610,7 +10614,7 @@ msgstr "Anvend på alle ark i denne _arbejdsbog."
 
 #: ../src/dialogs/print.ui.h:55
 msgid "Save as default settings"
-msgstr ""
+msgstr "Gem som standardindstillinger"
 
 #: ../src/dialogs/print.ui.h:56
 msgid "Apply _to:"
@@ -10686,7 +10690,7 @@ msgstr "Kovariansmatrix"
 
 #: ../src/dialogs/random-generation-cor.ui.h:3
 msgid "Cholesky _Decomposition of the Covariance Matrix"
-msgstr ""
+msgstr "Cholesky-_nedbrydning af kovariansmatricen"
 
 #: ../src/dialogs/random-generation-cor.ui.h:4
 msgid "_Matrix:"
@@ -10759,11 +10763,11 @@ msgstr "_Multipel lineær regression"
 
 #: ../src/dialogs/regression.ui.h:3
 msgid "Multiple 2-_variable regressions"
-msgstr ""
+msgstr "Flere 2-_variable regressioner"
 
 #: ../src/dialogs/regression.ui.h:4
 msgid "Multiple dependent (y) variables"
-msgstr ""
+msgstr "Flere afhængige (y)-variabler"
 
 #: ../src/dialogs/regression.ui.h:9
 msgid "Confidence level:"
@@ -10815,7 +10819,7 @@ msgstr "Per_iode:"
 
 #: ../src/dialogs/sampling.ui.h:15
 msgid "Offset:"
-msgstr ""
+msgstr "Forskydning:"
 
 #: ../src/dialogs/sampling.ui.h:16
 msgid "Primary direction:"
@@ -10839,7 +10843,7 @@ msgstr "_Tilfældig"
 
 #: ../src/dialogs/scenario-add.ui.h:1
 msgid "Add Scenario"
-msgstr ""
+msgstr "Tilføj scenarie"
 
 #: ../src/dialogs/scenario-add.ui.h:2
 msgid "Scenario name:"
@@ -11213,15 +11217,15 @@ msgstr "Kolonne efter kolonne"
 
 #: ../src/dialogs/search.ui.h:34
 msgid "Save settings as _default"
-msgstr ""
+msgstr "Gem indstillinger som _standard"
 
 #: ../src/dialogs/search.ui.h:35
 msgid "These settings are shared with the Search &amp; Replace dialog."
-msgstr ""
+msgstr "Disse indstillinger er delt med dialogboksen Søg og erstat."
 
 #: ../src/dialogs/search.ui.h:36
 msgid "These settings are shared with the Search & Replace dialog."
-msgstr ""
+msgstr "Disse indstillinger er delt med dialogboksen Søg og erstat."
 
 #: ../src/dialogs/search.ui.h:37
 msgid "Search text is"
@@ -11249,7 +11253,7 @@ msgstr "_Højde i billedpunkter:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:4
 msgid "Object position relative to its current position:"
-msgstr ""
+msgstr "Objektposition relativ til den aktuelle position:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:5
 msgid "_x-Offset in pixels:"
@@ -11370,7 +11374,7 @@ msgstr "Skal den nye størrelse gælde for all ark i arbejdsbogen?"
 
 #: ../src/dialogs/shuffle.ui.h:1
 msgid "Data Shuffling"
-msgstr ""
+msgstr "Datablanding"
 
 #: ../src/dialogs/shuffle.ui.h:2
 msgid "Input Range: "
@@ -11398,7 +11402,7 @@ msgstr "_Areal"
 
 #: ../src/dialogs/sign-test-two.ui.h:1
 msgid "Claims About Two Medians (Paired Samples)"
-msgstr ""
+msgstr "Påstande om to medianer (parrede stikprøver)"
 
 #: ../src/dialogs/sign-test-two.ui.h:6 ../src/dialogs/sign-test.ui.h:11
 #: ../src/tools/analysis-sign-test.c:362 ../src/tools/analysis-sign-test.c:365
@@ -11412,7 +11416,7 @@ msgstr "Fortegnstest"
 #: ../src/tools/analysis-signed-rank-test.c:576
 #: ../src/tools/analysis-signed-rank-test.c:579
 msgid "Wilcoxon Signed Rank Test"
-msgstr ""
+msgstr "Wilcoxon-rangtegnstest"
 
 #: ../src/dialogs/sign-test-two.ui.h:8
 msgid "Hypothesized _difference of medians:"
@@ -11477,11 +11481,11 @@ msgstr "<b>Simuleringssammendrag:</b>"
 
 #: ../src/dialogs/simulation.ui.h:13
 msgid "Prev. Sim."
-msgstr ""
+msgstr "Forr. sim."
 
 #: ../src/dialogs/simulation.ui.h:14
 msgid "Next Sim."
-msgstr ""
+msgstr "Næste sim."
 
 #: ../src/dialogs/simulation.ui.h:15
 msgid "Find Min."
@@ -11617,7 +11621,7 @@ msgstr "Antag _ikke-negativ"
 
 #: ../src/dialogs/solver.ui.h:19
 msgid "Assume _Integer (Discrete)"
-msgstr ""
+msgstr "Antag _heltal (diskret)"
 
 #: ../src/dialogs/solver.ui.h:20
 msgid "_Algorithm:"
@@ -11797,7 +11801,7 @@ msgstr "Brug ned for første kilde, højre for anden, og flere ark for tredje"
 
 #: ../src/dialogs/variance-tests.ui.h:1
 msgid "Claims About Two Variances"
-msgstr ""
+msgstr "Påstande om to varianser"
 
 #: ../src/dialogs/view.ui.h:1
 msgid "Create New View"
@@ -11840,7 +11844,7 @@ msgstr "Indsæt formel..."
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:360
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:363
 msgid "Wilcoxon-Mann-Whitney Test"
-msgstr ""
+msgstr "Wilcoxon-Mann-Whitney-test"
 
 #: ../src/dialogs/workbook-attr.ui.h:1
 msgid "View Properties"
@@ -11872,7 +11876,7 @@ msgstr "A_utofuldstændiggør tekst i celler"
 
 #: ../src/dialogs/workbook-attr.ui.h:10
 msgid "Show _Formula Cell Markers"
-msgstr ""
+msgstr "Vis _formelcellemarkører"
 
 #: ../src/dialogs/workbook-attr.ui.h:11
 msgid ""
@@ -11882,7 +11886,7 @@ msgstr ""
 
 #: ../src/dialogs/workbook-attr.ui.h:12
 msgid "Show _Extension Markers"
-msgstr ""
+msgstr "Vis _udvidelsesmarkører"
 
 #: ../src/dialogs/workbook-attr.ui.h:13
 msgid ""
@@ -11966,7 +11970,7 @@ msgstr "SUM:Sum over de givne værdier"
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:45
 msgid "values:a list of values to add"
-msgstr ""
+msgstr "værdier:en liste af værdier der skal adderes"
 
 #: ../src/func-builtin.c:46
 msgid ""
@@ -11990,7 +11994,7 @@ msgstr "PRODUKT:produktet af de givne værdier"
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:101
 msgid "values:a list of values to multiply"
-msgstr ""
+msgstr "værdier:en liste af værdier der skal multipliceres"
 
 #: ../src/func-builtin.c:102
 msgid ""
@@ -12000,7 +12004,7 @@ msgstr ""
 
 #: ../src/func-builtin.c:103
 msgid "If all cells are empty, the result will be 0."
-msgstr ""
+msgstr "Hvis alle celler er tomme vil resultatet være 0."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:136
@@ -12009,15 +12013,15 @@ msgstr "GNUMERIC_VERSION:den aktuelle version af Gnumeric"
 
 #: ../src/func-builtin.c:137
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
-msgstr ""
+msgstr "GNUMERIC_VERSION returnerer gnumerics version som en streng."
 
 #: ../src/func-builtin.c:151
 msgid "TABLE:internal function for data tables"
-msgstr ""
+msgstr "TABEL:intern funktion til datatabeller"
 
 #: ../src/func-builtin.c:152
 msgid "This function should not be called directly."
-msgstr ""
+msgstr "Denne funktion bør ikke kaldes direkte."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:341
@@ -12177,12 +12181,12 @@ msgstr "Ugyldig løsermodeltype."
 
 #: ../src/gnm-plugin.c:671
 msgid "Missing fields in plugin file"
-msgstr ""
+msgstr "Manglende felter i udvidelsesmodulfil"
 
 #: ../src/gnm-plugin.c:714
 #, c-format
 msgid "Solver Algorithm %s"
-msgstr ""
+msgstr "Løsningsalgoritme %s"
 
 #: ../src/gnm-plugin.c:815 ../src/gnm-plugin.c:887 ../src/gnm-plugin.c:933
 #, c-format
@@ -12210,8 +12214,10 @@ msgstr "Polygon-egenskaber"
 msgid "clipboard"
 msgstr "udklipsholder"
 
-# skal passe med tekst senere (dækker kun over et enkelt tegn, brugerdefineret virker som overkill)
-# skal passe med tekst senere (dækker kun over et enkelt tegn, brugerdefineret virker som overkill)
+# skal passe med tekst senere (dækker kun over et enkelt tegn, brugerdefineret
+# virker som overkill)
+# skal passe med tekst senere (dækker kun over et enkelt tegn, brugerdefineret
+# virker som overkill)
 #: ../src/gui-clipboard.c:1139
 #, c-format
 msgid "Cut of %s"
@@ -12348,12 +12354,12 @@ msgstr "Advarsel"
 #: ../src/gui-util.c:1276
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
-msgstr ""
+msgstr "Udvidelsesmodulet med id %s er påkrævet men kan ikke findes."
 
 #: ../src/gui-util.c:1284
 #, c-format
 msgid "The %s plugin is required but is not loaded."
-msgstr ""
+msgstr "Udvidelsesmodulet %s er påkrævet men er ikke indlæst."
 
 #: ../src/gui-util.h:151
 msgctxt "Stock label"
@@ -12424,18 +12430,18 @@ msgstr[1] ""
 #: ../src/item-bar.c:877
 #, c-format
 msgid "%d.00 pt"
-msgstr ""
+msgstr "%d,00 pt"
 
 #: ../src/item-bar.c:877
 #, c-format
 msgid "%d.00 pts"
-msgstr ""
+msgstr "%d,00 pkt"
 
 #. xgettext: The number of points here is always a fractional number, ie. not an integer.
 #: ../src/item-bar.c:881
 #, c-format
 msgid "%.2f pts"
-msgstr ""
+msgstr "%.2f pkt"
 
 #: ../src/item-cursor.c:833
 msgid "_Move"
@@ -12477,11 +12483,11 @@ msgstr "_Annullér"
 
 #: ../src/item-cursor.c:1116
 msgid "Drag to autofill"
-msgstr ""
+msgstr "Træk for at autoudfylde"
 
 #: ../src/item-cursor.c:1119
 msgid "Drag to move"
-msgstr ""
+msgstr "Træk for at flytte"
 
 #: ../src/libgnumeric.c:139
 msgid "Display Gnumeric's version"
@@ -12532,7 +12538,7 @@ msgstr "Vis ikke startskærmen"
 
 #: ../src/main-application.c:67
 msgid "Don't display warning dialogs when importing"
-msgstr ""
+msgstr "Vis ikke advarselsdialogbokse ved import"
 
 #: ../src/main-application.c:76
 msgid "Exit immediately after loading the selected books"
@@ -12558,17 +12564,17 @@ msgstr "En matrix skal have mindst 1 element"
 #: ../src/parser.y:379
 #, c-format
 msgid "Arrays must be rectangular"
-msgstr ""
+msgstr "Matricer skal være rektangulære"
 
 #: ../src/parser.y:405
 #, c-format
 msgid "Constructed ranges use simple references"
-msgstr ""
+msgstr "Konstruerede intervaller bruger simple referencer"
 
 #: ../src/parser.y:429 ../src/parser.y:448
 #, c-format
 msgid "All entries in the set must be references"
-msgstr ""
+msgstr "Alle poster i sættet skal være referencer"
 
 #: ../src/parser.y:496
 #, c-format
@@ -12628,7 +12634,7 @@ msgstr "Tallet er uden for det gyldige interval"
 #: ../src/parser.y:1365
 #, c-format
 msgid "Improperly formatted error token"
-msgstr ""
+msgstr "Forkert formateret fejl-token"
 
 #: ../src/parser.y:1622
 #, c-format
@@ -12688,7 +12694,7 @@ msgstr "Titel"
 #: ../src/print-info.c:923
 #, c-format
 msgid "There is no object with name '%s'"
-msgstr ""
+msgstr "Der findes intet objekt med navnet '%s'"
 
 #: ../src/print-info.c:940
 #, c-format
@@ -12701,7 +12707,7 @@ msgstr "PDF-eksport"
 
 #: ../src/print.c:701
 msgid "Even one cell is too large for this page."
-msgstr ""
+msgstr "Selv en celle er for stor til denne side."
 
 #: ../src/print.c:992
 msgid "Print Selection"
@@ -12792,7 +12798,7 @@ msgstr "Udskriv til fil"
 
 #: ../src/search.c:126
 msgid "Searching for regular expressions and numbers are mutually exclusive."
-msgstr ""
+msgstr "Søgning efter regulære udtryk og tal udelukker hinanden."
 
 #: ../src/search.c:130
 msgid "The search text must be a number."
@@ -12809,7 +12815,7 @@ msgstr "Søgeintervallet er ugyldigt."
 #: ../src/selection.c:418 ../src/wbc-gtk-actions.c:1246
 #, c-format
 msgid "%s does not support multiple ranges"
-msgstr ""
+msgstr "%s understøtter ikke flere intervaller"
 
 #. xgettext: This is a C format string where %d will be replaced
 #. by 1, 2, 3, or 4.  A year will then be appended and we'll get
@@ -12818,7 +12824,7 @@ msgstr ""
 #: ../src/sheet-autofill.c:63
 #, c-format
 msgid "%dQ"
-msgstr ""
+msgstr "%dK"
 
 #: ../src/sheet-autofill.c:918
 msgid "(empty)"
@@ -12906,7 +12912,7 @@ msgstr "_Opdatér dataskærer"
 
 #: ../src/sheet-control-gui.c:2313
 msgid "DataSlicer Field _Order "
-msgstr ""
+msgstr "DataSlicer-felt_rækkefølge "
 
 #: ../src/sheet-control-gui.c:2322
 msgid "Up"
@@ -13081,7 +13087,7 @@ msgstr[1] "Ændr størrelse på %d objekter"
 #: ../src/sheet-control-gui.c:3228
 #, c-format
 msgid "By %s:"
-msgstr ""
+msgstr "Efter %s:"
 
 #: ../src/sheet-merge.c:77 ../src/wbc-gtk-actions.c:3405
 msgid "Merge"
@@ -13114,19 +13120,19 @@ msgstr "Rækkefølge"
 
 #: ../src/sheet-object.c:283
 msgid "Pul_l to Front"
-msgstr ""
+msgstr "Træk _helt frem"
 
 #: ../src/sheet-object.c:284
 msgid "Pull _Forward"
-msgstr ""
+msgstr "Træk _frem"
 
 #: ../src/sheet-object.c:285
 msgid "Push _Backward"
-msgstr ""
+msgstr "Skub _tilbage"
 
 #: ../src/sheet-object.c:286
 msgid "Pus_h to Back"
-msgstr ""
+msgstr "Skub helt _bagerst"
 
 #: ../src/sheet-object.c:291 ../src/wbc-gtk-actions.c:2072
 msgid "_Delete"
@@ -13182,7 +13188,7 @@ msgstr "Rækker"
 
 #: ../src/sheet-object-graph.c:796
 msgid "Use first series as shared abscissa"
-msgstr ""
+msgstr "Brug første række som delt abscisse"
 
 #: ../src/sheet-object-graph.c:799
 msgid "New graph sheet"
@@ -13190,7 +13196,7 @@ msgstr "Nyt grafark"
 
 #: ../src/sheet-object-widget.c:244
 msgid "Because of GTK bug #705640, a sheet object widget is not being printed."
-msgstr ""
+msgstr "På grund af GTK-fejl #705640 udskrives en ark-objekt-widget ikke."
 
 #: ../src/sheet-object-widget.c:397 ../src/wbc-gtk-actions.c:3325
 msgid "Frame"
@@ -13284,7 +13290,7 @@ msgstr "Vis nuller"
 
 #: ../src/sheet.c:938
 msgid "Control whether zeros are shown are blanked out."
-msgstr ""
+msgstr "Kontrollér om nuller vises eller blankes ud."
 
 #: ../src/sheet.c:943
 msgid "Display Grid"
@@ -13394,7 +13400,7 @@ msgstr "Genberegn alle celler før skrivning af resultatet"
 
 #: ../src/ssconvert.c:183
 msgid "Resize to given ROWSxCOLS"
-msgstr ""
+msgstr "Tilpas størrelse til angivne RÆKKERxKOLONNER"
 
 #: ../src/ssconvert.c:195
 msgid "Output via the clipboard"
@@ -13410,11 +13416,11 @@ msgstr "Målsøgningsområder"
 
 #: ../src/ssconvert.c:216
 msgid "Run the solver"
-msgstr ""
+msgstr "Kør løsningsalgoritmen"
 
 #: ../src/ssconvert.c:223
 msgid "Tool test specs"
-msgstr ""
+msgstr "Værktøjstestspecifikationer"
 
 #: ../src/ssconvert.c:298 ../src/ssconvert.c:959
 msgid "Cannot parse export options."
@@ -13684,7 +13690,7 @@ msgstr "Vis kun antallet af resultater per fil"
 
 #: ../src/ssgrep.c:67
 msgid "Search only via the string table, display a count of the references."
-msgstr ""
+msgstr "Søg kun via strengtabellen, vis en optælling af referencerne."
 
 #: ../src/ssgrep.c:74
 msgid "Get patterns from a file, one per line"
@@ -13777,7 +13783,7 @@ msgstr "%s: Manglende mønster\n"
 
 #: ../src/ssindex.c:52
 msgid "List MIME types which ssindex is able to read"
-msgstr ""
+msgstr "Vis MIME-typer som ssindex kan læse"
 
 #: ../src/ssindex.c:59
 msgid "Index the given files"
@@ -13839,7 +13845,7 @@ msgstr "Fejl ved forsøg på at læse filen"
 
 #: ../src/stf.c:192
 msgid "This importer can only be used with a GUI."
-msgstr ""
+msgstr "Dette importfilter kan kun bruges med en grafisk brugergrænseflade."
 
 #: ../src/stf.c:286 ../src/stf.c:318
 msgid "Text to Columns"
@@ -13935,7 +13941,7 @@ msgstr "/SS/fg/MS/F/P-værdi/F kritisk værdi"
 
 #: ../src/tools/analysis-anova.c:385 ../src/tools/analysis-anova.c:791
 msgid "Insufficient space available for ANOVA table."
-msgstr ""
+msgstr "Utilstrækkelig plads tilgængelig til ANOVA-tabel."
 
 #: ../src/tools/analysis-anova.c:458
 msgid "ANOVA: Two-Factor Fixed Effects With Replication"
@@ -13945,7 +13951,7 @@ msgstr "ANOVA: to-faktor faste effekter med replikering"
 #: ../src/tools/analysis-anova.c:473
 #, c-format
 msgid "B, Level %i"
-msgstr ""
+msgstr "B, niveau %i"
 
 #: ../src/tools/analysis-anova.c:475 ../src/tools/analysis-anova.c:533
 msgid "Subtotal"
@@ -13955,7 +13961,7 @@ msgstr "Subtotal"
 #: ../src/tools/analysis-anova.c:492
 #, c-format
 msgid "A, Level %i"
-msgstr ""
+msgstr "A, niveau %i"
 
 #: ../src/tools/analysis-anova.c:493 ../src/tools/analysis-anova.c:534
 msgid "/Count/Sum/Average/Variance"
@@ -13968,7 +13974,7 @@ msgstr "/Kilde til variation/Faktor A/Faktor B/Interaktion/Fejl/Total"
 #: ../src/tools/analysis-anova.c:834
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
-msgstr ""
+msgstr "To-faktor-ANOVA (%s), ingen replikation"
 
 #: ../src/tools/analysis-anova.c:835
 #, c-format
@@ -14005,27 +14011,27 @@ msgstr ""
 
 #: ../src/tools/analysis-chi-squared.c:67
 msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
-msgstr ""
+msgstr "/Teststatistik/Frihedsgrader/p-værdi/Kritisk værdi"
 
 #: ../src/tools/analysis-chi-squared.c:176
 #, c-format
 msgid "Test of Independence (%s)"
-msgstr ""
+msgstr "Test af uafhængighed (%s)"
 
 #: ../src/tools/analysis-chi-squared.c:177
 #, c-format
 msgid "Test of Homogeneity (%s)"
-msgstr ""
+msgstr "Test af homogenitet (%s)"
 
 #: ../src/tools/analysis-chi-squared.c:188
 #: ../src/tools/analysis-chi-squared.c:193
 msgid "Test of Independence"
-msgstr ""
+msgstr "Test af uafhængighed"
 
 #: ../src/tools/analysis-chi-squared.c:189
 #: ../src/tools/analysis-chi-squared.c:194
 msgid "Test of Homogeneity"
-msgstr ""
+msgstr "Test af homogenitet"
 
 #: ../src/tools/analysis-exp-smoothing.c:112
 #: ../src/tools/analysis-exp-smoothing.c:291
@@ -14077,7 +14083,7 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:768
 #: ../src/tools/analysis-exp-smoothing.c:1093
 msgid "/Level/Trend/Seasonal Adjustment"
-msgstr ""
+msgstr "/Niveau/Trend/Sæsonjustering"
 
 #: ../src/tools/analysis-exp-smoothing.c:963
 #: ../src/tools/analysis-exp-smoothing.c:966
