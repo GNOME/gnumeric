@@ -720,7 +720,7 @@ gnumeric_sumifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_averageif[] = {
-	{ GNM_FUNC_HELP_NAME, F_("AVERAGEIF:average of the cells in @{actual range} for which the corresponding cells in the range meet the given @{criteria}")},
+	{ GNM_FUNC_HELP_NAME, F_("AVERAGEIF:average of the cells in @{actual_range} for which the corresponding cells in the range meet the given @{criteria}")},
 	{ GNM_FUNC_HELP_ARG, F_("range:cell area")},
 	{ GNM_FUNC_HELP_ARG, F_("criteria:condition for a cell to be included")},
 	{ GNM_FUNC_HELP_ARG, F_("actual_range:cell area, defaults to @{range}")},

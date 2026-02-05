@@ -3176,7 +3176,7 @@ gnumeric_percentile_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_quartile[] = {
-	{ GNM_FUNC_HELP_NAME, F_("QUARTILE:the @{k}-th quartile of the data points (Hyndman-Fan method 7: N-1 basis)")},
+	{ GNM_FUNC_HELP_NAME, F_("QUARTILE:the @{quart}-th quartile of the data points (Hyndman-Fan method 7: N-1 basis)")},
 	{ GNM_FUNC_HELP_ARG, F_("array:data points")},
 	{ GNM_FUNC_HELP_ARG, F_("quart:a number from 0 to 4, indicating which quartile to calculate")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
@@ -3219,7 +3219,7 @@ gnumeric_quartile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_quartile_exc[] = {
-	{ GNM_FUNC_HELP_NAME, F_("QUARTILE.EXC:the @{k}-th quartile of the data points (Hyndman-Fan method 6: N+1 basis)")},
+	{ GNM_FUNC_HELP_NAME, F_("QUARTILE.EXC:the @{quart}-th quartile of the data points (Hyndman-Fan method 6: N+1 basis)")},
 	{ GNM_FUNC_HELP_ARG, F_("array:data points")},
 	{ GNM_FUNC_HELP_ARG, F_("quart:a number from 1 to 3, indicating which quartile to calculate")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
