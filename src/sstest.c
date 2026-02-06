@@ -898,13 +898,14 @@ test_insert_delete (void)
 /* ------------------------------------------------------------------------- */
 
 static gboolean
-check_help_expression (const char *text, GnmFunc const *fd)
+check_help_expression (const char *text, GnmFunc const *fd, bool localized)
 {
 	GnmConventions const *convs = gnm_conventions_default;
 	GnmParsePos pp;
 	GnmExprTop const *texpr;
 	Workbook *wb;
 	GnmParseError perr;
+	GnmLocale *oldlocale = NULL;
 
 	/* Create a dummy workbook with no sheets for interesting effects.  */
 	wb = workbook_new ();
@@ -912,10 +913,15 @@ check_help_expression (const char *text, GnmFunc const *fd)
 
 	parse_error_init (&perr);
 
+	if (!localized)
+		oldlocale = gnm_push_C_locale ();
 	texpr = gnm_expr_parse_str (text, &pp,
 				    GNM_EXPR_PARSE_DEFAULT,
 				    convs,
 				    &perr);
+	if (!localized)
+		gnm_pop_C_locale (oldlocale);
+
 	if (perr.err) {
 		g_printerr ("Error parsing %s: %s\n",
 			    text, perr.err->message);
@@ -977,48 +983,76 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 	GHashTable *allargs;
 	int n;
 	GnmFuncHelp const *help = gnm_func_get_help (fd, &n);
+	gboolean all_args_translated = TRUE;
+	gboolean no_args_translated = TRUE;
+
+	for (int i = 0; i < n; i++) {
+		GnmFuncHelp const *h = help + i;
+		if (h->type != GNM_FUNC_HELP_ARG)
+			continue;
+
+		const char *text = gnm_func_gettext (fd, h->text);
+		gboolean was_translated = (text != h->text);
+		if (was_translated)
+			no_args_translated = FALSE;
+		else
+			all_args_translated = FALSE;
+	}
 
 	allargs = g_hash_table_new_full
 		(g_str_hash, g_str_equal, (GDestroyNotify)g_free, NULL);
 
 	memset (counts, 0, sizeof (counts));
 	for (h = help; n-- > 0; h++) {
-		unsigned len;
+		const char *text0 = h->text;
+		const char *text = gnm_func_gettext (fd, text0);
+		gboolean was_translated = (text != text0);
+		unsigned len = strlen (text);
+		gboolean check_xrefs = was_translated ? all_args_translated : no_args_translated;
 
 		g_assert (h->type <= GNM_FUNC_HELP_ODF);
 		counts[h->type]++;
 
-		if (!g_utf8_validate (h->text, -1, NULL)) {
+		if (!g_utf8_validate (text, -1, NULL)) {
 			g_printerr ("%s: Invalid UTF-8 in type %i\n",
 				    fd->name, h->type);
 				res = 1;
 				continue;
 		}
 
-		len = h->text ? strlen (h->text) : 0;
 		switch (h->type) {
 		case GNM_FUNC_HELP_NAME:
-			if (g_ascii_strncasecmp (fd->name, h->text, nlen) ||
-			    h->text[nlen] != ':') {
+			if (!was_translated &&
+			    (g_ascii_strncasecmp (fd->name, text, nlen) ||
+			     text[nlen] != ':')) {
 				g_printerr ("%s: Invalid NAME record\n",
 					    fd->name);
+				if (was_translated) {
+					g_printerr ("Original: %s\n", text0);
+					g_printerr ("Translated: %s\n", text);
+				}
 				res = 1;
-			} else if (h->text[nlen + 1] == ' ' ||
-				   h->text[len - 1] == ' ') {
+			} else if (text[nlen + 1] == ' ' ||
+				   text[len - 1] == ' ') {
 				g_printerr ("%s: Unwanted space in NAME record\n",
 					    fd->name);
 				res = 1;
-			} else if (h->text[len - 1] == '.') {
+			} else if (text[len - 1] == '.') {
 				g_printerr ("%s: Unwanted period in NAME record\n",
 					    fd->name);
 				res = 1;
+			} else if (check_xrefs && check_argument_refs (text + nlen + 1, fd)) {
+				g_printerr ("%s: Invalid argument reference in description\n",
+					    fd->name);
+				res = 1;
 			}
+
 			break;
 		case GNM_FUNC_HELP_ARG: {
-			const char *aend = strchr (h->text, ':');
+			const char *aend = strchr (text, ':');
 			char *argname;
 
-			if (aend == NULL || aend == h->text) {
+			if (aend == NULL || aend == text) {
 				g_printerr ("%s: Invalid ARG record\n",
 					    fd->name);
 				res = 1;
@@ -1035,23 +1069,23 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 					    fd->name);
 				res = 1;
 			}
-			if (h->text[strlen (h->text) - 1] == '.') {
+			if (text[strlen (text) - 1] == '.') {
 				g_printerr ("%s: Unwanted period in ARG record\n",
 					    fd->name);
 				res = 1;
 			}
-			if (check_argument_refs (aend + 1, fd)) {
+			if (check_xrefs && check_argument_refs (aend + 1, fd)) {
 				g_printerr ("%s: Invalid argument reference, %s, in argument\n",
 					    aend + 1, fd->name);
 				res = 1;
 			}
-			argname = g_strndup (h->text, aend - h->text);
+			argname = g_strndup (text, aend - text);
 			if (g_hash_table_lookup (allargs, argname)) {
 				g_printerr ("%s: Duplicate argument name %s\n",
 					    fd->name, argname);
 				res = 1;
 				g_free (argname);
-				g_printerr ("%s\n", h->text);
+				g_printerr ("%s\n", text);
 			} else
 				g_hash_table_insert (allargs, argname, argname);
 			break;
@@ -1059,22 +1093,22 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 		case GNM_FUNC_HELP_DESCRIPTION: {
 			const char *p;
 
-			if (check_argument_refs (h->text, fd)) {
+			if (check_xrefs && check_argument_refs (text, fd)) {
 				g_printerr ("%s: Invalid argument reference in description\n",
 					    fd->name);
 				res = 1;
 			}
 
-			p = h->text;
+			p = text;
 			while (g_ascii_isupper (*p) ||
-			       (p != h->text && (*p == '_' ||
+			       (p != text && (*p == '_' ||
 						 *p == '.' ||
 						 g_ascii_isdigit (*p))))
 				p++;
 			if (*p == ' ' &&
-			    p - h->text >= 2 &&
-			    strncmp (h->text, "CP1252", 6) != 0) {
-				if (g_ascii_strncasecmp (h->text, fd->name, nlen)) {
+			    p - text >= 2 &&
+			    strncmp (text, "CP1252", 6) != 0) {
+				if (g_ascii_strncasecmp (text, fd->name, nlen)) {
 					g_printerr ("%s: Wrong function name in description\n",
 						    fd->name);
 					res = 1;
@@ -1084,8 +1118,8 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 		}
 
 		case GNM_FUNC_HELP_EXAMPLES:
-			if (h->text[0] == '=') {
-				if (check_help_expression (h->text + 1, fd)) {
+			if (text[0] == '=') {
+				if (check_help_expression (text + 1, fd, was_translated)) {
 					g_printerr ("%s: Invalid EXAMPLES record\n",
 						    fd->name);
 					res = 1;
@@ -1094,7 +1128,7 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 			break;
 
 		case GNM_FUNC_HELP_SEEALSO: {
-			const char *p = h->text;
+			const char *p = text;
 			if (len == 0 || strchr (p, ' ')) {
 				g_printerr ("%s: Invalid SEEALSO record\n",
 					    fd->name);
@@ -3704,7 +3738,7 @@ test_recalc (GOCmdContext *cc, const char *url)
 
 	cells = g_ptr_array_new ();
 	WORKBOOK_FOREACH_SHEET (wb, sheet, {
-		GPtrArray *scells = sheet_cells (sheet, NULL);	
+		GPtrArray *scells = sheet_cells (sheet, NULL);
 		unsigned ui;
 		for (ui = 0; ui < scells->len; ui++) {
 			GnmCell *cell = g_ptr_array_index (scells, ui);
