@@ -5,7 +5,7 @@ Makefile.in
 POTFILES
 cat-id-tbl.c
 stamp-cat-id
-gnumeric-functions.pot
+gnumeric*.pot
 messages
 missing
 notexist
