@@ -72,6 +72,7 @@ msgid ""
 "EASTERSUNDAY:Easter Sunday in the Gregorian calendar according to the Roman "
 "rite of the Christian Church"
 msgstr ""
+"EASTERSUNDAY:påskesøndag i den gregorianske kalender efter den romersk-katolske ritus"
 
 #: ../plugins/fn-christian-date/functions.c:133
 msgid ""
@@ -100,6 +101,7 @@ msgid ""
 "ASHWEDNESDAY:Ash Wednesday in the Gregorian calendar according to the Roman "
 "rite of the Christian Church"
 msgstr ""
+"ASHWEDNESDAY:askeonsdag i den gregorianske kalender efter den romersk-katolske ritus"
 
 #: ../plugins/fn-christian-date/functions.c:156
 msgid ""
@@ -112,6 +114,7 @@ msgid ""
 "PENTECOSTSUNDAY:Pentecost Sunday in the Gregorian calendar according to the "
 "Roman rite of the Christian Church"
 msgstr ""
+"PENTECOSTSUNDAY:pinsedag i den gregorianske kalender efter den romersk-katolske ritus"
 
 #: ../plugins/fn-christian-date/functions.c:176
 msgid ""
@@ -124,6 +127,7 @@ msgid ""
 "GOODFRIDAY:Good Friday in the Gregorian calendar according to the Roman rite "
 "of the Christian Church"
 msgstr ""
+"GOODFRIDAY:langfredag i den gregorianske kalender efter den romersk-katolske ritus"
 
 #: ../plugins/fn-christian-date/functions.c:195
 msgid ""
@@ -135,6 +139,7 @@ msgid ""
 "ASCENSIONTHURSDAY:Ascension Thursday in the Gregorian calendar according to "
 "the Roman rite of the Christian Church"
 msgstr ""
+"ASCENSIONTHURSDAY:Kristi himmelfartsdag i den gregorianske kalender efter den romersk-katolske ritus"
 
 #: ../plugins/fn-christian-date/functions.c:214
 msgid ""
@@ -574,6 +579,7 @@ msgstr "IMARCCSCH:den komplekse hyperbolske arcuscosekant af det komplekse tal @
 msgid ""
 "IMARCCOTH:the complex hyperbolic arccotangent of the complex number @{z}"
 msgstr ""
+"IMARCCOTH:den komplekse hyperbolske arcuscotangens af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:1033
 msgid "IMSQRT:the square root of the complex number @{z}"
@@ -699,6 +705,7 @@ msgid ""
 "DAVERAGE:average of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
+"DAVERAGE:gennemsnittet af værdierne i @{field} i @{database} for poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:357
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333."
@@ -721,6 +728,7 @@ msgid ""
 "DCOUNT:count of numbers in @{field} in @{database} belonging to records that "
 "match @{criteria}"
 msgstr ""
+"DCOUNT:antal tal i @{field} i @{database} for poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:393
 msgid "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3."
@@ -739,6 +747,7 @@ msgid ""
 "DCOUNTA:count of cells with data in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
+"DCOUNTA:antal celler med data i @{field} i @{database} for poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:437
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3."
@@ -757,6 +766,7 @@ msgid ""
 "DGET:a value from @{field} in @{database} belonging to records that match "
 "@{criteria}"
 msgstr ""
+"DGET:en værdi fra @{field} i @{database} for poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:470
 msgid "If none of the records match the conditions, DGET returns #VALUE!"
@@ -779,6 +789,7 @@ msgid ""
 "DMAX:largest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
 msgstr ""
+"DMAX:største tal i @{field} i @{database} for en post der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:512
 msgid "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242."
@@ -797,6 +808,7 @@ msgid ""
 "DMIN:smallest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
 msgstr ""
+"DMIN:mindste tal i @{field} i @{database} for en post der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:548
 msgid "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323."
@@ -811,6 +823,7 @@ msgid ""
 "DPRODUCT:product of all values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
+"DPRODUCT:produktet af alle værdier i @{field} i @{database} for poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:581
 msgid "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247."
@@ -821,6 +834,7 @@ msgid ""
 "DSTDEV:sample standard deviation of the values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
 msgstr ""
+"DSTDEV:stikprøvens standardafvigelse for værdierne i @{field} i @{database} for poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:614
 msgid "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949."
@@ -835,6 +849,7 @@ msgid ""
 "DSTDEVP:standard deviation of the population of values in @{field} in "
 "@{database} belonging to records that match @{criteria}"
 msgstr ""
+"DSTDEVP:populationens standardafvigelse for værdierne i @{field} i @{database} for poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:648
 msgid "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7."
@@ -849,6 +864,7 @@ msgid ""
 "DSUM:sum of the values in @{field} in @{database} belonging to records that "
 "match @{criteria}"
 msgstr ""
+"DSUM:summen af værdierne i @{field} i @{database} for poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:681
 msgid "DSUM(A1:C7, \"Age\", A9:B11) equals 72."
@@ -863,6 +879,7 @@ msgid ""
 "DVAR:sample variance of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
+"DVAR:stikprøvens varians for værdierne i @{field} i @{database} for poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:715
 msgid "DVAR(A1:C7, \"Age\", A9:B11) equals 98."
@@ -877,6 +894,7 @@ msgid ""
 "DVARP:variance of the population of values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
 msgstr ""
+"DVARP:populationens varians for værdierne i @{field} i @{database} for poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:749
 msgid "DVARP(A1:C7, \"Age\", A9:B11) equals 49."
@@ -888,7 +906,7 @@ msgstr ""
 
 #: ../plugins/fn-database/functions.c:773
 msgid "GETPIVOTDATA:summary data from a pivot table"
-msgstr ""
+msgstr "GETPIVOTDATA:opsummerede data fra en pivottabel"
 
 #: ../plugins/fn-database/functions.c:774
 msgid "pivot_table:cell range containing the pivot table"
@@ -904,7 +922,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:72
 msgid "DATE:create a date serial value"
-msgstr ""
+msgstr "DATE:lav et dagnummer"
 
 #: ../plugins/fn-date/functions.c:73
 msgid "year:year of date"
@@ -939,7 +957,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:135
 msgid "UNIX2DATE:date value corresponding to the Unix timestamp @{t}"
-msgstr ""
+msgstr "UNIX2DATE:datoværdi svarende til Unix-tidsstempel @{t}"
 
 #: ../plugins/fn-date/functions.c:136
 msgid "t:Unix time stamp"
@@ -954,7 +972,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:165
 msgid "DATE2UNIX:the Unix timestamp corresponding to a date @{d}"
-msgstr ""
+msgstr "DATE2UNIX:Unix-tidsstempel svarende til dato @{d}"
 
 #: ../plugins/fn-date/functions.c:166
 msgid "d:date"
@@ -969,7 +987,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:191
 msgid "DATEVALUE:the date part of a date and time serial value"
-msgstr ""
+msgstr "DATEVALUE:datodelen af en dato- og tidsserial værdi"
 
 #: ../plugins/fn-date/functions.c:192 ../plugins/fn-date/functions.c:490
 msgid "serial:date and time serial value"
@@ -982,7 +1000,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:209
 msgid "DATEDIF:difference between dates"
-msgstr ""
+msgstr "DATEDIF:forskellen mellem datoer"
 
 #: ../plugins/fn-date/functions.c:210 ../plugins/fn-date/functions.c:720
 #: ../plugins/fn-date/functions.c:1038 ../plugins/fn-date/functions.c:1350
@@ -1032,7 +1050,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:348
 msgid "EDATE:adjust a date by a number of months"
-msgstr ""
+msgstr "EDATE:juster en dato med et antal måneder"
 
 #: ../plugins/fn-date/functions.c:349 ../plugins/fn-date/functions.c:578
 #: ../plugins/fn-date/functions.c:602 ../plugins/fn-date/functions.c:626
@@ -1054,7 +1072,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:385
 msgid "TODAY:the date serial value of today"
-msgstr ""
+msgstr "TODAY:dags datos dagnummer"
 
 #: ../plugins/fn-date/functions.c:386
 msgid ""
@@ -1064,7 +1082,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:402
 msgid "NOW:the date and time serial value of the current time"
-msgstr ""
+msgstr "NOW:dato- og tidsserial værdi for det nuværende tidspunkt"
 
 #: ../plugins/fn-date/functions.c:403
 msgid ""
@@ -1074,7 +1092,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:422
 msgid "TIME:create a time serial value"
-msgstr ""
+msgstr "TIME:opret en tidsserial værdi"
 
 #: ../plugins/fn-date/functions.c:423
 msgid "hour:hour of the day"
@@ -1111,7 +1129,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:459
 msgid "ODF.TIME:create a time serial value"
-msgstr ""
+msgstr "ODF.TIME:opret en tidsserial værdi"
 
 #: ../plugins/fn-date/functions.c:460
 msgid "hour:hour"
@@ -1155,7 +1173,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:489
 msgid "TIMEVALUE:the time part of a date and time serial value"
-msgstr ""
+msgstr "TIMEVALUE:tidsdelen af en dato- og tidsserial værdi"
 
 #: ../plugins/fn-date/functions.c:491
 msgid "TIMEVALUE returns the time-of-day part of a date and time serial value."
@@ -1163,7 +1181,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:508
 msgid "HOUR:compute hour part of fractional day"
-msgstr ""
+msgstr "HOUR:beregn timedel af brøkdel af dag"
 
 #: ../plugins/fn-date/functions.c:509 ../plugins/fn-date/functions.c:532
 #: ../plugins/fn-date/functions.c:555
@@ -1178,7 +1196,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:531
 msgid "MINUTE:compute minute part of fractional day"
-msgstr ""
+msgstr "MINUTE:beregn minutdel af brøkdel af dag"
 
 #: ../plugins/fn-date/functions.c:533
 msgid ""
@@ -1188,7 +1206,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:554
 msgid "SECOND:compute seconds part of fractional day"
-msgstr ""
+msgstr "SECOND:beregn sekunddel af brøkdel af dag"
 
 #: ../plugins/fn-date/functions.c:556
 msgid ""
@@ -1198,7 +1216,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:577
 msgid "YEAR:the year part of a date serial value"
-msgstr ""
+msgstr "YEAR:årsdelen af et dagnummer"
 
 #: ../plugins/fn-date/functions.c:579
 msgid "The YEAR function returns the year part of @{date}."
@@ -1206,7 +1224,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:601
 msgid "MONTH:the month part of a date serial value"
-msgstr ""
+msgstr "MONTH:månedsdelen af et dagnummer"
 
 #: ../plugins/fn-date/functions.c:603
 msgid "The MONTH function returns the month part of @{date}."
@@ -1214,7 +1232,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:625
 msgid "DAY:the day-of-month part of a date serial value"
-msgstr ""
+msgstr "DAY:dag-i-måned-delen af et dagnummer"
 
 #: ../plugins/fn-date/functions.c:627
 msgid "The DAY function returns the day-of-month part of @{date}."
@@ -1222,7 +1240,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:649
 msgid "WEEKDAY:day-of-week"
-msgstr ""
+msgstr "WEEKDAY:ugedag"
 
 #: ../plugins/fn-date/functions.c:651 ../plugins/fn-date/functions.c:1312
 msgid "method:numbering system, defaults to 1"
@@ -1276,7 +1294,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:719
 msgid "DAYS360:days between dates"
-msgstr ""
+msgstr "DAYS360:dage mellem datoer"
 
 #: ../plugins/fn-date/functions.c:722
 msgid "method:counting method"
@@ -1308,7 +1326,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:761
 msgid "EOMONTH:end of month"
-msgstr ""
+msgstr "EOMONTH:slutningen af måned"
 
 #: ../plugins/fn-date/functions.c:764
 msgid ""
@@ -1359,7 +1377,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:1037
 msgid "NETWORKDAYS:number of workdays in range"
-msgstr ""
+msgstr "NETWORKDAYS:antal arbejdsdage i interval"
 
 #: ../plugins/fn-date/functions.c:1043
 msgid ""
@@ -1369,7 +1387,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:1250
 msgid "ISOWEEKNUM:ISO week number"
-msgstr ""
+msgstr "ISOWEEKNUM:ISO-ugenummer"
 
 #: ../plugins/fn-date/functions.c:1252
 msgid ""
@@ -1385,7 +1403,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:1274
 msgid "ISOYEAR:year corresponding to the ISO week number"
-msgstr ""
+msgstr "ISOYEAR:år svarende til ISO-ugenummeret"
 
 #: ../plugins/fn-date/functions.c:1276
 msgid ""
@@ -1395,7 +1413,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:1310
 msgid "WEEKNUM:week number"
-msgstr ""
+msgstr "WEEKNUM:ugenummer"
 
 #: ../plugins/fn-date/functions.c:1313
 msgid ""
@@ -1419,7 +1437,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:1349
 msgid "YEARFRAC:fractional number of years between dates"
-msgstr ""
+msgstr "YEARFRAC:antal år som brøkdel mellem datoer"
 
 #: ../plugins/fn-date/functions.c:1352 ../plugins/fn-financial/functions.c:453
 #: ../plugins/fn-financial/functions.c:492
@@ -1538,7 +1556,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:190
 msgid "CUM_BIV_NORM_DIST:cumulative bivariate normal distribution"
-msgstr ""
+msgstr "CUM_BIV_NORM_DIST:kumuleret bivariat normalfordeling"
 
 #: ../plugins/fn-derivatives/options.c:191
 msgid "a:limit for first random variable"
@@ -2234,7 +2252,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:235
 msgid "BIN2DEC:decimal representation of the binary number @{x}"
-msgstr ""
+msgstr "BIN2DEC:decimalrepræsentation af det binære tal @{x}"
 
 #: ../plugins/fn-eng/functions.c:236 ../plugins/fn-eng/functions.c:258
 #: ../plugins/fn-eng/functions.c:282
@@ -2245,7 +2263,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:257
 msgid "BIN2OCT:octal representation of the binary number @{x}"
-msgstr ""
+msgstr "BIN2OCT:oktal repræsentation af det binære tal @{x}"
 
 #: ../plugins/fn-eng/functions.c:259 ../plugins/fn-eng/functions.c:283
 #: ../plugins/fn-eng/functions.c:308 ../plugins/fn-eng/functions.c:338
@@ -2263,7 +2281,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:281
 msgid "BIN2HEX:hexadecimal representation of the binary number @{x}"
-msgstr ""
+msgstr "BIN2HEX:heksadecimal repræsentation af det binære tal @{x}"
 
 #: ../plugins/fn-eng/functions.c:284
 msgid ""
@@ -2273,7 +2291,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:306
 msgid "DEC2BIN:binary representation of the decimal number @{x}"
-msgstr ""
+msgstr "DEC2BIN:binær repræsentation af decimaltal @{x}"
 
 #: ../plugins/fn-eng/functions.c:307
 msgid "x:integer (− 513 < @{x} < 512)"
@@ -2297,7 +2315,7 @@ msgstr "Hvis @{p} < 0 eller @{p} > 1, returnerer denne funktion en #TAL!-fejl."
 
 #: ../plugins/fn-eng/functions.c:336
 msgid "DEC2OCT:octal representation of the decimal number @{x}"
-msgstr ""
+msgstr "DEC2OCT:oktal repræsentation af decimaltal @{x}"
 
 #: ../plugins/fn-eng/functions.c:337 ../plugins/fn-eng/functions.c:360
 msgid "x:integer"
@@ -2311,7 +2329,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:359
 msgid "DEC2HEX:hexadecimal representation of the decimal number @{x}"
-msgstr ""
+msgstr "DEC2HEX:heksadecimal repræsentation af decimaltal @{x}"
 
 #: ../plugins/fn-eng/functions.c:362
 msgid ""
@@ -2321,7 +2339,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:382
 msgid "DECIMAL:decimal representation of @{x}"
-msgstr ""
+msgstr "DECIMAL:decimalrepræsentation af @{x}"
 
 #: ../plugins/fn-eng/functions.c:383
 msgid "x:number in base @{base}"
@@ -2333,7 +2351,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:412
 msgid "OCT2DEC:decimal representation of the octal number @{x}"
-msgstr ""
+msgstr "OCT2DEC:decimalrepræsentation af det oktale tal @{x}"
 
 #: ../plugins/fn-eng/functions.c:413 ../plugins/fn-eng/functions.c:437
 #: ../plugins/fn-eng/functions.c:460
@@ -2342,7 +2360,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:436
 msgid "OCT2BIN:binary representation of the octal number @{x}"
-msgstr ""
+msgstr "OCT2BIN:binær repræsentation af det oktale tal @{x}"
 
 #: ../plugins/fn-eng/functions.c:439
 msgid ""
@@ -2352,7 +2370,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:459
 msgid "OCT2HEX:hexadecimal representation of the octal number @{x}"
-msgstr ""
+msgstr "OCT2HEX:heksadecimal repræsentation af det oktale tal @{x}"
 
 #: ../plugins/fn-eng/functions.c:462
 msgid ""
@@ -2362,7 +2380,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:482
 msgid "HEX2BIN:binary representation of the hexadecimal number @{x}"
-msgstr ""
+msgstr "HEX2BIN:binær repræsentation af det heksadecimale tal @{x}"
 
 #: ../plugins/fn-eng/functions.c:483 ../plugins/fn-eng/functions.c:506
 #: ../plugins/fn-eng/functions.c:529
@@ -2379,7 +2397,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:505
 msgid "HEX2OCT:octal representation of the hexadecimal number @{x}"
-msgstr ""
+msgstr "HEX2OCT:oktal repræsentation af det heksadecimale tal @{x}"
 
 #: ../plugins/fn-eng/functions.c:508
 msgid ""
@@ -2389,7 +2407,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:528
 msgid "HEX2DEC:decimal representation of the hexadecimal number @{x}"
-msgstr ""
+msgstr "HEX2DEC:decimalrepræsentation af det heksadecimale tal @{x}"
 
 #: ../plugins/fn-eng/functions.c:551
 msgid ""
@@ -2878,7 +2896,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:360
 msgid "ACCRINT:accrued interest"
-msgstr ""
+msgstr "ACCRINT:påløbne renter"
 
 #: ../plugins/fn-financial/functions.c:361
 #: ../plugins/fn-financial/functions.c:449
@@ -3067,7 +3085,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:525
 msgid "RECEIVED:amount to be received at maturity"
-msgstr ""
+msgstr "RECEIVED:beløb der modtages ved udløb"
 
 #: ../plugins/fn-financial/functions.c:531
 msgid "RECEIVED calculates the amount to be received when a security matures."
@@ -3127,7 +3145,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:685
 msgid "EFFECT:effective interest rate"
-msgstr ""
+msgstr "EFFECT:effektiv rente"
 
 #: ../plugins/fn-financial/functions.c:687
 #: ../plugins/fn-financial/functions.c:712
@@ -3142,7 +3160,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:710
 msgid "NOMINAL:nominal interest rate"
-msgstr ""
+msgstr "NOMINAL:nominel rente"
 
 #: ../plugins/fn-financial/functions.c:711
 #: ../plugins/fn-financial/functions.c:736
@@ -3161,7 +3179,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:735
 msgid "ISPMT:interest payment for period"
-msgstr ""
+msgstr "ISPMT:rentebetaling for periode"
 
 #: ../plugins/fn-financial/functions.c:737
 #: ../plugins/fn-financial/functions.c:1762
@@ -3275,7 +3293,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:900
 msgid "SYD:sum-of-years depreciation"
-msgstr ""
+msgstr "SYD:årssumsafskrivning"
 
 #: ../plugins/fn-financial/functions.c:905
 msgid ""
@@ -3319,7 +3337,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1027
 msgid "MIRR:modified internal rate of return"
-msgstr ""
+msgstr "MIRR:modificeret intern rente"
 
 #: ../plugins/fn-financial/functions.c:1028
 #: ../plugins/fn-financial/functions.c:1343
@@ -3343,7 +3361,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1085
 msgid "TBILLEQ:bond-equivalent yield for a treasury bill"
-msgstr ""
+msgstr "TBILLEQ:obligationsækvivalent afkast for statsobligationer"
 
 #: ../plugins/fn-financial/functions.c:1089
 msgid "TBILLEQ calculates the bond-equivalent yield for a treasury bill."
@@ -3360,7 +3378,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1157
 msgid "TBILLYIELD:yield of a treasury bill"
-msgstr ""
+msgstr "TBILLYIELD:afkast for statsobligationer"
 
 #: ../plugins/fn-financial/functions.c:1160
 msgid "price:price"
@@ -3372,7 +3390,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1191
 msgid "RATE:rate of investment"
-msgstr ""
+msgstr "RATE:afkast på investering"
 
 #: ../plugins/fn-financial/functions.c:1193
 #: ../plugins/fn-financial/functions.c:1463
@@ -3444,7 +3462,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1342
 msgid "IRR:internal rate of return"
-msgstr ""
+msgstr "IRR:intern rente"
 
 #: ../plugins/fn-financial/functions.c:1345
 msgid ""
@@ -3455,7 +3473,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1460
 msgid "PV:present value"
-msgstr ""
+msgstr "PV:nutidsværdi"
 
 #: ../plugins/fn-financial/functions.c:1461
 #: ../plugins/fn-financial/functions.c:1501
@@ -3472,7 +3490,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1500
 msgid "NPV:net present value"
-msgstr ""
+msgstr "NPV:nettonutidsværdi"
 
 #: ../plugins/fn-financial/functions.c:1502
 msgid "value1:cash flow for period 1"
@@ -3488,7 +3506,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1544
 msgid "XNPV:net present value"
-msgstr ""
+msgstr "XNPV:nettonutidsværdi"
 
 #: ../plugins/fn-financial/functions.c:1547
 #: ../plugins/fn-financial/functions.c:1602
@@ -3502,7 +3520,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1600
 msgid "XIRR:internal rate of return"
-msgstr ""
+msgstr "XIRR:intern rente"
 
 #: ../plugins/fn-financial/functions.c:1604
 msgid ""
@@ -3513,7 +3531,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1694
 msgid "FV:future value"
-msgstr ""
+msgstr "FV:fremtidig værdi"
 
 #: ../plugins/fn-financial/functions.c:1700
 msgid ""
@@ -3524,7 +3542,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1730
 msgid "PMT:payment for annuity"
-msgstr ""
+msgstr "PMT:betaling for annuitet"
 
 #: ../plugins/fn-financial/functions.c:1736
 msgid "PMT calculates the payment amount for an annuity."
@@ -3532,7 +3550,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1760
 msgid "IPMT:interest payment for period"
-msgstr ""
+msgstr "IPMT:rentebetaling for periode"
 
 #: ../plugins/fn-financial/functions.c:1767
 msgid ""
@@ -3552,7 +3570,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1844
 msgid "NPER:number of periods"
-msgstr ""
+msgstr "NPER:antal perioder"
 
 #: ../plugins/fn-financial/functions.c:1850
 msgid ""
@@ -3589,7 +3607,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1972
 msgid "FVSCHEDULE:future value"
-msgstr ""
+msgstr "FVSCHEDULE:fremtidig værdi"
 
 #: ../plugins/fn-financial/functions.c:1973
 msgid "principal:initial value"
@@ -3692,7 +3710,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2307
 msgid "YIELD:yield of a security"
-msgstr ""
+msgstr "YIELD:afkast for værdipapir"
 
 #: ../plugins/fn-financial/functions.c:2311
 #: ../plugins/fn-financial/functions.c:2419
@@ -3708,7 +3726,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2416
 msgid "YIELDDISC:yield of a discounted security"
-msgstr ""
+msgstr "YIELDDISC:afkast for diskonteret værdipapir"
 
 #: ../plugins/fn-financial/functions.c:2422
 msgid "YIELDDISC calculates the yield of a discounted security."
@@ -3839,7 +3857,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3005
 msgid "COUPDAYBS:number of days from coupon period to settlement"
-msgstr ""
+msgstr "COUPDAYBS:antal dage fra kuponperiode til afregning"
 
 #: ../plugins/fn-financial/functions.c:3010
 #: ../plugins/fn-financial/functions.c:3034
@@ -3879,7 +3897,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3077
 msgid "COUPNCD:the next coupon date after settlement"
-msgstr ""
+msgstr "COUPNCD:næste kupondato efter afregning"
 
 #: ../plugins/fn-financial/functions.c:3083
 msgid "COUPNCD calculates the coupon date following settlement."
@@ -3895,7 +3913,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3129
 msgid "COUPNUM:number of coupons"
-msgstr ""
+msgstr "COUPNUM:antal kuponer"
 
 #: ../plugins/fn-financial/functions.c:3135
 msgid ""
@@ -3905,7 +3923,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3153
 msgid "CUMIPMT:cumulative interest payment"
-msgstr ""
+msgstr "CUMIPMT:akkumuleret rentebetaling"
 
 #: ../plugins/fn-financial/functions.c:3154
 #: ../plugins/fn-financial/functions.c:3198
@@ -4406,7 +4424,7 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:41
 msgid "AND:logical conjunction"
-msgstr ""
+msgstr "AND:logisk konjunktion"
 
 #: ../plugins/fn-logical/functions.c:42 ../plugins/fn-logical/functions.c:121
 #: ../plugins/fn-logical/functions.c:175
@@ -4451,7 +4469,7 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:95
 msgid "NOT:logical negation"
-msgstr ""
+msgstr "NOT:logisk negation"
 
 #: ../plugins/fn-logical/functions.c:96
 msgid "b:logical value"
@@ -4473,7 +4491,7 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:120
 msgid "OR:logical disjunction"
-msgstr ""
+msgstr "OR:logisk disjunktion"
 
 #: ../plugins/fn-logical/functions.c:123
 msgid "OR calculates the logical disjunction of its arguments @{b0},@{b1},..."
@@ -4594,7 +4612,7 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:368
 msgid "TRUE:the value TRUE"
-msgstr ""
+msgstr "TRUE:værdien SAND"
 
 #: ../plugins/fn-logical/functions.c:369
 msgid "TRUE returns the value TRUE."
@@ -4606,7 +4624,7 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:386
 msgid "FALSE:the value FALSE"
-msgstr ""
+msgstr "FALSE:værdien FALSK"
 
 #: ../plugins/fn-logical/functions.c:387
 msgid "FALSE returns the value FALSE."
@@ -6072,7 +6090,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2237
 msgid "FACTDOUBLE:double factorial"
-msgstr ""
+msgstr "FACTDOUBLE:dobbelt fakultet"
 
 #: ../plugins/fn-math/functions.c:2238
 msgid "x:non-negative integer"
@@ -6736,7 +6754,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:19
 msgid "R.DBETA:probability density function of the beta distribution"
-msgstr ""
+msgstr "R.DBETA:sandsynlighedstæthedsfunktion for betafordelingen"
 
 #: ../plugins/fn-r/functions.c:20 ../plugins/fn-r/functions.c:45
 #: ../plugins/fn-r/functions.c:99 ../plugins/fn-r/functions.c:124
@@ -6791,7 +6809,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:44
 msgid "R.PBETA:cumulative distribution function of the beta distribution"
-msgstr ""
+msgstr "R.PBETA:kumuleret fordelingsfunktion for betafordelingen"
 
 #: ../plugins/fn-r/functions.c:48 ../plugins/fn-r/functions.c:75
 #: ../plugins/fn-r/functions.c:127 ../plugins/fn-r/functions.c:154
@@ -6851,7 +6869,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:71
 msgid "R.QBETA:probability quantile function of the beta distribution"
-msgstr ""
+msgstr "R.QBETA:sandsynlighedskvantilfunktion for betafordelingen"
 
 #: ../plugins/fn-r/functions.c:72 ../plugins/fn-r/functions.c:151
 #: ../plugins/fn-r/functions.c:230 ../plugins/fn-r/functions.c:307
@@ -6874,7 +6892,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:98
 msgid "R.DBINOM:probability density function of the binomial distribution"
-msgstr ""
+msgstr "R.DBINOM:sandsynlighedstæthedsfunktion for binomialfordelingen"
 
 #: ../plugins/fn-r/functions.c:100 ../plugins/fn-r/functions.c:125
 #: ../plugins/fn-r/functions.c:152
@@ -6897,7 +6915,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:123
 msgid "R.PBINOM:cumulative distribution function of the binomial distribution"
-msgstr ""
+msgstr "R.PBINOM:kumuleret fordelingsfunktion for binomialfordelingen"
 
 #: ../plugins/fn-r/functions.c:129
 msgid ""
@@ -6907,7 +6925,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:150
 msgid "R.QBINOM:probability quantile function of the binomial distribution"
-msgstr ""
+msgstr "R.QBINOM:sandsynlighedskvantilfunktion for binomialfordelingen"
 
 #: ../plugins/fn-r/functions.c:156
 msgid ""
@@ -6917,7 +6935,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:177
 msgid "R.DCAUCHY:probability density function of the Cauchy distribution"
-msgstr ""
+msgstr "R.DCAUCHY:sandsynlighedstæthedsfunktion for Cauchy-fordelingen"
 
 #: ../plugins/fn-r/functions.c:179 ../plugins/fn-r/functions.c:204
 #: ../plugins/fn-r/functions.c:231
@@ -6944,7 +6962,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:202
 msgid "R.PCAUCHY:cumulative distribution function of the Cauchy distribution"
-msgstr ""
+msgstr "R.PCAUCHY:kumuleret fordelingsfunktion for Cauchy-fordelingen"
 
 #: ../plugins/fn-r/functions.c:208
 msgid ""
@@ -6954,7 +6972,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:229
 msgid "R.QCAUCHY:probability quantile function of the Cauchy distribution"
-msgstr ""
+msgstr "R.QCAUCHY:sandsynlighedskvantilfunktion for Cauchy-fordelingen"
 
 #: ../plugins/fn-r/functions.c:235
 msgid ""
@@ -6964,7 +6982,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:256
 msgid "R.DCHISQ:probability density function of the chi-square distribution"
-msgstr ""
+msgstr "R.DCHISQ:sandsynlighedstæthedsfunktion for chi-i-anden-fordelingen"
 
 #: ../plugins/fn-r/functions.c:258 ../plugins/fn-r/functions.c:282
 #: ../plugins/fn-r/functions.c:308 ../plugins/fn-r/functions.c:1429
@@ -6988,6 +7006,7 @@ msgstr ""
 msgid ""
 "R.PCHISQ:cumulative distribution function of the chi-square distribution"
 msgstr ""
+"R.PCHISQ:kumuleret fordelingsfunktion for chi-i-anden-fordelingen"
 
 #: ../plugins/fn-r/functions.c:285
 msgid ""
@@ -7003,7 +7022,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:306
 msgid "R.QCHISQ:probability quantile function of the chi-square distribution"
-msgstr ""
+msgstr "R.QCHISQ:sandsynlighedskvantilfunktion for chi-i-anden-fordelingen"
 
 #: ../plugins/fn-r/functions.c:311
 msgid ""
@@ -7019,7 +7038,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:332
 msgid "R.DEXP:probability density function of the exponential distribution"
-msgstr ""
+msgstr "R.DEXP:sandsynlighedstæthedsfunktion for eksponentialfordelingen"
 
 #: ../plugins/fn-r/functions.c:336
 msgid ""
@@ -7029,7 +7048,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:355
 msgid "R.PEXP:cumulative distribution function of the exponential distribution"
-msgstr ""
+msgstr "R.PEXP:kumuleret fordelingsfunktion for eksponentialfordelingen"
 
 #: ../plugins/fn-r/functions.c:360
 msgid ""
@@ -7039,7 +7058,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:380
 msgid "R.QEXP:probability quantile function of the exponential distribution"
-msgstr ""
+msgstr "R.QEXP:sandsynlighedskvantilfunktion for eksponentialfordelingen"
 
 #: ../plugins/fn-r/functions.c:385
 msgid ""
@@ -7049,7 +7068,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:405
 msgid "R.DF:probability density function of the F distribution"
-msgstr ""
+msgstr "R.DF:sandsynlighedstæthedsfunktion for F-fordelingen"
 
 #: ../plugins/fn-r/functions.c:407 ../plugins/fn-r/functions.c:432
 #: ../plugins/fn-r/functions.c:459
@@ -7068,7 +7087,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:430
 msgid "R.PF:cumulative distribution function of the F distribution"
-msgstr ""
+msgstr "R.PF:kumuleret fordelingsfunktion for F-fordelingen"
 
 #: ../plugins/fn-r/functions.c:436
 msgid ""
@@ -7078,7 +7097,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:457
 msgid "R.QF:probability quantile function of the F distribution"
-msgstr ""
+msgstr "R.QF:sandsynlighedskvantilfunktion for F-fordelingen"
 
 #: ../plugins/fn-r/functions.c:463
 msgid ""
@@ -7088,7 +7107,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:484
 msgid "R.DGAMMA:probability density function of the gamma distribution"
-msgstr ""
+msgstr "R.DGAMMA:sandsynlighedstæthedsfunktion for gammafordelingen"
 
 #: ../plugins/fn-r/functions.c:486 ../plugins/fn-r/functions.c:511
 #: ../plugins/fn-r/functions.c:538 ../plugins/fn-r/functions.c:1191
@@ -7107,7 +7126,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:509
 msgid "R.PGAMMA:cumulative distribution function of the gamma distribution"
-msgstr ""
+msgstr "R.PGAMMA:kumuleret fordelingsfunktion for gammafordelingen"
 
 #: ../plugins/fn-r/functions.c:515
 msgid ""
@@ -7117,7 +7136,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:536
 msgid "R.QGAMMA:probability quantile function of the gamma distribution"
-msgstr ""
+msgstr "R.QGAMMA:sandsynlighedskvantilfunktion for gammafordelingen"
 
 #: ../plugins/fn-r/functions.c:542
 msgid ""
@@ -7127,7 +7146,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:563
 msgid "R.DGEOM:probability density function of the geometric distribution"
-msgstr ""
+msgstr "R.DGEOM:sandsynlighedstæthedsfunktion for den geometriske fordeling"
 
 #: ../plugins/fn-r/functions.c:567
 msgid ""
@@ -7137,7 +7156,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:586
 msgid "R.PGEOM:cumulative distribution function of the geometric distribution"
-msgstr ""
+msgstr "R.PGEOM:kumuleret fordelingsfunktion for den geometriske fordeling"
 
 #: ../plugins/fn-r/functions.c:591
 msgid ""
@@ -7147,7 +7166,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:611
 msgid "R.QGEOM:probability quantile function of the geometric distribution"
-msgstr ""
+msgstr "R.QGEOM:sandsynlighedskvantilfunktion for den geometriske fordeling"
 
 #: ../plugins/fn-r/functions.c:616
 msgid ""
@@ -7209,6 +7228,7 @@ msgstr "skala:distributionens skalaparameter"
 msgid ""
 "R.DHYPER:probability density function of the hypergeometric distribution"
 msgstr ""
+"R.DHYPER:sandsynlighedstæthedsfunktion for den hypergeometriske fordeling"
 
 #: ../plugins/fn-r/functions.c:717 ../plugins/fn-r/functions.c:744
 #: ../plugins/fn-r/functions.c:773
@@ -7235,6 +7255,7 @@ msgstr ""
 msgid ""
 "R.PHYPER:cumulative distribution function of the hypergeometric distribution"
 msgstr ""
+"R.PHYPER:kumuleret fordelingsfunktion for den hypergeometriske fordeling"
 
 #: ../plugins/fn-r/functions.c:749
 msgid ""
@@ -7246,6 +7267,7 @@ msgstr ""
 msgid ""
 "R.QHYPER:probability quantile function of the hypergeometric distribution"
 msgstr ""
+"R.QHYPER:sandsynlighedskvantilfunktion for den hypergeometriske fordeling"
 
 #: ../plugins/fn-r/functions.c:778
 msgid ""
@@ -7298,6 +7320,7 @@ msgstr ""
 msgid ""
 "R.DNBINOM:probability density function of the negative binomial distribution"
 msgstr ""
+"R.DNBINOM:sandsynlighedstæthedsfunktion for den negative binomialfordeling"
 
 #: ../plugins/fn-r/functions.c:880 ../plugins/fn-r/functions.c:905
 #, fuzzy
@@ -7321,6 +7344,7 @@ msgid ""
 "R.PNBINOM:cumulative distribution function of the negative binomial "
 "distribution"
 msgstr ""
+"R.PNBINOM:kumuleret fordelingsfunktion for den negative binomialfordeling"
 
 #: ../plugins/fn-r/functions.c:910
 msgid ""
@@ -7332,6 +7356,7 @@ msgstr ""
 msgid ""
 "R.QNBINOM:probability quantile function of the negative binomial distribution"
 msgstr ""
+"R.QNBINOM:sandsynlighedskvantilfunktion for den negative binomialfordeling"
 
 #: ../plugins/fn-r/functions.c:937
 msgid ""
@@ -7342,7 +7367,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:958
 msgid "R.DNORM:probability density function of the normal distribution"
-msgstr ""
+msgstr "R.DNORM:sandsynlighedstæthedsfunktion for normalfordelingen"
 
 #: ../plugins/fn-r/functions.c:960 ../plugins/fn-r/functions.c:987
 #: ../plugins/fn-r/functions.c:1016
@@ -7362,7 +7387,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:985
 msgid "R.PNORM:cumulative distribution function of the normal distribution"
-msgstr ""
+msgstr "R.PNORM:kumuleret fordelingsfunktion for normalfordelingen"
 
 #: ../plugins/fn-r/functions.c:991
 msgid ""
@@ -7372,7 +7397,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1014
 msgid "R.QNORM:probability quantile function of the normal distribution"
-msgstr ""
+msgstr "R.QNORM:sandsynlighedskvantilfunktion for normalfordelingen"
 
 #: ../plugins/fn-r/functions.c:1020
 msgid ""
@@ -7382,7 +7407,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1043
 msgid "R.DPOIS:probability density function of the Poisson distribution"
-msgstr ""
+msgstr "R.DPOIS:sandsynlighedstæthedsfunktion for Poisson-fordelingen"
 
 #: ../plugins/fn-r/functions.c:1045 ../plugins/fn-r/functions.c:1068
 #: ../plugins/fn-r/functions.c:1093
@@ -7397,7 +7422,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1066
 msgid "R.PPOIS:cumulative distribution function of the Poisson distribution"
-msgstr ""
+msgstr "R.PPOIS:kumuleret fordelingsfunktion for Poisson-fordelingen"
 
 #: ../plugins/fn-r/functions.c:1071
 msgid ""
@@ -7407,7 +7432,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1091
 msgid "R.QPOIS:probability quantile function of the Poisson distribution"
-msgstr ""
+msgstr "R.QPOIS:sandsynlighedskvantilfunktion for Poisson-fordelingen"
 
 #: ../plugins/fn-r/functions.c:1096
 msgid ""
@@ -7539,7 +7564,7 @@ msgstr "skala:distributionens skalaparameter"
 
 #: ../plugins/fn-r/functions.c:1353
 msgid "R.DT:probability density function of the Student t distribution"
-msgstr ""
+msgstr "R.DT:sandsynlighedstæthedsfunktion for Students t-fordeling"
 
 #: ../plugins/fn-r/functions.c:1357
 msgid ""
@@ -7549,7 +7574,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1376
 msgid "R.PT:cumulative distribution function of the Student t distribution"
-msgstr ""
+msgstr "R.PT:kumuleret fordelingsfunktion for Students t-fordeling"
 
 #: ../plugins/fn-r/functions.c:1381
 msgid ""
@@ -7559,7 +7584,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1401
 msgid "R.QT:probability quantile function of the Student t distribution"
-msgstr ""
+msgstr "R.QT:sandsynlighedskvantilfunktion for Students t-fordeling"
 
 #: ../plugins/fn-r/functions.c:1406
 msgid ""
@@ -7607,7 +7632,7 @@ msgstr "skala:distributionens skalaparameter"
 
 #: ../plugins/fn-r/functions.c:1482
 msgid "R.DWEIBULL:probability density function of the Weibull distribution"
-msgstr ""
+msgstr "R.DWEIBULL:sandsynlighedstæthedsfunktion for Weibull-fordelingen"
 
 #: ../plugins/fn-r/functions.c:1487
 msgid ""
@@ -7617,7 +7642,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1507
 msgid "R.PWEIBULL:cumulative distribution function of the Weibull distribution"
-msgstr ""
+msgstr "R.PWEIBULL:kumuleret fordelingsfunktion for Weibull-fordelingen"
 
 #: ../plugins/fn-r/functions.c:1513
 msgid ""
@@ -7627,7 +7652,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1534
 msgid "R.QWEIBULL:probability quantile function of the Weibull distribution"
-msgstr ""
+msgstr "R.QWEIBULL:sandsynlighedskvantilfunktion for Weibull-fordelingen"
 
 #: ../plugins/fn-r/functions.c:1540
 msgid ""
@@ -8694,7 +8719,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:731
 msgid "HARMEAN:harmonic mean"
-msgstr ""
+msgstr "HARMEAN:harmonisk middelværdi"
 
 #: ../plugins/fn-stat/functions.c:734
 msgid ""
@@ -8712,7 +8737,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:757
 msgid "GEOMEAN:geometric mean"
-msgstr ""
+msgstr "GEOMEAN:geometrisk middelværdi"
 
 #: ../plugins/fn-stat/functions.c:760
 msgid ""
