@@ -44,7 +44,7 @@
 #include <math.h>
 #include <string.h>
 
-#define UNICODE_PI "\360\235\234\213"
+#define UNICODE_PI "\317\200"
 #define UNICODE_MINUS "\xe2\x88\x92"
 
 GNM_PLUGIN_MODULE_HEADER;
@@ -1963,9 +1963,9 @@ gnumeric_tanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pi[] = {
-	{ GNM_FUNC_HELP_NAME, F_("PI:the constant " "\360\235\234\213")},
+	{ GNM_FUNC_HELP_NAME, F_("PI:the constant " "\317\200")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible, but it "
-				  "returns " "\360\235\234\213" " with a better "
+				  "returns " "\317\200" " with a better "
 				  "precision.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=PI()" },
 	{ GNM_FUNC_HELP_SEEALSO, "SQRTPI"},
@@ -2355,7 +2355,7 @@ gnumeric_sign (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_sqrtpi[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SQRTPI:the square root of @{x} times "
-				 "\360\235\234\213")},
+				 "\317\200")},
 	{ GNM_FUNC_HELP_ARG, F_("x:non-negative number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=SQRTPI(2)"},
