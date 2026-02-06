@@ -408,7 +408,7 @@ msgstr "IMEXP:eksponentialfunktionen af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:405
 msgid "IMARGUMENT:the argument theta of the complex number @{z}"
-msgstr ""
+msgstr "IMARGUMENT:vinklen for det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:407
 msgid ""
@@ -509,7 +509,7 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:760
 msgid "IMARCCOS:the complex arccosine of the complex number"
-msgstr ""
+msgstr "IMARCCOS:den komplekse arcuscosinus for det komplekse tal"
 
 #: ../plugins/fn-complex/functions.c:762
 msgid ""
@@ -519,7 +519,7 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:786
 msgid "IMARCTAN:the complex arctangent of the complex number"
-msgstr ""
+msgstr "IMARCTAN:den komplekse arcustangens for det komplekse tal"
 
 #: ../plugins/fn-complex/functions.c:788
 msgid ""
@@ -594,15 +594,15 @@ msgstr "IMSQRT:kvadratroden af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:1058
 msgid "IMFACT:the factorial of the complex number @{z}"
-msgstr ""
+msgstr "IMFACT:fakultet af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:1082
 msgid "IMGAMMA:the gamma function of the complex number @{z}"
-msgstr ""
+msgstr "IMGAMMA:gammafunktionen af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:1106
 msgid "IMIGAMMA:the incomplete Gamma function"
-msgstr ""
+msgstr "IMIGAMMA:den ufuldstændige gammafunktion"
 
 #: ../plugins/fn-complex/functions.c:1107
 msgid "a:a complex number"
@@ -1589,7 +1589,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:243
 msgid "OPT_BS:price of a European option"
-msgstr ""
+msgstr "OPT_BS:pris på en europæisk option"
 
 #: ../plugins/fn-derivatives/options.c:251
 msgid ""
@@ -1599,7 +1599,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:300
 msgid "OPT_BS_DELTA:delta of a European option"
-msgstr ""
+msgstr "OPT_BS_DELTA:delta for en europæisk option"
 
 #: ../plugins/fn-derivatives/options.c:308
 msgid ""
@@ -1609,7 +1609,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:342
 msgid "OPT_BS_GAMMA:gamma of a European option"
-msgstr ""
+msgstr "OPT_BS_GAMMA:gamma for en europæisk option"
 
 #: ../plugins/fn-derivatives/options.c:349
 msgid ""
@@ -1630,7 +1630,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:399
 msgid "OPT_BS_THETA:theta of a European option"
-msgstr ""
+msgstr "OPT_BS_THETA:theta for en europæisk option"
 
 #: ../plugins/fn-derivatives/options.c:407
 msgid ""
@@ -1648,7 +1648,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:443
 msgid "OPT_BS_VEGA:vega of a European option"
-msgstr ""
+msgstr "OPT_BS_VEGA:vega for en europæisk option"
 
 #: ../plugins/fn-derivatives/options.c:450
 msgid ""
@@ -1670,7 +1670,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:508
 msgid "OPT_BS_RHO:rho of a European option"
-msgstr ""
+msgstr "OPT_BS_RHO:rho for en europæisk option"
 
 #: ../plugins/fn-derivatives/options.c:516
 msgid ""
@@ -1689,7 +1689,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:564
 msgid "OPT_BS_CARRYCOST:elasticity of a European option"
-msgstr ""
+msgstr "OPT_BS_CARRYCOST:elasticitet for en europæisk option"
 
 #: ../plugins/fn-derivatives/options.c:572
 msgid ""
@@ -1708,7 +1708,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:622
 msgid "OPT_GARMAN_KOHLHAGEN:theoretical price of a European currency option"
-msgstr ""
+msgstr "OPT_GARMAN_KOHLHAGEN:teoretisk pris på en europæisk valutaoption"
 
 #: ../plugins/fn-derivatives/options.c:626
 msgid "time:number of days to exercise"
@@ -1736,6 +1736,7 @@ msgid ""
 "OPT_FRENCH:theoretical price of a European option adjusted for trading day "
 "volatility"
 msgstr ""
+"OPT_FRENCH:teoretisk pris på en europæisk option justeret for handelsdagsvolatilitet"
 
 #: ../plugins/fn-derivatives/options.c:680
 msgid ""
@@ -1761,6 +1762,7 @@ msgid ""
 "OPT_JUMP_DIFF:theoretical price of an option according to the Jump Diffusion "
 "process"
 msgstr ""
+"OPT_JUMP_DIFF:teoretisk pris på en option ifølge Jump Diffusion-processen"
 
 #: ../plugins/fn-derivatives/options.c:734
 msgid "rate:the annualized rate of interest"
@@ -1785,6 +1787,7 @@ msgid ""
 "OPT_MILTERSEN_SCHWARTZ:theoretical price of options on commodities futures "
 "according to Miltersen & Schwartz"
 msgstr ""
+"OPT_MILTERSEN_SCHWARTZ:teoretisk pris på optioner på råvarefutures ifølge Miltersen & Schwartz"
 
 #: ../plugins/fn-derivatives/options.c:818
 msgid "p_t:zero coupon bond with expiry at option maturity"
@@ -1844,12 +1847,14 @@ msgid ""
 "OPT_RGW:theoretical price of an American option according to the Roll-Geske-"
 "Whaley approximation"
 msgstr ""
+"OPT_RGW:teoretisk pris på en amerikansk option ifølge Roll-Geske-Whaley-approksimationen"
 
 #: ../plugins/fn-derivatives/options.c:956
 msgid ""
 "OPT_BAW_AMER:theoretical price of an option according to the Barone Adesie & "
 "Whaley approximation"
 msgstr ""
+"OPT_BAW_AMER:teoretisk pris på en option ifølge Barone Adesie & Whaley-approksimationen"
 
 #: ../plugins/fn-derivatives/options.c:1128
 msgid ""
@@ -1859,7 +1864,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1202
 msgid "OPT_EXEC:theoretical price of executive stock options"
-msgstr ""
+msgstr "OPT_EXEC:teoretisk pris på direktionsaktieoptioner"
 
 #: ../plugins/fn-derivatives/options.c:1210
 msgid "lambda:jump rate for executives"
@@ -1872,7 +1877,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1238
 msgid "OPT_FORWARD_START:theoretical price of forward start options"
-msgstr ""
+msgstr "OPT_FORWARD_START:teoretisk pris på fremadstartoptioner"
 
 #: ../plugins/fn-derivatives/options.c:1241
 msgid ""
@@ -1885,7 +1890,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1290
 msgid "OPT_TIME_SWITCH:theoretical price of time switch options"
-msgstr ""
+msgstr "OPT_TIME_SWITCH:teoretisk pris på tidsskifteoptioner"
 
 #: ../plugins/fn-derivatives/options.c:1294
 msgid "a:amount received for each time period"
@@ -1908,7 +1913,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1332
 msgid "OPT_SIMPLE_CHOOSER:theoretical price of a simple chooser option"
-msgstr ""
+msgstr "OPT_SIMPLE_CHOOSER:teoretisk pris på en simpel valgmuligheds option"
 
 #: ../plugins/fn-derivatives/options.c:1336
 msgid "time1:time in years until the holder chooses a put or a call option"
@@ -1920,7 +1925,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1381
 msgid "OPT_COMPLEX_CHOOSER:theoretical price of a complex chooser option"
-msgstr ""
+msgstr "OPT_COMPLEX_CHOOSER:teoretisk pris på en kompleks valgmuligheds option"
 
 #: ../plugins/fn-derivatives/options.c:1383
 msgid "strike_call:strike price, if exercised as a call option"
@@ -1944,7 +1949,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1482
 msgid "OPT_ON_OPTIONS:theoretical price of options on options"
-msgstr ""
+msgstr "OPT_ON_OPTIONS:teoretisk pris på optioner på optioner"
 
 #: ../plugins/fn-derivatives/options.c:1483
 msgid ""
@@ -1992,7 +1997,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1559
 msgid "OPT_EXTENDIBLE_WRITER:theoretical price of extendible writer options"
-msgstr ""
+msgstr "OPT_EXTENDIBLE_WRITER:teoretisk pris på forlængelige salgsoptioner"
 
 #: ../plugins/fn-derivatives/options.c:1562
 msgid "strike1:strike price at which the option is struck"
@@ -2081,6 +2086,7 @@ msgstr ""
 msgid ""
 "OPT_EURO_EXCHANGE:theoretical price of a European option to exchange assets"
 msgstr ""
+"OPT_EURO_EXCHANGE:teoretisk pris på en europæisk option til at bytte aktiver"
 
 #: ../plugins/fn-derivatives/options.c:1662
 #: ../plugins/fn-derivatives/options.c:1706
@@ -2142,6 +2148,7 @@ msgstr ""
 msgid ""
 "OPT_AMER_EXCHANGE:theoretical price of an American option to exchange assets"
 msgstr ""
+"OPT_AMER_EXCHANGE:teoretisk pris på en amerikansk option til at bytte aktiver"
 
 #: ../plugins/fn-derivatives/options.c:1719
 msgid ""
@@ -2155,6 +2162,7 @@ msgid ""
 "OPT_SPREAD_APPROX:theoretical price of a European option on the spread "
 "between two futures contracts"
 msgstr ""
+"OPT_SPREAD_APPROX:teoretisk pris på en europæisk option på spændet mellem to futureskontrakter"
 
 #: ../plugins/fn-derivatives/options.c:1751
 msgid "fut_price1:price of the first futures contract"
@@ -2184,6 +2192,7 @@ msgstr ""
 msgid ""
 "OPT_FLOAT_STRK_LKBK:theoretical price of floating-strike lookback option"
 msgstr ""
+"OPT_FLOAT_STRK_LKBK:teoretisk pris på tilbagebliksoption med flydende strike"
 
 #: ../plugins/fn-derivatives/options.c:1807
 #: ../plugins/fn-derivatives/options.c:1871
@@ -2205,7 +2214,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1868
 msgid "OPT_FIXED_STRK_LKBK:theoretical price of a fixed-strike lookback option"
-msgstr ""
+msgstr "OPT_FIXED_STRK_LKBK:teoretisk pris på tilbagebliksoption med fast strike"
 
 #: ../plugins/fn-derivatives/options.c:1878
 msgid ""
@@ -2220,6 +2229,7 @@ msgid ""
 "OPT_BINOMIAL:theoretical price of either an American or European style "
 "option using a binomial tree"
 msgstr ""
+"OPT_BINOMIAL:teoretisk pris på enten en amerikansk eller europæisk option ved brug af et binomialtræ"
 
 #: ../plugins/fn-derivatives/options.c:1953
 msgid ""
@@ -2239,7 +2249,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:206
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
-msgstr ""
+msgstr "BASE:tegnstreng af cifre der repræsenterer tallet @{n} i base @{b}"
 
 #: ../plugins/fn-eng/functions.c:207 ../plugins/fn-numtheory/numtheory.c:733
 #: ../plugins/fn-numtheory/numtheory.c:763
@@ -2422,6 +2432,7 @@ msgstr "HEX2DEC:decimalrepræsentation af det heksadecimale tal @{x}"
 msgid ""
 "BESSELI:Modified Bessel function of the first kind of order @{α} at @{x}"
 msgstr ""
+"BESSELI:modificeret Besselfunktion af første type med orden @{α} ved @{x}"
 
 #: ../plugins/fn-eng/functions.c:552 ../plugins/fn-eng/functions.c:574
 #: ../plugins/fn-eng/functions.c:597 ../plugins/fn-eng/functions.c:620
@@ -2487,10 +2498,11 @@ msgstr ""
 msgid ""
 "BESSELK:Modified Bessel function of the second kind of order @{α} at @{x}"
 msgstr ""
+"BESSELK:modificeret Besselfunktion af anden type med orden @{α} ved @{x}"
 
 #: ../plugins/fn-eng/functions.c:596
 msgid "BESSELJ:Bessel function of the first kind of order @{α} at @{x}"
-msgstr ""
+msgstr "BESSELJ:Besselfunktion af første type med orden @{α} ved @{x}"
 
 #: ../plugins/fn-eng/functions.c:598 ../plugins/fn-eng/functions.c:621
 msgid "α:order (any non-negative integer)"
@@ -2498,11 +2510,11 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:619
 msgid "BESSELY:Bessel function of the second kind of order @{α} at @{x}"
-msgstr ""
+msgstr "BESSELY:Besselfunktion af anden type med orden @{α} ved @{x}"
 
 #: ../plugins/fn-eng/functions.c:642
 msgid "CONVERT:a converted measurement"
-msgstr ""
+msgstr "CONVERT:en konverteret måling"
 
 #: ../plugins/fn-eng/functions.c:644
 msgid "from:unit (string)"
@@ -2729,7 +2741,7 @@ msgstr "Denne funktion er Excelkompatibel (undtagen “picapt”)."
 
 #: ../plugins/fn-eng/functions.c:1419
 msgid "ERF:Gauss error function"
-msgstr ""
+msgstr "ERF:Gauss' fejlfunktion"
 
 #: ../plugins/fn-eng/functions.c:1420
 msgid "lower:lower limit of the integral, defaults to 0"
@@ -2756,7 +2768,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:1450
 msgid "ERFC:Complementary Gauss error function"
-msgstr ""
+msgstr "ERFC:komplementær Gauss' fejlfunktion"
 
 #: ../plugins/fn-eng/functions.c:1452
 msgid "ERFC returns 2/sqrt(π)* integral from @{x} to ∞ of exp(-t*t) dt"
@@ -2764,7 +2776,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:1470
 msgid "DELTA:Kronecker delta function"
-msgstr ""
+msgstr "DELTA:Kroneckers deltafunktion"
 
 #: ../plugins/fn-eng/functions.c:1471 ../plugins/fn-eng/functions.c:1494
 msgid "x0:number"
@@ -2784,7 +2796,7 @@ msgstr "Hvis ingen af argumenterne er ikkenumeriske, returneres #VÆRDI!."
 
 #: ../plugins/fn-eng/functions.c:1493
 msgid "GESTEP:step function with step at @{x1} evaluated at @{x0}"
-msgstr ""
+msgstr "GESTEP:trinfunktion med trin ved @{x1} evalueret ved @{x0}"
 
 #: ../plugins/fn-eng/functions.c:1496
 msgid "GESTEP returns 1 if  @{x1} ≤ @{x0} and 0 otherwise."
@@ -2792,7 +2804,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:1516
 msgid "HEXREP:hexadecimal representation of numeric value"
-msgstr ""
+msgstr "HEXREP:heksadecimal repræsentation af numerisk værdi"
 
 #: ../plugins/fn-eng/functions.c:1518
 msgid "HEXREP returns a hexadecimal string representation of @{x}."
@@ -2806,7 +2818,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:1549
 msgid "INVSUMINV:the reciprocal of the sum of reciprocals of the arguments"
-msgstr ""
+msgstr "INVSUMINV:den reciprokke værdi af summen af reciprokke værdier af argumenterne"
 
 #: ../plugins/fn-eng/functions.c:1550
 msgid "x0:non-negative number"
@@ -2832,7 +2844,7 @@ msgstr ""
 
 #: ../plugins/fn-erlang/functions.c:103
 msgid "PROBBLOCK:probability of blocking"
-msgstr ""
+msgstr "PROBBLOCK:sandsynlighed for blokering"
 
 #: ../plugins/fn-erlang/functions.c:104 ../plugins/fn-erlang/functions.c:189
 msgid "traffic:number of calls"
@@ -2855,7 +2867,7 @@ msgstr ""
 
 #: ../plugins/fn-erlang/functions.c:128
 msgid "OFFTRAF:predicted number of offered calls"
-msgstr ""
+msgstr "OFFTRAF:forudsagt antal tilbudte opkald"
 
 #: ../plugins/fn-erlang/functions.c:129
 msgid "traffic:number of carried calls"
@@ -2869,7 +2881,7 @@ msgstr ""
 
 #: ../plugins/fn-erlang/functions.c:188
 msgid "DIMCIRC:number of circuits required"
-msgstr ""
+msgstr "DIMCIRC:antal kredsløb påkrævet"
 
 #: ../plugins/fn-erlang/functions.c:190 ../plugins/fn-erlang/functions.c:228
 msgid "gos:grade of service"
@@ -2883,7 +2895,7 @@ msgstr ""
 
 #: ../plugins/fn-erlang/functions.c:226
 msgid "OFFCAP:traffic capacity"
-msgstr ""
+msgstr "OFFCAP:trafikkapacitet"
 
 #: ../plugins/fn-erlang/functions.c:229
 msgid ""
@@ -3023,7 +3035,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:448
 msgid "ACCRINTM:accrued interest"
-msgstr ""
+msgstr "ACCRINTM:påløbne renter"
 
 #: ../plugins/fn-financial/functions.c:450
 #: ../plugins/fn-financial/functions.c:489
@@ -3067,7 +3079,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:487
 msgid "INTRATE:interest rate"
-msgstr ""
+msgstr "INTRATE:rente"
 
 #: ../plugins/fn-financial/functions.c:490
 #: ../plugins/fn-financial/functions.c:528
@@ -3101,7 +3113,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:566
 msgid "PRICEDISC:discounted price"
-msgstr ""
+msgstr "PRICEDISC:diskonteret pris"
 
 #: ../plugins/fn-financial/functions.c:569
 #: ../plugins/fn-financial/functions.c:606
@@ -3118,7 +3130,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:602
 msgid "PRICEMAT:price at maturity"
-msgstr ""
+msgstr "PRICEMAT:pris ved udløb"
 
 #: ../plugins/fn-financial/functions.c:607
 #: ../plugins/fn-financial/functions.c:1896
@@ -3137,7 +3149,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:647
 msgid "DISC:discount rate"
-msgstr ""
+msgstr "DISC:diskonteringsrente"
 
 #: ../plugins/fn-financial/functions.c:650
 msgid "par:price per $100 face value"
@@ -3227,7 +3239,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:771
 msgid "DB:depreciation of an asset"
-msgstr ""
+msgstr "DB:afskrivning af et aktiv"
 
 #: ../plugins/fn-financial/functions.c:772
 #: ../plugins/fn-financial/functions.c:822
@@ -3277,7 +3289,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:821
 msgid "DDB:depreciation of an asset"
-msgstr ""
+msgstr "DDB:afskrivning af et aktiv"
 
 #: ../plugins/fn-financial/functions.c:826
 #: ../plugins/fn-financial/functions.c:3294
@@ -3292,7 +3304,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:870
 msgid "SLN:depreciation of an asset"
-msgstr ""
+msgstr "SLN:afskrivning af et aktiv"
 
 #: ../plugins/fn-financial/functions.c:874
 msgid ""
@@ -3310,7 +3322,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:933
 msgid "DOLLARDE:convert to decimal dollar amount"
-msgstr ""
+msgstr "DOLLARDE:konverter til decimaldollarbeløb"
 
 #: ../plugins/fn-financial/functions.c:934
 msgid "fractional_dollar:amount to convert"
@@ -3329,7 +3341,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:981
 msgid "DOLLARFR:convert to dollar fraction"
-msgstr ""
+msgstr "DOLLARFR:konverter til dollarbrøk"
 
 #: ../plugins/fn-financial/functions.c:982
 msgid "decimal_dollar:amount to convert"
@@ -3377,7 +3389,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1123
 msgid "TBILLPRICE:price of a treasury bill"
-msgstr ""
+msgstr "TBILLPRICE:pris på en statsobligation"
 
 #: ../plugins/fn-financial/functions.c:1127
 msgid ""
@@ -3450,7 +3462,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1307
 msgid "RRI:equivalent interest rate for an investment increasing in value"
-msgstr ""
+msgstr "RRI:tilsvarende rente for en investering der stiger i værdi"
 
 #: ../plugins/fn-financial/functions.c:1308
 msgid "p:number of periods"
@@ -3568,7 +3580,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1800
 msgid "PPMT:interest payment for period"
-msgstr ""
+msgstr "PPMT:rentebetaling for periode"
 
 #: ../plugins/fn-financial/functions.c:1807
 msgid ""
@@ -3588,7 +3600,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1892
 msgid "DURATION:the (Macaulay) duration of a security"
-msgstr ""
+msgstr "DURATION:(Macaulay) varigheden af et værdipapir"
 
 #: ../plugins/fn-financial/functions.c:1895
 #: ../plugins/fn-financial/functions.c:3244
@@ -3601,7 +3613,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1938
 msgid "G_DURATION:the duration of a investment"
-msgstr ""
+msgstr "G_DURATION:varigheden af en investering"
 
 #: ../plugins/fn-financial/functions.c:1942
 msgid ""
@@ -3633,7 +3645,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2008
 msgid "EURO:equivalent of 1 EUR"
-msgstr ""
+msgstr "EURO:ækvivalent af 1 EUR"
 
 #: ../plugins/fn-financial/functions.c:2009
 msgid "currency:three-letter currency code"
@@ -3662,7 +3674,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2205
 msgid "EUROCONVERT:pre-Euro amount from one currency to another"
-msgstr ""
+msgstr "EUROCONVERT:præ-Euro beløb fra én valuta til en anden"
 
 #: ../plugins/fn-financial/functions.c:2206
 msgid "n:amount"
@@ -3708,7 +3720,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2257
 msgid "PRICE:price of a security"
-msgstr ""
+msgstr "PRICE:pris på et værdipapir"
 
 #: ../plugins/fn-financial/functions.c:2265
 msgid ""
@@ -3742,7 +3754,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2461
 msgid "YIELDMAT:yield of a security"
-msgstr ""
+msgstr "YIELDMAT:afkast af et værdipapir"
 
 #: ../plugins/fn-financial/functions.c:2468
 msgid ""
@@ -3752,7 +3764,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2500
 msgid "ODDFPRICE:price of a security that has an odd first period"
-msgstr ""
+msgstr "ODDFPRICE:pris på et værdipapir med uregelmæssig første periode"
 
 #: ../plugins/fn-financial/functions.c:2504
 #: ../plugins/fn-financial/functions.c:2655
@@ -3767,7 +3779,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2651
 msgid "ODDFYIELD:yield of a security that has an odd first period"
-msgstr ""
+msgstr "ODDFYIELD:afkast af et værdipapir med uregelmæssig første periode"
 
 #: ../plugins/fn-financial/functions.c:2661
 msgid ""
@@ -3777,7 +3789,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2747
 msgid "ODDLPRICE:price of a security that has an odd last period"
-msgstr ""
+msgstr "ODDLPRICE:pris på et værdipapir med uregelmæssig sidste periode"
 
 #: ../plugins/fn-financial/functions.c:2750
 #: ../plugins/fn-financial/functions.c:2828
@@ -3792,7 +3804,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2825
 msgid "ODDLYIELD:yield of a security that has an odd last period"
-msgstr ""
+msgstr "ODDLYIELD:afkast af et værdipapir med uregelmæssig sidste periode"
 
 #: ../plugins/fn-financial/functions.c:2834
 msgid ""
@@ -3802,7 +3814,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2903
 msgid "AMORDEGRC:depreciation of an asset using French accounting conventions"
-msgstr ""
+msgstr "AMORDEGRC:afskrivning af et aktiv ved brug af franske regnskabskonventioner"
 
 #: ../plugins/fn-financial/functions.c:2905
 #: ../plugins/fn-financial/functions.c:2961
@@ -3850,7 +3862,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2959
 msgid "AMORLINC:depreciation of an asset using French accounting conventions"
-msgstr ""
+msgstr "AMORLINC:afskrivning af et aktiv ved brug af franske regnskabskonventioner"
 
 #: ../plugins/fn-financial/functions.c:2968
 msgid ""
@@ -3884,7 +3896,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3029
 msgid "COUPDAYS:number of days in the coupon period of the settlement date"
-msgstr ""
+msgstr "COUPDAYS:antal dage i kuponperioden for afregningsdatoen"
 
 #: ../plugins/fn-financial/functions.c:3035
 msgid ""
@@ -3896,6 +3908,7 @@ msgstr ""
 msgid ""
 "COUPDAYSNC:number of days from the settlement date to the next coupon period"
 msgstr ""
+"COUPDAYSNC:antal dage fra afregningsdatoen til næste kuponperiode"
 
 #: ../plugins/fn-financial/functions.c:3059
 msgid ""
@@ -3913,7 +3926,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3103
 msgid "COUPPCD:the last coupon date before settlement"
-msgstr ""
+msgstr "COUPPCD:sidste kupondato før afregning"
 
 #: ../plugins/fn-financial/functions.c:3109
 msgid "COUPPCD calculates the coupon date preceding settlement."
@@ -3958,7 +3971,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3197
 msgid "CUMPRINC:cumulative principal"
-msgstr ""
+msgstr "CUMPRINC:kumuleret hovedstol"
 
 #: ../plugins/fn-financial/functions.c:3204
 msgid ""
@@ -3968,7 +3981,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3241
 msgid "MDURATION:the modified (Macaulay) duration of a security"
-msgstr ""
+msgstr "MDURATION:den modificerede (Macaulay) varighed af et værdipapir"
 
 #: ../plugins/fn-financial/functions.c:3248
 msgid "MDURATION calculates the modified (Macaulay) duration of a security."
@@ -3976,7 +3989,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3288
 msgid "VDB:depreciation of an asset"
-msgstr ""
+msgstr "VDB:afskrivning af et aktiv"
 
 #: ../plugins/fn-financial/functions.c:3295
 msgid "no_switch:do not switch to straight-line depreciation"
@@ -3997,7 +4010,7 @@ msgstr ""
 
 #: ../plugins/fn-flt/functions.c:36
 msgid "FLT.RADIX:return the floating point system's base"
-msgstr ""
+msgstr "FLT.RADIX:returner flydende kommatal-systemets base"
 
 #: ../plugins/fn-flt/functions.c:37
 msgid ""
@@ -4007,7 +4020,7 @@ msgstr ""
 
 #: ../plugins/fn-flt/functions.c:52
 msgid "FLT.MIN:return the smallest positive floating point number"
-msgstr ""
+msgstr "FLT.MIN:returner det mindste positive flydende kommatal"
 
 #: ../plugins/fn-flt/functions.c:53
 msgid ""
@@ -4017,7 +4030,7 @@ msgstr ""
 
 #: ../plugins/fn-flt/functions.c:68
 msgid "FLT.MAX:return the largest positive floating point number"
-msgstr ""
+msgstr "FLT.MAX:returner det største positive flydende kommatal"
 
 #: ../plugins/fn-flt/functions.c:69
 msgid ""
@@ -4027,7 +4040,7 @@ msgstr ""
 
 #: ../plugins/fn-flt/functions.c:84
 msgid "FLT.NEXTAFTER:next representable value"
-msgstr ""
+msgstr "FLT.NEXTAFTER:næste repræsenterbare værdi"
 
 #: ../plugins/fn-flt/functions.c:85
 msgid "x:floating point value"
@@ -4046,7 +4059,7 @@ msgstr ""
 
 #: ../plugins/fn-hebrew-date/functions.c:90
 msgid "HDATE:Hebrew date"
-msgstr ""
+msgstr "HDATE:hebraisk dato"
 
 #: ../plugins/fn-hebrew-date/functions.c:91
 #: ../plugins/fn-hebrew-date/functions.c:160
@@ -4077,7 +4090,7 @@ msgstr ""
 
 #: ../plugins/fn-hebrew-date/functions.c:125
 msgid "DATE2HDATE:Hebrew date"
-msgstr ""
+msgstr "DATE2HDATE:hebraisk dato"
 
 #: ../plugins/fn-hebrew-date/functions.c:126
 #: ../plugins/fn-hebrew-date/functions.c:201
@@ -4087,35 +4100,35 @@ msgstr ""
 
 #: ../plugins/fn-hebrew-date/functions.c:159
 msgid "HDATE_HEB:Hebrew date in Hebrew"
-msgstr ""
+msgstr "HDATE_HEB:hebraisk dato på hebraisk"
 
 #: ../plugins/fn-hebrew-date/functions.c:200
 msgid "DATE2HDATE_HEB:Hebrew date in Hebrew"
-msgstr ""
+msgstr "DATE2HDATE_HEB:hebraisk dato på hebraisk"
 
 #: ../plugins/fn-hebrew-date/functions.c:232
 msgid "HDATE_MONTH:Hebrew month of Gregorian date"
-msgstr ""
+msgstr "HDATE_MONTH:hebraisk måned for gregoriansk dato"
 
 #: ../plugins/fn-hebrew-date/functions.c:259
 msgid "HDATE_DAY:Hebrew day of Gregorian date"
-msgstr ""
+msgstr "HDATE_DAY:hebraisk dag for gregoriansk dato"
 
 #: ../plugins/fn-hebrew-date/functions.c:286
 msgid "HDATE_YEAR:Hebrew year of Gregorian date"
-msgstr ""
+msgstr "HDATE_YEAR:hebraisk år for gregoriansk dato"
 
 #: ../plugins/fn-hebrew-date/functions.c:313
 msgid "HDATE_JULIAN:Julian day number for given Gregorian date"
-msgstr ""
+msgstr "HDATE_JULIAN:juliansk dagnummer for given gregoriansk dato"
 
 #: ../plugins/fn-hebrew-date/functions.c:339
 msgid "DATE2JULIAN:Julian day number for given Gregorian date"
-msgstr ""
+msgstr "DATE2JULIAN:juliansk dagnummer for given gregoriansk dato"
 
 #: ../plugins/fn-info/functions.c:65
 msgid "CELL:information of @{type} about @{cell}"
-msgstr ""
+msgstr "CELL:information af typen @{type} om @{cell}"
 
 #: ../plugins/fn-info/functions.c:66
 msgid "type:string specifying the type of information requested"
@@ -4157,7 +4170,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:364
 msgid "EXPRESSION:expression in @{cell} as a string"
-msgstr ""
+msgstr "EXPRESSION:udtryk i @{cell} som en tekststreng"
 
 #: ../plugins/fn-info/functions.c:365
 msgid "cell:a cell reference"
@@ -4169,7 +4182,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:401
 msgid "GET.FORMULA:the formula in @{cell} as a string"
-msgstr ""
+msgstr "GET.FORMULA:formlen i @{cell} som en tekststreng"
 
 #: ../plugins/fn-info/functions.c:402 ../plugins/fn-info/functions.c:444
 #: ../plugins/fn-info/functions.c:1015
@@ -4189,7 +4202,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:443
 msgid "ISFORMULA:TRUE if @{cell} contains a formula"
-msgstr ""
+msgstr "ISFORMULA:SAND hvis @{cell} indeholder en formel"
 
 #: ../plugins/fn-info/functions.c:445
 msgid "ISFORMULA is OpenFormula compatible."
@@ -4197,7 +4210,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:474
 msgid "COUNTBLANK:the number of blank cells in @{range}"
-msgstr ""
+msgstr "COUNTBLANK:antallet af tomme celler i @{range}"
 
 #: ../plugins/fn-info/functions.c:475
 msgid "range:a cell range"
@@ -4232,7 +4245,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:628
 msgid "ISERROR:TRUE if @{value} is any error value"
-msgstr ""
+msgstr "ISERROR:SAND hvis @{value} er en fejlværdi"
 
 #: ../plugins/fn-info/functions.c:629 ../plugins/fn-info/functions.c:647
 #: ../plugins/fn-info/functions.c:669 ../plugins/fn-info/functions.c:759
@@ -4244,15 +4257,15 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:646
 msgid "ISNA:TRUE if @{value} is the #N/A error value"
-msgstr ""
+msgstr "ISNA:SAND hvis @{value} er fejlværdien #N/A"
 
 #: ../plugins/fn-info/functions.c:668
 msgid "ISERR:TRUE if @{value} is any error value except #N/A"
-msgstr ""
+msgstr "ISERR:SAND hvis @{value} er en fejlværdi undtagen #N/A"
 
 #: ../plugins/fn-info/functions.c:687
 msgid "ERROR.TYPE:the type of @{error}"
-msgstr ""
+msgstr "ERROR.TYPE:typen af @{error}"
 
 #: ../plugins/fn-info/functions.c:688
 msgid "error:an error"
@@ -4286,7 +4299,7 @@ msgstr "NA:Fejlværdien #N/A"
 
 #: ../plugins/fn-info/functions.c:741
 msgid "ERROR:the error with the given @{name}"
-msgstr ""
+msgstr "ERROR:fejlen med det givne @{name}"
 
 #: ../plugins/fn-info/functions.c:742
 msgid "name:string"
@@ -4294,7 +4307,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:758
 msgid "ISBLANK:TRUE if @{value} is blank"
-msgstr ""
+msgstr "ISBLANK:SAND hvis @{value} er tom"
 
 #: ../plugins/fn-info/functions.c:760
 msgid ""
@@ -4304,7 +4317,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:775
 msgid "ISEVEN:TRUE if @{n} is even"
-msgstr ""
+msgstr "ISEVEN:SAND hvis @{n} er lige"
 
 #: ../plugins/fn-info/functions.c:776 ../plugins/fn-info/functions.c:850
 #: ../plugins/fn-math/functions.c:1473
@@ -4313,7 +4326,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:796
 msgid "ISLOGICAL:TRUE if @{value} is a logical value"
-msgstr ""
+msgstr "ISLOGICAL:SAND hvis @{value} er en logisk værdi"
 
 #: ../plugins/fn-info/functions.c:798
 msgid "This function checks if a value is either TRUE or FALSE."
@@ -4321,11 +4334,11 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:814
 msgid "ISNONTEXT:TRUE if @{value} is not text"
-msgstr ""
+msgstr "ISNONTEXT:SAND hvis @{value} ikke er tekst"
 
 #: ../plugins/fn-info/functions.c:831
 msgid "ISNUMBER:TRUE if @{value} is a number"
-msgstr ""
+msgstr "ISNUMBER:SAND hvis @{value} er et tal"
 
 #: ../plugins/fn-info/functions.c:833
 msgid ""
@@ -4335,11 +4348,11 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:849
 msgid "ISODD:TRUE if @{n} is odd"
-msgstr ""
+msgstr "ISODD:SAND hvis @{n} er ulige"
 
 #: ../plugins/fn-info/functions.c:870
 msgid "ISREF:TRUE if @{value} is a reference"
-msgstr ""
+msgstr "ISREF:SAND hvis @{value} er en reference"
 
 #: ../plugins/fn-info/functions.c:872
 msgid "This function checks if a value is a cell reference."
@@ -4347,7 +4360,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:900
 msgid "ISTEXT:TRUE if @{value} is text"
-msgstr ""
+msgstr "ISTEXT:SAND hvis @{value} er tekst"
 
 #: ../plugins/fn-info/functions.c:918
 msgid "N:@{text} converted to a number"
@@ -4371,7 +4384,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:950
 msgid "TYPE:a number indicating the data type of @{value}"
-msgstr ""
+msgstr "TYPE:et tal der angiver datatypen af @{value}"
 
 #: ../plugins/fn-info/functions.c:952
 msgid ""
@@ -4652,7 +4665,7 @@ msgstr "Hvis @{abs_num} er større end 4, returnerer ADDRESS #VÆRDI!"
 
 #: ../plugins/fn-lookup/functions.c:904
 msgid "AREAS:number of areas in @{reference}"
-msgstr ""
+msgstr "AREAS:antal områder i @{reference}"
 
 #: ../plugins/fn-lookup/functions.c:905
 msgid "reference:range"
@@ -4802,7 +4815,7 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1255
 msgid "MATCH:the index of @{seek} in @{vector}"
-msgstr ""
+msgstr "MATCH:indekset for @{seek} i @{vector}"
 
 #: ../plugins/fn-lookup/functions.c:1256
 msgid "seek:value to find"
@@ -4931,7 +4944,7 @@ msgstr "Hvis @{name} er ugyldigt, returnerer COLUMNNUMBER #VÆRDI!"
 
 #: ../plugins/fn-lookup/functions.c:1524
 msgid "COLUMNS:number of columns in @{reference}"
-msgstr ""
+msgstr "COLUMNS:antal kolonner i @{reference}"
 
 #: ../plugins/fn-lookup/functions.c:1525
 msgid "reference:array or area"
@@ -4993,7 +5006,7 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1648
 msgid "ROWS:number of rows in @{reference}"
-msgstr ""
+msgstr "ROWS:antal rækker i @{reference}"
 
 #: ../plugins/fn-lookup/functions.c:1649
 msgid "reference:array, reference, or range"
@@ -5060,7 +5073,7 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1774
 msgid "TRANSPOSE:the transpose of @{matrix}"
-msgstr ""
+msgstr "TRANSPOSE:transponeringen af @{matrix}"
 
 #: ../plugins/fn-lookup/functions.c:1775 ../plugins/fn-lookup/functions.c:1813
 msgid "matrix:range"
@@ -5581,7 +5594,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1118
 msgid "BETA:Euler beta function"
-msgstr ""
+msgstr "BETA:Eulers betafunktion"
 
 #: ../plugins/fn-math/functions.c:1120 ../plugins/fn-math/functions.c:1144
 #: ../plugins/fn-math/functions.c:1429
@@ -6209,7 +6222,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2844
 msgid "SUMX2MY2:sum of the difference of squares"
-msgstr ""
+msgstr "SUMX2MY2:sum af kvadratdifferenser"
 
 #: ../plugins/fn-math/functions.c:2845 ../plugins/fn-math/functions.c:2887
 #: ../plugins/fn-math/functions.c:2930
@@ -6240,7 +6253,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2886
 msgid "SUMX2PY2:sum of the sum of squares"
-msgstr ""
+msgstr "SUMX2PY2:sum af kvadratsummer"
 
 #: ../plugins/fn-math/functions.c:2889
 msgid ""
@@ -7759,7 +7772,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:415
 msgid "RANDLAPLACE:random variate from a Laplace distribution"
-msgstr ""
+msgstr "RANDLAPLACE:tilfældig tal fra en Laplacefordeling"
 
 #: ../plugins/fn-random/functions.c:416
 msgid "a:parameter of the Laplace distribution"
@@ -7767,7 +7780,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:434
 msgid "RANDRAYLEIGH:random variate from a Rayleigh distribution"
-msgstr ""
+msgstr "RANDRAYLEIGH:tilfældig tal fra en Rayleighfordeling"
 
 #: ../plugins/fn-random/functions.c:435 ../plugins/fn-random/functions.c:455
 msgid "σ:scale parameter of the Rayleigh distribution"
@@ -7800,7 +7813,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:499
 msgid "RANDPARETO:random variate from a Pareto distribution"
-msgstr ""
+msgstr "RANDPARETO:tilfældig tal fra en Paretofordeling"
 
 #: ../plugins/fn-random/functions.c:500
 msgid "a:parameter of the Pareto distribution"
@@ -7836,7 +7849,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:562
 msgid "RANDLOGISTIC:random variate from a logistic distribution"
-msgstr ""
+msgstr "RANDLOGISTIC:tilfældig tal fra en logistisk fordeling"
 
 #: ../plugins/fn-random/functions.c:563
 msgid "a:parameter of the logistic distribution"
@@ -7868,7 +7881,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:629
 msgid "RANDLOG:random variate from a logarithmic distribution"
-msgstr ""
+msgstr "RANDLOG:tilfældig tal fra en logaritmisk fordeling"
 
 #: ../plugins/fn-random/functions.c:630 ../plugins/fn-stat/functions.c:557
 #: ../plugins/fn-stat/functions.c:1081 ../plugins/fn-stat/functions.c:1139
@@ -7896,7 +7909,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:690
 msgid "RANDGUMBEL:random variate from a Gumbel distribution"
-msgstr ""
+msgstr "RANDGUMBEL:tilfældig tal fra en Gumbelfordeling"
 
 #: ../plugins/fn-random/functions.c:691
 msgid "a:parameter of the Gumbel distribution"
@@ -7916,7 +7929,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:719
 msgid "RANDLEVY:random variate from a Lévy distribution"
-msgstr ""
+msgstr "RANDLEVY:tilfældig tal fra en Lévyfordeling"
 
 #: ../plugins/fn-random/functions.c:720
 msgid "c:parameter of the Lévy distribution"
@@ -8032,7 +8045,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:884
 msgid "RANDSNORM:random variate from a skew-normal distribution"
-msgstr ""
+msgstr "RANDSNORM:tilfældig tal fra en skævnormalfordeling"
 
 #: ../plugins/fn-random/functions.c:885
 msgid "𝛼:shape parameter of the skew-normal distribution, defaults to 0"
@@ -9237,7 +9250,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2169
 msgid "FISHER:Fisher transformation"
-msgstr ""
+msgstr "FISHER:Fisher-transformation"
 
 #: ../plugins/fn-stat/functions.c:2171
 msgid "If @{x} is not a number, this function returns a #VALUE! error."
@@ -10315,7 +10328,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:246
 msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
-msgstr ""
+msgstr "EXACT:SAND hvis @{string1} er præcis lig med @{string2}"
 
 #: ../plugins/fn-string/functions.c:247
 msgid "string1:first string"
@@ -10609,7 +10622,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:1082
 msgid "TEXT:@{value} as a string formatted as @{format}"
-msgstr ""
+msgstr "TEXT:@{value} som en tekststreng formateret som @{format}"
 
 #: ../plugins/fn-string/functions.c:1083
 msgid "value:value to be formatted"
@@ -10661,7 +10674,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:1349
 msgid "DOLLAR:@{num} formatted as currency"
-msgstr ""
+msgstr "DOLLAR:@{num} formateret som valuta"
 
 #: ../plugins/fn-string/functions.c:1351
 msgid "decimals:decimals"
@@ -10837,7 +10850,7 @@ msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:552
 msgid "PERIODOGRAM:periodogram of the given data"
-msgstr ""
+msgstr "PERIODOGRAM:periodogram for de givne data"
 
 #: ../plugins/fn-tsa/functions.c:553
 msgid "ordinates:ordinates of the given data"
@@ -10973,7 +10986,7 @@ msgstr ""
 
 #: ../plugins/gda/plugin-gda.c:449
 msgid "READDBTABLE:all rows of the table @{table} in @{dsn}"
-msgstr ""
+msgstr "READDBTABLE:alle rækker fra tabellen @{table} i @{dsn}"
 
 #: ../plugins/gda/plugin-gda.c:453
 msgid "table:SQL table to retrieve"
@@ -10981,7 +10994,7 @@ msgstr ""
 
 #: ../plugins/sample_datasource/sample_datasource.c:224
 msgid "ATL_LAST:sample real-time data source"
-msgstr ""
+msgstr "ATL_LAST:eksempel på realtidsdatakilde"
 
 #: ../plugins/sample_datasource/sample_datasource.c:225
 msgid "tag:tag to watch"
