@@ -58,7 +58,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-05 19:02-0500\n"
+"POT-Creation-Date: 2026-02-06 10:38-0500\n"
 "PO-Revision-Date: 2017-11-11 14:39+0100\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -72,7 +72,8 @@ msgid ""
 "EASTERSUNDAY:Easter Sunday in the Gregorian calendar according to the Roman "
 "rite of the Christian Church"
 msgstr ""
-"EASTERSUNDAY:påskesøndag i den gregorianske kalender efter den romersk-katolske ritus"
+"EASTERSUNDAY:påskesøndag i den gregorianske kalender efter den romersk-"
+"katolske ritus"
 
 #: ../plugins/fn-christian-date/functions.c:133
 msgid ""
@@ -101,7 +102,8 @@ msgid ""
 "ASHWEDNESDAY:Ash Wednesday in the Gregorian calendar according to the Roman "
 "rite of the Christian Church"
 msgstr ""
-"ASHWEDNESDAY:askeonsdag i den gregorianske kalender efter den romersk-katolske ritus"
+"ASHWEDNESDAY:askeonsdag i den gregorianske kalender efter den romersk-"
+"katolske ritus"
 
 #: ../plugins/fn-christian-date/functions.c:156
 msgid ""
@@ -114,7 +116,8 @@ msgid ""
 "PENTECOSTSUNDAY:Pentecost Sunday in the Gregorian calendar according to the "
 "Roman rite of the Christian Church"
 msgstr ""
-"PENTECOSTSUNDAY:pinsedag i den gregorianske kalender efter den romersk-katolske ritus"
+"PENTECOSTSUNDAY:pinsedag i den gregorianske kalender efter den romersk-"
+"katolske ritus"
 
 #: ../plugins/fn-christian-date/functions.c:176
 msgid ""
@@ -127,7 +130,8 @@ msgid ""
 "GOODFRIDAY:Good Friday in the Gregorian calendar according to the Roman rite "
 "of the Christian Church"
 msgstr ""
-"GOODFRIDAY:langfredag i den gregorianske kalender efter den romersk-katolske ritus"
+"GOODFRIDAY:langfredag i den gregorianske kalender efter den romersk-katolske "
+"ritus"
 
 #: ../plugins/fn-christian-date/functions.c:195
 msgid ""
@@ -139,7 +143,8 @@ msgid ""
 "ASCENSIONTHURSDAY:Ascension Thursday in the Gregorian calendar according to "
 "the Roman rite of the Christian Church"
 msgstr ""
-"ASCENSIONTHURSDAY:Kristi himmelfartsdag i den gregorianske kalender efter den romersk-katolske ritus"
+"ASCENSIONTHURSDAY:Kristi himmelfartsdag i den gregorianske kalender efter "
+"den romersk-katolske ritus"
 
 #: ../plugins/fn-christian-date/functions.c:214
 msgid ""
@@ -402,9 +407,8 @@ msgid "IMEXP:the exponential of the complex number @{z}"
 msgstr "IMEXP:eksponentialfunktionen af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:405
-#, fuzzy
 msgid "IMARGUMENT:the argument theta of the complex number @{z}"
-msgstr "IMTAN:tangens af et komplekst tal @{z}"
+msgstr ""
 
 #: ../plugins/fn-complex/functions.c:407
 msgid ""
@@ -504,9 +508,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-complex/functions.c:760
-#, fuzzy
 msgid "IMARCCOS:the complex arccosine of the complex number"
-msgstr "IMABS:Den absolutte værdi af det komplekse tal @{z}"
+msgstr ""
 
 #: ../plugins/fn-complex/functions.c:762
 msgid ""
@@ -515,9 +518,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-complex/functions.c:786
-#, fuzzy
 msgid "IMARCTAN:the complex arctangent of the complex number"
-msgstr "IMTAN:tangens af et komplekst tal @{z}"
+msgstr ""
 
 #: ../plugins/fn-complex/functions.c:788
 msgid ""
@@ -539,7 +541,8 @@ msgstr "IMARCCOT:den komplekse arcuscotangens af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:882
 msgid "IMARCSINH:the complex hyperbolic arcsine of the complex number @{z}"
-msgstr "IMARCSINH:den komplekse hyperbolske arcussinus af det komplekse tal @{z}"
+msgstr ""
+"IMARCSINH:den komplekse hyperbolske arcussinus af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:884
 msgid ""
@@ -549,7 +552,8 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:908
 msgid "IMARCCOSH:the complex hyperbolic arccosine of the complex number @{z}"
-msgstr "IMARCCOSH:den komplekse hyperbolske arcuscosinus af det komplekse tal @{z}"
+msgstr ""
+"IMARCCOSH:den komplekse hyperbolske arcuscosinus af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:910
 msgid ""
@@ -559,7 +563,8 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:935
 msgid "IMARCTANH:the complex hyperbolic arctangent of the complex number @{z}"
-msgstr "IMARCTANH:den komplekse hyperbolske arcustangens af det komplekse tal @{z}"
+msgstr ""
+"IMARCTANH:den komplekse hyperbolske arcustangens af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:937
 msgid ""
@@ -569,11 +574,13 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:962
 msgid "IMARCSECH:the complex hyperbolic arcsecant of the complex number @{z}"
-msgstr "IMARCSECH:den komplekse hyperbolske arcussekant af det komplekse tal @{z}"
+msgstr ""
+"IMARCSECH:den komplekse hyperbolske arcussekant af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:985
 msgid "IMARCCSCH:the complex hyperbolic arccosecant of the complex number @{z}"
-msgstr "IMARCCSCH:den komplekse hyperbolske arcuscosekant af det komplekse tal @{z}"
+msgstr ""
+"IMARCCSCH:den komplekse hyperbolske arcuscosekant af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:1009
 msgid ""
@@ -586,22 +593,18 @@ msgid "IMSQRT:the square root of the complex number @{z}"
 msgstr "IMSQRT:kvadratroden af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:1058
-#, fuzzy
 msgid "IMFACT:the factorial of the complex number @{z}"
-msgstr "IMTAN:tangens af et komplekst tal @{z}"
+msgstr ""
 
 #: ../plugins/fn-complex/functions.c:1082
-#, fuzzy
 msgid "IMGAMMA:the gamma function of the complex number @{z}"
-msgstr "IMTAN:tangens af et komplekst tal @{z}"
+msgstr ""
 
 #: ../plugins/fn-complex/functions.c:1106
-#, fuzzy
 msgid "IMIGAMMA:the incomplete Gamma function"
-msgstr "GAMMA:gammafunktionen"
+msgstr ""
 
 #: ../plugins/fn-complex/functions.c:1107
-#, fuzzy
 msgid "a:a complex number"
 msgstr "z:et komplekst tal"
 
@@ -705,7 +708,8 @@ msgid ""
 "DAVERAGE:average of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
-"DAVERAGE:gennemsnittet af værdierne i @{field} i @{database} for poster der opfylder @{criteria}"
+"DAVERAGE:gennemsnittet af værdierne i @{field} i @{database} for poster der "
+"opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:357
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333."
@@ -747,7 +751,8 @@ msgid ""
 "DCOUNTA:count of cells with data in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
-"DCOUNTA:antal celler med data i @{field} i @{database} for poster der opfylder @{criteria}"
+"DCOUNTA:antal celler med data i @{field} i @{database} for poster der "
+"opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:437
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3."
@@ -789,7 +794,8 @@ msgid ""
 "DMAX:largest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
 msgstr ""
-"DMAX:største tal i @{field} i @{database} for en post der opfylder @{criteria}"
+"DMAX:største tal i @{field} i @{database} for en post der opfylder "
+"@{criteria}"
 
 #: ../plugins/fn-database/functions.c:512
 msgid "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242."
@@ -808,7 +814,8 @@ msgid ""
 "DMIN:smallest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
 msgstr ""
-"DMIN:mindste tal i @{field} i @{database} for en post der opfylder @{criteria}"
+"DMIN:mindste tal i @{field} i @{database} for en post der opfylder "
+"@{criteria}"
 
 #: ../plugins/fn-database/functions.c:548
 msgid "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323."
@@ -823,7 +830,8 @@ msgid ""
 "DPRODUCT:product of all values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
-"DPRODUCT:produktet af alle værdier i @{field} i @{database} for poster der opfylder @{criteria}"
+"DPRODUCT:produktet af alle værdier i @{field} i @{database} for poster der "
+"opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:581
 msgid "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247."
@@ -834,7 +842,8 @@ msgid ""
 "DSTDEV:sample standard deviation of the values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
 msgstr ""
-"DSTDEV:stikprøvens standardafvigelse for værdierne i @{field} i @{database} for poster der opfylder @{criteria}"
+"DSTDEV:stikprøvens standardafvigelse for værdierne i @{field} i @{database} "
+"for poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:614
 msgid "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949."
@@ -849,7 +858,8 @@ msgid ""
 "DSTDEVP:standard deviation of the population of values in @{field} in "
 "@{database} belonging to records that match @{criteria}"
 msgstr ""
-"DSTDEVP:populationens standardafvigelse for værdierne i @{field} i @{database} for poster der opfylder @{criteria}"
+"DSTDEVP:populationens standardafvigelse for værdierne i @{field} i "
+"@{database} for poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:648
 msgid "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7."
@@ -864,7 +874,8 @@ msgid ""
 "DSUM:sum of the values in @{field} in @{database} belonging to records that "
 "match @{criteria}"
 msgstr ""
-"DSUM:summen af værdierne i @{field} i @{database} for poster der opfylder @{criteria}"
+"DSUM:summen af værdierne i @{field} i @{database} for poster der opfylder "
+"@{criteria}"
 
 #: ../plugins/fn-database/functions.c:681
 msgid "DSUM(A1:C7, \"Age\", A9:B11) equals 72."
@@ -879,7 +890,8 @@ msgid ""
 "DVAR:sample variance of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
-"DVAR:stikprøvens varians for værdierne i @{field} i @{database} for poster der opfylder @{criteria}"
+"DVAR:stikprøvens varians for værdierne i @{field} i @{database} for poster "
+"der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:715
 msgid "DVAR(A1:C7, \"Age\", A9:B11) equals 98."
@@ -894,7 +906,8 @@ msgid ""
 "DVARP:variance of the population of values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
 msgstr ""
-"DVARP:populationens varians for værdierne i @{field} i @{database} for poster der opfylder @{criteria}"
+"DVARP:populationens varians for værdierne i @{field} i @{database} for "
+"poster der opfylder @{criteria}"
 
 #: ../plugins/fn-database/functions.c:749
 msgid "DVARP(A1:C7, \"Age\", A9:B11) equals 49."
@@ -1120,12 +1133,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-date/functions.c:429
-#, fuzzy
 msgid ""
 "If any of @{hour}, @{minute}, and @{second} is negative, #NUM! is returned"
 msgstr ""
-"Hvis et af @{z1}, @{z2}, … ikke er et gyldigt komplekst tal, returneres "
-"#VÆRDI!."
 
 #: ../plugins/fn-date/functions.c:459
 msgid "ODF.TIME:create a time serial value"
@@ -2309,9 +2319,8 @@ msgid "If @{places} is given and @{x} is negative, @{places} is ignored."
 msgstr ""
 
 #: ../plugins/fn-eng/functions.c:314
-#, fuzzy
 msgid "If @{x} < − 512 or @{x} > 511, DEC2BIN returns #NUM!"
-msgstr "Hvis @{p} < 0 eller @{p} > 1, returnerer denne funktion en #TAL!-fejl."
+msgstr ""
 
 #: ../plugins/fn-eng/functions.c:336
 msgid "DEC2OCT:octal representation of the decimal number @{x}"
@@ -2452,9 +2461,8 @@ msgid "x:number"
 msgstr ""
 
 #: ../plugins/fn-eng/functions.c:553 ../plugins/fn-eng/functions.c:575
-#, fuzzy
 msgid "α:order (any non-negative number)"
-msgstr "x:ikke-negativt tal"
+msgstr ""
 
 #: ../plugins/fn-eng/functions.c:554 ../plugins/fn-eng/functions.c:576
 #: ../plugins/fn-eng/functions.c:599 ../plugins/fn-eng/functions.c:622
@@ -4209,7 +4217,6 @@ msgid "type:string giving the type of information requested"
 msgstr ""
 
 #: ../plugins/fn-info/functions.c:532
-#, fuzzy
 msgid ""
 "INFO returns information about the current operating environment according "
 "to @{type}:\n"
@@ -4222,26 +4229,6 @@ msgid ""
 "  system       \t\tReturns the name of the environment.\n"
 "  totmem       \t\tReturns the amount of total memory available."
 msgstr ""
-"@FUNCTION=INFO\n"
-"@SYNTAX=INFO(type)\n"
-"@DESCRIPTION=INFO returnerer information om det aktuelle udførelses-miljø.\n"
-"@type angiver den type information du vil have:\n"
-"    memavail        Returnerer hvor meget hukommelse der er tilgængeligt "
-"(byte).\n"
-"    memused         Returnerer hvor meget hukommelse der er brugt (byte).\n"
-"    numfile         Returnerer antal aktive arbejdsark.\n"
-"    osversion       Returnerer operativsystemversionen.\n"
-"    recalc          Returnerer genberegningstilstanden (automatisk).\n"
-"    release         Returnerer versionen på Gnumeric som tekst.\n"
-"    system          Returnerer navnet på miljøet.\n"
-"    totmem          Returnerer den totale mængde hukommelse tilgængeligt.\n"
-"\n"
-"Denne funktion er Excel-kompatibel, bortset fra at typerne 'directory' og "
-"'origin' ikke er implementeret. \n"
-"@EXAMPLES=\n"
-"INFO(“system”) returnerer “Linux” på et Linux-system.\n"
-"\n"
-"@SEEALSO="
 
 #: ../plugins/fn-info/functions.c:628
 msgid "ISERROR:TRUE if @{value} is any error value"
@@ -4568,13 +4555,10 @@ msgid "value2:value if @{condition2} is true"
 msgstr ""
 
 #: ../plugins/fn-logical/functions.c:270
-#, fuzzy
 msgid ""
 "This function returns the value after the first true conditional.  If no "
 "conditional is true, #VALUE! is returned."
 msgstr ""
-"LOGINV:invers for den kumuleret distributionsfunktion for lognormal-"
-"distributionen"
 
 #: ../plugins/fn-logical/functions.c:309
 msgid "SWITCH:multi-branch selector"
@@ -4589,18 +4573,16 @@ msgid "choice1:first choice value"
 msgstr ""
 
 #: ../plugins/fn-logical/functions.c:312
-#, fuzzy
 msgid "value1:first result value"
-msgstr "value:Søgeværdi"
+msgstr ""
 
 #: ../plugins/fn-logical/functions.c:313
 msgid "choice2:second choice value"
 msgstr ""
 
 #: ../plugins/fn-logical/functions.c:314
-#, fuzzy
 msgid "value2:second result value"
-msgstr "value:Søgeværdi"
+msgstr ""
 
 #: ../plugins/fn-logical/functions.c:315
 msgid ""
@@ -4927,12 +4909,9 @@ msgstr ""
 
 # mangler der ikke noget i den engelske streng her.
 #: ../plugins/fn-lookup/functions.c:1453 ../plugins/fn-lookup/functions.c:1605
-#, fuzzy
 msgid ""
 "If @{x} is neither an array nor a reference nor a range, returns #VALUE!"
 msgstr ""
-"Hvis @{reference} hverken er en matrix eller en reference eller et interval, "
-"returnerer #VÆRDI!"
 
 #: ../plugins/fn-lookup/functions.c:1457
 msgid "COLUMN() in G13 equals 7."
@@ -5471,13 +5450,10 @@ msgstr ""
 "af typen #VÆRDI!."
 
 #: ../plugins/fn-math/functions.c:809
-#, fuzzy
 msgid ""
 "If @{x} is positive and @{significance} is negative, CEILING returns a #NUM! "
 "error."
 msgstr ""
-"Hvis @{x} eller @{significance} er ikkenumerisk, returnerer CEILING en fejl "
-"af typen #VÆRDI!."
 
 #: ../plugins/fn-math/functions.c:811
 msgid ""
@@ -5500,15 +5476,13 @@ msgid "wolfram:Cosine.html"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:857
-#, fuzzy
 msgid "COSPI:the cosine of Pi*@{x}"
-msgstr "COS:kosinus af @{x}"
+msgstr "COSPI:kosinus af Pi*@{x}"
 
 #: ../plugins/fn-math/functions.c:858 ../plugins/fn-math/functions.c:911
 #: ../plugins/fn-math/functions.c:1650 ../plugins/fn-math/functions.c:1934
-#, fuzzy
 msgid "x:number of half turns"
-msgstr "f:antal fejl"
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:874
 msgid "COSH:the hyperbolic cosine of @{x}"
@@ -5523,9 +5497,8 @@ msgid "wolfram:Cotangent.html"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:910
-#, fuzzy
 msgid "COTPI:the cotangent of Pi*@{x}"
-msgstr "COT:kotangens af @{x}"
+msgstr "COTPI:kotangens af Pi*@{x}"
 
 #: ../plugins/fn-math/functions.c:927
 msgid "COTH:the hyperbolic cotangent of @{x}"
@@ -5578,14 +5551,12 @@ msgid "GAMMALN:natural logarithm of the Gamma function"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1070
-#, fuzzy
 msgid "DIGAMMA:the Digamma function"
-msgstr "GAMMA:gammafunktionen"
+msgstr "DIGAMMA:digamma-funktionen"
 
 #: ../plugins/fn-math/functions.c:1086
-#, fuzzy
 msgid "IGAMMA:the incomplete Gamma function"
-msgstr "GAMMA:gammafunktionen"
+msgstr "GAMMA:den ufuldstændige gammafunktionen"
 
 #: ../plugins/fn-math/functions.c:1087 ../plugins/fn-stat/functions.c:508
 msgid "a:number"
@@ -5700,13 +5671,10 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1231
-#, fuzzy
 msgid ""
 "If @{x} is positive and @{significance} is negative, FLOOR returns a #NUM! "
 "error."
 msgstr ""
-"Hvis @{x} eller @{significance} er ikkenumerisk, returnerer CEILING en fejl "
-"af typen #VÆRDI!."
 
 #: ../plugins/fn-math/functions.c:1233
 msgid ""
@@ -5719,9 +5687,8 @@ msgid "INT:largest integer not larger than @{x}"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1282
-#, fuzzy
 msgid "LAMBERTW:the Lambert W function"
-msgstr "GAMMA:gammafunktionen"
+msgstr "LAMBERTW:Lambert's W-funktion"
 
 #: ../plugins/fn-math/functions.c:1284
 msgid "k:branch"
@@ -5810,9 +5777,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1430
-#, fuzzy
 msgid "z:number"
-msgstr "z:et komplekst tal"
+msgstr "z:tal"
 
 #: ../plugins/fn-math/functions.c:1431
 msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
@@ -5831,9 +5797,8 @@ msgid "@{z} defaults to 1"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1435
-#, fuzzy
 msgid "If @{z} is not a positive integer, POWER returns #NUM!"
-msgstr "Hvis @{i} er hverken “i” eller “j”, returnerer COMPLEX #VÆRDI!"
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:1436
 msgid "If @{x} < 0, @{y} is odd, and @{z} is even, POWER returns #NUM!"
@@ -5918,9 +5883,8 @@ msgid "wolfram:Sine.html"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1649
-#, fuzzy
 msgid "SINPI:the sine of Pi*@{x}"
-msgstr "SIN:sinus af @{x}"
+msgstr "SINPI:sinus af Pi*@{x}"
 
 #: ../plugins/fn-math/functions.c:1666
 msgid "CSC:the cosecant of @{x}"
@@ -6041,24 +6005,21 @@ msgid "TAN:the tangent of @{x}"
 msgstr "TAN:tangens af @{x}"
 
 #: ../plugins/fn-math/functions.c:1933
-#, fuzzy
 msgid "TANPI:the tangent of Pi*@{x}"
-msgstr "TAN:tangens af @{x}"
+msgstr "TANPI:tangens af Pi*@{x}"
 
 #: ../plugins/fn-math/functions.c:1949
 msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1966
-#, fuzzy
-msgid "PI:the constant 𝜋"
+msgid "PI:the constant π"
 msgstr "PI:konstanten π"
 
 #: ../plugins/fn-math/functions.c:1967
-#, fuzzy
 msgid ""
-"This function is Excel compatible, but it returns 𝜋 with a better precision."
-msgstr "Denne funktion er Excelkompatibel (undtagen “picapt”)."
+"This function is Excel compatible, but it returns π with a better precision."
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:1984
 msgid "TRUNC:@{x} truncated to @{d} digits"
@@ -6162,9 +6123,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2357
-#, fuzzy
-msgid "SQRTPI:the square root of @{x} times 𝜋"
-msgstr "SQRT:kvadratroden af @{x}"
+msgid "SQRTPI:the square root of @{x} times π"
+msgstr "SQRTPI:kvadratroden af Pi*@{x}"
 
 #: ../plugins/fn-math/functions.c:2380
 msgid "ROUNDDOWN:@{x} rounded towards 0"
@@ -6269,18 +6229,14 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2850 ../plugins/fn-math/functions.c:2894
 #: ../plugins/fn-math/functions.c:2937
-#, fuzzy
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
 "and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39."
 msgstr ""
-"Lad os antage at cellerne A1, A2, …, A5 indeholder tallene 11,4 17,3 21,3 "
-"25,9 og 40,1 og cellerne B1, B2, …, B5 23,2 25,8 29,9 33,5 og 42,7."
 
 #: ../plugins/fn-math/functions.c:2851
-#, fuzzy
 msgid "Then SUMX2MY2(A1:A5,B1:B5) yields -1299."
-msgstr "Så er CORREL(A1:A5,B1:B5) lig med 0,996124788."
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:2886
 msgid "SUMX2PY2:sum of the sum of squares"
@@ -6300,9 +6256,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2895
-#, fuzzy
 msgid "Then SUMX2PY2(A1:A5,B1:B5) yields 7149."
-msgstr "Så er CORREL(A1:A5,B1:B5) lig med 0,996124788."
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:2929
 msgid "SUMXMY2:sum of the squares of differences"
@@ -6322,9 +6277,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2938
-#, fuzzy
 msgid "Then SUMXMY2(A1:A5,B1:B5) yields 409."
-msgstr "Så er CORREL(A1:A5,B1:B5) lig med 0,996124788."
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:2974
 msgid "SERIESSUM:sum of a power series at @{x}"
@@ -6347,13 +6301,10 @@ msgid "coeff:coefficients of the power series"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2980
-#, fuzzy
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, "
 "2.98, 3.42, and 4.33."
 msgstr ""
-"Lad os antage at cellerne A1, A2, …, A5 indeholder tallene 11,4 17,3 21,3 "
-"25,9 og 25,9."
 
 #: ../plugins/fn-math/functions.c:2981
 msgid "Then SERIESSUM(2,1,2.23,A1:A5) evaluates as 5056.37439843926"
@@ -6460,9 +6411,8 @@ msgid "Solves the equation @{A}*X=@{B} and returns X."
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:3270
-#, fuzzy
 msgid "If the matrix @{A} is singular, #VALUE! is returned."
-msgstr "Hvis ingen af argumenterne er ikkenumeriske, returneres #VÆRDI!."
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:3321
 msgid "MDETERM:the determinant of the matrix @{matrix}"
@@ -6521,9 +6471,8 @@ msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:3385
-#, fuzzy
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
-msgstr "Denne funktion virker på samme måde som Excels."
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:3520
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
@@ -6583,24 +6532,12 @@ msgid "NT_MU:Möbius mu function"
 msgstr ""
 
 #: ../plugins/fn-numtheory/numtheory.c:361
-#, fuzzy
 msgid ""
 "NT_MU function (Möbius mu function) returns 0  if @{n} is divisible by the "
 "square of a prime. Otherwise, if @{n} has an odd  number of different prime "
 "factors, NT_MU returns -1, and if @{n} has an even number of different prime "
 "factors, it returns 1. If @{n} = 1, NT_MU returns 1."
 msgstr ""
-"@FUNCTION=NT_MU\n"
-"@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU-funktionen (Möbius µ-funktionen) returnerer \n"
-"0  hvis @n er delelig med kvadratet på et primtal.\n"
-"Ellers returnerer den: \n"
-"-1 hvis @n har et ulige antal forskellige primtals-faktorer.\n"
-"1  hvis @n har et  lige antal forskellige primtals-faktorer.\n"
-"Hvis @n=1 returnerer den 1.\n"
-"\n"
-"@EXAMPLES=\n"
-"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: ../plugins/fn-numtheory/numtheory.c:368
 msgid "wiki:en:Möbius_function"
@@ -6686,9 +6623,8 @@ msgstr ""
 #: ../plugins/fn-numtheory/numtheory.c:609
 #: ../plugins/fn-numtheory/numtheory.c:648
 #: ../plugins/fn-numtheory/numtheory.c:690
-#, fuzzy
 msgid "values:non-negative integers"
-msgstr "a:ikke-negativt heltal"
+msgstr "values:ikke-negative heltal"
 
 #: ../plugins/fn-numtheory/numtheory.c:610
 msgid ""
@@ -7005,8 +6941,7 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:280
 msgid ""
 "R.PCHISQ:cumulative distribution function of the chi-square distribution"
-msgstr ""
-"R.PCHISQ:kumuleret fordelingsfunktion for chi-i-anden-fordelingen"
+msgstr "R.PCHISQ:kumuleret fordelingsfunktion for chi-i-anden-fordelingen"
 
 #: ../plugins/fn-r/functions.c:285
 msgid ""
@@ -7175,54 +7110,44 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:636
-#, fuzzy
 msgid "R.DGUMBEL:probability density function of the Gumbel distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:638 ../plugins/fn-r/functions.c:663
 #: ../plugins/fn-r/functions.c:690
-#, fuzzy
 msgid "mu:the location parameter of freedom of the distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:639 ../plugins/fn-r/functions.c:664
 #: ../plugins/fn-r/functions.c:691
-#, fuzzy
 msgid "beta:the scale parameter of freedom of the distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:641
-#, fuzzy
 msgid ""
 "This function returns the probability density function of the Gumbel "
 "distribution."
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:661
-#, fuzzy
 msgid "R.PGUMBEL:cumulative distribution function of the Gumbel distribution"
-msgstr "LOGNORMDIST:kumuleret fordelingsfunktion for lognormal-distributionen"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:667
-#, fuzzy
 msgid ""
 "This function returns the cumulative distribution function of the Gumbel "
 "distribution."
 msgstr ""
-"LOGINV:invers for den kumuleret distributionsfunktion for lognormal-"
-"distributionen"
 
 #: ../plugins/fn-r/functions.c:688
-#, fuzzy
 msgid "R.QGUMBEL:probability quantile function of the Gumbel distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:694
-#, fuzzy
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Gumbel distribution."
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:715
 msgid ""
@@ -7323,15 +7248,13 @@ msgstr ""
 "R.DNBINOM:sandsynlighedstæthedsfunktion for den negative binomialfordeling"
 
 #: ../plugins/fn-r/functions.c:880 ../plugins/fn-r/functions.c:905
-#, fuzzy
 msgid "x:observation (number of failures)"
-msgstr "f:antal fejl"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:881 ../plugins/fn-r/functions.c:906
 #: ../plugins/fn-r/functions.c:933
-#, fuzzy
 msgid "n:required number of successes"
-msgstr "t:tærskelantal for succeser"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:884
 msgid ""
@@ -7441,43 +7364,35 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:1116
-#, fuzzy
 msgid "R.DRAYLEIGH:probability density function of the Rayleigh distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1120
-#, fuzzy
 msgid ""
 "This function returns the probability density function of the Rayleigh "
 "distribution."
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1139
-#, fuzzy
 msgid ""
 "R.PRAYLEIGH:cumulative distribution function of the Rayleigh distribution"
-msgstr "LOGNORMDIST:kumuleret fordelingsfunktion for lognormal-distributionen"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1144
-#, fuzzy
 msgid ""
 "This function returns the cumulative distribution function of the Rayleigh "
 "distribution."
 msgstr ""
-"LOGINV:invers for den kumuleret distributionsfunktion for lognormal-"
-"distributionen"
 
 #: ../plugins/fn-r/functions.c:1164
-#, fuzzy
 msgid "R.QRAYLEIGH:probability quantile function of the Rayleigh distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1169
-#, fuzzy
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Rayleigh distribution."
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1189
 msgid "R.DSNORM:probability density function of the skew-normal distribution"
@@ -7485,9 +7400,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1192 ../plugins/fn-r/functions.c:1219
 #: ../plugins/fn-r/functions.c:1248
-#, fuzzy
 msgid "location:the location parameter of the distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1195
 msgid ""
@@ -7507,18 +7421,14 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:1245
-#, fuzzy
 msgid "R.QSNORM:probability quantile function of the skew-normal distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1252
-#, fuzzy
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the skew-normal distribution."
 msgstr ""
-"LOGINV:invers for den kumuleret distributionsfunktion for lognormal-"
-"distributionen"
 
 #: ../plugins/fn-r/functions.c:1274
 msgid "R.DST:probability density function of the skew-t distribution"
@@ -7537,30 +7447,24 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:1299
-#, fuzzy
 msgid "R.PST:cumulative distribution function of the skew-t distribution"
-msgstr "LOGNORMDIST:kumuleret fordelingsfunktion for lognormal-distributionen"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1305
-#, fuzzy
 msgid ""
 "This function returns the cumulative distribution function of the skew-t "
 "distribution."
 msgstr ""
-"LOGINV:invers for den kumuleret distributionsfunktion for lognormal-"
-"distributionen"
 
 #: ../plugins/fn-r/functions.c:1326
-#, fuzzy
 msgid "R.QST:probability quantile function of the skew-t distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1332
-#, fuzzy
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the skew-t distribution."
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1353
 msgid "R.DT:probability density function of the Student t distribution"
@@ -7593,11 +7497,10 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:1426
-#, fuzzy
 msgid ""
 "R.PTUKEY:cumulative distribution function of the Studentized range "
 "distribution"
-msgstr "LOGNORMDIST:kumuleret fordelingsfunktion for lognormal-distributionen"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1428 ../plugins/fn-r/functions.c:1456
 msgid "nmeans:the number of means"
@@ -7608,27 +7511,22 @@ msgid "nranges:the number of ranges; default is 1"
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:1433
-#, fuzzy
 msgid ""
 "This function returns the cumulative distribution function of the "
 "Studentized range distribution."
 msgstr ""
-"LOGINV:invers for den kumuleret distributionsfunktion for lognormal-"
-"distributionen"
 
 #: ../plugins/fn-r/functions.c:1454
-#, fuzzy
 msgid ""
 "R.QTUKEY:probability quantile function of the Studentized range distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1461
-#, fuzzy
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Studentized range "
 "distribution."
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:1482
 msgid "R.DWEIBULL:probability density function of the Weibull distribution"
@@ -7670,14 +7568,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:63
-#, fuzzy
 msgid "a:lower limit of the uniform distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:64
-#, fuzzy
 msgid "b:upper limit of the uniform distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:65
 msgid "If @{a} > @{b} RANDUNIFORM returns #NUM!"
@@ -7727,18 +7623,16 @@ msgid "RANDEXP:random variate from an exponential distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:174
-#, fuzzy
 msgid "b:parameter of the exponential distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:192
 msgid "RANDPOISSON:random variate from a Poisson distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:193
-#, fuzzy
 msgid "λ:parameter of the Poisson distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:194
 msgid "If @{λ} < 0 RANDPOISSON returns #NUM!"
@@ -7816,14 +7710,12 @@ msgid "RANDNORM:random variate from a normal distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:325
-#, fuzzy
 msgid "μ:mean of the distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:326 ../plugins/fn-random/functions.c:374
-#, fuzzy
 msgid "σ:standard deviation of the distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:327
 msgid "If @{σ} < 0, RANDNORM returns #NUM!"
@@ -7834,9 +7726,8 @@ msgid "RANDCAUCHY:random variate from a Cauchy or Lorentz distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:350
-#, fuzzy
 msgid "a:scale parameter of the distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:351
 msgid "If @{a} < 0 RANDCAUCHY returns #NUM!"
@@ -7847,9 +7738,8 @@ msgid "RANDLOGNORM:random variate from a lognormal distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:373
-#, fuzzy
 msgid "ζ:parameter of the lognormal distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:375
 msgid "If @{σ} < 0, RANDLOGNORM returns #NUM!"
@@ -7860,32 +7750,28 @@ msgid "RANDWEIBULL:random variate from a Weibull distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:395
-#, fuzzy
 msgid "a:scale parameter of the Weibull distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:396
-#, fuzzy
 msgid "b:shape parameter of the Weibull distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:415
 msgid "RANDLAPLACE:random variate from a Laplace distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:416
-#, fuzzy
 msgid "a:parameter of the Laplace distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:434
 msgid "RANDRAYLEIGH:random variate from a Rayleigh distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:435 ../plugins/fn-random/functions.c:455
-#, fuzzy
 msgid "σ:scale parameter of the Rayleigh distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:453
 msgid ""
@@ -7901,14 +7787,12 @@ msgid "RANDGAMMA:random variate from a Gamma distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:475
-#, fuzzy
 msgid "a:shape parameter of the Gamma distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:476
-#, fuzzy
 msgid "b:scale parameter of the Gamma distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:477
 msgid "If @{a} ≤ 0, RANDGAMMA returns #NUM!"
@@ -7919,14 +7803,12 @@ msgid "RANDPARETO:random variate from a Pareto distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:500
-#, fuzzy
 msgid "a:parameter of the Pareto distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:501
-#, fuzzy
 msgid "b:parameter of the Pareto distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:520
 msgid "RANDFDIST:random variate from an F distribution"
@@ -7945,23 +7827,20 @@ msgid "RANDBETA:random variate from a Beta distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:542
-#, fuzzy
 msgid "a:parameter of the Beta distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:543
-#, fuzzy
 msgid "b:parameter of the Beta distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:562
 msgid "RANDLOGISTIC:random variate from a logistic distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:563
-#, fuzzy
 msgid "a:parameter of the logistic distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:581
 msgid "RANDGEOM:random variate from a geometric distribution"
@@ -8020,14 +7899,12 @@ msgid "RANDGUMBEL:random variate from a Gumbel distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:691
-#, fuzzy
 msgid "a:parameter of the Gumbel distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:692
-#, fuzzy
 msgid "b:parameter of the Gumbel distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:693
 msgid "type:type of the Gumbel distribution, defaults to 1"
@@ -8042,19 +7919,16 @@ msgid "RANDLEVY:random variate from a Lévy distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:720
-#, fuzzy
 msgid "c:parameter of the Lévy distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:721
-#, fuzzy
 msgid "α:parameter of the Lévy distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:722
-#, fuzzy
 msgid "β:parameter of the Lévy distribution, defaults to 0"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:723
 msgid ""
@@ -8081,9 +7955,8 @@ msgid "RANDEXPPOW:random variate from an exponential power distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:752
-#, fuzzy
 msgid "a:scale parameter of the exponential power distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:753
 msgid "b:exponent of the exponential power distribution"
@@ -8106,11 +7979,10 @@ msgid "RANDLANDAU:random variate from the Landau distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:792
-#, fuzzy
 msgid ""
 "RANDNORMTAIL:random variate from the upper tail of a normal distribution "
 "with mean 0"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:794
 msgid "σ:standard deviation of the normal distribution"
@@ -8159,24 +8031,20 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:884
-#, fuzzy
 msgid "RANDSNORM:random variate from a skew-normal distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:885
-#, fuzzy
 msgid "𝛼:shape parameter of the skew-normal distribution, defaults to 0"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:887
-#, fuzzy
 msgid "𝜉:location parameter of the skew-normal distribution, defaults to 0"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:889
-#, fuzzy
 msgid "𝜔:scale parameter of the skew-normal distribution, defaults to 1"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:891
 msgid ""
@@ -8196,11 +8064,10 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:903
-#, fuzzy
 msgid ""
 "The standard deviation of a skew-normal distribution with scale parameter "
 "@{𝜔}=1 is not 1."
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:905
 msgid "The skewness of a skew-normal distribution is in general not @{𝛼}."
@@ -8211,50 +8078,32 @@ msgid "If @{𝜔} < 0, RANDSNORM returns #NUM!"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:941
-#, fuzzy
 msgid "RANDSTDIST:random variate from a skew-t distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:943
-#, fuzzy
 msgid "𝛼:shape parameter of the skew-t distribution, defaults to 0"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:944
-#, fuzzy
 msgid "The mean of a skew-t distribution is not 0."
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:945
-#, fuzzy
 msgid "The standard deviation of a skew-t distribution is not 1."
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-random/functions.c:946
 msgid "The skewness of a skew-t distribution is in general not @{𝛼}."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:45
-#, fuzzy
 msgid ""
 "Numbers, text and logical values are included in the calculation too. If the "
 "cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0). If the argument evaluates to TRUE, it is counted as one (1). "
 "Note that empty cells are not counted."
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(værdi1, værdi2, …)\n"
-"@DESCRIPTION=SUMA beregner summen af alle værdier og celler som angives i "
-"parameterlisten Tal, tekst og logiske værdier inkluderes i også i "
-"beregningen. Hvis cellen indeholder tekst eller parameteren omsættes til "
-"FALSK, tælles værdien som 0. Hvis parameteren evalueres til SAND, tælles det "
-"som 1. \n"
-"@EXAMPLES=\n"
-"Lad os antage at cellerne A1, A2, …, A5 indeholder tallene 11, 15, 17, 21, "
-"og 43. Da får vi at\n"
-"SUMA(A1:A5) er lig med 107.\n"
-"\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: ../plugins/fn-stat/functions.c:50
 msgid "VARP:variance of an entire population"
@@ -8536,9 +8385,7 @@ msgstr "Hvis (@{f} + @{t} -1) <= 0, returnerer denne funktion en #TAL!-fejl."
 msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
 msgstr "Hvis @{p} < 0 eller @{p} > 1, returnerer denne funktion en #TAL!-fejl."
 
-# standard tillægsord her?
 #: ../plugins/fn-stat/functions.c:435
-#, fuzzy
 msgid ""
 "NORMSDIST:cumulative distribution function of the standard normal "
 "distribution"
@@ -8558,11 +8405,12 @@ msgstr "wolfram:NormalDistribution.html"
 
 # standard tillægsord her?
 #: ../plugins/fn-stat/functions.c:457
-#, fuzzy
 msgid ""
 "SNORM.DIST.RANGE:probability of the standard normal distribution over an "
 "interval"
-msgstr "NORMSDIST:kumuleret tæthedsfunktion af standardnormaldistributionen"
+msgstr ""
+"SNORM.DIST.RANGE:kumuleret tæthedsfunktion af standardnormaldistributionen "
+"over et interval"
 
 #: ../plugins/fn-stat/functions.c:458
 msgid "x1:start of the interval"
@@ -8580,12 +8428,10 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:461
-#, fuzzy
 msgid "If @{x1}>@{x2}, this function returns a negative value."
-msgstr "Hvis @{x} < 0, returnerer denne funktion en #TAL!-fejl."
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:479
-#, fuzzy
 msgid ""
 "NORMSINV:inverse of the cumulative distribution function of the standard "
 "normal distribution"
@@ -8616,7 +8462,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:526
 msgid ""
 "LOGNORMDIST:cumulative distribution function of the lognormal distribution"
-msgstr "LOGNORMDIST:kumuleret fordelingsfunktion for lognormal-distributionen"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:528 ../plugins/fn-stat/functions.c:558
 msgid "mean:mean"
@@ -8822,11 +8668,10 @@ msgid "If less than two numbers are given, SKEWP returns a #DIV/0! error."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:978
-#, fuzzy
 msgid ""
 "EXPONDIST:probability density or cumulative distribution function of the "
 "exponential distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:980
 msgid "y:scale parameter"
@@ -8992,9 +8837,8 @@ msgid "If @{a} >= @{b} this function returns a #NUM! error."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1287
-#, fuzzy
 msgid "BETA.DIST:cumulative distribution function of the beta distribution"
-msgstr "LOGNORMDIST:kumuleret fordelingsfunktion for lognormal-distributionen"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1330
 msgid ""
@@ -9026,14 +8870,12 @@ msgid "This function is Excel compatible for non-negative @{x}."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1417
-#, fuzzy
 msgid "TINV:two tailed inverse of the Student t-distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1418
-#, fuzzy
 msgid "p:probability in both tails"
-msgstr "p:sandsynlighed for en succes"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1420
 msgid ""
@@ -9090,11 +8932,10 @@ msgid "FINV is the OpenFormula function LEGACY.FINV."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1689
-#, fuzzy
 msgid ""
 "BINOMDIST:probability mass or cumulative distribution function of the "
 "binomial distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1690
 msgid "n:number of successes"
@@ -9288,24 +9129,20 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1913
-#, fuzzy
 msgid "stddev:sample standard deviation"
 msgstr "stddev:standardafvigelse"
 
 #: ../plugins/fn-stat/functions.c:1915
-#, fuzzy
 msgid "If @{stddev} < 0 or = 0 this function returns a #NUM! error."
-msgstr "Hvis @{x} < 0, returnerer denne funktion en #TAL!-fejl."
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1917
-#, fuzzy
 msgid "If @{size} < 1 this function returns a #NUM! error."
-msgstr "Hvis @{dof} < 1, returnerer denne funktion en #TAL!-fejl."
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1918
-#, fuzzy
 msgid "If @{size} is 1 this function returns a #DIV/0! error."
-msgstr "Hvis @{dof} < 1, returnerer denne funktion en #TAL!-fejl."
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1943
 msgid "STANDARDIZE:z-score of a value"
@@ -9344,14 +9181,12 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2008 ../plugins/fn-stat/functions.c:2041
 #: ../plugins/fn-stat/functions.c:2195
-#, fuzzy
 msgid "mean:mean of the distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2009 ../plugins/fn-stat/functions.c:2042
-#, fuzzy
 msgid "stddev:standard deviation of the distribution"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2039
 msgid ""
@@ -9527,22 +9362,16 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2410
-#, fuzzy
 msgid "Then LARGE(A1:A5,2) equals 25.9. LARGE(A1:A5,4) equals 17.3."
 msgstr ""
-"Så er TRIMMEAN(A1:A5,0.2) lig med 23,2 og TRIMMEAN(A1:A5,0.4) er lig med "
-"21,5."
 
 #: ../plugins/fn-stat/functions.c:2459
 msgid "SMALL:@{k}-th smallest value in a data set"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2468
-#, fuzzy
 msgid "Then SMALL(A1:A5,2) equals 17.3. SMALL(A1:A5,4) equals 25.9."
 msgstr ""
-"Så er TRIMMEAN(A1:A5,0.2) lig med 23,2 og TRIMMEAN(A1:A5,0.4) er lig med "
-"21,5."
 
 #: ../plugins/fn-stat/functions.c:2502
 msgid ""
@@ -9626,11 +9455,10 @@ msgid "x:population mean"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2645
-#, fuzzy
 msgid ""
 "stddev:population standard deviation, defaults to the sample standard "
 "deviation"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2646
 msgid ""
@@ -9685,9 +9513,8 @@ msgid "VARPA is also known as the N-variance."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2834
-#, fuzzy
 msgid "STDEVA:sample standard deviation of the given sample"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2838
 msgid "STDEVA is also known as the N-1-standard deviation."
@@ -9700,9 +9527,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2862
-#, fuzzy
 msgid "STDEVPA:population standard deviation of an entire population"
-msgstr "form:distributionens formparameter"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2887
 msgid ""
@@ -9733,11 +9559,10 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2895 ../plugins/fn-stat/functions.c:2999
-#, fuzzy
 msgid ""
 "If @{x} exceeds the largest value or is less than the smallest value in "
 "@{array}, this function returns an #N/A error."
-msgstr "Hvis @{x} ikke er et tal, returnerer denne funktion fejlen #VÆRDI!."
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2897 ../plugins/fn-stat/functions.c:3001
 msgid ""
@@ -9781,9 +9606,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3141
-#, fuzzy
 msgid "Then PERCENTILE.EXC(A1:A5,0.42) equals 20.02."
-msgstr "Så er CORREL(A1:A5,B1:B5) lig med 0,996124788."
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3179
 msgid ""
@@ -9820,9 +9644,8 @@ msgid "quart:a number from 1 to 3, indicating which quartile to calculate"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3230
-#, fuzzy
 msgid "Then QUARTILE.EXC(A1:A5,1) equals 14.35."
-msgstr "Så er COVAR(A1:A5,B1:B5) lig med 65,858."
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3268
 msgid ""
@@ -9918,9 +9741,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3572
-#, fuzzy
 msgid "If the matrix is singular, #VALUE! is returned."
-msgstr "Hvis ingen af argumenterne er ikkenumeriske, returneres #VÆRDI!."
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3776
 msgid "LINEST:multiple linear regression coefficients and statistics"
@@ -10240,11 +10062,10 @@ msgid "ref2:second data set"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4794
-#, fuzzy
 msgid ""
 "GEOMDIST:probability mass or cumulative distribution function of the "
 "geometric distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4795
 msgid "k:number of trials"
@@ -10263,9 +10084,8 @@ msgid "LOGISTIC:probability density function of the logistic distribution"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4856
-#, fuzzy
 msgid "PARETO:probability density function of the Pareto distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4858
 msgid "a:exponent"
@@ -10293,27 +10113,18 @@ msgid "a:lower limit"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4948
-#, fuzzy
 msgid ""
 "EXPPOWDIST:the probability density function of the Exponential Power "
 "distribution"
-msgstr "skala:distributionens skalaparameter"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4954
-#, fuzzy
 msgid ""
 "This distribution has been recommended for lifetime analysis when a U-shaped "
 "hazard function is desired. This corresponds to rapid failure once the "
 "product starts to wear out after a period of steady or even improving "
 "reliability."
 msgstr ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp returnerer et eksponentielt fordelt tilfældigt tal. \n"
-"@EXAMPLES=\n"
-"RandExp(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
 #: ../plugins/fn-stat/functions.c:4982
 msgid "LAPLACE:probability density function of the Laplace distribution"
@@ -10346,9 +10157,8 @@ msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:5010
-#, fuzzy
 msgid "If @{x} or @{y} are not integers, they are truncated."
-msgstr "Hvis @{f} eller @{t} ikke er et heltal, afkortes det."
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:5036
 msgid "LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality"
@@ -11002,9 +10812,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:374
-#, fuzzy
 msgid "If any two @{abscissae} values are equal an error is returned."
-msgstr "Hvis ingen logiske værdier tilbydes, så returneres fejlen #VÆRDI!."
+msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:375
 msgid ""
@@ -11106,13 +10915,10 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:818 ../plugins/fn-tsa/functions.c:912
-#, fuzzy
 msgid ""
 "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns "
 "#VALUE!"
 msgstr ""
-"Hvis @{reference} hverken er en matrix eller en reference eller et interval, "
-"returnerer ROWS #VÆRDI!"
 
 #: ../plugins/fn-tsa/functions.c:907
 msgid "HPFILTER:Hodrick Prescott Filter"
@@ -11136,11 +10942,10 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:913
-#, fuzzy
 msgid ""
 "If @{Sequence} contains less than 6 numerical values, this function returns "
 "#VALUE!"
-msgstr "Hvis @{x} ikke er et tal, returnerer denne funktion fejlen #VÆRDI!."
+msgstr ""
 
 #: ../plugins/gda/plugin-gda.c:372
 msgid "EXECSQL:result of executing @{sql} in the libgda data source @{dsn}"
@@ -11192,221 +10997,3 @@ msgstr ""
 #: ../plugins/sample_datasource/sample_datasource.c:227
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
-
-#~ msgid "b:non-negative integer"
-#~ msgstr "b:ikke-negativt heltal"
-
-#~ msgid ""
-#~ "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! "
-#~ "is returned. If @{α} is not an integer, it is truncated."
-#~ msgstr ""
-#~ "Hvis @{x} eller @{α} ikke er numeriske, returneres #VÆRDI!. Hvis @{α} < "
-#~ "0, returneres #TAL!. Hvis @{α} ikke er et heltal, afkortes det."
-
-#, fuzzy
-#~ msgid ""
-#~ "@{from} and @{to} can be any of the following:\n"
-#~ "\n"
-#~ "Weight and mass:\n"
-#~ "\t'g'  \t\t\tGram\n"
-#~ "\t'sg' \t\t\tSlug\n"
-#~ "\t'lbm'\t\tPound\n"
-#~ "\t'u'  \t\t\tU (atomic mass)\n"
-#~ "\t'ozm'\t\tOunce\n"
-#~ "\n"
-#~ "Distance:\n"
-#~ "\t'm'   \t\tMeter\n"
-#~ "\t'mi'  \t\tStatute mile\n"
-#~ "\t'Nmi' \t\tNautical mile\n"
-#~ "\t'in'  \t\t\tInch\n"
-#~ "\t'ft'  \t\t\tFoot\n"
-#~ "\t'yd'  \t\tYard\n"
-#~ "\t'ang' \t\tAngstrom\n"
-#~ "\t'Pica'\t\tPica Points\n"
-#~ "\t'picapt'\t\tPica Points\n"
-#~ "\t'pica'\t\tPica\n"
-#~ "\n"
-#~ "Time:\n"
-#~ "\t'yr'  \t\t\tYear\n"
-#~ "\t'day' \t\tDay\n"
-#~ "\t'hr'  \t\t\tHour\n"
-#~ "\t'mn'  \t\tMinute\n"
-#~ "\t'sec' \t\tSecond\n"
-#~ "\n"
-#~ "Pressure:\n"
-#~ "\t'Pa'  \t\tPascal\n"
-#~ "\t'atm' \t\tAtmosphere\n"
-#~ "\t'mmHg'\t\tmm of Mercury\n"
-#~ "\n"
-#~ "Force:\n"
-#~ "\t'N'   \t\t\tNewton\n"
-#~ "\t'dyn' \t\tDyne\n"
-#~ "\t'lbf' \t\t\tPound force\n"
-#~ "\n"
-#~ "Energy:\n"
-#~ "\t'J'    \t\t\tJoule\n"
-#~ "\t'e'    \t\tErg\n"
-#~ "\t'c'    \t\tThermodynamic calorie\n"
-#~ "\t'cal'  \t\tIT calorie\n"
-#~ "\t'eV'   \t\tElectron volt\n"
-#~ "\t'HPh'  \t\tHorsepower-hour\n"
-#~ "\t'Wh'   \t\tWatt-hour\n"
-#~ "\t'flb'  \t\tFoot-pound\n"
-#~ "\t'BTU'  \t\tBTU\n"
-#~ "\n"
-#~ "Power:\n"
-#~ "\t'HP'   \t\tHorsepower\n"
-#~ "\t'W'    \t\tWatt\n"
-#~ "\n"
-#~ "Magnetism:\n"
-#~ "\t'T'    \t\tTesla\n"
-#~ "\t'ga'   \t\tGauss\n"
-#~ "\n"
-#~ "Temperature:\n"
-#~ "\t'C'    \t\tDegree Celsius\n"
-#~ "\t'F'    \t\tDegree Fahrenheit\n"
-#~ "\t'K'    \t\tDegree Kelvin\n"
-#~ "\n"
-#~ "Liquid measure:\n"
-#~ "\t'tsp'  \t\tTeaspoon\n"
-#~ "\t'tbs'  \t\tTablespoon\n"
-#~ "\t'oz'   \t\tFluid ounce\n"
-#~ "\t'cup'  \t\tCup\n"
-#~ "\t'pt'   \t\tPint\n"
-#~ "\t'qt'   \t\tQuart\n"
-#~ "\t'gal'  \t\tGallon\n"
-#~ "\t'l'    \t\t\tLiter\n"
-#~ "\n"
-#~ "For metric units any of the following prefixes can be used:\n"
-#~ "\t'Y'  \tyotta \t\t1E+24\n"
-#~ "\t'Z'  \tzetta \t\t1E+21\n"
-#~ "\t'E'  \texa   \t\t1E+18\n"
-#~ "\t'P'  \tpeta  \t\t1E+15\n"
-#~ "\t'T'  \ttera  \t\t1E+12\n"
-#~ "\t'G'  \tgiga  \t\t1E+09\n"
-#~ "\t'M'  \tmega  \t\t1E+06\n"
-#~ "\t'k'  \tkilo  \t\t1E+03\n"
-#~ "\t'h'  \thecto \t\t1E+02\n"
-#~ "\t'e'  \tdeca (deka)\t1E+01\n"
-#~ "\t'd'  \tdeci  \t\t1E-01\n"
-#~ "\t'c'  \tcenti \t\t1E-02\n"
-#~ "\t'm'  \tmilli \t\t1E-03\n"
-#~ "\t'u'  \tmicro \t\t1E-06\n"
-#~ "\t'n'  \tnano  \t\t1E-09\n"
-#~ "\t'p'  \tpico  \t\t1E-12\n"
-#~ "\t'f'  \tfemto \t\t1E-15\n"
-#~ "\t'a'  \tatto  \t\t1E-18\n"
-#~ "\t'z'  \tzepto \t\t1E-21\n"
-#~ "\t'y'  \tyocto \t\t1E-24"
-#~ msgstr ""
-#~ "@FUNCTION=CONVERT\n"
-#~ "@SYNTAX=CONVERT(tal,fra_enhed,til_enhed)\n"
-#~ "@DESCRIPTION=CONVERT omdanner et tal fra et målesystem til et andet. Du "
-#~ "kan for eksempel konvertere en vægt i pund til en vægt i gram. @tal er "
-#~ "værdien du ønsker at konvertere, @fra_enhed angiver enheden af @tal, og "
-#~ "@til_enhed er enheden for resultatet.\n"
-#~ "@fra_enhed og @til_enhed kan være følgende:\n"
-#~ "\n"
-#~ "Vægt og masse:\n"
-#~ "'g'    gram\n"
-#~ "'sg'   slug\n"
-#~ "'lbm'  pund\n"
-#~ "'u'    u (atommasse)\n"
-#~ "'ozm'  unse\n"
-#~ "\n"
-#~ "Afstand:\n"
-#~ "'m'    meter\n"
-#~ "'mi'   statutmil\n"
-#~ "'Nmi'  sømil\n"
-#~ "'in'   tomme\n"
-#~ "'ft'   fod\n"
-#~ "'yd'   yard\n"
-#~ "'ang'  ångstrøm\n"
-#~ "'Pica' pica\n"
-#~ "\n"
-#~ "Tid:\n"
-#~ "'yr'   år\n"
-#~ "'day'  dag\n"
-#~ "'hr'   time\n"
-#~ "'mn'   minut\n"
-#~ "'sec'  sekund\n"
-#~ "\n"
-#~ "Tryk:\n"
-#~ "'Pa'   pascal\n"
-#~ "'atm'  atmosfære\n"
-#~ "'mmHg' millimeter kviksølv\n"
-#~ "\n"
-#~ "Kraft:\n"
-#~ "'N'    newton\n"
-#~ "'dyn'  dyne\n"
-#~ "'lbf'  pund kraft\n"
-#~ "\n"
-#~ "Energi:\n"
-#~ "'J'    joule\n"
-#~ "'e'    erg\n"
-#~ "'c'    termodynamisk kalorie\n"
-#~ "'cal'  IT-kalorie\n"
-#~ "'eV'   elektronvolt\n"
-#~ "'HPh   hestekrafttime\n"
-#~ "'Wh'   watt-time\n"
-#~ "'flb'  fod-pund\n"
-#~ "'BTU'  BTU\n"
-#~ "\n"
-#~ "Effekt:\n"
-#~ "'HP'   hestekraft\n"
-#~ "'W'    watt\n"
-#~ "\n"
-#~ "Magnetisme:\n"
-#~ "'T'    tesla\n"
-#~ "'ga'   gauss\n"
-#~ "\n"
-#~ "Temperatur:\n"
-#~ "'C'    grader celsius\n"
-#~ "'F'    grader fahrenheit\n"
-#~ "'K'    kelvin\n"
-#~ "\n"
-#~ "Væskemål:\n"
-#~ "'tsp'  teske\n"
-#~ "'tbs'  spiseske\n"
-#~ "'oz'   flydende unse\n"
-#~ "'cup'  kop\n"
-#~ "'pt'   pint\n"
-#~ "'qt'   kvart\n"
-#~ "'gal'  gallon\n"
-#~ "'l'    liter\n"
-#~ "\n"
-#~ "For metriske enheder kan følgende præfikser benyttes:\n"
-#~ "'E'  exa    1E+18\n"
-#~ "'P'  peta   1E+15\n"
-#~ "'T'  tera   1E+12\n"
-#~ "'G'  giga   1E+09\n"
-#~ "'M'  mega   1E+06\n"
-#~ "'k'  kilo   1E+03\n"
-#~ "'h'  hekto  1E+02\n"
-#~ "'e'  deka   1E+01\n"
-#~ "'d'  deci   1E-01\n"
-#~ "'c'  centi  1E-02\n"
-#~ "'m'  milli  1E-03\n"
-#~ "'u'  mikro  1E-06\n"
-#~ "'n'  nano   1E-09\n"
-#~ "'p'  piko   1E-12\n"
-#~ "'f'  femto  1E-15\n"
-#~ "'a'  atto   1E-18\n"
-#~ "\n"
-#~ "Hvis @fra_enhed og @til_enhed er forskellige typer, returnerer CONVERT en "
-#~ "#TAL!-fejl. \n"
-#~ "Denne funktion er Excel-kompatibel. \n"
-#~ "@EXAMPLES=\n"
-#~ "CONVERT(3,“lbm”,“g”) er lig med 1360.7769.\n"
-#~ "CONVERT(5.8,“m”,“in”) er lig med 228.3465.\n"
-#~ "CONVERT(7.9,“cal”,“J”) er lig med 33.07567.\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#, fuzzy
-#~ msgid "μ:mean of the underlying normal distribution, defaults to 0"
-#~ msgstr "form:distributionens formparameter"
-
-#~ msgid "If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error."
-#~ msgstr ""
-#~ "Hvis @{p} < 0 eller @{p} > 1, returnerer denne funktion en #TAL!-fejl."
