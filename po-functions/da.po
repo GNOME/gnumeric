@@ -4503,7 +4503,7 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:174
 msgid "XOR:logical exclusive disjunction"
-msgstr ""
+msgstr "XOR:logisk eksklusiv disjunktion"
 
 #: ../plugins/fn-logical/functions.c:177
 msgid ""
@@ -5143,7 +5143,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:196
 msgid "GCD:the greatest common divisor"
-msgstr ""
+msgstr "GCD:største fælles divisor"
 
 #: ../plugins/fn-math/functions.c:197 ../plugins/fn-math/functions.c:260
 msgid "n0:positive integer"
@@ -5165,7 +5165,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:259
 msgid "LCM:the least common multiple"
-msgstr ""
+msgstr "LCM:mindste fælles multiplum"
 
 #: ../plugins/fn-math/functions.c:262
 msgid ""
