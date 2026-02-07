@@ -705,7 +705,7 @@ msgstr "Læser stilformer..."
 
 #: ../plugins/excel/xlsx-read.c:5356
 msgid "Reading workbook..."
-msgstr "Læser fil..."
+msgstr "Læser arbejdsbog..."
 
 #: ../plugins/excel/xlsx-read.c:5366
 msgid "No workbook stream found."
@@ -873,7 +873,7 @@ msgstr "Tekniske funktioner"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:2
 msgid "Functions for complex numbers, base conversions, and more"
-msgstr "Funktioner vedrørende komplekse tal, konvertering or mere"
+msgstr "Funktioner vedrørende komplekse tal, konvertering og mere"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:3
 msgid "Engineering"
@@ -1191,7 +1191,7 @@ msgstr "Databaser..."
 #: ../plugins/glpk/glpk-write.c:144 ../plugins/lpsolve/lpsolve-write.c:144
 #, c-format
 msgid "Only linear programs are handled."
-msgstr "Kun linære programmer kan håndteres."
+msgstr "Kun lineære programmer kan håndteres."
 
 #: ../plugins/glpk/glpk-write.c:355
 msgid "Writing glpk file..."
@@ -1223,7 +1223,7 @@ msgstr ""
 
 #: ../plugins/glpk/plugin.xml.in.h:1
 msgid "GLPK Linear Program Solver Interface"
-msgstr "Bro til GLPK lineær programløser"
+msgstr "Grænseflade til GLPK lineær programløser"
 
 #: ../plugins/glpk/plugin.xml.in.h:2
 msgid "Solver Interface to GLPK"
@@ -5191,7 +5191,7 @@ msgstr "Kunne ikke oprette regressionsværktøjsvinduet."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2574
 msgid "The given seasonal damping factor is invalid."
-msgstr "Den angivne sæsonmæssige d dæmpningsfaktor er ugyldig."
+msgstr "Den angivne sæsonmæssige dæmpningsfaktor er ugyldig."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2583
 msgid "The given seasonal period is invalid."
@@ -5951,7 +5951,7 @@ msgstr "Slet"
 
 #: ../src/dialogs/dialog-delete-cells.c:151
 msgid "Could not create the Delete Cell dialog."
-msgstr "Kunne ikke oprette slet celle-dialogen."
+msgstr "Kunne ikke oprette slet-celle-dialogen."
 
 #: ../src/dialogs/dialog-doc-metadata.c:626
 msgid "Unknown"
@@ -11986,7 +11986,7 @@ msgstr "Denne funktion er OpenFormula-kompatibel."
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:99
 msgid "PRODUCT:product of the given values"
-msgstr "PRODUKT:produktet af de givne værdier"
+msgstr "PRODUCT:Produktet af de givne værdier"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:101
@@ -12006,7 +12006,7 @@ msgstr "Hvis alle celler er tomme vil resultatet være 0."
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:136
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
-msgstr "GNUMERIC_VERSION:den aktuelle version af Gnumeric"
+msgstr "GNUMERIC_VERSION:Den aktuelle version af Gnumeric"
 
 #: ../src/func-builtin.c:137
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
@@ -12014,7 +12014,7 @@ msgstr "GNUMERIC_VERSION returnerer gnumerics version som en streng."
 
 #: ../src/func-builtin.c:151
 msgid "TABLE:internal function for data tables"
-msgstr "TABEL:intern funktion til datatabeller"
+msgstr "TABLE:Intern funktion til datatabeller"
 
 #: ../src/func-builtin.c:152
 msgid "This function should not be called directly."
@@ -12023,7 +12023,7 @@ msgstr "Denne funktion bør ikke kaldes direkte."
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:341
 msgid "IF:conditional expression"
-msgstr "IF:betinget udtryk"
+msgstr "IF:Betinget udtryk"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:343
@@ -14524,7 +14524,7 @@ msgstr ""
 
 #: ../src/tools/analysis-tools.c:2907
 msgid "Response Variable"
-msgstr "Svarvariabel:"
+msgstr "Svarvariabel"
 
 #: ../src/tools/analysis-tools.c:2941
 msgid "/df/SS/MS/F/Significance of F"
@@ -14813,7 +14813,7 @@ msgstr "Upper"
 
 #: ../src/tools/gnm-solver.c:1721 ../src/tools/gnm-solver.c:1764
 msgid "Slack"
-msgstr "Slækhed"
+msgstr "Spillerum"
 
 #: ../src/tools/gnm-solver.c:1743
 msgid "At limit"
@@ -14865,19 +14865,19 @@ msgstr ""
 msgid ""
 "Shadow\n"
 "Price"
-msgstr ""
+msgstr "Skyggepris"
 
 #: ../src/tools/gnm-solver.c:1895
 msgid ""
 "Constraint\n"
 "LHS"
-msgstr "Begrænsning's\nvenstre side"
+msgstr "Begrænsnings\nvenstre side"
 
 #: ../src/tools/gnm-solver.c:1896
 msgid ""
 "Constraint\n"
 "RHS"
-msgstr "Begrænsning's\nhøjre side"
+msgstr "Begrænsnings\nhøjre side"
 
 #: ../src/tools/gnm-solver.c:1960
 msgid "Program"
@@ -14890,12 +14890,12 @@ msgstr "Følsomhed"
 #: ../src/tools/gnm-solver.c:2571
 #, c-format
 msgid "Target cell did not evaluate to a number."
-msgstr ""
+msgstr "Målcelle blev ikke udregnet til et til."
 
 #: ../src/tools/gnm-solver.c:2579
 #, c-format
 msgid "Target cell does not appear to depend linearly on input cells."
-msgstr ""
+msgstr "Målcelle ser ikke ud til at afhænge lineært af inputceller."
 
 #: ../src/tools/gnm-solver.c:3166
 #, c-format
@@ -14905,16 +14905,20 @@ msgid ""
 "\n"
 "Would you like to locate it yourself?"
 msgstr ""
+"Gnumeric er ikke i stand til at finde programmet <i>%s</i> som skal bruges af løser <i>%s</i>."
+" Se også %s.\n"
+"\n"
+"Vil du prøve at finde den selv?"
 
 #: ../src/tools/gnm-solver.c:3170
 #, c-format
 msgid "Unable to locate %s"
-msgstr "Kan ikke lokalisere %s"
+msgstr "Kan ikke finde %s"
 
 #: ../src/tools/gnm-solver.c:3186
 #, c-format
 msgid "Locate the %s program"
-msgstr ""
+msgstr "Find programmet %s"
 
 # Jeg bryder mig ikke om "opfylde begrænsninger". Jeg synes,
 # "tilfredsstille begrænsninger" er bedre, og kunne godt forestille mig
@@ -15005,7 +15009,7 @@ msgstr "Middelværdi"
 
 #: ../src/tools/simulation.c:248
 msgid "Mode"
-msgstr "Tilstand"
+msgstr "Typetal"
 
 # Standardafvigelse?
 #: ../src/tools/simulation.c:249
@@ -15529,7 +15533,7 @@ msgstr "An_det"
 
 #: ../src/wbc-gtk-actions.c:2115
 msgid "Func_tion Wrapper"
-msgstr "F_unktionsomslutter"
+msgstr "F_unktionsindpakker"
 
 #: ../src/wbc-gtk-actions.c:2118
 msgid "_Name..."
@@ -17580,7 +17584,7 @@ msgstr "Indtast i nuværende celle uden autoretning"
 
 #: ../src/wbc-gtk.c:2071
 msgid "Enter in current range merged"
-msgstr ""
+msgstr "Flet markerede interval or indsæt"
 
 #: ../src/wbc-gtk.c:2074
 msgid "Enter in selected ranges"
@@ -17600,7 +17604,7 @@ msgstr "Gå _til celle..."
 
 #: ../src/wbc-gtk.c:2916
 msgid "Accept change in multiple cells"
-msgstr ""
+msgstr "Acceptér rettelse i flere celler"
 
 #: ../src/wbc-gtk.c:2990 ../src/wbc-gtk.c:3010
 msgid "_Re-Edit"
@@ -17940,7 +17944,7 @@ msgstr ""
 #: ../src/workbook-view.c:421
 #, c-format
 msgid "%dR x %dC"
-msgstr "%dLx%dK"
+msgstr "%dRx%dK"
 
 #: ../src/workbook-view.c:1113
 msgid "An unexplained error happened while saving."
@@ -18103,7 +18107,7 @@ msgstr "En knaplignende skabelon"
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:3
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
 msgid "Gnumeric Team"
-msgstr "Gnumericholdet"
+msgstr "Gnumeric-holdet"
 
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:2
 msgid "A 3D list template"
@@ -18133,7 +18137,7 @@ msgstr "Trendy"
 
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:2
 msgid "A classical yet colorful template"
-msgstr "En klassisk men dog farvefuld skabelon"
+msgstr "En klassisk men dog farverig skabelon"
 
 #: ../templates/autoformat/autoformat.Colourful.banana.xml.in.h:1
 msgid "Banana"

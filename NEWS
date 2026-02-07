@@ -21,6 +21,7 @@ Morten:
 	  between gui and non-gui.
 	* GUI files relating to cell sizes.
 	* Fix rare undo problem.
+	* Experiment with AI translation (+human editing) for the da.po files.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.59

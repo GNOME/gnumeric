@@ -1403,7 +1403,7 @@ static GnmFuncHelp const help_ln1p[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LN1P:LN(1+@{x})")},
 	{ GNM_FUNC_HELP_ARG, F_("x:positive number")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating LN(1+@{x}).")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{x} \xe2\x89\xa4 -1, LN returns #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} \xe2\x89\xa4 -1, LN1P returns #NUM! error.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=LN1P(0.01)" },
 	{ GNM_FUNC_HELP_SEEALSO, "EXP,LN,EXPM1"},
@@ -3222,7 +3222,7 @@ static GnmFuncHelp const help_mmult[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MMULT:the matrix product of @{mat1} and @{mat2}")},
 	{ GNM_FUNC_HELP_ARG, F_("mat1:a matrix")},
 	{ GNM_FUNC_HELP_ARG, F_("mat2:a matrix")},
-	{ GNM_FUNC_HELP_NOTE, F_("The number of columns in @{mat1} must equal the number of rows in @{mat2}; otherwise #VALUE! is returned.  The result of MMULT is an array, in which the number of rows is the same as in @{mat1}), and the number of columns is the same as in (@{mat2}).") },
+	{ GNM_FUNC_HELP_NOTE, F_("The number of columns in @{mat1} must equal the number of rows in @{mat2}; otherwise #VALUE! is returned.  The result of MMULT is an array, in which the number of rows is the same as in @{mat1}, and the number of columns is the same as in @{mat2}.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_SEEALSO, "TRANSPOSE,MINVERSE"},
 	{ GNM_FUNC_HELP_END}
