@@ -653,7 +653,7 @@ msgstr "Ignorerer uhåndteret betinget formattype '%s'"
 
 #: ../plugins/excel/xlsx-read.c:3288
 msgid "Unknown type of hyperlink"
-msgstr "Ukendt type hyperlink"
+msgstr "Ukendt type af hyperhenvisning"
 
 #: ../plugins/excel/xlsx-read.c:3336
 #, c-format
@@ -6232,15 +6232,15 @@ msgstr "Gennemse til den angivne URL"
 
 #: ../src/dialogs/dialog-hyperlink.c:395
 msgid "Add Hyperlink"
-msgstr "Tilføj hyperlink"
+msgstr "Tilføj hyperhenvisning"
 
 #: ../src/dialogs/dialog-hyperlink.c:400
 msgid "Edit Hyperlink"
-msgstr "Rediger hyperlink"
+msgstr "Rediger hyperhenvisning"
 
 #: ../src/dialogs/dialog-hyperlink.c:409
 msgid "Remove Hyperlink"
-msgstr "Fjern hyperlink"
+msgstr "Fjern hyperhenvisning"
 
 #: ../src/dialogs/dialog-hyperlink.c:619
 msgid "Could not create the hyperlink dialog."
@@ -7087,7 +7087,7 @@ msgstr "Datagyldighedskontrol"
 
 #: ../src/dialogs/dialog-sheet-compare.c:228
 msgid "Hyperlink"
-msgstr "Hyperlink"
+msgstr "Hyperhenvisning"
 
 #: ../src/dialogs/dialog-sheet-compare.c:229
 msgid "Input message"
@@ -9301,7 +9301,7 @@ msgstr "<b>Navn:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:4
 msgid "<b>Location:</b>"
-msgstr "<b>Sted:</b>"
+msgstr "<b>Placering:</b>"
 
 #: ../src/dialogs/doc-meta-data.ui.h:5
 msgid "<b>Created:</b>"
@@ -9915,7 +9915,7 @@ msgstr "Tæl kun tal"
 
 #: ../src/dialogs/hyperlink.ui.h:1
 msgid "HyperLink"
-msgstr "HyperHenvisning"
+msgstr "Hyperhenvisning"
 
 #: ../src/dialogs/hyperlink.ui.h:2
 msgid "T_ype:"
@@ -10195,7 +10195,7 @@ msgstr "Test"
 
 #: ../src/dialogs/one-mean-test.ui.h:1
 msgid "Claims About a Mean"
-msgstr "Udsagn om middelværdi"
+msgstr "Påstande om en middelværdi"
 
 #: ../src/dialogs/one-mean-test.ui.h:11
 msgid "_Predicted Mean:"
@@ -10646,7 +10646,7 @@ msgstr "Forkast ændringer in alle filer"
 
 #: ../src/dialogs/quit.ui.h:8
 msgid "Don't Quit"
-msgstr "Afslut"
+msgstr "Afslut Ikke"
 
 #: ../src/dialogs/quit.ui.h:9
 msgid "Resume editing"
@@ -11449,11 +11449,8 @@ msgid "Variables"
 msgstr "Variabler"
 
 #: ../src/dialogs/simulation.ui.h:5
-#, fuzzy
 msgid "<span weight=\"bold\">Rounds</span>"
-msgstr ""
-"   \n"
-"   <span weight=\"bold\">Runder</span>"
+msgstr "<span weight=\"bold\">Runder</span>"
 
 #: ../src/dialogs/simulation.ui.h:6
 msgid "<span weight=\"bold\">Limits</span>"
@@ -12314,6 +12311,13 @@ msgid ""
 "\n"
 "Last modified: <b>%s</b>\n"
 msgstr ""
+"Filen, som du er ved at gemme, er ændret på disk.  Hvis du går fortsætter, "
+"vil du overskrive en andens rettelser.\n"
+"\n"
+"Fil: <b>%s</b>\n"
+"Placering: %s\n"
+"\n"
+"Sidst ændret: <b>%s</b>\n"
 
 #: ../src/gui-file.c:800
 msgid "Overwrite"
@@ -12392,9 +12396,9 @@ msgid "Unknown sheet \"%s\""
 msgstr "Ukendt ark \"%s\""
 
 #: ../src/gutils.c:995
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid export option \"%s\" for format %s"
-msgstr "Ugyldig celleplacering '%s' for attribut %s"
+msgstr ""
 
 #: ../src/hlink.c:318
 msgid "Link target"
@@ -12892,15 +12896,15 @@ msgstr "Fjern kommentar"
 
 #: ../src/sheet-control-gui.c:2294
 msgid "Add _Hyperlink..."
-msgstr "Tilføj _hyperlink..."
+msgstr "Tilføj _hyperhenvisning..."
 
 #: ../src/sheet-control-gui.c:2297
 msgid "Edit _Hyperlink..."
-msgstr "Redigér _hyperlink..."
+msgstr "Redigér _hyperhenvisning..."
 
 #: ../src/sheet-control-gui.c:2300
 msgid "_Remove Hyperlink"
-msgstr "Fj_ern hyperlink"
+msgstr "Fj_ern hyperhenvisning"
 
 #: ../src/sheet-control-gui.c:2306
 msgid "_Edit DataSlicer"
@@ -13441,11 +13445,9 @@ msgid ""
 msgstr ""
 
 #: ../src/ssconvert.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "Selected exporter (%s) can only export one sheet at a time.\n"
 msgstr ""
-"Eksportér en fil for hvert ark hvis eksportfilteret kun understøtter et ark "
-"ad gangen"
 
 #: ../src/ssconvert.c:543
 #, c-format
@@ -13480,9 +13482,9 @@ msgid "Solver: %s\n"
 msgstr "Løsningsalgoritme: %s\n"
 
 #: ../src/ssconvert.c:934
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid export option \"%s=%s\" for image export"
-msgstr "Ugyldigt tilvalg for pdf-eksportør"
+msgstr ""
 
 #: ../src/ssconvert.c:1110
 #, c-format
@@ -13529,9 +13531,9 @@ msgstr ""
 "Prøv --list-importers for at se en liste over muligheder.\n"
 
 #: ../src/ssconvert.c:1223 ../src/ssconvert.c:1381
-#, fuzzy, c-format
+#, c-format
 msgid "Loading %s failed\n"
-msgstr "Læser fil..."
+msgstr "Fejl ved læsning af %s\n"
 
 #: ../src/ssconvert.c:1277
 #, c-format
@@ -13548,15 +13550,15 @@ msgid "INFILE [OUTFILE]"
 msgstr "INDDATA [UDDATA]"
 
 #: ../src/ssconvert.c:1466
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ssconvert version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Gnumeric version %s.\n"
-"datakatalog := %s\n"
-"bibkatalog := %s\n"
+"ssconvert version '%s'\n"
+"datakatalog := '%s'\n"
+"bibkatalog := '%s'\n"
 
 #: ../src/ssconvert.c:1472
 #, c-format
@@ -13794,15 +13796,15 @@ msgid "INFILE..."
 msgstr "INDFIL..."
 
 #: ../src/ssindex.c:266
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ssindex version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"Gnumeric version %s.\n"
-"datakatalog := %s\n"
-"bibkatalog := %s\n"
+"ssindex version '%s'\n"
+"datakatalog := '%s'\n"
+"bibkatalog := '%s'\n"
 
 #: ../src/stf-export.c:685
 msgid "Error while trying to export file as text"
@@ -14866,18 +14868,16 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/gnm-solver.c:1895
-#, fuzzy
 msgid ""
 "Constraint\n"
 "LHS"
-msgstr "Begrænsning"
+msgstr "Begrænsning's\nvenstre side"
 
 #: ../src/tools/gnm-solver.c:1896
-#, fuzzy
 msgid ""
 "Constraint\n"
 "RHS"
-msgstr "Begrænsning"
+msgstr "Begrænsning's\nhøjre side"
 
 #: ../src/tools/gnm-solver.c:1960
 msgid "Program"
@@ -15597,7 +15597,7 @@ msgstr "_En-stikprøve test"
 
 #: ../src/wbc-gtk-actions.c:2172
 msgid "Claims About a Me_dian"
-msgstr ""
+msgstr "Påstande om en median"
 
 #: ../src/wbc-gtk-actions.c:2175
 msgid "_Two Sample Tests"
@@ -15877,7 +15877,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2431
 msgid "F_ormats & Hyperlinks in Filtered Rows"
-msgstr ""
+msgstr "F_ormater & hyperhenvisninger i filtrerede rækker"
 
 #: ../src/wbc-gtk-actions.c:2432
 msgid "Clear the selected cells' formats and hyperlinks in the filtered rows"
@@ -15886,7 +15886,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2437
 msgid "Comme_nts in Filtered Rows"
-msgstr ""
+msgstr "Kommentarer i filtrerede rækker"
 
 #: ../src/wbc-gtk-actions.c:2438
 msgid "Delete the selected cells' comments in the filtered rows"
@@ -15894,7 +15894,7 @@ msgstr "Slet de markerede cellers kommentarer i de filtrerede rækker"
 
 #: ../src/wbc-gtk-actions.c:2443
 msgid "Content_s of Filtered Rows"
-msgstr ""
+msgstr "Indhold i filtrerede rækker"
 
 #: ../src/wbc-gtk-actions.c:2444
 msgid "Clear the selected cells' contents in the filtered rows"
@@ -16048,7 +16048,7 @@ msgstr "Redigér den valgte celles kommentar"
 
 #: ../src/wbc-gtk-actions.c:2598 ../src/wbc-gtk-actions.c:2729
 msgid "Hyper_link..."
-msgstr "Hyper_link..."
+msgstr "Hyper_henvisning..."
 
 #: ../src/wbc-gtk-actions.c:2600
 msgid "Edit the selected cell's hyperlink"
@@ -16179,7 +16179,7 @@ msgstr "Indsæt end kommentar"
 
 #: ../src/wbc-gtk-actions.c:2731
 msgid "Insert a Hyperlink"
-msgstr "Indsæt et hyperlink"
+msgstr "Indsæt en hyperhenvisning"
 
 #: ../src/wbc-gtk-actions.c:2736
 msgid "Sort (_Descending)"
@@ -16498,7 +16498,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3022
 msgid "Claims About a _Mean..."
-msgstr ""
+msgstr "Påstande om en middelværdi"
 
 #: ../src/wbc-gtk-actions.c:3023
 msgid "Testing the value of a mean"
@@ -16518,7 +16518,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3043
 msgid "Claims About Two _Variances"
-msgstr ""
+msgstr "Påstande of two varianser"
 
 #: ../src/wbc-gtk-actions.c:3044
 msgid "Comparing two population variances"
@@ -17433,7 +17433,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:546
 msgid "Manage Sheets..."
-msgstr "Omrokér _ark..."
+msgstr "Omrokér ark..."
 
 #: ../src/wbc-gtk.c:549
 msgid "Append"
@@ -17441,7 +17441,7 @@ msgstr "Tilføj"
 
 #: ../src/wbc-gtk.c:550
 msgid "Duplicate"
-msgstr "_Duplikér"
+msgstr "Duplikér"
 
 #: ../src/wbc-gtk.c:551
 msgid "Remove"

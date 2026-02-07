@@ -1037,7 +1037,8 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 				g_printerr ("%s: Unwanted space in NAME record\n",
 					    fd->name);
 				res = 1;
-			} else if (text[len - 1] == '.') {
+			} else if (text[len - 1] == '.' && text[len - 2] != '.') {
+				// Ie., "..." permitted
 				g_printerr ("%s: Unwanted period in NAME record\n",
 					    fd->name);
 				res = 1;
