@@ -1,5 +1,5 @@
 # Swedish messages for Gnumeric.
-# Copyright © 1998-2025 Free Software Foundation, Inc.
+# Copyright © 1998-2026 Free Software Foundation, Inc.
 # Richard Hult <rhult@codefactory.se>, 1999, 2000, 2001.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Christian Rose <menthos@menthos.com>, 2000, 2001, 2002.
@@ -7,7 +7,7 @@
 # Jan Morén <jan.moren@lucs.lu.se>, 2002.
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Josef Andersson <josef.andersson@fripost.org>, 2016, 2018.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026.
 # Sebastian Rasmussen <sebras@gmail.com>, 2017.
 #
 # Svenska statistikfrämjandet har en ordlista som är till stor hjälp
@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2025-11-23 04:32+0000\n"
-"PO-Revision-Date: 2025-12-10 21:20+0100\n"
+"POT-Creation-Date: 2026-02-02 01:02+0000\n"
+"PO-Revision-Date: 2026-02-08 02:06+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -110,12 +110,12 @@ msgstr "Tecken saknas för teckenkodning"
 msgid "Invalid characters for encoding '%c%c'"
 msgstr "Ogiltiga tecken för teckenkodningen ”%c%c”"
 
-#: ../plugins/applix/applix-read.c:1225
+#: ../plugins/applix/applix-read.c:1234
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
 msgstr "Uttrycket började inte med ”=” ? ”%s”"
 
-#: ../plugins/applix/applix-read.c:1236
+#: ../plugins/applix/applix-read.c:1245
 #, c-format
 msgid ""
 "%s!%s : unable to parse '%s'\n"
@@ -137,7 +137,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7224
-#: ../plugins/openoffice/openoffice-read.c:14203 ../src/xml-sax-read.c:3565
+#: ../plugins/openoffice/openoffice-read.c:14203 ../src/xml-sax-read.c:3645
 msgid "Reading file..."
 msgstr "Läser fil…"
 
@@ -227,7 +227,7 @@ msgstr "Förbereder för att spara…"
 msgid "Saving file..."
 msgstr "Sparar fil…"
 
-#: ../plugins/excel/excel-xml-read.c:133 ../src/xml-sax-read.c:483
+#: ../plugins/excel/excel-xml-read.c:133 ../src/xml-sax-read.c:485
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Oväntat attribut %s::%s == ”%s”."
@@ -243,7 +243,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Ogiltigt innehåll i ss:data-element, var ”%s”"
 
 #: ../plugins/excel/excel-xml-read.c:1215
-#: ../plugins/openoffice/openoffice-read.c:14397 ../src/xml-sax-read.c:3582
+#: ../plugins/openoffice/openoffice-read.c:14397 ../src/xml-sax-read.c:3662
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet är inte korrekt utformat!"
 
@@ -960,39 +960,39 @@ msgstr "Funktioner som manipulerar hebreiska datum"
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1405 ../plugins/fn-info/functions.c:1421
+#: ../plugins/fn-info/functions.c:556 ../plugins/fn-info/functions.c:572
 #: ../src/dialogs/workbook-attr.ui.h:8
 msgid "Unimplemented"
 msgstr "Inte implementerad"
 
-#: ../plugins/fn-info/functions.c:1429
+#: ../plugins/fn-info/functions.c:580
 msgid "Unknown version"
 msgstr "Okänd version"
 
-#: ../plugins/fn-info/functions.c:1431
+#: ../plugins/fn-info/functions.c:582
 #, c-format
 msgid "%s version %s"
 msgstr "%s version %s"
 
-#: ../plugins/fn-info/functions.c:1446 ../src/dialogs/dialog-cell-format.c:880
+#: ../plugins/fn-info/functions.c:597 ../src/dialogs/dialog-cell-format.c:880
 #: ../src/dialogs/dialog-cell-format.c:2354
 #: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3821
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: ../plugins/fn-info/functions.c:1446
+#: ../plugins/fn-info/functions.c:597
 msgid "Manual"
 msgstr "Manuell"
 
-#: ../plugins/fn-info/functions.c:1456
+#: ../plugins/fn-info/functions.c:607
 msgid "Unknown system"
 msgstr "Okänt system"
 
-#: ../plugins/fn-info/functions.c:1471
+#: ../plugins/fn-info/functions.c:622
 msgid "Unknown info_type"
 msgstr "Okänd info_typ"
 
-#: ../plugins/fn-info/functions.c:1735
+#: ../plugins/fn-info/functions.c:886
 msgid "Invalid number of arguments"
 msgstr "Ogiltigt antal argument"
 
@@ -2426,25 +2426,25 @@ msgid ""
 msgstr ""
 "Cellen på rad %i och kolumn %i är bortom Gnumerics högsta kalkylbladsstorlek."
 
-#: ../plugins/sc/sc.c:386
+#: ../plugins/sc/sc.c:392
 msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Bladet är bredare än vad Gnumeric kan hantera."
 
-#: ../plugins/sc/sc.c:449
+#: ../plugins/sc/sc.c:456
 msgid "Encountered precision dependent format without set precision."
 msgstr "Påträffade precisionsformat utan satt precision."
 
-#: ../plugins/sc/sc.c:472
+#: ../plugins/sc/sc.c:479
 #, c-format
 msgid "Column format %i is undefined."
 msgstr "Kolumnformatet %i är odefinierat."
 
-#: ../plugins/sc/sc.c:798
+#: ../plugins/sc/sc.c:805
 #, c-format
 msgid "Unable to parse cmd='%s', str='%s', col=%d, row=%d."
 msgstr "Det går inte att tolka kmd='%s', str='%s', kol=%d, rad=%d."
 
-#: ../plugins/sc/sc.c:933
+#: ../plugins/sc/sc.c:940
 msgid "Error parsing line"
 msgstr "Fel vid tolkning av rad"
 
@@ -3966,7 +3966,7 @@ msgstr "Borttagning av raderna %s"
 msgid "Deleting row %s"
 msgstr "Borttagning av rad %s"
 
-#: ../src/commands.c:1584 ../src/commands.c:1585 ../src/sheet.c:5125
+#: ../src/commands.c:1584 ../src/commands.c:1585 ../src/sheet.c:5159
 msgid "Clear"
 msgstr "Töm"
 
@@ -4968,8 +4968,8 @@ msgid "Visit the Gnumeric website"
 msgstr "Besök Gnumerics hemsida"
 
 #: ../src/dialogs/dialog-about.c:600
-msgid "Copyright © 1998-2024"
-msgstr "Copyright © 1998-2024"
+msgid "Copyright © 1998-2026"
+msgstr "Copyright © 1998-2026"
 
 #: ../src/dialogs/dialog-about.c:601
 msgid "Free, Fast, Accurate - Pick Any Three!"
@@ -6625,7 +6625,7 @@ msgstr "Autokorrigera"
 #: ../src/dialogs/dialog-preferences.c:1215
 #: ../src/dialogs/dialog-sheet-compare.c:206
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
-#: ../src/wbc-gtk-actions.c:4412 ../src/widgets/gnm-fontbutton.c:1198
+#: ../src/wbc-gtk-actions.c:4412 ../src/widgets/gnm-fontbutton.c:1190
 msgid "Font"
 msgstr "Typsnitt"
 
@@ -7410,13 +7410,6 @@ msgstr "Vänster-till-höger"
 #: ../src/dialogs/dialog-sheet-compare.c:526
 msgid "Unavailable"
 msgstr "Otillgänglig"
-
-#: ../src/dialogs/dialog-sheet-compare.c:531
-#, c-format
-msgid "%d pixel"
-msgid_plural "%d pixels"
-msgstr[0] "%d bildpunkt"
-msgstr[1] "%d bildpunkter"
 
 #: ../src/dialogs/dialog-sheet-compare.c:721
 #: ../src/dialogs/search-replace.ui.h:6
@@ -10190,7 +10183,7 @@ msgstr "Censurko_lumn:"
 msgid "Censored record labels from:"
 msgstr "Censurerade postetiketter från:"
 
-#: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1543
+#: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1547
 msgid "to:"
 msgstr "till:"
 
@@ -12112,12 +12105,12 @@ msgstr ""
 msgid "'%s' has a circular reference"
 msgstr "”%s” har en cirkelreferens"
 
-#: ../src/expr-name.c:727 ../src/expr-name.c:969
+#: ../src/expr-name.c:727 ../src/expr-name.c:968
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "”%s” är redan definierad i bladet"
 
-#: ../src/expr-name.c:728 ../src/expr-name.c:970
+#: ../src/expr-name.c:728 ../src/expr-name.c:969
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "”%s” är redan definierad i arbetsboken"
@@ -12621,16 +12614,16 @@ msgstr "Okänt blad ”%s”"
 msgid "Invalid export option \"%s\" for format %s"
 msgstr "Ogiltigt exportalternativ ”%s” för formatet %s"
 
-#: ../src/hlink.c:304
+#: ../src/hlink.c:318
 msgid "Link target"
 msgstr "Länkmål"
 
-#: ../src/hlink.c:508
+#: ../src/hlink.c:522
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Det går inte att aktivera url:en ”%s”"
 
-#: ../src/hlink.c:565
+#: ../src/hlink.c:579
 #, c-format
 msgid "Unable to open '%s'"
 msgstr "Det går inte att öppna ”%s”"
@@ -12741,11 +12734,11 @@ msgstr ""
 "datakat := ”%s”\n"
 "bibkat := ”%s”\n"
 
-#: ../src/libgnumeric.c:195
+#: ../src/libgnumeric.c:192
 msgid "Gnumeric Options"
 msgstr "Alternativ för Gnumeric"
 
-#: ../src/libgnumeric.c:195
+#: ../src/libgnumeric.c:192
 msgid "Show Gnumeric Options"
 msgstr "Visa alternativ för Gnumeric"
 
@@ -12934,15 +12927,15 @@ msgstr "Okänd pappersstorlek"
 msgid "PDF export"
 msgstr "PDF-export"
 
-#: ../src/print.c:697
+#: ../src/print.c:701
 msgid "Even one cell is too large for this page."
 msgstr "Även en cell är för stor för den här sidan."
 
-#: ../src/print.c:988
+#: ../src/print.c:992
 msgid "Print Selection"
 msgstr "Skriv ut markering"
 
-#: ../src/print.c:1242
+#: ../src/print.c:1246
 msgid ""
 "You have chosen more than 1000 pages to preview. This may take a long time. "
 "Do you really want to proceed?"
@@ -12950,80 +12943,80 @@ msgstr ""
 "Du har valt att förhandsvisa mer än 1000 sidor. Detta kommer att ta lång "
 "tid. Vill du verkligen fortsätta?"
 
-#: ../src/print.c:1329
+#: ../src/print.c:1333
 msgid "Preparing to preview"
 msgstr "Förbereder förhandsgranskning"
 
-#: ../src/print.c:1330
+#: ../src/print.c:1334
 msgid "Preparing to print"
 msgstr "Förbereder utskrift"
 
-#: ../src/print.c:1420
+#: ../src/print.c:1424
 #, c-format
 msgid "Creating preview of page %3d"
 msgstr "Skapar förhandsvisning av sidan %3d"
 
-#: ../src/print.c:1421
+#: ../src/print.c:1425
 #, c-format
 msgid "Printing page %3d"
 msgstr "Skriver ut sidan %3d"
 
-#: ../src/print.c:1425
+#: ../src/print.c:1429
 #, c-format
 msgid "Creating preview of page %3d of %3d page"
 msgid_plural "Creating preview of page %3d of %3d pages"
 msgstr[0] "Skapar förhandsvisning av sidan %3d av %3d sida"
 msgstr[1] "Skapar förhandsvisning av sidan %3d av %3d sidor"
 
-#: ../src/print.c:1428
+#: ../src/print.c:1432
 #, c-format
 msgid "Printing page %3d of %3d page"
 msgid_plural "Printing page %3d of %3d pages"
 msgstr[0] "Skriver ut sidan %3d av %3d sida"
 msgstr[1] "Skriver ut sidan %3d av %3d sidor"
 
-#: ../src/print.c:1494
+#: ../src/print.c:1498
 msgid "_All workbook sheets"
 msgstr "_Alla arbetsböckers blad"
 
-#: ../src/print.c:1499
+#: ../src/print.c:1503
 msgid "Also print _hidden sheets"
 msgstr "Skriv ut också ut _dolda blad"
 
-#: ../src/print.c:1507
+#: ../src/print.c:1511
 msgid "A_ctive workbook sheet"
 msgstr "Akt_ivt arbetsboksblad"
 
-#: ../src/print.c:1512
+#: ../src/print.c:1516
 msgid "_Workbook sheets:"
 msgstr "_Arbetsbokblad:"
 
-#: ../src/print.c:1517
+#: ../src/print.c:1521
 msgid "Current _selection only"
 msgstr "Endast aktuell _markering"
 
-#: ../src/print.c:1525
+#: ../src/print.c:1529
 msgid "_Ignore defined print area"
 msgstr "_Ignorera definierat utskriftsområde"
 
-#: ../src/print.c:1532
+#: ../src/print.c:1536
 msgid "from:"
 msgstr "från:"
 
-#: ../src/print.c:1556
+#: ../src/print.c:1560
 msgid "Ignore all _manual page breaks"
 msgstr "Ignorera alla _manuella sidbrytningar"
 
-#: ../src/print.c:1858
+#: ../src/print.c:1862
 #, c-format
 msgid "Failed to create temporary file for printing: %s"
 msgstr "Misslyckades med att skapa temporär fil för utskrift: %s"
 
-#: ../src/print.c:1876
+#: ../src/print.c:1880
 msgid "Gnumeric Print Range"
 msgstr "Gnumeric utskriftsintervall"
 
-#: ../src/print.c:1892
+#: ../src/print.c:1896
 msgid "Print to File"
 msgstr "Skriv ut till fil"
 
@@ -13507,7 +13500,7 @@ msgid "Cut"
 msgstr "Klipp ut"
 
 #. Oh, yeah?
-#: ../src/sheet.c:878
+#: ../src/sheet.c:877
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13519,47 +13512,47 @@ msgstr ""
 "med namn TRUE kan krocka med konstanten med samma namn. Förvänta\n"
 "dig egendomligheter."
 
-#: ../src/sheet.c:938
+#: ../src/sheet.c:937
 msgid "Display Zeros"
 msgstr "Visa nollor"
 
-#: ../src/sheet.c:939
+#: ../src/sheet.c:938
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Bestämmer om nollor ska visas eller visa blankt."
 
-#: ../src/sheet.c:944
+#: ../src/sheet.c:943
 msgid "Display Grid"
 msgstr "Visa rutnät"
 
-#: ../src/sheet.c:945
+#: ../src/sheet.c:944
 msgid "Control whether the grid is shown."
 msgstr "Bestämmer om rutnätet ska visas."
 
-#: ../src/sheet.c:3787
+#: ../src/sheet.c:3786
 msgid "Target region contains merged cells"
 msgstr "Målregionen innehåller sammanfogade celler"
 
-#: ../src/sheet.c:3853
+#: ../src/sheet.c:3852
 msgid "cannot operate on merged cells"
 msgstr "kan inte operera på sammanfogade celler"
 
-#: ../src/sheet.c:3866
+#: ../src/sheet.c:3865
 msgid "cannot operate on array formulæ"
 msgstr "kan inte operera på vektorformler"
 
-#: ../src/sheet.c:5549
+#: ../src/sheet.c:5583
 msgid "Insert Columns"
 msgstr "Infoga kolumner"
 
-#: ../src/sheet.c:5567
+#: ../src/sheet.c:5601
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: ../src/sheet.c:5585
+#: ../src/sheet.c:5619
 msgid "Insert Rows"
 msgstr "Infoga rader"
 
-#: ../src/sheet.c:5603
+#: ../src/sheet.c:5637
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
@@ -18318,48 +18311,48 @@ msgstr "Ändrar bladordning"
 msgid "Reorganizing Sheets"
 msgstr "Ändring av ordning av blad"
 
-#: ../src/xml-sax-read.c:528
+#: ../src/xml-sax-read.c:530
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Flera versionsangivelser. Antar %d"
 
-#: ../src/xml-sax-read.c:701
+#: ../src/xml-sax-read.c:706
 msgid "workbook view attribute is incomplete"
 msgstr "attribut för arbetsbokvy är inkomplett"
 
-#: ../src/xml-sax-read.c:850
+#: ../src/xml-sax-read.c:855
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Filen har inte ett konsistent SheetNameIndex-element."
 
-#: ../src/xml-sax-read.c:2381
+#: ../src/xml-sax-read.c:2461
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Okänd filteroperator ”%s”"
 
-#: ../src/xml-sax-read.c:2423
+#: ../src/xml-sax-read.c:2503
 msgid "Missing filter type"
 msgstr "Saknar filtertyp"
 
-#: ../src/xml-sax-read.c:2436
+#: ../src/xml-sax-read.c:2516
 msgid "Malformed sheet filter condition"
 msgstr "Felaktigt bladfiltervillkor"
 
-#: ../src/xml-sax-read.c:2450
+#: ../src/xml-sax-read.c:2530
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Okänd filtertyp: ”%s”"
 
 # "Area" är ett attributnamn
-#: ../src/xml-sax-read.c:2471
+#: ../src/xml-sax-read.c:2551
 msgid "Invalid filter, missing Area"
 msgstr "Ogiltigt filter, saknar Area"
 
-#: ../src/xml-sax-read.c:2536
+#: ../src/xml-sax-read.c:2616
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Objekttypen \"%s\" stöds inte"
 
-#: ../src/xml-sax-read.c:3849 ../src/xml-sax-write.c:1743
+#: ../src/xml-sax-read.c:3929 ../src/xml-sax-write.c:1743
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
@@ -18555,6 +18548,12 @@ msgstr "Lila listmall"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "A simple list template"
 msgstr "Enkel listmall"
+
+#, c-format
+#~ msgid "%d pixel"
+#~ msgid_plural "%d pixels"
+#~ msgstr[0] "%d bildpunkt"
+#~ msgstr[1] "%d bildpunkter"
 
 #~ msgid "Left to Right"
 #~ msgstr "Vänster till höger"
