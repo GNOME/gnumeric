@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-01-22 03:45+0000\n"
-"PO-Revision-Date: 2026-01-22 10:22+0100\n"
+"POT-Creation-Date: 2026-02-09 22:15+0000\n"
+"PO-Revision-Date: 2026-02-09 23:56+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -2752,8 +2752,40 @@ msgstr "BESSELI: prilagojena Besselova funkcija prvega reda @{α} pri @{x}"
 
 #: ../plugins/fn-eng/functions.c:552 ../plugins/fn-eng/functions.c:574
 #: ../plugins/fn-eng/functions.c:597 ../plugins/fn-eng/functions.c:620
-msgid "X:number"
-msgstr "X: število"
+#: ../plugins/fn-eng/functions.c:643 ../plugins/fn-eng/functions.c:1451
+#: ../plugins/fn-eng/functions.c:1517 ../plugins/fn-math/functions.c:363
+#: ../plugins/fn-math/functions.c:382 ../plugins/fn-math/functions.c:404
+#: ../plugins/fn-math/functions.c:445 ../plugins/fn-math/functions.c:463
+#: ../plugins/fn-math/functions.c:489 ../plugins/fn-math/functions.c:508
+#: ../plugins/fn-math/functions.c:532 ../plugins/fn-math/functions.c:614
+#: ../plugins/fn-math/functions.c:805 ../plugins/fn-math/functions.c:875
+#: ../plugins/fn-math/functions.c:893 ../plugins/fn-math/functions.c:928
+#: ../plugins/fn-math/functions.c:964 ../plugins/fn-math/functions.c:989
+#: ../plugins/fn-math/functions.c:1006 ../plugins/fn-math/functions.c:1030
+#: ../plugins/fn-math/functions.c:1047 ../plugins/fn-math/functions.c:1071
+#: ../plugins/fn-math/functions.c:1088 ../plugins/fn-math/functions.c:1119
+#: ../plugins/fn-math/functions.c:1143 ../plugins/fn-math/functions.c:1227
+#: ../plugins/fn-math/functions.c:1264 ../plugins/fn-math/functions.c:1283
+#: ../plugins/fn-math/functions.c:1428 ../plugins/fn-math/functions.c:1472
+#: ../plugins/fn-math/functions.c:1601 ../plugins/fn-math/functions.c:1687
+#: ../plugins/fn-math/functions.c:1727 ../plugins/fn-math/functions.c:1745
+#: ../plugins/fn-math/functions.c:1950 ../plugins/fn-math/functions.c:1985
+#: ../plugins/fn-math/functions.c:2177 ../plugins/fn-math/functions.c:2207
+#: ../plugins/fn-math/functions.c:2331 ../plugins/fn-math/functions.c:2381
+#: ../plugins/fn-math/functions.c:2405 ../plugins/fn-math/functions.c:2436
+#: ../plugins/fn-math/functions.c:2473 ../plugins/fn-stat/functions.c:436
+#: ../plugins/fn-stat/functions.c:527 ../plugins/fn-stat/functions.c:588
+#: ../plugins/fn-stat/functions.c:979 ../plugins/fn-stat/functions.c:1048
+#: ../plugins/fn-stat/functions.c:1111 ../plugins/fn-stat/functions.c:1253
+#: ../plugins/fn-stat/functions.c:1288 ../plugins/fn-stat/functions.c:1366
+#: ../plugins/fn-stat/functions.c:1455 ../plugins/fn-stat/functions.c:1485
+#: ../plugins/fn-stat/functions.c:1757 ../plugins/fn-stat/functions.c:1971
+#: ../plugins/fn-stat/functions.c:2007 ../plugins/fn-stat/functions.c:2170
+#: ../plugins/fn-stat/functions.c:4826 ../plugins/fn-stat/functions.c:4857
+#: ../plugins/fn-stat/functions.c:4891 ../plugins/fn-stat/functions.c:4911
+#: ../plugins/fn-stat/functions.c:4950 ../plugins/fn-stat/functions.c:4983
+msgid "x:number"
+msgstr "x: število"
 
 #: ../plugins/fn-eng/functions.c:553 ../plugins/fn-eng/functions.c:575
 msgid "α:order (any non-negative number)"
@@ -2800,41 +2832,6 @@ msgstr "BESSELI: Besselova funkcija drugega reda @{α} pri @{x}"
 #: ../plugins/fn-eng/functions.c:642
 msgid "CONVERT:a converted measurement"
 msgstr "CONVERT: pretvorjena meritev"
-
-#: ../plugins/fn-eng/functions.c:643 ../plugins/fn-eng/functions.c:1451
-#: ../plugins/fn-eng/functions.c:1517 ../plugins/fn-math/functions.c:363
-#: ../plugins/fn-math/functions.c:382 ../plugins/fn-math/functions.c:404
-#: ../plugins/fn-math/functions.c:445 ../plugins/fn-math/functions.c:463
-#: ../plugins/fn-math/functions.c:489 ../plugins/fn-math/functions.c:508
-#: ../plugins/fn-math/functions.c:532 ../plugins/fn-math/functions.c:614
-#: ../plugins/fn-math/functions.c:805 ../plugins/fn-math/functions.c:875
-#: ../plugins/fn-math/functions.c:893 ../plugins/fn-math/functions.c:928
-#: ../plugins/fn-math/functions.c:964 ../plugins/fn-math/functions.c:989
-#: ../plugins/fn-math/functions.c:1006 ../plugins/fn-math/functions.c:1030
-#: ../plugins/fn-math/functions.c:1047 ../plugins/fn-math/functions.c:1071
-#: ../plugins/fn-math/functions.c:1088 ../plugins/fn-math/functions.c:1119
-#: ../plugins/fn-math/functions.c:1143 ../plugins/fn-math/functions.c:1227
-#: ../plugins/fn-math/functions.c:1264 ../plugins/fn-math/functions.c:1283
-#: ../plugins/fn-math/functions.c:1428 ../plugins/fn-math/functions.c:1472
-#: ../plugins/fn-math/functions.c:1601 ../plugins/fn-math/functions.c:1687
-#: ../plugins/fn-math/functions.c:1727 ../plugins/fn-math/functions.c:1745
-#: ../plugins/fn-math/functions.c:1950 ../plugins/fn-math/functions.c:1985
-#: ../plugins/fn-math/functions.c:2177 ../plugins/fn-math/functions.c:2207
-#: ../plugins/fn-math/functions.c:2331 ../plugins/fn-math/functions.c:2381
-#: ../plugins/fn-math/functions.c:2405 ../plugins/fn-math/functions.c:2436
-#: ../plugins/fn-math/functions.c:2473 ../plugins/fn-stat/functions.c:436
-#: ../plugins/fn-stat/functions.c:527 ../plugins/fn-stat/functions.c:588
-#: ../plugins/fn-stat/functions.c:979 ../plugins/fn-stat/functions.c:1048
-#: ../plugins/fn-stat/functions.c:1111 ../plugins/fn-stat/functions.c:1253
-#: ../plugins/fn-stat/functions.c:1288 ../plugins/fn-stat/functions.c:1366
-#: ../plugins/fn-stat/functions.c:1455 ../plugins/fn-stat/functions.c:1485
-#: ../plugins/fn-stat/functions.c:1757 ../plugins/fn-stat/functions.c:1971
-#: ../plugins/fn-stat/functions.c:2007 ../plugins/fn-stat/functions.c:2170
-#: ../plugins/fn-stat/functions.c:4826 ../plugins/fn-stat/functions.c:4857
-#: ../plugins/fn-stat/functions.c:4891 ../plugins/fn-stat/functions.c:4911
-#: ../plugins/fn-stat/functions.c:4950 ../plugins/fn-stat/functions.c:4983
-msgid "x:number"
-msgstr "x: število"
 
 #: ../plugins/fn-eng/functions.c:644
 msgid "from:unit (string)"
@@ -6302,11 +6299,11 @@ msgstr "pogoj1: pogoj za vključitev celice"
 
 #: ../plugins/fn-math/functions.c:723
 msgid ""
-"AVERAGEIF:average of the cells in @{actual range} for which the "
+"AVERAGEIF:average of the cells in @{actual_range} for which the "
 "corresponding cells in the range meet the given @{criteria}"
 msgstr ""
-"AVERAGEIF: povprečna vrednost celic v @{dejanski podatkovni vrste}, ki so v "
-"podatkovni vrsti skladne s podanim @{kriterijem}"
+"AVERAGEIF: povprečna vrednost celic v @{actual_range}, za katere ustrezne "
+"celice v obsegu izpolnjujejo podani @{criteria}"
 
 #: ../plugins/fn-math/functions.c:725
 msgid "criteria:condition for a cell to be included"
@@ -6729,8 +6726,8 @@ msgstr ""
 "od neposrednega izračuna LN(1+@{x})."
 
 #: ../plugins/fn-math/functions.c:1406
-msgid "If @{x} ≤ -1, LN returns #NUM! error."
-msgstr "Če je @{x} ≤ -1, funkcija LN vrne napako #NUM!."
+msgid "If @{x} ≤ -1, LN1P returns #NUM! error."
+msgstr "Če je @{x} ≤ -1, funkcija LN1P vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:1427
 msgid ""
@@ -6988,15 +6985,15 @@ msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr "TANH: hiperbolični tangens vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:1966
-msgid "PI:the constant 𝜋"
-msgstr "PI: konstanta 𝜋"
+msgid "PI:the constant π"
+msgstr "PI: konstanta π"
 
 #: ../plugins/fn-math/functions.c:1967
 msgid ""
-"This function is Excel compatible, but it returns 𝜋 with a better precision."
+"This function is Excel compatible, but it returns π with a better precision."
 msgstr ""
 "Funkcija je združljiva s programom MS Excel, vendar vrne natančnejšo "
-"vrednost števila 𝜋."
+"vrednost števila π."
 
 #: ../plugins/fn-math/functions.c:1984
 msgid "TRUNC:@{x} truncated to @{d} digits"
@@ -7112,8 +7109,8 @@ msgstr ""
 "negativno število."
 
 #: ../plugins/fn-math/functions.c:2357
-msgid "SQRTPI:the square root of @{x} times 𝜋"
-msgstr "SQRTPI: kvadratni koren števila @{x} pomnoženo z 𝜋"
+msgid "SQRTPI:the square root of @{x} times π"
+msgstr "SQRTPI: kvadratni koren števila @{x} pomnoženo z π"
 
 #: ../plugins/fn-math/functions.c:2380
 msgid "ROUNDDOWN:@{x} rounded towards 0"
@@ -7420,12 +7417,12 @@ msgstr "mat2: matrika 2"
 msgid ""
 "The number of columns in @{mat1} must equal the number of rows in @{mat2}; "
 "otherwise #VALUE! is returned.  The result of MMULT is an array, in which "
-"the number of rows is the same as in @{mat1}), and the number of columns is "
-"the same as in (@{mat2})."
+"the number of rows is the same as in @{mat1}, and the number of columns is "
+"the same as in @{mat2}."
 msgstr ""
-"Število stolpcev v @{mat1} mora biti enako številu vrstic v @{mat2}; drugače "
-"#VALUE! se vrne.  Rezultat MMULT je matrika, v kateri je število vrstic "
-"enako kot v @{mat1}), število stolpcev pa je enako kot v (@{mat2})."
+"Število stolpcev v @{mat1} mora biti enako številu vrstic v @{mat2}; sicer "
+"vrne #VALUE!.  Rezultat MMULT je matrika, v kateri je število vrstic enako "
+"kot v @{mat1}), število stolpcev pa je enako kot v (@{mat2})."
 
 #: ../plugins/fn-math/functions.c:3265
 msgid "LINSOLVE:solve linear equation"
@@ -9520,7 +9517,8 @@ msgid "array1:first data set"
 msgstr "polje1: prva podatkovna množica"
 
 #: ../plugins/fn-stat/functions.c:318 ../plugins/fn-stat/functions.c:348
-msgid "array2:set data set"
+#: ../plugins/fn-stat/functions.c:378
+msgid "array2:second data set"
 msgstr "polje2: druga podatkovna množica"
 
 #: ../plugins/fn-stat/functions.c:319 ../plugins/fn-stat/functions.c:349
@@ -9567,10 +9565,6 @@ msgstr "COVARIANCE.S: kovarianca vzorca dveh podatkovnih množic"
 #: ../plugins/fn-stat/functions.c:376
 msgid "CORREL:Pearson correlation coefficient of two data sets"
 msgstr "CORREL: Pearsonov koeficient soodnostnosti dveh podatkovnih množic"
-
-#: ../plugins/fn-stat/functions.c:378
-msgid "array2:second data set"
-msgstr "polje2: druga podatkovna množica"
 
 #: ../plugins/fn-stat/functions.c:384
 msgid "Then CORREL(A1:A5,B1:B5) equals 0.996124788."
@@ -10989,11 +10983,11 @@ msgstr "Izračun funkcije PERCENTILE(A1:A5,0.42) vrne rešitev 20,02."
 
 #: ../plugins/fn-stat/functions.c:3179
 msgid ""
-"QUARTILE:the @{k}-th quartile of the data points (Hyndman-Fan method 7: N-1 "
-"basis)"
+"QUARTILE:the @{quart}-th quartile of the data points (Hyndman-Fan method 7: "
+"N-1 basis)"
 msgstr ""
-"QUARTILE: @{k}-ti kvartil podatkovnih točk (Hyndman-Fanova metoda 7: osnova "
-"N-1)"
+"QUARTILE: @{quart}-ti kvartil podatkovnih točk (Hyndman-Fanova metoda 7: "
+"osnova N-1)"
 
 #: ../plugins/fn-stat/functions.c:3181
 msgid "quart:a number from 0 to 4, indicating which quartile to calculate"
@@ -11018,10 +11012,10 @@ msgstr "Izračun funkcije QUARTILE(A1:A5,1) vrne rešitev 17,3."
 
 #: ../plugins/fn-stat/functions.c:3222
 msgid ""
-"QUARTILE.EXC:the @{k}-th quartile of the data points (Hyndman-Fan method 6: "
-"N+1 basis)"
+"QUARTILE.EXC:the @{quart}-th quartile of the data points (Hyndman-Fan method "
+"6: N+1 basis)"
 msgstr ""
-"QUARTILE.EXC: @{k}-ti kvartil podatkovnih točk (Hyndman-Fanova metoda 6: "
+"QUARTILE.EXC: @{quart}-ti kvartil podatkovnih točk (Hyndman-Fanova metoda 6: "
 "osnova N+1)"
 
 #: ../plugins/fn-stat/functions.c:3224
