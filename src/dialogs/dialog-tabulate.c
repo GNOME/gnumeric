@@ -205,7 +205,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		if (maxima[dims] < minima[dims]) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
-					 _("The maximum value should be bigger than the minimum"));
+					 _("The maximum value should be greater than the minimum"));
 			focus_on_entry (e_w);
 			goto error;
 		}

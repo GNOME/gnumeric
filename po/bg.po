@@ -344,7 +344,7 @@ msgstr "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1188
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:256
@@ -359,7 +359,7 @@ msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:392 ../plugins/excel/xlsx-read.c:421
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:396 ../plugins/excel/xlsx-read.c:425
@@ -442,7 +442,7 @@ msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:3099
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:3524
@@ -513,7 +513,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:702
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 
@@ -1110,7 +1110,7 @@ msgstr "Грешна секция ROWS (редове) във файла."
 
 #: ../plugins/mps/mps.c:231
 #, fuzzy, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Дублиране на %s"
 
 #: ../plugins/mps/mps.c:249
@@ -1998,7 +1998,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Начало на търсене"
 
 #: ../plugins/sc/sc.c:451
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr ""
 
 #: ../plugins/sc/sc.c:472
@@ -6910,7 +6910,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Вие трябва да въведете валидна стойност като масимум"
 
 #: ../src/dialogs/dialog-tabulate.c:255
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Максималната стойност трябва да е по-голяма от минималната"
 
 #: ../src/dialogs/dialog-tabulate.c:264
@@ -8143,7 +8143,7 @@ msgstr "_Завършване на ред:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:16
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 
@@ -8153,13 +8153,13 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:18
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:19
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 
@@ -8188,7 +8188,7 @@ msgstr "Цитиране на _символ:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:25
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 

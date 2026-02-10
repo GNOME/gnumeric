@@ -514,7 +514,7 @@ attr_int (GsfXMLIn *xin, xmlChar const **attrs,
 	tmp = strtol (attrs[1], &end, 10);
 	if (errno == ERANGE || tmp > G_MAXINT || tmp < G_MININT)
 		return xlsx_warning (xin,
-			_("Integer '%s' is out of range, for attribute %s"),
+			_("Integer '%s' is out of range for attribute %s"),
 			attrs[1], target);
 	if (*end)
 		return xlsx_warning (xin,
@@ -543,7 +543,7 @@ attr_uint (GsfXMLIn *xin, xmlChar const **attrs,
 	tmp = strtoul (attrs[1], &end, 10);
 	if (errno == ERANGE || tmp != (unsigned)tmp)
 		return xlsx_warning (xin,
-			_("Unsigned integer '%s' is out of range, for attribute %s"),
+			_("Unsigned integer '%s' is out of range for attribute %s"),
 			attrs[1], target);
 	if (*end)
 		return xlsx_warning (xin,
@@ -573,7 +573,7 @@ attr_int64 (GsfXMLIn *xin, xmlChar const **attrs,
 	tmp = g_ascii_strtoll (attrs[1], &end, 10);
 	if (errno == ERANGE)
 		return xlsx_warning (xin,
-			_("Integer '%s' is out of range, for attribute %s"),
+			_("Integer '%s' is out of range for attribute %s"),
 			attrs[1], target);
 	if (*end)
 		return xlsx_warning (xin,
@@ -688,7 +688,7 @@ attr_percent (GsfXMLIn *xin, xmlChar const **attrs,
 	tmp = strtol (attrs[1], &end, 10);
 	if (errno == ERANGE || tmp > G_MAXINT / 1000 || tmp < G_MININT / 1000)
 		return xlsx_warning (xin,
-			_("Integer '%s' is out of range, for attribute %s"),
+			_("Integer '%s' is out of range for attribute %s"),
 			attrs[1], target);
 	if (*end == 0)
 		*res = tmp;
@@ -2338,7 +2338,7 @@ xlsx_CT_DataValidation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (NULL != state->validation &&
 	    NULL != (err = gnm_validation_is_ok (state->validation))) {
-		xlsx_warning (xin, _("Ignoring invalid data validation because : %s"),
+		xlsx_warning (xin, _("Ignoring invalid data validation because: %s"),
 			      _(err->message));
 		gnm_validation_unref (state->validation);
 		state->validation = NULL;

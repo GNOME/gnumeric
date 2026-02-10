@@ -17617,7 +17617,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr ""
 
 #: src/dialogs/dialog-tabulate.c:232
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr ""
 
 #: src/dialogs/dialog-tabulate.c:240

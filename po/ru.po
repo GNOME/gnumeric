@@ -475,13 +475,13 @@ msgstr "Пропускается объект с неполной привязк
 
 #: ../plugins/excel/xlsx-read-pivot.c:957
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr "Обнаружены сразу оба атрибута: «refreshedDate» и «refreshedDateIso»"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr "Пропускается неверная группа сводного поля для поля «%s»: %s"
 
 #: ../plugins/excel/xlsx-read.c:382
@@ -497,7 +497,7 @@ msgstr "Неизвестное значение перечисления \"%s\" 
 #: ../plugins/excel/xlsx-read.c:517 ../plugins/excel/xlsx-read.c:576
 #: ../plugins/excel/xlsx-read.c:691
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "Целое \"%s\" за пределами диапазона для атрибута %s"
 
 #: ../plugins/excel/xlsx-read.c:521 ../plugins/excel/xlsx-read.c:580
@@ -508,7 +508,7 @@ msgstr "Неверное целое \"%s\" для атрибута %s"
 
 #: ../plugins/excel/xlsx-read.c:546
 #, c-format
-msgid "Unsigned integer '%s' is out of range, for attribute %s"
+msgid "Unsigned integer '%s' is out of range for attribute %s"
 msgstr "Беззнаковое целое число «%s» за пределами диапазона для атрибута %s"
 
 #: ../plugins/excel/xlsx-read.c:550
@@ -602,7 +602,7 @@ msgstr "Бумага из файла XLSX, #%i"
 #: ../plugins/excel/xlsx-read.c:2341
 #: ../plugins/openoffice/openoffice-read.c:2989
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Проверка данных пропущена: %s"
 
 #: ../plugins/excel/xlsx-read.c:2875
@@ -718,7 +718,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:706
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Загрузчик модулей Excel / xlfRegister: второй и третий параметры должны быть "
@@ -867,7 +867,7 @@ msgid "Floating Point Functions"
 msgstr "Функции для чисел с плавающей запятой"
 
 #: ../plugins/fn-flt/plugin.xml.in.h:2
-msgid "Functions manipulating floating point value"
+msgid "Functions manipulating floating point values"
 msgstr "Функции, манипулирующие значением с плавающей запятой"
 
 #: ../plugins/fn-flt/plugin.xml.in.h:3
@@ -1342,7 +1342,7 @@ msgstr "Недопустимая строка в разделе ROWS"
 
 #: ../plugins/mps/mps.c:229
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Повторяющиеся строки с именем %s"
 
 #: ../plugins/mps/mps.c:247
@@ -2420,7 +2420,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Лист шире допустимых Gnumeric пределов."
 
 #: ../plugins/sc/sc.c:449
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr "Обнаружен формат без заданной точности."
 
 #: ../plugins/sc/sc.c:472
@@ -7906,7 +7906,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Вы должны ввести в качестве максимума допустимое число"
 
 #: ../src/dialogs/dialog-tabulate.c:208
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Максимальное значение должно быть больше чем минимальное"
 
 #: ../src/dialogs/dialog-tabulate.c:217
@@ -9204,7 +9204,7 @@ msgstr "Снять выделение"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "Переместить лист в начало списка экспортируемых листов, чтобы он был "
@@ -9212,7 +9212,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 "Поднять выбранный лист в списке экспортируемых листов, чтобы он был "
@@ -9220,13 +9220,13 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr "Листы находящиеся ниже по списку будут экспортированы позже."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "Переместить лист в конец списка экспортируемых листов, чтобы он был "

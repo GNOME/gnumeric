@@ -374,12 +374,12 @@ msgid "Dropping object with incomplete anchor %2x"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read-pivot.c:873
-msgid "Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" attributes!"
+msgid "Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" attributes!"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read-pivot.c:1198
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:348
@@ -394,7 +394,7 @@ msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:484 ../plugins/excel/xlsx-read.c:513
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:488 ../plugins/excel/xlsx-read.c:517
@@ -487,7 +487,7 @@ msgstr ""
 #: ../plugins/excel/xlsx-read.c:2113
 #: ../plugins/openoffice/openoffice-read.c:2606
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:2530
@@ -608,7 +608,7 @@ msgid "Excel plugin loader / xlfRegister: at least three XLOPER arguments must b
 msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:702
-msgid "Excel plugin loader / xlfRegister: the second and third argument must be strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
+msgid "Excel plugin loader / xlfRegister: the second and third arguments must be strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:931
@@ -1201,7 +1201,7 @@ msgstr "ファイルの中に不正な行があります。"
 
 #: ../plugins/mps/mps.c:231
 #, fuzzy, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "%sの複製"
 
 #: ../plugins/mps/mps.c:249
@@ -2246,7 +2246,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "検索の開始"
 
 #: ../plugins/sc/sc.c:450
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr ""
 
 #: ../plugins/sc/sc.c:473
@@ -7338,7 +7338,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "最大値を正しい数値で指定してください"
 
 #: ../src/dialogs/dialog-tabulate.c:209
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "最大値は最小値よりも大きくしてください"
 
 #: ../src/dialogs/dialog-tabulate.c:218
@@ -8651,19 +8651,19 @@ msgid "Select N_one"
 msgstr "選択解除(_O)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
-msgid "Move the selected sheet to the top of the list of to be exported sheets to be exported first."
+msgid "Move the selected sheet to the top of the list of sheets to be exported first."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
-msgid "Raise the selected sheet in the list of to be exported sheets to be exported earlier."
+msgid "Raise the selected sheet in the list of sheets to be exported earlier."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
-msgid "Lower the selected sheet in the list of to be exported sheets to be exported later."
+msgid "Lower the selected sheet in the list of sheets to be exported later."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
-msgid "Move the selected sheet to the end of the list of to be exported sheets to be exported last."
+msgid "Move the selected sheet to the end of the list of sheets to be exported last."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:32

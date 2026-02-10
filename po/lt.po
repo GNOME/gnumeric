@@ -463,13 +463,13 @@ msgstr "Šalinamas objektas, turintis nebaigtą prieraišą %2x"
 
 #: ../plugins/excel/xlsx-read-pivot.c:958
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr "Sutiktas tiek „refreshedDate“, tiek „refreshedDateIso“ atributas!"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1294
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr "Praleidžiama netinkama suvestinę laukų grupę laukui „%s“ dėl: %s"
 
 #: ../plugins/excel/xlsx-read.c:362
@@ -485,7 +485,7 @@ msgstr "Nežinoma enum reikšmė „%s“ požymyje %s"
 #: ../plugins/excel/xlsx-read.c:497 ../plugins/excel/xlsx-read.c:556
 #: ../plugins/excel/xlsx-read.c:647
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "Sveikasis skaičius „%s“ viršija požymio %s leistinas ribas"
 
 #: ../plugins/excel/xlsx-read.c:501 ../plugins/excel/xlsx-read.c:560
@@ -496,8 +496,8 @@ msgstr "Klaidingas sveikasis skaičius „%s“ požymyje %s"
 
 #: ../plugins/excel/xlsx-read.c:526
 #, fuzzy, c-format
-#| msgid "Integer '%s' is out of range, for attribute %s"
-msgid "Unsigned integer '%s' is out of range, for attribute %s"
+#| msgid "Integer '%s' is out of range for attribute %s"
+msgid "Unsigned integer '%s' is out of range for attribute %s"
 msgstr "Sveikasis skaičius „%s“ viršija požymio %s leistinas ribas"
 
 #: ../plugins/excel/xlsx-read.c:530
@@ -592,7 +592,7 @@ msgstr "Popierius iš XLSX failo: #%i"
 #: ../plugins/excel/xlsx-read.c:2200
 #: ../plugins/openoffice/openoffice-read.c:2841
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Nepaisoma klaidingų duomenų patikrinimo dėl: %s"
 
 #: ../plugins/excel/xlsx-read.c:2723
@@ -705,7 +705,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:702
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Excel papildinių įkėlimas / xlfRegister: antras ir trečias argumentas turi "
@@ -1307,7 +1307,7 @@ msgstr "Klaidinga eilutė ROWS skyriuje"
 
 #: ../plugins/mps/mps.c:231
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Dubliuotas eilutės vardas %s"
 
 #: ../plugins/mps/mps.c:249
@@ -2392,7 +2392,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Lakštas yra platesnis, nei Gnumeric gali apdoroti."
 
 #: ../plugins/sc/sc.c:450
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr "Aptiktas nuo tikslumo priklausantis formatas be nustatyto tikslumo."
 
 #: ../plugins/sc/sc.c:473
@@ -7589,7 +7589,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Nurodykite maksimalią skaitmeninę reikšmę"
 
 #: ../src/dialogs/dialog-tabulate.c:209
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Maksimali reikšmė turi būti didesnė už minimalią"
 
 #: ../src/dialogs/dialog-tabulate.c:218
@@ -8926,7 +8926,7 @@ msgstr "Nepasirinkti niek_o"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "Perkelkite pasirinktą lakštą į sąrašo pradžią, jei norite, kad jis būtų "
@@ -8934,7 +8934,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 "Perkelkite pasirinktą lakštą aukštyn sąraše, jei norite, kad jis būtų "
@@ -8942,7 +8942,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 "Perkelkite pasirinktą lakštą žemyn sąraše, jei norite, kad jis būtų "
@@ -8950,7 +8950,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "Perkelkite pasirinktą lakštą į sąrašo pabaigą, jei norite, kad jis būtų "

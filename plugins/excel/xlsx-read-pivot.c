@@ -954,7 +954,7 @@ xlsx_CT_pivotCacheDefinition (GsfXMLIn *xin, xmlChar const **attrs)
 				refreshedDate = value_new_float (v);
 				value_set_fmt (refreshedDate, state->date_fmt);
 			} else
-				xlsx_warning (xin, _("Encountered both the  \"refreshedDate\" and "
+				xlsx_warning (xin, _("Encountered both the \"refreshedDate\" and "
 						     "the \"refreshedDateIso\" attributes!"));
 		} else if ((date = attr_datetime (xin, attrs, "refreshedDateIso")) != NULL) {
 			if (refreshedDate)
@@ -1290,7 +1290,7 @@ xlsx_CT_RangePr (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL == (valid = go_val_bucketer_validate (&bucketer)))
 		g_object_set (G_OBJECT (state->pivot.cache_field), "bucketer", &bucketer, NULL);
 	else {
-		xlsx_warning (xin, _("Skipping invalid pivot field group for field '%s' because : %s"),
+		xlsx_warning (xin, _("Skipping invalid pivot field group for field '%s' because: %s"),
 			      go_data_cache_field_get_name (state->pivot.cache_field)->str,
 			      valid->message);
 		g_error_free (valid);

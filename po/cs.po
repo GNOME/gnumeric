@@ -472,13 +472,13 @@ msgstr "Zahazuje se objekt s neúplnou kotvou %2x"
 
 #: ../plugins/excel/xlsx-read-pivot.c:957
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr "Vyskytly se naráz oba atributy „refreshedDate“ a „refreshedDateIso“."
 
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr ""
 "Přeskakuje se neplatná kontingenční skupina polí pro pole „%s“, protože: %s"
 
@@ -495,7 +495,7 @@ msgstr "Neznámá výčtová hodnota „%s“ pro atribut %s"
 #: ../plugins/excel/xlsx-read.c:517 ../plugins/excel/xlsx-read.c:576
 #: ../plugins/excel/xlsx-read.c:691
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "Celé číslo „%s“ je mimo rozsah, pro atribut %s"
 
 #: ../plugins/excel/xlsx-read.c:521 ../plugins/excel/xlsx-read.c:580
@@ -506,7 +506,7 @@ msgstr "Neplatné celé číslo „%s“ pro atribut %s"
 
 #: ../plugins/excel/xlsx-read.c:546
 #, c-format
-msgid "Unsigned integer '%s' is out of range, for attribute %s"
+msgid "Unsigned integer '%s' is out of range for attribute %s"
 msgstr "Kladné celé číslo „%s“ je mimo rozsah, pro atribut %s"
 
 #: ../plugins/excel/xlsx-read.c:550
@@ -600,7 +600,7 @@ msgstr "Papír ze souboru XLSX, č. %i"
 #: ../plugins/excel/xlsx-read.c:2321
 #: ../plugins/openoffice/openoffice-read.c:2949
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Ignoruje se kontrola platnosti neplatných dat protože: %s"
 
 #: ../plugins/excel/xlsx-read.c:2855
@@ -715,7 +715,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:706
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Načítání zásuvného modulu Excel / xlfRegister: druhý a třetí argument musí "
@@ -864,7 +864,7 @@ msgid "Floating Point Functions"
 msgstr "Funkce s plovoucí desetinnou čárkou"
 
 #: ../plugins/fn-flt/plugin.xml.in.h:2
-msgid "Functions manipulating floating point value"
+msgid "Functions manipulating floating point values"
 msgstr "Funkce pracující s hodnotami s plovoucí desetinnou čárkou"
 
 #: ../plugins/fn-flt/plugin.xml.in.h:3
@@ -1333,7 +1333,7 @@ msgstr "Neplatný řádek v sekci ROWS"
 
 #: ../plugins/mps/mps.c:229
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Duplicitní název %s v sekci ROWS"
 
 #: ../plugins/mps/mps.c:247
@@ -2404,7 +2404,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "List je větší než umí Gnumeric obsloužit."
 
 #: ../plugins/sc/sc.c:449
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr "Vyskytl se formát pracující s přesností, ale bez nastavené přesnosti."
 
 #: ../plugins/sc/sc.c:472
@@ -7852,7 +7852,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Měli byste zadat platné číslo jako maximum"
 
 #: ../src/dialogs/dialog-tabulate.c:208
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Maximální hodnota by měla být větší než minimální"
 
 #: ../src/dialogs/dialog-tabulate.c:217
@@ -9149,7 +9149,7 @@ msgstr "_Zrušit výběr"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "Přesunout vybraný list na začátek seznamu exportovaných listů, aby byl "
@@ -9157,7 +9157,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 "Přesunout vybraný list v seznamu exportovaných listů výše, aby byl "
@@ -9165,7 +9165,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 "Přesunout vybraný list v seznamu exportovaných listů níže, aby byl "
@@ -9173,7 +9173,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "Přesunout vybraný list na konec seznamu exportovaných listů, aby byl "

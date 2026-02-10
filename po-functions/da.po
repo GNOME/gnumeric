@@ -11292,7 +11292,7 @@ msgstr "PROPER:@{text} med begyndelsesbogstav i hvert ord med stort"
 msgid ""
 "REPLACE:string @{old} with @{num} characters starting at @{start} replaced "
 "by @{new}"
-msgstr "REPLACE: strengen @{old} med @{num} tegn regnet from @{start} erstattet med @{new}"
+msgstr "REPLACE:strengen @{old} med @{num} tegn regnet from @{start} erstattet med @{new}"
 
 #: ../plugins/fn-string/functions.c:955 ../plugins/fn-string/functions.c:1006
 msgid "old:original text"
@@ -11315,7 +11315,7 @@ msgstr "new:erstatningsstreng"
 msgid ""
 "REPLACEB:string @{old} with up to @{num} bytes starting at @{start} replaced "
 "by @{new}"
-msgstr "REPLACEB: strengen @{old} med @{num} bytes regnet from @{start} erstattet med @{new}"
+msgstr "REPLACEB:strengen @{old} med @{num} bytes regnet from @{start} erstattet med @{new}"
 
 #: ../plugins/fn-string/functions.c:1007
 msgid "start:starting byte position"

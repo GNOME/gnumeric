@@ -340,7 +340,7 @@ msgstr "एमएस एक्सेल (टीएम) ९७/२०००/ए�
 
 #: ../plugins/excel/xlsx-read-pivot.c:1188
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:256
@@ -355,7 +355,7 @@ msgstr "विशेषता %s का लागि अज्ञात इन�
 
 #: ../plugins/excel/xlsx-read.c:392 ../plugins/excel/xlsx-read.c:421
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "विशेषता %s का लागि, इन्टिजर '%s' दायरा बाहिर छ"
 
 #: ../plugins/excel/xlsx-read.c:396 ../plugins/excel/xlsx-read.c:425
@@ -438,7 +438,7 @@ msgstr "पहिलो वा अन्तिम निर्दिष्ट �
 
 #: ../plugins/excel/xlsx-read.c:3099
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:3524
@@ -508,7 +508,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:702
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 
@@ -1104,7 +1104,7 @@ msgstr "फाइलमा अवैध पङ्क्ति सेक्सन
 
 #: ../plugins/mps/mps.c:231
 #, fuzzy, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "%s नाम अद्यावधिक गर्नुहोस्"
 
 #: ../plugins/mps/mps.c:249
@@ -1993,7 +1993,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "खोजी गरिनु पर्ने पाना"
 
 #: ../plugins/sc/sc.c:451
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr ""
 
 #: ../plugins/sc/sc.c:472
@@ -6950,7 +6950,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "तपाईँले अधिकतमको रूपमा एउटा वैध सङ्ख्या परिचित गर्नुपर्दछ"
 
 #: ../src/dialogs/dialog-tabulate.c:255
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "अधिकतम मान न्युनतम भन्दा ठूलो हुनुपर्दछ"
 
 #: ../src/dialogs/dialog-tabulate.c:264
@@ -8181,7 +8181,7 @@ msgstr "लाइन समाप्ति:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:16
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 "पछि निर्यात गर्नका लागि निर्यात गरिने पानाको सूचीमा चयन गरिएको पाना तल सार्नुहोस्।"
@@ -8192,14 +8192,14 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:18
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "अन्तमा निर्यात गर्नेगरी निर्यात गरिने पानाको सूचीको अन्तमा चयन गरिएको पाना सार्नुहोस्।"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:19
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "सुरुमा निर्यात गर्नेगरि निर्यात गरिने पानाको सूचीको माथि चयन गरिएको पाना सार्नुहोस्।"
@@ -8227,7 +8227,7 @@ msgstr "उद्धरण क्यारेक्टर:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:25
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 "पहिला निर्यात गर्नेगरी निर्यात गरिने पानाको सूचीमा चयन गरिएको तलिका वृद्धि गर्नुहोस्।"

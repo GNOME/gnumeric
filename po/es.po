@@ -482,13 +482,13 @@ msgstr "Soltando objeto con ancla incompleta %2x"
 
 #: ../plugins/excel/xlsx-read-pivot.c:957
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr "Encontrados ambos atributos «refreshedDate» y «refreshedDateIso»"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr "Omitiendo campo de grupo pivote no válido por el campo «%s» porque: %s"
 
 #: ../plugins/excel/xlsx-read.c:382
@@ -504,7 +504,7 @@ msgstr "Valor enumerado «%s» desconocido para el atributo %s"
 #: ../plugins/excel/xlsx-read.c:517 ../plugins/excel/xlsx-read.c:576
 #: ../plugins/excel/xlsx-read.c:667
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "El entero «%s» está fuera de rango, para el atributo %s"
 
 #: ../plugins/excel/xlsx-read.c:521 ../plugins/excel/xlsx-read.c:580
@@ -515,7 +515,7 @@ msgstr "Entero «%s» no válido para el atributo %s"
 
 #: ../plugins/excel/xlsx-read.c:546
 #, c-format
-msgid "Unsigned integer '%s' is out of range, for attribute %s"
+msgid "Unsigned integer '%s' is out of range for attribute %s"
 msgstr "El entero sin signo «%s» está fuera de rango, para el atributo %s"
 
 #: ../plugins/excel/xlsx-read.c:550
@@ -610,7 +610,7 @@ msgstr "Papel del archivo XLSX, #%i"
 #: ../plugins/excel/xlsx-read.c:2274
 #: ../plugins/openoffice/openoffice-read.c:2927
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Ignorando datos de validación no válidos porque: %s"
 
 #: ../plugins/excel/xlsx-read.c:2808
@@ -724,7 +724,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:706
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Cargador del complemento para Excel / xlfRegister: el segundo y tercer "
@@ -1337,7 +1337,7 @@ msgstr "Línea no válida en la sección ROWS"
 
 #: ../plugins/mps/mps.c:229
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Nombre de filas %s duplicado"
 
 #: ../plugins/mps/mps.c:247
@@ -2426,7 +2426,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "La hoja es más ancha de lo que Gnumeric puede manejar."
 
 #: ../plugins/sc/sc.c:449
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr ""
 "Se encontró un formato dependiente de precisión sin una precisión "
 "configurada."
@@ -7924,7 +7924,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Debe introducir un número válido como máximo"
 
 #: ../src/dialogs/dialog-tabulate.c:208
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "El valor máximo debe ser mayor que el mínimo"
 
 #: ../src/dialogs/dialog-tabulate.c:217
@@ -9228,7 +9228,7 @@ msgstr "Seleccionar _ninguno"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "Mover la hoja seleccionada al principio de la lista de las hojas que van a  "
@@ -9236,7 +9236,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 "Subir la hoja seleccionada en la lista de hojas que exportar para que se "
@@ -9244,7 +9244,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 "Bajar la hoja seleccionada en la lista de hojas que exportar para que se "
@@ -9252,7 +9252,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "Mover la hoja seleccionada al final de la lista de las hojas que exportar "

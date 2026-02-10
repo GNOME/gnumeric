@@ -478,13 +478,13 @@ msgstr "Одбацујем објекат са непотпуним сидром
 
 #: ../plugins/excel/xlsx-read-pivot.c:957
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr "Наишао сам на атрибуте „refreshedDate“ и „refreshedDateIso“!"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr "Прескачем неисправну групу поља стожера за ћелију „%s“ због : %s"
 
 #: ../plugins/excel/xlsx-read.c:382
@@ -500,7 +500,7 @@ msgstr "Непозната вредност набрајања „%s“ за о�
 #: ../plugins/excel/xlsx-read.c:517 ../plugins/excel/xlsx-read.c:576
 #: ../plugins/excel/xlsx-read.c:691
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "Цео број „%s“ је изван опсега, за особину %s"
 
 #: ../plugins/excel/xlsx-read.c:521 ../plugins/excel/xlsx-read.c:580
@@ -511,7 +511,7 @@ msgstr "Неисправан цео број „%s“ за особину %s"
 
 #: ../plugins/excel/xlsx-read.c:546
 #, c-format
-msgid "Unsigned integer '%s' is out of range, for attribute %s"
+msgid "Unsigned integer '%s' is out of range for attribute %s"
 msgstr "Недодељени цео број „%s“ је изван опсега, за особину %s"
 
 #: ../plugins/excel/xlsx-read.c:550
@@ -604,7 +604,7 @@ msgstr "Папир из ИксЛСИкс датотеке, бр. %i"
 #: ../plugins/excel/xlsx-read.c:2321
 #: ../plugins/openoffice/openoffice-read.c:2949
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Занемарујем проверу неисправних података зато што : %s"
 
 #: ../plugins/excel/xlsx-read.c:2855
@@ -718,7 +718,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:706
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Учитавач прикључка Ексела / икслф записник: други и трећи аргумент мора бити "
@@ -870,7 +870,7 @@ msgid "Floating Point Functions"
 msgstr "Функције покретног зареза"
 
 #: ../plugins/fn-flt/plugin.xml.in.h:2
-msgid "Functions manipulating floating point value"
+msgid "Functions manipulating floating point values"
 msgstr "Функције за обраду вредности покретног зареза"
 
 #: ../plugins/fn-flt/plugin.xml.in.h:3
@@ -1339,7 +1339,7 @@ msgstr "Неисправна линија у одељку РЕДОВА"
 
 #: ../plugins/mps/mps.c:229
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Двоструки назив редова „%s“"
 
 #: ../plugins/mps/mps.c:247
@@ -2409,7 +2409,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Лист је преширок за Гнумерика."
 
 #: ../plugins/sc/sc.c:449
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr "Наиђох на запис завистан од тачности без тачности скупа."
 
 #: ../plugins/sc/sc.c:472
@@ -7869,7 +7869,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Треба да уведете исправан број као максимум"
 
 #: ../src/dialogs/dialog-tabulate.c:208
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Максимални број треба да буде већи од минималног"
 
 #: ../src/dialogs/dialog-tabulate.c:217
@@ -9169,28 +9169,28 @@ msgstr "Поништи _избор"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "Померите изабрани лист на врх списка листова за извоз да би први био извезен."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 "Издигните изабрани лист на списку листова за извоз да би раније био извезен."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 "Спустите изабрани лист на списку листова за извоз да би касније био извезен."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "Померите изабрани лист на крај списка листова за извоз да би последњи био "

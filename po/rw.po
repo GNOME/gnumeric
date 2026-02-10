@@ -358,7 +358,7 @@ msgstr "5 0"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1188
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:256
@@ -373,7 +373,7 @@ msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:392 ../plugins/excel/xlsx-read.c:421
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:396 ../plugins/excel/xlsx-read.c:425
@@ -456,7 +456,7 @@ msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:3099
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr ""
 
 # #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
@@ -531,7 +531,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:702
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 
@@ -1206,7 +1206,7 @@ msgstr "Icyiciro in i IDOSIYE"
 
 #: ../plugins/mps/mps.c:231
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr ""
 
 #: ../plugins/mps/mps.c:249
@@ -2138,7 +2138,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Urutonde in Kuri Gushaka"
 
 #: ../plugins/sc/sc.c:451
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr ""
 
 #: ../plugins/sc/sc.c:472
@@ -7802,7 +7802,7 @@ msgstr "a Byemewe Umubare Nka Kinini"
 
 #: ../src/dialogs/dialog-tabulate.c:255
 #, fuzzy
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Kinini Agaciro i Gito"
 
 #: ../src/dialogs/dialog-tabulate.c:264
@@ -9363,7 +9363,7 @@ msgstr "Amasubiramo"
 #: ../src/dialogs/dialog-stf-export.ui.h:16
 #, fuzzy
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr "i Byahiswemo URUPAPURO in i Urutonde Bya Kuri IMPAPURO Kuri"
 
@@ -9374,7 +9374,7 @@ msgstr ""
 #: ../src/dialogs/dialog-stf-export.ui.h:18
 #, fuzzy
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "i Byahiswemo URUPAPURO Kuri i Impera Bya i Urutonde Bya Kuri IMPAPURO Kuri "
@@ -9383,7 +9383,7 @@ msgstr ""
 #: ../src/dialogs/dialog-stf-export.ui.h:19
 #, fuzzy
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "i Byahiswemo URUPAPURO Kuri i Hejuru: Bya i Urutonde Bya Kuri IMPAPURO Kuri "
@@ -9414,7 +9414,7 @@ msgstr "Inyuguti"
 #: ../src/dialogs/dialog-stf-export.ui.h:25
 #, fuzzy
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr "i Byahiswemo URUPAPURO in i Urutonde Bya Kuri IMPAPURO Kuri"
 

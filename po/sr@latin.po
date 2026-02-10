@@ -478,13 +478,13 @@ msgstr "Odbacujem objekat sa nepotpunim sidrom %2x"
 
 #: ../plugins/excel/xlsx-read-pivot.c:958
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr "Naišao sam na atribute „refreshedDate“ i „refreshedDateIso“!"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1294
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr "Preskačem neispravnu grupu polja stožera za polje „%s“ zbog : %s"
 
 #: ../plugins/excel/xlsx-read.c:379
@@ -500,7 +500,7 @@ msgstr "Nepoznata vrednost nabrajanja „%s“ za osobinu %s"
 #: ../plugins/excel/xlsx-read.c:514 ../plugins/excel/xlsx-read.c:573
 #: ../plugins/excel/xlsx-read.c:664
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "Ceo broj „%s“ je izvan opsega, za osobinu %s"
 
 #: ../plugins/excel/xlsx-read.c:518 ../plugins/excel/xlsx-read.c:577
@@ -511,7 +511,7 @@ msgstr "Neispravan ceo broj „%s“ za osobinu %s"
 
 #: ../plugins/excel/xlsx-read.c:543
 #, c-format
-msgid "Unsigned integer '%s' is out of range, for attribute %s"
+msgid "Unsigned integer '%s' is out of range for attribute %s"
 msgstr "Nedodeljeni ceo broj „%s“ je izvan opsega, za osobinu %s"
 
 #: ../plugins/excel/xlsx-read.c:547
@@ -604,7 +604,7 @@ msgstr "Papir iz IksLSIks datoteke, br. %i"
 #: ../plugins/excel/xlsx-read.c:2252
 #: ../plugins/openoffice/openoffice-read.c:2885
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Zanemarujem proveru neispravnih podataka zato što : %s"
 
 #: ../plugins/excel/xlsx-read.c:2775
@@ -718,7 +718,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:700
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Učitavač priključka Eksela / ikslf zapisnik: drugi i treći argument mora biti "
@@ -1327,7 +1327,7 @@ msgstr "Neispravna linija u odeljku REDOVA"
 
 #: ../plugins/mps/mps.c:230
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Dvostruki naziv redova „%s“"
 
 #: ../plugins/mps/mps.c:248
@@ -2400,7 +2400,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "List je preširok za Gnumerika."
 
 #: ../plugins/sc/sc.c:450
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr "Naiđoh na zapis zavistan od tačnosti bez tačnosti skupa."
 
 #: ../plugins/sc/sc.c:473
@@ -7590,7 +7590,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Treba da uvedete ispravan broj kao maksimum"
 
 #: ../src/dialogs/dialog-tabulate.c:209
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Maksimalni broj treba da bude veći od minimalnog"
 
 #: ../src/dialogs/dialog-tabulate.c:218
@@ -8926,28 +8926,28 @@ msgstr "Poništi _izbor"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "Pomerite izabrani list na vrh spiska listova za izvoz da bi prvi bio izvezen."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 "Izdignite izabrani list na spisku listova za izvoz da bi ranije bio izvezen."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 "Spustite izabrani list na spisku listova za izvoz da bi kasnije bio izvezen."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "Pomerite izabrani list na kraj spiska listova za izvoz da bi poslednji bio "

@@ -409,7 +409,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Move the selected sheet to the top of the list of to be exported sheets to be exported first.</property>
+                                <property name="tooltip_text" translatable="yes">Move the selected sheet to the top of the list of sheets to be exported first.</property>
                                 <property name="use_action_appearance">False</property>
                                 <property name="use_stock">True</property>
                               </object>
@@ -426,7 +426,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Raise the selected sheet in the list of to be exported sheets to be exported earlier.</property>
+                                <property name="tooltip_text" translatable="yes">Raise the selected sheet in the list of sheets to be exported earlier.</property>
                                 <property name="use_action_appearance">False</property>
                                 <property name="use_stock">True</property>
                               </object>
@@ -443,7 +443,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Lower the selected sheet in the list of to be exported sheets to be exported later.</property>
+                                <property name="tooltip_text" translatable="yes">Lower the selected sheet in the list of sheets to be exported later.</property>
                                 <property name="use_action_appearance">False</property>
                                 <property name="use_stock">True</property>
                               </object>
@@ -460,7 +460,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Move the selected sheet to the end of the list of to be exported sheets to be exported last.</property>
+                                <property name="tooltip_text" translatable="yes">Move the selected sheet to the end of the list of sheets to be exported last.</property>
                                 <property name="use_action_appearance">False</property>
                                 <property name="use_stock">True</property>
                               </object>

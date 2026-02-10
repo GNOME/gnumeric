@@ -240,7 +240,7 @@ xls_read_pivot_cache_group (XLSReadPivot *s, BiffQuery *q, GODataCacheField *fie
 		if (NULL == (valid = go_val_bucketer_validate (&bucketer)))
 			g_object_set (G_OBJECT (field), "bucketer", &bucketer, NULL);
 		else {
-			g_warning ("Skipping invalid pivot field group for field '%s' because : %s",
+			g_warning ("Skipping invalid pivot field group for field '%s' because: %s",
 				      go_data_cache_field_get_name (field)->str,
 				      valid->message);
 			g_error_free (valid);

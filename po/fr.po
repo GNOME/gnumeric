@@ -477,7 +477,7 @@ msgstr "Abandon de l'objet avec une ancre incomplète %2x"
 
 #: ../plugins/excel/xlsx-read-pivot.c:957
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr ""
 "Les attributs \"refreshedDate\" et \"refreshedDateIso\" ont été tous les "
@@ -485,7 +485,7 @@ msgstr ""
 
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr ""
 "Un groupe de champs de tableau croisé non valide pour le champ « %s » a été "
 "ignoré étant donné : %s"
@@ -503,7 +503,7 @@ msgstr "Valeur d'énumération « %s » inconnue pour l'attribut %s"
 #: ../plugins/excel/xlsx-read.c:514 ../plugins/excel/xlsx-read.c:573
 #: ../plugins/excel/xlsx-read.c:664
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "L'entier « %s » est en dehors d'une plage valide pour l'attribut %s"
 
 #: ../plugins/excel/xlsx-read.c:518 ../plugins/excel/xlsx-read.c:577
@@ -514,7 +514,7 @@ msgstr "L'entier « %s » n'est pas valide pour l'attribut %s"
 
 #: ../plugins/excel/xlsx-read.c:543
 #, c-format
-msgid "Unsigned integer '%s' is out of range, for attribute %s"
+msgid "Unsigned integer '%s' is out of range for attribute %s"
 msgstr ""
 "L'entier n on signé« %s » est en dehors d'une plage valide pour l'attribut %s"
 
@@ -610,7 +610,7 @@ msgstr ""
 #: ../plugins/excel/xlsx-read.c:2252
 #: ../plugins/openoffice/openoffice-read.c:2913
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Les données de validation non valides sont ignorées à cause de : %s"
 
 #: ../plugins/excel/xlsx-read.c:2775
@@ -733,7 +733,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:706
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Chargeur de greffon Excel / xlfRegister : le deuxième et troisième argument "
@@ -1349,7 +1349,7 @@ msgstr "Ligne non valide dans la section ROWS"
 
 #: ../plugins/mps/mps.c:229
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Nom de lignes %s dupliqué"
 
 #: ../plugins/mps/mps.c:247
@@ -2437,7 +2437,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "La feuille est plus large que ce que Gnumeric peut gérer."
 
 #: ../plugins/sc/sc.c:449
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr "Un format dépendant de la précision a été trouvé sans la précision."
 
 #: ../plugins/sc/sc.c:472
@@ -8005,7 +8005,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Le maximum doit être un nombre valide"
 
 #: ../src/dialogs/dialog-tabulate.c:208
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Le maximum doit être plus grand que le minimum"
 
 #: ../src/dialogs/dialog-tabulate.c:217
@@ -9308,7 +9308,7 @@ msgstr "Tout _désélectionner"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "Déplacer la feuille sélectionnée en début de liste afin qu'elle soit la "
@@ -9316,7 +9316,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 "Monter la feuille dans la liste des feuilles à exporter afin de l'exporter "
@@ -9324,7 +9324,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 "Descendre la feuille dans la liste des feuilles à exporter afin de "
@@ -9332,7 +9332,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "Déplacer la feuille sélectionnée en fin de liste afin qu'elle soit la "

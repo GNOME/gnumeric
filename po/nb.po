@@ -454,13 +454,13 @@ msgstr "Utelater objekt med ufullstendig anker %2x"
 
 #: ../plugins/excel/xlsx-read-pivot.c:958
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr "Fant både «refreshedDate» og «refreshedDateIso» attributtene!"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1294
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr "Hopper over ugyldig pivot-feltgruppe for felt «%s» pga: %s"
 
 #: ../plugins/excel/xlsx-read.c:379
@@ -476,7 +476,7 @@ msgstr "Ukjent enumeratorverdi «%s» for attributt %s"
 #: ../plugins/excel/xlsx-read.c:514 ../plugins/excel/xlsx-read.c:573
 #: ../plugins/excel/xlsx-read.c:664
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "Heltall «%s» er utenfor gyldig område for attributt %s"
 
 #: ../plugins/excel/xlsx-read.c:518 ../plugins/excel/xlsx-read.c:577
@@ -487,7 +487,7 @@ msgstr "Ugyldig heltall «%s» for attributt %s"
 
 #: ../plugins/excel/xlsx-read.c:543
 #, fuzzy, c-format
-msgid "Unsigned integer '%s' is out of range, for attribute %s"
+msgid "Unsigned integer '%s' is out of range for attribute %s"
 msgstr "Heltall «%s» er utenfor gyldig område for attributt %s"
 
 #: ../plugins/excel/xlsx-read.c:547
@@ -580,7 +580,7 @@ msgstr "Papir fra XLSX-fil: #%i"
 #: ../plugins/excel/xlsx-read.c:2252
 #: ../plugins/openoffice/openoffice-read.c:2885
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Ignorerer ugyldig datavalidering pga: %s"
 
 #: ../plugins/excel/xlsx-read.c:2775
@@ -689,7 +689,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:702
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 
@@ -1288,7 +1288,7 @@ msgstr "Ugyldig linje i RADER-seksjon"
 
 #: ../plugins/mps/mps.c:231
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Duplisert navn for rad %s"
 
 #: ../plugins/mps/mps.c:249
@@ -2340,7 +2340,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Arket er for bredt for Gnumeric."
 
 #: ../plugins/sc/sc.c:450
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr ""
 
 #: ../plugins/sc/sc.c:473
@@ -7387,7 +7387,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Du må oppgi et gyldig tall som maksimum"
 
 #: ../src/dialogs/dialog-tabulate.c:209
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Maksimumverdien må være større enn minimum"
 
 #: ../src/dialogs/dialog-tabulate.c:218
@@ -8714,25 +8714,25 @@ msgstr "Velg _ingen"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 

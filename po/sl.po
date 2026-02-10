@@ -484,13 +484,13 @@ msgstr "Predmet z nepopolnim sidrom %2x bo izpuščen"
 
 #: ../plugins/excel/xlsx-read-pivot.c:957
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr "Zaznana sta oba argumenta \"refreshedDate\" in \"refreshedDateIso\"!"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr "Neveljavno vrtilno polje za skupino polja »%s« bo izpuščeno: %s"
 
 #: ../plugins/excel/xlsx-read.c:382
@@ -507,7 +507,7 @@ msgstr "Neznana vrednost enum »%s« za atribut %s"
 #: ../plugins/excel/xlsx-read.c:517 ../plugins/excel/xlsx-read.c:576
 #: ../plugins/excel/xlsx-read.c:691
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "Celoštevilčna vrednost »%s« je izven obsega za atribut %s"
 
 #: ../plugins/excel/xlsx-read.c:521 ../plugins/excel/xlsx-read.c:580
@@ -518,7 +518,7 @@ msgstr "Neveljavno celo število »%s« za atribut »%s«"
 
 #: ../plugins/excel/xlsx-read.c:546
 #, c-format
-msgid "Unsigned integer '%s' is out of range, for attribute %s"
+msgid "Unsigned integer '%s' is out of range for attribute %s"
 msgstr "Celo število brez predznaka »%s« je izven obsega, za atribut %s"
 
 #: ../plugins/excel/xlsx-read.c:550
@@ -612,7 +612,7 @@ msgstr "Stran datoteke XLSX, #%i"
 #: ../plugins/excel/xlsx-read.c:2341
 #: ../plugins/openoffice/openoffice-read.c:2989
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Določanje veljavnosti neveljavnih podatkov bo prezrto: %s"
 
 #: ../plugins/excel/xlsx-read.c:2875
@@ -727,7 +727,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:706
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Vstavek nalagalnika Excel / xlfRegister: drugi in tretji argument morata "
@@ -878,7 +878,7 @@ msgid "Floating Point Functions"
 msgstr "Funkcije s plavajočo vejico"
 
 #: ../plugins/fn-flt/plugin.xml.in.h:2
-msgid "Functions manipulating floating point value"
+msgid "Functions manipulating floating point values"
 msgstr "Funkcije, ki računajo z vrednostmi plavajoče vejice"
 
 #: ../plugins/fn-flt/plugin.xml.in.h:3
@@ -1353,7 +1353,7 @@ msgstr "Neveljavna vrstica v oddelku vrstic"
 
 #: ../plugins/mps/mps.c:229
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Ime vrstice %s je podvojeno."
 
 #: ../plugins/mps/mps.c:247
@@ -2428,7 +2428,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Delovni list je širši, kot ga podpira program Gnumeric."
 
 #: ../plugins/sc/sc.c:456
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr "Zaznan je zapis, ki zahteva določilo natančnosti, vendar ta ni podana."
 
 #: ../plugins/sc/sc.c:479
@@ -7903,7 +7903,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Vpeljati je treba veljavno število kot največje dovoljeno število."
 
 #: ../src/dialogs/dialog-tabulate.c:208
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Največja vrednost mora biti večja od najmanjše."
 
 #: ../src/dialogs/dialog-tabulate.c:217
@@ -9203,25 +9203,25 @@ msgstr "Ne izberi _ničesar"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr "Premakni izbrane delovne liste na začetek seznama za izvoz."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr "Premakni izbrane delovne liste višje na seznamu za izvoz."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr "Premakni izbrane delovne liste nižje na seznamu za izvoz."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr "Premakni izbrane delovne liste na konec seznama za izvoz."
 

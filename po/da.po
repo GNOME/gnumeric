@@ -517,13 +517,13 @@ msgstr "Dropper objekt med ufuldstændigt anker %2x"
 
 #: ../plugins/excel/xlsx-read-pivot.c:957
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr "Springer ugyldig pivotfeltgruppe over for felt '%s' fordi: %s"
 
 #: ../plugins/excel/xlsx-read.c:382
@@ -539,7 +539,7 @@ msgstr "Ukendt enum-værdi '%s' for attribut %s"
 #: ../plugins/excel/xlsx-read.c:517 ../plugins/excel/xlsx-read.c:576
 #: ../plugins/excel/xlsx-read.c:691
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "Heltal '%s' er uden for interval, for attribut %s"
 
 #: ../plugins/excel/xlsx-read.c:521 ../plugins/excel/xlsx-read.c:580
@@ -550,7 +550,7 @@ msgstr "Ugyldigt heltal '%s' for attribut %s"
 
 #: ../plugins/excel/xlsx-read.c:546
 #, c-format
-msgid "Unsigned integer '%s' is out of range, for attribute %s"
+msgid "Unsigned integer '%s' is out of range for attribute %s"
 msgstr "Heltal uden fortegn '%s' er uden for interval, for attribut %s"
 
 #: ../plugins/excel/xlsx-read.c:550
@@ -643,7 +643,7 @@ msgstr "Papir fra XLSX-fil, #%i"
 #: ../plugins/excel/xlsx-read.c:2341
 #: ../plugins/openoffice/openoffice-read.c:2989
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Ignorerer ugyldig datavalidering da: %s"
 
 #: ../plugins/excel/xlsx-read.c:2875
@@ -756,7 +756,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:706
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Excel-udvidelsesmodulindlæser / xlfRegister: det andet og tredje argument "
@@ -904,7 +904,7 @@ msgid "Floating Point Functions"
 msgstr "Funktioner for flydende kommatal"
 
 #: ../plugins/fn-flt/plugin.xml.in.h:2
-msgid "Functions manipulating floating point value"
+msgid "Functions manipulating floating point values"
 msgstr "Funktioner til manipulation af flydende kommatalsværdier"
 
 #: ../plugins/fn-flt/plugin.xml.in.h:3
@@ -1377,8 +1377,8 @@ msgstr "Ugyldig linje i ROWS-afsnit"
 
 #: ../plugins/mps/mps.c:229
 #, c-format
-msgid "Duplicate rows name %s"
-msgstr "Ens rækkenavne %s"
+msgid "Duplicate row name %s"
+msgstr "Duplikat rækkenavn %s"
 
 #: ../plugins/mps/mps.c:247
 msgid "Duplicate objective row"
@@ -2421,7 +2421,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Arket er bredere end Gnumeric kan håndtere."
 
 #: ../plugins/sc/sc.c:456
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr "Stødt på præcisionsafhængigt format uden angivet præcision."
 
 #: ../plugins/sc/sc.c:479
@@ -7631,7 +7631,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Du bør angive et gyldigt tal som maksimum"
 
 #: ../src/dialogs/dialog-tabulate.c:208
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Maksimumværdien bør være større end minimummet"
 
 #: ../src/dialogs/dialog-tabulate.c:217
@@ -8928,25 +8928,25 @@ msgstr "Afmarkér alle"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 

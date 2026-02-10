@@ -453,7 +453,7 @@ sc_parse_format_apply_precision (ScParseState *state, char *format, int col)
 				int i;
 				if (p == -1) {
 					p = 0;
-					sc_warning (state, _("Encountered precision dependent format without set precision."));
+					sc_warning (state, _("Encountered precision-dependent format without set precision."));
 				}
 				off--;
 				g_string_erase (str, off, 1);

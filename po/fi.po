@@ -467,13 +467,13 @@ msgstr "Pudotetaan objektit, joilla on epätäydellinen ankkuri %2x"
 
 #: ../plugins/excel/xlsx-read-pivot.c:875
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read-pivot.c:1200
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr ""
 "Ohitetaan virheellinen ristiintaulukoinnin kenttäryhmä kentän %s osalta. "
 "Syy: %s"
@@ -490,7 +490,7 @@ msgstr "Tuntematon luetteloarvo %s määreelle %s"
 
 #: ../plugins/excel/xlsx-read.c:487 ../plugins/excel/xlsx-read.c:516
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "Kokonaisluku %s on alueen ulkopuolella määreelle %s"
 
 #: ../plugins/excel/xlsx-read.c:491 ../plugins/excel/xlsx-read.c:520
@@ -583,7 +583,7 @@ msgstr ""
 #: ../plugins/excel/xlsx-read.c:2132
 #: ../plugins/openoffice/openoffice-read.c:2736
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Ohitetaan virheellisen datan kelpoisuustarkistus. Syy: %s"
 
 #: ../plugins/excel/xlsx-read.c:2617
@@ -710,7 +710,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:702
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Excel-liitännäislatain / xlfRegister: toisen ja kolmannen argumentin on "
@@ -1305,7 +1305,7 @@ msgstr "Virheellinen rivi ROWS-osassa"
 
 #: ../plugins/mps/mps.c:231
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Rows-osan nimi %s kahtena"
 
 #: ../plugins/mps/mps.c:249
@@ -2370,7 +2370,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Taulukko, josta haetaan."
 
 #: ../plugins/sc/sc.c:450
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr ""
 
 #: ../plugins/sc/sc.c:473
@@ -7679,7 +7679,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Maksimiarvon tulee olla kelvollinen numero"
 
 #: ../src/dialogs/dialog-tabulate.c:209
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Maksimiarvon tulee olla suurempi kuin minimiarvon"
 
 #: ../src/dialogs/dialog-tabulate.c:218
@@ -9062,7 +9062,7 @@ msgstr "Valitse _ei mitään"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "Siirrä valittu taulukon vietävien taulukkojen listan alkuun, niin että se "
@@ -9070,7 +9070,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 "Ylennä valittu taulukko vietävien taulukoiden listassa, niin että se viedään "
@@ -9078,7 +9078,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 "Alenna valittu taulukko vietävien taulukoiden listassa, niin että se viedään "
@@ -9086,7 +9086,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "Siirtää valitun taulukon vietävien taulukkojen listan loppuun, niin että se "

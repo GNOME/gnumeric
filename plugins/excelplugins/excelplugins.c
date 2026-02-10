@@ -703,7 +703,7 @@ actual_Excel4v (int xlfn, XLOPER* operRes, int count, XLOPER** opers)
 						  number of arguments." */
 		}
 		if ( xltypeStr != (opers[1]->xltype & xltypeType) ||  xltypeStr != (opers[2]->xltype & xltypeType)) {
-			g_warning (_("Excel plugin loader / xlfRegister: the second and third argument must be strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."));
+			g_warning (_("Excel plugin loader / xlfRegister: the second and third arguments must be strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."));
 			return xlretInvXloper; /* "An invalid XLOPER or XLOPER12 was passed to the function, or an argument of the wrong type was used." */
 		}
 		m=0;

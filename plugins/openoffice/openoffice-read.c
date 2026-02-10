@@ -2987,7 +2987,7 @@ odf_validations_translate (GsfXMLIn *xin, char const *name)
 			else {
 				oo_warning (xin,
 					    _("Ignoring invalid data "
-					      "validation because : %s"),
+					      "validation because: %s"),
 					    _(err->message));
 				gnm_validation_unref (validation);
 				return NULL;

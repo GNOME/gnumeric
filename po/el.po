@@ -481,14 +481,14 @@ msgstr "Απόρριψη του αντικειμένου με ατελή αγκ�
 
 #: ../plugins/excel/xlsx-read-pivot.c:958
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr ""
 "Βρέθηκαν και τα δυο γνωρίσματα \"refreshedDate\" και το \"refreshedDateIso\"!"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1294
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr ""
 "Παράβλεψη της άκυρης ομάδας συγκεντρωτικού πεδίου για το πεδίου '%s' "
 "επειδή : %s"
@@ -506,7 +506,7 @@ msgstr "Άγνωστη τιμή αρίθμησης '%s' για την ιδιότ
 #: ../plugins/excel/xlsx-read.c:497 ../plugins/excel/xlsx-read.c:556
 #: ../plugins/excel/xlsx-read.c:647
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "Ο ακέραιος '%s' είναι εκτός εύρους, για την ιδιότητα %s"
 
 #: ../plugins/excel/xlsx-read.c:501 ../plugins/excel/xlsx-read.c:560
@@ -517,8 +517,8 @@ msgstr "Άκυρος ακέραιος '%s' για την ιδιότητα %s"
 
 #: ../plugins/excel/xlsx-read.c:526
 #, c-format
-#| msgid "Integer '%s' is out of range, for attribute %s"
-msgid "Unisgned integer '%s' is out of range, for attribute %s"
+#| msgid "Integer '%s' is out of range for attribute %s"
+msgid "Unisgned integer '%s' is out of range for attribute %s"
 msgstr "Ο χωρίς πρόσημο ακέραιος '%s' είναι εκτός εύρους, για την ιδιότητα %s"
 
 #: ../plugins/excel/xlsx-read.c:530
@@ -614,7 +614,7 @@ msgstr "Φύλλο από αρχείο XLSX: %i"
 #: ../plugins/excel/xlsx-read.c:2200
 #: ../plugins/openoffice/openoffice-read.c:2839
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Παράβλεψη άκυρης επικύρωσης δεδομένων επειδή : %s"
 
 #: ../plugins/excel/xlsx-read.c:2723
@@ -727,7 +727,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:702
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Φόρτωση πρόσθετης λειτουργία Excel / xlfRegister: το δεύτερο και το τρίτο "
@@ -1335,7 +1335,7 @@ msgstr "Άκυρη γραμμή στην ενότητα ΓΡΑΜΜΕΣ"
 
 #: ../plugins/mps/mps.c:231
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Αντιγραφή ονόματος γραμμών %s"
 
 #: ../plugins/mps/mps.c:249
@@ -2445,7 +2445,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Το φύλλο είναι πιο πλατύ από όσο μπορεί να χειριστεί το Gnumeric."
 
 #: ../plugins/sc/sc.c:450
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr ""
 "Παρουσιάστηκε μορφοποίηση εξάρτησης ακρίβειας χωρίς να οριστεί ακρίβεια."
 
@@ -7882,7 +7882,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Πρέπει να εισάγετε έναν έγκυρο αριθμό ως μέγιστο"
 
 #: ../src/dialogs/dialog-tabulate.c:209
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "Η μέγιστη τιμή πρέπει να είναι μεγαλύτερη από την ελάχιστη"
 
 #: ../src/dialogs/dialog-tabulate.c:218
@@ -9223,7 +9223,7 @@ msgstr "Επιλογή _κανενός"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "Μετακίνηση του επιλεγμένου φύλλου στην κορυφή της λίστα που θα εξαχθούν τα "
@@ -9231,7 +9231,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 "Σήκωμα του επιλεγμένου φύλλου στη λίστα με τα φύλλα που θα εξαχθούν για να "
@@ -9239,7 +9239,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 "Χαμήλωμα του επιλεγμένου φύλλου στη λίστα που θα εξαχθούν τα φύλλα για να "
@@ -9247,7 +9247,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "Μετακίνηση του επιλεγμένου φύλλου στο τέλος της λίστα που θα εξαχθούν τα "

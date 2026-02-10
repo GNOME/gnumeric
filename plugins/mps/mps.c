@@ -226,7 +226,7 @@ mps_parse_rows (MpsState *state)
 
 		if (g_hash_table_lookup (state->row_hash, name)) {
 			mps_mark_error (state,
-					_("Duplicate rows name %s"),
+					_("Duplicate row name %s"),
 					name);
 			ignore_section (state);
 			return;

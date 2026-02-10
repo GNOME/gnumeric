@@ -343,7 +343,7 @@ msgstr "ཨེམ་ཨེསི་ ཨེགསི་སེལ་ (ཊི་ཨ
 
 #: ../plugins/excel/xlsx-read-pivot.c:1188
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:256
@@ -358,7 +358,7 @@ msgstr "ཁྱད་ཆོས་ %s གི་དོན་ལུ་ མ་ཤེ�
 
 #: ../plugins/excel/xlsx-read.c:392 ../plugins/excel/xlsx-read.c:421
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "ཁྱད་ཆོས་ %s གི་དོན་ལུ་ ཧྲིལ་གྲངས་ '%s' འདི་ཁྱབ་ཚད་ཀྱི་ཕྱི་ཁ་ཨིན་པས་"
 
 #: ../plugins/excel/xlsx-read.c:396 ../plugins/excel/xlsx-read.c:425
@@ -441,7 +441,7 @@ msgstr "དང་པ་ཡང་ན་མཇུག་གསལ་བཀོད་
 
 #: ../plugins/excel/xlsx-read.c:3099
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:3524
@@ -510,7 +510,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:702
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 
@@ -1107,7 +1107,7 @@ msgstr "ཡིག་སྣོད་དེ་ནང་ དུས་མེད་�
 
 #: ../plugins/mps/mps.c:231
 #, fuzzy, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "མིང་ %s དུས་མཐུན་བཟོ་"
 
 #: ../plugins/mps/mps.c:249
@@ -1998,7 +1998,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "ག་ནང་འཚོལ་ཞིབ་འབད་ནི་ཨིན་ན་གི་ལེབ་གྲངས།"
 
 #: ../plugins/sc/sc.c:451
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr ""
 
 #: ../plugins/sc/sc.c:472
@@ -7037,7 +7037,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "ཁྱོད་ཀྱིས་ནུས་ལྡན་ཨང་ཅིག་མང་མཐའ་སྦེ་འགོ་བཙུགས་འབད་དགོ་"
 
 #: ../src/dialogs/dialog-tabulate.c:255
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "མང་མཐའ་གནས་གོང་འདི་ ཉུང་མཐའ་ལས་སྦོམ་དགོ་"
 
 #: ../src/dialogs/dialog-tabulate.c:264
@@ -8274,7 +8274,7 @@ msgstr "གྲལ་ཐིག་རྩ་གྲོལ་གཏང་ནི་:(_
 
 #: ../src/dialogs/dialog-stf-export.ui.h:16
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 "ཕྱིར་འདྲེན་འབད་ནི་ཨིན་མི་ལེབ་གྲངས་ཚུ་གི་ཐོ་ཡིག་ནང་ལུ་ ཤུལ་ལས་ཕྱིར་འདྲེན་འབད་ནིའི་དོན་ལས་ སེལ་འཐུ་འབད་"
@@ -8286,7 +8286,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:18
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "སེལ་འཐུ་འབད་ཡོད་པའི་ལེབ་གྲངས་འདི་ མཇུག་ལུ་ཕྱིར་འདྲེན་འབད་ནིའི་དོན་ལས་ ཕྱིར་འདྲེན་འབད་ཡོད་པའི་ལེབ་"
@@ -8294,7 +8294,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:19
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "སེལ་འཐུ་འབད་ཡོད་པའི་ལེབ་གྲངས་འདི་ འགོ་དང་པ་ཕྱིར་འདྲེན་འབད་ནིའི་དོན་ལས་ ཕྱིར་འདྲེན་འབད་ཡོད་པའི་ལེབ་"
@@ -8323,7 +8323,7 @@ msgstr "ཡིག་འབྲུ་འདྲེན་ཚིག་བཀོད་
 
 #: ../src/dialogs/dialog-stf-export.ui.h:25
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 "ཧེ་མ་ཕྱིར་འདྲེན་འབབད་ནིའི་དོན་ལས་ ཕྱིར་འདྲེན་འབད་ཡོད་པའི་ལེབ་གྲངས་ཚུ་གི་ ཐོ་ཡིག་ནང་གི་སེལ་འཐུ་འབད་"

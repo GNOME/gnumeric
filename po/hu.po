@@ -466,13 +466,13 @@ msgstr "A következő befejezetlen horgonnyal rendelkező objektum eldobása: %2
 
 #: ../plugins/excel/xlsx-read-pivot.c:957
 msgid ""
-"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr "A „refreshedDate” és a „refreshedDateIso” attribútum is megtalálható!"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
-msgid "Skipping invalid pivot field group for field '%s' because : %s"
+msgid "Skipping invalid pivot field group for field '%s' because: %s"
 msgstr ""
 "Érvénytelen kimutatásmező csoportok kihagyása a(z) „%s” mezőnél, ugyanis: %s"
 
@@ -489,7 +489,7 @@ msgstr "Ismeretlen felsorolásérték („%s”) a következő attribútumhoz: %
 #: ../plugins/excel/xlsx-read.c:517 ../plugins/excel/xlsx-read.c:576
 #: ../plugins/excel/xlsx-read.c:691
 #, c-format
-msgid "Integer '%s' is out of range, for attribute %s"
+msgid "Integer '%s' is out of range for attribute %s"
 msgstr "A(z) „%s” egész kívül esik a tartományon a következő attribútumnál: %s"
 
 #: ../plugins/excel/xlsx-read.c:521 ../plugins/excel/xlsx-read.c:580
@@ -500,7 +500,7 @@ msgstr "Érvénytelen egész („%s”) a következő attribútumnál: %s"
 
 #: ../plugins/excel/xlsx-read.c:546
 #, c-format
-msgid "Unsigned integer '%s' is out of range, for attribute %s"
+msgid "Unsigned integer '%s' is out of range for attribute %s"
 msgstr ""
 "A(z) „%s” előjel nélküli egész kívül esik a tartományon a következő "
 "attribútumnál: %s"
@@ -597,7 +597,7 @@ msgstr "Papír az XLSX fájlból, #%i"
 #: ../plugins/excel/xlsx-read.c:2341
 #: ../plugins/openoffice/openoffice-read.c:2989
 #, c-format
-msgid "Ignoring invalid data validation because : %s"
+msgid "Ignoring invalid data validation because: %s"
 msgstr "Érvénytelen adatellenőrzés figyelmen kívül hagyása, ugyanis: %s"
 
 #: ../plugins/excel/xlsx-read.c:2875
@@ -712,7 +712,7 @@ msgstr ""
 
 #: ../plugins/excelplugins/excelplugins.c:706
 msgid ""
-"Excel plugin loader / xlfRegister: the second and third argument must be "
+"Excel plugin loader / xlfRegister: the second and third arguments must be "
 "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 msgstr ""
 "Excel bővítménybetöltő / xlfRegister: a második és harmadik argumentumnak "
@@ -860,7 +860,7 @@ msgid "Floating Point Functions"
 msgstr "Lebegőpontos függvények"
 
 #: ../plugins/fn-flt/plugin.xml.in.h:2
-msgid "Functions manipulating floating point value"
+msgid "Functions manipulating floating point values"
 msgstr "Lebegőpontos értéket kezelő függvények"
 
 #: ../plugins/fn-flt/plugin.xml.in.h:3
@@ -1337,7 +1337,7 @@ msgstr "Érvénytelen sor a ROWS szakaszban"
 
 #: ../plugins/mps/mps.c:229
 #, c-format
-msgid "Duplicate rows name %s"
+msgid "Duplicate row name %s"
 msgstr "Sorok nevének kettőzése: %s"
 
 #: ../plugins/mps/mps.c:247
@@ -2423,7 +2423,7 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "A munkalap szélesebb mint amit a Gnumeric kezelni tud."
 
 #: ../plugins/sc/sc.c:449
-msgid "Encountered precision dependent format without set precision."
+msgid "Encountered precision-dependent format without set precision."
 msgstr "Pontosságfüggő formátum fordult elő pontosságmegadás nélkül."
 
 #: ../plugins/sc/sc.c:472
@@ -7957,7 +7957,7 @@ msgid "You should introduce a valid number as maximum"
 msgstr "Érvényes számot kell betenni maximumként"
 
 #: ../src/dialogs/dialog-tabulate.c:208
-msgid "The maximum value should be bigger than the minimum"
+msgid "The maximum value should be greater than the minimum"
 msgstr "A legnagyobb értéknek nagyobbnak kell lennie a legkisebbnél"
 
 #: ../src/dialogs/dialog-tabulate.c:217
@@ -9260,7 +9260,7 @@ msgstr "Egyik _sem"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of to be exported sheets to "
+"Move the selected sheet to the top of the list of sheets to "
 "be exported first."
 msgstr ""
 "A kijelölt munkalap áthelyezése az exportálandó munkalapok listájának "
@@ -9268,7 +9268,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid ""
-"Raise the selected sheet in the list of to be exported sheets to be exported "
+"Raise the selected sheet in the list of sheets to be exported "
 "earlier."
 msgstr ""
 "A kijelölt munkalap feljebb hozása az exportálandó munkalapok listáján a "
@@ -9276,7 +9276,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
-"Lower the selected sheet in the list of to be exported sheets to be exported "
+"Lower the selected sheet in the list of sheets to be exported "
 "later."
 msgstr ""
 "A kijelölt munkalap lejjebb tolása az exportálandó munkalapok listáján a "
@@ -9284,7 +9284,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of to be exported sheets to "
+"Move the selected sheet to the end of the list of sheets to "
 "be exported last."
 msgstr ""
 "A kijelölt munkalap áthelyezése az exportálandó munkalapok listájának aljára "
