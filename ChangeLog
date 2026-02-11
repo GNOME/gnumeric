@@ -1,3 +1,7 @@
+2026-02-10  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.60
+
 2026-02-01  Morten Welinder  <terra@gnome.org>
 
 	* src/colrow.c (colrow_set_states): Never restore to NULL as we
