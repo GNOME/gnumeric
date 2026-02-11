@@ -1002,7 +1002,9 @@ applix_width_to_pixels (int width)
 static double
 applix_pixels_to_pts (Sheet *sheet, gboolean is_horiz, int pixels)
 {
-	return pixels / colrow_compute_pixel_scale (sheet, is_horiz);
+	double pts = pixels / colrow_compute_pixel_scale (sheet, is_horiz);
+	// Round up to nearest .5 pt
+	return gnm_ceil (2 * pts) / 2;
 }
 
 

@@ -11,4 +11,4 @@ my $mode = ((shift @ARGV) || "check");
 my $args = { 'mode' => $mode, 'nofont' => 1 };
 
 &message ("Check the applix importer.");
-&test_importer ("$samples/applix/sample.as", "3169d790e17a77fb0b4eaf4d566626e724256661", $args);
+&test_importer ("$samples/applix/sample.as", "c94917df732dfd6d84a571e434dbeadcb7adc6f1", $args);
