@@ -1383,10 +1383,9 @@ xml_sax_cols_rows (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static gboolean
-cb_xml_sax_cols_rows_end (GnmColRowIter const *iter, void *xin_)
+cb_xml_sax_cols_rows_end (GnmColRowIter const *iter, void *xin_, gboolean is_col)
 {
 	GsfXMLIn *xin = xin_;
-	gboolean const is_col = xin->node->user_data.v_bool;
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	Sheet *sheet = state->sheet;
 
@@ -1397,6 +1396,18 @@ cb_xml_sax_cols_rows_end (GnmColRowIter const *iter, void *xin_)
 		(sheet, iter->pos, pts, iter->cri->hard_size);
 
 	return FALSE;
+}
+
+static gboolean
+cb_xml_sax_cols_end (GnmColRowIter const *iter, void *xin_)
+{
+	return cb_xml_sax_cols_rows_end (iter, xin_, TRUE);
+}
+
+static gboolean
+cb_xml_sax_rows_end (GnmColRowIter const *iter, void *xin_)
+{
+	return cb_xml_sax_cols_rows_end (iter, xin_, FALSE);
 }
 
 static void
@@ -1429,10 +1440,10 @@ xml_sax_cols_rows_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	// and now will have to do the correction by hand.  Run *once*
 	// with GNM_HACK_COLROW=1 to force the correction.
 
-	sheet_colrow_foreach (sheet, TRUE, 0, -1, cb_xml_sax_cols_rows_end, xin);
-	sheet_colrow_foreach (sheet, FALSE, 0, -1, cb_xml_sax_cols_rows_end, xin);
+	sheet_colrow_foreach (sheet, TRUE, 0, -1, cb_xml_sax_cols_end, xin);
+	sheet_colrow_foreach (sheet, FALSE, 0, -1, cb_xml_sax_rows_end, xin);
 
-	sheet_row_set_default_size_pts (sheet,
+	sheet_col_set_default_size_pts (sheet,
 					maybe_hack_colrow_size (state,
 								sheet_col_get_default_size_pts (sheet),
 								TRUE));
