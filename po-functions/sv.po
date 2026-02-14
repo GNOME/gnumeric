@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-01-22 03:45+0000\n"
-"PO-Revision-Date: 2026-01-28 02:26+0100\n"
+"POT-Creation-Date: 2026-02-09 23:00+0000\n"
+"PO-Revision-Date: 2026-02-14 12:24+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -2353,9 +2353,40 @@ msgid "BESSELI:Modified Bessel function of the first kind of order @{α} at @{x}
 msgstr "BESSELI:Modifierad Besselfunktion av första slaget av ordning @{α} vid @{x}"
 
 #: ../plugins/fn-eng/functions.c:552 ../plugins/fn-eng/functions.c:574 ../plugins/fn-eng/functions.c:597
-#: ../plugins/fn-eng/functions.c:620
-msgid "X:number"
-msgstr "X:tal"
+#: ../plugins/fn-eng/functions.c:620 ../plugins/fn-eng/functions.c:643 ../plugins/fn-eng/functions.c:1451
+#: ../plugins/fn-eng/functions.c:1517 ../plugins/fn-math/functions.c:363
+#: ../plugins/fn-math/functions.c:382 ../plugins/fn-math/functions.c:404
+#: ../plugins/fn-math/functions.c:445 ../plugins/fn-math/functions.c:463
+#: ../plugins/fn-math/functions.c:489 ../plugins/fn-math/functions.c:508
+#: ../plugins/fn-math/functions.c:532 ../plugins/fn-math/functions.c:614
+#: ../plugins/fn-math/functions.c:805 ../plugins/fn-math/functions.c:875
+#: ../plugins/fn-math/functions.c:893 ../plugins/fn-math/functions.c:928
+#: ../plugins/fn-math/functions.c:964 ../plugins/fn-math/functions.c:989
+#: ../plugins/fn-math/functions.c:1006 ../plugins/fn-math/functions.c:1030
+#: ../plugins/fn-math/functions.c:1047 ../plugins/fn-math/functions.c:1071
+#: ../plugins/fn-math/functions.c:1088 ../plugins/fn-math/functions.c:1119
+#: ../plugins/fn-math/functions.c:1143 ../plugins/fn-math/functions.c:1227
+#: ../plugins/fn-math/functions.c:1264 ../plugins/fn-math/functions.c:1283
+#: ../plugins/fn-math/functions.c:1428 ../plugins/fn-math/functions.c:1472
+#: ../plugins/fn-math/functions.c:1601 ../plugins/fn-math/functions.c:1687
+#: ../plugins/fn-math/functions.c:1727 ../plugins/fn-math/functions.c:1745
+#: ../plugins/fn-math/functions.c:1950 ../plugins/fn-math/functions.c:1985
+#: ../plugins/fn-math/functions.c:2177 ../plugins/fn-math/functions.c:2207
+#: ../plugins/fn-math/functions.c:2331 ../plugins/fn-math/functions.c:2381
+#: ../plugins/fn-math/functions.c:2405 ../plugins/fn-math/functions.c:2436
+#: ../plugins/fn-math/functions.c:2473 ../plugins/fn-stat/functions.c:436
+#: ../plugins/fn-stat/functions.c:527 ../plugins/fn-stat/functions.c:588
+#: ../plugins/fn-stat/functions.c:979 ../plugins/fn-stat/functions.c:1048
+#: ../plugins/fn-stat/functions.c:1111 ../plugins/fn-stat/functions.c:1253
+#: ../plugins/fn-stat/functions.c:1288 ../plugins/fn-stat/functions.c:1366
+#: ../plugins/fn-stat/functions.c:1455 ../plugins/fn-stat/functions.c:1485
+#: ../plugins/fn-stat/functions.c:1757 ../plugins/fn-stat/functions.c:1971
+#: ../plugins/fn-stat/functions.c:2007 ../plugins/fn-stat/functions.c:2170
+#: ../plugins/fn-stat/functions.c:4826 ../plugins/fn-stat/functions.c:4857
+#: ../plugins/fn-stat/functions.c:4891 ../plugins/fn-stat/functions.c:4911
+#: ../plugins/fn-stat/functions.c:4950 ../plugins/fn-stat/functions.c:4983
+msgid "x:number"
+msgstr "x:tal"
 
 #: ../plugins/fn-eng/functions.c:553 ../plugins/fn-eng/functions.c:575
 msgid "α:order (any non-negative number)"
@@ -2396,41 +2427,6 @@ msgstr "BESSELY:Besselfunktion av andra slaget av ordning @{α} vid @{x}"
 #: ../plugins/fn-eng/functions.c:642
 msgid "CONVERT:a converted measurement"
 msgstr "CONVERT:ett konverterat mätvärde"
-
-#: ../plugins/fn-eng/functions.c:643 ../plugins/fn-eng/functions.c:1451 ../plugins/fn-eng/functions.c:1517
-#: ../plugins/fn-math/functions.c:363 ../plugins/fn-math/functions.c:382
-#: ../plugins/fn-math/functions.c:404 ../plugins/fn-math/functions.c:445
-#: ../plugins/fn-math/functions.c:463 ../plugins/fn-math/functions.c:489
-#: ../plugins/fn-math/functions.c:508 ../plugins/fn-math/functions.c:532
-#: ../plugins/fn-math/functions.c:614 ../plugins/fn-math/functions.c:805
-#: ../plugins/fn-math/functions.c:875 ../plugins/fn-math/functions.c:893
-#: ../plugins/fn-math/functions.c:928 ../plugins/fn-math/functions.c:964
-#: ../plugins/fn-math/functions.c:989 ../plugins/fn-math/functions.c:1006
-#: ../plugins/fn-math/functions.c:1030 ../plugins/fn-math/functions.c:1047
-#: ../plugins/fn-math/functions.c:1071 ../plugins/fn-math/functions.c:1088
-#: ../plugins/fn-math/functions.c:1119 ../plugins/fn-math/functions.c:1143
-#: ../plugins/fn-math/functions.c:1227 ../plugins/fn-math/functions.c:1264
-#: ../plugins/fn-math/functions.c:1283 ../plugins/fn-math/functions.c:1428
-#: ../plugins/fn-math/functions.c:1472 ../plugins/fn-math/functions.c:1601
-#: ../plugins/fn-math/functions.c:1687 ../plugins/fn-math/functions.c:1727
-#: ../plugins/fn-math/functions.c:1745 ../plugins/fn-math/functions.c:1950
-#: ../plugins/fn-math/functions.c:1985 ../plugins/fn-math/functions.c:2177
-#: ../plugins/fn-math/functions.c:2207 ../plugins/fn-math/functions.c:2331
-#: ../plugins/fn-math/functions.c:2381 ../plugins/fn-math/functions.c:2405
-#: ../plugins/fn-math/functions.c:2436 ../plugins/fn-math/functions.c:2473
-#: ../plugins/fn-stat/functions.c:436 ../plugins/fn-stat/functions.c:527
-#: ../plugins/fn-stat/functions.c:588 ../plugins/fn-stat/functions.c:979
-#: ../plugins/fn-stat/functions.c:1048 ../plugins/fn-stat/functions.c:1111
-#: ../plugins/fn-stat/functions.c:1253 ../plugins/fn-stat/functions.c:1288
-#: ../plugins/fn-stat/functions.c:1366 ../plugins/fn-stat/functions.c:1455
-#: ../plugins/fn-stat/functions.c:1485 ../plugins/fn-stat/functions.c:1757
-#: ../plugins/fn-stat/functions.c:1971 ../plugins/fn-stat/functions.c:2007
-#: ../plugins/fn-stat/functions.c:2170 ../plugins/fn-stat/functions.c:4826
-#: ../plugins/fn-stat/functions.c:4857 ../plugins/fn-stat/functions.c:4891
-#: ../plugins/fn-stat/functions.c:4911 ../plugins/fn-stat/functions.c:4950
-#: ../plugins/fn-stat/functions.c:4983
-msgid "x:number"
-msgstr "x:tal"
 
 #: ../plugins/fn-eng/functions.c:644
 msgid "from:unit (string)"
@@ -5467,7 +5463,7 @@ msgstr "kriterier1:villkor för att en cell ska inkluderas"
 
 #: ../plugins/fn-math/functions.c:723
 msgid ""
-"AVERAGEIF:average of the cells in @{actual range} for which the corresponding cells in the range meet "
+"AVERAGEIF:average of the cells in @{actual_range} for which the corresponding cells in the range meet "
 "the given @{criteria}"
 msgstr ""
 "AVERAGEIF:medel för cellerna i @{verkligt_område} för vilka motsvarande celler i området uppfyller "
@@ -5839,8 +5835,8 @@ msgid "LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluatin
 msgstr "LN1P beräknar LN(1+@{x}) men ger större precision än att evaluera LN(1+@{x})."
 
 #: ../plugins/fn-math/functions.c:1406
-msgid "If @{x} ≤ -1, LN returns #NUM! error."
-msgstr "Om @{x} ≤ -1 returnerar LN felet #NUM!."
+msgid "If @{x} ≤ -1, LN1P returns #NUM! error."
+msgstr "Om @{x} ≤ -1 returnerar LN1P felet #NUM!."
 
 #: ../plugins/fn-math/functions.c:1427
 msgid "POWER:the value of @{x} raised to the power @{y} raised to the power of 1/@{z}"
@@ -6086,13 +6082,12 @@ msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr "TANH:hyperbolisk tangens för @{x}"
 
 #: ../plugins/fn-math/functions.c:1966
-msgid "PI:the constant 𝜋"
-msgstr "PI:konstanten 𝜋"
+msgid "PI:the constant π"
+msgstr "PI:konstanten π"
 
-# TODO: "𝜋 with" ->"𝜋  with"
 #: ../plugins/fn-math/functions.c:1967
-msgid "This function is Excel compatible, but it returns 𝜋 with a better precision."
-msgstr "Denna funktion är Excel-kompatibel, men den returnerar 𝜋 med större precision."
+msgid "This function is Excel compatible, but it returns π with a better precision."
+msgstr "Denna funktion är Excel-kompatibel, men den returnerar π med större precision."
 
 #: ../plugins/fn-math/functions.c:1984
 msgid "TRUNC:@{x} truncated to @{d} digits"
@@ -6186,8 +6181,8 @@ msgid "SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negat
 msgstr "SIGN returnerar 1 om @{x} är positivt och returnerar -1 om @{x} är negativt."
 
 #: ../plugins/fn-math/functions.c:2357
-msgid "SQRTPI:the square root of @{x} times 𝜋"
-msgstr "SQRTPI:kvadratroten av @{x} gånger 𝜋"
+msgid "SQRTPI:the square root of @{x} times π"
+msgstr "SQRTPI:kvadratroten av @{x} gånger π"
 
 #: ../plugins/fn-math/functions.c:2380
 msgid "ROUNDDOWN:@{x} rounded towards 0"
@@ -6454,16 +6449,15 @@ msgstr "mat1:en matris"
 msgid "mat2:a matrix"
 msgstr "mat2:en matris"
 
-# TODO: unbalanced parantheses
 #: ../plugins/fn-math/functions.c:3225
 msgid ""
 "The number of columns in @{mat1} must equal the number of rows in @{mat2}; otherwise #VALUE! is "
-"returned.  The result of MMULT is an array, in which the number of rows is the same as in @{mat1}), and "
-"the number of columns is the same as in (@{mat2})."
+"returned.  The result of MMULT is an array, in which the number of rows is the same as in @{mat1}, and "
+"the number of columns is the same as in @{mat2}."
 msgstr ""
 "Antalet kolumner i @{mat1} måste vara samma som antalet rader i @{mat2}; annars returneras #VÄRDE!. "
-"Resultatet av MMULT är en vektor för vilken antalet rader är samma som i (@{mat1}), och antalet "
-"kolumner är samma som i (@{mat2})."
+"Resultatet av MMULT är en vektor för vilken antalet rader är samma som i @{mat1}, och antalet kolumner "
+"är samma som i @{mat2}."
 
 #: ../plugins/fn-math/functions.c:3265
 msgid "LINSOLVE:solve linear equation"
@@ -8213,9 +8207,9 @@ msgstr "COVAR:kovarians för två datamängder"
 msgid "array1:first data set"
 msgstr "vektor1:första datamängd"
 
-# TODO: second data set???
 #: ../plugins/fn-stat/functions.c:318 ../plugins/fn-stat/functions.c:348
-msgid "array2:set data set"
+#: ../plugins/fn-stat/functions.c:378
+msgid "array2:second data set"
 msgstr "vektor2:andra datamängd"
 
 #: ../plugins/fn-stat/functions.c:319 ../plugins/fn-stat/functions.c:349
@@ -8260,10 +8254,6 @@ msgstr "COVARIANCE.S:stickprovskovarians för två datamängder"
 #: ../plugins/fn-stat/functions.c:376
 msgid "CORREL:Pearson correlation coefficient of two data sets"
 msgstr "CORREL:Pearsons korrelationskoefficient för två datamängder"
-
-#: ../plugins/fn-stat/functions.c:378
-msgid "array2:second data set"
-msgstr "vektor2:andra datamängd"
 
 #: ../plugins/fn-stat/functions.c:384
 msgid "Then CORREL(A1:A5,B1:B5) equals 0.996124788."
@@ -9477,8 +9467,8 @@ msgid "Then PERCENTILE.EXC(A1:A5,0.42) equals 20.02."
 msgstr "Då är PERCENTILE.EXC(A1:A5;0,42) lika med 20,02."
 
 #: ../plugins/fn-stat/functions.c:3179
-msgid "QUARTILE:the @{k}-th quartile of the data points (Hyndman-Fan method 7: N-1 basis)"
-msgstr "QUARTILE:@{k}:e kvartilen för datapunkterna (Hyndman-Fan-metod 7: N-1 bas)"
+msgid "QUARTILE:the @{quart}-th quartile of the data points (Hyndman-Fan method 7: N-1 basis)"
+msgstr "QUARTILE:@{kvart}:e kvartilen för datapunkterna (Hyndman-Fan-metod 7: N-1 bas)"
 
 #: ../plugins/fn-stat/functions.c:3181
 msgid "quart:a number from 0 to 4, indicating which quartile to calculate"
@@ -9501,8 +9491,8 @@ msgid "Then QUARTILE(A1:A5,1) equals 17.3."
 msgstr "Då är QUARTILE(A1:A5;1) lika med 17,3."
 
 #: ../plugins/fn-stat/functions.c:3222
-msgid "QUARTILE.EXC:the @{k}-th quartile of the data points (Hyndman-Fan method 6: N+1 basis)"
-msgstr "QUARTILE.EXC: @{k}:e kvartilen för datapunkterna (Hyndman-Fan-metod 6: N+1 bas)"
+msgid "QUARTILE.EXC:the @{quart}-th quartile of the data points (Hyndman-Fan method 6: N+1 basis)"
+msgstr "QUARTILE.EXC: @{kvart}:e kvartilen för datapunkterna (Hyndman-Fan-metod 6: N+1 bas)"
 
 #: ../plugins/fn-stat/functions.c:3224
 msgid "quart:a number from 1 to 3, indicating which quartile to calculate"
@@ -10889,6 +10879,13 @@ msgstr ""
 #: ../plugins/sample_datasource/sample_datasource.c:227
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr "Det här är inte avsett att vara allmänt aktiverat och är OFF som standard."
+
+#~ msgid "X:number"
+#~ msgstr "X:tal"
+
+# TODO: second data set???
+#~ msgid "array2:set data set"
+#~ msgstr "vektor2:andra datamängd"
 
 #~ msgid ""
 #~ "DATEDIF returns the distance from @{start_date} to @{end_date} according to the unit specified by "
