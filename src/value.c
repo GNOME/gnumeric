@@ -837,9 +837,9 @@ value_cmp (void const *ptr_a, void const *ptr_b)
 	GnmValue const *a = *(GnmValue const **)ptr_a;
 	GnmValue const *b = *(GnmValue const **)ptr_b;
 	switch (value_compare_real (a, b, TRUE, TRUE)) {
-	case IS_EQUAL :   return  0;
-	case IS_LESS :    return -1;
-	case IS_GREATER : return  1;
+	case IS_EQUAL:   return  0;
+	case IS_LESS:    return -1;
+	case IS_GREATER: return  1;
 	default:
 		break;
 	}
@@ -1527,7 +1527,7 @@ value_diff (GnmValue const *a, GnmValue const *b)
 			if (*b->v_str.val->str == '\0')
 				return 0.;
 
-		case VALUE_FLOAT : case VALUE_BOOLEAN:
+		case VALUE_FLOAT: case VALUE_BOOLEAN:
 		default:
 			return GNM_MAX;
 		}

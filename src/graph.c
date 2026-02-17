@@ -597,7 +597,7 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 			}
 			break;
 
-		case VALUE_ARRAY : {
+		case VALUE_ARRAY: {
 			GnmValue *v;
 			int i, j;
 			new_len = 0;
@@ -753,7 +753,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			minimum = maximum = vals[0] = go_nan;
 		break;
 
-	case VALUE_ARRAY : {
+	case VALUE_ARRAY: {
 		guint64 last = 0, max = dat->len;
 		int len = vec->val->v_array.y * vec->val->v_array.x;
 		int x = 0, y = vec->val->v_array.y;

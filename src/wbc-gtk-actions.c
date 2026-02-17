@@ -3911,55 +3911,55 @@ cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
 		borders[i] = NULL;
 
 	switch (index) {
-	case 11 : /* left */
+	case 11: /* left */
 		borders[GNM_STYLE_BORDER_LEFT] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
 			 gnm_style_border_get_orientation (GNM_STYLE_BORDER_LEFT));
 		break;
 
-	case 12 : /* none */
+	case 12: /* none */
 		for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
 			borders[i] = gnm_style_border_ref (gnm_style_border_none ());
 		break;
 
-	case 13 : /* right */
+	case 13: /* right */
 		borders[GNM_STYLE_BORDER_RIGHT] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
 			 gnm_style_border_get_orientation (GNM_STYLE_BORDER_RIGHT));
 		break;
 
-	case 21 : /* all */
+	case 21: /* all */
 		for (i = GNM_STYLE_BORDER_HORIZ; i <= GNM_STYLE_BORDER_VERT; ++i)
 			borders[i] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
 				sheet_style_get_auto_pattern_color (sheet),
 				gnm_style_border_get_orientation (i));
 		/* fall through */
 
-	case 22 : /* outside */
+	case 22: /* outside */
 		for (i = GNM_STYLE_BORDER_TOP; i <= GNM_STYLE_BORDER_RIGHT; ++i)
 			borders[i] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
 				sheet_style_get_auto_pattern_color (sheet),
 				gnm_style_border_get_orientation (i));
 		break;
 
-	case 23 : /* thick_outside */
+	case 23: /* thick_outside */
 		for (i = GNM_STYLE_BORDER_TOP; i <= GNM_STYLE_BORDER_RIGHT; ++i)
 			borders[i] = gnm_style_border_fetch (GNM_STYLE_BORDER_THICK,
 				sheet_style_get_auto_pattern_color (sheet),
 				gnm_style_border_get_orientation (i));
 		break;
 
-	case 41 : /* top_n_bottom */
-	case 42 : /* top_n_double_bottom */
-	case 43 : /* top_n_thick_bottom */
+	case 41: /* top_n_bottom */
+	case 42: /* top_n_double_bottom */
+	case 43: /* top_n_thick_bottom */
 		borders[GNM_STYLE_BORDER_TOP] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
 			sheet_style_get_auto_pattern_color (sheet),
 			gnm_style_border_get_orientation (GNM_STYLE_BORDER_TOP));
 	    /* Fall through */
 
-	case 31 : /* bottom */
-	case 32 : /* double_bottom */
-	case 33 : /* thick_bottom */
+	case 31: /* bottom */
+	case 32: /* double_bottom */
+	case 33: /* thick_bottom */
 	{
 		int const tmp = index % 10;
 		GnmStyleBorderType const t =

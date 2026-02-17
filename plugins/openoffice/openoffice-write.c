@@ -431,9 +431,9 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 	int spans = 0;
 
 	switch (a->klass->type) {
-	case PANGO_ATTR_FAMILY :
+	case PANGO_ATTR_FAMILY:
 		break; /* ignored */
-	case PANGO_ATTR_SIZE :
+	case PANGO_ATTR_SIZE:
 		{
 			char * str;
 			gint size = ((PangoAttrInt *)a)->value/PANGO_SCALE;
@@ -455,7 +455,7 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 			gsf_xml_out_add_cstr (state->xml, TEXT "style-name", "AC-script");
 		spans += 1;
 		break;
-	case PANGO_ATTR_STYLE :
+	case PANGO_ATTR_STYLE:
 		spans += 1;
 		gsf_xml_out_start_element (state->xml, TEXT "span");
 		gsf_xml_out_add_cstr (state->xml, TEXT "style-name",
@@ -463,7 +463,7 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 				       == PANGO_STYLE_ITALIC)
 				      ? "AC-italic"  : "AC-roman");
 		break;
-	case PANGO_ATTR_WEIGHT :
+	case PANGO_ATTR_WEIGHT:
 	{
 		char * str = g_strdup_printf ("AC-weight%i",
 					      ((((PangoAttrInt *)a)->value
@@ -474,7 +474,7 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 		g_free (str);
 	}
 	break;
-	case PANGO_ATTR_STRIKETHROUGH :
+	case PANGO_ATTR_STRIKETHROUGH:
 		spans += 1;
 		gsf_xml_out_start_element (state->xml, TEXT "span");
 		gsf_xml_out_add_cstr (state->xml, TEXT "style-name",
@@ -482,23 +482,23 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 				      ? "AC-strikethrough-solid"
 				      : "AC-strikethrough-none");
 		break;
-	case PANGO_ATTR_UNDERLINE :
+	case PANGO_ATTR_UNDERLINE:
 	{
 		char const *name = NULL;
 		switch (((PangoAttrInt *)a)->value) {
-		case PANGO_UNDERLINE_NONE :
+		case PANGO_UNDERLINE_NONE:
 			name = "AC-underline-none";
 			break;
-		case PANGO_UNDERLINE_SINGLE :
+		case PANGO_UNDERLINE_SINGLE:
 			name = "AC-underline-single";
 			break;
-		case PANGO_UNDERLINE_DOUBLE :
+		case PANGO_UNDERLINE_DOUBLE:
 			name = "AC-underline-double";
 			break;
-		case PANGO_UNDERLINE_LOW :
+		case PANGO_UNDERLINE_LOW:
 			name = "AC-underline-low";
 			break;
-		case PANGO_UNDERLINE_ERROR :
+		case PANGO_UNDERLINE_ERROR:
 			name = "AC-underline-error";
 			break;
 		default:
@@ -509,7 +509,7 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 		gsf_xml_out_add_cstr (state->xml, TEXT "style-name", name);
 	}
 	break;
-	case PANGO_ATTR_FOREGROUND :
+	case PANGO_ATTR_FOREGROUND:
 		{
 			PangoColor const *c;
 			gchar *c_str;
@@ -527,7 +527,7 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 			g_hash_table_insert (state->text_colours, name, c_str);
 		}
 		break;
-	default :
+	default:
 		if (a->klass->type ==
 		    go_pango_attr_subscript_get_attr_type ()) {
 			gsf_xml_out_start_element (state->xml, TEXT "span");
@@ -4439,7 +4439,7 @@ odf_write_filter_cond (GnmOOExport *state, GnmFilter const *filter, int i)
 	case GNM_FILTER_OP_TOP_N_PERCENT:	op = "top percent"; break;
 	case GNM_FILTER_OP_BOTTOM_N_PERCENT:	op = "bottom percent"; break;
 	/* remainder are not supported in ODF */
-	default :
+	default:
 		return;
 	}
 

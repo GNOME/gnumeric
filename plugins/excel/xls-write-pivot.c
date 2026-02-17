@@ -132,11 +132,11 @@ xls_write_pivot_cache_value (ExcelWriteState *ewb, GOVal const *v)
 			break;
 		}
 
-		case VALUE_ERROR :
+		case VALUE_ERROR:
 			ms_biff_put_2byte (ewb->bp, BIFF_SXERR, excel_write_map_errcode (v));
 			break;
 
-		case VALUE_STRING :
+		case VALUE_STRING:
 			ms_biff_put_var_next (ewb->bp, BIFF_SXSTRING);
 			excel_write_string (ewb->bp, STR_TWO_BYTE_LENGTH, v->v_str.val->str);
 			ms_biff_put_commit (ewb->bp);
@@ -158,16 +158,16 @@ xls_write_pivot_cache_group (ExcelWriteState *ewb,
 		xls_write_pivot_cache_value (ewb, go_val_array_index (grouped_items, i));
 
 	switch (bucketer->type) {
-	case GO_VAL_BUCKET_SECOND	: flags = 1; break;
-	case GO_VAL_BUCKET_MINUTE	: flags = 2; break;
-	case GO_VAL_BUCKET_HOUR		: flags = 3; break;
-	case GO_VAL_BUCKET_DAY_OF_YEAR	: flags = 4; break;
-	case GO_VAL_BUCKET_MONTH	: flags = 5; break;
-	case GO_VAL_BUCKET_CALENDAR_QUARTER : flags = 6; break;
-	case GO_VAL_BUCKET_YEAR		: flags = 7; break;
+	case GO_VAL_BUCKET_SECOND: flags = 1; break;
+	case GO_VAL_BUCKET_MINUTE: flags = 2; break;
+	case GO_VAL_BUCKET_HOUR: flags = 3; break;
+	case GO_VAL_BUCKET_DAY_OF_YEAR: flags = 4; break;
+	case GO_VAL_BUCKET_MONTH: flags = 5; break;
+	case GO_VAL_BUCKET_CALENDAR_QUARTER: flags = 6; break;
+	case GO_VAL_BUCKET_YEAR: flags = 7; break;
 	default:
 		 /* default to linear */;
-	case GO_VAL_BUCKET_SERIES_LINEAR : flags = 8; break;
+	case GO_VAL_BUCKET_SERIES_LINEAR: flags = 8; break;
 	}
 	flags <<= 2;
 	ms_biff_put_2byte (ewb->bp, BIFF_SXNUMGROUP, flags);
@@ -268,15 +268,15 @@ xls_write_pivot_cache (ExcelWriteState *ewb, GODataCache const *cache, guint16 s
 		field = go_data_cache_get_field (cache, i);
 		xls_write_cache_field (ewb, field);
 		switch (go_data_cache_field_ref_type (field)) {
-		case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8 :
+		case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8:
 			g_ptr_array_add (indexed, (gpointer)field);
 			break;
-		case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 :	/* fallthrough */
-		case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 :	/* fallthrough */
-		case GO_DATA_CACHE_FIELD_TYPE_INLINE :
+		case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16:	/* fallthrough */
+		case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32:	/* fallthrough */
+		case GO_DATA_CACHE_FIELD_TYPE_INLINE:
 			g_ptr_array_add (inlined, (gpointer)field);
 			break;
-		case GO_DATA_CACHE_FIELD_TYPE_NONE :
+		case GO_DATA_CACHE_FIELD_TYPE_NONE:
 			break;
 		}
 	}

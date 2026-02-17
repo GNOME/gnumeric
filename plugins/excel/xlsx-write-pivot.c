@@ -67,13 +67,13 @@ xlsx_write_pivot_val (XLSXWriteState *state, GsfXMLOut *xml,
 		break;
 	}
 
-	case VALUE_ERROR :
+	case VALUE_ERROR:
 		gsf_xml_out_start_element (xml, "e");
 		gsf_xml_out_add_cstr (xml, "v", v->v_err.mesg->str);
 		gsf_xml_out_end_element (xml);
 		break;
 
-	case VALUE_STRING :
+	case VALUE_STRING:
 		gsf_xml_out_start_element (xml, "s");
 		gsf_xml_out_add_cstr (xml, "v", v->v_str.val->str);
 		gsf_xml_out_end_element (xml);
@@ -107,22 +107,22 @@ xlsx_write_pivot_cache_records (XLSXWriteState *state, GODataCache const *cache,
 		for (i = 0 ; i < go_data_cache_num_fields (cache); i++) {
 			GODataCacheField *field = go_data_cache_get_field (cache, i);
 			switch (go_data_cache_field_ref_type (field)) {
-			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8 :
-			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 :	/* fallthrough */
-			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 :	/* fallthrough */
+			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8:
+			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16:	/* fallthrough */
+			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32:	/* fallthrough */
 				gsf_xml_out_start_element (xml, "x");
 				gsf_xml_out_add_int (xml, "v",
 					go_data_cache_get_index (cache, field, j));
 				gsf_xml_out_end_element (xml);
 				break;
 
-			case GO_DATA_CACHE_FIELD_TYPE_INLINE : {
+			case GO_DATA_CACHE_FIELD_TYPE_INLINE: {
 				GOVal const *v = go_data_cache_field_get_val (field, j);
 				if (v != NULL)
 					xlsx_write_pivot_val (state, xml, v);
 				break;
 			}
-			case GO_DATA_CACHE_FIELD_TYPE_NONE :
+			case GO_DATA_CACHE_FIELD_TYPE_NONE:
 				continue;
 			}
 		}
@@ -219,16 +219,16 @@ xlsx_write_pivot_cache_field (XLSXWriteState *state, GsfXMLOut *xml,
 
 		gsf_xml_out_start_element (xml, "rangePr");
 		switch (bucketer->type) {
-		case GO_VAL_BUCKET_SECOND		: group_by = "seconds"; break;
-		case GO_VAL_BUCKET_MINUTE		: group_by = "minutes"; break;
-		case GO_VAL_BUCKET_HOUR			: group_by = "hours"; break;
-		case GO_VAL_BUCKET_DAY_OF_YEAR		: group_by = "days"; break;
-		case GO_VAL_BUCKET_MONTH		: group_by = "months"; break;
-		case GO_VAL_BUCKET_CALENDAR_QUARTER	: group_by = "quarters"; break;
-		case GO_VAL_BUCKET_YEAR			: group_by = "years"; break;
+		case GO_VAL_BUCKET_SECOND: group_by = "seconds"; break;
+		case GO_VAL_BUCKET_MINUTE: group_by = "minutes"; break;
+		case GO_VAL_BUCKET_HOUR: group_by = "hours"; break;
+		case GO_VAL_BUCKET_DAY_OF_YEAR: group_by = "days"; break;
+		case GO_VAL_BUCKET_MONTH: group_by = "months"; break;
+		case GO_VAL_BUCKET_CALENDAR_QUARTER: group_by = "quarters"; break;
+		case GO_VAL_BUCKET_YEAR: group_by = "years"; break;
 		default:
 							  /* default to linear */;
-		case GO_VAL_BUCKET_SERIES_LINEAR 	:break;
+		case GO_VAL_BUCKET_SERIES_LINEAR:break;
 		}
 		if (group_by) gsf_xml_out_add_cstr_unchecked (xml, "groupBy", group_by);
 		if (bucketer->type == GO_VAL_BUCKET_SERIES_LINEAR) {

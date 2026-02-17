@@ -214,11 +214,11 @@ BC_R(3dbarshape)(XLChartHandler const *handle,
 	d (0, {
 		guint16 const type = GSF_LE_GET_GUINT16 (q->data);
 		switch (type) {
-		case 0 : g_printerr ("box"); break;
-		case 1 : g_printerr ("cylinder"); break;
-		case 256 : g_printerr ("pyramid"); break;
-		case 257 : g_printerr ("cone"); break;
-		default :
+		case 0: g_printerr ("box"); break;
+		case 1: g_printerr ("cylinder"); break;
+		case 256: g_printerr ("pyramid"); break;
+		case 257: g_printerr ("cone"); break;
+		default:
 			   g_printerr ("unknown 3dshape %d\n", type);
 		}
 	});
@@ -346,19 +346,19 @@ BC_R(ai)(XLChartHandler const *handle,
 	g_return_val_if_fail (purpose < GOG_MS_DIM_TYPES, TRUE);
 	d (0, {
 	switch (purpose) {
-	case GOG_MS_DIM_LABELS :     g_printerr ("Labels;\n"); break;
-	case GOG_MS_DIM_VALUES :     g_printerr ("Values;\n"); break;
-	case GOG_MS_DIM_CATEGORIES : g_printerr ("Categories;\n"); break;
-	case GOG_MS_DIM_BUBBLES :    g_printerr ("Bubbles;\n"); break;
-	default :
+	case GOG_MS_DIM_LABELS:     g_printerr ("Labels;\n"); break;
+	case GOG_MS_DIM_VALUES:     g_printerr ("Values;\n"); break;
+	case GOG_MS_DIM_CATEGORIES: g_printerr ("Categories;\n"); break;
+	case GOG_MS_DIM_BUBBLES:    g_printerr ("Bubbles;\n"); break;
+	default:
 		g_printerr ("UKNOWN : purpose (%x)\n", purpose);
 	}
 	switch (ref_type) {
-	case 0 : g_printerr ("Use default categories;\n"); break;
-	case 1 : g_printerr ("Text/Value entered directly;\n"); g_printerr ("data length = %d\n",length); break;
-	case 2 : g_printerr ("Linked to Container;\n"); break;
-	case 4 : g_printerr ("'Error reported' what the heck is this ??;\n"); break;
-	default :
+	case 0: g_printerr ("Use default categories;\n"); break;
+	case 1: g_printerr ("Text/Value entered directly;\n"); g_printerr ("data length = %d\n",length); break;
+	case 2: g_printerr ("Linked to Container;\n"); break;
+	case 4: g_printerr ("'Error reported' what the heck is this ??;\n"); break;
+	default:
 		 g_printerr ("UKNOWN : reference type (%x)\n", ref_type);
 	}
 	});
@@ -646,13 +646,13 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 	g_printerr ("Axisline is ");
 	switch (type)
 	{
-	case 0 : g_printerr ("the axis line.\n"); break;
-	case 1 : g_printerr ("a major grid along the axis.\n"); break;
-	case 2 : g_printerr ("a minor grid along the axis.\n"); break;
+	case 0: g_printerr ("the axis line.\n"); break;
+	case 1: g_printerr ("a major grid along the axis.\n"); break;
+	case 2: g_printerr ("a minor grid along the axis.\n"); break;
 
 	/* TODO TODO : floor vs wall */
-	case 3 : g_printerr ("a floor/wall along the axis.\n"); break;
-	default : g_printerr ("an ERROR.  unknown type (%x).\n", type);
+	case 3: g_printerr ("a floor/wall along the axis.\n"); break;
+	default: g_printerr ("an ERROR.  unknown type (%x).\n", type);
 	}
 	});
 
@@ -1184,10 +1184,10 @@ BC_R(gelframe) (XLChartHandler const *handle,
 		 * 0xf0 == const
 		 **/
 		switch ((fill_back_color & 0xff00)) {
-		default :
+		default:
 			g_warning ("looks like our theory of 1-color gradient brightness is incorrect");
-		case 0x0100 : brightness = 0. + frac/512.; break;
-		case 0x0200 : brightness = 1. - frac/512.; break;
+		case 0x0100: brightness = 0. + frac/512.; break;
+		case 0x0200: brightness = 1. - frac/512.; break;
 		}
 		go_style_set_fill_brightness (s->style, (1. - brightness) * 100.);
 		d (1, g_printerr ("%x : frac = %u, flag = 0x%x ::: %f",
@@ -1209,38 +1209,38 @@ BC_R(gelframe) (XLChartHandler const *handle,
 			focus = ((focus + 25) / 50) % 4;
 
 		switch (angle) {
-		default :
+		default:
 			g_warning ("non standard gradient angle %u, using horizontal", angle);
-		case 0 : /* horizontal */
+		case 0: /* horizontal */
 			switch (focus) {
-			case 0 : dir = GO_GRADIENT_S_TO_N; break;
-			case 1 : dir = GO_GRADIENT_N_TO_S_MIRRORED; break;
-			case 2 : dir = GO_GRADIENT_N_TO_S; break;
-			case 3 : dir = GO_GRADIENT_S_TO_N_MIRRORED; break;
+			case 0: dir = GO_GRADIENT_S_TO_N; break;
+			case 1: dir = GO_GRADIENT_N_TO_S_MIRRORED; break;
+			case 2: dir = GO_GRADIENT_N_TO_S; break;
+			case 3: dir = GO_GRADIENT_S_TO_N_MIRRORED; break;
 			}
 			break;
-		case 0xffd30000 : /* diag down (-45 in 16.16 fixed) */
+		case 0xffd30000: /* diag down (-45 in 16.16 fixed) */
 			switch (focus) {
-			case 0 : dir = GO_GRADIENT_SE_TO_NW; break;
-			case 1 : dir = GO_GRADIENT_SE_TO_NW_MIRRORED; break;
-			case 2 : dir = GO_GRADIENT_NW_TO_SE; break;
-			case 3 : dir = GO_GRADIENT_NW_TO_SE_MIRRORED; break;
+			case 0: dir = GO_GRADIENT_SE_TO_NW; break;
+			case 1: dir = GO_GRADIENT_SE_TO_NW_MIRRORED; break;
+			case 2: dir = GO_GRADIENT_NW_TO_SE; break;
+			case 3: dir = GO_GRADIENT_NW_TO_SE_MIRRORED; break;
 			}
 			break;
-		case 0xffa60000 : /* vertical (-90 in 16.16 fixed) */
+		case 0xffa60000: /* vertical (-90 in 16.16 fixed) */
 			switch (focus) {
-			case 0 : dir = GO_GRADIENT_E_TO_W; break;
-			case 1 : dir = GO_GRADIENT_E_TO_W_MIRRORED; break;
-			case 2 : dir = GO_GRADIENT_W_TO_E; break;
-			case 3 : dir = GO_GRADIENT_W_TO_E_MIRRORED; break;
+			case 0: dir = GO_GRADIENT_E_TO_W; break;
+			case 1: dir = GO_GRADIENT_E_TO_W_MIRRORED; break;
+			case 2: dir = GO_GRADIENT_W_TO_E; break;
+			case 3: dir = GO_GRADIENT_W_TO_E_MIRRORED; break;
 			}
 			break;
-		case 0xff790000 : /* diag up (-135 in 16.16 fixed) */
+		case 0xff790000: /* diag up (-135 in 16.16 fixed) */
 			switch (focus) {
-			case 0 : dir = GO_GRADIENT_SE_TO_NW; break;
-			case 1 : dir = GO_GRADIENT_SE_TO_NW_MIRRORED; break;
-			case 2 : dir = GO_GRADIENT_NW_TO_SE; break;
-			case 3 : dir = GO_GRADIENT_NW_TO_SE_MIRRORED; break;
+			case 0: dir = GO_GRADIENT_SE_TO_NW; break;
+			case 1: dir = GO_GRADIENT_SE_TO_NW_MIRRORED; break;
+			case 2: dir = GO_GRADIENT_NW_TO_SE; break;
+			case 3: dir = GO_GRADIENT_NW_TO_SE_MIRRORED; break;
 			}
 		}
 		s->style->fill.gradient.dir = dir;
@@ -1304,7 +1304,7 @@ BC_R(legend)(XLChartHandler const *handle,
 	case 0: pos = GOG_POSITION_S | GOG_POSITION_ALIGN_CENTER; break;
 	case 1: pos = GOG_POSITION_N | GOG_POSITION_E; break;
 	case 2: pos = GOG_POSITION_N | GOG_POSITION_ALIGN_CENTER; break;
-	default :
+	default:
 		g_warning ("Unknown legend position (%d), assuming east.",
 			   XL_pos);
 	case 3: pos = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER; break;
@@ -1403,14 +1403,14 @@ BC_R(lineformat)(XLChartHandler const *handle,
 
 	BC_R(get_style) (s);
 	switch (GSF_LE_GET_GINT16 (q->data + 6)) {
-	default :
+	default:
 	case -1 : s->style->line.width = 0; /* hairline */
 		break;
-	case  0 : s->style->line.width = 1; /* 'normal' */
+	case  0: s->style->line.width = 1; /* 'normal' */
 		break;
-	case  1 : s->style->line.width = 2; /* 'medium' */
+	case  1: s->style->line.width = 2; /* 'medium' */
 		break;
-	case  2 : s->style->line.width = 3; /* 'wide' */
+	case  2: s->style->line.width = 3; /* 'wide' */
 		break;
 	}
 	s->style->line.color      = BC_R(color) (q->data, "LineColor");
@@ -1581,7 +1581,7 @@ BC_R(objectlink)(XLChartHandler const *handle,
 		case 2: t = GOG_AXIS_Y; break;
 		case 3: t = GOG_AXIS_X; break;
 		case 7: t = GOG_AXIS_Z; break;
-		default :
+		default:
 			g_warning ("Unknown axis type %d", purpose);
 			return FALSE;
 		}
@@ -1618,13 +1618,13 @@ BC_R(objectlink)(XLChartHandler const *handle,
 	guint16 const pt_num = GSF_LE_GET_GUINT16 (q->data+4);
 
 	switch (purpose) {
-	case 1 : g_printerr ("TEXT is chart title\n"); break;
-	case 2 : g_printerr ("TEXT is Y axis title\n"); break;
-	case 3 : g_printerr ("TEXT is X axis title\n"); break;
-	case 4 : g_printerr ("TEXT is data label for pt %hd in series %hd\n",
+	case 1: g_printerr ("TEXT is chart title\n"); break;
+	case 2: g_printerr ("TEXT is Y axis title\n"); break;
+	case 3: g_printerr ("TEXT is X axis title\n"); break;
+	case 4: g_printerr ("TEXT is data label for pt %hd in series %hd\n",
 			 pt_num, series_num); break;
-	case 7 : g_printerr ("TEXT is Z axis title\n"); break;
-	default :
+	case 7: g_printerr ("TEXT is Z axis title\n"); break;
+	default:
 		 g_printerr ("ERROR : TEXT is linked to undocumented object\n");
 	}});
 	if (NULL != label && NULL != s->style)
@@ -1750,10 +1750,10 @@ BC_R(pos)(XLChartHandler const *handle,
 	  XLChartReadState *s, BiffQuery *q)
 {
 	switch (BC_R(top_state) (s, 0)) {
-	case BIFF_CHART_text :
+	case BIFF_CHART_text:
 		d(2, g_printerr ("text pos;"););
 		break;
-	default :
+	default:
 		;
 	}
 	return FALSE;
@@ -2055,10 +2055,10 @@ BC_R(vector_details)(XLChartReadState *s, BiffQuery *q, XLChartSeries *series,
 	XL_CHECK_CONDITION (q->length >= 2 + (unsigned)count_offset);
 #if 0
 	switch (GSF_LE_GET_GUINT16 (q->data + type_offset)) {
-	case 0 : /* date */ break;
-	case 1 : /* value */ break;
-	case 2 : /* sequences */ break;
-	case 3 : /* string */ break;
+	case 0: /* date */ break;
+	case 1: /* value */ break;
+	case 2: /* sequences */ break;
+	case 3: /* string */ break;
 	}
 #endif
 
@@ -2319,16 +2319,16 @@ BC_R(text)(XLChartHandler const *handle,
 	if (s->prev_opcode == BIFF_CHART_defaulttext) {
 		g_printerr ("Text follows defaulttext;\n");
 	} else switch (BC_R(top_state) (s, 0)) {
-	case BIFF_CHART_axisparent :
+	case BIFF_CHART_axisparent:
 		g_printerr ("Text follows axis;\n");
 		break;
-	case BIFF_CHART_chart :
+	case BIFF_CHART_chart:
 		g_printerr ("Text follows chart;\n");
 		break;
-	case BIFF_CHART_legend :
+	case BIFF_CHART_legend:
 		g_printerr ("Text follows legend;\n");
 		break;
-	default :
+	default:
 		g_printerr ("BIFF ERROR : A Text record follows a %x\n",
 			s->prev_opcode);
 		g_object_unref (s->style);
@@ -2396,21 +2396,21 @@ BC_R(tick)(XLChartHandler const *handle,
 	case 1: g_printerr ("major tick inside axis;\n"); break;
 	case 2: g_printerr ("major tick outside axis;\n"); break;
 	case 3: g_printerr ("major tick across axis;\n"); break;
-	default : g_printerr ("unknown major tick type;\n");
+	default: g_printerr ("unknown major tick type;\n");
 	}
 	switch (minor) {
 	case 0: g_printerr ("no minor tick;\n"); break;
 	case 1: g_printerr ("minor tick inside axis;\n"); break;
 	case 2: g_printerr ("minor tick outside axis;\n"); break;
 	case 3: g_printerr ("minor tick across axis;\n"); break;
-	default : g_printerr ("unknown minor tick type;\n");
+	default: g_printerr ("unknown minor tick type;\n");
 	}
 	switch (label) {
 	case 0: g_printerr ("no tick label;\n"); break;
 	case 1: g_printerr ("tick label at low end (NOTE mapped to near axis);\n"); break;
 	case 2: g_printerr ("tick label at high end (NOTE mapped to near axis);\n"); break;
 	case 3: g_printerr ("tick label near axis;\n"); break;
-	default : g_printerr ("unknown tick label position;\n");
+	default: g_printerr ("unknown tick label position;\n");
 	}
 
 	/*
@@ -2430,7 +2430,7 @@ BC_R(tick)(XLChartHandler const *handle,
 	case 4: g_printerr ("top to bottom letters upright;\n"); break;
 	case 8: g_printerr ("rotate 90deg counter-clockwise;\n"); break;
 	case 0x0c: g_printerr ("rotate 90deg clockwise;\n"); break;
-	default : g_printerr ("unknown rotation;\n");
+	default: g_printerr ("unknown rotation;\n");
 	}
 
 	if (flags&0x20)
@@ -2629,9 +2629,9 @@ BC_R(end)(XLChartHandler const *handle,
 	s->stack = g_array_remove_index_fast (s->stack, s->stack->len-1);
 
 	switch (popped_state) {
-	case BIFF_CHART_axisparent :
+	case BIFF_CHART_axisparent:
 		break;
-	case BIFF_CHART_axis :
+	case BIFF_CHART_axis:
 		if (s->style) {
 			g_object_set (s->axis, "style", s->style, NULL);
 			g_object_unref (s->style);
@@ -2640,7 +2640,7 @@ BC_R(end)(XLChartHandler const *handle,
 		s->axis = NULL;
 		break;
 
-	case BIFF_CHART_legend :
+	case BIFF_CHART_legend:
 		if (s->style) {
 			g_object_set (s->legend, "style", s->style, NULL);
 			g_object_unref (s->style);
@@ -2649,7 +2649,7 @@ BC_R(end)(XLChartHandler const *handle,
 		s->legend = NULL;
 		break;
 
-	case BIFF_CHART_frame :
+	case BIFF_CHART_frame:
 		if (s->style != NULL) {
 			int top_state = BC_R(top_state) (s, 0);
 			GogObject *obj = NULL;
@@ -2674,12 +2674,12 @@ BC_R(end)(XLChartHandler const *handle,
 		s->axis_cross_at_max = FALSE;
 		break;
 
-	case BIFF_CHART_series :
+	case BIFF_CHART_series:
 		g_return_val_if_fail (s->currentSeries != NULL, TRUE);
 		s->currentSeries = NULL;
 		break;
 
-	case BIFF_CHART_chartformat : {
+	case BIFF_CHART_chartformat: {
 		unsigned i, j;
 		XLChartSeries *eseries;
 		GogSeries     *series;
@@ -3216,7 +3216,7 @@ not_a_matrix:
 		break;
 	}
 
-	case BIFF_CHART_dataformat :
+	case BIFF_CHART_dataformat:
 		if (s->style == NULL)
 			break;
 		if (s->currentSeries != NULL) {
@@ -3239,7 +3239,7 @@ not_a_matrix:
 		s->style = NULL;
 		break;
 
-	case BIFF_CHART_text : {
+	case BIFF_CHART_text: {
 		gboolean clear_style = TRUE;
 		switch (BC_R(top_state) (s, 0)) {
 		case BIFF_CHART_legend:
@@ -3265,7 +3265,7 @@ not_a_matrix:
 		break;
 	}
 
-	case BIFF_CHART_dropbar :
+	case BIFF_CHART_dropbar:
 		if (s->style != NULL) {
 			if (s->dropbar_style == NULL) {
 				/* automatic styles are very different in that case between
@@ -3279,7 +3279,7 @@ not_a_matrix:
 		}
 		break;
 
-	case BIFF_CHART_chart : {
+	case BIFF_CHART_chart: {
 		GogPlot *plot = GOG_PLOT (gog_object_get_child_by_name (GOG_OBJECT (s->chart), "Plot"));
 		/* check if the chart has an epty title and the plot only one series,
 		 * in that case Excel uses the series label as title */
@@ -3305,7 +3305,7 @@ not_a_matrix:
 			}
 		}
 	}
-	default :
+	default:
 		break;
 	}
 	return FALSE;
@@ -3863,28 +3863,28 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 			excel_read_EXTERNSHEET_v7 (q, &state.container);
 			break;
 
-		case BIFF_WINDOW2_v0 :
-		case BIFF_WINDOW2_v2 :
+		case BIFF_WINDOW2_v0:
+		case BIFF_WINDOW2_v2:
 			if (full_page != NULL && BC_R(ver)(&state) > MS_BIFF_V2 &&
 			    q->length >= 2 &&
 			    GSF_LE_GET_GUINT16 (q->data + 0) & 0x0400)
 				wb_view_sheet_focus (container->importer->wbv, full_page);
 			break;
 
-		case BIFF_SCL :
+		case BIFF_SCL:
 			if (full_page != NULL)
 				excel_read_SCL (q, full_page);
 			break;
 
 		case BIFF_PLS:		/* Skip for Now */
-		case BIFF_DIMENSIONS_v0 :/* Skip for Now */
-		case BIFF_DIMENSIONS_v2 :/* Skip for Now */
-		case BIFF_HEADER :	/* Skip for Now */
-		case BIFF_FOOTER :	/* Skip for Now */
-		case BIFF_HCENTER :	/* Skip for Now */
-		case BIFF_VCENTER :	/* Skip for Now */
-		case BIFF_CODENAME :
-		case BIFF_SETUP :
+		case BIFF_DIMENSIONS_v0:/* Skip for Now */
+		case BIFF_DIMENSIONS_v2:/* Skip for Now */
+		case BIFF_HEADER:	/* Skip for Now */
+		case BIFF_FOOTER:	/* Skip for Now */
+		case BIFF_HCENTER:	/* Skip for Now */
+		case BIFF_VCENTER:	/* Skip for Now */
+		case BIFF_CODENAME:
+		case BIFF_SETUP:
 			d (8, g_printerr ("Handled biff %x in chart;\n",
 				     q->opcode););
 			break;
@@ -3897,7 +3897,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		}
 		break;
 
-		default :
+		default:
 			excel_unexpected_biff (q, "Chart", ms_excel_chart_debug);
 		}
 		state.prev_opcode = q->opcode;
@@ -4144,7 +4144,7 @@ chart_write_AREAFORMAT (XLChartWriteState *s, GOStyle const *style, gboolean dis
 
 	if (style != NULL) {
 		switch (style->fill.type) {
-		default :
+		default:
 			g_warning ("invalid fill type, saving as none");
 		case GO_STYLE_FILL_IMAGE:
 #warning export images
@@ -5459,7 +5459,7 @@ chart_write_LEGEND (XLChartWriteState *s, GogObject const *legend)
 	case GOG_POSITION_N | GOG_POSITION_E:			XL_pos = 1; break;
 	case GOG_POSITION_N | GOG_POSITION_ALIGN_CENTER:	XL_pos = 2; break;
 
-	default :
+	default:
 	case GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER:	XL_pos = 3; break;
 	case GOG_POSITION_W | GOG_POSITION_ALIGN_CENTER:	XL_pos = 4; break;
 	/* On import we map 'floating' to East, XL_pos = 7; break; */
@@ -5512,11 +5512,11 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 		chart_write_BEGIN (s);
 		axis_set = sptr->data;
 		switch (gog_chart_get_axis_set (GOG_CHART (s->chart))) {
-		default :
-		case GOG_AXIS_SET_UNKNOWN :
-		case GOG_AXIS_SET_NONE :
+		default:
+		case GOG_AXIS_SET_UNKNOWN:
+		case GOG_AXIS_SET_NONE:
 			break;
-		case GOG_AXIS_SET_XY : {
+		case GOG_AXIS_SET_XY: {
 			gboolean x_cross_at_max, y_cross_at_max, inverted,
 			x_force_catserrange = FALSE, y_force_catserrange = FALSE;
 			double xcross = go_nan, ycross = go_nan;
@@ -5567,7 +5567,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 			}
 			break;
 		}
-		case GOG_AXIS_SET_XY_pseudo_3d :
+		case GOG_AXIS_SET_XY_pseudo_3d:
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_X],
 					0, FALSE, TRUE, FALSE, FALSE, go_nan);
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_PSEUDO_3D],
@@ -5575,7 +5575,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y],
 					2, FALSE, TRUE, FALSE, FALSE, go_nan);
 			break;
-		case GOG_AXIS_SET_RADAR :
+		case GOG_AXIS_SET_RADAR:
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_CIRCULAR],
 					0, FALSE, TRUE, FALSE, FALSE, go_nan);
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_RADIAL],

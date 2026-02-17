@@ -212,9 +212,9 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 	char const *closure = NULL;
 
 	switch (a->klass->type) {
-	case PANGO_ATTR_FAMILY :
+	case PANGO_ATTR_FAMILY:
 		break; /* ignored */
-	case PANGO_ATTR_SIZE :
+	case PANGO_ATTR_SIZE:
 		break; /* ignored */
 	case PANGO_ATTR_RISE:
 		if (((PangoAttrInt *)a)->value > 5) {
@@ -225,19 +225,19 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 			closure = "</sub>";
 		}
 		break;
-	case PANGO_ATTR_STYLE :
+	case PANGO_ATTR_STYLE:
 		if (((PangoAttrInt *)a)->value == PANGO_STYLE_ITALIC) {
 			gsf_output_puts (output, "<i>");
 			closure = "</i>";
 		}
 		break;
-	case PANGO_ATTR_WEIGHT :
+	case PANGO_ATTR_WEIGHT:
 		if (((PangoAttrInt *)a)->value > 600){
 			gsf_output_puts (output, "<b>");
 			closure = "</b>";
 		}
 		break;
-	case PANGO_ATTR_STRIKETHROUGH :
+	case PANGO_ATTR_STRIKETHROUGH:
 		if (((PangoAttrInt *)a)->value == 1) {
 			if (version == HTML32) {
 				gsf_output_puts (output, "<strike>");
@@ -259,14 +259,14 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 		}
 		break;
 	}
-	case PANGO_ATTR_FOREGROUND :
+	case PANGO_ATTR_FOREGROUND:
 /* 		c = &((PangoAttrColor *)a)->color; */
 /* 		g_string_append_printf (accum, "[color=%02xx%02xx%02x", */
 /* 			((c->red & 0xff00) >> 8), */
 /* 			((c->green & 0xff00) >> 8), */
 /* 			((c->blue & 0xff00) >> 8)); */
 		break;/* ignored */
-	default :
+	default:
 		if (a->klass->type ==
 		    go_pango_attr_subscript_get_attr_type ()) {
 			if (((GOPangoAttrSubscript *)a)->val) {
@@ -814,7 +814,7 @@ html_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 "</style>\n"
 "</head>\n<body>\n");
 		break;
-	case XHTML  :
+	case XHTML:
 		gsf_output_puts (output,
 "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n"
 "\t\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"

@@ -167,7 +167,7 @@ cb_ccombo_key_press (G_GNUC_UNUSED GtkWidget *popup, GdkEventKey *event, GtkWidg
 	case GDK_KEY_Return :
 		ccombo_activate (GTK_TREE_VIEW (list), FALSE);
 		return TRUE;
-	default :
+	default:
 		;
 	}
 	return FALSE;

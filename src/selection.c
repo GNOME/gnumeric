@@ -905,9 +905,9 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 
 			/* Cross product of intersection cases */
 			switch (col_intersect) {
-			case 4 : /* a contains b */
+			case 4: /* a contains b */
 				switch (row_intersect) {
-				case 4 : /* a contains b */
+				case 4: /* a contains b */
 					/* Old region contained by new region */
 
 					/* remove old region */
@@ -915,12 +915,12 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					b = NULL;
 					break;
 
-				case 3 : /* overlap top */
+				case 3: /* overlap top */
 					/* Shrink existing range */
 					b->start.row = a->end.row + 1;
 					break;
 
-				case 2 : /* b contains a */
+				case 2: /* b contains a */
 					if (a->end.col == b->end.col) {
 						/* Shrink existing range */
 						a->end.col = b->start.col - 1;
@@ -936,7 +936,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					a->start.col = b->end.col + 1;
 					break;
 
-				case 1 : /* overlap bottom */
+				case 1: /* overlap bottom */
 					/* Shrink existing range */
 					a->start.row = b->end.row + 1;
 					break;
@@ -946,14 +946,14 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 				}
 				break;
 
-			case 3 : /* overlap left */
+			case 3: /* overlap left */
 				switch (row_intersect) {
-				case 4 : /* a contains b */
+				case 4: /* a contains b */
 					/* Shrink old region */
 					b->start.col = a->end.col + 1;
 					break;
 
-				case 3 : /* overlap top */
+				case 3: /* overlap top */
 					/* Split region */
 					if (b->start.row > 0) {
 						tmp = gnm_range_dup (a);
@@ -963,12 +963,12 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					}
 					/* fall through */
 
-				case 2 : /* b contains a */
+				case 2: /* b contains a */
 					/* shrink the left segment */
 					a->end.col = b->start.col - 1;
 					break;
 
-				case 1 : /* overlap bottom */
+				case 1: /* overlap bottom */
 					/* Split region */
 					if (b->end.row < gnm_sheet_get_last_row (sv->sheet)) {
 						tmp = gnm_range_dup (a);
@@ -991,20 +991,20 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 				}
 				break;
 
-			case 2 : /* b contains a */
+			case 2: /* b contains a */
 				switch (row_intersect) {
-				case 3 : /* overlap top */
+				case 3: /* overlap top */
 					/* shrink the top segment */
 					a->end.row = b->start.row - 1;
 					break;
 
-				case 2 : /* b contains a */
+				case 2: /* b contains a */
 					/* remove the selection */
 					g_free (a);
 					a = NULL;
 					continue;
 
-				case 4 : /* a contains b */
+				case 4: /* a contains b */
 					if (a->end.row == b->end.row) {
 						/* Shrink existing range */
 						a->end.row = b->start.row - 1;
@@ -1018,7 +1018,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					}
 					/* fall through */
 
-				case 1 : /* overlap bottom */
+				case 1: /* overlap bottom */
 					/* shrink the top segment */
 					a->start.row = b->end.row + 1;
 					break;
@@ -1028,14 +1028,14 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 				}
 				break;
 
-			case 1 : /* overlap right */
+			case 1: /* overlap right */
 				switch (row_intersect) {
-				case 4 : /* a contains b */
+				case 4: /* a contains b */
 					/* Shrink old region */
 					b->end.col = a->start.col - 1;
 					break;
 
-				case 3 : /* overlap top */
+				case 3: /* overlap top */
 					/* Split region */
 					tmp = gnm_range_dup (a);
 					tmp->end.col = b->end.col;
@@ -1043,12 +1043,12 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					clear = g_slist_prepend (clear, tmp);
 					/* fall through */
 
-				case 2 : /* b contains a */
+				case 2: /* b contains a */
 					/* shrink the right segment */
 					a->start.col = b->end.col + 1;
 					break;
 
-				case 1 : /* overlap bottom */
+				case 1: /* overlap bottom */
 					/* Split region */
 					tmp = gnm_range_dup (a);
 					tmp->end.col = b->end.col;

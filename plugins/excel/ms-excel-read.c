@@ -1546,9 +1546,9 @@ excel_read_BOUNDSHEET (BiffQuery *q, GnmXLImporter *importer)
 	}
 
 	switch (bs->type) {
-	case MS_BIFF_TYPE_Worksheet :
-	case MS_BIFF_TYPE_Macrosheet :
-	case MS_BIFF_TYPE_Chart :
+	case MS_BIFF_TYPE_Worksheet:
+	case MS_BIFF_TYPE_Macrosheet:
+	case MS_BIFF_TYPE_Chart:
 		bs->esheet = excel_sheet_new (importer, bs->name, bs->gnm_type);
 
 		if (bs->esheet && bs->esheet->sheet)
@@ -1556,7 +1556,7 @@ excel_read_BOUNDSHEET (BiffQuery *q, GnmXLImporter *importer)
 				      "visibility", bs->visibility,
 				      NULL);
 		break;
-	default :
+	default:
 		bs->esheet = NULL;
 	}
 
@@ -2494,7 +2494,7 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 
 	data = (importer->ver >= MS_BIFF_V3) ? q->data[4] : q->data[3];
 	switch (data & 0x07) {
-	default :
+	default:
 	case 0: xf->halign = GNM_HALIGN_GENERAL; break;
 	case 1: xf->halign = GNM_HALIGN_LEFT; break;
 	case 2: xf->halign = GNM_HALIGN_CENTER; break;
@@ -2515,7 +2515,7 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 		switch (data & 0x30) {
 		case 0x00: xf->valign = GNM_VALIGN_TOP; break;
 		case 0x10: xf->valign = GNM_VALIGN_CENTER; break;
-		default :
+		default:
 		case 0x20: xf->valign = GNM_VALIGN_BOTTOM; break;
 		}
 		switch (data & 0xc0) {
@@ -4202,7 +4202,7 @@ excel_read_XCT (BiffQuery *q, GnmXLImporter *importer)
 				data += 8;
 				break;
 
-			default :
+			default:
 				g_warning ("Unknown oper type 0x%x in a CRN record", oper);
 				v = NULL;
 			}
@@ -4741,10 +4741,10 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 		    pi->comment_placement == GNM_PRINT_COMMENTS_IN_PLACE)
 			pi->comment_placement = GNM_PRINT_COMMENTS_AT_END;
 		switch ((flags >> 10) & 3) {
-		case 0 : pi->error_display = GNM_PRINT_ERRORS_AS_DISPLAYED; break;
-		case 1 : pi->error_display = GNM_PRINT_ERRORS_AS_BLANK; break;
-		case 2 : pi->error_display = GNM_PRINT_ERRORS_AS_DASHES; break;
-		case 3 : pi->error_display = GNM_PRINT_ERRORS_AS_NA; break;
+		case 0: pi->error_display = GNM_PRINT_ERRORS_AS_DISPLAYED; break;
+		case 1: pi->error_display = GNM_PRINT_ERRORS_AS_BLANK; break;
+		case 2: pi->error_display = GNM_PRINT_ERRORS_AS_DASHES; break;
+		case 3: pi->error_display = GNM_PRINT_ERRORS_AS_NA; break;
 		}
 	}
 }
@@ -5233,7 +5233,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 			g_printerr ("cond type = %d, op type = %d, flags = 0x%08x\n", (int)type, (int)op, flags);
 		});
 	switch (type) {
-	case 1 :
+	case 1:
 		switch (op) {
 		case 0x01: cop = GNM_STYLE_COND_BETWEEN; break;
 		case 0x02: cop = GNM_STYLE_COND_NOT_BETWEEN; break;
@@ -5372,7 +5372,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 
 		if (0 == GSF_LE_GET_GUINT8 (data + 28)) {
 			switch (GSF_LE_GET_GUINT8  (data + 10)) {
-			default : g_printerr ("Unknown script %d\n", GSF_LE_GET_GUINT8 (data));
+			default: g_printerr ("Unknown script %d\n", GSF_LE_GET_GUINT8 (data));
 				/* fall through */
 			case 0: gnm_style_set_font_script (overlay, GO_FONT_SCRIPT_STANDARD); break;
 			case 1: gnm_style_set_font_script (overlay, GO_FONT_SCRIPT_SUPER); break;
@@ -5382,7 +5382,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc,
 		if (0 == GSF_LE_GET_GUINT8  (data + 32)) {
 			MsBiffFontUnderline mul;
 			switch (GSF_LE_GET_GUINT8  (data + 12)) {
-			default :
+			default:
 			case 0:
 				mul = XLS_ULINE_NONE;
 				break;
@@ -5664,24 +5664,24 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	 * is easier to read.
 	 */
 	switch (options & 0x0f) {
-	case 0 : type = GNM_VALIDATION_TYPE_ANY;		break;
-	case 1 : type = GNM_VALIDATION_TYPE_AS_INT;		break;
-	case 2 : type = GNM_VALIDATION_TYPE_AS_NUMBER;	break;
-	case 3 : type = GNM_VALIDATION_TYPE_IN_LIST;	break;
-	case 4 : type = GNM_VALIDATION_TYPE_AS_DATE;	break;
-	case 5 : type = GNM_VALIDATION_TYPE_AS_TIME;	break;
-	case 6 : type = GNM_VALIDATION_TYPE_TEXT_LENGTH;	break;
-	case 7 : type = GNM_VALIDATION_TYPE_CUSTOM;		break;
-	default :
+	case 0: type = GNM_VALIDATION_TYPE_ANY;		break;
+	case 1: type = GNM_VALIDATION_TYPE_AS_INT;		break;
+	case 2: type = GNM_VALIDATION_TYPE_AS_NUMBER;	break;
+	case 3: type = GNM_VALIDATION_TYPE_IN_LIST;	break;
+	case 4: type = GNM_VALIDATION_TYPE_AS_DATE;	break;
+	case 5: type = GNM_VALIDATION_TYPE_AS_TIME;	break;
+	case 6: type = GNM_VALIDATION_TYPE_TEXT_LENGTH;	break;
+	case 7: type = GNM_VALIDATION_TYPE_CUSTOM;		break;
+	default:
 		g_warning ("EXCEL : Unknown constraint type %d", options & 0x0f);
 		return;
 	}
 
 	switch ((options >> 4) & 0x07) {
-	case 0 : style = GNM_VALIDATION_STYLE_STOP; break;
-	case 1 : style = GNM_VALIDATION_STYLE_WARNING; break;
-	case 2 : style = GNM_VALIDATION_STYLE_INFO; break;
-	default :
+	case 0: style = GNM_VALIDATION_STYLE_STOP; break;
+	case 1: style = GNM_VALIDATION_STYLE_WARNING; break;
+	case 2: style = GNM_VALIDATION_STYLE_INFO; break;
+	default:
 		g_warning ("EXCEL : Unknown validation style %d",
 			   (options >> 4) & 0x07);
 		return;
@@ -5701,7 +5701,7 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 		case 5:	op = GNM_VALIDATION_OP_LT;		break;
 		case 6:	op = GNM_VALIDATION_OP_GTE;		break;
 		case 7:	op = GNM_VALIDATION_OP_LTE;		break;
-		default :
+		default:
 			g_warning ("EXCEL : Unknown constraint operator %d",
 				   (options >> 20) & 0x0f);
 			return;
@@ -6337,7 +6337,7 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 		sheet = XL_EXTERNSHEET_MAGIC_SELFREF;
 		break;
 
-	case 0x3a : /* undocumented magic.  seems to indicate the sheet for an
+	case 0x3a: /* undocumented magic.  seems to indicate the sheet for an
 		     * addin with functions.  01 3a
 		     * the same as SUPBOOK
 		     */
@@ -6713,7 +6713,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_FORMULA_v0:
 		case BIFF_FORMULA_v2:
 		case BIFF_FORMULA_v4:	excel_read_FORMULA (q, esheet);	break;
-			/* case STRING : is handled elsewhere since it always follows FORMULA */
+			/* case STRING: is handled elsewhere since it always follows FORMULA */
 		case BIFF_ROW_v0:
 		case BIFF_ROW_v2:	excel_read_ROW (q, esheet);	break;
 		case BIFF_EOF:		goto success;
@@ -6725,7 +6725,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_CALCCOUNT:	excel_read_CALCCOUNT (q, importer);	break;
 		case BIFF_CALCMODE:	excel_read_CALCMODE (q,importer);	break;
 
-		case BIFF_PRECISION :
+		case BIFF_PRECISION:
 #if 0
 			{
 				/* FIXME: implement in gnumeric */
@@ -6893,7 +6893,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			excel_read_DV (q, esheet);
 			break;
 
-		case BIFF_SXVIEWEX9 :
+		case BIFF_SXVIEWEX9:
 			/* Seems to contain pivot table autoformat indicies, plus ?? */
 			/* samples/excel/dbfuns.xls has as sample of this record
 			 * and I added code in OOo */
@@ -6911,7 +6911,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			 * jump to the chart handler which then starts parsing
 			 * at the NEXT record.
 			 */
-		case BIFF_CHART_units : {
+		case BIFF_CHART_units: {
 			SheetObject *obj = sheet_object_graph_new (NULL);
 			ms_excel_chart_read (q, sheet_container (esheet),
 					     obj, NULL);
@@ -6920,9 +6920,9 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			break;
 		}
 		case BIFF_SXVIEW: xls_read_SXVIEW (q, esheet); break;
-		case BIFF_SXVD : xls_read_SXVD (q, esheet); break;
-		case BIFF_SXVDEX : break; /* pulled in with SXVD */
-		case BIFF_SXVI : break; /* pulled in with SXVD */
+		case BIFF_SXVD: xls_read_SXVD (q, esheet); break;
+		case BIFF_SXVDEX: break; /* pulled in with SXVD */
+		case BIFF_SXVI: break; /* pulled in with SXVD */
 		case BIFF_SXIVD: xls_read_SXIVD (q, esheet); break;
 
 		default:
@@ -7275,7 +7275,7 @@ excel_read_workbook (GOIOContext *context, WorkbookView *wb_view,
 			excel_read_EXTERNSHEET (q, importer, ver);
 			break;
 
-		case BIFF_PRECISION : {
+		case BIFF_PRECISION: {
 #if 0
 			/* FIXME: implement in gnumeric */
 			/* state of 'Precision as Displayed' option */

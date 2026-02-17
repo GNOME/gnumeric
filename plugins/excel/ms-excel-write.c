@@ -574,7 +574,7 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 		}
 
 		switch (pi->error_display) {
-		default :
+		default:
 		case GNM_PRINT_ERRORS_AS_DISPLAYED: break;
 		case GNM_PRINT_ERRORS_AS_BLANK:	 flags |= 0x400; break;
 		case GNM_PRINT_ERRORS_AS_DASHES: flags |= 0x800; break;
@@ -961,12 +961,12 @@ static int
 map_underline_to_xl (GnmUnderline const ul)
 {
 	switch (ul) {
-	default :
-	case UNDERLINE_NONE :   return 0;
-	case UNDERLINE_SINGLE : return 1;
-	case UNDERLINE_DOUBLE : return 2;
-	case UNDERLINE_SINGLE_LOW : return 0x21;
-	case UNDERLINE_DOUBLE_LOW : return 0x22;
+	default:
+	case UNDERLINE_NONE:   return 0;
+	case UNDERLINE_SINGLE: return 1;
+	case UNDERLINE_DOUBLE: return 2;
+	case UNDERLINE_SINGLE_LOW: return 0x21;
+	case UNDERLINE_DOUBLE_LOW: return 0x22;
 	}
 }
 
@@ -982,10 +982,10 @@ static int
 map_script_to_xl (GnmStyle const *style)
 {
 	switch (gnm_style_get_font_script (style)) {
-	case GO_FONT_SCRIPT_SUB :	return 2;
-	default :
-	case GO_FONT_SCRIPT_STANDARD :	return 0;
-	case GO_FONT_SCRIPT_SUPER :	return 1;
+	case GO_FONT_SCRIPT_SUB:	return 2;
+	default:
+	case GO_FONT_SCRIPT_STANDARD:	return 0;
+	case GO_FONT_SCRIPT_SUPER:	return 1;
 	}
 }
 
@@ -1490,7 +1490,7 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 		case GNM_VALIDATION_TYPE_AS_TIME:		options = 5; break;
 		case GNM_VALIDATION_TYPE_TEXT_LENGTH:	options = 6; break;
 		case GNM_VALIDATION_TYPE_CUSTOM:		options = 7; break;
-		default : g_warning ("EXCEL : Unknown constraint type %d",
+		default: g_warning ("EXCEL : Unknown constraint type %d",
 				     vip->v->type);
 		}
 
@@ -1499,7 +1499,7 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 		case GNM_VALIDATION_STYLE_STOP:	options |= (0 << 4); break;
 		case GNM_VALIDATION_STYLE_WARNING:	options |= (1 << 4); break;
 		case GNM_VALIDATION_STYLE_INFO:	options |= (2 << 4); break;
-		default : g_warning ("EXCEL : Unknown validation style %d",
+		default: g_warning ("EXCEL : Unknown validation style %d",
 				     vip->v->style);
 		}
 
@@ -1513,7 +1513,7 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 		case GNM_VALIDATION_OP_LT:		options |= (5 << 20); break;
 		case GNM_VALIDATION_OP_GTE:		options |= (6 << 20); break;
 		case GNM_VALIDATION_OP_LTE:		options |= (7 << 20); break;
-		default : g_warning ("EXCEL : Unknown constraint operator %d",
+		default: g_warning ("EXCEL : Unknown constraint operator %d",
 				     vip->v->op);
 		}
 		if (vip->v->allow_blank)
@@ -1961,10 +1961,10 @@ excel_write_BOUNDSHEET (BiffPut *bp, Sheet *sheet)
 	default:
 		g_warning ("unknown sheet type %d (assuming WorkSheet)", sheet->sheet_type);
 		break;
-	case GNM_SHEET_DATA :	GSF_LE_SET_GUINT8 (data+5, 0); break;
-	case GNM_SHEET_OBJECT : GSF_LE_SET_GUINT8 (data+5, 2); break;
-	case GNM_SHEET_XLM :	GSF_LE_SET_GUINT8 (data+5, 1); break;
-	/* case MS_BIFF_TYPE_VBModule :	GSF_LE_SET_GUINT8 (data+5, 6); break; */
+	case GNM_SHEET_DATA:	GSF_LE_SET_GUINT8 (data+5, 0); break;
+	case GNM_SHEET_OBJECT: GSF_LE_SET_GUINT8 (data+5, 2); break;
+	case GNM_SHEET_XLM:	GSF_LE_SET_GUINT8 (data+5, 1); break;
+	/* case MS_BIFF_TYPE_VBModule:	GSF_LE_SET_GUINT8 (data+5, 6); break; */
 	}
 	ms_biff_put_var_write (bp, data, 6);
 	excel_write_string (bp, STR_ONE_BYTE_LENGTH, sheet->name_unquoted);
@@ -2315,26 +2315,26 @@ excel_font_overlay_pango (ExcelWriteFont *efont, GSList *pango)
 		PangoColor const *c;
 
 		switch (attr->klass->type) {
-		case PANGO_ATTR_FAMILY :
+		case PANGO_ATTR_FAMILY:
 			g_free (efont->font_name_copy);
 			efont->font_name = efont->font_name_copy =
 				g_strdup (((PangoAttrString *)attr)->value);
 			break;
-		case PANGO_ATTR_SIZE : efont->size_pts	=
+		case PANGO_ATTR_SIZE: efont->size_pts	=
 			(double )(((PangoAttrInt *)attr)->value) / PANGO_SCALE;
 			break;
-		case PANGO_ATTR_STYLE : efont->is_italic =
+		case PANGO_ATTR_STYLE: efont->is_italic =
 			((PangoAttrInt *)attr)->value == PANGO_STYLE_ITALIC;
 			break;
-		case PANGO_ATTR_WEIGHT : efont->is_bold	=
+		case PANGO_ATTR_WEIGHT: efont->is_bold	=
 			((PangoAttrInt *)attr)->value >= PANGO_WEIGHT_BOLD;
 			break;
-		case PANGO_ATTR_STRIKETHROUGH : efont->strikethrough =
+		case PANGO_ATTR_STRIKETHROUGH: efont->strikethrough =
 			((PangoAttrInt *)attr)->value != 0;
 			break;
-		case PANGO_ATTR_SCALE :
+		case PANGO_ATTR_SCALE:
 			break; /* ignored */
-		case PANGO_ATTR_RISE :
+		case PANGO_ATTR_RISE:
 			if (((PangoAttrInt *)attr)->value < 0)
 				efont->script = 2;
 			else if (((PangoAttrInt *)attr)->value > 0)
@@ -2343,17 +2343,17 @@ excel_font_overlay_pango (ExcelWriteFont *efont, GSList *pango)
 				efont->script = 0;
 			break;
 
-		case PANGO_ATTR_UNDERLINE :
+		case PANGO_ATTR_UNDERLINE:
 			efont->underline = gnm_translate_underline_from_pango
 				(((PangoAttrInt *)attr)->value);
 			break;
 
-		case PANGO_ATTR_FOREGROUND :
+		case PANGO_ATTR_FOREGROUND:
 			c = &((PangoAttrColor *)attr)->color;
 			efont->is_auto = FALSE;
 			efont->color = ((c->blue & 0xff00) << 8) + (c->green & 0xff00) + (c->red >> 8);
 			break;
-		default :
+		default:
 			if (attr->klass->type ==
 			    go_pango_attr_subscript_get_attr_type ())
 				efont->script = ((GOPangoAttrSubscript *)attr)->val
@@ -3137,7 +3137,7 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 			tmp16 |= (1 << 4);
 		/* tmp16 |= (0 << 5);	flag merges in MERGECELL */
 		switch (xfd->text_dir) {
-		default :
+		default:
 		case GNM_TEXT_DIR_CONTEXT:	tmp16 |= (0 << 6); break;
 		case GNM_TEXT_DIR_LTR:		tmp16 |= (1 << 6); break;
 		case GNM_TEXT_DIR_RTL:		tmp16 |= (2 << 6); break;
@@ -4035,7 +4035,7 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 		str = value_peek_string (v);
 		buf[6] = excel_strlen (str, NULL);
 		break;
-	default :
+	default:
 		/* ignore arrays, ranges, empties */
 		break;
 	}
@@ -4047,7 +4047,7 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 	case GNM_FILTER_OP_GTE:		buf[1] = 6; break;
 	case GNM_FILTER_OP_LTE:		buf[1] = 3; break;
 	case GNM_FILTER_OP_NOT_EQUAL:	buf[1] = 5; break;
-	default :
+	default:
 		g_warning ("how did this happen");
 	}
 
@@ -4114,7 +4114,7 @@ excel_write_AUTOFILTERINFO (BiffPut *bp, ExcelWriteSheet *esheet)
 			break;
 		}
 
-		default :
+		default:
 			str0 = excel_write_DOPER (cond, 0, buf + 4);
 			str1 = excel_write_DOPER (cond, 1, buf + 14);
 			GSF_LE_SET_GUINT16 (buf+2, cond->is_and ? 0 : 1);
@@ -5656,12 +5656,12 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	guint32 nblocks = (esheet->max_row - 1) / rows_in_block + 1;
 
 	switch (esheet->gnum_sheet->sheet_type) {
-	default :
+	default:
 		g_warning ("unknown sheet type %d (assuming WorkSheet)",
 			   esheet->gnum_sheet->sheet_type);
-	case GNM_SHEET_DATA :	type = MS_BIFF_TYPE_Worksheet; break;
-	case GNM_SHEET_OBJECT : type = MS_BIFF_TYPE_Chart; break;
-	case GNM_SHEET_XLM :	type = MS_BIFF_TYPE_Macrosheet; break;
+	case GNM_SHEET_DATA:	type = MS_BIFF_TYPE_Worksheet; break;
+	case GNM_SHEET_OBJECT: type = MS_BIFF_TYPE_Chart; break;
+	case GNM_SHEET_XLM:	type = MS_BIFF_TYPE_Macrosheet; break;
 	}
 	esheet->streamPos = excel_write_BOF (ewb->bp, type);
 	if (esheet->gnum_sheet->sheet_type == GNM_SHEET_OBJECT) {
@@ -6631,15 +6631,15 @@ extract_gog_object_style (XLExportBase *ewb, GogObject *obj)
 			put_color_go_color (ewb, style->line.color);
 		if (style->interesting_fields & GO_STYLE_FILL)
 			switch (style->fill.type) {
-			default :
-			case GO_STYLE_FILL_NONE :
-			case GO_STYLE_FILL_IMAGE :
+			default:
+			case GO_STYLE_FILL_NONE:
+			case GO_STYLE_FILL_IMAGE:
 				break;
-			case GO_STYLE_FILL_PATTERN :
+			case GO_STYLE_FILL_PATTERN:
 				put_color_go_color (ewb, style->fill.pattern.fore);
 				put_color_go_color (ewb, style->fill.pattern.back);
 				break;
-			case GO_STYLE_FILL_GRADIENT :
+			case GO_STYLE_FILL_GRADIENT:
 				put_color_go_color (ewb, style->fill.pattern.fore);
 			}
 		if (style->interesting_fields & GO_STYLE_MARKER) {

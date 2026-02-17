@@ -846,7 +846,7 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		break;
 	case 4: case 8: ref.col_relative = ref.row_relative = TRUE; break;
 
-	default :
+	default:
 		return value_new_error_VALUE (ei->pos);
 	}
 

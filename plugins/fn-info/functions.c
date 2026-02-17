@@ -316,7 +316,7 @@ gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 			case GNM_HALIGN_CENTER:	return value_new_string ("^");
 			case GNM_HALIGN_FILL:	return value_new_string ("\\");
-			default :		return value_new_string ("");
+			default:		return value_new_string ("");
 			}
 		}
 		return value_new_string ("");

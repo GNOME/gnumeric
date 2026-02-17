@@ -84,10 +84,10 @@ go_data_cache_field_set_property (GObject *obj, guint property_id,
 
 	switch (property_id) {
 	/* we do not hold a ref */
-	case PROP_CACHE : field->cache = g_value_get_object (value); break;
-	case PROP_NAME :	 go_string_unref (field->name); field->name = g_value_dup_boxed (value); break;
-	case PROP_BUCKETER :	 field->bucketer = *((GOValBucketer *)g_value_get_pointer (value)); break;
-	case PROP_GROUP_PARENT : field->group_parent = g_value_get_int (value); break;
+	case PROP_CACHE: field->cache = g_value_get_object (value); break;
+	case PROP_NAME:	 go_string_unref (field->name); field->name = g_value_dup_boxed (value); break;
+	case PROP_BUCKETER:	 field->bucketer = *((GOValBucketer *)g_value_get_pointer (value)); break;
+	case PROP_GROUP_PARENT: field->group_parent = g_value_get_int (value); break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 	}
@@ -99,11 +99,11 @@ go_data_cache_field_get_property (GObject *obj, guint property_id,
 {
 	GODataCacheField const *field = (GODataCacheField const *)obj;
 	switch (property_id) {
-	case PROP_CACHE : g_value_set_object (value, field->cache); break;
-	case PROP_NAME  : g_value_set_boxed (value, field->name); break;
-	case PROP_INDEX : g_value_set_int (value, field->indx); break;
-	case PROP_BUCKETER :	 g_value_set_pointer (value, (gpointer) &field->bucketer); break;
-	case PROP_GROUP_PARENT : g_value_set_int (value, field->group_parent); break;
+	case PROP_CACHE: g_value_set_object (value, field->cache); break;
+	case PROP_NAME: g_value_set_boxed (value, field->name); break;
+	case PROP_INDEX: g_value_set_int (value, field->indx); break;
+	case PROP_BUCKETER:	 g_value_set_pointer (value, (gpointer) &field->bucketer); break;
+	case PROP_GROUP_PARENT: g_value_set_int (value, field->group_parent); break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 	}

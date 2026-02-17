@@ -208,12 +208,12 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 		if ((attr & 0x0700) == 0x0400) {
 			attr &= 0xf8ff;
 			switch (gnm_style_get_align_h (def)) {
-			default :
+			default:
 			case GNM_HALIGN_GENERAL:break;
 			case GNM_HALIGN_LEFT:	attr |= 0x0100; break;
 			case GNM_HALIGN_RIGHT:	attr |= 0x0200; break;
 			case GNM_HALIGN_DISTRIBUTED:
-			case GNM_HALIGN_CENTER_ACROSS_SELECTION :
+			case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 			case GNM_HALIGN_CENTER:	attr |= 0x0300; break;
 			}
 		}
@@ -288,14 +288,14 @@ pln_get_addr (GnmParsePos const *pp, guint8 const *ch)
 	case 0xc000:	ref.col = *((gint16 *)&c);
 	case 0x0000:	ref.col_relative = TRUE;
 		break;
-	default :
+	default:
 		break;
 	}
 	switch (r & 0xc000) {
 	case 0xc000:	ref.row = *((gint16 *)&r);
 	case 0x0000:	ref.row_relative = TRUE;
 		break;
-	default :
+	default:
 		break;
 	}
 

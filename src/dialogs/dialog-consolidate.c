@@ -137,17 +137,17 @@ construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 	gboolean         has_iter;
 
 	switch (gtk_combo_box_get_active (state->function)) {
-	case 0 : func = "SUM"; break;
-	case 1 : func = "MIN"; break;
-	case 2 : func = "MAX"; break;
-	case 3 : func = "AVERAGE"; break;
-	case 4 : func = "COUNT"; break;
-	case 5 : func = "PRODUCT"; break;
-	case 6 : func = "STDEV"; break;
-	case 7 : func = "STDEVP"; break;
-	case 8 : func = "VAR"; break;
-	case 9 : func = "VARP"; break;
-	default :
+	case 0: func = "SUM"; break;
+	case 1: func = "MIN"; break;
+	case 2: func = "MAX"; break;
+	case 3: func = "AVERAGE"; break;
+	case 4: func = "COUNT"; break;
+	case 5: func = "PRODUCT"; break;
+	case 6: func = "STDEV"; break;
+	case 7: func = "STDEVP"; break;
+	case 8: func = "VAR"; break;
+	case 9: func = "VARP"; break;
+	default:
 		func = NULL;
 		g_warning ("Unknown function index!");
 	}

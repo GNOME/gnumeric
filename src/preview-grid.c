@@ -319,7 +319,7 @@ preview_grid_set_property (GObject *obj, guint param_id,
 	case PREVIEW_GRID_PROP_DEFAULT_ROW_HEIGHT:
 		pg->defaults.row_height = g_value_get_uint (value);
 		break;
-	case PREVIEW_GRID_PROP_DEFAULT_STYLE : {
+	case PREVIEW_GRID_PROP_DEFAULT_STYLE: {
 		GnmStyle *style = g_value_dup_boxed (value);
 		g_return_if_fail (style != NULL);
 		gnm_style_unref (pg->defaults.style);

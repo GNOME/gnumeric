@@ -277,12 +277,12 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 	value_release (fake_val);
 
 	switch (op) {
-	case GNM_FILTER_OP_EQUAL     : return cmp == IS_EQUAL;
-	case GNM_FILTER_OP_NOT_EQUAL : return cmp != IS_EQUAL;
-	case GNM_FILTER_OP_GTE	: if (cmp == IS_EQUAL) return TRUE; /* fall */
-	case GNM_FILTER_OP_GT	: return cmp == IS_GREATER;
-	case GNM_FILTER_OP_LTE	: if (cmp == IS_EQUAL) return TRUE; /* fall */
-	case GNM_FILTER_OP_LT	: return cmp == IS_LESS;
+	case GNM_FILTER_OP_EQUAL: return cmp == IS_EQUAL;
+	case GNM_FILTER_OP_NOT_EQUAL: return cmp != IS_EQUAL;
+	case GNM_FILTER_OP_GTE: if (cmp == IS_EQUAL) return TRUE; /* fall */
+	case GNM_FILTER_OP_GT: return cmp == IS_GREATER;
+	case GNM_FILTER_OP_LTE: if (cmp == IS_EQUAL) return TRUE; /* fall */
+	case GNM_FILTER_OP_LT: return cmp == IS_LESS;
 	default:
 		g_warning ("Huh?");
 		return FALSE;

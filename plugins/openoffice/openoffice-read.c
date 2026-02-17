@@ -4762,7 +4762,7 @@ static void
 odf_free_cur_style (OOParseState *state)
 {
 	switch (state->cur_style.type) {
-	case OO_STYLE_CELL :
+	case OO_STYLE_CELL:
 		if (state->cur_style.cells != NULL) {
 			odf_style_set_align_h (state->cur_style.cells->style,
 					       state->h_align_is_valid,
@@ -4772,19 +4772,19 @@ odf_free_cur_style (OOParseState *state)
 			state->cur_style.cells = NULL;
 		}
 		break;
-	case OO_STYLE_COL :
-	case OO_STYLE_ROW :
+	case OO_STYLE_COL:
+	case OO_STYLE_ROW:
 		if (state->cur_style.requires_disposal)
 			g_free (state->cur_style.col_rows);
 		state->cur_style.col_rows = NULL;
 		break;
-	case OO_STYLE_SHEET :
+	case OO_STYLE_SHEET:
 		if (state->cur_style.requires_disposal)
 			oo_sheet_style_free (state->cur_style.sheets);
 		state->cur_style.sheets = NULL;
 		break;
-	case OO_STYLE_CHART :
-	case OO_STYLE_GRAPHICS :
+	case OO_STYLE_CHART:
+	case OO_STYLE_GRAPHICS:
 		if (state->cur_style.requires_disposal)
 			oo_chart_style_free (state->chart.cur_graph_style);
 		state->chart.cur_graph_style = NULL;
@@ -4793,7 +4793,7 @@ odf_free_cur_style (OOParseState *state)
 		pango_attr_list_unref (state->cur_style.text);
 		state->cur_style.text = NULL;
 		break;
-	default :
+	default:
 		break;
 	}
 	state->cur_style.type = OO_STYLE_UNKNOWN;
@@ -7961,16 +7961,16 @@ oo_style_prop (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	switch (state->cur_style.type) {
-	case OO_STYLE_CELL  : oo_style_prop_cell (xin, attrs); break;
-	case OO_STYLE_COL   :
-	case OO_STYLE_ROW   : oo_style_prop_col_row (xin, attrs); break;
-	case OO_STYLE_SHEET : oo_style_prop_table (xin, attrs); break;
-	case OO_STYLE_TEXT  : od_style_prop_text (xin, attrs); break;
-	case OO_STYLE_CHART :
-	case OO_STYLE_GRAPHICS :
+	case OO_STYLE_CELL: oo_style_prop_cell (xin, attrs); break;
+	case OO_STYLE_COL:
+	case OO_STYLE_ROW: oo_style_prop_col_row (xin, attrs); break;
+	case OO_STYLE_SHEET: oo_style_prop_table (xin, attrs); break;
+	case OO_STYLE_TEXT: od_style_prop_text (xin, attrs); break;
+	case OO_STYLE_CHART:
+	case OO_STYLE_GRAPHICS:
 		od_style_prop_chart (xin, attrs); break;
 
-	default :
+	default:
 		break;
 	}
 }

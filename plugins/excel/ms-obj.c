@@ -872,7 +872,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		obj->auto_combo =
 			(GSF_LE_GET_GUINT16 (q->data + 8) & 0x8000) ? TRUE : FALSE;
 		break;
-	default :
+	default:
 		break;
 	}
 
@@ -1010,25 +1010,25 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			hit_end = TRUE;
 			break;
 
-		case GR_MACRO :
+		case GR_MACRO:
 			ms_obj_read_expr (obj, MS_OBJ_ATTR_MACRO_EXPR, c,
 				data+4, data + 4 + len);
 			ms_obj_dump (data, len, data_len_left, "MacroObject");
 			break;
 
-		case GR_COMMAND_BUTTON :
+		case GR_COMMAND_BUTTON:
 			ms_obj_dump (data, len, data_len_left, "CommandButton");
 			break;
 
-		case GR_GROUP :
+		case GR_GROUP:
 			ms_obj_dump (data, len, data_len_left, "Group");
 			break;
 
-		case GR_CLIPBOARD_FORMAT :
+		case GR_CLIPBOARD_FORMAT:
 			ms_obj_dump (data, len, data_len_left, "ClipboardFmt");
 			break;
 
-		case GR_PICTURE_OPTIONS :
+		case GR_PICTURE_OPTIONS:
 			if (len == 2) {
 				guint16 opt = GSF_LE_GET_GUINT16 (data + 4);
 
@@ -1048,21 +1048,21 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			next_biff_record_maybe_imdata = TRUE;
 			break;
 
-		case GR_PICTURE_FORMULA :
+		case GR_PICTURE_FORMULA:
 			/* Check for form objects stored here for no apparent reason */
 			if (obj->excel_type == 8)
 				ms_obj_map_forms_obj (obj, c, data+4, data+4+len);
 			break;
 
-		case GR_CHECKBOX_LINK :
+		case GR_CHECKBOX_LINK:
 			ms_obj_dump (data, len, data_len_left, "CheckboxLink");
 			break;
 
-		case GR_RADIO_BUTTON :
+		case GR_RADIO_BUTTON:
 			ms_obj_dump (data, len, data_len_left, "RadioButton");
 			break;
 
-		case GR_SCROLLBAR :
+		case GR_SCROLLBAR:
 			XL_CHECK_CONDITION_VAL (data_len_left >= 20, TRUE);
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_VALUE,
@@ -1085,33 +1085,33 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			ms_obj_dump (data, len, data_len_left, "ScrollBar");
 			break;
 
-		case GR_NOTE_STRUCTURE :
+		case GR_NOTE_STRUCTURE:
 			ms_obj_dump (data, len, data_len_left, "Note");
 			break;
 
-		case GR_SCROLLBAR_FORMULA :
+		case GR_SCROLLBAR_FORMULA:
 			ms_obj_read_expr (obj, MS_OBJ_ATTR_LINKED_TO_CELL, c,
 				data+4, data + 4 + len);
 			ms_obj_dump (data, len, data_len_left, "ScrollbarFmla");
 			break;
 
-		case GR_GROUP_BOX_DATA :
+		case GR_GROUP_BOX_DATA:
 			ms_obj_dump (data, len, data_len_left, "GroupBoxData");
 			break;
 
-		case GR_EDIT_CONTROL_DATA :
+		case GR_EDIT_CONTROL_DATA:
 			ms_obj_dump (data, len, data_len_left, "EditCtrlData");
 			break;
 
-		case GR_RADIO_BUTTON_DATA :
+		case GR_RADIO_BUTTON_DATA:
 			ms_obj_dump (data, len, data_len_left, "RadioData");
 			break;
 
-		case GR_CHECKBOX_DATA :
+		case GR_CHECKBOX_DATA:
 			ms_obj_dump (data, len, data_len_left, "CheckBoxData");
 			break;
 
-		case GR_LISTBOX_DATA :
+		case GR_LISTBOX_DATA:
 			if (!obj->auto_combo)
 				ms_obj_read_expr (obj, MS_OBJ_ATTR_INPUT_FROM, c,
 					data+6, data + data_len_left);
@@ -1128,13 +1128,13 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			ms_obj_dump (data, len, data_len_left, "ListBoxData");
 			break;
 
-		case GR_CHECKBOX_FORMULA :
+		case GR_CHECKBOX_FORMULA:
 			ms_obj_read_expr (obj, MS_OBJ_ATTR_LINKED_TO_CELL, c,
 				data+4, data + 4 + len);
 			ms_obj_dump (data, len, data_len_left, "CheckBoxFmla");
 			break;
 
-		case GR_COMMON_OBJ_DATA : {
+		case GR_COMMON_OBJ_DATA: {
 			guint16 options;
 
 			XL_CHECK_CONDITION_VAL (data_len_left >= 10, TRUE);

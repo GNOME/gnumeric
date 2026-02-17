@@ -159,9 +159,9 @@ go_data_cache_set_property (GObject *obj, guint property_id,
 		go_val_free (cache->refreshed_on);
 		cache->refreshed_on = g_value_dup_boxed (value);
 		break;
-	case PROP_REFRESH_UPGRADES : cache->refresh_upgrades = g_value_get_boolean (value); break;
-	case PROP_XL_REFRESH_VER   : cache->XL_refresh_ver   = g_value_get_uint (value); break;
-	case PROP_XL_CREATED_VER   : cache->XL_created_ver   = g_value_get_uint (value); break;
+	case PROP_REFRESH_UPGRADES: cache->refresh_upgrades = g_value_get_boolean (value); break;
+	case PROP_XL_REFRESH_VER: cache->XL_refresh_ver   = g_value_get_uint (value); break;
+	case PROP_XL_CREATED_VER: cache->XL_created_ver   = g_value_get_uint (value); break;
 
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
@@ -174,11 +174,11 @@ go_data_cache_get_property (GObject *obj, guint property_id,
 {
 	GODataCache const *cache = (GODataCache const *)obj;
 	switch (property_id) {
-	case PROP_REFRESHED_BY : g_value_set_string (value, cache->refreshed_by); break;
-	case PROP_REFRESHED_ON : g_value_set_boxed (value, cache->refreshed_on); break;
-	case PROP_REFRESH_UPGRADES : g_value_set_boolean (value, cache->refresh_upgrades); break;
-	case PROP_XL_REFRESH_VER   : g_value_set_uint (value, cache->XL_refresh_ver); break;
-	case PROP_XL_CREATED_VER   : g_value_set_uint (value, cache->XL_created_ver); break;
+	case PROP_REFRESHED_BY: g_value_set_string (value, cache->refreshed_by); break;
+	case PROP_REFRESHED_ON: g_value_set_boxed (value, cache->refreshed_on); break;
+	case PROP_REFRESH_UPGRADES: g_value_set_boolean (value, cache->refresh_upgrades); break;
+	case PROP_XL_REFRESH_VER: g_value_set_uint (value, cache->XL_refresh_ver); break;
+	case PROP_XL_CREATED_VER: g_value_set_uint (value, cache->XL_created_ver); break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 	}
@@ -350,9 +350,9 @@ go_data_cache_set_val (GODataCache *cache,
 		memcpy (p, &v, sizeof (v));
 		return;
 
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  : *((guint8 *)p)  = 0; break;
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : *((guint16 *)p) = 0; break;
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : *((guint32 *)p) = 0; break;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8: *((guint8 *)p)  = 0; break;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16: *((guint16 *)p) = 0; break;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32: *((guint32 *)p) = 0; break;
 
 	default:
 		g_warning ("unknown field type %d", f->ref_type);
@@ -393,9 +393,9 @@ go_data_cache_set_index (GODataCache *cache,
 		memcpy (p, &v, sizeof (v));
 		break;
 	}
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  : *((guint8 *)p)  = idx+1; break;
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : *((guint16 *)p) = idx+1; break;
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : *((guint32 *)p) = idx+1; break;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8: *((guint8 *)p)  = idx+1; break;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16: *((guint16 *)p) = idx+1; break;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32: *((guint32 *)p) = idx+1; break;
 
 	default:
 		g_warning ("unknown field type %d", f->ref_type);
@@ -450,11 +450,11 @@ go_data_cache_get_index (GODataCache const *cache,
 
 	p = go_data_cache_records_index (cache, record_num) + field->offset;
 	switch (field->ref_type) {
-	case GO_DATA_CACHE_FIELD_TYPE_NONE   : break;
-	case GO_DATA_CACHE_FIELD_TYPE_INLINE : break;
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  : return *(guint8 *)p - 1;
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : return *(guint16 *)p - 1;
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : return *(guint32 *)p - 1;
+	case GO_DATA_CACHE_FIELD_TYPE_NONE: break;
+	case GO_DATA_CACHE_FIELD_TYPE_INLINE: break;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8: return *(guint8 *)p - 1;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16: return *(guint16 *)p - 1;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32: return *(guint32 *)p - 1;
 	default:
 		g_warning ("unknown field type %d", field->ref_type);
 	}
@@ -483,7 +483,7 @@ cb_go_data_cache_cmp (int const *a, int const * b,
 		pb = go_data_cache_records_index (info->cache, *b) + base->offset;
 		if (base->ref_type != GO_DATA_CACHE_FIELD_TYPE_INLINE) {
 			switch (base->ref_type) {
-			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8 :
+			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8:
 				idxa = *(guint8 *)pa;
 				idxb = *(guint8 *)pb;
 				break;
@@ -576,9 +576,9 @@ go_data_cache_dump (GODataCache *cache,
 				memcpy (&v, p, sizeof (v));
 				index_val = FALSE;
 				break;
-			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  : idx = *(guint8 *)p; break;
-			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : idx = *(guint16 *)p; break;
-			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : idx = *(guint32 *)p; break;
+			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8: idx = *(guint8 *)p; break;
+			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16: idx = *(guint16 *)p; break;
+			case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32: idx = *(guint32 *)p; break;
 
 			default:
 				g_warning ("unknown field type %d", base->ref_type);

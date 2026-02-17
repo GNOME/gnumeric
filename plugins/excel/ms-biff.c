@@ -350,13 +350,13 @@ ms_biff_query_copy_decrypt (BiffQuery *dst, BiffQuery const *src)
 
 #warning FINISH this
 	switch (src->encryption) {
-	default :
+	default:
 	case MS_BIFF_CRYPTO_NONE:
 		XL_CHECK_CONDITION (dst->encryption == MS_BIFF_CRYPTO_NONE);
 		break;
-	case MS_BIFF_CRYPTO_XOR :
+	case MS_BIFF_CRYPTO_XOR:
 		break;
-	case MS_BIFF_CRYPTO_RC4 :
+	case MS_BIFF_CRYPTO_RC4:
 		break;
 	}
 }

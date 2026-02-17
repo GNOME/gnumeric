@@ -3457,7 +3457,7 @@ gnumeric_sumproduct_common (gboolean ignore_bools, GnmFuncEvalInfo *ei,
 						? 0
 						: value_get_as_float (v);
 					break;
-				default :
+				default:
 					/* Ignore strings to be consistent with XL */
 					data[i][y * thissizex + x] = 0.;
 				}

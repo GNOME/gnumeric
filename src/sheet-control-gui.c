@@ -2091,14 +2091,14 @@ context_menu_handler (GnmPopupMenuElement const *element,
 		workbook_cmd_autofit_selection
 			(wbc, wb_control_cur_sheet (wbc), TRUE);
 		break;
-	case CONTEXT_CELL_MERGE : {
+	case CONTEXT_CELL_MERGE: {
 		GSList *range_list = selection_get_ranges
 			(wb_control_cur_sheet_view (wbc), FALSE);
 		cmd_merge_cells (wbc, wb_control_cur_sheet (wbc), range_list, FALSE);
 		range_fragment_free (range_list);
 	}
 		break;
-	case CONTEXT_CELL_UNMERGE : {
+	case CONTEXT_CELL_UNMERGE: {
 		GSList *range_list = selection_get_ranges
 			(wb_control_cur_sheet_view (wbc), FALSE);
 		cmd_unmerge_cells (wbc, wb_control_cur_sheet (wbc), range_list);

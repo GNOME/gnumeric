@@ -385,7 +385,7 @@ sylk_rtd_p_parse (SylkReader *state, char *str)
 					break;
 				}
 			break;
-		default :
+		default:
 			sylk_read_warning (state, "unknown P option '%c'", *str);
 		}
 	}
@@ -455,7 +455,7 @@ sylk_rtd_o_parse (SylkReader *state, char *str)
 			state->pp.sheet->hide_zero = TRUE;
 			break;
 
-		default :
+		default:
 			sylk_read_warning (state, "unknown option '%c'", *str);
 		}
 	}
@@ -517,7 +517,7 @@ sylk_rtd_f_parse (SylkReader *state, char *str)
 				case 'R' : a = GNM_HALIGN_RIGHT; break;
 				case 'C' : a = GNM_HALIGN_CENTER; break;
 				case 'X' : a = GNM_HALIGN_FILL; break;
-				default :
+				default:
 					   break;
 				}
 				if (a >= 0) {

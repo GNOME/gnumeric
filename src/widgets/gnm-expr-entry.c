@@ -2267,12 +2267,12 @@ gnm_expr_entry_thaw (GnmExprEntry *gee)
 	if (gee->freeze_count > 0 && (--gee->freeze_count) == 0) {
 		gee_rangesel_update_text (gee);
 		switch (gee->update_policy) {
-		case GNM_UPDATE_DELAYED :
+		case GNM_UPDATE_DELAYED:
 			gee_reset_update_timer (gee, FALSE);
 			break;
 
-		default :
-		case GNM_UPDATE_DISCONTINUOUS :
+		default:
+		case GNM_UPDATE_DISCONTINUOUS:
 			if (gee->scg->rangesel.active)
 				break;
 		case GNM_UPDATE_CONTINUOUS:

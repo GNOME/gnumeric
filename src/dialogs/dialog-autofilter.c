@@ -122,7 +122,7 @@ map_op (AutoFilterState *state, GnmFilterOp *op,
 	case 12: *op = (i == 12) ? GNM_FILTER_OP_NOT_EQUAL : GNM_FILTER_OP_EQUAL;
 		v = value_new_string_nocopy (g_strconcat ("*", txt, "*", NULL));
 		break;
-	default :
+	default:
 		g_warning ("huh?");
 		return NULL;
 	}
@@ -306,7 +306,7 @@ init_operator (AutoFilterState *state, GnmFilterOp op, GnmValue const *v,
 	case GNM_FILTER_OP_GTE:		i = 4; break;
 	case GNM_FILTER_OP_LTE:		i = 6; break;
 	case GNM_FILTER_OP_NOT_EQUAL:	i = 2; break;
-	default :
+	default:
 		return;
 	}
 

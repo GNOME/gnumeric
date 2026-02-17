@@ -1444,10 +1444,10 @@ xlsx_write_sheet_view (GsfXMLOut *xml, SheetView const *sv)
 		gsf_xml_out_add_int (xml, "zoomScale", tmp);
 
 	switch (sv->view_mode) {
-	case GNM_SHEET_VIEW_NORMAL_MODE : break;
-	case GNM_SHEET_VIEW_PAGE_BREAK_MODE :
+	case GNM_SHEET_VIEW_NORMAL_MODE: break;
+	case GNM_SHEET_VIEW_PAGE_BREAK_MODE:
 		gsf_xml_out_add_cstr_unchecked (xml, "view", "pageBreakPreview"); break;
-	case GNM_SHEET_VIEW_LAYOUT_MODE :
+	case GNM_SHEET_VIEW_LAYOUT_MODE:
 		gsf_xml_out_add_cstr_unchecked (xml, "view", "pageLayout"); break;
 	}
 
@@ -1680,7 +1680,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 					gsf_xml_out_add_int (xml, "s", style_id);
 
 				switch (val->v_any.type) {
-				default :
+				default:
 				case VALUE_EMPTY:
 					type = NULL; /* FIXME : what to do ? */
 					break;
@@ -1984,40 +1984,40 @@ xlsx_write_validation (XLValInputPair const *vip, G_GNUC_UNUSED gpointer dummy, 
 	if (NULL != vip->v) {
 		tmp = NULL;
 		switch (vip->v->type) {
-		default : /* fall back to the default */
-		case GNM_VALIDATION_TYPE_ANY : /* the default "none" */  break;
-		case GNM_VALIDATION_TYPE_AS_INT :		tmp = "whole"; break;
-		case GNM_VALIDATION_TYPE_AS_NUMBER :	tmp = "decimal"; break;
-		case GNM_VALIDATION_TYPE_IN_LIST :		tmp = "list"; break;
-		case GNM_VALIDATION_TYPE_AS_DATE :		tmp = "date"; break;
-		case GNM_VALIDATION_TYPE_AS_TIME :		tmp = "time"; break;
-		case GNM_VALIDATION_TYPE_TEXT_LENGTH :	tmp = "textLength"; break;
-		case GNM_VALIDATION_TYPE_CUSTOM :		tmp = "custom"; break;
+		default: /* fall back to the default */
+		case GNM_VALIDATION_TYPE_ANY: /* the default "none" */  break;
+		case GNM_VALIDATION_TYPE_AS_INT:		tmp = "whole"; break;
+		case GNM_VALIDATION_TYPE_AS_NUMBER:	tmp = "decimal"; break;
+		case GNM_VALIDATION_TYPE_IN_LIST:		tmp = "list"; break;
+		case GNM_VALIDATION_TYPE_AS_DATE:		tmp = "date"; break;
+		case GNM_VALIDATION_TYPE_AS_TIME:		tmp = "time"; break;
+		case GNM_VALIDATION_TYPE_TEXT_LENGTH:	tmp = "textLength"; break;
+		case GNM_VALIDATION_TYPE_CUSTOM:		tmp = "custom"; break;
 		}
 		if (NULL != tmp)
 			gsf_xml_out_add_cstr_unchecked (info->xml, "type", tmp);
 
 		tmp = NULL;
 		switch (vip->v->op) {
-		default : /* fall back to the default */
-		case GNM_VALIDATION_OP_BETWEEN :	/* the default "between" */ break;
+		default: /* fall back to the default */
+		case GNM_VALIDATION_OP_BETWEEN:	/* the default "between" */ break;
 		case GNM_VALIDATION_OP_NOT_BETWEEN: tmp = "notBetween"; break;
-		case GNM_VALIDATION_OP_EQUAL :	tmp = "equal"; break;
-		case GNM_VALIDATION_OP_NOT_EQUAL :	tmp = "notEqual"; break;
-		case GNM_VALIDATION_OP_LT :		tmp = "lessThan"; break;
-		case GNM_VALIDATION_OP_GT :		tmp = "greaterThan"; break;
-		case GNM_VALIDATION_OP_LTE :	tmp = "lessThanOrEqual"; break;
-		case GNM_VALIDATION_OP_GTE :	tmp = "greaterThanOrEqual"; break;
+		case GNM_VALIDATION_OP_EQUAL:	tmp = "equal"; break;
+		case GNM_VALIDATION_OP_NOT_EQUAL:	tmp = "notEqual"; break;
+		case GNM_VALIDATION_OP_LT:		tmp = "lessThan"; break;
+		case GNM_VALIDATION_OP_GT:		tmp = "greaterThan"; break;
+		case GNM_VALIDATION_OP_LTE:	tmp = "lessThanOrEqual"; break;
+		case GNM_VALIDATION_OP_GTE:	tmp = "greaterThanOrEqual"; break;
 		}
 		if (NULL != tmp)
 			gsf_xml_out_add_cstr_unchecked (info->xml, "operator", tmp);
 
 		tmp = NULL;
 		switch (vip->v->style) {
-		default : /* fall back to the default */
-		case GNM_VALIDATION_STYLE_STOP : /* "stop" the default */ break;
-		case GNM_VALIDATION_STYLE_WARNING : tmp = "warning"; break;
-		case GNM_VALIDATION_STYLE_INFO : tmp = "information"; break;
+		default: /* fall back to the default */
+		case GNM_VALIDATION_STYLE_STOP: /* "stop" the default */ break;
+		case GNM_VALIDATION_STYLE_WARNING: tmp = "warning"; break;
+		case GNM_VALIDATION_STYLE_INFO: tmp = "information"; break;
 		}
 		if (NULL != tmp)
 			gsf_xml_out_add_cstr_unchecked (info->xml, "errorStyle", tmp);
@@ -2314,12 +2314,12 @@ xlsx_write_autofilters (XLSXWriteState *state, GsfXMLOut *xml)
 			break;
 		}
 
-		case GNM_FILTER_OP_BLANKS :
+		case GNM_FILTER_OP_BLANKS:
 			gsf_xml_out_start_element (xml, "filters");
 			xlsx_add_bool (xml, "blank", TRUE);
 			gsf_xml_out_end_element (xml); /* </filters> */
 			break;
-		case GNM_FILTER_OP_NON_BLANKS :
+		case GNM_FILTER_OP_NON_BLANKS:
 			gsf_xml_out_start_element (xml, "customFilters");
 			gsf_xml_out_start_element (xml, "customFilter");
 			gsf_xml_out_add_cstr_unchecked (xml, "operator", "notEqual");
@@ -2431,10 +2431,10 @@ xlsx_write_breaks (G_GNUC_UNUSED XLSXWriteState *state, GsfXMLOut *xml, GnmPageB
 		gsf_xml_out_add_int (xml, "max", maxima);
 
 		switch (binfo->type) {
-		case GNM_PAGE_BREAK_MANUAL :	gsf_xml_out_add_bool (xml, "man", TRUE); break;
-		case GNM_PAGE_BREAK_AUTO :	break;
-		case GNM_PAGE_BREAK_NONE :	break;
-		case GNM_PAGE_BREAK_DATA_SLICE :gsf_xml_out_add_bool (xml, "pt", TRUE); break;
+		case GNM_PAGE_BREAK_MANUAL:	gsf_xml_out_add_bool (xml, "man", TRUE); break;
+		case GNM_PAGE_BREAK_AUTO:	break;
+		case GNM_PAGE_BREAK_NONE:	break;
+		case GNM_PAGE_BREAK_DATA_SLICE:gsf_xml_out_add_bool (xml, "pt", TRUE); break;
 		}
 		gsf_xml_out_end_element (xml); /* </brk> */
 	}

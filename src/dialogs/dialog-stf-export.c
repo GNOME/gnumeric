@@ -310,9 +310,9 @@ stf_export_dialog_finish (TextExportState *state)
 	}
 
 	switch (gtk_combo_box_get_active (state->format.transliterate)) {
-	case 0 :  transliteratemode = GNM_STF_TRANSLITERATE_MODE_TRANS; break;
+	case 0:  transliteratemode = GNM_STF_TRANSLITERATE_MODE_TRANS; break;
 	default:
-	case 1 :  transliteratemode = GNM_STF_TRANSLITERATE_MODE_ESCAPE; break;
+	case 1:  transliteratemode = GNM_STF_TRANSLITERATE_MODE_ESCAPE; break;
 	}
 
 	switch (gtk_combo_box_get_active (state->format.format)) {

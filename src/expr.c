@@ -767,7 +767,7 @@ gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 		      GnmEvalPos const *pos, GnmExprEvalFlags flags)
 {
 	switch (GNM_EXPR_GET_OPER (expr)) {
-	case GNM_EXPR_OP_FUNCALL : {
+	case GNM_EXPR_OP_FUNCALL: {
 		gboolean failed = TRUE;
 		GnmValue *v;
 		GnmFuncEvalInfo ei;

@@ -843,11 +843,11 @@ qpro_read_sheet (QProReadState *state)
 			break;
 
 		case QPRO_MAX_FONT_PANE1:
-		case QPRO_MAX_FONT_PANE2 :
+		case QPRO_MAX_FONT_PANE2:
 			/* just ignore for now */
 			break;
 
-		case QPRO_PAGE_TAB_COLOR :
+		case QPRO_PAGE_TAB_COLOR:
 			if (validate (QPRO_PAGE_TAB_COLOR, 4)) {
 				GnmColor *bc = gnm_color_new_rgb8 (
 					data[0], data[1], data[2]);
@@ -858,7 +858,7 @@ qpro_read_sheet (QProReadState *state)
 			}
 			break;
 
-		case QPRO_PAGE_ZOOM_FACTOR :
+		case QPRO_PAGE_ZOOM_FACTOR:
 			if (validate (QPRO_PAGE_ZOOM_FACTOR, 4)) {
 				guint16 low  = GSF_LE_GET_GUINT16 (data);
 				guint16 high = GSF_LE_GET_GUINT16 (data + 2);
@@ -905,7 +905,7 @@ qpro_read_workbook (QProReadState *state, GsfInput *input)
 			qpro_read_sheet (state);
 			break;
 
-		default :
+		default:
 			if (id > QPRO_LAST_SANE_ID)
 				go_io_warning (state->io_context,
 					_("Invalid record %d of length %hd"),

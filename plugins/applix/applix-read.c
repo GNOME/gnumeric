@@ -545,7 +545,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				case '2' : a = GNM_HALIGN_RIGHT; break;
 				case '3' : a = GNM_HALIGN_CENTER; break;
 				case '4' : a = GNM_HALIGN_FILL; break;
-				default :
+				default:
 					applix_parse_error (state, "Unknown horizontal alignment '%c'", *sep);
 					return NULL;
 				}
@@ -557,7 +557,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				case 'T' : a = GNM_VALIGN_TOP; break;
 				case 'C' : a = GNM_VALIGN_CENTER; break;
 				case 'B' : a = GNM_VALIGN_BOTTOM; break;
-				default :
+				default:
 					applix_parse_error (state, "Unknown vertical alignment '%c'", *sep);
 					return NULL;
 				}
@@ -615,7 +615,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					case '1' : format = "hh:mm AM/PM";	break;
 					case '2' : format = "hh:mm:ss";		break;
 					case '3' : format = "hh:mm";		break;
-					default :
+					default:
 						applix_parse_error (state, "Unknown time format '%c'", sep[1]);
 						return NULL;
 					}
@@ -671,7 +671,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 						   break;
 					   }
 					   /* Fall through */
-				default :
+				default:
 					applix_parse_error (state, "Unknown format '%c'", *sep);
 					return NULL;
 				}
@@ -781,7 +781,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				}
 
 
-			default :
+			default:
 				applix_parse_error (state, "Unknown font modifier");
 				return NULL;
 			}
@@ -1307,7 +1307,7 @@ applix_read_cells (ApplixReadState *state)
 			break;
 		}
 
-		default :
+		default:
 			g_warning ("Unknown cell type '%c'", content_type);
 		}
 	}

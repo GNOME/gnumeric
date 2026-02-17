@@ -446,14 +446,14 @@ elem_assign_contents (GnmStyle *dst, GnmStyle const *src, GnmStyleElement elem)
 	g_return_if_fail (elem_is_set (src, elem));
 #endif
 	switch (elem) {
-	case MSTYLE_COLOR_BACK :	style_color_ref (dst->color.back = src->color.back); return;
-	case MSTYLE_COLOR_PATTERN :	style_color_ref (dst->color.pattern = src->color.pattern); return;
+	case MSTYLE_COLOR_BACK:	style_color_ref (dst->color.back = src->color.back); return;
+	case MSTYLE_COLOR_PATTERN:	style_color_ref (dst->color.pattern = src->color.pattern); return;
 	case MSTYLE_ANY_BORDER:
 		elem -= MSTYLE_BORDER_TOP;
 		gnm_style_border_ref (dst->borders[elem] = src->borders[elem]);
 		return;
 	case MSTYLE_PATTERN:		dst->pattern = src->pattern; return;
-	case MSTYLE_FONT_COLOR :	style_color_ref (dst->color.font = src->color.font); return;
+	case MSTYLE_FONT_COLOR:	style_color_ref (dst->color.font = src->color.font); return;
 	case MSTYLE_FONT_NAME:		go_string_ref (dst->font_detail.name = src->font_detail.name); return;
 	case MSTYLE_FONT_BOLD:		dst->font_detail.bold = src->font_detail.bold; return;
 	case MSTYLE_FONT_ITALIC:	dst->font_detail.italic = src->font_detail.italic; return;
@@ -502,12 +502,12 @@ elem_clear_contents (GnmStyle *style, GnmStyleElement elem)
 		return;
 
 	switch (elem) {
-	case MSTYLE_COLOR_BACK :	style_color_unref (style->color.back); return;
-	case MSTYLE_COLOR_PATTERN :	style_color_unref (style->color.pattern); return;
+	case MSTYLE_COLOR_BACK:	style_color_unref (style->color.back); return;
+	case MSTYLE_COLOR_PATTERN:	style_color_unref (style->color.pattern); return;
 	case MSTYLE_ANY_BORDER:
 		gnm_style_border_unref (style->borders[elem - MSTYLE_BORDER_TOP]);
 		return;
-	case MSTYLE_FONT_COLOR :	style_color_unref (style->color.font); return;
+	case MSTYLE_FONT_COLOR:	style_color_unref (style->color.font); return;
 	case MSTYLE_FONT_NAME:		go_string_unref (style->font_detail.name); return;
 	case MSTYLE_FORMAT:		go_format_unref (style->format); return;
 	case MSTYLE_VALIDATION:
@@ -2575,7 +2575,7 @@ gnm_style_set_from_pango_attribute (GnmStyle *style, PangoAttribute const *attr)
 		gnm_style_set_font_strike (style,
 			((PangoAttrInt *)attr)->value != 0);
 		break;
-	default : {
+	default: {
 		gboolean script_seen = FALSE, script_set = FALSE;
 		if (attr->klass->type == go_pango_attr_superscript_get_attr_type ()) {
 			script_seen = TRUE;

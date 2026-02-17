@@ -161,7 +161,7 @@ xls_read_pivot_cache_value (XLSReadPivot *s, BiffQuery *q)
 			return go_val_new_empty ();
 		}
 
-		default :
+		default:
 			d (0, g_printerr ("UNEXPECTED RECORD %hx;\n", opcode););
 			break;
 		}
@@ -214,16 +214,16 @@ xls_read_pivot_cache_group (XLSReadPivot *s, BiffQuery *q, GODataCacheField *fie
 		bucketer.details.series.step	= 1.;
 		d (0, g_printerr ("group with 0x%hx flag type = %d;\n", flags, type););
 		switch (type) {
-		case 1 : bucketer.type = GO_VAL_BUCKET_SECOND; break;
-		case 2 : bucketer.type = GO_VAL_BUCKET_MINUTE; break;
-		case 3 : bucketer.type = GO_VAL_BUCKET_HOUR; break;
-		case 4 : bucketer.type = GO_VAL_BUCKET_DAY_OF_YEAR; break;
-		case 5 : bucketer.type = GO_VAL_BUCKET_MONTH; break;
-		case 6 : bucketer.type = GO_VAL_BUCKET_CALENDAR_QUARTER; break;
-		case 7 : bucketer.type = GO_VAL_BUCKET_YEAR; break;
+		case 1: bucketer.type = GO_VAL_BUCKET_SECOND; break;
+		case 2: bucketer.type = GO_VAL_BUCKET_MINUTE; break;
+		case 3: bucketer.type = GO_VAL_BUCKET_HOUR; break;
+		case 4: bucketer.type = GO_VAL_BUCKET_DAY_OF_YEAR; break;
+		case 5: bucketer.type = GO_VAL_BUCKET_MONTH; break;
+		case 6: bucketer.type = GO_VAL_BUCKET_CALENDAR_QUARTER; break;
+		case 7: bucketer.type = GO_VAL_BUCKET_YEAR; break;
 		default:
 			 /* default to linear */;
-		case 8 : bucketer.type = GO_VAL_BUCKET_SERIES_LINEAR; break;
+		case 8: bucketer.type = GO_VAL_BUCKET_SERIES_LINEAR; break;
 		}
 
 		bucket_bounds = xls_read_pivot_cache_values (s, q, 3, "group bounds");
@@ -333,7 +333,7 @@ of the calculated field is stored in a directly following SXFormula record. If f
 		/* Nothing */ ;
 
 	switch (index_type) {
-	case 1 :
+	case 1:
 		if (grouped_items > 0) {
 			go_data_cache_field_set_vals (field, TRUE,
 				xls_read_pivot_cache_values (s, q, grouped_items, "grouped"));
@@ -347,11 +347,11 @@ of the calculated field is stored in a directly following SXFormula record. If f
 		}
 		break;
 
-	case 2 : /* items follow the last normal field and are preceded by an index */
+	case 2: /* items follow the last normal field and are preceded by an index */
 		g_array_append_val (s->inlined, field_num);
 		break;
 
-	default :
+	default:
 		g_warning ("unknown  index type %d for field '%s' (#%u)",
 			   index_type, name ? name->str : "<UNDEFINED>", field_num);
 	}
@@ -512,7 +512,7 @@ xls_read_SXStreamID (GnmXLImporter *imp, BiffQuery *q, GsfInfile *container)
 		guint16 source_type = GSF_LE_GET_GUINT16 (q->data);
 		ms_biff_query_peek_next (q, &opcode);
 		switch (source_type) {
-		case    1 :	/* Sheet */
+		case    1:	/* Sheet */
 			switch (opcode) {
 			case BIFF_DCONREF: if (check_next_min (q, 8)) {
 				GnmRange r;
@@ -554,16 +554,16 @@ xls_read_SXStreamID (GnmXLImporter *imp, BiffQuery *q, GsfInfile *container)
 			}
 			break;
 
-		case    2 :	/* external */
+		case    2:	/* external */
 			break;
 
-		case    4 :	/* consolidation */
+		case    4:	/* consolidation */
 			break;
 
-		case 0x10 :	/* scenarios : no source data */
+		case 0x10:	/* scenarios : no source data */
 			break;
 
-		default :
+		default:
 			g_print ("unknown source type : %hx\n", source_type);
 			break;
 		}
@@ -633,7 +633,7 @@ xls_read_SXVI (BiffQuery *q, ExcelReadSheet *esheet, unsigned int i)
 	case 0x0B: type_str = "VAR"; break;
 	case 0x0C: type_str = "VARP"; break;
 	case 0x0D: type_str = "Grand total"; break;
-	default :  type_str = "UNKNOWN"; break;
+	default:  type_str = "UNKNOWN"; break;
 	}
 	g_print ("[%u] %s %s %s %s %s = %hu\n", i, type_str,
 		 (flags & 1) ? "hidden " : "",

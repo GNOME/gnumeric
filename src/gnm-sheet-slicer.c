@@ -101,18 +101,18 @@ gnm_sheet_slicer_set_property (GObject *obj, guint property_id,
 	GnmSheetSlicer *gss = (GnmSheetSlicer *)obj;
 
 	switch (property_id) {
-	case PROP_SHEET : gnm_sheet_slicer_set_sheet (gss, g_value_get_object (value)); break;
-	case PROP_RANGE : gnm_sheet_slicer_set_range (gss, g_value_get_boxed (value)); break;
-	case PROP_FIRST_HEADER_ROW : gss->first_header_row = g_value_get_uint (value); break;
-	case PROP_FIRST_DATA_COL : gss->first_data_col = g_value_get_uint (value); break;
-	case PROP_FIRST_DATA_ROW : gss->first_data_row = g_value_get_uint (value); break;
+	case PROP_SHEET: gnm_sheet_slicer_set_sheet (gss, g_value_get_object (value)); break;
+	case PROP_RANGE: gnm_sheet_slicer_set_range (gss, g_value_get_boxed (value)); break;
+	case PROP_FIRST_HEADER_ROW: gss->first_header_row = g_value_get_uint (value); break;
+	case PROP_FIRST_DATA_COL: gss->first_data_col = g_value_get_uint (value); break;
+	case PROP_FIRST_DATA_ROW: gss->first_data_row = g_value_get_uint (value); break;
 
-	case PROP_SHOW_HEADERS_COL : gss->show.headers_col = g_value_get_boolean (value); break;
-	case PROP_SHOW_HEADERS_ROW : gss->show.headers_row = g_value_get_boolean (value); break;
-	case PROP_SHOW_STRIPES_COL : gss->show.stripes_col = g_value_get_boolean (value); break;
-	case PROP_SHOW_STRIPES_ROW : gss->show.stripes_row = g_value_get_boolean (value); break;
-	case PROP_SHOW_LAST_COL    : gss->show.last_col    = g_value_get_boolean (value); break;
-	case PROP_SHOW_LAST_ROW    : gss->show.last_row    = g_value_get_boolean (value); break;
+	case PROP_SHOW_HEADERS_COL: gss->show.headers_col = g_value_get_boolean (value); break;
+	case PROP_SHOW_HEADERS_ROW: gss->show.headers_row = g_value_get_boolean (value); break;
+	case PROP_SHOW_STRIPES_COL: gss->show.stripes_col = g_value_get_boolean (value); break;
+	case PROP_SHOW_STRIPES_ROW: gss->show.stripes_row = g_value_get_boolean (value); break;
+	case PROP_SHOW_LAST_COL: gss->show.last_col    = g_value_get_boolean (value); break;
+	case PROP_SHOW_LAST_ROW: gss->show.last_row    = g_value_get_boolean (value); break;
 
 	case PROP_LAYOUT: gnm_sheet_slicer_set_layout (gss, g_value_get_enum (value)); break;
 	default:
@@ -126,20 +126,20 @@ gnm_sheet_slicer_get_property (GObject *obj, guint property_id,
 {
 	GnmSheetSlicer const *gss = (GnmSheetSlicer const *)obj;
 	switch (property_id) {
-	case PROP_SHEET : g_value_set_object (value, gss->sheet); break;
-	case PROP_RANGE : g_value_set_boxed (value, &gss->range); break;
-	case PROP_FIRST_HEADER_ROW : g_value_set_uint (value, gss->first_header_row ); break;
-	case PROP_FIRST_DATA_COL : g_value_set_uint (value, gss->first_data_col); break;
-	case PROP_FIRST_DATA_ROW : g_value_set_uint (value, gss->first_data_row); break;
+	case PROP_SHEET: g_value_set_object (value, gss->sheet); break;
+	case PROP_RANGE: g_value_set_boxed (value, &gss->range); break;
+	case PROP_FIRST_HEADER_ROW: g_value_set_uint (value, gss->first_header_row ); break;
+	case PROP_FIRST_DATA_COL: g_value_set_uint (value, gss->first_data_col); break;
+	case PROP_FIRST_DATA_ROW: g_value_set_uint (value, gss->first_data_row); break;
 
-	case PROP_SHOW_HEADERS_COL : g_value_set_boolean (value, gss->show.headers_col); break;
-	case PROP_SHOW_HEADERS_ROW : g_value_set_boolean (value, gss->show.headers_row); break;
-	case PROP_SHOW_STRIPES_COL : g_value_set_boolean (value, gss->show.stripes_col); break;
-	case PROP_SHOW_STRIPES_ROW : g_value_set_boolean (value, gss->show.stripes_row); break;
-	case PROP_SHOW_LAST_COL    : g_value_set_boolean (value, gss->show.last_col); break;
-	case PROP_SHOW_LAST_ROW    : g_value_set_boolean (value, gss->show.last_row); break;
+	case PROP_SHOW_HEADERS_COL: g_value_set_boolean (value, gss->show.headers_col); break;
+	case PROP_SHOW_HEADERS_ROW: g_value_set_boolean (value, gss->show.headers_row); break;
+	case PROP_SHOW_STRIPES_COL: g_value_set_boolean (value, gss->show.stripes_col); break;
+	case PROP_SHOW_STRIPES_ROW: g_value_set_boolean (value, gss->show.stripes_row); break;
+	case PROP_SHOW_LAST_COL: g_value_set_boolean (value, gss->show.last_col); break;
+	case PROP_SHOW_LAST_ROW: g_value_set_boolean (value, gss->show.last_row); break;
 
-	case PROP_LAYOUT : g_value_set_enum (value, gss->layout); break;
+	case PROP_LAYOUT: g_value_set_enum (value, gss->layout); break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 	}

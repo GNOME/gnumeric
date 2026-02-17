@@ -54,7 +54,7 @@ by Almer S. Tigelaar
 		" Example "
 	
 	This is in most cases undesirable. Therefore the stf parser removes
-	these spaces on _both_ sides by default :
+	these spaces on _both_ sides by default:
 
 		"Example"
 

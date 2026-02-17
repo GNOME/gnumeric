@@ -960,26 +960,26 @@ indexed_color (G_GNUC_UNUSED XLSXReadState *state, gint idx)
 		return GO_COLOR_WHITE;
 	switch (idx) {
 	case 0:   /* black */
-	case 64 : /* system text ? */
-	case 81 : /* tooltip text */
-	case 0x7fff : /* system text ? */
+	case 64: /* system text ? */
+	case 81: /* tooltip text */
+	case 0x7fff: /* system text ? */
 		return GO_COLOR_BLACK;
 
-	case 1 :  /* white */
-	case 65 : /* system back ? */
+	case 1:  /* white */
+	case 65: /* system back ? */
 		return GO_COLOR_WHITE;
 
-	case 80 : /* tooltip background */
+	case 80: /* tooltip background */
 		return GO_COLOR_YELLOW;
 
-	case 2 : return GO_COLOR_RED;
-	case 3 : return GO_COLOR_GREEN;
-	case 4 : return GO_COLOR_BLUE;
-	case 5 : return GO_COLOR_YELLOW;
-	case 6 : return GO_COLOR_VIOLET;
-	case 7 : return GO_COLOR_CYAN;
+	case 2: return GO_COLOR_RED;
+	case 3: return GO_COLOR_GREEN;
+	case 4: return GO_COLOR_BLUE;
+	case 5: return GO_COLOR_YELLOW;
+	case 6: return GO_COLOR_VIOLET;
+	case 7: return GO_COLOR_CYAN;
 
-	default :
+	default:
 		 break;
 	}
 
@@ -1378,10 +1378,10 @@ xlsx_cell_val_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 
 	switch (state->pos_type) {
-	case XLXS_TYPE_NUM :
+	case XLXS_TYPE_NUM:
 		state->val = value_new_float (gnm_strto (xin->content->str, &end));
 		break;
-	case XLXS_TYPE_SST_STR :
+	case XLXS_TYPE_SST_STR:
 		i = xlsx_relaxed_strtol (xin->content->str, &end, 10);
 		if (end != xin->content->str && *end == '\0' &&
 		    0 <= i  && i < (int)state->sst->len) {
@@ -1394,20 +1394,20 @@ xlsx_cell_val_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			xlsx_warning (xin, _("Invalid sst ref '%s'"), xin->content->str);
 		}
 		break;
-	case XLXS_TYPE_BOOL :
+	case XLXS_TYPE_BOOL:
 		if (*xin->content->str)
 			state->val = value_new_bool (*xin->content->str != '0');
 		break;
-	case XLXS_TYPE_ERR :
+	case XLXS_TYPE_ERR:
 		if (*xin->content->str)
 			state->val = value_new_error (NULL, xin->content->str);
 		break;
 
-	case XLXS_TYPE_STR2 : /* What is this ? */
-	case XLXS_TYPE_INLINE_STR :
+	case XLXS_TYPE_STR2: /* What is this ? */
+	case XLXS_TYPE_INLINE_STR:
 		state->val = value_new_string (xin->content->str);
 		break;
-	default :
+	default:
 		g_warning ("Unknown val type %d", state->pos_type);
 	}
 }
@@ -2851,7 +2851,7 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		overlay = xlsx_get_dxf (xin, dxf);
 
 	switch (type) {
-	case XLSX_CF_TYPE_CELL_IS :
+	case XLSX_CF_TYPE_CELL_IS:
 		/* Nothing */
 		break;
 	case XLSX_CF_TYPE_CONTAINS_STR:
@@ -2871,7 +2871,7 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		op = GNM_STYLE_COND_CUSTOM;
 		break;
 
-	default :
+	default:
 		xlsx_warning (xin, _("Ignoring unhandled conditional format of type '%s'"), type_str);
 	}
 

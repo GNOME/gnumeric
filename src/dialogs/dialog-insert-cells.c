@@ -75,23 +75,23 @@ cb_insert_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	rows = state->sel->end.row - state->sel->start.row + 1;
 
 	switch (i) {
-	case 0 :
+	case 0:
 		cmd_shift_rows (wbc, state->sheet,
 				state->sel->start.col,
 				state->sel->start.row,
 				state->sel->end.row, cols);
 		break;
-	case 1 :
+	case 1:
 		cmd_shift_cols (wbc, state->sheet,
 				state->sel->start.col,
 				state->sel->end.col,
 				state->sel->start.row, rows);
 		break;
-	case 2 :
+	case 2:
 		cmd_insert_rows (wbc, state->sheet,
 				 state->sel->start.row, rows);
 		break;
-	default :
+	default:
 		cmd_insert_cols (wbc, state->sheet,
 				 state->sel->start.col, cols);
 		break;
