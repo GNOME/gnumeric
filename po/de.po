@@ -386,7 +386,7 @@ msgstr[0] ""
 "Beim Speichern wird Inhalt verloren gehen. Dieses Format unterstützt nur %u "
 "Spalte, aber das Arbeitsbuch hat %d"
 msgstr[1] ""
-"Beim Speichern wird inhalt verloren gehen. Dieses Format unterstützt nur %u "
+"Beim Speichern wird Inhalt verloren gehen. Dieses Format unterstützt nur %u "
 "Spalten, aber das Arbeitsbuch hat %d"
 
 #: ../plugins/excel/ms-excel-write.c:237
@@ -791,7 +791,7 @@ msgstr ""
 #, c-format
 msgid "Loaded %lu function from XLL/DLL/SO %s."
 msgid_plural "Loaded %lu functions from XLL/DLL/SO %s."
-msgstr[0] "%lu Funktion wurden aus XLL/DLL/SO %s geladen."
+msgstr[0] "%lu Funktion wurde aus XLL/DLL/SO %s geladen."
 msgstr[1] "%lu Funktionen wurden aus XLL/DLL/SO %s geladen."
 
 #. *************************************************************************
@@ -1150,7 +1150,7 @@ msgstr "Datenbankverbindung"
 #: ../plugins/gda/plugin-gda.c:362
 #, c-format
 msgid "Error: could not open connection to %s"
-msgstr "Fehler: Die Verbindung mit %s konnte aufgebaut werden"
+msgstr "Fehler: Die Verbindung mit %s konnte nicht aufgebaut werden"
 
 #: ../plugins/gda/plugin-gda.c:406
 msgid "Format: execSQL(dsn,user,password,sql)"
@@ -4620,7 +4620,7 @@ msgstr "Zeilenbezogenen Seitenumbruch entfernen"
 
 #: ../src/commands.c:8011 ../src/wbc-gtk.c:1569
 msgid "Add Column Page Break"
-msgstr "Spaltenbezogener Seitenumbruch"
+msgstr "Spaltenbezogener Seitenumbruch hinzufügen"
 
 #: ../src/commands.c:8011 ../src/wbc-gtk.c:1579
 msgid "Add Row Page Break"
@@ -14315,7 +14315,7 @@ msgid "The file contains %d NUL character. It has been changed to a space."
 msgid_plural ""
 "The file contains %d NUL characters. They have been changed to spaces."
 msgstr[0] ""
-"Die Datei enthält %d NUL-Zeichen. Es wurde in ein Leerzeichen umgewandelt."
+"Die Datei enthält %d NUL-Zeichen. Dieses wurde in ein Leerzeichen umgewandelt."
 msgstr[1] ""
 "Die Datei enthält %d NUL-Zeichen. Sie wurden in Leerzeichen umgewandelt."
 
@@ -14704,7 +14704,7 @@ msgstr ""
 #.
 #: ../src/tools/analysis-normality.c:123
 msgid "/Alpha/p-Value/Statistic/N/Conclusion"
-msgstr "/Alpha/p-Wert/Statistik/N/Konklusion"
+msgstr "/Alpha/p-Wert/Statistik/N/Schlussfolgerung"
 
 #: ../src/tools/analysis-normality.c:163
 msgid "Not normal"
