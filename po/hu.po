@@ -1,24 +1,24 @@
 # Hungarian translation for gnumeric.
-# Copyright (C) 2000, 2005, 2006, 2015, 2016, 2017, 2018, 2020, 2021, 2022, 2024, 2025 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2005, 2006, 2015, 2016, 2017, 2018, 2020, 2021, 2022, 2024, 2025, 2026 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
 #
 # Emese Kovács <emese at gnome dot hu>, 2000.
 # András Timár <timar at gnome dot hu>, 2000.
 # Gábor Kelemen <kelemeng at gnome dot hu>, 2005, 2006, 2018.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2015, 2016, 2017, 2018, 2020, 2021, 2022, 2024, 2025.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2015, 2016, 2017, 2018, 2020, 2021, 2022, 2024, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2025-08-31 22:02+0000\n"
-"PO-Revision-Date: 2025-09-02 12:12+0200\n"
+"POT-Creation-Date: 2026-02-21 02:06+0000\n"
+"PO-Revision-Date: 2026-02-22 18:49+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.08.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../org.gnumeric.gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
@@ -86,12 +86,12 @@ msgstr "Karakterek hiányoznak a karakterkódoláshoz"
 msgid "Invalid characters for encoding '%c%c'"
 msgstr "Érvénytelen karakterek a kódoláshoz: „%c%c”"
 
-#: ../plugins/applix/applix-read.c:1225
+#: ../plugins/applix/applix-read.c:1236
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
 msgstr "A kifejezés nem ezzel kezdődött: '=' ? '%s'"
 
-#: ../plugins/applix/applix-read.c:1236
+#: ../plugins/applix/applix-read.c:1247
 #, c-format
 msgid ""
 "%s!%s : unable to parse '%s'\n"
@@ -112,8 +112,8 @@ msgstr "4.[234] verziójú munkafüzeteket importál"
 msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
-#: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7219
-#: ../plugins/openoffice/openoffice-read.c:14203 ../src/xml-sax-read.c:3565
+#: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7224
+#: ../plugins/openoffice/openoffice-read.c:14203 ../src/xml-sax-read.c:3656
 msgid "Reading file..."
 msgstr "Fájl olvasása…"
 
@@ -203,7 +203,7 @@ msgstr "Mentés előkészítése…"
 msgid "Saving file..."
 msgstr "Fájl mentése…"
 
-#: ../plugins/excel/excel-xml-read.c:133 ../src/xml-sax-read.c:483
+#: ../plugins/excel/excel-xml-read.c:133 ../src/xml-sax-read.c:485
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Váratlan attribútum: %s::%s == '%s'."
@@ -220,7 +220,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Az ss:data elem tartalma érvénytelen, „%s” érkezett."
 
 #: ../plugins/excel/excel-xml-read.c:1215
-#: ../plugins/openoffice/openoffice-read.c:14397 ../src/xml-sax-read.c:3582
+#: ../plugins/openoffice/openoffice-read.c:14397 ../src/xml-sax-read.c:3673
 msgid "XML document not well formed!"
 msgstr "Az XML-dokumentum nem megfelelően formázott!"
 
@@ -277,11 +277,11 @@ msgstr ""
 "Az OLE hivatkozások még nem támogatottak.\n"
 "A(z) „%s” név el fog veszni.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6346
+#: ../plugins/excel/ms-excel-read.c:6351
 msgid "external references"
 msgstr "külső hivatkozások"
 
-#: ../plugins/excel/ms-excel-read.c:6385
+#: ../plugins/excel/ms-excel-read.c:6390
 msgid "No password supplied"
 msgstr "Nem adott meg jelszót"
 
@@ -363,11 +363,11 @@ msgstr[1] ""
 "A tartalom egy része el fog veszni a mentéskor. Ez a formátum csak %u sort "
 "támogat, de ez a munkafüzet %d sort tartalmaz."
 
-#: ../plugins/excel/ms-excel-write.c:6589
+#: ../plugins/excel/ms-excel-write.c:6588
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nem sikerült írásra megnyitni a „Book” adatfolyamot\n"
 
-#: ../plugins/excel/ms-excel-write.c:6611
+#: ../plugins/excel/ms-excel-write.c:6610
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nem sikerült írásra megnyitni a „Workbook” adatfolyamot\n"
 
@@ -941,39 +941,39 @@ msgstr "Héber dátumokat kezelő függvények"
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1405 ../plugins/fn-info/functions.c:1421
+#: ../plugins/fn-info/functions.c:556 ../plugins/fn-info/functions.c:572
 #: ../src/dialogs/workbook-attr.ui.h:8
 msgid "Unimplemented"
 msgstr "Nincs megvalósítva"
 
-#: ../plugins/fn-info/functions.c:1429
+#: ../plugins/fn-info/functions.c:580
 msgid "Unknown version"
 msgstr "Ismeretlen verzió"
 
-#: ../plugins/fn-info/functions.c:1431
+#: ../plugins/fn-info/functions.c:582
 #, c-format
 msgid "%s version %s"
 msgstr "%s %s verzió"
 
-#: ../plugins/fn-info/functions.c:1446 ../src/dialogs/dialog-cell-format.c:880
+#: ../plugins/fn-info/functions.c:597 ../src/dialogs/dialog-cell-format.c:880
 #: ../src/dialogs/dialog-cell-format.c:2354
-#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3826
+#: ../src/dialogs/dialog-cell-format.c:2362 ../src/wbc-gtk-actions.c:3821
 msgid "Automatic"
 msgstr "Automatikus"
 
-#: ../plugins/fn-info/functions.c:1446
+#: ../plugins/fn-info/functions.c:597
 msgid "Manual"
 msgstr "Kézi"
 
-#: ../plugins/fn-info/functions.c:1456
+#: ../plugins/fn-info/functions.c:607
 msgid "Unknown system"
 msgstr "Ismeretlen rendszer"
 
-#: ../plugins/fn-info/functions.c:1471
+#: ../plugins/fn-info/functions.c:622
 msgid "Unknown info_type"
 msgstr "Ismeretlen info_type"
 
-#: ../plugins/fn-info/functions.c:1735
+#: ../plugins/fn-info/functions.c:886
 msgid "Invalid number of arguments"
 msgstr "Az argumentumok száma érvénytelen"
 
@@ -1046,7 +1046,6 @@ msgid "Bitwise Operations"
 msgstr "Bitenkénti műveletek"
 
 #: ../plugins/fn-r/plugin.xml.in.h:1
-#| msgid "Statistical Functions"
 msgid "Statistical Functions From R"
 msgstr "Statisztikai függvények az R-ből"
 
@@ -2418,25 +2417,25 @@ msgstr ""
 "A(z) %i. sor %i. oszlopában lévő cella a Gnumeric legnagyobb munkalapméretén "
 "túl van."
 
-#: ../plugins/sc/sc.c:386
+#: ../plugins/sc/sc.c:392
 msgid "The sheet is wider than Gnumeric can handle."
 msgstr "A munkalap szélesebb mint amit a Gnumeric kezelni tud."
 
-#: ../plugins/sc/sc.c:449
+#: ../plugins/sc/sc.c:456
 msgid "Encountered precision-dependent format without set precision."
 msgstr "Pontosságfüggő formátum fordult elő pontosságmegadás nélkül."
 
-#: ../plugins/sc/sc.c:472
+#: ../plugins/sc/sc.c:479
 #, c-format
 msgid "Column format %i is undefined."
 msgstr "A(z) %i oszlopformátum nincs meghatározva."
 
-#: ../plugins/sc/sc.c:798
+#: ../plugins/sc/sc.c:805
 #, c-format
 msgid "Unable to parse cmd='%s', str='%s', col=%d, row=%d."
 msgstr "Nem dolgozható fel: par=„%s”, szö=„%s”, osz=%d, sor=%d."
 
-#: ../plugins/sc/sc.c:933
+#: ../plugins/sc/sc.c:940
 msgid "Error parsing line"
 msgstr "Hiba a sor feldolgozásakor"
 
@@ -3730,7 +3729,7 @@ msgstr ""
 "rendezés párbeszédablakban."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:79
-#: ../src/dialogs/dialog-preferences.c:818 ../src/wbc-gtk-actions.c:3316
+#: ../src/dialogs/dialog-preferences.c:818 ../src/wbc-gtk-actions.c:3311
 msgid "Sort Ascending"
 msgstr "Növekvő sorrend"
 
@@ -4028,7 +4027,7 @@ msgstr "%s sorok törlése"
 msgid "Deleting row %s"
 msgstr "%s sor törlése"
 
-#: ../src/commands.c:1584 ../src/commands.c:1585 ../src/sheet.c:5169
+#: ../src/commands.c:1584 ../src/commands.c:1585 ../src/sheet.c:5159
 msgid "Clear"
 msgstr "Törlés"
 
@@ -4057,104 +4056,104 @@ msgstr "%s törlése itt: %s"
 msgid "Changing Format"
 msgstr "Formátum változtatása"
 
-#: ../src/commands.c:1877
+#: ../src/commands.c:1878
 #, c-format
 msgid "Changing format of %s"
 msgstr "%s formátumának változtatása"
 
-#: ../src/commands.c:1964
+#: ../src/commands.c:1965
 #, c-format
 msgid "Setting Font Style of %s"
 msgstr "%s betűkészlet stílusának beállítása"
 
-#: ../src/commands.c:2016
+#: ../src/commands.c:2017
 #, c-format
 msgid "Autofitting column %s"
 msgstr "%s oszlop automatikus méretezése"
 
-#: ../src/commands.c:2017
+#: ../src/commands.c:2018
 #, c-format
 msgid "Autofitting row %s"
 msgstr "%s sor automatikus méretezése"
 
-#: ../src/commands.c:2020
+#: ../src/commands.c:2021
 #, c-format
 msgid "Setting width of column %s to %d pixel"
 msgid_plural "Setting width of column %s to %d pixels"
 msgstr[0] "%s oszlop szélességének beállítása %d képpontra"
 msgstr[1] "%s oszlop szélességének beállítása %d képpontra"
 
-#: ../src/commands.c:2024
+#: ../src/commands.c:2025
 #, c-format
 msgid "Setting height of row %s to %d pixel"
 msgid_plural "Setting height of row %s to %d pixels"
 msgstr[0] "%s sor magasságának beállítása %d képpontra"
 msgstr[1] "%s sor magasságának beállítása %d képpontra"
 
-#: ../src/commands.c:2029
+#: ../src/commands.c:2030
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "%s oszlop szélességének beállítása az alapértékre"
 
-#: ../src/commands.c:2032
+#: ../src/commands.c:2033
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "%s sor magasságának beállítása az alapértékre"
 
-#: ../src/commands.c:2036
+#: ../src/commands.c:2037
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "%s oszlopok automatikus méretezése"
 
-#: ../src/commands.c:2037
+#: ../src/commands.c:2038
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "%s sorok automatikus méretezése"
 
-#: ../src/commands.c:2040
+#: ../src/commands.c:2041
 #, c-format
 msgid "Setting width of columns %s to %d pixel"
 msgid_plural "Setting width of columns %s to %d pixels"
 msgstr[0] "%s oszlopok szélességének beállítása %d képpontra"
 msgstr[1] "%s oszlopok szélességének beállítása %d képpontra"
 
-#: ../src/commands.c:2044
+#: ../src/commands.c:2045
 #, c-format
 msgid "Setting height of rows %s to %d pixel"
 msgid_plural "Setting height of rows %s to %d pixels"
 msgstr[0] "%s sorok magasságának beállítása %d képpontra"
 msgstr[1] "%s sorok magasságának beállítása %d képpontra"
 
-#: ../src/commands.c:2050
+#: ../src/commands.c:2051
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "%s oszlopok szélességének beállítása az alapértékre"
 
-#: ../src/commands.c:2052
+#: ../src/commands.c:2053
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "%s sorok magasságának beállítása az alapértékre"
 
-#: ../src/commands.c:2079
+#: ../src/commands.c:2080
 #, c-format
 msgid "Autofitting width of %s"
 msgstr "%s szélességének automatikus méretezése"
 
-#: ../src/commands.c:2079
+#: ../src/commands.c:2080
 #, c-format
 msgid "Autofitting height of %s"
 msgstr "%s magasságának automatikus méretezése"
 
-#: ../src/commands.c:2153 ../src/dialogs/dialog-preferences.c:1224
+#: ../src/commands.c:2154 ../src/dialogs/dialog-preferences.c:1224
 msgid "Sorting"
 msgstr "Rendezés"
 
-#: ../src/commands.c:2176
+#: ../src/commands.c:2177
 #, c-format
 msgid "Sorting %s"
 msgstr "%s rendezése"
 
-#: ../src/commands.c:2338
+#: ../src/commands.c:2339
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
@@ -4162,7 +4161,7 @@ msgstr ""
 "Biztosan el szeretne rejteni minden oszlopot? Ha ezt szeretné, akkor "
 "előhozhatja azokat a „Formátum→Oszlop→Előhozás” menüponttal."
 
-#: ../src/commands.c:2342
+#: ../src/commands.c:2343
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
@@ -4170,94 +4169,94 @@ msgstr ""
 "Biztosan el szeretne rejteni minden sort? Ha ezt szeretné, akkor előhozhatja "
 "azokat a „Formátum→Sor→Előhozás” menüponttal."
 
-#: ../src/commands.c:2362
+#: ../src/commands.c:2363
 msgid "Unhide columns"
 msgstr "Oszlopok előhozása"
 
-#: ../src/commands.c:2362
+#: ../src/commands.c:2363
 msgid "Hide columns"
 msgstr "Oszlopok elrejtése"
 
-#: ../src/commands.c:2363
+#: ../src/commands.c:2364
 msgid "Unhide rows"
 msgstr "Sorok előhozása"
 
-#: ../src/commands.c:2363
+#: ../src/commands.c:2364
 msgid "Hide rows"
 msgstr "Sorok elrejtése"
 
-#: ../src/commands.c:2443
+#: ../src/commands.c:2444
 msgid "Expand columns"
 msgstr "Oszlopok kinyitása"
 
-#: ../src/commands.c:2443
+#: ../src/commands.c:2444
 msgid "Collapse columns"
 msgstr "Oszlopok összecsukása"
 
-#: ../src/commands.c:2444
+#: ../src/commands.c:2445
 msgid "Expand rows"
 msgstr "Sorok kinyitása"
 
-#: ../src/commands.c:2444
+#: ../src/commands.c:2445
 msgid "Collapse rows"
 msgstr "Sorok összecsukása"
 
-#: ../src/commands.c:2468
+#: ../src/commands.c:2469
 #, c-format
 msgid "Show column outline %d"
 msgstr "%d oszlopkörvonal megjelenítése"
 
-#: ../src/commands.c:2468
+#: ../src/commands.c:2469
 #, c-format
 msgid "Show row outline %d"
 msgstr "%d sorkörvonal megjelenítése"
 
-#: ../src/commands.c:2537
+#: ../src/commands.c:2538
 msgid "Those columns are already grouped"
 msgstr "Azok az oszlopok már csoportosítva vannak"
 
-#: ../src/commands.c:2538
+#: ../src/commands.c:2539
 msgid "Those rows are already grouped"
 msgstr "Azok a sorok már csoportosítva vannak"
 
-#: ../src/commands.c:2561
+#: ../src/commands.c:2562
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Azok az oszlopok nincsenek csoportosítva, nem lehet szétbontani őket"
 
-#: ../src/commands.c:2562
+#: ../src/commands.c:2563
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Azok a sorok nincsenek csoportosítva, nem lehet szétbontani őket"
 
-#: ../src/commands.c:2575
+#: ../src/commands.c:2576
 #, c-format
 msgid "Group columns %s"
 msgstr "%s oszlopok csoportosítása"
 
-#: ../src/commands.c:2575
+#: ../src/commands.c:2576
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "%s oszlopok szétbontása"
 
-#: ../src/commands.c:2577
+#: ../src/commands.c:2578
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "%d:%d sorok csoportosítása"
 
-#: ../src/commands.c:2577
+#: ../src/commands.c:2578
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "%d:%d sorok szétbontása"
 
-#: ../src/commands.c:2806
+#: ../src/commands.c:2807
 #, c-format
 msgid "Moving %s"
 msgstr "%s áthelyezése"
 
-#: ../src/commands.c:2816 ../src/commands.c:3220
+#: ../src/commands.c:2817 ../src/commands.c:3223
 msgid "is beyond sheet boundaries"
 msgstr "túl van a munkalap határain"
 
-#: ../src/commands.c:2874
+#: ../src/commands.c:2875
 #, c-format
 msgid ""
 "Copying between files with different date conventions.\n"
@@ -4268,77 +4267,77 @@ msgstr ""
 "Lehetséges, hogy néhány dátumot helytelenül lehetett\n"
 "lemásolni."
 
-#: ../src/commands.c:2904
+#: ../src/commands.c:2905
 msgid "Paste Copy"
 msgstr "Másolat beillesztése"
 
-#: ../src/commands.c:3116
+#: ../src/commands.c:3119
 #, c-format
 msgid "Pasting into %s"
 msgstr "Beillesztés ebbe: %s"
 
-#: ../src/commands.c:3206
+#: ../src/commands.c:3209
 #, c-format
 msgid "Do you really want to paste %s copies?"
 msgstr "Valóban be szeretne illeszteni %s másolatot?"
 
 #. Check arrays or merged regions in src or target regions
-#: ../src/commands.c:3263 ../src/commands.c:3419 ../src/commands.c:3420
+#: ../src/commands.c:3266 ../src/commands.c:3422 ../src/commands.c:3423
 #: ../src/item-cursor.c:1038 ../src/wbc-gtk-actions.c:579
 msgid "Autofill"
 msgstr "Automatikus kitöltés"
 
 #. Changed in initial redo.
-#: ../src/commands.c:3442
+#: ../src/commands.c:3445
 #, c-format
 msgid "Autofilling %s"
 msgstr "%s automatikus kitöltése"
 
-#: ../src/commands.c:3742
+#: ../src/commands.c:3745
 #, c-format
 msgid "Autoformatting %s"
 msgstr "%s automatikus formázása"
 
-#: ../src/commands.c:3860
+#: ../src/commands.c:3863
 #, c-format
 msgid "Unmerging %s"
 msgstr "%s szétválasztása"
 
-#: ../src/commands.c:4029
+#: ../src/commands.c:4032
 #, c-format
 msgid "Merge and Center %s"
 msgstr "%s egyesítése és középre igazítása"
 
-#: ../src/commands.c:4029
+#: ../src/commands.c:4032
 #, c-format
 msgid "Merging %s"
 msgstr "%s egyesítése"
 
 #. Corrected below.
-#: ../src/commands.c:4397 ../src/dialogs/search-replace.ui.h:5
+#: ../src/commands.c:4400 ../src/dialogs/search-replace.ui.h:5
 msgid "Search and Replace"
 msgstr "Keresés és csere"
 
-#: ../src/commands.c:4490
+#: ../src/commands.c:4493
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Az oszlopok alapértelmezett szélességének beállítása %.2f pontra"
 
-#: ../src/commands.c:4491
+#: ../src/commands.c:4494
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "A sorok alapértelmezett magasságának beállítása %.2f pontra"
 
-#: ../src/commands.c:4603
+#: ../src/commands.c:4606
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "%s nagyítása %.0f%%-ra"
 
-#: ../src/commands.c:4706
+#: ../src/commands.c:4709
 msgid "Delete Object"
 msgstr "Objektum törlése"
 
-#: ../src/commands.c:4848 ../src/commands.c:5919
+#: ../src/commands.c:4851 ../src/commands.c:5922
 #: ../src/dialogs/dialog-doc-metadata.c:1864
 #: ../src/dialogs/dialog-formula-guru.c:891
 #: ../src/dialogs/dialog-function-select.c:1279
@@ -4347,240 +4346,232 @@ msgstr "Objektum törlése"
 msgid "Name"
 msgstr "Név"
 
-#: ../src/commands.c:4848
+#: ../src/commands.c:4851
 msgid "Sheet names must be non-empty."
 msgstr "A munkalapnevek nem lehetnek üresek."
 
-#: ../src/commands.c:4855
+#: ../src/commands.c:4858
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "Egy munkafüzetnek nem lehet két ugyanolyan nevű munkalapja."
 
-#: ../src/commands.c:4953
+#: ../src/commands.c:4956
 msgid "Resizing sheet"
 msgstr "Munkalap átméretezése"
 
-#: ../src/commands.c:5106
+#: ../src/commands.c:5109
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "%s megjegyzésének törlése"
 
-#: ../src/commands.c:5107
+#: ../src/commands.c:5110
 #, c-format
 msgid "Setting comment of %s"
 msgstr "%s megjegyzésének beállítása"
 
-#: ../src/commands.c:5544
+#: ../src/commands.c:5547
 #, c-format
 msgid "Merging data into %s"
 msgstr "Adatok egyesítése ebbe: %s"
 
-#: ../src/commands.c:5642
+#: ../src/commands.c:5645
 #, c-format
 msgid "Changing workbook properties"
 msgstr "Munkafüzet tulajdonságainak megváltoztatása"
 
-#: ../src/commands.c:5716
+#: ../src/commands.c:5719
 msgid "Pull Object to the Front"
 msgstr "Objektum előtérbe húzása"
 
-#: ../src/commands.c:5719
+#: ../src/commands.c:5722
 msgid "Pull Object Forward"
 msgstr "Objektum előre húzása"
 
-#: ../src/commands.c:5722
+#: ../src/commands.c:5725
 msgid "Push Object Backward"
 msgstr "Objektum hátra tolása"
 
-#: ../src/commands.c:5725
+#: ../src/commands.c:5728
 msgid "Push Object to the Back"
 msgstr "Objektum háttérbe tolása"
 
-#: ../src/commands.c:5855
+#: ../src/commands.c:5858
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Oldalbeállítás ennél: %s"
 
-#: ../src/commands.c:5857
+#: ../src/commands.c:5860
 msgid "Page Setup For All Sheets"
 msgstr "Oldalbeállítás minden munkalapnál"
 
-#: ../src/commands.c:5981 ../src/commands.c:5992
+#: ../src/commands.c:5984 ../src/commands.c:5995
 msgid "Defined Name"
 msgstr "Meghatározott név"
 
-#: ../src/commands.c:5982
+#: ../src/commands.c:5985
 msgid "An empty string is not allowed as defined name."
 msgstr "Üres szöveg nem engedélyezett meghatározott névként."
 
-#: ../src/commands.c:5990
+#: ../src/commands.c:5993
 #, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr "„%s” nem engedélyezett meghatározott névként."
 
-#: ../src/commands.c:6000
+#: ../src/commands.c:6003
 msgid "has a circular reference"
 msgstr "körkörös hivatkozása van"
 
-#: ../src/commands.c:6034
+#: ../src/commands.c:6037
 #, c-format
 msgid "Define Name %s"
 msgstr "%s név meghatározása"
 
-#: ../src/commands.c:6037
+#: ../src/commands.c:6040
 #, c-format
 msgid "Update Name %s"
 msgstr "%s név frissítése"
 
-#: ../src/commands.c:6130
+#: ../src/commands.c:6133
 #, c-format
 msgid "Remove Name %s"
 msgstr "%s név eltávolítása"
 
-#: ../src/commands.c:6161
+#: ../src/commands.c:6164
 msgid "Change Scope of Name"
 msgstr "Név hatáskörének megváltoztatása"
 
-#: ../src/commands.c:6210
+#: ../src/commands.c:6213
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr "%s név hatáskörének megváltoztatása"
 
-#: ../src/commands.c:6276
+#: ../src/commands.c:6279
 msgid "Add scenario"
 msgstr "Eset hozzáadása"
 
-#: ../src/commands.c:6340
+#: ../src/commands.c:6343
 msgid "Scenario Show"
 msgstr "Eset megjelenítése"
 
-#: ../src/commands.c:6398
+#: ../src/commands.c:6401
 msgid "Shuffle Data"
 msgstr "Adatok keverése"
 
 #. FIXME?
-#: ../src/commands.c:6502
+#: ../src/commands.c:6505
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Szövegből (%s) oszlopok (%s)"
 
-#: ../src/commands.c:6660
+#: ../src/commands.c:6663
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Célértékkeresés (%s)"
 
-#: ../src/commands.c:6826
+#: ../src/commands.c:6829
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Táblázatkészítési függőségek"
 
-#: ../src/commands.c:6900
+#: ../src/commands.c:6903
 msgid "Reconfigure Graph"
 msgstr "Grafikon újrabeállítása"
 
-#: ../src/commands.c:6970
+#: ../src/commands.c:6973
 msgid "Reconfigure Object"
 msgstr "Objektum újrabeállítása"
 
-#: ../src/commands.c:7014
-msgid "Left to Right"
-msgstr "Balról jobbra"
-
-#: ../src/commands.c:7014
-msgid "Right to Left"
-msgstr "Jobbról balra"
-
-#: ../src/commands.c:7176
+#: ../src/commands.c:7186
 msgid "Changing Hyperlink"
 msgstr "Hiperhivatkozás megváltoztatása"
 
-#: ../src/commands.c:7260
+#: ../src/commands.c:7270
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "%s hiperhivatkozásának megváltoztatása"
 
-#: ../src/commands.c:7345
+#: ../src/commands.c:7355
 msgid "Configure List"
 msgstr "Lista beállítása"
 
-#: ../src/commands.c:7416
+#: ../src/commands.c:7426
 msgid "Set Frame Label"
 msgstr "Keretcímke beállítása"
 
-#: ../src/commands.c:7487
+#: ../src/commands.c:7497
 msgid "Configure Button"
 msgstr "Gomb beállítása"
 
-#: ../src/commands.c:7568
+#: ../src/commands.c:7578
 msgid "Configure Radio Button"
 msgstr "Választógomb beállítása"
 
-#: ../src/commands.c:7644
+#: ../src/commands.c:7654
 msgid "Configure Checkbox"
 msgstr "Jelölőnégyzet beállítása"
 
-#: ../src/commands.c:7751 ../src/sheet-object-widget.c:1773
+#: ../src/commands.c:7761 ../src/sheet-object-widget.c:1773
 msgid "Configure Adjustment"
 msgstr "Igazítás beállítása"
 
-#: ../src/commands.c:7782
+#: ../src/commands.c:7792
 msgid "Add Filter"
 msgstr "Szűrő hozzáadása"
 
-#: ../src/commands.c:7798 ../src/wbc-gtk.c:1674
+#: ../src/commands.c:7808 ../src/wbc-gtk.c:1674
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "%s által blokkolt automatikus szűrő"
 
-#: ../src/commands.c:7803 ../src/commands.c:7830 ../src/commands.c:7839
+#: ../src/commands.c:7813 ../src/commands.c:7840 ../src/commands.c:7849
 msgid "AutoFilter"
 msgstr "AutomatikusSzűrő"
 
-#: ../src/commands.c:7831
+#: ../src/commands.c:7841
 msgid "Requires more than 1 row"
 msgstr "Egynél több sort igényel"
 
-#: ../src/commands.c:7840
+#: ../src/commands.c:7850
 msgid "Unable to create Autofilter"
 msgstr "Nem lehet létrehozni az automatikus szűrőt"
 
-#: ../src/commands.c:7862
+#: ../src/commands.c:7872
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr "Automatikus szűrő hozzáadása ehhez: %s"
 
-#: ../src/commands.c:7863
+#: ../src/commands.c:7873
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Automatikus szűrő kiterjesztése erre: %s"
 
-#: ../src/commands.c:7876
+#: ../src/commands.c:7886
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Automatikus szűrő eltávolítása innen: %s"
 
-#: ../src/commands.c:7906
+#: ../src/commands.c:7916
 #, c-format
 msgid "Change filter condition for %s"
 msgstr "Szűrőfeltétel megváltoztatása ennél: %s"
 
-#: ../src/commands.c:7975 ../src/wbc-gtk-actions.c:2400
+#: ../src/commands.c:7985 ../src/wbc-gtk-actions.c:2395
 msgid "Clear All Page Breaks"
 msgstr "Minden oldaltörés törlése"
 
-#: ../src/commands.c:8002 ../src/wbc-gtk.c:1609
+#: ../src/commands.c:8012 ../src/wbc-gtk.c:1609
 msgid "Remove Column Page Break"
 msgstr "Oszlop oldaltörés eltávolítása"
 
-#: ../src/commands.c:8002 ../src/wbc-gtk.c:1619
+#: ../src/commands.c:8012 ../src/wbc-gtk.c:1619
 msgid "Remove Row Page Break"
 msgstr "Sor oldaltörés eltávolítása"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1612
+#: ../src/commands.c:8015 ../src/wbc-gtk.c:1612
 msgid "Add Column Page Break"
 msgstr "Oszlop oldaltörés hozzáadása"
 
-#: ../src/commands.c:8005 ../src/wbc-gtk.c:1622
+#: ../src/commands.c:8015 ../src/wbc-gtk.c:1622
 msgid "Add Row Page Break"
 msgstr "Sor oldaltörés hozzáadása"
 
@@ -5037,9 +5028,9 @@ msgid "Visit the Gnumeric website"
 msgstr "A Gnumeric weblapjának megtekintése"
 
 #: ../src/dialogs/dialog-about.c:600
-#| msgid "Copyright © 1998-2023"
-msgid "Copyright © 1998-2024"
-msgstr "Copyright © 1998-2024"
+#| msgid "Copyright © 1998-2024"
+msgid "Copyright © 1998-2026"
+msgstr "Copyright © 1998-2026"
 
 #: ../src/dialogs/dialog-about.c:601
 msgid "Free, Fast, Accurate - Pick Any Three!"
@@ -5192,7 +5183,7 @@ msgid "Group %d"
 msgstr "%d. csoport"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:527
-#: ../src/wbc-gtk-actions.c:1038
+#: ../src/wbc-gtk-actions.c:1032
 msgid "Group"
 msgstr "Csoport"
 
@@ -5540,8 +5531,6 @@ msgstr ""
 #. This is input to ngettext.
 #: ../src/dialogs/dialog-autofilter.c:211
 #, c-format
-#| msgid "Show the largest item"
-#| msgid_plural "Show the %3d largest items"
 msgid "Show the largest item"
 msgid_plural "Show the %d largest items"
 msgstr[0] "A legnagyobb elem megjelenítése"
@@ -5551,8 +5540,6 @@ msgstr[1] "A(z) %d legnagyobb elem megjelenítése"
 #. This is input to ngettext.
 #: ../src/dialogs/dialog-autofilter.c:221
 #, c-format
-#| msgid "Show the smallest item"
-#| msgid_plural "Show the %3d smallest items"
 msgid "Show the smallest item"
 msgid_plural "Show the %d smallest items"
 msgstr[0] "A legkisebb elem megjelenítése"
@@ -5560,8 +5547,6 @@ msgstr[1] "A(z) %d legkisebb elem megjelenítése"
 
 #: ../src/dialogs/dialog-autofilter.c:235
 #, c-format
-#| msgid "Show the items in the top %3d%% of the data range"
-#| msgid_plural "Show the items in the top %3d%% of the data range"
 msgid "Show the items in the top %d%% of the data range"
 msgid_plural "Show the items in the top %d%% of the data range"
 msgstr[0] "Elemek megjelenítése az adattartomány felső %d%%-ában"
@@ -5569,8 +5554,6 @@ msgstr[1] "Elemek megjelenítése az adattartomány felső %d%%-ában"
 
 #: ../src/dialogs/dialog-autofilter.c:245
 #, c-format
-#| msgid "Show the items in the bottom %3d%% of the data range"
-#| msgid_plural "Show the items in the bottom %3d%% of the data range"
 msgid "Show the items in the bottom %d%% of the data range"
 msgid_plural "Show the items in the bottom %d%% of the data range"
 msgstr[0] "Elemek megjelenítése az adattartomány alsó %d%%-ában"
@@ -5578,8 +5561,6 @@ msgstr[1] "Elemek megjelenítése az adattartomány alsó %d%%-ában"
 
 #: ../src/dialogs/dialog-autofilter.c:256
 #, c-format
-#| msgid "Show the top %3d%% of all items"
-#| msgid_plural "Show the top %3d%% of all items"
 msgid "Show the top %d%% of all items"
 msgid_plural "Show the top %d%% of all items"
 msgstr[0] "Az összes elem felső %d%%-ának megjelenítése"
@@ -5587,8 +5568,6 @@ msgstr[1] "Az összes elem felső %d%%-ának megjelenítése"
 
 #: ../src/dialogs/dialog-autofilter.c:266
 #, c-format
-#| msgid "Show the bottom %3d%% of all items"
-#| msgid_plural "Show the bottom %3d%% of all items"
 msgid "Show the bottom %d%% of all items"
 msgid_plural "Show the bottom %d%% of all items"
 msgstr[0] "Az összes elem alsó %d%%-ának megjelenítése"
@@ -5770,7 +5749,7 @@ msgid "Double Low"
 msgstr "Dupla alsó"
 
 #: ../src/dialogs/dialog-cell-format.c:469 ../src/dialogs/dialog-search.c:389
-#: ../src/func.c:1097 ../src/wbc-gtk-actions.c:3428
+#: ../src/func.c:1097 ../src/wbc-gtk-actions.c:3423
 msgid "Number"
 msgstr "Szám"
 
@@ -5826,13 +5805,13 @@ msgstr "Cellák formázása"
 msgid "Border"
 msgstr "Szegély"
 
-#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3872
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk-actions.c:3867
 msgid "Clear Background"
 msgstr "Háttér törlése"
 
 #: ../src/dialogs/dialog-cell-format.c:2358
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:90
-#: ../src/wbc-gtk-actions.c:3874 ../src/wbc-gtk-actions.c:3875
+#: ../src/wbc-gtk-actions.c:3869 ../src/wbc-gtk-actions.c:3870
 msgid "Background"
 msgstr "Háttér"
 
@@ -6109,27 +6088,27 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s – %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:756
+#: ../src/dialogs/dialog-cell-sort.c:754
 msgid "no available column"
 msgstr "nincs elérhető oszlop"
 
-#: ../src/dialogs/dialog-cell-sort.c:756
+#: ../src/dialogs/dialog-cell-sort.c:754
 msgid "no available row"
 msgstr "nincs elérhető sor"
 
-#: ../src/dialogs/dialog-cell-sort.c:1007
+#: ../src/dialogs/dialog-cell-sort.c:1005
 msgid "Header"
 msgstr "Fejléc"
 
-#: ../src/dialogs/dialog-cell-sort.c:1013
+#: ../src/dialogs/dialog-cell-sort.c:1011
 msgid "Row/Column"
 msgstr "Sor/Oszlop"
 
-#: ../src/dialogs/dialog-cell-sort.c:1033
+#: ../src/dialogs/dialog-cell-sort.c:1031
 msgid "Case Sensitive"
 msgstr "Kis- és nagybetűk megkülönböztetése"
 
-#: ../src/dialogs/dialog-cell-sort.c:1053
+#: ../src/dialogs/dialog-cell-sort.c:1051
 msgid "By Value"
 msgstr "Érték szerint"
 
@@ -6169,14 +6148,14 @@ msgstr "Szűrő"
 
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2352
+#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2355
 #: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2870
 msgid "Row"
 msgstr "Sor"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2344
+#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2347
 #: ../src/tools/analysis-tools.c:220 ../src/tools/analysis-tools.c:2871
 msgid "Column"
 msgstr "Oszlop"
@@ -6482,7 +6461,7 @@ msgstr "Munkafüzetszint"
 
 #: ../src/dialogs/dialog-goto-cell.c:386 ../src/dialogs/dialog-search.c:437
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2333 ../src/tools/gnm-solver.c:1672
+#: ../src/sheet-control-gui.c:2336 ../src/tools/gnm-solver.c:1672
 #: ../src/tools/gnm-solver.c:1717 ../src/tools/gnm-solver.c:1858
 msgid "Cell"
 msgstr "Cella"
@@ -6751,7 +6730,7 @@ msgstr "Automatikus javítás"
 #: ../src/dialogs/dialog-preferences.c:1215
 #: ../src/dialogs/dialog-sheet-compare.c:206
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:38
-#: ../src/wbc-gtk-actions.c:4417 ../src/widgets/gnm-fontbutton.c:1198
+#: ../src/wbc-gtk-actions.c:4412 ../src/widgets/gnm-fontbutton.c:1190
 msgid "Font"
 msgstr "Betűkészlet"
 
@@ -6763,7 +6742,7 @@ msgstr "Fájlok"
 msgid "Tools"
 msgstr "Eszközök"
 
-#: ../src/dialogs/dialog-preferences.c:1218 ../src/wbc-gtk-actions.c:4102
+#: ../src/dialogs/dialog-preferences.c:1218 ../src/wbc-gtk-actions.c:4097
 msgid "Undo"
 msgstr "Visszavonás"
 
@@ -7327,22 +7306,22 @@ msgid "Font color"
 msgstr "Betűszín"
 
 #. ALSO "<control>2"
-#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3655
+#: ../src/dialogs/dialog-sheet-compare.c:207 ../src/wbc-gtk-actions.c:3650
 #: ../src/widgets/gnm-text-view.c:329
 msgid "Bold"
 msgstr "Félkövér"
 
 #. ALSO "<control>3"
-#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3663
+#: ../src/dialogs/dialog-sheet-compare.c:208 ../src/wbc-gtk-actions.c:3658
 msgid "Italic"
 msgstr "Dőlt"
 
 #. ALSO "<control>4"
-#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3671
+#: ../src/dialogs/dialog-sheet-compare.c:209 ../src/wbc-gtk-actions.c:3666
 msgid "Underline"
 msgstr "Aláhúzott"
 
-#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3700
+#: ../src/dialogs/dialog-sheet-compare.c:210 ../src/wbc-gtk-actions.c:3695
 msgid "Strikethrough"
 msgstr "Áthúzott"
 
@@ -7376,7 +7355,7 @@ msgstr "Behúzás"
 msgid "Rotation"
 msgstr "Forgatás"
 
-#: ../src/dialogs/dialog-sheet-compare.c:220 ../src/wbc-gtk-actions.c:2790
+#: ../src/dialogs/dialog-sheet-compare.c:220 ../src/wbc-gtk-actions.c:2785
 msgid "Direction"
 msgstr "_Irány"
 
@@ -7449,18 +7428,18 @@ msgstr "Igen"
 msgid "No"
 msgstr "Nem"
 
-#: ../src/dialogs/dialog-sheet-compare.c:377 ../src/wbc-gtk-actions.c:3422
+#: ../src/dialogs/dialog-sheet-compare.c:377 ../src/wbc-gtk-actions.c:3417
 msgid "General"
 msgstr "Általános"
 
 #. start sub menu
 #: ../src/dialogs/dialog-sheet-compare.c:378 ../src/dialogs/cell-format.ui.h:42
-#: ../src/sheet-control-gui.c:2313 ../src/wbc-gtk-actions.c:3887
+#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3882
 msgid "Left"
 msgstr "Balra"
 
 #: ../src/dialogs/dialog-sheet-compare.c:379 ../src/dialogs/cell-format.ui.h:43
-#: ../src/sheet-control-gui.c:2316 ../src/wbc-gtk-actions.c:3889
+#: ../src/sheet-control-gui.c:2319 ../src/wbc-gtk-actions.c:3884
 msgid "Right"
 msgstr "Jobbra"
 
@@ -7474,7 +7453,7 @@ msgid "Fill"
 msgstr "Kitöltés"
 
 #: ../src/dialogs/dialog-sheet-compare.c:382
-#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3739
+#: ../src/dialogs/dialog-sheet-compare.c:396 ../src/wbc-gtk-actions.c:3734
 msgid "Justify"
 msgstr "Sorkizárt"
 
@@ -7483,7 +7462,7 @@ msgid "Center across selection"
 msgstr "Középre a kijelölésen keresztül"
 
 #: ../src/dialogs/dialog-sheet-compare.c:384
-#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3728
+#: ../src/dialogs/dialog-sheet-compare.c:397 ../src/wbc-gtk-actions.c:3723
 msgid "Distributed"
 msgstr "Elosztott"
 
@@ -7494,7 +7473,7 @@ msgstr "Fent"
 
 #: ../src/dialogs/dialog-sheet-compare.c:394
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:44
-#: ../src/wbc-gtk-actions.c:3895
+#: ../src/wbc-gtk-actions.c:3890
 msgid "Bottom"
 msgstr "Lent"
 
@@ -7535,13 +7514,6 @@ msgstr "Balról jobbra"
 #: ../src/dialogs/dialog-sheet-compare.c:526
 msgid "Unavailable"
 msgstr "Nem érhető el"
-
-#: ../src/dialogs/dialog-sheet-compare.c:531
-#, c-format
-msgid "%d pixel"
-msgid_plural "%d pixels"
-msgstr[0] "%d képpont"
-msgstr[1] "%d képpont"
 
 #: ../src/dialogs/dialog-sheet-compare.c:721
 #: ../src/dialogs/search-replace.ui.h:6
@@ -7674,16 +7646,16 @@ msgid "Run on"
 msgstr "Futtatva"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:244
-#: ../src/wbc-gtk.c:4143
+#: ../src/wbc-gtk.c:4141
 msgid "Min"
 msgstr "Minimum"
 
-#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4145
+#: ../src/dialogs/dialog-simulation.c:231 ../src/wbc-gtk.c:4143
 msgid "Average"
 msgstr "Átlag"
 
 #: ../src/dialogs/dialog-simulation.c:231 ../src/tools/simulation.c:246
-#: ../src/wbc-gtk.c:4144
+#: ../src/wbc-gtk.c:4142
 msgid "Max"
 msgstr "Maximum"
 
@@ -7927,7 +7899,7 @@ msgstr[1] "%d/%d importálandó sor"
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr "Az adat nem érvényes a(z) %s kódolásban. Válasszon egy másik kódolást."
 
-#: ../src/dialogs/dialog-stf-main-page.c:374 ../src/wbc-gtk-actions.c:3372
+#: ../src/dialogs/dialog-stf-main-page.c:374 ../src/wbc-gtk-actions.c:3367
 msgid "Line"
 msgstr "Sor"
 
@@ -8253,7 +8225,7 @@ msgstr "Darabszám vagy százalék:"
 msgid "Items"
 msgstr "Elemek"
 
-#: ../src/dialogs/autofilter-top10.ui.h:6 ../src/wbc-gtk-actions.c:3447
+#: ../src/dialogs/autofilter-top10.ui.h:6 ../src/wbc-gtk-actions.c:3442
 msgid "Percentage"
 msgstr "Százalék"
 
@@ -8431,14 +8403,14 @@ msgid "In a list"
 msgstr "Listában"
 
 #: ../src/dialogs/cell-format.ui.h:5 ../src/dialogs/hf-config.ui.h:8
-#: ../src/wbc-gtk-actions.c:3459
+#: ../src/wbc-gtk-actions.c:3454
 msgid "Date"
 msgstr "Dátum"
 
 #: ../src/dialogs/cell-format.ui.h:6 ../src/dialogs/hf-config.ui.h:10
 #: ../src/tools/analysis-exp-smoothing.c:735
 #: ../src/tools/analysis-exp-smoothing.c:1058
-#: ../src/tools/analysis-kaplan-meier.c:121 ../src/wbc-gtk-actions.c:3465
+#: ../src/tools/analysis-kaplan-meier.c:121 ../src/wbc-gtk-actions.c:3460
 msgid "Time"
 msgstr "Idő"
 
@@ -9003,7 +8975,7 @@ msgid "Correlation"
 msgstr "Korreláció"
 
 #: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:728
-#: ../src/tools/analysis-tools.c:731 ../src/wbc-gtk-actions.c:2956
+#: ../src/tools/analysis-tools.c:731 ../src/wbc-gtk-actions.c:2951
 msgid "Covariance"
 msgstr "Kovariancia"
 
@@ -9260,32 +9232,27 @@ msgstr "Egyik _sem"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
-"Move the selected sheet to the top of the list of sheets to "
-"be exported first."
+"Move the selected sheet to the top of the list of sheets to be exported "
+"first."
 msgstr ""
 "A kijelölt munkalap áthelyezése az exportálandó munkalapok listájának "
 "tetejére az elsőként történő exportáláshoz."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
-msgid ""
-"Raise the selected sheet in the list of sheets to be exported "
-"earlier."
+msgid "Raise the selected sheet in the list of sheets to be exported earlier."
 msgstr ""
 "A kijelölt munkalap feljebb hozása az exportálandó munkalapok listáján a "
 "korábban történő exportáláshoz."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
-msgid ""
-"Lower the selected sheet in the list of sheets to be exported "
-"later."
+msgid "Lower the selected sheet in the list of sheets to be exported later."
 msgstr ""
 "A kijelölt munkalap lejjebb tolása az exportálandó munkalapok listáján a "
 "később történő exportáláshoz."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
-"Move the selected sheet to the end of the list of sheets to "
-"be exported last."
+"Move the selected sheet to the end of the list of sheets to be exported last."
 msgstr ""
 "A kijelölt munkalap áthelyezése az exportálandó munkalapok listájának aljára "
 "az utolsóként történő exportáláshoz."
@@ -9580,8 +9547,8 @@ msgstr "Levágás:"
 msgid "Source Locale:"
 msgstr "Forrás területi beállítása:"
 
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4157
-#: ../src/wbc-gtk-actions.c:4177
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk-actions.c:4152
+#: ../src/wbc-gtk-actions.c:4172
 msgid "Zoom"
 msgstr "Nagyítás"
 
@@ -9884,12 +9851,12 @@ msgstr "Sorok kitöltése"
 msgid "Series in:"
 msgstr "Adatsorok ebben:"
 
-#: ../src/dialogs/fill-series.ui.h:3 ../src/wbc-gtk-actions.c:2145
-#: ../src/wbc-gtk-actions.c:2508
+#: ../src/dialogs/fill-series.ui.h:3 ../src/wbc-gtk-actions.c:2140
+#: ../src/wbc-gtk-actions.c:2503
 msgid "_Row"
 msgstr "_Sor"
 
-#: ../src/dialogs/fill-series.ui.h:4 ../src/wbc-gtk-actions.c:2502
+#: ../src/dialogs/fill-series.ui.h:4 ../src/wbc-gtk-actions.c:2497
 msgid "_Column"
 msgstr "_Oszlop"
 
@@ -9957,7 +9924,7 @@ msgstr "Beírás tömbfüggvényként"
 msgid "Quote unknown names"
 msgstr "Ismeretlen nevek idézése"
 
-#: ../src/dialogs/fourier-analysis.ui.h:1 ../src/wbc-gtk-actions.c:2987
+#: ../src/dialogs/fourier-analysis.ui.h:1 ../src/wbc-gtk-actions.c:2982
 msgid "Fourier Analysis"
 msgstr "Fourier-analízis"
 
@@ -10324,7 +10291,7 @@ msgstr "_Cenzoroszlop:"
 msgid "Censored record labels from:"
 msgstr "Cenzúrázott rekord címkék ettől:"
 
-#: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1543
+#: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1547
 msgid "to:"
 msgstr "eddig:"
 
@@ -10446,7 +10413,7 @@ msgid "Merge..."
 msgstr "Egyesítés…"
 
 #. start sub menu
-#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2334
+#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2337
 msgid "_Merge"
 msgstr "_Egyesítés"
 
@@ -10544,8 +10511,8 @@ msgstr "_Hivatkozás beillesztése"
 msgid "<b>Paste type</b>"
 msgstr "<b>Beillesztés típusa</b>"
 
-#: ../src/dialogs/paste-special.ui.h:4 ../src/wbc-gtk-actions.c:2408
-#: ../src/wbc-gtk-actions.c:2496
+#: ../src/dialogs/paste-special.ui.h:4 ../src/wbc-gtk-actions.c:2403
+#: ../src/wbc-gtk-actions.c:2491
 msgid "_All"
 msgstr "_Minden"
 
@@ -10574,7 +10541,7 @@ msgid "Paste cell formats (number formats, colors, borders, etc.) only"
 msgstr ""
 "Csak a cellaformátumok (számformátumok, színek, keretek, stb.) beillesztése"
 
-#: ../src/dialogs/paste-special.ui.h:11 ../src/wbc-gtk-actions.c:2419
+#: ../src/dialogs/paste-special.ui.h:11 ../src/wbc-gtk-actions.c:2414
 msgid "Co_mments"
 msgstr "M_egjegyzések"
 
@@ -10735,7 +10702,7 @@ msgstr "A Gnumeric beállításai"
 #: ../src/dialogs/principal-components.ui.h:1
 #: ../src/tools/analysis-principal-components.c:225
 #: ../src/tools/analysis-principal-components.c:228
-#: ../src/wbc-gtk-actions.c:2993
+#: ../src/wbc-gtk-actions.c:2988
 msgid "Principal Components Analysis"
 msgstr "Főkomponens-elemzés"
 
@@ -11310,7 +11277,8 @@ msgid "Search and replace in all cells in the workbook"
 msgstr "Keresés és csere a munkafüzet minden cellájában"
 
 #: ../src/dialogs/search-replace.ui.h:24 ../src/dialogs/search.ui.h:13
-msgid "_Current sheet"
+#| msgid "_Current sheet"
+msgid "C_urrent sheet"
 msgstr "_Jelenlegi munkalap"
 
 #: ../src/dialogs/search-replace.ui.h:25
@@ -11661,8 +11629,8 @@ msgstr "Eredmények"
 msgid "Manage Sheets"
 msgstr "Munkalapok kezelése"
 
-#: ../src/dialogs/sheet-order.ui.h:2 ../src/wbc-gtk-actions.c:2109
-#: ../src/wbc-gtk-actions.c:2291
+#: ../src/dialogs/sheet-order.ui.h:2 ../src/wbc-gtk-actions.c:2104
+#: ../src/wbc-gtk-actions.c:2286
 msgid "_Insert"
 msgstr "_Beszúrás"
 
@@ -12244,26 +12212,26 @@ msgstr ""
 "Ez a jelölőnégyzet határozza meg, hogy jelezzék-e kis piros nyilak, hogy a "
 "tartalom csonkítva lett abba az irányba."
 
-#: ../src/expr-name.c:735
+#: ../src/expr-name.c:703
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "A(z) „%s” körkörös hivatkozással rendelkezik"
 
-#: ../src/expr-name.c:764 ../src/expr-name.c:1015
+#: ../src/expr-name.c:727 ../src/expr-name.c:968
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "A(z) „%s” már meg van határozva a munkalapon"
 
-#: ../src/expr-name.c:765 ../src/expr-name.c:1016
+#: ../src/expr-name.c:728 ../src/expr-name.c:969
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "A(z) „%s” már meg van határozva a munkafüzetben"
 
-#: ../src/expr.c:991
+#: ../src/expr.c:980
 msgid "Internal type error"
 msgstr "Belső típushiba"
 
-#: ../src/expr.c:1665
+#: ../src/expr.c:1654
 msgid "Unknown evaluation error"
 msgstr "Ismeretlen kiértékelési hiba"
 
@@ -12727,27 +12695,27 @@ msgstr "A(z) %s azonosítójú bővítmény szükséges, de nem található."
 msgid "The %s plugin is required but is not loaded."
 msgstr "A(z) %s bővítmény szükséges, de nincs betöltve."
 
-#: ../src/gui-util.h:150
+#: ../src/gui-util.h:151
 msgctxt "Stock label"
 msgid "_Open"
 msgstr "_Megnyitás"
 
-#: ../src/gui-util.h:153
+#: ../src/gui-util.h:154
 msgctxt "Stock label"
 msgid "_Save"
 msgstr "M_entés"
 
-#: ../src/gui-util.h:156
+#: ../src/gui-util.h:157
 msgctxt "Stock label"
 msgid "Save _As"
 msgstr "Men_tés másként"
 
-#: ../src/gui-util.h:159
+#: ../src/gui-util.h:160
 msgctxt "Stock label"
 msgid "_Cancel"
 msgstr "_Mégse"
 
-#: ../src/gui-util.h:162
+#: ../src/gui-util.h:163
 msgctxt "Stock label"
 msgid "_OK"
 msgstr "_OK"
@@ -12762,16 +12730,16 @@ msgstr "Ismeretlen munkalap: „%s”"
 msgid "Invalid export option \"%s\" for format %s"
 msgstr "Érvénytelen „%s” exportálási beállítás a formátumhoz: %s"
 
-#: ../src/hlink.c:304
+#: ../src/hlink.c:318
 msgid "Link target"
 msgstr "Hivatkozás célja"
 
-#: ../src/hlink.c:508
+#: ../src/hlink.c:522
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Nem lehet bekapcsolni a(z) „%s” URL-t"
 
-#: ../src/hlink.c:565
+#: ../src/hlink.c:579
 #, c-format
 msgid "Unable to open '%s'"
 msgstr "Nem nyitható meg: „%s”"
@@ -12813,9 +12781,9 @@ msgstr "%.2f pont"
 msgid "_Move"
 msgstr "Át_helyezés"
 
-#: ../src/item-cursor.c:836 ../src/sheet-control-gui.c:2247
+#: ../src/item-cursor.c:836 ../src/sheet-control-gui.c:2250
 #: ../src/sheet-object.c:271 ../src/sheet-object.c:290
-#: ../src/wbc-gtk-actions.c:2091
+#: ../src/wbc-gtk-actions.c:2086
 msgid "_Copy"
 msgstr "_Másolás"
 
@@ -12882,11 +12850,11 @@ msgstr ""
 "adatkönyvtár := „%s”\n"
 "programkönyvtár := „%s”\n"
 
-#: ../src/libgnumeric.c:195
+#: ../src/libgnumeric.c:192
 msgid "Gnumeric Options"
 msgstr "Gnumeric beállításai"
 
-#: ../src/libgnumeric.c:195
+#: ../src/libgnumeric.c:192
 msgid "Show Gnumeric Options"
 msgstr "Gnumeric beállításainak megjelenítése"
 
@@ -13074,15 +13042,15 @@ msgstr "Ismeretlen papírméret"
 msgid "PDF export"
 msgstr "PDF exportálás"
 
-#: ../src/print.c:697
+#: ../src/print.c:701
 msgid "Even one cell is too large for this page."
 msgstr "Akkor is, ha egy cella túl nagy ehhez az oldalhoz."
 
-#: ../src/print.c:988
+#: ../src/print.c:992
 msgid "Print Selection"
 msgstr "Kijelölés nyomtatása"
 
-#: ../src/print.c:1242
+#: ../src/print.c:1246
 msgid ""
 "You have chosen more than 1000 pages to preview. This may take a long time. "
 "Do you really want to proceed?"
@@ -13090,80 +13058,80 @@ msgstr ""
 "Több mint 1000 oldalt választott ki az előnézethez. Ez hosszú ideig is "
 "eltarthat. Valóban folytatni szeretné?"
 
-#: ../src/print.c:1329
+#: ../src/print.c:1333
 msgid "Preparing to preview"
 msgstr "Előkészítés az előnézethez"
 
-#: ../src/print.c:1330
+#: ../src/print.c:1334
 msgid "Preparing to print"
 msgstr "Előkészítés a nyomtatáshoz"
 
-#: ../src/print.c:1420
+#: ../src/print.c:1424
 #, c-format
 msgid "Creating preview of page %3d"
 msgstr "%3d oldal előnézetének létrehozása"
 
-#: ../src/print.c:1421
+#: ../src/print.c:1425
 #, c-format
 msgid "Printing page %3d"
 msgstr "%3d oldal nyomtatása"
 
-#: ../src/print.c:1425
+#: ../src/print.c:1429
 #, c-format
 msgid "Creating preview of page %3d of %3d page"
 msgid_plural "Creating preview of page %3d of %3d pages"
 msgstr[0] "%3d / %3d oldal előnézetének létrehozása"
 msgstr[1] "%3d / %3d oldal előnézetének létrehozása"
 
-#: ../src/print.c:1428
+#: ../src/print.c:1432
 #, c-format
 msgid "Printing page %3d of %3d page"
 msgid_plural "Printing page %3d of %3d pages"
 msgstr[0] "%3d / %3d oldal nyomtatása"
 msgstr[1] "%3d / %3d oldal nyomtatása"
 
-#: ../src/print.c:1494
+#: ../src/print.c:1498
 msgid "_All workbook sheets"
 msgstr "A _munkafüzet minden munkalapja"
 
-#: ../src/print.c:1499
+#: ../src/print.c:1503
 msgid "Also print _hidden sheets"
 msgstr "A _rejtett munkalapokat is nyomtassa"
 
-#: ../src/print.c:1507
+#: ../src/print.c:1511
 msgid "A_ctive workbook sheet"
 msgstr "A m_unkafüzet aktív munkalapja"
 
-#: ../src/print.c:1512
+#: ../src/print.c:1516
 msgid "_Workbook sheets:"
 msgstr "_Munkafüzet munkalapjai:"
 
-#: ../src/print.c:1517
+#: ../src/print.c:1521
 msgid "Current _selection only"
 msgstr "Csak a jelenlegi _kijelölés"
 
-#: ../src/print.c:1525
+#: ../src/print.c:1529
 msgid "_Ignore defined print area"
 msgstr "Meg_határozott nyomtatási terület mellőzése"
 
-#: ../src/print.c:1532
+#: ../src/print.c:1536
 msgid "from:"
 msgstr "ettől:"
 
-#: ../src/print.c:1556
+#: ../src/print.c:1560
 msgid "Ignore all _manual page breaks"
 msgstr "Minden _kézi oldaltörés mellőzése"
 
-#: ../src/print.c:1858
+#: ../src/print.c:1862
 #, c-format
 msgid "Failed to create temporary file for printing: %s"
 msgstr "Nem sikerült átmeneti fájlt létrehozni a nyomtatáshoz: %s"
 
-#: ../src/print.c:1876
+#: ../src/print.c:1880
 msgid "Gnumeric Print Range"
 msgstr "Gnumeric nyomtatási tartomány"
 
-#: ../src/print.c:1892
+#: ../src/print.c:1896
 msgid "Print to File"
 msgstr "Nyomtatás fájlba"
 
@@ -13183,7 +13151,7 @@ msgstr "Meg kell adnia egy tartományt a kereséshez."
 msgid "The search range is invalid."
 msgstr "A keresési tartomány érvénytelen."
 
-#: ../src/selection.c:418 ../src/wbc-gtk-actions.c:1252
+#: ../src/selection.c:418 ../src/wbc-gtk-actions.c:1246
 #, c-format
 msgid "%s does not support multiple ranges"
 msgstr "A(z) %s nem támogat több tartományt"
@@ -13201,149 +13169,149 @@ msgstr "%dQ"
 msgid "(empty)"
 msgstr "(üres)"
 
-#: ../src/sheet-control-gui.c:2159 ../src/wbc-gtk-actions.c:377
+#: ../src/sheet-control-gui.c:2162 ../src/wbc-gtk-actions.c:377
 #, c-format
 msgid "Remove %d Link"
 msgid_plural "Remove %d Links"
 msgstr[0] "%d hivatkozás eltávolítása"
 msgstr[1] "%d hivatkozás eltávolítása"
 
-#: ../src/sheet-control-gui.c:2245 ../src/sheet-object.c:289
-#: ../src/wbc-gtk-actions.c:2267
+#: ../src/sheet-control-gui.c:2248 ../src/sheet-object.c:289
+#: ../src/wbc-gtk-actions.c:2262
 msgid "Cu_t"
 msgstr "_Kivágás"
 
-#: ../src/sheet-control-gui.c:2249 ../src/wbc-gtk-actions.c:2274
+#: ../src/sheet-control-gui.c:2252 ../src/wbc-gtk-actions.c:2269
 msgid "_Paste"
 msgstr "_Beillesztés"
 
-#: ../src/sheet-control-gui.c:2251
+#: ../src/sheet-control-gui.c:2254
 msgid "Paste _Special"
 msgstr "_Speciális beillesztés"
 
-#: ../src/sheet-control-gui.c:2256
+#: ../src/sheet-control-gui.c:2259
 msgid "_Insert Cells..."
 msgstr "_Cellák beszúrása…"
 
-#: ../src/sheet-control-gui.c:2259
+#: ../src/sheet-control-gui.c:2262
 msgid "_Delete Cells..."
 msgstr "Cellák _törlése…"
 
-#: ../src/sheet-control-gui.c:2262
+#: ../src/sheet-control-gui.c:2265
 msgid "_Insert Column(s)"
 msgstr "Oszlopok _beszúrása"
 
-#: ../src/sheet-control-gui.c:2266
+#: ../src/sheet-control-gui.c:2269
 msgid "_Delete Column(s)"
 msgstr "Oszlopok _törlése"
 
-#: ../src/sheet-control-gui.c:2270
+#: ../src/sheet-control-gui.c:2273
 msgid "_Insert Row(s)"
 msgstr "Sorok _beszúrása"
 
-#: ../src/sheet-control-gui.c:2274
+#: ../src/sheet-control-gui.c:2277
 msgid "_Delete Row(s)"
 msgstr "Sorok _törlése"
 
-#: ../src/sheet-control-gui.c:2279
+#: ../src/sheet-control-gui.c:2282
 msgid "Clear Co_ntents"
 msgstr "_Tartalom törlése"
 
-#: ../src/sheet-control-gui.c:2284
+#: ../src/sheet-control-gui.c:2287
 msgid "Add _Comment..."
 msgstr "Megjegy_zés hozzáadása…"
 
-#: ../src/sheet-control-gui.c:2286
+#: ../src/sheet-control-gui.c:2289
 msgid "Edit Co_mment..."
 msgstr "Megjegyzés _szerkesztése…"
 
-#: ../src/sheet-control-gui.c:2288
+#: ../src/sheet-control-gui.c:2291
 msgid "_Remove Comments"
 msgstr "Megjegyzések _eltávolítása"
 
-#: ../src/sheet-control-gui.c:2291
+#: ../src/sheet-control-gui.c:2294
 msgid "Add _Hyperlink..."
 msgstr "_Hiperhivatkozás hozzáadása…"
 
-#: ../src/sheet-control-gui.c:2294
+#: ../src/sheet-control-gui.c:2297
 msgid "Edit _Hyperlink..."
 msgstr "_Hiperhivatkozás szerkesztése…"
 
-#: ../src/sheet-control-gui.c:2297
+#: ../src/sheet-control-gui.c:2300
 msgid "_Remove Hyperlink"
 msgstr "Hiperhivatkozás _eltávolítása"
 
-#: ../src/sheet-control-gui.c:2303
+#: ../src/sheet-control-gui.c:2306
 msgid "_Edit DataSlicer"
 msgstr "Adatszeletelő _szerkesztése"
 
-#: ../src/sheet-control-gui.c:2306
+#: ../src/sheet-control-gui.c:2309
 msgid "_Refresh DataSlicer"
 msgstr "Adatszeletelő _frissítése"
 
-#: ../src/sheet-control-gui.c:2310
+#: ../src/sheet-control-gui.c:2313
 msgid "DataSlicer Field _Order "
 msgstr "Adatszeletelő mező_sorrend "
 
-#: ../src/sheet-control-gui.c:2319
+#: ../src/sheet-control-gui.c:2322
 msgid "Up"
 msgstr "Fel"
 
-#: ../src/sheet-control-gui.c:2322
+#: ../src/sheet-control-gui.c:2325
 msgid "Down"
 msgstr "Le"
 
 #. end sub menu
-#: ../src/sheet-control-gui.c:2329
+#: ../src/sheet-control-gui.c:2332
 msgid "_Format All Cells..."
 msgstr "Minden cella _formázása…"
 
-#: ../src/sheet-control-gui.c:2331
+#: ../src/sheet-control-gui.c:2334
 msgid "C_onditional Formatting..."
 msgstr "_Feltételes formázás…"
 
-#: ../src/sheet-control-gui.c:2336
+#: ../src/sheet-control-gui.c:2339
 msgid "_Unmerge"
 msgstr "_Felbontás"
 
-#: ../src/sheet-control-gui.c:2338 ../src/wbc-gtk-actions.c:2815
+#: ../src/sheet-control-gui.c:2341 ../src/wbc-gtk-actions.c:2810
 msgid "Auto Fit _Width"
 msgstr "_Szélesség automatikus igazítása"
 
-#: ../src/sheet-control-gui.c:2339 ../src/wbc-gtk-actions.c:2809
+#: ../src/sheet-control-gui.c:2342 ../src/wbc-gtk-actions.c:2804
 msgid "Auto Fit _Height"
 msgstr "_Magasság automatikus igazítása"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2345 ../src/wbc-gtk-actions.c:2824
+#: ../src/sheet-control-gui.c:2348 ../src/wbc-gtk-actions.c:2819
 msgid "_Width..."
 msgstr "_Szélesség…"
 
-#: ../src/sheet-control-gui.c:2346 ../src/wbc-gtk-actions.c:2830
+#: ../src/sheet-control-gui.c:2349 ../src/wbc-gtk-actions.c:2825
 msgid "_Auto Fit Width"
 msgstr "Szélesség _automatikus igazítása"
 
-#: ../src/sheet-control-gui.c:2347 ../src/sheet-control-gui.c:2355
-#: ../src/wbc-gtk-actions.c:2836 ../src/wbc-gtk-actions.c:2870
+#: ../src/sheet-control-gui.c:2350 ../src/sheet-control-gui.c:2358
+#: ../src/wbc-gtk-actions.c:2831 ../src/wbc-gtk-actions.c:2865
 msgid "_Hide"
 msgstr "_Elrejtés"
 
-#: ../src/sheet-control-gui.c:2348 ../src/sheet-control-gui.c:2356
-#: ../src/wbc-gtk-actions.c:2843 ../src/wbc-gtk-actions.c:2877
+#: ../src/sheet-control-gui.c:2351 ../src/sheet-control-gui.c:2359
+#: ../src/wbc-gtk-actions.c:2838 ../src/wbc-gtk-actions.c:2872
 msgid "_Unhide"
 msgstr "Elő_hozás"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2353
+#: ../src/sheet-control-gui.c:2356
 msgid "Hei_ght..."
 msgstr "_Magasság…"
 
-#: ../src/sheet-control-gui.c:2354 ../src/wbc-gtk-actions.c:2864
+#: ../src/sheet-control-gui.c:2357 ../src/wbc-gtk-actions.c:2859
 msgid "_Auto Fit Height"
 msgstr "Magasság _automatikus igazítása"
 
 #. xgettext : %d gives the number of links. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2489
+#: ../src/sheet-control-gui.c:2492
 #, c-format
 msgid "_Remove %d Link"
 msgid_plural "_Remove %d Links"
@@ -13351,70 +13319,70 @@ msgstr[0] "%d hivatkozás _eltávolítása"
 msgstr[1] "%d hivatkozás _eltávolítása"
 
 #. xgettext : %d gives the number of comments. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2494
+#: ../src/sheet-control-gui.c:2497
 #, c-format
 msgid "_Remove %d Comment"
 msgid_plural "_Remove %d Comments"
 msgstr[0] "%d megjegyzés _eltávolítása"
 msgstr[1] "%d megjegyzés _eltávolítása"
 
-#: ../src/sheet-control-gui.c:2497
+#: ../src/sheet-control-gui.c:2500
 #, c-format
 msgid "_Insert %d Cell..."
 msgid_plural "_Insert %d Cells..."
 msgstr[0] "%d cella b_eszúrása…"
 msgstr[1] "%d cella b_eszúrása…"
 
-#: ../src/sheet-control-gui.c:2499
+#: ../src/sheet-control-gui.c:2502
 #, c-format
 msgid "_Delete %d Cell..."
 msgid_plural "_Delete %d Cells..."
 msgstr[0] "%d cella tö_rlése…"
 msgstr[1] "%d cella tö_rlése…"
 
-#: ../src/sheet-control-gui.c:2505
+#: ../src/sheet-control-gui.c:2508
 #, c-format
 msgid "_Insert %d Column"
 msgid_plural "_Insert %d Columns"
 msgstr[0] "%d oszlop _beszúrása…"
 msgstr[1] "%d oszlop _beszúrása…"
 
-#: ../src/sheet-control-gui.c:2507
+#: ../src/sheet-control-gui.c:2510
 #, c-format
 msgid "_Delete %d Column"
 msgid_plural "_Delete %d Columns"
 msgstr[0] "%d oszlop _törlése…"
 msgstr[1] "%d oszlop _törlése…"
 
-#: ../src/sheet-control-gui.c:2510
+#: ../src/sheet-control-gui.c:2513
 #, c-format
 msgid "_Format %d Column"
 msgid_plural "_Format %d Columns"
 msgstr[0] "%d oszlop _formázása"
 msgstr[1] "%d oszlop _formázása"
 
-#: ../src/sheet-control-gui.c:2517
+#: ../src/sheet-control-gui.c:2520
 #, c-format
 msgid "_Insert %d Row"
 msgid_plural "_Insert %d Rows"
 msgstr[0] "%d sor _beszúrása"
 msgstr[1] "%d sor _beszúrása"
 
-#: ../src/sheet-control-gui.c:2519
+#: ../src/sheet-control-gui.c:2522
 #, c-format
 msgid "_Delete %d Row"
 msgid_plural "_Delete %d Rows"
 msgstr[0] "%d sor _törlése"
 msgstr[1] "%d sor _törlése"
 
-#: ../src/sheet-control-gui.c:2523
+#: ../src/sheet-control-gui.c:2526
 #, c-format
 msgid "_Format %d Row"
 msgid_plural "_Format %d Rows"
 msgstr[0] "%d sor _formázása"
 msgstr[1] "%d sor _formázása"
 
-#: ../src/sheet-control-gui.c:2530
+#: ../src/sheet-control-gui.c:2533
 #, c-format
 msgid "_Format %d Cell..."
 msgid_plural "_Format %d Cells..."
@@ -13422,7 +13390,7 @@ msgstr[0] "%d cella _formázása…"
 msgstr[1] "%d cella _formázása…"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2976
+#: ../src/sheet-control-gui.c:2979
 #, c-format
 msgid "Duplicate %d Object"
 msgid_plural "Duplicate %d Objects"
@@ -13430,7 +13398,7 @@ msgstr[0] "%d objektum kettőzése"
 msgstr[1] "%d objektum kettőzése"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2979
+#: ../src/sheet-control-gui.c:2982
 #, c-format
 msgid "Insert %d Object"
 msgid_plural "Insert %d Objects"
@@ -13438,7 +13406,7 @@ msgstr[0] "%d objektum beszúrása"
 msgstr[1] "%d objektum beszúrása"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2983
+#: ../src/sheet-control-gui.c:2986
 #, c-format
 msgid "Move %d Object"
 msgid_plural "Move %d Objects"
@@ -13446,7 +13414,7 @@ msgstr[0] "%d objektum áthelyezése"
 msgstr[1] "%d objektum áthelyezése"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2986
+#: ../src/sheet-control-gui.c:2989
 #, c-format
 msgid "Resize %d Object"
 msgid_plural "Resize %d Objects"
@@ -13454,12 +13422,12 @@ msgstr[0] "%d objektum átméretezése"
 msgstr[1] "%d objektum átméretezése"
 
 #. xgettext: this is a by-line for cell comments
-#: ../src/sheet-control-gui.c:3225
+#: ../src/sheet-control-gui.c:3228
 #, c-format
 msgid "By %s:"
 msgstr "Létrehozta: %s"
 
-#: ../src/sheet-merge.c:77 ../src/wbc-gtk-actions.c:3410
+#: ../src/sheet-merge.c:77 ../src/wbc-gtk-actions.c:3405
 msgid "Merge"
 msgstr "Egyesítés"
 
@@ -13504,11 +13472,11 @@ msgstr "_Hátra küldés"
 msgid "Pus_h to Back"
 msgstr "Há_ttérbe küldés"
 
-#: ../src/sheet-object.c:291 ../src/wbc-gtk-actions.c:2077
+#: ../src/sheet-object.c:291 ../src/wbc-gtk-actions.c:2072
 msgid "_Delete"
 msgstr "_Törlés"
 
-#: ../src/sheet-object.c:293 ../src/wbc-gtk-actions.c:2040
+#: ../src/sheet-object.c:293 ../src/wbc-gtk-actions.c:2035
 msgid "Print"
 msgstr "Nyomtatás"
 
@@ -13570,11 +13538,11 @@ msgstr ""
 "A #705640 GTK-hiba miatt egy munkalapobjektum felületi elem nem kerül "
 "nyomtatásra."
 
-#: ../src/sheet-object-widget.c:397 ../src/wbc-gtk-actions.c:3330
+#: ../src/sheet-object-widget.c:397 ../src/wbc-gtk-actions.c:3325
 msgid "Frame"
 msgstr "Keret"
 
-#: ../src/sheet-object-widget.c:893 ../src/wbc-gtk-actions.c:3396
+#: ../src/sheet-object-widget.c:893 ../src/wbc-gtk-actions.c:3391
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:1
 msgid "Button"
 msgstr "Gomb"
@@ -13626,7 +13594,7 @@ msgstr "%d. jelölőnégyzet"
 msgid "Clicking checkbox"
 msgstr "Jelölőnégyzet kattintása"
 
-#: ../src/sheet-object-widget.c:2934 ../src/wbc-gtk-actions.c:3402
+#: ../src/sheet-object-widget.c:2934 ../src/wbc-gtk-actions.c:3397
 msgid "RadioButton"
 msgstr "Választógomb"
 
@@ -13648,7 +13616,7 @@ msgid "Cut"
 msgstr "Kivágás"
 
 #. Oh, yeah?
-#: ../src/sheet.c:913
+#: ../src/sheet.c:877
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13659,47 +13627,47 @@ msgstr ""
 "támogatásával lett lefordítva. Az IGAZ nevű oszlophoz való hozzáférés\n"
 "ütközhet az azonos nevű állandóval. Furcsaságra számíthat."
 
-#: ../src/sheet.c:973
+#: ../src/sheet.c:937
 msgid "Display Zeros"
 msgstr "Nullák megjelenítése"
 
-#: ../src/sheet.c:974
+#: ../src/sheet.c:938
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Azt vezérli, hogy a nullák megjelenjenek-e vagy üresek legyenek."
 
-#: ../src/sheet.c:979
+#: ../src/sheet.c:943
 msgid "Display Grid"
 msgstr "Rács megjelenítése"
 
-#: ../src/sheet.c:980
+#: ../src/sheet.c:944
 msgid "Control whether the grid is shown."
 msgstr "Azt vezérli, hogy megjelenjen-e a rács."
 
-#: ../src/sheet.c:3831
+#: ../src/sheet.c:3786
 msgid "Target region contains merged cells"
 msgstr "A célterület egyesített cellákat tartalmaz"
 
-#: ../src/sheet.c:3897
+#: ../src/sheet.c:3852
 msgid "cannot operate on merged cells"
 msgstr "nem működik egyesített cellákon"
 
-#: ../src/sheet.c:3910
+#: ../src/sheet.c:3865
 msgid "cannot operate on array formulæ"
 msgstr "nem működik tömbképleteken"
 
-#: ../src/sheet.c:5593
+#: ../src/sheet.c:5583
 msgid "Insert Columns"
 msgstr "Oszlopok beszúrása"
 
-#: ../src/sheet.c:5611
+#: ../src/sheet.c:5601
 msgid "Delete Columns"
 msgstr "Oszlopok törlése"
 
-#: ../src/sheet.c:5629
+#: ../src/sheet.c:5619
 msgid "Insert Rows"
 msgstr "Sorok beszúrása"
 
-#: ../src/sheet.c:5647
+#: ../src/sheet.c:5637
 msgid "Delete Rows"
 msgstr "Sorok törlése"
 
@@ -15146,15 +15114,15 @@ msgstr "Új munkalap"
 msgid "New Workbook"
 msgstr "Új munkafüzet"
 
-#: ../src/tools/dao.c:1012
+#: ../src/tools/dao.c:1014
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: ../src/tools/dao.c:1018
+#: ../src/tools/dao.c:1020
 msgid "Worksheet:"
 msgstr "Munkalap:"
 
-#: ../src/tools/dao.c:1025
+#: ../src/tools/dao.c:1027
 msgid "Report Created: "
 msgstr "Jelentés létrehozva: "
 
@@ -15479,7 +15447,7 @@ msgstr "Csúcsosság"
 msgid "Range"
 msgstr "Tartomány"
 
-#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4146
+#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4144
 msgid "Count"
 msgstr "Darabszám"
 
@@ -15655,7 +15623,7 @@ msgstr "#N/A"
 msgid "Default file saver is not available."
 msgstr "Az alapértelmezett fájlmentő nem érhető el."
 
-#: ../src/wbc-gtk-actions.c:207 ../src/wbc-gtk-actions.c:2375
+#: ../src/wbc-gtk-actions.c:207 ../src/wbc-gtk-actions.c:2370
 msgid "Set Print Area"
 msgstr "Nyomtatási terület beállítása"
 
@@ -15664,7 +15632,7 @@ msgstr "Nyomtatási terület beállítása"
 msgid "Set Print Area to %s"
 msgstr "Nyomtatási terület beállítása erre: %s"
 
-#: ../src/wbc-gtk-actions.c:230 ../src/wbc-gtk-actions.c:2380
+#: ../src/wbc-gtk-actions.c:230 ../src/wbc-gtk-actions.c:2375
 msgid "Clear Print Area"
 msgstr "Nyomtatási terület törlése"
 
@@ -15696,31 +15664,31 @@ msgstr "Megjegyzés a cellában: %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: ../src/wbc-gtk-actions.c:861
+#: ../src/wbc-gtk-actions.c:855
 msgid "Insert rows"
 msgstr "Sorok beszúrása"
 
-#: ../src/wbc-gtk-actions.c:878
+#: ../src/wbc-gtk-actions.c:872
 msgid "Insert columns"
 msgstr "Oszlopok beszúrása"
 
-#: ../src/wbc-gtk-actions.c:990 ../src/wbc-gtk-actions.c:1010
+#: ../src/wbc-gtk-actions.c:984 ../src/wbc-gtk-actions.c:1004
 msgid "Show Detail"
 msgstr "Részletek megjelenítése"
 
-#: ../src/wbc-gtk-actions.c:990 ../src/wbc-gtk-actions.c:1010
+#: ../src/wbc-gtk-actions.c:984 ../src/wbc-gtk-actions.c:1004
 msgid "Hide Detail"
 msgstr "Részletek elrejtése"
 
-#: ../src/wbc-gtk-actions.c:997
+#: ../src/wbc-gtk-actions.c:991
 msgid "can only be performed on an existing group"
 msgstr "csak egy meglévő csoporton hajtható végre"
 
-#: ../src/wbc-gtk-actions.c:1038
+#: ../src/wbc-gtk-actions.c:1032
 msgid "Ungroup"
 msgstr "Szétbontás"
 
-#: ../src/wbc-gtk-actions.c:1092
+#: ../src/wbc-gtk-actions.c:1086
 #, c-format
 msgid ""
 "Unable to start the help browser (%s).\n"
@@ -15733,550 +15701,599 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/wbc-gtk-actions.c:1253
+#: ../src/wbc-gtk-actions.c:1247
 msgid "Sort"
 msgstr "Rendezés"
 
-#: ../src/wbc-gtk-actions.c:1407
+#: ../src/wbc-gtk-actions.c:1401
 msgid "Choose object file"
 msgstr "Objektumfájl kiválasztása"
 
-#: ../src/wbc-gtk-actions.c:1486
+#: ../src/wbc-gtk-actions.c:1480
 msgid "Set Horizontal Alignment"
 msgstr "Vízszintes igazítás beállítása"
 
-#: ../src/wbc-gtk-actions.c:1520
+#: ../src/wbc-gtk-actions.c:1514
 msgid "Set Vertical Alignment"
 msgstr "Függőleges igazítás beállítása"
 
-#: ../src/wbc-gtk-actions.c:1665
+#: ../src/wbc-gtk-actions.c:1659
 msgid "Format as General"
 msgstr "Formázás általánosként"
 
-#: ../src/wbc-gtk-actions.c:1671
+#: ../src/wbc-gtk-actions.c:1665
 msgid "Format as Number"
 msgstr "Formázás számként"
 
-#: ../src/wbc-gtk-actions.c:1688
+#: ../src/wbc-gtk-actions.c:1682
 msgid "Format as Currency"
 msgstr "Formázás pénznemként"
 
-#: ../src/wbc-gtk-actions.c:1696
+#: ../src/wbc-gtk-actions.c:1690
 msgid "Format as Accounting"
 msgstr "Formázás számvitelként"
 
-#: ../src/wbc-gtk-actions.c:1702 ../src/wbc-gtk-actions.c:1709
+#: ../src/wbc-gtk-actions.c:1696 ../src/wbc-gtk-actions.c:1703
 msgid "Format as Percentage"
 msgstr "Formázás százalékként"
 
-#: ../src/wbc-gtk-actions.c:1717
+#: ../src/wbc-gtk-actions.c:1711
 msgid "Format as Time"
 msgstr "Formázás időként"
 
-#: ../src/wbc-gtk-actions.c:1724
+#: ../src/wbc-gtk-actions.c:1718
 msgid "Format as Date"
 msgstr "Formázás dátumként"
 
-#: ../src/wbc-gtk-actions.c:1748
+#: ../src/wbc-gtk-actions.c:1742
 msgid "Add Borders"
 msgstr "Szegélyek hozzáadása"
 
-#: ../src/wbc-gtk-actions.c:1748
+#: ../src/wbc-gtk-actions.c:1742
 msgid "Remove borders"
 msgstr "Szegélyek eltávolítása"
 
-#: ../src/wbc-gtk-actions.c:1861
+#: ../src/wbc-gtk-actions.c:1855
 msgid "Increase precision"
 msgstr "Pontosság növelése"
 
-#: ../src/wbc-gtk-actions.c:1864
+#: ../src/wbc-gtk-actions.c:1858
 msgid "Decrease precision"
 msgstr "Pontosság csökkentése"
 
-#: ../src/wbc-gtk-actions.c:1866
+#: ../src/wbc-gtk-actions.c:1860
 msgid "Toggle thousands separator"
 msgstr "Ezreselválasztó be- vagy kikapcsolása"
 
-#: ../src/wbc-gtk-actions.c:1874
+#: ../src/wbc-gtk-actions.c:1868
 msgid "Copy down"
 msgstr "Másolás le"
 
 #. xgettext: copy from the cell to the left into current cell --
 #. this has nothing whatsoever to do with copyright.
-#: ../src/wbc-gtk-actions.c:1882
+#: ../src/wbc-gtk-actions.c:1876
 msgid "Copy right"
 msgstr "Másolás jobbra"
 
-#: ../src/wbc-gtk-actions.c:1982
+#: ../src/wbc-gtk-actions.c:1963
+#| msgid "Display _Formulæ"
+msgid "Toggle displaying formulæ"
+msgstr "Képletek megjelenítésének be- vagy kikapcsolása"
+
+#: ../src/wbc-gtk-actions.c:1964
+#| msgid "Toggle thousands separator"
+msgid "Toggle showing zeros"
+msgstr "Nullák megjelenítésének be- vagy kikapcsolása"
+
+#: ../src/wbc-gtk-actions.c:1965
+#| msgid "_Show Gridlines"
+msgid "Toggle showing gridlines"
+msgstr "Rácsvonalak megjelenítésének be- vagy kikapcsolása"
+
+#: ../src/wbc-gtk-actions.c:1966
+#| msgid "Toggle whether or not to display column headers"
+msgid "Toggle showing column headers"
+msgstr "Oszlopfejlécek megjelenítésének be- vagy kikapcsolása"
+
+#: ../src/wbc-gtk-actions.c:1967
+#| msgid "Toggle whether or not to display row headers"
+msgid "Toggle showing row headers"
+msgstr "Sorfejlécek megjelenítésének be- vagy kikapcsolása"
+
+#: ../src/wbc-gtk-actions.c:1968
+msgid "Toggle showing outlines"
+msgstr "Körvonalak megjelenítésének be- vagy kikapcsolása"
+
+#: ../src/wbc-gtk-actions.c:1969
+#| msgid "Toggle whether to display row outlines on top or bottom"
+msgid "Toggle where to show outlines vertically"
+msgstr "Annak átváltása, hogy hol jelenjenek meg a körvonalak függőlegesen"
+
+#: ../src/wbc-gtk-actions.c:1970
+#| msgid "Toggle whether to display row outlines on top or bottom"
+msgid "Toggle where to show outlines horizontally"
+msgstr "Annak átváltása, hogy hol jelenjenek meg a körvonalak vízszintesen"
+
+#: ../src/wbc-gtk-actions.c:1971
+#| msgid "Toggle whether or not to display row headers"
+msgid "Toggle whether to show r1c1-style references"
+msgstr "Annak átváltása, hogy az s1o1-stílusú hivatkozások megjelenjenek-e"
+
+#: ../src/wbc-gtk-actions.c:1972
+#| msgid "Malformed sheet filter condition"
+msgid "Toggle sheet text direction"
+msgstr "Munkalap szövegirányának átváltása"
+
+#: ../src/wbc-gtk-actions.c:1977
 msgid "_File"
 msgstr "_Fájl"
 
-#: ../src/wbc-gtk-actions.c:1987
+#: ../src/wbc-gtk-actions.c:1982
 msgid "New From Template"
 msgstr "Új sablonból"
 
-#: ../src/wbc-gtk-actions.c:1991
+#: ../src/wbc-gtk-actions.c:1986
 msgid "_New"
 msgstr "Ú_j"
 
-#: ../src/wbc-gtk-actions.c:1993
+#: ../src/wbc-gtk-actions.c:1988
 msgid "Create a new workbook"
 msgstr "Új munkafüzet létrehozása"
 
-#: ../src/wbc-gtk-actions.c:2001
+#: ../src/wbc-gtk-actions.c:1996
 msgid "Open a file"
 msgstr "Fájl megnyitása"
 
-#: ../src/wbc-gtk-actions.c:2009
+#: ../src/wbc-gtk-actions.c:2004
 msgid "Save the current workbook"
 msgstr "Jelenlegi munkafüzet mentése"
 
-#: ../src/wbc-gtk-actions.c:2017
+#: ../src/wbc-gtk-actions.c:2012
 msgid "Save the current workbook with a different name"
 msgstr "A jelenlegi munkafüzet mentése más néven"
 
-#: ../src/wbc-gtk-actions.c:2022
+#: ../src/wbc-gtk-actions.c:2017
 msgid "Sen_d To..."
 msgstr "Kü_ldés…"
 
-#: ../src/wbc-gtk-actions.c:2023
+#: ../src/wbc-gtk-actions.c:2018
 msgid "Send the current file via email"
 msgstr "A jelenlegi fájl küldése levélben"
 
-#: ../src/wbc-gtk-actions.c:2028
+#: ../src/wbc-gtk-actions.c:2023
 msgid "Page Set_up..."
 msgstr "_Oldalbeállítás…"
 
-#: ../src/wbc-gtk-actions.c:2029
+#: ../src/wbc-gtk-actions.c:2024
 msgid "Setup the page settings for your current printer"
 msgstr "Oldalbeállítások módosítása a jelenlegi nyomtatónál"
 
-#: ../src/wbc-gtk-actions.c:2034
+#: ../src/wbc-gtk-actions.c:2029
 msgid "Print Pre_view"
 msgstr "Nyomtatási _kép"
 
-#: ../src/wbc-gtk-actions.c:2035
+#: ../src/wbc-gtk-actions.c:2030
 msgid "Print preview"
 msgstr "Nyomtatási kép"
 
-#: ../src/wbc-gtk-actions.c:2042
+#: ../src/wbc-gtk-actions.c:2037
 msgid "Print the current file"
 msgstr "A jelenlegi fájl nyomtatása"
 
-#: ../src/wbc-gtk-actions.c:2046
+#: ../src/wbc-gtk-actions.c:2041
 msgid "Print Area & Breaks"
 msgstr "Nyomtatási terület és törések"
 
-#: ../src/wbc-gtk-actions.c:2049
+#: ../src/wbc-gtk-actions.c:2044
 msgid "Full _History..."
 msgstr "Teljes _előzmény…"
 
-#: ../src/wbc-gtk-actions.c:2050
+#: ../src/wbc-gtk-actions.c:2045
 msgid "Access previously used file"
 msgstr "Hozzáférés az előbb használt fájlhoz"
 
-#: ../src/wbc-gtk-actions.c:2055
+#: ../src/wbc-gtk-actions.c:2050
 msgid "_Close"
 msgstr "_Bezárás"
 
-#: ../src/wbc-gtk-actions.c:2057
+#: ../src/wbc-gtk-actions.c:2052
 msgid "Close the current file"
 msgstr "A jelenlegi fájl bezárása"
 
-#: ../src/wbc-gtk-actions.c:2062
+#: ../src/wbc-gtk-actions.c:2057
 msgid "_Quit"
 msgstr "_Kilépés"
 
-#: ../src/wbc-gtk-actions.c:2064
+#: ../src/wbc-gtk-actions.c:2059
 msgid "Quit the application"
 msgstr "Kilépés az alkalmazásból"
 
-#: ../src/wbc-gtk-actions.c:2069
+#: ../src/wbc-gtk-actions.c:2064
 msgid "_Edit"
 msgstr "S_zerkesztés"
 
-#: ../src/wbc-gtk-actions.c:2073
+#: ../src/wbc-gtk-actions.c:2068
 msgid "C_lear"
 msgstr "_Eltávolítás"
 
-#: ../src/wbc-gtk-actions.c:2080
+#: ../src/wbc-gtk-actions.c:2075
 msgid "_Modify"
 msgstr "Mó_dosítás"
 
-#: ../src/wbc-gtk-actions.c:2083
+#: ../src/wbc-gtk-actions.c:2078
 msgid "S_heet"
 msgstr "M_unkalap"
 
-#: ../src/wbc-gtk-actions.c:2086
+#: ../src/wbc-gtk-actions.c:2081
 msgid "_Select"
 msgstr "K_ijelölés"
 
-#: ../src/wbc-gtk-actions.c:2093
+#: ../src/wbc-gtk-actions.c:2088
 msgid "Copy the selection"
 msgstr "Kijelölés másolása"
 
-#: ../src/wbc-gtk-actions.c:2099
+#: ../src/wbc-gtk-actions.c:2094
 msgid "_View"
 msgstr "_Nézet"
 
-#: ../src/wbc-gtk-actions.c:2102
+#: ../src/wbc-gtk-actions.c:2097
 msgid "_Windows"
 msgstr "A_blakok"
 
-#: ../src/wbc-gtk-actions.c:2105
+#: ../src/wbc-gtk-actions.c:2100
 msgid "_Toolbars"
 msgstr "_Eszköztárak"
 
-#: ../src/wbc-gtk-actions.c:2113
+#: ../src/wbc-gtk-actions.c:2108
 msgid "_Object"
 msgstr "O_bjektum"
 
-#: ../src/wbc-gtk-actions.c:2116
+#: ../src/wbc-gtk-actions.c:2111
 msgid "S_pecial"
 msgstr "Spe_ciális"
 
-#: ../src/wbc-gtk-actions.c:2120
+#: ../src/wbc-gtk-actions.c:2115
 msgid "Func_tion Wrapper"
 msgstr "Függvényá_talakító"
 
-#: ../src/wbc-gtk-actions.c:2123
+#: ../src/wbc-gtk-actions.c:2118
 msgid "_Name..."
 msgstr "_Név…"
 
-#: ../src/wbc-gtk-actions.c:2125
+#: ../src/wbc-gtk-actions.c:2120
 msgid "Insert a defined name"
 msgstr "Egy meghatározott név beszúrása"
 
-#: ../src/wbc-gtk-actions.c:2130
+#: ../src/wbc-gtk-actions.c:2125
 msgid "F_ormat"
 msgstr "_Formátum"
 
-#: ../src/wbc-gtk-actions.c:2133
+#: ../src/wbc-gtk-actions.c:2128
 msgid "_Cells"
 msgstr "_Cellák"
 
-#: ../src/wbc-gtk-actions.c:2136
+#: ../src/wbc-gtk-actions.c:2131
 msgid "_Text"
 msgstr "S_zöveg"
 
-#: ../src/wbc-gtk-actions.c:2139 ../src/wbc-gtk-actions.c:3669
+#: ../src/wbc-gtk-actions.c:2134 ../src/wbc-gtk-actions.c:3664
 msgid "_Underline"
 msgstr "A_láhúzott"
 
-#: ../src/wbc-gtk-actions.c:2142
+#: ../src/wbc-gtk-actions.c:2137
 msgid "C_olumn"
 msgstr "_Oszlop"
 
-#: ../src/wbc-gtk-actions.c:2148 ../src/wbc-gtk-actions.c:2297
+#: ../src/wbc-gtk-actions.c:2143 ../src/wbc-gtk-actions.c:2292
 msgid "_Sheet"
 msgstr "_Munkalap"
 
-#: ../src/wbc-gtk-actions.c:2152
+#: ../src/wbc-gtk-actions.c:2147
 msgid "_Tools"
 msgstr "_Eszközök"
 
-#: ../src/wbc-gtk-actions.c:2155
+#: ../src/wbc-gtk-actions.c:2150
 msgid "Sce_narios"
 msgstr "_Esetek"
 
-#: ../src/wbc-gtk-actions.c:2159
+#: ../src/wbc-gtk-actions.c:2154
 msgid "_Statistics"
 msgstr "_Statisztikák"
 
-#: ../src/wbc-gtk-actions.c:2162
+#: ../src/wbc-gtk-actions.c:2157
 msgid "_Descriptive Statistics"
 msgstr "_Leíró statisztika"
 
-#: ../src/wbc-gtk-actions.c:2165
+#: ../src/wbc-gtk-actions.c:2160
 msgid "Fre_quency Tables"
 msgstr "_Gyakorisági táblázatok"
 
-#: ../src/wbc-gtk-actions.c:2168
+#: ../src/wbc-gtk-actions.c:2163
 msgid "De_pendent Observations"
 msgstr "_Függő megfigyelések"
 
-#: ../src/wbc-gtk-actions.c:2171
+#: ../src/wbc-gtk-actions.c:2166
 msgid "F_orecast"
 msgstr "_Előrejelzés"
 
-#: ../src/wbc-gtk-actions.c:2174
+#: ../src/wbc-gtk-actions.c:2169
 msgid "_One Sample Tests"
 msgstr "_Egymintás próbák"
 
-#: ../src/wbc-gtk-actions.c:2177
+#: ../src/wbc-gtk-actions.c:2172
 msgid "Claims About a Me_dian"
 msgstr "Állítások egy me_diánról"
 
-#: ../src/wbc-gtk-actions.c:2180
+#: ../src/wbc-gtk-actions.c:2175
 msgid "_Two Sample Tests"
 msgstr "_Kétmintás próbák"
 
-#: ../src/wbc-gtk-actions.c:2183
+#: ../src/wbc-gtk-actions.c:2178
 msgid "Claims About Two Me_dians"
 msgstr "Állítások két me_diánról"
 
-#: ../src/wbc-gtk-actions.c:2186
+#: ../src/wbc-gtk-actions.c:2181
 msgid "Claims About Two _Means"
 msgstr "Állítások két _középértékről"
 
-#: ../src/wbc-gtk-actions.c:2189
+#: ../src/wbc-gtk-actions.c:2184
 msgid "_Multiple Sample Tests"
 msgstr "_Többmintás próbák"
 
-#: ../src/wbc-gtk-actions.c:2192
+#: ../src/wbc-gtk-actions.c:2187
 msgid "_ANOVA"
 msgstr "_Varianciaanalízis"
 
-#: ../src/wbc-gtk-actions.c:2195
+#: ../src/wbc-gtk-actions.c:2190
 msgid "Contin_gency Table"
 msgstr "_Kontingenciatáblázat"
 
-#: ../src/wbc-gtk-actions.c:2199
+#: ../src/wbc-gtk-actions.c:2194
 msgid "_Data"
 msgstr "_Adat"
 
-#: ../src/wbc-gtk-actions.c:2202
+#: ../src/wbc-gtk-actions.c:2197
 msgid "_Filter"
 msgstr "_Szűrő"
 
-#: ../src/wbc-gtk-actions.c:2205
+#: ../src/wbc-gtk-actions.c:2200
 msgid "F_ill"
 msgstr "K_itöltés"
 
-#: ../src/wbc-gtk-actions.c:2208
+#: ../src/wbc-gtk-actions.c:2203
 msgid "_Random Generators"
 msgstr "_Véletlen előállítók"
 
-#: ../src/wbc-gtk-actions.c:2211
+#: ../src/wbc-gtk-actions.c:2206
 msgid "_Group and Outline"
 msgstr "_Csoport és körvonal"
 
-#: ../src/wbc-gtk-actions.c:2214
+#: ../src/wbc-gtk-actions.c:2209
 msgid "Import _Data"
 msgstr "_Adatok importálása"
 
-#: ../src/wbc-gtk-actions.c:2217
+#: ../src/wbc-gtk-actions.c:2212
 msgid "E_xport Data"
 msgstr "Adatok e_xportálása"
 
-#: ../src/wbc-gtk-actions.c:2220
+#: ../src/wbc-gtk-actions.c:2215
 msgid "Data S_licer"
 msgstr "A_datszeletelő"
 
-#: ../src/wbc-gtk-actions.c:2224
+#: ../src/wbc-gtk-actions.c:2219
 msgid "_Help"
 msgstr "_Súgó"
 
-#: ../src/wbc-gtk-actions.c:2229 ../src/wbc-gtk-actions.c:2425
+#: ../src/wbc-gtk-actions.c:2224 ../src/wbc-gtk-actions.c:2420
 msgid "_Contents"
 msgstr "_Tartalom"
 
-#: ../src/wbc-gtk-actions.c:2231
+#: ../src/wbc-gtk-actions.c:2226
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr "Megjelenítő megnyitása a Gnumeric dokumentációjához"
 
-#: ../src/wbc-gtk-actions.c:2236
+#: ../src/wbc-gtk-actions.c:2231
 msgid "_Functions"
 msgstr "_Függvények"
 
-#: ../src/wbc-gtk-actions.c:2237
+#: ../src/wbc-gtk-actions.c:2232
 msgid "Functions help"
 msgstr "Függvények súgó"
 
-#: ../src/wbc-gtk-actions.c:2241
+#: ../src/wbc-gtk-actions.c:2236
 msgid "Gnumeric on the _Web"
 msgstr "A Gnumeric _weblapja"
 
-#: ../src/wbc-gtk-actions.c:2242
+#: ../src/wbc-gtk-actions.c:2237
 msgid "Browse to Gnumeric's website"
 msgstr "A Gnumeric weblapjának megnyitása"
 
-#: ../src/wbc-gtk-actions.c:2246
+#: ../src/wbc-gtk-actions.c:2241
 msgid "_Live Assistance"
 msgstr "Élő _segítségnyújtás"
 
-#: ../src/wbc-gtk-actions.c:2247
+#: ../src/wbc-gtk-actions.c:2242
 msgid "See if anyone is available to answer questions"
 msgstr "Nézze meg, hogy elérhető-e valaki a kérdések megválaszolásához"
 
-#: ../src/wbc-gtk-actions.c:2251
+#: ../src/wbc-gtk-actions.c:2246
 msgid "Report a _Problem"
 msgstr "_Hiba jelentése"
 
-#: ../src/wbc-gtk-actions.c:2252
+#: ../src/wbc-gtk-actions.c:2247
 msgid "Report problem"
 msgstr "Hibajelentés"
 
-#: ../src/wbc-gtk-actions.c:2257
+#: ../src/wbc-gtk-actions.c:2252
 msgid "_About"
 msgstr "_Névjegy"
 
-#: ../src/wbc-gtk-actions.c:2258
+#: ../src/wbc-gtk-actions.c:2253
 msgid "About this application"
 msgstr "Az alkalmazás névjegye"
 
-#: ../src/wbc-gtk-actions.c:2269
+#: ../src/wbc-gtk-actions.c:2264
 msgid "Cut the selection"
 msgstr "Kijelölés kivágása"
 
-#: ../src/wbc-gtk-actions.c:2276
+#: ../src/wbc-gtk-actions.c:2271
 msgid "Paste the clipboard"
 msgstr "Vágólap beillesztése"
 
-#: ../src/wbc-gtk-actions.c:2286
+#: ../src/wbc-gtk-actions.c:2281
 msgid "_Manage Sheets..."
 msgstr "_Munkalapok kezelése…"
 
-#: ../src/wbc-gtk-actions.c:2287
+#: ../src/wbc-gtk-actions.c:2282
 msgid "Manage the sheets in this workbook"
 msgstr "A munkafüzet munkalapjainak kezelése"
 
-#: ../src/wbc-gtk-actions.c:2292 ../src/wbc-gtk-actions.c:2298
+#: ../src/wbc-gtk-actions.c:2287 ../src/wbc-gtk-actions.c:2293
 msgid "Insert a new sheet"
 msgstr "Új munkalap beszúrása"
 
-#: ../src/wbc-gtk-actions.c:2302
+#: ../src/wbc-gtk-actions.c:2297
 msgid "_Append"
 msgstr "_Hozzáfűzés"
 
-#: ../src/wbc-gtk-actions.c:2303
+#: ../src/wbc-gtk-actions.c:2298
 msgid "Append a new sheet"
 msgstr "Új munkalap hozzáfűzése"
 
-#: ../src/wbc-gtk-actions.c:2307
+#: ../src/wbc-gtk-actions.c:2302
 msgid "_Duplicate"
 msgstr "_Kettőzés"
 
-#: ../src/wbc-gtk-actions.c:2308
+#: ../src/wbc-gtk-actions.c:2303
 msgid "Make a copy of the current sheet"
 msgstr "Másolat készítése a jelenlegi munkalapról"
 
-#: ../src/wbc-gtk-actions.c:2312
+#: ../src/wbc-gtk-actions.c:2307
 msgid "_Remove"
 msgstr "_Eltávolítás"
 
-#: ../src/wbc-gtk-actions.c:2313
+#: ../src/wbc-gtk-actions.c:2308
 msgid "Irrevocably remove an entire sheet"
 msgstr "Az egész munkalap visszavonhatatlan törlése"
 
-#: ../src/wbc-gtk-actions.c:2317
+#: ../src/wbc-gtk-actions.c:2312
 msgid "Re_name..."
 msgstr "Átne_vezés…"
 
-#: ../src/wbc-gtk-actions.c:2318
+#: ../src/wbc-gtk-actions.c:2313
 msgid "Rename the current sheet"
 msgstr "A jelenlegi munkalap átnevezése"
 
-#: ../src/wbc-gtk-actions.c:2322 ../src/wbc-gtk.c:553
+#: ../src/wbc-gtk-actions.c:2317 ../src/wbc-gtk.c:553
 msgid "Resize..."
 msgstr "Át_méretezés…"
 
-#: ../src/wbc-gtk-actions.c:2323
+#: ../src/wbc-gtk-actions.c:2318
 msgid "Change the size of the current sheet"
 msgstr "A jelenlegi munkalap méretének megváltoztatása"
 
-#: ../src/wbc-gtk-actions.c:2330
+#: ../src/wbc-gtk-actions.c:2325
 msgid "_New View..."
 msgstr "Új né_zet…"
 
-#: ../src/wbc-gtk-actions.c:2331
+#: ../src/wbc-gtk-actions.c:2326
 msgid "Create a new view of the workbook"
 msgstr "A munkafüzet új nézetének létrehozása"
 
-#: ../src/wbc-gtk-actions.c:2338
+#: ../src/wbc-gtk-actions.c:2333
 msgid "View _Properties..."
 msgstr "Nézet _tulajdonságai…"
 
-#: ../src/wbc-gtk-actions.c:2339
+#: ../src/wbc-gtk-actions.c:2334
 msgid "Modify the view properties"
 msgstr "A nézet tulajdonságainak módosítása"
 
-#: ../src/wbc-gtk-actions.c:2345
+#: ../src/wbc-gtk-actions.c:2340
 msgid "View _Statusbar"
 msgstr "Á_llapotsor megtekintése"
 
-#: ../src/wbc-gtk-actions.c:2346
+#: ../src/wbc-gtk-actions.c:2341
 msgid "Toggle visibility of statusbar"
 msgstr "Az állapotsor láthatóságának átváltása"
 
-#: ../src/wbc-gtk-actions.c:2354
+#: ../src/wbc-gtk-actions.c:2349
 msgid "F_ull Screen"
 msgstr "Teljes _képernyő"
 
-#: ../src/wbc-gtk-actions.c:2356
+#: ../src/wbc-gtk-actions.c:2351
 msgid "Switch to or from full screen mode"
 msgstr "Átváltás teljes képernyős módra vagy vissza"
 
-#: ../src/wbc-gtk-actions.c:2368
+#: ../src/wbc-gtk-actions.c:2363
 msgid "Document Proper_ties..."
 msgstr "_Dokumentum tulajdonságai…"
 
-#: ../src/wbc-gtk-actions.c:2369
+#: ../src/wbc-gtk-actions.c:2364
 msgid "Edit document properties"
 msgstr "Dokumentum tulajdonságainak szerkesztése"
 
-#: ../src/wbc-gtk-actions.c:2376
+#: ../src/wbc-gtk-actions.c:2371
 msgid "Use the current selection as print area"
 msgstr "A jelenlegi kijelölés használata nyomtatási területként"
 
-#: ../src/wbc-gtk-actions.c:2381
+#: ../src/wbc-gtk-actions.c:2376
 msgid "Undefine the print area"
 msgstr "A nyomtatási terület meghatározásának megszüntetése"
 
-#: ../src/wbc-gtk-actions.c:2385
+#: ../src/wbc-gtk-actions.c:2380
 msgid "Show Print Area"
 msgstr "Nyomtatási terület megjelenítése"
 
-#: ../src/wbc-gtk-actions.c:2386
+#: ../src/wbc-gtk-actions.c:2381
 msgid "Select the print area"
 msgstr "Nyomtatási terület kijelölése"
 
-#: ../src/wbc-gtk-actions.c:2390
+#: ../src/wbc-gtk-actions.c:2385
 msgid "Set Column Page Break"
 msgstr "Oszlop oldaltörés beállítása"
 
-#: ../src/wbc-gtk-actions.c:2391
+#: ../src/wbc-gtk-actions.c:2386
 msgid "Split the page to the left of this column"
 msgstr "Az oldal felosztása ennek az oszlopnak a bal oldalánál"
 
-#: ../src/wbc-gtk-actions.c:2395
+#: ../src/wbc-gtk-actions.c:2390
 msgid "Set Row Page Break"
 msgstr "Sor oldaltörés beállítása"
 
-#: ../src/wbc-gtk-actions.c:2396
+#: ../src/wbc-gtk-actions.c:2391
 msgid "Split the page above this row"
 msgstr "Az oldal felosztása ezen sor fölött"
 
-#: ../src/wbc-gtk-actions.c:2401
+#: ../src/wbc-gtk-actions.c:2396
 msgid "Remove all manual pagebreaks from this sheet"
 msgstr "Minden kézi oldaltörés eltávolítása erről a munkalapról"
 
-#: ../src/wbc-gtk-actions.c:2409
+#: ../src/wbc-gtk-actions.c:2404
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 "A kijelölt cellák formázásainak, megjegyzéseinek és tartalmának törlése"
 
-#: ../src/wbc-gtk-actions.c:2413
+#: ../src/wbc-gtk-actions.c:2408
 msgid "_Formats & Hyperlinks"
 msgstr "_Formázások és hiperhivatkozások"
 
-#: ../src/wbc-gtk-actions.c:2414
+#: ../src/wbc-gtk-actions.c:2409
 msgid "Clear the selected cells' formats and hyperlinks"
 msgstr "A kijelölt cellák formázásainak és hiperhivatkozásainak törlése"
 
-#: ../src/wbc-gtk-actions.c:2420
+#: ../src/wbc-gtk-actions.c:2415
 msgid "Delete the selected cells' comments"
 msgstr "A kijelölt cellák megjegyzéseinek törlése"
 
-#: ../src/wbc-gtk-actions.c:2426
+#: ../src/wbc-gtk-actions.c:2421
 msgid "Clear the selected cells' contents"
 msgstr "A kijelölt cellák tartalmának törlése"
 
-#: ../src/wbc-gtk-actions.c:2431
+#: ../src/wbc-gtk-actions.c:2426
 msgid "A_ll Filtered Rows"
 msgstr "M_inden szűrt sor"
 
-#: ../src/wbc-gtk-actions.c:2432
+#: ../src/wbc-gtk-actions.c:2427
 msgid ""
 "Clear the selected cells' formats, comments, and contents in the filtered "
 "rows"
@@ -16284,499 +16301,499 @@ msgstr ""
 "A kijelölt cellák formázásainak, megjegyzéseinek és tartalmának törlése a "
 "szűrt sorokban"
 
-#: ../src/wbc-gtk-actions.c:2436
+#: ../src/wbc-gtk-actions.c:2431
 msgid "F_ormats & Hyperlinks in Filtered Rows"
 msgstr "F_ormázások és hiperhivatkozások a szűrt sorokban"
 
-#: ../src/wbc-gtk-actions.c:2437
+#: ../src/wbc-gtk-actions.c:2432
 msgid "Clear the selected cells' formats and hyperlinks in the filtered rows"
 msgstr ""
 "A kijelölt cellák formázásainak és hiperhivatkozásainak törlése a szűrt "
 "sorokban"
 
-#: ../src/wbc-gtk-actions.c:2442
+#: ../src/wbc-gtk-actions.c:2437
 msgid "Comme_nts in Filtered Rows"
 msgstr "Megjegyzések a s_zűrt sorokban"
 
-#: ../src/wbc-gtk-actions.c:2443
+#: ../src/wbc-gtk-actions.c:2438
 msgid "Delete the selected cells' comments in the filtered rows"
 msgstr "A kijelölt cellák megjegyzéseinek törlése a szűrt sorokban"
 
-#: ../src/wbc-gtk-actions.c:2448
+#: ../src/wbc-gtk-actions.c:2443
 msgid "Content_s of Filtered Rows"
 msgstr "_Szűrt sorok tartalma"
 
-#: ../src/wbc-gtk-actions.c:2449
+#: ../src/wbc-gtk-actions.c:2444
 msgid "Clear the selected cells' contents in the filtered rows"
 msgstr "A kijelölt cellák tartalmának törlése a szűrt sorokban"
 
-#: ../src/wbc-gtk-actions.c:2457 ../src/wbc-gtk-actions.c:2696
+#: ../src/wbc-gtk-actions.c:2452 ../src/wbc-gtk-actions.c:2691
 msgid "_Rows"
 msgstr "_Sorok"
 
-#: ../src/wbc-gtk-actions.c:2458
+#: ../src/wbc-gtk-actions.c:2453
 msgid "Delete the row(s) containing the selected cells"
 msgstr "A kijelölt cellákat tartalmazó sorok törlése"
 
-#: ../src/wbc-gtk-actions.c:2464 ../src/wbc-gtk-actions.c:2689
+#: ../src/wbc-gtk-actions.c:2459 ../src/wbc-gtk-actions.c:2684
 msgid "_Columns"
 msgstr "_Oszlopok"
 
-#: ../src/wbc-gtk-actions.c:2465
+#: ../src/wbc-gtk-actions.c:2460
 msgid "Delete the column(s) containing the selected cells"
 msgstr "A kijelölt cellákat tartalmazó oszlopok törlése"
 
-#: ../src/wbc-gtk-actions.c:2469 ../src/wbc-gtk-actions.c:2482
-#: ../src/wbc-gtk-actions.c:2674 ../src/wbc-gtk-actions.c:2681
+#: ../src/wbc-gtk-actions.c:2464 ../src/wbc-gtk-actions.c:2477
+#: ../src/wbc-gtk-actions.c:2669 ../src/wbc-gtk-actions.c:2676
 msgid "C_ells..."
 msgstr "_Cellák…"
 
-#: ../src/wbc-gtk-actions.c:2471 ../src/wbc-gtk-actions.c:2484
+#: ../src/wbc-gtk-actions.c:2466 ../src/wbc-gtk-actions.c:2479
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "A kijelölt cellák törlése, a többi eltolása azok helyére"
 
-#: ../src/wbc-gtk-actions.c:2476
+#: ../src/wbc-gtk-actions.c:2471
 msgid "_Hyperlinks"
 msgstr "_Hiperhivatkozások"
 
-#: ../src/wbc-gtk-actions.c:2477
+#: ../src/wbc-gtk-actions.c:2472
 msgid "Delete the selected cells' hyperlinks"
 msgstr "A kijelölt cellák hiperhivatkozásainak törlése"
 
-#: ../src/wbc-gtk-actions.c:2498
+#: ../src/wbc-gtk-actions.c:2493
 msgid "Select all cells in the spreadsheet"
 msgstr "Minden cella kijelölése a munkalapon"
 
-#: ../src/wbc-gtk-actions.c:2504
+#: ../src/wbc-gtk-actions.c:2499
 msgid "Select an entire column"
 msgstr "Egy teljes oszlop kijelölése"
 
-#: ../src/wbc-gtk-actions.c:2510
+#: ../src/wbc-gtk-actions.c:2505
 msgid "Select an entire row"
 msgstr "Egy teljes sor kijelölése"
 
-#: ../src/wbc-gtk-actions.c:2515
+#: ../src/wbc-gtk-actions.c:2510
 msgid "Arra_y"
 msgstr "_Tömb"
 
-#: ../src/wbc-gtk-actions.c:2517
+#: ../src/wbc-gtk-actions.c:2512
 msgid "Select an array of cells"
 msgstr "Cellák tömbjének kijelölése"
 
-#: ../src/wbc-gtk-actions.c:2521
+#: ../src/wbc-gtk-actions.c:2516
 msgid "_Depends"
 msgstr "_Függők"
 
-#: ../src/wbc-gtk-actions.c:2523
+#: ../src/wbc-gtk-actions.c:2518
 msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 "Minden cella kijelölése, amelyek a jelenlegi szerkesztési cellától függenek"
 
-#: ../src/wbc-gtk-actions.c:2527
+#: ../src/wbc-gtk-actions.c:2522
 msgid "_Inputs"
 msgstr "_Bemenetek"
 
-#: ../src/wbc-gtk-actions.c:2529
+#: ../src/wbc-gtk-actions.c:2524
 msgid "Select all the cells are used by the current edit cell"
 msgstr "A jelenlegi szerkesztési cella által használt összes cella kijelölése"
 
-#: ../src/wbc-gtk-actions.c:2534
+#: ../src/wbc-gtk-actions.c:2529
 msgid "Next _Object"
 msgstr "Következő _objektum"
 
-#: ../src/wbc-gtk-actions.c:2536
+#: ../src/wbc-gtk-actions.c:2531
 msgid "Select the next sheet object"
 msgstr "A következő munkalapobjektum kijelölése"
 
-#: ../src/wbc-gtk-actions.c:2542 ../src/wbc-gtk.c:2851
+#: ../src/wbc-gtk-actions.c:2537 ../src/wbc-gtk.c:2849
 msgid "Go to Top"
 msgstr "Ugrás a tetejéhez"
 
-#: ../src/wbc-gtk-actions.c:2543
+#: ../src/wbc-gtk-actions.c:2538
 msgid "Go to the top of the data"
 msgstr "Ugrás az adatok tetejéhez"
 
-#: ../src/wbc-gtk-actions.c:2548 ../src/wbc-gtk.c:2852
+#: ../src/wbc-gtk-actions.c:2543 ../src/wbc-gtk.c:2850
 msgid "Go to Bottom"
 msgstr "Ugrás az aljához"
 
-#: ../src/wbc-gtk-actions.c:2549
+#: ../src/wbc-gtk-actions.c:2544
 msgid "Go to the bottom of the data"
 msgstr "Ugrás az adatok aljához"
 
-#: ../src/wbc-gtk-actions.c:2554 ../src/wbc-gtk.c:2853
+#: ../src/wbc-gtk-actions.c:2549 ../src/wbc-gtk.c:2851
 msgid "Go to First"
 msgstr "Ugrás az elsőhöz"
 
-#: ../src/wbc-gtk-actions.c:2555
+#: ../src/wbc-gtk-actions.c:2550
 msgid "Go to the first data cell"
 msgstr "Ugrás az első adatcellához"
 
-#: ../src/wbc-gtk-actions.c:2560 ../src/wbc-gtk.c:2854
+#: ../src/wbc-gtk-actions.c:2555 ../src/wbc-gtk.c:2852
 msgid "Go to Last"
 msgstr "Ugrás az utolsóhoz"
 
-#: ../src/wbc-gtk-actions.c:2561
+#: ../src/wbc-gtk-actions.c:2556
 msgid "Go to the last data cell"
 msgstr "Ugrás az utolsó adatcellához"
 
-#: ../src/wbc-gtk-actions.c:2566
+#: ../src/wbc-gtk-actions.c:2561
 msgid "_Go to Cell..."
 msgstr "_Ugrás cellához…"
 
-#: ../src/wbc-gtk-actions.c:2568
+#: ../src/wbc-gtk-actions.c:2563
 msgid "Jump to a specified cell"
 msgstr "Ugrás egy megadott cellára"
 
-#: ../src/wbc-gtk-actions.c:2574 ../src/wbc-gtk-actions.c:2576
+#: ../src/wbc-gtk-actions.c:2569 ../src/wbc-gtk-actions.c:2571
 msgid "Go to Current Cell Indicator"
 msgstr "Ugrás a jelenlegi cellajelzőhöz"
 
-#: ../src/wbc-gtk-actions.c:2582
+#: ../src/wbc-gtk-actions.c:2577
 msgid "Repeat"
 msgstr "Ismétlés"
 
-#: ../src/wbc-gtk-actions.c:2584
+#: ../src/wbc-gtk-actions.c:2579
 msgid "Repeat the previous action"
 msgstr "Az előző művelet ismétlése"
 
-#: ../src/wbc-gtk-actions.c:2589
+#: ../src/wbc-gtk-actions.c:2584
 msgid "P_aste Special..."
 msgstr "_Speciális beillesztés…"
 
-#: ../src/wbc-gtk-actions.c:2591
+#: ../src/wbc-gtk-actions.c:2586
 msgid "Paste with optional filters and transformations"
 msgstr "Beillesztés választható szűrőkkel és átalakításokkal"
 
-#: ../src/wbc-gtk-actions.c:2597 ../src/wbc-gtk-actions.c:2728
+#: ../src/wbc-gtk-actions.c:2592 ../src/wbc-gtk-actions.c:2723
 msgid "Co_mment..."
 msgstr "M_egjegyzés…"
 
-#: ../src/wbc-gtk-actions.c:2598
+#: ../src/wbc-gtk-actions.c:2593
 msgid "Edit the selected cell's comment"
 msgstr "A kijelölt cella megjegyzésének szerkesztése"
 
-#: ../src/wbc-gtk-actions.c:2603 ../src/wbc-gtk-actions.c:2734
+#: ../src/wbc-gtk-actions.c:2598 ../src/wbc-gtk-actions.c:2729
 msgid "Hyper_link..."
 msgstr "_Hiperhivatkozás…"
 
-#: ../src/wbc-gtk-actions.c:2605
+#: ../src/wbc-gtk-actions.c:2600
 msgid "Edit the selected cell's hyperlink"
 msgstr "A kijelölt cella hiperhivatkozásának szerkesztése"
 
-#: ../src/wbc-gtk-actions.c:2610
+#: ../src/wbc-gtk-actions.c:2605
 msgid "_Auto generate names..."
 msgstr "_Nevek automatikus előállítása…"
 
-#: ../src/wbc-gtk-actions.c:2611
+#: ../src/wbc-gtk-actions.c:2606
 msgid "Use the current selection to create names"
 msgstr "A jelenlegi kijelölés használata nevek létrehozásához"
 
-#: ../src/wbc-gtk-actions.c:2618
+#: ../src/wbc-gtk-actions.c:2613
 msgid "S_earch..."
 msgstr "Ke_resés…"
 
-#: ../src/wbc-gtk-actions.c:2620
+#: ../src/wbc-gtk-actions.c:2615
 msgid "Search for something"
 msgstr "Keresés valamire"
 
-#: ../src/wbc-gtk-actions.c:2625
+#: ../src/wbc-gtk-actions.c:2620
 msgid "Search _& Replace..."
 msgstr "Keresés és _csere…"
 
-#: ../src/wbc-gtk-actions.c:2627
+#: ../src/wbc-gtk-actions.c:2622
 msgid "Search for something and replace it with something else"
 msgstr "Keresés valamire és csere valami másra"
 
-#: ../src/wbc-gtk-actions.c:2632
+#: ../src/wbc-gtk-actions.c:2627
 msgid "Recalculate"
 msgstr "Újraszámítás"
 
-#: ../src/wbc-gtk-actions.c:2634
+#: ../src/wbc-gtk-actions.c:2629
 msgid "Recalculate the spreadsheet"
 msgstr "A munkalap újraszámítása"
 
-#: ../src/wbc-gtk-actions.c:2640
+#: ../src/wbc-gtk-actions.c:2635
 msgid "Preferences..."
 msgstr "Beállítások…"
 
-#: ../src/wbc-gtk-actions.c:2641
+#: ../src/wbc-gtk-actions.c:2636
 msgid "Change Gnumeric Preferences"
 msgstr "A Gnumeric beállításainak megváltoztatása"
 
-#: ../src/wbc-gtk-actions.c:2647 ../src/wbc-gtk.c:1644
+#: ../src/wbc-gtk-actions.c:2642 ../src/wbc-gtk.c:1644
 msgid "_Freeze Panes"
 msgstr "_Ablaktáblák befagyasztása"
 
-#: ../src/wbc-gtk-actions.c:2648 ../src/wbc-gtk.c:1647
+#: ../src/wbc-gtk-actions.c:2643 ../src/wbc-gtk.c:1647
 msgid "Freeze the top left of the sheet"
 msgstr "A munkalap bal felső részének befagyasztása"
 
 #. dubious
-#: ../src/wbc-gtk-actions.c:2653
+#: ../src/wbc-gtk-actions.c:2648
 msgid "_Zoom..."
 msgstr "_Nagyítás…"
 
-#: ../src/wbc-gtk-actions.c:2654
+#: ../src/wbc-gtk-actions.c:2649
 msgid "Zoom the spreadsheet in or out"
 msgstr "A munkalap nagyítása vagy kicsinyítése"
 
-#: ../src/wbc-gtk-actions.c:2659
+#: ../src/wbc-gtk-actions.c:2654
 msgid "Zoom _In"
 msgstr "_Nagyítás"
 
-#: ../src/wbc-gtk-actions.c:2661
+#: ../src/wbc-gtk-actions.c:2656
 msgid "Increase the zoom to make things larger"
 msgstr "A nagyítás növelése, hogy a dolgok nagyobbak legyenek"
 
-#: ../src/wbc-gtk-actions.c:2666
+#: ../src/wbc-gtk-actions.c:2661
 msgid "Zoom _Out"
 msgstr "_Kicsinyítés"
 
-#: ../src/wbc-gtk-actions.c:2668
+#: ../src/wbc-gtk-actions.c:2663
 msgid "Decrease the zoom to make things smaller"
 msgstr "A nagyítás csökkentése, hogy a dolgok kisebbek legyenek"
 
-#: ../src/wbc-gtk-actions.c:2676 ../src/wbc-gtk-actions.c:2683
+#: ../src/wbc-gtk-actions.c:2671 ../src/wbc-gtk-actions.c:2678
 msgid "Insert new cells"
 msgstr "Új cellák beszúrása"
 
-#: ../src/wbc-gtk-actions.c:2690
+#: ../src/wbc-gtk-actions.c:2685
 msgid "Insert new columns"
 msgstr "Új oszlopok beszúrása"
 
-#: ../src/wbc-gtk-actions.c:2697
+#: ../src/wbc-gtk-actions.c:2692
 msgid "Insert new rows"
 msgstr "Új sorok beszúrása"
 
-#: ../src/wbc-gtk-actions.c:2703
+#: ../src/wbc-gtk-actions.c:2698
 msgid "C_hart..."
 msgstr "_Diagram…"
 
-#: ../src/wbc-gtk-actions.c:2704
+#: ../src/wbc-gtk-actions.c:2699
 msgid "Insert a Chart"
 msgstr "Diagram beszúrása"
 
-#: ../src/wbc-gtk-actions.c:2709
+#: ../src/wbc-gtk-actions.c:2704
 msgid "_New..."
 msgstr "Ú_j…"
 
-#: ../src/wbc-gtk-actions.c:2710
+#: ../src/wbc-gtk-actions.c:2705
 msgid "Insert a new Goffice component object"
 msgstr "Új Goffice összetevő objektum beszúrása"
 
-#: ../src/wbc-gtk-actions.c:2715
+#: ../src/wbc-gtk-actions.c:2710
 msgid "_From File..."
 msgstr "_Fájlból…"
 
-#: ../src/wbc-gtk-actions.c:2716
+#: ../src/wbc-gtk-actions.c:2711
 msgid "Insert a new Goffice component object from a file"
 msgstr "Új Goffice összetevő objektum beszúrása fájlból"
 
-#: ../src/wbc-gtk-actions.c:2721
+#: ../src/wbc-gtk-actions.c:2716
 msgid "_Image..."
 msgstr "_Kép…"
 
-#: ../src/wbc-gtk-actions.c:2722
+#: ../src/wbc-gtk-actions.c:2717
 msgid "Insert an image"
 msgstr "Kép beszúrása"
 
-#: ../src/wbc-gtk-actions.c:2729
+#: ../src/wbc-gtk-actions.c:2724
 msgid "Insert a comment"
 msgstr "Megjegyzés beszúrása"
 
-#: ../src/wbc-gtk-actions.c:2736
+#: ../src/wbc-gtk-actions.c:2731
 msgid "Insert a Hyperlink"
 msgstr "Hiperhivatkozás beszúrása"
 
-#: ../src/wbc-gtk-actions.c:2741
+#: ../src/wbc-gtk-actions.c:2736
 msgid "Sort (_Descending)"
 msgstr "Rendezés (_csökkenő)"
 
-#: ../src/wbc-gtk-actions.c:2742
+#: ../src/wbc-gtk-actions.c:2737
 msgid "Wrap with SORT (descending)"
 msgstr "Tördelés RENDEZÉSSEL (csökkenő)"
 
-#: ../src/wbc-gtk-actions.c:2747
+#: ../src/wbc-gtk-actions.c:2742
 msgid "Sort (_Ascending)"
 msgstr "Rendezés (_növekvő)"
 
-#: ../src/wbc-gtk-actions.c:2748
+#: ../src/wbc-gtk-actions.c:2743
 msgid "Wrap with SORT (ascending)"
 msgstr "Tördelés RENDEZÉSSEL (növekvő)"
 
-#: ../src/wbc-gtk-actions.c:2754
+#: ../src/wbc-gtk-actions.c:2749
 msgid "Current _Date"
 msgstr "Jelenlegi _dátum"
 
-#: ../src/wbc-gtk-actions.c:2756
+#: ../src/wbc-gtk-actions.c:2751
 msgid "Insert the current date into the selected cell(s)"
 msgstr "A jelenlegi dátum beszúrása a kijelölt cellákba"
 
-#: ../src/wbc-gtk-actions.c:2761
+#: ../src/wbc-gtk-actions.c:2756
 msgid "Current _Time"
 msgstr "Jelenlegi _idő"
 
-#: ../src/wbc-gtk-actions.c:2763
+#: ../src/wbc-gtk-actions.c:2758
 msgid "Insert the current time into the selected cell(s)"
 msgstr "A jelenlegi idő beszúrása a kijelölt cellákba"
 
-#: ../src/wbc-gtk-actions.c:2768
+#: ../src/wbc-gtk-actions.c:2763
 msgid "Current D_ate and Time"
 msgstr "Jelenlegi dát_um és idő"
 
-#: ../src/wbc-gtk-actions.c:2770
+#: ../src/wbc-gtk-actions.c:2765
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "A jelenlegi dátum és idő beszúrása a kijelölt cellákba"
 
-#: ../src/wbc-gtk-actions.c:2776
+#: ../src/wbc-gtk-actions.c:2771
 msgid "_Names..."
 msgstr "_Nevek…"
 
-#: ../src/wbc-gtk-actions.c:2778
+#: ../src/wbc-gtk-actions.c:2773
 msgid "Edit defined names for expressions"
 msgstr "Meghatározott nevek szerkesztése a kifejezésekhez"
 
-#: ../src/wbc-gtk-actions.c:2784
+#: ../src/wbc-gtk-actions.c:2779
 msgid "_Autoformat..."
 msgstr "_Automatikus formázás…"
 
-#: ../src/wbc-gtk-actions.c:2785
+#: ../src/wbc-gtk-actions.c:2780
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Cellatartomány formázása egy előre meghatározott sablon szerint"
 
-#: ../src/wbc-gtk-actions.c:2791
+#: ../src/wbc-gtk-actions.c:2786
 msgid "Toggle sheet direction, left-to-right vs right-to-left"
 msgstr "Munkalap irányának átváltása: balról jobbra vagy jobbról balra"
 
-#: ../src/wbc-gtk-actions.c:2797
+#: ../src/wbc-gtk-actions.c:2792
 msgid "_Format..."
 msgstr "F_ormázás…"
 
-#: ../src/wbc-gtk-actions.c:2799
+#: ../src/wbc-gtk-actions.c:2794
 msgid "Modify the formatting of the selected cells"
 msgstr "A kijelölt cellák formázásának módosítása"
 
-#: ../src/wbc-gtk-actions.c:2803
+#: ../src/wbc-gtk-actions.c:2798
 msgid "_Conditional Formatting..."
 msgstr "_Feltételes formázás…"
 
-#: ../src/wbc-gtk-actions.c:2804
+#: ../src/wbc-gtk-actions.c:2799
 msgid "Modify the conditional formatting of the selected cells"
 msgstr "A kijelölt cellák feltételes formázásának módosítása"
 
-#: ../src/wbc-gtk-actions.c:2810
+#: ../src/wbc-gtk-actions.c:2805
 msgid "Ensure rows are just tall enough to display content of selection"
 msgstr ""
 "Annak biztosítása, hogy a sorok elég magasak a kijelölés tartalmának "
 "megjelenítéséhez"
 
-#: ../src/wbc-gtk-actions.c:2816
+#: ../src/wbc-gtk-actions.c:2811
 msgid "Ensure columns are just wide enough to display content of selection"
 msgstr ""
 "Annak biztosítása, hogy az oszlopok elég szélesek a kijelölés tartalmának "
 "megjelenítéséhez"
 
-#: ../src/wbc-gtk-actions.c:2825
+#: ../src/wbc-gtk-actions.c:2820
 msgid "Change width of the selected columns"
 msgstr "A kijelölt oszlopok szélességének változtatása"
 
-#: ../src/wbc-gtk-actions.c:2831
+#: ../src/wbc-gtk-actions.c:2826
 msgid "Ensure columns are just wide enough to display their content"
 msgstr ""
 "Annak biztosítása, hogy az oszlopok elég szélesek a tartalmuk "
 "megjelenítéséhez"
 
-#: ../src/wbc-gtk-actions.c:2838
+#: ../src/wbc-gtk-actions.c:2833
 msgid "Hide the selected columns"
 msgstr "A kijelölt oszlopok elrejtése"
 
-#: ../src/wbc-gtk-actions.c:2845
+#: ../src/wbc-gtk-actions.c:2840
 msgid "Make any hidden columns in the selection visible"
 msgstr "A kijelölésben lévő összes rejtett oszlop láthatóvá tétele"
 
-#: ../src/wbc-gtk-actions.c:2850
+#: ../src/wbc-gtk-actions.c:2845
 msgid "_Standard Width"
 msgstr "S_zabványos szélesség"
 
-#: ../src/wbc-gtk-actions.c:2851
+#: ../src/wbc-gtk-actions.c:2846
 msgid "Change the default column width"
 msgstr "Az alapértelmezett oszlopszélesség megváltoztatása"
 
-#: ../src/wbc-gtk-actions.c:2858
+#: ../src/wbc-gtk-actions.c:2853
 msgid "H_eight..."
 msgstr "_Magasság…"
 
-#: ../src/wbc-gtk-actions.c:2859
+#: ../src/wbc-gtk-actions.c:2854
 msgid "Change height of the selected rows"
 msgstr "A kijelölt sorok magasságának megváltoztatása"
 
-#: ../src/wbc-gtk-actions.c:2865
+#: ../src/wbc-gtk-actions.c:2860
 msgid "Ensure rows are just tall enough to display their content"
 msgstr ""
 "Annak biztosítása, hogy a sorok elég magasak a tartalmuk megjelenítéséhez"
 
-#: ../src/wbc-gtk-actions.c:2872
+#: ../src/wbc-gtk-actions.c:2867
 msgid "Hide the selected rows"
 msgstr "A kijelölt sorok elrejtése"
 
-#: ../src/wbc-gtk-actions.c:2879
+#: ../src/wbc-gtk-actions.c:2874
 msgid "Make any hidden rows in the selection visible"
 msgstr "A kijelölésben lévő összes rejtett sor láthatóvá tétele"
 
-#: ../src/wbc-gtk-actions.c:2884
+#: ../src/wbc-gtk-actions.c:2879
 msgid "_Standard Height"
 msgstr "_Szabványos magasság"
 
-#: ../src/wbc-gtk-actions.c:2885
+#: ../src/wbc-gtk-actions.c:2880
 msgid "Change the default row height"
 msgstr "Az alapértelmezett sormagasság megváltoztatása"
 
-#: ../src/wbc-gtk-actions.c:2891
+#: ../src/wbc-gtk-actions.c:2886
 msgid "_Plug-ins..."
 msgstr "_Bővítmények…"
 
-#: ../src/wbc-gtk-actions.c:2892
+#: ../src/wbc-gtk-actions.c:2887
 msgid "Manage available plugin modules"
 msgstr "Az elérhető bővítménymodulok kezelése"
 
-#: ../src/wbc-gtk-actions.c:2896
+#: ../src/wbc-gtk-actions.c:2891
 msgid "Auto _Correct..."
 msgstr "_Automatikus javítás…"
 
-#: ../src/wbc-gtk-actions.c:2897
+#: ../src/wbc-gtk-actions.c:2892
 msgid "Automatically perform simple spell checking"
 msgstr "Egyszerű helyesírás-ellenőrzés automatikus végrehajtása"
 
-#: ../src/wbc-gtk-actions.c:2901
+#: ../src/wbc-gtk-actions.c:2896
 msgid "_Auto Save..."
 msgstr "A_utomatikus mentés…"
 
-#: ../src/wbc-gtk-actions.c:2902
+#: ../src/wbc-gtk-actions.c:2897
 msgid "Automatically save the current document at regular intervals"
 msgstr "A jelenlegi dokumentum automatikus mentése szabályos időközönként"
 
-#: ../src/wbc-gtk-actions.c:2906
+#: ../src/wbc-gtk-actions.c:2901
 msgid "_Goal Seek..."
 msgstr "_Célértékkeresés…"
 
-#: ../src/wbc-gtk-actions.c:2907
+#: ../src/wbc-gtk-actions.c:2902
 msgid "Iteratively recalculate to find a target value"
 msgstr "Ismételt újraszámítás egy célérték megtalálásához"
 
-#: ../src/wbc-gtk-actions.c:2911
+#: ../src/wbc-gtk-actions.c:2906
 msgid "_Solver..."
 msgstr "_Megoldó…"
 
-#: ../src/wbc-gtk-actions.c:2912
+#: ../src/wbc-gtk-actions.c:2907
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Ismételt újraszámítás megszorításokkal egy célérték megközelítéséhez"
 
-#: ../src/wbc-gtk-actions.c:2916
+#: ../src/wbc-gtk-actions.c:2911
 msgid "Si_mulation..."
 msgstr "_Szimuláció…"
 
-#: ../src/wbc-gtk-actions.c:2917
+#: ../src/wbc-gtk-actions.c:2912
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -16784,171 +16801,171 @@ msgstr ""
 "Döntési alternatívák próbája Monte Carlo szimuláció használatával a velük "
 "kapcsolatos valószínű kimenetek és kockázatok kiderítéséhez"
 
-#: ../src/wbc-gtk-actions.c:2922
+#: ../src/wbc-gtk-actions.c:2917
 msgid "Compare Sheets..."
 msgstr "Munkalapok összehasonlítása…"
 
-#: ../src/wbc-gtk-actions.c:2923
+#: ../src/wbc-gtk-actions.c:2918
 msgid "Find differences between two sheets"
 msgstr "Különbségek keresése két munkalap között"
 
-#: ../src/wbc-gtk-actions.c:2929
+#: ../src/wbc-gtk-actions.c:2924
 msgid "_View..."
 msgstr "_Nézet…"
 
-#: ../src/wbc-gtk-actions.c:2930
+#: ../src/wbc-gtk-actions.c:2925
 msgid "View, delete and report different scenarios"
 msgstr "Különböző esetek megjelenítése, törlése és jelentése"
 
-#: ../src/wbc-gtk-actions.c:2934
+#: ../src/wbc-gtk-actions.c:2929
 msgid "_Add..."
 msgstr "_Hozzáadás…"
 
-#: ../src/wbc-gtk-actions.c:2935
+#: ../src/wbc-gtk-actions.c:2930
 msgid "Add a new scenario"
 msgstr "Új eset hozzáadása"
 
-#: ../src/wbc-gtk-actions.c:2942
+#: ../src/wbc-gtk-actions.c:2937
 msgid "_Sampling..."
 msgstr "_Mintavételezés…"
 
-#: ../src/wbc-gtk-actions.c:2943
+#: ../src/wbc-gtk-actions.c:2938
 msgid "Periodic and random samples"
 msgstr "Periodikus és véletlen minták"
 
-#: ../src/wbc-gtk-actions.c:2950
+#: ../src/wbc-gtk-actions.c:2945
 msgid "_Correlation..."
 msgstr "_Korreláció…"
 
-#: ../src/wbc-gtk-actions.c:2951
+#: ../src/wbc-gtk-actions.c:2946
 msgid "Pearson Correlation"
 msgstr "Pearson-korreláció"
 
-#: ../src/wbc-gtk-actions.c:2955
+#: ../src/wbc-gtk-actions.c:2950
 msgid "Co_variance..."
 msgstr "Ko_variancia…"
 
-#: ../src/wbc-gtk-actions.c:2960
+#: ../src/wbc-gtk-actions.c:2955
 msgid "_Descriptive Statistics..."
 msgstr "_Leíró statisztika…"
 
-#: ../src/wbc-gtk-actions.c:2961
+#: ../src/wbc-gtk-actions.c:2956
 msgid "Various summary statistics"
 msgstr "Különböző összefoglaló statisztikák"
 
-#: ../src/wbc-gtk-actions.c:2968
+#: ../src/wbc-gtk-actions.c:2963
 msgid "Fre_quency Tables..."
 msgstr "_Gyakorisági táblázatok…"
 
-#: ../src/wbc-gtk-actions.c:2969
+#: ../src/wbc-gtk-actions.c:2964
 msgid "Frequency tables for non-numeric data"
 msgstr "Gyakorisági táblázatok nem numerikus adatokhoz"
 
-#: ../src/wbc-gtk-actions.c:2973
+#: ../src/wbc-gtk-actions.c:2968
 msgid "_Histogram..."
 msgstr "_Hisztogram…"
 
-#: ../src/wbc-gtk-actions.c:2974
+#: ../src/wbc-gtk-actions.c:2969
 msgid "Various frequency tables for numeric data"
 msgstr "Különböző gyakorisági táblázatok numerikus adatokhoz"
 
-#: ../src/wbc-gtk-actions.c:2978
+#: ../src/wbc-gtk-actions.c:2973
 msgid "Ranks And _Percentiles..."
 msgstr "_Rangok és percentilisek…"
 
-#: ../src/wbc-gtk-actions.c:2979
+#: ../src/wbc-gtk-actions.c:2974
 msgid "Ranks, placements and percentiles"
 msgstr "Rangok, elhelyezések és percentilisek"
 
-#: ../src/wbc-gtk-actions.c:2986
+#: ../src/wbc-gtk-actions.c:2981
 msgid "_Fourier Analysis..."
 msgstr "_Fourier-analízis…"
 
-#: ../src/wbc-gtk-actions.c:2992
+#: ../src/wbc-gtk-actions.c:2987
 msgid "Principal Components Analysis..."
 msgstr "Főkomponens-elemzés…"
 
-#: ../src/wbc-gtk-actions.c:2999
+#: ../src/wbc-gtk-actions.c:2994
 msgid "_Exponential Smoothing..."
 msgstr "_Exponenciális simítás…"
 
-#: ../src/wbc-gtk-actions.c:3000
+#: ../src/wbc-gtk-actions.c:2995
 msgid "Exponential smoothing..."
 msgstr "Exponenciális simítás…"
 
-#: ../src/wbc-gtk-actions.c:3004
+#: ../src/wbc-gtk-actions.c:2999
 msgid "_Moving Average..."
 msgstr "_Mozgóátlag…"
 
-#: ../src/wbc-gtk-actions.c:3005
+#: ../src/wbc-gtk-actions.c:3000
 msgid "Moving average..."
 msgstr "Mozgóátlag…"
 
-#: ../src/wbc-gtk-actions.c:3009
+#: ../src/wbc-gtk-actions.c:3004
 msgid "_Regression..."
 msgstr "_Regresszió…"
 
-#: ../src/wbc-gtk-actions.c:3010
+#: ../src/wbc-gtk-actions.c:3005
 msgid "Regression Analysis"
 msgstr "Regresszióanalízis"
 
-#: ../src/wbc-gtk-actions.c:3014
+#: ../src/wbc-gtk-actions.c:3009
 msgid "_Kaplan-Meier Estimates..."
 msgstr "_Kaplan-Meier becslések…"
 
-#: ../src/wbc-gtk-actions.c:3015
+#: ../src/wbc-gtk-actions.c:3010
 msgid "Creation of Kaplan-Meier Survival Curves"
 msgstr "Kaplan-Meier túlélőgörbék létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3022
+#: ../src/wbc-gtk-actions.c:3017
 msgid "_Normality Tests..."
 msgstr "_Normalitás próbák…"
 
-#: ../src/wbc-gtk-actions.c:3023
+#: ../src/wbc-gtk-actions.c:3018
 msgid "Testing a sample for normality"
 msgstr "Egy minta próbája a normalitáshoz"
 
-#: ../src/wbc-gtk-actions.c:3027
+#: ../src/wbc-gtk-actions.c:3022
 msgid "Claims About a _Mean..."
 msgstr "Állítások egy _középértékről…"
 
-#: ../src/wbc-gtk-actions.c:3028
+#: ../src/wbc-gtk-actions.c:3023
 msgid "Testing the value of a mean"
 msgstr "Egy középérték értékének próbája"
 
-#: ../src/wbc-gtk-actions.c:3035 ../src/wbc-gtk-actions.c:3082
+#: ../src/wbc-gtk-actions.c:3030 ../src/wbc-gtk-actions.c:3077
 msgid "_Sign Test..."
 msgstr "_Előjel próba…"
 
-#: ../src/wbc-gtk-actions.c:3036 ../src/wbc-gtk-actions.c:3041
+#: ../src/wbc-gtk-actions.c:3031 ../src/wbc-gtk-actions.c:3036
 msgid "Testing the value of a median"
 msgstr "Egy medián értékének próbája"
 
-#: ../src/wbc-gtk-actions.c:3040 ../src/wbc-gtk-actions.c:3087
+#: ../src/wbc-gtk-actions.c:3035 ../src/wbc-gtk-actions.c:3082
 msgid "_Wilcoxon Signed Rank Test..."
 msgstr "_Wilcoxon-féle előjeles rangpróba…"
 
-#: ../src/wbc-gtk-actions.c:3048
+#: ../src/wbc-gtk-actions.c:3043
 msgid "Claims About Two _Variances"
 msgstr "Állítások két _szórásnégyzetről"
 
-#: ../src/wbc-gtk-actions.c:3049
+#: ../src/wbc-gtk-actions.c:3044
 msgid "Comparing two population variances"
 msgstr "Két sokaság szórásnégyzetének összehasonlítása"
 
-#: ../src/wbc-gtk-actions.c:3056
+#: ../src/wbc-gtk-actions.c:3051
 msgid "_Paired Samples..."
 msgstr "_Páros minták…"
 
-#: ../src/wbc-gtk-actions.c:3057
+#: ../src/wbc-gtk-actions.c:3052
 msgid "Comparing two population means for two paired samples"
 msgstr "Két sokaság középérték összehasonlítása két páros mintánál"
 
-#: ../src/wbc-gtk-actions.c:3062
+#: ../src/wbc-gtk-actions.c:3057
 msgid "Unpaired Samples, _Equal Variances..."
 msgstr "Páratlan minták, _egyenlő szórásnégyzetek…"
 
-#: ../src/wbc-gtk-actions.c:3063
+#: ../src/wbc-gtk-actions.c:3058
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances"
@@ -16956,11 +16973,11 @@ msgstr ""
 "Két sokaság középérték összehasonlítása két páratlan mintánál egyenlő "
 "szórásnégyzetekkel rendelkező sokaságokból"
 
-#: ../src/wbc-gtk-actions.c:3068
+#: ../src/wbc-gtk-actions.c:3063
 msgid "Unpaired Samples, _Unequal Variances..."
 msgstr "Páratlan minták, _nem egyenlő szórásnégyzetek…"
 
-#: ../src/wbc-gtk-actions.c:3069
+#: ../src/wbc-gtk-actions.c:3064
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances"
@@ -16968,322 +16985,322 @@ msgstr ""
 "Két sokaság középérték összehasonlítása két páratlan mintánál nem egyenlő "
 "szórásnégyzetekkel rendelkező sokaságokból"
 
-#: ../src/wbc-gtk-actions.c:3074
+#: ../src/wbc-gtk-actions.c:3069
 msgid "Unpaired Samples, _Known Variances..."
 msgstr "Páratlan minták, _ismert szórásnégyzetek…"
 
-#: ../src/wbc-gtk-actions.c:3075
+#: ../src/wbc-gtk-actions.c:3070
 msgid "Comparing two population means from populations with known variances"
 msgstr ""
 "Két sokaság középérték összehasonlítása ismert szórásnégyzetekkel rendelkező "
 "sokaságokból"
 
-#: ../src/wbc-gtk-actions.c:3083 ../src/wbc-gtk-actions.c:3088
+#: ../src/wbc-gtk-actions.c:3078 ../src/wbc-gtk-actions.c:3083
 msgid "Comparing the values of two medians of paired observations"
 msgstr "Páros megfigyelések két mediánja értékeinek összehasonlítása"
 
-#: ../src/wbc-gtk-actions.c:3092
+#: ../src/wbc-gtk-actions.c:3087
 msgid "Wilcoxon-_Mann-Whitney Test..."
 msgstr "Wilcoxon-_Mann-Whitney próba…"
 
-#: ../src/wbc-gtk-actions.c:3093
+#: ../src/wbc-gtk-actions.c:3088
 msgid "Comparing the values of two medians of unpaired observations"
 msgstr "Páratlan megfigyelések két mediánja értékeinek összehasonlítása"
 
-#: ../src/wbc-gtk-actions.c:3102
+#: ../src/wbc-gtk-actions.c:3097
 msgid "_One Factor..."
 msgstr "_Egytényezős…"
 
-#: ../src/wbc-gtk-actions.c:3103
+#: ../src/wbc-gtk-actions.c:3098
 msgid "One Factor Analysis of Variance..."
 msgstr "Szórásnégyzet egytényezős elemzése…"
 
-#: ../src/wbc-gtk-actions.c:3107
+#: ../src/wbc-gtk-actions.c:3102
 msgid "_Two Factor..."
 msgstr "_Kéttényezős…"
 
-#: ../src/wbc-gtk-actions.c:3108
+#: ../src/wbc-gtk-actions.c:3103
 msgid "Two Factor Analysis of Variance..."
 msgstr "Szórásnégyzet kéttényezős elemzése…"
 
-#: ../src/wbc-gtk-actions.c:3115
+#: ../src/wbc-gtk-actions.c:3110
 msgid "Test of _Homogeneity..."
 msgstr "_Homogenitás próbája…"
 
-#: ../src/wbc-gtk-actions.c:3116
+#: ../src/wbc-gtk-actions.c:3111
 msgid "Chi Squared Test of Homogeneity..."
 msgstr "A homogenitás khi-négyzet próbája…"
 
-#: ../src/wbc-gtk-actions.c:3120
+#: ../src/wbc-gtk-actions.c:3115
 msgid "Test of _Independence..."
 msgstr "_Függetlenség próbája…"
 
-#: ../src/wbc-gtk-actions.c:3121
+#: ../src/wbc-gtk-actions.c:3116
 msgid "Chi Squared Test of Independence..."
 msgstr "A függetlenség khi-négyzet próbája…"
 
-#: ../src/wbc-gtk-actions.c:3128
+#: ../src/wbc-gtk-actions.c:3123
 msgid "_Sort..."
 msgstr "_Rendezés…"
 
-#: ../src/wbc-gtk-actions.c:3129
+#: ../src/wbc-gtk-actions.c:3124
 msgid "Sort the selected region"
 msgstr "A kijelölt terület rendezése"
 
-#: ../src/wbc-gtk-actions.c:3133
+#: ../src/wbc-gtk-actions.c:3128
 msgid "Sh_uffle..."
 msgstr "_Keverés…"
 
-#: ../src/wbc-gtk-actions.c:3134
+#: ../src/wbc-gtk-actions.c:3129
 msgid "Shuffle cells, rows or columns"
 msgstr "Cellák, sorok vagy oszlopok keverése"
 
-#: ../src/wbc-gtk-actions.c:3138
+#: ../src/wbc-gtk-actions.c:3133
 msgid "_Validate..."
 msgstr "Elle_nőrzés…"
 
-#: ../src/wbc-gtk-actions.c:3139
+#: ../src/wbc-gtk-actions.c:3134
 msgid "Validate input with preset criteria"
 msgstr "Bemenet ellenőrzése előre megadott feltételek szerint"
 
-#: ../src/wbc-gtk-actions.c:3143
+#: ../src/wbc-gtk-actions.c:3138
 msgid "T_ext to Columns..."
 msgstr "Szö_vegből oszlopok…"
 
-#: ../src/wbc-gtk-actions.c:3144
+#: ../src/wbc-gtk-actions.c:3139
 msgid "Parse the text in the selection into data"
 msgstr "A kijelölésben lévő szöveg feldolgozása adatokká"
 
-#: ../src/wbc-gtk-actions.c:3148
+#: ../src/wbc-gtk-actions.c:3143
 msgid "_Consolidate..."
 msgstr "_Egyesítés…"
 
-#: ../src/wbc-gtk-actions.c:3149
+#: ../src/wbc-gtk-actions.c:3144
 msgid "Consolidate regions using a function"
 msgstr "Területek egyesítése egy függvény használatával"
 
-#: ../src/wbc-gtk-actions.c:3153
+#: ../src/wbc-gtk-actions.c:3148
 msgid "_Table..."
 msgstr "_Táblázat…"
 
-#: ../src/wbc-gtk-actions.c:3154
+#: ../src/wbc-gtk-actions.c:3149
 msgid "Create a Data Table to evaluate a function with multiple inputs"
 msgstr ""
 "Adattábla létrehozása egy több bemenettel rendelkező függvény kiértékeléséhez"
 
-#: ../src/wbc-gtk-actions.c:3158
+#: ../src/wbc-gtk-actions.c:3153
 msgid "E_xport into Other Format..."
 msgstr "E_xportálás egyéb formátumba…"
 
-#: ../src/wbc-gtk-actions.c:3159
+#: ../src/wbc-gtk-actions.c:3154
 msgid "Export the current workbook or sheet"
 msgstr "A jelenlegi munkafüzet vagy munkalap exportálása"
 
-#: ../src/wbc-gtk-actions.c:3163
+#: ../src/wbc-gtk-actions.c:3158
 msgid "Export as _Text File..."
 msgstr "Exportálás _szövegfájlként…"
 
-#: ../src/wbc-gtk-actions.c:3164
+#: ../src/wbc-gtk-actions.c:3159
 msgid "Export the current sheet as a text file"
 msgstr "A jelenlegi munkalap exportálása szövegfájlként"
 
-#: ../src/wbc-gtk-actions.c:3168
+#: ../src/wbc-gtk-actions.c:3163
 msgid "Export as _CSV File..."
 msgstr "Exportálás _CSV-fájlként…"
 
-#: ../src/wbc-gtk-actions.c:3169
+#: ../src/wbc-gtk-actions.c:3164
 msgid "Export the current sheet as a csv file"
 msgstr "A jelenlegi munkalap exportálása CSV-fájlként"
 
-#: ../src/wbc-gtk-actions.c:3173 ../src/wbc-gtk.c:1765
+#: ../src/wbc-gtk-actions.c:3168 ../src/wbc-gtk.c:1765
 msgid "Repeat Export"
 msgstr "Exportálás ismétlése"
 
-#: ../src/wbc-gtk-actions.c:3175 ../src/wbc-gtk.c:1761 ../src/wbc-gtk.c:1765
+#: ../src/wbc-gtk-actions.c:3170 ../src/wbc-gtk.c:1761 ../src/wbc-gtk.c:1765
 msgid "Repeat the last data export"
 msgstr "Az utolsó adatexportálás ismétlése"
 
-#: ../src/wbc-gtk-actions.c:3181
+#: ../src/wbc-gtk-actions.c:3176
 msgid "Auto_fill"
 msgstr "_Automatikus kitöltés"
 
-#: ../src/wbc-gtk-actions.c:3182
+#: ../src/wbc-gtk-actions.c:3177
 msgid "Automatically fill the current selection"
 msgstr "A jelenlegi kijelölés automatikus kitöltése"
 
-#: ../src/wbc-gtk-actions.c:3186
+#: ../src/wbc-gtk-actions.c:3181
 msgid "_Merge..."
 msgstr "_Egyesítés…"
 
-#: ../src/wbc-gtk-actions.c:3187
+#: ../src/wbc-gtk-actions.c:3182
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Oszlopos adatokat egyesít egy munkalapba minden egyes sorhoz kettőzött "
 "munkalapokat létrehozva"
 
-#: ../src/wbc-gtk-actions.c:3191
+#: ../src/wbc-gtk-actions.c:3186
 msgid "_Tabulate Dependency..."
 msgstr "_Függőség táblázatba foglalása…"
 
-#: ../src/wbc-gtk-actions.c:3192
+#: ../src/wbc-gtk-actions.c:3187
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Egy cellaérték táblázatának elkészítése más cellák függvényeként"
 
-#: ../src/wbc-gtk-actions.c:3196
+#: ../src/wbc-gtk-actions.c:3191
 msgid "_Series..."
 msgstr "_Sorok…"
 
-#: ../src/wbc-gtk-actions.c:3197
+#: ../src/wbc-gtk-actions.c:3192
 msgid "Fill according to a linear or exponential series"
 msgstr "Lineáris vagy exponenciális sorok szerinti kitöltés"
 
-#: ../src/wbc-gtk-actions.c:3201
+#: ../src/wbc-gtk-actions.c:3196
 msgid "_Uncorrelated..."
 msgstr "_Korrelálatlan…"
 
-#: ../src/wbc-gtk-actions.c:3202
+#: ../src/wbc-gtk-actions.c:3197
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Eloszlások kijelölése véletlenszámainak előállítása"
 
-#: ../src/wbc-gtk-actions.c:3206
+#: ../src/wbc-gtk-actions.c:3201
 msgid "_Correlated..."
 msgstr "_Korrelált…"
 
-#: ../src/wbc-gtk-actions.c:3207
+#: ../src/wbc-gtk-actions.c:3202
 msgid "Generate variates for correlated normal distributed random variables"
 msgstr "Változatok előállítása korrelált normál eloszlás véletlen változóihoz"
 
-#: ../src/wbc-gtk-actions.c:3211
+#: ../src/wbc-gtk-actions.c:3206
 msgid "Fill Downwards"
 msgstr "Kitöltés lefelé"
 
-#: ../src/wbc-gtk-actions.c:3213
+#: ../src/wbc-gtk-actions.c:3208
 msgid "Copy the content from the top row to the cells below"
 msgstr "Tartalom másolása a felső sorból a lenti cellákba"
 
-#: ../src/wbc-gtk-actions.c:3217
+#: ../src/wbc-gtk-actions.c:3212
 msgid "Fill to Right"
 msgstr "Kitöltés jobbra"
 
-#: ../src/wbc-gtk-actions.c:3219
+#: ../src/wbc-gtk-actions.c:3214
 msgid "Copy the content from the left column to the cells on the right"
 msgstr "Tartalom másolása a bal oldali oszlopból a jobbra lévő cellákba"
 
-#: ../src/wbc-gtk-actions.c:3227
+#: ../src/wbc-gtk-actions.c:3222
 msgid "_Hide Detail"
 msgstr "_Részletek elrejtése"
 
-#: ../src/wbc-gtk-actions.c:3228
+#: ../src/wbc-gtk-actions.c:3223
 msgid "Collapse an outline group"
 msgstr "Egy körvonalcsoport összecsukása"
 
-#: ../src/wbc-gtk-actions.c:3233
+#: ../src/wbc-gtk-actions.c:3228
 msgid "_Show Detail"
 msgstr "Részletek _megjelenítése"
 
-#: ../src/wbc-gtk-actions.c:3234
+#: ../src/wbc-gtk-actions.c:3229
 msgid "Uncollapse an outline group"
 msgstr "Egy körvonalcsoport kinyitása"
 
-#: ../src/wbc-gtk-actions.c:3239
+#: ../src/wbc-gtk-actions.c:3234
 msgid "_Group..."
 msgstr "_Csoportosítás…"
 
-#: ../src/wbc-gtk-actions.c:3241
+#: ../src/wbc-gtk-actions.c:3236
 msgid "Add an outline group"
 msgstr "Egy körvonalcsoport hozzáadása"
 
-#: ../src/wbc-gtk-actions.c:3246
+#: ../src/wbc-gtk-actions.c:3241
 msgid "_Ungroup..."
 msgstr "_Szétbontás…"
 
-#: ../src/wbc-gtk-actions.c:3248
+#: ../src/wbc-gtk-actions.c:3243
 msgid "Remove an outline group"
 msgstr "Egy körvonalcsoport eltávolítása"
 
-#: ../src/wbc-gtk-actions.c:3255 ../src/wbc-gtk.c:1686
+#: ../src/wbc-gtk-actions.c:3250 ../src/wbc-gtk.c:1686
 msgid "Add _Auto Filter"
 msgstr "_Automatikus szűrő hozzáadása"
 
-#: ../src/wbc-gtk-actions.c:3256
+#: ../src/wbc-gtk-actions.c:3251
 msgid "Add or remove a filter"
 msgstr "Egy szűrő hozzáadása vagy eltávolítása"
 
-#: ../src/wbc-gtk-actions.c:3260
+#: ../src/wbc-gtk-actions.c:3255
 msgid "_Clear Advanced Filter"
 msgstr "_Speciális szűrő törlése"
 
-#: ../src/wbc-gtk-actions.c:3261
+#: ../src/wbc-gtk-actions.c:3256
 msgid "Show all rows hidden by an advanced filter"
 msgstr "Egy speciális szűrő által elrejtett minden sor megjelenítése"
 
-#: ../src/wbc-gtk-actions.c:3265
+#: ../src/wbc-gtk-actions.c:3260
 msgid "Advanced _Filter..."
 msgstr "_Speciális szűrő…"
 
-#: ../src/wbc-gtk-actions.c:3266
+#: ../src/wbc-gtk-actions.c:3261
 msgid "Filter data with given criteria"
 msgstr "Adatok szűrése a megadott feltételek szerint"
 
-#: ../src/wbc-gtk-actions.c:3271
+#: ../src/wbc-gtk-actions.c:3266
 msgid "Import _Text File..."
 msgstr "_Szövegfájl importálása…"
 
-#: ../src/wbc-gtk-actions.c:3272
+#: ../src/wbc-gtk-actions.c:3267
 msgid "Import data from a text file"
 msgstr "Adatok importálása egy szövegfájlból"
 
-#: ../src/wbc-gtk-actions.c:3276
+#: ../src/wbc-gtk-actions.c:3271
 msgid "Import _Other File..."
 msgstr "_Egyéb fájl importálása…"
 
-#: ../src/wbc-gtk-actions.c:3277
+#: ../src/wbc-gtk-actions.c:3272
 msgid "Import data from a file"
 msgstr "Adatok importálása egy fájlból"
 
-#: ../src/wbc-gtk-actions.c:3284
+#: ../src/wbc-gtk-actions.c:3279
 msgid "Add _Data Slicer"
 msgstr "_Adatszeletelő hozzáadása"
 
-#: ../src/wbc-gtk-actions.c:3285
+#: ../src/wbc-gtk-actions.c:3280
 msgid "Create a data slicer"
 msgstr "Adatszeletelő létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3289
+#: ../src/wbc-gtk-actions.c:3284
 msgid "_Refresh"
 msgstr "_Frissítés"
 
-#: ../src/wbc-gtk-actions.c:3290
+#: ../src/wbc-gtk-actions.c:3285
 msgid "Regenerate a data slicer from the source data"
 msgstr "Adatszeletelő újra előállítása a forrásadatokból"
 
-#: ../src/wbc-gtk-actions.c:3294
+#: ../src/wbc-gtk-actions.c:3289
 msgid "_Edit Data Slicer..."
 msgstr "Adatszeletelő _szerkesztése…"
 
-#: ../src/wbc-gtk-actions.c:3295
+#: ../src/wbc-gtk-actions.c:3290
 msgid "Adjust a data slicer"
 msgstr "Adatszeletelő módosítása"
 
-#: ../src/wbc-gtk-actions.c:3302 ../src/wbc-gtk.c:4142
+#: ../src/wbc-gtk-actions.c:3297 ../src/wbc-gtk.c:4140
 #: ../src/workbook-view.c:855
 msgid "Sum"
 msgstr "Összeg"
 
-#: ../src/wbc-gtk-actions.c:3304
+#: ../src/wbc-gtk-actions.c:3299
 msgid "Sum into the current cell"
 msgstr "Összegzés a jelenlegi cellába"
 
-#: ../src/wbc-gtk-actions.c:3309
+#: ../src/wbc-gtk-actions.c:3304
 msgid "_Function..."
 msgstr "_Függvény…"
 
-#: ../src/wbc-gtk-actions.c:3310
+#: ../src/wbc-gtk-actions.c:3305
 msgid "Edit a function in the current cell"
 msgstr "Függvény szerkesztése a jelenlegi cellában"
 
-#: ../src/wbc-gtk-actions.c:3317
+#: ../src/wbc-gtk-actions.c:3312
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
@@ -17291,11 +17308,11 @@ msgstr ""
 "A kijelölt terület növekvő sorrendbe rendezése az első kijelölt oszlop "
 "alapján"
 
-#: ../src/wbc-gtk-actions.c:3322
+#: ../src/wbc-gtk-actions.c:3317
 msgid "Sort Descending"
 msgstr "Csökkenő sorrend"
 
-#: ../src/wbc-gtk-actions.c:3323
+#: ../src/wbc-gtk-actions.c:3318
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -17303,515 +17320,515 @@ msgstr ""
 "A kijelölt terület csökkenő sorrendbe rendezése az első kijelölt oszlop "
 "alapján"
 
-#: ../src/wbc-gtk-actions.c:3331
+#: ../src/wbc-gtk-actions.c:3326
 msgid "Create a frame"
 msgstr "Keret létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3336
+#: ../src/wbc-gtk-actions.c:3331
 msgid "Checkbox"
 msgstr "Jelölőnégyzet"
 
-#: ../src/wbc-gtk-actions.c:3337
+#: ../src/wbc-gtk-actions.c:3332
 msgid "Create a checkbox"
 msgstr "Jelölőnégyzet létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3342
+#: ../src/wbc-gtk-actions.c:3337
 msgid "Scrollbar"
 msgstr "Görgetősáv"
 
-#: ../src/wbc-gtk-actions.c:3343
+#: ../src/wbc-gtk-actions.c:3338
 msgid "Create a scrollbar"
 msgstr "Gördítősáv létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3348
+#: ../src/wbc-gtk-actions.c:3343
 msgid "Slider"
 msgstr "Csúszka"
 
-#: ../src/wbc-gtk-actions.c:3349
+#: ../src/wbc-gtk-actions.c:3344
 msgid "Create a slider"
 msgstr "Csúszka létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3354
+#: ../src/wbc-gtk-actions.c:3349
 msgid "SpinButton"
 msgstr "Léptetőgomb"
 
-#: ../src/wbc-gtk-actions.c:3355
+#: ../src/wbc-gtk-actions.c:3350
 msgid "Create a spin button"
 msgstr "Léptetőgomb létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3360
+#: ../src/wbc-gtk-actions.c:3355
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:1
 msgid "List"
 msgstr "Lista"
 
-#: ../src/wbc-gtk-actions.c:3361
+#: ../src/wbc-gtk-actions.c:3356
 msgid "Create a list"
 msgstr "Lista létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3366
+#: ../src/wbc-gtk-actions.c:3361
 msgid "Combo Box"
 msgstr "Legördülő lista"
 
-#: ../src/wbc-gtk-actions.c:3367
+#: ../src/wbc-gtk-actions.c:3362
 msgid "Create a combo box"
 msgstr "Legördülő lista létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3373
+#: ../src/wbc-gtk-actions.c:3368
 msgid "Create a line object"
 msgstr "Vonalobjektum létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3378
+#: ../src/wbc-gtk-actions.c:3373
 msgid "Arrow"
 msgstr "Nyíl"
 
-#: ../src/wbc-gtk-actions.c:3379
+#: ../src/wbc-gtk-actions.c:3374
 msgid "Create an arrow object"
 msgstr "Nyílobjektum létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3384
+#: ../src/wbc-gtk-actions.c:3379
 msgid "Rectangle"
 msgstr "Téglalap"
 
-#: ../src/wbc-gtk-actions.c:3385
+#: ../src/wbc-gtk-actions.c:3380
 msgid "Create a rectangle object"
 msgstr "Téglalapobjektum létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3390
+#: ../src/wbc-gtk-actions.c:3385
 msgid "Ellipse"
 msgstr "Ellipszis"
 
-#: ../src/wbc-gtk-actions.c:3391
+#: ../src/wbc-gtk-actions.c:3386
 msgid "Create an ellipse object"
 msgstr "Ellipszisobjektum létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3397
+#: ../src/wbc-gtk-actions.c:3392
 msgid "Create a button"
 msgstr "Gomb létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3403
+#: ../src/wbc-gtk-actions.c:3398
 msgid "Create a radio button"
 msgstr "Választógomb létrehozása"
 
-#: ../src/wbc-gtk-actions.c:3411
+#: ../src/wbc-gtk-actions.c:3406
 msgid "Merge a range of cells"
 msgstr "Cellatartomány egyesítése"
 
-#: ../src/wbc-gtk-actions.c:3416
+#: ../src/wbc-gtk-actions.c:3411
 msgid "Unmerge"
 msgstr "Felbontás"
 
-#: ../src/wbc-gtk-actions.c:3417
+#: ../src/wbc-gtk-actions.c:3412
 msgid "Split merged ranges of cells"
 msgstr "Egyesített cellatartományok felosztása"
 
-#: ../src/wbc-gtk-actions.c:3424
+#: ../src/wbc-gtk-actions.c:3419
 msgid "Format the selection as General"
 msgstr "A kijelölés formázása általánosként"
 
-#: ../src/wbc-gtk-actions.c:3430
+#: ../src/wbc-gtk-actions.c:3425
 msgid "Format the selection as numbers"
 msgstr "A kijelölés formázása számokként"
 
-#: ../src/wbc-gtk-actions.c:3434
+#: ../src/wbc-gtk-actions.c:3429
 msgid "Currency"
 msgstr "Pénznem"
 
-#: ../src/wbc-gtk-actions.c:3436
+#: ../src/wbc-gtk-actions.c:3431
 msgid "Format the selection as currency"
 msgstr "A kijelölés formázása pénznemként"
 
-#: ../src/wbc-gtk-actions.c:3441
+#: ../src/wbc-gtk-actions.c:3436
 msgid "Accounting"
 msgstr "Számvitel"
 
-#: ../src/wbc-gtk-actions.c:3442
+#: ../src/wbc-gtk-actions.c:3437
 msgid "Format the selection as accounting"
 msgstr "A kijelölés formázása számvitelként"
 
-#: ../src/wbc-gtk-actions.c:3449
+#: ../src/wbc-gtk-actions.c:3444
 msgid "Format the selection as percentage"
 msgstr "A kijelölés formázása százalékként"
 
-#: ../src/wbc-gtk-actions.c:3453
+#: ../src/wbc-gtk-actions.c:3448
 msgid "Scientific"
 msgstr "Tudományos"
 
-#: ../src/wbc-gtk-actions.c:3455
+#: ../src/wbc-gtk-actions.c:3450
 msgid "Format the selection as scientific"
 msgstr "A kijelölés formázása tudományosként"
 
-#: ../src/wbc-gtk-actions.c:3461
+#: ../src/wbc-gtk-actions.c:3456
 msgid "Format the selection as date"
 msgstr "A kijelölés formázása dátumként"
 
-#: ../src/wbc-gtk-actions.c:3467
+#: ../src/wbc-gtk-actions.c:3462
 msgid "Format the selection as time"
 msgstr "A kijelölés formázása időként"
 
-#: ../src/wbc-gtk-actions.c:3471
+#: ../src/wbc-gtk-actions.c:3466
 msgid "AddBorders"
 msgstr "Szegélyek hozzáadása"
 
-#: ../src/wbc-gtk-actions.c:3473
+#: ../src/wbc-gtk-actions.c:3468
 msgid "Add a border around the selection"
 msgstr "Szegély hozzáadása a kijelölés köré"
 
-#: ../src/wbc-gtk-actions.c:3477
+#: ../src/wbc-gtk-actions.c:3472
 msgid "ClearBorders"
 msgstr "Szegélyek törlése"
 
-#: ../src/wbc-gtk-actions.c:3479
+#: ../src/wbc-gtk-actions.c:3474
 msgid "Clear the border around the selection"
 msgstr "Szegély törlése a kijelölés körül"
 
-#: ../src/wbc-gtk-actions.c:3485
+#: ../src/wbc-gtk-actions.c:3480
 msgid "Thousands Separator"
 msgstr "Ezreselválasztó"
 
-#: ../src/wbc-gtk-actions.c:3486
+#: ../src/wbc-gtk-actions.c:3481
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr ""
 "A kijelölt cellák formátumának beállítása egy ezreselválasztó felvételéhez"
 
-#: ../src/wbc-gtk-actions.c:3491
+#: ../src/wbc-gtk-actions.c:3486
 msgid "Increase Precision"
 msgstr "Pontosság növelése"
 
-#: ../src/wbc-gtk-actions.c:3492
+#: ../src/wbc-gtk-actions.c:3487
 msgid "Increase the number of decimals displayed"
 msgstr "A megjelenített tizedesjegyek számának növelése"
 
-#: ../src/wbc-gtk-actions.c:3497
+#: ../src/wbc-gtk-actions.c:3492
 msgid "Decrease Precision"
 msgstr "Pontosság csökkentése"
 
-#: ../src/wbc-gtk-actions.c:3498
+#: ../src/wbc-gtk-actions.c:3493
 msgid "Decrease the number of decimals displayed"
 msgstr "A megjelenített tizedesjegyek számának csökkentése"
 
-#: ../src/wbc-gtk-actions.c:3505
+#: ../src/wbc-gtk-actions.c:3500
 msgid "Decrease Indentation"
 msgstr "Behúzás csökkentése"
 
-#: ../src/wbc-gtk-actions.c:3508
+#: ../src/wbc-gtk-actions.c:3503
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Behúzás csökkentése, és a tartalmak igazítása balra"
 
-#: ../src/wbc-gtk-actions.c:3512
+#: ../src/wbc-gtk-actions.c:3507
 msgid "Increase Indentation"
 msgstr "Behúzás növelése"
 
-#: ../src/wbc-gtk-actions.c:3515
+#: ../src/wbc-gtk-actions.c:3510
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Behúzás növelése, és a tartalmak igazítása balra"
 
-#: ../src/wbc-gtk-actions.c:3523
+#: ../src/wbc-gtk-actions.c:3518
 msgid "Display _Outlines"
 msgstr "_Körvonalak megjelenítése"
 
-#: ../src/wbc-gtk-actions.c:3525
+#: ../src/wbc-gtk-actions.c:3520
 msgid "Toggle whether or not to display outline groups"
 msgstr "Annak átváltása, hogy a körvonalcsoportok megjelenjenek-e vagy sem"
 
-#: ../src/wbc-gtk-actions.c:3530
+#: ../src/wbc-gtk-actions.c:3525
 msgid "Outlines _Below"
 msgstr "Körvonalak al_ulra"
 
-#: ../src/wbc-gtk-actions.c:3531
+#: ../src/wbc-gtk-actions.c:3526
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Annak átváltása, hogy a sorkörvonalak fent vagy lent jelenjenek-e meg"
 
-#: ../src/wbc-gtk-actions.c:3536
+#: ../src/wbc-gtk-actions.c:3531
 msgid "Outlines _Right"
 msgstr "Körvonalak _jobbra"
 
-#: ../src/wbc-gtk-actions.c:3537
+#: ../src/wbc-gtk-actions.c:3532
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 "Annak átváltása, hogy az oszlopkörvonalak balra vagy jobbra jelenjenek-e meg"
 
-#: ../src/wbc-gtk-actions.c:3543
+#: ../src/wbc-gtk-actions.c:3538
 msgid "Display _Formulæ"
 msgstr "_Képletek megjelenítése"
 
-#: ../src/wbc-gtk-actions.c:3545
+#: ../src/wbc-gtk-actions.c:3540
 msgid "Display the value of a formula or the formula itself"
 msgstr "Egy képlet értékének vagy magának a képletnek a megjelenítése"
 
-#: ../src/wbc-gtk-actions.c:3550
+#: ../src/wbc-gtk-actions.c:3545
 msgid "_Hide Zeros"
 msgstr "N_ullák elrejtése"
 
-#: ../src/wbc-gtk-actions.c:3551
+#: ../src/wbc-gtk-actions.c:3546
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 "Annak átváltása, hogy a nullák megjelenjenek-e üres helyekként vagy sem"
 
-#: ../src/wbc-gtk-actions.c:3556
+#: ../src/wbc-gtk-actions.c:3551
 msgid "Hide _Gridlines"
 msgstr "_Rácsvonalak elrejtése"
 
-#: ../src/wbc-gtk-actions.c:3557
+#: ../src/wbc-gtk-actions.c:3552
 msgid "Toggle whether or not to display gridlines"
 msgstr "Annak átváltása, hogy a rácsvonalak megjelenjenek-e vagy sem"
 
-#: ../src/wbc-gtk-actions.c:3562
+#: ../src/wbc-gtk-actions.c:3557
 msgid "Hide _Column Headers"
 msgstr "_Oszlopfejlécek elrejtése"
 
-#: ../src/wbc-gtk-actions.c:3563
+#: ../src/wbc-gtk-actions.c:3558
 msgid "Toggle whether or not to display column headers"
 msgstr "Annak átváltása, hogy az oszlopfejlécek megjelenjenek-e vagy sem"
 
-#: ../src/wbc-gtk-actions.c:3568
+#: ../src/wbc-gtk-actions.c:3563
 msgid "Hide _Row Headers"
 msgstr "_Sorfejlécek elrejtése"
 
-#: ../src/wbc-gtk-actions.c:3569
+#: ../src/wbc-gtk-actions.c:3564
 msgid "Toggle whether or not to display row headers"
 msgstr "Annak átváltása, hogy a sorfejlécek megjelenjenek-e vagy sem"
 
-#: ../src/wbc-gtk-actions.c:3576
+#: ../src/wbc-gtk-actions.c:3571
 msgid "Use R1C1 N_otation "
 msgstr "R1C1 j_elölés használata "
 
-#: ../src/wbc-gtk-actions.c:3577
+#: ../src/wbc-gtk-actions.c:3572
 msgid "Display addresses as R1C1 or A1"
 msgstr "Címek megjelenítése R1C1 vagy A1 formában"
 
-#: ../src/wbc-gtk-actions.c:3584
+#: ../src/wbc-gtk-actions.c:3579
 msgid "_Left Align"
 msgstr "_Balra igazítás"
 
-#: ../src/wbc-gtk-actions.c:3585 ../src/wbc-gtk-actions.c:3723
+#: ../src/wbc-gtk-actions.c:3580 ../src/wbc-gtk-actions.c:3718
 msgid "Align left"
 msgstr "Igazítás balra"
 
-#: ../src/wbc-gtk-actions.c:3592
+#: ../src/wbc-gtk-actions.c:3587
 msgid "_Center"
 msgstr "_Középre"
 
-#: ../src/wbc-gtk-actions.c:3593 ../src/wbc-gtk-actions.c:3724
+#: ../src/wbc-gtk-actions.c:3588 ../src/wbc-gtk-actions.c:3719
 msgid "Center horizontally"
 msgstr "Középre igazítás vízszintesen"
 
-#: ../src/wbc-gtk-actions.c:3600
+#: ../src/wbc-gtk-actions.c:3595
 msgid "_Right Align"
 msgstr "_Jobbra igazítás"
 
-#: ../src/wbc-gtk-actions.c:3601 ../src/wbc-gtk-actions.c:3725
+#: ../src/wbc-gtk-actions.c:3596 ../src/wbc-gtk-actions.c:3720
 msgid "Align right"
 msgstr "Igazítás jobbra"
 
-#: ../src/wbc-gtk-actions.c:3608
+#: ../src/wbc-gtk-actions.c:3603
 msgid "_Center Across Selection"
 msgstr "_Középre a kijelölésen keresztül"
 
-#: ../src/wbc-gtk-actions.c:3609 ../src/wbc-gtk-actions.c:3729
+#: ../src/wbc-gtk-actions.c:3604 ../src/wbc-gtk-actions.c:3724
 msgid "Center horizontally across the selection"
 msgstr "Középre igazítás vízszintesen a kijelölésen keresztül"
 
-#: ../src/wbc-gtk-actions.c:3615
+#: ../src/wbc-gtk-actions.c:3610
 msgid "_Merge and Center"
 msgstr "_Egyesítés és középre igazítás"
 
-#: ../src/wbc-gtk-actions.c:3616
+#: ../src/wbc-gtk-actions.c:3611
 msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "A kijelölés egyesítése 1 cellába, és középre igazítás vízszintesen."
 
-#: ../src/wbc-gtk-actions.c:3626
+#: ../src/wbc-gtk-actions.c:3621
 msgid "Align _Top"
 msgstr "Igazítás _felülre"
 
-#: ../src/wbc-gtk-actions.c:3627
+#: ../src/wbc-gtk-actions.c:3622
 msgid "Align Top"
 msgstr "Felülre igazítás"
 
-#: ../src/wbc-gtk-actions.c:3634
+#: ../src/wbc-gtk-actions.c:3629
 msgid "_Vertically Center"
 msgstr "_Függőlegesen középre"
 
-#: ../src/wbc-gtk-actions.c:3635
+#: ../src/wbc-gtk-actions.c:3630
 msgid "Vertically Center"
 msgstr "Függőlegesen középre"
 
-#: ../src/wbc-gtk-actions.c:3642
+#: ../src/wbc-gtk-actions.c:3637
 msgid "Align _Bottom"
 msgstr "Igazítás _alulra"
 
-#: ../src/wbc-gtk-actions.c:3643
+#: ../src/wbc-gtk-actions.c:3638
 msgid "Align Bottom"
 msgstr "Alulra igazítás"
 
-#: ../src/wbc-gtk-actions.c:3653
+#: ../src/wbc-gtk-actions.c:3648
 msgid "_Bold"
 msgstr "_Félkövér"
 
-#: ../src/wbc-gtk-actions.c:3661
+#: ../src/wbc-gtk-actions.c:3656
 msgid "_Italic"
 msgstr "_Dőlt"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:3677
+#: ../src/wbc-gtk-actions.c:3672
 msgid "_Double Underline"
 msgstr "_Dupla aláhúzás"
 
-#: ../src/wbc-gtk-actions.c:3679
+#: ../src/wbc-gtk-actions.c:3674
 msgid "Double Underline"
 msgstr "Dupla aláhúzás"
 
-#: ../src/wbc-gtk-actions.c:3684
+#: ../src/wbc-gtk-actions.c:3679
 msgid "_Single Low Underline"
 msgstr "_Egyszeres alsó aláhúzás"
 
-#: ../src/wbc-gtk-actions.c:3686
+#: ../src/wbc-gtk-actions.c:3681
 msgid "Single Low Underline"
 msgstr "Egyszeres alsó aláhúzás"
 
-#: ../src/wbc-gtk-actions.c:3691
+#: ../src/wbc-gtk-actions.c:3686
 msgid "Double _Low Underline"
 msgstr "Dupla _alsó aláhúzás"
 
-#: ../src/wbc-gtk-actions.c:3692
+#: ../src/wbc-gtk-actions.c:3687
 msgid "Double Low Underline"
 msgstr "Dupla alsó aláhúzás"
 
-#: ../src/wbc-gtk-actions.c:3698
+#: ../src/wbc-gtk-actions.c:3693
 msgid "_Strikethrough"
 msgstr "Á_thúzott"
 
-#: ../src/wbc-gtk-actions.c:3706
+#: ../src/wbc-gtk-actions.c:3701
 msgid "Su_perscript"
 msgstr "_Felső index"
 
-#: ../src/wbc-gtk-actions.c:3708
+#: ../src/wbc-gtk-actions.c:3703
 msgid "Superscript"
 msgstr "Felső index"
 
-#: ../src/wbc-gtk-actions.c:3714
+#: ../src/wbc-gtk-actions.c:3709
 msgid "Subscrip_t"
 msgstr "_Alsó index"
 
-#: ../src/wbc-gtk-actions.c:3716
+#: ../src/wbc-gtk-actions.c:3711
 msgid "Subscript"
 msgstr "Alsó index"
 
-#: ../src/wbc-gtk-actions.c:3726
+#: ../src/wbc-gtk-actions.c:3721
 msgid "Fill horizontally"
 msgstr "Kitöltés vízszintesen"
 
-#: ../src/wbc-gtk-actions.c:3727
+#: ../src/wbc-gtk-actions.c:3722
 msgid "Justify horizontally"
 msgstr "Sorkizárás vízszintesen"
 
-#: ../src/wbc-gtk-actions.c:3731
+#: ../src/wbc-gtk-actions.c:3726
 msgid "Align numbers right, and text left"
 msgstr "Számok igazítása jobbra, szöveg balra"
 
-#: ../src/wbc-gtk-actions.c:3736
+#: ../src/wbc-gtk-actions.c:3731
 msgid "Align top"
 msgstr "Igazítás felülre"
 
-#: ../src/wbc-gtk-actions.c:3737
+#: ../src/wbc-gtk-actions.c:3732
 msgid "Center vertically"
 msgstr "Középre igazítás függőlegesen"
 
-#: ../src/wbc-gtk-actions.c:3738
+#: ../src/wbc-gtk-actions.c:3733
 msgid "Align bottom"
 msgstr "Igazítás alulra"
 
 #. Reuse "center" icon as I don't know what this one is
-#: ../src/wbc-gtk-actions.c:3741
+#: ../src/wbc-gtk-actions.c:3736
 msgid "Align distributed"
 msgstr "Igazítás elosztottan"
 
-#: ../src/wbc-gtk-actions.c:3764 ../src/wbc-gtk-actions.c:3765
+#: ../src/wbc-gtk-actions.c:3759 ../src/wbc-gtk-actions.c:3760
 msgid "Horizontal Alignment"
 msgstr "Vízszintes igazítás"
 
-#: ../src/wbc-gtk-actions.c:3776 ../src/wbc-gtk-actions.c:3777
+#: ../src/wbc-gtk-actions.c:3771 ../src/wbc-gtk-actions.c:3772
 msgid "Vertical Alignment"
 msgstr "Függőleges igazítás"
 
-#: ../src/wbc-gtk-actions.c:3815
+#: ../src/wbc-gtk-actions.c:3810
 msgid "Set Foreground Color"
 msgstr "Előtérszín beállítása"
 
-#: ../src/wbc-gtk-actions.c:3829 ../src/wbc-gtk-actions.c:3830
+#: ../src/wbc-gtk-actions.c:3824 ../src/wbc-gtk-actions.c:3825
 msgid "Foreground"
 msgstr "Előtér"
 
 #. Set background to NONE
-#: ../src/wbc-gtk-actions.c:3865
+#: ../src/wbc-gtk-actions.c:3860
 msgid "Set Background Color"
 msgstr "Háttérszín beállítása"
 
-#: ../src/wbc-gtk-actions.c:3888
+#: ../src/wbc-gtk-actions.c:3883
 msgid "Clear Borders"
 msgstr "Szegélyek törlése"
 
-#: ../src/wbc-gtk-actions.c:3891
+#: ../src/wbc-gtk-actions.c:3886
 msgid "All Borders"
 msgstr "Minden szegély"
 
-#: ../src/wbc-gtk-actions.c:3892
+#: ../src/wbc-gtk-actions.c:3887
 msgid "Outside Borders"
 msgstr "Külső szegélyek"
 
-#: ../src/wbc-gtk-actions.c:3893
+#: ../src/wbc-gtk-actions.c:3888
 msgid "Thick Outside Borders"
 msgstr "Vastag külső szegélyek"
 
-#: ../src/wbc-gtk-actions.c:3896
+#: ../src/wbc-gtk-actions.c:3891
 msgid "Double Bottom"
 msgstr "Dupla lent"
 
-#: ../src/wbc-gtk-actions.c:3897
+#: ../src/wbc-gtk-actions.c:3892
 msgid "Thick Bottom"
 msgstr "Vastag lent"
 
-#: ../src/wbc-gtk-actions.c:3899
+#: ../src/wbc-gtk-actions.c:3894
 msgid "Top and Bottom"
 msgstr "Fent és lent"
 
-#: ../src/wbc-gtk-actions.c:3900
+#: ../src/wbc-gtk-actions.c:3895
 msgid "Top and Double Bottom"
 msgstr "Fent és dupla lent"
 
-#: ../src/wbc-gtk-actions.c:3901
+#: ../src/wbc-gtk-actions.c:3896
 msgid "Top and Thick Bottom"
 msgstr "Fent és vastag lent"
 
-#: ../src/wbc-gtk-actions.c:3986
+#: ../src/wbc-gtk-actions.c:3981
 msgid "Set Borders"
 msgstr "Szegélyek beállítása"
 
-#: ../src/wbc-gtk-actions.c:3994 ../src/wbc-gtk-actions.c:3995
+#: ../src/wbc-gtk-actions.c:3989 ../src/wbc-gtk-actions.c:3990
 msgid "Borders"
 msgstr "Szegélyek"
 
-#: ../src/wbc-gtk-actions.c:4094
+#: ../src/wbc-gtk-actions.c:4089
 msgid "Redo the undone action"
 msgstr "A visszavont művelet ismételt végrehajtása"
 
-#: ../src/wbc-gtk-actions.c:4096
+#: ../src/wbc-gtk-actions.c:4091
 msgid "Redo"
 msgstr "Újra"
 
-#: ../src/wbc-gtk-actions.c:4100
+#: ../src/wbc-gtk-actions.c:4095
 msgid "Undo the last action"
 msgstr "Az utolsó művelet visszavonása"
 
-#: ../src/wbc-gtk-actions.c:4155 ../src/wbc-gtk-actions.c:4176
+#: ../src/wbc-gtk-actions.c:4150 ../src/wbc-gtk-actions.c:4171
 msgid "_Zoom"
 msgstr "_Nagyítás"
 
-#: ../src/wbc-gtk-actions.c:4361
+#: ../src/wbc-gtk-actions.c:4356
 #, c-format
 msgid "Setting Font %s"
 msgstr "%s betűkészlet beállítása"
 
-#: ../src/wbc-gtk-actions.c:4421
+#: ../src/wbc-gtk-actions.c:4416
 msgid "Change font"
 msgstr "Betűkészlet megváltoztatása"
 
@@ -17877,7 +17894,6 @@ msgid "Select (sorted)"
 msgstr "Kijelölés (rendezett)"
 
 #: ../src/wbc-gtk.c:1344
-#| msgid " - Gnumeric"
 msgid " - Gnumeric [Decimal]"
 msgstr " – Gnumeric [decimális]"
 
@@ -17988,47 +18004,47 @@ msgstr "Eldobás"
 msgid "Don't close"
 msgstr "Ne zárja be"
 
-#: ../src/wbc-gtk.c:2064
+#: ../src/wbc-gtk.c:2062
 msgid "Enter in current cell"
 msgstr "Beírás a jelenlegi cellába"
 
-#: ../src/wbc-gtk.c:2066
+#: ../src/wbc-gtk.c:2064
 msgid "Enter in current cell without autocorrection"
 msgstr "Beírás a jelenlegi cellába automatikus javítás nélkül"
 
-#: ../src/wbc-gtk.c:2073
+#: ../src/wbc-gtk.c:2071
 msgid "Enter in current range merged"
 msgstr "Beírás a jelenlegi egyesített tartományba"
 
-#: ../src/wbc-gtk.c:2076
+#: ../src/wbc-gtk.c:2074
 msgid "Enter in selected ranges"
 msgstr "Beírás a kijelölt tartományokba"
 
-#: ../src/wbc-gtk.c:2078
+#: ../src/wbc-gtk.c:2076
 msgid "Enter in selected ranges as array"
 msgstr "Beírás a kijelölt tartományokba tömbként"
 
-#: ../src/wbc-gtk.c:2565
+#: ../src/wbc-gtk.c:2563
 msgid "END"
 msgstr "BEFEJEZÉS"
 
-#: ../src/wbc-gtk.c:2856
+#: ../src/wbc-gtk.c:2854
 msgid "Go to Cell..."
 msgstr "Ugrás cellához…"
 
-#: ../src/wbc-gtk.c:2918
+#: ../src/wbc-gtk.c:2916
 msgid "Accept change in multiple cells"
 msgstr "Változtatás elfogadása több cellában"
 
-#: ../src/wbc-gtk.c:2992 ../src/wbc-gtk.c:3012
+#: ../src/wbc-gtk.c:2990 ../src/wbc-gtk.c:3010
 msgid "_Re-Edit"
 msgstr "Új_raszerkesztés"
 
-#: ../src/wbc-gtk.c:2994 ../src/wbc-gtk.c:3001
+#: ../src/wbc-gtk.c:2992 ../src/wbc-gtk.c:2999
 msgid "_Discard"
 msgstr "_Eldobás"
 
-#: ../src/wbc-gtk.c:2999 ../src/wbc-gtk.c:3014
+#: ../src/wbc-gtk.c:2997 ../src/wbc-gtk.c:3012
 msgid "_Accept"
 msgstr "El_fogadás"
 
@@ -18038,64 +18054,64 @@ msgstr "El_fogadás"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3374
+#: ../src/wbc-gtk.c:3372
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
 "A(z) „%s” menüben a(z) „%s” billentyű van használatban „%s” és „%s” esetén "
 "egyaránt."
 
-#: ../src/wbc-gtk.c:3673
+#: ../src/wbc-gtk.c:3671
 msgid "Display toolbar above sheets"
 msgstr "Eszköztár megjelenítése a munkalapok fölött"
 
-#: ../src/wbc-gtk.c:3674
+#: ../src/wbc-gtk.c:3672
 msgid "Display toolbar to the left of sheets"
 msgstr "Eszköztár megjelenítése a munkalapok bal oldalánál"
 
-#: ../src/wbc-gtk.c:3675
+#: ../src/wbc-gtk.c:3673
 msgid "Display toolbar to the right of sheets"
 msgstr "Eszköztár megjelenítése a munkalapok jobb oldalánál"
 
-#: ../src/wbc-gtk.c:3703
+#: ../src/wbc-gtk.c:3701
 msgid "Hide"
 msgstr "Elrejtés"
 
-#: ../src/wbc-gtk.c:3769
+#: ../src/wbc-gtk.c:3767
 msgid "Standard Toolbar"
 msgstr "Szabványos eszköztár"
 
-#: ../src/wbc-gtk.c:3770
+#: ../src/wbc-gtk.c:3768
 msgid "Format Toolbar"
 msgstr "Formázás eszköztár"
 
-#: ../src/wbc-gtk.c:3771
+#: ../src/wbc-gtk.c:3769
 msgid "Object Toolbar"
 msgstr "Objektum eszköztár"
 
-#: ../src/wbc-gtk.c:3785
+#: ../src/wbc-gtk.c:3783
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "%s eszköztár megjelenítése/elrejtése"
 
-#: ../src/wbc-gtk.c:4203
+#: ../src/wbc-gtk.c:4201
 #, c-format
 msgid "Content of %s"
 msgstr "%s tartalma"
 
-#: ../src/wbc-gtk.c:4218
+#: ../src/wbc-gtk.c:4216
 msgid "Use Maximum Precision"
 msgstr "Legnagyobb pontosság használata"
 
-#: ../src/wbc-gtk.c:4230
+#: ../src/wbc-gtk.c:4228
 msgid "Insert Formula Below"
 msgstr "Képlet beszúrása alá"
 
-#: ../src/wbc-gtk.c:4236
+#: ../src/wbc-gtk.c:4234
 msgid "Insert Formula to Side"
 msgstr "Képlet beszúrása oldalra"
 
-#: ../src/wbc-gtk.c:4322
+#: ../src/wbc-gtk.c:4320
 #, c-format
 msgid "Open %s"
 msgstr "%s megnyitása"
@@ -18447,47 +18463,47 @@ msgstr "Munkalapsorrend megváltoztatása"
 msgid "Reorganizing Sheets"
 msgstr "Munkalapok újraszervezése"
 
-#: ../src/xml-sax-read.c:528
+#: ../src/xml-sax-read.c:530
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Több verzió-előírás. %d feltételezve"
 
-#: ../src/xml-sax-read.c:701
+#: ../src/xml-sax-read.c:706
 msgid "workbook view attribute is incomplete"
 msgstr "a munkafüzet nézet attribútuma befejezetlen"
 
-#: ../src/xml-sax-read.c:850
+#: ../src/xml-sax-read.c:855
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "A fájlnak összeegyeztethetetlen SheetNameIndex eleme van."
 
-#: ../src/xml-sax-read.c:2381
+#: ../src/xml-sax-read.c:2472
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Ismeretlen szűrőoperátor: „%s”"
 
-#: ../src/xml-sax-read.c:2423
+#: ../src/xml-sax-read.c:2514
 msgid "Missing filter type"
 msgstr "Hiányzó szűrőtípus"
 
-#: ../src/xml-sax-read.c:2436
+#: ../src/xml-sax-read.c:2527
 msgid "Malformed sheet filter condition"
 msgstr "Helytelenül formázott munkalap szűrőfeltétel"
 
-#: ../src/xml-sax-read.c:2450
+#: ../src/xml-sax-read.c:2541
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Ismeretlen szűrőtípus: „%s”"
 
-#: ../src/xml-sax-read.c:2471
+#: ../src/xml-sax-read.c:2562
 msgid "Invalid filter, missing Area"
 msgstr "Érvénytelen szűrő, hiányzó terület"
 
-#: ../src/xml-sax-read.c:2536
+#: ../src/xml-sax-read.c:2627
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Nem támogatott objektumtípus: „%s”"
 
-#: ../src/xml-sax-read.c:3849 ../src/xml-sax-write.c:1743
+#: ../src/xml-sax-read.c:3940 ../src/xml-sax-write.c:1743
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
