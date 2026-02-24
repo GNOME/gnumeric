@@ -33,7 +33,7 @@ sub make_potfile {
     my ($dasho, $potfile, $main) = @ARGV;
 
     my $tmp = $main;
-    $tmp =~ s/(\.xml)$/-tmp$1/;
+    $tmp =~ s/(\.xml)$/$$-tmp$1/;
 
     &run ("xmllint", "--noent", "-o", $tmp, $main);
     &exit_if_failed ();
@@ -50,7 +50,7 @@ sub make_mofile {
     my $rbuilddir = &dirname ($mofile);
 
     my $tmpbase = &basename ($main);
-    $tmpbase =~ s/(\.xml)$/-tmp$1/;
+    $tmpbase =~ s/(\.xml)$/$$-tmp$1/;
     # The ".." here means "somewhere else" because intltool is weird
     my $tmp = "$rbuilddir/../$tmpbase";
 
