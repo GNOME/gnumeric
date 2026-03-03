@@ -106,9 +106,9 @@ gboolean gnm_sheet_view_selection_cut	(SheetView *sv, WorkbookControl *wbc);
 void	 gnm_sheet_view_make_cell_visible	(SheetView *sv, int col, int row,
 				 gboolean couple_panes);
 void	 gnm_sheet_view_redraw_range	(SheetView *sv, GnmRange const *r);
-void	 gnm_sheet_view_redraw_headers	(SheetView const *sheet,
-				 gboolean col, gboolean row,
-				 GnmRange const* r);
+void	 gnm_sheet_view_redraw_headers	(SheetView const *sv,
+					 gboolean col, gboolean row,
+					 GnmRange const* r);
 void     gnm_sheet_view_resize		(SheetView *sv, gboolean force_scroll);
 void     gnm_sheet_view_cursor_set		(SheetView *sv,
 				 GnmCellPos const *edit,

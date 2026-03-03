@@ -205,6 +205,16 @@ style_font_new_simple (PangoContext *context,
 	return font;
 }
 
+/**
+ * gnm_font_new:
+ * @context: #PangoContext
+ * @font_name: The font name
+ * @size_pts: font size in points
+ * @bold: whether the font should be bold
+ * @italic: whether the font should be italic
+ *
+ * Returns: (transfer full): a new #GnmFont.
+ **/
 GnmFont *
 gnm_font_new (PangoContext *context,
 	      char const *font_name, double size_pts,
@@ -247,6 +257,12 @@ gnm_font_new (PangoContext *context,
 	abort ();
 }
 
+/**
+ * gnm_font_ref:
+ * @gfont: #GnmFont
+ *
+ * Returns: (transfer full): the font itself with an increased reference count.
+ **/
 GnmFont *
 gnm_font_ref (GnmFont *sf)
 {
@@ -264,6 +280,13 @@ gnm_font_ref (GnmFont *sf)
 	return sf;
 }
 
+/**
+ * gnm_font_unref:
+ * @gfont: (nullable): #GnmFont
+ *
+ * Decreases the reference count of @gfont. If it reaches 0, the font
+ * is destroyed.
+ **/
 void
 gnm_font_unref (GnmFont *sf)
 {
@@ -303,6 +326,11 @@ gnm_font_unref (GnmFont *sf)
 	g_free (sf);
 }
 
+/**
+ * gnm_font_get_type:
+ *
+ * Returns: the GType for GnmFont.
+ **/
 GType
 gnm_font_get_type (void)
 {
@@ -316,6 +344,13 @@ gnm_font_get_type (void)
 	return t;
 }
 
+/**
+ * gnm_font_equal:
+ * @v: first #GnmFont
+ * @v2: second #GnmFont
+ *
+ * Returns: TRUE if @v and @v2 are equal.
+ **/
 gint
 gnm_font_equal (gconstpointer v, gconstpointer v2)
 {
@@ -329,6 +364,12 @@ gnm_font_equal (gconstpointer v, gconstpointer v2)
 		strcmp (k1->font_name, k2->font_name) == 0);
 }
 
+/**
+ * gnm_font_hash:
+ * @v: #GnmFont
+ *
+ * Returns: a hash value for @v.
+ **/
 guint
 gnm_font_hash (gconstpointer v)
 {
@@ -340,6 +381,11 @@ gnm_font_hash (gconstpointer v)
 		GPOINTER_TO_UINT (k->context);
 }
 
+/**
+ * gnm_align_h_get_type:
+ *
+ * Returns: the GType for GnmHAlign.
+ **/
 GType
 gnm_align_h_get_type (void)
 {
@@ -365,6 +411,11 @@ gnm_align_h_get_type (void)
 	return etype;
 }
 
+/**
+ * gnm_align_v_get_type:
+ *
+ * Returns: the GType for GnmVAlign.
+ **/
 GType
 gnm_align_v_get_type (void)
 {
@@ -618,6 +669,12 @@ gnm_style_default_halign (GnmStyle const *style, GnmCell const *c)
 	return GNM_HALIGN_RIGHT;
 }
 
+/**
+ * gnm_translate_underline_to_pango:
+ * @ul: #GnmUnderline
+ *
+ * Returns: the #PangoUnderline corresponding to @ul.
+ **/
 PangoUnderline
 gnm_translate_underline_to_pango (GnmUnderline ul)
 {
@@ -638,6 +695,12 @@ gnm_translate_underline_to_pango (GnmUnderline ul)
 	}
 }
 
+/**
+ * gnm_translate_underline_from_pango:
+ * @pul: #PangoUnderline
+ *
+ * Returns: the #GnmUnderline corresponding to @pul.
+ **/
 GnmUnderline
 gnm_translate_underline_from_pango (PangoUnderline pul)
 {

@@ -164,6 +164,13 @@ wb_view_cur_sheet_view (WorkbookView const *wbv)
 	return wbv->current_sheet_view;
 }
 
+/**
+ * wb_view_sheet_focus:
+ * @wbv: #WorkbookView
+ * @sheet: (nullable): #Sheet
+ *
+ * Sets the focus to @sheet in @wbv.
+ **/
 void
 wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 {
@@ -189,6 +196,13 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 	}
 }
 
+/**
+ * wb_view_sheet_add:
+ * @wbv: #WorkbookView
+ * @new_sheet: #Sheet
+ *
+ * Adds a view for @new_sheet to @wbv.
+ **/
 void
 wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 {
@@ -207,6 +221,13 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 		wb_view_sheet_focus (wbv, new_sheet);
 }
 
+/**
+ * wb_view_is_protected:
+ * @wbv: #WorkbookView
+ * @check_sheet: whether to also check the current sheet's protection
+ *
+ * Returns: %TRUE if @wbv (or optionally the current sheet) is protected.
+ **/
 gboolean
 wb_view_is_protected (WorkbookView *wbv, gboolean check_sheet)
 {
@@ -216,6 +237,14 @@ wb_view_is_protected (WorkbookView *wbv, gboolean check_sheet)
 		wbv->current_sheet != NULL && wbv->current_sheet->is_protected);
 }
 
+/**
+ * wb_view_set_attribute:
+ * @wbv: #WorkbookView
+ * @name: attribute name
+ * @value: attribute value
+ *
+ * Sets a view attribute for @wbv.
+ **/
 void
 wb_view_set_attribute (WorkbookView *wbv, char const *name, char const *value)
 {
@@ -256,6 +285,14 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name, char const *value)
 		g_warning ("WorkbookView unknown arg '%s'", name);
 }
 
+/**
+ * wb_view_preferred_size:
+ * @wbv: #WorkbookView
+ * @w_pixels: preferred width in pixels
+ * @h_pixels: preferred height in pixels
+ *
+ * Sets the preferred size for @wbv.
+ **/
 void
 wb_view_preferred_size (WorkbookView *wbv, int w, int h)
 {
@@ -272,6 +309,12 @@ wb_view_preferred_size (WorkbookView *wbv, int w, int h)
 		      NULL);
 }
 
+/**
+ * wb_view_style_feedback:
+ * @wbv: #WorkbookView
+ *
+ * Updates style feedback for @wbv.
+ **/
 void
 wb_view_style_feedback (WorkbookView *wbv)
 {
@@ -351,6 +394,12 @@ wb_view_style_feedback (WorkbookView *wbv)
 	}
 }
 
+/**
+ * wb_view_menus_update:
+ * @wbv: #WorkbookView
+ *
+ * Updates menu states for all controls associated with @wbv.
+ **/
 void
 wb_view_menus_update (WorkbookView *wbv)
 {
@@ -369,15 +418,13 @@ wb_view_menus_update (WorkbookView *wbv)
 
 /**
  * wb_view_selection_desc:
- * @wbv: The view
- * @use_pos:
+ * @wbv: #WorkbookView
+ * @use_pos: whether to force use of position
  * @wbc: (nullable): A #WorkbookControl
  *
- * Load the edit line with the value of the cell in sheet's edit_pos.
- *
- * Calculate what to display on the edit line then display it either in the
- * control @wbc, or if that is %NULL, in all controls.
- */
+ * Calculate what to display as selection description then display it either
+ * in the control @wbc, or if that is %NULL, in all controls.
+ **/
 void
 wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 			WorkbookControl *wbc)
@@ -432,14 +479,14 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 
 /**
  * wb_view_edit_line_set:
- * @wbv: The view
+ * @wbv: #WorkbookView
  * @wbc: (nullable): A #WorkbookControl
  *
- * Load the edit line with the value of the cell in @sheet's edit_pos.
+ * Load the edit line with the value of the cell in sheet's edit_pos.
  *
  * Calculate what to display on the edit line then display it either in the
  * control @wbc, or if that is %NULL, in all controls.
- */
+ **/
 void
 wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *wbc)
 {
@@ -523,6 +570,12 @@ accumulate_regions (SheetView *sv,  GnmRange const *r, gpointer closure)
 		gnm_expr_new_constant (value_new_cellrange_unsafe (&a, &b)));
 }
 
+/**
+ * wb_view_auto_expr_recalc:
+ * @wbv: #WorkbookView
+ *
+ * Recalculates the automatic expression for @wbv based on the current selection.
+ **/
 void
 wb_view_auto_expr_recalc (WorkbookView *wbv)
 {
@@ -575,6 +628,13 @@ wb_view_init_control (G_GNUC_UNUSED WorkbookControl *wbc)
 {
 }
 
+/**
+ * wb_view_attach_control:
+ * @wbv: #WorkbookView
+ * @wbc: #WorkbookControl
+ *
+ * Attaches @wbc to @wbv.
+ **/
 void
 wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 {
@@ -591,6 +651,12 @@ wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 		wb_view_init_control (wbc);
 }
 
+/**
+ * wb_view_detach_control:
+ * @wbc: #WorkbookControl
+ *
+ * Detaches @wbc from its associated view.
+ **/
 void
 wb_view_detach_control (WorkbookControl *wbc)
 {
@@ -817,6 +883,12 @@ wb_view_get_property (GObject *object, guint property_id,
 	}
 }
 
+/**
+ * wb_view_detach_from_workbook:
+ * @wbv: #WorkbookView
+ *
+ * Detaches @wbv from its associated workbook.
+ **/
 void
 wb_view_detach_from_workbook (WorkbookView *wbv)
 {

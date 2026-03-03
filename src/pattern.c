@@ -53,7 +53,6 @@ static const GOPatternType patterns[] = {
  *
  * Set up a cairo context to paint the background of a cell.
  */
-
 gboolean
 gnm_pattern_background_set (GnmStyle const *mstyle, cairo_t *cr,
 			    gboolean const is_selected, GtkStyleContext *ctxt)

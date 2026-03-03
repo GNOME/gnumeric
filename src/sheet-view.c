@@ -151,6 +151,13 @@ sv_init_sc (SheetView const *sv, SheetControl *sc)
 	sc_ant (sc);
 }
 
+/**
+ * gnm_sheet_view_attach_control:
+ * @sv: #SheetView
+ * @sc: #SheetControl
+ *
+ * Attaches @sc to @sv.
+ **/
 void
 gnm_sheet_view_attach_control (SheetView *sv, SheetControl *sc)
 {
@@ -163,6 +170,13 @@ gnm_sheet_view_attach_control (SheetView *sv, SheetControl *sc)
 	sv_init_sc (sv, sc);
 }
 
+/**
+ * gnm_sheet_view_detach_control:
+ * @sv: #SheetView
+ * @sc: #SheetControl
+ *
+ * Detaches @sc from @sv.
+ **/
 void
 gnm_sheet_view_detach_control (SheetView *sv, SheetControl *sc)
 {
@@ -182,6 +196,13 @@ sv_weakref_notify (SheetView **ptr, GObject *sv)
 	*ptr = NULL;
 }
 
+/**
+ * gnm_sheet_view_weak_ref:
+ * @sv: #SheetView
+ * @ptr: location of the pointer to @sv
+ *
+ * Adds a weak reference to @sv at @ptr.
+ **/
 void
 gnm_sheet_view_weak_ref (SheetView *sv, SheetView **ptr)
 {
@@ -194,6 +215,12 @@ gnm_sheet_view_weak_ref (SheetView *sv, SheetView **ptr)
 			ptr);
 }
 
+/**
+ * gnm_sheet_view_weak_unref:
+ * @ptr: location of the pointer to a #SheetView
+ *
+ * Removes a weak reference.
+ **/
 void
 gnm_sheet_view_weak_unref (SheetView **ptr)
 {
@@ -292,6 +319,13 @@ GSF_CLASS (SheetView, gnm_sheet_view,
 	   gnm_sheet_view_class_init, gnm_sheet_view_init,
 	   G_TYPE_OBJECT)
 
+/**
+ * gnm_sheet_view_new:
+ * @sheet: #Sheet
+ * @wbv: #WorkbookView
+ *
+ * Returns: (transfer full): a new #SheetView for @sheet in @wbv.
+ **/
 SheetView *
 gnm_sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 {
@@ -325,12 +359,24 @@ gnm_sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 	return sv;
 }
 
+/**
+ * gnm_sheet_view_dispose:
+ * @sv: #SheetView
+ *
+ * Disposes @sv.
+ **/
 void
 gnm_sheet_view_dispose (SheetView *sv)
 {
 	g_object_run_dispose (G_OBJECT (sv));
 }
 
+/**
+ * gnm_sheet_view_unant:
+ * @sv: #SheetView
+ *
+ * Removes all animated cursors (ants) from @sv.
+ **/
 void
 gnm_sheet_view_unant (SheetView *sv)
 {
@@ -372,23 +418,48 @@ gnm_sheet_view_ant (SheetView *sv, GList *ranges)
 		sc_ant (control););
 }
 
+/**
+ * gnm_sheet_view_make_cell_visible:
+ * @sv: #SheetView
+ * @col: column index
+ * @row: row index
+ * @couple_panes: whether to move all panes
+ *
+ * Ensures that the cell at (@col, @row) is visible in @sv.
+ **/
 void
 gnm_sheet_view_make_cell_visible (SheetView *sv, int col, int row,
-		      gboolean couple_panes)
+				 gboolean couple_panes)
 {
 	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 	SHEET_VIEW_FOREACH_CONTROL(sv, control,
 		sc_make_cell_visible (control, col, row, couple_panes););
 }
 
+/**
+ * gnm_sheet_view_redraw_range:
+ * @sv: #SheetView
+ * @r: #GnmRange
+ *
+ * Redraws the specified range in @sv.
+ **/
 void
-gnm_sheet_view_redraw_range	(SheetView *sv, GnmRange const *r)
+gnm_sheet_view_redraw_range     (SheetView *sv, GnmRange const *r)
 {
 	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 
 	SHEET_VIEW_FOREACH_CONTROL (sv, sc, sc_redraw_range (sc, r););
 }
 
+/**
+ * gnm_sheet_view_redraw_headers:
+ * @sv: #SheetView
+ * @col: whether to redraw column headers
+ * @row: whether to redraw row headers
+ * @r: (nullable): #GnmRange
+ *
+ * Redraws headers for the specified range in @sv.
+ **/
 void
 gnm_sheet_view_redraw_headers (SheetView const *sv,
 		   gboolean col, gboolean row,
@@ -400,6 +471,13 @@ gnm_sheet_view_redraw_headers (SheetView const *sv,
 		sc_redraw_headers (control, col, row, r););
 }
 
+/**
+ * gnm_sheet_view_resize:
+ * @sv: #SheetView
+ * @force_scroll: whether to force a scroll
+ *
+ * Resizes the view panes in @sv.
+ **/
 void
 gnm_sheet_view_resize (SheetView *sv, gboolean force_scroll)
 {
@@ -410,6 +488,15 @@ gnm_sheet_view_resize (SheetView *sv, gboolean force_scroll)
 }
 
 
+/**
+ * gnm_sheet_view_selection_copy:
+ * @sv: #SheetView
+ * @wbc: #WorkbookControl
+ *
+ * Copies the current selection in @sv to the clipboard.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 gnm_sheet_view_selection_copy (SheetView *sv, WorkbookControl *wbc)
 {
@@ -424,6 +511,15 @@ gnm_sheet_view_selection_copy (SheetView *sv, WorkbookControl *wbc)
 	return TRUE;
 }
 
+/**
+ * gnm_sheet_view_selection_cut:
+ * @sv: #SheetView
+ * @wbc: #WorkbookControl
+ *
+ * Prepares the current selection in @sv for a cut (move) operation.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 gnm_sheet_view_selection_cut (SheetView *sv, WorkbookControl *wbc)
 {
@@ -672,6 +768,12 @@ sheet_view_edit_pos_tool_tips (SheetView *sv)
 				    sc_show_im_tooltip (control, im, &sv->edit_pos););
 }
 
+/**
+ * gnm_sheet_view_update:
+ * @sv: #SheetView
+ *
+ * Updates @sv, processing any pending changes.
+ **/
 void
 gnm_sheet_view_update (SheetView *sv)
 {
@@ -789,12 +891,13 @@ gnm_sheet_view_editpos_in_slicer (SheetView const *sv)
 
 /**
  * gnm_sheet_view_freeze_panes:
- * @sv: the sheet
+ * @sv: #SheetView
  * @frozen_top_left: (nullable): top left corner of the frozen region
  * @unfrozen_top_left: (nullable): top left corner of the unfrozen region
  *
  * By definition the unfrozen region must be below the frozen.
- * If @frozen_top_left == @unfrozen_top_left or @frozen_top_left == %NULL unfreeze
+ * If @frozen_top_left == @unfrozen_top_left or @frozen_top_left == %NULL
+ * unfreeze.
  **/
 void
 gnm_sheet_view_freeze_panes (SheetView *sv,
@@ -853,11 +956,11 @@ gnm_sheet_view_freeze_panes (SheetView *sv,
 
 /**
  * gnm_sheet_view_panes_insdel_colrow:
- * @sv:
+ * @sv: #SheetView
  * @is_cols: %TRUE for columns, %FALSE for rows.
- * @is_insert:
- * @start:
- * @count:
+ * @is_insert: %TRUE for insert, %FALSE for deletion.
+ * @start: start index
+ * @count: number of columns/rows
  *
  * Adjust the positions of frozen panes as necessary to handle col/row
  * insertions and deletions.  note this assumes that the ins/del operations
@@ -913,6 +1016,12 @@ gnm_sheet_view_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 	gnm_sheet_view_freeze_panes (sv, &tl, &br);
 }
 
+/**
+ * gnm_sheet_view_is_frozen:
+ * @sv: #SheetView
+ *
+ * Returns: %TRUE if @sv has frozen panes.
+ **/
 gboolean
 gnm_sheet_view_is_frozen (SheetView const *sv)
 {

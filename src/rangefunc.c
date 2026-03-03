@@ -18,6 +18,16 @@
 #include <string.h>
 #include <tools/analysis-tools.h>
 
+/**
+ * gnm_range_count:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the number of elements.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_count (G_GNUC_UNUSED gnm_float const *xs, int n, gnm_float *res)
 {
@@ -25,6 +35,16 @@ gnm_range_count (G_GNUC_UNUSED gnm_float const *xs, int n, gnm_float *res)
 	return 0;
 }
 
+/**
+ * gnm_range_hypot:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes square root of the squares of the data.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_hypot (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -46,7 +66,16 @@ gnm_range_hypot (gnm_float const *xs, int n, gnm_float *res)
 	}
 }
 
-/* Average absolute deviation from mean.  */
+/**
+ * gnm_range_avedev:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the average absolute deviation from the mean.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_avedev (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -63,7 +92,16 @@ gnm_range_avedev (gnm_float const *xs, int n, gnm_float *res)
 		return 1;
 }
 
-/* Variance with weight N.  */
+/**
+ * gnm_range_var_pop:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the variance with weight N.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_var_pop (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -77,7 +115,16 @@ gnm_range_var_pop (gnm_float const *xs, int n, gnm_float *res)
 		return 1;
 }
 
-/* Variance with weight N-1.  */
+/**
+ * gnm_range_var_est:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the variance with weight N-1.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_var_est (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -91,7 +138,16 @@ gnm_range_var_est (gnm_float const *xs, int n, gnm_float *res)
 		return 1;
 }
 
-/* Standard deviation with weight N.  */
+/**
+ * gnm_range_stddev_pop:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the standard deviation with weight N.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_stddev_pop (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -103,7 +159,16 @@ gnm_range_stddev_pop (gnm_float const *xs, int n, gnm_float *res)
 	}
 }
 
-/* Standard deviation with weight N-1.  */
+/**
+ * gnm_range_stddev_est:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the standard deviation with weight N-1.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_stddev_est (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -115,7 +180,16 @@ gnm_range_stddev_est (gnm_float const *xs, int n, gnm_float *res)
 	}
 }
 
-/* Population skew.  */
+/**
+ * gnm_range_skew_pop:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the population skew.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_skew_pop (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -136,7 +210,16 @@ gnm_range_skew_pop (gnm_float const *xs, int n, gnm_float *res)
 	return 0;
 }
 
-/* Maximum-likelyhood estimator for skew.  */
+/**
+ * gnm_range_skew_est:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the maximum-likelyhood estimator for skew.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_skew_est (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -157,7 +240,16 @@ gnm_range_skew_est (gnm_float const *xs, int n, gnm_float *res)
 	return 0;
 }
 
-/* Population kurtosis (with offset 3).  */
+/**
+ * gnm_range_kurtosis_m3_pop:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the population kurtosis with offset 3.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_kurtosis_m3_pop (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -178,7 +270,16 @@ gnm_range_kurtosis_m3_pop (gnm_float const *xs, int n, gnm_float *res)
 	return 0;
 }
 
-/* Unbiased, I hope, estimator for kurtosis (with offset 3).  */
+/**
+ * gnm_range_kurtosis_m3_est:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the maximum-likelyhood estimator for kurtosis with offset 3.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_kurtosis_m3_est (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -204,7 +305,16 @@ gnm_range_kurtosis_m3_est (gnm_float const *xs, int n, gnm_float *res)
 	return 0;
 }
 
-/* Harmonic mean of positive numbers.  */
+/**
+ * gnm_range_harmonic_mean:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the harmonic mean of positive numbers.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_harmonic_mean (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -268,7 +378,16 @@ product_helper (gnm_float const *xs, int n,
 }
 
 
-/* Geometric mean of positive numbers.  */
+/**
+ * gnm_range_geometric_mean:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the geometric mean of positive numbers.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_geometric_mean (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -293,7 +412,16 @@ gnm_range_geometric_mean (gnm_float const *xs, int n, gnm_float *res)
 }
 
 
-/* Product.  */
+/**
+ * gnm_range_product:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the product.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_product (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -311,6 +439,14 @@ gnm_range_product (gnm_float const *xs, int n, gnm_float *res)
 	return 0;
 }
 
+/**
+ * gnm_range_multinomial:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_multinomial (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -347,7 +483,17 @@ gnm_range_multinomial (gnm_float const *xs, int n, gnm_float *res)
 	return 0;
 }
 
-/* Population co-variance.  */
+/**
+ * gnm_range_covar_pop:
+ * @xs: (array length=n): first data set
+ * @ys: (array length=n): second data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the population covariance.
+  *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_covar_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res)
 {
@@ -363,7 +509,15 @@ gnm_range_covar_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float 
 	return 0;
 }
 
-/* Estimation co-variance.  */
+/**
+ * gnm_range_covar_est:
+ * @xs: (array length=n): first data set
+ * @ys: (array length=n): second data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_covar_est (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res)
 {
@@ -379,7 +533,17 @@ gnm_range_covar_est (gnm_float const *xs, const gnm_float *ys, int n, gnm_float 
 	return 0;
 }
 
-/* Population correlation coefficient.  */
+/**
+ * gnm_range_correl_pop:
+ * @xs: (array length=n): first data set
+ * @ys: (array length=n): second data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the population correlation coefficient.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_correl_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res)
 {
@@ -401,7 +565,17 @@ gnm_range_correl_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float
 	return 0;
 }
 
-/* Population R-squared.  */
+/**
+ * gnm_range_rsq_pop:
+ * @xs: (array length=n): first data set
+ * @ys: (array length=n): second data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the population R-squared.
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_rsq_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res)
 {
@@ -412,8 +586,17 @@ gnm_range_rsq_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *r
 	return 0;
 }
 
-/* Most-common element.  (The one whose first occurrence comes first in
-   case of several equally common.)  */
+/**
+ * gnm_range_mode:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @res: (out): location to store result
+ *
+ * Computes the most-common element.  (The one whose first occurrence
+ * comes first in case of several equally common.) 
+ *
+ * Returns: 0 on success.
+ **/
 int
 gnm_range_mode (gnm_float const *xs, int n, gnm_float *res)
 {
@@ -463,9 +646,18 @@ gnm_range_mode (gnm_float const *xs, int n, gnm_float *res)
 	return 0;
 }
 
+/**
+ * gnm_range_adtest:
+ * @xs: (array length=n): data set
+ * @n: number of elements
+ * @p: (out): location to store p-value
+ * @statistics: (out): location to store statistics
+ *
+ * Returns: 0 on success.
+ **/
 int
-gnm_range_adtest    (gnm_float const *xs, int n, gnm_float *pvalue,
-		     gnm_float *statistics)
+gnm_range_adtest (gnm_float const *xs, int n, gnm_float *pvalue,
+		  gnm_float *statistics)
 {
 	gnm_float mu = 0.;
 	gnm_float sigma = 1.;

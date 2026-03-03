@@ -76,7 +76,13 @@ make_format_chooser (GList *list, GtkComboBox *combo)
 	}
 }
 
-/* Show view in a wbcg. Use current or new wbcg according to policy */
+/**
+ * gui_wb_view_show:
+ * @wbcg: #WBCGtk
+ * @wbv: #WorkbookView
+ *
+ * Show @wbv in a #WBCGtk. Use current or new #WBCGtk according to policy.
+ **/
 void
 gui_wb_view_show (WBCGtk *wbcg, WorkbookView *wbv)
 {
@@ -103,12 +109,17 @@ gui_wb_view_show (WBCGtk *wbcg, WorkbookView *wbv)
 
 /**
  * gui_file_read:
+ * @wbcg: #WBCGtk
+ * @uri: file URI
+ * @optional_format: (nullable): #GOFileOpener
+ * @optional_encoding: (nullable): encoding
  *
  * Returns: (transfer none): the new #WorkbookView for the file read.
  **/
 WorkbookView *
 gui_file_read (WBCGtk *wbcg, char const *uri,
-	       GOFileOpener const *optional_format, gchar const *optional_encoding)
+	       GOFileOpener const *optional_format,
+	       gchar const *optional_encoding)
 {
 	GOIOContext *io_context;
 	WorkbookView *wbv;
@@ -136,6 +147,15 @@ gui_file_read (WBCGtk *wbcg, char const *uri,
 	return wbv;
 }
 
+/**
+ * gnm_gui_file_template:
+ * @wbcg: #WBCGtk
+ * @uri: template URI
+ *
+ * Reads a template file and shows it in a new workbook.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 gnm_gui_file_template (WBCGtk *wbcg, char const *uri)
 {
@@ -213,10 +233,14 @@ cb_advanced_clicked (GtkButton *advanced, GtkFileChooser *fsel)
 	}
 }
 
-/*
- * Suggests automatic file type recognition, but lets the user choose an
- * import filter for selected file.
- */
+/**
+ * gui_file_open:
+ * @wbcg: #WBCGtk
+ * @type: #GnmFileOpenStyle
+ * @default_format: (nullable): default opener ID
+ *
+ * Open a file with a dialog.
+ **/
 void
 gui_file_open (WBCGtk *wbcg, GnmFileOpenStyle type, char const *default_format)
 {
@@ -516,6 +540,18 @@ out:
 	g_free (newname);
 }
 
+/**
+ * gui_file_save_as:
+ * @wbcg: #WBCGtk
+ * @wbv: #WorkbookView
+ * @type: #GnmFileSaveAsStyle
+ * @default_format: (nullable): default saver ID
+ * @from_save: whether this was called from a save operation
+ *
+ * Save a workbook with a new name using a dialog.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, GnmFileSaveAsStyle type,
 		  char const *default_format, gboolean from_save)
@@ -812,6 +848,15 @@ warn_about_overwrite (WBCGtk *wbcg,
 	return response == GTK_RESPONSE_YES;
 }
 
+/**
+ * gui_file_save:
+ * @wbcg: #WBCGtk
+ * @wbv: #WorkbookView
+ *
+ * Save a workbook.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 {
@@ -866,6 +911,14 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 	}
 }
 
+/**
+ * gui_file_export_repeat:
+ * @wbcg: #WBCGtk
+ *
+ * Repeat the last export operation.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 gui_file_export_repeat (WBCGtk *wbcg)
 {

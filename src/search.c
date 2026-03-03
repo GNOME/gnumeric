@@ -59,6 +59,12 @@ gnm_search_replace_value (GnmSearchReplace *sr,
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_search_normalize:
+ * @txt: text to normalize
+ *
+ * Returns: (transfer full): a normalized version of @txt suitable for search.
+ **/
 char *
 gnm_search_normalize (const char *txt)
 {
@@ -109,6 +115,14 @@ gnm_search_match_value (GnmSearchReplace const *sr, GnmValue const *val)
 }
 
 
+/**
+ * gnm_search_replace_verify:
+ * @sr: #GnmSearchReplace
+ * @repl: whether we are going to replace
+ *
+ * Returns: (transfer full) (nullable): an error message if the search or
+ *          replace string is invalid, %NULL otherwise.
+ **/
 char *
 gnm_search_replace_verify (GnmSearchReplace *sr, gboolean repl)
 {
@@ -263,11 +277,11 @@ gnm_search_collect_cells_free (GPtrArray *cells)
 /**
  * gnm_search_filter_matching:
  * @sr: The search spec.
- * @cells: (element-type GnmEvalPos): Cell positions to filter, presumably a result of gnm_search_collect_cells.
+ * @cells: (element-type GnmEvalPos): Cell positions to filter, presumably
+ *         a result of gnm_search_collect_cells.
  *
  * Returns: (element-type GnmSearchFilterResult) (transfer full): matches
- */
-
+ **/
 GPtrArray *
 gnm_search_filter_matching (GnmSearchReplace *sr, const GPtrArray *cells)
 {
@@ -328,9 +342,18 @@ gnm_search_filter_matching_free (GPtrArray *matches)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_search_replace_comment:
+ * @sr: #GnmSearchReplace
+ * @ep: #GnmEvalPos
+ * @repl: whether to replace
+ * @res: (out): search result
+ *
+ * Returns: %TRUE if a match was found.
+ **/
 gboolean
 gnm_search_replace_comment (GnmSearchReplace *sr,
-			    const GnmEvalPos *ep,
+			    GnmEvalPos const *ep,
 			    gboolean repl,
 			    GnmSearchReplaceCommentResult *res)
 {
@@ -375,9 +398,18 @@ gnm_search_replace_comment (GnmSearchReplace *sr,
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_search_replace_cell:
+ * @sr: #GnmSearchReplace
+ * @ep: #GnmEvalPos
+ * @repl: whether to replace
+ * @res: (out): search result
+ *
+ * Returns: %TRUE if a match was found.
+ **/
 gboolean
 gnm_search_replace_cell (GnmSearchReplace *sr,
-			 const GnmEvalPos *ep,
+			 GnmEvalPos const *ep,
 			 gboolean repl,
 			 GnmSearchReplaceCellResult *res)
 {
@@ -495,6 +527,13 @@ gnm_search_replace_query_fail (GnmSearchReplace *sr,
 			res->cell, res->old_text, res->new_text);
 }
 
+/**
+ * gnm_search_replace_query_cell:
+ * @sr: #GnmSearchReplace
+ * @res: #GnmSearchReplaceCellResult
+ *
+ * Returns: user response (e.g., GTK_RESPONSE_YES).
+ **/
 int
 gnm_search_replace_query_cell (GnmSearchReplace *sr,
 			       const GnmSearchReplaceCellResult *res)
@@ -507,6 +546,14 @@ gnm_search_replace_query_cell (GnmSearchReplace *sr,
 }
 
 
+/**
+ * gnm_search_replace_query_comment:
+ * @sr: #GnmSearchReplace
+ * @ep: #GnmEvalPos
+ * @res: #GnmSearchReplaceCommentResult
+ *
+ * Returns: user response (e.g., GTK_RESPONSE_YES).
+ **/
 int
 gnm_search_replace_query_comment (GnmSearchReplace *sr,
 				  const GnmEvalPos *ep,
@@ -522,6 +569,11 @@ gnm_search_replace_query_comment (GnmSearchReplace *sr,
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_search_replace_scope_get_type:
+ *
+ * Returns: the GType for #GnmSearchReplaceScope.
+ **/
 GType
 gnm_search_replace_scope_get_type (void)
 {

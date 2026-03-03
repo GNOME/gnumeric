@@ -635,6 +635,11 @@ gnm_expr_free (GnmExpr const *expr)
 	}
 }
 
+/**
+ * gnm_expr_get_type:
+ *
+ * Returns: the GType for GnmExpr.
+ **/
 GType
 gnm_expr_get_type (void)
 {
@@ -648,6 +653,11 @@ gnm_expr_get_type (void)
 	return t;
 }
 
+/**
+ * gnm_expr_array_corner_get_type:
+ *
+ * Returns: the GType for GnmExprArrayCorner.
+ **/
 GType
 gnm_expr_array_corner_get_type (void)
 {
@@ -2801,6 +2811,14 @@ gnm_expr_list_copy (GnmExprList *list)
 }
 
 
+/**
+ * gnm_expr_list_as_string:
+ * @argc: argument count
+ * @argv: (array length=argc): arguments
+ * @out: #GnmConventionsOut
+ *
+ * Renders a list of expressions as a comma-separated string.
+ **/
 void
 gnm_expr_list_as_string (int argc,
 			 GnmExprConstPtr const *argv,
@@ -3037,6 +3055,12 @@ gnm_expr_top_new_array_elem  (int x, int y)
 }
 
 
+/**
+ * gnm_expr_top_ref:
+ * @texpr: #GnmExprTop
+ *
+ * Returns: (transfer full): the top expression itself with an increased reference count.
+ **/
 GnmExprTop const *
 gnm_expr_top_ref (GnmExprTop const *texpr)
 {
@@ -3045,6 +3069,12 @@ gnm_expr_top_ref (GnmExprTop const *texpr)
 	return texpr;
 }
 
+/**
+ * gnm_expr_top_unref:
+ * @texpr: (nullable) (transfer full): #GnmExprTop
+ *
+ * Decreases the reference count of @texpr. If it reaches 0, the top expression is destroyed.
+ **/
 void
 gnm_expr_top_unref (GnmExprTop const *texpr)
 {
@@ -3058,6 +3088,11 @@ gnm_expr_top_unref (GnmExprTop const *texpr)
 	}
 }
 
+/**
+ * gnm_expr_top_get_type:
+ *
+ * Returns: the GType for GnmExprTop.
+ **/
 GType
 gnm_expr_top_get_type (void)
 {
@@ -3185,6 +3220,13 @@ gnm_expr_top_multiple_as_string  (GnmExprTop const *texpr,
 	return res;
 }
 
+/**
+ * gnm_expr_top_as_gstring:
+ * @texpr: #GnmExprTop
+ * @out: #GnmConventionsOut
+ *
+ * Appends a string representation of @texpr to @out->target.
+ **/
 void
 gnm_expr_top_as_gstring (GnmExprTop const *texpr,
 			 GnmConventionsOut *out)

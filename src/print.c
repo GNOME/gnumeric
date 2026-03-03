@@ -104,6 +104,11 @@ typedef struct {
 } PaginationInfo;
 
 
+/**
+ * gnm_print_range_get_type:
+ *
+ * Returns: the GType for #PrintRange.
+ **/
 GType
 gnm_print_range_get_type (void)
 {
@@ -174,6 +179,16 @@ printing_instance_delete (PrintingInstance *pi)
 	g_free (pi);
 }
 
+/**
+ * gnm_print_sheet_objects:
+ * @cr: #cairo_t
+ * @sheet: #Sheet
+ * @range: (nullable): #GnmRange
+ * @base_x: base X coordinate
+ * @base_y: base Y coordinate
+ *
+ * Prints objects on @sheet within @range.
+ **/
 void
 gnm_print_sheet_objects (cairo_t *cr,
 			 Sheet const *sheet,
@@ -1748,6 +1763,16 @@ gnm_print_uri_change_extension (char const *uri, GtkPrintSettings* settings)
 	return res;
 }
 
+/**
+ * gnm_print_sheet:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @preview: whether to preview
+ * @default_range: #PrintRange
+ * @export_dst: (nullable): #GsfOutput
+ *
+ * Prints @sheet.
+ **/
 void
 gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		 gboolean preview, PrintRange default_range,

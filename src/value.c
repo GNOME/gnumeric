@@ -279,13 +279,13 @@ value_error_name (GnmStdError err, gboolean translated)
 
 /**
  * value_error_set_pos:
- * @err:
- * @pos:
+ * @err: #GnmValueErr
+ * @pos: #GnmEvalPos
  *
  * Change the position of a ValueError.
  *
  * Returns: (transfer none): @err as a #GnmValue.
- */
+ **/
 GnmValue *
 value_error_set_pos (GnmValueErr *err, G_GNUC_UNUSED GnmEvalPos const *pos)
 {
@@ -296,6 +296,12 @@ value_error_set_pos (GnmValueErr *err, G_GNUC_UNUSED GnmEvalPos const *pos)
     return (GnmValue *)err;
 }
 
+/**
+ * value_error_classify:
+ * @v: #GnmValue
+ *
+ * Returns: the #GnmStdError corresponding to @v, or GNM_ERROR_UNKNOWN.
+ **/
 GnmStdError
 value_error_classify (GnmValue const *v)
 {
@@ -614,6 +620,15 @@ value_parse_boolean (char const *str, gboolean translated)
 }
 
 
+/**
+ * value_new_from_string:
+ * @t: #GnmValueType
+ * @str: string representation of the value
+ * @sf: (nullable): #GOFormat
+ * @translated: whether the string is translated
+ *
+ * Returns: (transfer full) (nullable): a new #GnmValue created from @str.
+ **/
 GnmValue *
 value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 		       gboolean translated)
@@ -973,6 +988,12 @@ value_hash (GnmValue const *v)
 }
 
 
+/**
+ * value_type_of:
+ * @v: #GnmValue
+ *
+ * Returns: the #GnmValueType of @v.
+ **/
 GnmValueType
 value_type_of (const GnmValue *v)
 {
@@ -980,6 +1001,13 @@ value_type_of (const GnmValue *v)
 }
 
 
+/**
+ * value_get_as_bool:
+ * @v: #GnmValue
+ * @err: (out): location to store error flag
+ *
+ * Returns: @v interpreted as a boolean.
+ **/
 gboolean
 value_get_as_bool (GnmValue const *v, gboolean *err)
 {
@@ -1719,12 +1747,28 @@ value_compare_real (GnmValue const *a, GnmValue const *b,
 #undef CPAIR
 
 
+/**
+ * value_compare:
+ * @a: first #GnmValue
+ * @b: second #GnmValue
+ * @case_sensitive: whether string comparison should be case sensitive
+ *
+ * Returns: the difference between @a and @b.
+ **/
 GnmValDiff
 value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 {
 	return value_compare_real (a, b, case_sensitive, TRUE);
 }
 
+/**
+ * value_compare_no_cache:
+ * @a: first #GnmValue
+ * @b: second #GnmValue
+ * @case_sensitive: whether string comparison should be case sensitive
+ *
+ * Returns: the difference between @a and @b, without using the cache.
+ **/
 GnmValDiff
 value_compare_no_cache (GnmValue const *a, GnmValue const *b,
 			gboolean case_sensitive)
@@ -1754,6 +1798,11 @@ value_set_fmt (GnmValue *v, GOFormat const *fmt)
 
 /****************************************************************************/
 
+/**
+ * gnm_value_get_type:
+ *
+ * Returns: the GType for GnmValue.
+ **/
 GType
 gnm_value_get_type (void)
 {

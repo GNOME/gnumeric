@@ -114,6 +114,13 @@ WBC_VIRTUAL (paste_from_selection,
 WBC_VIRTUAL (update_action_sensitivity,
 	(WorkbookControl *wbc), (wbc))
 
+/**
+ * wb_control_sheet_add:
+ * @wbc: #WorkbookControl
+ * @sv: #SheetView
+ *
+ * Adds @sv to @wbc.
+ **/
 void
 wb_control_sheet_add (WorkbookControl *wbc, SheetView *sv)
 {
@@ -140,6 +147,14 @@ wb_control_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	}
 }
 
+/**
+ * wb_control_claim_selection:
+ * @wbc: #WorkbookControl
+ *
+ * Claims the selection for @wbc.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 wb_control_claim_selection (WorkbookControl *wbc)
 {
@@ -263,9 +278,16 @@ wb_create_name (WorkbookControl *wbc, char const *text, GnmParsePos *pp)
 	}
 }
 
-/*
- * Select the given range and make the it visible.
- */
+/**
+ * wb_control_jump:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @r: #GnmRangeRef
+ *
+ * Selects the given range and makes it visible.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 wb_control_jump (WorkbookControl *wbc, Sheet *sheet, const GnmRangeRef *r)
 {
@@ -297,11 +319,16 @@ wb_control_jump (WorkbookControl *wbc, Sheet *sheet, const GnmRangeRef *r)
 	return TRUE;
 }
 
-/*
- * This is called when something is entered in the location entry.
- * We either go there (if the text refers to a cell by address or
- * name), or we try to define a name for the selection.
- */
+/**
+ * wb_control_parse_and_jump:
+ * @wbc: #WorkbookControl
+ * @text: location text
+ *
+ * Parses @text as a location and jumps to it. If @text is not a location,
+ * it tries to define a name for the current selection.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 {
@@ -370,6 +397,13 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 	return wb_control_jump (wbc, sheet, &range);
 }
 
+/**
+ * wb_control_navigate_to_cell:
+ * @wbc: #WorkbookControl
+ * @to: #wb_control_navigator_t
+ *
+ * Navigates to a cell based on @to.
+ **/
 void
 wb_control_navigate_to_cell (WorkbookControl *wbc, wb_control_navigator_t to)
 {
@@ -532,6 +566,15 @@ GSF_CLASS_FULL (WorkbookControl, workbook_control, NULL, NULL,
 		GSF_INTERFACE (wbc_cmd_context_init, GO_TYPE_CMD_CONTEXT))
 
 
+/**
+ * wb_control_set_view:
+ * @wbc: #WorkbookControl
+ * @optional_view: (nullable): #WorkbookView
+ * @optional_wb: (nullable): #Workbook
+ *
+ * Sets the view for @wbc. If @optional_view is %NULL, a new view is
+ * created for @optional_wb.
+ **/
 void
 wb_control_set_view (WorkbookControl *wbc,
 		     WorkbookView *opt_view, Workbook *opt_wb)
@@ -546,6 +589,12 @@ wb_control_set_view (WorkbookControl *wbc,
 	go_doc_control_set_doc (GO_DOC_CONTROL (wbc), GO_DOC (wb_view_get_workbook (wbv)));
 }
 
+/**
+ * wb_control_init_state:
+ * @wbc: #WorkbookControl
+ *
+ * Initializes the state of @wbc.
+ **/
 void
 wb_control_init_state (WorkbookControl *wbc)
 {

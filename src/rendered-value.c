@@ -103,6 +103,12 @@ calc_indent (PangoContext *context, const GnmStyle *mstyle)
 }
 
 
+/**
+ * gnm_rendered_value_remeasure:
+ * @rv: #GnmRenderedValue
+ *
+ * Remeasures the size of the rendered value.
+ **/
 void
 gnm_rendered_value_remeasure (GnmRenderedValue *rv)
 {
@@ -587,6 +593,12 @@ gnm_rendered_value_new (GnmCell const *cell,
 	return res;
 }
 
+/**
+ * gnm_rendered_value_destroy:
+ * @rv: (transfer full): #GnmRenderedValue
+ *
+ * Destroys @rv.
+ **/
 void
 gnm_rendered_value_destroy (GnmRenderedValue *rv)
 {
@@ -603,8 +615,12 @@ gnm_rendered_value_destroy (GnmRenderedValue *rv)
 		CHUNK_FREE (rendered_value_pool, rv);
 }
 
-/* Return the value as a single string without format information.
- */
+/**
+ * gnm_rendered_value_get_text:
+ * @rv: #GnmRenderedValue
+ *
+ * Returns: (transfer none): the text of @rv without format information.
+ **/
 char const *
 gnm_rendered_value_get_text (GnmRenderedValue const *rv)
 {
@@ -612,12 +628,24 @@ gnm_rendered_value_get_text (GnmRenderedValue const *rv)
 	return pango_layout_get_text (rv->layout);
 }
 
+/**
+ * gnm_rendered_value_get_color:
+ * @rv: #GnmRenderedValue
+ *
+ * Returns: the color of @rv.
+ **/
 GOColor
 gnm_rendered_value_get_color (GnmRenderedValue const * rv)
 {
 	return rv->go_fore_color;
 }
 
+/**
+ * gnm_rendered_value_get_width:
+ * @rv: #GnmRenderedValue
+ *
+ * Returns: the width of @rv in pixels.
+ **/
 int
 gnm_rendered_value_get_width (GnmRenderedValue const *rv)
 {
@@ -625,6 +653,12 @@ gnm_rendered_value_get_width (GnmRenderedValue const *rv)
 	return PANGO_PIXELS (rv->layout_natural_width);
 }
 
+/**
+ * gnm_rendered_value_get_height:
+ * @rv: #GnmRenderedValue
+ *
+ * Returns: the height of @rv in pixels.
+ **/
 int
 gnm_rendered_value_get_height (GnmRenderedValue const *rv)
 {
@@ -671,6 +705,12 @@ gnm_rvc_new (PangoContext *context, gsize size)
 	return res;
 }
 
+/**
+ * gnm_rvc_free:
+ * @rvc: (transfer full): #GnmRenderedValueCollection
+ *
+ * Frees @rvc and its contents.
+ **/
 void
 gnm_rvc_free (GnmRenderedValueCollection *rvc)
 {
@@ -699,6 +739,14 @@ gnm_rvc_query (GnmRenderedValueCollection *rvc, GnmCell const *cell)
 	return g_hash_table_lookup (rvc->values, cell);
 }
 
+/**
+ * gnm_rvc_store:
+ * @rvc: #GnmRenderedValueCollection
+ * @cell: #GnmCell
+ * @rv: (transfer full): #GnmRenderedValue
+ *
+ * Stores @rv for @cell in @rvc.
+ **/
 void
 gnm_rvc_store (GnmRenderedValueCollection *rvc,
 	       GnmCell const *cell,
@@ -716,6 +764,13 @@ gnm_rvc_store (GnmRenderedValueCollection *rvc,
 	g_hash_table_insert (rvc->values, (gpointer)cell, rv);
 }
 
+/**
+ * gnm_rvc_remove:
+ * @rvc: #GnmRenderedValueCollection
+ * @cell: #GnmCell
+ *
+ * Removes the rendered value for @cell from @rvc.
+ **/
 void
 gnm_rvc_remove (GnmRenderedValueCollection *rvc, GnmCell const *cell)
 {
@@ -723,6 +778,15 @@ gnm_rvc_remove (GnmRenderedValueCollection *rvc, GnmCell const *cell)
 	g_hash_table_remove (rvc->values, (gpointer)cell);
 }
 
+/**
+ * gnm_rvc_remove_range:
+ * @rvc: #GnmRenderedValueCollection
+ * @sheet: #Sheet
+ * @range: (nullable): #GnmRange
+ *
+ * Removes rendered values for cells in @range on @sheet from @rvc.
+ * If @range is %NULL, all cells on @sheet are removed.
+ **/
 void
 gnm_rvc_remove_range (GnmRenderedValueCollection *rvc,
 		      Sheet const *sheet, GnmRange const *range)

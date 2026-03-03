@@ -663,6 +663,17 @@ valid_dmy (int d, int m, int y)
 }
 
 
+/**
+ * format_match_datetime:
+ * @text: string to match
+ * @date_conv: #GODateConventions
+ * @month_before_day: whether to prefer month before day
+ * @add_format: whether to add matching format to result
+ * @presume_date: whether to prefer date over time
+ *
+ * Returns: (transfer full) (nullable): a new #GnmValue if @text is a valid
+ *          date/time string, %NULL otherwise.
+ **/
 GnmValue *
 format_match_datetime (char const *text,
 		       GODateConventions const *date_conv,
@@ -1013,6 +1024,17 @@ is_thousands_sep (const char *text, GString const *thousand, gboolean space1000)
 }
 
 
+/**
+ * format_match_decimal_number_with_locale:
+ * @text: string to match
+ * @family: (out): location to store matching #GOFormatFamily
+ * @curr: currency string
+ * @thousand: thousands separator
+ * @decimal: decimal separator
+ *
+ * Returns: (transfer full) (nullable): a new #GnmValue if @text is a valid
+ *          decimal number in the given locale, %NULL otherwise.
+ **/
 GnmValue *
 format_match_decimal_number_with_locale (char const *text, GOFormatFamily *family,
 					 GString const *curr, GString const *thousand,
@@ -1416,14 +1438,14 @@ format_match (char const *text, GOFormat const *cur_fmt,
  * format_match_number:
  * @text: The text to parse
  * @cur_fmt: (nullable): The current format for the value
- * @date_conv: optional date convention
+ * @date_conv: #GODateConventions
  *
- * Attempts to parse the supplied string to see if it matches a known value format.
- * Will eventually use the current cell format in preference to canned formats.
- * If @format is supplied it will get a copy of the matching format with no
- * additional references.   The caller is responsible for releasing the
- * resulting value.  Will ONLY return numbers.
- */
+ * Attempts to parse the supplied string to see if it matches a known value
+ * format. Will ONLY return numbers.
+ *
+ * Returns: (transfer full) (nullable): a new #GnmValue if @text is a number,
+ *          %NULL otherwise.
+ **/
 GnmValue *
 format_match_number (char const *text, GOFormat const *cur_fmt,
 		     GODateConventions const *date_conv)

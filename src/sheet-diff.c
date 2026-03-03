@@ -384,6 +384,17 @@ real_diff_sheets (GnmDiffIState *istate, Sheet *old_sheet, Sheet *new_sheet)
 	istate->old_sheet = istate->new_sheet = NULL;
 }
 
+/**
+ * gnm_diff_sheets:
+ * @actions: #GnmDiffActions
+ * @user: user data for @actions
+ * @old_sheet: #Sheet
+ * @new_sheet: #Sheet
+ *
+ * Compares two sheets and calls @actions for each difference found.
+ *
+ * Returns: %TRUE if any differences were found.
+ **/
 gboolean
 gnm_diff_sheets (const GnmDiffActions *actions, gpointer user,
 		 Sheet *old_sheet, Sheet *new_sheet)
@@ -462,6 +473,18 @@ real_diff_workbooks (GnmDiffIState *istate,
 	DISPATCH(diff_end) (istate->user);
 }
 
+/**
+ * gnm_diff_workbooks:
+ * @actions: #GnmDiffActions
+ * @user: user data for @actions
+ * @old_wb: #Workbook
+ * @new_wb: #Workbook
+ *
+ * Compares two workbooks and calls @actions for each difference found.
+ *
+ * Returns: 0 if no differences were found, 1 if differences were found,
+ *          or 2 if an error occurred.
+ **/
 int
 gnm_diff_workbooks (const GnmDiffActions *actions, gpointer user,
 		    Workbook *old_wb, Workbook *new_wb)
