@@ -1,6 +1,6 @@
 /* complex/math.c (from the GSL 1.1.1)
  *
- * Copyright (C) 1996, 1997, 1998, 1999, 2000 Jorma Olavi Tähtinen, Brian Gough
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 Jorma Olavi TÃ¤htinen, Brian Gough
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 /* Basic complex arithmetic functions
 
- * Original version by Jorma Olavi Tähtinen <jotahtin@cc.hut.fi>
+ * Original version by Jorma Olavi TÃ¤htinen <jotahtin@cc.hut.fi>
  *
  * Modified for GSL by Brian Gough, 3/2000
  */

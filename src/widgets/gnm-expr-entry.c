@@ -3,7 +3,7 @@
  * and ranges.
  *
  * Author:
- *   Jon Kåre Hellan (hellan@acm.org)
+ *   Jon KÃ¥re Hellan (hellan@acm.org)
  */
 
 #include <gnumeric-config.h>

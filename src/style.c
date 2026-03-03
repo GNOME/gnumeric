@@ -63,13 +63,13 @@ static struct FontInfo {
         { "Courier New Greek",      "Courier",        1253 },
         { "Courier New Tur",        "Courier",        1254 },
         { "Courier New Baltic",     "Courier",        1257 },
-        { "ёмёс ёп╔╢╔╥╔ц╔╞",        "Kochi Gothic",   -1 },
-        { "ёмёс ╔╢╔╥╔ц╔╞",          "Kochi Gothic",   -1 },
-        { "╔╢╔╥╔ц╔╞",               "Kochi Gothic",   -1 },
+        { "О╪╜О╪Ё О╪╟Ц┌╢Ц┌╥Ц┐┐Ц┌╞",        "Kochi Gothic",   -1 },
+        { "О╪╜О╪Ё Ц┌╢Ц┌╥Ц┐┐Ц┌╞",          "Kochi Gothic",   -1 },
+        { "Ц┌╢Ц┌╥Ц┐┐Ц┌╞",               "Kochi Gothic",   -1 },
         { "MS UI Gothic",           "Kochi Gothic",   -1 },
-        { "ёмёс ёплюд╚",            "Kochi Mincho",   -1 },
-        { "ёмёс люд╚",              "Kochi Mincho",   -1 },
-        { "люд╚",                   "Kochi Mincho",   -1 },
+        { "О╪╜О╪Ё О╪╟Ф≤▌Ф°²",            "Kochi Mincho",   -1 },
+        { "О╪╜О╪Ё Ф≤▌Ф°²",              "Kochi Mincho",   -1 },
+        { "Ф≤▌Ф°²",                   "Kochi Mincho",   -1 },
 	{ "GulimChe",               NULL,             949 }
 };
 

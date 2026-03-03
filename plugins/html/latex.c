@@ -349,7 +349,7 @@ latex_fputs_latin (char const *text, GsfOutput *output)
 			break;
 			/* Are these available only in LaTeX through mathmode? */
 		case '>': case '<':
-			// case 'µ': // cannot be correct for utf8
+			// case 'Âµ': // cannot be correct for utf8
 			gsf_output_printf (output, "$%c$", *p);
 			break;
 

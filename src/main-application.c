@@ -2,11 +2,11 @@
  * main-application.c: Main entry point for the Gnumeric application
  *
  * Author:
- *   Jon Kåre Hellan <hellan@acm.org>
+ *   Jon KÃ¥re Hellan <hellan@acm.org>
  *   Morten Welinder <terra@gnome.org>
  *   Jody Goldberg <jody@gnome.org>
  *
- * Copyright (C) 2002-2004, Jon Kåre Hellan
+ * Copyright (C) 2002-2004, Jon KÃ¥re Hellan
  */
 
 #include <gnumeric-config.h>

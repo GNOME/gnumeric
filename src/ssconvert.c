@@ -2,7 +2,7 @@
  * ssconvert.c: A wrapper application to convert spreadsheet formats
  *
  * Author:
- *   Jon Kåre Hellan <hellan@acm.org>
+ *   Jon KÃ¥re Hellan <hellan@acm.org>
  *   Morten Welinder <terra@gnome.org>
  *   Jody Goldberg <jody@gnome.org>
  *
