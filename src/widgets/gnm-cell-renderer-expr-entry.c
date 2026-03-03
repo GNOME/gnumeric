@@ -78,6 +78,12 @@ gnumeric_cell_renderer_expr_entry_class_init (GnmCellRendererExprEntryClass *cla
 }
 
 
+/**
+ * gnm_cell_renderer_expr_entry_new:
+ * @wbcg: #WBCGtk
+ *
+ * Returns: (transfer full): a new #GnmCellRendererExprEntry.
+ **/
 GtkCellRenderer *
 gnm_cell_renderer_expr_entry_new (WBCGtk *wbcg)
 {

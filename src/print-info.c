@@ -1473,6 +1473,8 @@ print_info_has_manual_breaks (GnmPrintInformation *pi)
  * @is_vert:
  *
  * Allocate a collection of page breaks.
+ *
+ * Returns: (transfer full): a new #GnmPageBreaks.
  **/
 GnmPageBreaks *
 gnm_page_breaks_new (gboolean is_vert)

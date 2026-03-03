@@ -119,6 +119,11 @@ gnumeric_cell_renderer_toggle_class_init (GnmCellRendererToggleClass *class)
 }
 
 
+/**
+ * gnm_cell_renderer_toggle_new:
+ *
+ * Returns: (transfer full): a new #GnmCellRendererToggle.
+ **/
 GtkCellRenderer *
 gnm_cell_renderer_toggle_new (void)
 {

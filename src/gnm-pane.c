@@ -1252,6 +1252,15 @@ gnm_pane_drag_dest_init (GnmPane *pane, SheetControlGUI *scg)
 		NULL);
 }
 
+/**
+ * gnm_pane_new:
+ * @scg: #SheetControlGUI
+ * @col_headers: whether to show column headers
+ * @row_headers: whether to show row headers
+ * @index: the pane index
+ *
+ * Returns: (transfer full): a new #GnmPane.
+ **/
 GnmPane *
 gnm_pane_new (SheetControlGUI *scg,
 	      gboolean col_headers, gboolean row_headers, int index)

@@ -93,10 +93,12 @@ dialog_tool_init_outputs (GnmGenericToolState *state, GCallback sensitivity_cb)
 
 /**
  * dao_parse_output: (skip)
- * @state:
+ * @state: #GnmGenericToolState
  *
  * fill dao with information from the standard output section of a dialog
- */
+ *
+ * Returns: (transfer full): the parsed #data_analysis_output_t.
+ **/
 data_analysis_output_t *
 dao_parse_output (GnmGenericToolState *state)
 {

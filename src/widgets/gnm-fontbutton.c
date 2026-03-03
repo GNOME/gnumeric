@@ -760,7 +760,7 @@ gnm_font_button_get_property (GObject    *object,
  *
  * Creates a new font picker widget.
  *
- * Returns: a new font picker widget.
+ * Returns: (transfer full): a new font picker widget.
  *
  * Since: 2.4
  */
@@ -772,11 +772,11 @@ gnm_font_button_new (void)
 
 /**
  * gnm_font_button_new_with_font:
- * @fontname: Name of font to display in font chooser dialog
+ * @fontname: name of font to display in font picker.
  *
  * Creates a new font picker widget.
  *
- * Returns: a new font picker widget.
+ * Returns: (transfer full): a new font picker widget.
  *
  * Since: 2.4
  */

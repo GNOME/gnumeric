@@ -48,7 +48,7 @@ go_data_cache_source_get_type (void)
  *
  * Creates a ref to a new #GODataCache from @src.
  *
- * Returns : a #GODataCache
+ * Returns: (transfer full): a new #GODataCache.
  **/
 GODataCache *
 go_data_cache_source_allocate (GODataCacheSource const *src)

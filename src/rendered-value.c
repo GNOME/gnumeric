@@ -248,7 +248,7 @@ too_many_digits (const char *s)
  *
  * Formats the value of the cell according to its style.
  *
- * Returns: a new GnmRenderedValue
+ * Returns: (transfer full): a new #GnmRenderedValue.
  **/
 GnmRenderedValue *
 gnm_rendered_value_new (GnmCell const *cell,

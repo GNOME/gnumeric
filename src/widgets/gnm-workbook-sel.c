@@ -228,6 +228,11 @@ GSF_CLASS (GnmWorkbookSel, gnm_workbook_sel,
 	   gnm_workbook_sel_class_init, gnm_workbook_sel_init,
 	   GO_TYPE_OPTION_MENU)
 
+/**
+ * gnm_workbook_sel_new:
+ *
+ * Returns: (transfer full): a new workbook selector
+ **/
 GtkWidget *
 gnm_workbook_sel_new (void)
 {

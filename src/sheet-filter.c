@@ -71,6 +71,8 @@ gnm_filter_op_needs_value (GnmFilterOp op)
  * @v: (transfer full) (nullable): #GnmValue
  *
  * Create a new condition with one value.
+ *
+ * Returns: (transfer full): a new #GnmFilterCondition.
  **/
 GnmFilterCondition *
 gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v)
@@ -95,6 +97,8 @@ gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v)
  * @v1: (transfer full) (nullable): #GnmValue
  *
  * Create a new condition with two values.
+ *
+ * Returns: (transfer full): a new #GnmFilterCondition.
  **/
 GnmFilterCondition *
 gnm_filter_condition_new_double (GnmFilterOp op0, GnmValue *v0,
@@ -663,6 +667,8 @@ gnm_filter_new (Sheet *sheet, GnmRange const *r, gboolean attach)
  * @sheet: #Sheet
  *
  * Duplicate @src into @sheet
+ *
+ * Returns: (transfer full): the duplicated #GnmFilter.
  **/
 GnmFilter *
 gnm_filter_dup (GnmFilter const *src, Sheet *sheet)

@@ -52,13 +52,13 @@
 
 /**
  * dao_init: (skip)
- * @dao:
- * @type:
+ * @dao: (nullable): #data_analysis_output_t
+ * @type: #data_analysis_output_type_t
  *
  * Initialize dao to given type.
  *
+ * Returns: (transfer full): the initialized #data_analysis_output_t.
  **/
-
 data_analysis_output_t *
 dao_init (data_analysis_output_t *dao,
 	  data_analysis_output_type_t type)
@@ -89,11 +89,11 @@ dao_init (data_analysis_output_t *dao,
 
 	return dao;
 }
-
 /**
  * dao_init_new_sheet: (skip)
- * @dao:
+ * @dao: (nullable): #data_analysis_output_t
  *
+ * Returns: (transfer full): the initialized #data_analysis_output_t.
  **/
 data_analysis_output_t *
 dao_init_new_sheet (data_analysis_output_t *dao)
@@ -153,21 +153,18 @@ dao_range_name (data_analysis_output_t *dao)
 
 	return undo_range_name (dao->sheet, &range);
 }
-
 /**
  * dao_command_descriptor:
- * @dao:
- * @format:
- * @result:
+ * @dao: #data_analysis_output_t
+ * @format: printf-style format string
+ * @result: (out) (transfer full): the descriptor
  *
  * Uses format to provide a string to be used as command descriptor for
  * undo/redo
- *
  **/
-
 char *
 dao_command_descriptor (data_analysis_output_t *dao, char const *format,
-			gpointer result)
+			 gpointer result)
 {
 	char *rangename = NULL;
 	char **text = result;

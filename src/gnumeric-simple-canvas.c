@@ -43,6 +43,12 @@ GSF_CLASS (GnmSimpleCanvas, gnm_simple_canvas,
 	   gnm_simple_canvas_class_init, NULL,
 	   GOC_TYPE_CANVAS)
 
+/**
+ * gnm_simple_canvas_new:
+ * @scg: #SheetControlGUI
+ *
+ * Returns: (transfer full): a new #GocCanvas.
+ **/
 GocCanvas *
 gnm_simple_canvas_new (SheetControlGUI *scg)
 {

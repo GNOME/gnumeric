@@ -219,6 +219,13 @@ gnm_dao_setup_signals (GnmDao *gdao)
 				gdao);
 }
 
+/**
+ * gnm_dao_new:
+ * @wbcg: #WBCGtk
+ * @inplace_str: (nullable): label for in-place button
+ *
+ * Returns: (transfer full): a new #GnmDao.
+ **/
 GtkWidget *
 gnm_dao_new (WBCGtk *wbcg, gchar *inplace_str)
 {

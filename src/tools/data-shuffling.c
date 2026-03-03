@@ -275,7 +275,9 @@ run_shuffling_tool (data_shuffling_t *st)
 
 /**
  * data_shuffling: (skip)
- */
+ *
+ * Returns: (transfer full): a new #data_shuffling_t.
+ **/
 data_shuffling_t *
 data_shuffling (WorkbookControl        *wbc,
 		data_analysis_output_t *dao,

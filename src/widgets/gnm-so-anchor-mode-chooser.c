@@ -28,6 +28,12 @@ struct  _GnmSOAnchorModeChooser{
 typedef GtkComboBoxClass GnmSOAnchorModeChooserClass;
 
 
+/**
+ * gnm_so_anchor_mode_chooser_new:
+ * @resize: whether to allow resizing
+ *
+ * Returns: (transfer full): a new #GnmSOAnchorModeChooser.
+ **/
 GtkWidget *
 gnm_so_anchor_mode_chooser_new (gboolean resize)
 {

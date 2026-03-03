@@ -116,7 +116,7 @@ make_model (GPtrArray *lines)
  * stf_preview_new: (skip)
  * @data_container: a container in which to put a treeview.
  *
- * returns : a new renderdata struct
+ * Returns: (transfer full): a new renderdata struct
  **/
 RenderData_t *
 stf_preview_new (GtkWidget *data_container,

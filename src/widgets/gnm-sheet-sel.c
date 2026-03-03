@@ -163,6 +163,11 @@ GSF_CLASS (GnmSheetSel, gnm_sheet_sel,
 	   gnm_sheet_sel_class_init, gnm_sheet_sel_init,
 	   GO_TYPE_OPTION_MENU)
 
+/**
+ * gnm_sheet_sel_new:
+ *
+ * Returns: (transfer full): a new sheet selector.
+ **/
 GtkWidget *
 gnm_sheet_sel_new (void)
 {

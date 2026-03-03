@@ -516,7 +516,7 @@ GSF_CLASS (GnmTextView, gnm_text_view,
 /**
  * gnm_text_view_new:
  *
- * Return value: a new #GnmTextView.
+ * Returns: (transfer full): a new #GnmTextView.
  **/
 GnmTextView *
 gnm_text_view_new (void)

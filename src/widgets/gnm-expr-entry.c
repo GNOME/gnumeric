@@ -2240,7 +2240,7 @@ gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
  * The entry is created with default flag settings which are suitable for use
  * in many dialogs, but see #gnm_expr_entry_set_flags.
  *
- * Return value: a new #GnmExprEntry.
+ * Returns: (transfer full): a new #GnmExprEntry.
  **/
 GnmExprEntry *
 gnm_expr_entry_new (WBCGtk *wbcg, gboolean with_icon)

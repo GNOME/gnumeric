@@ -120,6 +120,11 @@ gnumeric_cell_renderer_text_class_init (GnmCellRendererTextClass *class)
 }
 
 
+/**
+ * gnm_cell_renderer_text_new:
+ *
+ * Returns: (transfer full): a new #GnmCellRendererText.
+ **/
 GtkCellRenderer *
 gnm_cell_renderer_text_new (void)
 {
