@@ -3407,7 +3407,7 @@ regenerate_window_menu (WBCGtk *gtk, Workbook *wb, unsigned i)
 	k = 1;
 	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, {
 		if (i >= 20)
-			return i;
+			continue;
 		if (GNM_IS_WBC_GTK (wbc) && basename) {
 			GString *label = g_string_new (NULL);
 			char *name;

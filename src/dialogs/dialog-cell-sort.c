@@ -277,9 +277,6 @@ build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFl
 	GtkWidget *submenu;
 	int i;
 	int this_end;
-	char *str;
-	char *str_start;
-	char *str_end;
 	gint menu_size;
 
 	menu_size = 1 + end - start;
@@ -294,6 +291,10 @@ build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFl
 			submenu_size = balanced_submenu_size;
 
 		for (i = start; i <= end; i+=submenu_size) {
+			char *str;
+			char *str_start;
+			char *str_end;
+
 			this_end = i + submenu_size - 1;
 			if (this_end > end)
 				this_end = end;
@@ -317,6 +318,7 @@ build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFl
 			g_free (str_end);
 
 			item = (GtkWidget *) gtk_menu_item_new_with_label (str);
+			g_free (str);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 			gtk_widget_show (item);
 
@@ -336,11 +338,11 @@ build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFl
 	}  else {
 		for (i = start; i <= end; i++) {
 			if (FALSE == already_in_sort_fields (i, state)) {
-
-				str = state->is_cols
+				char *str = state->is_cols
 					? col_row_name (sheet, i, index, state->header, TRUE)
 					: col_row_name (sheet, index, i, state->header, FALSE);
 				item = (GtkWidget *) gtk_menu_item_new_with_label (str);
+				g_free (str);
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 				gtk_widget_show (item);
 

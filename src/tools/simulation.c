@@ -451,4 +451,10 @@ simulation_tool_destroy (simulation_t *sim)
 		g_free (sim->cellnames[i]);
 
 	g_free (sim->cellnames);
+
+	g_slist_free (sim->list_inputs);
+	g_slist_free (sim->list_outputs);
+
+	g_free (sim->ref_outputs);
+	g_free (sim->ref_inputs);
 }

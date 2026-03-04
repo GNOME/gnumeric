@@ -1559,6 +1559,7 @@ free_hf_state (HFCustomizeState *hf_state)
 	g_return_if_fail (hf_state != NULL);
 
 	g_list_free_full (hf_state->marks, (GDestroyNotify) free_hf_mark_info);
+	g_object_unref (hf_state->gui);
 	g_free (hf_state);
 }
 

@@ -6641,11 +6641,21 @@ cmd_goal_seek_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_goal_seek:
+ * @wbc: #WorkbookControl
+ * @cell: #GnmCell
+ * @ov: (nullable) (transfer full): old value
+ * @nv: (nullable) (transfer full): new value
+ *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.
+ **/
 gboolean
 cmd_goal_seek (WorkbookControl *wbc, GnmCell *cell, GnmValue *ov, GnmValue *nv)
 {
 	CmdGoalSeek *me;
 	GnmRange range;
+	char *name;
 
 	g_return_val_if_fail (cell != NULL, TRUE);
 	g_return_val_if_fail (ov != NULL || nv != NULL, TRUE);
@@ -6655,8 +6665,10 @@ cmd_goal_seek (WorkbookControl *wbc, GnmCell *cell, GnmValue *ov, GnmValue *nv)
 	me->cmd.sheet = cell->base.sheet;
 	me->cmd.size = 1;
 	range_init_cellpos (&range, &cell->pos);
-	me->cmd.cmd_descriptor = g_strdup_printf
-		(_("Goal Seek (%s)"), undo_range_name (cell->base.sheet, &range));
+
+	name = undo_range_name (cell->base.sheet, &range);
+	me->cmd.cmd_descriptor = g_strdup_printf (_("Goal Seek (%s)"), name);
+	g_free (name);
 
 	me->cell = cell;
 	me->ov = ov;
@@ -6730,7 +6742,7 @@ cmd_freeze_panes (WorkbookControl *wbc, SheetView *sv,
 
 	me = g_object_new (CMD_FREEZE_PANES_TYPE, NULL);
 	me->sv = sv;
-	me->frozen   = f;
+	me->frozen = f;
 	me->unfrozen = expr;
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }

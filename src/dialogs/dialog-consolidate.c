@@ -302,7 +302,7 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 					       GTK_MESSAGE_ERROR,
 					       "%s", state->construct_error);
 		g_free (state->construct_error);
-		g_free (dao);
+		dao_free (dao);
 		state->construct_error = NULL;
 
 		return;
@@ -313,7 +313,7 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 				       state->base.sheet,
 				       dao, cs, gnm_tool_consolidate_engine,
 				       FALSE)) {
-			g_free (dao);
+			dao_free (dao);
 			gnm_consolidate_free (cs, FALSE);
 		} else if (button == state->base.ok_button)
 			gtk_widget_destroy (state->base.dialog);
@@ -323,7 +323,7 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 					  GTK_MESSAGE_ERROR,
 					  _("The output range overlaps "
 					    "with the input ranges."));
-		g_free (dao);
+		dao_free (dao);
 		gnm_consolidate_free (cs, FALSE);
 	}
 }

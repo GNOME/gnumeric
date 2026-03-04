@@ -42,6 +42,7 @@
 
 typedef GnmGenericToolState SimulationState;
 
+// Why globals?
 static GtkTextBuffer   *results_buffer;
 static int             results_sim_index;
 static simulation_t    *current_sim;
@@ -380,8 +381,12 @@ init_results_view (SimulationState *state)
 	GtkTextView     *view;
 	GtkTextTagTable *tag_table;
 
+	if (results_buffer)
+		g_object_unref (results_buffer);
+
 	tag_table      = gtk_text_tag_table_new ();
 	results_buffer = gtk_text_buffer_new (tag_table);
+	g_object_unref (tag_table);
 	view = GTK_TEXT_VIEW (go_gtk_builder_get_widget (state->gui,
 						    "results-view"));
 	gtk_text_view_set_buffer (view, results_buffer);
