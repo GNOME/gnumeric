@@ -473,7 +473,15 @@ paradox_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	}
 
 	/* Create the paradox file */
-	tmpfilename = tempnam ("/tmp", NULL);
+	char tmpfilename[] = "/tmp/pxtemp-XXXXXXX";
+	int fd = mkstemp (tmpfilename);
+	if (fd == -1) {
+		g_warning (_("Could not create output file."));
+		PX_delete (pxdoc);
+		return;
+	}
+	close (fd);
+
 	if (0 > PX_create_file (pxdoc, pxf, r.end.col+1, tmpfilename, pxfFileTypNonIndexDB)) {
 		g_warning (_("Could not create output file."));
 		PX_delete (pxdoc);
