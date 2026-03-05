@@ -286,6 +286,7 @@ gplp_load_base (GOPluginLoader *loader, GOErrorInfo **ret_error)
 	argv[1] = g_strconcat ("-I", arg, NULL);
 	argv[2] = g_build_filename (arg, "perl_func.pl", NULL);
 	argc = 2;
+	g_free (arg);
 
 	if (g_file_test (argv[2], G_FILE_TEST_EXISTS)) {
 		PERL_SYS_INIT3 (&argc, (char ***)&argv, NULL);
