@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-02-21 02:06+0000\n"
-"PO-Revision-Date: 2026-02-22 18:49+0100\n"
+"POT-Creation-Date: 2026-03-02 00:48+0000\n"
+"PO-Revision-Date: 2026-03-05 02:43+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -73,25 +73,30 @@ msgstr ""
 msgid "The Gnumeric Team"
 msgstr "A Gnumeric csapat"
 
-#: ../plugins/applix/applix-read.c:124
+#: ../plugins/applix/applix-read.c:130
 msgid "Parse error while reading Applix file."
 msgstr "Feldolgozási hiba történt az Applix fájl beolvasása közben."
 
-#: ../plugins/applix/applix-read.c:345
+#: ../plugins/applix/applix-read.c:351
 msgid "Missing characters for character encoding"
 msgstr "Karakterek hiányoznak a karakterkódoláshoz"
 
-#: ../plugins/applix/applix-read.c:349
+#: ../plugins/applix/applix-read.c:355
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
 msgstr "Érvénytelen karakterek a kódoláshoz: „%c%c”"
 
-#: ../plugins/applix/applix-read.c:1236
+#: ../plugins/applix/applix-read.c:368
+#| msgid "Character _encoding:"
+msgid "Character encoding error"
+msgstr "Karakterkódolási hiba"
+
+#: ../plugins/applix/applix-read.c:1247
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
 msgstr "A kifejezés nem ezzel kezdődött: '=' ? '%s'"
 
-#: ../plugins/applix/applix-read.c:1247
+#: ../plugins/applix/applix-read.c:1258
 #, c-format
 msgid ""
 "%s!%s : unable to parse '%s'\n"
@@ -229,7 +234,7 @@ msgid "#UNKNOWN!"
 msgstr "#ISMERETLEN!"
 
 #: ../plugins/excel/ms-excel-read.c:1489 ../plugins/excel/ms-excel-read.c:1500
-#: ../plugins/oleo/oleo.c:229 ../plugins/psiconv/psiconv-read.c:542
+#: ../plugins/oleo/oleo.c:229 ../plugins/psiconv/psiconv-read.c:535
 #, c-format
 msgid "Sheet%d"
 msgstr "Munkalap%d"
@@ -2033,53 +2038,53 @@ msgstr ""
 "A mezőelőírásnak vesszővel elválasztott értéknek kell lennie "
 "(Név,Típus,Méret,Pontosság)."
 
-#: ../plugins/paradox/paradox.c:354
+#: ../plugins/paradox/paradox.c:355
 msgid "Allocate memory for column name."
 msgstr "Memória lefoglalása az oszlopnévhez."
 
-#: ../plugins/paradox/paradox.c:355
+#: ../plugins/paradox/paradox.c:356
 #, c-format
 msgid "Could not allocate memory for %d. field name."
 msgstr "Nem sikerült memóriát lefoglalni a(z) %d. mezőnévhez."
 
-#: ../plugins/paradox/paradox.c:365
+#: ../plugins/paradox/paradox.c:368
 #, c-format
 msgid "%d. field specification ended unexpectedly."
 msgstr "A(z) %d. mezőelőírás váratlanul véget ért."
 
-#: ../plugins/paradox/paradox.c:370
+#: ../plugins/paradox/paradox.c:373
 #, c-format
 msgid "%d. field specification misses type."
 msgstr "A(z) %d. mezőelőírás típust hiányol."
 
-#: ../plugins/paradox/paradox.c:438
+#: ../plugins/paradox/paradox.c:441
 #, c-format
 msgid "%d. field type '%c' is unknown."
 msgstr "A(z) %d. „%c” mezőtípus ismeretlen."
 
-#: ../plugins/paradox/paradox.c:449 ../plugins/paradox/paradox.c:459
+#: ../plugins/paradox/paradox.c:452 ../plugins/paradox/paradox.c:462
 msgid "Field specification misses the column size."
 msgstr "A mezőelőírás hiányolja az oszlopméretet."
 
-#: ../plugins/paradox/paradox.c:466
+#: ../plugins/paradox/paradox.c:469
 #, c-format
 msgid ""
 "The remainder '%s' of the specification for field %d is being disregarded."
 msgstr "Az előírás „%s” maradéka a(z) %d. mezőnél figyelmen kívül lesz hagyva."
 
-#: ../plugins/paradox/paradox.c:475
+#: ../plugins/paradox/paradox.c:478
 msgid "Could not create output file."
 msgstr "Nem sikerült létrehozni a kimeneti fájlt."
 
-#: ../plugins/paradox/paradox.c:484
+#: ../plugins/paradox/paradox.c:487
 msgid "Allocate memory for record data."
 msgstr "Memória lefoglalása a rekordadatokhoz."
 
-#: ../plugins/paradox/paradox.c:485
+#: ../plugins/paradox/paradox.c:488
 msgid "Could not allocate memory for record data."
 msgstr "Nem sikerült memóriát lefoglalni a rekordadatokhoz."
 
-#: ../plugins/paradox/paradox.c:536
+#: ../plugins/paradox/paradox.c:539
 #, c-format
 msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
@@ -2091,12 +2096,12 @@ msgstr[1] ""
 "A(z) %d. mező a(z) %d. sorban esetleg le lett vágva. Az adatnak %d karaktere "
 "van."
 
-#: ../plugins/paradox/paradox.c:549
+#: ../plugins/paradox/paradox.c:552
 #, c-format
 msgid "Field %d in row %d could not be written."
 msgstr "A(z) %d. mezőt a(z) %d. sorban nem sikerült kiírni."
 
-#: ../plugins/paradox/paradox.c:586
+#: ../plugins/paradox/paradox.c:590
 #, c-format
 msgid "Could not write record number %d."
 msgstr "Nem sikerült kiírni a(z) %d. rekordszámot."
@@ -2197,15 +2202,15 @@ msgstr "Psion 5 sorozatú munkalapfájlokat importál"
 msgid "Psion (*.psisheet)"
 msgstr "Psion (*.psisheet)"
 
-#: ../plugins/psiconv/psiconv-read.c:650
+#: ../plugins/psiconv/psiconv-read.c:643
 msgid "Error while reading psiconv file."
 msgstr "Hiba a psiconv fájl olvasása közben."
 
-#: ../plugins/psiconv/psiconv-read.c:661
+#: ../plugins/psiconv/psiconv-read.c:654
 msgid "Error while parsing Psion file."
 msgstr "Hiba a Psion fájl feldolgozása közben."
 
-#: ../plugins/psiconv/psiconv-read.c:669
+#: ../plugins/psiconv/psiconv-read.c:662
 msgid "This Psion file is not a Sheet file."
 msgstr "Ez a Psion fájl nem munkalapfájl."
 
@@ -2362,17 +2367,17 @@ msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgid "File is most likely corrupted.\n"
 msgstr "A fájl a legnagyobb valószínűség szerint sérült.\n"
 
-#: ../plugins/qpro/qpro-read.c:869
+#: ../plugins/qpro/qpro-read.c:871
 #, c-format
 msgid "Invalid zoom %hd %%"
 msgstr "Érvénytelen nagyítás: %hd %%"
 
-#: ../plugins/qpro/qpro-read.c:911
+#: ../plugins/qpro/qpro-read.c:913
 #, c-format
 msgid "Invalid record %d of length %hd"
 msgstr "Érvénytelen %d rekord, %hd hosszal"
 
-#: ../plugins/qpro/qpro-read.c:944
+#: ../plugins/qpro/qpro-read.c:946
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
@@ -2456,19 +2461,19 @@ msgstr "MultiPlan (SYLK)"
 msgid "Import/Export for MultiPlan (SYLK) files"
 msgstr "MultiPlan (SYLK) fájlok importálása vagy exportálása"
 
-#: ../plugins/sylk/sylk.c:243
+#: ../plugins/sylk/sylk.c:251
 msgid "Multiple values in the same cell"
 msgstr "Több érték ugyanabban a cellában"
 
-#: ../plugins/sylk/sylk.c:252 ../plugins/sylk/sylk.c:261
+#: ../plugins/sylk/sylk.c:260 ../plugins/sylk/sylk.c:269
 msgid "Multiple expressions in the same cell"
 msgstr "Több kifejezés ugyanabban a cellában"
 
-#: ../plugins/sylk/sylk.c:798
+#: ../plugins/sylk/sylk.c:806
 msgid "Missing closing 'E'"
 msgstr "Hiányzó lezáró „E”"
 
-#: ../plugins/sylk/sylk.c:821 ../src/dialogs/dialog-goto-cell.c:380
+#: ../plugins/sylk/sylk.c:829 ../src/dialogs/dialog-goto-cell.c:380
 #: ../src/dialogs/dialog-search.c:437 ../src/dialogs/dialog-stf-export.c:594
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
 #: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:571
@@ -3928,42 +3933,42 @@ msgstr ""
 "%s zárolva van. Szüntesse meg a munkalap védelmét a szerkesztés "
 "engedélyezéséhez."
 
-#: ../src/commands.c:893
+#: ../src/commands.c:891
 #, c-format
 msgid "Inserting expression in %s"
 msgstr "Kifejezés beszúrása ebbe: %s"
 
-#: ../src/commands.c:985
+#: ../src/commands.c:983
 #, c-format
 msgid "Editing style of %s"
 msgstr "%s stílusának szerkesztése"
 
-#: ../src/commands.c:988
+#: ../src/commands.c:986
 #, c-format
 msgid "Typing \"%s\" in %s"
 msgstr "„%s” begépelése ebbe: %s"
 
-#: ../src/commands.c:1134 ../src/wbc-gtk-edit.c:161 ../src/wbc-gtk-edit.c:171
+#: ../src/commands.c:1132 ../src/wbc-gtk-edit.c:161 ../src/wbc-gtk-edit.c:171
 #: ../src/wbc-gtk-edit.c:187 ../src/wbc-gtk-edit.c:208
 #: ../src/wbc-gtk-edit.c:222
 msgid "Set Text"
 msgstr "Szöveg beállítása"
 
-#: ../src/commands.c:1177
+#: ../src/commands.c:1175
 #, c-format
 msgid "Inserting array expression in %s"
 msgstr "Tömbkifejezés beszúrása ebbe: %s"
 
-#: ../src/commands.c:1229
+#: ../src/commands.c:1227
 #, c-format
 msgid "Creating a Data Table in %s"
 msgstr "Adattábla létrehozása ebben: %s"
 
-#: ../src/commands.c:1289
+#: ../src/commands.c:1287
 msgid "Ins/Del Column/Row"
 msgstr "Oszlop/sor beszúrása/törlése"
 
-#: ../src/commands.c:1458
+#: ../src/commands.c:1456
 #, c-format
 msgid ""
 "Inserting %i column before column %s would push data off the sheet. Please "
@@ -3978,14 +3983,14 @@ msgstr[1] ""
 "%i oszlop beszúrása a(z) %s oszlop elé kitolhatja az adatokat a munkalapról. "
 "Először növelje meg a munkalapot."
 
-#: ../src/commands.c:1468
+#: ../src/commands.c:1466
 #, c-format
 msgid "Inserting %d column before %s"
 msgid_plural "Inserting %d columns before %s"
 msgstr[0] "%d oszlop beszúrása %s elé"
 msgstr[1] "%d oszlop beszúrása %s elé"
 
-#: ../src/commands.c:1487
+#: ../src/commands.c:1485
 #, c-format
 msgid ""
 "Inserting %i row before row %s would push data off the sheet. Please enlarge "
@@ -4000,160 +4005,160 @@ msgstr[1] ""
 "%i sor beszúrása a(z) %s sor elé kitolhatja az adatokat a munkalapról. "
 "Először növelje meg a munkalapot."
 
-#: ../src/commands.c:1497
+#: ../src/commands.c:1495
 #, c-format
 msgid "Inserting %d row before %s"
 msgid_plural "Inserting %d rows before %s"
 msgstr[0] "%d sor beszúrása %s elé"
 msgstr[1] "%d sor beszúrása %s elé"
 
-#: ../src/commands.c:1509
+#: ../src/commands.c:1507
 #, c-format
 msgid "Deleting columns %s"
 msgstr "%s oszlopok törlése"
 
-#: ../src/commands.c:1510
+#: ../src/commands.c:1508
 #, c-format
 msgid "Deleting column %s"
 msgstr "%s oszlop törlése"
 
-#: ../src/commands.c:1520
+#: ../src/commands.c:1518
 #, c-format
 msgid "Deleting rows %s"
 msgstr "%s sorok törlése"
 
-#: ../src/commands.c:1521
+#: ../src/commands.c:1519
 #, c-format
 msgid "Deleting row %s"
 msgstr "%s sor törlése"
 
-#: ../src/commands.c:1584 ../src/commands.c:1585 ../src/sheet.c:5159
+#: ../src/commands.c:1582 ../src/commands.c:1583 ../src/sheet.c:5166
 msgid "Clear"
 msgstr "Törlés"
 
-#: ../src/commands.c:1597
+#: ../src/commands.c:1595
 msgid "contents"
 msgstr "tartalom"
 
-#: ../src/commands.c:1599
+#: ../src/commands.c:1597
 msgid "formats"
 msgstr "formátumok"
 
-#: ../src/commands.c:1601
+#: ../src/commands.c:1599
 msgid "comments"
 msgstr "megjegyzések"
 
-#: ../src/commands.c:1616
+#: ../src/commands.c:1614
 msgid "all"
 msgstr "minden"
 
-#: ../src/commands.c:1622
+#: ../src/commands.c:1620
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "%s törlése itt: %s"
 
-#: ../src/commands.c:1742
+#: ../src/commands.c:1740
 msgid "Changing Format"
 msgstr "Formátum változtatása"
 
-#: ../src/commands.c:1878
+#: ../src/commands.c:1876
 #, c-format
 msgid "Changing format of %s"
 msgstr "%s formátumának változtatása"
 
-#: ../src/commands.c:1965
+#: ../src/commands.c:1963
 #, c-format
 msgid "Setting Font Style of %s"
 msgstr "%s betűkészlet stílusának beállítása"
 
-#: ../src/commands.c:2017
+#: ../src/commands.c:2015
 #, c-format
 msgid "Autofitting column %s"
 msgstr "%s oszlop automatikus méretezése"
 
-#: ../src/commands.c:2018
+#: ../src/commands.c:2016
 #, c-format
 msgid "Autofitting row %s"
 msgstr "%s sor automatikus méretezése"
 
-#: ../src/commands.c:2021
+#: ../src/commands.c:2019
 #, c-format
 msgid "Setting width of column %s to %d pixel"
 msgid_plural "Setting width of column %s to %d pixels"
 msgstr[0] "%s oszlop szélességének beállítása %d képpontra"
 msgstr[1] "%s oszlop szélességének beállítása %d képpontra"
 
-#: ../src/commands.c:2025
+#: ../src/commands.c:2023
 #, c-format
 msgid "Setting height of row %s to %d pixel"
 msgid_plural "Setting height of row %s to %d pixels"
 msgstr[0] "%s sor magasságának beállítása %d képpontra"
 msgstr[1] "%s sor magasságának beállítása %d képpontra"
 
-#: ../src/commands.c:2030
+#: ../src/commands.c:2028
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "%s oszlop szélességének beállítása az alapértékre"
 
-#: ../src/commands.c:2033
+#: ../src/commands.c:2031
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "%s sor magasságának beállítása az alapértékre"
 
-#: ../src/commands.c:2037
+#: ../src/commands.c:2035
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "%s oszlopok automatikus méretezése"
 
-#: ../src/commands.c:2038
+#: ../src/commands.c:2036
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "%s sorok automatikus méretezése"
 
-#: ../src/commands.c:2041
+#: ../src/commands.c:2039
 #, c-format
 msgid "Setting width of columns %s to %d pixel"
 msgid_plural "Setting width of columns %s to %d pixels"
 msgstr[0] "%s oszlopok szélességének beállítása %d képpontra"
 msgstr[1] "%s oszlopok szélességének beállítása %d képpontra"
 
-#: ../src/commands.c:2045
+#: ../src/commands.c:2043
 #, c-format
 msgid "Setting height of rows %s to %d pixel"
 msgid_plural "Setting height of rows %s to %d pixels"
 msgstr[0] "%s sorok magasságának beállítása %d képpontra"
 msgstr[1] "%s sorok magasságának beállítása %d képpontra"
 
-#: ../src/commands.c:2051
+#: ../src/commands.c:2049
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "%s oszlopok szélességének beállítása az alapértékre"
 
-#: ../src/commands.c:2053
+#: ../src/commands.c:2051
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "%s sorok magasságának beállítása az alapértékre"
 
-#: ../src/commands.c:2080
+#: ../src/commands.c:2078
 #, c-format
 msgid "Autofitting width of %s"
 msgstr "%s szélességének automatikus méretezése"
 
-#: ../src/commands.c:2080
+#: ../src/commands.c:2078
 #, c-format
 msgid "Autofitting height of %s"
 msgstr "%s magasságának automatikus méretezése"
 
-#: ../src/commands.c:2154 ../src/dialogs/dialog-preferences.c:1224
+#: ../src/commands.c:2152 ../src/dialogs/dialog-preferences.c:1224
 msgid "Sorting"
 msgstr "Rendezés"
 
-#: ../src/commands.c:2177
+#: ../src/commands.c:2175
 #, c-format
 msgid "Sorting %s"
 msgstr "%s rendezése"
 
-#: ../src/commands.c:2339
+#: ../src/commands.c:2337
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
@@ -4161,7 +4166,7 @@ msgstr ""
 "Biztosan el szeretne rejteni minden oszlopot? Ha ezt szeretné, akkor "
 "előhozhatja azokat a „Formátum→Oszlop→Előhozás” menüponttal."
 
-#: ../src/commands.c:2343
+#: ../src/commands.c:2341
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
@@ -4169,94 +4174,94 @@ msgstr ""
 "Biztosan el szeretne rejteni minden sort? Ha ezt szeretné, akkor előhozhatja "
 "azokat a „Formátum→Sor→Előhozás” menüponttal."
 
-#: ../src/commands.c:2363
+#: ../src/commands.c:2361
 msgid "Unhide columns"
 msgstr "Oszlopok előhozása"
 
-#: ../src/commands.c:2363
+#: ../src/commands.c:2361
 msgid "Hide columns"
 msgstr "Oszlopok elrejtése"
 
-#: ../src/commands.c:2364
+#: ../src/commands.c:2362
 msgid "Unhide rows"
 msgstr "Sorok előhozása"
 
-#: ../src/commands.c:2364
+#: ../src/commands.c:2362
 msgid "Hide rows"
 msgstr "Sorok elrejtése"
 
-#: ../src/commands.c:2444
+#: ../src/commands.c:2442
 msgid "Expand columns"
 msgstr "Oszlopok kinyitása"
 
-#: ../src/commands.c:2444
+#: ../src/commands.c:2442
 msgid "Collapse columns"
 msgstr "Oszlopok összecsukása"
 
-#: ../src/commands.c:2445
+#: ../src/commands.c:2443
 msgid "Expand rows"
 msgstr "Sorok kinyitása"
 
-#: ../src/commands.c:2445
+#: ../src/commands.c:2443
 msgid "Collapse rows"
 msgstr "Sorok összecsukása"
 
-#: ../src/commands.c:2469
+#: ../src/commands.c:2467
 #, c-format
 msgid "Show column outline %d"
 msgstr "%d oszlopkörvonal megjelenítése"
 
-#: ../src/commands.c:2469
+#: ../src/commands.c:2467
 #, c-format
 msgid "Show row outline %d"
 msgstr "%d sorkörvonal megjelenítése"
 
-#: ../src/commands.c:2538
+#: ../src/commands.c:2536
 msgid "Those columns are already grouped"
 msgstr "Azok az oszlopok már csoportosítva vannak"
 
-#: ../src/commands.c:2539
+#: ../src/commands.c:2537
 msgid "Those rows are already grouped"
 msgstr "Azok a sorok már csoportosítva vannak"
 
-#: ../src/commands.c:2562
+#: ../src/commands.c:2560
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Azok az oszlopok nincsenek csoportosítva, nem lehet szétbontani őket"
 
-#: ../src/commands.c:2563
+#: ../src/commands.c:2561
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Azok a sorok nincsenek csoportosítva, nem lehet szétbontani őket"
 
-#: ../src/commands.c:2576
+#: ../src/commands.c:2574
 #, c-format
 msgid "Group columns %s"
 msgstr "%s oszlopok csoportosítása"
 
-#: ../src/commands.c:2576
+#: ../src/commands.c:2574
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "%s oszlopok szétbontása"
 
-#: ../src/commands.c:2578
+#: ../src/commands.c:2576
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "%d:%d sorok csoportosítása"
 
-#: ../src/commands.c:2578
+#: ../src/commands.c:2576
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "%d:%d sorok szétbontása"
 
-#: ../src/commands.c:2807
+#: ../src/commands.c:2805
 #, c-format
 msgid "Moving %s"
 msgstr "%s áthelyezése"
 
-#: ../src/commands.c:2817 ../src/commands.c:3223
+#: ../src/commands.c:2815 ../src/commands.c:3221
 msgid "is beyond sheet boundaries"
 msgstr "túl van a munkalap határain"
 
-#: ../src/commands.c:2875
+#: ../src/commands.c:2873
 #, c-format
 msgid ""
 "Copying between files with different date conventions.\n"
@@ -4267,311 +4272,311 @@ msgstr ""
 "Lehetséges, hogy néhány dátumot helytelenül lehetett\n"
 "lemásolni."
 
-#: ../src/commands.c:2905
+#: ../src/commands.c:2903
 msgid "Paste Copy"
 msgstr "Másolat beillesztése"
 
-#: ../src/commands.c:3119
+#: ../src/commands.c:3117
 #, c-format
 msgid "Pasting into %s"
 msgstr "Beillesztés ebbe: %s"
 
-#: ../src/commands.c:3209
+#: ../src/commands.c:3207
 #, c-format
 msgid "Do you really want to paste %s copies?"
 msgstr "Valóban be szeretne illeszteni %s másolatot?"
 
 #. Check arrays or merged regions in src or target regions
-#: ../src/commands.c:3266 ../src/commands.c:3422 ../src/commands.c:3423
+#: ../src/commands.c:3264 ../src/commands.c:3420 ../src/commands.c:3421
 #: ../src/item-cursor.c:1038 ../src/wbc-gtk-actions.c:579
 msgid "Autofill"
 msgstr "Automatikus kitöltés"
 
 #. Changed in initial redo.
-#: ../src/commands.c:3445
+#: ../src/commands.c:3443
 #, c-format
 msgid "Autofilling %s"
 msgstr "%s automatikus kitöltése"
 
-#: ../src/commands.c:3745
+#: ../src/commands.c:3743
 #, c-format
 msgid "Autoformatting %s"
 msgstr "%s automatikus formázása"
 
-#: ../src/commands.c:3863
+#: ../src/commands.c:3861
 #, c-format
 msgid "Unmerging %s"
 msgstr "%s szétválasztása"
 
-#: ../src/commands.c:4032
+#: ../src/commands.c:4030
 #, c-format
 msgid "Merge and Center %s"
 msgstr "%s egyesítése és középre igazítása"
 
-#: ../src/commands.c:4032
+#: ../src/commands.c:4030
 #, c-format
 msgid "Merging %s"
 msgstr "%s egyesítése"
 
 #. Corrected below.
-#: ../src/commands.c:4400 ../src/dialogs/search-replace.ui.h:5
+#: ../src/commands.c:4398 ../src/dialogs/search-replace.ui.h:5
 msgid "Search and Replace"
 msgstr "Keresés és csere"
 
-#: ../src/commands.c:4493
+#: ../src/commands.c:4491
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Az oszlopok alapértelmezett szélességének beállítása %.2f pontra"
 
-#: ../src/commands.c:4494
+#: ../src/commands.c:4492
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "A sorok alapértelmezett magasságának beállítása %.2f pontra"
 
-#: ../src/commands.c:4606
+#: ../src/commands.c:4604
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "%s nagyítása %.0f%%-ra"
 
-#: ../src/commands.c:4709
+#: ../src/commands.c:4707
 msgid "Delete Object"
 msgstr "Objektum törlése"
 
-#: ../src/commands.c:4851 ../src/commands.c:5922
+#: ../src/commands.c:4849 ../src/commands.c:5920
 #: ../src/dialogs/dialog-doc-metadata.c:1864
 #: ../src/dialogs/dialog-formula-guru.c:891
-#: ../src/dialogs/dialog-function-select.c:1279
+#: ../src/dialogs/dialog-function-select.c:1280
 #: ../src/dialogs/dialog-scenarios.c:521 ../src/dialogs/dialog-simulation.c:210
 #: ../src/dialogs/dialog-zoom.c:195 ../src/format-template.c:216
 msgid "Name"
 msgstr "Név"
 
-#: ../src/commands.c:4851
+#: ../src/commands.c:4849
 msgid "Sheet names must be non-empty."
 msgstr "A munkalapnevek nem lehetnek üresek."
 
-#: ../src/commands.c:4858
+#: ../src/commands.c:4856
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "Egy munkafüzetnek nem lehet két ugyanolyan nevű munkalapja."
 
-#: ../src/commands.c:4956
+#: ../src/commands.c:4954
 msgid "Resizing sheet"
 msgstr "Munkalap átméretezése"
 
-#: ../src/commands.c:5109
+#: ../src/commands.c:5107
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "%s megjegyzésének törlése"
 
-#: ../src/commands.c:5110
+#: ../src/commands.c:5108
 #, c-format
 msgid "Setting comment of %s"
 msgstr "%s megjegyzésének beállítása"
 
-#: ../src/commands.c:5547
+#: ../src/commands.c:5545
 #, c-format
 msgid "Merging data into %s"
 msgstr "Adatok egyesítése ebbe: %s"
 
-#: ../src/commands.c:5645
+#: ../src/commands.c:5643
 #, c-format
 msgid "Changing workbook properties"
 msgstr "Munkafüzet tulajdonságainak megváltoztatása"
 
-#: ../src/commands.c:5719
+#: ../src/commands.c:5717
 msgid "Pull Object to the Front"
 msgstr "Objektum előtérbe húzása"
 
-#: ../src/commands.c:5722
+#: ../src/commands.c:5720
 msgid "Pull Object Forward"
 msgstr "Objektum előre húzása"
 
-#: ../src/commands.c:5725
+#: ../src/commands.c:5723
 msgid "Push Object Backward"
 msgstr "Objektum hátra tolása"
 
-#: ../src/commands.c:5728
+#: ../src/commands.c:5726
 msgid "Push Object to the Back"
 msgstr "Objektum háttérbe tolása"
 
-#: ../src/commands.c:5858
+#: ../src/commands.c:5856
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Oldalbeállítás ennél: %s"
 
-#: ../src/commands.c:5860
+#: ../src/commands.c:5858
 msgid "Page Setup For All Sheets"
 msgstr "Oldalbeállítás minden munkalapnál"
 
-#: ../src/commands.c:5984 ../src/commands.c:5995
+#: ../src/commands.c:5982 ../src/commands.c:5993
 msgid "Defined Name"
 msgstr "Meghatározott név"
 
-#: ../src/commands.c:5985
+#: ../src/commands.c:5983
 msgid "An empty string is not allowed as defined name."
 msgstr "Üres szöveg nem engedélyezett meghatározott névként."
 
-#: ../src/commands.c:5993
+#: ../src/commands.c:5991
 #, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr "„%s” nem engedélyezett meghatározott névként."
 
-#: ../src/commands.c:6003
+#: ../src/commands.c:6001
 msgid "has a circular reference"
 msgstr "körkörös hivatkozása van"
 
-#: ../src/commands.c:6037
+#: ../src/commands.c:6035
 #, c-format
 msgid "Define Name %s"
 msgstr "%s név meghatározása"
 
-#: ../src/commands.c:6040
+#: ../src/commands.c:6038
 #, c-format
 msgid "Update Name %s"
 msgstr "%s név frissítése"
 
-#: ../src/commands.c:6133
+#: ../src/commands.c:6131
 #, c-format
 msgid "Remove Name %s"
 msgstr "%s név eltávolítása"
 
-#: ../src/commands.c:6164
+#: ../src/commands.c:6160
 msgid "Change Scope of Name"
 msgstr "Név hatáskörének megváltoztatása"
 
-#: ../src/commands.c:6213
+#: ../src/commands.c:6209
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr "%s név hatáskörének megváltoztatása"
 
-#: ../src/commands.c:6279
+#: ../src/commands.c:6275
 msgid "Add scenario"
 msgstr "Eset hozzáadása"
 
-#: ../src/commands.c:6343
+#: ../src/commands.c:6339
 msgid "Scenario Show"
 msgstr "Eset megjelenítése"
 
-#: ../src/commands.c:6401
+#: ../src/commands.c:6397
 msgid "Shuffle Data"
 msgstr "Adatok keverése"
 
 #. FIXME?
-#: ../src/commands.c:6505
+#: ../src/commands.c:6501
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Szövegből (%s) oszlopok (%s)"
 
-#: ../src/commands.c:6663
+#: ../src/commands.c:6659
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Célértékkeresés (%s)"
 
-#: ../src/commands.c:6829
+#: ../src/commands.c:6825
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Táblázatkészítési függőségek"
 
-#: ../src/commands.c:6903
+#: ../src/commands.c:6899
 msgid "Reconfigure Graph"
 msgstr "Grafikon újrabeállítása"
 
-#: ../src/commands.c:6973
+#: ../src/commands.c:6969
 msgid "Reconfigure Object"
 msgstr "Objektum újrabeállítása"
 
-#: ../src/commands.c:7186
+#: ../src/commands.c:7182
 msgid "Changing Hyperlink"
 msgstr "Hiperhivatkozás megváltoztatása"
 
-#: ../src/commands.c:7270
+#: ../src/commands.c:7266
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "%s hiperhivatkozásának megváltoztatása"
 
-#: ../src/commands.c:7355
+#: ../src/commands.c:7351
 msgid "Configure List"
 msgstr "Lista beállítása"
 
-#: ../src/commands.c:7426
+#: ../src/commands.c:7422
 msgid "Set Frame Label"
 msgstr "Keretcímke beállítása"
 
-#: ../src/commands.c:7497
+#: ../src/commands.c:7493
 msgid "Configure Button"
 msgstr "Gomb beállítása"
 
-#: ../src/commands.c:7578
+#: ../src/commands.c:7574
 msgid "Configure Radio Button"
 msgstr "Választógomb beállítása"
 
-#: ../src/commands.c:7654
+#: ../src/commands.c:7650
 msgid "Configure Checkbox"
 msgstr "Jelölőnégyzet beállítása"
 
-#: ../src/commands.c:7761 ../src/sheet-object-widget.c:1773
+#: ../src/commands.c:7757 ../src/sheet-object-widget.c:1773
 msgid "Configure Adjustment"
 msgstr "Igazítás beállítása"
 
-#: ../src/commands.c:7792
+#: ../src/commands.c:7788
 msgid "Add Filter"
 msgstr "Szűrő hozzáadása"
 
-#: ../src/commands.c:7808 ../src/wbc-gtk.c:1674
+#: ../src/commands.c:7804 ../src/wbc-gtk.c:1674
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "%s által blokkolt automatikus szűrő"
 
-#: ../src/commands.c:7813 ../src/commands.c:7840 ../src/commands.c:7849
+#: ../src/commands.c:7809 ../src/commands.c:7836 ../src/commands.c:7845
 msgid "AutoFilter"
 msgstr "AutomatikusSzűrő"
 
-#: ../src/commands.c:7841
+#: ../src/commands.c:7837
 msgid "Requires more than 1 row"
 msgstr "Egynél több sort igényel"
 
-#: ../src/commands.c:7850
+#: ../src/commands.c:7846
 msgid "Unable to create Autofilter"
 msgstr "Nem lehet létrehozni az automatikus szűrőt"
 
-#: ../src/commands.c:7872
+#: ../src/commands.c:7868
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr "Automatikus szűrő hozzáadása ehhez: %s"
 
-#: ../src/commands.c:7873
+#: ../src/commands.c:7869
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Automatikus szűrő kiterjesztése erre: %s"
 
-#: ../src/commands.c:7886
+#: ../src/commands.c:7882
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Automatikus szűrő eltávolítása innen: %s"
 
-#: ../src/commands.c:7916
+#: ../src/commands.c:7912
 #, c-format
 msgid "Change filter condition for %s"
 msgstr "Szűrőfeltétel megváltoztatása ennél: %s"
 
-#: ../src/commands.c:7985 ../src/wbc-gtk-actions.c:2395
+#: ../src/commands.c:7981 ../src/wbc-gtk-actions.c:2395
 msgid "Clear All Page Breaks"
 msgstr "Minden oldaltörés törlése"
 
-#: ../src/commands.c:8012 ../src/wbc-gtk.c:1609
+#: ../src/commands.c:8008 ../src/wbc-gtk.c:1609
 msgid "Remove Column Page Break"
 msgstr "Oszlop oldaltörés eltávolítása"
 
-#: ../src/commands.c:8012 ../src/wbc-gtk.c:1619
+#: ../src/commands.c:8008 ../src/wbc-gtk.c:1619
 msgid "Remove Row Page Break"
 msgstr "Sor oldaltörés eltávolítása"
 
-#: ../src/commands.c:8015 ../src/wbc-gtk.c:1612
+#: ../src/commands.c:8011 ../src/wbc-gtk.c:1612
 msgid "Add Column Page Break"
 msgstr "Oszlop oldaltörés hozzáadása"
 
-#: ../src/commands.c:8015 ../src/wbc-gtk.c:1622
+#: ../src/commands.c:8011 ../src/wbc-gtk.c:1622
 msgid "Add Row Page Break"
 msgstr "Sor oldaltörés hozzáadása"
 
@@ -5028,7 +5033,6 @@ msgid "Visit the Gnumeric website"
 msgstr "A Gnumeric weblapjának megtekintése"
 
 #: ../src/dialogs/dialog-about.c:600
-#| msgid "Copyright © 1998-2024"
 msgid "Copyright © 1998-2026"
 msgstr "Copyright © 1998-2026"
 
@@ -6083,32 +6087,32 @@ msgstr "%s sor"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/dialogs/dialog-cell-sort.c:316
+#: ../src/dialogs/dialog-cell-sort.c:315
 #, c-format
 msgid "%s to %s"
 msgstr "%s – %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:754
+#: ../src/dialogs/dialog-cell-sort.c:759
 msgid "no available column"
 msgstr "nincs elérhető oszlop"
 
-#: ../src/dialogs/dialog-cell-sort.c:754
+#: ../src/dialogs/dialog-cell-sort.c:759
 msgid "no available row"
 msgstr "nincs elérhető sor"
 
-#: ../src/dialogs/dialog-cell-sort.c:1005
+#: ../src/dialogs/dialog-cell-sort.c:1010
 msgid "Header"
 msgstr "Fejléc"
 
-#: ../src/dialogs/dialog-cell-sort.c:1011
+#: ../src/dialogs/dialog-cell-sort.c:1016
 msgid "Row/Column"
 msgstr "Sor/Oszlop"
 
-#: ../src/dialogs/dialog-cell-sort.c:1031
+#: ../src/dialogs/dialog-cell-sort.c:1036
 msgid "Case Sensitive"
 msgstr "Kis- és nagybetűk megkülönböztetése"
 
-#: ../src/dialogs/dialog-cell-sort.c:1051
+#: ../src/dialogs/dialog-cell-sort.c:1056
 msgid "By Value"
 msgstr "Érték szerint"
 
@@ -6134,11 +6138,11 @@ msgstr "A(z) %s előírás nem határoz meg területet"
 msgid "Source region %s overlaps with the destination region"
 msgstr "A(z) %s forrásterület átfedésben van a célterülettel"
 
-#: ../src/dialogs/dialog-consolidate.c:322
+#: ../src/dialogs/dialog-consolidate.c:324
 msgid "The output range overlaps with the input ranges."
 msgstr "A kimeneti tartomány átfedésben van a bemeneti tartományokkal."
 
-#: ../src/dialogs/dialog-consolidate.c:547
+#: ../src/dialogs/dialog-consolidate.c:549
 msgid "Could not create the Consolidate dialog."
 msgstr "Nem sikerült létrehozni az összesítés párbeszédablakot."
 
@@ -6321,7 +6325,7 @@ msgid "Properties"
 msgstr "Tulajdonságok"
 
 #: ../src/dialogs/dialog-doc-metadata.c:2197
-#: ../src/dialogs/dialog-function-select.c:1284
+#: ../src/dialogs/dialog-function-select.c:1285
 #: ../src/dialogs/dialog-plugin-manager.c:710
 #: ../src/dialogs/dialog-sheet-compare.c:713
 #: ../src/dialogs/doc-meta-data.ui.h:29 ../src/ssconvert.c:400
@@ -6393,27 +6397,27 @@ msgstr "Lásd még: "
 msgid ", "
 msgstr ", "
 
-#: ../src/dialogs/dialog-function-select.c:870
+#: ../src/dialogs/dialog-function-select.c:871
 msgid "Further information: "
 msgstr "További információk: "
 
-#: ../src/dialogs/dialog-function-select.c:872
+#: ../src/dialogs/dialog-function-select.c:873
 msgid "online descriptions"
 msgstr "internetes leírások"
 
-#: ../src/dialogs/dialog-function-select.c:884
+#: ../src/dialogs/dialog-function-select.c:885
 msgid "Microsoft Excel: "
 msgstr "Microsoft Excel: "
 
-#: ../src/dialogs/dialog-function-select.c:893
+#: ../src/dialogs/dialog-function-select.c:894
 msgid "ODF (OpenFormula): "
 msgstr "ODF (OpenFormula): "
 
-#: ../src/dialogs/dialog-function-select.c:1384
+#: ../src/dialogs/dialog-function-select.c:1385
 msgid "Gnumeric Function Help Browser"
 msgstr "Gnumeric függvénysúgó böngésző"
 
-#: ../src/dialogs/dialog-function-select.c:1388
+#: ../src/dialogs/dialog-function-select.c:1389
 msgid "Paste Function Name dialog"
 msgstr "Függvénynév beillesztése párbeszédablak"
 
@@ -7265,7 +7269,7 @@ msgstr "Kifejezés"
 msgid "Other value"
 msgstr "Egyéb érték"
 
-#: ../src/dialogs/dialog-search.c:437 ../src/dialogs/dialog-so-styled.c:222
+#: ../src/dialogs/dialog-search.c:437 ../src/dialogs/dialog-so-styled.c:223
 msgid "Content"
 msgstr "Tartalom"
 
@@ -7671,7 +7675,7 @@ msgstr ""
 "Az első kerek számnak kisebbnek vagy egyenlőnek kell lennie az utolsó kerek "
 "számmal."
 
-#: ../src/dialogs/dialog-simulation.c:416
+#: ../src/dialogs/dialog-simulation.c:417
 msgid "Could not create the Simulation dialog."
 msgstr "Nem sikerült létrehozni a szimuláció párbeszédablakot."
 
@@ -7683,11 +7687,11 @@ msgstr "Nem sikerült létrehozni a listatulajdonság párbeszédablakot."
 msgid "Format Object"
 msgstr "Objektum formázása"
 
-#: ../src/dialogs/dialog-so-styled.c:233
+#: ../src/dialogs/dialog-so-styled.c:234
 msgid "Head"
 msgstr "Fej"
 
-#: ../src/dialogs/dialog-so-styled.c:244
+#: ../src/dialogs/dialog-so-styled.c:245
 msgid "Tail"
 msgstr "Farok"
 
@@ -11277,7 +11281,6 @@ msgid "Search and replace in all cells in the workbook"
 msgstr "Keresés és csere a munkafüzet minden cellájában"
 
 #: ../src/dialogs/search-replace.ui.h:24 ../src/dialogs/search.ui.h:13
-#| msgid "_Current sheet"
 msgid "C_urrent sheet"
 msgstr "_Jelenlegi munkalap"
 
@@ -12217,12 +12220,12 @@ msgstr ""
 msgid "'%s' has a circular reference"
 msgstr "A(z) „%s” körkörös hivatkozással rendelkezik"
 
-#: ../src/expr-name.c:727 ../src/expr-name.c:968
+#: ../src/expr-name.c:727 ../src/expr-name.c:974
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "A(z) „%s” már meg van határozva a munkalapon"
 
-#: ../src/expr-name.c:728 ../src/expr-name.c:969
+#: ../src/expr-name.c:728 ../src/expr-name.c:975
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "A(z) „%s” már meg van határozva a munkafüzetben"
@@ -12744,16 +12747,16 @@ msgstr "Nem lehet bekapcsolni a(z) „%s” URL-t"
 msgid "Unable to open '%s'"
 msgstr "Nem nyitható meg: „%s”"
 
-#: ../src/item-bar.c:867
+#: ../src/item-bar.c:857
 msgid "Width:"
 msgstr "Szélesség:"
 
-#: ../src/item-bar.c:867
+#: ../src/item-bar.c:857
 msgid "Height:"
 msgstr "Magasság:"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
-#: ../src/item-bar.c:872
+#: ../src/item-bar.c:862
 #, c-format
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
@@ -12761,18 +12764,18 @@ msgstr[0] "(%d képpont)"
 msgstr[1] "(%d képpont)"
 
 #. xgettext: This is input to ngettext based on the integer number of points.
-#: ../src/item-bar.c:877
+#: ../src/item-bar.c:867
 #, c-format
 msgid "%d.00 pt"
 msgstr "%d.00 pont"
 
-#: ../src/item-bar.c:877
+#: ../src/item-bar.c:867
 #, c-format
 msgid "%d.00 pts"
 msgstr "%d.00 pont"
 
 #. xgettext: The number of points here is always a fractional number, ie. not an integer.
-#: ../src/item-bar.c:881
+#: ../src/item-bar.c:871
 #, c-format
 msgid "%.2f pts"
 msgstr "%.2f pont"
@@ -12883,7 +12886,7 @@ msgid "[FILE ...]"
 msgstr "[FÁJL …]"
 
 #: ../src/main-application.c:127 ../src/ssconvert.c:1459 ../src/ssdiff.c:936
-#: ../src/ssgrep.c:436 ../src/ssindex.c:259
+#: ../src/ssgrep.c:437 ../src/ssindex.c:259
 #, c-format
 msgid ""
 "%s\n"
@@ -13643,31 +13646,31 @@ msgstr "Rács megjelenítése"
 msgid "Control whether the grid is shown."
 msgstr "Azt vezérli, hogy megjelenjen-e a rács."
 
-#: ../src/sheet.c:3786
+#: ../src/sheet.c:3793
 msgid "Target region contains merged cells"
 msgstr "A célterület egyesített cellákat tartalmaz"
 
-#: ../src/sheet.c:3852
+#: ../src/sheet.c:3859
 msgid "cannot operate on merged cells"
 msgstr "nem működik egyesített cellákon"
 
-#: ../src/sheet.c:3865
+#: ../src/sheet.c:3872
 msgid "cannot operate on array formulæ"
 msgstr "nem működik tömbképleteken"
 
-#: ../src/sheet.c:5583
+#: ../src/sheet.c:5590
 msgid "Insert Columns"
 msgstr "Oszlopok beszúrása"
 
-#: ../src/sheet.c:5601
+#: ../src/sheet.c:5608
 msgid "Delete Columns"
 msgstr "Oszlopok törlése"
 
-#: ../src/sheet.c:5619
+#: ../src/sheet.c:5626
 msgid "Insert Rows"
 msgstr "Sorok beszúrása"
 
-#: ../src/sheet.c:5637
+#: ../src/sheet.c:5644
 msgid "Delete Rows"
 msgstr "Sorok törlése"
 
@@ -14107,15 +14110,15 @@ msgstr "Minden cella újraszámolása"
 msgid "result"
 msgstr "eredmény"
 
-#: ../src/ssgrep.c:370
+#: ../src/ssgrep.c:371
 msgid "comment"
 msgstr "megjegyzés"
 
-#: ../src/ssgrep.c:429
+#: ../src/ssgrep.c:430
 msgid "PATTERN INFILE..."
 msgstr "MINTA BEFÁJL…"
 
-#: ../src/ssgrep.c:443
+#: ../src/ssgrep.c:444
 #, c-format
 msgid ""
 "version '%s'\n"
@@ -14126,12 +14129,12 @@ msgstr ""
 "adatkönyvtár := „%s”\n"
 "programkönyvtár := „%s”\n"
 
-#: ../src/ssgrep.c:463
+#: ../src/ssgrep.c:464
 #, c-format
 msgid "%s: Cannot read %s: %s\n"
 msgstr "%s: Nem olvasható: %s: %s\n"
 
-#: ../src/ssgrep.c:493
+#: ../src/ssgrep.c:494
 #, c-format
 msgid "%s: Missing pattern\n"
 msgstr "%s: Hiányzó minta\n"
@@ -15114,15 +15117,15 @@ msgstr "Új munkalap"
 msgid "New Workbook"
 msgstr "Új munkafüzet"
 
-#: ../src/tools/dao.c:1014
+#: ../src/tools/dao.c:1020
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: ../src/tools/dao.c:1020
+#: ../src/tools/dao.c:1026
 msgid "Worksheet:"
 msgstr "Munkalap:"
 
-#: ../src/tools/dao.c:1027
+#: ../src/tools/dao.c:1033
 msgid "Report Created: "
 msgstr "Jelentés létrehozva: "
 
@@ -15619,7 +15622,7 @@ msgstr "#SZÁM!"
 msgid "#N/A"
 msgstr "#N/A"
 
-#: ../src/wbc-gtk-actions.c:182 ../src/workbook-view.c:1277
+#: ../src/wbc-gtk-actions.c:182 ../src/workbook-view.c:1278
 msgid "Default file saver is not available."
 msgstr "Az alapértelmezett fájlmentő nem érhető el."
 
@@ -15776,27 +15779,22 @@ msgid "Copy right"
 msgstr "Másolás jobbra"
 
 #: ../src/wbc-gtk-actions.c:1963
-#| msgid "Display _Formulæ"
 msgid "Toggle displaying formulæ"
 msgstr "Képletek megjelenítésének be- vagy kikapcsolása"
 
 #: ../src/wbc-gtk-actions.c:1964
-#| msgid "Toggle thousands separator"
 msgid "Toggle showing zeros"
 msgstr "Nullák megjelenítésének be- vagy kikapcsolása"
 
 #: ../src/wbc-gtk-actions.c:1965
-#| msgid "_Show Gridlines"
 msgid "Toggle showing gridlines"
 msgstr "Rácsvonalak megjelenítésének be- vagy kikapcsolása"
 
 #: ../src/wbc-gtk-actions.c:1966
-#| msgid "Toggle whether or not to display column headers"
 msgid "Toggle showing column headers"
 msgstr "Oszlopfejlécek megjelenítésének be- vagy kikapcsolása"
 
 #: ../src/wbc-gtk-actions.c:1967
-#| msgid "Toggle whether or not to display row headers"
 msgid "Toggle showing row headers"
 msgstr "Sorfejlécek megjelenítésének be- vagy kikapcsolása"
 
@@ -15805,22 +15803,18 @@ msgid "Toggle showing outlines"
 msgstr "Körvonalak megjelenítésének be- vagy kikapcsolása"
 
 #: ../src/wbc-gtk-actions.c:1969
-#| msgid "Toggle whether to display row outlines on top or bottom"
 msgid "Toggle where to show outlines vertically"
 msgstr "Annak átváltása, hogy hol jelenjenek meg a körvonalak függőlegesen"
 
 #: ../src/wbc-gtk-actions.c:1970
-#| msgid "Toggle whether to display row outlines on top or bottom"
 msgid "Toggle where to show outlines horizontally"
 msgstr "Annak átváltása, hogy hol jelenjenek meg a körvonalak vízszintesen"
 
 #: ../src/wbc-gtk-actions.c:1971
-#| msgid "Toggle whether or not to display row headers"
 msgid "Toggle whether to show r1c1-style references"
 msgstr "Annak átváltása, hogy az s1o1-stílusú hivatkozások megjelenjenek-e"
 
 #: ../src/wbc-gtk-actions.c:1972
-#| msgid "Malformed sheet filter condition"
 msgid "Toggle sheet text direction"
 msgstr "Munkalap szövegirányának átváltása"
 
@@ -18378,26 +18372,26 @@ msgstr "%dS"
 msgid "%dR x %dC"
 msgstr "%dS x %dO"
 
-#: ../src/workbook-view.c:1113
+#: ../src/workbook-view.c:1114
 msgid "An unexplained error happened while saving."
 msgstr "Megmagyarázhatatlan hiba történt mentés közben."
 
-#: ../src/workbook-view.c:1137
+#: ../src/workbook-view.c:1138
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "„%s” nem nyitható meg írásra: %s"
 
-#: ../src/workbook-view.c:1141
+#: ../src/workbook-view.c:1142
 #, c-format
 msgid "Can't open '%s' for writing"
 msgstr "„%s” nem nyitható meg írásra"
 
-#: ../src/workbook-view.c:1417
+#: ../src/workbook-view.c:1418
 #, c-format
 msgid "Unsupported file format for file \"%s\""
 msgstr "Nem támogatott fájlformátum a(z) „%s” fájlnál"
 
-#: ../src/workbook-view.c:1473
+#: ../src/workbook-view.c:1474
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Megmagyarázhatatlan hiba történt a(z) %s megnyitása közben"
@@ -18411,14 +18405,14 @@ msgstr "Munkafüzet%d.%s"
 msgid "Graph"
 msgstr "Grafikon"
 
-#: ../src/workbook.c:1678
+#: ../src/workbook.c:1679
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
 msgstr[0] "Munkalap átnevezése"
 msgstr[1] "%d munkalap átnevezése"
 
-#: ../src/workbook.c:1680
+#: ../src/workbook.c:1681
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -18429,18 +18423,18 @@ msgstr[1] "%d munkalap hozzáadása"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1686
+#: ../src/workbook.c:1687
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
 msgstr[0] "Munkalap beszúrása"
 msgstr[1] "%d munkalap beszúrása"
 
-#: ../src/workbook.c:1688
+#: ../src/workbook.c:1689
 msgid "Changing sheet tab colors"
 msgstr "Munkalapfül színeinek megváltoztatása"
 
-#: ../src/workbook.c:1690
+#: ../src/workbook.c:1691
 msgid "Changing sheet properties"
 msgstr "Munkalap tulajdonságainak megváltoztatása"
 
@@ -18448,18 +18442,18 @@ msgstr "Munkalap tulajdonságainak megváltoztatása"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1697
+#: ../src/workbook.c:1698
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
 msgstr[0] "Munkalap törlése"
 msgstr[1] "%d munkalap törlése"
 
-#: ../src/workbook.c:1699
+#: ../src/workbook.c:1700
 msgid "Changing sheet order"
 msgstr "Munkalapsorrend megváltoztatása"
 
-#: ../src/workbook.c:1701
+#: ../src/workbook.c:1702
 msgid "Reorganizing Sheets"
 msgstr "Munkalapok újraszervezése"
 
