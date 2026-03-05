@@ -1338,6 +1338,11 @@ excel_read_SST (BiffQuery *q, GnmXLImporter *importer)
 			gsf_mem_dump (q->data, q->length);
 		});
 
+	if (importer->sst) {
+		g_printerr ("Duplicate sst -- that cannot be good!\n");
+		return;
+	}
+
 	sst_len = GSF_LE_GET_GUINT32 (q->data + 4);
 	XL_CHECK_CONDITION (sst_len < INT_MAX / sizeof (ExcelStringEntry));
 
