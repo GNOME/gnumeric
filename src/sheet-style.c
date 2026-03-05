@@ -2350,7 +2350,7 @@ cb_most_common (GnmStyle *style,
  * @is_col: if %TRUE, look for common styles in columns; if %FALSE, look in
  * rows.
  *
- * Returns: (transfer full) (element-type GnmStyle): an array of
+ * Returns: (transfer container) (element-type GnmStyle): an array of
  * styles describing the most common styles, one per column or row.
  */
 GPtrArray *
@@ -2371,8 +2371,11 @@ sheet_style_most_common (Sheet const *sheet, gboolean is_col)
 	cmc.is_col = is_col;
 	foreach_tile (sheet, &r, cb_most_common, &cmc);
 
-	max = g_new0 (int, cmc.l);
+	// We transfer only the container to the caller, but note that the
+	// container owns references.
 	res = g_ptr_array_new_with_free_func ((GDestroyNotify)gnm_style_unref);
+
+	max = g_new0 (int, cmc.l);
 	g_ptr_array_set_size (res, cmc.l);
 	g_hash_table_iter_init (&iter, cmc.h);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
