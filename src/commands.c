@@ -2088,6 +2088,7 @@ cmd_autofit_selection (WorkbookControl *wbc, SheetView *sv, Sheet *sheet, gboole
 		redo = go_undo_combine
 			(redo, gnm_undo_colrow_set_sizes_new
 			 (sheet, fit_width, NULL, -1, l->data));
+	range_fragment_free (selection);
 
 	result = cmd_generic (wbc, text, undo, redo);
 	g_free (text);
