@@ -471,6 +471,11 @@ GSF_CLASS (GnmGODataScalar, gnm_go_data_scalar,
 	   gnm_go_data_scalar_class_init, gnm_go_data_scalar_init,
 	   GO_TYPE_DATA_SCALAR)
 
+/**
+ * gnm_go_data_scalar_new_expr:
+ * @sheet: Sheet
+ * @texpr: (transfer full): expression
+ */
 GOData *
 gnm_go_data_scalar_new_expr (Sheet *sheet, GnmExprTop const *texpr)
 {
@@ -1138,6 +1143,11 @@ GSF_CLASS (GnmGODataVector, gnm_go_data_vector,
 	   gnm_go_data_vector_class_init, gnm_go_data_vector_init,
 	   GO_TYPE_DATA_VECTOR)
 
+/**
+ * gnm_go_data_vector_new_expr:
+ * @sheet: Sheet
+ * @texpr: (transfer full): expression
+ */
 GOData *
 gnm_go_data_vector_new_expr (Sheet *sheet, GnmExprTop const *texpr)
 {
@@ -1507,6 +1517,11 @@ GSF_CLASS (GnmGODataMatrix, gnm_go_data_matrix,
 	   gnm_go_data_matrix_class_init, gnm_go_data_matrix_init,
 	   GO_TYPE_DATA_MATRIX)
 
+/**
+ * gnm_go_data_matrix_new_expr:
+ * @sheet: Sheet
+ * @texpr: (transfer full): expression
+ */
 GOData *
 gnm_go_data_matrix_new_expr (Sheet *sheet, GnmExprTop const *texpr)
 {
