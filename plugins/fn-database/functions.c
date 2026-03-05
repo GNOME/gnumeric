@@ -151,12 +151,12 @@ find_cells_that_match (Sheet *sheet, GnmValue const *database,
 }
 
 static void *
-database_find_values (Sheet *sheet, GnmValue const *database,
-		      int col, GSList *criterias,
-		      CollectFlags flags,
-		      int *pcount,
-		      GnmValue **error,
-		      gboolean floats)
+database_find_values_impl (Sheet *sheet, GnmValue const *database,
+			   int col, GSList *criterias,
+			   CollectFlags flags,
+			   int *pcount,
+			   GnmValue **error,
+			   gboolean floats)
 {
 	GSList *cells, *current;
 	int cellcount, count;
@@ -168,9 +168,10 @@ database_find_values (Sheet *sheet, GnmValue const *database,
 		      COLLECT_IGNORE_BOOLS |
 		      COLLECT_IGNORE_BLANKS |
 		      COLLECT_IGNORE_ERRORS)) {
-		g_warning ("unsupported flags in database_find_values %x", flags);
+		g_warning ("unsupported flags in database_find_values_impl %x", flags);
 	}
 
+	*pcount = 0;
 	*error = NULL;
 
 	/* FIXME: expand and sanitise this call later.  */
@@ -213,6 +214,53 @@ database_find_values (Sheet *sheet, GnmValue const *database,
 	return res;
 }
 
+/**
+ * database_find_values_float:
+ * @sheet:
+ * @database:
+ * @col: relative column
+ * @criterias:
+ * @flags:
+ * @pcount: (out): number of values returned
+ * @error: (out) (nullable) (transfer full): error
+ *
+ * Returns: (transfer full) (nullable): matching values
+ */
+static gnm_float *
+database_find_values_float (Sheet *sheet, GnmValue const *database,
+			    int col, GSList *criterias,
+			    CollectFlags flags,
+			    int *pcount,
+			    GnmValue **error)
+{
+	return database_find_values_impl (sheet, database, col, criterias,
+					  flags, pcount, error, TRUE);
+}
+
+/**
+ * database_find_values:
+ * @sheet:
+ * @database:
+ * @col: relative column
+ * @criterias:
+ * @flags:
+ * @pcount: (out): number of values returned
+ * @error: (out) (nullable) (transfer full): error
+ *
+ * Returns: (transfer full) (nullable): matching values
+ */
+static GnmValue **
+database_find_values (Sheet *sheet, GnmValue const *database,
+		      int col, GSList *criterias,
+		      CollectFlags flags,
+		      int *pcount,
+		      GnmValue **error)
+{
+	return database_find_values_impl (sheet, database, col, criterias,
+					  flags, pcount, error, FALSE);
+}
+
+
 /***************************************************************************/
 
 static GnmValue *
@@ -250,8 +298,8 @@ database_float_range_function (GnmFuncEvalInfo *ei,
 	sheet = eval_sheet (database->v_range.cell.a.sheet,
 			    ei->pos->sheet);
 
-	vals = database_find_values (sheet, database, fieldno, criterias,
-				     flags, &count, &res, TRUE);
+	vals = database_find_values_float (sheet, database, fieldno, criterias,
+					   flags, &count, &res);
 
 	if (!vals) {
 		goto out;
@@ -320,7 +368,7 @@ database_value_range_function (GnmFuncEvalInfo *ei,
 			    ei->pos->sheet);
 
 	vals = database_find_values (sheet, database, fieldno, criterias,
-				     flags, &count, &res, FALSE);
+				     flags, &count, &res);
 
 	if (!vals) {
 		goto out;
