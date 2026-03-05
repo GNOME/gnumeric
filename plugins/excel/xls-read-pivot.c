@@ -528,8 +528,10 @@ xls_read_SXStreamID (GnmXLImporter *imp, BiffQuery *q, GsfInfile *container)
 							workbook_sheet_attach (imp->wb, sheet);
 						}
 						cache_src = gnm_data_cache_source_new (sheet, &r, NULL);
-					} else
-						; /* TODO : the rest of dcon-file */
+					} else {
+						/* TODO : the rest of dcon-file */
+						g_free (source_name);
+					}
 				}
 
 #if 0
