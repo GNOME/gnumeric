@@ -9174,7 +9174,7 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 		/* Complain fiercely? */
 	}
 
-	g_free (state.conv);
+	gnm_conventions_unref (state.conv);
 	if (state.openformula_namemap)
 		g_hash_table_destroy (state.openformula_namemap);
 	if (state.openformula_handlermap)
