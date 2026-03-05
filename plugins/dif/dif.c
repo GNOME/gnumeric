@@ -198,7 +198,7 @@ dif_parse_data (DifInputContext *ctxt)
 				} else if (0 == strcmp (ctxt->line, "TRUE")) {	/* TRUE    bool T	 res must be 1 */
 					v = value_new_bool (TRUE);
 				} else if (0 == strcmp (ctxt->line, "FALSE")) {	/* FALSE   bool F	 res must be O */
-					v = value_new_bool (TRUE);
+					v = value_new_bool (FALSE);
 				} else if (0 == strcmp (ctxt->line, "ERROR")) {	/* ERROR   err		 res must be O */
 					go_io_warning (ctxt->io_context,
 							_("Unknown value type '%s' at line %d. Ignoring."),
