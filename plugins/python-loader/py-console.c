@@ -124,13 +124,14 @@ app_cline_entered (GnmPyCommandLine *cline)
 		cmd++;
 	if (!strncmp (cmd, "quit", 4)) {
 		/* check if the non space character is a left bracket */
-		char *cur = cmd + 4;
+		const char *cur = cmd + 4;
 		while (*cur && g_unichar_isspace (g_utf8_get_char (cur)))
 			cur = g_utf8_next_char (cur);
 		if (*cur == '(') {
 			/* don't close gnumeric, just the console */
 			gtk_widget_destroy (app->win);
 			app = NULL;
+			g_free (cmd);
 			return;
 		}
 	}
