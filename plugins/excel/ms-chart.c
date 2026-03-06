@@ -318,9 +318,7 @@ BC_R(ai)(XLChartHandler const *handle,
 			Sheet *sheet = ms_container_sheet (s->container.parent);
 			GOData *data = gnm_go_data_scalar_new_expr (sheet, texpr);
 
-			XL_CHECK_CONDITION_VAL (sheet &&
-						s->label,
-						(gnm_expr_top_unref (texpr), TRUE));
+			XL_CHECK_CONDITION_VAL (sheet && s->label, TRUE);
 			gog_dataset_set_dim (GOG_DATASET (s->label), 0, data, NULL);
 		}
 		return FALSE;
