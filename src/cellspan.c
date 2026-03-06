@@ -49,6 +49,12 @@ free_hash_value (G_GNUC_UNUSED gpointer key, gpointer value,
 	g_free (value);
 }
 
+/**
+ * row_destroy_span:
+ * @ri: (nullable): #ColRowInfo
+ *
+ * Destroys the span information associated with @ri.
+ **/
 void
 row_destroy_span (ColRowInfo *ri)
 {
@@ -60,14 +66,14 @@ row_destroy_span (ColRowInfo *ri)
 	ri->spans = NULL;
 }
 
-/*
- * cell_register_span
- * @cell:  The cell to register the span
- * @left:  the leftmost column used by the cell
- * @right: the rightmost column used by the cell
+/**
+ * cell_register_span:
+ * @cell: #GnmCell
+ * @left: leftmost column
+ * @right: rightmost column
  *
- * Registers the region
- */
+ * Registers the span for @cell from @left to @right.
+ **/
 void
 cell_register_span (GnmCell const *cell, int left, int right)
 {
@@ -112,12 +118,12 @@ span_remove (G_GNUC_UNUSED gpointer key, gpointer value,
 	return FALSE;
 }
 
-/*
- * sheet_cell_unregister_span
- * @cell: The cell to remove from the span information
+/**
+ * cell_unregister_span:
+ * @cell: #GnmCell
  *
- * Remove all references to this cell in the span hashtable
- */
+ * Unregisters the span for @cell.
+ **/
 void
 cell_unregister_span (GnmCell const * const cell)
 {
@@ -134,16 +140,14 @@ cell_unregister_span (GnmCell const * const cell)
 				     &span_remove, (gpointer)cell);
 }
 
-/*
- * row_span_get
- * @ri: The ColRowInfo for the row we are looking up
- * @col: the column position
+/**
+ * row_span_get:
+ * @ri: #ColRowInfo
+ * @col: column
  *
- * Returns: #CellSpanInfo of the spanning cell being displayed at the
- * column.  This includes including
- *   - the cell whose contents span.
- *   - the first and last column in the span.
- */
+ * Returns: (transfer none) (nullable): the #CellSpanInfo for the cell
+ * at @col in @ri.
+ **/
 CellSpanInfo const *
 row_span_get (ColRowInfo const * const ri, int const col)
 {
@@ -154,14 +158,19 @@ row_span_get (ColRowInfo const * const ri, int const col)
 	return g_hash_table_lookup (ri->spans, GINT_TO_POINTER(col));
 }
 
-/* making CellSpanInfo a boxed type. As this objects are constant, no need
+/* making CellSpanInfo a boxed type. As these objects are constant, no need
  * to really copy free them. Right? */
-static const CellSpanInfo*
+static const CellSpanInfo *
 cell_span_info_copy (CellSpanInfo const *sp)
 {
 	return sp;
 }
 
+/**
+ * cell_span_info_get_type:
+ *
+ * Returns: the GType for #CellSpanInfo.
+ **/
 GType
 cell_span_info_get_type (void)
 {
@@ -213,14 +222,15 @@ cellspan_is_empty (int col, GnmCell const *ok_span_cell)
 		(VALUE_IS_EMPTY (tmp->value) && !gnm_cell_has_expr(tmp)));
 }
 
-/*
+/**
  * cell_calc_span:
- * @cell:   The cell we will examine
- * @col1:   return value: the first column used by this cell
- * @col2:   return value: the last column used by this cell
+ * @cell: #GnmCell
+ * @col1: (out): leftmost column
+ * @col2: (out): rightmost column
  *
- * This routine returns the column interval used by a GnmCell.
- */
+ * Calculates the column interval used by @cell and returns the results
+ * in @col1 and @col2.
+ **/
 void
 cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 {
@@ -418,6 +428,14 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	} /* switch */
 }
 
+/**
+ * row_calc_spans:
+ * @ri: #ColRowInfo
+ * @row: row index
+ * @sheet: #Sheet
+ *
+ * Calculates the spans for the entire row @row in @sheet and updates @ri.
+ **/
 void
 row_calc_spans (ColRowInfo *ri, int row, Sheet const *sheet)
 {

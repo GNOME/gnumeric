@@ -68,6 +68,11 @@ pointer_dup (gpointer *cc)
 	return cc;
 }
 
+/**
+ * gnm_cell_copy_get_type:
+ *
+ * Returns: the GType for #GnmCellCopy.
+ **/
 GType
 gnm_cell_copy_get_type (void)
 {
@@ -89,6 +94,11 @@ gnm_paste_target_copy (GnmPasteTarget *pt)
 	return go_memdup (pt, sizeof (*pt));
 }
 
+/**
+ * gnm_paste_target_get_type:
+ *
+ * Returns: the GType for #GnmPasteTarget.
+ **/
 GType
 gnm_paste_target_get_type (void)
 {
@@ -102,6 +112,14 @@ gnm_paste_target_get_type (void)
 	return t;
 }
 
+/**
+ * gnm_paste_target_new:
+ * @sheet: #Sheet
+ * @r: #GnmRange
+ * @flags: #GnmPasteFlags
+ *
+ * Returns: (transfer full): a newly allocated #GnmPasteTarget.
+ **/
 GnmPasteTarget *
 gnm_paste_target_new (Sheet *sheet, GnmRange *r, GnmPasteFlags flags)
 {
@@ -874,6 +892,17 @@ clipboard_copy_obj (Sheet *sheet, GSList *objects)
 	return cr;
 }
 
+/**
+ * paste_target_init:
+ * @pt: #GnmPasteTarget
+ * @sheet: #Sheet
+ * @r: #GnmRange
+ * @flags: #GnmPasteFlags
+ *
+ * Initializes @pt.
+ *
+ * Returns: (transfer none): its argument.
+ **/
 GnmPasteTarget *
 paste_target_init (GnmPasteTarget *pt, Sheet *sheet,
 		   GnmRange const *r, GnmPasteFlags flags)
@@ -911,6 +940,14 @@ gnm_cell_region_new (Sheet *origin_sheet)
 	return cr;
 }
 
+/**
+ * cellregion_ref:
+ * @cr: #GnmCellRegion
+ *
+ * Increments the reference count of @cr.
+ *
+ * Returns: (transfer full): its argument.
+ **/
 GnmCellRegion *
 cellregion_ref (GnmCellRegion *cr)
 {
@@ -919,6 +956,12 @@ cellregion_ref (GnmCellRegion *cr)
 	return cr;
 }
 
+/**
+ * cellregion_unref:
+ * @cr: (transfer full): #GnmCellRegion
+ *
+ * Decrements the reference count of @cr and destroys it if it reaches zero.
+ **/
 void
 cellregion_unref (GnmCellRegion *cr)
 {
@@ -960,6 +1003,11 @@ cellregion_unref (GnmCellRegion *cr)
 	g_free (cr);
 }
 
+/**
+ * gnm_cell_region_get_type:
+ *
+ * Returns: the GType for #GnmCellRegion.
+ **/
 GType
 gnm_cell_region_get_type (void)
 {
@@ -1093,6 +1141,14 @@ cellregion_extent (GnmCellRegion const *cr, GnmRange *extent)
 		range_init (extent, 0, 0, 0, 0);
 }
 
+/**
+ * cellregion_to_string:
+ * @cr: #GnmCellRegion
+ * @only_visible: only process visible cells
+ * @date_conv: #GODateConventions
+ *
+ * Returns: (transfer full): a string representation of the cell region.
+ **/
 GString *
 cellregion_to_string (GnmCellRegion const *cr,
 		      gboolean only_visible,
@@ -1191,6 +1247,12 @@ cellregion_to_string (GnmCellRegion const *cr,
 	return all;
 }
 
+/**
+ * cellregion_cmd_size:
+ * @cr: #GnmCellRegion
+ *
+ * Returns: the size of the cell region.
+ **/
 int
 cellregion_cmd_size (GnmCellRegion const *cr)
 {
@@ -1217,6 +1279,14 @@ gnm_cell_copy_free (GnmCellCopy *cc)
 	CHUNK_FREE (cell_copy_pool, cc);
 }
 
+/**
+ * gnm_cell_copy_new:
+ * @cr: #GnmCellRegion
+ * @col_offset: column offset
+ * @row_offset: row offset
+ *
+ * Returns: (transfer full): a newly allocated #GnmCellCopy.
+ **/
 GnmCellCopy *
 gnm_cell_copy_new (GnmCellRegion *cr, int col_offset, int row_offset)
 {
