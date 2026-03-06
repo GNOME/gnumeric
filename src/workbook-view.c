@@ -268,17 +268,17 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name, char const *value)
 		tname = "nope";
 
 	if (!strcmp (tname , "show_horizontal_scrollbar"))
-		g_object_set (obj, "show_horizontal_scrollbar", res, NULL);
+		g_object_set (obj, "show-horizontal-scrollbar", res, NULL);
 	else if (!strcmp (tname , "show_vertical_scrollbar"))
-		g_object_set (obj, "show_vertical_scrollbar", res, NULL);
+		g_object_set (obj, "show-vertical-scrollbar", res, NULL);
 	else if (!strcmp (tname , "show_notebook_tabs"))
-		g_object_set (obj, "show_notebook_tabs", res, NULL);
+		g_object_set (obj, "show-notebook-tabs", res, NULL);
 	else if (!strcmp (tname , "show_function_cell_markers"))
-		g_object_set (obj, "show_function_cell_markers", res, NULL);
+		g_object_set (obj, "show-function-cell-markers", res, NULL);
 	else if (!strcmp (tname , "show_extension_markers"))
-		g_object_set (obj, "show_extension_markers", res, NULL);
+		g_object_set (obj, "show-extension-markers", res, NULL);
 	else if (!strcmp (tname , "do_auto_completion"))
-		g_object_set (obj, "do_auto_completion", res, NULL);
+		g_object_set (obj, "do-auto-completion", res, NULL);
 	else if (!strcmp (tname , "is_protected"))
 		g_object_set (obj, "protected", res, NULL);
 	else

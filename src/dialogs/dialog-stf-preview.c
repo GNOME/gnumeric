@@ -257,7 +257,7 @@ stf_preview_set_lines (RenderData_t *renderdata,
 		GtkCellRenderer *cr = gtk_cell_renderer_text_new ();
 		GtkTreeViewColumn *tvc = gtk_tree_view_column_new ();
 
-		g_object_set (cr, "single_paragraph_mode", TRUE, NULL);
+		g_object_set (cr, "single-paragraph-mode", TRUE, NULL);
 
 		gtk_tree_view_column_set_title (tvc, text);
 		gtk_tree_view_column_set_cell_data_func
