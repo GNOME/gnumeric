@@ -641,6 +641,16 @@ analysis_tool_kaplan_meier_clear_gl_cb (gpointer data, G_GNUC_UNUSED gpointer us
 	g_free (group);
 }
 
+/**
+ * analysis_tool_kaplan_meier_engine:
+ * @gcc: #GOCmdContext
+ * @dao: #data_analysis_output_t
+ * @specs: #gpointer
+ * @selector: #analysis_tool_engine_t
+ * @result: #gpointer
+ *
+ * Returns: %TRUE if there is an error.
+ **/
 gboolean
 analysis_tool_kaplan_meier_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)

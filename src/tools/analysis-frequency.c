@@ -258,6 +258,16 @@ calc_length (GnmValue   *bin)
 }
 
 
+/**
+ * analysis_tool_frequency_engine:
+ * @gcc: #GOCmdContext
+ * @dao: #data_analysis_output_t
+ * @specs: #gpointer
+ * @selector: #analysis_tool_engine_t
+ * @result: #gpointer
+ *
+ * Returns: %TRUE if there is an error.
+ **/
 gboolean
 analysis_tool_frequency_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)

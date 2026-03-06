@@ -525,6 +525,16 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 	return FALSE;
 }
 
+/**
+ * analysis_tool_signed_rank_test_engine:
+ * @gcc: #GOCmdContext
+ * @dao: #data_analysis_output_t
+ * @specs: #gpointer
+ * @selector: #analysis_tool_engine_t
+ * @result: #gpointer
+ *
+ * Returns: %TRUE if there is an error.
+ **/
 gboolean
 analysis_tool_signed_rank_test_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				       analysis_tool_engine_t selector, gpointer result)
@@ -556,6 +566,16 @@ analysis_tool_signed_rank_test_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_ana
 	return TRUE;
 }
 
+/**
+ * analysis_tool_signed_rank_test_two_engine:
+ * @gcc: #GOCmdContext
+ * @dao: #data_analysis_output_t
+ * @specs: #gpointer
+ * @selector: #analysis_tool_engine_t
+ * @result: #gpointer
+ *
+ * Returns: %TRUE if there is an error.
+ **/
 gboolean
 analysis_tool_signed_rank_test_two_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				       analysis_tool_engine_t selector, gpointer result)

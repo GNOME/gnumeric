@@ -84,6 +84,16 @@ analysis_tool_auto_expression_engine_clean (gpointer specs)
 	return analysis_tool_generic_clean (specs);
 }
 
+/**
+ * analysis_tool_auto_expression_engine:
+ * @gcc: #GOCmdContext
+ * @dao: #data_analysis_output_t
+ * @specs: #gpointer
+ * @selector: #analysis_tool_engine_t
+ * @result: #gpointer
+ *
+ * Returns: %TRUE if there is an error.
+ **/
 gboolean
 analysis_tool_auto_expression_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)

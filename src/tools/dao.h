@@ -123,8 +123,9 @@ void dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetO
 void dao_prepare_output       (WorkbookControl *wbc,
 			       data_analysis_output_t *dao, char const *name);
 gboolean dao_format_output    (data_analysis_output_t *dao, char const *cmd);
-char *dao_command_descriptor (data_analysis_output_t *dao, char const *format,
-			      gpointer result);
+const char *dao_command_descriptor (data_analysis_output_t *dao,
+				    char const *format,
+				    char **result);
 void dao_adjust           (data_analysis_output_t *dao, gint cols, gint rows);
 
 ColRowStateList *dao_get_colrow_state_list (data_analysis_output_t *dao,

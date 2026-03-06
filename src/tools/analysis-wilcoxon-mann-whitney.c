@@ -338,6 +338,16 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 	return 0;
 }
 
+/**
+ * analysis_tool_wilcoxon_mann_whitney_engine:
+ * @gcc: #GOCmdContext
+ * @dao: #data_analysis_output_t
+ * @specs: #gpointer
+ * @selector: #analysis_tool_engine_t
+ * @result: #gpointer
+ *
+ * Returns: %TRUE if there is an error.
+ **/
 gboolean
 analysis_tool_wilcoxon_mann_whitney_engine
         (G_GNUC_UNUSED GOCmdContext *gcc,

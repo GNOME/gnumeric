@@ -57,6 +57,13 @@
 #include <math.h>
 
 
+/**
+ * make_cellref:
+ * @dx: relative column offset
+ * @dy: relative row offset
+ *
+ * Returns: (transfer full): a new relative cell reference expression.
+ **/
 const GnmExpr *
 make_cellref (int dx, int dy)
 {
@@ -69,6 +76,15 @@ make_cellref (int dx, int dy)
 	return gnm_expr_new_cellref (&r);
 }
 
+/**
+ * make_rangeref:
+ * @dx0: start relative column offset
+ * @dy0: start relative row offset
+ * @dx1: end relative column offset
+ * @dy1: end relative row offset
+ *
+ * Returns: (transfer full): a new relative range reference expression.
+ **/
 const GnmExpr *
 make_rangeref (int dx0, int dy0, int dx1, int dy1)
 {
@@ -157,6 +173,17 @@ analysis_tools_remove_label (GnmValue *val,
  *
  */
 
+/**
+ * analysis_tools_write_label:
+ * @val: #GnmValue
+ * @dao: #data_analysis_output_t
+ * @info: #analysis_tools_data_generic_t
+ * @x: col
+ * @y: row
+ * @i: index
+ *
+ * Writes a label to the output.
+ **/
 void
 analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
 			    analysis_tools_data_generic_t *info,
@@ -250,6 +277,17 @@ analysis_tools_write_a_label (GnmValue *val, data_analysis_output_t *dao,
  *
  */
 
+/**
+ * analysis_tools_write_label_ftest:
+ * @val: #GnmValue
+ * @dao: #data_analysis_output_t
+ * @x: col
+ * @y: row
+ * @labels: boolean
+ * @i: index
+ *
+ * Writes a label for an F-test to the output.
+ **/
 void
 analysis_tools_write_label_ftest (GnmValue *val, data_analysis_output_t *dao,
 				  int x, int y, gboolean labels, int i)
@@ -441,9 +479,15 @@ gnm_check_input_range_list_homogeneity (GSList *input_range)
 
 /***** Some general routines ***********************************************/
 
-/*
+/**
+ * set_cell_text_col:
+ * @dao: #data_analysis_output_t
+ * @col: col
+ * @row: row
+ * @text: text
+ *
  * Set a column of text from a string like "/first/second/third" or "|foo|bar|baz".
- */
+ **/
 void
 set_cell_text_col (data_analysis_output_t *dao, int col, int row, const char *text)
 {
@@ -467,9 +511,15 @@ set_cell_text_col (data_analysis_output_t *dao, int col, int row, const char *te
 }
 
 
-/*
+/**
+ * set_cell_text_row:
+ * @dao: #data_analysis_output_t
+ * @col: col
+ * @row: row
+ * @text: text
+ *
  * Set a row of text from a string like "/first/second/third" or "|foo|bar|baz".
- */
+ **/
 void
 set_cell_text_row (data_analysis_output_t *dao, int col, int row, const char *text)
 {
@@ -492,6 +542,14 @@ set_cell_text_row (data_analysis_output_t *dao, int col, int row, const char *te
 	g_free (orig_copy);
 }
 
+/**
+ * analysis_tool_generic_clean:
+ * @specs: #gpointer
+ *
+ * Cleans up generic analysis tool data.
+ *
+ * Returns: %FALSE.
+ **/
 gboolean
 analysis_tool_generic_clean (gpointer specs)
 {
@@ -502,6 +560,14 @@ analysis_tool_generic_clean (gpointer specs)
 	return FALSE;
 }
 
+/**
+ * analysis_tool_generic_b_clean:
+ * @specs: #gpointer
+ *
+ * Cleans up generic_b analysis tool data.
+ *
+ * Returns: %FALSE.
+ **/
 gboolean
 analysis_tool_generic_b_clean (gpointer specs)
 {
@@ -516,6 +582,12 @@ analysis_tool_generic_b_clean (gpointer specs)
 
 
 
+/**
+ * analysis_tool_calc_length:
+ * @info: #analysis_tools_data_generic_t
+ *
+ * Returns: the calculated length for the analysis tool.
+ **/
 int analysis_tool_calc_length (analysis_tools_data_generic_t *info)
 {
 	int           result = 1;
@@ -570,6 +642,16 @@ analysis_tool_get_function (char const *name,
  *
  **/
 
+/**
+ * analysis_tool_table:
+ * @dao: #data_analysis_output_t
+ * @info: #analysis_tools_data_generic_t
+ * @title: title of the table
+ * @functionname: name of the function
+ * @full_table: boolean
+ *
+ * Returns: %TRUE if there is an error.
+ **/
 gboolean
 analysis_tool_table (data_analysis_output_t *dao,
 		     analysis_tools_data_generic_t *info,
