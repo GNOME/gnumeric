@@ -480,6 +480,13 @@ cb_frame_config_ok_clicked (G_GNUC_UNUSED GtkWidget *button, FrameConfigState *s
 	gtk_widget_destroy (state->dialog);
 }
 
+/**
+ * sheet_widget_frame_set_label:
+ * @so: #SheetObject
+ * @str: (nullable): new label
+ *
+ * Sets the label for @so to @str.
+ **/
 void
 sheet_widget_frame_set_label (SheetObject *so, char const* str)
 {
@@ -1170,6 +1177,13 @@ sheet_widget_button_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 			;
 }
 
+/**
+ * sheet_widget_button_set_link:
+ * @so: #SheetObject
+ * @result_link: (nullable) (transfer none): new expression
+ *
+ * Sets the link for @so to @texpr.
+ **/
 void
 sheet_widget_button_set_link (SheetObject *so, GnmExprTop const *texpr)
 {
@@ -1179,6 +1193,12 @@ sheet_widget_button_set_link (SheetObject *so, GnmExprTop const *texpr)
 		dependent_link (&swb->dep);
 }
 
+/**
+ * sheet_widget_button_get_link:
+ * @so: #SheetObject
+ *
+ * Returns: (transfer full) (nullable): the link for @so.
+ **/
 GnmExprTop const *
 sheet_widget_button_get_link	 (SheetObject *so)
 {
@@ -1192,6 +1212,13 @@ sheet_widget_button_get_link	 (SheetObject *so)
 }
 
 
+/**
+ * sheet_widget_button_set_label:
+ * @so: #SheetObject
+ * @str: (nullable): new label
+ *
+ * Sets the label for @so to @str.
+ **/
 void
 sheet_widget_button_set_label (SheetObject *so, char const *str)
 {
@@ -1213,6 +1240,13 @@ sheet_widget_button_set_label (SheetObject *so, char const *str)
 	}
 }
 
+/**
+ * sheet_widget_button_set_markup:
+ * @so: #SheetObject
+ * @markup: (nullable): new markup
+ *
+ * Sets the markup for @so to @markup.
+ **/
 void
 sheet_widget_button_set_markup (SheetObject *so, PangoAttrList *markup)
 {
@@ -1363,6 +1397,12 @@ sheet_widget_adjustment_get_adjustment (SheetObject *so)
 	return (GNM_SOW_ADJUSTMENT (so)->adjustment);
 }
 
+/**
+ * sheet_widget_adjustment_get_horizontal:
+ * @so: #SheetObject
+ *
+ * Returns: %TRUE if the adjustment is horizontal.
+ **/
 gboolean
 sheet_widget_adjustment_get_horizontal (SheetObject *so)
 {
@@ -1370,6 +1410,13 @@ sheet_widget_adjustment_get_horizontal (SheetObject *so)
 	return (GNM_SOW_ADJUSTMENT (so)->horizontal);
 }
 
+/**
+ * sheet_widget_adjustment_set_link:
+ * @so: #SheetObject
+ * @result_link: (nullable) (transfer none): new expression
+ *
+ * Sets the link for @so to @texpr.
+ **/
 void
 sheet_widget_adjustment_set_link (SheetObject *so, GnmExprTop const *texpr)
 {
@@ -1379,6 +1426,12 @@ sheet_widget_adjustment_set_link (SheetObject *so, GnmExprTop const *texpr)
 		dependent_link (&swa->dep);
 }
 
+/**
+ * sheet_widget_adjustment_get_link:
+ * @so: #SheetObject
+ *
+ * Returns: (transfer full) (nullable): the link for @so.
+ **/
 GnmExprTop const *
 sheet_widget_adjustment_get_link (SheetObject *so)
 {
@@ -1441,6 +1494,13 @@ cb_adjustment_widget_value_changed (GtkWidget *widget,
 	}
 }
 
+/**
+ * sheet_widget_adjustment_set_horizontal:
+ * @so: #SheetObject
+ * @horizontal: boolean
+ *
+ * Sets the orientation of the adjustment for @so.
+ **/
 void
 sheet_widget_adjustment_set_horizontal (SheetObject *so,
 					gboolean horizontal)
@@ -1845,6 +1905,18 @@ sheet_widget_adjustment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	swa->dep.flags = adjustment_get_dep_type ();
 }
 
+/**
+ * sheet_widget_adjustment_set_details:
+ * @so: #SheetObject
+ * @result_link: (nullable) (transfer none): new link expression
+ * @value: current value
+ * @min: minimum value
+ * @max: maximum value
+ * @inc: step increment
+ * @page: page increment
+ *
+ * Sets the details for the adjustment of @so.
+ **/
 void
 sheet_widget_adjustment_set_details (SheetObject *so, GnmExprTop const *tlink,
 				     int value, int min, int max,
@@ -2624,6 +2696,13 @@ sheet_widget_checkbox_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 			; /* ??? */
 }
 
+/**
+ * sheet_widget_checkbox_set_link:
+ * @so: #SheetObject
+ * @result_link: (nullable) (transfer none): new link expression
+ *
+ * Sets the link for the checkbox @so to @texpr.
+ **/
 void
 sheet_widget_checkbox_set_link (SheetObject *so, GnmExprTop const *texpr)
 {
@@ -2633,6 +2712,12 @@ sheet_widget_checkbox_set_link (SheetObject *so, GnmExprTop const *texpr)
 		dependent_link (&swc->dep);
 }
 
+/**
+ * sheet_widget_checkbox_get_link:
+ * @so: #SheetObject
+ *
+ * Returns: (transfer full) (nullable): the link for the checkbox @so.
+ **/
 GnmExprTop const *
 sheet_widget_checkbox_get_link	 (SheetObject *so)
 {
@@ -2646,6 +2731,13 @@ sheet_widget_checkbox_get_link	 (SheetObject *so)
 }
 
 
+/**
+ * sheet_widget_checkbox_set_label:
+ * @so: #SheetObject
+ * @str: (nullable): new label
+ *
+ * Sets the label for the checkbox @so to @str.
+ **/
 void
 sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 {
@@ -2877,6 +2969,12 @@ sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
 	}
 }
 
+/**
+ * sheet_widget_radio_button_get_value:
+ * @so: #SheetObject
+ *
+ * Returns: (transfer none) (nullable): the value for the radio button @so.
+ **/
 GnmValue const *
 sheet_widget_radio_button_get_value (SheetObject *so)
 {
@@ -2888,6 +2986,13 @@ sheet_widget_radio_button_get_value (SheetObject *so)
 	return swrb->value;
 }
 
+/**
+ * sheet_widget_radio_button_set_value:
+ * @so: #SheetObject
+ * @val: (nullable): new value
+ *
+ * Sets the value for the radio button @so to @val.
+ **/
 void
 sheet_widget_radio_button_set_value (SheetObject *so, GnmValue const *val)
 {
@@ -3086,6 +3191,13 @@ sheet_widget_radio_button_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 		swrb->value = value_new_empty ();
 }
 
+/**
+ * sheet_widget_radio_button_set_link:
+ * @so: #SheetObject
+ * @result_link: (nullable) (transfer none): new link expression
+ *
+ * Sets the link for the radio button @so to @texpr.
+ **/
 void
 sheet_widget_radio_button_set_link (SheetObject *so, GnmExprTop const *texpr)
 {
@@ -3095,6 +3207,12 @@ sheet_widget_radio_button_set_link (SheetObject *so, GnmExprTop const *texpr)
 		dependent_link (&swrb->dep);
 }
 
+/**
+ * sheet_widget_radio_button_get_link:
+ * @so: #SheetObject
+ *
+ * Returns: (transfer full) (nullable): the link for the radio button @so.
+ **/
 GnmExprTop const *
 sheet_widget_radio_button_get_link (SheetObject *so)
 {
@@ -3107,6 +3225,13 @@ sheet_widget_radio_button_get_link (SheetObject *so)
 	return texpr;
 }
 
+/**
+ * sheet_widget_radio_button_set_label:
+ * @so: #SheetObject
+ * @str: (nullable): new label
+ *
+ * Sets the label for the radio button @so to @str.
+ **/
 void
 sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
 {

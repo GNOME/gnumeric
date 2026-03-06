@@ -1302,10 +1302,18 @@ sheet_autofill_internal (Sheet *sheet, gboolean singleton,
 
 /**
  * gnm_autofill_fill:
+ * @sheet: #Sheet
+ * @default_increment: boolean
+ * @base_col: start column
+ * @base_row: start row
+ * @w: width
+ * @h: height
+ * @end_col: end column
+ * @end_row: end row
  *
  * An internal routine to autofill a region.  It does NOT
  * queue a recalc, flag a status update, or regen spans.
- */
+ **/
 void
 gnm_autofill_fill (Sheet *sheet, gboolean singleton,
 		   int base_col, int base_row,
@@ -1319,6 +1327,19 @@ gnm_autofill_fill (Sheet *sheet, gboolean singleton,
 				 TRUE);
 }
 
+/**
+ * gnm_autofill_hint:
+ * @sheet: #Sheet
+ * @default_increment: boolean
+ * @base_col: start column
+ * @base_row: start row
+ * @w: width
+ * @h: height
+ * @end_col: end column
+ * @end_row: end row
+ *
+ * Returns: (transfer full): a string representation of the fill hint.
+ **/
 GString *
 gnm_autofill_hint (Sheet *sheet, gboolean default_increment,
 		   int base_col, int base_row,

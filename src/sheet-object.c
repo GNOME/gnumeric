@@ -107,6 +107,13 @@ static GObjectClass *parent_klass;
 static GQuark	sov_so_quark;
 static GQuark	sov_container_quark;
 
+/**
+ * sheet_object_set_print_flag:
+ * @so: #SheetObject
+ * @print: (in): boolean
+ *
+ * Sets the printing flag for @so.
+ **/
 void
 sheet_object_set_print_flag (SheetObject *so, gboolean *print)
 {
@@ -118,6 +125,12 @@ sheet_object_set_print_flag (SheetObject *so, gboolean *print)
 		so->flags &= ~SHEET_OBJECT_PRINT;
 }
 
+/**
+ * sheet_object_get_print_flag:
+ * @so: #SheetObject
+ *
+ * Returns: the printing flag for @so.
+ **/
 gboolean
 sheet_object_get_print_flag (SheetObject *so)
 {
@@ -197,6 +210,13 @@ cb_so_print (SheetObject *so, SheetControl *sc)
 	gnm_print_so (sc_wbc (sc), a, NULL);
 	g_ptr_array_unref (a);
 }
+/**
+ * sheet_object_get_editor:
+ * @so: #SheetObject
+ * @sc: #SheetControl
+ *
+ * Request the creation of an editor for @so.
+ **/
 void
 sheet_object_get_editor (SheetObject *so, SheetControl *sc)
 {
@@ -312,6 +332,13 @@ sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
 	GNM_SO_CLASS (G_OBJECT_GET_CLASS(so))->populate_menu (so, actions);
 }
 
+/**
+ * sheet_object_set_name:
+ * @so: #SheetObject
+ * @name: (nullable): new name
+ *
+ * Sets the name of @so to @name.
+ **/
 void
 sheet_object_set_name (SheetObject *so, const char *name)
 {
@@ -857,6 +884,15 @@ sheet_object_draw_cairo (SheetObject const *so, cairo_t *cr, gboolean rtl)
 	}
 }
 
+/**
+ * sheet_object_draw_cairo_sized:
+ * @so: #SheetObject
+ * @cr: #cairo_t
+ * @width: width
+ * @height: height
+ *
+ * Draw a sheet object using cairo into a box of size @width by @height.
+ **/
 void
 sheet_object_draw_cairo_sized (SheetObject const *so, cairo_t *cr, double width, double height)
 {
@@ -891,6 +927,13 @@ sheet_object_get_anchor (SheetObject const *so)
 	return &so->anchor;
 }
 
+/**
+ * sheet_object_set_anchor:
+ * @so: #SheetObject
+ * @anchor: #SheetObjectAnchor
+ *
+ * Sets the anchor for @so.
+ **/
 void
 sheet_object_set_anchor (SheetObject *so, SheetObjectAnchor const *anchor)
 {
@@ -903,6 +946,12 @@ sheet_object_set_anchor (SheetObject *so, SheetObjectAnchor const *anchor)
 	}
 }
 
+/**
+ * sheet_object_anchor_dup:
+ * @src: #SheetObjectAnchor
+ *
+ * Returns: (transfer full): a copy of @src.
+ **/
 SheetObjectAnchor *
 sheet_object_anchor_dup	(SheetObjectAnchor const *src)
 {
@@ -950,6 +999,14 @@ sheet_object_position_pts_get (SheetObject const *so, double *coords)
 	sheet_object_anchor_to_pts (&so->anchor, so->sheet, coords);
 }
 
+/**
+ * sheet_object_anchor_to_pts:
+ * @anchor: #SheetObjectAnchor
+ * @sheet: #Sheet
+ * @res_pts: (out) (array fixed-size=4): result coordinates
+ *
+ * Converts an anchor to points.
+ **/
 void
 sheet_object_anchor_to_pts (SheetObjectAnchor const *anchor,
 			    Sheet const *sheet, double *res_pts)

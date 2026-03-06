@@ -153,6 +153,16 @@ sheet_object_image_set_image (SheetObjectImage *soi,
 	}
 }
 
+/**
+ * sheet_object_image_set_crop:
+ * @soi: #SheetObjectImage
+ * @crop_left: crop left
+ * @crop_top: crop top
+ * @crop_right: crop right
+ * @crop_bottom: crop bottom
+ *
+ * Set the cropping parameters for @soi.
+ **/
 void
 sheet_object_image_set_crop (SheetObjectImage *soi,
 			     double crop_left,  double crop_top,

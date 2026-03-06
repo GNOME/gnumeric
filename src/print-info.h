@@ -129,7 +129,7 @@ typedef struct {
 GType             gnm_print_information_get_type (void);
 GnmPrintInformation *gnm_print_information_new         (gboolean load_defaults);
 void              gnm_print_info_load_defaults (GnmPrintInformation *pi);
-GnmPrintInformation *gnm_print_info_dup	 (GnmPrintInformation const *pi);
+GnmPrintInformation *gnm_print_info_dup	 (GnmPrintInformation const *src);
 void              gnm_print_info_free        (GnmPrintInformation *pi);
 void              gnm_print_info_save        (GnmPrintInformation *pi);
 

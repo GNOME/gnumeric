@@ -42,18 +42,39 @@ gnm_color_make (GOColor c, gboolean is_auto)
 	return sc;
 }
 
+/**
+ * gnm_color_new_rgba16:
+ * @red: red component
+ * @green: green component
+ * @blue: blue component
+ * @alpha: alpha component
+ *
+ * Returns: (transfer full): a #GnmColor.
+ **/
 GnmColor *
 gnm_color_new_rgba16 (guint16 red, guint16 green, guint16 blue, guint16 alpha)
 {
 	return gnm_color_new_rgba8 (red >> 8, green >> 8, blue >> 8, alpha >> 8);
 }
 
+/**
+ * gnm_color_new_pango:
+ * @c: #PangoColor
+ *
+ * Returns: (transfer full): a #GnmColor.
+ **/
 GnmColor *
 gnm_color_new_pango (PangoColor const *c)
 {
 	return gnm_color_new_rgba16 (c->red, c->green, c->blue, 0xffff);
 }
 
+/**
+ * gnm_color_new_gdk:
+ * @c: #GdkRGBA
+ *
+ * Returns: (transfer full): a #GnmColor.
+ **/
 GnmColor *
 gnm_color_new_gdk (GdkRGBA const *c)
 {
@@ -72,30 +93,64 @@ gnm_color_new_gdk (GdkRGBA const *c)
 	return gnm_color_new_rgba8 (r8, g8, b8, a8);
 }
 
+/**
+ * gnm_color_new_rgba8:
+ * @red: red component
+ * @green: green component
+ * @blue: blue component
+ * @alpha: alpha component
+ *
+ * Returns: (transfer full): a #GnmColor.
+ **/
 GnmColor *
 gnm_color_new_rgba8 (guint8 red, guint8 green, guint8 blue, guint8 alpha)
 {
 	return gnm_color_new_go (GO_COLOR_FROM_RGBA (red, green, blue, alpha));
 }
 
+/**
+ * gnm_color_new_rgb8:
+ * @red: red component
+ * @green: green component
+ * @blue: blue component
+ *
+ * Returns: (transfer full): a #GnmColor.
+ **/
 GnmColor *
 gnm_color_new_rgb8 (guint8 red, guint8 green, guint8 blue)
 {
 	return gnm_color_new_rgba8 (red, green, blue, 0xff);
 }
 
+/**
+ * gnm_color_new_go:
+ * @c: #GOColor
+ *
+ * Returns: (transfer full): a #GnmColor.
+ **/
 GnmColor *
 gnm_color_new_go (GOColor c)
 {
 	return gnm_color_make (c, FALSE);
 }
 
+/**
+ * gnm_color_new_auto:
+ * @c: #GOColor
+ *
+ * Returns: (transfer full): an automatic #GnmColor.
+ **/
 GnmColor *
 gnm_color_new_auto (GOColor c)
 {
 	return gnm_color_make (c, TRUE);
 }
 
+/**
+ * style_color_black:
+ *
+ * Returns: (transfer full): the black #GnmColor.
+ **/
 GnmColor *
 style_color_black (void)
 {
@@ -104,6 +159,11 @@ style_color_black (void)
 	return style_color_ref (sc_black);
 }
 
+/**
+ * style_color_white:
+ *
+ * Returns: (transfer full): the white #GnmColor.
+ **/
 GnmColor *
 style_color_white (void)
 {
@@ -112,6 +172,12 @@ style_color_white (void)
 	return style_color_ref (sc_white);
 }
 
+/**
+ * style_color_grid:
+ * @context: (nullable): #GtkStyleContext
+ *
+ * Returns: (transfer full): the grid #GnmColor.
+ **/
 GnmColor *
 style_color_grid (GtkStyleContext *context)
 {
@@ -136,6 +202,8 @@ style_color_grid (GtkStyleContext *context)
  * style_color_auto_font:
  *
  * Always black, as far as we know.
+ *
+ * Returns: (transfer full): the auto font color.
  */
 GnmColor *
 style_color_auto_font (void)
@@ -149,6 +217,8 @@ style_color_auto_font (void)
  * style_color_auto_back:
  *
  * Always white, as far as we know.
+ *
+ * Returns: (transfer full): the auto background color.
  */
 GnmColor *
 style_color_auto_back (void)
@@ -162,6 +232,8 @@ style_color_auto_back (void)
  * style_color_auto_pattern:
  *
  * Normally black, but follows grid color if so told.
+ *
+ * Returns: (transfer full): the auto color for patterns.
  */
 GnmColor *
 style_color_auto_pattern (void)
@@ -171,6 +243,12 @@ style_color_auto_pattern (void)
 	return style_color_ref (sc_auto_pattern);
 }
 
+/**
+ * style_color_ref:
+ * @sc: (nullable): #GnmColor
+ *
+ * Returns: (transfer full): its argument.
+ **/
 GnmColor *
 style_color_ref (GnmColor *sc)
 {
@@ -180,6 +258,12 @@ style_color_ref (GnmColor *sc)
 	return sc;
 }
 
+/**
+ * style_color_unref:
+ * @sc: (nullable): #GnmColor
+ *
+ * Decrements the reference count of @sc.
+ **/
 void
 style_color_unref (GnmColor *sc)
 {
@@ -196,6 +280,11 @@ style_color_unref (GnmColor *sc)
 	g_free (sc);
 }
 
+/**
+ * gnm_color_get_type:
+ *
+ * Returns: the GType for #GnmColor.
+ **/
 GType
 gnm_color_get_type (void)
 {
@@ -208,11 +297,18 @@ gnm_color_get_type (void)
 	return t;
 }
 
+/**
+ * style_color_equal:
+ * @a: #GnmColor
+ * @b: #GnmColor
+ *
+ * Returns: %TRUE if @a and @b are the same.
+ **/
 gint
-style_color_equal (GnmColor const *k1, GnmColor const *k2)
+style_color_equal (GnmColor const *a, GnmColor const *b)
 {
-	return (k1->go_color == k2->go_color &&
-		k1->is_auto == k2->is_auto);
+	return (a->go_color == b->go_color &&
+		a->is_auto == b->is_auto);
 }
 
 static guint

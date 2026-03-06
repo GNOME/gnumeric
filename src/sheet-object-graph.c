@@ -764,6 +764,14 @@ cb_sheet_target_changed (GtkToggleButton *btn, GnmGraphDataClosure *data)
 	data->new_sheet = gtk_toggle_button_get_active (btn);
 }
 
+/**
+ * sheet_object_graph_guru:
+ * @wbcg: #WBCGtk
+ * @graph: (nullable): #GogGraph
+ * @closure: (nullable): #GClosure
+ *
+ * Pop up the graph guru.
+ **/
 void
 sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 			 GClosure *closure)

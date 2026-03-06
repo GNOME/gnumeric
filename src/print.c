@@ -2019,10 +2019,12 @@ gnm_draw_so_page_cb (G_GNUC_UNUSED GtkPrintOperation *operation,
 
 /**
  * gnm_print_so:
- * @wbc:
- * @sos: (element-type SheetObject) (transfer none):
- * @export_dst:
- */
+ * @wbc: #WorkbookControl
+ * @sos: (element-type SheetObject) (transfer none): sheet objects to print
+ * @export_dst: (nullable): #GsfOutput
+ *
+ * Prints a list of sheet objects.
+ **/
 void
 gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
 	      GsfOutput *export_dst)
