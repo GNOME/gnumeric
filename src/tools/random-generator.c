@@ -82,21 +82,21 @@ gnm_random_tool_discrete_clear (GnmRandomTool *tool)
 }
 
 static gboolean
-tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t *dao,
-					    GnmRandomTool *tool)
+tool_random_engine_run_discrete_last_check (GnmRandomTool *rtool,
+					    G_GNUC_UNUSED data_analysis_output_t *dao)
 {
-	tools_data_random_t *info = &tool->data;
+	tools_data_random_t *info = &rtool->data;
 	discrete_random_tool_t *param = &info->param.discrete;
 	GnmValue *range = param->range;
 	gnm_float cumprob = 0;
 	int j = 0;
 	int i;
 
-	gnm_random_tool_discrete_clear (tool);
+	gnm_random_tool_discrete_clear (rtool);
 
-	tool->discrete_n = range->v_range.cell.b.row - range->v_range.cell.a.row + 1;
-	tool->discrete_cumul_p = g_new (gnm_float, tool->discrete_n);
-	tool->discrete_values = g_new0 (GnmValue *, tool->discrete_n);
+	rtool->discrete_n = range->v_range.cell.b.row - range->v_range.cell.a.row + 1;
+	rtool->discrete_cumul_p = g_new (gnm_float, rtool->discrete_n);
+	rtool->discrete_values = g_new0 (GnmValue *, rtool->discrete_n);
 
 	for (i = range->v_range.cell.a.row;
 	     i <= range->v_range.cell.b.row;
@@ -126,7 +126,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 		}
 
 		cumprob += thisprob;
-		tool->discrete_cumul_p[j] = cumprob;
+		rtool->discrete_cumul_p[j] = cumprob;
 
 		cell = sheet_cell_get (range->v_range.cell.a.sheet,
 				       range->v_range.cell.a.col, i);
@@ -138,13 +138,13 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 			goto random_tool_discrete_out;
 		}
 
-		tool->discrete_values[j] = value_dup (cell->value);
+		rtool->discrete_values[j] = value_dup (cell->value);
 	}
 
 	if (cumprob != 0) {
 		/* Rescale... */
-		for (i = 0; i < tool->discrete_n; i++) {
-			tool->discrete_cumul_p[i] /= cumprob;
+		for (i = 0; i < rtool->discrete_n; i++) {
+			rtool->discrete_cumul_p[i] /= cumprob;
 		}
 		return FALSE;
 	}
@@ -152,7 +152,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 				    _("The probabilities may not all be 0!"));
 
  random_tool_discrete_out:
-	gnm_random_tool_discrete_clear (tool);
+	gnm_random_tool_discrete_clear (rtool);
 	return TRUE;
 }
 
@@ -759,10 +759,13 @@ static void
 gnm_random_tool_finalize (GObject *obj)
 {
 	GnmRandomTool *tool = GNM_RANDOM_TOOL (obj);
-	if (tool->data.distribution == DiscreteDistribution &&
-	    tool->data.param.discrete.range != NULL) {
+	switch (tool->data.distribution) {
+	case DiscreteDistribution:
 		value_release (tool->data.param.discrete.range);
 		tool->data.param.discrete.range = NULL;
+		break;
+	default:
+		break;
 	}
 	gnm_random_tool_discrete_clear (tool);
 	G_OBJECT_CLASS (gnm_random_tool_parent_class)->finalize (obj);
@@ -786,9 +789,12 @@ static gboolean
 gnm_random_tool_last_validity_check (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
 	GnmRandomTool *rtool = GNM_RANDOM_TOOL (tool);
-	if (rtool->data.distribution == DiscreteDistribution)
-		return tool_random_engine_run_discrete_last_check (dao, rtool);
-	return FALSE;
+	switch (rtool->data.distribution) {
+	case DiscreteDistribution:
+		return tool_random_engine_run_discrete_last_check (rtool, dao);
+	default:
+		return FALSE;
+	}
 }
 
 static gboolean
@@ -925,5 +931,3 @@ gnm_random_tool_new (void)
 {
 	return g_object_new (GNM_TYPE_RANDOM_TOOL, NULL);
 }
-
-

@@ -33,8 +33,8 @@
 #include <numbers.h>
 #include <sheet.h>
 
-static
-GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Workbook *wb)
+static GnmExpr const *
+analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Workbook *wb)
 {
 	GnmFunc *fd_array;
 	GnmExpr const *expr;
@@ -84,7 +84,6 @@ GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Wor
 	return expr;
 }
 
-static gboolean analysis_tool_wilcoxon_mann_whitney_engine_run (GnmWilcoxonMannWhitneyTool *wtool, data_analysis_output_t *dao);
 
 G_DEFINE_TYPE (GnmWilcoxonMannWhitneyTool, gnm_wilcoxon_mann_whitney_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
 
@@ -123,30 +122,6 @@ static gboolean
 gnm_wilcoxon_mann_whitney_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
 	GnmWilcoxonMannWhitneyTool *wtool = GNM_WILCOXON_MANN_WHITNEY_TOOL (tool);
-	return analysis_tool_wilcoxon_mann_whitney_engine_run (wtool, dao);
-}
-
-static void
-gnm_wilcoxon_mann_whitney_tool_class_init (GnmWilcoxonMannWhitneyToolClass *klass)
-{
-	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
-
-	at_class->update_dao = gnm_wilcoxon_mann_whitney_tool_update_dao;
-	at_class->update_descriptor = gnm_wilcoxon_mann_whitney_tool_update_descriptor;
-	at_class->prepare_output_range = gnm_wilcoxon_mann_whitney_tool_prepare_output_range;
-	at_class->format_output_range = gnm_wilcoxon_mann_whitney_tool_format_output_range;
-	at_class->perform_calc = gnm_wilcoxon_mann_whitney_tool_perform_calc;
-}
-
-GnmAnalysisTool *
-gnm_wilcoxon_mann_whitney_tool_new (void)
-{
-	return g_object_new (GNM_TYPE_WILCOXON_MANN_WHITNEY_TOOL, NULL);
-}
-
-static gboolean
-analysis_tool_wilcoxon_mann_whitney_engine_run (GnmWilcoxonMannWhitneyTool *wtool, data_analysis_output_t *dao)
-{
 	GnmGenericBAnalysisTool *gtool = &wtool->parent;
 	GnmFunc *fd_count;
 	GnmFunc *fd_sum;
@@ -388,3 +363,20 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (GnmWilcoxonMannWhitneyTool *wtoo
 	return 0;
 }
 
+static void
+gnm_wilcoxon_mann_whitney_tool_class_init (GnmWilcoxonMannWhitneyToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_wilcoxon_mann_whitney_tool_update_dao;
+	at_class->update_descriptor = gnm_wilcoxon_mann_whitney_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_wilcoxon_mann_whitney_tool_prepare_output_range;
+	at_class->format_output_range = gnm_wilcoxon_mann_whitney_tool_format_output_range;
+	at_class->perform_calc = gnm_wilcoxon_mann_whitney_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_wilcoxon_mann_whitney_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_WILCOXON_MANN_WHITNEY_TOOL, NULL);
+}

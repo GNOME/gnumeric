@@ -32,7 +32,6 @@
 #include <func.h>
 #include <sheet.h>
 
-static gboolean analysis_tool_principal_components_engine_run (GnmPrincipalComponentsTool *ptool, data_analysis_output_t *dao);
 
 G_DEFINE_TYPE (GnmPrincipalComponentsTool, gnm_principal_components_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
@@ -81,30 +80,6 @@ static gboolean
 gnm_principal_components_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
 	GnmPrincipalComponentsTool *ptool = GNM_PRINCIPAL_COMPONENTS_TOOL (tool);
-	return analysis_tool_principal_components_engine_run (ptool, dao);
-}
-
-static void
-gnm_principal_components_tool_class_init (GnmPrincipalComponentsToolClass *klass)
-{
-	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
-
-	at_class->update_dao = gnm_principal_components_tool_update_dao;
-	at_class->update_descriptor = gnm_principal_components_tool_update_descriptor;
-	at_class->prepare_output_range = gnm_principal_components_tool_prepare_output_range;
-	at_class->format_output_range = gnm_principal_components_tool_format_output_range;
-	at_class->perform_calc = gnm_principal_components_tool_perform_calc;
-}
-
-GnmAnalysisTool *
-gnm_principal_components_tool_new (void)
-{
-	return g_object_new (GNM_TYPE_PRINCIPAL_COMPONENTS_TOOL, NULL);
-}
-
-static gboolean
-analysis_tool_principal_components_engine_run (GnmPrincipalComponentsTool *ptool, data_analysis_output_t *dao)
-{
 	GnmGenericAnalysisTool *gtool = &ptool->parent;
 	int l = g_slist_length (gtool->base.input), i;
 	GSList *inputdata;
@@ -259,5 +234,23 @@ analysis_tool_principal_components_engine_run (GnmPrincipalComponentsTool *ptool
 
 	dao_redraw_respan (dao);
 	return 0;
+}
+
+static void
+gnm_principal_components_tool_class_init (GnmPrincipalComponentsToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_principal_components_tool_update_dao;
+	at_class->update_descriptor = gnm_principal_components_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_principal_components_tool_prepare_output_range;
+	at_class->format_output_range = gnm_principal_components_tool_format_output_range;
+	at_class->perform_calc = gnm_principal_components_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_principal_components_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_PRINCIPAL_COMPONENTS_TOOL, NULL);
 }
 

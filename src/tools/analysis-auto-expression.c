@@ -32,7 +32,6 @@
 #include <func.h>
 #include <sheet.h>
 
-static gboolean analysis_tool_auto_expression_engine_run (GnmAutoExpressionTool *atool, data_analysis_output_t *dao);
 
 G_DEFINE_TYPE (GnmAutoExpressionTool, gnm_auto_expression_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
@@ -85,32 +84,6 @@ static gboolean
 gnm_auto_expression_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
 	GnmAutoExpressionTool *atool = GNM_AUTO_EXPRESSION_TOOL (tool);
-	return analysis_tool_auto_expression_engine_run (atool, dao);
-}
-
-static void
-gnm_auto_expression_tool_class_init (GnmAutoExpressionToolClass *klass)
-{
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
-
-	gobject_class->finalize = gnm_auto_expression_tool_finalize;
-	at_class->update_dao = gnm_auto_expression_tool_update_dao;
-	at_class->update_descriptor = gnm_auto_expression_tool_update_descriptor;
-	at_class->prepare_output_range = gnm_auto_expression_tool_prepare_output_range;
-	at_class->format_output_range = gnm_auto_expression_tool_format_output_range;
-	at_class->perform_calc = gnm_auto_expression_tool_perform_calc;
-}
-
-GnmAnalysisTool *
-gnm_auto_expression_tool_new (void)
-{
-	return g_object_new (GNM_TYPE_AUTO_EXPRESSION_TOOL, NULL);
-}
-
-static gboolean
-analysis_tool_auto_expression_engine_run (GnmAutoExpressionTool *atool, data_analysis_output_t *dao)
-{
 	GnmGenericAnalysisTool *gtool = &atool->parent;
 	guint     col;
 	GSList *data = gtool->base.input;
@@ -149,5 +122,22 @@ analysis_tool_auto_expression_engine_run (GnmAutoExpressionTool *atool, data_ana
 	return FALSE;
 }
 
+static void
+gnm_auto_expression_tool_class_init (GnmAutoExpressionToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
 
+	gobject_class->finalize = gnm_auto_expression_tool_finalize;
+	at_class->update_dao = gnm_auto_expression_tool_update_dao;
+	at_class->update_descriptor = gnm_auto_expression_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_auto_expression_tool_prepare_output_range;
+	at_class->format_output_range = gnm_auto_expression_tool_format_output_range;
+	at_class->perform_calc = gnm_auto_expression_tool_perform_calc;
+}
 
+GnmAnalysisTool *
+gnm_auto_expression_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_AUTO_EXPRESSION_TOOL, NULL);
+}

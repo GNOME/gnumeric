@@ -37,99 +37,6 @@
 #include <goffice/goffice.h>
 #include <sheet.h>
 
-static gboolean analysis_tool_histogram_engine_run (GnmHistogramTool *htool, data_analysis_output_t *dao);
-
-G_DEFINE_TYPE (GnmHistogramTool, gnm_histogram_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
-
-static void
-gnm_histogram_tool_init (GnmHistogramTool *tool)
-{
-	tool->predetermined = FALSE;
-	tool->bin = NULL;
-}
-
-static void
-gnm_histogram_tool_finalize (GObject *obj)
-{
-	GnmHistogramTool *tool = GNM_HISTOGRAM_TOOL (obj);
-	if (tool->bin)
-		value_release (tool->bin);
-	G_OBJECT_CLASS (gnm_histogram_tool_parent_class)->finalize (obj);
-}
-
-static gboolean
-gnm_histogram_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
-{
-	GnmHistogramTool *htool = GNM_HISTOGRAM_TOOL (tool);
-	GnmGenericAnalysisTool *gtool = &htool->parent;
-	int i, j;
-
-	analysis_tool_prepare_input_range (gtool);
-	if (!analysis_tool_check_input_homogeneity (gtool)) {
-		gtool->base.err = gtool->base.group_by + 1;
-		return TRUE;
-	}
-
-	i = g_slist_length (gtool->base.input);
-	if (htool->predetermined) {
-		j = (htool->bin->v_range.cell.b.col - htool->bin->v_range.cell.a.col + 1) *
-			(htool->bin->v_range.cell.b.row - htool->bin->v_range.cell.a.row + 1);
-	} else
-		j = htool->n;
-
-	if (htool->bin_type & bintype_p_inf_lower) j++;
-	if (htool->bin_type & bintype_m_inf_lower) j++;
-
-	dao_adjust (dao, 1 + i, 1 + j);
-	return FALSE;
-}
-
-static char *
-gnm_histogram_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
-{
-	return dao_command_descriptor (dao, _("Histogram (%s)"));
-}
-
-static gboolean
-gnm_histogram_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
-{
-	dao_prepare_output (NULL, dao, _("Histogram"));
-	return FALSE;
-}
-
-static gboolean
-gnm_histogram_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
-{
-	return dao_format_output (dao, _("Histogram"));
-}
-
-static gboolean
-gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
-{
-	GnmHistogramTool *htool = GNM_HISTOGRAM_TOOL (tool);
-	return analysis_tool_histogram_engine_run (htool, dao);
-}
-
-static void
-gnm_histogram_tool_class_init (GnmHistogramToolClass *klass)
-{
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
-
-	gobject_class->finalize = gnm_histogram_tool_finalize;
-	at_class->update_dao = gnm_histogram_tool_update_dao;
-	at_class->update_descriptor = gnm_histogram_tool_update_descriptor;
-	at_class->prepare_output_range = gnm_histogram_tool_prepare_output_range;
-	at_class->format_output_range = gnm_histogram_tool_format_output_range;
-	at_class->perform_calc = gnm_histogram_tool_perform_calc;
-}
-
-GnmAnalysisTool *
-gnm_histogram_tool_new (void)
-{
-	return g_object_new (GNM_TYPE_HISTOGRAM_TOOL, NULL);
-}
-
 static GnmExpr const *
 make_hist_expr (GnmHistogramTool *htool,
 		int col, GnmValue *val,
@@ -218,9 +125,75 @@ make_hist_expr (GnmHistogramTool *htool,
 	return expr;
 }
 
-static gboolean
-analysis_tool_histogram_engine_run (GnmHistogramTool *htool, data_analysis_output_t *dao)
+
+G_DEFINE_TYPE (GnmHistogramTool, gnm_histogram_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_histogram_tool_init (GnmHistogramTool *tool)
 {
+	tool->predetermined = FALSE;
+	tool->bin = NULL;
+}
+
+static void
+gnm_histogram_tool_finalize (GObject *obj)
+{
+	GnmHistogramTool *tool = GNM_HISTOGRAM_TOOL (obj);
+	if (tool->bin)
+		value_release (tool->bin);
+	G_OBJECT_CLASS (gnm_histogram_tool_parent_class)->finalize (obj);
+}
+
+static gboolean
+gnm_histogram_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmHistogramTool *htool = GNM_HISTOGRAM_TOOL (tool);
+	GnmGenericAnalysisTool *gtool = &htool->parent;
+	int i, j;
+
+	analysis_tool_prepare_input_range (gtool);
+	if (!analysis_tool_check_input_homogeneity (gtool)) {
+		gtool->base.err = gtool->base.group_by + 1;
+		return TRUE;
+	}
+
+	i = g_slist_length (gtool->base.input);
+	if (htool->predetermined) {
+		j = (htool->bin->v_range.cell.b.col - htool->bin->v_range.cell.a.col + 1) *
+			(htool->bin->v_range.cell.b.row - htool->bin->v_range.cell.a.row + 1);
+	} else
+		j = htool->n;
+
+	if (htool->bin_type & bintype_p_inf_lower) j++;
+	if (htool->bin_type & bintype_m_inf_lower) j++;
+
+	dao_adjust (dao, 1 + i, 1 + j);
+	return FALSE;
+}
+
+static char *
+gnm_histogram_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Histogram (%s)"));
+}
+
+static gboolean
+gnm_histogram_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Histogram"));
+	return FALSE;
+}
+
+static gboolean
+gnm_histogram_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Histogram"));
+}
+
+static gboolean
+gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmHistogramTool *htool = GNM_HISTOGRAM_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &htool->parent;
 	GnmRange range;
 	gint i, i_limit, i_start, i_end, col;
@@ -544,4 +517,23 @@ analysis_tool_histogram_engine_run (GnmHistogramTool *htool, data_analysis_outpu
 	return FALSE;
 }
 
+static void
+gnm_histogram_tool_class_init (GnmHistogramToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->finalize = gnm_histogram_tool_finalize;
+	at_class->update_dao = gnm_histogram_tool_update_dao;
+	at_class->update_descriptor = gnm_histogram_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_histogram_tool_prepare_output_range;
+	at_class->format_output_range = gnm_histogram_tool_format_output_range;
+	at_class->perform_calc = gnm_histogram_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_histogram_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_HISTOGRAM_TOOL, NULL);
+}
 

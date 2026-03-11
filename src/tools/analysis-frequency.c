@@ -35,7 +35,6 @@
 #include <goffice/goffice.h>
 #include <sheet.h>
 
-static gboolean analysis_tool_frequency_engine_run (GnmFrequencyTool *ftool, data_analysis_output_t *dao);
 
 G_DEFINE_TYPE (GnmFrequencyTool, gnm_frequency_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
@@ -103,32 +102,6 @@ static gboolean
 gnm_frequency_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
 	GnmFrequencyTool *ftool = GNM_FREQUENCY_TOOL (tool);
-	return analysis_tool_frequency_engine_run (ftool, dao);
-}
-
-static void
-gnm_frequency_tool_class_init (GnmFrequencyToolClass *klass)
-{
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
-
-	gobject_class->finalize = gnm_frequency_tool_finalize;
-	at_class->update_dao = gnm_frequency_tool_update_dao;
-	at_class->update_descriptor = gnm_frequency_tool_update_descriptor;
-	at_class->prepare_output_range = gnm_frequency_tool_prepare_output_range;
-	at_class->format_output_range = gnm_frequency_tool_format_output_range;
-	at_class->perform_calc = gnm_frequency_tool_perform_calc;
-}
-
-GnmAnalysisTool *
-gnm_frequency_tool_new (void)
-{
-	return g_object_new (GNM_TYPE_FREQUENCY_TOOL, NULL);
-}
-
-static gboolean
-analysis_tool_frequency_engine_run (GnmFrequencyTool *ftool, data_analysis_output_t *dao)
-{
 	GnmGenericAnalysisTool *gtool = &ftool->parent;
 	gint i_limit, col;
 	GSList *l;
@@ -329,3 +302,24 @@ analysis_tool_frequency_engine_run (GnmFrequencyTool *ftool, data_analysis_outpu
 
 	return FALSE;
 }
+
+static void
+gnm_frequency_tool_class_init (GnmFrequencyToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->finalize = gnm_frequency_tool_finalize;
+	at_class->update_dao = gnm_frequency_tool_update_dao;
+	at_class->update_descriptor = gnm_frequency_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_frequency_tool_prepare_output_range;
+	at_class->format_output_range = gnm_frequency_tool_format_output_range;
+	at_class->perform_calc = gnm_frequency_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_frequency_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_FREQUENCY_TOOL, NULL);
+}
+

@@ -37,8 +37,6 @@
 #include <goffice/goffice.h>
 #include <sheet.h>
 
-static gboolean analysis_tool_normality_engine_run (GnmNormalityTool *ntool, data_analysis_output_t *dao);
-
 G_DEFINE_TYPE (GnmNormalityTool, gnm_normality_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
 static void
@@ -82,30 +80,6 @@ static gboolean
 gnm_normality_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
 	GnmNormalityTool *ntool = GNM_NORMALITY_TOOL (tool);
-	return analysis_tool_normality_engine_run (ntool, dao);
-}
-
-static void
-gnm_normality_tool_class_init (GnmNormalityToolClass *klass)
-{
-	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
-
-	at_class->update_dao = gnm_normality_tool_update_dao;
-	at_class->update_descriptor = gnm_normality_tool_update_descriptor;
-	at_class->prepare_output_range = gnm_normality_tool_prepare_output_range;
-	at_class->format_output_range = gnm_normality_tool_format_output_range;
-	at_class->perform_calc = gnm_normality_tool_perform_calc;
-}
-
-GnmAnalysisTool *
-gnm_normality_tool_new (void)
-{
-	return g_object_new (GNM_TYPE_NORMALITY_TOOL, NULL);
-}
-
-static gboolean
-analysis_tool_normality_engine_run (GnmNormalityTool *ntool, data_analysis_output_t *dao)
-{
 	GnmGenericAnalysisTool *gtool = &ntool->parent;
 	guint   col;
 	GSList *data = gtool->base.input;
@@ -240,5 +214,23 @@ analysis_tool_normality_engine_run (GnmNormalityTool *ntool, data_analysis_outpu
 
 	dao_redraw_respan (dao);
 	return 0;
+}
+
+static void
+gnm_normality_tool_class_init (GnmNormalityToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_normality_tool_update_dao;
+	at_class->update_descriptor = gnm_normality_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_normality_tool_prepare_output_range;
+	at_class->format_output_range = gnm_normality_tool_format_output_range;
+	at_class->perform_calc = gnm_normality_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_normality_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_NORMALITY_TOOL, NULL);
 }
 

@@ -32,8 +32,6 @@
 #include <func.h>
 #include <sheet.h>
 
-static gboolean analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao, analysis_tools_data_chi_squared_t *info);
-
 G_DEFINE_TYPE (GnmChiSquaredTool, gnm_chi_squared_tool, GNM_TYPE_ANALYSIS_TOOL)
 
 static void
@@ -106,33 +104,6 @@ static gboolean
 gnm_chi_squared_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
 	analysis_tools_data_chi_squared_t *info = &GNM_CHI_SQUARED_TOOL (tool)->data;
-	return analysis_tool_chi_squared_engine_run (dao, info);
-}
-
-static void
-gnm_chi_squared_tool_class_init (GnmChiSquaredToolClass *klass)
-{
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
-
-	gobject_class->finalize = gnm_chi_squared_tool_finalize;
-	at_class->update_dao = gnm_chi_squared_tool_update_dao;
-	at_class->update_descriptor = gnm_chi_squared_tool_update_descriptor;
-	at_class->prepare_output_range = gnm_chi_squared_tool_prepare_output_range;
-	at_class->format_output_range = gnm_chi_squared_tool_format_output_range;
-	at_class->perform_calc = gnm_chi_squared_tool_perform_calc;
-}
-
-GnmAnalysisTool *
-gnm_chi_squared_tool_new (void)
-{
-	return g_object_new (GNM_TYPE_CHI_SQUARED_TOOL, NULL);
-}
-
-static gboolean
-analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_chi_squared_t *info)
-{
 	GnmExpr const *expr_check;
 	GnmExpr const *expr_region;
 	GnmExpr const *expr_statistic;
@@ -247,6 +218,23 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 	return FALSE;
 }
 
+static void
+gnm_chi_squared_tool_class_init (GnmChiSquaredToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
 
+	gobject_class->finalize = gnm_chi_squared_tool_finalize;
+	at_class->update_dao = gnm_chi_squared_tool_update_dao;
+	at_class->update_descriptor = gnm_chi_squared_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_chi_squared_tool_prepare_output_range;
+	at_class->format_output_range = gnm_chi_squared_tool_format_output_range;
+	at_class->perform_calc = gnm_chi_squared_tool_perform_calc;
+}
 
+GnmAnalysisTool *
+gnm_chi_squared_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_CHI_SQUARED_TOOL, NULL);
+}
 

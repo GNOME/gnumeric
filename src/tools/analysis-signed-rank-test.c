@@ -34,8 +34,18 @@
 
 #include <sheet.h>
 
-static gboolean analysis_tool_signed_rank_test_engine_run (GnmSignedRankTestTool *stool, data_analysis_output_t *dao);
-static gboolean analysis_tool_signed_rank_test_two_engine_run (GnmSignedRankTestTwoTool *stool, data_analysis_output_t *dao);
+
+static inline GnmExpr const *
+make_int (int n)
+{
+	return gnm_expr_new_constant (value_new_int (n));
+}
+static inline GnmExpr const *
+make_float (gnm_float x)
+{
+	return gnm_expr_new_constant (value_new_float (x));
+}
+
 
 G_DEFINE_TYPE (GnmSignedRankTestTool, gnm_signed_rank_test_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
@@ -76,103 +86,6 @@ static gboolean
 gnm_signed_rank_test_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
 	GnmSignedRankTestTool *stool = GNM_SIGNED_RANK_TEST_TOOL (tool);
-	return analysis_tool_signed_rank_test_engine_run (stool, dao);
-}
-
-static void
-gnm_signed_rank_test_tool_class_init (GnmSignedRankTestToolClass *klass)
-{
-	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
-
-	at_class->update_dao = gnm_signed_rank_test_tool_update_dao;
-	at_class->update_descriptor = gnm_signed_rank_test_tool_update_descriptor;
-	at_class->prepare_output_range = gnm_signed_rank_test_tool_prepare_output_range;
-	at_class->format_output_range = gnm_signed_rank_test_tool_format_output_range;
-	at_class->perform_calc = gnm_signed_rank_test_tool_perform_calc;
-}
-
-GnmAnalysisTool *
-gnm_signed_rank_test_tool_new (void)
-{
-	return g_object_new (GNM_TYPE_SIGNED_RANK_TEST_TOOL, NULL);
-}
-
-/********************************************************************/
-
-G_DEFINE_TYPE (GnmSignedRankTestTwoTool, gnm_signed_rank_test_two_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
-
-static void
-gnm_signed_rank_test_two_tool_init (G_GNUC_UNUSED GnmSignedRankTestTwoTool *tool)
-{
-}
-
-static gboolean
-gnm_signed_rank_test_two_tool_update_dao (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
-{
-	dao_adjust (dao, 3, 10);
-	return FALSE;
-}
-
-static char *
-gnm_signed_rank_test_two_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
-{
-	return dao_command_descriptor (dao, _("Wilcoxon Signed Rank Test (%s)"));
-}
-
-static gboolean
-gnm_signed_rank_test_two_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
-{
-	dao_prepare_output (NULL, dao, _("Wilcoxon Signed Rank Test"));
-	return FALSE;
-}
-
-static gboolean
-gnm_signed_rank_test_two_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
-{
-	return dao_format_output (dao, _("Wilcoxon Signed Rank Test"));
-}
-
-static gboolean
-gnm_signed_rank_test_two_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
-{
-	GnmSignedRankTestTwoTool *stool = GNM_SIGNED_RANK_TEST_TWO_TOOL (tool);
-	return analysis_tool_signed_rank_test_two_engine_run (stool, dao);
-}
-
-static void
-gnm_signed_rank_test_two_tool_class_init (GnmSignedRankTestTwoToolClass *klass)
-{
-	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
-
-	at_class->update_dao = gnm_signed_rank_test_two_tool_update_dao;
-	at_class->update_descriptor = gnm_signed_rank_test_two_tool_update_descriptor;
-	at_class->prepare_output_range = gnm_signed_rank_test_two_tool_prepare_output_range;
-	at_class->format_output_range = gnm_signed_rank_test_two_tool_format_output_range;
-	at_class->perform_calc = gnm_signed_rank_test_two_tool_perform_calc;
-}
-
-GnmAnalysisTool *
-gnm_signed_rank_test_two_tool_new (void)
-{
-	return g_object_new (GNM_TYPE_SIGNED_RANK_TEST_TWO_TOOL, NULL);
-}
-
-static inline GnmExpr const *
-make_int (int n)
-{
-	return gnm_expr_new_constant (value_new_int (n));
-}
-static inline GnmExpr const *
-make_float (gnm_float x)
-{
-	return gnm_expr_new_constant (value_new_float (x));
-}
-
-
-
-static gboolean
-analysis_tool_signed_rank_test_engine_run (GnmSignedRankTestTool *stool, data_analysis_output_t *dao)
-{
 	GnmGenericAnalysisTool *gtool = &stool->parent;
 	guint     col;
 	GSList *data = gtool->base.input;
@@ -380,9 +293,63 @@ analysis_tool_signed_rank_test_engine_run (GnmSignedRankTestTool *stool, data_an
 	return FALSE;
 }
 
-static gboolean
-analysis_tool_signed_rank_test_two_engine_run (GnmSignedRankTestTwoTool *stool, data_analysis_output_t *dao)
+static void
+gnm_signed_rank_test_tool_class_init (GnmSignedRankTestToolClass *klass)
 {
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_signed_rank_test_tool_update_dao;
+	at_class->update_descriptor = gnm_signed_rank_test_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_signed_rank_test_tool_prepare_output_range;
+	at_class->format_output_range = gnm_signed_rank_test_tool_format_output_range;
+	at_class->perform_calc = gnm_signed_rank_test_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_signed_rank_test_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_SIGNED_RANK_TEST_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmSignedRankTestTwoTool, gnm_signed_rank_test_two_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+static void
+gnm_signed_rank_test_two_tool_init (G_GNUC_UNUSED GnmSignedRankTestTwoTool *tool)
+{
+}
+
+static gboolean
+gnm_signed_rank_test_two_tool_update_dao (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_adjust (dao, 3, 10);
+	return FALSE;
+}
+
+static char *
+gnm_signed_rank_test_two_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Wilcoxon Signed Rank Test (%s)"));
+}
+
+static gboolean
+gnm_signed_rank_test_two_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Wilcoxon Signed Rank Test"));
+	return FALSE;
+}
+
+static gboolean
+gnm_signed_rank_test_two_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Wilcoxon Signed Rank Test"));
+}
+
+static gboolean
+gnm_signed_rank_test_two_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmSignedRankTestTwoTool *stool = GNM_SIGNED_RANK_TEST_TWO_TOOL (tool);
 	GnmGenericBAnalysisTool *gtool = &stool->parent;
 	GnmValue *val_1;	GnmValue *val_2;
 
@@ -647,4 +614,22 @@ analysis_tool_signed_rank_test_two_engine_run (GnmSignedRankTestTwoTool *stool, 
 	dao_redraw_respan (dao);
 
 	return FALSE;
+}
+
+static void
+gnm_signed_rank_test_two_tool_class_init (GnmSignedRankTestTwoToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_signed_rank_test_two_tool_update_dao;
+	at_class->update_descriptor = gnm_signed_rank_test_two_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_signed_rank_test_two_tool_prepare_output_range;
+	at_class->format_output_range = gnm_signed_rank_test_two_tool_format_output_range;
+	at_class->perform_calc = gnm_signed_rank_test_two_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_signed_rank_test_two_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_SIGNED_RANK_TEST_TWO_TOOL, NULL);
 }

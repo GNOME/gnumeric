@@ -468,5 +468,3 @@ gnm_fill_series_tool_new (void)
 {
 	return g_object_new (GNM_TYPE_FILL_SERIES_TOOL, NULL);
 }
-
-

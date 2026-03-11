@@ -37,8 +37,6 @@
 #include <goffice/goffice.h>
 #include <sheet.h>
 
-static gboolean analysis_tool_kaplan_meier_engine_run (GnmKaplanMeierTool *ktool, data_analysis_output_t *dao);
-
 G_DEFINE_TYPE (GnmKaplanMeierTool, gnm_kaplan_meier_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
 
 static void
@@ -103,32 +101,6 @@ static gboolean
 gnm_kaplan_meier_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
 	GnmKaplanMeierTool *ktool = GNM_KAPLAN_MEIER_TOOL (tool);
-	return analysis_tool_kaplan_meier_engine_run (ktool, dao);
-}
-
-static void
-gnm_kaplan_meier_tool_class_init (GnmKaplanMeierToolClass *klass)
-{
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
-
-	gobject_class->finalize = gnm_kaplan_meier_tool_finalize;
-	at_class->update_dao = gnm_kaplan_meier_tool_update_dao;
-	at_class->update_descriptor = gnm_kaplan_meier_tool_update_descriptor;
-	at_class->prepare_output_range = gnm_kaplan_meier_tool_prepare_output_range;
-	at_class->format_output_range = gnm_kaplan_meier_tool_format_output_range;
-	at_class->perform_calc = gnm_kaplan_meier_tool_perform_calc;
-}
-
-GnmAnalysisTool *
-gnm_kaplan_meier_tool_new (void)
-{
-	return g_object_new (GNM_TYPE_KAPLAN_MEIER_TOOL, NULL);
-}
-
-static gboolean
-analysis_tool_kaplan_meier_engine_run (GnmKaplanMeierTool *ktool, data_analysis_output_t *dao)
-{
 	GnmGenericBAnalysisTool *gtool = &ktool->parent;
 	int rows, row;
 	int std_err_col = ktool->censored ? 4 : 3;
@@ -710,4 +682,24 @@ analysis_tool_kaplan_meier_engine_run (GnmKaplanMeierTool *ktool, data_analysis_
 	dao_redraw_respan (dao);
 
 	return FALSE;
+}
+
+static void
+gnm_kaplan_meier_tool_class_init (GnmKaplanMeierToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->finalize = gnm_kaplan_meier_tool_finalize;
+	at_class->update_dao = gnm_kaplan_meier_tool_update_dao;
+	at_class->update_descriptor = gnm_kaplan_meier_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_kaplan_meier_tool_prepare_output_range;
+	at_class->format_output_range = gnm_kaplan_meier_tool_format_output_range;
+	at_class->perform_calc = gnm_kaplan_meier_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_kaplan_meier_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_KAPLAN_MEIER_TOOL, NULL);
 }

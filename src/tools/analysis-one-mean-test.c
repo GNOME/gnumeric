@@ -32,7 +32,6 @@
 #include <func.h>
 #include <sheet.h>
 
-static gboolean analysis_tool_one_mean_test_engine_run (GnmOneMeanTestTool *otool, data_analysis_output_t *dao);
 
 G_DEFINE_TYPE (GnmOneMeanTestTool, gnm_one_mean_test_tool, GNM_TYPE_ANALYSIS_TOOL)
 
@@ -83,32 +82,6 @@ static gboolean
 gnm_one_mean_test_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
 	GnmOneMeanTestTool *otool = GNM_ONE_MEAN_TEST_TOOL (tool);
-	return analysis_tool_one_mean_test_engine_run (otool, dao);
-}
-
-static void
-gnm_one_mean_test_tool_class_init (GnmOneMeanTestToolClass *klass)
-{
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
-
-	gobject_class->finalize = gnm_one_mean_test_tool_finalize;
-	at_class->update_dao = gnm_one_mean_test_tool_update_dao;
-	at_class->update_descriptor = gnm_one_mean_test_tool_update_descriptor;
-	at_class->prepare_output_range = gnm_one_mean_test_tool_prepare_output_range;
-	at_class->format_output_range = gnm_one_mean_test_tool_format_output_range;
-	at_class->perform_calc = gnm_one_mean_test_tool_perform_calc;
-}
-
-GnmAnalysisTool *
-gnm_one_mean_test_tool_new (void)
-{
-	return g_object_new (GNM_TYPE_ONE_MEAN_TEST_TOOL, NULL);
-}
-
-static gboolean
-analysis_tool_one_mean_test_engine_run (GnmOneMeanTestTool *otool, data_analysis_output_t *dao)
-{
 	GnmGenericAnalysisTool *gtool = &otool->parent;
 	guint    col;
 	GSList  *data = gtool->base.input;
@@ -209,4 +182,22 @@ analysis_tool_one_mean_test_engine_run (GnmOneMeanTestTool *otool, data_analysis
 	return FALSE;
 }
 
+static void
+gnm_one_mean_test_tool_class_init (GnmOneMeanTestToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
 
+	gobject_class->finalize = gnm_one_mean_test_tool_finalize;
+	at_class->update_dao = gnm_one_mean_test_tool_update_dao;
+	at_class->update_descriptor = gnm_one_mean_test_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_one_mean_test_tool_prepare_output_range;
+	at_class->format_output_range = gnm_one_mean_test_tool_format_output_range;
+	at_class->perform_calc = gnm_one_mean_test_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_one_mean_test_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_ONE_MEAN_TEST_TOOL, NULL);
+}
