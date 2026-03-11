@@ -177,6 +177,7 @@ TESTS =	t1000-statfuns.pl			\
 	t8103-gtk.pl				\
 	t8104-glade-parsing.pl			\
 	t8105-disallow-none.pl			\
+	t8106-duplicate-include.pl		\
 	t8200-gslice1.pl			\
 	t8201-gslice2.pl			\
 	t8202-gslice3.pl			\
