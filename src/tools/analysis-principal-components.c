@@ -30,13 +30,83 @@
 #include <ranges.h>
 #include <expr.h>
 #include <func.h>
-#include <numbers.h>
+#include <sheet.h>
+
+static gboolean analysis_tool_principal_components_engine_run (GnmPrincipalComponentsTool *ptool, data_analysis_output_t *dao);
+
+G_DEFINE_TYPE (GnmPrincipalComponentsTool, gnm_principal_components_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_principal_components_tool_init (G_GNUC_UNUSED GnmPrincipalComponentsTool *tool)
+{
+}
 
 static gboolean
-analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
-					       analysis_tools_data_generic_t *info)
+gnm_principal_components_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
-	int l = g_slist_length (info->input), i;
+	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
+	int l;
+
+	analysis_tool_prepare_input_range (gtool);
+	if (!analysis_tool_check_input_homogeneity (gtool)) {
+		gtool->base.err = gtool->base.group_by + 1;
+		return TRUE;
+	}
+
+	l = g_slist_length (gtool->base.input);
+	dao_adjust (dao, 1 + l, 11 + 3 * l);
+	return FALSE;
+}
+
+static char *
+gnm_principal_components_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Principal Components Analysis (%s)"));
+}
+
+static gboolean
+gnm_principal_components_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Principal Components Analysis"));
+	return FALSE;
+}
+
+static gboolean
+gnm_principal_components_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Principal Components Analysis"));
+}
+
+static gboolean
+gnm_principal_components_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmPrincipalComponentsTool *ptool = GNM_PRINCIPAL_COMPONENTS_TOOL (tool);
+	return analysis_tool_principal_components_engine_run (ptool, dao);
+}
+
+static void
+gnm_principal_components_tool_class_init (GnmPrincipalComponentsToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_principal_components_tool_update_dao;
+	at_class->update_descriptor = gnm_principal_components_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_principal_components_tool_prepare_output_range;
+	at_class->format_output_range = gnm_principal_components_tool_format_output_range;
+	at_class->perform_calc = gnm_principal_components_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_principal_components_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_PRINCIPAL_COMPONENTS_TOOL, NULL);
+}
+
+static gboolean
+analysis_tool_principal_components_engine_run (GnmPrincipalComponentsTool *ptool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = &ptool->parent;
+	int l = g_slist_length (gtool->base.input), i;
 	GSList *inputdata;
 
 	GnmFunc *fd_mean;
@@ -68,26 +138,16 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 		return 0;
 	}
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_inc_usage (fd_mean);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_inc_usage (fd_var);
-	fd_eigen = gnm_func_lookup_or_add_placeholder ("EIGEN");
-	gnm_func_inc_usage (fd_eigen);
-	fd_mmult = gnm_func_lookup_or_add_placeholder ("MMULT");
-	gnm_func_inc_usage (fd_mmult);
-	fd_munit = gnm_func_lookup_or_add_placeholder ("MUNIT");
-	gnm_func_inc_usage (fd_munit);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-	gnm_func_inc_usage (fd_sqrt);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_inc_usage (fd_count);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_inc_usage (fd_sum);
-	fd_and = gnm_func_lookup_or_add_placeholder ("AND");
-	gnm_func_inc_usage (fd_and);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_inc_usage (fd_if);
+	fd_mean = gnm_func_get_and_use ("AVERAGE");
+	fd_var = gnm_func_get_and_use ("VAR");
+	fd_eigen = gnm_func_get_and_use ("EIGEN");
+	fd_mmult = gnm_func_get_and_use ("MMULT");
+	fd_munit = gnm_func_get_and_use ("MUNIT");
+	fd_sqrt = gnm_func_get_and_use ("SQRT");
+	fd_count = gnm_func_get_and_use ("COUNT");
+	fd_sum = gnm_func_get_and_use ("SUM");
+	fd_and = gnm_func_get_and_use ("AND");
+	fd_if = gnm_func_get_and_use ("IF");
 
 	dao_set_bold (dao, 0, 0, 0, 0);
 	dao_set_italic (dao, 0, 0, 0, 11 + 3 * l);
@@ -100,16 +160,16 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 		       GNM_HALIGN_LEFT, GNM_VALIGN_BOTTOM);
 
 	dao->offset_row++;
-	analysis_tool_table (dao, info, _("Covariances"), "COVAR", TRUE);
+	analysis_tool_table (gtool, dao, _("Covariances"), "COVAR", TRUE);
 	dao->offset_row--;
 
-	for (i = 1, inputdata = info->input; inputdata != NULL; i++, inputdata = inputdata->next)
-		analysis_tools_write_label (inputdata->data, dao, info, 0, 9 + 2 * l + i, i);
+	for (i = 1, inputdata = gtool->base.input; inputdata != NULL; i++, inputdata = inputdata->next)
+		analysis_tools_write_label (gtool, inputdata->data, dao, 0, 9 + 2 * l + i, i);
 
 	eval_pos_init_sheet (&ep,
-			     ((GnmValue *)(info->input->data))->v_range.cell.a.sheet);
-	data_points = value_area_get_width (info->input->data, &ep) *
-		value_area_get_height (info->input->data, &ep);
+			     ((GnmValue *)(gtool->base.input->data))->v_range.cell.a.sheet);
+	data_points = value_area_get_width (gtool->base.input->data, &ep) *
+		value_area_get_height (gtool->base.input->data, &ep);
 
 	for (i = 0; i < l; i++)
 		and_args = gnm_expr_list_prepend
@@ -136,7 +196,7 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 	dao_set_italic (dao, 0, 9 + 2 * l, 1 + l, 9 + 2 * l);
 	dao_set_percent (dao, 1, 11 + 3 * l, 1 + l, 11 + 3 * l);
 
-	for (i = 1, inputdata = info->input; inputdata != NULL; i++, inputdata = inputdata->next) {
+	for (i = 1, inputdata = gtool->base.input; inputdata != NULL; i++, inputdata = inputdata->next) {
 		expr = gnm_expr_new_constant (value_dup (inputdata->data));
 
 		dao_set_cell_expr (dao, i, 3 + l,
@@ -201,44 +261,3 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 	return 0;
 }
 
-/**
- * analysis_tool_principal_components_engine:
- * @gcc: #GOCmdContext
- * @dao: #data_analysis_output_t
- * @specs: #gpointer
- * @selector: #analysis_tool_engine_t
- * @result: #gpointer
- *
- * Returns: %TRUE if there is an error.
- **/
-gboolean
-analysis_tool_principal_components_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-				   analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_generic_t *info = specs;
-
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor
-			(dao, _("Principal Components Analysis (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->input, info->group_by);
-		dao_adjust (dao, 1 + g_slist_length (info->input),
-			    12 + 3 * g_slist_length (info->input));
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Principal Components Analysis"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Principal Components Analysis"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_principal_components_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}

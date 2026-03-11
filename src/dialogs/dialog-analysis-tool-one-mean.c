@@ -131,31 +131,31 @@ one_mean_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			      OneeMeanTestToolState *state)
 {
 	data_analysis_output_t  *dao;
+	GnmAnalysisTool *tool;
+	GnmOneMeanTestTool *otool;
 	GtkWidget *w;
-	analysis_tools_data_one_mean_test_t *data;
 
-	data = g_new0 (analysis_tools_data_one_mean_test_t, 1);
+	tool = gnm_one_mean_test_tool_new ();
+	otool = GNM_ONE_MEAN_TEST_TOOL (tool);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
-	data->base.input = gnm_expr_entry_parse_as_list (
+	otool->parent.base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
+	otool->parent.base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active
+        otool->parent.base.labels = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (w));
 
 	entry_to_float
-		(GTK_ENTRY (state->mean_entry), &data->mean, FALSE);
-	data->alpha = gtk_spin_button_get_value
+		(GTK_ENTRY (state->mean_entry), &otool->mean, FALSE);
+	otool->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 
-	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
-				state->base.sheet,
-				dao, data, analysis_tool_one_mean_test_engine,
-				TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool))
 		gtk_widget_destroy (state->base.dialog);
 
+	g_object_unref (tool);
 	return;
 }
 

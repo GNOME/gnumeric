@@ -29,8 +29,6 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 #include <tools/analysis-tools.h>
 
 typedef enum {
@@ -41,8 +39,13 @@ typedef enum {
 	exp_smoothing_type_mtes
 } exponential_smoothing_type_t;
 
-typedef struct {
-	analysis_tools_data_generic_t base;
+#define GNM_TYPE_EXP_SMOOTHING_TOOL (gnm_exp_smoothing_tool_get_type ())
+GType gnm_exp_smoothing_tool_get_type (void);
+typedef struct _GnmExpSmoothingTool GnmExpSmoothingTool;
+typedef struct _GnmExpSmoothingToolClass GnmExpSmoothingToolClass;
+
+struct _GnmExpSmoothingTool {
+	GnmGenericAnalysisTool parent;
 	gnm_float damp_fact;
 	gnm_float g_damp_fact;
 	gnm_float s_damp_fact;
@@ -51,12 +54,16 @@ typedef struct {
 	int df;
 	gboolean show_graph;
 	exponential_smoothing_type_t es_type;
-} analysis_tools_data_exponential_smoothing_t;
+};
 
-gboolean analysis_tool_exponential_smoothing_engine (GOCmdContext *gcc, data_analysis_output_t *dao,
-						     gpointer specs,
-						     analysis_tool_engine_t selector,
-						     gpointer result);
+struct _GnmExpSmoothingToolClass {
+	GnmGenericAnalysisToolClass parent_class;
+};
+
+#define GNM_EXP_SMOOTHING_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_EXP_SMOOTHING_TOOL, GnmExpSmoothingTool))
+#define GNM_IS_EXP_SMOOTHING_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_EXP_SMOOTHING_TOOL))
+
+GnmAnalysisTool *gnm_exp_smoothing_tool_new (void);
 
 
 #endif

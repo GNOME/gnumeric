@@ -27,14 +27,19 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 #include <tools/analysis-tools.h>
 
 /****************  2-Factor ANOVA  ***************/
 /*** with contingency table like data provision **/
 
-typedef struct {
+#define GNM_TYPE_ANOVA_TWO_FACTOR_TOOL (gnm_anova_two_factor_tool_get_type ())
+GType gnm_anova_two_factor_tool_get_type (void);
+typedef struct _GnmAnovaTwoFactorTool GnmAnovaTwoFactorTool;
+typedef struct _GnmAnovaTwoFactorToolClass GnmAnovaTwoFactorToolClass;
+
+struct _GnmAnovaTwoFactorTool {
+	GnmAnalysisTool parent;
+
 	analysis_tools_error_code_t err;
 	WorkbookControl *wbc;
 	GnmValue     *input;
@@ -45,13 +50,16 @@ typedef struct {
 	gint       rows;
 	gint       n_c;
 	gint       n_r;
-} analysis_tools_data_anova_two_factor_t;
+};
 
-gboolean analysis_tool_anova_two_factor_engine (GOCmdContext *gcc,
-						data_analysis_output_t *dao,
-						gpointer specs,
-						analysis_tool_engine_t selector,
-						gpointer result);
+struct _GnmAnovaTwoFactorToolClass {
+	GnmAnalysisToolClass parent_class;
+};
+
+#define GNM_ANOVA_TWO_FACTOR_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_ANOVA_TWO_FACTOR_TOOL, GnmAnovaTwoFactorTool))
+#define GNM_IS_ANOVA_TWO_FACTOR_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_ANOVA_TWO_FACTOR_TOOL))
+
+GnmAnalysisTool *gnm_anova_two_factor_tool_new (void);
 
 
 #endif

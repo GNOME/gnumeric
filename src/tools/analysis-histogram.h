@@ -29,8 +29,6 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 #include <tools/analysis-tools.h>
 
 typedef enum {
@@ -52,8 +50,13 @@ typedef enum {
 } chart_t;
 
 
-typedef struct {
-	analysis_tools_data_generic_t base;
+#define GNM_TYPE_HISTOGRAM_TOOL (gnm_histogram_tool_get_type ())
+GType gnm_histogram_tool_get_type (void);
+typedef struct _GnmHistogramTool GnmHistogramTool;
+typedef struct _GnmHistogramToolClass GnmHistogramToolClass;
+
+struct _GnmHistogramTool {
+	GnmGenericAnalysisTool parent;
 	gboolean   predetermined;
 	GnmValue   *bin;
 	analysis_histogram_bin_type_t   bin_type;
@@ -66,9 +69,15 @@ typedef struct {
 	gboolean   cumulative;
 	gboolean   only_numbers;
 	chart_t   chart;
-} analysis_tools_data_histogram_t;
+};
 
-gboolean analysis_tool_histogram_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-					   analysis_tool_engine_t selector, gpointer result);
+struct _GnmHistogramToolClass {
+	GnmGenericAnalysisToolClass parent_class;
+};
+
+#define GNM_HISTOGRAM_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_HISTOGRAM_TOOL, GnmHistogramTool))
+#define GNM_IS_HISTOGRAM_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_HISTOGRAM_TOOL))
+
+GnmAnalysisTool *gnm_histogram_tool_new (void);
 
 #endif

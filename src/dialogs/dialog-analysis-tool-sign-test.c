@@ -185,42 +185,48 @@ sign_test_two_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 
 static void
 sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
-			      SignTestToolState *state)
+				  SignTestToolState *state)
 {
 	data_analysis_output_t  *dao;
+	GnmAnalysisTool *atool;
+	GnmGenericBAnalysisTool *gbtool;
 	GtkWidget *w;
-	analysis_tools_data_sign_test_two_t *data;
-	analysis_tool_engine engine;
 
-	data = g_new0 (analysis_tools_data_sign_test_two_t, 1);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
-	data->base.range_1 = gnm_expr_entry_parse_as_value
+	w =  go_gtk_builder_get_widget (state->base.gui, "signtest");
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
+		atool = gnm_sign_test_two_tool_new ();
+	else
+		atool = gnm_signed_rank_test_two_tool_new ();
+
+	gbtool = GNM_GENERIC_B_ANALYSIS_TOOL (atool);
+	gbtool->base.wbc = GNM_WBC (state->base.wbcg);
+
+	if (state->base.warning_dialog != NULL)
+		gtk_widget_destroy (state->base.warning_dialog);
+
+	gbtool->base.range_1 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 
-	data->base.range_2 = gnm_expr_entry_parse_as_value
+	gbtool->base.range_2 =  gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (w));
+        gbtool->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	entry_to_float
-		(GTK_ENTRY (state->median_entry), &data->median, FALSE);
+	if (GNM_IS_SIGN_TEST_TWO_TOOL (atool))
+		entry_to_float (GTK_ENTRY (state->median_entry), &GNM_SIGN_TEST_TWO_TOOL (atool)->median, FALSE);
+	else
+		entry_to_float (GTK_ENTRY (state->median_entry), &GNM_SIGNED_RANK_TEST_TWO_TOOL (atool)->median, FALSE);
 
-	data->base.alpha = gtk_spin_button_get_value
+	gbtool->base.alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 
-	w =  go_gtk_builder_get_widget (state->base.gui, "signtest");
-	engine =  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))
-		? analysis_tool_sign_test_two_engine
-		: analysis_tool_signed_rank_test_two_engine;
-
-	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
-				state->base.sheet,
-				dao, data, engine, TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, atool))
 		gtk_widget_destroy (state->base.dialog);
 
+	g_object_unref (atool);
 	return;
 }
 
@@ -305,36 +311,40 @@ sign_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			      SignTestToolState *state)
 {
 	data_analysis_output_t  *dao;
+	GnmAnalysisTool *atool;
+	GnmGenericAnalysisTool *gtool;
 	GtkWidget *w;
-	analysis_tools_data_sign_test_t *data;
-	analysis_tool_engine engine;
 
-	data = g_new0 (analysis_tools_data_sign_test_t, 1);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
-	data->base.input = gnm_expr_entry_parse_as_list (
+	w =  go_gtk_builder_get_widget (state->base.gui, "signtest");
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
+		atool = gnm_sign_test_tool_new ();
+	else
+		atool = gnm_signed_rank_test_tool_new ();
+
+	gtool = GNM_GENERIC_ANALYSIS_TOOL (atool);
+
+	gtool->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
+	gtool->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active
+        gtool->base.labels = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (w));
 
-	entry_to_float
-		(GTK_ENTRY (state->median_entry), &data->median, FALSE);
-	data->alpha = gtk_spin_button_get_value
-		(GTK_SPIN_BUTTON (state->alpha_entry));
+	if (GNM_IS_SIGN_TEST_TOOL (atool)) {
+		entry_to_float (GTK_ENTRY (state->median_entry), &GNM_SIGN_TEST_TOOL (atool)->median, FALSE);
+		GNM_SIGN_TEST_TOOL (atool)->alpha = gtk_spin_button_get_value (GTK_SPIN_BUTTON (state->alpha_entry));
+	} else {
+		entry_to_float (GTK_ENTRY (state->median_entry), &GNM_SIGNED_RANK_TEST_TOOL (atool)->median, FALSE);
+		GNM_SIGNED_RANK_TEST_TOOL (atool)->alpha = gtk_spin_button_get_value (GTK_SPIN_BUTTON (state->alpha_entry));
+	}
 
-	w =  go_gtk_builder_get_widget (state->base.gui, "signtest");
-	engine =  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))
-		? analysis_tool_sign_test_engine
-		: analysis_tool_signed_rank_test_engine;
-
-	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
-				state->base.sheet,
-				dao, data, engine, TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, atool))
 		gtk_widget_destroy (state->base.dialog);
 
+	g_object_unref (atool);
 	return;
 }
 

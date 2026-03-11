@@ -531,6 +531,23 @@ gnm_func_get_in_use (GnmFunc *func)
 	return func->usage_count > 0;
 }
 
+/**
+ * gnm_func_get_and_use:
+ * @name: name of function
+ *
+ * Returns: (transfer full): the function named @name or a placeholder.
+ * The usage count of the function is incremented.
+ */
+GnmFunc *
+gnm_func_get_and_use (char const *name)
+{
+	GnmFunc *fd;
+
+	fd = gnm_func_lookup_or_add_placeholder (name);
+	gnm_func_inc_usage (fd);
+	return fd;
+}
+
 
 /**
  * gnm_func_lookup:

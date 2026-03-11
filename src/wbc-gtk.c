@@ -4034,7 +4034,8 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	GnmRange *input;
 	gboolean multiple, use_last_cr;
 	data_analysis_output_t *dao;
-	analysis_tools_data_auto_expression_t *specs;
+	GnmAnalysisTool *tool;
+	GnmAutoExpressionTool *specs;
 
 	g_return_if_fail (selection != NULL);
 
@@ -4073,7 +4074,7 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	}
 
 
-	dao = dao_init (NULL, RangeOutput);
+	dao = dao_init (RangeOutput);
 	dao->start_col         = output.start.col;
 	dao->start_row         = output.start.row;
 	dao->cols              = range_width (&output);
@@ -4082,12 +4083,13 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	dao->autofit_flag      = FALSE;
 	dao->put_formulas      = TRUE;
 
-	specs = g_new0 (analysis_tools_data_auto_expression_t, 1);
-	specs->base.wbc = GNM_WBC (wbcg);
-	specs->base.input = g_slist_prepend (NULL, value_new_cellrange_r (scg_sheet (scg), input));
+	tool = gnm_auto_expression_tool_new ();
+	specs = GNM_AUTO_EXPRESSION_TOOL (tool);
+	specs->parent.base.wbc = GNM_WBC (wbcg);
+	specs->parent.base.input = g_slist_prepend (NULL, value_new_cellrange_r (scg_sheet (scg), input));
 	g_free (input);
-	specs->base.group_by = below ? GROUPED_BY_COL : GROUPED_BY_ROW;
-	specs->base.labels = FALSE;
+	specs->parent.base.group_by = below ? GROUPED_BY_COL : GROUPED_BY_ROW;
+	specs->parent.base.labels = FALSE;
 	specs->multiple = multiple;
 	specs->below = below;
 	specs->func = NULL;
@@ -4098,9 +4100,8 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 		gnm_func_inc_usage (specs->func);
 	}
 
-	cmd_analysis_tool (GNM_WBC (wbcg), scg_sheet (scg),
-			   dao, specs, analysis_tool_auto_expression_engine,
-			   TRUE);
+	cmd_analysis_tool (GNM_WBC (wbcg), scg_sheet (scg), dao, tool);
+	g_object_unref (tool);
 }
 
 static void

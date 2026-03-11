@@ -25,9 +25,7 @@
 #include <gnumeric.h>
 #include <tools/tabulate.h>
 
-#include <tools/tools.h>
 #include <command-context.h>
-
 #include <workbook-control.h>
 #include <ranges.h>
 #include <value.h>

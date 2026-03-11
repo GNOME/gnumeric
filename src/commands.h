@@ -2,7 +2,7 @@
 #define GNM_COMMANDS_H_
 
 #include <gnumeric.h>
-#include <tools/tools.h>
+#include <mstyle.h>
 
 G_BEGIN_DECLS
 
@@ -124,9 +124,8 @@ gboolean cmd_set_comment	(WorkbookControl *wbc, Sheet *sheet,
 				 PangoAttrList *attr, char const *new_author);
 
 gboolean cmd_analysis_tool	(WorkbookControl *wbc, Sheet *sheet,
-				 data_analysis_output_t *dao, gpointer specs,
-				 analysis_tool_engine engine,
-				 gboolean always_take_ownership);
+				 data_analysis_output_t *dao,
+				 GnmAnalysisTool *tool);
 
 gboolean cmd_merge_data		(WorkbookControl *wbc, Sheet *sheet,
 				 GnmValue *merge_zone, GSList *merge_fields, GSList *merge_data);

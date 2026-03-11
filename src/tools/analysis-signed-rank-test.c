@@ -32,6 +32,131 @@
 #include <func.h>
 #include <numbers.h>
 
+#include <sheet.h>
+
+static gboolean analysis_tool_signed_rank_test_engine_run (GnmSignedRankTestTool *stool, data_analysis_output_t *dao);
+static gboolean analysis_tool_signed_rank_test_two_engine_run (GnmSignedRankTestTwoTool *stool, data_analysis_output_t *dao);
+
+G_DEFINE_TYPE (GnmSignedRankTestTool, gnm_signed_rank_test_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_signed_rank_test_tool_init (G_GNUC_UNUSED GnmSignedRankTestTool *tool)
+{
+}
+
+static gboolean
+gnm_signed_rank_test_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
+	analysis_tool_prepare_input_range (gtool);
+	dao_adjust (dao, 1 + g_slist_length (gtool->base.input), 10);
+	return FALSE;
+}
+
+static char *
+gnm_signed_rank_test_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Wilcoxon Signed Rank Test (%s)"));
+}
+
+static gboolean
+gnm_signed_rank_test_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Wilcoxon Signed Rank Test"));
+	return FALSE;
+}
+
+static gboolean
+gnm_signed_rank_test_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Wilcoxon Signed Rank Test"));
+}
+
+static gboolean
+gnm_signed_rank_test_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmSignedRankTestTool *stool = GNM_SIGNED_RANK_TEST_TOOL (tool);
+	return analysis_tool_signed_rank_test_engine_run (stool, dao);
+}
+
+static void
+gnm_signed_rank_test_tool_class_init (GnmSignedRankTestToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_signed_rank_test_tool_update_dao;
+	at_class->update_descriptor = gnm_signed_rank_test_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_signed_rank_test_tool_prepare_output_range;
+	at_class->format_output_range = gnm_signed_rank_test_tool_format_output_range;
+	at_class->perform_calc = gnm_signed_rank_test_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_signed_rank_test_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_SIGNED_RANK_TEST_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmSignedRankTestTwoTool, gnm_signed_rank_test_two_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+static void
+gnm_signed_rank_test_two_tool_init (G_GNUC_UNUSED GnmSignedRankTestTwoTool *tool)
+{
+}
+
+static gboolean
+gnm_signed_rank_test_two_tool_update_dao (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_adjust (dao, 3, 10);
+	return FALSE;
+}
+
+static char *
+gnm_signed_rank_test_two_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Wilcoxon Signed Rank Test (%s)"));
+}
+
+static gboolean
+gnm_signed_rank_test_two_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Wilcoxon Signed Rank Test"));
+	return FALSE;
+}
+
+static gboolean
+gnm_signed_rank_test_two_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Wilcoxon Signed Rank Test"));
+}
+
+static gboolean
+gnm_signed_rank_test_two_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmSignedRankTestTwoTool *stool = GNM_SIGNED_RANK_TEST_TWO_TOOL (tool);
+	return analysis_tool_signed_rank_test_two_engine_run (stool, dao);
+}
+
+static void
+gnm_signed_rank_test_two_tool_class_init (GnmSignedRankTestTwoToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_signed_rank_test_two_tool_update_dao;
+	at_class->update_descriptor = gnm_signed_rank_test_two_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_signed_rank_test_two_tool_prepare_output_range;
+	at_class->format_output_range = gnm_signed_rank_test_two_tool_format_output_range;
+	at_class->perform_calc = gnm_signed_rank_test_two_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_signed_rank_test_two_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_SIGNED_RANK_TEST_TWO_TOOL, NULL);
+}
+
 static inline GnmExpr const *
 make_int (int n)
 {
@@ -46,11 +171,11 @@ make_float (gnm_float x)
 
 
 static gboolean
-analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_sign_test_t *info)
+analysis_tool_signed_rank_test_engine_run (GnmSignedRankTestTool *stool, data_analysis_output_t *dao)
 {
+	GnmGenericAnalysisTool *gtool = &stool->parent;
 	guint     col;
-	GSList *data = info->base.input;
+	GSList *data = gtool->base.input;
 	gboolean first = TRUE;
 
 	GnmExpr const *expr;
@@ -61,17 +186,17 @@ analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_abs;
 	GnmExpr const *expr_big;
 
-	GnmFunc *fd_median    = analysis_tool_get_function ("MEDIAN", dao);
-	GnmFunc *fd_if        = analysis_tool_get_function ("IF", dao);
-	GnmFunc *fd_sum       = analysis_tool_get_function ("SUM", dao);
-	GnmFunc *fd_min       = analysis_tool_get_function ("MIN", dao);
-	GnmFunc *fd_normdist  = analysis_tool_get_function ("NORMDIST", dao);
-	GnmFunc *fd_isnumber  = analysis_tool_get_function ("ISNUMBER", dao);
-	GnmFunc *fd_iferror   = analysis_tool_get_function ("IFERROR", dao);
-	GnmFunc *fd_rank      = analysis_tool_get_function ("RANK.AVG", dao);
-	GnmFunc *fd_abs       = analysis_tool_get_function ("ABS", dao);
-	GnmFunc *fd_sqrt      = analysis_tool_get_function ("SQRT", dao);
-	GnmFunc *fd_max       = analysis_tool_get_function ("MAX", dao);
+	GnmFunc *fd_median    = gnm_func_get_and_use ("MEDIAN");
+	GnmFunc *fd_if        = gnm_func_get_and_use ("IF");
+	GnmFunc *fd_sum       = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_min       = gnm_func_get_and_use ("MIN");
+	GnmFunc *fd_normdist  = gnm_func_get_and_use ("NORMDIST");
+	GnmFunc *fd_isnumber  = gnm_func_get_and_use ("ISNUMBER");
+	GnmFunc *fd_iferror   = gnm_func_get_and_use ("IFERROR");
+	GnmFunc *fd_rank      = gnm_func_get_and_use ("RANK.AVG");
+	GnmFunc *fd_abs       = gnm_func_get_and_use ("ABS");
+	GnmFunc *fd_sqrt      = gnm_func_get_and_use ("SQRT");
+	GnmFunc *fd_max       = gnm_func_get_and_use ("MAX");
 
 	dao_set_italic (dao, 0, 0, 0, 9);
 	set_cell_text_col (dao, 0, 0, _("/Wilcoxon Signed Rank Test"
@@ -91,12 +216,12 @@ analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
 
 		/* Note that analysis_tools_write_label may modify val_org */
 		dao_set_italic (dao, col + 1, 0, col+1, 0);
-		analysis_tools_write_label (val_org, dao, &info->base, col + 1, 0, col + 1);
+		analysis_tools_write_label (gtool, val_org, dao, col + 1, 0, col + 1);
 		expr_org = gnm_expr_new_constant (val_org);
 
 		if (first) {
-			dao_set_cell_float (dao, col + 1, 2, info->median);
-			dao_set_cell_float (dao, col + 1, 7, info->alpha);
+			dao_set_cell_float (dao, col + 1, 2, stool->median);
+			dao_set_cell_float (dao, col + 1, 7, stool->alpha);
 			first = FALSE;
 		} else {
 			dao_set_cell_expr (dao, col + 1, 2, make_cellref (-1,0));
@@ -256,11 +381,10 @@ analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
 }
 
 static gboolean
-analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
-					   analysis_tools_data_sign_test_two_t *info)
+analysis_tool_signed_rank_test_two_engine_run (GnmSignedRankTestTwoTool *stool, data_analysis_output_t *dao)
 {
-	GnmValue *val_1;
-	GnmValue *val_2;
+	GnmGenericBAnalysisTool *gtool = &stool->parent;
+	GnmValue *val_1;	GnmValue *val_2;
 
 	GnmExpr const *expr_1;
 	GnmExpr const *expr_2;
@@ -276,17 +400,17 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_abs;
 	GnmExpr const *expr_big;
 
-	GnmFunc *fd_median    = analysis_tool_get_function ("MEDIAN", dao);
-	GnmFunc *fd_if        = analysis_tool_get_function ("IF", dao);
-	GnmFunc *fd_sum       = analysis_tool_get_function ("SUM", dao);
-	GnmFunc *fd_min       = analysis_tool_get_function ("MIN", dao);
-	GnmFunc *fd_normdist  = analysis_tool_get_function ("NORMDIST", dao);
-	GnmFunc *fd_isnumber  = analysis_tool_get_function ("ISNUMBER", dao);
-	GnmFunc *fd_iferror   = analysis_tool_get_function ("IFERROR", dao);
-	GnmFunc *fd_rank      = analysis_tool_get_function ("RANK.AVG", dao);
-	GnmFunc *fd_abs       = analysis_tool_get_function ("ABS", dao);
-	GnmFunc *fd_sqrt      = analysis_tool_get_function ("SQRT", dao);
-	GnmFunc *fd_max       = analysis_tool_get_function ("MAX", dao);
+	GnmFunc *fd_median    = gnm_func_get_and_use ("MEDIAN");
+	GnmFunc *fd_if        = gnm_func_get_and_use ("IF");
+	GnmFunc *fd_sum       = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_min       = gnm_func_get_and_use ("MIN");
+	GnmFunc *fd_normdist  = gnm_func_get_and_use ("NORMDIST");
+	GnmFunc *fd_isnumber  = gnm_func_get_and_use ("ISNUMBER");
+	GnmFunc *fd_iferror   = gnm_func_get_and_use ("IFERROR");
+	GnmFunc *fd_rank      = gnm_func_get_and_use ("RANK.AVG");
+	GnmFunc *fd_abs       = gnm_func_get_and_use ("ABS");
+	GnmFunc *fd_sqrt      = gnm_func_get_and_use ("SQRT");
+	GnmFunc *fd_max       = gnm_func_get_and_use ("MAX");
 
 	dao_set_italic (dao, 0, 0, 0, 10);
 	set_cell_text_col (dao, 0, 0, _("/Wilcoxon Signed Rank Test"
@@ -300,21 +424,21 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 					"/\xce\xb1"
 					"/P(T\xe2\x89\xa4t) one-tailed"
 					"/P(T\xe2\x89\xa4t) two-tailed"));
-	val_1 = value_dup (info->base.range_1);
-	val_2 = value_dup (info->base.range_2);
+	val_1 = value_dup (gtool->base.range_1);
+	val_2 = value_dup (gtool->base.range_2);
 
 	/* Labels */
 	dao_set_italic (dao, 1, 0, 2, 0);
-	analysis_tools_write_label_ftest (val_1, dao, 1, 0,
-					  info->base.labels, 1);
-	analysis_tools_write_label_ftest (val_2, dao, 2, 0,
-					  info->base.labels, 2);
+	analysis_tools_write_variable_label (val_1, dao, 1, 0,
+					  gtool->base.labels, 1);
+	analysis_tools_write_variable_label (val_2, dao, 2, 0,
+					  gtool->base.labels, 2);
 
 	expr_1 = gnm_expr_new_constant (value_dup (val_1));
 	expr_2 = gnm_expr_new_constant (value_dup (val_2));
 
-	dao_set_cell_float (dao, 1, 3, info->median);
-	dao_set_cell_float (dao, 1, 8, info->base.alpha);
+	dao_set_cell_float (dao, 1, 3, stool->median);
+	dao_set_cell_float (dao, 1, 8, gtool->base.alpha);
 
 	expr_isnumber_1 = gnm_expr_new_funcall3
 		(fd_if, gnm_expr_new_funcall1
@@ -524,86 +648,3 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 
 	return FALSE;
 }
-
-/**
- * analysis_tool_signed_rank_test_engine:
- * @gcc: #GOCmdContext
- * @dao: #data_analysis_output_t
- * @specs: #gpointer
- * @selector: #analysis_tool_engine_t
- * @result: #gpointer
- *
- * Returns: %TRUE if there is an error.
- **/
-gboolean
-analysis_tool_signed_rank_test_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-				       analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_sign_test_t *info = specs;
-
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor
-			(dao, _("Wilcoxon Signed Rank Test (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->base.input, info->base.group_by);
-		dao_adjust (dao, 1 + g_slist_length (info->base.input), 10);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Wilcoxon Signed Rank Test"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Wilcoxon Signed Rank Test"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_signed_rank_test_engine_run (dao, specs);
-	}
-	return TRUE;
-}
-
-/**
- * analysis_tool_signed_rank_test_two_engine:
- * @gcc: #GOCmdContext
- * @dao: #data_analysis_output_t
- * @specs: #gpointer
- * @selector: #analysis_tool_engine_t
- * @result: #gpointer
- *
- * Returns: %TRUE if there is an error.
- **/
-gboolean
-analysis_tool_signed_rank_test_two_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-				       analysis_tool_engine_t selector, gpointer result)
-{
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor
-			(dao, _("Wilcoxon Signed Rank Test (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		dao_adjust (dao, 3, 11);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_b_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Wilcoxon Signed Rank Test"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Wilcoxon Signed Rank Test"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_signed_rank_test_two_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
-
-
-
-

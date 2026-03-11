@@ -86,38 +86,40 @@ cb_fill_series_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			   FillSeriesState *state)
 {
 	GtkWidget       *radio;
-	fill_series_t           *fs;
+	GnmFillSeriesTool *ftool;
+	GnmAnalysisTool *tool;
 	data_analysis_output_t  *dao;
 
-	fs = g_new0 (fill_series_t, 1);
+	tool = gnm_fill_series_tool_new ();
+	ftool = GNM_FILL_SERIES_TOOL (tool);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
 	/* Read the `Series in' radio buttons. */
 	radio = go_gtk_builder_get_widget (state->base.gui, "series_in_rows");
-	fs->series_in_rows = ! gnm_gtk_radio_group_get_selected
+	ftool->data.series_in_rows = ! gnm_gtk_radio_group_get_selected
 	        (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio)));
 
 	/* Read the `Type' radio buttons. */
 	radio = go_gtk_builder_get_widget (state->base.gui, "type_linear");
-	fs->type = gnm_gtk_radio_group_get_selected
+	ftool->data.type = gnm_gtk_radio_group_get_selected
 	        (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio)));
 
 	/* Read the `Date unit' radio buttons. */
 	radio = go_gtk_builder_get_widget (state->base.gui, "unit_day");
-	fs->date_unit = gnm_gtk_radio_group_get_selected
+	ftool->data.date_unit = gnm_gtk_radio_group_get_selected
 	        (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio)));
 
-	fs->is_step_set = ! entry_to_float (GTK_ENTRY (state->step_entry),
-					    &fs->step_value, TRUE);
-	fs->is_stop_set = ! entry_to_float (GTK_ENTRY (state->stop_entry),
-					    &fs->stop_value, TRUE);
+	ftool->data.is_step_set = ! entry_to_float (GTK_ENTRY (state->step_entry),
+					    &ftool->data.step_value, TRUE);
+	ftool->data.is_stop_set = ! entry_to_float (GTK_ENTRY (state->stop_entry),
+					    &ftool->data.stop_value, TRUE);
 	entry_to_float (GTK_ENTRY (state->start_entry),
-			&fs->start_value, TRUE);
+			&ftool->data.start_value, TRUE);
 
-	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
-				state->base.sheet,
-				dao, fs, fill_series_engine, TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool))
 		gtk_widget_destroy (state->base.dialog);
+
+	g_object_unref (tool);
 }
 
 static void

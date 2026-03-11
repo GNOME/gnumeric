@@ -1659,7 +1659,7 @@ gnm_solver_create_program_report (GnmSolver *solver, const char *name)
 	data_analysis_output_t *dao;
 	GSList *l;
 
-	dao = dao_init_new_sheet (NULL);
+	dao = dao_init_new_sheet ();
 	dao->sheet = params->sheet;
 	dao_prepare_output (NULL, dao, name);
 
@@ -1844,7 +1844,7 @@ gnm_solver_create_sensitivity_report (GnmSolver *solver, const char *name)
 	if (!sols)
 		return;
 
-	dao = dao_init_new_sheet (NULL);
+	dao = dao_init_new_sheet ();
 	dao->sheet = params->sheet;
 	dao_prepare_output (NULL, dao, name);
 

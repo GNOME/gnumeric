@@ -27,21 +27,27 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 #include <tools/analysis-tools.h>
 #include <sheet.h>
 
-typedef struct {
-	analysis_tools_data_generic_t base;
+#define GNM_TYPE_ONE_MEAN_TEST_TOOL (gnm_one_mean_test_tool_get_type ())
+GType gnm_one_mean_test_tool_get_type (void);
+typedef struct _GnmOneMeanTestTool GnmOneMeanTestTool;
+typedef struct _GnmOneMeanTestToolClass GnmOneMeanTestToolClass;
+
+struct _GnmOneMeanTestTool {
+	GnmGenericAnalysisTool parent;
 	gnm_float mean;
 	gnm_float alpha;
-} analysis_tools_data_one_mean_test_t;
+};
 
-gboolean analysis_tool_one_mean_test_engine (GOCmdContext *gcc,
-					     data_analysis_output_t *dao,
-					     gpointer specs,
-					     analysis_tool_engine_t selector,
-					     gpointer result);
+struct _GnmOneMeanTestToolClass {
+	GnmGenericAnalysisToolClass parent_class;
+};
+
+#define GNM_ONE_MEAN_TEST_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_ONE_MEAN_TEST_TOOL, GnmOneMeanTestTool))
+#define GNM_IS_ONE_MEAN_TEST_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_ONE_MEAN_TEST_TOOL))
+
+GnmAnalysisTool *gnm_one_mean_test_tool_new (void);
 
 #endif

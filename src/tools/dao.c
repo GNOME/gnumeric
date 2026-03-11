@@ -52,7 +52,6 @@
 
 /**
  * dao_init: (skip)
- * @dao: (nullable): #data_analysis_output_t
  * @type: #data_analysis_output_type_t
  *
  * Initialize dao to given type.
@@ -60,14 +59,9 @@
  * Returns: (transfer full): the initialized #data_analysis_output_t.
  **/
 data_analysis_output_t *
-dao_init (data_analysis_output_t *dao,
-	  data_analysis_output_type_t type)
+dao_init (data_analysis_output_type_t type)
 {
-	if (dao == NULL) {
-		dao = g_new (data_analysis_output_t, 1);
-		dao->use_gfree = TRUE;
-	} else
-		dao->use_gfree = FALSE;
+	data_analysis_output_t *dao = g_new (data_analysis_output_t, 1);
 
 	dao->type              = type;
 	dao->start_col         = 0;
@@ -91,14 +85,13 @@ dao_init (data_analysis_output_t *dao,
 }
 /**
  * dao_init_new_sheet: (skip)
- * @dao: (nullable): #data_analysis_output_t
  *
  * Returns: (transfer full): the initialized #data_analysis_output_t.
  **/
 data_analysis_output_t *
-dao_init_new_sheet (data_analysis_output_t *dao)
+dao_init_new_sheet (void)
 {
-	return dao_init (dao, NewSheetOutput);
+	return dao_init (NewSheetOutput);
 }
 
 /**
@@ -112,8 +105,7 @@ void dao_free (data_analysis_output_t *dao)
 	g_slist_free_full (dao->sos, g_object_unref);
 	dao->sos = NULL;
 
-	if (dao->use_gfree)
-		g_free (dao);
+	g_free (dao);
 }
 
 /**
@@ -164,38 +156,34 @@ dao_range_name (data_analysis_output_t *dao)
  * dao_command_descriptor:
  * @dao: #data_analysis_output_t
  * @format: printf-style format string
- * @result: (inout) (transfer full) (optional): command descriptor.
  *
  * Uses format to provide a string to be used as command descriptor for
  * undo/redo
  *
- * Returns: %TRUE on error
+ * Returns: (transfer full): the command descriptor string
  **/
-const char *
-dao_command_descriptor (data_analysis_output_t *dao, char const *format,
-			char **result)
+char *
+dao_command_descriptor (data_analysis_output_t *dao, char const *format)
 {
 	char *rangename = NULL;
+	char *result;
 
-	g_return_val_if_fail (result != NULL, NULL);
-
-	g_free (*result);
 	switch (dao->type) {
 	case NewSheetOutput:
-		*result = g_strdup_printf (format, _("New Sheet"));
+		result = g_strdup_printf (format, _("New Sheet"));
 		break;
 	case NewWorkbookOutput:
-		*result = g_strdup_printf (format, _("New Workbook"));
+		result = g_strdup_printf (format, _("New Workbook"));
 		break;
 	case RangeOutput:
 	default:
 		rangename = dao_range_name (dao);
-		*result = g_strdup_printf (format, rangename);
+		result = g_strdup_printf (format, rangename);
 		g_free (rangename);
 		break;
 	}
 
-	return *result;
+	return result;
 }
 
 /**

@@ -871,8 +871,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	g_string_append_c (str, '(');
 
 	for (i = 0; i < max; i++) {
-		char *arg_name = gnm_func_get_arg_name
-			(fd, i);
+		char *arg_name = gnm_func_get_arg_name (fd, i);
 		if (arg_name != NULL) {
 			if (first)
 				first = FALSE;

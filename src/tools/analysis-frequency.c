@@ -35,10 +35,101 @@
 #include <goffice/goffice.h>
 #include <sheet.h>
 
-static gboolean
-analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
-				    analysis_tools_data_frequency_t *info)
+static gboolean analysis_tool_frequency_engine_run (GnmFrequencyTool *ftool, data_analysis_output_t *dao);
+
+G_DEFINE_TYPE (GnmFrequencyTool, gnm_frequency_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_frequency_tool_init (GnmFrequencyTool *tool)
 {
+	tool->predetermined = FALSE;
+	tool->bin = NULL;
+}
+
+static void
+gnm_frequency_tool_finalize (GObject *obj)
+{
+	GnmFrequencyTool *tool = GNM_FREQUENCY_TOOL (obj);
+	if (tool->bin)
+		value_release (tool->bin);
+	G_OBJECT_CLASS (gnm_frequency_tool_parent_class)->finalize (obj);
+}
+
+static gboolean
+gnm_frequency_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmFrequencyTool *ftool = GNM_FREQUENCY_TOOL (tool);
+	GnmGenericAnalysisTool *gtool = &ftool->parent;
+	int i, j;
+
+	analysis_tool_prepare_input_range (gtool);
+	if (!analysis_tool_check_input_homogeneity (gtool)) {
+		gtool->base.err = gtool->base.group_by + 1;
+		return TRUE;
+	}
+
+	i = g_slist_length (gtool->base.input);
+	if (ftool->predetermined) {
+		GnmRange range;
+		range_init_value (&range, ftool->bin);
+		j = range_height (&range) * range_width (&range);
+	} else
+		j = ftool->n;
+
+	dao_adjust (dao, 1 + i, 1 + j);
+	return FALSE;
+}
+
+static char *
+gnm_frequency_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Frequency Table (%s)"));
+}
+
+static gboolean
+gnm_frequency_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Frequency Table"));
+	return FALSE;
+}
+
+static gboolean
+gnm_frequency_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Frequency Table"));
+}
+
+static gboolean
+gnm_frequency_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmFrequencyTool *ftool = GNM_FREQUENCY_TOOL (tool);
+	return analysis_tool_frequency_engine_run (ftool, dao);
+}
+
+static void
+gnm_frequency_tool_class_init (GnmFrequencyToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->finalize = gnm_frequency_tool_finalize;
+	at_class->update_dao = gnm_frequency_tool_update_dao;
+	at_class->update_descriptor = gnm_frequency_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_frequency_tool_prepare_output_range;
+	at_class->format_output_range = gnm_frequency_tool_format_output_range;
+	at_class->perform_calc = gnm_frequency_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_frequency_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_FREQUENCY_TOOL, NULL);
+}
+
+static gboolean
+analysis_tool_frequency_engine_run (GnmFrequencyTool *ftool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = &ftool->parent;
 	gint i_limit, col;
 	GSList *l;
 
@@ -50,24 +141,17 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_columns = NULL;
 	GnmFunc *fd_exact = NULL;
 
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_inc_usage (fd_sum);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_inc_usage (fd_if);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-	gnm_func_inc_usage (fd_index);
-	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK");
-	gnm_func_inc_usage (fd_isblank);
+	fd_sum = gnm_func_get_and_use ("SUM");
+	fd_if = gnm_func_get_and_use ("IF");
+	fd_index = gnm_func_get_and_use ("INDEX");
+	fd_isblank = gnm_func_get_and_use ("ISBLANK");
 
-	if (info->exact) {
-		fd_exact = gnm_func_lookup_or_add_placeholder ("EXACT");
-		gnm_func_inc_usage (fd_exact);
+	if (ftool->exact) {
+		fd_exact = gnm_func_get_and_use ("EXACT");
 	}
-	if (info->percentage) {
-		fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS");
-		gnm_func_inc_usage (fd_rows);
-		fd_columns = gnm_func_lookup_or_add_placeholder ("COLUMNS");
-		gnm_func_inc_usage (fd_columns);
+	if (ftool->percentage) {
+		fd_rows = gnm_func_get_and_use ("ROWS");
+		fd_columns = gnm_func_get_and_use ("COLUMNS");
 	}
 	/* General Info */
 
@@ -77,17 +161,17 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 
 	/* Setting up the categories */
 
-	if (info->predetermined) {
+	if (ftool->predetermined) {
 		int row = 2, i, j, i_h_limit, i_w_limit;
 		GnmExpr const *expr_bin;
 		GnmRange range;
 
-		range_init_value (&range, info->bin);
+		range_init_value (&range, ftool->bin);
 		i_h_limit = range_height (&range);
 		i_w_limit = range_width (&range);
 		i_limit = i_h_limit * i_w_limit;
 
-		expr_bin = gnm_expr_new_constant (info->bin);
+		expr_bin = gnm_expr_new_constant (ftool->bin);
 
 		for (i = 1; i <= i_h_limit; i++)
 			for (j = 1; j <= i_w_limit; j++) {
@@ -110,10 +194,10 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 			}
 		gnm_expr_free (expr_bin);
 	} else {
-		i_limit = info->n;
+		i_limit = ftool->n;
 	}
 
-	for (l = info->base.input, col = 1; l; col++, l = l->next) {
+	for (l = gtool->base.input, col = 1; l; col++, l = l->next) {
 		GnmValue *val = value_dup ((GnmValue *)l->data);
 		GnmValue *val_c = NULL;
 		GnmExpr const *expr_count;
@@ -123,9 +207,9 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 
 
 		dao_set_italic (dao, col, 1, col, 1);
-		if (info->base.labels) {
+		if (gtool->base.labels) {
 			val_c = value_dup (val);
-			switch (info->base.group_by) {
+			switch (gtool->base.group_by) {
 			case GROUPED_BY_ROW:
 				val->v_range.cell.a.col++;
 				break;
@@ -139,7 +223,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 		} else {
 			char *txt;
 
-			switch (info->base.group_by) {
+			switch (gtool->base.group_by) {
 			case GROUPED_BY_ROW:
 				txt = g_strdup_printf (_("Row %d"), col);
 				break;
@@ -156,7 +240,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 
 		expr_data = gnm_expr_new_constant (val);
 
-		if (info->exact)
+		if (ftool->exact)
 			expr_if = gnm_expr_new_funcall2
 				(fd_exact, gnm_expr_copy (expr_data),
 				 make_cellref (- col, 0));
@@ -171,7 +255,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 						     gnm_expr_new_constant (value_new_int (1)),
 						     gnm_expr_new_constant (value_new_int (0))));
 
-		if (info->percentage) {
+		if (ftool->percentage) {
 			dao_set_format  (dao, col, 2, col, i_limit + 2, "0.0%");
 			expr_count = gnm_expr_new_binary (expr_count,
 							  GNM_EXPR_OP_DIV,
@@ -202,7 +286,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 		gnm_func_dec_usage (fd_exact);
 
 	/* Create Chart if requested */
-	if (info->chart != NO_CHART) {
+	if (ftool->chart != NO_CHART) {
 		SheetObject *so;
 		GogGraph     *graph;
 		GogChart     *chart;
@@ -216,7 +300,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 		chart = GOG_CHART (gog_object_add_by_name (
 						   GOG_OBJECT (graph), "Chart", NULL));
 		plot = gog_plot_new_by_name ("GogBarColPlot");
-		if (info->chart == BAR_CHART)
+		if (ftool->chart == BAR_CHART)
 			go_object_toggle (plot, "horizontal");
 		gog_object_add_by_name (GOG_OBJECT (chart),
 					"Plot", GOG_OBJECT (plot));
@@ -245,67 +329,3 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 
 	return FALSE;
 }
-
-
-static gint
-calc_length (GnmValue   *bin)
-{
-	g_return_val_if_fail (bin != NULL, 0);
-	g_return_val_if_fail (VALUE_IS_CELLRANGE (bin), 0);
-
-	return ((bin->v_range.cell.b.col - bin->v_range.cell.a.col + 1) *
-		(bin->v_range.cell.b.row - bin->v_range.cell.a.row + 1));
-}
-
-
-/**
- * analysis_tool_frequency_engine:
- * @gcc: #GOCmdContext
- * @dao: #data_analysis_output_t
- * @specs: #gpointer
- * @selector: #analysis_tool_engine_t
- * @result: #gpointer
- *
- * Returns: %TRUE if there is an error.
- **/
-gboolean
-analysis_tool_frequency_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			      analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_frequency_t *info = specs;
-
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Frequency Table (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-	{
-		int i;
-
-		prepare_input_range (&info->base.input, info->base.group_by);
-
-		i = 2 + ((info->predetermined) ? calc_length (info->bin) : info->n);
-
-		dao_adjust (dao, g_slist_length (info->base.input) + 1, i);
-
-		return FALSE;
-	}
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Frequency Table"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Frequency Table"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_frequency_engine_run (dao, specs);
-	}
-	return TRUE;
-}
-
-
-
-

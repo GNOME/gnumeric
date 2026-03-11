@@ -146,45 +146,44 @@ static void
 frequency_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			      FrequencyToolState *state)
 {
-	data_analysis_output_t  *dao;
-	analysis_tools_data_frequency_t  *data;
-
 	GtkWidget *w;
 
-	data = g_new0 (analysis_tools_data_frequency_t, 1);
-	dao  = dao_parse_output ((GnmGenericToolState *)state);
+	GnmAnalysisTool *tool = gnm_frequency_tool_new ();
+	GnmFrequencyTool *ftool = GNM_FREQUENCY_TOOL (tool);
+	GnmGenericAnalysisTool *gtool = &ftool->parent;
+	data_analysis_output_t *dao = dao_parse_output ((GnmGenericToolState *)state);
 
-	data->base.input = gnm_expr_entry_parse_as_list (
+	gtool->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
+	gtool->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
-	data->predetermined = gtk_toggle_button_get_active (
+	ftool->predetermined = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->predetermined_button));
-	if (data->predetermined) {
+	if (ftool->predetermined) {
 		w = go_gtk_builder_get_widget (state->base.gui, "labels_2_button");
-		data->bin = gnm_expr_entry_parse_as_value
+		ftool->bin = gnm_expr_entry_parse_as_value
 			(GNM_EXPR_ENTRY (state->base.input_entry_2),
 			 state->base.sheet);
 	} else {
-		entry_to_int (state->n_entry, &data->n,TRUE);
-		data->bin = NULL;
+		entry_to_int (state->n_entry, &ftool->n,TRUE);
+		ftool->bin = NULL;
 	}
 
-	data->chart = gnm_gui_group_value (state->base.gui, chart_group);
+	ftool->chart = gnm_gui_group_value (state->base.gui, chart_group);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-	data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	gtool->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = go_gtk_builder_get_widget (state->base.gui, "percentage-button");
-	data->percentage = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	ftool->percentage = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = go_gtk_builder_get_widget (state->base.gui, "exact-button");
-	data->exact = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	ftool->exact = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
 				state->base.sheet,
-				dao, data, analysis_tool_frequency_engine,
-				TRUE))
+				dao, tool))
 		gtk_widget_destroy (state->base.dialog);
 
+	g_object_unref (tool);
 	return;
 }
 

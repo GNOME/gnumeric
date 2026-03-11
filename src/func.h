@@ -215,6 +215,7 @@ void        gnm_func_dispose         (GnmFunc *func);
 GnmFunc	   *gnm_func_inc_usage	     (GnmFunc *func);
 void	    gnm_func_dec_usage	     (GnmFunc *func);
 gboolean    gnm_func_get_in_use      (GnmFunc *func);
+GnmFunc	   *gnm_func_get_and_use      (char const *name);
 
 char const *gnm_func_get_translation_domain (GnmFunc const *func);
 void        gnm_func_set_translation_domain (GnmFunc *func,

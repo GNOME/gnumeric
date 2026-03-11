@@ -27,13 +27,26 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 #include <tools/analysis-tools.h>
 #include <sheet.h>
 
-gboolean analysis_tool_principal_components_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-					   analysis_tool_engine_t selector, gpointer result);
+#define GNM_TYPE_PRINCIPAL_COMPONENTS_TOOL (gnm_principal_components_tool_get_type ())
+GType gnm_principal_components_tool_get_type (void);
+typedef struct _GnmPrincipalComponentsTool GnmPrincipalComponentsTool;
+typedef struct _GnmPrincipalComponentsToolClass GnmPrincipalComponentsToolClass;
+
+struct _GnmPrincipalComponentsTool {
+	GnmGenericAnalysisTool parent;
+};
+
+struct _GnmPrincipalComponentsToolClass {
+	GnmGenericAnalysisToolClass parent_class;
+};
+
+#define GNM_PRINCIPAL_COMPONENTS_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_PRINCIPAL_COMPONENTS_TOOL, GnmPrincipalComponentsTool))
+#define GNM_IS_PRINCIPAL_COMPONENTS_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_PRINCIPAL_COMPONENTS_TOOL))
+
+GnmAnalysisTool *gnm_principal_components_tool_new (void);
 
 
 #endif

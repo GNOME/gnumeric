@@ -108,7 +108,7 @@ rm_fun_cb (gpointer key, gpointer value, gpointer user_data)
 }
 
 typedef struct {
-	data_analysis_output_t dao;
+	data_analysis_output_t *dao;
 
 	Sheet      *sheet;
 	GHashTable *names;  /* A hash table for cell names->row. */
@@ -127,11 +127,11 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 	 * cell. If so, it's row will be put into *index. */
 	index = g_hash_table_lookup (p->names, tmp);
 	if (index != NULL) {
-		dao_set_cell_value (&p->dao, 2 + p->col, 3 + *index,
+		dao_set_cell_value (p->dao, 2 + p->col, 3 + *index,
 				    value_dup (v));
 
 		/* Set the colors. */
-		dao_set_colors (&p->dao, 2 + p->col, 3 + *index,
+		dao_set_colors (p->dao, 2 + p->col, 3 + *index,
 				2 + p->col, 3 + *index,
 				gnm_color_new_go (GO_COLOR_BLACK),
 				gnm_color_new_go (LIGHT_GRAY));
@@ -142,19 +142,19 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 		int  *r;
 
 		/* Changing cell name. */
-		dao_set_cell (&p->dao, 0, 3 + p->row, tmp);
+		dao_set_cell (p->dao, 0, 3 + p->row, tmp);
 
 		/* GnmValue of the cell in this scenario. */
-		dao_set_cell_value (&p->dao, 2 + p->col, 3 + p->row,
+		dao_set_cell_value (p->dao, 2 + p->col, 3 + p->row,
 				    value_dup (v));
 
 		/* Current value of the cell. */
 		cell = sheet_cell_fetch (p->sheet, col, row);
-		dao_set_cell_value (&p->dao, 1, 3 + p->row,
+		dao_set_cell_value (p->dao, 1, 3 + p->row,
 				    value_dup (cell->value));
 
 		/* Set the colors. */
-		dao_set_colors (&p->dao, 2 + p->col, 3 + p->row,
+		dao_set_colors (p->dao, 2 + p->col, 3 + p->row,
 				2 + p->col, 3 + p->row,
 				gnm_color_new_go (GO_COLOR_BLACK),
 				gnm_color_new_go (LIGHT_GRAY));
@@ -188,12 +188,12 @@ scenario_summary (WorkbookControl *wbc,
 	GList        *scenarios = sheet->scenarios;
 
 	/* Initialize: Currently only new sheet output supported. */
-	dao_init_new_sheet (&cb.dao);
-	dao_prepare_output (wbc, &cb.dao, _("Scenario Summary"));
+	cb.dao = dao_init_new_sheet ();
+	dao_prepare_output (wbc, cb.dao, _("Scenario Summary"));
 
 	/* Titles. */
-	dao_set_cell (&cb.dao, 1, 1, _("Current Values"));
-	dao_set_cell (&cb.dao, 0, 2, _("Changing Cells:"));
+	dao_set_cell (cb.dao, 1, 1, _("Current Values"));
+	dao_set_cell (cb.dao, 0, 2, _("Changing Cells:"));
 
 	/* Go through all scenarios. */
 	cb.row     = 0;
@@ -205,13 +205,13 @@ scenario_summary (WorkbookControl *wbc,
 		GnmScenario *s = cur->data;
 
 		/* Scenario name. */
-		dao_set_cell (&cb.dao, 2 + cb.col, 1, s->name);
+		dao_set_cell (cb.dao, 2 + cb.col, 1, s->name);
 
 		scenario_for_each_value (s, (ScenarioValueCB) summary_cb, &cb);
 	}
 
 	/* Set the alignment of names of the changing cells to be right. */
-	dao_set_align (&cb.dao, 0, 3, 0, 2 + cb.row, GNM_HALIGN_RIGHT,
+	dao_set_align (cb.dao, 0, 3, 0, 2 + cb.row, GNM_HALIGN_RIGHT,
 		       GNM_VALIGN_BOTTOM);
 
 	/* Result cells. */
@@ -223,21 +223,21 @@ scenario_summary (WorkbookControl *wbc,
 	g_hash_table_destroy (cb.names);
 
 	/* Clean up the report output. */
-	dao_set_bold (&cb.dao, 0, 0, 0, 2 + cb.row);
-	dao_autofit_columns (&cb.dao);
-	dao_set_cell (&cb.dao, 0, 0, _("Scenario Summary"));
+	dao_set_bold (cb.dao, 0, 0, 0, 2 + cb.row);
+	dao_autofit_columns (cb.dao);
+	dao_set_cell (cb.dao, 0, 0, _("Scenario Summary"));
 
-	dao_set_colors (&cb.dao, 0, 0, cb.col + 1, 1,
+	dao_set_colors (cb.dao, 0, 0, cb.col + 1, 1,
 			gnm_color_new_go (GO_COLOR_WHITE),
 			gnm_color_new_go (DARK_GRAY));
-	dao_set_colors (&cb.dao, 0, 2, 0, 2 + cb.row,
+	dao_set_colors (cb.dao, 0, 2, 0, 2 + cb.row,
 			gnm_color_new_go (GO_COLOR_BLACK),
 			gnm_color_new_go (LIGHT_GRAY));
 
-	dao_set_align (&cb.dao, 1, 1, cb.col + 1, 1, GNM_HALIGN_RIGHT,
+	dao_set_align (cb.dao, 1, 1, cb.col + 1, 1, GNM_HALIGN_RIGHT,
 		       GNM_VALIGN_BOTTOM);
 
-	*new_sheet = cb.dao.sheet;
+	*new_sheet = cb.dao->sheet;
 }
 
 /********* Scenario Add UI **********************************************/
@@ -281,7 +281,7 @@ static void
 scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			    ScenariosState *state)
 {
-	data_analysis_output_t  dao;
+	data_analysis_output_t  *dao;
 	WorkbookControl         *wbc;
 	gchar                   *name;
 	gchar                   *comment;
@@ -335,8 +335,10 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	comment = g_strdup (gtk_text_buffer_get_text (buf, &start, &end,
 						      FALSE));
 
-	dao_init_new_sheet (&dao);
-	dao.sheet = state->base.sheet;
+	// Eh?
+	dao = dao_init_new_sheet ();
+	dao->sheet = state->base.sheet;
+	dao_free (dao);
 
 	wbc = GNM_WBC (state->base.wbcg);
 
@@ -654,7 +656,7 @@ static void
 scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			     ScenariosState *state)
 {
-	data_analysis_output_t  dao;
+	data_analysis_output_t  *dao;
 	GtkTreeSelection        *selection;
 	GtkTreeIter             iter;
 	GtkTreeModel            *model;
@@ -667,8 +669,12 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	selection = gtk_tree_view_get_selection
 	        (GTK_TREE_VIEW (state->scenarios_treeview));
-	dao_init_new_sheet (&dao);
-	dao.sheet = state->base.sheet;
+
+	// Eh?
+	dao = dao_init_new_sheet ();
+	dao->sheet = state->base.sheet;
+	dao_free (dao);
+
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
 	model = gtk_tree_view_get_model

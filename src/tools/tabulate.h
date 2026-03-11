@@ -3,8 +3,6 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 
 typedef struct {
 	GnmCell   *target;

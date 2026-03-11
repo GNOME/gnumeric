@@ -102,35 +102,36 @@ principal_components_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			GnmGenericToolState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_generic_t  *data;
-
+	GnmAnalysisTool *tool;
+	GnmGenericAnalysisTool *gtool;
 	GtkWidget *w;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
 
-	data = g_new0 (analysis_tools_data_generic_t, 1);
+	tool = gnm_principal_components_tool_new ();
+	gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
 	dao  = dao_parse_output (state);
 
-	data->input = gnm_expr_entry_parse_as_list (
+	gtool->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
-	data->group_by = gnm_gui_group_value (state->gui, grouped_by_group);
+	gtool->base.group_by = gnm_gui_group_value (state->gui, grouped_by_group);
 
 	w = go_gtk_builder_get_widget (state->gui, "labels_button");
-        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        gtool->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet,
-			       dao, data,
-			       analysis_tool_principal_components_engine,
-			       TRUE)) {
+	if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet, dao, tool)) {
 		char   *text;
 		text = g_strdup_printf (
 			_("An unexpected error has occurred."));
 		error_in_entry ((GnmGenericToolState *) state,
 				GTK_WIDGET (state->input_entry), text);
 		g_free (text);
+		dao_free (dao);
 	} else
 		gtk_widget_destroy (state->dialog);
+
+	g_object_unref (tool);
 	return;
 }
 

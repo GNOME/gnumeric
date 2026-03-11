@@ -27,8 +27,6 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 #include <tools/analysis-tools.h>
 
 /****************  Normality  Tests ***************/
@@ -40,15 +38,26 @@ typedef enum {
 	normality_test_type_shapirofrancia
 } normality_test_type_t;
 
-typedef struct {
-	analysis_tools_data_generic_t base;
+#define GNM_TYPE_NORMALITY_TOOL (gnm_normality_tool_get_type ())
+GType gnm_normality_tool_get_type (void);
+typedef struct _GnmNormalityTool GnmNormalityTool;
+typedef struct _GnmNormalityToolClass GnmNormalityToolClass;
+
+struct _GnmNormalityTool {
+	GnmGenericAnalysisTool parent;
 	gnm_float alpha;
 	normality_test_type_t type;
 	gboolean graph;
-} analysis_tools_data_normality_t;
+};
 
-gboolean analysis_tool_normality_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-					   analysis_tool_engine_t selector, gpointer result);
+struct _GnmNormalityToolClass {
+	GnmGenericAnalysisToolClass parent_class;
+};
+
+#define GNM_NORMALITY_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_NORMALITY_TOOL, GnmNormalityTool))
+#define GNM_IS_NORMALITY_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_NORMALITY_TOOL))
+
+GnmAnalysisTool *gnm_normality_tool_new (void);
 
 
 #endif

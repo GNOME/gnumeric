@@ -3,7 +3,7 @@
 
 #include <gnumeric.h>
 #include <tools/dao.h>
-#include <tools/tools.h>
+#include <tools/analysis-tools.h>
 
 G_BEGIN_DECLS
 
@@ -53,8 +53,24 @@ gboolean     gnm_consolidate_add_source      (GnmConsolidate *cs, GnmValue *rang
 gboolean     gnm_consolidate_check_destination (GnmConsolidate *cs,
 					    data_analysis_output_t *dao);
 
-gboolean gnm_tool_consolidate_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			     analysis_tool_engine_t selector, gpointer result);
+#define GNM_TYPE_CONSOLIDATE_TOOL (gnm_consolidate_tool_get_type ())
+GType gnm_consolidate_tool_get_type (void);
+typedef struct _GnmConsolidateTool GnmConsolidateTool;
+typedef struct _GnmConsolidateToolClass GnmConsolidateToolClass;
+
+struct _GnmConsolidateTool {
+	GnmAnalysisTool parent;
+	GnmConsolidate *cs;
+};
+
+struct _GnmConsolidateToolClass {
+	GnmAnalysisToolClass parent_class;
+};
+
+#define GNM_CONSOLIDATE_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_CONSOLIDATE_TOOL, GnmConsolidateTool))
+#define GNM_IS_CONSOLIDATE_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_CONSOLIDATE_TOOL))
+
+GnmAnalysisTool *gnm_consolidate_tool_new (GnmConsolidate *cs);
 
 G_END_DECLS
 

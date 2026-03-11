@@ -241,63 +241,59 @@ kaplan_meier_tool_get_groups (KaplanMeierToolState *state)
  **/
 static void
 kaplan_meier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
-			      KaplanMeierToolState *state)
+				 KaplanMeierToolState *state)
 {
-	data_analysis_output_t  *dao;
-	analysis_tools_data_kaplan_meier_t  *data;
+	GnmAnalysisTool *atool = gnm_kaplan_meier_tool_new ();
+	GnmKaplanMeierTool *ktool = GNM_KAPLAN_MEIER_TOOL (atool);
+	GnmGenericBAnalysisTool *gtool = &ktool->parent;
+	data_analysis_output_t *dao = dao_parse_output ((GnmGenericToolState *)state);
 
-	data = g_new0 (analysis_tools_data_kaplan_meier_t, 1);
-	dao  = dao_parse_output ((GnmGenericToolState *)state);
-
-
-	data->base.wbc = GNM_WBC (state->base.wbcg);
+	gtool->base.wbc = GNM_WBC (state->base.wbcg);
 
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
 
-	data->base.range_1 = gnm_expr_entry_parse_as_value
+	gtool->base.range_1 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 
-	data->censored = gtk_toggle_button_get_active (
+	ktool->censored = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->censorship_button));
 
-	if (data->censored)
-		data->base.range_2 =  gnm_expr_entry_parse_as_value
+	if (ktool->censored)
+		gtool->base.range_2 =  gnm_expr_entry_parse_as_value
 			(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 	else
-		data->base.range_2 = NULL;
+		gtool->base.range_2 = NULL;
 
-	data->censor_mark = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (state->censor_spin_from));
-	data->censor_mark_to = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (state->censor_spin_to));
+	ktool->censor_mark = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (state->censor_spin_from));
+	ktool->censor_mark_to = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (state->censor_spin_to));
 
-	data->group_list = kaplan_meier_tool_get_groups (state);
-	if (data->group_list == NULL) {
-		data->range_3 = NULL;
-		data->logrank_test = FALSE;
+	ktool->group_list = kaplan_meier_tool_get_groups (state);
+	if (ktool->group_list == NULL) {
+		ktool->range_3 = NULL;
+		ktool->logrank_test = FALSE;
 	} else {
-		data->range_3 = gnm_expr_entry_parse_as_value
+		ktool->range_3 = gnm_expr_entry_parse_as_value
 			(GNM_EXPR_ENTRY (state->groups_input), state->base.sheet);
-		data->logrank_test = gtk_toggle_button_get_active (
+		ktool->logrank_test = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (state->logrank_button));
 	}
 
-	data->median = gtk_toggle_button_get_active (
+	ktool->median = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget
 				   (state->base.gui,
 				    "median-button")));
-	data->chart = gtk_toggle_button_get_active (
+	ktool->chart = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->graph_button));
-	data->ticks = gtk_toggle_button_get_active (
+	ktool->ticks = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->tick_button));
-	data->std_err = gtk_toggle_button_get_active (
+	ktool->std_err = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->std_error_button));
 
-	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
-				state->base.sheet,
-				dao, data, analysis_tool_kaplan_meier_engine,
-				TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, atool))
 		gtk_widget_destroy (state->base.dialog);
 
+	g_object_unref (atool);
 	return;
 }
 

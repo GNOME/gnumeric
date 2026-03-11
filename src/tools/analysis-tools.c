@@ -33,7 +33,6 @@
 #include <func.h>
 #include <expr.h>
 #include <position.h>
-#include <tools/tools.h>
 #include <value.h>
 #include <cell.h>
 #include <sheet.h>
@@ -55,6 +54,1228 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+
+/******************************************************************/
+
+enum {
+	UPDATE_DAO,
+	UPDATE_DESCRIPTOR,
+	PREPARE_OUTPUT_RANGE,
+	LAST_VALIDITY_CHECK,
+	FORMAT_OUTPUT_RANGE,
+	PERFORM_CALC,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
+G_DEFINE_TYPE (GnmAnalysisTool, gnm_analysis_tool, G_TYPE_OBJECT)
+
+static void
+gnm_analysis_tool_init (GnmAnalysisTool *tool)
+{
+}
+
+static void
+gnm_analysis_tool_class_init (GnmAnalysisToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+
+	signals[UPDATE_DAO] = g_signal_new ("update-dao",
+		G_TYPE_FROM_CLASS (gobject_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmAnalysisToolClass, update_dao),
+		NULL, NULL,
+		g_cclosure_marshal_generic,
+		G_TYPE_BOOLEAN, 1,
+		G_TYPE_POINTER);
+
+	signals[UPDATE_DESCRIPTOR] = g_signal_new ("update-descriptor",
+		G_TYPE_FROM_CLASS (gobject_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmAnalysisToolClass, update_descriptor),
+		g_signal_accumulator_first_wins, NULL,
+		g_cclosure_marshal_generic,
+		G_TYPE_STRING, 1,
+		G_TYPE_POINTER);
+
+	signals[PREPARE_OUTPUT_RANGE] = g_signal_new ("prepare-output-range",
+		G_TYPE_FROM_CLASS (gobject_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmAnalysisToolClass, prepare_output_range),
+		NULL, NULL,
+		g_cclosure_marshal_generic,
+		G_TYPE_BOOLEAN, 1,
+		G_TYPE_POINTER);
+
+	signals[LAST_VALIDITY_CHECK] = g_signal_new ("last-validity-check",
+		G_TYPE_FROM_CLASS (gobject_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmAnalysisToolClass, last_validity_check),
+		NULL, NULL,
+		g_cclosure_marshal_generic,
+		G_TYPE_BOOLEAN, 1,
+		G_TYPE_POINTER);
+
+	signals[FORMAT_OUTPUT_RANGE] = g_signal_new ("format-output-range",
+		G_TYPE_FROM_CLASS (gobject_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmAnalysisToolClass, format_output_range),
+		NULL, NULL,
+		g_cclosure_marshal_generic,
+		G_TYPE_BOOLEAN, 1,
+		G_TYPE_POINTER);
+
+	signals[PERFORM_CALC] = g_signal_new ("perform-calc",
+		G_TYPE_FROM_CLASS (gobject_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmAnalysisToolClass, perform_calc),
+		NULL, NULL,
+		g_cclosure_marshal_generic,
+		G_TYPE_BOOLEAN, 1,
+		G_TYPE_POINTER);
+}
+
+/**
+ * gnm_analysis_tool_update_dao:
+ * @tool: #GnmAnalysisTool
+ * @dao: #data_analysis_output_t
+ *
+ * Adjust the output range size in @dao based on the tool specific
+ * input parameters.
+ *
+ * Returns: %TRUE if an error occurred.
+ **/
+gboolean
+gnm_analysis_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	gboolean error = FALSE;
+	g_return_val_if_fail (GNM_IS_ANALYSIS_TOOL (tool), TRUE);
+	g_signal_emit (tool, signals[UPDATE_DAO], 0, dao, &error);
+	return error;
+}
+
+/**
+ * gnm_analysis_tool_update_descriptor:
+ * @tool: #GnmAnalysisTool
+ * @dao: #data_analysis_output_t
+ *
+ * Retrieve a human-readable string describing the command for undo/redo
+ * purposes.
+ *
+ * Returns: (transfer full): the command descriptor string.
+ **/
+char *
+gnm_analysis_tool_update_descriptor (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	char *result = NULL;
+	g_return_val_if_fail (GNM_IS_ANALYSIS_TOOL (tool), NULL);
+	g_signal_emit (tool, signals[UPDATE_DESCRIPTOR], 0, dao, &result);
+	return result;
+}
+
+/**
+ * gnm_analysis_tool_prepare_output_range:
+ * @tool: #GnmAnalysisTool
+ * @dao: #data_analysis_output_t
+ *
+ * Initialize the output sheet or workbook if necessary.
+ *
+ * Returns: %TRUE if an error occurred.
+ **/
+gboolean
+gnm_analysis_tool_prepare_output_range (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	gboolean error = FALSE;
+	g_return_val_if_fail (GNM_IS_ANALYSIS_TOOL (tool), TRUE);
+	g_signal_emit (tool, signals[PREPARE_OUTPUT_RANGE], 0, dao, &error);
+	return error;
+}
+
+/**
+ * gnm_analysis_tool_last_validity_check:
+ * @tool: #GnmAnalysisTool
+ * @dao: #data_analysis_output_t
+ *
+ * Perform a last validation check before the output range is modified.
+ *
+ * Returns: %TRUE if validation failed.
+ **/
+gboolean
+gnm_analysis_tool_last_validity_check (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	gboolean error = FALSE;
+	g_return_val_if_fail (GNM_IS_ANALYSIS_TOOL (tool), TRUE);
+	g_signal_emit (tool, signals[LAST_VALIDITY_CHECK], 0, dao, &error);
+	return error;
+}
+
+/**
+ * gnm_analysis_tool_format_output_range:
+ * @tool: #GnmAnalysisTool
+ * @dao: #data_analysis_output_t
+ *
+ * Apply tool-specific formatting (borders, colors, etc.) to the output
+ * range in @dao.
+ *
+ * Returns: %TRUE if an error occurred.
+ **/
+gboolean
+gnm_analysis_tool_format_output_range (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	gboolean error = FALSE;
+	g_return_val_if_fail (GNM_IS_ANALYSIS_TOOL (tool), TRUE);
+	g_signal_emit (tool, signals[FORMAT_OUTPUT_RANGE], 0, dao, &error);
+	return error;
+}
+
+/**
+ * gnm_analysis_tool_perform_calc:
+ * @tool: #GnmAnalysisTool
+ * @dao: #data_analysis_output_t
+ *
+ * Execute the actual analysis and write the results into the spreadsheet.
+ *
+ * Returns: %TRUE if the calculation failed.
+ **/
+gboolean
+gnm_analysis_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	gboolean error = FALSE;
+	g_return_val_if_fail (GNM_IS_ANALYSIS_TOOL (tool), TRUE);
+	g_signal_emit (tool, signals[PERFORM_CALC], 0, dao, &error);
+	return error;
+}
+
+/******************************************************************/
+
+static gboolean analysis_tool_correlation_engine_run (GnmCorrelationTool *ctool, data_analysis_output_t *dao);
+static gboolean analysis_tool_covariance_engine_run (GnmCovarianceTool *ctool, data_analysis_output_t *dao);
+static gboolean analysis_tool_descriptive_engine_run (GnmDescriptiveTool *dtool, data_analysis_output_t *dao);
+static gboolean analysis_tool_anova_single_engine_run (GnmAnovaSingleTool *atool, data_analysis_output_t *dao);
+static gboolean analysis_tool_moving_average_engine_run (GnmMovingAverageTool *mtool, data_analysis_output_t *dao);
+static gboolean analysis_tool_fourier_engine_run (GnmFourierTool *ftool, data_analysis_output_t *dao);
+static gboolean analysis_tool_sampling_engine_run (GnmSamplingTool *stool, data_analysis_output_t *dao);
+static gboolean analysis_tool_ranking_engine_run (GnmRankingTool *rtool, data_analysis_output_t *dao);
+static gboolean analysis_tool_ftest_engine_run (GnmFTestTool *ftool, data_analysis_output_t *dao);
+static gboolean analysis_tool_ttest_paired_engine_run (GnmTTestPairedTool *ttool, data_analysis_output_t *dao);
+static gboolean analysis_tool_ttest_eqvar_engine_run (GnmTTestEqVarTool *ttool, data_analysis_output_t *dao);
+static gboolean analysis_tool_ttest_neqvar_engine_run (GnmTTestNeqVarTool *ttool, data_analysis_output_t *dao);
+static gboolean analysis_tool_ztest_engine_run (GnmZTestTool *ztool, data_analysis_output_t *dao);
+
+static void analysis_tool_prepare_input_range_impl (GSList **input_range, group_by_t group_by);
+
+G_DEFINE_TYPE (GnmGenericAnalysisTool, gnm_generic_analysis_tool, GNM_TYPE_ANALYSIS_TOOL)
+
+static void
+gnm_generic_analysis_tool_init (GnmGenericAnalysisTool *tool)
+{
+	tool->base.err = analysis_tools_noerr;
+	tool->base.wbc = NULL;
+	tool->base.input = NULL;
+	tool->base.group_by = GROUPED_BY_COL;
+	tool->base.labels = FALSE;
+}
+
+static void
+gnm_generic_analysis_tool_finalize (GObject *obj)
+{
+	GnmGenericAnalysisTool *tool = GNM_GENERIC_ANALYSIS_TOOL (obj);
+	range_list_destroy (tool->base.input);
+	tool->base.input = NULL;
+	G_OBJECT_CLASS (gnm_generic_analysis_tool_parent_class)->finalize (obj);
+}
+
+static void
+gnm_generic_analysis_tool_class_init (GnmGenericAnalysisToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	gobject_class->finalize = gnm_generic_analysis_tool_finalize;
+}
+
+/********************************************************************/
+
+struct _GnmCorrelationTool {
+	GnmGenericAnalysisTool parent;
+};
+
+G_DEFINE_TYPE (GnmCorrelationTool, gnm_correlation_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_correlation_tool_init (G_GNUC_UNUSED GnmCorrelationTool *tool)
+{
+}
+
+static gboolean
+gnm_correlation_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
+	analysis_tool_prepare_input_range (gtool);
+	if (!analysis_tool_check_input_homogeneity (gtool)) {
+		gtool->base.err = gtool->base.group_by + 1;
+		return TRUE;
+	}
+	dao_adjust (dao, 1 + g_slist_length (gtool->base.input),
+		    1 + g_slist_length (gtool->base.input));
+	return FALSE;
+}
+
+static char *
+gnm_correlation_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Correlation (%s)"));
+}
+
+static gboolean
+gnm_correlation_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Correlation"));
+	return FALSE;
+}
+
+static gboolean
+gnm_correlation_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Correlation"));
+}
+
+static gboolean
+gnm_correlation_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmCorrelationTool *ctool = GNM_CORRELATION_TOOL (tool);
+	return analysis_tool_correlation_engine_run (ctool, dao);
+}
+
+static void
+gnm_correlation_tool_class_init (GnmCorrelationToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_correlation_tool_update_dao;
+	at_class->update_descriptor = gnm_correlation_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_correlation_tool_prepare_output_range;
+	at_class->format_output_range = gnm_correlation_tool_format_output_range;
+	at_class->perform_calc = gnm_correlation_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_correlation_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_CORRELATION_TOOL, NULL);
+}
+
+/********************************************************************/
+
+struct _GnmCovarianceTool {
+	GnmGenericAnalysisTool parent;
+};
+
+G_DEFINE_TYPE (GnmCovarianceTool, gnm_covariance_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_covariance_tool_init (G_GNUC_UNUSED GnmCovarianceTool *tool)
+{
+}
+
+static gboolean
+gnm_covariance_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
+	analysis_tool_prepare_input_range (gtool);
+	if (!analysis_tool_check_input_homogeneity (gtool)) {
+		gtool->base.err = gtool->base.group_by + 1;
+		return TRUE;
+	}
+	dao_adjust (dao, 1 + g_slist_length (gtool->base.input),
+		    1 + g_slist_length (gtool->base.input));
+	return FALSE;
+}
+
+static char *
+gnm_covariance_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Covariance (%s)"));
+}
+
+static gboolean
+gnm_covariance_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Covariance"));
+	return FALSE;
+}
+
+static gboolean
+gnm_covariance_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Covariance"));
+}
+
+static gboolean
+gnm_covariance_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmCovarianceTool *ctool = GNM_COVARIANCE_TOOL (tool);
+	return analysis_tool_covariance_engine_run (ctool, dao);
+}
+
+static void
+gnm_covariance_tool_class_init (GnmCovarianceToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_covariance_tool_update_dao;
+	at_class->update_descriptor = gnm_covariance_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_covariance_tool_prepare_output_range;
+	at_class->format_output_range = gnm_covariance_tool_format_output_range;
+	at_class->perform_calc = gnm_covariance_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_covariance_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_COVARIANCE_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmDescriptiveTool, gnm_descriptive_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_descriptive_tool_init (G_GNUC_UNUSED GnmDescriptiveTool *tool)
+{
+}
+
+static gboolean
+gnm_descriptive_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
+	analysis_tool_prepare_input_range (gtool);
+	if (!analysis_tool_check_input_homogeneity (gtool)) {
+		gtool->base.err = gtool->base.group_by + 1;
+		return TRUE;
+	}
+	dao_adjust (dao, 2 + g_slist_length (gtool->base.input), 16 + 4 + 4 + 4);
+	return FALSE;
+}
+
+static char *
+gnm_descriptive_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Descriptive Statistics (%s)"));
+}
+
+static gboolean
+gnm_descriptive_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Descriptive Statistics"));
+	return FALSE;
+}
+
+static gboolean
+gnm_descriptive_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Descriptive Statistics"));
+}
+
+static gboolean
+gnm_descriptive_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmDescriptiveTool *dtool = GNM_DESCRIPTIVE_TOOL (tool);
+	return analysis_tool_descriptive_engine_run (dtool, dao);
+}
+
+static void
+gnm_descriptive_tool_class_init (GnmDescriptiveToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_descriptive_tool_update_dao;
+	at_class->update_descriptor = gnm_descriptive_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_descriptive_tool_prepare_output_range;
+	at_class->format_output_range = gnm_descriptive_tool_format_output_range;
+	at_class->perform_calc = gnm_descriptive_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_descriptive_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_DESCRIPTIVE_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmAnovaSingleTool, gnm_anova_single_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_anova_single_tool_init (G_GNUC_UNUSED GnmAnovaSingleTool *tool)
+{
+}
+
+static gboolean
+gnm_anova_single_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
+	analysis_tool_prepare_input_range (gtool);
+	if (!analysis_tool_check_input_homogeneity (gtool)) {
+		gtool->base.err = gtool->base.group_by + 1;
+		return TRUE;
+	}
+	dao_adjust (dao, 7, 12);
+	return FALSE;
+}
+
+static char *
+gnm_anova_single_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Single Factor ANOVA (%s)"));
+}
+
+static gboolean
+gnm_anova_single_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Single Factor ANOVA"));
+	return FALSE;
+}
+
+static gboolean
+gnm_anova_single_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Single Factor ANOVA"));
+}
+
+static gboolean
+gnm_anova_single_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmAnovaSingleTool *atool = GNM_ANOVA_SINGLE_TOOL (tool);
+	return analysis_tool_anova_single_engine_run (atool, dao);
+}
+
+static void
+gnm_anova_single_tool_class_init (GnmAnovaSingleToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_anova_single_tool_update_dao;
+	at_class->update_descriptor = gnm_anova_single_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_anova_single_tool_prepare_output_range;
+	at_class->format_output_range = gnm_anova_single_tool_format_output_range;
+	at_class->perform_calc = gnm_anova_single_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_anova_single_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_ANOVA_SINGLE_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmMovingAverageTool, gnm_moving_average_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_moving_average_tool_init (G_GNUC_UNUSED GnmMovingAverageTool *tool)
+{
+}
+
+static gboolean
+gnm_moving_average_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
+	analysis_tool_prepare_input_range (gtool);
+	if (!analysis_tool_check_input_homogeneity (gtool)) {
+		gtool->base.err = gtool->base.group_by + 1;
+		return TRUE;
+	}
+	dao_adjust (dao, 1, analysis_tool_calc_length (gtool));
+	return FALSE;
+}
+
+static char *
+gnm_moving_average_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Moving Average (%s)"));
+}
+
+static gboolean
+gnm_moving_average_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Moving Average"));
+	return FALSE;
+}
+
+static gboolean
+gnm_moving_average_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Moving Average"));
+}
+
+static gboolean
+gnm_moving_average_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmMovingAverageTool *mtool = GNM_MOVING_AVERAGE_TOOL (tool);
+	return analysis_tool_moving_average_engine_run (mtool, dao);
+}
+
+static void
+gnm_moving_average_tool_class_init (GnmMovingAverageToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_moving_average_tool_update_dao;
+	at_class->update_descriptor = gnm_moving_average_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_moving_average_tool_prepare_output_range;
+	at_class->format_output_range = gnm_moving_average_tool_format_output_range;
+	at_class->perform_calc = gnm_moving_average_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_moving_average_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_MOVING_AVERAGE_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmFourierTool, gnm_fourier_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_fourier_tool_init (G_GNUC_UNUSED GnmFourierTool *tool)
+{
+}
+
+static gboolean
+gnm_fourier_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
+	analysis_tool_prepare_input_range (gtool);
+	if (!analysis_tool_check_input_homogeneity (gtool)) {
+		gtool->base.err = gtool->base.group_by + 1;
+		return TRUE;
+	}
+	dao_adjust (dao, 1, analysis_tool_calc_length (gtool));
+	return FALSE;
+}
+
+static char *
+gnm_fourier_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Fourier Series (%s)"));
+}
+
+static gboolean
+gnm_fourier_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Fourier Series"));
+	return FALSE;
+}
+
+static gboolean
+gnm_fourier_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Fourier Series"));
+}
+
+static gboolean
+gnm_fourier_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmFourierTool *ftool = GNM_FOURIER_TOOL (tool);
+	return analysis_tool_fourier_engine_run (ftool, dao);
+}
+
+static void
+gnm_fourier_tool_class_init (GnmFourierToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_fourier_tool_update_dao;
+	at_class->update_descriptor = gnm_fourier_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_fourier_tool_prepare_output_range;
+	at_class->format_output_range = gnm_fourier_tool_format_output_range;
+	at_class->perform_calc = gnm_fourier_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_fourier_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_FOURIER_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmSamplingTool, gnm_sampling_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_sampling_tool_init (G_GNUC_UNUSED GnmSamplingTool *tool)
+{
+}
+
+static gboolean
+gnm_sampling_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
+	analysis_tool_prepare_input_range (gtool);
+	if (!analysis_tool_check_input_homogeneity (gtool)) {
+		gtool->base.err = gtool->base.group_by + 1;
+		return TRUE;
+	}
+	dao_adjust (dao, 1, analysis_tool_calc_length (gtool));
+	return FALSE;
+}
+
+static char *
+gnm_sampling_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Sampling (%s)"));
+}
+
+static gboolean
+gnm_sampling_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Sampling"));
+	return FALSE;
+}
+
+static gboolean
+gnm_sampling_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Sampling"));
+}
+
+static gboolean
+gnm_sampling_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmSamplingTool *stool = GNM_SAMPLING_TOOL (tool);
+	return analysis_tool_sampling_engine_run (stool, dao);
+}
+
+static void
+gnm_sampling_tool_class_init (GnmSamplingToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_sampling_tool_update_dao;
+	at_class->update_descriptor = gnm_sampling_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_sampling_tool_prepare_output_range;
+	at_class->format_output_range = gnm_sampling_tool_format_output_range;
+	at_class->perform_calc = gnm_sampling_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_sampling_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_SAMPLING_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmRankingTool, gnm_ranking_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_ranking_tool_init (G_GNUC_UNUSED GnmRankingTool *tool)
+{
+}
+
+static gboolean
+gnm_ranking_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
+	analysis_tool_prepare_input_range (gtool);
+	if (!analysis_tool_check_input_homogeneity (gtool)) {
+		gtool->base.err = gtool->base.group_by + 1;
+		return TRUE;
+	}
+	dao_adjust (dao, 3 * g_slist_length (gtool->base.input), analysis_tool_calc_length (gtool));
+	return FALSE;
+}
+
+static char *
+gnm_ranking_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Ranks (%s)"));
+}
+
+static gboolean
+gnm_ranking_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Ranks"));
+	return FALSE;
+}
+
+static gboolean
+gnm_ranking_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Ranks"));
+}
+
+static gboolean
+gnm_ranking_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmRankingTool *rtool = GNM_RANKING_TOOL (tool);
+	return analysis_tool_ranking_engine_run (rtool, dao);
+}
+
+static void
+gnm_ranking_tool_class_init (GnmRankingToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_ranking_tool_update_dao;
+	at_class->update_descriptor = gnm_ranking_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_ranking_tool_prepare_output_range;
+	at_class->format_output_range = gnm_ranking_tool_format_output_range;
+	at_class->perform_calc = gnm_ranking_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_ranking_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_RANKING_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmGenericBAnalysisTool, gnm_generic_b_analysis_tool, GNM_TYPE_ANALYSIS_TOOL)
+
+static void
+gnm_generic_b_analysis_tool_init (GnmGenericBAnalysisTool *tool)
+{
+	tool->base.err = analysis_tools_noerr;
+	tool->base.wbc = NULL;
+	tool->base.range_1 = NULL;
+	tool->base.range_2 = NULL;
+	tool->base.labels = FALSE;
+	tool->base.alpha = 0.05;
+}
+
+static void
+gnm_generic_b_analysis_tool_finalize (GObject *obj)
+{
+	GnmGenericBAnalysisTool *tool = GNM_GENERIC_B_ANALYSIS_TOOL (obj);
+	if (tool->base.range_1)
+		value_release (tool->base.range_1);
+	if (tool->base.range_2)
+		value_release (tool->base.range_2);
+	G_OBJECT_CLASS (gnm_generic_b_analysis_tool_parent_class)->finalize (obj);
+}
+
+static void
+gnm_generic_b_analysis_tool_class_init (GnmGenericBAnalysisToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	gobject_class->finalize = gnm_generic_b_analysis_tool_finalize;
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmFTestTool, gnm_ftest_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+static void
+gnm_ftest_tool_init (G_GNUC_UNUSED GnmFTestTool *tool)
+{
+}
+
+static gboolean
+gnm_ftest_tool_update_dao (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_adjust (dao, 2, 10);
+	return FALSE;
+}
+
+static char *
+gnm_ftest_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("F-Test (%s)"));
+}
+
+static gboolean
+gnm_ftest_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("F-Test"));
+	return FALSE;
+}
+
+static gboolean
+gnm_ftest_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("F-Test"));
+}
+
+static gboolean
+gnm_ftest_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmFTestTool *ftool = GNM_FTEST_TOOL (tool);
+	return analysis_tool_ftest_engine_run (ftool, dao);
+}
+
+static void
+gnm_ftest_tool_class_init (GnmFTestToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_ftest_tool_update_dao;
+	at_class->update_descriptor = gnm_ftest_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_ftest_tool_prepare_output_range;
+	at_class->format_output_range = gnm_ftest_tool_format_output_range;
+	at_class->perform_calc = gnm_ftest_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_ftest_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_FTEST_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmTTestPairedTool, gnm_ttest_paired_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+static void
+gnm_ttest_paired_tool_init (GnmTTestPairedTool *tool)
+{
+	tool->mean_diff = 0.0;
+	tool->var1 = 0.0;
+	tool->var2 = 0.0;
+}
+
+static gboolean
+gnm_ttest_paired_tool_update_dao (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_adjust (dao, 3, 14);
+	return FALSE;
+}
+
+static char *
+gnm_ttest_paired_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("t-Test, paired (%s)"));
+}
+
+static gboolean
+gnm_ttest_paired_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("t-Test"));
+	return FALSE;
+}
+
+static gboolean
+gnm_ttest_paired_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("t-Test"));
+}
+
+static gboolean
+gnm_ttest_paired_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmTTestPairedTool *ttool = GNM_TTEST_PAIRED_TOOL (tool);
+	return analysis_tool_ttest_paired_engine_run (ttool, dao);
+}
+
+static void
+gnm_ttest_paired_tool_class_init (GnmTTestPairedToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_ttest_paired_tool_update_dao;
+	at_class->update_descriptor = gnm_ttest_paired_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_ttest_paired_tool_prepare_output_range;
+	at_class->format_output_range = gnm_ttest_paired_tool_format_output_range;
+	at_class->perform_calc = gnm_ttest_paired_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_ttest_paired_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_TTEST_PAIRED_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmTTestEqVarTool, gnm_ttest_eqvar_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+static void
+gnm_ttest_eqvar_tool_init (GnmTTestEqVarTool *tool)
+{
+	tool->mean_diff = 0.0;
+}
+
+static gboolean
+gnm_ttest_eqvar_tool_update_dao (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_adjust (dao, 3, 13);
+	return FALSE;
+}
+
+static char *
+gnm_ttest_eqvar_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("t-Test (%s)"));
+}
+
+static gboolean
+gnm_ttest_eqvar_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("t-Test"));
+	return FALSE;
+}
+
+static gboolean
+gnm_ttest_eqvar_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("t-Test"));
+}
+
+static gboolean
+gnm_ttest_eqvar_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmTTestEqVarTool *ttool = GNM_TTEST_EQVAR_TOOL (tool);
+	return analysis_tool_ttest_eqvar_engine_run (ttool, dao);
+}
+
+static void
+gnm_ttest_eqvar_tool_class_init (GnmTTestEqVarToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_ttest_eqvar_tool_update_dao;
+	at_class->update_descriptor = gnm_ttest_eqvar_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_ttest_eqvar_tool_prepare_output_range;
+	at_class->format_output_range = gnm_ttest_eqvar_tool_format_output_range;
+	at_class->perform_calc = gnm_ttest_eqvar_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_ttest_eqvar_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_TTEST_EQVAR_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmTTestNeqVarTool, gnm_ttest_neqvar_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+static void
+gnm_ttest_neqvar_tool_init (GnmTTestNeqVarTool *tool)
+{
+	tool->mean_diff = 0.0;
+}
+
+static gboolean
+gnm_ttest_neqvar_tool_update_dao (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_adjust (dao, 3, 12);
+	return FALSE;
+}
+
+static char *
+gnm_ttest_neqvar_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("t-Test (%s)"));
+}
+
+static gboolean
+gnm_ttest_neqvar_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("t-Test"));
+	return FALSE;
+}
+
+static gboolean
+gnm_ttest_neqvar_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("t-Test"));
+}
+
+static gboolean
+gnm_ttest_neqvar_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmTTestNeqVarTool *ttool = GNM_TTEST_NEQVAR_TOOL (tool);
+	return analysis_tool_ttest_neqvar_engine_run (ttool, dao);
+}
+
+static void
+gnm_ttest_neqvar_tool_class_init (GnmTTestNeqVarToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_ttest_neqvar_tool_update_dao;
+	at_class->update_descriptor = gnm_ttest_neqvar_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_ttest_neqvar_tool_prepare_output_range;
+	at_class->format_output_range = gnm_ttest_neqvar_tool_format_output_range;
+	at_class->perform_calc = gnm_ttest_neqvar_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_ttest_neqvar_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_TTEST_NEQVAR_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmZTestTool, gnm_ztest_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+static void
+gnm_ztest_tool_init (GnmZTestTool *tool)
+{
+	tool->mean_diff = 0.0;
+	tool->var1 = 0.0;
+	tool->var2 = 0.0;
+}
+
+static gboolean
+gnm_ztest_tool_update_dao (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_adjust (dao, 3, 11);
+	return FALSE;
+}
+
+static char *
+gnm_ztest_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("z-Test (%s)"));
+}
+
+static gboolean
+gnm_ztest_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("z-Test"));
+	return FALSE;
+}
+
+static gboolean
+gnm_ztest_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("z-Test"));
+}
+
+static gboolean
+gnm_ztest_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmZTestTool *ztool = GNM_ZTEST_TOOL (tool);
+	return analysis_tool_ztest_engine_run (ztool, dao);
+}
+
+static void
+gnm_ztest_tool_class_init (GnmZTestToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_ztest_tool_update_dao;
+	at_class->update_descriptor = gnm_ztest_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_ztest_tool_prepare_output_range;
+	at_class->format_output_range = gnm_ztest_tool_format_output_range;
+	at_class->perform_calc = gnm_ztest_tool_perform_calc;
+}
+
+static gint calculate_xdim (GnmValue const *val, group_by_t group_by);
+static gint calculate_n_obs (GnmValue const *val, group_by_t group_by);
+static gboolean analysis_tool_regression_engine_run (GnmRegressionTool *rtool, data_analysis_output_t *dao);
+static gboolean analysis_tool_regression_simple_engine_run (GnmRegressionTool *rtool, data_analysis_output_t *dao);
+
+G_DEFINE_TYPE (GnmRegressionTool, gnm_regression_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+static void
+gnm_regression_tool_init (G_GNUC_UNUSED GnmRegressionTool *tool)
+{
+}
+
+static void
+gnm_regression_tool_finalize (GObject *obj)
+{
+	GnmRegressionTool *tool = GNM_REGRESSION_TOOL (obj);
+	range_list_destroy (tool->indep_vars);
+	tool->indep_vars = NULL;
+	G_OBJECT_CLASS (gnm_regression_tool_parent_class)->finalize (obj);
+}
+
+static gboolean
+gnm_regression_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmRegressionTool *rtool = GNM_REGRESSION_TOOL (tool);
+	gint xdim = calculate_xdim (rtool->parent.base.range_1, rtool->group_by);
+	gint cols, rows;
+
+	if (rtool->multiple_regression) {
+		cols = 7;
+		rows = 17 + xdim;
+		rtool->indep_vars = NULL;
+		if (rtool->residual) {
+			gint residual_cols = xdim + 4;
+			GnmValue *val = rtool->parent.base.range_1;
+
+			rows += 2 + calculate_n_obs (val, rtool->group_by);
+			residual_cols += 4;
+			if (cols < residual_cols)
+				cols = residual_cols;
+		}
+	} else {
+		rtool->indep_vars = g_slist_prepend (NULL, rtool->parent.base.range_1);
+		rtool->parent.base.range_1 = NULL;
+		analysis_tool_prepare_input_range_impl (&rtool->indep_vars, rtool->group_by);
+		cols = 6;
+		rows = 3 + xdim;
+	}
+	dao_adjust (dao, cols, rows);
+	return FALSE;
+}
+
+static char *
+gnm_regression_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Regression (%s)"));
+}
+
+static gboolean
+gnm_regression_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Regression"));
+	return FALSE;
+}
+
+static gboolean
+gnm_regression_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Regression"));
+}
+
+static gboolean
+gnm_regression_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmRegressionTool *rtool = GNM_REGRESSION_TOOL (tool);
+	if (rtool->multiple_regression)
+		return analysis_tool_regression_engine_run (rtool, dao);
+	else
+		return analysis_tool_regression_simple_engine_run (rtool, dao);
+}
+
+static void
+gnm_regression_tool_class_init (GnmRegressionToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->finalize = gnm_regression_tool_finalize;
+	at_class->update_dao = gnm_regression_tool_update_dao;
+	at_class->update_descriptor = gnm_regression_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_regression_tool_prepare_output_range;
+	at_class->format_output_range = gnm_regression_tool_format_output_range;
+	at_class->perform_calc = gnm_regression_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_regression_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_REGRESSION_TOOL, NULL);
+}
+
+/********************************************************************/
+
+GnmAnalysisTool *
+gnm_ztest_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_ZTEST_TOOL, NULL);
+}
+
+/********************************************************************/
 
 
 /**
@@ -107,15 +1328,6 @@ make_rangeref (int dx0, int dy0, int dx1, int dy1)
 }
 
 
-typedef struct {
-	char *format;
-	GPtrArray *data_lists;
-	gboolean read_label;
-	gboolean ignore_non_num;
-	guint length;
-	Sheet *sheet;
-} data_list_specs_t;
-
 /*
  *  cb_adjust_areas:
  *  @data:
@@ -162,43 +1374,30 @@ analysis_tools_remove_label (GnmValue *val,
 
 
 
-/*
- *  analysis_tools_write_label:
- *  @val: range to extract label from
- *  @dao: data_analysis_output_t, where to write to
- *  @info: analysis_tools_data_generic_t info
- *  @x: output col number
- *  @y: output row number
- *  @i: default col/row number
- *
- */
-
 /**
  * analysis_tools_write_label:
- * @val: #GnmValue
- * @dao: #data_analysis_output_t
- * @info: #analysis_tools_data_generic_t
- * @x: col
- * @y: row
- * @i: index
- *
- * Writes a label to the output.
- **/
+ * @gtool: #GnmGenericAnalysisTool
+ * @val: range to extract label from
+ * @dao: data_analysis_output_t, where to write to
+ * @x: output col number
+ * @y: output row number
+ * @i: default col/row number
+ */
 void
-analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
-			    analysis_tools_data_generic_t *info,
+analysis_tools_write_label (GnmGenericAnalysisTool *gtool,
+			    GnmValue *val, data_analysis_output_t *dao,
 			    int x, int y, int i)
 {
 	char const *format = NULL;
 
-	if (info->labels) {
+	if (gtool->base.labels) {
 		GnmValue *label = value_dup (val);
 
 		label->v_range.cell.b = label->v_range.cell.a;
 		dao_set_cell_expr (dao, x, y, gnm_expr_new_constant (label));
-		analysis_tools_remove_label (val, info->labels, info->group_by);
+		analysis_tools_remove_label (val, gtool->base.labels, gtool->base.group_by);
 	} else {
-		switch (info->group_by) {
+		switch (gtool->base.group_by) {
 		case GROUPED_BY_ROW:
 			format = _("Row %i");
 			break;
@@ -219,21 +1418,17 @@ analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
 }
 
 /*
- *  analysis_tools_write_label:
- *  @val: range to extract label from
- *  @dao: data_analysis_output_t, where to write to
- *  @labels: analysis_tools_data_generic_t infowhether the
- *           @val contains label info
- *  @group_by: grouping info
- *  @x: output col number
- *  @y: output row number
- *  @i: default col/row number
- *
+ * analysis_tools_write_a_label:
+ * @val: range to extract label from
+ * @dao: data_analysis_output_t, where to write to
+ * @labels: boolean
+ * @group_by: grouping info
+ * @x: output col number
+ * @y: output row number
  */
-
 static void
 analysis_tools_write_a_label (GnmValue *val, data_analysis_output_t *dao,
-			      gboolean   labels, group_by_t group_by,
+			      gboolean labels, group_by_t group_by,
 			      int x, int y)
 {
 	if (labels) {
@@ -249,10 +1444,8 @@ analysis_tools_write_a_label (GnmValue *val, data_analysis_output_t *dao,
 		GnmFunc *fd_concatenate;
 		GnmFunc *fd_cell;
 
-		fd_concatenate = gnm_func_lookup_or_add_placeholder ("CONCATENATE");
-		gnm_func_inc_usage (fd_concatenate);
-		fd_cell = gnm_func_lookup_or_add_placeholder ("CELL");
-		gnm_func_inc_usage (fd_cell);
+		fd_concatenate = gnm_func_get_and_use ("CONCATENATE");
+		fd_cell = gnm_func_get_and_use ("CELL");
 
 		dao_set_cell_expr (dao, x, y, gnm_expr_new_funcall3
 				   (fd_concatenate, gnm_expr_new_constant (value_new_string (label)),
@@ -266,31 +1459,21 @@ analysis_tools_write_a_label (GnmValue *val, data_analysis_output_t *dao,
 	}
 }
 
-/*
- *  analysis_tools_write_label_ftest:
- *  @val: range to extract label from
- *  @dao: data_analysis_output_t, where to write to
- *  @info: analysis_tools_data_generic_t info
- *  @x: output col number
- *  @y: output row number
- *  @i: default col/row number
- *
- */
-
 /**
- * analysis_tools_write_label_ftest:
- * @val: #GnmValue
+ * analysis_tools_write_variable_label:
+ * @val: (inout): Range to extract label from
  * @dao: #data_analysis_output_t
- * @x: col
- * @y: row
+ * @x: output col number
+ * @y: output row number
  * @labels: boolean
- * @i: index
+ * @i: default col/row number
  *
- * Writes a label for an F-test to the output.
+ * Writes a variable (data series) label and advances @val to the next
+ * row or column.
  **/
 void
-analysis_tools_write_label_ftest (GnmValue *val, data_analysis_output_t *dao,
-				  int x, int y, gboolean labels, int i)
+analysis_tools_write_variable_label (GnmValue *val, data_analysis_output_t *dao,
+				     int x, int y, gboolean labels, int i)
 {
 	cb_adjust_areas (val, NULL);
 
@@ -310,12 +1493,8 @@ analysis_tools_write_label_ftest (GnmValue *val, data_analysis_output_t *dao,
 	}
 }
 
-/*
- *  cb_cut_into_cols:
- *  @data:
- *  @user_data:
- *
- */
+
+
 static void
 cb_cut_into_cols (gpointer data, gpointer user_data)
 {
@@ -394,12 +1573,12 @@ cb_cut_into_rows (gpointer data, gpointer user_data)
 
 
 /**
- *  prepare_input_range:
+ *  analysis_tool_prepare_input_range_impl:
  *  @input_range: (inout) (element-type GnmRange) (transfer full):
  *  @group_by:
  */
-void
-prepare_input_range (GSList **input_range, group_by_t group_by)
+static void
+analysis_tool_prepare_input_range_impl (GSList **input_range, group_by_t group_by)
 {
 	GSList *input_by_units = NULL;
 
@@ -421,59 +1600,49 @@ prepare_input_range (GSList **input_range, group_by_t group_by)
 	}
 }
 
-typedef struct {
-	gboolean init;
-	gint size;
-	gboolean hom;
-} homogeneity_check_t;
-
-
-/*
- *  cb_check_hom:
- *  @data:
- *  @user_data:
- *
+/**
+ *  analysis_tool_prepare_input_range:
+ *  @gtool: #GnmGenericAnalysisTool
  */
-static void
-cb_check_hom (gpointer data, gpointer user_data)
+void
+analysis_tool_prepare_input_range (GnmGenericAnalysisTool *gtool)
 {
-	GnmValue *range = (GnmValue *)data;
-	homogeneity_check_t *state = (homogeneity_check_t *) user_data;
-	gint this_size;
-
-	if (!VALUE_IS_CELLRANGE (range)) {
-		state->hom = FALSE;
-		return;
-	}
-
-	this_size = (range->v_range.cell.b.col - range->v_range.cell.a.col + 1) *
-		(range->v_range.cell.b.row - range->v_range.cell.a.row + 1);
-
-	if (state->init) {
-		if (state->size != this_size)
-			state->hom = FALSE;
-	} else {
-		state->init = TRUE;
-		state->size = this_size;
-	}
-	return;
+	analysis_tool_prepare_input_range_impl (&gtool->base.input, gtool->base.group_by);
 }
 
-/*
- *  gnm_check_input_range_list_homogeneity:
- *  @input_range:
- *
- *  Check that all columns have the same size
- *
- */
-static gboolean
-gnm_check_input_range_list_homogeneity (GSList *input_range)
+static size_t
+calc_size (GnmValue const *range)
 {
-	homogeneity_check_t state = { FALSE, 0, TRUE };
+	// This feels half-baked.  What about relative positions?
+	return ((range->v_range.cell.b.col - range->v_range.cell.a.col + 1) *
+		(range->v_range.cell.b.row - range->v_range.cell.a.row + 1));
+}
 
-	g_slist_foreach (input_range, cb_check_hom, &state);
+/**
+ * analysis_tool_check_input_homogeneity:
+ * @gtool: #GnmGenericAnalysisTool
+ *
+ * Check that all elements have the same size.
+ *
+ * Returns: %TRUE if sizes are uniform.
+ */
+gboolean
+analysis_tool_check_input_homogeneity (GnmGenericAnalysisTool *gtool)
+{
+	size_t s0 = -1;
+	for (GSList *l = gtool->base.input; l; l = l->next) {
+		GnmValue const *v = l->data;
+		if (!VALUE_IS_CELLRANGE (v))
+			return FALSE;
 
-	return state.hom;
+		size_t s = calc_size (v);
+		if (s0 == (size_t)-1)
+			s0 = s;
+		else if (s != s0)
+			return FALSE;
+	}
+
+	return TRUE;
 }
 
 
@@ -543,96 +1712,36 @@ set_cell_text_row (data_analysis_output_t *dao, int col, int row, const char *te
 }
 
 /**
- * analysis_tool_generic_clean:
- * @specs: #gpointer
- *
- * Cleans up generic analysis tool data.
- *
- * Returns: %FALSE.
- **/
-gboolean
-analysis_tool_generic_clean (gpointer specs)
-{
-	analysis_tools_data_generic_t *info = specs;
-
-	range_list_destroy (info->input);
-	info->input = NULL;
-	return FALSE;
-}
-
-/**
- * analysis_tool_generic_b_clean:
- * @specs: #gpointer
- *
- * Cleans up generic_b analysis tool data.
- *
- * Returns: %FALSE.
- **/
-gboolean
-analysis_tool_generic_b_clean (gpointer specs)
-{
-	analysis_tools_data_generic_b_t *info = specs;
-
-	value_release (info->range_1);
-	info->range_1 = NULL;
-	value_release (info->range_2);
-	info->range_2 = NULL;
-	return FALSE;
-}
-
-
-
-/**
  * analysis_tool_calc_length:
- * @info: #analysis_tools_data_generic_t
+ * @gtool: #GnmGenericAnalysisTool
  *
  * Returns: the calculated length for the analysis tool.
  **/
-int analysis_tool_calc_length (analysis_tools_data_generic_t *info)
+int analysis_tool_calc_length (GnmGenericAnalysisTool *gtool)
 {
 	int           result = 1;
 	GSList        *dataset;
 
-	for (dataset = info->input; dataset; dataset = dataset->next) {
+	for (dataset = gtool->base.input; dataset; dataset = dataset->next) {
 		GnmValue    *current = dataset->data;
 		int      given_length;
 
-		if (info->group_by == GROUPED_BY_AREA) {
+		if (gtool->base.group_by == GROUPED_BY_AREA) {
 			given_length = (current->v_range.cell.b.row - current->v_range.cell.a.row + 1) *
 				(current->v_range.cell.b.col - current->v_range.cell.a.col + 1);
 		} else
-			given_length = (info->group_by == GROUPED_BY_COL) ?
+			given_length = (gtool->base.group_by == GROUPED_BY_COL) ?
 				(current->v_range.cell.b.row - current->v_range.cell.a.row + 1) :
 				(current->v_range.cell.b.col - current->v_range.cell.a.col + 1);
 		if (given_length > result)
 			result = given_length;
 	}
-	if (info->labels)
+	if (gtool->base.labels)
 		result--;
 	return result;
 }
 
-/**
- * analysis_tool_get_function:
- * @name: name of function
- * @dao:
- *
- * Returns: (transfer full): the function named @name or a placeholder.
- * The usage count of the function is incremented.
- */
-GnmFunc *
-analysis_tool_get_function (char const *name,
-			    data_analysis_output_t *dao)
-{
-	GnmFunc *fd;
 
-	fd = gnm_func_lookup_or_add_placeholder (name);
-	gnm_func_inc_usage (fd);
-	return fd;
-}
-
-
-
 /************* Correlation Tool *******************************************
  *
  * The correlation tool calculates the correlation coefficient of two
@@ -644,8 +1753,8 @@ analysis_tool_get_function (char const *name,
 
 /**
  * analysis_tool_table:
- * @dao: #data_analysis_output_t
- * @info: #analysis_tools_data_generic_t
+ * @gtool: #GnmGenericAnalysisTool
+ * @dao: data_analysis_output_t, where to write to
  * @title: title of the table
  * @functionname: name of the function
  * @full_table: boolean
@@ -653,8 +1762,7 @@ analysis_tool_get_function (char const *name,
  * Returns: %TRUE if there is an error.
  **/
 gboolean
-analysis_tool_table (data_analysis_output_t *dao,
-		     analysis_tools_data_generic_t *info,
+analysis_tool_table (GnmGenericAnalysisTool *gtool, data_analysis_output_t *dao,
 		     gchar const *title, gchar const *functionname,
 		     gboolean full_table)
 {
@@ -666,10 +1774,9 @@ analysis_tool_table (data_analysis_output_t *dao,
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell_printf (dao, 0, 0, "%s", title);
 
-	fd = gnm_func_lookup_or_add_placeholder (functionname);
-	gnm_func_inc_usage (fd);
+	fd = gnm_func_get_and_use (functionname);
 
-	for (col = 1, inputdata = info->input; inputdata != NULL;
+	for (col = 1, inputdata = gtool->base.input; inputdata != NULL;
 	     inputdata = inputdata->next, col++) {
 		GnmValue *val = NULL;
 
@@ -677,23 +1784,21 @@ analysis_tool_table (data_analysis_output_t *dao,
 
 		/* Label */
 		dao_set_italic (dao, col, 0, col, 0);
-		analysis_tools_write_label (val, dao, info,
-					    col, 0, col);
+		analysis_tools_write_label (gtool, val, dao, col, 0, col);
 
 		inputexpr = g_slist_prepend (inputexpr,
 					     (gpointer) gnm_expr_new_constant (val));
 	}
 	inputexpr = g_slist_reverse (inputexpr);
 
-	for (row = 1, inputdata = info->input; inputdata != NULL;
+	for (row = 1, inputdata = gtool->base.input; inputdata != NULL;
 	     inputdata = inputdata->next, row++) {
 		GnmValue *val = value_dup (inputdata->data);
 		GSList *colexprlist;
 
 		/* Label */
 		dao_set_italic (dao, 0, row, 0, row);
-		analysis_tools_write_label (val, dao, info,
-					    0, row, row);
+		analysis_tools_write_label (gtool, val, dao, 0, row, row);
 
 		for (col = 1, colexprlist = inputexpr; colexprlist != NULL;
 		     colexprlist = colexprlist->next, col++) {
@@ -721,47 +1826,14 @@ analysis_tool_table (data_analysis_output_t *dao,
 }
 
 static gboolean
-analysis_tool_correlation_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_generic_t *info)
+analysis_tool_correlation_engine_run (GnmCorrelationTool *ctool, data_analysis_output_t *dao)
 {
-	return analysis_tool_table (dao, info, _("Correlations"),
+	GnmGenericAnalysisTool *gtool = &ctool->parent;
+	return analysis_tool_table (gtool, dao, _("Correlations"),
 				    "CORREL", FALSE);
 }
 
-gboolean
-analysis_tool_correlation_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-				   analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_generic_t *info = specs;
 
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Correlation (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->input, info->group_by);
-		if (!gnm_check_input_range_list_homogeneity (info->input)) {
-			info->err = info->group_by + 1;
-			return TRUE;
-		}
-		dao_adjust (dao, 1 + g_slist_length (info->input),
-			    1 + g_slist_length (info->input));
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Correlation"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Correlation"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_correlation_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
 
 
 
@@ -776,47 +1848,14 @@ analysis_tool_correlation_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis
  **/
 
 static gboolean
-analysis_tool_covariance_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_generic_t *info)
+analysis_tool_covariance_engine_run (GnmCovarianceTool *ctool, data_analysis_output_t *dao)
 {
-	return analysis_tool_table (dao, info, _("Covariances"),
+	GnmGenericAnalysisTool *gtool = &ctool->parent;
+	return analysis_tool_table (gtool, dao, _("Covariances"),
 				    "COVAR", FALSE);
 }
 
-gboolean
-analysis_tool_covariance_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-				   analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_generic_t *info = specs;
 
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Covariance (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->input, info->group_by);
-		if (!gnm_check_input_range_list_homogeneity (info->input)) {
-			info->err = info->group_by + 1;
-			return TRUE;
-		}
-		dao_adjust (dao, 1 + g_slist_length (info->input),
-			    1 + g_slist_length (info->input));
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Covariance"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Covariance"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_covariance_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
 
 
 
@@ -840,11 +1879,11 @@ typedef struct {
 } desc_stats_t;
 
 static void
-summary_statistics (data_analysis_output_t *dao,
-		    analysis_tools_data_descriptive_t *info)
+summary_statistics (GnmDescriptiveTool *dtool, data_analysis_output_t *dao)
 {
+	GnmGenericAnalysisTool *gtool = &dtool->parent;
 	guint     col;
-	GSList *data = info->base.input;
+	GSList *data = gtool->base.input;
 	GnmFunc *fd_mean;
 	GnmFunc *fd_median;
 	GnmFunc *fd_mode;
@@ -858,30 +1897,18 @@ summary_statistics (data_analysis_output_t *dao,
 	GnmFunc *fd_count;
 	GnmFunc *fd_sqrt;
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_inc_usage (fd_mean);
-	fd_median = gnm_func_lookup_or_add_placeholder (info->use_ssmedian ? "SSMEDIAN" : "MEDIAN");
-	gnm_func_inc_usage (fd_median);
-	fd_mode = gnm_func_lookup_or_add_placeholder ("MODE");
-	gnm_func_inc_usage (fd_mode);
-	fd_stdev = gnm_func_lookup_or_add_placeholder ("STDEV");
-	gnm_func_inc_usage (fd_stdev);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_inc_usage (fd_var);
-	fd_kurt = gnm_func_lookup_or_add_placeholder ("KURT");
-	gnm_func_inc_usage (fd_kurt);
-	fd_skew = gnm_func_lookup_or_add_placeholder ("SKEW");
-	gnm_func_inc_usage (fd_skew);
-	fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
-	gnm_func_inc_usage (fd_min);
-	fd_max = gnm_func_lookup_or_add_placeholder ("MAX");
-	gnm_func_inc_usage (fd_max);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_inc_usage (fd_sum);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_inc_usage (fd_count);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-	gnm_func_inc_usage (fd_sqrt);
+	fd_mean = gnm_func_get_and_use ("AVERAGE");
+	fd_median = gnm_func_get_and_use (dtool->use_ssmedian ? "SSMEDIAN" : "MEDIAN");
+	fd_mode = gnm_func_get_and_use ("MODE");
+	fd_stdev = gnm_func_get_and_use ("STDEV");
+	fd_var = gnm_func_get_and_use ("VAR");
+	fd_kurt = gnm_func_get_and_use ("KURT");
+	fd_skew = gnm_func_get_and_use ("SKEW");
+	fd_min = gnm_func_get_and_use ("MIN");
+	fd_max = gnm_func_get_and_use ("MAX");
+	fd_sum = gnm_func_get_and_use ("SUM");
+	fd_count = gnm_func_get_and_use ("COUNT");
+	fd_sqrt = gnm_func_get_and_use ("SQRT");
 
         dao_set_cell (dao, 0, 0, NULL);
 
@@ -917,7 +1944,7 @@ summary_statistics (data_analysis_output_t *dao,
 
 		dao_set_italic (dao, col + 1, 0, col+1, 0);
 		/* Note that analysis_tools_write_label may modify val_org */
-		analysis_tools_write_label (val_org, dao, &info->base,
+		analysis_tools_write_label (gtool, val_org, dao,
 					    col + 1, 0, col + 1);
 
 	        /* Mean */
@@ -1014,13 +2041,13 @@ summary_statistics (data_analysis_output_t *dao,
 }
 
 static void
-confidence_level (data_analysis_output_t *dao,
-		  analysis_tools_data_descriptive_t *info)
+confidence_level (GnmDescriptiveTool *dtool, data_analysis_output_t *dao)
 {
+	GnmGenericAnalysisTool *gtool = &dtool->parent;
         guint col;
 	char *buffer;
 	char *format;
-	GSList *data = info->base.input;
+	GSList *data = gtool->base.input;
 	GnmFunc *fd_mean;
 	GnmFunc *fd_var;
 	GnmFunc *fd_count;
@@ -1029,7 +2056,7 @@ confidence_level (data_analysis_output_t *dao,
 
 	format = g_strdup_printf (_("/%%%s%%%% CI for the Mean from"
 				    "/to"), GNM_FORMAT_g);
-	buffer = g_strdup_printf (format, info->c_level * 100);
+	buffer = g_strdup_printf (format, dtool->c_level * 100);
 	g_free (format);
 	dao_set_italic (dao, 0, 1, 0, 2);
 	set_cell_text_col (dao, 0, 1, buffer);
@@ -1037,17 +2064,11 @@ confidence_level (data_analysis_output_t *dao,
 
         dao_set_cell (dao, 0, 0, NULL);
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_inc_usage (fd_mean);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_inc_usage (fd_var);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_inc_usage (fd_count);
-	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV");
-	gnm_func_inc_usage (fd_tinv);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-	gnm_func_inc_usage (fd_sqrt);
-
+	fd_mean = gnm_func_get_and_use ("AVERAGE");
+	fd_var = gnm_func_get_and_use ("VAR");
+	fd_count = gnm_func_get_and_use ("COUNT");
+	fd_tinv = gnm_func_get_and_use ("TINV");
+	fd_sqrt = gnm_func_get_and_use ("SQRT");
 
 	for (col = 0; data != NULL; data = data->next, col++) {
 		GnmExpr const *expr;
@@ -1058,7 +2079,7 @@ confidence_level (data_analysis_output_t *dao,
 
 		dao_set_italic (dao, col+1, 0, col+1, 0);
 		/* Note that analysis_tools_write_label may modify val_org */
-		analysis_tools_write_label (val_org, dao, &info->base, col + 1, 0, col + 1);
+		analysis_tools_write_label (gtool, val_org, dao, col + 1, 0, col + 1);
 
 		expr_mean = gnm_expr_new_funcall1
 			(fd_mean,
@@ -1075,7 +2096,7 @@ confidence_level (data_analysis_output_t *dao,
 		expr = gnm_expr_new_binary
 			(gnm_expr_new_funcall2
 			 (fd_tinv,
-			  gnm_expr_new_constant (value_new_float (1 - info->c_level)),
+			  gnm_expr_new_constant (value_new_float (1 - dtool->c_level)),
 			  gnm_expr_new_binary
 			  (gnm_expr_copy (expr_count),
 			   GNM_EXPR_OP_SUB,
@@ -1106,14 +2127,13 @@ confidence_level (data_analysis_output_t *dao,
 }
 
 static void
-kth_smallest_largest (data_analysis_output_t *dao,
-		      analysis_tools_data_descriptive_t *info,
+kth_smallest_largest (GnmDescriptiveTool *dtool, data_analysis_output_t *dao,
 		      char const* func, char const* label, int k)
 {
+	GnmGenericAnalysisTool *gtool = &dtool->parent;
         guint col;
-	GSList *data = info->base.input;
-	GnmFunc *fd = gnm_func_lookup_or_add_placeholder (func);
-	gnm_func_inc_usage (fd);
+	GSList *data = gtool->base.input;
+	GnmFunc *fd = gnm_func_get_and_use (func);
 
 	dao_set_italic (dao, 0, 1, 0, 1);
         dao_set_cell_printf (dao, 0, 1, label, k);
@@ -1125,8 +2145,7 @@ kth_smallest_largest (data_analysis_output_t *dao,
 		GnmValue *val = value_dup (data->data);
 
 		dao_set_italic (dao, col + 1, 0, col + 1, 0);
-		analysis_tools_write_label (val, dao, &info->base,
-					    col + 1, 0, col + 1);
+		analysis_tools_write_label (gtool, val, dao, col + 1, 0, col + 1);
 
 		expr = gnm_expr_new_funcall2
 			(fd,
@@ -1142,31 +2161,30 @@ kth_smallest_largest (data_analysis_output_t *dao,
 /* Descriptive Statistics
  */
 static gboolean
-analysis_tool_descriptive_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_descriptive_t *info)
+analysis_tool_descriptive_engine_run (GnmDescriptiveTool *dtool, data_analysis_output_t *dao)
 {
-        if (info->summary_statistics) {
-                summary_statistics (dao, info);
+        if (dtool->summary_statistics) {
+                summary_statistics (dtool, dao);
 		dao->offset_row += 16;
 		if (dao->rows <= dao->offset_row)
 			goto finish_descriptive_tool;
 	}
-        if (info->confidence_level) {
-                confidence_level (dao, info);
+        if (dtool->confidence_level) {
+                confidence_level (dtool, dao);
 		dao->offset_row += 4;
 		if (dao->rows <= dao->offset_row)
 			goto finish_descriptive_tool;
 	}
-        if (info->kth_largest) {
-		kth_smallest_largest (dao, info, "LARGE", _("Largest (%d)"),
-				      info->k_largest);
+        if (dtool->kth_largest) {
+		kth_smallest_largest (dtool, dao, "LARGE", _("Largest (%d)"),
+				      dtool->k_largest);
 		dao->offset_row += 4;
 		if (dao->rows <= dao->offset_row)
 			goto finish_descriptive_tool;
 	}
-        if (info->kth_smallest)
-                kth_smallest_largest (dao, info, "SMALL", _("Smallest (%d)"),
-				      info->k_smallest);
+        if (dtool->kth_smallest)
+                kth_smallest_largest (dtool, dao, "SMALL", _("Smallest (%d)"),
+				      dtool->k_smallest);
 
  finish_descriptive_tool:
 
@@ -1174,39 +2192,7 @@ analysis_tool_descriptive_engine_run (data_analysis_output_t *dao,
 	return 0;
 }
 
-gboolean
-analysis_tool_descriptive_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-				   analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_descriptive_t *info = specs;
 
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Descriptive Statistics (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->base.input, info->base.group_by);
-		dao_adjust (dao, 1 + g_slist_length (info->base.input),
-			    (info->summary_statistics ? 16 : 0) +
-			    (info->confidence_level ? 4 : 0) +
-			    (info->kth_largest ? 4 : 0) +
-			    (info->kth_smallest ? 4 : 0 ) - 1);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Descriptive Statistics"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Descriptive Statistics"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_descriptive_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
 
 
 
@@ -1224,9 +2210,9 @@ analysis_tool_descriptive_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis
 
 
 static gboolean
-analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
-					 analysis_tools_data_sampling_t *info)
+analysis_tool_sampling_engine_run (GnmSamplingTool *stool, data_analysis_output_t *dao)
 {
+	GnmGenericAnalysisTool *gtool = &stool->parent;
 	GSList *l;
 	gint col = 0;
 	guint ct;
@@ -1234,31 +2220,29 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_randdiscrete = NULL;
 	gint source;
 
-	if (info->base.labels || info->periodic) {
-		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-		gnm_func_inc_usage (fd_index);
+	if (gtool->base.labels || stool->periodic) {
+		fd_index = gnm_func_get_and_use ("INDEX");
 	}
-	if (!info->periodic) {
-		fd_randdiscrete = gnm_func_lookup_or_add_placeholder ("RANDDISCRETE");
-		gnm_func_inc_usage (fd_randdiscrete);
+	if (!stool->periodic) {
+		fd_randdiscrete = gnm_func_get_and_use ("RANDDISCRETE");
 	}
 
-	for (l = info->base.input, source = 1; l; l = l->next, source++) {
+	for (l = gtool->base.input, source = 1; l; l = l->next, source++) {
 		GnmValue *val = value_dup ((GnmValue *)l->data);
 		GnmValue *val_c = NULL;
 		GnmExpr const *expr_title = NULL;
 		GnmExpr const *expr_input = NULL;
 		char const *format = NULL;
-		guint offset = info->periodic ? ((info->offset == 0) ? info->period : info->offset): 0;
+		guint offset = stool->periodic ? ((stool->offset == 0) ? stool->period : stool->offset): 0;
 		GnmEvalPos ep;
 
 		eval_pos_init_sheet (&ep, val->v_range.cell.a.sheet);
 
-		dao_set_italic (dao, col, 0, col + info->number - 1, 0);
+		dao_set_italic (dao, col, 0, col + stool->number - 1, 0);
 
-		if (info->base.labels) {
+		if (gtool->base.labels) {
 			val_c = value_dup (val);
-			switch (info->base.group_by) {
+			switch (gtool->base.group_by) {
 			case GROUPED_BY_ROW:
 				val->v_range.cell.a.col++;
 				break;
@@ -1271,11 +2255,11 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 			}
 			expr_title = gnm_expr_new_funcall1 (fd_index,
 							    gnm_expr_new_constant (val_c));
-			for (ct = 0; ct < info->number; ct++)
+			for (ct = 0; ct < stool->number; ct++)
 				dao_set_cell_expr (dao, col+ct, 0, gnm_expr_copy (expr_title));
 			gnm_expr_free (expr_title);
 		} else {
-			switch (info->base.group_by) {
+			switch (gtool->base.group_by) {
 			case GROUPED_BY_ROW:
 				format = _("Row %d");
 				break;
@@ -1286,24 +2270,24 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 				format = _("Area %d");
 				break;
 			}
-			for (ct = 0; ct < info->number; ct++)
+			for (ct = 0; ct < stool->number; ct++)
 				dao_set_cell_printf (dao, col+ct, 0, format, source);
 		}
 
 		expr_input = gnm_expr_new_constant (value_dup (val));
 
 
-		if (info->periodic) {
+		if (stool->periodic) {
 			guint i;
 			gint height = value_area_get_height (val, &ep);
 			gint width = value_area_get_width (val, &ep);
 			GnmExpr const *expr_period;
 
-			for (i=0; i < info->size; i++, offset += info->period) {
+			for (i=0; i < stool->size; i++, offset += stool->period) {
 				gint x_offset;
 				gint y_offset;
 
-				if (info->row_major) {
+				if (stool->row_major) {
 					y_offset = (offset - 1)/width + 1;
 					x_offset = offset - (y_offset - 1) * width;
 				} else {
@@ -1316,13 +2300,13 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 					 gnm_expr_new_constant (value_new_int (y_offset)),
 					 gnm_expr_new_constant (value_new_int (x_offset)));
 
-				for (ct = 0; ct < info->number; ct += 2)
+				for (ct = 0; ct < stool->number; ct += 2)
 					dao_set_cell_expr (dao, col + ct, i + 1,
 							   gnm_expr_copy (expr_period));
 				gnm_expr_free (expr_period);
 
-				if (info->number > 1) {
-					if (!info->row_major) {
+				if (stool->number > 1) {
+					if (!stool->row_major) {
 						y_offset = (offset - 1)/width + 1;
 						x_offset = offset - (y_offset - 1) * width;
 					} else {
@@ -1335,14 +2319,14 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 						 gnm_expr_new_constant (value_new_int (y_offset)),
 						 gnm_expr_new_constant (value_new_int (x_offset)));
 
-					for (ct = 1; ct < info->number; ct += 2)
+					for (ct = 1; ct < stool->number; ct += 2)
 						dao_set_cell_expr (dao, col + ct, i + 1,
 								   gnm_expr_copy (expr_period));
 					gnm_expr_free (expr_period);
 
 				}
 			}
-			col += info->number;
+			col += stool->number;
 		} else {
 			GnmExpr const *expr_random;
 			guint i;
@@ -1350,8 +2334,8 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 			expr_random = gnm_expr_new_funcall1 (fd_randdiscrete,
 							     gnm_expr_copy (expr_input));
 
-			for (ct = 0; ct < info->number; ct++, col++)
-				for (i=0; i < info->size; i++)
+			for (ct = 0; ct < stool->number; ct++, col++)
+				for (i=0; i < stool->size; i++)
 					dao_set_cell_expr (dao, col, i + 1,
 							   gnm_expr_copy (expr_random));
 			gnm_expr_free (expr_random);
@@ -1372,62 +2356,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 	return FALSE;
 }
 
-gboolean
-analysis_tool_sampling_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			       analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_sampling_t *info = specs;
 
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Sampling (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-	{
-		GSList *l;
-
-		prepare_input_range (&info->base.input, info->base.group_by);
-
-		if (info->periodic) {
-			info->size = 1;
-			for (l = info->base.input; l; l = l->next) {
-				GnmEvalPos ep;
-				GnmValue *val = ((GnmValue *)l->data);
-				gint size;
-				guint usize;
-				eval_pos_init_sheet (&ep, val->v_range.cell.a.sheet);
-				size = (value_area_get_width (val, &ep) *
-					     value_area_get_height (val, &ep));
-				usize = (size > 0) ? size : 1;
-
-				if (info->offset == 0)
-					usize = usize/info->period;
-				else
-					usize = (usize - info->offset)/info->period + 1;
-				if (usize > info->size)
-					info->size = usize;
-			}
-		}
-
-		dao_adjust (dao, info->number * g_slist_length (info->base.input),
-			    1 + info->size);
-		return FALSE;
-	}
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Sample"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Sample"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_sampling_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
 
 
 
@@ -1440,9 +2369,9 @@ analysis_tool_sampling_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_ou
 
 
 static gboolean
-analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
-				analysis_tools_data_ttests_t *info)
+analysis_tool_ztest_engine_run (GnmZTestTool *ztool, data_analysis_output_t *dao)
 {
+	GnmGenericBAnalysisTool *gtool = &ztool->parent;
 	GnmValue *val_1;
 	GnmValue *val_2;
 	GnmFunc *fd_count;
@@ -1473,30 +2402,24 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 					"/P (Z<=z) two-tail"
 					"/z Critical two-tail"));
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_inc_usage (fd_mean);
-	fd_normsdist = gnm_func_lookup_or_add_placeholder ("NORMSDIST");
-	gnm_func_inc_usage (fd_normsdist);
-	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
-	gnm_func_inc_usage (fd_abs);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-	gnm_func_inc_usage (fd_sqrt);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_inc_usage (fd_count);
-	fd_normsinv = gnm_func_lookup_or_add_placeholder ("NORMSINV");
-	gnm_func_inc_usage (fd_normsinv);
+	fd_mean = gnm_func_get_and_use ("AVERAGE");
+	fd_normsdist = gnm_func_get_and_use ("NORMSDIST");
+	fd_abs = gnm_func_get_and_use ("ABS");
+	fd_sqrt = gnm_func_get_and_use ("SQRT");
+	fd_count = gnm_func_get_and_use ("COUNT");
+	fd_normsinv = gnm_func_get_and_use ("NORMSINV");
 
-	val_1 = value_dup (info->base.range_1);
+	val_1 = value_dup (gtool->base.range_1);
 	expr_1 = gnm_expr_new_constant (value_dup (val_1));
 
-	val_2 = value_dup (info->base.range_2);
+	val_2 = value_dup (gtool->base.range_2);
 	expr_2 = gnm_expr_new_constant (value_dup (val_2));
 
 	/* Labels */
-	analysis_tools_write_label_ftest (val_1, dao, 1, 0,
-					  info->base.labels, 1);
-	analysis_tools_write_label_ftest (val_2, dao, 2, 0,
-					  info->base.labels, 2);
+	analysis_tools_write_variable_label (val_1, dao, 1, 0,
+					  gtool->base.labels, 1);
+	analysis_tools_write_variable_label (val_2, dao, 2, 0,
+					  gtool->base.labels, 2);
 
 
 	/* Mean */
@@ -1506,8 +2429,8 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_expr (dao, 2, 1, gnm_expr_copy (expr_mean_2));
 
 	/* Known Variance */
-	dao_set_cell_float (dao, 1, 2, info->var1);
-	dao_set_cell_float (dao, 2, 2, info->var2);
+	dao_set_cell_float (dao, 1, 2, ztool->var1);
+	dao_set_cell_float (dao, 2, 2, ztool->var2);
 
 	/* Observations */
 	expr_count_1 = gnm_expr_new_funcall1 (fd_count, expr_1);
@@ -1516,7 +2439,7 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_expr (dao, 2, 3, gnm_expr_copy (expr_count_2));
 
 	/* Hypothesized Mean Difference */
-	dao_set_cell_float (dao, 1, 4, info->mean_diff);
+	dao_set_cell_float (dao, 1, 4, ztool->mean_diff);
 
 	/* Observed Mean Difference */
 	if (dao_cell_is_visible (dao, 2, 1)) {
@@ -1545,7 +2468,7 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 			expr_var_2 = make_cellref (1, -4);
 		} else {
 			expr_var_2 = gnm_expr_new_constant
-			(value_new_float (info->var2));
+			(value_new_float (ztool->var2));
 		}
 
 		if (dao_cell_is_visible (dao, 2, 3)) {
@@ -1596,7 +2519,7 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 		  gnm_expr_new_funcall1
 		  (fd_normsinv,
 		   gnm_expr_new_constant
-		   (value_new_float (info->base.alpha)))));
+		   (value_new_float (gtool->base.alpha)))));
 
 	/* P (T<=t) two-tail */
 	dao_set_cell_expr
@@ -1621,7 +2544,7 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 		  (fd_normsinv,
 		   gnm_expr_new_binary
 		   (gnm_expr_new_constant
-		    (value_new_float (info->base.alpha)),
+		    (value_new_float (gtool->base.alpha)),
 		    GNM_EXPR_OP_DIV,
 		    gnm_expr_new_constant (value_new_int (2))))));
 
@@ -1643,32 +2566,7 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 }
 
 
-gboolean
-analysis_tool_ztest_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			       analysis_tool_engine_t selector, gpointer result)
-{
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("z-Test (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		dao_adjust (dao, 3, 11);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_b_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("z-Test"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("z-Test"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_ztest_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
+
 
 
 /************* t-Test Tools ********************************************
@@ -1685,9 +2583,9 @@ analysis_tool_ztest_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_outpu
 /* t-Test: Paired Two Sample for Means.
  */
 static gboolean
-analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
-				       analysis_tools_data_ttests_t *info)
+analysis_tool_ttest_paired_engine_run (GnmTTestPairedTool *ttool, data_analysis_output_t *dao)
 {
+	GnmGenericBAnalysisTool *gtool = &ttool->parent;
 	GnmValue *val_1;
 	GnmValue *val_2;
 
@@ -1727,37 +2625,26 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 					"/P (T<=t) two-tail"
 					"/t Critical two-tail"));
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_inc_usage (fd_mean);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_inc_usage (fd_var);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_inc_usage (fd_count);
-	fd_correl = gnm_func_lookup_or_add_placeholder ("CORREL");
-	gnm_func_inc_usage (fd_correl);
-	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV");
-	gnm_func_inc_usage (fd_tinv);
-	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST");
-	gnm_func_inc_usage (fd_tdist);
-	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
-	gnm_func_inc_usage (fd_abs);
-	fd_isodd = gnm_func_lookup_or_add_placeholder ("ISODD");
-	gnm_func_inc_usage (fd_isodd);
-	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER");
-	gnm_func_inc_usage (fd_isnumber);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_inc_usage (fd_if);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_inc_usage (fd_sum);
+	fd_mean = gnm_func_get_and_use ("AVERAGE");
+	fd_var = gnm_func_get_and_use ("VAR");
+	fd_count = gnm_func_get_and_use ("COUNT");
+	fd_correl = gnm_func_get_and_use ("CORREL");
+	fd_tinv = gnm_func_get_and_use ("TINV");
+	fd_tdist = gnm_func_get_and_use ("TDIST");
+	fd_abs = gnm_func_get_and_use ("ABS");
+	fd_isodd = gnm_func_get_and_use ("ISODD");
+	fd_isnumber = gnm_func_get_and_use ("ISNUMBER");
+	fd_if = gnm_func_get_and_use ("IF");
+	fd_sum = gnm_func_get_and_use ("SUM");
 
-	val_1 = value_dup (info->base.range_1);
-	val_2 = value_dup (info->base.range_2);
+	val_1 = value_dup (gtool->base.range_1);
+	val_2 = value_dup (gtool->base.range_2);
 
 	/* Labels */
-	analysis_tools_write_label_ftest (val_1, dao, 1, 0,
-					  info->base.labels, 1);
-	analysis_tools_write_label_ftest (val_2, dao, 2, 0,
-					  info->base.labels, 2);
+	analysis_tools_write_variable_label (val_1, dao, 1, 0,
+					  gtool->base.labels, 1);
+	analysis_tools_write_variable_label (val_2, dao, 2, 0,
+					  gtool->base.labels, 2);
 
 	/* Mean */
 
@@ -1794,7 +2681,7 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 						  gnm_expr_copy (expr_2)));
 
 	/* Hypothesized Mean Difference */
-	dao_set_cell_float (dao, 1, 5, info->mean_diff);
+	dao_set_cell_float (dao, 1, 5, ttool->mean_diff);
 
 	/* Some useful expressions for the next field */
 
@@ -1891,7 +2778,7 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 		  (gnm_expr_new_constant (value_new_int (2)),
 		   GNM_EXPR_OP_MULT,
 		   gnm_expr_new_constant
-		   (value_new_float (info->base.alpha))),
+		   (value_new_float (gtool->base.alpha))),
 		  make_cellref (0, -3)));
 
 	/* P (T<=t) two-tail */
@@ -1909,7 +2796,7 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 		 gnm_expr_new_funcall2
 		 (fd_tinv,
 		  gnm_expr_new_constant
-		  (value_new_float (info->base.alpha)),
+		  (value_new_float (gtool->base.alpha)),
 		  make_cellref (0, -5)));
 
 	/* And finish up */
@@ -1934,33 +2821,7 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	return FALSE;
 }
 
-gboolean
-analysis_tool_ttest_paired_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-				   analysis_tool_engine_t selector,
-				   gpointer result)
-{
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("t-Test, paired (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		dao_adjust (dao, 3, 14);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_b_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("t-Test"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("t-Test"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_ttest_paired_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
+
 
 
 
@@ -1968,9 +2829,9 @@ analysis_tool_ttest_paired_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysi
 /* t-Test: Two-Sample Assuming Equal Variances.
  */
 static gboolean
-analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_ttests_t *info)
+analysis_tool_ttest_eqvar_engine_run (GnmTTestEqVarTool *ttool, data_analysis_output_t *dao)
 {
+	GnmGenericBAnalysisTool *gtool = &ttool->parent;
 	GnmValue *val_1;
 	GnmValue *val_2;
 	GnmFunc *fd_count;
@@ -2006,27 +2867,21 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 					"/t Critical two-tail"));
 
 
-	val_1 = value_dup (info->base.range_1);
-	val_2 = value_dup (info->base.range_2);
+	val_1 = value_dup (gtool->base.range_1);
+	val_2 = value_dup (gtool->base.range_2);
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_inc_usage (fd_mean);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_inc_usage (fd_count);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_inc_usage (fd_var);
-	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST");
-	gnm_func_inc_usage (fd_tdist);
-	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
-	gnm_func_inc_usage (fd_abs);
-	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV");
-	gnm_func_inc_usage (fd_tinv);
+	fd_mean = gnm_func_get_and_use ("AVERAGE");
+	fd_count = gnm_func_get_and_use ("COUNT");
+	fd_var = gnm_func_get_and_use ("VAR");
+	fd_tdist = gnm_func_get_and_use ("TDIST");
+	fd_abs = gnm_func_get_and_use ("ABS");
+	fd_tinv = gnm_func_get_and_use ("TINV");
 
 	/* Labels */
-	analysis_tools_write_label_ftest (val_1, dao, 1, 0,
-					  info->base.labels, 1);
-	analysis_tools_write_label_ftest (val_2, dao, 2, 0,
-					  info->base.labels, 2);
+	analysis_tools_write_variable_label (val_1, dao, 1, 0,
+					  gtool->base.labels, 1);
+	analysis_tools_write_variable_label (val_2, dao, 2, 0,
+					  gtool->base.labels, 2);
 
 
 	/* Mean */
@@ -2101,7 +2956,7 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	}
 
 	/* Hypothesized Mean Difference */
-	dao_set_cell_float (dao, 1, 5, info->mean_diff);
+	dao_set_cell_float (dao, 1, 5, ttool->mean_diff);
 
 	/* Observed Mean Difference */
 	if (dao_cell_is_visible (dao, 2,1)) {
@@ -2195,7 +3050,7 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 		  (gnm_expr_new_constant (value_new_int (2)),
 		   GNM_EXPR_OP_MULT,
 		   gnm_expr_new_constant
-		   (value_new_float (info->base.alpha))),
+		   (value_new_float (gtool->base.alpha))),
 		  make_cellref (0, -3)));
 
 	/* P (T<=t) two-tail */
@@ -2215,7 +3070,7 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 		 gnm_expr_new_funcall2
 		 (fd_tinv,
 		  gnm_expr_new_constant
-		  (value_new_float (info->base.alpha)),
+		  (value_new_float (gtool->base.alpha)),
 		  make_cellref (0, -5)));
 
 	/* And finish up */
@@ -2235,39 +3090,14 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	return FALSE;
 }
 
-gboolean
-analysis_tool_ttest_eqvar_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-				  analysis_tool_engine_t selector, gpointer result)
-{
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("t-Test (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		dao_adjust (dao, 3, 13);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_b_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("t-Test"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("t-Test"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_ttest_eqvar_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
+
 
 /* t-Test: Two-Sample Assuming Unequal Variances.
  */
 static gboolean
-analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
-				analysis_tools_data_ttests_t *info)
+analysis_tool_ttest_neqvar_engine_run (GnmTTestNeqVarTool *ttool, data_analysis_output_t *dao)
 {
+	GnmGenericBAnalysisTool *gtool = &ttool->parent;
 	GnmValue *val_1;
 	GnmValue *val_2;
 	GnmFunc *fd_count;
@@ -2302,27 +3132,21 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 					"/t Critical two-tail"));
 
 
-	val_1 = value_dup (info->base.range_1);
-	val_2 = value_dup (info->base.range_2);
+	val_1 = value_dup (gtool->base.range_1);
+	val_2 = value_dup (gtool->base.range_2);
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_inc_usage (fd_mean);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_inc_usage (fd_var);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_inc_usage (fd_count);
-	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST");
-	gnm_func_inc_usage (fd_tdist);
-	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
-	gnm_func_inc_usage (fd_abs);
-	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV");
-	gnm_func_inc_usage (fd_tinv);
+	fd_mean = gnm_func_get_and_use ("AVERAGE");
+	fd_var = gnm_func_get_and_use ("VAR");
+	fd_count = gnm_func_get_and_use ("COUNT");
+	fd_tdist = gnm_func_get_and_use ("TDIST");
+	fd_abs = gnm_func_get_and_use ("ABS");
+	fd_tinv = gnm_func_get_and_use ("TINV");
 
 	/* Labels */
-	analysis_tools_write_label_ftest (val_1, dao, 1, 0,
-					  info->base.labels, 1);
-	analysis_tools_write_label_ftest (val_2, dao, 2, 0,
-					  info->base.labels, 2);
+	analysis_tools_write_variable_label (val_1, dao, 1, 0,
+					  gtool->base.labels, 1);
+	analysis_tools_write_variable_label (val_2, dao, 2, 0,
+					  gtool->base.labels, 2);
 
 
 	/* Mean */
@@ -2346,7 +3170,7 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_expr (dao, 2, 3, gnm_expr_copy (expr_count_2));
 
 	/* Hypothesized Mean Difference */
-	dao_set_cell_float (dao, 1, 4, info->mean_diff);
+	dao_set_cell_float (dao, 1, 4, ttool->mean_diff);
 
 	/* Observed Mean Difference */
 	if (dao_cell_is_visible (dao, 2,1)) {
@@ -2489,7 +3313,7 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 		  (gnm_expr_new_constant (value_new_int (2)),
 		   GNM_EXPR_OP_MULT,
 		   gnm_expr_new_constant
-		   (value_new_float (info->base.alpha))),
+		   (value_new_float (gtool->base.alpha))),
 		  make_cellref (0, -3)));
 
 	/* P (T<=t) two-tail */
@@ -2509,7 +3333,7 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 		 gnm_expr_new_funcall2
 		 (fd_tinv,
 		  gnm_expr_new_constant
-		  (value_new_float (info->base.alpha)),
+		  (value_new_float (gtool->base.alpha)),
 		  make_cellref (0, -5)));
 
 	/* And finish up */
@@ -2528,32 +3352,7 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 	return FALSE;
 }
 
-gboolean
-analysis_tool_ttest_neqvar_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-				  analysis_tool_engine_t selector, gpointer result)
-{
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("t-Test (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		dao_adjust (dao, 3, 12);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_b_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("t-Test"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("t-Test"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_ttest_neqvar_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
+
 
 
 /************* F-Test Tool *********************************************
@@ -2567,11 +3366,11 @@ analysis_tool_ttest_neqvar_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysi
 /* F-Test: Two-Sample for Variances
  */
 static gboolean
-analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
-				analysis_tools_data_generic_b_t *info)
+analysis_tool_ftest_engine_run (GnmFTestTool *ftool, data_analysis_output_t *dao)
 {
-	GnmValue *val_1 = value_dup (info->range_1);
-	GnmValue *val_2 = value_dup (info->range_2);
+	GnmGenericBAnalysisTool *gtool = &ftool->parent;
+	GnmValue *val_1 = value_dup (gtool->base.range_1);
+	GnmValue *val_2 = value_dup (gtool->base.range_2);
 	GnmExpr const *expr;
 	GnmExpr const *expr_var_denum;
 	GnmExpr const *expr_count_denum;
@@ -2579,8 +3378,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	GnmFunc *fd_finv;
 
-	fd_finv = gnm_func_lookup_or_add_placeholder ("FINV");
-	gnm_func_inc_usage (fd_finv);
+	fd_finv = gnm_func_get_and_use ("FINV");
 
 	dao_set_italic (dao, 0, 0, 0, 11);
 	dao_set_cell (dao, 0, 0, _("F-Test"));
@@ -2598,13 +3396,12 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	/* Label */
 	dao_set_italic (dao, 0, 0, 2, 0);
-	analysis_tools_write_label_ftest (val_1, dao, 1, 0, info->labels, 1);
-	analysis_tools_write_label_ftest (val_2, dao, 2, 0, info->labels, 2);
+	analysis_tools_write_variable_label (val_1, dao, 1, 0, gtool->base.labels, 1);
+	analysis_tools_write_variable_label (val_2, dao, 2, 0, gtool->base.labels, 2);
 
 	/* Mean */
 	{
-		GnmFunc *fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-		gnm_func_inc_usage (fd_mean);
+		GnmFunc *fd_mean = gnm_func_get_and_use ("AVERAGE");
 
 		dao_set_cell_expr
 			(dao, 1, 1,
@@ -2623,8 +3420,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	/* Variance */
 	{
-		GnmFunc *fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-		gnm_func_inc_usage (fd_var);
+		GnmFunc *fd_var = gnm_func_get_and_use ("VAR");
 
 		dao_set_cell_expr
 			(dao, 1, 2,
@@ -2642,8 +3438,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
         /* Count */
 	{
-		GnmFunc *fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-		gnm_func_inc_usage (fd_count);
+		GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
 
 		dao_set_cell_expr
 			(dao, 1, 3,
@@ -2686,10 +3481,8 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	/* P right-tail */
 	{
-		GnmFunc *fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST");
+		GnmFunc *fd_fdist = gnm_func_get_and_use ("FDIST");
 		const GnmExpr *arg3;
-
-		gnm_func_inc_usage (fd_fdist);
 
 		if (dao_cell_is_visible (dao, 2, 2)) {
 			arg3 = make_cellref (1, -2);
@@ -2727,7 +3520,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			(dao, 1, 7,
 			 gnm_expr_new_funcall3
 			 (fd_finv,
-			  gnm_expr_new_constant (value_new_float (info->alpha)),
+			  gnm_expr_new_constant (value_new_float (gtool->base.alpha)),
 			  make_cellref (0, -3),
 			  arg3));
 	}
@@ -2754,16 +3547,14 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_funcall3
 			 (fd_finv,
 			  gnm_expr_new_constant
-			  (value_new_float (1 - info->alpha)),
+			  (value_new_float (1 - gtool->base.alpha)),
 			  make_cellref (0, -5),
 			  arg3));
 	}
 
 	/* P two-tail */
 	{
-		GnmFunc *fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
-
-		gnm_func_inc_usage (fd_min);
+		GnmFunc *fd_min = gnm_func_get_and_use ("MIN");
 
 		dao_set_cell_expr
 			(dao, 1, 10,
@@ -2792,7 +3583,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_funcall3
 			 (fd_finv,
 			  gnm_expr_new_constant
-			  (value_new_float (1 - info->alpha / 2)),
+			  (value_new_float (1 - gtool->base.alpha / 2)),
 			  make_cellref (0, -7),
 			  arg3));
 	}
@@ -2803,7 +3594,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 		 gnm_expr_new_funcall3
 		 (fd_finv,
 		  gnm_expr_new_constant
-		  (value_new_float (info->alpha / 2)),
+		  (value_new_float (gtool->base.alpha / 2)),
 		  make_cellref (-1, -7),
 		  make_cellref (0, -7)));
 
@@ -2816,32 +3607,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 	return FALSE;
 }
 
-gboolean
-analysis_tool_ftest_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			    analysis_tool_engine_t selector, gpointer result)
-{
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("F-Test (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		dao_adjust (dao, 3, 12);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_b_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("F-Test"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("F-Test"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_ftest_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
+
 
 
 
@@ -2875,7 +3641,7 @@ analysis_tool_ftest_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_outpu
  **/
 
 static gint
-calculate_xdim (GnmValue *input, group_by_t  group_by)
+calculate_xdim (GnmValue const *input, group_by_t  group_by)
 {
 		GnmRange r;
 
@@ -2891,7 +3657,7 @@ calculate_xdim (GnmValue *input, group_by_t  group_by)
 }
 
 static gint
-calculate_n_obs (GnmValue *input, group_by_t  group_by)
+calculate_n_obs (GnmValue const *input, group_by_t  group_by)
 {
 		GnmRange r;
 
@@ -2908,14 +3674,14 @@ calculate_n_obs (GnmValue *input, group_by_t  group_by)
 
 
 static gboolean
-analysis_tool_regression_engine_run (data_analysis_output_t *dao,
-				     analysis_tools_data_regression_t *info)
+analysis_tool_regression_engine_run (GnmRegressionTool *rtool, data_analysis_output_t *dao)
 {
-	gint xdim = calculate_xdim (info->base.range_1, info->group_by);
+	GnmGenericBAnalysisTool *gtool = &rtool->parent;
+	gint xdim = calculate_xdim (gtool->base.range_1, rtool->group_by);
 	gint i;
 
-	GnmValue *val_1 = value_dup (info->base.range_1);
-	GnmValue *val_2 = value_dup (info->base.range_2);
+	GnmValue *val_1 = value_dup (gtool->base.range_1);
+	GnmValue *val_2 = value_dup (gtool->base.range_2);
 	GnmValue *val_1_cp = NULL;
 	GnmValue *val_2_cp = NULL;
 
@@ -2933,34 +3699,33 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_upper;
 	GnmExpr const *expr_confidence;
 
-	GnmFunc *fd_linest    = analysis_tool_get_function ("LINEST", dao);
-	GnmFunc *fd_index     = analysis_tool_get_function ("INDEX", dao);
-	GnmFunc *fd_fdist     = analysis_tool_get_function ("FDIST", dao);
-	GnmFunc *fd_sum       = analysis_tool_get_function ("SUM", dao);
-	GnmFunc *fd_sqrt      = analysis_tool_get_function ("SQRT", dao);
-	GnmFunc *fd_tdist     = analysis_tool_get_function ("TDIST", dao);
-	GnmFunc *fd_abs       = analysis_tool_get_function ("ABS", dao);
-	GnmFunc *fd_tinv      = analysis_tool_get_function ("TINV", dao);
-	GnmFunc *fd_transpose = analysis_tool_get_function ("TRANSPOSE", dao);
+	GnmFunc *fd_linest    = gnm_func_get_and_use ("LINEST");
+	GnmFunc *fd_index     = gnm_func_get_and_use ("INDEX");
+	GnmFunc *fd_fdist     = gnm_func_get_and_use ("FDIST");
+	GnmFunc *fd_sum       = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_sqrt      = gnm_func_get_and_use ("SQRT");
+	GnmFunc *fd_tdist     = gnm_func_get_and_use ("TDIST");
+	GnmFunc *fd_abs       = gnm_func_get_and_use ("ABS");
+	GnmFunc *fd_tinv      = gnm_func_get_and_use ("TINV");
+	GnmFunc *fd_transpose = gnm_func_get_and_use ("TRANSPOSE");
 	GnmFunc *fd_concatenate = NULL;
 	GnmFunc *fd_cell = NULL;
 	GnmFunc *fd_offset = NULL;
 	GnmFunc *fd_sumproduct = NULL;
 	GnmFunc *fd_leverage = NULL;
 
-	char const *str = ((info->group_by == GROUPED_BY_ROW) ? "row" : "col");
-	char const *label = ((info->group_by == GROUPED_BY_ROW) ? _("Row")
+	char const *str = ((rtool->group_by == GROUPED_BY_ROW) ? "row" : "col");
+	char const *label = ((rtool->group_by == GROUPED_BY_ROW) ? _("Row")
 			     : _("Column"));
 
-	if (!info->base.labels) {
-		fd_concatenate = analysis_tool_get_function ("CONCATENATE",
-							     dao);
-		fd_cell        = analysis_tool_get_function ("CELL", dao);
-		fd_offset      = analysis_tool_get_function ("OFFSET", dao);
+	if (!gtool->base.labels) {
+		fd_concatenate = gnm_func_get_and_use ("CONCATENATE");
+		fd_cell        = gnm_func_get_and_use ("CELL");
+		fd_offset      = gnm_func_get_and_use ("OFFSET");
 	}
-	if (info->residual) {
-		fd_sumproduct  = analysis_tool_get_function ("SUMPRODUCT", dao);
-		fd_leverage = analysis_tool_get_function ("LEVERAGE", dao);
+	if (rtool->residual) {
+		fd_sumproduct  = gnm_func_get_and_use ("SUMPRODUCT");
+		fd_leverage = gnm_func_get_and_use ("LEVERAGE");
 	}
 
 	cb_adjust_areas (val_1, NULL);
@@ -2989,14 +3754,14 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	dao_set_cell (dao, 2, 0, _("Response Variable"));
 	dao_set_merge (dao, 0, 2, 1, 2);
 
-	if (info->base.labels) {
+	if (gtool->base.labels) {
 
 		dao_set_cell_expr (dao, 3, 0,
 				   gnm_expr_new_funcall1 (fd_index, gnm_expr_new_constant (value_dup (val_2))));
 
 		val_1_cp =  value_dup (val_1);
 		val_2_cp =  value_dup (val_2);
-		if (info->group_by == GROUPED_BY_ROW) {
+		if (rtool->group_by == GROUPED_BY_ROW) {
 			val_1->v_range.cell.a.col++;
 			val_2->v_range.cell.a.col++;
 			val_1_cp->v_range.cell.b.col = val_1_cp->v_range.cell.a.col;
@@ -3039,7 +3804,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	dao_set_align (dao, 5, 15, 5, 15, GNM_HALIGN_LEFT, GNM_VALIGN_TOP);
 	dao_set_align (dao, 6, 15, 6, 15, GNM_HALIGN_RIGHT, GNM_VALIGN_TOP);
 
-	dao_set_cell_float (dao, 5, 15, 1 - info->base.alpha);
+	dao_set_cell_float (dao, 5, 15, 1 - gtool->base.alpha);
 	dao_set_cell_expr (dao, 6, 15, make_cellref (-1, 0));
 	expr_confidence = dao_get_cellref (dao, 5, 15);
 
@@ -3049,7 +3814,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 				"as the absolute value of the actually\n"
 				"observed t-statistic, assuming the null\n"
 				"hypothesis is in fact true."));
-	if (!info->intercept)
+	if (!rtool->intercept)
 		dao_set_cell_comment (dao, 0, 4,
 			      _("This value is not the square of R\n"
 				"but the uncentered version of the\n"
@@ -3060,7 +3825,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	expr_x = gnm_expr_new_constant (value_dup (val_1));
 	expr_y = gnm_expr_new_constant (value_dup (val_2));
 
-	expr_intercept = gnm_expr_new_constant (value_new_bool (info->intercept));
+	expr_intercept = gnm_expr_new_constant (value_new_bool (rtool->intercept));
 
 	expr_linest = gnm_expr_new_funcall4 (fd_linest,
 					     expr_y,
@@ -3070,7 +3835,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 
 	/* Multiple R */
-	if (info->intercept) {
+	if (rtool->intercept) {
 		if (dao_cell_is_visible (dao, 1, 4))
 			dao_set_cell_expr (dao, 1, 3, gnm_expr_new_funcall1 (fd_sqrt, make_cellref (0, 1)));
 		else
@@ -3133,7 +3898,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 			      gnm_expr_new_binary
 			      (expr_n,
 			       GNM_EXPR_OP_SUB,
-			       gnm_expr_new_constant (value_new_int (xdim + (info->intercept?1:0))))),
+			       gnm_expr_new_constant (value_new_int (xdim + (rtool->intercept?1:0))))),
 			     GNM_EXPR_OP_MULT,
 			     gnm_expr_new_binary
 			     (gnm_expr_new_constant (value_new_int (1)),
@@ -3146,13 +3911,13 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		dao_set_cell_expr (dao, 1, 7,
 				   gnm_expr_new_funcall2 (fd_sum,
 							  make_cellref (0, 6),
-							  gnm_expr_new_constant (value_new_int (info->intercept?1:0))));
+							  gnm_expr_new_constant (value_new_int (rtool->intercept?1:0))));
 	else if (dao_cell_is_visible (dao, 1, 12))
 		dao_set_cell_expr (dao, 1, 7,
 				   gnm_expr_new_funcall3 (fd_sum,
 							  make_cellref (0, 4),
 							  make_cellref (0, 5),
-							  gnm_expr_new_constant (value_new_int (info->intercept?1:0))));
+							  gnm_expr_new_constant (value_new_int (rtool->intercept?1:0))));
 	else
 		dao_set_cell_expr (dao, 1, 7,
 				   gnm_expr_new_funcall3 (fd_sum,
@@ -3161,7 +3926,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 										 gnm_expr_copy (expr_linest),
 										 gnm_expr_new_constant (value_new_int (4)),
 										 gnm_expr_new_constant (value_new_int (2))),
-							  gnm_expr_new_constant (value_new_int (info->intercept?1:0))));
+							  gnm_expr_new_constant (value_new_int (rtool->intercept?1:0))));
 
 
 
@@ -3273,7 +4038,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 	/* Intercept */
 
-	if (!info->intercept) {
+	if (!rtool->intercept) {
 		dao_set_cell_int (dao, 1, 16, 0);
 		for (i = 2; i <= 6; i++)
 			dao_set_cell_na (dao, i, 16);
@@ -3301,10 +4066,10 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	dao->offset_row += 17;
 
 	for (i = 0; i < xdim; i++) {
-		if (!info->base.labels) {
+		if (!gtool->base.labels) {
 			GnmExpr const *expr_offset;
 
-			if (info->group_by == GROUPED_BY_ROW)
+			if (rtool->group_by == GROUPED_BY_ROW)
 				expr_offset = gnm_expr_new_funcall3
 					(fd_offset, gnm_expr_new_constant (value_dup (val_1)),
 					 gnm_expr_new_constant (value_new_int (i)),
@@ -3352,8 +4117,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	value_release (val_1_cp);
 	value_release (val_2_cp);
 
-	if (info->residual) {
-		gint n_obs = calculate_n_obs (val_1, info->group_by);
+	if (rtool->residual) {
+		gint n_obs = calculate_n_obs (val_1, rtool->group_by);
 		GnmExpr const *expr_diff;
 		GnmExpr const *expr_prediction;
 
@@ -3372,7 +4137,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 						       "/Externally studentized"
 						       "/p-Value"));
 		dao_set_cell_expr (dao, xdim + 2, 0, make_cellref (1 - xdim, - 18 - xdim));
-		if (info->group_by == GROUPED_BY_ROW) {
+		if (rtool->group_by == GROUPED_BY_ROW) {
 			dao_set_array_expr (dao, 1, 1, xdim, n_obs,
 					    gnm_expr_new_funcall1
 					    (fd_transpose,
@@ -3404,7 +4169,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		gnm_expr_free (expr_prediction);
 
 		if (dao_cell_is_visible (dao, xdim + 4, n_obs)) {
-			GnmExpr const *expr_X = dao_get_rangeref (dao, info->intercept ? 0 : 1, 1, xdim, n_obs);
+			GnmExpr const *expr_X = dao_get_rangeref (dao, rtool->intercept ? 0 : 1, 1, xdim, n_obs);
 			GnmExpr const *expr_diagonal =
 				gnm_expr_new_funcall1
 				(fd_leverage, expr_X);
@@ -3505,27 +4270,27 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 }
 
 static gboolean
-analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
-				     analysis_tools_data_regression_t *info)
+analysis_tool_regression_simple_engine_run (GnmRegressionTool *rtool, data_analysis_output_t *dao)
 {
-	GnmFunc *fd_linest  = analysis_tool_get_function ("LINEST", dao);
-	GnmFunc *fd_index   = analysis_tool_get_function ("INDEX", dao);
-	GnmFunc *fd_fdist   = analysis_tool_get_function ("FDIST", dao);
-	GnmFunc *fd_rows    = analysis_tool_get_function ("ROWS", dao);
-	GnmFunc *fd_columns = analysis_tool_get_function ("COLUMNS", dao);
+	GnmGenericBAnalysisTool *gtool = &rtool->parent;
+	GnmFunc *fd_linest  = gnm_func_get_and_use ("LINEST");
+	GnmFunc *fd_index   = gnm_func_get_and_use ("INDEX");
+	GnmFunc *fd_fdist   = gnm_func_get_and_use ("FDIST");
+	GnmFunc *fd_rows    = gnm_func_get_and_use ("ROWS");
+	GnmFunc *fd_columns = gnm_func_get_and_use ("COLUMNS");
 
 	GSList *inputdata;
 	guint row;
 
-	GnmValue *val_dep = value_dup (info->base.range_2);
+	GnmValue *val_dep = value_dup (gtool->base.range_2);
 	GnmExpr const *expr_intercept
-		= gnm_expr_new_constant (value_new_bool (info->intercept));
+		= gnm_expr_new_constant (value_new_bool (rtool->intercept));
 	GnmExpr const *expr_observ;
 	GnmExpr const *expr_val_dep;
 
 	dao_set_italic (dao, 0, 0, 4, 0);
 	dao_set_italic (dao, 0, 2, 5, 2);
-        set_cell_text_row (dao, 0, 0, info->multiple_y ?
+        set_cell_text_row (dao, 0, 0, rtool->multiple_y ?
 			   _("/SUMMARY OUTPUT"
 			     "/"
 			     "/Independent Variable"
@@ -3536,7 +4301,7 @@ analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
 			     "/Response Variable"
 			     "/"
 			     "/Observations"));
-        set_cell_text_row (dao, 0, 2, info->multiple_y ?
+        set_cell_text_row (dao, 0, 2, rtool->multiple_y ?
 			   _("/Response Variable"
 			     "/R^2"
 			     "/Slope"
@@ -3550,7 +4315,7 @@ analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
 			     "/F"
 			     "/Significance of F"));
 	analysis_tools_write_a_label (val_dep, dao,
-				      info->base.labels, info->group_by,
+				      gtool->base.labels, rtool->group_by,
 				      3, 0);
 
 	expr_val_dep = gnm_expr_new_constant (val_dep);
@@ -3559,16 +4324,16 @@ analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
 							   gnm_expr_new_funcall1 (fd_columns, gnm_expr_copy (expr_val_dep))));
 	expr_observ = dao_get_cellref (dao, 5, 0);
 
-	for (row = 3, inputdata = info->indep_vars; inputdata != NULL;
+	for (row = 3, inputdata = rtool->indep_vars; inputdata != NULL;
 	     inputdata = inputdata->next, row++) {
 		GnmValue *val_indep = value_dup (inputdata->data);
 		GnmExpr const *expr_linest;
 
 		dao_set_italic (dao, 0, row, 0, row);
 		analysis_tools_write_a_label (val_indep, dao,
-					      info->base.labels, info->group_by,
+					      gtool->base.labels, rtool->group_by,
 					      0, row);
-		expr_linest = info->multiple_y ?
+		expr_linest = rtool->multiple_y ?
 			gnm_expr_new_funcall4 (fd_linest,
 					       gnm_expr_new_constant (val_indep),
 					       gnm_expr_copy (expr_val_dep),
@@ -3616,65 +4381,7 @@ analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
 	return FALSE;
 }
 
-gboolean
-analysis_tool_regression_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			    analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_regression_t *info = specs;
 
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Regression (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-	{
-		gint xdim = calculate_xdim (info->base.range_1, info->group_by);
-		gint cols, rows;
-
-		if (info->multiple_regression) {
-			cols = 7;
-			rows = 17 + xdim;
-			info->indep_vars = NULL;
-			if (info->residual) {
-				gint residual_cols = xdim + 4;
-				GnmValue *val = info->base.range_1;
-
-				rows += 2 + calculate_n_obs (val, info->group_by);
-				residual_cols += 4;
-				if (cols < residual_cols)
-					cols = residual_cols;
-			}
-		} else {
-			info->indep_vars = g_slist_prepend (NULL, info->base.range_1);
-			info->base.range_1 = NULL;
-			prepare_input_range (&info->indep_vars, info->group_by);
-			cols = 6;
-			rows = 3 + xdim;
-		}
-		dao_adjust (dao, cols, rows);
-		return FALSE;
-	}
-	case TOOL_ENGINE_CLEAN_UP:
-		range_list_destroy (info->indep_vars);
-		info->indep_vars = NULL;
-		return analysis_tool_generic_b_clean (specs);
-
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Regression"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Regression"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		if (info->multiple_regression)
-			return analysis_tool_regression_engine_run (dao, specs);
-		else
-			return analysis_tool_regression_simple_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
 
 
 
@@ -3722,9 +4429,9 @@ analysis_tool_moving_average_weighted_av (GnmFunc *fd_sum, GnmFunc *fd_in, GnmEx
 }
 
 static gboolean
-analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
-					 analysis_tools_data_moving_average_t *info)
+analysis_tool_moving_average_engine_run (GnmMovingAverageTool *mtool, data_analysis_output_t *dao)
 {
+	GnmGenericAnalysisTool *gtool = &mtool->parent;
 	GnmFunc *fd_index = NULL;
 	GnmFunc *fd_average;
 	GnmFunc *fd_offset;
@@ -3737,27 +4444,21 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 	SheetObject *so = NULL;
 	GogPlot	     *plot = NULL;
 
-	if (info->base.labels || info->ma_type == moving_average_type_wma
-	    || info->ma_type== moving_average_type_spencer_ma) {
-		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-		gnm_func_inc_usage (fd_index);
+	if (gtool->base.labels || mtool->ma_type == moving_average_type_wma
+	    || mtool->ma_type== moving_average_type_spencer_ma) {
+		fd_index = gnm_func_get_and_use ("INDEX");
 	}
-	if (info->std_error_flag) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-		gnm_func_inc_usage (fd_sqrt);
-		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2");
-		gnm_func_inc_usage (fd_sumxmy2);
+	if (mtool->std_error_flag) {
+		fd_sqrt = gnm_func_get_and_use ("SQRT");
+		fd_sumxmy2 = gnm_func_get_and_use ("SUMXMY2");
 	}
-	if (moving_average_type_wma == info->ma_type || moving_average_type_spencer_ma == info->ma_type) {
-		fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-		gnm_func_inc_usage (fd_sum);
+	if (moving_average_type_wma == mtool->ma_type || moving_average_type_spencer_ma == mtool->ma_type) {
+		fd_sum = gnm_func_get_and_use ("SUM");
 	}
-	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_inc_usage (fd_average);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
-	gnm_func_inc_usage (fd_offset);
+	fd_average = gnm_func_get_and_use ("AVERAGE");
+	fd_offset = gnm_func_get_and_use ("OFFSET");
 
-	if (info->show_graph) {
+	if (mtool->show_graph) {
 		GogGraph     *graph;
 		GogChart     *chart;
 
@@ -3769,7 +4470,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		g_object_unref (graph);
 	}
 
-	for (l = info->base.input, source = 1; l; l = l->next, col++, source++) {
+	for (l = gtool->base.input, source = 1; l; l = l->next, col++, source++) {
 		GnmValue *val = value_dup ((GnmValue *)l->data);
 		GnmValue *val_c = NULL;
 		GnmExpr const *expr_title = NULL;
@@ -3788,9 +4489,9 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 
 		eval_pos_init_sheet (&ep, val->v_range.cell.a.sheet);
 
-		if (info->base.labels) {
+		if (gtool->base.labels) {
 			val_c = value_dup (val);
-			switch (info->base.group_by) {
+			switch (gtool->base.group_by) {
 			case GROUPED_BY_ROW:
 				val->v_range.cell.a.col++;
 				break;
@@ -3804,7 +4505,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			dao_set_italic (dao, col, 0, col, 0);
 			dao_set_cell_expr (dao, col, 0, expr_title);
 		} else {
-			switch (info->base.group_by) {
+			switch (gtool->base.group_by) {
 			case GROUPED_BY_ROW:
 				format = _("Row %d");
 				break;
@@ -3815,7 +4516,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			dao_set_cell_printf (dao, col, 0, format, source);
 		}
 
-		switch (info->base.group_by) {
+		switch (gtool->base.group_by) {
 		case GROUPED_BY_ROW:
 			height = value_area_get_width (val, &ep);
 			mover = &x;
@@ -3846,17 +4547,17 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 					    NULL);
 		}
 
-		switch (info->ma_type) {
+		switch (mtool->ma_type) {
 		case moving_average_type_central_sma:
 		{
 			GnmExpr const *expr_offset_last = NULL;
 			GnmExpr const *expr_offset = NULL;
-			*delta_mover = info->interval;
-			(*mover) = 1 - info->interval + info->offset;
+			*delta_mover = mtool->interval;
+			(*mover) = 1 - mtool->interval + mtool->offset;
 			for (row = 1; row <= height; row++, (*mover)++) {
 				expr_offset_last = expr_offset;
 				expr_offset = NULL;
-				if ((*mover >= 0) && (*mover < height - info->interval + 1)) {
+				if ((*mover >= 0) && (*mover < height - mtool->interval + 1)) {
 					expr_offset = gnm_expr_new_funcall1
 						(fd_average, analysis_tool_moving_average_funcall5
 						 (fd_offset,expr_input, y, x, delta_y, delta_x));
@@ -3875,7 +4576,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 					dao_set_cell_na (dao, col, row);
 				}
 			}
-			base = info->interval - info->offset;
+			base = mtool->interval - mtool->offset;
 		}
 		break;
 		case moving_average_type_cma:
@@ -3895,20 +4596,20 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		case moving_average_type_wma:
 		{
 			GnmExpr const *expr_divisor = gnm_expr_new_constant
-				(value_new_int ((info->interval * (info->interval + 1))/2));
-			int *w = g_new (int, (info->interval + 1));
+				(value_new_int ((mtool->interval * (mtool->interval + 1))/2));
+			int *w = g_new (int, (mtool->interval + 1));
 			int i;
 
-			for (i = 0; i < info->interval; i++)
+			for (i = 0; i < mtool->interval; i++)
 				w[i] = i+1;
-			w[info->interval] = 0;
+			w[mtool->interval] = 0;
 
 			delta_x = 0;
 			delta_y= 0;
 			(*delta_mover) = 1;
-			(*mover) = 1 - info->interval;
+			(*mover) = 1 - mtool->interval;
 			for (row = 1; row <= height; row++, (*mover)++) {
-				if ((*mover >= 0) && (*mover < height - info->interval + 1)) {
+				if ((*mover >= 0) && (*mover < height - mtool->interval + 1)) {
 					GnmExpr const *expr_sum;
 
 					expr_sum = analysis_tool_moving_average_weighted_av
@@ -3924,7 +4625,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			}
 			g_free (w);
 			gnm_expr_free (expr_divisor);
-			base =  info->interval - 1;
+			base =  mtool->interval - 1;
 			delta_x = 1;
 			delta_y= 1;
 		}
@@ -3938,9 +4639,9 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			delta_x = 0;
 			delta_y= 0;
 			(*delta_mover) = 1;
-			(*mover) = 1 - info->interval + info->offset;
+			(*mover) = 1 - mtool->interval + mtool->offset;
 			for (row = 1; row <= height; row++, (*mover)++) {
-				if ((*mover >= 0) && (*mover < height - info->interval + 1)) {
+				if ((*mover >= 0) && (*mover < height - mtool->interval + 1)) {
 					GnmExpr const *expr_sum;
 
 					expr_sum = analysis_tool_moving_average_weighted_av
@@ -3955,16 +4656,16 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 					dao_set_cell_na (dao, col, row);
 			}
 			gnm_expr_free (expr_divisor);
-			base =  info->interval - info->offset - 1;
+			base =  mtool->interval - mtool->offset - 1;
 			delta_x = 1;
 			delta_y= 1;
 		}
 		break;
 		default:
-			(*delta_mover) = info->interval;
-			(*mover) = 1 - info->interval + info->offset;
+			(*delta_mover) = mtool->interval;
+			(*mover) = 1 - mtool->interval + mtool->offset;
 			for (row = 1; row <= height; row++, (*mover)++) {
-				if ((*mover >= 0) && (*mover < height - info->interval + 1)) {
+				if ((*mover >= 0) && (*mover < height - mtool->interval + 1)) {
 					GnmExpr const *expr_offset;
 
 					expr_offset = analysis_tool_moving_average_funcall5
@@ -3974,21 +4675,21 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 				} else
 					dao_set_cell_na (dao, col, row);
 			}
-			base =  info->interval - info->offset - 1;
+			base =  mtool->interval - mtool->offset - 1;
 			break;
 		}
 
-		if (info->std_error_flag) {
+		if (mtool->std_error_flag) {
 			col++;
 			dao_set_italic (dao, col, 0, col, 0);
 			dao_set_cell (dao, col, 0, _("Standard Error"));
 
 			(*mover) = base;
 			for (row = 1; row <= height; row++) {
-				if (row > base && row <= height - info->offset && (row - base - info->df) > 0) {
+				if (row > base && row <= height - mtool->offset && (row - base - mtool->df) > 0) {
 					GnmExpr const *expr_offset;
 
-					if (info->base.group_by == GROUPED_BY_ROW)
+					if (gtool->base.group_by == GROUPED_BY_ROW)
 						delta_x = row - base;
 					else
 						delta_y = row - base;
@@ -4005,7 +4706,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 							      make_rangeref (-1, - row + base + 1, -1, 0)),
 							     GNM_EXPR_OP_DIV,
 							     gnm_expr_new_constant (value_new_int
-										    (row - base - info->df)))));
+										    (row - base - mtool->df)))));
 				} else
 					dao_set_cell_na (dao, col, row);
 			}
@@ -4034,37 +4735,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 }
 
 
-gboolean
-analysis_tool_moving_average_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			      analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_moving_average_t *info = specs;
 
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Moving Average (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->base.input, info->base.group_by);
-		dao_adjust (dao, (info->std_error_flag ? 2 : 1) *
-			    g_slist_length (info->base.input),
-			    1 + analysis_tool_calc_length (specs));
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Moving Average"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Moving Average"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_moving_average_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
 
 
 /************* Rank and Percentile Tool ************************************
@@ -4075,10 +4746,10 @@ analysis_tool_moving_average_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analy
  **/
 
 static gboolean
-analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_ranking_t *info)
+analysis_tool_ranking_engine_run (GnmRankingTool *rtool, data_analysis_output_t *dao)
 {
-	GSList *data = info->base.input;
+	GnmGenericAnalysisTool *gtool = &rtool->parent;
+	GSList *data = gtool->base.input;
 	int col = 0;
 
 	GnmFunc *fd_large;
@@ -4087,16 +4758,11 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_match;
 	GnmFunc *fd_percentrank;
 
-	fd_large = gnm_func_lookup_or_add_placeholder ("LARGE");
-	gnm_func_inc_usage (fd_large);
-	fd_row = gnm_func_lookup_or_add_placeholder ("ROW");
-	gnm_func_inc_usage (fd_row);
-	fd_rank = gnm_func_lookup_or_add_placeholder ("RANK");
-	gnm_func_inc_usage (fd_rank);
-	fd_match = gnm_func_lookup_or_add_placeholder ("MATCH");
-	gnm_func_inc_usage (fd_match);
-	fd_percentrank = gnm_func_lookup_or_add_placeholder ("PERCENTRANK");
-	gnm_func_inc_usage (fd_percentrank);
+	fd_large = gnm_func_get_and_use ("LARGE");
+	fd_row = gnm_func_get_and_use ("ROW");
+	fd_rank = gnm_func_get_and_use ("RANK");
+	fd_match = gnm_func_get_and_use ("MATCH");
+	fd_percentrank = gnm_func_get_and_use ("PERCENTRANK");
 
 	dao_set_merge (dao, 0, 0, 1, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
@@ -4114,7 +4780,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 		dao_set_cell (dao, 0, 1, _("Point"));
 		dao_set_cell (dao, 2, 1, _("Rank"));
 		dao_set_cell (dao, 3, 1, _("Percentile Rank"));
-		analysis_tools_write_label (val_org, dao, &info->base, 1, 1, col + 1);
+		analysis_tools_write_label (gtool, val_org, dao, 1, 1, col + 1);
 
 		rows = (val_org->v_range.cell.b.row - val_org->v_range.cell.a.row + 1) *
 			(val_org->v_range.cell.b.col - val_org->v_range.cell.a.col + 1);
@@ -4140,13 +4806,12 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 		expr_rank = gnm_expr_new_funcall2 (fd_rank,
 						   make_cellref (-1,0),
 						   gnm_expr_new_constant (value_dup (val_org)));
-		if (info->av_ties) {
+		if (rtool->av_ties) {
 			GnmExpr const *expr_rank_lower;
 			GnmExpr const *expr_rows_p_one;
 			GnmExpr const *expr_rows;
 			GnmFunc *fd_count;
-			fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-			gnm_func_inc_usage (fd_count);
+			fd_count = gnm_func_get_and_use ("COUNT");
 
 			expr_rows = gnm_expr_new_funcall1
 				(fd_count, gnm_expr_new_constant (value_dup (val_org)));
@@ -4197,36 +4862,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 	return FALSE;
 }
 
-gboolean
-analysis_tool_ranking_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			      analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_ranking_t *info = specs;
 
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Ranks (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->base.input, info->base.group_by);
-		dao_adjust (dao, 4 * g_slist_length (info->base.input),
-			    2 + analysis_tool_calc_length (specs));
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Ranks"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Ranks"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_ranking_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
 
 
 
@@ -4239,10 +4875,10 @@ analysis_tool_ranking_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_out
  **/
 
 static gboolean
-analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer specs)
+analysis_tool_anova_single_engine_run (GnmAnovaSingleTool *atool, data_analysis_output_t *dao)
 {
-	analysis_tools_data_anova_single_t *info = specs;
-	GSList *inputdata = info->base.input;
+	GnmGenericAnalysisTool *gtool = &atool->parent;
+	GSList *inputdata = gtool->base.input;
 	GnmFunc *fd_sum;
 	GnmFunc *fd_count;
 	GnmFunc *fd_mean;
@@ -4262,16 +4898,11 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 					"/Average"
 					"/Variance"));
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_inc_usage (fd_mean);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
-	gnm_func_inc_usage (fd_var);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_inc_usage (fd_sum);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_inc_usage (fd_count);
-	fd_devsq = gnm_func_lookup_or_add_placeholder ("DEVSQ");
-	gnm_func_inc_usage (fd_devsq);
+	fd_mean = gnm_func_get_and_use ("AVERAGE");
+	fd_var = gnm_func_get_and_use ("VAR");
+	fd_sum = gnm_func_get_and_use ("SUM");
+	fd_count = gnm_func_get_and_use ("COUNT");
+	fd_devsq = gnm_func_get_and_use ("DEVSQ");
 
 	dao->offset_row += 4;
 	if (dao->rows <= dao->offset_row)
@@ -4285,8 +4916,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 
 		/* Label */
 		dao_set_italic (dao, 0, index, 0, index);
-		analysis_tools_write_label (val_org, dao, &info->base,
-					    0, index, index + 1);
+		analysis_tools_write_label (gtool, val_org, dao, 0, index, index + 1);
 
 		/* Count */
 		dao_set_cell_expr
@@ -4348,15 +4978,15 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 		GnmExpr const *expr_ss_total = NULL;
 		GnmExpr const *expr_ss_within = NULL;
 
-		for (inputdata = info->base.input; inputdata != NULL;
+		for (inputdata = gtool->base.input; inputdata != NULL;
 		     inputdata = inputdata->next) {
 			GnmValue *val_org = value_dup (inputdata->data);
 			GnmExpr const *expr_one;
 			GnmExpr const *expr_count_one;
 
 			analysis_tools_remove_label (val_org,
-						     info->base.labels,
-						     info->base.group_by);
+						     gtool->base.labels,
+						     gtool->base.group_by);
 			expr_one = gnm_expr_new_constant (value_dup (val_org));
 
 			arg_ss_total =  gnm_expr_list_append
@@ -4417,7 +5047,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 		{
 			/* Between groups degrees of freedom */
 			dao_set_cell_int (dao, 2, 2,
-					  g_slist_length (info->base.input) - 1);
+					  g_slist_length (gtool->base.input) - 1);
 		}
 		{
 			/* Within groups degrees of freedom */
@@ -4480,8 +5110,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 				arg3 = gnm_expr_copy (expr_wdof);
 			}
 
-			fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST");
-			gnm_func_inc_usage (fd_fdist);
+			fd_fdist = gnm_func_get_and_use ("FDIST");
 
 			dao_set_cell_expr
 				(dao, 5, 2,
@@ -4502,15 +5131,14 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 			} else
 				arg3 = expr_wdof;
 
-			fd_finv = gnm_func_lookup_or_add_placeholder ("FINV");
-			gnm_func_inc_usage (fd_finv);
+			fd_finv = gnm_func_get_and_use ("FINV");
 
 			dao_set_cell_expr
 				(dao, 6, 2,
 				 gnm_expr_new_funcall3
 				 (fd_finv,
 				  gnm_expr_new_constant
-				  (value_new_float (info->alpha)),
+				  (value_new_float (atool->alpha)),
 				  make_cellref (-4, 0),
 				  arg3));
 			gnm_func_dec_usage (fd_finv);
@@ -4534,35 +5162,7 @@ finish_anova_single_factor_tool:
 
 
 
-gboolean
-analysis_tool_anova_single_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-				   analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_anova_single_t *info = specs;
 
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Single Factor ANOVA (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->base.input, info->base.group_by);
-		dao_adjust (dao, 7, 11 + g_slist_length (info->base.input));
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Anova"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Single Factor ANOVA"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_anova_single_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
 
 
 /************* Fourier Analysis Tool **************************************
@@ -4575,20 +5175,19 @@ analysis_tool_anova_single_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysi
 
 
 static gboolean
-analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
-				  analysis_tools_data_fourier_t *info)
+analysis_tool_fourier_engine_run (GnmFourierTool *ftool, data_analysis_output_t *dao)
 {
-	GSList *data = info->base.input;
+	GnmGenericAnalysisTool *gtool = &ftool->parent;
+	GSList *data = gtool->base.input;
 	int col = 0;
 
 	GnmFunc *fd_fourier;
 
-	fd_fourier = gnm_func_lookup_or_add_placeholder ("FOURIER");
-	gnm_func_inc_usage (fd_fourier);
+	fd_fourier = gnm_func_get_and_use ("FOURIER");
 
 	dao_set_merge (dao, 0, 0, 1, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
-	dao_set_cell (dao, 0, 0, info->inverse ? _("Inverse Fourier Transform")
+	dao_set_cell (dao, 0, 0, ftool->inverse ? _("Inverse Fourier Transform")
 		      : _("Fourier Transform"));
 
 	for (; data; data = data->next, col++) {
@@ -4600,7 +5199,7 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 		set_cell_text_row (dao, 0, 2, _("/Real"
 						"/Imaginary"));
 		dao_set_merge (dao, 0, 1, 1, 1);
-		analysis_tools_write_label (val_org, dao, &info->base, 0, 1, col + 1);
+		analysis_tools_write_label (gtool, val_org, dao, 0, 1, col + 1);
 
 		n = (val_org->v_range.cell.b.row - val_org->v_range.cell.a.row + 1) *
 			(val_org->v_range.cell.b.col - val_org->v_range.cell.a.col + 1);
@@ -4611,7 +5210,7 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 		expr_fourier = gnm_expr_new_funcall3
 			(fd_fourier,
 			 gnm_expr_new_constant (val_org),
-			 gnm_expr_new_constant (value_new_bool (info->inverse)),
+			 gnm_expr_new_constant (value_new_bool (ftool->inverse)),
 			 gnm_expr_new_constant (value_new_bool (TRUE)));
 
 		dao_set_array_expr (dao, 0, 3, 2, rows, expr_fourier);
@@ -4624,46 +5223,4 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 	dao_redraw_respan (dao);
 
 	return FALSE;
-}
-
-static int
-analysis_tool_fourier_calc_length (analysis_tools_data_fourier_t *info)
-{
-	int m = 1, n = analysis_tool_calc_length (&info->base);
-
-	while (m < n)
-		m *= 2;
-	return m;
-}
-
-
-gboolean
-analysis_tool_fourier_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			      analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_fourier_t *info = specs;
-
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Fourier Series (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->base.input, info->base.group_by);
-		dao_adjust (dao, 2 * g_slist_length (info->base.input),
-			    3 + analysis_tool_fourier_calc_length (specs));
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Fourier Series"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Fourier Series"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_fourier_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
 }

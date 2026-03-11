@@ -316,8 +316,7 @@ tools_HEADERS = \
 	tools/random-generator.h		\
 	tools/scenarios.h			\
 	tools/simulation.h			\
-	tools/tabulate.h			\
-	tools/tools.h
+	tools/tabulate.h
 
 noinst_HEADERS = dead-kittens.h compilation.h gnm-i18n.h \
 	$(dialogs_headers)

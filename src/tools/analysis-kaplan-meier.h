@@ -27,21 +27,15 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 #include <tools/analysis-tools.h>
 
-/* typedef struct { */
-/*	analysis_tools_error_code_t err; */
-/*	WorkbookControl *wbc; */
-/*	GnmValue *range_1; */
-/*	GnmValue *range_2; */
-/*	gboolean   labels; */
-/*	gnm_float alpha; */
-/* } analysis_tools_data_generic_b_t; */
+#define GNM_TYPE_KAPLAN_MEIER_TOOL (gnm_kaplan_meier_tool_get_type ())
+GType gnm_kaplan_meier_tool_get_type (void);
+typedef struct _GnmKaplanMeierTool GnmKaplanMeierTool;
+typedef struct _GnmKaplanMeierToolClass GnmKaplanMeierToolClass;
 
-typedef struct {
-	analysis_tools_data_generic_b_t base;
+struct _GnmKaplanMeierTool {
+	GnmGenericBAnalysisTool parent;
 	GnmValue *range_3;
 	gboolean censored;
 	int censor_mark;
@@ -52,18 +46,21 @@ typedef struct {
 	gboolean median;
 	gboolean logrank_test;
 	GSList *group_list;
-} analysis_tools_data_kaplan_meier_t;
+};
+
+struct _GnmKaplanMeierToolClass {
+	GnmGenericBAnalysisToolClass parent_class;
+};
+
+#define GNM_KAPLAN_MEIER_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_KAPLAN_MEIER_TOOL, GnmKaplanMeierTool))
+#define GNM_IS_KAPLAN_MEIER_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_KAPLAN_MEIER_TOOL))
+
+GnmAnalysisTool *gnm_kaplan_meier_tool_new (void);
 
 typedef struct {
 	char *name;
 	guint group_from;
 	guint group_to;
 } analysis_tools_kaplan_meier_group_t;
-
-
-gboolean analysis_tool_kaplan_meier_engine (GOCmdContext *gcc, data_analysis_output_t *dao,
-					    gpointer specs,
-					   analysis_tool_engine_t selector,
-					    gpointer result);
 
 #endif

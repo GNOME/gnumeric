@@ -35,6 +35,7 @@
 #include <gnm-random.h>
 #include <tools/data-shuffling.h>
 #include <expr.h>
+#include <tools/dao.h>
 
 
 typedef struct {

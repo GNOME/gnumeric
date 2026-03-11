@@ -37,16 +37,105 @@
 #include <goffice/goffice.h>
 #include <sheet.h>
 
-static gboolean
-analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
-				    analysis_tools_data_kaplan_meier_t *info)
+static gboolean analysis_tool_kaplan_meier_engine_run (GnmKaplanMeierTool *ktool, data_analysis_output_t *dao);
+
+G_DEFINE_TYPE (GnmKaplanMeierTool, gnm_kaplan_meier_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+static void
+gnm_kaplan_meier_tool_init (GnmKaplanMeierTool *tool)
 {
+	tool->range_3 = NULL;
+	tool->group_list = NULL;
+}
+
+static void
+cb_free_group (analysis_tools_kaplan_meier_group_t *group)
+{
+	g_free (group->name);
+	g_free (group);
+}
+
+static void
+gnm_kaplan_meier_tool_finalize (GObject *obj)
+{
+	GnmKaplanMeierTool *ktool = GNM_KAPLAN_MEIER_TOOL (obj);
+	if (ktool->range_3)
+		value_release (ktool->range_3);
+	g_slist_free_full (ktool->group_list, (GDestroyNotify)cb_free_group);
+	G_OBJECT_CLASS (gnm_kaplan_meier_tool_parent_class)->finalize (obj);
+}
+
+static gboolean
+gnm_kaplan_meier_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmKaplanMeierTool *ktool = GNM_KAPLAN_MEIER_TOOL (tool);
+	GnmGenericBAnalysisTool *gtool = &ktool->parent;
+	int repetitions = ((ktool->group_list == NULL) ? 1
+			   : g_slist_length (ktool->group_list));
+	int colspan = ((ktool->std_err ? 4 : 3) + (ktool->censored ? 1 : 0));
+	int rows =  gtool->base.range_1->v_range.cell.b.row
+		- gtool->base.range_1->v_range.cell.a.row + 1;
+
+	dao_adjust (dao, colspan + 1, repetitions * (rows + 5) + 10);
+	return FALSE;
+}
+
+static char *
+gnm_kaplan_meier_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Kaplan-Meier Estimates (%s)"));
+}
+
+static gboolean
+gnm_kaplan_meier_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Kaplan-Meier Estimates"));
+	return FALSE;
+}
+
+static gboolean
+gnm_kaplan_meier_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Kaplan-Meier Estimates"));
+}
+
+static gboolean
+gnm_kaplan_meier_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmKaplanMeierTool *ktool = GNM_KAPLAN_MEIER_TOOL (tool);
+	return analysis_tool_kaplan_meier_engine_run (ktool, dao);
+}
+
+static void
+gnm_kaplan_meier_tool_class_init (GnmKaplanMeierToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->finalize = gnm_kaplan_meier_tool_finalize;
+	at_class->update_dao = gnm_kaplan_meier_tool_update_dao;
+	at_class->update_descriptor = gnm_kaplan_meier_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_kaplan_meier_tool_prepare_output_range;
+	at_class->format_output_range = gnm_kaplan_meier_tool_format_output_range;
+	at_class->perform_calc = gnm_kaplan_meier_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_kaplan_meier_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_KAPLAN_MEIER_TOOL, NULL);
+}
+
+static gboolean
+analysis_tool_kaplan_meier_engine_run (GnmKaplanMeierTool *ktool, data_analysis_output_t *dao)
+{
+	GnmGenericBAnalysisTool *gtool = &ktool->parent;
 	int rows, row;
-	int std_err_col = info->censored ? 4 : 3;
-	int prob_col = info->censored ? 3 : 2;
-	int repetitions = ((info->group_list == NULL) ? 1
-			   : g_slist_length (info->group_list));
-	int colspan = ((info->std_err ? 4 : 3) + (info->censored ? 1 : 0));
+	int std_err_col = ktool->censored ? 4 : 3;
+	int prob_col = ktool->censored ? 3 : 2;
+	int repetitions = ((ktool->group_list == NULL) ? 1
+			   : g_slist_length (ktool->group_list));
+	int colspan = ((ktool->std_err ? 4 : 3) + (ktool->censored ? 1 : 0));
 	int i;
 	int logrank_test_y_offset = 0;
 
@@ -73,34 +162,28 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	SheetObject  *so;
 	GOData       *times = NULL;
 
-	GSList *gl = info->group_list;
+	GSList *gl = ktool->group_list;
 
-	fd_small = gnm_func_lookup_or_add_placeholder ("SMALL");
-	gnm_func_inc_usage (fd_small);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_inc_usage (fd_if);
-	fd_iserror = gnm_func_lookup_or_add_placeholder ("ISERROR");
-	gnm_func_inc_usage (fd_iserror);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_inc_usage (fd_sum);
+	fd_small = gnm_func_get_and_use ("SMALL");
+	fd_if = gnm_func_get_and_use ("IF");
+	fd_iserror = gnm_func_get_and_use ("ISERROR");
+	fd_sum = gnm_func_get_and_use ("SUM");
 
-	if (info->std_err) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-		gnm_func_inc_usage (fd_sqrt);
+	if (ktool->std_err) {
+		fd_sqrt = gnm_func_get_and_use ("SQRT");
 	}
-	if (info->median) {
-		fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
-		gnm_func_inc_usage (fd_min);
+	if (ktool->median) {
+		fd_min = gnm_func_get_and_use ("MIN");
 	}
 
-	rows =  info->base.range_1->v_range.cell.b.row
-		- info->base.range_1->v_range.cell.a.row + 1;
+	rows =  gtool->base.range_1->v_range.cell.b.row
+		- gtool->base.range_1->v_range.cell.a.row + 1;
 
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell (dao, 0, 0, _("Kaplan-Meier"));
 
 
-	if (info->chart) {
+	if (ktool->chart) {
 		GogChart     *chart;
 
 		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
@@ -120,10 +203,10 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	dao_set_italic (dao, 0, 1, 0, 1);
 	dao_set_cell (dao, 0, 1, _("Time"));
 
-	expr_data = gnm_expr_new_constant (value_dup (info->base.range_1));
+	expr_data = gnm_expr_new_constant (value_dup (gtool->base.range_1));
 
-	if (info->group_list != NULL && info->range_3 != NULL)
-		expr_group_data = gnm_expr_new_constant (value_dup (info->range_3));
+	if (ktool->group_list != NULL && ktool->range_3 != NULL)
+		expr_group_data = gnm_expr_new_constant (value_dup (ktool->range_3));
 
 	expr_small = gnm_expr_new_funcall2 (fd_small,
 					    gnm_expr_new_funcall3
@@ -196,7 +279,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 			expr_group = gnm_expr_new_constant (value_new_int (1));
 
 		dao_set_italic (dao, 0, 1, prob_col, 1);
-		if (info->censored)
+		if (ktool->censored)
 			set_cell_text_row (dao, 0, 1,
 					   _("/At Risk"
 					     "/Deaths"
@@ -207,7 +290,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					   _("/At Risk"
 					     "/Deaths"
 					     "/Probability"));
-		if (info->std_err) {
+		if (ktool->std_err) {
 			dao_set_italic (dao, std_err_col, 1, std_err_col, 1);
 			dao_set_cell (dao, std_err_col, 1, _("Standard Error"));
 		}
@@ -231,16 +314,16 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 						GNM_EXPR_OP_MULT,
 						gnm_expr_copy (expr_group))));
 
-		if (info->censored) {
+		if (ktool->censored) {
 			GnmExpr const *expr_censor;
 
-			if (info->censor_mark == info->censor_mark_to)
+			if (ktool->censor_mark == ktool->censor_mark_to)
 				expr_censor = gnm_expr_new_funcall3
 					(fd_if,
 					 gnm_expr_new_binary
-					 (gnm_expr_new_constant (value_dup (info->base.range_2)),
+					 (gnm_expr_new_constant (value_dup (gtool->base.range_2)),
 					  GNM_EXPR_OP_EQUAL,
-					  gnm_expr_new_constant (value_new_int (info->censor_mark))),
+					  gnm_expr_new_constant (value_new_int (ktool->censor_mark))),
 					 gnm_expr_new_constant (value_new_int (1)),
 					 gnm_expr_new_constant (value_new_int (0)));
 			else
@@ -248,18 +331,18 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					(gnm_expr_new_funcall3
 					 (fd_if,
 					  gnm_expr_new_binary
-					  (gnm_expr_new_constant (value_dup (info->base.range_2)),
+					  (gnm_expr_new_constant (value_dup (gtool->base.range_2)),
 					   GNM_EXPR_OP_GTE,
-					   gnm_expr_new_constant (value_new_int (info->censor_mark))),
+					   gnm_expr_new_constant (value_new_int (ktool->censor_mark))),
 					  gnm_expr_new_constant (value_new_int (1)),
 					  gnm_expr_new_constant (value_new_int (0))),
 					 GNM_EXPR_OP_MULT,
 					 gnm_expr_new_funcall3
 					 (fd_if,
 					  gnm_expr_new_binary
-					  (gnm_expr_new_constant (value_dup (info->base.range_2)),
+					  (gnm_expr_new_constant (value_dup (gtool->base.range_2)),
 					   GNM_EXPR_OP_LTE,
-					   gnm_expr_new_constant (value_new_int (info->censor_mark_to))),
+					   gnm_expr_new_constant (value_new_int (ktool->censor_mark_to))),
 					  gnm_expr_new_constant (value_new_int (1)),
 					  gnm_expr_new_constant (value_new_int (0))));
 
@@ -344,7 +427,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 									GNM_EXPR_OP_MULT,
 									make_cellref (0, -1)));
 
-		if (info->std_err) {
+		if (ktool->std_err) {
 			expr_std_err = gnm_expr_new_funcall3 (fd_if,
 							      gnm_expr_new_binary
 							      (make_cellref (-1, 0),
@@ -384,7 +467,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 			if (expr_censures != NULL)
 				dao_set_cell_array_expr (dao, 2, 2+row, gnm_expr_copy (expr_censures));
 			dao_set_cell_array_expr (dao, prob_col, 2+row, gnm_expr_copy (expr_prob));
-			if (info->std_err)
+			if (ktool->std_err)
 				dao_set_cell_expr (dao, std_err_col, 2+row, gnm_expr_copy (expr_std_err));
 		}
 
@@ -401,7 +484,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		}
 
 		/* Create Chart if requested */
-		if (info->chart) {
+		if (ktool->chart) {
 			GogSeries    *series;
 			GOData *probabilities;
 			GOStyle  *style;
@@ -418,7 +501,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 			go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 			go_styled_object_set_style (GO_STYLED_OBJECT (series), style);
 
-			if (info->censored && info->ticks) {
+			if (ktool->censored && ktool->ticks) {
 				GOData *censures;
 				GnmExpr const *expr;
 
@@ -454,7 +537,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	}
 	/* End of Loop */
 
-	if (info->chart) {
+	if (ktool->chart) {
 		so = sheet_object_graph_new (graph);
 		g_object_unref (graph);
 		g_object_unref (times);
@@ -462,12 +545,12 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		dao_set_sheet_object (dao, 0, 1, so);
 	}
 
-	if (info->median) {
+	if (ktool->median) {
 		dao_set_italic (dao, 1, 1, 1, 1);
 		dao_set_cell (dao, 1, 1, _("Median"));
 
 		dao->offset_col += 2;
-		gl = info->group_list;
+		gl = ktool->group_list;
 
 		for (i = 0; i < repetitions; i++) {
 			/* the next involves (colspan-1) since the median field moves to the right. */
@@ -515,15 +598,14 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		dao->offset_col -= (2 + repetitions);
 	}
 
-	if (info->logrank_test) {
+	if (ktool->logrank_test) {
 		GnmFunc *fd_chidist;
 		GnmExpr const *expr_statistic = gnm_expr_new_constant (value_new_int (0));
 		GnmExpr const *expr_p;
 		GnmExpr const *expr_n_total = gnm_expr_new_constant (value_new_int (0));
 		GnmExpr const *expr_death_total = gnm_expr_new_constant (value_new_int (0));
 
-		fd_chidist = gnm_func_lookup_or_add_placeholder ("CHIDIST");
-		gnm_func_inc_usage (fd_chidist);
+		fd_chidist = gnm_func_get_and_use ("CHIDIST");
 
 		dao_set_italic (dao, 1, logrank_test_y_offset, 1, logrank_test_y_offset+3);
 		set_cell_text_col (dao, 1, logrank_test_y_offset,
@@ -629,72 +711,3 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 
 	return FALSE;
 }
-
-static void
-analysis_tool_kaplan_meier_clear_gl_cb (gpointer data, G_GNUC_UNUSED gpointer user_data)
-{
-	analysis_tools_kaplan_meier_group_t *group = data;
-
-	g_return_if_fail (data != NULL);
-
-	g_free (group->name);
-	g_free (group);
-}
-
-/**
- * analysis_tool_kaplan_meier_engine:
- * @gcc: #GOCmdContext
- * @dao: #data_analysis_output_t
- * @specs: #gpointer
- * @selector: #analysis_tool_engine_t
- * @result: #gpointer
- *
- * Returns: %TRUE if there is an error.
- **/
-gboolean
-analysis_tool_kaplan_meier_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			      analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_kaplan_meier_t *info = specs;
-	int multiple;
-	int median;
-
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao,
-						_("Kaplan-Meier (%s)"),
-						result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		multiple = ((info->group_list == NULL) ? 1 :  g_slist_length (info->group_list));
-		median   = (info->median ? (2 + multiple) : 0);
-		if (median == 0 && info->logrank_test)
-			median = 3;
-		dao_adjust (dao, median + 1 + multiple * ((info->std_err ? 4 : 3) + (info->censored ? 1 : 0)),
-			    info->base.range_1->v_range.cell.b.row
-			    - info->base.range_1->v_range.cell.a.row + 3);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		value_release (info->range_3);
-		info->range_3 = NULL;
-		g_slist_foreach (info->group_list, analysis_tool_kaplan_meier_clear_gl_cb, NULL);
-		g_slist_free (info->group_list);
-		info->group_list = NULL;
-		return analysis_tool_generic_b_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Kaplan-Meier Estimates"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Kaplan-Meier Estimates"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_kaplan_meier_engine_run (dao, specs);
-	}
-	return TRUE;
-}
-
-
-
-

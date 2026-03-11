@@ -38,6 +38,90 @@
 #include <goffice/goffice.h>
 #include <sheet.h>
 
+static gboolean analysis_tool_exponential_smoothing_engine_ses_h_run (GnmExpSmoothingTool *etool, data_analysis_output_t *dao);
+static gboolean analysis_tool_exponential_smoothing_engine_ses_r_run (GnmExpSmoothingTool *etool, data_analysis_output_t *dao);
+static gboolean analysis_tool_exponential_smoothing_engine_des_run (GnmExpSmoothingTool *etool, data_analysis_output_t *dao);
+static gboolean analysis_tool_exponential_smoothing_engine_ates_run (GnmExpSmoothingTool *etool, data_analysis_output_t *dao);
+static gboolean analysis_tool_exponential_smoothing_engine_mtes_run (GnmExpSmoothingTool *etool, data_analysis_output_t *dao);
+
+G_DEFINE_TYPE (GnmExpSmoothingTool, gnm_exp_smoothing_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_exp_smoothing_tool_init (GnmExpSmoothingTool *tool)
+{
+}
+
+static gboolean
+gnm_exp_smoothing_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmExpSmoothingTool *etool = GNM_EXP_SMOOTHING_TOOL (tool);
+	GnmGenericAnalysisTool *gtool = &etool->parent;
+	int n = 0, m;
+
+	analysis_tool_prepare_input_range (gtool);
+	n = 1;
+	m = 3 + analysis_tool_calc_length (gtool);
+	if (etool->std_error_flag)
+		n++;
+	dao_adjust (dao, n * g_slist_length (gtool->base.input), m);
+	return FALSE;
+}
+
+static char *
+gnm_exp_smoothing_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Exponential Smoothing (%s)"));
+}
+
+static gboolean
+gnm_exp_smoothing_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Exponential Smoothing"));
+	return FALSE;
+}
+
+static gboolean
+gnm_exp_smoothing_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Exponential Smoothing"));
+}
+
+static gboolean
+gnm_exp_smoothing_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmExpSmoothingTool *etool = GNM_EXP_SMOOTHING_TOOL (tool);
+	switch (etool->es_type) {
+	case exp_smoothing_type_mtes:
+		return analysis_tool_exponential_smoothing_engine_mtes_run (etool, dao);
+	case exp_smoothing_type_ates:
+		return analysis_tool_exponential_smoothing_engine_ates_run (etool, dao);
+	case exp_smoothing_type_des:
+		return analysis_tool_exponential_smoothing_engine_des_run (etool, dao);
+	case exp_smoothing_type_ses_r:
+		return analysis_tool_exponential_smoothing_engine_ses_r_run (etool, dao);
+	case exp_smoothing_type_ses_h:
+	default:
+		return analysis_tool_exponential_smoothing_engine_ses_h_run (etool, dao);
+	}
+}
+
+static void
+gnm_exp_smoothing_tool_class_init (GnmExpSmoothingToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_exp_smoothing_tool_update_dao;
+	at_class->update_descriptor = gnm_exp_smoothing_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_exp_smoothing_tool_prepare_output_range;
+	at_class->format_output_range = gnm_exp_smoothing_tool_format_output_range;
+	at_class->perform_calc = gnm_exp_smoothing_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_exp_smoothing_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_EXP_SMOOTHING_TOOL, NULL);
+}
 
 static GnmExpr const *
 analysis_tool_exp_smoothing_funcall5 (GnmFunc *fd, GnmExpr const *ex, int y, int x, int dy, int dx)
@@ -78,9 +162,9 @@ attach_series (GogPlot *plot, GOData *expr)
 }
 
 static gboolean
-analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *dao,
-						analysis_tools_data_exponential_smoothing_t *info)
+analysis_tool_exponential_smoothing_engine_ses_h_run (GnmExpSmoothingTool *etool, data_analysis_output_t *dao)
 {
+	GnmGenericAnalysisTool *gtool = &etool->parent;
 	GSList *l;
 	gint col = 0;
 	gint source;
@@ -92,30 +176,26 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 	GnmFunc *fd_sumxmy2 = NULL;
 	GnmExpr const *expr_alpha = NULL;
 
-	if (info->std_error_flag) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-		gnm_func_inc_usage (fd_sqrt);
-		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2");
-		gnm_func_inc_usage (fd_sumxmy2);
+	if (etool->std_error_flag) {
+		fd_sqrt = gnm_func_get_and_use ("SQRT");
+		fd_sumxmy2 = gnm_func_get_and_use ("SUMXMY2");
 	}
 
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-	gnm_func_inc_usage (fd_index);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
-	gnm_func_inc_usage (fd_offset);
+	fd_index = gnm_func_get_and_use ("INDEX");
+	fd_offset = gnm_func_get_and_use ("OFFSET");
 
-	if (info->show_graph)
+	if (etool->show_graph)
 		create_line_plot (&plot, &so);
 
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell (dao, 0, 0, _("Exponential Smoothing"));
 	dao_set_format  (dao, 0, 1, 0, 1, _("\"\xce\xb1 =\" * 0.000"));
-	dao_set_cell_expr (dao, 0, 1, gnm_expr_new_constant (value_new_float (info->damp_fact)));
+	dao_set_cell_expr (dao, 0, 1, gnm_expr_new_constant (value_new_float (etool->damp_fact)));
 	expr_alpha = dao_get_cellref (dao, 0, 1);
 
 	dao->offset_row = 2;
 
-	for (l = info->base.input, source = 1; l; l = l->next, col++, source++) {
+	for (l = gtool->base.input, source = 1; l; l = l->next, col++, source++) {
 		GnmValue *val = value_dup ((GnmValue *)l->data);
 		GnmValue *val_c = NULL;
 		GnmExpr const *expr_title = NULL;
@@ -134,9 +214,9 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 		eval_pos_init_sheet (&ep, sheet);
 
 		dao_set_italic (dao, col, 0, col, 0);
-		if (info->base.labels) {
+		if (gtool->base.labels) {
 			val_c = value_dup (val);
-			switch (info->base.group_by) {
+			switch (gtool->base.group_by) {
 			case GROUPED_BY_ROW:
 				val->v_range.cell.a.col++;
 				break;
@@ -151,11 +231,11 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 		} else
 			dao_set_cell_printf
 				(dao, col, 0,
-				 (info->base.group_by == GROUPED_BY_ROW ?
+				 (gtool->base.group_by == GROUPED_BY_ROW ?
 				  _("Row %d") : _("Column %d")),
 				 source);
 
-		switch (info->base.group_by) {
+		switch (gtool->base.group_by) {
 		case GROUPED_BY_ROW:
 			height = value_area_get_width (val, &ep);
 			mover = &x;
@@ -200,7 +280,7 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 			dao_set_cell_expr (dao, col, row, gnm_expr_new_binary (A, GNM_EXPR_OP_ADD, F));
 		}
 
-		if (info->std_error_flag) {
+		if (etool->std_error_flag) {
 			col++;
 			dao_set_italic (dao, col, 0, col, 0);
 			dao_set_cell (dao, col, 0, _("Standard Error"));
@@ -209,10 +289,10 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 			x = 0;
 			(*mover) = 1;
 			for (row = 1; row <= height; row++) {
-				if (row > 1 && row <= height && (row - 1 - info->df) > 0) {
+				if (row > 1 && row <= height && (row - 1 - etool->df) > 0) {
 					GnmExpr const *expr_offset;
 
-					if (info->base.group_by == GROUPED_BY_ROW)
+					if (gtool->base.group_by == GROUPED_BY_ROW)
 						delta_x = row - 1;
 					else
 						delta_y = row - 1;
@@ -229,7 +309,7 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 							      make_rangeref (-1, 2 - row, -1, 0)),
 							     GNM_EXPR_OP_DIV,
 							     gnm_expr_new_constant (value_new_int
-										    (row - 1 - info->df)))));
+										    (row - 1 - etool->df)))));
 				} else
 					dao_set_cell_na (dao, col, row);
 			}
@@ -255,9 +335,9 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 }
 
 static gboolean
-analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *dao,
-						analysis_tools_data_exponential_smoothing_t *info)
+analysis_tool_exponential_smoothing_engine_ses_r_run (GnmExpSmoothingTool *etool, data_analysis_output_t *dao)
 {
+	GnmGenericAnalysisTool *gtool = &etool->parent;
 	GSList *l;
 	gint col = 0;
 	gint source;
@@ -270,31 +350,26 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 	GnmFunc *fd_sumxmy2 = NULL;
 	GnmExpr const *expr_alpha = NULL;
 
-	if (info->std_error_flag) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-		gnm_func_inc_usage (fd_sqrt);
-		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2");
-		gnm_func_inc_usage (fd_sumxmy2);
+	if (etool->std_error_flag) {
+		fd_sqrt = gnm_func_get_and_use ("SQRT");
+		fd_sumxmy2 = gnm_func_get_and_use ("SUMXMY2");
 	}
-	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_inc_usage (fd_average);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-	gnm_func_inc_usage (fd_index);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
-	gnm_func_inc_usage (fd_offset);
+	fd_average = gnm_func_get_and_use ("AVERAGE");
+	fd_index = gnm_func_get_and_use ("INDEX");
+	fd_offset = gnm_func_get_and_use ("OFFSET");
 
-	if (info->show_graph)
+	if (etool->show_graph)
 		create_line_plot (&plot, &so);
 
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell (dao, 0, 0, _("Exponential Smoothing"));
 	dao_set_format  (dao, 0, 1, 0, 1, _("\"\xce\xb1 =\" * 0.000"));
-	dao_set_cell_expr (dao, 0, 1, gnm_expr_new_constant (value_new_float (info->damp_fact)));
+	dao_set_cell_expr (dao, 0, 1, gnm_expr_new_constant (value_new_float (etool->damp_fact)));
 	expr_alpha = dao_get_cellref (dao, 0, 1);
 
 	dao->offset_row = 2;
 
-	for (l = info->base.input, source = 1; l; l = l->next, col++, source++) {
+	for (l = gtool->base.input, source = 1; l; l = l->next, col++, source++) {
 		GnmValue *val = value_dup ((GnmValue *)l->data);
 		GnmValue *val_c = NULL;
 		GnmExpr const *expr_title = NULL;
@@ -313,9 +388,9 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 		eval_pos_init_sheet (&ep, sheet);
 
 		dao_set_italic (dao, col, 0, col, 0);
-		if (info->base.labels) {
+		if (gtool->base.labels) {
 			val_c = value_dup (val);
-			switch (info->base.group_by) {
+			switch (gtool->base.group_by) {
 			case GROUPED_BY_ROW:
 				val->v_range.cell.a.col++;
 				break;
@@ -330,11 +405,11 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 		} else
 			dao_set_cell_printf
 				(dao, col, 0,
-				 (info->base.group_by == GROUPED_BY_ROW ?
+				 (gtool->base.group_by == GROUPED_BY_ROW ?
 				  _("Row %d") : _("Column %d")),
 				 source);
 
-		switch (info->base.group_by) {
+		switch (gtool->base.group_by) {
 		case GROUPED_BY_ROW:
 			height = value_area_get_width (val, &ep);
 			mover = &x;
@@ -384,7 +459,7 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 			dao_set_cell_expr (dao, col, row + 1, gnm_expr_new_binary (A, GNM_EXPR_OP_ADD, F));
 		}
 
-		if (info->std_error_flag) {
+		if (etool->std_error_flag) {
 			col++;
 			dao_set_italic (dao, col, 0, col, 0);
 			dao_set_cell (dao, col, 0, _("Standard Error"));
@@ -393,10 +468,10 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 			x = 0;
 			(*mover) = 0;
 			for (row = 1; row <= height+1; row++) {
-				if (row > 1 && (row - 1 - info->df) > 0) {
+				if (row > 1 && (row - 1 - etool->df) > 0) {
 					GnmExpr const *expr_offset;
 
-					if (info->base.group_by == GROUPED_BY_ROW)
+					if (gtool->base.group_by == GROUPED_BY_ROW)
 						delta_x = row - 1;
 					else
 						delta_y = row - 1;
@@ -413,7 +488,7 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 							      make_rangeref (-1, 1 - row, -1, -1)),
 							     GNM_EXPR_OP_DIV,
 							     gnm_expr_new_constant (value_new_int
-										    (row - 1 - info->df)))));
+										    (row - 1 - etool->df)))));
 				} else
 					dao_set_cell_na (dao, col, row);
 			}
@@ -439,9 +514,9 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 }
 
 static gboolean
-analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
-						analysis_tools_data_exponential_smoothing_t *info)
+analysis_tool_exponential_smoothing_engine_des_run (GnmExpSmoothingTool *etool, data_analysis_output_t *dao)
 {
+	GnmGenericAnalysisTool *gtool = &etool->parent;
 	GSList *l;
 	gint col = 0;
 	gint source;
@@ -455,37 +530,32 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_alpha = NULL;
 	GnmExpr const *expr_gamma = NULL;
 
-	if (info->std_error_flag) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-		gnm_func_inc_usage (fd_sqrt);
-		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2");
-		gnm_func_inc_usage (fd_sumxmy2);
+	if (etool->std_error_flag) {
+		fd_sqrt = gnm_func_get_and_use ("SQRT");
+		fd_sumxmy2 = gnm_func_get_and_use ("SUMXMY2");
 	}
 
-	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST");
-	gnm_func_inc_usage (fd_linest);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-	gnm_func_inc_usage (fd_index);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
-	gnm_func_inc_usage (fd_offset);
+	fd_linest = gnm_func_get_and_use ("LINEST");
+	fd_index = gnm_func_get_and_use ("INDEX");
+	fd_offset = gnm_func_get_and_use ("OFFSET");
 
-	if (info->show_graph)
+	if (etool->show_graph)
 		create_line_plot (&plot, &so);
 
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell (dao, 0, 0, _("Exponential Smoothing"));
 
 	dao_set_format  (dao, 0, 1, 0, 1, _("\"\xce\xb1 =\" * 0.000"));
-	dao_set_cell_expr (dao, 0, 1, gnm_expr_new_constant (value_new_float (info->damp_fact)));
+	dao_set_cell_expr (dao, 0, 1, gnm_expr_new_constant (value_new_float (etool->damp_fact)));
 	expr_alpha = dao_get_cellref (dao, 0, 1);
 
 	dao_set_format  (dao, 1, 1, 1, 1, _("\"\xce\xb3 =\" * 0.000"));
-	dao_set_cell_expr (dao, 1, 1, gnm_expr_new_constant (value_new_float (info->g_damp_fact)));
+	dao_set_cell_expr (dao, 1, 1, gnm_expr_new_constant (value_new_float (etool->g_damp_fact)));
 	expr_gamma = dao_get_cellref (dao, 1, 1);
 
 	dao->offset_row = 2;
 
-	for (l = info->base.input, source = 1; l; l = l->next, col++, source++) {
+	for (l = gtool->base.input, source = 1; l; l = l->next, col++, source++) {
 		GnmValue *val = value_dup ((GnmValue *)l->data);
 		GnmValue *val_c = NULL;
 		GnmExpr const *expr_title = NULL;
@@ -504,9 +574,9 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 		eval_pos_init_sheet (&ep, sheet);
 
 		dao_set_italic (dao, col, 0, col, 0);
-		if (info->base.labels) {
+		if (gtool->base.labels) {
 			val_c = value_dup (val);
-			switch (info->base.group_by) {
+			switch (gtool->base.group_by) {
 			case GROUPED_BY_ROW:
 				val->v_range.cell.a.col++;
 				break;
@@ -521,11 +591,11 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 		} else
 			dao_set_cell_printf
 				(dao, col, 0,
-				 (info->base.group_by == GROUPED_BY_ROW ?
+				 (gtool->base.group_by == GROUPED_BY_ROW ?
 				  _("Row %d") : _("Column %d")),
 				 source);
 
-		switch (info->base.group_by) {
+		switch (gtool->base.group_by) {
 		case GROUPED_BY_ROW:
 			height = value_area_get_width (val, &ep);
 			mover = &x;
@@ -604,7 +674,7 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 
 			col++;
 
-			if (info->std_error_flag) {
+			if (etool->std_error_flag) {
 				col++;
 				dao_set_italic (dao, col, 0, col, 0);
 				dao_set_cell (dao, col, 0, _("Standard Error"));
@@ -613,10 +683,10 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 				x = 0;
 				(*mover) = 0;
 				for (row = 1; row <= height+1; row++) {
-					if (row > 1 && (row - 1 - info->df) > 0) {
+					if (row > 1 && (row - 1 - etool->df) > 0) {
 						GnmExpr const *expr_offset;
 
-						if (info->base.group_by == GROUPED_BY_ROW)
+						if (gtool->base.group_by == GROUPED_BY_ROW)
 							delta_x = row - 1;
 						else
 							delta_y = row - 1;
@@ -636,7 +706,7 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 											   make_rangeref (-1, 1 - row, -1, -1))),
 								     GNM_EXPR_OP_DIV,
 								     gnm_expr_new_constant (value_new_int
-											    (row - 1 - info->df)))));
+											    (row - 1 - etool->df)))));
 					} else
 						dao_set_cell_na (dao, col, row);
 				}
@@ -673,9 +743,9 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 
 
 static gboolean
-analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao,
-						     analysis_tools_data_exponential_smoothing_t *info)
+analysis_tool_exponential_smoothing_engine_ates_run (GnmExpSmoothingTool *etool, data_analysis_output_t *dao)
 {
+	GnmGenericAnalysisTool *gtool = &etool->parent;
 	GSList *l;
 	gint col = 0, time, maxheight;
 	gint source;
@@ -693,57 +763,49 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 	GnmExpr const *expr_gamma = NULL;
 	GnmExpr const *expr_delta = NULL;
 
-	if (info->std_error_flag) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-		gnm_func_inc_usage (fd_sqrt);
-		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2");
-		gnm_func_inc_usage (fd_sumxmy2);
+	if (etool->std_error_flag) {
+		fd_sqrt = gnm_func_get_and_use ("SQRT");
+		fd_sumxmy2 = gnm_func_get_and_use ("SUMXMY2");
 	}
 
-	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST");
-	gnm_func_inc_usage (fd_linest);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-	gnm_func_inc_usage (fd_index);
-	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_inc_usage (fd_average);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_inc_usage (fd_if);
-	fd_mod = gnm_func_lookup_or_add_placeholder ("mod");
-	gnm_func_inc_usage (fd_mod);
-	fd_row = gnm_func_lookup_or_add_placeholder ("row");
-	gnm_func_inc_usage (fd_row);
+	fd_linest = gnm_func_get_and_use ("LINEST");
+	fd_index = gnm_func_get_and_use ("INDEX");
+	fd_average = gnm_func_get_and_use ("AVERAGE");
+	fd_if = gnm_func_get_and_use ("IF");
+	fd_mod = gnm_func_get_and_use ("mod");
+	fd_row = gnm_func_get_and_use ("row");
 
-	if (info->show_graph)
+	if (etool->show_graph)
 		create_line_plot (&plot, &so);
 
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell (dao, 0, 0, _("Exponential Smoothing"));
 
 	dao_set_format  (dao, 2, 0, 2, 0, _("\"\xce\xb1 =\" * 0.000"));
-	dao_set_cell_expr (dao, 2, 0, gnm_expr_new_constant (value_new_float (info->damp_fact)));
+	dao_set_cell_expr (dao, 2, 0, gnm_expr_new_constant (value_new_float (etool->damp_fact)));
 	expr_alpha = dao_get_cellref (dao, 2, 0);
 
 	dao_set_format  (dao, 3, 0, 3, 0, _("\"\xce\xb3 =\" * 0.000"));
-	dao_set_cell_expr (dao, 3, 0, gnm_expr_new_constant (value_new_float (info->g_damp_fact)));
+	dao_set_cell_expr (dao, 3, 0, gnm_expr_new_constant (value_new_float (etool->g_damp_fact)));
 	expr_gamma = dao_get_cellref (dao, 3, 0);
 
 	dao_set_format  (dao, 4, 0, 4, 0, _("\"\xce\xb4 =\" * 0.000"));
-	dao_set_cell_expr (dao, 4, 0, gnm_expr_new_constant (value_new_float (info->s_damp_fact)));
+	dao_set_cell_expr (dao, 4, 0, gnm_expr_new_constant (value_new_float (etool->s_damp_fact)));
 	expr_delta = dao_get_cellref (dao, 4, 0);
 
 	dao_set_italic (dao, 0, 2, 0, 2);
 	dao_set_cell (dao, 0, 2, _("Time"));
 
-	maxheight = analysis_tool_calc_length (&info->base);
+	maxheight = analysis_tool_calc_length (gtool);
 
-	dao->offset_row = 2 + info->s_period;
+	dao->offset_row = 2 + etool->s_period;
 
-	for (time = 1 - info->s_period; time <= maxheight; time++)
+	for (time = 1 - etool->s_period; time <= maxheight; time++)
 		dao_set_cell_int (dao, 0, time, time);
 
 	dao->offset_col = 1;
 
-	for (l = info->base.input, source = 1; l; l = l->next, source++) {
+	for (l = gtool->base.input, source = 1; l; l = l->next, source++) {
 		GnmValue *val = value_dup ((GnmValue *)l->data);
 		GnmValue *val_c = NULL;
 		GnmExpr const *expr_title = NULL;
@@ -764,15 +826,15 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 
 		if (dao_cell_is_visible (dao, col+3, 1))
 		{
-			dao_set_italic (dao, col + 1, -info->s_period, col + 3, -info->s_period);
-			set_cell_text_row (dao, col + 1, -info->s_period, _("/Level"
+			dao_set_italic (dao, col + 1, -etool->s_period, col + 3, -etool->s_period);
+			set_cell_text_row (dao, col + 1, -etool->s_period, _("/Level"
 									    "/Trend"
 									    "/Seasonal Adjustment"));
 
-			dao_set_italic (dao, col,  -info->s_period, col,  -info->s_period);
-			if (info->base.labels) {
+			dao_set_italic (dao, col,  -etool->s_period, col,  -etool->s_period);
+			if (gtool->base.labels) {
 				val_c = value_dup (val);
-				switch (info->base.group_by) {
+				switch (gtool->base.group_by) {
 				case GROUPED_BY_ROW:
 					val->v_range.cell.a.col++;
 					break;
@@ -783,16 +845,16 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 				expr_title = gnm_expr_new_funcall1 (fd_index,
 								    gnm_expr_new_constant (val_c));
 
-				dao_set_cell_expr (dao, col,  -info->s_period, expr_title);
+				dao_set_cell_expr (dao, col,  -etool->s_period, expr_title);
 			} else
 				dao_set_cell_printf
-					(dao, col,  -info->s_period,
-					 (info->base.group_by  == GROUPED_BY_ROW ?
+					(dao, col,  -etool->s_period,
+					 (gtool->base.group_by  == GROUPED_BY_ROW ?
 					  _("Row %d") : _("Column %d")),
 					 source);
 
 
-			switch (info->base.group_by) {
+			switch (gtool->base.group_by) {
 			case GROUPED_BY_ROW:
 				height = value_area_get_width (val, &ep);
 				expr_input = gnm_expr_new_constant (val);
@@ -830,7 +892,7 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 							   gnm_expr_new_binary
 							   (make_cellref (-1,0),
 							    GNM_EXPR_OP_SUB,
-							    make_cellref (2,-info->s_period))),
+							    make_cellref (2,-etool->s_period))),
 							  GNM_EXPR_OP_ADD,
 							  gnm_expr_new_binary
 							  (gnm_expr_new_binary
@@ -871,7 +933,7 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 							    GNM_EXPR_OP_SUB,
 							    gnm_expr_copy (expr_delta)),
 							   GNM_EXPR_OP_MULT,
-							   make_cellref (0,-info->s_period)));
+							   make_cellref (0,-etool->s_period)));
 
 			for (time = 1; time <= maxheight; time++) {
 				dao_set_cell_expr (dao, col, time, gnm_expr_copy (expr_index));
@@ -904,7 +966,7 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 				      gnm_expr_copy (expr_data)),
 				     GNM_EXPR_OP_SUB,
 				     gnm_expr_new_funcall (fd_row, NULL)),
-				    gnm_expr_new_constant (value_new_int (info->s_period))),
+				    gnm_expr_new_constant (value_new_int (etool->s_period))),
 				   GNM_EXPR_OP_EQUAL,
 				   gnm_expr_new_constant (value_new_int (0))),
 				  gnm_expr_new_binary
@@ -919,20 +981,20 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 				    expr_linest_slope))),
 				  gnm_expr_new_constant (value_new_string ("NA"))));
 
-			for (time = 0; time > -info->s_period; time--)
+			for (time = 0; time > -etool->s_period; time--)
 				dao_set_cell_array_expr (dao, col+3, time, gnm_expr_copy (expr_season_est));
 
 			gnm_expr_free (expr_season_est);
 
 			col += 4;
-			if (info->std_error_flag) {
+			if (etool->std_error_flag) {
 				int row;
 
-				dao_set_italic (dao, col, - info->s_period, col, - info->s_period);
-				dao_set_cell (dao, col, - info->s_period, _("Standard Error"));
+				dao_set_italic (dao, col, - etool->s_period, col, - etool->s_period);
+				dao_set_cell (dao, col, - etool->s_period, _("Standard Error"));
 
 				for (row = 1; row <= height; row++) {
-					if (row > 1 && (row - info->df) > 0) {
+					if (row > 1 && (row - etool->df) > 0) {
 						GnmExpr const *expr_stderr;
 
 						expr_stderr = gnm_expr_new_funcall1
@@ -942,8 +1004,8 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 							  (fd_sumxmy2,
 							   make_rangeref (-4, 1 - row, -4, 0),
 							   gnm_expr_new_binary
-							   (make_rangeref (-1, 1 - row - info->s_period,
-									   -1,  - info->s_period),
+							   (make_rangeref (-1, 1 - row - etool->s_period,
+									   -1,  - etool->s_period),
 							    GNM_EXPR_OP_ADD,
 							    gnm_expr_new_binary
 							    (make_rangeref (-2, - row, -2, -1),
@@ -951,7 +1013,7 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 							     make_rangeref (-3, - row, -3, -1)))),
 							  GNM_EXPR_OP_DIV,
 							  gnm_expr_new_constant (value_new_int
-										 (row - info->df))));
+										 (row - etool->df))));
 						dao_set_cell_expr (dao, col, row, expr_stderr);
 					} else
 						dao_set_cell_na (dao, col, row);
@@ -993,9 +1055,9 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 }
 
 static gboolean
-analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao,
-						     analysis_tools_data_exponential_smoothing_t *info)
+analysis_tool_exponential_smoothing_engine_mtes_run (GnmExpSmoothingTool *etool, data_analysis_output_t *dao)
 {
+	GnmGenericAnalysisTool *gtool = &etool->parent;
 	GSList *l;
 	gint col = 0, time, maxheight;
 	gint source;
@@ -1014,59 +1076,50 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 	GnmExpr const *expr_gamma = NULL;
 	GnmExpr const *expr_delta = NULL;
 
-	if (info->std_error_flag) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-		gnm_func_inc_usage (fd_sqrt);
-		fd_sumsq = gnm_func_lookup_or_add_placeholder ("SUMSQ");
-		gnm_func_inc_usage (fd_sumsq);
+	if (etool->std_error_flag) {
+		fd_sqrt = gnm_func_get_and_use ("SQRT");
+		fd_sumsq = gnm_func_get_and_use ("SUMSQ");
 	}
 
-	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST");
-	gnm_func_inc_usage (fd_linest);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
-	gnm_func_inc_usage (fd_index);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
-	gnm_func_inc_usage (fd_offset);
-	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE");
-	gnm_func_inc_usage (fd_average);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_inc_usage (fd_if);
-	fd_mod = gnm_func_lookup_or_add_placeholder ("mod");
-	gnm_func_inc_usage (fd_mod);
-	fd_row = gnm_func_lookup_or_add_placeholder ("row");
-	gnm_func_inc_usage (fd_row);
+	fd_linest = gnm_func_get_and_use ("LINEST");
+	fd_index = gnm_func_get_and_use ("INDEX");
+	fd_offset = gnm_func_get_and_use ("OFFSET");
+	fd_average = gnm_func_get_and_use ("AVERAGE");
+	fd_if = gnm_func_get_and_use ("IF");
+	fd_mod = gnm_func_get_and_use ("MOD");
+	fd_row = gnm_func_get_and_use ("ROW");
 
-	if (info->show_graph)
+	if (etool->show_graph)
 		create_line_plot (&plot, &so);
 
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell (dao, 0, 0, _("Exponential Smoothing"));
 
 	dao_set_format  (dao, 2, 0, 2, 0, _("\"\xce\xb1 =\" * 0.000"));
-	dao_set_cell_expr (dao, 2, 0, gnm_expr_new_constant (value_new_float (info->damp_fact)));
+	dao_set_cell_expr (dao, 2, 0, gnm_expr_new_constant (value_new_float (etool->damp_fact)));
 	expr_alpha = dao_get_cellref (dao, 2, 0);
 
 	dao_set_format  (dao, 3, 0, 3, 0, _("\"\xce\xb3 =\" * 0.000"));
-	dao_set_cell_expr (dao, 3, 0, gnm_expr_new_constant (value_new_float (info->g_damp_fact)));
+	dao_set_cell_expr (dao, 3, 0, gnm_expr_new_constant (value_new_float (etool->g_damp_fact)));
 	expr_gamma = dao_get_cellref (dao, 3, 0);
 
 	dao_set_format  (dao, 4, 0, 4, 0, _("\"\xce\xb4 =\" * 0.000"));
-	dao_set_cell_expr (dao, 4, 0, gnm_expr_new_constant (value_new_float (info->s_damp_fact)));
+	dao_set_cell_expr (dao, 4, 0, gnm_expr_new_constant (value_new_float (etool->s_damp_fact)));
 	expr_delta = dao_get_cellref (dao, 4, 0);
 
 	dao_set_italic (dao, 0, 2, 0, 2);
 	dao_set_cell (dao, 0, 2, _("Time"));
 
-	maxheight = analysis_tool_calc_length (&info->base);
+	maxheight = analysis_tool_calc_length (gtool);
 
-	dao->offset_row = 2 + info->s_period;
+	dao->offset_row = 2 + etool->s_period;
 
-	for (time = 1 - info->s_period; time <= maxheight; time++)
+	for (time = 1 - etool->s_period; time <= maxheight; time++)
 		dao_set_cell_int (dao, 0, time, time);
 
 	dao->offset_col = 1;
 
-	for (l = info->base.input, source = 1; l; l = l->next, source++) {
+	for (l = gtool->base.input, source = 1; l; l = l->next, source++) {
 		GnmValue *val = value_dup ((GnmValue *)l->data);
 		GnmValue *val_c = NULL;
 		GnmExpr const *expr_title = NULL;
@@ -1089,15 +1142,15 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 
 		if (dao_cell_is_visible (dao, col+3, 1))
 		{
-			dao_set_italic (dao, col + 1, -info->s_period, col + 3, -info->s_period);
-			set_cell_text_row (dao, col + 1, -info->s_period, _("/Level"
+			dao_set_italic (dao, col + 1, -etool->s_period, col + 3, -etool->s_period);
+			set_cell_text_row (dao, col + 1, -etool->s_period, _("/Level"
 									    "/Trend"
 									    "/Seasonal Adjustment"));
 
-			dao_set_italic (dao, col,  -info->s_period, col,  -info->s_period);
-			if (info->base.labels) {
+			dao_set_italic (dao, col,  -etool->s_period, col,  -etool->s_period);
+			if (gtool->base.labels) {
 				val_c = value_dup (val);
-				switch (info->base.group_by) {
+				switch (gtool->base.group_by) {
 				case GROUPED_BY_ROW:
 					val->v_range.cell.a.col++;
 					break;
@@ -1108,16 +1161,16 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 				expr_title = gnm_expr_new_funcall1 (fd_index,
 								    gnm_expr_new_constant (val_c));
 
-				dao_set_cell_expr (dao, col,  -info->s_period, expr_title);
+				dao_set_cell_expr (dao, col,  -etool->s_period, expr_title);
 			} else
 				dao_set_cell_printf
-					(dao, col,  -info->s_period,
-					 (info->base.group_by  == GROUPED_BY_ROW ?
+					(dao, col,  -etool->s_period,
+					 (gtool->base.group_by  == GROUPED_BY_ROW ?
 					  _("Row %d") : _("Column %d")),
 					 source);
 
 
-			switch (info->base.group_by) {
+			switch (gtool->base.group_by) {
 			case GROUPED_BY_ROW:
 				height = value_area_get_width (val, &ep);
 				expr_input = gnm_expr_new_constant (val);
@@ -1133,7 +1186,7 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 								    gnm_expr_new_constant (value_new_int (1)));
 				break;
 			}
-			starting_length = 4 * info->s_period;
+			starting_length = 4 * etool->s_period;
 			if (starting_length > height)
 				starting_length = height;
 			expr_data = analysis_tool_exp_smoothing_funcall5 (fd_offset,
@@ -1158,7 +1211,7 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 							   gnm_expr_new_binary
 							   (make_cellref (-1,0),
 							    GNM_EXPR_OP_DIV,
-							    make_cellref (2,-info->s_period))),
+							    make_cellref (2,-etool->s_period))),
 							  GNM_EXPR_OP_ADD,
 							  gnm_expr_new_binary
 							  (gnm_expr_new_binary
@@ -1199,7 +1252,7 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 							    GNM_EXPR_OP_SUB,
 							    gnm_expr_copy (expr_delta)),
 							   GNM_EXPR_OP_MULT,
-							   make_cellref (0,-info->s_period)));
+							   make_cellref (0,-etool->s_period)));
 
 			for (time = 1; time <= maxheight; time++) {
 				dao_set_cell_expr (dao, col, time, gnm_expr_copy (expr_index));
@@ -1219,7 +1272,7 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 
 			/* We still need to calculate the estimates for the seasonal adjustment. */
 			/* = average(if(mod(row(expr_data)-row(),4)=0,expr_data/($E$7+$F$7*$C$8:$C$23),"NA")) */
-			for (i = 0; i<info->s_period; i++) {
+			for (i = 0; i<etool->s_period; i++) {
 				expr_season_est = gnm_expr_new_funcall1
 					(fd_average,
 					 gnm_expr_new_funcall3
@@ -1233,7 +1286,7 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 					      gnm_expr_copy (expr_data)),
 					     GNM_EXPR_OP_SUB,
 					     gnm_expr_new_constant (value_new_int (i))),
-					    gnm_expr_new_constant (value_new_int (info->s_period))),
+					    gnm_expr_new_constant (value_new_int (etool->s_period))),
 					   GNM_EXPR_OP_EQUAL,
 					   gnm_expr_new_constant (value_new_int (0))),
 					  gnm_expr_new_binary
@@ -1266,7 +1319,7 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 				      gnm_expr_copy (expr_data)),
 				     GNM_EXPR_OP_SUB,
 				     gnm_expr_new_funcall (fd_row, NULL)),
-				    gnm_expr_new_constant (value_new_int (info->s_period))),
+				    gnm_expr_new_constant (value_new_int (etool->s_period))),
 				   GNM_EXPR_OP_EQUAL,
 				   gnm_expr_new_constant (value_new_int (0))),
 				  gnm_expr_new_binary
@@ -1287,19 +1340,19 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 							       GNM_EXPR_OP_DIV,
 							       expr_season_denom);
 
-			for (time = 0; time > -info->s_period; time--)
+			for (time = 0; time > -etool->s_period; time--)
 				dao_set_cell_array_expr (dao, col+3, time, gnm_expr_copy (expr_season_est));
 
 			gnm_expr_free (expr_season_est);
 			col += 4;
-			if (info->std_error_flag) {
+			if (etool->std_error_flag) {
 				int row;
 
-				dao_set_italic (dao, col, - info->s_period, col, - info->s_period);
-				dao_set_cell (dao, col, - info->s_period, _("Standard Error"));
+				dao_set_italic (dao, col, - etool->s_period, col, - etool->s_period);
+				dao_set_cell (dao, col, - etool->s_period, _("Standard Error"));
 
 				for (row = 1; row <= height; row++) {
-					if (row > 1 && (row - info->df) > 0) {
+					if (row > 1 && (row - etool->df) > 0) {
 						GnmExpr const *expr_stderr;
 						GnmExpr const *expr_denom;
 
@@ -1309,8 +1362,8 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 							  GNM_EXPR_OP_ADD,
 							  make_rangeref (-3, - row, -3, -1)),
 							 GNM_EXPR_OP_MULT,
-							 make_rangeref (-1, 1 - row - info->s_period,
-									-1,  - info->s_period));
+							 make_rangeref (-1, 1 - row - etool->s_period,
+									-1,  - etool->s_period));
 						expr_stderr = gnm_expr_new_funcall1
 							(fd_sqrt,
 							 gnm_expr_new_binary
@@ -1325,7 +1378,7 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 							    expr_denom)),
 							  GNM_EXPR_OP_DIV,
 							  gnm_expr_new_constant (value_new_int
-										 (row - info->df))));
+										 (row - etool->df))));
 						dao_set_cell_array_expr (dao, col, row, expr_stderr);
 					} else
 						dao_set_cell_na (dao, col, row);
@@ -1368,74 +1421,3 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 	return FALSE;
 }
 
-/**
- * analysis_tool_exponential_smoothing_engine:
- * @gcc: #GOCmdContext
- * @dao: #data_analysis_output_t
- * @specs: #gpointer
- * @selector: #analysis_tool_engine_t
- * @result: #gpointer
- *
- * Returns: %TRUE if there is an error.
- **/
-gboolean
-analysis_tool_exponential_smoothing_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao,
-					    gpointer specs,
-					    analysis_tool_engine_t selector,
-					    gpointer result)
-{
-	analysis_tools_data_exponential_smoothing_t *info = specs;
-	int n = 0, m;
-
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Exponential Smoothing (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->base.input, info->base.group_by);
-		n = 1;
-		m = 3 + analysis_tool_calc_length (specs);
-		if (info->std_error_flag)
-			n++;
-		if (info->es_type == exp_smoothing_type_ses_r) {
-			m++;
-		}
-		if (info->es_type == exp_smoothing_type_des) {
-			n++;
-			m++;
-		}
-		if (info->es_type == exp_smoothing_type_ates ||
-		    info->es_type == exp_smoothing_type_mtes) {
-			n += 4;
-			m += info->s_period;
-		}
-		dao_adjust (dao,
-			    n * g_slist_length (info->base.input), m);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Exponential Smoothing"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Exponential Smoothing"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		switch (info->es_type) {
-		case exp_smoothing_type_mtes:
-			return analysis_tool_exponential_smoothing_engine_mtes_run (dao, specs);
-		case exp_smoothing_type_ates:
-			return analysis_tool_exponential_smoothing_engine_ates_run (dao, specs);
-		case exp_smoothing_type_des:
-			return analysis_tool_exponential_smoothing_engine_des_run (dao, specs);
-		case exp_smoothing_type_ses_r:
-			return analysis_tool_exponential_smoothing_engine_ses_r_run (dao, specs);
-		case exp_smoothing_type_ses_h:
-		default:
-			return analysis_tool_exponential_smoothing_engine_ses_h_run (dao, specs);
-		}
-	}
-	return TRUE;  /* We shouldn't get here */
-}

@@ -116,40 +116,42 @@ wilcoxon_mann_whitney_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy
  **/
 static void
 wilcoxon_mann_whitney_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
-			GnmGenericToolState *state)
+					  GnmGenericToolState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_generic_b_t  *data;
-
+	GnmAnalysisTool *atool;
+	GnmGenericBAnalysisTool *gbtool;
 	GtkWidget *w;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
 
-	data = g_new0 (analysis_tools_data_generic_b_t, 1);
+	atool = gnm_wilcoxon_mann_whitney_tool_new ();
+	gbtool = GNM_GENERIC_B_ANALYSIS_TOOL (atool);
 	dao  = dao_parse_output (state);
 
-	data->wbc = GNM_WBC (state->wbcg);
+	gbtool->base.wbc = GNM_WBC (state->wbcg);
 
-	data->range_1 = gnm_expr_entry_parse_as_value
+	gbtool->base.range_1 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 
-	data->range_2 =  gnm_expr_entry_parse_as_value
+	gbtool->base.range_2 =  gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->input_entry_2), state->sheet);
 
 	w = go_gtk_builder_get_widget (state->gui, "labels_button");
-        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        gbtool->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet,
-			       dao, data,
-			       analysis_tool_wilcoxon_mann_whitney_engine, TRUE)) {
+	if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet, dao, atool)) {
 		char   *text;
 		text = g_strdup_printf (
 			_("An unexpected error has occurred."));
 		error_in_entry (state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);
+		dao_free (dao);
 	} else
 		gtk_widget_destroy (state->dialog);
+
+	g_object_unref (atool);
 	return;
 }
 

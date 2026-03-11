@@ -3,8 +3,7 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
+#include <tools/analysis-tools.h>
 
 
 typedef enum {
@@ -189,7 +188,27 @@ typedef struct {
 	random_distribution_t distribution;
 } tools_data_random_t;
 
-gboolean tool_random_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			     analysis_tool_engine_t selector, gpointer result);
+#define GNM_TYPE_RANDOM_TOOL (gnm_random_tool_get_type ())
+GType gnm_random_tool_get_type (void);
+typedef struct _GnmRandomTool GnmRandomTool;
+typedef struct _GnmRandomToolClass GnmRandomToolClass;
+
+struct _GnmRandomTool {
+	GnmAnalysisTool parent;
+	tools_data_random_t data;
+
+	gint       discrete_n;
+	GnmValue **discrete_values;
+	gnm_float *discrete_cumul_p;
+};
+
+struct _GnmRandomToolClass {
+	GnmAnalysisToolClass parent_class;
+};
+
+#define GNM_RANDOM_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_RANDOM_TOOL, GnmRandomTool))
+#define GNM_IS_RANDOM_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_RANDOM_TOOL))
+
+GnmAnalysisTool *gnm_random_tool_new (void);
 
 #endif

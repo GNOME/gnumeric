@@ -309,14 +309,12 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 	}
 
 	if (gnm_consolidate_check_destination (cs, dao)) {
-		if (cmd_analysis_tool (GNM_WBC (state->base.wbcg),
-				       state->base.sheet,
-				       dao, cs, gnm_tool_consolidate_engine,
-				       FALSE)) {
+		GnmAnalysisTool *tool = gnm_consolidate_tool_new (cs);
+		if (cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool)) {
 			dao_free (dao);
-			gnm_consolidate_free (cs, FALSE);
 		} else if (button == state->base.ok_button)
 			gtk_widget_destroy (state->base.dialog);
+		g_object_unref (tool);
 	} else {
 		go_gtk_notice_nonmodal_dialog (GTK_WINDOW (state->base.dialog),
 					  &state->base.warning_dialog,

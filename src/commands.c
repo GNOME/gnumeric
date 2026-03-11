@@ -53,6 +53,7 @@
 #include <selection.h>
 #include <colrow.h>
 #include <style-border.h>
+#include <tools/analysis-tools.h>
 #include <tools/auto-correct.h>
 #include <sheet-autofill.h>
 #include <mstyle.h>
@@ -134,8 +135,7 @@ gnm_command_finalize (GObject *obj)
 	GnmCommand *cmd = GNM_COMMAND (obj);
 	GObjectClass *parent;
 
-	/* The const was to avoid accidental changes elsewhere */
-	g_free ((gchar *)cmd->cmd_descriptor);
+	g_free (cmd->cmd_descriptor);
 	cmd->cmd_descriptor = NULL;
 
 	parent = g_type_class_peek (g_type_parent (G_TYPE_FROM_INSTANCE (obj)));
@@ -1385,7 +1385,7 @@ static gboolean
 cmd_ins_del_colrow (WorkbookControl *wbc,
 		    Sheet *sheet,
 		    gboolean is_cols, gboolean is_insert,
-		    char const *descriptor, int index, int count)
+		    char *descriptor, int index, int count)
 {
 	CmdInsDelColRow *me;
 	int first, last;
@@ -5139,9 +5139,7 @@ typedef struct {
 	GnmCommand         cmd;
 
 	data_analysis_output_t  *dao;
-	gpointer                specs;
-	gboolean                specs_owned;
-	analysis_tool_engine    engine;
+	GnmAnalysisTool         *tool;
 	data_analysis_output_type_t type;
 
 	ColRowStateList         *col_info;
@@ -5214,9 +5212,7 @@ cmd_analysis_tool_draw_old_so (SheetObject *so, data_analysis_output_t *dao)
 static gboolean
 cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
-	gpointer continuity = NULL;
 	CmdAnalysis_Tool *me = CMD_ANALYSIS_TOOL (cmd);
-	GOCmdContext *cc = GO_CMD_CONTEXT (wbc);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -5230,11 +5226,10 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		me->row_info = colrow_state_list_destroy (me->row_info);
 	me->row_info = dao_get_colrow_state_list (me->dao, FALSE);
 
-	if (me->engine (cc, me->dao, me->specs, TOOL_ENGINE_PREPARE_OUTPUT_RANGE, NULL)
-	    || me->engine (cc, me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR,
-			   &me->cmd.cmd_descriptor)
+	if (gnm_analysis_tool_prepare_output_range (me->tool, me->dao)
+	    || ((me->cmd.cmd_descriptor = gnm_analysis_tool_update_descriptor (me->tool, me->dao)) == NULL)
 	    || cmd_dao_is_locked_effective (me->dao, wbc, me->cmd.cmd_descriptor)
-	    || me->engine (cc, me->dao, me->specs, TOOL_ENGINE_LAST_VALIDITY_CHECK, &continuity))
+	    || gnm_analysis_tool_last_validity_check (me->tool, me->dao))
 		return TRUE;
 
 	switch (me->type) {
@@ -5257,10 +5252,10 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	if (me->newSheetObjects != NULL)
 		dao_set_omit_so (me->dao, TRUE);
 
-	if (me->engine (cc, me->dao, me->specs, TOOL_ENGINE_FORMAT_OUTPUT_RANGE, NULL))
+	if (gnm_analysis_tool_format_output_range (me->tool, me->dao))
 		return TRUE;
 
-	if (me->engine (cc, me->dao, me->specs, TOOL_ENGINE_PERFORM_CALC, &continuity)) {
+	if (gnm_analysis_tool_perform_calc (me->tool, me->dao)) {
 		if (me->type == RangeOutput) {
 			g_warning ("This is too late for failure! The target region has "
 				   "already been formatted!");
@@ -5277,10 +5272,6 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 				 (GFunc) cmd_analysis_tool_draw_old_so,
 				 me->dao);
 		g_slist_free (l);
-	}
-
-	if (continuity) {
-		g_warning ("There shouldn't be any data left in here!");
 	}
 
 	dao_autofit_columns (me->dao);
@@ -5305,12 +5296,9 @@ cmd_analysis_tool_finalize (GObject *cmd)
 	if (me->row_info)
 		me->row_info = colrow_state_list_destroy (me->row_info);
 
-	me->engine (NULL, me->dao, me->specs, TOOL_ENGINE_CLEAN_UP, NULL);
+	g_object_unref (me->tool);
+	dao_free (me->dao);
 
-	if (me->specs_owned) {
-		g_free (me->specs);
-		dao_free (me->dao);
-	}
 	if (me->old_contents)
 		cellregion_unref (me->old_contents);
 
@@ -5328,33 +5316,27 @@ cmd_analysis_tool_finalize (GObject *cmd)
  **/
 gboolean
 cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
-		   data_analysis_output_t *dao, gpointer specs,
-		   analysis_tool_engine engine, gboolean always_take_ownership)
+		   data_analysis_output_t *dao, GnmAnalysisTool *tool)
 {
 	CmdAnalysis_Tool *me;
 	gboolean trouble;
-	GOCmdContext *cc = GO_CMD_CONTEXT (wbc);
 
 	g_return_val_if_fail (dao != NULL, TRUE);
-	g_return_val_if_fail (specs != NULL, TRUE);
-	g_return_val_if_fail (engine != NULL, TRUE);
+	g_return_val_if_fail (GNM_IS_ANALYSIS_TOOL (tool), TRUE);
 
 	me = g_object_new (CMD_ANALYSIS_TOOL_TYPE, NULL);
 
 	dao->wbc = wbc;
 
 	/* Store the specs for the object */
-	me->specs = specs;
-	me->specs_owned = always_take_ownership;
+	me->tool = g_object_ref (tool);
 	me->dao = dao;
-	me->engine = engine;
 	me->cmd.cmd_descriptor = NULL;
-	if (me->engine (cc, me->dao, me->specs, TOOL_ENGINE_UPDATE_DAO, NULL)) {
+	if (gnm_analysis_tool_update_dao (me->tool, me->dao)) {
 		g_object_unref (me);
 		return TRUE;
 	}
-	me->engine (cc, me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR,
-		    &me->cmd.cmd_descriptor);
+	me->cmd.cmd_descriptor = gnm_analysis_tool_update_descriptor (me->tool, me->dao);
 	me->cmd.sheet = NULL;
 	me->type = dao->type;
 	me->row_info = NULL;
@@ -5365,9 +5347,6 @@ cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 
 	/* Register the command object */
 	trouble = gnm_command_push_undo (wbc, G_OBJECT (me));
-
-	if (!trouble)
-		me->specs_owned = TRUE;
 
 	return trouble;
 }

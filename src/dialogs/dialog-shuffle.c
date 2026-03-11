@@ -97,7 +97,7 @@ shuffle_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button, ShuffleState *state)
 
 	/* This is free'ed by data_shuffling_free. */
 	/* We later want to extend this to shuffle to other locations */
-	dao = dao_init (NULL, InPlaceOutput);
+	dao = dao_init (InPlaceOutput);
 
 	input = gnm_expr_entry_parse_as_value (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);

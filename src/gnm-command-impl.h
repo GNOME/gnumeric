@@ -37,7 +37,7 @@ typedef struct {
 	int size;
 
 	/* A string to put in the menu */
-	char const *cmd_descriptor;
+	char *cmd_descriptor;
 
 	/* State of workbook before the commands was undo.  */
 	guint64 state_before_do;

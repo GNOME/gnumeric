@@ -27,24 +27,48 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 #include <tools/analysis-tools.h>
 #include <tools/analysis-sign-test.h>
-#include <sheet.h>
 
-/* note: specs is a pointer to a analysis_tools_data_sign_test_t */
+#define GNM_TYPE_SIGNED_RANK_TEST_TOOL (gnm_signed_rank_test_tool_get_type ())
+GType gnm_signed_rank_test_tool_get_type (void);
+typedef struct _GnmSignedRankTestTool GnmSignedRankTestTool;
+typedef struct _GnmSignedRankTestToolClass GnmSignedRankTestToolClass;
 
-gboolean analysis_tool_signed_rank_test_engine (GOCmdContext *gcc, data_analysis_output_t *dao,
-						    gpointer specs,
-						    analysis_tool_engine_t selector,
-						    gpointer result);
+struct _GnmSignedRankTestTool {
+	GnmGenericAnalysisTool parent;
+	gnm_float median;
+	gnm_float alpha;
+};
 
-/* note: specs is a pointer to a analysis_tools_data_sign_test_two_t */
+struct _GnmSignedRankTestToolClass {
+	GnmGenericAnalysisToolClass parent_class;
+};
 
-gboolean analysis_tool_signed_rank_test_two_engine (GOCmdContext *gcc, data_analysis_output_t *dao,
-						    gpointer specs,
-						    analysis_tool_engine_t selector,
-						    gpointer result);
+#define GNM_SIGNED_RANK_TEST_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_SIGNED_RANK_TEST_TOOL, GnmSignedRankTestTool))
+#define GNM_IS_SIGNED_RANK_TEST_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_SIGNED_RANK_TEST_TOOL))
+
+GnmAnalysisTool *gnm_signed_rank_test_tool_new (void);
+
+
+
+#define GNM_TYPE_SIGNED_RANK_TEST_TWO_TOOL (gnm_signed_rank_test_two_tool_get_type ())
+GType gnm_signed_rank_test_two_tool_get_type (void);
+typedef struct _GnmSignedRankTestTwoTool GnmSignedRankTestTwoTool;
+typedef struct _GnmSignedRankTestTwoToolClass GnmSignedRankTestTwoToolClass;
+
+struct _GnmSignedRankTestTwoTool {
+	GnmGenericBAnalysisTool parent;
+	gnm_float median;
+};
+
+struct _GnmSignedRankTestTwoToolClass {
+	GnmGenericBAnalysisToolClass parent_class;
+};
+
+#define GNM_SIGNED_RANK_TEST_TWO_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_SIGNED_RANK_TEST_TWO_TOOL, GnmSignedRankTestTwoTool))
+#define GNM_IS_SIGNED_RANK_TEST_TWO_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_SIGNED_RANK_TEST_TWO_TOOL))
+
+GnmAnalysisTool *gnm_signed_rank_test_two_tool_new (void);
 
 #endif

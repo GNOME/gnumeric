@@ -31,6 +31,7 @@
 #include <expr.h>
 #include <func.h>
 #include <numbers.h>
+#include <sheet.h>
 
 static
 GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Workbook *wb)
@@ -72,8 +73,7 @@ GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Wor
 		}
 	}
 
-	fd_array = gnm_func_lookup_or_add_placeholder ("ARRAY");
-	gnm_func_inc_usage (fd_array);
+	fd_array = gnm_func_get_and_use ("ARRAY");
 
 	expr = gnm_expr_new_funcall2 (fd_array,
 				      gnm_expr_new_constant (value_dup (val_1)),
@@ -84,10 +84,70 @@ GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Wor
 	return expr;
 }
 
-static gboolean
-analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_generic_b_t *info)
+static gboolean analysis_tool_wilcoxon_mann_whitney_engine_run (GnmWilcoxonMannWhitneyTool *wtool, data_analysis_output_t *dao);
+
+G_DEFINE_TYPE (GnmWilcoxonMannWhitneyTool, gnm_wilcoxon_mann_whitney_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+static void
+gnm_wilcoxon_mann_whitney_tool_init (G_GNUC_UNUSED GnmWilcoxonMannWhitneyTool *tool)
 {
+}
+
+static gboolean
+gnm_wilcoxon_mann_whitney_tool_update_dao (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_adjust (dao, 4, 9);
+	return FALSE;
+}
+
+static char *
+gnm_wilcoxon_mann_whitney_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Wilcoxon-Mann-Whitney Test (%s)"));
+}
+
+static gboolean
+gnm_wilcoxon_mann_whitney_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Wilcoxon-Mann-Whitney Test"));
+	return FALSE;
+}
+
+static gboolean
+gnm_wilcoxon_mann_whitney_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Wilcoxon-Mann-Whitney Test"));
+}
+
+static gboolean
+gnm_wilcoxon_mann_whitney_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmWilcoxonMannWhitneyTool *wtool = GNM_WILCOXON_MANN_WHITNEY_TOOL (tool);
+	return analysis_tool_wilcoxon_mann_whitney_engine_run (wtool, dao);
+}
+
+static void
+gnm_wilcoxon_mann_whitney_tool_class_init (GnmWilcoxonMannWhitneyToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_wilcoxon_mann_whitney_tool_update_dao;
+	at_class->update_descriptor = gnm_wilcoxon_mann_whitney_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_wilcoxon_mann_whitney_tool_prepare_output_range;
+	at_class->format_output_range = gnm_wilcoxon_mann_whitney_tool_format_output_range;
+	at_class->perform_calc = gnm_wilcoxon_mann_whitney_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_wilcoxon_mann_whitney_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_WILCOXON_MANN_WHITNEY_TOOL, NULL);
+}
+
+static gboolean
+analysis_tool_wilcoxon_mann_whitney_engine_run (GnmWilcoxonMannWhitneyTool *wtool, data_analysis_output_t *dao)
+{
+	GnmGenericBAnalysisTool *gtool = &wtool->parent;
 	GnmFunc *fd_count;
 	GnmFunc *fd_sum;
 	GnmFunc *fd_rows;
@@ -105,30 +165,20 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_u;
 	GnmExpr const *expr_count_total;
 
-	GnmValue *val_1 = value_dup (info->range_1);
-	GnmValue *val_2 = value_dup (info->range_2);
+	GnmValue *val_1 = value_dup (gtool->base.range_1);
+	GnmValue *val_2 = value_dup (gtool->base.range_2);
 	Workbook *wb = dao->sheet ? dao->sheet->workbook : NULL;
 
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
-	gnm_func_inc_usage (fd_count);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_inc_usage (fd_sum);
-	fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS");
-	gnm_func_inc_usage (fd_rows);
-	fd_rank_avg = gnm_func_lookup_or_add_placeholder ("RANK.AVG");
-	gnm_func_inc_usage (fd_rank_avg);
-	fd_rank = gnm_func_lookup_or_add_placeholder ("RANK");
-	gnm_func_inc_usage (fd_rank);
-	fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
-	gnm_func_inc_usage (fd_min);
-	fd_normdist = gnm_func_lookup_or_add_placeholder ("NORMDIST");
-	gnm_func_inc_usage (fd_normdist);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
-	gnm_func_inc_usage (fd_sqrt);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_inc_usage (fd_if);
-	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK");
-	gnm_func_inc_usage (fd_isblank);
+	fd_count = gnm_func_get_and_use ("COUNT");
+	fd_sum = gnm_func_get_and_use ("SUM");
+	fd_rows = gnm_func_get_and_use ("ROWS");
+	fd_rank_avg = gnm_func_get_and_use ("RANK.AVG");
+	fd_rank = gnm_func_get_and_use ("RANK");
+	fd_min = gnm_func_get_and_use ("MIN");
+	fd_normdist = gnm_func_get_and_use ("NORMDIST");
+	fd_sqrt = gnm_func_get_and_use ("SQRT");
+	fd_if = gnm_func_get_and_use ("IF");
+	fd_isblank = gnm_func_get_and_use ("ISBLANK");
 
 	dao_set_italic (dao, 0, 0, 0, 8);
 	dao_set_italic (dao, 0, 1, 3, 1);
@@ -144,8 +194,8 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 	dao_set_cell (dao, 3, 1, _("Total"));
 
 	/* Label */
-	analysis_tools_write_label_ftest (val_1, dao, 1, 1, info->labels, 1);
-	analysis_tools_write_label_ftest (val_2, dao, 2, 1, info->labels, 2);
+	analysis_tools_write_variable_label (val_1, dao, 1, 1, gtool->base.labels, 1);
+	analysis_tools_write_variable_label (val_2, dao, 2, 1, gtool->base.labels, 2);
 
 	expr_total = analysis_tool_combine_area (val_1, val_2, wb);
 	expr_pop_1 = gnm_expr_new_constant (val_1);
@@ -338,42 +388,3 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 	return 0;
 }
 
-/**
- * analysis_tool_wilcoxon_mann_whitney_engine:
- * @gcc: #GOCmdContext
- * @dao: #data_analysis_output_t
- * @specs: #gpointer
- * @selector: #analysis_tool_engine_t
- * @result: #gpointer
- *
- * Returns: %TRUE if there is an error.
- **/
-gboolean
-analysis_tool_wilcoxon_mann_whitney_engine
-        (G_GNUC_UNUSED GOCmdContext *gcc,
-	 data_analysis_output_t *dao, gpointer specs,
-	 analysis_tool_engine_t selector, gpointer result)
-{
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor
-			(dao, _("Wilcoxon-Mann-Whitney Test (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		dao_adjust (dao, 4, 9);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_b_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Wilcoxon-Mann-Whitney Test"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Wilcoxon-Mann-Whitney Test"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_wilcoxon_mann_whitney_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}

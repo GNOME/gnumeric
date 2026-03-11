@@ -1,7 +1,7 @@
 #ifndef GNM_TOOLS_SIMULATION_H_
 #define GNM_TOOLS_SIMULATION_H_
 
-#include <tools/dao.h>
+#include <gnumeric.h>
 
 typedef enum {
 	MedianErr = 1, ModeErr = 2, StddevErr = 4, VarErr = 8, SkewErr = 16,

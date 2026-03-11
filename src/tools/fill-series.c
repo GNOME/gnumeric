@@ -33,7 +33,7 @@
 #include <value.h>
 #include <gnm-format.h>
 #include <workbook.h>
-#include <tools/tools.h>
+#include <tools/analysis-tools.h>
 #include <numbers.h>
 #include <gnm-datetime.h>
 
@@ -365,74 +365,108 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 		info->n = length_of_series;
 }
 
-gboolean fill_series_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			     analysis_tool_engine_t selector, gpointer result)
-{
-	fill_series_t *info = specs;
+G_DEFINE_TYPE (GnmFillSeriesTool, gnm_fill_series_tool, GNM_TYPE_ANALYSIS_TOOL)
 
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Fill Series (%s)"),
-						result) == NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		fill_series_adjust_variables (dao, info);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return FALSE;
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Fill Series"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Fill Series"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		switch (info->type) {
-		case FillSeriesTypeLinear:
+static void
+gnm_fill_series_tool_init (G_GNUC_UNUSED GnmFillSeriesTool *tool)
+{
+}
+
+static gboolean
+gnm_fill_series_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	fill_series_t *info = &GNM_FILL_SERIES_TOOL (tool)->data;
+	fill_series_adjust_variables (dao, info);
+	return FALSE;
+}
+
+static char *
+gnm_fill_series_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Fill Series (%s)"));
+}
+
+static gboolean
+gnm_fill_series_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Fill Series"));
+	return FALSE;
+}
+
+static gboolean
+gnm_fill_series_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Fill Series"));
+}
+
+static gboolean
+gnm_fill_series_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	fill_series_t *info = &GNM_FILL_SERIES_TOOL (tool)->data;
+
+	switch (info->type) {
+	case FillSeriesTypeLinear:
+		if (info->series_in_rows)
+			do_row_filling_linear (dao, info);
+		else
+			do_column_filling_linear (dao, info);
+		break;
+	case FillSeriesTypeGrowth:
+		if (info->series_in_rows)
+			do_row_filling_growth (dao, info);
+		else
+			do_column_filling_growth (dao, info);
+		break;
+	case FillSeriesTypeDate:
+		switch (info->date_unit) {
+		case FillSeriesUnitDay:
 			if (info->series_in_rows)
 				do_row_filling_linear (dao, info);
 			else
 				do_column_filling_linear (dao, info);
 			break;
-		case FillSeriesTypeGrowth:
+		case FillSeriesUnitWeekday:
 			if (info->series_in_rows)
-				do_row_filling_growth (dao, info);
+				do_row_filling_wday (dao, info);
 			else
-				do_column_filling_growth (dao, info);
+				do_column_filling_wday (dao, info);
 			break;
-		case FillSeriesTypeDate:
-			switch (info->date_unit) {
-			case FillSeriesUnitDay:
-				if (info->series_in_rows)
-					do_row_filling_linear (dao, info);
-				else
-					do_column_filling_linear (dao, info);
-				break;
-			case FillSeriesUnitWeekday:
-				if (info->series_in_rows)
-					do_row_filling_wday (dao, info);
-				else
-					do_column_filling_wday (dao, info);
-				break;
-			case FillSeriesUnitMonth:
-				if (info->series_in_rows)
-					do_row_filling_month (dao, info);
-				else
-					do_column_filling_month (dao, info);
-				break;
-			case FillSeriesUnitYear:
-				if (info->series_in_rows)
-					do_row_filling_year (dao, info);
-				else
-					do_column_filling_year (dao, info);
-				break;
-			}
-			dao_set_date (dao, 0, 0,
-				      dao->cols - 1, dao->rows -1);
+		case FillSeriesUnitMonth:
+			if (info->series_in_rows)
+				do_row_filling_month (dao, info);
+			else
+				do_column_filling_month (dao, info);
+			break;
+		case FillSeriesUnitYear:
+			if (info->series_in_rows)
+				do_row_filling_year (dao, info);
+			else
+				do_column_filling_year (dao, info);
 			break;
 		}
-		return FALSE;
+		dao_set_date (dao, 0, 0,
+			      dao->cols - 1, dao->rows -1);
+		break;
 	}
-	return TRUE;  /* We shouldn't get here */
+	return FALSE;
 }
+
+static void
+gnm_fill_series_tool_class_init (GnmFillSeriesToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_fill_series_tool_update_dao;
+	at_class->update_descriptor = gnm_fill_series_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_fill_series_tool_prepare_output_range;
+	at_class->format_output_range = gnm_fill_series_tool_format_output_range;
+	at_class->perform_calc = gnm_fill_series_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_fill_series_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_FILL_SERIES_TOOL, NULL);
+}
+
+

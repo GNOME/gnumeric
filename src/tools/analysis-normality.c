@@ -37,13 +37,78 @@
 #include <goffice/goffice.h>
 #include <sheet.h>
 
+static gboolean analysis_tool_normality_engine_run (GnmNormalityTool *ntool, data_analysis_output_t *dao);
+
+G_DEFINE_TYPE (GnmNormalityTool, gnm_normality_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_normality_tool_init (GnmNormalityTool *tool)
+{
+	tool->alpha = 0.05;
+	tool->type = normality_test_type_andersondarling;
+	tool->graph = FALSE;
+}
 
 static gboolean
-analysis_tool_normality_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_normality_t *info)
+gnm_normality_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
+	GnmNormalityTool *ntool = GNM_NORMALITY_TOOL (tool);
+	GnmGenericAnalysisTool *gtool = &ntool->parent;
+	analysis_tool_prepare_input_range (gtool);
+	dao_adjust (dao, 1 + g_slist_length (gtool->base.input), 6);
+	return FALSE;
+}
+
+static char *
+gnm_normality_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Normality Test (%s)"));
+}
+
+static gboolean
+gnm_normality_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Normality Test"));
+	return FALSE;
+}
+
+static gboolean
+gnm_normality_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Normality Test"));
+}
+
+static gboolean
+gnm_normality_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmNormalityTool *ntool = GNM_NORMALITY_TOOL (tool);
+	return analysis_tool_normality_engine_run (ntool, dao);
+}
+
+static void
+gnm_normality_tool_class_init (GnmNormalityToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_normality_tool_update_dao;
+	at_class->update_descriptor = gnm_normality_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_normality_tool_prepare_output_range;
+	at_class->format_output_range = gnm_normality_tool_format_output_range;
+	at_class->perform_calc = gnm_normality_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_normality_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_NORMALITY_TOOL, NULL);
+}
+
+static gboolean
+analysis_tool_normality_engine_run (GnmNormalityTool *ntool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = &ntool->parent;
 	guint   col;
-	GSList *data = info->base.input;
+	GSList *data = gtool->base.input;
 	GnmFunc *fd;
 	GnmFunc *fd_if;
 
@@ -55,7 +120,7 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 	GogPlot	     *plot = NULL;
 	SheetObject *so;
 
-	switch (info->type) {
+	switch (ntool->type) {
 	case normality_test_type_andersondarling:
 		fdname = "ADTEST";
 		testname = N_("Anderson-Darling Test");
@@ -87,16 +152,14 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 		g_assert_not_reached ();
 	}
 
-	fd = gnm_func_lookup_or_add_placeholder	(fdname);
-	gnm_func_inc_usage (fd);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_inc_usage (fd_if);
+	fd = gnm_func_get_and_use (fdname);
+	fd_if = gnm_func_get_and_use ("IF");
 
 	dao_set_italic (dao, 0, 0, 0, 5);
         dao_set_cell (dao, 0, 0, _(testname));
 
 
-	if (info->graph) {
+	if (ntool->graph) {
 		GogChart     *chart;
 
 		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
@@ -133,9 +196,9 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 
 		/* Note that analysis_tools_write_label may modify val_org */
 		dao_set_italic (dao, col, 0, col, 0);
-		analysis_tools_write_label (val_org, dao, &info->base,
+		analysis_tools_write_label (gtool, val_org, dao,
 					    col, 0, col);
-		if (info->graph) {
+		if (ntool->graph) {
 			GogSeries    *series;
 
 			series = gog_plot_new_series (plot);
@@ -147,7 +210,7 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 		}
 
 		if (col == 1)
-			dao_set_cell_float (dao, col, 1, info->alpha);
+			dao_set_cell_float (dao, col, 1, ntool->alpha);
 		else
 			dao_set_cell_expr (dao, col, 1,
 					   make_cellref (1 - col, 0));
@@ -164,7 +227,7 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 				    gnm_expr_new_constant (value_new_string (_("Possibly normal")))));
 	}
 
-	if (info->graph) {
+	if (ntool->graph) {
 		so = sheet_object_graph_new (graph);
 		g_object_unref (graph);
 
@@ -177,45 +240,5 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 
 	dao_redraw_respan (dao);
 	return 0;
-}
-
-/**
- * analysis_tool_normality_engine:
- * @gcc: #GOCmdContext
- * @dao: #data_analysis_output_t
- * @specs: #gpointer
- * @selector: #analysis_tool_engine_t
- * @result: #gpointer
- *
- * Returns: %TRUE if there is an error.
- **/
-gboolean
-analysis_tool_normality_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-				   analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_normality_t *info = specs;
-
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Normality Test (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->base.input, info->base.group_by);
-		dao_adjust (dao, 1 + g_slist_length (info->base.input), 6);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Normality Test"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Normality Test"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_normality_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
 }
 

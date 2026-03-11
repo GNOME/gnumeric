@@ -2,7 +2,6 @@
 #define GNM_TOOLS_DATA_SHUFFLING_H_
 
 #include <gnumeric.h>
-#include <tools/dao.h>
 
 
 #define SHUFFLE_COLS  0

@@ -129,26 +129,24 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		err = advanced_filter (GNM_WBC (state->wbcg),
 				       dao, input, criteria, unique);
 	else {
-		analysis_tools_data_advanced_filter_t  *
-			data = g_new0 (analysis_tools_data_advanced_filter_t, 1);
-		data->base.wbc = GNM_WBC (state->wbcg);
-		data->base.range_1 = input;
-		data->base.range_2 = criteria;
-		data->unique_only_flag = unique;
+		GnmAnalysisTool *atool = gnm_advanced_filter_tool_new ();
+		GnmAdvancedFilterTool *ftool = GNM_ADVANCED_FILTER_TOOL (atool);
+		ftool->parent.base.wbc = GNM_WBC (state->wbcg);
+		ftool->parent.base.range_1 = input;
+		ftool->parent.base.range_2 = criteria;
+		ftool->unique_only_flag = unique;
 
-		if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet,
-				       dao, data, analysis_tool_advanced_filter_engine, FALSE)) {
-			err = data->base.err;
-			g_free (data);
+		if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet, dao, atool)) {
+			err = ftool->parent.base.err;
 		} else
 			err = analysis_tools_noerr;
-
+		g_object_unref (atool);
 	}
 
 	if (dao->type == InPlaceOutput || err != analysis_tools_noerr) {
 		value_release (input);
 		value_release (criteria);
-		g_free (dao);
+		dao_free (dao);
 	}
 
 	switch (err) {

@@ -30,7 +30,104 @@
 #include <ranges.h>
 #include <expr.h>
 #include <func.h>
-#include <numbers.h>
+#include <sheet.h>
+
+static gboolean analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao, analysis_tools_data_chi_squared_t *info);
+
+G_DEFINE_TYPE (GnmChiSquaredTool, gnm_chi_squared_tool, GNM_TYPE_ANALYSIS_TOOL)
+
+static void
+gnm_chi_squared_tool_init (GnmChiSquaredTool *tool)
+{
+	tool->data.wbc = NULL;
+	tool->data.input = NULL;
+	tool->data.labels = FALSE;
+	tool->data.independence = FALSE;
+	tool->data.alpha = 0.05;
+}
+
+static void
+gnm_chi_squared_tool_finalize (GObject *obj)
+{
+	GnmChiSquaredTool *tool = GNM_CHI_SQUARED_TOOL (obj);
+	if (tool->data.input)
+		value_release (tool->data.input);
+	G_OBJECT_CLASS (gnm_chi_squared_tool_parent_class)->finalize (obj);
+}
+
+static gboolean
+gnm_chi_squared_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	analysis_tools_data_chi_squared_t *info = &GNM_CHI_SQUARED_TOOL (tool)->data;
+	GnmRange range;
+
+	if (NULL == range_init_value (&range, info->input))
+		return TRUE;
+
+	info->n_c = range_width (&range) - (info->labels ? 1 : 0);
+	info->n_r = range_height (&range) - (info->labels ? 1 : 0);
+
+	if (info->n_c < 2 || info->n_r < 2)
+		return TRUE;
+
+	dao_adjust (dao, 2, 5);
+	return FALSE;
+}
+
+static char *
+gnm_chi_squared_tool_update_descriptor (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	analysis_tools_data_chi_squared_t *info = &GNM_CHI_SQUARED_TOOL (tool)->data;
+	return dao_command_descriptor (dao, info->independence ?
+					  _("Test of Independence (%s)")
+					  : _("Test of Homogeneity (%s)"));
+}
+
+static gboolean
+gnm_chi_squared_tool_prepare_output_range (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	analysis_tools_data_chi_squared_t *info = &GNM_CHI_SQUARED_TOOL (tool)->data;
+	dao_prepare_output (NULL, dao, info->independence ?
+			    _("Test of Independence")
+			    : _("Test of Homogeneity"));
+	return FALSE;
+}
+
+static gboolean
+gnm_chi_squared_tool_format_output_range (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	analysis_tools_data_chi_squared_t *info = &GNM_CHI_SQUARED_TOOL (tool)->data;
+	return dao_format_output (dao, info->independence ?
+				  _("Test of Independence")
+				  : _("Test of Homogeneity"));
+}
+
+static gboolean
+gnm_chi_squared_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	analysis_tools_data_chi_squared_t *info = &GNM_CHI_SQUARED_TOOL (tool)->data;
+	return analysis_tool_chi_squared_engine_run (dao, info);
+}
+
+static void
+gnm_chi_squared_tool_class_init (GnmChiSquaredToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->finalize = gnm_chi_squared_tool_finalize;
+	at_class->update_dao = gnm_chi_squared_tool_update_dao;
+	at_class->update_descriptor = gnm_chi_squared_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_chi_squared_tool_prepare_output_range;
+	at_class->format_output_range = gnm_chi_squared_tool_format_output_range;
+	at_class->perform_calc = gnm_chi_squared_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_chi_squared_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_CHI_SQUARED_TOOL, NULL);
+}
 
 static gboolean
 analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
@@ -45,15 +142,15 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_column;
 	GnmExpr const *expr_expect;
 
-	GnmFunc *fd_mmult     = analysis_tool_get_function ("MMULT", dao);
-	GnmFunc *fd_row       = analysis_tool_get_function ("ROW", dao);
-	GnmFunc *fd_column    = analysis_tool_get_function ("COLUMN", dao);
-	GnmFunc *fd_transpose = analysis_tool_get_function ("TRANSPOSE", dao);
-	GnmFunc *fd_sum       = analysis_tool_get_function ("SUM", dao);
-	GnmFunc *fd_min       = analysis_tool_get_function ("MIN", dao);
-	GnmFunc *fd_offset    = analysis_tool_get_function ("OFFSET", dao);
-	GnmFunc *fd_chiinv    = analysis_tool_get_function ("CHIINV", dao);
-	GnmFunc *fd_chidist   = analysis_tool_get_function ("CHIDIST", dao);
+	GnmFunc *fd_mmult     = gnm_func_get_and_use ("MMULT");
+	GnmFunc *fd_row       = gnm_func_get_and_use ("ROW");
+	GnmFunc *fd_column    = gnm_func_get_and_use ("COLUMN");
+	GnmFunc *fd_transpose = gnm_func_get_and_use ("TRANSPOSE");
+	GnmFunc *fd_sum       = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_min       = gnm_func_get_and_use ("MIN");
+	GnmFunc *fd_offset    = gnm_func_get_and_use ("OFFSET");
+	GnmFunc *fd_chiinv    = gnm_func_get_and_use ("CHIINV");
+	GnmFunc *fd_chidist   = gnm_func_get_and_use ("CHIDIST");
 	char const *label;
 	char *cc;
 
@@ -148,65 +245,6 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 	dao_redraw_respan (dao);
 
 	return FALSE;
-}
-
-static gboolean
-analysis_tool_chi_squared_clean (gpointer specs)
-{
-	analysis_tools_data_chi_squared_t *info = specs;
-
-	value_release (info->input);
-	info->input = NULL;
-
-	return FALSE;
-}
-
-
-/**
- * analysis_tool_chi_squared_engine:
- * @gcc: #GOCmdContext
- * @dao: #data_analysis_output_t
- * @specs: #gpointer
- * @selector: #analysis_tool_engine_t
- * @result: #gpointer
- *
- * Returns: %TRUE if there is an error.
- **/
-gboolean
-analysis_tool_chi_squared_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			      analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_chi_squared_t *info = specs;
-
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor
-			(dao,
-			 info->independence ?
-			 _("Test of Independence (%s)")
-			 : _("Test of Homogeneity (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		dao_adjust (dao, 2, 5);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_chi_squared_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, info->independence ?
-				    _("Test of Independence")
-				    : _("Test of Homogeneity"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao,  info->independence ?
-					  _("Test of Independence")
-					  : _("Test of Homogeneity"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_chi_squared_engine_run (dao, specs);
-	}
-	return TRUE;
 }
 
 

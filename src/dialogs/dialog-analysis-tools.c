@@ -626,28 +626,27 @@ corr_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			 GnmGenericToolState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_generic_t  *data;
-
-        char   *text;
+	GnmAnalysisTool *tool;
+	GnmGenericAnalysisTool *gtool;
 	GtkWidget *w;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
 
-	data = g_new0 (analysis_tools_data_generic_t, 1);
+	tool = gnm_correlation_tool_new ();
+	gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
 	dao  = dao_parse_output (state);
 
-	data->input = gnm_expr_entry_parse_as_list (
+	gtool->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
-	data->group_by = gnm_gui_group_value (state->gui, grouped_by_group);
+	gtool->base.group_by = gnm_gui_group_value (state->gui, grouped_by_group);
 
 	w = go_gtk_builder_get_widget (state->gui, "labels_button");
-        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        gtool->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet,
-			       dao, data, analysis_tool_correlation_engine, FALSE)) {
-
-		switch (data->err - 1) {
+	if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet, dao, tool)) {
+		char *text;
+		switch (gtool->base.err - 1) {
 		case GROUPED_BY_ROW:
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
@@ -665,17 +664,16 @@ corr_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			break;
 		default:
 			text = g_strdup_printf (
-				_("An unexpected error has occurred: %d."), data->err);
+				_("An unexpected error has occurred: %d."), gtool->base.err);
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry), text);
 			g_free (text);
 			break;
 		}
-		range_list_destroy (data->input);
-		g_free (dao);
-		g_free (data);
+		dao_free (dao);
 	} else
 		gtk_widget_destroy (state->dialog);
+	g_object_unref (tool);
 	return;
 }
 
@@ -746,28 +744,27 @@ cov_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			GnmGenericToolState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_generic_t  *data;
-
-        char   *text;
+	GnmAnalysisTool *tool;
+	GnmGenericAnalysisTool *gtool;
 	GtkWidget *w;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
 
-	data = g_new0 (analysis_tools_data_generic_t, 1);
+	tool = gnm_covariance_tool_new ();
+	gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
 	dao  = dao_parse_output (state);
 
-	data->input = gnm_expr_entry_parse_as_list (
+	gtool->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
-	data->group_by = gnm_gui_group_value (state->gui, grouped_by_group);
+	gtool->base.group_by = gnm_gui_group_value (state->gui, grouped_by_group);
 
 	w = go_gtk_builder_get_widget (state->gui, "labels_button");
-        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        gtool->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet,
-			       dao, data, analysis_tool_covariance_engine, FALSE)) {
-
-		switch (data->err - 1) {
+	if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet, dao, tool)) {
+		char *text;
+		switch (gtool->base.err - 1) {
 		case GROUPED_BY_ROW:
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
@@ -785,17 +782,16 @@ cov_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			break;
 		default:
 			text = g_strdup_printf (
-				_("An unexpected error has occurred: %d."), data->err);
+				_("An unexpected error has occurred: %d."), gtool->base.err);
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry), text);
 			g_free (text);
 			break;
 		}
-		range_list_destroy (data->input);
-		g_free (dao);
-		g_free (data);
+		dao_free (dao);
 	} else
 		gtk_widget_destroy (state->dialog);
+	g_object_unref (tool);
 	return;
 }
 
@@ -866,27 +862,28 @@ rank_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			 GnmGenericToolState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_ranking_t  *data;
-
+	GnmAnalysisTool *tool;
+	GnmRankingTool *rtool;
 	GtkWidget *w;
 
-	data = g_new0 (analysis_tools_data_ranking_t, 1);
+	tool = gnm_ranking_tool_new ();
+	rtool = GNM_RANKING_TOOL (tool);
 	dao  = dao_parse_output (state);
 
-	data->base.input = gnm_expr_entry_parse_as_list (
+	rtool->parent.base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
-	data->base.group_by = gnm_gui_group_value (state->gui, grouped_by_group);
+	rtool->parent.base.group_by = gnm_gui_group_value (state->gui, grouped_by_group);
 
 	w = go_gtk_builder_get_widget (state->gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        rtool->parent.base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	w = go_gtk_builder_get_widget (state->gui, "rank_button");
-        data->av_ties = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        rtool->av_ties = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 
-	if (!cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet,
-				dao, data, analysis_tool_ranking_engine, TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet, dao, tool))
 		gtk_widget_destroy (state->dialog);
+	g_object_unref (tool);
 	return;
 }
 
@@ -958,28 +955,29 @@ fourier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			    GnmGenericToolState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_fourier_t  *data;
-
+	GnmAnalysisTool *tool;
+	GnmFourierTool *ftool;
 	GtkWidget               *w;
 
-	data = g_new0 (analysis_tools_data_fourier_t, 1);
+	tool = gnm_fourier_tool_new ();
+	ftool = GNM_FOURIER_TOOL (tool);
 	dao  = dao_parse_output (state);
 
-	data->base.wbc = GNM_WBC (state->wbcg);
-	data->base.input = gnm_expr_entry_parse_as_list (
+	ftool->parent.base.wbc = GNM_WBC (state->wbcg);
+	ftool->parent.base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
-	data->base.group_by = gnm_gui_group_value (state->gui, grouped_by_group);
+	ftool->parent.base.group_by = gnm_gui_group_value (state->gui, grouped_by_group);
 
 	w = go_gtk_builder_get_widget (state->gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        ftool->parent.base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	w = go_gtk_builder_get_widget (state->gui, "inverse_button");
-	data->inverse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)) != 0;
+	ftool->inverse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)) != 0;
 
-	if (!cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet,
-				dao, data, analysis_tool_fourier_engine, TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet, dao, tool))
 		gtk_widget_destroy (state->dialog);
 
+	g_object_unref (tool);
 	return;
 }
 
@@ -1051,43 +1049,45 @@ cb_desc_stat_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			      DescriptiveStatState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_descriptive_t  *data;
-
+	GnmAnalysisTool *tool;
+	GnmDescriptiveTool *dtool;
 	GtkWidget *w;
 
-	data = g_new0 (analysis_tools_data_descriptive_t, 1);
+	tool = gnm_descriptive_tool_new ();
+	dtool = GNM_DESCRIPTIVE_TOOL (tool);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
-	data->base.input = gnm_expr_entry_parse_as_list (
+	dtool->parent.base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
+	dtool->parent.base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
-	data->summary_statistics = gtk_toggle_button_get_active (
+	dtool->summary_statistics = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->summary_stats_button));
-	data->confidence_level = gtk_toggle_button_get_active (
+	dtool->confidence_level = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->mean_stats_button));
-	data->kth_largest = gtk_toggle_button_get_active (
+	dtool->kth_largest = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->kth_largest_button));
-	data->kth_smallest = gtk_toggle_button_get_active (
+	dtool->kth_smallest = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->kth_smallest_button));
-	data->use_ssmedian = gtk_toggle_button_get_active (
+	dtool->use_ssmedian = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->ss_button));
 
-	if (data->confidence_level == 1)
-		data->c_level = gtk_spin_button_get_value
+	if (dtool->confidence_level == 1)
+		dtool->c_level = gtk_spin_button_get_value
 			(GTK_SPIN_BUTTON (state->c_entry));
 
-	if (data->kth_largest == 1)
-		entry_to_int (GTK_ENTRY (state->l_entry), &data->k_largest, TRUE);
-	if (data->kth_smallest == 1)
-		entry_to_int (GTK_ENTRY (state->s_entry), &data->k_smallest, TRUE);
+	if (dtool->kth_largest == 1)
+		entry_to_int (GTK_ENTRY (state->l_entry), &dtool->k_largest, TRUE);
+	if (dtool->kth_smallest == 1)
+		entry_to_int (GTK_ENTRY (state->s_entry), &dtool->k_smallest, TRUE);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        dtool->parent.base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet,
-				dao, data, analysis_tool_descriptive_engine, TRUE))
+				dao, tool))
 		gtk_widget_destroy (state->base.dialog);
+	g_object_unref (tool);
 	return;
 }
 
@@ -1314,90 +1314,79 @@ ttest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			  TTestState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_ttests_t  *data;
-
+	GnmAnalysisTool *atool = NULL;
+	GnmGenericBAnalysisTool *gbtool;
 	GtkWidget *w;
 	int    err = 0;
 
-	data = g_new0 (analysis_tools_data_ttests_t, 1);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
-
-	data->base.wbc = GNM_WBC (state->base.wbcg);
 
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
 
-	data->base.range_1 = gnm_expr_entry_parse_as_value
-		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-
-	data->base.range_2 = gnm_expr_entry_parse_as_value
-		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
-
-	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->paired_button)) == 1) {
 		state->invocation = TTEST_PAIRED;
+		atool = gnm_ttest_paired_tool_new ();
 	} else {
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->known_button)) == 1) {
 			state->invocation = TTEST_ZTEST;
+			atool = gnm_ztest_tool_new ();
 		} else {
 			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
 							  (state->equal_button)) == 1) {
 				state->invocation = TTEST_UNPAIRED_EQUALVARIANCES;
+				atool = gnm_ttest_eqvar_tool_new ();
 			} else {
 				state->invocation = TTEST_UNPAIRED_UNEQUALVARIANCES;
+				atool = gnm_ttest_neqvar_tool_new ();
 			}
 		}
 	}
 
-	err = entry_to_float (GTK_ENTRY (state->mean_diff_entry), &data->mean_diff, TRUE);
-	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->base.alpha, TRUE);
+	gbtool = GNM_GENERIC_B_ANALYSIS_TOOL (atool);
+	gbtool->base.wbc = GNM_WBC (state->base.wbcg);
+	gbtool->base.range_1 = gnm_expr_entry_parse_as_value
+		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+	gbtool->base.range_2 = gnm_expr_entry_parse_as_value
+		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
-	switch (state->invocation) {
-	case TTEST_PAIRED:
-		if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
-					state->base.sheet,
-					dao, data, analysis_tool_ttest_paired_engine,
-					TRUE))
-			gtk_widget_destroy (state->base.dialog);
-		break;
-	case TTEST_UNPAIRED_EQUALVARIANCES:
-		if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet,
-					dao, data, analysis_tool_ttest_eqvar_engine, TRUE))
-			gtk_widget_destroy (state->base.dialog);
-		break;
-	case TTEST_UNPAIRED_UNEQUALVARIANCES:
-		if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet,
-					dao, data, analysis_tool_ttest_neqvar_engine, TRUE))
-			gtk_widget_destroy (state->base.dialog);
-		break;
-	case TTEST_ZTEST:
-		err = entry_to_float (GTK_ENTRY (state->var1_variance), &data->var1, TRUE);
-		if (err != 0 || data->var1 <= 0) {
+	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
+        gbtool->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	if (state->invocation == TTEST_ZTEST) {
+		GnmZTestTool *ztool = GNM_ZTEST_TOOL (atool);
+		entry_to_float (GTK_ENTRY (state->mean_diff_entry), &ztool->mean_diff, TRUE);
+		entry_to_float (GTK_ENTRY (state->alpha_entry), &gbtool->base.alpha, TRUE);
+
+		err = entry_to_float (GTK_ENTRY (state->var1_variance), &ztool->var1, TRUE);
+		if (err != 0 || ztool->var1 <= 0) {
 			error_in_entry ((GnmGenericToolState *) state, GTK_WIDGET (state->var1_variance),
 					_("Please enter a valid\n"
 					  "population variance for variable 1."));
-			g_free (data);
-			g_free (dao);
+			g_object_unref (atool);
+			dao_free (dao);
 			return;
 		}
-		err = entry_to_float (GTK_ENTRY (state->var2_variance), &data->var2, TRUE);
-		if (err != 0 || data->var2 <= 0) {
+		err = entry_to_float (GTK_ENTRY (state->var2_variance), &ztool->var2, TRUE);
+		if (err != 0 || ztool->var2 <= 0) {
 			error_in_entry ((GnmGenericToolState *) state, GTK_WIDGET (state->var2_variance),
 					_("Please enter a valid\n"
 					  "population variance for variable 2."));
-			g_free (data);
-			g_free (dao);
+			g_object_unref (atool);
+			dao_free (dao);
 			return;
 		}
-
-		if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet,
-					dao, data, analysis_tool_ztest_engine, TRUE))
-			gtk_widget_destroy (state->base.dialog);
-		break;
+	} else {
+		GnmTTestPairedTool *ptool = (GnmTTestPairedTool *)atool;
+		/* Paired, EqVar, and NeqVar all have mean_diff at same offset in parent */
+		entry_to_float (GTK_ENTRY (state->mean_diff_entry), &ptool->mean_diff, TRUE);
+		entry_to_float (GTK_ENTRY (state->alpha_entry), &gbtool->base.alpha, TRUE);
 	}
 
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, atool))
+		gtk_widget_destroy (state->base.dialog);
+
+	g_object_unref (atool);
 	return;
 }
 
@@ -1702,33 +1691,34 @@ ftest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			  FTestToolState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_generic_b_t  *data;
-
+	GnmAnalysisTool *atool;
+	GnmGenericBAnalysisTool *gbtool;
 	GtkWidget *w;
 
-	data = g_new0 (analysis_tools_data_generic_b_t, 1);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
-	data->wbc = GNM_WBC (state->base.wbcg);
+	atool = gnm_ftest_tool_new ();
+	gbtool = GNM_GENERIC_B_ANALYSIS_TOOL (atool);
+	gbtool->base.wbc = GNM_WBC (state->base.wbcg);
 
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
 
-	data->range_1 = gnm_expr_entry_parse_as_value
+	gbtool->base.range_1 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 
-	data->range_2 =  gnm_expr_entry_parse_as_value
+	gbtool->base.range_2 =  gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        gbtool->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, TRUE);
+	entry_to_float (GTK_ENTRY (state->alpha_entry), &gbtool->base.alpha, TRUE);
 
-	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet,
-				dao, data, analysis_tool_ftest_engine, TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, atool))
 		gtk_widget_destroy (state->base.dialog);
 
+	g_object_unref (atool);
 	return;
 }
 
@@ -1927,37 +1917,38 @@ sampling_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			     SamplingState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_sampling_t  *data;
+	GnmAnalysisTool *tool;
+	GnmSamplingTool *stool;
+	GtkWidget               *w;
 
-	GtkWidget *w;
-
-	data = g_new0 (analysis_tools_data_sampling_t, 1);
+	tool = gnm_sampling_tool_new ();
+	stool = GNM_SAMPLING_TOOL (tool);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
-	data->base.wbc = GNM_WBC (state->base.wbcg);
+	stool->parent.base.wbc = GNM_WBC (state->base.wbcg);
 
-	data->base.input = gnm_expr_entry_parse_as_list (
+	stool->parent.base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
+	stool->parent.base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        stool->parent.base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-        data->periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
+        stool->periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
 
-	if (data->periodic) {
-		entry_to_int (GTK_ENTRY (state->period_entry), &data->period, TRUE);
-		entry_to_int (GTK_ENTRY (state->offset_entry), &data->offset, TRUE);
-		data->row_major = gtk_toggle_button_get_active
+	if (stool->periodic) {
+		entry_to_int (GTK_ENTRY (state->period_entry), (int *)&stool->period, TRUE);
+		entry_to_int (GTK_ENTRY (state->offset_entry), (int *)&stool->offset, TRUE);
+		stool->row_major = gtk_toggle_button_get_active
 			(GTK_TOGGLE_BUTTON (state->row_major_button));
 	} else
-		entry_to_int (GTK_ENTRY (state->random_entry), &data->size, TRUE);
+		entry_to_int (GTK_ENTRY (state->random_entry), (int *)&stool->size, TRUE);
 
-	entry_to_int (GTK_ENTRY (state->number_entry), &data->number, TRUE);
+	entry_to_int (GTK_ENTRY (state->number_entry), (int *)&stool->number, TRUE);
 
-	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet,
-				dao, data, analysis_tool_sampling_engine, TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool))
 		gtk_widget_destroy (state->base.dialog);
+	g_object_unref (tool);
 	return;
 }
 
@@ -2162,7 +2153,8 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			       RegressionToolState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_regression_t  *data;
+	GnmAnalysisTool *tool;
+	GnmRegressionTool *rtool;
 
 	GtkWidget *w;
 	gnm_float confidence;
@@ -2171,56 +2163,54 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
 
-	data = g_new0 (analysis_tools_data_regression_t, 1);
+	tool = gnm_regression_tool_new ();
+	rtool = GNM_REGRESSION_TOOL (tool);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
-	data->base.wbc = GNM_WBC (state->base.wbcg);
+	rtool->parent.base.wbc = GNM_WBC (state->base.wbcg);
 
-	data->base.range_1 = gnm_expr_entry_parse_as_value (
+	rtool->parent.base.range_1 = gnm_expr_entry_parse_as_value (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.range_2 = gnm_expr_entry_parse_as_value
+	rtool->parent.base.range_2 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
-	y_h = regression_tool_calc_height (data->base.range_2);
+	y_h = regression_tool_calc_height (rtool->parent.base.range_2);
 
-	data->group_by = (y_h == 1) ? GROUPED_BY_ROW : GROUPED_BY_COL;
+	rtool->group_by = (y_h == 1) ? GROUPED_BY_ROW : GROUPED_BY_COL;
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        rtool->parent.base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	entry_to_float (GTK_ENTRY (state->confidence_entry), &confidence, TRUE);
-	data->base.alpha = 1 - confidence;
+	rtool->parent.base.alpha = 1 - confidence;
 
 	w = go_gtk_builder_get_widget (state->base.gui, "intercept-button");
-	data->intercept = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	rtool->intercept = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	data->residual = gtk_toggle_button_get_active
+	rtool->residual = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->residuals_check));
 
-	data->multiple_regression
+	rtool->multiple_regression
 		= !gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->simple_linear_regression_radio));
 
-	data->multiple_y = gtk_toggle_button_get_active
+	rtool->multiple_y = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->switch_variables_check));
 
-	if (cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet,
-			       dao, data, analysis_tool_regression_engine, FALSE)) {
+	if (cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool)) {
 		char *text;
 
 		text = g_strdup_printf (
-			_("An unexpected error has occurred: %d."), data->base.err);
+			_("An unexpected error has occurred: %d."), rtool->parent.base.err);
 		error_in_entry ((GnmGenericToolState *) state,
 				GTK_WIDGET (state->base.input_entry), text);
 		g_free (text);
 
-		value_release (data->base.range_1);
-		value_release (data->base.range_2);
-		g_free (dao);
-		g_free (data);
+		dao_free (dao);
 	} else
 		gtk_widget_destroy (state->base.dialog);
 
+	g_object_unref (tool);
 }
 
 /**
@@ -2497,43 +2487,40 @@ static void
 exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 				  ExpSmoothToolState *state)
 {
-	data_analysis_output_t  *dao;
-	analysis_tools_data_exponential_smoothing_t  *data;
+	GtkWidget *w;
+	GnmAnalysisTool *tool = gnm_exp_smoothing_tool_new ();
+	GnmExpSmoothingTool *etool = GNM_EXP_SMOOTHING_TOOL (tool);
+	GnmGenericAnalysisTool *gtool = &etool->parent;
+	data_analysis_output_t *dao = dao_parse_output ((GnmGenericToolState *)state);
 
-	GtkWidget               *w;
-
-	data = g_new0 (analysis_tools_data_exponential_smoothing_t, 1);
-	dao  = dao_parse_output ((GnmGenericToolState *)state);
-
-	data->base.input = gnm_expr_entry_parse_as_list (
+	gtool->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
+	gtool->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        gtool->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	entry_to_float (GTK_ENTRY (state->damping_fact_entry),
-			&data->damp_fact, TRUE);
+			&etool->damp_fact, TRUE);
 	entry_to_float (GTK_ENTRY (state->g_damping_fact_entry),
-			&data->g_damp_fact, TRUE);
+			&etool->g_damp_fact, TRUE);
 	entry_to_float (GTK_ENTRY (state->s_damping_fact_entry),
-			&data->s_damp_fact, TRUE);
+			&etool->s_damp_fact, TRUE);
 	entry_to_int (GTK_ENTRY (state->s_period_entry),
-		      &data->s_period, TRUE);
+		      &etool->s_period, TRUE);
 
-	data->std_error_flag = gtk_toggle_button_get_active
+	etool->std_error_flag = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->show_std_errors));
-	data->show_graph = gtk_toggle_button_get_active
+	etool->show_graph = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->graph_button));
-	data->df = gnm_gui_group_value (state->base.gui, n_group);
+	etool->df = gnm_gui_group_value (state->base.gui, n_group);
 
-	data->es_type = gnm_gui_group_value (state->base.gui, exp_smoothing_group);
+	etool->es_type = gnm_gui_group_value (state->base.gui, exp_smoothing_group);
 
-	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet,
-				dao, data, analysis_tool_exponential_smoothing_engine,
-				TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool))
 		gtk_widget_destroy (state->base.dialog);
 
+	g_object_unref (tool);
 	return;
 }
 
@@ -2845,55 +2832,56 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			    AverageToolState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_moving_average_t  *data;
-
+	GnmAnalysisTool *tool;
+	GnmMovingAverageTool *mtool;
 	GtkWidget               *w;
 
-	data = g_new0 (analysis_tools_data_moving_average_t, 1);
+	tool = gnm_moving_average_tool_new ();
+	mtool = GNM_MOVING_AVERAGE_TOOL (tool);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
-	data->base.input = gnm_expr_entry_parse_as_list (
+	mtool->parent.base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
+	mtool->parent.base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        mtool->parent.base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	entry_to_int (GTK_ENTRY (state->interval_entry), &data->interval, TRUE);
-	entry_to_int (GTK_ENTRY (state->offset_spin), &data->offset, TRUE);
+	entry_to_int (GTK_ENTRY (state->interval_entry), &mtool->interval, TRUE);
+	entry_to_int (GTK_ENTRY (state->offset_spin), &mtool->offset, TRUE);
 
-	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
-	data->show_graph = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->graph_button));
+	mtool->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
+	mtool->show_graph = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->graph_button));
 
-	data->df = gnm_gui_group_value (state->base.gui, n_group);
+	mtool->df = gnm_gui_group_value (state->base.gui, n_group);
 
-	data->ma_type = gnm_gui_group_value (state->base.gui, moving_average_group);
+	mtool->ma_type = gnm_gui_group_value (state->base.gui, moving_average_group);
 
-	switch (data->ma_type) {
+	switch (mtool->ma_type) {
 	case moving_average_type_sma:
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->central_button))
-		    && (data->interval % 2 == 0))
-			data->ma_type = moving_average_type_central_sma;
+		    && (mtool->interval % 2 == 0))
+			mtool->ma_type = moving_average_type_central_sma;
 		break;
 	case moving_average_type_cma:
-		data->interval = 0;
-		data->offset = 0;
+		mtool->interval = 0;
+		mtool->offset = 0;
 		break;
 	case moving_average_type_spencer_ma:
-		data->interval = 15;
-		data->offset = 7;
+		mtool->interval = 15;
+		mtool->offset = 7;
 		break;
 	case moving_average_type_wma:
-		data->offset = 0;
+		mtool->offset = 0;
 		break;
 	default:
 		break;
 	}
 
-	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet,
-				dao, data, analysis_tool_moving_average_engine, TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool))
 		gtk_widget_destroy (state->base.dialog);
 
+	g_object_unref (tool);
 	return;
 }
 
@@ -3267,50 +3255,49 @@ static void
 histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			      HistogramToolState *state)
 {
-	data_analysis_output_t  *dao;
-	analysis_tools_data_histogram_t  *data;
-
 	GtkWidget *w;
 
-	data = g_new0 (analysis_tools_data_histogram_t, 1);
-	dao  = dao_parse_output ((GnmGenericToolState *)state);
+	GnmAnalysisTool *tool = gnm_histogram_tool_new ();
+	GnmHistogramTool *htool = GNM_HISTOGRAM_TOOL (tool);
+	GnmGenericAnalysisTool *gtool = &htool->parent;
+	data_analysis_output_t *dao = dao_parse_output ((GnmGenericToolState *)state);
 
-	data->base.input = gnm_expr_entry_parse_as_list (
+	gtool->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
+	gtool->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
-	data->predetermined = gtk_toggle_button_get_active (
+	htool->predetermined = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->predetermined_button));
-	if (data->predetermined) {
+	if (htool->predetermined) {
 		w = go_gtk_builder_get_widget (state->base.gui, "labels_2_button");
-		data->bin = gnm_expr_entry_parse_as_value
+		htool->bin = gnm_expr_entry_parse_as_value
 			(GNM_EXPR_ENTRY (state->base.input_entry_2),
 			 state->base.sheet);
 	} else {
-		entry_to_int (state->n_entry, &data->n,TRUE);
-		data->max_given = (0 == entry_to_float (state->max_entry,
-							    &data->max , TRUE));
-		data->min_given = (0 == entry_to_float (state->min_entry,
-							    &data->min , TRUE));
-		data->bin = NULL;
+		entry_to_int (state->n_entry, &htool->n,TRUE);
+		htool->max_given = (0 == entry_to_float (state->max_entry,
+							    &htool->max , TRUE));
+		htool->min_given = (0 == entry_to_float (state->min_entry,
+							    &htool->min , TRUE));
+		htool->bin = NULL;
 	}
 
-	data->bin_type = gnm_gui_group_value (state->base.gui, bin_type_group);
-	data->chart = gnm_gui_group_value (state->base.gui, chart_group);
+	htool->bin_type = gnm_gui_group_value (state->base.gui, bin_type_group);
+	htool->chart = gnm_gui_group_value (state->base.gui, chart_group);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-	data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	gtool->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = go_gtk_builder_get_widget (state->base.gui, "percentage-button");
-	data->percentage = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	htool->percentage = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = go_gtk_builder_get_widget (state->base.gui, "cum-button");
-	data->cumulative = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	htool->cumulative = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = go_gtk_builder_get_widget (state->base.gui, "only-num-button");
-	data->only_numbers = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	htool->only_numbers = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet,
-				dao, data, analysis_tool_histogram_engine, TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool))
 		gtk_widget_destroy (state->base.dialog);
 
+	g_object_unref (tool);
 	return;
 }
 
@@ -3459,25 +3446,27 @@ anova_single_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 				 AnovaSingleToolState *state)
 {
 	data_analysis_output_t  *dao;
+	GnmAnalysisTool *tool;
+	GnmAnovaSingleTool *atool;
 	GtkWidget *w;
-	analysis_tools_data_anova_single_t *data;
 
-	data = g_new0 (analysis_tools_data_anova_single_t, 1);
+	tool = gnm_anova_single_tool_new ();
+	atool = GNM_ANOVA_SINGLE_TOOL (tool);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
-	data->base.input = gnm_expr_entry_parse_as_list (
+	atool->parent.base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
+	atool->parent.base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	data->alpha = gtk_spin_button_get_value
+        atool->parent.base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	atool->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 
-	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet,
-				dao, data, analysis_tool_anova_single_engine, TRUE))
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool))
 		gtk_widget_destroy (state->base.dialog);
 
+	g_object_unref (tool);
 	return;
 }
 
@@ -3613,61 +3602,63 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 				     AnovaTwoFactorToolState *state)
 {
 	data_analysis_output_t  *dao;
+	GnmAnalysisTool *tool;
+	GnmAnovaTwoFactorTool *atool;
 	GtkWidget *w;
-	analysis_tools_data_anova_two_factor_t *data;
 	char *text;
 
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
 
-	data = g_new0 (analysis_tools_data_anova_two_factor_t, 1);
+	tool = gnm_anova_two_factor_tool_new ();
+	atool = GNM_ANOVA_TWO_FACTOR_TOOL (tool);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
-	data->input = gnm_expr_entry_parse_as_value
+	atool->input = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
-	data->err = analysis_tools_noerr;
-	data->wbc = GNM_WBC (state->base.wbcg);
+	atool->err = analysis_tools_noerr;
+	atool->wbc = GNM_WBC (state->base.wbcg);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        atool->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	data->alpha = gtk_spin_button_get_value
+	atool->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 	entry_to_int (GTK_ENTRY (state->replication_entry),
-			    &data->replication, TRUE);
+			    &atool->replication, TRUE);
 
 	if (cmd_analysis_tool (GNM_WBC (state->base.wbcg),
 			       state->base.sheet,
-			       dao, data, analysis_tool_anova_two_factor_engine, FALSE)) {
-		switch (data->err) {
+			       dao, tool)) {
+		switch (atool->err) {
 		case analysis_tools_missing_data:
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
-					data->labels ? _("The given input range should contain at "
+					atool->labels ? _("The given input range should contain at "
 					  "least two columns and two rows of data and the "
 					  "labels.") :
 					_("The given input range should contain at "
-					  "least two columns and two rows of data."));
+					  "least two columns and two rows of "));
 			break;
 		case analysis_tools_too_few_cols:
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
-					data->labels ? _("The given input range should contain at "
+					atool->labels ? _("The given input range should contain at "
 					  "least two columns of data and the "
 					  "labels.") :
 					_("The given input range should contain at "
-					  "least two columns of data."));
+					  "least two columns of "));
 			break;
 		case analysis_tools_too_few_rows:
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
-					data->labels ? _("The given input range should contain at "
+					atool->labels ? _("The given input range should contain at "
 					  "least two rows of data and the "
 					  "labels.") :
 					_("The given input range should "
 					  "contain at least two rows of "
-					  "data."));
+					  ""));
 			break;
 		case analysis_tools_replication_invalid:
 			error_in_entry ((GnmGenericToolState *) state,
@@ -3679,19 +3670,18 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		default:
 			text = g_strdup_printf (
 				_("An unexpected error has occurred: %d."),
-				data->err);
+				atool->err);
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
 					text);
 			g_free (text);
 			break;
 		}
-		value_release (data->input);
-		g_free (dao);
-		g_free (data);
+		dao_free (dao);
 	} else
 		gtk_widget_destroy (state->base.dialog);
 
+	g_object_unref (tool);
 	return;
 }
 

@@ -30,14 +30,137 @@
 #include <ranges.h>
 #include <expr.h>
 #include <func.h>
-#include <numbers.h>
+#include <sheet.h>
+
+static gboolean analysis_tool_sign_test_engine_run (GnmSignTestTool *stool, data_analysis_output_t *dao);
+static gboolean analysis_tool_sign_test_two_engine_run (GnmSignTestTwoTool *stool, data_analysis_output_t *dao);
+
+G_DEFINE_TYPE (GnmSignTestTool, gnm_sign_test_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_sign_test_tool_init (G_GNUC_UNUSED GnmSignTestTool *tool)
+{
+}
 
 static gboolean
-analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_sign_test_t *info)
+gnm_sign_test_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
+	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
+	analysis_tool_prepare_input_range (gtool);
+	dao_adjust (dao, 1 + g_slist_length (gtool->base.input), 8);
+	return FALSE;
+}
+
+static char *
+gnm_sign_test_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Sign Test (%s)"));
+}
+
+static gboolean
+gnm_sign_test_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Sign Test"));
+	return FALSE;
+}
+
+static gboolean
+gnm_sign_test_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Sign Test"));
+}
+
+static gboolean
+gnm_sign_test_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmSignTestTool *stool = GNM_SIGN_TEST_TOOL (tool);
+	return analysis_tool_sign_test_engine_run (stool, dao);
+}
+
+static void
+gnm_sign_test_tool_class_init (GnmSignTestToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_sign_test_tool_update_dao;
+	at_class->update_descriptor = gnm_sign_test_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_sign_test_tool_prepare_output_range;
+	at_class->format_output_range = gnm_sign_test_tool_format_output_range;
+	at_class->perform_calc = gnm_sign_test_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_sign_test_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_SIGN_TEST_TOOL, NULL);
+}
+
+/********************************************************************/
+
+G_DEFINE_TYPE (GnmSignTestTwoTool, gnm_sign_test_two_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+static void
+gnm_sign_test_two_tool_init (G_GNUC_UNUSED GnmSignTestTwoTool *tool)
+{
+}
+
+static gboolean
+gnm_sign_test_two_tool_update_dao (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_adjust (dao, 3, 8);
+	return FALSE;
+}
+
+static char *
+gnm_sign_test_two_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Sign Test (%s)"));
+}
+
+static gboolean
+gnm_sign_test_two_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Sign Test"));
+	return FALSE;
+}
+
+static gboolean
+gnm_sign_test_two_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Sign Test"));
+}
+
+static gboolean
+gnm_sign_test_two_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmSignTestTwoTool *stool = GNM_SIGN_TEST_TWO_TOOL (tool);
+	return analysis_tool_sign_test_two_engine_run (stool, dao);
+}
+
+static void
+gnm_sign_test_two_tool_class_init (GnmSignTestTwoToolClass *klass)
+{
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	at_class->update_dao = gnm_sign_test_two_tool_update_dao;
+	at_class->update_descriptor = gnm_sign_test_two_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_sign_test_two_tool_prepare_output_range;
+	at_class->format_output_range = gnm_sign_test_two_tool_format_output_range;
+	at_class->perform_calc = gnm_sign_test_two_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_sign_test_two_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_SIGN_TEST_TWO_TOOL, NULL);
+}
+
+static gboolean
+analysis_tool_sign_test_engine_run (GnmSignTestTool *stool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = &stool->parent;
 	guint     col;
-	GSList *data = info->base.input;
+	GSList *data = gtool->base.input;
 	gboolean first = TRUE;
 
 	GnmExpr const *expr;
@@ -53,20 +176,13 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_isnumber;
 	GnmFunc *fd_iferror;
 
-	fd_median = gnm_func_lookup_or_add_placeholder ("MEDIAN");
-	gnm_func_inc_usage (fd_median);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_inc_usage (fd_if);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_inc_usage (fd_sum);
-	fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
-	gnm_func_inc_usage (fd_min);
-	fd_binomdist = gnm_func_lookup_or_add_placeholder ("BINOMDIST");
-	gnm_func_inc_usage (fd_binomdist);
-	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER");
-	gnm_func_inc_usage (fd_isnumber);
-	fd_iferror = gnm_func_lookup_or_add_placeholder ("IFERROR");
-	gnm_func_inc_usage (fd_iferror);
+	fd_median = gnm_func_get_and_use ("MEDIAN");
+	fd_if = gnm_func_get_and_use ("IF");
+	fd_sum = gnm_func_get_and_use ("SUM");
+	fd_min = gnm_func_get_and_use ("MIN");
+	fd_binomdist = gnm_func_get_and_use ("BINOMDIST");
+	fd_isnumber = gnm_func_get_and_use ("ISNUMBER");
+	fd_iferror = gnm_func_get_and_use ("IFERROR");
 
 	dao_set_italic (dao, 0, 0, 0, 9);
 	set_cell_text_col (dao, 0, 0, _("/Sign Test"
@@ -84,12 +200,12 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 
 		/* Note that analysis_tools_write_label may modify val_org */
 		dao_set_italic (dao, col + 1, 0, col+1, 0);
-		analysis_tools_write_label (val_org, dao, &info->base, col + 1, 0, col + 1);
+		analysis_tools_write_label (gtool, val_org, dao, col + 1, 0, col + 1);
 		expr_org = gnm_expr_new_constant (val_org);
 
 		if (first) {
-			dao_set_cell_float (dao, col + 1, 2, info->median);
-			dao_set_cell_float (dao, col + 1, 5, info->alpha);
+			dao_set_cell_float (dao, col + 1, 2, stool->median);
+			dao_set_cell_float (dao, col + 1, 5, stool->alpha);
 			first = FALSE;
 		} else {
 			dao_set_cell_expr (dao, col + 1, 2, make_cellref (-1,0));
@@ -171,9 +287,9 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 }
 
 static gboolean
-analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_sign_test_two_t *info)
+analysis_tool_sign_test_two_engine_run (GnmSignTestTwoTool *stool, data_analysis_output_t *dao)
 {
+	GnmGenericBAnalysisTool *gtool = &stool->parent;
 	GnmValue *val_1;
 	GnmValue *val_2;
 
@@ -195,20 +311,13 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_isnumber;
 	GnmFunc *fd_iferror;
 
-	fd_median = gnm_func_lookup_or_add_placeholder ("MEDIAN");
-	gnm_func_inc_usage (fd_median);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
-	gnm_func_inc_usage (fd_if);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
-	gnm_func_inc_usage (fd_sum);
-	fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
-	gnm_func_inc_usage (fd_min);
-	fd_binomdist = gnm_func_lookup_or_add_placeholder ("BINOMDIST");
-	gnm_func_inc_usage (fd_binomdist);
-	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER");
-	gnm_func_inc_usage (fd_isnumber);
-	fd_iferror = gnm_func_lookup_or_add_placeholder ("IFERROR");
-	gnm_func_inc_usage (fd_iferror);
+	fd_median = gnm_func_get_and_use ("MEDIAN");
+	fd_if = gnm_func_get_and_use ("IF");
+	fd_sum = gnm_func_get_and_use ("SUM");
+	fd_min = gnm_func_get_and_use ("MIN");
+	fd_binomdist = gnm_func_get_and_use ("BINOMDIST");
+	fd_isnumber = gnm_func_get_and_use ("ISNUMBER");
+	fd_iferror = gnm_func_get_and_use ("IFERROR");
 
 	dao_set_italic (dao, 0, 0, 0, 9);
 	set_cell_text_col (dao, 0, 0, _("/Sign Test"
@@ -220,21 +329,21 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 					"/P(T\xe2\x89\xa4t) one-tailed"
 					"/P(T\xe2\x89\xa4t) two-tailed"));
 
-	val_1 = value_dup (info->base.range_1);
-	val_2 = value_dup (info->base.range_2);
+	val_1 = value_dup (gtool->base.range_1);
+	val_2 = value_dup (gtool->base.range_2);
 
 	/* Labels */
 	dao_set_italic (dao, 1, 0, 2, 0);
-	analysis_tools_write_label_ftest (val_1, dao, 1, 0,
-					  info->base.labels, 1);
-	analysis_tools_write_label_ftest (val_2, dao, 2, 0,
-					  info->base.labels, 2);
+	analysis_tools_write_variable_label (val_1, dao, 1, 0,
+					  gtool->base.labels, 1);
+	analysis_tools_write_variable_label (val_2, dao, 2, 0,
+					  gtool->base.labels, 2);
 
 	expr_1 = gnm_expr_new_constant (value_dup (val_1));
 	expr_2 = gnm_expr_new_constant (value_dup (val_2));
 
-	dao_set_cell_float (dao, 1, 2, info->median);
-	dao_set_cell_float (dao, 1, 5, info->base.alpha);
+	dao_set_cell_float (dao, 1, 2, stool->median);
+	dao_set_cell_float (dao, 1, 5, gtool->base.alpha);
 
 	expr = gnm_expr_new_funcall1
 		(fd_median,
@@ -338,86 +447,4 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 
 	return FALSE;
 }
-
-/**
- * analysis_tool_sign_test_engine:
- * @gcc: #GOCmdContext
- * @dao: #data_analysis_output_t
- * @specs: #gpointer
- * @selector: #analysis_tool_engine_t
- * @result: #gpointer
- *
- * Returns: %TRUE if there is an error.
- **/
-gboolean
-analysis_tool_sign_test_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			      analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_sign_test_t *info = specs;
-
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor
-			(dao, _("Sign Test (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->base.input, info->base.group_by);
-		dao_adjust (dao, 1 + g_slist_length (info->base.input), 8);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Sign Test"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Sign Test"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_sign_test_engine_run (dao, specs);
-	}
-	return TRUE;
-}
-
-/**
- * analysis_tool_sign_test_two_engine:
- * @gcc: #GOCmdContext
- * @dao: #data_analysis_output_t
- * @specs: #gpointer
- * @selector: #analysis_tool_engine_t
- * @result: #gpointer
- *
- * Returns: %TRUE if there is an error.
- **/
-gboolean
-analysis_tool_sign_test_two_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			      analysis_tool_engine_t selector, gpointer result)
-{
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor
-			(dao, _("Sign Test (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		dao_adjust (dao, 3, 8);
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_b_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Sign Test"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Sign Test"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_sign_test_two_engine_run (dao, specs);
-	}
-	return TRUE;  /* We shouldn't get here */
-}
-
-
-
 

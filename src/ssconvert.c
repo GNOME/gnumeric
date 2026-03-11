@@ -796,9 +796,8 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 {
 	int i;
 	WorkbookControl *wbc;
-	gpointer specs;
 	data_analysis_output_t *dao;
-	analysis_tool_engine engine;
+	GnmAnalysisTool *atool = NULL;
 	Workbook *wb;
 	Sheet *sheet;
 	GHashTable *args;
@@ -829,43 +828,54 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 	sheet = GET_ARG (SHEET_ARG, "sheet", wb_view_cur_sheet (wbv));
 
 	if (g_str_equal (tool, "regression")) {
-		analysis_tools_data_regression_t *data =
-			g_new0 (analysis_tools_data_regression_t, 1);
+		GnmRegressionTool *data = (GnmRegressionTool *)gnm_regression_tool_new ();
 
-		data->base.wbc = wbc;
-		data->base.range_1 = GET_ARG (RANGE_ARG, "x", value_new_error_REF (NULL));
-		data->base.range_2 = GET_ARG (RANGE_ARG, "y", value_new_error_REF (NULL));
-		data->base.labels = GET_ARG (atoi, "labels", FALSE);
-		data->base.alpha = GET_ARG (atof, "alpha", 0.05);
+		data->parent.base.wbc = wbc;
+		data->parent.base.range_1 = GET_ARG (RANGE_ARG, "x", value_new_error_REF (NULL));
+		data->parent.base.range_2 = GET_ARG (RANGE_ARG, "y", value_new_error_REF (NULL));
+		data->parent.base.labels = GET_ARG (atoi, "labels", FALSE);
+		data->parent.base.alpha = GET_ARG (atof, "alpha", 0.05);
 		data->group_by = GET_ARG ((group_by_t)atoi, "grouped-by", GROUPED_BY_COL);
 		data->intercept = GET_ARG (atoi, "intercept", TRUE);
 		data->multiple_regression = GET_ARG (atoi, "multiple", TRUE);
 		data->multiple_y = GET_ARG (atoi, "multiple-y", FALSE);
 		data->residual = GET_ARG (atoi, "residual", TRUE);
 
-		engine = analysis_tool_regression_engine;
-		specs = data;
-	} else if (g_str_equal (tool, "anova")) {
-		analysis_tools_data_anova_single_t *data =
-			g_new0 (analysis_tools_data_anova_single_t, 1);
+		atool = GNM_ANALYSIS_TOOL (data);
+	} else if (g_str_equal (tool, "moving-average")) {
+		GnmMovingAverageTool *data = (GnmMovingAverageTool *)gnm_moving_average_tool_new ();
 
-		data->base.input = GET_ARG (RANGE_LIST_ARG, "data", NULL);
-		data->base.labels = GET_ARG (atoi, "labels", FALSE);
-		data->base.group_by = GET_ARG ((group_by_t)atoi, "grouped-by", GROUPED_BY_COL);
+		data->parent.base.wbc = wbc;
+		data->parent.base.input = GET_ARG (RANGE_LIST_ARG, "data", NULL);
+		data->parent.base.group_by = GET_ARG ((group_by_t)atoi, "grouped-by", GROUPED_BY_COL);
+		data->interval = GET_ARG (atoi, "interval", 3);
+		// Many more options
+
+		atool = GNM_ANALYSIS_TOOL (data);
+	} else if (g_str_equal (tool, "anova")) {
+		GnmAnovaSingleTool *data = (GnmAnovaSingleTool *)gnm_anova_single_tool_new ();
+
+		data->parent.base.wbc = wbc;
+		data->parent.base.input = GET_ARG (RANGE_LIST_ARG, "data", NULL);
+		data->parent.base.labels = GET_ARG (atoi, "labels", FALSE);
+		data->parent.base.group_by = GET_ARG ((group_by_t)atoi, "grouped-by", GROUPED_BY_COL);
 		data->alpha = GET_ARG (atof, "alpha", 0.05);
 
-		engine = analysis_tool_anova_single_engine;
-		specs = data;
+		atool = GNM_ANALYSIS_TOOL (data);
 	} else {
 		g_printerr ("no test for tool \"%s\"\n", tool);
+		g_hash_table_destroy (args);
+		g_object_unref (wbc);
 		return;
 	}
 
-	dao = dao_init_new_sheet (NULL);
+	dao = dao_init_new_sheet ();
 	dao->put_formulas = TRUE;
-	cmd_analysis_tool (wbc, sheet, dao, specs, engine, TRUE);
+	cmd_analysis_tool (wbc, sheet, dao, atool);
 
 	g_hash_table_destroy (args);
+	g_object_unref (atool);
+	g_object_unref (wbc);
 }
 
 #undef GET_ARG

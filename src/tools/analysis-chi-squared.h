@@ -27,10 +27,7 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 #include <tools/analysis-tools.h>
-#include <sheet.h>
 
 typedef struct {
 	WorkbookControl *wbc;
@@ -42,11 +39,24 @@ typedef struct {
 	gint             n_r;
 } analysis_tools_data_chi_squared_t;
 
-gboolean analysis_tool_chi_squared_engine (GOCmdContext *gcc,
-					   data_analysis_output_t *dao,
-					   gpointer specs,
-					   analysis_tool_engine_t selector,
-					   gpointer result);
+#define GNM_TYPE_CHI_SQUARED_TOOL (gnm_chi_squared_tool_get_type ())
+GType gnm_chi_squared_tool_get_type (void);
+typedef struct _GnmChiSquaredTool GnmChiSquaredTool;
+typedef struct _GnmChiSquaredToolClass GnmChiSquaredToolClass;
+
+struct _GnmChiSquaredTool {
+	GnmAnalysisTool parent;
+	analysis_tools_data_chi_squared_t data;
+};
+
+struct _GnmChiSquaredToolClass {
+	GnmAnalysisToolClass parent_class;
+};
+
+#define GNM_CHI_SQUARED_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_CHI_SQUARED_TOOL, GnmChiSquaredTool))
+#define GNM_IS_CHI_SQUARED_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_CHI_SQUARED_TOOL))
+
+GnmAnalysisTool *gnm_chi_squared_tool_new (void);
 
 
 #endif

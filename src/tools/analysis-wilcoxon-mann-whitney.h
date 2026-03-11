@@ -27,17 +27,27 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 #include <tools/analysis-tools.h>
-#include <sheet.h>
 
-gboolean
-analysis_tool_wilcoxon_mann_whitney_engine (GOCmdContext *gcc,
-					    data_analysis_output_t *dao,
-					    gpointer specs,
-					    analysis_tool_engine_t selector,
-					    gpointer result);
+/**************** Wilcoxon-Mann-Whitney Test ***************/
+
+#define GNM_TYPE_WILCOXON_MANN_WHITNEY_TOOL (gnm_wilcoxon_mann_whitney_tool_get_type ())
+GType gnm_wilcoxon_mann_whitney_tool_get_type (void);
+typedef struct _GnmWilcoxonMannWhitneyTool GnmWilcoxonMannWhitneyTool;
+typedef struct _GnmWilcoxonMannWhitneyToolClass GnmWilcoxonMannWhitneyToolClass;
+
+struct _GnmWilcoxonMannWhitneyTool {
+	GnmGenericBAnalysisTool parent;
+};
+
+struct _GnmWilcoxonMannWhitneyToolClass {
+	GnmGenericBAnalysisToolClass parent_class;
+};
+
+#define GNM_WILCOXON_MANN_WHITNEY_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_WILCOXON_MANN_WHITNEY_TOOL, GnmWilcoxonMannWhitneyTool))
+#define GNM_IS_WILCOXON_MANN_WHITNEY_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_WILCOXON_MANN_WHITNEY_TOOL))
+
+GnmAnalysisTool *gnm_wilcoxon_mann_whitney_tool_new (void);
 
 
 #endif

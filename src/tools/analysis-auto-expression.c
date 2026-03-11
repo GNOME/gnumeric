@@ -30,42 +30,118 @@
 #include <ranges.h>
 #include <expr.h>
 #include <func.h>
-#include <numbers.h>
+#include <sheet.h>
+
+static gboolean analysis_tool_auto_expression_engine_run (GnmAutoExpressionTool *atool, data_analysis_output_t *dao);
+
+G_DEFINE_TYPE (GnmAutoExpressionTool, gnm_auto_expression_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+static void
+gnm_auto_expression_tool_init (G_GNUC_UNUSED GnmAutoExpressionTool *tool)
+{
+	tool->multiple = FALSE;
+	tool->below = FALSE;
+	tool->func = NULL;
+}
+
+static void
+gnm_auto_expression_tool_finalize (GObject *obj)
+{
+	GnmAutoExpressionTool *tool = GNM_AUTO_EXPRESSION_TOOL (obj);
+	if (tool->func) {
+		gnm_func_dec_usage (tool->func);
+		tool->func = NULL;
+	}
+	G_OBJECT_CLASS (gnm_auto_expression_tool_parent_class)->finalize (obj);
+}
 
 static gboolean
-analysis_tool_auto_expression_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_auto_expression_t *info)
+gnm_auto_expression_tool_update_dao (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
-	guint     col;
-	GSList *data = info->base.input;
+	dao_format_output (dao, _("Auto Expression"));
+	return FALSE;
+}
 
-	if (info->below) {
+static char *
+gnm_auto_expression_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_command_descriptor (dao, _("Auto Expression (%s)"));
+}
+
+static gboolean
+gnm_auto_expression_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	dao_prepare_output (NULL, dao, _("Auto Expression"));
+	return FALSE;
+}
+
+static gboolean
+gnm_auto_expression_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	return dao_format_output (dao, _("Auto Expression"));
+}
+
+static gboolean
+gnm_auto_expression_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+{
+	GnmAutoExpressionTool *atool = GNM_AUTO_EXPRESSION_TOOL (tool);
+	return analysis_tool_auto_expression_engine_run (atool, dao);
+}
+
+static void
+gnm_auto_expression_tool_class_init (GnmAutoExpressionToolClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->finalize = gnm_auto_expression_tool_finalize;
+	at_class->update_dao = gnm_auto_expression_tool_update_dao;
+	at_class->update_descriptor = gnm_auto_expression_tool_update_descriptor;
+	at_class->prepare_output_range = gnm_auto_expression_tool_prepare_output_range;
+	at_class->format_output_range = gnm_auto_expression_tool_format_output_range;
+	at_class->perform_calc = gnm_auto_expression_tool_perform_calc;
+}
+
+GnmAnalysisTool *
+gnm_auto_expression_tool_new (void)
+{
+	return g_object_new (GNM_TYPE_AUTO_EXPRESSION_TOOL, NULL);
+}
+
+static gboolean
+analysis_tool_auto_expression_engine_run (GnmAutoExpressionTool *atool, data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = &atool->parent;
+	guint     col;
+	GSList *data = gtool->base.input;
+
+	if (atool->below) {
 		for (col = 0; data != NULL; data = data->next, col++)
 			dao_set_cell_expr
 				(dao, col, 0,
 				 gnm_expr_new_funcall1
-				 (info->func,
+				 (atool->func,
 				  gnm_expr_new_constant (value_dup (data->data))));
 
-		if (info->multiple)
+		if (atool->multiple)
 			dao_set_cell_expr
 				(dao, col, 0,
 				 gnm_expr_new_funcall1
-				 (info->func,
+				 (atool->func,
 				  make_rangeref (- col, 0, -1, 0)));
 	} else {
 		for (col = 0; data != NULL; data = data->next, col++)
 			dao_set_cell_expr
 				(dao, 0, col,
 				 gnm_expr_new_funcall1
-				 (info->func,
+				 (atool->func,
 				  gnm_expr_new_constant (value_dup (data->data))));
 
-		if (info->multiple)
+		if (atool->multiple)
 			dao_set_cell_expr
 				(dao, 0, col,
 				 gnm_expr_new_funcall1
-				 (info->func,
+				 (atool->func,
 				  make_rangeref (0, - col, 0, -1)));
 	}
 	dao_redraw_respan (dao);
@@ -73,61 +149,5 @@ analysis_tool_auto_expression_engine_run (data_analysis_output_t *dao,
 	return FALSE;
 }
 
-static gboolean
-analysis_tool_auto_expression_engine_clean (gpointer specs)
-{
-	analysis_tools_data_auto_expression_t *info = specs;
 
-	gnm_func_dec_usage (info->func);
-	info->func = NULL;
-
-	return analysis_tool_generic_clean (specs);
-}
-
-/**
- * analysis_tool_auto_expression_engine:
- * @gcc: #GOCmdContext
- * @dao: #data_analysis_output_t
- * @specs: #gpointer
- * @selector: #analysis_tool_engine_t
- * @result: #gpointer
- *
- * Returns: %TRUE if there is an error.
- **/
-gboolean
-analysis_tool_auto_expression_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-			      analysis_tool_engine_t selector, gpointer result)
-{
-	analysis_tools_data_auto_expression_t *info = specs;
-
-	switch (selector) {
-	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor
-			(dao, _("Auto Expression (%s)"), result)
-			== NULL);
-	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->base.input, info->base.group_by);
-		if (info->below)
-			dao_adjust (dao,
-				    (info->multiple ? 1 : 0)  + g_slist_length (info->base.input),
-				    1);
-		else
-			dao_adjust (dao, 1,
-				    (info->multiple ? 1 : 0)  + g_slist_length (info->base.input));
-		return FALSE;
-	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_auto_expression_engine_clean (specs);
-	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return FALSE;
-	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
-		dao_prepare_output (NULL, dao, _("Auto Expression"));
-		return FALSE;
-	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
-		return dao_format_output (dao, _("Auto Expression"));
-	case TOOL_ENGINE_PERFORM_CALC:
-	default:
-		return analysis_tool_auto_expression_engine_run (dao, specs);
-	}
-	return TRUE;
-}
 

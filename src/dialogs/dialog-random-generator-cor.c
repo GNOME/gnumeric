@@ -142,28 +142,30 @@ static void
 random_cor_tool_ok_clicked_cb (GtkWidget *button, RandomCorToolState *state)
 {
 	data_analysis_output_t  *dao;
-	tools_data_random_cor_t  *data;
+	GnmAnalysisTool *tool;
+	GnmRandomCorTool *rtool;
 
-	data = g_new0 (tools_data_random_cor_t, 1);
+	tool = gnm_random_cor_tool_new ();
+	rtool = GNM_RANDOM_COR_TOOL (tool);
 
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
-	(void)entry_to_int (GTK_ENTRY (state->count_entry), &data->count, FALSE);
-	data->matrix = gnm_expr_entry_parse_as_value
+	(void)entry_to_int (GTK_ENTRY (state->count_entry), &rtool->data.count, FALSE);
+	rtool->data.matrix = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
 
-	data->variables = data->matrix->v_range.cell.b.row -
-		data->matrix->v_range.cell.a.row + 1;
+	rtool->data.variables = rtool->data.matrix->v_range.cell.b.row -
+		rtool->data.matrix->v_range.cell.a.row + 1;
 
-	data->matrix_type = gnm_gui_group_value
+	rtool->data.matrix_type = gnm_gui_group_value
 		(state->base.gui, matrix_group);
 
 
-	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg),
-				state->base.sheet,
-				dao, data, tool_random_cor_engine, TRUE) &&
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool) &&
 	    (button == state->base.ok_button))
 		gtk_widget_destroy (state->base.dialog);
+
+	g_object_unref (tool);
 }
 
 

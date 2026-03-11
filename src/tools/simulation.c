@@ -28,7 +28,7 @@
 #include <value.h>
 #include <workbook-view.h>
 #include <workbook-control.h>
-#include <sheet.h>
+#include <tools/dao.h>
 
 #include <mathfunc.h>
 #include <rangefunc.h>

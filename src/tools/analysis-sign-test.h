@@ -27,26 +27,46 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 #include <tools/analysis-tools.h>
 #include <sheet.h>
 
-typedef struct {
-	analysis_tools_data_generic_t base;
+#define GNM_TYPE_SIGN_TEST_TOOL (gnm_sign_test_tool_get_type ())
+GType gnm_sign_test_tool_get_type (void);
+typedef struct _GnmSignTestTool GnmSignTestTool;
+typedef struct _GnmSignTestToolClass GnmSignTestToolClass;
+
+struct _GnmSignTestTool {
+	GnmGenericAnalysisTool parent;
 	gnm_float median;
 	gnm_float alpha;
-} analysis_tools_data_sign_test_t;
+};
 
-typedef struct {
-	analysis_tools_data_generic_b_t base;
+struct _GnmSignTestToolClass {
+	GnmGenericAnalysisToolClass parent_class;
+};
+
+#define GNM_SIGN_TEST_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_SIGN_TEST_TOOL, GnmSignTestTool))
+#define GNM_IS_SIGN_TEST_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_SIGN_TEST_TOOL))
+
+GnmAnalysisTool *gnm_sign_test_tool_new (void);
+
+#define GNM_TYPE_SIGN_TEST_TWO_TOOL (gnm_sign_test_two_tool_get_type ())
+GType gnm_sign_test_two_tool_get_type (void);
+typedef struct _GnmSignTestTwoTool GnmSignTestTwoTool;
+typedef struct _GnmSignTestTwoToolClass GnmSignTestTwoToolClass;
+
+struct _GnmSignTestTwoTool {
+	GnmGenericBAnalysisTool parent;
 	gnm_float        median;
-} analysis_tools_data_sign_test_two_t;
+};
 
-gboolean analysis_tool_sign_test_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-					   analysis_tool_engine_t selector, gpointer result);
+struct _GnmSignTestTwoToolClass {
+	GnmGenericBAnalysisToolClass parent_class;
+};
 
-gboolean analysis_tool_sign_test_two_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
-					   analysis_tool_engine_t selector, gpointer result);
+#define GNM_SIGN_TEST_TWO_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_SIGN_TEST_TWO_TOOL, GnmSignTestTwoTool))
+#define GNM_IS_SIGN_TEST_TWO_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_SIGN_TEST_TWO_TOOL))
+
+GnmAnalysisTool *gnm_sign_test_two_tool_new (void);
 
 #endif

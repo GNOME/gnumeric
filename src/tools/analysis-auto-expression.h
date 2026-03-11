@@ -27,22 +27,28 @@
 
 #include <gnumeric.h>
 #include <numbers.h>
-#include <tools/dao.h>
-#include <tools/tools.h>
 #include <tools/analysis-tools.h>
 #include <sheet.h>
 
-typedef struct {
-	analysis_tools_data_generic_t base;
+#define GNM_TYPE_AUTO_EXPRESSION_TOOL (gnm_auto_expression_tool_get_type ())
+GType gnm_auto_expression_tool_get_type (void);
+typedef struct _GnmAutoExpressionTool GnmAutoExpressionTool;
+typedef struct _GnmAutoExpressionToolClass GnmAutoExpressionToolClass;
+
+struct _GnmAutoExpressionTool {
+	GnmGenericAnalysisTool parent;
 	gboolean multiple;
 	gboolean below;
 	GnmFunc *func;
-} analysis_tools_data_auto_expression_t;
+};
 
-gboolean analysis_tool_auto_expression_engine (GOCmdContext *gcc,
-					       data_analysis_output_t *dao,
-					       gpointer specs,
-					       analysis_tool_engine_t selector,
-					       gpointer result);
+struct _GnmAutoExpressionToolClass {
+	GnmGenericAnalysisToolClass parent_class;
+};
+
+#define GNM_AUTO_EXPRESSION_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_AUTO_EXPRESSION_TOOL, GnmAutoExpressionTool))
+#define GNM_IS_AUTO_EXPRESSION_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_AUTO_EXPRESSION_TOOL))
+
+GnmAnalysisTool *gnm_auto_expression_tool_new (void);
 
 #endif
