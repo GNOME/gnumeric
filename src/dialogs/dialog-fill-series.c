@@ -38,7 +38,6 @@
 #include <wbc-gtk.h>
 #include <command-context.h>
 #include <value.h>
-#include <selection.h>
 #include <rendered-value.h>
 #include <cell.h>
 #include <widgets/gnm-dao.h>

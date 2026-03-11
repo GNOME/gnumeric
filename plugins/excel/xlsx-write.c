@@ -57,7 +57,6 @@
 #include <graph.h>
 #include <style-border.h>
 #include <style-conditions.h>
-#include <gutils.h>
 #include <expr-name.h>
 
 #include <go-val.h>

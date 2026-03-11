@@ -31,7 +31,6 @@
 #include <ranges.h>
 #include <parse-util.h>
 #include <gutils.h>
-#include <gui-util.h>
 #include <sheet-autofill.h>
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/goffice.h>

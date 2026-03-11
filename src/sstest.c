@@ -20,7 +20,6 @@
 #include <cell.h>
 #include <value.h>
 #include <func.h>
-#include <parse-util.h>
 #include <sheet-object-cell-comment.h>
 #include <mathfunc.h>
 #include <gnm-random.h>

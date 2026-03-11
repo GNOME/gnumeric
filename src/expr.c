@@ -38,7 +38,6 @@
 #include <number-match.h>
 #include <workbook.h>
 #include <gutils.h>
-#include <parse-util.h>
 #include <mathfunc.h>
 
 #include <goffice/goffice.h>

@@ -35,7 +35,6 @@
 #include <sheet.h>
 #include <workbook.h>
 #include <workbook-view.h>
-#include <workbook-control.h>
 #include <selection.h>
 #include <parse-util.h>
 #include <sheet-view.h>

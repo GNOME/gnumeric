@@ -45,7 +45,6 @@
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-textline.h>
-#include <string.h>
 #include <math.h>
 #include <stdlib.h>
 

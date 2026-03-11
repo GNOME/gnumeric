@@ -20,7 +20,6 @@
 #include <sheet-object.h>
 #include <gutils.h>
 #include <ranges.h>
-#include <sheet-object.h>
 #include <commands.h>
 #include <gui-clipboard.h>
 #include <expr-name.h>

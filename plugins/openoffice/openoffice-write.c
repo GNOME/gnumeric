@@ -54,7 +54,6 @@
 #include <validation-combo.h>
 #include <hlink.h>
 #include <sheet-filter.h>
-#include <print-info.h>
 #include <parse-util.h>
 #include <tools/dao.h>
 #include <gutils.h>

@@ -16,7 +16,6 @@
 #include "formula-types.h"
 #include "excel.h"
 #include "ms-biff.h"
-#include "formula-types.h"
 #include "boot.h"
 
 #include <sheet.h>

@@ -60,7 +60,6 @@ typedef struct {
 typedef SheetObjectClass GnmSOFilledClass;
 
 #ifdef GNM_WITH_GTK
-#include <goffice/goffice.h>
 
 typedef struct {
 	SheetObjectView	base;

@@ -38,7 +38,6 @@
 #include <parse-util.h>
 #include <wbc-gtk.h>
 #include <sheet-object-cell-comment.h>
-#include <selection.h>
 
 #include <widgets/gnm-expr-entry.h>
 #include <string.h>

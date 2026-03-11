@@ -41,7 +41,6 @@
 #include <style-font.h>
 #include <value.h>
 #include <expr.h>
-#include <workbook.h>
 #include <sheet-style.h>
 #include <number-match.h>
 #include <gnm-i18n.h>

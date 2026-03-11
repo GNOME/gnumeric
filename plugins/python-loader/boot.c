@@ -12,7 +12,6 @@
 #include <py-gnumeric.h>
 #include <gnm-plugin.h>
 #include <goffice/goffice.h>
-#include <gnm-plugin.h>
 #include <glib.h>
 
 GNM_PLUGIN_MODULE_HEADER;

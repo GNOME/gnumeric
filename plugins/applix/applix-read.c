@@ -50,7 +50,6 @@
 #include <command-context.h>
 #include <workbook-view.h>
 #include <workbook.h>
-#include <parse-util.h>
 #include <gutils.h>
 
 #include <goffice/goffice.h>

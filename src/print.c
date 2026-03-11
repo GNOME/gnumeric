@@ -38,7 +38,6 @@
 #include <ranges.h>
 #include <parse-util.h>
 #include <style-font.h>
-#include <gnumeric-conf.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-meta-names.h>

@@ -42,7 +42,6 @@
 #include <gui-util.h>
 #include <gutils.h>
 #include <parse-util.h>
-#include <selection.h>
 #include <application.h>
 #include <cellspan.h>
 #include <cmd-edit.h>
@@ -51,7 +50,6 @@
 #include <clipboard.h>
 #include <dialogs/dialogs.h>
 #include <gui-file.h>
-#include <sheet-merge.h>
 #include <ranges.h>
 #include <xml-sax.h>
 #include <style-color.h>

@@ -41,7 +41,6 @@
 #include <cellspan.h>
 #include <style-border.h>
 #include <rendered-value.h>
-#include <style.h>
 #include <hlink.h>
 #include <gutils.h>
 

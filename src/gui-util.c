@@ -20,7 +20,6 @@
 #include <gnm-format.h>
 #include <application.h>
 #include <workbook.h>
-#include <libgnumeric.h>
 #include <wbc-gtk.h>
 #include <widgets/gnm-expr-entry.h>
 

@@ -36,7 +36,6 @@
 #include <commands.h>
 #include <gnm-format.h>
 #include <number-match.h>
-#include <mstyle.h>
 #include <style-border.h>
 #include <sheet-style.h>
 #include <style-color.h>

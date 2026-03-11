@@ -39,8 +39,6 @@
 #include <mathfunc.h>
 #include <gutils.h>
 #include <workbook.h>
-#include <sheet.h>
-#include <parse-util.h>
 #include <gnm-i18n.h>
 
 #include <goffice/goffice.h>

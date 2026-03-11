@@ -41,7 +41,6 @@
 #include <number-match.h>
 #include <gutils.h>
 #include <parse-util.h>
-#include <number-match.h>
 #include <gnm-format.h>
 #include <ranges.h>
 #include <goffice/goffice.h>

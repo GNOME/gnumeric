@@ -25,7 +25,6 @@
 
 #include <parse-util.h>
 #include <cell.h>
-#include <value.h>
 #include <mathfunc.h>
 #include <workbook.h>
 #include <sheet.h>
