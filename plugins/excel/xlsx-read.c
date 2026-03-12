@@ -1471,10 +1471,10 @@ xlsx_cell_expr_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	if (is_shared && NULL != shared_id) {
 		if (!has_range)
 			state->texpr = g_hash_table_lookup (state->shared_exprs, shared_id);
-		if (NULL != state->texpr)
-			gnm_expr_top_ref (state->texpr);
-		else
+		if (state->texpr == NULL)
 			state->shared_id = g_strdup (shared_id);
+		else
+			gnm_expr_top_ref (state->texpr);
 	} else
 		state->texpr = NULL;
 
@@ -1562,8 +1562,7 @@ xlsx_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		xlsx_warning (xin, _("Invalid cell %s"),
 			cellpos_as_string (&state->pos));
 		value_release (state->val);
-		if (NULL != state->texpr)
-			gnm_expr_top_unref (state->texpr);
+		gnm_expr_top_unref (state->texpr);
 	} else if (NULL != state->texpr) {
 		if (state->array.start.col >= 0) {
 			gnm_cell_set_array (state->sheet,
@@ -5399,7 +5398,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	g_hash_table_destroy (state.theme_colors_by_name);
 	g_hash_table_destroy (state.zorder);
 	value_release (state.val);
-	if (state.texpr) gnm_expr_top_unref (state.texpr);
+	gnm_expr_top_unref (state.texpr);
 	if (state.comment) g_object_unref (state.comment);
 	if (state.cur_style) g_object_unref (state.cur_style);
 	if (state.style_accum) gnm_style_unref (state.style_accum);

@@ -4012,14 +4012,10 @@ xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 		state->so = NULL;
 	}
-	if (state->texpr) {
-		gnm_expr_top_unref (state->texpr);
-		state->texpr = NULL;
-	}
-	if (state->link_texpr) {
-		gnm_expr_top_unref (state->link_texpr);
-		state->link_texpr = NULL;
-	}
+	gnm_expr_top_unref (state->texpr);
+	state->texpr = NULL;
+	gnm_expr_top_unref (state->link_texpr);
+	state->link_texpr = NULL;
 
 	g_free (state->chart_tx);
 	state->chart_tx = NULL;

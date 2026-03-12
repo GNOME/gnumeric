@@ -171,16 +171,14 @@ c_fmt_dialog_set_sensitive (CFormatState *state)
 								NULL, FALSE,
 								GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
 		ok = (texpr != NULL);
-		if (texpr)
-			gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr);
 	}
 	if (ok && gtk_widget_get_sensitive (state->editor.expr_y)) {
 		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->editor.expr_y), &pp,
 								NULL, FALSE,
 								GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
 		ok = (texpr != NULL);
-		if (texpr)
-			gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr);
 	}
 
 	gtk_widget_set_sensitive (state->editor.add_button, ok);

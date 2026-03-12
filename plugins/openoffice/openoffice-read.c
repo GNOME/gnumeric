@@ -3293,8 +3293,7 @@ odf_complete_control_setup (OOParseState *state, object_offset_t const *ob_off)
 				}
 			}
 		}
-		if (result_texpr != NULL)
-			gnm_expr_top_unref (result_texpr);
+		gnm_expr_top_unref (result_texpr);
 		sheet_widget_list_base_set_result_type (so, oc->as_index);
 	}
 }
@@ -3547,7 +3546,7 @@ odf_style_load_two_values (GsfXMLIn *xin, char *condition, GnmStyleCond *cond, g
 				 GNM_EXPR_PARSE_DEFAULT,
 				 f_type);
 			gnm_style_cond_set_expr (cond, texpr, 0);
-			if (texpr) gnm_expr_top_unref (texpr);
+			gnm_expr_top_unref (texpr);
 
 			return (gnm_style_cond_get_expr (cond, 0) &&
 				gnm_style_cond_get_expr (cond, 1));
@@ -3568,7 +3567,7 @@ odf_style_load_one_value (GsfXMLIn *xin, char *condition, GnmStyleCond *cond, gc
 		 GNM_EXPR_PARSE_DEFAULT,
 		 f_type);
 	gnm_style_cond_set_expr (cond, texpr, 0);
-	if (texpr) gnm_expr_top_unref (texpr);
+	gnm_expr_top_unref (texpr);
 	return (gnm_style_cond_get_expr (cond, 0) != NULL);
 }
 
@@ -4123,8 +4122,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->pos.eval.col >= max_cols ||
 	    state->pos.eval.row >= max_rows) {
-		if (texpr)
-			gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr);
 		value_release (val);
 		return;
 	}
@@ -8045,8 +8043,7 @@ oo_named_expr_common (GsfXMLIn *xin, xmlChar const **attrs, gboolean preparse)
 				parse_pos_init (&pp, state->pos.wb, ref->sheet,
 						ref->col, ref->row);
 			}
-			if (texpr != NULL)
-				gnm_expr_top_unref (texpr);
+			gnm_expr_top_unref (texpr);
 		}
 
 		f_type = odf_get_formula_type (xin, &expr_str);
@@ -8353,8 +8350,7 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 			frame_offset[3] = end_y ;
 			mode = GNM_SO_ANCHOR_TWO_CELLS;
 		}
-		if (texpr)
-			gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr);
 	} else {
 		cell_base.end.col = cell_base.start.col =
 			cell_base.end.row = cell_base.start.row = 0; /* actually not needed */
@@ -8574,11 +8570,10 @@ static void
 odf_clear_conventions (OOParseState *state)
 {
 	gint i;
-	for (i = 0; i < NUM_FORMULAE_SUPPORTED; i++)
-		if (state->convs[i] != NULL) {
-			gnm_conventions_unref (state->convs[i]);
-			state->convs[i] = NULL;
-		}
+	for (i = 0; i < NUM_FORMULAE_SUPPORTED; i++) {
+		gnm_conventions_unref (state->convs[i]);
+		state->convs[i] = NULL;
+	}
 }
 
 static void
@@ -8823,8 +8818,7 @@ oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 					       OO_GNUM_NS_EXT, "expression")) {
 			GnmParsePos   pp;
 
-			if (state->chart.title_expr != NULL)
-				gnm_expr_top_unref (state->chart.title_expr);
+			gnm_expr_top_unref (state->chart.title_expr);
 
 			parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
 			state->chart.title_expr

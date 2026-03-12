@@ -50,8 +50,7 @@ static void
 gnm_random_cor_tool_finalize (GObject *obj)
 {
 	GnmRandomCorTool *tool = GNM_RANDOM_COR_TOOL (obj);
-	if (tool->data.matrix)
-		value_release (tool->data.matrix);
+	value_release (tool->data.matrix);
 	G_OBJECT_CLASS (gnm_random_cor_tool_parent_class)->finalize (obj);
 }
 
@@ -121,17 +120,15 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 {
 	GnmExpr const *expr_matrix = gnm_expr_new_constant (value_dup (info->matrix));
 	GnmExpr const *expr_rand;
-	GnmFunc *fd_rand;
-	GnmFunc *fd_mmult;
-	GnmFunc *fd_transpose;
-
+	GnmFunc *fd_rand = gnm_func_get_and_use ("RANDNORM");
+	GnmFunc *fd_mmult = gnm_func_get_and_use ("MMULT");
+	GnmFunc *fd_transpose = gnm_func_get_and_use ("TRANSPOSE");
 	gint i, j;
 
 	if (info->matrix_type == random_gen_cor_type_cov) {
-		GnmFunc *fd_cholesky;
 		GnmExpr const *expr_cholesky;
+		GnmFunc *fd_cholesky = gnm_func_get_and_use ("CHOLESKY");
 
-		fd_cholesky = gnm_func_get_and_use ("CHOLESKY");
 		expr_cholesky = gnm_expr_new_funcall1
 			(fd_cholesky, expr_matrix);
 
@@ -151,7 +148,6 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell (dao, 0, 0, _("Uncorrelated Random Variables"));
 
-	fd_rand = gnm_func_get_and_use ("RANDNORM");
 	expr_rand = gnm_expr_new_funcall2 (fd_rand,
 					   gnm_expr_new_constant (value_new_int (0)),
 					   gnm_expr_new_constant (value_new_int (1)));
@@ -162,9 +158,6 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 	gnm_func_dec_usage (fd_rand);
 
 	dao->offset_col += info->variables + 1;
-
-	fd_mmult = gnm_func_get_and_use ("MMULT");
-	fd_transpose = gnm_func_get_and_use ("TRANSPOSE");
 
 	dao_set_merge (dao, 0, 0, info->variables - 1, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
@@ -188,12 +181,3 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 
 	return FALSE;
 }
-
-
-
-
-
-
-
-
-

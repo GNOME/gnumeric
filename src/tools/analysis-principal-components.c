@@ -83,23 +83,10 @@ gnm_principal_components_tool_perform_calc (GnmAnalysisTool *tool, data_analysis
 	GnmGenericAnalysisTool *gtool = &ptool->parent;
 	int l = g_slist_length (gtool->base.input), i;
 	GSList *inputdata;
-
-	GnmFunc *fd_mean;
-	GnmFunc *fd_var;
-	GnmFunc *fd_eigen;
-	GnmFunc *fd_mmult;
-	GnmFunc *fd_munit;
-	GnmFunc *fd_sqrt;
-	GnmFunc *fd_count;
-	GnmFunc *fd_sum;
-	GnmFunc *fd_and;
-	GnmFunc *fd_if;
-
 	GnmExpr const *expr;
 	GnmExpr const *expr_count;
 	GnmExpr const *expr_munit;
 	GnmExpr const *expr_and;
-
 	int data_points;
 	GnmExprList *and_args = NULL;
 	GnmEvalPos ep;
@@ -113,16 +100,16 @@ gnm_principal_components_tool_perform_calc (GnmAnalysisTool *tool, data_analysis
 		return 0;
 	}
 
-	fd_mean = gnm_func_get_and_use ("AVERAGE");
-	fd_var = gnm_func_get_and_use ("VAR");
-	fd_eigen = gnm_func_get_and_use ("EIGEN");
-	fd_mmult = gnm_func_get_and_use ("MMULT");
-	fd_munit = gnm_func_get_and_use ("MUNIT");
-	fd_sqrt = gnm_func_get_and_use ("SQRT");
-	fd_count = gnm_func_get_and_use ("COUNT");
-	fd_sum = gnm_func_get_and_use ("SUM");
-	fd_and = gnm_func_get_and_use ("AND");
-	fd_if = gnm_func_get_and_use ("IF");
+	GnmFunc *fd_mean = gnm_func_get_and_use ("AVERAGE");
+	GnmFunc *fd_var = gnm_func_get_and_use ("VAR");
+	GnmFunc *fd_eigen = gnm_func_get_and_use ("EIGEN");
+	GnmFunc *fd_mmult = gnm_func_get_and_use ("MMULT");
+	GnmFunc *fd_munit = gnm_func_get_and_use ("MUNIT");
+	GnmFunc *fd_sqrt = gnm_func_get_and_use ("SQRT");
+	GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
+	GnmFunc *fd_sum = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_and = gnm_func_get_and_use ("AND");
+	GnmFunc *fd_if = gnm_func_get_and_use ("IF");
 
 	dao_set_bold (dao, 0, 0, 0, 0);
 	dao_set_italic (dao, 0, 0, 0, 11 + 3 * l);
@@ -253,4 +240,3 @@ gnm_principal_components_tool_new (void)
 {
 	return g_object_new (GNM_TYPE_PRINCIPAL_COMPONENTS_TOOL, NULL);
 }
-

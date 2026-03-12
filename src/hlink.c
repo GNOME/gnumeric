@@ -362,8 +362,7 @@ gnm_hlink_cur_wb_set_target (GnmHLink *lnk, const char *target)
 
 	dependent_managed_set_sheet (&hlcwb->dep, lnk->sheet);
 	dependent_managed_set_expr (&hlcwb->dep, texpr);
-	if (texpr)
-		gnm_expr_top_unref (texpr);
+	gnm_expr_top_unref (texpr);
 }
 
 static const char *

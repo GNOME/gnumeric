@@ -71,8 +71,7 @@ gnm_random_tool_discrete_clear (GnmRandomTool *tool)
 
 	if (tool->discrete_values) {
 		for (i = 0; i < tool->discrete_n; i++)
-			if (tool->discrete_values[i])
-				value_release (tool->discrete_values[i]);
+			value_release (tool->discrete_values[i]);
 		g_free (tool->discrete_values);
 		tool->discrete_values = NULL;
 	}

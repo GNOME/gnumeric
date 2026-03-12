@@ -1903,8 +1903,7 @@ xlsx_write_cond_rule (XLSXWriteState *state, GsfXMLOut *xml,
 		gsf_xml_out_simple_element (xml, "formula", str);
 		g_free (str);
 	}
-	if (alt_texpr)
-		gnm_expr_top_unref (alt_texpr);
+	gnm_expr_top_unref (alt_texpr);
 	gsf_xml_out_end_element (xml); /* </cfRule> */
 }
 

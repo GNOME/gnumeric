@@ -59,8 +59,7 @@ static void
 gnm_anova_two_factor_tool_finalize (GObject *obj)
 {
 	GnmAnovaTwoFactorTool *tool = GNM_ANOVA_TWO_FACTOR_TOOL (obj);
-	if (tool->input)
-		value_release (tool->input);
+	value_release (tool->input);
 	G_OBJECT_CLASS (gnm_anova_two_factor_tool_parent_class)->finalize (obj);
 }
 
@@ -179,27 +178,16 @@ analysis_tool_anova_two_factor_no_rep_engine_run (GnmAnovaTwoFactorTool *atool, 
 	GnmExpr const *expr_check;
 	GnmExpr const *expr_region;
 
-	GnmFunc *fd_index;
-	GnmFunc *fd_offset;
-	GnmFunc *fd_count;
-	GnmFunc *fd_sum;
-	GnmFunc *fd_sumsq;
-	GnmFunc *fd_average;
-	GnmFunc *fd_var;
-	GnmFunc *fd_if;
-	GnmFunc *fd_fdist;
-	GnmFunc *fd_finv;
-
-	fd_index = gnm_func_get_and_use ("INDEX");
-	fd_offset = gnm_func_get_and_use ("OFFSET");
-	fd_count = gnm_func_get_and_use ("COUNT");
-	fd_sum = gnm_func_get_and_use ("SUM");
-	fd_sumsq = gnm_func_get_and_use ("SUMSQ");
-	fd_average = gnm_func_get_and_use ("AVERAGE");
-	fd_var = gnm_func_get_and_use ("VAR");
-	fd_if = gnm_func_get_and_use ("IF");
-	fd_fdist = gnm_func_get_and_use ("FDIST");
-	fd_finv = gnm_func_get_and_use ("FINV");
+	GnmFunc *fd_index = gnm_func_get_and_use ("INDEX");
+	GnmFunc *fd_offset = gnm_func_get_and_use ("OFFSET");
+	GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
+	GnmFunc *fd_sum = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_sumsq = gnm_func_get_and_use ("SUMSQ");
+	GnmFunc *fd_average = gnm_func_get_and_use ("AVERAGE");
+	GnmFunc *fd_var = gnm_func_get_and_use ("VAR");
+	GnmFunc *fd_if = gnm_func_get_and_use ("IF");
+	GnmFunc *fd_fdist = gnm_func_get_and_use ("FDIST");
+	GnmFunc *fd_finv = gnm_func_get_and_use ("FINV");
 
 	dao_set_merge (dao, 0, 0, 4, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
@@ -871,5 +859,3 @@ analysis_tool_anova_two_factor_engine_run (GnmAnovaTwoFactorTool *atool, data_an
 
 	return FALSE;
 }
-
-

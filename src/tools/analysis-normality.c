@@ -83,9 +83,6 @@ gnm_normality_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 	GnmGenericAnalysisTool *gtool = &ntool->parent;
 	guint   col;
 	GSList *data = gtool->base.input;
-	GnmFunc *fd;
-	GnmFunc *fd_if;
-
 	char const *fdname;
 	char const *testname;
 	char const *n_comment;
@@ -126,8 +123,8 @@ gnm_normality_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 		g_assert_not_reached ();
 	}
 
-	fd = gnm_func_get_and_use (fdname);
-	fd_if = gnm_func_get_and_use ("IF");
+	GnmFunc *fd = gnm_func_get_and_use (fdname);
+	GnmFunc *fd_if = gnm_func_get_and_use ("IF");
 
 	dao_set_italic (dao, 0, 0, 0, 5);
         dao_set_cell (dao, 0, 0, _(testname));
@@ -233,4 +230,3 @@ gnm_normality_tool_new (void)
 {
 	return g_object_new (GNM_TYPE_NORMALITY_TOOL, NULL);
 }
-

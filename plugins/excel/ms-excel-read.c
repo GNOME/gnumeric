@@ -3076,8 +3076,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		g_warning ("EXCEL: Multiple expressions for cell %s!%s",
 			   esheet->sheet->name_quoted, cell_name (cell));
 		gnm_cell_set_value (cell, val);
-		if (texpr)
-			gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr);
 	}
 
 	/*
@@ -3755,7 +3754,7 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 
 		/* Completely ignore Print_Area settings of #REF!  */
 		if (texpr == NULL || gnm_expr_top_is_err (texpr, GNM_ERROR_REF)) {
-			if (texpr) gnm_expr_top_unref (texpr);
+			gnm_expr_top_unref (texpr);
 			return NULL;
 		}
 	}

@@ -814,7 +814,7 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str,
 		cell_queue_recalc (cell);
 	}
 
-	if (texpr) gnm_expr_top_unref (texpr);
+	gnm_expr_top_unref (texpr);
 	return TRUE;
 }
 

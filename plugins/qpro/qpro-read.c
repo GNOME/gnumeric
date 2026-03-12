@@ -692,8 +692,7 @@ error:
 		g_slist_free (stack);
 	}
 
-	if (texpr)
-		gnm_expr_top_unref (texpr);
+	gnm_expr_top_unref (texpr);
 }
 
 static GnmStyle *

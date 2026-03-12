@@ -462,31 +462,18 @@ summary_statistics (GnmDescriptiveTool *dtool, data_analysis_output_t *dao)
 	GnmGenericAnalysisTool *gtool = &dtool->parent;
 	guint     col;
 	GSList *data = gtool->base.input;
-	GnmFunc *fd_mean;
-	GnmFunc *fd_median;
-	GnmFunc *fd_mode;
-	GnmFunc *fd_stdev;
-	GnmFunc *fd_var;
-	GnmFunc *fd_kurt;
-	GnmFunc *fd_skew;
-	GnmFunc *fd_min;
-	GnmFunc *fd_max;
-	GnmFunc *fd_sum;
-	GnmFunc *fd_count;
-	GnmFunc *fd_sqrt;
-
-	fd_mean = gnm_func_get_and_use ("AVERAGE");
-	fd_median = gnm_func_get_and_use (dtool->use_ssmedian ? "SSMEDIAN" : "MEDIAN");
-	fd_mode = gnm_func_get_and_use ("MODE");
-	fd_stdev = gnm_func_get_and_use ("STDEV");
-	fd_var = gnm_func_get_and_use ("VAR");
-	fd_kurt = gnm_func_get_and_use ("KURT");
-	fd_skew = gnm_func_get_and_use ("SKEW");
-	fd_min = gnm_func_get_and_use ("MIN");
-	fd_max = gnm_func_get_and_use ("MAX");
-	fd_sum = gnm_func_get_and_use ("SUM");
-	fd_count = gnm_func_get_and_use ("COUNT");
-	fd_sqrt = gnm_func_get_and_use ("SQRT");
+	GnmFunc *fd_mean = gnm_func_get_and_use ("AVERAGE");
+	GnmFunc *fd_median = gnm_func_get_and_use (dtool->use_ssmedian ? "SSMEDIAN" : "MEDIAN");
+	GnmFunc *fd_mode = gnm_func_get_and_use ("MODE");
+	GnmFunc *fd_stdev = gnm_func_get_and_use ("STDEV");
+	GnmFunc *fd_var = gnm_func_get_and_use ("VAR");
+	GnmFunc *fd_kurt = gnm_func_get_and_use ("KURT");
+	GnmFunc *fd_skew = gnm_func_get_and_use ("SKEW");
+	GnmFunc *fd_min = gnm_func_get_and_use ("MIN");
+	GnmFunc *fd_max = gnm_func_get_and_use ("MAX");
+	GnmFunc *fd_sum = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
+	GnmFunc *fd_sqrt = gnm_func_get_and_use ("SQRT");
 
         dao_set_cell (dao, 0, 0, NULL);
 
@@ -626,11 +613,6 @@ confidence_level (GnmDescriptiveTool *dtool, data_analysis_output_t *dao)
 	char *buffer;
 	char *format;
 	GSList *data = gtool->base.input;
-	GnmFunc *fd_mean;
-	GnmFunc *fd_var;
-	GnmFunc *fd_count;
-	GnmFunc *fd_tinv;
-	GnmFunc *fd_sqrt;
 
 	format = g_strdup_printf (_("/%%%s%%%% CI for the Mean from"
 				    "/to"), GNM_FORMAT_g);
@@ -642,11 +624,11 @@ confidence_level (GnmDescriptiveTool *dtool, data_analysis_output_t *dao)
 
         dao_set_cell (dao, 0, 0, NULL);
 
-	fd_mean = gnm_func_get_and_use ("AVERAGE");
-	fd_var = gnm_func_get_and_use ("VAR");
-	fd_count = gnm_func_get_and_use ("COUNT");
-	fd_tinv = gnm_func_get_and_use ("TINV");
-	fd_sqrt = gnm_func_get_and_use ("SQRT");
+	GnmFunc *fd_mean = gnm_func_get_and_use ("AVERAGE");
+	GnmFunc *fd_var = gnm_func_get_and_use ("VAR");
+	GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
+	GnmFunc *fd_tinv = gnm_func_get_and_use ("TINV");
+	GnmFunc *fd_sqrt = gnm_func_get_and_use ("SQRT");
 
 	for (col = 0; data != NULL; data = data->next, col++) {
 		GnmExpr const *expr;
@@ -882,11 +864,6 @@ gnm_anova_single_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_
 	GnmAnovaSingleTool *atool = GNM_ANOVA_SINGLE_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &atool->parent;
 	GSList *inputdata = gtool->base.input;
-	GnmFunc *fd_sum;
-	GnmFunc *fd_count;
-	GnmFunc *fd_mean;
-	GnmFunc *fd_var;
-	GnmFunc *fd_devsq;
 
 	guint index;
 
@@ -901,11 +878,11 @@ gnm_anova_single_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_
 					"/Average"
 					"/Variance"));
 
-	fd_mean = gnm_func_get_and_use ("AVERAGE");
-	fd_var = gnm_func_get_and_use ("VAR");
-	fd_sum = gnm_func_get_and_use ("SUM");
-	fd_count = gnm_func_get_and_use ("COUNT");
-	fd_devsq = gnm_func_get_and_use ("DEVSQ");
+	GnmFunc *fd_mean = gnm_func_get_and_use ("AVERAGE");
+	GnmFunc *fd_var = gnm_func_get_and_use ("VAR");
+	GnmFunc *fd_sum = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
+	GnmFunc *fd_devsq = gnm_func_get_and_use ("DEVSQ");
 
 	dao->offset_row += 4;
 	if (dao->rows <= dao->offset_row)
@@ -1648,10 +1625,7 @@ gnm_fourier_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *da
 	GnmGenericAnalysisTool *gtool = &ftool->parent;
 	GSList *data = gtool->base.input;
 	int col = 0;
-
-	GnmFunc *fd_fourier;
-
-	fd_fourier = gnm_func_get_and_use ("FOURIER");
+	GnmFunc *fd_fourier = gnm_func_get_and_use ("FOURIER");
 
 	dao_set_merge (dao, 0, 0, 1, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
@@ -1985,18 +1959,11 @@ gnm_ranking_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *da
 	GnmGenericAnalysisTool *gtool = &rtool->parent;
 	GSList *data = gtool->base.input;
 	int col = 0;
-
-	GnmFunc *fd_large;
-	GnmFunc *fd_row;
-	GnmFunc *fd_rank;
-	GnmFunc *fd_match;
-	GnmFunc *fd_percentrank;
-
-	fd_large = gnm_func_get_and_use ("LARGE");
-	fd_row = gnm_func_get_and_use ("ROW");
-	fd_rank = gnm_func_get_and_use ("RANK");
-	fd_match = gnm_func_get_and_use ("MATCH");
-	fd_percentrank = gnm_func_get_and_use ("PERCENTRANK");
+	GnmFunc *fd_large = gnm_func_get_and_use ("LARGE");
+	GnmFunc *fd_row = gnm_func_get_and_use ("ROW");
+	GnmFunc *fd_rank = gnm_func_get_and_use ("RANK");
+	GnmFunc *fd_match = gnm_func_get_and_use ("MATCH");
+	GnmFunc *fd_percentrank = gnm_func_get_and_use ("PERCENTRANK");
 
 	dao_set_merge (dao, 0, 0, 1, 0);
 	dao_set_italic (dao, 0, 0, 0, 0);
@@ -2044,8 +2011,7 @@ gnm_ranking_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *da
 			GnmExpr const *expr_rank_lower;
 			GnmExpr const *expr_rows_p_one;
 			GnmExpr const *expr_rows;
-			GnmFunc *fd_count;
-			fd_count = gnm_func_get_and_use ("COUNT");
+			GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
 
 			expr_rows = gnm_expr_new_funcall1
 				(fd_count, gnm_expr_new_constant (value_dup (val_org)));
@@ -2133,10 +2099,8 @@ static void
 gnm_generic_b_analysis_tool_finalize (GObject *obj)
 {
 	GnmGenericBAnalysisTool *tool = GNM_GENERIC_B_ANALYSIS_TOOL (obj);
-	if (tool->base.range_1)
-		value_release (tool->base.range_1);
-	if (tool->base.range_2)
-		value_release (tool->base.range_2);
+	value_release (tool->base.range_1);
+	value_release (tool->base.range_2);
 	G_OBJECT_CLASS (gnm_generic_b_analysis_tool_parent_class)->finalize (obj);
 }
 
@@ -2202,10 +2166,7 @@ gnm_ftest_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 	GnmExpr const *expr_var_denum;
 	GnmExpr const *expr_count_denum;
 	GnmExpr const *expr_df_denum = NULL;
-
-	GnmFunc *fd_finv;
-
-	fd_finv = gnm_func_get_and_use ("FINV");
+	GnmFunc *fd_finv = gnm_func_get_and_use ("FINV");
 
 	dao_set_italic (dao, 0, 0, 0, 11);
 	dao_set_cell (dao, 0, 0, _("F-Test"));
@@ -2511,19 +2472,6 @@ gnm_ttest_paired_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_
 	GnmGenericBAnalysisTool *gtool = &ttool->parent;
 	GnmValue *val_1;
 	GnmValue *val_2;
-
-	GnmFunc *fd_count;
-	GnmFunc *fd_mean;
-	GnmFunc *fd_var;
-	GnmFunc *fd_tdist;
-	GnmFunc *fd_abs;
-	GnmFunc *fd_tinv;
-	GnmFunc *fd_correl;
-	GnmFunc *fd_isodd;
-	GnmFunc *fd_isnumber;
-	GnmFunc *fd_if;
-	GnmFunc *fd_sum;
-
 	GnmExpr const *expr_1;
 	GnmExpr const *expr_2;
 	GnmExpr const *expr_diff;
@@ -2548,17 +2496,17 @@ gnm_ttest_paired_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_
 					"/P (T<=t) two-tail"
 					"/t Critical two-tail"));
 
-	fd_mean = gnm_func_get_and_use ("AVERAGE");
-	fd_var = gnm_func_get_and_use ("VAR");
-	fd_count = gnm_func_get_and_use ("COUNT");
-	fd_correl = gnm_func_get_and_use ("CORREL");
-	fd_tinv = gnm_func_get_and_use ("TINV");
-	fd_tdist = gnm_func_get_and_use ("TDIST");
-	fd_abs = gnm_func_get_and_use ("ABS");
-	fd_isodd = gnm_func_get_and_use ("ISODD");
-	fd_isnumber = gnm_func_get_and_use ("ISNUMBER");
-	fd_if = gnm_func_get_and_use ("IF");
-	fd_sum = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_mean = gnm_func_get_and_use ("AVERAGE");
+	GnmFunc *fd_var = gnm_func_get_and_use ("VAR");
+	GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
+	GnmFunc *fd_correl = gnm_func_get_and_use ("CORREL");
+	GnmFunc *fd_tinv = gnm_func_get_and_use ("TINV");
+	GnmFunc *fd_tdist = gnm_func_get_and_use ("TDIST");
+	GnmFunc *fd_abs = gnm_func_get_and_use ("ABS");
+	GnmFunc *fd_isodd = gnm_func_get_and_use ("ISODD");
+	GnmFunc *fd_isnumber = gnm_func_get_and_use ("ISNUMBER");
+	GnmFunc *fd_if = gnm_func_get_and_use ("IF");
+	GnmFunc *fd_sum = gnm_func_get_and_use ("SUM");
 
 	val_1 = value_dup (gtool->base.range_1);
 	val_2 = value_dup (gtool->base.range_2);
@@ -2808,12 +2756,6 @@ gnm_ttest_eqvar_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t
 	GnmGenericBAnalysisTool *gtool = &ttool->parent;
 	GnmValue *val_1;
 	GnmValue *val_2;
-	GnmFunc *fd_count;
-	GnmFunc *fd_mean;
-	GnmFunc *fd_var;
-	GnmFunc *fd_tdist;
-	GnmFunc *fd_abs;
-	GnmFunc *fd_tinv;
 	GnmExpr const *expr_1;
 	GnmExpr const *expr_2;
 	GnmExpr const *expr_mean_1;
@@ -2844,12 +2786,12 @@ gnm_ttest_eqvar_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t
 	val_1 = value_dup (gtool->base.range_1);
 	val_2 = value_dup (gtool->base.range_2);
 
-	fd_mean = gnm_func_get_and_use ("AVERAGE");
-	fd_count = gnm_func_get_and_use ("COUNT");
-	fd_var = gnm_func_get_and_use ("VAR");
-	fd_tdist = gnm_func_get_and_use ("TDIST");
-	fd_abs = gnm_func_get_and_use ("ABS");
-	fd_tinv = gnm_func_get_and_use ("TINV");
+	GnmFunc *fd_mean = gnm_func_get_and_use ("AVERAGE");
+	GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
+	GnmFunc *fd_var = gnm_func_get_and_use ("VAR");
+	GnmFunc *fd_tdist = gnm_func_get_and_use ("TDIST");
+	GnmFunc *fd_abs = gnm_func_get_and_use ("ABS");
+	GnmFunc *fd_tinv = gnm_func_get_and_use ("TINV");
 
 	/* Labels */
 	analysis_tools_write_variable_label (val_1, dao, 1, 0,
@@ -3128,12 +3070,6 @@ gnm_ttest_neqvar_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_
 	GnmGenericBAnalysisTool *gtool = &ttool->parent;
 	GnmValue *val_1;
 	GnmValue *val_2;
-	GnmFunc *fd_count;
-	GnmFunc *fd_mean;
-	GnmFunc *fd_var;
-	GnmFunc *fd_tdist;
-	GnmFunc *fd_abs;
-	GnmFunc *fd_tinv;
 	GnmExpr const *expr_1;
 	GnmExpr const *expr_2;
 	GnmExpr const *expr_mean_1;
@@ -3163,12 +3099,12 @@ gnm_ttest_neqvar_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_
 	val_1 = value_dup (gtool->base.range_1);
 	val_2 = value_dup (gtool->base.range_2);
 
-	fd_mean = gnm_func_get_and_use ("AVERAGE");
-	fd_var = gnm_func_get_and_use ("VAR");
-	fd_count = gnm_func_get_and_use ("COUNT");
-	fd_tdist = gnm_func_get_and_use ("TDIST");
-	fd_abs = gnm_func_get_and_use ("ABS");
-	fd_tinv = gnm_func_get_and_use ("TINV");
+	GnmFunc *fd_mean = gnm_func_get_and_use ("AVERAGE");
+	GnmFunc *fd_var = gnm_func_get_and_use ("VAR");
+	GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
+	GnmFunc *fd_tdist = gnm_func_get_and_use ("TDIST");
+	GnmFunc *fd_abs = gnm_func_get_and_use ("ABS");
+	GnmFunc *fd_tinv = gnm_func_get_and_use ("TINV");
 
 	/* Labels */
 	analysis_tools_write_variable_label (val_1, dao, 1, 0,
@@ -3450,12 +3386,6 @@ gnm_ztest_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 	GnmGenericBAnalysisTool *gtool = &ztool->parent;
 	GnmValue *val_1;
 	GnmValue *val_2;
-	GnmFunc *fd_count;
-	GnmFunc *fd_mean;
-	GnmFunc *fd_normsdist;
-	GnmFunc *fd_normsinv;
-	GnmFunc *fd_abs;
-	GnmFunc *fd_sqrt;
 	GnmExpr const *expr_1;
 	GnmExpr const *expr_2;
 	GnmExpr const *expr_mean_1;
@@ -3478,12 +3408,12 @@ gnm_ztest_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 					"/P (Z<=z) two-tail"
 					"/z Critical two-tail"));
 
-	fd_mean = gnm_func_get_and_use ("AVERAGE");
-	fd_normsdist = gnm_func_get_and_use ("NORMSDIST");
-	fd_abs = gnm_func_get_and_use ("ABS");
-	fd_sqrt = gnm_func_get_and_use ("SQRT");
-	fd_count = gnm_func_get_and_use ("COUNT");
-	fd_normsinv = gnm_func_get_and_use ("NORMSINV");
+	GnmFunc *fd_mean = gnm_func_get_and_use ("AVERAGE");
+	GnmFunc *fd_normsdist = gnm_func_get_and_use ("NORMSDIST");
+	GnmFunc *fd_abs = gnm_func_get_and_use ("ABS");
+	GnmFunc *fd_sqrt = gnm_func_get_and_use ("SQRT");
+	GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
+	GnmFunc *fd_normsinv = gnm_func_get_and_use ("NORMSINV");
 
 	val_1 = value_dup (gtool->base.range_1);
 	expr_1 = gnm_expr_new_constant (value_dup (val_1));
@@ -3927,12 +3857,8 @@ analysis_tools_write_a_label (GnmValue *val, data_analysis_output_t *dao,
 	} else {
 		char const *str = ((group_by == GROUPED_BY_ROW) ? "row" : "col");
 		char const *label = ((group_by == GROUPED_BY_ROW) ? _("Row") : _("Column"));
-
-		GnmFunc *fd_concatenate;
-		GnmFunc *fd_cell;
-
-		fd_concatenate = gnm_func_get_and_use ("CONCATENATE");
-		fd_cell = gnm_func_get_and_use ("CELL");
+		GnmFunc *fd_concatenate = gnm_func_get_and_use ("CONCATENATE");
+		GnmFunc *fd_cell = gnm_func_get_and_use ("CELL");
 
 		dao_set_cell_expr (dao, x, y, gnm_expr_new_funcall3
 				   (fd_concatenate, gnm_expr_new_constant (value_new_string (label)),
@@ -4245,14 +4171,11 @@ analysis_tool_table (GnmGenericAnalysisTool *gtool, data_analysis_output_t *dao,
 		     gboolean full_table)
 {
 	GSList *inputdata, *inputexpr = NULL;
-	GnmFunc *fd = NULL;
-
 	guint col, row;
+	GnmFunc *fd = gnm_func_get_and_use (functionname);
 
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell_printf (dao, 0, 0, "%s", title);
-
-	fd = gnm_func_get_and_use (functionname);
 
 	for (col = 1, inputdata = gtool->base.input; inputdata != NULL;
 	     inputdata = inputdata->next, col++) {

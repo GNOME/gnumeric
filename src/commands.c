@@ -4202,7 +4202,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 		       gnm_expr_char_start_p (cell_res.new_text) &&
 		       !go_format_is_text (gnm_cell_get_format (cell_res.cell)));
 		value_release (val);
-		if (texpr) gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr);
 
 		if (err) {
 			if (test_run) {
@@ -4795,10 +4795,8 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 {
 	CmdReorganizeSheets *me = CMD_REORGANIZE_SHEETS (cmd);
 
-	if (me->old)
-		workbook_sheet_state_unref (me->old);
-	if (me->new)
-		workbook_sheet_state_unref (me->new);
+	workbook_sheet_state_unref (me->old);
+	workbook_sheet_state_unref (me->new);
 
 	gnm_command_finalize (cmd);
 }
@@ -5922,10 +5920,9 @@ cmd_define_name_finalize (GObject *cmd)
 
 	g_free (me->name); me->name = NULL;
 
-	if (me->texpr) {
-		gnm_expr_top_unref (me->texpr);
-		me->texpr = NULL;
-	}
+	gnm_expr_top_unref (me->texpr);
+
+	me->texpr = NULL;
 
 	gnm_command_finalize (cmd);
 }
@@ -6077,10 +6074,9 @@ cmd_remove_name_finalize (GObject *cmd)
 
 	expr_name_unref (me->nexpr);
 
-	if (me->texpr) {
-		gnm_expr_top_unref (me->texpr);
-		me->texpr = NULL;
-	}
+	gnm_expr_top_unref (me->texpr);
+
+	me->texpr = NULL;
 
 	gnm_command_finalize (cmd);
 }
@@ -7298,10 +7294,8 @@ cmd_so_set_links_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 		sheet_widget_list_base_set_result_type (me->so, me->as_index);
 		me->as_index = old_as_index;
 	}
-	if (me->output)
-		gnm_expr_top_unref (me->output);
-	if (me->content)
-		gnm_expr_top_unref (me->content);
+	gnm_expr_top_unref (me->output);
+	gnm_expr_top_unref (me->content);
 	me->output = old_output;
 	me->content = old_content;
 
@@ -7319,10 +7313,8 @@ cmd_so_set_links_finalize (GObject *cmd)
 {
 	CmdSOSetLink *me = CMD_SO_SET_LINKS (cmd);
 
-	if (me->output)
-		gnm_expr_top_unref (me->output);
-	if (me->content)
-		gnm_expr_top_unref (me->content);
+	gnm_expr_top_unref (me->output);
+	gnm_expr_top_unref (me->content);
 	gnm_command_finalize (cmd);
 }
 
@@ -7461,10 +7453,8 @@ cmd_so_set_button_finalize (GObject *cmd)
 {
 	CmdSOSetButton *me = CMD_SO_SET_BUTTON (cmd);
 
-	if (me->new_link)
-		gnm_expr_top_unref (me->new_link);
-	if (me->old_link)
-		gnm_expr_top_unref (me->old_link);
+	gnm_expr_top_unref (me->new_link);
+	gnm_expr_top_unref (me->old_link);
 	g_free (me->old_label);
 	g_free (me->new_label);
 	gnm_command_finalize (cmd);
@@ -7539,10 +7529,8 @@ cmd_so_set_radio_button_finalize (GObject *cmd)
 {
 	CmdSOSetRadioButton *me = CMD_SO_SET_RADIO_BUTTON (cmd);
 
-	if (me->new_link)
-		gnm_expr_top_unref (me->new_link);
-	if (me->old_link)
-		gnm_expr_top_unref (me->old_link);
+	gnm_expr_top_unref (me->new_link);
+	gnm_expr_top_unref (me->old_link);
 	g_free (me->old_label);
 	g_free (me->new_label);
 	value_release (me->old_value);
@@ -7618,10 +7606,8 @@ cmd_so_set_checkbox_finalize (GObject *cmd)
 {
 	CmdSOSetCheckbox *me = CMD_SO_SET_CHECKBOX (cmd);
 
-	if (me->new_link)
-		gnm_expr_top_unref (me->new_link);
-	if (me->old_link)
-		gnm_expr_top_unref (me->old_link);
+	gnm_expr_top_unref (me->new_link);
+	gnm_expr_top_unref (me->old_link);
 	g_free (me->old_label);
 	g_free (me->new_label);
 	gnm_command_finalize (cmd);
@@ -7723,10 +7709,8 @@ cmd_so_set_adjustment_finalize (GObject *cmd)
 {
 	CmdSOSetAdjustment *me = CMD_SO_SET_ADJUSTMENT (cmd);
 
-	if (me->new_link)
-		gnm_expr_top_unref (me->new_link);
-	if (me->old_link)
-		gnm_expr_top_unref (me->old_link);
+	gnm_expr_top_unref (me->new_link);
+	gnm_expr_top_unref (me->old_link);
 	gnm_command_finalize (cmd);
 }
 

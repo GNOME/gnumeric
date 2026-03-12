@@ -114,11 +114,11 @@ so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 
 	texpr = sheet_widget_list_base_get_content_link (so);
 	state->content_entry = init_entry (state, gui, 1, 4, texpr);
-	if (texpr) gnm_expr_top_unref (texpr);
+	gnm_expr_top_unref (texpr);
 
 	texpr = sheet_widget_list_base_get_result_link (so);
 	state->link_entry = init_entry (state, gui, 1, 0, texpr);
-	if (texpr) gnm_expr_top_unref (texpr);
+	gnm_expr_top_unref (texpr);
 
 	state->as_index_radio = go_gtk_builder_get_widget (gui, "as-index-radio");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->as_index_radio),

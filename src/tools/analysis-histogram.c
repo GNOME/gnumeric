@@ -139,8 +139,7 @@ static void
 gnm_histogram_tool_finalize (GObject *obj)
 {
 	GnmHistogramTool *tool = GNM_HISTOGRAM_TOOL (obj);
-	if (tool->bin)
-		value_release (tool->bin);
+	value_release (tool->bin);
 	G_OBJECT_CLASS (gnm_histogram_tool_parent_class)->finalize (obj);
 }
 
@@ -199,15 +198,10 @@ gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 	gint i, i_limit, i_start, i_end, col;
 	GSList *l;
 	gint to_col = (htool->cumulative) ? 0 : 1;
-
 	GnmExpr const *expr_bin = NULL;
-
-	GnmFunc *fd_small;
 	GnmFunc *fd_index = NULL;
-
 	char const *format;
-
-	fd_small = gnm_func_get_and_use ("SMALL");
+	GnmFunc *fd_small = gnm_func_get_and_use ("SMALL");
 
 	if (gtool->base.labels) {
 		fd_index = gnm_func_get_and_use ("INDEX");
@@ -273,9 +267,7 @@ gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 		if (htool->min_given)
 			dao_set_cell_float (dao, to_col, i_start, htool->min);
 		else {
-			GnmFunc *fd_min;
-
-			fd_min = gnm_func_get_and_use ("MIN");
+			GnmFunc *fd_min = gnm_func_get_and_use ("MIN");
 			dao_set_cell_expr (dao, to_col, i_start,
 					   gnm_expr_new_funcall1
 					   (fd_min,
@@ -286,9 +278,7 @@ gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 		if (htool->max_given)
 			dao_set_cell_float (dao, to_col, i_start + i_limit - 1, htool->max);
 		else {
-			GnmFunc *fd_max;
-
-			fd_max = gnm_func_get_and_use ("MAX");
+			GnmFunc *fd_max = gnm_func_get_and_use ("MAX");
 			dao_set_cell_expr (dao, to_col, i_start + i_limit - 1,
 					   gnm_expr_new_funcall1
 					   (fd_max,
@@ -536,4 +526,3 @@ gnm_histogram_tool_new (void)
 {
 	return g_object_new (GNM_TYPE_HISTOGRAM_TOOL, NULL);
 }
-

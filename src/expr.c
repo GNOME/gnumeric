@@ -3056,15 +3056,17 @@ gnm_expr_top_new_array_elem  (int x, int y)
 
 /**
  * gnm_expr_top_ref:
- * @texpr: #GnmExprTop
+ * @texpr: (transfer none) (nullable): #GnmExprTop
  *
  * Returns: (transfer full): the top expression itself with an increased reference count.
  **/
 GnmExprTop const *
 gnm_expr_top_ref (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
-	((GnmExprTop *)texpr)->refcount++;
+	if (texpr != NULL) {
+		g_return_val_if_fail (GNM_IS_EXPR_TOP (texpr), NULL);
+		((GnmExprTop *)texpr)->refcount++;
+	}
 	return texpr;
 }
 
@@ -3077,6 +3079,9 @@ gnm_expr_top_ref (GnmExprTop const *texpr)
 void
 gnm_expr_top_unref (GnmExprTop const *texpr)
 {
+	if (texpr == NULL)
+		return;
+
 	g_return_if_fail (GNM_IS_EXPR_TOP (texpr));
 
 	((GnmExprTop *)texpr)->refcount--;

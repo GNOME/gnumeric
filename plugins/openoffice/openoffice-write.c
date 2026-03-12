@@ -1631,10 +1631,9 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond, GnmRange *r)
 		return;
 	}
 
-	if (texpr) {
-		gnm_expr_top_unref (texpr);
-		texpr = NULL;
-	}
+	gnm_expr_top_unref (texpr);
+
+	texpr = NULL;
 
 	gsf_xml_out_start_element (state->xml, STYLE "map");
 

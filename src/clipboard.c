@@ -296,8 +296,7 @@ paste_cell (int target_col, int target_row,
 				GnmExprTop const *trelo =
 					gnm_expr_top_transpose (relo ? relo : src->texpr);
 				if (trelo) {
-					if (relo)
-						gnm_expr_top_unref (relo);
+					gnm_expr_top_unref (relo);
 					relo = trelo;
 				}
 			} else if (!relo && gnm_expr_top_is_array_corner (src->texpr)) {
@@ -306,8 +305,7 @@ paste_cell (int target_col, int target_row,
 			}
 			gnm_cell_set_expr_and_value (dst, relo ? relo : src->texpr,
 						 value_dup (src->val), TRUE);
-			if (NULL != relo)
-				gnm_expr_top_unref (relo);
+			gnm_expr_top_unref (relo);
 		} else if (src->val) {
 			GnmValue *newval = NULL;
 			GnmValue const *oldval = src->val;
@@ -1269,10 +1267,8 @@ cellregion_cmd_size (GnmCellRegion const *cr)
 static void
 gnm_cell_copy_free (GnmCellCopy *cc)
 {
-	if (cc->texpr) {
-		gnm_expr_top_unref (cc->texpr);
-		cc->texpr = NULL;
-	}
+	gnm_expr_top_unref (cc->texpr);
+	cc->texpr = NULL;
 	value_release (cc->val);
 	cc->val = NULL;
 

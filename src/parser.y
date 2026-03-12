@@ -616,10 +616,8 @@ line:	opt_exp exp {
 	}
 
 	| error 	{
-		if (state->result != NULL) {
-			gnm_expr_list_unref (state->result);
-			state->result = NULL;
-		}
+		gnm_expr_list_unref (state->result);
+		state->result = NULL;
 	}
 	;
 

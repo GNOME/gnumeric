@@ -1026,10 +1026,9 @@ gee_update_lexer_items (GnmExprEntry *gee)
 	g_free (gee->lexer_items);
 	gee->lexer_items = NULL;
 
-	if (gee->texpr != NULL) {
-		gnm_expr_top_unref (gee->texpr);
-		gee->texpr = NULL;
-	}
+	gnm_expr_top_unref (gee->texpr);
+
+	gee->texpr = NULL;
 
 	parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
 	format = gnm_style_get_format
@@ -1587,8 +1586,7 @@ gee_finalize (GObject *obj)
 	go_format_unref (gee->constant_format);
 	gee_delete_tooltip (gee, TRUE);
 	g_free (gee->lexer_items);
-	if (gee->texpr != NULL)
-		gnm_expr_top_unref (gee->texpr);
+	gnm_expr_top_unref (gee->texpr);
 
 	((GObjectClass *)parent_class)->finalize (obj);
 }

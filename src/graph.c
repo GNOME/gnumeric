@@ -124,8 +124,7 @@ gnm_go_data_dup (GOData const *src)
 	GnmDependent *dst_dep = gnm_go_data_get_dep (dst);
 
 	dst_dep->texpr = src_dep->texpr;
-	if (dst_dep->texpr)
-		gnm_expr_top_ref (dst_dep->texpr);
+	gnm_expr_top_ref (dst_dep->texpr);
 
 	if (src_dep->sheet)
 		dependent_set_sheet (dst_dep, src_dep->sheet);

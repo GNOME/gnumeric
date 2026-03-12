@@ -49,8 +49,7 @@ static void
 gnm_frequency_tool_finalize (GObject *obj)
 {
 	GnmFrequencyTool *tool = GNM_FREQUENCY_TOOL (obj);
-	if (tool->bin)
-		value_release (tool->bin);
+	value_release (tool->bin);
 	G_OBJECT_CLASS (gnm_frequency_tool_parent_class)->finalize (obj);
 }
 
@@ -105,19 +104,13 @@ gnm_frequency_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 	GnmGenericAnalysisTool *gtool = &ftool->parent;
 	gint i_limit, col;
 	GSList *l;
-
-	GnmFunc *fd_sum;
-	GnmFunc *fd_if;
-	GnmFunc *fd_index;
-	GnmFunc *fd_isblank;
 	GnmFunc *fd_rows = NULL;
 	GnmFunc *fd_columns = NULL;
 	GnmFunc *fd_exact = NULL;
-
-	fd_sum = gnm_func_get_and_use ("SUM");
-	fd_if = gnm_func_get_and_use ("IF");
-	fd_index = gnm_func_get_and_use ("INDEX");
-	fd_isblank = gnm_func_get_and_use ("ISBLANK");
+	GnmFunc *fd_sum = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_if = gnm_func_get_and_use ("IF");
+	GnmFunc *fd_index = gnm_func_get_and_use ("INDEX");
+	GnmFunc *fd_isblank = gnm_func_get_and_use ("ISBLANK");
 
 	if (ftool->exact) {
 		fd_exact = gnm_func_get_and_use ("EXACT");
@@ -322,4 +315,3 @@ gnm_frequency_tool_new (void)
 {
 	return g_object_new (GNM_TYPE_FREQUENCY_TOOL, NULL);
 }
-

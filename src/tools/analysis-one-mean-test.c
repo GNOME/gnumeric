@@ -86,22 +86,13 @@ gnm_one_mean_test_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output
 	guint    col;
 	GSList  *data = gtool->base.input;
 	gboolean first = TRUE;
-
-	GnmFunc *fd_mean;
-	GnmFunc *fd_var;
-	GnmFunc *fd_sqrt;
-	GnmFunc *fd_abs;
-	GnmFunc *fd_tdist;
-	GnmFunc *fd_iferror;
-	GnmFunc *fd_count;
-
-	fd_count = gnm_func_get_and_use ("COUNT");
-	fd_mean = gnm_func_get_and_use ("AVERAGE");
-	fd_var = gnm_func_get_and_use ("VAR");
-	fd_sqrt = gnm_func_get_and_use ("SQRT");
-	fd_abs = gnm_func_get_and_use ("ABS");
-	fd_tdist = gnm_func_get_and_use ("TDIST");
-	fd_iferror = gnm_func_get_and_use ("IFERROR");
+	GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
+	GnmFunc *fd_mean = gnm_func_get_and_use ("AVERAGE");
+	GnmFunc *fd_var = gnm_func_get_and_use ("VAR");
+	GnmFunc *fd_sqrt = gnm_func_get_and_use ("SQRT");
+	GnmFunc *fd_abs = gnm_func_get_and_use ("ABS");
+	GnmFunc *fd_tdist = gnm_func_get_and_use ("TDIST");
+	GnmFunc *fd_iferror = gnm_func_get_and_use ("IFERROR");
 
 	dao_set_italic (dao, 0, 0, 0, 9);
 	set_cell_text_col (dao, 0, 0, _("/Student-t Test"

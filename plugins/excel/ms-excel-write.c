@@ -1408,10 +1408,11 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		case GNM_STYLE_COND_LTE:	op = 0x08; break;
 
 		default:
-			if (alt_texpr)
-				gnm_expr_top_unref (alt_texpr);
-			else
+			if (!alt_texpr)
 				g_warning ("unknown condition %d", cond->op);
+			gnm_expr_top_unref (alt_texpr);
+			alt_texpr = NULL;
+			// Fall through
 		case GNM_STYLE_COND_CUSTOM:
 			op = 0; type = 2; break;
 		}
@@ -4822,7 +4823,7 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 					 esheet,
 					 link,
 					 macro_nexpr);
-		if (link) gnm_expr_top_unref (link);
+		gnm_expr_top_unref (link);
 		break;
 	}
 	case MSOT_OPTION: {
@@ -4832,7 +4833,7 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 					    esheet,
 					    link,
 					    macro_nexpr);
-		if (link) gnm_expr_top_unref (link);
+		gnm_expr_top_unref (link);
 		break;
 	}
 	case MSOT_SPINNER: {
@@ -4845,7 +4846,7 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 					   adj, horiz,
 					   link,
 					   macro_nexpr);
-		if (link) gnm_expr_top_unref (link);
+		gnm_expr_top_unref (link);
 		break;
 	}
 	case MSOT_SCROLLBAR: {
@@ -4858,7 +4859,7 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 					  adj, horiz,
 					  link,
 					  macro_nexpr);
-		if (link) gnm_expr_top_unref (link);
+		gnm_expr_top_unref (link);
 		break;
 	}
 	case MSOT_LIST:
@@ -4873,8 +4874,8 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 				     esheet,
 				     adj, res_link, data_link,
 				     macro_nexpr);
-		if (res_link) gnm_expr_top_unref (res_link);
-		if (data_link) gnm_expr_top_unref (data_link);
+		gnm_expr_top_unref (res_link);
+		gnm_expr_top_unref (data_link);
 		g_object_unref (adj);
 		terminate_obj = FALSE;  /* GR_LISTBOX_DATA is strange */
 		break;

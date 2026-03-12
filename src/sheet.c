@@ -2799,7 +2799,7 @@ cb_set_cell_content (GnmCellIter const *iter, closure_set_cell_value *info)
 		}
 
 		gnm_cell_set_expr (cell, texpr);
-		if (relo) gnm_expr_top_unref (relo);
+		gnm_expr_top_unref (relo);
 	} else
 		gnm_cell_set_value (cell, value_dup (info->val));
 
@@ -2925,8 +2925,7 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 	sheet_region_queue_recalc (sheet, r);
 
 	value_release (closure.val);
-	if (closure.texpr)
-		gnm_expr_top_unref (closure.texpr);
+	gnm_expr_top_unref (closure.texpr);
 
 	sheet_flag_status_update_range (sheet, r);
 }

@@ -36,8 +36,8 @@
 static GnmExpr const *
 analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Workbook *wb)
 {
-	GnmFunc *fd_array;
 	GnmExpr const *expr;
+	GnmFunc *fd_array = gnm_func_get_and_use ("ARRAY");
 
 	if (VALUE_IS_CELLRANGE (val_1) && VALUE_IS_CELLRANGE (val_2) &&
 	    val_1->v_range.cell.a.sheet == val_2->v_range.cell.a.sheet) {
@@ -72,8 +72,6 @@ analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Workbook *wb)
 			return gnm_expr_new_constant (val);
 		}
 	}
-
-	fd_array = gnm_func_get_and_use ("ARRAY");
 
 	expr = gnm_expr_new_funcall2 (fd_array,
 				      gnm_expr_new_constant (value_dup (val_1)),
@@ -123,37 +121,24 @@ gnm_wilcoxon_mann_whitney_tool_perform_calc (GnmAnalysisTool *tool, data_analysi
 {
 	GnmWilcoxonMannWhitneyTool *wtool = GNM_WILCOXON_MANN_WHITNEY_TOOL (tool);
 	GnmGenericBAnalysisTool *gtool = &wtool->parent;
-	GnmFunc *fd_count;
-	GnmFunc *fd_sum;
-	GnmFunc *fd_rows;
-	GnmFunc *fd_rank_avg;
-	GnmFunc *fd_rank;
-	GnmFunc *fd_min;
-	GnmFunc *fd_normdist;
-	GnmFunc *fd_sqrt;
-	GnmFunc *fd_if;
-	GnmFunc *fd_isblank;
-
 	GnmExpr const *expr_total;
 	GnmExpr const *expr_pop_1;
 	GnmExpr const *expr_pop_2;
 	GnmExpr const *expr_u;
 	GnmExpr const *expr_count_total;
-
 	GnmValue *val_1 = value_dup (gtool->base.range_1);
 	GnmValue *val_2 = value_dup (gtool->base.range_2);
 	Workbook *wb = dao->sheet ? dao->sheet->workbook : NULL;
-
-	fd_count = gnm_func_get_and_use ("COUNT");
-	fd_sum = gnm_func_get_and_use ("SUM");
-	fd_rows = gnm_func_get_and_use ("ROWS");
-	fd_rank_avg = gnm_func_get_and_use ("RANK.AVG");
-	fd_rank = gnm_func_get_and_use ("RANK");
-	fd_min = gnm_func_get_and_use ("MIN");
-	fd_normdist = gnm_func_get_and_use ("NORMDIST");
-	fd_sqrt = gnm_func_get_and_use ("SQRT");
-	fd_if = gnm_func_get_and_use ("IF");
-	fd_isblank = gnm_func_get_and_use ("ISBLANK");
+	GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
+	GnmFunc *fd_sum = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_rows = gnm_func_get_and_use ("ROWS");
+	GnmFunc *fd_rank_avg = gnm_func_get_and_use ("RANK.AVG");
+	GnmFunc *fd_rank = gnm_func_get_and_use ("RANK");
+	GnmFunc *fd_min = gnm_func_get_and_use ("MIN");
+	GnmFunc *fd_normdist = gnm_func_get_and_use ("NORMDIST");
+	GnmFunc *fd_sqrt = gnm_func_get_and_use ("SQRT");
+	GnmFunc *fd_if = gnm_func_get_and_use ("IF");
+	GnmFunc *fd_isblank = gnm_func_get_and_use ("ISBLANK");
 
 	dao_set_italic (dao, 0, 0, 0, 8);
 	dao_set_italic (dao, 0, 1, 3, 1);

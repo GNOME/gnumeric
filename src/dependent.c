@@ -448,10 +448,8 @@ dependent_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 	if (klass->set_expr)
 		klass->set_expr (dep, new_texpr);
 	else {
-		if (new_texpr)
-			gnm_expr_top_ref (new_texpr);
-		if (dep->texpr)
-			gnm_expr_top_unref (dep->texpr);
+		gnm_expr_top_ref (new_texpr);
+		gnm_expr_top_unref (dep->texpr);
 		dep->texpr = new_texpr;
 		if (new_texpr)
 			dependent_changed (dep);
@@ -1448,12 +1446,12 @@ dependent_managed_set_sheet (GnmDepManaged *dep, Sheet *sheet)
 		return;
 
 	texpr = dep->base.texpr;
-	if (texpr) gnm_expr_top_ref (texpr);
+	gnm_expr_top_ref (texpr);
 	dependent_set_expr (&dep->base, NULL);
 	/* We're now unlinked from everything. */
 	dep->base.sheet = sheet;
 	dependent_managed_set_expr (dep, texpr);
-	if (texpr) gnm_expr_top_unref (texpr);
+	gnm_expr_top_unref (texpr);
 }
 
 static void

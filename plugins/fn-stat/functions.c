@@ -3612,7 +3612,7 @@ gnumeric_leverage (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	g_free (x);
 
 out:
-	if (A) gnm_matrix_unref (A);
+	gnm_matrix_unref (A);
 	return res;
 }
 

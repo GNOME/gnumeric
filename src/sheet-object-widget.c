@@ -1007,8 +1007,7 @@ cb_button_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widget,
 			(GNM_EXPR_ENTRY (gtk_widget_get_parent (state->old_focus)),
 			 parse_pos_init_sheet (&pp, state->sheet),
 			 NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
-		if (texpr != NULL)
-			gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr);
 	}
 	state->old_focus = focus_widget;
 }
@@ -1205,8 +1204,7 @@ sheet_widget_button_get_link	 (SheetObject *so)
 	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
 	GnmExprTop const *texpr = swb->dep.texpr;
 
-	if (texpr)
-		gnm_expr_top_ref (texpr);
+	gnm_expr_top_ref (texpr);
 
 	return texpr;
 }
@@ -1438,8 +1436,7 @@ sheet_widget_adjustment_get_link (SheetObject *so)
 	SheetWidgetAdjustment *swa = GNM_SOW_ADJUSTMENT (so);
 	GnmExprTop const *texpr = swa->dep.texpr;
 
-	if (texpr)
-		gnm_expr_top_ref (texpr);
+	gnm_expr_top_ref (texpr);
 
 	return texpr;
 }
@@ -1665,8 +1662,7 @@ cb_adjustment_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widge
 			GNM_EXPR_ENTRY (ofp),
 			parse_pos_init_sheet (&pp, state->sheet),
 			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
-		if (texpr != NULL)
-			gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr);
 	}
 	state->old_focus = focus_widget;
 }
@@ -2524,8 +2520,7 @@ cb_checkbox_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_widget,
 			GNM_EXPR_ENTRY (ofp),
 			parse_pos_init_sheet (&pp, state->sheet),
 			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
-		if (texpr != NULL)
-			gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr);
 	}
 	state->old_focus = focus_widget;
 }
@@ -2724,8 +2719,7 @@ sheet_widget_checkbox_get_link	 (SheetObject *so)
 	SheetWidgetCheckbox *swc = GNM_SOW_CHECKBOX (so);
 	GnmExprTop const *texpr = swc->dep.texpr;
 
-	if (texpr)
-		gnm_expr_top_ref (texpr);
+	gnm_expr_top_ref (texpr);
 
 	return texpr;
 }
@@ -3219,8 +3213,7 @@ sheet_widget_radio_button_get_link (SheetObject *so)
 	SheetWidgetRadioButton *swrb = GNM_SOW_RADIO_BUTTON (so);
 	GnmExprTop const *texpr = swrb->dep.texpr;
 
-	if (texpr)
-		gnm_expr_top_ref (texpr);
+	gnm_expr_top_ref (texpr);
 
 	return texpr;
 }
@@ -3289,8 +3282,7 @@ cb_radio_button_set_focus (G_GNUC_UNUSED GtkWidget *window, GtkWidget *focus_wid
 			GNM_EXPR_ENTRY (ofp),
 			parse_pos_init_sheet (&pp, state->sheet),
 			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
-		if (texpr != NULL)
-			gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr);
 	}
 	state->old_focus = focus_widget;
 }
@@ -3866,8 +3858,7 @@ sheet_widget_list_base_get_result_link  (SheetObject const *so)
 	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (so);
 	GnmExprTop const *texpr = swl->output_dep.texpr;
 
-	if (texpr)
-		gnm_expr_top_ref (texpr);
+	gnm_expr_top_ref (texpr);
 
 	return texpr;
 }
@@ -3878,8 +3869,7 @@ sheet_widget_list_base_get_content_link (SheetObject const *so)
 	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (so);
 	GnmExprTop const *texpr = swl->content_dep.texpr;
 
-	if (texpr)
-		gnm_expr_top_ref (texpr);
+	gnm_expr_top_ref (texpr);
 
 	return texpr;
 }

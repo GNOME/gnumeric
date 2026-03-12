@@ -309,8 +309,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				 * focused on the edit line (eg hit F2) */
 				wbcg_focus_cur_scg (wbcg);
 			}
-			if (texpr_test != NULL)
-				gnm_expr_top_unref (texpr_test);
+			gnm_expr_top_unref (texpr_test);
 		}
 
 		/* We only enter an array formula if the text is a formula */
@@ -404,8 +403,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				gtk_window_set_focus (wbcg_toplevel (wbcg),
 					(GtkWidget *) wbcg_get_entry (wbcg));
 				g_free (free_txt);
-				if (texpr != NULL)
-					gnm_expr_top_unref (texpr);
+				gnm_expr_top_unref (texpr);
 				return FALSE;
 			}
 		} else {
@@ -426,8 +424,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 					pango_attr_list_unref (res_markup);
 			}
 		}
-		if (texpr != NULL)
-			gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr);
 		g_free (free_txt);
 	} else {
 		if (sv == wb_control_cur_sheet_view (wbc)) {

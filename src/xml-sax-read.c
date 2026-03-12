@@ -2301,7 +2301,7 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					 &pos, content + 1,
 					 array_cols, array_rows);
 		texpr = cr ? cc->texpr : cell->base.texpr;
-		if (texpr) gnm_expr_top_ref (texpr);
+		gnm_expr_top_ref (texpr);
 		goto store_shared;
 	}
 
@@ -2415,7 +2415,7 @@ assign_and_done:
 			gnm_cell_set_value (cell, v);
 	} else {
 		// Clipboard case
-		cc->texpr = texpr ? gnm_expr_top_ref (texpr) : NULL;
+		cc->texpr = gnm_expr_top_ref (texpr);
 		cc->val = v;
 	}
 

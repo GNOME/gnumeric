@@ -76,27 +76,17 @@ gnm_sign_test_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 	guint     col;
 	GSList *data = gtool->base.input;
 	gboolean first = TRUE;
-
 	GnmExpr const *expr;
 	GnmExpr const *expr_neg;
 	GnmExpr const *expr_pos;
 	GnmExpr const *expr_isnumber;
-
-	GnmFunc *fd_median;
-	GnmFunc *fd_if;
-	GnmFunc *fd_sum;
-	GnmFunc *fd_min;
-	GnmFunc *fd_binomdist;
-	GnmFunc *fd_isnumber;
-	GnmFunc *fd_iferror;
-
-	fd_median = gnm_func_get_and_use ("MEDIAN");
-	fd_if = gnm_func_get_and_use ("IF");
-	fd_sum = gnm_func_get_and_use ("SUM");
-	fd_min = gnm_func_get_and_use ("MIN");
-	fd_binomdist = gnm_func_get_and_use ("BINOMDIST");
-	fd_isnumber = gnm_func_get_and_use ("ISNUMBER");
-	fd_iferror = gnm_func_get_and_use ("IFERROR");
+	GnmFunc *fd_median = gnm_func_get_and_use ("MEDIAN");
+	GnmFunc *fd_if = gnm_func_get_and_use ("IF");
+	GnmFunc *fd_sum = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_min = gnm_func_get_and_use ("MIN");
+	GnmFunc *fd_binomdist = gnm_func_get_and_use ("BINOMDIST");
+	GnmFunc *fd_isnumber = gnm_func_get_and_use ("ISNUMBER");
+	GnmFunc *fd_iferror = gnm_func_get_and_use ("IFERROR");
 
 	dao_set_italic (dao, 0, 0, 0, 9);
 	set_cell_text_col (dao, 0, 0, _("/Sign Test"
@@ -260,32 +250,21 @@ gnm_sign_test_two_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output
 	GnmGenericBAnalysisTool *gtool = &stool->parent;
 	GnmValue *val_1;
 	GnmValue *val_2;
-
 	GnmExpr const *expr_1;
 	GnmExpr const *expr_2;
-
 	GnmExpr const *expr;
 	GnmExpr const *expr_diff;
 	GnmExpr const *expr_neg;
 	GnmExpr const *expr_pos;
 	GnmExpr const *expr_isnumber_1;
 	GnmExpr const *expr_isnumber_2;
-
-	GnmFunc *fd_median;
-	GnmFunc *fd_if;
-	GnmFunc *fd_sum;
-	GnmFunc *fd_min;
-	GnmFunc *fd_binomdist;
-	GnmFunc *fd_isnumber;
-	GnmFunc *fd_iferror;
-
-	fd_median = gnm_func_get_and_use ("MEDIAN");
-	fd_if = gnm_func_get_and_use ("IF");
-	fd_sum = gnm_func_get_and_use ("SUM");
-	fd_min = gnm_func_get_and_use ("MIN");
-	fd_binomdist = gnm_func_get_and_use ("BINOMDIST");
-	fd_isnumber = gnm_func_get_and_use ("ISNUMBER");
-	fd_iferror = gnm_func_get_and_use ("IFERROR");
+	GnmFunc *fd_median = gnm_func_get_and_use ("MEDIAN");
+	GnmFunc *fd_if = gnm_func_get_and_use ("IF");
+	GnmFunc *fd_sum = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_min = gnm_func_get_and_use ("MIN");
+	GnmFunc *fd_binomdist = gnm_func_get_and_use ("BINOMDIST");
+	GnmFunc *fd_isnumber = gnm_func_get_and_use ("ISNUMBER");
+	GnmFunc *fd_iferror = gnm_func_get_and_use ("IFERROR");
 
 	dao_set_italic (dao, 0, 0, 0, 9);
 	set_cell_text_col (dao, 0, 0, _("/Sign Test"

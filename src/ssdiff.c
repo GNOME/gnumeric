@@ -289,10 +289,8 @@ xml_dtor (gpointer user)
 	DiffState *state = user;
 	g_clear_object (&state->xml);
 
-	if (state->xml_convs) {
-		gnm_conventions_unref (state->xml_convs);
-		state->xml_convs = NULL;
-	}
+	gnm_conventions_unref (state->xml_convs);
+	state->xml_convs = NULL;
 }
 
 static void

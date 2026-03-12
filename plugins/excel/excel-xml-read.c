@@ -479,8 +479,7 @@ xl_xml_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Formula")) {
 			GnmExprTop const *texpr = xl_xml_parse_expr (xin, attrs[1], &pp);
 			if (NULL != texpr) {
-				if (NULL != state->texpr)
-					gnm_expr_top_unref (state->texpr);
+				gnm_expr_top_unref (state->texpr);
 				state->texpr = texpr;
 			}
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "ArrayRange")) {

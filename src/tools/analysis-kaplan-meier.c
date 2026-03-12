@@ -57,8 +57,7 @@ static void
 gnm_kaplan_meier_tool_finalize (GObject *obj)
 {
 	GnmKaplanMeierTool *ktool = GNM_KAPLAN_MEIER_TOOL (obj);
-	if (ktool->range_3)
-		value_release (ktool->range_3);
+	value_release (ktool->range_3);
 	g_slist_free_full (ktool->group_list, (GDestroyNotify)cb_free_group);
 	G_OBJECT_CLASS (gnm_kaplan_meier_tool_parent_class)->finalize (obj);
 }
@@ -121,25 +120,17 @@ gnm_kaplan_meier_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_
 	GnmExpr const *expr_prob_zero;
 	GnmExpr const *expr_prob;
 	GnmExpr const *expr_std_err = NULL;
-
-	GnmFunc *fd_if;
-	GnmFunc *fd_iserror;
-	GnmFunc *fd_small;
-	GnmFunc *fd_sum;
 	GnmFunc *fd_sqrt = NULL;
 	GnmFunc *fd_min = NULL;
-
 	GogGraph     *graph = NULL;
 	GogPlot	     *plot  = NULL;
 	SheetObject  *so;
 	GOData       *times = NULL;
-
 	GSList *gl = ktool->group_list;
-
-	fd_small = gnm_func_get_and_use ("SMALL");
-	fd_if = gnm_func_get_and_use ("IF");
-	fd_iserror = gnm_func_get_and_use ("ISERROR");
-	fd_sum = gnm_func_get_and_use ("SUM");
+	GnmFunc *fd_small = gnm_func_get_and_use ("SMALL");
+	GnmFunc *fd_if = gnm_func_get_and_use ("IF");
+	GnmFunc *fd_iserror = gnm_func_get_and_use ("ISERROR");
+	GnmFunc *fd_sum = gnm_func_get_and_use ("SUM");
 
 	if (ktool->std_err) {
 		fd_sqrt = gnm_func_get_and_use ("SQRT");
@@ -571,13 +562,11 @@ gnm_kaplan_meier_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_
 	}
 
 	if (ktool->logrank_test) {
-		GnmFunc *fd_chidist;
 		GnmExpr const *expr_statistic = gnm_expr_new_constant (value_new_int (0));
 		GnmExpr const *expr_p;
 		GnmExpr const *expr_n_total = gnm_expr_new_constant (value_new_int (0));
 		GnmExpr const *expr_death_total = gnm_expr_new_constant (value_new_int (0));
-
-		fd_chidist = gnm_func_get_and_use ("CHIDIST");
+		GnmFunc *fd_chidist = gnm_func_get_and_use ("CHIDIST");
 
 		dao_set_italic (dao, 1, logrank_test_y_offset, 1, logrank_test_y_offset+3);
 		set_cell_text_col (dao, 1, logrank_test_y_offset,

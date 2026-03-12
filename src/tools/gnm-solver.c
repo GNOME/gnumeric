@@ -289,7 +289,7 @@ gnm_solver_constraint_set_lhs (GnmSolverConstraint *c, GnmValue *v)
 {
 	GnmExprTop const *texpr = v ? gnm_expr_top_new_constant (v) : NULL;
 	dependent_managed_set_expr (&c->lhs, texpr);
-	if (texpr) gnm_expr_top_unref (texpr);
+	gnm_expr_top_unref (texpr);
 }
 
 /**
@@ -315,7 +315,7 @@ gnm_solver_constraint_set_rhs (GnmSolverConstraint *c, GnmValue *v)
 {
 	GnmExprTop const *texpr = v ? gnm_expr_top_new_constant (v) : NULL;
 	dependent_managed_set_expr (&c->rhs, texpr);
-	if (texpr) gnm_expr_top_unref (texpr);
+	gnm_expr_top_unref (texpr);
 }
 
 /**
@@ -604,7 +604,7 @@ gnm_solver_param_set_input (GnmSolverParameters *sp, GnmValue *v)
 {
 	GnmExprTop const *texpr = v ? gnm_expr_top_new_constant (v) : NULL;
 	dependent_managed_set_expr (&sp->input, texpr);
-	if (texpr) gnm_expr_top_unref (texpr);
+	gnm_expr_top_unref (texpr);
 }
 
 static GnmValue *

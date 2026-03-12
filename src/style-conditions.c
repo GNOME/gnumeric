@@ -536,8 +536,7 @@ gnm_style_cond_canonicalize (GnmStyleCond *cond)
 
 	if (newop != GNM_STYLE_COND_CUSTOM) {
 		gnm_style_cond_set_expr (cond, texpr, 0);
-		if (texpr)
-			gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr);
 		cond->op = newop;
 	}
 }

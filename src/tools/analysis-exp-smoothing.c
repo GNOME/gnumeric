@@ -1420,4 +1420,3 @@ analysis_tool_exponential_smoothing_engine_mtes_run (GnmExpSmoothingTool *etool,
 
 	return FALSE;
 }
-

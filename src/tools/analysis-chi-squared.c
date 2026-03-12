@@ -48,8 +48,7 @@ static void
 gnm_chi_squared_tool_finalize (GObject *obj)
 {
 	GnmChiSquaredTool *tool = GNM_CHI_SQUARED_TOOL (obj);
-	if (tool->data.input)
-		value_release (tool->data.input);
+	value_release (tool->data.input);
 	G_OBJECT_CLASS (gnm_chi_squared_tool_parent_class)->finalize (obj);
 }
 
@@ -237,4 +236,3 @@ gnm_chi_squared_tool_new (void)
 {
 	return g_object_new (GNM_TYPE_CHI_SQUARED_TOOL, NULL);
 }
-
