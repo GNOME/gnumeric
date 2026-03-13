@@ -13,7 +13,14 @@ typedef enum {
 	FillSeriesUnitYear
 } fill_series_date_unit_t;
 
-typedef struct {
+#define GNM_TYPE_FILL_SERIES_TOOL (gnm_fill_series_tool_get_type ())
+GType gnm_fill_series_tool_get_type (void);
+typedef struct _GnmFillSeriesTool GnmFillSeriesTool;
+typedef struct _GnmFillSeriesToolClass GnmFillSeriesToolClass;
+
+struct _GnmFillSeriesTool {
+	GnmAnalysisTool parent;
+
         fill_series_type_t      type;
         fill_series_date_unit_t date_unit;
         gboolean                series_in_rows;
@@ -24,16 +31,6 @@ typedef struct {
         gboolean                is_stop_set;
 
 	gint                    n;
-} fill_series_t;
-
-#define GNM_TYPE_FILL_SERIES_TOOL (gnm_fill_series_tool_get_type ())
-GType gnm_fill_series_tool_get_type (void);
-typedef struct _GnmFillSeriesTool GnmFillSeriesTool;
-typedef struct _GnmFillSeriesToolClass GnmFillSeriesToolClass;
-
-struct _GnmFillSeriesTool {
-	GnmAnalysisTool parent;
-	fill_series_t data;
 };
 
 struct _GnmFillSeriesToolClass {

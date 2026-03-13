@@ -95,25 +95,25 @@ cb_fill_series_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	/* Read the `Series in' radio buttons. */
 	radio = go_gtk_builder_get_widget (state->base.gui, "series_in_rows");
-	ftool->data.series_in_rows = ! gnm_gtk_radio_group_get_selected
+	ftool->series_in_rows = ! gnm_gtk_radio_group_get_selected
 	        (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio)));
 
 	/* Read the `Type' radio buttons. */
 	radio = go_gtk_builder_get_widget (state->base.gui, "type_linear");
-	ftool->data.type = gnm_gtk_radio_group_get_selected
+	ftool->type = gnm_gtk_radio_group_get_selected
 	        (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio)));
 
 	/* Read the `Date unit' radio buttons. */
 	radio = go_gtk_builder_get_widget (state->base.gui, "unit_day");
-	ftool->data.date_unit = gnm_gtk_radio_group_get_selected
+	ftool->date_unit = gnm_gtk_radio_group_get_selected
 	        (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio)));
 
-	ftool->data.is_step_set = ! entry_to_float (GTK_ENTRY (state->step_entry),
-					    &ftool->data.step_value, TRUE);
-	ftool->data.is_stop_set = ! entry_to_float (GTK_ENTRY (state->stop_entry),
-					    &ftool->data.stop_value, TRUE);
+	ftool->is_step_set = ! entry_to_float (GTK_ENTRY (state->step_entry),
+					    &ftool->step_value, TRUE);
+	ftool->is_stop_set = ! entry_to_float (GTK_ENTRY (state->stop_entry),
+					    &ftool->stop_value, TRUE);
 	entry_to_float (GTK_ENTRY (state->start_entry),
-			&ftool->data.start_value, TRUE);
+			&ftool->start_value, TRUE);
 
 	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool))
 		gtk_widget_destroy (state->base.dialog);
