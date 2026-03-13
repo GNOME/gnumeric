@@ -151,7 +151,7 @@ char             *gnm_print_hf_format_render       (char const *format,
 
 GType             gnm_print_hf_render_info_get_type      (void);
 GnmPrintHFRenderInfo     *gnm_print_hf_render_info_new     (void);
-void              gnm_print_hf_render_info_destroy (GnmPrintHFRenderInfo *hfi);
+void              gnm_print_hf_render_info_free (GnmPrintHFRenderInfo *hfi);
 
 
 GtkUnit     unit_name_to_unit    (char const *name);

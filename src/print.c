@@ -171,7 +171,7 @@ static void
 printing_instance_delete (PrintingInstance *pi)
 {
 	g_list_free_full (pi->gnmSheets, sheet_print_info_free);
-	gnm_print_hf_render_info_destroy (pi->hfi);
+	gnm_print_hf_render_info_free (pi->hfi);
 	if (pi->progress) {
 		gtk_widget_destroy (pi->progress);
 	}
@@ -1205,7 +1205,7 @@ static void
 print_job_info_destroy (PrintJobInfo *pj)
 {
 	g_object_unref (pj->gp_config);
-	gnm_print_hf_render_info_destroy (pj->render_info);
+	gnm_print_hf_render_info_free (pj->render_info);
 	if (pj->decoration_layout)
 		g_object_unref (pj->decoration_layout);
 	if (pj->print_context)

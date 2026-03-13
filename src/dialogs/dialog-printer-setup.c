@@ -900,7 +900,7 @@ display_hf_preview (PrinterSetupState *state, gboolean header)
 	goc_item_set (pi->right, "text", text ? text : "", NULL);
 	g_free (text);
 
-	gnm_print_hf_render_info_destroy (hfi);
+	gnm_print_hf_render_info_free (hfi);
 }
 
 static void
@@ -1034,7 +1034,7 @@ fill_hf (PrinterSetupState *state, GtkComboBox *om, GCallback callback, gboolean
 	gtk_combo_box_set_active (om, idx);
 	g_signal_connect (G_OBJECT (om), "changed", callback, state);
 
-	gnm_print_hf_render_info_destroy (hfi);
+	gnm_print_hf_render_info_free (hfi);
 }
 
 static void

@@ -877,13 +877,13 @@ gnm_print_hf_render_info_new (void)
 }
 
 /**
- * gnm_print_hf_render_info_destroy:
+ * gnm_print_hf_render_info_free:
  * @hfi: #GnmPrintHFRenderInfo
  *
  * Frees the #GnmPrintHFRenderInfo.
  **/
 void
-gnm_print_hf_render_info_destroy (GnmPrintHFRenderInfo *hfi)
+gnm_print_hf_render_info_free (GnmPrintHFRenderInfo *hfi)
 {
 	g_return_if_fail (hfi != NULL);
 
@@ -921,7 +921,7 @@ gnm_print_hf_render_info_get_type (void)
 	if (t == 0) {
 		t = g_boxed_type_register_static ("GnmPrintHFRenderInfo",
 			 (GBoxedCopyFunc)hf_render_info_copy,
-			 (GBoxedFreeFunc)gnm_print_hf_render_info_destroy);
+			 (GBoxedFreeFunc)gnm_print_hf_render_info_free);
 	}
 	return t;
 }
