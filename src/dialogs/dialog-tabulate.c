@@ -152,13 +152,8 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	GnmTabulateInfo *data;
 	/* we might get the 4 below from the positon of some of the widgets inside the grid */
 	int nrows = 4;
-	GnmCell **cells;
-	gnm_float *minima, *maxima, *steps;
 
-	cells = g_new (GnmCell *, nrows);
-	minima = g_new (gnm_float, nrows);
-	maxima = g_new (gnm_float, nrows);
-	steps = g_new (gnm_float, nrows);
+	data = gnm_tabulate_info_new (nrows);
 
 	for (row = 1; row < nrows; row++) {
 		GtkEntry *e_w;
@@ -167,15 +162,15 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		if (!w || gnm_expr_entry_is_blank (w))
 			continue;
 
-		cells[dims] = single_cell (dd->sheet, w);
-		if (!cells[dims]) {
+		data->cells[dims] = single_cell (dd->sheet, w);
+		if (!data->cells[dims]) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a single valid cell as dependency cell"));
 			gnm_expr_entry_grab_focus (GNM_EXPR_ENTRY (w), TRUE);
 			goto error;
 		}
-		if (gnm_cell_has_expr (cells[dims])) {
+		if (gnm_cell_has_expr (data->cells[dims])) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("The dependency cells should not contain an expression"));
@@ -183,8 +178,8 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (get_grid_float_entry (dd->grid, row, COL_MIN, cells[dims],
-					   &(minima[dims]), &e_w, FALSE, 0.0)) {
+		if (get_grid_float_entry (dd->grid, row, COL_MIN, data->cells[dims],
+					   &(data->minima[dims]), &e_w, FALSE, 0.0)) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as minimum"));
@@ -192,8 +187,8 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (get_grid_float_entry (dd->grid, row, COL_MAX, cells[dims],
-					   &(maxima[dims]), &e_w, FALSE, 0.0)) {
+		if (get_grid_float_entry (dd->grid, row, COL_MAX, data->cells[dims],
+					   &(data->maxima[dims]), &e_w, FALSE, 0.0)) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as maximum"));
@@ -201,7 +196,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (maxima[dims] < minima[dims]) {
+		if (data->maxima[dims] < data->minima[dims]) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("The maximum value should be greater than the minimum"));
@@ -209,8 +204,8 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (get_grid_float_entry (dd->grid, row, COL_STEP, cells[dims],
-					   &(steps[dims]), &e_w, TRUE, 1.0)) {
+		if (get_grid_float_entry (dd->grid, row, COL_STEP, data->cells[dims],
+					   &(data->steps[dims]), &e_w, TRUE, 1.0)) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as step size"));
@@ -218,7 +213,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (steps[dims] <= 0) {
+		if (data->steps[dims] <= 0) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("The step size should be positive"));
@@ -261,13 +256,8 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		with_coordinates = (i == -1) ? TRUE : (gboolean)i;
 	}
 
-	data = g_new (GnmTabulateInfo, 1);
 	data->target = resultcell;
 	data->dims = dims;
-	data->cells = cells;
-	data->minima = minima;
-	data->maxima = maxima;
-	data->steps = steps;
 	data->with_coordinates = with_coordinates;
 
 	if (!cmd_tabulate (GNM_WBC (dd->wbcg), data)) {
@@ -275,12 +265,10 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		return;
 	}
 
-	g_free (data);
+	return;
+
  error:
-	g_free (minima);
-	g_free (maxima);
-	g_free (steps);
-	g_free (cells);
+	gnm_tabulate_info_free (data);
 }
 
 void

@@ -6740,37 +6740,29 @@ typedef struct {
 
 MAKE_GNM_COMMAND (CmdTabulate, cmd_tabulate, NULL)
 
-static gint
-cmd_tabulate_cmp_f (gconstpointer a,
-				    gconstpointer b)
-{
-	guint const a_val = GPOINTER_TO_INT (a);
-	guint const b_val = GPOINTER_TO_INT (b);
-
-	if (a_val > b_val)
-		return -1;
-	if (a_val < b_val)
-		return 1;
-	return 0;
-}
-
 static gboolean
 cmd_tabulate_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdTabulate *me = CMD_TABULATE (cmd);
 	GSList *l;
 	gboolean res = TRUE;
+	Workbook *wb = wb_control_get_workbook (wbc);
+	GSList *sl = NULL;
 
-	me->sheet_idx  = g_slist_sort (me->sheet_idx,
-				       cmd_tabulate_cmp_f);
-
+	// Sheet indices will change.  Lookup all
 	for (l = me->sheet_idx; l != NULL; l = l->next) {
 		int i = GPOINTER_TO_INT (l->data);
-		Sheet *new_sheet =
-			workbook_sheet_by_index (wb_control_get_workbook (wbc),
-						 i);
+		Sheet *sheet = workbook_sheet_by_index (wb, i);
+		sl = g_slist_prepend (sl, sheet);
+	}
+
+	for (l = sl; l != NULL; l = l->next) {
+		Sheet *new_sheet = l->data;
 		res = res && command_undo_sheet_delete (new_sheet);
 	}
+
+	g_slist_free (sl);
+
 	return !res;
 }
 
@@ -6780,7 +6772,7 @@ cmd_tabulate_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	CmdTabulate *me = CMD_TABULATE (cmd);
 
 	g_slist_free (me->sheet_idx);
-	me->sheet_idx = do_tabulation (wbc, me->data);
+	me->sheet_idx = gnm_tabulate (wbc, me->data);
 
 	return (me->sheet_idx == NULL);
 }
@@ -6790,16 +6782,19 @@ cmd_tabulate_finalize (GObject *cmd)
 {
 	CmdTabulate *me = CMD_TABULATE (cmd);
 
-	g_free (me->data->cells);
-	g_free (me->data->minima);
-	g_free (me->data->maxima);
-	g_free (me->data->steps);
-	g_free (me->data);
+	gnm_tabulate_info_free (me->data);
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_tabulate:
+ * @wbc: control
+ * @data: (transfer full): tabulation information
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
-cmd_tabulate (WorkbookControl *wbc, gpointer data)
+cmd_tabulate (WorkbookControl *wbc, GnmTabulateInfo *data)
 {
 	CmdTabulate *me;
 

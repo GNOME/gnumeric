@@ -61,14 +61,14 @@ tabulation_eval (G_GNUC_UNUSED Workbook *wb, int dims, gnm_float const *x,
 }
 
 /**
- * do_tabulation:
+ * gnm_tabulate:
  * @wbc: control
- * @data:
+ * @data: (transfer none): tabulation information
  *
  * Returns: (transfer full) (element-type int):
  */
 GSList *
-do_tabulation (WorkbookControl *wbc,
+gnm_tabulate (WorkbookControl *wbc,
 	       GnmTabulateInfo *data)
 {
 	Workbook *wb = wb_control_get_workbook (wbc);
@@ -276,4 +276,40 @@ do_tabulation (WorkbookControl *wbc,
 	g_free (old_values);
 
 	return sheet_idx;
+}
+
+/**
+ * gnm_tabulate_info_new: (skip)
+ * @dims: number of dimensions
+ *
+ * Returns: (transfer full): a new #GnmTabulateInfo structure.
+ */
+GnmTabulateInfo *
+gnm_tabulate_info_new (int dims)
+{
+	GnmTabulateInfo *info = g_new0 (GnmTabulateInfo, 1);
+	info->dims = dims;
+	if (dims > 0) {
+		info->cells = g_new0 (GnmCell *, dims);
+		info->minima = g_new0 (gnm_float, dims);
+		info->maxima = g_new0 (gnm_float, dims);
+		info->steps = g_new0 (gnm_float, dims);
+	}
+	return info;
+}
+
+/**
+ * gnm_tabulate_info_free: (skip)
+ * @info: (nullable) (transfer full): #GnmTabulateInfo structure to free
+ */
+void
+gnm_tabulate_info_free (GnmTabulateInfo *info)
+{
+	if (info != NULL) {
+		g_free (info->cells);
+		g_free (info->minima);
+		g_free (info->maxima);
+		g_free (info->steps);
+		g_free (info);
+	}
 }

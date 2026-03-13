@@ -4,7 +4,7 @@
 #include <gnumeric.h>
 #include <numbers.h>
 
-typedef struct {
+struct _GnmTabulateInfo {
 	GnmCell   *target;
 	int dims;
 	GnmCell  **cells;
@@ -12,10 +12,13 @@ typedef struct {
 	gnm_float *maxima;
 	gnm_float *steps;
 	gboolean with_coordinates;
-} GnmTabulateInfo;
+};
 
 GSList *
-do_tabulation (WorkbookControl *wbc,
+gnm_tabulate (WorkbookControl *wbc,
 	       GnmTabulateInfo *data);
+
+GnmTabulateInfo *gnm_tabulate_info_new (int dims);
+void             gnm_tabulate_info_free (GnmTabulateInfo *info);
 
 #endif

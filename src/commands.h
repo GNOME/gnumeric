@@ -157,7 +157,7 @@ gboolean cmd_text_to_columns (WorkbookControl *wbc,
 gboolean cmd_goal_seek (WorkbookControl *wbc,
 			GnmCell *cell, GnmValue *ov, GnmValue *nv);
 
-gboolean cmd_tabulate (WorkbookControl *wbc, gpointer data);
+gboolean cmd_tabulate (WorkbookControl *wbc, GnmTabulateInfo *data);
 
 gboolean cmd_toggle_sheet_property (WorkbookControl *wbc, Sheet *sheet,
 				    const char *property, const char *desc);
