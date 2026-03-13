@@ -152,7 +152,7 @@ gboolean cmd_data_shuffle (WorkbookControl *wbc, struct _data_shuffling_t *sc, S
 gboolean cmd_text_to_columns (WorkbookControl *wbc,
 			      GnmRange const *src, Sheet *src_sheet,
 			      GnmRange const *target, Sheet *target_sheet,
-			      GnmCellRegion *content);
+			      GnmCellRegion *contents);
 
 gboolean cmd_goal_seek (WorkbookControl *wbc,
 			GnmCell *cell, GnmValue *ov, GnmValue *nv);

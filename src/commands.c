@@ -248,6 +248,15 @@ cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
  *
  * Returns: %TRUE if there was a problem, %FALSE otherwise.
  */
+/**
+ * cmd_selection_is_locked_effective:
+ * @sheet: #Sheet
+ * @selection: (element-type GnmRange): list of ranges
+ * @wbc: #WorkbookControl
+ * @cmd_name: name of the command
+ *
+ * Returns: %TRUE if any cell in the selection is locked.
+ **/
 gboolean
 cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
 				   WorkbookControl *wbc, char const *cmd_name)
@@ -1923,6 +1932,14 @@ cmd_selection_format_toggle_font_style_cb (GnmCellIter const *iter, csftfs *clos
 	return NULL;
 }
 
+/**
+ * cmd_selection_format_toggle_font_style:
+ * @wbc: #WorkbookControl
+ * @style: #GnmStyle
+ * @t: style element to toggle
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_selection_format_toggle_font_style (WorkbookControl *wbc,
 					GnmStyle *style, GnmStyleElement t)
@@ -5676,6 +5693,14 @@ cmd_object_raise_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_object_raise:
+ * @wbc: #WorkbookControl
+ * @so: #SheetObject
+ * @dir: direction to move
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector dir)
 {
@@ -6228,13 +6253,13 @@ cmd_scenario_add_finalize (GObject *cmd)
 }
 
 /**
- * cmd_scenario_add: (skip)
- * @wbc:
- * @s: (transfer full):
- * @sheet:
+ * cmd_scenario_add:
+ * @wbc: #WorkbookControl
+ * @s: (transfer full): #GnmScenario
+ * @sheet: #Sheet
  *
- * Returns: %TRUE if there was a problem, %FALSE otherwise.
- */
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_scenario_add (WorkbookControl *wbc, GnmScenario *s, Sheet *sheet)
 {
@@ -6298,6 +6323,14 @@ cmd_scenario_mngr_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_scenario_mngr:
+ * @wbc: #WorkbookControl
+ * @sc: (transfer none): #GnmScenario
+ * @undo: (transfer full) (nullable): undo object
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_scenario_mngr (WorkbookControl *wbc, GnmScenario *sc, GOUndo *undo)
 {
@@ -6456,6 +6489,17 @@ cmd_text_to_columns_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_text_to_columns:
+ * @wbc: #WorkbookControl
+ * @src: source range
+ * @src_sheet: source sheet
+ * @target: target range
+ * @target_sheet: target sheet
+ * @contents: (transfer full): contents to paste
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_text_to_columns (WorkbookControl *wbc,
 		     GnmRange const *src, Sheet *src_sheet,
@@ -6624,7 +6668,7 @@ cmd_goal_seek_finalize (GObject *cmd)
  * @ov: (nullable) (transfer full): old value
  * @nv: (nullable) (transfer full): new value
  *
- * Returns: %TRUE if there was a problem, %FALSE otherwise.
+ * Returns: %TRUE if there was a problem.
  **/
 gboolean
 cmd_goal_seek (WorkbookControl *wbc, GnmCell *cell, GnmValue *ov, GnmValue *nv)
@@ -6856,6 +6900,15 @@ cmd_so_graph_config_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_so_graph_config:
+ * @wbc: #WorkbookControl
+ * @sog: #SheetObject
+ * @n_graph: (transfer none): new graph
+ * @o_graph: (transfer none): old graph
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,
 		     GObject *n_graph, GObject *o_graph)
@@ -6928,6 +6981,15 @@ cmd_so_component_config_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_so_component_config:
+ * @wbc: #WorkbookControl
+ * @so: #SheetObject
+ * @n_obj: (transfer none): new component
+ * @o_obj: (transfer none): old component
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_so_component_config (WorkbookControl *wbc, SheetObject *so,
 		     GObject *n_obj, GObject *o_obj)
@@ -6988,6 +7050,15 @@ cmd_toggle_sheet_property_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_toggle_sheet_property:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @property: property name
+ * @desc: description for the undo list
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_toggle_sheet_property (WorkbookControl *wbc, Sheet *sheet, const char *property, const char *desc)
 {
@@ -7053,6 +7124,16 @@ cmd_so_set_value_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_so_set_value:
+ * @wbc: #WorkbookControl
+ * @text: description
+ * @pref: cell reference
+ * @new_val: (transfer full): new value
+ * @sheet: #Sheet
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_so_set_value (WorkbookControl *wbc,
 		  const char *text,
@@ -7313,6 +7394,16 @@ cmd_so_set_links_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_so_set_links:
+ * @wbc: #WorkbookControl
+ * @so: #SheetObject
+ * @output: (transfer full) (nullable): new output link
+ * @content: (transfer full) (nullable): new content link
+ * @as_index: whether to use index
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_so_set_links (WorkbookControl *wbc,
 		  SheetObject *so,
@@ -7386,6 +7477,15 @@ cmd_so_set_frame_label_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_so_set_frame_label:
+ * @wbc: #WorkbookControl
+ * @so: #SheetObject
+ * @old_label: (transfer full): previous label
+ * @new_label: (transfer full): new label
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_so_set_frame_label (WorkbookControl *wbc,
 			SheetObject *so,
@@ -7455,6 +7555,16 @@ cmd_so_set_button_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_so_set_button:
+ * @wbc: #WorkbookControl
+ * @so: #SheetObject
+ * @lnk: (transfer full) (nullable): new link
+ * @old_label: (transfer full): previous label
+ * @new_label: (transfer full): new label
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_so_set_button (WorkbookControl *wbc,
 		   SheetObject *so, GnmExprTop const *lnk,
@@ -7533,6 +7643,18 @@ cmd_so_set_radio_button_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_so_set_radio_button:
+ * @wbc: #WorkbookControl
+ * @so: #SheetObject
+ * @lnk: (transfer full) (nullable): new link
+ * @old_label: (transfer full): previous label
+ * @new_label: (transfer full): new label
+ * @old_value: (transfer full): previous value
+ * @new_value: (transfer full): new value
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_so_set_radio_button (WorkbookControl *wbc,
 			 SheetObject *so, GnmExprTop const *lnk,
@@ -7608,6 +7730,16 @@ cmd_so_set_checkbox_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_so_set_checkbox:
+ * @wbc: #WorkbookControl
+ * @so: #SheetObject
+ * @lnk: (transfer full) (nullable): new link
+ * @old_label: (transfer full): previous label
+ * @new_label: (transfer full): new label
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_so_set_checkbox (WorkbookControl *wbc,
 		     SheetObject *so, GnmExprTop const *lnk,
@@ -7709,6 +7841,20 @@ cmd_so_set_adjustment_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_so_set_adjustment:
+ * @wbc: #WorkbookControl
+ * @so: #SheetObject
+ * @lnk: (transfer full) (nullable): new link
+ * @horizontal: whether horizontal
+ * @lower: lower bound
+ * @upper: upper bound
+ * @step: step increment
+ * @page: page increment
+ * @undo_label: (transfer none) (nullable): undo label
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_so_set_adjustment (WorkbookControl *wbc,
 		       SheetObject *so, GnmExprTop const *lnk,
@@ -7741,6 +7887,12 @@ cmd_so_set_adjustment (WorkbookControl *wbc,
 
 /******************************************************************/
 
+/**
+ * cmd_autofilter_add_remove:
+ * @wbc: #WorkbookControl
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_autofilter_add_remove (WorkbookControl *wbc)
 {
@@ -7863,9 +8015,19 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 
 /******************************************************************/
 
-gboolean cmd_autofilter_set_condition (WorkbookControl *wbc,
-				       GnmFilter *filter, unsigned i,
-				       GnmFilterCondition *cond)
+/**
+ * cmd_autofilter_set_condition:
+ * @wbc: #WorkbookControl
+ * @filter: #GnmFilter
+ * @i: column index
+ * @cond: (transfer full) (nullable): new filter condition
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
+gboolean
+cmd_autofilter_set_condition (WorkbookControl *wbc,
+			      GnmFilter *filter, unsigned i,
+			      GnmFilterCondition *cond)
 {
 	char *descr = NULL, *name = NULL;
 	GOUndo *undo = NULL;
@@ -7876,7 +8038,7 @@ gboolean cmd_autofilter_set_condition (WorkbookControl *wbc,
 						  NULL, TRUE);
 	g_return_val_if_fail (undo != NULL, TRUE);
 	redo = gnm_undo_filter_set_condition_new (filter, i,
-						 cond, FALSE);
+						  cond, FALSE);
 	g_return_val_if_fail (redo != NULL, TRUE);
 
 	name = undo_range_name (filter->sheet, &(filter->r));
@@ -7902,6 +8064,13 @@ cmd_page_breaks_set_breaks (Sheet *sheet,
 	SHEET_FOREACH_CONTROL (sheet, sv, sc, wb_control_menu_state_update (sc_wbc (sc), MS_PAGE_BREAKS););
 }
 
+/**
+ * cmd_page_breaks_clear:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_page_breaks_clear (WorkbookControl *wbc, Sheet *sheet)
 {
@@ -7954,6 +8123,14 @@ cmd_page_breaks_clear (WorkbookControl *wbc, Sheet *sheet)
 		return TRUE;
 }
 
+/**
+ * cmd_page_break_toggle:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @is_vert: whether vertical
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_page_break_toggle (WorkbookControl *wbc, Sheet *sheet, gboolean is_vert)
 {
