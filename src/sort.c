@@ -20,29 +20,42 @@
 #include <goffice/goffice.h>
 #include <stdlib.h>
 
-typedef struct {
-	int index;
-	GnmSortData *data;
-} SortDataPerm;
+G_DEFINE_TYPE (GnmSortData, gnm_sort_data, G_TYPE_OBJECT)
 
-
-/* Data stuff */
-void
-gnm_sort_data_destroy (GnmSortData *data)
+static void
+gnm_sort_data_finalize (GObject *obj)
 {
+	GnmSortData *data = GNM_SORT_DATA (obj);
 	g_free (data->clauses);
-	g_free (data->range);
 	g_free (data->locale);
-	g_free (data);
+	G_OBJECT_CLASS (gnm_sort_data_parent_class)->finalize (obj);
+}
+
+static void
+gnm_sort_data_class_init (GnmSortDataClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	gobject_class->finalize = gnm_sort_data_finalize;
+}
+
+static void
+gnm_sort_data_init (GnmSortData *data)
+{
+}
+
+GnmSortData *
+gnm_sort_data_new (void)
+{
+	return g_object_new (GNM_SORT_DATA_TYPE, NULL);
 }
 
 static int
 gnm_sort_data_length (GnmSortData const *data)
 {
 	if (data->top)
-		return range_height (data->range);
+		return range_height (&data->range);
 	else
-		return range_width (data->range);
+		return range_width (&data->range);
 }
 
 /* The routines to do the sorting */
@@ -50,22 +63,12 @@ static int
 sort_compare_cells (GnmCell const *ca, GnmCell const *cb,
 		    GnmSortClause *clause, gboolean default_locale)
 {
-	GnmValue *a, *b;
-	GnmValueType ta, tb;
-	GnmValDiff comp = IS_EQUAL;
-	int ans = 0;
-
-	if (!ca)
-		a = NULL;
-	else
-		a = ca->value;
-	if (!cb)
-		b = NULL;
-	else
-		b = cb->value;
-
-	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->v_any.type;
-	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->v_any.type;
+	GnmValue const *a = ca ? ca->value : NULL;
+	GnmValue const *b = cb ? cb->value : NULL;
+	GnmValueType ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->v_any.type;
+	GnmValueType tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->v_any.type;
+	GnmValDiff comp;
+	int ans;
 
 	if (ta == VALUE_EMPTY && tb != VALUE_EMPTY) {
 		comp = clause->asc ? IS_LESS : IS_GREATER;
@@ -84,7 +87,8 @@ sort_compare_cells (GnmCell const *ca, GnmCell const *cb,
 		ans = clause->asc ?  1 : -1;
 	} else if (comp == IS_GREATER) {
 		ans = clause->asc ? -1 :  1;
-	}
+	} else
+		ans = 0;
 
 	return ans;
 }
@@ -102,18 +106,18 @@ sort_compare_sets (GnmSortData const *data, int indexa, int indexb,
 
 		if (data->top) {
 			ca = sheet_cell_get (data->sheet,
-					     data->range->start.col + offset,
-					     data->range->start.row + indexa);
+					     data->range.start.col + offset,
+					     data->range.start.row + indexa);
 			cb = sheet_cell_get (data->sheet,
-					     data->range->start.col + offset,
-					     data->range->start.row + indexb);
+					     data->range.start.col + offset,
+					     data->range.start.row + indexb);
 		} else {
 			ca = sheet_cell_get (data->sheet,
-					     data->range->start.col + indexa,
-					     data->range->start.row + offset);
+					     data->range.start.col + indexa,
+					     data->range.start.row + offset);
 			cb = sheet_cell_get (data->sheet,
-					     data->range->start.col + indexb,
-					     data->range->start.row + offset);
+					     data->range.start.col + indexb,
+					     data->range.start.row + offset);
 		}
 
 		result = sort_compare_cells (ca, cb, &(data->clauses[clause]),
@@ -129,21 +133,19 @@ sort_compare_sets (GnmSortData const *data, int indexa, int indexb,
 }
 
 static int
-sort_qsort_compare (void const *_a, void const *_b)
+sort_qsort_compare (gconstpointer a_, gconstpointer b_, gpointer data_)
 {
-	SortDataPerm const *a = (SortDataPerm const *)_a;
-	SortDataPerm const *b = (SortDataPerm const *)_b;
-
-	return sort_compare_sets (a->data, a->index, b->index, TRUE);
+	const int *a = a_, *b = b_;
+	GnmSortData *data = data_;
+	return sort_compare_sets (data, *a, *b, TRUE);
 }
 
 static int
-sort_qsort_compare_in_locale (void const *_a, void const *_b)
+sort_qsort_compare_in_locale (gconstpointer a_, gconstpointer b_, gpointer data_)
 {
-	SortDataPerm const *a = (SortDataPerm const *)_a;
-	SortDataPerm const *b = (SortDataPerm const *)_b;
-
-	return sort_compare_sets (a->data, a->index, b->index, FALSE);
+	const int *a = a_, *b = b_;
+	GnmSortData *data = data_;
+	return sort_compare_sets (data, *a, *b, FALSE);
 }
 
 
@@ -151,19 +153,19 @@ static void
 sort_permute_range (GnmSortData const *data, GnmRange *range, int adj)
 {
 	if (data->top) {
-		range->start.row = data->range->start.row + adj;
-		range->start.col = data->range->start.col;
+		range->start.row = data->range.start.row + adj;
+		range->start.col = data->range.start.col;
 		range->end.row = range->start.row;
-		range->end.col = data->range->end.col;
+		range->end.col = data->range.end.col;
 	} else {
-		range->start.row = data->range->start.row;
-		range->start.col = data->range->start.col + adj;
-		range->end.row = data->range->end.row;
+		range->start.row = data->range.start.row;
+		range->start.col = data->range.start.col + adj;
+		range->end.row = data->range.end.row;
 		range->end.col = range->start.col;
 	}
 }
 
-int *
+static int *
 gnm_sort_permute_invert (int const *perm, int length)
 {
 	int i, *rperm;
@@ -264,18 +266,17 @@ gnm_sort_position (GnmSortData *data, int *perm, GOCmdContext *cc)
 int *
 gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 {
-	ColRowInfo const *cra;
-	SortDataPerm *perm;
-	int length, real_length, i, cur, *iperm, *real;
-	int const first = data->top ? data->range->start.row : data->range->start.col;
+	int length, real_length, i, cur, *iperm, *real, *perm;
+	int const first = data->top ? data->range.start.row : data->range.start.col;
 
 	length = gnm_sort_data_length (data);
 	real_length = 0;
 
 	/* Discern the rows/cols to be actually sorted */
 	real = g_new (int, length);
+	perm = g_new (int, length);  // Might not need all
 	for (i = 0; i < length; i++) {
-		cra = data->top
+		ColRowInfo const *cra = data->top
 			? sheet_row_get (data->sheet, first + i)
 			: sheet_col_get (data->sheet, first + i);
 
@@ -283,17 +284,8 @@ gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 			real[i] = -1;
 		} else {
 			real[i] = i;
+			perm[real_length] = i;
 			real_length++;
-		}
-	}
-
-	cur = 0;
-	perm = g_new (SortDataPerm, real_length);
-	for (i = 0; i < length; i++) {
-		if (real[i] != -1) {
-			perm[cur].index = i;
-			perm[cur].data = data;
-			cur++;
 		}
 	}
 
@@ -303,24 +295,25 @@ gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 				= g_strdup (go_setlocale (LC_ALL, NULL));
 			go_setlocale (LC_ALL, data->locale);
 
-			qsort (perm, real_length, sizeof (SortDataPerm),
-			       g_str_has_prefix
-			       (old_locale, data->locale)
-			       ? sort_qsort_compare
-			       : sort_qsort_compare_in_locale);
+			g_qsort_with_data (perm, real_length, sizeof (int),
+					   g_str_has_prefix (old_locale, data->locale)
+					   ? sort_qsort_compare
+					   : sort_qsort_compare_in_locale,
+					   data);
 
 			go_setlocale (LC_ALL, old_locale);
 			g_free (old_locale);
 		} else
-			qsort (perm, real_length, sizeof (SortDataPerm),
-			       sort_qsort_compare);
+			g_qsort_with_data (perm, real_length, sizeof (int),
+					   sort_qsort_compare,
+					   data);
 	}
 
 	cur = 0;
 	iperm = g_new (int, length);
 	for (i = 0; i < length; i++) {
 		if (real[i] != -1) {
-			iperm[i] = perm[cur].index;
+			iperm[i] = perm[cur];
 			cur++;
 		} else {
 			iperm[i] = i;
@@ -332,9 +325,9 @@ gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 	sort_permute (data, iperm, length, cc);
 
 	/* Make up for the PASTE_NO_RECALC.  */
-	sheet_region_queue_recalc (data->sheet, data->range);
-	sheet_flag_status_update_range (data->sheet, data->range);
-	sheet_range_calc_spans (data->sheet, data->range,
+	sheet_region_queue_recalc (data->sheet, &data->range);
+	sheet_flag_status_update_range (data->sheet, &data->range);
+	sheet_range_calc_spans (data->sheet, &data->range,
 				data->retain_formats ? GNM_SPANCALC_RENDER : GNM_SPANCALC_RE_RENDER);
 	sheet_redraw_all (data->sheet, FALSE);
 
@@ -342,31 +335,28 @@ gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 }
 
 
+/**
+ * gnm_sort_data_copy:
+ * @data: #GnmSortData
+ *
+ * Returns: (transfer full): a copy of @data
+ **/
 GnmSortData *
-gnm_sort_data_copy   (GnmSortData *data)
+gnm_sort_data_copy (GnmSortData const *data)
 {
 	GnmSortData *result;
 
-	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (GNM_IS_SORT_DATA ((gpointer)data), NULL);
 
-	result = go_memdup (data, sizeof (GnmSortData));
-	result->range = go_memdup (result->range, sizeof (GnmRange));
-	result->clauses = go_memdup (result->clauses,
-				    result->num_clause * sizeof (GnmSortClause));
-	result->locale = g_strdup (result->locale);
+	result = gnm_sort_data_new ();
+	result->sheet = data->sheet;
+	result->range = data->range;
+	result->num_clause = data->num_clause;
+	result->clauses = go_memdup (data->clauses,
+				     data->num_clause * sizeof (GnmSortClause));
+	result->top = data->top;
+	result->retain_formats = data->retain_formats;
+	result->locale = g_strdup (data->locale);
 
 	return result;
-}
-
-GType
-gnm_sort_data_get_type (void)
-{
-	static GType t = 0;
-
-	if (t == 0) {
-		t = g_boxed_type_register_static ("GnmSortData",
-			 (GBoxedCopyFunc)gnm_sort_data_copy,
-			 (GBoxedFreeFunc)gnm_sort_data_destroy);
-	}
-	return t;
 }

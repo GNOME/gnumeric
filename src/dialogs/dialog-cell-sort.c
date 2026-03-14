@@ -485,10 +485,9 @@ cb_dialog_ok_clicked (SortFlowState *state)
 	}
 
 
-	data = g_new (GnmSortData, 1);
+	data = gnm_sort_data_new ();
 	data->sheet = state->sel->v_range.cell.a.sheet;
-	data->range = g_new (GnmRange, 1);
-	data->range = range_init (data->range, state->sel->v_range.cell.a.col
+	range_init (&data->range, state->sel->v_range.cell.a.col
 				  + ((state->header && !state->is_cols) ? 1 : 0),
 				  state->sel->v_range.cell.a.row
 				  + ((state->header && state->is_cols) ? 1 : 0),
@@ -508,7 +507,8 @@ cb_dialog_ok_clicked (SortFlowState *state)
 		 g_strdup ((text != NULL && text[0] != '\0') ? text : "Other"),
 		 data_copy);
 
-	cmd_sort (GNM_WBC (state->wbcg), data);
+	if (cmd_sort (GNM_WBC (state->wbcg), data))
+		g_object_unref (data);
 
 	gtk_widget_destroy (state->dialog);
 	return;

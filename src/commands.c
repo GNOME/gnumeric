@@ -238,22 +238,13 @@ cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
 }
 
 /**
- * cmd_selection_is_locked_effective: (skip)
- * checks whether the selection is effectively locked
- *
- * static gboolean cmd_selection_is_locked_effective
- *
- * Do not use this function unless the sheet is part of the
- * workbook with the given wbcg (otherwise the results may be strange)
- *
- * Returns: %TRUE if there was a problem, %FALSE otherwise.
- */
-/**
  * cmd_selection_is_locked_effective:
  * @sheet: #Sheet
  * @selection: (element-type GnmRange): list of ranges
  * @wbc: #WorkbookControl
  * @cmd_name: name of the command
+ *
+ * checks whether the selection is effectively locked
  *
  * Returns: %TRUE if any cell in the selection is locked.
  **/
@@ -261,6 +252,8 @@ gboolean
 cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
 				   WorkbookControl *wbc, char const *cmd_name)
 {
+	g_return_val_if_fail (sheet->workbook == wb_control_get_workbook (wbc), FALSE);
+
 	for (; selection; selection = selection->next) {
 		GnmRange *range = selection->data;
 		if (cmd_cell_range_is_locked_effective (sheet, range, wbc, cmd_name))
@@ -2133,8 +2126,7 @@ cmd_sort_finalize (GObject *cmd)
 {
 	CmdSort *me = CMD_SORT (cmd);
 
-	if (me->data != NULL)
-		gnm_sort_data_destroy (me->data);
+	g_clear_object (&me->data);
 	g_free (me->perm);
 	if (me->old_contents != NULL)
 		cellregion_unref (me->old_contents);
@@ -2149,7 +2141,7 @@ cmd_sort_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	GnmSortData *data = me->data;
 	GnmPasteTarget pt;
 
-	paste_target_init (&pt, data->sheet, data->range,
+	paste_target_init (&pt, data->sheet, &data->range,
 			   PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS |
 			   (data->retain_formats ? PASTE_FORMATS : 0));
 	clipboard_paste_region (me->old_contents,
@@ -2167,14 +2159,14 @@ cmd_sort_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	/* Check for locks */
 	if (cmd_cell_range_is_locked_effective
-	    (data->sheet, data->range, wbc, _("Sorting")))
+	    (data->sheet, &data->range, wbc, _("Sorting")))
 		return TRUE;
 
 	if (me->perm)
 		gnm_sort_position (data, me->perm, GO_CMD_CONTEXT (wbc));
 	else {
 		me->old_contents =
-			clipboard_copy_range (data->sheet, data->range);
+			clipboard_copy_range (data->sheet, &data->range);
 		me->cmd.size = cellregion_cmd_size (me->old_contents);
 		me->perm = gnm_sort_contents (data, GO_CMD_CONTEXT (wbc));
 	}
@@ -2182,6 +2174,13 @@ cmd_sort_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	return FALSE;
 }
 
+/**
+ * cmd_sort:
+ * @wbc: #WorkbookControl
+ * @data: (transfer full): sort information
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_sort (WorkbookControl *wbc, GnmSortData *data)
 {
@@ -2190,9 +2189,9 @@ cmd_sort (WorkbookControl *wbc, GnmSortData *data)
 
 	g_return_val_if_fail (data != NULL, TRUE);
 
-	desc = g_strdup_printf (_("Sorting %s"), range_as_string (data->range));
-	if (sheet_range_contains_merges_or_arrays (data->sheet, data->range, GO_CMD_CONTEXT (wbc), desc, TRUE, TRUE)) {
-		gnm_sort_data_destroy (data);
+	desc = g_strdup_printf (_("Sorting %s"), range_as_string (&data->range));
+	if (sheet_range_contains_merges_or_arrays (data->sheet, &data->range, GO_CMD_CONTEXT (wbc), desc, TRUE, TRUE)) {
+		g_object_unref (data);
 		g_free (desc);
 		return TRUE;
 	}

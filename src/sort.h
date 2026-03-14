@@ -5,6 +5,9 @@
 
 G_BEGIN_DECLS
 
+#define GNM_SORT_DATA_TYPE (gnm_sort_data_get_type ())
+G_DECLARE_FINAL_TYPE (GnmSortData, gnm_sort_data, GNM, SORT_DATA, GObject)
+
 typedef struct {
 	int	 offset;
 	gboolean asc;
@@ -13,8 +16,9 @@ typedef struct {
 } GnmSortClause;
 
 struct _GnmSortData {
+	GObject		parent;
 	Sheet		*sheet;
-	GnmRange	*range;
+	GnmRange	range;
 	int		 num_clause;
 	GnmSortClause	*clauses;
 	gboolean	 top;
@@ -22,12 +26,10 @@ struct _GnmSortData {
 	char            *locale;
 };
 
-GType gnm_sort_data_get_type (void);
-void gnm_sort_data_destroy   (GnmSortData *data);
-GnmSortData *gnm_sort_data_copy   (GnmSortData *data);
+GnmSortData *gnm_sort_data_new    (void);
+GnmSortData *gnm_sort_data_copy   (GnmSortData const *data);
 void gnm_sort_position	     (GnmSortData *data, int *perm, GOCmdContext *cc);
 int *gnm_sort_contents	     (GnmSortData *data, GOCmdContext *cc);
-int *gnm_sort_permute_invert (int const *perm, int length);
 
 G_END_DECLS
 

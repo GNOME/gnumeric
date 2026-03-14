@@ -1297,9 +1297,9 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 		}
 	}
 
-	data = g_new (GnmSortData, 1);
+	data = gnm_sort_data_new ();
 	data->sheet = sv_sheet (sv);
-	data->range = sel;
+	data->range = *sel;
 	data->num_clause = numclause;
 	data->clauses = clause;
 	data->locale = NULL;
@@ -1317,10 +1317,11 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	/* to column sorting */
 	data->top = top_to_bottom;
 
-	if (sheet_range_has_heading (data->sheet, data->range, data->top, FALSE))
-		data->range->start.row += 1;
+	if (sheet_range_has_heading (data->sheet, &data->range, data->top, FALSE))
+		data->range.start.row += 1;
 
-	cmd_sort (GNM_WBC (wbcg), data);
+	if (cmd_sort (GNM_WBC (wbcg), data))
+		g_object_unref (data);
 }
 static GNM_ACTION_DEF (cb_sort_ascending)  { sort_by_rows (wbcg, FALSE); }
 static GNM_ACTION_DEF (cb_sort_descending) { sort_by_rows (wbcg, TRUE); }

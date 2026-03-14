@@ -7058,7 +7058,7 @@ gnm_sheet_get_sort_setups (Sheet *sheet)
 		hash = sheet->sort_setups =
 			g_hash_table_new_full
 			(g_str_hash, g_str_equal,
-			 g_free, (GDestroyNotify)gnm_sort_data_destroy);
+			 g_free, g_object_unref);
 
 	return hash;
 }
