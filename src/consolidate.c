@@ -195,7 +195,7 @@ gnm_consolidate_check_destination (GnmConsolidate *cs, data_analysis_output_t *d
 	g_return_val_if_fail (cs != NULL, FALSE);
 	g_return_val_if_fail (dao != NULL, FALSE);
 
-	if (dao->type == NewSheetOutput || dao->type == NewWorkbookOutput)
+	if (dao->type == GNM_DAO_OUTPUT_NEWSHEET || dao->type == GNM_DAO_OUTPUT_NEWWORKBOOK)
 		return TRUE;
 
 	range_init (&r, dao->start_col, dao->start_row,

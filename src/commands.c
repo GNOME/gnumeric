@@ -233,7 +233,7 @@ cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
 	GnmRange range;
 	range_init (&range, dao->start_col, dao->start_row,
 		    dao->start_col +  dao->cols - 1,  dao->start_row +  dao->rows - 1);
-	return (dao->type != NewWorkbookOutput &&
+	return (dao->type != GNM_DAO_OUTPUT_NEWWORKBOOK &&
 		cmd_cell_range_is_locked_effective (dao->sheet, &range, wbc, cmd_name));
 }
 
@@ -5338,16 +5338,16 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	me->dao->wbc = wbc;
 
 	switch (me->type) {
-	case NewSheetOutput:
+	case GNM_DAO_OUTPUT_NEWSHEET:
 		if (!command_undo_sheet_delete (me->dao->sheet))
 			return TRUE;
 		me->dao->sheet = NULL;
 		break;
-	case NewWorkbookOutput:
+	case GNM_DAO_OUTPUT_NEWWORKBOOK:
 		g_warning ("How did we get here?");
 		return TRUE;
 		break;
-	case RangeOutput:
+	case GNM_DAO_OUTPUT_RANGE:
 	default:
 		sheet_clear_region (me->dao->sheet,
 				    me->old_range.start.col, me->old_range.start.row,
@@ -5408,14 +5408,14 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	switch (me->type) {
-	case NewSheetOutput:
+	case GNM_DAO_OUTPUT_NEWSHEET:
 		me->old_contents = NULL;
 		break;
-	case NewWorkbookOutput:
+	case GNM_DAO_OUTPUT_NEWWORKBOOK:
 		/* No undo in this case (see below) */
 		me->old_contents = NULL;
 		break;
-	case RangeOutput:
+	case GNM_DAO_OUTPUT_RANGE:
 	default:
 		range_init (&me->old_range, me->dao->start_col, me->dao->start_row,
 			    me->dao->start_col + me->dao->cols - 1,
@@ -5431,7 +5431,7 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	if (gnm_analysis_tool_perform_calc (me->tool, me->dao)) {
-		if (me->type == RangeOutput) {
+		if (me->type == GNM_DAO_OUTPUT_RANGE) {
 			g_warning ("This is too late for failure! The target region has "
 				   "already been formatted!");
 		} else
@@ -5458,7 +5458,7 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	 * Users can simply delete the worksheet if they so desire.
 	 */
 
-	return (me->type == NewWorkbookOutput);
+	return (me->type == GNM_DAO_OUTPUT_NEWWORKBOOK);
 }
 
 static void

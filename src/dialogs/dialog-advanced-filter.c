@@ -125,7 +125,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = go_gtk_builder_get_widget (state->gui, "unique-button");
 	unique = (1 == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)));
 
-	if (dao->type == InPlaceOutput)
+	if (dao->type == GNM_DAO_OUTPUT_INPLACE)
 		err = advanced_filter (GNM_WBC (state->wbcg),
 				       dao, input, criteria, unique);
 	else {
@@ -143,7 +143,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		g_object_unref (atool);
 	}
 
-	if (dao->type == InPlaceOutput || err != analysis_tools_noerr) {
+	if (dao->type == GNM_DAO_OUTPUT_INPLACE || err != analysis_tools_noerr) {
 		value_release (input);
 		value_release (criteria);
 		dao_free (dao);

@@ -34,7 +34,10 @@
 #include <graph.h>
 
 typedef enum {
-        NewSheetOutput, NewWorkbookOutput, RangeOutput, InPlaceOutput
+        GNM_DAO_OUTPUT_NEWSHEET,
+	GNM_DAO_OUTPUT_NEWWORKBOOK,
+	GNM_DAO_OUTPUT_RANGE,
+	GNM_DAO_OUTPUT_INPLACE
 } data_analysis_output_type_t;
 
 typedef struct data_analysis_output_t_ {
@@ -56,8 +59,8 @@ typedef struct data_analysis_output_t_ {
 
 data_analysis_output_t *dao_init (data_analysis_output_type_t type);
 data_analysis_output_t *dao_init_new_sheet (void);
-data_analysis_output_t *dao_load_from_value (data_analysis_output_t *dao,
-					     GnmValue *output_range);
+void dao_load_from_value (data_analysis_output_t *dao,
+			  GnmValue const *output_range);
 void dao_free (data_analysis_output_t *dao);
 
 void dao_autofit_columns      (data_analysis_output_t *dao);

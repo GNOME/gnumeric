@@ -3,11 +3,11 @@
 
 #include <gnumeric.h>
 
-
-#define SHUFFLE_COLS  0
-#define SHUFFLE_ROWS  1
-#define SHUFFLE_AREA  2
-
+typedef enum {
+	GNM_DATA_SHUFFLE_COLS,
+	GNM_DATA_SHUFFLE_ROWS,
+	GNM_DATA_SHUFFLE_AREA
+} GnmDataShuffleType;
 
 typedef struct _data_shuffling_t {
 	GSList  *changes;
@@ -17,7 +17,7 @@ typedef struct _data_shuffling_t {
 	int     b_row;
 	int     cols;
 	int     rows;
-        int     type;
+        GnmDataShuffleType  type;
 
         WorkbookControl *wbc;
 	data_analysis_output_t *dao;
@@ -33,6 +33,6 @@ data_shuffling_t *data_shuffling      (WorkbookControl        *wbc,
 				       data_analysis_output_t *dao,
 				       Sheet                  *sheet,
 				       GnmValue               *input,
-				       int                    shuffling_type);
+				       GnmDataShuffleType     shuffling_type);
 
 #endif

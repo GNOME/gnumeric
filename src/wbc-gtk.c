@@ -4074,7 +4074,7 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	}
 
 
-	dao = dao_init (RangeOutput);
+	dao = dao_init (GNM_DAO_OUTPUT_RANGE);
 	dao->start_col         = output.start.col;
 	dao->start_row         = output.start.row;
 	dao->cols              = range_width (&output);

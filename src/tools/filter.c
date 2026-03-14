@@ -111,7 +111,7 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
         GnmCell *cell;
 	int  i, r=0;
 
-	if (dao->type == InPlaceOutput) {
+	if (dao->type == GNM_DAO_OUTPUT_INPLACE) {
 		sheet->has_filtered_rows = TRUE;
 		colrow_set_visibility (sheet, FALSE,
 				       FALSE, input_row_b+1, input_row_e);

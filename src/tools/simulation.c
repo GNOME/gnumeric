@@ -230,7 +230,7 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t **stats,
 	n_rounds = 1 + sim->last_round - sim->first_round;
 
 	dao_prepare_output (wbc, dao, _("Simulation Report"));
-	if (dao->type == NewSheetOutput || dao->type == NewWorkbookOutput)
+	if (dao->type == GNM_DAO_OUTPUT_NEWSHEET || dao->type == GNM_DAO_OUTPUT_NEWWORKBOOK)
 		g_object_set (dao->sheet, "display-grid", FALSE, NULL);
 
 	/*

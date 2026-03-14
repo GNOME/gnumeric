@@ -105,7 +105,7 @@ dao_parse_output (GnmGenericToolState *state)
 	data_analysis_output_t *this_dao = NULL;
 
 	gnm_dao_get_data (GNM_DAO (state->gdao), &this_dao);
-	if (this_dao->type == InPlaceOutput) {
+	if (this_dao->type == GNM_DAO_OUTPUT_INPLACE) {
 		GnmValue *output_range
 			= gnm_expr_entry_parse_as_value (
 				state->input_entry, state->sheet);

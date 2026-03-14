@@ -224,7 +224,7 @@ run_shuffling_tool (data_shuffling_t *st)
 	GnmCell *cell;
 	int      i, j;
 
-	if (st->type == SHUFFLE_COLS) {
+	if (st->type == GNM_DATA_SHUFFLE_COLS) {
 		/* Find empty space. */
 		for (i = gnm_sheet_get_last_col (st->sheet); i >= 0; i--)
 			for (j = gnm_sheet_get_last_row (st->sheet); j >= 0; j--) {
@@ -240,7 +240,7 @@ run_shuffling_tool (data_shuffling_t *st)
 		range_init (&st->tmp_area, i, j, i, j + st->rows - 1);
 		for (cur = st->changes; cur; cur = cur->next)
 			do_swap_cols (st, (swap_t *) cur->data);
-	} else if (st->type == SHUFFLE_ROWS) {
+	} else if (st->type == GNM_DATA_SHUFFLE_ROWS) {
 		/* Find empty space. */
 		for (i = gnm_sheet_get_last_row (st->sheet); i >= 0; i--)
 			for (j = gnm_sheet_get_last_col (st->sheet); j >= 0; j--) {
@@ -257,7 +257,7 @@ run_shuffling_tool (data_shuffling_t *st)
 		for (cur = st->changes; cur; cur = cur->next)
 			do_swap_rows (st, (swap_t *) cur->data);
 	} else {
-		/* SHUFFLE_AREA */
+		/* GNM_DATA_SHUFFLE_AREA */
 		/* Find empty space. */
 		for (i = gnm_sheet_get_last_col (st->sheet); i >= 0; i--)
 			for (j = gnm_sheet_get_last_row (st->sheet); j >= 0; j--) {
@@ -284,7 +284,7 @@ data_shuffling (WorkbookControl        *wbc,
 		data_analysis_output_t *dao,
 		Sheet                  *sheet,
 		GnmValue               *input_range,
-		int                    shuffling_type)
+		GnmDataShuffleType      shuffling_type)
 {
 	data_shuffling_t *st = g_new (data_shuffling_t, 1);
 
@@ -294,11 +294,11 @@ data_shuffling (WorkbookControl        *wbc,
 	st->type = shuffling_type;
 	st->wbc  = wbc;
 
-	if (shuffling_type == SHUFFLE_COLS)
+	if (shuffling_type == GNM_DATA_SHUFFLE_COLS)
 		shuffle_cols (st);
-	else if (shuffling_type == SHUFFLE_ROWS)
+	else if (shuffling_type == GNM_DATA_SHUFFLE_ROWS)
 		shuffle_rows (st);
-	else /* SHUFFLE_AREA */
+	else /* GNM_DATA_SHUFFLE_AREA */
 		shuffle_area (st);
 
 	return st;

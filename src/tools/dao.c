@@ -91,7 +91,7 @@ dao_init (data_analysis_output_type_t type)
 data_analysis_output_t *
 dao_init_new_sheet (void)
 {
-	return dao_init (NewSheetOutput);
+	return dao_init (GNM_DAO_OUTPUT_NEWSHEET);
 }
 
 /**
@@ -114,9 +114,9 @@ void dao_free (data_analysis_output_t *dao)
  * @output_range:
  *
  **/
-data_analysis_output_t *
+void
 dao_load_from_value (data_analysis_output_t *dao,
-		     GnmValue *output_range)
+		     GnmValue const *output_range)
 {
 	g_return_val_if_fail (output_range != NULL, dao);
 	g_return_val_if_fail (VALUE_IS_CELLRANGE (output_range), dao);
@@ -128,8 +128,6 @@ dao_load_from_value (data_analysis_output_t *dao,
 	dao->rows = output_range->v_range.cell.b.row
 		- output_range->v_range.cell.a.row + 1;
 	dao->sheet = output_range->v_range.cell.a.sheet;
-
-	return dao;
 }
 
 /**
@@ -169,13 +167,13 @@ dao_command_descriptor (data_analysis_output_t *dao, char const *format)
 	char *result;
 
 	switch (dao->type) {
-	case NewSheetOutput:
+	case GNM_DAO_OUTPUT_NEWSHEET:
 		result = g_strdup_printf (format, _("New Sheet"));
 		break;
-	case NewWorkbookOutput:
+	case GNM_DAO_OUTPUT_NEWWORKBOOK:
 		result = g_strdup_printf (format, _("New Workbook"));
 		break;
-	case RangeOutput:
+	case GNM_DAO_OUTPUT_RANGE:
 	default:
 		rangename = dao_range_name (dao);
 		result = g_strdup_printf (format, rangename);
@@ -217,7 +215,7 @@ dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
 		max_rows = gnm_sheet_get_max_rows (dao->sheet) - dao->start_row;
 		max_cols = gnm_sheet_get_max_cols (dao->sheet) - dao->start_col;
 	} else {
-		/* In case of NewSheetOutput and NewWorkbookOutput */
+		/* In case of GNM_DAO_OUTPUT_NEWSHEET and GNM_DAO_OUTPUT_NEWWORKBOOK */
 		/* this is called before we actually create the    */
 		/* new sheet and/or workbook                       */
 		Sheet *old_sheet = wb_control_cur_sheet (dao->wbc);
@@ -248,7 +246,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 	if (wbc)
 		dao->wbc = wbc;
 
-	if (dao->type == NewSheetOutput) {
+	if (dao->type == GNM_DAO_OUTPUT_NEWSHEET) {
 		Sheet *old_sheet = dao->wbc
 			? wb_control_cur_sheet (dao->wbc)
 			: dao->sheet;
@@ -263,7 +261,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		g_free (unique_name);
 		dao->start_col = dao->start_row = 0;
 		workbook_sheet_attach (wb, dao->sheet);
-	} else if (dao->type == NewWorkbookOutput) {
+	} else if (dao->type == GNM_DAO_OUTPUT_NEWWORKBOOK) {
 		Sheet *old_sheet = wb_control_cur_sheet (dao->wbc);
 		Workbook *wb = workbook_new ();
 		dao->rows = gnm_sheet_get_max_rows (old_sheet);
@@ -304,7 +302,7 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 		    dao->start_col + dao->cols - 1,
 		    dao->start_row + dao->rows - 1);
 
-	if (dao->type == RangeOutput
+	if (dao->type == GNM_DAO_OUTPUT_RANGE
 	    && sheet_range_splits_region (dao->sheet, &range, NULL,
 					  GO_CMD_CONTEXT (dao->wbc), cmd))
 		return TRUE;
@@ -335,7 +333,7 @@ adjust_range (data_analysis_output_t *dao, GnmRange *r)
 	r->start.row += dao->offset_row + dao->start_row;
 	r->end.row   += dao->offset_row + dao->start_row;
 
-	if (dao->type == RangeOutput && (dao->cols > 1 || dao->rows > 1)) {
+	if (dao->type == GNM_DAO_OUTPUT_RANGE && (dao->cols > 1 || dao->rows > 1)) {
 		if (r->end.col >= dao->start_col + dao->cols)
 			r->end.col = dao->start_col + dao->cols - 1;
 		if (r->end.row >= dao->start_row + dao->rows)
@@ -362,7 +360,7 @@ dao_cell_is_visible (data_analysis_output_t *dao, int col, int row)
 	col += dao->offset_col;
 	row += dao->offset_row;
 
-	if (dao->type == RangeOutput &&
+	if (dao->type == GNM_DAO_OUTPUT_RANGE &&
 	    (dao->cols > 1 || dao->rows > 1) &&
 	    (col >= dao->cols || row >= dao->rows))
 	        return FALSE;
@@ -929,10 +927,10 @@ ColRowStateList *
 dao_get_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols)
 {
 	switch (dao->type) {
-	case NewSheetOutput:
-	case NewWorkbookOutput:
+	case GNM_DAO_OUTPUT_NEWSHEET:
+	case GNM_DAO_OUTPUT_NEWWORKBOOK:
 		return NULL;
-	case RangeOutput:
+	case GNM_DAO_OUTPUT_RANGE:
 		if (is_cols)
 			return colrow_get_states
 				(dao->sheet, is_cols, dao->start_col,
@@ -959,7 +957,7 @@ dao_set_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols,
 {
 	g_return_if_fail (list);
 
-	if (dao->type == RangeOutput)
+	if (dao->type == GNM_DAO_OUTPUT_RANGE)
 		colrow_set_states (dao->sheet, is_cols,
 				   is_cols ? dao->start_col : dao->start_row,
 				   list);
