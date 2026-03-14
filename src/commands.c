@@ -1443,6 +1443,15 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }
 
+/**
+ * cmd_insert_cols:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @start_col: first column to insert
+ * @count: number of columns
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_insert_cols (WorkbookControl *wbc,
 		 Sheet *sheet, int start_col, int count)
@@ -1472,6 +1481,15 @@ cmd_insert_cols (WorkbookControl *wbc,
 	return cmd_ins_del_colrow (wbc, sheet, TRUE, TRUE, mesg, start_col, count);
 }
 
+/**
+ * cmd_insert_rows:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @start_row: first row to insert
+ * @count: number of rows
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_insert_rows (WorkbookControl *wbc,
 		 Sheet *sheet, int start_row, int count)
@@ -1501,6 +1519,15 @@ cmd_insert_rows (WorkbookControl *wbc,
 	return cmd_ins_del_colrow (wbc, sheet, FALSE, TRUE, mesg, start_row, count);
 }
 
+/**
+ * cmd_delete_cols:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @start_col: first column to delete
+ * @count: number of columns
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_delete_cols (WorkbookControl *wbc,
 		 Sheet *sheet, int start_col, int count)
@@ -1512,6 +1539,15 @@ cmd_delete_cols (WorkbookControl *wbc,
 	return cmd_ins_del_colrow (wbc, sheet, TRUE, FALSE, mesg, start_col, count);
 }
 
+/**
+ * cmd_delete_rows:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @start_row: first row to delete
+ * @count: number of rows
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_delete_rows (WorkbookControl *wbc,
 		 Sheet *sheet, int start_row, int count)
@@ -1542,6 +1578,13 @@ cmd_selection_clear_row_handler (GnmColRowIter const *iter,
 	return FALSE;
 }
 
+/**
+ * cmd_selection_clear:
+ * @wbc: #WorkbookControl
+ * @clear_flags: flags indicating what to clear
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 {
@@ -2003,6 +2046,16 @@ cmd_selection_format_toggle_font_style (WorkbookControl *wbc,
 /******************************************************************/
 
 
+/**
+ * cmd_resize_colrow:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @is_cols: whether columns or rows
+ * @selection: (transfer none): list of indices
+ * @new_size: new size in pixels
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 		   gboolean is_cols, ColRowIndexList *selection,
@@ -2074,6 +2127,16 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 	return result;
 }
 
+/**
+ * cmd_autofit_selection:
+ * @wbc: #WorkbookControl
+ * @sv: #SheetView
+ * @sheet: #Sheet
+ * @fit_width: whether width or height
+ * @selectionlist: (transfer none): list of indices
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_autofit_selection (WorkbookControl *wbc, SheetView *sv, Sheet *sheet, gboolean fit_width,
 		       ColRowIndexList *selectionlist)
@@ -2312,6 +2375,14 @@ cmd_colrow_hide_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_selection_colrow_hide:
+ * @wbc: #WorkbookControl
+ * @is_cols: whether columns or rows
+ * @visible: whether to show or hide
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_selection_colrow_hide (WorkbookControl *wbc,
 			   gboolean is_cols, gboolean visible)
@@ -2381,6 +2452,15 @@ cmd_selection_colrow_hide (WorkbookControl *wbc,
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }
 
+/**
+ * cmd_selection_outline_change:
+ * @wbc: #WorkbookControl
+ * @is_cols: whether columns or rows
+ * @index: column or row index
+ * @depth: new outline depth
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_selection_outline_change (WorkbookControl *wbc,
 			      gboolean is_cols, int index, int depth)
@@ -2462,6 +2542,14 @@ cmd_selection_outline_change (WorkbookControl *wbc,
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }
 
+/**
+ * cmd_global_outline_change:
+ * @wbc: #WorkbookControl
+ * @is_cols: whether columns or rows
+ * @depth: new outline depth
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_global_outline_change (WorkbookControl *wbc, gboolean is_cols, int depth)
 {
@@ -2533,6 +2621,14 @@ cmd_group_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_selection_group:
+ * @wbc: #WorkbookControl
+ * @is_cols: whether columns or rows
+ * @group: whether to group or ungroup
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_selection_group (WorkbookControl *wbc,
 		     gboolean is_cols, gboolean group)
@@ -2801,6 +2897,15 @@ cmd_paste_cut_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_paste_cut:
+ * @wbc: #WorkbookControl
+ * @info: (transfer none): relocation information
+ * @move_selection: whether to move selection
+ * @descriptor: (transfer full) (nullable): command description
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	       gboolean move_selection, char *descriptor)
@@ -3102,11 +3207,11 @@ cmd_paste_copy_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
-/*
+/**
  * cmd_paste_copy:
- * @wbc:
+ * @wbc: #WorkbookControl
  * @pt:
- * @cr: (transfer none):
+ * @content: (transfer none):
  *
  * Returns: %TRUE if there was a problem, %FALSE otherwise.
  */
@@ -3385,6 +3490,21 @@ cmd_autofill_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_autofill:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @default_increment: whether to use default increment
+ * @base_col: source start column
+ * @base_row: source start row
+ * @w: width of source
+ * @h: height of source
+ * @end_col: target end column
+ * @end_row: target end row
+ * @inverse_autofill: whether to autofill in inverse direction
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	      gboolean default_increment,
@@ -3544,6 +3664,15 @@ cmd_copyrel_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_copyrel:
+ * @wbc: #WorkbookControl
+ * @dx: column offset
+ * @dy: row offset
+ * @name: command name
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_copyrel (WorkbookControl *wbc,
 	     int dx, int dy,
@@ -4398,6 +4527,13 @@ cmd_search_replace_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_search_replace:
+ * @wbc: #WorkbookControl
+ * @sr: (transfer none): search and replace settings
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_search_replace (WorkbookControl *wbc, GnmSearchReplace *sr)
 {
@@ -4487,6 +4623,15 @@ cmd_colrow_std_size_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_colrow_std_size:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @is_cols: whether columns or rows
+ * @new_default: new standard size
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
 		     gboolean is_cols, double new_default)
@@ -4849,6 +4994,14 @@ cmd_reorganize_sheets (WorkbookControl *wbc,
 
 /******************************************************************/
 
+/**
+ * cmd_rename_sheet:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @new_name: (transfer none): new sheet name
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_rename_sheet (WorkbookControl *wbc,
 		  Sheet *sheet,
@@ -5087,6 +5240,17 @@ cmd_set_comment_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_set_comment:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @pos: #GnmCellPos
+ * @new_text: (transfer none): new comment text
+ * @attr: (transfer none) (nullable): markup
+ * @new_author: (transfer none) (nullable): new author
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
 cmd_set_comment (WorkbookControl *wbc,
 		 Sheet *sheet, GnmCellPos const *pos,

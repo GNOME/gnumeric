@@ -32,7 +32,9 @@
  * gnm_complete_construct:
  * @complete: #GnmComplete
  * @notify: (scope async): #GnmCompleteMatchNotifyFn
- * @notify_closure: user data
+ * @notify_closure: (nullable): user data
+ *
+ * Base constructor for #GnmComplete.
  **/
 void
 gnm_complete_construct (GnmComplete *complete,
@@ -76,6 +78,13 @@ complete_idle (gpointer data)
 	return FALSE;
 }
 
+/**
+ * gnm_complete_start:
+ * @complete: #GnmComplete
+ * @text: (transfer none): search text
+ *
+ * Starts the completion process.
+ **/
 void
 gnm_complete_start (GnmComplete *complete, char const *text)
 {

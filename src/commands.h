@@ -54,7 +54,7 @@ gboolean cmd_delete_rows	(WorkbookControl *wbc, Sheet *sheet,
 				 int start_row, int count);
 
 gboolean cmd_resize_colrow	(WorkbookControl *wbc, Sheet *sheet,
-				 gboolean is_col, ColRowIndexList *selection,
+				 gboolean is_cols, ColRowIndexList *selection,
 				 int new_size);
 gboolean cmd_autofit_selection  (WorkbookControl *wbc, SheetView *sv, Sheet *sheet,
 				 gboolean fit_width,
@@ -63,7 +63,7 @@ gboolean cmd_autofit_selection  (WorkbookControl *wbc, SheetView *sv, Sheet *she
 gboolean cmd_paste_cut		(WorkbookControl *wbc,
 				 GnmExprRelocateInfo const *info,
 				 gboolean move_selection,
-				 char *cmd_descriptor);
+				 char *descriptor);
 gboolean cmd_paste_copy		(WorkbookControl *wbc,
 				 GnmPasteTarget const *pt, GnmCellRegion *content);
 

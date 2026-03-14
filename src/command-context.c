@@ -34,16 +34,31 @@ format_message (GQuark id, char const *message)
 	return g_error_new_literal (id, 0, msg);
 }
 
+/**
+ * gnm_cmd_context_error_calc:
+ * @cc: #GOCmdContext
+ * @msg: (transfer none): error message
+ *
+ * Reports a calculation error to the command context.
+ **/
 void
-gnm_cmd_context_error_calc (GOCmdContext *context, char const *msg)
+gnm_cmd_context_error_calc (GOCmdContext *cc, char const *msg)
 {
 	GError *err = format_message (gnm_error_calc (), msg);
-	go_cmd_context_error (context, err);
+	go_cmd_context_error (cc, err);
 	g_error_free (err);
 }
 
+/**
+ * gnm_cmd_context_error_splits_array:
+ * @cc: #GOCmdContext
+ * @cmd: (transfer none): command name
+ * @array: (transfer none) (nullable): array range
+ *
+ * Reports an error when an operation would split an array.
+ **/
 void
-gnm_cmd_context_error_splits_array (GOCmdContext *context,
+gnm_cmd_context_error_splits_array (GOCmdContext *cc,
 				    G_GNUC_UNUSED char const *cmd,
 				    GnmRange const *array)
 {
@@ -55,22 +70,34 @@ gnm_cmd_context_error_splits_array (GOCmdContext *context,
 	else
 		err = g_error_new (gnm_error_array (), 0,
 			_("Would split an array"));
-	go_cmd_context_error (context, err);
+	go_cmd_context_error (cc, err);
 	g_error_free (err);
 }
 
+/**
+ * gnm_cmd_context_error_splits_merge:
+ * @cc: #GOCmdContext
+ * @merge: (transfer none): merged range
+ *
+ * Reports an error when an operation would split a merged range.
+ **/
 void
-gnm_cmd_context_error_splits_merge (GOCmdContext *context,
+gnm_cmd_context_error_splits_merge (GOCmdContext *cc,
 				    GnmRange const *merge)
 {
 	GError *err =
 		g_error_new (gnm_error_array (), 1,
 			     _("Would split merge %s"),
 			     range_as_string (merge));
-	go_cmd_context_error (context, err);
+	go_cmd_context_error (cc, err);
 	g_error_free (err);
 }
 
+/**
+ * gnm_error_array:
+ *
+ * Returns: the error quark for array errors.
+ **/
 GQuark
 gnm_error_array (void)
 {
@@ -80,6 +107,11 @@ gnm_error_array (void)
 	return quark;
 }
 
+/**
+ * gnm_error_calc:
+ *
+ * Returns: the error quark for calculation errors.
+ **/
 GQuark
 gnm_error_calc (void)
 {

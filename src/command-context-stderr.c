@@ -1,5 +1,5 @@
 /*
- * command-context-stderr.c : Error dispatch for line oriented client
+ * command-context-stderr.c: Error dispatch for line oriented client
  *
  * Author:
  *	Jon K Hellan <hellan@acm.org>
@@ -23,7 +23,7 @@ typedef GObjectClass GnmCmdContextStderrClass;
 /**
  * gnm_cmd_context_stderr_new:
  *
- * Returns: (transfer full): the newly allocated #GOCmdContext.
+ * Returns: (transfer full): a new #GOCmdContext that reports errors to stderr.
  **/
 GOCmdContext *
 gnm_cmd_context_stderr_new (void)
@@ -31,6 +31,13 @@ gnm_cmd_context_stderr_new (void)
 	return g_object_new (GNM_CMD_CONTEXT_STDERR_TYPE, NULL);
 }
 
+/**
+ * gnm_cmd_context_stderr_set_status:
+ * @ccs: #GnmCmdContextStderr
+ * @status: status value
+ *
+ * Sets the exit status value for the command context.
+ **/
 void
 gnm_cmd_context_stderr_set_status (GnmCmdContextStderr *ccs, int status)
 {
@@ -40,6 +47,12 @@ gnm_cmd_context_stderr_set_status (GnmCmdContextStderr *ccs, int status)
 	ccs->status = status;
 }
 
+/**
+ * gnm_cmd_context_stderr_get_status:
+ * @ccs: #GnmCmdContextStderr
+ *
+ * Returns: the exit status value.
+ **/
 int
 gnm_cmd_context_stderr_get_status (GnmCmdContextStderr *ccs)
 {
