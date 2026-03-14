@@ -2976,7 +2976,6 @@ xml_sax_named_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		nexpr = expr_name_add (&pp, state->name.name,
 				       gnm_expr_top_new_constant (value_new_empty ()),
 				       NULL,
-				       TRUE,
 				       NULL);
 		if (nexpr) {
 			state->delayed_names = g_list_prepend (state->delayed_names, state->sheet);

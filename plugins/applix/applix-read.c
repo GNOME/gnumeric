@@ -1435,7 +1435,7 @@ applix_read_absolute_name (ApplixReadState *state, char *buffer)
 
 	texpr = gnm_expr_top_new_constant
 		(value_new_cellrange_unsafe (&ref.a, &ref.b));
-	expr_name_add (&pp, buffer, texpr, NULL, TRUE, NULL);
+	expr_name_add (&pp, buffer, texpr, NULL, NULL);
 
 	return FALSE;
 }
@@ -1474,7 +1474,7 @@ applix_read_relative_name (ApplixReadState *state, char *buffer)
 		(value_new_cellrange_unsafe (&ref.a, &ref.b));
 	parse_pos_init (&pp, state->wb, NULL,
 		MAX (-ref.a.col, 0), MAX (-ref.a.row, 0));
-	expr_name_add (&pp, buffer, texpr, NULL, TRUE, NULL);
+	expr_name_add (&pp, buffer, texpr, NULL, NULL);
 
 	return FALSE;
 }

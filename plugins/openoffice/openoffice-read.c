@@ -8075,8 +8075,7 @@ oo_named_expr_common (GsfXMLIn *xin, xmlChar const **attrs, gboolean preparse)
 					texpr = NULL;
 				}
 
-				expr_name_add (&pp, name, texpr, NULL,
-					       TRUE, NULL);
+				expr_name_add (&pp, name, texpr, NULL, NULL);
 			}
 		}
 	}
@@ -8138,7 +8137,7 @@ oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 			      (parse_pos_init (&pp, state->pos.wb, NULL, 0, 0), name)) ||
 		     expr_name_is_placeholder (nexpr))) {
 			GnmExprTop const *texpr = gnm_expr_top_new (expr);
-			expr_name_add (&pp, name, texpr, NULL, TRUE, NULL);
+			expr_name_add (&pp, name, texpr, NULL, NULL);
 		} else
 			gnm_expr_free (expr);
 	}

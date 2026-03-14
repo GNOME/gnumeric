@@ -650,29 +650,21 @@ expr_name_queue_deps (GnmNamedExpr *nexpr)
 }
 
 /**
- * expr_name_add: (skip)
- * @pp:
- * @name:
+ * expr_name_add_unlinked:
+ * @pp: parse position
+ * @name: the name to be created
  * @texpr: (transfer full) (nullable): if texpr is %NULL then create a placeholder with value #NAME?
  * @error_msg: (out) (optional) (nullable):
- * @link_to_container:
+ * @stub: (transfer none) (nullable): existing placeholder to reuse
  *
- * Absorbs the reference to @texpr.
- * If @error_msg is non-%NULL it may hold a pointer to a translated descriptive
- * string.  NOTE : caller is responsible for freeing the error message.
+ * Adds a new defined name without linking it to any container.
  *
- * The reference semantics of the new expression are
- * 1) new names with @link_to_container %TRUE are referenced by the container.
- *    The caller DOES NOT OWN a reference to the result, and needs to add their
- *    own.
- * 2) if @link_to_container is %FALSE the caller DOES OWN a reference, and
- *    can free the result by unrefing the name.
+ * Returns: (transfer full) (nullable): the newly defined name.
  **/
 GnmNamedExpr *
-expr_name_add (GnmParsePos const *pp, char const *name,
-	       GnmExprTop const *texpr, char **error_msg,
-	       gboolean link_to_container,
-	       GnmNamedExpr *stub)
+expr_name_add_unlinked (GnmParsePos const *pp, char const *name,
+			GnmExprTop const *texpr, char **error_msg,
+			GnmNamedExpr *stub)
 {
 	GnmNamedExpr *nexpr = NULL;
 	GnmNamedExprCollection *scope = NULL;
@@ -740,7 +732,32 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 	expr_name_set_expr (nexpr, texpr);
 	if (stub && !g_str_equal (name, nexpr->name->str))
 		expr_name_set_name (nexpr, name);
-	if (link_to_container) {
+
+	return nexpr;
+}
+
+/**
+ * expr_name_add:
+ * @pp: parse position
+ * @name: the name to be created
+ * @texpr: (transfer full) (nullable): if texpr is %NULL then create a placeholder with value #NAME?
+ * @error_msg: (out) (optional) (nullable):
+ * @stub: (transfer none) (nullable): existing placeholder to reuse
+ *
+ * Adds a new defined name and link it to the container.
+ *
+ * Returns: (transfer none) (nullable): the newly defined name.
+ **/
+GnmNamedExpr *
+expr_name_add (GnmParsePos const *pp, char const *name,
+	       GnmExprTop const *texpr, char **error_msg,
+	       GnmNamedExpr *stub)
+{
+	GnmNamedExpr *nexpr = expr_name_add_unlinked (pp, name, texpr, error_msg, stub);
+
+	if (nexpr) {
+		GnmNamedExprCollection *scope = pp->sheet ? pp->sheet->names : pp->wb->names;
+
 		if (nexpr->scope == scope) {
 			expr_name_unref (nexpr);
 		} else {
@@ -751,6 +768,7 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 
 	return nexpr;
 }
+
 
 GnmNamedExpr *
 expr_name_ref (GnmNamedExpr *nexpr)
@@ -1211,7 +1229,7 @@ expr_name_perm_add (Sheet *sheet, char const *name,
 	GnmParsePos pp;
 
 	parse_pos_init_sheet (&pp, sheet);
-	res = expr_name_add (&pp, name, value, NULL, TRUE, NULL);
+	res = expr_name_add (&pp, name, value, NULL, NULL);
 	if (res) {
 		res->is_permanent = TRUE;
 		res->is_editable = is_editable;

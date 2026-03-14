@@ -24,10 +24,12 @@ gboolean expr_name_validate (const char *name);
 GType         gnm_named_expr_get_type (void);
 GnmNamedExpr *expr_name_new    (char const *name);
 GnmNamedExpr *expr_name_lookup (GnmParsePos const *pos, char const *name);
-GnmNamedExpr *expr_name_add    (GnmParsePos const *pp, char const *name,
+GnmNamedExpr *expr_name_add_unlinked (GnmParsePos const *pp, char const *name,
 				GnmExprTop const *texpr, char **error_msg,
-				gboolean link_to_container,
 				GnmNamedExpr *stub);
+GnmNamedExpr *expr_name_add (GnmParsePos const *pp, char const *name,
+			     GnmExprTop const *texpr, char **error_msg,
+			     GnmNamedExpr *stub);
 void expr_name_perm_add        (Sheet *sheet,
 				char const *name,
 				GnmExprTop const *texpr,

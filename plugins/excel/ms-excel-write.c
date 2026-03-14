@@ -5773,7 +5773,7 @@ create_macroname (SheetObject *so)
 
 	pp.sheet = NULL;
 
-	nexpr = expr_name_add (&pp, name, NULL, NULL, TRUE, NULL);
+	nexpr = expr_name_add (&pp, name, NULL, NULL, NULL);
 	expr_name_set_expr (nexpr, NULL);
 
 	g_free (name);

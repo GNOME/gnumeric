@@ -3875,7 +3875,7 @@ xlsx_wb_name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			? NULL
 			: expr_name_add (&pp, thename,
 					 gnm_expr_top_new_constant (value_new_empty ()),
-					 &error_msg, TRUE, NULL);
+					 &error_msg, NULL);
 		if (nexpr) {
 			nexpr->is_permanent = TRUE;
 			nexpr->is_editable = editable;
@@ -3883,7 +3883,7 @@ xlsx_wb_name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	} else
 		nexpr = expr_name_add (&pp, thename,
 				       gnm_expr_top_new_constant (value_new_empty ()),
-				       &error_msg, TRUE, NULL);
+				       &error_msg, NULL);
 
 	if (bogus) {
 		/* Silently ignore */

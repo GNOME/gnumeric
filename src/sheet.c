@@ -6479,7 +6479,7 @@ sheet_dup_names (Sheet const *src, Sheet *dst)
 			continue;
 
 		texpr = gnm_expr_top_new_constant (value_new_empty ());
-		expr_name_add (&dst_pp, name, texpr , NULL, TRUE, NULL);
+		expr_name_add (&dst_pp, name, texpr, NULL, NULL);
 	}
 
 	/* Pass 2: assign the right expression.  */

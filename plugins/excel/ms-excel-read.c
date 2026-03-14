@@ -3759,9 +3759,9 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 		}
 	}
 
-	nexpr = expr_name_add (&pp, name,
-			       texpr,
-			       &err, link_to_container, stub);
+	nexpr = link_to_container
+		? expr_name_add (&pp, name, texpr, &err, stub)
+		: expr_name_add_unlinked (&pp, name, texpr, &err, stub);
 	if (nexpr == NULL) {
 		go_io_warning (importer->context, "%s", err);
 		g_free (err);

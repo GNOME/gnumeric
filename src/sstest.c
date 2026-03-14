@@ -751,7 +751,7 @@ define_name (const char *name, const char *expr_txt, gpointer scope)
 		return;
 	}
 
-	nexpr = expr_name_add (&pos, name, texpr, NULL, TRUE, NULL);
+	nexpr = expr_name_add (&pos, name, texpr, NULL, NULL);
 	if (!nexpr)
 		g_printerr ("Failed to add name %s\n", name);
 }

@@ -6081,7 +6081,7 @@ cmd_define_name_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	if (me->new_name || me->placeholder) {
 		char *err = NULL;
-		nexpr = expr_name_add (&me->pp, me->name, me->texpr, &err, TRUE, NULL);
+		nexpr = expr_name_add (&me->pp, me->name, me->texpr, &err, NULL);
 		if (nexpr == NULL) {
 			go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), _("Name"), err);
 			g_free (err);
@@ -6230,7 +6230,7 @@ cmd_remove_name_undo (GnmCommand *cmd,
 	CmdRemoveName *me = CMD_REMOVE_NAME (cmd);
 	GnmNamedExpr *nexpr =
 		expr_name_add (&me->nexpr->pos, expr_name_name (me->nexpr),
-			       me->texpr, NULL, TRUE, NULL);
+			       me->texpr, NULL, NULL);
 	if (nexpr) {
 		me->texpr = NULL;
 		expr_name_ref (nexpr);

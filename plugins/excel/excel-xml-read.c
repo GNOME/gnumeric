@@ -898,7 +898,7 @@ xl_xml_named_range (GsfXMLIn *xin, xmlChar const **attrs)
 			parse_pos_init (&pp, state->wb, NULL, 0, 0));
 		g_warning ("%s = %s", name, expr_str);
 		if (NULL != texpr)
-			expr_name_add (&pp, name, texpr, NULL, TRUE, NULL);
+			expr_name_add (&pp, name, texpr, NULL, NULL);
 	}
 }
 

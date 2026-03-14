@@ -841,7 +841,7 @@ sc_parse_define (ScParseState *state, char const *cmd, char const *str,
 		goto out;
 	}
 
-	nexpr = expr_name_add (&pp, name->str, texpr, &errstr, TRUE, NULL);
+	nexpr = expr_name_add (&pp, name->str, texpr, &errstr, NULL);
 	if (!nexpr)
 		goto out;
 
