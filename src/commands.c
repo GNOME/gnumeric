@@ -1852,15 +1852,12 @@ cmd_format_finalize (GObject *cmd)
 }
 
 /**
- * cmd_format: (skip)
+ * cmd_format:
  * @wbc: the workbook control.
  * @sheet: the sheet
  * @style: (transfer full): style to apply to the selection
  * @borders: (nullable) (transfer full): borders to apply to the selection
  * @opt_translated_name: (nullable): A name to use in place of 'Format Cells'
- *
- * If borders is non-%NULL, then the GnmBorder references are passed,
- * the GnmStyle reference is also passed.
  *
  * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/
@@ -5486,9 +5483,11 @@ cmd_analysis_tool_finalize (GObject *cmd)
 }
 
 /**
- * cmd_analysis_tool: (skip)
- * Note: this takes ownership of specs and dao if the command
- * succeeds.
+ * cmd_analysis_tool:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @dao: (transfer full):
+ * @tool: (transfer none):
  *
  * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/

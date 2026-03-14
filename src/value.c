@@ -130,7 +130,9 @@ value_new_float (gnm_float f)
 }
 
 /**
- * value_new_error: (skip)
+ * value_new_error:
+ * @pos: evaluation position
+ * @mesg: (transfer none): error string
  *
  * Returns: (transfer full): a new error value.
  */
@@ -145,7 +147,9 @@ value_new_error (G_GNUC_UNUSED GnmEvalPos const *ep, char const *mesg)
 }
 
 /**
- * value_new_error_str: (skip)
+ * value_new_error_str:
+ * @pos: evaluation position
+ * @mesg: (transfer none): error string
  *
  * Returns: (transfer full): a new error value.
  */
@@ -160,7 +164,9 @@ value_new_error_str (G_GNUC_UNUSED GnmEvalPos const *ep, GOString *mesg)
 }
 
 /**
- * value_new_error_std: (skip)
+ * value_new_error_std:
+ * @pos: evaluation position
+ * @err: error code
  *
  * Returns: (transfer full): a new error value.
  */
@@ -174,7 +180,8 @@ value_new_error_std (GnmEvalPos const *pos, GnmStdError err)
 }
 
 /**
- * value_new_error_NULL: (skip)
+ * value_new_error_NULL:
+ * @pos: evaluation position
  *
  * Returns: (transfer full): a new \#NULL! error value.
  */
@@ -185,7 +192,8 @@ value_new_error_NULL (GnmEvalPos const *pos)
 }
 
 /**
- * value_new_error_DIV0: (skip)
+ * value_new_error_DIV0:
+ * @pos: evaluation position
  *
  * Returns: (transfer full): a new \#DIV0! error value.  This is used for
  * division by zero.
@@ -197,7 +205,8 @@ value_new_error_DIV0 (GnmEvalPos const *pos)
 }
 
 /**
- * value_new_error_VALUE: (skip)
+ * value_new_error_VALUE:
+ * @pos: evaluation position
  *
  * Returns: (transfer full): a new \#VALUE! error value.  This is used for
  * example for type errors.
@@ -209,7 +218,8 @@ value_new_error_VALUE (GnmEvalPos const *pos)
 }
 
 /**
- * value_new_error_REF: (skip)
+ * value_new_error_REF:
+ * @pos: evaluation position
  *
  * Returns: (transfer full): a new \#REF! error value.  This is used for
  * references that are no longer valid, for example because the column they
@@ -222,7 +232,8 @@ value_new_error_REF (GnmEvalPos const *pos)
 }
 
 /**
- * value_new_error_NAME: (skip)
+ * value_new_error_NAME:
+ * @pos: evaluation position
  *
  * Returns: (transfer full): a new \#NAME! error value.  This is used for
  * references to undefined names.
@@ -234,7 +245,8 @@ value_new_error_NAME (GnmEvalPos const *pos)
 }
 
 /**
- * value_new_error_NUM: (skip)
+ * value_new_error_NUM:
+ * @pos: evaluation position
  *
  * Returns: (transfer full): a new \#NUM! error value.  This is used
  * for errors in numerical computations such as overflow or taking the
@@ -247,7 +259,8 @@ value_new_error_NUM (GnmEvalPos const *pos)
 }
 
 /**
- * value_new_error_NA: (skip)
+ * value_new_error_NA:
+ * @pos: evaluation position
  *
  * Returns: (transfer full): a new \#NA! error value.  This is used for data
  * that is not available.
@@ -353,7 +366,7 @@ value_new_string (char const *str)
 }
 
 /**
- * value_new_string_nocopy: (skip)
+ * value_new_string_nocopy:
  * @str: (transfer full): string to use for value
  *
  * Returns: (transfer full): a new string object.
@@ -365,7 +378,7 @@ value_new_string_nocopy (char *str)
 }
 
 /**
- * value_new_cellrange_unsafe: (skip)
+ * value_new_cellrange_unsafe:
  * @a: (transfer none): first #GnmCellRef
  * @b: (transfer none): second #GnmCellRef
  *

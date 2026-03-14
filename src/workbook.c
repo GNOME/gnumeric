@@ -919,7 +919,7 @@ workbook_detach_view (WorkbookView *wbv)
 /*****************************************************************************/
 
 /**
- * workbook_sheets: (skip)
+ * workbook_sheets:
  * @wb: #Workbook
  *
  * Get an ordered list of the sheets in the workbook
