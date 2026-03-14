@@ -593,6 +593,23 @@
 }
 
 {
+   Pango/pango_layout_get_size
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:pango_layout_get_size
+}
+
+{
+   Pango/unknown1
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   ...
+   fun:style_font_new_simple
+}
+
+{
    Leak/FT_Open_Face1
    Memcheck:Leak
    fun:malloc

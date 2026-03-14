@@ -223,4 +223,3 @@ EXTRA_DIST = GnumericTest.pm \
 	ods-ext-schema.patch 
 
 .PHONY: import-db
-.NOTPARALLEL:

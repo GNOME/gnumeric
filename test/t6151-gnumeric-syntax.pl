@@ -29,7 +29,7 @@ foreach my $src (@sources) {
     my $tmp = $src;
     $tmp =~ s|^.*/||;
     $tmp =~ s|\..*|.xml|;
-    &GnumericTest::junkfile ($tmp);
+    $tmp = &GnumericTest::invent_junkfile ($tmp);
     system ("$ssconvert $src $tmp");
     if (!-r $tmp) {
 	print STDERR "ssconvert failed to produce $tmp\n";

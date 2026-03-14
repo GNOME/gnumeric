@@ -30,7 +30,7 @@ foreach my $src (@sources) {
 	my $tmp = $src;
 	$tmp =~ s|^.*/||;
 	$tmp =~ s|\..*|-$i.gnumeric|;
-	&GnumericTest::junkfile ($tmp);
+	$tmp = &GnumericTest::invent_junkfile ($tmp);
 	my $cmd = "$ssconvert -T $format $src $tmp";
 	print STDERR "# $cmd\n" if $GnumericTest::verbose;
 	system ($cmd);

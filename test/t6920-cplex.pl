@@ -7,8 +7,7 @@ use GnumericTest;
 
 &message ("Check the cplex exporter.");
 
-my $tmp = "junk.cplex";
-&GnumericTest::junkfile ($tmp);
+my $tmp = &GnumericTest::invent_junkfile ("junk.cplex");
 
 for my $src ("$samples/solver/afiro.mps",
 	     "$samples/solver/blend.mps") {

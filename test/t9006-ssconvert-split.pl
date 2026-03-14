@@ -15,16 +15,14 @@ my $N = 3;
 
 my @little_files;
 for my $i (1 ... $N) {
-    my $fn = "t9006-file$i.csv";
-    &GnumericTest::junkfile ($fn);
+    my $fn = &GnumericTest::invent_junkfile ("file$i.csv");
     push @little_files, $fn;
     my $f = new IO::File ($fn, "w");
     die "$0: Failed to write $fn: $!\n" unless $f;
     print $f "File $i,$i,=$i+1\nLine 2,$i,=$i-1\n";
 }
 
-my $combined = "t9006-combined.gnumeric";
-&GnumericTest::junkfile ($combined);
+my $combined = &GnumericTest::invent_junkfile ("combined.gnumeric");
 
 &test_command ("$ssconvert --merge-to=$combined " . join (" ", @little_files),
 	       sub { 1 } );

@@ -12,7 +12,6 @@ use GnumericTest;
 my $src = "$samples/excel/sort.xls";
 &GnumericTest::report_skip ("file $src does not exist") unless -r $src;
 
-my $tmp = "sort.xls";
-&GnumericTest::junkfile ($tmp);
+my $tmp = &GnumericTest::invent_junkfile ("sort.xls");
 
 &test_valgrind ("$ssconvert $src $tmp", 1);

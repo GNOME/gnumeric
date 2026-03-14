@@ -10,7 +10,6 @@ use GnumericTest;
 my $src = "$samples/excel/statfuns.xls";
 &GnumericTest::report_skip ("file $src does not exist") unless -r $src;
 
-my $tmp = "statfuns.xls";
-&GnumericTest::junkfile ($tmp);
+my $tmp = &GnumericTest::invent_junkfile ("statfuns.xls");
 
 &test_valgrind ("$ssconvert $src $tmp", 1);

@@ -15,8 +15,7 @@ for my $file ('format-tests.gnumeric') {
     my $dst = $file;
     $dst =~ s{\.([^./]+)$}{-copy.$1};
 
-    unlink $dst;
-    &GnumericTest::junkfile ($dst);
+    $dst = &GnumericTest::invent_junkfile ($dst);
 
     &test_command ($PYTHON . ' ' .
 		   &GnumericTest::quotearg ($python_script, $src, $dst),

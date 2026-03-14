@@ -7,8 +7,7 @@ use GnumericTest;
 
 &message ("Check the lpsolve exporter.");
 
-my $tmp = "junk.txt";
-&GnumericTest::junkfile ($tmp);
+my $tmp = &GnumericTest::invent_junkfile ("junk.txt");
 
 for my $src ("$samples/solver/afiro.mps",
 	     "$samples/solver/blend.mps") {

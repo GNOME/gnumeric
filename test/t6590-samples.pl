@@ -6,8 +6,7 @@ use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 $GnumericTest::default_subtests = '*,-biff7';
 
-my $csvfile = "samples.csv";
-&GnumericTest::junkfile ($csvfile);
+my $csvfile = &GnumericTest::invent_junkfile ("samples.csv");
 {
     my $cmd = "$sstest --samples-file=$csvfile";
     print STDERR "# $cmd\n" if $GnumericTest::verbose;
@@ -18,8 +17,7 @@ my $csvfile = "samples.csv";
     }
 }
 
-my $file = "samples.gnumeric";
-&GnumericTest::junkfile ($file);
+my $file = &GnumericTest::invent_junkfile ("samples.gnumeric");
 {
     my $cmd = "$ssconvert $csvfile $file";
     print STDERR "# $cmd\n" if $GnumericTest::verbose;

@@ -74,6 +74,30 @@ sub removejunk {
     }
 }
 
+sub invent_junkfile {
+    my ($base) = @_;
+
+    die "$0: problem with invent_junkfile $base\n" if $base =~ m{/};
+    die "$0: problem with invent_junkfile $base\n" if $base !~ /^[^.]+\.[^.]+$/;
+
+    my $me = $0;
+    $me =~ s{^.*/}{};
+    $me =~ s{\.pl$}{};
+    $me =~ s/^(t\d+)-.*/$1/ or
+	die "$0: problem with invent_junkfile $base $0\n";
+
+    my $res = $base;
+    $res =~ s/\./-$me./;
+
+    if (-e $res) {
+	die "$0: failed to remove $res: $!\n" unless unlink $res;
+    }
+
+    &junkfile ($res);
+
+    return $res;
+}
+
 # -----------------------------------------------------------------------------
 
 sub system_failure {
@@ -370,7 +394,7 @@ sub test_sheet_calc {
 
     my $tmp = fileparse ($file);
     $tmp =~ s/\.[a-zA-Z0-9]+$/.csv/;
-    &junkfile ($tmp);
+    $tmp = &invent_junkfile ($tmp);
 
     my $cmd = "$ssconvert " . &quotearg (@$pargs, '--recalc', "--export-range=$range", $file, $tmp);
     print STDERR "# $cmd\n" if $verbose;
@@ -420,7 +444,7 @@ sub test_importer {
 	    die "Cannot create $import_db: $!\n";
 	$tmp = "$import_db/$tmp";
     } else {
-	&junkfile ($tmp);
+	$tmp = &invent_junkfile ($tmp);
     }
 
     &report_skip ("file $file does not exist") unless -r $file;
@@ -495,7 +519,7 @@ sub test_exporter {
     my $keep = 0;
 
     my $tmp1 = "$tmp.gnumeric";
-    &junkfile ($tmp1) unless $keep;
+    $tmp1 = &invent_junkfile ($tmp1) unless $keep;
     {
 	my $cmd = &quotearg ($ssconvert, $file, $tmp1);
 	print STDERR "# $cmd\n" if $verbose;
@@ -504,7 +528,7 @@ sub test_exporter {
     }
 
     my $tmp2 = "$tmp-new.$ext";
-    &junkfile ($tmp2) unless $keep;
+    $tmp2 = &invent_junkfile ($tmp2) unless $keep;
     {
 	my $cmd = &quotearg ($ssconvert, $file, $tmp2);
 	print STDERR "# $cmd\n" if $verbose;
@@ -513,7 +537,7 @@ sub test_exporter {
     }
 
     my $tmp3 = "$tmp-new.gnumeric";
-    &junkfile ($tmp3) unless $keep;
+    $tmp3 = &invent_junkfile ($tmp3) unless $keep;
     {
 	my $cmd = &quotearg ($ssconvert, $tmp2, $tmp3);
 	print STDERR "# $cmd\n" if $verbose;
@@ -522,11 +546,12 @@ sub test_exporter {
     }
 
     my $tmp4 = "$tmp.xml";
-    &junkfile ($tmp4) unless $keep;
+    $tmp4 = &invent_junkfile ($tmp4) unless $keep;
     $code = system (&quotearg ("zcat", "-f", $tmp1) . "| $PERL $normalize_gnumeric >" . &quotearg ($tmp4));
     &system_failure ('zcat', $code) if $code;
 
     my $tmp5 = "$tmp-new.xml";
+    $tmp5 = &invent_junkfile ($tmp5) unless $keep;
     &junkfile ($tmp5) unless $keep;
     $code = system (&quotearg ("zcat" , "-f", $tmp3) . " | $PERL $normalize_gnumeric >" . &quotearg ($tmp5));
     &system_failure ('zcat', $code) if $code;
@@ -546,11 +571,11 @@ sub test_csv_format_guessing {
     my $keep = 0;
 
     my $datafn = "test-data.csv";
-    &junkfile ($datafn) unless $keep;
+    $datafn = &invent_junkfile ($datafn) unless $keep;
     &write_file ($datafn, $data);
 
     my $outfn = "test-data.gnumeric";
-    &junkfile ($outfn) unless $keep;
+    $outfn = &invent_junkfile ($outfn) unless $keep;
 
     local $ENV{'GNM_DEBUG'} = 'stf';
     my $cmd = &quotearg ($ssconvert, $datafn, $outfn);
@@ -668,37 +693,32 @@ sub test_roundtrip {
     $tmp =~ s/\.([a-zA-Z0-9]+)$// or die "Must have extension for roundtrip test.";
     my $ext = $1;
     my $code;
-    my $keep = 0;
 
     my $file_resized = $file;
     if ($resize) {
 	$file_resized =~ s{^.*/}{};
 	$file_resized =~ s/(\.gnumeric)$/-resize$1/;
-	unlink $file_resized;
+	$file_resized = &invent_junkfile ($file_resized);
 	my $cmd = &quotearg ($ssconvert, "--resize", $resize, $file, $file_resized);
 	print STDERR "# $cmd\n" if $verbose;
 	$code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
 	die "Failed to produce $file_resized\n" unless -r $file_resized;
-	&junkfile ($file_resized) unless $keep;
     }
 
     my $file_filtered = $file_resized;
     if ($filter0) {
 	$file_filtered =~ s{^.*/}{};
 	$file_filtered =~ s/(\.gnumeric)$/-filter$1/;
-	unlink $file_filtered;
+	$file_filtered = &invent_junkfile ($file_filtered);
 	my $cmd = "zcat " . &quotearg ($file_resized) . " | $filter0 >" . &quotearg ($file_filtered);
 	print STDERR "# $cmd\n" if $verbose;
 	$code = system ("($cmd) 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
 	die "Failed to produce $file_filtered\n" unless -r $file_filtered;
-	&junkfile ($file_filtered) unless $keep;
     }
 
-    my $tmp1 = "$tmp.$newext";
-    unlink $tmp1;
-    &junkfile ($tmp1) unless $keep;
+    my $tmp1 = &invent_junkfile ("$tmp.$newext");
     {
 	my $cmd = &quotearg ($ssconvert, "-T", $format, $file_filtered, $tmp1);
 	print "# $cmd\n" if $verbose;
@@ -707,9 +727,7 @@ sub test_roundtrip {
 	die "Failed to produce $tmp1\n" unless -r $tmp1;
     }
 
-    my $tmp2 = "$tmp-new.$ext";
-    unlink $tmp2;
-    &junkfile ($tmp2) unless $keep;
+    my $tmp2 = &invent_junkfile ("$tmp-new.$ext");
     {
 	my $cmd = &quotearg ($ssconvert, $tmp1, $tmp2);
 	print "# $cmd\n" if $verbose;
@@ -718,15 +736,11 @@ sub test_roundtrip {
 	die "Failed to produce $tmp2\n" unless -r $tmp2;
     }
 
-    my $tmp_xml = "$tmp.xml";
-    unlink $tmp_xml;
-    &junkfile ($tmp_xml) unless $keep;
+    my $tmp_xml = &invent_junkfile ("$tmp.xml");
     $code = system ("zcat -f '$file_filtered' | $PERL $normalize_gnumeric | $filter1 >'$tmp_xml'");
     &system_failure ('zcat', $code) if $code;
 
-    my $tmp2_xml = "$tmp-new.xml";
-    unlink $tmp2_xml;
-    &junkfile ($tmp2_xml) unless $keep;
+    my $tmp2_xml = &invent_junkfile ("$tmp-new.xml");
     # print STDERR "zcat -f '$tmp2' | $PERL $normalize_gnumeric | $filter2 >'$tmp2_xml'\n";
     $code = system ("zcat -f '$tmp2' | $PERL $normalize_gnumeric | $filter2 >'$tmp2_xml'");
     &system_failure ('zcat', $code) if $code;
@@ -760,10 +774,7 @@ sub test_valgrind {
 
     delete $ENV{'VALGRIND_OPTS'};
 
-    my $outfile = 'valgrind.log';
-    unlink $outfile;
-    die "Cannot remove $outfile.\n" if -f $outfile;
-    &junkfile ($outfile);
+    my $outfile = &invent_junkfile ('valgrind.log');
 
     my $valhelp = `valgrind --help 2>&1`;
     &report_skip ("Valgrind is not available") unless defined $valhelp;
@@ -834,9 +845,7 @@ sub test_ssindex {
 
     my $xmlfile = fileparse ($file);
     $xmlfile =~ s/\.[a-zA-Z0-9]+$/.xml/;
-    unlink $xmlfile;
-    die "Cannot remove $xmlfile.\n" if -f $xmlfile;
-    &junkfile ($xmlfile);
+    $xmlfile = &invent_junkfile ($xmlfile);
 
     {
 	my $cmd = &quotearg ($ssindex, "--index", $file);
@@ -903,8 +912,7 @@ sub test_tool {
 	push @args, "--tool-test=$k:$v";
     }
 
-    my $tmp = "tool.csv";
-    &junkfile ($tmp);
+    my $tmp = &invent_junkfile ("tool.csv");
 
     my $cmd = &quotearg ($ssconvert, @args, $file, $tmp);
     print STDERR "# $cmd\n" if $GnumericTest::verbose;

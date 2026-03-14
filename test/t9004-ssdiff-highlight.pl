@@ -7,8 +7,7 @@ use GnumericTest;
 
 &message ("Check ssdiff's highlight mode");
 
-my $tmp = "junk.gnumeric";
-&GnumericTest::junkfile ($tmp);
+my $tmp = &GnumericTest::invent_junkfile ("junk.gnumeric");
 
 my @sources = &GnumericTest::corpus();
 

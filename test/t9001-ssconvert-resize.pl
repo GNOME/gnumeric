@@ -8,8 +8,7 @@ use GnumericTest;
 &message ("Check ssconvert resize");
 
 my $src = "$samples/regress.gnumeric";
-my $tmp = "regress-resize.gnumeric";
-&GnumericTest::junkfile ($tmp);
+my $tmp = &GnumericTest::invent_junkfile ("regress-resize.gnumeric");
 
 # Shrink rows
 &test_command ("$ssconvert --resize=8192x256 $src $tmp", sub { 1 } );

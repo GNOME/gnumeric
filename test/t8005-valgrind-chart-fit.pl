@@ -12,7 +12,6 @@ use GnumericTest;
 my $src = "$samples/chart-smooth-fit-tests.gnumeric";
 &GnumericTest::report_skip ("file $src does not exist") unless -r $src;
 
-my $tmp = "chart.xls";
-&GnumericTest::junkfile ($tmp);
+my $tmp = &GnumericTest::invent_junkfile ("chart.xls");
 
 &test_valgrind ("$ssconvert $src $tmp", 1);

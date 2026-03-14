@@ -13,7 +13,7 @@ my $src = "$samples/excel/statfuns.xls";
 my $tmp = $src;
 $tmp =~ s|^.*/||;
 $tmp =~ s|\..*|.ods|;
-&GnumericTest::junkfile ($tmp);
+$tmp = &GnumericTest::invent_junkfile ($tmp);
 system ("$ssconvert $src $tmp");
 
 &test_exporter ($tmp);

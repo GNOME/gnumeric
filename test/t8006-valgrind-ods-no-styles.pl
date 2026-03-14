@@ -10,7 +10,6 @@ use GnumericTest;
 my $src = "$samples/ods-with-no-styles.ods";
 &GnumericTest::report_skip ("file $src does not exist") unless -r $src;
 
-my $tmp = "ods-with-no-styles.txt";
-&GnumericTest::junkfile ($tmp);
+my $tmp = &GnumericTest::invent_junkfile ("ods-with-no-styles.txt");
 
 &test_valgrind ("$ssconvert $src $tmp", 1);

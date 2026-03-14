@@ -10,8 +10,7 @@ use GnumericTest;
 my $src1 = "$samples/regress.gnumeric";
 my $src2 = "$samples/format-tests.gnumeric";
 
-my $tmp = "merged.gnumeric";
-&GnumericTest::junkfile ($tmp);
+my $tmp = &GnumericTest::invent_junkfile ("merged.gnumeric");
 
 # Not much of a test, but this at least confirms that the program
 # runs with no criticals.

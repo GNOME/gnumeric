@@ -80,7 +80,7 @@ foreach my $src (@sources) {
     my $tmp = $src;
     $tmp =~ s|^.*/||;
     $tmp =~ s|\..*|.xlsx|;
-    &GnumericTest::junkfile ($tmp);
+    $tmp = &GnumericTest::invent_junkfile ($tmp);
 
     {
 	my $cmd = &GnumericTest::quotearg ($ssconvert, '-T', $format, $src, $tmp);

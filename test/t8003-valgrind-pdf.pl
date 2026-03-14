@@ -21,13 +21,11 @@ chomp $cairo;
 &message ("Check the pdf exporter with valgrind -- part 1.");
 my $src = "$samples/excel/statfuns.xls";
 &GnumericTest::report_skip ("file $src does not exist") unless -r $src;
-my $tmp = "statfuns.pdf";
-&GnumericTest::junkfile ($tmp);
+my $tmp = &GnumericTest::invent_junkfile ("statfuns.pdf");
 &test_valgrind ("$ssconvert $src $tmp", 1);
 
 &message ("Check the pdf exporter with valgrind -- part 2.");
 my $src2 = "$samples/excel12/cellstyle.xlsx";
 &GnumericTest::report_skip ("file $src2 does not exist") unless -r $src2;
-my $tmp2 = "cellstyle.pdf";
-&GnumericTest::junkfile ($tmp2);
+my $tmp2 = &GnumericTest::invent_junkfile ("cellstyle.pdf");
 &test_valgrind ("$ssconvert $src2 $tmp2", 1);

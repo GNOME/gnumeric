@@ -82,7 +82,7 @@ foreach my $src (@sources) {
 	my $tmp = $src;
 	$tmp =~ s|^.*/||;
 	$tmp =~ s|\..*|.ods|;
-	&GnumericTest::junkfile ($tmp);
+	$tmp = &GnumericTest::invent_junkfile ($tmp);
 	my $cmd = "$ssconvert -T " . ($ext ? $format_ext : $format) . " $src $tmp";
 	print STDERR "# $cmd\n" if $GnumericTest::verbose;
 	system ($cmd);

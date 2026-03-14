@@ -28,16 +28,14 @@ foreach my $src (@sources) {
     my $basenoext = $basename;
     $basenoext =~ s/\.[^.]+$//;
 
-    my $tmp1 = "$basenoext-tmp.ods";
+    my $tmp1 = &GnumericTest::invent_junkfile ("$basenoext-tmp.ods");
     print STDERR "$basename -> $tmp1\n";
-    &GnumericTest::junkfile ($tmp1);
     my $cmd = &GnumericTest::quotearg ($ssconvert, "-T", $format, $src, $tmp1);
     my $err = &test_valgrind ($cmd, 1, 1);
 
     if (!$err && $basename !~ /\.ods$/) {
-	my $tmp2 = "$basenoext-tmp.gnumeric";
+	my $tmp2 = &GnumericTest::invent_junkfile ("$basenoext-tmp.gnumeric");
 	print STDERR "$tmp1 -> $tmp2\n";
-	&GnumericTest::junkfile ($tmp2);
 
 	my $cmd = &GnumericTest::quotearg ($ssconvert, $tmp1, $tmp2);
 	$err = &test_valgrind ($cmd, 1, 1);

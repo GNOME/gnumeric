@@ -10,7 +10,6 @@ use GnumericTest;
 my $src = "$samples/regress.gnumeric";
 &GnumericTest::report_skip ("file $src does not exist") unless -r $src;
 
-my $tmp = "regress.gnumeric";
-&GnumericTest::junkfile ($tmp);
+my $tmp = &GnumericTest::invent_junkfile ("regress.gnumeric");
 
 &test_valgrind ("$ssconvert $src $tmp", 1);

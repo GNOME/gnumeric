@@ -17,7 +17,7 @@ my $dir1 = &gsf_list ($src);
 my $tmp = $src;
 $tmp =~ s|^.*/||;
 $tmp =~ s|\..*|-tmp.xls|;
-&GnumericTest::junkfile ($tmp);
+$tmp = &GnumericTest::invent_junkfile ($tmp);
 system ("$ssconvert $src $tmp");
 my $dir2 = &gsf_list ($tmp);
 

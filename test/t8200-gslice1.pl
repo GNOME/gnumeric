@@ -11,7 +11,6 @@ $ENV{'G_SLICE'} = 'debug-blocks';
 my $src = "$samples/excel/statfuns.xls";
 &GnumericTest::report_skip ("file $src does not exist") unless -r $src;
 
-my $tmp = "statfuns.gnumeric";
-&GnumericTest::junkfile ($tmp);
+my $tmp = &GnumericTest::invent_junkfile ("statfuns.gnumeric");
 
 &test_command ("$ssconvert --recalc $src $tmp", sub { 1 } );
