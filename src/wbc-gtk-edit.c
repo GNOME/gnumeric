@@ -511,7 +511,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 }
 
 static void
-workbook_edit_complete_notify (char const *text, void *closure)
+workbook_edit_complete_notify (G_GNUC_UNUSED GnmComplete *comp, char const *text, void *closure)
 {
 	WBCGtk *wbcg = closure;
 
@@ -959,8 +959,9 @@ wbcg_edit_start (WBCGtk *wbcg,
 	    wbv->do_auto_completion &&
 	    (text == NULL || g_unichar_isalpha (g_utf8_get_char (text)))) {
 		wbcg->auto_complete = gnm_complete_sheet_new (
-			sv->sheet, col, row,
-			workbook_edit_complete_notify, wbcg);
+			sv->sheet, col, row);
+		g_signal_connect (wbcg->auto_complete, "notify-match",
+				  G_CALLBACK (workbook_edit_complete_notify), wbcg);
 		wbcg->auto_completing = TRUE;
 		wbcg->auto_max_size = 0;
 	} else

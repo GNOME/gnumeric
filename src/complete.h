@@ -11,13 +11,8 @@ G_BEGIN_DECLS
 #define GNM_COMPLETE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GNM_COMPLETE_TYPE, GnmCompleteClass))
 #define GNM_IS_COMPLETE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_COMPLETE_TYPE))
 
-typedef void (*GnmCompleteMatchNotifyFn) (char const *text, void *closure);
-
 struct GnmComplete_ {
 	GObject parent;
-
-	GnmCompleteMatchNotifyFn notify;
-	void *notify_closure;
 
 	char *text;
 
@@ -31,9 +26,6 @@ typedef struct {
 	gboolean (*search_iteration) (GnmComplete *complete);
 } GnmCompleteClass;
 
-void  gnm_complete_construct (GnmComplete *complete,
-			      GnmCompleteMatchNotifyFn notify,
-			      void *notify_closure);
 void  gnm_complete_start     (GnmComplete *complete, char const *text);
 GType gnm_complete_get_type  (void);
 
