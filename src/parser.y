@@ -506,7 +506,7 @@ parser_simple_name (const char *str, Sheet *sheet)
 			GnmParsePos pp = *state->pos;
 			pp.sheet = sheet;
 			/* Create a place holder */
-			nexpr = expr_name_add (&pp, str, NULL, NULL, TRUE, NULL);
+			nexpr = expr_name_add (&pp, str, NULL, NULL, NULL);
 			res = gnm_expr_new_name (nexpr, sheet, NULL);
 		} else {
 			report_err (state, g_error_new (1, PERR_UNKNOWN_NAME,
