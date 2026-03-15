@@ -147,10 +147,15 @@ gnumeric_go_error_info_list_dialog_create (GSList *errs)
 
 /**
  * gnm_go_error_info_dialog_create:
+ * @error: (transfer none): a #GOErrorInfo
+ *
+ * This routine creates a dialog to display a Gnumeric
+ * GOErrorInfo.  The dialog should be run and then destroyed.
  *
  * SHOULD BE IN GOFFICE
- * Returns: (transfer full): the newly allocated dialog.
- */
+ *
+ * Returns: (transfer full): the new dialog.
+ **/
 GtkWidget *
 gnm_go_error_info_dialog_create (GOErrorInfo *error)
 {
@@ -162,8 +167,11 @@ gnm_go_error_info_dialog_create (GOErrorInfo *error)
 
 /**
  * gnm_go_error_info_dialog_show:
+ * @parent: (transfer none): parent window.
+ * @error: (transfer none): #GOErrorInfo to display.
  *
- */
+ * This routine shows a dialog to display a Gnumeric GOErrorInfo.
+ **/
 void
 gnm_go_error_info_dialog_show (GtkWindow *parent, GOErrorInfo *error)
 {
@@ -173,15 +181,16 @@ gnm_go_error_info_dialog_show (GtkWindow *parent, GOErrorInfo *error)
 
 /**
  * gnm_go_error_info_list_dialog_show:
- * @parent:
- * @errs: (element-type GOErrorInfo):
+ * @parent: (transfer none): parent window.
+ * @errors: (transfer none) (element-type GOErrorInfo): a list of errors
  *
- */
+ * This routine shows a dialog to display a Gnumeric GOErrorInfo list.
+ **/
 void
 gnm_go_error_info_list_dialog_show (GtkWindow *parent,
-				    GSList *errs)
+				    GSList *errors)
 {
-	GtkWidget *dialog = gnumeric_go_error_info_list_dialog_create (errs);
+	GtkWidget *dialog = gnumeric_go_error_info_list_dialog_create (errors);
 	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
 
@@ -282,6 +291,13 @@ cb_save_sizes (GtkWidget *dialog,
 	g_hash_table_replace (h, g_strdup (key), r);
 }
 
+/**
+ * gnm_restore_window_geometry:
+ * @dialog: #GtkWindow
+ * @key: config key to restore from
+ *
+ * Restores window geometry from config.
+ **/
 void
 gnm_restore_window_geometry (GtkWindow *dialog, const char *key)
 {
@@ -352,12 +368,12 @@ gnm_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 
 /**
  * gnm_dialog_raise_if_exists:
- * @wbcg:    A WBCGtk
- * @key:     A key to identify the dialog
+ * @wbcg: #WBCGtk
+ * @key: config key for geometry
  *
  * Raise the dialog identified by key if it is registered on the wbcg.
  *
- * Returns: (transfer none) (type GtkDialog) (nullable): existing dialog
+ * Returns: %TRUE if the dialog already existed and was raised.
  **/
 gpointer
 gnm_dialog_raise_if_exists (WBCGtk *wbcg, char const *key)
@@ -1336,7 +1352,6 @@ gnm_ag_translate (const char *s, const char *ctxt)
 }
 
 typedef struct {
-	char *name;
 	GCallback callback;
 	gpointer user;
 } TimerBounce;
@@ -1350,8 +1365,7 @@ time_action (GtkAction *a, TimerBounce *b)
 
 	g_printerr ("Executing command %s...\n", name);
 	timer = g_timer_new ();
-	((void (*) (GtkAction *, gpointer))b->callback)
-		(a, b->user);
+	((void (*) (GtkAction *, gpointer))b->callback) (a, b->user);
 	elapsed = g_timer_elapsed (timer, NULL);
 	g_timer_destroy (timer);
 

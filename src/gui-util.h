@@ -12,16 +12,16 @@ G_BEGIN_DECLS
 
 GtkWidget* gnm_go_error_info_dialog_create (GOErrorInfo *error);
 void       gnm_go_error_info_dialog_show (GtkWindow *parent,
-					       GOErrorInfo *error);
+					  GOErrorInfo *error);
 void       gnm_go_error_info_list_dialog_show (GtkWindow *parent,
-						    GSList *errs);
+					       GSList *errors);
 void       gnm_restore_window_geometry (GtkWindow *dialog,
 					     const char *key);
 void       gnm_keyed_dialog (WBCGtk *wbcg,
-				  GtkWindow *dialog,
-				  char const *key);
+			     GtkWindow *dialog,
+			     char const *key);
 gpointer   gnm_dialog_raise_if_exists (WBCGtk *wbcg,
-					    char const *key);
+				       char const *key);
 void       gnm_editable_enters	(GtkWindow *window, GtkWidget *editable);
 
 /* Utility routine as Gtk does not have any decent routine to do this */
@@ -36,10 +36,10 @@ void gnumeric_popup_menu (GtkMenu *menu, GdkEvent *event);
  * Pseudo-tooltip support code.
  */
 void        gnm_position_tooltip (GtkWidget *tip, int px, int py,
-				       gboolean horizontal);
+				  gboolean horizontal);
 GtkWidget  *gnm_create_tooltip (GtkWidget *ref_widget);
 GtkWidget  *gnm_convert_to_tooltip (GtkWidget *ref_widget,
-					 GtkWidget *widget);
+				    GtkWidget *widget);
 
 GtkBuilder *gnm_gtk_builder_load (char const *uifile, char const *domain,
 				 GOCmdContext *cc);
