@@ -993,8 +993,8 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @CATEGORY=Engineering
 @FUNCTION=BESSELI
 @SHORTDESC=Modified Bessel function of the first kind of order @{α} at @{x}
-@SYNTAX=BESSELI(X,α)
-@ARGUMENTDESCRIPTION=@{X}: number
+@SYNTAX=BESSELI(x,α)
+@ARGUMENTDESCRIPTION=@{x}: number
 @{α}: order (any non-negative number)
 @NOTE=If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned.
 @EXCEL=This function is Excel compatible if only integer orders @{α} are used.
@@ -1003,8 +1003,8 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @CATEGORY=Engineering
 @FUNCTION=BESSELJ
 @SHORTDESC=Bessel function of the first kind of order @{α} at @{x}
-@SYNTAX=BESSELJ(X,α)
-@ARGUMENTDESCRIPTION=@{X}: number
+@SYNTAX=BESSELJ(x,α)
+@ARGUMENTDESCRIPTION=@{x}: number
 @{α}: order (any non-negative integer)
 @NOTE=If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned.
 @EXCEL=This function is Excel compatible if only integer orders @{α} are used.
@@ -1013,8 +1013,8 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @CATEGORY=Engineering
 @FUNCTION=BESSELK
 @SHORTDESC=Modified Bessel function of the second kind of order @{α} at @{x}
-@SYNTAX=BESSELK(X,α)
-@ARGUMENTDESCRIPTION=@{X}: number
+@SYNTAX=BESSELK(x,α)
+@ARGUMENTDESCRIPTION=@{x}: number
 @{α}: order (any non-negative number)
 @NOTE=If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned.
 @EXCEL=This function is Excel compatible if only integer orders @{α} are used.
@@ -1023,8 +1023,8 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @CATEGORY=Engineering
 @FUNCTION=BESSELY
 @SHORTDESC=Bessel function of the second kind of order @{α} at @{x}
-@SYNTAX=BESSELY(X,α)
-@ARGUMENTDESCRIPTION=@{X}: number
+@SYNTAX=BESSELY(x,α)
+@ARGUMENTDESCRIPTION=@{x}: number
 @{α}: order (any non-negative integer)
 @NOTE=If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned.
 @EXCEL=This function is Excel compatible if only integer orders @{α} are used.
@@ -3336,7 +3336,7 @@ The depreciation coefficient used is:
 
 @CATEGORY=Mathematics
 @FUNCTION=AVERAGEIF
-@SHORTDESC=average of the cells in @{actual range} for which the corresponding cells in the range meet the given @{criteria}
+@SHORTDESC=average of the cells in @{actual_range} for which the corresponding cells in the range meet the given @{criteria}
 @SYNTAX=AVERAGEIF(range,criteria,actual_range)
 @ARGUMENTDESCRIPTION=@{range}: cell area
 @{criteria}: condition for a cell to be included
@@ -3713,7 +3713,7 @@ The depreciation coefficient used is:
 @SYNTAX=LN1P(x)
 @ARGUMENTDESCRIPTION=@{x}: positive number
 @DESCRIPTION=LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating LN(1+@{x}).
-@NOTE=If @{x} ≤ -1, LN returns #NUM! error.
+@NOTE=If @{x} ≤ -1, LN1P returns #NUM! error.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=EXP,LN,EXPM1
 
@@ -3786,7 +3786,7 @@ The depreciation coefficient used is:
 @SYNTAX=MMULT(mat1,mat2)
 @ARGUMENTDESCRIPTION=@{mat1}: a matrix
 @{mat2}: a matrix
-@NOTE=The number of columns in @{mat1} must equal the number of rows in @{mat2}; otherwise #VALUE! is returned.  The result of MMULT is an array, in which the number of rows is the same as in @{mat1}), and the number of columns is the same as in (@{mat2}).
+@NOTE=The number of columns in @{mat1} must equal the number of rows in @{mat2}; otherwise #VALUE! is returned.  The result of MMULT is an array, in which the number of rows is the same as in @{mat1}, and the number of columns is the same as in @{mat2}.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=TRANSPOSE,MINVERSE
 
@@ -3857,9 +3857,9 @@ The depreciation coefficient used is:
 
 @CATEGORY=Mathematics
 @FUNCTION=PI
-@SHORTDESC=the constant 𝜋
+@SHORTDESC=the constant π
 @SYNTAX=PI()
-@EXCEL=This function is Excel compatible, but it returns 𝜋 with a better precision.
+@EXCEL=This function is Excel compatible, but it returns π with a better precision.
 @SEEALSO=SQRTPI
 
 @CATEGORY=Mathematics
@@ -4039,7 +4039,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SQRTPI
-@SHORTDESC=the square root of @{x} times 𝜋
+@SHORTDESC=the square root of @{x} times π
 @SYNTAX=SQRTPI(x)
 @ARGUMENTDESCRIPTION=@{x}: non-negative number
 @EXCEL=This function is Excel compatible.
@@ -4751,7 +4751,7 @@ The successive use of the simulation tool also requires that you give to the too
 @SHORTDESC=covariance of two data sets
 @SYNTAX=COVAR(array1,array2)
 @ARGUMENTDESCRIPTION=@{array1}: first data set
-@{array2}: set data set
+@{array2}: second data set
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=CORREL,FISHER,FISHERINV
@@ -4761,7 +4761,7 @@ The successive use of the simulation tool also requires that you give to the too
 @SHORTDESC=sample covariance of two data sets
 @SYNTAX=COVARIANCE.S(array1,array2)
 @ARGUMENTDESCRIPTION=@{array1}: first data set
-@{array2}: set data set
+@{array2}: second data set
 @DESCRIPTION=Strings and empty cells are simply ignored.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=COVAR,CORREL
@@ -5370,7 +5370,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 
 @CATEGORY=Statistics
 @FUNCTION=QUARTILE
-@SHORTDESC=the @{k}-th quartile of the data points (Hyndman-Fan method 7: N-1 basis)
+@SHORTDESC=the @{quart}-th quartile of the data points (Hyndman-Fan method 7: N-1 basis)
 @SYNTAX=QUARTILE(array,quart)
 @ARGUMENTDESCRIPTION=@{array}: data points
 @{quart}: a number from 0 to 4, indicating which quartile to calculate
@@ -5380,7 +5380,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 
 @CATEGORY=Statistics
 @FUNCTION=QUARTILE.EXC
-@SHORTDESC=the @{k}-th quartile of the data points (Hyndman-Fan method 6: N+1 basis)
+@SHORTDESC=the @{quart}-th quartile of the data points (Hyndman-Fan method 6: N+1 basis)
 @SYNTAX=QUARTILE.EXC(array,quart)
 @ARGUMENTDESCRIPTION=@{array}: data points
 @{quart}: a number from 1 to 3, indicating which quartile to calculate

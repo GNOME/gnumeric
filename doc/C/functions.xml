@@ -3664,11 +3664,11 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>BESSELI</function>(<parameter>X</parameter>,<parameter>α</parameter>)</synopsis>
+        <synopsis><function>BESSELI</function>(<parameter>x</parameter>,<parameter>α</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>X</parameter>: number</para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>α</parameter>: order (any non-negative number)</para>
       </refsect1>
       <refsect1>
@@ -3702,11 +3702,11 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>BESSELJ</function>(<parameter>X</parameter>,<parameter>α</parameter>)</synopsis>
+        <synopsis><function>BESSELJ</function>(<parameter>x</parameter>,<parameter>α</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>X</parameter>: number</para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>α</parameter>: order (any non-negative integer)</para>
       </refsect1>
       <refsect1>
@@ -3740,11 +3740,11 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>BESSELK</function>(<parameter>X</parameter>,<parameter>α</parameter>)</synopsis>
+        <synopsis><function>BESSELK</function>(<parameter>x</parameter>,<parameter>α</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>X</parameter>: number</para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>α</parameter>: order (any non-negative number)</para>
       </refsect1>
       <refsect1>
@@ -3778,11 +3778,11 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>BESSELY</function>(<parameter>X</parameter>,<parameter>α</parameter>)</synopsis>
+        <synopsis><function>BESSELY</function>(<parameter>x</parameter>,<parameter>α</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>X</parameter>: number</para>
+        <para><parameter>x</parameter>: number</para>
         <para><parameter>α</parameter>: order (any non-negative integer)</para>
       </refsect1>
       <refsect1>
@@ -10875,7 +10875,7 @@
           <function>AVERAGEIF</function>
         </refname>
         <refpurpose>
-        average of the cells in <parameter>actual range</parameter> for which the corresponding cells in the range meet the given <parameter>criteria</parameter>
+        average of the cells in <parameter>actual_range</parameter> for which the corresponding cells in the range meet the given <parameter>criteria</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12328,7 +12328,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>x</parameter> ≤ -1, LN returns #NUM! error.</para>
+        <para>If <parameter>x</parameter> ≤ -1, <function>LN1P</function> returns #NUM! error.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -12607,7 +12607,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>The number of columns in <parameter>mat1</parameter> must equal the number of rows in <parameter>mat2</parameter>; otherwise #VALUE! is returned.  The result of <function>MMULT</function> is an array, in which the number of rows is the same as in <parameter>mat1</parameter>), and the number of columns is the same as in (<parameter>mat2</parameter>).</para>
+        <para>The number of columns in <parameter>mat1</parameter> must equal the number of rows in <parameter>mat2</parameter>; otherwise #VALUE! is returned.  The result of <function>MMULT</function> is an array, in which the number of rows is the same as in <parameter>mat1</parameter>, and the number of columns is the same as in <parameter>mat2</parameter>.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -12880,7 +12880,7 @@
           <function>PI</function>
         </refname>
         <refpurpose>
-        the constant 𝜋
+        the constant π
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12888,7 +12888,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
-        <para>This function is Excel compatible, but it returns 𝜋 with a better precision.</para>
+        <para>This function is Excel compatible, but it returns π with a better precision.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -13561,7 +13561,7 @@
           <function>SQRTPI</function>
         </refname>
         <refpurpose>
-        the square root of <parameter>x</parameter> times 𝜋
+        the square root of <parameter>x</parameter> times π
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -16189,7 +16189,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>array1</parameter>: first data set</para>
-        <para><parameter>array2</parameter>: set data set</para>
+        <para><parameter>array2</parameter>: second data set</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -16227,7 +16227,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>array1</parameter>: first data set</para>
-        <para><parameter>array2</parameter>: set data set</para>
+        <para><parameter>array2</parameter>: second data set</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
@@ -18416,7 +18416,7 @@
           <function>QUARTILE</function>
         </refname>
         <refpurpose>
-        the <parameter>k</parameter>-th quartile of the data points (Hyndman-Fan method 7: N-1 basis)
+        the <parameter>quart</parameter>-th quartile of the data points (Hyndman-Fan method 7: N-1 basis)
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -18458,7 +18458,7 @@
           <function>QUARTILE.EXC</function>
         </refname>
         <refpurpose>
-        the <parameter>k</parameter>-th quartile of the data points (Hyndman-Fan method 6: N+1 basis)
+        the <parameter>quart</parameter>-th quartile of the data points (Hyndman-Fan method 6: N+1 basis)
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
