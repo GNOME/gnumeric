@@ -1291,10 +1291,12 @@ format_match_decimal_number (char const *text, GOFormatFamily *family,
  * format_match:
  * @text: The text to parse
  * @cur_fmt: (nullable): The current format for the value
- * @date_conv: optional date convention
+ * @date_conv: (nullable): date convention
  *
  * Attempts to parse the supplied string to see if it matches a known value
- * format.  The caller is responsible for releasing the resulting value.
+ * format.
+ *
+ * Returns: (transfer full): the matched value.
  **/
 GnmValue *
 format_match (char const *text, GOFormat const *cur_fmt,

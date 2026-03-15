@@ -753,9 +753,7 @@ set_or_unset (PangoAttrList *dst, const PangoAttribute *attr,
 /**
  * wbcg_edit_add_markup:
  * @wbcg: #WBCGtk
- * @attr: #PangoAttribute
- *
- * Absorbs the ref to @attr.
+ * @attr: (transfer full): #PangoAttribute
  **/
 void
 wbcg_edit_add_markup (WBCGtk *wbcg, PangoAttribute *attr)
@@ -1014,12 +1012,10 @@ wbcg_edit_start (WBCGtk *wbcg,
 /**
  * wbcg_insert_object:
  * @wbcg: #WBCGtk *
- * @so: The object the needs to be placed
+ * @so: (transfer full): The object the needs to be placed
  *
  * Takes a newly created #SheetObject that has not yet been realized and
  * prepares to place it on the sheet.
- *
- * NOTE : Absorbs a reference to the object.
  **/
 void
 wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)

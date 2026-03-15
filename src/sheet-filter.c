@@ -839,8 +839,6 @@ gnm_filter_update_active (GnmFilter *filter)
  *
  * Change the @i-th condition of @filter to @cond.  If @apply is
  * %TRUE, @filter is used to set the visibility of the rows in @filter::sheet
- *
- * Absorbs the reference to @cond.
  **/
 void
 gnm_filter_set_condition (GnmFilter *filter, unsigned i,

@@ -225,9 +225,7 @@ go_data_cache_get_source (GODataCache const *cache)
 /**
  * go_data_cache_set_source:
  * @cache: #GODataCache
- * @src: #GODataCacheSource
- *
- * Absorbs the reference to @src.
+ * @src: (transfer full): #GODataCacheSource
  **/
 void
 go_data_cache_set_source (GODataCache *cache, GODataCacheSource *src)

@@ -3753,7 +3753,7 @@ sheet_range_splits_array (Sheet const *sheet,
  * sheet_range_splits_region:
  * @sheet: the sheet.
  * @r: The range whose boundaries are checked
- * @ignore: An optional range in which it is ok to have arrays and merges
+ * @ignore: (nullable): An optional range in which it is ok to have arrays and merges
  * @cc: The context that issued the command
  * @cmd: The translated command name.
  *
@@ -3832,7 +3832,7 @@ cb_cell_is_array (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
  * sheet_range_contains_merges_or_arrays:
  * @sheet: The sheet
  * @r: the range to check.
- * @cc: an optional place to report errors.
+ * @cc: (nullable): a place to report errors.
  * @cmd:
  * @merges: if %TRUE, check for merges.
  * @arrays: if %TRUE, check for arrays.

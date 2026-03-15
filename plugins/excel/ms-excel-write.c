@@ -2431,10 +2431,8 @@ after_put_font (ExcelWriteFont *f, gboolean was_added, gint index, gconstpointer
 
 /**
  * put_efont :
- * @efont: #ExcelWriteFont
+ * @efont: (transfer full): #ExcelWriteFont
  * @xle: #XLExportBase
- *
- * Absorbs ownership of @efont potentially freeing it.
  *
  * Returns the index of the font
  **/

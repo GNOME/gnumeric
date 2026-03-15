@@ -202,6 +202,7 @@ gnm_format_layout (PangoLayout *layout,
  * @col_width: maximum width in characters, -1 for unlimited
  * @date_conv: #GODateConventions.
  *
+ * Returns: A #GOFormatNumberError code indicating success or error
  **/
 GOFormatNumberError
 format_value_gstring (GString *str,
@@ -237,6 +238,7 @@ format_value_gstring (GString *str,
  * @col_width: optional limit on width, -1 for unlimited
  * @date_conv: #GODateConventions.
  *
+ * Returns: A #GOFormatNumberError code indicating success or error
  **/
 GOFormatNumberError
 format_value_layout (PangoLayout *layout,

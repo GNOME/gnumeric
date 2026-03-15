@@ -179,7 +179,7 @@ gnm_go_error_info_dialog_show (GtkWindow *parent, GOErrorInfo *error)
  */
 void
 gnm_go_error_info_list_dialog_show (GtkWindow *parent,
-					 GSList *errs)
+				    GSList *errs)
 {
 	GtkWidget *dialog = gnumeric_go_error_info_list_dialog_create (errs);
 	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
@@ -188,7 +188,7 @@ gnm_go_error_info_list_dialog_show (GtkWindow *parent,
 
 typedef struct {
 	WBCGtk *wbcg;
-	GtkWidget	   *dialog;
+	GtkWidget *dialog;
 	char const *key;
 	gboolean freed;
 } KeyedDialogContext;

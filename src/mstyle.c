@@ -969,7 +969,7 @@ gnm_style_linked_sheet_changed (GnmStyle *style)
  * Returns: (transfer full): new style which may or may not be identical
  * to the incoming.
  *
- * ABSORBS a reference to the style and sets the link count to 1.
+ * Sets the style's link count to 1.
  *
  * Where auto pattern color occurs in the style (it may for pattern and
  * borders), it is replaced with the sheet's auto pattern color. We make

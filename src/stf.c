@@ -377,7 +377,7 @@ clear_stray_NULs (GOIOContext *context, GString *utf8data)
 /*
  * stf_read_workbook_auto_csvtab:
  * @fo: file opener
- * @enc: optional encoding
+ * @enc: (nullable): encoding
  * @context: command context
  * @book: workbook
  * @input: file to read from+convert

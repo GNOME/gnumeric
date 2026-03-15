@@ -292,14 +292,11 @@ gnm_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
  * @rowa:   The top row in the destination region.
  * @colb:   The right column in the destination region.
  * @rowb:   The bottom row in the destination region.
- * @texpr:   an expression (the inner expression, not a corner or element)
+ * @texpr: (transfer full): an expression (the inner expression, not a corner or element)
  *
  * Uses cell_set_expr_internal to store the expr as an
  * 'array-formula'.  The supplied expression is wrapped in an array
  * operator for each cell in the range and scheduled for recalc.
- *
- * NOTE : Does not add a reference to the expression.  It takes over the
- *        caller's reference.
  *
  * Does not regenerate spans, dimensions or autosize cols/rows.
  *

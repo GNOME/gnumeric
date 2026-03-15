@@ -1588,8 +1588,6 @@ gnm_print_info_get_page_setup (GnmPrintInformation *pi)
  * @pi: #GnmPrintInformation
  * @page_setup: (transfer full): #GtkPageSetup
  *
- * Absorb a ref to @page_setup.
- *
  * WHY WHY WHY
  * 1) The life cycle in here is a tad odd, the load_defaults does nothing for the
  * case of an existing page_setup, and seems like it should be ignored for the
