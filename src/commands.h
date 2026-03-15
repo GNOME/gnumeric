@@ -145,8 +145,8 @@ gboolean cmd_scenario_mngr (WorkbookControl *wbc, GnmScenario *sc,
 			    GOUndo *undo);
 
 /* FIXME: figure out how to resolve this better.  */
-struct _data_shuffling_t;
-gboolean cmd_data_shuffle (WorkbookControl *wbc, struct _data_shuffling_t *sc, Sheet *sheet);
+struct _GnmDataShuffle;
+gboolean cmd_data_shuffle (WorkbookControl *wbc, struct _GnmDataShuffle *sc, Sheet *sheet);
 
 
 gboolean cmd_text_to_columns (WorkbookControl *wbc,

@@ -3,13 +3,19 @@
 
 #include <gnumeric.h>
 
+#include <glib-object.h>
+
+#define GNM_DATA_SHUFFLE_TYPE (gnm_data_shuffle_get_type ())
+G_DECLARE_FINAL_TYPE (GnmDataShuffle, gnm_data_shuffle, GNM, DATA_SHUFFLE, GObject)
+
 typedef enum {
 	GNM_DATA_SHUFFLE_COLS,
 	GNM_DATA_SHUFFLE_ROWS,
 	GNM_DATA_SHUFFLE_AREA
 } GnmDataShuffleType;
 
-typedef struct _data_shuffling_t {
+struct _GnmDataShuffle {
+	GObject parent;
 	GSList  *changes;
 	int     a_col;
 	int     b_col;
@@ -19,20 +25,17 @@ typedef struct _data_shuffling_t {
 	int     rows;
         GnmDataShuffleType  type;
 
-        WorkbookControl *wbc;
 	data_analysis_output_t *dao;
 	Sheet                  *sheet;
 
         GnmRange tmp_area;
-} data_shuffling_t;
+};
 
 
-void              data_shuffling_redo (data_shuffling_t *st);
-void              data_shuffling_free (data_shuffling_t *st);
-data_shuffling_t *data_shuffling      (WorkbookControl        *wbc,
-				       data_analysis_output_t *dao,
-				       Sheet                  *sheet,
-				       GnmValue               *input,
-				       GnmDataShuffleType     shuffling_type);
+void              gnm_data_shuffle_redo (GnmDataShuffle *st, WorkbookControl *wbc);
+GnmDataShuffle   *gnm_data_shuffle_new  (data_analysis_output_t *dao,
+					 Sheet                  *sheet,
+					 GnmValue const         *input_range,
+					 GnmDataShuffleType     shuffling_type);
 
 #endif

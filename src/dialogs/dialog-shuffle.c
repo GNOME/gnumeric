@@ -90,12 +90,12 @@ static void
 shuffle_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button, ShuffleState *state)
 {
 	data_analysis_output_t  *dao;
-	data_shuffling_t        *ds;
+	GnmDataShuffle          *ds;
 	WorkbookControl         *wbc;
 	GnmValue                *input;
 	int                     type;
 
-	/* This is free'ed by data_shuffling_free. */
+	/* This is free'ed by gnm_data_shuffle_finalize. */
 	/* We later want to extend this to shuffle to other locations */
 	dao = dao_init (GNM_DAO_OUTPUT_INPLACE);
 
@@ -107,10 +107,11 @@ shuffle_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button, ShuffleState *state)
 
 	type = gnm_gui_group_value (state->gui, shuffle_by);
 
-	ds = data_shuffling (GNM_WBC (state->wbcg), dao,
-			     state->sheet, input, type);
-
 	wbc = GNM_WBC (state->wbcg);
+	dao_prepare_output (wbc, dao, _("Shuffled"));
+
+	ds = gnm_data_shuffle_new (dao, state->sheet, input, type);
+
 	cmd_data_shuffle (wbc, ds, state->sheet);
 
 	value_release (input);

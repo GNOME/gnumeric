@@ -6519,27 +6519,26 @@ cmd_scenario_mngr (WorkbookControl *wbc, GnmScenario *sc, GOUndo *undo)
 
 typedef struct {
 	GnmCommand  cmd;
-	data_shuffling_t *ds;
+	GnmDataShuffle *ds;
 } CmdDataShuffle;
 
 MAKE_GNM_COMMAND (CmdDataShuffle, cmd_data_shuffle, NULL)
 
 static gboolean
-cmd_data_shuffle_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_data_shuffle_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdDataShuffle *me = CMD_DATA_SHUFFLE (cmd);
 
-	data_shuffling_redo (me->ds);
+	gnm_data_shuffle_redo (me->ds, wbc);
 	return FALSE;
 }
 
 static gboolean
-cmd_data_shuffle_undo (GnmCommand *cmd,
-		       G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_data_shuffle_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdDataShuffle *me = CMD_DATA_SHUFFLE (cmd);
 
-	data_shuffling_redo (me->ds);
+	gnm_data_shuffle_redo (me->ds, wbc);
 	return FALSE;
 }
 
@@ -6547,13 +6546,20 @@ static void
 cmd_data_shuffle_finalize (GObject *cmd)
 {
 	CmdDataShuffle *me = CMD_DATA_SHUFFLE (cmd);
-
-	data_shuffling_free (me->ds);
+	g_object_unref (me->ds);
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_data_shuffle:
+ * @wbc: #WorkbookControl
+ * @sc: (transfer full): #GnmDataShuffle
+ * @sheet: #Sheet
+ *
+ * Returns: %TRUE if there was a problem.
+ **/
 gboolean
-cmd_data_shuffle (WorkbookControl *wbc, data_shuffling_t *sc, Sheet *sheet)
+cmd_data_shuffle (WorkbookControl *wbc, GnmDataShuffle *sc, Sheet *sheet)
 {
 	CmdDataShuffle *me;
 

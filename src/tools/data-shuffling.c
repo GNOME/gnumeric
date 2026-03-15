@@ -5,6 +5,7 @@
  *        Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  *
  * (C) Copyright 2003 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+ * (C) Copyright 2026 by Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,13 +39,36 @@
 #include <tools/dao.h>
 
 
+G_DEFINE_TYPE (GnmDataShuffle, gnm_data_shuffle, G_TYPE_OBJECT)
+
+static void
+gnm_data_shuffle_finalize (GObject *obj)
+{
+	GnmDataShuffle *st = GNM_DATA_SHUFFLE (obj);
+	dao_free (st->dao);
+	g_slist_free_full (st->changes, g_free);
+	G_OBJECT_CLASS (gnm_data_shuffle_parent_class)->finalize (obj);
+}
+
+static void
+gnm_data_shuffle_class_init (GnmDataShuffleClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	gobject_class->finalize = gnm_data_shuffle_finalize;
+}
+
+static void
+gnm_data_shuffle_init (GnmDataShuffle *ds)
+{
+}
+
 typedef struct {
 	GnmCellPos a;
 	GnmCellPos b;
 } swap_t;
 
 static void
-swap_values (data_shuffling_t *ds,
+swap_values (GnmDataShuffle *ds,
 	     int col_a, int row_a, int col_b, int row_b)
 {
 	swap_t *s = g_new (swap_t, 1);
@@ -59,7 +83,7 @@ swap_values (data_shuffling_t *ds,
 
 
 static void
-shuffle_cols (data_shuffling_t *ds)
+shuffle_cols (GnmDataShuffle *ds)
 {
 	int i;
 
@@ -72,7 +96,7 @@ shuffle_cols (data_shuffling_t *ds)
 }
 
 static void
-shuffle_rows (data_shuffling_t *ds)
+shuffle_rows (GnmDataShuffle *ds)
 {
 	int i;
 
@@ -85,7 +109,7 @@ shuffle_rows (data_shuffling_t *ds)
 }
 
 static void
-shuffle_area (data_shuffling_t *ds)
+shuffle_area (GnmDataShuffle *ds)
 {
 	int i, j;
 	int rnd_col;
@@ -101,7 +125,8 @@ shuffle_area (data_shuffling_t *ds)
 }
 
 static void
-init_shuffling_tool (data_shuffling_t *st, Sheet *sheet, GnmValue *range,
+init_shuffling_tool (GnmDataShuffle *st, Sheet *sheet,
+		     GnmValue const *range,
 		     data_analysis_output_t *dao)
 {
 	st->a_col   = range->v_range.cell.a.col;
@@ -116,7 +141,7 @@ init_shuffling_tool (data_shuffling_t *st, Sheet *sheet, GnmValue *range,
 }
 
 static void
-do_swap_cells (data_shuffling_t *st, swap_t *sw)
+do_swap_cells (GnmDataShuffle *st, swap_t *sw, WorkbookControl *wbc)
 {
         GnmExprRelocateInfo reverse;
 
@@ -131,14 +156,14 @@ do_swap_cells (data_shuffling_t *st, swap_t *sw)
 		    sw->a.row);
         reverse.col_offset = st->tmp_area.start.col - sw->a.col;
         reverse.row_offset = st->tmp_area.start.row - sw->a.row;
-	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (wbc));
 
 	/* Move B to A. */
 	range_init (&reverse.origin, sw->b.col, sw->b.row, sw->b.col,
 		    sw->b.row);
         reverse.col_offset = sw->a.col - sw->b.col;
         reverse.row_offset = sw->a.row - sw->b.row;
-	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (wbc));
 
 	/* Move tmp_area to B. */
 	range_init (&reverse.origin, st->tmp_area.start.col,
@@ -146,11 +171,11 @@ do_swap_cells (data_shuffling_t *st, swap_t *sw)
 		    st->tmp_area.end.col, st->tmp_area.end.row);
         reverse.col_offset = sw->b.col - st->tmp_area.start.col;
         reverse.row_offset = sw->b.row - st->tmp_area.start.row;
-	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (wbc));
 }
 
 static void
-do_swap_cols (data_shuffling_t *st, swap_t *sw)
+do_swap_cols (GnmDataShuffle *st, swap_t *sw, WorkbookControl *wbc)
 {
         GnmExprRelocateInfo reverse;
 
@@ -165,14 +190,14 @@ do_swap_cols (data_shuffling_t *st, swap_t *sw)
 		    st->b_row);
         reverse.col_offset = st->tmp_area.start.col - sw->a.col;
         reverse.row_offset = st->tmp_area.start.row - st->a_row;
-	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (wbc));
 
 	/* Move B to A. */
 	range_init (&reverse.origin, sw->b.col, st->a_row, sw->b.col,
 		    st->b_row);
         reverse.col_offset = sw->a.col - sw->b.col;
         reverse.row_offset = 0;
-	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (wbc));
 
 	/* Move tmp_area to B. */
 	range_init (&reverse.origin, st->tmp_area.start.col,
@@ -180,11 +205,11 @@ do_swap_cols (data_shuffling_t *st, swap_t *sw)
 		    st->tmp_area.end.col, st->tmp_area.end.row);
         reverse.col_offset = sw->b.col - st->tmp_area.start.col;
         reverse.row_offset = st->a_row - st->tmp_area.start.row;
-	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (wbc));
 }
 
 static void
-do_swap_rows (data_shuffling_t *st, swap_t *sw)
+do_swap_rows (GnmDataShuffle *st, swap_t *sw, WorkbookControl *wbc)
 {
         GnmExprRelocateInfo reverse;
 
@@ -199,14 +224,14 @@ do_swap_rows (data_shuffling_t *st, swap_t *sw)
 		    sw->a.row);
         reverse.col_offset = st->tmp_area.start.col - st->a_col;
         reverse.row_offset = st->tmp_area.start.row - sw->a.row;
-	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (wbc));
 
 	/* Move B to A. */
 	range_init (&reverse.origin, st->a_col, sw->b.row, st->b_col,
 		    sw->b.row);
         reverse.col_offset = 0;
         reverse.row_offset = sw->a.row - sw->b.row;
-	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (wbc));
 
 	/* Move tmp_area to B. */
 	range_init (&reverse.origin, st->tmp_area.start.col,
@@ -214,11 +239,11 @@ do_swap_rows (data_shuffling_t *st, swap_t *sw)
 		    st->tmp_area.end.col, st->tmp_area.end.row);
         reverse.col_offset = st->a_col - st->tmp_area.start.col;
         reverse.row_offset = sw->b.row - st->tmp_area.start.row;
-	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (wbc));
 }
 
 static void
-run_shuffling_tool (data_shuffling_t *st)
+run_shuffling_tool (GnmDataShuffle *st, WorkbookControl *wbc)
 {
 	GSList  *cur;
 	GnmCell *cell;
@@ -239,7 +264,7 @@ run_shuffling_tool (data_shuffling_t *st)
 			return;
 		range_init (&st->tmp_area, i, j, i, j + st->rows - 1);
 		for (cur = st->changes; cur; cur = cur->next)
-			do_swap_cols (st, (swap_t *) cur->data);
+			do_swap_cols (st, (swap_t *) cur->data, wbc);
 	} else if (st->type == GNM_DATA_SHUFFLE_ROWS) {
 		/* Find empty space. */
 		for (i = gnm_sheet_get_last_row (st->sheet); i >= 0; i--)
@@ -255,7 +280,7 @@ run_shuffling_tool (data_shuffling_t *st)
 			return;
 		range_init (&st->tmp_area, j, i, j + st->cols - 1, i);
 		for (cur = st->changes; cur; cur = cur->next)
-			do_swap_rows (st, (swap_t *) cur->data);
+			do_swap_rows (st, (swap_t *) cur->data, wbc);
 	} else {
 		/* GNM_DATA_SHUFFLE_AREA */
 		/* Find empty space. */
@@ -270,29 +295,29 @@ run_shuffling_tool (data_shuffling_t *st)
 			return;
 		range_init (&st->tmp_area, i, j, i, j);
 		for (cur = st->changes; cur; cur = cur->next)
-			do_swap_cells (st, (swap_t *) cur->data);
+			do_swap_cells (st, (swap_t *) cur->data, wbc);
 	}
 }
 
 /**
- * data_shuffling: (skip)
+ * gnm_data_shuffle_new:
+ * @dao: (transfer full): #data_analysis_output_t
+ * @sheet: #Sheet
+ * @input_range: (transfer none): range to shuffle
+ * @shuffling_type: #GnmDataShuffleType
  *
- * Returns: (transfer full): a new #data_shuffling_t.
+ * Returns: (transfer full): a new #GnmDataShuffle.
  **/
-data_shuffling_t *
-data_shuffling (WorkbookControl        *wbc,
-		data_analysis_output_t *dao,
-		Sheet                  *sheet,
-		GnmValue               *input_range,
-		GnmDataShuffleType      shuffling_type)
+GnmDataShuffle *
+gnm_data_shuffle_new (data_analysis_output_t *dao,
+		      Sheet                  *sheet,
+		      GnmValue const         *input_range,
+		      GnmDataShuffleType      shuffling_type)
 {
-	data_shuffling_t *st = g_new (data_shuffling_t, 1);
-
-	dao_prepare_output (wbc, dao, _("Shuffled"));
+	GnmDataShuffle *st = g_object_new (GNM_DATA_SHUFFLE_TYPE, NULL);
 
 	init_shuffling_tool (st, sheet, input_range, dao);
 	st->type = shuffling_type;
-	st->wbc  = wbc;
 
 	if (shuffling_type == GNM_DATA_SHUFFLE_COLS)
 		shuffle_cols (st);
@@ -304,20 +329,20 @@ data_shuffling (WorkbookControl        *wbc,
 	return st;
 }
 
+/**
+ * gnm_data_shuffle_redo:
+ * @st: #GnmDataShuffle
+ * @wbc: #WorkbookControl
+ *
+ * Performs or re-performs the shuffling operation.
+ **/
 void
-data_shuffling_redo (data_shuffling_t *st)
+gnm_data_shuffle_redo (GnmDataShuffle *st, WorkbookControl *wbc)
 {
-	run_shuffling_tool (st);
+	run_shuffling_tool (st, wbc);
 	dao_autofit_columns (st->dao);
 	sheet_redraw_all (st->sheet, TRUE);
 
 	/* Reverse the list for undo. */
 	st->changes = g_slist_reverse (st->changes);
-}
-
-void
-data_shuffling_free (data_shuffling_t *st)
-{
-	dao_free (st->dao);
-	g_slist_free_full (st->changes, g_free);
 }
