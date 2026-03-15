@@ -29,16 +29,6 @@
 #include <numbers.h>
 #include <tools/analysis-tools.h>
 
-typedef struct {
-	WorkbookControl *wbc;
-	GnmValue        *input;
-	gboolean         labels;
-	gboolean         independence;
-	gnm_float        alpha;
-	gint             n_c;
-	gint             n_r;
-} analysis_tools_data_chi_squared_t;
-
 #define GNM_TYPE_CHI_SQUARED_TOOL (gnm_chi_squared_tool_get_type ())
 GType gnm_chi_squared_tool_get_type (void);
 typedef struct _GnmChiSquaredTool GnmChiSquaredTool;
@@ -46,7 +36,14 @@ typedef struct _GnmChiSquaredToolClass GnmChiSquaredToolClass;
 
 struct _GnmChiSquaredTool {
 	GnmAnalysisTool parent;
-	analysis_tools_data_chi_squared_t data;
+
+	WorkbookControl *wbc;
+	GnmValue        *input;
+	gboolean         labels;
+	gboolean         independence;
+	gnm_float        alpha;
+	gint             n_c;
+	gint             n_r;
 };
 
 struct _GnmChiSquaredToolClass {

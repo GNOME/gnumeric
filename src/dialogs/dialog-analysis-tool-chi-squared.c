@@ -80,28 +80,28 @@ chi_squared_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	ctool = GNM_CHI_SQUARED_TOOL (tool);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
-	ctool->data.input = gnm_expr_entry_parse_as_value
+	ctool->input = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
 
-	ctool->data.wbc = GNM_WBC (state->base.wbcg);
+	ctool->wbc = GNM_WBC (state->base.wbcg);
 
-        ctool->data.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->label));
+        ctool->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->label));
 
-	ctool->data.alpha = gtk_spin_button_get_value
+	ctool->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 
 	w = go_gtk_builder_get_widget (state->base.gui, "test-of-independence");
-	ctool->data.independence = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	ctool->independence = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	ctool->data.n_c = (ctool->data.input->v_range.cell.b.col - ctool->data.input->v_range.cell.a.col + 1);
-	ctool->data.n_r = (ctool->data.input->v_range.cell.b.row - ctool->data.input->v_range.cell.a.row + 1);
+	ctool->n_c = (ctool->input->v_range.cell.b.col - ctool->input->v_range.cell.a.col + 1);
+	ctool->n_r = (ctool->input->v_range.cell.b.row - ctool->input->v_range.cell.a.row + 1);
 
-	if (ctool->data.labels)
-		ctool->data.n_c--, ctool->data.n_r--;
+	if (ctool->labels)
+		ctool->n_c--, ctool->n_r--;
 
 
-	if (!cmd_analysis_tool (ctool->data.wbc, state->base.sheet, dao, tool))
+	if (!cmd_analysis_tool (ctool->wbc, state->base.sheet, dao, tool))
 		gtk_widget_destroy (state->base.dialog);
 
 	g_object_unref (tool);

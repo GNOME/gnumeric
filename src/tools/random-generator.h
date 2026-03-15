@@ -180,14 +180,6 @@ typedef union {
 /*         patterned_random_tool_t   patterned; */
 } random_tool_t;
 
-typedef struct {
-	random_tool_t param;
-	WorkbookControl *wbc;
-	gint n_vars;
-	gint count;
-	random_distribution_t distribution;
-} tools_data_random_t;
-
 #define GNM_TYPE_RANDOM_TOOL (gnm_random_tool_get_type ())
 GType gnm_random_tool_get_type (void);
 typedef struct _GnmRandomTool GnmRandomTool;
@@ -195,7 +187,12 @@ typedef struct _GnmRandomToolClass GnmRandomToolClass;
 
 struct _GnmRandomTool {
 	GnmAnalysisTool parent;
-	tools_data_random_t data;
+
+	random_tool_t param;
+	WorkbookControl *wbc;
+	gint n_vars;
+	gint count;
+	random_distribution_t distribution;
 
 	gint       discrete_n;
 	GnmValue **discrete_values;

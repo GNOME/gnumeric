@@ -37,34 +37,34 @@ G_DEFINE_TYPE (GnmChiSquaredTool, gnm_chi_squared_tool, GNM_TYPE_ANALYSIS_TOOL)
 static void
 gnm_chi_squared_tool_init (GnmChiSquaredTool *tool)
 {
-	tool->data.wbc = NULL;
-	tool->data.input = NULL;
-	tool->data.labels = FALSE;
-	tool->data.independence = FALSE;
-	tool->data.alpha = 0.05;
+	tool->wbc = NULL;
+	tool->input = NULL;
+	tool->labels = FALSE;
+	tool->independence = FALSE;
+	tool->alpha = 0.05;
 }
 
 static void
 gnm_chi_squared_tool_finalize (GObject *obj)
 {
 	GnmChiSquaredTool *tool = GNM_CHI_SQUARED_TOOL (obj);
-	value_release (tool->data.input);
+	value_release (tool->input);
 	G_OBJECT_CLASS (gnm_chi_squared_tool_parent_class)->finalize (obj);
 }
 
 static gboolean
 gnm_chi_squared_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
-	analysis_tools_data_chi_squared_t *info = &GNM_CHI_SQUARED_TOOL (tool)->data;
+	GnmChiSquaredTool *ctool = GNM_CHI_SQUARED_TOOL (tool);
 	GnmRange range;
 
-	if (NULL == range_init_value (&range, info->input))
+	if (NULL == range_init_value (&range, ctool->input))
 		return TRUE;
 
-	info->n_c = range_width (&range) - (info->labels ? 1 : 0);
-	info->n_r = range_height (&range) - (info->labels ? 1 : 0);
+	ctool->n_c = range_width (&range) - (ctool->labels ? 1 : 0);
+	ctool->n_r = range_height (&range) - (ctool->labels ? 1 : 0);
 
-	if (info->n_c < 2 || info->n_r < 2)
+	if (ctool->n_c < 2 || ctool->n_r < 2)
 		return TRUE;
 
 	dao_adjust (dao, 2, 5);
@@ -74,8 +74,8 @@ gnm_chi_squared_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *
 static char *
 gnm_chi_squared_tool_update_descriptor (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
-	analysis_tools_data_chi_squared_t *info = &GNM_CHI_SQUARED_TOOL (tool)->data;
-	return dao_command_descriptor (dao, info->independence ?
+	GnmChiSquaredTool *ctool = GNM_CHI_SQUARED_TOOL (tool);
+	return dao_command_descriptor (dao, ctool->independence ?
 					  _("Test of Independence (%s)")
 					  : _("Test of Homogeneity (%s)"));
 }
@@ -83,8 +83,8 @@ gnm_chi_squared_tool_update_descriptor (GnmAnalysisTool *tool, data_analysis_out
 static gboolean
 gnm_chi_squared_tool_prepare_output_range (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
-	analysis_tools_data_chi_squared_t *info = &GNM_CHI_SQUARED_TOOL (tool)->data;
-	dao_prepare_output (NULL, dao, info->independence ?
+	GnmChiSquaredTool *ctool = GNM_CHI_SQUARED_TOOL (tool);
+	dao_prepare_output (NULL, dao, ctool->independence ?
 			    _("Test of Independence")
 			    : _("Test of Homogeneity"));
 	return FALSE;
@@ -93,8 +93,8 @@ gnm_chi_squared_tool_prepare_output_range (GnmAnalysisTool *tool, data_analysis_
 static gboolean
 gnm_chi_squared_tool_format_output_range (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
-	analysis_tools_data_chi_squared_t *info = &GNM_CHI_SQUARED_TOOL (tool)->data;
-	return dao_format_output (dao, info->independence ?
+	GnmChiSquaredTool *ctool = GNM_CHI_SQUARED_TOOL (tool);
+	return dao_format_output (dao, ctool->independence ?
 				  _("Test of Independence")
 				  : _("Test of Homogeneity"));
 }
@@ -102,7 +102,7 @@ gnm_chi_squared_tool_format_output_range (GnmAnalysisTool *tool, data_analysis_o
 static gboolean
 gnm_chi_squared_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
-	analysis_tools_data_chi_squared_t *info = &GNM_CHI_SQUARED_TOOL (tool)->data;
+	GnmChiSquaredTool *ctool = GNM_CHI_SQUARED_TOOL (tool);
 	GnmExpr const *expr_check;
 	GnmExpr const *expr_region;
 	GnmExpr const *expr_statistic;
@@ -124,7 +124,7 @@ gnm_chi_squared_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t
 	char const *label;
 	char *cc;
 
-	label = (info->independence)
+	label = (ctool->independence)
 	/* translator info: The quotation marks in the next strings need to */
 	/* remain since these are Excel-style format strings */
 		? _("[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\"")
@@ -135,20 +135,20 @@ gnm_chi_squared_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t
 					"/Degrees of Freedom"
 					"/p-Value"
 					"/Critical Value"));
-	cc = g_strdup_printf ("%s = %.2" GNM_FORMAT_f, "\xce\xb1", info->alpha);
+	cc = g_strdup_printf ("%s = %.2" GNM_FORMAT_f, "\xce\xb1", ctool->alpha);
 	dao_set_cell_comment (dao, 0, 4, cc);
 	g_free (cc);
 
-	if (info->labels)
+	if (ctool->labels)
 		expr_region = gnm_expr_new_funcall5
 			(fd_offset,
-			 gnm_expr_new_constant (value_dup (info->input)),
+			 gnm_expr_new_constant (value_dup (ctool->input)),
 			 gnm_expr_new_constant (value_new_int (1)),
 			 gnm_expr_new_constant (value_new_int (1)),
-			 gnm_expr_new_constant (value_new_int (info->n_r)),
-			 gnm_expr_new_constant (value_new_int (info->n_c)));
+			 gnm_expr_new_constant (value_new_int (ctool->n_r)),
+			 gnm_expr_new_constant (value_new_int (ctool->n_c)));
 	else
-		expr_region = gnm_expr_new_constant (value_dup (info->input));
+		expr_region = gnm_expr_new_constant (value_dup (ctool->input));
 
 	expr_row = gnm_expr_new_funcall1 (fd_row, gnm_expr_copy (expr_region));
 	expr_column = gnm_expr_new_funcall1 (fd_column, gnm_expr_copy (expr_region));
@@ -192,12 +192,12 @@ gnm_chi_squared_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t
 						 gnm_expr_copy (expr_expect)));
 	dao_set_cell_array_expr (dao, 1, 1, expr_statistic);
 
-	dao_set_cell_int (dao, 1, 2, (info->n_r - 1)*(info->n_c - 1));
+	dao_set_cell_int (dao, 1, 2, (ctool->n_r - 1)*(ctool->n_c - 1));
 	dao_set_cell_expr(dao, 1, 3, gnm_expr_new_funcall2
 			  (fd_chidist, make_cellref (0,-2),  make_cellref (0,-1)));
 	dao_set_cell_expr(dao, 1, 4, gnm_expr_new_funcall2
 			  (fd_chiinv,
-			   gnm_expr_new_constant (value_new_float (info->alpha)),
+			   gnm_expr_new_constant (value_new_float (ctool->alpha)),
 			   make_cellref (0,-2)));
 
 	gnm_func_dec_usage (fd_mmult);
