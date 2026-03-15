@@ -4,7 +4,13 @@
 #include <gnumeric.h>
 #include <numbers.h>
 
-struct _GnmTabulateInfo {
+#include <glib-object.h>
+
+#define GNM_TABULATE_TYPE (gnm_tabulate_get_type ())
+G_DECLARE_FINAL_TYPE (GnmTabulate, gnm_tabulate, GNM, TABULATE, GObject)
+
+struct _GnmTabulate {
+	GObject parent;
 	GnmCell   *target;
 	int dims;
 	GnmCell  **cells;
@@ -14,11 +20,8 @@ struct _GnmTabulateInfo {
 	gboolean with_coordinates;
 };
 
-GSList *
-gnm_tabulate (WorkbookControl *wbc,
-	       GnmTabulateInfo *data);
+GnmTabulate *gnm_tabulate_new (int dims);
 
-GnmTabulateInfo *gnm_tabulate_info_new (int dims);
-void             gnm_tabulate_info_free (GnmTabulateInfo *info);
+GSList *gnm_tabulate (GnmTabulate *tab, WorkbookControl *wbc);
 
 #endif

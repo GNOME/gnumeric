@@ -149,11 +149,11 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	int dims = 0;
 	int row;
 	gboolean with_coordinates;
-	GnmTabulateInfo *data;
+	GnmTabulate *tab;
 	/* we might get the 4 below from the positon of some of the widgets inside the grid */
 	int nrows = 4;
 
-	data = gnm_tabulate_info_new (nrows);
+	tab = gnm_tabulate_new (nrows);
 
 	for (row = 1; row < nrows; row++) {
 		GtkEntry *e_w;
@@ -162,15 +162,15 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		if (!w || gnm_expr_entry_is_blank (w))
 			continue;
 
-		data->cells[dims] = single_cell (dd->sheet, w);
-		if (!data->cells[dims]) {
+		tab->cells[dims] = single_cell (dd->sheet, w);
+		if (!tab->cells[dims]) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a single valid cell as dependency cell"));
 			gnm_expr_entry_grab_focus (GNM_EXPR_ENTRY (w), TRUE);
 			goto error;
 		}
-		if (gnm_cell_has_expr (data->cells[dims])) {
+		if (gnm_cell_has_expr (tab->cells[dims])) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("The dependency cells should not contain an expression"));
@@ -178,8 +178,8 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (get_grid_float_entry (dd->grid, row, COL_MIN, data->cells[dims],
-					   &(data->minima[dims]), &e_w, FALSE, 0.0)) {
+		if (get_grid_float_entry (dd->grid, row, COL_MIN, tab->cells[dims],
+					   &(tab->minima[dims]), &e_w, FALSE, 0.0)) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as minimum"));
@@ -187,8 +187,8 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (get_grid_float_entry (dd->grid, row, COL_MAX, data->cells[dims],
-					   &(data->maxima[dims]), &e_w, FALSE, 0.0)) {
+		if (get_grid_float_entry (dd->grid, row, COL_MAX, tab->cells[dims],
+					   &(tab->maxima[dims]), &e_w, FALSE, 0.0)) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as maximum"));
@@ -196,7 +196,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (data->maxima[dims] < data->minima[dims]) {
+		if (tab->maxima[dims] < tab->minima[dims]) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("The maximum value should be greater than the minimum"));
@@ -204,8 +204,8 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (get_grid_float_entry (dd->grid, row, COL_STEP, data->cells[dims],
-					   &(data->steps[dims]), &e_w, TRUE, 1.0)) {
+		if (get_grid_float_entry (dd->grid, row, COL_STEP, tab->cells[dims],
+					   &(tab->steps[dims]), &e_w, TRUE, 1.0)) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as step size"));
@@ -213,7 +213,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (data->steps[dims] <= 0) {
+		if (tab->steps[dims] <= 0) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("The step size should be positive"));
@@ -256,11 +256,11 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		with_coordinates = (i == -1) ? TRUE : (gboolean)i;
 	}
 
-	data->target = resultcell;
-	data->dims = dims;
-	data->with_coordinates = with_coordinates;
+	tab->target = resultcell;
+	tab->dims = dims;
+	tab->with_coordinates = with_coordinates;
 
-	if (!cmd_tabulate (GNM_WBC (dd->wbcg), data)) {
+	if (!cmd_tabulate (GNM_WBC (dd->wbcg), tab)) {
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		return;
 	}
@@ -268,7 +268,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	return;
 
  error:
-	gnm_tabulate_info_free (data);
+	g_clear_object (&tab);
 }
 
 void
@@ -342,4 +342,3 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 
 	non_model_dialog (wbcg, dialog, TABULATE_KEY);
 }
-

@@ -78,7 +78,7 @@ typedef struct _GnmStyle		GnmStyle;
 typedef struct _GnmStyleConditions	GnmStyleConditions;
 typedef struct _GnmStyleRegion	        GnmStyleRegion;
 typedef struct _GnmStyleRow		GnmStyleRow;
-typedef struct _GnmTabulateInfo         GnmTabulateInfo;
+typedef struct _GnmTabulate             GnmTabulate;
 typedef struct _GnmValidation		GnmValidation;
 typedef struct _GnmValueArray		GnmValueArray;
 typedef struct _GnmValueBool		GnmValueBool;

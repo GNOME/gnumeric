@@ -6947,7 +6947,7 @@ cmd_freeze_panes (WorkbookControl *wbc, SheetView *sv,
 typedef struct {
 	GnmCommand cmd;
 	GSList *sheet_idx;
-	GnmTabulateInfo *data;
+	GnmTabulate *tab;
 } CmdTabulate;
 
 MAKE_GNM_COMMAND (CmdTabulate, cmd_tabulate, NULL)
@@ -6984,7 +6984,7 @@ cmd_tabulate_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	CmdTabulate *me = CMD_TABULATE (cmd);
 
 	g_slist_free (me->sheet_idx);
-	me->sheet_idx = gnm_tabulate (wbc, me->data);
+	me->sheet_idx = gnm_tabulate (me->tab, wbc);
 
 	return (me->sheet_idx == NULL);
 }
@@ -6994,23 +6994,23 @@ cmd_tabulate_finalize (GObject *cmd)
 {
 	CmdTabulate *me = CMD_TABULATE (cmd);
 
-	gnm_tabulate_info_free (me->data);
+	g_clear_object (&me->tab);
 	gnm_command_finalize (cmd);
 }
 
 /**
  * cmd_tabulate:
  * @wbc: control
- * @data: (transfer full): tabulation information
+ * @tab: (transfer full): tabulation information
  *
  * Returns: %TRUE if there was a problem.
  **/
 gboolean
-cmd_tabulate (WorkbookControl *wbc, GnmTabulateInfo *data)
+cmd_tabulate (WorkbookControl *wbc, GnmTabulate *tab)
 {
 	CmdTabulate *me;
 
-	g_return_val_if_fail (data != NULL, TRUE);
+	g_return_val_if_fail (tab != NULL, TRUE);
 
 	me = g_object_new (CMD_TABULATE_TYPE, NULL);
 
@@ -7018,7 +7018,7 @@ cmd_tabulate (WorkbookControl *wbc, GnmTabulateInfo *data)
 	me->cmd.size = 1;
 	me->cmd.cmd_descriptor =
 		g_strdup_printf (_("Tabulating Dependencies"));
-	me->data = data;
+	me->tab = tab;
 	me->sheet_idx = NULL;
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
