@@ -170,9 +170,23 @@ format_value_common (PangoLayout *layout, GString *str,
 }
 
 
+/**
+ * gnm_format_layout:
+ * @layout: A #PangoLayout
+ * @metrics: #GOFontMetrics
+ * @format: (nullable): #GOFormat
+ * @value: #GnmValue
+ * @col_width: width in pixels, or -1
+ * @date_conv: (nullable): #GODateConventions
+ * @unicode_minus: if %TRUE, use unicode minus sign
+ *
+ * Formats @value into @layout using @format.
+ *
+ * Returns: A #GOFormatNumberError code.
+ **/
 GOFormatNumberError
 gnm_format_layout (PangoLayout *layout,
-		   GOFontMetrics *metrics,
+		   GOFontMetrics const *metrics,
 		   GOFormat const *format,
 		   GnmValue const *value,
 		   int col_width,
@@ -255,6 +269,17 @@ format_value_layout (PangoLayout *layout,
 }
 
 
+/**
+ * format_value:
+ * @format: (nullable): #GOFormat
+ * @value: #GnmValue
+ * @col_width: width in characters, or -1
+ * @date_conv: (nullable): #GODateConventions
+ *
+ * Formats @value into a newly allocated string using @format.
+ *
+ * Returns: (transfer full): the formatted string.
+ **/
 gchar *
 format_value (GOFormat const *format,
 	      GnmValue const *value,
@@ -266,6 +291,16 @@ format_value (GOFormat const *format,
 	return g_string_free (result, FALSE);
 }
 
+/**
+ * gnm_format_specialize:
+ * @fmt: #GOFormat
+ * @value: #GnmValue
+ *
+ * Specializes @fmt for @value, i.e., resolves conditional formats to
+ * the appropriate subformat.
+ *
+ * Returns: (transfer none): the specialized format.
+ **/
 GOFormat const *
 gnm_format_specialize (GOFormat const *fmt, GnmValue const *value)
 {
@@ -287,6 +322,15 @@ gnm_format_specialize (GOFormat const *fmt, GnmValue const *value)
 	return GNM_SUFFIX(go_format_specialize) (fmt, val, type, NULL);
 }
 
+/**
+ * gnm_format_is_date_for_value:
+ * @fmt: #GOFormat
+ * @value: (nullable): #GnmValue
+ *
+ * Checks if @fmt specialized for @value is a date format.
+ *
+ * Returns: non-zero if specialized @fmt is a date.
+ **/
 int
 gnm_format_is_date_for_value (GOFormat const *fmt,
 			      GnmValue const *value)
@@ -297,6 +341,15 @@ gnm_format_is_date_for_value (GOFormat const *fmt,
 	return go_format_is_date (fmt);
 }
 
+/**
+ * gnm_format_is_time_for_value:
+ * @fmt: #GOFormat
+ * @value: (nullable): #GnmValue
+ *
+ * Checks if @fmt specialized for @value is a time format.
+ *
+ * Returns: non-zero if specialized @fmt is a time.
+ **/
 int
 gnm_format_is_time_for_value (GOFormat const *fmt,
 			      GnmValue const *value)
@@ -307,6 +360,15 @@ gnm_format_is_time_for_value (GOFormat const *fmt,
 	return go_format_is_time (fmt);
 }
 
+/**
+ * gnm_format_month_before_day:
+ * @fmt: #GOFormat
+ * @value: (nullable): #GnmValue
+ *
+ * Checks if @fmt specialized for @value has month before day.
+ *
+ * Returns: negative if unknown, 0 if day before month, 1 if month before day.
+ **/
 int
 gnm_format_month_before_day (GOFormat const *fmt,
 			     GnmValue const *value)
@@ -323,6 +385,12 @@ gnm_format_month_before_day (GOFormat const *fmt,
 	return mbd;
 }
 
+/**
+ * gnm_format_for_date_editing:
+ * @cell: (nullable): #GnmCell
+ *
+ * Returns: (transfer full): a #GOFormat suitable for date editing.
+ **/
 GOFormat *
 gnm_format_for_date_editing (GnmCell const *cell)
 {
@@ -351,15 +419,20 @@ gnm_format_for_date_editing (GnmCell const *cell)
 	return fmt;
 }
 
-/*
+/**
+ * gnm_format_frob_slashes:
+ * @fmt: format string
+ *
  * Change slashes to whatever the locale uses for date separation.
- * Note: this operates on strings, not GOFormats.
+ * Note: this operates on strings, not #GOFormats.
  *
  * We aren't doing this completely right: a locale might use 24/12-1999 and
  * we'll just use the slash.
  *
  * If it wasn't so hacky, this should go to go-locale.c
- */
+ *
+ * Returns: (transfer full): the modified string.
+ **/
 char *
 gnm_format_frob_slashes (const char *fmt)
 {
@@ -399,6 +472,15 @@ got_date_sep:
 }
 
 
+/**
+ * gnm_format_has_hour:
+ * @fmt: #GOFormat
+ * @value: (nullable): #GnmValue
+ *
+ * Checks if @fmt specialized for @value has an hour component.
+ *
+ * Returns: %TRUE if it has an hour component.
+ **/
 gboolean
 gnm_format_has_hour (GOFormat const *fmt,
 		     GnmValue const *value)
@@ -409,6 +491,15 @@ gnm_format_has_hour (GOFormat const *fmt,
 	return go_format_has_hour (fmt);
 }
 
+/**
+ * gnm_format_import:
+ * @fmt: format string
+ * @flags: #GnmFormatImportFlags
+ *
+ * Translates a format string to a format while patching up common errors.
+ *
+ * Returns: (transfer full) (nullable): the imported #GOFormat.
+ **/
 GOFormat *
 gnm_format_import (const char *fmt,
 		   GnmFormatImportFlags flags)
