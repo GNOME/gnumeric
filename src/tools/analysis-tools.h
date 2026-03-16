@@ -135,8 +135,8 @@ struct _GnmDescriptiveTool {
 	gboolean kth_largest;
 	gboolean kth_smallest;
 	gboolean use_ssmedian;
-	int      k_smallest;
 	int      k_largest;
+	int      k_smallest;
 	gnm_float  c_level;
 };
 

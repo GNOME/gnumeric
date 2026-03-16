@@ -786,6 +786,47 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
 	}
 }
 
+static void
+parse_property_based_options (GnmAnalysisTool *atool, GHashTable *args)
+{
+	int n;
+	GParamSpec **specs;
+	GObjectClass *klass = G_OBJECT_GET_CLASS (atool);
+
+	specs = g_object_class_list_properties (klass, &n);
+	for (int i = 0; i < n; i++) {
+		GParamSpec *spec = specs[i];
+		gpointer arg_;
+		const char *arg;
+
+		if (!(spec->flags & G_PARAM_WRITABLE)) {
+			// Can't write it so...
+			continue;
+		}
+
+		if (!g_hash_table_lookup_extended (args, spec->name, NULL, &arg_)) {
+			// We don't have it
+			continue;
+		}
+		arg = arg_;
+
+		if (spec->value_type == G_TYPE_DOUBLE) {
+			g_object_set (atool, spec->name, atof (arg), NULL);
+		} else if (spec->value_type == G_TYPE_INT) {
+			g_object_set (atool, spec->name, atoi (arg), NULL);
+		} else if (spec->value_type == G_TYPE_BOOLEAN) {
+			// For now.
+			gboolean b = atoi (arg);
+			g_object_set (atool, spec->name, b, NULL);
+		} else {
+			// A type we don't handle
+			continue;
+		}
+
+		g_hash_table_remove (args, spec->name);
+	}
+}
+
 #define GET_ARG(conv_,name_,def_) (g_hash_table_lookup_extended (args, (name_), NULL, &arg) ? conv_((const char *)arg) : (def_))
 #define RANGE_ARG(s_) value_new_cellrange_str (sheet, (s_))
 #define RANGE_LIST_ARG(s_) g_slist_prepend (NULL, value_new_cellrange_str (sheet, (s_)))
@@ -802,6 +843,7 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 	Sheet *sheet;
 	GHashTable *args;
 	gpointer arg;
+	gboolean err;
 
 	/*
 	 * Arguments in argv are of the form key:value.
@@ -844,24 +886,16 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 		atool = GNM_ANALYSIS_TOOL (data);
 	} else if (g_str_equal (tool, "moving-average")) {
 		GnmMovingAverageTool *data = (GnmMovingAverageTool *)gnm_moving_average_tool_new ();
-
-		data->parent.base.wbc = wbc;
-		data->parent.base.input = GET_ARG (RANGE_LIST_ARG, "data", NULL);
-		data->parent.base.group_by = GET_ARG ((group_by_t)atoi, "grouped-by", GROUPED_BY_COL);
 		data->interval = GET_ARG (atoi, "interval", 3);
 		// Many more options
-
 		atool = GNM_ANALYSIS_TOOL (data);
 	} else if (g_str_equal (tool, "anova")) {
 		GnmAnovaSingleTool *data = (GnmAnovaSingleTool *)gnm_anova_single_tool_new ();
-
-		data->parent.base.wbc = wbc;
-		data->parent.base.input = GET_ARG (RANGE_LIST_ARG, "data", NULL);
-		data->parent.base.labels = GET_ARG (atoi, "labels", FALSE);
-		data->parent.base.group_by = GET_ARG ((group_by_t)atoi, "grouped-by", GROUPED_BY_COL);
 		data->alpha = GET_ARG (atof, "alpha", 0.05);
 
 		atool = GNM_ANALYSIS_TOOL (data);
+	} else if (g_str_equal (tool, "descriptive-statistics")) {
+		atool = gnm_descriptive_tool_new ();
 	} else {
 		g_printerr ("no test for tool \"%s\"\n", tool);
 		g_hash_table_destroy (args);
@@ -869,11 +903,23 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 		return;
 	}
 
+	if (GNM_IS_GENERIC_ANALYSIS_TOOL (atool)) {
+		GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (atool);
+		gtool->base.wbc = wbc;
+		gtool->base.input = GET_ARG (RANGE_LIST_ARG, "data", NULL);
+		gtool->base.labels = GET_ARG (atoi, "labels", FALSE);
+		gtool->base.group_by = GET_ARG ((group_by_t)atoi, "grouped-by", GROUPED_BY_COL);
+	}
+
+	parse_property_based_options (atool, args);
+	g_hash_table_destroy (args);
+
 	dao = dao_init_new_sheet ();
 	dao->put_formulas = TRUE;
-	cmd_analysis_tool (wbc, sheet, dao, atool);
+	err = cmd_analysis_tool (wbc, sheet, dao, atool);
+	if (err)
+		g_printerr ("Analysis tool failed\n");
 
-	g_hash_table_destroy (args);
 	g_object_unref (atool);
 	g_object_unref (wbc);
 }

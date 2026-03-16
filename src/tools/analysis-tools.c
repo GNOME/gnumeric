@@ -721,9 +721,103 @@ kth_smallest_largest (GnmDescriptiveTool *dtool, data_analysis_output_t *dao,
 
 G_DEFINE_TYPE (GnmDescriptiveTool, gnm_descriptive_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
+enum {
+	DESCRIPTIVE_PROP_0,
+	DESCRIPTIVE_PROP_DO_SUMMARY_STATISTICS,
+	DESCRIPTIVE_PROP_DO_CONFIDENCE_LEVEL,
+	DESCRIPTIVE_PROP_DO_KTH_LARGEST,
+	DESCRIPTIVE_PROP_DO_KTH_SMALLEST,
+	DESCRIPTIVE_PROP_USE_SSMEDIAN,
+	DESCRIPTIVE_PROP_K_SMALLEST,
+	DESCRIPTIVE_PROP_K_LARGEST,
+	DESCRIPTIVE_PROP_CONFIDENCE_LEVEL
+};
+
 static void
-gnm_descriptive_tool_init (G_GNUC_UNUSED GnmDescriptiveTool *tool)
+gnm_descriptive_tool_set_property (GObject *object, guint property_id,
+				   GValue const *value, GParamSpec *pspec)
 {
+	GnmDescriptiveTool *dtool = GNM_DESCRIPTIVE_TOOL (object);
+
+	switch (property_id) {
+	case DESCRIPTIVE_PROP_DO_SUMMARY_STATISTICS:
+		dtool->summary_statistics = g_value_get_boolean (value);
+		break;
+	case DESCRIPTIVE_PROP_DO_CONFIDENCE_LEVEL:
+		dtool->confidence_level = g_value_get_boolean (value);
+		break;
+	case DESCRIPTIVE_PROP_DO_KTH_LARGEST:
+		dtool->kth_largest = g_value_get_boolean (value);
+		break;
+	case DESCRIPTIVE_PROP_DO_KTH_SMALLEST:
+		dtool->kth_smallest = g_value_get_boolean (value);
+		break;
+	case DESCRIPTIVE_PROP_USE_SSMEDIAN:
+		dtool->use_ssmedian = g_value_get_boolean (value);
+		break;
+	case DESCRIPTIVE_PROP_K_SMALLEST:
+		dtool->k_smallest = g_value_get_int (value);
+		break;
+	case DESCRIPTIVE_PROP_K_LARGEST:
+		dtool->k_largest = g_value_get_int (value);
+		break;
+	case DESCRIPTIVE_PROP_CONFIDENCE_LEVEL:
+		dtool->c_level = g_value_get_double (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_descriptive_tool_get_property (GObject *object, guint property_id,
+				   GValue *value, GParamSpec *pspec)
+{
+	GnmDescriptiveTool *dtool = GNM_DESCRIPTIVE_TOOL (object);
+
+	switch (property_id) {
+	case DESCRIPTIVE_PROP_DO_SUMMARY_STATISTICS:
+		g_value_set_boolean (value, dtool->summary_statistics);
+		break;
+	case DESCRIPTIVE_PROP_DO_CONFIDENCE_LEVEL:
+		g_value_set_boolean (value, dtool->confidence_level);
+		break;
+	case DESCRIPTIVE_PROP_DO_KTH_LARGEST:
+		g_value_set_boolean (value, dtool->kth_largest);
+		break;
+	case DESCRIPTIVE_PROP_DO_KTH_SMALLEST:
+		g_value_set_boolean (value, dtool->kth_smallest);
+		break;
+	case DESCRIPTIVE_PROP_USE_SSMEDIAN:
+		g_value_set_boolean (value, dtool->use_ssmedian);
+		break;
+	case DESCRIPTIVE_PROP_K_SMALLEST:
+		g_value_set_int (value, dtool->k_smallest);
+		break;
+	case DESCRIPTIVE_PROP_K_LARGEST:
+		g_value_set_int (value, dtool->k_largest);
+		break;
+	case DESCRIPTIVE_PROP_CONFIDENCE_LEVEL:
+		g_value_set_double (value, dtool->c_level);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_descriptive_tool_init (GnmDescriptiveTool *tool)
+{
+	tool->summary_statistics = TRUE;
+	tool->confidence_level = TRUE;
+	tool->kth_largest = TRUE;
+	tool->kth_smallest = TRUE;
+	tool->use_ssmedian = FALSE;
+	tool->k_largest = 1;
+	tool->k_smallest = 1;
+	tool->c_level = 0.95;
 }
 
 static gboolean
@@ -795,13 +889,50 @@ gnm_descriptive_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t
 static void
 gnm_descriptive_tool_class_init (GnmDescriptiveToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_descriptive_tool_set_property;
+	gobject_class->get_property = gnm_descriptive_tool_get_property;
 
 	at_class->update_dao = gnm_descriptive_tool_update_dao;
 	at_class->update_descriptor = gnm_descriptive_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_descriptive_tool_prepare_output_range;
 	at_class->format_output_range = gnm_descriptive_tool_format_output_range;
 	at_class->perform_calc = gnm_descriptive_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		DESCRIPTIVE_PROP_DO_SUMMARY_STATISTICS,
+		g_param_spec_boolean ("do-summary-statistics", NULL, NULL,
+				      TRUE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		DESCRIPTIVE_PROP_DO_CONFIDENCE_LEVEL,
+		g_param_spec_boolean ("do-confidence-level", NULL, NULL,
+				      TRUE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		DESCRIPTIVE_PROP_DO_KTH_LARGEST,
+		g_param_spec_boolean ("do-kth-largest", NULL, NULL,
+				      TRUE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		DESCRIPTIVE_PROP_DO_KTH_SMALLEST,
+		g_param_spec_boolean ("do-kth-smallest", NULL, NULL,
+				      TRUE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		DESCRIPTIVE_PROP_USE_SSMEDIAN,
+		g_param_spec_boolean ("use-ssmedian", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		DESCRIPTIVE_PROP_K_SMALLEST,
+		g_param_spec_int ("k-smallest", NULL, NULL,
+				  1, G_MAXINT, 1, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		DESCRIPTIVE_PROP_K_LARGEST,
+		g_param_spec_int ("k-largest", NULL, NULL,
+				  1, G_MAXINT, 1, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		DESCRIPTIVE_PROP_CONFIDENCE_LEVEL,
+		g_param_spec_double ("confidence-level", NULL, NULL,
+				     0.0, 1.0, 0.95, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *

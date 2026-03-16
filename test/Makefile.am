@@ -161,6 +161,7 @@ TESTS =	t1000-statfuns.pl			\
 	t7200-regression.pl			\
 	t7201-anova.pl				\
 	t7202-moving-average.pl			\
+	t7203-descriptive-statistics.pl		\
 	t8000-valgrind.pl			\
 	t8001-valgrind-xls.pl			\
 	t8002-valgrind-gnumeric.pl		\
