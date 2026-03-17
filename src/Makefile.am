@@ -267,15 +267,19 @@ tools_SOURCES =	\
 	tools/analysis-chi-squared.c		\
 	tools/analysis-exp-smoothing.c		\
 	tools/analysis-frequency.c		\
+	tools/analysis-ftest.c			\
 	tools/analysis-histogram.c		\
 	tools/analysis-kaplan-meier.c		\
 	tools/analysis-normality.c		\
 	tools/analysis-one-mean-test.c		\
 	tools/analysis-principal-components.c	\
+	tools/analysis-regression.c		\
 	tools/analysis-sign-test.c		\
 	tools/analysis-signed-rank-test.c	\
 	tools/analysis-tools.c			\
+	tools/analysis-ttest.c			\
 	tools/analysis-wilcoxon-mann-whitney.c	\
+	tools/analysis-ztest.c			\
 	tools/auto-correct.c			\
 	tools/dao.c				\
 	tools/data-shuffling.c			\
@@ -296,15 +300,19 @@ tools_HEADERS = \
 	tools/analysis-chi-squared.h		\
 	tools/analysis-exp-smoothing.h		\
 	tools/analysis-frequency.h		\
+	tools/analysis-ftest.h			\
 	tools/analysis-histogram.h		\
 	tools/analysis-kaplan-meier.h		\
 	tools/analysis-normality.h		\
 	tools/analysis-one-mean-test.h		\
 	tools/analysis-principal-components.h	\
+	tools/analysis-regression.h		\
 	tools/analysis-sign-test.h		\
 	tools/analysis-signed-rank-test.h	\
 	tools/analysis-tools.h			\
+	tools/analysis-ttest.h			\
 	tools/analysis-wilcoxon-mann-whitney.h	\
+	tools/analysis-ztest.h			\
 	tools/auto-correct.h			\
 	tools/dao.h				\
 	tools/data-shuffling.h			\

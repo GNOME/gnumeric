@@ -268,7 +268,7 @@ typedef struct {
 	WorkbookControl *wbc;
 	GnmValue *range_1;
 	GnmValue *range_2;
-	gboolean   labels;
+	gboolean labels;
 	gnm_float alpha;
 } analysis_tools_data_generic_b_t;
 
@@ -290,144 +290,6 @@ struct _GnmGenericBAnalysisToolClass {
 #define GNM_IS_GENERIC_B_ANALYSIS_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_GENERIC_B_ANALYSIS_TOOL))
 
 G_DEFINE_AUTOPTR_CLEANUP_FUNC (GnmGenericBAnalysisTool, g_object_unref)
-
-/*********************** FTest ************************/
-
-#define GNM_TYPE_FTEST_TOOL (gnm_ftest_tool_get_type ())
-GType gnm_ftest_tool_get_type (void);
-typedef struct _GnmFTestTool GnmFTestTool;
-typedef struct _GnmFTestToolClass GnmFTestToolClass;
-
-struct _GnmFTestTool {
-	GnmGenericBAnalysisTool parent;
-};
-
-struct _GnmFTestToolClass {
-	GnmGenericBAnalysisToolClass parent_class;
-};
-
-#define GNM_FTEST_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_FTEST_TOOL, GnmFTestTool))
-#define GNM_IS_FTEST_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_FTEST_TOOL))
-
-GnmAnalysisTool *gnm_ftest_tool_new (void);
-
-/****************  Regression  ********************/
-
-#define GNM_TYPE_REGRESSION_TOOL (gnm_regression_tool_get_type ())
-GType gnm_regression_tool_get_type (void);
-typedef struct _GnmRegressionTool GnmRegressionTool;
-typedef struct _GnmRegressionToolClass GnmRegressionToolClass;
-
-struct _GnmRegressionTool {
-	GnmGenericBAnalysisTool parent;
-	gnm_tool_group_by_t group_by;
-	gboolean   intercept;
-	gboolean   multiple_regression;
-        gboolean   multiple_y;
-        gboolean   residual;
-	GSList    *indep_vars;
-};
-
-struct _GnmRegressionToolClass {
-	GnmGenericBAnalysisToolClass parent_class;
-};
-
-#define GNM_REGRESSION_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_REGRESSION_TOOL, GnmRegressionTool))
-#define GNM_IS_REGRESSION_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_REGRESSION_TOOL))
-
-GnmAnalysisTool *gnm_regression_tool_new (void);
-
-/*********************** TTest paired *****************/
-
-#define GNM_TYPE_TTEST_PAIRED_TOOL (gnm_ttest_paired_tool_get_type ())
-GType gnm_ttest_paired_tool_get_type (void);
-typedef struct _GnmTTestPairedTool GnmTTestPairedTool;
-typedef struct _GnmTTestPairedToolClass GnmTTestPairedToolClass;
-
-struct _GnmTTestPairedTool {
-	GnmGenericBAnalysisTool parent;
-	gnm_float mean_diff;
-	gnm_float var1;
-	gnm_float var2;
-};
-
-struct _GnmTTestPairedToolClass {
-	GnmGenericBAnalysisToolClass parent_class;
-};
-
-#define GNM_TTEST_PAIRED_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_TTEST_PAIRED_TOOL, GnmTTestPairedTool))
-#define GNM_IS_TTEST_PAIRED_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_TTEST_PAIRED_TOOL))
-
-GnmAnalysisTool *gnm_ttest_paired_tool_new (void);
-
-
-/*********************** TTest equal variances *********/
-
-#define GNM_TYPE_TTEST_EQVAR_TOOL (gnm_ttest_eqvar_tool_get_type ())
-GType gnm_ttest_eqvar_tool_get_type (void);
-typedef struct _GnmTTestEqVarTool GnmTTestEqVarTool;
-typedef struct _GnmTTestEqVarToolClass GnmTTestEqVarToolClass;
-
-struct _GnmTTestEqVarTool {
-	GnmGenericBAnalysisTool parent;
-	gnm_float mean_diff;
-};
-
-struct _GnmTTestEqVarToolClass {
-	GnmGenericBAnalysisToolClass parent_class;
-};
-
-#define GNM_TTEST_EQVAR_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_TTEST_EQVAR_TOOL, GnmTTestEqVarTool))
-#define GNM_IS_TTEST_EQVAR_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_TTEST_EQVAR_TOOL))
-
-GnmAnalysisTool *gnm_ttest_eqvar_tool_new (void);
-
-
-/*********************** TTest unequal variances *******/
-
-#define GNM_TYPE_TTEST_NEQVAR_TOOL (gnm_ttest_neqvar_tool_get_type ())
-GType gnm_ttest_neqvar_tool_get_type (void);
-typedef struct _GnmTTestNeqVarTool GnmTTestNeqVarTool;
-typedef struct _GnmTTestNeqVarToolClass GnmTTestNeqVarToolClass;
-
-struct _GnmTTestNeqVarTool {
-	GnmGenericBAnalysisTool parent;
-	gnm_float mean_diff;
-};
-
-struct _GnmTTestNeqVarToolClass {
-	GnmGenericBAnalysisToolClass parent_class;
-};
-
-#define GNM_TTEST_NEQVAR_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_TTEST_NEQVAR_TOOL, GnmTTestNeqVarTool))
-#define GNM_IS_TTEST_NEQVAR_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_TTEST_NEQVAR_TOOL))
-
-GnmAnalysisTool *gnm_ttest_neqvar_tool_new (void);
-
-
-/*********************** ZTest ************************/
-
-#define GNM_TYPE_ZTEST_TOOL (gnm_ztest_tool_get_type ())
-GType gnm_ztest_tool_get_type (void);
-typedef struct _GnmZTestTool GnmZTestTool;
-typedef struct _GnmZTestToolClass GnmZTestToolClass;
-
-struct _GnmZTestTool {
-	GnmGenericBAnalysisTool parent;
-	gnm_float mean_diff;
-	gnm_float var1;
-	gnm_float var2;
-};
-
-struct _GnmZTestToolClass {
-	GnmGenericBAnalysisToolClass parent_class;
-};
-
-#define GNM_ZTEST_TOOL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_ZTEST_TOOL, GnmZTestTool))
-#define GNM_IS_ZTEST_TOOL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_ZTEST_TOOL))
-
-GnmAnalysisTool *gnm_ztest_tool_new (void);
-
 
 /****************  Advanced Filter  ********************/
 
@@ -474,6 +336,7 @@ gboolean analysis_tool_table (GnmGenericAnalysisTool *gtool,
 			      gboolean full_table);
 
 void analysis_tool_prepare_input_range (GnmGenericAnalysisTool *gtool);
+void analysis_tool_prepare_input_range_full (GSList **input_range, gnm_tool_group_by_t group_by);
 
 const GnmExpr *make_cellref (int dx, int dy);
 const GnmExpr *make_rangeref (int dx0, int dy0, int dx1, int dy1);
@@ -482,5 +345,12 @@ void set_cell_text_row (data_analysis_output_t *dao,
 			int col, int row, const char *text);
 void set_cell_text_col (data_analysis_output_t *dao,
 			int col, int row, const char *text);
+
+void analysis_tools_adjust_areas (GnmValue *range);
+void analysis_tools_remove_label (GnmValue *val,
+				  gboolean labels, gnm_tool_group_by_t group_by);
+gint analysis_tools_calculate_xdim (GnmValue const *input, gnm_tool_group_by_t  group_by);
+gint analysis_tools_calculate_n_obs (GnmValue const *input, gnm_tool_group_by_t group_by);
+
 
 #endif

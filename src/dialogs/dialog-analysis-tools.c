@@ -27,8 +27,12 @@
 #include <dialogs/dialogs.h>
 #include <tools/analysis-tools.h>
 #include <tools/analysis-anova.h>
+#include <tools/analysis-ftest.h>
+#include <tools/analysis-regression.h>
 #include <tools/analysis-histogram.h>
 #include <tools/analysis-exp-smoothing.h>
+#include <tools/analysis-ttest.h>
+#include <tools/analysis-ztest.h>
 
 #include <workbook.h>
 #include <workbook-control.h>

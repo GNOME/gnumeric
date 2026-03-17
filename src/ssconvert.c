@@ -35,13 +35,14 @@
 #include <gnumeric-conf.h>
 #include <gui-clipboard.h>
 #include <tools/analysis-tools.h>
-#include <tools/analysis-exp-smoothing.h>
-#include <tools/analysis-histogram.h>
-#include <tools/analysis-sign-test.h>
-#include <tools/analysis-frequency.h>
-#include <tools/analysis-principal-components.h>
 #include <tools/analysis-auto-expression.h>
+#include <tools/analysis-exp-smoothing.h>
+#include <tools/analysis-frequency.h>
+#include <tools/analysis-histogram.h>
 #include <tools/analysis-normality.h>
+#include <tools/analysis-principal-components.h>
+#include <tools/analysis-regression.h>
+#include <tools/analysis-sign-test.h>
 #include <tools/analysis-signed-rank-test.h>
 #include <dialogs/dialogs.h>
 #include <goffice/goffice.h>
@@ -899,20 +900,7 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 	sheet = GET_ARG (SHEET_ARG, "sheet", wb_view_cur_sheet (wbv));
 
 	if (g_str_equal (tool, "regression")) {
-		GnmRegressionTool *data = (GnmRegressionTool *)gnm_regression_tool_new ();
-
-		data->parent.base.wbc = wbc;
-		data->parent.base.range_1 = GET_ARG (RANGE_ARG, "x", value_new_error_REF (NULL));
-		data->parent.base.range_2 = GET_ARG (RANGE_ARG, "y", value_new_error_REF (NULL));
-		data->parent.base.labels = GET_ARG (atoi, "labels", FALSE);
-		data->parent.base.alpha = GET_ARG (atof, "alpha", 0.05);
-		data->group_by = GET_ARG ((gnm_tool_group_by_t)atoi, "grouped-by", GNM_TOOL_GROUPED_BY_COL);
-		data->intercept = GET_ARG (atoi, "intercept", TRUE);
-		data->multiple_regression = GET_ARG (atoi, "multiple", TRUE);
-		data->multiple_y = GET_ARG (atoi, "multiple-y", FALSE);
-		data->residual = GET_ARG (atoi, "residual", TRUE);
-
-		atool = GNM_ANALYSIS_TOOL (data);
+		atool = gnm_regression_tool_new ();
 	} else if (g_str_equal (tool, "moving-average")) {
 		atool = gnm_moving_average_tool_new ();
 	} else if (g_str_equal (tool, "anova")) {
@@ -956,6 +944,12 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 		GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (atool);
 		gtool->base.wbc = wbc;
 		gtool->base.input = GET_ARG (RANGE_LIST_ARG, "data", NULL);
+	}
+	if (GNM_GENERIC_B_ANALYSIS_TOOL (atool)) {
+		GnmGenericBAnalysisTool *gtool = GNM_GENERIC_B_ANALYSIS_TOOL (atool);
+		gtool->base.wbc = wbc;
+		gtool->base.range_1 = GET_ARG (RANGE_ARG, "x", value_new_error_REF (NULL));
+		gtool->base.range_2 = GET_ARG (RANGE_ARG, "y", value_new_error_REF (NULL));
 	}
 
 	parse_property_based_options (atool, args);
