@@ -43,11 +43,14 @@ typedef enum {
 } analysis_histogram_bin_type_t;
 
 typedef enum {
-	NO_CHART = 0,
-	HISTOGRAM_CHART,
-	BAR_CHART,
-	COLUMN_CHART
-} chart_t;
+	GNM_HIST_TOOL_NO_CHART = 0,
+	GNM_HIST_TOOL_HISTOGRAM_CHART,
+	GNM_HIST_TOOL_BAR_CHART,
+	GNM_HIST_TOOL_COLUMN_CHART
+} gnm_hist_tool_chart_t;
+
+GType gnm_hist_tool_chart_get_type (void);
+#define GNM_HIST_TOOL_CHART_TYPE (gnm_hist_tool_chart_get_type ())
 
 
 #define GNM_TYPE_HISTOGRAM_TOOL (gnm_histogram_tool_get_type ())
@@ -57,18 +60,18 @@ typedef struct _GnmHistogramToolClass GnmHistogramToolClass;
 
 struct _GnmHistogramTool {
 	GnmGenericAnalysisTool parent;
-	gboolean   predetermined;
-	GnmValue   *bin;
+	gboolean  predetermined;
+	GnmValue *bin;
 	analysis_histogram_bin_type_t   bin_type;
-	gboolean   max_given;
-	gboolean   min_given;
+	gboolean max_given;
+	gboolean min_given;
 	gnm_float max;
 	gnm_float min;
-	gint       n;
-	gboolean   percentage;
-	gboolean   cumulative;
-	gboolean   only_numbers;
-	chart_t   chart;
+	gint n;
+	gboolean percentage;
+	gboolean cumulative;
+	gboolean only_numbers;
+	gnm_hist_tool_chart_t chart;
 };
 
 struct _GnmHistogramToolClass {

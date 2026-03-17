@@ -647,17 +647,17 @@ corr_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet, dao, tool)) {
 		char *text;
 		switch (gtool->base.err - 1) {
-		case GROUPED_BY_ROW:
+		case GNM_TOOL_GROUPED_BY_ROW:
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input rows must have equal size!"));
 			break;
-		case GROUPED_BY_COL:
+		case GNM_TOOL_GROUPED_BY_COL:
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input columns must have equal size!"));
 			break;
-		case GROUPED_BY_AREA:
+		case GNM_TOOL_GROUPED_BY_AREA:
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input areas must have equal size!"));
@@ -765,17 +765,17 @@ cov_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet, dao, tool)) {
 		char *text;
 		switch (gtool->base.err - 1) {
-		case GROUPED_BY_ROW:
+		case GNM_TOOL_GROUPED_BY_ROW:
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input rows must have equal size!"));
 			break;
-		case GROUPED_BY_COL:
+		case GNM_TOOL_GROUPED_BY_COL:
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input columns must have equal size!"));
 			break;
-		case GROUPED_BY_AREA:
+		case GNM_TOOL_GROUPED_BY_AREA:
 			error_in_entry ((GnmGenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input areas must have equal size!"));
@@ -2176,7 +2176,7 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	y_h = regression_tool_calc_height (rtool->parent.base.range_2);
 
-	rtool->group_by = (y_h == 1) ? GROUPED_BY_ROW : GROUPED_BY_COL;
+	rtool->group_by = (y_h == 1) ? GNM_TOOL_GROUPED_BY_ROW : GNM_TOOL_GROUPED_BY_COL;
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         rtool->parent.base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));

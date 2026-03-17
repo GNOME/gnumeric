@@ -35,9 +35,55 @@
 
 G_DEFINE_TYPE (GnmSignTestTool, gnm_sign_test_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
+enum {
+	SIGN_TEST_PROP_0,
+	SIGN_TEST_PROP_MEDIAN,
+	SIGN_TEST_PROP_ALPHA
+};
+
 static void
-gnm_sign_test_tool_init (G_GNUC_UNUSED GnmSignTestTool *tool)
+gnm_sign_test_tool_set_property (GObject *object, guint property_id,
+				 GValue const *value, GParamSpec *pspec)
 {
+	GnmSignTestTool *tool = GNM_SIGN_TEST_TOOL (object);
+
+	switch (property_id) {
+	case SIGN_TEST_PROP_MEDIAN:
+		tool->median = g_value_get_double (value);
+		break;
+	case SIGN_TEST_PROP_ALPHA:
+		tool->alpha = g_value_get_double (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_sign_test_tool_get_property (GObject *object, guint property_id,
+				 GValue *value, GParamSpec *pspec)
+{
+	GnmSignTestTool *tool = GNM_SIGN_TEST_TOOL (object);
+
+	switch (property_id) {
+	case SIGN_TEST_PROP_MEDIAN:
+		g_value_set_double (value, tool->median);
+		break;
+	case SIGN_TEST_PROP_ALPHA:
+		g_value_set_double (value, tool->alpha);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_sign_test_tool_init (GnmSignTestTool *tool)
+{
+	tool->median = 0.0;
+	tool->alpha = 0.05;
 }
 
 static gboolean
@@ -193,13 +239,26 @@ gnm_sign_test_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 static void
 gnm_sign_test_tool_class_init (GnmSignTestToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_sign_test_tool_set_property;
+	gobject_class->get_property = gnm_sign_test_tool_get_property;
 
 	at_class->update_dao = gnm_sign_test_tool_update_dao;
 	at_class->update_descriptor = gnm_sign_test_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_sign_test_tool_prepare_output_range;
 	at_class->format_output_range = gnm_sign_test_tool_format_output_range;
 	at_class->perform_calc = gnm_sign_test_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		SIGN_TEST_PROP_MEDIAN,
+		g_param_spec_double ("median", NULL, NULL,
+			-GNM_MAX, GNM_MAX, 0.0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		SIGN_TEST_PROP_ALPHA,
+		g_param_spec_double ("alpha", NULL, NULL,
+			0.0, 1.0, 0.05, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *

@@ -39,6 +39,57 @@
 
 G_DEFINE_TYPE (GnmNormalityTool, gnm_normality_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
+enum {
+	NORMALITY_PROP_0,
+	NORMALITY_PROP_ALPHA,
+	NORMALITY_PROP_TYPE,
+	NORMALITY_PROP_GRAPH
+};
+
+static void
+gnm_normality_tool_set_property (GObject *object, guint property_id,
+				 GValue const *value, GParamSpec *pspec)
+{
+	GnmNormalityTool *tool = GNM_NORMALITY_TOOL (object);
+
+	switch (property_id) {
+	case NORMALITY_PROP_ALPHA:
+		tool->alpha = g_value_get_double (value);
+		break;
+	case NORMALITY_PROP_TYPE:
+		tool->type = g_value_get_int (value);
+		break;
+	case NORMALITY_PROP_GRAPH:
+		tool->graph = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_normality_tool_get_property (GObject *object, guint property_id,
+				 GValue *value, GParamSpec *pspec)
+{
+	GnmNormalityTool *tool = GNM_NORMALITY_TOOL (object);
+
+	switch (property_id) {
+	case NORMALITY_PROP_ALPHA:
+		g_value_set_double (value, tool->alpha);
+		break;
+	case NORMALITY_PROP_TYPE:
+		g_value_set_int (value, tool->type);
+		break;
+	case NORMALITY_PROP_GRAPH:
+		g_value_set_boolean (value, tool->graph);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
 static void
 gnm_normality_tool_init (GnmNormalityTool *tool)
 {
@@ -216,13 +267,30 @@ gnm_normality_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 static void
 gnm_normality_tool_class_init (GnmNormalityToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_normality_tool_set_property;
+	gobject_class->get_property = gnm_normality_tool_get_property;
 
 	at_class->update_dao = gnm_normality_tool_update_dao;
 	at_class->update_descriptor = gnm_normality_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_normality_tool_prepare_output_range;
 	at_class->format_output_range = gnm_normality_tool_format_output_range;
 	at_class->perform_calc = gnm_normality_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		NORMALITY_PROP_ALPHA,
+		g_param_spec_double ("alpha", NULL, NULL,
+			0.0, 1.0, 0.05, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		NORMALITY_PROP_TYPE,
+		g_param_spec_int ("type", NULL, NULL,
+			0, 10, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		NORMALITY_PROP_GRAPH,
+		g_param_spec_boolean ("graph", NULL, NULL,
+			FALSE, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *

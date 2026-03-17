@@ -35,13 +35,122 @@
 #include <goffice/goffice.h>
 #include <sheet.h>
 
+GType
+gnm_freq_tool_chart_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ GNM_FREQ_TOOL_NO_CHART,
+			  "GNM_FREQ_TOOL_NO_CHART",
+			  "none"
+			},
+			{ GNM_FREQ_TOOL_BAR_CHART,
+			  "GNM_FREQ_TOOL_BAR_CHART",
+			  "bar"
+			},
+			{ GNM_FREQ_TOOL_COLUMN_CHART,
+			  "GNM_FREQ_TOOL_COLUMN_CHART",
+			  "column"
+			},
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("gnm_freq_tool_chart_t", values);
+	}
+	return etype;
+}
 
 G_DEFINE_TYPE (GnmFrequencyTool, gnm_frequency_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+enum {
+	FREQUENCY_PROP_0,
+	FREQUENCY_PROP_PREDETERMINED,
+	FREQUENCY_PROP_MAX,
+	FREQUENCY_PROP_MIN,
+	FREQUENCY_PROP_N,
+	FREQUENCY_PROP_PERCENTAGE,
+	FREQUENCY_PROP_EXACT,
+	FREQUENCY_PROP_CHART
+};
+
+static void
+gnm_frequency_tool_set_property (GObject *object, guint property_id,
+				 GValue const *value, GParamSpec *pspec)
+{
+	GnmFrequencyTool *tool = GNM_FREQUENCY_TOOL (object);
+
+	switch (property_id) {
+	case FREQUENCY_PROP_PREDETERMINED:
+		tool->predetermined = g_value_get_boolean (value);
+		break;
+	case FREQUENCY_PROP_MAX:
+		tool->max = g_value_get_double (value);
+		break;
+	case FREQUENCY_PROP_MIN:
+		tool->min = g_value_get_double (value);
+		break;
+	case FREQUENCY_PROP_N:
+		tool->n = g_value_get_int (value);
+		break;
+	case FREQUENCY_PROP_PERCENTAGE:
+		tool->percentage = g_value_get_boolean (value);
+		break;
+	case FREQUENCY_PROP_EXACT:
+		tool->exact = g_value_get_boolean (value);
+		break;
+	case FREQUENCY_PROP_CHART:
+		tool->chart = g_value_get_enum (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_frequency_tool_get_property (GObject *object, guint property_id,
+				 GValue *value, GParamSpec *pspec)
+{
+	GnmFrequencyTool *tool = GNM_FREQUENCY_TOOL (object);
+
+	switch (property_id) {
+	case FREQUENCY_PROP_PREDETERMINED:
+		g_value_set_boolean (value, tool->predetermined);
+		break;
+	case FREQUENCY_PROP_MAX:
+		g_value_set_double (value, tool->max);
+		break;
+	case FREQUENCY_PROP_MIN:
+		g_value_set_double (value, tool->min);
+		break;
+	case FREQUENCY_PROP_N:
+		g_value_set_int (value, tool->n);
+		break;
+	case FREQUENCY_PROP_PERCENTAGE:
+		g_value_set_boolean (value, tool->percentage);
+		break;
+	case FREQUENCY_PROP_EXACT:
+		g_value_set_boolean (value, tool->exact);
+		break;
+	case FREQUENCY_PROP_CHART:
+		g_value_set_enum (value, tool->chart);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
 
 static void
 gnm_frequency_tool_init (GnmFrequencyTool *tool)
 {
 	tool->predetermined = FALSE;
+	tool->max = 0.0;
+	tool->min = 0.0;
+	tool->n = 1;
+	tool->percentage = FALSE;
+	tool->exact = FALSE;
+	tool->chart = GNM_FREQ_TOOL_NO_CHART;
 	tool->bin = NULL;
 }
 
@@ -176,7 +285,7 @@ gnm_frequency_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 		if (gtool->base.labels) {
 			val_c = value_dup (val);
 			switch (gtool->base.group_by) {
-			case GROUPED_BY_ROW:
+			case GNM_TOOL_GROUPED_BY_ROW:
 				val->v_range.cell.a.col++;
 				break;
 			default:
@@ -190,10 +299,10 @@ gnm_frequency_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 			char *txt;
 
 			switch (gtool->base.group_by) {
-			case GROUPED_BY_ROW:
+			case GNM_TOOL_GROUPED_BY_ROW:
 				txt = g_strdup_printf (_("Row %d"), col);
 				break;
-			case GROUPED_BY_COL:
+			case GNM_TOOL_GROUPED_BY_COL:
 				txt = g_strdup_printf (_("Column %d"), col);
 				break;
 			default:
@@ -252,7 +361,7 @@ gnm_frequency_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 		gnm_func_dec_usage (fd_exact);
 
 	/* Create Chart if requested */
-	if (ftool->chart != NO_CHART) {
+	if (ftool->chart != GNM_FREQ_TOOL_NO_CHART) {
 		SheetObject *so;
 		GogGraph     *graph;
 		GogChart     *chart;
@@ -266,7 +375,7 @@ gnm_frequency_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 		chart = GOG_CHART (gog_object_add_by_name (
 						   GOG_OBJECT (graph), "Chart", NULL));
 		plot = gog_plot_new_by_name ("GogBarColPlot");
-		if (ftool->chart == BAR_CHART)
+		if (ftool->chart == GNM_FREQ_TOOL_BAR_CHART)
 			go_object_toggle (plot, "horizontal");
 		gog_object_add_by_name (GOG_OBJECT (chart),
 					"Plot", GOG_OBJECT (plot));
@@ -302,12 +411,45 @@ gnm_frequency_tool_class_init (GnmFrequencyToolClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
 
+	gobject_class->set_property = gnm_frequency_tool_set_property;
+	gobject_class->get_property = gnm_frequency_tool_get_property;
+
 	gobject_class->finalize = gnm_frequency_tool_finalize;
 	at_class->update_dao = gnm_frequency_tool_update_dao;
 	at_class->update_descriptor = gnm_frequency_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_frequency_tool_prepare_output_range;
 	at_class->format_output_range = gnm_frequency_tool_format_output_range;
 	at_class->perform_calc = gnm_frequency_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		FREQUENCY_PROP_PREDETERMINED,
+		g_param_spec_boolean ("predetermined", NULL, NULL,
+			FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FREQUENCY_PROP_MAX,
+		g_param_spec_double ("max", NULL, NULL,
+			-GNM_MAX, GNM_MAX, 0.0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FREQUENCY_PROP_MIN,
+		g_param_spec_double ("min", NULL, NULL,
+			-GNM_MAX, GNM_MAX, 0.0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FREQUENCY_PROP_N,
+		g_param_spec_int ("n", NULL, NULL,
+			1, G_MAXINT, 1, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FREQUENCY_PROP_PERCENTAGE,
+		g_param_spec_boolean ("percentage", NULL, NULL,
+			FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FREQUENCY_PROP_EXACT,
+		g_param_spec_boolean ("exact", NULL, NULL,
+			FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FREQUENCY_PROP_CHART,
+		g_param_spec_enum ("chart", NULL, NULL,
+			GNM_FREQ_TOOL_CHART_TYPE, GNM_FREQ_TOOL_NO_CHART,
+			G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *

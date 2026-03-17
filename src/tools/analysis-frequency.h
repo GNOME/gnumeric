@@ -30,10 +30,13 @@
 #include <tools/analysis-tools.h>
 
 typedef enum {
-	NO_CHART = 0,
-	BAR_CHART,
-	COLUMN_CHART
-} chart_freq_t;
+	GNM_FREQ_TOOL_NO_CHART = 0,
+	GNM_FREQ_TOOL_BAR_CHART,
+	GNM_FREQ_TOOL_COLUMN_CHART
+} gnm_freq_tool_chart_t;
+
+GType gnm_freq_tool_chart_get_type (void);
+#define GNM_FREQ_TOOL_CHART_TYPE (gnm_freq_tool_chart_get_type ())
 
 
 #define GNM_TYPE_FREQUENCY_TOOL (gnm_frequency_tool_get_type ())
@@ -50,7 +53,7 @@ struct _GnmFrequencyTool {
 	gint       n;
 	gboolean   percentage;
 	gboolean   exact;
-	chart_freq_t   chart;
+	gnm_freq_tool_chart_t chart;
 };
 
 struct _GnmFrequencyToolClass {

@@ -4088,7 +4088,7 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	specs->parent.base.wbc = GNM_WBC (wbcg);
 	specs->parent.base.input = g_slist_prepend (NULL, value_new_cellrange_r (scg_sheet (scg), input));
 	g_free (input);
-	specs->parent.base.group_by = below ? GROUPED_BY_COL : GROUPED_BY_ROW;
+	specs->parent.base.group_by = below ? GNM_TOOL_GROUPED_BY_COL : GNM_TOOL_GROUPED_BY_ROW;
 	specs->parent.base.labels = FALSE;
 	specs->multiple = multiple;
 	specs->below = below;

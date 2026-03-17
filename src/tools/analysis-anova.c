@@ -49,7 +49,7 @@ gnm_anova_two_factor_tool_init (GnmAnovaTwoFactorTool *tool)
 	tool->err = analysis_tools_noerr;
 	tool->wbc = NULL;
 	tool->input = NULL;
-	tool->group_by = GROUPED_BY_COL;
+	tool->group_by = GNM_TOOL_GROUPED_BY_COL;
 	tool->labels = FALSE;
 	tool->alpha = 0.05;
 	tool->replication = 1;

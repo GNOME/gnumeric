@@ -35,6 +35,14 @@
 #include <gnumeric-conf.h>
 #include <gui-clipboard.h>
 #include <tools/analysis-tools.h>
+#include <tools/analysis-exp-smoothing.h>
+#include <tools/analysis-histogram.h>
+#include <tools/analysis-sign-test.h>
+#include <tools/analysis-frequency.h>
+#include <tools/analysis-principal-components.h>
+#include <tools/analysis-auto-expression.h>
+#include <tools/analysis-normality.h>
+#include <tools/analysis-signed-rank-test.h>
 #include <dialogs/dialogs.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-utils.h>
@@ -786,6 +794,15 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
 	}
 }
 
+static gboolean
+parse_bool (const char *s)
+{
+	return (g_str_equal (s, "yes") ||
+		g_str_equal (s, "y") ||
+		g_str_equal (s, "true") ||
+		g_str_equal (s, "1"));
+}
+
 static void
 parse_property_based_options (GnmAnalysisTool *atool, GHashTable *args)
 {
@@ -805,7 +822,9 @@ parse_property_based_options (GnmAnalysisTool *atool, GHashTable *args)
 		}
 
 		if (!g_hash_table_lookup_extended (args, spec->name, NULL, &arg_)) {
-			// We don't have it
+			// We don't have it.  Note that this implies
+			// that the property name in args must be
+			// canonical.  ("-" and not "_".)
 			continue;
 		}
 		arg = arg_;
@@ -815,9 +834,19 @@ parse_property_based_options (GnmAnalysisTool *atool, GHashTable *args)
 		} else if (spec->value_type == G_TYPE_INT) {
 			g_object_set (atool, spec->name, atoi (arg), NULL);
 		} else if (spec->value_type == G_TYPE_BOOLEAN) {
-			// For now.
-			gboolean b = atoi (arg);
-			g_object_set (atool, spec->name, b, NULL);
+			g_object_set (atool, spec->name, parse_bool (arg), NULL);
+		} else if (G_TYPE_FUNDAMENTAL (spec->value_type) == G_TYPE_ENUM) {
+			GEnumClass *eclass = G_ENUM_CLASS (g_type_class_ref (spec->value_type));
+			GEnumValue *ev = g_enum_get_value_by_nick (eclass, arg);
+			int i;
+			if (ev)
+				i = ev->value;
+			else {
+				// Error check?
+				i = atoi (arg);
+			}
+			g_type_class_unref (eclass);
+			g_object_set (atool, spec->name, i, NULL);
 		} else {
 			// A type we don't handle
 			continue;
@@ -877,7 +906,7 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 		data->parent.base.range_2 = GET_ARG (RANGE_ARG, "y", value_new_error_REF (NULL));
 		data->parent.base.labels = GET_ARG (atoi, "labels", FALSE);
 		data->parent.base.alpha = GET_ARG (atof, "alpha", 0.05);
-		data->group_by = GET_ARG ((group_by_t)atoi, "grouped-by", GROUPED_BY_COL);
+		data->group_by = GET_ARG ((gnm_tool_group_by_t)atoi, "grouped-by", GNM_TOOL_GROUPED_BY_COL);
 		data->intercept = GET_ARG (atoi, "intercept", TRUE);
 		data->multiple_regression = GET_ARG (atoi, "multiple", TRUE);
 		data->multiple_y = GET_ARG (atoi, "multiple-y", FALSE);
@@ -885,17 +914,37 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 
 		atool = GNM_ANALYSIS_TOOL (data);
 	} else if (g_str_equal (tool, "moving-average")) {
-		GnmMovingAverageTool *data = (GnmMovingAverageTool *)gnm_moving_average_tool_new ();
-		data->interval = GET_ARG (atoi, "interval", 3);
-		// Many more options
-		atool = GNM_ANALYSIS_TOOL (data);
+		atool = gnm_moving_average_tool_new ();
 	} else if (g_str_equal (tool, "anova")) {
-		GnmAnovaSingleTool *data = (GnmAnovaSingleTool *)gnm_anova_single_tool_new ();
-		data->alpha = GET_ARG (atof, "alpha", 0.05);
-
-		atool = GNM_ANALYSIS_TOOL (data);
+		atool = gnm_anova_single_tool_new ();
 	} else if (g_str_equal (tool, "descriptive-statistics")) {
 		atool = gnm_descriptive_tool_new ();
+	} else if (g_str_equal (tool, "correlation")) {
+		atool = gnm_correlation_tool_new ();
+	} else if (g_str_equal (tool, "covariance")) {
+		atool = gnm_covariance_tool_new ();
+	} else if (g_str_equal (tool, "fourier-analysis")) {
+		atool = gnm_fourier_tool_new ();
+	} else if (g_str_equal (tool, "sampling")) {
+		atool = gnm_sampling_tool_new ();
+	} else if (g_str_equal (tool, "ranking")) {
+		atool = gnm_ranking_tool_new ();
+	} else if (g_str_equal (tool, "exponential-smoothing")) {
+		atool = gnm_exp_smoothing_tool_new ();
+	} else if (g_str_equal (tool, "histogram")) {
+		atool = gnm_histogram_tool_new ();
+	} else if (g_str_equal (tool, "sign-test")) {
+		atool = gnm_sign_test_tool_new ();
+	} else if (g_str_equal (tool, "frequency-tables")) {
+		atool = gnm_frequency_tool_new ();
+	} else if (g_str_equal (tool, "principal-components")) {
+		atool = gnm_principal_components_tool_new ();
+	} else if (g_str_equal (tool, "auto-expression")) {
+		atool = gnm_auto_expression_tool_new ();
+	} else if (g_str_equal (tool, "normality-test")) {
+		atool = gnm_normality_tool_new ();
+	} else if (g_str_equal (tool, "wilcoxon-signed-rank-test")) {
+		atool = gnm_signed_rank_test_tool_new ();
 	} else {
 		g_printerr ("no test for tool \"%s\"\n", tool);
 		g_hash_table_destroy (args);
@@ -907,8 +956,6 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 		GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (atool);
 		gtool->base.wbc = wbc;
 		gtool->base.input = GET_ARG (RANGE_LIST_ARG, "data", NULL);
-		gtool->base.labels = GET_ARG (atoi, "labels", FALSE);
-		gtool->base.group_by = GET_ARG ((group_by_t)atoi, "grouped-by", GROUPED_BY_COL);
 	}
 
 	parse_property_based_options (atool, args);

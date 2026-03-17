@@ -22,11 +22,14 @@ typedef enum {
 } analysis_tools_error_code_t;
 
 typedef enum {
-	GROUPED_BY_ROW = 0,
-	GROUPED_BY_COL = 1,
-	GROUPED_BY_AREA = 2,
-	GROUPED_BY_BIN = 3
-} group_by_t;
+	GNM_TOOL_GROUPED_BY_ROW = 0,
+	GNM_TOOL_GROUPED_BY_COL = 1,
+	GNM_TOOL_GROUPED_BY_AREA = 2,
+	GNM_TOOL_GROUPED_BY_BIN = 3
+} gnm_tool_group_by_t;
+
+GType gnm_tool_group_by_get_type (void);
+#define GNM_TOOL_GROUP_BY_TYPE (gnm_tool_group_by_get_type ())
 
 #define GNM_TYPE_ANALYSIS_TOOL (gnm_analysis_tool_get_type ())
 G_DECLARE_DERIVABLE_TYPE (GnmAnalysisTool, gnm_analysis_tool, GNM, ANALYSIS_TOOL, GObject)
@@ -57,7 +60,7 @@ typedef struct {
 	analysis_tools_error_code_t err;
 	WorkbookControl *wbc;
 	GSList     *input;
-	group_by_t group_by;
+	gnm_tool_group_by_t group_by;
 	gboolean   labels;
 } analysis_tools_data_generic_t;
 
@@ -317,7 +320,7 @@ typedef struct _GnmRegressionToolClass GnmRegressionToolClass;
 
 struct _GnmRegressionTool {
 	GnmGenericBAnalysisTool parent;
-	group_by_t group_by;
+	gnm_tool_group_by_t group_by;
 	gboolean   intercept;
 	gboolean   multiple_regression;
         gboolean   multiple_y;

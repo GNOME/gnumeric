@@ -55,6 +55,35 @@
 #include <stdlib.h>
 #include <math.h>
 
+GType
+gnm_tool_group_by_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ GNM_TOOL_GROUPED_BY_ROW,
+			  "GNM_TOOL_GROUPED_BY_ROW",
+			  "row"
+			},
+			{ GNM_TOOL_GROUPED_BY_COL,
+			  "GNM_TOOL_GROUPED_BY_COL",
+			  "col"
+			},
+			{ GNM_TOOL_GROUPED_BY_AREA,
+			  "GNM_TOOL_GROUPED_BY_AREA",
+			  "area"
+			},
+			{ GNM_TOOL_GROUPED_BY_BIN,
+			  "GNM_TOOL_GROUPED_BY_BIN",
+			  "bin"
+			},
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("gnm_tool_group_by_t", values);
+	}
+	return etype;
+}
+
 /******************************************************************/
 
 enum {
@@ -250,13 +279,57 @@ gnm_analysis_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *d
 /******************************************************************/
 
 static void analysis_tools_remove_label (GnmValue *val,
-					 gboolean labels, group_by_t group_by);
+					 gboolean labels, gnm_tool_group_by_t group_by);
 
-static void analysis_tool_prepare_input_range_impl (GSList **input_range, group_by_t group_by);
+static void analysis_tool_prepare_input_range_impl (GSList **input_range, gnm_tool_group_by_t group_by);
 
 /******************************************************************/
 
 G_DEFINE_TYPE (GnmGenericAnalysisTool, gnm_generic_analysis_tool, GNM_TYPE_ANALYSIS_TOOL)
+
+enum {
+	GENERIC_PROP_0,
+	GENERIC_PROP_LABELS,
+	GENERIC_PROP_GROUP_BY
+};
+
+static void
+gnm_generic_analysis_tool_set_property (GObject *object, guint property_id,
+					GValue const *value, GParamSpec *pspec)
+{
+	GnmGenericAnalysisTool *tool = GNM_GENERIC_ANALYSIS_TOOL (object);
+
+	switch (property_id) {
+	case GENERIC_PROP_LABELS:
+		tool->base.labels = g_value_get_boolean (value);
+		break;
+	case GENERIC_PROP_GROUP_BY:
+		tool->base.group_by = g_value_get_enum (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_generic_analysis_tool_get_property (GObject *object, guint property_id,
+					GValue *value, GParamSpec *pspec)
+{
+	GnmGenericAnalysisTool *tool = GNM_GENERIC_ANALYSIS_TOOL (object);
+
+	switch (property_id) {
+	case GENERIC_PROP_LABELS:
+		g_value_set_boolean (value, tool->base.labels);
+		break;
+	case GENERIC_PROP_GROUP_BY:
+		g_value_set_enum (value, tool->base.group_by);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
 
 static void
 gnm_generic_analysis_tool_init (GnmGenericAnalysisTool *tool)
@@ -264,7 +337,7 @@ gnm_generic_analysis_tool_init (GnmGenericAnalysisTool *tool)
 	tool->base.err = analysis_tools_noerr;
 	tool->base.wbc = NULL;
 	tool->base.input = NULL;
-	tool->base.group_by = GROUPED_BY_COL;
+	tool->base.group_by = GNM_TOOL_GROUPED_BY_COL;
 	tool->base.labels = FALSE;
 }
 
@@ -281,7 +354,20 @@ static void
 gnm_generic_analysis_tool_class_init (GnmGenericAnalysisToolClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+
+	gobject_class->set_property = gnm_generic_analysis_tool_set_property;
+	gobject_class->get_property = gnm_generic_analysis_tool_get_property;
 	gobject_class->finalize = gnm_generic_analysis_tool_finalize;
+
+	g_object_class_install_property (gobject_class,
+		GENERIC_PROP_LABELS,
+		g_param_spec_boolean ("labels", NULL, NULL,
+			FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		GENERIC_PROP_GROUP_BY,
+		g_param_spec_enum ("group-by", NULL, NULL,
+			GNM_TOOL_GROUP_BY_TYPE, GNM_TOOL_GROUPED_BY_COL,
+			G_PARAM_READWRITE));
 }
 
 /********************************************************************/
@@ -952,9 +1038,47 @@ gnm_descriptive_tool_new (void)
 
 G_DEFINE_TYPE (GnmAnovaSingleTool, gnm_anova_single_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
+enum {
+	ANOVA_SINGLE_PROP_0,
+	ANOVA_SINGLE_PROP_ALPHA
+};
+
 static void
-gnm_anova_single_tool_init (G_GNUC_UNUSED GnmAnovaSingleTool *tool)
+gnm_anova_single_tool_set_property (GObject *object, guint property_id,
+				    GValue const *value, GParamSpec *pspec)
 {
+	GnmAnovaSingleTool *tool = GNM_ANOVA_SINGLE_TOOL (object);
+
+	switch (property_id) {
+	case ANOVA_SINGLE_PROP_ALPHA:
+		tool->alpha = g_value_get_double (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_anova_single_tool_get_property (GObject *object, guint property_id,
+				    GValue *value, GParamSpec *pspec)
+{
+	GnmAnovaSingleTool *tool = GNM_ANOVA_SINGLE_TOOL (object);
+
+	switch (property_id) {
+	case ANOVA_SINGLE_PROP_ALPHA:
+		g_value_set_double (value, tool->alpha);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_anova_single_tool_init (GnmAnovaSingleTool *tool)
+{
+	tool->alpha = 0.05;
 }
 
 static gboolean
@@ -1275,13 +1399,22 @@ finish_anova_single_factor_tool:
 static void
 gnm_anova_single_tool_class_init (GnmAnovaSingleToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_anova_single_tool_set_property;
+	gobject_class->get_property = gnm_anova_single_tool_get_property;
 
 	at_class->update_dao = gnm_anova_single_tool_update_dao;
 	at_class->update_descriptor = gnm_anova_single_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_anova_single_tool_prepare_output_range;
 	at_class->format_output_range = gnm_anova_single_tool_format_output_range;
 	at_class->perform_calc = gnm_anova_single_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		ANOVA_SINGLE_PROP_ALPHA,
+		g_param_spec_double ("alpha", NULL, NULL,
+			0.0, 1.0, 0.05, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *
@@ -1337,9 +1470,87 @@ analysis_tool_moving_average_weighted_av (GnmFunc *fd_sum, GnmFunc *fd_in, GnmEx
 
 G_DEFINE_TYPE (GnmMovingAverageTool, gnm_moving_average_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
+enum {
+	MOVING_AVERAGE_PROP_0,
+	MOVING_AVERAGE_PROP_INTERVAL,
+	MOVING_AVERAGE_PROP_STD_ERROR_FLAG,
+	MOVING_AVERAGE_PROP_DF,
+	MOVING_AVERAGE_PROP_OFFSET,
+	MOVING_AVERAGE_PROP_SHOW_GRAPH,
+	MOVING_AVERAGE_PROP_MA_TYPE
+};
+
 static void
-gnm_moving_average_tool_init (G_GNUC_UNUSED GnmMovingAverageTool *tool)
+gnm_moving_average_tool_set_property (GObject *object, guint property_id,
+				      GValue const *value, GParamSpec *pspec)
 {
+	GnmMovingAverageTool *tool = GNM_MOVING_AVERAGE_TOOL (object);
+
+	switch (property_id) {
+	case MOVING_AVERAGE_PROP_INTERVAL:
+		tool->interval = g_value_get_int (value);
+		break;
+	case MOVING_AVERAGE_PROP_STD_ERROR_FLAG:
+		tool->std_error_flag = g_value_get_int (value);
+		break;
+	case MOVING_AVERAGE_PROP_DF:
+		tool->df = g_value_get_int (value);
+		break;
+	case MOVING_AVERAGE_PROP_OFFSET:
+		tool->offset = g_value_get_int (value);
+		break;
+	case MOVING_AVERAGE_PROP_SHOW_GRAPH:
+		tool->show_graph = g_value_get_boolean (value);
+		break;
+	case MOVING_AVERAGE_PROP_MA_TYPE:
+		tool->ma_type = g_value_get_int (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_moving_average_tool_get_property (GObject *object, guint property_id,
+				      GValue *value, GParamSpec *pspec)
+{
+	GnmMovingAverageTool *tool = GNM_MOVING_AVERAGE_TOOL (object);
+
+	switch (property_id) {
+	case MOVING_AVERAGE_PROP_INTERVAL:
+		g_value_set_int (value, tool->interval);
+		break;
+	case MOVING_AVERAGE_PROP_STD_ERROR_FLAG:
+		g_value_set_int (value, tool->std_error_flag);
+		break;
+	case MOVING_AVERAGE_PROP_DF:
+		g_value_set_int (value, tool->df);
+		break;
+	case MOVING_AVERAGE_PROP_OFFSET:
+		g_value_set_int (value, tool->offset);
+		break;
+	case MOVING_AVERAGE_PROP_SHOW_GRAPH:
+		g_value_set_boolean (value, tool->show_graph);
+		break;
+	case MOVING_AVERAGE_PROP_MA_TYPE:
+		g_value_set_int (value, tool->ma_type);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_moving_average_tool_init (GnmMovingAverageTool *tool)
+{
+	tool->interval = 1;
+	tool->std_error_flag = 0;
+	tool->df = 0;
+	tool->offset = 0;
+	tool->show_graph = FALSE;
+	tool->ma_type = 0;
 }
 
 static gboolean
@@ -1439,7 +1650,7 @@ gnm_moving_average_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_outpu
 		if (gtool->base.labels) {
 			val_c = value_dup (val);
 			switch (gtool->base.group_by) {
-			case GROUPED_BY_ROW:
+			case GNM_TOOL_GROUPED_BY_ROW:
 				val->v_range.cell.a.col++;
 				break;
 			default:
@@ -1453,7 +1664,7 @@ gnm_moving_average_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_outpu
 			dao_set_cell_expr (dao, col, 0, expr_title);
 		} else {
 			switch (gtool->base.group_by) {
-			case GROUPED_BY_ROW:
+			case GNM_TOOL_GROUPED_BY_ROW:
 				format = _("Row %d");
 				break;
 			default:
@@ -1464,7 +1675,7 @@ gnm_moving_average_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_outpu
 		}
 
 		switch (gtool->base.group_by) {
-		case GROUPED_BY_ROW:
+		case GNM_TOOL_GROUPED_BY_ROW:
 			height = value_area_get_width (val, &ep);
 			mover = &x;
 			delta_mover = &delta_x;
@@ -1636,7 +1847,7 @@ gnm_moving_average_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_outpu
 				if (row > base && row <= height - mtool->offset && (row - base - mtool->df) > 0) {
 					GnmExpr const *expr_offset;
 
-					if (gtool->base.group_by == GROUPED_BY_ROW)
+					if (gtool->base.group_by == GNM_TOOL_GROUPED_BY_ROW)
 						delta_x = row - base;
 					else
 						delta_y = row - base;
@@ -1684,13 +1895,42 @@ gnm_moving_average_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_outpu
 static void
 gnm_moving_average_tool_class_init (GnmMovingAverageToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_moving_average_tool_set_property;
+	gobject_class->get_property = gnm_moving_average_tool_get_property;
 
 	at_class->update_dao = gnm_moving_average_tool_update_dao;
 	at_class->update_descriptor = gnm_moving_average_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_moving_average_tool_prepare_output_range;
 	at_class->format_output_range = gnm_moving_average_tool_format_output_range;
 	at_class->perform_calc = gnm_moving_average_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		MOVING_AVERAGE_PROP_INTERVAL,
+		g_param_spec_int ("interval", NULL, NULL,
+			1, G_MAXINT, 1, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		MOVING_AVERAGE_PROP_STD_ERROR_FLAG,
+		g_param_spec_int ("std-error-flag", NULL, NULL,
+			0, 1, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		MOVING_AVERAGE_PROP_DF,
+		g_param_spec_int ("df", NULL, NULL,
+			0, G_MAXINT, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		MOVING_AVERAGE_PROP_OFFSET,
+		g_param_spec_int ("offset", NULL, NULL,
+			0, G_MAXINT, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		MOVING_AVERAGE_PROP_SHOW_GRAPH,
+		g_param_spec_boolean ("show-graph", NULL, NULL,
+			FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		MOVING_AVERAGE_PROP_MA_TYPE,
+		g_param_spec_int ("ma-type", NULL, NULL,
+			0, 10, 0, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *
@@ -1712,9 +1952,47 @@ gnm_moving_average_tool_new (void)
 
 G_DEFINE_TYPE (GnmFourierTool, gnm_fourier_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
+enum {
+	FOURIER_PROP_0,
+	FOURIER_PROP_INVERSE
+};
+
 static void
-gnm_fourier_tool_init (G_GNUC_UNUSED GnmFourierTool *tool)
+gnm_fourier_tool_set_property (GObject *object, guint property_id,
+			       GValue const *value, GParamSpec *pspec)
 {
+	GnmFourierTool *tool = GNM_FOURIER_TOOL (object);
+
+	switch (property_id) {
+	case FOURIER_PROP_INVERSE:
+		tool->inverse = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_fourier_tool_get_property (GObject *object, guint property_id,
+			       GValue *value, GParamSpec *pspec)
+{
+	GnmFourierTool *tool = GNM_FOURIER_TOOL (object);
+
+	switch (property_id) {
+	case FOURIER_PROP_INVERSE:
+		g_value_set_boolean (value, tool->inverse);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_fourier_tool_init (GnmFourierTool *tool)
+{
+	tool->inverse = FALSE;
 }
 
 static gboolean
@@ -1801,13 +2079,22 @@ gnm_fourier_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *da
 static void
 gnm_fourier_tool_class_init (GnmFourierToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_fourier_tool_set_property;
+	gobject_class->get_property = gnm_fourier_tool_get_property;
 
 	at_class->update_dao = gnm_fourier_tool_update_dao;
 	at_class->update_descriptor = gnm_fourier_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_fourier_tool_prepare_output_range;
 	at_class->format_output_range = gnm_fourier_tool_format_output_range;
 	at_class->perform_calc = gnm_fourier_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		FOURIER_PROP_INVERSE,
+		g_param_spec_boolean ("inverse", NULL, NULL,
+			FALSE, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *
@@ -1832,9 +2119,87 @@ gnm_fourier_tool_new (void)
 
 G_DEFINE_TYPE (GnmSamplingTool, gnm_sampling_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
+enum {
+	SAMPLING_PROP_0,
+	SAMPLING_PROP_PERIODIC,
+	SAMPLING_PROP_ROW_MAJOR,
+	SAMPLING_PROP_OFFSET,
+	SAMPLING_PROP_SIZE,
+	SAMPLING_PROP_PERIOD,
+	SAMPLING_PROP_NUMBER
+};
+
 static void
-gnm_sampling_tool_init (G_GNUC_UNUSED GnmSamplingTool *tool)
+gnm_sampling_tool_set_property (GObject *object, guint property_id,
+				GValue const *value, GParamSpec *pspec)
 {
+	GnmSamplingTool *tool = GNM_SAMPLING_TOOL (object);
+
+	switch (property_id) {
+	case SAMPLING_PROP_PERIODIC:
+		tool->periodic = g_value_get_boolean (value);
+		break;
+	case SAMPLING_PROP_ROW_MAJOR:
+		tool->row_major = g_value_get_boolean (value);
+		break;
+	case SAMPLING_PROP_OFFSET:
+		tool->offset = g_value_get_uint (value);
+		break;
+	case SAMPLING_PROP_SIZE:
+		tool->size = g_value_get_uint (value);
+		break;
+	case SAMPLING_PROP_PERIOD:
+		tool->period = g_value_get_uint (value);
+		break;
+	case SAMPLING_PROP_NUMBER:
+		tool->number = g_value_get_uint (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_sampling_tool_get_property (GObject *object, guint property_id,
+				GValue *value, GParamSpec *pspec)
+{
+	GnmSamplingTool *tool = GNM_SAMPLING_TOOL (object);
+
+	switch (property_id) {
+	case SAMPLING_PROP_PERIODIC:
+		g_value_set_boolean (value, tool->periodic);
+		break;
+	case SAMPLING_PROP_ROW_MAJOR:
+		g_value_set_boolean (value, tool->row_major);
+		break;
+	case SAMPLING_PROP_OFFSET:
+		g_value_set_uint (value, tool->offset);
+		break;
+	case SAMPLING_PROP_SIZE:
+		g_value_set_uint (value, tool->size);
+		break;
+	case SAMPLING_PROP_PERIOD:
+		g_value_set_uint (value, tool->period);
+		break;
+	case SAMPLING_PROP_NUMBER:
+		g_value_set_uint (value, tool->number);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_sampling_tool_init (GnmSamplingTool *tool)
+{
+	tool->periodic = FALSE;
+	tool->row_major = FALSE;
+	tool->offset = 0;
+	tool->size = 0;
+	tool->period = 0;
+	tool->number = 0;
 }
 
 static gboolean
@@ -1904,10 +2269,10 @@ gnm_sampling_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *d
 		if (gtool->base.labels) {
 			val_c = value_dup (val);
 			switch (gtool->base.group_by) {
-			case GROUPED_BY_ROW:
+			case GNM_TOOL_GROUPED_BY_ROW:
 				val->v_range.cell.a.col++;
 				break;
-			case GROUPED_BY_COL:
+			case GNM_TOOL_GROUPED_BY_COL:
 				val->v_range.cell.a.row++;
 				break;
 			default:
@@ -1921,10 +2286,10 @@ gnm_sampling_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *d
 			gnm_expr_free (expr_title);
 		} else {
 			switch (gtool->base.group_by) {
-			case GROUPED_BY_ROW:
+			case GNM_TOOL_GROUPED_BY_ROW:
 				format = _("Row %d");
 				break;
-			case GROUPED_BY_COL:
+			case GNM_TOOL_GROUPED_BY_COL:
 				format = _("Column %d");
 				break;
 			default:
@@ -2020,13 +2385,42 @@ gnm_sampling_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *d
 static void
 gnm_sampling_tool_class_init (GnmSamplingToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_sampling_tool_set_property;
+	gobject_class->get_property = gnm_sampling_tool_get_property;
 
 	at_class->update_dao = gnm_sampling_tool_update_dao;
 	at_class->update_descriptor = gnm_sampling_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_sampling_tool_prepare_output_range;
 	at_class->format_output_range = gnm_sampling_tool_format_output_range;
 	at_class->perform_calc = gnm_sampling_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		SAMPLING_PROP_PERIODIC,
+		g_param_spec_boolean ("periodic", NULL, NULL,
+			FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		SAMPLING_PROP_ROW_MAJOR,
+		g_param_spec_boolean ("row-major", NULL, NULL,
+			FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		SAMPLING_PROP_OFFSET,
+		g_param_spec_uint ("offset", NULL, NULL,
+			0, G_MAXUINT, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		SAMPLING_PROP_SIZE,
+		g_param_spec_uint ("size", NULL, NULL,
+			0, G_MAXUINT, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		SAMPLING_PROP_PERIOD,
+		g_param_spec_uint ("period", NULL, NULL,
+			0, G_MAXUINT, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		SAMPLING_PROP_NUMBER,
+		g_param_spec_uint ("number", NULL, NULL,
+			0, G_MAXUINT, 0, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *
@@ -2046,9 +2440,47 @@ gnm_sampling_tool_new (void)
 
 G_DEFINE_TYPE (GnmRankingTool, gnm_ranking_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
+enum {
+	RANKING_PROP_0,
+	RANKING_PROP_AV_TIES
+};
+
 static void
-gnm_ranking_tool_init (G_GNUC_UNUSED GnmRankingTool *tool)
+gnm_ranking_tool_set_property (GObject *object, guint property_id,
+			       GValue const *value, GParamSpec *pspec)
 {
+	GnmRankingTool *tool = GNM_RANKING_TOOL (object);
+
+	switch (property_id) {
+	case RANKING_PROP_AV_TIES:
+		tool->av_ties = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_ranking_tool_get_property (GObject *object, guint property_id,
+			       GValue *value, GParamSpec *pspec)
+{
+	GnmRankingTool *tool = GNM_RANKING_TOOL (object);
+
+	switch (property_id) {
+	case RANKING_PROP_AV_TIES:
+		g_value_set_boolean (value, tool->av_ties);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_ranking_tool_init (GnmRankingTool *tool)
+{
+	tool->av_ties = FALSE;
 }
 
 static gboolean
@@ -2196,13 +2628,22 @@ gnm_ranking_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *da
 static void
 gnm_ranking_tool_class_init (GnmRankingToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_ranking_tool_set_property;
+	gobject_class->get_property = gnm_ranking_tool_get_property;
 
 	at_class->update_dao = gnm_ranking_tool_update_dao;
 	at_class->update_descriptor = gnm_ranking_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_ranking_tool_prepare_output_range;
 	at_class->format_output_range = gnm_ranking_tool_format_output_range;
 	at_class->perform_calc = gnm_ranking_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		RANKING_PROP_AV_TIES,
+		g_param_spec_boolean ("av-ties", NULL, NULL,
+			FALSE, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *
@@ -3714,8 +4155,8 @@ gnm_ztest_tool_class_init (GnmZTestToolClass *klass)
 	at_class->perform_calc = gnm_ztest_tool_perform_calc;
 }
 
-static gint calculate_xdim (GnmValue const *val, group_by_t group_by);
-static gint calculate_n_obs (GnmValue const *val, group_by_t group_by);
+static gint calculate_xdim (GnmValue const *val, gnm_tool_group_by_t group_by);
+static gint calculate_n_obs (GnmValue const *val, gnm_tool_group_by_t group_by);
 static gboolean analysis_tool_regression_engine_run (GnmRegressionTool *rtool, data_analysis_output_t *dao);
 static gboolean analysis_tool_regression_simple_engine_run (GnmRegressionTool *rtool, data_analysis_output_t *dao);
 
@@ -3903,16 +4344,16 @@ cb_adjust_areas (gpointer data, G_GNUC_UNUSED gpointer user_data)
  */
 static void
 analysis_tools_remove_label (GnmValue *val,
-			     gboolean labels, group_by_t group_by)
+			     gboolean labels, gnm_tool_group_by_t group_by)
 {
 	if (labels) {
 		switch (group_by) {
-		case GROUPED_BY_ROW:
+		case GNM_TOOL_GROUPED_BY_ROW:
 			val->v_range.cell.a.col++;
 			break;
-		case GROUPED_BY_COL:
-		case GROUPED_BY_BIN:
-		case GROUPED_BY_AREA:
+		case GNM_TOOL_GROUPED_BY_COL:
+		case GNM_TOOL_GROUPED_BY_BIN:
+		case GNM_TOOL_GROUPED_BY_AREA:
 		default:
 			val->v_range.cell.a.row++;
 			break;
@@ -3946,16 +4387,16 @@ analysis_tools_write_label (GnmGenericAnalysisTool *gtool,
 		analysis_tools_remove_label (val, gtool->base.labels, gtool->base.group_by);
 	} else {
 		switch (gtool->base.group_by) {
-		case GROUPED_BY_ROW:
+		case GNM_TOOL_GROUPED_BY_ROW:
 			format = _("Row %i");
 			break;
-		case GROUPED_BY_COL:
+		case GNM_TOOL_GROUPED_BY_COL:
 			format = _("Column %i");
 			break;
-		case GROUPED_BY_BIN:
+		case GNM_TOOL_GROUPED_BY_BIN:
 			format = _("Bin %i");
 			break;
-		case GROUPED_BY_AREA:
+		case GNM_TOOL_GROUPED_BY_AREA:
 		default:
 			format = _("Area %i");
 			break;
@@ -3976,7 +4417,7 @@ analysis_tools_write_label (GnmGenericAnalysisTool *gtool,
  */
 static void
 analysis_tools_write_a_label (GnmValue *val, data_analysis_output_t *dao,
-			      gboolean labels, group_by_t group_by,
+			      gboolean labels, gnm_tool_group_by_t group_by,
 			      int x, int y)
 {
 	if (labels) {
@@ -3986,8 +4427,8 @@ analysis_tools_write_a_label (GnmValue *val, data_analysis_output_t *dao,
 		dao_set_cell_expr (dao, x, y, gnm_expr_new_constant (label));
 		analysis_tools_remove_label (val, labels, group_by);
 	} else {
-		char const *str = ((group_by == GROUPED_BY_ROW) ? "row" : "col");
-		char const *label = ((group_by == GROUPED_BY_ROW) ? _("Row") : _("Column"));
+		char const *str = ((group_by == GNM_TOOL_GROUPED_BY_ROW) ? "row" : "col");
+		char const *label = ((group_by == GNM_TOOL_GROUPED_BY_ROW) ? _("Row") : _("Column"));
 		GnmFunc *fd_concatenate = gnm_func_get_and_use ("CONCATENATE");
 		GnmFunc *fd_cell = gnm_func_get_and_use ("CELL");
 
@@ -4122,22 +4563,22 @@ cb_cut_into_rows (gpointer data, gpointer user_data)
  *  @group_by:
  */
 static void
-analysis_tool_prepare_input_range_impl (GSList **input_range, group_by_t group_by)
+analysis_tool_prepare_input_range_impl (GSList **input_range, gnm_tool_group_by_t group_by)
 {
 	GSList *input_by_units = NULL;
 
 	switch (group_by) {
-	case GROUPED_BY_ROW:
+	case GNM_TOOL_GROUPED_BY_ROW:
 		g_slist_foreach (*input_range, cb_cut_into_rows, &input_by_units);
 		g_slist_free (*input_range);
 		*input_range = g_slist_reverse (input_by_units);
 		return;
-	case GROUPED_BY_COL:
+	case GNM_TOOL_GROUPED_BY_COL:
 		g_slist_foreach (*input_range, cb_cut_into_cols, &input_by_units);
 		g_slist_free (*input_range);
 		*input_range = g_slist_reverse (input_by_units);
 		return;
-	case GROUPED_BY_AREA:
+	case GNM_TOOL_GROUPED_BY_AREA:
 	default:
 		g_slist_foreach (*input_range, cb_adjust_areas, NULL);
 		return;
@@ -4270,11 +4711,11 @@ int analysis_tool_calc_length (GnmGenericAnalysisTool *gtool)
 		GnmValue    *current = dataset->data;
 		int      given_length;
 
-		if (gtool->base.group_by == GROUPED_BY_AREA) {
+		if (gtool->base.group_by == GNM_TOOL_GROUPED_BY_AREA) {
 			given_length = (current->v_range.cell.b.row - current->v_range.cell.a.row + 1) *
 				(current->v_range.cell.b.col - current->v_range.cell.a.col + 1);
 		} else
-			given_length = (gtool->base.group_by == GROUPED_BY_COL) ?
+			given_length = (gtool->base.group_by == GNM_TOOL_GROUPED_BY_COL) ?
 				(current->v_range.cell.b.row - current->v_range.cell.a.row + 1) :
 				(current->v_range.cell.b.col - current->v_range.cell.a.col + 1);
 		if (given_length > result)
@@ -4388,7 +4829,7 @@ analysis_tool_table (GnmGenericAnalysisTool *gtool, data_analysis_output_t *dao,
  **/
 
 static gint
-calculate_xdim (GnmValue const *input, group_by_t  group_by)
+calculate_xdim (GnmValue const *input, gnm_tool_group_by_t  group_by)
 {
 		GnmRange r;
 
@@ -4397,14 +4838,14 @@ calculate_xdim (GnmValue const *input, group_by_t  group_by)
 		if (NULL == range_init_value (&r, input))
 			return 0;
 
-		if (group_by == GROUPED_BY_ROW)
+		if (group_by == GNM_TOOL_GROUPED_BY_ROW)
 			return range_height (&r);
 
 		return range_width (&r);
 }
 
 static gint
-calculate_n_obs (GnmValue const *input, group_by_t  group_by)
+calculate_n_obs (GnmValue const *input, gnm_tool_group_by_t  group_by)
 {
 		GnmRange r;
 
@@ -4413,7 +4854,7 @@ calculate_n_obs (GnmValue const *input, group_by_t  group_by)
 		if (NULL == range_init_value (&r, input))
 			return 0;
 
-		if (group_by == GROUPED_BY_ROW)
+		if (group_by == GNM_TOOL_GROUPED_BY_ROW)
 			return range_width (&r);
 
 		return range_height (&r);
@@ -4461,8 +4902,8 @@ analysis_tool_regression_engine_run (GnmRegressionTool *rtool, data_analysis_out
 	GnmFunc *fd_sumproduct = NULL;
 	GnmFunc *fd_leverage = NULL;
 
-	char const *str = ((rtool->group_by == GROUPED_BY_ROW) ? "row" : "col");
-	char const *label = ((rtool->group_by == GROUPED_BY_ROW) ? _("Row")
+	char const *str = ((rtool->group_by == GNM_TOOL_GROUPED_BY_ROW) ? "row" : "col");
+	char const *label = ((rtool->group_by == GNM_TOOL_GROUPED_BY_ROW) ? _("Row")
 			     : _("Column"));
 
 	if (!gtool->base.labels) {
@@ -4508,7 +4949,7 @@ analysis_tool_regression_engine_run (GnmRegressionTool *rtool, data_analysis_out
 
 		val_1_cp =  value_dup (val_1);
 		val_2_cp =  value_dup (val_2);
-		if (rtool->group_by == GROUPED_BY_ROW) {
+		if (rtool->group_by == GNM_TOOL_GROUPED_BY_ROW) {
 			val_1->v_range.cell.a.col++;
 			val_2->v_range.cell.a.col++;
 			val_1_cp->v_range.cell.b.col = val_1_cp->v_range.cell.a.col;
@@ -4816,7 +5257,7 @@ analysis_tool_regression_engine_run (GnmRegressionTool *rtool, data_analysis_out
 		if (!gtool->base.labels) {
 			GnmExpr const *expr_offset;
 
-			if (rtool->group_by == GROUPED_BY_ROW)
+			if (rtool->group_by == GNM_TOOL_GROUPED_BY_ROW)
 				expr_offset = gnm_expr_new_funcall3
 					(fd_offset, gnm_expr_new_constant (value_dup (val_1)),
 					 gnm_expr_new_constant (value_new_int (i)),
@@ -4884,7 +5325,7 @@ analysis_tool_regression_engine_run (GnmRegressionTool *rtool, data_analysis_out
 						       "/Externally studentized"
 						       "/p-Value"));
 		dao_set_cell_expr (dao, xdim + 2, 0, make_cellref (1 - xdim, - 18 - xdim));
-		if (rtool->group_by == GROUPED_BY_ROW) {
+		if (rtool->group_by == GNM_TOOL_GROUPED_BY_ROW) {
 			dao_set_array_expr (dao, 1, 1, xdim, n_obs,
 					    gnm_expr_new_funcall1
 					    (fd_transpose,

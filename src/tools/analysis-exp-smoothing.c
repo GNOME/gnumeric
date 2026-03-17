@@ -46,9 +46,103 @@ static gboolean analysis_tool_exponential_smoothing_engine_mtes_run (GnmExpSmoot
 
 G_DEFINE_TYPE (GnmExpSmoothingTool, gnm_exp_smoothing_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
+enum {
+	EXP_SMOOTHING_PROP_0,
+	EXP_SMOOTHING_PROP_DAMP_FACT,
+	EXP_SMOOTHING_PROP_G_DAMP_FACT,
+	EXP_SMOOTHING_PROP_S_DAMP_FACT,
+	EXP_SMOOTHING_PROP_S_PERIOD,
+	EXP_SMOOTHING_PROP_STD_ERROR_FLAG,
+	EXP_SMOOTHING_PROP_DF,
+	EXP_SMOOTHING_PROP_SHOW_GRAPH,
+	EXP_SMOOTHING_PROP_ES_TYPE
+};
+
+static void
+gnm_exp_smoothing_tool_set_property (GObject *object, guint property_id,
+				     GValue const *value, GParamSpec *pspec)
+{
+	GnmExpSmoothingTool *tool = GNM_EXP_SMOOTHING_TOOL (object);
+
+	switch (property_id) {
+	case EXP_SMOOTHING_PROP_DAMP_FACT:
+		tool->damp_fact = g_value_get_double (value);
+		break;
+	case EXP_SMOOTHING_PROP_G_DAMP_FACT:
+		tool->g_damp_fact = g_value_get_double (value);
+		break;
+	case EXP_SMOOTHING_PROP_S_DAMP_FACT:
+		tool->s_damp_fact = g_value_get_double (value);
+		break;
+	case EXP_SMOOTHING_PROP_S_PERIOD:
+		tool->s_period = g_value_get_int (value);
+		break;
+	case EXP_SMOOTHING_PROP_STD_ERROR_FLAG:
+		tool->std_error_flag = g_value_get_int (value);
+		break;
+	case EXP_SMOOTHING_PROP_DF:
+		tool->df = g_value_get_int (value);
+		break;
+	case EXP_SMOOTHING_PROP_SHOW_GRAPH:
+		tool->show_graph = g_value_get_boolean (value);
+		break;
+	case EXP_SMOOTHING_PROP_ES_TYPE:
+		tool->es_type = g_value_get_int (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_exp_smoothing_tool_get_property (GObject *object, guint property_id,
+				     GValue *value, GParamSpec *pspec)
+{
+	GnmExpSmoothingTool *tool = GNM_EXP_SMOOTHING_TOOL (object);
+
+	switch (property_id) {
+	case EXP_SMOOTHING_PROP_DAMP_FACT:
+		g_value_set_double (value, tool->damp_fact);
+		break;
+	case EXP_SMOOTHING_PROP_G_DAMP_FACT:
+		g_value_set_double (value, tool->g_damp_fact);
+		break;
+	case EXP_SMOOTHING_PROP_S_DAMP_FACT:
+		g_value_set_double (value, tool->s_damp_fact);
+		break;
+	case EXP_SMOOTHING_PROP_S_PERIOD:
+		g_value_set_int (value, tool->s_period);
+		break;
+	case EXP_SMOOTHING_PROP_STD_ERROR_FLAG:
+		g_value_set_int (value, tool->std_error_flag);
+		break;
+	case EXP_SMOOTHING_PROP_DF:
+		g_value_set_int (value, tool->df);
+		break;
+	case EXP_SMOOTHING_PROP_SHOW_GRAPH:
+		g_value_set_boolean (value, tool->show_graph);
+		break;
+	case EXP_SMOOTHING_PROP_ES_TYPE:
+		g_value_set_int (value, tool->es_type);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
 static void
 gnm_exp_smoothing_tool_init (GnmExpSmoothingTool *tool)
 {
+	tool->damp_fact = 0.5;
+	tool->g_damp_fact = 0.5;
+	tool->s_damp_fact = 0.5;
+	tool->s_period = 1;
+	tool->std_error_flag = 0;
+	tool->df = 0;
+	tool->show_graph = FALSE;
+	tool->es_type = 0;
 }
 
 static gboolean
@@ -108,13 +202,50 @@ gnm_exp_smoothing_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output
 static void
 gnm_exp_smoothing_tool_class_init (GnmExpSmoothingToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_exp_smoothing_tool_set_property;
+	gobject_class->get_property = gnm_exp_smoothing_tool_get_property;
 
 	at_class->update_dao = gnm_exp_smoothing_tool_update_dao;
 	at_class->update_descriptor = gnm_exp_smoothing_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_exp_smoothing_tool_prepare_output_range;
 	at_class->format_output_range = gnm_exp_smoothing_tool_format_output_range;
 	at_class->perform_calc = gnm_exp_smoothing_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		EXP_SMOOTHING_PROP_DAMP_FACT,
+		g_param_spec_double ("damp-fact", NULL, NULL,
+			0.0, 1.0, 0.5, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		EXP_SMOOTHING_PROP_G_DAMP_FACT,
+		g_param_spec_double ("g-damp-fact", NULL, NULL,
+			0.0, 1.0, 0.5, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		EXP_SMOOTHING_PROP_S_DAMP_FACT,
+		g_param_spec_double ("s-damp-fact", NULL, NULL,
+			0.0, 1.0, 0.5, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		EXP_SMOOTHING_PROP_S_PERIOD,
+		g_param_spec_int ("s-period", NULL, NULL,
+			1, G_MAXINT, 1, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		EXP_SMOOTHING_PROP_STD_ERROR_FLAG,
+		g_param_spec_int ("std-error-flag", NULL, NULL,
+			0, 1, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		EXP_SMOOTHING_PROP_DF,
+		g_param_spec_int ("df", NULL, NULL,
+			0, G_MAXINT, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		EXP_SMOOTHING_PROP_SHOW_GRAPH,
+		g_param_spec_boolean ("show-graph", NULL, NULL,
+			FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		EXP_SMOOTHING_PROP_ES_TYPE,
+		g_param_spec_int ("es-type", NULL, NULL,
+			0, 10, 0, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *
@@ -217,7 +348,7 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (GnmExpSmoothingTool *etool
 		if (gtool->base.labels) {
 			val_c = value_dup (val);
 			switch (gtool->base.group_by) {
-			case GROUPED_BY_ROW:
+			case GNM_TOOL_GROUPED_BY_ROW:
 				val->v_range.cell.a.col++;
 				break;
 			default:
@@ -231,12 +362,12 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (GnmExpSmoothingTool *etool
 		} else
 			dao_set_cell_printf
 				(dao, col, 0,
-				 (gtool->base.group_by == GROUPED_BY_ROW ?
+				 (gtool->base.group_by == GNM_TOOL_GROUPED_BY_ROW ?
 				  _("Row %d") : _("Column %d")),
 				 source);
 
 		switch (gtool->base.group_by) {
-		case GROUPED_BY_ROW:
+		case GNM_TOOL_GROUPED_BY_ROW:
 			height = value_area_get_width (val, &ep);
 			mover = &x;
 			break;
@@ -292,7 +423,7 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (GnmExpSmoothingTool *etool
 				if (row > 1 && row <= height && (row - 1 - etool->df) > 0) {
 					GnmExpr const *expr_offset;
 
-					if (gtool->base.group_by == GROUPED_BY_ROW)
+					if (gtool->base.group_by == GNM_TOOL_GROUPED_BY_ROW)
 						delta_x = row - 1;
 					else
 						delta_y = row - 1;
@@ -391,7 +522,7 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (GnmExpSmoothingTool *etool
 		if (gtool->base.labels) {
 			val_c = value_dup (val);
 			switch (gtool->base.group_by) {
-			case GROUPED_BY_ROW:
+			case GNM_TOOL_GROUPED_BY_ROW:
 				val->v_range.cell.a.col++;
 				break;
 			default:
@@ -405,12 +536,12 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (GnmExpSmoothingTool *etool
 		} else
 			dao_set_cell_printf
 				(dao, col, 0,
-				 (gtool->base.group_by == GROUPED_BY_ROW ?
+				 (gtool->base.group_by == GNM_TOOL_GROUPED_BY_ROW ?
 				  _("Row %d") : _("Column %d")),
 				 source);
 
 		switch (gtool->base.group_by) {
-		case GROUPED_BY_ROW:
+		case GNM_TOOL_GROUPED_BY_ROW:
 			height = value_area_get_width (val, &ep);
 			mover = &x;
 			break;
@@ -471,7 +602,7 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (GnmExpSmoothingTool *etool
 				if (row > 1 && (row - 1 - etool->df) > 0) {
 					GnmExpr const *expr_offset;
 
-					if (gtool->base.group_by == GROUPED_BY_ROW)
+					if (gtool->base.group_by == GNM_TOOL_GROUPED_BY_ROW)
 						delta_x = row - 1;
 					else
 						delta_y = row - 1;
@@ -577,7 +708,7 @@ analysis_tool_exponential_smoothing_engine_des_run (GnmExpSmoothingTool *etool, 
 		if (gtool->base.labels) {
 			val_c = value_dup (val);
 			switch (gtool->base.group_by) {
-			case GROUPED_BY_ROW:
+			case GNM_TOOL_GROUPED_BY_ROW:
 				val->v_range.cell.a.col++;
 				break;
 			default:
@@ -591,12 +722,12 @@ analysis_tool_exponential_smoothing_engine_des_run (GnmExpSmoothingTool *etool, 
 		} else
 			dao_set_cell_printf
 				(dao, col, 0,
-				 (gtool->base.group_by == GROUPED_BY_ROW ?
+				 (gtool->base.group_by == GNM_TOOL_GROUPED_BY_ROW ?
 				  _("Row %d") : _("Column %d")),
 				 source);
 
 		switch (gtool->base.group_by) {
-		case GROUPED_BY_ROW:
+		case GNM_TOOL_GROUPED_BY_ROW:
 			height = value_area_get_width (val, &ep);
 			mover = &x;
 			break;
@@ -686,7 +817,7 @@ analysis_tool_exponential_smoothing_engine_des_run (GnmExpSmoothingTool *etool, 
 					if (row > 1 && (row - 1 - etool->df) > 0) {
 						GnmExpr const *expr_offset;
 
-						if (gtool->base.group_by == GROUPED_BY_ROW)
+						if (gtool->base.group_by == GNM_TOOL_GROUPED_BY_ROW)
 							delta_x = row - 1;
 						else
 							delta_y = row - 1;
@@ -835,7 +966,7 @@ analysis_tool_exponential_smoothing_engine_ates_run (GnmExpSmoothingTool *etool,
 			if (gtool->base.labels) {
 				val_c = value_dup (val);
 				switch (gtool->base.group_by) {
-				case GROUPED_BY_ROW:
+				case GNM_TOOL_GROUPED_BY_ROW:
 					val->v_range.cell.a.col++;
 					break;
 				default:
@@ -849,13 +980,13 @@ analysis_tool_exponential_smoothing_engine_ates_run (GnmExpSmoothingTool *etool,
 			} else
 				dao_set_cell_printf
 					(dao, col,  -etool->s_period,
-					 (gtool->base.group_by  == GROUPED_BY_ROW ?
+					 (gtool->base.group_by  == GNM_TOOL_GROUPED_BY_ROW ?
 					  _("Row %d") : _("Column %d")),
 					 source);
 
 
 			switch (gtool->base.group_by) {
-			case GROUPED_BY_ROW:
+			case GNM_TOOL_GROUPED_BY_ROW:
 				height = value_area_get_width (val, &ep);
 				expr_input = gnm_expr_new_constant (val);
 				expr_index = gnm_expr_new_funcall3 (fd_index, gnm_expr_copy (expr_input),
@@ -1151,7 +1282,7 @@ analysis_tool_exponential_smoothing_engine_mtes_run (GnmExpSmoothingTool *etool,
 			if (gtool->base.labels) {
 				val_c = value_dup (val);
 				switch (gtool->base.group_by) {
-				case GROUPED_BY_ROW:
+				case GNM_TOOL_GROUPED_BY_ROW:
 					val->v_range.cell.a.col++;
 					break;
 				default:
@@ -1165,13 +1296,13 @@ analysis_tool_exponential_smoothing_engine_mtes_run (GnmExpSmoothingTool *etool,
 			} else
 				dao_set_cell_printf
 					(dao, col,  -etool->s_period,
-					 (gtool->base.group_by  == GROUPED_BY_ROW ?
+					 (gtool->base.group_by  == GNM_TOOL_GROUPED_BY_ROW ?
 					  _("Row %d") : _("Column %d")),
 					 source);
 
 
 			switch (gtool->base.group_by) {
-			case GROUPED_BY_ROW:
+			case GNM_TOOL_GROUPED_BY_ROW:
 				height = value_area_get_width (val, &ep);
 				expr_input = gnm_expr_new_constant (val);
 				expr_index = gnm_expr_new_funcall3 (fd_index, gnm_expr_copy (expr_input),
