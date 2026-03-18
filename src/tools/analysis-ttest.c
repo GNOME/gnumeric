@@ -51,6 +51,43 @@
 
 G_DEFINE_TYPE (GnmTTestPairedTool, gnm_ttest_paired_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
 
+enum {
+	TTEST_PAIRED_PROP_0,
+	TTEST_PAIRED_PROP_MEAN_DIFF
+};
+
+static void
+gnm_ttest_paired_tool_set_property (GObject *object, guint property_id,
+				    GValue const *value, GParamSpec *pspec)
+{
+	GnmTTestPairedTool *tool = GNM_TTEST_PAIRED_TOOL (object);
+
+	switch (property_id) {
+	case TTEST_PAIRED_PROP_MEAN_DIFF:
+		tool->mean_diff = g_value_get_double (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_ttest_paired_tool_get_property (GObject *object, guint property_id,
+				    GValue *value, GParamSpec *pspec)
+{
+	GnmTTestPairedTool *tool = GNM_TTEST_PAIRED_TOOL (object);
+
+	switch (property_id) {
+	case TTEST_PAIRED_PROP_MEAN_DIFF:
+		g_value_set_double (value, tool->mean_diff);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
 static void
 gnm_ttest_paired_tool_init (GnmTTestPairedTool *tool)
 {
@@ -315,13 +352,23 @@ gnm_ttest_paired_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_
 static void
 gnm_ttest_paired_tool_class_init (GnmTTestPairedToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_ttest_paired_tool_set_property;
+	gobject_class->get_property = gnm_ttest_paired_tool_get_property;
 
 	at_class->update_dao = gnm_ttest_paired_tool_update_dao;
 	at_class->update_descriptor = gnm_ttest_paired_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_ttest_paired_tool_prepare_output_range;
 	at_class->format_output_range = gnm_ttest_paired_tool_format_output_range;
 	at_class->perform_calc = gnm_ttest_paired_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		TTEST_PAIRED_PROP_MEAN_DIFF,
+		g_param_spec_double ("mean-diff", NULL, NULL,
+				     -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
+				     G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *
@@ -336,6 +383,43 @@ gnm_ttest_paired_tool_new (void)
  */
 
 G_DEFINE_TYPE (GnmTTestEqVarTool, gnm_ttest_eqvar_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+enum {
+	TTEST_EQVAR_PROP_0,
+	TTEST_EQVAR_PROP_MEAN_DIFF
+};
+
+static void
+gnm_ttest_eqvar_tool_set_property (GObject *object, guint property_id,
+				   GValue const *value, GParamSpec *pspec)
+{
+	GnmTTestEqVarTool *tool = GNM_TTEST_EQVAR_TOOL (object);
+
+	switch (property_id) {
+	case TTEST_EQVAR_PROP_MEAN_DIFF:
+		tool->mean_diff = g_value_get_double (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_ttest_eqvar_tool_get_property (GObject *object, guint property_id,
+				   GValue *value, GParamSpec *pspec)
+{
+	GnmTTestEqVarTool *tool = GNM_TTEST_EQVAR_TOOL (object);
+
+	switch (property_id) {
+	case TTEST_EQVAR_PROP_MEAN_DIFF:
+		g_value_set_double (value, tool->mean_diff);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
 
 static void
 gnm_ttest_eqvar_tool_init (GnmTTestEqVarTool *tool)
@@ -629,13 +713,23 @@ gnm_ttest_eqvar_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t
 static void
 gnm_ttest_eqvar_tool_class_init (GnmTTestEqVarToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_ttest_eqvar_tool_set_property;
+	gobject_class->get_property = gnm_ttest_eqvar_tool_get_property;
 
 	at_class->update_dao = gnm_ttest_eqvar_tool_update_dao;
 	at_class->update_descriptor = gnm_ttest_eqvar_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_ttest_eqvar_tool_prepare_output_range;
 	at_class->format_output_range = gnm_ttest_eqvar_tool_format_output_range;
 	at_class->perform_calc = gnm_ttest_eqvar_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		TTEST_EQVAR_PROP_MEAN_DIFF,
+		g_param_spec_double ("mean-diff", NULL, NULL,
+				     -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
+				     G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *
@@ -650,6 +744,43 @@ gnm_ttest_eqvar_tool_new (void)
  */
 
 G_DEFINE_TYPE (GnmTTestNeqVarTool, gnm_ttest_neqvar_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
+
+enum {
+	TTEST_NEQVAR_PROP_0,
+	TTEST_NEQVAR_PROP_MEAN_DIFF
+};
+
+static void
+gnm_ttest_neqvar_tool_set_property (GObject *object, guint property_id,
+				    GValue const *value, GParamSpec *pspec)
+{
+	GnmTTestNeqVarTool *tool = GNM_TTEST_NEQVAR_TOOL (object);
+
+	switch (property_id) {
+	case TTEST_NEQVAR_PROP_MEAN_DIFF:
+		tool->mean_diff = g_value_get_double (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_ttest_neqvar_tool_get_property (GObject *object, guint property_id,
+				    GValue *value, GParamSpec *pspec)
+{
+	GnmTTestNeqVarTool *tool = GNM_TTEST_NEQVAR_TOOL (object);
+
+	switch (property_id) {
+	case TTEST_NEQVAR_PROP_MEAN_DIFF:
+		g_value_set_double (value, tool->mean_diff);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
 
 static void
 gnm_ttest_neqvar_tool_init (GnmTTestNeqVarTool *tool)
@@ -939,13 +1070,23 @@ gnm_ttest_neqvar_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_
 static void
 gnm_ttest_neqvar_tool_class_init (GnmTTestNeqVarToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_ttest_neqvar_tool_set_property;
+	gobject_class->get_property = gnm_ttest_neqvar_tool_get_property;
 
 	at_class->update_dao = gnm_ttest_neqvar_tool_update_dao;
 	at_class->update_descriptor = gnm_ttest_neqvar_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_ttest_neqvar_tool_prepare_output_range;
 	at_class->format_output_range = gnm_ttest_neqvar_tool_format_output_range;
 	at_class->perform_calc = gnm_ttest_neqvar_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		TTEST_NEQVAR_PROP_MEAN_DIFF,
+		g_param_spec_double ("mean-diff", NULL, NULL,
+				     -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
+				     G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *

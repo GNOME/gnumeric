@@ -5513,7 +5513,6 @@ cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 		g_object_unref (me);
 		return TRUE;
 	}
-	me->cmd.cmd_descriptor = gnm_analysis_tool_update_descriptor (me->tool, me->dao);
 	me->cmd.sheet = NULL;
 	me->type = dao->type;
 	me->row_info = NULL;

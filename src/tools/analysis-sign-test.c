@@ -272,8 +272,50 @@ gnm_sign_test_tool_new (void)
 G_DEFINE_TYPE (GnmSignTestTwoTool, gnm_sign_test_two_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
 
 static void
-gnm_sign_test_two_tool_init (G_GNUC_UNUSED GnmSignTestTwoTool *tool)
+gnm_sign_test_two_tool_init (GnmSignTestTwoTool *tool)
 {
+	tool->median = 0.0;
+}
+
+enum {
+	SIGN_TEST_TWO_PROP_0,
+	SIGN_TEST_TWO_PROP_MEDIAN
+};
+
+static void
+gnm_sign_test_two_tool_set_property (GObject      *obj,
+				     guint         property_id,
+				     GValue const *value,
+				     GParamSpec   *pspec)
+{
+	GnmSignTestTwoTool *tool = GNM_SIGN_TEST_TWO_TOOL (obj);
+
+	switch (property_id) {
+	case SIGN_TEST_TWO_PROP_MEDIAN:
+		tool->median = g_value_get_double (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_sign_test_two_tool_get_property (GObject    *obj,
+				     guint       property_id,
+				     GValue     *value,
+				     GParamSpec *pspec)
+{
+	GnmSignTestTwoTool *tool = GNM_SIGN_TEST_TWO_TOOL (obj);
+
+	switch (property_id) {
+	case SIGN_TEST_TWO_PROP_MEDIAN:
+		g_value_set_double (value, tool->median);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
 }
 
 static gboolean
@@ -457,13 +499,21 @@ gnm_sign_test_two_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output
 static void
 gnm_sign_test_two_tool_class_init (GnmSignTestTwoToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
 
+	gobject_class->set_property = gnm_sign_test_two_tool_set_property;
+	gobject_class->get_property = gnm_sign_test_two_tool_get_property;
 	at_class->update_dao = gnm_sign_test_two_tool_update_dao;
 	at_class->update_descriptor = gnm_sign_test_two_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_sign_test_two_tool_prepare_output_range;
 	at_class->format_output_range = gnm_sign_test_two_tool_format_output_range;
 	at_class->perform_calc = gnm_sign_test_two_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		SIGN_TEST_TWO_PROP_MEDIAN,
+		g_param_spec_double ("median", NULL, NULL,
+				     -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *

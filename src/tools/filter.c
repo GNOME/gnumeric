@@ -38,9 +38,47 @@
 
 G_DEFINE_TYPE (GnmAdvancedFilterTool, gnm_advanced_filter_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
 
+enum {
+	ADVANCED_FILTER_PROP_0,
+	ADVANCED_FILTER_PROP_UNIQUE_ONLY_FLAG
+};
+
 static void
-gnm_advanced_filter_tool_init (G_GNUC_UNUSED GnmAdvancedFilterTool *tool)
+gnm_advanced_filter_tool_set_property (GObject *object, guint property_id,
+				       GValue const *value, GParamSpec *pspec)
 {
+	GnmAdvancedFilterTool *tool = GNM_ADVANCED_FILTER_TOOL (object);
+
+	switch (property_id) {
+	case ADVANCED_FILTER_PROP_UNIQUE_ONLY_FLAG:
+		tool->unique_only_flag = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_advanced_filter_tool_get_property (GObject *object, guint property_id,
+				       GValue *value, GParamSpec *pspec)
+{
+	GnmAdvancedFilterTool *tool = GNM_ADVANCED_FILTER_TOOL (object);
+
+	switch (property_id) {
+	case ADVANCED_FILTER_PROP_UNIQUE_ONLY_FLAG:
+		g_value_set_boolean (value, tool->unique_only_flag);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_advanced_filter_tool_init (GnmAdvancedFilterTool *tool)
+{
+	tool->unique_only_flag = FALSE;
 }
 
 static gboolean
@@ -211,13 +249,22 @@ finish:
 static void
 gnm_advanced_filter_tool_class_init (GnmAdvancedFilterToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_advanced_filter_tool_set_property;
+	gobject_class->get_property = gnm_advanced_filter_tool_get_property;
 
 	at_class->update_dao = gnm_advanced_filter_tool_update_dao;
 	at_class->update_descriptor = gnm_advanced_filter_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_advanced_filter_tool_prepare_output_range;
 	at_class->format_output_range = gnm_advanced_filter_tool_format_output_range;
 	at_class->perform_calc = gnm_advanced_filter_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		ADVANCED_FILTER_PROP_UNIQUE_ONLY_FLAG,
+		g_param_spec_boolean ("unique-only-flag", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *

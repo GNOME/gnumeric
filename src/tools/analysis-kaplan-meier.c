@@ -44,6 +44,105 @@ gnm_kaplan_meier_tool_init (GnmKaplanMeierTool *tool)
 {
 	tool->range_3 = NULL;
 	tool->group_list = NULL;
+
+	tool->censored = FALSE;
+	tool->censor_mark = 0;
+	tool->censor_mark_to = 0;
+	tool->chart = FALSE;
+	tool->ticks = FALSE;
+	tool->std_err = FALSE;
+	tool->median = FALSE;
+	tool->logrank_test = FALSE;
+}
+
+enum {
+	KAPLAN_MEIER_PROP_0,
+	KAPLAN_MEIER_PROP_CENSORED,
+	KAPLAN_MEIER_PROP_CENSOR_MARK,
+	KAPLAN_MEIER_PROP_CENSOR_MARK_TO,
+	KAPLAN_MEIER_PROP_CHART,
+	KAPLAN_MEIER_PROP_TICKS,
+	KAPLAN_MEIER_PROP_STD_ERR,
+	KAPLAN_MEIER_PROP_MEDIAN,
+	KAPLAN_MEIER_PROP_LOGRANK_TEST
+};
+
+static void
+gnm_kaplan_meier_tool_set_property (GObject      *obj,
+				    guint         property_id,
+				    GValue const *value,
+				    GParamSpec   *pspec)
+{
+	GnmKaplanMeierTool *tool = GNM_KAPLAN_MEIER_TOOL (obj);
+
+	switch (property_id) {
+	case KAPLAN_MEIER_PROP_CENSORED:
+		tool->censored = g_value_get_boolean (value);
+		break;
+	case KAPLAN_MEIER_PROP_CENSOR_MARK:
+		tool->censor_mark = g_value_get_int (value);
+		break;
+	case KAPLAN_MEIER_PROP_CENSOR_MARK_TO:
+		tool->censor_mark_to = g_value_get_int (value);
+		break;
+	case KAPLAN_MEIER_PROP_CHART:
+		tool->chart = g_value_get_boolean (value);
+		break;
+	case KAPLAN_MEIER_PROP_TICKS:
+		tool->ticks = g_value_get_boolean (value);
+		break;
+	case KAPLAN_MEIER_PROP_STD_ERR:
+		tool->std_err = g_value_get_boolean (value);
+		break;
+	case KAPLAN_MEIER_PROP_MEDIAN:
+		tool->median = g_value_get_boolean (value);
+		break;
+	case KAPLAN_MEIER_PROP_LOGRANK_TEST:
+		tool->logrank_test = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_kaplan_meier_tool_get_property (GObject    *obj,
+				    guint       property_id,
+				    GValue     *value,
+				    GParamSpec *pspec)
+{
+	GnmKaplanMeierTool *tool = GNM_KAPLAN_MEIER_TOOL (obj);
+
+	switch (property_id) {
+	case KAPLAN_MEIER_PROP_CENSORED:
+		g_value_set_boolean (value, tool->censored);
+		break;
+	case KAPLAN_MEIER_PROP_CENSOR_MARK:
+		g_value_set_int (value, tool->censor_mark);
+		break;
+	case KAPLAN_MEIER_PROP_CENSOR_MARK_TO:
+		g_value_set_int (value, tool->censor_mark_to);
+		break;
+	case KAPLAN_MEIER_PROP_CHART:
+		g_value_set_boolean (value, tool->chart);
+		break;
+	case KAPLAN_MEIER_PROP_TICKS:
+		g_value_set_boolean (value, tool->ticks);
+		break;
+	case KAPLAN_MEIER_PROP_STD_ERR:
+		g_value_set_boolean (value, tool->std_err);
+		break;
+	case KAPLAN_MEIER_PROP_MEDIAN:
+		g_value_set_boolean (value, tool->median);
+		break;
+	case KAPLAN_MEIER_PROP_LOGRANK_TEST:
+		g_value_set_boolean (value, tool->logrank_test);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
 }
 
 static void
@@ -679,12 +778,47 @@ gnm_kaplan_meier_tool_class_init (GnmKaplanMeierToolClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
 
+	gobject_class->set_property = gnm_kaplan_meier_tool_set_property;
+	gobject_class->get_property = gnm_kaplan_meier_tool_get_property;
 	gobject_class->finalize = gnm_kaplan_meier_tool_finalize;
 	at_class->update_dao = gnm_kaplan_meier_tool_update_dao;
 	at_class->update_descriptor = gnm_kaplan_meier_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_kaplan_meier_tool_prepare_output_range;
 	at_class->format_output_range = gnm_kaplan_meier_tool_format_output_range;
 	at_class->perform_calc = gnm_kaplan_meier_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		KAPLAN_MEIER_PROP_CENSORED,
+		g_param_spec_boolean ("censored", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		KAPLAN_MEIER_PROP_CENSOR_MARK,
+		g_param_spec_int ("censor-mark", NULL, NULL,
+				  G_MININT, G_MAXINT, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		KAPLAN_MEIER_PROP_CENSOR_MARK_TO,
+		g_param_spec_int ("censor-mark-to", NULL, NULL,
+				  G_MININT, G_MAXINT, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		KAPLAN_MEIER_PROP_CHART,
+		g_param_spec_boolean ("chart", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		KAPLAN_MEIER_PROP_TICKS,
+		g_param_spec_boolean ("ticks", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		KAPLAN_MEIER_PROP_STD_ERR,
+		g_param_spec_boolean ("std-err", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		KAPLAN_MEIER_PROP_MEDIAN,
+		g_param_spec_boolean ("median", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		KAPLAN_MEIER_PROP_LOGRANK_TEST,
+		g_param_spec_boolean ("logrank-test", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *

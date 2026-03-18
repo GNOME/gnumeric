@@ -44,6 +44,61 @@ gnm_chi_squared_tool_init (GnmChiSquaredTool *tool)
 	tool->alpha = 0.05;
 }
 
+enum {
+	CHI_SQUARED_PROP_0,
+	CHI_SQUARED_PROP_ALPHA,
+	CHI_SQUARED_PROP_INDEPENDENCE,
+	CHI_SQUARED_PROP_LABELS
+};
+
+static void
+gnm_chi_squared_tool_set_property (GObject      *obj,
+				   guint         property_id,
+				   GValue const *value,
+				   GParamSpec   *pspec)
+{
+	GnmChiSquaredTool *tool = GNM_CHI_SQUARED_TOOL (obj);
+
+	switch (property_id) {
+	case CHI_SQUARED_PROP_ALPHA:
+		tool->alpha = g_value_get_double (value);
+		break;
+	case CHI_SQUARED_PROP_INDEPENDENCE:
+		tool->independence = g_value_get_boolean (value);
+		break;
+	case CHI_SQUARED_PROP_LABELS:
+		tool->labels = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_chi_squared_tool_get_property (GObject    *obj,
+				   guint       property_id,
+				   GValue     *value,
+				   GParamSpec *pspec)
+{
+	GnmChiSquaredTool *tool = GNM_CHI_SQUARED_TOOL (obj);
+
+	switch (property_id) {
+	case CHI_SQUARED_PROP_ALPHA:
+		g_value_set_double (value, tool->alpha);
+		break;
+	case CHI_SQUARED_PROP_INDEPENDENCE:
+		g_value_set_boolean (value, tool->independence);
+		break;
+	case CHI_SQUARED_PROP_LABELS:
+		g_value_set_boolean (value, tool->labels);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
+}
+
 static void
 gnm_chi_squared_tool_finalize (GObject *obj)
 {
@@ -58,11 +113,11 @@ gnm_chi_squared_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *
 	GnmChiSquaredTool *ctool = GNM_CHI_SQUARED_TOOL (tool);
 	GnmRange range;
 
-	if (NULL == range_init_value (&range, ctool->input))
+	if (NULL != range_init_value (&range, ctool->input)) {
+		ctool->n_c = range_width (&range) - (ctool->labels ? 1 : 0);
+		ctool->n_r = range_height (&range) - (ctool->labels ? 1 : 0);
+	} else
 		return TRUE;
-
-	ctool->n_c = range_width (&range) - (ctool->labels ? 1 : 0);
-	ctool->n_r = range_height (&range) - (ctool->labels ? 1 : 0);
 
 	if (ctool->n_c < 2 || ctool->n_r < 2)
 		return TRUE;
@@ -223,12 +278,27 @@ gnm_chi_squared_tool_class_init (GnmChiSquaredToolClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
 
+	gobject_class->set_property = gnm_chi_squared_tool_set_property;
+	gobject_class->get_property = gnm_chi_squared_tool_get_property;
 	gobject_class->finalize = gnm_chi_squared_tool_finalize;
 	at_class->update_dao = gnm_chi_squared_tool_update_dao;
 	at_class->update_descriptor = gnm_chi_squared_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_chi_squared_tool_prepare_output_range;
 	at_class->format_output_range = gnm_chi_squared_tool_format_output_range;
 	at_class->perform_calc = gnm_chi_squared_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		CHI_SQUARED_PROP_ALPHA,
+		g_param_spec_double ("alpha", NULL, NULL,
+				     0.0, 1.0, 0.05, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		CHI_SQUARED_PROP_INDEPENDENCE,
+		g_param_spec_boolean ("independence", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		CHI_SQUARED_PROP_LABELS,
+		g_param_spec_boolean ("labels", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *

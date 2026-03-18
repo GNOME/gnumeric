@@ -42,6 +42,8 @@ struct _GnmChiSquaredTool {
 	gboolean         labels;
 	gboolean         independence;
 	gnm_float        alpha;
+
+	// Derived
 	gint             n_c;
 	gint             n_r;
 };

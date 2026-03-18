@@ -32,11 +32,14 @@
 /****************  Normality  Tests ***************/
 
 typedef enum {
-	normality_test_type_andersondarling = 0,
-	normality_test_type_cramervonmises,
-	normality_test_type_lilliefors,
-	normality_test_type_shapirofrancia
-} normality_test_type_t;
+	GNM_NORMALITY_TEST_TYPE_ANDERSONDARLING = 0,
+	GNM_NORMALITY_TEST_TYPE_CRAMERVONMISES,
+	GNM_NORMALITY_TEST_TYPE_LILLIEFORS,
+	GNM_NORMALITY_TEST_TYPE_SHAPIROFRANCIA
+} gnm_normality_test_type_t;
+
+GType gnm_normality_test_type_get_type (void);
+#define GNM_NORMALITY_TEST_TYPE (gnm_normality_test_type_get_type ())
 
 #define GNM_TYPE_NORMALITY_TOOL (gnm_normality_tool_get_type ())
 GType gnm_normality_tool_get_type (void);
@@ -46,7 +49,7 @@ typedef struct _GnmNormalityToolClass GnmNormalityToolClass;
 struct _GnmNormalityTool {
 	GnmGenericAnalysisTool parent;
 	gnm_float alpha;
-	normality_test_type_t type;
+	gnm_normality_test_type_t type;
 	gboolean graph;
 };
 

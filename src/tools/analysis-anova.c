@@ -55,6 +55,68 @@ gnm_anova_two_factor_tool_init (GnmAnovaTwoFactorTool *tool)
 	tool->replication = 1;
 }
 
+enum {
+	ANOVA_TWO_FACTOR_PROP_0,
+	ANOVA_TWO_FACTOR_PROP_GROUP_BY,
+	ANOVA_TWO_FACTOR_PROP_ALPHA,
+	ANOVA_TWO_FACTOR_PROP_LABELS,
+	ANOVA_TWO_FACTOR_PROP_REPLICATION
+};
+
+static void
+gnm_anova_two_factor_tool_set_property (GObject      *obj,
+					guint         property_id,
+					GValue const *value,
+					GParamSpec   *pspec)
+{
+	GnmAnovaTwoFactorTool *tool = GNM_ANOVA_TWO_FACTOR_TOOL (obj);
+
+	switch (property_id) {
+	case ANOVA_TWO_FACTOR_PROP_GROUP_BY:
+		tool->group_by = g_value_get_enum (value);
+		break;
+	case ANOVA_TWO_FACTOR_PROP_ALPHA:
+		tool->alpha = g_value_get_double (value);
+		break;
+	case ANOVA_TWO_FACTOR_PROP_LABELS:
+		tool->labels = g_value_get_boolean (value);
+		break;
+	case ANOVA_TWO_FACTOR_PROP_REPLICATION:
+		tool->replication = g_value_get_int (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_anova_two_factor_tool_get_property (GObject    *obj,
+					guint       property_id,
+					GValue     *value,
+					GParamSpec *pspec)
+{
+	GnmAnovaTwoFactorTool *tool = GNM_ANOVA_TWO_FACTOR_TOOL (obj);
+
+	switch (property_id) {
+	case ANOVA_TWO_FACTOR_PROP_GROUP_BY:
+		g_value_set_enum (value, tool->group_by);
+		break;
+	case ANOVA_TWO_FACTOR_PROP_ALPHA:
+		g_value_set_double (value, tool->alpha);
+		break;
+	case ANOVA_TWO_FACTOR_PROP_LABELS:
+		g_value_set_boolean (value, tool->labels);
+		break;
+	case ANOVA_TWO_FACTOR_PROP_REPLICATION:
+		g_value_set_int (value, tool->replication);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
+}
+
 static void
 gnm_anova_two_factor_tool_finalize (GObject *obj)
 {
@@ -121,12 +183,32 @@ gnm_anova_two_factor_tool_class_init (GnmAnovaTwoFactorToolClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
 
+	gobject_class->set_property = gnm_anova_two_factor_tool_set_property;
+	gobject_class->get_property = gnm_anova_two_factor_tool_get_property;
 	gobject_class->finalize = gnm_anova_two_factor_tool_finalize;
 	at_class->update_dao = gnm_anova_two_factor_tool_update_dao;
 	at_class->update_descriptor = gnm_anova_two_factor_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_anova_two_factor_tool_prepare_output_range;
 	at_class->format_output_range = gnm_anova_two_factor_tool_format_output_range;
 	at_class->perform_calc = gnm_anova_two_factor_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		ANOVA_TWO_FACTOR_PROP_GROUP_BY,
+		g_param_spec_enum ("group-by", NULL, NULL,
+				   GNM_TOOL_GROUP_BY_TYPE, GNM_TOOL_GROUPED_BY_COL,
+				   G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		ANOVA_TWO_FACTOR_PROP_ALPHA,
+		g_param_spec_double ("alpha", NULL, NULL,
+				     0.0, 1.0, 0.05, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		ANOVA_TWO_FACTOR_PROP_LABELS,
+		g_param_spec_boolean ("labels", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		ANOVA_TWO_FACTOR_PROP_REPLICATION,
+		g_param_spec_int ("replication", NULL, NULL,
+				  1, G_MAXINT, 1, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *

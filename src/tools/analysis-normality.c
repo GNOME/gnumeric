@@ -37,6 +37,35 @@
 #include <goffice/goffice.h>
 #include <sheet.h>
 
+GType
+gnm_normality_test_type_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ GNM_NORMALITY_TEST_TYPE_ANDERSONDARLING,
+			  "GNM_NORMALITY_TEST_TYPE_ANDERSONDARLING",
+			  "andersondarling"
+			},
+			{ GNM_NORMALITY_TEST_TYPE_CRAMERVONMISES,
+			  "GNM_NORMALITY_TEST_TYPE_CRAMERVONMISES",
+			  "cramervonmises"
+			},
+			{ GNM_NORMALITY_TEST_TYPE_LILLIEFORS,
+			  "GNM_NORMALITY_TEST_TYPE_LILLIEFORS",
+			  "lilliefors"
+			},
+			{ GNM_NORMALITY_TEST_TYPE_SHAPIROFRANCIA,
+			  "GNM_NORMALITY_TEST_TYPE_SHAPIROFRANCIA",
+			  "shapirofrancia"
+			},
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("gnm_normality_test_type_t", values);
+	}
+	return etype;
+}
+
 G_DEFINE_TYPE (GnmNormalityTool, gnm_normality_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
 
 enum {
@@ -57,7 +86,7 @@ gnm_normality_tool_set_property (GObject *object, guint property_id,
 		tool->alpha = g_value_get_double (value);
 		break;
 	case NORMALITY_PROP_TYPE:
-		tool->type = g_value_get_int (value);
+		tool->type = g_value_get_enum (value);
 		break;
 	case NORMALITY_PROP_GRAPH:
 		tool->graph = g_value_get_boolean (value);
@@ -79,7 +108,7 @@ gnm_normality_tool_get_property (GObject *object, guint property_id,
 		g_value_set_double (value, tool->alpha);
 		break;
 	case NORMALITY_PROP_TYPE:
-		g_value_set_int (value, tool->type);
+		g_value_set_enum (value, tool->type);
 		break;
 	case NORMALITY_PROP_GRAPH:
 		g_value_set_boolean (value, tool->graph);
@@ -94,7 +123,7 @@ static void
 gnm_normality_tool_init (GnmNormalityTool *tool)
 {
 	tool->alpha = 0.05;
-	tool->type = normality_test_type_andersondarling;
+	tool->type = GNM_NORMALITY_TEST_TYPE_ANDERSONDARLING;
 	tool->graph = FALSE;
 }
 
@@ -143,27 +172,27 @@ gnm_normality_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 	SheetObject *so;
 
 	switch (ntool->type) {
-	case normality_test_type_andersondarling:
+	case GNM_NORMALITY_TEST_TYPE_ANDERSONDARLING:
 		fdname = "ADTEST";
 		testname = N_("Anderson-Darling Test");
 		n_comment = N_("For the Anderson-Darling Test\n"
 			       "the sample size must be at\n"
 			       "least 8.");
 		break;
-	case normality_test_type_cramervonmises:
+	case GNM_NORMALITY_TEST_TYPE_CRAMERVONMISES:
 		fdname = "CVMTEST";
 		testname = N_("Cram\xc3\xa9r-von Mises Test");
 		n_comment = N_("For the Cram\xc3\xa9r-von Mises Test\n"
 			       "the sample size must be at\n"
 			       "least 8.");
 		break;
-	case normality_test_type_lilliefors:
+	case GNM_NORMALITY_TEST_TYPE_LILLIEFORS:
 		fdname = "LKSTEST";
 		testname = N_("Lilliefors (Kolmogorov-Smirnov) Test");
 		n_comment = N_("For the Lilliefors (Kolmogorov-Smirnov) Test\n"
 			       "the sample size must be at least 5.");
 		break;
-	case normality_test_type_shapirofrancia:
+	case GNM_NORMALITY_TEST_TYPE_SHAPIROFRANCIA:
 		fdname = "SFTEST";
 		testname = N_("Shapiro-Francia Test");
 		n_comment = N_("For the Shapiro-Francia Test\n"
@@ -285,8 +314,9 @@ gnm_normality_tool_class_init (GnmNormalityToolClass *klass)
 			0.0, 1.0, 0.05, G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		NORMALITY_PROP_TYPE,
-		g_param_spec_int ("type", NULL, NULL,
-			0, 10, 0, G_PARAM_READWRITE));
+		g_param_spec_enum ("type", NULL, NULL,
+			GNM_NORMALITY_TEST_TYPE, GNM_NORMALITY_TEST_TYPE_ANDERSONDARLING,
+			G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		NORMALITY_PROP_GRAPH,
 		g_param_spec_boolean ("graph", NULL, NULL,

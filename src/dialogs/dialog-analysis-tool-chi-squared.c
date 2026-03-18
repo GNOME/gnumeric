@@ -94,13 +94,6 @@ chi_squared_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = go_gtk_builder_get_widget (state->base.gui, "test-of-independence");
 	ctool->independence = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	ctool->n_c = (ctool->input->v_range.cell.b.col - ctool->input->v_range.cell.a.col + 1);
-	ctool->n_r = (ctool->input->v_range.cell.b.row - ctool->input->v_range.cell.a.row + 1);
-
-	if (ctool->labels)
-		ctool->n_c--, ctool->n_r--;
-
-
 	if (!cmd_analysis_tool (ctool->wbc, state->base.sheet, dao, tool))
 		gtk_widget_destroy (state->base.dialog);
 

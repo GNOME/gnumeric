@@ -44,6 +44,57 @@
 
 G_DEFINE_TYPE (GnmZTestTool, gnm_ztest_tool, GNM_TYPE_GENERIC_B_ANALYSIS_TOOL)
 
+enum {
+	ZTEST_PROP_0,
+	ZTEST_PROP_MEAN_DIFF,
+	ZTEST_PROP_VAR1,
+	ZTEST_PROP_VAR2
+};
+
+static void
+gnm_ztest_tool_set_property (GObject *object, guint property_id,
+			     GValue const *value, GParamSpec *pspec)
+{
+	GnmZTestTool *tool = GNM_ZTEST_TOOL (object);
+
+	switch (property_id) {
+	case ZTEST_PROP_MEAN_DIFF:
+		tool->mean_diff = g_value_get_double (value);
+		break;
+	case ZTEST_PROP_VAR1:
+		tool->var1 = g_value_get_double (value);
+		break;
+	case ZTEST_PROP_VAR2:
+		tool->var2 = g_value_get_double (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_ztest_tool_get_property (GObject *object, guint property_id,
+			     GValue *value, GParamSpec *pspec)
+{
+	GnmZTestTool *tool = GNM_ZTEST_TOOL (object);
+
+	switch (property_id) {
+	case ZTEST_PROP_MEAN_DIFF:
+		g_value_set_double (value, tool->mean_diff);
+		break;
+	case ZTEST_PROP_VAR1:
+		g_value_set_double (value, tool->var1);
+		break;
+	case ZTEST_PROP_VAR2:
+		g_value_set_double (value, tool->var2);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
 static void
 gnm_ztest_tool_init (GnmZTestTool *tool)
 {
@@ -273,13 +324,33 @@ gnm_ztest_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 static void
 gnm_ztest_tool_class_init (GnmZTestToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_ztest_tool_set_property;
+	gobject_class->get_property = gnm_ztest_tool_get_property;
 
 	at_class->update_dao = gnm_ztest_tool_update_dao;
 	at_class->update_descriptor = gnm_ztest_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_ztest_tool_prepare_output_range;
 	at_class->format_output_range = gnm_ztest_tool_format_output_range;
 	at_class->perform_calc = gnm_ztest_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		ZTEST_PROP_MEAN_DIFF,
+		g_param_spec_double ("mean-diff", NULL, NULL,
+				     -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
+				     G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		ZTEST_PROP_VAR1,
+		g_param_spec_double ("var1", NULL, NULL,
+				     0.0, G_MAXDOUBLE, 0.0,
+				     G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		ZTEST_PROP_VAR2,
+		g_param_spec_double ("var2", NULL, NULL,
+				     0.0, G_MAXDOUBLE, 0.0,
+				     G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *
