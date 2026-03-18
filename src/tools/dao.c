@@ -118,8 +118,8 @@ void
 dao_load_from_value (data_analysis_output_t *dao,
 		     GnmValue const *output_range)
 {
-	g_return_val_if_fail (output_range != NULL, dao);
-	g_return_val_if_fail (VALUE_IS_CELLRANGE (output_range), dao);
+	g_return_if_fail (output_range != NULL);
+	g_return_if_fail (VALUE_IS_CELLRANGE (output_range));
 
 	dao->start_col = output_range->v_range.cell.a.col;
 	dao->start_row = output_range->v_range.cell.a.row;
@@ -234,8 +234,7 @@ dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
  * @dao:
  * @name:
  *
- * prepares the output by creating a new sheet or workbook as appropriate
- *
+ * Prepares the output by creating a new sheet or workbook as appropriate
  **/
 void
 dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
@@ -290,7 +289,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
  *
  * Formats the output range according to the settings
  *
- *
+ * Returns: %TRUE in case of error.
  **/
 gboolean
 dao_format_output (data_analysis_output_t *dao, char const *cmd)
@@ -454,11 +453,11 @@ dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
 /**
  * dao_set_cell_value:
  * @dao:
- * @col:
- * @row:
+ * @col: column
+ * @row: row
  * @v: (transfer full):
  *
- * set cell to a value
+ * Set cell to a value
  *
  * Note: the rows/cols specification for all dao_set_cell_...
  *       commands are relative to the location of the output
@@ -484,13 +483,11 @@ dao_set_cell_value (data_analysis_output_t *dao, int col, int row, GnmValue *v)
 /**
  * dao_set_cell:
  * @dao:
- * @col:
- * @row:
+ * @col: column
+ * @row: row
  * @text: (nullable):
  *
- * set cell to a string
- *
- *
+ * Set cell to a string
  **/
 void
 dao_set_cell (data_analysis_output_t *dao, int col, int row, const char *text)
@@ -507,12 +504,12 @@ dao_set_cell (data_analysis_output_t *dao, int col, int row, const char *text)
 /**
  * dao_set_cell_printf:
  * @dao:
- * @col:
- * @row:
- * @fmt:
- * @...:
+ * @col: column
+ * @row: row
+ * @fmt: printf-style format
+ * @...: arguments for format
  *
- * create format string and set cell.
+ * Format string and set cell.
  **/
 void
 dao_set_cell_printf (data_analysis_output_t *dao, int col, int row,
@@ -533,8 +530,8 @@ dao_set_cell_printf (data_analysis_output_t *dao, int col, int row,
 /**
  * set_cell_float:
  * @dao:
- * @col:
- * @row:
+ * @col: column
+ * @row: row
  * @v:
  *
  * set cell to a gnm_float
@@ -549,8 +546,8 @@ dao_set_cell_float (data_analysis_output_t *dao, int col, int row, gnm_float v)
 /**
  * set_cell_int:
  * @dao:
- * @col:
- * @row:
+ * @col: column
+ * @row: row
  * @v:
  *
  * set cell to an int
@@ -565,8 +562,8 @@ dao_set_cell_int (data_analysis_output_t *dao, int col, int row, int v)
 /**
  * dao_set_cell_na:
  * @dao:
- * @col:
- * @row:
+ * @col: column
+ * @row: row
  *
  * set cell to NA
  **/
@@ -579,8 +576,8 @@ dao_set_cell_na (data_analysis_output_t *dao, int col, int row)
 /**
  * dao_set_cell_float_na:
  * @dao:
- * @col:
- * @row:
+ * @col: column
+ * @row: row
  * @v:
  * @is_valid:
  *
@@ -600,11 +597,11 @@ dao_set_cell_float_na (data_analysis_output_t *dao, int col, int row,
 /**
  * dao_set_cell_comment:
  * @dao:
- * @col:
- * @row:
- * @comment:
+ * @col: column
+ * @row: row
+ * @comment: comment text
  *
- * set a cell comment
+ * Set a cell comment
  **/
 void
 dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,

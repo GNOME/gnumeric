@@ -2874,8 +2874,7 @@ cmd_paste_cut_finalize (GObject *cmd)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT (cmd);
 
-	if (me->saved_sizes)
-		me->saved_sizes = colrow_state_list_destroy (me->saved_sizes);
+	colrow_state_list_destroy (me->saved_sizes);
 	while (me->paste_contents) {
 		PasteContent *pc = me->paste_contents->data;
 		me->paste_contents = g_slist_remove (me->paste_contents, pc);
@@ -5362,11 +5361,11 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		me->old_contents = NULL;
 		if (me->col_info) {
 			dao_set_colrow_state_list (me->dao, TRUE, me->col_info);
-			me->col_info = colrow_state_list_destroy (me->col_info);
+			colrow_state_list_destroy (me->col_info);
 		}
 		if (me->row_info) {
 			dao_set_colrow_state_list (me->dao, FALSE, me->row_info);
-			me->row_info = colrow_state_list_destroy (me->row_info);
+			colrow_state_list_destroy (me->row_info);
 		}
 		if (me->newSheetObjects == NULL)
 			me->newSheetObjects = dao_surrender_so (me->dao);
@@ -5394,11 +5393,9 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	/* The old view might not exist anymore */
 	me->dao->wbc = wbc;
 
-	if (me->col_info)
-		me->col_info = colrow_state_list_destroy (me->col_info);
+	colrow_state_list_destroy (me->col_info);
 	me->col_info = dao_get_colrow_state_list (me->dao, TRUE);
-	if (me->row_info)
-		me->row_info = colrow_state_list_destroy (me->row_info);
+	colrow_state_list_destroy (me->row_info);
 	me->row_info = dao_get_colrow_state_list (me->dao, FALSE);
 
 	if (gnm_analysis_tool_prepare_output_range (me->tool, me->dao)
@@ -5466,10 +5463,8 @@ cmd_analysis_tool_finalize (GObject *cmd)
 {
 	CmdAnalysis_Tool *me = CMD_ANALYSIS_TOOL (cmd);
 
-	if (me->col_info)
-		me->col_info = colrow_state_list_destroy (me->col_info);
-	if (me->row_info)
-		me->row_info = colrow_state_list_destroy (me->row_info);
+	colrow_state_list_destroy (me->col_info);
+	colrow_state_list_destroy (me->row_info);
 
 	g_object_unref (me->tool);
 	dao_free (me->dao);
@@ -6647,8 +6642,7 @@ cmd_text_to_columns_finalize (GObject *cmd)
 {
 	CmdTextToColumns *me = CMD_TEXT_TO_COLUMNS (cmd);
 
-	if (me->saved_sizes)
-		me->saved_sizes = colrow_state_list_destroy (me->saved_sizes);
+	colrow_state_list_destroy (me->saved_sizes);
 	if (me->contents) {
 		cellregion_unref (me->contents);
 		me->contents = NULL;

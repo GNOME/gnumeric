@@ -397,14 +397,11 @@ colrow_set_single_state (ColRowState *state,
 /**
  * colrow_state_list_destroy:
  * @list: (transfer full): the list to destroy.
- *
- * Returns: (transfer none): %NULL.
  **/
-ColRowStateList *
+void
 colrow_state_list_destroy (ColRowStateList *list)
 {
 	g_slist_free_full (list, g_free);
-	return NULL;
 }
 
 /**

@@ -23,7 +23,7 @@ typedef struct _scenario_state scenario_state_t;
 
 typedef void (*state_destroy_t) (GnmGenericToolState *state);
 
-struct _GenericToolState {
+struct GnmGenericToolState_ {
 	GtkBuilder  *gui;
 	GtkWidget *dialog;
 	GnmExprEntry *input_entry;

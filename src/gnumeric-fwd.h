@@ -105,7 +105,7 @@ typedef struct _WorkbookSheetState	WorkbookSheetState;
 typedef struct _WorkbookView		WorkbookView;
 typedef union  _GnmExpr			GnmExpr;
 typedef union  _GnmValue		GnmValue;
-typedef struct _GenericToolState	GnmGenericToolState;
+typedef struct GnmGenericToolState_	GnmGenericToolState;
 typedef struct _GnmAnalysisTool         GnmAnalysisTool;
 typedef struct GnmExprDeriv_            GnmExprDeriv;
 typedef struct data_analysis_output_t_  data_analysis_output_t;

@@ -975,10 +975,9 @@ cellregion_unref (GnmCellRegion *cr)
 		cr->cell_content = NULL;
 	}
 
-	if (NULL != cr->col_state)
-		cr->col_state = colrow_state_list_destroy (cr->col_state);
-	if (NULL != cr->row_state)
-		cr->row_state = colrow_state_list_destroy (cr->row_state);
+	colrow_state_list_destroy (cr->col_state);
+	colrow_state_list_destroy (cr->row_state);
+
 	if (cr->styles != NULL) {
 		sheet_style_list_free (cr->styles);
 		cr->styles = NULL;
