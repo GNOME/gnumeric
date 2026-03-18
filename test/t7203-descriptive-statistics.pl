@@ -11,12 +11,22 @@ my $expected;
 &message ("Check descriptive-statistics tool.");
 my $file = "$samples/tool-tests.gnumeric";
 
-&GnumericTest::test_tool ($file, 'descriptive-statistics',
+my %test_opts;
+my $checker;
+if (($ARGV[0] // '-') eq '--valgrind') {
+    $test_opts{'valgrind'} = 1;
+    $checker = sub { 1 };  # See http://bugs.kde.org/show_bug.cgi?id=164298
+} else {
+    $checker = sub { $_[0] eq $expected; };
+}
+
+&GnumericTest::test_tool (\%test_opts,
+			  $file, 'descriptive-statistics',
 			  ['data' => 'Data!B1:B30',
 			   'k-largest' => 10,
 			   'k-smallest' => 2],
 			  'A1:B26',
-			  sub { $_[0] eq $expected; });
+			  $checker);
 
 __DATA__
 ,"Column 1"

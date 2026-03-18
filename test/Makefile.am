@@ -162,6 +162,19 @@ TESTS =	t1000-statfuns.pl			\
 	t7201-anova.pl				\
 	t7202-moving-average.pl			\
 	t7203-descriptive-statistics.pl		\
+	t7204-correlation.pl			\
+	t7205-covariance.pl			\
+	t7206-exponential-smoothing.pl		\
+	t7207-histogram.pl			\
+	t7208-frequency-tables.pl		\
+	t7209-fourier-analysis.pl		\
+	t7210-sampling.pl			\
+	t7211-ranking.pl			\
+	t7212-principal-components.pl		\
+	t7213-auto-expression.pl		\
+	t7214-normality-test.pl			\
+	t7215-sign-test.pl			\
+	t7216-wilcoxon-signed-rank-test.pl	\
 	t8000-valgrind.pl			\
 	t8001-valgrind-xls.pl			\
 	t8002-valgrind-gnumeric.pl		\

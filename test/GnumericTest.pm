@@ -38,7 +38,15 @@ if ($0 eq '-e') {
     $topsrc =~ s|/test/\.\.$||;
 }
 
-$top_builddir = "..";
+if (-d "../test") {
+    $top_builddir = "..";
+    # Probably correct
+} elsif (-d "./test") {
+    $top_builddir = ".";
+} else {
+    die "$0: Cannot determine top_builddir\n";
+}
+
 $samples = "$topsrc/samples"; $samples =~ s{^\./+}{};
 $ssconvert = "$top_builddir/src/ssconvert";
 $ssindex = "$top_builddir/src/ssindex";
@@ -899,6 +907,7 @@ sub test_ssindex {
 # -----------------------------------------------------------------------------
 
 sub test_tool {
+    my $ptest_opts = ref $_[0] ? shift @_ : {};
     my ($file,$tool,$tool_args,$range,$test) = @_;
 
     &report_skip ("file $file does not exist") unless -r $file;
@@ -913,11 +922,15 @@ sub test_tool {
     }
 
     my $tmp = &invent_junkfile ("tool.csv");
-
     my $cmd = &quotearg ($ssconvert, @args, $file, $tmp);
-    print STDERR "# $cmd\n" if $GnumericTest::verbose;
-    my $code = system ($cmd);
-    &system_failure ($ssconvert, $code) if $code;
+
+    if ($ptest_opts->{'valgrind'}) {
+	&test_valgrind ($cmd, 1);
+    } else {
+	print STDERR "# $cmd\n" if $GnumericTest::verbose;
+	my $code = system ($cmd);
+	&system_failure ($ssconvert, $code) if $code;
+    }
     my $actual = &read_file ($tmp);
 
     &removejunk ($tmp);

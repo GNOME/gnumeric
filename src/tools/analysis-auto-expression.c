@@ -38,7 +38,8 @@ G_DEFINE_TYPE (GnmAutoExpressionTool, gnm_auto_expression_tool, GNM_TYPE_GENERIC
 enum {
 	AUTO_EXPRESSION_PROP_0,
 	AUTO_EXPRESSION_PROP_MULTIPLE,
-	AUTO_EXPRESSION_PROP_BELOW
+	AUTO_EXPRESSION_PROP_BELOW,
+	AUTO_EXPRESSION_PROP_FUNC
 };
 
 static void
@@ -54,6 +55,17 @@ gnm_auto_expression_tool_set_property (GObject *object, guint property_id,
 	case AUTO_EXPRESSION_PROP_BELOW:
 		tool->below = g_value_get_boolean (value);
 		break;
+	case AUTO_EXPRESSION_PROP_FUNC: {
+		const char *name = g_value_get_string (value);
+		if (tool->func) {
+			gnm_func_dec_usage (tool->func);
+			g_object_unref (tool->func);
+		}
+		tool->func = name
+			? g_object_ref (gnm_func_get_and_use (name))
+			: NULL;
+		break;
+	}
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -72,6 +84,12 @@ gnm_auto_expression_tool_get_property (GObject *object, guint property_id,
 		break;
 	case AUTO_EXPRESSION_PROP_BELOW:
 		g_value_set_boolean (value, tool->below);
+		break;
+	case AUTO_EXPRESSION_PROP_FUNC:
+		g_value_set_string (value,
+				    tool->func
+				    ? gnm_func_get_name (tool->func, FALSE)
+				    : NULL);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -93,15 +111,28 @@ gnm_auto_expression_tool_finalize (GObject *obj)
 	GnmAutoExpressionTool *tool = GNM_AUTO_EXPRESSION_TOOL (obj);
 	if (tool->func) {
 		gnm_func_dec_usage (tool->func);
+		g_object_unref (tool->func);
 		tool->func = NULL;
 	}
 	G_OBJECT_CLASS (gnm_auto_expression_tool_parent_class)->finalize (obj);
 }
 
 static gboolean
-gnm_auto_expression_tool_update_dao (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_auto_expression_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
-	dao_format_output (dao, _("Auto Expression"));
+	GnmAutoExpressionTool *atool = GNM_AUTO_EXPRESSION_TOOL (tool);
+	GnmGenericAnalysisTool *gtool = &atool->parent;
+
+	if (!atool->func)
+		return TRUE;
+
+	analysis_tool_prepare_input_range (gtool);
+	if (!analysis_tool_check_input_homogeneity (gtool)) {
+		gtool->base.err = gtool->base.group_by + 1;
+		return TRUE;
+	}
+	dao_adjust (dao, 1 + g_slist_length (gtool->base.input),
+		    1 + g_slist_length (gtool->base.input));
 	return FALSE;
 }
 
@@ -132,6 +163,8 @@ gnm_auto_expression_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_outp
 	guint     col;
 	GSList *data = gtool->base.input;
 
+	// FIXME: below/side is just a variant of "group-by" and don't
+	// really work for a new sheet.
 	if (atool->below) {
 		for (col = 0; data != NULL; data = data->next, col++)
 			dao_set_cell_expr
@@ -153,7 +186,6 @@ gnm_auto_expression_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_outp
 				 gnm_expr_new_funcall1
 				 (atool->func,
 				  gnm_expr_new_constant (value_dup (data->data))));
-
 		if (atool->multiple)
 			dao_set_cell_expr
 				(dao, 0, col,
@@ -190,6 +222,10 @@ gnm_auto_expression_tool_class_init (GnmAutoExpressionToolClass *klass)
 		AUTO_EXPRESSION_PROP_BELOW,
 		g_param_spec_boolean ("below", NULL, NULL,
 			FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		AUTO_EXPRESSION_PROP_FUNC,
+		g_param_spec_string ("function", NULL, NULL, NULL,
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *

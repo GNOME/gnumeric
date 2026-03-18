@@ -4073,7 +4073,6 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 			input->end.col--;
 	}
 
-
 	dao = dao_init (GNM_DAO_OUTPUT_RANGE);
 	dao->start_col         = output.start.col;
 	dao->start_row         = output.start.row;
@@ -4092,12 +4091,15 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	specs->parent.base.labels = FALSE;
 	specs->multiple = multiple;
 	specs->below = below;
-	specs->func = NULL;
-	g_object_get (G_OBJECT (wb_control_view (GNM_WBC (wbcg))),
-		      "auto-expr-func", &(specs->func), NULL);
-	if (specs->func == NULL) {
-		specs->func =  gnm_func_lookup_or_add_placeholder ("sum");
-		gnm_func_inc_usage (specs->func);
+
+	{
+		GnmFunc *func = NULL;
+		g_object_get (G_OBJECT (wb_control_view (GNM_WBC (wbcg))),
+			      "auto-expr-func", &func, NULL);
+		g_object_set (specs, "function",
+			      func ? gnm_func_get_name (func, FALSE) : "sum",
+			      NULL);
+		g_object_unref (func);
 	}
 
 	cmd_analysis_tool (GNM_WBC (wbcg), scg_sheet (scg), dao, tool);

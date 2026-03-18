@@ -186,7 +186,6 @@ typedef struct {
 	GtkWidget *periodic_button;
 	GtkWidget *random_button;
 	GtkWidget *period_label;
-	GtkWidget *random_label;
 	GtkWidget *period_entry;
 	GtkWidget *random_entry;
 	GtkWidget *number_entry;
@@ -1884,7 +1883,9 @@ sampling_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 			return;
 		}
-	} else {
+	}
+
+	{
 		err = entry_to_int
 			(GTK_ENTRY (state->random_entry), &size, FALSE);
 		if (err != 0 || size < 1) {
@@ -1945,9 +1946,8 @@ sampling_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		entry_to_int (GTK_ENTRY (state->offset_entry), (int *)&stool->offset, TRUE);
 		stool->row_major = gtk_toggle_button_get_active
 			(GTK_TOGGLE_BUTTON (state->row_major_button));
-	} else
-		entry_to_int (GTK_ENTRY (state->random_entry), (int *)&stool->size, TRUE);
-
+	}
+	entry_to_int (GTK_ENTRY (state->random_entry), (int *)&stool->size, TRUE);
 	entry_to_int (GTK_ENTRY (state->number_entry), (int *)&stool->number, TRUE);
 
 	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool))
@@ -1968,8 +1968,6 @@ static void
 sampling_method_toggled_cb (GtkWidget *button, SamplingState *state)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)) == 1) {
-		gtk_widget_hide (state->random_label);
-		gtk_widget_hide (state->random_entry);
 		gtk_widget_show (state->period_label);
 		gtk_widget_show (state->period_entry);
 		gtk_widget_show (state->offset_label);
@@ -1986,8 +1984,6 @@ sampling_method_toggled_cb (GtkWidget *button, SamplingState *state)
 		gtk_widget_hide (state->major_label);
 		gtk_widget_hide (state->row_major_button);
 		gtk_widget_hide (state->col_major_button);
-		gtk_widget_show (state->random_label);
-		gtk_widget_show (state->random_entry);
 	}
 }
 
@@ -2070,7 +2066,6 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->method_label = go_gtk_builder_get_widget (state->base.gui, "method-label");
 	state->options_grid = go_gtk_builder_get_widget (state->base.gui, "options-grid");
 	state->period_label = go_gtk_builder_get_widget (state->base.gui, "period-label");
-	state->random_label = go_gtk_builder_get_widget (state->base.gui, "random-label");
 	state->period_entry = go_gtk_builder_get_widget (state->base.gui, "period-entry");
 	state->random_entry = go_gtk_builder_get_widget (state->base.gui, "random-entry");
 	state->number_entry = go_gtk_builder_get_widget (state->base.gui, "number-entry");

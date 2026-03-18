@@ -5,6 +5,7 @@ Morten:
 	* Audit code with Gemini AI.
 	* Plug leaks.
 	* Refactor analysis tools to be GObject-based.
+	* Fix sampling tool gui in the periodic case.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.60

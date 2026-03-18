@@ -11,10 +11,20 @@ my $expected;
 &message ("Check regression tool.");
 my $file = "$samples/tool-tests.gnumeric";
 
-&GnumericTest::test_tool ($file, 'regression',
+my %test_opts;
+my $checker;
+if (($ARGV[0] // '-') eq '--valgrind') {
+    $test_opts{'valgrind'} = 1;
+    $checker = sub { 1 };  # See http://bugs.kde.org/show_bug.cgi?id=164298
+} else {
+    $checker = sub { $_[0] eq $expected; };
+}
+
+&GnumericTest::test_tool (\%test_opts,
+			  $file, 'regression',
 			  ['x' => 'Data!A1:A30', 'y' => 'Data!B1:B30'],
 			  'A1:G18',
-			  sub { $_[0] eq $expected; });
+			  $checker);
 
 __DATA__
 "SUMMARY OUTPUT",,"Response Variable","Column 2",,,

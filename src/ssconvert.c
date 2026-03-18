@@ -839,10 +839,15 @@ parse_property_based_options (GnmAnalysisTool *atool, GHashTable *args)
 		}
 		arg = arg_;
 
-		if (spec->value_type == G_TYPE_DOUBLE) {
+		if (spec->value_type == G_TYPE_STRING) {
+			g_object_set (atool, spec->name, arg, NULL);
+		} else if (spec->value_type == G_TYPE_DOUBLE) {
 			g_object_set (atool, spec->name, atof (arg), NULL);
 		} else if (spec->value_type == G_TYPE_INT) {
 			g_object_set (atool, spec->name, atoi (arg), NULL);
+		} else if (spec->value_type == G_TYPE_UINT) {
+			unsigned u = atoi (arg);
+			g_object_set (atool, spec->name, u, NULL);
 		} else if (spec->value_type == G_TYPE_BOOLEAN) {
 			g_object_set (atool, spec->name, parse_bool (arg), NULL);
 		} else if (G_TYPE_FUNDAMENTAL (spec->value_type) == G_TYPE_ENUM) {
@@ -879,7 +884,7 @@ parse_property_based_options (GnmAnalysisTool *atool, GHashTable *args)
 #define RANGE_LIST_ARG(s_) g_slist_prepend (NULL, value_new_cellrange_str (sheet, (s_)))
 #define SHEET_ARG(s_) workbook_sheet_by_name (wb, (s_))
 
-static void
+static gboolean
 run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 {
 	int i;
@@ -990,9 +995,8 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 		// random-generator
 		// random-generator-cor
 		g_printerr ("no test for tool \"%s\"\n", tool);
-		g_hash_table_destroy (args);
-		g_object_unref (wbc);
-		return;
+		err = TRUE;
+		goto out;
 	}
 
 	// Handle generic arguments that don't have gobject properties
@@ -1023,9 +1027,13 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 	if (err)
 		g_printerr ("Analysis tool failed\n");
 
+out:
 	g_hash_table_destroy (args);
-	g_object_unref (atool);
+	if (atool)
+		g_object_unref (atool);
 	g_object_unref (wbc);
+
+	return err;
 }
 
 #undef GET_ARG
@@ -1423,9 +1431,12 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	}
 
 	if (ssconvert_tool_test && ssconvert_tool_test[0]) {
-		run_tool_test (ssconvert_tool_test[0],
-			       ssconvert_tool_test + 1,
-			       wbv);
+		if (run_tool_test (ssconvert_tool_test[0],
+				   ssconvert_tool_test + 1,
+				   wbv)) {
+			res = 1;
+			goto out;
+		}
 	}
 
 	if (ssconvert_resize) {
