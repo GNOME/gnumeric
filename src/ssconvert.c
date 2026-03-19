@@ -1501,11 +1501,9 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		res = !workbook_view_save_as (wbv, fs, outfile, cc);
 	}
 
-	if (sheet_sel) {
+	if (sheet_sel)
 		g_object_set_data (G_OBJECT (wb),
 				   SHEET_SELECTION_KEY, NULL);
-		g_ptr_array_free (sheet_sel, TRUE);
-	}
 
  out:
 	if (wbv)

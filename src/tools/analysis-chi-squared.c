@@ -173,7 +173,6 @@ gnm_chi_squared_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t
 	GnmFunc *fd_transpose = gnm_func_get_and_use ("TRANSPOSE");
 	GnmFunc *fd_sum       = gnm_func_get_and_use ("SUM");
 	GnmFunc *fd_min       = gnm_func_get_and_use ("MIN");
-	GnmFunc *fd_offset    = gnm_func_get_and_use ("OFFSET");
 	GnmFunc *fd_chiinv    = gnm_func_get_and_use ("CHIINV");
 	GnmFunc *fd_chidist   = gnm_func_get_and_use ("CHIDIST");
 	char const *label;
@@ -194,16 +193,13 @@ gnm_chi_squared_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t
 	dao_set_cell_comment (dao, 0, 4, cc);
 	g_free (cc);
 
-	if (ctool->labels)
-		expr_region = gnm_expr_new_funcall5
-			(fd_offset,
-			 gnm_expr_new_constant (value_dup (ctool->input)),
-			 gnm_expr_new_constant (value_new_int (1)),
-			 gnm_expr_new_constant (value_new_int (1)),
-			 gnm_expr_new_constant (value_new_int (ctool->n_r)),
-			 gnm_expr_new_constant (value_new_int (ctool->n_c)));
-	else
-		expr_region = gnm_expr_new_constant (value_dup (ctool->input));
+	GnmValue *input = value_dup (ctool->input);
+	analysis_tools_adjust_areas (input);
+	if (ctool->labels) {
+		input->v_range.cell.a.col++;
+		input->v_range.cell.a.row++;
+	}
+	expr_region = gnm_expr_new_constant (input);
 
 	expr_row = gnm_expr_new_funcall1 (fd_row, gnm_expr_copy (expr_region));
 	expr_column = gnm_expr_new_funcall1 (fd_column, gnm_expr_copy (expr_region));
@@ -261,7 +257,6 @@ gnm_chi_squared_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t
 	gnm_func_dec_usage (fd_transpose);
 	gnm_func_dec_usage (fd_sum);
 	gnm_func_dec_usage (fd_min);
-	gnm_func_dec_usage (fd_offset);
 	gnm_func_dec_usage (fd_chiinv);
 	gnm_func_dec_usage (fd_chidist);
 
