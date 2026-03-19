@@ -226,14 +226,24 @@ if HAVE_PYTHON_GI
 endif
 endif
 
-
-import-db:
-	for t in $(srcdir)/t59[0-9][0-9]-*.pl; do echo "*** $$t ***"; $(PERL) $$t create-db; done
-
 EXTRA_DIST = GnumericTest.pm \
 	$(SUPPS) $(TESTS) \
 	$(INTROSPECTION_SUPPS) $(INTROSPECTION_TSTS) \
 	normalize-gnumeric \
 	ods-ext-schema.patch 
 
-.PHONY: import-db
+# Groups of tests for convenience
+
+import-db:
+	for t in $(srcdir)/t59[0-9][0-9]-*.pl; do echo "*** $$t ***"; $(PERL) $$t create-db; done
+
+run-calc-tests:
+	for t in $(srcdir)/t1[0-9][0-9][0-9]-*.pl; do $$t; done
+
+run-tool-tests:
+	for t in $(srcdir)/t72[0-9][0-9]-*.pl; do $$t; done
+
+run-tool-tests-valgrind:
+	for t in $(srcdir)/t72[0-9][0-9]-*.pl; do $$t --valgrind; done
+
+.PHONY: import-db run-calc-tests run-tool-tests run-tool-tests-valgrind
