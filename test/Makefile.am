@@ -177,6 +177,7 @@ TESTS =	t1000-statfuns.pl			\
 	t7216-wilcoxon-signed-rank-test.pl	\
 	t7217-chi-squared-independence.pl	\
 	t7218-fill-series.pl			\
+	t7219-one-mean-test.pl			\
 	t8000-valgrind.pl			\
 	t8001-valgrind-xls.pl			\
 	t8002-valgrind-gnumeric.pl		\

@@ -44,6 +44,7 @@
 #include <tools/analysis-histogram.h>
 #include <tools/analysis-kaplan-meier.h>
 #include <tools/analysis-normality.h>
+#include <tools/analysis-one-mean-test.h>
 #include <tools/analysis-principal-components.h>
 #include <tools/analysis-regression.h>
 #include <tools/analysis-sign-test.h>
@@ -966,6 +967,8 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 		atool = gnm_auto_expression_tool_new ();
 	} else if (g_str_equal (tool, "normality-test")) {
 		atool = gnm_normality_tool_new ();
+	} else if (g_str_equal (tool, "one-mean-test")) {
+		atool = gnm_one_mean_test_tool_new ();
 	} else if (g_str_equal (tool, "wilcoxon-signed-rank-test")) {
 		atool = gnm_signed_rank_test_tool_new ();
 	} else if (g_str_equal (tool, "wilcoxon-signed-rank-test-two-samples")) {

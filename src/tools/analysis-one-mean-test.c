@@ -33,10 +33,58 @@
 #include <sheet.h>
 
 
-G_DEFINE_TYPE (GnmOneMeanTestTool, gnm_one_mean_test_tool, GNM_TYPE_ANALYSIS_TOOL)
+G_DEFINE_TYPE (GnmOneMeanTestTool, gnm_one_mean_test_tool, GNM_TYPE_GENERIC_ANALYSIS_TOOL)
+
+enum {
+	ONE_MEAN_TEST_PROP_0,
+	ONE_MEAN_TEST_PROP_MEAN,
+	ONE_MEAN_TEST_PROP_ALPHA
+};
 
 static void
-gnm_one_mean_test_tool_init (G_GNUC_UNUSED GnmOneMeanTestTool *tool)
+gnm_one_mean_test_tool_set_property (GObject      *obj,
+				     guint         property_id,
+				     GValue const *value,
+				     GParamSpec   *pspec)
+{
+	GnmOneMeanTestTool *tool = GNM_ONE_MEAN_TEST_TOOL (obj);
+
+	switch (property_id) {
+	case ONE_MEAN_TEST_PROP_MEAN:
+		tool->mean = g_value_get_double (value);
+		break;
+	case ONE_MEAN_TEST_PROP_ALPHA:
+		tool->alpha = g_value_get_double (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_one_mean_test_tool_get_property (GObject    *obj,
+				     guint       property_id,
+				     GValue     *value,
+				     GParamSpec *pspec)
+{
+	GnmOneMeanTestTool *tool = GNM_ONE_MEAN_TEST_TOOL (obj);
+
+	switch (property_id) {
+	case ONE_MEAN_TEST_PROP_MEAN:
+		g_value_set_double (value, tool->mean);
+		break;
+	case ONE_MEAN_TEST_PROP_ALPHA:
+		g_value_set_double (value, tool->alpha);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_one_mean_test_tool_init (GnmOneMeanTestTool *tool)
 {
 	tool->mean = 0.0;
 	tool->alpha = 0.05;
@@ -45,8 +93,6 @@ gnm_one_mean_test_tool_init (G_GNUC_UNUSED GnmOneMeanTestTool *tool)
 static void
 gnm_one_mean_test_tool_finalize (GObject *obj)
 {
-	GnmOneMeanTestTool *tool = GNM_ONE_MEAN_TEST_TOOL (obj);
-	range_list_destroy (tool->parent.base.input);
 	G_OBJECT_CLASS (gnm_one_mean_test_tool_parent_class)->finalize (obj);
 }
 
@@ -179,12 +225,23 @@ gnm_one_mean_test_tool_class_init (GnmOneMeanTestToolClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
 
+	gobject_class->set_property = gnm_one_mean_test_tool_set_property;
+	gobject_class->get_property = gnm_one_mean_test_tool_get_property;
 	gobject_class->finalize = gnm_one_mean_test_tool_finalize;
 	at_class->update_dao = gnm_one_mean_test_tool_update_dao;
 	at_class->update_descriptor = gnm_one_mean_test_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_one_mean_test_tool_prepare_output_range;
 	at_class->format_output_range = gnm_one_mean_test_tool_format_output_range;
 	at_class->perform_calc = gnm_one_mean_test_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		ONE_MEAN_TEST_PROP_MEAN,
+		g_param_spec_double ("mean", NULL, NULL,
+				     -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		ONE_MEAN_TEST_PROP_ALPHA,
+		g_param_spec_double ("alpha", NULL, NULL,
+				     0.0, 1.0, 0.05, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *
