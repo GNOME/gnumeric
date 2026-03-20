@@ -48,7 +48,7 @@ do_filling_wday (GnmFillSeriesTool *ftool, data_analysis_output_t *dao, int dc, 
 	int i;
 	gnm_float start = ftool->start_value;
 	GDate date;
-	GODateConventions const *conv = sheet_date_conv (dao_get_sheet (dao));
+	GODateConventions const *conv = dao_get_date_conv (dao);
 	int c = 0, r = 0;
 
 	for (i = 0; i < ftool->n; i++) {
@@ -75,7 +75,7 @@ do_filling_month (GnmFillSeriesTool *ftool, data_analysis_output_t *dao, int dc,
 	int i;
 	gnm_float start = ftool->start_value;
 	GDate date;
-	GODateConventions const *conv = sheet_date_conv (dao_get_sheet (dao));
+	GODateConventions const *conv = dao_get_date_conv (dao);
 	int c = 0, r = 0;
 
 	for (i = 0; i < ftool->n; i++) {
@@ -95,7 +95,7 @@ do_filling_year (GnmFillSeriesTool *ftool, data_analysis_output_t *dao, int dc, 
 	int i;
 	gnm_float start = ftool->start_value;
 	GDate date;
-	GODateConventions const *conv = sheet_date_conv (dao_get_sheet (dao));
+	GODateConventions const *conv = dao_get_date_conv (dao);
 	int c = 0, r = 0;
 
 	for (i = 0; i < ftool->n; i++) {
@@ -148,9 +148,9 @@ fill_series_adjust_variables (GnmFillSeriesTool *ftool, data_analysis_output_t *
 	int length_of_space = ftool->series_in_rows
 		? dao->cols : dao->rows;
 
-	if (ftool->type == FillSeriesTypeDate &&
-	    ftool->date_unit != FillSeriesUnitDay) {
-		GODateConventions const *conv = sheet_date_conv (dao_get_sheet (dao));
+	if (ftool->type == GNM_FILL_SERIES_DATE &&
+	    ftool->date_unit != GNM_FILL_SERIES_UNIT_DAY) {
+		GODateConventions const *conv = dao_get_date_conv (dao);
 		if (ftool->is_step_set)
 			ftool->step_value = gnm_round (ftool->step_value);
 		else    /* FIXME */
@@ -170,10 +170,10 @@ fill_series_adjust_variables (GnmFillSeriesTool *ftool, data_analysis_output_t *
 						      ftool->stop_value, conv);
 			}
 			switch (ftool->date_unit) {
-			case FillSeriesUnitDay:
+			case GNM_FILL_SERIES_UNIT_DAY:
 				/* This should not happen*/
 				break;
-			case FillSeriesUnitWeekday:
+			case GNM_FILL_SERIES_UNIT_WEEKDAY:
 			{
 				int days;
 				days = g_date_days_between
@@ -184,7 +184,7 @@ fill_series_adjust_variables (GnmFillSeriesTool *ftool, data_analysis_output_t *
 					length_of_series = 1;
 			}
 			break;
-			case FillSeriesUnitMonth:
+			case GNM_FILL_SERIES_UNIT_MONTH:
 			{
 				GDateYear    from_year, to_year;
 				GDateMonth    from_month, to_month;
@@ -208,7 +208,7 @@ fill_series_adjust_variables (GnmFillSeriesTool *ftool, data_analysis_output_t *
 					length_of_series = 1;
 			}
 			break;
-			case FillSeriesUnitYear:
+			case GNM_FILL_SERIES_UNIT_YEAR:
 			{
 				GDateYear    from_year, to_year;
 				gint years;
@@ -231,13 +231,13 @@ fill_series_adjust_variables (GnmFillSeriesTool *ftool, data_analysis_output_t *
 	} else {
 		if (!ftool->is_step_set) {
 			switch (ftool->type) {
-			case FillSeriesTypeDate:
-			case FillSeriesTypeLinear:
+			case GNM_FILL_SERIES_DATE:
+			case GNM_FILL_SERIES_LINEAR:
 				ftool->step_value =
 					(ftool->stop_value - ftool->start_value)/
 					(length_of_space - 1);
 				break;
-			case FillSeriesTypeGrowth:
+			case GNM_FILL_SERIES_GROWTH:
 				ftool->step_value =
 					gnm_exp ((gnm_log(ftool->stop_value
 							  /ftool->start_value))/
@@ -247,8 +247,8 @@ fill_series_adjust_variables (GnmFillSeriesTool *ftool, data_analysis_output_t *
 			ftool->is_step_set = TRUE;
 		} else if (ftool->is_stop_set) {
 			switch (ftool->type) {
-			case FillSeriesTypeDate:
-			case FillSeriesTypeLinear:
+			case GNM_FILL_SERIES_DATE:
+			case GNM_FILL_SERIES_LINEAR:
 				length_of_series
 					= gnm_floor(GNM_EPSILON + 1 +
 						    (ftool->stop_value
@@ -257,7 +257,7 @@ fill_series_adjust_variables (GnmFillSeriesTool *ftool, data_analysis_output_t *
 				if (length_of_series < 1)
 					length_of_series = 1;
 				break;
-			case FillSeriesTypeGrowth:
+			case GNM_FILL_SERIES_GROWTH:
 				length_of_series
 					= gnm_floor(GNM_EPSILON + 1 +
 						    (gnm_log(ftool->stop_value
@@ -286,12 +286,12 @@ fill_series_type_get_type (void)
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue const values[] = {
-			{ FillSeriesTypeLinear, "FillSeriesTypeLinear", "linear" },
-			{ FillSeriesTypeGrowth, "FillSeriesTypeGrowth", "growth" },
-			{ FillSeriesTypeDate,   "FillSeriesTypeDate",   "date" },
+			{ GNM_FILL_SERIES_LINEAR, "GNM_FILL_SERIES_LINEAR", "linear" },
+			{ GNM_FILL_SERIES_GROWTH, "GNM_FILL_SERIES_GROWTH", "growth" },
+			{ GNM_FILL_SERIES_DATE,   "GNM_FILL_SERIES_DATE",   "date" },
 			{ 0, NULL, NULL }
 		};
-		etype = g_enum_register_static ("fill_series_type_t", values);
+		etype = g_enum_register_static ("gnm_fill_series_type_t", values);
 	}
 	return etype;
 }
@@ -302,13 +302,13 @@ fill_series_date_unit_get_type (void)
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue const values[] = {
-			{ FillSeriesUnitDay,     "FillSeriesUnitDay",     "day" },
-			{ FillSeriesUnitWeekday, "FillSeriesUnitWeekday", "weekday" },
-			{ FillSeriesUnitMonth,   "FillSeriesUnitMonth",   "month" },
-			{ FillSeriesUnitYear,    "FillSeriesUnitYear",    "year" },
+			{ GNM_FILL_SERIES_UNIT_DAY,     "GNM_FILL_SERIES_UNIT_DAY",     "day" },
+			{ GNM_FILL_SERIES_UNIT_WEEKDAY, "GNM_FILL_SERIES_UNIT_WEEKDAY", "weekday" },
+			{ GNM_FILL_SERIES_UNIT_MONTH,   "GNM_FILL_SERIES_UNIT_MONTH",   "month" },
+			{ GNM_FILL_SERIES_UNIT_YEAR,    "GNM_FILL_SERIES_UNIT_YEAR",    "year" },
 			{ 0, NULL, NULL }
 		};
-		etype = g_enum_register_static ("fill_series_date_unit_t", values);
+		etype = g_enum_register_static ("gnm_fill_series_date_unit_t", values);
 	}
 	return etype;
 }
@@ -410,8 +410,8 @@ gnm_fill_series_tool_get_property (GObject    *obj,
 static void
 gnm_fill_series_tool_init (GnmFillSeriesTool *tool)
 {
-	tool->type = FillSeriesTypeLinear;
-	tool->date_unit = FillSeriesUnitDay;
+	tool->type = GNM_FILL_SERIES_LINEAR;
+	tool->date_unit = GNM_FILL_SERIES_UNIT_DAY;
 	tool->series_in_rows = FALSE;
 	tool->step_value = 1.0;
 	tool->stop_value = 0.0;
@@ -456,24 +456,24 @@ gnm_fill_series_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t
 	int dr = 1 - dc;
 
 	switch (ftool->type) {
-	case FillSeriesTypeLinear:
+	case GNM_FILL_SERIES_LINEAR:
 		do_filling_linear (ftool, dao, dc, dr);
 		break;
-	case FillSeriesTypeGrowth:
+	case GNM_FILL_SERIES_GROWTH:
 		do_filling_growth (ftool, dao, dc, dr);
 		break;
-	case FillSeriesTypeDate:
+	case GNM_FILL_SERIES_DATE:
 		switch (ftool->date_unit) {
-		case FillSeriesUnitDay:
+		case GNM_FILL_SERIES_UNIT_DAY:
 			do_filling_linear (ftool, dao, dc, dr);
 			break;
-		case FillSeriesUnitWeekday:
+		case GNM_FILL_SERIES_UNIT_WEEKDAY:
 			do_filling_wday (ftool, dao, dc, dr);
 			break;
-		case FillSeriesUnitMonth:
+		case GNM_FILL_SERIES_UNIT_MONTH:
 			do_filling_month (ftool, dao, dc, dr);
 			break;
-		case FillSeriesUnitYear:
+		case GNM_FILL_SERIES_UNIT_YEAR:
 			do_filling_year (ftool, dao, dc, dr);
 			break;
 		}
@@ -502,12 +502,12 @@ gnm_fill_series_tool_class_init (GnmFillSeriesToolClass *klass)
 	g_object_class_install_property (gobject_class,
 		FILL_SERIES_PROP_TYPE,
 		g_param_spec_enum ("type", NULL, NULL,
-				   GNM_FILL_SERIES_TYPE, FillSeriesTypeLinear,
+				   GNM_FILL_SERIES_TYPE, GNM_FILL_SERIES_LINEAR,
 				   G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		FILL_SERIES_PROP_DATE_UNIT,
 		g_param_spec_enum ("date-unit", NULL, NULL,
-				   GNM_FILL_SERIES_DATE_UNIT, FillSeriesUnitDay,
+				   GNM_FILL_SERIES_DATE_UNIT, GNM_FILL_SERIES_UNIT_DAY,
 				   G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		FILL_SERIES_PROP_SERIES_IN_ROWS,

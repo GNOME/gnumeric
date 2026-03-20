@@ -211,17 +211,12 @@ dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
 			dao->rows = MIN (rows, dao->rows);
 	}
 
-	if (dao->sheet) {
-		max_rows = gnm_sheet_get_max_rows (dao->sheet) - dao->start_row;
-		max_cols = gnm_sheet_get_max_cols (dao->sheet) - dao->start_col;
-	} else {
-		/* In case of GNM_DAO_OUTPUT_NEWSHEET and GNM_DAO_OUTPUT_NEWWORKBOOK */
-		/* this is called before we actually create the    */
-		/* new sheet and/or workbook                       */
-		Sheet *old_sheet = dao_get_sheet (dao);
-		max_rows = gnm_sheet_get_max_rows (old_sheet) - dao->start_row;
-		max_cols = gnm_sheet_get_max_cols (old_sheet) - dao->start_col;
-	}
+	/* In case of GNM_DAO_OUTPUT_NEWSHEET and GNM_DAO_OUTPUT_NEWWORKBOOK */
+	/* this is called before we actually create the    */
+	/* new sheet and/or workbook                       */
+	GnmSheetSize const *ss = dao_get_sheet_size (dao);
+	max_rows = ss->max_rows - dao->start_row;
+	max_cols = ss->max_cols - dao->start_col;
 
 	if (dao->cols > max_cols)
 		dao->cols = max_cols;
@@ -246,24 +241,27 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		dao->wbc = wbc;
 
 	if (dao->type == GNM_DAO_OUTPUT_NEWSHEET) {
-		Sheet *old_sheet = dao_get_sheet (dao);
+		Sheet *old_sheet = dao->wbc
+			? wb_control_cur_sheet (dao->wbc)
+			: dao->sheet;
+		GnmSheetSize const *ss = gnm_sheet_get_size (old_sheet);
 		Workbook *wb = old_sheet->workbook;
 		char *name_with_counter = g_strdup_printf ("%s (1)", name);
 		unique_name = workbook_sheet_get_free_name
 			(wb, name_with_counter, FALSE, TRUE);
 		g_free (name_with_counter);
-		dao->rows = gnm_sheet_get_max_rows (old_sheet);
-		dao->cols = gnm_sheet_get_max_cols (old_sheet);
-	        dao->sheet = sheet_new (wb, unique_name, dao->cols, dao->rows);
+		dao->rows = ss->max_rows;
+		dao->cols = ss->max_cols;
+	        dao->sheet = sheet_new (wb, unique_name, ss->max_cols, ss->max_rows);
 		g_free (unique_name);
 		dao->start_col = dao->start_row = 0;
 		workbook_sheet_attach (wb, dao->sheet);
 	} else if (dao->type == GNM_DAO_OUTPUT_NEWWORKBOOK) {
-		Sheet *old_sheet = dao_get_sheet (dao);
+		GnmSheetSize const *ss = dao_get_sheet_size (dao);
 		Workbook *wb = workbook_new ();
-		dao->rows = gnm_sheet_get_max_rows (old_sheet);
-		dao->cols = gnm_sheet_get_max_cols (old_sheet);
-		dao->sheet = sheet_new (wb, name, dao->cols, dao->rows);
+		dao->rows = ss->max_rows;
+		dao->cols = ss->max_cols;
+		dao->sheet = sheet_new (wb, name, ss->max_cols, ss->max_rows);
 		dao->start_col = dao->start_row = 0;
 		workbook_sheet_attach (wb, dao->sheet);
 		dao->wbc = workbook_control_new_wrapper (dao->wbc, NULL, wb, NULL);
@@ -1307,21 +1305,47 @@ dao_set_merge (data_analysis_output_t *dao, int col1, int row1,
 
 
 /**
- * dao_get_sheet:
+ * dao_get_date_conv:
  * @dao: #data_analysis_output_t
  *
- * Returns: (transfer none): a sheet appropriate for querying size and
- * date convention.
+ * Returns: (transfer none): date conventions appropriate for querying
+ * date conventions.
  */
-Sheet *
-dao_get_sheet (data_analysis_output_t *dao)
+GODateConventions const *
+dao_get_date_conv (data_analysis_output_t *dao)
 {
 	if (dao->sheet)
-		return dao->sheet;
+		return sheet_date_conv (dao->sheet);
 
-	if (dao->wbc)
-		return wb_control_cur_sheet (dao->wbc);
+	if (dao->wbc) {
+		Sheet *sheet = wb_control_cur_sheet (dao->wbc);
+		if (sheet)
+			return sheet_date_conv (sheet);
+	}
 
-	// Well, now what?
-	return NULL;
+	return go_date_conv_from_str ("Lotus:1900");
+}
+
+/**
+ * dao_get_sheet_size:
+ * @dao: #data_analysis_output_t
+ *
+ * Returns: (transfer none): the relevant #GnmSheetSize object.
+ */
+GnmSheetSize const *
+dao_get_sheet_size (data_analysis_output_t *dao)
+{
+	if (dao->sheet)
+		return gnm_sheet_get_size (dao->sheet);
+
+	if (dao->wbc) {
+		Sheet *sheet = wb_control_cur_sheet (dao->wbc);
+		if (sheet)
+			return gnm_sheet_get_size (sheet);
+	}
+
+	static const GnmSheetSize default_size = {
+		GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS
+	};
+	return &default_size;
 }

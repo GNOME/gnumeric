@@ -95,16 +95,17 @@ dialog_tool_init_outputs (GnmGenericToolState *state, GCallback sensitivity_cb)
  * dao_parse_output: (skip)
  * @state: #GnmGenericToolState
  *
- * fill dao with information from the standard output section of a dialog
+ * Create a dao filled with information from the standard output section
+ * of a dialog
  *
  * Returns: (transfer full): the parsed #data_analysis_output_t.
  **/
 data_analysis_output_t *
 dao_parse_output (GnmGenericToolState *state)
 {
-	data_analysis_output_t *this_dao = NULL;
+	data_analysis_output_t *this_dao =
+		gnm_dao_create_dao (GNM_DAO (state->gdao));
 
-	gnm_dao_get_data (GNM_DAO (state->gdao), &this_dao);
 	if (this_dao->type == GNM_DAO_OUTPUT_INPLACE) {
 		GnmValue *output_range
 			= gnm_expr_entry_parse_as_value (
@@ -112,5 +113,6 @@ dao_parse_output (GnmGenericToolState *state)
 		dao_load_from_value (this_dao, output_range);
 		value_release (output_range);
 	}
+
 	return this_dao;
 }

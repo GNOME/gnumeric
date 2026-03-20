@@ -128,7 +128,8 @@ char *dao_command_descriptor (data_analysis_output_t *dao,
 				char const *format);
 void dao_adjust           (data_analysis_output_t *dao, gint cols, gint rows);
 
-Sheet *dao_get_sheet (data_analysis_output_t *dao);
+GODateConventions const *dao_get_date_conv (data_analysis_output_t *dao);
+GnmSheetSize const *dao_get_sheet_size (data_analysis_output_t *dao);
 
 ColRowStateList *dao_get_colrow_state_list (data_analysis_output_t *dao,
 					    gboolean is_cols);

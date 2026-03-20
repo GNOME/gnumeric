@@ -126,14 +126,14 @@ cb_type_button_clicked (G_GNUC_UNUSED GtkWidget *button,
 			FillSeriesState *state)
 {
 	GtkWidget          *radio;
-	fill_series_type_t type;
+	gnm_fill_series_type_t type;
 
 
 	/* Read the `Type' radio buttons. */
 	radio = go_gtk_builder_get_widget (state->base.gui, "type_linear");
 	type = gnm_gtk_radio_group_get_selected (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio)));
 
-	if (type == FillSeriesTypeDate)
+	if (type == GNM_FILL_SERIES_DATE)
 		gtk_widget_set_sensitive (state->date_steps_type, TRUE);
 	else
 		gtk_widget_set_sensitive (state->date_steps_type, FALSE);

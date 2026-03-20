@@ -32,8 +32,8 @@ typedef struct _GnmDao GnmDao;
 
 
 GType		gnm_dao_get_type	(void);
-GtkWidget *	gnm_dao_new	(WBCGtk *wbcg, gchar *inplace_str);
-gboolean        gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao);
+GtkWidget *	gnm_dao_new	(WBCGtk *wbcg, const char *inplace_str);
+data_analysis_output_t *gnm_dao_create_dao (GnmDao *gdao);
 void            gnm_dao_set_put (GnmDao *gdao, gboolean show_put,
 				 gboolean put_formulas);
 gboolean        gnm_dao_is_ready (GnmDao *gdao);
