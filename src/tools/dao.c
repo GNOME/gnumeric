@@ -218,7 +218,7 @@ dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
 		/* In case of GNM_DAO_OUTPUT_NEWSHEET and GNM_DAO_OUTPUT_NEWWORKBOOK */
 		/* this is called before we actually create the    */
 		/* new sheet and/or workbook                       */
-		Sheet *old_sheet = wb_control_cur_sheet (dao->wbc);
+		Sheet *old_sheet = dao_get_sheet (dao);
 		max_rows = gnm_sheet_get_max_rows (old_sheet) - dao->start_row;
 		max_cols = gnm_sheet_get_max_cols (old_sheet) - dao->start_col;
 	}
@@ -246,9 +246,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		dao->wbc = wbc;
 
 	if (dao->type == GNM_DAO_OUTPUT_NEWSHEET) {
-		Sheet *old_sheet = dao->wbc
-			? wb_control_cur_sheet (dao->wbc)
-			: dao->sheet;
+		Sheet *old_sheet = dao_get_sheet (dao);
 		Workbook *wb = old_sheet->workbook;
 		char *name_with_counter = g_strdup_printf ("%s (1)", name);
 		unique_name = workbook_sheet_get_free_name
@@ -261,7 +259,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		dao->start_col = dao->start_row = 0;
 		workbook_sheet_attach (wb, dao->sheet);
 	} else if (dao->type == GNM_DAO_OUTPUT_NEWWORKBOOK) {
-		Sheet *old_sheet = wb_control_cur_sheet (dao->wbc);
+		Sheet *old_sheet = dao_get_sheet (dao);
 		Workbook *wb = workbook_new ();
 		dao->rows = gnm_sheet_get_max_rows (old_sheet);
 		dao->cols = gnm_sheet_get_max_cols (old_sheet);
@@ -763,7 +761,7 @@ dao_set_italic (data_analysis_output_t *dao, int col1, int row1,
 }
 
 /**
- * dao_set_percent:
+ * dao_set_format_percent:
  * @dao:
  * @col1:
  * @row1:
@@ -773,7 +771,7 @@ dao_set_italic (data_analysis_output_t *dao, int col1, int row1,
  * Set the given cell range to percent format
  **/
 void
-dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
+dao_set_format_percent (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
 {
 	GnmStyle *mstyle = gnm_style_new ();
@@ -782,7 +780,7 @@ dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
 }
 
 /**
- * dao_set_date:
+ * dao_set_format_date:
  * @dao:
  * @col1:
  * @row1:
@@ -792,7 +790,7 @@ dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
  * Set the given cell range to date format
  **/
 void
-dao_set_date (data_analysis_output_t *dao, int col1, int row1,
+dao_set_format_date (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
 {
 	GnmStyle *mstyle = gnm_style_new ();
@@ -1305,4 +1303,25 @@ dao_set_merge (data_analysis_output_t *dao, int col1, int row1,
 	range_init (&r, col1, row1, col2, row2);
 	if (adjust_range (dao, &r))
 		gnm_sheet_merge_add (dao->sheet, &r, TRUE, NULL);
+}
+
+
+/**
+ * dao_get_sheet:
+ * @dao: #data_analysis_output_t
+ *
+ * Returns: (transfer none): a sheet appropriate for querying size and
+ * date convention.
+ */
+Sheet *
+dao_get_sheet (data_analysis_output_t *dao)
+{
+	if (dao->sheet)
+		return dao->sheet;
+
+	if (dao->wbc)
+		return wb_control_cur_sheet (dao->wbc);
+
+	// Well, now what?
+	return NULL;
 }

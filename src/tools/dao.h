@@ -63,25 +63,25 @@ void dao_load_from_value (data_analysis_output_t *dao,
 			  GnmValue const *output_range);
 void dao_free (data_analysis_output_t *dao);
 
-void dao_autofit_columns      (data_analysis_output_t *dao);
+void dao_autofit_columns       (data_analysis_output_t *dao);
 void dao_autofit_these_columns (data_analysis_output_t *dao, int from_col, int to_col);
 
-void dao_autofit_rows      (data_analysis_output_t *dao);
-void dao_autofit_these_rows (data_analysis_output_t *dao, int from_row, int to_row);
+void dao_autofit_rows          (data_analysis_output_t *dao);
+void dao_autofit_these_rows    (data_analysis_output_t *dao, int from_row, int to_row);
 
-gboolean dao_cell_is_visible      (data_analysis_output_t *dao, int col, int row);
-void dao_set_bold             (data_analysis_output_t *dao, int col1, int row1,
-			       int col2, int row2);
-void dao_set_italic           (data_analysis_output_t *dao, int col1, int row1,
-			       int col2, int row2);
-void dao_set_percent          (data_analysis_output_t *dao, int col1, int row1,
-			       int col2, int row2);
-void dao_set_date             (data_analysis_output_t *dao, int col1, int row1,
-			       int col2, int row2);
-void dao_set_format             (data_analysis_output_t *dao, int col1, int row1,
-				 int col2, int row2, char const *format);
-void dao_set_merge          (data_analysis_output_t *dao, int col1, int row1,
-			       int col2, int row2);
+gboolean dao_cell_is_visible   (data_analysis_output_t *dao, int col, int row);
+void dao_set_bold              (data_analysis_output_t *dao, int col1, int row1,
+				int col2, int row2);
+void dao_set_italic            (data_analysis_output_t *dao, int col1, int row1,
+				int col2, int row2);
+void dao_set_format_percent    (data_analysis_output_t *dao, int col1, int row1,
+				int col2, int row2);
+void dao_set_format_date       (data_analysis_output_t *dao, int col1, int row1,
+				int col2, int row2);
+void dao_set_format            (data_analysis_output_t *dao, int col1, int row1,
+				int col2, int row2, char const *format);
+void dao_set_merge             (data_analysis_output_t *dao, int col1, int row1,
+				int col2, int row2);
 
 void dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
 		     int col2, int row2,
@@ -127,6 +127,8 @@ gboolean dao_format_output    (data_analysis_output_t *dao, char const *cmd);
 char *dao_command_descriptor (data_analysis_output_t *dao,
 				char const *format);
 void dao_adjust           (data_analysis_output_t *dao, gint cols, gint rows);
+
+Sheet *dao_get_sheet (data_analysis_output_t *dao);
 
 ColRowStateList *dao_get_colrow_state_list (data_analysis_output_t *dao,
 					    gboolean is_cols);

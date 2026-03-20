@@ -51,6 +51,7 @@
 #include <tools/analysis-ttest.h>
 #include <tools/analysis-wilcoxon-mann-whitney.h>
 #include <tools/analysis-ztest.h>
+#include <tools/fill-series.h>
 #include <tools/filter.h>
 #include <dialogs/dialogs.h>
 #include <goffice/goffice.h>
@@ -987,11 +988,12 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 		atool = gnm_kaplan_meier_tool_new ();
 	} else if (g_str_equal (tool, "z-test")) {
 		atool = gnm_ztest_tool_new ();
+	} else if (g_str_equal (tool, "fill-series")) {
+		atool = gnm_fill_series_tool_new ();
 	} else {
 		// Known missing:
 		//
 		// consolidate
-		// fill-series
 		// random-generator
 		// random-generator-cor
 		g_printerr ("no test for tool \"%s\"\n", tool);
@@ -1501,10 +1503,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		res = !workbook_view_save_as (wbv, fs, outfile, cc);
 	}
 
-	if (sheet_sel)
-		g_object_set_data (G_OBJECT (wb),
-				   SHEET_SELECTION_KEY, NULL);
-
+	g_object_set_data (G_OBJECT (wb), SHEET_SELECTION_KEY, NULL);
  out:
 	if (wbv)
 		wb = wb_view_get_workbook (wbv);

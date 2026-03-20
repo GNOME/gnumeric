@@ -8,10 +8,16 @@ typedef enum {
         FillSeriesTypeLinear, FillSeriesTypeGrowth, FillSeriesTypeDate
 } fill_series_type_t;
 
+GType fill_series_type_get_type (void);
+#define GNM_FILL_SERIES_TYPE (fill_series_type_get_type ())
+
 typedef enum {
         FillSeriesUnitDay, FillSeriesUnitWeekday, FillSeriesUnitMonth,
 	FillSeriesUnitYear
 } fill_series_date_unit_t;
+
+GType fill_series_date_unit_get_type (void);
+#define GNM_FILL_SERIES_DATE_UNIT (fill_series_date_unit_get_type ())
 
 #define GNM_TYPE_FILL_SERIES_TOOL (gnm_fill_series_tool_get_type ())
 GType gnm_fill_series_tool_get_type (void);
@@ -30,6 +36,7 @@ struct _GnmFillSeriesTool {
         gboolean                is_step_set;
         gboolean                is_stop_set;
 
+	// Derived
 	gint                    n;
 };
 

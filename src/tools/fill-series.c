@@ -36,20 +36,20 @@
 #include <tools/analysis-tools.h>
 #include <numbers.h>
 #include <gnm-datetime.h>
+#include <workbook-control.h>
 
 #include <mathfunc.h>
 #include <tools/fill-series.h>
 #include <goffice/goffice.h>
 
 static void
-do_row_filling_wday (GnmFillSeriesTool *ftool, data_analysis_output_t *dao)
+do_filling_wday (GnmFillSeriesTool *ftool, data_analysis_output_t *dao, int dc, int dr)
 {
 	int i;
 	gnm_float start = ftool->start_value;
-	GDate        date;
-	GODateConventions const *conv =
-		sheet_date_conv (dao->sheet);
-
+	GDate date;
+	GODateConventions const *conv = sheet_date_conv (dao_get_sheet (dao));
+	int c = 0, r = 0;
 
 	for (i = 0; i < ftool->n; i++) {
 		int steps = gnm_round (i * ftool->step_value);
@@ -62,164 +62,81 @@ do_row_filling_wday (GnmFillSeriesTool *ftool, data_analysis_output_t *dao)
 				days += 2;
 		gnm_date_add_days (&date, days);
 
-		dao_set_cell_float (dao, i, 0,
+		dao_set_cell_float (dao, c, r,
 				    go_date_g_to_serial (&date, conv));
+		c += dc;
+		r += dr;
 	}
-
 }
 
 static void
-do_column_filling_wday (GnmFillSeriesTool *ftool, data_analysis_output_t *dao)
+do_filling_month (GnmFillSeriesTool *ftool, data_analysis_output_t *dao, int dc, int dr)
 {
 	int i;
 	gnm_float start = ftool->start_value;
-	GDate        date;
-	GODateConventions const *conv =
-		sheet_date_conv (dao->sheet);
-
-
-	for (i = 0; i < ftool->n; i++) {
-		int steps = gnm_round (i * ftool->step_value);
-		int days = (steps / 5) * 7 + steps % 5;
-		GDateWeekday wd;
-
-		go_date_serial_to_g (&date, start, conv);
-		wd = g_date_get_weekday (&date);
-		if (wd + (steps % 5) > G_DATE_FRIDAY)
-				days += 2;
-		gnm_date_add_days (&date, days);
-
-		dao_set_cell_float (dao, 0,i,
-				    go_date_g_to_serial (&date, conv));
-	}
-
-
-}
-
-static void
-do_row_filling_month (GnmFillSeriesTool *ftool, data_analysis_output_t *dao)
-{
-	int i;
-	gnm_float start = ftool->start_value;
-	GDate        date;
-	GODateConventions const *conv =
-		sheet_date_conv (dao->sheet);
-
+	GDate date;
+	GODateConventions const *conv = sheet_date_conv (dao_get_sheet (dao));
+	int c = 0, r = 0;
 
 	for (i = 0; i < ftool->n; i++) {
 		go_date_serial_to_g (&date, start, conv);
 		gnm_date_add_months (&date, i * ftool->step_value);
 
-		dao_set_cell_float (dao, i, 0,
+		dao_set_cell_float (dao, c, r,
 				    go_date_g_to_serial (&date, conv));
+		c += dc;
+		r += dr;
 	}
 }
 
 static void
-do_column_filling_month (GnmFillSeriesTool *ftool, data_analysis_output_t *dao)
+do_filling_year (GnmFillSeriesTool *ftool, data_analysis_output_t *dao, int dc, int dr)
 {
 	int i;
 	gnm_float start = ftool->start_value;
-	GDate        date;
-	GODateConventions const *conv =
-		sheet_date_conv (dao->sheet);
-
-
-	for (i = 0; i < ftool->n; i++) {
-		go_date_serial_to_g (&date, start, conv);
-		gnm_date_add_months (&date, i * ftool->step_value);
-
-		dao_set_cell_float (dao, 0, i,
-				    go_date_g_to_serial (&date, conv));
-	}
-}
-
-static void
-do_row_filling_year (GnmFillSeriesTool *ftool, data_analysis_output_t *dao)
-{
-	int i;
-	gnm_float start = ftool->start_value;
-	GDate        date;
-	GODateConventions const *conv =
-		sheet_date_conv (dao->sheet);
-
+	GDate date;
+	GODateConventions const *conv = sheet_date_conv (dao_get_sheet (dao));
+	int c = 0, r = 0;
 
 	for (i = 0; i < ftool->n; i++) {
 		go_date_serial_to_g (&date, start, conv);
 		gnm_date_add_years (&date, i * ftool->step_value);
 
-		dao_set_cell_float (dao, i, 0,
+		dao_set_cell_float (dao, c, r,
 				    go_date_g_to_serial (&date, conv));
+		c += dc;
+		r += dr;
 	}
 }
 
 static void
-do_column_filling_year (GnmFillSeriesTool *ftool, data_analysis_output_t *dao)
-{
-	int i;
-	gnm_float start = ftool->start_value;
-	GDate        date;
-	GODateConventions const *conv =
-		sheet_date_conv (dao->sheet);
-
-
-	for (i = 0; i < ftool->n; i++) {
-		go_date_serial_to_g (&date, start, conv);
-		gnm_date_add_years (&date, i * ftool->step_value);
-
-		dao_set_cell_float (dao, 0, i,
-				    go_date_g_to_serial (&date, conv));
-	}
-}
-
-static void
-do_row_filling_linear (GnmFillSeriesTool *ftool, data_analysis_output_t *dao)
+do_filling_linear (GnmFillSeriesTool *ftool, data_analysis_output_t *dao, int dc, int dr)
 {
 	int i;
 	gnm_float start = ftool->start_value;
 	gnm_float step = ftool->step_value;
+	int c = 0, r = 0;
 
 	for (i = 0; i < ftool->n; i++) {
-		dao_set_cell_float (dao, i, 0, start);
+		dao_set_cell_float (dao, c, r, start);
+		c += dc;
+		r += dr;
 		start += step;
 	}
 }
 
 static void
-do_column_filling_linear (GnmFillSeriesTool *ftool, data_analysis_output_t *dao)
+do_filling_growth (GnmFillSeriesTool *ftool, data_analysis_output_t *dao, int dc, int dr)
 {
 	int i;
 	gnm_float start = ftool->start_value;
 	gnm_float step = ftool->step_value;
+	int c = 0, r = 0;
 
 	for (i = 0; i < ftool->n; i++) {
-		dao_set_cell_float (dao, 0, i, start);
-		start += step;
-	}
-}
-
-static void
-do_row_filling_growth (GnmFillSeriesTool *ftool, data_analysis_output_t *dao)
-{
-	int i;
-	gnm_float start = ftool->start_value;
-	gnm_float step = ftool->step_value;
-
-	for (i = 0; i < ftool->n; i++) {
-		dao_set_cell_float (dao, i, 0, start);
-		start *= step;
-	}
-}
-
-static void
-do_column_filling_growth (GnmFillSeriesTool *ftool, data_analysis_output_t *dao)
-{
-	int i;
-	gnm_float start = ftool->start_value;
-	gnm_float step = ftool->step_value;
-
-	for (i = 0; i < ftool->n; i++) {
-		dao_set_cell_float (dao, 0, i, start);
+		dao_set_cell_float (dao, c, r, start);
+		c += dc;
+		r += dr;
 		start *= step;
 	}
 }
@@ -233,14 +150,13 @@ fill_series_adjust_variables (GnmFillSeriesTool *ftool, data_analysis_output_t *
 
 	if (ftool->type == FillSeriesTypeDate &&
 	    ftool->date_unit != FillSeriesUnitDay) {
+		GODateConventions const *conv = sheet_date_conv (dao_get_sheet (dao));
 		if (ftool->is_step_set)
 			ftool->step_value = gnm_round (ftool->step_value);
 		else    /* FIXME */
 			ftool->step_value = 1;
 		if (ftool->is_stop_set) {
 			GDate        from_date, to_date;
-			GODateConventions const *conv =
-				sheet_date_conv (dao->sheet);
 
 			if (ftool->step_value < 0) {
 				go_date_serial_to_g (&from_date,
@@ -311,7 +227,6 @@ fill_series_adjust_variables (GnmFillSeriesTool *ftool, data_analysis_output_t *
 			}
 			break;
 			}
-
 		}
 	} else {
 		if (!ftool->is_step_set) {
@@ -365,11 +280,145 @@ fill_series_adjust_variables (GnmFillSeriesTool *ftool, data_analysis_output_t *
 		ftool->n = length_of_series;
 }
 
+GType
+fill_series_type_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ FillSeriesTypeLinear, "FillSeriesTypeLinear", "linear" },
+			{ FillSeriesTypeGrowth, "FillSeriesTypeGrowth", "growth" },
+			{ FillSeriesTypeDate,   "FillSeriesTypeDate",   "date" },
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("fill_series_type_t", values);
+	}
+	return etype;
+}
+
+GType
+fill_series_date_unit_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ FillSeriesUnitDay,     "FillSeriesUnitDay",     "day" },
+			{ FillSeriesUnitWeekday, "FillSeriesUnitWeekday", "weekday" },
+			{ FillSeriesUnitMonth,   "FillSeriesUnitMonth",   "month" },
+			{ FillSeriesUnitYear,    "FillSeriesUnitYear",    "year" },
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("fill_series_date_unit_t", values);
+	}
+	return etype;
+}
+
 G_DEFINE_TYPE (GnmFillSeriesTool, gnm_fill_series_tool, GNM_TYPE_ANALYSIS_TOOL)
 
+enum {
+	FILL_SERIES_PROP_0,
+	FILL_SERIES_PROP_TYPE,
+	FILL_SERIES_PROP_DATE_UNIT,
+	FILL_SERIES_PROP_SERIES_IN_ROWS,
+	FILL_SERIES_PROP_STEP_VALUE,
+	FILL_SERIES_PROP_STOP_VALUE,
+	FILL_SERIES_PROP_START_VALUE,
+	FILL_SERIES_PROP_IS_STEP_SET,
+	FILL_SERIES_PROP_IS_STOP_SET
+};
+
 static void
-gnm_fill_series_tool_init (G_GNUC_UNUSED GnmFillSeriesTool *tool)
+gnm_fill_series_tool_set_property (GObject      *obj,
+				   guint         property_id,
+				   GValue const *value,
+				   GParamSpec   *pspec)
 {
+	GnmFillSeriesTool *tool = GNM_FILL_SERIES_TOOL (obj);
+
+	switch (property_id) {
+	case FILL_SERIES_PROP_TYPE:
+		tool->type = g_value_get_enum (value);
+		break;
+	case FILL_SERIES_PROP_DATE_UNIT:
+		tool->date_unit = g_value_get_enum (value);
+		break;
+	case FILL_SERIES_PROP_SERIES_IN_ROWS:
+		tool->series_in_rows = g_value_get_boolean (value);
+		break;
+	case FILL_SERIES_PROP_STEP_VALUE:
+		tool->step_value = g_value_get_double (value);
+		tool->is_step_set = TRUE;
+		break;
+	case FILL_SERIES_PROP_STOP_VALUE:
+		tool->stop_value = g_value_get_double (value);
+		tool->is_stop_set = TRUE;
+		break;
+	case FILL_SERIES_PROP_START_VALUE:
+		tool->start_value = g_value_get_double (value);
+		break;
+	case FILL_SERIES_PROP_IS_STEP_SET:
+		tool->is_step_set = g_value_get_boolean (value);
+		break;
+	case FILL_SERIES_PROP_IS_STOP_SET:
+		tool->is_stop_set = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_fill_series_tool_get_property (GObject    *obj,
+				   guint       property_id,
+				   GValue     *value,
+				   GParamSpec *pspec)
+{
+	GnmFillSeriesTool *tool = GNM_FILL_SERIES_TOOL (obj);
+
+	switch (property_id) {
+	case FILL_SERIES_PROP_TYPE:
+		g_value_set_enum (value, tool->type);
+		break;
+	case FILL_SERIES_PROP_DATE_UNIT:
+		g_value_set_enum (value, tool->date_unit);
+		break;
+	case FILL_SERIES_PROP_SERIES_IN_ROWS:
+		g_value_set_boolean (value, tool->series_in_rows);
+		break;
+	case FILL_SERIES_PROP_STEP_VALUE:
+		g_value_set_double (value, tool->step_value);
+		break;
+	case FILL_SERIES_PROP_STOP_VALUE:
+		g_value_set_double (value, tool->stop_value);
+		break;
+	case FILL_SERIES_PROP_START_VALUE:
+		g_value_set_double (value, tool->start_value);
+		break;
+	case FILL_SERIES_PROP_IS_STEP_SET:
+		g_value_set_boolean (value, tool->is_step_set);
+		break;
+	case FILL_SERIES_PROP_IS_STOP_SET:
+		g_value_set_boolean (value, tool->is_stop_set);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_fill_series_tool_init (GnmFillSeriesTool *tool)
+{
+	tool->type = FillSeriesTypeLinear;
+	tool->date_unit = FillSeriesUnitDay;
+	tool->series_in_rows = FALSE;
+	tool->step_value = 1.0;
+	tool->stop_value = 0.0;
+	tool->start_value = 0.0;
+	tool->is_step_set = FALSE;
+	tool->is_stop_set = FALSE;
+	tool->n = 0;
 }
 
 static gboolean
@@ -403,48 +452,32 @@ static gboolean
 gnm_fill_series_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
 {
 	GnmFillSeriesTool *ftool = GNM_FILL_SERIES_TOOL (tool);
+	int dc = ftool->series_in_rows ? 1 : 0;
+	int dr = 1 - dc;
 
 	switch (ftool->type) {
 	case FillSeriesTypeLinear:
-		if (ftool->series_in_rows)
-			do_row_filling_linear (ftool, dao);
-		else
-			do_column_filling_linear (ftool, dao);
+		do_filling_linear (ftool, dao, dc, dr);
 		break;
 	case FillSeriesTypeGrowth:
-		if (ftool->series_in_rows)
-			do_row_filling_growth (ftool, dao);
-		else
-			do_column_filling_growth (ftool, dao);
+		do_filling_growth (ftool, dao, dc, dr);
 		break;
 	case FillSeriesTypeDate:
 		switch (ftool->date_unit) {
 		case FillSeriesUnitDay:
-			if (ftool->series_in_rows)
-				do_row_filling_linear (ftool, dao);
-			else
-				do_column_filling_linear (ftool, dao);
+			do_filling_linear (ftool, dao, dc, dr);
 			break;
 		case FillSeriesUnitWeekday:
-			if (ftool->series_in_rows)
-				do_row_filling_wday (ftool, dao);
-			else
-				do_column_filling_wday (ftool, dao);
+			do_filling_wday (ftool, dao, dc, dr);
 			break;
 		case FillSeriesUnitMonth:
-			if (ftool->series_in_rows)
-				do_row_filling_month (ftool, dao);
-			else
-				do_column_filling_month (ftool, dao);
+			do_filling_month (ftool, dao, dc, dr);
 			break;
 		case FillSeriesUnitYear:
-			if (ftool->series_in_rows)
-				do_row_filling_year (ftool, dao);
-			else
-				do_column_filling_year (ftool, dao);
+			do_filling_year (ftool, dao, dc, dr);
 			break;
 		}
-		dao_set_date (dao, 0, 0,
+		dao_set_format_date (dao, 0, 0,
 			      dao->cols - 1, dao->rows -1);
 		break;
 	}
@@ -454,13 +487,52 @@ gnm_fill_series_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t
 static void
 gnm_fill_series_tool_class_init (GnmFillSeriesToolClass *klass)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GnmAnalysisToolClass *at_class = GNM_ANALYSIS_TOOL_CLASS (klass);
+
+	gobject_class->set_property = gnm_fill_series_tool_set_property;
+	gobject_class->get_property = gnm_fill_series_tool_get_property;
 
 	at_class->update_dao = gnm_fill_series_tool_update_dao;
 	at_class->update_descriptor = gnm_fill_series_tool_update_descriptor;
 	at_class->prepare_output_range = gnm_fill_series_tool_prepare_output_range;
 	at_class->format_output_range = gnm_fill_series_tool_format_output_range;
 	at_class->perform_calc = gnm_fill_series_tool_perform_calc;
+
+	g_object_class_install_property (gobject_class,
+		FILL_SERIES_PROP_TYPE,
+		g_param_spec_enum ("type", NULL, NULL,
+				   GNM_FILL_SERIES_TYPE, FillSeriesTypeLinear,
+				   G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FILL_SERIES_PROP_DATE_UNIT,
+		g_param_spec_enum ("date-unit", NULL, NULL,
+				   GNM_FILL_SERIES_DATE_UNIT, FillSeriesUnitDay,
+				   G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FILL_SERIES_PROP_SERIES_IN_ROWS,
+		g_param_spec_boolean ("series-in-rows", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FILL_SERIES_PROP_STEP_VALUE,
+		g_param_spec_double ("step-value", NULL, NULL,
+				     -G_MAXDOUBLE, G_MAXDOUBLE, 1.0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FILL_SERIES_PROP_STOP_VALUE,
+		g_param_spec_double ("stop-value", NULL, NULL,
+				     -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FILL_SERIES_PROP_START_VALUE,
+		g_param_spec_double ("start-value", NULL, NULL,
+				     -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FILL_SERIES_PROP_IS_STEP_SET,
+		g_param_spec_boolean ("is-step-set", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		FILL_SERIES_PROP_IS_STOP_SET,
+		g_param_spec_boolean ("is-stop-set", NULL, NULL,
+				      FALSE, G_PARAM_READWRITE));
 }
 
 GnmAnalysisTool *

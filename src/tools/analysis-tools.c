@@ -2594,7 +2594,7 @@ gnm_ranking_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *da
 							 make_cellref (-2,0),
 							 gnm_expr_new_constant (value_new_int (10)));
 
-		dao_set_percent (dao, 3, 2, 3, 1 + rows);
+		dao_set_format_percent (dao, 3, 2, 3, 1 + rows);
 		for (i = 2; i < rows + 2; i++) {
 			dao_set_cell_expr ( dao, 2, i, gnm_expr_copy (expr_rank));
 			dao_set_cell_expr ( dao, 3, i, gnm_expr_copy (expr_percentile));
@@ -2788,11 +2788,12 @@ make_rangeref (int dx0, int dy0, int dx1, int dy1)
 }
 
 
-/*
- *  analysis_tools_adjust_areas:
- *  @data:
- *  @user_data:
+/**
+ * analysis_tools_adjust_areas:
+ * @range:
  *
+ * In-place updates a cell range to be absolute.  This is needed so it can
+ * be used in expressions without changing meaning.
  */
 void
 analysis_tools_adjust_areas (GnmValue *range)
@@ -2801,10 +2802,10 @@ analysis_tools_adjust_areas (GnmValue *range)
 		return;
 	}
 
-	range->v_range.cell.a.col_relative = 0;
-	range->v_range.cell.a.row_relative = 0;
-	range->v_range.cell.b.col_relative = 0;
-	range->v_range.cell.b.row_relative = 0;
+	range->v_range.cell.a.col_relative = FALSE;
+	range->v_range.cell.a.row_relative = FALSE;
+	range->v_range.cell.b.col_relative = FALSE;
+	range->v_range.cell.b.row_relative = FALSE;
 }
 
 /*

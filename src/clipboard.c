@@ -234,8 +234,8 @@ paste_link (GnmPasteTarget const *pt, int top, int left,
 		return;
 
 	/* TODO : support relative links ? */
-	source_cell_ref.col_relative = 0;
-	source_cell_ref.row_relative = 0;
+	source_cell_ref.col_relative = FALSE;
+	source_cell_ref.row_relative = FALSE;
 	source_cell_ref.sheet = (cr->origin_sheet != pt->sheet)
 		? cr->origin_sheet : NULL;
 	pos.col = left;

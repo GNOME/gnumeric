@@ -855,7 +855,7 @@ analysis_tool_regression_engine_run (GnmRegressionTool *rtool, data_analysis_out
 
 			dao_set_array_expr (dao, xdim + 4, 1, 1, n_obs, expr_diagonal);
 			dao_set_format (dao, xdim + 5, 1, xdim + 6, n_obs, "0.0000");
-			dao_set_percent (dao, xdim + 7, 1, xdim + 7, n_obs);
+			dao_set_format_percent (dao, xdim + 7, 1, xdim + 7, n_obs);
 			for (i = 0; i < n_obs; i++){
 				dao_set_cell_expr (dao, xdim + 5, i + 1, gnm_expr_copy (expr_int_stud));
 				dao_set_cell_expr (dao, xdim + 6, i + 1, gnm_expr_copy (expr_ext_stud));

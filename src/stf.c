@@ -503,6 +503,7 @@ stf_write_csv (GOFileSaver const *fs, GOIOContext *context,
 			Sheet *sheet = g_ptr_array_index (sheets, ui);
 			gnm_stf_export_options_sheet_list_add (config, sheet);
 		}
+		g_ptr_array_unref (sheets);
 	}
 
 	if (gnm_stf_export (config) == FALSE)

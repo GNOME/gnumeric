@@ -156,7 +156,7 @@ gnm_principal_components_tool_perform_calc (GnmAnalysisTool *tool, data_analysis
 			     "/Eigenvectors"));
 	dao_set_cell (dao, 0, 11 + 3 * l, _("Percent of Trace"));
 	dao_set_italic (dao, 0, 9 + 2 * l, 1 + l, 9 + 2 * l);
-	dao_set_percent (dao, 1, 11 + 3 * l, 1 + l, 11 + 3 * l);
+	dao_set_format_percent (dao, 1, 11 + 3 * l, 1 + l, 11 + 3 * l);
 
 	for (i = 1, inputdata = gtool->base.input; inputdata != NULL; i++, inputdata = inputdata->next) {
 		expr = gnm_expr_new_constant (value_dup (inputdata->data));

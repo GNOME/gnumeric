@@ -6,6 +6,8 @@ Morten:
 	* Plug leaks.
 	* Refactor analysis tools to be GObject-based.
 	* Fix sampling tool gui in the periodic case.
+	* Fix fill-series tool problems with dates.
+	* Fix chi-square tool problems with labels.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.60
