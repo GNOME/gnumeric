@@ -3836,6 +3836,14 @@ SOW_MAKE_TYPE (list_base, ListBase,
 			G_TYPE_NONE, 0);
 	       })
 
+/**
+ * sheet_widget_list_base_set_links:
+ * @so: #SheetObject
+ * @result_link: (nullable) (transfer none): new output expression
+ * @content: (nullable) (transfer none): new content expression
+ *
+ * Sets the links for the list/combo @so.
+ **/
 void
 sheet_widget_list_base_set_links (SheetObject *so,
 				  GnmExprTop const *output,
@@ -3852,6 +3860,12 @@ sheet_widget_list_base_set_links (SheetObject *so,
 	}
 }
 
+/**
+ * sheet_widget_list_base_get_result_link:
+ * @so: #SheetObject
+ *
+ * Returns: (transfer full) (nullable): the result link for @so.
+ **/
 GnmExprTop const *
 sheet_widget_list_base_get_result_link  (SheetObject const *so)
 {
@@ -3863,6 +3877,12 @@ sheet_widget_list_base_get_result_link  (SheetObject const *so)
 	return texpr;
 }
 
+/**
+ * sheet_widget_list_base_get_content_link:
+ * @so: #SheetObject
+ *
+ * Returns: (transfer full) (nullable): the content link for @so.
+ **/
 GnmExprTop const *
 sheet_widget_list_base_get_content_link (SheetObject const *so)
 {
@@ -3874,6 +3894,12 @@ sheet_widget_list_base_get_content_link (SheetObject const *so)
 	return texpr;
 }
 
+/**
+ * sheet_widget_list_base_result_type_is_index:
+ * @so: #SheetObject
+ *
+ * Returns: %TRUE if the result is an index, %FALSE if it's the value.
+ **/
 gboolean
 sheet_widget_list_base_result_type_is_index (SheetObject const *so)
 {
@@ -3882,6 +3908,13 @@ sheet_widget_list_base_result_type_is_index (SheetObject const *so)
 	return swl->result_as_index;
 }
 
+/**
+ * sheet_widget_list_base_set_result_type:
+ * @so: #SheetObject
+ * @as_index: boolean
+ *
+ * Sets whether the result of the list/combo @so should be an index or the value.
+ **/
 void
 sheet_widget_list_base_set_result_type (SheetObject *so, gboolean as_index)
 {
@@ -4232,7 +4265,7 @@ GSF_CLASS (SheetWidgetCombo, sheet_widget_combo,
  * sheet_object_widget_register:
  *
  * Initialize the classes for the sheet-object-widgets. We need to initialize
- * them before we try loading a sheet that might contain sheet-object-widgets
+ * them before we try loading a sheet that might contain sheet-object-widgets.
  **/
 void
 sheet_object_widget_register (void)

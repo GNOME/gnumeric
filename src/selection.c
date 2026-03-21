@@ -175,7 +175,7 @@ sv_is_full_range_selected (SheetView const *sv, GnmRange const *r)
 	return FALSE;
 }
 
-/*
+/**
  * sv_is_colrow_selected:
  * @sv: containing the selection
  * @colrow: The column or row number we are interested in.
@@ -188,7 +188,9 @@ sv_is_full_range_selected (SheetView const *sv, GnmRange const *r)
  * Eventually to be completely correct and deal with the case of someone manually
  * selection an entire col/row, in separate chunks,  we will need to do something
  * more advanced.
- */
+ *
+ * Returns: %TRUE if the col/row is selected.
+ **/
 gboolean
 sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
 {
@@ -634,6 +636,17 @@ set_menu_flags:
 	 */
 }
 
+/**
+ * sv_selection_set:
+ * @sv: #SheetView
+ * @edit: #GnmCellPos
+ * @base_col: column
+ * @base_row: row
+ * @move_col: column
+ * @move_row: row
+ *
+ * Sets the selection.
+ **/
 void
 sv_selection_set (SheetView *sv, GnmCellPos const *edit,
 		  int base_col, int base_row,
@@ -646,6 +659,12 @@ sv_selection_set (SheetView *sv, GnmCellPos const *edit,
 		move_col, move_row, FALSE);
 }
 
+/**
+ * sv_selection_simplify:
+ * @sv: #SheetView
+ *
+ * Simplifies the selection.
+ **/
 void
 sv_selection_simplify (SheetView *sv)
 {
@@ -705,6 +724,13 @@ sv_selection_add_full (SheetView *sv,
 		move_col, move_row, TRUE);
 }
 
+/**
+ * sv_selection_add_range:
+ * @sv: #SheetView
+ * @range: #GnmRange
+ *
+ * Adds a range to the selection.
+ **/
 void
 sv_selection_add_range (SheetView *sv, GnmRange const *r)
 {
@@ -712,6 +738,16 @@ sv_selection_add_range (SheetView *sv, GnmRange const *r)
 			       r->start.col, r->start.row, r->end.col, r->end.row,
 			       GNM_SELECTION_MODE_ADD);
 }
+
+/**
+ * sv_selection_add_pos:
+ * @sv: #SheetView
+ * @col: column
+ * @row: row
+ * @mode: #GnmSelectionMode
+ *
+ * Adds a position to the selection.
+ **/
 void
 sv_selection_add_pos (SheetView *sv, int col, int row, GnmSelectionMode mode)
 {
@@ -1170,6 +1206,13 @@ sv_selection_apply_in_order (SheetView *sv, SelectionApplyFunc const func,
 }
 
 
+/**
+ * selection_to_string:
+ * @sv: #SheetView
+ * @include_sheet_name_prefix: boolean
+ *
+ * Returns: (transfer full): the selection as a string.
+ **/
 char *
 selection_to_string (SheetView *sv, gboolean include_sheet_name_prefix)
 {
@@ -1212,8 +1255,16 @@ sv_selection_foreach (SheetView *sv,
 	return TRUE;
 }
 
-/* A protected sheet can limit whether locked and unlocked cells can be
- * selected */
+/**
+ * sheet_selection_is_allowed:
+ * @sheet: #Sheet
+ * @pos: #GnmCellPos
+ *
+ * A protected sheet can limit whether locked and unlocked cells can be
+ * selected.
+ *
+ * Returns: %TRUE if the selection is allowed.
+ **/
 gboolean
 sheet_selection_is_allowed (Sheet const *sheet, GnmCellPos const *pos)
 {
@@ -1470,6 +1521,13 @@ characterize_vec (Sheet *sheet, GnmRange *vector,
 	return is_string; /* NOTREACHED */
 }
 
+/**
+ * sv_selection_to_plot:
+ * @sv: #SheetView
+ * @plot: #GogPlot
+ *
+ * Adds the selection to @go_plot.
+ **/
 void
 sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 {

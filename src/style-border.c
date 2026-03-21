@@ -241,6 +241,12 @@ gnm_style_border_fetch (GnmStyleBorderType		 line_type,
 	return border;
 }
 
+/**
+ * gnm_style_border_visible_in_blank:
+ * @border: #GnmBorder
+ *
+ * Returns: %TRUE if the border should be visible in a blank cell.
+ **/
 gboolean
 gnm_style_border_visible_in_blank (GnmBorder const *border)
 {
@@ -249,6 +255,12 @@ gnm_style_border_visible_in_blank (GnmBorder const *border)
 	return border->line_type != GNM_STYLE_BORDER_NONE;
 }
 
+/**
+ * gnm_style_border_get_width:
+ * @line_type: border type
+ *
+ * Returns: the width of the border in pixels.
+ **/
 gint
 gnm_style_border_get_width (GnmStyleBorderType const line_type)
 {
@@ -261,6 +273,12 @@ gnm_style_border_get_width (GnmStyleBorderType const line_type)
 	return style_border_data [line_type].width;
 }
 
+/**
+ * gnm_style_border_get_orientation:
+ * @type: border location
+ *
+ * Returns: the orientation of the border.
+ **/
 GnmStyleBorderOrientation
 gnm_style_border_get_orientation (GnmStyleBorderLocation type)
 {
@@ -565,6 +583,13 @@ style_border_vmargins (GnmBorder const * const * prev_vert,
 	return FALSE;
 }
 
+/**
+ * gnm_style_border_set_dash:
+ * @i: border type
+ * @context: #cairo_t
+ *
+ * Sets the dash style for @context based on @i.
+ **/
 void
 gnm_style_border_set_dash (GnmStyleBorderType const i,
 			   cairo_t *context)
@@ -630,10 +655,19 @@ print_vline_gtk (cairo_t *context,
 
 /**
  * gnm_style_borders_row_draw:
+ * @prev_vert: (array): the vertical borders of the previous row.
+ * @sr: #GnmStyleRow
+ * @cr: #cairo_t
+ * @x: x coordinate
+ * @y1: y1 coordinate
+ * @y2: y2 coordinate
+ * @colwidths: (array): widths of the columns
+ * @draw_vertical: if %TRUE, draw vertical borders.
+ * @dir: 1 for LTR, -1 for RTL.
  *
  * TODO : This is not the final resting place for this.
  * It will move into the gui layer eventually.
- */
+ **/
 void
 gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
 			    GnmStyleRow const *sr,
@@ -705,6 +739,17 @@ gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
 	cairo_restore (cr);
 }
 
+/**
+ * gnm_style_border_draw_diag:
+ * @style: #GnmStyle
+ * @cr: #cairo_t
+ * @x1: x1
+ * @y1: y1
+ * @x2: x2
+ * @y2: y2
+ *
+ * Draws diagonal borders for the cell with @style.
+ **/
 void
 gnm_style_border_draw_diag (GnmStyle const *style,
 			    cairo_t *cr,
@@ -749,6 +794,18 @@ gnm_style_border_draw_diag (GnmStyle const *style,
 	cairo_restore (cr);
 }
 
+/**
+ * gnm_style_borders_row_print_gtk:
+ * @prev_vert: (array): the vertical borders of the previous row.
+ * @sr: #GnmStyleRow
+ * @context: #cairo_t
+ * @x: x coordinate
+ * @y1: y1 coordinate
+ * @y2: y2 coordinate
+ * @sheet: #Sheet
+ * @draw_vertical: if %TRUE, draw vertical borders.
+ * @dir: 1 for LTR, -1 for RTL.
+ **/
 void
 gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 				 GnmStyleRow const *sr,
@@ -822,6 +879,17 @@ gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 	cairo_restore (context);
 }
 
+/**
+ * gnm_style_border_print_diag_gtk:
+ * @style: #GnmStyle
+ * @context: #cairo_t
+ * @x1: x1
+ * @y1: y1
+ * @x2: x2
+ * @y2: y2
+ *
+ * Prints diagonal borders for the cell with @style.
+ **/
 void
 gnm_style_border_print_diag_gtk (GnmStyle const *style,
 				 cairo_t *context,

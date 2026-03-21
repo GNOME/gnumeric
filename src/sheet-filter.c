@@ -123,6 +123,17 @@ gnm_filter_condition_new_double (GnmFilterOp op0, GnmValue *v0,
 // T           -             TOP_N
 // F           T             TOP_N_PERCENT
 // F           F             TOP_N_PERCENT_N
+/**
+ * gnm_filter_condition_new_bucket:
+ * @top: if %TRUE, find the top elements, else the bottom.
+ * @absolute: if %TRUE, @n is the number of elements, else a percentage.
+ * @rel_range: if %TRUE, the percentage is relative to the range of values, else the number of elements.
+ * @n: number of elements or percentage.
+ *
+ * Create a new condition for top/bottom N/N%.
+ *
+ * Returns: (transfer full): a new #GnmFilterCondition.
+ **/
 GnmFilterCondition *
 gnm_filter_condition_new_bucket (gboolean top, gboolean absolute,
 				 gboolean rel_range, double n)
@@ -141,6 +152,14 @@ gnm_filter_condition_new_bucket (gboolean top, gboolean absolute,
 	return res;
 }
 
+/**
+ * gnm_filter_condition_dup:
+ * @src: (nullable): #GnmFilterCondition
+ *
+ * Duplicate a #GnmFilterCondition.
+ *
+ * Returns: (transfer full) (nullable): a new #GnmFilterCondition.
+ **/
 GnmFilterCondition *
 gnm_filter_condition_dup (GnmFilterCondition const *src)
 {
@@ -159,6 +178,12 @@ gnm_filter_condition_dup (GnmFilterCondition const *src)
 	return dst;
 }
 
+/**
+ * gnm_filter_condition_free:
+ * @cond: (nullable): #GnmFilterCondition
+ *
+ * Free a #GnmFilterCondition.
+ **/
 void
 gnm_filter_condition_free (GnmFilterCondition *cond)
 {
@@ -170,6 +195,11 @@ gnm_filter_condition_free (GnmFilterCondition *cond)
 	g_free (cond);
 }
 
+/**
+ * gnm_filter_condition_get_type:
+ *
+ * Returns: the #GType for #GnmFilterCondition.
+ **/
 GType
 gnm_filter_condition_get_type (void)
 {
@@ -398,6 +428,12 @@ hide_unwanted_rows (FilterItems *data, Sheet *sheet, GnmRange const *range)
 
 /*****************************************************************************/
 
+/**
+ * gnm_filter_combo_index:
+ * @fcombo: #GnmFilterCombo
+ *
+ * Returns: the 0-based index of @fcombo in its filter.
+ **/
 int
 gnm_filter_combo_index (GnmFilterCombo *fcombo)
 {
@@ -609,6 +645,13 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 	/* We hold a reference to fcombo */
 }
 
+/**
+ * gnm_filter_attach:
+ * @filter: #GnmFilter
+ * @sheet: #Sheet
+ *
+ * Attach @filter to @sheet.
+ **/
 void
 gnm_filter_attach (GnmFilter *filter, Sheet *sheet)
 {
@@ -640,7 +683,7 @@ gnm_filter_attach (GnmFilter *filter, Sheet *sheet)
 GnmFilter *
 gnm_filter_new (Sheet *sheet, GnmRange const *r, gboolean attach)
 {
-	GnmFilter	*filter;
+	GnmFilter *filter;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (r != NULL, NULL);
@@ -664,7 +707,7 @@ gnm_filter_new (Sheet *sheet, GnmRange const *r, gboolean attach)
 /**
  * gnm_filter_dup:
  * @src: #GnmFilter
- * @sheet: #Sheet
+ * @sheet: (transfer none): #Sheet
  *
  * Duplicate @src into @sheet
  *
@@ -699,6 +742,14 @@ gnm_filter_dup (GnmFilter const *src, Sheet *sheet)
 	return dst;
 }
 
+/**
+ * gnm_filter_ref:
+ * @filter: (transfer none): #GnmFilter
+ *
+ * Add a reference to @filter.
+ *
+ * Returns: (transfer full): @filter.
+ **/
 GnmFilter *
 gnm_filter_ref (GnmFilter *filter)
 {
@@ -707,6 +758,12 @@ gnm_filter_ref (GnmFilter *filter)
 	return filter;
 }
 
+/**
+ * gnm_filter_unref:
+ * @filter: (transfer full): #GnmFilter
+ *
+ * Remove a reference to @filter.
+ **/
 void
 gnm_filter_unref (GnmFilter *filter)
 {
@@ -720,6 +777,11 @@ gnm_filter_unref (GnmFilter *filter)
 	g_free (filter);
 }
 
+/**
+ * gnm_filter_get_type:
+ *
+ * Returns: the #GType for #GnmFilter.
+ **/
 GType
 gnm_filter_get_type (void)
 {
@@ -733,6 +795,12 @@ gnm_filter_get_type (void)
 	return t;
 }
 
+/**
+ * gnm_filter_remove:
+ * @filter: (transfer none): #GnmFilter
+ *
+ * Remove @filter from its sheet.
+ **/
 void
 gnm_filter_remove (GnmFilter *filter)
 {
@@ -946,6 +1014,9 @@ gnm_sheet_filter_intersect_rows (Sheet const *sheet, int from, int to)
 
 /**
  * gnm_sheet_filter_can_be_extended:
+ * @sheet: #Sheet
+ * @f: #GnmFilter
+ * @r: range
  *
  * Returns: (transfer full) (nullable): #GnmRange
  */

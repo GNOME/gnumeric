@@ -65,11 +65,11 @@ void wb_control_ ## func arglist				\
  * @wb: #Workbook
  * @extra: (nullable):
  *
- * Returns: (transfer full): the newly allocated #WorkbookControl.
+ * Returns: (transfer none): the new #WorkbookControl.
  **/
 WorkbookControl *
 workbook_control_new_wrapper (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb,
-			void *extra)
+			      void *extra)
 {
 	WorkbookControlClass *wbc_class = WBC_CLASS (wbc);
 
@@ -192,7 +192,7 @@ wb_control_validation_msg (WorkbookControl *wbc, ValidationStyle v,
  * wb_control_view:
  * @wbc: #WorkbookControl
  *
- * Returns: (transfer none): the workbook view.
+ * Returns: (transfer none): the current workbook view.
  **/
 WorkbookView *
 wb_control_view (WorkbookControl const *wbc)
@@ -205,7 +205,7 @@ wb_control_view (WorkbookControl const *wbc)
  * wb_control_get_doc:
  * @wbc: #WorkbookControl
  *
- * Returns: (transfer none): the workbook set as a #GODoc.
+ * Returns: (transfer none): the workbook as a #GODoc.
  **/
 GODoc *
 wb_control_get_doc (WorkbookControl const *wbc)
