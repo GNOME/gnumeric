@@ -47,7 +47,6 @@ static void
 gnm_anova_two_factor_tool_init (GnmAnovaTwoFactorTool *tool)
 {
 	tool->err = analysis_tools_noerr;
-	tool->wbc = NULL;
 	tool->input = NULL;
 	tool->group_by = GNM_TOOL_GROUPED_BY_COL;
 	tool->labels = FALSE;
@@ -149,26 +148,26 @@ gnm_anova_two_factor_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool
 }
 
 static gboolean
-gnm_anova_two_factor_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_anova_two_factor_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmAnovaTwoFactorTool *atool = GNM_ANOVA_TWO_FACTOR_TOOL (tool);
-	dao_prepare_output (NULL, dao, (atool->replication == 1) ?
+	dao_prepare_output (wbc, dao, (atool->replication == 1) ?
 			    _("Two Factor ANOVA") :
 			    _("Two Factor ANOVA with Replication"));
 	return FALSE;
 }
 
 static gboolean
-gnm_anova_two_factor_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_anova_two_factor_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmAnovaTwoFactorTool *atool = GNM_ANOVA_TWO_FACTOR_TOOL (tool);
-	return dao_format_output (dao, (atool->replication == 1) ?
+	return dao_format_output (wbc, dao, (atool->replication == 1) ?
 				  _("Two Factor ANOVA") :
 				  _("Two Factor ANOVA with Replication"));
 }
 
 static gboolean
-gnm_anova_two_factor_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_anova_two_factor_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmAnovaTwoFactorTool *atool = GNM_ANOVA_TWO_FACTOR_TOOL (tool);
 	if (atool->replication == 1)

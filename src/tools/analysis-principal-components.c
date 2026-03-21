@@ -64,20 +64,20 @@ gnm_principal_components_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *
 }
 
 static gboolean
-gnm_principal_components_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_principal_components_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Principal Components Analysis"));
+	dao_prepare_output (wbc, dao, _("Principal Components Analysis"));
 	return FALSE;
 }
 
 static gboolean
-gnm_principal_components_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_principal_components_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Principal Components Analysis"));
+	return dao_format_output (wbc, dao, _("Principal Components Analysis"));
 }
 
 static gboolean
-gnm_principal_components_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_principal_components_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmPrincipalComponentsTool *ptool = GNM_PRINCIPAL_COMPONENTS_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &ptool->parent;

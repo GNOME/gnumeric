@@ -134,7 +134,8 @@ gnm_analysis_tool_class_init (GnmAnalysisToolClass *klass)
 		G_STRUCT_OFFSET (GnmAnalysisToolClass, prepare_output_range),
 		NULL, NULL,
 		g_cclosure_marshal_generic,
-		G_TYPE_BOOLEAN, 1,
+		G_TYPE_BOOLEAN, 2,
+		workbook_control_get_type (),
 		G_TYPE_POINTER);
 
 	signals[LAST_VALIDITY_CHECK] = g_signal_new ("last-validity-check",
@@ -143,7 +144,8 @@ gnm_analysis_tool_class_init (GnmAnalysisToolClass *klass)
 		G_STRUCT_OFFSET (GnmAnalysisToolClass, last_validity_check),
 		NULL, NULL,
 		g_cclosure_marshal_generic,
-		G_TYPE_BOOLEAN, 1,
+		G_TYPE_BOOLEAN, 2,
+		workbook_control_get_type (),
 		G_TYPE_POINTER);
 
 	signals[FORMAT_OUTPUT_RANGE] = g_signal_new ("format-output-range",
@@ -152,7 +154,8 @@ gnm_analysis_tool_class_init (GnmAnalysisToolClass *klass)
 		G_STRUCT_OFFSET (GnmAnalysisToolClass, format_output_range),
 		NULL, NULL,
 		g_cclosure_marshal_generic,
-		G_TYPE_BOOLEAN, 1,
+		G_TYPE_BOOLEAN, 2,
+		workbook_control_get_type (),
 		G_TYPE_POINTER);
 
 	signals[PERFORM_CALC] = g_signal_new ("perform-calc",
@@ -161,7 +164,8 @@ gnm_analysis_tool_class_init (GnmAnalysisToolClass *klass)
 		G_STRUCT_OFFSET (GnmAnalysisToolClass, perform_calc),
 		NULL, NULL,
 		g_cclosure_marshal_generic,
-		G_TYPE_BOOLEAN, 1,
+		G_TYPE_BOOLEAN, 2,
+		workbook_control_get_type (),
 		G_TYPE_POINTER);
 }
 
@@ -205,6 +209,7 @@ gnm_analysis_tool_update_descriptor (GnmAnalysisTool *tool, data_analysis_output
 
 /**
  * gnm_analysis_tool_prepare_output_range:
+ * @wbc: control
  * @tool: #GnmAnalysisTool
  * @dao: #data_analysis_output_t
  *
@@ -213,17 +218,18 @@ gnm_analysis_tool_update_descriptor (GnmAnalysisTool *tool, data_analysis_output
  * Returns: %TRUE if an error occurred.
  **/
 gboolean
-gnm_analysis_tool_prepare_output_range (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_analysis_tool_prepare_output_range (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	gboolean error = FALSE;
 	g_return_val_if_fail (GNM_IS_ANALYSIS_TOOL (tool), TRUE);
-	g_signal_emit (tool, signals[PREPARE_OUTPUT_RANGE], 0, dao, &error);
+	g_signal_emit (tool, signals[PREPARE_OUTPUT_RANGE], 0, wbc, dao, &error);
 	return error;
 }
 
 /**
  * gnm_analysis_tool_last_validity_check:
  * @tool: #GnmAnalysisTool
+ * @wbc: control
  * @dao: #data_analysis_output_t
  *
  * Perform a last validation check before the output range is modified.
@@ -231,17 +237,18 @@ gnm_analysis_tool_prepare_output_range (GnmAnalysisTool *tool, data_analysis_out
  * Returns: %TRUE if validation failed.
  **/
 gboolean
-gnm_analysis_tool_last_validity_check (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_analysis_tool_last_validity_check (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	gboolean error = FALSE;
 	g_return_val_if_fail (GNM_IS_ANALYSIS_TOOL (tool), TRUE);
-	g_signal_emit (tool, signals[LAST_VALIDITY_CHECK], 0, dao, &error);
+	g_signal_emit (tool, signals[LAST_VALIDITY_CHECK], 0, wbc, dao, &error);
 	return error;
 }
 
 /**
  * gnm_analysis_tool_format_output_range:
  * @tool: #GnmAnalysisTool
+ * @wbc: control
  * @dao: #data_analysis_output_t
  *
  * Apply tool-specific formatting (borders, colors, etc.) to the output
@@ -250,17 +257,18 @@ gnm_analysis_tool_last_validity_check (GnmAnalysisTool *tool, data_analysis_outp
  * Returns: %TRUE if an error occurred.
  **/
 gboolean
-gnm_analysis_tool_format_output_range (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_analysis_tool_format_output_range (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	gboolean error = FALSE;
 	g_return_val_if_fail (GNM_IS_ANALYSIS_TOOL (tool), TRUE);
-	g_signal_emit (tool, signals[FORMAT_OUTPUT_RANGE], 0, dao, &error);
+	g_signal_emit (tool, signals[FORMAT_OUTPUT_RANGE], 0, wbc, dao, &error);
 	return error;
 }
 
 /**
  * gnm_analysis_tool_perform_calc:
  * @tool: #GnmAnalysisTool
+ * @wbc: control
  * @dao: #data_analysis_output_t
  *
  * Execute the actual analysis and write the results into the spreadsheet.
@@ -268,11 +276,11 @@ gnm_analysis_tool_format_output_range (GnmAnalysisTool *tool, data_analysis_outp
  * Returns: %TRUE if the calculation failed.
  **/
 gboolean
-gnm_analysis_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_analysis_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	gboolean error = FALSE;
 	g_return_val_if_fail (GNM_IS_ANALYSIS_TOOL (tool), TRUE);
-	g_signal_emit (tool, signals[PERFORM_CALC], 0, dao, &error);
+	g_signal_emit (tool, signals[PERFORM_CALC], 0, wbc, dao, &error);
 	return error;
 }
 
@@ -328,7 +336,6 @@ static void
 gnm_generic_analysis_tool_init (GnmGenericAnalysisTool *tool)
 {
 	tool->base.err = analysis_tools_noerr;
-	tool->base.wbc = NULL;
 	tool->base.input = NULL;
 	tool->base.group_by = GNM_TOOL_GROUPED_BY_COL;
 	tool->base.labels = FALSE;
@@ -406,20 +413,20 @@ gnm_correlation_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, dat
 }
 
 static gboolean
-gnm_correlation_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_correlation_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Correlation"));
+	dao_prepare_output (wbc, dao, _("Correlation"));
 	return FALSE;
 }
 
 static gboolean
-gnm_correlation_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_correlation_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Correlation"));
+	return dao_format_output (wbc, dao, _("Correlation"));
 }
 
 static gboolean
-gnm_correlation_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_correlation_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
 	return analysis_tool_table (gtool, dao, _("Correlations"), "CORREL", FALSE);
@@ -486,20 +493,20 @@ gnm_covariance_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data
 }
 
 static gboolean
-gnm_covariance_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_covariance_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Covariance"));
+	dao_prepare_output (wbc, dao, _("Covariance"));
 	return FALSE;
 }
 
 static gboolean
-gnm_covariance_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_covariance_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Covariance"));
+	return dao_format_output (wbc, dao, _("Covariance"));
 }
 
 static gboolean
-gnm_covariance_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_covariance_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (tool);
 	return analysis_tool_table (gtool, dao, _("Covariances"), "COVAR", FALSE);
@@ -919,20 +926,20 @@ gnm_descriptive_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, dat
 }
 
 static gboolean
-gnm_descriptive_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_descriptive_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Descriptive Statistics"));
+	dao_prepare_output (wbc, dao, _("Descriptive Statistics"));
 	return FALSE;
 }
 
 static gboolean
-gnm_descriptive_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_descriptive_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Descriptive Statistics"));
+	return dao_format_output (wbc, dao, _("Descriptive Statistics"));
 }
 
 static gboolean
-gnm_descriptive_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_descriptive_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmDescriptiveTool *dtool = GNM_DESCRIPTIVE_TOOL (tool);
 
@@ -1094,20 +1101,20 @@ gnm_anova_single_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, da
 }
 
 static gboolean
-gnm_anova_single_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_anova_single_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Single Factor ANOVA"));
+	dao_prepare_output (wbc, dao, _("Single Factor ANOVA"));
 	return FALSE;
 }
 
 static gboolean
-gnm_anova_single_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_anova_single_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Single Factor ANOVA"));
+	return dao_format_output (wbc, dao, _("Single Factor ANOVA"));
 }
 
 static gboolean
-gnm_anova_single_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_anova_single_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmAnovaSingleTool *atool = GNM_ANOVA_SINGLE_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &atool->parent;
@@ -1566,20 +1573,20 @@ gnm_moving_average_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, 
 }
 
 static gboolean
-gnm_moving_average_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_moving_average_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Moving Average"));
+	dao_prepare_output (wbc, dao, _("Moving Average"));
 	return FALSE;
 }
 
 static gboolean
-gnm_moving_average_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_moving_average_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Moving Average"));
+	return dao_format_output (wbc, dao, _("Moving Average"));
 }
 
 static gboolean
-gnm_moving_average_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_moving_average_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmMovingAverageTool *mtool = GNM_MOVING_AVERAGE_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &mtool->parent;
@@ -2008,20 +2015,20 @@ gnm_fourier_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_an
 }
 
 static gboolean
-gnm_fourier_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_fourier_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Fourier Series"));
+	dao_prepare_output (wbc, dao, _("Fourier Series"));
 	return FALSE;
 }
 
 static gboolean
-gnm_fourier_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_fourier_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Fourier Series"));
+	return dao_format_output (wbc, dao, _("Fourier Series"));
 }
 
 static gboolean
-gnm_fourier_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_fourier_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmFourierTool *ftool = GNM_FOURIER_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &ftool->parent;
@@ -2215,20 +2222,20 @@ gnm_sampling_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_a
 }
 
 static gboolean
-gnm_sampling_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_sampling_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Sampling"));
+	dao_prepare_output (wbc, dao, _("Sampling"));
 	return FALSE;
 }
 
 static gboolean
-gnm_sampling_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_sampling_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Sampling"));
+	return dao_format_output (wbc, dao, _("Sampling"));
 }
 
 static gboolean
-gnm_sampling_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_sampling_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmSamplingTool *stool = GNM_SAMPLING_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &stool->parent;
@@ -2496,20 +2503,20 @@ gnm_ranking_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_an
 }
 
 static gboolean
-gnm_ranking_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_ranking_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Ranks"));
+	dao_prepare_output (wbc, dao, _("Ranks"));
 	return FALSE;
 }
 
 static gboolean
-gnm_ranking_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_ranking_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Ranks"));
+	return dao_format_output (wbc, dao, _("Ranks"));
 }
 
 static gboolean
-gnm_ranking_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_ranking_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmRankingTool *rtool = GNM_RANKING_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &rtool->parent;
@@ -2653,7 +2660,6 @@ static void
 gnm_generic_b_analysis_tool_init (GnmGenericBAnalysisTool *tool)
 {
 	tool->base.err = analysis_tools_noerr;
-	tool->base.wbc = NULL;
 	tool->base.range_1 = NULL;
 	tool->base.range_2 = NULL;
 	tool->base.labels = FALSE;

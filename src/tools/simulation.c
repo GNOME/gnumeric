@@ -231,7 +231,7 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t **stats,
 
 	dao_prepare_output (wbc, dao, _("Simulation Report"));
 	if (dao->type == GNM_DAO_OUTPUT_NEWSHEET || dao->type == GNM_DAO_OUTPUT_NEWWORKBOOK)
-		g_object_set (dao->sheet, "display-grid", FALSE, NULL);
+		g_object_set (dao->dst_sheet, "display-grid", FALSE, NULL);
 
 	/*
 	 * Set this to fool the autofit_column function.  (It will be

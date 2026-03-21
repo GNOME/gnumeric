@@ -112,20 +112,20 @@ gnm_one_mean_test_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, d
 }
 
 static gboolean
-gnm_one_mean_test_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_one_mean_test_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Student-t Test"));
+	dao_prepare_output (wbc, dao, _("Student-t Test"));
 	return FALSE;
 }
 
 static gboolean
-gnm_one_mean_test_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_one_mean_test_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Student-t Test"));
+	return dao_format_output (wbc, dao, _("Student-t Test"));
 }
 
 static gboolean
-gnm_one_mean_test_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_one_mean_test_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmOneMeanTestTool *otool = GNM_ONE_MEAN_TEST_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &otool->parent;

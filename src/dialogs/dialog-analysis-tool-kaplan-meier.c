@@ -248,8 +248,6 @@ kaplan_meier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GnmGenericBAnalysisTool *gtool = &ktool->parent;
 	data_analysis_output_t *dao = dao_parse_output ((GnmGenericToolState *)state);
 
-	gtool->base.wbc = GNM_WBC (state->base.wbcg);
-
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
 

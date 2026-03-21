@@ -183,20 +183,20 @@ gnm_kaplan_meier_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, da
 }
 
 static gboolean
-gnm_kaplan_meier_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_kaplan_meier_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Kaplan-Meier Estimates"));
+	dao_prepare_output (wbc, dao, _("Kaplan-Meier Estimates"));
 	return FALSE;
 }
 
 static gboolean
-gnm_kaplan_meier_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_kaplan_meier_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Kaplan-Meier Estimates"));
+	return dao_format_output (wbc, dao, _("Kaplan-Meier Estimates"));
 }
 
 static gboolean
-gnm_kaplan_meier_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_kaplan_meier_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmKaplanMeierTool *ktool = GNM_KAPLAN_MEIER_TOOL (tool);
 	GnmGenericBAnalysisTool *gtool = &ktool->parent;
@@ -574,7 +574,7 @@ gnm_kaplan_meier_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_
 					 GNM_EXPR_OP_MULT,
 					 dao_get_rangeref (dao, 2, 2, 2, 1+rows));
 
-				censures = gnm_go_data_vector_new_expr (dao->sheet, gnm_expr_top_new (expr));
+				censures = gnm_go_data_vector_new_expr (dao->dst_sheet, gnm_expr_top_new (expr));
 
 				series = gog_plot_new_series (plot);
 				g_object_ref (times);

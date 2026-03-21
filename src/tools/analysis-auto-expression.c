@@ -143,20 +143,20 @@ gnm_auto_expression_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool,
 }
 
 static gboolean
-gnm_auto_expression_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_auto_expression_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Auto Expression"));
+	dao_prepare_output (wbc, dao, _("Auto Expression"));
 	return FALSE;
 }
 
 static gboolean
-gnm_auto_expression_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_auto_expression_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Auto Expression"));
+	return dao_format_output (wbc, dao, _("Auto Expression"));
 }
 
 static gboolean
-gnm_auto_expression_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_auto_expression_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmAutoExpressionTool *atool = GNM_AUTO_EXPRESSION_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &atool->parent;

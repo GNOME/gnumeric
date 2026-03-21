@@ -1652,16 +1652,15 @@ print_vector (const char *name, const gnm_float *v, int n)
 }
 
 static void
-gnm_solver_create_program_report (GnmSolver *solver, const char *name)
+gnm_solver_create_program_report (GnmSolver *solver, WorkbookControl *wbc, const char *name)
 {
 	GnmSolverParameters *params = solver->params;
 	int R = 0;
 	data_analysis_output_t *dao;
 	GSList *l;
 
-	dao = dao_init_new_sheet ();
-	dao->sheet = params->sheet;
-	dao_prepare_output (NULL, dao, name);
+	dao = dao_init_new_sheet (params->sheet);
+	dao_prepare_output (wbc, dao, name);
 
 	/* ---------------------------------------- */
 
@@ -1833,7 +1832,7 @@ gnm_solver_create_program_report (GnmSolver *solver, const char *name)
 }
 
 static void
-gnm_solver_create_sensitivity_report (GnmSolver *solver, const char *name)
+gnm_solver_create_sensitivity_report (GnmSolver *solver, WorkbookControl *wbc, const char *name)
 {
 	GnmSolverParameters *params = solver->params;
 	GnmSolverSensitivity *sols = solver->sensitivity;
@@ -1844,9 +1843,8 @@ gnm_solver_create_sensitivity_report (GnmSolver *solver, const char *name)
 	if (!sols)
 		return;
 
-	dao = dao_init_new_sheet ();
-	dao->sheet = params->sheet;
-	dao_prepare_output (NULL, dao, name);
+	dao = dao_init_new_sheet (params->sheet);
+	dao_prepare_output (wbc, dao, name);
 
 	/* ---------------------------------------- */
 
@@ -1952,19 +1950,19 @@ gnm_solver_create_sensitivity_report (GnmSolver *solver, const char *name)
 }
 
 void
-gnm_solver_create_report (GnmSolver *solver, const char *base)
+gnm_solver_create_report (GnmSolver *solver, WorkbookControl *wbc, const char *base)
 {
 	GnmSolverParameters *params = solver->params;
 
 	if (params->options.program_report) {
 		char *name = g_strdup_printf (base, _("Program"));
-		gnm_solver_create_program_report (solver, name);
+		gnm_solver_create_program_report (solver, wbc, name);
 		g_free (name);
 	}
 
 	if (params->options.sensitivity_report) {
 		char *name = g_strdup_printf (base, _("Sensitivity"));
-		gnm_solver_create_sensitivity_report (solver, name);
+		gnm_solver_create_sensitivity_report (solver, wbc, name);
 		g_free (name);
 	}
 }

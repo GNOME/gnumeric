@@ -37,7 +37,6 @@ G_DEFINE_TYPE (GnmChiSquaredTool, gnm_chi_squared_tool, GNM_TYPE_ANALYSIS_TOOL)
 static void
 gnm_chi_squared_tool_init (GnmChiSquaredTool *tool)
 {
-	tool->wbc = NULL;
 	tool->input = NULL;
 	tool->labels = FALSE;
 	tool->independence = FALSE;
@@ -136,26 +135,26 @@ gnm_chi_squared_tool_update_descriptor (GnmAnalysisTool *tool, data_analysis_out
 }
 
 static gboolean
-gnm_chi_squared_tool_prepare_output_range (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_chi_squared_tool_prepare_output_range (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmChiSquaredTool *ctool = GNM_CHI_SQUARED_TOOL (tool);
-	dao_prepare_output (NULL, dao, ctool->independence ?
+	dao_prepare_output (wbc, dao, ctool->independence ?
 			    _("Test of Independence")
 			    : _("Test of Homogeneity"));
 	return FALSE;
 }
 
 static gboolean
-gnm_chi_squared_tool_format_output_range (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_chi_squared_tool_format_output_range (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmChiSquaredTool *ctool = GNM_CHI_SQUARED_TOOL (tool);
-	return dao_format_output (dao, ctool->independence ?
+	return dao_format_output (wbc, dao, ctool->independence ?
 				  _("Test of Independence")
 				  : _("Test of Homogeneity"));
 }
 
 static gboolean
-gnm_chi_squared_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_chi_squared_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmChiSquaredTool *ctool = GNM_CHI_SQUARED_TOOL (tool);
 	GnmExpr const *expr_check;

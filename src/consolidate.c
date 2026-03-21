@@ -201,7 +201,7 @@ gnm_consolidate_check_destination (GnmConsolidate *cs, data_analysis_output_t *d
 	range_init (&r, dao->start_col, dao->start_row,
 		    dao->start_col + dao->cols - 1,
 		    dao->start_row + dao->rows - 1);
-	new = gnm_sheet_range_new (dao->sheet, &r);
+	new = gnm_sheet_range_new (dao->dst_sheet, &r);
 
 	for (l = cs->src; l != NULL; l = l->next) {
 		GnmSheetRange const *gr = l->data;
@@ -834,20 +834,20 @@ gnm_consolidate_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, dat
 }
 
 static gboolean
-gnm_consolidate_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_consolidate_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Data Consolidation"));
+	dao_prepare_output (wbc, dao, _("Data Consolidation"));
 	return FALSE;
 }
 
 static gboolean
-gnm_consolidate_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_consolidate_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Data Consolidation"));
+	return dao_format_output (wbc, dao, _("Data Consolidation"));
 }
 
 static gboolean
-gnm_consolidate_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_consolidate_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmConsolidate *cs = GNM_CONSOLIDATE_TOOL (tool)->cs;
 	return consolidate_apply (cs, dao);

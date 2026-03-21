@@ -84,8 +84,6 @@ chi_squared_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
 
-	ctool->wbc = GNM_WBC (state->base.wbcg);
-
         ctool->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->label));
 
 	ctool->alpha = gtk_spin_button_get_value
@@ -94,7 +92,7 @@ chi_squared_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = go_gtk_builder_get_widget (state->base.gui, "test-of-independence");
 	ctool->independence = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (!cmd_analysis_tool (ctool->wbc, state->base.sheet, dao, tool))
+	if (!cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool))
 		gtk_widget_destroy (state->base.dialog);
 
 	g_object_unref (tool);

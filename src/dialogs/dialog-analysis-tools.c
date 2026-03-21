@@ -966,7 +966,6 @@ fourier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	ftool = GNM_FOURIER_TOOL (tool);
 	dao  = dao_parse_output (state);
 
-	ftool->parent.base.wbc = GNM_WBC (state->wbcg);
 	ftool->parent.base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	ftool->parent.base.group_by = gnm_gui_group_value (state->gui, grouped_by_group);
@@ -1347,7 +1346,6 @@ ttest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	}
 
 	gbtool = GNM_GENERIC_B_ANALYSIS_TOOL (atool);
-	gbtool->base.wbc = GNM_WBC (state->base.wbcg);
 	gbtool->base.range_1 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	gbtool->base.range_2 = gnm_expr_entry_parse_as_value
@@ -1702,7 +1700,6 @@ ftest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	atool = gnm_ftest_tool_new ();
 	gbtool = GNM_GENERIC_B_ANALYSIS_TOOL (atool);
-	gbtool->base.wbc = GNM_WBC (state->base.wbcg);
 
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
@@ -1929,8 +1926,6 @@ sampling_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	tool = gnm_sampling_tool_new ();
 	stool = GNM_SAMPLING_TOOL (tool);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
-
-	stool->parent.base.wbc = GNM_WBC (state->base.wbcg);
 
 	stool->parent.base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -2165,8 +2160,6 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	tool = gnm_regression_tool_new ();
 	rtool = GNM_REGRESSION_TOOL (tool);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
-
-	rtool->parent.base.wbc = GNM_WBC (state->base.wbcg);
 
 	rtool->parent.base.range_1 = gnm_expr_entry_parse_as_value (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -3617,7 +3610,6 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
 	atool->err = analysis_tools_noerr;
-	atool->wbc = GNM_WBC (state->base.wbcg);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         atool->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));

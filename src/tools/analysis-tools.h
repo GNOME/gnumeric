@@ -39,18 +39,18 @@ struct _GnmAnalysisToolClass {
 
 	gboolean (*update_dao) (GnmAnalysisTool *tool, data_analysis_output_t *dao);
 	char *   (*update_descriptor) (GnmAnalysisTool *tool, data_analysis_output_t *dao);
-	gboolean (*prepare_output_range) (GnmAnalysisTool *tool, data_analysis_output_t *dao);
-	gboolean (*last_validity_check) (GnmAnalysisTool *tool, data_analysis_output_t *dao);
-	gboolean (*format_output_range) (GnmAnalysisTool *tool, data_analysis_output_t *dao);
-	gboolean (*perform_calc) (GnmAnalysisTool *tool, data_analysis_output_t *dao);
+	gboolean (*prepare_output_range) (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao);
+	gboolean (*last_validity_check) (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao);
+	gboolean (*format_output_range) (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao);
+	gboolean (*perform_calc) (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao);
 };
 
 gboolean gnm_analysis_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao);
 char *   gnm_analysis_tool_update_descriptor (GnmAnalysisTool *tool, data_analysis_output_t *dao);
-gboolean gnm_analysis_tool_prepare_output_range (GnmAnalysisTool *tool, data_analysis_output_t *dao);
-gboolean gnm_analysis_tool_last_validity_check (GnmAnalysisTool *tool, data_analysis_output_t *dao);
-gboolean gnm_analysis_tool_format_output_range (GnmAnalysisTool *tool, data_analysis_output_t *dao);
-gboolean gnm_analysis_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao);
+gboolean gnm_analysis_tool_prepare_output_range (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao);
+gboolean gnm_analysis_tool_last_validity_check (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao);
+gboolean gnm_analysis_tool_format_output_range (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao);
+gboolean gnm_analysis_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao);
 
 
 /********************************************************************/
@@ -58,7 +58,6 @@ gboolean gnm_analysis_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_ou
 
 typedef struct {
 	analysis_tools_error_code_t err;
-	WorkbookControl *wbc;
 	GSList     *input;
 	gnm_tool_group_by_t group_by;
 	gboolean   labels;
@@ -265,7 +264,6 @@ GnmAnalysisTool *gnm_ranking_tool_new (void);
 
 typedef struct {
 	analysis_tools_error_code_t err;
-	WorkbookControl *wbc;
 	GnmValue *range_1;
 	GnmValue *range_2;
 	gboolean labels;

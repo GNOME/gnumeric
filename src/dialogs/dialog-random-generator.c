@@ -536,8 +536,6 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	rtool = GNM_RANDOM_TOOL (tool);
 	dao  = dao_parse_output ((GnmGenericToolState *)state);
 
-	rtool->wbc = GNM_WBC (state->base.wbcg);
-
 	err = entry_to_int (GTK_ENTRY (state->vars_entry), &rtool->n_vars, FALSE);
 	err = entry_to_int (GTK_ENTRY (state->count_entry), &rtool->count, FALSE);
 

@@ -195,20 +195,20 @@ gnm_regression_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data
 }
 
 static gboolean
-gnm_regression_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_regression_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Regression"));
+	dao_prepare_output (wbc, dao, _("Regression"));
 	return FALSE;
 }
 
 static gboolean
-gnm_regression_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_regression_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Regression"));
+	return dao_format_output (wbc, dao, _("Regression"));
 }
 
 static gboolean
-gnm_regression_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_regression_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmRegressionTool *rtool = GNM_REGRESSION_TOOL (tool);
 	if (rtool->multiple_regression)

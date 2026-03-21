@@ -323,20 +323,20 @@ gnm_histogram_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_
 }
 
 static gboolean
-gnm_histogram_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_histogram_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Histogram"));
+	dao_prepare_output (wbc, dao, _("Histogram"));
 	return FALSE;
 }
 
 static gboolean
-gnm_histogram_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_histogram_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Histogram"));
+	return dao_format_output (wbc, dao, _("Histogram"));
 }
 
 static gboolean
-gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmHistogramTool *htool = GNM_HISTOGRAM_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &htool->parent;
@@ -609,7 +609,7 @@ gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 						NULL, NULL);
 			axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "Y-Axis");
 			label_string = gnm_expr_top_new_constant (value_new_string (_("Frequency Density")));
-			data = gnm_go_data_scalar_new_expr (dao->sheet, label_string);
+			data = gnm_go_data_scalar_new_expr (dao->dst_sheet, label_string);
 			label = gog_object_add_by_name (axis, "Label", NULL);
 			gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 		} else if (htool->chart == GNM_HIST_TOOL_COLUMN_CHART) {
@@ -623,7 +623,7 @@ gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 						NULL, NULL);
 			axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "Y-Axis");
 			label_string = gnm_expr_top_new_constant (value_new_string (_("Frequency")));
-			data = gnm_go_data_scalar_new_expr (dao->sheet, label_string);
+			data = gnm_go_data_scalar_new_expr (dao->dst_sheet, label_string);
 			label = gog_object_add_by_name (axis, "Label", NULL);
 			gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 		} else if (htool->chart == GNM_HIST_TOOL_BAR_CHART) {
@@ -637,7 +637,7 @@ gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *
 						NULL, NULL);
 			axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "X-Axis");
 			label_string = gnm_expr_top_new_constant (value_new_string (_("Frequency")));
-			data = gnm_go_data_scalar_new_expr (dao->sheet, label_string);
+			data = gnm_go_data_scalar_new_expr (dao->dst_sheet, label_string);
 			label = gog_object_add_by_name (axis, "Label", NULL);
 			gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 		}

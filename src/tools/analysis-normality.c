@@ -144,20 +144,20 @@ gnm_normality_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_
 }
 
 static gboolean
-gnm_normality_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_normality_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Normality Test"));
+	dao_prepare_output (wbc, dao, _("Normality Test"));
 	return FALSE;
 }
 
 static gboolean
-gnm_normality_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_normality_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Normality Test"));
+	return dao_format_output (wbc, dao, _("Normality Test"));
 }
 
 static gboolean
-gnm_normality_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_normality_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmNormalityTool *ntool = GNM_NORMALITY_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &ntool->parent;

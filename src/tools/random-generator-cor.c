@@ -38,7 +38,6 @@ G_DEFINE_TYPE (GnmRandomCorTool, gnm_random_cor_tool, GNM_TYPE_ANALYSIS_TOOL)
 static void
 gnm_random_cor_tool_init (GnmRandomCorTool *tool)
 {
-	tool->wbc = NULL;
 	tool->matrix = NULL;
 	tool->matrix_type = random_gen_cor_type_cov;
 	tool->count = 1;
@@ -74,20 +73,20 @@ gnm_random_cor_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data
 }
 
 static gboolean
-gnm_random_cor_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_random_cor_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Correlated Random Numbers"));
+	dao_prepare_output (wbc, dao, _("Correlated Random Numbers"));
 	return FALSE;
 }
 
 static gboolean
-gnm_random_cor_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_random_cor_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Correlated Random Numbers"));
+	return dao_format_output (wbc, dao, _("Correlated Random Numbers"));
 }
 
 static gboolean
-gnm_random_cor_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_random_cor_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmRandomCorTool *rtool = GNM_RANDOM_COR_TOOL (tool);
 	GnmExpr const *expr_matrix = gnm_expr_new_constant (value_dup (rtool->matrix));

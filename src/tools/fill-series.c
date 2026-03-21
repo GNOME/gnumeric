@@ -436,20 +436,20 @@ gnm_fill_series_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, dat
 }
 
 static gboolean
-gnm_fill_series_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_fill_series_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Fill Series"));
+	dao_prepare_output (wbc, dao, _("Fill Series"));
 	return FALSE;
 }
 
 static gboolean
-gnm_fill_series_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_fill_series_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Fill Series"));
+	return dao_format_output (wbc, dao, _("Fill Series"));
 }
 
 static gboolean
-gnm_fill_series_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_fill_series_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmFillSeriesTool *ftool = GNM_FILL_SERIES_TOOL (tool);
 	int dc = ftool->series_in_rows ? 1 : 0;

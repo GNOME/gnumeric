@@ -34,7 +34,7 @@
 #include <sheet.h>
 
 static GnmExpr const *
-analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Workbook *wb)
+analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2)
 {
 	GnmExpr const *expr;
 	GnmFunc *fd_array = gnm_func_get_and_use ("ARRAY");
@@ -104,20 +104,20 @@ gnm_wilcoxon_mann_whitney_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool 
 }
 
 static gboolean
-gnm_wilcoxon_mann_whitney_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_wilcoxon_mann_whitney_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Wilcoxon-Mann-Whitney Test"));
+	dao_prepare_output (wbc, dao, _("Wilcoxon-Mann-Whitney Test"));
 	return FALSE;
 }
 
 static gboolean
-gnm_wilcoxon_mann_whitney_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_wilcoxon_mann_whitney_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Wilcoxon-Mann-Whitney Test"));
+	return dao_format_output (wbc, dao, _("Wilcoxon-Mann-Whitney Test"));
 }
 
 static gboolean
-gnm_wilcoxon_mann_whitney_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_wilcoxon_mann_whitney_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmWilcoxonMannWhitneyTool *wtool = GNM_WILCOXON_MANN_WHITNEY_TOOL (tool);
 	GnmGenericBAnalysisTool *gtool = &wtool->parent;
@@ -128,7 +128,6 @@ gnm_wilcoxon_mann_whitney_tool_perform_calc (GnmAnalysisTool *tool, data_analysi
 	GnmExpr const *expr_count_total;
 	GnmValue *val_1 = value_dup (gtool->base.range_1);
 	GnmValue *val_2 = value_dup (gtool->base.range_2);
-	Workbook *wb = dao->sheet ? dao->sheet->workbook : NULL;
 	GnmFunc *fd_count = gnm_func_get_and_use ("COUNT");
 	GnmFunc *fd_sum = gnm_func_get_and_use ("SUM");
 	GnmFunc *fd_rows = gnm_func_get_and_use ("ROWS");
@@ -157,7 +156,7 @@ gnm_wilcoxon_mann_whitney_tool_perform_calc (GnmAnalysisTool *tool, data_analysi
 	analysis_tools_write_variable_label (val_1, dao, 1, 1, gtool->base.labels, 1);
 	analysis_tools_write_variable_label (val_2, dao, 2, 1, gtool->base.labels, 2);
 
-	expr_total = analysis_tool_combine_area (val_1, val_2, wb);
+	expr_total = analysis_tool_combine_area (val_1, val_2);
 	expr_pop_1 = gnm_expr_new_constant (val_1);
 	expr_pop_2 = gnm_expr_new_constant (val_2);
 

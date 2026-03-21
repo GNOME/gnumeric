@@ -188,7 +188,7 @@ scenario_summary (WorkbookControl *wbc,
 	GList        *scenarios = sheet->scenarios;
 
 	/* Initialize: Currently only new sheet output supported. */
-	cb.dao = dao_init_new_sheet ();
+	cb.dao = dao_init_new_sheet (sheet);
 	dao_prepare_output (wbc, cb.dao, _("Scenario Summary"));
 
 	/* Titles. */
@@ -237,7 +237,8 @@ scenario_summary (WorkbookControl *wbc,
 	dao_set_align (cb.dao, 1, 1, cb.col + 1, 1, GNM_HALIGN_RIGHT,
 		       GNM_VALIGN_BOTTOM);
 
-	*new_sheet = cb.dao->sheet;
+	*new_sheet = cb.dao->dst_sheet;
+	// Leaking dao?
 }
 
 /********* Scenario Add UI **********************************************/
@@ -336,8 +337,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 						      FALSE));
 
 	// Eh?
-	dao = dao_init_new_sheet ();
-	dao->sheet = state->base.sheet;
+	dao = dao_init_new_sheet (state->base.sheet);
 	dao_free (dao);
 
 	wbc = GNM_WBC (state->base.wbcg);
@@ -671,8 +671,7 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	        (GTK_TREE_VIEW (state->scenarios_treeview));
 
 	// Eh?
-	dao = dao_init_new_sheet ();
-	dao->sheet = state->base.sheet;
+	dao = dao_init_new_sheet (state->base.sheet);
 	dao_free (dao);
 
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))

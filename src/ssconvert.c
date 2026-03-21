@@ -794,7 +794,7 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
 
 	gnm_solver_store_result (sol);
 
-	gnm_solver_create_report (sol, "Solver");
+	gnm_solver_create_report (sol, wbc, "Solver");
 
  done:
 	if (sol)
@@ -932,13 +932,11 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 	} else if (g_str_equal (tool, "anova2")) {
 		atool = gnm_anova_two_factor_tool_new ();
 		GnmAnovaTwoFactorTool *tool = GNM_ANOVA_TWO_FACTOR_TOOL (atool);
-		tool->wbc = wbc;
 		tool->input = GET_ARG (RANGE_ARG, "data", NULL);
 		g_hash_table_remove (args, "data");
 	} else if (g_str_equal (tool, "chi-squared-test")) {
 		atool = gnm_chi_squared_tool_new ();
 		GnmChiSquaredTool *tool = GNM_CHI_SQUARED_TOOL (atool);
-		tool->wbc = wbc;
 		tool->input = GET_ARG (RANGE_ARG, "data", NULL);
 		g_hash_table_remove (args, "data");
 	} else if (g_str_equal (tool, "descriptive-statistics")) {
@@ -1007,13 +1005,11 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 	// Handle generic arguments that don't have gobject properties
 	if (GNM_IS_GENERIC_ANALYSIS_TOOL (atool)) {
 		GnmGenericAnalysisTool *gtool = GNM_GENERIC_ANALYSIS_TOOL (atool);
-		gtool->base.wbc = wbc;
 		gtool->base.input = GET_ARG (RANGE_LIST_ARG, "data", NULL);
 		g_hash_table_remove (args, "data");
 	}
 	if (GNM_IS_GENERIC_B_ANALYSIS_TOOL (atool)) {
 		GnmGenericBAnalysisTool *gtool = GNM_GENERIC_B_ANALYSIS_TOOL (atool);
-		gtool->base.wbc = wbc;
 		gtool->base.range_1 = GET_ARG (RANGE_ARG, "x", value_new_error_REF (NULL));
 		gtool->base.range_2 = GET_ARG (RANGE_ARG, "y", value_new_error_REF (NULL));
 		g_hash_table_remove (args, "x");
@@ -1025,7 +1021,7 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 	g_hash_table_remove (args, "formulas");
 
 	if (!err) {
-		data_analysis_output_t *dao = dao_init_new_sheet ();
+		data_analysis_output_t *dao = dao_init_new_sheet (sheet);
 		dao->put_formulas = qformulas;
 		err = cmd_analysis_tool (wbc, sheet, dao, atool);
 	}

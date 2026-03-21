@@ -201,7 +201,6 @@ sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		atool = gnm_signed_rank_test_two_tool_new ();
 
 	gbtool = GNM_GENERIC_B_ANALYSIS_TOOL (atool);
-	gbtool->base.wbc = GNM_WBC (state->base.wbcg);
 
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);

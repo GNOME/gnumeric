@@ -4078,13 +4078,12 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	dao->start_row         = output.start.row;
 	dao->cols              = range_width (&output);
 	dao->rows              = range_height (&output);
-	dao->sheet             = scg_sheet (scg);
+	dao->dst_sheet         = scg_sheet (scg);
 	dao->autofit_flag      = FALSE;
 	dao->put_formulas      = TRUE;
 
 	tool = gnm_auto_expression_tool_new ();
 	specs = GNM_AUTO_EXPRESSION_TOOL (tool);
-	specs->parent.base.wbc = GNM_WBC (wbcg);
 	specs->parent.base.input = g_slist_prepend (NULL, value_new_cellrange_r (scg_sheet (scg), input));
 	g_free (input);
 	specs->parent.base.group_by = below ? GNM_TOOL_GROUPED_BY_COL : GNM_TOOL_GROUPED_BY_ROW;

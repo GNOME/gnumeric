@@ -290,10 +290,11 @@ gnm_dao_create_dao_impl (GnmDao *gdao, data_analysis_output_t **dao)
 		switch (grp_val) {
 		case 0:
 		default:
-			*dao = dao_init_new_sheet ();
+			*dao = dao_init_new_sheet (sheet);
 			break;
 		case 1:
 			*dao = dao_init (GNM_DAO_OUTPUT_NEWWORKBOOK);
+			(*dao)->ref_sheet = sheet;
 			break;
 		case 2: {
 			GnmValue *output_range = gnm_expr_entry_parse_as_value (output, sheet);

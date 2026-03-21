@@ -64,34 +64,42 @@ dao_init (data_analysis_output_type_t type)
 	data_analysis_output_t *dao = g_new (data_analysis_output_t, 1);
 
 	dao->type              = type;
+	dao->ref_sheet         = NULL;
+
 	dao->start_col         = 0;
 	dao->start_row         = 0;
 	dao->offset_col        = 0;
 	dao->offset_row        = 0;
 	dao->cols              = 1;  /* Fixed in dao_prepare_output */
 	dao->rows              = 1;
-	dao->sheet             = NULL;
+	dao->dst_sheet         = NULL;
 	dao->autofit_flag      = TRUE;
 	dao->autofit_noshrink  = TRUE;
 	dao->clear_outputrange = TRUE;
 	dao->retain_format     = FALSE;
 	dao->retain_comments   = FALSE;
 	dao->put_formulas      = FALSE;
-	dao->wbc               = NULL;
 	dao->sos               = NULL;
         dao->omit_so           = FALSE;
 
 	return dao;
 }
+
 /**
  * dao_init_new_sheet: (skip)
+ * @ref_sheet: (transfer none): reference sheet
+ *
+ * Creates a dao targeting a new sheet.  The given @ref_sheet determines
+ * what workbook it will be placed in as well as the size of the sheet.
  *
  * Returns: (transfer full): the initialized #data_analysis_output_t.
  **/
 data_analysis_output_t *
-dao_init_new_sheet (void)
+dao_init_new_sheet (Sheet *ref_sheet)
 {
-	return dao_init (GNM_DAO_OUTPUT_NEWSHEET);
+	data_analysis_output_t *res = dao_init (GNM_DAO_OUTPUT_NEWSHEET);
+	res->ref_sheet = ref_sheet;
+	return res;
 }
 
 /**
@@ -127,7 +135,7 @@ dao_load_from_value (data_analysis_output_t *dao,
 		- output_range->v_range.cell.a.col + 1;
 	dao->rows = output_range->v_range.cell.b.row
 		- output_range->v_range.cell.a.row + 1;
-	dao->sheet = output_range->v_range.cell.a.sheet;
+	dao->dst_sheet = output_range->v_range.cell.a.sheet;
 }
 
 /**
@@ -147,7 +155,7 @@ dao_range_name (data_analysis_output_t *dao)
 		    dao->start_col + dao->cols - 1,
 		    dao->start_row + dao->rows - 1);
 
-	return undo_range_name (dao->sheet, &range);
+	return undo_range_name (dao->dst_sheet, &range);
 }
 
 /**
@@ -237,49 +245,44 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 {
 	char *unique_name;
 
-	if (wbc)
-		dao->wbc = wbc;
-
 	if (dao->type == GNM_DAO_OUTPUT_NEWSHEET) {
-		Sheet *old_sheet = dao->wbc
-			? wb_control_cur_sheet (dao->wbc)
-			: dao->sheet;
-		GnmSheetSize const *ss = gnm_sheet_get_size (old_sheet);
-		Workbook *wb = old_sheet->workbook;
+		GnmSheetSize const *ss = gnm_sheet_get_size (dao->ref_sheet);
+		Workbook *wb = dao->ref_sheet->workbook;
 		char *name_with_counter = g_strdup_printf ("%s (1)", name);
 		unique_name = workbook_sheet_get_free_name
 			(wb, name_with_counter, FALSE, TRUE);
 		g_free (name_with_counter);
 		dao->rows = ss->max_rows;
 		dao->cols = ss->max_cols;
-	        dao->sheet = sheet_new (wb, unique_name, ss->max_cols, ss->max_rows);
+	        dao->dst_sheet = sheet_new (wb, unique_name, ss->max_cols, ss->max_rows);
 		g_free (unique_name);
 		dao->start_col = dao->start_row = 0;
-		workbook_sheet_attach (wb, dao->sheet);
+		workbook_sheet_attach (wb, dao->dst_sheet);
 	} else if (dao->type == GNM_DAO_OUTPUT_NEWWORKBOOK) {
 		GnmSheetSize const *ss = dao_get_sheet_size (dao);
 		Workbook *wb = workbook_new ();
 		dao->rows = ss->max_rows;
 		dao->cols = ss->max_cols;
-		dao->sheet = sheet_new (wb, name, ss->max_cols, ss->max_rows);
+		dao->dst_sheet = sheet_new (wb, name, ss->max_cols, ss->max_rows);
 		dao->start_col = dao->start_row = 0;
-		workbook_sheet_attach (wb, dao->sheet);
-		dao->wbc = workbook_control_new_wrapper (dao->wbc, NULL, wb, NULL);
+		workbook_sheet_attach (wb, dao->dst_sheet);
+		wbc = workbook_control_new_wrapper (wbc, NULL, wb, NULL);
 	}
 
-	if (dao->wbc)
-		wb_view_sheet_focus (wb_control_view (dao->wbc), dao->sheet);
+	if (wbc)
+		wb_view_sheet_focus (wb_control_view (wbc), dao->dst_sheet);
 
 	if (dao->rows == 0 || (dao->rows == 1 && dao->cols == 1))
-		dao->rows = gnm_sheet_get_max_rows (dao->sheet) - dao->start_row;
+		dao->rows = gnm_sheet_get_max_rows (dao->dst_sheet) - dao->start_row;
 	if (dao->cols == 0 || (dao->rows == 1 && dao->cols == 1))
-		dao->cols = gnm_sheet_get_max_cols (dao->sheet) - dao->start_col;
+		dao->cols = gnm_sheet_get_max_cols (dao->dst_sheet) - dao->start_col;
 	dao->offset_col = 0;
 	dao->offset_row = 0;
 }
 
 /**
  * dao_format_output:
+ * @wbc: control
  * @dao:
  * @cmd:
  *
@@ -288,7 +291,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
  * Returns: %TRUE in case of error.
  **/
 gboolean
-dao_format_output (data_analysis_output_t *dao, char const *cmd)
+dao_format_output (WorkbookControl *wbc, data_analysis_output_t *dao, char const *cmd)
 {
 	int clear_flags = 0;
 	GnmRange range;
@@ -298,8 +301,8 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 		    dao->start_row + dao->rows - 1);
 
 	if (dao->type == GNM_DAO_OUTPUT_RANGE
-	    && sheet_range_splits_region (dao->sheet, &range, NULL,
-					  GO_CMD_CONTEXT (dao->wbc), cmd))
+	    && sheet_range_splits_region (dao->dst_sheet, &range, NULL,
+					  GO_CMD_CONTEXT (wbc), cmd))
 		return TRUE;
 
 	if (dao->clear_outputrange)
@@ -309,11 +312,11 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 	if (!dao->retain_comments)
 		clear_flags |= CLEAR_COMMENTS;
 
-	sheet_clear_region (dao->sheet,
+	sheet_clear_region (dao->dst_sheet,
 			    range.start.col, range.start.row,
 			    range.end.col, range.end.row,
 			    clear_flags | CLEAR_NOCHECKARRAY | CLEAR_MERGES,
-			    GO_CMD_CONTEXT (dao->wbc));
+			    GO_CMD_CONTEXT (wbc));
 	return FALSE;
 }
 
@@ -335,7 +338,7 @@ adjust_range (data_analysis_output_t *dao, GnmRange *r)
 			r->end.row = dao->start_row + dao->rows - 1;
 	}
 
-	range_ensure_sanity (r, dao->sheet);
+	range_ensure_sanity (r, dao->dst_sheet);
 
 	return ((r->start.col <= r->end.col) && (r->start.row <= r->end.row));
 
@@ -363,7 +366,7 @@ dao_cell_is_visible (data_analysis_output_t *dao, int col, int row)
 	col += dao->start_col;
 	row += dao->start_row;
 
-	return (!(col >= gnm_sheet_get_max_cols (dao->sheet) || row >= gnm_sheet_get_max_rows (dao->sheet)));
+	return !(col >= gnm_sheet_get_max_cols (dao->dst_sheet) || row >= gnm_sheet_get_max_rows (dao->dst_sheet));
 }
 
 
@@ -393,7 +396,7 @@ dao_set_array_expr (data_analysis_output_t *dao,
 	}
 
 	texpr = gnm_expr_top_new (expr);
-	gnm_cell_set_array_formula (dao->sheet,
+	gnm_cell_set_array_formula (dao->dst_sheet,
 				    r.start.col, r.start.row,
 				    r.end.col, r.end.row,
 				    texpr);
@@ -439,7 +442,7 @@ dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
 	        return;
 	}
 
-	cell = sheet_cell_fetch (dao->sheet, r.start.col, r.start.row);
+	cell = sheet_cell_fetch (dao->dst_sheet, r.start.col, r.start.row);
 	texpr = gnm_expr_top_new (expr);
 	gnm_cell_set_expr (cell, texpr);
 	gnm_expr_top_unref (texpr);
@@ -471,7 +474,7 @@ dao_set_cell_value (data_analysis_output_t *dao, int col, int row, GnmValue *v)
 	        return;
 	}
 
-	cell = sheet_cell_fetch (dao->sheet, r.start.col, r.start.row);
+	cell = sheet_cell_fetch (dao->dst_sheet, r.start.col, r.start.row);
 
 	sheet_cell_set_value (cell, v);
 }
@@ -609,7 +612,7 @@ dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
 	range_init (&r, col, row, col, row);
 
 	if (adjust_range (dao, &r))
-		cell_set_comment (dao->sheet, &r.start, author, comment, NULL);
+		cell_set_comment (dao->dst_sheet, &r.start, author, comment, NULL);
 }
 
 
@@ -629,11 +632,11 @@ dao_autofit_these_columns (data_analysis_output_t *dao, int from_col, int to_col
 	if (!dao->autofit_flag)
 		return;
 
-	range_init_cols (&r, dao->sheet,
+	range_init_cols (&r, dao->dst_sheet,
 			 from_col + dao->start_col,
 			 to_col + dao->start_col);
 
-	colrow_autofit (dao->sheet, &r, TRUE,
+	colrow_autofit (dao->dst_sheet, &r, TRUE,
 			FALSE, dao->autofit_noshrink, FALSE,
 			NULL, NULL,
 			TRUE);
@@ -667,11 +670,11 @@ dao_autofit_these_rows (data_analysis_output_t *dao, int from_row, int to_row)
 	if (!dao->autofit_flag)
 		return;
 
-	range_init_rows (&r, dao->sheet,
+	range_init_rows (&r, dao->dst_sheet,
 			 from_row + dao->start_row,
 			 to_row + dao->start_row);
 
-	colrow_autofit (dao->sheet, &r, FALSE,
+	colrow_autofit (dao->dst_sheet, &r, FALSE,
 			FALSE, dao->autofit_noshrink, FALSE,
 			NULL, NULL,
 			TRUE);
@@ -714,7 +717,7 @@ dao_set_style (data_analysis_output_t *dao, int col1, int row1,
 	        return;
 	}
 
-	sheet_style_apply_range (dao->sheet, &r, mstyle);
+	sheet_style_apply_range (dao->dst_sheet, &r, mstyle);
 }
 
 /**
@@ -926,11 +929,11 @@ dao_get_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols)
 	case GNM_DAO_OUTPUT_RANGE:
 		if (is_cols)
 			return colrow_get_states
-				(dao->sheet, is_cols, dao->start_col,
+				(dao->dst_sheet, is_cols, dao->start_col,
 				 dao->start_col + dao->cols - 1);
 		else
 			return colrow_get_states
-				(dao->sheet, is_cols, dao->start_row,
+				(dao->dst_sheet, is_cols, dao->start_row,
 				 dao->start_row + dao->rows - 1);
 	default:
 		return NULL;
@@ -951,7 +954,7 @@ dao_set_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols,
 	g_return_if_fail (list);
 
 	if (dao->type == GNM_DAO_OUTPUT_RANGE)
-		colrow_set_states (dao->sheet, is_cols,
+		colrow_set_states (dao->dst_sheet, is_cols,
 				   is_cols ? dao->start_col : dao->start_row,
 				   list);
 }
@@ -1105,7 +1108,7 @@ dao_convert_to_values (data_analysis_output_t *dao)
 	if (dao->put_formulas)
 		return;
 
-	sheet_foreach_cell_in_region (dao->sheet, CELL_ITER_IGNORE_BLANK,
+	sheet_foreach_cell_in_region (dao->dst_sheet, CELL_ITER_IGNORE_BLANK,
 				      dao->start_col, dao->start_row,
 				      dao->start_col + dao->cols - 1,
 				      dao->start_row + dao->rows - 1,
@@ -1127,11 +1130,11 @@ dao_redraw_respan (data_analysis_output_t *dao)
 	range_init (&r, dao->start_col, dao->start_row,
 		    dao->start_col + dao->cols - 1,
 		    dao->start_row + dao->rows - 1);
-	sheet_range_calc_spans (dao->sheet, &r,
+	sheet_range_calc_spans (dao->dst_sheet, &r,
 				GNM_SPANCALC_RESIZE | GNM_SPANCALC_RE_RENDER);
-	sheet_region_queue_recalc (dao->sheet, &r);
+	sheet_region_queue_recalc (dao->dst_sheet, &r);
 	dao_convert_to_values (dao);
-	sheet_redraw_range (dao->sheet, &r);
+	sheet_redraw_range (dao->dst_sheet, &r);
 }
 
 
@@ -1229,7 +1232,7 @@ dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject
 	sheet_object_anchor_init (&anchor, &anchor_r, NULL, GOD_ANCHOR_DIR_UNKNOWN,
 	                          GNM_SO_ANCHOR_TWO_CELLS);
 	sheet_object_set_anchor (so, &anchor);
-	sheet_object_set_sheet (so, dao->sheet);
+	sheet_object_set_sheet (so, dao->dst_sheet);
 
 	dao->sos = g_slist_prepend (dao->sos, so);
 }
@@ -1248,8 +1251,8 @@ GOData	*
 dao_go_data_vector (data_analysis_output_t *dao, int ax, int ay,  int bx, int by)
 {
 	return gnm_go_data_vector_new_expr
-		(dao->sheet,
-		 gnm_expr_top_new (dao_get_rangeref_full (dao, ax, ay, bx, by, dao->sheet)));
+		(dao->dst_sheet,
+		 gnm_expr_top_new (dao_get_rangeref_full (dao, ax, ay, bx, by, dao->dst_sheet)));
 }
 
 /**
@@ -1300,7 +1303,7 @@ dao_set_merge (data_analysis_output_t *dao, int col1, int row1,
 
 	range_init (&r, col1, row1, col2, row2);
 	if (adjust_range (dao, &r))
-		gnm_sheet_merge_add (dao->sheet, &r, TRUE, NULL);
+		gnm_sheet_merge_add (dao->dst_sheet, &r, TRUE, NULL);
 }
 
 
@@ -1314,14 +1317,13 @@ dao_set_merge (data_analysis_output_t *dao, int col1, int row1,
 GODateConventions const *
 dao_get_date_conv (data_analysis_output_t *dao)
 {
-	if (dao->sheet)
-		return sheet_date_conv (dao->sheet);
+	if (dao->dst_sheet)
+		return sheet_date_conv (dao->dst_sheet);
 
-	if (dao->wbc) {
-		Sheet *sheet = wb_control_cur_sheet (dao->wbc);
-		if (sheet)
-			return sheet_date_conv (sheet);
-	}
+	if (dao->ref_sheet)
+		return sheet_date_conv (dao->ref_sheet);
+
+	g_warning ("Missing dao sheet info");
 
 	return go_date_conv_from_str ("Lotus:1900");
 }
@@ -1335,14 +1337,13 @@ dao_get_date_conv (data_analysis_output_t *dao)
 GnmSheetSize const *
 dao_get_sheet_size (data_analysis_output_t *dao)
 {
-	if (dao->sheet)
-		return gnm_sheet_get_size (dao->sheet);
+	if (dao->dst_sheet)
+		return gnm_sheet_get_size (dao->dst_sheet);
 
-	if (dao->wbc) {
-		Sheet *sheet = wb_control_cur_sheet (dao->wbc);
-		if (sheet)
-			return gnm_sheet_get_size (sheet);
-	}
+	if (dao->ref_sheet)
+		return gnm_sheet_get_size (dao->ref_sheet);
+
+	g_warning ("Missing dao sheet info");
 
 	static const GnmSheetSize default_size = {
 		GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS

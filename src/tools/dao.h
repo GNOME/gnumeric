@@ -41,8 +41,9 @@ typedef enum {
 } data_analysis_output_type_t;
 
 typedef struct data_analysis_output_t_ {
-        data_analysis_output_type_t type;
-        Sheet                       *sheet;
+	data_analysis_output_type_t type;
+	Sheet                       *ref_sheet;
+	Sheet                       *dst_sheet;
         int                         start_col, cols;
         int                         start_row, rows;
 	int                         offset_col, offset_row;
@@ -52,13 +53,12 @@ typedef struct data_analysis_output_t_ {
 	gboolean                    retain_format;
 	gboolean                    retain_comments;
 	gboolean                    put_formulas;
-	WorkbookControl             *wbc;
 	GSList                      *sos;
 	gboolean                    omit_so;
 } data_analysis_output_t;
 
 data_analysis_output_t *dao_init (data_analysis_output_type_t type);
-data_analysis_output_t *dao_init_new_sheet (void);
+data_analysis_output_t *dao_init_new_sheet (Sheet *ref_sheet);
 void dao_load_from_value (data_analysis_output_t *dao,
 			  GnmValue const *output_range);
 void dao_free (data_analysis_output_t *dao);
@@ -123,7 +123,8 @@ void dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetO
 
 void dao_prepare_output       (WorkbookControl *wbc,
 			       data_analysis_output_t *dao, char const *name);
-gboolean dao_format_output    (data_analysis_output_t *dao, char const *cmd);
+gboolean dao_format_output    (WorkbookControl *wbc,
+			       data_analysis_output_t *dao, char const *cmd);
 char *dao_command_descriptor (data_analysis_output_t *dao,
 				char const *format);
 void dao_adjust           (data_analysis_output_t *dao, gint cols, gint rows);

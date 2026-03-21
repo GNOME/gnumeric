@@ -234,7 +234,7 @@ cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
 	range_init (&range, dao->start_col, dao->start_row,
 		    dao->start_col +  dao->cols - 1,  dao->start_row +  dao->rows - 1);
 	return (dao->type != GNM_DAO_OUTPUT_NEWWORKBOOK &&
-		cmd_cell_range_is_locked_effective (dao->sheet, &range, wbc, cmd_name));
+		cmd_cell_range_is_locked_effective (dao->dst_sheet, &range, wbc, cmd_name));
 }
 
 /**
@@ -5333,14 +5333,11 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	/* The old view might not exist anymore */
-	me->dao->wbc = wbc;
-
 	switch (me->type) {
 	case GNM_DAO_OUTPUT_NEWSHEET:
-		if (!command_undo_sheet_delete (me->dao->sheet))
+		if (!command_undo_sheet_delete (me->dao->dst_sheet))
 			return TRUE;
-		me->dao->sheet = NULL;
+		me->dao->dst_sheet = NULL;
 		break;
 	case GNM_DAO_OUTPUT_NEWWORKBOOK:
 		g_warning ("How did we get here?");
@@ -5348,14 +5345,14 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		break;
 	case GNM_DAO_OUTPUT_RANGE:
 	default:
-		sheet_clear_region (me->dao->sheet,
+		sheet_clear_region (me->dao->dst_sheet,
 				    me->old_range.start.col, me->old_range.start.row,
 				    me->old_range.end.col, me->old_range.end.row,
 				    CLEAR_COMMENTS | CLEAR_FORMATS | CLEAR_NOCHECKARRAY |
 				    CLEAR_RECALC_DEPS | CLEAR_VALUES | CLEAR_MERGES,
 				    GO_CMD_CONTEXT (wbc));
 		clipboard_paste_region (me->old_contents,
-			paste_target_init (&pt, me->dao->sheet, &me->old_range, PASTE_ALL_SHEET),
+			paste_target_init (&pt, me->dao->dst_sheet, &me->old_range, PASTE_ALL_SHEET),
 			GO_CMD_CONTEXT (wbc));
 		cellregion_unref (me->old_contents);
 		me->old_contents = NULL;
@@ -5370,7 +5367,7 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		if (me->newSheetObjects == NULL)
 			me->newSheetObjects = dao_surrender_so (me->dao);
 		g_slist_foreach (me->newSheetObjects, (GFunc)sheet_object_clear_sheet, NULL);
-		sheet_update (me->dao->sheet);
+		sheet_update (me->dao->dst_sheet);
 	}
 
 	return FALSE;
@@ -5390,18 +5387,15 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	/* The old view might not exist anymore */
-	me->dao->wbc = wbc;
-
 	colrow_state_list_destroy (me->col_info);
 	me->col_info = dao_get_colrow_state_list (me->dao, TRUE);
 	colrow_state_list_destroy (me->row_info);
 	me->row_info = dao_get_colrow_state_list (me->dao, FALSE);
 
-	if (gnm_analysis_tool_prepare_output_range (me->tool, me->dao)
+	if (gnm_analysis_tool_prepare_output_range (me->tool, wbc, me->dao)
 	    || ((me->cmd.cmd_descriptor = gnm_analysis_tool_update_descriptor (me->tool, me->dao)) == NULL)
 	    || cmd_dao_is_locked_effective (me->dao, wbc, me->cmd.cmd_descriptor)
-	    || gnm_analysis_tool_last_validity_check (me->tool, me->dao))
+	    || gnm_analysis_tool_last_validity_check (me->tool, wbc, me->dao))
 		return TRUE;
 
 	switch (me->type) {
@@ -5417,17 +5411,17 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		range_init (&me->old_range, me->dao->start_col, me->dao->start_row,
 			    me->dao->start_col + me->dao->cols - 1,
 			    me->dao->start_row + me->dao->rows - 1);
-		me->old_contents = clipboard_copy_range (me->dao->sheet, &me->old_range);
+		me->old_contents = clipboard_copy_range (me->dao->dst_sheet, &me->old_range);
 		break;
 	}
 
 	if (me->newSheetObjects != NULL)
 		dao_set_omit_so (me->dao, TRUE);
 
-	if (gnm_analysis_tool_format_output_range (me->tool, me->dao))
+	if (gnm_analysis_tool_format_output_range (me->tool, wbc, me->dao))
 		return TRUE;
 
-	if (gnm_analysis_tool_perform_calc (me->tool, me->dao)) {
+	if (gnm_analysis_tool_perform_calc (me->tool, wbc, me->dao)) {
 		if (me->type == GNM_DAO_OUTPUT_RANGE) {
 			g_warning ("This is too late for failure! The target region has "
 				   "already been formatted!");
@@ -5447,8 +5441,8 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	}
 
 	dao_autofit_columns (me->dao);
-	sheet_mark_dirty (me->dao->sheet);
-	sheet_update (me->dao->sheet);
+	sheet_mark_dirty (me->dao->dst_sheet);
+	sheet_update (me->dao->dst_sheet);
 
 	/* The concept of an undo if we create a new worksheet is extremely strange,
 	 * since we have separate undo/redo queues per worksheet.
@@ -5497,8 +5491,6 @@ cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 	g_return_val_if_fail (GNM_IS_ANALYSIS_TOOL (tool), TRUE);
 
 	me = g_object_new (CMD_ANALYSIS_TOOL_TYPE, NULL);
-
-	dao->wbc = wbc;
 
 	/* Store the specs for the object */
 	me->tool = g_object_ref (tool);

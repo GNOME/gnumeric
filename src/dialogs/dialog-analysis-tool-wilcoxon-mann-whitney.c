@@ -130,8 +130,6 @@ wilcoxon_mann_whitney_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	gbtool = GNM_GENERIC_B_ANALYSIS_TOOL (atool);
 	dao  = dao_parse_output (state);
 
-	gbtool->base.wbc = GNM_WBC (state->wbcg);
-
 	gbtool->base.range_1 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 

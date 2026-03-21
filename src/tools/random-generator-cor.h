@@ -18,7 +18,6 @@ typedef struct _GnmRandomCorToolClass GnmRandomCorToolClass;
 struct _GnmRandomCorTool {
 	GnmAnalysisTool parent;
 
-	WorkbookControl *wbc;
 	GnmValue        *matrix;
 	random_gen_cor_type_t matrix_type;
 	gint count;

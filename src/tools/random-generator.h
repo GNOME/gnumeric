@@ -189,7 +189,6 @@ struct _GnmRandomTool {
 	GnmAnalysisTool parent;
 
 	random_tool_t param;
-	WorkbookControl *wbc;
 	gint n_vars;
 	gint count;
 	random_distribution_t distribution;

@@ -681,7 +681,7 @@ create_report (GnmSolver *sol, SolverState *state)
 {
 	Sheet *sheet = state->sheet;
 	char *base = g_strdup_printf (_("%s %%s Report"), sheet->name_unquoted);
-	gnm_solver_create_report (sol, base);
+	gnm_solver_create_report (sol, GNM_WBC (state->wbcg), base);
 	g_free (base);
 }
 

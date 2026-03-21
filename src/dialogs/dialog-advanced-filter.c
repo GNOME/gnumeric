@@ -131,7 +131,6 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	else {
 		GnmAnalysisTool *atool = gnm_advanced_filter_tool_new ();
 		GnmAdvancedFilterTool *ftool = GNM_ADVANCED_FILTER_TOOL (atool);
-		ftool->parent.base.wbc = GNM_WBC (state->wbcg);
 		ftool->parent.base.range_1 = input;
 		ftool->parent.base.range_2 = criteria;
 		ftool->unique_only_flag = unique;

@@ -103,16 +103,16 @@ gnm_advanced_filter_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool,
 }
 
 static gboolean
-gnm_advanced_filter_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_advanced_filter_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Advanced Filter"));
+	dao_prepare_output (wbc, dao, _("Advanced Filter"));
 	return FALSE;
 }
 
 static gboolean
-gnm_advanced_filter_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_advanced_filter_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Advanced Filter"));
+	return dao_format_output (wbc, dao, _("Advanced Filter"));
 }
 
 static void
@@ -173,7 +173,7 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 }
 
 static gboolean
-gnm_advanced_filter_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_advanced_filter_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmAdvancedFilterTool *atool = GNM_ADVANCED_FILTER_TOOL (tool);
 	GnmGenericBAnalysisTool *gtool = &atool->parent;
@@ -201,7 +201,7 @@ gnm_advanced_filter_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_outp
 	dao->offset_row = 3;
 
 	crit = gnm_criteria_parse_database (
-		eval_pos_init_sheet (&ep, wb_control_cur_sheet (gtool->base.wbc)),
+		eval_pos_init_sheet (&ep, dao->dst_sheet),
 		database, criteria);
 
 	if (crit == NULL) {

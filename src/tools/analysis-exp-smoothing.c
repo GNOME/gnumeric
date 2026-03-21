@@ -168,20 +168,20 @@ gnm_exp_smoothing_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, d
 }
 
 static gboolean
-gnm_exp_smoothing_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_exp_smoothing_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Exponential Smoothing"));
+	dao_prepare_output (wbc, dao, _("Exponential Smoothing"));
 	return FALSE;
 }
 
 static gboolean
-gnm_exp_smoothing_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_exp_smoothing_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Exponential Smoothing"));
+	return dao_format_output (wbc, dao, _("Exponential Smoothing"));
 }
 
 static gboolean
-gnm_exp_smoothing_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_exp_smoothing_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmExpSmoothingTool *etool = GNM_EXP_SMOOTHING_TOOL (tool);
 	switch (etool->es_type) {

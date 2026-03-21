@@ -102,20 +102,20 @@ gnm_sign_test_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_
 }
 
 static gboolean
-gnm_sign_test_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_sign_test_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Sign Test"));
+	dao_prepare_output (wbc, dao, _("Sign Test"));
 	return FALSE;
 }
 
 static gboolean
-gnm_sign_test_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_sign_test_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Sign Test"));
+	return dao_format_output (wbc, dao, _("Sign Test"));
 }
 
 static gboolean
-gnm_sign_test_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_sign_test_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmSignTestTool *stool = GNM_SIGN_TEST_TOOL (tool);
 	GnmGenericAnalysisTool *gtool = &stool->parent;
@@ -332,20 +332,20 @@ gnm_sign_test_two_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, d
 }
 
 static gboolean
-gnm_sign_test_two_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_sign_test_two_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Sign Test"));
+	dao_prepare_output (wbc, dao, _("Sign Test"));
 	return FALSE;
 }
 
 static gboolean
-gnm_sign_test_two_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_sign_test_two_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Sign Test"));
+	return dao_format_output (wbc, dao, _("Sign Test"));
 }
 
 static gboolean
-gnm_sign_test_two_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_sign_test_two_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmSignTestTwoTool *stool = GNM_SIGN_TEST_TWO_TOOL (tool);
 	GnmGenericBAnalysisTool *gtool = &stool->parent;

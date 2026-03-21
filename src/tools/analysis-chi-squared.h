@@ -37,7 +37,6 @@ typedef struct _GnmChiSquaredToolClass GnmChiSquaredToolClass;
 struct _GnmChiSquaredTool {
 	GnmAnalysisTool parent;
 
-	WorkbookControl *wbc;
 	GnmValue        *input;
 	gboolean         labels;
 	gboolean         independence;

@@ -82,6 +82,7 @@ gnm_random_tool_discrete_clear (GnmRandomTool *rtool)
 
 static gboolean
 tool_random_engine_run_discrete_last_check (GnmRandomTool *rtool,
+					    WorkbookControl *wbc,
 					    G_GNUC_UNUSED data_analysis_output_t *dao)
 {
 	discrete_random_tool_t *param = &rtool->param.discrete;
@@ -107,7 +108,7 @@ tool_random_engine_run_discrete_last_check (GnmRandomTool *rtool,
 		if (cell == NULL ||
 		    (v = cell->value) == NULL ||
 		    !VALUE_IS_NUMBER (v)) {
-			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (rtool->wbc),
+			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (wbc),
 						    _("The probability input range "
 						      "contains a non-numeric value.\n"
 						      "All probabilities must be "
@@ -115,7 +116,7 @@ tool_random_engine_run_discrete_last_check (GnmRandomTool *rtool,
 			goto random_tool_discrete_out;
 		}
 		if ((thisprob = value_get_as_float (v)) < 0) {
-			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (rtool->wbc),
+			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (wbc),
 						    _("The probability input range "
 						      "contains a negative number.\n"
 						      "All probabilities must be "
@@ -130,7 +131,7 @@ tool_random_engine_run_discrete_last_check (GnmRandomTool *rtool,
 				       range->v_range.cell.a.col, i);
 
 		if (cell == NULL || cell->value == NULL) {
-			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (rtool->wbc),
+			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (wbc),
 						    _("None of the values in the value "
 						      "range may be empty!"));
 			goto random_tool_discrete_out;
@@ -146,7 +147,7 @@ tool_random_engine_run_discrete_last_check (GnmRandomTool *rtool,
 		}
 		return FALSE;
 	}
-	gnm_cmd_context_error_calc (GO_CMD_CONTEXT (rtool->wbc),
+	gnm_cmd_context_error_calc (GO_CMD_CONTEXT (wbc),
 				    _("The probabilities may not all be 0!"));
 
  random_tool_discrete_out:
@@ -710,7 +711,6 @@ static void
 gnm_random_tool_init (GnmRandomTool *rtool)
 {
 	rtool->param.discrete.range = NULL;
-	rtool->wbc = NULL;
 	rtool->n_vars = 1;
 	rtool->count = 1;
 	rtool->distribution = UniformDistribution;
@@ -751,35 +751,35 @@ gnm_random_tool_update_descriptor (G_GNUC_UNUSED GnmAnalysisTool *tool, data_ana
 }
 
 static gboolean
-gnm_random_tool_last_validity_check (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_random_tool_last_validity_check (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmRandomTool *rtool = GNM_RANDOM_TOOL (tool);
 	switch (rtool->distribution) {
 	case DiscreteDistribution:
-		return tool_random_engine_run_discrete_last_check (rtool, dao);
+		return tool_random_engine_run_discrete_last_check (rtool, wbc, dao);
 	default:
 		return FALSE;
 	}
 }
 
 static gboolean
-gnm_random_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_random_tool_prepare_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	dao_prepare_output (NULL, dao, _("Random Numbers"));
+	dao_prepare_output (wbc, dao, _("Random Numbers"));
 	return FALSE;
 }
 
 static gboolean
-gnm_random_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_random_tool_format_output_range (G_GNUC_UNUSED GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
-	return dao_format_output (dao, _("Random Numbers"));
+	return dao_format_output (wbc, dao, _("Random Numbers"));
 }
 
 static gboolean
-gnm_random_tool_perform_calc (GnmAnalysisTool *tool, data_analysis_output_t *dao)
+gnm_random_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao)
 {
 	GnmRandomTool *rtool = GNM_RANDOM_TOOL (tool);
-	GOCmdContext *gcc = GO_CMD_CONTEXT (rtool->wbc);
+	GOCmdContext *gcc = GO_CMD_CONTEXT (wbc);
 
 	switch (rtool->distribution) {
 	case DiscreteDistribution:

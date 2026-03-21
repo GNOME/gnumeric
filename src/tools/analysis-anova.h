@@ -41,7 +41,6 @@ struct _GnmAnovaTwoFactorTool {
 	GnmAnalysisTool parent;
 
 	analysis_tools_error_code_t err;
-	WorkbookControl *wbc;
 	GnmValue     *input;
 	gnm_tool_group_by_t group_by;
 	gboolean   labels;

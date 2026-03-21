@@ -279,7 +279,7 @@ void gnm_solver_set_reason (GnmSolver *solver, const char *reason);
 
 void gnm_solver_store_result (GnmSolver *solver);
 
-void gnm_solver_create_report (GnmSolver *solver, const char *name);
+void gnm_solver_create_report (GnmSolver *solver, WorkbookControl *wbc, const char *name);
 
 double gnm_solver_elapsed (GnmSolver *solver);
 
