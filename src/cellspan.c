@@ -125,7 +125,7 @@ span_remove (G_GNUC_UNUSED gpointer key, gpointer value,
  * Unregisters the span for @cell.
  **/
 void
-cell_unregister_span (GnmCell const * const cell)
+cell_unregister_span (GnmCell const *cell)
 {
 	ColRowInfo *ri;
 
@@ -149,7 +149,7 @@ cell_unregister_span (GnmCell const * const cell)
  * at @col in @ri.
  **/
 CellSpanInfo const *
-row_span_get (ColRowInfo const * const ri, int const col)
+row_span_get (ColRowInfo const *ri, int col)
 {
 	g_return_val_if_fail (ri != NULL, NULL);
 

@@ -905,7 +905,7 @@ value_intersection (GnmValue *v, GnmEvalPos const *pos)
 				col, row);
 			if (cell == NULL)
 				return value_new_empty ();
-			gnm_cell_eval (cell);
+			gnm_dep_cell_eval (cell);
 			return value_dup (cell->value);
 		}
 	}
@@ -1612,7 +1612,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		cell = sheet_cell_get (eval_sheet (r.sheet, pos->sheet),
 				       r.col, r.row);
 		if (cell)
-			gnm_cell_eval (cell);
+			gnm_dep_cell_eval (cell);
 
 		if (flags & GNM_EXPR_EVAL_WANT_REF) {
 			return value_new_cellrange_unsafe (&r, &r);
@@ -3464,7 +3464,7 @@ gnm_expr_top_eval_array_elem (GnmExprTop const *texpr,
 		return handle_empty (NULL, flags);
 	}
 
-	gnm_cell_eval (corner);
+	gnm_dep_cell_eval (corner);
 	a = gnm_expr_top_get_array_value (corner->base.texpr);
 	if (a == NULL)
 		return handle_empty (NULL, flags);

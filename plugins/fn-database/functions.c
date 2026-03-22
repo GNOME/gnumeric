@@ -133,8 +133,7 @@ find_cells_that_match (Sheet *sheet, GnmValue const *database,
 				GnmCell *tmp = sheet_cell_get (sheet,
 					cond->column, row);
 				if (tmp != NULL)
-					gnm_cell_eval (tmp);
-				if (!cond->fun (tmp ? tmp->value : empty, cond)) {
+				if (!cond->fun (tmp ? gnm_cell_eval (tmp) : empty, cond)) {
 					add_flag = FALSE;
 					break;
 				}

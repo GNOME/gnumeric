@@ -1584,7 +1584,7 @@ xlsx_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	// We use an empty value as an indicator for "no value"
 	if (VALUE_IS_EMPTY (state->val)) {
-		cell_queue_recalc (cell);
+		gnm_cell_queue_recalc (cell);
 	}
 
 	state->texpr = NULL;

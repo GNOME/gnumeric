@@ -743,7 +743,7 @@ gnm_goal_seek_eval_cell (gnm_float x, gnm_float *y, gpointer data_)
 	GnmValue *v = value_new_float (x);
 
 	gnm_cell_set_value (data->xcell, v);
-	cell_queue_recalc (data->xcell);
+	gnm_cell_queue_recalc (data->xcell);
 	gnm_cell_eval (data->ycell);
 
 	if (data->ycell->value &&

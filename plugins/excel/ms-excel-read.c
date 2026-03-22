@@ -3084,7 +3084,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	 * 0x2 = CalcOnLoad
 	 */
 	if (options & 0x3)
-		cell_queue_recalc (cell);
+		gnm_cell_queue_recalc (cell);
 }
 
 XLSharedFormula *

@@ -274,11 +274,9 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				dependent_queue_recalc (GNM_CELL_TO_DEP (in[1]));
 				gnm_app_recalc_clear_caches ();
 				if (NULL != in[0]) {
-					gnm_cell_eval (in[2]);
-					value_array_set (res, x, y, value_dup (in[2]->value));
+					value_array_set (res, x, y, value_dup (gnm_cell_eval (in[2])));
 				} else {
-					gnm_cell_eval (x_iter);
-					value_array_set (res, x, y, value_dup (x_iter->value));
+					value_array_set (res, x, y, value_dup (gnm_cell_eval (x_iter)));
 				}
 				value_release (in[1]->value);
 				in[1]->value = v1;

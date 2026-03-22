@@ -811,7 +811,7 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str,
 		gnm_cell_set_value (cell, value_dup (v));
 	} else {
 		gnm_cell_set_expr (cell, texpr);
-		cell_queue_recalc (cell);
+		gnm_cell_queue_recalc (cell);
 	}
 
 	gnm_expr_top_unref (texpr);

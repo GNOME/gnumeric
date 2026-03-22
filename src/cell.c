@@ -1139,6 +1139,23 @@ gnm_cell_convert_expr_to_value (GnmCell *cell)
 	cell->base.texpr = NULL;
 }
 
+/**
+ * gnm_cell_queue_recalc:
+ * @cell:
+ *
+ * Queue the cell and everything that depends on it for recalculation.
+ * If a dependency is already queued ignore it.
+ */
+void
+gnm_cell_queue_recalc (GnmCell *cell)
+{
+	g_return_if_fail (cell != NULL);
+
+	if (!gnm_cell_needs_recalc (cell))
+		dependent_queue_recalc (GNM_CELL_TO_DEP (cell));
+}
+
+
 static gpointer cell_boxed_copy (gpointer c) { return c; }
 static void cell_boxed_free (gpointer c) { }
 
@@ -1186,3 +1203,15 @@ extern inline gboolean gnm_cell_expr_is_linked (GnmCell const *cell);
  * Returns: %TRUE if @cell is the corner of a merged region.
  */
 extern inline gboolean gnm_cell_is_merged (GnmCell const *cell);
+
+/**
+ * gnm_cell_eval:
+ * @cell: (transfer none): #GnmCell
+ *
+ * Evaluate @cell if needed and return it's value.  Other than return
+ * value, this does the same thing as gnm_dep_cell_eval.  Choose the
+ * latter in the main evaluation path in order to limit stack usage.
+ *
+ * Returns: (transfer none): the cell's new value.
+ */
+extern inline GnmValue *gnm_cell_eval (GnmCell *cell);

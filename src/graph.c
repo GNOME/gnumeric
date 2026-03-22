@@ -101,8 +101,7 @@ render_val (GnmValue const *v, int i, int j,
 		cell = sheet_cell_get (start_sheet, r.start.col, r.start.row);
 		if (cell == NULL)
 			return NULL;
-		gnm_cell_eval (cell);
-		v = cell->value;
+		v = gnm_cell_eval (cell);
 
 		if (fmt == NULL)
 			fmt = gnm_cell_get_format (cell);
@@ -660,8 +659,7 @@ cb_assign_val (GnmCellIter const *iter, struct assign_closure *dat)
 		return NULL;
 
 	if (iter->cell != NULL) {
-		gnm_cell_eval (iter->cell);
-		v = iter->cell->value;
+		v = gnm_cell_eval (iter->cell);
 	} else
 		v = NULL;
 
@@ -888,8 +886,7 @@ cb_assign_string (GnmCellIter const *iter, struct string_closure *closure)
 	char *str = NULL;
 
 	if (iter->cell != NULL) {
-		gnm_cell_eval (iter->cell);
-		v = iter->cell->value;
+		v = gnm_cell_eval (iter->cell);
 	}
 	if (v != NULL)
 		str = format_value (gnm_cell_get_format (iter->cell), v, -1, closure->date_conv);
@@ -1282,8 +1279,7 @@ cb_assign_matrix_val (GnmCellIter const *iter,
 	dat->row = iter->pp.eval.row - dat->first_row;
 
 	if (iter->cell != NULL) {
-		gnm_cell_eval (iter->cell);
-		v = iter->cell->value;
+		v = gnm_cell_eval (iter->cell);
 	} else
 		v = NULL;
 

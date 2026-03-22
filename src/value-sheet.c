@@ -183,8 +183,7 @@ value_area_get_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 
 		cell = sheet_cell_get (start_sheet, x, y);
 		if (cell != NULL) {
-			gnm_cell_eval (cell);
-			return cell->value;
+			return gnm_cell_eval (cell);
 		}
 
 		return value_new_empty ();
@@ -203,8 +202,7 @@ static GnmValue *
 cb_wrapper_foreach_cell_in_area (GnmCellIter const *iter, WrapperClosure *wrap)
 {
 	if (iter->cell != NULL) {
-		gnm_cell_eval (iter->cell);
-		wrap->v_iter.v = iter->cell->value;
+		wrap->v_iter.v = gnm_cell_eval (iter->cell);
 	} else
 		wrap->v_iter.v = NULL;
 	wrap->v_iter.x		= iter->pp.eval.col - wrap->base_col;

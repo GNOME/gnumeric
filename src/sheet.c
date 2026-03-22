@@ -3078,7 +3078,7 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 		 * Queue recalc before spanning.  Otherwise spanning may
 		 * create a bogus rendered value, see #495879.
 		 */
-		cell_queue_recalc (cell);
+		gnm_cell_queue_recalc (cell);
 
 		/* Clear spans from _other_ cells */
 		sheet_cell_calc_span (cell, GNM_SPANCALC_SIMPLE);
@@ -3107,7 +3107,7 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 		gnm_cell_set_value (cell, val);
 
 		/* Queue recalc before spanning, see above.  */
-		cell_queue_recalc (cell);
+		gnm_cell_queue_recalc (cell);
 
 		sheet_cell_calc_span (cell, GNM_SPANCALC_RESIZE | GNM_SPANCALC_RENDER);
 	}
@@ -3149,7 +3149,7 @@ sheet_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
 	/* clear spans from _other_ cells */
 	sheet_cell_calc_span (cell, GNM_SPANCALC_SIMPLE);
 
-	cell_queue_recalc (cell);
+	gnm_cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);
 }
 
@@ -3172,7 +3172,7 @@ sheet_cell_set_value (GnmCell *cell, GnmValue *v)
 	/* TODO : if the value is unchanged do not assign it */
 	gnm_cell_set_value (cell, v);
 	sheet_cell_calc_span (cell, GNM_SPANCALC_RESIZE | GNM_SPANCALC_RENDER);
-	cell_queue_recalc (cell);
+	gnm_cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);
 }
 
@@ -4797,8 +4797,12 @@ sheet_cell_destroy (Sheet *sheet, GnmCell *cell, gboolean queue_recalc)
 		dependent_unlink (GNM_CELL_TO_DEP (cell));
 	}
 
-	if (queue_recalc)
-		cell_foreach_dep (cell, (GnmDepFunc)dependent_queue_recalc, NULL);
+	if (queue_recalc) {
+		GPtrArray *deps = g_ptr_array_new ();
+		gnm_dep_deps_of_cell (cell, deps);
+		dependent_queue_recalc_list (deps);
+		g_ptr_array_unref (deps);
+	}
 
 	sheet_cell_remove_from_hash (sheet, cell);
 	cell_free (cell);

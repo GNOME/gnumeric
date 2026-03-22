@@ -124,14 +124,20 @@ cb_compare_deps (gconstpointer a, gconstpointer b)
 	return cell_a->pos.col - cell_b->pos.col;
 }
 
-static void
-cb_collect_deps (GnmDependent *dep, gpointer user)
+static GList *
+drop_non_cell_deps (GPtrArray *deps)
 {
-	if (dependent_is_cell (dep)) {
-		GList **list = (GList **)user;
-		*list = g_list_prepend (*list, dep);
+	GList *res = NULL;
+
+	for (size_t i = 0; i < deps->len; i++) {
+		GnmDependent *dep = g_ptr_array_index (deps, i);
+		if (dependent_is_cell (dep))
+			res = g_list_prepend (res, dep);
 	}
+
+	return res;
 }
+
 
 /**
  * sv_select_cur_depends:
@@ -142,20 +148,14 @@ cb_collect_deps (GnmDependent *dep, gpointer user)
 void
 sv_select_cur_depends (SheetView *sv)
 {
-	GnmCell  *cur_cell, dummy;
-	GList *deps = NULL, *ptr = NULL;
+	GList *deps, *ptr = NULL;
 
 	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 
-	cur_cell = sheet_cell_get (sv->sheet,
-		sv->edit_pos.col, sv->edit_pos.row);
-	if (cur_cell == NULL) {
-		dummy.base.sheet = sv_sheet (sv);
-		dummy.pos = sv->edit_pos;
-		cur_cell = &dummy;
-	}
-
-	cell_foreach_dep (cur_cell, cb_collect_deps, &deps);
+	GPtrArray *alldeps = g_ptr_array_new ();
+	gnm_dep_deps_of_cellpos (sv->sheet, sv->edit_pos.col, sv->edit_pos.row, alldeps);
+	deps = drop_non_cell_deps (alldeps);
+	g_ptr_array_unref (alldeps);
 	if (deps == NULL)
 		return;
 
@@ -214,11 +214,13 @@ sv_select_cur_depends (SheetView *sv)
 		}
 
 		/* now select the ranges */
-		while (ptr) {
-			sv_selection_add_range (sv, ptr->data);
-			g_free (ptr->data);
-			ptr = g_list_remove (ptr, ptr->data);
+		for (GList *p = ptr; p; p = p->next) {
+			GnmRange *r = p->data;
+			g_printerr ("select %s\n", range_as_string (r));
+			sv_selection_add_range (sv, r);
+			g_free (r);
 		}
+		g_list_free (ptr);
 	}
 	sheet_update (sv->sheet);
 }

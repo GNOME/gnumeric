@@ -1194,7 +1194,7 @@ gnm_solver_store_result (GnmSolver *sol)
 		GnmCell *cell = g_ptr_array_index (sol->input_cells, ui);
 		GnmValue *v = solution ? value_new_float (solution[ui])	: value_new_error_NA (NULL);
 		gnm_cell_set_value (cell, v);
-		cell_queue_recalc (cell);
+		gnm_cell_queue_recalc (cell);
 	}
 }
 
@@ -1284,9 +1284,7 @@ gnm_solver_has_solution (GnmSolver *solver)
 static gnm_float
 get_cell_value (GnmCell *cell)
 {
-	GnmValue const *v;
-	gnm_cell_eval (cell);
-	v = cell->value;
+	GnmValue const *v = gnm_cell_eval (cell);
 	return VALUE_IS_NUMBER (v) || VALUE_IS_EMPTY (v)
 		? value_get_as_float (v)
 		: gnm_nan;
@@ -1367,8 +1365,7 @@ gnm_solver_check_constraints (GnmSolver *solver)
 	}
 
 	target_cell = gnm_solver_param_get_target_cell (sp);
-	gnm_cell_eval (target_cell);
-	if (!target_cell || !VALUE_IS_NUMBER (target_cell->value))
+	if (!target_cell || !VALUE_IS_NUMBER (gnm_cell_eval (target_cell)))
 		return FALSE;
 
 	return TRUE;
@@ -1996,7 +1993,7 @@ gnm_solver_set_var (GnmSolver *sol, int i, gnm_float x)
 		return;
 
 	gnm_cell_set_value (cell, value_new_float (x));
-	cell_queue_recalc (cell);
+	gnm_cell_queue_recalc (cell);
 }
 
 void
@@ -2042,7 +2039,7 @@ gnm_solver_restore_vars (GnmSolver *sol, GPtrArray *vals)
 	for (ui = 0; ui < sol->input_cells->len; ui++) {
 		GnmCell *cell = g_ptr_array_index (sol->input_cells, ui);
 		gnm_cell_set_value (cell, g_ptr_array_index (vals, ui));
-		cell_queue_recalc (cell);
+		gnm_cell_queue_recalc (cell);
 	}
 
 	g_ptr_array_free (vals, TRUE);

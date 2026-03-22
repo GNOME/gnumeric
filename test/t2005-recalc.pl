@@ -16,7 +16,7 @@ push @sources, &GnumericTest::corpus('/recalc/');
 @sources = grep { !m{(^|/)(address\.xls|bitwise\.xls|operator\.xls|linest\.xls)$} } @sources;
 @sources = grep { !m{(^|/)(amath\.gnumeric|gamma\.gnumeric|crlibm\.gnumeric|ilog\.gnumeric)$} } @sources;
 @sources = grep { !m{(^|/)(numtheory\.gnumeric)$} } @sources;
-# Currently fails, pending investigation
+# Currently fails due to TABLE, pending investigation
 @sources = grep { !m{(^|/)(arrays\.xls)$} } @sources;
 
 my $nskipped = 0;

@@ -1495,8 +1495,7 @@ characterize_vec (Sheet *sheet, GnmRange *vector,
 			cell = sheet_cell_get (sheet, tmp.end.col+dx, tmp.end.row+dy);
 			if (cell == NULL)
 				return is_string;
-			gnm_cell_eval (cell);
-			v = cell->value;
+			v = gnm_cell_eval (cell);
 
 			if (v == NULL || !VALUE_IS_STRING(v))
 				return is_string;

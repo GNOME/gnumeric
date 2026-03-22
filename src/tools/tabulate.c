@@ -51,7 +51,7 @@ tabulation_eval (int dims, gnm_float const *x,
 
 	for (i = 0; i < dims; i++) {
 		gnm_cell_set_value (xcells[i], value_new_float (x[i]));
-		cell_queue_recalc (xcells[i]);
+		gnm_cell_queue_recalc (xcells[i]);
 	}
 
 	gnm_cell_eval (ycell);
@@ -261,7 +261,7 @@ gnm_tabulate (GnmTabulate *tab, WorkbookControl *wbc)
 		int i;
 		for (i = 0; i < tab->dims; i++) {
 			gnm_cell_set_value (tab->cells[i], old_values[i]);
-			cell_queue_recalc (tab->cells[i]);
+			gnm_cell_queue_recalc (tab->cells[i]);
 		}
 		gnm_cell_eval (tab->target);
 		gnm_app_recalc ();

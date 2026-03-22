@@ -83,7 +83,7 @@ eval_inputs_list (simulation_t *sim, gnm_float **outputs, int iter,
 	for (cur = sim->list_inputs; cur != NULL; cur = cur->next) {
 		GnmCell *cell = cur->data;
 
-		cell_queue_recalc (cell);
+		gnm_cell_queue_recalc (cell);
 		gnm_cell_eval (cell);
 
 		if (cell->value == NULL || ! VALUE_IS_NUMBER (cell->value)) {

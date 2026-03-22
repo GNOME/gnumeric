@@ -551,8 +551,7 @@ gnm_criteria_match (Sheet *sheet, int first_col, int first_row,
 				GnmCriteria *cond = cond_ptr->data;
 				test_cell = sheet_cell_get (sheet, cond->column, row);
 				if (test_cell != NULL)
-					gnm_cell_eval (test_cell);
-				if (!cond->fun (test_cell ? test_cell->value : empty, cond)) {
+				if (!cond->fun (test_cell ? gnm_cell_eval (test_cell) : empty, cond)) {
 					add_flag = FALSE;
 					break;
 				}

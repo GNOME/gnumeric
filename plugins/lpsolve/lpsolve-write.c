@@ -66,8 +66,7 @@ lpsolve_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
 	}
 
 	gnm_solver_set_vars (sol, x1);
-	gnm_cell_eval (target);
-	y = cst + value_get_as_float (target->value);
+	y = cst + value_get_as_float (gnm_cell_eval (target));
 
 	cs = gnm_solver_get_lp_coeffs (sol, target, x1, x2, err);
 	if (!cs)

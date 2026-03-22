@@ -763,8 +763,8 @@ csgd_eval (GnmDependent *dep)
 	// Nothing yet
 }
 
-static GSList *
-csgd_changed (GnmDependent *dep)
+static void
+csgd_changed (GnmDependent *dep, GPtrArray *extra)
 {
 	CSGroupDep *gd = (CSGroupDep *)dep;
 	CSGroup *g = (CSGroup *)gd; // Since the dep is first
@@ -782,8 +782,6 @@ csgd_changed (GnmDependent *dep)
 		// sheet_range_calc_spans ???
 		sheet_queue_redraw_range (sheet, r);
 	}
-
-	return NULL;
 }
 
 static GnmCellPos *

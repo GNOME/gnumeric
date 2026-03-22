@@ -8,6 +8,7 @@ Morten:
 	* Fix sampling tool gui in the periodic case.
 	* Fix fill-series tool problems with dates.
 	* Fix chi-square tool problems with labels.
+	* Add basic testing of most analysis tools.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.60

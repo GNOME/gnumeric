@@ -24,7 +24,7 @@ typedef struct {
 
 	// Perform actions required when dep changes.  Returns a list of
 	// further deps that should be considered changed.
-	GSList* (*changed) (GnmDependent *dep);
+	void (*changed) (GnmDependent *dep, GPtrArray *extra);
 
 	// In what position in the sheet does the dep sit?  (Optional.)
 	GnmCellPos* (*pos) (GnmDependent const *dep);
@@ -105,6 +105,7 @@ void	 dependent_set_sheet	   (GnmDependent *dep, Sheet *sheet);
 void	 dependent_link		   (GnmDependent *dep);
 void	 dependent_unlink	   (GnmDependent *dep);
 void	 dependent_queue_recalc	   (GnmDependent *dep);
+void     dependent_queue_recalc_list (GPtrArray *deps);
 void	 dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr);
 
 gboolean dependent_is_volatile     (GnmDependent *dep);
@@ -116,9 +117,9 @@ void dependent_move (GnmDependent *dep, int dx, int dy);
 GOUndo  *dependents_relocate	    (GnmExprRelocateInfo const *info);
 void	 dependents_link	    (GSList *deps);
 
-void	 gnm_cell_eval		    (GnmCell *cell);
-void	 cell_queue_recalc	    (GnmCell *cell);
-void	 cell_foreach_dep	    (GnmCell const *cell, GnmDepFunc func, gpointer user);
+void	 gnm_dep_cell_eval	    (GnmCell *cell);
+void     gnm_dep_deps_of_cellpos    (Sheet const *sheet, int col, int row, GPtrArray *deps);
+void     gnm_dep_deps_of_cell       (GnmCell const *cell, GPtrArray *deps);
 
 void sheet_region_queue_recalc	  (Sheet const *sheet, GnmRange const *range);
 void dependents_invalidate_sheet  (Sheet *sheet, gboolean destroy);
