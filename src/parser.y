@@ -1565,10 +1565,9 @@ setup_state (ParserState *pstate, const char *str,
 
 /**
  * gnm_expr_parse_str:
- *
- * @str   : The string to parse.
- * @pp	  : #GnmParsePos
- * @flags : See parse-utils for descriptions
+ * @str: The string to parse.
+ * @pp: #GnmParsePos
+ * @flags: See parse-utils for descriptions
  * @convs: (nullable): #GnmConventions
  * @error: (out) (nullable) (optional): ptr to store details of error.
  *

@@ -786,6 +786,7 @@ wbcg_edit_add_markup (WBCGtk *wbcg, PangoAttribute *attr)
 /**
  * wbcg_edit_get_markup:
  * @wbcg: #WBCGtk
+ * @full: if %TRUE, return full content markup
  *
  * Returns: (transfer none) (nullable): a PangoAttrList of the current markup while
  * editing.

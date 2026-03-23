@@ -383,12 +383,12 @@ cmd_paste_to_selection (WorkbookControl *wbc, SheetView *dest_sv, int paste_flag
 
 /**
  * cmd_shift_rows:
- * @wbc:	The error context.
- * @sheet	the sheet
- * @col		column marking the start of the shift
- * @start_row	first row
- * @end_row	end row
- * @count	numbers of columns to shift.  negative numbers will
+ * @wbc: The error context.
+ * @sheet: the sheet
+ * @col: column marking the start of the shift
+ * @start_row: first row
+ * @end_row: end row
+ * @count: numbers of columns to shift.  negative numbers will
  *		delete count columns, positive number will insert
  *		count columns.
  *

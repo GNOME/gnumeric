@@ -1212,13 +1212,12 @@ sheet_names_check (Sheet const *sheet, GnmRange const *r)
 
 /**
  * expr_name_perm_add:
- * @name:               name
- * @texpr:              string to be the value of the name
- * @is_editable:        whether this is a predefined action
+ * @sheet: #Sheet
+ * @name: name
+ * @texpr: value of the name
+ * @is_editable: whether this is a predefined action
  *
  * This is a wrapper around expr_name_add to set this as permanent name.
- *
- *
  **/
 void
 expr_name_perm_add (Sheet *sheet, char const *name,

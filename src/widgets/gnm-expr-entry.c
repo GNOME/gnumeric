@@ -2577,12 +2577,13 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
  * gnm_expr_entry_parse:
  * @gee: the entry
  * @pp: a parse position
+ * @perr: (out) (nullable): details of any error
  * @start_sel: start range selection when things change.
- * @flags:
+ * @flags: #GnmExprParseFlags
  *
  * Attempts to parse the content of the entry line honouring
  * the flags.
- */
+ **/
 GnmExprTop const *
 gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 		      GnmParseError *perr, gboolean start_sel,

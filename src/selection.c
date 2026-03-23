@@ -35,8 +35,7 @@
 
 /**
  * sv_selection_calc_simplification:
- * @sv:
- * @mode:
+ * @sv: #SheetView
  *
  * Create the simplified selection list if necessary
  *
@@ -691,12 +690,13 @@ sv_selection_simplify (SheetView *sv)
 /**
  * sv_selection_add_full:
  * @sv: #SheetView whose selection is append to.
- * @edit_col:
+ * @edit_col: column
  * @edit_row: cell to mark as the new edit cursor.
- * @base_col:
+ * @base_col: column
  * @base_row: stationary corner of the newly selected range.
- * @move_col:
+ * @move_col: column
  * @move_row: moving corner of the newly selected range.
+ * @mode: #GnmSelectionMode
  *
  * Prepends a range to the selection list and sets the edit position.
  **/

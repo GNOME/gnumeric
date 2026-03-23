@@ -305,11 +305,8 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 /**
  * dialog_realized:
- * @widget
- * @state:
- *
- *
- *
+ * @dialog: #GtkWidget
+ * @state: #GoalSeekState
  **/
 static void
 dialog_realized (G_GNUC_UNUSED GtkWidget *dialog,
@@ -320,10 +317,8 @@ dialog_realized (G_GNUC_UNUSED GtkWidget *dialog,
 
 /**
  * dialog_preload_selection:
- * @state:
- * @entry
- *
- *
+ * @state: #GoalSeekState
+ * @entry: #GnmExprEntry
  **/
 static void
 dialog_preload_selection (GoalSeekState *state, GnmExprEntry *entry)

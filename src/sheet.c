@@ -6805,8 +6805,9 @@ sheet_range_trim (Sheet const *sheet, GnmRange *r,
 /**
  * sheet_range_has_heading:
  * @sheet: Sheet to check
- * @src: GnmRange to check
- * @top: Flag
+ * @src: #GnmRange to check
+ * @top: %TRUE if we should check for a top row heading, %FALSE for a left column heading
+ * @ignore_styles: if %TRUE, ignore formatting when checking for headings
  *
  * Checks for a header row in @sheet!@src.  If top is true it looks for a
  * header row from the top and if false it looks for a header col from the
@@ -6816,8 +6817,9 @@ sheet_range_trim (Sheet const *sheet, GnmRange *r,
  **/
 gboolean
 sheet_range_has_heading (Sheet const *sheet, GnmRange const *src,
-			gboolean top, gboolean ignore_styles)
+			 gboolean top, gboolean ignore_styles)
 {
+
 	GnmCell const *a, *b;
 	int length, i;
 

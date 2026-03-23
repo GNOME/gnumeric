@@ -97,9 +97,9 @@ pg_fetch_cell (GnmPreviewGrid *pg, int col, int row)
 
 /**
  * pg_get_row_offset:
- * pg:
+ * @pg: #GnmPreviewGrid
  * @y: offset
- * @row_origin: if not null the origin of the row containing pixel @y is put here
+ * @row_origin: (out) (optional): the origin of the row containing pixel @y is put here
  *
  * Return value: Row containing pixel y (and origin in @row_origin)
  **/
@@ -129,8 +129,9 @@ pg_get_row_offset (GnmPreviewGrid *pg, int const y, int *row_origin)
 
 /**
  * pg_get_col_offset:
+ * @pg: #GnmPreviewGrid
  * @x: offset
- * @col_origin: if not null the origin of the column containing pixel @x is put here
+ * @col_origin: (out) (optional): the origin of the column containing pixel @x is put here
  *
  * Return value: Column containing pixel x (and origin in @col_origin)
  **/

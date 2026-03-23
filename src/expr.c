@@ -3606,10 +3606,11 @@ gnm_expr_top_referenced_sheets (GnmExprTop const *texpr)
 /**
  * gnm_expr_top_is_err:
  * @texpr: #GnmExprTop
+ * @e: #GnmStdError
  *
  * Returns: %TRUE, if the exprssion in an error expression of the
  * indicated type.
- */
+ **/
 gboolean
 gnm_expr_top_is_err (GnmExprTop const *texpr, GnmStdError err)
 {

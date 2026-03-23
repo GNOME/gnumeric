@@ -584,6 +584,11 @@ gnm_rangeref_normalize_pp (GnmRangeRef const *ref, GnmParsePos const *pp,
 
 /**
  * gnm_rangeref_normalize:
+ * @rr: reference
+ * @ep: evaluation position
+ * @start_sheet: (out) (transfer none): starting sheet
+ * @end_sheet: (out) (transfer none): ending sheet
+ * @dest: (out): range
  *
  * Take a range_ref and normalize it by converting to absolute coords and
  * handling inversions.

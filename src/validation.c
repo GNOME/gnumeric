@@ -246,14 +246,15 @@ gnm_validation_op_get_type (void)
 /**
  * gnm_validation_new:
  * @style: #ValidationStyle
+ * @type: #ValidationType
  * @op: #ValidationOp
  * @sheet: #Sheet
  * @title: will be copied.
  * @msg: will be copied.
  * @texpr0: (transfer full) (nullable): first expression
  * @texpr1: (transfer full) (nullable): second expression
- * @allow_blank:
- * @use_dropdown:
+ * @allow_blank: if %TRUE, allow blank cells
+ * @use_dropdown: if %TRUE, show a dropdown list
  *
  * Does _NOT_ require all necessary information to be set here.
  * gnm_validation_set_expr can be used to change the expressions after creation,

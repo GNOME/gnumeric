@@ -67,8 +67,7 @@ typedef struct {
 
 /**
  * one_mean_test_tool_update_common_sensitivity_cb:
- * @dummy:
- * @state:
+ * @state: #OneeMeanTestToolState
  *
  * Update the dialog widgets sensitivity
  **/

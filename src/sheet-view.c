@@ -856,8 +856,9 @@ gnm_sheet_view_selection_intersects_filter_rows (SheetView const *sv)
 /**
  * gnm_sheet_view_selection_extends_filter:
  * @sv: #SheetView
+ * @f: #GnmFilter
  *
- * Returns: (nullable): #GnmFilter whose rows intersect the rows
+ * Returns: (nullable): #GnmRange whose rows intersect the rows
  *          of the current selection range to which the filter can be
  *          extended.
  **/

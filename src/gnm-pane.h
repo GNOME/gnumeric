@@ -88,7 +88,7 @@ gboolean gnm_pane_handle_motion (GnmPane *pane,
 				 GocCanvas    *canvas,
 				 gint64 x, gint64 y,
 				 GnmPaneSlideFlags   slide_flags,
-				 GnmPaneSlideHandler handler,
+				 GnmPaneSlideHandler slide_handler,
 				 gpointer user_data);
 
 /************************************************************************/

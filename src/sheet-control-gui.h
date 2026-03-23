@@ -23,7 +23,7 @@ void scg_object_anchor_to_coords (SheetControlGUI const *scg,
 void scg_object_coords_to_anchor (SheetControlGUI const *scg,
 				  double const *coords, SheetObjectAnchor *in_out);
 
-void scg_objects_drag		(SheetControlGUI *scg, GnmPane *gcanvas,
+void scg_objects_drag		(SheetControlGUI *scg, GnmPane *pane,
 				 SheetObject *primary,
 				 gdouble *dx, gdouble *dy,
 				 int drag_type, gboolean symmetric, gboolean snap_to_grid,

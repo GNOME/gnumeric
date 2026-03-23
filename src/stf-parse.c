@@ -353,6 +353,7 @@ stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, guni
 
 /**
  * stf_parse_options_csv_set_indicator_2x_is_single:
+ * @parseoptions: #StfParseOptions_t
  * @indic_2x: a boolean value indicating whether we want to see two
  *		adjacent string indicators as a single string indicator
  *		that is part of the cell, rather than a terminator.
@@ -382,6 +383,7 @@ stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean 
 
 /**
  * stf_parse_options_csv_set_trim_seps:
+ * @parseoptions: #StfParseOptions_t
  * @trim_seps: a boolean value indicating whether we want to ignore
  *               separators at the beginning of lines
  **/
@@ -1941,6 +1943,7 @@ done:
 
 /**
  * stf_parse_options_guess_formats:
+ * @po: #StfParseOptions_t
  * @data: the CSV input data.
  *
  * This function attempts to recognize data formats on a column-by-column

@@ -1096,10 +1096,11 @@ colrow_get_visibility_toggle (SheetView *sv, gboolean is_cols,
  * @sheet: The #Sheet to change
  * @is_cols: %TRUE for columns, %FALSE for rows.
  * @visible: Should we unhide or hide the cols/rows.
+ * @list: #ColRowVisList
  *
  * This is the high level command that is wrapped by undo and redo.
  * It should not be called by other commands.
- */
+ **/
 void
 colrow_set_visibility_list (Sheet *sheet, gboolean is_cols,
 			    gboolean visible, ColRowVisList *list)

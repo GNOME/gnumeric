@@ -1768,8 +1768,10 @@ cb_pane_sliding (GnmPane *pane)
  * gnm_pane_handle_motion:
  * @pane: The GnmPane managing the scroll
  * @canvas: The Canvas the event comes from
- * @slide_flags:
- * @handler: (scope async): The handler when sliding
+ * @x: x coordinate
+ * @y: y coordinate
+ * @slide_flags: #GnmPaneSlideFlags
+ * @slide_handler: (scope async): The handler when sliding
  * @user_data: closure data
  *
  * Handle a motion event from a @canvas and scroll the @pane
@@ -2903,6 +2905,7 @@ static GSF_CLASS (ItemAcetate, item_acetate,
 /**
  * new_control_point:
  * @pane: #GnmPane
+ * @so: #SheetObject
  * @idx:    control point index to be created
  * @x:      x coordinate of control point
  * @y:      y coordinate of control point

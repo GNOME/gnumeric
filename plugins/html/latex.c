@@ -468,12 +468,12 @@ latex2e_write_font_encodings (GsfOutput *output, Sheet *sheet, GnmRange const *r
 
 /**
  * latex2e_write_file_header:
- *
  * @output: Output stream where the cell contents will be written.
+ * @sheet: #Sheet
+ * @range: #GnmRange
  *
- * This ouputs the LaTeX header. Kept separate for esthetics.
- */
-
+ * This outputs the LaTeX header. Kept separate for esthetics.
+ **/
 static void
 latex2e_write_file_header (GsfOutput *output, Sheet *sheet, GnmRange const *range)
 {
@@ -790,20 +790,20 @@ latex2e_print_vert_border (GsfOutput *output, GnmStyleBorderType style)
 
 /**
  * latex2e_write_blank_multicolumn_cell:
- *
  * @output: output stream where the cell contents will be written.
- * @star_col:
- * @start_row:
+ * @start_col: column
+ * @start_row: row
  * @num_merged_cols: an integer value of the number of columns to merge.
  * @num_merged_rows: an integer value of the number of rows to merge.
+ * @index: index
+ * @borders: (array): borders
  * @sheet:  the current sheet.
  *
  * This function creates all the LaTeX code for the cell of a table (i.e. all
  * the code that might fall between two ampersands (&)), assuming that
  * the cell is in fact NULL. We therefore have only to worry about a few
  * formatting issues.
- *
- */
+ **/
 static void
 latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col,
 				      G_GNUC_UNUSED int start_row,
@@ -892,12 +892,13 @@ latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col,
 
 /**
  * latex2e_write_multicolumn_cell:
- *
  * @output: output stream where the cell contents will be written.
  * @cell:   the cell whose contents are to be written.
- * @star_col:
+ * @start_col: column
  * @num_merged_cols: an integer value of the number of columns to merge.
  * @num_merged_rows: an integer value of the number of rows to merge.
+ * @index: index
+ * @borders: (array): borders
  * @sheet:  the current sheet.
  *
  * This function creates all the LaTeX code for the cell of a table (i.e. all
@@ -905,7 +906,7 @@ latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col,
  *
  * Note: we are _not_ putting single cell into \multicolumns since this
  * makes it much more difficult to change column widths later on.
- */
+ **/
 static void
 latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 				int num_merged_cols, int num_merged_rows,

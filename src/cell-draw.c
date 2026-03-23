@@ -424,12 +424,13 @@ cell_draw_v_extension_markers (cairo_t *cr,
  * cell_draw:
  * @cell: #GnmCell const
  * @cr: #cairo_t
- * @x:
- * @y:
+ * @x: x coordinate
+ * @y: y coordinate
  * @width: including margins and leading grid line
  * @height: including margins and leading grid line
- * @h_center:
- * @style: (nullable):
+ * @h_center: horizontal center
+ * @show_extension_markers: if %TRUE, show markers if the cell is too narrow
+ * @style: (nullable): #GnmCellDrawStyle
  **/
 void
 cell_draw (GnmCell const *cell, cairo_t *cr,

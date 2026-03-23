@@ -606,8 +606,9 @@ gnm_position_tooltip (GtkWidget *tip, int px, int py, gboolean horizontal)
 
 /**
  * gnm_gtk_builder_load:
+ * @uifile: file to load
+ * @domain: (nullable): translation domain
  * @cc: #GOCmdContext
- * @uifile:
  *
  * Simple utility to open ui files
  * Returns: (transfer full): the newly allocated #GtkBuilder.

@@ -2879,11 +2879,14 @@ cb_drag_selected_objects (SheetObject *so, double *coords, ObjDragInfo *info)
 /**
  * scg_objects_drag:
  * @scg: #SheetControlGUI
+ * @pane: #GnmPane
  * @primary: #SheetObject (optionally NULL)
- * @dx:
- * @dy:
- * @drag_type:
- * @symmetric:
+ * @dx: (inout): horizontal distance
+ * @dy: (inout): vertical distance
+ * @drag_type: what part of the object is being dragged
+ * @symmetric: if %TRUE, move symmetrically
+ * @snap_to_grid: if %TRUE, snap to grid
+ * @is_mouse_move: if %TRUE, this is a real mouse move
  *
  * Move the control points and drag views of the currently selected objects to
  * a new position.  This movement is only made in @scg not in the actual
@@ -3182,6 +3185,8 @@ scg_comment_display_filter_cb (PangoAttribute *attribute, gboolean *state)
  * scg_comment_display:
  * @scg: The SheetControl
  * @cc: A cell comment
+ * @x: x coordinate
+ * @y: y coordinate
  *
  */
 void
@@ -3292,6 +3297,8 @@ cb_cell_comment_timer (SheetControlGUI *scg)
  * scg_comment_select:
  * @scg: The SheetControl
  * @cc: A cell comment
+ * @x: x coordinate
+ * @y: y coordinate
  *
  * Prepare @cc for display.
  */
@@ -3385,6 +3392,10 @@ scg_edit_stop (SheetControlGUI *scg)
 /**
  * scg_rangesel_changed:
  * @scg:   The scg
+ * @base_col: column
+ * @base_row: row
+ * @move_col: column
+ * @move_row: row
  *
  * Notify expr_entry that the expression range has changed.
  **/

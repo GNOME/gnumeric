@@ -1395,6 +1395,7 @@ workbook_sheet_get_free_name (Workbook *wb,
  * @wb: #Workbook in which to rename sheets
  * @sheet_indices: (element-type int): list of sheet indices (ignore -1)
  * @new_names: (element-type utf8): list of new names
+ * @cc: command context
  *
  * Adjusts the names of the sheets. We assume that everything is
  * valid. If in doubt call workbook_sheet_reorder_check first.

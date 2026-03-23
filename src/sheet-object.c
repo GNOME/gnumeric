@@ -1289,8 +1289,8 @@ sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
  * sheet_objects_clear:
  * @sheet: the sheet.
  * @r: (nullable): #GnmRange to look in
- * @t #GType
- * @pundo: (out) (nullable):
+ * @t: #GType
+ * @pundo: (out) (nullable): #GOUndo
  *
  * Removes the objects in the region.
  **/

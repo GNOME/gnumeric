@@ -234,8 +234,9 @@ dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
 
 /**
  * dao_prepare_output:
- * @dao:
- * @name:
+ * @wbc: #WorkbookControl
+ * @dao: #data_analysis_output_t
+ * @name: name
  *
  * Prepares the output by creating a new sheet or workbook as appropriate
  **/
@@ -502,7 +503,7 @@ dao_set_cell (data_analysis_output_t *dao, int col, int row, const char *text)
 
 /**
  * dao_set_cell_printf:
- * @dao:
+ * @dao: #data_analysis_output_t
  * @col: column
  * @row: row
  * @fmt: printf-style format
@@ -860,11 +861,13 @@ dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
 
 /**
  * dao_set_align:
- * @dao:
- * @col1:
- * @row1:
- * @col2:
- * @row2:
+ * @dao: #data_analysis_output_t
+ * @col1: start column
+ * @row1: start row
+ * @col2: end column
+ * @row2: end row
+ * @align_h: #GnmHAlign
+ * @align_v: #GnmVAlign
  *
  * Set the given horizontal and vertical alignment to a cell range
  **/

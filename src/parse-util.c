@@ -951,10 +951,11 @@ unquote (char *dst, char const *src, int n)
 /**
  * wbref_parse:
  * @convs: #GnmConventions const
- * @start:
- * @wb:
+ * @start: start of the string to parse
+ * @wb: (out): where the workbook is returned
+ * @ref_wb: #Workbook
  *
- * Returns: %NULL if there is a valid workbook name but it is unknown.
+ * Returns: (nullable): %NULL if there is a valid workbook name but it is unknown.
  *           If the string is a valid workbook known name it returns a pointer
  *           the end of the name.
  *           Otherwise returns @start and does not modify @wb.

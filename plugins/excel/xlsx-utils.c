@@ -326,15 +326,15 @@ xlsx_write_r_q_func (GnmConventionsOut *out, char const *name, char const *name_
 
 /**
  * xlsx_func_r_q_output_handler:
- *
  * @out: #GnmConventionsOut
  * @func: #GnmExprFunction
  * @n: last index used for a parameter
  * @n_p: index of the probability argument, usually 0
- * @name:
+ * @name: function name
+ * @name_rt: (nullable): right tail function name
  *
  * Print the appropriate simple function call
- */
+ **/
 static gboolean
 xlsx_func_r_q_output_handler (GnmConventionsOut *out, GnmExprFunction const *func, int n, int n_p,
 			      char const *name, char const *name_rt)
