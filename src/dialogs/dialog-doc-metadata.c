@@ -2347,7 +2347,8 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 
 /**
  * dialog_doc_metadata_new:
- * @wbcg: WBCGtk
+ * @wbcg: #WBCGtk
+ * @page: initial page index
  *
  * Creates a new instance of the dialog.
  **/

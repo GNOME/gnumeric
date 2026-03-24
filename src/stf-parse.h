@@ -83,13 +83,13 @@ void stf_parse_options_set_trim_spaces                 (StfParseOptions_t *parse
 void stf_parse_options_csv_set_separators              (StfParseOptions_t *parseoptions,
 							char const *character, GSList const *seps);
 void stf_parse_options_csv_set_stringindicator         (StfParseOptions_t *parseoptions,
-							gunichar const stringindicator);
+							gunichar stringindicator);
 void stf_parse_options_csv_set_indicator_2x_is_single  (StfParseOptions_t *parseoptions,
-							gboolean const indic_2x);
+							gboolean indic_2x);
 void stf_parse_options_csv_set_duplicates              (StfParseOptions_t *parseoptions,
-							gboolean const duplicates);
+							gboolean duplicates);
 void stf_parse_options_csv_set_trim_seps               (StfParseOptions_t *parseoptions,
-							gboolean const trim_seps);
+							gboolean trim_seps);
 void stf_parse_options_fixed_splitpositions_clear      (StfParseOptions_t *parseoptions);
 void stf_parse_options_fixed_splitpositions_add        (StfParseOptions_t *parseoptions,
 							int position);

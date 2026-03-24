@@ -493,14 +493,16 @@ print_hf_line (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet,
 
 /**
  * print_page:
- * @pj:        printing context
- * @gsr:      the page information
+ * @operation: #GtkPrintOperation
+ * @context: #GtkPrintContext
+ * @pi: #PrintingInstance
+ * @gsr: the page information
  *
  * Excel prints repeated rows like this: Pages up to and including the page
  * where the first of the repeated rows "naturally" occurs are printed in
  * the normal way. On subsequent pages, repated rows are printed before the
  * regular flow.
- */
+ **/
 static gboolean
 print_page (G_GNUC_UNUSED GtkPrintOperation *operation,
 	    GtkPrintContext   *context,
@@ -601,7 +603,6 @@ print_page (G_GNUC_UNUSED GtkPrintOperation *operation,
 			sheet_object_draw_cairo_sized (so, cr, width, height);
 		}
 	} else {
-
 		if (pinfo->center_horizontally == 1 || pinfo->center_vertically == 1) {
 			double shift_x = 0;
 			double shift_y = 0;
@@ -1414,7 +1415,6 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 		  gint               page_nr,
 		  gpointer           user_data)
 {
-
 	PrintingInstance * pi = (PrintingInstance *) user_data;
 	SheetPageRange * gsr;
 
@@ -2005,7 +2005,6 @@ gnm_draw_so_page_cb (G_GNUC_UNUSED GtkPrintOperation *operation,
 		     G_GNUC_UNUSED gint               page_nr,
 		     gpointer                         user_data)
 {
-
 	SheetObject *so = (SheetObject *) user_data;
 	cairo_t *cr= gtk_print_context_get_cairo_context (context);
 	Sheet *sheet = sheet_object_get_sheet (so);

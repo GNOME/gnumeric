@@ -484,8 +484,8 @@ distribution_callback (G_GNUC_UNUSED GtkWidget *widget,
 
 /**
  * dialog_random_realized:
- * @widget
- * @state:
+ * @widget: #GtkWidget
+ * @state: #RandomToolState
  *
  * Make initial geometry of distribution table permanent.
  *
@@ -495,7 +495,6 @@ distribution_callback (G_GNUC_UNUSED GtkWidget *widget,
  * realized. This callback for "realized" makes this size the user specified
  * size so that the table will not shrink when we later change label texts and
  * hide/show widgets.
-  *
  **/
 static void
 dialog_random_realized (GtkWidget *widget, RandomToolState *state)

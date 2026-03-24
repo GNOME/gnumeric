@@ -537,7 +537,7 @@ dependent_queue_recalc_main (GPtrArray *work)
  * Queues any elements of @deps for recalc that are not already queued,
  * and marks all elements as needing a recalc.
  *
- * On exit, deps will be empty (but still valid).
+ * On exit, @deps will be empty (but still valid).
  */
 void
 dependent_queue_recalc_list (GPtrArray *deps)

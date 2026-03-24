@@ -76,17 +76,17 @@ stf_warning (GOIOContext *context, char const *msg)
 
 
 /*
- * stf_open_and_read:
- * @filename: name of the file to open&read
+ * stf_read_file:
+ * @context: #GOIOContext
+ * @input: source to read
+ * @readsize: (out): number of bytes read.
  *
- * Will open filename, read the file into a g_alloced memory buffer
+ * Read whole file.
  *
- * NOTE : The returned buffer has to be g_freed by the calling routine.
- *
- * returns : a buffer containing the file contents
+ * Returns : (transfer full): text read from file
  */
 static char *
-stf_open_and_read (G_GNUC_UNUSED GOIOContext *context, GsfInput *input, size_t *readsize)
+stf_read_file (G_GNUC_UNUSED GOIOContext *context, GsfInput *input, size_t *readsize)
 {
 	gpointer result;
 	gulong    allocsize;
@@ -121,7 +121,7 @@ stf_preparse (GOIOContext *context, GsfInput *input, size_t *data_len)
 {
 	char *data;
 
-	data = stf_open_and_read (context, input, data_len);
+	data = stf_read_file (context, input, data_len);
 
 	if (!data) {
 		if (context)

@@ -115,6 +115,7 @@ make_model (GPtrArray *lines)
 /**
  * stf_preview_new: (skip)
  * @data_container: a container in which to put a treeview.
+ * @date_conv: #GODateConventions
  *
  * Returns: (transfer full): a new renderdata struct
  **/
@@ -312,7 +313,6 @@ stf_preview_colformats_clear (RenderData_t *renderdata)
 void
 stf_preview_colformats_add (RenderData_t *renderdata, GOFormat *format)
 {
-
 	g_return_if_fail (renderdata != NULL);
 	g_return_if_fail (format != NULL);
 

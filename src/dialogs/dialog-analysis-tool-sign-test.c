@@ -69,8 +69,7 @@ typedef struct {
 
 /**
  * sign_test_tool_update_common_sensitivity_cb:
- * @dummy:
- * @state:
+ * @state: #SignTestToolState
  *
  * Update the dialog widgets sensitivity
  **/

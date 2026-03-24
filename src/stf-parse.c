@@ -134,8 +134,7 @@ gnm_g_string_free (GString *s)
 /**
  * stf_parse_options_new:
  *
- * This will return a new StfParseOptions_t struct.
- * The struct should, after being used, freed with stf_parse_options_free.
+ * Returns: (transfer full): a new StfParseOptions_t struct.
  **/
 static StfParseOptions_t *
 stf_parse_options_new (void)
@@ -180,8 +179,9 @@ stf_parse_options_new (void)
 
 /**
  * stf_parse_options_free:
+ * @parseoptions: (transfer full): #StfParseOptions_t
  *
- * will free @parseoptions, note that this will not free the splitpositions
+ * Will free @parseoptions, note that this will not free the splitpositions
  * member (GArray) of the struct, the caller is responsible for that.
  **/
 void
@@ -224,6 +224,11 @@ stf_parse_options_ref (StfParseOptions_t *parseoptions)
 	return parseoptions;
 }
 
+/**
+ * stf_parse_options_get_type:
+ *
+ * Returns: the #GType for #StfParseOptions_t.
+ **/
 GType
 stf_parse_options_get_type (void)
 {
@@ -237,6 +242,13 @@ stf_parse_options_get_type (void)
 	return t;
 }
 
+/**
+ * stf_parse_options_set_type:
+ * @parseoptions: #StfParseOptions_t
+ * @parsetype: #StfParseType_t
+ *
+ * Sets the parse type.
+ **/
 void
 stf_parse_options_set_type (StfParseOptions_t *parseoptions, StfParseType_t const parsetype)
 {
@@ -274,10 +286,11 @@ compile_terminators (StfParseOptions_t *parseoptions)
 
 /**
  * stf_parse_options_add_line_terminator:
+ * @parseoptions: #StfParseOptions_t
+ * @terminator: line terminator
  *
  * This will add to the line terminators, in both the Fixed width and CSV delimited importers
  * this indicates the end of a row.
- *
  **/
 void
 stf_parse_options_add_line_terminator (StfParseOptions_t *parseoptions, char const *terminator)
@@ -291,10 +304,10 @@ stf_parse_options_add_line_terminator (StfParseOptions_t *parseoptions, char con
 
 /**
  * stf_parse_options_clear_line_terminator:
+ * @parseoptions: #StfParseOptions_t
  *
  * This will clear the line terminator, in both the Fixed width and CSV delimited importers
  * this indicates the end of a row.
- *
  **/
 void
 stf_parse_options_clear_line_terminator (StfParseOptions_t *parseoptions)
@@ -308,6 +321,8 @@ stf_parse_options_clear_line_terminator (StfParseOptions_t *parseoptions)
 
 /**
  * stf_parse_options_set_trim_spaces:
+ * @parseoptions: #StfParseOptions_t
+ * @trim_spaces: #StfTrimType_t
  *
  * If enabled will trim spaces in every parsed field on left and/or right
  * sides.
@@ -323,10 +338,8 @@ stf_parse_options_set_trim_spaces (StfParseOptions_t *parseoptions, StfTrimType_
 /**
  * stf_parse_options_csv_set_separators:
  * @parseoptions: #StfParseOptions_t
- * @character:
+ * @character: (nullable): single-character separators
  * @seps: (element-type utf8): the separators to be used
- *
- * A copy is made of the parameters.
  **/
 void
 stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions,
@@ -343,6 +356,13 @@ stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions,
 		g_slist_copy_deep ((GSList *)seps, (GCopyFunc)g_strdup, NULL);
 }
 
+/**
+ * stf_parse_options_csv_set_stringindicator:
+ * @parseoptions: #StfParseOptions_t
+ * @stringindicator: #gunichar
+ *
+ * Sets the string indicator.
+ **/
 void
 stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, gunichar const stringindicator)
 {
@@ -360,7 +380,7 @@ stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, guni
  **/
 void
 stf_parse_options_csv_set_indicator_2x_is_single (StfParseOptions_t *parseoptions,
-						  gboolean const indic_2x)
+						  gboolean indic_2x)
 {
 	g_return_if_fail (parseoptions != NULL);
 
@@ -369,12 +389,12 @@ stf_parse_options_csv_set_indicator_2x_is_single (StfParseOptions_t *parseoption
 
 /**
  * stf_parse_options_csv_set_duplicates:
- * @parseoptions:
+ * @parseoptions: #StfParseOptions_t
  * @duplicates: a boolean value indicating whether we want to see two
  *               separators right behind each other as one
  **/
 void
-stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean const duplicates)
+stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean duplicates)
 {
 	g_return_if_fail (parseoptions != NULL);
 
@@ -388,7 +408,7 @@ stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean 
  *               separators at the beginning of lines
  **/
 void
-stf_parse_options_csv_set_trim_seps (StfParseOptions_t *parseoptions, gboolean const trim_seps)
+stf_parse_options_csv_set_trim_seps (StfParseOptions_t *parseoptions, gboolean trim_seps)
 {
 	g_return_if_fail (parseoptions != NULL);
 
@@ -397,6 +417,7 @@ stf_parse_options_csv_set_trim_seps (StfParseOptions_t *parseoptions, gboolean c
 
 /**
  * stf_parse_options_fixed_splitpositions_clear:
+ * @parseoptions: #StfParseOptions_t
  *
  * This will clear the splitpositions (== points on which a line is split)
  **/
@@ -415,6 +436,8 @@ stf_parse_options_fixed_splitpositions_clear (StfParseOptions_t *parseoptions)
 
 /**
  * stf_parse_options_fixed_splitpositions_add:
+ * @parseoptions: #StfParseOptions_t
+ * @position: position
  *
  * @position will be added to the splitpositions.
  **/
@@ -437,6 +460,13 @@ stf_parse_options_fixed_splitpositions_add (StfParseOptions_t *parseoptions, int
 	g_array_insert_val (parseoptions->splitpositions, ui, position);
 }
 
+/**
+ * stf_parse_options_fixed_splitpositions_remove:
+ * @parseoptions: #StfParseOptions_t
+ * @position: position
+ *
+ * @position will be removed from the splitpositions.
+ **/
 void
 stf_parse_options_fixed_splitpositions_remove (StfParseOptions_t *parseoptions, int position)
 {
@@ -454,12 +484,25 @@ stf_parse_options_fixed_splitpositions_remove (StfParseOptions_t *parseoptions, 
 	}
 }
 
+/**
+ * stf_parse_options_fixed_splitpositions_count:
+ * @parseoptions: #StfParseOptions_t
+ *
+ * Returns: the number of split positions.
+ **/
 int
 stf_parse_options_fixed_splitpositions_count (StfParseOptions_t *parseoptions)
 {
 	return parseoptions->splitpositions->len;
 }
 
+/**
+ * stf_parse_options_fixed_splitpositions_nth:
+ * @parseoptions: #StfParseOptions_t
+ * @n: index
+ *
+ * Returns: the @n-th split position.
+ **/
 int
 stf_parse_options_fixed_splitpositions_nth (StfParseOptions_t *parseoptions, int n)
 {
@@ -523,6 +566,9 @@ trim_spaces_inplace (char *field, StfParseOptions_t const *parseoptions)
 
 /**
  * stf_parse_csv_is_separator:
+ * @character: head of string
+ * @chr: (nullable):
+ * @str: (element-type utf8): 
  *
  * Returns: %NULL if @character is not a separator, a pointer to the character
  * after the separator otherwise.
@@ -562,11 +608,11 @@ stf_parse_csv_is_separator (char const *character, char const *chr, GSList const
 
 /*
  * stf_parse_eat_separators:
+ * @src: parsing source
+ * @parseoptions: #StfParseOptions_t
  *
- * skip over leading separators
- *
+ * Skip over leading separators
  */
-
 static void
 stf_parse_eat_separators (Source_t *src, StfParseOptions_t *parseoptions)
 {
@@ -668,7 +714,6 @@ stf_parse_csv_cell (GString *text, Source_t *src, StfParseOptions_t *parseoption
 		/* Unquoted field.  */
 
 		while (*cur && !compare_terminator (cur, parseoptions)) {
-
 			char const *post = stf_parse_csv_is_separator
 				(cur, parseoptions->sep.chr, parseoptions->sep.str);
 			if (post) {
@@ -701,11 +746,12 @@ stf_parse_csv_cell (GString *text, Source_t *src, StfParseOptions_t *parseoption
 
 /**
  * stf_parse_csv_line:
+ * @src: parsing source
+ * @parseoptions: #StfParseOptions_t
  *
  * This will parse one line from the current @src->position.
- * NOTE: The calling routine is responsible for freeing the result.
  *
- * returns : a GPtrArray of char*'s
+ * Returns: (transfer full) (element-type utf8): split line
  **/
 static GPtrArray *
 stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
@@ -754,8 +800,10 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 
 /**
  * stf_parse_fixed_cell:
+ * @src: parsing source
+ * @parseoptions: #StfParseOptions_t
  *
- * returns a pointer to the parsed cell contents.
+ * Returns: (transfer full): parsed cell text
  **/
 static char *
 stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
@@ -790,11 +838,13 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 
 /**
  * stf_parse_fixed_line:
+ * @src: parsing source
+ * @parseoptions: #StfParseOptions_t
  *
  * This will parse one line from the current @src->position.
  * It will return a GPtrArray with the cell contents as strings.
-
- * NOTE: The calling routine is responsible for freeing result.
+ *
+ * Returns: (transfer full) (element-type utf8): split line
  **/
 static GPtrArray *
 stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
@@ -955,6 +1005,14 @@ stf_parse_lines (StfParseOptions_t *parseoptions,
 	return lines;
 }
 
+/**
+ * stf_parse_find_line:
+ * @parseoptions: #StfParseOptions_t
+ * @data: data
+ * @line: line index
+ *
+ * Returns: (transfer none): a pointer to the start of the @line-th line.
+ **/
 char const *
 stf_parse_find_line (StfParseOptions_t *parseoptions,
 		     char const *data,
@@ -1289,6 +1347,19 @@ stf_read_remember_settings (Workbook *book, StfParseOptions_t *po)
 	}
 }
 
+/**
+ * stf_parse_sheet:
+ * @parseoptions: #StfParseOptions_t
+ * @data: data
+ * @data_end: (nullable): end of data
+ * @sheet: #Sheet
+ * @start_col: start column
+ * @start_row: start row
+ *
+ * Parses @data into @sheet starting at @start_col, @start_row.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 stf_parse_sheet (StfParseOptions_t *parseoptions,
 		 char const *data, char const *data_end,
@@ -1436,6 +1507,17 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	return result;
 }
 
+/**
+ * stf_parse_region:
+ * @parseoptions: #StfParseOptions_t
+ * @data: data
+ * @data_end: (nullable): end of data
+ * @wb: (nullable): #Workbook
+ *
+ * Parses @data into a #GnmCellRegion.
+ *
+ * Returns: (transfer full): the new #GnmCellRegion.
+ **/
 GnmCellRegion *
 stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const *data_end,
 		  Workbook const *wb)

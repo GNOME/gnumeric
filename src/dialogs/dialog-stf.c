@@ -229,9 +229,14 @@ stf_dialog_editables_enter (StfDialogData *pagedata)
 
 /**
  * stf_dialog: (skip)
- * @wbcg: (nullable):
+ * @wbcg: (nullable): #WBCGtk
+ * @opt_encoding: (nullable): optional encoding
+ * @fixed_encoding: if %TRUE, use fixed encoding
+ * @opt_locale: (nullable): optional locale
+ * @fixed_locale: if %TRUE, use fixed locale
  * @source: name of the file we are importing (or data) in UTF-8
  * @data: the data itself
+ * @data_len: length of @data
  *
  * This will start the import.
  * (NOTE: you have to free the DialogStfResult_t that this function returns yourself)

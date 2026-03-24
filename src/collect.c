@@ -1046,6 +1046,7 @@ collect_strings (int argc, GnmExprConstPtr const *argv,
  * @argv: (in) (array length=argc): function arguments
  * @ei: #GnmFuncEvalInfo describing evaluation context
  * @func: (scope call): implementation function
+ * @user: (nullable): ignored.
  * @flags: #CollectFlags flags describing the collection and interpretation
  * of values from @argv.
  * @func_error: A #GnmStdError to use to @func indicates an error.
@@ -1058,11 +1059,11 @@ collect_strings (int argc, GnmExprConstPtr const *argv,
  **/
 GnmValue *
 string_range_function (int argc, GnmExprConstPtr const *argv,
-		       GnmFuncEvalInfo *ei,
-		       string_range_function_t func,
-		       gpointer user,
-		       CollectFlags flags,
-		       GnmStdError func_error)
+                       GnmFuncEvalInfo *ei,
+                       string_range_function_t func,
+                       gpointer user,
+                       CollectFlags flags,
+                       GnmStdError func_error)
 {
 	GnmValue *error = NULL;
 	GPtrArray *vals;

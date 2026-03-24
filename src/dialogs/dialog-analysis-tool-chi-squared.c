@@ -110,7 +110,8 @@ calc_min_size (GnmValue *input_range)
 
 /**
  * chi_squared_tool_update_sensitivity_cb:
- * @state:
+ * @dummy: #GtkWidget
+ * @state: #ChiSquaredIToolState
  *
  * Update the dialog widgets sensitivity.
  * We cannot use tool_update_sensitivity_cb

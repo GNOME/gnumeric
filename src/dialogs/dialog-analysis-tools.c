@@ -317,11 +317,11 @@ cb_tool_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 /**
  * dialog_tool_init_buttons:
- * @state:
- * @ok_function:
+ * @state: #GnmGenericToolState
+ * @ok_function: GCallback for OK button
+ * @close_function: (nullable): GCallback for Close/Cancel button
  *
  * Setup the buttons
- *
  **/
 static void
 dialog_tool_init_buttons (GnmGenericToolState *state,
@@ -358,14 +358,20 @@ dialog_tool_init_buttons (GnmGenericToolState *state,
 
 /**
  * dialog_tool_init: (skip)
- * @state:
- * @gui_name:
- * @dialog_name:
- * @ok_function:
- * @sensitivity_cb:
+ * @state: #GnmGenericToolState
+ * @wbcg: #WBCGtk
+ * @sheet: #Sheet
+ * @help_file: help file name
+ * @gui_name: name of the gui
+ * @dialog_name: name of the dialog
+ * @error_str: error string
+ * @key: keyed dialog name
+ * @ok_function: GCallback for OK button
+ * @close_function: (nullable): GCallback for Close/Cancel button
+ * @sensitivity_cb: GCallback for sensitivity updates
+ * @flags: #GnmExprEntryFlags
  *
  * Create the dialog (guru).
- *
  **/
 gboolean
 dialog_tool_init (GnmGenericToolState *state,
@@ -502,11 +508,11 @@ dialog_tool_init (GnmGenericToolState *state,
 
 /**
  * tool_load_selection:
- * @state:
+ * @state: #GnmGenericToolState
+ * @allow_multiple: if %TRUE, allow multiple ranges
  *
  * load the current selection in the output and input entries
  * show the dialog and focus the input_entry
- *
  **/
 void
 tool_load_selection (GnmGenericToolState *state, gboolean allow_multiple)
@@ -1095,7 +1101,8 @@ cb_desc_stat_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 /**
  * desc_stat_tool_update_sensitivity_cb:
- * @state:
+ * @dummy: #GtkWidget
+ * @state: #DescriptiveStatState
  *
  * Update the dialog widgets sensitivity.
  * We cannot use tool_update_sensitivity_cb
@@ -1531,15 +1538,14 @@ dialog_ttest_adjust_to_invocation (TTestState *state)
 
 /**
  * dialog_ttest_realized:
- * @widget
- * @state:
+ * @widget: #GtkWidget
+ * @state: #TTestState
  *
  * Fix the size of the options table.
- *
  **/
 static void
 dialog_ttest_realized (G_GNUC_UNUSED GtkWidget *widget,
-		       TTestState *state)
+                       TTestState *state)
 {
 	GtkAllocation alloc;
 
@@ -1985,16 +1991,16 @@ sampling_method_toggled_cb (GtkWidget *button, SamplingState *state)
 
 /**
  * dialog_sampling_realized:
- * @widget
- * @state:
+ * @widget: #GtkWidget
+ * @state: #SamplingState
  *
  * Fix the size of the options table.
- *
  **/
 static void
 dialog_sampling_realized (G_GNUC_UNUSED GtkWidget *widget,
-			  SamplingState *state)
+                          SamplingState *state)
 {
+
 	GtkAllocation alloc;
 
 	gtk_widget_get_allocation (state->options_grid, &alloc);
@@ -2207,7 +2213,8 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 /**
  * regression_tool_update_sensitivity_cb:
- * @state:
+ * @dummy: #GtkWidget
+ * @state: #RegressionToolState
  *
  * Update the dialog widgets sensitivity.
  * We cannot use tool_update_sensitivity_cb
@@ -2218,6 +2225,7 @@ static void
 regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				       RegressionToolState *state)
 {
+
 	int err;
 	gnm_float confidence;
         GnmValue *input_range;
@@ -2518,7 +2526,8 @@ exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 /**
  * exp_smoothing_tool_update_sensitivity_cb:
- * @state:
+ * @dummy: #GtkWidget
+ * @state: #ExpSmoothToolState
  *
  * Update the dialog widgets sensitivity.
  * We cannot use tool_update_sensitivity_cb
@@ -2529,6 +2538,7 @@ static void
 exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 					  ExpSmoothToolState *state)
 {
+
 	int err, period;
 	gnm_float damp_fact;
         GSList *input_range;
@@ -2879,7 +2889,8 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 /**
  * average_tool_update_sensitivity_cb:
- * @state:
+ * @dummy: #GtkWidget
+ * @state: #AverageToolState
  *
  * Update the dialog widgets sensitivity.
  * We cannot use tool_update_sensitivity_cb
@@ -2890,6 +2901,7 @@ static void
 average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				    AverageToolState *state)
 {
+
 	int interval, err, offset;
         GSList *input_range;
 	moving_average_type_t type;
@@ -3464,7 +3476,8 @@ anova_single_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 /**
  * anova_single_tool_update_sensitivity_cb:
- * @state:
+ * @dummy: #GtkWidget
+ * @state: #AnovaSingleToolState
  *
  * Update the dialog widgets sensitivity.
  * We cannot use tool_update_sensitivity_cb
@@ -3475,6 +3488,7 @@ static void
 anova_single_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 					 AnovaSingleToolState *state)
 {
+
 	gnm_float alpha;
         GSList *input_range;
 
@@ -3678,7 +3692,8 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 /**
  * anova_two_factor_tool_update_sensitivity_cb:
- * @state:
+ * @dummy: #GtkWidget
+ * @state: #AnovaTwoFactorToolState
  *
  * Update the dialog widgets sensitivity.
  * We cannot use tool_update_sensitivity_cb
@@ -3689,6 +3704,7 @@ static void
 anova_two_factor_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 					     AnovaTwoFactorToolState *state)
 {
+
 	int replication, err_replication;
 	gnm_float alpha;
         GnmValue *input_range;
