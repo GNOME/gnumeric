@@ -20,6 +20,7 @@
 #include <cell.h>
 #include <value.h>
 #include <func.h>
+#include <ranges.h>
 #include <sheet-object-cell-comment.h>
 #include <mathfunc.h>
 #include <gnm-random.h>
@@ -27,6 +28,8 @@
 #include <sf-gamma.h>
 #include <rangefunc.h>
 #include <gnumeric-conf.h>
+#include <format-template.h>
+#include <file-autoft.h>
 
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
@@ -3810,6 +3813,85 @@ test_recalc (GOCmdContext *cc, const char *url)
 
 /* ------------------------------------------------------------------------- */
 
+static void
+fillin_range (Sheet *sheet, GnmRange const *r)
+{
+	for (int col = r->start.col; col <= r->end.col; col++) {
+		for (int row = r->start.row; row <= r->end.row; row++) {
+			GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+			GOFormat const *fmt = gnm_cell_get_format (cell);
+			GOFormatFamily family = go_format_get_family (fmt);
+			const char *txt;
+			switch (family) {
+			case GO_FORMAT_NUMBER:
+				txt = "123";
+				break;
+			case GO_FORMAT_CURRENCY:
+			case GO_FORMAT_ACCOUNTING:
+				txt = "123.45";
+				break;
+			default:
+				txt = cell_name (cell);
+			}
+			sheet_cell_set_text (cell, txt, NULL);
+		}
+	}
+}
+
+
+static void
+test_auto_format (GOCmdContext *cc, const char *uri)
+{
+	Workbook *wb;
+	GList *groups;
+	GSList *regions;
+	GnmRange r0;
+
+	groups = gnm_ft_category_group_list_get ();
+	if (!groups) {
+		// We cannot do this in-tree.
+		g_printerr ("No templates installed\n");
+		return;
+	}
+
+	wb = workbook_new ();
+	regions = g_slist_prepend (NULL, range_init (&r0, 1, 1, 7, 20));
+
+	for (GList *l = groups; l; l = l->next) {
+		GnmFTCategoryGroup *g = l->data;
+		GSList *templates = gnm_ft_category_group_get_templates_list (g, cc);
+
+		for (GSList *tl = templates; tl; tl = tl->next) {
+			GnmFT *t = tl->data;
+			char *name = g_strconcat (g->name, "-", t->name, NULL);
+			Sheet *sheet = sheet_new (wb, name, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
+			workbook_sheet_attach (wb, sheet);
+
+			g_printerr ("Auto-formatting %s...\n", name);
+			gnm_ft_apply_to_sheet_regions (t, sheet, regions);
+			for (GSList *l = regions; l; l = l->next) {
+				GnmRange const *r = l->data;
+				fillin_range (sheet, r);
+			}
+			g_free (name);
+		}
+
+		g_slist_free_full (templates, g_object_unref);
+	}
+
+	gnm_ft_category_group_list_free (groups);
+	g_slist_free (regions);
+
+	GOFileSaver *fs = go_file_saver_for_file_name (uri);
+	WorkbookView *wbv = workbook_view_new (wb);
+	workbook_view_save_as (wbv, fs, uri, cc);
+	g_object_unref (wbv);
+
+	g_object_unref (wb);
+}
+
+/* ------------------------------------------------------------------------- */
+
 #define MAYBE_DO(name) if (strcmp (testname, "all") != 0 && strcmp (testname, (name)) != 0) { } else
 
 int
@@ -3888,6 +3970,13 @@ main (int argc, char const **argv)
 		MAYBE_DO ("test_recalc") {
 			char *url = go_shell_arg_to_uri (argv[2]);
 			test_recalc (cc, url);
+			g_free (url);
+		}
+	}
+	if (argc > 2) {
+		MAYBE_DO ("test_auto_format") {
+			char *url = go_shell_arg_to_uri (argv[2]);
+			test_auto_format (cc, url);
 			g_free (url);
 		}
 	}

@@ -183,13 +183,9 @@ auto_format_grid_new (AutoFormatState *state, int i, GnmFT *ft)
 static void
 templates_free (AutoFormatState *state)
 {
-	GSList *ptr;
-
 	g_return_if_fail (state != NULL);
 
-	for (ptr = state->templates; ptr != NULL ; ptr = ptr->next)
-		gnm_ft_free (ptr->data);
-	g_slist_free (state->templates);
+	g_slist_free_full (state->templates, g_object_unref);
 	state->templates = NULL;
 }
 
@@ -597,8 +593,7 @@ dialog_autoformat (WBCGtk *wbcg)
 		G_CALLBACK (gtk_widget_destroy), state->dialog);
 
 	/* Fill category list */
-	state->category_groups =
-		g_list_sort (gnm_ft_category_group_list_get (),  gnm_ft_category_group_cmp);
+	state->category_groups = gnm_ft_category_group_list_get ();
 
 	if (state->category_groups == NULL) {
 		GtkWidget *dialog;

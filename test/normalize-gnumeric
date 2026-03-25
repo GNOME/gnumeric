@@ -49,6 +49,7 @@ while (<STDIN>) {
     }
 
     if (m|^\s*<office:meta>\s*$| .. m|^\s*</office:meta>\s*$|) {
+        s|(<dc:date>).*(</dc:date>)|$1XXX$2|;
         s|(<meta:creation-date>).*(</meta:creation-date>)|$1XXX$2|;
     }
 

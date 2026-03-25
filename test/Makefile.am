@@ -72,6 +72,7 @@ TESTS =	t1000-statfuns.pl			\
 	t2004-insdel-colrow.pl			\
 	t2005-recalc.pl				\
 	t2006-cond-format-deps.pl		\
+	t2007-auto-format.pl			\
 	t2800-style-optimizer.pl		\
 	t5800-csv-date.pl			\
 	t5801-csv-number.pl			\
@@ -239,6 +240,7 @@ EXTRA_DIST = GnumericTest.pm \
 
 import-db:
 	for t in $(srcdir)/t59[0-9][0-9]-*.pl; do echo "*** $$t ***"; $(PERL) $$t create-db; done
+	for t in $(srcdir)/t2007-*.pl; do echo "*** $$t ***"; $(PERL) $$t create-db; done
 
 run-calc-tests:
 	for t in $(srcdir)/t1[0-9][0-9][0-9]-*.pl; do $$t; done

@@ -41,6 +41,41 @@ attr_eq (const xmlChar *a, const char *s)
 	return !strcmp (CXML2C (a), s);
 }
 
+G_DEFINE_TYPE (GnmFTMember, gnm_ft_member, G_TYPE_OBJECT)
+
+static void
+gnm_ft_member_init (GnmFTMember *member)
+{
+	member->col.offset	   = member->row.offset = 0;
+	member->col.offset_gravity = member->row.offset_gravity = 1;
+	member->col.size	   = member->row.size = 1;
+	member->direction = FREQ_DIRECTION_NONE;
+	member->repeat    = 0;
+	member->skip      = 0;
+	member->edge      = 0;
+	member->mstyle    = NULL;
+}
+
+static void
+gnm_ft_member_finalize (GObject *obj)
+{
+	GnmFTMember *member = GNM_FT_MEMBER (obj);
+
+	if (member->mstyle) {
+		gnm_style_unref (member->mstyle);
+		member->mstyle = NULL;
+	}
+
+	G_OBJECT_CLASS (gnm_ft_member_parent_class)->finalize (obj);
+}
+
+static void
+gnm_ft_member_class_init (GnmFTMemberClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	gobject_class->finalize = gnm_ft_member_finalize;
+}
+
 /******************************************************************************
  * FormatTemplateMember - Getters/setters and creation
  ******************************************************************************/
@@ -55,20 +90,7 @@ attr_eq (const xmlChar *a, const char *s)
 static GnmFTMember *
 gnm_ft_member_new (void)
 {
-	GnmFTMember *member;
-
-	member = g_new (GnmFTMember, 1);
-
-	member->col.offset	   = member->row.offset = 0;
-	member->col.offset_gravity = member->row.offset_gravity = 1;
-	member->col.size	   = member->row.size = 1;
-	member->direction = FREQ_DIRECTION_NONE;
-	member->repeat    = 0;
-	member->skip      = 0;
-	member->edge      = 0;
-	member->mstyle    = NULL;
-
-	return member;
+	return g_object_new (GNM_TYPE_FT_MEMBER, NULL);
 }
 
 /**
@@ -90,30 +112,11 @@ gnm_ft_member_clone (GnmFTMember *member)
 	clone->skip      = member->skip;
 	clone->edge      = member->edge;
 	clone->mstyle    = member->mstyle;
-	gnm_style_ref (member->mstyle);
+	if (clone->mstyle)
+		gnm_style_ref (member->mstyle);
 
 	return clone;
 }
-
-/**
- * gnm_ft_member_free:
- * @member: GnmFTMember
- *
- * Frees an existing template member
- **/
-static void
-gnm_ft_member_free (GnmFTMember *member)
-{
-	g_return_if_fail (member != NULL);
-
-	if (member->mstyle) {
-		gnm_style_unref (member->mstyle);
-		member->mstyle = NULL;
-	}
-
-	g_free (member);
-}
-
 
 /**
  * gnm_ft_member_get_rect:
@@ -193,32 +196,15 @@ gnm_ft_member_valid (GnmFTMember const *member)
 		member->edge >= 0);
 }
 
-/******************************************************************************
- * GnmFT - Creation/Destruction
- ******************************************************************************/
+G_DEFINE_TYPE (GnmFT, gnm_ft, G_TYPE_OBJECT)
 
-/**
- * gnm_ft_new:
- *
- * Create a new 'empty' GnmFT
- *
- * Return value: the new GnmFT
- **/
-static GnmFT *
-gnm_ft_new (void)
+static void
+gnm_ft_init (GnmFT *ft)
 {
-	GnmFT *ft;
-
-	ft = g_new0 (GnmFT, 1);
-
-	ft->filename    = NULL;
 	ft->author      = g_strdup (go_get_real_name ());
 	ft->name        = g_strdup (N_("Name"));
 	ft->description = g_strdup ("");
 
-	ft->category = NULL;
-
-	ft->members = NULL;
 	ft->number    = TRUE;
 	ft->border    = TRUE;
 	ft->font      = TRUE;
@@ -237,28 +223,48 @@ gnm_ft_new (void)
 	ft->invalidate_hash = TRUE;
 
 	range_init (&ft->dimension, 0,0,0,0);
-
-	return ft;
 }
 
-/**
- * gnm_ft_free:
- **/
-void
-gnm_ft_free (GnmFT *ft)
+static void
+gnm_ft_finalize (GObject *obj)
 {
-	g_return_if_fail (ft != NULL);
+	GnmFT *ft = GNM_FT (obj);
 
 	g_free (ft->filename);
 	g_free (ft->author);
 	g_free (ft->name);
 	g_free (ft->description);
-	g_slist_free_full (ft->members, (GDestroyNotify)gnm_ft_member_free);
+	g_slist_free_full (ft->members, g_object_unref);
 	g_hash_table_destroy (ft->table);
+	if (ft->category)
+		g_object_unref (ft->category);
 
-	g_free (ft);
+	G_OBJECT_CLASS (gnm_ft_parent_class)->finalize (obj);
 }
 
+static void
+gnm_ft_class_init (GnmFTClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	gobject_class->finalize = gnm_ft_finalize;
+}
+
+/******************************************************************************
+ * GnmFT - Creation/Destruction
+ ******************************************************************************/
+
+/**
+ * gnm_ft_new:
+ *
+ * Create a new 'empty' GnmFT
+ *
+ * Return value: the new GnmFT
+ **/
+static GnmFT *
+gnm_ft_new (void)
+{
+	return g_object_new (GNM_TYPE_FT, NULL);
+}
 
 static void
 gnm_ft_set_name (GnmFT *ft, char const *name)
@@ -296,7 +302,7 @@ gnm_ft_set_description (GnmFT *ft, char const *description)
  *
  * Make a copy of @ft.
  *
- * Returns: transfer full): a copy of @ft
+ * Returns: (transfer full): a copy of @ft
  **/
 GnmFT *
 gnm_ft_clone (GnmFT const *ft)
@@ -311,7 +317,9 @@ gnm_ft_clone (GnmFT const *ft)
 	gnm_ft_set_description (clone, ft->description);
 	g_free (clone->filename); clone->filename = g_strdup (ft->filename);
 
-	clone->category    = ft->category;
+	clone->category = ft->category;
+	if (clone->category)
+		g_object_ref (clone->category);
 
 	clone->members =
 		g_slist_copy_deep (ft->members,
@@ -330,18 +338,6 @@ gnm_ft_clone (GnmFT const *ft)
 	return clone;
 }
 
-GType
-gnm_ft_get_type (void)
-{
-	static GType t = 0;
-
-	if (t == 0) {
-		t = g_boxed_type_register_static ("GnmFT",
-			 (GBoxedCopyFunc)gnm_ft_clone,
-			 (GBoxedFreeFunc)gnm_ft_free);
-	}
-	return t;
-}
 
 #define GNM 100
 #define GMR 200
@@ -393,7 +389,7 @@ sax_member_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (!gnm_ft_member_valid (member)) {
 		g_warning ("Invalid template member in %s\n", ft->filename);
 		ft->members = g_slist_remove (ft->members, member);
-		gnm_ft_member_free (member);
+		g_object_unref (member);
 	}
 }
 
@@ -519,7 +515,7 @@ GSF_XML_IN_NODE (START, TEMPLATE, GMR, "FormatTemplate", GSF_XML_NO_CONTENT, NUL
  * Create a new GnmFT and load a template file
  * into it.
  *
- * Return value: (transfer full): a new GnmFT (or %NULL on error)
+ * Return value: (transfer full) (nullable): a new GnmFT or %NULL on error
  **/
 GnmFT *
 gnm_ft_new_from_file (char const *filename, GOCmdContext *cc)
@@ -557,7 +553,7 @@ gnm_ft_new_from_file (char const *filename, GOCmdContext *cc)
 	if (doc) gsf_xml_in_doc_free (doc);
 
 	if (ft && !ok) {
-		gnm_ft_free (ft);
+		g_object_unref (ft);
 		ft = NULL;
 	}
 
@@ -587,101 +583,102 @@ gnm_ft_compare_name (gconstpointer a, gconstpointer b)
 /**
  * format_template_filter_style:
  * @ft:
- * @mstyle:
- * @fill_defaults: If set fill in the gaps with the "default" mstyle.
+ * @mstyle: (inout):
  *
- * Filter an mstyle and strip and replace certain elements
- * based on what the user wants to apply.
- * Basically you should pass %FALSE as @fill_defaults, unless you want to have
- * a completely filled style to be returned. If you set @fill_default to TRUE
- * the returned mstyle might have some of its elements 'not set'
- *
- * Return value: The same mstyle as @mstyle with most likely some modifications
+ * Filter an mstyle and strip and replace certain elements based on what
+ * the user wants to apply.
  **/
-static GnmStyle *
-format_template_filter_style (GnmFT *ft, GnmStyle *mstyle, gboolean fill_defaults)
+static void
+format_template_filter_style (GnmFT *ft, GnmStyle *mstyle)
 {
-	g_return_val_if_fail (ft != NULL, NULL);
-	g_return_val_if_fail (mstyle != NULL, NULL);
+	g_return_if_fail (ft != NULL);
+	g_return_if_fail (mstyle != NULL);
 
 	/*
 	 * Don't fill with defaults, this is perfect for when the
 	 * mstyles are going to be 'merged' with other mstyles which
 	 * have all their elements set
 	 */
-	if (!fill_defaults) {
-		if (!ft->number) {
-			gnm_style_unset_element (mstyle, MSTYLE_FORMAT);
-		}
-		if (!ft->border) {
-			gnm_style_unset_element (mstyle, MSTYLE_BORDER_TOP);
-			gnm_style_unset_element (mstyle, MSTYLE_BORDER_BOTTOM);
-			gnm_style_unset_element (mstyle, MSTYLE_BORDER_LEFT);
-			gnm_style_unset_element (mstyle, MSTYLE_BORDER_RIGHT);
-			gnm_style_unset_element (mstyle, MSTYLE_BORDER_DIAGONAL);
-			gnm_style_unset_element (mstyle, MSTYLE_BORDER_REV_DIAGONAL);
-		}
-		if (!ft->font) {
-			gnm_style_unset_element (mstyle, MSTYLE_FONT_NAME);
-			gnm_style_unset_element (mstyle, MSTYLE_FONT_BOLD);
-			gnm_style_unset_element (mstyle, MSTYLE_FONT_ITALIC);
-			gnm_style_unset_element (mstyle, MSTYLE_FONT_UNDERLINE);
-			gnm_style_unset_element (mstyle, MSTYLE_FONT_STRIKETHROUGH);
-			gnm_style_unset_element (mstyle, MSTYLE_FONT_SIZE);
 
-			gnm_style_unset_element (mstyle, MSTYLE_FONT_COLOR);
-		}
-		if (!ft->patterns) {
-			gnm_style_unset_element (mstyle, MSTYLE_COLOR_BACK);
-			gnm_style_unset_element (mstyle, MSTYLE_COLOR_PATTERN);
-			gnm_style_unset_element (mstyle, MSTYLE_PATTERN);
-		}
-		if (!ft->alignment) {
-			gnm_style_unset_element (mstyle, MSTYLE_ALIGN_V);
-			gnm_style_unset_element (mstyle, MSTYLE_ALIGN_H);
-		}
-	} else {
-		GnmStyle *gnm_style_default = gnm_style_new_default ();
+	if (!ft->number) {
+		gnm_style_unset_element (mstyle, MSTYLE_FORMAT);
+	}
+	if (!ft->border) {
+		gnm_style_unset_element (mstyle, MSTYLE_BORDER_TOP);
+		gnm_style_unset_element (mstyle, MSTYLE_BORDER_BOTTOM);
+		gnm_style_unset_element (mstyle, MSTYLE_BORDER_LEFT);
+		gnm_style_unset_element (mstyle, MSTYLE_BORDER_RIGHT);
+		gnm_style_unset_element (mstyle, MSTYLE_BORDER_DIAGONAL);
+		gnm_style_unset_element (mstyle, MSTYLE_BORDER_REV_DIAGONAL);
+	}
+	if (!ft->font) {
+		gnm_style_unset_element (mstyle, MSTYLE_FONT_NAME);
+		gnm_style_unset_element (mstyle, MSTYLE_FONT_BOLD);
+		gnm_style_unset_element (mstyle, MSTYLE_FONT_ITALIC);
+		gnm_style_unset_element (mstyle, MSTYLE_FONT_UNDERLINE);
+		gnm_style_unset_element (mstyle, MSTYLE_FONT_STRIKETHROUGH);
+		gnm_style_unset_element (mstyle, MSTYLE_FONT_SIZE);
 
-		/*
-		 * We fill in the gaps with the default mstyle
-		 */
+		gnm_style_unset_element (mstyle, MSTYLE_FONT_COLOR);
+	}
+	if (!ft->patterns) {
+		gnm_style_unset_element (mstyle, MSTYLE_COLOR_BACK);
+		gnm_style_unset_element (mstyle, MSTYLE_COLOR_PATTERN);
+		gnm_style_unset_element (mstyle, MSTYLE_PATTERN);
+	}
+	if (!ft->alignment) {
+		gnm_style_unset_element (mstyle, MSTYLE_ALIGN_V);
+		gnm_style_unset_element (mstyle, MSTYLE_ALIGN_H);
+	}
+}
 
-		 if (!ft->number) {
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FORMAT);
-		 }
-		 if (!ft->border) {
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_TOP);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_BOTTOM);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_LEFT);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_RIGHT);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_DIAGONAL);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_REV_DIAGONAL);
-		 }
-		 if (!ft->font) {
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_NAME);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_BOLD);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_ITALIC);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_UNDERLINE);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_STRIKETHROUGH);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_SIZE);
+/**
+ * format_template_fillin_style:
+ * @ft:
+ * @mstyle: (inout):
+ *
+ * Fill-in style with defaults.
+ **/
+static void
+format_template_fillin_style (GnmFT *ft, GnmStyle *mstyle)
+{
+	g_return_if_fail (ft != NULL);
+	g_return_if_fail (mstyle != NULL);
 
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_COLOR);
-		 }
-		 if (!ft->patterns) {
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_COLOR_BACK);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_COLOR_PATTERN);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_PATTERN);
-		 }
-		 if (!ft->alignment) {
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_ALIGN_V);
-			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_ALIGN_H);
-		 }
+	GnmStyle *gnm_style_default = gnm_style_new_default ();
 
-		 gnm_style_unref (gnm_style_default);
+	if (!ft->number) {
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FORMAT);
+	}
+	if (!ft->border) {
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_TOP);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_BOTTOM);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_LEFT);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_RIGHT);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_DIAGONAL);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_REV_DIAGONAL);
+	}
+	if (!ft->font) {
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_NAME);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_BOLD);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_ITALIC);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_UNDERLINE);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_STRIKETHROUGH);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_SIZE);
+
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_COLOR);
+	}
+	if (!ft->patterns) {
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_COLOR_BACK);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_COLOR_PATTERN);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_PATTERN);
+	}
+	if (!ft->alignment) {
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_ALIGN_V);
+		gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_ALIGN_H);
 	}
 
-	return mstyle;
+	gnm_style_unref (gnm_style_default);
 }
 
 /*
@@ -693,16 +690,14 @@ typedef void (* PCalcCallback) (GnmFT *ft, GnmRange *r, GnmStyle *mstyle, gpoint
  * format_template_range_check:
  * @ft: Format template
  * @r: Target range
- * @optional_cc: (nullable): if non-%NULL display an error message if @r is not
- *			appropriate for @ft.
+ * @optional_cc: (nullable): control for reporting errors.
  *
  * Check whether range @r is big enough to apply format template @ft to it.
  *
  * Returns: %TRUE if @s is big enough, %FALSE if not.
  **/
 static gboolean
-format_template_range_check (GnmFT *ft, GnmRange const *r,
-			     GOCmdContext *optional_cc)
+format_template_range_check (GnmFT *ft, GnmRange const *r, GOCmdContext *optional_cc)
 {
 	GSList *ptr;
 	int diff_col_high = -1;
@@ -777,9 +772,8 @@ gnm_auto_fmt_filter_edges (GnmFT const *origft)
 	GnmFT *ft = gnm_ft_clone (origft);
 	gboolean is_edge, l = FALSE, r = FALSE, t = FALSE, b = FALSE;
 
-	for (ptr = ft->members; ptr != NULL ; ) {
+	for (ptr = ft->members; ptr != NULL ; ptr = ptr->next) {
 		GnmFTMember *member = ptr->data;
-		ptr = ptr->next;
 		if (member->direction != FREQ_DIRECTION_NONE)
 			continue;
 
@@ -797,7 +791,7 @@ gnm_auto_fmt_filter_edges (GnmFT const *origft)
 				b |= (is_edge = TRUE);
 		}
 		if (is_edge) {
-			gnm_ft_member_free (member);
+			g_object_unref (member);
 			ft->members = g_slist_remove (ft->members, member);
 		}
 	}
@@ -838,7 +832,7 @@ gnm_auto_fmt_filter_edges (GnmFT const *origft)
  * gnm_ft_calculate:
  * @origft: GnmFT
  * @s: Target range
- * @pc: Callback function
+ * @pc: (scope call): Callback function
  * @cb_data: Data to pass to the callback function
  *
  * Calculate all styles for a range of @s. This routine will invoke the callback function
@@ -848,7 +842,7 @@ gnm_auto_fmt_filter_edges (GnmFT const *origft)
  **/
 static void
 gnm_ft_calculate (GnmFT *origft, GnmRange const *r,
-			   PCalcCallback pc, gpointer cb_data)
+		  PCalcCallback pc, gpointer cb_data)
 {
 	GnmFT *ft = origft;
 	GSList *ptr;
@@ -912,7 +906,7 @@ gnm_ft_calculate (GnmFT *origft, GnmRange const *r,
 	}
 
 	if (ft != origft)
-		gnm_ft_free (ft);
+		g_object_unref (ft);
 }
 
 /******************************************************************************
@@ -925,12 +919,9 @@ cb_format_hash_style (GnmFT *ft, GnmRange *r, GnmStyle *mstyle, gpointer user)
 	GHashTable *table = user;
 	int row, col;
 
-	/*
-	 * Filter out undesired elements
-	 */
-	mstyle = format_template_filter_style (ft, mstyle, TRUE);
+	format_template_fillin_style (ft, mstyle);
 
-	for (row = r->start.row; row <= r->end.row; row++)
+	for (row = r->start.row; row <= r->end.row; row++) {
 		for (col = r->start.col; col <= r->end.col; col++) {
 			GnmCellPos key;
 			key.col = col;
@@ -939,11 +930,8 @@ cb_format_hash_style (GnmFT *ft, GnmRange *r, GnmStyle *mstyle, gpointer user)
 					     go_memdup (&key, sizeof (key)),
 					     gnm_style_dup (mstyle));
 		}
+	}
 
-	/*
-	 * Unref here, the hashtable will take care of its own
-	 * resources
-	 */
 	gnm_style_unref (mstyle);
 }
 
@@ -1021,12 +1009,9 @@ cb_format_sheet_style (GnmFT *ft, GnmRange *r, GnmStyle *mstyle, gpointer user)
 	g_return_if_fail (r != NULL);
 	g_return_if_fail (mstyle != NULL);
 
-	mstyle = format_template_filter_style (ft, mstyle, FALSE);
+	format_template_filter_style (ft, mstyle);
 
-	/*
-	 * We need not unref the mstyle, sheet will
-	 * take care of the mstyle
-	 */
+	// sheet_apply_style takes ownership of mstyle
 	sheet_apply_style (sheet, r, mstyle);
 }
 
@@ -1046,9 +1031,11 @@ gnm_ft_check_valid (GnmFT *ft, GSList *regions, GOCmdContext *cc)
 {
 	g_return_val_if_fail (cc != NULL, FALSE);
 
-	for (; regions != NULL ; regions = regions->next)
-		if (!format_template_range_check (ft, regions->data, cc))
+	for (; regions != NULL ; regions = regions->next) {
+		GnmRange const *r = regions->data;
+		if (!format_template_range_check (ft, r, cc))
 			return FALSE;
+	}
 
 	return TRUE;
 }
@@ -1064,7 +1051,8 @@ gnm_ft_check_valid (GnmFT *ft, GSList *regions, GOCmdContext *cc)
 void
 gnm_ft_apply_to_sheet_regions (GnmFT *ft, Sheet *sheet, GSList *regions)
 {
-	for (; regions != NULL ; regions = regions->next)
-		gnm_ft_calculate (ft, regions->data,
-					   cb_format_sheet_style, sheet);
+	for (; regions != NULL ; regions = regions->next) {
+		GnmRange const *r = regions->data;
+		gnm_ft_calculate (ft, r, cb_format_sheet_style, sheet);
+	}
 }

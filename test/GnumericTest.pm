@@ -341,7 +341,8 @@ sub sstest {
     my $test = shift @_;
     my $expected = shift @_;
 
-    my $cmd = &quotearg ($sstest, $test);
+    my @test = ref $test ? @$test : ($test);
+    my $cmd = &quotearg ($sstest, @test);
     print STDERR "# $cmd\n" if $verbose;
     my $actual = `$cmd 2>&1`;
     my $err = $?;

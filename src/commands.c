@@ -3825,15 +3825,13 @@ cmd_autoformat_undo (GnmCommand *cmd,
 }
 
 static gboolean
-cmd_autoformat_redo (GnmCommand *cmd,
-		     G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_autoformat_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdAutoFormat *me = CMD_AUTOFORMAT (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	gnm_ft_apply_to_sheet_regions (me->ft,
-		me->cmd.sheet, me->selection);
+	gnm_ft_apply_to_sheet_regions (me->ft, me->cmd.sheet, me->selection);
 
 	return FALSE;
 }
@@ -3861,7 +3859,7 @@ cmd_autoformat_finalize (GObject *cmd)
 	range_fragment_free (me->selection);
 	me->selection = NULL;
 
-	gnm_ft_free (me->ft);
+	g_object_unref (me->ft);
 
 	gnm_command_finalize (cmd);
 }

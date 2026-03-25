@@ -10,9 +10,7 @@ GSList  *gnm_ft_category_group_get_templates_list (GnmFTCategoryGroup *category_
 					    GOCmdContext *context);
 
 GList   *gnm_ft_category_group_list_get (void);
-void     gnm_ft_category_group_list_free (GList *category_groups);
-
-int gnm_ft_category_group_cmp (gconstpointer a, gconstpointer b);
+void     gnm_ft_category_group_list_free (GList *groups);
 
 G_END_DECLS
 

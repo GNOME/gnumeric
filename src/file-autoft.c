@@ -38,6 +38,30 @@
 
 #define CXML2C(s) ((char const *)(s))
 
+G_DEFINE_TYPE (GnmFTCategory, gnm_ft_category, G_TYPE_OBJECT)
+
+static void
+gnm_ft_category_init (GnmFTCategory *category)
+{
+}
+
+static void
+gnm_ft_category_finalize (GObject *obj)
+{
+	GnmFTCategory *category = GNM_FT_CATEGORY (obj);
+	g_free (category->directory);
+	g_free (category->name);
+	g_free (category->description);
+	G_OBJECT_CLASS (gnm_ft_category_parent_class)->finalize (obj);
+}
+
+static void
+gnm_ft_category_class_init (GnmFTCategoryClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	gobject_class->finalize = gnm_ft_category_finalize;
+}
+
 static gint
 gnm_ft_category_compare_name_and_dir (gconstpointer a, gconstpointer b)
 {
@@ -46,15 +70,6 @@ gnm_ft_category_compare_name_and_dir (gconstpointer a, gconstpointer b)
 
 	res = strcmp (cat_a->name, cat_b->name);
 	return res != 0 ? res : strcmp (cat_a->directory, cat_b->directory);
-}
-
-static void
-gnm_ft_category_free (GnmFTCategory *category)
-{
-	g_free (category->directory);
-	g_free (category->name);
-	g_free (category->description);
-	g_free (category);
 }
 
 static GSList *
@@ -83,6 +98,7 @@ gnm_ft_category_get_templates_list (GnmFTCategory *category,
 				g_warning (_("Invalid template file: %s"), full_entry_name);
 			} else {
 				ft->category = category;
+				g_object_ref (category);
 				templates = g_slist_prepend (templates, ft);
 			}
 			g_free (full_entry_name);
@@ -117,11 +133,10 @@ gnm_ft_xml_read_category (char const *dir_name)
 		xmlChar *name = xmlGetProp (node, (xmlChar *)"name");
 		if (name != NULL) {
 			xmlChar *description = xmlGetProp (node, (xmlChar *)"description");
-			category = g_new (GnmFTCategory, 1);
+			category = g_object_new (GNM_TYPE_FT_CATEGORY, NULL);
 			category->directory = g_strdup (dir_name);
 			category->name = g_strdup ((gchar *)name);
 			category->description = g_strdup ((gchar *)description);
-			category->is_writable = (access (dir_name, W_OK) == 0);
 			if (description != NULL)
 				xmlFree (description);
 			xmlFree (name);
@@ -174,14 +189,7 @@ gnm_ft_category_list_get_from_dir_list (GSList *dir_list)
 static void
 gnm_ft_category_list_free (GList *categories)
 {
-	GList *l;
-
-	g_return_if_fail (categories);
-
-	for (l = categories; l != NULL; l = l->next) {
-		gnm_ft_category_free ((GnmFTCategory *) l->data);
-	}
-	g_list_free (categories);
+	g_list_free_full (categories, g_object_unref);
 }
 
 static void
@@ -193,6 +201,38 @@ add_dir (GSList **pl, const char *dir, const char *base_dir)
 	else
 		dirc = g_build_filename (base_dir, dir, NULL);
 	*pl = g_slist_prepend (*pl, dirc);
+}
+
+G_DEFINE_TYPE (GnmFTCategoryGroup, gnm_ft_category_group, G_TYPE_OBJECT)
+
+static void
+gnm_ft_category_group_init (GnmFTCategoryGroup *group)
+{
+}
+
+static void
+gnm_ft_category_group_finalize (GObject *obj)
+{
+	GnmFTCategoryGroup *group = GNM_FT_CATEGORY_GROUP (obj);
+	g_free (group->name);
+	g_free (group->description);
+	gnm_ft_category_list_free (group->categories);
+	G_OBJECT_CLASS (gnm_ft_category_group_parent_class)->finalize (obj);
+}
+
+static void
+gnm_ft_category_group_class_init (GnmFTCategoryGroupClass *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	gobject_class->finalize = gnm_ft_category_group_finalize;
+}
+
+static int
+gnm_ft_category_group_cmp (gconstpointer a, gconstpointer b)
+{
+	GnmFTCategoryGroup const *group_a = a;
+	GnmFTCategoryGroup const *group_b = b;
+	return g_utf8_collate (_(group_a->name), _(group_b->name));
 }
 
 /**
@@ -237,7 +277,7 @@ gnm_ft_category_group_list_get (void)
 			if (current_group != NULL) {
 				category_groups = g_list_prepend (category_groups, current_group);
 			}
-			current_group = g_new (GnmFTCategoryGroup, 1);
+			current_group = g_object_new (GNM_TYPE_FT_CATEGORY_GROUP, NULL);
 			current_group->categories = g_list_append (NULL, category);
 			current_group->name = g_strdup (category->name);
 			current_group->description = g_strdup (category->description);
@@ -250,28 +290,19 @@ gnm_ft_category_group_list_get (void)
 
 	g_list_free (categories);
 
-	return category_groups;
+	return g_list_sort (category_groups,  gnm_ft_category_group_cmp);
 }
 
 
 /**
  * gnm_ft_category_group_list_free:
- * @category_groups: (element-type GnmFTCategoryGroup): the list to free.
+ * @groups: (element-type GnmFTCategoryGroup): the list to free.
  *
  **/
 void
 gnm_ft_category_group_list_free (GList *groups)
 {
-	GList *ptr;
-
-	for (ptr = groups; ptr != NULL; ptr = ptr->next) {
-		GnmFTCategoryGroup *group = ptr->data;
-		g_free (group->name);
-		g_free (group->description);
-		gnm_ft_category_list_free (group->categories);
-		g_free (group);
-	}
-	g_list_free (groups);
+	g_list_free_full (groups, g_object_unref);
 }
 
 /**
@@ -279,7 +310,7 @@ gnm_ft_category_group_list_free (GList *groups)
  * @category_group: #GnmFTCategoryGroup
  * @context: #GOCmdContext
  *
- * Returns: (element-type GnmFT) (transfer container):
+ * Returns: (element-type GnmFT) (transfer full):
  **/
 GSList *
 gnm_ft_category_group_get_templates_list (GnmFTCategoryGroup *category_group,
@@ -293,12 +324,4 @@ gnm_ft_category_group_get_templates_list (GnmFTCategoryGroup *category_group,
 			gnm_ft_category_get_templates_list (l->data, cc));
 
 	return g_slist_sort (templates, gnm_ft_compare_name);
-}
-
-int
-gnm_ft_category_group_cmp (gconstpointer a, gconstpointer b)
-{
-	GnmFTCategoryGroup const *group_a = a;
-	GnmFTCategoryGroup const *group_b = b;
-	return g_utf8_collate (_(group_a->name), _(group_b->name));
 }

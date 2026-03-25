@@ -55,25 +55,37 @@ typedef enum {
 	FREQ_DIRECTION_VERTICAL
 } GnmFTFreqDirection;
 
-/* A collection of categories of the same name from different paths */
-typedef struct {
+#define GNM_TYPE_FT_CATEGORY_GROUP (gnm_ft_category_group_get_type ())
+G_DECLARE_FINAL_TYPE (GnmFTCategoryGroup, gnm_ft_category_group, GNM, FT_CATEGORY_GROUP, GObject)
+
+struct _GnmFTCategoryGroup {
+	GObject parent;
+
+	/* A collection of categories of the same name from different paths */
 	GList *categories;
 
 	/* translatable via gettext in the std message domain */
 	char *name;
 	char *description;
-} GnmFTCategoryGroup;
+};
 
-typedef struct {
+#define GNM_TYPE_FT_CATEGORY (gnm_ft_category_get_type ())
+G_DECLARE_FINAL_TYPE (GnmFTCategory, gnm_ft_category, GNM, FT_CATEGORY, GObject)
+
+struct _GnmFTCategory {
+	GObject parent;
 	char *directory;
-	gboolean is_writable;
 
 	/* translatable via gettext in the std message domain */
 	char *name;
 	char *description;
-} GnmFTCategory;
+};
 
-struct GnmFT_ {
+#define GNM_TYPE_FT (gnm_ft_get_type ())
+G_DECLARE_FINAL_TYPE (GnmFT, gnm_ft, GNM, FT, GObject)
+
+struct _GnmFT {
+	GObject parent;
 	GnmFTCategory *category;
 	GSList *members;	/* the actual TemplateMembers */
 	char *filename;
@@ -104,7 +116,11 @@ struct GnmFT_ {
 	GnmRange dimension;
 };
 
-typedef struct {
+#define GNM_TYPE_FT_MEMBER (gnm_ft_member_get_type ())
+G_DECLARE_FINAL_TYPE (GnmFTMember, gnm_ft_member, GNM, FT_MEMBER, GObject)
+
+struct _GnmFTMember {
+	GObject parent;
 	GnmFTColRowInfo row; /* Row info */
 	GnmFTColRowInfo col; /* Col info */
 
@@ -117,13 +133,11 @@ typedef struct {
 	int edge;
 
 	GnmStyle *mstyle;       /* Style to apply */
-} GnmFTMember;
+};
 
 /*
  * Functions for GnmFT
  */
-GType            gnm_ft_get_type       (void);
-void             gnm_ft_free           (GnmFT *ft);
 GnmFT		*gnm_ft_clone          (GnmFT const *ft);
 GnmFT 		*gnm_ft_new_from_file  (char const *filename,
 					GOCmdContext *context);
