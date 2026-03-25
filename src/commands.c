@@ -365,6 +365,27 @@ update_after_action (Sheet *sheet, WorkbookControl *wbc)
 	}
 }
 
+static GTimer *
+undo_redo_timer_start (GnmCommand *cmd, const char *what)
+{
+	if (gnm_debug_flag("time-actions")) {
+		g_printerr ("%s %s...\n", what, cmd->cmd_descriptor);
+		return g_timer_new ();
+	} else
+		return NULL;
+}
+
+static void
+undo_redo_timer_stop (GnmCommand *cmd, const char *what, GTimer *timer)
+{
+	if (!timer)
+		return;
+
+	double elapsed = g_timer_elapsed (timer, NULL);
+	g_timer_destroy (timer);
+	g_printerr ("%s %s...done [%.0fms]\n",
+		    what, cmd->cmd_descriptor, 1000 * elapsed);
+}
 
 /**
  * command_undo:
@@ -393,7 +414,11 @@ command_undo (WorkbookControl *wbc)
 	g_object_ref (cmd);
 
 	/* TRUE indicates a failure to undo.  Leave the command where it is */
-	if (!klass->undo_cmd (cmd, wbc)) {
+	GTimer *timer = undo_redo_timer_start (cmd, "Undo");
+	bool fail = klass->undo_cmd (cmd, wbc);
+	undo_redo_timer_stop (cmd, "Undo", timer);
+
+	if (!fail) {
 		gboolean undo_cleared;
 
 		update_after_action (cmd->sheet, wbc);
@@ -450,8 +475,11 @@ command_redo (WorkbookControl *wbc)
 
 	cmd->state_before_do = go_doc_get_state (wb_control_get_doc (wbc));
 
-	/* TRUE indicates a failure to redo.  Leave the command where it is */
-	if (!klass->redo_cmd (cmd, wbc)) {
+	GTimer *timer = undo_redo_timer_start (cmd, "Redo");
+	bool fail = klass->redo_cmd (cmd, wbc);
+	undo_redo_timer_stop (cmd, "Redo", timer);
+
+	if (!fail) {
 		gboolean redo_cleared;
 
 		update_after_action (cmd->sheet, wbc);
@@ -502,8 +530,11 @@ command_repeat (WorkbookControl *wbc)
 	klass = CMD_CLASS (cmd);
 	g_return_if_fail (klass != NULL);
 
-	if (klass->repeat_cmd != NULL)
-		(*klass->repeat_cmd) (cmd, wbc);
+	if (klass->repeat_cmd != NULL) {
+		GTimer *timer = undo_redo_timer_start (cmd, "Repeat");
+		klass->repeat_cmd (cmd, wbc);
+		undo_redo_timer_stop (cmd, "Repeat", timer);
+	}
 }
 
 /**
