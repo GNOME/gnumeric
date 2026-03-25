@@ -19,7 +19,7 @@ typedef enum {
 /* Definition of a GnmCell */
 #define GNM_DEP_TO_CELL(dep)	((GnmCell *)(dep))
 #define GNM_CELL_TO_DEP(cell)	(&(cell)->base)
-struct _GnmCell {
+struct GnmCell_ {
 	GnmDependent base;
 
 	/* Mandatory state information */

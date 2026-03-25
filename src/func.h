@@ -15,7 +15,7 @@ GPtrArray *gnm_func_enumerate (void);
 /******************************************************************************/
 /* Function group support */
 
-struct _GnmFuncGroup {
+struct GnmFuncGroup_ {
 	GOString *internal_name, *display_name;
 	gboolean has_translation;
 	GSList *functions;
@@ -161,7 +161,7 @@ typedef struct {
     char const		*text;
 } GnmFuncHelp;
 
-struct _GnmFuncDescriptor {
+struct GnmFuncDescriptor_ {
 	char const *name;
 	char const *arg_spec;
 	GnmFuncHelp const *help;
@@ -297,7 +297,7 @@ GnmValue *function_iterate_argument_values (GnmEvalPos const *ep,
 
 /*************************************************************************/
 
-struct _GnmFuncEvalInfo {
+struct GnmFuncEvalInfo_ {
 	GnmEvalPos const *pos;
 	GnmExprFunction const *func_call;
 	GnmExprEvalFlags flags;

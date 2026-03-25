@@ -28,7 +28,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 
-struct _GnmTextView {
+struct GnmTextView_ {
 	GtkBox parent;
 
 	GtkTextBuffer *buffer;
@@ -40,7 +40,7 @@ struct _GnmTextView {
 	GtkToolButton *underline;
 };
 
-typedef struct _GnmTextViewClass {
+typedef struct {
 	GtkBoxClass base;
 
 	void (* changed)  (GnmTextView *gtv);

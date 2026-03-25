@@ -41,7 +41,7 @@
 
 static GocItemClass *parent_class;
 
-struct _GnmItemEdit {
+struct GnmItemEdit_ {
 	GocItem item;
 
 	SheetControlGUI *scg;

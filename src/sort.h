@@ -5,8 +5,10 @@
 
 G_BEGIN_DECLS
 
+GType gnm_sort_data_get_type (void);
 #define GNM_SORT_DATA_TYPE (gnm_sort_data_get_type ())
-G_DECLARE_FINAL_TYPE (GnmSortData, gnm_sort_data, GNM, SORT_DATA, GObject)
+#define GNM_SORT_DATA(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SORT_DATA_TYPE, GnmSortData))
+#define GNM_IS_SORT_DATA(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SORT_DATA_TYPE))
 
 typedef struct {
 	int	 offset;
@@ -15,7 +17,7 @@ typedef struct {
 	gboolean val;
 } GnmSortClause;
 
-struct _GnmSortData {
+struct GnmSortData_ {
 	GObject		parent;
 	Sheet		*sheet;
 	GnmRange	range;

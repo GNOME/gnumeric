@@ -5,7 +5,7 @@
 
 G_BEGIN_DECLS
 
-struct _ColRowInfo {
+struct ColRowInfo_ {
 	/* Size including margins, and right grid line */
 	double	 size_pts;
 	int      size_pixels;
@@ -41,7 +41,7 @@ GType col_row_info_get_type (void);
 #define COLROW_GET_SEGMENT(seg_array, i) \
 	COLROW_GET_SEGMENT_INDEX(seg_array, COLROW_SEGMENT_INDEX(i))
 
-struct _ColRowSegment {
+struct ColRowSegment_ {
 	ColRowInfo *info [COLROW_SEGMENT_SIZE];
 
 	// Pixel position of top left corner, i.e., sum of size_pixels for
@@ -49,7 +49,7 @@ struct _ColRowSegment {
 	// ColRowCollection.
 	gint64   pixel_start;
 };
-typedef struct _ColRowState {
+typedef struct ColRowState_ {
 	double    size_pts;
 	unsigned  is_default	: 1;
 	unsigned  outline_level : 4;

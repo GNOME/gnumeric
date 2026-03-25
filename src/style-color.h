@@ -8,7 +8,7 @@
 
 G_BEGIN_DECLS
 
-struct _GnmColor {
+struct GnmColor_ {
 	GOColor	 go_color;
 	int      ref_count;
 	gboolean is_auto;

@@ -31,10 +31,17 @@ typedef enum {
 GType gnm_tool_group_by_get_type (void);
 #define GNM_TOOL_GROUP_BY_TYPE (gnm_tool_group_by_get_type ())
 
-#define GNM_TYPE_ANALYSIS_TOOL (gnm_analysis_tool_get_type ())
-G_DECLARE_DERIVABLE_TYPE (GnmAnalysisTool, gnm_analysis_tool, GNM, ANALYSIS_TOOL, GObject)
+GType gnm_analysis_tool_get_type (void);
+#define GNM_ANALYSIS_TOOL_TYPE (gnm_analysis_tool_get_type ())
+#define GNM_ANALYSIS_TOOL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_ANALYSIS_TOOL_TYPE, GnmAnalysisTool))
+#define GNM_IS_ANALYSIS_TOOL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_ANALYSIS_TOOL_TYPE))
+#define GNM_ANALYSIS_TOOL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GNM_ANALYSIS_TOOL_TYPE, GnmAnalysisToolClass))
 
-struct _GnmAnalysisToolClass {
+struct GnmAnalysisTool_ {
+	GObject parent;
+};
+
+typedef struct {
 	GObjectClass parent_class;
 
 	gboolean (*update_dao) (GnmAnalysisTool *tool, data_analysis_output_t *dao);
@@ -43,7 +50,7 @@ struct _GnmAnalysisToolClass {
 	gboolean (*last_validity_check) (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao);
 	gboolean (*format_output_range) (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao);
 	gboolean (*perform_calc) (GnmAnalysisTool *tool, WorkbookControl *wbc, data_analysis_output_t *dao);
-};
+} GnmAnalysisToolClass;
 
 gboolean gnm_analysis_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *dao);
 char *   gnm_analysis_tool_update_descriptor (GnmAnalysisTool *tool, data_analysis_output_t *dao);

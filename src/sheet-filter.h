@@ -48,14 +48,14 @@ typedef enum {
 	GNM_FILTER_OP_TYPE_MASK		= 0x70
 } GnmFilterOp;
 
-struct _GnmFilterCondition {
+struct GnmFilterCondition_ {
 	GnmFilterOp  op[2];
 	GnmValue    *value[2];
 	gboolean is_and;
 	double	 count;
 };
 
-struct _GnmFilter {
+struct GnmFilter_ {
 	int ref_count;
 	Sheet *sheet;
 	GnmRange  r;

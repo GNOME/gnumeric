@@ -44,7 +44,7 @@
 #include <string.h>
 #include <locale.h>
 
-struct _GnmStfExport {
+struct GnmStfExport_ {
 	GsfOutputCsv csv;
 
 	GSList *sheet_list;

@@ -27,7 +27,7 @@
 G_BEGIN_DECLS
 #ifndef GOFFICE_NAMESPACE_DISABLE
 
-struct _GODataCache {
+struct GODataCache_ {
 	GObject		base;
 
 	GODataCacheSource	*data_source;

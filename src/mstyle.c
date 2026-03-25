@@ -52,7 +52,7 @@ static GOMemChunk *gnm_style_pool;
 #endif
 
 
-struct _GnmStyle {
+struct GnmStyle_ {
 	unsigned int	changed;
 	unsigned int	set;
 
@@ -70,7 +70,7 @@ struct _GnmStyle {
 	PangoContext  *font_context;
 
 /* public */
-	struct _GnmStyleColor {
+	struct GnmStyleColor_ {
 		GnmColor *font;
 		GnmColor *back;
 		GnmColor *pattern;
@@ -79,7 +79,7 @@ struct _GnmStyle {
 	guint32          pattern;
 
 	/* FIXME: TODO use GOFont */
-	struct _GnmStyleFontDetails {
+	struct GnmStyleFontDetails_ {
 		GOString	*name;
 		gboolean	bold;
 		gboolean	italic;

@@ -54,7 +54,7 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-struct _GnmApp {
+struct GnmApp_ {
 	GObject  base;
 
 	/* Clipboard */

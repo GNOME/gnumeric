@@ -21,7 +21,7 @@ G_BEGIN_DECLS
 
 // Note: more than 364238 columns will introduce a column named TRUE.
 
-struct _GnmSheetSize {
+struct GnmSheetSize_ {
 	int max_cols, max_rows;
 };
 
@@ -70,7 +70,7 @@ typedef enum {
 	/* hidden row in a filter */
 	CELL_ITER_IGNORE_FILTERED	= 1 << 4
 } CellIterFlags;
-typedef struct _GnmCellIter GnmCellIter;
+typedef struct GnmCellIter_ GnmCellIter;
 typedef GnmValue *(*CellIterFunc) (GnmCellIter const *iter, gpointer user);
 
 typedef enum {

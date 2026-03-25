@@ -36,7 +36,7 @@
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
 
-struct _GnmComment {
+struct GnmComment_ {
 	SheetObject	base;
 
 	char *author, *text;

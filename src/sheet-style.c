@@ -138,7 +138,7 @@ sh_destroy (GnmStyleHash *h)
 /* ------------------------------------------------------------------------- */
 
 typedef union _CellTile CellTile;
-struct _GnmSheetStyleData {
+struct GnmSheetStyleData_ {
 	/*
 	 * style_hash is a set of all styles used by this sheet.  These
 	 * styles are all linked.

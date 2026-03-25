@@ -35,39 +35,39 @@ typedef struct {
 	GnmValueType const type;
 	GOFormat const *fmt;
 } GnmValueAny;
-struct _GnmValueBool {
+struct GnmValueBool_ {
 	GnmValueType const type;
 	GOFormat *fmt;
 	gboolean val;
 };
-struct _GnmValueFloat {
+struct GnmValueFloat_ {
 	GnmValueType const type;
 	GOFormat *fmt;
 	gnm_float val;
 };
-struct _GnmValueErr {
+struct GnmValueErr_ {
 	GnmValueType const type;
 	GOFormat *fmt;
 	GOString   *mesg;
 };
-struct _GnmValueStr {
+struct GnmValueStr_ {
 	GnmValueType const type;
 	GOFormat *fmt;
 	GOString   *val;
 };
-struct _GnmValueRange {
+struct GnmValueRange_ {
 	GnmValueType const type;
 	GOFormat *fmt;
 	GnmRangeRef cell;
 };
-struct _GnmValueArray {
+struct GnmValueArray_ {
 	GnmValueType const type;
 	GOFormat *fmt;
 	int x, y;
 	GnmValue ***vals;  /* Array [x][y] */
 };
 
-union _GnmValue {
+union GnmValue_ {
 	GnmValueAny	v_any;
 	GnmValueBool	v_bool;
 	GnmValueFloat	v_float;

@@ -23,7 +23,7 @@ typedef enum {
 GType gnm_sheet_object_anchor_mode_get_type (void);
 #define GNM_SHEET_OBJECT_ANCHOR_MODE_TYPE (gnm_sheet_object_anchor_mode_get_type ())
 
-struct _SheetObjectAnchor {
+struct SheetObjectAnchor_ {
 	GODrawingAnchor	base;
 
 	GnmRange cell_bound; /* cellpos containing corners */

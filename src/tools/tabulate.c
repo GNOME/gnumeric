@@ -42,6 +42,9 @@
 #include <mathfunc.h>
 #include <application.h>
 
+typedef struct {
+	GObjectClass parent_class;
+} GnmTabulateClass;
 
 static GnmValue *
 tabulation_eval (int dims, gnm_float const *x,

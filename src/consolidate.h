@@ -30,7 +30,7 @@ typedef enum {
 	CONSOLIDATE_PUT_VALUES   = 1 << 3
 } GnmConsolidateMode;
 
-struct _GnmConsolidate {
+struct GnmConsolidate_ {
 	GnmFunc *fd;
 
 	GSList      *src;

@@ -6,7 +6,7 @@
 
 G_BEGIN_DECLS
 
-struct _GnmRenderedValue {
+struct GnmRenderedValue_ {
 	PangoLayout *layout;
 
 	/* In pango units:  */
@@ -30,7 +30,7 @@ struct _GnmRenderedValue {
 	signed int rotation : 10;
 };
 
-struct _GnmRenderedRotatedValue {
+struct GnmRenderedRotatedValue_ {
 	GnmRenderedValue rv;
 	guint sin_a_neg : 1;
 	int linecount;
@@ -56,7 +56,7 @@ GOColor gnm_rendered_value_get_color (GnmRenderedValue const * rv);
 
 /* ------------------------------------------------------------------------- */
 
-struct _GnmRenderedValueCollection {
+struct GnmRenderedValueCollection_ {
 	PangoContext *context;
 
 	gsize size;

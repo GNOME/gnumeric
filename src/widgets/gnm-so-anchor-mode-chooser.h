@@ -24,7 +24,7 @@
 #include <sheet-object.h>
 #include <glib-object.h>
 
-typedef struct _GnmSOAnchorModeChooser GnmSOAnchorModeChooser;
+typedef struct GnmSOAnchorModeChooser_ GnmSOAnchorModeChooser;
 
 #define GNM_SO_ANCHOR_MODE_CHOOSER_TYPE     (gnm_so_anchor_mode_chooser_get_type ())
 #define GNM_SO_ANCHOR_MODE_CHOOSER(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_SO_ANCHOR_MODE_CHOOSER_TYPE, GnmSOAnchorModeChooser))

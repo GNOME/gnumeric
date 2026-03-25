@@ -61,7 +61,7 @@ GnmRange const	*gnm_app_clipboard_area_get	  (void);
 
 typedef void (*GnmActionHandler) (GnmAction const *action, WorkbookControl *wbc,
 				  gpointer data);
-struct _GnmAction {
+struct GnmAction_ {
 	unsigned ref_count;
 	char *id;	 /* id of the function that will handle this */
 	char *label;	 /* untranslated, gettext domain will be passed later */

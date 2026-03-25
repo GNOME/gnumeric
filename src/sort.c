@@ -20,6 +20,10 @@
 #include <goffice/goffice.h>
 #include <stdlib.h>
 
+typedef struct {
+	GObjectClass parent_class;
+} GnmSortDataClass;
+
 G_DEFINE_TYPE (GnmSortData, gnm_sort_data, G_TYPE_OBJECT)
 
 static void

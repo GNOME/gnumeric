@@ -7,7 +7,7 @@
 
 G_BEGIN_DECLS
 
-struct _GnmNamedExpr {
+struct GnmNamedExpr_ {
 	int	    ref_count;
 	GOString   *name;
 	GnmParsePos    pos;

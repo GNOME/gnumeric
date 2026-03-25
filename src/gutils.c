@@ -615,7 +615,7 @@ gnm_pango_attr_list_equal (PangoAttrList const *l1, PangoAttrList const *l2)
 
 /* ------------------------------------------------------------------------- */
 
-struct _GnmLocale {
+struct GnmLocale_ {
 	char *num_locale;
 	char *monetary_locale;
 };

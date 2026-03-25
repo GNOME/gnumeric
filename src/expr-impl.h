@@ -8,60 +8,60 @@
 
 G_BEGIN_DECLS
 
-struct _GnmExprConstant {
+struct GnmExprConstant_ {
 	guint8 oper;
 	GnmValue const *value;
 };
 
-struct _GnmExprFunction {
+struct GnmExprFunction_ {
 	guint8 oper;
 	int argc;
 	GnmFunc *func;
 	GnmExprConstPtr *argv;
 };
 
-struct _GnmExprUnary {
+struct GnmExprUnary_ {
 	guint8 oper;
 	GnmExpr const *value;
 };
 
-struct _GnmExprBinary {
+struct GnmExprBinary_ {
 	guint8 oper;
 	GnmExpr const *value_a;
 	GnmExpr const *value_b;
 };
 
 /* We could break this out into multiple types to be more space efficient */
-struct _GnmExprName {
+struct GnmExprName_ {
 	guint8 oper;
 	Sheet *optional_scope;
 	Workbook *optional_wb_scope;
 	GnmNamedExpr *name;
 };
 
-struct _GnmExprCellRef {
+struct GnmExprCellRef_ {
 	guint8 oper;
 	GnmCellRef ref;
 };
 
-struct _GnmExprArrayCorner {
+struct GnmExprArrayCorner_ {
 	guint8 oper;
 	guint32 cols, rows;
 	GnmValue *value;	/* Last array result */
 	GnmExpr const *expr;	/* Real Expression */
 };
-struct _GnmExprArrayElem {
+struct GnmExprArrayElem_ {
 	guint8 oper;
 	guint32 x, y;
 };
 
-struct _GnmExprSet {
+struct GnmExprSet_ {
 	guint8 oper;
 	int argc;
 	GnmExprConstPtr *argv;
 };
 
-union _GnmExpr {
+union GnmExpr_ {
 	GnmExprConstant		constant;
 	GnmExprFunction		func;
 	GnmExprUnary		unary;
@@ -82,7 +82,7 @@ do {						\
 } while (0)
 
 
-struct _GnmExprSharer {
+struct GnmExprSharer_ {
 	GHashTable *exprs;
 
 	int nodes_in, nodes_stored, nodes_killed;

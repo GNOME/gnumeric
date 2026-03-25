@@ -53,7 +53,7 @@ typedef enum {
 
 #define GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT(sbl) ((GnmStyleElement)(MSTYLE_BORDER_TOP + (int)((sbl) - GNM_STYLE_BORDER_TOP)))
 
-struct _GnmBorder {
+struct GnmBorder_ {
 	/* Key elements */
 	GnmStyleBorderType line_type;
 	GnmColor	*color;

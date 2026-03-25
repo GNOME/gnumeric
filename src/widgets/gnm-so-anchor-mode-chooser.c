@@ -22,7 +22,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
-struct  _GnmSOAnchorModeChooser{
+struct  GnmSOAnchorModeChooser_{
 		 GtkComboBox parent;
 };
 typedef GtkComboBoxClass GnmSOAnchorModeChooserClass;

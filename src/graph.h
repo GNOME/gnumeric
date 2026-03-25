@@ -18,7 +18,7 @@ void	 gnm_go_data_foreach_dep (GOData *dat, SheetObject *so,
 #define GNM_GO_DATA_SCALAR(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_GO_DATA_SCALAR_TYPE, GnmGODataScalar))
 #define GNM_IS_GO_DATA_SCALAR(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_GO_DATA_SCALAR_TYPE))
 
-typedef struct _GnmGODataScalar GnmGODataScalar;
+typedef struct GnmGODataScalar_ GnmGODataScalar;
 GType	 gnm_go_data_scalar_get_type  (void);
 GOData	*gnm_go_data_scalar_new_expr  (Sheet *sheet, GnmExprTop const *texpr);
 
@@ -26,7 +26,7 @@ GOData	*gnm_go_data_scalar_new_expr  (Sheet *sheet, GnmExprTop const *texpr);
 #define GNM_GO_DATA_VECTOR(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_GO_DATA_VECTOR_TYPE, GnmGODataVector))
 #define GNM_IS_GO_DATA_VECTOR(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_GO_DATA_VECTOR_TYPE))
 
-typedef struct _GnmGODataVector GnmGODataVector;
+typedef struct GnmGODataVector_ GnmGODataVector;
 GType	 gnm_go_data_vector_get_type  (void);
 GOData	*gnm_go_data_vector_new_expr  (Sheet *sheet, GnmExprTop const *texpr);
 
@@ -34,7 +34,7 @@ GOData	*gnm_go_data_vector_new_expr  (Sheet *sheet, GnmExprTop const *texpr);
 #define GNM_GO_DATA_MATRIX(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_GO_DATA_MATRIX_TYPE, GnmGODataMatrix))
 #define GNM_IS_GO_DATA_MATRIX(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_GO_DATA_MATRIX_TYPE))
 
-typedef struct _GnmGODataMatrix GnmGODataMatrix;
+typedef struct GnmGODataMatrix_ GnmGODataMatrix;
 GType	 gnm_go_data_matrix_get_type  (void);
 GOData	*gnm_go_data_matrix_new_expr  (Sheet *sheet, GnmExprTop const *texpr);
 

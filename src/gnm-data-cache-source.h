@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 
 GType gnm_data_cache_source_get_type (void);
 
-typedef struct _GnmDataCacheSource GnmDataCacheSource;
+typedef struct GnmDataCacheSource_ GnmDataCacheSource;
 
 #ifndef GOFFICE_NAMESPACE_DISABLE
 GODataCacheSource *gnm_data_cache_source_new (Sheet *src_sheet,

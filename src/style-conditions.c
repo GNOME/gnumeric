@@ -34,7 +34,7 @@
 #include <gutils.h>
 
 typedef GObjectClass GnmStyleConditionsClass;
-struct _GnmStyleConditions {
+struct GnmStyleConditions_ {
 	GObject base;
 	GPtrArray *conditions;
 	Sheet *sheet;

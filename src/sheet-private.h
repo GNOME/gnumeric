@@ -3,7 +3,7 @@
 
 G_BEGIN_DECLS
 
-struct _SheetPrivate {
+struct SheetPrivate_ {
 	GnmRange	 unhidden_region;
 
 	/* State of menu items */

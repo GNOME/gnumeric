@@ -27,7 +27,7 @@
 G_BEGIN_DECLS
 #ifndef GOFFICE_NAMESPACE_DISABLE
 
-struct _GODataSlicerField {
+struct GODataSlicerField_ {
 	GObject		base;
 
 	GODataSlicer	*ds;

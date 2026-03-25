@@ -32,7 +32,7 @@
 #include <func.h>
 #include <sheet.h>
 
-G_DEFINE_TYPE (GnmChiSquaredTool, gnm_chi_squared_tool, GNM_TYPE_ANALYSIS_TOOL)
+G_DEFINE_TYPE (GnmChiSquaredTool, gnm_chi_squared_tool, GNM_ANALYSIS_TOOL_TYPE)
 
 static void
 gnm_chi_squared_tool_init (GnmChiSquaredTool *tool)

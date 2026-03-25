@@ -92,7 +92,7 @@ static GSF_CLASS (SOImageGocView, so_image_goc_view,
 	GNM_SO_VIEW_TYPE)
 
 /****************************************************************************/
-struct _SheetObjectImage {
+struct SheetObjectImage_ {
 	SheetObject  sheet_object;
 
 	GOImage      *image;

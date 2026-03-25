@@ -231,7 +231,7 @@ colrow_state_list_foreach (ColRowStateList *list,
 
 /*****************************************************************************/
 
-typedef struct _ColRowIndex {
+typedef struct ColRowIndex_ {
 	int first, last;
 } ColRowIndex;
 

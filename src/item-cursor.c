@@ -42,7 +42,7 @@
 #define AUTO_HANDLE_SPACE	(AUTO_HANDLE_WIDTH * 2)
 #define CLIP_SAFETY_MARGIN      (AUTO_HANDLE_SPACE + 5)
 
-struct _GnmItemCursor {
+struct GnmItemCursor_ {
 	GocItem canvas_item;
 
 	SheetControlGUI *scg;

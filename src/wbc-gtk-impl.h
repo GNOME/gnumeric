@@ -13,7 +13,7 @@
 
 G_BEGIN_DECLS
 
-struct _WBCGtk {
+struct WBCGtk_ {
 	WorkbookControl	base;
 
 	GtkWidget   *toplevel;

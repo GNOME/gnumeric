@@ -26,12 +26,12 @@ typedef struct {
 	GSList *             terminator;            /* Line terminators */
 	char *               locale;
 
-	struct _StfCompiledTerminator {
+	struct StfCompiledTerminator_ {
 		guchar       min, max;
 	} compiled_terminator;
 
 	/* CSV related */
-	struct _StfSeparator {
+	struct StfSeparator_ {
 		GSList *str;
 		char   *chr;
 		gboolean duplicates;         /* See two text separators as one? */

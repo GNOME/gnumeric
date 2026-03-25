@@ -286,7 +286,7 @@ gnm_analysis_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, dat
 
 /******************************************************************/
 
-G_DEFINE_TYPE (GnmGenericAnalysisTool, gnm_generic_analysis_tool, GNM_TYPE_ANALYSIS_TOOL)
+G_DEFINE_TYPE (GnmGenericAnalysisTool, gnm_generic_analysis_tool, GNM_ANALYSIS_TOOL_TYPE)
 
 enum {
 	GENERIC_PROP_0,
@@ -2654,7 +2654,7 @@ gnm_ranking_tool_new (void)
 
 /********************************************************************/
 
-G_DEFINE_TYPE (GnmGenericBAnalysisTool, gnm_generic_b_analysis_tool, GNM_TYPE_ANALYSIS_TOOL)
+G_DEFINE_TYPE (GnmGenericBAnalysisTool, gnm_generic_b_analysis_tool, GNM_ANALYSIS_TOOL_TYPE)
 
 static void
 gnm_generic_b_analysis_tool_init (GnmGenericBAnalysisTool *tool)

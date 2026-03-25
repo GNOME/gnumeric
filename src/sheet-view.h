@@ -12,7 +12,7 @@ typedef enum {
 	GNM_SHEET_VIEW_LAYOUT_MODE
 } GnmSheetViewMode;
 
-struct _SheetView {
+struct SheetView_ {
 	GObject  base;
 
 	Sheet		*sheet;

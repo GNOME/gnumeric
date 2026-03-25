@@ -28,7 +28,7 @@
 #define GNM_DAO(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_DAO_TYPE, GnmDao))
 #define GNM_IS_DAO(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GNM_DAO_TYPE))
 
-typedef struct _GnmDao GnmDao;
+typedef struct GnmDao_ GnmDao;
 
 
 GType		gnm_dao_get_type	(void);

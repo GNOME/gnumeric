@@ -9,7 +9,7 @@ G_BEGIN_DECLS
 #define GNM_SO_IMAGE(o)	 (G_TYPE_CHECK_INSTANCE_CAST((o), GNM_SO_IMAGE_TYPE, SheetObjectImage))
 #define GNM_IS_SO_IMAGE(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SO_IMAGE_TYPE))
 
-typedef struct _SheetObjectImage SheetObjectImage;
+typedef struct SheetObjectImage_ SheetObjectImage;
 
 GType	     sheet_object_image_get_type (void);
 void sheet_object_image_set_image (SheetObjectImage *soi,

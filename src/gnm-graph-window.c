@@ -9,7 +9,7 @@
 
 #include <goffice/goffice.h>
 
-struct _GnmGraphWindow {
+struct GnmGraphWindow_ {
 	GtkWindow parent;
 
 	GtkWidget *vbox;
@@ -26,7 +26,7 @@ struct _GnmGraphWindow {
 	gboolean is_fullscreen;
 };
 
-struct _GnmGraphWindowClass {
+struct GnmGraphWindowClass_ {
 	GtkWindowClass parent_class;
 };
 

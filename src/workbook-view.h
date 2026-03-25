@@ -7,7 +7,7 @@
 
 G_BEGIN_DECLS
 
-struct _WorkbookView {
+struct WorkbookView_ {
 	GoView  base;
 
 	Workbook *wb;

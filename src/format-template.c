@@ -41,6 +41,10 @@ attr_eq (const xmlChar *a, const char *s)
 	return !strcmp (CXML2C (a), s);
 }
 
+typedef struct {
+	GObjectClass parent_class;
+} GnmFTClass;
+
 G_DEFINE_TYPE (GnmFTMember, gnm_ft_member, G_TYPE_OBJECT)
 
 static void

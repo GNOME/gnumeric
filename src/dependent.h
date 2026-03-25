@@ -6,7 +6,7 @@
 
 G_BEGIN_DECLS
 
-struct _GnmDependent {
+struct GnmDependent_ {
 	guint	  flags;
 	Sheet	 *sheet;
 	GnmExprTop const *texpr;
@@ -71,7 +71,7 @@ typedef enum {
 #define dependent_needs_recalc(dep)	((dep)->flags & DEPENDENT_NEEDS_RECALC)
 #define dependent_is_linked(dep)	((dep)->flags & DEPENDENT_IS_LINKED)
 
-struct _GnmDepContainer {
+struct GnmDepContainer_ {
 	GnmDependent *head, *tail;
 
 	/* Large ranges hashed on 'range' to accelerate duplicate culling. This

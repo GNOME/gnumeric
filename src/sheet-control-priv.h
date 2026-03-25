@@ -5,7 +5,7 @@
 
 G_BEGIN_DECLS
 
-struct _SheetControl {
+struct SheetControl_ {
 	GObject object;
 
 	SheetView	*view;

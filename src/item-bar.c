@@ -30,7 +30,7 @@
 
 #include <string.h>
 
-struct _GnmItemBar {
+struct GnmItemBar_ {
 	GocItem	 base;
 
 	GnmPane		*pane;

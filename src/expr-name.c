@@ -188,7 +188,7 @@ fake_go_string_equal (gconstpointer a_, gconstpointer b_)
 }
 
 
-struct _GnmNamedExprCollection {
+struct GnmNamedExprCollection_ {
 	/* all the defined names */
 	GHashTable *names;
 

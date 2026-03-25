@@ -25,7 +25,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 
-struct _GnmInputMsg {
+struct GnmInputMsg_ {
 	GObject obj;
 	GOString *title;
 	GOString *msg;

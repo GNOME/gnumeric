@@ -774,7 +774,7 @@ consolidate_apply (GnmConsolidate *cs,
 
 
 
-G_DEFINE_TYPE (GnmConsolidateTool, gnm_consolidate_tool, GNM_TYPE_ANALYSIS_TOOL)
+G_DEFINE_TYPE (GnmConsolidateTool, gnm_consolidate_tool, GNM_ANALYSIS_TOOL_TYPE)
 
 static void
 gnm_consolidate_tool_init (G_GNUC_UNUSED GnmConsolidateTool *tool)

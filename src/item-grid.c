@@ -56,7 +56,7 @@ typedef enum {
 	GNM_ITEM_GRID_SELECTING_FORMULA_RANGE
 } ItemGridSelectionType;
 
-struct _GnmItemGrid {
+struct GnmItemGrid_ {
 	GocItem canvas_item;
 
 	SheetControlGUI *scg;

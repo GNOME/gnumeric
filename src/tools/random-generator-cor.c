@@ -33,7 +33,7 @@
 #include <func.h>
 #include <numbers.h>
 
-G_DEFINE_TYPE (GnmRandomCorTool, gnm_random_cor_tool, GNM_TYPE_ANALYSIS_TOOL)
+G_DEFINE_TYPE (GnmRandomCorTool, gnm_random_cor_tool, GNM_ANALYSIS_TOOL_TYPE)
 
 static void
 gnm_random_cor_tool_init (GnmRandomCorTool *tool)

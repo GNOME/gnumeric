@@ -42,7 +42,7 @@ void gnm_1_0_rangeref_as_string (GnmConventionsOut *out,
 				 GnmRangeRef const *ref);
 
 
-struct _GnmConventionsOut {
+struct GnmConventionsOut_ {
 	GString	*accum;
 	GnmParsePos const *pp;
 	GnmConventions const *convs;
@@ -70,7 +70,7 @@ typedef enum {
 } ParseErrorID;
 
 /* In parser.y  */
-struct _GnmParseError {
+struct GnmParseError_ {
 	GError	*err;
 	int begin_char, end_char;
 };
@@ -95,7 +95,7 @@ typedef enum {
 	GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID	   = 1 << 5
 } GnmExprParseFlags;
 
-struct _GnmConventions {
+struct GnmConventions_ {
 	int ref_count;
 
 #if 0
@@ -147,7 +147,7 @@ struct _GnmConventions {
 	gboolean exp_is_left_associative;
 
 /* Import specific functions ------------------------------------- */
-	struct _GnmConventionsImport {
+	struct GnmConventionsImport_ {
 		/* Called a lot for anything that might be a reference.  */
 		char const *(*range_ref) (GnmRangeRef *res, char const *in,
 					  GnmParsePos const *pp,
@@ -180,7 +180,7 @@ struct _GnmConventions {
 	} input;
 
 /* Export specific functions ----------------------------------- */
-	struct _GnmConventionsExport {
+	struct GnmConventionsExport_ {
 		int decimal_digits;
 		gboolean uppercase_E;
 

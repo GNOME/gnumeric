@@ -34,7 +34,7 @@
 #include <gnm-i18n.h>
 #include <string.h>
 
-struct _GnmDataCacheSource {
+struct GnmDataCacheSource_ {
 	GObject		base;
 
 	Sheet	  *src_sheet;

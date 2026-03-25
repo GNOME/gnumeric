@@ -6,10 +6,12 @@
 
 #include <glib-object.h>
 
+GType gnm_tabulate_get_type (void);
 #define GNM_TABULATE_TYPE (gnm_tabulate_get_type ())
-G_DECLARE_FINAL_TYPE (GnmTabulate, gnm_tabulate, GNM, TABULATE, GObject)
+#define GNM_TABULATE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TABULATE_TYPE, GnmTabulate))
+#define GNM_IS_TABULATE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TABULATE_TYPE))
 
-struct _GnmTabulate {
+struct GnmTabulate_ {
 	GObject parent;
 	GnmCell   *target;
 	int dims;

@@ -67,12 +67,12 @@ struct GnmPrintInformation_ {
 		* When the user is doing the simple scaling, both these values
 		* will be equal.
 		*/
-		struct _PrintScalePercent {
+		struct PrintScalePercent_ {
 			double x;
 			double y;
 		} percentage;
 
-		struct _PrintScaleDim { /* zero == use as many as required */
+		struct PrintScaleDim_ { /* zero == use as many as required */
 			int cols;
 			int rows;
 		} dim;
@@ -96,7 +96,7 @@ struct GnmPrintInformation_ {
 	GnmPrintCommentPlacementType comment_placement;
 	GnmPrintErrorsType error_display;
 
-	struct _PrintInfoPageBreaks {
+	struct PrintInfoPageBreaks_ {
 		GnmPageBreaks *h,  /* between rows */
 			      *v;  /* between columns */
 	} page_breaks;

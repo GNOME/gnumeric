@@ -7,11 +7,11 @@
 
 G_BEGIN_DECLS
 
-struct _GnmFont {
+struct GnmFont_ {
 	int	 ref_count;
 	char	*font_name;
 	double	 size_pts;
-	struct _GnmGOFont {
+	struct GnmGOFont_ {
 		GOFont const *font;
 		GOFontMetrics *metrics;
 	} go;

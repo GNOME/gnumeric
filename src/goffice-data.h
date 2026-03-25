@@ -7,12 +7,12 @@ G_BEGIN_DECLS
 #ifndef GOFFICE_NAMESPACE_DISABLE
 
 /* DOES NOT BELONG HERE */
-typedef struct _GODataCache		GODataCache;
-typedef struct _GODataCacheField	GODataCacheField;
-typedef struct _GODataCacheSource	GODataCacheSource;
+typedef struct GODataCache_		GODataCache;
+typedef struct GODataCacheField_	GODataCacheField;
+typedef struct GODataCacheSource_	GODataCacheSource;
 
-typedef struct _GODataSlicer		GODataSlicer;
-typedef struct _GODataSlicerField	GODataSlicerField;
+typedef struct GODataSlicer_		GODataSlicer;
+typedef struct GODataSlicerField_	GODataSlicerField;
 
 typedef enum {
 	GDS_FIELD_TYPE_UNSET    = -1,

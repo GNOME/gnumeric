@@ -40,7 +40,7 @@ typedef enum {
 	GNM_VALIDATION_OP_LTE
 } ValidationOp;
 
-struct _GnmValidation {
+struct GnmValidation_ {
 	int               ref_count;
 
 	GOString         *title;

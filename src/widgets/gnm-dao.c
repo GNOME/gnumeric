@@ -28,7 +28,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
-struct  _GnmDao {
+struct GnmDao_ {
 	GtkBox		box;
 	GtkBuilder      *gui;
 

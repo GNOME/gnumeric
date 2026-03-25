@@ -7,7 +7,7 @@
 
 G_BEGIN_DECLS
 
-struct _Workbook {
+struct Workbook_ {
 	GODoc	doc;
 
 #ifndef __GI_SCANNER__

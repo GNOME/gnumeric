@@ -15,7 +15,7 @@ GNM_VAR_DECL Sheet *invalid_sheet;
 
 GType gnm_sheet_size_get_type (void);
 
-struct _ColRowCollection {
+struct ColRowCollection_ {
 	int         max_used;
 	ColRowInfo  default_style;
 	GPtrArray * info;
@@ -25,14 +25,14 @@ struct _ColRowCollection {
 	int         last_valid_pixel_start;
 };
 
-typedef struct _SheetPrivate SheetPrivate;
+typedef struct SheetPrivate_ SheetPrivate;
 GType gnm_sheet_type_get_type (void);
 #define GNM_SHEET_TYPE_TYPE (gnm_sheet_type_get_type ())
 
 GType gnm_sheet_visibility_get_type (void);
 #define GNM_SHEET_VISIBILITY_TYPE (gnm_sheet_visibility_get_type ())
 
-struct _Sheet {
+struct Sheet_ {
 	GObject	base;
 
 	int         index_in_wb;
@@ -173,7 +173,7 @@ void      sheet_cell_remove	 (Sheet *sheet, GnmCell *cell,
  * Merge with sheet_cell_foreach
  *
  **/
-struct _GnmCellIter {
+struct GnmCellIter_ {
 	GnmCell	    *cell;
 	GnmParsePos  pp;
 	ColRowInfo  *ci, *ri;

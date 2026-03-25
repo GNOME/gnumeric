@@ -22,7 +22,7 @@ typedef enum {
 	SHEET_OBJECT_OBSCURED		= 1 << 18	/* cells associated with region are hidden */
 } SheetObjectFlags;
 
-struct _SheetObject {
+struct SheetObject_ {
 	GObject            parent_object;
 	Sheet             *sheet;
 	GList             *realized_list;
@@ -107,7 +107,7 @@ typedef struct {
 
 /***************************************************************************/
 
-struct _SheetObjectView {
+struct SheetObjectView_ {
 	GocGroup base;
 
 	GnmSOResizeMode resize_mode;

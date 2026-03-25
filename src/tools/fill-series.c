@@ -313,7 +313,7 @@ fill_series_date_unit_get_type (void)
 	return etype;
 }
 
-G_DEFINE_TYPE (GnmFillSeriesTool, gnm_fill_series_tool, GNM_TYPE_ANALYSIS_TOOL)
+G_DEFINE_TYPE (GnmFillSeriesTool, gnm_fill_series_tool, GNM_ANALYSIS_TOOL_TYPE)
 
 enum {
 	FILL_SERIES_PROP_0,

@@ -705,7 +705,7 @@ tool_random_engine_run_gumbel2 (GnmRandomTool *rtool, GOCmdContext *gcc, data_an
 	return FALSE;
 }
 
-G_DEFINE_TYPE (GnmRandomTool, gnm_random_tool, GNM_TYPE_ANALYSIS_TOOL)
+G_DEFINE_TYPE (GnmRandomTool, gnm_random_tool, GNM_ANALYSIS_TOOL_TYPE)
 
 static void
 gnm_random_tool_init (GnmRandomTool *rtool)

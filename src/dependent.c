@@ -137,8 +137,8 @@ bucket_end_row (int b)
 /* Keep this odd */
 #define CSET_SEGMENT_SIZE 29
 
-typedef struct _CSet CSet;
-struct _CSet {
+typedef struct CSet_ CSet;
+struct CSet_ {
         int count;
         CSet *next;
         gpointer data[CSET_SEGMENT_SIZE];

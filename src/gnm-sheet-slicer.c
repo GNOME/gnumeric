@@ -33,7 +33,7 @@
 
 #include <glib-object.h>
 
-struct _GnmSheetSlicer {
+struct GnmSheetSlicer_ {
 	GODataSlicer		base;
 
 	Sheet		*sheet;

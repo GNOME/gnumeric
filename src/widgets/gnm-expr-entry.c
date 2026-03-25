@@ -127,7 +127,7 @@ struct GnmExprEntry_ {
 	GOFormat const *constant_format;
 };
 
-typedef struct _GnmExprEntryClass {
+typedef struct {
 	GtkBoxClass base;
 
 	void (* update)   (GnmExprEntry *gee, gboolean user_requested_update);

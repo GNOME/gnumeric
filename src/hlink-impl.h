@@ -5,7 +5,7 @@
 
 G_BEGIN_DECLS
 
-struct _GnmHLink {
+struct GnmHLink_ {
 	GObject obj;
 	gchar *tip;
 	gchar *target;

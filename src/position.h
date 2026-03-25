@@ -7,14 +7,14 @@ G_BEGIN_DECLS
 
 GType gnm_cell_pos_get_type (void); /* boxed type */
 
-struct _GnmEvalPos {
+struct GnmEvalPos_ {
 	GnmCellPos eval;
 	Sheet *sheet;
 	GnmDependent *dep;	 /* optionally NULL */
 	GnmExprTop const *array_texpr; /* non-NULL if top level is array */
 };
 
-struct _GnmParsePos {
+struct GnmParsePos_ {
 	GnmCellPos  eval;
 	Sheet	   *sheet;
 	Workbook   *wb;
@@ -48,14 +48,14 @@ GnmParsePos *parse_pos_init_sheet   (GnmParsePos *pp, Sheet const *sheet);
 
 /*****************************************************************************/
 
-struct _GnmCellRef {
+struct GnmCellRef_ {
 	Sheet *sheet;
 	int   col, row;
 
 	unsigned char col_relative;
 	unsigned char row_relative;
 };
-struct _GnmRangeRef {
+struct GnmRangeRef_ {
 	GnmCellRef a, b;
 };
 

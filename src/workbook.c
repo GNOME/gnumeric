@@ -1584,7 +1584,7 @@ typedef struct {
 	GSList *properties;
 } WorkbookSheetStateSheet;
 
-struct _WorkbookSheetState {
+struct WorkbookSheetState_ {
 	GSList *properties;
 	int n_sheets;
 	WorkbookSheetStateSheet *sheets;

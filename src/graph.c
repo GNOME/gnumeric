@@ -330,7 +330,7 @@ gnm_go_data_foreach_dep (GOData *dat, SheetObject *so,
 
 /**************************************************************************/
 
-struct _GnmGODataScalar {
+struct GnmGODataScalar_ {
 	GODataScalar	 base;
 	GnmDependent	 dep;
 	GnmValue	*val;
@@ -485,7 +485,7 @@ gnm_go_data_scalar_new_expr (Sheet *sheet, GnmExprTop const *texpr)
 
 /**************************************************************************/
 
-struct _GnmGODataVector {
+struct GnmGODataVector_ {
 	GODataVector	base;
 	GnmDependent	 dep;
 	GnmValue	*val;
@@ -1155,7 +1155,7 @@ gnm_go_data_vector_new_expr (Sheet *sheet, GnmExprTop const *texpr)
 
 /**************************************************************************/
 
-struct _GnmGODataMatrix {
+struct GnmGODataMatrix_ {
 	GODataMatrix	base;
 	GnmDependent	 dep;
 	GnmValue	*val;

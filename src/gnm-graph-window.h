@@ -9,8 +9,8 @@ G_BEGIN_DECLS
 #define GNM_GRAPH_WINDOW(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_TYPE_GRAPH_WINDOW, GnmGraphWindow))
 #define GNM_IS_GRAPH_WINDOW(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNM_TYPE_GRAPH_WINDOW))
 
-typedef struct _GnmGraphWindow      GnmGraphWindow;
-typedef struct _GnmGraphWindowClass GnmGraphWindowClass;
+typedef struct GnmGraphWindow_      GnmGraphWindow;
+typedef struct GnmGraphWindowClass_ GnmGraphWindowClass;
 
 GType      gnm_graph_window_get_type (void);
 

@@ -8,7 +8,7 @@
 G_BEGIN_DECLS
 
 #define	SCG_NUM_PANES		4
-struct _SheetControlGUI {
+struct SheetControlGUI_ {
 	SheetControl sheet_control;
 
 	/* Cached SheetControl attribute to reduce casting. */

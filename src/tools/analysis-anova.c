@@ -41,7 +41,7 @@ static gboolean analysis_tool_anova_two_factor_prepare_input_range (GnmAnovaTwoF
 static gboolean analysis_tool_anova_two_factor_no_rep_engine_run (GnmAnovaTwoFactorTool *atool, data_analysis_output_t *dao );
 static gboolean analysis_tool_anova_two_factor_engine_run (GnmAnovaTwoFactorTool *atool, data_analysis_output_t *dao);
 
-G_DEFINE_TYPE (GnmAnovaTwoFactorTool, gnm_anova_two_factor_tool, GNM_TYPE_ANALYSIS_TOOL)
+G_DEFINE_TYPE (GnmAnovaTwoFactorTool, gnm_anova_two_factor_tool, GNM_ANALYSIS_TOOL_TYPE)
 
 static void
 gnm_anova_two_factor_tool_init (GnmAnovaTwoFactorTool *tool)

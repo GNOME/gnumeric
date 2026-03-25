@@ -99,9 +99,9 @@ typedef enum {
 	AFS_ERROR
 } AutoFillerStatus;
 
-typedef struct _AutoFiller AutoFiller;
+typedef struct AutoFiller_ AutoFiller;
 
-struct _AutoFiller {
+struct AutoFiller_ {
 	AutoFillerStatus status;
 	int priority;
 

@@ -6,12 +6,12 @@
 
 G_BEGIN_DECLS
 
-struct _GnmStyleRegion {
+struct GnmStyleRegion_ {
 	GnmRange  range; /* must be 1st */
 	GnmStyle *style;
 };
 
-struct _GnmStyleRow {
+struct GnmStyleRow_ {
 	gboolean hide_grid;
 	int row, start_col, end_col;
 	Sheet const     *sheet;

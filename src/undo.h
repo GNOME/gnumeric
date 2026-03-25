@@ -18,10 +18,10 @@ G_BEGIN_DECLS
 
 GType gnm_undo_colrow_restore_state_group_get_type (void);
 
-typedef struct _GnmUndoColrowRestoreStateGroup GnmUndoColrowRestoreStateGroup;
-typedef struct _GnmUndoColrowRestoreStateGroupClass GnmUndoColrowRestoreStateGroupClass;
+typedef struct GnmUndoColrowRestoreStateGroup_ GnmUndoColrowRestoreStateGroup;
+typedef struct GnmUndoColrowRestoreStateGroupClass_ GnmUndoColrowRestoreStateGroupClass;
 
-struct _GnmUndoColrowRestoreStateGroup {
+struct GnmUndoColrowRestoreStateGroup_ {
 	GOUndo base;
 	Sheet *sheet;
 	gboolean is_cols;
@@ -29,7 +29,7 @@ struct _GnmUndoColrowRestoreStateGroup {
 	ColRowStateGroup *saved_state;
 };
 
-struct _GnmUndoColrowRestoreStateGroupClass {
+struct GnmUndoColrowRestoreStateGroupClass_ {
 	GOUndoClass base;
 };
 
@@ -45,10 +45,10 @@ GOUndo *gnm_undo_colrow_restore_state_group_new (Sheet *sheet, gboolean is_cols,
 
 GType gnm_undo_colrow_set_sizes_get_type (void);
 
-typedef struct _GnmUndoColrowSetSizes GnmUndoColrowSetSizes;
-typedef struct _GnmUndoColrowSetSizesClass GnmUndoColrowSetSizesClass;
+typedef struct GnmUndoColrowSetSizes_ GnmUndoColrowSetSizes;
+typedef struct GnmUndoColrowSetSizesClass_ GnmUndoColrowSetSizesClass;
 
-struct _GnmUndoColrowSetSizes {
+struct GnmUndoColrowSetSizes_ {
 	GOUndo base;
 	Sheet *sheet;
 	gboolean is_cols;
@@ -56,7 +56,7 @@ struct _GnmUndoColrowSetSizes {
 	int new_size, from, to;
 };
 
-struct _GnmUndoColrowSetSizesClass {
+struct GnmUndoColrowSetSizesClass_ {
 	GOUndoClass base;
 };
 
@@ -72,17 +72,17 @@ GOUndo *gnm_undo_colrow_set_sizes_new (Sheet *sheet, gboolean is_cols,
 
 GType gnm_undo_filter_set_condition_get_type (void);
 
-typedef struct _GnmUndoFilterSetCondition GnmUndoFilterSetCondition;
-typedef struct _GnmUndoFilterSetConditionClass GnmUndoFilterSetConditionClass;
+typedef struct GnmUndoFilterSetCondition_ GnmUndoFilterSetCondition;
+typedef struct GnmUndoFilterSetConditionClass_ GnmUndoFilterSetConditionClass;
 
-struct _GnmUndoFilterSetCondition {
+struct GnmUndoFilterSetCondition_ {
 	GOUndo base;
 	GnmFilter *filter;
 	unsigned i;
 	GnmFilterCondition *cond;
 };
 
-struct _GnmUndoFilterSetConditionClass {
+struct GnmUndoFilterSetConditionClass_ {
 	GOUndoClass base;
 };
 
