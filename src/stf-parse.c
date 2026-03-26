@@ -113,7 +113,9 @@ gnm_stf_parsed_lines_new (void)
 
 /* Source_t struct, used for interchanging parsing information between the low level parse functions */
 typedef struct {
-	GStringChunk *chunk;
+	// The eventual owner of the strings
+	GnmStfParsedLines *pl;
+
 	char const *position;  /* Indicates the current position within data */
 
 	/* Used internally for fixed width parsing */
@@ -799,7 +801,7 @@ stf_parse_csv_line (Source_t *src, GnmStfParseOptions *parseoptions)
 		StfParseCellRes res =
 			stf_parse_csv_cell (text, src, parseoptions);
 		trim_spaces_inplace (text->str, parseoptions);
-		ctext = g_string_chunk_insert_len (src->chunk,
+		ctext = g_string_chunk_insert_len (src->pl->lines_chunk,
 						   text->str, text->len);
 		g_string_truncate (text, 0);
 
@@ -852,7 +854,7 @@ stf_parse_fixed_cell (Source_t *src, GnmStfParseOptions *parseoptions)
 		cur = g_utf8_next_char (cur);
 	}
 
-	res = g_string_chunk_insert_len (src->chunk,
+	res = g_string_chunk_insert_len (src->pl->lines_chunk,
 					 src->position,
 					 cur - src->position);
 
@@ -923,7 +925,7 @@ stf_parse_general (GnmStfParseOptions *parseoptions,
 
 	GnmStfParsedLines *pl = gnm_stf_parsed_lines_new ();
 
-	src.chunk = pl->lines_chunk;
+	src.pl = pl;
 	src.position = data;
 	row = 0;
 

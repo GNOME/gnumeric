@@ -11,10 +11,15 @@ GType gnm_stf_parsed_lines_get_type (void);
 #define GNM_STF_PARSED_LINES(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_STF_PARSED_LINES_TYPE, GnmStfParsedLines))
 #define GNM_IS_STF_PARSED_LINES(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_STF_PARSED_LINES_TYPE))
 
+// A structure holding a (normally) rectangular lattice of strings
 struct GnmStfParsedLines_ {
 	GObject parent;
 
+	// We allocate lots of little strings from here
 	GStringChunk *lines_chunk;
+
+	// This is, roughly, vector<vector<char *>> with strings owned by
+	// the chunk
 	GPtrArray *lines;
 };
 
@@ -84,15 +89,16 @@ struct GnmStfParseOptions_ {
 	gboolean             rows_exceeded;         /* Ditto rows.  */
 };
 
-/* CREATION/DESTRUCTION of stf options struct */
+// Option and format guessing
+GnmStfParseOptions  *stf_parse_options_guess          (char const *data);
+GnmStfParseOptions  *stf_parse_options_guess_csv      (char const *data);
+void                stf_parse_options_guess_formats   (GnmStfParseOptions *po,
+						       char const *data);
+void		 stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
+						       char const *data,
+						       char const *data_end);
 
-GnmStfParseOptions  *stf_parse_options_guess                           (char const *data);
-GnmStfParseOptions  *stf_parse_options_guess_csv                       (char const *data);
-void                stf_parse_options_guess_formats                   (GnmStfParseOptions *po,
-								       char const *data);
-
-/* MANIPULATION of stf options struct */
-
+// Setters
 void stf_parse_options_set_type                        (GnmStfParseOptions *parseoptions,
 							GnmStfParseType parsetype);
 void stf_parse_options_clear_line_terminator           (GnmStfParseOptions *parseoptions);
@@ -127,10 +133,6 @@ GnmStfParsedLines *stf_parse_lines			(GnmStfParseOptions *parseoptions,
 							 char const *data,
 							 int maxlines,
 							 gboolean with_lineno);
-
-void		 stf_parse_options_fixed_autodiscover	(GnmStfParseOptions *parseoptions,
-							 char const *data,
-							 char const *data_end);
 
 char const	*stf_parse_find_line			(GnmStfParseOptions *parseoptions,
 							 char const *data,

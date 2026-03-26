@@ -285,13 +285,11 @@ stf_preview_set_lines (RenderData_t *renderdata, GnmStfParsedLines *pl)
 void
 stf_preview_colformats_clear (RenderData_t *renderdata)
 {
-	guint i;
 	g_return_if_fail (renderdata != NULL);
 
-	for (i = 0; i < renderdata->colformats->len; i++)
+	for (size_t i = 0; i < renderdata->colformats->len; i++)
 		go_format_unref (g_ptr_array_index (renderdata->colformats, i));
-	g_ptr_array_free (renderdata->colformats, TRUE);
-	renderdata->colformats = g_ptr_array_new ();
+	g_ptr_array_set_size (renderdata->colformats, 0);
 }
 
 /**
