@@ -303,7 +303,6 @@ paradox_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	pxdoc_t *pxdoc = NULL;
 	pxfield_t *pxf;
 	char *data;
-	char *tmpfilename;
 
 	sheet = wb_view_cur_sheet (wb_view);
 	if (sheet == NULL) {
