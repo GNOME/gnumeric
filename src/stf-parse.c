@@ -1418,13 +1418,7 @@ stf_parse_sheet (GnmStfParseOptions *parseoptions,
 		GPtrArray *line;
 
 		if (row >= gnm_sheet_get_max_rows (sheet)) {
-			if (!parseoptions->rows_exceeded) {
-				/* FIXME: What locale?  */
-				g_warning (_("There are more rows of data than "
-					     "there is room for in the sheet.  Extra "
-					     "rows will be ignored."));
-				parseoptions->rows_exceeded = TRUE;
-			}
+			parseoptions->rows_exceeded = TRUE;
 			break;
 		}
 
@@ -1444,13 +1438,7 @@ stf_parse_sheet (GnmStfParseOptions *parseoptions,
 				continue;
 
 			if (col >= gnm_sheet_get_max_cols (sheet)) {
-				if (!parseoptions->cols_exceeded) {
-					/* FIXME: What locale?  */
-					g_warning (_("There are more columns of data than "
-						     "there is room for in the sheet.  Extra "
-						     "columns will be ignored."));
-					parseoptions->cols_exceeded = TRUE;
-				}
+				parseoptions->cols_exceeded = TRUE;
 				break;
 			}
 			if (text && *text) {
@@ -1479,6 +1467,17 @@ stf_parse_sheet (GnmStfParseOptions *parseoptions,
 		g_ptr_array_free (line, TRUE);
 	}
 	END_LOCALE_SWITCH;
+
+	if (parseoptions->rows_exceeded) {
+		g_warning (_("There are more rows of data than "
+			     "there is room for in the sheet.  Extra "
+			     "rows will be ignored."));
+	}
+	if (parseoptions->cols_exceeded) {
+		g_warning (_("There are more columns of data than "
+			     "there is room for in the sheet.  Extra "
+			     "columns will be ignored."));
+	}
 
 	for (lcol = 0, col = start_col;
 	     lcol < parseoptions->col_import_array_len  && col < gnm_sheet_get_max_cols (sheet);

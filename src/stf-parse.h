@@ -50,12 +50,12 @@ struct GnmStfParseOptions_ {
 	GSList *             terminator;            /* Line terminators */
 	char *               locale;
 
-	struct StfCompiledTerminator_ {
+	struct {
 		guchar       min, max;
 	} compiled_terminator;
 
 	/* CSV related */
-	struct StfSeparator_ {
+	struct {
 		GSList *str;
 		char   *chr;
 		gboolean duplicates;         /* See two text separators as one? */
