@@ -458,7 +458,7 @@ build_set (GnmExprList *list)
 /**
  * parse_string_as_value:
  *
- * Try to parse the entered text as a basic value (empty, bool, int,
+ * Try to parse the entered text as a basic value (empty, boolean, int,
  * gnm_float, err) if this succeeds, we store this as a GnmValue otherwise, we
  * return a string.
  */

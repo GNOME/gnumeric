@@ -13,7 +13,7 @@ criteria_inspect_values (GnmValue const *x, gnm_float *xr, gnm_float *yr,
 
 	switch (y->v_any.type) {
 	case VALUE_BOOLEAN:
-		/* If we're searching for a bool -- even one that is
+		/* If we're searching for a boolean -- even one that is
 		   from a string search value -- we match only bools.  */
 		if (!VALUE_IS_BOOLEAN (x))
 			return CRIT_WRONGTYPE;
