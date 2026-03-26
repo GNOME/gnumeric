@@ -415,7 +415,7 @@ command_undo (WorkbookControl *wbc)
 
 	/* TRUE indicates a failure to undo.  Leave the command where it is */
 	GTimer *timer = undo_redo_timer_start (cmd, "Undo");
-	bool fail = klass->undo_cmd (cmd, wbc);
+	gboolean fail = klass->undo_cmd (cmd, wbc);
 	undo_redo_timer_stop (cmd, "Undo", timer);
 
 	if (!fail) {
@@ -476,7 +476,7 @@ command_redo (WorkbookControl *wbc)
 	cmd->state_before_do = go_doc_get_state (wb_control_get_doc (wbc));
 
 	GTimer *timer = undo_redo_timer_start (cmd, "Redo");
-	bool fail = klass->redo_cmd (cmd, wbc);
+	gboolean fail = klass->redo_cmd (cmd, wbc);
 	undo_redo_timer_stop (cmd, "Redo", timer);
 
 	if (!fail) {
