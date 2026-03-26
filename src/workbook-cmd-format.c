@@ -53,6 +53,15 @@ cb_colrow_collect (G_GNUC_UNUSED SheetView *sv, GnmRange const *r, gpointer user
 	return TRUE;
 }
 
+/**
+ * workbook_cmd_resize_selected_colrow:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @is_cols: if %TRUE, resize columns, else rows
+ * @new_size_pixels: the new size in pixels
+ *
+ * Resizes the selected columns or rows.
+ **/
 void
 workbook_cmd_resize_selected_colrow (WorkbookControl *wbc, Sheet *sheet,
 				     gboolean is_cols, int new_size_pixels)
@@ -65,9 +74,17 @@ workbook_cmd_resize_selected_colrow (WorkbookControl *wbc, Sheet *sheet,
 	cmd_resize_colrow (wbc, sheet, is_cols, closure.selection, new_size_pixels);
 }
 
+/**
+ * workbook_cmd_autofit_selection:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @is_cols: if %TRUE, autofit columns, else rows
+ *
+ * Autofits the selected columns or rows.
+ **/
 void
 workbook_cmd_autofit_selection  (WorkbookControl *wbc, Sheet *sheet,
-			gboolean is_cols)
+				 gboolean is_cols)
 {
 	SheetView *sv = sheet_get_view (sheet, wb_control_view (wbc));
 	struct closure_colrow_resize closure;
@@ -77,6 +94,12 @@ workbook_cmd_autofit_selection  (WorkbookControl *wbc, Sheet *sheet,
 	cmd_autofit_selection (wbc, sv, sheet, is_cols, closure.selection);
 }
 
+/**
+ * workbook_cmd_inc_indent:
+ * @wbc: #WorkbookControl
+ *
+ * Increases the indentation of the selected cells.
+ **/
 void
 workbook_cmd_inc_indent (WorkbookControl *wbc)
 {
@@ -92,11 +115,17 @@ workbook_cmd_inc_indent (WorkbookControl *wbc)
 
 		if (GNM_HALIGN_LEFT != gnm_style_get_align_h (wbv->current_style))
 			gnm_style_set_align_h (style, GNM_HALIGN_LEFT);
-		gnm_style_set_indent (style, i+1);
+		gnm_style_set_indent (style, i + 1);
 		cmd_selection_format (wbc, style, NULL, _("Increase Indent"));
 	}
 }
 
+/**
+ * workbook_cmd_dec_indent:
+ * @wbc: #WorkbookControl
+ *
+ * Decreases the indentation of the selected cells.
+ **/
 void
 workbook_cmd_dec_indent (WorkbookControl *wbc)
 {
@@ -109,13 +138,13 @@ workbook_cmd_dec_indent (WorkbookControl *wbc)
 	i = gnm_style_get_indent (wbv->current_style);
 	if (i > 0) {
 		GnmStyle *style = gnm_style_new ();
-		gnm_style_set_indent (style, i-1);
+		gnm_style_set_indent (style, i - 1);
 		cmd_selection_format (wbc, style, NULL, _("Decrease Indent"));
 	}
 }
 
 struct workbook_cmd_wrap_sort_t {
-	GnmExprList    *args;
+	GnmExprList *args;
 	GnmRange const *r;
 	Workbook *wb;
 };
@@ -151,6 +180,13 @@ cb_get_cell_content (GnmCellIter const *iter, struct workbook_cmd_wrap_sort_t *c
 	return NULL;
 }
 
+/**
+ * workbook_cmd_wrap_sort:
+ * @wbc: #WorkbookControl
+ * @type: sort type
+ *
+ * Wraps the selection in a SORT function.
+ **/
 void
 workbook_cmd_wrap_sort (WorkbookControl *wbc, int type)
 {
