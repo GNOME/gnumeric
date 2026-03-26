@@ -59,7 +59,7 @@ static void
 format_page_trim_menu_changed (G_GNUC_UNUSED GtkMenu *menu,
 				  StfDialogData *data)
 {
-	StfTrimType_t trim;
+	GnmStfTrimType trim;
 	int trimtype = gtk_combo_box_get_active (GTK_COMBO_BOX (data->format.format_trim));
 
 	switch (trimtype) {
@@ -538,7 +538,6 @@ format_page_update_preview (StfDialogData *pagedata)
 	unsigned int ui;
 	int i;
 	int col_import_array_len_old, old_part;
-	GStringChunk *lines_chunk;
 	char *msg = NULL;
 
 	stf_preview_colformats_clear (renderdata);
@@ -547,10 +546,8 @@ format_page_update_preview (StfDialogData *pagedata)
 		stf_preview_colformats_add (renderdata, sf);
 	}
 
-	lines_chunk = g_string_chunk_new (100 * 1024);
-	stf_preview_set_lines (renderdata, lines_chunk,
+	stf_preview_set_lines (renderdata,
 			       stf_parse_general (pagedata->parseoptions,
-						  lines_chunk,
 						  pagedata->cur,
 						  pagedata->cur_end));
 

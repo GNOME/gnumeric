@@ -116,7 +116,7 @@ typedef struct {
 	FixedInfo_t           fixed;
 	FormatInfo_t          format;
 
-	StfParseOptions_t    *parseoptions;
+	GnmStfParseOptions    *parseoptions;
 } StfDialogData;
 
 typedef struct {
@@ -125,7 +125,7 @@ typedef struct {
 	char              *text;          /* Decoded text.  */
 	int                rowcount;      /* Number of resulting rows.  */
 	int                colcount;      /* Number of resulting rows.  */
-	StfParseOptions_t *parseoptions;  /* parse options */
+	GnmStfParseOptions *parseoptions;  /* parse options */
 } DialogStfResult_t;
 
 /* This is the main function which handles all the dialog import stuff */

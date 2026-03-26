@@ -104,7 +104,7 @@ next_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
 
 	switch (gtk_notebook_get_current_page (data->notebook)) {
 	case DPG_MAIN:
-		stf_preview_set_lines (data->main.renderdata, NULL, NULL);
+		stf_preview_set_lines (data->main.renderdata, NULL);
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.main_separated))) {
 			newpos = DPG_CSV;
 		} else {
@@ -113,12 +113,12 @@ next_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
 		break;
 
 	case DPG_CSV:
-		stf_preview_set_lines (data->csv.renderdata, NULL, NULL);
+		stf_preview_set_lines (data->csv.renderdata, NULL);
 		newpos = DPG_FORMAT;
 		break;
 
         case DPG_FIXED:
-		stf_preview_set_lines (data->fixed.renderdata, NULL, NULL);
+		stf_preview_set_lines (data->fixed.renderdata, NULL);
 		newpos = DPG_FORMAT;
 		break;
 
@@ -140,7 +140,7 @@ back_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
 
 	switch (gtk_notebook_get_current_page (data->notebook)) {
 	case DPG_FORMAT:
-		stf_preview_set_lines (data->format.renderdata, NULL, NULL);
+		stf_preview_set_lines (data->format.renderdata, NULL);
 		if (data->parseoptions->parsetype == PARSE_TYPE_CSV)
 			newpos = DPG_CSV;
 		else
@@ -148,12 +148,12 @@ back_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
 		break;
 
 	case DPG_FIXED:
-		stf_preview_set_lines (data->fixed.renderdata, NULL, NULL);
+		stf_preview_set_lines (data->fixed.renderdata, NULL);
 		newpos = DPG_MAIN;
 		break;
 
 	case DPG_CSV:
-		stf_preview_set_lines (data->csv.renderdata, NULL, NULL);
+		stf_preview_set_lines (data->csv.renderdata, NULL);
 		newpos = DPG_MAIN;
 		break;
 
@@ -356,7 +356,7 @@ stf_dialog (WBCGtk *wbcg,
 	g_free (pagedata.locale);
 	g_free (pagedata.utf8_data);
 	if (pagedata.parseoptions)
-		stf_parse_options_free (pagedata.parseoptions);
+		g_object_unref (pagedata.parseoptions);
 
 	return dialogresult;
 }
@@ -373,7 +373,7 @@ stf_dialog_result_free (DialogStfResult_t *dialogresult)
 {
 	g_return_if_fail (dialogresult != NULL);
 
-	stf_parse_options_free (dialogresult->parseoptions);
+	g_object_unref (dialogresult->parseoptions);
 
 	g_free (dialogresult->text);
 	g_free (dialogresult->encoding);

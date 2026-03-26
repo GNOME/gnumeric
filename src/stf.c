@@ -395,11 +395,9 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 	char *data;
 	GString *utf8data;
 	size_t data_len;
-	StfParseOptions_t *po;
+	GnmStfParseOptions *po;
 	const char *gsfname;
 	int cols, rows, i;
-	GStringChunk *lines_chunk;
-	GPtrArray *lines;
 	WorkbookView *wbv = GNM_WORKBOOK_VIEW (view);
 
 	g_return_if_fail (context != NULL);
@@ -437,18 +435,16 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 			po = stf_parse_options_guess (utf8data->str);
 	}
 
-	lines_chunk = g_string_chunk_new (100 * 1024);
-	lines = stf_parse_general (po, lines_chunk,
-				   utf8data->str, utf8data->str + utf8data->len);
-	rows = lines->len;
+	GnmStfParsedLines *pl = stf_parse_general (po,
+						   utf8data->str, utf8data->str + utf8data->len);
+	rows = pl->lines->len;
 	cols = 0;
 	for (i = 0; i < rows; i++) {
-		GPtrArray *line = g_ptr_array_index (lines, i);
+		GPtrArray *line = g_ptr_array_index (pl->lines, i);
 		cols = MAX (cols, (int)line->len);
 	}
 	gnm_sheet_suggest_size (&cols, &rows);
-	stf_parse_general_free (lines);
-	g_string_chunk_free (lines_chunk);
+	g_object_unref (pl);
 
 	name = g_path_get_basename (gsfname);
 	sheet = sheet_new (book, name, cols, rows);
@@ -477,7 +473,7 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 	}
 
 
-	stf_parse_options_free (po);
+	g_object_unref (po);
 	g_string_free (utf8data, TRUE);
 }
 

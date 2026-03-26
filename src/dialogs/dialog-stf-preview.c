@@ -52,8 +52,8 @@ line_renderer_func (GtkTreeViewColumn *tvc,
 	gtk_tree_model_get (model, iter, ITEM_LINENO, &row, -1);
 	col = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (tvc), "col-no"));
 
-	line = (renderdata->lines && row < renderdata->lines->len)
-		? g_ptr_array_index (renderdata->lines, row)
+	line = (renderdata->pl->lines && row < renderdata->pl->lines->len)
+		? g_ptr_array_index (renderdata->pl->lines, row)
 		: NULL;
 	text = (line && col < line->len)
 		? g_ptr_array_index (line, col)
@@ -91,11 +91,11 @@ line_renderer_func (GtkTreeViewColumn *tvc,
 }
 
 static GtkTreeModel *
-make_model (GPtrArray *lines)
+make_model (GnmStfParsedLines *pl)
 {
 	GtkListStore *list_store = gtk_list_store_new (1, G_TYPE_UINT);
 	unsigned ui;
-	unsigned count = lines ? MIN (lines->len, STF_LINE_DISPLAY_LIMIT) : 0;
+	unsigned count = pl ? MIN (pl->lines->len, STF_LINE_DISPLAY_LIMIT) : 0;
 
 	for (ui = 0; ui < count; ui++) {
 		GtkTreeIter iter;
@@ -134,8 +134,7 @@ stf_preview_new (GtkWidget *data_container,
 	renderdata->startrow       = 1;
 	renderdata->colformats     = g_ptr_array_new ();
 	renderdata->ignore_formats = FALSE;
-	renderdata->lines_chunk    = NULL;
-	renderdata->lines          = NULL;
+	renderdata->pl             = NULL;
 
 	renderdata->date_conv	   = date_conv;
 
@@ -191,7 +190,7 @@ stf_preview_free (RenderData_t *renderdata)
 	stf_preview_colformats_clear (renderdata);
 	g_ptr_array_free (renderdata->colformats, TRUE);
 
-	stf_preview_set_lines (renderdata, NULL, NULL);
+	stf_preview_set_lines (renderdata, NULL);
 
 	g_object_unref (renderdata->tree_view);
 
@@ -200,11 +199,11 @@ stf_preview_free (RenderData_t *renderdata)
 
 /**
  * stf_preview_set_lines: (skip)
+ * @renderdata: #RenderData_t
+ * @pl: (transfer full) (nullable): parsed lines
  */
 void
-stf_preview_set_lines (RenderData_t *renderdata,
-		       GStringChunk *lines_chunk,
-		       GPtrArray *lines)
+stf_preview_set_lines (RenderData_t *renderdata, GnmStfParsedLines *pl)
 {
 	unsigned int i;
 	int colcount = 1;
@@ -216,23 +215,17 @@ stf_preview_set_lines (RenderData_t *renderdata,
 	/* Empty the table.  */
 	gtk_tree_view_set_model (renderdata->tree_view, NULL);
 
-	if (renderdata->lines != lines) {
-		if (renderdata->lines)
-			stf_parse_general_free (renderdata->lines);
-		renderdata->lines = lines;
+	if (renderdata->pl != pl) {
+		if (renderdata->pl)
+			g_object_unref (renderdata->pl);
+		renderdata->pl = pl;
 	}
 
-	if (renderdata->lines_chunk != lines_chunk) {
-		if (renderdata->lines_chunk)
-			g_string_chunk_free (renderdata->lines_chunk);
-		renderdata->lines_chunk = lines_chunk;
-	}
-
-	if (lines == NULL)
+	if (pl == NULL)
 		return;
 
-	for (i = 0; i < lines->len; i++) {
-		GPtrArray *line = g_ptr_array_index (lines, i);
+	for (i = 0; i < pl->lines->len; i++) {
+		GPtrArray *line = g_ptr_array_index (pl->lines, i);
 		colcount = MAX (colcount, (int)line->len);
 	}
 
@@ -274,7 +267,7 @@ stf_preview_set_lines (RenderData_t *renderdata,
 		renderdata->colcount++;
 	}
 
-	model = make_model (lines);
+	model = make_model (pl);
 	gtk_tree_view_set_model (renderdata->tree_view, model);
 	g_object_unref (model);
 

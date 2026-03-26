@@ -24,8 +24,7 @@
 
 typedef struct {
 	GtkWidget        *data_container;
-	GStringChunk     *lines_chunk;
-	GPtrArray        *lines;
+	GnmStfParsedLines *pl;
 	GtkTreeView      *tree_view;
 
 	int              colcount;
@@ -43,9 +42,8 @@ RenderData_t*      stf_preview_new                       (GtkWidget *data_contai
 void               stf_preview_free                      (RenderData_t *data);
 
 /* These are for manipulation */
-void               stf_preview_set_lines                 (RenderData_t *data,
-							  GStringChunk *lines_chunk,
-							  GPtrArray *lines);
+void               stf_preview_set_lines                 (RenderData_t *renderdata,
+							  GnmStfParsedLines *pl);
 
 void               stf_preview_colformats_clear          (RenderData_t *renderdata);
 void               stf_preview_colformats_add            (RenderData_t *renderdata, GOFormat *format);

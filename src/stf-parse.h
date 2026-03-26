@@ -6,22 +6,46 @@
 
 G_BEGIN_DECLS
 
+GType gnm_stf_parsed_lines_get_type (void);
+#define GNM_STF_PARSED_LINES_TYPE (gnm_stf_parsed_lines_get_type ())
+#define GNM_STF_PARSED_LINES(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_STF_PARSED_LINES_TYPE, GnmStfParsedLines))
+#define GNM_IS_STF_PARSED_LINES(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_STF_PARSED_LINES_TYPE))
+
+struct GnmStfParsedLines_ {
+	GObject parent;
+
+	GStringChunk *lines_chunk;
+	GPtrArray *lines;
+};
+
+
+
+
 typedef enum {
 	PARSE_TYPE_NOTSET    = 1 << 0,
 	PARSE_TYPE_CSV       = 1 << 1,
 	PARSE_TYPE_FIXED     = 1 << 2
-} StfParseType_t;
+} GnmStfParseType;
 
 /* Additive.  */
 typedef enum {
 	TRIM_TYPE_NEVER      = 0,
 	TRIM_TYPE_LEFT       = 1 << 0,
 	TRIM_TYPE_RIGHT      = 1 << 1
-} StfTrimType_t;
+} GnmStfTrimType;
 
-typedef struct {
-	StfParseType_t       parsetype;             /* The type of import to do */
-	StfTrimType_t        trim_spaces;           /* Trim spaces in fields? */
+
+
+GType               stf_parse_options_get_type                        (void);
+#define GNM_STF_PARSE_OPTIONS_TYPE (stf_parse_options_get_type ())
+#define GNM_STF_PARSE_OPTIONS(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_STF_PARSE_OPTIONS_TYPE, GnmStfParseOptions))
+#define GNM_IS_STF_PARSE_OPTIONS(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_STF_PARSE_OPTIONS_TYPE))
+
+struct GnmStfParseOptions_ {
+	GObject              parent;
+
+	GnmStfParseType       parsetype;             /* The type of import to do */
+	GnmStfTrimType        trim_spaces;           /* Trim spaces in fields? */
 
 	GSList *             terminator;            /* Line terminators */
 	char *               locale;
@@ -58,74 +82,67 @@ typedef struct {
 	                                            /* we tried to import more than */
 	                                            /* SHEET_MAX_COLS columns */
 	gboolean             rows_exceeded;         /* Ditto rows.  */
-	unsigned             ref_count;             /* Boxed type */
-} StfParseOptions_t;
+};
 
 /* CREATION/DESTRUCTION of stf options struct */
 
-GType               stf_parse_options_get_type                        (void);
-void                stf_parse_options_free                            (StfParseOptions_t *parseoptions);
-
-StfParseOptions_t  *stf_parse_options_guess                           (char const *data);
-StfParseOptions_t  *stf_parse_options_guess_csv                       (char const *data);
-void                stf_parse_options_guess_formats                   (StfParseOptions_t *po,
+GnmStfParseOptions  *stf_parse_options_guess                           (char const *data);
+GnmStfParseOptions  *stf_parse_options_guess_csv                       (char const *data);
+void                stf_parse_options_guess_formats                   (GnmStfParseOptions *po,
 								       char const *data);
 
 /* MANIPULATION of stf options struct */
 
-void stf_parse_options_set_type                        (StfParseOptions_t *parseoptions,
-							StfParseType_t const parsetype);
-void stf_parse_options_clear_line_terminator           (StfParseOptions_t *parseoptions);
-void stf_parse_options_add_line_terminator             (StfParseOptions_t *parseoptions,
+void stf_parse_options_set_type                        (GnmStfParseOptions *parseoptions,
+							GnmStfParseType parsetype);
+void stf_parse_options_clear_line_terminator           (GnmStfParseOptions *parseoptions);
+void stf_parse_options_add_line_terminator             (GnmStfParseOptions *parseoptions,
 							char const *terminator);
-void stf_parse_options_set_trim_spaces                 (StfParseOptions_t *parseoptions,
-							StfTrimType_t const trim_spaces);
-void stf_parse_options_csv_set_separators              (StfParseOptions_t *parseoptions,
+void stf_parse_options_set_trim_spaces                 (GnmStfParseOptions *parseoptions,
+							GnmStfTrimType const trim_spaces);
+void stf_parse_options_csv_set_separators              (GnmStfParseOptions *parseoptions,
 							char const *character, GSList const *seps);
-void stf_parse_options_csv_set_stringindicator         (StfParseOptions_t *parseoptions,
+void stf_parse_options_csv_set_stringindicator         (GnmStfParseOptions *parseoptions,
 							gunichar stringindicator);
-void stf_parse_options_csv_set_indicator_2x_is_single  (StfParseOptions_t *parseoptions,
+void stf_parse_options_csv_set_indicator_2x_is_single  (GnmStfParseOptions *parseoptions,
 							gboolean indic_2x);
-void stf_parse_options_csv_set_duplicates              (StfParseOptions_t *parseoptions,
+void stf_parse_options_csv_set_duplicates              (GnmStfParseOptions *parseoptions,
 							gboolean duplicates);
-void stf_parse_options_csv_set_trim_seps               (StfParseOptions_t *parseoptions,
+void stf_parse_options_csv_set_trim_seps               (GnmStfParseOptions *parseoptions,
 							gboolean trim_seps);
-void stf_parse_options_fixed_splitpositions_clear      (StfParseOptions_t *parseoptions);
-void stf_parse_options_fixed_splitpositions_add        (StfParseOptions_t *parseoptions,
+void stf_parse_options_fixed_splitpositions_clear      (GnmStfParseOptions *parseoptions);
+void stf_parse_options_fixed_splitpositions_add        (GnmStfParseOptions *parseoptions,
 							int position);
-void stf_parse_options_fixed_splitpositions_remove     (StfParseOptions_t *parseoptions,
+void stf_parse_options_fixed_splitpositions_remove     (GnmStfParseOptions *parseoptions,
 							int position);
-int stf_parse_options_fixed_splitpositions_count       (StfParseOptions_t *parseoptions);
-int stf_parse_options_fixed_splitpositions_nth         (StfParseOptions_t *parseoptions, int n);
+int stf_parse_options_fixed_splitpositions_count       (GnmStfParseOptions *parseoptions);
+int stf_parse_options_fixed_splitpositions_nth         (GnmStfParseOptions *parseoptions, int n);
 
 /* USING the stf structs to actually do some parsing, these are the lower-level functions and utility functions */
 
-GPtrArray	*stf_parse_general			(StfParseOptions_t *parseoptions,
-							 GStringChunk *lines_chunk,
+GnmStfParsedLines *stf_parse_general			(GnmStfParseOptions *parseoptions,
 							 char const *data,
 							 char const *data_end);
-void		 stf_parse_general_free			(GPtrArray *lines);
-GPtrArray	*stf_parse_lines			(StfParseOptions_t *parseoptions,
-							 GStringChunk *lines_chunk,
+GnmStfParsedLines *stf_parse_lines			(GnmStfParseOptions *parseoptions,
 							 char const *data,
 							 int maxlines,
 							 gboolean with_lineno);
 
-void		 stf_parse_options_fixed_autodiscover	(StfParseOptions_t *parseoptions,
+void		 stf_parse_options_fixed_autodiscover	(GnmStfParseOptions *parseoptions,
 							 char const *data,
 							 char const *data_end);
 
-char const	*stf_parse_find_line			(StfParseOptions_t *parseoptions,
+char const	*stf_parse_find_line			(GnmStfParseOptions *parseoptions,
 							 char const *data,
 							 int line);
 
 /* Higher level functions, can be used for directly parsing into an application specific data container */
-gboolean	 stf_parse_sheet			(StfParseOptions_t *parseoptions,
+gboolean	 stf_parse_sheet			(GnmStfParseOptions *parseoptions,
 							 char const *data, char const *data_end,
 							 Sheet *sheet,
 							 int start_col, int start_row);
 
-GnmCellRegion	*stf_parse_region			(StfParseOptions_t *parseoptions,
+GnmCellRegion	*stf_parse_region			(GnmStfParseOptions *parseoptions,
 							 char const *data, char const *data_end,
 							 Workbook const *wb);
 

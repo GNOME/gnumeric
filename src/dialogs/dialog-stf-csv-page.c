@@ -40,13 +40,11 @@ static void
 csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 			StfDialogData *pagedata)
 {
-	StfParseOptions_t *parseoptions = pagedata->parseoptions;
+	GnmStfParseOptions *parseoptions = pagedata->parseoptions;
 	RenderData_t *renderdata = pagedata->csv.renderdata;
 	GSList *sepstr;
 	GString *sepc = g_string_new (NULL);
-	GStringChunk *lines_chunk;
-	GPtrArray *lines;
-	StfTrimType_t trim;
+	GnmStfTrimType trim;
 
 	sepstr = NULL;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_custom))) {
@@ -82,16 +80,14 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 	stf_parse_options_csv_set_trim_seps (parseoptions,
 					     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_trim_seps)));
 
-	lines_chunk = g_string_chunk_new (100 * 1024);
-
 	/* Don't trim on this page.  */
 	trim = parseoptions->trim_spaces;
 	stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_NEVER);
-	lines = stf_parse_general (parseoptions, lines_chunk,
-				   pagedata->cur, pagedata->cur_end);
+	GnmStfParsedLines *pl = stf_parse_general (parseoptions,
+						   pagedata->cur, pagedata->cur_end);
 	stf_parse_options_set_trim_spaces (parseoptions, trim);
 
-	stf_preview_set_lines (renderdata, lines_chunk, lines);
+	stf_preview_set_lines (renderdata, pl);
 }
 
 /**
@@ -138,7 +134,7 @@ csv_page_textindicator_change (G_GNUC_UNUSED GtkWidget *widget,
 static void
 csv_page_parseoptions_to_gui (StfDialogData *pagedata)
 {
-	StfParseOptions_t *po = pagedata->parseoptions;
+	GnmStfParseOptions *po = pagedata->parseoptions;
 
 	{
 		const char *sep;

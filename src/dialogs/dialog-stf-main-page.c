@@ -82,23 +82,21 @@ static void
 main_page_update_preview (StfDialogData *pagedata)
 {
 	RenderData_t *renderdata = pagedata->main.renderdata;
-	GStringChunk *lines_chunk = g_string_chunk_new (100 * 1024);
-	GPtrArray *lines = stf_parse_lines (pagedata->parseoptions,
-					    lines_chunk,
-					    pagedata->utf8_data,
-					    INT_MAX,
-					    TRUE);
+	GnmStfParsedLines *pl = stf_parse_lines (pagedata->parseoptions,
+						 pagedata->utf8_data,
+						 INT_MAX,
+						 TRUE);
         unsigned int ui;
 
-	pagedata->rowcount = lines->len;
+	pagedata->rowcount = pl->lines->len;
 	pagedata->longest_line = 0;
-	for (ui = 0; ui < lines->len; ui++) {
-		GPtrArray *line = g_ptr_array_index (lines, ui);
+	for (ui = 0; ui < pl->lines->len; ui++) {
+		GPtrArray *line = g_ptr_array_index (pl->lines, ui);
 		int thislen = g_utf8_strlen (g_ptr_array_index (line, 1), -1);
 		pagedata->longest_line = MAX (pagedata->longest_line, thislen);
 	}
 
-	stf_preview_set_lines (renderdata, lines_chunk, lines);
+	stf_preview_set_lines (renderdata, pl);
 }
 
 
@@ -131,7 +129,7 @@ main_page_import_range_changed (StfDialogData *data)
 	int startrow, stoprow, stoplimit;
 	char *linescaption;
 
-	g_return_if_fail (renderdata->lines != NULL);
+	g_return_if_fail (renderdata->pl != NULL);
 
 	startrow = gtk_spin_button_get_value_as_int (data->main.main_startrow);
 	stoprow  = gtk_spin_button_get_value_as_int (data->main.main_stoprow);
@@ -139,7 +137,7 @@ main_page_import_range_changed (StfDialogData *data)
 	stoprow = MAX (1, stoprow);
 	startrow = MIN (stoprow, MAX (1, startrow));
 
-	stoplimit = MIN ((int)renderdata->lines->len,
+	stoplimit = MIN ((int)renderdata->pl->lines->len,
 			 startrow + (GNM_MAX_ROWS - 1));
 	stoprow = MIN (stoprow, stoplimit);
 
@@ -154,9 +152,9 @@ main_page_import_range_changed (StfDialogData *data)
 
 	linescaption = g_strdup_printf (ngettext("%d of %d line to import",
 						 "%d of %d lines to import",
-						 renderdata->lines->len),
+						 renderdata->pl->lines->len),
 					(stoprow - startrow) + 1,
-					renderdata->lines->len);
+					renderdata->pl->lines->len);
 	gtk_label_set_text (data->main.main_lines, linescaption);
 	g_free (linescaption);
 }
@@ -230,7 +228,7 @@ cb_line_breaks (G_GNUC_UNUSED GtkWidget *widget,
 		StfDialogData *data)
 {
 	gboolean to_end = (gtk_spin_button_get_value_as_int (data->main.main_stoprow) ==
-			   (int)data->main.renderdata->lines->len);
+			   (int)data->main.renderdata->pl->lines->len);
 
 	stf_parse_options_clear_line_terminator (data->parseoptions);
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.line_break_unix)))
@@ -246,7 +244,7 @@ cb_line_breaks (G_GNUC_UNUSED GtkWidget *widget,
 	/* If the selected area went all the way to the end, follow it there.  */
 	if (to_end) {
 		gtk_spin_button_set_value (data->main.main_stoprow,
-					   data->main.renderdata->lines->len);
+					   data->main.renderdata->pl->lines->len);
 		main_page_import_range_changed (data);
 	}
 }
@@ -268,7 +266,7 @@ stf_dialog_main_page_prepare (StfDialogData *pagedata)
 static void
 main_page_parseoptions_to_gui (StfDialogData *pagedata)
 {
-	StfParseOptions_t *po = pagedata->parseoptions;
+	GnmStfParseOptions *po = pagedata->parseoptions;
 
 #if 0
 	go_charmap_sel_set_encoding (pagedata->main.charmap_selector, pagedata->encoding);
@@ -390,9 +388,9 @@ stf_dialog_main_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 	}
 
 	/* Set properties */
-	main_page_set_spin_button_adjustment (pagedata->main.main_startrow, 1, renderdata->lines->len);
-	main_page_set_spin_button_adjustment (pagedata->main.main_stoprow, 1, renderdata->lines->len);
-	gtk_spin_button_set_value (pagedata->main.main_stoprow, renderdata->lines->len);
+	main_page_set_spin_button_adjustment (pagedata->main.main_startrow, 1, renderdata->pl->lines->len);
+	main_page_set_spin_button_adjustment (pagedata->main.main_stoprow, 1, renderdata->pl->lines->len);
+	gtk_spin_button_set_value (pagedata->main.main_stoprow, renderdata->pl->lines->len);
 
 	{
 		GtkLabel *data_label = GTK_LABEL (gtk_builder_get_object (gui, "data-lbl"));
