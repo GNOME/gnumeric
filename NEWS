@@ -4,6 +4,7 @@ Morten:
 	* Up gtk+ requirement to 3.20.  Still ancient.
 	* Audit code with Gemini AI.
 	* Plug leaks.
+	* Make tests run in parallel.
 	* Refactor analysis tools to be GObject-based.
 	* Fix sampling tool gui in the periodic case.
 	* Fix fill-series tool problems with dates.

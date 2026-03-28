@@ -173,6 +173,7 @@ typedef double gnm_float;
 #define gnm_pow GNM_SUFFIX(go_pow)
 #define gnm_pow10 GNM_SUFFIX(go_pow10)
 #define gnm_pow2 GNM_SUFFIX(go_pow2)
+#define gnm_reduce_pi GNM_SUFFIX(go_reduce_pi)
 #define gnm_render_general GNM_SUFFIX(go_render_general)
 #define gnm_round GNM_SUFFIX(round)
 #define gnm_scalbn GNM_SUFFIX(scalbn)
