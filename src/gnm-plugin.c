@@ -453,13 +453,13 @@ plugin_service_ui_activate (GOPluginService *service, GOErrorInfo **ret_error)
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 
-	if (strncmp (uifile, "res:", 4) == 0) {
+	if (g_str_has_prefix (uifile, "res:")) {
 		size_t len;
 		gconstpointer data = go_rsm_lookup (uifile + 4, &len);
 		src = data
 			? gsf_input_memory_new (data, len, FALSE)
 			: NULL;
-	} else if (strncmp (uifile, "data:", 5) == 0) {
+	} else if (g_str_has_prefix (uifile, "data:")) {
 		const char *data = uifile + 5;
 		src = gsf_input_memory_new (data, strlen (data), FALSE);
 	} else {

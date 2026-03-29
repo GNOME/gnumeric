@@ -122,7 +122,7 @@ app_cline_entered (GnmPyCommandLine *cline)
 	cmd = g_strstrip (g_strdup (gtk_entry_get_text (GTK_ENTRY (cline))));
 	while (*cmd == ' ')
 		cmd++;
-	if (!strncmp (cmd, "quit", 4)) {
+	if (g_str_has_prefix (cmd, "quit")) {
 		/* check if the non space character is a left bracket */
 		const char *cur = cmd + 4;
 		while (*cur && g_unichar_isspace (g_utf8_get_char (cur)))

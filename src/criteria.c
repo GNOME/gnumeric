@@ -382,13 +382,13 @@ gnm_criteria_parse (GnmValue const *crit_val, GODateConventions const *date_conv
 	if (*criteria == 0) {
 		res->fun = criteria_test_blank;
 		len = 0;
-	} else if (strncmp (criteria, "<=", 2) == 0) {
+	} else if (g_str_has_prefix (criteria, "<=")) {
 		res->fun = criteria_test_less_or_equal;
 		len = 2;
-	} else if (strncmp (criteria, ">=", 2) == 0) {
+	} else if (g_str_has_prefix (criteria, ">=")) {
 		res->fun = criteria_test_greater_or_equal;
 		len = 2;
-	} else if (strncmp (criteria, "<>", 2) == 0) {
+	} else if (g_str_has_prefix (criteria, "<>")) {
 		/* "<>" by itself is special: */
 		res->fun = (criteria[2] == 0) ? criteria_test_nonempty : criteria_test_unequal;
 		len = 2;

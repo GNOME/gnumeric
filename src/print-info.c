@@ -1478,7 +1478,7 @@ page_setup_get_paper (GtkPageSetup *page_setup)
 	name =  gtk_paper_size_get_name (gtk_page_setup_get_paper_size (page_setup));
 
 /* Working around gtk bug 426416 */
-	if (strncmp (name, "custom", 6) == 0) {
+	if (g_str_has_prefix (name, "custom")) {
 		double width = gtk_paper_size_get_width (paper, GTK_UNIT_MM);
 		double height = gtk_paper_size_get_height (paper, GTK_UNIT_MM);
 		return g_strdup_printf ("custom_Gnm-%.0fx%.0fmm_%.0fx%.0fmm",

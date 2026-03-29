@@ -1033,7 +1033,7 @@ gnm_cpp (const char *src, GHashTable *vars)
 			end = src + strlen (src);
 
 		if (*src == '#') {
-			if (strncmp (src, "#ifdef ", 7) == 0 || strncmp (src, "#ifndef ", 8) == 0) {
+			if (g_str_has_prefix (src, "#ifdef ") || g_str_has_prefix (src, "#ifndef ")) {
 				int is_not = (src[3] == 'n');
 				const char *var = src + 7 + is_not;
 				char *w;
@@ -1048,14 +1048,14 @@ gnm_cpp (const char *src, GHashTable *vars)
 				res = is_not ^ !!g_hash_table_lookup (vars, w);
 				g_string_append_c (ifdefs, ifdefs->str[ifdefs->len - 1] && res);
 				g_free (w);
-			} else if (strncmp (src, "#if ", 4) == 0) {
+			} else if (g_str_has_prefix (src, "#if ")) {
 				gboolean res = gnm_cpp_expr (src + 4, vars) > 0;
 				g_string_append_c (ifdefs, ifdefs->str[ifdefs->len - 1] && res);
-			} else if (strncmp (src, "#else", 5) == 0) {
+			} else if (g_str_has_prefix (src, "#else")) {
 				ifdefs->str[ifdefs->len - 1] =
 					!ifdefs->str[ifdefs->len - 1] &&
 					ifdefs->str[ifdefs->len - 2];
-			} else if (strncmp (src, "#endif", 6) == 0 && ifdefs->len > 1) {
+			} else if (g_str_has_prefix (src, "#endif") && ifdefs->len > 1) {
 				g_string_set_size (ifdefs, ifdefs->len - 1);
 			} else {
 				g_warning ("cpp failure");

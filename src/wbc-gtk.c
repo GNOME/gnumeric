@@ -2286,7 +2286,7 @@ cb_autofunction (WBCGtk *wbcg)
 
 	entry = wbcg_get_entry (wbcg);
 	txt = gtk_entry_get_text (entry);
-	if (strncmp (txt, "=", 1)) {
+	if (!g_str_has_prefix (txt, "=")) {
 		if (!wbcg_edit_start (wbcg, TRUE, TRUE))
 			return; /* attempt to edit failed */
 		gtk_entry_set_text (entry, "=");
@@ -5157,7 +5157,7 @@ wbc_gtk_init (GObject *obj)
 		gtk_ui_manager_get_accel_group (wbcg->ui));
 
 	if (uifilename) {
-		if (strncmp (uifilename, "res:", 4) == 0)
+		if (g_str_has_prefix (uifilename, "res:"))
 			uifile = g_strdup (uifilename);
 		else
 			uifile = g_build_filename (gnm_sys_data_dir (),
@@ -5166,7 +5166,7 @@ wbc_gtk_init (GObject *obj)
 	} else
 		uifile = g_strdup ("res:/org/gnumeric/gnumeric/ui/GNOME_Gnumeric-gtk.xml");
 
-	if (strncmp (uifile, "res:", 4) == 0)
+	if (g_str_has_prefix (uifile, "res:"))
 		merge_id = gtk_ui_manager_add_ui_from_resource
 			(wbcg->ui, uifile + 4, &error);
 	else

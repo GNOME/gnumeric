@@ -4180,7 +4180,7 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 		if (!mime)
 			continue;
 
-		if (!strncmp (mime, "image/", 6))
+		if (g_str_has_prefix (mime, "image/"))
 			scg_drag_receive_img_uri (scg, x, y, uri_str);
 		else if (!strcmp (mime, "application/x-gnumeric") ||
 			 !strcmp (mime, "application/vnd.ms-excel") ||
@@ -4330,7 +4330,7 @@ scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 	if (!strcmp (target_type, "text/uri-list")) {
 		scg_drag_receive_uri_list (scg, x, y, sel_data, sel_len);
 
-	} else if (!strncmp (target_type, "image/", 6)) {
+	} else if (g_str_has_prefix (target_type, "image/")) {
 		scg_drag_receive_img_data (scg, x, y, sel_data, sel_len);
 	} else if (!strcmp (target_type, "GNUMERIC_SAME_PROC")) {
 		scg_drag_receive_same_process (scg, source_widget, x, y);
@@ -4507,7 +4507,7 @@ scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
 			selection_data, objects);
 	else if (strcmp (target_name, "application/x-goffice-graph") == 0)
 		scg_drag_send_graph (scg, selection_data, objects, target_name);
-	else if (strncmp (target_name, "image/", 6) == 0)
+	else if (g_str_has_prefix (target_name, "image/"))
 		scg_drag_send_image (scg, selection_data, objects, target_name);
 	else if (strcmp (target_name, "UTF8_STRING") == 0)
 		scg_drag_send_text (scg, selection_data);

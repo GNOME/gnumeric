@@ -535,7 +535,7 @@ urilist_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			if (g_str_equal (uri, "copy"))
 				continue;
 			mime = go_get_mime_type (uri);
-			qimage = (strncmp (mime, "image/", 6) == 0);
+			qimage = (g_str_has_prefix (mime, "image/"));
 			g_free (mime);
 			if (!qimage)
 				continue;

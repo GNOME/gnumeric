@@ -1646,8 +1646,7 @@ excel_write_HLINKs (BiffPut *bp, ExcelWriteSheet *esheet)
 				STR_FOUR_BYTE_LENGTH | STR_SUPPRESS_HEADER | STR_TRAILING_NULL | STR_LEN_IN_BYTES,
 				target);
 		} else if (t == gnm_hlink_external_get_type ()) {
-			if (NULL != target &&
-			    0 == strncmp (target, "\\\\", 2)) {
+			if (NULL != target && g_str_has_prefix (target, "\\\\")) {
 				GSF_LE_SET_GUINT32 (data,  0x117);
 				ms_biff_put_var_write (bp, data, 4);
 				excel_write_string (bp,

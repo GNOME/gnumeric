@@ -926,7 +926,7 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *c,
 	type = excel_get_text (c->importer, data + 16,
 			       GSF_LE_GET_GUINT16 (data + 14),
 			       &len, NULL, last - data);
-	if (NULL == type || strncmp (type, "Forms.", 6)) {
+	if (NULL == type || !g_str_has_prefix (type, "Forms.")) {
 		g_free (type);
 		return;
 	}

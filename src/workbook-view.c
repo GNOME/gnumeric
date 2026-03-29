@@ -259,9 +259,9 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name, char const *value)
 	obj = G_OBJECT (wbv);
 	res = !g_ascii_strcasecmp (value, "TRUE");
 
-	if (strncmp (name, "WorkbookView::", 14) == 0)
+	if (g_str_has_prefix (name, "WorkbookView::"))
 		tname = name + 14;
-	else if (strncmp (name, "Workbook::", 10) == 0)
+	else if (g_str_has_prefix (name, "Workbook::"))
 		/* Some old files have this.  */
 		tname = name + 10;
 	else

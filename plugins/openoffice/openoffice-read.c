@@ -1165,9 +1165,9 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style, gboolean in
 				char *href_complete;
 				char **path;
 
-				if (strncmp (href, "./", 2) == 0)
+				if (g_str_has_prefix (href, "./"))
 					href += 2;
-				if (strncmp (href, "/", 1) == 0) {
+				if (g_str_has_prefix (href, "/")) {
 					oo_warning (xin, _("Invalid absolute file "
 							   "specification \'%s\' "
 							   "encountered."), href);
@@ -1294,33 +1294,33 @@ oo_parse_spec_distance (char const *str, double *pts)
 
 	num = go_strtod (str, &end);
 	if (CXML2C (str) != end) {
-		if (0 == strncmp (end, "mm", 2)) {
+		if (g_str_has_prefix (end, "mm")) {
 			num = GO_CM_TO_PT (num/10.);
 			end += 2;
-		} else if (0 == strncmp (end, "m", 1)) {
+		} else if (g_str_has_prefix (end, "m")) {
 			num = GO_CM_TO_PT (num*100.);
 			end ++;
-		} else if (0 == strncmp (end, "km", 2)) {
+		} else if (g_str_has_prefix (end, "km")) {
 			num = GO_CM_TO_PT (num*100000.);
 			end += 2;
-		} else if (0 == strncmp (end, "cm", 2)) {
+		} else if (g_str_has_prefix (end, "cm")) {
 			num = GO_CM_TO_PT (num);
 			end += 2;
-		} else if (0 == strncmp (end, "pt", 2)) {
+		} else if (g_str_has_prefix (end, "pt")) {
 			end += 2;
-		} else if (0 == strncmp (end, "pc", 2)) { /* pica 12pt == 1 pica */
+		} else if (g_str_has_prefix (end, "pc")) { /* pica 12pt == 1 pica */
 			num /= 12.;
 			end += 2;
-		} else if (0 == strncmp (end, "ft", 2)) {
+		} else if (g_str_has_prefix (end, "ft")) {
 			num = GO_IN_TO_PT (num*12.);
 			end += 2;
-		} else if (0 == strncmp (end, "mi", 2)) {
+		} else if (g_str_has_prefix (end, "mi")) {
 			num = GO_IN_TO_PT (num*63360.);
 			end += 2;
-		} else if (0 == strncmp (end, "inch", 4)) {
+		} else if (g_str_has_prefix (end, "inch")) {
 			num = GO_IN_TO_PT (num);
 			end += 4;
-		} else if (0 == strncmp (end, "in", 2)) {
+		} else if (g_str_has_prefix (end, "in")) {
 			num = GO_IN_TO_PT (num);
 			end += 2;
 		} else
@@ -1341,7 +1341,7 @@ oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 
 	g_return_val_if_fail (str != NULL, NULL);
 
-	if (0 == strncmp (CXML2C (str), "none", 4)) {
+	if (g_str_has_prefix (CXML2C (str), "none")) {
 		*pts = 0;
 		return CXML2C (str) + 4;
 	}
@@ -1415,14 +1415,14 @@ oo_parse_angle (GsfXMLIn *xin, xmlChar const *str,
 	if (CXML2C (str) != end) {
 		if (*end == '\0') {
 			num = gnm_fmod (num, 360);
-		} else if (0 == strncmp (end, "deg", 3)) {
+		} else if (g_str_has_prefix (end, "deg")) {
 			num = gnm_fmod (num, 360);
 			end += 3;
-		} else if (0 == strncmp (end, "grad", 4)) {
+		} else if (g_str_has_prefix (end, "grad")) {
 			num = gnm_fmod (num, 400);
 			num = num * 10. / 9.;
 			end += 4;
-		} else if (0 == strncmp (end, "rad", 3)) {
+		} else if (g_str_has_prefix (end, "rad")) {
 			num = fmod (num, 2 * M_PI);
 			num = num * 180 / M_PI;
 			end += 3;
@@ -1744,7 +1744,7 @@ oo_expr_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *
 {
 	char const *ptr;
 	if (start[0] == '[' && start[1] != ']') {
-		if (strncmp (start, "[#REF!]", 7) == 0) {
+		if (g_str_has_prefix (start, "[#REF!]")) {
 			ref->a.sheet = invalid_sheet;
 			return start + 7;
 		}
@@ -2435,7 +2435,7 @@ oo_date_convention (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "date-value")) {
-			if (!strncmp (CXML2C (attrs[1]), "1904", 4))
+			if (g_str_has_prefix (CXML2C (attrs[1]), "1904"))
 				workbook_set_1904 (state->pos.wb, TRUE);
 		}
 }
@@ -3930,13 +3930,13 @@ odf_get_formula_type (GsfXMLIn *xin, char const **str)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	OOFormula f_type = FORMULA_NOT_SUPPORTED;
 	if (state->ver == OOO_VER_OPENDOC) {
-		if (strncmp (*str, "msoxl:", 6) == 0) {
+		if (g_str_has_prefix (*str, "msoxl:")) {
 			*str += 6;
 			f_type = FORMULA_MICROSOFT;
-		} else if (strncmp (*str, "oooc:", 5) == 0) {
+		} else if (g_str_has_prefix (*str, "oooc:")) {
 			*str += 5;
 			f_type = FORMULA_OLD_OPENOFFICE;
-		} else if (strncmp (*str, "of:", 3) == 0) {
+		} else if (g_str_has_prefix (*str, "of:")) {
 			*str += 3;
 			f_type = FORMULA_OPENFORMULA;
 		} else {
@@ -8644,9 +8644,9 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href")) {
 			name_start = CXML2C (attrs[1]);
-			if (strncmp (CXML2C (attrs[1]), "./", 2) == 0)
+			if (g_str_has_prefix (CXML2C (attrs[1]), "./"))
 				name_start += 2;
-			if (strncmp (CXML2C (attrs[1]), "/", 1) == 0)
+			if (g_str_has_prefix (CXML2C (attrs[1]), "/"))
 				name_start = NULL;
 			break;
 		}
@@ -10242,13 +10242,13 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				end = oo_parse_spec_distance (border, &pts);
 
 				if (end == GINT_TO_POINTER(1) || end == NULL) {
-					if (0 == strncmp (border, "thin", 4)) {
+					if (g_str_has_prefix (border, "thin")) {
 						pts = 0.;
 						end = border + 4;
-					} else if (0 == strncmp (border, "medium", 6)) {
+					} else if (g_str_has_prefix (border, "medium")) {
 						pts = 1.5;
 						end = border + 6;
-					} else if (0 == strncmp (border, "thick", 5)) {
+					} else if (g_str_has_prefix (border, "thick")) {
 						pts = 3.;
 						end = border + 5;
 					}

@@ -650,7 +650,7 @@ make_expr_example (Sheet *sheet, const char *text,
 
 	if (consider_format &&
 	    g_ascii_strncasecmp (text, "TEXT(", 5) == 0 &&
-	    text[strlen (text) - 1] == ')') {
+	    g_str_has_suffix (text, ")")) {
 		char *p;
 		tmp_text = g_strdup (text + 5);
 		p = tmp_text + strlen (tmp_text) - 1;

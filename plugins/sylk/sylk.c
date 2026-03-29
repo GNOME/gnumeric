@@ -773,9 +773,9 @@ sylk_parse_line (SylkReader *state, char *buf, gsize len)
 			case 'O' : return sylk_rtd_o_parse (state, buf + 2);
 			case 'W' : return sylk_rtd_w_parse (state, buf + 2);
 			}
-		} else if (0 == strncmp ("ID", buf, 2))
+		} else if (g_str_has_prefix ("ID", buf))
 			return TRUE; /* who cares */
-		else if (0 == strncmp ("NN;", buf, 2))
+		else if (g_str_has_prefix ("NN;", buf))
 			return sylk_rtd_nn_parse (state, buf + 3);
 		else if (buf[0] == 'E')
 			return sylk_rtd_e_parse (state);
@@ -861,5 +861,5 @@ sylk_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 	char const *header = NULL;
 	if (!gsf_input_seek (input, 0, G_SEEK_SET))
 		header = gsf_input_read (input, 3, NULL);
-	return (header != NULL && strncmp (header, "ID;", 3) == 0);
+	return (header != NULL && g_str_has_prefix (header, "ID;"));
 }

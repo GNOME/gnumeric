@@ -1134,7 +1134,7 @@ static GNM_ACTION_DEF (cb_autosum)
 
 	entry = wbcg_get_entry (wbcg);
 	txt = gtk_entry_get_text (entry);
-	if (strncmp (txt, "=sum(", 5)) {
+	if (!g_str_has_prefix (txt, "=sum(")) {
 		if (!wbcg_edit_start (wbcg, TRUE, TRUE))
 			return; /* attempt to edit failed */
 		gtk_entry_set_text (entry, "=sum()");

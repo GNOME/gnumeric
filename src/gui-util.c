@@ -619,7 +619,7 @@ gnm_gtk_builder_load (char const *uifile, char const *domain, GOCmdContext *cc)
 	GtkBuilder *gui;
 	char *f;
 
-	if (strncmp (uifile, "res:", 4) == 0) {
+	if (g_str_has_prefix (uifile, "res:")) {
 		f = g_strconcat ("res:/org/gnumeric/gnumeric/",
 				 uifile + 4,
 				 NULL);

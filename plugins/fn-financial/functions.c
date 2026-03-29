@@ -2042,65 +2042,65 @@ one_euro (char const *str)
 {
 	switch (*str) {
 	case 'A':
-		if (strncmp ("ATS", str, 3) == 0)
+		if (g_str_equal ("ATS", str))
 			return GNM_const (13.7603);
 		break;
 	case 'B':
-		if (strncmp ("BEF", str, 3) == 0)
+		if (g_str_equal ("BEF", str))
 			return GNM_const (40.3399);
 		break;
 	case 'C':
-		if (strncmp ("CYP", str, 3) == 0)
+		if (g_str_equal ("CYP", str))
 			return GNM_const (0.585274);
 		break;
 	case 'D':
-		if (strncmp ("DEM", str, 3) == 0)
+		if (g_str_equal ("DEM", str))
 			return GNM_const (1.95583);
 		break;
 	case 'E':
-		if (strncmp ("ESP", str, 3) == 0)
+		if (g_str_equal ("ESP", str))
 			return GNM_const (166.386);
-		else if (strncmp ("EEK", str, 3) == 0)
+		else if (g_str_equal ("EEK", str))
 			return GNM_const (15.6466);
-		else if (strncmp ("EUR", str, 3) == 0)
+		else if (g_str_equal ("EUR", str))
 			return GNM_const (1.0);
 		break;
 	case 'F':
-		if (strncmp ("FIM", str, 3) == 0)
+		if (g_str_equal ("FIM", str))
 			return GNM_const (5.94573);
-		else if (strncmp ("FRF", str, 3) == 0)
+		else if (g_str_equal ("FRF", str))
 			return GNM_const (6.55957);
 		break;
 	case 'G':
-		if (strncmp ("GRD", str, 3) == 0)
+		if (g_str_equal ("GRD", str))
 			return GNM_const (340.75);
 		break;
 	case 'I':
-		if (strncmp ("IEP", str, 3) == 0)
+		if (g_str_equal ("IEP", str))
 			return GNM_const (0.787564);
-		else if (strncmp ("ITL", str, 3) == 0)
+		else if (g_str_equal ("ITL", str))
 			return GNM_const (1936.27);
 		break;
 	case 'L':
-		if (strncmp ("LUF", str, 3) == 0)
+		if (g_str_equal ("LUF", str))
 			return GNM_const (40.3399);
 		break;
 	case 'M':
-		if (strncmp ("MTL", str, 3) == 0)
+		if (g_str_equal ("MTL", str))
 			return GNM_const (0.429300);
 		break;
 	case 'N':
-		if (strncmp ("NLG", str, 3) == 0)
+		if (g_str_equal ("NLG", str))
 			return GNM_const (2.20371);
 		break;
 	case 'P':
-		if (strncmp ("PTE", str, 3) == 0)
+		if (g_str_equal ("PTE", str))
 			return GNM_const (200.482);
 		break;
 	case 'S':
-		if (strncmp ("SIT", str, 3) == 0)
+		if (g_str_equal ("SIT", str))
 			return GNM_const (239.640);
-		else if (strncmp ("SKK", str, 3) == 0)
+		else if (g_str_equal ("SKK", str))
 			return GNM_const (30.1260);
 		break;
 	default:
@@ -2131,65 +2131,65 @@ euro_local_rounding (char const *str)
 {
 	switch (*str) {
 	case 'A':
-/* 		if (strncmp ("ATS", str, 3) == 0) */
+/* 		if (g_str_equal ("ATS", str)) */
 /* 			return 2; */
 		break;
 	case 'B':
-		if (strncmp ("BEF", str, 3) == 0)
+		if (g_str_equal ("BEF", str))
 			return 0;
 		break;
 	case 'C':
-/* 		if (strncmp ("CYP", str, 3) == 0) */
+/* 		if (g_str_equal ("CYP", str)) */
 /* 			return 2; /\*??*\/ */
 		break;
 	case 'D':
-/* 		if (strncmp ("DEM", str, 3) == 0) */
+/* 		if (g_str_equal ("DEM", str)) */
 /* 			return 2; */
 		break;
 	case 'E':
-		if (strncmp ("ESP", str, 3) == 0)
+		if (g_str_equal ("ESP", str))
 			return 0;
-/* 		else if (strncmp ("EEK", str, 3) == 0) */
+/* 		else if (g_str_equal ("EEK", str)) */
 /* 			return 2; */
-/* 		else if (strncmp ("EUR", str, 3) == 0) */
+/* 		else if (g_str_equal ("EUR", str)) */
 /* 			return 2; */
 		break;
 	case 'F':
-/* 		if (strncmp ("FIM", str, 3) == 0) */
+/* 		if (g_str_equal ("FIM", str)) */
 /* 			return 2 */
-/* 		else if (strncmp ("FRF", str, 3) == 0) */
+/* 		else if (g_str_equal ("FRF", str)) */
 /* 			return 2; */
 		break;
 	case 'G':
-		if (strncmp ("GRD", str, 3) == 0)
+		if (g_str_equal ("GRD", str))
 			return 0;
 		break;
 	case 'I':
-		if (strncmp ("ITL", str, 3) == 0)
+		if (g_str_equal ("ITL", str))
 			return 0;
-/* 		else if (strncmp ("IEP", str, 3) == 0) */
+/* 		else if (g_str_equal ("IEP", str)) */
 /* 			return 2; */
 		break;
 	case 'L':
-		if (strncmp ("LUF", str, 3) == 0)
+		if (g_str_equal ("LUF", str))
 			return 0;
 		break;
 	case 'M':
-/* 		if (strncmp ("MTL", str, 3) == 0) */
+/* 		if (g_str_equal ("MTL", str)) */
 /* 			return 2;  /\* ?? *\/ */
 		break;
 	case 'N':
-/* 		if (strncmp ("NLG", str, 3) == 0) */
+/* 		if (g_str_equal ("NLG", str)) */
 /* 			return 2; */
 		break;
 	case 'P':
-		if (strncmp ("PTE", str, 3) == 0)
+		if (g_str_equal ("PTE", str))
 			return 0;
 		break;
 	case 'S':
-/* 		if (strncmp ("SIT", str, 3) == 0) */
+/* 		if (g_str_equal ("SIT", str)) */
 /* 			return 2; */
-/* 		else if (strncmp ("SKK", str, 3) == 0) */
+/* 		else if (g_str_equal ("SKK", str)) */
 /* 			return 2;  /\* ?? *\/ */
 		break;
 	default:

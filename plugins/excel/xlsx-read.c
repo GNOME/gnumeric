@@ -799,21 +799,21 @@ xlsx_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 
 	num = go_strtod (CXML2C (str), &end);
 	if (CXML2C (str) != end) {
-		if (0 == strncmp (end, "mm", 2)) {
+		if (g_str_has_prefix (end, "mm")) {
 			num = GO_CM_TO_PT (num/10.);
 			end += 2;
-		} else if (0 == strncmp (end, "cm", 2)) {
+		} else if (g_str_has_prefix (end, "cm")) {
 			num = GO_CM_TO_PT (num);
 			end += 2;
-		} else if (0 == strncmp (end, "pt", 2)) {
+		} else if (g_str_has_prefix (end, "pt")) {
 			end += 2;
-		} else if (0 == strncmp (end, "pc", 2)) { /* pica 12pt == 1 pica */
+		} else if (g_str_has_prefix (end, "pc")) { /* pica 12pt == 1 pica */
 			num /= 12.;
 			end += 2;
-		} else if (0 == strncmp (end, "pi", 2)) { /* pica 12pt == 1 pica */
+		} else if (g_str_has_prefix (end, "pi")) { /* pica 12pt == 1 pica */
 			num /= 12.;
 			end += 2;
-		} else if (0 == strncmp (end, "in", 2)) {
+		} else if (g_str_has_prefix (end, "in")) {
 			num = GO_IN_TO_PT (num);
 			end += 2;
 		} else {

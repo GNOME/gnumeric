@@ -929,7 +929,7 @@ stf_parse_general (GnmStfParseOptions *parseoptions,
 	src.position = data;
 	row = 0;
 
-	if ((data_end-data >= 3) && !strncmp (src.position, "\xEF\xBB\xBF", 3)) {
+	if ((data_end-data >= 3) && g_str_has_prefix (src.position, "\xEF\xBB\xBF")) {
 		/* Skip over byte-order mark */
 		src.position += 3;
 	}

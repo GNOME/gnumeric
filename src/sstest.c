@@ -140,10 +140,10 @@ dump_externals (GPtrArray *defs, FILE *out)
 					fprintf (out, "<!--#if expr=\"${QUERY_STRING} = %s\" -->", fd->name);
 				}
 
-				if (strncmp (s, "wolfram:", 8) == 0) {
+				if (g_str_has_prefix (s, "wolfram:")) {
 					fprintf (out, "<!--#set var=\"wolfram\" value=\"%s\" -->", s + 8);
 				}
-				if (strncmp (s, "wiki:", 5) == 0) {
+				if (g_str_has_prefix (s, "wiki:")) {
 					char *lang, *page;
 					lang = split_at_colon (s + 5, &page);
 					fprintf (out, "<!--#set var=\"wiki_lang\" value=\"%s\" -->", lang);
@@ -1072,7 +1072,7 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 					    fd->name);
 				res = 1;
 			}
-			if (text[strlen (text) - 1] == '.') {
+			if (g_str_has_suffix(text, ".")) {
 				g_printerr ("%s: Unwanted period in ARG record\n",
 					    fd->name);
 				res = 1;
@@ -1110,7 +1110,7 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 				p++;
 			if (*p == ' ' &&
 			    p - text >= 2 &&
-			    strncmp (text, "CP1252", 6) != 0) {
+			    !g_str_has_prefix (text, "CP1252")) {
 				if (g_ascii_strncasecmp (text, fd->name, nlen)) {
 					g_printerr ("%s: Wrong function name in description\n",
 						    fd->name);
