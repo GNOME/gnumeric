@@ -5073,22 +5073,33 @@ pbinom2 (gnm_float x0, gnm_float x1, gnm_float n, gnm_float p)
 gnm_float
 expmx2h (gnm_float x)
 {
+	static gnm_float xlim;
+
 	x = gnm_abs (x);
 
-	if (x < 5 || gnm_isnan (x))
+	if (x < 4)
 		return gnm_exp (GNM_const(-0.5) * x * x);
-	else if (x >= GNM_MAX_EXP * M_LN2gnum + 10)
+
+	if (!xlim)
+		xlim = 10 + gnm_sqrt (-2 * (GNM_MIN_EXP - DECIMAL64_MANT_DIG) * gnm_log (GNM_RADIX));
+
+	if (x >= xlim)
 		return 0;
+	else if (gnm_isnan (x))
+		return gnm_nan;
 	else {
-		/*
-		 * Split x into two parts, x=x1+x2, such that |x2|<=2^-16.
-		 * Assuming that we are using IEEE doubles, that means that
-		 * x1*x1 is error free for x<1024 (above which we will underflow
-		 * anyway).  If we are not using IEEE doubles then this is
-		 * still an improvement over the naive formula.
-		 */
+#if GNM_RADIX == 2
+		// Split x into two parts, x=x1+x2, such that |x2|<=2^-16.
+		// Assuming that we are using IEEE doubles, that means that
+		// x1*x1 is error free for x<1024 (above which we will underflow
+		// anyway).  If we are not using IEEE doubles then this is
+		// still an improvement over the naive formula.
 		gnm_float x1 = gnm_round (x * 65536) / 65536;
 		gnm_float x2 = x - x1;
+#else
+		gnm_float x1 = gnm_round (x * 100000) / 100000;
+		gnm_float x2 = x - x1;
+#endif
 		return (gnm_exp (GNM_const(-0.5) * x1 * x1) *
 			gnm_exp ((GNM_const(-0.5) * x2 - x1) * x2));
 	}

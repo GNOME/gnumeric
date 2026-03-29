@@ -325,6 +325,7 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 gnm_float
 dnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
 {
+	static gnm_float xlim;
 	gnm_float x0;
 
 	if (gnm_isnan (x) || gnm_isnan (mu) || gnm_isnan (sigma))
@@ -338,25 +339,34 @@ dnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
 
 	if (give_log)
 		return -(M_LN_SQRT_2PI + GNM_const(0.5) * x * x + gnm_log (sigma));
-	else if (x > 3 + 2 * gnm_sqrt (gnm_log (GNM_MAX)))
+
+	if (x < 4)
+		/* Near-center case.  */
+		return M_1_SQRT_2PI * expmx2h (x) / sigma;
+
+	if (!xlim)
+		xlim = 10 + gnm_sqrt (-2 * (GNM_MIN_EXP - DECIMAL64_MANT_DIG) * gnm_log (GNM_RADIX));
+
+	if (x >= xlim)
 		/* Far into the tail; x > ~100 for long double  */
 		return 0;
-	else if (x > 4) {
-		/*
-		 * Split x into xh+xl such that:
-		 * 1) xh*xh is exact
-		 * 2) 0 <= xl <= 1/65536
-		 * 3) 0 <= xl*xh < ~100/65536
-		 */
-		gnm_float xh = gnm_floor (x * 65536) / 65536;  /* At most 24 bits */
+	else {
+#if GNM_RADIX == 2
+		// Split x into xh+xl such that:
+		// 1) xh*xh is exact
+		// 2) 0 <= xl <= 1/65536
+		// 3) 0 <= xl*xh < ~100/65536
+		gnm_float xh = gnm_round (x * 65536) / 65536;  /* At most 24 bits */
 		gnm_float xl = (x0 - xh * sigma) / sigma;
+#else
+		gnm_float xh = gnm_round (x * 100000) / 100000;
+		gnm_float xl = (x0 - xh * sigma) / sigma;
+#endif
 		return M_1_SQRT_2PI *
 			gnm_exp (GNM_const(-0.5) * (xh * xh)) *
 			gnm_exp (-xl * (GNM_const(0.5) * xl + xh)) /
 			sigma;
-	} else
-		/* Near-center case.  */
-		return M_1_SQRT_2PI * expmx2h (x) / sigma;
+	}
 }
 
 gnm_float
