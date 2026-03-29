@@ -750,6 +750,14 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
 			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign \
 			 -Wstrict-prototypes -Wno-error=format-nonliteral "
+	if $gnumeric_with_decimal64; then
+		# Turn off format warnings.  They are, unfortunable, not useful
+		# with decimal64 as gcc doesn't understand the "W" specifier we
+		# use for decimal64.
+		# This is not an invitation to turn them off in any other
+		# situation!
+		warning_options="$warning_options -Wno-format-security -Wno-format"
+	fi
 	for option in $warning_options ; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $uwoption $option"
