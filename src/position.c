@@ -42,6 +42,11 @@ gnm_cell_pos_dup (GnmCellPos *pos)
 	return res;
 }
 
+/**
+ * gnm_cell_pos_get_type:
+ *
+ * Returns: the #GType for #GnmCellPos.
+ **/
 GType
 gnm_cell_pos_get_type (void)
 {
@@ -62,6 +67,11 @@ gnm_eval_pos_dup (GnmEvalPos *ep)
 	return go_memdup (ep, sizeof (*ep));
 }
 
+/**
+ * gnm_eval_pos_get_type:
+ *
+ * Returns: the #GType for #GnmEvalPos.
+ **/
 GType
 gnm_eval_pos_get_type (void)
 {
@@ -77,7 +87,7 @@ gnm_eval_pos_get_type (void)
 
 /**
  * eval_pos_init:
- * @ep: The position to init.
+ * @ep: (out): The position to init.
  * @s: #Sheet
  * @col: column.
  * @row: row
@@ -101,7 +111,7 @@ eval_pos_init (GnmEvalPos *ep, Sheet *sheet, int col, int row)
 
 /**
  * eval_pos_init_pos:
- * @ep: The position to init.
+ * @ep: (out): The position to init.
  * @s: #Sheet
  * @pos: #GnmCellPos
  *
@@ -124,7 +134,7 @@ eval_pos_init_pos (GnmEvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
 
 /**
  * eval_pos_init_dep:
- * @ep: The position to init.
+ * @ep: (out): The position to init.
  * @dep:
  *
  * Returns: (type void): the initialized #GnmEvalPos (@ep).
@@ -145,11 +155,12 @@ eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
 
 /**
  * eval_pos_init_editpos:
- * @ep: The position to init.
+ * @ep: (out): The position to init.
  * @sv: @Sheetview
  *
  * The function initializes an evalpos with the edit position from the
  * given sheetview.
+ *
  * Returns: (type void): the initialized #GnmEvalPos (@ep).
  **/
 GnmEvalPos *
@@ -164,7 +175,7 @@ eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv)
 
 /**
  * eval_pos_init_cell:
- * @ep: The position to init.
+ * @ep: (out): The position to init.
  * @cell: A cell
  *
  * The function initializes an evalpos with the given cell
@@ -187,7 +198,7 @@ eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
 
 /**
  * eval_pos_init_sheet:
- * @ep: The position to init.
+ * @ep: (out): The position to init.
  * @sheet: A sheet
  *
  * The function initializes an evalpos with the given sheet.
@@ -208,6 +219,12 @@ eval_pos_init_sheet (GnmEvalPos *ep, Sheet const *sheet)
 	return ep;
 }
 
+/**
+ * eval_pos_is_array_context:
+ * @ep: #GnmEvalPos
+ *
+ * Returns: %TRUE if the evaluation position is an array context.
+ **/
 gboolean
 eval_pos_is_array_context (GnmEvalPos const *ep)
 {
@@ -221,6 +238,11 @@ gnm_parse_pos_dup (GnmParsePos *pp)
 	return go_memdup (pp, sizeof (*pp));
 }
 
+/**
+ * gnm_parse_pos_get_type:
+ *
+ * Returns: the #GType for #GnmParsePos.
+ **/
 GType
 gnm_parse_pos_get_type (void)
 {
@@ -236,7 +258,7 @@ gnm_parse_pos_get_type (void)
 
 /**
  * parse_pos_init:
- * @pp: The position to init.
+ * @pp: (out): The position to init.
  * @sheet: The sheet being selected
  * @wb: The workbook being selected.
  * @row:
@@ -266,7 +288,7 @@ parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet const *sheet,
 
 /**
  * parse_pos_init_dep:
- * @pp: The position to init.
+ * @pp: (out): The position to init.
  * @dep: The dependent
  *
  * Returns: (type void): the initialized #GnmParsePos (@pp).
@@ -285,7 +307,7 @@ parse_pos_init_dep (GnmParsePos *pp, GnmDependent const *dep)
 
 /**
  * parse_pos_init_cell:
- * @pp: The position to init.
+ * @pp: (out): The position to init.
  * @cell: The cell
  *
  * Returns: (type void): the initialized #GnmParsePos (@pp).
@@ -303,7 +325,7 @@ parse_pos_init_cell (GnmParsePos *pp, GnmCell const *cell)
 
 /**
  * parse_pos_init_evalpos:
- * @pp: The position to init.
+ * @pp: (out): The position to init.
  * @pos: #GnmEvalPos
  *
  * Returns: (type void): the initialized #GnmParsePos (@pp).
@@ -318,7 +340,7 @@ parse_pos_init_evalpos (GnmParsePos *pp, GnmEvalPos const *ep)
 
 /**
  * parse_pos_init_editpos:
- * @pp: The position to init.
+ * @pp: (out): The position to init.
  * @sv: sheet view
  *
  * Returns: (type void): the initialized #GnmParsePos (@pp).
@@ -334,7 +356,7 @@ parse_pos_init_editpos (GnmParsePos *pp, SheetView const *sv)
 
 /**
  * parse_pos_init_sheet:
- * @pp: The position to init.
+ * @pp: (out): The position to init.
  * @sheet: The sheet
  *
  * Returns: (type void): the initialized #GnmParsePos (@pp).
@@ -356,6 +378,11 @@ gnm_cellref_dup (GnmCellRef *cr)
 	return go_memdup (cr, sizeof (*cr));
 }
 
+/**
+ * gnm_cellref_get_type:
+ *
+ * Returns: the #GType for #GnmCellRef.
+ **/
 GType
 gnm_cellref_get_type (void)
 {
@@ -368,6 +395,17 @@ gnm_cellref_get_type (void)
 	}
 	return t;
 }
+
+/**
+ * gnm_cellref_init:
+ * @ref: (out): #GnmCellRef
+ * @sheet: (nullable): #Sheet
+ * @col: column
+ * @row: row
+ * @relative: %TRUE for relative, %FALSE for absolute
+ *
+ * Returns: (transfer none): the initialized #GnmCellRef (@ref).
+ **/
 GnmCellRef *
 gnm_cellref_init (GnmCellRef *ref, Sheet *sheet, int col, int row, gboolean relative)
 {
@@ -379,6 +417,13 @@ gnm_cellref_init (GnmCellRef *ref, Sheet *sheet, int col, int row, gboolean rela
 	return ref;
 }
 
+/**
+ * gnm_cellref_equal:
+ * @a: #GnmCellRef
+ * @b: #GnmCellRef
+ *
+ * Returns: %TRUE if @a and @b are equal.
+ **/
 gboolean
 gnm_cellref_equal (GnmCellRef const *a, GnmCellRef const *b)
 {
@@ -389,6 +434,12 @@ gnm_cellref_equal (GnmCellRef const *a, GnmCellRef const *b)
 	       (a->sheet == b->sheet);
 }
 
+/**
+ * gnm_cellref_hash:
+ * @cr: #GnmCellRef
+ *
+ * Returns: a hash value for @cr.
+ **/
 guint
 gnm_cellref_hash (GnmCellRef const *cr)
 {
@@ -400,6 +451,15 @@ gnm_cellref_hash (GnmCellRef const *cr)
 	return h;
 }
 
+/**
+ * gnm_cellref_get_col:
+ * @ref: #GnmCellRef
+ * @ep: #GnmEvalPos
+ *
+ * Resolves column in @ref to an absolute column number.
+ *
+ * Returns: the effective column of @ref at @ep.
+ **/
 int
 gnm_cellref_get_col (GnmCellRef const *ref, GnmEvalPos const *ep)
 {
@@ -416,6 +476,15 @@ gnm_cellref_get_col (GnmCellRef const *ref, GnmEvalPos const *ep)
 	return ref->col;
 }
 
+/**
+ * gnm_cellref_get_row:
+ * @ref: #GnmCellRef
+ * @ep: #GnmEvalPos
+ *
+ * Resolves column in @ref to an absolute column number.
+ *
+ * Returns: the effective row of @ref at @ep.
+ **/
 int
 gnm_cellref_get_row (GnmCellRef const *ref, GnmEvalPos const *ep)
 {
@@ -446,6 +515,15 @@ modulo (int i, int max)
 }
 
 
+/**
+ * gnm_cellpos_init_cellref_ss:
+ * @res: (out): #GnmCellPos
+ * @cell_ref: #GnmCellRef
+ * @pos: #GnmCellPos
+ * @ss: #GnmSheetSize
+ *
+ * Initializes @res from @cell_ref at @pos in a sheet of size @ss.
+ **/
 void
 gnm_cellpos_init_cellref_ss (GnmCellPos *res, GnmCellRef const *cell_ref,
 			     GnmCellPos const *pos, GnmSheetSize const *ss)
@@ -466,6 +544,15 @@ gnm_cellpos_init_cellref_ss (GnmCellPos *res, GnmCellRef const *cell_ref,
 		res->row = cell_ref->row;
 }
 
+/**
+ * gnm_cellpos_init_cellref:
+ * @res: (out): #GnmCellPos
+ * @cr: #GnmCellRef
+ * @pos: #GnmCellPos
+ * @base_sheet: #Sheet
+ *
+ * Initializes @res from @cell_ref at @pos in @base_sheet.
+ **/
 void
 gnm_cellpos_init_cellref (GnmCellPos *res, GnmCellRef const *cell_ref,
 			  GnmCellPos const *pos, Sheet const *base_sheet)
@@ -475,6 +562,14 @@ gnm_cellpos_init_cellref (GnmCellPos *res, GnmCellRef const *cell_ref,
 				     gnm_sheet_get_size (sheet));
 }
 
+/**
+ * gnm_cellref_make_abs:
+ * @dest: (out): #GnmCellRef
+ * @src: #GnmCellRef
+ * @ep: #GnmEvalPos
+ *
+ * Makes @dest an absolute version of @src at @ep.
+ **/
 void
 gnm_cellref_make_abs (GnmCellRef *dest, GnmCellRef const *src, GnmEvalPos const *ep)
 {
@@ -493,6 +588,14 @@ gnm_cellref_make_abs (GnmCellRef *dest, GnmCellRef const *src, GnmEvalPos const 
 	dest->row_relative = FALSE;
 }
 
+/**
+ * gnm_cellref_set_col_ar:
+ * @cr: (inout): #GnmCellRef
+ * @pp: #GnmParsePos
+ * @abs_rel: %TRUE for relative, %FALSE for absolute
+ *
+ * Sets the column of @cr to be absolute or relative.
+ **/
 void
 gnm_cellref_set_col_ar (GnmCellRef *cr, GnmParsePos const *pp, gboolean abs_rel)
 {
@@ -505,6 +608,14 @@ gnm_cellref_set_col_ar (GnmCellRef *cr, GnmParsePos const *pp, gboolean abs_rel)
 	}
 }
 
+/**
+ * gnm_cellref_set_row_ar:
+ * @cr: (inout): #GnmCellRef
+ * @pp: #GnmParsePos
+ * @abs_rel: %TRUE for relative, %FALSE for absolute
+ *
+ * Sets the row of @cr to be absolute or relative.
+ **/
 void
 gnm_cellref_set_row_ar (GnmCellRef *cr, GnmParsePos const *pp, gboolean abs_rel)
 {
@@ -517,6 +628,13 @@ gnm_cellref_set_row_ar (GnmCellRef *cr, GnmParsePos const *pp, gboolean abs_rel)
 	}
 }
 
+/**
+ * gnm_rangeref_equal:
+ * @a: #GnmRangeRef
+ * @b: #GnmRangeRef
+ *
+ * Returns: %TRUE if @a and @b are equal.
+ **/
 gboolean
 gnm_rangeref_equal (GnmRangeRef const *a, GnmRangeRef const *b)
 {
@@ -524,6 +642,12 @@ gnm_rangeref_equal (GnmRangeRef const *a, GnmRangeRef const *b)
 		gnm_cellref_equal (&a->b, &b->b);
 }
 
+/**
+ * gnm_rangeref_hash:
+ * @rr: #GnmRangeRef
+ *
+ * Returns: a hash value for @rr.
+ **/
 guint
 gnm_rangeref_hash (GnmRangeRef const *rr)
 {
@@ -533,6 +657,12 @@ gnm_rangeref_hash (GnmRangeRef const *rr)
 	return h;
 }
 
+/**
+ * gnm_rangeref_dup:
+ * @rr: #GnmRangeRef
+ *
+ * Returns: (transfer full): a copy of @rr.
+ **/
 GnmRangeRef *
 gnm_rangeref_dup (GnmRangeRef const *rr)
 {
@@ -545,6 +675,11 @@ gnm_rangeref_dup (GnmRangeRef const *rr)
 	return res;
 }
 
+/**
+ * gnm_rangeref_get_type:
+ *
+ * Returns: the #GType for #GnmRangeRef.
+ **/
 GType
 gnm_rangeref_get_type (void)
 {
@@ -558,6 +693,16 @@ gnm_rangeref_get_type (void)
 	return t;
 }
 
+/**
+ * gnm_rangeref_normalize_pp:
+ * @ref: #GnmRangeRef
+ * @pp: #GnmParsePos
+ * @start_sheet: (out) (transfer none): starting sheet
+ * @end_sheet: (out) (transfer none): ending sheet
+ * @dest: (out): range
+ *
+ * Normalizes @ref at @pp.
+ **/
 void
 gnm_rangeref_normalize_pp (GnmRangeRef const *ref, GnmParsePos const *pp,
 			   Sheet **start_sheet, Sheet **end_sheet,
@@ -603,6 +748,12 @@ gnm_rangeref_normalize (GnmRangeRef const *ref, GnmEvalPos const *ep,
 	gnm_rangeref_normalize_pp (ref, &pp, start_sheet, end_sheet, dest);
 }
 
+/**
+ * gnm_cellpos_hash:
+ * @key: #GnmCellPos
+ *
+ * Returns: a hash value for @key.
+ **/
 guint
 gnm_cellpos_hash (GnmCellPos const *key)
 {
@@ -612,6 +763,13 @@ gnm_cellpos_hash (GnmCellPos const *key)
 	return h;
 }
 
+/**
+ * gnm_cellpos_equal:
+ * @a: #GnmCellPos
+ * @b: #GnmCellPos
+ *
+ * Returns: %TRUE if @a and @b are equal.
+ **/
 gint
 gnm_cellpos_equal (GnmCellPos const *a, GnmCellPos const *b)
 {

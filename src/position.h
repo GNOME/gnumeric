@@ -61,7 +61,7 @@ struct GnmRangeRef_ {
 
 GType       gnm_cellref_get_type   (void); /* Boxed type */
 GnmCellRef *gnm_cellref_init       (GnmCellRef *ref, Sheet *sheet,
-				    int col, int row, gboolean rel);
+				    int col, int row, gboolean relative);
 gboolean    gnm_cellref_equal	   (GnmCellRef const *a, GnmCellRef const *b);
 guint       gnm_cellref_hash	   (GnmCellRef const *cr);
 void        gnm_cellref_make_abs   (GnmCellRef *dest, GnmCellRef const *src,
@@ -70,14 +70,14 @@ void        gnm_cellref_set_col_ar (GnmCellRef *cr, GnmParsePos const *pp,
 				    gboolean abs_rel);
 void        gnm_cellref_set_row_ar (GnmCellRef *cr, GnmParsePos const *pp,
 				    gboolean abs_rel);
-int         gnm_cellref_get_col	   (GnmCellRef const *cr, GnmEvalPos const *ep);
-int         gnm_cellref_get_row	   (GnmCellRef const *cr, GnmEvalPos const *ep);
+int         gnm_cellref_get_col	   (GnmCellRef const *ref, GnmEvalPos const *ep);
+int         gnm_cellref_get_row	   (GnmCellRef const *ref, GnmEvalPos const *ep);
 
 GType        gnm_rangeref_get_type (void); /* Boxed type */
 gboolean     gnm_rangeref_equal	   (GnmRangeRef const *a, GnmRangeRef const *b);
-guint	     gnm_rangeref_hash	   (GnmRangeRef const *cr);
-GnmRangeRef *gnm_rangeref_dup	   (GnmRangeRef const *cr);
-void         gnm_rangeref_normalize_pp (GnmRangeRef const *rr,
+guint	     gnm_rangeref_hash	   (GnmRangeRef const *rr);
+GnmRangeRef *gnm_rangeref_dup	   (GnmRangeRef const *rr);
+void         gnm_rangeref_normalize_pp (GnmRangeRef const *ref,
 					GnmParsePos const *pp,
 					Sheet **start_sheet, Sheet **end_sheet,
 					GnmRange *dest);
@@ -91,7 +91,7 @@ gint  gnm_cellpos_equal		(GnmCellPos const *a, GnmCellPos const *b);
 void  gnm_cellpos_init_cellref_ss (GnmCellPos *res, GnmCellRef const *cell_ref,
 				   GnmCellPos const *pos,
 				   GnmSheetSize const *ss);
-void  gnm_cellpos_init_cellref	(GnmCellPos *cp, GnmCellRef const *cr,
+void  gnm_cellpos_init_cellref	(GnmCellPos *res, GnmCellRef const *cr,
 				 GnmCellPos const *pos, Sheet const *base_sheet);
 
 G_END_DECLS
