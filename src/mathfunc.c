@@ -5081,7 +5081,7 @@ expmx2h (gnm_float x)
 		return gnm_exp (GNM_const(-0.5) * x * x);
 
 	if (!xlim)
-		xlim = 10 + gnm_sqrt (-2 * (GNM_MIN_EXP - DECIMAL64_MANT_DIG) * gnm_log (GNM_RADIX));
+		xlim = 10 + gnm_sqrt (-2 * (GNM_MIN_EXP - GNM_MANT_DIG) * gnm_log (GNM_RADIX));
 
 	if (x >= xlim)
 		return 0;

@@ -345,7 +345,7 @@ dnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
 		return M_1_SQRT_2PI * expmx2h (x) / sigma;
 
 	if (!xlim)
-		xlim = 10 + gnm_sqrt (-2 * (GNM_MIN_EXP - DECIMAL64_MANT_DIG) * gnm_log (GNM_RADIX));
+		xlim = 10 + gnm_sqrt (-2 * (GNM_MIN_EXP - GNM_MANT_DIG) * gnm_log (GNM_RADIX));
 
 	if (x >= xlim)
 		/* Far into the tail; x > ~100 for long double  */
