@@ -34,6 +34,11 @@
  * Figure out whether the format engine in goffice allows negative values
  * or (as XL) considers them errors.
  */
+/**
+ * gnm_datetime_allow_negative:
+ *
+ * Returns: %TRUE if negative values are allowed for dates.
+ **/
 gboolean
 gnm_datetime_allow_negative (void)
 {
@@ -56,6 +61,13 @@ gnm_datetime_allow_negative (void)
 	return (gboolean)allow;
 }
 
+/**
+ * datetime_value_to_serial_raw:
+ * @v: #GnmValue
+ * @conv: #GODateConventions
+ *
+ * Returns: the serial value of @v.
+ **/
 gnm_float
 datetime_value_to_serial_raw (GnmValue const *v, GODateConventions const *conv)
 {
@@ -82,6 +94,13 @@ datetime_value_to_serial_raw (GnmValue const *v, GODateConventions const *conv)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * datetime_value_to_serial:
+ * @v: #GnmValue
+ * @conv: #GODateConventions
+ *
+ * Returns: the serial value of @v.
+ **/
 int
 datetime_value_to_serial (GnmValue const *v, GODateConventions const *conv)
 {
@@ -93,6 +112,14 @@ datetime_value_to_serial (GnmValue const *v, GODateConventions const *conv)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * datetime_value_to_g:
+ * @res: (out): #GDate
+ * @v: #GnmValue
+ * @conv: #GODateConventions
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *conv)
 {
@@ -107,9 +134,14 @@ datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *con
 
 /* ------------------------------------------------------------------------- */
 
-/*
+/**
+ * annual_year_basis:
+ * @value_date: #GnmValue
+ * @basis: #GOBasisType
+ * @date_conv: #GODateConventions
+ *
  * Returns the number of days in the year for the given date accoring to
- * the day counting system specified by 'basis' argument.  Basis may have
+ * the day counting system specified by @basis argument.  @basis may have
  * one of the following values:
  *
  *	0  for US 30/360 (days in a month/days in a year)
@@ -118,11 +150,13 @@ datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *con
  *	3  for actual days/365
  *	4  for European 30/360
  *
- * This function returns 360 for basis 0, 2, and 4, it returns value
- * 365 for basis 3, and value 365 or 366 for basis 1 accoring to the
+ * This function returns 360 for @basis 0, 2, and 4, it returns value
+ * 365 for @basis 3, and value 365 or 366 for @basis 1 accoring to the
  * year of the given date (366 is returned if the date is in a leap
  * year).
- */
+ *
+ * Returns: the number of days in the year for the given date.
+ **/
 int
 annual_year_basis (GnmValue const *value_date, GOBasisType basis,
 		   GODateConventions const *date_conv)
@@ -148,6 +182,14 @@ annual_year_basis (GnmValue const *value_date, GOBasisType basis,
 	}
 }
 
+/**
+ * yearfrac:
+ * @from: #GDate
+ * @to: #GDate
+ * @basis: #GOBasisType
+ *
+ * Returns: the year fraction between two dates.
+ **/
 gnm_float
 yearfrac (GDate const *from, GDate const *to, GOBasisType basis)
 {
@@ -210,13 +252,17 @@ yearfrac (GDate const *from, GDate const *to, GOBasisType basis)
 	return days / peryear;
 }
 
-/* ------------------------------------------------------------------------- */
-/* Like g_date_add_days, but...
+/**
+ * gnm_date_add_days:
+ * @d: #GDate
+ * @n: number of days to add
  *
+ * Adds @n days to @d.
+ *
+ * Like g_date_add_days, but...
  * 1. Do not spew criticals.
  * 2. Number of days is signed.
- */
-
+ **/
 void
 gnm_date_add_days (GDate *d, int n)
 {
@@ -246,11 +292,17 @@ gnm_date_add_days (GDate *d, int n)
 	g_date_clear (d, 1);
 }
 
-/* Like g_date_add_months, but...
+/**
+ * gnm_date_add_months:
+ * @d: #GDate
+ * @n: number of months to add
  *
+ * Adds @n months to @d.
+ *
+ * Like g_date_add_months, but...
  * 1. Do not spew criticals.
  * 2. Number of months is signed.
- */
+ **/
 void
 gnm_date_add_months (GDate *d, int n)
 {
@@ -281,11 +333,17 @@ gnm_date_add_months (GDate *d, int n)
 	g_date_clear (d, 1);
 }
 
-/* Like g_date_add_years, but...
+/**
+ * gnm_date_add_years:
+ * @d: #GDate
+ * @n: number of years to add
  *
+ * Adds @n years to @d.
+ *
+ * Like g_date_add_years, but...
  * 1. Do not spew criticals.
  * 2. Number of years is signed.
- */
+ **/
 void
 gnm_date_add_years (GDate *d, int n)
 {
@@ -314,11 +372,19 @@ gnm_date_add_years (GDate *d, int n)
 	g_date_clear (d, 1);
 }
 
-#define DAY_SECONDS (3600*24)
+/**
+ * datetime_value_to_seconds:
+ * @v: #GnmValue
+ * @conv: #GODateConventions
+ *
+ * Returns: the number of seconds into the day.
+ **/
 int
 datetime_value_to_seconds (GnmValue const *v, GODateConventions const *conv)
 {
 	int secs;
+	int DAY_SECONDS = 3600 * 24;
+
 	gnm_float d = datetime_value_to_serial_raw (v, conv);
 	if (d >= G_MAXINT || d < G_MININT)
 		return -1;

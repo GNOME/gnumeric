@@ -26,7 +26,7 @@
 G_BEGIN_DECLS
 
 GtkWidget *gnm_format_sel_new (void);
-void       gnm_format_sel_set_value (GOFormatSel *nfs, GnmValue const *value);
+void       gnm_format_sel_set_value (GOFormatSel *gfs, GnmValue const *value);
 
 G_END_DECLS
 

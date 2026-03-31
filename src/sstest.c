@@ -959,14 +959,13 @@ check_argument_refs (const char *text, GnmFunc *fd)
 		argname = g_strndup (at + 2, text - at - 2);
 
 		for (i = 0; TRUE; i++) {
-			char *thisarg = gnm_func_get_arg_name (fd, i);
+			char const *thisarg = gnm_func_get_arg_name (fd, i);
 			gboolean found;
 			if (!thisarg) {
 				g_free (argname);
 				return TRUE;
 			}
 			found = strcmp (argname, thisarg) == 0;
-			g_free (thisarg);
 			if (found)
 				break;
 		}

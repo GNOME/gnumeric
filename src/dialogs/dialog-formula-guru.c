@@ -275,7 +275,6 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc *fd,
 	gboolean is_non_fun;
 	GtkTreeIter iter;
 	gint min_arg, max_arg, args = 0, i;
-	char *arg_name;
 
 	if (fd == NULL) {
 		gtk_tree_model_get (GTK_TREE_MODEL(state->model), parent,
@@ -306,6 +305,9 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc *fd,
 					       &iter, parent, args))
 		gtk_tree_store_remove (state->model, &iter);
 	for (i = 0; i < args; i++) {
+		char const *arg_name = gnm_func_get_arg_name (fd, i);
+		char *mod_name = NULL;
+
 		if (!gtk_tree_model_iter_nth_child (GTK_TREE_MODEL(state->model),
 						    &iter, parent, i)) {
 			gtk_tree_store_append (state->model, &iter, parent);
@@ -317,19 +319,15 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc *fd,
 					    MAX_ARG, 0,
 					    -1);
 		}
-		arg_name = gnm_func_get_arg_name (fd, i);
-		if (i >= min_arg && arg_name != NULL) {
-			char *mod_name = g_strdup_printf (_("[%s]"), arg_name);
-			g_free (arg_name);
-			arg_name = mod_name;
-		}
+		if (i >= min_arg && arg_name != NULL)
+			arg_name = mod_name = g_strdup_printf (_("[%s]"), arg_name);
 
 		gtk_tree_store_set (state->model, &iter,
 				    ARG_NAME, arg_name,
 				    ARG_TOOLTIP, gnm_func_get_arg_description (fd, i),
 				    ARG_TYPE, gnm_func_get_arg_type_string (fd, i),
 				    -1);
-		g_free (arg_name);
+		g_free (mod_name);
 	}
 
 	dialog_formula_guru_update_this_parent (parent, state, NULL, 0, 0);

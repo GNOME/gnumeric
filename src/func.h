@@ -271,7 +271,7 @@ char const *gnm_func_get_description (GnmFunc const *func);
 void        gnm_func_count_args    (GnmFunc const *func, gint *min, int *max);
 char        gnm_func_get_arg_type  (GnmFunc const *func, gint arg_idx);
 char const *gnm_func_get_arg_type_string  (GnmFunc const *func, gint arg_idx);
-char       *gnm_func_get_arg_name  (GnmFunc const *func, guint arg_idx);
+char const *gnm_func_get_arg_name  (GnmFunc const *func, guint arg_idx);
 char const *gnm_func_get_arg_description (GnmFunc const *func, guint arg_idx);
 char       *gnm_func_convert_markup_to_pango (char const *desc,
 					      GtkWidget *target);

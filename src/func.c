@@ -148,6 +148,12 @@ gnm_func_load_stub (GnmFunc *func)
 	}
 }
 
+/**
+ * gnm_func_load_if_stub:
+ * @func: #GnmFunc
+ *
+ * Ensures @func is loaded if it is a stub.
+ **/
 inline void
 gnm_func_load_if_stub (GnmFunc *func)
 {
@@ -192,6 +198,11 @@ gnm_func_group_ref (GnmFuncGroup *fn_group)
 	return fn_group;
 }
 
+/**
+ * gnm_func_group_get_type:
+ *
+ * Returns: the #GType for #GnmFuncGroup.
+ **/
 GType
 gnm_func_group_get_type (void)
 {
@@ -214,6 +225,13 @@ function_category_compare (gconstpointer a, gconstpointer b)
 	return go_string_cmp (cat_a->display_name, cat_b->display_name);
 }
 
+/**
+ * gnm_func_group_fetch:
+ * @name: internal name
+ * @translation: (nullable): translated name
+ *
+ * Returns: (transfer none): the function group with the given name.
+ **/
 GnmFuncGroup *
 gnm_func_group_fetch (char const *name, char const *translation)
 {
@@ -257,6 +275,12 @@ gnm_func_group_fetch (char const *name, char const *translation)
 	return cat;
 }
 
+/**
+ * gnm_func_group_get_nth:
+ * @n: index
+ *
+ * Returns: (transfer none): the @n-th function group.
+ **/
 GnmFuncGroup *
 gnm_func_group_get_nth (int n)
 {
@@ -310,6 +334,13 @@ gnm_func_create_arg_names (GnmFunc *func)
 	func->arg_names = ptr;
 }
 
+/**
+ * gnm_func_is_varargs:
+ * @func: #GnmFunc
+ *
+ * Returns: %TRUE if @func is a function taking a variable number of
+ * arguments.
+ **/
 gboolean
 gnm_func_is_varargs (GnmFunc const *func)
 {
@@ -317,6 +348,13 @@ gnm_func_is_varargs (GnmFunc const *func)
 	return func->fn_type == GNM_FUNC_TYPE_NODES;
 }
 
+/**
+ * gnm_func_is_fixargs:
+ * @func: #GnmFunc
+ *
+ * Returns: %TRUE if @func is a function that takes a fixed number of
+ * arguments.
+ **/
 gboolean
 gnm_func_is_fixargs (GnmFunc const *func)
 {
@@ -324,6 +362,12 @@ gnm_func_is_fixargs (GnmFunc const *func)
 	return func->fn_type == GNM_FUNC_TYPE_ARGS;
 }
 
+/**
+ * gnm_func_set_stub:
+ * @func: #GnmFunc
+ *
+ * Sets @func to be a stub.
+ **/
 void
 gnm_func_set_stub (GnmFunc *func)
 {
@@ -422,6 +466,14 @@ gnm_func_get_help (GnmFunc const *func, int *n)
 }
 
 
+/**
+ * gnm_func_set_help:
+ * @func: #GnmFunc
+ * @help: (array length=n) (nullable): help items
+ * @n: number of help items
+ *
+ * Sets the help text for @func.
+ **/
 void
 gnm_func_set_help (GnmFunc *func, GnmFuncHelp const *help, int n)
 {
@@ -491,7 +543,7 @@ gnm_func_set_localized_name (GnmFunc *fd, const char *lname)
  * This function increments the usage count of @func.  A non-zero usage count
  * prevents the unloading of the function.
  *
- * Returns: (transfer full): a new reference to @func.
+ * Returns: (transfer none): a new reference to @func.
  */
 GnmFunc *
 gnm_func_inc_usage (GnmFunc *func)
@@ -506,7 +558,7 @@ gnm_func_inc_usage (GnmFunc *func)
 
 /**
  * gnm_func_dec_usage:
- * @func: (transfer full): #GnmFunc
+ * @func: (transfer none): #GnmFunc
  *
  * This function decrements the usage count of @func.  When the usage count
  * reaches zero, the function may be unloaded, for example by unloading the
@@ -523,6 +575,12 @@ gnm_func_dec_usage (GnmFunc *func)
 		g_object_notify (G_OBJECT (func), "in-use");
 }
 
+/**
+ * gnm_func_get_in_use:
+ * @func: #GnmFunc
+ *
+ * Returns: %TRUE if @func is currently in use.
+ **/
 gboolean
 gnm_func_get_in_use (GnmFunc *func)
 {
@@ -684,6 +742,12 @@ gnm_func_gettext (GnmFunc const *func, const char *str)
 }
 
 
+/**
+ * gnm_func_get_flags:
+ * @func: #GnmFunc
+ *
+ * Returns: @func's flags.
+ **/
 GnmFuncFlags
 gnm_func_get_flags (GnmFunc const *func)
 {
@@ -691,6 +755,13 @@ gnm_func_get_flags (GnmFunc const *func)
 	return func->flags;
 }
 
+/**
+ * gnm_func_set_flags:
+ * @func: #GnmFunc
+ * @f: #GnmFuncFlags
+ *
+ * Sets @func's flags to @f.
+ **/
 void
 gnm_func_set_flags (GnmFunc *func, GnmFuncFlags f)
 {
@@ -698,6 +769,12 @@ gnm_func_set_flags (GnmFunc *func, GnmFuncFlags f)
 	func->flags = f;
 }
 
+/**
+ * gnm_func_get_impl_status:
+ * @func: #GnmFunc
+ *
+ * Returns: @func's implementation status.
+ **/
 GnmFuncImplStatus
 gnm_func_get_impl_status (GnmFunc const *func)
 {
@@ -705,6 +782,13 @@ gnm_func_get_impl_status (GnmFunc const *func)
 	return func->impl_status;
 }
 
+/**
+ * gnm_func_set_impl_status:
+ * @func: #GnmFunc
+ * @st: #GnmFuncImplStatus
+ *
+ * Sets @func's implementation status to @st.
+ **/
 void
 gnm_func_set_impl_status (GnmFunc *func, GnmFuncImplStatus st)
 {
@@ -713,6 +797,12 @@ gnm_func_set_impl_status (GnmFunc *func, GnmFuncImplStatus st)
 }
 
 
+/**
+ * gnm_func_get_test_status:
+ * @func: #GnmFunc
+ *
+ * Returns: @func's test status.
+ **/
 GnmFuncTestStatus
 gnm_func_get_test_status (GnmFunc const *func)
 {
@@ -720,6 +810,13 @@ gnm_func_get_test_status (GnmFunc const *func)
 	return func->test_status;
 }
 
+/**
+ * gnm_func_set_test_status:
+ * @func: #GnmFunc
+ * @st: #GnmFuncTestStatus
+ *
+ * Sets @func's test status to @st.
+ **/
 void
 gnm_func_set_test_status (GnmFunc *func, GnmFuncTestStatus st)
 {
@@ -742,6 +839,13 @@ gnm_func_get_function_group (GnmFunc *func)
 }
 
 
+/**
+ * gnm_func_set_function_group:
+ * @func: #GnmFunc
+ * @group: #GnmFuncGroup
+ *
+ * Sets @func's function group to @group.
+ **/
 void
 gnm_func_set_function_group (GnmFunc *func, GnmFuncGroup *group)
 {
@@ -762,6 +866,13 @@ gnm_func_set_function_group (GnmFunc *func, GnmFuncGroup *group)
 		func->flags &= ~GNM_FUNC_IS_PLACEHOLDER;
 }
 
+/**
+ * gnm_func_set_from_desc:
+ * @func: #GnmFunc
+ * @desc: #GnmFuncDescriptor
+ *
+ * Sets @func's properties from @desc.
+ **/
 void
 gnm_func_set_from_desc (GnmFunc *func, GnmFuncDescriptor const *desc)
 {
@@ -1139,9 +1250,9 @@ gnm_func_get_arg_type_string (GnmFunc const *func, int arg_idx)
  * @func: #GnmFunc
  * @arg_idx: zero-based argument offset
  *
- * Returns: (transfer full) (nullable): the name of the argument
+ * Returns: (transfer none) (nullable): the name of the argument
  **/
-char *
+char const *
 gnm_func_get_arg_name (GnmFunc const *func, guint arg_idx)
 {
 	g_return_val_if_fail (func != NULL, NULL);
@@ -1149,7 +1260,7 @@ gnm_func_get_arg_name (GnmFunc const *func, guint arg_idx)
 	gnm_func_load_if_stub ((GnmFunc *)func);
 
 	if (func->arg_names && arg_idx < func->arg_names->len)
-		return g_strdup (g_ptr_array_index (func->arg_names, arg_idx));
+		return g_ptr_array_index (func->arg_names, arg_idx);
 	return NULL;
 }
 
@@ -1257,7 +1368,7 @@ free_values (GnmValue **values, int top)
  *
  * Do the guts of calling a function.
  *
- * Returns: the result.
+ * Returns: (transfer full): the result.
  **/
 GnmValue *
 function_call_with_exprs (GnmFuncEvalInfo *ei)
@@ -1514,25 +1625,43 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
  * Use this to invoke a register function: the only drawback is that
  * you have to compute/expand all of the values to use this
  */
+/**
+ * function_call_with_values:
+ * @ep: #GnmEvalPos
+ * @name: function name
+ * @argc: number of arguments
+ * @values: (array length=argc): function arguments
+ *
+ * Returns: (transfer full): the result of the function call.
+ **/
 GnmValue *
-function_call_with_values (GnmEvalPos const *ep, char const *fn_name,
+function_call_with_values (GnmEvalPos const *ep, char const *name,
 			   int argc, GnmValue const * const *values)
 {
 	GnmFunc *fn_def;
 
 	g_return_val_if_fail (ep != NULL, NULL);
-	g_return_val_if_fail (fn_name != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
 	g_return_val_if_fail (ep->sheet != NULL, NULL);
 
 	/* FIXME : support workbook local functions */
-	fn_def = gnm_func_lookup (fn_name, NULL);
+	fn_def = gnm_func_lookup (name, NULL);
 	if (fn_def == NULL)
 		return value_new_error_NAME (ep);
 	return function_def_call_with_values (ep, fn_def, argc, values);
 }
 
+/**
+ * function_def_call_with_values:
+ * @ep: #GnmEvalPos
+ * @fn: #GnmFunc
+ * @argc: number of arguments
+ * @values: (array length=argc): function arguments
+ *
+ * Returns: (transfer full): the result of the function call.
+ **/
 GnmValue *
-function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn_def,
+function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn,
                                int argc, GnmValue const * const *values)
 {
 	GnmValue *retval;
@@ -1541,11 +1670,11 @@ function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn_def,
 
 	fs.pos = ep;
 	fs.func_call = &ef;
-	ef.func = (GnmFunc *)fn_def;
+	ef.func = (GnmFunc *)fn;
 
 	gnm_func_load_if_stub (ef.func);
 
-	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES) {
+	if (fn->fn_type == GNM_FUNC_TYPE_NODES) {
 		/*
 		 * If function deals with ExprNodes, create some
 		 * temporary ExprNodes with constants.
@@ -1558,11 +1687,11 @@ function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn_def,
 			gnm_expr_constant_init (expr + i, values[i]);
 			argv[i] = (GnmExprConstPtr)(expr + i);
 		}
-		retval = fn_def->nodes_func (&fs, argc, argv);
+		retval = fn->nodes_func (&fs, argc, argv);
 		g_free (argv);
 		g_free (expr);
 	} else
-		retval = fn_def->args_func (&fs, values);
+		retval = fn->args_func (&fs, values);
 
 	return retval;
 }
@@ -1794,12 +1923,21 @@ gnm_eval_info_get_func (GnmFuncEvalInfo const *ei)
 	return ei->func_call->func;
 }
 
+/**
+ * gnm_eval_info_get_arg_count:
+ * @ei: #GnmFuncEvalInfo
+ *
+ * Returns: the number of arguments.
+ **/
 int
 gnm_eval_info_get_arg_count (GnmFuncEvalInfo const *ei)
 {
 	return ei->func_call->argc;
 }
 
+/**
+ * gnm_func_link_dep: (skip)
+ **/
 GnmDependentFlags
 gnm_func_link_dep (GnmFunc *func, GnmFuncEvalInfo *ei, gboolean qlink)
 {
@@ -1881,6 +2019,12 @@ gnm_func_real_dispose (GObject *obj)
 	parent_class->dispose (obj);
 }
 
+/**
+ * gnm_func_dispose:
+ * @func: #GnmFunc
+ *
+ * Runs the GObject dispose on @func.
+ **/
 void
 gnm_func_dispose (GnmFunc *func)
 {

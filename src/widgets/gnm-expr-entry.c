@@ -838,7 +838,7 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 }
 
 static void
-gee_set_tooltip_argument (GString *str, char *arg, gboolean optional)
+gee_set_tooltip_argument (GString *str, char const *arg, gboolean optional)
 {
 	if (optional)
 		g_string_append_c (str, '[');
@@ -876,7 +876,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	g_string_append_c (str, '(');
 
 	for (i = 0; i < max; i++) {
-		char *arg_name = gnm_func_get_arg_name (fd, i);
+		char const *arg_name = gnm_func_get_arg_name (fd, i);
 		if (arg_name != NULL) {
 			if (first)
 				first = FALSE;
@@ -892,7 +892,6 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 			gee_set_tooltip_argument (str, arg_name, i >= min);
 			if (i == args)
 				g_string_append (str, UNICODE_LEFT_TRIANGLE);
-			g_free (arg_name);
 		} else
 			break;
 	}
