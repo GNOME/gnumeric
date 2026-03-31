@@ -67,6 +67,13 @@ gnm_format_sel_new (void)
 	return GTK_WIDGET (w);
 }
 
+/**
+ * gnm_format_sel_set_value:
+ * @gfs: #GOFormatSel
+ * @value: #GnmValue
+ *
+ * Sets the value to be used for the format preview.
+ **/
 void
 gnm_format_sel_set_value (GOFormatSel *gfs, GnmValue const *value)
 {

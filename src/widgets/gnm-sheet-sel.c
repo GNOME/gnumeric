@@ -219,6 +219,14 @@ cb_wb_changed (GnmWorkbookSel *wbs,
 	g_ptr_array_unref (sheets);
 }
 
+/**
+ * gnm_sheet_sel_link:
+ * @ss: #GnmSheetSel
+ * @wbs: #GnmWorkbookSel
+ *
+ * Links @ss to @wbs so that the sheet list is updated when the workbook
+ * changes.
+ **/
 void
 gnm_sheet_sel_link (GnmSheetSel *ss, GnmWorkbookSel *wbs)
 {

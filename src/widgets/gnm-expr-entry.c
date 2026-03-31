@@ -60,6 +60,11 @@
    };
 #define TOKEN_UNMATCHED_APOSTROPHE INVALID_TOKEN
 
+/**
+ * gnm_update_type_get_type:
+ *
+ * Returns: the #GType for #GnmUpdateType.
+ **/
 GType
 gnm_update_type_get_type (void)
 {
@@ -2217,7 +2222,7 @@ gnm_expr_entry_signal_update (GnmExprEntry *gee, gboolean user_requested)
  **/
 void
 gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
-				       GnmUpdateType  policy)
+				  GnmUpdateType  policy)
 {
 	g_return_if_fail (GNM_EXPR_ENTRY_IS (gee));
 
@@ -2248,6 +2253,12 @@ gnm_expr_entry_new (WBCGtk *wbcg, gboolean with_icon)
 			     NULL);
 }
 
+/**
+ * gnm_expr_entry_freeze:
+ * @gee: #GnmExprEntry
+ *
+ * Freezes the entry, preventing updates.
+ **/
 void
 gnm_expr_entry_freeze (GnmExprEntry *gee)
 {
@@ -2256,6 +2267,12 @@ gnm_expr_entry_freeze (GnmExprEntry *gee)
 	gee->freeze_count++;
 }
 
+/**
+ * gnm_expr_entry_thaw:
+ * @gee: #GnmExprEntry
+ *
+ * Thaws the entry, allowing updates.
+ **/
 void
 gnm_expr_entry_thaw (GnmExprEntry *gee)
 {
@@ -2346,7 +2363,7 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 
 /**
  * gnm_expr_entry_get_scg:
- * @gee:
+ * @gee: #GnmExprEntry
  *
  * Returns: (transfer none): the associated #SheetControlGUI.
  **/
@@ -2358,9 +2375,9 @@ gnm_expr_entry_get_scg (GnmExprEntry *gee)
 
 /**
  * gnm_expr_entry_load_from_text:
- * @gee:
- * @txt:
- */
+ * @gee: #GnmExprEntry
+ * @txt: text to load
+ **/
 void
 gnm_expr_entry_load_from_text (GnmExprEntry *gee, char const *txt)
 {
@@ -2449,12 +2466,11 @@ gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
  * @r:          a #GnmRange
  * @sheet:      a #sheet
  *
- * Returns: true if displayed range is different from input range. false
- * otherwise.
- *
  * Sets the range selection and displays it in the entry text. If the widget
  * already contains a range selection, the new text replaces the
  * old. Otherwise, it is inserted at @pos.
+ *
+ * Returns: %TRUE if displayed range is different from input range.
  **/
 gboolean
 gnm_expr_entry_load_from_range (GnmExprEntry *gee,
@@ -2507,7 +2523,7 @@ gnm_expr_entry_load_from_range (GnmExprEntry *gee,
 /**
  * gnm_expr_entry_get_rangesel:
  * @gee: a #GnmExprEntry
- * @r: (out): address to receive #GnmRange
+ * @r: (out) (optional): address to receive #GnmRange
  * @sheet: (out) (optional) (transfer none): address to receive #sheet
  *
  * Get the range selection. GnmRange is copied, Sheet is not. If sheet
@@ -2548,7 +2564,7 @@ gnm_expr_entry_get_rangesel (GnmExprEntry const *gee,
 
 /**
  * gnm_expr_entry_can_rangesel:
- * @gee:   a #GnmExprEntry
+ * @gee: a #GnmExprEntry
  *
  * Returns: %TRUE if a range selection is meaningful at current position.
  **/
@@ -2581,8 +2597,9 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
  * @start_sel: start range selection when things change.
  * @flags: #GnmExprParseFlags
  *
- * Attempts to parse the content of the entry line honouring
- * the flags.
+ * Attempts to parse the content of the entry line honouring the flags.
+ *
+ * Returns: (transfer full) (nullable): the parsed expression.
  **/
 GnmExprTop const *
 gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
@@ -2757,6 +2774,14 @@ gnm_expr_entry_get_entry (GnmExprEntry *gee)
 	return gee->entry;
 }
 
+/**
+ * gnm_expr_entry_is_cell_ref:
+ * @gee: #GnmExprEntry
+ * @sheet: #Sheet
+ * @allow_multiple_cell: accept multiple cells
+ *
+ * Returns: %TRUE if the entry contains a cell reference.
+ **/
 gboolean
 gnm_expr_entry_is_cell_ref (GnmExprEntry *gee, Sheet *sheet,
 			    gboolean allow_multiple_cell)
@@ -2779,6 +2804,12 @@ gnm_expr_entry_is_cell_ref (GnmExprEntry *gee, Sheet *sheet,
 
 }
 
+/**
+ * gnm_expr_entry_is_blank:
+ * @gee: #GnmExprEntry
+ *
+ * Returns: %TRUE if the entry is blank.
+ **/
 gboolean
 gnm_expr_entry_is_blank	(GnmExprEntry *gee)
 {
@@ -2802,6 +2833,13 @@ gnm_expr_entry_is_blank	(GnmExprEntry *gee)
 	return TRUE;
 }
 
+/**
+ * gnm_expr_entry_global_range_name:
+ * @gee: #GnmExprEntry
+ * @sheet: #Sheet
+ *
+ * Returns: (transfer full) (nullable): the global range name.
+ **/
 char *
 gnm_expr_entry_global_range_name (GnmExprEntry *gee, Sheet *sheet)
 {
@@ -2820,6 +2858,13 @@ gnm_expr_entry_global_range_name (GnmExprEntry *gee, Sheet *sheet)
 	return text;
 }
 
+/**
+ * gnm_expr_entry_grab_focus:
+ * @gee: #GnmExprEntry
+ * @select_all: boolean
+ *
+ * Grabs the focus for the entry.
+ **/
 void
 gnm_expr_entry_grab_focus (GnmExprEntry *gee, gboolean select_all)
 {
@@ -2832,6 +2877,12 @@ gnm_expr_entry_grab_focus (GnmExprEntry *gee, gboolean select_all)
 	}
 }
 
+/**
+ * gnm_expr_entry_editing_canceled:
+ * @gee: #GnmExprEntry
+ *
+ * Returns: %TRUE if editing was canceled.
+ **/
 gboolean
 gnm_expr_entry_editing_canceled (GnmExprEntry *gee)
 {
@@ -2842,6 +2893,12 @@ gnm_expr_entry_editing_canceled (GnmExprEntry *gee)
 
 /*****************************************************************************/
 
+/**
+ * gnm_expr_entry_disable_tips:
+ * @gee: #GnmExprEntry
+ *
+ * Disables tooltips for the entry.
+ **/
 void
 gnm_expr_entry_disable_tips (GnmExprEntry *gee)
 {
@@ -2850,6 +2907,12 @@ gnm_expr_entry_disable_tips (GnmExprEntry *gee)
 	gee->tooltip.enabled = FALSE;
 }
 
+/**
+ * gnm_expr_entry_enable_tips:
+ * @gee: #GnmExprEntry
+ *
+ * Enables tooltips for the entry.
+ **/
 void
 gnm_expr_entry_enable_tips (GnmExprEntry *gee)
 {

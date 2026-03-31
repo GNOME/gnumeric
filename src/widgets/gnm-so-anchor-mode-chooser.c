@@ -56,6 +56,13 @@ gnm_so_anchor_mode_chooser_new (gboolean resize)
 	return widget;
 }
 
+/**
+ * gnm_so_anchor_mode_chooser_set_mode:
+ * @chooser: #GnmSOAnchorModeChooser
+ * @mode: #GnmSOAnchorMode
+ *
+ * Sets the anchor mode in the chooser.
+ **/
 void
 gnm_so_anchor_mode_chooser_set_mode (GnmSOAnchorModeChooser *chooser,
                                      GnmSOAnchorMode mode)
@@ -79,6 +86,12 @@ gnm_so_anchor_mode_chooser_set_mode (GnmSOAnchorModeChooser *chooser,
 	} while (gtk_tree_model_iter_next (model, &iter));
 }
 
+/**
+ * gnm_so_anchor_mode_chooser_get_mode:
+ * @chooser: #GnmSOAnchorModeChooser
+ *
+ * Returns: the selected #GnmSOAnchorMode.
+ **/
 GnmSOAnchorMode
 gnm_so_anchor_mode_chooser_get_mode (GnmSOAnchorModeChooser const *chooser)
 {
