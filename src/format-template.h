@@ -83,8 +83,8 @@ struct _GnmFTCategory {
 
 GType gnm_ft_get_type (void);
 #define GNM_TYPE_FT (gnm_ft_get_type ())
-#define GNM_FT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_FT_TYPE, GnmFT))
-#define GNM_IS_FT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_FT_TYPE))
+#define GNM_FT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_FT, GnmFT))
+#define GNM_IS_FT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_FT))
 
 struct GnmFT_ {
 	GObject parent;

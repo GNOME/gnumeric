@@ -866,10 +866,10 @@ plain_draw : /* a quick hack to deal with 142267 */
 		y += ri->size_pixels;
 	}
 
-	if (row == gnm_sheet_get_max_rows (sheet)) {
-		// Make sure we get the rid below the last row
+	if (row == gnm_sheet_get_max_rows (sheet) && ri) {
+		// Make sure we get the grid below the last row
 		gnm_style_borders_row_draw (prev_vert, &sr,
-					    cr, start_x, y, y+ri->size_pixels,
+					    cr, start_x, y, y + ri->size_pixels,
 					    colwidths, TRUE, dir);
 	}
 
