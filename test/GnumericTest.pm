@@ -36,6 +36,7 @@ if ($0 eq '-e') {
     $topsrc = $0;
     $topsrc =~ s|/[^/]+$|/..|;
     $topsrc =~ s|/test/\.\.$||;
+    $topsrc =~ s|^\./(.)|$1|g;
 }
 
 if (-d "../test") {

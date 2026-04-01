@@ -30,13 +30,19 @@ foreach my $src (@sources) {
     $tmp =~ s|^.*/||;
     $tmp =~ s|\..*|.xml|;
     $tmp = &GnumericTest::invent_junkfile ($tmp);
-    system ("$ssconvert $src $tmp");
+
+    my @cmd1 = ($ssconvert, $src, $tmp);
+    print "# ", &GnumericTest::quotearg (@cmd1), "\n" if $GnumericTest::verbose;
+    system (@cmd1);
     if (!-r $tmp) {
 	print STDERR "ssconvert failed to produce $tmp\n";
 	die "Fail\n";
     }
 
-    my $out = `$xmllint --nonet --noout --schema $schema $tmp 2>&1`;
+    my @cmd2 = ($xmllint, "--nonet", "--noout", "--schema", $schema, $tmp);
+    my $cmd2 = &GnumericTest::quotearg (@cmd2);
+    print "# $cmd2\n" if $GnumericTest::verbose;
+    my $out = `$cmd2 2>&1`;
     if ($out !~ /validates$/) {
 	print STDERR "While checking $tmp:\n";
 	&GnumericTest::dump_indented ($out);
