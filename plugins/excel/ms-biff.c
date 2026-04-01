@@ -198,7 +198,7 @@ verify_password (guint8 const *password, guint8 const *docid,
 		 guint8 const *salt_data, guint8 const *hashedsalt_data,
 		 unsigned char *valDigest)
 {
-	guint8 pwarray [64], salt [64], hashedsalt [16];
+	guint8 pwarray[64], salt[64], hashedsalt[16];
 	struct md5_ctx mdContext;
 	unsigned char digest[16];
 	RC4_KEY key;
@@ -212,7 +212,8 @@ verify_password (guint8 const *password, guint8 const *docid,
 
 	/* Be careful about endianness */
 	memset (pwarray, 0, sizeof (pwarray));
-	for (i = 0 ; utf16[i] ; i++) {
+	// Unclear how to truncate the password
+	for (i = 0 ; utf16[i] && i < 31; i++) {
 		pwarray[(2 * i) + 0] = ((utf16 [i] >> 0) & 0xff);
 		pwarray[(2 * i) + 1] = ((utf16 [i] >> 8) & 0xff);
 	}
@@ -290,10 +291,10 @@ verify_password (guint8 const *password, guint8 const *docid,
 
 #define REKEY_BLOCK 0x400
 static void
-skip_bytes (BiffQuery *q, int start, int count)
+skip_bytes (BiffQuery *q, guint32 start, guint32 count)
 {
 	static guint8 scratch[REKEY_BLOCK];
-	int block;
+	guint32 block;
 
 	block = (start + count) / REKEY_BLOCK;
 
@@ -459,7 +460,7 @@ ms_biff_query_next (BiffQuery *q)
 			skip_bytes (q, q->streamPos, 4 + q->length);
 			q->dont_decrypt_next_record = FALSE;
 		} else {
-			int pos = q->streamPos;
+			guint32 pos = q->streamPos;
 			guint8 *data = q->data;
 			int len = q->length;
 

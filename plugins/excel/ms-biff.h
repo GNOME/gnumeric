@@ -49,7 +49,7 @@ typedef struct {
 	guint8   xor_key[16];
 	RC4_KEY	 rc4_key;
 	unsigned char md5_digest[16];
-	int	 block;
+	guint32  block;
 	gboolean dont_decrypt_next_record;
 } BiffQuery;
 

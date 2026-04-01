@@ -4276,7 +4276,7 @@ xlsx_sst_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_int (xin, attrs, "uniqueCount", &count))
-			g_array_set_size (state->sst, count);
+			g_array_set_size (state->sst, MIN (count, 1000000));
 	}
 	state->count = 0;
 }

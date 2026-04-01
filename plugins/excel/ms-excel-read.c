@@ -659,12 +659,13 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 								    attr->v.v_uint - 1);
 			if (blip != NULL) {
 			        if (blip->type && !strcmp (blip->type, "dib")) {
-					guint8 *data = g_malloc (blip->data_len + BMP_HDR_SIZE);
+					size_t s = blip->data_len + (size_t)BMP_HDR_SIZE;
+					guint8 *data = g_try_malloc (s);
 					if (data) {
 						excel_fill_bmp_header (data, blip->data, blip->data_len);
 						memcpy(data + BMP_HDR_SIZE, blip->data, blip->data_len);
 						sheet_object_image_set_image (GNM_SO_IMAGE (so),
-									      blip->type, data, blip->data_len + BMP_HDR_SIZE);
+									      blip->type, data, s);
 						g_free (data);
 					}
 			        } else {
