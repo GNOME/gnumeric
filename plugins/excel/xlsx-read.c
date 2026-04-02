@@ -4272,10 +4272,10 @@ static void
 xlsx_sst_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int count;
+	unsigned count;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (attr_int (xin, attrs, "uniqueCount", &count))
+		if (attr_uint (xin, attrs, "uniqueCount", &count))
 			g_array_set_size (state->sst, MIN (count, 1000000));
 	}
 	state->count = 0;

@@ -659,14 +659,16 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 								    attr->v.v_uint - 1);
 			if (blip != NULL) {
 			        if (blip->type && !strcmp (blip->type, "dib")) {
-					size_t s = blip->data_len + (size_t)BMP_HDR_SIZE;
-					guint8 *data = g_try_malloc (s);
-					if (data) {
-						excel_fill_bmp_header (data, blip->data, blip->data_len);
-						memcpy(data + BMP_HDR_SIZE, blip->data, blip->data_len);
-						sheet_object_image_set_image (GNM_SO_IMAGE (so),
-									      blip->type, data, s);
-						g_free (data);
+					if (blip->data_len <= G_MAXSIZE - BMP_HDR_SIZE) {
+						size_t s = blip->data_len + BMP_HDR_SIZE;
+						guint8 *data = g_try_malloc (s);
+						if (data) {
+							excel_fill_bmp_header (data, blip->data, blip->data_len);
+							memcpy(data + BMP_HDR_SIZE, blip->data, blip->data_len);
+							sheet_object_image_set_image (GNM_SO_IMAGE (so),
+										      blip->type, data, s);
+							g_free (data);
+						}
 					}
 			        } else {
 					sheet_object_image_set_image (GNM_SO_IMAGE (so),
@@ -1254,15 +1256,23 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 	total_len = GSF_LE_GET_GUINT16 (q->data + offset);
 	offset += 2;
 	do {
+		unsigned hlen;
 		offset = ms_biff_query_bound_check (q, offset, 1);
 		if (offset == (guint32)-1) {
 			g_free (res_str);
 			return offset;
 		}
-		offset += excel_read_string_header
+		hlen = excel_read_string_header
 			(q->data + offset, q->length - offset,
 			 &use_utf16, &n_markup, &has_extended,
 			 &post_data_len);
+		if (hlen == 0 ||
+		    n_markup > 100000 || total_n_markup > 100000 - n_markup ||
+		    post_data_len > 1000000 || total_end_len > 1000000 - post_data_len) {
+			g_free (res_str);
+			return (guint32)-1;
+		}
+		offset += hlen;
 		total_end_len += post_data_len;
 		total_n_markup += n_markup;
 		chars_left = (q->length - offset) / (use_utf16 ? 2 : 1);

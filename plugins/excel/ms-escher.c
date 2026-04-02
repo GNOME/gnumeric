@@ -101,8 +101,8 @@ typedef struct {
 	guint32	segment_len;	/* number of bytes in current segment */
 
 	/* Offsets from the logical 1st byte in the stream */
-	gint32 start_offset;	/* 1st byte in current segment */
-	gint32 end_offset;	/* 1st byte past end of current segment */
+	guint32 start_offset;	/* 1st byte in current segment */
+	guint32 end_offset;	/* 1st byte past end of current segment */
 } MSEscherState;
 
 typedef struct _MSEscherHeader {
@@ -110,9 +110,9 @@ typedef struct _MSEscherHeader {
 	guint	ver;
 	guint	instance;
 	guint16	fbt;
-	gint32	len; /* Including the common header */
+	guint32	len; /* Including the common header */
 
-	gint32	offset;
+	guint32	offset;
 	struct _MSEscherHeader *container;
 
 	MSObjAttrBag *attrs;
@@ -186,8 +186,8 @@ ms_escher_blip_free (MSEscherBlip *blip)
  */
 static guint8 const *
 ms_escher_get_data (MSEscherState *state,
-		    gint offset,	/* bytes from logical start of the stream */
-		    gint num_bytes,	/*how many bytes we want, NOT incl prefix */
+		    guint32 offset,	/* bytes from logical start of the stream */
+		    guint32 num_bytes,	/*how many bytes we want, NOT incl prefix */
 		    gboolean * needs_free)
 {
 	BiffQuery *q = state->q;
@@ -232,16 +232,16 @@ ms_escher_get_data (MSEscherState *state,
 		guint8 *tmp = buffer;
 
 		/* Setup front stub */
-		int len = q->length - (res - q->data);
+		guint32 len = q->length - (res - q->data);
 		int counter = 0;
 
-		d (1, g_printerr ("MERGE needed (%d) which is >= -%d + %d;\n",
+		d (1, g_printerr ("MERGE needed (%u) which is >= -%u + %u;\n",
 			      num_bytes, offset, state->end_offset););
 
 		do {
-			int maxlen = (buffer + num_bytes) - tmp;
+			guint32 maxlen = (buffer + num_bytes) - tmp;
 			len = MIN (len, maxlen);
-			d (1, g_printerr ("record %d) add %d bytes;\n", ++counter, len););
+			d (1, g_printerr ("record %d) add %u bytes;\n", ++counter, len););
 
 			/* copy necessary portion of current record */
 			memcpy (tmp, res, len);
@@ -420,7 +420,7 @@ ms_escher_read_BSE (MSEscherState *state, MSEscherHeader *h)
 static gboolean
 ms_escher_read_Blip (MSEscherState *state, MSEscherHeader *h)
 {
-	int offset = COMMON_HEADER_LEN + 16;
+	guint32 offset = COMMON_HEADER_LEN + 16;
 	guint32 inst = h->instance;
 	gboolean needs_free, failure = FALSE;
 	guint8 const *data;
@@ -1355,7 +1355,7 @@ ms_escher_read_OPT_bools (MSEscherHeader *h,
 static gboolean
 ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 {
-	int const num_properties = h->instance;
+	guint const num_properties = h->instance;
 	gboolean needs_free;
 	guint8 const *data = ms_escher_get_data (state,
 		h->offset + COMMON_HEADER_LEN, h->len - COMMON_HEADER_LEN, &needs_free);
@@ -1363,7 +1363,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 	guint8 const *extra = fopte + 6*num_properties;
 	guint prev_pid = 0; /* A debug tool */
 	char const *name;
-	int i;
+	guint i;
 
 	/* let's be really careful */
 	g_return_val_if_fail (6*num_properties + COMMON_HEADER_LEN <= h->len, TRUE);
@@ -2074,6 +2074,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 			  gint prefix, gboolean return_attrs_in_container)
 {
 	MSEscherHeader h;
+	guint32 the_end;
 
 	g_return_val_if_fail (container != NULL, TRUE);
 
@@ -2082,6 +2083,8 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 
 	/* Skip the common header */
 	h.offset = container->offset + prefix + COMMON_HEADER_LEN;
+
+	the_end = container->offset + container->len;
 
 	do {
 		guint16 tmp;
@@ -2104,7 +2107,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 		datalen = GSF_LE_GET_GUINT32 (data + 4);
 
 		if (h.offset > state->end_offset || datalen >= 0x78000000) {
-			g_warning ("Crazy data length in escher record.  (%d,%d,%d,%d)",
+			g_warning ("Crazy data length in escher record.  (%u,%u,%u,%u)",
 				   h.offset, state->end_offset, datalen,
 				   (state->end_offset - h.offset));
 			ms_escher_header_release (&h);
@@ -2113,6 +2116,14 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 
 		/* Include the length of this header in the record size */
 		h.len	   = datalen + COMMON_HEADER_LEN;
+
+		// g_printerr ("%u + %u v %u\n", h.offset, h.len, the_end);
+		if (h.offset + h.len < h.offset || (the_end && h.offset + h.len > the_end)) {
+			g_warning ("Escher record extends beyond container");
+
+			ms_escher_header_release (&h);
+			return TRUE;
+		}
 		h.ver      = tmp & 0x0f;
 		h.instance = (tmp >> 4) & 0xfff;
 
