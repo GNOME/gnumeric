@@ -1279,7 +1279,6 @@ plugins/fn-tsa/Makefile
 plugins/applix/Makefile
 plugins/dif/Makefile
 plugins/excel/Makefile
-plugins/excelplugins/Makefile
 plugins/gda/Makefile
 plugins/gnome-db/Makefile
 plugins/gnome-glossary/Makefile
