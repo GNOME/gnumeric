@@ -10,6 +10,12 @@ Morten:
 	* Fix fill-series tool problems with dates.
 	* Fix chi-square tool problems with labels.
 	* Add basic testing of most analysis tools.
+	* Disable excelplugins (unrelated to xls/xlsx files).
+	* Fix gui crash [#857]
+	* Introspection fixes.
+
+N. Copa:
+	* Fix parallel build trouble.  [#852]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.60
