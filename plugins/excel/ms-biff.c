@@ -213,10 +213,8 @@ verify_password (guint8 const *password, guint8 const *docid,
 	/* Be careful about endianness */
 	memset (pwarray, 0, sizeof (pwarray));
 	// Unclear how to truncate the password
-	for (i = 0 ; utf16[i] && i < 31; i++) {
-		pwarray[(2 * i) + 0] = ((utf16 [i] >> 0) & 0xff);
-		pwarray[(2 * i) + 1] = ((utf16 [i] >> 8) & 0xff);
-	}
+	for (i = 0 ; utf16[i] && i < 31; i++)
+		GSF_LE_SET_GINT16(pwarray + 2 * i, utf16[i]);
 	g_free (utf16);
 
 	pwarray[2 * i] = 0x80;
@@ -324,7 +322,8 @@ ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
 	if (version < MS_BIFF_V8 || q->length == 0 || q->data[0] == 0)
 		return ms_biff_pre_biff8_query_set_decrypt (q, password);
 
-	XL_CHECK_CONDITION_VAL (q->length == sizeof_BIFF_8_FILEPASS, FALSE);
+	// Larger records observed.  No idea if they were sane.
+	XL_CHECK_CONDITION_VAL (q->length >= sizeof_BIFF_8_FILEPASS, FALSE);
 
 	if (!verify_password (password, q->data + 6,
 			      q->data + 22, q->data + 38, q->md5_digest))
