@@ -188,6 +188,7 @@ TESTS =	t1000-statfuns.pl			\
 	t8006-valgrind-ods-no-styles.pl		\
 	t8010-valgrind-ods.pl			\
 	t8011-valgrind-xlsx.pl			\
+	t8012-valgrind-applix.pl		\
 	t8050-valgrind-sstest.pl		\
 	t8100-null-false.pl			\
 	t8101-gfree.pl				\
