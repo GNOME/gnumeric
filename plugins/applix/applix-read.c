@@ -1612,21 +1612,6 @@ applix_read_impl (ApplixReadState *state)
 	return 0;
 }
 
-static gboolean
-cb_remove_texpr (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	gnm_expr_top_unref (value);
-	return TRUE;
-}
-static gboolean
-cb_remove_style (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	gnm_style_unref (value);
-	return TRUE;
-}
-
 static GnmExpr const *
 applix_func_map_in (GnmConventions const *conv, Workbook *scope,
 		    char const *name, GnmExprList *args)
@@ -1685,8 +1670,6 @@ applix_conventions_new (void)
 void
 applix_read (GOIOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 {
-	int i;
-	int res;
 	ApplixReadState	state;
 	GSList *ptr, *renamed_sheets;
 	GnmLocale	*locale;
@@ -1698,11 +1681,13 @@ applix_read (GOIOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	state.parse_error = NULL;
 	state.wb_view     = wb_view;
 	state.wb          = wb_view_get_workbook (wb_view);
-	state.exprs       = g_hash_table_new (&g_str_hash, &g_str_equal);
-	state.styles      = g_hash_table_new (&g_str_hash, &g_str_equal);
-	state.colors      = g_ptr_array_new ();
-	state.attrs       = g_ptr_array_new ();
-	state.font_names  = g_ptr_array_new ();
+	state.exprs       = g_hash_table_new_full (&g_str_hash, &g_str_equal,
+						   g_free, (GDestroyNotify)gnm_expr_top_unref);
+	state.styles      = g_hash_table_new_full (&g_str_hash, &g_str_equal,
+						   g_free, (GDestroyNotify)gnm_style_unref);
+	state.colors      = g_ptr_array_new_with_free_func ((GDestroyNotify)style_color_unref);
+	state.attrs       = g_ptr_array_new_with_free_func ((GDestroyNotify)gnm_style_unref);
+	state.font_names  = g_ptr_array_new_with_free_func (g_free);
 	state.buffer      = NULL;
 	state.buffer_size = 0;
 	state.line_len    = 80;
@@ -1713,7 +1698,7 @@ applix_read (GOIOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	state.converter   = g_iconv_open ("UTF-8", "ISO-8859-1");
 
 	/* Actually read the workbook */
-	res = applix_read_impl (&state);
+	(void)applix_read_impl (&state);
 
 	g_object_unref (state.input);
 	g_free (state.buffer);
@@ -1738,22 +1723,10 @@ applix_read (GOIOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	g_slist_free_full (state.std_names, g_free);
 	g_slist_free_full (state.real_names, g_free);
 
-	/* Release the shared expressions and styles */
-	g_hash_table_foreach_remove (state.exprs, &cb_remove_texpr, NULL);
 	g_hash_table_destroy (state.exprs);
-	g_hash_table_foreach_remove (state.styles, &cb_remove_style, NULL);
 	g_hash_table_destroy (state.styles);
-
-	for (i = state.colors->len; --i >= 0 ; )
-		style_color_unref (g_ptr_array_index (state.colors, i));
 	g_ptr_array_free (state.colors, TRUE);
-
-	for (i = state.attrs->len; --i >= 0 ; )
-		gnm_style_unref (g_ptr_array_index (state.attrs, i));
 	g_ptr_array_free (state.attrs, TRUE);
-
-	for (i = state.font_names->len; --i >= 0 ; )
-		g_free (g_ptr_array_index (state.font_names, i));
 	g_ptr_array_free (state.font_names, TRUE);
 
 	if (state.parse_error != NULL)
