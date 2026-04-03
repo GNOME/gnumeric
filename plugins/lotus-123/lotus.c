@@ -2896,7 +2896,7 @@ lotus_read_works (LotusState *state, record_t *r)
 			state->sheet = NULL;
 			break;
 
-		case WORKS_SMALL_FLOAT: CHECK_RECORD_SIZE (>= 6) {
+		case WORKS_SMALL_FLOAT: CHECK_RECORD_SIZE (>= 10) {
 			int row = GSF_LE_GET_GUINT16 (r->data + 2);
 			int col = r->data[0];
 #if 0

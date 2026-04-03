@@ -634,7 +634,7 @@ read_pre_biff8_read_name_and_fmla (BiffQuery *q, MSContainer *c, MSObj *obj,
 				   gboolean has_name, unsigned offset)
 {
 	guint8 const *data;
-	gboolean fmla_len;
+	unsigned fmla_len;
 
 	XL_CHECK_CONDITION_VAL (q->length >= 28, NULL);
 	fmla_len = GSF_LE_GET_GUINT16 (q->data+26);
@@ -717,7 +717,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	case MSOT_OVAL:
 	case MSOT_ARC:
 	case MSOT_TEXTBOX:
-		XL_CHECK_CONDITION_VAL (q->data + 36 <= last, TRUE);
+		XL_CHECK_CONDITION_VAL (q->data + 41 <= last, TRUE);
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_BACKGROUND,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+34)));
@@ -925,7 +925,7 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *c,
 		return;
 	type = excel_get_text (c->importer, data + 16,
 			       GSF_LE_GET_GUINT16 (data + 14),
-			       &len, NULL, last - data);
+			       &len, NULL, last - data - 16);
 	if (NULL == type || !g_str_has_prefix (type, "Forms.")) {
 		g_free (type);
 		return;

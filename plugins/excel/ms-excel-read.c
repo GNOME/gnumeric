@@ -124,6 +124,10 @@ record_size_barf (size_t count, size_t itemsize, size_t space,
 	do {								\
 		size_t count_ = (count__);				\
 		size_t size_ = (size__);				\
+		if (G_UNLIKELY (data < q->data || data > q->data + q->length)) { \
+			record_size_barf (count_, size_, 0, G_STRFUNC);	\
+			return;						\
+		}							\
 		size_t space_ = q->length - (data - q->data);		\
 		if (G_UNLIKELY (product_gt (count_, size_, space_))) {	\
 			record_size_barf (count_, size_, space_, G_STRFUNC); \
@@ -4195,13 +4199,15 @@ excel_read_XCT (BiffQuery *q, GnmXLImporter *importer)
 				v = value_new_float (GSF_LE_GET_DOUBLE (data));
 				data += 8;
 				break;
-			case  2:
+			case  2: {
+				guint32 byte_len;
 				XL_NEED_BYTES (1);
 				len = *data++;
 				v = value_new_string_nocopy (
-					excel_get_text (importer, data, len, NULL, NULL, q->data + q->length - data));
-				data += len;
+					excel_get_text (importer, data, len, &byte_len, NULL, q->data + q->length - data));
+				data += byte_len;
 				break;
+			}
 
 			case 4:
 				XL_NEED_BYTES (2);

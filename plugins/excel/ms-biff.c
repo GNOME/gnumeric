@@ -332,7 +332,7 @@ ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
 	q->encryption = MS_BIFF_CRYPTO_RC4;
 	q->block = -1;
 
-	/* For some reaons the 1st record after FILEPASS seems to be unencrypted */
+	/* For some reasons the 1st record after FILEPASS seems to be unencrypted */
 	q->dont_decrypt_next_record = TRUE;
 
 	/* pretend to decrypt the entire stream up till this point, it was not

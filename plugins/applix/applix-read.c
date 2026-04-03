@@ -477,7 +477,7 @@ applix_get_precision (char const *val)
 	if ('0' <= *val && *val <= '9')
 		return *val - '0';
 	if (*val != 'f')
-		g_warning ("APPLIX : unknow number format %c", *val);
+		g_warning ("APPLIX: unknown number format %c", *val);
 	return 2;
 }
 
@@ -516,7 +516,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 		;
 
 	if (tmp[0] != ')' || tmp[1] != ' ') {
-		applix_parse_error (state, "Invalid format missing ')'");
+		applix_parse_error (state, "Invalid format, missing ')'");
 		return NULL;
 	}
 
@@ -765,7 +765,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				if (sep[1] == 'T') {
 					/* FIXME : What is WTO ?? */
 					if (sep[2] == 'O') {
-						sep +=3;
+						sep += 3;
 						break;
 					}
 					gnm_style_set_wrap_text (style, TRUE);
