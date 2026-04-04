@@ -114,11 +114,12 @@ sub system_failure {
 
     if ($code == -1) {
 	die "failed to run $program: $!\n";
-    } elsif ($code >> 8) {
-	my $sig = $code >> 8;
+    } elsif ($code & 127) {
+	my $sig = $code & 127;
 	die "$program died due to signal $sig\n";
     } else {
-	die "$program exited with exit code $code\n";
+	my $ec = $code >> 8;
+	die "$program exited with exit code $ec\n";
     }
 }
 
@@ -695,7 +696,7 @@ sub test_roundtrip {
 
     my $filter0 = &normalize_filter ($named_args{'filter0'});
     my $filter1 = &normalize_filter ($named_args{'filter1'} ||
-				     $named_args{'filter'});
+ 				     $named_args{'filter'});
     my $filter2 = &normalize_filter ($named_args{'filter2'} ||
 				     $named_args{'filter'});
 
@@ -747,16 +748,31 @@ sub test_roundtrip {
     }
 
     my $tmp_xml = &invent_junkfile ("$tmp.xml");
-    $code = system ("zcat -f '$file_filtered' | $PERL $normalize_gnumeric | $filter1 >'$tmp_xml'");
-    &system_failure ('zcat', $code) if $code;
+    {
+	my $cmd1 = &quotearg ('zcat', '-f', $file_filtered);
+	my $cmd = "$cmd1 | $PERL $normalize_gnumeric | $filter1 >" . &quotearg ($tmp_xml);
+	print STDERR "# $cmd\n" if $verbose;
+	$code = system ("$cmd");
+	&system_failure ('zcat', $code) if $code;
+    }
 
     my $tmp2_xml = &invent_junkfile ("$tmp-new.xml");
-    # print STDERR "zcat -f '$tmp2' | $PERL $normalize_gnumeric | $filter2 >'$tmp2_xml'\n";
-    $code = system ("zcat -f '$tmp2' | $PERL $normalize_gnumeric | $filter2 >'$tmp2_xml'");
-    &system_failure ('zcat', $code) if $code;
+    {
+	my $cmd1 = &quotearg ('zcat', '-f', $tmp2);
+	my $cmd = "$cmd1 | $PERL $normalize_gnumeric | $filter2 >" . &quotearg ($tmp2_xml);
+	print STDERR "# $cmd\n" if $verbose;
+	$code = system ("$cmd");
+	&system_failure ('zcat', $code) if $code;
+    }
 
     $code = system ('diff', '-u', $tmp_xml, $tmp2_xml);
-    &system_failure ('diff', $code) if $code && !$ignore_failure;
+    if ($code && !$ignore_failure) {
+	if ($code == 256) {
+	    die "Fail\n";
+	} else {
+	    &system_failure ('diff', $code);
+	}
+    }
 
     print STDERR "Pass\n";
 }
