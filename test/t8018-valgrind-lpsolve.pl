@@ -5,15 +5,13 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
-&message ("Check the sylk importer/exporter with valgrind.");
+&message ("Check the lpsolve exporter with valgrind.");
 
-my @sources = ("$samples/sylk/test.sylk",
-	       "$samples/sylk/encoding.sylk",
-	       "$samples/sylk/app_b2.sylk");
+my @sources = ("$samples/solver/blend.mps", "$samples/solver/afiro.mps");
 my $nskipped = 0;
 my $ngood = 0;
 my $nbad = 0;
-my $format = 'Gnumeric_sylk:sylk';
+my $format = 'Gnumeric_lpsolve:lpsolve';
 
 foreach my $src (@sources) {
     if (!-r $src) {
@@ -25,7 +23,7 @@ foreach my $src (@sources) {
     my $basenoext = $basename;
     $basenoext =~ s/\.[^.]+$//;
 
-    my $tmp1 = &GnumericTest::invent_junkfile ("$basenoext-tmp.sylk");
+    my $tmp1 = &GnumericTest::invent_junkfile ("$basenoext.lpsolve");
     print STDERR "$basename -> $tmp1\n";
     my $cmd = &GnumericTest::quotearg ($ssconvert, '-T', $format, $src, $tmp1);
     my $err = &test_valgrind ($cmd, 1, 1);
