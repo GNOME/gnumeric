@@ -5,14 +5,15 @@
 # Slobodan Sredojević <ssl@uns.ns.ac.yu>
 # Мирослав Николић <miroslavnikolic@rocketmail.com>, 2012–2025.
 # Марко Костић <marko.m.kostic@gmail.com>, 2026.
+# Aceydot <aceydot@proton.me>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-03-26 03:04+0000\n"
-"PO-Revision-Date: 2026-03-26 09:51+0100\n"
-"Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
+"POT-Creation-Date: 2026-04-04 08:21+0000\n"
+"PO-Revision-Date: 2026-04-04 14:04+0200\n"
+"Last-Translator: Aceydot <aceydot@proton.me>\n"
 "Language-Team: Serbian <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.8\n"
 
 #: ../org.gnumeric.gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:550
@@ -73,29 +74,29 @@ msgstr ""
 msgid "The Gnumeric Team"
 msgstr "Екипа Гнумерика"
 
-#: ../plugins/applix/applix-read.c:129
+#: ../plugins/applix/applix-read.c:127
 msgid "Parse error while reading Applix file."
 msgstr "Грешка обраде при читању Апликс датотеке."
 
-#: ../plugins/applix/applix-read.c:350
+#: ../plugins/applix/applix-read.c:348
 msgid "Missing characters for character encoding"
 msgstr "Недостају знаци за кодирање знакова"
 
-#: ../plugins/applix/applix-read.c:354
+#: ../plugins/applix/applix-read.c:352
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
 msgstr "Неисправни знаци за кодирање „%c%c“"
 
-#: ../plugins/applix/applix-read.c:367
+#: ../plugins/applix/applix-read.c:365
 msgid "Character encoding error"
 msgstr "Грешка кодирања знакова"
 
-#: ../plugins/applix/applix-read.c:1246
+#: ../plugins/applix/applix-read.c:1244
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
 msgstr "Израз није почео са „=“ ? „%s“"
 
-#: ../plugins/applix/applix-read.c:1257
+#: ../plugins/applix/applix-read.c:1255
 #, c-format
 msgid ""
 "%s!%s : unable to parse '%s'\n"
@@ -116,8 +117,8 @@ msgstr "Увози табеле издања 4.[234]"
 msgid "Applix (*.as)"
 msgstr "Апликс (*.as)"
 
-#: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7228
-#: ../plugins/openoffice/openoffice-read.c:14196 ../src/xml-sax-read.c:3655
+#: ../plugins/dif/dif.c:69 ../plugins/excel/ms-excel-read.c:7245
+#: ../plugins/openoffice/openoffice-read.c:14217 ../src/xml-sax-read.c:3655
 msgid "Reading file..."
 msgstr "Читам датотеку..."
 
@@ -173,7 +174,7 @@ msgstr "Неочекивани крај датотеке у %d. реду за в
 msgid "Error while reading DIF file."
 msgstr "Грешка приликом читања ДИФ датотеке."
 
-#: ../plugins/dif/dif.c:322 ../plugins/paradox/paradox.c:310
+#: ../plugins/dif/dif.c:322 ../plugins/paradox/paradox.c:309
 msgid "Cannot get default sheet."
 msgstr "Не могу да добијем основну табелу."
 
@@ -222,46 +223,46 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Неисправан садржај елемента „сс:подаци“, примих „%s“"
 
 #: ../plugins/excel/excel-xml-read.c:1214
-#: ../plugins/openoffice/openoffice-read.c:14390 ../src/xml-sax-read.c:3672
+#: ../plugins/openoffice/openoffice-read.c:14411 ../src/xml-sax-read.c:3672
 msgid "XML document not well formed!"
 msgstr "ИксМЛ документ није добро обликован!"
 
-#: ../plugins/excel/ms-excel-read.c:1394 ../src/value.c:66
+#: ../plugins/excel/ms-excel-read.c:1409 ../src/value.c:66
 msgid "#UNKNOWN!"
 msgstr "#НЕПОЗНАТО!"
 
-#: ../plugins/excel/ms-excel-read.c:1494 ../plugins/excel/ms-excel-read.c:1505
+#: ../plugins/excel/ms-excel-read.c:1509 ../plugins/excel/ms-excel-read.c:1520
 #: ../plugins/oleo/oleo.c:228 ../plugins/psiconv/psiconv-read.c:534
 #, c-format
 msgid "Sheet%d"
 msgstr "Табела%d"
 
-#: ../plugins/excel/ms-excel-read.c:1509
+#: ../plugins/excel/ms-excel-read.c:1524
 #, c-format
 msgid "Macro%d"
 msgstr "Макро%d"
 
-#: ../plugins/excel/ms-excel-read.c:1513
+#: ../plugins/excel/ms-excel-read.c:1528
 #, c-format
 msgid "Chart%d"
 msgstr "Графикон%d"
 
-#: ../plugins/excel/ms-excel-read.c:1516
+#: ../plugins/excel/ms-excel-read.c:1531
 #, c-format
 msgid "Module%d"
 msgstr "Модул%d"
 
-#: ../plugins/excel/ms-excel-read.c:3705
+#: ../plugins/excel/ms-excel-read.c:3720
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Неуспех обраде назива „%s“"
 
-#: ../plugins/excel/ms-excel-read.c:3866
+#: ../plugins/excel/ms-excel-read.c:3881
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Нетачан израз за назив „%s“: садржај ће бити изгубљен.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3871
+#: ../plugins/excel/ms-excel-read.c:3886
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -270,7 +271,7 @@ msgstr ""
 "ДДЕ везе још увек нису подржане.\n"
 "Назив „%s“ ће бити изгубљен.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3875
+#: ../plugins/excel/ms-excel-read.c:3890
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -279,49 +280,49 @@ msgstr ""
 "ОЛЕ везе још увек нису подржане.\n"
 "Назив „%s“ ће бити изгубљен.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6355
+#: ../plugins/excel/ms-excel-read.c:6372
 msgid "external references"
 msgstr "спољна упућивања"
 
-#: ../plugins/excel/ms-excel-read.c:6394
+#: ../plugins/excel/ms-excel-read.c:6411
 msgid "No password supplied"
 msgstr "Лозинка није унета"
 
 #: ../plugins/excel/ms-excel-util.c:698
-#: ../plugins/openoffice/openoffice-read.c:6336 ../src/print-info.c:745
+#: ../plugins/openoffice/openoffice-read.c:6355 ../src/print-info.c:745
 msgid "TAB"
 msgstr "ЈЕЗИЧАК"
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:6382 ../src/print-info.c:746
+#: ../plugins/openoffice/openoffice-read.c:6401 ../src/print-info.c:746
 msgid "PAGE"
 msgstr "СТРАНИЦА"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:6389 ../src/print-info.c:747
+#: ../plugins/openoffice/openoffice-read.c:6408 ../src/print-info.c:747
 msgid "PAGES"
 msgstr "СТРАНИЦЕ"
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:6368 ../src/print-info.c:748
+#: ../plugins/openoffice/openoffice-read.c:6387 ../src/print-info.c:748
 msgid "DATE"
 msgstr "ДАТУМ"
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:6375 ../src/print-info.c:749
+#: ../plugins/openoffice/openoffice-read.c:6394 ../src/print-info.c:749
 msgid "TIME"
 msgstr "ВРЕМЕ"
 
 #: ../plugins/excel/ms-excel-util.c:703
-#: ../plugins/openoffice/openoffice-read.c:6416
-#: ../plugins/openoffice/openoffice-read.c:6423 ../src/print-info.c:750
+#: ../plugins/openoffice/openoffice-read.c:6435
+#: ../plugins/openoffice/openoffice-read.c:6442 ../src/print-info.c:750
 #: ../src/ssgrep.c:75
 msgid "FILE"
 msgstr "ДАТОТЕКА"
 
 #: ../plugins/excel/ms-excel-util.c:704
-#: ../plugins/openoffice/openoffice-read.c:6414
-#: ../plugins/openoffice/openoffice-read.c:6419 ../src/print-info.c:751
+#: ../plugins/openoffice/openoffice-read.c:6433
+#: ../plugins/openoffice/openoffice-read.c:6438 ../src/print-info.c:751
 msgid "PATH"
 msgstr "ПУТАЊА"
 
@@ -331,7 +332,7 @@ msgstr "ПОЉЕ"
 
 #. ???
 #: ../plugins/excel/ms-excel-util.c:707
-#: ../plugins/openoffice/openoffice-read.c:6467 ../src/print-info.c:753
+#: ../plugins/openoffice/openoffice-read.c:6486 ../src/print-info.c:753
 msgid "TITLE"
 msgstr "НАСЛОВ"
 
@@ -379,11 +380,11 @@ msgstr[3] ""
 "Неки садржај ће бити изгубљен приликом чувања.  Овај запис подржава само %u "
 "ред, а ова радна свеска има %d"
 
-#: ../plugins/excel/ms-excel-write.c:6587
+#: ../plugins/excel/ms-excel-write.c:6586
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Не могу да отворим ток „Књига“ за уписивање\n"
 
-#: ../plugins/excel/ms-excel-write.c:6609
+#: ../plugins/excel/ms-excel-write.c:6608
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Не могу да отворим ток „Радна свеска“ за уписивање\n"
 
@@ -546,14 +547,14 @@ msgid "Invalid range '%s' for attribute %s"
 msgstr "Неисправан опсег „%s“ за особину %s"
 
 #: ../plugins/excel/xlsx-read.c:820
-#: ../plugins/openoffice/openoffice-read.c:1352
-#: ../plugins/openoffice/openoffice-read.c:1430
+#: ../plugins/openoffice/openoffice-read.c:1359
+#: ../plugins/openoffice/openoffice-read.c:1438
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Неисправан атрибут „%s“, непозната јединица „%s“"
 
 #: ../plugins/excel/xlsx-read.c:825 ../plugins/excel/xlsx-read.c:832
-#: ../plugins/openoffice/openoffice-read.c:1357
+#: ../plugins/openoffice/openoffice-read.c:1364
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Неисправан атрибут „%s“, очекивах растојање, примих „%s“"
@@ -608,7 +609,7 @@ msgid "Paper from XLSX file, #%i"
 msgstr "Папир из ИксЛСИкс датотеке, бр. %i"
 
 #: ../plugins/excel/xlsx-read.c:2340
-#: ../plugins/openoffice/openoffice-read.c:2989
+#: ../plugins/openoffice/openoffice-read.c:3001
 #, c-format
 msgid "Ignoring invalid data validation because: %s"
 msgstr "Занемарујем проверу неисправних података зато што : %s"
@@ -690,7 +691,7 @@ msgid "Unsupported GnmValue type (%d)"
 msgstr "Неподржана врста Гнм вредности (%d)"
 
 #: ../plugins/excelplugins/excelplugins.c:614
-#: ../src/widgets/gnm-expr-entry.c:882
+#: ../src/widgets/gnm-expr-entry.c:887
 #, c-format
 msgid "%s: %s"
 msgstr "%s: %s"
@@ -1105,7 +1106,7 @@ msgstr "Функције за рад са низовима знакова"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 #: ../src/dialogs/dialog-doc-metadata.c:1815 ../src/dialogs/dialog-search.c:386
-#: ../src/func.c:1116
+#: ../src/func.c:1227
 msgid "String"
 msgstr "Ниска"
 
@@ -1401,7 +1402,7 @@ msgstr "Ограничење"
 msgid "Value"
 msgstr "Вредност"
 
-#: ../plugins/mps/mps.c:592 ../src/dialogs/dialog-formula-guru.c:895
+#: ../plugins/mps/mps.c:592 ../src/dialogs/dialog-formula-guru.c:893
 #: ../src/dialogs/dialog-search.c:436 ../src/tools/gnm-solver.c:1670
 msgid "Type"
 msgstr "Врста"
@@ -1465,7 +1466,7 @@ msgstr "Увози ГНУ Олео документе"
 msgid "GNU Oleo (*.oleo)"
 msgstr "ГНУ Олео (*.oleo)"
 
-#: ../plugins/openoffice/openoffice-read.c:652
+#: ../plugins/openoffice/openoffice-read.c:651
 msgid "General ODF error"
 msgstr "Општа ОДФ грешка"
 
@@ -1474,236 +1475,241 @@ msgstr "Општа ОДФ грешка"
 msgid "Invalid integer '%s', for '%s'"
 msgstr "Неисправан цео број „%s“, за „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:721
+#: ../plugins/openoffice/openoffice-read.c:723
 #, c-format
 msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Могућ оштећен цео број „%s“ за „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:765
-#: ../plugins/openoffice/openoffice-read.c:787
+#: ../plugins/openoffice/openoffice-read.c:768
+#: ../plugins/openoffice/openoffice-read.c:791
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr "Неисправан атрибут „%s“, очекивах број, примих „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:811
+#: ../plugins/openoffice/openoffice-read.c:816
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr "Неисправан атрибут „%s“, очекивах проценат, примих „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:833
+#: ../plugins/openoffice/openoffice-read.c:839
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Неисправан атрибут „%s“, очекивах боју, примих „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:1124
+#: ../plugins/openoffice/openoffice-read.c:1130
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Наиђох на непознат назив решетке „%s“!"
 
-#: ../plugins/openoffice/openoffice-read.c:1132
+#: ../plugins/openoffice/openoffice-read.c:1138
 msgid "Hatch fill without hatch name encountered!"
 msgstr "Наиђох на попуну решетке без назива решетке!"
 
-#: ../plugins/openoffice/openoffice-read.c:1140
+#: ../plugins/openoffice/openoffice-read.c:1146
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Наиђох на непознат назив прелива „%s“!"
 
-#: ../plugins/openoffice/openoffice-read.c:1153
+#: ../plugins/openoffice/openoffice-read.c:1159
 msgid "Gradient fill without gradient name encountered!"
 msgstr "Наиђох на попуну прелива без назива прелива!"
 
-#: ../plugins/openoffice/openoffice-read.c:1161
+#: ../plugins/openoffice/openoffice-read.c:1167
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Наиђох на непознат назив испуне слике „%s“!"
 
-#: ../plugins/openoffice/openoffice-read.c:1171
+#: ../plugins/openoffice/openoffice-read.c:1177
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr "Наиђох на неисправну апсолутну особеност датотеке „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:1184
+#: ../plugins/openoffice/openoffice-read.c:1190
 #, c-format
 msgid "Unable to open '%s'."
 msgstr "Не могу да отворим „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:1194
-#: ../plugins/openoffice/openoffice-read.c:8755
+#: ../plugins/openoffice/openoffice-read.c:1200
+#: ../plugins/openoffice/openoffice-read.c:8775
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Не могу учитам датотеку „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:1203
+#: ../plugins/openoffice/openoffice-read.c:1209
 msgid "Image fill without image name encountered!"
 msgstr "Наиђох на попуну слике без назива слике!"
 
-#: ../plugins/openoffice/openoffice-read.c:1435
+#: ../plugins/openoffice/openoffice-read.c:1443
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Неисправан атрибут „%s“, очекивах угао, примих „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:1501
+#: ../plugins/openoffice/openoffice-read.c:1511
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Неисправан атрибут „%s“, непозната вредност процене „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:1717
+#: ../plugins/openoffice/openoffice-read.c:1728
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Занемарујем упуте на непознату спољну радну свеску „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:1939
+#: ../plugins/openoffice/openoffice-read.c:1950
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Наиђох на непознат стил текста под називом „%s“!"
 
-#: ../plugins/openoffice/openoffice-read.c:2386
+#: ../plugins/openoffice/openoffice-read.c:2397
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "Не могу да обрадим „%s“ („%s“)"
 
-#: ../plugins/openoffice/openoffice-read.c:2488
-#: ../plugins/openoffice/openoffice-read.c:4007
+#: ../plugins/openoffice/openoffice-read.c:2499
+#: ../plugins/openoffice/openoffice-read.c:4019
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Наиђох на неподржану врсту формуле: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2494
-#: ../plugins/openoffice/openoffice-read.c:4014
+#: ../plugins/openoffice/openoffice-read.c:2505
+#: ../plugins/openoffice/openoffice-read.c:4026
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Израз „%s“ не почиње познатим знаком"
 
-#: ../plugins/openoffice/openoffice-read.c:2533
+#: ../plugins/openoffice/openoffice-read.c:2544
 #: ../plugins/openoffice/openoffice-write.c:5289
 #: ../plugins/openoffice/openoffice-write.c:5301 ../src/ssgrep.c:352
 msgid "cell"
 msgstr "ћелија"
 
-#: ../plugins/openoffice/openoffice-read.c:2923
+#: ../plugins/openoffice/openoffice-read.c:2935
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr "Услов потврђивања „%s“ није подржан. Измењен је у „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:2972
+#: ../plugins/openoffice/openoffice-read.c:2984
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Наиђох на неодређени стил потврђивања: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2998
+#: ../plugins/openoffice/openoffice-read.c:3010
 #, c-format
 msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: "
 "\"%s\""
 msgstr "Наиђох на неподржани услов потврђивања: „%s“ са адресом основе: „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:3663
+#: ../plugins/openoffice/openoffice-read.c:3675
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Наиђох на непознат услов „%s“, занемарујем."
 
-#: ../plugins/openoffice/openoffice-read.c:3745
+#: ../plugins/openoffice/openoffice-read.c:3757
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Занемарујем податке о колони испод колоне %i"
 
-#: ../plugins/openoffice/openoffice-read.c:3849
-#: ../plugins/openoffice/openoffice-read.c:4248
+#: ../plugins/openoffice/openoffice-read.c:3861
+#: ../plugins/openoffice/openoffice-read.c:4258
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Садржај је премашио највећи број подржаних редова (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3999
-#: ../plugins/openoffice/openoffice-read.c:6450
+#: ../plugins/openoffice/openoffice-read.c:4011
+#: ../plugins/openoffice/openoffice-read.c:6469
 msgid "Missing expression"
 msgstr "Недостаје израз"
 
-#: ../plugins/openoffice/openoffice-read.c:4226
+#: ../plugins/openoffice/openoffice-read.c:4238
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Неисправан израз низа не наводи број колона."
 
-#: ../plugins/openoffice/openoffice-read.c:4229
+#: ../plugins/openoffice/openoffice-read.c:4241
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Неисправан израз низа не наводи број редова."
 
-#: ../plugins/openoffice/openoffice-read.c:4240
+#: ../plugins/openoffice/openoffice-read.c:4251
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "Садржај је премашио највећи број подржаних колона (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:4571
+#: ../plugins/openoffice/openoffice-read.c:4581
 msgid "Unnamed dash style encountered."
 msgstr "Наиђох на неименовани стил цртице."
 
-#: ../plugins/openoffice/openoffice-read.c:4589
+#: ../plugins/openoffice/openoffice-read.c:4599
 msgid "Unnamed image fill style encountered."
 msgstr "Наиђох на неименовани стил испуне слике."
 
-#: ../plugins/openoffice/openoffice-read.c:4591
+#: ../plugins/openoffice/openoffice-read.c:4601
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "Стил попуне слике „%s“ нема приложену слику."
 
-#: ../plugins/openoffice/openoffice-read.c:4628
-#: ../plugins/openoffice/openoffice-read.c:4634
+#: ../plugins/openoffice/openoffice-read.c:4638
+#: ../plugins/openoffice/openoffice-read.c:4644
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Не могу да обрадим боју прелива: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4654
+#: ../plugins/openoffice/openoffice-read.c:4664
 msgid "Unnamed gradient style encountered."
 msgstr "Наиђох на неименовани стил прелива."
 
-#: ../plugins/openoffice/openoffice-read.c:4675
+#: ../plugins/openoffice/openoffice-read.c:4685
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Не могу да обрадим боју извода: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4749
+#: ../plugins/openoffice/openoffice-read.c:4759
 msgid "Unnamed hatch encountered!"
 msgstr "Наиђох на неименовани извод!"
 
-#: ../plugins/openoffice/openoffice-read.c:4890
+#: ../plugins/openoffice/openoffice-read.c:4900
 msgid "Duplicate default column style encountered."
 msgstr "Наиђох на удвостручени стил основне колоне."
 
-#: ../plugins/openoffice/openoffice-read.c:4906
+#: ../plugins/openoffice/openoffice-read.c:4916
 msgid "Duplicate default row style encountered."
 msgstr "Наиђох на удвостручени стил основног реда."
 
-#: ../plugins/openoffice/openoffice-read.c:4941
+#: ../plugins/openoffice/openoffice-read.c:4951
 msgid "Duplicate default chart/graphics style encountered."
 msgstr "Наиђох на удвостручени стил основног графика/графикона."
 
-#: ../plugins/openoffice/openoffice-read.c:5436
+#: ../plugins/openoffice/openoffice-read.c:5253
+#, c-format
+msgid "Invalid embedded text position %d"
+msgstr "Неважећа позиција уграђеног текста %d"
+
+#: ../plugins/openoffice/openoffice-read.c:5454
 msgid "Unnamed date style ignored."
 msgstr "Занемарих неименовани стил датума."
 
-#: ../plugins/openoffice/openoffice-read.c:5826
+#: ../plugins/openoffice/openoffice-read.c:5845
 #, c-format
 msgid "Corrupted file: invalid number format condition [%s]."
 msgstr "Оштећена датотека: неисправан услов записа броја [%s]."
 
-#: ../plugins/openoffice/openoffice-read.c:5844
+#: ../plugins/openoffice/openoffice-read.c:5863
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Оштећена датотека: занемарих неименовани стил броја."
 
-#: ../plugins/openoffice/openoffice-read.c:5866
+#: ../plugins/openoffice/openoffice-read.c:5885
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Ова датотека изгледа да је оштећена, недостају потребни записи."
 
-#: ../plugins/openoffice/openoffice-read.c:5935
+#: ../plugins/openoffice/openoffice-read.c:5954
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Папир из ОДФ датотеке: %i⨉%i тачака"
 
-#: ../plugins/openoffice/openoffice-read.c:6147
+#: ../plugins/openoffice/openoffice-read.c:6166
 msgid "Missing page layout identifier"
 msgstr "Недостаје откривач распореда странице"
 
-#: ../plugins/openoffice/openoffice-read.c:6174
+#: ../plugins/openoffice/openoffice-read.c:6193
 msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
@@ -1712,35 +1718,35 @@ msgstr ""
 "занемарује."
 
 #. For OOO_VER_1 this may be acceptable
-#: ../plugins/openoffice/openoffice-read.c:6199
+#: ../plugins/openoffice/openoffice-read.c:6218
 msgid "Master page style without page layout encountered!"
 msgstr "Наиђох на главни стил странице без распореда странице!"
 
-#: ../plugins/openoffice/openoffice-read.c:6205
+#: ../plugins/openoffice/openoffice-read.c:6224
 msgid "Master page style without name encountered!"
 msgstr "Наиђох на главни стил странице без назива!"
 
-#: ../plugins/openoffice/openoffice-read.c:6498
+#: ../plugins/openoffice/openoffice-read.c:6518
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Наиђох на непознат стил ивице Гнумерика „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:6837
+#: ../plugins/openoffice/openoffice-read.c:6859
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Непозната врста прекида „%s“ прелази на НИШТА"
 
-#: ../plugins/openoffice/openoffice-read.c:6922
+#: ../plugins/openoffice/openoffice-read.c:6944
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Не могу да обрадим боју табулатора: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:6933
+#: ../plugins/openoffice/openoffice-read.c:6955
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Не могу да обрадим боју текста табулатора: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:7465
+#: ../plugins/openoffice/openoffice-read.c:7486
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1749,36 +1755,36 @@ msgstr ""
 "Наиђох на непознату врсту уметања: „%s“, уместо тога користим Безјерову "
 "криву коцке."
 
-#: ../plugins/openoffice/openoffice-read.c:7474
+#: ../plugins/openoffice/openoffice-read.c:7494
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Наиђох на непознату врсту уметања: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:8037
+#: ../plugins/openoffice/openoffice-read.c:8057
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "израз „%s“ @ „%s“ није упута ћелије"
 
-#: ../plugins/openoffice/openoffice-read.c:8052
+#: ../plugins/openoffice/openoffice-read.c:8071
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Израз „%s“ садржи непознат размак назива"
 
-#: ../plugins/openoffice/openoffice-read.c:8126
+#: ../plugins/openoffice/openoffice-read.c:8145
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Неисправан опсег БП „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:8160
+#: ../plugins/openoffice/openoffice-read.c:8180
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
 msgstr "Гнумерик не подржава услове „'or'-ed“ самоиздвајања."
 
-#: ../plugins/openoffice/openoffice-read.c:8366
+#: ../plugins/openoffice/openoffice-read.c:8386
 #, c-format
 msgid "Moving sheet object from column %i and row %i"
 msgstr "Премештам објекат листа из %i. ступца и %i. реда"
 
-#: ../plugins/openoffice/openoffice-read.c:8440
+#: ../plugins/openoffice/openoffice-read.c:8460
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1787,13 +1793,13 @@ msgstr ""
 "Линије објекта листа Гнумерика не подржавају приложени текст. Текст „%s“ је "
 "одбачен."
 
-#: ../plugins/openoffice/openoffice-read.c:8477
-#: ../plugins/openoffice/openoffice-read.c:8516
+#: ../plugins/openoffice/openoffice-read.c:8497
+#: ../plugins/openoffice/openoffice-read.c:8536
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Неисправан атрибут „form:value“, очекивах број, примих „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:8482
+#: ../plugins/openoffice/openoffice-read.c:8502
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1802,16 +1808,16 @@ msgstr ""
 "Примећена је неисправна вредност-врста „%s“ за атрибут „form:value“ у "
 "елементу „form:value-range“."
 
-#: ../plugins/openoffice/openoffice-read.c:8939
+#: ../plugins/openoffice/openoffice-read.c:8959
 msgid "Unable to determine manual position for a chart component!"
 msgstr "Не могу да одредим ручни положај за састојак графика!"
 
-#: ../plugins/openoffice/openoffice-read.c:9218
+#: ../plugins/openoffice/openoffice-read.c:9238
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr "Нема довољно података у достављеном опсегу (%s) за све захтеве"
 
-#: ../plugins/openoffice/openoffice-read.c:9945
+#: ../plugins/openoffice/openoffice-read.c:9965
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1819,52 +1825,52 @@ msgstr ""
 "Гнумерик не подржава несамосталне једначине одступања. Уместо тога користим "
 "самосталну једначину."
 
-#: ../plugins/openoffice/openoffice-read.c:9964
+#: ../plugins/openoffice/openoffice-read.c:9984
 #, c-format
 msgid "The chart style \"%s\" is not defined!"
 msgstr "Изглед нацрта „%s“ није одређен!"
 
-#: ../plugins/openoffice/openoffice-read.c:10132
+#: ../plugins/openoffice/openoffice-read.c:10152
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Наиђох на убачене линије у нацрту који их не подржава."
 
-#: ../plugins/openoffice/openoffice-read.c:10269
+#: ../plugins/openoffice/openoffice-read.c:10289
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr "Наиђох на непознату врсту графика, покушавам да створим нацрт линије."
 
-#: ../plugins/openoffice/openoffice-read.c:10331
-#: ../plugins/openoffice/openoffice-read.c:10372
-#: ../plugins/openoffice/openoffice-read.c:10402
-#: ../plugins/openoffice/openoffice-read.c:10434
+#: ../plugins/openoffice/openoffice-read.c:10351
+#: ../plugins/openoffice/openoffice-read.c:10392
+#: ../plugins/openoffice/openoffice-read.c:10422
+#: ../plugins/openoffice/openoffice-read.c:10454
 #, c-format
 msgid "Chart style with name '%s' is missing."
 msgstr "Недостаје изглед знака са називом „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:10570
+#: ../plugins/openoffice/openoffice-read.c:10590
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
 "Наиђох на неподржани натпис који сам претворио у текстуални правоугаоник."
 
-#: ../plugins/openoffice/openoffice-read.c:10643
+#: ../plugins/openoffice/openoffice-read.c:10663
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr ""
 "Наиђох на бесконачно понављање приликом обраде формуле „%s“ назива „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:10846
+#: ../plugins/openoffice/openoffice-read.c:10866
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Не могу да проценим формулу „%s“ („%s“) назива „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:10851
+#: ../plugins/openoffice/openoffice-read.c:10871
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Не могу да обрадим формулу „%s“ („%s“) назива „%s“"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:10935
-#: ../plugins/openoffice/openoffice-read.c:10938
+#: ../plugins/openoffice/openoffice-read.c:10955
+#: ../plugins/openoffice/openoffice-read.c:10958
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
@@ -1873,18 +1879,18 @@ msgstr ""
 "Наиђох на неподржани произвољни облик врсте „%s“ који сам претворио у "
 "правоугаоник."
 
-#: ../plugins/openoffice/openoffice-read.c:10941
+#: ../plugins/openoffice/openoffice-read.c:10961
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
 "Наиђох на неподржани произвољни облик који сам претворио у правоугаоник."
 
-#: ../plugins/openoffice/openoffice-read.c:11339
+#: ../plugins/openoffice/openoffice-read.c:11359
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Атрибут „%s“ садржи неподржану вредност „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:11997
+#: ../plugins/openoffice/openoffice-read.c:12018
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
@@ -1893,12 +1899,12 @@ msgstr ""
 "Величина листа од %i ступца и %i реда коришћена у овој датотеци премашује "
 "највећу подржану величину листа Гнумерика"
 
-#: ../plugins/openoffice/openoffice-read.c:12028
+#: ../plugins/openoffice/openoffice-read.c:12049
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_У_ОШТЕЋЕНОЈ_ДАТОТЕЦИ"
 
-#: ../plugins/openoffice/openoffice-read.c:12033
+#: ../plugins/openoffice/openoffice-read.c:12054
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1907,30 +1913,30 @@ msgstr ""
 "Ова датотека је оштећена удвострученим називом листа „%s“, сада преименована "
 "у „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:12043
+#: ../plugins/openoffice/openoffice-read.c:12064
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "ЛИСТ_У_ОШТЕЋЕНОЈ_ДАТОТЕЦИ"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:12049
+#: ../plugins/openoffice/openoffice-read.c:12070
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr "Ова датотека је оштећена безименим листом сада названим „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:14046
+#: ../plugins/openoffice/openoffice-read.c:14067
 msgid "Unknown mimetype for openoffice file."
 msgstr "Непозната миме врста за датотеку опенофиса."
 
-#: ../plugins/openoffice/openoffice-read.c:14056
+#: ../plugins/openoffice/openoffice-read.c:14077
 msgid "No stream named content.xml found."
 msgstr "Није пронађен ток под називом „content.xml“."
 
-#: ../plugins/openoffice/openoffice-read.c:14206
+#: ../plugins/openoffice/openoffice-read.c:14227
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Неисправни метаподаци „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:14299
+#: ../plugins/openoffice/openoffice-read.c:14320
 msgid "settings.xml stream is malformed!"
 msgstr "Ток „settings.xml“ је лоше обликован!"
 
@@ -2015,71 +2021,71 @@ msgstr "Врста поља „%d“ није подржана."
 #. Read the field specification and build the field array for
 #. * PX_create_fp(). The memory is freed by PX_delete() including
 #. * the memory for the field name.
-#: ../plugins/paradox/paradox.c:325
+#: ../plugins/paradox/paradox.c:324
 msgid "Allocate memory for field definitions."
 msgstr "Додељујем меморију за одреднице поља."
 
-#: ../plugins/paradox/paradox.c:326
+#: ../plugins/paradox/paradox.c:325
 msgid "Cannot allocate memory for field definitions."
 msgstr "Не могу да доделим меморију за одреднице поља."
 
-#: ../plugins/paradox/paradox.c:334
+#: ../plugins/paradox/paradox.c:333
 msgid "First line of sheet must contain database specification."
 msgstr "Прва линија листа мора да садржи особености базе података."
 
-#: ../plugins/paradox/paradox.c:349
+#: ../plugins/paradox/paradox.c:348
 msgid ""
 "Field specification must be a comma separated value (Name,Type,Size,Prec)."
 msgstr ""
 "Особеност поља мора да буде вредност одвојена зарезом (Назив,Врста,Величина)."
 
-#: ../plugins/paradox/paradox.c:355
+#: ../plugins/paradox/paradox.c:354
 msgid "Allocate memory for column name."
 msgstr "Додељујем меморију за назив колоне."
 
-#: ../plugins/paradox/paradox.c:356
+#: ../plugins/paradox/paradox.c:355
 #, c-format
 msgid "Could not allocate memory for %d. field name."
 msgstr "Не могу да доделим меморију за назив %d. поља."
 
-#: ../plugins/paradox/paradox.c:368
+#: ../plugins/paradox/paradox.c:367
 #, c-format
 msgid "%d. field specification ended unexpectedly."
 msgstr "Неочекивано је окончана особеност %d. поља."
 
-#: ../plugins/paradox/paradox.c:373
+#: ../plugins/paradox/paradox.c:372
 #, c-format
 msgid "%d. field specification misses type."
 msgstr "Недостаје врста особености %d. поља."
 
-#: ../plugins/paradox/paradox.c:441
+#: ../plugins/paradox/paradox.c:440
 #, c-format
 msgid "%d. field type '%c' is unknown."
 msgstr "%d. поља врста „%c“ није позната."
 
-#: ../plugins/paradox/paradox.c:452 ../plugins/paradox/paradox.c:462
+#: ../plugins/paradox/paradox.c:451 ../plugins/paradox/paradox.c:461
 msgid "Field specification misses the column size."
 msgstr "Недостаје величина колоне особености поља."
 
-#: ../plugins/paradox/paradox.c:469
+#: ../plugins/paradox/paradox.c:468
 #, c-format
 msgid ""
 "The remainder '%s' of the specification for field %d is being disregarded."
 msgstr "Потсетник „%s“ особености за ћелију %d је неразматран."
 
-#: ../plugins/paradox/paradox.c:479 ../plugins/paradox/paradox.c:486
+#: ../plugins/paradox/paradox.c:478 ../plugins/paradox/paradox.c:485
 msgid "Could not create output file."
 msgstr "Не могу да направим излазну датотеку."
 
-#: ../plugins/paradox/paradox.c:495
+#: ../plugins/paradox/paradox.c:494
 msgid "Allocate memory for record data."
 msgstr "Додељујем меморију за податке записа."
 
-#: ../plugins/paradox/paradox.c:496
+#: ../plugins/paradox/paradox.c:495
 msgid "Could not allocate memory for record data."
 msgstr "Не могу да доделим меморију за запис података."
 
-#: ../plugins/paradox/paradox.c:547
+#: ../plugins/paradox/paradox.c:546
 #, c-format
 msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
@@ -2089,12 +2095,12 @@ msgstr[1] "%d. поље у реду %d је вероватно отсечено.
 msgstr[2] "%d. поље у реду %d је вероватно отсечено. Подаци садрже %d знакова."
 msgstr[3] "%d. поље у реду %d је вероватно отсечено. Подаци садрже један знак."
 
-#: ../plugins/paradox/paradox.c:560
+#: ../plugins/paradox/paradox.c:559
 #, c-format
 msgid "Field %d in row %d could not be written."
 msgstr "Поље %d у реду %d не може бити записано."
 
-#: ../plugins/paradox/paradox.c:598
+#: ../plugins/paradox/paradox.c:597
 #, c-format
 msgid "Could not write record number %d."
 msgstr "Не могу да запишем број записа %d."
@@ -4294,7 +4300,7 @@ msgstr "Обриши објекат"
 
 #: ../src/commands.c:5042 ../src/commands.c:6100
 #: ../src/dialogs/dialog-doc-metadata.c:1864
-#: ../src/dialogs/dialog-formula-guru.c:891
+#: ../src/dialogs/dialog-formula-guru.c:889
 #: ../src/dialogs/dialog-function-select.c:1280
 #: ../src/dialogs/dialog-scenarios.c:523 ../src/dialogs/dialog-simulation.c:211
 #: ../src/dialogs/dialog-zoom.c:195 ../src/format-template.c:209
@@ -5698,7 +5704,7 @@ msgid "Double Low"
 msgstr "Двоструко слабо"
 
 #: ../src/dialogs/dialog-cell-format.c:469 ../src/dialogs/dialog-search.c:388
-#: ../src/func.c:1114 ../src/wbc-gtk-actions.c:3424
+#: ../src/func.c:1225 ../src/wbc-gtk-actions.c:3424
 msgid "Number"
 msgstr "Број"
 
@@ -6267,16 +6273,16 @@ msgstr "Не могу да направим прозорче својстава.
 msgid "Could not create the Fill Series dialog."
 msgstr "Не могу да образујем прозорче „Попуни низ“."
 
-#: ../src/dialogs/dialog-formula-guru.c:322
+#: ../src/dialogs/dialog-formula-guru.c:323
 #, c-format
 msgid "[%s]"
 msgstr "[%s]"
 
-#: ../src/dialogs/dialog-formula-guru.c:906
+#: ../src/dialogs/dialog-formula-guru.c:904
 msgid "Function/Argument"
 msgstr "Функција/аргумент"
 
-#: ../src/dialogs/dialog-formula-guru.c:1090
+#: ../src/dialogs/dialog-formula-guru.c:1088
 msgid "Could not create the formula guru."
 msgstr "Не могу да направим чаробњака за формуле."
 
@@ -12304,38 +12310,38 @@ msgstr ""
 msgid "Function implementation not available."
 msgstr "Функција није подржана."
 
-#: ../src/func.c:863
+#: ../src/func.c:974
 msgid "Unknown Function"
 msgstr "Непозната функција"
 
 #. xgettext: This represents a made-up translated function name.
-#: ../src/func.c:887
+#: ../src/func.c:998
 #, c-format
 msgid "unknown%d"
 msgstr "непознато%d"
 
-#: ../src/func.c:1118
+#: ../src/func.c:1229
 msgid "Boolean"
 msgstr "Логичка"
 
-#: ../src/func.c:1120
+#: ../src/func.c:1231
 msgid "Cell Range"
 msgstr "Опсег поља"
 
-#: ../src/func.c:1122
+#: ../src/func.c:1233
 msgid "Area"
 msgstr "Област"
 
-#: ../src/func.c:1124
+#: ../src/func.c:1235
 msgid "Scalar, Blank, or Error"
 msgstr "Скалар, празно, или грешка"
 
-#: ../src/func.c:1126
+#: ../src/func.c:1237
 msgid "Scalar"
 msgstr "Скалар"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1129
+#: ../src/func.c:1240
 msgid "Any"
 msgstr "Неки"
 
@@ -14129,8 +14135,7 @@ msgstr "Неисправна вредност за опцију %s: „%s“"
 msgid "Text (configurable)"
 msgstr "Текст (подесиво)"
 
-#. FIXME: What locale?
-#: ../src/stf-parse.c:1423
+#: ../src/stf-parse.c:1474
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -14138,8 +14143,7 @@ msgstr ""
 "Има више редова са подацима него што има места на листу.  Додатни редови ће "
 "бити занемарени."
 
-#. FIXME: What locale?
-#: ../src/stf-parse.c:1449
+#: ../src/stf-parse.c:1479
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -17968,17 +17972,17 @@ msgstr ""
 "%s\n"
 "<small>%s</small>"
 
-#: ../src/widgets/gnm-expr-entry.c:903
+#: ../src/widgets/gnm-expr-entry.c:907
 #, c-format
 msgid "%s takes no arguments"
 msgstr "%s не прихвата аргументе"
 
-#: ../src/widgets/gnm-expr-entry.c:907
+#: ../src/widgets/gnm-expr-entry.c:911
 #, c-format
 msgid "Too many arguments for %s"
 msgstr "Превише аргумената за %s"
 
-#: ../src/widgets/gnm-expr-entry.c:918
+#: ../src/widgets/gnm-expr-entry.c:922
 msgid ""
 "\n"
 "\n"
@@ -17990,20 +17994,20 @@ msgstr ""
 
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
-#: ../src/widgets/gnm-expr-entry.c:947
+#: ../src/widgets/gnm-expr-entry.c:951
 #, c-format
 msgid "\t%s \t%s\n"
 msgstr "\t%s \t%s\n"
 
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
-#: ../src/widgets/gnm-expr-entry.c:952
+#: ../src/widgets/gnm-expr-entry.c:956
 #, c-format
 msgid "✓\t%s \t%s\n"
 msgstr "✓\t%s \t%s\n"
 
 #. xgettext: short form for: "type F4-key to complete the name"
-#: ../src/widgets/gnm-expr-entry.c:965
+#: ../src/widgets/gnm-expr-entry.c:969
 msgid ""
 "\n"
 "\t<i>F4 to complete</i>"
@@ -18012,7 +18016,7 @@ msgstr ""
 "\t<i>Ф4 да довршите</i>"
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
-#: ../src/widgets/gnm-expr-entry.c:968
+#: ../src/widgets/gnm-expr-entry.c:972
 msgid ""
 "\n"
 "\t<i>⇧F4 to select</i>"
@@ -18020,7 +18024,7 @@ msgstr ""
 "\n"
 "\t<i>⇧F4 да изаберете</i>"
 
-#: ../src/widgets/gnm-expr-entry.c:2641
+#: ../src/widgets/gnm-expr-entry.c:2657
 #, c-format
 msgid "Expecting a single range"
 msgstr "Очекујем један опсег"
@@ -18065,33 +18069,33 @@ msgstr "Зацрњено"
 msgid "Ultraheavy"
 msgstr "Превише зацрњено"
 
-#: ../src/workbook-cmd-format.c:96
+#: ../src/workbook-cmd-format.c:119
 msgid "Increase Indent"
 msgstr "Повећај увлачење"
 
-#: ../src/workbook-cmd-format.c:113
+#: ../src/workbook-cmd-format.c:142
 msgid "Decrease Indent"
 msgstr "Смањи увлачење"
 
-#: ../src/workbook-cmd-format.c:167 ../src/workbook-cmd-format.c:171
-#: ../src/workbook-cmd-format.c:178 ../src/workbook-cmd-format.c:185
-#: ../src/workbook-cmd-format.c:193
+#: ../src/workbook-cmd-format.c:203 ../src/workbook-cmd-format.c:207
+#: ../src/workbook-cmd-format.c:214 ../src/workbook-cmd-format.c:221
+#: ../src/workbook-cmd-format.c:229
 msgid "Wrap SORT"
 msgstr "Преломи РЕЂАЊЕ"
 
-#: ../src/workbook-cmd-format.c:172
+#: ../src/workbook-cmd-format.c:208
 msgid "A single selection is required."
 msgstr "Потребан је један избор."
 
-#: ../src/workbook-cmd-format.c:179
+#: ../src/workbook-cmd-format.c:215
 msgid "An n⨯1 or 1⨯n selection is required."
 msgstr "Потребан је n⨯1 или 1⨯n избор."
 
-#: ../src/workbook-cmd-format.c:186
+#: ../src/workbook-cmd-format.c:222
 msgid "There is no point in sorting a single cell."
 msgstr "Нема тачке у ређању једног поља."
 
-#: ../src/workbook-cmd-format.c:194
+#: ../src/workbook-cmd-format.c:230
 msgid "The range to be sorted may not contain any merged cells."
 msgstr "Опсег за ређање не може да садржи спојена поља."
 
