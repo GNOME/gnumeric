@@ -1345,8 +1345,11 @@ stf_read_remember_settings (Workbook *book, GnmStfParseOptions *po)
 
 		g_object_set (G_OBJECT (stfe), "separator", po->sep.chr, "quote", &quote, NULL);
 
-		if ((po->terminator != NULL) &&  (po->terminator->data != NULL))
-			g_object_set (G_OBJECT (stfe), "eol", po->terminator->data, NULL);
+		// Only export terminator when unique
+		if (g_slist_length (po->terminator) == 1) {
+			const char *term = po->terminator->data;
+			g_object_set (G_OBJECT (stfe), "eol", term, NULL);
+		}
 	}
 }
 
