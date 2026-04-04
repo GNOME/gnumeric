@@ -186,11 +186,20 @@ error:
 static gboolean
 qpro_validate_len (QProReadState *state, char const *id, guint16 len, int expected_len)
 {
-	if (expected_len >= 0 && len != expected_len) {
-		corrupted (state);
-		g_printerr ("Invalid '%s' record of length %hd instead of %d\n",
-			    id, len, expected_len);
-		return FALSE;
+	if (expected_len >= 0) {
+		if (len != (guint16)expected_len) {
+			corrupted (state);
+			g_printerr ("Invalid '%s' record of length %hd instead of %d\n",
+				    id, len, expected_len);
+			return FALSE;
+		}
+	} else if (expected_len < -1) {
+		if (len < (guint16)(-expected_len)) {
+			corrupted (state);
+			g_printerr ("Invalid '%s' record of length %hd, expected at least %d\n",
+				    id, len, -expected_len);
+			return FALSE;
+		}
 	}
 
 	return TRUE;
@@ -753,7 +762,7 @@ qpro_read_sheet (QProReadState *state)
 			break;
 
 		case QPRO_LABEL_CELL:
-			if (validate (QPRO_LABEL_CELL, -1)) {
+			if (validate (QPRO_LABEL_CELL, -7)) {
 				int col = data[0];
 				int row = GSF_LE_GET_GUINT16 (data + 2);
 				GnmHAlign align = GNM_HALIGN_GENERAL;
@@ -788,7 +797,7 @@ qpro_read_sheet (QProReadState *state)
 			break;
 
 		case QPRO_FORMULA_CELL:
-			if (validate (QPRO_FORMULA_CELL, -1)) {
+			if (validate (QPRO_FORMULA_CELL, -20)) {
 				int col = data[0];
 				int row = GSF_LE_GET_GUINT16 (data + 2);
 				sheet_style_set_pos (sheet, col, row,
