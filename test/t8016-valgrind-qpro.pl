@@ -5,8 +5,6 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
-$GnumericTest::default_corpus = 'random:5';
-
 &message ("Check the quattro pro importer with valgrind.");
 
 my @sources = ("$samples/qpro/gantt.wb3");

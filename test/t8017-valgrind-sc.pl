@@ -5,9 +5,9 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
-&message ("Check the dif importer with valgrind.");
+&message ("Check the sc with valgrind.");
 
-my @sources = ("$samples/dif/sample.dif");
+my @sources = ("$samples/sc/demo_func", "$samples/sc/demo_math");
 my $nskipped = 0;
 my $ngood = 0;
 my $nbad = 0;

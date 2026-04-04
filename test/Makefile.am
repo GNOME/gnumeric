@@ -193,6 +193,7 @@ TESTS =	t1000-statfuns.pl			\
 	t8014-valgrind-mps.pl			\
 	t8015-valgrind-sylk.pl			\
 	t8016-valgrind-qpro.pl			\
+	t8017-valgrind-sc.pl			\
 	t8050-valgrind-sstest.pl		\
 	t8100-null-false.pl			\
 	t8101-gfree.pl				\
