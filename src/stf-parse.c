@@ -1632,6 +1632,38 @@ count_character (GnmStfParsedLines *pl, gunichar c, double quantile)
 }
 
 static void
+guess_line_endings (GnmStfParseOptions *res, const char *data)
+{
+	guint cr = 0, crlf = 0, lf = 0;
+
+	while (*data) {
+		if (data[0] == '\r' && data[1] == '\n') {
+			crlf++;
+			data += 2;
+		} else if (data[0] == '\r') {
+			cr++;
+			data++;
+		} else if (data[0] == '\n') {
+			lf++;
+			data++;
+		} else
+			data++;
+	}
+	guint m = MAX (cr, MAX (crlf, lf));
+
+	// Any sane input has only one type.  Just in case, we pick the
+	// most common.
+	stf_parse_options_clear_line_terminator (res);
+	if (m == lf)
+		stf_parse_options_add_line_terminator (res, "\n");
+	else if (m == crlf)
+		stf_parse_options_add_line_terminator (res, "\r\n");
+	else
+		stf_parse_options_add_line_terminator (res, "\r");
+}
+
+
+static void
 dump_guessed_options (const GnmStfParseOptions *res)
 {
 	GSList *l;
@@ -1708,6 +1740,7 @@ stf_parse_options_guess (char const *data)
 	g_return_val_if_fail (data != NULL, NULL);
 
 	res = stf_parse_options_new ();
+	guess_line_endings (res, data);
 	GnmStfParsedLines *pl = stf_parse_lines (res, data, 1000, FALSE);
 
 	tabcount = count_character (pl, '\t', 0.2);
@@ -1799,6 +1832,7 @@ stf_parse_options_guess_csv (char const *data)
 	g_return_val_if_fail (data != NULL, NULL);
 
 	res = stf_parse_options_new ();
+	guess_line_endings (res, data);
 	stf_parse_options_set_type (res, PARSE_TYPE_CSV);
 	stf_parse_options_set_trim_spaces (res, TRIM_TYPE_NEVER);
 	stf_parse_options_csv_set_indicator_2x_is_single (res, TRUE);

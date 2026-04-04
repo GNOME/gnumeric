@@ -14,7 +14,7 @@ Morten:
 	* Fix gui crash [#857]
 	* Introspection fixes.
 	* Test suite enhancements
-	* Fix cvs-to-cvs line endings.
+	* Preserve cvs-to-cvs and cvs-to-txt line endings.
 
 N. Copa:
 	* Fix parallel build trouble.  [#852]

@@ -1,3 +1,9 @@
+2026-04-04  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (guess_line_endings): New function.  We'll
+	preserve line endings on cvs->cvs or cvs->txt conversion.  At
+	least if they are consistent.
+
 2026-03-26  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_sheet): Move error messages needing

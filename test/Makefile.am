@@ -77,6 +77,7 @@ TESTS =	t1000-statfuns.pl			\
 	t5800-csv-date.pl			\
 	t5801-csv-number.pl			\
 	t5802-csv-separator.pl			\
+	t5803-csv-terminator.pl			\
 	t5900-sc.pl				\
 	t5901-qpro.pl				\
 	t5902-applix.pl				\
