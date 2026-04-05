@@ -14387,8 +14387,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_free (state.chart.cs_type);
 	if (state.chart.so)
 		g_object_unref (state.chart.so);
-	if (state.chart_list)
-		g_slist_free_full (state.chart_list, odf_destroy_object_offset);
+	g_slist_free_full (state.chart_list, odf_destroy_object_offset);
 	if (state.chart.cs_variables)
 		g_hash_table_destroy (state.chart.cs_variables);
 	g_slist_free (state.text_p_for_cell.span_style_stack);

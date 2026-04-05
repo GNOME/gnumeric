@@ -727,8 +727,8 @@ scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	state->new_report_sheets =
 		g_slist_prepend (state->new_report_sheets,
 				 new_sheet);
-	if (results)
-		g_slist_free_full (results, (GDestroyNotify)value_release);
+
+	g_slist_free_full (results, (GDestroyNotify)value_release);
 }
 
 static void
