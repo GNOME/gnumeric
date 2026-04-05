@@ -7695,7 +7695,6 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->other_props = g_slist_prepend
 				(style->other_props,
 				 oo_prop_new_int ("dims", tmp));
-#if HAVE_OO_NS_LOCALC_EXT
 		else if (oo_attr_int_range (xin, attrs, OO_NS_LOCALC_EXT,
 					      "regression-max-degree", &tmp,
 					      1, 100))
@@ -7710,7 +7709,6 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_double (xin, attrs, OO_NS_LOCALC_EXT,
 					 "regression-intercept-value", &ftmp))
 			regression_force_intercept_value = ftmp;
-#endif
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "regression-affine",
 				       &btmp))
 			style->other_props = g_slist_prepend (style->other_props,
@@ -7721,14 +7719,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->other_props,
 				 oo_prop_new_string ("regression-name-expression",
 						     CXML2C(attrs[1])));
-#if HAVE_OO_NS_LOCALC_EXT
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_LOCALC_EXT,
 					     "regression-name"))
 			style->other_props = g_slist_prepend
 				(style->other_props,
 				 oo_prop_new_string ("regression-name-constant",
 						     CXML2C(attrs[1])));
-#endif
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
 				       "is-position-manual",
 				       &btmp))
@@ -12242,10 +12238,8 @@ GSF_XML_IN_NODE (OFFICE_DOC_STYLES, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_X
     GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_TABLE_ROW_PROPS, OO_NS_STYLE, "table-row-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
-#if HAVE_OO_NS_LOCALC_EXT
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBERFILL_CHARACTER, OO_NS_LOCALC_EXT,	"fill-character", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, LOEXT_TEXT, OO_NS_LOCALC_EXT, "text", GSF_XML_NO_CONTENT, NULL, NULL),
-#endif
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
 GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_CONTENT, &odf_embedded_text_start, &odf_embedded_text_end),
     GSF_XML_IN_NODE_FULL (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, FALSE, FALSE, &odf_format_text_start, &oo_format_text_end, GO_FORMAT_NUMBER),
@@ -12299,6 +12293,7 @@ GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embed
       GSF_XML_IN_NODE (CURRENCY_TEXT, FORMAT_TEXT_REPEATED, OO_GNUM_NS_EXT, "repeated", GSF_XML_2ND, NULL, NULL),
     GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
     GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_FILL_CHARACTER, OO_NS_NUMBER,	"fill-character", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_FILL_CHARACTER2, OO_NS_LOCALC_EXT, "fill-character", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER, "percentage-style", GSF_XML_NO_CONTENT, &odf_number_percentage_style, &odf_number_style_end),
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_STYLE_PROP, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
@@ -12541,10 +12536,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (STYLE, GRAPHIC_PROPS, OO_NS_STYLE, "graphic-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
 	      GSF_XML_IN_NODE (STYLE, STYLE_MAP, OO_NS_STYLE, "map", GSF_XML_NO_CONTENT, &oo_style_map, NULL),
 	    GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
-#if HAVE_OO_NS_LOCALC_EXT
               GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBERFILL_CHARACTER, OO_NS_LOCALC_EXT, "fill-character", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (NUMBER_STYLE, LOEXT_TEXT, OO_NS_LOCALC_EXT, "text", GSF_XML_NO_CONTENT, NULL, NULL),
-#endif
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	  "number", GSF_XML_NO_CONTENT, &odf_number, NULL),
                  GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE_FULL (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,  "text", GSF_XML_CONTENT, FALSE, FALSE, &odf_format_text_start, &oo_format_text_end, GO_FORMAT_NUMBER),
@@ -12585,7 +12578,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_STYLE_PROP, OO_NS_STYLE,"properties", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_MAP, OO_NS_STYLE,	"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_SYMBOL, OO_NS_NUMBER,	"currency-symbol", GSF_XML_CONTENT, NULL, &odf_currency_symbol_end),
-	GSF_XML_IN_NODE_FULL (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,"text", GSF_XML_CONTENT, FALSE, FALSE, &odf_format_text_start, &oo_format_text_end, GO_FORMAT_CURRENCY),
+	      GSF_XML_IN_NODE_FULL (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,"text", GSF_XML_CONTENT, FALSE, FALSE, &odf_format_text_start, &oo_format_text_end, GO_FORMAT_CURRENCY),
 	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
               GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_FILL_CHARACTER, OO_NS_NUMBER, "fill-character", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER, "percentage-style", GSF_XML_NO_CONTENT, &odf_number_percentage_style, &odf_number_style_end),

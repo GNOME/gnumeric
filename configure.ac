@@ -163,7 +163,7 @@ PKG_PROG_PKG_CONFIG(0.18)
 dnl *****************************
 libspreadsheet_reqs="
 	libgoffice-${GOFFICE_API_VER}	>= 0.10.61
-	libgsf-1		>= 1.14.33
+	libgsf-1		>= 1.14.45
 	libxml-2.0		>= 2.4.12
 "
 gnumeric_reqs="$libspreadsheet_reqs
@@ -553,13 +553,6 @@ LIBS="$GNUMERIC_LIBS $LIBS"
 
 AC_CHECK_FUNCS(gtk_cell_renderer_text_get_background_set gtk_cell_renderer_text_get_foreground_set gtk_cell_renderer_text_get_editable)
 AC_CHECK_FUNCS(gtk_entry_set_editing_cancelled gtk_icon_theme_add_resource_path gtk_widget_class_set_css_name)
-
-AC_MSG_CHECKING([for OO_NS_LOCALC_EXT])
-AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gsf/gsf.h>]],
-				[[(void)(OO_NS_LOCALC_EXT == OO_NS_LOCALC_EXT);]])],
-               [AC_DEFINE(HAVE_OO_NS_LOCALC_EXT, 1, [Define if OO_NS_LOCALC_EXT is available])
-		AC_MSG_RESULT(yes)],
-	       [AC_MSG_RESULT(no)])
 
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
