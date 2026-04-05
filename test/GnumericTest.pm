@@ -454,6 +454,8 @@ sub test_importer {
 	-d $import_db or mkdir ($import_db, 0777) or
 	    die "Cannot create $import_db: $!\n";
 	$tmp = "$import_db/$tmp";
+    } elsif ($mode eq 'diff') {
+	# Nothing
     } else {
 	$tmp = &invent_junkfile ($tmp);
     }

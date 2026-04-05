@@ -198,6 +198,17 @@ sylk_parse_int (char const *str, int *res)
 	return FALSE;
 }
 
+static gboolean
+sylk_parse_coord (char const *str, int *res, int max)
+{
+	int tmp;
+	if (sylk_parse_int (str, &tmp) && tmp >= 1 && tmp <= max) {
+		*res = tmp - 1;
+		return TRUE;
+	}
+	return FALSE;
+}
+
 static GnmValue *
 sylk_parse_value (SylkReader *state, const char *str)
 {
@@ -237,14 +248,14 @@ sylk_rtd_c_parse (SylkReader *state, char *str)
 	GnmValue *val = NULL;
 	GnmExprTop const *texpr = NULL;
 	gboolean is_array = FALSE;
-	int r = -1, c = -1, tmp;
+	int r = -1, c = -1;
 	char *next;
 
 	for (; *str != '\0' ; str = next) {
 		next = sylk_next_token (str);
 		switch (*str) {
-		case 'X': if (sylk_parse_int (str+1, &tmp)) state->pp.eval.col = tmp - 1; break;
-		case 'Y': if (sylk_parse_int (str+1, &tmp)) state->pp.eval.row = tmp - 1; break;
+		case 'X': sylk_parse_coord (str+1, &state->pp.eval.col, gnm_sheet_get_max_cols (state->pp.sheet)); break;
+		case 'Y': sylk_parse_coord (str+1, &state->pp.eval.row, gnm_sheet_get_max_rows (state->pp.sheet)); break;
 
 		case 'K': /* ;K value: Value of the cell. */
 			if (val != NULL) {
@@ -319,8 +330,8 @@ sylk_rtd_c_parse (SylkReader *state, char *str)
 			if (texpr) {
 				GnmRange rg;
 				rg.start = state->pp.eval;
-				rg.end.col = c - 1;
-				rg.end.row = r - 1;
+				rg.end.col = (c >= 1 && c <= gnm_sheet_get_max_cols (state->pp.sheet)) ? c - 1 : state->pp.eval.col;
+				rg.end.row = (r >= 1 && r <= gnm_sheet_get_max_rows (state->pp.sheet)) ? r - 1 : state->pp.eval.row;
 
 				gnm_cell_set_array (state->pp.sheet,
 						    &rg,
@@ -633,9 +644,8 @@ sylk_rtd_f_parse (SylkReader *state, char *str)
 			int first, last, width;
 			if (3 == sscanf (str+1, "%d %d %d", &first, &last, &width)) {
 				/* width seems to be in characters */
-				if (first <= last &&
-				    first < gnm_sheet_get_max_cols (state->pp.sheet) &&
-				    last < gnm_sheet_get_max_cols (state->pp.sheet))
+				if (1 <= first && first <= last &&
+				    last <= gnm_sheet_get_max_cols (state->pp.sheet))
 					while (first <= last)
 						sheet_col_set_size_pts (state->pp.sheet,
 							first++ - 1, width*7.45, TRUE);
@@ -643,10 +653,10 @@ sylk_rtd_f_parse (SylkReader *state, char *str)
 			break;
 		}
 
-		case 'C': if (sylk_parse_int (str+1, &tmp)) full_col = tmp - 1; break;
-		case 'R': if (sylk_parse_int (str+1, &tmp)) full_row = tmp - 1; break;
-		case 'X': if (sylk_parse_int (str+1, &tmp)) state->pp.eval.col = tmp - 1; break;
-		case 'Y': if (sylk_parse_int (str+1, &tmp)) state->pp.eval.row = tmp - 1; break;
+		case 'C': sylk_parse_coord (str+1, &full_col, gnm_sheet_get_max_cols (state->pp.sheet)); break;
+		case 'R': sylk_parse_coord (str+1, &full_row, gnm_sheet_get_max_rows (state->pp.sheet)); break;
+		case 'X': sylk_parse_coord (str+1, &state->pp.eval.col, gnm_sheet_get_max_cols (state->pp.sheet)); break;
+		case 'Y': sylk_parse_coord (str+1, &state->pp.eval.row, gnm_sheet_get_max_rows (state->pp.sheet)); break;
 		default:
 			sylk_read_warning (state, "unhandled F option %c.", *str);
 		}
