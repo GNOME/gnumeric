@@ -99,7 +99,7 @@ record_get_field (XBrecord const *record, guint num)
 }
 
 gboolean
-record_deleted (XBrecord *record)
+record_deleted (XBrecord const *record)
 {
 	return record->data[0] == 0x2a;
 }
