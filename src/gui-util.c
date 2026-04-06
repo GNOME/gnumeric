@@ -463,6 +463,13 @@ gnm_gtk_radio_group_get_selected (GSList *radio_group)
 }
 
 
+/**
+ * gnm_gui_group_value:
+ * @gui: #GtkBuilder
+ * @group: (array zero-terminated=1): names of widgets in group
+ *
+ * Returns: the index of the active toggle button in the group, or -1.
+ **/
 int
 gnm_gui_group_value (gpointer gui, char const * const group[])
 {
@@ -538,8 +545,8 @@ gnumeric_tooltip_set_style (GtkWidget *widget)
 
 /**
  * gnm_convert_to_tooltip:
- * @ref_widget:
- * @widget:
+ * @ref_widget: #GtkWidget
+ * @widget: #GtkWidget
  *
  * Returns: (transfer none): @widget
  **/
@@ -572,6 +579,7 @@ gnm_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *widget)
 
 /**
  * gnm_create_tooltip:
+ * @ref_widget: #GtkWidget
  *
  * Returns: (transfer full): the newly allocated #GtkWidget.
  **/
@@ -581,6 +589,15 @@ gnm_create_tooltip (GtkWidget *ref_widget)
 	return gnm_convert_to_tooltip (ref_widget, gtk_label_new (""));
 }
 
+/**
+ * gnm_position_tooltip:
+ * @tip: #GtkWidget
+ * @px: x coordinate
+ * @py: y coordinate
+ * @horizontal: %TRUE for horizontal positioning.
+ *
+ * Positions @tip at (@px, @py).
+ **/
 void
 gnm_position_tooltip (GtkWidget *tip, int px, int py, gboolean horizontal)
 {
@@ -753,12 +770,25 @@ gnm_create_popup_menu (GnmPopupMenuElement const *elements,
 	gnumeric_popup_menu (GTK_MENU (menu), event);
 }
 
+/**
+ * gnm_init_help_button:
+ * @w: #GtkWidget
+ * @lnk: help link
+ *
+ * Initializes @w as a help button for @lnk.
+ **/
 void
 gnm_init_help_button (GtkWidget *w, char const *lnk)
 {
 	go_gtk_help_button_init (w, gnm_sys_data_dir (), "gnumeric", lnk);
 }
 
+/**
+ * gnm_textbuffer_get_text:
+ * @buf: #GtkTextBuffer
+ *
+ * Returns: (transfer full): the text in @buf.
+ **/
 char *
 gnm_textbuffer_get_text (GtkTextBuffer *buf)
 {
@@ -772,6 +802,12 @@ gnm_textbuffer_get_text (GtkTextBuffer *buf)
 	return gtk_text_buffer_get_slice (buf, &start, &end, FALSE);
 }
 
+/**
+ * gnm_textview_get_text:
+ * @text_view: #GtkTextView
+ *
+ * Returns: (transfer full): the text in @text_view.
+ **/
 char *
 gnm_textview_get_text (GtkTextView *text_view)
 {
@@ -779,6 +815,13 @@ gnm_textview_get_text (GtkTextView *text_view)
 		(gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view)));
 }
 
+/**
+ * gnm_textview_set_text:
+ * @text_view: #GtkTextView
+ * @txt: text to set
+ *
+ * Sets the text in @text_view to @txt.
+ **/
 void
 gnm_textview_set_text (GtkTextView *text_view, char const *txt)
 {
@@ -787,6 +830,14 @@ gnm_textview_set_text (GtkTextView *text_view, char const *txt)
 		txt, -1);
 }
 
+/**
+ * gnm_load_pango_attributes_into_buffer:
+ * @markup: #PangoAttrList
+ * @buffer: #GtkTextBuffer
+ * @str: (nullable): text to use, or %NULL to use text in @buffer
+ *
+ * Loads Pango attributes from @markup into @buffer.
+ **/
 void
 gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buffer, gchar const *str)
 {
@@ -852,6 +903,12 @@ gnm_store_text_tag_attr_in_pango (PangoAttrList *list, GtkTextTag *tag, GtkTextI
 
 #undef gnmstoretexttagattrinpangoint
 
+/**
+ * gnm_get_pango_attributes_from_buffer:
+ * @buffer: #GtkTextBuffer
+ *
+ * Returns: (transfer full): Pango attributes from @buffer.
+ **/
 PangoAttrList *
 gnm_get_pango_attributes_from_buffer (GtkTextBuffer *buffer)
 {
@@ -875,17 +932,33 @@ gnm_get_pango_attributes_from_buffer (GtkTextBuffer *buffer)
 	return list;
 }
 
+/**
+ * focus_on_entry:
+ * @entry: (nullable): #GtkEntry
+ *
+ * Grabs focus for @entry and selects its contents.
+ **/
 void
 focus_on_entry (GtkEntry *entry)
 {
 	if (entry == NULL)
 		return;
-	gtk_widget_grab_focus (GTK_WIDGET(entry));
+	gtk_widget_grab_focus (GTK_WIDGET (entry));
 	gtk_editable_set_position (GTK_EDITABLE (entry), 0);
 	gtk_editable_select_region (GTK_EDITABLE (entry), 0,
 				    gtk_entry_get_text_length (entry));
 }
 
+/**
+ * entry_to_float_with_format_default:
+ * @entry: #GtkEntry
+ * @the_float: (out): resulting float
+ * @update: if %TRUE, update @entry with the parsed value
+ * @format: (nullable): #GOFormat to match against
+ * @num: default value
+ *
+ * Returns: %TRUE if parsing failed.
+ **/
 gboolean
 entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float,
 				    gboolean update,
@@ -911,6 +984,15 @@ entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float,
 	return entry_to_float_with_format (entry, the_float, update, format);
 }
 
+/**
+ * entry_to_float_with_format:
+ * @entry: #GtkEntry
+ * @the_float: (out): resulting float
+ * @update: if %TRUE, update @entry with the parsed value
+ * @format: (nullable): #GOFormat to match against
+ *
+ * Returns: %TRUE if parsing failed.
+ **/
 gboolean
 entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float,
 			    gboolean update, GOFormat const *format)
@@ -946,6 +1028,7 @@ entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float,
  *
  * Retrieve an int from an entry field parsing all reasonable formats
  *
+ * Returns: %TRUE on error.
  **/
 gboolean
 entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
@@ -978,6 +1061,8 @@ entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
  * @entry:
  * @the_float:
  *
+ * Renders @the_float appropriately for editing and places that text
+ * into @entry.
  **/
 void
 float_to_entry (GtkEntry *entry, gnm_float the_float)
@@ -996,8 +1081,9 @@ float_to_entry (GtkEntry *entry, gnm_float the_float)
  * @entry:
  * @the_int:
  *
- *
-  **/
+ * Renders @the_int appropriately for editing and places that text
+ * into @entry.
+ **/
 void
 int_to_entry (GtkEntry *entry, gint the_int)
 {
@@ -1024,6 +1110,14 @@ cb_activate_button (GtkWidget *button)
 	return FALSE;
 }
 
+/**
+ * gnm_link_button_and_entry:
+ * @button: #GtkWidget
+ * @entry: #GtkWidget
+ *
+ * Links @button and @entry such that clicking @button focuses @entry,
+ * and focusing @entry activates @button.
+ **/
 void
 gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry)
 {
@@ -1038,12 +1132,26 @@ gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_widget_set_cursor:
+ * @w: #GtkWidget
+ * @cursor: (nullable): #GdkCursor
+ *
+ * Sets the cursor for @w.
+ **/
 void
 gnm_widget_set_cursor (GtkWidget *w, GdkCursor *cursor)
 {
 	gdk_window_set_cursor (gtk_widget_get_window (w), cursor);
 }
 
+/**
+ * gnm_widget_set_cursor_type:
+ * @w: #GtkWidget
+ * @ct: #GdkCursorType
+ *
+ * Sets the cursor type for @w.
+ **/
 void
 gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
 {
@@ -1071,10 +1179,10 @@ gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
 
 GtkWidget *
 gnm_message_dialog_create (GtkWindow * parent,
-				GtkDialogFlags flags,
-				GtkMessageType type,
-				gchar const * primary_message,
-				gchar const * secondary_message)
+			   GtkDialogFlags flags,
+			   GtkMessageType type,
+			   gchar const * primary_message,
+			   gchar const * secondary_message)
 {
 	GtkWidget * dialog;
 	GtkWidget * label;
@@ -1168,6 +1276,14 @@ cb_gnm_dialog_setup_destroy_handlers (G_GNUC_UNUSED GtkWidget *widget,
 	g_free (dd);
 }
 
+/**
+ * gnm_dialog_setup_destroy_handlers:
+ * @dialog: #GtkDialog
+ * @wbcg: #WBCGtk
+ * @what: #GnmDialogDestroyOptions
+ *
+ * Sets up handlers to destroy @dialog when certain events occur in @wbcg.
+ **/
 void
 gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
 				   WBCGtk *wbcg,
@@ -1238,6 +1354,16 @@ gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
 }
 
 
+/**
+ * gnm_canvas_get_position:
+ * @canvas: #GocCanvas
+ * @x: (out): resulting x coordinate
+ * @y: (out): resulting y coordinate
+ * @px: canvas x coordinate in pixels
+ * @py: canvas y coordinate in pixels
+ *
+ * Gets the screen position for canvas coordinates (@px, @py).
+ **/
 void
 gnm_canvas_get_position (GocCanvas *canvas, int *x, int *y, gint64 px, gint64 py)
 {
@@ -1259,13 +1385,17 @@ gnm_canvas_get_position (GocCanvas *canvas, int *x, int *y, gint64 px, gint64 py
 	*y = py + wy;
 }
 
-/*
- * Get the gdk position for canvas coordinates (x,y).  This is suitable
- * for tooltip windows.
+/**
+ * gnm_canvas_get_screen_position:
+ * @canvas: #GocCanvas
+ * @x: canvas x coordinate
+ * @y: canvas y coordinate
+ * @ix: (out): resulting x screen coordinate
+ * @iy: (out): resulting y screen coordinate
  *
- * It is possible that this does not work right for very large coordinates
- * prior to gtk+ 2.18.  See the code and comments in gnm_canvas_get_position.
- */
+ * Get the gdk position for canvas coordinates (@x, @y).  This is suitable
+ * for tooltip windows.
+ **/
 void
 gnm_canvas_get_screen_position (GocCanvas *canvas,
 				double x, double y,
@@ -1281,6 +1411,15 @@ gnm_canvas_get_screen_position (GocCanvas *canvas,
 }
 
 
+/**
+ * gnm_check_for_plugins_missing:
+ * @ids: (array zero-terminated=1): plugin ids
+ * @parent: (nullable): parent window for error dialog
+ *
+ * Checks if the plugins identified by @ids are missing or inactive.
+ *
+ * Returns: %TRUE if any plugin is missing or inactive.
+ **/
 gboolean
 gnm_check_for_plugins_missing (char const **ids, GtkWindow *parent)
 {
@@ -1309,6 +1448,13 @@ gnm_check_for_plugins_missing (char const **ids, GtkWindow *parent)
 }
 
 
+/**
+ * gnm_cell_renderer_text_copy_background_to_cairo:
+ * @crt: #GtkCellRendererText
+ * @cr: #cairo_t
+ *
+ * Copies the background color from @crt to @cr.
+ **/
 void
 gnm_cell_renderer_text_copy_background_to_cairo (GtkCellRendererText *crt,
 						 cairo_t *cr)
@@ -1319,6 +1465,13 @@ gnm_cell_renderer_text_copy_background_to_cairo (GtkCellRendererText *crt,
 	gdk_rgba_free (c);
 }
 
+/**
+ * gnm_widget_measure_string:
+ * @w: #GtkWidget
+ * @s: string to measure
+ *
+ * Returns: the width of @s according to the style used by @w.
+ **/
 int
 gnm_widget_measure_string (GtkWidget *w, const char *s)
 {
@@ -1374,6 +1527,15 @@ time_action (GtkAction *a, TimerBounce *b)
 		    name, 1000 * elapsed);
 }
 
+/**
+ * gnm_action_group_add_actions:
+ * @group: #GtkActionGroup
+ * @actions: (array length=n): action entries
+ * @n: number of actions
+ * @user: user data for callbacks
+ *
+ * Adds actions to @group.
+ **/
 void
 gnm_action_group_add_actions (GtkActionGroup *group,
 			      GnmActionEntry const *actions, size_t n,
@@ -1430,6 +1592,13 @@ gnm_action_group_add_actions (GtkActionGroup *group,
 	}
 }
 
+/**
+ * gnm_action_group_add_action:
+ * @group: #GtkActionGroup
+ * @act: #GtkAction
+ *
+ * Adds @act to @group.
+ **/
 void
 gnm_action_group_add_action (GtkActionGroup *group, GtkAction *act)
 {
@@ -1444,6 +1613,13 @@ gnm_action_group_add_action (GtkActionGroup *group, GtkAction *act)
 static int gnm_debug_css = -1;
 
 
+/**
+ * gnm_css_debug_color:
+ * @name: name of the color
+ * @color: #GdkRGBA
+ *
+ * Prints @color to stderr if CSS debugging is enabled.
+ **/
 void
 gnm_css_debug_color (const char *name,
 		     const GdkRGBA *color)
@@ -1457,6 +1633,13 @@ gnm_css_debug_color (const char *name,
 	}
 }
 
+/**
+ * gnm_css_debug_int:
+ * @name: name of the integer
+ * @i: integer value
+ *
+ * Prints @i to stderr if CSS debugging is enabled.
+ **/
 void
 gnm_css_debug_int (const char *name, int i)
 {
@@ -1467,6 +1650,14 @@ gnm_css_debug_int (const char *name, int i)
 }
 
 
+/**
+ * gnm_style_context_get_color:
+ * @context: #GtkStyleContext
+ * @state: #GtkStateFlags
+ * @color: (out): resulting color
+ *
+ * Gets the color for @state from @context.
+ **/
 void
 gnm_style_context_get_color (GtkStyleContext *context,
 			     GtkStateFlags state,
@@ -1482,6 +1673,13 @@ gnm_style_context_get_color (GtkStyleContext *context,
 	gtk_style_context_restore (context);
 }
 
+/**
+ * gnm_get_link_color:
+ * @widget: #GtkWidget
+ * @res: (out): resulting color
+ *
+ * Gets the link color for @widget.
+ **/
 void
 gnm_get_link_color (GtkWidget *widget, GdkRGBA *res)
 {
@@ -1490,6 +1688,14 @@ gnm_get_link_color (GtkWidget *widget, GdkRGBA *res)
 	gnm_css_debug_color ("link.color", res);
 }
 
+/**
+ * gnm_theme_is_dark:
+ * @widget: #GtkWidget
+ *
+ * Returns: %TRUE if the theme for @widget is dark.  (Theming isn't really
+ * per-widget; it's reasonable to assume that the whole ui has the same
+ * theme.)
+ **/
 gboolean
 gnm_theme_is_dark (GtkWidget *widget)
 {
@@ -1510,6 +1716,5 @@ gnm_theme_is_dark (GtkWidget *widget)
 
 	return dark;
 }
-
 
 // ----------------------------------------------------------------------------

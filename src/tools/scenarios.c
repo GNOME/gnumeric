@@ -40,6 +40,12 @@
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_scenario_item_new:
+ * @sheet: #Sheet
+ *
+ * Returns: (transfer full): a newly allocated #GnmScenarioItem.
+ **/
 GnmScenarioItem *
 gnm_scenario_item_new (Sheet *sheet)
 {
@@ -48,6 +54,12 @@ gnm_scenario_item_new (Sheet *sheet)
 	return sci;
 }
 
+/**
+ * gnm_scenario_item_free:
+ * @sci: (transfer full): #GnmScenarioItem
+ *
+ * Frees a #GnmScenarioItem.
+ **/
 void
 gnm_scenario_item_free (GnmScenarioItem *sci)
 {
@@ -65,6 +77,11 @@ gnm_scenario_item_dup (GnmScenarioItem *src)
 	return dst;
 }
 
+/**
+ * gnm_scenario_item_get_type:
+ *
+ * Returns: the #GType for a scenario item.
+ **/
 GType
 gnm_scenario_item_get_type (void)
 {
@@ -78,6 +95,13 @@ gnm_scenario_item_get_type (void)
 	return t;
 }
 
+/**
+ * gnm_scenario_item_set_range:
+ * @sci: #GnmScenarioItem
+ * @sr: (nullable): #GnmSheetRange
+ *
+ * Sets the range for a scenario item.
+ **/
 void
 gnm_scenario_item_set_range (GnmScenarioItem *sci, const GnmSheetRange *sr)
 {
@@ -92,6 +116,13 @@ gnm_scenario_item_set_range (GnmScenarioItem *sci, const GnmSheetRange *sr)
 		dependent_managed_set_expr (&sci->dep, NULL);
 }
 
+/**
+ * gnm_scenario_item_set_value:
+ * @sci: #GnmScenarioItem
+ * @v: (nullable): #GnmValue
+ *
+ * Sets the value for a scenario item.
+ **/
 void
 gnm_scenario_item_set_value (GnmScenarioItem *sci, const GnmValue *v)
 {
@@ -99,6 +130,13 @@ gnm_scenario_item_set_value (GnmScenarioItem *sci, const GnmValue *v)
 	sci->value = value_dup (v);
 }
 
+/**
+ * gnm_scenario_item_valid:
+ * @sci: #GnmScenarioItem
+ * @sr: (out) (optional): #GnmSheetRange
+ *
+ * Returns: %TRUE if the scenario item is valid.
+ **/
 gboolean
 gnm_scenario_item_valid (const GnmScenarioItem *sci, GnmSheetRange *sr)
 {
@@ -146,6 +184,13 @@ gnm_scenario_class_init (GObjectClass *object_class)
 GSF_CLASS (GnmScenario, gnm_scenario,
 	   &gnm_scenario_class_init, NULL, G_TYPE_OBJECT)
 
+/**
+ * gnm_scenario_new:
+ * @name: scenario name
+ * @sheet: #Sheet
+ *
+ * Returns: (transfer full): a newly allocated #GnmScenario.
+ **/
 GnmScenario *
 gnm_scenario_new (char const *name, Sheet *sheet)
 {
@@ -176,6 +221,13 @@ gnm_scenario_dup (GnmScenario *src, Sheet *new_sheet)
 	return dst;
 }
 
+/**
+ * gnm_scenario_set_comment:
+ * @sc: #GnmScenario
+ * @comment: (nullable): scenario comment
+ *
+ * Sets the comment for a scenario.
+ **/
 void
 gnm_scenario_set_comment (GnmScenario *sc, const char *comment)
 {
@@ -210,6 +262,13 @@ cb_save_cells (GnmCellIter const *iter, gpointer user)
 }
 
 
+/**
+ * gnm_scenario_add_area:
+ * @sc: #GnmScenario
+ * @sr: #GnmSheetRange
+ *
+ * Adds an area to a scenario and saves its current values.
+ **/
 void
 gnm_scenario_add_area (GnmScenario *sc, const GnmSheetRange *sr)
 {
@@ -237,7 +296,7 @@ gnm_scenario_add_area (GnmScenario *sc, const GnmSheetRange *sr)
  * gnm_scenario_apply:
  * @sc: #GnmScenario
  *
- * Returns: (transfer full): the newly allocated #GOUndo.
+ * Returns: (transfer full) (nullable): the newly allocated #GOUndo.
  **/
 GOUndo *
 gnm_scenario_apply (GnmScenario *sc)
@@ -275,6 +334,12 @@ gnm_scenario_apply (GnmScenario *sc)
 	return undo;
 }
 
+/**
+ * gnm_scenario_get_range_str:
+ * @sc: #GnmScenario
+ *
+ * Returns: (transfer full): a comma-separated string of ranges in the scenario.
+ **/
 char *
 gnm_scenario_get_range_str (const GnmScenario *sc)
 {

@@ -100,7 +100,7 @@ void	 int_to_entry	(GtkEntry *entry, gint the_int);
 void gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry);
 
 void gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct);
-void gnm_widget_set_cursor (GtkWidget *w, GdkCursor *ct);
+void gnm_widget_set_cursor (GtkWidget *w, GdkCursor *cursor);
 
 int gnm_widget_measure_string (GtkWidget *w, const char *s);
 

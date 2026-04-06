@@ -42,7 +42,7 @@ Morten:
 	* Style the progress bar we use for menu tooltips.
 	* Clean out old references to mailing list and irc.
 	* Documentation updates.
-	* Print using pango context from GtkPrintContext for constistency
+	* Print using pango context from GtkPrintContext for consistency
 	  between gui and non-gui.
 	* GUI files relating to cell sizes.
 	* Fix rare undo problem.

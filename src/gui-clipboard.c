@@ -1164,6 +1164,13 @@ x_clipboard_clear_cb (GtkClipboard *clipboard, gpointer app_)
 	gnm_app_clipboard_clear (FALSE);
 }
 
+/**
+ * gnm_x_request_clipboard:
+ * @wbcg: #WBCGtk
+ * @pt: #GnmPasteTarget
+ *
+ * Requests the clipboard from the X server.
+ **/
 void
 gnm_x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt)
 {
@@ -1257,6 +1264,16 @@ add_target_list (GArray *targets, GtkTargetList *src, AtomInfoType info)
 	gtk_target_table_free (entries, n);
 }
 
+/**
+ * gnm_x_claim_clipboard:
+ * @display: #GdkDisplay
+ *
+ * Claims the clipboard on the given @display, i.e., informs the
+ * window manager that we have a selection that can be pasted
+ * elsewhere.
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 gnm_x_claim_clipboard (GdkDisplay *display)
 {
@@ -1359,6 +1376,11 @@ gnm_x_claim_clipboard (GdkDisplay *display)
 	return ret;
 }
 
+/**
+ * gnm_x_disown_clipboard:
+ *
+ * Disowns the clipboard.
+ **/
 void
 gnm_x_disown_clipboard (void)
 {
@@ -1378,9 +1400,13 @@ gnm_x_disown_clipboard (void)
 	g_slist_free (displays);
 }
 
-/* Hand clipboard off to clipboard manager. To be called before workbook
+/**
+ * gnm_x_store_clipboard_if_needed:
+ * @wb: #Workbook
+ *
+ * Hand clipboard off to clipboard manager. To be called before workbook
  * object is destroyed.
- */
+ **/
 void
 gnm_x_store_clipboard_if_needed (Workbook *wb)
 {
@@ -1410,6 +1436,12 @@ gnm_x_store_clipboard_if_needed (Workbook *wb)
 	}
 }
 
+/**
+ * gui_clipboard_test:
+ * @fmt: MIME type
+ *
+ * Returns: (transfer full) (nullable): the clipboard content as #GBytes.
+ **/
 GBytes *
 gui_clipboard_test (const char *fmt)
 {
@@ -1492,6 +1524,8 @@ gui_clipboard_test (const char *fmt)
 
 /**
  * gui_clipboard_init: (skip)
+ *
+ * Initializes the clipboard system.
  */
 void
 gui_clipboard_init (void)
@@ -1514,6 +1548,8 @@ gui_clipboard_init (void)
 
 /**
  * gui_clipboard_shutdown: (skip)
+ *
+ * Shuts down the clipboard system.
  */
 void
 gui_clipboard_shutdown (void)
