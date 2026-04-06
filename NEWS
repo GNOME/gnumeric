@@ -16,6 +16,9 @@ Morten:
 	* Test suite enhancements
 	* Preserve cvs-to-cvs and cvs-to-txt line endings.
 
+Alex H:
+	* Don't remove initial empty rows/columns for cvs/txt export.
+
 N. Copa:
 	* Fix parallel build trouble.  [#852]
 

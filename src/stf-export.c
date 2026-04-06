@@ -292,8 +292,10 @@ stf_export_sheet (GnmStfExport *stfe, Sheet *sheet)
 	if (exporting >= 0) {
 		if (exporting == 0)
 			return TRUE;
-	} else
+	} else {
 		r = sheet_get_extent (sheet, FALSE, TRUE);
+		r.start.row = r.start.col = 0;
+	}
 
 	for (row = r.start.row; row <= r.end.row; row++) {
 		for (col = r.start.col; col <= r.end.col; col++) {
