@@ -317,7 +317,7 @@ gboolean sheet_range_contains_merges_or_arrays (Sheet const *sheet,
 						char const *cmd,
 						gboolean merges,
 						gboolean arrays);
-void	 sheet_range_bounding_box    (Sheet const *sheet, GnmRange *r);
+void	 sheet_range_bounding_box    (Sheet const *sheet, GnmRange *bound);
 gboolean sheet_range_trim	     (Sheet const *sheet, GnmRange *r,
 				      gboolean cols, gboolean rows);
 gboolean sheet_range_has_heading     (Sheet const *sheet, GnmRange const *src,
@@ -338,8 +338,8 @@ void gnm_sheet_add_sort_setup (Sheet *sheet, char *key, gpointer setup);
 gconstpointer gnm_sheet_find_sort_setup (Sheet *sheet, char const *key);
 
 /* Redraw */
-#define sheet_is_visible(_sheet) ((_sheet)->visibility == GNM_SHEET_VISIBILITY_VISIBLE)
-void     sheet_redraw_all       (Sheet const *sheet, gboolean header);
+gboolean sheet_is_visible (Sheet const *sheet);
+void     sheet_redraw_all       (Sheet const *sheet, gboolean headers);
 void     sheet_redraw_range     (Sheet const *sheet, GnmRange const *range);
 void     sheet_queue_redraw_range (Sheet *sheet, GnmRange const *range);
 void     sheet_redraw_region    (Sheet const *sheet,

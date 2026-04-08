@@ -81,6 +81,11 @@ gnm_sheet_size_copy (GnmSheetSize *size)
 	return res;
 }
 
+/**
+ * gnm_sheet_size_get_type:
+ *
+ * Returns: the #GType for #GnmSheetSize.
+ **/
 GType
 gnm_sheet_size_get_type (void)
 {
@@ -216,6 +221,12 @@ sheet_set_conventions (Sheet *sheet, GnmConventions const *convs)
 	sheet_mark_dirty (sheet);
 }
 
+/**
+ * sheet_get_conventions:
+ * @sheet: #Sheet
+ *
+ * Returns: (transfer none): the #GnmConventions for @sheet.
+ **/
 GnmConventions const *
 sheet_get_conventions (Sheet const *sheet)
 {
@@ -1136,6 +1147,11 @@ GSF_CLASS (GnmSheet, gnm_sheet,
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_sheet_type_get_type:
+ *
+ * Returns: the #GType for #GnmSheetType.
+ **/
 GType
 gnm_sheet_type_get_type (void)
 {
@@ -1152,6 +1168,11 @@ gnm_sheet_type_get_type (void)
   return etype;
 }
 
+/**
+ * gnm_sheet_visibility_get_type:
+ *
+ * Returns: the #GType for #GnmSheetVisibility.
+ **/
 GType
 gnm_sheet_visibility_get_type (void)
 {
@@ -1176,6 +1197,13 @@ powerof_2 (int i)
 	return i > 0 && (i & (i - 1)) == 0;
 }
 
+/**
+ * gnm_sheet_valid_size:
+ * @cols: number of columns
+ * @rows: number of rows
+ *
+ * Returns: %TRUE if the given size is valid for a sheet.
+ **/
 gboolean
 gnm_sheet_valid_size (int cols, int rows)
 {
@@ -1567,7 +1595,27 @@ sheet_new (Workbook *wb, char const *name, int columns, int rows)
 }
 
 /****************************************************************************/
+/**
+ * sheet_is_visible:
+ * @sheet: #Sheet
+ *
+ * Returns: %TRUE if @sheet is visible.
+ **/
+gboolean
+sheet_is_visible (Sheet const *sheet)
+{
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
+	return sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE;
+}
+
+/**
+ * sheet_redraw_all:
+ * @sheet: #Sheet
+ * @headers: if %TRUE, also redraw headers
+ *
+ * Redraws the entire sheet.
+ **/
 void
 sheet_redraw_all (Sheet const *sheet, gboolean headers)
 {
@@ -2344,9 +2392,9 @@ cb_sheet_get_extent (G_GNUC_UNUSED gpointer ignored, gpointer value, gpointer da
 
 /**
  * sheet_get_extent:
- * @sheet: the sheet
- * @spans_and_merges_extend: optionally extend region for spans and merges.
- * @include_hidden: whether to include the content of hidden cells.
+ * @sheet: #Sheet
+ * @spans_and_merges_extend: if %TRUE, merges and spans extend the extent.
+ * @include_hidden: if %TRUE, include hidden columns and rows.
  *
  * calculates the area occupied by cell data.
  *
@@ -2432,6 +2480,12 @@ sheet_get_cells_extent (Sheet const *sheet)
 }
 
 
+/**
+ * sheet_get_nominal_printarea:
+ * @sheet: #Sheet
+ *
+ * Returns: (transfer full) (nullable): the explicitly set print area, or %NULL.
+ **/
 GnmRange *
 sheet_get_nominal_printarea (Sheet const *sheet)
 {
@@ -2473,6 +2527,14 @@ sheet_get_nominal_printarea (Sheet const *sheet)
 	return r;
 }
 
+/**
+ * sheet_get_printarea:
+ * @sheet: #Sheet
+ * @include_styles: if %TRUE, include styles in the extent if no print area is set.
+ * @ignore_printarea: if %TRUE, ignore any explicitly set print area.
+ *
+ * Returns: the print area of the sheet.
+ **/
 GnmRange
 sheet_get_printarea (Sheet const *sheet,
 		     gboolean include_styles,
@@ -3201,16 +3263,15 @@ sheet_cell_set_value_gi (Sheet *sheet, int col, int row, GnmValue *v)
 
 /****************************************************************************/
 
-/*
- * This routine is used to queue the redraw regions for the
- * cell region specified.
+/**
+ * sheet_range_bounding_box:
+ * @sheet: #Sheet
+ * @bound: (inout): range to extend
  *
- * It is usually called before a change happens to a region,
- * and after the change has been done to queue the regions
- * for the old contents and the new contents.
+ * Extends @bound to include all spanned and merged cells that overlap it.
  *
- * It intelligently handles spans and merged ranges
- */
+ * It intelligently handles spans and merged ranges.
+ **/
 void
 sheet_range_bounding_box (Sheet const *sheet, GnmRange *bound)
 {
@@ -3277,6 +3338,16 @@ sheet_range_bounding_box (Sheet const *sheet, GnmRange *bound)
 	}
 }
 
+/**
+ * sheet_redraw_region:
+ * @sheet: #Sheet
+ * @start_col: starting column
+ * @start_row: starting row
+ * @end_col: ending column
+ * @end_row: ending row
+ *
+ * Redraws the region from (@start_col, @start_row) to (@end_col, @end_row).
+ **/
 void
 sheet_redraw_region (Sheet const *sheet,
 		     int start_col, int start_row,
@@ -3388,6 +3459,13 @@ sheet_queue_redraw_range (Sheet *sheet, GnmRange const *range)
 
 /****************************************************************************/
 
+/**
+ * sheet_col_is_hidden:
+ * @sheet: #Sheet
+ * @col: column index
+ *
+ * Returns: %TRUE if the column is hidden.
+ **/
 gboolean
 sheet_col_is_hidden (Sheet const *sheet, int col)
 {
@@ -3395,6 +3473,13 @@ sheet_col_is_hidden (Sheet const *sheet, int col)
 	return (res != NULL && !res->visible);
 }
 
+/**
+ * sheet_row_is_hidden:
+ * @sheet: #Sheet
+ * @row: row index
+ *
+ * Returns: %TRUE if the row is hidden.
+ **/
 gboolean
 sheet_row_is_hidden (Sheet const *sheet, int row)
 {
@@ -3934,6 +4019,12 @@ sheet_colrow_optimize1 (int max, int max_used, ColRowCollection *collection)
 	collection->max_used = max_used;
 }
 
+/**
+ * sheet_colrow_optimize:
+ * @sheet: #Sheet
+ *
+ * Frees unused column/row data.
+ **/
 void
 sheet_colrow_optimize (Sheet *sheet)
 {
@@ -4120,12 +4211,12 @@ sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
 
 /**
  * gnm_sheet_mark_colrow_changed:
- * @sheet: The sheet to query
- * @colrow: column number
- * @is_cols: %TRUE for columns, %FALSE for rows.
+ * @sheet: #Sheet
+ * @colrow: index of column or row
+ * @is_cols: %TRUE for column, %FALSE for row
  *
  * This marks the given column or row as being changed.
- */
+ **/
 void
 gnm_sheet_mark_colrow_changed (Sheet *sheet, int colrow, gboolean is_cols)
 {
@@ -4146,6 +4237,15 @@ gnm_sheet_mark_colrow_changed (Sheet *sheet, int colrow, gboolean is_cols)
 		MIN (infos->last_valid_pixel_start, ix - 1);
 }
 
+/**
+ * sheet_colrow_copy_info:
+ * @sheet: #Sheet
+ * @colrow: index of column or row
+ * @is_cols: %TRUE for column, %FALSE for row
+ * @cri: #ColRowInfo to copy from
+ *
+ * Copies info from @cri to the column or row at @colrow.
+ **/
 void
 sheet_colrow_copy_info (Sheet *sheet, int colrow, gboolean is_cols,
 			ColRowInfo const *cri)
@@ -4609,6 +4709,14 @@ sheet_is_region_empty (Sheet *sheet, GnmRange const *r)
 		cb_fail_if_exist, NULL) == NULL;
 }
 
+/**
+ * sheet_is_cell_empty:
+ * @sheet: #Sheet
+ * @col: column index
+ * @row: row index
+ *
+ * Returns: %TRUE if the cell at (@col, @row) is empty.
+ **/
 gboolean
 sheet_is_cell_empty (Sheet *sheet, int col, int row)
 {
@@ -4935,6 +5043,12 @@ cb_remove_allcells (G_GNUC_UNUSED gpointer ignore0, GnmCell *cell, G_GNUC_UNUSED
 	cell_free (cell);
 }
 
+/**
+ * sheet_destroy_contents:
+ * @sheet: #Sheet
+ *
+ * Destroys all contents of @sheet.
+ **/
 void
 sheet_destroy_contents (Sheet *sheet)
 {
@@ -5250,6 +5364,12 @@ GOUndo *sheet_clear_region_undo (GnmSheetRange *sr, int clear_flags)
 
 /*****************************************************************************/
 
+/**
+ * sheet_mark_dirty:
+ * @sheet: #Sheet
+ *
+ * Marks @sheet as modified.
+ **/
 void
 sheet_mark_dirty (Sheet *sheet)
 {
@@ -6388,6 +6508,12 @@ sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 
 /****************************************************************************/
 
+/**
+ * sheet_scrollbar_config:
+ * @sheet: #Sheet
+ *
+ * Configures scrollbars for @sheet.
+ **/
 void
 sheet_scrollbar_config (Sheet const *sheet)
 {
@@ -6684,6 +6810,13 @@ sheet_get_view (Sheet const *sheet, WorkbookView const *wbv)
 	return NULL;
 }
 
+/**
+ * sheet_freeze_object_views:
+ * @sheet: #Sheet
+ * @qfreeze: %TRUE to freeze, %FALSE to thaw
+ *
+ * Freezes or thaws all object views in @sheet.
+ **/
 void
 sheet_freeze_object_views (Sheet const *sheet, gboolean qfreeze)
 {
@@ -6716,6 +6849,12 @@ sheet_queue_respan (Sheet const *sheet, int start_row, int end_row)
 			      cb_queue_respan, NULL);
 }
 
+/**
+ * sheet_cell_queue_respan:
+ * @cell: #GnmCell
+ *
+ * Queues a respan for the row containing @cell.
+ **/
 void
 sheet_cell_queue_respan (GnmCell *cell)
 {
@@ -6930,6 +7069,13 @@ gnm_sheet_get_size2 (Sheet const *sheet, Workbook const *wb)
 		: workbook_get_sheet_size (wb);
 }
 
+/**
+ * gnm_sheet_set_solver_params:
+ * @sheet: #Sheet
+ * @param: (transfer full): #GnmSolverParameters
+ *
+ * Sets the solver parameters for @sheet.
+ **/
 void
 gnm_sheet_set_solver_params (Sheet *sheet, GnmSolverParameters *param)
 {
@@ -7039,6 +7185,13 @@ gnm_sheet_scenario_add (Sheet *sheet, GnmScenario *sc)
 	sheet->scenarios = g_list_append (sheet->scenarios, sc);
 }
 
+/**
+ * gnm_sheet_scenario_remove:
+ * @sheet: #Sheet
+ * @sc: (transfer none): #GnmScenario
+ *
+ * Removes a scenario from @sheet.
+ **/
 void
 gnm_sheet_scenario_remove (Sheet *sheet, GnmScenario *sc)
 {
@@ -7071,6 +7224,14 @@ gnm_sheet_get_sort_setups (Sheet *sheet)
 	return hash;
 }
 
+/**
+ * gnm_sheet_add_sort_setup:
+ * @sheet: #Sheet
+ * @key: unique key for the setup
+ * @setup: the setup to add
+ *
+ * Adds a sort setup to @sheet.
+ **/
 void
 gnm_sheet_add_sort_setup (Sheet *sheet, char *key, gpointer setup)
 {
