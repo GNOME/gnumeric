@@ -516,11 +516,11 @@ typedef struct {
 	char *style_name;
 } span_style_info_t;
 
-typedef struct {
-	GnmConventions base;
-	OOParseState *state;
-	GsfXMLIn *xin;
-} ODFConventions;
+static inline OOParseState *
+odf_get_data (GnmConventions const *convs)
+{
+	return (OOParseState *)convs->pdata;
+}
 
 typedef struct {
 	GOColor from;
@@ -1692,7 +1692,7 @@ oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
 	char *external = NULL;
 	char *external_sheet_1 = NULL;
 	char *external_sheet_2 = NULL;
-	ODFConventions *oconv = (ODFConventions *)convs;
+	OOParseState *state = convs ? odf_get_data (convs) : NULL;
 
 	ptr = odf_parse_external (start, &external, convs);
 
@@ -1723,8 +1723,8 @@ oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
 
 		ext_wb = (*convs->input.external_wb) (convs, ref_wb, external);
 		if (ext_wb == NULL) {
-			if (oconv != NULL)
-				oo_warning (oconv->state,
+			if (state != NULL)
+				oo_warning (state,
 					    _("Ignoring reference to unknown "
 					      "external workbook '%s'"),
 					    external);
@@ -2308,9 +2308,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 static GnmConventions *
 oo_conventions_new (OOParseState *state, GsfXMLIn *xin)
 {
-	GnmConventions *conv = gnm_conventions_new_full
-		(sizeof (ODFConventions));
-	ODFConventions *oconv = (ODFConventions *)conv;
+	GnmConventions *conv = gnm_conventions_new ();
 	conv->decode_ampersands	= TRUE;
 	conv->exp_is_left_associative = TRUE;
 
@@ -2327,8 +2325,7 @@ oo_conventions_new (OOParseState *state, GsfXMLIn *xin)
 	conv->input.name        = odf_name_parser;
 	conv->input.name_validate = odf_expr_name_validate;
 	conv->sheet_name_sep	= '.';
-	oconv->state            = state;
-	oconv->xin              = xin;
+	gnm_conventions_set_extension (conv, state, NULL);
 
 	return conv;
 }
@@ -8586,8 +8583,7 @@ odf_clear_conventions (OOParseState *state)
 {
 	gint i;
 	for (i = 0; i < NUM_FORMULAE_SUPPORTED; i++) {
-		gnm_conventions_unref (state->convs[i]);
-		state->convs[i] = NULL;
+		g_clear_object (&state->convs[i]);
 	}
 }
 
@@ -13908,22 +13904,22 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 	GnmFunc  *f = NULL;
 	int i;
 	GnmExpr const * (*handler) (GnmConventions const *convs, Workbook *scope, GnmExprList *args);
-	ODFConventions *oconv = (ODFConventions *)convs;
+	OOParseState *state = odf_get_data (convs);
 	GHashTable *namemap;
 	GHashTable *handlermap;
 
-	if (NULL == oconv->state->openformula_namemap) {
+	if (NULL == state->openformula_namemap) {
 		namemap = g_hash_table_new (go_ascii_strcase_hash,
 					    go_ascii_strcase_equal);
 		for (i = 0; sc_func_renames[i].oo_name; i++)
 			g_hash_table_insert (namemap,
 				(gchar *) sc_func_renames[i].oo_name,
 				(gchar *) sc_func_renames[i].gnm_name);
-		oconv->state->openformula_namemap = namemap;
+		state->openformula_namemap = namemap;
 	} else
-		namemap = oconv->state->openformula_namemap;
+		namemap = state->openformula_namemap;
 
-	if (NULL == oconv->state->openformula_handlermap) {
+	if (NULL == state->openformula_handlermap) {
 		guint i;
 		handlermap = g_hash_table_new (go_ascii_strcase_hash,
 					       go_ascii_strcase_equal);
@@ -13931,9 +13927,9 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 			g_hash_table_insert (handlermap,
 					     (gchar *) sc_func_handlers[i].gnm_name,
 					     sc_func_handlers[i].handler);
-		oconv->state->openformula_handlermap = handlermap;
+		state->openformula_handlermap = handlermap;
 	} else
-		handlermap = oconv->state->openformula_handlermap;
+		handlermap = state->openformula_handlermap;
 
 	handler = g_hash_table_lookup (handlermap, name);
 	if (handler != NULL) {

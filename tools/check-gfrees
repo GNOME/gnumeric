@@ -28,7 +28,7 @@ my @free_funcs = qw(g_free
 		    gnm_expr_list_free gnm_expr_list_unref
 		    go_format_unref value_release
 		    gnm_action_unref gnm_criteria_unref gnm_expr_sharer_unref
-		    gnm_expr_deriv_info_unref gnm_matrix_unref gnm_conventions_unref
+		    gnm_expr_deriv_info_unref gnm_matrix_unref
 		    workbook_sheet_state_unref gnm_named_expr_collection_unref
 		    go_string_unref style_color_unref gnm_style_border_unref
 		    gnm_expr_top_unref);

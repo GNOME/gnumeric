@@ -5383,7 +5383,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	if (state.rich_attrs) pango_attr_list_unref (state.rich_attrs);
 	if (state.run_attrs) pango_attr_list_unref (state.run_attrs);
 	g_hash_table_destroy (state.pivot.cache_by_id);
-	xlsx_conventions_free (state.convs);
+	g_object_unref (state.convs);
 	go_format_unref (state.date_fmt);
 	g_hash_table_destroy (state.num_fmts);
 	g_hash_table_destroy (state.cell_styles);

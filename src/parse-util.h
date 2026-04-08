@@ -4,7 +4,14 @@
 #include <gnumeric.h>
 #include <libgnumeric.h>
 
+#include <glib-object.h>
+
 G_BEGIN_DECLS
+
+typedef struct _GnmConventions GnmConventions;
+
+#define GNM_CONVENTIONS_TYPE (gnm_conventions_get_type ())
+G_DECLARE_FINAL_TYPE (GnmConventions, gnm_conventions, GNM, CONVENTIONS, GObject)
 
 char const *col_name  (int col);
 char const *cols_name (int start_col, int end_col);
@@ -95,15 +102,9 @@ typedef enum {
 	GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID	   = 1 << 5
 } GnmExprParseFlags;
 
-struct GnmConventions_ {
-	int ref_count;
+struct _GnmConventions {
+	GObject parent;
 
-#if 0
-	/* Not yet.  */
-	gboolean force_absolute_col_references;
-	gboolean force_absolute_row_references;
-	gboolean force_explicit_sheet_references;
-#endif
 	gboolean r1c1_addresses;
 
 	/* Whether function names should be translated.  */
@@ -203,13 +204,14 @@ struct GnmConventions_ {
 		GString * (*quote_sheet_name) (GnmConventions const *convs,
 					       char const *name);
 	} output;
-};
-GType           gnm_conventions_get_type (void);
-GnmConventions *gnm_conventions_new	 (void);
-GnmConventions *gnm_conventions_new_full (unsigned size);
 
-GnmConventions *gnm_conventions_ref	 (GnmConventions const *c);
-void		gnm_conventions_unref	 (GnmConventions *c);
+	gpointer pdata;
+	GDestroyNotify pdata_free;
+};
+
+GnmConventions *gnm_conventions_new	 (void);
+
+void gnm_conventions_set_extension (GnmConventions *convs, gpointer pdata, GDestroyNotify pdata_free);
 
 
 GNM_VAR_DECL GnmConventions const *gnm_conventions_default;

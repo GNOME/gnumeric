@@ -408,7 +408,7 @@ sylk_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 	gsf_output_puts (output, "E\r\n");
 	gnm_pop_C_locale (locale);
-	gnm_conventions_unref (state.convs);
+	g_object_unref (state.convs);
 
 	g_hash_table_destroy (state.font_hash);
 	g_ptr_array_free (state.fonts, TRUE);

@@ -1047,7 +1047,7 @@ sc_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	}
 	g_object_unref (state.textline);
 	g_iconv_close (state.converter);
-	gnm_conventions_unref (state.convs);
+	g_object_unref (state.convs);
 	g_free (state.last_error);
 	sc_parse_format_free_precision (&state);
 

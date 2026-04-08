@@ -41,18 +41,23 @@
 #include <gutils.h>
 
 typedef struct {
-	GnmConventions base;
 	GHashTable *extern_id_by_wb;
 	GHashTable *extern_wb_by_id;
 	GHashTable *xlfn_map;
 	GHashTable *xlfn_handler_map;
-} XLSXExprConventions;
+} XLSXExprData;
+
+static inline XLSXExprData *
+xlsx_get_data (GnmConventions const *convs)
+{
+	return (XLSXExprData *)convs->pdata;
+}
 
 static void
 xlsx_add_extern_id (GnmConventionsOut *out, Workbook *wb)
 {
 	if (wb != out->pp->wb) {
-		XLSXExprConventions const *xconv = (XLSXExprConventions const *)out->convs;
+		XLSXExprData const *xconv = xlsx_get_data (out->convs);
 		char *id = g_hash_table_lookup (xconv->extern_id_by_wb, wb);
 		if (NULL == id) {
 			id = g_strdup_printf ("[%u]",
@@ -69,7 +74,7 @@ xlsx_lookup_external_wb (GnmConventions const *convs,
 			 G_GNUC_UNUSED Workbook *ref_wb,
 			 char const *name)
 {
-	XLSXExprConventions const *xconv = (XLSXExprConventions const *)convs;
+	XLSXExprData const *xconv = xlsx_get_data (convs);
 	if (strcmp (name, "0") == 0)
 		return ref_wb;
 	if (0) g_printerr ("lookup '%s'\n", name);
@@ -116,7 +121,7 @@ xlsx_rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 Workbook *
 xlsx_conventions_add_extern_ref (GnmConventions *convs, char const *path)
 {
-	XLSXExprConventions *xconv = (XLSXExprConventions *)convs;
+	XLSXExprData *xconv = xlsx_get_data (convs);
 	Workbook *res = g_object_new (GNM_WORKBOOK_TYPE, NULL);
 	char *id;
 
@@ -135,7 +140,7 @@ xlsx_func_map_in (GnmConventions const *convs,
 		  G_GNUC_UNUSED Workbook *scope,
 		  char const *name, GnmExprList *args)
 {
-	XLSXExprConventions const *xconv = (XLSXExprConventions const *)convs;
+	XLSXExprData const *xconv = xlsx_get_data (convs);
 	GnmExpr const * (*handler) (GnmConventions const *convs, Workbook *scope,
 				    GnmExprList *args);
 	GnmFunc  *f;
@@ -169,7 +174,7 @@ xlsx_func_map_in (GnmConventions const *convs,
 static void
 xlsx_func_map_out (GnmConventionsOut *out, GnmExprFunction const *func)
 {
-	XLSXExprConventions const *xconv = (XLSXExprConventions const *)(out->convs);
+	XLSXExprData const *xconv = xlsx_get_data (out->convs);
 	GnmFunc *gfunc = gnm_expr_get_func_def ((GnmExpr *)func);
 	char const *name = gnm_func_get_name (gfunc, FALSE);
 	gboolean (*handler) (GnmConventionsOut *out, GnmExprFunction const *func);
@@ -549,6 +554,21 @@ xlsx_output_string (GnmConventionsOut *out, GOString const *str)
 	g_string_append_c (out->accum, '"');
 }
 
+static void
+xlsx_conventions_pdata_free (gpointer pdata)
+{
+	XLSXExprData *xconv = pdata;
+	if (xconv->extern_id_by_wb)
+		g_hash_table_destroy (xconv->extern_id_by_wb);
+	if (xconv->extern_wb_by_id)
+		g_hash_table_destroy (xconv->extern_wb_by_id);
+	if (xconv->xlfn_map)
+		g_hash_table_destroy (xconv->xlfn_map);
+	if (xconv->xlfn_handler_map)
+		g_hash_table_destroy (xconv->xlfn_handler_map);
+	g_free (xconv);
+}
+
 GnmConventions *
 xlsx_conventions_new (gboolean output)
 {
@@ -626,10 +646,11 @@ xlsx_conventions_new (gboolean output)
 		{ "Z.TEST", "ZTEST" },
 		{ NULL, NULL }
 	};
-	GnmConventions *convs = gnm_conventions_new_full (
-		sizeof (XLSXExprConventions));
-	XLSXExprConventions *xconv = (XLSXExprConventions *)convs;
+	GnmConventions *convs = gnm_conventions_new ();
+	XLSXExprData *xconv = g_new0 (XLSXExprData, 1);
 	int i;
+
+	gnm_conventions_set_extension (convs, xconv, xlsx_conventions_pdata_free);
 
 	convs->decimal_sep_dot		= TRUE;
 	convs->input.range_ref		= rangeref_parse;
@@ -690,17 +711,6 @@ xlsx_conventions_new (gboolean output)
 	}
 
 	return convs;
-}
-
-void
-xlsx_conventions_free (GnmConventions *convs)
-{
-	XLSXExprConventions *xconv = (XLSXExprConventions *)convs;
-	g_hash_table_destroy (xconv->extern_id_by_wb);
-	g_hash_table_destroy (xconv->extern_wb_by_id);
-	g_hash_table_destroy (xconv->xlfn_map);
-	g_hash_table_destroy (xconv->xlfn_handler_map);
-	gnm_conventions_unref (convs);
 }
 
 /**

@@ -157,10 +157,11 @@ typedef struct {
 	float sheet_progress;
 } GnmOOExport;
 
-typedef struct {
-	GnmConventions base;
-	GnmOOExport *state;
-} ODFConventions;
+static inline GnmOOExport *
+odf_get_data (GnmConventions const *convs)
+{
+	return (GnmOOExport *)convs->pdata;
+}
 
 
 typedef struct {
@@ -2660,14 +2661,14 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "ZTEST","ZTEST" },
 		{ NULL, NULL }
 	};
-	ODFConventions *oconv = (ODFConventions *)(out->convs);
+	GnmOOExport *state = odf_get_data (out->convs);
 	GHashTable *namemap;
 	GHashTable *handlermap;
 
 	char const *name = gnm_func_get_name (func->func, FALSE);
 	gboolean (*handler) (GnmConventionsOut *out, GnmExprFunction const *func);
 
-	if (NULL == oconv->state->openformula_namemap) {
+	if (NULL == state->openformula_namemap) {
 		guint i;
 		namemap = g_hash_table_new (go_ascii_strcase_hash,
 					    go_ascii_strcase_equal);
@@ -2675,11 +2676,11 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 			g_hash_table_insert (namemap,
 					     (gchar *) sc_func_renames[i].gnm_name,
 					     (gchar *) sc_func_renames[i].odf_name);
-		oconv->state->openformula_namemap = namemap;
+		state->openformula_namemap = namemap;
 	} else
-		namemap = oconv->state->openformula_namemap;
+		namemap = state->openformula_namemap;
 
-	if (NULL == oconv->state->openformula_handlermap) {
+	if (NULL == state->openformula_handlermap) {
 		guint i;
 		handlermap = g_hash_table_new (go_ascii_strcase_hash,
 					       go_ascii_strcase_equal);
@@ -2687,9 +2688,9 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 			g_hash_table_insert (handlermap,
 					     (gchar *) sc_func_handlers[i].gnm_name,
 					     sc_func_handlers[i].handler);
-		oconv->state->openformula_handlermap = handlermap;
+		state->openformula_handlermap = handlermap;
 	} else
-		handlermap = oconv->state->openformula_handlermap;
+		handlermap = state->openformula_handlermap;
 
 	handler = g_hash_table_lookup (handlermap, name);
 
@@ -2740,9 +2741,7 @@ odf_boolean_handler (GnmConventionsOut *out, gboolean val)
 static GnmConventions *
 odf_expr_conventions_new (GnmOOExport *state)
 {
-	GnmConventions *conv = gnm_conventions_new_full
-		(sizeof (ODFConventions));
-	ODFConventions *oconv = (ODFConventions *)conv;
+	GnmConventions *conv = gnm_conventions_new ();
 
 	conv->sheet_name_sep		= '.';
 	conv->arg_sep			= ';';
@@ -2764,7 +2763,7 @@ odf_expr_conventions_new (GnmOOExport *state)
 			(l10 == (int)l10 ? 0 : 1);
 	}
 
-	oconv->state                    = state;
+	gnm_conventions_set_extension (conv, state, NULL);
 
 	return conv;
 }
@@ -5253,7 +5252,7 @@ odf_render_cell (GnmOOExport *state, char const *args)
 			args += 4;
 		texpr = gnm_expr_parse_str (args, &pp, GNM_EXPR_PARSE_DEFAULT,
 				    convs, NULL);
-		gnm_conventions_unref (convs);
+		g_object_unref (convs);
 		if (texpr) {
 			formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
 			gnm_expr_top_unref (texpr);
@@ -9172,7 +9171,7 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 		/* Complain fiercely? */
 	}
 
-	gnm_conventions_unref (state.conv);
+	g_object_unref (state.conv);
 	if (state.openformula_namemap)
 		g_hash_table_destroy (state.openformula_namemap);
 	if (state.openformula_handlermap)

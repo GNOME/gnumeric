@@ -1468,6 +1468,12 @@ xml_write_calculation (GnmOutputXML *state)
 	gsf_xml_out_end_element (state->output); /* </gnm:Calculation> */
 }
 
+/**
+ * gnm_xml_io_conventions:
+ *
+ * Returns: (transfer full): new #GnmConventions suitable for import/export
+ * to the gnumeric format.
+ */
 GnmConventions *
 gnm_xml_io_conventions (void)
 {
@@ -1559,7 +1565,7 @@ gnm_xml_file_save_full (G_GNUC_UNUSED GOFileSaver const *fs,
 
 	g_hash_table_destroy (state.expr_map);
 	g_string_free (state.cell_str, TRUE);
-	gnm_conventions_unref (state.convs);
+	g_clear_object (&state.convs);
 	g_object_unref (state.output);
 
 	if (gzout) {
@@ -1723,7 +1729,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 
 	g_hash_table_destroy (state.state.expr_map);
 	g_string_free (state.state.cell_str, TRUE);
-	gnm_conventions_unref (state.state.convs);
+	g_clear_object (&state.state.convs);
 	g_object_unref (state.state.output);
 
 	gsf_output_close (buf);

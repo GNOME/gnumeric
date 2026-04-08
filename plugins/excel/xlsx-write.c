@@ -3245,7 +3245,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	gsf_xml_out_end_element (xml); /* </workbook> */
 	g_object_unref (xml);
 
-	xlsx_conventions_free (state->convs);
+	g_object_unref (state->convs);
 	g_hash_table_destroy (state->shared_string_hash);
 	g_ptr_array_free (state->shared_string_array, TRUE);
 	g_hash_table_destroy (state->styles_hash);

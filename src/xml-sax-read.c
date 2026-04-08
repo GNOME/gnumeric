@@ -3561,8 +3561,7 @@ read_file_free_state (XMLSaxParseState *state, gboolean self)
 	g_hash_table_destroy (state->expr_map);
 	state->expr_map = NULL;
 
-	gnm_conventions_unref (state->convs);
-	state->convs = NULL;
+	g_clear_object (&state->convs);
 
 	/*
 	 * Malformed documents can cause the parser to exit early.

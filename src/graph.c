@@ -66,8 +66,8 @@ set_pending_convs (GOData *data, const GnmConventions *convs)
 {
 	g_object_set_data_full (G_OBJECT (data),
 				"unserialize-convs",
-				gnm_conventions_ref ((gpointer)convs),
-				(GDestroyNotify)gnm_conventions_unref);
+				g_object_ref ((gpointer)convs),
+				(GDestroyNotify)g_object_unref);
 }
 
 /* ------------------------------------------------------------------------- */

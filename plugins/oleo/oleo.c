@@ -292,6 +292,6 @@ oleo_read (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 		gnm_style_unref (style);
 
 	g_iconv_close (state.converter);
-	gnm_conventions_unref (state.convs);
+	g_object_unref (state.convs);
 	g_object_unref (state.textline);
 }

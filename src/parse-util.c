@@ -1500,24 +1500,9 @@ std_string_parser (char const *in, GString *target,
 	return go_strunescape (target, in);
 }
 
-/**
- * gnm_conventions_new_full:
- * @size:
- *
- * Construct a GnmConventions of @size.
- *
- * Returns: (transfer full): A #GnmConventions with default values.
- **/
-GnmConventions *
-gnm_conventions_new_full (unsigned size)
+static void
+gnm_conventions_init (GnmConventions *convs)
 {
-	GnmConventions *convs;
-
-	g_return_val_if_fail (size >= sizeof (GnmConventions), NULL);
-
-	convs = g_malloc0 (size);
-	convs->ref_count = 1;
-
 	convs->r1c1_addresses           = FALSE;
 	convs->localized_function_names = FALSE;
 
@@ -1541,71 +1526,50 @@ gnm_conventions_new_full (unsigned size)
 	convs->output.range_ref		= rangeref_as_string;
 	convs->output.boolean		= NULL;
 	convs->output.quote_sheet_name	= std_sheet_name_quote;
+}
 
-	return convs;
+G_DEFINE_TYPE (GnmConventions, gnm_conventions, G_TYPE_OBJECT)
+
+static void
+gnm_conventions_finalize (GObject *obj)
+{
+	GnmConventions *convs = GNM_CONVENTIONS (obj);
+	if (convs->pdata_free)
+		convs->pdata_free (convs->pdata);
+	G_OBJECT_CLASS (gnm_conventions_parent_class)->finalize (obj);
+}
+
+static void
+gnm_conventions_class_init (GnmConventionsClass *klass)
+{
+	G_OBJECT_CLASS (klass)->finalize = gnm_conventions_finalize;
 }
 
 /**
  * gnm_conventions_new:
- *
- * A convenience wrapper around gnm_conventions_new_full
- * that constructs a GnmConventions of std size.
  *
  * Returns: (transfer full): A #GnmConventions with default values.
  **/
 GnmConventions *
 gnm_conventions_new (void)
 {
-	return gnm_conventions_new_full (sizeof (GnmConventions));
+	return g_object_new (GNM_CONVENTIONS_TYPE, NULL);
 }
 
 /**
- * gnm_conventions_unref: (skip)
- * @c: (transfer full): #GnmConventions
- *
- * Release a reference to a #GnmConvention
+ * gnm_conventions_set_extension:
+ * @convs: #GnmConventions
+ * @pdata: pointer to plugin-specific data
+ * @pdata_free: function to free @pdata when @convs is destroyed
  **/
 void
-gnm_conventions_unref (GnmConventions *c)
+gnm_conventions_set_extension (GnmConventions *convs, gpointer pdata, GDestroyNotify pdata_free)
 {
-	if (c == NULL)
-		return;
-
-	g_return_if_fail (c->ref_count > 0);
-
-	c->ref_count--;
-	if (c->ref_count > 0)
-		return;
-
-	g_free (c);
-}
-
-/**
- * gnm_conventions_ref: (skip)
- * @c: (transfer none) (nullable): #GnmConventions
- *
- * Returns: (transfer full) (nullable): a new reference to @c
- **/
-GnmConventions *
-gnm_conventions_ref (GnmConventions const *c)
-{
-	GnmConventions *uc = (GnmConventions *)c;
-	if (uc)
-		uc->ref_count++;
-	return uc;
-}
-
-GType
-gnm_conventions_get_type (void)
-{
-	static GType t = 0;
-
-	if (t == 0) {
-		t = g_boxed_type_register_static ("GnmConventions",
-			 (GBoxedCopyFunc)gnm_conventions_ref,
-			 (GBoxedFreeFunc)gnm_conventions_unref);
-	}
-	return t;
+	g_return_if_fail (GNM_IS_CONVENTIONS (convs));
+	if (convs->pdata_free)
+		convs->pdata_free (convs->pdata);
+	convs->pdata = pdata;
+	convs->pdata_free = pdata_free;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1635,9 +1599,9 @@ parse_util_init (void)
 void
 parse_util_shutdown (void)
 {
-	gnm_conventions_unref ((GnmConventions *)gnm_conventions_default);
+	g_object_unref ((GnmConventions *)gnm_conventions_default);
 	gnm_conventions_default = NULL;
-	gnm_conventions_unref ((GnmConventions *)gnm_conventions_xls_r1c1);
+	g_object_unref ((GnmConventions *)gnm_conventions_xls_r1c1);
 	gnm_conventions_xls_r1c1 = NULL;
 }
 
