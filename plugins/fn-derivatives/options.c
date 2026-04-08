@@ -1966,7 +1966,7 @@ static GnmFuncHelp const help_opt_binomial[] = {
 
 
 
-GnmFuncDescriptor const derivatives_functions [] = {
+GnmFuncDescriptor const derivatives_functions[] = {
 	{ "opt_bs",
 	  "sfffff|f",
 	  help_opt_bs, opt_bs, NULL,

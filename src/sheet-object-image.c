@@ -53,10 +53,10 @@ so_image_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean v
 		double old_x1, old_y1, old_x2, old_y2, old_width, old_height;
 		GdkPixbuf *placeholder = g_object_get_data (G_OBJECT (item), "tile");
 
-		x = MIN (coords [0], coords [2]) / scale;
-		y = MIN (coords [1], coords [3]) / scale;
-		width  = fabs (coords [2] - coords [0]) / scale;
-		height = fabs (coords [3] - coords [1]) / scale;
+		x = MIN (coords[0], coords[2]) / scale;
+		y = MIN (coords[1], coords[3]) / scale;
+		width  = fabs (coords[2] - coords[0]) / scale;
+		height = fabs (coords[3] - coords[1]) / scale;
 
 		goc_item_get_bounds (item, &old_x1, &old_y1, &old_x2, &old_y2);
 		goc_item_set (item,

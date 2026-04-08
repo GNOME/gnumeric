@@ -24,7 +24,7 @@
 static char const * const field_types = "CNLDMF?BGPYTI";
 
 #if XBASE_DEBUG > 0
-static char const * const field_type_descriptions [] = {
+static char const * const field_type_descriptions[] = {
 	"Character", "Number", "Logical", "Date", "Memo", "Floating point",
 	"Character name variable", "Binary", "General", "Picture", "Currency",
 	"DateTime", "Integer"
@@ -111,7 +111,7 @@ xbase_read_header (XBfile *x, GOErrorInfo **ret_error)
 		guint8 const id;
 		int    const codepage;
 		char const *const name;
-	} const codepages [] = {
+	} const codepages[] = {
 		{ 0x01, 437, "U.S. MS-DOS" },
 		{ 0x02, 850, "International MS-DOS" },
 		{ 0x03, 1252, "Windows ANSI" },

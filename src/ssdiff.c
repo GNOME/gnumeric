@@ -46,7 +46,7 @@ static gboolean ssdiff_highlight = FALSE;
 static gboolean ssdiff_xml = FALSE;
 static char *ssdiff_output = NULL;
 
-static const GOptionEntry ssdiff_options [] = {
+static const GOptionEntry ssdiff_options[] = {
 	{
 		"version", 'v',
 		0, G_OPTION_ARG_NONE, &ssdiff_show_version,

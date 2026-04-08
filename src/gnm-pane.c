@@ -2076,8 +2076,8 @@ gnm_pane_display_obj_size_tip (GnmPane *pane, GocItem *ctrl_pt)
 	msg = g_strdup_printf (_("%.1f x %.1f pts\n%d x %d pixels"),
 		MAX (fabs (pts[2] - pts[0]), 0),
 		MAX (fabs (pts[3] - pts[1]), 0),
-		MAX ((int)floor (fabs (coords [2] - coords [0]) + 0.5), 0),
-		MAX ((int)floor (fabs (coords [3] - coords [1]) + 0.5), 0));
+		MAX ((int)floor (fabs (coords[2] - coords[0]) + 0.5), 0),
+		MAX ((int)floor (fabs (coords[3] - coords[1]) + 0.5), 0));
 	gtk_label_set_text (GTK_LABEL (pane->size_tip), msg);
 	g_free (msg);
 }
@@ -2526,8 +2526,8 @@ control_point_set_cursor (SheetControlGUI const *scg, GocItem *ctrl_pt)
 	SheetObject *so = g_object_get_data (G_OBJECT (ctrl_pt), "so");
 	int idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (ctrl_pt), "index"));
 	double const *coords = g_hash_table_lookup (scg->selected_objects, so);
-	gboolean invert_h = coords [0] > coords [2];
-	gboolean invert_v = coords [1] > coords [3];
+	gboolean invert_h = coords[0] > coords[2];
+	gboolean invert_v = coords[1] > coords[3];
 	GdkCursorType cursor;
 
 	if (goc_canvas_get_direction (ctrl_pt->canvas) == GOC_DIRECTION_RTL)
@@ -3031,7 +3031,7 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 		if (NULL == sov)
 			sov = sheet_object_new_view (so, (SheetObjectViewContainer *)pane);
 
-		coords [0] = l; coords [2] = r; coords [1] = t; coords [3] = b;
+		coords[0] = l; coords[2] = r; coords[1] = t; coords[3] = b;
 		if (NULL != sov)
 			sheet_object_view_set_bounds (sov, coords, TRUE);
 		normalize_high_low (r, l);

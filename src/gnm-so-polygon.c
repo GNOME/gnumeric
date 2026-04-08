@@ -304,7 +304,7 @@ gnm_so_polygon_class_init (GObjectClass *gobject_class)
 static void
 gnm_so_polygon_init (GObject *obj)
 {
-	static double const initial_coords [] = {
+	static double const initial_coords[] = {
 		0., 0.,		1., 0.,
 		1., 1.,		0., 1.
 	};

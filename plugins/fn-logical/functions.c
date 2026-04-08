@@ -108,7 +108,7 @@ static GnmFuncHelp const help_not[] = {
 static GnmValue *
 gnumeric_not (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gboolean err, val = value_get_as_bool (argv [0], &err);
+	gboolean err, val = value_get_as_bool (argv[0], &err);
 	if (err)
 		return value_new_error (ei->pos, _("Type Mismatch"));
 	return value_new_bool (!val);

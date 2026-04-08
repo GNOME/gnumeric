@@ -657,7 +657,7 @@ gnm_style_default_halign (GnmStyle const *style, GnmCell const *c)
 		case VALUE_ARRAY:
 			/* Tail recurse into the array */
 			if (v->v_array.x > 0 && v->v_array.y > 0) {
-				v = v->v_array.vals [0][0];
+				v = v->v_array.vals[0][0];
 				continue;
 			}
 

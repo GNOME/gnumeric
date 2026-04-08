@@ -286,7 +286,7 @@ load_formats (void)
 		char const *left_format;
 		char const *middle_format;
 		char const *right_format;
-	} const predefined_formats [] = {
+	} const predefined_formats[] = {
 		{ "",                 "",                             "" },
 		{ "",                 N_("Page &[PAGE]"),             "" },
 		{ "",                 N_("Page &[PAGE] of &[PAGES]"), "" },
@@ -741,7 +741,7 @@ static struct {
 	char const *name;
 	void (*render)(GString *target, GnmPrintHFRenderInfo *info, char const *args);
 	char *name_trans;
-} render_ops [] = {
+} render_ops[] = {
 	{ N_("TAB"),   render_tab   , NULL},
 	{ N_("PAGE"),  render_page  , NULL},
 	{ N_("PAGES"), render_pages , NULL},

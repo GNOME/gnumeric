@@ -4132,7 +4132,7 @@ static void
 wbc_gtk_init_zoom (WBCGtk *wbcg)
 {
 #warning TODO : Add zoom to selection
-	static char const * const preset_zoom [] = {
+	static char const * const preset_zoom[] = {
 		"200%",
 		"150%",
 		"100%",

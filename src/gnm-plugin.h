@@ -57,7 +57,7 @@ typedef struct {
 
 /**************************************************************************/
 #define GNM_PLUGIN_MODULE_HEADER					\
-G_MODULE_EXPORT GOPluginModuleDepend const go_plugin_depends [] = {	\
+G_MODULE_EXPORT GOPluginModuleDepend const go_plugin_depends[] = {	\
 	{ "goffice",	GOFFICE_API_VERSION },				\
 	{ "gnumeric",	GNM_VERSION_FULL }				\
 };	\

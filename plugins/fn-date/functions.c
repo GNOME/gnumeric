@@ -87,9 +87,9 @@ static GnmFuncHelp const help_date[] = {
 static GnmValue *
 gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float year  = value_get_as_float (argv [0]);
-	gnm_float month = value_get_as_float (argv [1]);
-	gnm_float day   = value_get_as_float (argv [2]);
+	gnm_float year  = value_get_as_float (argv[0]);
+	gnm_float month = value_get_as_float (argv[1]);
+	gnm_float day   = value_get_as_float (argv[2]);
 	GDate date;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
 
@@ -143,7 +143,7 @@ static GnmFuncHelp const help_unix2date[] = {
 static GnmValue *
 gnumeric_unix2date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float futime = value_get_as_float (argv [0]);
+	gnm_float futime = value_get_as_float (argv[0]);
 	time_t    utime  = (time_t)futime;
 	gnm_float serial;
 
@@ -173,7 +173,7 @@ static GnmFuncHelp const help_date2unix[] = {
 static GnmValue *
 gnumeric_date2unix (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float fserial = value_get_as_float (argv [0]);
+	gnm_float fserial = value_get_as_float (argv[0]);
 	int        serial  = (int)fserial;
 	time_t     utime   = go_date_serial_to_timet (serial, DATE_CONV (ei->pos));
 
@@ -313,8 +313,8 @@ gnumeric_datedif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GDate d1, d2;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
 
-	date1 = gnm_floor (value_get_as_float (argv [0]));
-	date2 = gnm_floor (value_get_as_float (argv [1]));
+	date1 = gnm_floor (value_get_as_float (argv[0]));
+	date2 = gnm_floor (value_get_as_float (argv[1]));
 	opt = value_peek_string (argv[2]);
 
 	if (date1 > date2)
@@ -440,9 +440,9 @@ gnumeric_time (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float hours, minutes, seconds;
 	gnm_float time;
 
-	hours   = gnm_fmod (value_get_as_float (argv [0]), 24);
-	minutes = value_get_as_float (argv [1]);
-	seconds = value_get_as_float (argv [2]);
+	hours   = gnm_fmod (value_get_as_float (argv[0]), 24);
+	minutes = value_get_as_float (argv[1]);
+	seconds = value_get_as_float (argv[2]);
 
 	if (hours < 0 || minutes < 0 || seconds < 0)
 		return value_new_error_NUM (ei->pos);
@@ -475,9 +475,9 @@ gnumeric_odf_time (G_GNUC_UNUSED GnmFuncEvalInfo *ei, GnmValue const * const *ar
 {
 	gnm_float hours, minutes, seconds;
 
-	hours   = value_get_as_float (argv [0]);
-	minutes = value_get_as_float (argv [1]);
-	seconds = value_get_as_float (argv [2]);
+	hours   = value_get_as_float (argv[0]);
+	minutes = value_get_as_float (argv[1]);
+	seconds = value_get_as_float (argv[2]);
 
 	return make_date (value_new_float ((hours * 3600 + minutes * 60 + seconds) /
 					   DAY_SECONDS));
@@ -1395,8 +1395,8 @@ gnumeric_days (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GDate d1, d2;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
 
-	date1 = gnm_floor (value_get_as_float (argv [0]));
-	date2 = gnm_floor (value_get_as_float (argv [1]));
+	date1 = gnm_floor (value_get_as_float (argv[0]));
+	date2 = gnm_floor (value_get_as_float (argv[1]));
 
 	go_date_serial_to_g (&d1, date1, conv);
 	go_date_serial_to_g (&d2, date2, conv);

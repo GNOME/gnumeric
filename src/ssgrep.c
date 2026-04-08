@@ -54,7 +54,7 @@ static char *ssgrep_pattern_file = NULL;
 static gboolean ssgrep_error = FALSE;
 static gboolean ssgrep_any_matches = FALSE;
 
-static GOptionEntry const ssgrep_options [] = {
+static GOptionEntry const ssgrep_options[] = {
 	{
 		"count", 'c',
 		0, G_OPTION_ARG_NONE, &ssgrep_count,

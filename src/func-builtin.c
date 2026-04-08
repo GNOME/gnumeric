@@ -486,7 +486,7 @@ static GnmFuncGroup *math_group = NULL;
 static GnmFuncGroup *gnumeric_group = NULL;
 static GnmFuncGroup *logic_group = NULL;
 
-static GnmFuncDescriptor const builtins [] = {
+static GnmFuncDescriptor const builtins[] = {
 	/* --- Math --- */
 	{	"sum",		NULL,
 		help_sum,	NULL,	gnumeric_sum,

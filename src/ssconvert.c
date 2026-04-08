@@ -93,7 +93,7 @@ static char **ssconvert_goal_seek = NULL;
 static char **ssconvert_tool_test = NULL;
 static const char *ssconvert_image_format = "auto";
 
-static const GOptionEntry ssconvert_options [] = {
+static const GOptionEntry ssconvert_options[] = {
 	{
 		"version", 0,
 		0, G_OPTION_ARG_NONE, &ssconvert_show_version,

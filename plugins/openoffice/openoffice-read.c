@@ -3039,7 +3039,7 @@ odf_validation_new (void)
 static void
 odf_validation (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const dropdown_types [] = {
+	static OOEnum const dropdown_types[] = {
 		{ "none",	  0 },
 		{ "sort-ascending",	  1 },
 		{ "unsorted", 1 },
@@ -3083,7 +3083,7 @@ odf_validation (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 odf_validation_error_message (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const message_styles [] = {
+	static OOEnum const message_styles[] = {
 		{ "information",  GNM_VALIDATION_STYLE_INFO },
 		{ "stop",	  GNM_VALIDATION_STYLE_STOP },
 		{ "warning",      GNM_VALIDATION_STYLE_WARNING },
@@ -4808,7 +4808,7 @@ odf_free_cur_style (OOParseState *state)
 static void
 oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const style_types [] = {
+	static OOEnum const style_types[] = {
 		{ "table-cell",	  OO_STYLE_CELL },
 		{ "table-row",	  OO_STYLE_ROW },
 		{ "table-column", OO_STYLE_COL },
@@ -6007,19 +6007,19 @@ odf_footer_properties (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const centre_type [] = {
+	static OOEnum const centre_type[] = {
 		{"none"        , 0},
 		{"horizontal"  , 1},
 		{"vertical"    , 2},
 		{"both"        , 1|2},
 		{NULL          , 0},
 	};
-	static OOEnum const print_order_type [] = {
+	static OOEnum const print_order_type[] = {
 		{"ltr"  , 0},
 		{"ttb"  , 1},
 		{NULL   , 0},
 	};
-	static OOEnum const print_orientation_type [] = {
+	static OOEnum const print_orientation_type[] = {
 		{"portrait"  , GTK_PAGE_ORIENTATION_PORTRAIT},
 		{"landscape"  , GTK_PAGE_ORIENTATION_LANDSCAPE},
 		{NULL   , 0},
@@ -6408,7 +6408,7 @@ odf_hf_page_count (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const display_types [] = {
+	static OOEnum const display_types[] = {
 		{ "full",	  0 },
 		{ "path",	  1 },
 		{ "name", 2 },
@@ -6444,7 +6444,7 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 odf_hf_expression (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const display_types [] = {
+	static OOEnum const display_types[] = {
 		{ "none",	  0 },
 		{ "formula",	  1 },
 		{ "value",        2 },
@@ -6604,7 +6604,7 @@ odf_style_set_align_h (GnmStyle *style, gint h_align_is_valid, gboolean repeat_c
 static void
 oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const underline_styles [] = {
+	static OOEnum const underline_styles[] = {
 		{ "none",	   1 },
 		{ "dash",	   2 },
 		{ "dot-dash",      2 },
@@ -6615,13 +6615,13 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "wave",          4 },
 		{ NULL,	0 },
 	};
-	static OOEnum const underline_types [] = {
+	static OOEnum const underline_types[] = {
 		{ "none",	  0 },
 		{ "single",	  1 },
 		{ "double",       2 },
 		{ NULL,	0 },
 	};
-	static OOEnum const text_line_through_styles [] = {
+	static OOEnum const text_line_through_styles[] = {
 		{ "none",	0 },
 		{ "dash",	1 },
 		{ "dot-dash",	1 },
@@ -6632,13 +6632,13 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "wave",	1 },
 		{ NULL,	0 },
 	};
-	static OOEnum const text_line_through_types [] = {
+	static OOEnum const text_line_through_types[] = {
 		{ "none",	0 },
 		{ "single",	1 },
 		{ "double",	1 },
 		{ NULL,	0 },
 	};
-	static OOEnum const h_alignments [] = {
+	static OOEnum const h_alignments[] = {
 		{ "start",	-1 },            /* see below, we may have a gnm:GnmHAlign attribute */
 		{ "left",	GNM_HALIGN_LEFT },
 		{ "center",	GNM_HALIGN_CENTER },
@@ -6648,14 +6648,14 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "automatic",	GNM_HALIGN_GENERAL },
 		{ NULL,	0 },
 	};
-	static OOEnum const v_alignments [] = {
+	static OOEnum const v_alignments[] = {
 		{ "bottom",	GNM_VALIGN_BOTTOM },
 		{ "top",	GNM_VALIGN_TOP },
 		{ "middle",	GNM_VALIGN_CENTER },
 		{ "automatic",	-1 },            /* see below, we may have a gnm:GnmVAlign attribute */
 		{ NULL,	0 },
 	};
-	static OOEnum const protections [] = {
+	static OOEnum const protections[] = {
 		{ "none",			0 },
 		{ "hidden-and-protected",	1 | 2 },
 		{ "protected",			    2 },
@@ -6886,7 +6886,7 @@ oo_style_prop_col_row (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_style_prop_table (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const modes [] = {
+	static OOEnum const modes[] = {
 		{ "lr-tb",	0 },
 		{ "rl-tb",	1 },
 		{ "tb-rl",	1 },
@@ -7223,13 +7223,13 @@ odf_scale_initial_angle (int angle)
 static void
 od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const symbol_type [] = {
+	static OOEnum const symbol_type[] = {
 		{"automatic"   , OO_SYMBOL_TYPE_AUTO},
 		{"none"        , OO_SYMBOL_TYPE_NONE},
 		{"named-symbol", OO_SYMBOL_TYPE_NAMED},
 		{NULL          , 0},
 	};
-	static OOEnum const named_symbols [] = {
+	static OOEnum const named_symbols[] = {
 		{ "square", GO_MARKER_SQUARE},
 		{ "diamond", GO_MARKER_DIAMOND},
 		{ "arrow-down", GO_MARKER_TRIANGLE_DOWN},
@@ -7248,20 +7248,20 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0},
 	};
 
-	static  OOEnum const font_variants [] = {
+	static  OOEnum const font_variants[] = {
 		{"normal", PANGO_VARIANT_NORMAL},
 		{"small-caps", PANGO_VARIANT_SMALL_CAPS},
 		{ NULL, 0},
 	};
 
-	static  OOEnum const font_styles [] = {
+	static  OOEnum const font_styles[] = {
 		{ "normal", PANGO_STYLE_NORMAL},
 		{ "oblique", PANGO_STYLE_OBLIQUE},
 		{  "italic", PANGO_STYLE_ITALIC},
 		{ NULL, 0},
 	};
 
-	static OOEnum const image_fill_types [] = {
+	static OOEnum const image_fill_types[] = {
 		{"stretch", GO_IMAGE_STRETCHED },
 		{"repeat", GO_IMAGE_WALLPAPER },
 		{"no-repeat", GO_IMAGE_CENTERED },
@@ -7840,13 +7840,13 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const style_types [] = {
+	static OOEnum const style_types[] = {
 		{ "normal",	   PANGO_STYLE_NORMAL},
 		{ "italic",	   PANGO_STYLE_ITALIC},
 		{ "oblique",       PANGO_STYLE_OBLIQUE},
 		{ NULL,	0 },
 	};
-	static OOEnum const underline_styles [] = {
+	static OOEnum const underline_styles[] = {
 		{ "none",	   1 },
 		{ "dash",	   2 },
 		{ "dot-dash",      2 },
@@ -7857,13 +7857,13 @@ od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "wave",          4 },
 		{ NULL,	0 },
 	};
-	static OOEnum const underline_types [] = {
+	static OOEnum const underline_types[] = {
 		{ "none",	  0 },
 		{ "single",	  1 },
 		{ "double",       2 },
 		{ NULL,	0 },
 	};
-	static OOEnum const line_through_styles [] = {
+	static OOEnum const line_through_styles[] = {
 		{ "none",	 0},
 		{ "solid",	 1},
 		{ "dotted",      2},
@@ -8176,12 +8176,12 @@ odf_filter_or (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const datatypes [] = {
+	static OOEnum const datatypes[] = {
 		{ "text",	  VALUE_STRING },
 		{ "number",	  VALUE_FLOAT },
 		{ NULL,	0 },
 	};
-	static OOEnum const operators [] = {
+	static OOEnum const operators[] = {
 		{ "=",			GNM_FILTER_OP_EQUAL },
 		{ "!=",			GNM_FILTER_OP_NOT_EQUAL },
 		{ "<",			GNM_FILTER_OP_LT },
@@ -10292,7 +10292,7 @@ oo_color_scale (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const positions [] = {
+	static OOEnum const positions[] = {
 		{ "top",	  GOG_POSITION_N },
 		{ "bottom",	  GOG_POSITION_S },
 		{ "start",	  GOG_POSITION_W },
@@ -10303,7 +10303,7 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "bottom-end",   GOG_POSITION_S | GOG_POSITION_E },
 		{ NULL,	0 },
 	};
-	static OOEnum const alignments [] = {
+	static OOEnum const alignments[] = {
 		{ "start",	  GOG_POSITION_ALIGN_START },
 		{ "center",	  GOG_POSITION_ALIGN_CENTER },
 		{ "end",	  GOG_POSITION_ALIGN_END },
@@ -11262,12 +11262,12 @@ odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 	OOControl *oc = g_new0 (OOControl, 1);
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char *name = NULL;
-	static OOEnum const orientations [] = {
+	static OOEnum const orientations[] = {
 		{ "vertical",	0},
 		{ "horizontal",	1},
 		{ NULL,	0 },
 	};
-	static OOEnum const list_linkages [] = {
+	static OOEnum const list_linkages[] = {
 		{ "selection",	0},
 		{ "selection-indexes",	1},
 		{ "selection-indices",	1},
@@ -11607,7 +11607,7 @@ odf_config_item_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 odf_config_item (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const config_types [] = {
+	static OOEnum const config_types[] = {
 		{"base64Binary", G_TYPE_INVALID},
 		{"boolean", G_TYPE_BOOLEAN},
 		{"datetime", G_TYPE_INVALID},
@@ -12379,7 +12379,7 @@ GSF_XML_IN_NODE_FULL (MASTER_PAGE_HEADER, MASTER_PAGE_HF_R_CENTER, OO_NS_STYLE, 
 GSF_XML_IN_NODE_END
 };
 
-static GsfXMLInNode const ooo1_content_dtd [] = {
+static GsfXMLInNode const ooo1_content_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE, SCRIPT, OO_NS_OFFICE, "script", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -12490,7 +12490,7 @@ GSF_XML_IN_NODE_END
 
 /****************************************************************************/
 
-static GsfXMLInNode const opendoc_settings_dtd [] = {
+static GsfXMLInNode const opendoc_settings_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-settings", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE, SETTINGS, OO_NS_OFFICE, "settings", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -12512,7 +12512,7 @@ GSF_XML_IN_NODE_END
 /****************************************************************************/
 /* Generated based on:
  * http://www.oasis-open.org/committees/download.php/12572/OpenDocument-v1.0-os.pdf */
-static GsfXMLInNode const opendoc_content_dtd [] =
+static GsfXMLInNode const opendoc_content_dtd[] =
 {
 	GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 	GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CONTENT, &odf_find_version, NULL),
@@ -12818,7 +12818,7 @@ static GsfXMLInNode const opendoc_content_preparse_overrides[] =
 static GsfXMLInNode const *opendoc_content_preparse_dtd;
 
 
-static GsfXMLInNode const ooo1_content_preparse_overrides [] =
+static GsfXMLInNode const ooo1_content_preparse_overrides[] =
 {
 	GSF_XML_IN_NODE (OFFICE_BODY, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &odf_preparse_table_start, &odf_preparse_table_end),
 	GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &odf_preparse_row_start, &odf_preparse_row_end),

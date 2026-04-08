@@ -1312,8 +1312,8 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 					      GNM_SHEET_OBJECT_ANCHOR_MODE_TYPE,
 					      so->anchor.mode);
 		snprintf (buffer, sizeof (buffer), "%.3g %.3g %.3g %.3g",
-			  so->anchor.offset [0], so->anchor.offset [1],
-			  so->anchor.offset [2], so->anchor.offset [3]);
+			  so->anchor.offset[0], so->anchor.offset[1],
+			  so->anchor.offset[2], so->anchor.offset[3]);
 		gsf_xml_out_add_cstr (state->output, "ObjectOffset", buffer);
 
 		gsf_xml_out_add_int (state->output, "Direction",

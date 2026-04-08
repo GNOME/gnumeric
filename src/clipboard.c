@@ -853,7 +853,7 @@ clipboard_copy_obj (Sheet *sheet, GSList *objects)
 	GnmRange *r;
 	GSList *ptr;
 	SheetObject *so;
-	double coords [4];
+	double coords[4];
 	guint w, h;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);

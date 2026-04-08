@@ -130,10 +130,10 @@ so_widget_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean 
 {
 	GocItem *view = GOC_ITEM (sov);
 	double scale = goc_canvas_get_pixels_per_unit (view->canvas);
-	double left = MIN (coords [0], coords [2]) / scale;
-	double top = MIN (coords [1], coords [3]) / scale;
-	double width = (fabs (coords [2] - coords [0]) + 1.) / scale;
-	double height = (fabs (coords [3] - coords [1]) + 1.) / scale;
+	double left = MIN (coords[0], coords[2]) / scale;
+	double top = MIN (coords[1], coords[3]) / scale;
+	double width = (fabs (coords[2] - coords[0]) + 1.) / scale;
+	double height = (fabs (coords[3] - coords[1]) + 1.) / scale;
 
 	/* We only need the next check for frames, but it doesn't hurt otherwise. */
 	if (width < 8.)

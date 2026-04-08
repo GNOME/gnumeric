@@ -1873,7 +1873,7 @@ static void
 excel_write_NAME (G_GNUC_UNUSED gpointer key,
 		  GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 {
-	guint8 data [16];
+	guint8 data[16];
 	guint16 expr_len, flags = 0;
 	size_t name_len;
 	char const *name;
@@ -3683,7 +3683,7 @@ excel_write_RSTRING (ExcelWriteState *ewb, GnmCell const *cell, unsigned xf)
 	GArray *txo = g_hash_table_lookup (ewb->cell_markup, cell);
 	const char *txt = value_peek_string (cell->value);
 	size_t txtlen = strlen (txt);
-	guint8 buf [6];
+	guint8 buf[6];
 	unsigned i, n;
 
 	g_return_if_fail (txo != NULL);
@@ -3777,7 +3777,7 @@ write_mulblank (BiffPut *bp, ExcelWriteSheet *esheet, guint32 end_col, guint32 r
 	if (run == 1) {
 		guint8 *data;
 
-		xf = xf_list [0];
+		xf = xf_list[0];
 		d (2, g_printerr ("Writing blank at %s, xf = 0x%x\n",
 			      cell_coord_name (end_col, row), xf););
 
@@ -3977,7 +3977,7 @@ excel_write_colinfos (BiffPut *bp, ExcelWriteSheet *esheet)
 	int cols = MIN (XLS_MaxCol, gnm_sheet_get_max_cols (esheet->gnum_sheet));
 
 	info = sheet_col_get (esheet->gnum_sheet, 0);
-	xf   = esheet->col_xf [0];
+	xf   = esheet->col_xf[0];
 	for (i = 1; i < cols; i++) {
 		ci = sheet_col_get (esheet->gnum_sheet, i);
 		new_xf = esheet->col_xf [i];
@@ -5402,10 +5402,10 @@ excel_sheet_write_DBCELL (ExcelWriteSheet *esheet,
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_DBCELL, 4 + nrows * 2);
 	pos = bp->streamPos;
 
-	GSF_LE_SET_GUINT32 (data, pos - ri_start [0]);
+	GSF_LE_SET_GUINT32 (data, pos - ri_start[0]);
 	for (i = 0 ; i < nrows; i++) {
-		offset = rc_start [0]
-			- (i > 0 ? rc_start [i - 1] : ri_start [1]);
+		offset = rc_start[0]
+			- (i > 0 ? rc_start [i - 1] : ri_start[1]);
 		GSF_LE_SET_GUINT16 (data + 4 + i * 2, offset);
 	}
 
@@ -5433,7 +5433,7 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 {
 	ExcelWriteState *ewb = esheet->ewb;
 	int col, row, max_row, max_col = esheet->max_col;
-	unsigned  ri_start [2]; /* Row info start */
+	unsigned  ri_start[2]; /* Row info start */
 	unsigned *rc_start;	/* Row cells start */
 	guint16   *xf_list;
 	GnmRange  r;
@@ -5448,8 +5448,8 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 		nrows = esheet->max_row - (int) begin;
 	max_row = begin + nrows - 1;
 
-	ri_start [0] = excel_write_ROWINFO (ewb->bp, esheet, begin, max_col);
-	ri_start [1] = ewb->bp->streamPos;
+	ri_start[0] = excel_write_ROWINFO (ewb->bp, esheet, begin, max_col);
+	ri_start[1] = ewb->bp->streamPos;
 	for (row = begin + 1; row <= max_row; row++)
 		(void) excel_write_ROWINFO (ewb->bp, esheet, row, max_col);
 
@@ -5964,7 +5964,7 @@ excel_write_SST (ExcelWriteState *ewb)
 	GPtrArray const *strings = ewb->sst.indicies;
 	BiffPut		*bp = ewb->bp;
 	SSTInf		*extsst = NULL;
-	char *ptr, data [8224];
+	char *ptr, data[8224];
 	char const * const last = data + sizeof (data);
 	size_t out_bytes, char_len, byte_len;
 	unsigned i, tmp, blocks, scale;
@@ -6088,7 +6088,7 @@ unicode_loop :
 static void
 excel_write_WRITEACCESS (BiffPut *bp)
 {
-	guint8   pad [112];
+	guint8   pad[112];
 	unsigned len;
 	char const *utf8_name = go_get_real_name ();
 
@@ -6189,7 +6189,7 @@ excel_write_vector_blip (ExcelWriteState *ewb, BlipInf *blip, const BlipType *bt
 
 	if (bp->version >= MS_BIFF_V8) {
 		guint8 buf [VECTOR_BLIP_HDR_LEN];
-		double coords [4];
+		double coords[4];
 		double width, height;
 
 		sheet_object_position_pts_get (blip->so, coords);
@@ -6297,7 +6297,7 @@ excel_write_blip (ExcelWriteState *ewb, BlipInf *blip)
 		static guint8 const header_obj_v8[] = {
 /* BSE header  */ 0x2, 0, 7, 0xf0, 0, 0, 0, 0  /* fill in bliptype, length */
 		};
-		guint8 buf [44];
+		guint8 buf[44];
 		guint8 win_type, mac_type;
 
 		memset (buf, 0, sizeof buf);

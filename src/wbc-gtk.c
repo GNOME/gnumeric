@@ -542,7 +542,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEvent *event)
 		void (*function) (SheetControlGUI *scg);
 		int flags;
 		int submenu;
-	} const sheet_label_context_actions [] = {
+	} const sheet_label_context_actions[] = {
 		{ N_("Manage Sheets..."), &cb_sheets_manage,	0, 0},
 		{ NULL, NULL, 0, 0 },
 		{ N_("Insert"),		  &cb_sheets_insert,	0, 0 },
@@ -2058,7 +2058,7 @@ cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
 		gchar const *text;
 		void (*function) (WBCGtk *wbcg);
 		gboolean (*sensitive) (WBCGtk *wbcg);
-	} const accept_input_actions [] = {
+	} const accept_input_actions[] = {
 		{ N_("Enter in current cell"),       cb_accept_input,
 		  NULL },
 		{ N_("Enter in current cell without autocorrection"), cb_accept_input_wo_ac,
@@ -2845,7 +2845,7 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 		struct CellSelectorMenu {
 			gchar const *text;
 			void (*function) (WBCGtk *wbcg);
-		} const cell_selector_actions [] = {
+		} const cell_selector_actions[] = {
 			{ N_("Go to Top"),      &cb_cs_go_up      },
 			{ N_("Go to Bottom"),   &cb_cs_go_down    },
 			{ N_("Go to First"),    &cb_cs_go_left    },
@@ -4138,7 +4138,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEvent *event, WBCGtk *wbcg)
 	static struct {
 		char const * const displayed_name;
 		char const * const function;
-	} const quick_compute_routines [] = {
+	} const quick_compute_routines[] = {
 		{ N_("Sum"),	       "sum" },
 		{ N_("Min"),	       "min" },
 		{ N_("Max"),	       "max" },

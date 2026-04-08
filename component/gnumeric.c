@@ -52,7 +52,7 @@
 #include <cairo.h>
 #include <pango/pangocairo.h>
 
-GOPluginModuleDepend const go_plugin_depends [] = {
+GOPluginModuleDepend const go_plugin_depends[] = {
 	{ "goffice", GOFFICE_API_VERSION }
 };
 GOPluginModuleHeader const go_plugin_header =

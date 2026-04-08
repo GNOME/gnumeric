@@ -5277,7 +5277,7 @@ typedef struct {
 	char *name_trans;
 } render_ops_t;
 
-static render_ops_t odf_render_ops [] = {
+static render_ops_t odf_render_ops[] = {
 	{ N_("tab"),   odf_render_tab,   NULL},
 	{ N_("page"),  odf_render_page,  NULL},
 	{ N_("pages"), odf_render_pages, NULL},
@@ -5289,7 +5289,7 @@ static render_ops_t odf_render_ops [] = {
 	{ NULL, NULL, NULL },
 };
 
-static render_ops_t odf_render_ops_to_xl [] = {
+static render_ops_t odf_render_ops_to_xl[] = {
 	{ N_("tab"),   NULL,                  NULL},
 	{ N_("page"),  NULL,                  NULL},
 	{ N_("pages"), NULL,                  NULL},
@@ -5642,7 +5642,7 @@ static void
 odf_write_page_layout (GnmOOExport *state, GnmPrintInformation *pi,
 		       Sheet const *sheet)
 {
-	static char const *const centre_type [] = {
+	static char const *const centre_type[] = {
 		"none"        ,
 		"horizontal"  ,
 		"vertical"    ,
@@ -6073,7 +6073,7 @@ odf_write_dash_info (char const *name, gpointer data, GnmOOExport *state)
 
 	lds = go_line_dash_get_sequence (type, scale);
 	if (lds != NULL) {
-		double dot_1 = lds->dash [0];
+		double dot_1 = lds->dash[0];
 		guint n_1 = 1;
 		guint i = 2;
 
@@ -7210,7 +7210,7 @@ odf_get_marker (GOMarkerShape m)
 	static struct {
 		guint m;
 		char const *str;
-	} const marks [] =
+	} const marks[] =
 		  {{GO_MARKER_NONE, "none"},
 		   {GO_MARKER_SQUARE, "square"},
 		   {GO_MARKER_DIAMOND,"diamond"},

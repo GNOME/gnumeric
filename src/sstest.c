@@ -45,7 +45,7 @@ static gchar *func_state_file = NULL;
 static gchar *ext_refs_file = NULL;
 static gchar *samples_file = NULL;
 
-static GOptionEntry const sstest_options [] = {
+static GOptionEntry const sstest_options[] = {
 	{
 		"fast", 'f',
 		0, G_OPTION_ARG_NONE, &sstest_fast,
@@ -559,7 +559,7 @@ function_dump_defs (char const *filename, int dump_type)
 			static struct {
 				char const *name;
 				char const *klass;
-			} const testing [] = {
+			} const testing[] = {
 				{ "Unknown",		"testing-unknown" },
 				{ "No Testsuite",	"testing-nosuite" },
 				{ "Basic",		"testing-basic" },
@@ -569,7 +569,7 @@ function_dump_defs (char const *filename, int dump_type)
 			static struct {
 				char const *name;
 				char const *klass;
-			} const implementation [] = {
+			} const implementation[] = {
 				{ "Exists",			"imp-exists" },
 				{ "Unimplemented",		"imp-no" },
 				{ "Subset",			"imp-subset" },

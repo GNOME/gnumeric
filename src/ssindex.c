@@ -38,7 +38,7 @@ static gboolean ssindex_list_mime_types = FALSE;
 static gboolean ssindex_run_indexer = FALSE;
 static char *ssindex_import_encoding = NULL;
 
-static GOptionEntry const ssindex_options [] = {
+static GOptionEntry const ssindex_options[] = {
 	{
 		"version", 'v',
 		0, G_OPTION_ARG_NONE, &ssindex_show_version,

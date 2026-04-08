@@ -130,7 +130,7 @@ static gboolean param_show_version = FALSE;
 static char *param_lib_dir  = NULL;
 static char *param_data_dir = NULL;
 
-static GOptionEntry const libspreadsheet_options [] = {
+static GOptionEntry const libspreadsheet_options[] = {
 	/*********************************
 	 * Public Actions */
 	{

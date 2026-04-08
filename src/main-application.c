@@ -54,7 +54,7 @@ static gboolean gnumeric_no_warnings = FALSE;
 static gchar  *geometry = NULL;
 static gchar **startup_files;
 
-static const GOptionEntry gnumeric_options [] = {
+static const GOptionEntry gnumeric_options[] = {
 	/*********************************
 	 * Public Variables */
 	{ "geometry", 'g', 0, G_OPTION_ARG_STRING, &geometry,

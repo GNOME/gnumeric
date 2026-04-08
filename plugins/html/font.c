@@ -58,7 +58,7 @@ font_is_monospaced (GnmStyle const *mstyle)
 int
 font_is_helvetica (GnmStyle const *mstyle)
 {
-	char const *names [] = { "Helvetica", NULL };
+	char const *names[] = { "Helvetica", NULL };
 
 	return font_match (mstyle, names);
 }
@@ -68,7 +68,7 @@ font_is_helvetica (GnmStyle const *mstyle)
 int
 font_is_sansserif (GnmStyle const *mstyle)
 {
-	char const *names [] = { "helvetica", "avantgarde",
+	char const *names[] = { "helvetica", "avantgarde",
 				 "neep", "blippo", "capri",
 				 "clean", "fixed", NULL };
 

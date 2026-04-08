@@ -59,12 +59,12 @@ so_graph_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean v
 
 	if (visible) {
 		goc_item_set (GOC_ITEM (sov),
-			"x", MIN (coords [0], coords[2]) / scale,
-			"y", MIN (coords [3], coords[1]) / scale,
+			"x", MIN (coords[0], coords[2]) / scale,
+			"y", MIN (coords[3], coords[1]) / scale,
 			NULL);
 		goc_item_set (item,
-			"width", (fabs (coords [2] - coords [0]) + 1.) / scale,
-			"height", (fabs (coords [3] - coords [1]) + 1.) / scale,
+			"width", (fabs (coords[2] - coords[0]) + 1.) / scale,
+			"height", (fabs (coords[3] - coords[1]) + 1.) / scale,
 			NULL);
 
 		goc_item_show (item);

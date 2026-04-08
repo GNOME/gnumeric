@@ -419,7 +419,7 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 			break;
 
 		case 30:	/* Floating point constant */
-			len = ch [8];  /* they store the ascii ?? will we be screwed by locale ? */
+			len = ch[8];  /* they store the ascii ?? will we be screwed by locale ? */
 			g_string_append_len (expr, ch+9, len);
 			ch += 9 + len;
 			break;
@@ -436,14 +436,14 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 			break;
 
 		case 33:	/* Temporary variable (#:=) */
-			len = ch [1];
+			len = ch[1];
 			g_string_append (expr, "_unknown33_");
 			g_string_append_len (expr, ch+2, len);
 			ch += 2 + len;
 			break;
 
 		case 34:	/* Temporary variable (#) */
-			len = ch [1];
+			len = ch[1];
 			g_string_append (expr, "_unknown34_");
 			g_string_append_len (expr, ch+2, len);
 			ch += 2 + len;

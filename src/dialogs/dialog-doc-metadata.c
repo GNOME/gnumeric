@@ -169,7 +169,7 @@ dialog_doc_metadata_get_value_type_from_name (gchar const *name, GType def)
 		static struct {
 			char const *name;
 			GType type;
-		} const map [] = {
+		} const map[] = {
 			{GSF_META_NAME_GENERATOR,            G_TYPE_STRING},
 			{GSF_META_NAME_INITIAL_CREATOR,      G_TYPE_STRING},
 			{GSF_META_NAME_CREATOR,              G_TYPE_STRING},

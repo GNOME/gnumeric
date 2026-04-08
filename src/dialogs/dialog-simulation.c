@@ -147,7 +147,7 @@ prepare_ranges (simulation_t *sim)
 static void
 update_log (SimulationState *state, simulation_t *sim)
 {
-	char const *txt [6] = {
+	char const *txt[6] = {
 		_("Simulations"), _("Iterations"), _("# Input variables"),
 		_("# Output variables"), _("Runtime"), _("Run on")
 	};

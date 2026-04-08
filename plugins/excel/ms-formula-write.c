@@ -534,7 +534,7 @@ static void
 write_funcall (PolishData *pd, GnmExpr const *expr,
 	       XLOpType target_type)
 {
-	static guint8 const zeros [12];
+	static guint8 const zeros[12];
 
 	int arg, min_args, max_args, name_arg = 0;
 	gboolean prompt   = FALSE;
@@ -628,7 +628,7 @@ static void
 excel_formula_write_NAME_v8 (PolishData *pd, GnmExpr const *expr,
 			     XLOpType target_type)
 {
-	guint8 data [7];
+	guint8 data[7];
 	gpointer tmp;
 	unsigned name_idx;
 
@@ -659,7 +659,7 @@ static void
 excel_formula_write_NAME_v7 (PolishData *pd, GnmExpr const *expr,
 			     XLOpType target_type)
 {
-	guint8 data [25];
+	guint8 data[25];
 	gpointer tmp;
 	unsigned name_idx;
 
@@ -698,8 +698,8 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 {
 	static struct {
 		guint8 xl_op;
-		int prec;		      /* Precedences -- should match parser.y  */
-		int assoc_left, assoc_right;  /* 0: no, 1: yes.  */
+		guint8 prec;		      /* Precedences -- should match parser.y  */
+		guint8 assoc_left, assoc_right;  /* 0: no, 1: yes.  */
 	} const operations[] = {
 		{ FORMULA_PTG_PAREN,	 0, 0, 0 }, /* Parentheses for clarity  */
 		{ FORMULA_PTG_EQUAL,	 1, 1, 0 },

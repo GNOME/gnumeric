@@ -505,7 +505,7 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 			static struct {
 				char const * const id;
 				GnumericXMLVersion const version;
-			} const GnumericVersions [] = {
+			} const GnumericVersions[] = {
 				{ "http://www.gnumeric.org/v14.dtd", GNM_XML_V14 },	/* 1.12.21 */
 				{ "http://www.gnumeric.org/v13.dtd", GNM_XML_V13 },	/* 1.7.7 */
 				{ "http://www.gnumeric.org/v12.dtd", GNM_XML_V12 },	/* 1.7.3 */

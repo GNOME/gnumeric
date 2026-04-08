@@ -76,12 +76,12 @@ so_filled_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean 
 	if (visible) {
 		SheetObject	*so = sheet_object_view_get_so (sov);
 		GnmSOFilled	*sof  = GNM_SO_FILLED (so);
-		double w = fabs (coords [2] - coords [0]) / scale;
-		double h = fabs (coords [3] - coords [1]) / scale;
+		double w = fabs (coords[2] - coords[0]) / scale;
+		double h = fabs (coords[3] - coords[1]) / scale;
 
 		goc_item_set (view,
-			"x", MIN (coords [0], coords [2]) / scale,
-			"y", MIN (coords [1], coords [3]) / scale,
+			"x", MIN (coords[0], coords[2]) / scale,
+			"y", MIN (coords[1], coords[3]) / scale,
 			NULL);
 
 		goc_item_set (GOC_ITEM (fiv->bg),

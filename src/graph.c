@@ -1063,7 +1063,7 @@ gnm_go_data_vector_get_markup (GODataVector *dat, unsigned i)
 			int len = vec->as_col? vec->val->v_array.y: vec->val->v_array.x;
 			while (len-- > 0) {
 				v = vec->as_col
-					? vec->val->v_array.vals [0][len]
+					? vec->val->v_array.vals[0][len]
 					: vec->val->v_array.vals [len][0];
 
 				if (VALUE_IS_CELLRANGE (v)) {
