@@ -389,17 +389,17 @@ ms_obj_delete (MSObj *obj)
 char *
 ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 {
-	static char const * const orientations [] = {
+	static char const * const orientations[] = {
 		"Left to right",
 		"Top to Bottom",
 		"Bottom to Top on Side",
 		"Top to Bottom on Side"
 	};
-	static char const * const haligns [] = {
+	static char const * const haligns[] = {
 		"At left", "Horizontally centered",
 		"At right", "Horizontally justified"
 	};
-	static char const * const valigns [] = {
+	static char const * const valigns[] = {
 		"At top", "Vertically centered",
 		"At bottom", "Vertically justified"
 	};
@@ -904,7 +904,7 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *c,
 		unsigned    excel_type;
 		gboolean    has_result_link;
 		gboolean    has_source_link; /* requires has_result_link */
-	} const map_forms [] = {
+	} const map_forms[] = {
 		{ "ScrollBar.1",	MSOT_SCROLLBAR, TRUE,	FALSE },
 		{ "CheckBox.1",		MSOT_CHECKBOX,  TRUE,	FALSE },
 		{ "TextBox.1",		MSOT_TEXTBOX,   FALSE,	FALSE },

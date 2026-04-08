@@ -113,7 +113,7 @@ ms_biff_password_hash  (guint8 const *password)
 static void
 ms_biff_crypt_seq (BiffQuery *q, guint16 key, guint8 const *password)
 {
-	static guint8 const preset [] = {
+	static guint8 const preset[] = {
 		0xbb, 0xff, 0xff, 0xba, 0xff, 0xff, 0xb9, 0x80,
 		0x00, 0xbe, 0x0f, 0x00, 0xbf, 0x0f, 0x00, 0x00
 	};

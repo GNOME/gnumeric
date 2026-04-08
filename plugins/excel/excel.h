@@ -30,8 +30,8 @@ void excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *output);
 typedef struct {
 	guint8 r, g, b;
 } ExcelPaletteEntry;
-extern ExcelPaletteEntry const excel_default_palette_v8 [];
-extern ExcelPaletteEntry const excel_default_palette_v7 [];
+extern ExcelPaletteEntry const excel_default_palette_v8[];
+extern ExcelPaletteEntry const excel_default_palette_v7[];
 
 #define EXCEL_DEF_PAL_LEN   56
 

@@ -1779,7 +1779,7 @@ biff_format_data_destroy (BiffFormatData *d)
 }
 
 /** Default color table for BIFF5/BIFF7. */
-ExcelPaletteEntry const excel_default_palette_v7 [] = {
+ExcelPaletteEntry const excel_default_palette_v7[] = {
 	{  0,  0,  0}, {255,255,255}, {255,  0,  0}, {  0,255,  0},
 	{  0,  0,255}, {255,255,  0}, {255,  0,255}, {  0,255,255},
 
@@ -1802,7 +1802,7 @@ ExcelPaletteEntry const excel_default_palette_v7 [] = {
 	{102, 51,  0}, {153, 51,102}, { 51, 51,153}, { 66, 66, 66}
 };
 
-ExcelPaletteEntry const excel_default_palette_v8 [] = {
+ExcelPaletteEntry const excel_default_palette_v8[] = {
 	{  0,  0,  0}, {255,255,255}, {255,  0,  0}, {  0,255,  0},
 	{  0,  0,255}, {255,255,  0}, {255,  0,255}, {  0,255,255},
 
@@ -3335,10 +3335,10 @@ static gint
 gnm_xl_get_codepage (char const *enc)
 {
 	/* These names must match charset_trans_array in go-charmap-sel.c */
-	static struct {
+	static const struct {
 		char const *name;
 		gint codepage;
-	}  charset_trans_array[] = {
+	} charset_trans_array[] = {
 		{"IBM864",                0},
 		{"IBM864i",               0},
 		{"ISO-8859-6",            0},
@@ -6053,7 +6053,7 @@ static GnmValue *
 read_DOPER (guint8 const *doper, gboolean is_equal,
 	    unsigned *str_len, GnmFilterOp *op)
 {
-	static GnmFilterOp const ops [] = {
+	static GnmFilterOp const ops[] = {
 		GNM_FILTER_OP_LT,
 		GNM_FILTER_OP_EQUAL,
 		GNM_FILTER_OP_LTE,

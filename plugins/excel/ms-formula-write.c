@@ -700,7 +700,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		guint8 xl_op;
 		int prec;		      /* Precedences -- should match parser.y  */
 		int assoc_left, assoc_right;  /* 0: no, 1: yes.  */
-	} const operations [] = {
+	} const operations[] = {
 		{ FORMULA_PTG_PAREN,	 0, 0, 0 }, /* Parentheses for clarity  */
 		{ FORMULA_PTG_EQUAL,	 1, 1, 0 },
 		{ FORMULA_PTG_GT,	 1, 1, 0 },

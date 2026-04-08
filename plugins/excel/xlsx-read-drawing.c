@@ -775,7 +775,7 @@ xlsx_chart_bar_group (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "stacked", 3 },
 		{ NULL, 0 }
 	};
-	static const char *types[] = { "as_percentage", "normal", "normal", "stacked" };
+	static const char *const types[] = { "as_percentage", "normal", "normal", "stacked" };
 	int grp = 1;
 
 	g_return_if_fail (state->plot != NULL);
@@ -1398,7 +1398,7 @@ xlsx_ser_trendline_type (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 		{"power", 5 },
 		{NULL, 0}
 	};
-	static const char *types[] = {
+	static const char * const types[] = {
 		"GogExpRegCurve", "GogLinRegCurve", "GogLogRegCurve",
 		"GogMovingAvg", "GogPolynomRegCurve", "GogPowerRegCurve"
 	};

@@ -92,7 +92,7 @@ typedef struct {
 	unsigned reversed : 1;
 } XLSXGradientInfo;
 
-extern XLSXGradientInfo xlsx_gradient_info[GO_GRADIENT_MAX];
+extern const XLSXGradientInfo xlsx_gradient_info[GO_GRADIENT_MAX];
 
 /*****************************************************************************/
 

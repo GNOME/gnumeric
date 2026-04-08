@@ -36,7 +36,7 @@
 #define d(level, code)
 #endif
 
-ExcelFuncDesc const excel_func_desc [] = {
+ExcelFuncDesc const excel_func_desc[] = {
 	{ 0,   "COUNT",             0, 30, XL_STD, 1, 'V', "R" },
 	{ 1,   "IF",                2,  3, XL_STD, 3, 'V', "VRR" },
 	{ 2,   "ISNA",              1,  1, XL_STD,  1, 'V', "V" },
@@ -853,7 +853,7 @@ ms_excel_dump_cellname (GnmXLImporter const *importer, ExcelReadSheet const *esh
 }
 
 /* Binary operator tokens */
-static GnmExprOp const binary_ops [] = {
+static GnmExprOp const binary_ops[] = {
 	GNM_EXPR_OP_ADD,	/* 0x03, ptgAdd */
 	GNM_EXPR_OP_SUB,	/* 0x04, ptgSub */
 	GNM_EXPR_OP_MULT,	/* 0x05, ptgMul */
@@ -872,7 +872,7 @@ static GnmExprOp const binary_ops [] = {
 	GNM_EXPR_OP_RANGE_CTOR	/* 0x11, ptgRange : Range */
 };
 
-static GnmExprOp const unary_ops [] = {
+static GnmExprOp const unary_ops[] = {
 	GNM_EXPR_OP_UNARY_PLUS,/* 0x12, ptgU_PLUS  */
 	GNM_EXPR_OP_UNARY_NEG,	/* 0x13, ptgU_MINUS */
 	GNM_EXPR_OP_PERCENTAGE,	/* 0x14, ptgPERCENT */
@@ -943,7 +943,7 @@ excel_formula_parses_ref_sheets (MSContainer const *container, guint8 const *dat
 	return FALSE;
 }
 
-static char const *ptg_name[] = {
+static char const * const ptg_name[] = {
 	"PTG ZERO ???",	"PTG_EXPR",	"PTG_TBL",	"PTG_ADD",
 	"PTG_SUB",	"PTG_MULT",	"PTG_DIV",	"PTG_EXP",
 	"PTG_CONCAT",	"PTG_LT",	"PTG_LTE",	"PTG_EQUAL",

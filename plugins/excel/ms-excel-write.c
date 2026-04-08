@@ -612,8 +612,8 @@ static void
 excel_write_externsheets_v7 (ExcelWriteState *ewb)
 {
 	/* 2 byte expression #REF! */
-	static guint8 const expr_ref []   = { 0x02, 0, 0x1c, 0x17 };
-	static guint8 const zeros []	  = { 0, 0, 0, 0, 0 ,0 };
+	static guint8 const expr_ref[]    = { 0x02, 0, 0x1c, 0x17 };
+	static guint8 const zeros[]	  = { 0, 0, 0, 0, 0 ,0 };
 	static guint8 const magic_addin[] = { 0x01, 0x3a };
 	static guint8 const magic_self[]  = { 0x01, 0x04 };
 	unsigned i, num_sheets = ewb->esheets->len;
@@ -676,8 +676,8 @@ cb_write_sheet_pairs (ExcelSheetPair *sp, gconstpointer dummy, ExcelWriteState *
 static void
 excel_write_externsheets_v8 (ExcelWriteState *ewb)
 {
-	static guint8 const expr_ref []   = { 0x02, 0, 0x1c, 0x17 };
-	static guint8 const zeros []	  = { 0, 0, 0, 0, 0 ,0 };
+	static guint8 const expr_ref[]    = { 0x02, 0, 0x1c, 0x17 };
+	static guint8 const zeros[]	  = { 0, 0, 0, 0, 0 ,0 };
 	static guint8 const magic_addin[] = { 0x01, 0x00, 0x01, 0x3a };
 	static guint8 const magic_self[]  = { 0x01, 0x04 };
 	unsigned i;
@@ -1603,7 +1603,7 @@ excel_write_HLINKs (BiffPut *bp, ExcelWriteSheet *esheet)
 	GnmHLink		*hlink = NULL;
 	char const		*target;
 	char const		*tip;
-	guint8			 data [16];
+	guint8			 data[16];
 	GType			 t;
 
 	for (ptr = esheet->hlinks ; ptr != NULL ; ptr = ptr->next) {
@@ -1849,7 +1849,7 @@ excel_write_prep_validations (ExcelWriteSheet *esheet)
 static int
 excel_write_builtin_name (char const *ptr, MsBiffVersion version)
 {
-	static char const *builtins [] = {
+	static char const * const builtins[] = {
 		"Consolidate_Area",	"Auto_Open",
 		"Auto_Close",		"Extract",
 		"Database",		"Criteria",
@@ -2692,7 +2692,7 @@ excel_write_FORMATs (ExcelWriteState *ewb)
 {
 	TwoWayTable *twt = ewb->base.formats.two_way_table;
 	guint nformats = twt->idx_to_key->len;
-	int magic_num [] = { 5, 6, 7, 8, 0x2a, 0x29, 0x2c, 0x2b };
+	int const magic_num[] = { 5, 6, 7, 8, 0x2a, 0x29, 0x2c, 0x2b };
 	guint i;
 
 	/* The built-in formats which get localized */

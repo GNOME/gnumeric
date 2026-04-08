@@ -640,7 +640,7 @@ xl_xml_font (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xl_xml_alignment (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static EnumVal const valignments [] = {
+	static EnumVal const valignments[] = {
 		{ "Bottom", GNM_VALIGN_BOTTOM },
 		{ "Center", GNM_VALIGN_CENTER },
 		{ "Distributed", GNM_VALIGN_DISTRIBUTED },
@@ -648,7 +648,7 @@ xl_xml_alignment (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "Top", GNM_VALIGN_TOP },
 		{ NULL, 0 }
 	};
-	static EnumVal const halignments [] = {
+	static EnumVal const halignments[] = {
 		{ "Center", GNM_HALIGN_CENTER },
 		{ "CenterAcrossSelection", GNM_HALIGN_CENTER_ACROSS_SELECTION },
 		{ "Distributed", GNM_HALIGN_DISTRIBUTED },
@@ -798,7 +798,7 @@ xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 	static struct {
 		char const *name;
 		GOFormatMagic id;
-	} const named_magic_formats [] = {
+	} const named_magic_formats[] = {
 		{ "General Date",        GO_FORMAT_MAGIC_SHORT_DATETIME },
 		{ "Long Date",           GO_FORMAT_MAGIC_LONG_DATE },
 		{ "Medium Date",         GO_FORMAT_MAGIC_MEDIUM_DATE },
@@ -811,7 +811,7 @@ xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 	static struct {
 		char const *name;
 		char const *format;
-	} const named_formats [] = {
+	} const named_formats[] = {
 		{ "General Number",     "General" },
 		{ "Currency",       	"$#,##0.00_);[Red](#,##0.00)" },
 		{ "Euro Currency",     	"[$EUR-2]#,##0.00_);[Red](#,##0.00)" },

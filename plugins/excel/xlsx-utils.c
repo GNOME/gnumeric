@@ -755,7 +755,7 @@ xlsx_plottype_from_type_name (const char *type_name)
 
 /*****************************************************************************/
 
-XLSXGradientInfo xlsx_gradient_info[GO_GRADIENT_MAX] = {
+const XLSXGradientInfo xlsx_gradient_info[GO_GRADIENT_MAX] = {
 	{ 270, FALSE, FALSE }, {  90, FALSE, FALSE }, {  90, TRUE, FALSE }, {  90, TRUE, TRUE },
 	{ 180, FALSE, FALSE }, {   0, FALSE, FALSE }, {   0, TRUE, FALSE }, {   0, TRUE, TRUE },
 	{ 315, FALSE, FALSE }, { 135, FALSE, FALSE }, { 135, TRUE, FALSE }, { 135, TRUE, TRUE },

@@ -146,7 +146,7 @@ xlsx_map_prop_name_to_output_fun (char const *name)
 		static struct {
 			char const *gsf_key;
 			output_function xlsx_output_fun;
-		} const map [] = {
+		} const map[] = {
 			{ GSF_META_NAME_DATE_CREATED,       xlsx_map_to_date_core},
 			{ GSF_META_NAME_DATE_MODIFIED,      xlsx_map_to_date_core},
 			{ GSF_META_NAME_EDITING_DURATION,   xlsx_map_time_to_int},
@@ -192,7 +192,7 @@ xlsx_map_prop_name_extended (char const *name)
 		static struct {
 			char const *gsf_key;
 			char const *xlsx_key;
-		} const map [] = {
+		} const map[] = {
 			{ GSF_META_NAME_TEMPLATE,            "Template"},
 			{ GSF_META_NAME_MANAGER,             "Manager"},
 			{ GSF_META_NAME_COMPANY,             "Company"},
@@ -314,7 +314,7 @@ xlsx_map_prop_name (char const *name)
 		static struct {
 			char const *gsf_key;
 			char const *xlsx_key;
-		} const map [] = {
+		} const map[] = {
 			{ GSF_META_NAME_CATEGORY,	"cp:category" },
 			{ "cp:contentStatus",	        "cp:contentStatus" },
 			{ "cp:contentType",	        "cp:contentType" },
@@ -406,7 +406,7 @@ xlsx_map_to_pid (char const *name)
 		static struct {
 			char const *name_key;
 			int pid_key;
-		} const map [] = {
+		} const map[] = {
 			{ "Editor", 2}
 		};
 

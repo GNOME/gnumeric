@@ -527,11 +527,11 @@ xlsx_write_go_style_full (GsfXMLOut *xml, GOStyle *style, const XLSXStyleContext
 			GOArrow const *arr = i ? sctx->end_arrow : sctx->start_arrow;
 			XLArrowType typ;
 			int l, w;
-			static const char *types[] = {
+			static const char * const types[] = {
 				"none", "triangle", "stealth",
 				"diamond", "oval", "arrow"
 			};
-			static const char *sizes[] = { "sm", "med", "lg" };
+			static const char * const sizes[] = { "sm", "med", "lg" };
 			double width;
 			GOArrow res_arrow;
 

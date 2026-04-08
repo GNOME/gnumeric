@@ -53,7 +53,7 @@
 GOLineDashType
 ms_escher_xl_to_line_type (guint16 pattern)
 {
-	static GOLineDashType const dash_map []= {
+	static GOLineDashType const dash_map[]= {
 		GO_LINE_SOLID,
 		GO_LINE_DASH,
 		GO_LINE_DOT,

@@ -1032,7 +1032,7 @@ themed_color_from_name (XLSXReadState *state, const char *name, GOColor *color)
 static GOColor
 themed_color (GsfXMLIn *xin, gint idx)
 {
-	static char const * const theme_elements [] = {
+	static char const * const theme_elements[] = {
 		"lt1",	"dk1", "lt2", "dk2",
 		"accent1", "accent2", "accent3", "accent4", "accent5", "accent6",
 		"hlink", "folHlink"
