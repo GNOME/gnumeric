@@ -19,7 +19,7 @@
 
 #include <Python.h>
 
-struct _GnmPython {
+struct GnmPython_ {
 	GObject parent_instance;
 
 	GnmPyInterpreter *current_interpreter, *default_interpreter;

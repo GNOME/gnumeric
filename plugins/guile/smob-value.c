@@ -34,7 +34,7 @@
 int scm_i_scm2bool (SCM obj);
 static long value_tag;
 
-typedef struct _SCM_Value
+typedef struct SCM_Value_
 {
 	GnmValue *v;
 	SCM update_func;

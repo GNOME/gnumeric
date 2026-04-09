@@ -32,21 +32,21 @@
 static PyObject *GnmModule = NULL;
 
 static PyTypeObject py_CellRef_object_type;
-typedef struct _py_CellRef_object py_CellRef_object;
+typedef struct py_CellRef_object_ py_CellRef_object;
 
 static PyTypeObject py_RangeRef_object_type;
-typedef struct _py_RangeRef_object py_RangeRef_object;
+typedef struct py_RangeRef_object_ py_RangeRef_object;
 static PyObject *py_new_RangeRef_object (GnmRangeRef const *range_ref);
 static GnmRangeRef *py_RangeRef_as_RangeRef (py_RangeRef_object *self);
 
-typedef struct _py_GnumericFunc_object py_GnumericFunc_object;
+typedef struct py_GnumericFunc_object_ py_GnumericFunc_object;
 static PyTypeObject py_GnumericFunc_object_type;
 
-typedef struct _py_GnumericFuncDict_object py_GnumericFuncDict_object;
+typedef struct py_GnumericFuncDict_object_ py_GnumericFuncDict_object;
 static PyTypeObject py_GnumericFuncDict_object_type;
 
 static PyTypeObject py_GnmPlugin_object_type;
-typedef struct _py_GnmPlugin_object py_GnmPlugin_object;
+typedef struct py_GnmPlugin_object_ py_GnmPlugin_object;
 
 /*
 Available types, attributes, methods, etc.:
@@ -378,7 +378,7 @@ call_python_function (PyObject *python_fn, GnmEvalPos const *eval_pos, gint n_ar
  * behind our backs.
  */
 
-struct _py_CellRef_object {
+struct py_CellRef_object_ {
 	PyObject_HEAD
 	GnmCellRef cell_ref;
 };
@@ -461,7 +461,7 @@ static PyTypeObject py_CellRef_object_type = {
  * behind our backs.
  */
 
-struct _py_RangeRef_object {
+struct py_RangeRef_object_ {
 	PyObject_HEAD
 	GnmRangeRef range_ref;
 };
@@ -537,7 +537,7 @@ static PyTypeObject py_RangeRef_object_type = {
  * GnmStyle
  */
 
-struct _py_Style_object {
+struct py_Style_object_ {
 	PyObject_HEAD
 	gboolean ro;
 	union {
@@ -550,7 +550,7 @@ struct _py_Style_object {
  * GnumericFunc
  */
 
-struct _py_GnumericFunc_object {
+struct py_GnumericFunc_object_ {
 	PyObject_HEAD
 	GnmFunc *fn_def;
 	GnmEvalPos *eval_pos;
@@ -606,7 +606,7 @@ static PyTypeObject py_GnumericFunc_object_type = {
  * GnumericFuncDict
  */
 
-struct _py_GnumericFuncDict_object {
+struct py_GnumericFuncDict_object_ {
 	PyObject_HEAD
 	// PyObject *module_dict;
 };
@@ -662,7 +662,7 @@ static PyTypeObject py_GnumericFuncDict_object_type = {
 - * GOPlugin
  */
 
-struct _py_GnmPlugin_object {
+struct py_GnmPlugin_object_ {
 	PyObject_HEAD
 	GOPlugin *pinfo;
 };

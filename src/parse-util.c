@@ -47,6 +47,11 @@
 #include <glib.h>
 #include <string.h>
 
+
+typedef struct {
+	GObjectClass base;
+} GnmConventionsClass;
+
 static GnmLexerItem *
 gnm_lexer_item_copy (GnmLexerItem *li)
 {

@@ -102,9 +102,9 @@ typedef struct {
 	SheetObject   *so;
 } BlipInf;
 
-typedef struct _BlipType BlipType;
+typedef struct BlipType_ BlipType;
 
-struct _BlipType {
+struct BlipType_ {
 	char const *type_name;
 	guint8 type;
 	guint8 blip_tag[2];

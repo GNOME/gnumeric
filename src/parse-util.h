@@ -8,10 +8,12 @@
 
 G_BEGIN_DECLS
 
-typedef struct _GnmConventions GnmConventions;
+typedef struct GnmConventions_ GnmConventions;
 
 #define GNM_CONVENTIONS_TYPE (gnm_conventions_get_type ())
-G_DECLARE_FINAL_TYPE (GnmConventions, gnm_conventions, GNM, CONVENTIONS, GObject)
+GType gnm_conventions_get_type (void);
+#define GNM_CONVENTIONS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_CONVENTIONS_TYPE, GnmConventions))
+#define GNM_IS_CONVENTIONS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNM_CONVENTIONS_TYPE))
 
 char const *col_name  (int col);
 char const *cols_name (int start_col, int end_col);
@@ -102,7 +104,7 @@ typedef enum {
 	GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID	   = 1 << 5
 } GnmExprParseFlags;
 
-struct _GnmConventions {
+struct GnmConventions_ {
 	GObject parent;
 
 	gboolean r1c1_addresses;

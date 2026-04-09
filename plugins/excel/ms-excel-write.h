@@ -77,7 +77,7 @@ typedef struct {
 	GHashTable *pivot_caches;
 } XLExportBase;
 
-struct _XLSExporter {
+struct XLSExporter_ {
 	XLExportBase	base;
 
 	GOIOContext     *io_context;

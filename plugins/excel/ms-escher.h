@@ -63,7 +63,7 @@ GOLineDashType ms_escher_xl_to_line_type (guint16 pattern);
 int ms_escher_line_type_to_xl (GOLineDashType ld);
 
 
-struct _MSEscherBlip {
+struct MSEscherBlip_ {
 	char const   *type;
 	guint8       *data;
 	guint32	      data_len;

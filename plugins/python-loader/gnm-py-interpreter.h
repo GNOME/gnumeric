@@ -10,7 +10,7 @@
 #define GNM_IS_PY_INTERPRETER(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PY_INTERPRETER_TYPE))
 
 GType gnm_py_interpreter_get_type (void);
-typedef struct _GnmPyInterpreter GnmPyInterpreter;
+typedef struct GnmPyInterpreter_ GnmPyInterpreter;
 
 GnmPyInterpreter *gnm_py_interpreter_new	(GOPlugin *plugin);
 void              gnm_py_interpreter_destroy	(GnmPyInterpreter *interpreter,

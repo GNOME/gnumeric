@@ -92,7 +92,7 @@ typedef struct {
 } HFPreviewInfo;
 
 
-typedef struct _PrinterSetupState PrinterSetupState;
+typedef struct PrinterSetupState_ PrinterSetupState;
 typedef struct {
 	double     value;
 	GtkSpinButton *spin;
@@ -102,7 +102,7 @@ typedef struct {
 	PrinterSetupState *state;
 } UnitInfo;
 
-struct _PrinterSetupState {
+struct PrinterSetupState_ {
 	WBCGtk  *wbcg;
 	Sheet            *sheet;
 	GtkBuilder       *gui;
@@ -166,10 +166,10 @@ struct _PrinterSetupState {
 	} comment_display;
 };
 
-typedef struct _HFCustomizeState HFCustomizeState;
+typedef struct HFCustomizeState_ HFCustomizeState;
 
-typedef struct _HFDTFormatState HFDTFormatState;
-struct _HFDTFormatState {
+typedef struct HFDTFormatState_ HFDTFormatState;
+struct HFDTFormatState_ {
 	GtkWidget        *dialog;
 	GtkBuilder       *gui;
 	HFCustomizeState *hf_state;
@@ -177,7 +177,7 @@ struct _HFDTFormatState {
 	GtkWidget        *format_sel;
 };
 
-struct _HFCustomizeState {
+struct HFCustomizeState_ {
 	GtkWidget        *dialog;
 	GtkBuilder       *gui;
 	PrinterSetupState *printer_setup_state;
@@ -201,8 +201,8 @@ typedef enum {
 	HF_FIELD_CELL
 } HFFieldType;
 
-typedef struct _HFMarkInfo HFMarkInfo;
-struct _HFMarkInfo {
+typedef struct HFMarkInfo_ HFMarkInfo;
+struct HFMarkInfo_ {
 	GtkTextMark *mark;
 	HFFieldType type;
 	char *options;

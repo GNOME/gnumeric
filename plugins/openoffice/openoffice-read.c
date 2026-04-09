@@ -369,7 +369,7 @@ typedef struct {
 	gchar           *control;
 } object_offset_t;
 
-typedef struct _OOParseState OOParseState;
+typedef struct OOParseState_ OOParseState;
 
 typedef struct {
 	gboolean         permanent;
@@ -399,7 +399,7 @@ typedef struct {
 	GString *help_message;
 } odf_validation_t;
 
-struct  _OOParseState {
+struct OOParseState_ {
 	GOIOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	OOVer		 ver;		/* Is it an OOo v1.0 or v2.0? */

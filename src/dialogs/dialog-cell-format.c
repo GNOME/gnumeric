@@ -88,25 +88,25 @@ typedef enum
 	BORDER_PRESET_MAX
 } BorderPresets;
 
-struct _FormatState;
+typedef struct FormatState_ FormatState;
 
 typedef struct {
-	struct _FormatState *state;
+	FormatState *state;
 	int cur_index;
 	GtkToggleButton *current_pattern;
 	GtkToggleButton *default_button;
-	void (*draw_preview) (struct _FormatState *);
+	void (*draw_preview) (FormatState *);
 } PatternPicker;
 
 typedef struct {
-	struct _FormatState *state;
+	FormatState *state;
 
 	GtkWidget        *combo;
 	GCallback	  preview_update;
 } ColorPicker;
 
 typedef struct {
-	struct _FormatState *state;
+	FormatState *state;
 	GtkToggleButton  *button;
 	GnmStyleBorderType	  pattern_index;
 	gboolean	  is_selected;	/* Is it selected */
@@ -121,7 +121,7 @@ typedef struct {
 	GnmExprEntry	*entry;
 } ExprEntry;
 
-typedef struct _FormatState {
+struct FormatState_ {
 	GtkBuilder	*gui;
 	WBCGtk	*wbcg;
 	GtkDialog	*dialog;
@@ -214,7 +214,7 @@ typedef struct _FormatState {
 		GtkWindow *w;
 		gpointer closure;
 	} style_selector;
-} FormatState;
+};
 
 enum {
 	CONDITIONS_RANGE,

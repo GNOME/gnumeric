@@ -49,7 +49,7 @@
 #define CELL_FORMAT_KEY "cell-format-cond-dialog"
 #define CELL_FORMAT_DEF_KEY "cell-format-cond-def-dialog"
 
-typedef struct _CFormatState {
+typedef struct {
 	GtkBuilder	*gui;
 	WBCGtk	        *wbcg;
 	GtkDialog	*dialog;

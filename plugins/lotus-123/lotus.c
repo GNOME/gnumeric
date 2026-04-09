@@ -962,9 +962,9 @@ lotus_treal (const record_t *r, int ofs)
 
 /* ------------------------------------------------------------------------- */
 
-typedef struct _LotusRLDB LotusRLDB;
+typedef struct LotusRLDB_ LotusRLDB;
 
-struct _LotusRLDB {
+struct LotusRLDB_ {
 	int refcount;
 	LotusRLDB *top;
 	int ndims;

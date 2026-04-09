@@ -25,7 +25,7 @@ gnm_py_dict_store (PyObject *dict, const char *key, PyObject *val)
 	Py_DECREF (val);
 }
 
-struct _GnmPyInterpreter {
+struct GnmPyInterpreter_ {
 	GObject parent_instance;
 
 	PyThreadState *py_thread_state;

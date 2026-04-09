@@ -66,7 +66,7 @@ set_pending_convs (GOData *data, const GnmConventions *convs)
 {
 	g_object_set_data_full (G_OBJECT (data),
 				"unserialize-convs",
-				g_object_ref ((gpointer)convs),
+				convs ? g_object_ref ((gpointer)convs) : NULL,
 				(GDestroyNotify)g_object_unref);
 }
 
@@ -253,6 +253,13 @@ gnm_go_data_unserialize (GOData *dat, char const *str, gpointer user)
 	return FALSE;
 }
 
+/**
+ * gnm_go_data_set_sheet:
+ * @dat: #GOData
+ * @sheet: (nullable): #Sheet
+ *
+ * Sets the sheet for @dat.
+ **/
 void
 gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 {
@@ -302,6 +309,12 @@ gnm_go_data_get_sheet (GOData const *dat)
 	return dep->sheet;
 }
 
+/**
+ * gnm_go_data_get_expr:
+ * @dat: #GOData
+ *
+ * Returns: (transfer none) (nullable): the expression for @dat.
+ **/
 GnmExprTop const *
 gnm_go_data_get_expr (GOData const *dat)
 {
@@ -465,6 +478,11 @@ gnm_go_data_scalar_init (GObject *obj)
 	scalar->dep.flags = gnm_go_data_scalar_get_dep_type ();
 }
 
+/**
+ * gnm_go_data_scalar_get_type:
+ *
+ * Returns: the #GType for #GnmGODataScalar.
+ **/
 GSF_CLASS (GnmGODataScalar, gnm_go_data_scalar,
 	   gnm_go_data_scalar_class_init, gnm_go_data_scalar_init,
 	   GO_TYPE_DATA_SCALAR)
@@ -1135,6 +1153,11 @@ gnm_go_data_vector_init (GObject *obj)
 	vec->dep.flags = gnm_go_data_vector_get_dep_type ();
 }
 
+/**
+ * gnm_go_data_vector_get_type:
+ *
+ * Returns: the #GType for #GnmGODataVector.
+ **/
 GSF_CLASS (GnmGODataVector, gnm_go_data_vector,
 	   gnm_go_data_vector_class_init, gnm_go_data_vector_init,
 	   GO_TYPE_DATA_VECTOR)
@@ -1508,6 +1531,11 @@ gnm_go_data_matrix_init (GObject *obj)
 	mat->dep.flags = gnm_go_data_matrix_get_dep_type ();
 }
 
+/**
+ * gnm_go_data_matrix_get_type:
+ *
+ * Returns: the #GType for #GnmGODataMatrix.
+ **/
 GSF_CLASS (GnmGODataMatrix, gnm_go_data_matrix,
 	   gnm_go_data_matrix_class_init, gnm_go_data_matrix_init,
 	   GO_TYPE_DATA_MATRIX)

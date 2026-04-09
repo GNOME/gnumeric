@@ -116,10 +116,10 @@ typedef struct {
 	GOLineInterpolation interpolation;
 } XLChartReadState;
 
-typedef struct _XLChartHandler	XLChartHandler;
+typedef struct XLChartHandler_	XLChartHandler;
 typedef gboolean (*XLChartReader) (XLChartHandler const *handle,
 				   XLChartReadState *, BiffQuery *q);
-struct _XLChartHandler {
+struct XLChartHandler_ {
 	guint16 const opcode;
 	guint16 const min_size; /* Minimum across all versions.  */
 	char const *const name;

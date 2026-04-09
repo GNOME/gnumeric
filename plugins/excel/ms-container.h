@@ -16,10 +16,10 @@
 #include <glib.h>
 #include <pango/pango-attributes.h>
 
-typedef struct _MSContainer	MSContainer;
-typedef struct _GnmXLImporter	GnmXLImporter;
-typedef struct _MSEscherBlip	MSEscherBlip;
-typedef struct _MSObj		MSObj;
+typedef struct MSContainer_	MSContainer;
+typedef struct GnmXLImporter_	GnmXLImporter;
+typedef struct MSEscherBlip_	MSEscherBlip;
+typedef struct MSObj_		MSObj;
 
 typedef struct {
 	gboolean        (*realize_obj)	(MSContainer *c, MSObj *obj);
@@ -31,7 +31,7 @@ typedef struct {
 	PangoAttrList * (*get_markup)	(MSContainer const *c, unsigned indx);
 } MSContainerClass;
 
-struct _MSContainer {
+struct MSContainer_ {
 	MSContainerClass const *vtbl;
 
 	GnmXLImporter	*importer;

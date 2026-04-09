@@ -159,7 +159,7 @@ PangoAttrList *ms_obj_attr_get_markup (MSObjAttrBag *ab, MSObjAttrID id,
 GObject      *ms_obj_attr_get_gobject (MSObjAttrBag *attrs, MSObjAttrID id);
 
 
-struct _MSObj {
+struct MSObj_ {
 	int id;
 
 	/* Type specific parameters */

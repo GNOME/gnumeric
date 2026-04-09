@@ -33,15 +33,13 @@
 #define XL_CHECK_CONDITION(cond) XL_CHECK_CONDITION_FULL(cond,return;)
 #define XL_CHECK_CONDITION_VAL(cond,val) XL_CHECK_CONDITION_FULL(cond,return val;)
 
-typedef struct _TwoWayTable   TwoWayTable;
-
-struct _TwoWayTable {
+typedef struct {
 	GHashTable *all_keys;
 	GHashTable *unique_keys;
 	GPtrArray  *idx_to_key;
 	gint       base;	/* Indices assigned consecutively from base */
 	GDestroyNotify key_destroy_func;
-};
+} TwoWayTable;
 
 typedef void (*AfterPutFunc) (gconstpointer key,
 			      gboolean      was_added,

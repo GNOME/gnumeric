@@ -105,7 +105,7 @@ typedef struct {
 	guint32 end_offset;	/* 1st byte past end of current segment */
 } MSEscherState;
 
-typedef struct _MSEscherHeader {
+typedef struct MSEscherHeader_ {
 	/* Read from the data stream */
 	guint	ver;
 	guint	instance;
@@ -113,7 +113,7 @@ typedef struct _MSEscherHeader {
 	guint32	len; /* Including the common header */
 
 	guint32	offset;
-	struct _MSEscherHeader *container;
+	struct MSEscherHeader_ *container;
 
 	MSObjAttrBag *attrs;
 	gboolean      release_attrs;

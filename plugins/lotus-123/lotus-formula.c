@@ -29,9 +29,9 @@
 #define FORMULA_DEBUG 0
 
 
-typedef struct _LFuncInfo LFuncInfo;
+typedef struct LFuncInfo_ LFuncInfo;
 
-struct _LFuncInfo {
+struct LFuncInfo_ {
 	short args;
 	unsigned short ordinal;
 	char const *lotus_name;

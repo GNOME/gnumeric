@@ -405,11 +405,23 @@ icg_init (GnmIOContextGtk *icg)
 	g_timer_start (icg->timer);
 }
 
+/**
+ * gnm_io_context_gtk_get_type:
+ *
+ * Returns: the #GType for #GnmIOContextGtk.
+ **/
 GSF_CLASS_FULL (GnmIOContextGtk, gnm_io_context_gtk,
 		NULL, NULL, icg_class_init, NULL,
 		icg_init, GO_TYPE_IO_CONTEXT, 0,
 		GSF_INTERFACE (icg_gnm_cmd_context_init, GO_TYPE_CMD_CONTEXT))
 
+/**
+ * gnm_io_context_gtk_set_transient_for:
+ * @icg: #GnmIOContextGtk
+ * @parent_window: #GtkWindow
+ *
+ * Sets the parent window for @icg.
+ **/
 void
 gnm_io_context_gtk_set_transient_for (GnmIOContextGtk *icg, GtkWindow *parent_window)
 {
@@ -418,12 +430,24 @@ gnm_io_context_gtk_set_transient_for (GnmIOContextGtk *icg, GtkWindow *parent_wi
 		go_gtk_window_set_transient (parent_window, icg->window);
 }
 
+/**
+ * gnm_io_context_gtk_get_interrupted:
+ * @icg: #GnmIOContextGtk
+ *
+ * Returns: %TRUE if @icg was interrupted.
+ **/
 gboolean
 gnm_io_context_gtk_get_interrupted (GnmIOContextGtk *icg)
 {
 	return icg->interrupted;
 }
 
+/**
+ * gnm_io_context_gtk_discharge_splash:
+ * @icg: #GnmIOContextGtk
+ *
+ * Closes the splash screen associated with @icg.
+ **/
 void
 gnm_io_context_gtk_discharge_splash (GnmIOContextGtk *icg)
 {

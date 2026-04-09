@@ -23,7 +23,7 @@ typedef struct GnmCellRegion_		GnmCellRegion;
 typedef struct GnmColor_	        GnmColor;
 typedef struct GnmComment_		GnmComment;
 typedef struct GnmConsolidate_		GnmConsolidate;
-typedef struct _GnmConventions		GnmConventions;
+typedef struct GnmConventions_		GnmConventions;
 typedef struct GnmConventionsOut_	GnmConventionsOut;
 typedef struct GnmDepContainer_		GnmDepContainer;
 typedef struct GnmDependent_		GnmDependent;

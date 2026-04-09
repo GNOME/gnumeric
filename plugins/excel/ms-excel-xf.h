@@ -24,7 +24,7 @@
 
 #define STYLE_ORIENT_MAX 6
 
-typedef struct _BiffXFData {
+typedef struct {
 	guint16 font_idx;
 	guint16 format_idx;
 	GOFormat const *style_format;

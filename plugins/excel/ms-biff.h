@@ -72,7 +72,7 @@ guint32     ms_biff_query_bound_check (BiffQuery *q,
 /*                                Write Side                                 */
 /*****************************************************************************/
 
-typedef struct _BiffPut {
+typedef struct {
 	guint16		 opcode;
 	gsf_off_t	 streamPos;
 	unsigned	 curpos; /* Curpos is offset from beginning of header */

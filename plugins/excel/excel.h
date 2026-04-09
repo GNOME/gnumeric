@@ -19,7 +19,7 @@ void excel_read_workbook (GOIOContext *context, WorkbookView *new_wb,
 			  gboolean *is_double_stream_file,
 			  char const *opt_enc);
 
-typedef struct _XLSExporter	 ExcelWriteState;
+typedef struct XLSExporter_	 ExcelWriteState;
 void		 excel_write_state_free (ExcelWriteState *ewb);
 ExcelWriteState *excel_write_state_new  (GOIOContext *context, WorkbookView const *wbv,
 					 gboolean biff7, gboolean biff8);

@@ -103,7 +103,7 @@ typedef struct {
 	GOFormat	*markup;
 } ExcelStringEntry;
 
-struct _GnmXLImporter {
+struct GnmXLImporter_ {
 	MSContainer	  container;
 	GOIOContext	 *context;
 	WorkbookView	 *wbv;

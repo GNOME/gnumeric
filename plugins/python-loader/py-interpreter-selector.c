@@ -19,7 +19,7 @@
 #include <string.h>
 #include <glib.h>
 
-struct _GnmPyInterpreterSelector {
+struct GnmPyInterpreterSelector_ {
 	GtkComboBox parent;
 
 	GnmPython *py_object;

@@ -92,25 +92,21 @@ GNM_PLUGIN_MODULE_HEADER;
 /* All bits that are mutually exclusive in the type field of an xloper. */
 #define xltypeType       0x0FFF
 
-struct _XLL {
+typedef struct {
 	gchar * name;
 	GModule * handle;
 	void (*xlAutoFree)(XLOPER*);
 	unsigned long number_of_functions;
-};
+} XLL;
 
-typedef struct _XLL XLL;
-
-struct _XLLFunctionInfo {
+typedef struct {
 	XLL* xll; /* Not owned. Included for availability of information during callbacks, and for access to xlAutoFree. */
 	XLOPER* (*xll_function)(void);
 	gchar* category;
 	GnmFuncDescriptor gnm_func_descriptor;
 	guint number_of_arguments;
 	GnmFunc* gnm_func;
-};
-
-typedef struct _XLLFunctionInfo XLLFunctionInfo;
+} XLLFunctionInfo;
 
 static GModule *xlcall32_handle = NULL;
 static void (*register_actual_excel4v)(void*p) = NULL;

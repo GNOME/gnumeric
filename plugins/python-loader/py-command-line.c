@@ -18,7 +18,7 @@
 
 #define MAX_HISTORY_SIZE  100
 
-struct _GnmPyCommandLine {
+struct GnmPyCommandLine_ {
 	GtkEntry parent;
 
 	GList *history, *history_tail, *history_cur;

@@ -10,7 +10,7 @@
 #define GNM_IS_PYTHON(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PYTHON_TYPE))
 
 GType gnm_python_get_type (void);
-typedef struct _GnmPython GnmPython;
+typedef struct GnmPython_ GnmPython;
 
 GnmPython        *gnm_python_object_get (GOErrorInfo **err);
 GnmPyInterpreter *gnm_python_new_interpreter (GnmPython *gpy, GOPlugin *plugin);
