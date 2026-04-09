@@ -1034,11 +1034,12 @@ excel_get_chars (GnmXLImporter const *importer,
 	GIConv str_iconv = importer->str_iconv;
 
 	if (use_utf16) {
-		gunichar2 *uni_text = g_alloca (sizeof (gunichar2)*length);
+		gunichar2 *uni_text = g_new (gunichar2, length);
 
 		for (i = 0; i < length; i++, ptr += 2)
 			uni_text [i] = GSF_LE_GET_GUINT16 (ptr);
 		ans = g_utf16_to_utf8 (uni_text, length, NULL, NULL, NULL);
+		g_free (uni_text);
 	} else {
 		size_t outbytes = (length + 2) * 8;
 		char *outbuf = g_new (char, outbytes + 1);
@@ -5845,13 +5846,16 @@ static guchar *
 read_utf16_str (int word_len, guint8 const *data)
 {
 	int i;
-	gunichar2 *uni_text = g_alloca (word_len * sizeof (gunichar2));
+	gunichar2 *uni_text = g_new (gunichar2, word_len);
+	guchar *res;
 
 	/* be wary about endianness */
 	for (i = 0 ; i < word_len ; i++, data += 2)
 		uni_text [i] = GSF_LE_GET_GUINT16 (data);
 
-	return (guchar *)g_utf16_to_utf8 (uni_text, word_len, NULL, NULL, NULL);
+	res = (guchar *)g_utf16_to_utf8 (uni_text, word_len, NULL, NULL, NULL);
+	g_free (uni_text);
+	return res;
 }
 
 /*

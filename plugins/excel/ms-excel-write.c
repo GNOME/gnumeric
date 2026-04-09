@@ -5461,7 +5461,7 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 	r.start.col = 0;
 	r.end.col = max_col-1;
 
-	rc_start = g_alloca (sizeof (unsigned) * nrows);
+	rc_start = g_new (unsigned, nrows);
 	for (row = begin; row <= max_row; row++) {
 		guint32 run_size = 0;
 
@@ -5528,6 +5528,7 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 	excel_sheet_write_DBCELL (esheet, ri_start, rc_start,
 				  has_content ? nrows : 0, dbcells);
 
+	g_free (rc_start);
 	g_free (xf_list);
 
 	return row - 1;
@@ -5973,7 +5974,7 @@ excel_write_SST (ExcelWriteState *ewb)
 
 	if (strings->len > 0) {
 		blocks = 1 + ((strings->len - 1) / 8);
-		extsst = g_alloca (sizeof (SSTInf) * blocks);
+		extsst = g_new (SSTInf, blocks);
 	} else
 		blocks = 0;
 
@@ -6083,6 +6084,7 @@ unicode_loop :
 		ms_biff_put_var_write (bp, data, 8);
 	}
 	ms_biff_put_commit (bp);
+	g_free (extsst);
 }
 
 static void
