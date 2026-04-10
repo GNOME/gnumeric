@@ -385,11 +385,18 @@ sheet_object_set_property (GObject *obj, guint param_id,
 
 
 static void
+sheet_object_dispose (GObject *obj)
+{
+	SheetObject *so = GNM_SO (obj);
+	if (so->sheet != NULL)
+		sheet_object_clear_sheet (so);
+	parent_klass->dispose (obj);
+}
+
+static void
 sheet_object_finalize (GObject *object)
 {
 	SheetObject *so = GNM_SO (object);
-	if (so->sheet != NULL)
-		sheet_object_clear_sheet (so);
 	g_free (so->name);
 	parent_klass->finalize (object);
 }
@@ -429,6 +436,7 @@ sheet_object_class_init (GObjectClass *klass)
 
 	parent_klass = g_type_class_peek_parent (klass);
 
+	klass->dispose = sheet_object_dispose;
 	klass->finalize = sheet_object_finalize;
 	klass->get_property = sheet_object_get_property;
 	klass->set_property = sheet_object_set_property;

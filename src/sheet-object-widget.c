@@ -388,6 +388,7 @@ sheet_widget_frame_set_property (GObject *obj, guint param_id,
 static void
 sheet_widget_frame_init_full (SheetWidgetFrame *swf, char const *text)
 {
+	g_free (swf->label);
 	swf->label = g_strdup (text);
 }
 
@@ -883,15 +884,22 @@ sheet_widget_button_init_full (SheetWidgetButton *swb,
 	SheetObject *so = GNM_SO (swb);
 
 	so->flags &= ~SHEET_OBJECT_PRINT;
+
+	g_free (swb->label);
 	swb->label = g_strdup (text);
+
+	if (swb->markup) pango_attr_list_unref (swb->markup);
 	swb->markup = markup;
+	if (markup) pango_attr_list_ref (markup);
+
 	swb->value = FALSE;
+
+	gnm_expr_top_unref (swb->dep.texpr);
 	swb->dep.sheet = NULL;
 	swb->dep.flags = button_get_dep_type ();
 	swb->dep.texpr = (ref != NULL)
 		? gnm_expr_top_new (gnm_expr_new_cellref (ref))
 		: NULL;
-	if (markup) pango_attr_list_ref (markup);
 }
 
 static void
@@ -1360,14 +1368,12 @@ enum {
 	SWA_PROP_HORIZONTAL
 };
 
-#ifndef g_signal_handlers_disconnect_by_data
-#define g_signal_handlers_disconnect_by_data(instance, data) \
-  g_signal_handlers_disconnect_matched ((instance), G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, (data))
-#endif
 static void
 cb_range_destroyed (GtkWidget *w, SheetWidgetAdjustment *swa)
 {
 	GObject *accessible = G_OBJECT (gtk_widget_get_accessible (w));
+	// This seems to be working around some gtk+ related bug.  I don't
+	// actually see the crash, but *shrugs*
 	if (accessible)
 		g_signal_handlers_disconnect_by_data (swa->adjustment, accessible);
 }
@@ -1566,11 +1572,13 @@ sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa,
 	so = GNM_SO (swa);
 	so->flags &= ~SHEET_OBJECT_PRINT;
 
-	swa->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 0.));
-	g_object_ref_sink (swa->adjustment);
+	if (!swa->adjustment)
+		swa->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 0.));
 
 	swa->horizontal = horizontal;
 	swa->being_updated = FALSE;
+
+	gnm_expr_top_unref (swa->dep.texpr);
 	swa->dep.sheet = NULL;
 	swa->dep.flags = adjustment_get_dep_type ();
 	swa->dep.texpr = (ref != NULL)
@@ -1591,11 +1599,8 @@ sheet_widget_adjustment_finalize (GObject *obj)
 
 	g_return_if_fail (swa != NULL);
 
+	g_clear_object (&swa->adjustment);
 	dependent_set_expr (&swa->dep, NULL);
-	if (swa->adjustment != NULL) {
-		g_object_unref (swa->adjustment);
-		swa->adjustment = NULL;
-	}
 
 	sheet_object_widget_class->finalize (obj);
 }
@@ -2405,9 +2410,13 @@ sheet_widget_checkbox_init_full (SheetWidgetCheckbox *swc,
 
 	g_return_if_fail (swc != NULL);
 
+	g_free (swc->label);
 	swc->label = label ? g_strdup (label) : g_strdup_printf (_("CheckBox %d"), ++counter);
+
 	swc->being_updated = FALSE;
 	swc->value = FALSE;
+
+	gnm_expr_top_unref (swc->dep.texpr);
 	swc->dep.sheet = NULL;
 	swc->dep.flags = checkbox_get_dep_type ();
 	swc->dep.texpr = (ref != NULL)
@@ -3030,10 +3039,16 @@ sheet_widget_radio_button_init_full (SheetWidgetRadioButton *swrb,
 	g_return_if_fail (swrb != NULL);
 
 	swrb->being_updated = FALSE;
+
+	g_free (swrb->label);
 	swrb->label = g_strdup (label ? label : _("RadioButton"));
+
+	value_release (swrb->value);
 	swrb->value = value ? value_dup (value) : value_new_empty ();
+
 	swrb->active = active;
 
+	gnm_expr_top_unref (swrb->dep.texpr);
 	swrb->dep.sheet = NULL;
 	swrb->dep.flags = radio_button_get_dep_type ();
 	swrb->dep.texpr = (ref != NULL)
