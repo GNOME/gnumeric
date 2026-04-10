@@ -215,9 +215,11 @@ gtmff_asc (GtkTreeModel *model, GtkTreePath *path,
 			    SHEET_NAME, &name,
 			    -1);
 	ptr->i = this_sheet->index_in_wb;
-	ptr->key = g_utf8_collate_key_for_filename (name, -1);
+	ptr->key = g_utf8_collate_key (name, -1);
 
 	*l = g_slist_insert_sorted (*l, ptr, (GCompareFunc) gtmff_compare_func);
+
+	g_free (name);
 
 	return FALSE;
 }

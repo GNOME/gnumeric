@@ -423,7 +423,7 @@ about_dialog_anim_draw (G_GNUC_UNUSED GtkWidget *widget,
 		keep = r->renderer (r, state);
 		if (!keep) {
 			free_renderer (r);
-			state->active = g_list_remove_link (state->active, l);
+			state->active = g_list_delete_link (state->active, l);
 		}
 		l = next;
 	}
