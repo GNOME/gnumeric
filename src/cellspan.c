@@ -42,13 +42,6 @@ col_compare (gconstpointer a, gconstpointer b)
 	return 0;
 }
 
-static void
-free_hash_value (G_GNUC_UNUSED gpointer key, gpointer value,
-		 G_GNUC_UNUSED gpointer user_data)
-{
-	g_free (value);
-}
-
 /**
  * row_destroy_span:
  * @ri: (nullable): #ColRowInfo
@@ -61,7 +54,6 @@ row_destroy_span (ColRowInfo *ri)
 	if (ri == NULL || ri->spans == NULL)
 		return;
 
-	g_hash_table_foreach (ri->spans, free_hash_value, NULL);
 	g_hash_table_destroy (ri->spans);
 	ri->spans = NULL;
 }
@@ -90,7 +82,8 @@ cell_register_span (GnmCell const *cell, int left, int right)
 		return;
 
 	if (ri->spans == NULL)
-		ri->spans = g_hash_table_new (col_hash, col_compare);
+		ri->spans = g_hash_table_new_full (col_hash, col_compare,
+						   NULL, g_free);
 
 	for (i = left; i <= right; i++){
 		CellSpanInfo *spaninfo = g_new (CellSpanInfo, 1);
@@ -111,11 +104,7 @@ span_remove (G_GNUC_UNUSED gpointer key, gpointer value,
 	CellSpanInfo *span = (CellSpanInfo *)value;
 	GnmCell *cell = user_data;
 
-	if (cell == span->cell) {
-		g_free (span); /* free the span descriptor */
-		return TRUE;
-	}
-	return FALSE;
+	return (cell == span->cell);
 }
 
 /**
@@ -146,7 +135,7 @@ cell_unregister_span (GnmCell const *cell)
  * @col: column
  *
  * Returns: (transfer none) (nullable): the #CellSpanInfo for the cell
- * at @col in @ri.
+ * at @col in the row that @ri is associated with.
  **/
 CellSpanInfo const *
 row_span_get (ColRowInfo const *ri, int col)

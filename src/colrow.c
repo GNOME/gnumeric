@@ -45,6 +45,11 @@ col_row_info_fake_copy (ColRowInfo *cri)
 	return cri;
 }
 
+/**
+ * col_row_info_get_type:
+ *
+ * Returns: the #GType for #ColRowInfo.
+ **/
 GType
 col_row_info_get_type (void)
 {
@@ -58,19 +63,35 @@ col_row_info_get_type (void)
 	return t;
 }
 
+/**
+ * colrow_compute_pixel_scale:
+ * @sheet: #Sheet
+ * @horizontal: %TRUE for columns, %FALSE for rows
+ *
+ * Returns: the pixel scale for @sheet.
+ **/
 double
 colrow_compute_pixel_scale (Sheet const *sheet, gboolean horizontal)
 {
-	// double scale = gnm_app_display_dpi_get (horizontal) / 72.0;
-	double scale = sheet->priv->pixels_per_pt;
+	double scale;
 	if (sheet) {
-		scale *= sheet->last_zoom_factor_used;
+		scale = sheet->priv->pixels_per_pt * sheet->last_zoom_factor_used;
 	} else {
+		scale = 1;
 		g_error ("Why is sheet NULL here?\n");
 	}
 	return scale;
 }
 
+/**
+ * colrow_compute_pixels_from_pts:
+ * @cri: #ColRowInfo
+ * @sheet: #Sheet
+ * @horizontal: %TRUE for columns, %FALSE for rows
+ * @scale: scale factor, or -1 to use @sheet's default
+ *
+ * Computes @cri->size_pixels from @cri->size_pts.
+ **/
 void
 colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
 				gboolean horizontal, double scale)
@@ -91,6 +112,15 @@ colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
 	cri->size_pixels = pixels;
 }
 
+/**
+ * colrow_compute_pts_from_pixels:
+ * @cri: #ColRowInfo
+ * @sheet: #Sheet
+ * @horizontal: %TRUE for columns, %FALSE for rows
+ * @scale: scale factor, or -1 to use @sheet's default
+ *
+ * Computes @cri->size_pts from @cri->size_pixels.
+ **/
 void
 colrow_compute_pts_from_pixels (ColRowInfo *cri, Sheet const *sheet,
 				gboolean horizontal, double scale)
@@ -162,15 +192,33 @@ col_row_info_equal (ColRowInfo const *a, ColRowInfo const *b)
 		a->visible	 == b->visible;
 }
 
+/**
+ * col_row_info_new:
+ *
+ * Returns: (transfer full): a new #ColRowInfo.
+ **/
 ColRowInfo *
 col_row_info_new (void)
 {
 	return g_slice_new (ColRowInfo);
 }
 
+/**
+ * colrow_free:
+ * @cri: (nullable) (transfer full): #ColRowInfo
+ *
+ * Frees @cri.
+ **/
 void
 colrow_free (ColRowInfo *cri)
 {
+	if (cri == NULL)
+		return;
+
+	if (cri->spans) {
+		g_hash_table_destroy (cri->spans);
+		cri->spans = NULL;
+	}
 	g_slice_free1 (sizeof (*cri), cri);
 }
 
@@ -245,6 +293,12 @@ cb_colrow_index_counter (gpointer data, gpointer user_data)
 		*count += index->last - index->first + 1;
 }
 
+/**
+ * colrow_vis_list_length:
+ * @list: (nullable): #ColRowVisList
+ *
+ * Returns: the total number of columns or rows in @list.
+ **/
 gint
 colrow_vis_list_length (ColRowVisList *list)
 {
@@ -275,15 +329,17 @@ colrow_index_compare (ColRowIndex const * a, ColRowIndex const * b)
 	return a->first - b->first;
 }
 
-/*
- * colrow_index_list_to_string: Convert an index list into a string.
- *                              The result must be freed by the caller.
- *                              It will be something like : A-B, F-G
+/**
+ * colrow_index_list_to_string:
+ * @list: #ColRowIndexList
+ * @is_cols: %TRUE for columns, %FALSE for rows
+ * @is_single: (out) (optional): %TRUE if there's only a single col/row involved
  *
- * @list: The list
- * @is_cols: %TRUE for columns, %FALSE for rows.
- * @is_single: (out) (optional): %TRUE if there's only a single col/row involved.
- */
+ * Convert an index list into a string.
+ * It will be something like : A-B, F-G
+ *
+ * Returns: (transfer full): the string representation of @list.
+ **/
 GString *
 colrow_index_list_to_string (ColRowIndexList *list, gboolean is_cols, gboolean *is_single)
 {
@@ -860,26 +916,23 @@ cb_autofit_row (GnmColRowIter const *iter, gpointer data_)
 	return FALSE;
 }
 
-/*
+/**
  * colrow_autofit:
  * @sheet: the #Sheet to change
  * @range: the range to consider
- * @is_cols: %TRUE for columns, %FALSE for rows.
- * @ignore_strings: Don't consider cells with string values.
- * @min_current: Don't shrink below current size.
- * @min_default: Don't shrink below default size.
- * @indices: (out) (optional): indices appropriate for
- *     colrow_restore_state_group.
- * @sizes: (out) (optional): old sizes appropriate for
- *     colrow_restore_state_group.
- * @reasonable_effort: if %TRUE, this function may skip some cells from really
- *    big ranges.
+ * @is_cols: %TRUE for columns, %FALSE for rows
+ * @ignore_strings: Don't consider cells with string values
+ * @min_current: Don't shrink below current size
+ * @min_default: Don't shrink below default size
+ * @indices: (out) (optional): indices appropriate for colrow_restore_state_group
+ * @sizes: (out) (optional): old sizes appropriate for colrow_restore_state_group
+ * @reasonable_effort: if %TRUE, this function may skip some cells from really big ranges
  *
  * This function autofits columns or rows in @range as specified by
  * @is_cols.  Only cells in @range are considered for the sizing
  * and the size can be bounded below by current size and/or default
  * size.
- */
+ **/
 void
 colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
 		gboolean ignore_strings,
