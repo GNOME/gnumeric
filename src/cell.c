@@ -735,8 +735,12 @@ gnm_cell_get_entered_text (GnmCell const *cell)
 			sheet_date_conv (sheet);
 
 		if (VALUE_IS_STRING (v)) {
-			/* Try to be reasonably smart about adding a leading quote */
-			char const *tmp = value_peek_string (v);
+			// Try to be reasonably smart about adding a leading quote
+
+			// Note: copy the string.  Weird things involving
+			// conditional formats and go_string_get_casefolded_collate
+			// can cause problems.
+			char *tmp = g_strdup (value_peek_string (v));
 
 			if (tmp[0] != '\'' &&
 			    tmp[0] != 0 &&
@@ -746,10 +750,12 @@ gnm_cell_get_entered_text (GnmCell const *cell)
 					 gnm_cell_get_format (cell),
 					 date_conv);
 				if (val == NULL)
-					return g_strdup (tmp);
+					return tmp;
 				value_release (val);
 			}
-			return g_strconcat ("\'", tmp, NULL);
+			char *res = g_strconcat ("\'", tmp, NULL);
+			g_free (tmp);
+			return res;
 		} else {
 			GOFormat const *fmt = gnm_cell_get_format (cell);
 			return format_value (fmt, v, -1, date_conv);

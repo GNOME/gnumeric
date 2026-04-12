@@ -480,6 +480,11 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 		g_free (actual_src);
 	}
 
+	if (!found) {
+		g_free (res->old_text);
+		res->old_text = NULL;
+	}
+
 	return found;
 }
 
