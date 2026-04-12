@@ -7282,7 +7282,7 @@ sheet_date_conv (Sheet const *sheet)
  *
  * Returns: the number of rows on this sheet.
  */
-extern int gnm_sheet_get_max_rows (Sheet const *sheet);
+extern inline int gnm_sheet_get_max_rows (Sheet const *sheet);
 
 /**
  * gnm_sheet_get_max_cols:
@@ -7290,7 +7290,7 @@ extern int gnm_sheet_get_max_rows (Sheet const *sheet);
  *
  * Returns: the number of columns on this sheet.
  */
-extern int gnm_sheet_get_max_cols (Sheet const *sheet);
+extern inline int gnm_sheet_get_max_cols (Sheet const *sheet);
 
 /**
  * gnm_sheet_get_last_row:
@@ -7299,7 +7299,7 @@ extern int gnm_sheet_get_max_cols (Sheet const *sheet);
  * Returns: the row number for the last row on the sheet.  This number
  * is zero-based.
  */
-extern int gnm_sheet_get_last_row (Sheet const *sheet);
+extern inline int gnm_sheet_get_last_row (Sheet const *sheet);
 
 /**
  * gnm_sheet_get_last_col:
@@ -7308,4 +7308,4 @@ extern int gnm_sheet_get_last_row (Sheet const *sheet);
  * Returns: the column number for the last row on the sheet.  This
  * number is zero-based.
  */
-extern int gnm_sheet_get_last_col (Sheet const *sheet);
+extern inline int gnm_sheet_get_last_col (Sheet const *sheet);
