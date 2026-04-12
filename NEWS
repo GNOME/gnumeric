@@ -15,7 +15,7 @@ Morten:
 	* Introspection fixes.
 	* Test suite enhancements
 	* Preserve cvs-to-cvs and cvs-to-txt line endings.
-	* Fix problem with search-and-replace.
+	* Fix problems with search-and-replace.
 
 Alex H:
 	* Don't remove initial empty rows/columns for cvs/txt export.

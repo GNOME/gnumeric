@@ -4369,6 +4369,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 		 * does not have a better way of signaling an error.
 		 */
 		err = (val &&
+		       VALUE_IS_STRING (val) &&
 		       gnm_expr_char_start_p (cell_res.new_text) &&
 		       !go_format_is_text (gnm_cell_get_format (cell_res.cell)));
 		value_release (val);
