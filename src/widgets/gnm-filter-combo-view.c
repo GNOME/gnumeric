@@ -98,6 +98,8 @@ fcombo_activate (SheetObject *so, GtkTreeView *list, WBCGtk *wbcg,
 			cmd_autofilter_set_condition
 				(GNM_WBC (wbcg),
 				 fcombo->filter, field_num, cond);
+
+		value_release (v);
 	}
 	return TRUE;
 }
