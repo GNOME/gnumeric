@@ -333,8 +333,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	buf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (comment_view));
 	gtk_text_buffer_get_start_iter (buf, &start);
 	gtk_text_buffer_get_end_iter (buf, &end);
-	comment = g_strdup (gtk_text_buffer_get_text (buf, &start, &end,
-						      FALSE));
+	comment = gtk_text_buffer_get_text (buf, &start, &end, FALSE);
 
 	// Eh?
 	dao = dao_init_new_sheet (state->base.sheet);
@@ -480,6 +479,7 @@ set_selection_state (ScenariosState *state, gboolean f)
 				    0, &name, -1);
 
 		sc = gnm_sheet_scenario_find (state->base.sheet, name);
+		g_free (name);
 		if (!sc)
 			return;
 		cells_txt = gnm_scenario_get_range_str (sc);
@@ -635,7 +635,7 @@ scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkTreeSelection        *selection;
 	GtkTreeIter             iter;
 	GtkTreeModel            *model;
-	const gchar             *value;
+	gchar                   *value;
 
 	selection = gtk_tree_view_get_selection
 	        (GTK_TREE_VIEW (state->scenarios_treeview));
@@ -649,6 +649,7 @@ scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	restore_old_values (state);
 
 	state->current = gnm_sheet_scenario_find (state->base.sheet, value);
+	g_free (value);
 	state->undo = gnm_scenario_apply (state->current);
 }
 
@@ -684,6 +685,7 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 
 	sc = gnm_sheet_scenario_find (state->base.sheet, value);
+	g_free (value);
 	if (sc)
 		g_object_set_data (G_OBJECT (sc),
 				   "marked_deleted", GUINT_TO_POINTER (TRUE));

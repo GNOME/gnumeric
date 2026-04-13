@@ -1076,6 +1076,7 @@ cb_dialog_doc_metadata_comments_changed (GtkTextView     *view,
 				      GSF_META_NAME_DESCRIPTION,
 				      text,
 				      NULL,  G_TYPE_STRING);
+	g_free (text);
 	return FALSE;
 }
 
