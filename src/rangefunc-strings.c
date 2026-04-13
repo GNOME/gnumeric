@@ -26,8 +26,11 @@ range_concatenate (GPtrArray *data, char **res, gpointer user)
 	size_t len = 0;
 	GString *str;
 
-	for (ui = 0; ui < data->len; ui++)
+	for (ui = 0; ui < data->len; ui++) {
 		len += strlen (g_ptr_array_index (data, ui));
+		if (len >= INT_MAX)
+			return 1;
+	}
 
 	str = g_string_sized_new (len);
 
