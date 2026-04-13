@@ -399,14 +399,15 @@ colrow_get_index_list (int first, int last, ColRowIndexList *list)
 
 	prev = list->data;
 	for (ptr = list->next ; ptr != NULL ; ) {
-		tmp = ptr->data;
+		ColRowIndex *tmp = ptr->data;
 
 		/* at the end of existing segment or contained */
-		if (prev->last+1 >= tmp->first) {
+		if (prev->last + 1 >= tmp->first) {
 			GList *next = ptr->next;
 			if (prev->last < tmp->last)
 				prev->last = tmp->last;
-			list = g_list_remove_link (list, ptr);
+			list = g_list_delete_link (list, ptr);
+			g_free (tmp);
 			ptr = next;
 		} else {
 			ptr = ptr->next;

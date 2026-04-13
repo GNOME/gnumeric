@@ -817,8 +817,11 @@ cb_dialog_formula_guru_query_tooltip (G_GNUC_UNUSED GtkWidget  *widget,
 
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
 				    ARG_TOOLTIP, &arg_desc, -1);
-		if (arg_desc == NULL || arg_desc[0]=='\0')
+		if (arg_desc == NULL || arg_desc[0] == '\0') {
+			gtk_tree_path_free (path);
+			g_free (arg_desc);
 			return FALSE;
+		}
 		if (!state->tooltip_widget) {
 			state->tooltip_label = gtk_label_new ("");
 			state->tooltip_widget
