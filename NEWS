@@ -16,6 +16,7 @@ Morten:
 	* Test suite enhancements
 	* Preserve cvs-to-cvs and cvs-to-txt line endings.
 	* Fix problems with search-and-replace.
+	* Fix crash involding document properties and undo/redo.
 
 Alex H:
 	* Don't remove initial empty rows/columns for cvs/txt export.

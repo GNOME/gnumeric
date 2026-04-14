@@ -5763,7 +5763,7 @@ cmd_change_summary_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		if (NULL != (prop = gsf_doc_meta_data_steal (meta, name)))
 			old_vals = g_slist_prepend (old_vals, prop);
 		else
-			dropped = g_slist_prepend (old_vals, g_strdup (name));
+			dropped = g_slist_prepend (dropped, g_strdup (name));
 		gsf_doc_meta_data_store (meta, ptr->data);
 	}
 	g_slist_free (me->changed_props);
