@@ -460,8 +460,10 @@ name_guru_paste (NameGuruState *state, GtkTreeIter *iter)
 			    ITEM_NAME, &name,
 			    -1);
 
-	if (!is_pastable)
+	if (!is_pastable) {
+		g_free (name);
 		return FALSE;
+	}
 
 	if (wbcg_edit_start (state->wbcg, FALSE, FALSE)) {
 		GtkEntry *entry;
@@ -587,6 +589,7 @@ name_guru_add (NameGuruState *state, GtkTreeIter *iter, gchar const *path_string
 	type = ((gtk_tree_path_get_indices (path))[0] == 0) ?
 		item_type_new_unsaved_wb_name :
 		item_type_new_unsaved_sheet_name;
+	gtk_tree_path_free (path);
 	content =  selection_to_string (state->sv, FALSE);
 
 	gtk_tree_store_insert (state->model, &name_iter,
@@ -954,7 +957,7 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 
 	if (type != item_type_new_unsaved_wb_name &&
 	    type != item_type_new_unsaved_sheet_name)
-		return;
+		goto done;
 
 	name_guru_parse_pos_init (state, &pp, type);
 	nexpr = expr_name_lookup (&pp, new_text);
@@ -968,13 +971,13 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 				(GTK_WINDOW (state->dialog),
 				 GTK_MESSAGE_ERROR,
 				 _("This name is already in use!"));
-			return;
+			goto done;
 		}
 	}
 
 	texpr = name_guru_check_expression (state, content, &pp , type);
 	if (texpr == NULL)
-		return;
+		goto done;
 
 	if (!cmd_define_name (GNM_WBC (state->wbcg),
 			      new_text, &pp,
@@ -999,6 +1002,9 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 						&parent_iter, &iter))
 			name_guru_move_record (state, &iter, &parent_iter, type);
 	}
+
+done:
+	g_free (content);
 }
 
 static void
