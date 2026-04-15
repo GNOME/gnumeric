@@ -923,6 +923,7 @@ gnm_get_pango_attributes_from_buffer (GtkTextBuffer *buffer)
 			GSList *ptr, *l = gtk_text_iter_get_toggled_tags (&start, TRUE);
 			for (ptr = l; ptr; ptr = ptr->next)
 				gnm_store_text_tag_attr_in_pango (list, ptr->data, &start, text);
+			g_slist_free (l);
 		}
 		gtk_text_iter_forward_to_tag_toggle (&start, NULL);
 	}
