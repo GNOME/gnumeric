@@ -677,8 +677,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 #if 0
 	guint16 const flags = GSF_LE_GET_GUINT16(q->data+8);
 #endif
-	anchor = g_malloc (MS_ANCHOR_SIZE);
-	memcpy (anchor, q->data+8, MS_ANCHOR_SIZE);
+	anchor = go_memdup (q->data + 8, MS_ANCHOR_SIZE);
 	ms_obj_attr_bag_insert (obj->attrs,
 		ms_obj_attr_new_ptr (MS_OBJ_ATTR_ANCHOR, anchor));
 

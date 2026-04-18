@@ -452,8 +452,7 @@ ms_biff_query_next (BiffQuery *q)
 		q->non_decrypted_data = q->data;
 
 		q->data_malloced = TRUE;
-		q->data = g_new (guint8, q->length);
-		memcpy (q->data, q->non_decrypted_data, q->length);
+		q->data = go_memdup (q->non_decrypted_data, q->length);
 
 		if (q->dont_decrypt_next_record) {
 			skip_bytes (q, q->streamPos, 4 + q->length);
@@ -484,8 +483,7 @@ ms_biff_query_next (BiffQuery *q)
 		q->non_decrypted_data_malloced = q->data_malloced;
 		q->non_decrypted_data = q->data;
 		q->data_malloced = TRUE;
-		q->data = g_new (guint8, q->length);
-		memcpy (q->data, q->non_decrypted_data, q->length);
+		q->data = go_memdup (q->non_decrypted_data, q->length);
 
 		offset = (q->streamPos + q->length + 4) % 16;
 		for (k= 0; k < q->length; ++k) {

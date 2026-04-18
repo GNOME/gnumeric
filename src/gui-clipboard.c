@@ -957,8 +957,7 @@ image_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 
 	*size = osize;
 	if (*size == osize) {
-		ret = g_malloc (*size);
-		memcpy (ret, gsf_output_memory_get_bytes (omem), *size);
+		ret = go_memdup (gsf_output_memory_get_bytes (omem), *size);
 	} else {
 		g_warning ("Overflow");	/* Far fetched! */
 	}
