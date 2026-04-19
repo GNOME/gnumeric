@@ -77,8 +77,8 @@ PangoAttrList *wbcg_edit_get_markup	(WBCGtk *wbcg, gboolean full);
 GtkEntry     *wbcg_get_entry		(WBCGtk const *wbcg);
 GnmExprEntry *wbcg_get_entry_logical	(WBCGtk const *wbcg);
 GtkWidget    *wbcg_get_entry_underlying	(WBCGtk const *wbcg);
-void	      wbcg_set_entry		(WBCGtk *wbc,
-					 GnmExprEntry *new_entry);
+void	      wbcg_set_entry		(WBCGtk *wbcg,
+					 GnmExprEntry *entry);
 gboolean      wbcg_entry_has_logical	(WBCGtk const *wbcg);
 
 void          wbcg_focus_current_cell_indicator (WBCGtk const *wbcg);

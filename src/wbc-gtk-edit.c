@@ -56,9 +56,12 @@
 
 #define GNM_RESPONSE_REMOVE (-1000)
 
-/*
- * Shuts down the auto completion engine
- */
+/**
+ * wbcg_auto_complete_destroy:
+ * @wbcg: #WBCGtk
+ *
+ * Shuts down the auto completion engine.
+ **/
 void
 wbcg_auto_complete_destroy (WBCGtk *wbcg)
 {
@@ -1121,6 +1124,14 @@ wbcg_get_entry_underlying (WBCGtk const *wbcg)
 	return GTK_WIDGET (entry);
 }
 
+/**
+ * wbcg_set_entry:
+ * @wbcg: #WBCGtk
+ * @entry: (nullable): #GnmExprEntry
+ *
+ * Redirects the edit entry to @entry. If @entry is %NULL, use the default edit
+ * line.
+ **/
 void
 wbcg_set_entry (WBCGtk *wbcg, GnmExprEntry *entry)
 {
@@ -1185,6 +1196,13 @@ cb_guru_set_focus (G_GNUC_UNUSED GtkWidget *window,
 
 /****************************************************************************/
 
+/**
+ * wbcg_attach_guru:
+ * @wbcg: #WBCGtk
+ * @guru: #GtkWidget
+ *
+ * Connects @guru to @wbcg and handles focus changes.
+ **/
 void
 wbcg_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
 {
@@ -1196,6 +1214,14 @@ wbcg_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
 		G_CALLBACK (cb_guru_set_focus), wbcg, 0);
 }
 
+/**
+ * wbcg_attach_guru_with_unfocused_rs:
+ * @wbcg: #WBCGtk
+ * @guru: #GtkWidget
+ * @gee: (nullable): #GnmExprEntry
+ *
+ * Connects @guru to @wbcg, optionally redirecting range selection to @gee.
+ **/
 void
 wbcg_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
 				       GnmExprEntry *gee)
@@ -1213,6 +1239,12 @@ wbcg_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
 			G_CALLBACK (cb_guru_set_focus), wbcg);
 }
 
+/**
+ * wbcg_detach_guru:
+ * @wbcg: #WBCGtk
+ *
+ * Disconnects the currently attached guru from @wbcg.
+ **/
 void
 wbcg_detach_guru (WBCGtk *wbcg)
 {
@@ -1259,10 +1291,13 @@ auto_complete_matches (WBCGtk *wbcg)
 	}
 }
 
-/*
- * Returns: the text that must be shown by the editing entry, takes
- * into account the auto-completion text.
- */
+/**
+ * wbcg_edit_get_display_text:
+ * @wbcg: #WBCGtk
+ *
+ * Returns: (transfer none): the text that must be shown by the editing entry,
+ * takes into account the auto-completion text.
+ **/
 char const *
 wbcg_edit_get_display_text (WBCGtk *wbcg)
 {
@@ -1272,6 +1307,12 @@ wbcg_edit_get_display_text (WBCGtk *wbcg)
 		return gtk_entry_get_text (wbcg_get_entry (wbcg));
 }
 
+/**
+ * wbcg_init_editline:
+ * @wbcg: #WBCGtk
+ *
+ * Initializes the edit line for @wbcg.
+ **/
 void
 wbcg_init_editline (WBCGtk *wbcg)
 {
