@@ -48,18 +48,55 @@ value_new_guint64 (guint64 n)
 	return value_new_float (n);
 }
 
-
+// Integer power function
 static guint64
-intpow (int p, int v)
+intpow (guint64 p, unsigned int v)
 {
-	guint64 temp;
+	guint64 res = 1;
+	while (v > 0) {
+		if (v & 1) res *= p;
+		v >>= 1;
+		if (v > 0) p *= p;
+	}
+	return res;
+}
 
-	if (v == 0) return 1;
-	if (v == 1) return p;
+// Modular addition (a + b) % m without overflow.
+static guint64
+add_mod (guint64 a, guint64 b, guint64 m)
+{
+	if (a < m - b)
+		return a + b;
+	else
+		return a - (m - b);
+}
 
-	temp = intpow (p, v / 2);
-	temp *= temp;
-	return (v % 2) ? temp * p : temp;
+// Modular multiplication (a * b) % m without overflow.
+static guint64
+mul_mod (guint64 a, guint64 b, guint64 m)
+{
+	guint64 res = 0;
+	a %= m;
+	while (b > 0) {
+		if (b & 1) res = add_mod (res, a, m);
+		a = add_mod (a, a, m);
+		b >>= 1;
+	}
+	return res;
+}
+
+// Modular exponentiation (a ^ b) % m without overflow.
+static guint64
+pow_mod (guint64 a, guint64 b, guint64 m)
+{
+	guint64 res = 1;
+	a %= m;
+	while (b > 0) {
+		if (b & 1) res = mul_mod (res, a, m);
+		a = mul_mod (a, a, m);
+		b >>= 1;
+	}
+	return res;
 }
 
 #define ITHPRIME_LIMIT 100000000
@@ -70,7 +107,7 @@ static guint prime_table_size = 0;
 #define SIEVE_ITEM(u_) sieve[((u_) - base) >> 4]
 #define SIEVE_BIT(u_) (1u << ((((u_) - base) >> 1) & 7))
 
-/* Calculate the i-th prime.  Returns TRUE on too-big-to-handle error.  */
+// Calculate the i-th prime.  Returns TRUE on too-big-to-handle error.
 static gboolean
 ithprime (int i, guint64 *res)
 {
@@ -91,6 +128,7 @@ ithprime (int i, guint64 *res)
 		base = N ? prime_table[N - 1] + 1 : 0;
 		// Compute an upper bound of the largest prime we need.
 		// See https://en.wikipedia.org/wiki/Prime_number_theorem
+		// This bound is valid for n >= 6.
 		ub = (guint)
 			(newsize * (log (newsize) + log (log (newsize))));
 		// Largest candidate that needs sieving.  Note that this
@@ -153,6 +191,8 @@ ithprime (int i, guint64 *res)
 #undef SIEVE_BIT
 
 
+static int isprime (guint64 n);
+
 /*
  * A function useful for computing multiplicative arithmetic functions.
  * Returns TRUE on error.
@@ -163,6 +203,14 @@ walk_factorization (guint64 n, void *data,
 {
 	int index = 1, v;
 	guint64 p = 2;
+
+	if (n <= 1)
+		return FALSE;
+
+	if (isprime (n)) {
+		walk_term (n, 1, data);
+		return FALSE;
+	}
 
 	while (n > 1 && p * p <= n) {
 		if (ithprime (index, &p))
@@ -177,6 +225,8 @@ walk_factorization (guint64 n, void *data,
 		if (v) {
 			/* We found a prime factor, p, with arity v.  */
 			walk_term (p, v, data);
+			if (isprime (n))
+				break;
 		}
 
 		index++;
@@ -230,22 +280,50 @@ compute_nt_pi (guint64 n)
 	return (p == n) ? lower + 1 : lower;
 }
 
+// Miller-Rabin primality test for base a.
+static gboolean
+miller_rabin_test (guint64 n, guint64 a)
+{
+	guint64 d = n - 1;
+	int s = 0;
+	guint64 x;
+
+	while (d % 2 == 0) {
+		d /= 2;
+		s++;
+	}
+
+	x = pow_mod (a, d, n);
+	if (x == 1 || x == n - 1)
+		return TRUE;
+
+	while (s > 1) {
+		x = mul_mod (x, x, n);
+		if (x == n - 1)
+			return TRUE;
+		s--;
+	}
+
+	return FALSE;
+}
+
 /*
  * Returns -1 (out of bounds), 0 (non-prime), or 1 (prime).
  */
 static int
 isprime (guint64 n)
 {
-	int i = 1;
-	guint64 p = 2;
+	// Deterministic up to 3,825,123,056,546,413,051
+	static const guint8 bases[] = { 2, 3, 5, 7, 11, 13, 17, 19, 23 };
+	unsigned int i;
 
-	if (n <= 1)
-		return 0;
+	if (n < 2) return 0;
+	if (n == 2 || n == 3) return 1;
+	if (n % 2 == 0 || n % 3 == 0) return 0;
 
-	for (i = 1; p * p <= n; i++) {
-		if (ithprime (i, &p))
-			return -1;
-		if (n % p == 0)
+	for (i = 0; i < G_N_ELEMENTS (bases); i++) {
+		if (n == bases[i]) return 1;
+		if (!miller_rabin_test (n, bases[i]))
 			return 0;
 	}
 
@@ -441,7 +519,15 @@ static void
 walk_for_sigma (guint64 p, int v, void *data_)
 {
 	guint64 *data = data_;
-	*data *= ( v == 1 ? p + 1 : (intpow (p, v + 1) - 1) / (p - 1) );
+	guint64 s;
+	if (v == 1)
+		s = p + 1;
+	else {
+		// Compute the overflow-safe 1+...+p^(v-1) first
+		s = (intpow (p, v) - 1) / (p - 1);
+		s = s * p + 1;
+	}
+	*data *= s;
 }
 
 static GnmValue *

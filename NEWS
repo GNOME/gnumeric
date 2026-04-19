@@ -17,6 +17,10 @@ Morten:
 	* Preserve cvs-to-cvs and cvs-to-txt line endings.
 	* Fix problems with search-and-replace.
 	* Fix crash involding document properties and undo/redo.
+	* Fix potential overflow in NT_SIGMA.
+	* Improve primality test for large numbers.
+	* Speed up number theory functions for values with a large
+	  prime factor.
 
 Alex H:
 	* Don't remove initial empty rows/columns for cvs/txt export.
