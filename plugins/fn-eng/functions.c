@@ -1524,23 +1524,22 @@ static GnmValue *
 gnumeric_hexrep (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
-	unsigned char data[sizeof(gnm_float)];
-	unsigned ui;
-	char res[2 * sizeof(gnm_float) + 1];
-	static const char hex[16] = "0123456789abcdef";
-
-	/* We don't have a long double version yet.  */
-	memset (data, 0, sizeof(data));
-	GSF_LE_SET_DOUBLE (data, x);
-
-	for (ui = 0; ui < G_N_ELEMENTS (data); ui++) {
-		unsigned char b = data[ui];
-		res[2 * ui] = hex[b >> 4];
-		res[2 * ui + 1] = hex[b & 0xf];
-	}
-	res[2 * ui] = 0;
-
-	return value_new_string (res);
+#if GNM_RADIX == 2
+	// "%a" is a perfect match for this task
+	char *rep = g_strdup_printf ("%a", x);
+	return value_new_string_nocopy (rep);
+#elif GNM_RADIX == 10
+	// Shortest representation in base 10 is probably ok
+	// (Not exactly hex, but the key here is a representation of all digits)
+	GString *res = g_string_new (NULL);
+	go_dtoa (res, "!^" GNM_FORMAT_g, x);
+	return value_new_string_nocopy (g_string_free (res, FALSE));
+#else
+	// No idea
+#error "HEXREP needs attention"
+	(void)x;
+	return value_new_error_NA (ei->pos);
+#endif
 }
 
 /***************************************************************************/
