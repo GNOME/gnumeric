@@ -474,9 +474,6 @@ gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
 {
 	SheetObjectImage *soi = GNM_SO_IMAGE (so);
 
-	if (width <= 0 || height <= 0)
-		return;
-
 	if (soi->image) {
 		int w = go_image_get_width (soi->image);
 		int h = go_image_get_height (soi->image);

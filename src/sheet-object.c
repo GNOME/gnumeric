@@ -888,7 +888,7 @@ sheet_object_draw_cairo (SheetObject const *so, cairo_t *cr, gboolean rtl)
 
 		/* we don't need to save/restore cairo, the caller must do it */
 		cairo_translate (cr, x, y);
-		SO_CLASS (so)->draw_cairo (so, cr, width, height);
+		sheet_object_draw_cairo_sized (so, cr, width, height);
 	}
 }
 
@@ -904,7 +904,8 @@ sheet_object_draw_cairo (SheetObject const *so, cairo_t *cr, gboolean rtl)
 void
 sheet_object_draw_cairo_sized (SheetObject const *so, cairo_t *cr, double width, double height)
 {
-	SO_CLASS (so)->draw_cairo (so, cr, width, height);
+	if (width > 0 && height > 0)
+		SO_CLASS (so)->draw_cairo (so, cr, width, height);
 }
 
 /**

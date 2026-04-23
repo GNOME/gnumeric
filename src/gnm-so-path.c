@@ -311,7 +311,7 @@ gnm_so_path_new_view (SheetObject *so, SheetObjectViewContainer *container)
 
 static void
 gnm_so_path_draw_cairo (SheetObject const *so, cairo_t *cr,
-	double width, double height)
+			double width, double height)
 {
 	GnmSOPath *sop = GNM_SO_PATH (so);
 	GOStyle const *style = sop->style;
