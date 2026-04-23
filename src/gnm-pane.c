@@ -1000,9 +1000,7 @@ gnm_pane_class_init (GnmPaneClass *klass)
 	widget_class->key_release_event	   = gnm_pane_key_release;
 	widget_class->focus_in_event	   = gnm_pane_focus_in;
 	widget_class->focus_out_event	   = gnm_pane_focus_out;
-#ifdef HAVE_GTK_WIDGET_CLASS_SET_CSS_NAME
 	gtk_widget_class_set_css_name (widget_class, "pane");
-#endif
 
 	gtk_widget_class_install_style_property
 		(widget_class,
