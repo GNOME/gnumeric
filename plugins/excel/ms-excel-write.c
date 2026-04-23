@@ -6055,12 +6055,12 @@ unicode_loop :
 						*ptr++ = 0;
 						count++;
 					} else {
-						g_warning ("We exported a string containg unicode characters > 0xffff (%s).\n"
+						g_warning ("We exported a string containing unicode characters > 0xffff (%s).\n"
 							   "Expect some funky characters to show up.", str);
 					}
 					GSF_LE_SET_GUINT16 (len, (count/2));
 				} else {
-					g_warning ("We're toast a string containg unicode characters > 0xffff crossed a record boundary.");
+					g_warning ("We're toast a string containing unicode characters > 0xffff crossed a record boundary.");
 				}
 			}
 		}
