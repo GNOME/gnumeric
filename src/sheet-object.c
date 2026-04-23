@@ -676,7 +676,6 @@ void
 sheet_object_clear_sheet (SheetObject *so)
 {
 	GSList *ptr;
-	unsigned ui;
 
 	g_return_if_fail (GNM_IS_SO (so));
 
@@ -689,17 +688,13 @@ sheet_object_clear_sheet (SheetObject *so)
 	g_return_if_fail (ptr != NULL);
 
 	/* clear any pending attempts to create views */
-	for (ui = 0; ui < so_create_view_sos->len; ui++) {
-		if (so == g_ptr_array_index (so_create_view_sos, ui)) {
-			g_ptr_array_remove_index (so_create_view_sos, ui);
-			break;
-		}
-	}
+	g_ptr_array_remove (so_create_view_sos, so);
 
 	while (so->realized_list != NULL) {
-		g_object_set_qdata (G_OBJECT (so->realized_list->data), sov_so_quark, NULL);
-		g_object_unref (so->realized_list->data);
-		so->realized_list = g_list_remove (so->realized_list, so->realized_list->data);
+		SheetObjectView *v = so->realized_list->data;
+		g_object_set_qdata (G_OBJECT (v), sov_so_quark, NULL);
+		g_object_unref (v);
+		so->realized_list = g_list_remove (so->realized_list, v);
 
 	}
 	g_signal_emit (so, signals[UNREALIZED], 0);
@@ -1633,12 +1628,6 @@ cb_so_menu_activate (GObject *menu, GocItem *view)
 	}
 }
 
-static void
-cb_ptr_array_free (GPtrArray *actions)
-{
-	g_ptr_array_free (actions, TRUE);
-}
-
 /**
  * sheet_object_build_menu:
  * @view: #SheetObjectView
@@ -1743,7 +1732,7 @@ sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
 				(sheet_object_get_view (so, (SheetObjectViewContainer *) item->canvas),
 				 actions, &i);
 			g_object_set_data_full (G_OBJECT (menu), "actions", actions,
-				(GDestroyNotify) cb_ptr_array_free);
+						(GDestroyNotify)g_ptr_array_unref);
 			gtk_widget_show_all (menu);
 			gnumeric_popup_menu (GTK_MENU (menu),
 					     goc_canvas_get_cur_event (item->canvas));
@@ -1843,7 +1832,7 @@ sheet_object_write_image (SheetObject const *so, char const *format, double reso
 	g_return_if_fail (GSF_IS_OUTPUT (output));
 
 	GNM_SO_IMAGEABLE_CLASS (so)->write_image (so, format, resolution,
-							output, err);
+						  output, err);
 }
 
 /**

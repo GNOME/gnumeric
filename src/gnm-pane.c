@@ -2436,12 +2436,6 @@ cb_slide_handler (GnmPane *pane, GnmPaneSlideInfo const *info)
 	return TRUE;
 }
 
-static void
-cb_ptr_array_free (GPtrArray *actions)
-{
-	g_ptr_array_free (actions, TRUE);
-}
-
 /* event and so can be NULL */
 void
 gnm_pane_display_object_menu (GnmPane *pane, SheetObject *so, GdkEvent *event)
@@ -2466,7 +2460,7 @@ gnm_pane_display_object_menu (GnmPane *pane, SheetObject *so, GdkEvent *event)
 		(sheet_object_get_view (so, (SheetObjectViewContainer *) pane),
 		 actions, &i);
 	g_object_set_data_full (G_OBJECT (menu), "actions", actions,
-		(GDestroyNotify)cb_ptr_array_free);
+				(GDestroyNotify)g_ptr_array_unref);
 	gtk_widget_show_all (menu);
 	gnumeric_popup_menu (GTK_MENU (menu), event);
 }
