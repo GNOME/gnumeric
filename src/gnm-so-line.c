@@ -364,12 +364,16 @@ gnm_so_line_set_property (GObject *obj, guint param_id,
 		sol->style = style;
 		break;
 	}
-	case SOL_PROP_START_ARROW:
-		sol->start_arrow = *((GOArrow *)g_value_peek_pointer (value));
+	case SOL_PROP_START_ARROW: {
+		GOArrow const *a = g_value_peek_pointer (value);
+		sol->start_arrow = *a;
 		break;
-	case SOL_PROP_END_ARROW:
-		sol->end_arrow = *((GOArrow* )g_value_peek_pointer (value));
+	}
+	case SOL_PROP_END_ARROW: {
+		GOArrow const *a = g_value_peek_pointer (value);
+		sol->end_arrow = *a;
 		break;
+	}
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		return;
