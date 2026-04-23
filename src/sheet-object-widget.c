@@ -1572,8 +1572,10 @@ sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa,
 	so = GNM_SO (swa);
 	so->flags &= ~SHEET_OBJECT_PRINT;
 
-	if (!swa->adjustment)
+	if (!swa->adjustment) {
 		swa->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 0.));
+		g_object_ref_sink (swa->adjustment);
+	}
 
 	swa->horizontal = horizontal;
 	swa->being_updated = FALSE;
