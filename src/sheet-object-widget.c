@@ -75,6 +75,15 @@ cb_so_get_ref (GnmDependent *dep, G_GNUC_UNUSED SheetObject *so, gpointer user)
 	*pdep = dep;
 }
 
+/**
+ * so_get_ref:
+ * @so: #SheetObject
+ * @res: (out): resulting cell reference
+ * @force_sheet: whether to fill @res->sheet if it's NULL
+ *
+ * Retrieves the cell reference linked to @so.
+ * Returns: (transfer none) (nullable): @res if a reference was found, else %NULL.
+ **/
 static GnmCellRef *
 so_get_ref (SheetObject const *so, GnmCellRef *res, gboolean force_sheet)
 {
@@ -110,6 +119,13 @@ cb_so_clear_sheet (GnmDependent *dep, G_GNUC_UNUSED SheetObject *so, G_GNUC_UNUS
 	dep->sheet = NULL;
 }
 
+/**
+ * so_clear_sheet:
+ * @so: #SheetObject
+ *
+ * Clears the sheet association for all dependencies of @so.
+ * Returns: %FALSE.
+ **/
 static gboolean
 so_clear_sheet (SheetObject *so)
 {
@@ -216,6 +232,14 @@ typedef struct {
 
 static GObjectClass *sheet_object_widget_class = NULL;
 
+/**
+ * sow_create_widget:
+ * @sow: #SheetObjectWidget
+ *
+ * Internal wrapper to create the GtkWidget for @sow and apply standard
+ * style classes.
+ * Returns: (transfer full): the newly created widget.
+ **/
 static GtkWidget *
 sow_create_widget (SheetObjectWidget *sow)
 {
@@ -225,6 +249,16 @@ sow_create_widget (SheetObjectWidget *sow)
 	return w;
 }
 
+/**
+ * sheet_widget_draw_cairo:
+ * @so: #SheetObject
+ * @cr: #cairo_t
+ * @width: width in points
+ * @height: height in points
+ *
+ * Default drawing routine for widgets that don't implement their own.
+ * It uses an offscreen window to capture the widget's appearance.
+ **/
 static void
 sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 			 double width, double height)
@@ -244,6 +278,15 @@ sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 		g_warning (_("Because of GTK bug #705640, a sheet object widget is not being printed."));
 }
 
+/**
+ * sax_write_dep:
+ * @output: #GsfXMLOut
+ * @dep: #GnmDependent
+ * @id: attribute name
+ * @convs: #GnmConventions
+ *
+ * Serializes a dependency @dep to @output as an XML attribute @id.
+ **/
 static void
 sax_write_dep (GsfXMLOut *output, GnmDependent const *dep, char const *id,
 	       GnmConventions const *convs)
@@ -259,6 +302,17 @@ sax_write_dep (GsfXMLOut *output, GnmDependent const *dep, char const *id,
 	}
 }
 
+/**
+ * sax_read_dep:
+ * @attrs: XML attributes
+ * @name: attribute name to look for
+ * @dep: (out): destination dependency
+ * @xin: #GsfXMLIn
+ * @convs: #GnmConventions
+ *
+ * Parses a dependency from the XML attributes.
+ * Returns: %TRUE if the attribute @name was found and handled.
+ **/
 static gboolean
 sax_read_dep (xmlChar const * const *attrs, char const *name,
 	      GnmDependent *dep, GsfXMLIn *xin, GnmConventions const *convs)
@@ -284,6 +338,14 @@ sax_read_dep (xmlChar const * const *attrs, char const *name,
 	return TRUE;
 }
 
+/**
+ * sheet_object_widget_new_view:
+ * @so: #SheetObject
+ * @container: #SheetObjectViewContainer
+ *
+ * Creates a new canvas view for @so in @container.
+ * Returns: (transfer none): the newly created view.
+ **/
 static SheetObjectView *
 sheet_object_widget_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
@@ -353,7 +415,7 @@ enum {
 
 static void
 sheet_widget_frame_get_property (GObject *obj, guint param_id,
-				  GValue *value, GParamSpec *pspec)
+				 GValue *value, GParamSpec *pspec)
 {
 	SheetWidgetFrame *swf = GNM_SOW_FRAME (obj);
 
@@ -587,6 +649,13 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	gtk_widget_show (state->dialog);
 }
 
+/**
+ * get_font:
+ *
+ * Internal helper to retrieve a system default font description suitable
+ * for rendering widget contents in Cairo.
+ * Returns: (transfer full): a new #PangoFontDescription.
+ **/
 static PangoFontDescription *
 get_font (void)
 {
@@ -660,9 +729,24 @@ get_font (void)
 	return desc;
 }
 
+/**
+ * draw_cairo_text:
+ * @cr: #cairo_t
+ * @text: UTF-8 string to draw
+ * @pwidth: (inout) (optional): available/result width
+ * @pheight: (inout) (optional): available/result height
+ * @centered_v: whether to center vertically
+ * @centered_h: whether to center horizontally
+ * @single: whether to use single-paragraph mode
+ * @highlight_n: line index to highlight (1-based, 0 for none)
+ * @scale: whether to scale text to fit bounds
+ *
+ * Renders @text onto @cr with the specified alignment and effects.
+ **/
 static void
 draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
-		 gboolean centered_v, gboolean centered_h, gboolean single, gint highlight_n, gboolean scale)
+		 gboolean centered_v, gboolean centered_h,
+		 gboolean single, gint highlight_n, gboolean scale)
 {
 	PangoLayout *layout = pango_cairo_create_layout (cr);
 	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
@@ -828,7 +912,7 @@ sheet_widget_button_get_property (GObject *obj, guint param_id,
 
 static void
 sheet_widget_button_set_property (GObject *obj, guint param_id,
-				    GValue const *value, GParamSpec *pspec)
+				  GValue const *value, GParamSpec *pspec)
 {
 	SheetWidgetButton *swb = GNM_SOW_BUTTON (obj);
 
@@ -1151,8 +1235,8 @@ sheet_widget_button_set_sheet (SheetObject *so, Sheet *sheet)
 
 static void
 sheet_widget_button_foreach_dep (SheetObject *so,
-				   SheetObjectForeachDepFunc func,
-				   gpointer user)
+				 SheetObjectForeachDepFunc func,
+				 gpointer user)
 {
 	SheetWidgetButton *swb = GNM_SOW_BUTTON (so);
 	func (&swb->dep, so, user);

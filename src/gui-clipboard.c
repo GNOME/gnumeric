@@ -1168,7 +1168,7 @@ x_clipboard_clear_cb (GtkClipboard *clipboard, gpointer app_)
  * @wbcg: #WBCGtk
  * @pt: #GnmPasteTarget
  *
- * Requests the clipboard from the X server.
+ * Requests the clipboard from the window system.
  **/
 void
 gnm_x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt)

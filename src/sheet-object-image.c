@@ -126,7 +126,6 @@ enum {
  * @data_len: image data length
  *
  * Assign raw data and type to @soi.
- * yet.
  **/
 void
 sheet_object_image_set_image (SheetObjectImage *soi,
@@ -190,6 +189,13 @@ gnm_soi_finalize (GObject *object)
 	G_OBJECT_CLASS (gnm_soi_parent_class)->finalize (object);
 }
 
+/**
+ * gnm_soi_new_view:
+ * @so: #SheetObject
+ * @container: #SheetObjectViewContainer
+ *
+ * Returns: (transfer none): the newly created view.
+ **/
 static SheetObjectView *
 gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
@@ -227,6 +233,12 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	return gnm_pane_object_register (so, item, TRUE);
 }
 
+/**
+ * gnm_soi_get_target_list:
+ * @so: #SheetObject
+ *
+ * Returns: (transfer full): the target list for drag-and-drop.
+ **/
 static GtkTargetList *
 gnm_soi_get_target_list (SheetObject const *so)
 {
