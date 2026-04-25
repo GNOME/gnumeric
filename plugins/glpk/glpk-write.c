@@ -370,8 +370,7 @@ glpk_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 fail:
 	go_io_progress_unset (io_context);
-	if (err)
-		g_error_free (err);
+	g_clear_error (&err);
 
 	if (sol)
 		g_object_unref (sol);

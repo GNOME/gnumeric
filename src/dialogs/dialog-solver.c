@@ -895,8 +895,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	}
 
  out:
-	if (err)
-		g_error_free (err);
+	g_clear_error (&err);
 }
 
 #define INIT_BOOL_ENTRY(name_, field_)					\

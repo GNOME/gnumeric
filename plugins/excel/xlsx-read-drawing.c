@@ -3217,8 +3217,7 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 						if (dat)
 							gog_dataset_set_dim (GOG_DATASET (title), 0,
 									     GO_DATA (g_object_ref (dat)), &err);
-						if (err)
-							g_error_free (err);
+						g_clear_error (&err);
 					}
 				}
 				g_free (str);

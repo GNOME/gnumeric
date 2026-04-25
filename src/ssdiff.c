@@ -124,8 +124,7 @@ read_file (GnmDiffStateFile *dsf, const char *filename, GOIOContext *ioc)
 			    g_get_prgname (),
 			    filename,
 			    err ? err->message : "?");
-		if (err)
-			g_error_free (err);
+		g_clear_error (&err);
 		return TRUE;
 	}
 
@@ -965,8 +964,7 @@ main (int argc, char const **argv)
 		g_printerr (_("%s: Failed to create output file: %s\n"),
 			    g_get_prgname (),
 			    error ? error->message : "?");
-		if (error)
-			g_error_free (error);
+		g_clear_error (&error);
 		return 1;
 	}
 

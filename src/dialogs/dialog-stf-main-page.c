@@ -51,12 +51,9 @@ main_page_set_encoding (StfDialogData *pagedata, const char *enc)
 	 * It _is_ possible to get NULL error, but not have valid UTF-8.
 	 * Specifically observed with UTF-16BE.
 	 */
-	if (error || !g_utf8_validate (utf8_data, -1, NULL)) {
+	if (error != NULL || (utf8_data != NULL && !g_utf8_validate (utf8_data, -1, NULL))) {
 		g_free (utf8_data);
-		if (error) {
-			/* FIXME: What to do with error?  */
-			g_error_free (error);
-		}
+		g_clear_error (&error);
 		return FALSE;
 	}
 

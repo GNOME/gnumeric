@@ -962,8 +962,7 @@ series_start (GsfXMLIn *xin, xmlChar const **attrs)
 		                     data, &err);
 		g_free (name);
 	}
-	if (err)
-		g_error_free (err);
+	g_clear_error (&err);
 }
 
 static void
@@ -996,8 +995,7 @@ dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 			                     &err);
 			break;
 		}
-	if (err)
-		g_error_free (err);
+	g_clear_error (&err);
 }
 
 static void

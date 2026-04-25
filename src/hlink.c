@@ -562,7 +562,6 @@ static gboolean
 gnm_hlink_external_activate (GnmHLink *lnk, WBCGtk *wbcg)
 {
 	GError *err = NULL;
-	gboolean res = FALSE;
 	char *cmd;
 	GdkScreen *screen;
 
@@ -582,7 +581,7 @@ gnm_hlink_external_activate (GnmHLink *lnk, WBCGtk *wbcg)
 		g_error_free (err);
 	}
 
-	return res;
+	return err == NULL;
 }
 
 static void
