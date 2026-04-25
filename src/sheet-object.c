@@ -50,13 +50,16 @@ static gboolean debug_sheet_objects;
 static guint so_create_view_src;
 static GPtrArray *so_create_view_sos;
 
-/* GType code for SheetObjectAnchor */
-static SheetObjectAnchor *
-sheet_object_anchor_copy (SheetObjectAnchor * soa)
+/**
+ * sheet_object_anchor_dup:
+ * @src: #SheetObjectAnchor
+ *
+ * Returns: (transfer full): a copy of @src.
+ **/
+SheetObjectAnchor *
+sheet_object_anchor_dup	(SheetObjectAnchor const *src)
 {
-	SheetObjectAnchor *res = g_new (SheetObjectAnchor, 1);
-	*res = *soa;
-	return res;
+	return go_memdup (src, sizeof (SheetObjectAnchor));
 }
 
 GType
@@ -66,7 +69,7 @@ sheet_object_anchor_get_type (void)
 
 	if (t == 0) {
 		t = g_boxed_type_register_static ("SheetObjectAnchor",
-			 (GBoxedCopyFunc)sheet_object_anchor_copy,
+			 (GBoxedCopyFunc)sheet_object_anchor_dup,
 			 (GBoxedFreeFunc)g_free);
 	}
 	return t;
@@ -286,7 +289,7 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 	unsigned i;
 	if (so->sheet->sheet_type == GNM_SHEET_OBJECT) {
 		static SheetObjectAction const so_actions[] = {
-			{ "gtk-properties",	NULL,		NULL,  0, sheet_object_get_editor, sheet_object_can_prop},
+			{ "document-properties", N_("Properties"),		NULL,  0, sheet_object_get_editor, sheet_object_can_prop},
 			{ NULL,	NULL, NULL, 0, NULL, NULL },
 			{ "edit-copy",		N_("_Copy"),		NULL,  0, cb_so_copy, NULL },
 		};
@@ -294,11 +297,10 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 			g_ptr_array_add (actions, (gpointer) (so_actions + i));
 	} else {
 		static SheetObjectAction const so_actions[] = {
-			{ GTK_STOCK_PROPERTIES,	        NULL, NULL,  0, sheet_object_get_editor, sheet_object_can_prop},
+			{ "document-properties", N_("Properties"), NULL,  0, sheet_object_get_editor, sheet_object_can_prop},
 			{ NULL,	NULL, NULL, 0, NULL, NULL },
-#warning "Two highly dubious icon names here"
-			{ GTK_STOCK_LEAVE_FULLSCREEN,   N_("Size _& Position"),	NULL,  0, cb_so_size_position, NULL },
-			{ GTK_STOCK_FULLSCREEN,	        N_("_Snap to Grid"),	NULL,  0, cb_so_snap_to_grid, NULL },
+			{ NULL,				N_("Size _& Position"),	NULL,  0, cb_so_size_position, NULL },
+			{ NULL,				N_("_Snap to Grid"),	NULL,  0, cb_so_snap_to_grid, NULL },
 			{ NULL,			        N_("_Order"),	        NULL,  1, NULL, NULL },
 				{ NULL,			N_("Pul_l to Front"),	NULL,  0, cb_so_pull_to_front, NULL },
 				{ NULL,			N_("Pull _Forward"),	NULL,  0, cb_so_pull_forward, NULL },
@@ -948,19 +950,6 @@ sheet_object_set_anchor (SheetObject *so, SheetObjectAnchor const *anchor)
 		so->sheet->priv->objects_changed = TRUE;
 		sheet_object_update_bounds (so, NULL);
 	}
-}
-
-/**
- * sheet_object_anchor_dup:
- * @src: #SheetObjectAnchor
- *
- * Returns: (transfer full): a copy of @src.
- **/
-SheetObjectAnchor *
-sheet_object_anchor_dup	(SheetObjectAnchor const *src)
-{
-	SheetObjectAnchor *res = go_memdup (src, sizeof (SheetObjectAnchor));
-	return res;
 }
 
 static double
@@ -1628,6 +1617,16 @@ cb_so_menu_activate (GObject *menu, GocItem *view)
 	}
 }
 
+static GtkWidget *
+gnm_menu_item_new_with_icon (char const *label, char const *icon)
+{
+	GtkWidget *item = gtk_image_menu_item_new_with_mnemonic (label ? _(label) : "");
+	GtkWidget *image = gtk_image_new_from_icon_name (icon, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (item), TRUE);
+	return item;
+}
+
 /**
  * sheet_object_build_menu:
  * @view: #SheetObjectView
@@ -1650,12 +1649,7 @@ sheet_object_build_menu (SheetObjectView *view,
 		if (a->submenu < 0)
 			break;
 		if (a->icon != NULL) {
-			if (a->label != NULL) {
-				item = gtk_image_menu_item_new_with_mnemonic (_(a->label));
-				gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-					gtk_image_new_from_icon_name (a->icon, GTK_ICON_SIZE_MENU));
-			} else
-				item = gtk_image_menu_item_new_from_stock (a->icon, NULL);
+			item = gnm_menu_item_new_with_icon (a->label, a->icon);
 		} else if (a->label != NULL)
 			item = gtk_menu_item_new_with_mnemonic (_(a->label));
 		else
