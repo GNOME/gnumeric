@@ -762,6 +762,11 @@ memcpy_n_times (char *dst, const char *src, size_t len, size_t n)
 	if (total_bytes == 0)
 		return;
 
+	if (len == 1) {
+		memset (dst, *src, n);
+		return;
+	}
+
 	memcpy (dst, src, len);
 	while (copied_bytes <= total_bytes / 2) {
 		memcpy (dst + copied_bytes, dst, copied_bytes);
