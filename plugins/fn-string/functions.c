@@ -330,18 +330,21 @@ static GnmFuncHelp const help_left[] = {
 static GnmValue *
 gnumeric_left (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
+	const char *peek = value_peek_string (argv[0]);
 	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1;
-	int icount, newlen;
+	char const *p = peek;
+	int icount;
 
 	if (count < 0)
 		return value_new_error_VALUE (ei->pos);
 	icount = (int)MIN ((gnm_float)INT_MAX, count);
 
-	for (newlen = 0; peek[newlen] != 0 && icount > 0; icount--)
-		newlen += g_utf8_skip[peek[newlen]];
+	while (icount > 0 && *p != '\0') {
+		p = g_utf8_next_char (p);
+		icount--;
+	}
 
-	return value_new_string_nocopy (g_strndup (peek, newlen));
+	return value_new_string_nocopy (g_strndup (peek, p - peek));
 }
 
 /***************************************************************************/
@@ -417,23 +420,23 @@ gnumeric_mid (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	char const *source = value_peek_string (argv[0]);
 	gnm_float pos = value_get_as_float (argv[1]);
 	gnm_float len = value_get_as_float (argv[2]);
-	size_t slen = g_utf8_strlen (source, -1);
-	char const *upos;
-	size_t ilen, ipos, ulen;
+	char const *upos, *end;
+	int ipos, ilen;
 
 	if (len < 0 || pos < 1)
 		return value_new_error_VALUE (ei->pos);
-	if (pos >= slen + 1)
-		return value_new_string ("");
 
 	/* Make ipos zero-based.  */
-	ipos = (size_t)(pos - 1);
-	ilen  = (size_t)MIN (len, (gnm_float)(slen - ipos));
+	ipos = (int)MIN ((gnm_float)INT_MAX, pos - 1);
+	ilen = (int)MIN ((gnm_float)INT_MAX, len);
 
-	upos = g_utf8_offset_to_pointer (source, ipos);
-	ulen = g_utf8_offset_to_pointer (upos, ilen) - upos;
+	for (upos = source; ipos > 0 && *upos != '\0'; ipos--)
+		upos = g_utf8_next_char (upos);
 
-	return value_new_string_nocopy (g_strndup (upos, ulen));
+	for (end = upos; ilen > 0 && *end != '\0'; ilen--)
+		end = g_utf8_next_char (end);
+
+	return value_new_string_nocopy (g_strndup (upos, end - upos));
 }
 
 /***************************************************************************/
@@ -543,20 +546,20 @@ gnumeric_right (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *os = value_peek_string (argv[0]);
 	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1;
-	int icount, slen;
+	const char *p;
+	int icount;
 
 	if (count < 0)
 		return value_new_error_VALUE (ei->pos);
 	icount = (int)MIN ((gnm_float)INT_MAX, count);
 
-	slen = g_utf8_strlen (os, -1);
+	p = os + strlen (os);
+	while (icount > 0 && p > os) {
+		p = g_utf8_prev_char (p);
+		icount--;
+	}
 
-	if (icount < slen)
-		return value_new_string (g_utf8_offset_to_pointer (os, slen - icount));
-	else
-		/* We could just duplicate the arg, but that would not ensure
-		   that the result was a string.  */
-		return value_new_string (os);
+	return value_new_string (p);
 }
 
 /***************************************************************************/
@@ -719,8 +722,12 @@ gnumeric_textjoin (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	v = gnm_expr_eval (argv[1], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (VALUE_IS_ERROR (v))
 		goto done;
-	data.ignore_blanks = value_get_as_bool (v, &err); // What about err?
+	data.ignore_blanks = value_get_as_bool (v, &err);
 	value_release (v);
+	if (err) {
+		v = value_new_error_VALUE (ei->pos);
+		goto done;
+	}
 
 	v = string_range_function (argc - 2, argv + 2, ei,
 				   range_textjoin,
@@ -746,6 +753,24 @@ static GnmFuncHelp const help_rept[] = {
         { GNM_FUNC_HELP_END}
 };
 
+static void
+memcpy_n_times (char *dst, const char *src, size_t len, size_t n)
+{
+	size_t copied_bytes = len;
+	size_t total_bytes = n * len;
+
+	if (total_bytes == 0)
+		return;
+
+	memcpy (dst, src, len);
+	while (copied_bytes <= total_bytes / 2) {
+		memcpy (dst + copied_bytes, dst, copied_bytes);
+		copied_bytes *= 2;
+	}
+
+	memcpy (dst + copied_bytes, dst, total_bytes - copied_bytes);
+}
+
 static GnmValue *
 gnumeric_rept (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
@@ -753,7 +778,7 @@ gnumeric_rept (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float num = value_get_as_float (argv[1]);
 	size_t len = strlen (source);
 	char *res;
-	size_t i, inum;
+	size_t inum;
 
 	if (num < 0)
 		return value_new_error_VALUE (ei->pos);
@@ -771,9 +796,8 @@ gnumeric_rept (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (!res)
 		return value_new_error_VALUE (ei->pos);
 
-	for (i = 0; inum-- > 0; i += len)
-		memcpy (res + i, source, len);
-	res[i] = 0;
+	memcpy_n_times (res, source, len, inum);
+	res[len * inum] = 0;
 
 	return value_new_string_nocopy (res);
 }
@@ -969,17 +993,17 @@ gnumeric_replace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float start = value_get_as_float (argv[1]);
 	gnm_float num = value_get_as_float (argv[2]);
 	char const *new = value_peek_string (argv[3]);
-	size_t istart, inum, oldlen, precutlen, postcutlen, newlen;
+	size_t istart, inum, oldlen, result_len;
 	char const *p, *q;
-	char *res;
+	GString *res;
 
 	if (start < 1 || num < 0)
 		return value_new_error_VALUE (ei->pos);
 
 	oldlen = g_utf8_strlen (old, -1);
 	/* Make istart zero-based.  */
-	istart = (int)MIN ((gnm_float)oldlen, start - 1);
-	inum = (int)MIN((gnm_float)(oldlen - istart), num);
+	istart = (size_t)MIN ((gnm_float)oldlen, start - 1);
+	inum = (size_t)MIN ((gnm_float)(oldlen - istart), num);
 
 	/* |<----precut----><cut><---postcut--->| */
 	/*  ^old            ^p   ^q               */
@@ -987,15 +1011,15 @@ gnumeric_replace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	p = g_utf8_offset_to_pointer (old, istart);
 	q = g_utf8_offset_to_pointer (p, inum);
 
-	precutlen = p - old;
-	postcutlen = strlen (q);
-	newlen = strlen (new);
+	/* Exact length: precut + replacement + postcut */
+	result_len = (p - old) + strlen (new) + strlen (q);
+	res = g_string_sized_new (result_len);
 
-	res = g_malloc (precutlen + newlen + postcutlen + 1);
-	memcpy (res, old, precutlen);
-	memcpy (res + precutlen, new, newlen);
-	memcpy (res + precutlen + newlen, q, postcutlen + 1);
-	return value_new_string_nocopy (res);
+	g_string_append_len (res, old, p - old);
+	g_string_append (res, new);
+	g_string_append (res, q);
+
+	return value_new_string_nocopy (g_string_free (res, FALSE));
 }
 
 /***************************************************************************/
@@ -1030,26 +1054,34 @@ gnumeric_replaceb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float pos = value_get_as_float (argv[1]);
 	gnm_float len = value_get_as_float (argv[2]);
 	char const *new = value_peek_string (argv[3]);
-	int slen = strlen (old);
-	int ipos, ilen, newlen;
-	char *res;
+	size_t slen = strlen (old);
+	size_t ipos, ilen, result_len;
+	GString *res;
 
-	if ((len < 0) || (pos < 1))
+	if (len < 0 || pos < 1)
 		return value_new_error_VALUE (ei->pos);
-	ipos = (int)MIN ((gnm_float)INT_MAX / 2, pos) - 1;
-	ilen = (int)MIN ((gnm_float)INT_MAX / 2, len);
-	if ((ipos > slen) ||
-	    (ipos + ilen > slen) ||
-	    ((gunichar)-1 == g_utf8_get_char_validated (old + ipos, -1)) ||
+
+	/* Excel-compatible clamping */
+	ipos = (size_t)MIN ((gnm_float)slen, pos - 1);
+	ilen = (size_t)MIN ((gnm_float)(slen - ipos), len);
+
+	/* |<----precut----><cut><---postcut--->| */
+	/*  ^old            ^pos ^pos+len         */
+
+	if (((gunichar)-1 == g_utf8_get_char_validated (old + ipos, -1)) ||
 	    ((gunichar)-1 == g_utf8_get_char_validated (old + ipos + ilen, -1)) ||
 	    !g_utf8_validate (old + ipos, ilen, NULL))
 		return value_new_error_VALUE (ei->pos);
-	newlen = strlen (new);
-	res = g_malloc (slen - ilen + newlen + 1);
-	memcpy (res, old, ipos);
-	memcpy (res + ipos, new, newlen);
-	memcpy (res + ipos + newlen, old + ipos + ilen, slen - ipos - ilen + 1);
-	return value_new_string_nocopy (res);
+
+	/* Exact length: slen - removed + new */
+	result_len = slen - ilen + strlen (new);
+	res = g_string_sized_new (result_len);
+
+	g_string_append_len (res, old, ipos);
+	g_string_append (res, new);
+	g_string_append (res, old + ipos + ilen);
+
+	return value_new_string_nocopy (g_string_free (res, FALSE));
 }
 
 /***************************************************************************/
@@ -1151,24 +1183,19 @@ gnumeric_trim (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	s = value_peek_string (argv[0]);
 	while (*s) {
-		gunichar uc = g_utf8_get_char (s);
-
-		/*
-		 * FIXME: This takes care of tabs and the likes too
-		 * is that the desired behaviour?
-		 */
-		if (g_unichar_isspace (uc)) {
+		if (*s == ' ') {
 			if (!space) {
 				last_len = res->len;
-				g_string_append_unichar (res, uc);
+				g_string_append_c (res, ' ');
 				space = TRUE;
 			}
+			s++;
 		} else {
+			gunichar uc = g_utf8_get_char (s);
 			g_string_append_unichar (res, uc);
 			space = FALSE;
+			s = g_utf8_next_char (s);
 		}
-
-		s = g_utf8_next_char (s);
 	}
 
 	if (space)
@@ -1494,33 +1521,23 @@ gnumeric_searchb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	char const *needle = value_peek_string (argv[0]);
 	char const *haystack = value_peek_string (argv[1]);
 	gnm_float start = argv[2] ? value_get_as_float (argv[2]) : 1;
-	size_t istart;
+	size_t istart, hlen;
 	GORegexp r;
 
-	if (start < 1 || start >= INT_MAX || start > strlen (haystack))
+	hlen = strlen (haystack);
+	if (start < 1 || start > hlen)
 		return value_new_error_VALUE (ei->pos);
-	/* Make istart zero-based.  */
-	istart = (int)(start - 1);
 
-	if (istart > 0)
-		istart = g_utf8_next_char(haystack + istart - 1) - haystack;
+	/* Make istart zero-based.  */
+	istart = (size_t)start - 1;
 
 	if (gnm_regcomp_XL (&r, needle, GO_REG_ICASE, FALSE, FALSE) == GO_REG_OK) {
 		GORegmatch rm;
-
-		switch (go_regexec (&r, haystack + istart, 1, &rm, 0)) {
-		case GO_REG_NOMATCH:
-			break;
-		case GO_REG_OK:
-			go_regfree (&r);
-			return value_new_int
-				(1 + istart + rm.rm_so);
-		default:
-			g_warning ("Unexpected go_regexec result");
-		}
+		int res = go_regexec (&r, haystack + istart, 1, &rm, 0);
 		go_regfree (&r);
-	} else {
-		g_warning ("Unexpected regcomp result");
+
+		if (res == GO_REG_OK)
+			return value_new_int (1 + istart + rm.rm_so);
 	}
 
 	return value_new_error_VALUE (ei->pos);
@@ -1544,99 +1561,218 @@ static GnmFuncHelp const help_asc[] = {
 static gunichar
 gnm_asc_half (gunichar c, GString *str)
 {
-	if (c < 0x2015)
-		return c;
-	if (c == 0x2015)
-		return (0xff70);
-	if (c == 0x2018)
-		return (0x0060);
-	if (c == 0x2019)
-		return (0x0027);
-	if (c == 0x201d)
-		return (0x0022);
-	if (c < 0x3001)
-		return c;
-	if (c == 0x3001)
-		return (0xff64);
-	if (c == 0x3002)
-		return (0xff61);
-	if (c == 0x300c)
-		return (0xff62);
-	if (c == 0x300d)
-		return (0xff63);
-	if (c == 0x309b)
-		return (0xff9e);
-	if (c == 0x309c)
-		return (0xff9f);
-	if (c < 0x30a1)
-		return c;
-	if (0x30a1 <= c && c <= 0x30aa)
-		return (c%2 == 0) ? ((c - 0x30a2)/2 + 0xff71)
-			: ((c - 0x30a1)/2 + 0xff67);
-	if (c <= 0x30c2) {
-		if (c%2 == 1)
-			return ((c - 0x30ab)/2 + 0xff76);
-		else {
-			g_string_append_unichar
-				(str, (c - 0x30ac)/2 + 0xff76);
-			return 0xff9e;
-		}
+	switch (c) {
+	/* Individual mappings & Punctuation */
+	case 0x2015:
+		return 0xff70; /* HORIZONTAL BAR -> HALFWIDTH KATAKANA-HIRAGANA PROLONGED SOUND MARK */
+	case 0x2018:
+		return 0x0060; /* LEFT SINGLE QUOTATION MARK -> GRAVE ACCENT */
+	case 0x2019:
+		return 0x0027; /* RIGHT SINGLE QUOTATION MARK -> APOSTROPHE */
+	case 0x201d:
+		return 0x0022; /* RIGHT DOUBLE QUOTATION MARK -> QUOTATION MARK */
+	case 0x3001:
+		return 0xff64; /* IDEOGRAPHIC COMMA -> HALFWIDTH IDEOGRAPHIC COMMA */
+	case 0x3002:
+		return 0xff61; /* IDEOGRAPHIC FULL STOP -> HALFWIDTH IDEOGRAPHIC FULL STOP */
+	case 0x300c:
+		return 0xff62; /* LEFT CORNER BRACKET -> HALFWIDTH LEFT CORNER BRACKET */
+	case 0x300d:
+		return 0xff63; /* RIGHT CORNER BRACKET -> HALFWIDTH RIGHT CORNER BRACKET */
+	case 0x309b:
+		return 0xff9e; /* KATAKANA-HIRAGANA VOICED SOUND MARK -> HALFWIDTH KATAKANA VOICED SOUND MARK */
+	case 0x309c:
+		return 0xff9f; /* KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK -> HALFWIDTH KATAKANA SEMI-VOICED SOUND MARK */
+	case 0x30fb:
+		return 0xff65; /* KATAKANA MIDDLE DOT -> HALFWIDTH KATAKANA MIDDLE DOT */
+	case 0x30fc:
+		return 0xff70; /* KATAKANA-HIRAGANA PROLONGED SOUND MARK -> HALFWIDTH KATAKANA-HIRAGANA PROLONGED SOUND MARK */
+	case 0xffe5:
+		return 0x005c; /* FULLWIDTH YEN SIGN -> REVERSE SOLIDUS */
+
+	/* Katakana (Base & Small) */
+	case 0x30a1:
+		return 0xff67; /* KATAKANA LETTER SMALL A */
+	case 0x30a2:
+		return 0xff71; /* KATAKANA LETTER A */
+	case 0x30a3:
+		return 0xff68; /* KATAKANA LETTER SMALL I */
+	case 0x30a4:
+		return 0xff72; /* KATAKANA LETTER I */
+	case 0x30a5:
+		return 0xff69; /* KATAKANA LETTER SMALL U */
+	case 0x30a6:
+		return 0xff73; /* KATAKANA LETTER U */
+	case 0x30a7:
+		return 0xff6a; /* KATAKANA LETTER SMALL E */
+	case 0x30a8:
+		return 0xff74; /* KATAKANA LETTER E */
+	case 0x30a9:
+		return 0xff6b; /* KATAKANA LETTER SMALL O */
+	case 0x30aa:
+		return 0xff75; /* KATAKANA LETTER O */
+
+	case 0x30ab:
+		return 0xff76; /* KATAKANA LETTER KA */
+	case 0x30ad:
+		return 0xff77; /* KATAKANA LETTER KI */
+	case 0x30af:
+		return 0xff78; /* KATAKANA LETTER KU */
+	case 0x30b1:
+		return 0xff79; /* KATAKANA LETTER KE */
+	case 0x30b3:
+		return 0xff7a; /* KATAKANA LETTER KO */
+	case 0x30b5:
+		return 0xff7b; /* KATAKANA LETTER SA */
+	case 0x30b7:
+		return 0xff7c; /* KATAKANA LETTER SI */
+	case 0x30b9:
+		return 0xff7d; /* KATAKANA LETTER SU */
+	case 0x30bb:
+		return 0xff7e; /* KATAKANA LETTER SE */
+	case 0x30bd:
+		return 0xff7f; /* KATAKANA LETTER SO */
+	case 0x30bf:
+		return 0xff80; /* KATAKANA LETTER TA */
+	case 0x30c1:
+		return 0xff81; /* KATAKANA LETTER TI */
+	case 0x30c3:
+		return 0xff6f; /* KATAKANA LETTER SMALL TU */
+	case 0x30c4:
+		return 0xff82; /* KATAKANA LETTER TU */
+	case 0x30c6:
+		return 0xff83; /* KATAKANA LETTER TE */
+	case 0x30c8:
+		return 0xff84; /* KATAKANA LETTER TO */
+
+	case 0x30ca:
+		return 0xff85; /* KATAKANA LETTER NA */
+	case 0x30cb:
+		return 0xff86; /* KATAKANA LETTER NI */
+	case 0x30cc:
+		return 0xff87; /* KATAKANA LETTER NU */
+	case 0x30cd:
+		return 0xff88; /* KATAKANA LETTER NE */
+	case 0x30ce:
+		return 0xff89; /* KATAKANA LETTER NO */
+
+	case 0x30cf:
+		return 0xff8a; /* KATAKANA LETTER HA */
+	case 0x30d2:
+		return 0xff8b; /* KATAKANA LETTER HI */
+	case 0x30d5:
+		return 0xff8c; /* KATAKANA LETTER HU */
+	case 0x30d8:
+		return 0xff8d; /* KATAKANA LETTER HE */
+	case 0x30db:
+		return 0xff8e; /* KATAKANA LETTER HO */
+
+	case 0x30de:
+		return 0xff8f; /* KATAKANA LETTER MA */
+	case 0x30df:
+		return 0xff90; /* KATAKANA LETTER MI */
+	case 0x30e0:
+		return 0xff91; /* KATAKANA LETTER MU */
+	case 0x30e1:
+		return 0xff92; /* KATAKANA LETTER ME */
+	case 0x30e2:
+		return 0xff93; /* KATAKANA LETTER MO */
+
+	case 0x30e3:
+		return 0xff6c; /* KATAKANA LETTER SMALL YA */
+	case 0x30e4:
+		return 0xff94; /* KATAKANA LETTER YA */
+	case 0x30e5:
+		return 0xff6d; /* KATAKANA LETTER SMALL YU */
+	case 0x30e6:
+		return 0xff95; /* KATAKANA LETTER YU */
+	case 0x30e7:
+		return 0xff6e; /* KATAKANA LETTER SMALL YO */
+	case 0x30e8:
+		return 0xff96; /* KATAKANA LETTER YO */
+
+	case 0x30e9:
+		return 0xff97; /* KATAKANA LETTER RA */
+	case 0x30ea:
+		return 0xff98; /* KATAKANA LETTER RI */
+	case 0x30eb:
+		return 0xff99; /* KATAKANA LETTER RU */
+	case 0x30ec:
+		return 0xff9a; /* KATAKANA LETTER RE */
+	case 0x30ed:
+		return 0xff9b; /* KATAKANA LETTER RO */
+	case 0x30ef:
+		return 0xff9c; /* KATAKANA LETTER WA */
+	case 0x30f2:
+		return 0xff66; /* KATAKANA LETTER WO */
+	case 0x30f3:
+		return 0xff9d; /* KATAKANA LETTER N */
+
+	/* Katakana with Voicing Marks (GA, GI, ...) */
+	case 0x30ac:
+		g_string_append_unichar (str, 0xff76); return 0xff9e; /* KATAKANA LETTER KA + Voicing Mark */
+	case 0x30ae:
+		g_string_append_unichar (str, 0xff77); return 0xff9e; /* KATAKANA LETTER KI + Voicing Mark */
+	case 0x30b0:
+		g_string_append_unichar (str, 0xff78); return 0xff9e; /* KATAKANA LETTER KU + Voicing Mark */
+	case 0x30b2:
+		g_string_append_unichar (str, 0xff79); return 0xff9e; /* KATAKANA LETTER KE + Voicing Mark */
+	case 0x30b4:
+		g_string_append_unichar (str, 0xff7a); return 0xff9e; /* KATAKANA LETTER KO + Voicing Mark */
+	case 0x30b6:
+		g_string_append_unichar (str, 0xff7b); return 0xff9e; /* KATAKANA LETTER SA + Voicing Mark */
+	case 0x30b8:
+		g_string_append_unichar (str, 0xff7c); return 0xff9e; /* KATAKANA LETTER SI + Voicing Mark */
+	case 0x30ba:
+		g_string_append_unichar (str, 0xff7d); return 0xff9e; /* KATAKANA LETTER SU + Voicing Mark */
+	case 0x30bc:
+		g_string_append_unichar (str, 0xff7e); return 0xff9e; /* KATAKANA LETTER SE + Voicing Mark */
+	case 0x30be:
+		g_string_append_unichar (str, 0xff7f); return 0xff9e; /* KATAKANA LETTER SO + Voicing Mark */
+	case 0x30c0:
+		g_string_append_unichar (str, 0xff80); return 0xff9e; /* KATAKANA LETTER TA + Voicing Mark */
+	case 0x30c2:
+		g_string_append_unichar (str, 0xff81); return 0xff9e; /* KATAKANA LETTER TI + Voicing Mark */
+	case 0x30c5:
+		g_string_append_unichar (str, 0xff82); return 0xff9e; /* KATAKANA LETTER TU + Voicing Mark */
+	case 0x30c7:
+		g_string_append_unichar (str, 0xff83); return 0xff9e; /* KATAKANA LETTER TE + Voicing Mark */
+	case 0x30c9:
+		g_string_append_unichar (str, 0xff84); return 0xff9e; /* KATAKANA LETTER TO + Voicing Mark */
+
+	case 0x30d0:
+		g_string_append_unichar (str, 0xff8a); return 0xff9e; /* KATAKANA LETTER HA + Voicing Mark */
+	case 0x30d3:
+		g_string_append_unichar (str, 0xff8b); return 0xff9e; /* KATAKANA LETTER HI + Voicing Mark */
+	case 0x30d6:
+		g_string_append_unichar (str, 0xff8c); return 0xff9e; /* KATAKANA LETTER HU + Voicing Mark */
+	case 0x30d9:
+		g_string_append_unichar (str, 0xff8d); return 0xff9e; /* KATAKANA LETTER HE + Voicing Mark */
+	case 0x30dc:
+		g_string_append_unichar (str, 0xff8e); return 0xff9e; /* KATAKANA LETTER HO + Voicing Mark */
+
+	/* Katakana with Semi-Voicing Marks (PA, PI, ...) */
+	case 0x30d1:
+		g_string_append_unichar (str, 0xff8a); return 0xff9f; /* KATAKANA LETTER HA + Semi-Voicing Mark */
+	case 0x30d4:
+		g_string_append_unichar (str, 0xff8b); return 0xff9f; /* KATAKANA LETTER HI + Semi-Voicing Mark */
+	case 0x30d7:
+		g_string_append_unichar (str, 0xff8c); return 0xff9f; /* KATAKANA LETTER HU + Semi-Voicing Mark */
+	case 0x30da:
+		g_string_append_unichar (str, 0xff8d); return 0xff9f; /* KATAKANA LETTER HE + Semi-Voicing Mark */
+	case 0x30dd:
+		g_string_append_unichar (str, 0xff8e); return 0xff9f; /* KATAKANA LETTER HO + Semi-Voicing Mark */
+
+	default:
+		/* Full-width ASCII range */
+		if (c >= 0xff01 && c <= 0xff5e)
+			return (c - 0xff01 + 0x0021);
+		break;
 	}
-	if (c == 0x30c3)
-		return (0xff6f);
-	if (c <= 0x30c9) {
-		if (c%2 == 0)
-			return ((c - 0x30c4)/2 + 0xff82);
-		else {
-			g_string_append_unichar
-				(str, (c - 0x30c5)/2 + 0xff82);
-			return 0xff9e;
-		}
-	}
-	if (c <= 0x30ce)
-		return (c - 0x30ca + 0xff85);
-	if (c <= 0x30dd)
-		switch (c%2) {
-		case 0:
-			return ((c - 0x30cf)/3 + 0xff8a);
-		case 1:
-			g_string_append_unichar
-				(str, (c - 0x30d0)/3 + 0xff8a);
-			return 0xff9e;
-		case 2:
-		default:
-			g_string_append_unichar
-				(str, (c - 0x30d1)/3 + 0xff8a);
-			return 0xff9f;
-		}
-	if (c <= 30e2)
-		return (c - 0x30de + 0xff8f);
-	if (c <= 0x30e8) {
-		if (c%2 == 0)
-			return ((c - 0x30e4)/2 + 0xff94);
-		else
-			return ((c - 0x30e3)/2 + 0xff6c);
-	}
-	if (c <= 0x30ed)
-		return (c - 0x30e9 + 0xff97);
-	if (c == 0x30ef)
-		return (0xff9c);
-	if (c == 0x30f2)
-		return (0xff66);
-	if (c == 0x30f3)
-		return (0xff9d);
-	if (c == 0x30fb)
-		return (0xff65);
-	if (c == 0x30fc)
-		return (0xff70);
-	if (c < 0xff01)
-		return c;
-	if (c <= 0xff5e)
-		return (c - 0xff01 + 0x0021);
-	if (c == 0xffe5)
-		return (0x005c);
+
 	return c;
 }
+
 
 static GnmValue *
 gnumeric_asc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
@@ -1674,78 +1810,173 @@ static GnmFuncHelp const help_jis[] = {
 static gunichar
 gnm_asc_full (gunichar c, gunichar fc)
 {
-	if (c < 0x0021)
-		return c;
-	if (c == 0x0022)
-		return (0x201d);
-	if (c == 0x0027)
-		return (0x2019);
-	if (c == 0x005c)
-		return (0xffe5);
-	if (c == 0x0060)
-		return (0x2018);
-	if (c <= 0x007e)
-		return (c - 0x0021 + 0xff01);
-	if (c < 0xff61)
-		return c;
-	if (c == 0xff61)
-		return (0x3002);
-	if (c == 0xff62)
-		return (0x300c);
-	if (c == 0xff63)
-		return (0x300d);
-	if (c == 0xff64)
-		return (0x3001);
-	if (c == 0xff65)
-		return (0x30fb);
-	if (c == 0xff66)
-		return (0x30f2);
-	if (c <= 0xff6b)
-		return ((c - 0xff67)*2 + 0x30a1);
-	if (c <= 0xff6e)
-		return ((c - 0xff6c)*2 + 0x30e3);
-	if (c == 0xff6f)
-		return (0x30c3);
-	if (c == 0xff70)
-		return (0x30fc);
-	if (c <= 0xff75)
-		return ((c - 0xff71)*2 + 0x30a2);
-	if (c <= 0xff81) {
-		if (fc == 0xff9e)
-			return ((c - 0xff76)*2 + 0x30ac);
-		else
-			return ((c - 0xff76)*2 + 0x30ab);
+	switch (c) {
+	/* Individual mappings & Punctuation */
+	case 0x0022:
+		return 0x201d; /* QUOTATION MARK -> RIGHT DOUBLE QUOTATION MARK */
+	case 0x0027:
+		return 0x2019; /* APOSTROPHE -> RIGHT SINGLE QUOTATION MARK */
+	case 0x005c:
+		return 0xffe5; /* REVERSE SOLIDUS -> FULLWIDTH YEN SIGN */
+	case 0x0060:
+		return 0x2018; /* GRAVE ACCENT -> LEFT SINGLE QUOTATION MARK */
+
+	case 0xff61:
+		return 0x3002; /* HALFWIDTH IDEOGRAPHIC FULL STOP -> IDEOGRAPHIC FULL STOP */
+	case 0xff62:
+		return 0x300c; /* HALFWIDTH LEFT CORNER BRACKET -> LEFT CORNER BRACKET */
+	case 0xff63:
+		return 0x300d; /* HALFWIDTH RIGHT CORNER BRACKET -> RIGHT CORNER BRACKET */
+	case 0xff64:
+		return 0x3001; /* HALFWIDTH IDEOGRAPHIC COMMA -> IDEOGRAPHIC COMMA */
+	case 0xff65:
+		return 0x30fb; /* HALFWIDTH KATAKANA MIDDLE DOT -> KATAKANA MIDDLE DOT */
+	case 0xff66:
+		return 0x30f2; /* HALFWIDTH KATAKANA LETTER WO -> KATAKANA LETTER WO */
+
+	/* Half-width Katakana (Base & Small) */
+	case 0xff67:
+		return 0x30a1; /* HALFWIDTH KATAKANA LETTER SMALL A */
+	case 0xff68:
+		return 0x30a3; /* HALFWIDTH KATAKANA LETTER SMALL I */
+	case 0xff69:
+		return 0x30a5; /* HALFWIDTH KATAKANA LETTER SMALL U */
+	case 0xff6a:
+		return 0x30a7; /* HALFWIDTH KATAKANA LETTER SMALL E */
+	case 0xff6b:
+		return 0x30a9; /* HALFWIDTH KATAKANA LETTER SMALL O */
+	case 0xff6c:
+		return 0x30e3; /* HALFWIDTH KATAKANA LETTER SMALL YA */
+	case 0xff6d:
+		return 0x30e5; /* HALFWIDTH KATAKANA LETTER SMALL YU */
+	case 0xff6e:
+		return 0x30e7; /* HALFWIDTH KATAKANA LETTER SMALL YO */
+	case 0xff6f:
+		return 0x30c3; /* HALFWIDTH KATAKANA LETTER SMALL TU */
+	case 0xff70:
+		return 0x30fc; /* HALFWIDTH KATAKANA-HIRAGANA PROLONGED SOUND MARK */
+
+	case 0xff71:
+		return 0x30a2; /* HALFWIDTH KATAKANA LETTER A */
+	case 0xff72:
+		return 0x30a4; /* HALFWIDTH KATAKANA LETTER I */
+	case 0xff73:
+		return 0x30a6; /* HALFWIDTH KATAKANA LETTER U */
+	case 0xff74:
+		return 0x30a8; /* HALFWIDTH KATAKANA LETTER E */
+	case 0xff75:
+		return 0x30aa; /* HALFWIDTH KATAKANA LETTER O */
+
+	case 0xff76:
+		return (fc == 0xff9e) ? 0x30ac : 0x30ab; /* KA -> GA or KA */
+	case 0xff77:
+		return (fc == 0xff9e) ? 0x30ae : 0x30ad; /* KI -> GI or KI */
+	case 0xff78:
+		return (fc == 0xff9e) ? 0x30b0 : 0x30af; /* KU -> GU or KU */
+	case 0xff79:
+		return (fc == 0xff9e) ? 0x30b2 : 0x30b1; /* KE -> GE or KE */
+	case 0xff7a:
+		return (fc == 0xff9e) ? 0x30b4 : 0x30b3; /* KO -> GO or KO */
+
+	case 0xff7b:
+		return (fc == 0xff9e) ? 0x30b6 : 0x30b5; /* SA -> ZA or SA */
+	case 0xff7c:
+		return (fc == 0xff9e) ? 0x30b8 : 0x30b7; /* SI -> ZI or SI */
+	case 0xff7d:
+		return (fc == 0xff9e) ? 0x30ba : 0x30b9; /* SU -> ZU or SU */
+	case 0xff7e:
+		return (fc == 0xff9e) ? 0x30bc : 0x30bb; /* SE -> ZE or SE */
+	case 0xff7f:
+		return (fc == 0xff9e) ? 0x30be : 0x30bd; /* SO -> ZO or SO */
+
+	case 0xff80:
+		return (fc == 0xff9e) ? 0x30c0 : 0x30bf; /* TA -> DA or TA */
+	case 0xff81:
+		return (fc == 0xff9e) ? 0x30c2 : 0x30c1; /* TI -> DI or TI */
+	case 0xff82:
+		return (fc == 0xff9e) ? 0x30c5 : 0x30c4; /* TU -> DU or TU */
+	case 0xff83:
+		return (fc == 0xff9e) ? 0x30c7 : 0x30c6; /* TE -> DE or TE */
+	case 0xff84:
+		return (fc == 0xff9e) ? 0x30c9 : 0x30c8; /* TO -> DO or TO */
+
+	case 0xff85:
+		return 0x30ca; /* HALFWIDTH KATAKANA LETTER NA */
+	case 0xff86:
+		return 0x30cb; /* HALFWIDTH KATAKANA LETTER NI */
+	case 0xff87:
+		return 0x30cc; /* HALFWIDTH KATAKANA LETTER NU */
+	case 0xff88:
+		return 0x30cd; /* HALFWIDTH KATAKANA LETTER NE */
+	case 0xff89:
+		return 0x30ce; /* HALFWIDTH KATAKANA LETTER NO */
+
+	case 0xff8a:
+		if (fc == 0xff9e) return 0x30d0; /* HA -> BA */
+		if (fc == 0xff9f) return 0x30d1; /* HA -> PA */
+		return 0x30cf; /* HA */
+	case 0xff8b:
+		if (fc == 0xff9e) return 0x30d3; /* HI -> BI */
+		if (fc == 0xff9f) return 0x30d4; /* HI -> PI */
+		return 0x30d2; /* HI */
+	case 0xff8c:
+		if (fc == 0xff9e) return 0x30d6; /* HU -> BU */
+		if (fc == 0xff9f) return 0x30d7; /* HU -> PU */
+		return 0x30d5; /* HU */
+	case 0xff8d:
+		if (fc == 0xff9e) return 0x30d9; /* HE -> BE */
+		if (fc == 0xff9f) return 0x30da; /* HE -> PE */
+		return 0x30d8; /* HE */
+	case 0xff8e:
+		if (fc == 0xff9e) return 0x30dc; /* HO -> BO */
+		if (fc == 0xff9f) return 0x30dd; /* HO -> PO */
+		return 0x30db; /* HO */
+
+	case 0xff8f:
+		return 0x30de; /* HALFWIDTH KATAKANA LETTER MA */
+	case 0xff90:
+		return 0x30df; /* HALFWIDTH KATAKANA LETTER MI */
+	case 0xff91:
+		return 0x30e0; /* HALFWIDTH KATAKANA LETTER MU */
+	case 0xff92:
+		return 0x30e1; /* HALFWIDTH KATAKANA LETTER ME */
+	case 0xff93:
+		return 0x30e2; /* HALFWIDTH KATAKANA LETTER MO */
+
+	case 0xff94:
+		return 0x30e4; /* HALFWIDTH KATAKANA LETTER YA */
+	case 0xff95:
+		return 0x30e6; /* HALFWIDTH KATAKANA LETTER YU */
+	case 0xff96:
+		return 0x30e8; /* HALFWIDTH KATAKANA LETTER YO */
+
+	case 0xff97:
+		return 0x30e9; /* HALFWIDTH KATAKANA LETTER RA */
+	case 0xff98:
+		return 0x30ea; /* HALFWIDTH KATAKANA LETTER RI */
+	case 0xff99:
+		return 0x30eb; /* HALFWIDTH KATAKANA LETTER RU */
+	case 0xff9a:
+		return 0x30ec; /* HALFWIDTH KATAKANA LETTER RE */
+	case 0xff9b:
+		return 0x30ed; /* HALFWIDTH KATAKANA LETTER RO */
+
+	case 0xff9c:
+		return 0x30ef; /* HALFWIDTH KATAKANA LETTER WA */
+	case 0xff9d:
+		return 0x30f3; /* HALFWIDTH KATAKANA LETTER N */
+	case 0xff9e:
+		return 0x309b; /* HALFWIDTH KATAKANA VOICED SOUND MARK */
+	case 0xff9f:
+		return 0x309c; /* HALFWIDTH KATAKANA SEMI-VOICED SOUND MARK */
+
+	default:
+		/* ASCII range: 0x0021-0x007e -> 0xff01-0xff5e */
+		if (c >= 0x0021 && c <= 0x007e)
+			return (c - 0x0021 + 0xff01);
+		break;
 	}
-	if (c <= 0xff84) {
-		if (fc == 0xff9e)
-			return ((c - 0xff82)*2 + 0x30c5);
-		else
-			return ((c - 0xff82)*2 + 0x30c4);
-	}
-	if (c <= 0xff89)
-		return ((c - 0xff85)*2 + 0x30ca);
-	if (c <= 0xff8e) {
-		if (fc == 0xff9e)
-			return ((c - 0xff8a)*3 + 0x30d0);
-		else if (fc == 0xff9f)
-			return ((c - 0xff8a)*3 + 0x30d1);
-		else
-			return ((c - 0xff8a)*3 + 0x30cf);
-	}
-	if (c <= 0xff93)
-		return (c - 0xff8f + 0x30de);
-	if (c <= 0xff96)
-		return ((c - 0xff94)*2 + 0x30e4);
-	if (c <= 0xff9b)
-		return (c - 0xff97 + 0x30e9);
-	if (c == 0xff9c)
-		return (0x30ef);
-	if (c == 0xff9d)
-		return (0x30f3);
-	if (c == 0xff9e)
-		return (0x309b);
-	if (c == 0xff9f)
-		return (0x309c);
+
 	return c;
 }
 
@@ -1767,7 +1998,9 @@ gnumeric_jis (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	return value_new_string_nocopy (g_string_free (str, FALSE));
 }
+
 /***************************************************************************/
+
 GnmFuncDescriptor const string_functions[] = {
         { "asc",       "s",                       help_asc,
 	  gnumeric_asc, NULL,
