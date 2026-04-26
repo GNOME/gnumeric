@@ -441,6 +441,8 @@ random_normal (void)
 gnm_float
 random_lognormal (gnm_float zeta, gnm_float sigma)
 {
+	if (sigma < 0)
+		return gnm_nan;
 	return gnm_exp (sigma * random_normal () + zeta);
 }
 
@@ -456,6 +458,11 @@ random_gaussian (gnm_float sigma)
 gnm_float
 random_poisson (gnm_float lambda)
 {
+	if (lambda < 0)
+		return gnm_nan;
+	if (lambda == 0)
+		return 0;
+
 	/*
 	 * This may not be optimal code, but it sure is easy to
 	 * understand compared to R's code.
@@ -469,6 +476,10 @@ random_poisson (gnm_float lambda)
 gnm_float
 random_binomial (gnm_float p, gnm_float trials)
 {
+	if (p < 0 || p > 1 || trials < 0)
+		return gnm_nan;
+	if (trials == 0)
+		return 0;
 	return qbinom (random_01 (), trials, p, TRUE, FALSE);
 }
 
@@ -478,6 +489,10 @@ random_binomial (gnm_float p, gnm_float trials)
 gnm_float
 random_negbinom (gnm_float p, gnm_float f)
 {
+	if (p <= 0 || p > 1 || f < 0)
+		return gnm_nan;
+	if (f == 0)
+		return 0;
 	return qnbinom (random_01 (), f, p, TRUE, FALSE);
 }
 
@@ -487,6 +502,8 @@ random_negbinom (gnm_float p, gnm_float f)
 gnm_float
 random_exponential (gnm_float b)
 {
+	if (b < 0)
+		return gnm_nan;
 	return -b * gnm_log (random_01 ());
 }
 
@@ -496,8 +513,12 @@ random_exponential (gnm_float b)
 gnm_float
 random_bernoulli (gnm_float p)
 {
-	gnm_float r = random_01 ();
+	gnm_float r;
 
+	if (p < 0 || p > 1)
+		return gnm_nan;
+
+	r = random_01 ();
 	return (r <= p) ? 1.0 : 0.0;
 }
 
@@ -509,6 +530,9 @@ gnm_float
 random_cauchy (gnm_float a)
 {
 	gnm_float u;
+
+	if (a < 0)
+		return gnm_nan;
 
 	do {
 		u = random_01 ();
@@ -526,6 +550,12 @@ gnm_float
 random_weibull (gnm_float a, gnm_float b)
 {
 	gnm_float x, z;
+
+	if (a < 0 || b <= 0)
+		return gnm_nan;
+
+	if (a == 0)
+		return 0;
 
 	do {
 		x = random_01 ();
@@ -545,6 +575,9 @@ gnm_float
 random_laplace (gnm_float a)
 {
 	gnm_float u;
+
+	if (a < 0)
+		return gnm_nan;
 
 	do {
 		u = 2 * random_01 () - 1;
@@ -572,6 +605,9 @@ random_rayleigh (gnm_float sigma)
 {
 	gnm_float u;
 
+	if (sigma < 0)
+		return gnm_nan;
+
 	do {
 		u = random_01 ();
 	} while (u == 0);
@@ -592,6 +628,9 @@ gnm_float
 random_rayleigh_tail (gnm_float a, gnm_float sigma)
 {
 	gnm_float u;
+
+	if (sigma < 0)
+		return gnm_nan;
 
 	do {
 		u = random_01 ();
@@ -698,8 +737,11 @@ random_gamma (gnm_float a, gnm_float b)
 {
 	gnm_float na;
 
-	if (gnm_isnan (a) || gnm_isnan (b) || a <= 0 || b <= 0)
+	if (gnm_isnan (a) || gnm_isnan (b) || a < 0 || b < 0)
 		return gnm_nan;
+
+	if (a == 0 || b == 0)
+		return 0;
 
 	na = gnm_floor (a);
 
@@ -720,6 +762,12 @@ random_pareto (gnm_float a, gnm_float b)
 {
 	gnm_float x;
 
+	if (a <= 0 || b < 0)
+		return gnm_nan;
+
+	if (b == 0)
+		return 0;
+
 	do {
 		x = random_01 ();
 	} while (x == 0);
@@ -734,8 +782,13 @@ random_pareto (gnm_float a, gnm_float b)
 gnm_float
 random_fdist (gnm_float nu1, gnm_float nu2)
 {
-	gnm_float Y1 = random_gamma (nu1 / 2, 2);
-	gnm_float Y2 = random_gamma (nu2 / 2, 2);
+	gnm_float Y1, Y2;
+
+	if (nu1 <= 0 || nu2 <= 0)
+		return gnm_nan;
+
+	Y1 = random_gamma (nu1 / 2, 2);
+	Y2 = random_gamma (nu2 / 2, 2);
 
 	return (Y1 * nu2) / (Y2 * nu1);
 }
@@ -747,8 +800,13 @@ random_fdist (gnm_float nu1, gnm_float nu2)
 gnm_float
 random_beta (gnm_float a, gnm_float b)
 {
-	gnm_float x1 = random_gamma (a, 1.0);
-	gnm_float x2 = random_gamma (b, 1.0);
+	gnm_float x1, x2;
+
+	if (a <= 0 || b <= 0)
+		return gnm_nan;
+
+	x1 = random_gamma (a, 1.0);
+	x2 = random_gamma (b, 1.0);
 
 	return x1 / (x1 + x2);
 }
@@ -761,6 +819,9 @@ random_beta (gnm_float a, gnm_float b)
 gnm_float
 random_chisq (gnm_float nu)
 {
+	if (nu < 0)
+		return gnm_nan;
+
 	return 2 * random_gamma (nu / 2, 1.0);
 }
 
@@ -773,6 +834,9 @@ gnm_float
 random_logistic (gnm_float a)
 {
 	gnm_float x;
+
+	if (a < 0)
+		return gnm_nan;
 
 	do {
 		x = random_01 ();
@@ -791,8 +855,10 @@ random_geometric (gnm_float p)
 {
 	gnm_float u;
 
+	if (p <= 0 || p > 1)
+		return gnm_nan;
 	if (p == 1)
-		return 1;
+		return 0;
 	do {
 		u = random_01 ();
 	} while (u == 0);
@@ -806,6 +872,8 @@ random_geometric (gnm_float p)
 gnm_float
 random_hypergeometric (gnm_float n1, gnm_float n2, gnm_float t)
 {
+	if (n1 < 0 || n2 < 0 || t < 0 || t > n1 + n2)
+		return gnm_nan;
 	return qhyper (random_01 (), n1, n2, t, TRUE, FALSE);
 }
 
@@ -819,6 +887,9 @@ gnm_float
 random_logarithmic (gnm_float p)
 {
 	gnm_float c, v;
+
+	if (p <= 0 || p >= 1)
+		return gnm_nan;
 
 	c = gnm_log1p (-p);
 	do {
@@ -851,6 +922,9 @@ random_logarithmic (gnm_float p)
 gnm_float
 random_tdist (gnm_float nu)
 {
+	if (nu <= 0)
+		return gnm_nan;
+
 	if (nu <= 2) {
 		gnm_float Y1 = random_normal ();
 		gnm_float Y2 = random_chisq (nu);
@@ -886,6 +960,9 @@ random_gumbel1 (gnm_float a, gnm_float b)
 {
 	gnm_float x;
 
+	if (a == 0 || b <= 0)
+		return gnm_nan;
+
 	do {
 		x = random_01 ();
 	} while (x == 0);
@@ -902,6 +979,9 @@ gnm_float
 random_gumbel2 (gnm_float a, gnm_float b)
 {
 	gnm_float x;
+
+	if (a == 0 || b <= 0)
+		return gnm_nan;
 
 	do {
 		x = random_01 ();
@@ -935,6 +1015,9 @@ gnm_float
 random_levy (gnm_float c, gnm_float alpha)
 {
 	gnm_float u, v, t, s;
+
+	if (c <= 0 || alpha <= 0 || alpha > 2)
+		return gnm_nan;
 
 	do {
 		u = random_01 ();
@@ -992,6 +1075,9 @@ gnm_float
 random_levy_skew (gnm_float c, gnm_float alpha, gnm_float beta)
 {
 	gnm_float V, W, X;
+
+	if (c <= 0 || alpha <= 0 || alpha > 2 || beta < -1 || beta > 1)
+		return gnm_nan;
 
 	if (beta == 0) /* symmetric case */
 		return random_levy (c, alpha);
@@ -1059,8 +1145,11 @@ gnm_float
 random_exppow (gnm_float a, gnm_float b)
 {
 	/* See http://www.mcgill.ca/files/economics/propertiesandestimation.pdf */
-	if (!(a > 0) || gnm_isnan (b))
+	if (a < 0 || b <= 0 || gnm_isnan (b))
 		return gnm_nan;
+
+	if (a == 0)
+		return 0;
 
 	if (b < 1) {
 		gnm_float u = random_01 ();
@@ -1126,7 +1215,12 @@ random_gaussian_tail (gnm_float a, gnm_float sigma)
 	 * This implementation does one-sided upper-tailed deviates.
 	 */
 
-	gnm_float s = a / sigma;
+	gnm_float s;
+
+	if (sigma <= 0)
+		return gnm_nan;
+
+	s = a / sigma;
 
 	if (s < 1) {
 		/* For small s, use a direct rejection method. The limit s < 1
@@ -1436,9 +1530,15 @@ gnm_float
 random_skew_normal (gnm_float a)
 {
 	gnm_float result;
-	gnm_float delta = a / gnm_hypot (1, a);
-	gnm_float u = random_normal ();
-	gnm_float v = random_normal ();
+	gnm_float delta;
+	gnm_float u, v;
+
+	if (!gnm_finite (a))
+		return gnm_nan;
+
+	delta = a / gnm_hypot (1, a);
+	u = random_normal ();
+	v = random_normal ();
 
 	result = delta * u + gnm_sqrt (1 - delta * delta) * v;
 
@@ -1459,8 +1559,13 @@ random_skew_normal (gnm_float a)
 gnm_float
 random_skew_tdist (gnm_float nu, gnm_float a)
 {
-	gnm_float chi = random_chisq (nu);
-	gnm_float z = random_skew_normal (a);
+	gnm_float chi, z;
+
+	if (nu <= 0)
+		return gnm_nan;
+
+	chi = random_chisq (nu);
+	z = random_skew_normal (a);
 
 	return (z * gnm_sqrt(nu/chi));
 }
