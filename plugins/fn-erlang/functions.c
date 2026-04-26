@@ -105,7 +105,6 @@ static GnmFuncHelp const help_probblock[] = {
 	{ GNM_FUNC_HELP_ARG, F_("circuits:number of circuits")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("PROBBLOCK returns probability of blocking when @{traffic}"
 					" calls load into @{circuits} circuits.")},
-	{ GNM_FUNC_HELP_NOTE, F_("@{traffic} cannot exceed @{circuits}.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=PROBBLOCK(24,30)" },
 	{ GNM_FUNC_HELP_SEEALSO, "OFFTRAF,DIMCIRC,OFFCAP"},
 	{ GNM_FUNC_HELP_END }
@@ -155,28 +154,30 @@ gnumeric_offtraf (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float traffic = value_get_as_float (argv[0]);
 	gnm_float circuits = value_get_as_float (argv[1]);
-	gnm_float traffic0;
+	gnm_float upper;
 	GnmGoalSeekData data;
 	GnmGoalSeekStatus status;
 	gnumeric_offtraf_t udata;
 
-	if (circuits < 1 || traffic < 0)
+	/* Physical limit: Carried traffic cannot exceed or equal circuit count */
+	if (circuits < 1 || traffic < 0 || traffic >= circuits)
 		return value_new_error_VALUE (ei->pos);
 
 	goal_seek_initialize (&data);
 	data.xmin = traffic;
-	data.xmax = circuits;
 	udata.circuits = circuits;
 	udata.traffic = traffic;
-	traffic0 = (data.xmin + data.xmax) / 2;
-	/* Newton search from guess.  */
-	status = goal_seek_newton (&gnumeric_offtraf_f, NULL,
-				   &data, &udata, traffic0);
-	if (status != GOAL_SEEK_OK) {
-		(void)goal_seek_point (&gnumeric_offtraf_f, &data, &udata, traffic);
-		(void)goal_seek_point (&gnumeric_offtraf_f, &data, &udata, circuits);
-		status = goal_seek_bisection (&gnumeric_offtraf_f, &data, &udata);
+
+	(void)goal_seek_point (&gnumeric_offtraf_f, &data, &udata, traffic);
+	upper = MAX (circuits, traffic * 2);
+	while (upper < data.xmax && !data.havexpos) {
+		(void)goal_seek_point (&gnumeric_offtraf_f, &data, &udata, upper);
+		if (data.havexpos) break;
+		upper *= 2;
+		if (upper > GNM_MAX / 2) break;
 	}
+
+	status = goal_seek_bisection (&gnumeric_offtraf_f, &data, &udata);
 
 	if (status == GOAL_SEEK_OK)
 		return value_new_float (data.root);

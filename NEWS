@@ -21,6 +21,8 @@ Morten:
 	* Improve primality test for large numbers.
 	* Speed up number theory functions for values with a large
 	  prime factor.
+	* Fix TRIM to only cut spaces.
+	* Fix problems with OFFTRAF in extreme cases.
 
 Alex H:
 	* Don't remove initial empty rows/columns for cvs/txt export.
