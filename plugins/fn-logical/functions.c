@@ -110,7 +110,7 @@ gnumeric_not (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gboolean err, val = value_get_as_bool (argv[0], &err);
 	if (err)
-		return value_new_error (ei->pos, _("Type Mismatch"));
+		return value_new_error_VALUE (ei->pos);
 	return value_new_bool (!val);
 }
 
@@ -267,8 +267,9 @@ static GnmFuncHelp const help_ifs[] = {
 	{ GNM_FUNC_HELP_ARG, F_("value1:value if @{condition1} is true") },
 	{ GNM_FUNC_HELP_ARG, F_("cond2:condition") },
 	{ GNM_FUNC_HELP_ARG, F_("value2:value if @{condition2} is true") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the value after the first true conditional.  If no conditional is true, #VALUE! is returned.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=IFS(false,1/0,true,42)" },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the value after the first true conditional.  If no conditional is true, #N/A is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("Each @{condition} must be a boolean value. Any other type will result in a #VALUE! error.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=IFS(FALSE,1/0,TRUE,42)" },
 	{ GNM_FUNC_HELP_SEEALSO, "IF" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -280,27 +281,25 @@ gnumeric_ifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	for (a = 0; a + 1 <= argc; a += 2) {
 		GnmValue *v;
-		gboolean err, c;
+		gboolean c;
 
 		v = gnm_expr_eval (argv[a], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-		// Strict in conditional arguments
 		if (VALUE_IS_ERROR (v))
 			return v;
 
-		// Docs says to err on any non-boolean, but until tests
-		// verify that, we use regular boolean interpretation
-		c = value_get_as_bool (v, &err);
+		if (!VALUE_IS_BOOLEAN (v)) {
+			value_release (v);
+			return value_new_error_VALUE (ei->pos);
+		}
+
+		c = v->v_bool.val;
 		value_release (v);
-		if (err)
-			break;
 
 		if (c)
-			// Flags?
 			return gnm_expr_eval (argv[a + 1], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	}
 
-	// No match
-	return value_new_error_VALUE (ei->pos);
+	return value_new_error_NA (ei->pos);
 }
 
 /***************************************************************************/
@@ -308,12 +307,14 @@ gnumeric_ifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 static GnmFuncHelp const help_switch[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SWITCH:multi-branch selector") },
 	{ GNM_FUNC_HELP_ARG, F_("ref:value") },
-	{ GNM_FUNC_HELP_ARG, F_("choice1:first choice value") },
-	{ GNM_FUNC_HELP_ARG, F_("value1:first result value") },
-	{ GNM_FUNC_HELP_ARG, F_("choice2:second choice value") },
-	{ GNM_FUNC_HELP_ARG, F_("value2:second result value") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function compares the reference value, @{ref}, against the choice values, @{choice1} etc., and returns the corresponding result value when it finds a match.  The choices may be followed by a default value to use.  If there are no choices that match and no default value, #N/A is return.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=SWITCH(WEEKDAY(TODAY()),0,\"Sunday\",1,\"Saturday\",\"not weekend\")" },
+	{ GNM_FUNC_HELP_ARG, F_("choice1:value") },
+	{ GNM_FUNC_HELP_ARG, F_("value1:result") },
+	{ GNM_FUNC_HELP_ARG, F_("choice2:value") },
+	{ GNM_FUNC_HELP_ARG, F_("value2:result") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("SWITCH compares @{ref} against @{choice1}, @{choice2}, etc. and returns the corresponding @{value} for the first match. A final optional argument may be provided as a default value.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If no match is found and no default is provided, #N/A is returned.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SWITCH(2,1,\"A\",2,\"B\",3,\"C\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SWITCH(7,1,\"A\",2,\"B\",\"None\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IF,IFS" },
 	{ GNM_FUNC_HELP_END }
 };
