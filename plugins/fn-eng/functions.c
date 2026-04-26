@@ -69,7 +69,8 @@ val_to_base (GnmFuncEvalInfo *ei,
 	     Val2BaseFlags flags)
 {
 	int digit, min, max, places;
-	gnm_float v;
+	gnm_float v_float;
+	guint64 v;
 	GString *buffer;
 	GnmValue *vstring = NULL;
 
@@ -97,6 +98,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 				value_release (vstring);
 				return value_new_error_VALUE (ei->pos);
 			}
+			v_float = vstring->v_float.val;
 		} else {
 			char const *str = value_peek_string (value);
 			size_t len;
@@ -123,11 +125,11 @@ val_to_base (GnmFuncEvalInfo *ei,
 					hsuffix = TRUE;
 			}
 
-			v = g_ascii_strtoll (str, &err, src_base);
+			v_float = (gnm_float) g_ascii_strtoll (str, &err, src_base);
 			if (err == str || err[hsuffix] != 0)
 				return value_new_error_NUM (ei->pos);
 
-			if (v < min_value || v > max_value)
+			if (v_float < min_value || v_float > max_value)
 				return value_new_error_NUM (ei->pos);
 
 			break;
@@ -146,7 +148,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 			return value_new_error_NUM (ei->pos);
 
 		buf = g_strdup_printf ("%.0" GNM_FORMAT_f, val);
-		v = g_ascii_strtoll (buf, &err, src_base);
+		v_float = (gnm_float) g_ascii_strtoll (buf, &err, src_base);
 		fail = (*err != 0);
 		g_free (buf);
 
@@ -158,45 +160,51 @@ val_to_base (GnmFuncEvalInfo *ei,
 
 	if (src_base != 10) {
 		gnm_float b10 = gnm_pow (src_base, 10);
-		if (v >= b10 / 2) /* N's complement */
-			v = v - b10;
+		if (v_float >= b10 / 2) /* N's complement */
+			v_float = v_float - b10;
 	}
 
-	if (flags & V2B_NUMBER)
-		return value_new_float (v);
+	if (flags & V2B_NUMBER) {
+		value_release (vstring);
+		return value_new_float (v_float);
+	}
 
-	if (v < 0) {
+	if (v_float < 0) {
 		min = 1;
 		max = 10;
-		v += gnm_pow (dest_base, max);
+		v_float += gnm_pow (dest_base, max);
 	} else {
-		if (v == 0)
+		if (v_float == 0)
 			min = max = 1;
 		else
-			min = max = (int)(gnm_log (v + GNM_const(0.5)) /
+			min = max = (int)(gnm_log (v_float + GNM_const(0.5)) /
 					  gnm_log (dest_base)) + 1;
 	}
 
 	if (aplaces) {
 		gnm_float fplaces = value_get_as_float (aplaces);
-		if (fplaces < min || fplaces > 10)
+		if (fplaces < min || fplaces > 10) {
+			value_release (vstring);
 			return value_new_error_NUM (ei->pos);
+		}
 		places = (int)fplaces;
-		if (v >= 0 && places > max)
+		if (v_float >= 0 && places > max)
 			max = places;
 	} else
 		places = 1;
 
+	v = (guint64)(v_float + GNM_const(0.5));
 	buffer = g_string_sized_new (max);
 	g_string_set_size (buffer, max);
 
 	for (digit = max - 1; digit >= 0; digit--) {
-		int thisdigit = gnm_fmod (v + GNM_const(0.5), dest_base);
-		v = gnm_floor ((v + GNM_const(0.5)) / dest_base);
+		int thisdigit = v % dest_base;
+		v /= dest_base;
 		buffer->str[digit] =
 			thisdigit["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 	}
 
+	value_release (vstring);
 	return value_new_string_nocopy (g_string_free (buffer, FALSE));
 }
 
