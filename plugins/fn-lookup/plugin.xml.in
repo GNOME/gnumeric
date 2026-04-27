@@ -34,6 +34,8 @@
 				<function name="transpose"/>
 				<function name="unique"/>
 				<function name="vlookup"/>
+				<function name="xlookup"/>
+				<function name="xmatch"/>
 			</functions>
 		</service>
 	</services>

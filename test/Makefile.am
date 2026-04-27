@@ -61,6 +61,7 @@ TESTS =	t1000-statfuns.pl			\
 	t1107-cronbach.pl			\
 	t1108-ilog.pl				\
 	t1109-unique.pl				\
+	t1110-xlookup.pl			\
 	t1800-operators.pl			\
 	t1900-array.pl				\
 	t1901-regress.pl			\

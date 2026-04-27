@@ -798,6 +798,154 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 	return res;
 }
 
+static int
+find_index_x (GnmFuncEvalInfo *ei,
+	      GnmValue const *find, GnmValue const *data,
+	      int match_mode, int search_mode, gboolean vertical)
+{
+	int high, low, lastlow, res;
+	LookupBisectionCacheItem *bc;
+	gboolean stringp;
+	int (*comparer) (const void *,const void *);
+	LookupBisectionCacheItemElem key;
+	BisectionLookupInfo info;
+	int i;
+
+	bc = get_bisection_lookup_cache (ei, data, find->v_any.type, vertical,
+					 &info);
+	if (!bc)
+		return LOOKUP_DATA_ERROR;
+
+	stringp = VALUE_IS_STRING (find);
+	comparer = stringp ? bisection_compare_string : bisection_compare_float;
+
+	if (info.is_new) {
+		int lp, length = calc_length (data, ei->pos, vertical);
+
+		bc->data = g_new (LookupBisectionCacheItemElem, length + 1);
+
+		if (stringp)
+			protect_string_pool++;
+
+		for (lp = 0; lp < length; lp++) {
+			GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
+			if (!find_compare_type_valid (find, v))
+				continue;
+
+			if (stringp) {
+				char *vc = g_utf8_casefold (value_peek_string (v), -1);
+				bc->data[bc->n].u.str = g_string_chunk_insert (lookup_string_pool, vc);
+				g_free (vc);
+			} else
+				bc->data[bc->n].u.f = value_get_as_float (v);
+
+			bc->data[bc->n].index = lp;
+			bc->n++;
+		}
+
+		bc->data = g_renew (LookupBisectionCacheItemElem,
+				    bc->data,
+				    bc->n);
+		bisection_lookup_cache_commit (&info);
+
+		if (stringp)
+			protect_string_pool--;
+	}
+
+	if (stringp) {
+		char *vc = g_utf8_casefold (value_peek_string (find), -1);
+		key.u.str = g_string_chunk_insert (lookup_string_pool, vc);
+		g_free (vc);
+	} else {
+		key.u.f = value_get_as_float (find);
+	}
+
+	if (search_mode == 2 || search_mode == -2) {
+		/* Binary search.  */
+		int type = (search_mode == 2 ? 1 : -1);
+		lastlow = LOOKUP_NOT_THERE;
+		low = 0;
+		high = bc->n - 1;
+		while (low <= high) {
+			int mid = (low + high) / 2;
+			int c = comparer (&key, bc->data + mid);
+			if (c == 0) {
+				/* Found exact match.  */
+				return bc->data[mid].index;
+			}
+			if (type < 0)
+				c = -c; /* Reverse sorted data.  */
+			if (c > 0) {
+				lastlow = mid;
+				low = mid + 1;
+			} else {
+				high = mid - 1;
+			}
+		}
+
+		if (match_mode == 0)
+			return LOOKUP_NOT_THERE;
+		if (match_mode == -1)
+			res = lastlow;
+		else if (match_mode == 1)
+			res = (lastlow + 1 < bc->n) ? lastlow + 1 : LOOKUP_NOT_THERE;
+		else
+			return LOOKUP_NOT_THERE; /* Wildcard not supported in binary search for now */
+
+		if (res >= 0)
+			return bc->data[res].index;
+		return LOOKUP_NOT_THERE;
+	} else {
+		/* Linear search.  */
+		int start = (search_mode == -1) ? bc->n - 1 : 0;
+		int end = (search_mode == -1) ? -1 : bc->n;
+		int step = (search_mode == -1) ? -1 : 1;
+
+		if (match_mode == 2 && stringp) {
+			/* Wildcard.  */
+			GORegexp rx;
+			GORegmatch rm;
+			res = LOOKUP_NOT_THERE;
+			if (gnm_regcomp_XL (&rx, value_peek_string (find), GO_REG_ICASE, TRUE, TRUE) != GO_REG_OK)
+				return LOOKUP_DATA_ERROR;
+			for (i = start; i != end; i += step) {
+				if (go_regexec (&rx, bc->data[i].u.str, 1, &rm, 0) == GO_REG_OK) {
+					res = bc->data[i].index;
+					break;
+				}
+			}
+			go_regfree (&rx);
+			return res;
+		}
+
+		/* Exact match.  */
+		for (i = start; i != end; i += step) {
+			if (comparer (&key, bc->data + i) == 0)
+				return bc->data[i].index;
+		}
+
+		if (match_mode == 0 || match_mode == 2)
+			return LOOKUP_NOT_THERE;
+
+		/* match_mode -1 or 1: Next smaller/larger.  */
+		int best_i = -1;
+		for (i = start; i != end; i += step) {
+			int c = comparer (&key, bc->data + i);
+			if (match_mode == -1 && c > 0) { /* find > data[i] */
+				if (best_i == -1 || comparer (bc->data + i, bc->data + best_i) > 0)
+					best_i = i;
+			} else if (match_mode == 1 && c < 0) { /* find < data[i] */
+				if (best_i == -1 || comparer (bc->data + i, bc->data + best_i) < 0)
+					best_i = i;
+			}
+		}
+		if (best_i != -1)
+			return bc->data[best_i].index;
+	}
+
+	return LOOKUP_NOT_THERE;
+}
+
 /***************************************************************************/
 
 static GnmFuncHelp const help_address[] = {
@@ -1299,6 +1447,125 @@ gnumeric_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	case LOOKUP_NOT_THERE: return value_new_error_NA (ei->pos);
 	default: return value_new_int (index + 1);
 	}
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_xlookup[] = {
+	{ GNM_FUNC_HELP_NAME, F_("XLOOKUP:search @{lookup_array} for @{lookup_value} and return the corresponding item from @{return_array}")},
+	{ GNM_FUNC_HELP_ARG, F_("lookup_value:value to look up")},
+	{ GNM_FUNC_HELP_ARG, F_("lookup_array:range to search")},
+	{ GNM_FUNC_HELP_ARG, F_("return_array:range of return values")},
+	{ GNM_FUNC_HELP_ARG, F_("if_not_found:value to return if no match is found; defaults to #N/A")},
+	{ GNM_FUNC_HELP_ARG, F_("match_mode:0 for exact match (default), -1 for exact match or next smaller, 1 for exact match or next larger, 2 for wildcard match")},
+	{ GNM_FUNC_HELP_ARG, F_("search_mode:1 for first-to-last (default), -1 for last-to-first, 2 for binary search ascending, -2 for binary search descending")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("XLOOKUP function finds the item in @{lookup_array} that matches @{lookup_value} and returns the corresponding item from @{return_array}.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=XLOOKUP(\"Apple\",A1:A5,B1:B5)" },
+	{ GNM_FUNC_HELP_SEEALSO, "VLOOKUP,HLOOKUP,XMATCH"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_xlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	GnmValue const *find = args[0];
+	GnmValue const *lookup_array = args[1];
+	GnmValue const *return_array = args[2];
+	GnmValue const *if_not_found = args[3];
+	int match_mode = args[4] ? value_get_as_int (args[4]) : 0;
+	int search_mode = args[5] ? value_get_as_int (args[5]) : 1;
+	int index;
+	gboolean vertical;
+
+	if (!find_type_valid (find)) {
+		if (if_not_found)
+			return value_dup (if_not_found);
+		return value_new_error_NA (ei->pos);
+	}
+
+	vertical = (value_area_get_width (lookup_array, ei->pos) <=
+		    value_area_get_height (lookup_array, ei->pos));
+
+	index = find_index_x (ei, find, lookup_array, match_mode, search_mode, vertical);
+
+	if (index == LOOKUP_DATA_ERROR)
+		return value_new_error_VALUE (ei->pos);
+
+	if (index >= 0) {
+		int rw = value_area_get_width (return_array, ei->pos);
+		int rh = value_area_get_height (return_array, ei->pos);
+
+		if (vertical) {
+			if (index >= rh)
+				return value_new_error_REF (ei->pos);
+			if (rw == 1)
+				return value_dup (value_area_fetch_x_y (return_array, 0, index, ei->pos));
+			else {
+				GnmValue *res = value_new_array (rw, 1);
+				int i;
+				for (i = 0; i < rw; i++)
+					value_array_set (res, i, 0, value_dup (value_area_fetch_x_y (return_array, i, index, ei->pos)));
+				return res;
+			}
+		} else {
+			if (index >= rw)
+				return value_new_error_REF (ei->pos);
+			if (rh == 1)
+				return value_dup (value_area_fetch_x_y (return_array, index, 0, ei->pos));
+			else {
+				GnmValue *res = value_new_array (1, rh);
+				int i;
+				for (i = 0; i < rh; i++)
+					value_array_set (res, 0, i, value_dup (value_area_fetch_x_y (return_array, index, i, ei->pos)));
+				return res;
+			}
+		}
+	}
+
+	if (if_not_found)
+		return value_dup (if_not_found);
+
+	return value_new_error_NA (ei->pos);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_xmatch[] = {
+	{ GNM_FUNC_HELP_NAME, F_("XMATCH:the index of @{lookup_value} in @{lookup_array}")},
+	{ GNM_FUNC_HELP_ARG, F_("lookup_value:value to look up")},
+	{ GNM_FUNC_HELP_ARG, F_("lookup_array:range to search")},
+	{ GNM_FUNC_HELP_ARG, F_("match_mode:0 for exact match (default), -1 for exact match or next smaller, 1 for exact match or next larger, 2 for wildcard match")},
+	{ GNM_FUNC_HELP_ARG, F_("search_mode:1 for first-to-last (default), -1 for last-to-first, 2 for binary search ascending, -2 for binary search descending")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("XMATCH searches @{lookup_array} for @{lookup_value} and returns the 1-based index.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=XMATCH(\"Apple\",A1:A5)" },
+	{ GNM_FUNC_HELP_SEEALSO, "MATCH,XLOOKUP"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_xmatch (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	GnmValue const *find = args[0];
+	int match_mode = args[2] ? value_get_as_int (args[2]) : 0;
+	int search_mode = args[3] ? value_get_as_int (args[3]) : 1;
+	int index;
+	gboolean vertical;
+
+	if (!find_type_valid (find))
+		return value_new_error_NA (ei->pos);
+
+	vertical = (value_area_get_width (args[1], ei->pos) <=
+		    value_area_get_height (args[1], ei->pos));
+
+	index = find_index_x (ei, find, args[1], match_mode, search_mode, vertical);
+
+	if (index == LOOKUP_DATA_ERROR)
+		return value_new_error_VALUE (ei->pos);
+
+	if (index >= 0)
+		return value_new_int (index + 1);
+
+	return value_new_error_NA (ei->pos);
 }
 
 /***************************************************************************/
@@ -2170,6 +2437,12 @@ GnmFuncDescriptor const lookup_functions[] = {
 	{ "vlookup",   "EAf|bb",
 	  help_vlookup, gnumeric_vlookup, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "xlookup",   "EAA|?ff",
+	  help_xlookup, gnumeric_xlookup, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "xmatch",   "EA|ff",
+	  help_xmatch, gnumeric_xmatch, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "array", NULL,
 	  help_array, NULL, gnumeric_array,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
