@@ -127,6 +127,34 @@ gnumeric_unichar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GIConv CODE_iconv;
 
+typedef struct {
+	size_t byte_offset;
+	size_t byte_len;
+	int char_offset;
+	int char_len;
+	gboolean is_row_delim;
+} Match;
+
+static int
+compare_matches (Match const *a, Match const *b)
+{
+	if (a->byte_offset < b->byte_offset) return -1;
+	if (a->byte_offset > b->byte_offset) return 1;
+	return 0;
+}
+
+static GnmValue *
+cb_collect_delims (GnmValue const *v, gpointer user)
+{
+	GSList **list = user;
+	char *s = value_get_as_string (v);
+	if (s && *s)
+		*list = g_slist_prepend (*list, s);
+	else
+		g_free (s);
+	return NULL;
+}
+
 static GnmFuncHelp const help_code[] = {
 	{ GNM_FUNC_HELP_NAME, F_("CODE:the CP1252 (Windows-1252) code point for the character @{c}")},
 	{ GNM_FUNC_HELP_ARG, F_("c:character")},
@@ -1377,6 +1405,294 @@ gnumeric_substitute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_textbefore[] = {
+	{ GNM_FUNC_HELP_NAME, F_("TEXTBEFORE:text before @{delimiter}")},
+	{ GNM_FUNC_HELP_ARG, F_("text:string")},
+	{ GNM_FUNC_HELP_ARG, F_("delimiter:delimiter string or array of strings")},
+	{ GNM_FUNC_HELP_ARG, F_("instance_num:the instance of the delimiter; defaults to 1")},
+	{ GNM_FUNC_HELP_ARG, F_("match_mode:0 for case-sensitive (default), 1 for case-insensitive")},
+	{ GNM_FUNC_HELP_ARG, F_("match_end:0 for no match at the end (default), 1 to match the end of the text")},
+	{ GNM_FUNC_HELP_ARG, F_("if_not_found:value to return if no match is found; defaults to #N/A")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("TEXTBEFORE returns the text that occurs before the given @{delimiter}.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=TEXTBEFORE(\"Red-Fish-Blue-Fish\", \"-\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=TEXTBEFORE(\"Red-Fish-Blue-Fish\", \"-\", 2)" },
+	{ GNM_FUNC_HELP_SEEALSO, "TEXTAFTER,TEXTSPLIT,FIND,SEARCH"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GArray *
+find_delimiter_matches (GnmEvalPos const *pos, char const *text,
+			GnmValue const *col_delim_val,
+			GnmValue const *row_delim_val,
+			int match_mode)
+{
+	GSList *delims = NULL, *l;
+	char *folded_text = NULL;
+	GArray *matches;
+	int k;
+
+	if (match_mode == 1)
+		folded_text = g_utf8_casefold (text, -1);
+
+	matches = g_array_new (FALSE, FALSE, sizeof (Match));
+
+	for (k = 0; k < 2; k++) {
+		GnmValue const *v = (k == 0) ? col_delim_val : row_delim_val;
+		if (!v) continue;
+
+		delims = NULL;
+		value_area_foreach (v, pos, CELL_ITER_ALL, (GnmValueIterFunc)cb_collect_delims, &delims);
+
+		for (l = delims; l; l = l->next) {
+			char const *d = (char const *)l->data;
+			char *folded_d = (match_mode == 1) ? g_utf8_casefold (d, -1) : NULL;
+			char const *search_needle = folded_d ? folded_d : d;
+			char const *search_haystack = folded_text ? folded_text : text;
+			int d_len_bytes = strlen (d);
+			char const *p = search_haystack;
+
+			while ((p = strstr (p, search_needle))) {
+				Match m;
+				m.byte_offset = p - search_haystack;
+				m.byte_len = d_len_bytes;
+				m.is_row_delim = (k == 1);
+				g_array_append_val (matches, m);
+				p += strlen (search_needle);
+				if (strlen (search_needle) == 0) break;
+			}
+			g_free (folded_d);
+		}
+		g_slist_free_full (delims, g_free);
+	}
+	g_free (folded_text);
+
+	if (matches->len == 0) {
+		g_array_free (matches, TRUE);
+		return NULL;
+	}
+
+	g_array_sort (matches, (GCompareFunc)compare_matches);
+
+	GArray *clean_matches = g_array_new (FALSE, FALSE, sizeof (Match));
+	size_t last_pos = 0;
+	guint i;
+	for (i = 0; i < matches->len; i++) {
+		Match *m = &g_array_index (matches, Match, i);
+		if (m->byte_offset >= last_pos) {
+			g_array_append_val (clean_matches, *m);
+			last_pos = m->byte_offset + m->byte_len;
+		}
+	}
+	g_array_free (matches, TRUE);
+
+	return clean_matches;
+}
+
+static GnmValue *
+gnumeric_textbefore (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	char const *text = value_peek_string (argv[0]);
+	GnmValue const *delim_val = argv[1];
+	int instance_num = argv[2] ? value_get_as_int (argv[2]) : 1;
+	int match_mode = argv[3] ? value_get_as_int (argv[3]) : 0;
+	int match_end = argv[4] ? value_get_as_int (argv[4]) : 0;
+	GnmValue const *if_not_found = argv[5];
+	GArray *matches;
+
+	if (instance_num == 0)
+		return value_new_error_VALUE (ei->pos);
+
+	matches = find_delimiter_matches (ei->pos, text, delim_val, NULL, match_mode);
+
+	int n = matches ? matches->len : 0;
+	int target_idx = -1;
+	if (instance_num > 0) {
+		if (instance_num <= n) {
+			target_idx = instance_num - 1;
+		} else if (match_end == 1) {
+			if (matches) g_array_free (matches, TRUE);
+			return value_dup (argv[0]);
+		}
+	} else {
+		int abs_inst = -instance_num;
+		if (abs_inst <= n) {
+			target_idx = n - abs_inst;
+		} else if (match_end == 1) {
+			if (matches) g_array_free (matches, TRUE);
+			return value_new_string ("");
+		}
+	}
+
+	if (target_idx != -1) {
+		Match *m = &g_array_index (matches, Match, target_idx);
+		char *res = g_strndup (text, m->byte_offset);
+		g_array_free (matches, TRUE);
+		return value_new_string_nocopy (res);
+	}
+
+	if (matches) g_array_free (matches, TRUE);
+	if (if_not_found)
+		return value_dup (if_not_found);
+	return value_new_error_NA (ei->pos);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_textafter[] = {
+	{ GNM_FUNC_HELP_NAME, F_("TEXTAFTER:text after @{delimiter}")},
+	{ GNM_FUNC_HELP_ARG, F_("text:string")},
+	{ GNM_FUNC_HELP_ARG, F_("delimiter:delimiter string or array of strings")},
+	{ GNM_FUNC_HELP_ARG, F_("instance_num:the instance of the delimiter; defaults to 1")},
+	{ GNM_FUNC_HELP_ARG, F_("match_mode:0 for case-sensitive (default), 1 for case-insensitive")},
+	{ GNM_FUNC_HELP_ARG, F_("match_end:0 for no match at the end (default), 1 to match the end of the text")},
+	{ GNM_FUNC_HELP_ARG, F_("if_not_found:value to return if no match is found; defaults to #N/A")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("TEXTAFTER returns the text that occurs after the given @{delimiter}.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=TEXTAFTER(\"Red-Fish-Blue-Fish\", \"-\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=TEXTAFTER(\"Red-Fish-Blue-Fish\", \"-\", -1)" },
+	{ GNM_FUNC_HELP_SEEALSO, "TEXTBEFORE,TEXTSPLIT,FIND,SEARCH"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_textafter (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	char const *text = value_peek_string (argv[0]);
+	GnmValue const *delim_val = argv[1];
+	int instance_num = argv[2] ? value_get_as_int (argv[2]) : 1;
+	int match_mode = argv[3] ? value_get_as_int (argv[3]) : 0;
+	int match_end = argv[4] ? value_get_as_int (argv[4]) : 0;
+	GnmValue const *if_not_found = argv[5];
+	GArray *matches;
+
+	if (instance_num == 0)
+		return value_new_error_VALUE (ei->pos);
+
+	matches = find_delimiter_matches (ei->pos, text, delim_val, NULL, match_mode);
+
+	int n = matches ? matches->len : 0;
+	int target_idx = -1;
+	if (instance_num > 0) {
+		if (instance_num <= n) {
+			target_idx = instance_num - 1;
+		} else if (match_end == 1) {
+			if (matches) g_array_free (matches, TRUE);
+			return value_new_string ("");
+		}
+	} else {
+		int abs_inst = -instance_num;
+		if (abs_inst <= n) {
+			target_idx = n - abs_inst;
+		} else if (match_end == 1) {
+			if (matches) g_array_free (matches, TRUE);
+			return value_dup (argv[0]);
+		}
+	}
+
+	if (target_idx != -1) {
+		Match *m = &g_array_index (matches, Match, target_idx);
+		char const *res_start = text + m->byte_offset + m->byte_len;
+		char *res = g_strdup (res_start);
+		g_array_free (matches, TRUE);
+		return value_new_string_nocopy (res);
+	}
+
+	if (matches) g_array_free (matches, TRUE);
+	if (if_not_found)
+		return value_dup (if_not_found);
+	return value_new_error_NA (ei->pos);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_textsplit[] = {
+	{ GNM_FUNC_HELP_NAME, F_("TEXTSPLIT:split @{text} into an array using delimiters")},
+	{ GNM_FUNC_HELP_ARG, F_("text:string")},
+	{ GNM_FUNC_HELP_ARG, F_("col_delimiter:delimiter(s) for columns")},
+	{ GNM_FUNC_HELP_ARG, F_("row_delimiter:delimiter(s) for rows; optional")},
+	{ GNM_FUNC_HELP_ARG, F_("ignore_empty:TRUE to ignore empty cells in the result; defaults to FALSE")},
+	{ GNM_FUNC_HELP_ARG, F_("match_mode:0 for case-sensitive (default), 1 for case-insensitive")},
+	{ GNM_FUNC_HELP_ARG, F_("pad_with:value to pad the result array with; defaults to #N/A")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("TEXTSPLIT splits @{text} into multiple cells using the provided column and row delimiters.")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=TEXTSPLIT(\"A,B,C\", \",\")" },
+	{ GNM_FUNC_HELP_SEEALSO, "TEXTBEFORE,TEXTAFTER,CONCATENATE,TEXTJOIN"},
+	{ GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_textsplit (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	char const *text = value_peek_string (argv[0]);
+	GnmValue const *col_delim_val = argv[1];
+	GnmValue const *row_delim_val = argv[2];
+	gboolean ignore_empty = argv[3] ? value_get_as_checked_bool (argv[3]) : FALSE;
+	int match_mode = argv[4] ? value_get_as_int (argv[4]) : 0;
+	GnmValue const *pad_with = argv[5];
+	GArray *matches;
+
+	matches = find_delimiter_matches (ei->pos, text, col_delim_val, row_delim_val, match_mode);
+
+	GPtrArray *all_rows = g_ptr_array_new_with_free_func ((GDestroyNotify)g_ptr_array_unref);
+	GPtrArray *current_row = g_ptr_array_new_with_free_func ((GDestroyNotify)value_release);
+	g_ptr_array_add (all_rows, current_row);
+
+	size_t last_pos = 0;
+	int i;
+	if (matches) {
+		for (i = 0; i < (int)matches->len; i++) {
+			Match *m = &g_array_index (matches, Match, i);
+			if (!ignore_empty || m->byte_offset > last_pos) {
+				char *part = g_strndup (text + last_pos, m->byte_offset - last_pos);
+				g_ptr_array_add (current_row, value_new_string_nocopy (part));
+			}
+
+			if (m->is_row_delim) {
+				if (!ignore_empty || current_row->len > 0) {
+					current_row = g_ptr_array_new_with_free_func ((GDestroyNotify)value_release);
+					g_ptr_array_add (all_rows, current_row);
+				}
+			}
+			last_pos = m->byte_offset + m->byte_len;
+		}
+		g_array_free (matches, TRUE);
+	}
+
+	if (!ignore_empty || last_pos < strlen (text)) {
+		char *part = g_strdup (text + last_pos);
+		g_ptr_array_add (current_row, value_new_string_nocopy (part));
+	}
+	if (ignore_empty && current_row->len == 0 && all_rows->len > 1)
+		g_ptr_array_remove_index (all_rows, all_rows->len - 1);
+
+	int max_cols = 0;
+	for (i = 0; i < (int)all_rows->len; i++) {
+		GPtrArray *r = g_ptr_array_index (all_rows, i);
+		if ((int)r->len > max_cols) max_cols = r->len;
+	}
+
+	if (all_rows->len == 0 || max_cols == 0) {
+		g_ptr_array_unref (all_rows);
+		return value_new_empty ();
+	}
+
+	GnmValue *res = value_new_array (max_cols, all_rows->len);
+	for (i = 0; i < (int)all_rows->len; i++) {
+		GPtrArray *r = g_ptr_array_index (all_rows, i);
+		int j;
+		for (j = 0; j < max_cols; j++) {
+			if (j < (int)r->len) {
+				res->v_array.vals[j][i] = value_dup (g_ptr_array_index (r, j));
+			} else {
+				res->v_array.vals[j][i] = pad_with ? value_dup (pad_with) : value_new_error_NA (ei->pos);
+			}
+		}
+	}
+
+	g_ptr_array_unref (all_rows);
+	return res;
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_dollar[] = {
         { GNM_FUNC_HELP_NAME, F_("DOLLAR:@{num} formatted as currency")},
         { GNM_FUNC_HELP_ARG, F_("num:number")},
@@ -2109,9 +2425,18 @@ GnmFuncDescriptor const string_functions[] = {
         { "text",       "Ss",           help_text,
 	  gnumeric_text, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "textjoin", NULL, help_textjoin,
-	  NULL, gnumeric_textjoin,
+        { "textafter",   "SA|ffff",      help_textafter,
+	  gnumeric_textafter, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+        { "textbefore",  "SA|ffff",      help_textbefore,
+	  gnumeric_textbefore, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+        { "textjoin", NULL, help_textjoin,
+          NULL, gnumeric_textjoin,
+          GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+        { "textsplit",  "SA|A?f?",      help_textsplit,
+	  gnumeric_textsplit, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "trim",       "S",                         help_trim,
 	  gnumeric_trim, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

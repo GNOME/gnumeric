@@ -25,6 +25,7 @@ Morten:
 	* Fix problems with OFFTRAF in extreme cases.
 	* Fix IFS semantics to match XL's as intended.
 	* New functions XLOOKUP and XMATCH.
+	* New functions TEXTBEFORE, TEXTAFTER, TEXTSPLIT.
 
 Alex H:
 	* Don't remove initial empty rows/columns for cvs/txt export.

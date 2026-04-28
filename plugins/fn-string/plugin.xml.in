@@ -43,7 +43,10 @@
 				<function name="substitute"/>
 				<function name="t"/>
 				<function name="text"/>
+				<function name="textafter"/>
+				<function name="textbefore"/>
 				<function name="textjoin"/>
+				<function name="textsplit"/>
 				<function name="trim"/>
 				<function name="unichar"/>
 				<function name="unicode"/>
