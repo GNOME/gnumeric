@@ -230,32 +230,22 @@ xlsx_func_dist_handler (GnmExprList *args, guint n_args, char const *name, char 
 		GnmFunc  *f_if = gnm_func_lookup_or_add_placeholder ("if");
 		GnmFunc  *f_p = gnm_func_lookup_or_add_placeholder (name_p);
 		GnmFunc  *f_d = gnm_func_lookup_or_add_placeholder (name_d);
-		GnmExprList *arg_cum, *args_c;
-		GnmExpr const *cum;
-		GnmValue const *constant;
+		GnmExprList *arg_cum = g_slist_nth (args, n_args - 1);
+		GnmExpr const *cum = arg_cum->data;
+		args = g_slist_delete_link (args, arg_cum);
+		GnmExprList *args_c = gnm_expr_list_copy (args);
 
-		arg_cum = g_slist_nth (args, n_args - 1);
-		args = g_slist_remove_link (args, arg_cum);
-		cum = arg_cum->data;
-		gnm_expr_list_free (arg_cum);
-
-		constant = gnm_expr_get_constant (cum);
-
-		if (constant == NULL || !VALUE_IS_NUMBER (constant)) {
-			args_c = gnm_expr_list_copy (args);
-
-			return gnm_expr_new_funcall3
-				(f_if, cum,
-				 gnm_expr_new_funcall (f_p, args),
-				 gnm_expr_new_funcall (f_d, args_c));
-
-		} else if (value_is_zero (constant)) {
-			gnm_expr_free (cum);
-			return gnm_expr_new_funcall (f_d, args);
-		} else {
-			gnm_expr_free (cum);
-			return gnm_expr_new_funcall (f_p, args);
+		GnmExpr const *expr =
+			gnm_expr_new_funcall3
+			(f_if, cum,
+			 gnm_expr_new_funcall (f_p, args),
+			 gnm_expr_new_funcall (f_d, args_c));
+		GnmExpr const *expr2 = gnm_expr_simplify_if (expr);
+		if (expr2) {
+			gnm_expr_free (expr);
+			expr = expr2;
 		}
+		return expr;
 	}
 }
 
@@ -622,8 +612,11 @@ xlsx_conventions_new (gboolean output)
 		{ "F.INV", "R.QF" }, /* see output handler */
 		{ "F.INV.RT", "FINV" },
 		{ "F.TEST", "FTEST" },
+		{ "FORECAST.LINEAR", "FORECAST" },
+		{ "FORMULATEXT", "GET.FORMULA" },
 		{ "GAMMA.DIST", "GAMMADIST" },
 		{ "GAMMA.INV", "GAMMAINV" },
+		{ "GAMMALN.PRECISE", "GAMMALN" },
 		{ "HYPGEOM.DIST", "HYPGEOMDIST" },  /* see output handler */
 		{ "LOGNORM.INV", "LOGINV" },
 		{ "MODE.SNGL", "MODE" },
@@ -635,6 +628,7 @@ xlsx_conventions_new (gboolean output)
 		{ "POISSON.DIST", "POISSON" },
 		{ "QUARTILE.INC", "QUARTILE" },
 		{ "RANK.EQ", "RANK" },
+		{ "SKEW.P", "SKEWP" },
 		{ "STDEV.P", "STDEVP" },
 		{ "STDEV.S", "STDEV" },
 		{ "T.TEST", "TTEST" },
