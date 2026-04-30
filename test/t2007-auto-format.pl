@@ -20,7 +20,7 @@ my $expected = sub {
 
     if ($actual =~ /No templates installed/) {
 	chomp $actual;
-	&report_skip ($actual);
+	&GnumericTest::report_skip ($actual);
     }
 
     if (!-r $tmp) {

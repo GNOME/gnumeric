@@ -1,3 +1,7 @@
+2026-04-29  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.61
+
 2026-04-04  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (guess_line_endings): New function.  We'll
