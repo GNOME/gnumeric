@@ -264,6 +264,13 @@ xlsx_func_fdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSE
 }
 
 static GnmExpr const *
+xlsx_func_tdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope,
+			 GnmExprList *args)
+{
+	return xlsx_func_dist_handler (args, 3, "t.dist", "r.pt", "r.dt");
+}
+
+static GnmExpr const *
 xlsx_func_lognormdist_handler (G_GNUC_UNUSED GnmConventions const *convs, G_GNUC_UNUSED Workbook *scope,
 			       GnmExprList *args)
 {
@@ -569,6 +576,7 @@ xlsx_conventions_new (gboolean output)
 		{"BINOM.INV", xlsx_func_binominv_handler},
 		{"CHISQ.DIST", xlsx_func_chisqdist_handler},
 		{"F.DIST", xlsx_func_fdist_handler},
+		{"T.DIST", xlsx_func_tdist_handler},
 		{"NEGBINOM.DIST", xlsx_func_negbinomdist_handler},
 		{"LOGNORM.DIST", xlsx_func_lognormdist_handler},
 		{NULL, NULL}
