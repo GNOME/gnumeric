@@ -144,10 +144,10 @@ compare_matches (Match const *a, Match const *b)
 }
 
 static GnmValue *
-cb_collect_delims (GnmValue const *v, gpointer user)
+cb_collect_delims (GnmValueIter const *iter, gpointer user)
 {
 	GSList **list = user;
-	char *s = value_get_as_string (v);
+	char *s = value_get_as_string (iter->v);
 	if (s && *s)
 		*list = g_slist_prepend (*list, s);
 	else
@@ -1441,7 +1441,7 @@ find_delimiter_matches (GnmEvalPos const *pos, char const *text,
 		if (!v) continue;
 
 		delims = NULL;
-		value_area_foreach (v, pos, CELL_ITER_ALL, (GnmValueIterFunc)cb_collect_delims, &delims);
+		value_area_foreach (v, pos, CELL_ITER_ALL, cb_collect_delims, &delims);
 
 		for (l = delims; l; l = l->next) {
 			char const *d = (char const *)l->data;
@@ -1679,6 +1679,7 @@ gnumeric_textsplit (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		GPtrArray *r = g_ptr_array_index (all_rows, i);
 		int j;
 		for (j = 0; j < max_cols; j++) {
+			value_release (res->v_array.vals[j][i]);
 			if (j < (int)r->len) {
 				res->v_array.vals[j][i] = value_dup (g_ptr_array_index (r, j));
 			} else {
