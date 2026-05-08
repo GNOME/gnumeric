@@ -786,6 +786,7 @@ memcpy_n_times (char *dst, const char *src, size_t len, size_t n)
 {
 	size_t copied_bytes = len;
 	size_t total_bytes = n * len;
+	size_t chunk = len;
 
 	if (total_bytes == 0)
 		return;
@@ -796,12 +797,14 @@ memcpy_n_times (char *dst, const char *src, size_t len, size_t n)
 	}
 
 	memcpy (dst, src, len);
-	while (copied_bytes <= total_bytes / 2) {
-		memcpy (dst + copied_bytes, dst, copied_bytes);
-		copied_bytes *= 2;
+	while (copied_bytes < total_bytes) {
+		chunk = MIN (chunk, total_bytes - copied_bytes);
+		memcpy (dst + copied_bytes, dst, chunk);
+		copied_bytes += chunk;
+		// Don't let chunk get so big as to risk the source getting
+		// kicked out of the cache
+		if (chunk < 4096u) chunk *= 2;
 	}
-
-	memcpy (dst + copied_bytes, dst, total_bytes - copied_bytes);
 }
 
 static GnmValue *
