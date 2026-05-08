@@ -858,7 +858,7 @@ gnumeric_clean (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	while (*s) {
 		gunichar uc = g_utf8_get_char (s);
 
-		if (g_unichar_isprint (uc))
+		if (uc >= 32)
 			g_string_append_unichar (res, uc);
 
 		s = g_utf8_next_char (s);

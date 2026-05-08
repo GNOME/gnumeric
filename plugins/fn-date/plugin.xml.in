@@ -25,6 +25,7 @@
 				<function name="minute"/>
 				<function name="month"/>
 				<function name="networkdays"/>
+				<function name="networkdays.intl"/>
 				<function name="now"/>
 				<function name="second"/>
 				<function name="time"/>
@@ -33,6 +34,7 @@
 				<function name="today"/>
 				<function name="weekday"/>
 				<function name="workday"/>
+				<function name="workday.intl"/>
 				<function name="year"/>
 				<function name="yearfrac"/>
 				<function name="isoweeknum"/>

@@ -205,7 +205,7 @@ static GnmFuncHelp const help_gcd[] = {
 	{ GNM_FUNC_HELP_END}
 };
 
-static const gnm_float gnm_gcd_max = 1 / GNM_EPSILON;
+static const gnm_float gnm_gcd_max = 2 / GNM_EPSILON;
 
 static gnm_float
 gnm_gcd (gnm_float a, gnm_float b)
@@ -279,6 +279,7 @@ range_lcm (gnm_float const *xs, int n, gnm_float *res)
 {
 	int i;
 	gnm_float lcm;
+	gboolean has_zero = FALSE;
 
 	if (n <= 0)
 		return 1;
@@ -286,14 +287,18 @@ range_lcm (gnm_float const *xs, int n, gnm_float *res)
 	lcm = 1;
 	for (i = 0; i < n; i++) {
 		gnm_float thisx = gnm_fake_floor (xs[i]);
-		if (thisx == 1)
-			continue;
-		if (thisx < 1 || thisx > gnm_gcd_max || lcm > gnm_gcd_max)
+		if (thisx < 0 || thisx > gnm_gcd_max)
 			return 1;
-		lcm = gnm_lcm (lcm, thisx);
+		if (thisx == 0)
+			has_zero = TRUE;
+		else if (!has_zero && thisx != 1) {
+			lcm = gnm_lcm (lcm, thisx);
+			if (lcm > gnm_gcd_max)
+				return 1;
+		}
 	}
 
-	*res = lcm;
+	*res = has_zero ? 0 : lcm;
 	return 0;
 }
 
@@ -1547,11 +1552,11 @@ static GnmFuncHelp const help_mod[] = {
 
 /*
  * MOD(-1,-3) = -1
- * MOD(2,-3) = -2
+ * MOD(2,-3) = -1
  * MOD(10.6,2) = 0.6
  * MOD(-10.6,2) = 1.4
- * MOD(10.6,-2) = -0.6
- * MOD(-10.6,-2) = -1.4
+ * MOD(10.6,-2) = -1.4
+ * MOD(-10.6,-2) = -0.6
  */
 
 static GnmValue *

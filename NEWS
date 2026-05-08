@@ -8,6 +8,8 @@ Morten:
 	* New function REGEXTEST.
 	* New function REGEXEXTRACT.
 	* New function REGEXREPLACE.
+	* New functions NETWORKDAYS.INTL and WORKDAY.INTL.
+	* LCM, CLEAN, TIME, WEEKNUM: improve compatibility.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.61
