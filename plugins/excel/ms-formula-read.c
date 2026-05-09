@@ -1049,7 +1049,7 @@ excel_parse_formula1 (MSContainer const *container,
 		if (ptg > FORMULA_PTG_MAX)
 			break;
 		d (2, {
-			g_printerr ("Ptg : %s 0x%02x", ptg_name [ptgbase], ptg);
+			g_printerr ("Ptg : %s 0x%02x", ptg_name[ptgbase], ptg);
 			if (ptg != ptgbase)
 				g_printerr ("(0x%02x)", ptgbase);
 			g_printerr ("\n");

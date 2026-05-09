@@ -671,7 +671,7 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 			}
 
 			gsf_xml_out_start_element (state->output,
-				border_names [i - MSTYLE_BORDER_TOP]);
+				border_names[i - MSTYLE_BORDER_TOP]);
 			gsf_xml_out_add_int (state->output, "Style", t);
 			gnm_xml_out_add_color (state->output, "Color", col);
 			gsf_xml_out_end_element (state->output);
@@ -993,7 +993,7 @@ xml_write_filter_expr (GnmOutputXML *state,
 	GString *text = g_string_new (NULL);
 	value_get_as_gstring (cond->value[i], text, state->convs);
 	gsf_xml_out_add_cstr_unchecked (state->output,
-		filter_expr_attrs[i].op, filter_cond_name [cond->op[i]]);
+		filter_expr_attrs[i].op, filter_cond_name[cond->op[i]]);
 	gsf_xml_out_add_int (state->output,
 		filter_expr_attrs[i].valtype, cond->value[i]->v_any.type);
 	gsf_xml_out_add_cstr (state->output,

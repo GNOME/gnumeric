@@ -1092,7 +1092,7 @@ static GnmValue *
 cb_implicit_iter_a_and_b (GnmValueIter const *v_iter,
 			  BinOpImplicitIteratorState const *state)
 {
-	state->res->v_array.vals [v_iter->x][v_iter->y] =
+	state->res->v_array.vals[v_iter->x][v_iter->y] =
 		(*state->func) (v_iter->ep,
 			value_area_get_x_y (state->a,
 				state->x.a * v_iter->x,
@@ -1107,7 +1107,7 @@ static GnmValue *
 cb_implicit_iter_a_to_scalar_b (GnmValueIter const *v_iter,
 				BinOpImplicitIteratorState const *state)
 {
-	state->res->v_array.vals [v_iter->x][v_iter->y] =
+	state->res->v_array.vals[v_iter->x][v_iter->y] =
 		(*state->func) (v_iter->ep,
 			v_iter->v, state->b, state->user_data);
 	return NULL;
@@ -1175,7 +1175,7 @@ static GnmValue *
 cb_implicit_iter_b_to_scalar_a (GnmValueIter const *v_iter,
 				BinOpImplicitIteratorState const *state)
 {
-	state->res->v_array.vals [v_iter->x][v_iter->y] =
+	state->res->v_array.vals[v_iter->x][v_iter->y] =
 		(*state->func) (v_iter->ep,
 			state->a, v_iter->v, state->user_data);
 	return NULL;

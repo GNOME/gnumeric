@@ -4742,8 +4742,7 @@ free_values (GnmValue **values, int top)
 	int i;
 
 	for (i = 0; i < top; i++)
-		if (values [i])
-			value_release (values [i]);
+		value_release (values[i]);
 	g_free (values);
 }
 

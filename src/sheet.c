@@ -7112,15 +7112,15 @@ gnm_sheet_scenario_new (Sheet *sheet, const char *name)
 		int     i, j, len;
 
 		len = strlen (name);
-		if (len > 1 && name [len - 1] == ']') {
+		if (len > 1 && name[len - 1] == ']') {
 			for (i = len - 2; i > 0; i--) {
-				if (! g_ascii_isdigit (name [i]))
+				if (! g_ascii_isdigit (name[i]))
 					break;
 			}
 
 			tmp = g_strdup (name);
-			if (i > 0 && name [i] == '[')
-				tmp [i] = '\0';
+			if (i > 0 && name[i] == '[')
+				tmp[i] = '\0';
 		} else
 			tmp = g_strdup (name);
 

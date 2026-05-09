@@ -1356,8 +1356,7 @@ free_values (GnmValue **values, int top)
 	int i;
 
 	for (i = 0; i < top; i++)
-		if (values [i])
-			value_release (values [i]);
+		value_release (values[i]);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1488,7 +1487,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 				iter_width = value_area_get_width (tmp, ei->pos);
 				iter_height = value_area_get_height (tmp, ei->pos);
 			}
-			iter_item [iter_count++] = i;
+			iter_item[iter_count++] = i;
 
 			/* no need to check type, we would fail comparing a range against a "b, f, or s" */
 			continue;
@@ -1517,13 +1516,13 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 					free_values (args, i + 1);
 					return value_new_error_VALUE (ei->pos);
 				}
-				value_release (args [i]);
+				value_release (args[i]);
 				args[i] = tmp;
 			} else if (VALUE_IS_ERROR (tmp)) {
 				free_values (args, i);
 				return tmp;
 			} else if (VALUE_IS_EMPTY (tmp)) {
-				value_release (args [i]);
+				value_release (args[i]);
 				tmp = args[i] = value_new_int (0);
 			}
 
@@ -1550,7 +1549,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 	}
 
 	while (i < fn_def->max_args)
-		args [i++] = NULL;
+		args[i++] = NULL;
 
 	if (iter_item != NULL) {
 		int x, y;
@@ -1577,7 +1576,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 							tmp = format_match_number (value_peek_string (elem), NULL,
 								sheet_date_conv (ei->pos->sheet));
 							if (tmp != NULL) {
-								args [iter_item[i]] = iter_args [i] = tmp;
+								args[iter_item[i]] = iter_args[i] = tmp;
 								continue;
 							} else
 								break;
@@ -1588,7 +1587,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 							break;
 					} else if (arg_type == 's') {
 						if (VALUE_IS_EMPTY (elem)) {
-							args [iter_item[i]] = iter_args [i] = value_new_string ("");
+							args[iter_item[i]] = iter_args[i] = value_new_string ("");
 							continue;
 						} else if (VALUE_IS_ERROR (elem)) {
 							err = elem;
@@ -1596,10 +1595,10 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 						} else if (!VALUE_IS_STRING (elem))
 							break;
 					} else if (elem == NULL) {
-						args [iter_item[i]] = iter_args [i] = value_new_empty ();
+						args[iter_item[i]] = iter_args[i] = value_new_empty ();
 						continue;
 					}
-					args [iter_item[i]] = iter_args [i] = value_dup (elem);
+					args[iter_item[i]] = iter_args[i] = value_dup (elem);
 				}
 
 				res->v_array.vals[x][y] = (i == iter_count)
@@ -1781,7 +1780,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 			  for (x = 0; x < value->v_array.x; x++) {
 				res = function_iterate_do_value (
 					ep, callback, closure,
-					value->v_array.vals [x][y],
+					value->v_array.vals[x][y],
 					strict, CELL_ITER_IGNORE_BLANK);
 				if (res != NULL)
 					return res;

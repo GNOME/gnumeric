@@ -48,7 +48,7 @@ value_dump (GnmValue const *value)
 		g_print ("Array: { ");
 		for (y = 0; y < value->v_array.y; y++)
 			for (x = 0; x < value->v_array.x; x++)
-				value_dump (value->v_array.vals [x][y]);
+				value_dump (value->v_array.vals[x][y]);
 		g_print ("}\n");
 		break;
 	}
@@ -160,7 +160,7 @@ value_area_get_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 		g_return_val_if_fail (x < v->v_array.x &&
 				      y < v->v_array.y,
 				      NULL);
-		return v->v_array.vals [x][y];
+		return v->v_array.vals[x][y];
 	} else if (VALUE_IS_CELLRANGE (v)) {
 		GnmRange r;
 		Sheet *start_sheet, *end_sheet;
@@ -267,7 +267,7 @@ value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 
 	for (v_iter.x = v->v_array.x; v_iter.x-- > 0;)
 		for (v_iter.y = v->v_array.y; v_iter.y-- > 0;) {
-			v_iter.v = v->v_array.vals [v_iter.x][v_iter.y];
+			v_iter.v = v->v_array.vals[v_iter.x][v_iter.y];
 			if ((tmp = (*func)(&v_iter, user_data)) != NULL)
 				return tmp;
 		}

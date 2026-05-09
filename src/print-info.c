@@ -302,16 +302,16 @@ load_formats (void)
 	{
 		int i;
 
-		for (i = 0; predefined_formats [i].left_format; i++) {
+		for (i = 0; predefined_formats[i].left_format; i++) {
 			GnmPrintHF *format;
 
 			format = gnm_print_hf_new (
-				predefined_formats [i].left_format[0]?
-				_(predefined_formats [i].left_format):"",
-				predefined_formats [i].middle_format[0]?
-				_(predefined_formats [i].middle_format):"",
-				predefined_formats [i].right_format[0]?
-				_(predefined_formats [i].right_format):"");
+				predefined_formats[i].left_format[0]?
+				_(predefined_formats[i].left_format):"",
+				predefined_formats[i].middle_format[0]?
+				_(predefined_formats[i].middle_format):"",
+				predefined_formats[i].right_format[0]?
+				_(predefined_formats[i].right_format):"");
 
 			gnm_print_hf_formats = g_list_prepend (gnm_print_hf_formats, format);
 			hf_formats_base_num++;
@@ -773,14 +773,14 @@ render_opcode (GString *target, char /* non-const */ *opcode,
 	}
 	opcode_trans = g_utf8_casefold (opcode, -1);
 
-	for (i = 0; render_ops [i].name; i++) {
-		if (render_ops [i].name_trans == NULL) {
-			render_ops [i].name_trans = g_utf8_casefold (_(render_ops [i].name), -1);
+	for (i = 0; render_ops[i].name; i++) {
+		if (render_ops[i].name_trans == NULL) {
+			render_ops[i].name_trans = g_utf8_casefold (_(render_ops[i].name), -1);
 		}
 
-		if ((g_ascii_strcasecmp (render_ops [i].name, opcode) == 0) ||
-		    (g_utf8_collate (render_ops [i].name_trans, opcode_trans) == 0)) {
-			(*render_ops [i].render)(target, info, args);
+		if ((g_ascii_strcasecmp (render_ops[i].name, opcode) == 0) ||
+		    (g_utf8_collate (render_ops[i].name_trans, opcode_trans) == 0)) {
+			(*render_ops[i].render)(target, info, args);
 		}
 	}
 	g_free (opcode_trans);

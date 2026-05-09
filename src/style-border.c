@@ -270,7 +270,7 @@ gnm_style_border_get_width (GnmStyleBorderType const line_type)
 	if (line_type == GNM_STYLE_BORDER_NONE)
 		return 0;
 
-	return style_border_data [line_type].width;
+	return style_border_data[line_type].width;
 }
 
 /**
@@ -398,11 +398,11 @@ style_border_hmargins (GnmBorder const * const * prev_vert,
 		       GnmStyleRow const *sr, int col,
 		       int offsets[2][2], int dir)
 {
-	GnmBorder const *border = sr->top [col];
-	GnmBorder const *t0 = prev_vert [col];
-	GnmBorder const *t1 = prev_vert [col+1];
-	GnmBorder const *b0 = sr->vertical [col];
-	GnmBorder const *b1 = sr->vertical [col+1];
+	GnmBorder const *border = sr->top[col];
+	GnmBorder const *t0 = prev_vert[col];
+	GnmBorder const *t1 = prev_vert[col+1];
+	GnmBorder const *b0 = sr->vertical[col];
+	GnmBorder const *b1 = sr->vertical[col+1];
 
 	if (border->line_type == GNM_STYLE_BORDER_DOUBLE) {
 		/* pull inwards or outwards */
@@ -457,18 +457,18 @@ style_border_hmargins (GnmBorder const * const * prev_vert,
 			offsets[0][0] = dir *(1 + b0->end_margin);
 		else if (!gnm_style_border_is_blank (t0))
 			offsets[0][0] = dir *(1 + t0->end_margin);
-		else if (sr->top [col-1] == NULL)
+		else if (sr->top[col-1] == NULL)
 			offsets[0][0] = dir;
 
 		if (!gnm_style_border_is_blank (b1))
 			offsets[0][1] = -dir * (1 - b1->begin_margin);
 		else if (!gnm_style_border_is_blank (t1))
 			offsets[0][1] = -dir * (1 - t1->begin_margin);
-		else if (sr->top [col+1] == NULL)
+		else if (sr->top[col+1] == NULL)
 			offsets[0][1] = -dir;
 	} else {
 		/* pull outwards */
-		if (gnm_style_border_is_blank (sr->top [col-1])) {
+		if (gnm_style_border_is_blank (sr->top[col-1])) {
 			int offset = 0;
 			if (!gnm_style_border_is_blank (b0))
 				offset = b0->begin_margin;
@@ -480,7 +480,7 @@ style_border_hmargins (GnmBorder const * const * prev_vert,
 			offsets[0][0] = -dir * offset;
 		}
 
-		if (gnm_style_border_is_blank (sr->top [col+1])) {
+		if (gnm_style_border_is_blank (sr->top[col+1])) {
 			int offset = 0;
 			if (!gnm_style_border_is_blank (b1))
 				offset = b1->end_margin;
@@ -500,11 +500,11 @@ style_border_vmargins (GnmBorder const * const * prev_vert,
 		       GnmStyleRow const *sr, int col,
 		       int offsets[2][2])
 {
-	GnmBorder const *border = sr->vertical [col];
-	GnmBorder const *l0 = sr->top [col-1];
-	GnmBorder const *r0 = sr->top [col];
-	GnmBorder const *l1 = sr->bottom [col-1];
-	GnmBorder const *r1 = sr->bottom [col];
+	GnmBorder const *border = sr->vertical[col];
+	GnmBorder const *l0 = sr->top[col-1];
+	GnmBorder const *r0 = sr->top[col];
+	GnmBorder const *l1 = sr->bottom[col-1];
+	GnmBorder const *r1 = sr->bottom[col];
 
 	if (border->line_type == GNM_STYLE_BORDER_DOUBLE) {
 		/* pull inwards or outwards */
@@ -548,7 +548,7 @@ style_border_vmargins (GnmBorder const * const * prev_vert,
 		else if (!gnm_style_border_is_blank (l0))
 			offsets[0][0] = 1 + l0->end_margin;
 		/* Do not over write background patterns */
-		else if (prev_vert [col] == NULL)
+		else if (prev_vert[col] == NULL)
 			offsets[0][0] = 1;
 
 		if (!gnm_style_border_is_blank (r1))
@@ -556,7 +556,7 @@ style_border_vmargins (GnmBorder const * const * prev_vert,
 		else if (!gnm_style_border_is_blank (l1))
 			offsets[0][1] = -1 - l1->begin_margin;
 		/* Do not over write background patterns */
-		else if (sr->vertical [col] == NULL)
+		else if (sr->vertical[col] == NULL)
 			offsets[0][1] = -1;
 	} else {
 		/* pull inwards */
@@ -688,7 +688,7 @@ gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
 			continue;
 		next_x = x + dir * colwidths[col];
 
-		border = sr->top [col];
+		border = sr->top[col];
 
 		if (style_border_set_gtk (border, cr)) {
 			double y = y1;
@@ -708,7 +708,7 @@ gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
 			continue;
 
 
-		border = sr->vertical [col];
+		border = sr->vertical[col];
 		if (style_border_set_gtk (border, cr)) {
 			double x1 = x;
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
@@ -722,7 +722,7 @@ gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
 		}
 	}
 	if (draw_vertical) {
-		border = sr->vertical [col];
+		border = sr->vertical[col];
 		if (style_border_set_gtk (border, cr)) {
 			double x1 = x;
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
@@ -830,7 +830,7 @@ gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 			continue;
 		next_x = x + dir * cri->size_pts * hscale;
 
-		border = sr->top [col];
+		border = sr->top[col];
 
 		if (style_border_set_gtk (border, context)) {
 			double y = y1;
@@ -849,7 +849,7 @@ gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 			continue;
 
 
-		border = sr->vertical [col];
+		border = sr->vertical[col];
 		if (style_border_set_gtk (border, context)) {
 			double x1 = x;
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
@@ -862,7 +862,7 @@ gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 		}
 	}
 	if (draw_vertical) {
-		border = sr->vertical [col];
+		border = sr->vertical[col];
 		if (style_border_set_gtk (border, context)) {
 			double x1 = x;
 			if (style_border_vmargins (prev_vert, sr, col, o)) {

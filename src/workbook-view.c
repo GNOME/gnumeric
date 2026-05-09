@@ -435,7 +435,7 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 
 	sv = wbv->current_sheet_view;
 	if (sv != NULL) {
-		char buffer [10 + 2 * 4 * sizeof (int)];
+		char buffer[10 + 2 * 4 * sizeof (int)];
 		char const *sel_descr = buffer;
 		GnmRange const *r, *m;
 

@@ -60,14 +60,14 @@ enum {
 	PROP_ATTR
 };
 
-static guint signals [LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL] = { 0 };
 
 /* Internal routines */
 
 static void
 cb_gtv_emit_changed (G_GNUC_UNUSED GtkTextBuffer *buffer, GnmTextView *gtv)
 {
-	g_signal_emit (G_OBJECT (gtv), signals [CHANGED], 0);
+	g_signal_emit (G_OBJECT (gtv), signals[CHANGED], 0);
 }
 
 static void
@@ -474,7 +474,7 @@ gtv_class_init (GObjectClass *gobject_class)
 	gobject_class->get_property	= gtv_get_property;
 	((GtkWidgetClass*)gobject_class)->grab_focus = gtv_grab_focus;
 
-	signals [CHANGED] = g_signal_new ("changed",
+	signals[CHANGED] = g_signal_new ("changed",
 		GNM_TEXT_VIEW_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmTextViewClass, changed),

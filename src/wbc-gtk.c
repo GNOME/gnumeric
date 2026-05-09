@@ -5057,7 +5057,7 @@ wbc_gtk_class_init (GObjectClass *gobject_class)
 				   0, G_MAXINT, 0,
 				   GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
-	wbc_gtk_signals [WBC_GTK_MARKUP_CHANGED] = g_signal_new ("markup-changed",
+	wbc_gtk_signals[WBC_GTK_MARKUP_CHANGED] = g_signal_new ("markup-changed",
 		GNM_WBC_GTK_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WBCGtkClass, markup_changed),
@@ -5230,7 +5230,7 @@ GSF_CLASS_FULL (WBCGtk, wbc_gtk, NULL, NULL, wbc_gtk_class_init, NULL,
 void
 wbc_gtk_markup_changer (WBCGtk *wbcg)
 {
-	g_signal_emit (G_OBJECT (wbcg), wbc_gtk_signals [WBC_GTK_MARKUP_CHANGED], 0);
+	g_signal_emit (G_OBJECT (wbcg), wbc_gtk_signals[WBC_GTK_MARKUP_CHANGED], 0);
 }
 
 /******************************************************************************/

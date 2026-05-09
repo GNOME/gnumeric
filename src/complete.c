@@ -33,7 +33,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint complete_signals [LAST_SIGNAL] = { 0 };
+static guint complete_signals[LAST_SIGNAL] = { 0 };
 
 static void
 complete_finalize (GObject *object)
@@ -108,7 +108,7 @@ complete_class_init (GObjectClass *object_class)
 	object_class->finalize = complete_finalize;
 	complete_class->search_iteration = default_search_iteration;
 
-	complete_signals [NOTIFY_MATCH] =
+	complete_signals[NOTIFY_MATCH] =
 		g_signal_new (
 			"notify-match",
 			GNM_COMPLETE_TYPE,

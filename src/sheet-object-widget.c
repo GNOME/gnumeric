@@ -3658,7 +3658,7 @@ enum {
 	LIST_BASE_LAST_SIGNAL
 };
 
-static guint list_base_signals [LIST_BASE_LAST_SIGNAL] = { 0 };
+static guint list_base_signals[LIST_BASE_LAST_SIGNAL] = { 0 };
 static GType sheet_widget_list_base_get_type (void);
 
 static void
@@ -3695,7 +3695,7 @@ sheet_widget_list_base_set_selection (SheetWidgetListBase *swl, int selection,
 					  sheet_object_get_sheet (GNM_SO (swl)));
 		}
 		g_signal_emit (G_OBJECT (swl),
-			list_base_signals [LIST_BASE_SELECTION_CHANGED], 0);
+			list_base_signals[LIST_BASE_SELECTION_CHANGED], 0);
 	}
 }
 
@@ -3726,7 +3726,7 @@ sheet_widget_list_base_set_selection_value (SheetWidgetListBase *swl, GnmValue *
 	if (swl->selection != selection) {
 		swl->selection = selection;
 		g_signal_emit (G_OBJECT (swl),
-			list_base_signals [LIST_BASE_SELECTION_CHANGED], 0);
+			list_base_signals[LIST_BASE_SELECTION_CHANGED], 0);
 	}
 }
 
@@ -3797,7 +3797,7 @@ list_content_eval (GnmDependent *dep)
 	if (NULL != swl->model)
 		g_object_unref (swl->model);
 	swl->model = GTK_TREE_MODEL (model);
-	g_signal_emit (G_OBJECT (swl), list_base_signals [LIST_BASE_MODEL_CHANGED], 0);
+	g_signal_emit (G_OBJECT (swl), list_base_signals[LIST_BASE_MODEL_CHANGED], 0);
 }
 
 static void

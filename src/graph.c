@@ -786,7 +786,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 				y--;
 			}
 			x--;
-			v = vec->val->v_array.vals [x][y];
+			v = vec->val->v_array.vals[x][y];
 
 			if (VALUE_IS_CELLRANGE (v)) {
 				gnm_rangeref_normalize (&v->v_range.cell,
@@ -942,7 +942,7 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 					y--;
 				}
 				x--;
-				v = vec->val->v_array.vals [x][y];
+				v = vec->val->v_array.vals[x][y];
 
 				if (VALUE_IS_CELLRANGE (v)) {
 					/* actually we only need to cache in that case */
@@ -1082,7 +1082,7 @@ gnm_go_data_vector_get_markup (GODataVector *dat, unsigned i)
 			while (len-- > 0) {
 				v = vec->as_col
 					? vec->val->v_array.vals[0][len]
-					: vec->val->v_array.vals [len][0];
+					: vec->val->v_array.vals[len][0];
 
 				if (VALUE_IS_CELLRANGE (v)) {
 					gnm_rangeref_normalize (&v->v_range.cell,

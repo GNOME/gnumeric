@@ -562,7 +562,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint signals [LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL] = { 0 };
 
 typedef struct {
 	SheetObjectClass parent;
@@ -926,7 +926,7 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 		gnm_filter_condition_free (fcombo->cond);
 	}
 	fcombo->cond = cond;
-	g_signal_emit (G_OBJECT (fcombo), signals [COND_CHANGED], 0);
+	g_signal_emit (G_OBJECT (fcombo), signals[COND_CHANGED], 0);
 
 	if (apply) {
 		/* if there was an existing cond then we need to do

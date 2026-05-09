@@ -1728,7 +1728,7 @@ static GNM_ACTION_DEF (cb_format_as_date)
 static void
 mutate_borders (WBCGtk *wbcg, gboolean add)
 {
-	GnmBorder *borders [GNM_STYLE_BORDER_EDGE_MAX];
+	GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX];
 	int i;
 
 	for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; ++i)

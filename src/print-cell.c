@@ -384,8 +384,8 @@ gnm_gtk_print_cell_range (PangoContext *pcontext,
 				}
 			} else {
 				for (col = start_col ; col <= end_col; ++col)
-					next_sr.vertical [col] =
-					next_sr.bottom [col] = none;
+					next_sr.vertical[col] =
+					next_sr.bottom[col] = none;
 				break;
 			}
 		}
@@ -469,11 +469,11 @@ gnm_gtk_print_cell_range (PangoContext *pcontext,
 
 					if (first < start_col) {
 						first = start_col;
-						sr.vertical [first] = NULL;
+						sr.vertical[first] = NULL;
 					}
 					if (last > end_col) {
 						last = end_col;
-						sr.vertical [last+1] = NULL;
+						sr.vertical[last+1] = NULL;
 					}
 					clear_top = (r->start.row != row);
 
@@ -493,11 +493,11 @@ gnm_gtk_print_cell_range (PangoContext *pcontext,
 					/* Clear the borders */
 					for (i = first ; i <= last ; i++) {
 						if (clear_top)
-							sr.top [i] = NULL;
+							sr.top[i] = NULL;
 						if (clear_bottom)
-							sr.bottom [i] = NULL;
+							sr.bottom[i] = NULL;
 						if (i > first)
-							sr.vertical [i] = NULL;
+							sr.vertical[i] = NULL;
 					}
 					continue;
 				}
@@ -555,7 +555,7 @@ gnm_gtk_print_cell_range (PangoContext *pcontext,
 					tmp_width += offset;
 					if (dir > 0)
 						real_x -= offset;
-					sr.vertical [col] = NULL;
+					sr.vertical[col] = NULL;
 				}
 				if (end_span_col != col) {
 					offset = sheet_col_get_distance_pts (
@@ -569,7 +569,7 @@ gnm_gtk_print_cell_range (PangoContext *pcontext,
 						real_x, y, tmp_width, ri->size_pts,
 						center_offset, pinfo);
 			} else if (col != span->left)
-				sr.vertical [col] = NULL;
+				sr.vertical[col] = NULL;
 
 			if (dir > 0)
 				x += ci->size_pts * hscale;

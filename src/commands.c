@@ -1752,7 +1752,7 @@ cmd_format_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 		gnm_style_ref (orig->new_style);
 	if (orig->borders)
 		for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
-			gnm_style_border_ref (orig->borders [i]);
+			gnm_style_border_ref (orig->borders[i]);
 
 	cmd_selection_format (wbc, orig->new_style, orig->borders, NULL);
 }
@@ -1857,7 +1857,7 @@ cmd_format_finalize (GObject *cmd)
 
 	if (me->borders) {
 		for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
-			gnm_style_border_unref (me->borders [i]);
+			gnm_style_border_unref (me->borders[i]);
 		g_free (me->borders);
 		me->borders = NULL;
 	}
@@ -1939,7 +1939,7 @@ cmd_selection_format (WorkbookControl *wbc,
 
 		me->borders = g_new (GnmBorder *, GNM_STYLE_BORDER_EDGE_MAX);
 		for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
-			me->borders [i] = borders [i];
+			me->borders[i] = borders[i];
 	} else
 		me->borders = NULL;
 

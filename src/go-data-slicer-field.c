@@ -224,7 +224,7 @@ go_data_slicer_field_set_field_type_pos (GODataSlicerField *dsf,
 	g_return_if_fail (field_type > GDS_FIELD_TYPE_UNSET &&
 			  field_type < GDS_FIELD_TYPE_MAX);
 
-	headers = dsf->ds->fields [field_type];
+	headers = dsf->ds->fields[field_type];
 	if (pos < 0) pos = -1;
 	else if (pos >= (int)headers->len) pos = headers->len;
 

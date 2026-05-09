@@ -523,14 +523,14 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 				{ NULL, 0}
 			};
 			int i;
-			for (i = 0 ; GnumericVersions [i].id != NULL ; ++i )
-				if (strcmp (CXML2C (attrs[1]), GnumericVersions [i].id) == 0) {
+			for (i = 0 ; GnumericVersions[i].id != NULL ; ++i )
+				if (strcmp (CXML2C (attrs[1]), GnumericVersions[i].id) == 0) {
 					if (state->version != GNM_XML_UNKNOWN)
 						go_io_warning (state->context,
 							_("Multiple version specifications.  Assuming %d"),
 							state->version);
 					else {
-						state->version = GnumericVersions [i].version;
+						state->version = GnumericVersions[i].version;
 						break;
 					}
 				}

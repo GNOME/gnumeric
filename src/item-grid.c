@@ -617,8 +617,8 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr,
 					? NULL
 					: none;
 				for (col = start_col ; col <= end_col; ++col) {
-					next_sr.vertical [col] = vert;
-					next_sr.bottom [col] = none;
+					next_sr.vertical[col] = vert;
+					next_sr.bottom[col] = none;
 				}
 				break;
 			}
@@ -718,22 +718,22 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr,
 
 					if (first < start_col) {
 						first = start_col;
-						sr.vertical [first] = NULL;
+						sr.vertical[first] = NULL;
 					}
 					if (last > end_col) {
 						last = end_col;
-						sr.vertical [last+1] = NULL;
+						sr.vertical[last+1] = NULL;
 					}
 					clear_top = (r->start.row != row);
 
 					/* Clear the borders */
 					for (i = first ; i <= last ; i++) {
 						if (clear_top)
-							sr.top [i] = NULL;
+							sr.top[i] = NULL;
 						if (clear_bottom)
-							sr.bottom [i] = NULL;
+							sr.bottom[i] = NULL;
 						if (i > first)
-							sr.vertical [i] = NULL;
+							sr.vertical[i] = NULL;
 					}
 					continue;
 				}
@@ -742,7 +742,7 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr,
 plain_draw : /* a quick hack to deal with 142267 */
 			if (dir < 0)
 				x -= ci->size_pixels;
-			style = sr.styles [col];
+			style = sr.styles[col];
 			item_grid_draw_background (cr, ig,
 				style, col, row, x, y,
 				ci->size_pixels, ri->size_pixels,
@@ -811,7 +811,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 					tmp_width += offset;
 					if (dir > 0)
 						real_x -= offset;
-					sr.vertical [col] = NULL;
+					sr.vertical[col] = NULL;
 				}
 				if (end_span_col != col) {
 					offset = scg_colrow_distance_get (
@@ -831,7 +831,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 					   ri->size_pixels, center_offset,
 					   show_extension_markers, &ig->cell_draw_style);
 			} else if (col != span->left)
-				sr.vertical [col] = NULL;
+				sr.vertical[col] = NULL;
 
 			if (dir > 0)
 				x += ci->size_pixels;

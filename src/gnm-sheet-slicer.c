@@ -326,7 +326,7 @@ static void
 gss_append_field_indicies (GnmSheetSlicer const *gss, GODataSlicerFieldType type,
 			   GArray *field_order)
 {
-	GArray *tmp = gss->base.fields [type];
+	GArray *tmp = gss->base.fields[type];
 	unsigned int i, n = tmp->len;
 	for (i = 0 ; i < n; i++)
 		g_array_append_val (field_order, g_array_index (tmp, int, i));
