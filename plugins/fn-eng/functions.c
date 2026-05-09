@@ -217,6 +217,7 @@ static GnmFuncHelp const help_base[] = {
         { GNM_FUNC_HELP_ARG, F_("length:minimum length of the resulting string") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("BASE converts @{n} to its string representation in base @{b}. "
 					"Leading zeroes will be added to reach the minimum length given by @{length}.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BASE(255,16,4)" },
         { GNM_FUNC_HELP_SEEALSO, "DECIMAL" },
@@ -390,6 +391,7 @@ static GnmFuncHelp const help_decimal[] = {
         { GNM_FUNC_HELP_NAME, F_("DECIMAL:decimal representation of @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:number in base @{base}") },
         { GNM_FUNC_HELP_ARG, F_("base:base of @{x}, (2 \xe2\x89\xa4 @{base} \xe2\x89\xa4 36)") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=DECIMAL(\"A1\",16)" },
         { GNM_FUNC_HELP_EXAMPLES, "=DECIMAL(\"A1\",15)" },
@@ -1605,7 +1607,7 @@ gnumeric_invsuminv (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 GnmFuncDescriptor const engineering_functions[] = {
         { "base",     "Sf|f",    help_base,
 	  gnumeric_base, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         { "besseli",     "ff",    help_besseli,
 	  gnumeric_besseli, NULL,
@@ -1644,7 +1646,7 @@ GnmFuncDescriptor const engineering_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "decimal",     "Sf",    help_decimal,
 	  gnumeric_decimal, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         { "delta",       "f|f",   help_delta,
 	  gnumeric_delta, NULL,

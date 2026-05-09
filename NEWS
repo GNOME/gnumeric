@@ -9,7 +9,7 @@ Morten:
 	* New function REGEXEXTRACT.
 	* New function REGEXREPLACE.
 	* New functions NETWORKDAYS.INTL and WORKDAY.INTL.
-	* LCM, CLEAN, TIME, WEEKNUM: improve compatibility.
+	* LCM, CLEAN, TIME, WEEKNUM, IM*: improve compatibility with xl.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.61
