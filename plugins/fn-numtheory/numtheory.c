@@ -694,6 +694,7 @@ static GnmFuncHelp const help_bitor[] = {
 	{ GNM_FUNC_HELP_NAME, F_("BITOR:bitwise or")},
 	{ GNM_FUNC_HELP_ARG, F_("values:non-negative integers")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITOR returns the bitwise or of the binary representations of its arguments.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=BITOR(9,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITXOR,BITAND"},
 	{ GNM_FUNC_HELP_END }
@@ -733,6 +734,7 @@ static GnmFuncHelp const help_bitxor[] = {
 	{ GNM_FUNC_HELP_NAME, F_("BITXOR:bitwise exclusive or")},
 	{ GNM_FUNC_HELP_ARG, F_("values:non-negative integers")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITXOR returns the bitwise exclusive or of the binary representations of its arguments.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=BITXOR(9,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITOR,BITAND"},
 	{ GNM_FUNC_HELP_END }
@@ -775,6 +777,7 @@ static GnmFuncHelp const help_bitand[] = {
 	{ GNM_FUNC_HELP_NAME, F_("BITAND:bitwise and")},
 	{ GNM_FUNC_HELP_ARG, F_("values:non-negative integers")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITAND returns the bitwise and of the binary representations of its arguments.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=BITAND(9,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITOR,BITXOR"},
 	{ GNM_FUNC_HELP_END }
@@ -818,6 +821,7 @@ static GnmFuncHelp const help_bitlshift[] = {
 	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
 	{ GNM_FUNC_HELP_ARG, F_("n:integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITLSHIFT returns the binary representations of @{a} shifted @{n} positions to the left.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) positions.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=BITLSHIFT(9,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITRSHIFT"},
@@ -848,6 +852,7 @@ static GnmFuncHelp const help_bitrshift[] = {
 	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
 	{ GNM_FUNC_HELP_ARG, F_("n:integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITRSHIFT returns the binary representations of @{a} shifted @{n} positions to the right.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) positions.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=BITRSHIFT(137,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITLSHIFT"},
@@ -918,18 +923,18 @@ const GnmFuncDescriptor num_theory_functions[] = {
 const GnmFuncDescriptor bitwise_functions[] = {
 	{"bitor", NULL, help_bitor,
 	 NULL, &func_bitor,
-	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{"bitxor", NULL, help_bitxor,
 	 NULL, &func_bitxor,
-	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{"bitand", NULL, help_bitand,
 	 NULL,  &func_bitand,
-	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{"bitlshift", "ff", help_bitlshift,
 	 &func_bitlshift, NULL,
-	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{"bitrshift", "ff", help_bitrshift,
 	 &func_bitrshift, NULL,
-	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{NULL}
 };
