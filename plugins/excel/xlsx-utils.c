@@ -162,7 +162,7 @@ xlsx_func_map_in (GnmConventions const *convs,
 		/* This should at most happen for ODF functions incorporated */
 		/* in an xlsx file, we should perform the appropriate translation! */
 		name = name + 9;
-	else if (0 == g_ascii_strncasecmp (name, "_xlfngnumeric.", 9))
+	else if (0 == g_ascii_strncasecmp (name, "_xlfngnumeric.", 14))
 		/* These are Gnumeric's own functions */
 		name = name + 14;
 
