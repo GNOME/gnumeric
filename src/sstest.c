@@ -986,18 +986,27 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 	GnmFuncHelp const *help = gnm_func_get_help (fd, &n);
 	gboolean all_args_translated = TRUE;
 	gboolean no_args_translated = TRUE;
+	gboolean excel_compatible = FALSE;
 
 	for (int i = 0; i < n; i++) {
 		GnmFuncHelp const *h = help + i;
-		if (h->type != GNM_FUNC_HELP_ARG)
-			continue;
 
-		const char *text = gnm_func_gettext (fd, h->text);
-		gboolean was_translated = (text != h->text);
-		if (was_translated)
-			no_args_translated = FALSE;
-		else
-			all_args_translated = FALSE;
+		switch (h->type) {
+		case GNM_FUNC_HELP_ARG: {
+			const char *text = gnm_func_gettext (fd, h->text);
+			gboolean was_translated = (text != h->text);
+			if (was_translated)
+				no_args_translated = FALSE;
+			else
+				all_args_translated = FALSE;
+			break;
+		}
+		case GNM_FUNC_HELP_EXCEL:
+			excel_compatible = TRUE;
+			break;
+		default:
+			; // Nothing
+		}
 	}
 
 	allargs = g_hash_table_new_full
@@ -1205,6 +1214,13 @@ gnm_func_sanity_check1 (GnmFunc *fd)
 	if (counts[GNM_FUNC_HELP_SEEALSO] > 1) {
 		g_printerr ("%s: Help has %d SEEALSO notes.\n",
 			    fd->name, counts[GNM_FUNC_HELP_SEEALSO]);
+		res = 1;
+	}
+
+	if (gnm_func_get_impl_status (fd) == GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC &&
+	    excel_compatible) {
+		g_printerr ("%s: Unique to Gnumeric, but also Excel compatible.\n",
+			    fd->name);
 		res = 1;
 	}
 
