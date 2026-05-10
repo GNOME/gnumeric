@@ -38,6 +38,11 @@ GnmStfExport *gnm_stf_get_stfe (GObject *obj);
 
 gboolean gnm_stf_export (GnmStfExport *export_options);
 
+gboolean gnm_csvtxt_fs_set_export_options (GOFileSaver *fs,
+					   GODoc *doc,
+					   const char *options,
+					   GError **err,
+					   gpointer user);
 
 GOFileSaver *gnm_stf_file_saver_create (gchar const *id);
 

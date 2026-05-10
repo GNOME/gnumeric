@@ -485,28 +485,23 @@ stf_write_csv (GOFileSaver const *fs, GOIOContext *context,
 {
 	GPtrArray *sheets;
 	WorkbookView *wbv = GNM_WORKBOOK_VIEW (view);
+	Workbook *wb = wb_view_get_workbook (wbv);
+	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (wb));
 
-	GnmStfExport *config = g_object_new
-		(GNM_STF_EXPORT_TYPE,
-		 "sink", output,
-		 "quoting-triggers", ", \t\n\"",
-		 NULL);
-
+	g_object_set (G_OBJECT (stfe), "sink", output, NULL);
 	sheets = gnm_file_saver_get_sheets (fs, wbv, FALSE);
 	if (sheets) {
 		unsigned ui;
 		for (ui = 0; ui < sheets->len; ui++) {
 			Sheet *sheet = g_ptr_array_index (sheets, ui);
-			gnm_stf_export_options_sheet_list_add (config, sheet);
+			gnm_stf_export_options_sheet_list_add (stfe, sheet);
 		}
 		g_ptr_array_unref (sheets);
 	}
 
-	if (gnm_stf_export (config) == FALSE)
+	if (gnm_stf_export (stfe) == FALSE)
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			_("Error while trying to write CSV file"));
-
-	g_object_unref (config);
 }
 
 static gboolean
@@ -574,6 +569,17 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 	}
 }
 
+static gboolean
+gnm_csv_fs_set_export_options (GOFileSaver *fs,
+			       GODoc *doc,
+			       const char *options,
+			       GError **err,
+			       gpointer user)
+{
+	// For now just common options
+	return gnm_csvtxt_fs_set_export_options (fs, doc, options, err, user);
+}
+
 /**
  * stf_init: (skip)
  */
@@ -631,6 +637,9 @@ stf_init (void)
 		GO_FILE_FL_MANUAL_REMEMBER, stf_write_csv);
 	go_file_saver_set_save_scope (saver, GO_FILE_SAVE_SHEET);
 	g_object_set (G_OBJECT (saver), "sheet-selection", TRUE, NULL);
+	g_signal_connect (G_OBJECT (saver), "set-export-options",
+			  G_CALLBACK (gnm_csv_fs_set_export_options),
+			  NULL);
 	go_file_saver_register (saver);
 	g_object_unref (saver);
 }

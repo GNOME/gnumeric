@@ -52,6 +52,7 @@ struct GnmStfExport_ {
 	char *locale;
 	GnmStfTransliterateMode transliterate_mode;
 	GnmStfFormatMode format;
+	gboolean formulas;
 };
 
 static GObjectClass *parent_class;
@@ -65,7 +66,8 @@ enum {
 	PROP_CHARSET,
 	PROP_LOCALE,
 	PROP_TRANSLITERATE_MODE,
-	PROP_FORMAT
+	PROP_FORMAT,
+	PROP_FORMULAS
 };
 
 /* ------------------------------------------------------------------------- */
@@ -236,7 +238,11 @@ stf_export_cell (GnmStfExport *stfe, GnmCell *cell)
 	gboolean ok;
 	g_return_val_if_fail (stfe != NULL, FALSE);
 
-	if (cell) {
+	if (!cell) {
+		// Nothing
+	} else if (stfe->formulas && gnm_cell_has_expr (cell)) {
+		text = tmp = gnm_cell_get_entered_text (cell);
+	} else {
 		switch (stfe->format) {
 		case GNM_STF_FORMAT_PRESERVE:
 			text = tmp = gnm_cell_get_rendered_text (cell);
@@ -489,6 +495,9 @@ gnm_stf_export_get_property (GObject     *object,
 	case PROP_FORMAT:
 		g_value_set_enum (value, stfe->format);
 		break;
+	case PROP_FORMULAS:
+		g_value_set_boolean (value, stfe->formulas);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -522,6 +531,9 @@ gnm_stf_export_set_property (GObject      *object,
 		break;
 	case PROP_FORMAT:
 		stfe->format = g_value_get_enum (value);
+		break;
+	case PROP_FORMULAS:
+		stfe->formulas = g_value_get_boolean (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -578,6 +590,14 @@ gnm_stf_export_class_init (GObjectClass *gobject_class)
 				    GNM_STF_FORMAT_AUTO,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_FORMULAS,
+		 g_param_spec_boolean ("formulas",
+				       P_("Formulas"),
+				       P_("Should formulas be printed instead of values?"),
+				       FALSE,
+				       GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -731,6 +751,7 @@ cb_set_export_option (const char *key, const char *value,
 	    strcmp (key, "quote") == 0 ||
 	    strcmp (key, "separator") == 0 ||
 	    strcmp (key, "format") == 0 ||
+	    strcmp (key, "formulas") == 0 ||
 	    strcmp (key, "transliterate-mode") == 0 ||
 	    strcmp (key, "quoting-mode") == 0 ||
 	    strcmp (key, "quoting-on-whitespace") == 0)
@@ -750,12 +771,12 @@ error:
 	return TRUE;
 }
 
-static gboolean
-gnm_stf_fs_set_export_options (GOFileSaver *fs,
-			       GODoc *doc,
-			       const char *options,
-			       GError **err,
-			       G_GNUC_UNUSED gpointer user)
+gboolean
+gnm_csvtxt_fs_set_export_options (GOFileSaver *fs,
+				  GODoc *doc,
+				  const char *options,
+				  GError **err,
+				  G_GNUC_UNUSED gpointer user)
 {
 	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (doc));
 	struct cb_set_export_option data;
@@ -763,6 +784,17 @@ gnm_stf_fs_set_export_options (GOFileSaver *fs,
 	data.wb = WORKBOOK (doc);
 	gnm_stf_export_options_sheet_list_clear (stfe);
 	return go_parse_key_value (options, err, cb_set_export_option, &data);
+}
+
+static gboolean
+gnm_stf_fs_set_export_options (GOFileSaver *fs,
+			       GODoc *doc,
+			       const char *options,
+			       GError **err,
+			       gpointer user)
+{
+	// For now just common options
+	return gnm_csvtxt_fs_set_export_options (fs, doc, options, err, user);
 }
 
 /**
