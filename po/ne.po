@@ -18935,7 +18935,7 @@ msgstr "एउटा साधारण सूची टेम्प्लेट
 #~ "and that new features have been added in the meantime.\n"
 #~ "\n"
 #~ "Please consider upgrading before reporting any bugs.\n"
-#~ "Consult http://www.gnome.org/projects/gnumeric/ for details.\n"
+#~ "Consult https://www.gnumeric.org/ for details.\n"
 #~ "\n"
 #~ "-- The Gnumeric Team."
 #~ msgstr ""
@@ -18946,7 +18946,7 @@ msgstr "एउटा साधारण सूची टेम्प्लेट
 #~ "अनि नयाँ सुविधाहरू सोहि समयमा थपिएका छन।\n"
 #~ "\n"
 #~ "कुनै बगहरूको प्रतिवेदन दिनुभन्दा पहिला स्तरवृद्धि विचार गर्नुहोस्।\n"
-#~ "विवरणका लागि सम्पर्क गर्नुहोस् http://www.gnome.org/projects/gnumeric/.\n"
+#~ "विवरणका लागि सम्पर्क गर्नुहोस् https://www.gnumeric.org/.\n"
 #~ "\n"
 #~ "-- द जिन्युमेरिक टिम।"
 

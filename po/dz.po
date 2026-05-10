@@ -19016,7 +19016,7 @@ msgstr "འཇམ་སམ་ཊེམ་པེལེཊི་གི་ཐོ་
 #~ "and that new features have been added in the meantime.\n"
 #~ "\n"
 #~ "Please consider upgrading before reporting any bugs.\n"
-#~ "Consult http://www.gnome.org/projects/gnumeric/ for details.\n"
+#~ "Consult https://www.gnumeric.org/ for details.\n"
 #~ "\n"
 #~ "-- The Gnumeric Team."
 #~ msgstr ""
@@ -19027,7 +19027,7 @@ msgstr "འཇམ་སམ་ཊེམ་པེལེཊི་གི་ཐོ་
 #~ "དེ་ལས་ཁྱད་ཆོས་གསརཔ་ཚུ་ དེ་གི་བར་ན་ཁ་སྐོང་རྐྱབས་འོང་།\n"
 #~ "\n"
 #~ "རྐྱེན་ག་ཅི་ཡང་སྙན་ཞུ་མ་འབད་བའི་ཧེ་མ་ ཡར་བསྐྱེད་འབད་ནི་ཆ་འཇོག་འབད་གནང་།\n"
-#~ "རྒྱས་བཤད་ཀྱི་དོན་ལུ་ http://www.gnome.org/projects/gnumeric/ འདྲི་བསྟུན་འབད། \n"
+#~ "རྒྱས་བཤད་ཀྱི་དོན་ལུ་ https://www.gnumeric.org/ འདྲི་བསྟུན་འབད། \n"
 #~ "\n"
 #~ "-- The Gnumeric Team"
 

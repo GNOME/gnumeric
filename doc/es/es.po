@@ -434,7 +434,7 @@ msgid ""
 "<application>Gnumeric</application> aims to be the best spreadsheet "
 "available. It has been developed over many years to become mature and "
 "mathematically correct. <application>Gnumeric</application> was created and "
-"is maintained by the <ulink type=\"http\" url=\"http://www.gnome.org/"
+"is maintained by the <ulink type=\"http\" url=\"https://www.gnome.org/"
 "\">GNOME</ulink> project. This manual describes version 1.12 of "
 "<application>Gnumeric</application>."
 msgstr ""
@@ -38351,14 +38351,14 @@ msgstr ""
 #. (itstool) path: para/screen
 #: C/gnumeric.xml:145
 #, no-wrap
-msgid "http://www.gnome.org/projects/gnumeric/\n"
-msgstr "http://www.gnome.org/projects/gnumeric/\n"
+msgid "https://www.gnumeric.org/\n"
+msgstr "https://www.gnumeric.org/\n"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:138
 msgid ""
 "The <application>Gnumeric</application> web site can be accessed by clicking "
-"on this <ulink type=\"http\" url=\"http://www.gnome.org/projects/gnumeric/"
+"on this <ulink type=\"http\" url=\"https://www.gnumeric.org/"
 "\">link</ulink>. Alternatively, it may be necessary to enter the address "
 "directly into a web browser. The <application>Gnumeric</application> project "
 "page address is: <_:screen-1/> It may be necessary to copy the text and "
@@ -38430,7 +38430,7 @@ msgid ""
 "interests you. It may be that your question has just been asked by someone "
 "else and a good answer has been posted. To access the archives, use a web "
 "browser to go to the mailing list web page at <ulink type=\"http\" url="
-"\"http://www.gnome.org/\"> <uri> http://www.gnome.org/ </uri> </ulink> and "
+"\"https://www.gnome.org/\"> <uri> https://www.gnome.org/ </uri> </ulink> and "
 "then ..."
 msgstr ""
 

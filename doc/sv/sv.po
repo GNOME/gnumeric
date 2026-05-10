@@ -308,7 +308,7 @@ msgstr ""
 
 #. (itstool) path: chapter/para
 #: C/gnumeric.xml:56
-msgid "<application>Gnumeric</application> aims to be the best spreadsheet available. It has been developed over many years to become mature and mathematically correct. <application>Gnumeric</application> was created and is maintained by the <ulink type=\"http\" url=\"http://www.gnome.org/\">GNOME</ulink> project. This manual describes version 1.12 of <application>Gnumeric</application>."
+msgid "<application>Gnumeric</application> aims to be the best spreadsheet available. It has been developed over many years to become mature and mathematically correct. <application>Gnumeric</application> was created and is maintained by the <ulink type=\"http\" url=\"https://www.gnome.org/\">GNOME</ulink> project. This manual describes version 1.12 of <application>Gnumeric</application>."
 msgstr ""
 
 #. (itstool) path: note/para
@@ -26661,12 +26661,12 @@ msgstr ""
 #. (itstool) path: para/screen
 #: C/gnumeric.xml:145
 #, no-wrap
-msgid "http://www.gnome.org/projects/gnumeric/\n"
-msgstr "http://www.gnome.org/projects/gnumeric/\n"
+msgid "https://www.gnumeric.org/\n"
+msgstr "https://www.gnumeric.org/\n"
 
 #. (itstool) path: sect2/para
 #: C/gnumeric.xml:138
-msgid "The <application>Gnumeric</application> web site can be accessed by clicking on this <ulink type=\"http\" url=\"http://www.gnome.org/projects/gnumeric/\">link</ulink>. Alternatively, it may be necessary to enter the address directly into a web browser. The <application>Gnumeric</application> project page address is: <_:screen-1/> It may be necessary to copy the text and paste it into the address field."
+msgid "The <application>Gnumeric</application> web site can be accessed by clicking on this <ulink type=\"http\" url=\"https://www.gnumeric.org/\">link</ulink>. Alternatively, it may be necessary to enter the address directly into a web browser. The <application>Gnumeric</application> project page address is: <_:screen-1/> It may be necessary to copy the text and paste it into the address field."
 msgstr ""
 
 #. (itstool) path: sect1/title
@@ -26708,7 +26708,7 @@ msgstr ""
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:216
 msgid ""
-"The best way to use this resource is first to read the archives for the past few months to see if any of the subjects look similar to the issue which interests you. It may be that your question has just been asked by someone else and a good answer has been posted. To access the archives, use a web browser to go to the mailing list web page at <ulink type=\"http\" url=\"http://www.gnome.org/\"> <uri> http://www.gnome.org/ </uri> </ulink> and then ..."
+"The best way to use this resource is first to read the archives for the past few months to see if any of the subjects look similar to the issue which interests you. It may be that your question has just been asked by someone else and a good answer has been posted. To access the archives, use a web browser to go to the mailing list web page at <ulink type=\"http\" url=\"https://www.gnome.org/\"> <uri> https://www.gnome.org/ </uri> </ulink> and then ..."
 msgstr ""
 
 #. (itstool) path: para/screen
@@ -27405,7 +27405,7 @@ msgstr ""
 
 #. (itstool) path: sect1/para
 #: C/gnumeric.xml:44
-msgid "For further information, the web page maintained by Jon Käre Hellan's has some python plugins and other useful information. That page can be found through <ulink type=\"http\" url=\"http://domen.uninett.no/~jk/gnumeric/\">this link</ulink>. The main <ulink type=\"http\" url=\"http://www.gnome.org/projects/gnumeric/\">Gnumeric page</ulink> may also have useful information."
+msgid "For further information, the web page maintained by Jon Käre Hellan's has some python plugins and other useful information. That page can be found through <ulink type=\"http\" url=\"http://domen.uninett.no/~jk/gnumeric/\">this link</ulink>. The main <ulink type=\"http\" url=\"https://www.gnumeric.org/\">Gnumeric page</ulink> may also have useful information."
 msgstr ""
 
 #. (itstool) path: listitem/para

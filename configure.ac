@@ -16,7 +16,7 @@ dnl Emphasize some of the checks.
 m4_define([BIG_CHECKING], [AC_MSG_CHECKING([
 ======== $1])])
 
-AC_INIT([gnumeric],[gnumeric_version_full],[https://gitlab.gnome.org/GNOME/gnumeric/issues],[],[http://www.gnumeric.org/])
+AC_INIT([gnumeric],[gnumeric_version_full],[https://gitlab.gnome.org/GNOME/gnumeric/issues],[],[https://www.gnumeric.org/])
 
 AC_CONFIG_SRCDIR(src/sheet.h)
 AM_INIT_AUTOMAKE([dist-bzip2])

@@ -138,11 +138,11 @@
     <para>
       The &gnum; web site can be accessed
       by clicking on this <ulink type="http"
-      url="http://www.gnome.org/projects/gnumeric/">link</ulink>.
+      url="https://www.gnumeric.org/">link</ulink>.
       Alternatively, it may be necessary to enter the address directly
       into a web browser. The &gnum;
       project page address is:
-<screen>http://www.gnome.org/projects/gnumeric/
+<screen>https://www.gnumeric.org/
 </screen> 
       It may be necessary to copy the text and paste it into the
       address field.
@@ -220,9 +220,9 @@ http://www.openoffice.org/
     just been asked by someone else and a good answer has been
     posted. To access the archives, use a web browser to go to the
     mailing list web page at <ulink type="http"
-    url="http://www.gnome.org/">
+    url="https://www.gnome.org/">
 <uri>
-http://www.gnome.org/
+https://www.gnome.org/
 </uri>
     </ulink> and then ...
   </para>
