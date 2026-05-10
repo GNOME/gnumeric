@@ -45,6 +45,7 @@ typedef struct {
 	GHashTable *extern_wb_by_id;
 	GHashTable *xlfn_map;
 	GHashTable *xlfn_handler_map;
+	GHashTable *future_function_set;
 } XLSXExprData;
 
 static inline XLSXExprData *
@@ -178,31 +179,35 @@ xlsx_func_map_out (GnmConventionsOut *out, GnmExprFunction const *func)
 	GnmFunc *gfunc = gnm_expr_get_func_def ((GnmExpr *)func);
 	char const *name = gnm_func_get_name (gfunc, FALSE);
 	gboolean (*handler) (GnmConventionsOut *out, GnmExprFunction const *func);
+	GString *target = out->accum;
 
 	handler = g_hash_table_lookup (xconv->xlfn_handler_map, name);
+	if (handler && handler (out, func))
+		return;  // Handler took care of it all
 
-	if (handler == NULL || !handler (out, func)) {
-		char const *new_name = g_hash_table_lookup (xconv->xlfn_map, name);
-		GString *target = out->accum;
+	char const *new_name = g_hash_table_lookup (xconv->xlfn_map, name);
+	if (!new_name)
+		new_name = g_hash_table_lookup (xconv->future_function_set, name);
 
-		if (new_name == NULL) {
-				char *new_u_name;
-				new_u_name = g_ascii_strup (name, -1);
-				if (gnm_func_get_impl_status (gfunc) ==
-				    GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC)
-					g_string_append (target, "_xlfngnumeric.");
-				/* LO & friends use _xlfnodf */
-				g_string_append (target, new_u_name);
-				g_free (new_u_name);
-		}
-		else {
-			g_string_append (target, "_xlfn.");
-			g_string_append (target, new_name);
-		}
+	gboolean q_xlfn = (new_name != NULL);
+	gboolean q_xlfngnumeric = !q_xlfn &&
+		(gnm_func_get_impl_status (gfunc) ==
+		 GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC);
 
-		gnm_expr_list_as_string (func->argc, func->argv, out);
+	if (q_xlfn)
+		g_string_append (target, "_xlfn.");
+	else if (q_xlfngnumeric)
+		g_string_append (target, "_xlfngnumeric.");
+
+	if (new_name)
+		g_string_append (target, new_name);
+	else {
+		char *uname = g_ascii_strup (name, -1);
+		g_string_append (target, uname);
+		g_free (uname);
 	}
-	return;
+
+	gnm_expr_list_as_string (func->argc, func->argv, out);
 }
 
 
@@ -648,6 +653,34 @@ xlsx_conventions_new (gboolean output)
 		{ "Z.TEST", "ZTEST" },
 		{ NULL, NULL }
 	};
+	// List of functions that need "_xlfn." prefix.
+	static const char * const future_funcs [] = {
+		"AGGREGATE", "ACOT", "ACOTH", "ARABIC", "BASE", "BETA.DIST", "BETA.INV",
+		"BINOM.DIST", "BINOM.DIST.RANGE", "BINOM.INV", "BITAND", "BITLSHIFT",
+		"BITOR", "BITRSHIFT", "BITXOR", "BYCOL", "BYROW", "CEILING.MATH",
+		"CEILING.PRECISE", "CHISQ.DIST", "CHISQ.DIST.RT", "CHISQ.INV", "CHISQ.INV.RT",
+		"CHISQ.TEST", "CHOOSECOLS", "CHOOSEROWS", "COMBINA", "CONFIDENCE.NORM",
+		"CONFIDENCE.T", "COPILOT", "COT", "COTH", "COVARIANCE.P", "COVARIANCE.S",
+		"CSC", "CSCH", "DAYS", "DECIMAL", "DROP", "ERF.PRECISE", "ERFC.PRECISE",
+		"EXPAND", "EXPON.DIST", "F.DIST", "F.DIST.RT", "F.INV", "F.INV.RT", "F.TEST",
+		"FIELDVALUE", "FILTERXML", "FLOOR.MATH", "FLOOR.PRECISE", "FORMULATEXT",
+		"GAMMA", "GAMMA.DIST", "GAMMA.INV", "GAMMALN.PRECISE", "GAUSS", "HSTACK",
+		"HYPGEOM.DIST", "IFNA", "IMCOSH", "IMCOT", "IMCSC", "IMCSCH", "IMSEC",
+		"IMSECH", "IMSINH", "IMTAN", "ISFORMULA", "ISOMITTED", "ISOWEEKNUM",
+		"LAMBDA", "LET", "LOGNORM.DIST", "LOGNORM.INV", "LONGTEXT", "MAKEARRAY",
+		"MAP", "MODE.MULT", "MODE.SNGL", "MUNIT", "NEGBINOM.DIST", "NORM.DIST",
+		"NORM.INV", "NORM.S.DIST", "NORM.S.INV", "NUMBERVALUE", "PDURATION",
+		"PERCENTILE.EXC", "PERCENTILE.INC", "PERCENTRANK.EXC", "PERCENTRANK.INC",
+		"PERMUTATIONA", "PHI", "POISSON.DIST", "PQSOURCE", "PYTHON_STR",
+		"PYTHON_TYPE", "PYTHON_TYPENAME", "QUARTILE.EXC", "QUARTILE.INC",
+		"QUERYSTRING", "RANDARRAY", "RANK.AVG", "RANK.EQ", "REDUCE", "RRI",
+		"SCAN", "SEC", "SECH", "SEQUENCE", "SHEET", "SHEETS", "SKEW.P", "SORTBY",
+		"STDEV.P", "STDEV.S", "T.DIST", "T.DIST.2T", "T.DIST.RT", "T.INV", "T.INV.2T",
+		"T.TEST", "TAKE", "TEXTAFTER", "TEXTBEFORE", "TEXTSPLIT", "TOCOL", "TOROW",
+		"UNICHAR", "UNICODE", "UNIQUE", "VAR.P", "VAR.S", "VSTACK", "WEBSERVICE",
+		"WEIBULL.DIST", "WRAPCOLS", "WRAPROWS", "XLOOKUP", "XOR", "Z.TEST"
+	};
+
 	GnmConventions *convs = gnm_conventions_new ();
 	XLSXExprData *xconv = g_new0 (XLSXExprData, 1);
 	int i;
@@ -671,6 +704,13 @@ xlsx_conventions_new (gboolean output)
 		(GDestroyNotify) g_object_unref, g_free);
 	xconv->extern_wb_by_id = g_hash_table_new_full (g_str_hash, g_str_equal,
 		g_free, (GDestroyNotify) g_object_unref);
+
+	xconv->future_function_set = g_hash_table_new (go_ascii_strcase_hash,
+						       go_ascii_strcase_equal);
+	for (unsigned i = 0; i < G_N_ELEMENTS (future_funcs); i++) {
+		const char *n = future_funcs[i];
+		g_hash_table_insert (xconv->future_function_set, (gpointer)n, (gpointer)n);
+	}
 
 	if (output) {
 		if (!gnm_shortest_rep_in_files ()) {
