@@ -51,6 +51,7 @@ TESTS =	t1000-statfuns.pl			\
 	t1018-ifs-funcs.pl			\
 	t1019-numtheory.pl			\
 	t1020-erlang.pl				\
+	t1021-dsa.pl				\
 	t1100-chitest.pl			\
 	t1101-ftest.pl				\
 	t1102-ttest.pl				\
@@ -227,6 +228,7 @@ TESTS =	t1000-statfuns.pl			\
 	t9010-ssgrep.pl				\
 	t9100-number-match.pl			\
 	t9999-epilogue.pl
+XFAIL_TESTS = t1021-dsa.pl
 
 SUPPS = common.supp gui.supp t8003-valgrind-pdf.supp
 
