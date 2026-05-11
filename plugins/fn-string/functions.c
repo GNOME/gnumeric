@@ -100,9 +100,10 @@ gnumeric_char (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_unichar[] = {
-        { GNM_FUNC_HELP_NAME, F_("UNICHAR:the Unicode character represented by the Unicode code point @{x}")},
-        { GNM_FUNC_HELP_ARG, F_("x:Unicode code point")},
-        { GNM_FUNC_HELP_EXAMPLES, "=UNICHAR(65)"},
+        { GNM_FUNC_HELP_NAME, F_("UNICHAR:the Unicode character represented by the code point @{n}")},
+        { GNM_FUNC_HELP_ARG, F_("n:Unicode code point")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=UNICHAR(65)" },
         { GNM_FUNC_HELP_EXAMPLES, "=UNICHAR(960)"},
         { GNM_FUNC_HELP_EXAMPLES, "=UNICHAR(20000)"},
         { GNM_FUNC_HELP_SEEALSO, "CHAR,UNICODE,CODE"},
@@ -203,6 +204,7 @@ gnumeric_code (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_unicode[] = {
         { GNM_FUNC_HELP_NAME, F_("UNICODE:the Unicode code point for the character @{c}")},
         { GNM_FUNC_HELP_ARG, F_("c:character")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=UNICODE(\"A\")" },
         { GNM_FUNC_HELP_SEEALSO, "UNICHAR,CODE,CHAR"},
         { GNM_FUNC_HELP_END}
@@ -1557,9 +1559,11 @@ static GnmFuncHelp const help_numbervalue[] = {
         { GNM_FUNC_HELP_NAME, F_("NUMBERVALUE:numeric value of @{text}")},
         { GNM_FUNC_HELP_ARG, F_("text:string")},
         { GNM_FUNC_HELP_ARG, F_("separator:decimal separator")},
+        { GNM_FUNC_HELP_ARG, F_("group_separator:group separator")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{text} does not look like a decimal number, "
 				 "NUMBERVALUE returns the value VALUE would "
 				 "return (ignoring the given @{separator}).")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=NUMBERVALUE(\"$1,000\",\",\")" },
         { GNM_FUNC_HELP_SEEALSO, "VALUE"},
@@ -1569,45 +1573,58 @@ static GnmFuncHelp const help_numbervalue[] = {
 static GnmValue *
 gnumeric_numbervalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *sep = value_peek_string (argv[1]);
-	if (strlen(sep) != 1 || (*sep != '.' && *sep != ',')) {
+	GnmValue const *arg = argv[0];
+	char const *sep = argv[1] ? value_peek_string (argv[1]) : NULL;
+	char const *grp = argv[2] ? value_peek_string (argv[2]) : NULL;
+
+	if (sep == NULL)
+		sep = go_locale_get_decimal ()->str;
+	else if (g_utf8_strlen (sep, -1) != 1)
 		return value_new_error_VALUE (ei->pos);
-	}
 
-	if (VALUE_IS_EMPTY (argv[0]) || VALUE_IS_NUMBER (argv[0]))
-		return value_dup (argv[0]);
-	else {
-		GnmValue *v;
-		char const *p = value_peek_string (argv[0]);
-		GString *curr;
-		GString *thousand;
-		GString *decimal;
-		GOFormatFamily family = GO_FORMAT_GENERAL;
-
-		decimal = g_string_new (sep);
-		thousand = g_string_new ((*sep == '.') ? ",":".");
-		curr = g_string_new ("$");
-
-		/* Skip leading spaces */
-		while (*p && g_unichar_isspace (g_utf8_get_char (p)))
-		       p = g_utf8_next_char (p);
-
-		v = format_match_decimal_number_with_locale
-			(p, &family, curr, thousand, decimal);
-
-		g_string_free (decimal, TRUE);
-		g_string_free (thousand, TRUE);
-		g_string_free (curr, TRUE);
-
-		if (v == NULL)
-			v = format_match_number
-				(p, NULL,
-				 sheet_date_conv (ei->pos->sheet));
-
-		if (v != NULL)
-			return v;
+	if (grp == NULL)
+		grp = go_locale_get_thousand ()->str;
+	else if (g_utf8_strlen (grp, -1) != 1)
 		return value_new_error_VALUE (ei->pos);
-	}
+
+	if (strcmp (sep, grp) == 0)
+		return value_new_error_VALUE (ei->pos);
+
+
+	if (VALUE_IS_EMPTY (arg) || VALUE_IS_NUMBER (arg))
+		return value_dup (arg);
+
+	GnmValue *v;
+	char const *p = value_peek_string (argv[0]);
+	GString *curr;
+	GString *thousand;
+	GString *decimal;
+	GOFormatFamily family = GO_FORMAT_GENERAL;
+
+	decimal = g_string_new (sep);
+	thousand = g_string_new (grp);
+	curr = g_string_new ("$");
+
+	/* Skip leading spaces */
+	while (*p && g_unichar_isspace (g_utf8_get_char (p)))
+		p = g_utf8_next_char (p);
+
+	v = format_match_decimal_number_with_locale
+		(p, &family, curr, thousand, decimal);
+
+	g_string_free (decimal, TRUE);
+	g_string_free (thousand, TRUE);
+	g_string_free (curr, TRUE);
+
+	if (v == NULL)
+		v = format_match_number
+			(p, NULL,
+			 sheet_date_conv (ei->pos->sheet));
+
+	if (v != NULL)
+		return v;
+
+	return value_new_error_VALUE (ei->pos);
 }
 
 /***************************************************************************/
@@ -2613,7 +2630,7 @@ GnmFuncDescriptor const string_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "unichar",    "f",                       help_unichar,
 	  gnumeric_unichar, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "clean",      "S",                         help_clean,
           gnumeric_clean, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -2622,7 +2639,7 @@ GnmFuncDescriptor const string_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "unicode",    "S",                         help_unicode,
 	  gnumeric_unicode, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "concat", NULL,               help_concat,
 	  NULL, gnumeric_concat,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -2671,9 +2688,9 @@ GnmFuncDescriptor const string_functions[] = {
         { "midb",        "Sff",               help_midb,
 	  gnumeric_midb, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "numbervalue",      "SS",          help_numbervalue,
+        { "numbervalue",      "S|SS",          help_numbervalue,
 	  gnumeric_numbervalue, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "proper",     "S",                         help_proper,
 	  gnumeric_proper, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

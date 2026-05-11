@@ -1751,6 +1751,7 @@ static GnmFuncHelp const help_binom_dist_range[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{start} > @{end} this function returns 0.")},
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=BINOM.DIST.RANGE(5,0.8,3,4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST,R.PBINOM"},
 	{ GNM_FUNC_HELP_END }
@@ -5457,7 +5458,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "binom.dist.range",    "fff|f",
 	  help_binom_dist_range, gnumeric_binom_dist_range, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
 	{ "cauchy", "ffb",    help_cauchy,
 	  gnumeric_cauchy, NULL,

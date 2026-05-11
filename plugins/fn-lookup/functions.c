@@ -1929,6 +1929,7 @@ gnumeric_rows (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 static GnmFuncHelp const help_sheets[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SHEETS:number of sheets in @{reference}")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_ARG, F_("reference:array, reference, or range, defaults to the maximum range")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither an array nor a reference nor a range, "
 				 "SHEETS returns #VALUE!")},
@@ -1967,6 +1968,7 @@ gnumeric_sheets (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 static GnmFuncHelp const help_sheet[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SHEET:sheet number of @{reference}")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_ARG, F_("reference:reference or literal sheet name, defaults to the current sheet")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither a reference "
 				 "nor a literal sheet name, "
@@ -1994,15 +1996,15 @@ gnumeric_sheet (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 			if (a == -1 && b == -1)
 				n = ei->pos->sheet->index_in_wb;
-			else if (a == b || a * b < 0)
-				n = MAX (a,b);
-			else
-				return value_new_error_NUM (ei->pos);
+			else {
+				/* Excel returns the first sheet of a 3D range */
+				n = (a != -1) ? a : b;
+			}
 		} else if (VALUE_IS_STRING (v)) {
 			Sheet *sheet = workbook_sheet_by_name
 				(wb, value_peek_string (v));
 			if (!sheet)
-				return value_new_error_NUM (ei->pos);
+				return value_new_error_REF (ei->pos);
 			n = sheet->index_in_wb;
 		} else
 			return value_new_error_VALUE (ei->pos);
@@ -2418,10 +2420,10 @@ GnmFuncDescriptor const lookup_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "sheets",      "|A",
 	  help_sheets,     gnumeric_sheets, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "sheet",      "|?",
 	  help_sheet,     gnumeric_sheet, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "sort",         "r|f",
 	  help_sort, gnumeric_sort, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_SUBSET, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

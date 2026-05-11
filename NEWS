@@ -9,7 +9,8 @@ Morten:
 	* New function REGEXEXTRACT.
 	* New function REGEXREPLACE.
 	* New functions NETWORKDAYS.INTL and WORKDAY.INTL.
-	* LCM, CLEAN, TIME, WEEKNUM, IM*: improve compatibility with xl.
+	* LCM, CLEAN, TIME, WEEKNUM, IM*, SHEET, NUMBERVALUE: improve
+	  compatibility with xl.
 	* Add export option "formulas=true" to txt and csv.
 	* Improve xlsx export.
 
