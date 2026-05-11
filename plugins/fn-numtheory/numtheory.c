@@ -722,7 +722,7 @@ func_bitor (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     gnm_range_bitor,
-				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_COERCE_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_VALUE);
@@ -765,7 +765,7 @@ func_bitxor (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     gnm_range_bitxor,
-				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_COERCE_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_VALUE);
@@ -808,7 +808,7 @@ func_bitand (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     gnm_range_bitand,
-				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_COERCE_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_VALUE);
