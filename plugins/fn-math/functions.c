@@ -247,9 +247,10 @@ gnumeric_gcd (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_gcd,
-				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
+				     COLLECT_COERCE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |  // Should err
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_ORDER_IRRELEVANT,
 				     GNM_ERROR_NUM);
 }
 
@@ -307,9 +308,10 @@ gnumeric_lcm (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_lcm,
-				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
+				     COLLECT_COERCE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |  // Should err
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_ORDER_IRRELEVANT,
 				     GNM_ERROR_NUM);
 
 }
@@ -1886,9 +1888,10 @@ gnumeric_multinomial (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv
 {
 	return float_range_function (argc, argv, ei,
 				     gnm_range_multinomial,
-				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
+				     COLLECT_COERCE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |  // Should err
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_ORDER_IRRELEVANT,
 				     GNM_ERROR_NUM);
 }
 
