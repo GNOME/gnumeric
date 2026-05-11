@@ -10,7 +10,7 @@
 # array -> matrix, vektor
 # autoformat -> autoformatering
 # be lost -> gå tabt
-# boolean -> boolesk
+# boolean -> sandhedsværdi
 # checkbox -> afkrydsningsfelt
 # CI -> CI (konfidensinterval)
 # complex number -> komplekst tal (http://da.wikipedia.org/wiki/Komplekse_tal)
@@ -1052,18 +1052,25 @@ msgid ""
 "2-Jan-1900 is serial value 2, and so on.  For compatibility reasons, a "
 "serial value is reserved for the non-existing date 29-Feb-1900."
 msgstr ""
+"Funktionen DATE opretter datoserieværdier. 1-jan-1900 er serieværdi 1, 2-"
+"jan-1900 er serieværdi 2, og så videre. Af hensyn til kompatibilitet er en "
+"serieværdi reserveret til den ikke-eksisterende dato 29-feb-1900."
 
 #: ../plugins/fn-date/functions.c:77
 msgid ""
 "If @{month} or @{day} is less than 1 or too big, then the year and/or month "
 "will be adjusted."
 msgstr ""
+"Hvis @{month} eller @{day} er mindre end 1 eller for stor, så vil året og/"
+"eller måneden blive justeret."
 
 #: ../plugins/fn-date/functions.c:78
 msgid ""
 "For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
 "Jan-1904."
 msgstr ""
+"For regneark oprettet med Mac-versionen af Excel er serieværdi 1 lig med 1-"
+"jan-1904."
 
 #: ../plugins/fn-date/functions.c:208
 msgid "UNIX2DATE:date value corresponding to the Unix timestamp @{t}"
@@ -1079,6 +1086,9 @@ msgid ""
 "date.  A Unix timestamp is the number of seconds since midnight (0:00) of "
 "January 1st, 1970 GMT."
 msgstr ""
+"Funktionen UNIX2DATE oversætter Unix-tidsstempler til den tilsvarende dato. "
+"Et Unix-tidsstempel er antallet af sekunder siden midnat (0:00) den 1. "
+"januar 1970 GMT."
 
 #: ../plugins/fn-date/functions.c:238
 msgid "DATE2UNIX:the Unix timestamp corresponding to a date @{d}"
@@ -1094,6 +1104,9 @@ msgid ""
 "timestamp is the number of seconds since midnight (0:00) of January 1st, "
 "1970 GMT."
 msgstr ""
+"Funktionen DATE2UNIX oversætter en dato til et Unix-tidsstempel. Et Unix-"
+"tidsstempel er antallet af sekunder siden midnat (0:00) den 1. januar 1970 "
+"GMT."
 
 #: ../plugins/fn-date/functions.c:264
 msgid "DATEVALUE:the date part of a date and time serial value"
@@ -1106,7 +1119,7 @@ msgstr "serial:dato- og tidsserieværdi"
 #: ../plugins/fn-date/functions.c:266
 msgid ""
 "DATEVALUE returns the date serial value part of a date and time serial value."
-msgstr ""
+msgstr "DATEVALUE returnerer datoserieværdidelen af en dato- og tidsserieværdi."
 
 #: ../plugins/fn-date/functions.c:282
 msgid "DATEDIF:difference between dates"
@@ -1138,6 +1151,12 @@ msgid ""
 "calendar month in contained in the interval.  A similar treatment is given "
 "to \"whole year\"."
 msgstr ""
+"DATEDIF returnerer afstanden fra @{start_date} til @{end_date} i henhold til "
+"den enhed, der er angivet ved @{interval}. Denne funktion findes primært af "
+"hensyn til kompatibilitet, og semantikken er noget speciel. Navnlig er "
+"begrebet \"hel måned\" baseret på, om slutdagen er større end eller lig med "
+"startdagen, og ikke på om en hel kalendermåned er indeholdt i intervallet. "
+"En lignende behandling gives til \"helt år\"."
 
 #: ../plugins/fn-date/functions.c:287
 msgid ""
@@ -1180,6 +1199,8 @@ msgid ""
 "EDATE returns @{date} moved forward or backward the number of months "
 "specified by @{months}."
 msgstr ""
+"EDATE returnerer @{date} flyttet frem eller tilbage med det antal måneder, "
+"der er angivet ved @{months}."
 
 #: ../plugins/fn-date/functions.c:458
 msgid "TODAY:the date serial value of today"
@@ -1190,6 +1211,8 @@ msgid ""
 "The TODAY function returns the date serial value of the day it is computed.  "
 "Recomputing on a later date will produce a different value."
 msgstr ""
+"Funktionen TODAY returnerer datoserieværdien for den dag, den beregnes. "
+"Genberegning på en senere dato vil give en anden værdi."
 
 #: ../plugins/fn-date/functions.c:475
 msgid "NOW:the date and time serial value of the current time"
@@ -1200,6 +1223,8 @@ msgid ""
 "The NOW function returns the date and time serial value of the moment it is "
 "computed.  Recomputing later will produce a different value."
 msgstr ""
+"Funktionen NOW returnerer dato- og tidsserieværdien for det øjeblik, den "
+"beregnes. Genberegning senere vil give en anden værdi."
 
 #: ../plugins/fn-date/functions.c:495
 msgid "TIME:create a time serial value"
@@ -1617,59 +1642,51 @@ msgstr ""
 "Hvis @{method} er 2, så starter en uge på en mandag og 1. januar er i uge 1."
 
 #: ../plugins/fn-date/functions.c:1383
-#, fuzzy
 msgid ""
 "If @{method} is 11, then weeks start on Mondays and January 1 is in week 1."
 msgstr ""
-"Hvis @{method} er 2, så starter en uge på en mandag og 1. januar er i uge 1."
+"Hvis @{method} er 11, så starter en uge på en mandag og 1. januar er i uge 1."
 
 #: ../plugins/fn-date/functions.c:1384
-#, fuzzy
 msgid ""
 "If @{method} is 12, then weeks start on Tuesdays and January 1 is in week 1."
 msgstr ""
-"Hvis @{method} er 1, så starter en uge på en søndag og 1. januar er i uge 1."
+"Hvis @{method} er 12, så starter en uge på en tirsdag og 1. januar er i uge 1."
 
 #: ../plugins/fn-date/functions.c:1385
-#, fuzzy
 msgid ""
 "If @{method} is 13, then weeks start on Wednesdays and January 1 is in week "
 "1."
 msgstr ""
-"Hvis @{method} er 1, så starter en uge på en søndag og 1. januar er i uge 1."
+"Hvis @{method} er 13, så starter en uge på en onsdag og 1. januar er i uge 1."
 
 #: ../plugins/fn-date/functions.c:1386
-#, fuzzy
 msgid ""
 "If @{method} is 14, then weeks start on Thursdays and January 1 is in week 1."
 msgstr ""
-"Hvis @{method} er 1, så starter en uge på en søndag og 1. januar er i uge 1."
+"Hvis @{method} er 14, så starter en uge på en torsdag og 1. januar er i uge 1."
 
 #: ../plugins/fn-date/functions.c:1387
-#, fuzzy
 msgid ""
 "If @{method} is 15, then weeks start on Fridays and January 1 is in week 1."
 msgstr ""
-"Hvis @{method} er 1, så starter en uge på en søndag og 1. januar er i uge 1."
+"Hvis @{method} er 15, så starter en uge på en fredag og 1. januar er i uge 1."
 
 #: ../plugins/fn-date/functions.c:1388
-#, fuzzy
 msgid ""
 "If @{method} is 16, then weeks start on Saturdays and January 1 is in week 1."
 msgstr ""
-"Hvis @{method} er 1, så starter en uge på en søndag og 1. januar er i uge 1."
+"Hvis @{method} er 16, så starter en uge på en lørdag og 1. januar er i uge 1."
 
 #: ../plugins/fn-date/functions.c:1389
-#, fuzzy
 msgid ""
 "If @{method} is 17, then weeks start on Sundays and January 1 is in week 1."
 msgstr ""
-"Hvis @{method} er 1, så starter en uge på en søndag og 1. januar er i uge 1."
+"Hvis @{method} er 17, så starter en uge på en søndag og 1. januar er i uge 1."
 
 #: ../plugins/fn-date/functions.c:1390
-#, fuzzy
 msgid "If @{method} is 21 or 150, then the ISO 8601 numbering is used."
-msgstr "Hvis @{method} er 150, så bruges ISO 8601 nummerering."
+msgstr "Hvis @{method} er 21 eller 150, så bruges ISO 8601-nummerering."
 
 #: ../plugins/fn-date/functions.c:1447
 msgid "YEARFRAC:fractional number of years between dates"
@@ -4748,7 +4765,6 @@ msgid "error:an error"
 msgstr "error:En fejl"
 
 #: ../plugins/fn-info/functions.c:688
-#, fuzzy
 msgid ""
 "ERROR.TYPE returns an error number corresponding to the given error value.  "
 "The error numbers for error values are:\n"
@@ -4766,12 +4782,15 @@ msgstr ""
 "ERROR.TYPE returnerer et fejlnummer som svarer til en given fejlværdi.  "
 "Fejlnumrene for fejlværdierne er:\n"
 "\n"
-"\t#DIV/0!    \t\t2\n"
-"\t#VÆRDI!    \t3\n"
-"\t#REF!      \t\t4\n"
-"\t#NAVN?     \t5\n"
-"\t#TAL!      \t6\n"
-"\t#N/A!      \t\t7"
+"\t#NUL!     \t1\n"
+"\t#DIV/0!   \t2\n"
+"\t#VÆRDI!   \t3\n"
+"\t#REF!     \t4\n"
+"\t#NAVN?    \t5\n"
+"\t#TAL!     \t6\n"
+"\t#N/A      \t7\n"
+"\t#GETTING_DATA\t8\n"
+"\t#SPILL!   \t9"
 
 #: ../plugins/fn-info/functions.c:727
 msgid "NA:the error value #N/A"
@@ -4885,7 +4904,7 @@ msgstr ""
 "TYPE returnerer et tal der angiver datatypen for @{value}:\n"
 "1  \t= tal\n"
 "2  \t= tekst\n"
-"4  \t= boolsk\n"
+"4  \t= sandhedsværdi\n"
 "16 \t= fejl\n"
 "64 \t= matrix"
 
@@ -5074,19 +5093,20 @@ msgid "value2:value if @{condition2} is true"
 msgstr "value2:værdi hvis @{condition2} er sand"
 
 #: ../plugins/fn-logical/functions.c:273
-#, fuzzy
 msgid ""
 "This function returns the value after the first true conditional.  If no "
 "conditional is true, #N/A is returned."
 msgstr ""
 "Denne funktion returnerer værdien efter den første sande betingelse. Hvis "
-"ingen betingelse er sand, returneres #VÆRDI!"
+"ingen betingelse er sand, returneres #N/A"
 
 #: ../plugins/fn-logical/functions.c:275
 msgid ""
 "Each @{condition} must be a boolean value. Any other type will result in a "
 "#VALUE! error."
 msgstr ""
+"Hver @{condition} skal være en sandhedsværdi. Enhver anden type vil resultere i "
+"en #VÆRDI!-fejl."
 
 #: ../plugins/fn-logical/functions.c:312
 msgid "SWITCH:multi-branch selector"
@@ -5097,24 +5117,20 @@ msgid "ref:value"
 msgstr "ref:værdi"
 
 #: ../plugins/fn-logical/functions.c:314
-#, fuzzy
 msgid "choice1:value"
-msgstr "choice1:første valgværdi"
+msgstr "choice1:valg1"
 
 #: ../plugins/fn-logical/functions.c:315
-#, fuzzy
 msgid "value1:result"
-msgstr "value1:første resultatværdi"
+msgstr "value1:resultat1"
 
 #: ../plugins/fn-logical/functions.c:316
-#, fuzzy
 msgid "choice2:value"
-msgstr "choice2:anden valgværdi"
+msgstr "choice2:valg2"
 
 #: ../plugins/fn-logical/functions.c:317
-#, fuzzy
 msgid "value2:result"
-msgstr "value2:anden resultatværdi"
+msgstr "value2:resultat2"
 
 #: ../plugins/fn-logical/functions.c:318
 msgid ""
@@ -5122,11 +5138,13 @@ msgid ""
 "corresponding @{value} for the first match. A final optional argument may be "
 "provided as a default value."
 msgstr ""
+"SWITCH sammenligner @{ref} med @{choice1}, @{choice2}, osv. og returnerer den "
+"tilsvarende @{værdi} for det første match. Et sidste valgfrit argument kan "
+"angives som en standardværdi."
 
 #: ../plugins/fn-logical/functions.c:320
-#, fuzzy
 msgid "If no match is found and no default is provided, #N/A is returned."
-msgstr "Hvis @{seek} ikke kunne findes, så returneres #N/A."
+msgstr "Hvis der ikke findes et match, og der ikke er angivet en standardværdi, returneres #N/A."
 
 #: ../plugins/fn-logical/functions.c:374
 msgid "TRUE:the value TRUE"
@@ -5450,7 +5468,7 @@ msgstr "ref_text:tekstuel reference"
 msgid ""
 "format:if true, @{ref_text} is given in A1-style, otherwise it is given in "
 "R1C1 style; defaults to true"
-msgstr ""
+msgstr "format:hvis sand, angives @{ref_text} i A1-stil, ellers angives den i R1C1-stil; standard er sand"
 
 #: ../plugins/fn-lookup/functions.c:1578
 msgid ""
@@ -5709,7 +5727,7 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:2183
 msgid "Strings, booleans, and empty cells are ignored."
-msgstr "Strenge, boolske værdier og tomme celler ignoreres."
+msgstr "Strenge, sandhedsværdier og tomme celler ignoreres."
 
 #: ../plugins/fn-lookup/functions.c:2184
 msgid "SORT({4,3,5}) evaluates to {5,4,3}"
@@ -7109,9 +7127,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:3433
 msgid "This function differs from SUMPRODUCT by considering booleans."
-msgstr ""
-"Denne funktion adskiller sig fra SUMPRODUCT ved at tage hensyn til boolske "
-"værdier."
+msgstr "Denne funktion adskiller sig fra SUMPRODUCT ved at tage hensyn til sandhedsværdier."
 
 #: ../plugins/fn-math/functions.c:3434
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
@@ -9023,9 +9039,8 @@ msgid "Then CORREL(A1:A5,B1:B5) equals 0.996124788."
 msgstr "Så er CORREL(A1:A5,B1:B5) lig med 0,996124788."
 
 #: ../plugins/fn-stat/functions.c:386
-#, fuzzy
 msgid "wolfram:CorrelationCoefficient.html"
-msgstr "wiki:da:KorrelationsKoefficient.html"
+msgstr ""
 
 # http://en.wikipedia.org/wiki/Probability_mass_function
 #: ../plugins/fn-stat/functions.c:406
@@ -9955,7 +9970,7 @@ msgid ""
 "@{beta})^@{alpha}), otherwise it will return (@{alpha}/@{beta}^@{alpha}) * "
 "@{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha}))."
 msgstr ""
-"Hvis den @{cumulative} boolske er sand vil den returnere: 1 - exp (-(@{x}/"
+"Hvis sandhedsværdien @{cumulative} er sand vil den returnere: 1 - exp (-(@{x}/"
 "@{beta})^@{alpha}), ellers vil den returnere (@{alpha}/@{beta}^@{alpha}) * "
 "@{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha}))."
 
@@ -11305,14 +11320,12 @@ msgstr ""
 "CODE(CHAR(@{x}))=@{x}."
 
 #: ../plugins/fn-string/functions.c:103
-#, fuzzy
 msgid "UNICHAR:the Unicode character represented by the code point @{n}"
-msgstr "UNICHAR:Unicode-tegnet repræsenteret af Unicode-kodepunkt @{x}"
+msgstr "UNICHAR:Unicode-tegnet repræsenteret ved kodepunktet @{n}"
 
 #: ../plugins/fn-string/functions.c:104
-#, fuzzy
 msgid "n:Unicode code point"
-msgstr "x:Unicode-kodepunkt"
+msgstr "n:Unicode-kodepunkt"
 
 #: ../plugins/fn-string/functions.c:160
 msgid "CODE:the CP1252 (Windows-1252) code point for the character @{c}"
@@ -11643,9 +11656,8 @@ msgid "REGEXREPLACE:replace text matching a regular expression"
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:1147
-#, fuzzy
 msgid "replacement:new text"
-msgstr "new:erstatningsstreng"
+msgstr "replacement:erstatningstekst"
 
 #: ../plugins/fn-string/functions.c:1148
 msgid "occurrence:0 for all instances (default), n for the n-th instance"
@@ -12253,27 +12265,3 @@ msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
 "Dette er ikke beregnet til at være generelt aktiveret og er FRA som standard."
 
-#~ msgid ""
-#~ "If any of @{hour}, @{minute}, and @{second} is negative, #NUM! is returned"
-#~ msgstr ""
-#~ "Hvis nogen af @{hour}, @{minute} og @{second} er negativ, returneres #TAL!"
-
-#~ msgid ""
-#~ "This function is Excel compatible if two arguments are supplied and "
-#~ "neither is negative."
-#~ msgstr ""
-#~ "Denne funktion er kompatibel med Excel hvis to argumenter leveres og "
-#~ "ingen er negative."
-
-#~ msgid ""
-#~ "This function compares the reference value, @{ref}, against the choice "
-#~ "values, @{choice1} etc., and returns the corresponding result value when "
-#~ "it finds a match.  The choices may be followed by a default value to "
-#~ "use.  If there are no choices that match and no default value, #N/A is "
-#~ "return."
-#~ msgstr ""
-#~ "Denne funktion sammenligner referenceværdien, @{ref}, med valgværdierne, "
-#~ "@{choice1} osv., og returnerer den tilsvarende resultatværdi når den "
-#~ "finder et match. Valgene kan efterfølges af en standardværdi der skal "
-#~ "bruges. Hvis der ikke er nogen valg der matcher og ingen standardværdi, "
-#~ "returneres #N/A."
