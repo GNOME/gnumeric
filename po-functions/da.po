@@ -150,7 +150,7 @@ msgid ""
 "ASCENSIONTHURSDAY:Ascension Thursday in the Gregorian calendar according to "
 "the Roman rite of the Christian Church"
 msgstr ""
-"ASCENSIONTHURSDAY:Kristi himmelfartsdag i den gregorianske kalender efter "
+"ASCENSIONTHURSDAY:Kristi Himmelfartsdag i den gregorianske kalender efter "
 "den romersk-katolske ritus"
 
 #: ../plugins/fn-christian-date/functions.c:213
@@ -159,7 +159,7 @@ msgid ""
 "Thursday"
 msgstr ""
 "year:år mellem 1582 og 9956, standardværdi er året for næste Kristi "
-"himmelfartsdag"
+"Himmelfartsdag"
 
 #: ../plugins/fn-complex/functions.c:83
 msgid "COMPLEX:a complex number of the form @{x} + @{y}@{i}"
@@ -390,7 +390,7 @@ msgstr "IMREAL:Den reelle del af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:187
 msgid "IMCONJUGATE:the complex conjugate of the complex number @{z}"
-msgstr "IMCONJUGATE:Den kompleks konjugerede af det komplekse tal @{z}"
+msgstr "IMCONJUGATE:Den komplekskonjugerede af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:211
 msgid "IMINV:the reciprocal, or inverse, of the complex number @{z}"
@@ -586,9 +586,7 @@ msgstr "IMARCCOT:Den komplekse arcuscotangens af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:891
 msgid "IMARCSINH:the complex hyperbolic arcsine of the complex number @{z}"
-msgstr ""
-"IMARCSINH:Den komplekse hyperbolske arcussinus af det komplekse tal @{z}"
-"IMARCSINH:Den komplekse hyperbolske arcussinus af det komplekse tal @{z}"
+msgstr "IMARCSINH:Den komplekse hyperbolske arcussinus af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:893
 msgid ""
@@ -600,9 +598,7 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:917
 msgid "IMARCCOSH:the complex hyperbolic arccosine of the complex number @{z}"
-msgstr ""
-"IMARCCOSH:Den komplekse hyperbolske arcuscosinus af det komplekse tal @{z}"
-"IMARCCOSH:Den komplekse hyperbolske arcuscosinus af det komplekse tal @{z}"
+msgstr "IMARCCOSH:Den komplekse hyperbolske arcuscosinus af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:919
 msgid ""
@@ -614,9 +610,7 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:944
 msgid "IMARCTANH:the complex hyperbolic arctangent of the complex number @{z}"
-msgstr ""
-"IMARCTANH:Den komplekse hyperbolske arcustangens af det komplekse tal @{z}"
-"IMARCTANH:Den komplekse hyperbolske arcustangens af det komplekse tal @{z}"
+msgstr "IMARCTANH:Den komplekse hyperbolske arcustangens af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:946
 msgid ""
@@ -629,15 +623,11 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:971
 msgid "IMARCSECH:the complex hyperbolic arcsecant of the complex number @{z}"
-msgstr ""
-"IMARCSECH:Den komplekse hyperbolske arcussekant af det komplekse tal @{z}"
-"IMARCSECH:Den komplekse hyperbolske arcussekant af det komplekse tal @{z}"
+msgstr "IMARCSECH:Den komplekse hyperbolske arcussekant af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:994
 msgid "IMARCCSCH:the complex hyperbolic arccosecant of the complex number @{z}"
-msgstr ""
-"IMARCCSCH:Den komplekse hyperbolske arcuscosekant af det komplekse tal @{z}"
-"IMARCCSCH:Den komplekse hyperbolske arcuscosekant af det komplekse tal @{z}"
+msgstr "IMARCCSCH:Den komplekse hyperbolske arcuscosekant af det komplekse tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:1018
 msgid ""
@@ -1153,16 +1143,18 @@ msgid ""
 msgstr ""
 "DATEDIF returnerer afstanden fra @{start_date} til @{end_date} i henhold til "
 "den enhed, der er angivet ved @{interval}. Denne funktion findes primært af "
-"hensyn til kompatibilitet, og semantikken er noget speciel. Navnlig er "
-"begrebet \"hel måned\" baseret på, om slutdagen er større end eller lig med "
-"startdagen, og ikke på om en hel kalendermåned er indeholdt i intervallet. "
-"En lignende behandling gives til \"helt år\"."
+"hensyn til kompatibilitet, og semantikken er en smule ejendommelig. "
+"Navnlig er begrebet \"hel måned\" baseret på, om slutdagen er større end "
+"eller lig med startdagen, og ikke på om en hel kalendermåned er indeholdt i "
+"intervallet. En lignende behandling gives til \"helt år\"."
 
 #: ../plugins/fn-date/functions.c:287
 msgid ""
 "If @{interval} is \"y\", \"m\", or \"d\" then the distance is measured in "
 "whole years, months, or days respectively."
 msgstr ""
+"Hvis @{interval} er \"y\", \"m\" eller \"d\", måles afstanden i henholdsvis "
+"hele år, måneder eller dage."
 
 #: ../plugins/fn-date/functions.c:288
 msgid ""
@@ -1170,12 +1162,16 @@ msgid ""
 "months or days, respectively, but excluding any difference covered by whole "
 "years."
 msgstr ""
+"Hvis @{interval} er \"ym\" eller \"yd\", måles afstanden i henholdsvis hele "
+"måneder eller dage, men eksklusive forskelle dækket af hele år."
 
 #: ../plugins/fn-date/functions.c:289
 msgid ""
 "If @{interval} is \"md\" then the distance is measured in days but excluding "
 "any difference covered by whole months."
 msgstr ""
+"Hvis @{interval} er \"md\", måles afstanden i dage, men eksklusive forskelle "
+"dækket af hele måneder."
 
 #: ../plugins/fn-date/functions.c:421
 msgid "EDATE:adjust a date by a number of months"
@@ -1200,7 +1196,7 @@ msgid ""
 "specified by @{months}."
 msgstr ""
 "EDATE returnerer @{date} flyttet frem eller tilbage med det antal måneder, "
-"der er angivet ved @{months}."
+"der er angivet i @{months}."
 
 #: ../plugins/fn-date/functions.c:458
 msgid "TODAY:the date serial value of today"
@@ -1264,6 +1260,7 @@ msgid ""
 "If the total time is negative, the result is the time wrapped around "
 "midnight."
 msgstr ""
+"Hvis den samlede tid er negativ, er resultatet tiden foldet omkring midnat."
 
 #: ../plugins/fn-date/functions.c:529
 msgid "ODF.TIME:create a time serial value"
@@ -5197,10 +5194,7 @@ msgstr "text:navn på arbejdsarket, standardværdi er intet ark"
 
 #: ../plugins/fn-lookup/functions.c:961
 msgid "If @{row_num} or @{col_num} is less than one, ADDRESS returns #VALUE!"
-msgstr ""
-"Hvis @{row_num} eller @{col_num} er mindre end én, så returnerer ADDRESS "
-"#VÆRDI!Hvis @{row_num} eller @{col_num} er mindre end en, så returnerer "
-"ADDRESS #VÆRDI!"
+msgstr "Hvis @{row_num} eller @{col_num} er mindre end én, så returnerer ADDRESS #VÆRDI!"
 
 #: ../plugins/fn-lookup/functions.c:963
 msgid "If @{abs_num} is greater than 4 ADDRESS returns #VALUE!"
@@ -5293,8 +5287,8 @@ msgstr "VLOOKUP returnerer #REF! hvis @{column} falder uden for @{range}."
 msgid "HLOOKUP:search the first row of @{range} for @{value}"
 msgstr "HLOOKUP:Søg i første række af @{range} efter @{value}"
 
-#: ../plugins/fn-lookup/functions.c:1236
-msgid "row:1-based row offset indicating the return values "
+#: ../plugins/fn-lookup/functions.c:1010
+msgid "row:1-based row offset specifying the return values "
 msgstr "row:1-baseret rækkeforskydning der angiver returværdierne "
 
 #: ../plugins/fn-lookup/functions.c:1239
@@ -5829,6 +5823,8 @@ msgid ""
 "ABS gives the absolute value of @{x}, i.e. the non-negative number of the "
 "same magnitude as @{x}."
 msgstr ""
+"ABS returnerer den absolutte værdi af @{x}, det vil sige det ikke-negative "
+"tal med samme størrelse som @{x}."
 
 #: ../plugins/fn-math/functions.c:386
 msgid "ACOS:the arc cosine of @{x}"
@@ -6208,6 +6204,8 @@ msgid ""
 "The regularized incomplete gamma function is the unregularized incomplete "
 "gamma function divided by GAMMA(@{a})"
 msgstr ""
+"Den regulariserede ufuldstændige gammafunktion er den uregulariserede "
+"ufuldstændige gammafunktion divideret med GAMMA(@{a})"
 
 #: ../plugins/fn-math/functions.c:1099
 msgid ""
@@ -6274,6 +6272,8 @@ msgid ""
 "COMBIN returns the binomial coefficient \"@{n} choose @{k}\", the number of "
 "@{k}-combinations of an @{n}-element set without repetition."
 msgstr ""
+"COMBIN returnerer binomialkoefficienten \"@{n} over @{k}\", antallet af @{k}-"
+"kombinationer af en mængde med @{n} elementer uden tilbagelægning."
 
 #: ../plugins/fn-math/functions.c:1179
 msgid "If @{n} is less than @{k} COMBIN returns #NUM!"
@@ -6585,7 +6585,7 @@ msgstr "Hvis @{x} er negativ, så returnerer SQRT #TAL!"
 
 #: ../plugins/fn-math/functions.c:1789
 msgid "SUMA:sum of all values and cells referenced"
-msgstr "SUMA:Sum af alle refererede værdier og celler"
+msgstr "SUMA:summen af alle refererede værdier og celler"
 
 #: ../plugins/fn-math/functions.c:1790 ../plugins/fn-math/functions.c:1814
 msgid "area0:first cell area"
@@ -7509,7 +7509,7 @@ msgstr "psuc:sandsynligheden for succes i hvert forsøg"
 msgid ""
 "This function returns the probability density function of the binomial "
 "distribution."
-msgstr ""
+msgstr "Denne funktion returnerer sandsynlighedstæthedsfunktionen for binomialfordelingen."
 
 #: ../plugins/fn-r/functions.c:123
 msgid "R.PBINOM:cumulative distribution function of the binomial distribution"
@@ -7519,7 +7519,7 @@ msgstr "R.PBINOM:Kumuleret fordelingsfunktion for binomialfordelingen"
 msgid ""
 "This function returns the cumulative distribution function of the binomial "
 "distribution."
-msgstr ""
+msgstr "Denne funktion returnerer den kumulerede fordelingsfunktion for binomialfordelingen."
 
 #: ../plugins/fn-r/functions.c:150
 msgid "R.QBINOM:probability quantile function of the binomial distribution"
@@ -7729,7 +7729,7 @@ msgstr "R.PGAMMA:Kumuleret fordelingsfunktion for gammafordelingen"
 msgid ""
 "This function returns the cumulative distribution function of the gamma "
 "distribution."
-msgstr ""
+msgstr "Denne funktion returnerer den kumulerede fordelingsfunktion for gammafordelingen."
 
 #: ../plugins/fn-r/functions.c:536
 msgid "R.QGAMMA:probability quantile function of the gamma distribution"
@@ -11856,6 +11856,8 @@ msgid ""
 "TEXTSPLIT splits @{text} into multiple cells using the provided column and "
 "row delimiters."
 msgstr ""
+"TEXTSPLIT opdeler @{text} i flere celler ved hjælp af de angivne kolonne- og "
+"rækkeskilletegn."
 
 #: ../plugins/fn-string/functions.c:1996
 msgid "DOLLAR:@{num} formatted as currency"
