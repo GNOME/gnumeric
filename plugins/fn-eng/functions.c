@@ -1369,13 +1369,10 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		{ NULL,0.0 }
 	};
 
-	gnm_float n;
-	char const *from_unit, *to_unit;
+	gnm_float n = value_get_as_float (argv[0]);
+	char const *from_unit = value_peek_string (argv[1]);
+	char const *to_unit = value_peek_string (argv[2]);
 	GnmValue *v;
-
-	n = value_get_as_float (argv[0]);
-	from_unit = value_peek_string (argv[1]);
-	to_unit = value_peek_string (argv[2]);
 
 	if (convert_temp (from_unit, to_unit, n, &v, ei->pos))
 	        return v;

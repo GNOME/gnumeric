@@ -981,11 +981,10 @@ static GnmFuncHelp const help_proper[] = {
 static GnmValue *
 gnumeric_proper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *p;
+	char const *p = value_peek_string (argv[0]);
 	GString    *res    = g_string_new (NULL);
 	gboolean   inword = FALSE;
 
-	p = value_peek_string (argv[0]);
 	while (*p) {
 		gunichar uc = g_utf8_get_char (p);
 
@@ -1492,12 +1491,11 @@ static GnmFuncHelp const help_trim[] = {
 static GnmValue *
 gnumeric_trim (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *s;
+	char const *s = value_peek_string (argv[0]);
 	GString  *res   = g_string_new (NULL);
 	gboolean  space = TRUE;
 	size_t    last_len = 0;
 
-	s = value_peek_string (argv[0]);
 	while (*s) {
 		if (*s == ' ') {
 			if (!space) {

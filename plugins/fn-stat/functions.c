@@ -170,20 +170,16 @@ static GnmFuncHelp const help_rank[] = {
 static GnmValue *
 gnumeric_rank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float *xs;
 	int i, r, n;
 	GnmValue *result = NULL;
-	gnm_float x;
-	gboolean increasing;
-
-	x = value_get_as_float (argv[0]);
-	xs = collect_floats_value (argv[1], ei->pos,
-				   COLLECT_IGNORE_STRINGS |
-				   COLLECT_IGNORE_BOOLS |
-				   COLLECT_IGNORE_BLANKS |
-				   COLLECT_ORDER_IRRELEVANT,
-				   &n, &result);
-	increasing = argv[2] ? value_get_as_checked_bool (argv[2]) : FALSE;
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float *xs = collect_floats_value (argv[1], ei->pos,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS |
+					      COLLECT_ORDER_IRRELEVANT,
+					      &n, &result);
+	gboolean increasing = argv[2] ? value_get_as_checked_bool (argv[2]) : FALSE;
 
 	if (result)
 		goto out;
@@ -222,20 +218,16 @@ static GnmFuncHelp const help_rank_avg[] = {
 static GnmValue *
 gnumeric_rank_avg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float *xs;
 	int i, r, n, t;
 	GnmValue *result = NULL;
-	gnm_float x;
-	gboolean increasing;
-
-	x = value_get_as_float (argv[0]);
-	xs = collect_floats_value (argv[1], ei->pos,
-				   COLLECT_IGNORE_STRINGS |
-				   COLLECT_IGNORE_BOOLS |
-				   COLLECT_IGNORE_BLANKS |
-				   COLLECT_ORDER_IRRELEVANT,
-				   &n, &result);
-	increasing = argv[2] ? value_get_as_checked_bool (argv[2]) : FALSE;
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float *xs = collect_floats_value (argv[1], ei->pos,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS |
+					      COLLECT_ORDER_IRRELEVANT,
+					      &n, &result);
+	gboolean increasing = argv[2] ? value_get_as_checked_bool (argv[2]) : FALSE;
 
 	if (result)
 		goto out;
@@ -589,11 +581,9 @@ static GnmFuncHelp const help_loginv[] = {
 static GnmValue *
 gnumeric_loginv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float p, mean, stddev;
-
-	p = value_get_as_float (argv[0]);
-	mean = value_get_as_float (argv[1]);
-	stddev = value_get_as_float (argv[2]);
+	gnm_float p = value_get_as_float (argv[0]);
+	gnm_float mean = value_get_as_float (argv[1]);
+	gnm_float stddev = value_get_as_float (argv[2]);
 
 	if (p < 0 || p > 1 || stddev <= 0)
 		return value_new_error_NUM (ei->pos);
@@ -1112,11 +1102,9 @@ static GnmFuncHelp const help_gammainv[] = {
 static GnmValue *
 gnumeric_gammainv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float p, alpha, beta;
-
-	p = value_get_as_float (argv[0]);
-	alpha = value_get_as_float (argv[1]);
-	beta = value_get_as_float (argv[2]);
+	gnm_float p = value_get_as_float (argv[0]);
+	gnm_float alpha = value_get_as_float (argv[1]);
+	gnm_float beta = value_get_as_float (argv[2]);
 
 	if (p < 0 || p > 1 || alpha <= 0 || beta <= 0)
 		return value_new_error_NUM (ei->pos);
@@ -1324,15 +1312,12 @@ static GnmFuncHelp const help_beta_dist[] = {
 static GnmValue *
 gnumeric_beta_dist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x, alpha, beta, a, b;
-	gboolean cuml;
-
-	x = value_get_as_float (argv[0]);
-	alpha = value_get_as_float (argv[1]);
-	beta = value_get_as_float (argv[2]);
-	cuml = value_get_as_checked_bool (argv[3]);
-	a = argv[4] ? value_get_as_float (argv[4]) : 0;
-	b = argv[5] ? value_get_as_float (argv[5]) : 1;
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float alpha = value_get_as_float (argv[1]);
+	gnm_float beta = value_get_as_float (argv[2]);
+	gboolean cuml = value_get_as_checked_bool (argv[3]);
+	gnm_float a = argv[4] ? value_get_as_float (argv[4]) : 0;
+	gnm_float b = argv[5] ? value_get_as_float (argv[5]) : 1;
 
 	if (x < a || x > b || a >= b || alpha <= 0 || beta <= 0)
 		return value_new_error_NUM (ei->pos);
@@ -1365,13 +1350,11 @@ static GnmFuncHelp const help_betainv[] = {
 static GnmValue *
 gnumeric_betainv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float p, alpha, beta, a, b;
-
-	p = value_get_as_float (argv[0]);
-	alpha = value_get_as_float (argv[1]);
-	beta = value_get_as_float (argv[2]);
-	a = argv[3] ? value_get_as_float (argv[3]) : 0;
-	b = argv[4] ? value_get_as_float (argv[4]) : 1;
+	gnm_float p = value_get_as_float (argv[0]);
+	gnm_float alpha = value_get_as_float (argv[1]);
+	gnm_float beta = value_get_as_float (argv[2]);
+	gnm_float a = argv[3] ? value_get_as_float (argv[3]) : 0;
+	gnm_float b = argv[4] ? value_get_as_float (argv[4]) : 1;
 
 	if (p < 0 || p > 1 || a >= b || alpha <= 0 || beta <= 0)
 		return value_new_error_NUM (ei->pos);
@@ -2562,11 +2545,9 @@ gnumeric_prob (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmValue *error = NULL;
 	int i, prob_n, x_n;
 	gnm_float *prob_vals = NULL, *x_vals = NULL;
-	gnm_float lower_limit, upper_limit;
 	gnm_float total_sum = 0, sum = 0;
-
-	lower_limit = value_get_as_float (argv[2]);
-	upper_limit = argv[3] ? value_get_as_float (argv[3]) : lower_limit;
+	gnm_float lower_limit = value_get_as_float (argv[2]);
+	gnm_float upper_limit = argv[3] ? value_get_as_float (argv[3]) : lower_limit;
 
 	x_vals = collect_floats_value
 		(argv[0], ei->pos,
@@ -3323,12 +3304,12 @@ gnumeric_ftest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	CollectFlags flags = COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS |
 		COLLECT_IGNORE_BLANKS;
-	gnm_float *xs = NULL, *ys = NULL;
+	gnm_float *ys = NULL;
 	int nx, ny;
 	GnmValue *res = NULL;
 	gnm_float p, varx, vary;
 
-	xs = collect_floats_value (argv[0], ei->pos, flags, &nx, &res);
+	gnm_float *xs = collect_floats_value (argv[0], ei->pos, flags, &nx, &res);
 	if (res)
 		goto out;
 
@@ -3557,10 +3538,10 @@ gnumeric_frequency (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmValue *error = NULL, *res;
 	int *counts;
 	int i, nvalues, nbins;
-	gnm_float *values = NULL, *bins = NULL;
+	gnm_float *bins = NULL;
 
-	values = collect_floats_value (argv[0], ei->pos, flags,
-				       &nvalues, &error);
+	gnm_float *values = collect_floats_value (argv[0], ei->pos, flags,
+						  &nvalues, &error);
 	if (error) {
 		res = error;
 		goto out;
@@ -3841,18 +3822,16 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmRegData data;
 	gnm_regression_stat_t *extra_stat = NULL;
 	GORegressionResult regres;
-	GnmValue *result;
 	gnm_float *linres = NULL;
-	gboolean affine, withstat;
 	int i, dim;
 
-	result = gnm_reg_data_collect (argv[0], argv[1], &data, ei->pos);
+	GnmValue *result = gnm_reg_data_collect (argv[0], argv[1], &data, ei->pos);
 	if (result)
 		return result;
 	dim = data.dim;
 
-	affine = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
-	withstat = argv[3] ? value_get_as_checked_bool (argv[3]) : FALSE;
+	gboolean affine = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
+	gboolean withstat = argv[3] ? value_get_as_checked_bool (argv[3]) : FALSE;
 
 	linres = g_new (gnm_float, dim + 1);
 	extra_stat = gnm_regression_stat_new ();
@@ -3966,18 +3945,16 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmRegData data;
 	gnm_regression_stat_t *extra_stat = NULL;
 	GORegressionResult regres;
-	GnmValue *result;
 	gnm_float *logres = NULL;
-	gboolean affine, withstat;
 	int i, dim;
 
-	result = gnm_reg_data_collect (argv[0], argv[1], &data, ei->pos);
+	GnmValue *result = gnm_reg_data_collect (argv[0], argv[1], &data, ei->pos);
 	if (result)
 		return result;
 	dim = data.dim;
 
-	affine = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
-	withstat = argv[3] ? value_get_as_checked_bool (argv[3]) : FALSE;
+	gboolean affine = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
+	gboolean withstat = argv[3] ? value_get_as_checked_bool (argv[3]) : FALSE;
 
 	logres = g_new (gnm_float, dim + 1);
 	extra_stat = gnm_regression_stat_new ();
@@ -4306,18 +4283,16 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmRegData data;
 	gnm_regression_stat_t *extra_stat = NULL;
 	GORegressionResult regres;
-	GnmValue *result;
 	gnm_float *expres = NULL;
-	gboolean affine, withstat;
 	int i, dim;
 
-	result = gnm_reg_data_collect (argv[0], argv[1], &data, ei->pos);
+	GnmValue *result = gnm_reg_data_collect (argv[0], argv[1], &data, ei->pos);
 	if (result)
 		return result;
 	dim = data.dim;
 
-	affine = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
-	withstat = argv[3] ? value_get_as_checked_bool (argv[3]) : FALSE;
+	gboolean affine = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
+	gboolean withstat = argv[3] ? value_get_as_checked_bool (argv[3]) : FALSE;
 
 	expres = g_new (gnm_float, dim + 1);
 	extra_stat = gnm_regression_stat_new ();

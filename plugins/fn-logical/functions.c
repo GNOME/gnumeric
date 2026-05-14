@@ -329,12 +329,11 @@ gnumeric_switch (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	int a;
 	GnmValue *res = NULL;
-	GnmValue *ref;
 
 	if (argc < 1)
 		return value_new_error_VALUE (ei->pos);
 
-	ref = gnm_expr_eval (argv[0], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	GnmValue *ref = gnm_expr_eval (argv[0], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (VALUE_IS_ERROR (ref))
 		return ref;
 

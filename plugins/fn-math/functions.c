@@ -554,7 +554,7 @@ gnumeric_atanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (t <= -1 || t >= 1)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (gnm_atanh (value_get_as_float (argv[0])));
+	return value_new_float (gnm_atanh (t));
 }
 
 /***************************************************************************/
@@ -2536,12 +2536,10 @@ static GnmFuncHelp const help_mround[] = {
 static GnmValue *
 gnumeric_mround (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float number, multiple;
+	gnm_float number = value_get_as_float (argv[0]);
+	gnm_float multiple = value_get_as_float (argv[1]);
 	gnm_float div, mod;
 	int     sign = 1;
-
-	number = value_get_as_float (argv[0]);
-	multiple = value_get_as_float (argv[1]);
 
 	/* Weird, but XL compatible.  */
 	if (multiple == 0)

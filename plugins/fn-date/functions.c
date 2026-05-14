@@ -381,14 +381,11 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, gboolean excel_compat)
 static GnmValue *
 gnumeric_datedif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	int date1, date2;
-	char const *opt;
+	int date1 = gnm_floor (value_get_as_float (argv[0]));
+	int date2 = gnm_floor (value_get_as_float (argv[1]));
+	char const *opt = value_peek_string (argv[2]);
 	GDate d1, d2;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
-
-	date1 = gnm_floor (value_get_as_float (argv[0]));
-	date2 = gnm_floor (value_get_as_float (argv[1]));
-	opt = value_peek_string (argv[2]);
 
 	if (date1 > date2)
 		return value_new_error_NUM (ei->pos);
@@ -510,12 +507,10 @@ static GnmFuncHelp const help_time[] = {
 static GnmValue *
 gnumeric_time (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float hours, minutes, seconds;
+	gnm_float hours = value_get_as_float (argv[0]);
+	gnm_float minutes = value_get_as_float (argv[1]);
+	gnm_float seconds = value_get_as_float (argv[2]);
 	gnm_float time;
-
-	hours   = value_get_as_float (argv[0]);
-	minutes = value_get_as_float (argv[1]);
-	seconds = value_get_as_float (argv[2]);
 
 	time = (hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS;
 	time -= gnm_fake_floor (time);
@@ -543,11 +538,9 @@ static GnmFuncHelp const help_odf_time[] = {
 static GnmValue *
 gnumeric_odf_time (G_GNUC_UNUSED GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float hours, minutes, seconds;
-
-	hours   = value_get_as_float (argv[0]);
-	minutes = value_get_as_float (argv[1]);
-	seconds = value_get_as_float (argv[2]);
+	gnm_float hours = value_get_as_float (argv[0]);
+	gnm_float minutes = value_get_as_float (argv[1]);
+	gnm_float seconds = value_get_as_float (argv[2]);
 
 	return make_date (value_new_float ((hours * 3600 + minutes * 60 + seconds) /
 					   DAY_SECONDS));
