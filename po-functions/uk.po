@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-05-12 19:59+0000\n"
-"PO-Revision-Date: 2026-05-15 21:27+0200\n"
+"POT-Creation-Date: 2026-05-15 19:31+0000\n"
+"PO-Revision-Date: 2026-05-15 22:33+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3443,7 +3443,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1546
 #: ../plugins/fn-financial/functions.c:1601
 msgid "values:cash flow"
-msgstr ""
+msgstr "values:грошовий потік"
 
 #: ../plugins/fn-financial/functions.c:1029
 msgid "finance_rate:interest rate for financing cost"
@@ -3481,7 +3481,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1160
 msgid "price:price"
-msgstr ""
+msgstr "price:ціна"
 
 #: ../plugins/fn-financial/functions.c:1161
 msgid "TBILLYIELD calculates the yield of a treasury bill."
@@ -4126,7 +4126,7 @@ msgstr ""
 
 #: ../plugins/fn-flt/functions.c:86
 msgid "y:direction"
-msgstr ""
+msgstr "y:напрямок"
 
 #: ../plugins/fn-flt/functions.c:87
 msgid ""
@@ -4134,10 +4134,13 @@ msgid ""
 "in the direction of @{y}.  \"+\" and \"-\" are special values for @{y} that "
 "represent positive and negative infinity."
 msgstr ""
+"Функція FLT.NEXTAFTER видає наступне значення з рухомою комою після @{x} у "
+"напрямку @{y}.  \"+\" та \"-\" - спеціальні значення @{y} що відображають "
+"додатну та відʼємну безкінечність."
 
 #: ../plugins/fn-hebrew-date/functions.c:89
 msgid "HDATE:Hebrew date"
-msgstr ""
+msgstr "HDATE:Єврейський календар"
 
 #: ../plugins/fn-hebrew-date/functions.c:90
 #: ../plugins/fn-hebrew-date/functions.c:159
@@ -4146,7 +4149,7 @@ msgstr ""
 #: ../plugins/fn-hebrew-date/functions.c:286
 #: ../plugins/fn-hebrew-date/functions.c:313
 msgid "year:Gregorian year of date, defaults to the current year"
-msgstr ""
+msgstr "year:Григоріанський рік дати, типово це поточний рік"
 
 #: ../plugins/fn-hebrew-date/functions.c:91
 #: ../plugins/fn-hebrew-date/functions.c:160
@@ -4155,7 +4158,7 @@ msgstr ""
 #: ../plugins/fn-hebrew-date/functions.c:287
 #: ../plugins/fn-hebrew-date/functions.c:314
 msgid "month:Gregorian month of year, defaults to the current month"
-msgstr ""
+msgstr "month:Григоріанський місяць року, типово це поточний місяць"
 
 #: ../plugins/fn-hebrew-date/functions.c:92
 #: ../plugins/fn-hebrew-date/functions.c:161
@@ -4164,53 +4167,53 @@ msgstr ""
 #: ../plugins/fn-hebrew-date/functions.c:288
 #: ../plugins/fn-hebrew-date/functions.c:315
 msgid "day:Gregorian day of month, defaults to the current day"
-msgstr ""
+msgstr "day:Григоріанський день місяцю, типово це поточний день"
 
 #: ../plugins/fn-hebrew-date/functions.c:124
 msgid "DATE2HDATE:Hebrew date"
-msgstr ""
+msgstr "DATE2HDATE:Єврейська дата"
 
 #: ../plugins/fn-hebrew-date/functions.c:125
 #: ../plugins/fn-hebrew-date/functions.c:200
 #: ../plugins/fn-hebrew-date/functions.c:339
 msgid "date:Gregorian date, defaults to today"
-msgstr ""
+msgstr "date:Григоріанська дата, типово це сьогоднішній день"
 
 #: ../plugins/fn-hebrew-date/functions.c:158
 msgid "HDATE_HEB:Hebrew date in Hebrew"
-msgstr ""
+msgstr "HDATE_HEB:Єврейська дата на івриті"
 
 #: ../plugins/fn-hebrew-date/functions.c:199
 msgid "DATE2HDATE_HEB:Hebrew date in Hebrew"
-msgstr ""
+msgstr "DATE2HDATE_HEB:Єврейська дата на івриті"
 
 #: ../plugins/fn-hebrew-date/functions.c:231
 msgid "HDATE_MONTH:Hebrew month of Gregorian date"
-msgstr ""
+msgstr "HDATE_MONTH:Єврейський місяць григоріанської дати"
 
 #: ../plugins/fn-hebrew-date/functions.c:258
 msgid "HDATE_DAY:Hebrew day of Gregorian date"
-msgstr ""
+msgstr "HDATE_DAY:Єврейський день григоріанської дати"
 
 #: ../plugins/fn-hebrew-date/functions.c:285
 msgid "HDATE_YEAR:Hebrew year of Gregorian date"
-msgstr ""
+msgstr "HDATE_YEAR:Єврейський рік григоріанської дати"
 
 #: ../plugins/fn-hebrew-date/functions.c:312
 msgid "HDATE_JULIAN:Julian day number for given Gregorian date"
-msgstr ""
+msgstr "HDATE_JULIAN:Видає юліанський номер дня григоріанської дати"
 
 #: ../plugins/fn-hebrew-date/functions.c:338
 msgid "DATE2JULIAN:Julian day number for given Gregorian date"
-msgstr ""
+msgstr "DATE2JULIAN:Видає юліанський номер дня григоріанської дати"
 
 #: ../plugins/fn-info/functions.c:64
 msgid "CELL:information of @{type} about @{cell}"
-msgstr ""
+msgstr "CELL:інформація про @{type} @{cell}"
 
 #: ../plugins/fn-info/functions.c:65
 msgid "type:string specifying the type of information requested"
-msgstr ""
+msgstr "type:рядок, що вказує тип запитуваної інформації"
 
 #: ../plugins/fn-info/functions.c:66
 msgid "cell:cell reference"
