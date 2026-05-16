@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2026-05-15 19:31+0000\n"
-"PO-Revision-Date: 2026-05-15 22:33+0200\n"
+"PO-Revision-Date: 2026-05-16 16:06+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -402,7 +402,7 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:433
 msgid "IMLN:the natural logarithm of the complex number @{z}"
-msgstr ""
+msgstr "IMLN:натуральний логарифм комплексного числа @{z}"
 
 #: ../plugins/fn-complex/functions.c:435
 msgid ""
@@ -428,19 +428,20 @@ msgstr ""
 #: ../plugins/fn-complex/functions.c:1177
 #: ../plugins/fn-complex/functions.c:1246
 msgid "z1:a complex number"
-msgstr ""
+msgstr "z1:комплексне число"
 
 #: ../plugins/fn-complex/functions.c:511 ../plugins/fn-complex/functions.c:542
 #: ../plugins/fn-complex/functions.c:1149
 #: ../plugins/fn-complex/functions.c:1178
 #: ../plugins/fn-complex/functions.c:1247
 msgid "z2:a complex number"
-msgstr ""
+msgstr "z2:комплексне число"
 
 #: ../plugins/fn-complex/functions.c:512 ../plugins/fn-complex/functions.c:543
 #: ../plugins/fn-complex/functions.c:1150
 msgid "If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned."
 msgstr ""
+"Якщо @{z1} чи @{z2} не є вірними комплексними числами, видається #VALUE!"
 
 #: ../plugins/fn-complex/functions.c:540
 msgid "IMDIV:the quotient of two complex numbers @{z1}/@{z2}"
@@ -577,7 +578,7 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:1116
 msgid "a:a complex number"
-msgstr ""
+msgstr "a:комплексне число"
 
 #: ../plugins/fn-complex/functions.c:1118 ../plugins/fn-math/functions.c:1095
 msgid ""
@@ -628,7 +629,7 @@ msgstr ""
 
 #: ../plugins/fn-database/functions.c:49
 msgid "criteria:a range containing conditions"
-msgstr ""
+msgstr "criteria:область, що містить умови"
 
 #: ../plugins/fn-database/functions.c:51
 msgid ""
@@ -636,6 +637,9 @@ msgid ""
 "columns of data are fields. The first row of a database contains labels for "
 "each column."
 msgstr ""
+"@{database} - це область, у якій рядки повʼязаної інформації є записами, а "
+"стовпчики даних є полями. Перший ряд бази даних (database) містить мітки для "
+"кожного стовпчика."
 
 #: ../plugins/fn-database/functions.c:56
 msgid ""
@@ -643,6 +647,9 @@ msgid ""
 "@{field} is an integer n then the nth column will be used. If @{field} is a "
 "string, then the column with the matching label will be used."
 msgstr ""
+"@{field} - рядок або ціле число, що вказують яке поле слід використовувати. "
+"Якщо @{field} є цілим числом n, то буде використано стовпчик номер n. Якщо "
+"@{field} є рядком, то буде використано стовпчик із відповідною міткою."
 
 #: ../plugins/fn-database/functions.c:61
 msgid ""
@@ -671,128 +678,156 @@ msgid ""
 "<30\n"
 ">40     \t>46000\n"
 msgstr ""
+"Припустимо, що область A1:C7 містить такі значення:\n"
+"\n"
+"Name    \tAge     \tSalary\n"
+"John    \t34      \t54342\n"
+"Bill    \t35      \t22343\n"
+"Clark   \t29      \t34323\n"
+"Bob     \t43      \t47242\n"
+"Susan   \t37      \t42932\n"
+"Jill    \t\t45      \t45324\n"
+"\n"
+"На додачу, клітини A9:B11 містять такі значення:\n"
+"Age     \tSalary\n"
+"<30\n"
+">40     \t>46000\n"
 
 #: ../plugins/fn-database/functions.c:395
 msgid ""
 "DAVERAGE:average of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
+"DAVERAGE:середнє значень у @{field} в @{database}, що належать до записів, "
+"які підходять до @{criteria}"
 
 #: ../plugins/fn-database/functions.c:404
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333."
-msgstr ""
+msgstr "DAVERAGE(A1:C7, \"Salary\", A9:A11) дорівнює 42296.3333."
 
 #: ../plugins/fn-database/functions.c:405
 msgid "DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39."
-msgstr ""
+msgstr "DAVERAGE(A1:C7, \"Age\", A9:A11) дорівнює 39."
 
 #: ../plugins/fn-database/functions.c:406
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5."
-msgstr ""
+msgstr "DAVERAGE(A1:C7, \"Salary\", A9:B11) дорівнює 40782.5."
 
 #: ../plugins/fn-database/functions.c:407
 msgid "DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36."
-msgstr ""
+msgstr "DAVERAGE(A1:C7, \"Age\", A9:B11) дорівнює 36."
 
 #: ../plugins/fn-database/functions.c:431
 msgid ""
 "DCOUNT:count of numbers in @{field} in @{database} belonging to records that "
 "match @{criteria}"
 msgstr ""
+"DCOUNT:кількість чисел у @{field} в @{database}, що належать до записів, які "
+"підходять за @{criteria}"
 
 #: ../plugins/fn-database/functions.c:440
 msgid "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3."
-msgstr ""
+msgstr "DCOUNT(A1:C7, \"Salary\", A9:A11) дорівнює 3."
 
 #: ../plugins/fn-database/functions.c:441
 msgid "DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2."
-msgstr ""
+msgstr "DCOUNT(A1:C7, \"Salary\", A9:B11) дорівнює 2."
 
 #: ../plugins/fn-database/functions.c:442
 msgid "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0."
-msgstr ""
+msgstr "DCOUNT(A1:C7, \"Name\", A9:B11) дорівнює 0."
 
 #: ../plugins/fn-database/functions.c:475
 msgid ""
 "DCOUNTA:count of cells with data in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
+"DCOUNTA:кількість клітин із даними у @{field} в @{database}, що належать до "
+"записів, які підходять за @{criteria}"
 
 #: ../plugins/fn-database/functions.c:484
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3."
-msgstr ""
+msgstr "DCOUNTA(A1:C7, \"Salary\", A9:A11) дорівнює 3."
 
 #: ../plugins/fn-database/functions.c:485
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2."
-msgstr ""
+msgstr "DCOUNTA(A1:C7, \"Salary\", A9:B11) дорівнює 2."
 
 #: ../plugins/fn-database/functions.c:486
 msgid "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2."
-msgstr ""
+msgstr "DCOUNTA(A1:C7, \"Name\", A9:B11) дорівнює 2."
 
 #: ../plugins/fn-database/functions.c:508
 msgid ""
 "DGET:a value from @{field} in @{database} belonging to records that match "
 "@{criteria}"
 msgstr ""
+"DGET:значення із @{field} в @{database}, що належить до записів, що "
+"підходять за @{criteria}"
 
 #: ../plugins/fn-database/functions.c:517
 msgid "If none of the records match the conditions, DGET returns #VALUE!"
-msgstr ""
+msgstr "Якщо жодний з записів не відповідає умовам, DGET видає #VALUE!"
 
 #: ../plugins/fn-database/functions.c:518
 msgid "If more than one record match the conditions, DGET returns #NUM!"
-msgstr ""
+msgstr "Якщо більше ніж один запис відповідає умовам, DGET видає #NUM!"
 
 #: ../plugins/fn-database/functions.c:519
 msgid "DGET(A1:C7, \"Salary\", A9:A10) equals 34323."
-msgstr ""
+msgstr "DGET(A1:C7, \"Salary\", A9:A10) дорівнює 34323."
 
 #: ../plugins/fn-database/functions.c:520
 msgid "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\"."
-msgstr ""
+msgstr "DGET(A1:C7, \"Name\", A9:A10) дорівнює \"Clark\"."
 
 #: ../plugins/fn-database/functions.c:550
 msgid ""
 "DMAX:largest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
 msgstr ""
+"DMAX:найбільше число у @{field} в @{database}, що належить запису, що "
+"підходить за @{criteria}"
 
 #: ../plugins/fn-database/functions.c:559
 msgid "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242."
-msgstr ""
+msgstr "DMAX(A1:C7, \"Salary\", A9:A11) дорівнює 47242."
 
 #: ../plugins/fn-database/functions.c:560
 msgid "DMAX(A1:C7, \"Age\", A9:A11) equals 45."
-msgstr ""
+msgstr "DMAX(A1:C7, \"Age\", A9:A11) дорівнює 45."
 
 #: ../plugins/fn-database/functions.c:561
 msgid "DMAX(A1:C7, \"Age\", A9:B11) equals 43."
-msgstr ""
+msgstr "DMAX(A1:C7, \"Age\", A9:B11) дорівнює 43."
 
 #: ../plugins/fn-database/functions.c:586
 msgid ""
 "DMIN:smallest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
 msgstr ""
+"DMIN:найменше число у @{field} в @{database}, що належить запису, що "
+"підходить за @{criteria}"
 
 #: ../plugins/fn-database/functions.c:595
 msgid "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323."
-msgstr ""
+msgstr "DMIN(A1:C7, \"Salary\", A9:B11) дорівнює 34323."
 
 #: ../plugins/fn-database/functions.c:596
 msgid "DMIN(A1:C7, \"Age\", A9:B11) equals 29."
-msgstr ""
+msgstr "DMIN(A1:C7, \"Age\", A9:B11) дорівнює 29."
 
 #: ../plugins/fn-database/functions.c:619
 msgid ""
 "DPRODUCT:product of all values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
+"DPRODUCT:продукт усіх значень у @{field} в @{database}, що належить запису, "
+"що підходить за @{criteria}"
 
 #: ../plugins/fn-database/functions.c:628
 msgid "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247."
-msgstr ""
+msgstr "DPRODUCT(A1:C7, \"Age\", A9:B11) дорівнює 1247."
 
 #: ../plugins/fn-database/functions.c:652
 msgid ""
@@ -4122,7 +4157,7 @@ msgstr ""
 
 #: ../plugins/fn-flt/functions.c:85
 msgid "x:floating point value"
-msgstr ""
+msgstr "x:значення з рухомою комою"
 
 #: ../plugins/fn-flt/functions.c:86
 msgid "y:direction"
