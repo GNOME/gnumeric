@@ -1195,7 +1195,8 @@ typedef struct {
 } eng_imoper_t;
 
 static GnmValue *
-callback_function_imoper (GnmEvalPos const *ep, GnmValue const *value, void *closure)
+callback_function_imoper (GnmEvalPos const *ep, GnmValue const *value,
+			  gboolean direct, void *closure)
 {
 	eng_imoper_t *result = closure;
 	gnm_complex c;

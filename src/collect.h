@@ -7,23 +7,33 @@
 G_BEGIN_DECLS
 
 typedef enum {
+	// String handling.  No flag means #VALUE!
 	COLLECT_IGNORE_STRINGS	= 0x01,
 	COLLECT_ZERO_STRINGS	= 0x02,
 	COLLECT_COERCE_STRINGS	= 0x04,
 
+	// Boolean handling.  No flag means #VALUE!
 	COLLECT_IGNORE_BOOLS	= 0x10,
 	COLLECT_ZEROONE_BOOLS	= 0x20,
 
+	// Error handling.  No flag means #VALUE!
+	// (But if strict, error is passed through regardless of flag.)
 	COLLECT_IGNORE_ERRORS	= 0x100,
 	COLLECT_ZERO_ERRORS	= 0x200,
 
+	// Empty handling.  No flag means #VALUE!
 	COLLECT_IGNORE_BLANKS	= 0x1000,
 	COLLECT_ZERO_BLANKS	= 0x2000,
 
 	COLLECT_IGNORE_SUBTOTAL	= 0x4000,
 
-	COLLECT_SORT            = 0x10000,
-	COLLECT_ORDER_IRRELEVANT = 0x20000,
+	COLLECT_STRINGS_DIRECT_COMBO_MASK = 0xf0000,
+	COLLECT_STRINGS_DIRECT_COMBO1 = 0x10000, // "and"
+	COLLECT_STRINGS_DIRECT_COMBO2 = 0x20000, // "sum"
+	COLLECT_STRINGS_DIRECT_COMBO3 = 0x30000, // "count"
+
+	COLLECT_SORT            = 0x100000,
+	COLLECT_ORDER_IRRELEVANT = 0x200000,
 
 	/* Not for general usage.  */
 	COLLECT_INFO		= 0x1000000
@@ -70,6 +80,12 @@ GnmValue *float_range_function2d (GnmValue const *val0, GnmValue const *val1,
 				  CollectFlags flags,
 				  GnmStdError func_error,
 				  gpointer data);
+
+GnmValue *bool_range_function (int argc, GnmExprConstPtr const *argv,
+			       GnmFuncEvalInfo *ei,
+			       float_range_function_t func,
+			       CollectFlags flags,
+			       GnmStdError func_error);
 
 GnmValue *string_range_function (int argc, GnmExprConstPtr const *argv,
 				 GnmFuncEvalInfo *ei,

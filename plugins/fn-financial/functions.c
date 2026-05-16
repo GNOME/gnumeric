@@ -1468,7 +1468,7 @@ gnumeric_npv (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	return float_range_function (argc, argv, ei,
 				     range_npv,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_COERCE_DIRECT_STRINGS |
+				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_DIV0);

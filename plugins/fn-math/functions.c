@@ -205,7 +205,7 @@ static GnmFuncHelp const help_gcd[] = {
 	{ GNM_FUNC_HELP_END}
 };
 
-static const gnm_float gnm_gcd_max = 2 / GNM_EPSILON;
+static const gnm_float gnm_gcd_max = GNM_RADIX / GNM_EPSILON;
 
 static gnm_float
 gnm_gcd (gnm_float a, gnm_float b)
@@ -248,7 +248,6 @@ gnumeric_gcd (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	return float_range_function (argc, argv, ei,
 				     range_gcd,
 				     COLLECT_COERCE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |  // Should err
 				     COLLECT_IGNORE_BLANKS |
 				     COLLECT_ORDER_IRRELEVANT,
 				     GNM_ERROR_NUM);
@@ -309,7 +308,6 @@ gnumeric_lcm (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	return float_range_function (argc, argv, ei,
 				     range_lcm,
 				     COLLECT_COERCE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |  // Should err
 				     COLLECT_IGNORE_BLANKS |
 				     COLLECT_ORDER_IRRELEVANT,
 				     GNM_ERROR_NUM);
@@ -1827,6 +1825,7 @@ gnumeric_sumsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	return float_range_function (argc, argv, ei,
 				     gnm_range_sumsq,
 				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_VALUE);
@@ -1889,7 +1888,6 @@ gnumeric_multinomial (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv
 	return float_range_function (argc, argv, ei,
 				     gnm_range_multinomial,
 				     COLLECT_COERCE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |  // Should err
 				     COLLECT_IGNORE_BLANKS |
 				     COLLECT_ORDER_IRRELEVANT,
 				     GNM_ERROR_NUM);
@@ -1913,6 +1911,7 @@ gnumeric_g_product (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	return float_range_function (argc, argv, ei,
 				     gnm_range_product,
 				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_VALUE);

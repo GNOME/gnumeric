@@ -314,7 +314,7 @@ typedef struct {
 
 static GnmValue *
 callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
-			   void *closure)
+			   gboolean direct, void *closure)
 {
 	gnm_float x = 0;
 	collect_floats_t *cl = closure;
@@ -357,7 +357,35 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 		break;
 
 	case VALUE_STRING:
-		if (cl->flags & COLLECT_COERCE_STRINGS) {
+		if (direct && (cl->flags & COLLECT_STRINGS_DIRECT_COMBO_MASK)) {
+			GnmValue *vc = format_match_number (value_peek_string (value),
+							    NULL,
+							    cl->date_conv);
+			gboolean bad = !vc;
+
+			if (!bad) {
+				switch (cl->flags & COLLECT_STRINGS_DIRECT_COMBO_MASK) {
+				case COLLECT_STRINGS_DIRECT_COMBO1:
+				default:
+					// "and"
+					ignore = VALUE_IS_FLOAT (vc);
+					break;
+				case COLLECT_STRINGS_DIRECT_COMBO2:
+					// "sum"
+					bad |= VALUE_IS_BOOLEAN (vc);
+					break;
+				case COLLECT_STRINGS_DIRECT_COMBO3:
+					// "count"
+					ignore = VALUE_IS_BOOLEAN (vc);
+					break;
+				}
+			}
+
+			x = vc ? value_get_as_float (vc) : 0;
+			value_release (vc);
+			if (bad)
+				return value_new_error_VALUE (ep);
+		} else if (cl->flags & COLLECT_COERCE_STRINGS) {
 			GnmValue *vc = format_match_number (value_peek_string (value),
 							    NULL,
 							    cl->date_conv);
@@ -534,6 +562,10 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 			ce->data = go_memdup_n (cl.data, MAX (1, *n), sizeof (gnm_float));
 		prune_caches ();
 
+		// Normally the caches will exist at this point, but
+		// an explicit signal emission could have cleared them.
+		create_caches ();
+
 		/*
 		 * We looked for the entry earlier and it was not there.
 		 * However, sub-calculation might have added it so be careful
@@ -639,6 +671,51 @@ float_range_function (int argc, GnmExprConstPtr const *argv,
 		return value_new_error_std (ei->pos, func_error);
 	else
 		return value_new_float (res);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/**
+ * bool_range_function:
+ * @argc: number of arguments
+ * @argv: (in) (array length=argc): function arguments
+ * @ei: #GnmFuncEvalInfo describing evaluation context
+ * @func: (scope call): implementation function
+ * @flags: #CollectFlags flags describing the collection and interpretation
+ * of values from @argv.
+ * @func_error: A #GnmStdError to use to @func indicates an error.
+ *
+ * This implements a Gnumeric sheet function that operates on a list of
+ * numbers.  This function collects the arguments and uses @func to do
+ * the actual computation.  The only difference from float_range_function
+ * is that it returns its value as a boolean.
+ *
+ * Returns: (transfer full): Function result or error value.
+ **/
+GnmValue *
+bool_range_function (int argc, GnmExprConstPtr const *argv,
+		     GnmFuncEvalInfo *ei,
+		     float_range_function_t func,
+		     CollectFlags flags,
+		     GnmStdError func_error)
+{
+	GnmValue *error = NULL;
+	gnm_float *vals, res;
+	int n, err;
+	gboolean constp;
+
+	vals = collect_floats (argc, argv, ei->pos, flags, &n, &error,
+			       NULL, &constp);
+	if (!vals)
+		return error;
+
+	err = func (vals, n, &res);
+	if (!constp) g_free (vals);
+
+	if (err)
+		return value_new_error_std (ei->pos, func_error);
+	else
+		return value_new_bool (res != 0);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -964,7 +1041,7 @@ typedef struct {
 
 static GnmValue *
 callback_function_collect_strings (GnmEvalPos const *ep, GnmValue const *value,
-				   void *closure)
+				   G_GNUC_UNUSED gboolean direct, void *closure)
 {
 	char *text;
 	collect_strings_t *cl = closure;

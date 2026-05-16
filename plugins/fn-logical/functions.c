@@ -28,6 +28,7 @@
 #include <cell.h>
 #include <expr.h>
 #include <value.h>
+#include <collect.h>
 #include <gnm-i18n.h>
 
 #include <goffice/goffice.h>
@@ -55,38 +56,34 @@ static GnmFuncHelp const help_and[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static GnmValue *
-callback_function_and (GnmEvalPos const *ep, GnmValue const *value, void *closure)
+static int
+gnm_range_and (gnm_float const *xs, int n, gnm_float *res)
 {
-	int *result = closure;
+	if (n > 0) {
+		*res = TRUE;
+		for (int i = 0; i < n; i++) {
+			gnm_float thisx = xs[i];
+			if (thisx == 0) {
+				*res = FALSE;
+				break;
+			}
+		}
 
-	if (!VALUE_IS_STRING (value)) {
-		gboolean err;
-		*result = value_get_as_bool (value, &err) && *result;
-		if (err)
-			return value_new_error_VALUE (ep);
-	}
-
-	return NULL;
+		return 0;
+	} else
+		return 1;
 }
 
 static GnmValue *
 gnumeric_and (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
-	int result = -1;
-
-	/* Yes, AND is actually strict.  */
-	GnmValue *v = function_iterate_argument_values
-		(ei->pos, callback_function_and, &result,
-		 argc, argv, TRUE, CELL_ITER_IGNORE_BLANK);
-	if (v != NULL)
-		return v;
-
-	/* See if there was any value worth using */
-	if (result == -1)
-		return value_new_error_VALUE (ei->pos);
-
-	return value_new_bool (result);
+	return bool_range_function (argc, argv, ei,
+				    gnm_range_and,
+				    COLLECT_IGNORE_STRINGS |
+				    COLLECT_STRINGS_DIRECT_COMBO1 |
+				    COLLECT_ZEROONE_BOOLS |
+				    COLLECT_IGNORE_BLANKS,
+				    GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -134,38 +131,34 @@ static GnmFuncHelp const help_or[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static GnmValue *
-callback_function_or (GnmEvalPos const *ep, GnmValue const *value, void *closure)
+static int
+gnm_range_or (gnm_float const *xs, int n, gnm_float *res)
 {
-	int *result = closure;
+	if (n > 0) {
+		*res = FALSE;
+		for (int i = 0; i < n; i++) {
+			gnm_float thisx = xs[i];
+			if (thisx != 0) {
+				*res = TRUE;
+				break;
+			}
+		}
 
-	if (!VALUE_IS_STRING (value)) {
-		gboolean err;
-		*result = value_get_as_bool (value, &err) || *result == 1;
-		if (err)
-			return value_new_error_VALUE (ep);
-	}
-
-	return NULL;
+		return 0;
+	} else
+		return 1;
 }
 
 static GnmValue *
 gnumeric_or (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
-	int result = -1;
-
-	/* Yes, OR is actually strict.  */
-	GnmValue *v = function_iterate_argument_values
-		(ei->pos, callback_function_or, &result,
-		 argc, argv, TRUE, CELL_ITER_IGNORE_BLANK);
-	if (v != NULL)
-		return v;
-
-	/* See if there was any value worth using */
-	if (result == -1)
-		return value_new_error_VALUE (ei->pos);
-
-	return value_new_bool (result);
+	return bool_range_function (argc, argv, ei,
+				    gnm_range_or,
+				    COLLECT_IGNORE_STRINGS |
+				    COLLECT_STRINGS_DIRECT_COMBO1 |
+				    COLLECT_ZEROONE_BOOLS |
+				    COLLECT_IGNORE_BLANKS,
+				    GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -188,38 +181,33 @@ static GnmFuncHelp const help_xor[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static GnmValue *
-callback_function_xor (GnmEvalPos const *ep, GnmValue const *value, void *closure)
+static int
+gnm_range_xor (gnm_float const *xs, int n, gnm_float *res)
 {
-	int *result = closure;
+	if (n > 0) {
+		gboolean b = FALSE;
+		for (int i = 0; i < n; i++) {
+			gnm_float thisx = xs[i];
+			b ^= (thisx != 0);
+		}
 
-	if (!VALUE_IS_STRING (value)) {
-		gboolean err;
-		*result = value_get_as_bool (value, &err) ^ (*result == 1);
-		if (err)
-			return value_new_error_VALUE (ep);
-	}
-
-	return NULL;
+		*res = b;
+		return 0;
+	} else
+		return 1;
 }
+
 
 static GnmValue *
 gnumeric_xor (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
-	int result = -1;
-
-	/* Yes, XOR is actually strict.  */
-	GnmValue *v = function_iterate_argument_values
-		(ei->pos, callback_function_xor, &result,
-		 argc, argv, TRUE, CELL_ITER_IGNORE_BLANK);
-	if (v != NULL)
-		return v;
-
-	/* See if there was any value worth using */
-	if (result == -1)
-		return value_new_error_VALUE (ei->pos);
-
-	return value_new_bool (result);
+	return bool_range_function (argc, argv, ei,
+				    gnm_range_xor,
+				    COLLECT_IGNORE_STRINGS |
+				    COLLECT_STRINGS_DIRECT_COMBO1 |
+				    COLLECT_ZEROONE_BOOLS |
+				    COLLECT_IGNORE_BLANKS,
+				    GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/

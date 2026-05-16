@@ -286,7 +286,7 @@ GnmValue *function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn
 
 /* Utilities to interate through ranges and argument lists */
 typedef GnmValue * (*FunctionIterateCB) (GnmEvalPos const *ep, GnmValue const *value,
-					 gpointer user_data);
+					 gboolean direct, gpointer user_data);
 GnmValue *function_iterate_argument_values (GnmEvalPos const *ep,
 					    FunctionIterateCB callback,
 					    gpointer callback_closure,

@@ -1,3 +1,16 @@
+2026-05-15  Morten Welinder  <terra@gnome.org>
+
+	* src/collect.c (callback_function_collect): Add special handling
+	for direct string arguments (where "direct" means that they are
+	directly listed function arguments, not values reached via cell
+	range references).  They are *weird*.  Excel-class weird.
+
+	* src/func.h (FunctionIterateCB): Add "direct" argument.  All
+	users changed.
+
+	* src/func.c (function_iterate_do_value, cb_iterate_cellrange):
+	Supply "direct" argument.
+
 2026-04-29  Morten Welinder <terra@gnome.org>
 
 	* configure.ac: Post-release bump.

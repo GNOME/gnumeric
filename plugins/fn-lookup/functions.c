@@ -2128,7 +2128,8 @@ static GnmFuncHelp const help_array[] = {
 
 
 static GnmValue *
-callback_function_array (GnmEvalPos const *ep, GnmValue const *value, void *closure)
+callback_function_array (GnmEvalPos const *ep, GnmValue const *value,
+			 gboolean direct, void *closure)
 {
 	GSList **list = closure;
 

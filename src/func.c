@@ -1701,7 +1701,7 @@ typedef struct {
 	FunctionIterateCB  callback;
 	void              *closure;
 	gboolean           strict;
-	gboolean           ignore_subtotal;
+	CellIterFlags      iter_flags;
 } IterateCallbackClosure;
 
 /**
@@ -1724,10 +1724,11 @@ cb_iterate_cellrange (GnmCellIter const *iter, gpointer user)
 		ep.dep = NULL;
 		ep.eval.col = iter->pp.eval.col;
 		ep.eval.row = iter->pp.eval.row;
-		return (*data->callback)(&ep, NULL, data->closure);
+		return (*data->callback)(&ep, NULL, FALSE, data->closure);
 	}
 
-	if (data->ignore_subtotal && gnm_cell_has_expr (cell) &&
+	if ((data->iter_flags & CELL_ITER_IGNORE_SUBTOTAL) &&
+	    gnm_cell_has_expr (cell) &&
 	    gnm_expr_top_contains_subtotal (cell->base.texpr))
 		return NULL;
 
@@ -1739,7 +1740,7 @@ cb_iterate_cellrange (GnmCellIter const *iter, gpointer user)
 		return value_new_error_str (&ep, res->v_err.mesg);
 
 	/* All other cases -- including error -- just call the handler.  */
-	return (*data->callback)(&ep, cell->value, data->closure);
+	return (*data->callback)(&ep, cell->value, FALSE, data->closure);
 }
 
 /*
@@ -1769,7 +1770,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 	case VALUE_BOOLEAN:
 	case VALUE_FLOAT:
 	case VALUE_STRING:
-		res = (*callback)(ep, value, closure);
+		res = (*callback)(ep, value, TRUE, closure);
 		break;
 
 	case VALUE_ARRAY: {
@@ -1794,7 +1795,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 		data.callback = callback;
 		data.closure  = closure;
 		data.strict   = strict;
-		data.ignore_subtotal = (iter_flags & CELL_ITER_IGNORE_SUBTOTAL) != 0;
+		data.iter_flags = iter_flags;
 
 		res = workbook_foreach_cell_in_range (ep, value, iter_flags,
 						      cb_iterate_cellrange,
@@ -1885,7 +1886,12 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 		 * will do implicit intersection in non-array mode */
 		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT)
 			val = value_dup (expr->constant.value);
-		else if (eval_pos_is_array_context (ep) ||
+		else if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CELLREF) {
+			// Treat as range.  We probably could cut out several
+			// layers of function calls here.
+			GnmCellRef const *cr = gnm_expr_get_cellref (expr);
+			val = value_new_cellrange_unsafe (cr, cr);
+		} else if (eval_pos_is_array_context (ep) ||
 			 GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL ||
 			 GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_RANGE_CTOR ||
 			 GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_INTERSECT)
