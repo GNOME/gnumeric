@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-05-16 15:30+0000\n"
-"PO-Revision-Date: 2026-05-18 15:52+0200\n"
+"POT-Creation-Date: 2026-05-18 13:59+0000\n"
+"PO-Revision-Date: 2026-05-18 16:28+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -6238,15 +6238,15 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1900
 msgid "x1:number"
-msgstr ""
+msgstr "x1:число"
 
 #: ../plugins/fn-math/functions.c:1901
 msgid "x2:number"
-msgstr ""
+msgstr "x2:число"
 
 #: ../plugins/fn-math/functions.c:1902
 msgid "Empty cells are ignored and the empty product is 1."
-msgstr ""
+msgstr "Пусті клітини ігноруються, і пустий продукт є 1."
 
 #: ../plugins/fn-math/functions.c:1923
 msgid "TAN:the tangent of @{x}"
@@ -6262,7 +6262,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1973
 msgid "PI:the constant π"
-msgstr ""
+msgstr "PI:константа π"
 
 #: ../plugins/fn-math/functions.c:1974
 msgid ""
@@ -6279,7 +6279,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1993
 msgid "data_all:the complete dataset"
-msgstr ""
+msgstr "data_all:повний набір даних"
 
 #: ../plugins/fn-math/functions.c:1994
 msgid ""
@@ -6297,7 +6297,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:2038 ../plugins/fn-math/functions.c:2434
 #: ../plugins/fn-math/functions.c:2458 ../plugins/fn-math/functions.c:2489
 msgid "d:integer, defaults to 0"
-msgstr ""
+msgstr "d:ціле число, типово є 0"
 
 #: ../plugins/fn-math/functions.c:2039
 msgid ""
@@ -6338,7 +6338,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2314
 msgid "FIB:Fibonacci numbers"
-msgstr ""
+msgstr "FIB:числа Фібоначчі"
 
 #: ../plugins/fn-math/functions.c:2315 ../plugins/fn-numtheory/numtheory.c:337
 #: ../plugins/fn-numtheory/numtheory.c:370
@@ -6350,17 +6350,19 @@ msgstr ""
 #: ../plugins/fn-numtheory/numtheory.c:633
 #: ../plugins/fn-numtheory/numtheory.c:664
 msgid "n:positive integer"
-msgstr ""
+msgstr "n:додатне ціле число"
 
 #: ../plugins/fn-math/functions.c:2316
 msgid "FIB(@{n}) is the @{n}th Fibonacci number."
-msgstr ""
+msgstr "FIB(@{n}) є @{n} числом Фібоначчі"
 
 #: ../plugins/fn-math/functions.c:2317
 msgid ""
 "If @{n} is not an integer, it is truncated. If it is negative or zero FIB "
 "returns #NUM!"
 msgstr ""
+"Якщо @{n} не є цілим числом, воно скорочується. Якщо воно є 0 або відʼємним, "
+"то FIB видає #NUM!"
 
 #: ../plugins/fn-math/functions.c:2355
 msgid "QUOTIENT:integer portion of a division"
@@ -6410,7 +6412,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2456
 msgid "ROUND:rounded @{x}"
-msgstr ""
+msgstr "ROUND:округлене @{x}"
 
 #: ../plugins/fn-math/functions.c:2459
 msgid ""
@@ -6439,7 +6441,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2526
 msgid "m:number"
-msgstr ""
+msgstr "m:число"
 
 #: ../plugins/fn-math/functions.c:2527
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
@@ -6451,7 +6453,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2567
 msgid "roman:Roman numeral"
-msgstr ""
+msgstr "roman:римська цифра"
 
 #: ../plugins/fn-math/functions.c:2568
 msgid ""
@@ -6459,14 +6461,17 @@ msgid ""
 "reduces the final value by the symbol amount, otherwise, it increases the "
 "final amount by the symbol's amount."
 msgstr ""
+"Будь який римський символ лівіше від більшого символу (прямо чи ні) зменшує "
+"кінцеве значення на число символа, в іншому разі воно збільшує кінцеве "
+"значення на число символа."
 
 #: ../plugins/fn-math/functions.c:2644
 msgid "ROMAN:@{n} as a roman numeral text"
-msgstr ""
+msgstr "ROMAN:@{n} як текст з Римських цифер"
 
 #: ../plugins/fn-math/functions.c:2646
 msgid "type:0,1,2,3,or 4, defaults to 0"
-msgstr ""
+msgstr "type:0,1,2,3, або 4, типово є 0"
 
 #: ../plugins/fn-math/functions.c:2647
 msgid ""
@@ -6475,6 +6480,11 @@ msgid ""
 "Type 1 is more concise than classic type, type 2 is more concise than type "
 "1, and type 3 is more concise than type 2. Type 4 is a simplified type."
 msgstr ""
+"ROMAN видає арабську цифру @{n} як текст з римських цифр.\n"
+"Якщо @{type} дорівнює 0 або не зазначено, ROMAN видає класичні римські "
+"цифри.\n"
+"Тип 1 лаконічніший за класичний, тип 2 лаконічніший, ніж тип 1, а тип 3 "
+"лаконічніше ніж тип 2. Тип 4 є спрощеним."
 
 #: ../plugins/fn-math/functions.c:2894
 msgid "SUMX2MY2:sum of the difference of squares"
