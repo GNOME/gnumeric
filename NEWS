@@ -12,6 +12,7 @@ Morten:
 	* Add export option "formulas=true" to txt and csv.
 	* Improve xlsx export.
 	* Improve xl compabiliity for multiple functions.
+	* Improve GEOMEAN accuracy.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.61

@@ -402,11 +402,22 @@ gnm_range_geometric_mean (gnm_float const *xs, int n, gnm_float *res)
 		return anynegp;
 
 	/* Now compute (res * base^expb) ^ (1/n).  */
-	gnm_float f1 = gnm_pow (*res, GNM_const(1.0) / n);
-	gnm_float f2 = (expb >= 0)
-		? gnm_pow (GNM_RADIX, (gnm_float)(expb % n) / n)
-		: gnm_pow (GNM_RADIX, -(gnm_float)((-expb) % n) / n);
-	*res = gnm_scalbn (f1 * f2, expb / n);
+
+	int rem = (expb >= 0) ? (expb % n) : -(-expb % n);
+	gnm_float f;
+	if (GNM_MIN_EXP + 2 < rem && rem < GNM_MAX_EXP - 2) {
+		// The remainer is small enough that we can scale (error-free)
+		// before the root.
+		f = gnm_pow (gnm_scalbn (*res, rem), GNM_const(1.0) / n);
+	} else {
+		// The remainder is large.  Do things in two parts.
+		gnm_float f1 = gnm_pow (*res, GNM_const(1.0) / n);
+		gnm_float f2 = gnm_pow (GNM_RADIX, (gnm_float)rem / n);
+		f = f1 * f2;
+	}
+
+	// Error-free scaling.
+	*res = gnm_scalbn (f, expb / n);
 
 	return 0;
 }
