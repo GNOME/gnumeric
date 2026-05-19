@@ -229,7 +229,7 @@ TESTS =	t1000-statfuns.pl			\
 	t9010-ssgrep.pl				\
 	t9100-number-match.pl			\
 	t9999-epilogue.pl
-XFAIL_TESTS = t1021-dsa.pl
+XFAIL_TESTS = 
 
 SUPPS = common.supp gui.supp t8003-valgrind-pdf.supp
 
