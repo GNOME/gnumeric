@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-05-18 13:59+0000\n"
-"PO-Revision-Date: 2026-05-18 16:28+0200\n"
+"POT-Creation-Date: 2026-05-18 14:50+0000\n"
+"PO-Revision-Date: 2026-05-18 23:02+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -9386,11 +9386,11 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1856
 msgid "If @{n} = 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Якщо @{n} = 0, то ця функція видає помилку #NUM!"
 
 #: ../plugins/fn-stat/functions.c:1857
 msgid "If @{n} < @{k} this function returns a #NUM! error."
-msgstr ""
+msgstr "Якщо @{n} < @{k}, то ця функція видає помилку #NUM!"
 
 #: ../plugins/fn-stat/functions.c:1879
 msgid ""
@@ -9400,7 +9400,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1880
 msgid "x:number of successes"
-msgstr ""
+msgstr "x:кількість успіхів"
 
 #: ../plugins/fn-stat/functions.c:1881
 msgid "n:sample size"
@@ -9579,11 +9579,11 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2212
 msgid "If @{x} is not a number, this function returns a #VALUE! error."
-msgstr ""
+msgstr "Якщо @{x} не є числом, то ця функція видає помилку #VALUE!"
 
 #: ../plugins/fn-stat/functions.c:2213
 msgid "If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error."
-msgstr ""
+msgstr "Якщо @{x} <= -1 або @{x} >= 1, то ця функція видає помилку #NUM!"
 
 #: ../plugins/fn-stat/functions.c:2234
 msgid ""
@@ -9593,11 +9593,11 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2235
 msgid "x:number of events"
-msgstr ""
+msgstr "x:кількість подій"
 
 #: ../plugins/fn-stat/functions.c:2238
 msgid "If @{x} is a non-integer it is truncated."
-msgstr ""
+msgstr "Якщо @{x}, не є цілим числом, то воно скорочується."
 
 #: ../plugins/fn-stat/functions.c:2240
 msgid "If @{mean} <= 0 POISSON returns the #NUM! error."
@@ -9622,7 +9622,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2311
 msgid "MEDIAN:median of a data set"
-msgstr ""
+msgstr "MEDIAN:медіана набору даних"
 
 #: ../plugins/fn-stat/functions.c:2315
 msgid ""
@@ -9640,11 +9640,11 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2341
 msgid "SSMEDIAN:median for grouped data"
-msgstr ""
+msgstr "SSMEDIAN:медіана згрупованих даних"
 
 #: ../plugins/fn-stat/functions.c:2342
 msgid "array:data set"
-msgstr ""
+msgstr "array: набір даних"
 
 #: ../plugins/fn-stat/functions.c:2343
 msgid "interval:length of each grouping interval, defaults to 1"
@@ -9719,7 +9719,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2545
 msgid "x_range:possible values"
-msgstr ""
+msgstr "x_range:можливі значення"
 
 #: ../plugins/fn-stat/functions.c:2546
 msgid "prob_range:probabilities of the corresponding values"
