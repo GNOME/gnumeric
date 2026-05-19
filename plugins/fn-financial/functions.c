@@ -1470,6 +1470,7 @@ gnumeric_npv (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_DIV0);
 }

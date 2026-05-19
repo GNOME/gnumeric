@@ -331,7 +331,9 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 		break;
 
 	case VALUE_BOOLEAN:
-		if (cl->flags & COLLECT_IGNORE_BOOLS)
+		if (direct && (cl->flags & COLLECT_BOOLS_DIRECT_COMBO_MASK)) {
+			x = value_get_as_float (value);
+		} else if (cl->flags & COLLECT_IGNORE_BOOLS)
 			ignore = TRUE;
 		else if (cl->flags & COLLECT_ZEROONE_BOOLS)
 			x = value_get_as_float (value);

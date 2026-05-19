@@ -66,6 +66,7 @@ gnumeric_varp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_DIV0);
 }
@@ -96,6 +97,7 @@ gnumeric_var (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_DIV0);
 }
@@ -124,6 +126,7 @@ gnumeric_stdev (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_DIV0);
 }
@@ -151,6 +154,7 @@ gnumeric_stdevp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_DIV0);
 }
@@ -764,6 +768,7 @@ gnumeric_harmean (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_NUM);
 }
@@ -791,6 +796,7 @@ gnumeric_geomean (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_NUM);
 }
@@ -817,6 +823,7 @@ gnumeric_count (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO3 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_DIV0);
 }
@@ -868,6 +875,7 @@ gnumeric_average (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_DIV0);
 }
@@ -902,6 +910,7 @@ gnumeric_min (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS |
 				     COLLECT_ORDER_IRRELEVANT,
 				     GNM_ERROR_VALUE);
@@ -937,6 +946,7 @@ gnumeric_max (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS |
 				     COLLECT_ORDER_IRRELEVANT,
 				     GNM_ERROR_VALUE);
@@ -967,6 +977,7 @@ gnumeric_skew (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_DIV0);
 }
@@ -2125,6 +2136,7 @@ gnumeric_kurt (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_DIV0);
 }
@@ -2175,6 +2187,7 @@ gnumeric_avedev (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_NUM);
 }
@@ -2200,6 +2213,7 @@ gnumeric_devsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_VALUE);
 }
@@ -2330,6 +2344,7 @@ gnumeric_median (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS |
 				     COLLECT_SORT,
 				     GNM_ERROR_NUM);

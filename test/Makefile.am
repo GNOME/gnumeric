@@ -53,6 +53,7 @@ TESTS =	t1000-statfuns.pl			\
 	t1020-erlang.pl				\
 	t1021-dsa.pl				\
 	t1022-isa.pl				\
+	t1023-dba.pl				\
 	t1100-chitest.pl			\
 	t1101-ftest.pl				\
 	t1102-ttest.pl				\

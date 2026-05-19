@@ -32,11 +32,14 @@ typedef enum {
 	COLLECT_STRINGS_DIRECT_COMBO2 = 0x20000, // "sum"
 	COLLECT_STRINGS_DIRECT_COMBO3 = 0x30000, // "count"
 
-	COLLECT_SORT            = 0x100000,
-	COLLECT_ORDER_IRRELEVANT = 0x200000,
+	COLLECT_BOOLS_DIRECT_COMBO_MASK = 0xf00000,
+	COLLECT_BOOLS_DIRECT_COMBO1 = 0x100000,
+
+	COLLECT_SORT            = 0x1000000,
+	COLLECT_ORDER_IRRELEVANT = 0x2000000,
 
 	/* Not for general usage.  */
-	COLLECT_INFO		= 0x1000000
+	COLLECT_INFO		= 0x10000000
 } CollectFlags;
 
 typedef int (*float_range_function_t) (gnm_float const *xs, int n, gnm_float *res);

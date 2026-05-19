@@ -1754,6 +1754,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 			   gpointer	      closure,
 			   GnmValue const    *value,
 			   gboolean           strict,
+			   gboolean           direct,
 			   CellIterFlags      iter_flags)
 {
 	GnmValue *res = NULL;
@@ -1770,7 +1771,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 	case VALUE_BOOLEAN:
 	case VALUE_FLOAT:
 	case VALUE_STRING:
-		res = (*callback)(ep, value, TRUE, closure);
+		res = (*callback)(ep, value, direct, closure);
 		break;
 
 	case VALUE_ARRAY: {
@@ -1782,7 +1783,8 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 				res = function_iterate_do_value (
 					ep, callback, closure,
 					value->v_array.vals[x][y],
-					strict, CELL_ITER_IGNORE_BLANK);
+					strict, FALSE,
+					CELL_ITER_IGNORE_BLANK);
 				if (res != NULL)
 					return res;
 			}
@@ -1909,7 +1911,8 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 		}
 
 		result = function_iterate_do_value (ep, callback, callback_closure,
-						    val, strict, iter_flags);
+						    val, strict, TRUE,
+						    iter_flags);
 		value_release (val);
 	}
 	return result;
