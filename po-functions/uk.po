@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-05-18 14:50+0000\n"
-"PO-Revision-Date: 2026-05-18 23:02+0200\n"
+"POT-Creation-Date: 2026-05-19 23:35+0000\n"
+"PO-Revision-Date: 2026-05-20 17:02+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -199,64 +199,64 @@ msgstr "Якщо @{i} ні \"i\", ні \"j\", COMPLEX повертає #VALUE!"
 #: ../plugins/fn-math/functions.c:1377 ../plugins/fn-math/functions.c:1546
 #: ../plugins/fn-math/functions.c:1589 ../plugins/fn-math/functions.c:1637
 #: ../plugins/fn-math/functions.c:1751 ../plugins/fn-math/functions.c:1769
-#: ../plugins/fn-math/functions.c:1816 ../plugins/fn-math/functions.c:1878
-#: ../plugins/fn-math/functions.c:1925 ../plugins/fn-math/functions.c:1958
-#: ../plugins/fn-math/functions.c:1996 ../plugins/fn-math/functions.c:2041
-#: ../plugins/fn-math/functions.c:2230 ../plugins/fn-math/functions.c:2260
-#: ../plugins/fn-math/functions.c:2293 ../plugins/fn-math/functions.c:2360
-#: ../plugins/fn-math/functions.c:2385 ../plugins/fn-math/functions.c:2412
-#: ../plugins/fn-math/functions.c:2438 ../plugins/fn-math/functions.c:2462
-#: ../plugins/fn-math/functions.c:2493 ../plugins/fn-math/functions.c:2528
-#: ../plugins/fn-math/functions.c:2651 ../plugins/fn-math/functions.c:2899
-#: ../plugins/fn-math/functions.c:2943 ../plugins/fn-math/functions.c:2986
-#: ../plugins/fn-math/functions.c:3029 ../plugins/fn-math/functions.c:3086
-#: ../plugins/fn-math/functions.c:3276 ../plugins/fn-math/functions.c:3373
-#: ../plugins/fn-math/functions.c:3418 ../plugins/fn-numtheory/numtheory.c:697
+#: ../plugins/fn-math/functions.c:1816 ../plugins/fn-math/functions.c:1879
+#: ../plugins/fn-math/functions.c:1926 ../plugins/fn-math/functions.c:1959
+#: ../plugins/fn-math/functions.c:1997 ../plugins/fn-math/functions.c:2042
+#: ../plugins/fn-math/functions.c:2231 ../plugins/fn-math/functions.c:2261
+#: ../plugins/fn-math/functions.c:2294 ../plugins/fn-math/functions.c:2361
+#: ../plugins/fn-math/functions.c:2386 ../plugins/fn-math/functions.c:2413
+#: ../plugins/fn-math/functions.c:2439 ../plugins/fn-math/functions.c:2463
+#: ../plugins/fn-math/functions.c:2494 ../plugins/fn-math/functions.c:2529
+#: ../plugins/fn-math/functions.c:2652 ../plugins/fn-math/functions.c:2900
+#: ../plugins/fn-math/functions.c:2944 ../plugins/fn-math/functions.c:2987
+#: ../plugins/fn-math/functions.c:3030 ../plugins/fn-math/functions.c:3087
+#: ../plugins/fn-math/functions.c:3277 ../plugins/fn-math/functions.c:3374
+#: ../plugins/fn-math/functions.c:3419 ../plugins/fn-numtheory/numtheory.c:697
 #: ../plugins/fn-numtheory/numtheory.c:737
 #: ../plugins/fn-numtheory/numtheory.c:780
 #: ../plugins/fn-numtheory/numtheory.c:824
 #: ../plugins/fn-numtheory/numtheory.c:855 ../plugins/fn-random/functions.c:46
-#: ../plugins/fn-random/functions.c:247 ../plugins/fn-stat/functions.c:83
-#: ../plugins/fn-stat/functions.c:111 ../plugins/fn-stat/functions.c:138
-#: ../plugins/fn-stat/functions.c:166 ../plugins/fn-stat/functions.c:268
-#: ../plugins/fn-stat/functions.c:316 ../plugins/fn-stat/functions.c:346
-#: ../plugins/fn-stat/functions.c:376 ../plugins/fn-stat/functions.c:409
-#: ../plugins/fn-stat/functions.c:433 ../plugins/fn-stat/functions.c:457
-#: ../plugins/fn-stat/functions.c:498 ../plugins/fn-stat/functions.c:548
-#: ../plugins/fn-stat/functions.c:577 ../plugins/fn-stat/functions.c:604
-#: ../plugins/fn-stat/functions.c:624 ../plugins/fn-stat/functions.c:653
-#: ../plugins/fn-stat/functions.c:751 ../plugins/fn-stat/functions.c:778
-#: ../plugins/fn-stat/functions.c:804 ../plugins/fn-stat/functions.c:830
-#: ../plugins/fn-stat/functions.c:855 ../plugins/fn-stat/functions.c:881
-#: ../plugins/fn-stat/functions.c:916 ../plugins/fn-stat/functions.c:956
-#: ../plugins/fn-stat/functions.c:1010 ../plugins/fn-stat/functions.c:1078
-#: ../plugins/fn-stat/functions.c:1110 ../plugins/fn-stat/functions.c:1138
-#: ../plugins/fn-stat/functions.c:1165 ../plugins/fn-stat/functions.c:1195
-#: ../plugins/fn-stat/functions.c:1283 ../plugins/fn-stat/functions.c:1320
-#: ../plugins/fn-stat/functions.c:1358 ../plugins/fn-stat/functions.c:1441
-#: ../plugins/fn-stat/functions.c:1478 ../plugins/fn-stat/functions.c:1683
-#: ../plugins/fn-stat/functions.c:1715 ../plugins/fn-stat/functions.c:1751
-#: ../plugins/fn-stat/functions.c:1812 ../plugins/fn-stat/functions.c:1837
-#: ../plugins/fn-stat/functions.c:1858 ../plugins/fn-stat/functions.c:1888
-#: ../plugins/fn-stat/functions.c:1923 ../plugins/fn-stat/functions.c:1956
-#: ../plugins/fn-stat/functions.c:1985 ../plugins/fn-stat/functions.c:2017
-#: ../plugins/fn-stat/functions.c:2049 ../plugins/fn-stat/functions.c:2081
-#: ../plugins/fn-stat/functions.c:2114 ../plugins/fn-stat/functions.c:2164
-#: ../plugins/fn-stat/functions.c:2189 ../plugins/fn-stat/functions.c:2214
-#: ../plugins/fn-stat/functions.c:2241 ../plugins/fn-stat/functions.c:2270
-#: ../plugins/fn-stat/functions.c:2290 ../plugins/fn-stat/functions.c:2317
-#: ../plugins/fn-stat/functions.c:2449 ../plugins/fn-stat/functions.c:2507
-#: ../plugins/fn-stat/functions.c:2555 ../plugins/fn-stat/functions.c:2633
-#: ../plugins/fn-stat/functions.c:2691 ../plugins/fn-stat/functions.c:2750
-#: ../plugins/fn-stat/functions.c:2775 ../plugins/fn-stat/functions.c:2801
-#: ../plugins/fn-stat/functions.c:2832 ../plugins/fn-stat/functions.c:2858
-#: ../plugins/fn-stat/functions.c:2887 ../plugins/fn-stat/functions.c:2913
-#: ../plugins/fn-stat/functions.c:3144 ../plugins/fn-stat/functions.c:3186
-#: ../plugins/fn-stat/functions.c:3232 ../plugins/fn-stat/functions.c:3275
-#: ../plugins/fn-stat/functions.c:3319 ../plugins/fn-stat/functions.c:3385
-#: ../plugins/fn-stat/functions.c:3554 ../plugins/fn-stat/functions.c:4490
-#: ../plugins/fn-stat/functions.c:4547 ../plugins/fn-stat/functions.c:4595
-#: ../plugins/fn-stat/functions.c:4660 ../plugins/fn-string/functions.c:66
+#: ../plugins/fn-random/functions.c:247 ../plugins/fn-stat/functions.c:84
+#: ../plugins/fn-stat/functions.c:113 ../plugins/fn-stat/functions.c:141
+#: ../plugins/fn-stat/functions.c:170 ../plugins/fn-stat/functions.c:272
+#: ../plugins/fn-stat/functions.c:320 ../plugins/fn-stat/functions.c:350
+#: ../plugins/fn-stat/functions.c:380 ../plugins/fn-stat/functions.c:413
+#: ../plugins/fn-stat/functions.c:437 ../plugins/fn-stat/functions.c:461
+#: ../plugins/fn-stat/functions.c:502 ../plugins/fn-stat/functions.c:552
+#: ../plugins/fn-stat/functions.c:581 ../plugins/fn-stat/functions.c:608
+#: ../plugins/fn-stat/functions.c:628 ../plugins/fn-stat/functions.c:657
+#: ../plugins/fn-stat/functions.c:755 ../plugins/fn-stat/functions.c:783
+#: ../plugins/fn-stat/functions.c:810 ../plugins/fn-stat/functions.c:837
+#: ../plugins/fn-stat/functions.c:862 ../plugins/fn-stat/functions.c:889
+#: ../plugins/fn-stat/functions.c:925 ../plugins/fn-stat/functions.c:966
+#: ../plugins/fn-stat/functions.c:1021 ../plugins/fn-stat/functions.c:1089
+#: ../plugins/fn-stat/functions.c:1121 ../plugins/fn-stat/functions.c:1149
+#: ../plugins/fn-stat/functions.c:1176 ../plugins/fn-stat/functions.c:1206
+#: ../plugins/fn-stat/functions.c:1294 ../plugins/fn-stat/functions.c:1331
+#: ../plugins/fn-stat/functions.c:1369 ../plugins/fn-stat/functions.c:1452
+#: ../plugins/fn-stat/functions.c:1489 ../plugins/fn-stat/functions.c:1694
+#: ../plugins/fn-stat/functions.c:1726 ../plugins/fn-stat/functions.c:1762
+#: ../plugins/fn-stat/functions.c:1823 ../plugins/fn-stat/functions.c:1848
+#: ../plugins/fn-stat/functions.c:1869 ../plugins/fn-stat/functions.c:1899
+#: ../plugins/fn-stat/functions.c:1934 ../plugins/fn-stat/functions.c:1967
+#: ../plugins/fn-stat/functions.c:1996 ../plugins/fn-stat/functions.c:2028
+#: ../plugins/fn-stat/functions.c:2060 ../plugins/fn-stat/functions.c:2092
+#: ../plugins/fn-stat/functions.c:2125 ../plugins/fn-stat/functions.c:2176
+#: ../plugins/fn-stat/functions.c:2202 ../plugins/fn-stat/functions.c:2228
+#: ../plugins/fn-stat/functions.c:2255 ../plugins/fn-stat/functions.c:2284
+#: ../plugins/fn-stat/functions.c:2304 ../plugins/fn-stat/functions.c:2331
+#: ../plugins/fn-stat/functions.c:2464 ../plugins/fn-stat/functions.c:2522
+#: ../plugins/fn-stat/functions.c:2570 ../plugins/fn-stat/functions.c:2648
+#: ../plugins/fn-stat/functions.c:2706 ../plugins/fn-stat/functions.c:2765
+#: ../plugins/fn-stat/functions.c:2790 ../plugins/fn-stat/functions.c:2816
+#: ../plugins/fn-stat/functions.c:2847 ../plugins/fn-stat/functions.c:2873
+#: ../plugins/fn-stat/functions.c:2902 ../plugins/fn-stat/functions.c:2928
+#: ../plugins/fn-stat/functions.c:3159 ../plugins/fn-stat/functions.c:3201
+#: ../plugins/fn-stat/functions.c:3247 ../plugins/fn-stat/functions.c:3290
+#: ../plugins/fn-stat/functions.c:3334 ../plugins/fn-stat/functions.c:3400
+#: ../plugins/fn-stat/functions.c:3569 ../plugins/fn-stat/functions.c:4505
+#: ../plugins/fn-stat/functions.c:4562 ../plugins/fn-stat/functions.c:4610
+#: ../plugins/fn-stat/functions.c:4675 ../plugins/fn-string/functions.c:66
 #: ../plugins/fn-string/functions.c:105 ../plugins/fn-string/functions.c:167
 #: ../plugins/fn-string/functions.c:207 ../plugins/fn-string/functions.c:279
 #: ../plugins/fn-string/functions.c:298 ../plugins/fn-string/functions.c:315
@@ -1204,9 +1204,9 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1251 ../plugins/fn-math/functions.c:575
 #: ../plugins/fn-math/functions.c:1181 ../plugins/fn-math/functions.c:1208
 #: ../plugins/fn-math/functions.c:1674 ../plugins/fn-math/functions.c:1694
-#: ../plugins/fn-math/functions.c:2572 ../plugins/fn-math/functions.c:3236
-#: ../plugins/fn-math/functions.c:3435 ../plugins/fn-stat/functions.c:1750
-#: ../plugins/fn-stat/functions.c:2692 ../plugins/fn-stat/functions.c:5049
+#: ../plugins/fn-math/functions.c:2573 ../plugins/fn-math/functions.c:3237
+#: ../plugins/fn-math/functions.c:3436 ../plugins/fn-stat/functions.c:1761
+#: ../plugins/fn-stat/functions.c:2707 ../plugins/fn-stat/functions.c:5064
 #: ../plugins/fn-string/functions.c:353 ../plugins/fn-string/functions.c:440
 #: ../plugins/fn-string/functions.c:567 ../plugins/fn-string/functions.c:1565
 #: ../plugins/fn-string/functions.c:2173 ../plugins/fn-string/functions.c:2422
@@ -1600,24 +1600,24 @@ msgstr "YEARFRAC:дробова кількість років між датам�
 #: ../plugins/fn-financial/functions.c:554
 #: ../plugins/fn-financial/functions.c:586
 #: ../plugins/fn-financial/functions.c:625
-#: ../plugins/fn-financial/functions.c:1834
-#: ../plugins/fn-financial/functions.c:2193
-#: ../plugins/fn-financial/functions.c:2243
-#: ../plugins/fn-financial/functions.c:2350
-#: ../plugins/fn-financial/functions.c:2391
-#: ../plugins/fn-financial/functions.c:2429
-#: ../plugins/fn-financial/functions.c:2580
-#: ../plugins/fn-financial/functions.c:2675
-#: ../plugins/fn-financial/functions.c:2753
-#: ../plugins/fn-financial/functions.c:2830
-#: ../plugins/fn-financial/functions.c:2882
-#: ../plugins/fn-financial/functions.c:2921
-#: ../plugins/fn-financial/functions.c:2945
-#: ../plugins/fn-financial/functions.c:2969
-#: ../plugins/fn-financial/functions.c:2993
-#: ../plugins/fn-financial/functions.c:3019
-#: ../plugins/fn-financial/functions.c:3045
-#: ../plugins/fn-financial/functions.c:3153
+#: ../plugins/fn-financial/functions.c:1835
+#: ../plugins/fn-financial/functions.c:2194
+#: ../plugins/fn-financial/functions.c:2244
+#: ../plugins/fn-financial/functions.c:2351
+#: ../plugins/fn-financial/functions.c:2392
+#: ../plugins/fn-financial/functions.c:2430
+#: ../plugins/fn-financial/functions.c:2581
+#: ../plugins/fn-financial/functions.c:2676
+#: ../plugins/fn-financial/functions.c:2754
+#: ../plugins/fn-financial/functions.c:2831
+#: ../plugins/fn-financial/functions.c:2883
+#: ../plugins/fn-financial/functions.c:2922
+#: ../plugins/fn-financial/functions.c:2946
+#: ../plugins/fn-financial/functions.c:2970
+#: ../plugins/fn-financial/functions.c:2994
+#: ../plugins/fn-financial/functions.c:3020
+#: ../plugins/fn-financial/functions.c:3046
+#: ../plugins/fn-financial/functions.c:3154
 msgid "basis:calendar basis"
 msgstr "basis:основа календаря"
 
@@ -2590,21 +2590,21 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:1433 ../plugins/fn-math/functions.c:1477
 #: ../plugins/fn-math/functions.c:1606 ../plugins/fn-math/functions.c:1692
 #: ../plugins/fn-math/functions.c:1732 ../plugins/fn-math/functions.c:1750
-#: ../plugins/fn-math/functions.c:1957 ../plugins/fn-math/functions.c:2037
-#: ../plugins/fn-math/functions.c:2229 ../plugins/fn-math/functions.c:2259
-#: ../plugins/fn-math/functions.c:2383 ../plugins/fn-math/functions.c:2433
-#: ../plugins/fn-math/functions.c:2457 ../plugins/fn-math/functions.c:2488
-#: ../plugins/fn-math/functions.c:2525 ../plugins/fn-stat/functions.c:432
-#: ../plugins/fn-stat/functions.c:543 ../plugins/fn-stat/functions.c:602
-#: ../plugins/fn-stat/functions.c:1003 ../plugins/fn-stat/functions.c:1072
-#: ../plugins/fn-stat/functions.c:1133 ../plugins/fn-stat/functions.c:1275
-#: ../plugins/fn-stat/functions.c:1310 ../plugins/fn-stat/functions.c:1383
-#: ../plugins/fn-stat/functions.c:1472 ../plugins/fn-stat/functions.c:1502
-#: ../plugins/fn-stat/functions.c:1775 ../plugins/fn-stat/functions.c:2008
-#: ../plugins/fn-stat/functions.c:2044 ../plugins/fn-stat/functions.c:2211
-#: ../plugins/fn-stat/functions.c:4864 ../plugins/fn-stat/functions.c:4895
-#: ../plugins/fn-stat/functions.c:4929 ../plugins/fn-stat/functions.c:4949
-#: ../plugins/fn-stat/functions.c:4988 ../plugins/fn-stat/functions.c:5021
+#: ../plugins/fn-math/functions.c:1958 ../plugins/fn-math/functions.c:2038
+#: ../plugins/fn-math/functions.c:2230 ../plugins/fn-math/functions.c:2260
+#: ../plugins/fn-math/functions.c:2384 ../plugins/fn-math/functions.c:2434
+#: ../plugins/fn-math/functions.c:2458 ../plugins/fn-math/functions.c:2489
+#: ../plugins/fn-math/functions.c:2526 ../plugins/fn-stat/functions.c:436
+#: ../plugins/fn-stat/functions.c:547 ../plugins/fn-stat/functions.c:606
+#: ../plugins/fn-stat/functions.c:1014 ../plugins/fn-stat/functions.c:1083
+#: ../plugins/fn-stat/functions.c:1144 ../plugins/fn-stat/functions.c:1286
+#: ../plugins/fn-stat/functions.c:1321 ../plugins/fn-stat/functions.c:1394
+#: ../plugins/fn-stat/functions.c:1483 ../plugins/fn-stat/functions.c:1513
+#: ../plugins/fn-stat/functions.c:1786 ../plugins/fn-stat/functions.c:2019
+#: ../plugins/fn-stat/functions.c:2055 ../plugins/fn-stat/functions.c:2225
+#: ../plugins/fn-stat/functions.c:4879 ../plugins/fn-stat/functions.c:4910
+#: ../plugins/fn-stat/functions.c:4944 ../plugins/fn-stat/functions.c:4964
+#: ../plugins/fn-stat/functions.c:5003 ../plugins/fn-stat/functions.c:5036
 msgid "x:number"
 msgstr "x:число"
 
@@ -2648,25 +2648,28 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:652
 msgid "CONVERT:a converted measurement"
-msgstr ""
+msgstr "CONVERT:конвертований вимір"
 
 #: ../plugins/fn-eng/functions.c:654
 msgid "from:unit (string)"
-msgstr ""
+msgstr "from:одиниця вимірювання (рядок)"
 
 #: ../plugins/fn-eng/functions.c:655
 msgid "to:unit (string)"
-msgstr ""
+msgstr "to:одиниця вимірювання (рядок)"
 
 #: ../plugins/fn-eng/functions.c:656
 msgid ""
 "CONVERT returns a conversion from one measurement system to another. @{x} is "
 "a value in @{from} units that is to be converted into @{to} units."
 msgstr ""
+"CONVERT переводить з однієї системи вимірювання в іншу. @{x} це значення у "
+"одиницях вимірювання @{from}, яке слід конвертувати в одиницю вимірювання "
+"@{to}"
 
 #: ../plugins/fn-eng/functions.c:658
 msgid "If @{from} and @{to} are different types, CONVERT returns #N/A!"
-msgstr ""
+msgstr "Якщо @{from} і @{to} є різних типів, CONVERT видає #N/A!"
 
 #: ../plugins/fn-eng/functions.c:659
 msgid ""
@@ -2868,6 +2871,203 @@ msgid ""
 "\t'Mi'  \tmebi \t\t2^20\n"
 "\t'ki'  \tkibi \t\t\t2^10"
 msgstr ""
+"@{from} та @{to} можуть бути наступними:\n"
+"\n"
+"Вага та маса\n"
+"\t'brton'\t\\Англійська тонна\n"
+"\t'cwt'\t\t\tГандредвейт США (короткий)\n"
+"\t'g'  \t\t\tГрам\n"
+"\t'grain'\t\tГран\n"
+"\t'hweight'\t\tАнглійський гандредвейт(довгий)\n"
+"\t'LTON'\t\tАнглійська тонна\n"
+"\t'sg' \t\t\tСлаг (англійська одиниця вимірювання, 1 слаг дорівнює майже "
+"14.6кг)\n"
+"\t'shweight'\tГандредвейт США (короткий)\n"
+"\t'lbm'\t\tФунт\n"
+"\t'lcwt'\t\tАнглійський гандредвейт (довгий)\n"
+"\t'u'  \t\t\tU (атомна маса)\n"
+"\t'uk_cwt'\t\tАнглійський гандредвейт (довгий)\n"
+"\t'ozm'\t\tУнція\n"
+"\t'stone'\t\tСтоун (британська одиниця маси, 1 стоун дорівнює 6.3кг)\n"
+"\t'ton'\t\t\tТонна\n"
+"\n"
+"Відстань:\n"
+"\t'm'   \t\tМетр\n"
+"\t'mi'  \t\tМиля\n"
+"\t'survey_mi' \tСтатутні милі США\n"
+"\t'Nmi' \t\tМорська миля\n"
+"\t'in'  \t\t\tДюйм\n"
+"\t'ft'  \t\t\tФут\n"
+"\t'yd'  \t\tЯрд\n"
+"\t'ell' \t\t\tАнглійський Елл (Ell, десь 1.1м)\n"
+"\t'ang' \t\tАнгстрем\n"
+"\t'ly' \t\t\tСвітловий рік\n"
+"\t'pc' \t\t\tПарсек\n"
+"\t'parsec' \t\tПарсек\n"
+"\t'Pica'\t\tПіка\n"
+"\t'Picapt'\t\tПіка\n"
+"\t'picapt'\t\tПіка\n"
+"\t'pica'\t\tПіка\n"
+"\n"
+"Час:\n"
+"\t'yr'  \t\t\tРік\n"
+"\t'day' \t\tДень\n"
+"\t'hr'  \t\t\tГодина\n"
+"\t'mn'  \t\tХвилина\n"
+"\t'sec' \t\tСекунда\n"
+"\n"
+"Тиск:\n"
+"\t'Pa'  \t\t\tПаскаль\n"
+"\t'psi' \t\t\tФунт на квадратний дюйм (PSI)\n"
+"\t'atm' \t\tАтмосфери\n"
+"\t'Pa'  \t\t\tПаскаль\n"
+"\t'mmHg'\t\tМіліметр ртутного стовпчика\n"
+"\t'Torr'\t\t\tТорр\n"
+"\n"
+"Сила:\n"
+"\t'N'   \t\t\tНьютон\n"
+"\t'dyn' \t\tДина\n"
+"\t'pond' \t\tФунт\n"
+"\t'lbf' \t\t\tФунти-сили\n"
+"\n"
+"Енергія:\n"
+"\t'J'    \t\t\tДжоуль\n"
+"\t'e'    \t\tЕрг\n"
+"\t'c'    \t\tТермодинамічні калорії\n"
+"\t'cal'  \t\tКалорії\n"
+"\t'eV'   \t\tЕлектронвольт\n"
+"\t'HPh'  \t\tКінських сил-годин\n"
+"\t'Wh'   \t\tВат-годин\n"
+"\t'flb'  \t\tФут-фунт\n"
+"\t'BTU'  \t\tBTU, British Thermal Units, Британська Теплова Одиниця, "
+"дорівнює 1060 Дж\n"
+"\n"
+"Потужність:\n"
+"\t'HP'   \t\tКінська сила\n"
+"\t'PS'   \t\tМетрична кінська сила (Pferdestärke)\n"
+"\t'W'    \t\tВат\n"
+"\n"
+"Магнетизм:\n"
+"\t'T'    \t\tТесла\n"
+"\t'ga'   \t\tГаус\n"
+"\n"
+"Temperature:\n"
+"\t'C'    \t\tГрадус Цельсія\n"
+"\t'F'    \t\tГрадус Фаренгейта\n"
+"\t'K'    \t\tКельвін\n"
+"\t'Rank' \t\tГрадус Ранкіна\n"
+"\t'Reau' \t\tГрадус Реомюра\n"
+"\n"
+"Обʼєм (вимір рідин):\n"
+"\t'tsp'  \t\tЧайна ложка\n"
+"\t'tspm'  \t\tЧайна ложка (сучасна, метрична)\n"
+"\t'tbs'  \t\tСтолова ложка\n"
+"\t'oz'   \t\tРідка унція\n"
+"\t'cup'  \t\tЧашка\n"
+"\t'pt'   \t\tПінта\n"
+"\t'us_pt'\t\tПінта США\n"
+"\t'uk_pt'\t\tАнглійська пінта\n"
+"\t'qt'   \t\tКварта (чверть галону)\n"
+"\t'uk_qt'   \t\tАнглійська кварта\n"
+"\t'gal'  \t\tГалон\n"
+"\t'uk_gal'  \t\tАнглійський галон\n"
+"\t'GRT'  \t\tРеєстрова тонна\n"
+"\t'regton' \t\tРеєстрова тонна\n"
+"\t'MTON' \t\tМірна тонна (товарна тонна)\n"
+"\t'l'    \t\t\tЛітр\n"
+"\t'L'    \t\tЛітр\n"
+"\t'lt'   \t\t\tЛітр\n"
+"\t'ang3' \t\tКубічний Ангстрем\n"
+"\t'ang^3' \t\tКубічний Ангстрем\n"
+"\t'barrel' \t\tБарель (бочка сирої нафти США)\n"
+"\t'bushel' \t\tБушель США\n"
+"\t'ft3' \t\t\tКубічні фути\n"
+"\t'ft^3' \t\tКубічні фути\n"
+"\t'in3' \t\tКубічні дюйми\n"
+"\t'in^3' \t\tКубічні дюйми\n"
+"\t'ly3' \t\t\tКубічні світлові роки\n"
+"\t'ly^3' \t\tКубічні світлові роки\n"
+"\t'm3' \t\tКубічні метри\n"
+"\t'm^3' \t\tКубічні метри\n"
+"\t'mi3' \t\tКубічна миля\n"
+"\t'mi^3' \t\tКубічна миля\n"
+"\t'yd3' \t\tКубічний ярд\n"
+"\t'yd^3' \t\tКубічний ярд\n"
+"\t'Nmi3' \t\tКубічна морська миля\n"
+"\t'Nmi^3' \t\tКубічна морська миля\n"
+"\t'Picapt3' \t\tКубічна Піка\n"
+"\t'Picapt^3' \tКубічна Піка\n"
+"\t'Pica3' \t\tКубічна Піка\n"
+"\t'Pica^3' \t\tКубічна Піка\n"
+"Площа:\n"
+"\t'uk_acre' \t\tМіжнародний акр\n"
+"\t'us_acre' \t\tАкр США (U.S. survey/statute acre) \n"
+"\t'ang2' \t\tКвадратний Ангстрем\n"
+"\t'ang^2' \t\tКвадратний Ангстрем\n"
+"\t'ar' \t\t\tАр, сотка\n"
+"\t'ha' \t\t\tГектар\n"
+"\t'in2' \t\tКвадратний дюйм\n"
+"\t'in^2' \t\tКвадратний дюйм\n"
+"\t'ly2' \t\t\tКвадратний світловий рік\n"
+"\t'ly^2' \t\tКвадратний світловий рік\n"
+"\t'm2' \t\tКвадратний метр\n"
+"\t'm^2' \t\tКвадратний метр\n"
+"\t'Morgen' \t\tМорг (Північнонімецький союз)\n"
+"\t'mi2' \t\tКвадратна миля\n"
+"\t'mi^2' \t\tКвадратна миля\n"
+"\t'Nmi2' \t\tКвадратна морська миля\n"
+"\t'Nmi^2' \t\tКвадратна морська миля\n"
+"\t'Picapt2' \t\tКвадратна Піка\n"
+"\t'Picapt^2' \tКвадратна Піка\n"
+"\t'Pica2' \t\tКвадратна Піка\n"
+"\t'Pica^2' \t\tКвадратна Піка\n"
+"\t'yd2' \t\tКвадратні ярди\n"
+"\t'yd^2' \t\tКвадратні ярди\n"
+"\n"
+"Біти й байти:\n"
+"\t'bit' \t\t\tБіт\n"
+"\t'byte' \t\tБайт\n"
+"\n"
+"Speed:\n"
+"\t'admkn' \t\tВузол британського адміралтейства\n"
+"\t'kn' \t\t\tВузол\n"
+"\t'm/h' \t\tМетр на годину\n"
+"\t'm/hr' \t\tМетр на годину\n"
+"\t'm/s' \t\tМетр на секунду\n"
+"\t'm/sec' \t\tМетр на секунду\n"
+"\t'mph' \t\tМилі на годину\n"
+"\n"
+"З метричними одиницями можна використовувати будь-який з цих префіксів:\n"
+"\t'Y'  \tЙота \t\t1E+24\n"
+"\t'Z'  \tЗета \t\t1E+21\n"
+"\t'E'  \tЕкса   \t\t1E+18\n"
+"\t'P'  \tПета  \t\t1E+15\n"
+"\t'T'  \tТера  \t\t1E+12\n"
+"\t'G'  \tГіга  \t\t1E+09\n"
+"\t'M'  \tМега  \t\t1E+06\n"
+"\t'k'  \tКіло  \t\t\t1E+03\n"
+"\t'h'  \tГекто \t\t1E+02\n"
+"\t'e'  \tДека\t1E+01\n"
+"\t'd'  \tДеци  \t\t1E-01\n"
+"\t'c'  \tСанти \t\t1E-02\n"
+"\t'm'  \tМілі \t\t\t1E-03\n"
+"\t'u'  \tМікро \t\t1E-06\n"
+"\t'n'  \tНано  \t\t1E-09\n"
+"\t'p'  \tПіко  \t\t1E-12\n"
+"\t'f'  \tФемто \t\t1E-15\n"
+"\t'a'  \tАтто  \t\t1E-18\n"
+"\t'z'  \tЗепто \t\t1E-21\n"
+"\t'y'  \tЙокто \t\t1E-24\n"
+"\n"
+"З бітами та байтами також можна використовувати будь-який з цих префіксів:\n"
+"\t'Yi'  \tЙобі \t\t2^80\n"
+"\t'Zi'  \tЗебі \t\t\t2^70\n"
+"\t'Ei'  \tЕксбі \t\t2^60\n"
+"\t'Pi'  \tПебі \t\t2^50\n"
+"\t'Ti'  \tТебі \t\t\t2^40\n"
+"\t'Gi'  \tГібі \t\t\t2^30\n"
+"\t'Mi'  \tМебі \t\t2^20\n"
+"\t'ki'  \tКібі \t\t\t2^10"
 
 #: ../plugins/fn-eng/functions.c:841
 msgid "This function is Excel compatible (except \"picapt\")."
@@ -3049,9 +3249,9 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:361
 #: ../plugins/fn-financial/functions.c:447
 #: ../plugins/fn-financial/functions.c:583
-#: ../plugins/fn-financial/functions.c:2388
-#: ../plugins/fn-financial/functions.c:2423
-#: ../plugins/fn-financial/functions.c:2574
+#: ../plugins/fn-financial/functions.c:2389
+#: ../plugins/fn-financial/functions.c:2424
+#: ../plugins/fn-financial/functions.c:2575
 msgid "issue:date of issue"
 msgstr ""
 
@@ -3068,22 +3268,22 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1037
 #: ../plugins/fn-financial/functions.c:1070
 #: ../plugins/fn-financial/functions.c:1099
-#: ../plugins/fn-financial/functions.c:1829
-#: ../plugins/fn-financial/functions.c:2187
-#: ../plugins/fn-financial/functions.c:2237
-#: ../plugins/fn-financial/functions.c:2346
-#: ../plugins/fn-financial/functions.c:2386
-#: ../plugins/fn-financial/functions.c:2421
-#: ../plugins/fn-financial/functions.c:2572
-#: ../plugins/fn-financial/functions.c:2668
-#: ../plugins/fn-financial/functions.c:2746
-#: ../plugins/fn-financial/functions.c:2918
-#: ../plugins/fn-financial/functions.c:2942
-#: ../plugins/fn-financial/functions.c:2966
-#: ../plugins/fn-financial/functions.c:2990
-#: ../plugins/fn-financial/functions.c:3016
-#: ../plugins/fn-financial/functions.c:3042
-#: ../plugins/fn-financial/functions.c:3148
+#: ../plugins/fn-financial/functions.c:1830
+#: ../plugins/fn-financial/functions.c:2188
+#: ../plugins/fn-financial/functions.c:2238
+#: ../plugins/fn-financial/functions.c:2347
+#: ../plugins/fn-financial/functions.c:2387
+#: ../plugins/fn-financial/functions.c:2422
+#: ../plugins/fn-financial/functions.c:2573
+#: ../plugins/fn-financial/functions.c:2669
+#: ../plugins/fn-financial/functions.c:2747
+#: ../plugins/fn-financial/functions.c:2919
+#: ../plugins/fn-financial/functions.c:2943
+#: ../plugins/fn-financial/functions.c:2967
+#: ../plugins/fn-financial/functions.c:2991
+#: ../plugins/fn-financial/functions.c:3017
+#: ../plugins/fn-financial/functions.c:3043
+#: ../plugins/fn-financial/functions.c:3149
 msgid "settlement:settlement date"
 msgstr ""
 
@@ -3091,13 +3291,13 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:449
 #: ../plugins/fn-financial/functions.c:517
 #: ../plugins/fn-financial/functions.c:654
-#: ../plugins/fn-financial/functions.c:2189
-#: ../plugins/fn-financial/functions.c:2239
-#: ../plugins/fn-financial/functions.c:2389
-#: ../plugins/fn-financial/functions.c:2425
-#: ../plugins/fn-financial/functions.c:2576
-#: ../plugins/fn-financial/functions.c:2671
-#: ../plugins/fn-financial/functions.c:2749
+#: ../plugins/fn-financial/functions.c:2190
+#: ../plugins/fn-financial/functions.c:2240
+#: ../plugins/fn-financial/functions.c:2390
+#: ../plugins/fn-financial/functions.c:2426
+#: ../plugins/fn-financial/functions.c:2577
+#: ../plugins/fn-financial/functions.c:2672
+#: ../plugins/fn-financial/functions.c:2750
 msgid "rate:nominal annual interest rate"
 msgstr ""
 
@@ -3106,20 +3306,20 @@ msgid "par:par value, defaults to $1000"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:366
-#: ../plugins/fn-financial/functions.c:1833
-#: ../plugins/fn-financial/functions.c:2192
-#: ../plugins/fn-financial/functions.c:2242
-#: ../plugins/fn-financial/functions.c:2428
-#: ../plugins/fn-financial/functions.c:2579
-#: ../plugins/fn-financial/functions.c:2674
-#: ../plugins/fn-financial/functions.c:2752
-#: ../plugins/fn-financial/functions.c:2920
-#: ../plugins/fn-financial/functions.c:2944
-#: ../plugins/fn-financial/functions.c:2968
-#: ../plugins/fn-financial/functions.c:2992
-#: ../plugins/fn-financial/functions.c:3018
-#: ../plugins/fn-financial/functions.c:3044
-#: ../plugins/fn-financial/functions.c:3152
+#: ../plugins/fn-financial/functions.c:1834
+#: ../plugins/fn-financial/functions.c:2193
+#: ../plugins/fn-financial/functions.c:2243
+#: ../plugins/fn-financial/functions.c:2429
+#: ../plugins/fn-financial/functions.c:2580
+#: ../plugins/fn-financial/functions.c:2675
+#: ../plugins/fn-financial/functions.c:2753
+#: ../plugins/fn-financial/functions.c:2921
+#: ../plugins/fn-financial/functions.c:2945
+#: ../plugins/fn-financial/functions.c:2969
+#: ../plugins/fn-financial/functions.c:2993
+#: ../plugins/fn-financial/functions.c:3019
+#: ../plugins/fn-financial/functions.c:3045
+#: ../plugins/fn-financial/functions.c:3153
 msgid "frequency:number of interest payments per year"
 msgstr ""
 
@@ -3174,22 +3374,22 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1038
 #: ../plugins/fn-financial/functions.c:1071
 #: ../plugins/fn-financial/functions.c:1100
-#: ../plugins/fn-financial/functions.c:1830
-#: ../plugins/fn-financial/functions.c:2188
-#: ../plugins/fn-financial/functions.c:2238
-#: ../plugins/fn-financial/functions.c:2347
-#: ../plugins/fn-financial/functions.c:2387
-#: ../plugins/fn-financial/functions.c:2422
-#: ../plugins/fn-financial/functions.c:2573
-#: ../plugins/fn-financial/functions.c:2669
-#: ../plugins/fn-financial/functions.c:2747
-#: ../plugins/fn-financial/functions.c:2919
-#: ../plugins/fn-financial/functions.c:2943
-#: ../plugins/fn-financial/functions.c:2967
-#: ../plugins/fn-financial/functions.c:2991
-#: ../plugins/fn-financial/functions.c:3017
-#: ../plugins/fn-financial/functions.c:3043
-#: ../plugins/fn-financial/functions.c:3149
+#: ../plugins/fn-financial/functions.c:1831
+#: ../plugins/fn-financial/functions.c:2189
+#: ../plugins/fn-financial/functions.c:2239
+#: ../plugins/fn-financial/functions.c:2348
+#: ../plugins/fn-financial/functions.c:2388
+#: ../plugins/fn-financial/functions.c:2423
+#: ../plugins/fn-financial/functions.c:2574
+#: ../plugins/fn-financial/functions.c:2670
+#: ../plugins/fn-financial/functions.c:2748
+#: ../plugins/fn-financial/functions.c:2920
+#: ../plugins/fn-financial/functions.c:2944
+#: ../plugins/fn-financial/functions.c:2968
+#: ../plugins/fn-financial/functions.c:2992
+#: ../plugins/fn-financial/functions.c:3018
+#: ../plugins/fn-financial/functions.c:3044
+#: ../plugins/fn-financial/functions.c:3150
 msgid "maturity:maturity date"
 msgstr ""
 
@@ -3203,11 +3403,11 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:453
 msgid "@{par} defaults to $1000."
-msgstr ""
+msgstr "@{par} типово є $1000."
 
 #: ../plugins/fn-financial/functions.c:480
 msgid "INTRATE:interest rate"
-msgstr ""
+msgstr "INTRATE:відсоткова ставка"
 
 #: ../plugins/fn-financial/functions.c:483
 #: ../plugins/fn-financial/functions.c:516
@@ -3217,13 +3417,13 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:484
 #: ../plugins/fn-financial/functions.c:553
 #: ../plugins/fn-financial/functions.c:624
-#: ../plugins/fn-financial/functions.c:2191
-#: ../plugins/fn-financial/functions.c:2241
-#: ../plugins/fn-financial/functions.c:2349
-#: ../plugins/fn-financial/functions.c:2427
-#: ../plugins/fn-financial/functions.c:2578
-#: ../plugins/fn-financial/functions.c:2673
-#: ../plugins/fn-financial/functions.c:2751
+#: ../plugins/fn-financial/functions.c:2192
+#: ../plugins/fn-financial/functions.c:2242
+#: ../plugins/fn-financial/functions.c:2350
+#: ../plugins/fn-financial/functions.c:2428
+#: ../plugins/fn-financial/functions.c:2579
+#: ../plugins/fn-financial/functions.c:2674
+#: ../plugins/fn-financial/functions.c:2752
 msgid "redemption:amount received at maturity"
 msgstr ""
 
@@ -3241,7 +3441,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:549
 msgid "PRICEDISC:discounted price"
-msgstr ""
+msgstr "PRICEDISC:ціна за знижкою"
 
 #: ../plugins/fn-financial/functions.c:552
 #: ../plugins/fn-financial/functions.c:584
@@ -3261,11 +3461,11 @@ msgid "PRICEMAT:price at maturity"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:585
-#: ../plugins/fn-financial/functions.c:1832
-#: ../plugins/fn-financial/functions.c:2190
-#: ../plugins/fn-financial/functions.c:2426
-#: ../plugins/fn-financial/functions.c:2672
-#: ../plugins/fn-financial/functions.c:3151
+#: ../plugins/fn-financial/functions.c:1833
+#: ../plugins/fn-financial/functions.c:2191
+#: ../plugins/fn-financial/functions.c:2427
+#: ../plugins/fn-financial/functions.c:2673
+#: ../plugins/fn-financial/functions.c:3152
 msgid "yield:annual yield of security"
 msgstr ""
 
@@ -3312,12 +3512,12 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:679
 #: ../plugins/fn-financial/functions.c:704
-#: ../plugins/fn-financial/functions.c:1481
-#: ../plugins/fn-financial/functions.c:1667
-#: ../plugins/fn-financial/functions.c:1697
-#: ../plugins/fn-financial/functions.c:1737
-#: ../plugins/fn-financial/functions.c:1781
-#: ../plugins/fn-financial/functions.c:1872
+#: ../plugins/fn-financial/functions.c:1482
+#: ../plugins/fn-financial/functions.c:1668
+#: ../plugins/fn-financial/functions.c:1698
+#: ../plugins/fn-financial/functions.c:1738
+#: ../plugins/fn-financial/functions.c:1782
+#: ../plugins/fn-financial/functions.c:1873
 msgid "rate:effective annual interest rate"
 msgstr ""
 
@@ -3330,34 +3530,34 @@ msgid "ISPMT:interest payment for period"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:705
-#: ../plugins/fn-financial/functions.c:1698
-#: ../plugins/fn-financial/functions.c:1738
+#: ../plugins/fn-financial/functions.c:1699
+#: ../plugins/fn-financial/functions.c:1739
 msgid "per:period number"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:706
 #: ../plugins/fn-financial/functions.c:1129
 #: ../plugins/fn-financial/functions.c:1397
-#: ../plugins/fn-financial/functions.c:1632
-#: ../plugins/fn-financial/functions.c:1668
-#: ../plugins/fn-financial/functions.c:1699
-#: ../plugins/fn-financial/functions.c:1739
-#: ../plugins/fn-financial/functions.c:3067
-#: ../plugins/fn-financial/functions.c:3108
+#: ../plugins/fn-financial/functions.c:1633
+#: ../plugins/fn-financial/functions.c:1669
+#: ../plugins/fn-financial/functions.c:1700
+#: ../plugins/fn-financial/functions.c:1740
+#: ../plugins/fn-financial/functions.c:3068
+#: ../plugins/fn-financial/functions.c:3109
 msgid "nper:number of periods"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:707
 #: ../plugins/fn-financial/functions.c:1131
 #: ../plugins/fn-financial/functions.c:1246
-#: ../plugins/fn-financial/functions.c:1634
-#: ../plugins/fn-financial/functions.c:1669
-#: ../plugins/fn-financial/functions.c:1700
-#: ../plugins/fn-financial/functions.c:1740
-#: ../plugins/fn-financial/functions.c:1783
-#: ../plugins/fn-financial/functions.c:1873
-#: ../plugins/fn-financial/functions.c:3068
-#: ../plugins/fn-financial/functions.c:3109
+#: ../plugins/fn-financial/functions.c:1635
+#: ../plugins/fn-financial/functions.c:1670
+#: ../plugins/fn-financial/functions.c:1701
+#: ../plugins/fn-financial/functions.c:1741
+#: ../plugins/fn-financial/functions.c:1784
+#: ../plugins/fn-financial/functions.c:1874
+#: ../plugins/fn-financial/functions.c:3069
+#: ../plugins/fn-financial/functions.c:3110
 msgid "pv:present value"
 msgstr ""
 
@@ -3373,9 +3573,9 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:783
 #: ../plugins/fn-financial/functions.c:829
 #: ../plugins/fn-financial/functions.c:857
-#: ../plugins/fn-financial/functions.c:2824
-#: ../plugins/fn-financial/functions.c:2876
-#: ../plugins/fn-financial/functions.c:3193
+#: ../plugins/fn-financial/functions.c:2825
+#: ../plugins/fn-financial/functions.c:2877
+#: ../plugins/fn-financial/functions.c:3194
 msgid "cost:initial cost of asset"
 msgstr ""
 
@@ -3383,9 +3583,9 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:784
 #: ../plugins/fn-financial/functions.c:830
 #: ../plugins/fn-financial/functions.c:858
-#: ../plugins/fn-financial/functions.c:2827
-#: ../plugins/fn-financial/functions.c:2879
-#: ../plugins/fn-financial/functions.c:3194
+#: ../plugins/fn-financial/functions.c:2828
+#: ../plugins/fn-financial/functions.c:2880
+#: ../plugins/fn-financial/functions.c:3195
 msgid "salvage:value after depreciation"
 msgstr ""
 
@@ -3393,15 +3593,15 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:785
 #: ../plugins/fn-financial/functions.c:831
 #: ../plugins/fn-financial/functions.c:859
-#: ../plugins/fn-financial/functions.c:3195
+#: ../plugins/fn-financial/functions.c:3196
 msgid "life:number of periods"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:741
 #: ../plugins/fn-financial/functions.c:786
 #: ../plugins/fn-financial/functions.c:860
-#: ../plugins/fn-financial/functions.c:2828
-#: ../plugins/fn-financial/functions.c:2880
+#: ../plugins/fn-financial/functions.c:2829
+#: ../plugins/fn-financial/functions.c:2881
 msgid "period:subject period"
 msgstr ""
 
@@ -3420,7 +3620,7 @@ msgid "DDB:depreciation of an asset"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:787
-#: ../plugins/fn-financial/functions.c:3198
+#: ../plugins/fn-financial/functions.c:3199
 msgid "factor:factor at which the balance declines"
 msgstr ""
 
@@ -3489,8 +3689,8 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:982
 #: ../plugins/fn-financial/functions.c:1278
-#: ../plugins/fn-financial/functions.c:1482
-#: ../plugins/fn-financial/functions.c:1537
+#: ../plugins/fn-financial/functions.c:1483
+#: ../plugins/fn-financial/functions.c:1538
 msgid "values:cash flow"
 msgstr "values:грошовий потік"
 
@@ -3542,37 +3742,37 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1130
 #: ../plugins/fn-financial/functions.c:1398
-#: ../plugins/fn-financial/functions.c:1633
-#: ../plugins/fn-financial/functions.c:1782
+#: ../plugins/fn-financial/functions.c:1634
+#: ../plugins/fn-financial/functions.c:1783
 msgid "pmt:payment at each period"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1132
 #: ../plugins/fn-financial/functions.c:1247
 #: ../plugins/fn-financial/functions.c:1399
-#: ../plugins/fn-financial/functions.c:1670
-#: ../plugins/fn-financial/functions.c:1701
-#: ../plugins/fn-financial/functions.c:1741
-#: ../plugins/fn-financial/functions.c:1784
-#: ../plugins/fn-financial/functions.c:1874
+#: ../plugins/fn-financial/functions.c:1671
+#: ../plugins/fn-financial/functions.c:1702
+#: ../plugins/fn-financial/functions.c:1742
+#: ../plugins/fn-financial/functions.c:1785
+#: ../plugins/fn-financial/functions.c:1875
 msgid "fv:future value"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1133
 #: ../plugins/fn-financial/functions.c:1400
-#: ../plugins/fn-financial/functions.c:1635
-#: ../plugins/fn-financial/functions.c:1671
-#: ../plugins/fn-financial/functions.c:1702
-#: ../plugins/fn-financial/functions.c:1742
-#: ../plugins/fn-financial/functions.c:1785
-#: ../plugins/fn-financial/functions.c:3071
-#: ../plugins/fn-financial/functions.c:3112
+#: ../plugins/fn-financial/functions.c:1636
+#: ../plugins/fn-financial/functions.c:1672
+#: ../plugins/fn-financial/functions.c:1703
+#: ../plugins/fn-financial/functions.c:1743
+#: ../plugins/fn-financial/functions.c:1786
+#: ../plugins/fn-financial/functions.c:3072
+#: ../plugins/fn-financial/functions.c:3113
 msgid "type:payment type"
 msgstr "type:тип оплати"
 
 #: ../plugins/fn-financial/functions.c:1134
 #: ../plugins/fn-financial/functions.c:1279
-#: ../plugins/fn-financial/functions.c:1539
+#: ../plugins/fn-financial/functions.c:1540
 msgid "guess:an estimate of what the result should be"
 msgstr "guess:приблизна оцінка того, яким має бути результат"
 
@@ -3582,7 +3782,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1137
 #: ../plugins/fn-financial/functions.c:1282
-#: ../plugins/fn-financial/functions.c:1541
+#: ../plugins/fn-financial/functions.c:1542
 msgid ""
 "The optional @{guess} is needed because there can be more than one valid "
 "result.  It defaults to 10%."
@@ -3625,7 +3825,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1396
 #: ../plugins/fn-financial/functions.c:1436
-#: ../plugins/fn-financial/functions.c:1631
+#: ../plugins/fn-financial/functions.c:1632
 msgid "rate:effective interest rate per period"
 msgstr ""
 
@@ -3652,141 +3852,143 @@ msgstr ""
 msgid "NPV calculates the net present value of a cash flow."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1480
+#: ../plugins/fn-financial/functions.c:1481
 msgid "XNPV:net present value"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1483
-#: ../plugins/fn-financial/functions.c:1538
+#: ../plugins/fn-financial/functions.c:1484
+#: ../plugins/fn-financial/functions.c:1539
 msgid "dates:dates of cash flow"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1484
+#: ../plugins/fn-financial/functions.c:1485
 msgid ""
 "XNPV calculates the net present value of a cash flow at irregular times."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1536
+#: ../plugins/fn-financial/functions.c:1537
 msgid "XIRR:internal rate of return"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1540
+#: ../plugins/fn-financial/functions.c:1541
 msgid ""
 "XIRR calculates the annualized internal rate of return of a cash flow at "
 "arbitrary points in time.  @{values} lists the payments (negative values) "
 "and receipts (positive values) with one value for each entry in @{dates}."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1630
+#: ../plugins/fn-financial/functions.c:1631
 msgid "FV:future value"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1636
+#: ../plugins/fn-financial/functions.c:1637
 msgid ""
 "FV calculates the future value of @{pv} moved @{nper} periods into the "
 "future, assuming a periodic payment of @{pmt} and an interest rate of "
 "@{rate} per period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1666
+#: ../plugins/fn-financial/functions.c:1667
 msgid "PMT:payment for annuity"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1672
+#: ../plugins/fn-financial/functions.c:1673
 msgid "PMT calculates the payment amount for an annuity."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1696
+#: ../plugins/fn-financial/functions.c:1697
 msgid "IPMT:interest payment for period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1703
+#: ../plugins/fn-financial/functions.c:1704
 msgid ""
 "IPMT calculates the interest part of an annuity's payment for period number "
 "@{per}."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1736
+#: ../plugins/fn-financial/functions.c:1737
 msgid "PPMT:interest payment for period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1743
+#: ../plugins/fn-financial/functions.c:1744
 msgid ""
 "PPMT calculates the principal part of an annuity's payment for period number "
 "@{per}."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1780
+#: ../plugins/fn-financial/functions.c:1781
 msgid "NPER:number of periods"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1786
+#: ../plugins/fn-financial/functions.c:1787
 msgid ""
 "NPER calculates the number of periods of an investment based on periodic "
 "constant payments and a constant interest rate."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1828
+#: ../plugins/fn-financial/functions.c:1829
 msgid "DURATION:the (Macaulay) duration of a security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1831
-#: ../plugins/fn-financial/functions.c:3150
+#: ../plugins/fn-financial/functions.c:1832
+#: ../plugins/fn-financial/functions.c:3151
 msgid "coupon:annual coupon rate"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1835
+#: ../plugins/fn-financial/functions.c:1836
 msgid "DURATION calculates the (Macaulay) duration of a security."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1871
+#: ../plugins/fn-financial/functions.c:1872
 msgid "G_DURATION:the duration of a investment"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1875
+#: ../plugins/fn-financial/functions.c:1876
 msgid ""
 "G_DURATION calculates the number of periods needed for an investment to "
 "attain a desired value."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1876
+#: ../plugins/fn-financial/functions.c:1877
 msgid "G_DURATION is the OpenFormula function PDURATION."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1903
+#: ../plugins/fn-financial/functions.c:1904
 msgid "FVSCHEDULE:future value"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1904
+#: ../plugins/fn-financial/functions.c:1905
 msgid "principal:initial value"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1905
+#: ../plugins/fn-financial/functions.c:1906
 msgid "schedule:range of interest rates"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1906
+#: ../plugins/fn-financial/functions.c:1907
 msgid ""
 "FVSCHEDULE calculates the future value of @{principal} after applying a "
 "range of interest rates with compounding."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1937
+#: ../plugins/fn-financial/functions.c:1938
 msgid "EURO:equivalent of 1 EUR"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1938
+#: ../plugins/fn-financial/functions.c:1939
 msgid "currency:three-letter currency code"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1939
+#: ../plugins/fn-financial/functions.c:1940
 msgid ""
 "EURO calculates the national currency amount corresponding to 1 EUR for any "
 "of the national currencies that were replaced by the Euro on its "
 "introduction."
 msgstr ""
+"EURO обчислює кількість національної валюти, що дорівнює 1 EUR у будь-якій "
+"із національних валют, що були замінені євро."
 
-#: ../plugins/fn-financial/functions.c:1940
+#: ../plugins/fn-financial/functions.c:1941
 msgid ""
 "@{currency} must be one of ATS (Austria), BEF (Belgium), CYP (Cyprus), DEM "
 "(Germany), EEK (Estonia), ESP (Spain), EUR (Euro), FIM (Finland), FRF "
@@ -3800,38 +4002,38 @@ msgstr ""
 "(Мальта), NLG (Нідерланди), PTE (Португалія), SIT (Словенія), or SKK "
 "(Словаччина)."
 
-#: ../plugins/fn-financial/functions.c:1959
-#: ../plugins/fn-financial/functions.c:2143
+#: ../plugins/fn-financial/functions.c:1960
+#: ../plugins/fn-financial/functions.c:2144
 msgid "This function is not likely to be useful anymore."
-msgstr ""
+msgstr "Ця функція, скоріш за все, більше не є корисною."
 
-#: ../plugins/fn-financial/functions.c:2134
+#: ../plugins/fn-financial/functions.c:2135
 msgid "EUROCONVERT:pre-Euro amount from one currency to another"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2135
-msgid "n:amount"
-msgstr ""
-
 #: ../plugins/fn-financial/functions.c:2136
+msgid "n:amount"
+msgstr "n:кількість"
+
+#: ../plugins/fn-financial/functions.c:2137
 msgid "source:three-letter source currency code"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2137
+#: ../plugins/fn-financial/functions.c:2138
 msgid "target:three-letter target currency code"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2138
+#: ../plugins/fn-financial/functions.c:2139
 msgid "full_precision:whether to provide the full precision; defaults to false"
 msgstr "full_precision:чи надавати повну точність; типово є хибним (false)"
 
-#: ../plugins/fn-financial/functions.c:2139
+#: ../plugins/fn-financial/functions.c:2140
 msgid ""
 "triangulation_precision:number of digits (at least 3) to be rounded to after "
 "conversion of the source currency to euro; defaults to no rounding"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2140
+#: ../plugins/fn-financial/functions.c:2141
 msgid ""
 "EUROCONVERT converts @{n} units of currency @{source} to currency "
 "@{target}.  The rates used are the official ones used on the introduction of "
@@ -3841,7 +4043,7 @@ msgstr ""
 "Використовується офіційний курс обміну, що використовувався при впровадженні "
 "євро."
 
-#: ../plugins/fn-financial/functions.c:2141
+#: ../plugins/fn-financial/functions.c:2142
 msgid ""
 "If @{full_precision} is true, the result is not rounded; if it false the "
 "result is rounded to 0 or 2 decimals depending on the target currency; "
@@ -3851,126 +4053,126 @@ msgstr ""
 "воно є хибним (false), то результат округлюється до 0 чи 2 цифр після коми в "
 "залежності від валюти; типово є хибним (false)."
 
-#: ../plugins/fn-financial/functions.c:2142
+#: ../plugins/fn-financial/functions.c:2143
 msgid ""
 "@{source} and @{target} must be one of the currencies listed for the EURO "
 "function."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2186
+#: ../plugins/fn-financial/functions.c:2187
 msgid "PRICE:price of a security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2194
+#: ../plugins/fn-financial/functions.c:2195
 msgid ""
 "PRICE calculates the price per $100 face value of a security that pays "
 "periodic interest."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2236
+#: ../plugins/fn-financial/functions.c:2237
 msgid "YIELD:yield of a security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2240
-#: ../plugins/fn-financial/functions.c:2348
-#: ../plugins/fn-financial/functions.c:2390
-#: ../plugins/fn-financial/functions.c:2577
-#: ../plugins/fn-financial/functions.c:2750
+#: ../plugins/fn-financial/functions.c:2241
+#: ../plugins/fn-financial/functions.c:2349
+#: ../plugins/fn-financial/functions.c:2391
+#: ../plugins/fn-financial/functions.c:2578
+#: ../plugins/fn-financial/functions.c:2751
 msgid "price:price of security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2244
+#: ../plugins/fn-financial/functions.c:2245
 msgid "YIELD calculates the yield of a security that pays periodic interest."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2345
+#: ../plugins/fn-financial/functions.c:2346
 msgid "YIELDDISC:yield of a discounted security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2351
+#: ../plugins/fn-financial/functions.c:2352
 msgid "YIELDDISC calculates the yield of a discounted security."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2385
+#: ../plugins/fn-financial/functions.c:2386
 msgid "YIELDMAT:yield of a security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2392
+#: ../plugins/fn-financial/functions.c:2393
 msgid ""
 "YIELDMAT calculates the yield of a security for which the interest is paid "
 "at maturity date."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2420
+#: ../plugins/fn-financial/functions.c:2421
 msgid "ODDFPRICE:price of a security that has an odd first period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2424
-#: ../plugins/fn-financial/functions.c:2575
+#: ../plugins/fn-financial/functions.c:2425
+#: ../plugins/fn-financial/functions.c:2576
 msgid "first_interest:first interest date"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2430
+#: ../plugins/fn-financial/functions.c:2431
 msgid ""
 "ODDFPRICE calculates the price per $100 face value of a security that pays "
 "periodic interest, but has an odd first period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2571
+#: ../plugins/fn-financial/functions.c:2572
 msgid "ODDFYIELD:yield of a security that has an odd first period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2581
+#: ../plugins/fn-financial/functions.c:2582
 msgid ""
 "ODDFYIELD calculates the yield of a security that pays periodic interest, "
 "but has an odd first period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2667
+#: ../plugins/fn-financial/functions.c:2668
 msgid "ODDLPRICE:price of a security that has an odd last period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2670
-#: ../plugins/fn-financial/functions.c:2748
+#: ../plugins/fn-financial/functions.c:2671
+#: ../plugins/fn-financial/functions.c:2749
 msgid "last_interest:last interest date"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2676
+#: ../plugins/fn-financial/functions.c:2677
 msgid ""
 "ODDLPRICE calculates the price per $100 face value of a security that pays "
 "periodic interest, but has an odd last period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2745
+#: ../plugins/fn-financial/functions.c:2746
 msgid "ODDLYIELD:yield of a security that has an odd last period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2754
+#: ../plugins/fn-financial/functions.c:2755
 msgid ""
 "ODDLYIELD calculates the yield of a security that pays periodic interest, "
 "but has an odd last period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2823
+#: ../plugins/fn-financial/functions.c:2824
 msgid "AMORDEGRC:depreciation of an asset using French accounting conventions"
-msgstr ""
-
-#: ../plugins/fn-financial/functions.c:2825
-#: ../plugins/fn-financial/functions.c:2877
-msgid "purchase_date:date of purchase"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2826
 #: ../plugins/fn-financial/functions.c:2878
+msgid "purchase_date:date of purchase"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:2827
+#: ../plugins/fn-financial/functions.c:2879
 msgid "first_period:end of first period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2829
-#: ../plugins/fn-financial/functions.c:2881
+#: ../plugins/fn-financial/functions.c:2830
+#: ../plugins/fn-financial/functions.c:2882
 msgid "rate:depreciation rate"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2832
+#: ../plugins/fn-financial/functions.c:2833
 msgid ""
 "AMORDEGRC calculates the depreciation of an asset using French accounting "
 "conventions. Assets purchased in the middle of a period take prorated "
@@ -3979,7 +4181,7 @@ msgid ""
 "of the assets."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2836
+#: ../plugins/fn-financial/functions.c:2837
 msgid ""
 "The depreciation coefficient used is:\n"
 "1.0 for an expected lifetime less than 3 years,\n"
@@ -3988,158 +4190,158 @@ msgid ""
 "2.5 for an expected lifetime of more than 6 years."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2841
+#: ../plugins/fn-financial/functions.c:2842
 msgid ""
 "Special depreciation rules are applied for the last two periods resulting in "
 "a possible total depreciation exceeding the difference of @{cost} - "
 "@{salvage}."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2843
+#: ../plugins/fn-financial/functions.c:2844
 msgid "Named for AMORtissement DEGRessif Comptabilite."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2875
+#: ../plugins/fn-financial/functions.c:2876
 msgid "AMORLINC:depreciation of an asset using French accounting conventions"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2884
+#: ../plugins/fn-financial/functions.c:2885
 msgid ""
 "AMORLINC calculates the depreciation of an asset using French accounting "
 "conventions. Assets purchased in the middle of a period take prorated "
 "depreciation into account."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2886
+#: ../plugins/fn-financial/functions.c:2887
 msgid "Named for AMORtissement LINeaire Comptabilite."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2917
+#: ../plugins/fn-financial/functions.c:2918
 msgid "COUPDAYBS:number of days from coupon period to settlement"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2922
-#: ../plugins/fn-financial/functions.c:2946
-#: ../plugins/fn-financial/functions.c:2970
-#: ../plugins/fn-financial/functions.c:2994
-#: ../plugins/fn-financial/functions.c:3020
-#: ../plugins/fn-financial/functions.c:3046
+#: ../plugins/fn-financial/functions.c:2923
+#: ../plugins/fn-financial/functions.c:2947
+#: ../plugins/fn-financial/functions.c:2971
+#: ../plugins/fn-financial/functions.c:2995
+#: ../plugins/fn-financial/functions.c:3021
+#: ../plugins/fn-financial/functions.c:3047
 msgid "eom:end-of-month flag"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2923
+#: ../plugins/fn-financial/functions.c:2924
 msgid ""
 "COUPDAYBS calculates the number of days from the beginning of the coupon "
 "period to the settlement date."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2941
+#: ../plugins/fn-financial/functions.c:2942
 msgid "COUPDAYS:number of days in the coupon period of the settlement date"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2947
+#: ../plugins/fn-financial/functions.c:2948
 msgid ""
 "COUPDAYS calculates the number of days in the coupon period of the "
 "settlement date."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2965
+#: ../plugins/fn-financial/functions.c:2966
 msgid ""
 "COUPDAYSNC:number of days from the settlement date to the next coupon period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2971
+#: ../plugins/fn-financial/functions.c:2972
 msgid ""
 "COUPDAYSNC calculates number of days from the settlement date to the next "
 "coupon period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2989
+#: ../plugins/fn-financial/functions.c:2990
 msgid "COUPNCD:the next coupon date after settlement"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2995
+#: ../plugins/fn-financial/functions.c:2996
 msgid "COUPNCD calculates the coupon date following settlement."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3015
+#: ../plugins/fn-financial/functions.c:3016
 msgid "COUPPCD:the last coupon date before settlement"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3021
+#: ../plugins/fn-financial/functions.c:3022
 msgid "COUPPCD calculates the coupon date preceding settlement."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3041
+#: ../plugins/fn-financial/functions.c:3042
 msgid "COUPNUM:number of coupons"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3047
+#: ../plugins/fn-financial/functions.c:3048
 msgid ""
 "COUPNUM calculates the number of coupons to be paid between the settlement "
 "and maturity dates, rounded up."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3065
+#: ../plugins/fn-financial/functions.c:3066
 msgid "CUMIPMT:cumulative interest payment"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3066
-#: ../plugins/fn-financial/functions.c:3107
+#: ../plugins/fn-financial/functions.c:3067
+#: ../plugins/fn-financial/functions.c:3108
 msgid "rate:interest rate per period"
-msgstr ""
-
-#: ../plugins/fn-financial/functions.c:3069
-#: ../plugins/fn-financial/functions.c:3110
-#: ../plugins/fn-financial/functions.c:3196
-msgid "start_period:first period to accumulate for"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3070
 #: ../plugins/fn-financial/functions.c:3111
 #: ../plugins/fn-financial/functions.c:3197
+msgid "start_period:first period to accumulate for"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:3071
+#: ../plugins/fn-financial/functions.c:3112
+#: ../plugins/fn-financial/functions.c:3198
 msgid "end_period:last period to accumulate for"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3072
+#: ../plugins/fn-financial/functions.c:3073
 msgid ""
 "CUMIPMT calculates the cumulative interest paid on a loan from "
 "@{start_period} to @{end_period}."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3106
+#: ../plugins/fn-financial/functions.c:3107
 msgid "CUMPRINC:cumulative principal"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3113
+#: ../plugins/fn-financial/functions.c:3114
 msgid ""
 "CUMPRINC calculates the cumulative principal paid on a loan from "
 "@{start_period} to @{end_period}."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3147
+#: ../plugins/fn-financial/functions.c:3148
 msgid "MDURATION:the modified (Macaulay) duration of a security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3154
+#: ../plugins/fn-financial/functions.c:3155
 msgid "MDURATION calculates the modified (Macaulay) duration of a security."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3192
+#: ../plugins/fn-financial/functions.c:3193
 msgid "VDB:depreciation of an asset"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3199
+#: ../plugins/fn-financial/functions.c:3200
 msgid "no_switch:do not switch to straight-line depreciation"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3200
+#: ../plugins/fn-financial/functions.c:3201
 msgid ""
 "VDB calculates the depreciation of an asset for a given period range using "
 "the variable-rate declining balance method."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3201
+#: ../plugins/fn-financial/functions.c:3202
 msgid ""
 "If @{no_switch} is FALSE, the calculation switches to straight-line "
 "depreciation when depreciation is greater than the declining balance "
@@ -4412,7 +4614,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:627
 msgid "ISERROR:TRUE if @{value} is any error value"
-msgstr ""
+msgstr "ISERROR:є ВІРНИМ (TRUE), якщо @{value} є будь-якою помилкою"
 
 #: ../plugins/fn-info/functions.c:628 ../plugins/fn-info/functions.c:646
 #: ../plugins/fn-info/functions.c:668 ../plugins/fn-info/functions.c:763
@@ -4420,23 +4622,23 @@ msgstr ""
 #: ../plugins/fn-info/functions.c:836 ../plugins/fn-info/functions.c:875
 #: ../plugins/fn-info/functions.c:905 ../plugins/fn-info/functions.c:955
 msgid "value:a value"
-msgstr ""
+msgstr "value:значення"
 
 #: ../plugins/fn-info/functions.c:645
 msgid "ISNA:TRUE if @{value} is the #N/A error value"
-msgstr ""
+msgstr "ISNA:є ВІРНИМ (TRUE), якщо помилка є #N/A"
 
 #: ../plugins/fn-info/functions.c:667
 msgid "ISERR:TRUE if @{value} is any error value except #N/A"
-msgstr ""
+msgstr "ISERR:є ВІРНИМ (TRUE), якщо @{value} є будь-якою помилкою окрім #N/A"
 
 #: ../plugins/fn-info/functions.c:686
 msgid "ERROR.TYPE:the type of @{error}"
-msgstr ""
+msgstr "ERROR.TYPE:тип @{error}"
 
 #: ../plugins/fn-info/functions.c:687
 msgid "error:an error"
-msgstr ""
+msgstr "error:помилка"
 
 #: ../plugins/fn-info/functions.c:688
 msgid ""
@@ -5332,8 +5534,8 @@ msgstr ""
 msgid "SORT:sorted list of numbers as vertical array"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2182 ../plugins/fn-stat/functions.c:163
-#: ../plugins/fn-stat/functions.c:211
+#: ../plugins/fn-lookup/functions.c:2182 ../plugins/fn-stat/functions.c:167
+#: ../plugins/fn-stat/functions.c:215
 msgid "ref:list of numbers"
 msgstr ""
 
@@ -5409,7 +5611,7 @@ msgid "GD:Gudermannian function"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:321 ../plugins/fn-math/functions.c:432
-#: ../plugins/fn-math/functions.c:1542 ../plugins/fn-stat/functions.c:1981
+#: ../plugins/fn-math/functions.c:1542 ../plugins/fn-stat/functions.c:1992
 msgid "x:value"
 msgstr ""
 
@@ -5710,7 +5912,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:843 ../plugins/fn-math/functions.c:951
 #: ../plugins/fn-math/functions.c:1636 ../plugins/fn-math/functions.c:1672
-#: ../plugins/fn-math/functions.c:1712 ../plugins/fn-math/functions.c:1924
+#: ../plugins/fn-math/functions.c:1712 ../plugins/fn-math/functions.c:1925
 msgid "x:angle in radians"
 msgstr ""
 
@@ -5723,7 +5925,7 @@ msgid "COSPI:the cosine of Pi*@{x}"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:863 ../plugins/fn-math/functions.c:916
-#: ../plugins/fn-math/functions.c:1655 ../plugins/fn-math/functions.c:1941
+#: ../plugins/fn-math/functions.c:1655 ../plugins/fn-math/functions.c:1942
 msgid "x:number of half turns"
 msgstr ""
 
@@ -5801,7 +6003,7 @@ msgstr ""
 msgid "IGAMMA:the incomplete Gamma function"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1093 ../plugins/fn-stat/functions.c:524
+#: ../plugins/fn-math/functions.c:1093 ../plugins/fn-stat/functions.c:528
 msgid "a:number"
 msgstr "a:число"
 
@@ -5869,7 +6071,7 @@ msgid "COMBIN:binomial coefficient"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1174 ../plugins/fn-math/functions.c:1206
-#: ../plugins/fn-math/functions.c:2645
+#: ../plugins/fn-math/functions.c:2646
 msgid "n:non-negative integer"
 msgstr ""
 
@@ -6187,7 +6389,7 @@ msgstr ""
 msgid "SQRT:square root of @{x}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1768 ../plugins/fn-math/functions.c:2411
+#: ../plugins/fn-math/functions.c:1768 ../plugins/fn-math/functions.c:2412
 msgid "x:non-negative number"
 msgstr ""
 
@@ -6211,136 +6413,136 @@ msgstr ""
 msgid "SUMSQ:sum of the squares of all values and cells referenced"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1874
+#: ../plugins/fn-math/functions.c:1875
 msgid ""
 "MULTINOMIAL:multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},…,@{xn})"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1875
+#: ../plugins/fn-math/functions.c:1876
 msgid "x1:first number"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1876
+#: ../plugins/fn-math/functions.c:1877
 msgid "x2:second number"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1877
+#: ../plugins/fn-math/functions.c:1878
 msgid "xn:nth number"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1881
+#: ../plugins/fn-math/functions.c:1882
 msgid "wiki:en:Multinomial_theorem"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1899
+#: ../plugins/fn-math/functions.c:1900
 msgid "G_PRODUCT:product of all the values and cells referenced"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1900
+#: ../plugins/fn-math/functions.c:1901
 msgid "x1:number"
 msgstr "x1:число"
 
-#: ../plugins/fn-math/functions.c:1901
+#: ../plugins/fn-math/functions.c:1902
 msgid "x2:number"
 msgstr "x2:число"
 
-#: ../plugins/fn-math/functions.c:1902
+#: ../plugins/fn-math/functions.c:1903
 msgid "Empty cells are ignored and the empty product is 1."
 msgstr "Пусті клітини ігноруються, і пустий продукт є 1."
 
-#: ../plugins/fn-math/functions.c:1923
+#: ../plugins/fn-math/functions.c:1924
 msgid "TAN:the tangent of @{x}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1940
+#: ../plugins/fn-math/functions.c:1941
 msgid "TANPI:the tangent of Pi*@{x}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1956
+#: ../plugins/fn-math/functions.c:1957
 msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1973
+#: ../plugins/fn-math/functions.c:1974
 msgid "PI:the constant π"
 msgstr "PI:константа π"
 
-#: ../plugins/fn-math/functions.c:1974
+#: ../plugins/fn-math/functions.c:1975
 msgid ""
 "This function is Excel compatible, but it returns π with a better precision."
 msgstr "Ця функція сумісна з Excel, але повертає π з вищою точністю."
 
-#: ../plugins/fn-math/functions.c:1991
+#: ../plugins/fn-math/functions.c:1992
 msgid "PERCENTOF:percentage of a subset relative to total"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1992
+#: ../plugins/fn-math/functions.c:1993
 msgid "subset:subset of data"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1993
+#: ../plugins/fn-math/functions.c:1994
 msgid "data_all:the complete dataset"
 msgstr "data_all:повний набір даних"
 
-#: ../plugins/fn-math/functions.c:1994
+#: ../plugins/fn-math/functions.c:1995
 msgid ""
 "PERCENTOF returns the sum of @{subset} divided by the sum of @{data_all}."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1995
+#: ../plugins/fn-math/functions.c:1996
 msgid "If the sum of @{data_all} is zero, PERCENTOF returns #DIV/0!"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2036
+#: ../plugins/fn-math/functions.c:2037
 msgid "TRUNC:@{x} truncated to @{d} digits"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2038 ../plugins/fn-math/functions.c:2434
-#: ../plugins/fn-math/functions.c:2458 ../plugins/fn-math/functions.c:2489
+#: ../plugins/fn-math/functions.c:2039 ../plugins/fn-math/functions.c:2435
+#: ../plugins/fn-math/functions.c:2459 ../plugins/fn-math/functions.c:2490
 msgid "d:integer, defaults to 0"
 msgstr "d:ціле число, типово є 0"
 
-#: ../plugins/fn-math/functions.c:2039
+#: ../plugins/fn-math/functions.c:2040
 msgid ""
 "If @{d} is omitted then it defaults to zero. If it is not an integer then it "
 "is truncated to an integer."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2040
+#: ../plugins/fn-math/functions.c:2041
 msgid ""
 "If @{d} is negative, it refers to number of digits before the decimal point."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2228
+#: ../plugins/fn-math/functions.c:2229
 msgid "EVEN:@{x} rounded away from 0 to the next even integer"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2258
+#: ../plugins/fn-math/functions.c:2259
 msgid "ODD:@{x} rounded away from 0 to the next odd integer"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2289
+#: ../plugins/fn-math/functions.c:2290
 msgid "FACTDOUBLE:double factorial"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2290
+#: ../plugins/fn-math/functions.c:2291
 msgid "x:non-negative integer"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2291
+#: ../plugins/fn-math/functions.c:2292
 msgid "FACTDOUBLE function returns the double factorial @{x}!!"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2292
+#: ../plugins/fn-math/functions.c:2293
 msgid ""
 "If @{x} is not an integer, it is truncated. If @{x} is negative, FACTDOUBLE "
 "returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2314
+#: ../plugins/fn-math/functions.c:2315
 msgid "FIB:Fibonacci numbers"
 msgstr "FIB:числа Фібоначчі"
 
-#: ../plugins/fn-math/functions.c:2315 ../plugins/fn-numtheory/numtheory.c:337
+#: ../plugins/fn-math/functions.c:2316 ../plugins/fn-numtheory/numtheory.c:337
 #: ../plugins/fn-numtheory/numtheory.c:370
 #: ../plugins/fn-numtheory/numtheory.c:404
 #: ../plugins/fn-numtheory/numtheory.c:437
@@ -6352,11 +6554,11 @@ msgstr "FIB:числа Фібоначчі"
 msgid "n:positive integer"
 msgstr "n:додатне ціле число"
 
-#: ../plugins/fn-math/functions.c:2316
-msgid "FIB(@{n}) is the @{n}th Fibonacci number."
-msgstr "FIB(@{n}) є @{n} числом Фібоначчі"
-
 #: ../plugins/fn-math/functions.c:2317
+msgid "FIB(@{n}) is the @{n}th Fibonacci number."
+msgstr "FIB(@{n}) є @{n} числом Фібоначчі."
+
+#: ../plugins/fn-math/functions.c:2318
 msgid ""
 "If @{n} is not an integer, it is truncated. If it is negative or zero FIB "
 "returns #NUM!"
@@ -6364,19 +6566,19 @@ msgstr ""
 "Якщо @{n} не є цілим числом, воно скорочується. Якщо воно є 0 або відʼємним, "
 "то FIB видає #NUM!"
 
-#: ../plugins/fn-math/functions.c:2355
+#: ../plugins/fn-math/functions.c:2356
 msgid "QUOTIENT:integer portion of a division"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2356
+#: ../plugins/fn-math/functions.c:2357
 msgid "numerator:integer"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2357
+#: ../plugins/fn-math/functions.c:2358
 msgid "denominator:non-zero integer"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2358
+#: ../plugins/fn-math/functions.c:2359
 msgid ""
 "QUOTIENT yields the integer portion of the division @{numerator}/"
 "@{denominator}.\n"
@@ -6384,24 +6586,24 @@ msgid ""
 "+MOD(@{numerator},@{denominator})=@{numerator}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2382
+#: ../plugins/fn-math/functions.c:2383
 msgid "SIGN:sign of @{x}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2384
+#: ../plugins/fn-math/functions.c:2385
 msgid ""
 "SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negative."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2409
+#: ../plugins/fn-math/functions.c:2410
 msgid "SQRTPI:the square root of @{x} times π"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2432
+#: ../plugins/fn-math/functions.c:2433
 msgid "ROUNDDOWN:@{x} rounded towards 0"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2435
+#: ../plugins/fn-math/functions.c:2436
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded toward 0 to the given number "
 "of digits.\n"
@@ -6410,11 +6612,11 @@ msgid ""
 "decimal point"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2456
+#: ../plugins/fn-math/functions.c:2457
 msgid "ROUND:rounded @{x}"
 msgstr "ROUND:округлене @{x}"
 
-#: ../plugins/fn-math/functions.c:2459
+#: ../plugins/fn-math/functions.c:2460
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded to the given number of "
 "digits.\n"
@@ -6422,11 +6624,11 @@ msgid ""
 "If @{d} is less than zero, @{x} is rounded to the left of the decimal point"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2487
+#: ../plugins/fn-math/functions.c:2488
 msgid "ROUNDUP:@{x} rounded away from 0"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2490
+#: ../plugins/fn-math/functions.c:2491
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded away from 0 to the given "
 "number of digits.\n"
@@ -6435,27 +6637,27 @@ msgid ""
 "decimal point"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2524
+#: ../plugins/fn-math/functions.c:2525
 msgid "MROUND:@{x} rounded to a multiple of @{m}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2526
+#: ../plugins/fn-math/functions.c:2527
 msgid "m:number"
 msgstr "m:число"
 
-#: ../plugins/fn-math/functions.c:2527
+#: ../plugins/fn-math/functions.c:2528
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2566
+#: ../plugins/fn-math/functions.c:2567
 msgid "ARABIC:the Roman numeral @{roman} as number"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2567
+#: ../plugins/fn-math/functions.c:2568
 msgid "roman:Roman numeral"
 msgstr "roman:римська цифра"
 
-#: ../plugins/fn-math/functions.c:2568
+#: ../plugins/fn-math/functions.c:2569
 msgid ""
 "Any Roman symbol to the left of a larger symbol (directly or indirectly) "
 "reduces the final value by the symbol amount, otherwise, it increases the "
@@ -6465,15 +6667,15 @@ msgstr ""
 "кінцеве значення на число символа, в іншому разі воно збільшує кінцеве "
 "значення на число символа."
 
-#: ../plugins/fn-math/functions.c:2644
+#: ../plugins/fn-math/functions.c:2645
 msgid "ROMAN:@{n} as a roman numeral text"
 msgstr "ROMAN:@{n} як текст з Римських цифер"
 
-#: ../plugins/fn-math/functions.c:2646
+#: ../plugins/fn-math/functions.c:2647
 msgid "type:0,1,2,3,or 4, defaults to 0"
 msgstr "type:0,1,2,3, або 4, типово є 0"
 
-#: ../plugins/fn-math/functions.c:2647
+#: ../plugins/fn-math/functions.c:2648
 msgid ""
 "ROMAN returns the arabic number @{n} as a roman numeral text.\n"
 "If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
@@ -6486,182 +6688,182 @@ msgstr ""
 "Тип 1 лаконічніший за класичний, тип 2 лаконічніший, ніж тип 1, а тип 3 "
 "лаконічніше ніж тип 2. Тип 4 є спрощеним."
 
-#: ../plugins/fn-math/functions.c:2894
+#: ../plugins/fn-math/functions.c:2895
 msgid "SUMX2MY2:sum of the difference of squares"
-msgstr ""
-
-#: ../plugins/fn-math/functions.c:2895 ../plugins/fn-math/functions.c:2937
-#: ../plugins/fn-math/functions.c:2980
-msgid "array0:first cell area"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2896 ../plugins/fn-math/functions.c:2938
 #: ../plugins/fn-math/functions.c:2981
+msgid "array0:first cell area"
+msgstr ""
+
+#: ../plugins/fn-math/functions.c:2897 ../plugins/fn-math/functions.c:2939
+#: ../plugins/fn-math/functions.c:2982
 msgid "array1:second cell area"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2897
+#: ../plugins/fn-math/functions.c:2898
 msgid ""
 "SUMX2MY2 function returns the sum of the difference of squares of "
 "corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2900 ../plugins/fn-math/functions.c:2944
-#: ../plugins/fn-math/functions.c:2987
+#: ../plugins/fn-math/functions.c:2901 ../plugins/fn-math/functions.c:2945
+#: ../plugins/fn-math/functions.c:2988
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
 "and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2901
+#: ../plugins/fn-math/functions.c:2902
 msgid "Then SUMX2MY2(A1:A5,B1:B5) yields -1299."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2936
+#: ../plugins/fn-math/functions.c:2937
 msgid "SUMX2PY2:sum of the sum of squares"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2939
+#: ../plugins/fn-math/functions.c:2940
 msgid ""
 "SUMX2PY2 function returns the sum of the sum of squares of corresponding "
 "values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2)."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2941
+#: ../plugins/fn-math/functions.c:2942
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMX2PY2 "
 "returns #N/A.\n"
 "Strings and empty cells are simply ignored."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2945
+#: ../plugins/fn-math/functions.c:2946
 msgid "Then SUMX2PY2(A1:A5,B1:B5) yields 7149."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2979
+#: ../plugins/fn-math/functions.c:2980
 msgid "SUMXMY2:sum of the squares of differences"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2982
+#: ../plugins/fn-math/functions.c:2983
 msgid ""
 "SUMXMY2 function returns the sum of the squares of the differences of "
 "corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2984
+#: ../plugins/fn-math/functions.c:2985
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMXMY2 "
 "returns #N/A.\n"
 "Strings and empty cells are simply ignored."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2988
+#: ../plugins/fn-math/functions.c:2989
 msgid "Then SUMXMY2(A1:A5,B1:B5) yields 409."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3024
+#: ../plugins/fn-math/functions.c:3025
 msgid "SERIESSUM:sum of a power series at @{x}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3025
+#: ../plugins/fn-math/functions.c:3026
 msgid "x:number where to evaluate the power series"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3026
+#: ../plugins/fn-math/functions.c:3027
 msgid "n:non-negative integer, exponent of the lowest term of the series"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3027
+#: ../plugins/fn-math/functions.c:3028
 msgid "m:increment to each exponent"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3028
+#: ../plugins/fn-math/functions.c:3029
 msgid "coeff:coefficients of the power series"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3030
+#: ../plugins/fn-math/functions.c:3031
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, "
 "2.98, 3.42, and 4.33."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3031
+#: ../plugins/fn-math/functions.c:3032
 msgid "Then SERIESSUM(2,1,2.23,A1:A5) evaluates as 5056.37439843926"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3082
+#: ../plugins/fn-math/functions.c:3083
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3083 ../plugins/fn-math/functions.c:3371
+#: ../plugins/fn-math/functions.c:3084 ../plugins/fn-math/functions.c:3372
 msgid "matrix:a square matrix"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3084
+#: ../plugins/fn-math/functions.c:3085
 msgid "If @{matrix} is not invertible, MINVERSE returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3085
+#: ../plugins/fn-math/functions.c:3086
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, MINVERSE "
 "returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3119
+#: ../plugins/fn-math/functions.c:3120
 msgid "MPSEUDOINVERSE:the pseudo-inverse matrix of @{matrix}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3120
+#: ../plugins/fn-math/functions.c:3121
 msgid "matrix:a matrix"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3121
+#: ../plugins/fn-math/functions.c:3122
 msgid "threshold:a relative size threshold for discarding eigenvalues"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3156
+#: ../plugins/fn-math/functions.c:3157
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite "
 "@{matrix}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3157
+#: ../plugins/fn-math/functions.c:3158
 msgid "matrix:a symmetric positive definite matrix"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3158
+#: ../plugins/fn-math/functions.c:3159
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3159
+#: ../plugins/fn-math/functions.c:3160
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3234
+#: ../plugins/fn-math/functions.c:3235
 msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3235
+#: ../plugins/fn-math/functions.c:3236
 msgid "n:size of the matrix"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3272
+#: ../plugins/fn-math/functions.c:3273
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3273
+#: ../plugins/fn-math/functions.c:3274
 msgid "mat1:a matrix"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3274
+#: ../plugins/fn-math/functions.c:3275
 msgid "mat2:a matrix"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3275
+#: ../plugins/fn-math/functions.c:3276
 msgid ""
 "The number of columns in @{mat1} must equal the number of rows in @{mat2}; "
 "otherwise #VALUE! is returned.  The result of MMULT is an array, in which "
@@ -6669,100 +6871,104 @@ msgid ""
 "the same as in @{mat2}."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3315
+#: ../plugins/fn-math/functions.c:3316
 msgid "LINSOLVE:solve linear equation"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3316 ../plugins/fn-stat/functions.c:3615
+#: ../plugins/fn-math/functions.c:3317 ../plugins/fn-stat/functions.c:3630
 msgid "A:a matrix"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3317
+#: ../plugins/fn-math/functions.c:3318
 msgid "B:a matrix"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3319
+#: ../plugins/fn-math/functions.c:3320
 msgid "Solves the equation @{A}*X=@{B} and returns X."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3320
+#: ../plugins/fn-math/functions.c:3321
 msgid "If the matrix @{A} is singular, #VALUE! is returned."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3370
+#: ../plugins/fn-math/functions.c:3371
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3372
+#: ../plugins/fn-math/functions.c:3373
 msgid ""
 "Let us assume that A1,...,A4 contain numbers 2, 3, 7, and 3; B1,..., B4 4, "
 "2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then "
 "MDETERM(A1:D4) yields 148."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3402
+#: ../plugins/fn-math/functions.c:3403
 msgid "SUMPRODUCT:multiplies components and adds the results"
-msgstr ""
+msgstr "SUMPRODUCT:множить компоненти і додає результати"
 
-#: ../plugins/fn-math/functions.c:3404 ../plugins/fn-math/functions.c:3427
+#: ../plugins/fn-math/functions.c:3405 ../plugins/fn-math/functions.c:3428
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
 msgstr ""
+"Множить відповідні записи у наданих областях чи діапазонах, і видає суму цих "
+"продуктів."
 
-#: ../plugins/fn-math/functions.c:3407
+#: ../plugins/fn-math/functions.c:3408
 msgid "If an entry is not numeric, the value zero is used instead."
-msgstr ""
+msgstr "Якщо запис не є цифрою, використовується значення 0."
 
-#: ../plugins/fn-math/functions.c:3408 ../plugins/fn-math/functions.c:3431
+#: ../plugins/fn-math/functions.c:3409 ../plugins/fn-math/functions.c:3432
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
 msgstr ""
+"Якщо аргументи областей чи діапазонів не мають однакові розміри, видається "
+"помилка #VALUE!."
 
-#: ../plugins/fn-math/functions.c:3410
+#: ../plugins/fn-math/functions.c:3411
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3419
+#: ../plugins/fn-math/functions.c:3420
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
-msgstr ""
+msgstr "Ця формула не сумісна із OpenFormula. Використовуйте ODF.SUMPRODUCT."
 
-#: ../plugins/fn-math/functions.c:3425
+#: ../plugins/fn-math/functions.c:3426
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
-msgstr ""
+msgstr "ODF.SUMPRODUCT:множить компоненти і додає результати"
 
-#: ../plugins/fn-math/functions.c:3430
+#: ../plugins/fn-math/functions.c:3431
 msgid "If an entry is not numeric or logical, the value zero is used instead."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3433
+#: ../plugins/fn-math/functions.c:3434
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3434
+#: ../plugins/fn-math/functions.c:3435
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
-msgstr ""
+msgstr "Ця функція не сумісна з Excel. Використовуйте SUMPRODUCT."
 
-#: ../plugins/fn-math/functions.c:3569
+#: ../plugins/fn-math/functions.c:3570
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3570
-msgid "matrix:a symmetric matrix"
-msgstr ""
-
 #: ../plugins/fn-math/functions.c:3571
+msgid "matrix:a symmetric matrix"
+msgstr "matrix:симетрична матриця"
+
+#: ../plugins/fn-math/functions.c:3572
 msgid ""
 "If @{matrix} is not symmetric, matching off-diagonal cells will be averaged "
 "on the assumption that the non-symmetry is caused by unimportant rounding "
 "errors."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3572
+#: ../plugins/fn-math/functions.c:3573
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
@@ -6981,8 +7187,8 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1275 ../plugins/fn-r/functions.c:1300
 #: ../plugins/fn-r/functions.c:1354 ../plugins/fn-r/functions.c:1377
 #: ../plugins/fn-r/functions.c:1427 ../plugins/fn-r/functions.c:1483
-#: ../plugins/fn-r/functions.c:1508 ../plugins/fn-stat/functions.c:454
-#: ../plugins/fn-stat/functions.c:1835
+#: ../plugins/fn-r/functions.c:1508 ../plugins/fn-stat/functions.c:458
+#: ../plugins/fn-stat/functions.c:1846
 msgid "x:observation"
 msgstr ""
 
@@ -7468,17 +7674,17 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:717 ../plugins/fn-r/functions.c:744
 #: ../plugins/fn-r/functions.c:773
 msgid "r:the number of red balls"
-msgstr ""
+msgstr "r:кількість червоних кульок"
 
 #: ../plugins/fn-r/functions.c:718 ../plugins/fn-r/functions.c:745
 #: ../plugins/fn-r/functions.c:774
 msgid "b:the number of black balls"
-msgstr ""
+msgstr "b:кількість чорних кульок"
 
 #: ../plugins/fn-r/functions.c:719 ../plugins/fn-r/functions.c:746
 #: ../plugins/fn-r/functions.c:775
 msgid "n:the number of balls drawn"
-msgstr ""
+msgstr "n:кількість кульок, що слід намалювати"
 
 #: ../plugins/fn-r/functions.c:721
 msgid ""
@@ -8044,7 +8250,7 @@ msgstr ""
 msgid "RANDBERNOULLI:random variate from a Bernoulli distribution"
 msgstr ""
 
-#: ../plugins/fn-random/functions.c:301 ../plugins/fn-stat/functions.c:1037
+#: ../plugins/fn-random/functions.c:301 ../plugins/fn-stat/functions.c:1048
 msgid "p:probability of success"
 msgstr ""
 
@@ -8217,10 +8423,10 @@ msgstr ""
 msgid "RANDLOG:random variate from a logarithmic distribution"
 msgstr ""
 
-#: ../plugins/fn-random/functions.c:630 ../plugins/fn-stat/functions.c:573
-#: ../plugins/fn-stat/functions.c:1105 ../plugins/fn-stat/functions.c:1161
-#: ../plugins/fn-stat/functions.c:1350 ../plugins/fn-stat/functions.c:1677
-#: ../plugins/fn-stat/functions.c:2077
+#: ../plugins/fn-random/functions.c:630 ../plugins/fn-stat/functions.c:577
+#: ../plugins/fn-stat/functions.c:1116 ../plugins/fn-stat/functions.c:1172
+#: ../plugins/fn-stat/functions.c:1361 ../plugins/fn-stat/functions.c:1688
+#: ../plugins/fn-stat/functions.c:2088
 msgid "p:probability"
 msgstr ""
 
@@ -8456,17 +8662,17 @@ msgstr ""
 msgid "VARP:variance of an entire population"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:51 ../plugins/fn-stat/functions.c:77
-#: ../plugins/fn-stat/functions.c:107 ../plugins/fn-stat/functions.c:135
-#: ../plugins/fn-stat/functions.c:2824 ../plugins/fn-stat/functions.c:2854
-#: ../plugins/fn-stat/functions.c:2881 ../plugins/fn-stat/functions.c:2909
+#: ../plugins/fn-stat/functions.c:51 ../plugins/fn-stat/functions.c:78
+#: ../plugins/fn-stat/functions.c:109 ../plugins/fn-stat/functions.c:138
+#: ../plugins/fn-stat/functions.c:2839 ../plugins/fn-stat/functions.c:2869
+#: ../plugins/fn-stat/functions.c:2896 ../plugins/fn-stat/functions.c:2924
 msgid "area1:first cell area"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:52 ../plugins/fn-stat/functions.c:78
-#: ../plugins/fn-stat/functions.c:108 ../plugins/fn-stat/functions.c:136
-#: ../plugins/fn-stat/functions.c:2825 ../plugins/fn-stat/functions.c:2855
-#: ../plugins/fn-stat/functions.c:2882 ../plugins/fn-stat/functions.c:2910
+#: ../plugins/fn-stat/functions.c:52 ../plugins/fn-stat/functions.c:79
+#: ../plugins/fn-stat/functions.c:110 ../plugins/fn-stat/functions.c:139
+#: ../plugins/fn-stat/functions.c:2840 ../plugins/fn-stat/functions.c:2870
+#: ../plugins/fn-stat/functions.c:2897 ../plugins/fn-stat/functions.c:2925
 msgid "area2:second cell area"
 msgstr ""
 
@@ -8474,23 +8680,23 @@ msgstr ""
 msgid "VARP is also known as the N-variance."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:56 ../plugins/fn-stat/functions.c:86
+#: ../plugins/fn-stat/functions.c:56 ../plugins/fn-stat/functions.c:87
 msgid "wiki:en:Variance"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:57 ../plugins/fn-stat/functions.c:87
+#: ../plugins/fn-stat/functions.c:57 ../plugins/fn-stat/functions.c:88
 msgid "wolfram:Variance.html"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:76
+#: ../plugins/fn-stat/functions.c:77
 msgid "VAR:sample variance of the given sample"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:79
+#: ../plugins/fn-stat/functions.c:80
 msgid "VAR is also known as the N-1-variance."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:80 ../plugins/fn-stat/functions.c:2829
+#: ../plugins/fn-stat/functions.c:81 ../plugins/fn-stat/functions.c:2844
 msgid ""
 "Since the N-1-variance includes Bessel's correction, whereas the N-variance "
 "calculated by VARPA or VARP does not, under reasonable conditions the N-1-"
@@ -8498,104 +8704,104 @@ msgid ""
 "which the sample is drawn."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:106
+#: ../plugins/fn-stat/functions.c:108
 msgid "STDEV:sample standard deviation of the given sample"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:109
+#: ../plugins/fn-stat/functions.c:111
 msgid "STDEV is also known as the N-1-standard deviation."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:110
+#: ../plugins/fn-stat/functions.c:112
 msgid ""
 "To obtain the population standard deviation of a whole population use STDEVP."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:114 ../plugins/fn-stat/functions.c:141
+#: ../plugins/fn-stat/functions.c:116 ../plugins/fn-stat/functions.c:144
 msgid "wiki:en:Standard_deviation"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:115 ../plugins/fn-stat/functions.c:142
+#: ../plugins/fn-stat/functions.c:117 ../plugins/fn-stat/functions.c:145
 msgid "wolfram:StandardDeviation.html"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:134
+#: ../plugins/fn-stat/functions.c:137
 msgid "STDEVP:population standard deviation of the given population"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:137 ../plugins/fn-stat/functions.c:2911
+#: ../plugins/fn-stat/functions.c:140 ../plugins/fn-stat/functions.c:2926
 msgid "This is also known as the N-standard deviation"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:161
+#: ../plugins/fn-stat/functions.c:165
 msgid "RANK:rank of a number in a list of numbers"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:162 ../plugins/fn-stat/functions.c:210
+#: ../plugins/fn-stat/functions.c:166 ../plugins/fn-stat/functions.c:214
 msgid "x:number whose rank you want to find"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:164 ../plugins/fn-stat/functions.c:212
+#: ../plugins/fn-stat/functions.c:168 ../plugins/fn-stat/functions.c:216
 msgid "order:0 (descending order) or non-zero (ascending order); defaults to 0"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:165
+#: ../plugins/fn-stat/functions.c:169
 msgid "In case of a tie, RANK returns the largest possible rank."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:167
+#: ../plugins/fn-stat/functions.c:171
 msgid ""
 "Let us assume that the cells A1, A2, …, A5 contain numbers 11.4, 17.3, 21.3, "
 "25.9, and 25.9."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:168
+#: ../plugins/fn-stat/functions.c:172
 msgid "Then RANK(17.3,A1:A5) equals 4."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:169
+#: ../plugins/fn-stat/functions.c:173
 msgid "Then RANK(25.9,A1:A5) equals 1."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:209
+#: ../plugins/fn-stat/functions.c:213
 msgid "RANK.AVG:rank of a number in a list of numbers"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:213
+#: ../plugins/fn-stat/functions.c:217
 msgid "In case of a tie, RANK.AVG returns the average rank."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:214
+#: ../plugins/fn-stat/functions.c:218
 msgid "This function is Excel 2010 compatible."
 msgstr "Ця функція є сумісною із Excel 2010."
 
-#: ../plugins/fn-stat/functions.c:215
+#: ../plugins/fn-stat/functions.c:219
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 25.9."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:216
+#: ../plugins/fn-stat/functions.c:220
 msgid "Then RANK.AVG(17.3,A1:A5) equals 4."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:217
+#: ../plugins/fn-stat/functions.c:221
 msgid "Then RANK.AVG(25.9,A1:A5) equals 1.5."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:263
+#: ../plugins/fn-stat/functions.c:267
 msgid "TRIMMEAN:mean of the interior of a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:264
+#: ../plugins/fn-stat/functions.c:268
 msgid "ref:list of numbers whose mean you want to calculate"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:265
+#: ../plugins/fn-stat/functions.c:269
 msgid "fraction:fraction of the data set excluded from the mean"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:266
+#: ../plugins/fn-stat/functions.c:270
 msgid ""
 "If @{fraction}=0.2 and the data set contains 40 numbers, 8 numbers are "
 "trimmed from the data set (40 x 0.2): the 4 largest and the 4 smallest. To "
@@ -8603,535 +8809,535 @@ msgid ""
 "the nearest even number."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:269 ../plugins/fn-stat/functions.c:805
-#: ../plugins/fn-stat/functions.c:2450 ../plugins/fn-stat/functions.c:2508
-#: ../plugins/fn-stat/functions.c:2693 ../plugins/fn-stat/functions.c:3145
-#: ../plugins/fn-stat/functions.c:3187 ../plugins/fn-stat/functions.c:3233
-#: ../plugins/fn-stat/functions.c:3276
+#: ../plugins/fn-stat/functions.c:273 ../plugins/fn-stat/functions.c:811
+#: ../plugins/fn-stat/functions.c:2465 ../plugins/fn-stat/functions.c:2523
+#: ../plugins/fn-stat/functions.c:2708 ../plugins/fn-stat/functions.c:3160
+#: ../plugins/fn-stat/functions.c:3202 ../plugins/fn-stat/functions.c:3248
+#: ../plugins/fn-stat/functions.c:3291
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:270
+#: ../plugins/fn-stat/functions.c:274
 msgid ""
 "Then TRIMMEAN(A1:A5,0.2) equals 23.2 and TRIMMEAN(A1:A5,0.4) equals 21.5."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:312
+#: ../plugins/fn-stat/functions.c:316
 msgid "COVAR:covariance of two data sets"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:313 ../plugins/fn-stat/functions.c:343
-#: ../plugins/fn-stat/functions.c:373
+#: ../plugins/fn-stat/functions.c:317 ../plugins/fn-stat/functions.c:347
+#: ../plugins/fn-stat/functions.c:377
 msgid "array1:first data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:314 ../plugins/fn-stat/functions.c:344
-#: ../plugins/fn-stat/functions.c:374
+#: ../plugins/fn-stat/functions.c:318 ../plugins/fn-stat/functions.c:348
+#: ../plugins/fn-stat/functions.c:378
 msgid "array2:second data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:315 ../plugins/fn-stat/functions.c:345
-#: ../plugins/fn-stat/functions.c:375 ../plugins/fn-stat/functions.c:622
-#: ../plugins/fn-stat/functions.c:651 ../plugins/fn-stat/functions.c:951
-#: ../plugins/fn-stat/functions.c:980 ../plugins/fn-stat/functions.c:2107
-#: ../plugins/fn-stat/functions.c:2138 ../plugins/fn-stat/functions.c:2188
-#: ../plugins/fn-stat/functions.c:2269 ../plugins/fn-stat/functions.c:2289
-#: ../plugins/fn-stat/functions.c:2314
+#: ../plugins/fn-stat/functions.c:319 ../plugins/fn-stat/functions.c:349
+#: ../plugins/fn-stat/functions.c:379 ../plugins/fn-stat/functions.c:626
+#: ../plugins/fn-stat/functions.c:655 ../plugins/fn-stat/functions.c:961
+#: ../plugins/fn-stat/functions.c:991 ../plugins/fn-stat/functions.c:2118
+#: ../plugins/fn-stat/functions.c:2150 ../plugins/fn-stat/functions.c:2201
+#: ../plugins/fn-stat/functions.c:2283 ../plugins/fn-stat/functions.c:2303
+#: ../plugins/fn-stat/functions.c:2328
 msgid "Strings and empty cells are simply ignored."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:317 ../plugins/fn-stat/functions.c:347
-#: ../plugins/fn-stat/functions.c:377 ../plugins/fn-stat/functions.c:2634
-#: ../plugins/fn-stat/functions.c:3320 ../plugins/fn-stat/functions.c:3386
-#: ../plugins/fn-stat/functions.c:4491 ../plugins/fn-stat/functions.c:4548
-#: ../plugins/fn-stat/functions.c:4600
+#: ../plugins/fn-stat/functions.c:321 ../plugins/fn-stat/functions.c:351
+#: ../plugins/fn-stat/functions.c:381 ../plugins/fn-stat/functions.c:2649
+#: ../plugins/fn-stat/functions.c:3335 ../plugins/fn-stat/functions.c:3401
+#: ../plugins/fn-stat/functions.c:4506 ../plugins/fn-stat/functions.c:4563
+#: ../plugins/fn-stat/functions.c:4615
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, "
 "and 42.7."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:320 ../plugins/fn-stat/functions.c:350
+#: ../plugins/fn-stat/functions.c:324 ../plugins/fn-stat/functions.c:354
 msgid "Then COVAR(A1:A5,B1:B5) equals 65.858."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:322 ../plugins/fn-stat/functions.c:352
+#: ../plugins/fn-stat/functions.c:326 ../plugins/fn-stat/functions.c:356
 msgid "wiki:en:Covariance"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:323 ../plugins/fn-stat/functions.c:353
-#: ../plugins/fn-stat/functions.c:383
+#: ../plugins/fn-stat/functions.c:327 ../plugins/fn-stat/functions.c:357
+#: ../plugins/fn-stat/functions.c:387
 msgid "wolfram:Covariance.html"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:342
+#: ../plugins/fn-stat/functions.c:346
 msgid "COVARIANCE.S:sample covariance of two data sets"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:372
+#: ../plugins/fn-stat/functions.c:376
 msgid "CORREL:Pearson correlation coefficient of two data sets"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:380
+#: ../plugins/fn-stat/functions.c:384
 msgid "Then CORREL(A1:A5,B1:B5) equals 0.996124788."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:382
+#: ../plugins/fn-stat/functions.c:386
 msgid "wolfram:CorrelationCoefficient.html"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:402
+#: ../plugins/fn-stat/functions.c:406
 msgid ""
 "NEGBINOMDIST:probability mass function of the negative binomial distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:403
+#: ../plugins/fn-stat/functions.c:407
 msgid "f:number of failures"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:404
+#: ../plugins/fn-stat/functions.c:408
 msgid "t:threshold number of successes"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:405
+#: ../plugins/fn-stat/functions.c:409
 msgid "p:probability of a success"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:406
+#: ../plugins/fn-stat/functions.c:410
 msgid "If @{f} or @{t} is a non-integer it is truncated."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:407
+#: ../plugins/fn-stat/functions.c:411
 msgid "If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:408 ../plugins/fn-stat/functions.c:1039
-#: ../plugins/fn-stat/functions.c:1108 ../plugins/fn-stat/functions.c:1355
-#: ../plugins/fn-stat/functions.c:1681 ../plugins/fn-stat/functions.c:1714
-#: ../plugins/fn-stat/functions.c:1748 ../plugins/fn-stat/functions.c:1810
-#: ../plugins/fn-stat/functions.c:4837
+#: ../plugins/fn-stat/functions.c:412 ../plugins/fn-stat/functions.c:1050
+#: ../plugins/fn-stat/functions.c:1119 ../plugins/fn-stat/functions.c:1366
+#: ../plugins/fn-stat/functions.c:1692 ../plugins/fn-stat/functions.c:1725
+#: ../plugins/fn-stat/functions.c:1759 ../plugins/fn-stat/functions.c:1821
+#: ../plugins/fn-stat/functions.c:4852
 msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:431
+#: ../plugins/fn-stat/functions.c:435
 msgid ""
 "NORMSDIST:cumulative distribution function of the standard normal "
 "distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:434
+#: ../plugins/fn-stat/functions.c:438
 msgid "NORMSDIST is the OpenFormula function LEGACY.NORMSDIST."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:437 ../plugins/fn-stat/functions.c:502
+#: ../plugins/fn-stat/functions.c:441 ../plugins/fn-stat/functions.c:506
 msgid "wiki:en:Normal_distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:438 ../plugins/fn-stat/functions.c:503
+#: ../plugins/fn-stat/functions.c:442 ../plugins/fn-stat/functions.c:507
 msgid "wolfram:NormalDistribution.html"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:453
+#: ../plugins/fn-stat/functions.c:457
 msgid "GAUSS:standard normal distribution area"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:455
+#: ../plugins/fn-stat/functions.c:459
 msgid ""
 "GAUSS(@{x}) returns the probability that a member of a standard normal "
 "population will fall between the mean and @{x} standard deviations from the "
 "mean."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:456
+#: ../plugins/fn-stat/functions.c:460
 msgid "GAUSS(@{x}) is equivalent to NORMSDIST(@{x}) - 0.5."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:473
+#: ../plugins/fn-stat/functions.c:477
 msgid ""
 "SNORM.DIST.RANGE:probability of the standard normal distribution over an "
 "interval"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:474
+#: ../plugins/fn-stat/functions.c:478
 msgid "x1:start of the interval"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:475
+#: ../plugins/fn-stat/functions.c:479
 msgid "x2:end of the interval"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:476
+#: ../plugins/fn-stat/functions.c:480
 msgid ""
 "This function returns the cumulative probability over a range of the "
 "standard normal distribution; that is the integral over the probability "
 "density function from @{x1} to @{x2}."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:477
+#: ../plugins/fn-stat/functions.c:481
 msgid "If @{x1}>@{x2}, this function returns a negative value."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:495
+#: ../plugins/fn-stat/functions.c:499
 msgid ""
 "NORMSINV:inverse of the cumulative distribution function of the standard "
 "normal distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:496
+#: ../plugins/fn-stat/functions.c:500
 msgid "p:given probability"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:497
+#: ../plugins/fn-stat/functions.c:501
 msgid "If @{p} < 0 or @{p} > 1 this function returns #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:499
+#: ../plugins/fn-stat/functions.c:503
 msgid "NORMSINV is the OpenFormula function LEGACY.NORMSINV."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:522
+#: ../plugins/fn-stat/functions.c:526
 msgid "OWENT:Owen's T function"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:523
+#: ../plugins/fn-stat/functions.c:527
 msgid "h:number"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:542
+#: ../plugins/fn-stat/functions.c:546
 msgid ""
 "LOGNORMDIST:cumulative distribution function of the lognormal distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:544 ../plugins/fn-stat/functions.c:574
+#: ../plugins/fn-stat/functions.c:548 ../plugins/fn-stat/functions.c:578
 msgid "mean:mean"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:545 ../plugins/fn-stat/functions.c:575
+#: ../plugins/fn-stat/functions.c:549 ../plugins/fn-stat/functions.c:579
 msgid "stddev:standard deviation"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:546
+#: ../plugins/fn-stat/functions.c:550
 msgid "If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:547
+#: ../plugins/fn-stat/functions.c:551
 msgid ""
 "If @{x} <= 0, @{mean} < 0 or @{stddev} <= 0 this function returns a #NUM! "
 "error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:551 ../plugins/fn-stat/functions.c:580
+#: ../plugins/fn-stat/functions.c:555 ../plugins/fn-stat/functions.c:584
 msgid "wiki:en:Log-normal_distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:552 ../plugins/fn-stat/functions.c:581
+#: ../plugins/fn-stat/functions.c:556 ../plugins/fn-stat/functions.c:585
 msgid "wolfram:LogNormalDistribution.html"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:572
+#: ../plugins/fn-stat/functions.c:576
 msgid ""
 "LOGINV:inverse of the cumulative distribution function of the lognormal "
 "distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:576
+#: ../plugins/fn-stat/functions.c:580
 msgid ""
 "If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:601
+#: ../plugins/fn-stat/functions.c:605
 msgid "FISHERINV:inverse of the Fisher transformation"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:603
+#: ../plugins/fn-stat/functions.c:607
 msgid "If @{x} is a non-number this function returns a #VALUE! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:619
+#: ../plugins/fn-stat/functions.c:623
 msgid "MODE:first most common number in the dataset"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:620 ../plugins/fn-stat/functions.c:649
-#: ../plugins/fn-stat/functions.c:748 ../plugins/fn-stat/functions.c:775
-#: ../plugins/fn-stat/functions.c:802 ../plugins/fn-stat/functions.c:828
-#: ../plugins/fn-stat/functions.c:853 ../plugins/fn-stat/functions.c:879
-#: ../plugins/fn-stat/functions.c:914 ../plugins/fn-stat/functions.c:949
-#: ../plugins/fn-stat/functions.c:978 ../plugins/fn-stat/functions.c:2105
-#: ../plugins/fn-stat/functions.c:2136 ../plugins/fn-stat/functions.c:2162
-#: ../plugins/fn-stat/functions.c:2186 ../plugins/fn-stat/functions.c:2312
-#: ../plugins/fn-stat/functions.c:2747 ../plugins/fn-stat/functions.c:2772
-#: ../plugins/fn-stat/functions.c:2798
+#: ../plugins/fn-stat/functions.c:624 ../plugins/fn-stat/functions.c:653
+#: ../plugins/fn-stat/functions.c:752 ../plugins/fn-stat/functions.c:780
+#: ../plugins/fn-stat/functions.c:808 ../plugins/fn-stat/functions.c:835
+#: ../plugins/fn-stat/functions.c:860 ../plugins/fn-stat/functions.c:887
+#: ../plugins/fn-stat/functions.c:923 ../plugins/fn-stat/functions.c:959
+#: ../plugins/fn-stat/functions.c:989 ../plugins/fn-stat/functions.c:2116
+#: ../plugins/fn-stat/functions.c:2148 ../plugins/fn-stat/functions.c:2174
+#: ../plugins/fn-stat/functions.c:2199 ../plugins/fn-stat/functions.c:2326
+#: ../plugins/fn-stat/functions.c:2762 ../plugins/fn-stat/functions.c:2787
+#: ../plugins/fn-stat/functions.c:2813
 msgid "number1:first value"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:621 ../plugins/fn-stat/functions.c:650
-#: ../plugins/fn-stat/functions.c:749 ../plugins/fn-stat/functions.c:776
-#: ../plugins/fn-stat/functions.c:803 ../plugins/fn-stat/functions.c:829
-#: ../plugins/fn-stat/functions.c:854 ../plugins/fn-stat/functions.c:880
-#: ../plugins/fn-stat/functions.c:915 ../plugins/fn-stat/functions.c:950
-#: ../plugins/fn-stat/functions.c:979 ../plugins/fn-stat/functions.c:2106
-#: ../plugins/fn-stat/functions.c:2137 ../plugins/fn-stat/functions.c:2163
-#: ../plugins/fn-stat/functions.c:2187 ../plugins/fn-stat/functions.c:2313
-#: ../plugins/fn-stat/functions.c:2748 ../plugins/fn-stat/functions.c:2773
-#: ../plugins/fn-stat/functions.c:2799
+#: ../plugins/fn-stat/functions.c:625 ../plugins/fn-stat/functions.c:654
+#: ../plugins/fn-stat/functions.c:753 ../plugins/fn-stat/functions.c:781
+#: ../plugins/fn-stat/functions.c:809 ../plugins/fn-stat/functions.c:836
+#: ../plugins/fn-stat/functions.c:861 ../plugins/fn-stat/functions.c:888
+#: ../plugins/fn-stat/functions.c:924 ../plugins/fn-stat/functions.c:960
+#: ../plugins/fn-stat/functions.c:990 ../plugins/fn-stat/functions.c:2117
+#: ../plugins/fn-stat/functions.c:2149 ../plugins/fn-stat/functions.c:2175
+#: ../plugins/fn-stat/functions.c:2200 ../plugins/fn-stat/functions.c:2327
+#: ../plugins/fn-stat/functions.c:2763 ../plugins/fn-stat/functions.c:2788
+#: ../plugins/fn-stat/functions.c:2814
 msgid "number2:second value"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:623 ../plugins/fn-stat/functions.c:652
+#: ../plugins/fn-stat/functions.c:627 ../plugins/fn-stat/functions.c:656
 msgid ""
 "If the data set does not contain any duplicates this function returns a #N/A "
 "error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:627 ../plugins/fn-stat/functions.c:656
+#: ../plugins/fn-stat/functions.c:631 ../plugins/fn-stat/functions.c:660
 msgid "wiki:en:Mode_(statistics)"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:628 ../plugins/fn-stat/functions.c:657
+#: ../plugins/fn-stat/functions.c:632 ../plugins/fn-stat/functions.c:661
 msgid "wolfram:Mode.html"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:648
+#: ../plugins/fn-stat/functions.c:652
 msgid "MODE.MULT:most common numbers in the dataset"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:747
+#: ../plugins/fn-stat/functions.c:751
 msgid "HARMEAN:harmonic mean"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:750
+#: ../plugins/fn-stat/functions.c:754
 msgid ""
 "The harmonic mean of N data points is N divided by the sum of the "
 "reciprocals of the data points)."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:754
+#: ../plugins/fn-stat/functions.c:758
 msgid "wiki:en:Harmonic_mean"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:755
+#: ../plugins/fn-stat/functions.c:759
 msgid "wolfram:HarmonicMean.html"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:774
+#: ../plugins/fn-stat/functions.c:779
 msgid "GEOMEAN:geometric mean"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:777
+#: ../plugins/fn-stat/functions.c:782
 msgid ""
 "The geometric mean is equal to the Nth root of the product of the N values."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:781
+#: ../plugins/fn-stat/functions.c:786
 msgid "wiki:en:Geometric_mean"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:782
+#: ../plugins/fn-stat/functions.c:787
 msgid "wolfram:GeometricMean.html"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:801
+#: ../plugins/fn-stat/functions.c:807
 msgid "COUNT:total number of integer or floating point arguments passed"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:806
+#: ../plugins/fn-stat/functions.c:812
 msgid "Then COUNT(A1:A5) equals 5."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:827
+#: ../plugins/fn-stat/functions.c:834
 msgid "COUNTA:number of arguments passed not including empty cells"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:831
+#: ../plugins/fn-stat/functions.c:838
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 "11.4, \"missing\", \"missing\", 25.9, and 40.1."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:832
+#: ../plugins/fn-stat/functions.c:839
 msgid "Then COUNTA(A1:A5) equals 5."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:852
+#: ../plugins/fn-stat/functions.c:859
 msgid "AVERAGE:average of all the numeric values and cells"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:858
+#: ../plugins/fn-stat/functions.c:865
 msgid "wiki:en:Arithmetic_mean"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:859
+#: ../plugins/fn-stat/functions.c:866
 msgid "wolfram:ArithmeticMean.html"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:878
+#: ../plugins/fn-stat/functions.c:886
 msgid ""
 "MIN:smallest value, with negative numbers considered smaller than positive "
 "numbers"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:913
+#: ../plugins/fn-stat/functions.c:922
 msgid ""
 "MAX:largest value, with negative numbers considered smaller than positive "
 "numbers"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:948
+#: ../plugins/fn-stat/functions.c:958
 msgid "SKEW:unbiased estimate for skewness of a distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:952
+#: ../plugins/fn-stat/functions.c:962
 msgid ""
 "This is only meaningful if the underlying distribution really has a third "
 "moment.  The skewness of a symmetric (e.g., normal) distribution is zero."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:955
+#: ../plugins/fn-stat/functions.c:965
 msgid ""
 "If less than three numbers are given, this function returns a #DIV/0! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:977
+#: ../plugins/fn-stat/functions.c:988
 msgid "SKEWP:population skewness of a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:981
+#: ../plugins/fn-stat/functions.c:992
 msgid "If less than two numbers are given, SKEWP returns a #DIV/0! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1002
+#: ../plugins/fn-stat/functions.c:1013
 msgid ""
 "EXPONDIST:probability density or cumulative distribution function of the "
 "exponential distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1004
+#: ../plugins/fn-stat/functions.c:1015
 msgid "y:scale parameter"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1005 ../plugins/fn-stat/functions.c:1075
-#: ../plugins/fn-stat/functions.c:1313 ../plugins/fn-stat/functions.c:1777
-#: ../plugins/fn-stat/functions.c:2011 ../plugins/fn-stat/functions.c:2047
+#: ../plugins/fn-stat/functions.c:1016 ../plugins/fn-stat/functions.c:1086
+#: ../plugins/fn-stat/functions.c:1324 ../plugins/fn-stat/functions.c:1788
+#: ../plugins/fn-stat/functions.c:2022 ../plugins/fn-stat/functions.c:2058
 msgid ""
 "cumulative:whether to evaluate the density function or the cumulative "
 "distribution function"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1006
+#: ../plugins/fn-stat/functions.c:1017
 msgid ""
 "If @{cumulative} is false it will return:\t@{y} * exp (-@{y}*@{x}), "
 "otherwise it will return\t1 - exp (-@{y}*@{x})."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1009
+#: ../plugins/fn-stat/functions.c:1020
 msgid "If @{x} < 0 or @{y} <= 0 this will return an error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1035
+#: ../plugins/fn-stat/functions.c:1046
 msgid "BERNOULLI:probability mass function of a Bernoulli distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1036
+#: ../plugins/fn-stat/functions.c:1047
 msgid "k:integer"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1038
+#: ../plugins/fn-stat/functions.c:1049
 msgid "If @{k} != 0 and @{k} != 1 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1071
+#: ../plugins/fn-stat/functions.c:1082
 msgid ""
 "GAMMADIST:probability density or cumulative distribution function of the "
 "gamma distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1073 ../plugins/fn-stat/functions.c:1106
-#: ../plugins/fn-stat/functions.c:1276 ../plugins/fn-stat/functions.c:1311
-#: ../plugins/fn-stat/functions.c:1351 ../plugins/fn-stat/functions.c:2009
+#: ../plugins/fn-stat/functions.c:1084 ../plugins/fn-stat/functions.c:1117
+#: ../plugins/fn-stat/functions.c:1287 ../plugins/fn-stat/functions.c:1322
+#: ../plugins/fn-stat/functions.c:1362 ../plugins/fn-stat/functions.c:2020
 msgid "alpha:scale parameter"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1074 ../plugins/fn-stat/functions.c:1107
-#: ../plugins/fn-stat/functions.c:1277 ../plugins/fn-stat/functions.c:1312
-#: ../plugins/fn-stat/functions.c:1352 ../plugins/fn-stat/functions.c:2010
+#: ../plugins/fn-stat/functions.c:1085 ../plugins/fn-stat/functions.c:1118
+#: ../plugins/fn-stat/functions.c:1288 ../plugins/fn-stat/functions.c:1323
+#: ../plugins/fn-stat/functions.c:1363 ../plugins/fn-stat/functions.c:2021
 msgid "beta:scale parameter"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1076 ../plugins/fn-stat/functions.c:1476
-#: ../plugins/fn-stat/functions.c:2015 ../plugins/fn-stat/functions.c:2239
+#: ../plugins/fn-stat/functions.c:1087 ../plugins/fn-stat/functions.c:1487
+#: ../plugins/fn-stat/functions.c:2026 ../plugins/fn-stat/functions.c:2253
 msgid "If @{x} < 0 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1077 ../plugins/fn-stat/functions.c:1281
-#: ../plugins/fn-stat/functions.c:1318 ../plugins/fn-stat/functions.c:1356
+#: ../plugins/fn-stat/functions.c:1088 ../plugins/fn-stat/functions.c:1292
+#: ../plugins/fn-stat/functions.c:1329 ../plugins/fn-stat/functions.c:1367
 msgid "If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1104
+#: ../plugins/fn-stat/functions.c:1115
 msgid "GAMMAINV:inverse of the cumulative gamma distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1109 ../plugins/fn-stat/functions.c:2016
+#: ../plugins/fn-stat/functions.c:1120 ../plugins/fn-stat/functions.c:2027
 msgid "If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1132
+#: ../plugins/fn-stat/functions.c:1143
 msgid "CHIDIST:survival function of the chi-squared distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1134 ../plugins/fn-stat/functions.c:1162
-#: ../plugins/fn-stat/functions.c:1384 ../plugins/fn-stat/functions.c:1436
+#: ../plugins/fn-stat/functions.c:1145 ../plugins/fn-stat/functions.c:1173
+#: ../plugins/fn-stat/functions.c:1395 ../plugins/fn-stat/functions.c:1447
 msgid "dof:number of degrees of freedom"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1135 ../plugins/fn-stat/functions.c:1163
-#: ../plugins/fn-stat/functions.c:1386 ../plugins/fn-stat/functions.c:1475
-#: ../plugins/fn-stat/functions.c:1680
+#: ../plugins/fn-stat/functions.c:1146 ../plugins/fn-stat/functions.c:1174
+#: ../plugins/fn-stat/functions.c:1397 ../plugins/fn-stat/functions.c:1486
+#: ../plugins/fn-stat/functions.c:1691
 msgid "The survival function is 1 minus the cumulative distribution function."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1136
+#: ../plugins/fn-stat/functions.c:1147
 msgid "If @{dof} is non-integer it is truncated."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1137 ../plugins/fn-stat/functions.c:1387
+#: ../plugins/fn-stat/functions.c:1148 ../plugins/fn-stat/functions.c:1398
 msgid "If @{dof} < 1 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1139
+#: ../plugins/fn-stat/functions.c:1150
 msgid ""
 "CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof})."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1160
+#: ../plugins/fn-stat/functions.c:1171
 msgid "CHIINV:inverse of the survival function of the chi-squared distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1164 ../plugins/fn-stat/functions.c:1440
+#: ../plugins/fn-stat/functions.c:1175 ../plugins/fn-stat/functions.c:1451
 msgid ""
 "If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1166
+#: ../plugins/fn-stat/functions.c:1177
 msgid ""
 "CHIINV(@{p},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{p},@{dof})."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1187
+#: ../plugins/fn-stat/functions.c:1198
 msgid "CHITEST:p value of the Goodness of Fit Test"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1188
+#: ../plugins/fn-stat/functions.c:1199
 msgid "actual_range:observed data"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1189
+#: ../plugins/fn-stat/functions.c:1200
 msgid "theoretical_range:expected values"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1190
+#: ../plugins/fn-stat/functions.c:1201
 msgid ""
 "If the actual range is not an n by 1 or 1 by n range, but an n by m range, "
 "then CHITEST uses (n-1) times (m-1) as degrees of freedom. This is useful if "
@@ -9139,518 +9345,518 @@ msgid ""
 "independence or test of homogeneity."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1196
+#: ../plugins/fn-stat/functions.c:1207
 msgid "CHITEST is the OpenFormula function LEGACY.CHITEST."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1274
+#: ../plugins/fn-stat/functions.c:1285
 msgid "BETADIST:cumulative distribution function of the beta distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1278 ../plugins/fn-stat/functions.c:1315
-#: ../plugins/fn-stat/functions.c:1353
+#: ../plugins/fn-stat/functions.c:1289 ../plugins/fn-stat/functions.c:1326
+#: ../plugins/fn-stat/functions.c:1364
 msgid "a:optional lower bound, defaults to 0"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1279 ../plugins/fn-stat/functions.c:1316
-#: ../plugins/fn-stat/functions.c:1354
+#: ../plugins/fn-stat/functions.c:1290 ../plugins/fn-stat/functions.c:1327
+#: ../plugins/fn-stat/functions.c:1365
 msgid "b:optional upper bound, defaults to 1"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1280 ../plugins/fn-stat/functions.c:1317
+#: ../plugins/fn-stat/functions.c:1291 ../plugins/fn-stat/functions.c:1328
 msgid "If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1282 ../plugins/fn-stat/functions.c:1319
-#: ../plugins/fn-stat/functions.c:1357
+#: ../plugins/fn-stat/functions.c:1293 ../plugins/fn-stat/functions.c:1330
+#: ../plugins/fn-stat/functions.c:1368
 msgid "If @{a} >= @{b} this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1309
+#: ../plugins/fn-stat/functions.c:1320
 msgid "BETA.DIST:cumulative distribution function of the beta distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1349
+#: ../plugins/fn-stat/functions.c:1360
 msgid ""
 "BETAINV:inverse of the cumulative distribution function of the beta "
 "distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1382
+#: ../plugins/fn-stat/functions.c:1393
 msgid "TDIST:survival function of the Student t-distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1385
+#: ../plugins/fn-stat/functions.c:1396
 msgid "tails:1 or 2"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1388
+#: ../plugins/fn-stat/functions.c:1399
 msgid "If @{tails} is neither 1 or 2 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1389
+#: ../plugins/fn-stat/functions.c:1400
 msgid ""
 "The parameterization of this function is different from what is used for, "
 "e.g., NORMSDIST.  This is a common source of mistakes, but necessary for "
 "compatibility."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1392
+#: ../plugins/fn-stat/functions.c:1403
 msgid "This function is Excel compatible for non-negative @{x}."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1434
+#: ../plugins/fn-stat/functions.c:1445
 msgid "TINV:two tailed inverse of the Student t-distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1435
+#: ../plugins/fn-stat/functions.c:1446
 msgid "p:probability in both tails"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1437
+#: ../plugins/fn-stat/functions.c:1448
 msgid ""
 "This function returns the non-negative value x such that the area under the "
 "Student t density with @{dof} degrees of freedom to the right of x is @{p}/2."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1442
+#: ../plugins/fn-stat/functions.c:1453
 msgid ""
 "The parameterization of this function is different from what is used for, "
 "e.g., NORMSINV.  This is a common source of mistakes, but necessary for "
 "compatibility."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1471
+#: ../plugins/fn-stat/functions.c:1482
 msgid "FDIST:survival function of the F distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1473 ../plugins/fn-stat/functions.c:1678
+#: ../plugins/fn-stat/functions.c:1484 ../plugins/fn-stat/functions.c:1689
 msgid "dof_of_num:numerator degrees of freedom"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1474 ../plugins/fn-stat/functions.c:1679
+#: ../plugins/fn-stat/functions.c:1485 ../plugins/fn-stat/functions.c:1690
 msgid "dof_of_denom:denominator degrees of freedom"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1477
+#: ../plugins/fn-stat/functions.c:1488
 msgid ""
 "If @{dof_of_num} < 1 or @{dof_of_denom} < 1, this function returns a #NUM! "
 "error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1479
+#: ../plugins/fn-stat/functions.c:1490
 msgid "FDIST is the OpenFormula function LEGACY.FDIST."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1501
+#: ../plugins/fn-stat/functions.c:1512
 msgid ""
 "LANDAU:approximate probability density function of the Landau distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1676
+#: ../plugins/fn-stat/functions.c:1687
 msgid "FINV:inverse of the survival function of the F distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1682
+#: ../plugins/fn-stat/functions.c:1693
 msgid ""
 "If @{dof_of_num} < 1 or @{dof_of_denom} < 1 this function returns a #NUM! "
 "error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1684
+#: ../plugins/fn-stat/functions.c:1695
 msgid "FINV is the OpenFormula function LEGACY.FINV."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1706
+#: ../plugins/fn-stat/functions.c:1717
 msgid ""
 "BINOMDIST:probability mass or cumulative distribution function of the "
 "binomial distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1707
+#: ../plugins/fn-stat/functions.c:1718
 msgid "n:number of successes"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1708 ../plugins/fn-stat/functions.c:1742
-#: ../plugins/fn-stat/functions.c:1805
+#: ../plugins/fn-stat/functions.c:1719 ../plugins/fn-stat/functions.c:1753
+#: ../plugins/fn-stat/functions.c:1816
 msgid "trials:number of trials"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1709 ../plugins/fn-stat/functions.c:1743
-#: ../plugins/fn-stat/functions.c:1806
+#: ../plugins/fn-stat/functions.c:1720 ../plugins/fn-stat/functions.c:1754
+#: ../plugins/fn-stat/functions.c:1817
 msgid "p:probability of success in each trial"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1710 ../plugins/fn-stat/functions.c:1884
-#: ../plugins/fn-stat/functions.c:2237 ../plugins/fn-stat/functions.c:4835
+#: ../plugins/fn-stat/functions.c:1721 ../plugins/fn-stat/functions.c:1895
+#: ../plugins/fn-stat/functions.c:2251 ../plugins/fn-stat/functions.c:4850
 msgid ""
 "cumulative:whether to evaluate the mass function or the cumulative "
 "distribution function"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1711
+#: ../plugins/fn-stat/functions.c:1722
 msgid "If @{n} or @{trials} are non-integer they are truncated."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1712
+#: ../plugins/fn-stat/functions.c:1723
 msgid "If @{n} < 0 or @{trials} < 0 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1713
+#: ../plugins/fn-stat/functions.c:1724
 msgid "If @{n} > @{trials} this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1741
+#: ../plugins/fn-stat/functions.c:1752
 msgid ""
 "BINOM.DIST.RANGE:probability of the binomial distribution over an interval"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1744
+#: ../plugins/fn-stat/functions.c:1755
 msgid "start:start of the interval"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1745
+#: ../plugins/fn-stat/functions.c:1756
 msgid "end:end of the interval, defaults to @{start}"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1746
+#: ../plugins/fn-stat/functions.c:1757
 msgid "If @{start}, @{end} or @{trials} are non-integer they are truncated."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1747 ../plugins/fn-stat/functions.c:1809
+#: ../plugins/fn-stat/functions.c:1758 ../plugins/fn-stat/functions.c:1820
 msgid "If @{trials} < 0 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1749
+#: ../plugins/fn-stat/functions.c:1760
 msgid "If @{start} > @{end} this function returns 0."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1773
+#: ../plugins/fn-stat/functions.c:1784
 msgid ""
 "CAUCHY:probability density or cumulative distribution function of the "
 "Cauchy, Lorentz or Breit-Wigner distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1776 ../plugins/fn-stat/functions.c:4865
-#: ../plugins/fn-stat/functions.c:4989
+#: ../plugins/fn-stat/functions.c:1787 ../plugins/fn-stat/functions.c:4880
+#: ../plugins/fn-stat/functions.c:5004
 msgid "a:scale parameter"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1778
+#: ../plugins/fn-stat/functions.c:1789
 msgid "If @{a} < 0 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1779 ../plugins/fn-stat/functions.c:4838
+#: ../plugins/fn-stat/functions.c:1790 ../plugins/fn-stat/functions.c:4853
 msgid ""
 "If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! "
 "error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1804
+#: ../plugins/fn-stat/functions.c:1815
 msgid "CRITBINOM:right-tailed critical value of the binomial distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1807
+#: ../plugins/fn-stat/functions.c:1818
 msgid "alpha:significance level (area of the tail)"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1808
+#: ../plugins/fn-stat/functions.c:1819
 msgid "If @{trials} is a non-integer it is truncated."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1811
+#: ../plugins/fn-stat/functions.c:1822
 msgid "If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1834
+#: ../plugins/fn-stat/functions.c:1845
 msgid "PHI:standard normal distribution density"
 msgstr "PHI:щільність стандартного нормального розподілу"
 
-#: ../plugins/fn-stat/functions.c:1836
+#: ../plugins/fn-stat/functions.c:1847
 msgid ""
 "PHI(@{x}) returns the density of the standard normal distribution at @{x}."
 msgstr ""
 "PHI(@{x}) повертає щільність стандартного нормального розподілу у @{x}."
 
-#: ../plugins/fn-stat/functions.c:1853
+#: ../plugins/fn-stat/functions.c:1864
 msgid "PERMUT:number of @{k}-permutations of a @{n}-set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1854
+#: ../plugins/fn-stat/functions.c:1865
 msgid "n:size of the base set"
 msgstr "n:розмір базового набору"
 
-#: ../plugins/fn-stat/functions.c:1855
+#: ../plugins/fn-stat/functions.c:1866
 msgid "k:number of elements in each permutation"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1856
+#: ../plugins/fn-stat/functions.c:1867
 msgid "If @{n} = 0 this function returns a #NUM! error."
 msgstr "Якщо @{n} = 0, то ця функція видає помилку #NUM!"
 
-#: ../plugins/fn-stat/functions.c:1857
+#: ../plugins/fn-stat/functions.c:1868
 msgid "If @{n} < @{k} this function returns a #NUM! error."
 msgstr "Якщо @{n} < @{k}, то ця функція видає помилку #NUM!"
 
-#: ../plugins/fn-stat/functions.c:1879
+#: ../plugins/fn-stat/functions.c:1890
 msgid ""
 "HYPGEOMDIST:probability mass or cumulative distribution function of the "
 "hypergeometric distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1880
+#: ../plugins/fn-stat/functions.c:1891
 msgid "x:number of successes"
 msgstr "x:кількість успіхів"
 
-#: ../plugins/fn-stat/functions.c:1881
+#: ../plugins/fn-stat/functions.c:1892
 msgid "n:sample size"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1882
+#: ../plugins/fn-stat/functions.c:1893
 msgid "M:number of possible successes in the population"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1883
+#: ../plugins/fn-stat/functions.c:1894
 msgid "N:population size"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1885
+#: ../plugins/fn-stat/functions.c:1896
 msgid "If @{x},@{n},@{M} or @{N} is a non-integer it is truncated."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1886
+#: ../plugins/fn-stat/functions.c:1897
 msgid "If @{x},@{n},@{M} or @{N} < 0 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1887
+#: ../plugins/fn-stat/functions.c:1898
 msgid "If @{x} > @{M} or @{n} > @{N} this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1915
+#: ../plugins/fn-stat/functions.c:1926
 msgid ""
 "CONFIDENCE:margin of error of a confidence interval for the population mean"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1916 ../plugins/fn-stat/functions.c:1949
+#: ../plugins/fn-stat/functions.c:1927 ../plugins/fn-stat/functions.c:1960
 msgid "alpha:significance level"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1917
+#: ../plugins/fn-stat/functions.c:1928
 msgid "stddev:population standard deviation"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1918 ../plugins/fn-stat/functions.c:1951
+#: ../plugins/fn-stat/functions.c:1929 ../plugins/fn-stat/functions.c:1962
 msgid "size:sample size"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1919
+#: ../plugins/fn-stat/functions.c:1930
 msgid ""
 "This function requires the usually unknown population standard deviation."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1920 ../plugins/fn-stat/functions.c:1953
+#: ../plugins/fn-stat/functions.c:1931 ../plugins/fn-stat/functions.c:1964
 msgid "If @{size} is non-integer it is truncated."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1921
+#: ../plugins/fn-stat/functions.c:1932
 msgid "If @{size} < 0 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1922
+#: ../plugins/fn-stat/functions.c:1933
 msgid "If @{size} is 0 this function returns a #DIV/0! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1947
+#: ../plugins/fn-stat/functions.c:1958
 msgid ""
 "CONFIDENCE.T:margin of error of a confidence interval for the population "
 "mean using the Student's t-distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1950
+#: ../plugins/fn-stat/functions.c:1961
 msgid "stddev:sample standard deviation"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1952
+#: ../plugins/fn-stat/functions.c:1963
 msgid "If @{stddev} < 0 or = 0 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1954
+#: ../plugins/fn-stat/functions.c:1965
 msgid "If @{size} < 1 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1955
+#: ../plugins/fn-stat/functions.c:1966
 msgid "If @{size} is 1 this function returns a #DIV/0! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1980
+#: ../plugins/fn-stat/functions.c:1991
 msgid "STANDARDIZE:z-score of a value"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1982
+#: ../plugins/fn-stat/functions.c:1993
 msgid "mean:mean of the original distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1983
+#: ../plugins/fn-stat/functions.c:1994
 msgid "stddev:standard deviation of the original distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1984 ../plugins/fn-stat/functions.c:2048
+#: ../plugins/fn-stat/functions.c:1995 ../plugins/fn-stat/functions.c:2059
 msgid "If @{stddev} is 0 this function returns a #DIV/0! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2007
+#: ../plugins/fn-stat/functions.c:2018
 msgid ""
 "WEIBULL:probability density or cumulative distribution function of the "
 "Weibull distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2012
+#: ../plugins/fn-stat/functions.c:2023
 msgid ""
 "If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/"
 "@{beta})^@{alpha}), otherwise it will return (@{alpha}/@{beta}^@{alpha}) * "
 "@{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha}))."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2043
+#: ../plugins/fn-stat/functions.c:2054
 msgid ""
 "NORMDIST:probability density or cumulative distribution function of a normal "
 "distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2045 ../plugins/fn-stat/functions.c:2078
-#: ../plugins/fn-stat/functions.c:2236
+#: ../plugins/fn-stat/functions.c:2056 ../plugins/fn-stat/functions.c:2089
+#: ../plugins/fn-stat/functions.c:2250
 msgid "mean:mean of the distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2046 ../plugins/fn-stat/functions.c:2079
+#: ../plugins/fn-stat/functions.c:2057 ../plugins/fn-stat/functions.c:2090
 msgid "stddev:standard deviation of the distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2076
+#: ../plugins/fn-stat/functions.c:2087
 msgid ""
 "NORMINV:inverse of the cumulative distribution function of a normal "
 "distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2080
+#: ../plugins/fn-stat/functions.c:2091
 msgid ""
 "If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns a #NUM! "
 "error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2104
+#: ../plugins/fn-stat/functions.c:2115
 msgid "KURT:unbiased estimate of the kurtosis of a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2108
+#: ../plugins/fn-stat/functions.c:2119
 msgid ""
 "This is only meaningful if the underlying distribution really has a fourth "
 "moment.  The kurtosis is offset by three such that a normal distribution "
 "will have zero kurtosis."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2112
+#: ../plugins/fn-stat/functions.c:2123
 msgid ""
 "If fewer than four numbers are given or all of them are equal this function "
 "returns a #DIV/0! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2135
+#: ../plugins/fn-stat/functions.c:2147
 msgid "KURTP:population kurtosis of a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2139
+#: ../plugins/fn-stat/functions.c:2151
 msgid ""
 "If fewer than two numbers are given or all of them are equal this function "
 "returns a #DIV/0! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2161
+#: ../plugins/fn-stat/functions.c:2173
 msgid "AVEDEV:average of the absolute deviations of a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2185
+#: ../plugins/fn-stat/functions.c:2198
 msgid "DEVSQ:sum of squares of deviations of a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2210
+#: ../plugins/fn-stat/functions.c:2224
 msgid "FISHER:Fisher transformation"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2212
+#: ../plugins/fn-stat/functions.c:2226
 msgid "If @{x} is not a number, this function returns a #VALUE! error."
 msgstr "Якщо @{x} не є числом, то ця функція видає помилку #VALUE!"
 
-#: ../plugins/fn-stat/functions.c:2213
+#: ../plugins/fn-stat/functions.c:2227
 msgid "If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error."
 msgstr "Якщо @{x} <= -1 або @{x} >= 1, то ця функція видає помилку #NUM!"
 
-#: ../plugins/fn-stat/functions.c:2234
+#: ../plugins/fn-stat/functions.c:2248
 msgid ""
 "POISSON:probability mass or cumulative distribution function of the Poisson "
 "distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2235
+#: ../plugins/fn-stat/functions.c:2249
 msgid "x:number of events"
 msgstr "x:кількість подій"
 
-#: ../plugins/fn-stat/functions.c:2238
+#: ../plugins/fn-stat/functions.c:2252
 msgid "If @{x} is a non-integer it is truncated."
 msgstr "Якщо @{x}, не є цілим числом, то воно скорочується."
 
-#: ../plugins/fn-stat/functions.c:2240
+#: ../plugins/fn-stat/functions.c:2254
 msgid "If @{mean} <= 0 POISSON returns the #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2266
+#: ../plugins/fn-stat/functions.c:2280
 msgid "PEARSON:Pearson correlation coefficient of the paired set of data"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2267 ../plugins/fn-stat/functions.c:2287
+#: ../plugins/fn-stat/functions.c:2281 ../plugins/fn-stat/functions.c:2301
 msgid "array1:first component values"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2268 ../plugins/fn-stat/functions.c:2288
+#: ../plugins/fn-stat/functions.c:2282 ../plugins/fn-stat/functions.c:2302
 msgid "array2:second component values"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2286
+#: ../plugins/fn-stat/functions.c:2300
 msgid ""
 "RSQ:square of the Pearson correlation coefficient of the paired set of data"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2311
+#: ../plugins/fn-stat/functions.c:2325
 msgid "MEDIAN:median of a data set"
 msgstr "MEDIAN:медіана набору даних"
 
-#: ../plugins/fn-stat/functions.c:2315
+#: ../plugins/fn-stat/functions.c:2329
 msgid ""
 "If even numbers are given MEDIAN returns the average of the two numbers in "
 "the center."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2320
+#: ../plugins/fn-stat/functions.c:2334
 msgid "wiki:en:Median"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2321
+#: ../plugins/fn-stat/functions.c:2335
 msgid "wolfram:StatisticalMedian.html"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2341
+#: ../plugins/fn-stat/functions.c:2356
 msgid "SSMEDIAN:median for grouped data"
 msgstr "SSMEDIAN:медіана згрупованих даних"
 
-#: ../plugins/fn-stat/functions.c:2342
+#: ../plugins/fn-stat/functions.c:2357
 msgid "array:data set"
 msgstr "array: набір даних"
 
-#: ../plugins/fn-stat/functions.c:2343
+#: ../plugins/fn-stat/functions.c:2358
 msgid "interval:length of each grouping interval, defaults to 1"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2344
+#: ../plugins/fn-stat/functions.c:2359
 msgid ""
 "The data are assumed to be grouped into intervals of width @{interval}. Each "
 "data point in @{array} is the midpoint of the interval containing the true "
@@ -9665,456 +9871,456 @@ msgid ""
 "F = the number of data points in the median interval"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2355 ../plugins/fn-stat/functions.c:3142
-#: ../plugins/fn-stat/functions.c:3184 ../plugins/fn-stat/functions.c:3229
-#: ../plugins/fn-stat/functions.c:3272
+#: ../plugins/fn-stat/functions.c:2370 ../plugins/fn-stat/functions.c:3157
+#: ../plugins/fn-stat/functions.c:3199 ../plugins/fn-stat/functions.c:3244
+#: ../plugins/fn-stat/functions.c:3287
 msgid "If @{array} is empty, this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2356
+#: ../plugins/fn-stat/functions.c:2371
 msgid ""
 "If @{interval} <= 0, this function returns a #NUM! error. SSMEDIAN does not "
 "check whether the data points are at least @{interval} apart."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2443
+#: ../plugins/fn-stat/functions.c:2458
 msgid "LARGE:@{k}-th largest value in a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2444 ../plugins/fn-stat/functions.c:2502
+#: ../plugins/fn-stat/functions.c:2459 ../plugins/fn-stat/functions.c:2517
 msgid "data:data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2445 ../plugins/fn-stat/functions.c:2503
+#: ../plugins/fn-stat/functions.c:2460 ../plugins/fn-stat/functions.c:2518
 msgid "k:which value to find"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2446 ../plugins/fn-stat/functions.c:2504
+#: ../plugins/fn-stat/functions.c:2461 ../plugins/fn-stat/functions.c:2519
 msgid "If data set is empty this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2447 ../plugins/fn-stat/functions.c:2505
+#: ../plugins/fn-stat/functions.c:2462 ../plugins/fn-stat/functions.c:2520
 msgid ""
 "If @{k} <= 0 or @{k} is greater than the number of data items given this "
 "function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2452
+#: ../plugins/fn-stat/functions.c:2467
 msgid "Then LARGE(A1:A5,2) equals 25.9. LARGE(A1:A5,4) equals 17.3."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2501
+#: ../plugins/fn-stat/functions.c:2516
 msgid "SMALL:@{k}-th smallest value in a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2510
+#: ../plugins/fn-stat/functions.c:2525
 msgid "Then SMALL(A1:A5,2) equals 17.3. SMALL(A1:A5,4) equals 25.9."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2544
+#: ../plugins/fn-stat/functions.c:2559
 msgid ""
 "PROB:probability of an interval for a discrete (and finite) probability "
 "distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2545
+#: ../plugins/fn-stat/functions.c:2560
 msgid "x_range:possible values"
 msgstr "x_range:можливі значення"
 
-#: ../plugins/fn-stat/functions.c:2546
+#: ../plugins/fn-stat/functions.c:2561
 msgid "prob_range:probabilities of the corresponding values"
 msgstr "prob_range:ймовірності відповідних значень"
 
-#: ../plugins/fn-stat/functions.c:2547
+#: ../plugins/fn-stat/functions.c:2562
 msgid "lower_limit:lower interval limit"
 msgstr "lower_limit:нижня межа інтервалу"
 
-#: ../plugins/fn-stat/functions.c:2548
+#: ../plugins/fn-stat/functions.c:2563
 msgid "upper_limit:upper interval limit, defaults to @{lower_limit}"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2549
+#: ../plugins/fn-stat/functions.c:2564
 msgid ""
 "If the sum of the probabilities in @{prob_range} is not equal to 1 this "
 "function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2551
+#: ../plugins/fn-stat/functions.c:2566
 msgid ""
 "If any value in @{prob_range} is <=0 or > 1, this function returns a #NUM! "
 "error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2553
+#: ../plugins/fn-stat/functions.c:2568
 msgid ""
 "If @{x_range} and @{prob_range} contain a different number of data entries, "
 "this function returns a #N/A error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2628
+#: ../plugins/fn-stat/functions.c:2643
 msgid "STEYX:standard error of the predicted y-value in the regression"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2629 ../plugins/fn-stat/functions.c:3926
-#: ../plugins/fn-stat/functions.c:4040 ../plugins/fn-stat/functions.c:4282
-#: ../plugins/fn-stat/functions.c:4378 ../plugins/fn-stat/functions.c:4482
-#: ../plugins/fn-stat/functions.c:4541 ../plugins/fn-stat/functions.c:4593
+#: ../plugins/fn-stat/functions.c:2644 ../plugins/fn-stat/functions.c:3941
+#: ../plugins/fn-stat/functions.c:4055 ../plugins/fn-stat/functions.c:4297
+#: ../plugins/fn-stat/functions.c:4393 ../plugins/fn-stat/functions.c:4497
+#: ../plugins/fn-stat/functions.c:4556 ../plugins/fn-stat/functions.c:4608
 msgid "known_ys:known y-values"
 msgstr "known_ys:відомі значення y"
 
-#: ../plugins/fn-stat/functions.c:2630 ../plugins/fn-stat/functions.c:4041
-#: ../plugins/fn-stat/functions.c:4483 ../plugins/fn-stat/functions.c:4542
-#: ../plugins/fn-stat/functions.c:4594
+#: ../plugins/fn-stat/functions.c:2645 ../plugins/fn-stat/functions.c:4056
+#: ../plugins/fn-stat/functions.c:4498 ../plugins/fn-stat/functions.c:4557
+#: ../plugins/fn-stat/functions.c:4609
 msgid "known_xs:known x-values"
 msgstr "known_xs:відомі значення x"
 
-#: ../plugins/fn-stat/functions.c:2631
+#: ../plugins/fn-stat/functions.c:2646
 msgid ""
 "If @{known_ys} and @{known_xs} are empty or have a different number of "
 "arguments then this function returns a #N/A error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2637
+#: ../plugins/fn-stat/functions.c:2652
 msgid "Then STEYX(A1:A5,B1:B5) equals 1.101509979."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2681
+#: ../plugins/fn-stat/functions.c:2696
 msgid ""
 "ZTEST:the probability of observing a sample mean as large as or larger than "
 "the mean of the given sample"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2683
+#: ../plugins/fn-stat/functions.c:2698
 msgid "ref:data set (sample)"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2684
+#: ../plugins/fn-stat/functions.c:2699
 msgid "x:population mean"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2685
+#: ../plugins/fn-stat/functions.c:2700
 msgid ""
 "stddev:population standard deviation, defaults to the sample standard "
 "deviation"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2686
+#: ../plugins/fn-stat/functions.c:2701
 msgid ""
 "ZTEST calculates the probability of observing a sample mean as large as or "
 "larger than the mean of the given sample for samples drawn from a normal "
 "distribution with mean @{x} and standard deviation @{stddev}."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2689
+#: ../plugins/fn-stat/functions.c:2704
 msgid ""
 "If @{ref} contains less than two data items ZTEST returns #DIV/0! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2695
+#: ../plugins/fn-stat/functions.c:2710
 msgid "Then ZTEST(A1:A5,20) equals 0.254717826."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2746
+#: ../plugins/fn-stat/functions.c:2761
 msgid "AVERAGEA:average of all the values and cells"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2771
+#: ../plugins/fn-stat/functions.c:2786
 msgid ""
 "MAXA:largest value, with negative numbers considered smaller than positive "
 "numbers"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2797
+#: ../plugins/fn-stat/functions.c:2812
 msgid ""
 "MINA:smallest value, with negative numbers considered smaller than positive "
 "numbers"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2823
+#: ../plugins/fn-stat/functions.c:2838
 msgid "VARA:sample variance of the given sample"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2826
+#: ../plugins/fn-stat/functions.c:2841
 msgid "VARA is also known as the N-1-variance."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2827
+#: ../plugins/fn-stat/functions.c:2842
 msgid "To get the true variance of a complete population use VARPA."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2853
+#: ../plugins/fn-stat/functions.c:2868
 msgid "VARPA:variance of an entire population"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2856
+#: ../plugins/fn-stat/functions.c:2871
 msgid "VARPA is also known as the N-variance."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2879
+#: ../plugins/fn-stat/functions.c:2894
 msgid "STDEVA:sample standard deviation of the given sample"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2883
+#: ../plugins/fn-stat/functions.c:2898
 msgid "STDEVA is also known as the N-1-standard deviation."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2884
+#: ../plugins/fn-stat/functions.c:2899
 msgid ""
 "To obtain the population standard deviation of a whole population use "
 "STDEVPA."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2908
+#: ../plugins/fn-stat/functions.c:2923
 msgid "STDEVPA:population standard deviation of an entire population"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2934
+#: ../plugins/fn-stat/functions.c:2949
 msgid ""
 "PERCENTRANK:rank of a data point in a data set (Hyndman-Fan method 7: N-1 "
 "basis)"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2935 ../plugins/fn-stat/functions.c:3039
+#: ../plugins/fn-stat/functions.c:2950 ../plugins/fn-stat/functions.c:3054
 msgid "array:range of numeric values"
 msgstr "array:діапазон числових значень"
 
-#: ../plugins/fn-stat/functions.c:2936 ../plugins/fn-stat/functions.c:3040
+#: ../plugins/fn-stat/functions.c:2951 ../plugins/fn-stat/functions.c:3055
 msgid "x:data point to be ranked"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2937 ../plugins/fn-stat/functions.c:3041
+#: ../plugins/fn-stat/functions.c:2952 ../plugins/fn-stat/functions.c:3056
 msgid "significance:number of significant digits, defaults to 3"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2938 ../plugins/fn-stat/functions.c:3042
+#: ../plugins/fn-stat/functions.c:2953 ../plugins/fn-stat/functions.c:3057
 msgid ""
 "If @{array} contains no data points, this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2940 ../plugins/fn-stat/functions.c:3044
+#: ../plugins/fn-stat/functions.c:2955 ../plugins/fn-stat/functions.c:3059
 msgid ""
 "If @{significance} is less than one, this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2942 ../plugins/fn-stat/functions.c:3046
+#: ../plugins/fn-stat/functions.c:2957 ../plugins/fn-stat/functions.c:3061
 msgid ""
 "If @{x} exceeds the largest value or is less than the smallest value in "
 "@{array}, this function returns an #N/A error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2944 ../plugins/fn-stat/functions.c:3048
+#: ../plugins/fn-stat/functions.c:2959 ../plugins/fn-stat/functions.c:3063
 msgid ""
 "If @{x} does not match any of the values in @{array} or @{x} matches more "
 "than once, this function interpolates the returned value."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3038
+#: ../plugins/fn-stat/functions.c:3053
 msgid ""
 "PERCENTRANK.EXC:rank of a data point in a data set (Hyndman-Fan method 6: "
 "N+1 basis)"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3139
+#: ../plugins/fn-stat/functions.c:3154
 msgid ""
 "PERCENTILE:determines the 100*@{k}-th percentile of the given data points "
 "(Hyndman-Fan method 7: N-1 basis)"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3140 ../plugins/fn-stat/functions.c:3182
-#: ../plugins/fn-stat/functions.c:3227 ../plugins/fn-stat/functions.c:3270
+#: ../plugins/fn-stat/functions.c:3155 ../plugins/fn-stat/functions.c:3197
+#: ../plugins/fn-stat/functions.c:3242 ../plugins/fn-stat/functions.c:3285
 msgid "array:data points"
 msgstr "array:точки даних"
 
-#: ../plugins/fn-stat/functions.c:3141 ../plugins/fn-stat/functions.c:3183
+#: ../plugins/fn-stat/functions.c:3156 ../plugins/fn-stat/functions.c:3198
 msgid "k:which percentile to calculate"
 msgstr "k:процентиль, який слід обчислити"
 
-#: ../plugins/fn-stat/functions.c:3143 ../plugins/fn-stat/functions.c:3185
+#: ../plugins/fn-stat/functions.c:3158 ../plugins/fn-stat/functions.c:3200
 msgid "If @{k} < 0 or @{k} > 1, this function returns a #NUM! error."
 msgstr "Якщо @{k} < 0 або @{k} > 1, ця функція повертає помилку #NUM!."
 
-#: ../plugins/fn-stat/functions.c:3146
+#: ../plugins/fn-stat/functions.c:3161
 msgid "Then PERCENTILE(A1:A5,0.42) equals 20.02."
 msgstr "Тоді PERCENTILE(A1:A5,0.42) дорівнює 20.02."
 
-#: ../plugins/fn-stat/functions.c:3181
+#: ../plugins/fn-stat/functions.c:3196
 msgid ""
 "PERCENTILE.EXC:determines the 100*@{k}-th percentile of the given data "
 "points (Hyndman-Fan method 6: N+1 basis)"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3188
+#: ../plugins/fn-stat/functions.c:3203
 msgid "Then PERCENTILE.EXC(A1:A5,0.42) equals 20.02."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3226
+#: ../plugins/fn-stat/functions.c:3241
 msgid ""
 "QUARTILE:the @{quart}-th quartile of the data points (Hyndman-Fan method 7: "
 "N-1 basis)"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3228
+#: ../plugins/fn-stat/functions.c:3243
 msgid "quart:a number from 0 to 4, indicating which quartile to calculate"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3230 ../plugins/fn-stat/functions.c:3273
+#: ../plugins/fn-stat/functions.c:3245 ../plugins/fn-stat/functions.c:3288
 msgid ""
 "If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If "
 "@{quart} = 0, the smallest value of @{array} to be returned."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3231 ../plugins/fn-stat/functions.c:3274
+#: ../plugins/fn-stat/functions.c:3246 ../plugins/fn-stat/functions.c:3289
 msgid "If @{quart} is not an integer, it is truncated."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3234
+#: ../plugins/fn-stat/functions.c:3249
 msgid "Then QUARTILE(A1:A5,1) equals 17.3."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3269
+#: ../plugins/fn-stat/functions.c:3284
 msgid ""
 "QUARTILE.EXC:the @{quart}-th quartile of the data points (Hyndman-Fan method "
 "6: N+1 basis)"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3271
+#: ../plugins/fn-stat/functions.c:3286
 msgid "quart:a number from 1 to 3, indicating which quartile to calculate"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3277
+#: ../plugins/fn-stat/functions.c:3292
 msgid "Then QUARTILE.EXC(A1:A5,1) equals 14.35."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3315
+#: ../plugins/fn-stat/functions.c:3330
 msgid ""
 "FTEST:p-value for the two-tailed hypothesis test comparing the variances of "
 "two populations"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3317 ../plugins/fn-stat/functions.c:3374
+#: ../plugins/fn-stat/functions.c:3332 ../plugins/fn-stat/functions.c:3389
 msgid "array1:sample from the first population"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3318 ../plugins/fn-stat/functions.c:3375
+#: ../plugins/fn-stat/functions.c:3333 ../plugins/fn-stat/functions.c:3390
 msgid "array2:sample from the second population"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3323
+#: ../plugins/fn-stat/functions.c:3338
 msgid "Then FTEST(A1:A5,B1:B5) equals 0.510815017."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3372
+#: ../plugins/fn-stat/functions.c:3387
 msgid ""
 "TTEST:p-value for a hypothesis test comparing the means of two populations "
 "using the Student t-distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3376
+#: ../plugins/fn-stat/functions.c:3391
 msgid "tails:number of tails to consider"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3377
+#: ../plugins/fn-stat/functions.c:3392
 msgid ""
 "type:Type of test to perform. 1 indicates a test for paired variables, 2 a "
 "test of unpaired variables with equal variances, and 3 a test of unpaired "
 "variables with unequal variances"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3380
+#: ../plugins/fn-stat/functions.c:3395
 msgid ""
 "If the data sets contain a different number of data points and the test is "
 "paired (@{type} one), TTEST returns the #N/A error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3382
+#: ../plugins/fn-stat/functions.c:3397
 msgid "@{tails} and @{type} are truncated to integers."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3383
+#: ../plugins/fn-stat/functions.c:3398
 msgid "If @{tails} is not one or two, this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3384
+#: ../plugins/fn-stat/functions.c:3399
 msgid ""
 "If @{type} is any other than one, two, or three, this function returns a "
 "#NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3389
+#: ../plugins/fn-stat/functions.c:3404
 msgid ""
 "Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619. TTEST(A1:A5,B1:B5,2,1) "
 "equals 0.006255239. TTEST(A1:A5,B1:B5,1,2) equals 0.111804322. "
 "TTEST(A1:A5,B1:B5,1,3) equals 0.113821797."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3547
+#: ../plugins/fn-stat/functions.c:3562
 msgid "FREQUENCY:frequency table"
 msgstr "FREQUENCY:таблиця частот"
 
-#: ../plugins/fn-stat/functions.c:3548
+#: ../plugins/fn-stat/functions.c:3563
 msgid "data_array:data values"
 msgstr "data_array:значення даних"
 
-#: ../plugins/fn-stat/functions.c:3549
+#: ../plugins/fn-stat/functions.c:3564
 msgid "bins_array:array of cutoff values"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3550
+#: ../plugins/fn-stat/functions.c:3565
 msgid "The results are given as an array."
 msgstr "Результати буде надано у форматі масиву."
 
-#: ../plugins/fn-stat/functions.c:3551
+#: ../plugins/fn-stat/functions.c:3566
 msgid ""
 "If the @{bins_array} is empty, this function returns the number of data "
 "points in @{data_array}."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3614
+#: ../plugins/fn-stat/functions.c:3629
 msgid "LEVERAGE:calculate regression leverage"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3617
+#: ../plugins/fn-stat/functions.c:3632
 msgid ""
 "Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}^T as a column vector."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3618
+#: ../plugins/fn-stat/functions.c:3633
 msgid "If the matrix is singular, #VALUE! is returned."
 msgstr "Якщо матриця є виродженою, буде повернуто #VALUE!."
 
-#: ../plugins/fn-stat/functions.c:3821
+#: ../plugins/fn-stat/functions.c:3836
 msgid "LINEST:multiple linear regression coefficients and statistics"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3822 ../plugins/fn-stat/functions.c:4135
+#: ../plugins/fn-stat/functions.c:3837 ../plugins/fn-stat/functions.c:4150
 msgid "known_ys:vector of values of dependent variable"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3823 ../plugins/fn-stat/functions.c:4136
+#: ../plugins/fn-stat/functions.c:3838 ../plugins/fn-stat/functions.c:4151
 msgid ""
 "known_xs:array of values of independent variables, defaults to a single "
 "vector {1,…,n}"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3824 ../plugins/fn-stat/functions.c:3928
-#: ../plugins/fn-stat/functions.c:4138 ../plugins/fn-stat/functions.c:4284
-#: ../plugins/fn-stat/functions.c:4381
+#: ../plugins/fn-stat/functions.c:3839 ../plugins/fn-stat/functions.c:3943
+#: ../plugins/fn-stat/functions.c:4153 ../plugins/fn-stat/functions.c:4299
+#: ../plugins/fn-stat/functions.c:4396
 msgid "affine:if true, the model contains a constant term, defaults to true"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3825
+#: ../plugins/fn-stat/functions.c:3840
 msgid ""
 "stats:if true, some additional statistics are provided, defaults to false"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3826
+#: ../plugins/fn-stat/functions.c:3841
 msgid ""
 "This function returns an array with the first row giving the regression "
 "coefficients for the independent variables x_m, x_(m-1),…,x_2, x_1 followed "
 "by the y-intercept if @{affine} is true."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3829
+#: ../plugins/fn-stat/functions.c:3844
 msgid ""
 "If @{stats} is true, the second row contains the corresponding standard "
 "errors of the regression coefficients. In this case, the third row contains "
@@ -10123,34 +10329,34 @@ msgid ""
 "row contains the regression sum of squares and the residual sum of squares."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3836
+#: ../plugins/fn-stat/functions.c:3851
 msgid ""
 "If @{affine} is false, R^2 is the uncentered version of the coefficient of "
 "determination; that is the proportion of the sum of squares explained by the "
 "model."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3839 ../plugins/fn-stat/functions.c:4139
+#: ../plugins/fn-stat/functions.c:3854 ../plugins/fn-stat/functions.c:4154
 msgid ""
 "If the length of @{known_ys} does not match the corresponding length of "
 "@{known_xs}, this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3925
+#: ../plugins/fn-stat/functions.c:3940
 msgid "LOGREG:the logarithmic regression"
 msgstr "LOGREG:логарифмічна регресія"
 
-#: ../plugins/fn-stat/functions.c:3927 ../plugins/fn-stat/functions.c:4379
+#: ../plugins/fn-stat/functions.c:3942 ../plugins/fn-stat/functions.c:4394
 msgid "known_xs:known x-values; defaults to the array {1, 2, 3, …}"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3929 ../plugins/fn-stat/functions.c:4285
+#: ../plugins/fn-stat/functions.c:3944 ../plugins/fn-stat/functions.c:4300
 msgid ""
 "stat:if true, extra statistical information will be returned; defaults to "
 "FALSE"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3930
+#: ../plugins/fn-stat/functions.c:3945
 msgid ""
 "LOGREG function transforms your x's to z=ln(x) and applies the “least "
 "squares” method to fit the linear equation y = m * z + b to your y's and z's "
@@ -10159,7 +10365,7 @@ msgid ""
 "first column and b in the second."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3938
+#: ../plugins/fn-stat/functions.c:3953
 msgid ""
 "Any extra statistical information is written below m and b in the result "
 "array.  This extra statistical information consists of four rows of data:  "
@@ -10170,18 +10376,18 @@ msgid ""
 "residual sum of squares. The default of @{stat} is FALSE."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3947 ../plugins/fn-stat/functions.c:4300
-#: ../plugins/fn-stat/functions.c:4390
+#: ../plugins/fn-stat/functions.c:3962 ../plugins/fn-stat/functions.c:4315
+#: ../plugins/fn-stat/functions.c:4405
 msgid ""
 "If @{known_ys} and @{known_xs} have unequal number of data points, this "
 "function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4039
+#: ../plugins/fn-stat/functions.c:4054
 msgid "LOGFIT:logarithmic least square fit (using a trial and error method)"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4043
+#: ../plugins/fn-stat/functions.c:4058
 msgid ""
 "LOGFIT function applies the “least squares” method to fit the logarithmic "
 "equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. "
@@ -10189,76 +10395,76 @@ msgid ""
 "possibly mirrored across the y-axis (if sign = -1)."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4049
+#: ../plugins/fn-stat/functions.c:4064
 msgid ""
 "LOGFIT returns an array having five columns and one row. `Sign' is given in "
 "the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 "
 "holds the sum of squared residuals."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4053
+#: ../plugins/fn-stat/functions.c:4068
 msgid ""
 "An error is returned when there are less than 3 different x's or y's, or "
 "when the shape of the point cloud is too different from a ``logarithmic'' "
 "one."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4056
+#: ../plugins/fn-stat/functions.c:4071
 msgid ""
 "You can use the above formula = a + b * ln(sign * (x - c)) or rearrange it "
 "to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, "
 "respectively."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4061
+#: ../plugins/fn-stat/functions.c:4076
 msgid ""
 "This is non-linear fitting by trial-and-error. The accuracy of `c' is: width "
 "of x-range -> rounded to the next smaller (10^integer), times 0.000001. "
 "There might be cases in which the returned fit is not the best possible."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4134
+#: ../plugins/fn-stat/functions.c:4149
 msgid ""
 "TREND:estimates future values of a given data set using a least squares "
 "approximation"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4137
+#: ../plugins/fn-stat/functions.c:4152
 msgid ""
 "new_xs:array of x-values for which to estimate the y-values; defaults to "
 "@{known_xs}"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4141
+#: ../plugins/fn-stat/functions.c:4156
 msgid ""
 "Let us assume that the cells A1, A2, …, A5 contain numbers 11.4, 17.3, 21.3, "
 "25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and "
 "42.7."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4144
+#: ../plugins/fn-stat/functions.c:4159
 msgid "Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}."
 msgstr "Тоді TREND(A1:A5,B1:B5) дорівнює {12.1, 15.7, 21.6, 26.7, 39.7}."
 
-#: ../plugins/fn-stat/functions.c:4281
+#: ../plugins/fn-stat/functions.c:4296
 msgid "LOGEST:exponential least square fit"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4283
+#: ../plugins/fn-stat/functions.c:4298
 msgid "known_xs:known x-values; default to an array {1, 2, 3, …}"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4286
+#: ../plugins/fn-stat/functions.c:4301
 msgid ""
 "LOGEST function applies the “least squares” method to fit an exponential "
 "curve of the form\ty = b * m{1}^x{1} * m{2}^x{2}... to your data."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4290
+#: ../plugins/fn-stat/functions.c:4305
 msgid "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }."
 msgstr "LOGEST повертає масив { m{n},m{n-1}, ...,m{1},b }."
 
-#: ../plugins/fn-stat/functions.c:4291
+#: ../plugins/fn-stat/functions.c:4306
 msgid ""
 "Extra statistical information is written below the regression line "
 "coefficients in the result array.  Extra statistical information consists of "
@@ -10269,87 +10475,87 @@ msgid ""
 "contains the regression sum of squares and the residual sum of squares."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4377
+#: ../plugins/fn-stat/functions.c:4392
 msgid "GROWTH:exponential growth prediction"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4380
+#: ../plugins/fn-stat/functions.c:4395
 msgid ""
 "new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4382
+#: ../plugins/fn-stat/functions.c:4397
 msgid ""
 "GROWTH function applies the “least squares” method to fit an exponential "
 "curve to your data and predicts the exponential growth by using this curve."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4387
+#: ../plugins/fn-stat/functions.c:4402
 msgid ""
 "GROWTH returns an array having one column and a row for each data point in "
 "@{new_xs}."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4479
+#: ../plugins/fn-stat/functions.c:4494
 msgid ""
 "FORECAST:estimates a future value according to existing values using simple "
 "linear regression"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4481
+#: ../plugins/fn-stat/functions.c:4496
 msgid "x:x-value whose matching y-value should be forecast"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4484
+#: ../plugins/fn-stat/functions.c:4499
 msgid ""
 "This function estimates a future value according to existing values using "
 "simple linear regression."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4486 ../plugins/fn-stat/functions.c:4543
-#: ../plugins/fn-stat/functions.c:4596
+#: ../plugins/fn-stat/functions.c:4501 ../plugins/fn-stat/functions.c:4558
+#: ../plugins/fn-stat/functions.c:4611
 msgid ""
 "If @{known_xs} or @{known_ys} contains no data entries or different number "
 "of data entries, this function returns a #N/A error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4488
+#: ../plugins/fn-stat/functions.c:4503
 msgid ""
 "If the variance of the @{known_xs} is zero, this function returns a #DIV/0 "
 "error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4494
+#: ../plugins/fn-stat/functions.c:4509
 msgid "Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661."
 msgstr "Тоді FORECAST(7,A1:A5,B1:B5) дорівнює -10.859397661."
 
-#: ../plugins/fn-stat/functions.c:4540
+#: ../plugins/fn-stat/functions.c:4555
 msgid "INTERCEPT:the intercept of a linear regression line"
 msgstr "INTERCEPT:відрізок, який відтинає пряма лінійної регресії на x"
 
-#: ../plugins/fn-stat/functions.c:4545 ../plugins/fn-stat/functions.c:4598
+#: ../plugins/fn-stat/functions.c:4560 ../plugins/fn-stat/functions.c:4613
 msgid ""
 "If the variance of the @{known_xs} is zero, this function returns #DIV/0 "
 "error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4551
+#: ../plugins/fn-stat/functions.c:4566
 msgid "Then INTERCEPT(A1:A5,B1:B5) equals -20.785117212."
 msgstr "Тоді INTERCEPT(A1:A5,B1:B5) дорівнює -20.785117212."
 
-#: ../plugins/fn-stat/functions.c:4592
+#: ../plugins/fn-stat/functions.c:4607
 msgid "SLOPE:the slope of a linear regression line"
 msgstr "SLOPE:нахил прямої лінійної регресії"
 
-#: ../plugins/fn-stat/functions.c:4603
+#: ../plugins/fn-stat/functions.c:4618
 msgid "Then SLOPE(A1:A5,B1:B5) equals 1.417959936."
 msgstr "Тоді SLOPE(A1:A5,B1:B5) дорівнюєequals 1.417959936."
 
-#: ../plugins/fn-stat/functions.c:4644
+#: ../plugins/fn-stat/functions.c:4659
 msgid "SUBTOTAL:the subtotal of the given list of arguments"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4645
+#: ../plugins/fn-stat/functions.c:4660
 msgid ""
 "function_nbr:determines which function to use according to the following "
 "table:\n"
@@ -10366,91 +10572,91 @@ msgid ""
 "\t11   VARP"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4658
+#: ../plugins/fn-stat/functions.c:4673
 msgid "ref1:first value"
 msgstr "ref1:перше значення"
 
-#: ../plugins/fn-stat/functions.c:4659
+#: ../plugins/fn-stat/functions.c:4674
 msgid "ref2:second value"
 msgstr "ref2:друге значення"
 
-#: ../plugins/fn-stat/functions.c:4661
+#: ../plugins/fn-stat/functions.c:4676
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, "
 "and 39."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4662
+#: ../plugins/fn-stat/functions.c:4677
 msgid ""
 "Then SUBTOTAL(1,A1:A5) equals 30. SUBTOTAL(6,A1:A5) equals 22378356. "
 "SUBTOTAL(7,A1:A5) equals 6.164414003. SUBTOTAL(9,A1:A5) equals 150. "
 "SUBTOTAL(11,A1:A5) equals 30.4."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4734
+#: ../plugins/fn-stat/functions.c:4749
 msgid "CRONBACH:Cronbach's alpha"
 msgstr "CRONBACH:альфа Кронбаха"
 
-#: ../plugins/fn-stat/functions.c:4735
+#: ../plugins/fn-stat/functions.c:4750
 msgid "ref1:first data set"
 msgstr "ref1:перший набір даних"
 
-#: ../plugins/fn-stat/functions.c:4736
+#: ../plugins/fn-stat/functions.c:4751
 msgid "ref2:second data set"
 msgstr "ref2:другий набір даних"
 
-#: ../plugins/fn-stat/functions.c:4832
+#: ../plugins/fn-stat/functions.c:4847
 msgid ""
 "GEOMDIST:probability mass or cumulative distribution function of the "
 "geometric distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4833
+#: ../plugins/fn-stat/functions.c:4848
 msgid "k:number of trials"
 msgstr "k:кількість дослідів"
 
-#: ../plugins/fn-stat/functions.c:4834
+#: ../plugins/fn-stat/functions.c:4849
 msgid "p:probability of success in any trial"
 msgstr "p:ймовірність успіху в окремому досліді"
 
-#: ../plugins/fn-stat/functions.c:4836
+#: ../plugins/fn-stat/functions.c:4851
 msgid "If @{k} < 0 this function returns a #NUM! error."
 msgstr "Якщо @{k} < 0, ця функція повертає помилку #NUM!."
 
-#: ../plugins/fn-stat/functions.c:4863
+#: ../plugins/fn-stat/functions.c:4878
 msgid "LOGISTIC:probability density function of the logistic distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4894
+#: ../plugins/fn-stat/functions.c:4909
 msgid "PARETO:probability density function of the Pareto distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4896
+#: ../plugins/fn-stat/functions.c:4911
 msgid "a:exponent"
 msgstr "a:ступінь"
 
-#: ../plugins/fn-stat/functions.c:4897 ../plugins/fn-stat/functions.c:4990
+#: ../plugins/fn-stat/functions.c:4912 ../plugins/fn-stat/functions.c:5005
 msgid "b:scale parameter"
 msgstr "b:параметр масштабування"
 
-#: ../plugins/fn-stat/functions.c:4928
+#: ../plugins/fn-stat/functions.c:4943
 msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4930 ../plugins/fn-stat/functions.c:4951
+#: ../plugins/fn-stat/functions.c:4945 ../plugins/fn-stat/functions.c:4966
 msgid "sigma:scale parameter"
 msgstr "sigma:параметр масштабування"
 
-#: ../plugins/fn-stat/functions.c:4948
+#: ../plugins/fn-stat/functions.c:4963
 msgid ""
 "RAYLEIGHTAIL:probability density function of the Rayleigh tail distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4950
+#: ../plugins/fn-stat/functions.c:4965
 msgid "a:lower limit"
 msgstr "a:нижня межа"
 
-#: ../plugins/fn-stat/functions.c:4986
+#: ../plugins/fn-stat/functions.c:5001
 msgid ""
 "EXPPOWDIST:the probability density function of the Exponential Power "
 "distribution"
@@ -10458,7 +10664,7 @@ msgstr ""
 "EXPPOWDIST:функція щільності розподілу для узагальненого нормального "
 "розподілу"
 
-#: ../plugins/fn-stat/functions.c:4992
+#: ../plugins/fn-stat/functions.c:5007
 msgid ""
 "This distribution has been recommended for lifetime analysis when a U-shaped "
 "hazard function is desired. This corresponds to rapid failure once the "
@@ -10470,116 +10676,116 @@ msgstr ""
 "відповідає випадку швидкої деградації якості, коли продукт починає "
 "зношуватися після періоду стабільної або підвищуваної надійності."
 
-#: ../plugins/fn-stat/functions.c:5020
+#: ../plugins/fn-stat/functions.c:5035
 msgid "LAPLACE:probability density function of the Laplace distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5022
+#: ../plugins/fn-stat/functions.c:5037
 msgid "a:mean"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5043
+#: ../plugins/fn-stat/functions.c:5058
 msgid ""
 "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} "
 "objects with repetition allowed"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5044
+#: ../plugins/fn-stat/functions.c:5059
 msgid "x:total number of objects"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5045
+#: ../plugins/fn-stat/functions.c:5060
 msgid "y:number of selected objects"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5046
+#: ../plugins/fn-stat/functions.c:5061
 msgid "If both @{x} and @{y} equal 0, PERMUTATIONA returns 1."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5047
+#: ../plugins/fn-stat/functions.c:5062
 msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5048
+#: ../plugins/fn-stat/functions.c:5063
 msgid "If @{x} or @{y} are not integers, they are truncated."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5074
+#: ../plugins/fn-stat/functions.c:5089
 msgid "LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5075 ../plugins/fn-stat/functions.c:5193
-#: ../plugins/fn-stat/functions.c:5278 ../plugins/fn-stat/functions.c:5362
+#: ../plugins/fn-stat/functions.c:5090 ../plugins/fn-stat/functions.c:5208
+#: ../plugins/fn-stat/functions.c:5293 ../plugins/fn-stat/functions.c:5377
 msgid "x:array of sample values"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5076
+#: ../plugins/fn-stat/functions.c:5091
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Lilliefors (Kolmogorov-Smirnov) Test, the second row the test statistic of "
 "the test, and the third the number of observations in the sample."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5078
+#: ../plugins/fn-stat/functions.c:5093
 msgid "If there are less than 5 sample values, LKSTEST returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5080
+#: ../plugins/fn-stat/functions.c:5095
 msgid "wiki:en:Lilliefors_test"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5192
+#: ../plugins/fn-stat/functions.c:5207
 msgid "SFTEST:Shapiro-Francia Test of Normality"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5194
+#: ../plugins/fn-stat/functions.c:5209
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Shapiro-Francia Test, the second row the test statistic of the test, and the "
 "third the number of observations in the sample."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5196
+#: ../plugins/fn-stat/functions.c:5211
 msgid ""
 "If there are less than 5 or more than 5000 sample values, SFTEST returns "
 "#VALUE!"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5277
+#: ../plugins/fn-stat/functions.c:5292
 msgid "CVMTEST:Cramér-von Mises Test of Normality"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5279
+#: ../plugins/fn-stat/functions.c:5294
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Cramér-von Mises Test, the second row the test statistic of the test, and "
 "the third the number of observations in the sample."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5281
+#: ../plugins/fn-stat/functions.c:5296
 msgid "If there are less than 8 sample values, CVMTEST returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5283
+#: ../plugins/fn-stat/functions.c:5298
 msgid "wiki:en:Cramér–von-Mises_criterion"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5361
+#: ../plugins/fn-stat/functions.c:5376
 msgid "ADTEST:Anderson-Darling Test of Normality"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5363
+#: ../plugins/fn-stat/functions.c:5378
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Anderson-Darling Test, the second row the test statistic of the test, and "
 "the third the number of observations in the sample."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5365
+#: ../plugins/fn-stat/functions.c:5380
 msgid "If there are less than 8 sample values, ADTEST returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5367
+#: ../plugins/fn-stat/functions.c:5382
 msgid "wiki:en:Anderson–Darling_test"
 msgstr ""
 
@@ -11019,15 +11225,15 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:1483
 msgid "TRIM:@{text} with only single spaces between words"
-msgstr ""
+msgstr "TRIM:@{text}, але лише з 1 пробілом між словами"
 
 #: ../plugins/fn-string/functions.c:1524
 msgid "VALUE:numeric value of @{text}"
-msgstr ""
+msgstr "VALUE:нумеричне значення @{text}"
 
 #: ../plugins/fn-string/functions.c:1557
 msgid "NUMBERVALUE:numeric value of @{text}"
-msgstr ""
+msgstr "NUMBERVALUE:нумеричне значення @{text}"
 
 #: ../plugins/fn-string/functions.c:1559
 msgid "separator:decimal separator"
@@ -11049,11 +11255,11 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:1632 ../plugins/fn-string/functions.c:2414
 msgid "text:original text"
-msgstr ""
+msgstr "text:оригінальний текст"
 
 #: ../plugins/fn-string/functions.c:1633
 msgid "old:string to be replaced"
-msgstr ""
+msgstr "old:рядок тексту, що слід замінити"
 
 #: ../plugins/fn-string/functions.c:1635
 msgid ""
@@ -11121,10 +11327,12 @@ msgid ""
 "TEXTSPLIT splits @{text} into multiple cells using the provided column and "
 "row delimiters."
 msgstr ""
+"TEXTSPLIT розділяє @{text} на кілька клітин із наданими рамками стовпчиків "
+"та рядків."
 
 #: ../plugins/fn-string/functions.c:1994
 msgid "DOLLAR:@{num} formatted as currency"
-msgstr ""
+msgstr "DOLLAR:@{num} відформатоване як валюта"
 
 #: ../plugins/fn-string/functions.c:1996
 msgid "decimals:decimals"
@@ -11134,15 +11342,15 @@ msgstr ""
 msgid ""
 "SEARCH:the location of the @{search} string within @{text} after position "
 "@{start}"
-msgstr ""
+msgstr "SEARCH:локація рядка @{search} у @{text} після позиції @{start}"
 
 #: ../plugins/fn-string/functions.c:2068 ../plugins/fn-string/functions.c:2111
 msgid "search:search string"
-msgstr ""
+msgstr "search:рядок пошуку"
 
 #: ../plugins/fn-string/functions.c:2069 ../plugins/fn-string/functions.c:2112
 msgid "text:search field"
-msgstr ""
+msgstr "text:поле пошуку"
 
 #: ../plugins/fn-string/functions.c:2071 ../plugins/fn-string/functions.c:2114
 msgid ""
@@ -11154,17 +11362,18 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:2076 ../plugins/fn-string/functions.c:2119
 msgid "This search is not case sensitive."
-msgstr ""
+msgstr "Цей пошук не є чутливим до реєстру."
 
 #: ../plugins/fn-string/functions.c:2077
 msgid "If @{search} is not found, SEARCH returns #VALUE!"
-msgstr ""
+msgstr "Якщо @{search} не знайдено, то SEARCH видає #VALUE!"
 
 #: ../plugins/fn-string/functions.c:2078
 msgid ""
 "If @{start} is less than one or it is greater than the length of @{text}, "
 "SEARCH returns #VALUE!"
 msgstr ""
+"Якщо @{start} менше 1 або більший за довжину @{text}, то SEARCH видає #VALUE!"
 
 #: ../plugins/fn-string/functions.c:2109
 msgid ""
@@ -11203,6 +11412,7 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:2171 ../plugins/fn-string/functions.c:2419
 msgid "For most strings, this function has the same effect as in Excel."
 msgstr ""
+"Для більшості рядків ця функція має такий же самий ефект, що і в Excel."
 
 #: ../plugins/fn-string/functions.c:2172
 msgid ""
@@ -11262,13 +11472,15 @@ msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:370 ../plugins/fn-tsa/functions.c:557
 msgid "The output consists always of one column of numbers."
-msgstr ""
+msgstr "Вивід завжди містить один стовпчик з цифрами."
 
 #: ../plugins/fn-tsa/functions.c:372
 msgid ""
 "The @{abscissae} should be given in increasing order. If the @{abscissae} is "
 "not in increasing order the INTERPOLATION function is significantly slower."
 msgstr ""
+"@{abscissae} мають бути надані в порядку зростання. Якщо @{abscissae} не в "
+"порядку зростання, то функція INTERPOLATION стає значно повільнішою."
 
 #: ../plugins/fn-tsa/functions.c:374
 msgid "If any two @{abscissae} values are equal an error is returned."
@@ -11455,7 +11667,7 @@ msgstr ""
 
 #: ../plugins/sample_datasource/sample_datasource.c:227
 msgid "This is not intended to be generally enabled and is OFF by default."
-msgstr ""
+msgstr "Загалом її не слід вмикати і типово вона ВИМКНУТА."
 
 #~ msgid ""
 #~ "@FUNCTION=COMPLEX\n"
