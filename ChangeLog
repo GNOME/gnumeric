@@ -1,3 +1,7 @@
+2026-05-20  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (function_call_with_values): Remove unused function.
+
 2026-05-15  Morten Welinder  <terra@gnome.org>
 
 	* src/collect.c (callback_function_collect): Add special handling

@@ -1620,35 +1620,6 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 	return tmp;
 }
 
-/*
- * Use this to invoke a register function: the only drawback is that
- * you have to compute/expand all of the values to use this
- */
-/**
- * function_call_with_values:
- * @ep: #GnmEvalPos
- * @name: function name
- * @argc: number of arguments
- * @values: (array length=argc): function arguments
- *
- * Returns: (transfer full): the result of the function call.
- **/
-GnmValue *
-function_call_with_values (GnmEvalPos const *ep, char const *name,
-			   int argc, GnmValue const * const *values)
-{
-	GnmFunc *fn_def;
-
-	g_return_val_if_fail (ep != NULL, NULL);
-	g_return_val_if_fail (name != NULL, NULL);
-	g_return_val_if_fail (ep->sheet != NULL, NULL);
-
-	/* FIXME : support workbook local functions */
-	fn_def = gnm_func_lookup (name, NULL);
-	if (fn_def == NULL)
-		return value_new_error_NAME (ep);
-	return function_def_call_with_values (ep, fn_def, argc, values);
-}
 
 /**
  * function_def_call_with_values:

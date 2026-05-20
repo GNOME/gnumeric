@@ -279,8 +279,6 @@ char       *gnm_func_convert_markup_to_pango (char const *desc,
 /*************************************************************************/
 
 GnmValue *function_call_with_exprs	(GnmFuncEvalInfo *ei);
-GnmValue *function_call_with_values     (GnmEvalPos const *ep, char const *name,
-					 int argc, GnmValue const * const *values);
 GnmValue *function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn,
 					 int argc, GnmValue const * const *values);
 
