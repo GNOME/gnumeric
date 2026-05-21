@@ -1631,8 +1631,8 @@ static GnmValue *
 gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	GnmExpr const *source;
-	int elem[3] = { 0, 0, 0 };
-	int i = 0;
+	int elem[3] = { -1, -1, 0 };
+	int i, width, height;
 	gboolean valid;
 	GnmValue *v, *res;
 
@@ -1649,15 +1649,17 @@ gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		return v;
 
 	for (i = 0; i + 1 < argc && i < (int)G_N_ELEMENTS (elem); i++) {
-		GnmValue *vi = value_coerce_to_number (
-			gnm_expr_eval (argv[i + 1], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY),
-			&valid, ei->pos);
-		if (!valid) {
-			value_release (v);
-			return vi;
+		if (argv[i + 1] != NULL) {
+			GnmValue *vi = value_coerce_to_number (
+				gnm_expr_eval (argv[i + 1], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY),
+				&valid, ei->pos);
+			if (!valid) {
+				value_release (v);
+				return vi;
+			}
+			elem[i] = value_get_as_int (vi) - 1;
+			value_release (vi);
 		}
-		elem[i] = value_get_as_int (vi) - 1;
-		value_release (vi);
 	}
 
 	if (GNM_EXPR_GET_OPER (source) == GNM_EXPR_OP_SET) {
@@ -1676,32 +1678,43 @@ gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		return value_new_error_REF (ei->pos);
 	}
 
-	if (elem[1] < 0 ||
-	    elem[1] >= value_area_get_width (v, ei->pos) ||
-	    elem[0] < 0 ||
-	    elem[0] >= value_area_get_height (v, ei->pos)) {
+	width = value_area_get_width (v, ei->pos);
+	height = value_area_get_height (v, ei->pos);
+
+	if (argc == 2 && width > 1 && height == 1) {
+		elem[1] = elem[0];
+		elem[0] = -1;
+	}
+
+	if (elem[1] < -1 || elem[1] >= width ||
+	    elem[0] < -1 || elem[0] >= height) {
 		value_release (v);
 		return value_new_error_REF (ei->pos);
 	}
 
-#warning Work out a way to fall back to returning value when a reference is unneeded
-	if (VALUE_IS_CELLRANGE (v)) {
-		GnmRangeRef const *src = &v->v_range.cell;
-		GnmCellRef a = src->a, b = src->b;
-		Sheet *start_sheet, *end_sheet;
-		GnmRange r;
+	gboolean qyslice = (elem[0] == -1);
+	gboolean qxslice = (elem[1] == -1);
+	int start_col = qxslice ? 0 : elem[1];
+	int end_col   = qxslice ? width - 1 : elem[1];
+	int start_row = qyslice ? 0 : elem[0];
+	int end_row   = qyslice ? height - 1 : elem[0];
 
-		gnm_rangeref_normalize (src, ei->pos, &start_sheet, &end_sheet, &r);
-		r.start.row += elem[0];
-		r.start.col += elem[1];
-		a.row = r.start.row; if (a.row_relative) a.row -= ei->pos->eval.row;
-		b.row = r.start.row; if (b.row_relative) b.row -= ei->pos->eval.row;
-		a.col = r.start.col; if (a.col_relative) a.col -= ei->pos->eval.col;
-		b.col = r.start.col; if (b.col_relative) b.col -= ei->pos->eval.col;
-		res = value_new_cellrange_unsafe (&a, &b);
-	} else if (VALUE_IS_ARRAY (v))
-		res = value_dup (value_area_fetch_x_y (v, elem[1], elem[0], ei->pos));
-	else
+	if (VALUE_IS_CELLRANGE (v)) {
+#warning Work out a way to fall back to returning value when a reference is unneeded
+		res = value_area_slice (v,
+					start_col, start_row,
+					end_col, end_row,
+					ei->pos);
+	} else if (VALUE_IS_ARRAY (v)) {
+		if (!qyslice && !qxslice)
+			res = value_dup (value_area_fetch_x_y (v, elem[1], elem[0], ei->pos));
+		else {
+			res = value_area_slice (v,
+						start_col, start_row,
+						end_col, end_row,
+						ei->pos);
+		}
+	} else
 		res = value_new_error_REF (ei->pos);
 	value_release (v);
 	return res;

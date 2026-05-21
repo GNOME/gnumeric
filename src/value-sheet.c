@@ -191,6 +191,54 @@ value_area_get_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 		return v;
 }
 
+GnmValue *
+value_area_slice (GnmValue const *v,
+		  int x0, int y0, int x1, int y1,
+		  GnmEvalPos const *ep)
+{
+	g_return_val_if_fail (0 <= x0 && 0 <= y0, NULL);
+	g_return_val_if_fail (x0 <= x1 && y0 <= y1, NULL);
+
+	if (VALUE_IS_ARRAY (v)) {
+		g_return_val_if_fail (x1 < v->v_array.x && y1 < v->v_array.y, NULL);
+
+		int r_width = x1 - x0 + 1;
+		int r_height = y1 - y0 + 1;
+
+		GnmValue *res = value_new_array_non_init (r_width, r_height);
+		for (int y = 0; y < r_height; y++) {
+			for (int x = 0; x < r_width; x++) {
+				GnmValue const *v0 =  v->v_array.vals[x0 + x][y0 + y];
+				res->v_array.vals[x][y] = value_dup (v0);
+			}
+		}
+		return res;
+	} else if (VALUE_IS_CELLRANGE (v)) {
+		GnmRangeRef const *src = &v->v_range.cell;
+		GnmCellRef a = src->a, b = src->b;
+		Sheet *start_sheet, *end_sheet;
+		GnmRange r;
+
+		gnm_rangeref_normalize (src, ep, &start_sheet, &end_sheet, &r);
+		int w = range_width (&r), h = range_height (&r);
+		g_return_val_if_fail (x1 < w && y1 < h, NULL);
+
+		a.col += x0;
+		a.row += y0;
+		b.col -= w - 1 - x1;
+		b.row -= h - 1 - y1;
+
+		return value_new_cellrange_unsafe (&a, &b);
+	} else {
+		g_warning ("This should not happen");
+	}
+
+	return NULL;
+}
+
+
+
+
 typedef struct {
 	GnmValueIter	 v_iter;
 	GnmValueIterFunc func;

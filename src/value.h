@@ -185,6 +185,9 @@ GnmValue const *value_area_fetch_x_y  (GnmValue const *v, int x, int y,
 				       GnmEvalPos const *ep);
 GnmValue const *value_area_get_x_y    (GnmValue const *v, int x, int y,
 				       GnmEvalPos const *ep);
+GnmValue       *value_area_slice      (GnmValue const *v,
+				       int x0, int y0, int x1, int y1,
+				       GnmEvalPos const *ep);
 
 /* A zero integer, not to be freed or changed.  */
 extern GnmValue const *value_zero;
