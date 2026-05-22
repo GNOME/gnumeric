@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-05-20 15:15+0000\n"
-"PO-Revision-Date: 2026-05-21 16:21+0200\n"
+"POT-Creation-Date: 2026-05-21 14:47+0000\n"
+"PO-Revision-Date: 2026-05-22 13:17+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -669,6 +669,12 @@ msgid ""
 "specifying a value, e. g. \"3\" or \"Jody\". For a record to be considered "
 "it must satisfy all conditions in at least one of the rows of @{criteria}."
 msgstr ""
+"@{criteria} - це область, що містить умови. Перший рядок @{criteria} має "
+"містити мітки. Кожна мітка вказує на те, до якого поля застосовуються надані "
+"умови. Кожна клітина під міткою вказує умову, наприклад \">3\" чи \"<9\". "
+"Умову рівності можна виставити просто вказавши значення, наприклад \"3\" або "
+"\"Jody\". Щоб запис було розглянуто, він має відповідати усім умовам "
+"вказаним хоча б у одному рядку @{criteria}."
 
 #: ../plugins/fn-database/functions.c:72
 msgid ""
@@ -1079,7 +1085,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:418
 msgid "EDATE:adjust a date by a number of months"
-msgstr "EDATE:змініть дату на кілька місяців."
+msgstr "EDATE:зсуває дату на число місяців"
 
 #: ../plugins/fn-date/functions.c:419 ../plugins/fn-date/functions.c:641
 #: ../plugins/fn-date/functions.c:665 ../plugins/fn-date/functions.c:689
@@ -3943,17 +3949,19 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1872
 msgid "G_DURATION:the duration of a investment"
-msgstr ""
+msgstr "G_DURATION:тривалість інвестиції"
 
 #: ../plugins/fn-financial/functions.c:1876
 msgid ""
 "G_DURATION calculates the number of periods needed for an investment to "
 "attain a desired value."
 msgstr ""
+"G_DURATION обчислює кількість періодів необхідних щоб інвестиція набула "
+"бажаної цінності."
 
 #: ../plugins/fn-financial/functions.c:1877
 msgid "G_DURATION is the OpenFormula function PDURATION."
-msgstr ""
+msgstr "G_DURATION є функцією PDURATION з OpenFormula."
 
 #: ../plugins/fn-financial/functions.c:1904
 msgid "FVSCHEDULE:future value"
@@ -4581,7 +4589,7 @@ msgstr "ISFORMULA:є ВІРНИМ (TRUE), якщо @{cell} містить фор
 
 #: ../plugins/fn-info/functions.c:444
 msgid "ISFORMULA is OpenFormula compatible."
-msgstr "ISFORMULA є сумісною із OpenFormula"
+msgstr "ISFORMULA є сумісною із OpenFormula."
 
 #: ../plugins/fn-info/functions.c:473
 msgid "COUNTBLANK:the number of blank cells in @{range}"
@@ -4641,7 +4649,7 @@ msgstr "value:значення"
 
 #: ../plugins/fn-info/functions.c:645
 msgid "ISNA:TRUE if @{value} is the #N/A error value"
-msgstr "ISNA:є ВІРНИМ (TRUE), якщо помилка є #N/A"
+msgstr "ISNA:є ВІРНИМ (TRUE), якщо @{value} є помилкою #N/A"
 
 #: ../plugins/fn-info/functions.c:667
 msgid "ISERR:TRUE if @{value} is any error value except #N/A"
@@ -4748,7 +4756,7 @@ msgstr "ISREF:є ВІРНИМ (TRUE), якщо @{value} є посиланням"
 
 #: ../plugins/fn-info/functions.c:876
 msgid "This function checks if a value is a cell reference."
-msgstr "Ця функція перевіряє, чи є значення посиланням на клітину"
+msgstr "Ця функція перевіряє, чи є значення посиланням на клітину."
 
 #: ../plugins/fn-info/functions.c:904
 msgid "ISTEXT:TRUE if @{value} is text"
@@ -4975,6 +4983,8 @@ msgid ""
 "Each @{condition} must be a boolean value. Any other type will result in a "
 "#VALUE! error."
 msgstr ""
+"Кожна @{condition} має бути булевим (вірним/хибним, true/false) значенням. "
+"Будь-який інший тип викличе помилку #VALUE!"
 
 #: ../plugins/fn-logical/functions.c:300
 msgid "SWITCH:multi-branch selector"
@@ -5013,23 +5023,23 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:361
 msgid "TRUE:the value TRUE"
-msgstr ""
+msgstr "TRUE:значення ВІРНО (TRUE)"
 
 #: ../plugins/fn-logical/functions.c:362
 msgid "TRUE returns the value TRUE."
-msgstr ""
+msgstr "TRUE видає значення ВІРНО (TRUE)"
 
 #: ../plugins/fn-logical/functions.c:366 ../plugins/fn-logical/functions.c:384
 msgid "wiki:en:Logical_value"
-msgstr ""
+msgstr "wiki:en:Logical_value"
 
 #: ../plugins/fn-logical/functions.c:379
 msgid "FALSE:the value FALSE"
-msgstr ""
+msgstr "FALSE:значення ХИБНО (FALSE)"
 
 #: ../plugins/fn-logical/functions.c:380
 msgid "FALSE returns the value FALSE."
-msgstr ""
+msgstr "FALSE видає значення ХИБНО (FALSE)"
 
 #: ../plugins/fn-lookup/functions.c:952
 msgid "ADDRESS:cell address as text"
@@ -5123,6 +5133,8 @@ msgid ""
 "approximate:if false, an exact match of @{value} must be found; defaults to "
 "TRUE"
 msgstr ""
+"approximate:якщо є хибним (false), то буде знайдено значення ідентичне "
+"@{value}, типово є вірним (true)"
 
 #: ../plugins/fn-lookup/functions.c:1171
 msgid "as_index:if true, the 0-based row offset is returned; defaults to FALSE"
@@ -6146,6 +6158,9 @@ msgid ""
 "FLOOR(@{x},@{significance}) is the OpenFormula function "
 "FLOOR(@{x},@{significance},1)."
 msgstr ""
+"FLOOR(@{x}) експортується у ODF як FLOOR(@{x},SIGN(@{x}),1). "
+"FLOOR(@{x},@{significance}) є функцією FLOOR(@{x},@{significance},1) у "
+"OpenFormula."
 
 #: ../plugins/fn-math/functions.c:1269
 msgid "INT:largest integer not larger than @{x}"
@@ -6182,7 +6197,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:1375 ../plugins/fn-math/functions.c:1410
 #: ../plugins/fn-math/functions.c:1498 ../plugins/fn-math/functions.c:1520
 msgid "x:positive number"
-msgstr ""
+msgstr "x:додатне число"
 
 #: ../plugins/fn-math/functions.c:1317 ../plugins/fn-math/functions.c:1345
 msgid "base:base of the logarithm, defaults to 10"
@@ -6194,7 +6209,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1319 ../plugins/fn-math/functions.c:1347
 msgid "If @{x} ≤ 0, LOG returns #NUM! error."
-msgstr ""
+msgstr "Якщо @{x} ≤ 0, LOG видає помилку #NUM!"
 
 #: ../plugins/fn-math/functions.c:1343
 msgid "ILOG:integer logarithm of @{x} with base @{base}"
@@ -8910,7 +8925,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:407
 msgid "f:number of failures"
-msgstr ""
+msgstr "f:кількість невдач"
 
 #: ../plugins/fn-stat/functions.c:408
 msgid "t:threshold number of successes"
@@ -9177,7 +9192,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:859
 msgid "AVERAGE:average of all the numeric values and cells"
-msgstr ""
+msgstr "AVERAGE:середнє значення усіх нумеричних значень та клітим"
 
 #: ../plugins/fn-stat/functions.c:865
 msgid "wiki:en:Arithmetic_mean"
@@ -9283,7 +9298,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1087 ../plugins/fn-stat/functions.c:1487
 #: ../plugins/fn-stat/functions.c:2026 ../plugins/fn-stat/functions.c:2253
 msgid "If @{x} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Якщо @{x} < 0, то ця функція видає помилку #NUM!"
 
 #: ../plugins/fn-stat/functions.c:1088 ../plugins/fn-stat/functions.c:1292
 #: ../plugins/fn-stat/functions.c:1329 ../plugins/fn-stat/functions.c:1367
@@ -9325,6 +9340,7 @@ msgstr ""
 msgid ""
 "CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof})."
 msgstr ""
+"CHIINV(@{x},@{dof}) є функцією LEGACY.CHIDIST(@{x},@{dof}) з OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1171
 msgid "CHIINV:inverse of the survival function of the chi-squared distribution"
@@ -9334,11 +9350,13 @@ msgstr ""
 msgid ""
 "If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error."
 msgstr ""
+"Якщо @{p} < 0, @{p} > 1, або @{dof} < 1, то ця функція видає помилку #NUM!"
 
 #: ../plugins/fn-stat/functions.c:1177
 msgid ""
 "CHIINV(@{p},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{p},@{dof})."
 msgstr ""
+"CHIINV(@{p},@{dof}) є функцією LEGACY.CHIDIST(@{p},@{dof}) з OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1198
 msgid "CHITEST:p value of the Goodness of Fit Test"
@@ -9362,7 +9380,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1207
 msgid "CHITEST is the OpenFormula function LEGACY.CHITEST."
-msgstr ""
+msgstr "CHITEST є функцією LEGACY.CHITEST з OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1285
 msgid "BETADIST:cumulative distribution function of the beta distribution"
