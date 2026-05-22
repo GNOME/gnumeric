@@ -65,6 +65,19 @@ GnmValue *collect_float_pairs (GnmValue const *v0, GnmValue const *v1,
 			       gnm_float **xs0, gnm_float **xs1, int *n,
 			       gboolean *constp);
 
+/* Utilities to interate through ranges and argument lists */
+typedef GnmValue * (*FunctionIterateCB) (GnmEvalPos const *ep, GnmValue const *value,
+					 gboolean direct, gpointer user_data);
+GnmValue *function_iterate_argument_values (GnmEvalPos const *ep,
+					    FunctionIterateCB callback,
+					    gpointer callback_closure,
+					    int argc,
+					    GnmExprConstPtr const *argv,
+					    gboolean strict,
+					    CellIterFlags iter_flags);
+
+
+
 GnmValue *float_range_function (int argc, GnmExprConstPtr const *argv,
 				GnmFuncEvalInfo *ei,
 				float_range_function_t func,

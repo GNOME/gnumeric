@@ -282,17 +282,6 @@ GnmValue *function_call_with_exprs	(GnmFuncEvalInfo *ei);
 GnmValue *function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn,
 					 int argc, GnmValue const * const *values);
 
-/* Utilities to interate through ranges and argument lists */
-typedef GnmValue * (*FunctionIterateCB) (GnmEvalPos const *ep, GnmValue const *value,
-					 gboolean direct, gpointer user_data);
-GnmValue *function_iterate_argument_values (GnmEvalPos const *ep,
-					    FunctionIterateCB callback,
-					    gpointer callback_closure,
-					    int argc,
-					    GnmExprConstPtr const *argv,
-					    gboolean strict,
-					    CellIterFlags iter_flags);
-
 /*************************************************************************/
 
 struct GnmFuncEvalInfo_ {
