@@ -637,6 +637,7 @@ typedef struct {
 	void              *closure;
 	gboolean           strict;
 	CellIterFlags      iter_flags;
+	GnmEvalPos const  *ep;
 } IterateCallbackClosure;
 
 /**
@@ -650,15 +651,13 @@ cb_iterate_cellrange (GnmCellIter const *iter, gpointer user)
 
 {
 	IterateCallbackClosure *data = user;
-	GnmCell  *cell;
-	GnmValue *res;
 	GnmEvalPos ep;
 
-	if (NULL == (cell = iter->cell)) {
+	GnmCell *cell = iter->cell;
+	if (!cell) {
 		ep.sheet = iter->pp.sheet;
 		ep.dep = NULL;
-		ep.eval.col = iter->pp.eval.col;
-		ep.eval.row = iter->pp.eval.row;
+		ep.eval = iter->pp.eval;
 		return (*data->callback)(&ep, NULL, FALSE, data->closure);
 	}
 
@@ -671,8 +670,11 @@ cb_iterate_cellrange (GnmCellIter const *iter, gpointer user)
 	eval_pos_init_cell (&ep, cell);
 
 	/* If we encounter an error for the strict case, short-circuit here.  */
-	if (data->strict && (NULL != (res = gnm_cell_is_error (cell))))
-		return value_new_error_str (&ep, res->v_err.mesg);
+	if (data->strict) {
+		GnmValue *res = gnm_cell_is_error (cell);
+		if (res)
+			return value_new_error_str (&ep, res->v_err.mesg);
+	}
 
 	/* All other cases -- including error -- just call the handler.  */
 	return (*data->callback)(&ep, cell->value, FALSE, data->closure);
@@ -684,19 +686,15 @@ cb_iterate_cellrange (GnmCellIter const *iter, gpointer user)
  * Helper routine for function_iterate_argument_values.
  */
 static GnmValue *
-function_iterate_do_value (GnmEvalPos const  *ep,
-			   FunctionIterateCB  callback,
-			   gpointer	      closure,
-			   GnmValue const    *value,
-			   gboolean           strict,
-			   gboolean           direct,
-			   CellIterFlags      iter_flags)
+function_iterate_do_value (GnmValue const *value,
+			   IterateCallbackClosure *data,
+			   gboolean direct)
 {
 	GnmValue *res = NULL;
 
 	switch (value->v_any.type){
 	case VALUE_ERROR:
-		if (strict) {
+		if (data->strict) {
 			res = value_dup (value);
 			break;
 		}
@@ -706,7 +704,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 	case VALUE_BOOLEAN:
 	case VALUE_FLOAT:
 	case VALUE_STRING:
-		res = (*callback)(ep, value, direct, closure);
+		res = (data->callback)(data->ep, value, direct, data->closure);
 		break;
 
 	case VALUE_ARRAY: {
@@ -716,28 +714,19 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 		for (y = 0; y < value->v_array.y; y++) {
 			  for (x = 0; x < value->v_array.x; x++) {
 				res = function_iterate_do_value (
-					ep, callback, closure,
-					value->v_array.vals[x][y],
-					strict, FALSE,
-					CELL_ITER_IGNORE_BLANK);
+					value->v_array.vals[x][y], data, FALSE);
 				if (res != NULL)
 					return res;
 			}
 		}
 		break;
 	}
-	case VALUE_CELLRANGE: {
-		IterateCallbackClosure data;
-
-		data.callback = callback;
-		data.closure  = closure;
-		data.strict   = strict;
-		data.iter_flags = iter_flags;
-
-		res = workbook_foreach_cell_in_range (ep, value, iter_flags,
+	case VALUE_CELLRANGE:
+		res = workbook_foreach_cell_in_range (data->ep, value,
+						      data->iter_flags,
 						      cb_iterate_cellrange,
-						      &data);
-	}
+						      data);
+		break;
 	}
 	return res;
 }
@@ -777,6 +766,13 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 {
 	GnmValue *result = NULL;
 	int a;
+	IterateCallbackClosure data;
+
+	data.callback = callback;
+	data.closure = callback_closure;
+	data.strict = strict;
+	data.iter_flags = iter_flags;
+	data.ep = ep;
 
 	for (a = 0; result == NULL && a < argc; a++) {
 		GnmExpr const *expr = argv[a];
@@ -845,9 +841,7 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 			return val;
 		}
 
-		result = function_iterate_do_value (ep, callback, callback_closure,
-						    val, strict, TRUE,
-						    iter_flags);
+		result = function_iterate_do_value (val, &data, TRUE);
 		value_release (val);
 	}
 	return result;

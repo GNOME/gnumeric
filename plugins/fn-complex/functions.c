@@ -27,6 +27,7 @@
 #include <func.h>
 
 #include <complex.h>
+#include <collect.h>
 #include <sf-gamma.h>
 #include <parse-util.h>
 #include <cell.h>
